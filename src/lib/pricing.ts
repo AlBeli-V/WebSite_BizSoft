@@ -72,8 +72,8 @@ export function effectivePrice(p: Product, now: Date = new Date()): EffectivePri
 }
 
 /**
- * Цена товара, привязанного к курсу доллара:
- * base_price_usd × usd_rate × (1 + markup_percent/100), затем округление.
+ * Цена товара, привязанного к курсу доллара (устаревшая формула с процентом):
+ * base_price_usd × usd_rate × (1 + markup_percent/100). Оставлена для совместимости.
  */
 export function pegPrice(
   basePriceUsd: number,
@@ -83,6 +83,40 @@ export function pegPrice(
 ): number {
   const raw = basePriceUsd * usdRate * (1 + markupPercent / 100);
   return roundPrice(raw, rule);
+}
+
+/**
+ * Рублёвая цена по коэффициенту наценки:
+ * себестоимость(в валюте) × курс_валюты × коэффициент, затем округление.
+ */
+export function pegPriceCoeff(
+  baseInCurrency: number,
+  rate: number,
+  coeff: number,
+  rule: RoundingRule = 'to1',
+): number {
+  return roundPrice(baseInCurrency * rate * coeff, rule);
+}
+
+export interface Rates { usd: number | null; eur: number | null }
+
+/**
+ * Вычислить рублёвую цену привязанного к валюте товара по текущим курсам.
+ * Возвращает null, если товар не привязан или нет нужного курса/себестоимости.
+ */
+export function computePegRub(
+  p: Pick<Product, 'peg_to_usd' | 'peg_currency' | 'base_price_usd' | 'base_price_eur' | 'markup_coeff'>,
+  rates: Rates,
+  defaultCoeff = 1.85,
+  rule: RoundingRule = 'to1',
+): number | null {
+  if (!p.peg_to_usd) return null;
+  const cur = p.peg_currency === 'EUR' ? 'EUR' : 'USD';
+  const base = cur === 'EUR' ? p.base_price_eur : p.base_price_usd;
+  const rate = cur === 'EUR' ? rates.eur : rates.usd;
+  if (!base || base <= 0 || !rate || rate <= 0) return null;
+  const coeff = p.markup_coeff != null && p.markup_coeff > 0 ? p.markup_coeff : defaultCoeff;
+  return pegPriceCoeff(base, rate, coeff, rule);
 }
 
 export type BulkOperation = 'increase' | 'decrease';

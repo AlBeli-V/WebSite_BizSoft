@@ -2,10 +2,11 @@ export const prerender = false;
 
 import type { APIRoute } from 'astro';
 import * as XLSX from 'xlsx';
-import { getAllProductsAdmin, getCategories, createProduct, patchProduct } from '../../../lib/directus';
+import { getAllProductsAdmin, getCategories, getCurrencyRate, createProduct, patchProduct } from '../../../lib/directus';
 import { checkAdmin, unauthorized } from '../../../lib/admin-auth';
 import { buildPlan, canonRow, type RawRow } from '../../../lib/bulk-import';
 import { parseCsv } from '../../../lib/csv';
+import { DEFAULT_MARKUP_COEFF } from '../../../lib/types';
 
 /**
  * Пакетное добавление/обновление товаров из Excel/CSV (upsert по sku).
@@ -37,11 +38,12 @@ export const POST: APIRoute = async ({ request }) => {
   }
   if (rows.length === 0) return new Response(JSON.stringify({ error: 'нет строк с заполненным sku' }), { status: 422 });
 
-  // 2) контекст: категории и существующие товары
-  let categories, products;
+  // 2) контекст: категории, существующие товары, курсы ЦБ
+  let categories, products, rate;
   try {
     categories = await getCategories();
     products = await getAllProductsAdmin();
+    rate = await getCurrencyRate();
   } catch (e) {
     console.error('import context', e);
     return new Response(JSON.stringify({ error: 'не удалось получить данные каталога' }), { status: 502 });
@@ -52,9 +54,10 @@ export const POST: APIRoute = async ({ request }) => {
     catById.set(c.name.toLowerCase(), c.id);
   }
   const resolver = (key: string) => catById.get(String(key).trim().toLowerCase()) ?? null;
+  const rates = { usd: rate?.usd_rate ?? null, eur: rate?.eur_rate ?? null };
 
-  // 3) план
-  const plan = buildPlan(rows, products, resolver);
+  // 3) план (с авто-расчётом рублёвой цены из валютной себестоимости по курсу)
+  const plan = buildPlan(rows, products, resolver, { rates, defaultCoeff: DEFAULT_MARKUP_COEFF });
 
   if (!body.apply) {
     return new Response(JSON.stringify({ dryRun: true, ...plan }), { status: 200, headers: { 'Content-Type': 'application/json' } });

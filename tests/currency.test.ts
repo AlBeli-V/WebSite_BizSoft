@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { parseCbrUsd } from '../src/lib/currency';
+import { parseCbrUsd, parseCbrValute } from '../src/lib/currency';
 
 const SAMPLE = `<?xml version="1.0" encoding="windows-1251"?>
 <ValCurs Date="27.06.2026" name="Foreign Currency Market">
@@ -30,5 +30,16 @@ describe('parseCbrUsd', () => {
   });
   it('returns null if USD missing', () => {
     expect(parseCbrUsd('<ValCurs><Valute><CharCode>EUR</CharCode><Value>99,0</Value></Valute></ValCurs>')).toBeNull();
+  });
+});
+
+describe('parseCbrValute EUR', () => {
+  const xml = `<ValCurs Date="27.06.2026">
+    <Valute ID="R01235"><CharCode>USD</CharCode><Nominal>1</Nominal><Value>77,06</Value></Valute>
+    <Valute ID="R01239"><CharCode>EUR</CharCode><Nominal>1</Nominal><Value>90,51</Value></Valute>
+  </ValCurs>`;
+  it('extracts USD and EUR separately', () => {
+    expect(parseCbrValute(xml, 'USD')!.rate).toBeCloseTo(77.06, 2);
+    expect(parseCbrValute(xml, 'EUR')!.rate).toBeCloseTo(90.51, 2);
   });
 });

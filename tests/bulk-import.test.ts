@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { normOrigin, normLicense, normBool, normNum, normList, canonRow, buildPlan } from '../src/lib/bulk-import';
+import { normOrigin, normLicense, normBool, normNum, normList, normPegCurrency, canonRow, buildPlan } from '../src/lib/bulk-import';
 import type { Product } from '../src/lib/types';
 
 describe('normalizers', () => {
@@ -28,6 +28,11 @@ describe('normalizers', () => {
   });
   it('canonRow lowercases keys', () => {
     expect(canonRow({ 'SKU': 'X', ' Price ': '10' })).toMatchObject({ sku: 'X', price: '10' });
+  });
+  it('peg currency USD/EUR', () => {
+    expect(normPegCurrency('Евро')).toBe('EUR');
+    expect(normPegCurrency('usd')).toBe('USD');
+    expect(normPegCurrency('злоты')).toBe('');
   });
 });
 
@@ -69,5 +74,24 @@ describe('buildPlan', () => {
   it('errors: unknown category and bad origin', () => {
     const plan = buildPlan([canonRow({ sku: 'A', category: 'unknown', origin: 'qqq' })], [prod({ sku: 'A' })], resolver);
     expect(plan.items[0].errors.length).toBeGreaterThanOrEqual(2);
+  });
+  it('auto-computes RUB price from USD base × rate × coeff', () => {
+    const rows = [canonRow({ sku: 'NEW-USD', name: 'X', origin: 'Иностранное', category: 'ai', base_price_usd: '100', markup_coeff: '1.85' })];
+    const plan = buildPlan(rows, [], resolver, { rates: { usd: 77.06, eur: 90 }, defaultCoeff: 1.85 });
+    const item = plan.items[0];
+    expect(item.payload.peg_to_usd).toBe(true);
+    expect(item.payload.peg_currency).toBe('USD');
+    expect(item.payload.price).toBe(Math.round(100 * 77.06 * 1.85));
+  });
+  it('auto-computes from EUR base and infers EUR currency', () => {
+    const rows = [canonRow({ sku: 'NEW-EUR', name: 'Y', origin: 'Иностранное', category: 'ai', base_price_eur: '200' })];
+    const plan = buildPlan(rows, [], resolver, { rates: { usd: 77, eur: 90.5 }, defaultCoeff: 1.85 });
+    expect(plan.items[0].payload.peg_currency).toBe('EUR');
+    expect(plan.items[0].payload.price).toBe(Math.round(200 * 90.5 * 1.85));
+  });
+  it('explicit RUB price wins over base currency', () => {
+    const rows = [canonRow({ sku: 'NEW-FIX', name: 'Z', origin: 'Иностранное', category: 'ai', base_price_usd: '100', price: '5000' })];
+    const plan = buildPlan(rows, [], resolver, { rates: { usd: 77, eur: 90 } });
+    expect(plan.items[0].payload.price).toBe(5000);
   });
 });

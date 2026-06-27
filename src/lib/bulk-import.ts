@@ -3,19 +3,28 @@
  * Чистая логика построения плана; применение — в эндпоинте.
  */
 import type { Product } from './types';
+import { DEFAULT_MARKUP_COEFF } from './types';
+import { computePegRub, type Rates } from './pricing';
 
 export interface RawRow { [key: string]: string | number | null | undefined }
 
 export const IMPORT_COLUMNS = [
   'sku', 'name', 'vendor', 'origin', 'category', 'license_type',
   'short_description', 'description', 'keywords',
+  'base_price_usd', 'base_price_eur', 'peg_currency', 'markup_coeff', 'price_locked',
   'price', 'price_note', 'vat_percent', 'currency',
-  'base_price_usd', 'peg_to_usd', 'markup_percent',
   'promo_price', 'promo_label', 'promo_start', 'promo_end',
   'features', 'status', 'sort',
 ] as const;
 
-const NUM = new Set(['price', 'vat_percent', 'base_price_usd', 'markup_percent', 'promo_price', 'sort']);
+const NUM = new Set(['price', 'vat_percent', 'base_price_usd', 'base_price_eur', 'markup_coeff', 'promo_price', 'sort']);
+
+export function normPegCurrency(v: string): 'USD' | 'EUR' | '' {
+  const s = v.trim().toUpperCase();
+  if (['USD', 'ДОЛЛАР', 'ДОЛЛАРЫ', '$'].includes(s)) return 'USD';
+  if (['EUR', 'ЕВРО', '€'].includes(s)) return 'EUR';
+  return '';
+}
 
 function str(v: unknown): string { return v == null ? '' : String(v).trim(); }
 
@@ -72,10 +81,18 @@ export interface BulkPlan {
  * @param existing текущие товары (для определения create/update и diff)
  * @param categoryResolver slug|name → id (вернуть null если не найдено)
  */
+export interface BuildOpts {
+  /** курсы ЦБ для авто-расчёта рублёвой цены из валютной себестоимости */
+  rates?: Rates;
+  /** базовый коэффициент наценки (если в строке не задан) */
+  defaultCoeff?: number;
+}
+
 export function buildPlan(
   rows: Record<string, string>[],
   existing: Product[],
   categoryResolver: (key: string) => (string | number | null),
+  opts: BuildOpts = {},
 ): BulkPlan {
   const bySku = new Map(existing.map((p) => [p.sku, p]));
   const items: PlanItem[] = [];
@@ -110,7 +127,7 @@ export function buildPlan(
       if (row[f]) setField(f, row[f]);
     }
     // числа
-    for (const f of ['price', 'vat_percent', 'base_price_usd', 'markup_percent', 'promo_price', 'sort']) {
+    for (const f of ['price', 'vat_percent', 'base_price_usd', 'base_price_eur', 'markup_coeff', 'promo_price', 'sort']) {
       if (row[f] !== undefined && row[f] !== '') {
         const n = normNum(row[f]);
         if (n == null) errs.push(`поле ${f}: не число «${row[f]}»`); else setField(f, n);
@@ -120,8 +137,11 @@ export function buildPlan(
     if (row.origin) { const o = normOrigin(row.origin); if (!o) errs.push(`origin: неизвестно «${row.origin}»`); else setField('origin', o); }
     // license_type
     if (row.license_type) { const l = normLicense(row.license_type); if (!l) errs.push(`license_type: неизвестно «${row.license_type}»`); else setField('license_type', l); }
-    // peg_to_usd
+    // peg_currency
+    if (row.peg_currency) { const c = normPegCurrency(row.peg_currency); if (!c) errs.push(`peg_currency: неизвестно «${row.peg_currency}»`); else setField('peg_currency', c); }
+    // peg_to_usd / price_locked (булевы)
     if (row.peg_to_usd !== undefined && row.peg_to_usd !== '') setField('peg_to_usd', normBool(row.peg_to_usd));
+    if (row.price_locked !== undefined && row.price_locked !== '') setField('price_locked', normBool(row.price_locked));
     // category
     if (row.category) {
       const id = categoryResolver(row.category);
@@ -134,6 +154,27 @@ export function buildPlan(
       const s = row.status.toLowerCase();
       const st = ['published', 'опубликовано', 'pub'].includes(s) ? 'published' : ['draft', 'черновик'].includes(s) ? 'draft' : ['archived', 'архив'].includes(s) ? 'archived' : '';
       if (!st) errs.push(`status: неизвестно «${row.status}»`); else setField('status', st);
+    }
+
+    // Авто-расчёт рублёвой цены из валютной себестоимости по курсу ЦБ × коэффициент.
+    // Срабатывает, если в строке задана закупочная цена в USD/EUR и НЕ задана рублёвая price.
+    const rowBaseUsd = row.base_price_usd !== undefined && row.base_price_usd !== '';
+    const rowBaseEur = row.base_price_eur !== undefined && row.base_price_eur !== '';
+    const priceProvided = row.price !== undefined && row.price !== '';
+    if (!errs.length && !priceProvided && (rowBaseUsd || rowBaseEur) && opts.rates) {
+      let pc = (payload.peg_currency as 'USD' | 'EUR' | undefined) ?? cur?.peg_currency ?? undefined;
+      if (!pc) pc = rowBaseEur && !rowBaseUsd ? 'EUR' : 'USD';
+      setField('peg_currency', pc);
+      if (payload.peg_to_usd === undefined && !cur?.peg_to_usd) setField('peg_to_usd', true);
+      const eff = {
+        peg_to_usd: true,
+        peg_currency: pc,
+        base_price_usd: (payload.base_price_usd ?? cur?.base_price_usd) ?? null,
+        base_price_eur: (payload.base_price_eur ?? cur?.base_price_eur) ?? null,
+        markup_coeff: (payload.markup_coeff as number | undefined) ?? cur?.markup_coeff ?? null,
+      };
+      const rub = computePegRub(eff, opts.rates, opts.defaultCoeff ?? DEFAULT_MARKUP_COEFF);
+      if (rub != null) setField('price', rub);
     }
 
     // обязательное для создания

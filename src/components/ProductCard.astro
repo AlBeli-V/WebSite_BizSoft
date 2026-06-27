@@ -61,8 +61,28 @@ const byRequest = product.price <= 0 && !eff.isPromo;
   .origin-tag[data-origin='domestic'] { background: color-mix(in srgb, var(--color-success) 18%, transparent); color: var(--color-success); }
   .origin-tag[data-origin='foreign'] { background: color-mix(in srgb, var(--color-accent) 16%, transparent); color: var(--color-accent); }
   .vendor { font-size: 0.78rem; color: var(--color-text-dim); }
-  .product-card h3 { font-size: 1.1rem; margin: 0.2rem 0 0.5rem; }
-  .desc { color: var(--color-text-muted); font-size: 0.9rem; margin: 0; }
+  .product-card h3 {
+    font-size: 1.1rem;
+    margin: 0.2rem 0 0.5rem;
+    /* единая высота заголовка: максимум 2 строки */
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    min-height: 2.4em;
+  }
+  .desc {
+    color: var(--color-text-muted);
+    font-size: 0.9rem;
+    margin: 0;
+    /* единый объём текста в карточке: максимум 3 строки, остальное скрыто */
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
   .tags { display: flex; flex-wrap: wrap; gap: 0.3rem; margin-top: 0.7rem; }
   .tag { font-size: 0.72rem; color: var(--color-text-muted); background: var(--color-bg-elevated); padding: 0.12rem 0.5rem; border-radius: 6px; }
   .product-bottom { margin-top: 1.2rem; display: flex; flex-direction: column; gap: 0.4rem; }

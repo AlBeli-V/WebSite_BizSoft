@@ -16,21 +16,43 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
     <div class="tools" data-tools hidden>
       <!-- Курс ЦБ -->
       <section class="card tool">
-        <h2>Курс доллара ЦБ РФ</h2>
+        <h2>Курс валют ЦБ РФ (USD / EUR)</h2>
         <div class="rate-info" data-rate-info>—</div>
         <div class="actions">
           <button class="btn btn-ghost btn-sm" data-rate-refresh>Обновить по ЦБ сейчас</button>
           <span class="manual">
-            <input type="number" step="0.01" data-manual-rate placeholder="курс вручную" />
+            <input type="number" step="0.01" data-manual-usd placeholder="USD вручную" />
+            <input type="number" step="0.01" data-manual-eur placeholder="EUR вручную" />
             <button class="btn btn-ghost btn-sm" data-rate-manual>Задать вручную</button>
           </span>
-          <label class="chk"><input type="checkbox" data-auto-recalc /> авто-пересчёт привязанных</label>
+          <label class="chk"><input type="checkbox" data-auto-recalc /> авто-пересчёт при обновлении курса</label>
         </div>
-        <div class="actions">
-          <button class="btn btn-ghost btn-sm" data-recalc-preview>Пересчитать по курсу — предпросмотр</button>
-          <button class="btn btn-primary btn-sm" data-recalc-apply hidden>Применить пересчёт</button>
-        </div>
+        <p class="hint">Курс обновляется автоматически раз в сутки (06:30). Авто-пересчёт не трогает зафиксированные цены.</p>
         <div class="result" data-currency-result></div>
+      </section>
+
+      <!-- Переоценка по курсу и наценке -->
+      <section class="card tool">
+        <h2>Переоценка по курсу и наценке</h2>
+        <p class="hint">Рубл. цена привязанных к валюте товаров = себестоимость(USD/EUR) × курс ЦБ × коэффициент наценки (база 1.85). Индивидуальная наценка и фиксация цены задаются в карточке товара в Directus.</p>
+        <div class="grid-controls">
+          <label>Область
+            <select data-rp-scope>
+              <option value="all">Все привязанные к валюте</option>
+              <option value="imported">Всё импортное ПО</option>
+              <option value="category">Категория…</option>
+              <option value="vendor">Производитель…</option>
+            </select>
+          </label>
+          <label data-rp-value-wrap hidden>Значение (slug категории или имя вендора)<input data-rp-value placeholder="напр. ai или Microsoft" /></label>
+          <label>Коэффициент наценки (пусто = у каждого свой)<input type="number" step="0.01" data-rp-coeff placeholder="напр. 1.85" /></label>
+        </div>
+        <label class="chk"><input type="checkbox" data-rp-locked /> перезаписывать и зафиксированные (инди) цены</label>
+        <div class="actions">
+          <button class="btn btn-ghost btn-sm" data-rp-preview>Предпросмотр «было→станет»</button>
+          <button class="btn btn-primary btn-sm" data-rp-apply hidden>Применить переоценку</button>
+        </div>
+        <div class="result" data-rp-result></div>
       </section>
 
       <!-- Массовое изменение -->
@@ -77,7 +99,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
       <!-- Пакетное добавление/обновление товаров -->
       <section class="card tool">
         <h2>Пакетное добавление товаров (Excel / CSV)</h2>
-        <p class="hint">Заполните <a href="/bizsoft-template.xlsx" download>шаблон bizsoft-template.xlsx</a> и загрузите. Сопоставление по <b>sku</b>: существующие обновляются, новые создаются. Поддерживаются .xlsx и .csv.</p>
+        <p class="hint">Заполните <a href="/shablon-zagruzki.xlsx" download="Шаблон загрузки.xlsx">«Шаблон загрузки.xlsx»</a> и загрузите. Сопоставление по <b>sku</b>: существующие обновляются, новые создаются. Поддерживаются .xlsx и .csv. На листе «Инструкция» — рекомендации по объёму текста и SEO.</p>
         <label class="file">Файл товаров<input type="file" accept=".xlsx,.csv,text/csv" data-imp-file /></label>
         <div class="actions">
           <button class="btn btn-ghost btn-sm" data-imp-dry hidden>Проверить (dry-run)</button>
@@ -152,7 +174,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
   const saved = localStorage.getItem('bz_admin_token');
   if (saved) { tokenInput.value = saved; }
 
-  // ── Курс ЦБ ──
+  // ── Курс ЦБ (USD + EUR) ──
   const rateInfo = $('[data-rate-info]');
   const currencyResult = $('[data-currency-result]');
   async function loadRate() {
@@ -160,7 +182,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
     if (!res.ok) return;
     const { rate } = await res.json();
     if (rate) {
-      rateInfo.innerHTML = `Курс: <b>${rate.usd_rate ?? '—'} ₽/$</b> · режим: ${rate.mode} · дата: ${rate.rate_date || '—'} · источник: ${rate.source || '—'} · авто-пересчёт: ${rate.auto_recalc ? 'да' : 'нет'}`;
+      rateInfo.innerHTML = `USD: <b>${rate.usd_rate ?? '—'} ₽</b> · EUR: <b>${rate.eur_rate ?? '—'} ₽</b> · режим: ${rate.mode} · дата: ${rate.rate_date || '—'} · источник: ${rate.source || '—'} · авто-пересчёт: ${rate.auto_recalc ? 'да' : 'нет'}`;
       ($('[data-auto-recalc]') as HTMLInputElement).checked = !!rate.auto_recalc;
     } else rateInfo.textContent = 'Курс ещё не задан.';
   }
@@ -172,25 +194,45 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
     loadRate();
   });
   $('[data-rate-manual]').addEventListener('click', async () => {
-    const v = Number(($('[data-manual-rate]') as HTMLInputElement).value);
+    const usd = Number(($('[data-manual-usd]') as HTMLInputElement).value) || undefined;
+    const eur = Number(($('[data-manual-eur]') as HTMLInputElement).value) || undefined;
     const auto = ($('[data-auto-recalc]') as HTMLInputElement).checked;
-    const res = await api('/api/admin/currency', { method: 'POST', body: JSON.stringify({ action: 'set-manual', usd_rate: v, auto_recalc: auto }) });
+    const res = await api('/api/admin/currency', { method: 'POST', body: JSON.stringify({ action: 'set-manual', usd_rate: usd, eur_rate: eur, auto_recalc: auto }) });
     currencyResult.textContent = res.ok ? 'Курс задан.' : 'ошибка';
     loadRate();
   });
-  $('[data-recalc-preview]').addEventListener('click', async () => {
-    const res = await api('/api/admin/currency', { method: 'POST', body: JSON.stringify({ action: 'recalc-preview' }) });
+
+  // ── Переоценка по курсу/наценке ──
+  const rpResult = $('[data-rp-result]');
+  const rpScope = $('[data-rp-scope]') as HTMLSelectElement;
+  const rpValueWrap = $('[data-rp-value-wrap]') as HTMLElement;
+  rpScope.addEventListener('change', () => { rpValueWrap.hidden = !(rpScope.value === 'category' || rpScope.value === 'vendor'); });
+  function rpBody(extra: any = {}) {
+    const type = rpScope.value;
+    const value = (type === 'category' || type === 'vendor') ? ($('[data-rp-value]') as HTMLInputElement).value.trim() : undefined;
+    const coeffRaw = ($('[data-rp-coeff]') as HTMLInputElement).value.trim();
+    return {
+      scope: { type, value },
+      coeff: coeffRaw ? Number(coeffRaw) : null,
+      includeLocked: ($('[data-rp-locked]') as HTMLInputElement).checked,
+      ...extra,
+    };
+  }
+  $('[data-rp-preview]').addEventListener('click', async () => {
+    rpResult.textContent = 'Считаем…';
+    const res = await api('/api/admin/currency', { method: 'POST', body: JSON.stringify({ action: 'reprice-preview', ...rpBody() }) });
     const d = await res.json();
-    if (!res.ok) { currencyResult.textContent = d.error; return; }
-    currencyResult.innerHTML = previewTable(d.preview.map((p: any) => ({ sku: p.sku, field: 'price', before: fmt(p.before), after: fmt(p.after) })));
-    ($('[data-recalc-apply]') as HTMLElement).hidden = d.preview.length === 0;
+    if (!res.ok) { rpResult.textContent = d.error; return; }
+    let html = `<p>К изменению: <b>${d.count}</b>${d.skippedLocked ? ` · пропущено зафиксированных: ${d.skippedLocked}` : ''}</p>`;
+    html += previewTable(d.preview.map((p: any) => ({ sku: p.sku, field: `коэф ${p.coeff}${p.locked ? ' 🔒' : ''}`, before: fmt(p.before), after: fmt(p.after) })));
+    rpResult.innerHTML = html;
+    ($('[data-rp-apply]') as HTMLElement).hidden = d.count === 0;
   });
-  $('[data-recalc-apply]').addEventListener('click', async () => {
-    const res = await api('/api/admin/currency', { method: 'POST', body: JSON.stringify({ action: 'recalc-apply' }) });
+  $('[data-rp-apply]').addEventListener('click', async () => {
+    const res = await api('/api/admin/currency', { method: 'POST', body: JSON.stringify({ action: 'reprice-apply', ...rpBody() }) });
     const d = await res.json();
-    currencyResult.textContent = res.ok ? `Применено: ${d.applied}` : d.error;
-    ($('[data-recalc-apply]') as HTMLElement).hidden = true;
-    loadRate();
+    rpResult.textContent = res.ok ? `Применено: ${d.applied}${d.failed?.length ? ', ошибок: ' + d.failed.length : ''}` : d.error;
+    ($('[data-rp-apply]') as HTMLElement).hidden = true;
   });
 
   // ── Массовое изменение ──

@@ -53,13 +53,21 @@ export interface Product {
   keywords?: string | null;
   meta_title?: string | null;
   meta_description?: string | null;
-  price: number; // ₽
+  price: number; // ₽ — итоговая рублёвая цена
   price_note?: string | null;
   vat_percent?: number | null;
   currency: string; // RUB
+  /** Закупочная себестоимость в валюте (с сайта производителя). */
   base_price_usd?: number | null;
-  peg_to_usd?: boolean | null;
-  markup_percent?: number | null;
+  base_price_eur?: number | null;
+  /** Валюта закупки для пересчёта в рубли. */
+  peg_currency?: 'USD' | 'EUR' | null;
+  peg_to_usd?: boolean | null; // привязка к курсу включена
+  /** Коэффициент наценки: цена = себестоимость × курс × коэф. База 1.85. */
+  markup_coeff?: number | null;
+  /** Цена зафиксирована вручную — массовые переоценки её не меняют. */
+  price_locked?: boolean | null;
+  markup_percent?: number | null; // устаревшее, не используется в новой логике
   promo_price?: number | null;
   promo_label?: string | null;
   promo_start?: string | null; // ISO date
@@ -111,11 +119,15 @@ export interface CurrencyRate {
   id?: string | number;
   mode: CurrencyMode;
   usd_rate: number;
+  eur_rate?: number | null;
   rate_date?: string | null;
   source?: string | null;
   updated_at?: string | null;
   auto_recalc?: boolean | null;
 }
+
+/** Базовый коэффициент наценки по умолчанию. */
+export const DEFAULT_MARKUP_COEFF = 1.85;
 
 /** Позиция корзины на клиенте (localStorage). */
 export interface CartItem {

@@ -4,6 +4,8 @@ import {
   isPromoActive,
   effectivePrice,
   pegPrice,
+  pegPriceCoeff,
+  computePegRub,
   applyBulkValue,
   previewBulkChange,
 } from '../src/lib/pricing';
@@ -85,6 +87,33 @@ describe('pegPrice', () => {
     expect(pegPrice(95, 90.5, 12, 'to10')).toBe(9630); // 95*90.5*1.12=9629.2 → 9630
   });
 });
+
+describe('pegPriceCoeff', () => {
+  it('base × rate × coeff, rounded', () => {
+    expect(pegPriceCoeff(779, 77.06, 1.85, 'to1')).toBe(Math.round(779 * 77.06 * 1.85));
+    expect(pegPriceCoeff(100, 90, 2, 'to1')).toBe(18000);
+  });
+});
+
+describe('computePegRub', () => {
+  const rates = { usd: 77.06, eur: 90.5 };
+  it('uses USD base by default', () => {
+    expect(computePegRub({ peg_to_usd: true, peg_currency: 'USD', base_price_usd: 100, base_price_eur: null, markup_coeff: 1.85 }, rates)).toBe(roundExpect(100 * 77.06 * 1.85));
+  });
+  it('uses EUR base when peg_currency EUR', () => {
+    expect(computePegRub({ peg_to_usd: true, peg_currency: 'EUR', base_price_usd: null, base_price_eur: 200, markup_coeff: 2 }, rates)).toBe(Math.round(200 * 90.5 * 2));
+  });
+  it('default coeff 1.85 when missing', () => {
+    expect(computePegRub({ peg_to_usd: true, peg_currency: 'USD', base_price_usd: 10, base_price_eur: null, markup_coeff: null }, rates)).toBe(Math.round(10 * 77.06 * 1.85));
+  });
+  it('null when not pegged or no base/rate', () => {
+    expect(computePegRub({ peg_to_usd: false, peg_currency: 'USD', base_price_usd: 100, base_price_eur: null, markup_coeff: 1.85 }, rates)).toBeNull();
+    expect(computePegRub({ peg_to_usd: true, peg_currency: 'EUR', base_price_usd: null, base_price_eur: null, markup_coeff: 1.85 }, rates)).toBeNull();
+    expect(computePegRub({ peg_to_usd: true, peg_currency: 'USD', base_price_usd: 100, base_price_eur: null, markup_coeff: 1.85 }, { usd: null, eur: null })).toBeNull();
+  });
+});
+
+function roundExpect(n: number) { return Math.round(n); }
 
 describe('applyBulkValue', () => {
   it('increase percent', () => {
