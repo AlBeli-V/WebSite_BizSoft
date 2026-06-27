@@ -12,6 +12,6 @@ export default defineConfig({
   vite: {
     plugins: [tailwindcss()],
     // pdfkit подтягивает шрифты/потоки — оставляем его внешним для Node.
-    ssr: { external: ['pdfkit', 'nodemailer'] },
+    ssr: { external: ['pdfkit', 'nodemailer', 'xlsx'] },
   },
 });

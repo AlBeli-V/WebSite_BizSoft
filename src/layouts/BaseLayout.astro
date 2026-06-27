@@ -15,9 +15,10 @@ interface Props {
   ogImage?: string;
   noindex?: boolean;
   type?: 'website' | 'article' | 'product';
+  keywords?: string;
 }
 
-const { title, description, canonical, ogImage, noindex, type } = Astro.props;
+const { title, description, canonical, ogImage, noindex, type, keywords } = Astro.props;
 ---
 <!doctype html>
 <html lang="ru">
@@ -31,7 +32,7 @@ const { title, description, canonical, ogImage, noindex, type } = Astro.props;
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
-    <SeoHead title={title} description={description} canonical={canonical} ogImage={ogImage} noindex={noindex} type={type} />
+    <SeoHead title={title} description={description} canonical={canonical} ogImage={ogImage} noindex={noindex} type={type} keywords={keywords} />
     <JsonLd schema={organizationSchema()} />
   </head>
   <body>

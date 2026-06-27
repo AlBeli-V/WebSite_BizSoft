@@ -79,25 +79,36 @@ export function breadcrumbSchema(crumbs: Crumb[]) {
 
 export function productSchema(p: Product) {
   const eff = effectivePrice(p);
-  return {
+  const schema: Record<string, unknown> = {
     '@context': 'https://schema.org',
     '@type': 'Product',
     name: p.name,
     sku: p.sku,
     description: p.short_description || p.meta_description || p.name,
-    brand: { '@type': 'Brand', name: seller.brand },
-    offers: {
+    brand: { '@type': 'Brand', name: p.vendor || seller.brand },
+  };
+  if (eff.price > 0) {
+    // Цена известна — обычное предложение.
+    schema.offers = {
       '@type': 'Offer',
       url: `${site.url}/product/${p.slug}/`,
       priceCurrency: p.currency || 'RUB',
       price: eff.price,
       availability: 'https://schema.org/InStock',
       seller: { '@id': ORG_ID },
-      ...(eff.isPromo && p.promo_end
-        ? { priceValidUntil: p.promo_end }
-        : {}),
-    },
-  };
+      ...(eff.isPromo && p.promo_end ? { priceValidUntil: p.promo_end } : {}),
+    };
+  } else {
+    // Цена по запросу — предложение без конкретной цены.
+    schema.offers = {
+      '@type': 'Offer',
+      url: `${site.url}/product/${p.slug}/`,
+      priceCurrency: p.currency || 'RUB',
+      availability: 'https://schema.org/InStock',
+      seller: { '@id': ORG_ID },
+    };
+  }
+  return schema;
 }
 
 export function itemListSchema(category: Category, products: Product[]) {

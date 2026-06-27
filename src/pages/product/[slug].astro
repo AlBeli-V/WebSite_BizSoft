@@ -4,14 +4,14 @@ export const prerender = false;
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import PriceTag from '../../components/PriceTag.astro';
-import AddToCartButton from '../../components/AddToCartButton.astro';
 import FAQ from '../../components/FAQ.astro';
 import QuestionForm from '../../components/QuestionForm.astro';
 import CTASection from '../../components/CTASection.astro';
 import JsonLd from '../../components/JsonLd.astro';
-import { getProductBySlug } from '../../lib/directus';
+import { getProductBySlug, galleryImages } from '../../lib/directus';
 import { productSchema } from '../../lib/seo';
-import { effectivePrice } from '../../lib/pricing';
+import { effectivePrice, formatRub } from '../../lib/pricing';
+import { ORIGIN_LABEL, LICENSE_LABEL } from '../../lib/types';
 
 const { slug } = Astro.params;
 
@@ -31,17 +31,22 @@ const features = Array.isArray(product.features)
   ? product.features.map((f) => (typeof f === 'string' ? f : (f as { value?: string }).value)).filter(Boolean)
   : [];
 const faq = Array.isArray(product.faq) ? product.faq : [];
+const gallery = galleryImages(product);
+const vat = product.vat_percent ?? 0;
+const byRequest = product.price <= 0 && !eff.isPromo;
 ---
 <BaseLayout
   title={product.meta_title || product.name}
   description={product.meta_description || product.short_description || product.name}
   type="product"
+  keywords={product.keywords || undefined}
 >
   <JsonLd schema={productSchema(product)} />
   <div class="container-page section">
     <Breadcrumbs
       items={[
         { name: 'Каталог', url: '/catalog/' },
+        ...(product.origin ? [{ name: ORIGIN_LABEL[product.origin], url: `/catalog/${product.origin}/` }] : []),
         ...(category ? [{ name: category.name, url: `/catalog/${category.slug}/` }] : []),
         { name: product.name, url: `/product/${product.slug}/` },
       ]}
@@ -49,9 +54,24 @@ const faq = Array.isArray(product.faq) ? product.faq : [];
 
     <div class="product-layout">
       <div class="product-main">
-        <span class="sku">Артикул: {product.sku}</span>
+        <div class="badges">
+          {product.origin && <span class="badge" data-origin={product.origin}>{ORIGIN_LABEL[product.origin]}</span>}
+          {product.license_type && <span class="badge badge-muted">{LICENSE_LABEL[product.license_type]}</span>}
+          {category && <a class="badge badge-link" href={`/catalog/${category.slug}/`}>{category.name}</a>}
+        </div>
+        <span class="sku">Артикул: {product.sku}{product.vendor ? ` · Производитель: ${product.vendor}` : ''}</span>
         <h1>{product.name}</h1>
         {product.short_description && <p class="lead">{product.short_description}</p>}
+
+        {gallery.length > 0 && (
+          <div class="gallery" data-gallery>
+            {gallery.map((g, i) => (
+              <button type="button" class="gthumb" data-full={g.url} data-i={i} aria-label={`Открыть изображение ${i + 1}`}>
+                <img src={`${g.url}?width=240&height=180&fit=contain&format=webp`} alt={`${product.name} — изображение ${i + 1}`} loading="lazy" width="120" height="90" />
+              </button>
+            ))}
+          </div>
+        )}
 
         {product.description && (
           <div class="prose-bizsoft block">
@@ -63,11 +83,23 @@ const faq = Array.isArray(product.faq) ? product.faq : [];
         {features.length > 0 && (
           <div class="block">
             <h2>Что входит</h2>
-            <ul class="features">
-              {features.map((f) => <li>{f}</li>)}
-            </ul>
+            <ul class="features">{features.map((f) => <li>{f}</li>)}</ul>
           </div>
         )}
+
+        <div class="block">
+          <h2>Характеристики</h2>
+          <table class="specs">
+            <tbody>
+              {product.vendor && <tr><th>Производитель</th><td>{product.vendor}</td></tr>}
+              {product.origin && <tr><th>Происхождение</th><td>{ORIGIN_LABEL[product.origin]}</td></tr>}
+              {category && <tr><th>Категория</th><td>{category.name}</td></tr>}
+              {product.license_type && <tr><th>Тип лицензии</th><td>{LICENSE_LABEL[product.license_type]}</td></tr>}
+              <tr><th>Артикул</th><td>{product.sku}</td></tr>
+              {!byRequest && vat > 0 && <tr><th>НДС</th><td>в т.ч. {vat}%</td></tr>}
+            </tbody>
+          </table>
+        </div>
 
         <div class="block">
           <h2>Как оформляется</h2>
@@ -79,15 +111,8 @@ const faq = Array.isArray(product.faq) ? product.faq : [];
           </ol>
         </div>
 
-        <div class="block">
-          <h2>Для кого</h2>
-          <p class="muted">Юридические лица и ИП в России, которым нужен легальный доступ к сервису с договором, счётом и закрывающими документами для бухгалтерии.</p>
-        </div>
-
         {product.seo_text && (
-          <div class="prose-bizsoft block">
-            <p>{product.seo_text}</p>
-          </div>
+          <div class="prose-bizsoft block"><p>{product.seo_text}</p></div>
         )}
 
         <FAQ items={faq} title="Частые вопросы о товаре" />
@@ -95,16 +120,52 @@ const faq = Array.isArray(product.faq) ? product.faq : [];
 
       <aside class="product-aside">
         <div class="card buy-card">
-          <PriceTag product={product} size="lg" />
-          <p class="price-note">Цена ориентировочная. Итог подтверждаем в счёте.</p>
+          {byRequest ? (
+            <div class="price-req">Цена по запросу</div>
+          ) : (
+            <PriceTag product={product} size="lg" />
+          )}
+          {product.price_note && !byRequest && <p class="price-note">{product.price_note}{vat > 0 ? ` · в т.ч. НДС ${vat}%` : ''}</p>}
+          {byRequest && <p class="price-note">Рассчитаем стоимость под вашу конфигурацию и количество.</p>}
+
+          {!byRequest && (
+            <div class="qty-row">
+              <span class="qty-label">Количество</span>
+              <div class="qty" data-qty-wrap>
+                <button type="button" data-dec aria-label="Меньше">−</button>
+                <input type="number" min="1" value="1" data-qty aria-label="Количество" />
+                <button type="button" data-inc aria-label="Больше">+</button>
+              </div>
+            </div>
+          )}
+
+          {!byRequest && (
+            <div class="total-row">
+              <span>Итого</span>
+              <b data-total>{formatRub(eff.price)}</b>
+            </div>
+          )}
+
           <div class="buy-actions">
-            <AddToCartButton sku={product.sku} slug={product.slug} name={product.name} price={eff.price} />
-            <button class="btn btn-ghost" data-open-question data-product={product.name} data-sku={product.sku}>
-              Задать вопрос
-            </button>
+            {byRequest ? (
+              <button class="btn btn-primary" data-open-question data-product={product.name} data-sku={product.sku}>Запросить цену</button>
+            ) : (
+              <button
+                class="btn btn-primary add-to-cart"
+                data-add-cart
+                data-sku={product.sku}
+                data-slug={product.slug}
+                data-name={product.name}
+                data-price={eff.price}
+              >
+                <span class="lbl-def">В корзину</span><span class="lbl-add" hidden>Добавлено ✓</span>
+              </button>
+            )}
+            <button class="btn btn-ghost" data-open-question data-product={product.name} data-sku={product.sku}>Задать вопрос</button>
           </div>
+
           <ul class="buy-trust">
-            <li>✓ Договор и счёт</li>
+            <li>✓ Договор и счёт в рублях</li>
             <li>✓ Закрывающие через ЭДО</li>
             <li>✓ Поддержка на весь срок</li>
           </ul>
@@ -113,36 +174,116 @@ const faq = Array.isArray(product.faq) ? product.faq : [];
     </div>
   </div>
 
+  <!-- Лайтбокс -->
+  <div class="lightbox" data-lightbox hidden>
+    <button class="lb-close" data-lb-close aria-label="Закрыть">✕</button>
+    <button class="lb-nav lb-prev" data-lb-prev aria-label="Назад">‹</button>
+    <img data-lb-img src="" alt={product.name} />
+    <button class="lb-nav lb-next" data-lb-next aria-label="Вперёд">›</button>
+  </div>
+
   <CTASection />
   <QuestionForm source="product" />
 </BaseLayout>
 
 <style>
   .section { padding-top: 2rem; }
-  .product-layout {
-    display: grid;
-    grid-template-columns: 1fr 360px;
-    gap: 3rem;
-    align-items: start;
-  }
+  .product-layout { display: grid; grid-template-columns: 1fr 360px; gap: 3rem; align-items: start; }
+  .badges { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 0.7rem; }
+  .badge { font-size: 0.74rem; font-weight: 600; padding: 0.18rem 0.55rem; border-radius: 6px; background: var(--color-bg-elevated); color: var(--color-text-muted); }
+  .badge[data-origin='domestic'] { background: color-mix(in srgb, var(--color-success) 18%, transparent); color: var(--color-success); }
+  .badge[data-origin='foreign'] { background: color-mix(in srgb, var(--color-accent) 16%, transparent); color: var(--color-accent); }
+  .badge-link:hover { color: var(--color-accent); }
   .sku { color: var(--color-text-dim); font-size: 0.85rem; }
   h1 { font-size: clamp(1.8rem, 3.5vw, 2.6rem); margin: 0.4rem 0 1rem; }
   .lead { color: var(--color-text-muted); font-size: 1.1rem; max-width: 60ch; }
+  .gallery { display: flex; gap: 0.6rem; flex-wrap: wrap; margin-top: 1.4rem; }
+  .gthumb { padding: 0; border: 1px solid var(--color-border); border-radius: 10px; background: #fff; cursor: zoom-in; overflow: hidden; }
+  .gthumb img { display: block; width: 120px; height: 90px; object-fit: contain; }
   .block { margin-top: 2.2rem; }
   .block h2 { font-size: 1.4rem; margin-bottom: 0.9rem; }
   .features { list-style: none; padding: 0; display: grid; gap: 0.5rem; }
   .features li { padding-left: 1.6rem; position: relative; color: #d7d9dd; }
   .features li::before { content: '✓'; position: absolute; left: 0; color: var(--color-accent); font-weight: 700; }
+  .specs { width: 100%; border-collapse: collapse; }
+  .specs th, .specs td { text-align: left; padding: 0.55rem 0.8rem; border-bottom: 1px solid var(--color-border); font-size: 0.93rem; }
+  .specs th { color: var(--color-text-muted); font-weight: 500; width: 40%; }
   .steps { padding-left: 1.2rem; color: #d7d9dd; display: grid; gap: 0.5rem; }
-  .muted { color: var(--color-text-muted); max-width: 60ch; }
   .product-aside { position: sticky; top: 84px; }
   .buy-card { padding: 1.6rem; display: flex; flex-direction: column; gap: 1rem; }
+  .price-req { font-weight: 800; font-size: 1.5rem; }
   .price-note { color: var(--color-text-dim); font-size: 0.82rem; margin: 0; }
+  .qty-row { display: flex; align-items: center; justify-content: space-between; }
+  .qty-label { color: var(--color-text-muted); font-size: 0.9rem; }
+  .qty { display: flex; align-items: center; gap: 0.3rem; }
+  .qty button { width: 32px; height: 32px; border-radius: 8px; border: 1px solid var(--color-border-strong); background: var(--color-bg-elevated); color: var(--color-text); cursor: pointer; font-size: 1.1rem; }
+  .qty input { width: 52px; text-align: center; background: var(--color-bg-elevated); border: 1px solid var(--color-border-strong); border-radius: 8px; color: var(--color-text); padding: 0.4rem; font: inherit; }
+  .total-row { display: flex; align-items: baseline; justify-content: space-between; border-top: 1px solid var(--color-border); padding-top: 0.8rem; }
+  .total-row b { font-size: 1.4rem; }
   .buy-actions { display: flex; flex-direction: column; gap: 0.6rem; }
-  .buy-actions :global(.btn) { width: 100%; }
+  .buy-actions .btn { width: 100%; }
   .buy-trust { list-style: none; padding: 1rem 0 0; margin: 0; border-top: 1px solid var(--color-border); display: grid; gap: 0.4rem; color: var(--color-text-muted); font-size: 0.88rem; }
+  .lightbox { position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 100; display: flex; align-items: center; justify-content: center; }
+  .lightbox[hidden] { display: none; }
+  .lightbox img { max-width: 90vw; max-height: 88vh; object-fit: contain; background: #fff; border-radius: 8px; }
+  .lb-close { position: absolute; top: 1rem; right: 1.2rem; background: none; border: none; color: #fff; font-size: 1.6rem; cursor: pointer; }
+  .lb-nav { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.12); border: none; color: #fff; font-size: 2rem; width: 48px; height: 48px; border-radius: 999px; cursor: pointer; }
+  .lb-prev { left: 1rem; } .lb-next { right: 1rem; }
   @media (max-width: 900px) {
     .product-layout { grid-template-columns: 1fr; }
     .product-aside { position: static; }
   }
 </style>
+
+<script>
+  import { addToCart } from '../../lib/cart-client';
+  import { formatRub } from '../../lib/pricing';
+
+  // ── Количество + живой пересчёт ──
+  const qtyInput = document.querySelector('[data-qty]') as HTMLInputElement | null;
+  const totalEl = document.querySelector('[data-total]') as HTMLElement | null;
+  const addBtn = document.querySelector('[data-add-cart]') as HTMLButtonElement | null;
+  const unit = addBtn ? Number(addBtn.dataset.price || 0) : 0;
+
+  function curQty() { return Math.max(1, Math.floor(Number(qtyInput?.value || 1) || 1)); }
+  function refreshTotal() { if (totalEl) totalEl.textContent = formatRub(unit * curQty()); }
+
+  document.querySelector('[data-inc]')?.addEventListener('click', () => { if (qtyInput) { qtyInput.value = String(curQty() + 1); refreshTotal(); } });
+  document.querySelector('[data-dec]')?.addEventListener('click', () => { if (qtyInput) { qtyInput.value = String(Math.max(1, curQty() - 1)); refreshTotal(); } });
+  qtyInput?.addEventListener('input', refreshTotal);
+  refreshTotal();
+
+  addBtn?.addEventListener('click', () => {
+    addToCart({ sku: addBtn.dataset.sku!, slug: addBtn.dataset.slug!, name: addBtn.dataset.name!, price: unit }, curQty());
+    const w = window as unknown as { ym?: (...a: unknown[]) => void };
+    const id = (import.meta as { env: Record<string, string> }).env.PUBLIC_METRIKA_ID;
+    if (typeof w.ym === 'function' && id) w.ym(Number(id), 'reachGoal', 'add_to_cart');
+    const def = addBtn.querySelector('.lbl-def') as HTMLElement;
+    const add = addBtn.querySelector('.lbl-add') as HTMLElement;
+    def.hidden = true; add.hidden = false;
+    setTimeout(() => { def.hidden = false; add.hidden = true; }, 1600);
+  });
+
+  // ── Лайтбокс галереи ──
+  const lb = document.querySelector('[data-lightbox]') as HTMLElement | null;
+  const lbImg = document.querySelector('[data-lb-img]') as HTMLImageElement | null;
+  const thumbs = Array.from(document.querySelectorAll('[data-full]')) as HTMLElement[];
+  let cur = 0;
+  function show(i: number) {
+    if (!lb || !lbImg || thumbs.length === 0) return;
+    cur = (i + thumbs.length) % thumbs.length;
+    lbImg.src = thumbs[cur].dataset.full!;
+    lb.hidden = false;
+  }
+  thumbs.forEach((t, i) => t.addEventListener('click', () => show(i)));
+  document.querySelector('[data-lb-close]')?.addEventListener('click', () => { if (lb) lb.hidden = true; });
+  document.querySelector('[data-lb-prev]')?.addEventListener('click', () => show(cur - 1));
+  document.querySelector('[data-lb-next]')?.addEventListener('click', () => show(cur + 1));
+  lb?.addEventListener('click', (e) => { if (e.target === lb) lb.hidden = true; });
+  document.addEventListener('keydown', (e) => {
+    if (!lb || lb.hidden) return;
+    if (e.key === 'Escape') lb.hidden = true;
+    if (e.key === 'ArrowLeft') show(cur - 1);
+    if (e.key === 'ArrowRight') show(cur + 1);
+  });
+</script>

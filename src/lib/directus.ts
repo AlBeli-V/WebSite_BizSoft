@@ -67,13 +67,19 @@ const PRODUCT_FIELDS = [
   'id',
   'name',
   'sku',
+  'vendor',
+  'origin',
+  'license_type',
   'slug',
   'short_description',
   'description',
   'seo_text',
+  'keywords',
   'meta_title',
   'meta_description',
   'price',
+  'price_note',
+  'vat_percent',
   'currency',
   'base_price_usd',
   'peg_to_usd',
@@ -89,8 +95,18 @@ const PRODUCT_FIELDS = [
   'category.id',
   'category.name',
   'category.slug',
-  'images.directus_files_id',
+  'image',
+  'images.directus_files_id.id',
+  'images.directus_files_id.title',
 ].join(',');
+
+export interface ProductFilter {
+  origin?: 'domestic' | 'foreign';
+  categorySlug?: string;
+  vendor?: string;
+  /** поиск по названию/вендору/ключевым словам */
+  q?: string;
+}
 
 /** Все опубликованные категории, отсортированные. */
 export async function getCategories(): Promise<Category[]> {
@@ -113,18 +129,39 @@ export async function getCategoryBySlug(slug: string): Promise<Category | null> 
   return data[0] ?? null;
 }
 
-/** Опубликованные товары (опционально — по категории). */
-export async function getProducts(opts: { categorySlug?: string } = {}): Promise<Product[]> {
-  const filter: Record<string, unknown> = { status: { _eq: 'published' } };
-  if (opts.categorySlug) filter.category = { slug: { _eq: opts.categorySlug } };
+/** Опубликованные товары с фильтрами (origin/категория/вендор/поиск). */
+export async function getProducts(opts: ProductFilter = {}): Promise<Product[]> {
+  const and: Record<string, unknown>[] = [{ status: { _eq: 'published' } }];
+  if (opts.origin) and.push({ origin: { _eq: opts.origin } });
+  if (opts.categorySlug) and.push({ category: { slug: { _eq: opts.categorySlug } } });
+  if (opts.vendor) and.push({ vendor: { _eq: opts.vendor } });
+  if (opts.q) {
+    const q = opts.q;
+    and.push({ _or: [{ name: { _icontains: q } }, { vendor: { _icontains: q } }, { keywords: { _icontains: q } }, { sku: { _icontains: q } }] });
+  }
   return dx<Product[]>('/items/products', {
     params: {
       fields: PRODUCT_FIELDS,
-      filter: JSON.stringify(filter),
+      filter: JSON.stringify({ _and: and }),
       sort: 'sort,name',
       limit: -1,
     },
   });
+}
+
+/** Список вендоров (опц. в рамках происхождения) с количеством товаров. */
+export async function getVendors(origin?: 'domestic' | 'foreign'): Promise<{ vendor: string; count: number }[]> {
+  const filter: Record<string, unknown> = { status: { _eq: 'published' } };
+  if (origin) filter.origin = { _eq: origin };
+  const rows = await dx<{ vendor: string | null }[]>('/items/products', {
+    params: { fields: 'vendor', filter: JSON.stringify(filter), limit: -1 },
+  });
+  const counts = new Map<string, number>();
+  for (const r of rows) {
+    if (!r.vendor) continue;
+    counts.set(r.vendor, (counts.get(r.vendor) || 0) + 1);
+  }
+  return [...counts.entries()].map(([vendor, count]) => ({ vendor, count })).sort((a, b) => a.vendor.localeCompare(b.vendor, 'ru'));
 }
 
 export async function getProductBySlug(slug: string): Promise<Product | null> {
@@ -170,6 +207,10 @@ export async function patchProduct(id: string | number, payload: Record<string, 
   await dx(`/items/products/${id}`, { auth: true, method: 'PATCH', body: payload });
 }
 
+export async function createProduct(payload: Record<string, unknown>): Promise<{ id: string | number }> {
+  return dx<{ id: string | number }>('/items/products', { auth: true, method: 'POST', body: payload });
+}
+
 /** Текущий курс/настройки валюты (singleton-подобная коллекция). */
 export async function getCurrencyRate(): Promise<CurrencyRate | null> {
   const data = await dx<CurrencyRate[]>('/items/currency_rate', {
@@ -192,6 +233,27 @@ export function assetUrl(fileId: string, params?: Record<string, string | number
   const u = new URL(`${DIRECTUS_URL}/assets/${fileId}`);
   if (params) for (const [k, v] of Object.entries(params)) u.searchParams.set(k, String(v));
   return u.toString();
+}
+
+/** URL логотипа товара (поле image), если задан. */
+export function logoUrl(p: Product, params?: Record<string, string | number>): string | null {
+  return p.image ? assetUrl(p.image, params) : null;
+}
+
+/** Галерея изображений товара [{url, title}] из M2M images (+ логотип первым). */
+export function galleryImages(p: Product): { url: string; title: string }[] {
+  const out: { url: string; title: string }[] = [];
+  const seen = new Set<string>();
+  if (p.image) { out.push({ url: assetUrl(p.image), title: p.name }); seen.add(p.image); }
+  for (const ref of p.images || []) {
+    const f = ref?.directus_files_id;
+    const id = typeof f === 'string' ? f : f?.id;
+    if (!id || seen.has(id)) continue;
+    seen.add(id);
+    const title = typeof f === 'object' && f?.title ? f.title : p.name;
+    out.push({ url: assetUrl(id), title });
+  }
+  return out;
 }
 
 export { DIRECTUS_URL, type PublishStatus };

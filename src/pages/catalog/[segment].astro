@@ -1,0 +1,219 @@
+---
+export const prerender = false;
+
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import ProductCard from '../../components/ProductCard.astro';
+import FAQ from '../../components/FAQ.astro';
+import CTASection from '../../components/CTASection.astro';
+import QuestionForm from '../../components/QuestionForm.astro';
+import JsonLd from '../../components/JsonLd.astro';
+import { getCategories, getProducts, getCategoryBySlug } from '../../lib/directus';
+import { ORIGIN_LABEL, LICENSE_LABEL, type Origin, type LicenseType } from '../../lib/types';
+import { itemListSchema } from '../../lib/seo';
+
+const { segment } = Astro.params;
+const isOrigin = segment === 'domestic' || segment === 'foreign';
+
+const url = Astro.url;
+const qp = url.searchParams;
+const selCategory = qp.get('category') || '';
+const selVendor = qp.get('vendor') || '';
+const selLicense = (qp.get('license') || '') as LicenseType | '';
+const selOrigin = (qp.get('origin') || '') as Origin | '';
+const q = (qp.get('q') || '').trim();
+
+let title = '';
+let lead = '';
+let base = [];
+let categories = [];
+let pageCategory = null;
+
+try {
+  categories = await getCategories();
+  if (isOrigin) {
+    base = await getProducts({ origin: segment as Origin });
+    title = ORIGIN_LABEL[segment as Origin];
+    lead = segment === 'domestic'
+      ? 'Российское ПО из реестра отечественного ПО для юрлиц: офис, ОС, безопасность, САПР, коммуникации. По договору, оплата по счёту в рублях.'
+      : 'Зарубежные сервисы для бизнеса: офис, разработка, дизайн, ВКС, AI. Оформление на юрлицо, оплата в рублях по курсу ЦБ.';
+  } else {
+    pageCategory = await getCategoryBySlug(segment!);
+    if (pageCategory) {
+      base = await getProducts({ categorySlug: segment! });
+      title = pageCategory.name;
+      lead = pageCategory.seo_text || `${pageCategory.name}: лицензии и подписки для юрлиц по договору и счёту.`;
+    }
+  }
+} catch (e) {
+  console.error('catalog segment error', e);
+}
+
+if (!isOrigin && !pageCategory) {
+  return new Response(null, { status: 404, statusText: 'Not Found' });
+}
+
+// ── фасеты из базового набора ──
+const categoryFacet = new Map<string, { name: string; count: number }>();
+const vendorFacet = new Map<string, number>();
+const originFacet = new Map<string, number>();
+for (const p of base) {
+  const cat = typeof p.category === 'object' && p.category ? p.category : null;
+  if (cat) {
+    const f = categoryFacet.get(cat.slug) || { name: cat.name, count: 0 };
+    f.count++; categoryFacet.set(cat.slug, f);
+  }
+  if (p.vendor) vendorFacet.set(p.vendor, (vendorFacet.get(p.vendor) || 0) + 1);
+  if (p.origin) originFacet.set(p.origin, (originFacet.get(p.origin) || 0) + 1);
+}
+const vendors = [...vendorFacet.entries()].sort((a, b) => a[0].localeCompare(b[0], 'ru'));
+const cats = [...categoryFacet.entries()].sort((a, b) => a[1].name.localeCompare(b[1].name, 'ru'));
+
+// ── применяем выбранные фильтры (в JS) ──
+const ql = q.toLowerCase();
+const filtered = base.filter((p) => {
+  const cat = typeof p.category === 'object' && p.category ? p.category : null;
+  if (!isOrigin) { if (selOrigin && p.origin !== selOrigin) return false; }
+  if (isOrigin) { if (selCategory && cat?.slug !== selCategory) return false; }
+  if (selVendor && p.vendor !== selVendor) return false;
+  if (selLicense && p.license_type !== selLicense) return false;
+  if (ql) {
+    const hay = `${p.name} ${p.vendor || ''} ${p.keywords || ''} ${p.sku}`.toLowerCase();
+    if (!hay.includes(ql)) return false;
+  }
+  return true;
+});
+
+const faq = [
+  { q: 'Как купить ПО для юрлица?', a: 'Добавьте позиции в корзину и нажмите «Получить КП» либо оставьте заявку. Заключаем договор, выставляем счёт, после оплаты предоставляем доступ и передаём закрывающие через ЭДО.' },
+  { q: 'Цены окончательные?', a: 'Цены ориентировочные (часть — по запросу или по курсу ЦБ). Итог подтверждаем в счёте.' },
+];
+const basePath = `/catalog/${segment}/`;
+---
+<BaseLayout
+  title={pageCategory ? (pageCategory.meta_title || title) : `${title} — каталог`}
+  description={pageCategory?.meta_description || lead.slice(0, 160)}
+>
+  {pageCategory && <JsonLd schema={itemListSchema(pageCategory, filtered)} />}
+  <div class="container-page section">
+    <Breadcrumbs items={[{ name: 'Каталог', url: '/catalog/' }, { name: title, url: basePath }]} />
+    <header class="head">
+      <h1>{title}</h1>
+      <p class="lead">{lead}</p>
+    </header>
+
+    <div class="catalog-layout">
+      <!-- Фильтры -->
+      <aside class="filters card">
+        <form method="get" action={basePath} data-filter-form>
+          <div class="f-search">
+            <input type="search" name="q" value={q} placeholder="Поиск по названию, вендору…" aria-label="Поиск" />
+            <button type="submit" class="btn btn-primary btn-sm">Найти</button>
+          </div>
+
+          {isOrigin && cats.length > 0 && (
+            <div class="f-group">
+              <label for="f-cat">Категория ПО</label>
+              <select id="f-cat" name="category" data-autosubmit>
+                <option value="">Все категории ({base.length})</option>
+                {cats.map(([slug, f]) => (
+                  <option value={slug} selected={selCategory === slug}>{f.name} ({f.count})</option>
+                ))}
+              </select>
+            </div>
+          )}
+
+          {!isOrigin && originFacet.size > 1 && (
+            <div class="f-group">
+              <label for="f-origin">Происхождение</label>
+              <select id="f-origin" name="origin" data-autosubmit>
+                <option value="">Любое</option>
+                <option value="domestic" selected={selOrigin === 'domestic'}>Отечественное ({originFacet.get('domestic') || 0})</option>
+                <option value="foreign" selected={selOrigin === 'foreign'}>Иностранное ({originFacet.get('foreign') || 0})</option>
+              </select>
+            </div>
+          )}
+
+          {vendors.length > 0 && (
+            <div class="f-group">
+              <label for="f-vendor">Производитель</label>
+              <select id="f-vendor" name="vendor" data-autosubmit>
+                <option value="">Все производители</option>
+                {vendors.map(([v, c]) => (
+                  <option value={v} selected={selVendor === v}>{v} ({c})</option>
+                ))}
+              </select>
+            </div>
+          )}
+
+          <div class="f-group">
+            <label for="f-license">Тип лицензии</label>
+            <select id="f-license" name="license" data-autosubmit>
+              <option value="">Любой</option>
+              <option value="org" selected={selLicense === 'org'}>{LICENSE_LABEL.org}</option>
+              <option value="individual" selected={selLicense === 'individual'}>{LICENSE_LABEL.individual}</option>
+              <option value="student" selected={selLicense === 'student'}>{LICENSE_LABEL.student}</option>
+            </select>
+          </div>
+
+          <noscript><button type="submit" class="btn btn-ghost btn-sm">Применить</button></noscript>
+          <a href={basePath} class="reset-link">Сбросить фильтры</a>
+        </form>
+      </aside>
+
+      <!-- Результаты -->
+      <div class="results">
+        <div class="results-head">
+          <span>Найдено: <b>{filtered.length}</b></span>
+          <a href={isOrigin ? `/catalog/${segment === 'domestic' ? 'foreign' : 'domestic'}/` : '/catalog/'} class="switch-link">
+            {isOrigin ? `→ ${ORIGIN_LABEL[segment === 'domestic' ? 'foreign' : 'domestic']}` : '← Весь каталог'}
+          </a>
+        </div>
+        {filtered.length > 0 ? (
+          <div class="product-grid">
+            {filtered.map((p) => <ProductCard product={p} />)}
+          </div>
+        ) : (
+          <p class="empty">Ничего не найдено по выбранным фильтрам. <a href={basePath}>Сбросить →</a></p>
+        )}
+      </div>
+    </div>
+
+    <FAQ items={faq} title="Вопросы по разделу" />
+  </div>
+  <CTASection />
+  <QuestionForm source="catalog" />
+</BaseLayout>
+
+<style>
+  .section { padding-top: 2rem; }
+  .head { max-width: 820px; margin-bottom: 2rem; }
+  h1 { font-size: clamp(1.8rem, 4vw, 2.6rem); margin-bottom: 0.8rem; }
+  .lead { color: var(--color-text-muted); font-size: 1.05rem; }
+  .catalog-layout { display: grid; grid-template-columns: 260px 1fr; gap: 1.8rem; align-items: start; }
+  .filters { padding: 1.3rem; position: sticky; top: 84px; }
+  .f-search { display: flex; gap: 0.4rem; margin-bottom: 1rem; }
+  .f-search input { flex: 1; min-width: 0; }
+  .f-group { margin-bottom: 0.9rem; display: flex; flex-direction: column; gap: 0.3rem; }
+  .f-group label { font-size: 0.8rem; color: var(--color-text-muted); }
+  .filters input, .filters select { background: var(--color-bg-elevated); border: 1px solid var(--color-border-strong); border-radius: 8px; padding: 0.5rem 0.6rem; color: var(--color-text); font: inherit; font-size: 0.9rem; width: 100%; }
+  .reset-link { display: inline-block; margin-top: 0.6rem; color: var(--color-text-dim); font-size: 0.85rem; }
+  .reset-link:hover { color: var(--color-accent); }
+  .results-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.2rem; color: var(--color-text-muted); font-size: 0.92rem; }
+  .switch-link { color: var(--color-accent); font-weight: 600; }
+  .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 1.2rem; }
+  .empty { color: var(--color-text-muted); }
+  .empty a { color: var(--color-accent); }
+  @media (max-width: 820px) {
+    .catalog-layout { grid-template-columns: 1fr; }
+    .filters { position: static; }
+  }
+</style>
+
+<script>
+  // Автосабмит формы фильтров при изменении select (без JS работает кнопкой/Enter).
+  const form = document.querySelector('[data-filter-form]') as HTMLFormElement | null;
+  form?.querySelectorAll('[data-autosubmit]').forEach((el) => {
+    el.addEventListener('change', () => form.submit());
+  });
+</script>

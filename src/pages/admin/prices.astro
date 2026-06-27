@@ -73,6 +73,18 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
         </div>
         <div class="result" data-csv-result></div>
       </section>
+
+      <!-- Пакетное добавление/обновление товаров -->
+      <section class="card tool">
+        <h2>Пакетное добавление товаров (Excel / CSV)</h2>
+        <p class="hint">Заполните <a href="/bizsoft-template.xlsx" download>шаблон bizsoft-template.xlsx</a> и загрузите. Сопоставление по <b>sku</b>: существующие обновляются, новые создаются. Поддерживаются .xlsx и .csv.</p>
+        <label class="file">Файл товаров<input type="file" accept=".xlsx,.csv,text/csv" data-imp-file /></label>
+        <div class="actions">
+          <button class="btn btn-ghost btn-sm" data-imp-dry hidden>Проверить (dry-run)</button>
+          <button class="btn btn-primary btn-sm" data-imp-apply hidden>Применить заливку</button>
+        </div>
+        <div class="result" data-imp-result></div>
+      </section>
     </div>
   </div>
 </BaseLayout>
@@ -240,5 +252,56 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
     const d = await res.json();
     csvResult.textContent = res.ok ? `Применено: ${d.applied}, ошибок: ${(d.errors?.length || 0) + (d.failed?.length || 0)}` : d.error;
     ($('[data-csv-apply]') as HTMLElement).hidden = true;
+  });
+
+  // ── Пакетная заливка товаров (Excel/CSV) ──
+  const impResult = $('[data-imp-result]');
+  let impPayload: any = null;
+  function readFileB64(file: File): Promise<string> {
+    return new Promise((resolve, reject) => {
+      const r = new FileReader();
+      r.onload = () => resolve(String(r.result).split(',')[1] || '');
+      r.onerror = reject;
+      r.readAsDataURL(file);
+    });
+  }
+  ($('[data-imp-file]') as HTMLInputElement).addEventListener('change', async (e) => {
+    const file = (e.target as HTMLInputElement).files?.[0];
+    if (!file) return;
+    if (/\.xlsx$/i.test(file.name)) {
+      impPayload = { format: 'xlsx', xlsxBase64: await readFileB64(file) };
+    } else {
+      impPayload = { format: 'csv', csv: await file.text() };
+    }
+    ($('[data-imp-dry]') as HTMLElement).hidden = false;
+    impResult.textContent = `Файл «${file.name}» готов. Нажмите «Проверить».`;
+  });
+  function planTable(items: any[]) {
+    const rows = items.filter((i) => i.mode !== 'skip' || i.errors.length);
+    if (!rows.length) return '<p>Изменений нет.</p>';
+    return '<table><tr><th>SKU</th><th>Действие</th><th>Изменения / ошибки</th></tr>' +
+      rows.slice(0, 200).map((i) => {
+        const act = i.mode === 'create' ? '<span class="ok">создать</span>' : i.mode === 'update' ? 'обновить' : '<span class="err">пропуск</span>';
+        const det = i.errors.length ? `<span class="err">${i.errors.join('; ')}</span>` : i.changes.map((c: any) => `${c.field}: ${c.before}→<b>${c.after}</b>`).join('<br>');
+        return `<tr><td>${i.sku}</td><td>${act}</td><td>${det}</td></tr>`;
+      }).join('') + '</table>';
+  }
+  $('[data-imp-dry]').addEventListener('click', async () => {
+    if (!impPayload) return;
+    impResult.textContent = 'Проверяем…';
+    const res = await api('/api/admin/import', { method: 'POST', body: JSON.stringify({ ...impPayload, apply: false }) });
+    const d = await res.json();
+    if (!res.ok) { impResult.textContent = d.error; return; }
+    impResult.innerHTML = `<p>Строк: ${d.summary.rows} · создать: <b>${d.summary.create}</b> · обновить: <b>${d.summary.update}</b> · ошибок: <b>${d.summary.errors}</b></p>` + planTable(d.items);
+    ($('[data-imp-apply]') as HTMLElement).hidden = (d.summary.create + d.summary.update) === 0;
+  });
+  $('[data-imp-apply]').addEventListener('click', async () => {
+    if (!impPayload) return;
+    impResult.textContent = 'Применяем…';
+    const res = await api('/api/admin/import', { method: 'POST', body: JSON.stringify({ ...impPayload, apply: true }) });
+    const d = await res.json();
+    if (!res.ok) { impResult.textContent = d.error; return; }
+    impResult.innerHTML = `Готово. Создано: <b>${d.created}</b>, обновлено: <b>${d.updated}</b>${d.failed?.length ? ', ошибок: ' + d.failed.length : ''}.`;
+    ($('[data-imp-apply]') as HTMLElement).hidden = true;
   });
 </script>

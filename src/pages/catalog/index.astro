@@ -6,67 +6,87 @@ import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import SectionHeading from '../../components/SectionHeading.astro';
 import CTASection from '../../components/CTASection.astro';
 import { getCategories, getProducts } from '../../lib/directus';
+import { ORIGIN_LABEL } from '../../lib/types';
 
 let categories = [];
-const counts: Record<string, number> = {};
+let products = [];
 try {
   categories = await getCategories();
-  const all = await getProducts();
-  for (const p of all) {
-    const cat = typeof p.category === 'object' && p.category ? p.category.slug : '';
-    if (cat) counts[cat] = (counts[cat] || 0) + 1;
-  }
+  products = await getProducts();
 } catch (e) {
   console.error('catalog index error', e);
 }
+
+const originCounts: Record<string, number> = { domestic: 0, foreign: 0 };
+const catCounts: Record<string, number> = {};
+for (const p of products) {
+  if (p.origin) originCounts[p.origin] = (originCounts[p.origin] || 0) + 1;
+  const slug = typeof p.category === 'object' && p.category ? p.category.slug : '';
+  if (slug) catCounts[slug] = (catCounts[slug] || 0) + 1;
+}
+// показываем только непустые категории
+const usedCategories = categories.filter((c) => (catCounts[c.slug] || 0) > 0);
+
+const origins: { key: 'domestic' | 'foreign'; desc: string }[] = [
+  { key: 'domestic', desc: 'Российское ПО из реестра: офис, ОС, безопасность, САПР, коммуникации. По договору и счёту.' },
+  { key: 'foreign', desc: 'Зарубежные сервисы для бизнеса: офис, разработка, дизайн, ВКС, AI. Оплата в рублях по курсу.' },
+];
 ---
 <BaseLayout
   title="Каталог ПО для бизнеса"
-  description="Каталог подписок и доступов к зарубежному ПО для российских юрлиц: AI-сервисы, графика, видеосвязь, инструменты разработки. По договору и счёту."
+  description="Каталог лицензий и подписок на ПО для российских юрлиц: отечественное и иностранное ПО — офис, разработка, ВКС, дизайн, безопасность, AI. По договору и счёту."
 >
   <div class="container-page section">
     <Breadcrumbs items={[{ name: 'Каталог', url: '/catalog/' }]} />
-    <SectionHeading eyebrow="Каталог" title="Разделы каталога">
-      <p>Выберите направление. Внутри — карточки сервисов с ценами, описанием, условиями оформления и FAQ.</p>
+    <SectionHeading eyebrow="Каталог" title="Каталог программного обеспечения">
+      <p>Сначала выберите происхождение ПО, затем фильтруйте по категории, производителю и названию.</p>
     </SectionHeading>
-    <div class="cat-grid">
-      {categories.map((c) => (
-        <a href={`/catalog/${c.slug}/`} class="card card-hover cat-card reveal">
-          <div>
-            <h2>{c.name}</h2>
-            {c.seo_text && <p>{c.seo_text.slice(0, 140)}…</p>}
+
+    <!-- Два верхних раздела -->
+    <div class="origin-grid">
+      {origins.map((o) => (
+        <a href={`/catalog/${o.key}/`} class="card card-hover origin-card reveal">
+          <div class="origin-top">
+            <span class="origin-badge" data-origin={o.key}>{o.key === 'domestic' ? 'РФ' : 'INT'}</span>
+            <span class="origin-count">{originCounts[o.key] || 0} позиц.</span>
           </div>
-          <div class="cat-foot">
-            <span class="count">{counts[c.slug] || 0} позиц.</span>
-            <span class="cat-link">Смотреть →</span>
-          </div>
+          <h2>{ORIGIN_LABEL[o.key]}</h2>
+          <p>{o.desc}</p>
+          <span class="origin-link">Открыть раздел →</span>
         </a>
       ))}
     </div>
-    {categories.length === 0 && <p class="muted">Каталог временно недоступен.</p>}
+
+    <!-- Категории ПО -->
+    <h2 class="cats-title">Категории ПО</h2>
+    <div class="cat-grid">
+      {usedCategories.map((c) => (
+        <a href={`/catalog/${c.slug}/`} class="card card-hover cat-chip reveal">
+          <span>{c.name}</span>
+          <span class="chip-count">{catCounts[c.slug]}</span>
+        </a>
+      ))}
+    </div>
   </div>
   <CTASection />
 </BaseLayout>
 
 <style>
   .section { padding-top: 2rem; }
-  .cat-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 1.2rem;
-  }
-  .cat-card {
-    padding: 1.8rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    gap: 1.2rem;
-    min-height: 200px;
-  }
-  .cat-card h2 { font-size: 1.4rem; margin-bottom: 0.6rem; }
-  .cat-card p { color: var(--color-text-muted); font-size: 0.92rem; }
-  .cat-foot { display: flex; align-items: center; justify-content: space-between; }
-  .count { color: var(--color-text-dim); font-size: 0.85rem; }
-  .cat-link { color: var(--color-accent); font-weight: 600; }
-  .muted { color: var(--color-text-muted); }
+  .origin-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; margin-bottom: 3rem; }
+  .origin-card { padding: 1.8rem; display: flex; flex-direction: column; gap: 0.7rem; min-height: 200px; }
+  .origin-top { display: flex; align-items: center; justify-content: space-between; }
+  .origin-badge { font-weight: 800; font-size: 0.78rem; padding: 0.2rem 0.6rem; border-radius: 6px; }
+  .origin-badge[data-origin='domestic'] { background: color-mix(in srgb, var(--color-success) 20%, transparent); color: var(--color-success); }
+  .origin-badge[data-origin='foreign'] { background: color-mix(in srgb, var(--color-accent) 18%, transparent); color: var(--color-accent); }
+  .origin-count { color: var(--color-text-dim); font-size: 0.85rem; }
+  .origin-card h2 { font-size: 1.6rem; }
+  .origin-card p { color: var(--color-text-muted); font-size: 0.95rem; flex-grow: 1; }
+  .origin-link { color: var(--color-accent); font-weight: 600; }
+  .cats-title { font-size: 1.4rem; margin-bottom: 1.2rem; }
+  .cat-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 0.8rem; }
+  .cat-chip { display: flex; align-items: center; justify-content: space-between; padding: 0.9rem 1.2rem; }
+  .cat-chip span:first-child { font-weight: 600; font-size: 0.95rem; }
+  .chip-count { color: var(--color-text-dim); font-size: 0.82rem; background: var(--color-bg-elevated); padding: 0.1rem 0.5rem; border-radius: 999px; }
+  @media (max-width: 680px) { .origin-grid { grid-template-columns: 1fr; } }
 </style>

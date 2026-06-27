@@ -5,6 +5,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import SectionHeading from '../components/SectionHeading.astro';
 import ProductCard from '../components/ProductCard.astro';
 import CTASection from '../components/CTASection.astro';
+import QuestionForm from '../components/QuestionForm.astro';
 import JsonLd from '../components/JsonLd.astro';
 import { getCategories, getProducts } from '../lib/directus';
 import { localBusinessSchema } from '../lib/seo';
@@ -12,13 +13,20 @@ import { site } from '../config/site';
 
 let categories = [];
 let featured = [];
+const originCounts: Record<string, number> = { domestic: 0, foreign: 0 };
 try {
   categories = await getCategories();
   const all = await getProducts();
+  for (const p of all) if (p.origin) originCounts[p.origin] = (originCounts[p.origin] || 0) + 1;
   featured = all.slice(0, 6);
 } catch (e) {
   console.error('home data error', e);
 }
+
+const originCards = [
+  { key: 'domestic', label: 'Отечественное ПО', desc: 'Российское ПО из реестра: офис, ОС, безопасность, САПР, коммуникации.' },
+  { key: 'foreign', label: 'Иностранное ПО', desc: 'Зарубежные сервисы: офис, разработка, дизайн, ВКС, AI. Оплата в рублях.' },
+] as const;
 
 const trust = [
   { num: '01', title: 'Работаем по договору', text: 'Прозрачные условия поставки и ответственность сторон закреплены документально.' },
@@ -60,14 +68,17 @@ const trust = [
 
   <!-- КАТАЛОГ -->
   <section class="container-page section">
-    <SectionHeading num="01" eyebrow="Каталог" title="Разделы каталога">
-      <p>Выберите направление — внутри карточки сервисов с ценами, описанием и условиями оформления.</p>
+    <SectionHeading num="01" eyebrow="Каталог" title="Отечественное и иностранное ПО">
+      <p>Выберите происхождение, затем фильтруйте по категории, производителю и названию.</p>
     </SectionHeading>
     <div class="cat-grid">
-      {categories.map((c) => (
-        <a href={`/catalog/${c.slug}/`} class="card card-hover cat-card reveal">
-          <h3>{c.name}</h3>
-          {c.seo_text && <p>{c.seo_text.slice(0, 110)}…</p>}
+      {originCards.map((o) => (
+        <a href={`/catalog/${o.key}/`} class="card card-hover cat-card reveal">
+          <div class="cat-head">
+            <h3>{o.label}</h3>
+            <span class="cat-num">{originCounts[o.key] || 0}</span>
+          </div>
+          <p>{o.desc}</p>
           <span class="cat-link">Смотреть раздел →</span>
         </a>
       ))}
@@ -104,6 +115,7 @@ const trust = [
   )}
 
   <CTASection />
+  <QuestionForm source="home" />
 </BaseLayout>
 
 <style>
@@ -175,6 +187,8 @@ const trust = [
     flex-direction: column;
     gap: 0.6rem;
   }
+  .cat-head { display: flex; align-items: center; justify-content: space-between; }
+  .cat-num { color: var(--color-text-dim); font-size: 0.85rem; background: var(--color-bg-elevated); padding: 0.1rem 0.6rem; border-radius: 999px; }
   .cat-card h3 {
     font-size: 1.3rem;
   }

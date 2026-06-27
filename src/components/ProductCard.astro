@@ -2,6 +2,8 @@
 import PriceTag from './PriceTag.astro';
 import AddToCartButton from './AddToCartButton.astro';
 import { effectivePrice } from '../lib/pricing';
+import { logoUrl } from '../lib/directus';
+import { ORIGIN_LABEL, LICENSE_LABEL } from '../lib/types';
 import type { Product } from '../lib/types';
 
 interface Props {
@@ -9,67 +11,63 @@ interface Props {
 }
 const { product } = Astro.props;
 const eff = effectivePrice(product);
+const logo = logoUrl(product, { width: 96, height: 96, fit: 'contain', format: 'webp' });
+const byRequest = product.price <= 0 && !eff.isPromo;
 ---
 <article class="card card-hover product-card reveal">
   <a href={`/product/${product.slug}/`} class="product-link" aria-label={product.name}>
     <div class="product-top">
-      <span class="sku">Артикул: {product.sku}</span>
+      <div class="ptop-row">
+        {logo ? (
+          <img src={logo} alt={`Логотип ${product.vendor || product.name}`} class="logo" width="40" height="40" loading="lazy" />
+        ) : (
+          <span class="logo logo-ph" aria-hidden="true">{(product.vendor || product.name).slice(0, 1)}</span>
+        )}
+        {product.origin && <span class="origin-tag" data-origin={product.origin}>{product.origin === 'domestic' ? 'Отеч.' : 'Иностр.'}</span>}
+      </div>
+      {product.vendor && <span class="vendor">{product.vendor}</span>}
       <h3>{product.name}</h3>
       {product.short_description && <p class="desc">{product.short_description}</p>}
+      <div class="tags">
+        {product.license_type && <span class="tag">{LICENSE_LABEL[product.license_type]}</span>}
+      </div>
     </div>
   </a>
   <div class="product-bottom">
-    <PriceTag product={product} />
+    {byRequest ? (
+      <div class="price-req">Цена по запросу</div>
+    ) : (
+      <PriceTag product={product} />
+    )}
+    {product.price_note && !byRequest && <span class="price-note">{product.price_note}</span>}
     <div class="product-actions">
-      <AddToCartButton
-        sku={product.sku}
-        slug={product.slug}
-        name={product.name}
-        price={eff.price}
-        compact
-      />
+      {byRequest ? (
+        <button class="btn btn-primary btn-sm" data-open-question data-product={product.name} data-sku={product.sku}>Запросить цену</button>
+      ) : (
+        <AddToCartButton sku={product.sku} slug={product.slug} name={product.name} price={eff.price} compact />
+      )}
       <a href={`/product/${product.slug}/`} class="btn btn-ghost btn-sm">Подробнее</a>
     </div>
   </div>
 </article>
 
 <style>
-  .product-card {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    padding: 1.4rem;
-    height: 100%;
-  }
-  .product-link {
-    display: block;
-  }
-  .sku {
-    font-size: 0.75rem;
-    color: var(--color-text-dim);
-  }
-  .product-card h3 {
-    font-size: 1.15rem;
-    margin: 0.4rem 0 0.5rem;
-  }
-  .desc {
-    color: var(--color-text-muted);
-    font-size: 0.9rem;
-    margin: 0;
-  }
-  .product-bottom {
-    margin-top: 1.4rem;
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-  }
-  .product-actions {
-    display: flex;
-    gap: 0.6rem;
-    flex-wrap: wrap;
-  }
-  :global(.btn-sm) {
-    padding: 0.5rem 0.9rem;
-    font-size: 0.85rem;
-  }
+  .product-card { display: flex; flex-direction: column; justify-content: space-between; padding: 1.4rem; height: 100%; }
+  .product-link { display: block; }
+  .ptop-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.7rem; }
+  .logo { width: 40px; height: 40px; border-radius: 8px; object-fit: contain; background: #fff; padding: 3px; }
+  .logo-ph { display: flex; align-items: center; justify-content: center; background: var(--color-bg-elevated); color: var(--color-accent); font-weight: 800; font-size: 1.2rem; padding: 0; }
+  .origin-tag { font-size: 0.68rem; font-weight: 700; padding: 0.12rem 0.45rem; border-radius: 5px; }
+  .origin-tag[data-origin='domestic'] { background: color-mix(in srgb, var(--color-success) 18%, transparent); color: var(--color-success); }
+  .origin-tag[data-origin='foreign'] { background: color-mix(in srgb, var(--color-accent) 16%, transparent); color: var(--color-accent); }
+  .vendor { font-size: 0.78rem; color: var(--color-text-dim); }
+  .product-card h3 { font-size: 1.1rem; margin: 0.2rem 0 0.5rem; }
+  .desc { color: var(--color-text-muted); font-size: 0.9rem; margin: 0; }
+  .tags { display: flex; flex-wrap: wrap; gap: 0.3rem; margin-top: 0.7rem; }
+  .tag { font-size: 0.72rem; color: var(--color-text-muted); background: var(--color-bg-elevated); padding: 0.12rem 0.5rem; border-radius: 6px; }
+  .product-bottom { margin-top: 1.2rem; display: flex; flex-direction: column; gap: 0.4rem; }
+  .price-req { font-weight: 700; font-size: 1.05rem; color: var(--color-text); }
+  .price-note { color: var(--color-text-dim); font-size: 0.78rem; }
+  .product-actions { display: flex; gap: 0.6rem; flex-wrap: wrap; margin-top: 0.6rem; }
+  :global(.btn-sm) { padding: 0.5rem 0.9rem; font-size: 0.85rem; }
 </style>

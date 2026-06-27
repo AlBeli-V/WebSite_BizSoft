@@ -18,24 +18,44 @@ export interface ProductFaqItem {
   a: string;
 }
 
-export interface ProductImage {
-  /** id файла в медиатеке Directus */
-  id: string;
-  alt?: string | null;
+/** Происхождение ПО — верхний уровень каталога. */
+export type Origin = 'domestic' | 'foreign';
+/** Тип лицензии. */
+export type LicenseType = 'org' | 'individual' | 'student';
+
+export const ORIGIN_LABEL: Record<Origin, string> = {
+  domestic: 'Отечественное ПО',
+  foreign: 'Иностранное ПО',
+};
+export const LICENSE_LABEL: Record<LicenseType, string> = {
+  org: 'Для организаций',
+  individual: 'Индивидуальное использование',
+  student: 'Студенческая версия',
+};
+
+/** Элемент галереи (строка junction products_files с раскрытым файлом). */
+export interface ProductImageRef {
+  directus_files_id: string | { id: string; title?: string | null } | null;
 }
 
 export interface Product {
   id: string | number;
   name: string;
   sku: string;
+  vendor?: string | null;
+  origin?: Origin | null;
   category: string | number | Category | null;
+  license_type?: LicenseType | null;
   slug: string;
   short_description?: string | null;
   description?: string | null;
   seo_text?: string | null;
+  keywords?: string | null;
   meta_title?: string | null;
   meta_description?: string | null;
   price: number; // ₽
+  price_note?: string | null;
+  vat_percent?: number | null;
   currency: string; // RUB
   base_price_usd?: number | null;
   peg_to_usd?: boolean | null;
@@ -44,7 +64,10 @@ export interface Product {
   promo_label?: string | null;
   promo_start?: string | null; // ISO date
   promo_end?: string | null; // ISO date
-  images?: ProductImage[] | null;
+  /** Логотип (одиночный файл, M2O). */
+  image?: string | null;
+  /** Галерея (M2M медиатека). */
+  images?: ProductImageRef[] | null;
   features?: string[] | null;
   faq?: ProductFaqItem[] | null;
   sort?: number | null;
