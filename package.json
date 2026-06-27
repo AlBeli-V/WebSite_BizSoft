@@ -4,6 +4,7 @@
   "version": "1.0.0",
   "private": true,
   "description": "BizSoft (biz-soft.pro) — маркетинговый B2B-сайт на Astro + Directus",
+  "packageManager": "pnpm@9.15.9",
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
