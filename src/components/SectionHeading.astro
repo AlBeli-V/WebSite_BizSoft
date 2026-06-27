@@ -1,0 +1,48 @@
+---
+interface Props {
+  num?: string;
+  eyebrow?: string;
+  title: string;
+  align?: 'left' | 'center';
+}
+const { num, eyebrow, title, align = 'left' } = Astro.props;
+---
+<div class:list={['section-heading', align]}>
+  {(num || eyebrow) && (
+    <div class="meta">
+      {num && <span class="section-num">/{num}</span>}
+      {eyebrow && <span class="eyebrow">{eyebrow}</span>}
+    </div>
+  )}
+  <h2>{title}</h2>
+  <slot />
+</div>
+
+<style>
+  .section-heading {
+    margin-bottom: 2.5rem;
+  }
+  .section-heading.center {
+    text-align: center;
+  }
+  .meta {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    margin-bottom: 0.9rem;
+  }
+  .section-heading.center .meta {
+    justify-content: center;
+  }
+  h2 {
+    font-size: clamp(1.6rem, 3vw, 2.4rem);
+  }
+  :global(.section-heading > p) {
+    margin-top: 0.8rem;
+    color: var(--color-text-muted);
+    max-width: 56ch;
+  }
+  .section-heading.center :global(> p) {
+    margin-inline: auto;
+  }
+</style>

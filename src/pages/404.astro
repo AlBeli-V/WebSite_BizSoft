@@ -1,0 +1,22 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+<BaseLayout title="Страница не найдена" description="Страница не найдена." noindex={true}>
+  <div class="container-page nf">
+    <span class="code">404</span>
+    <h1>Страница не найдена</h1>
+    <p>Возможно, ссылка устарела или адрес введён неверно.</p>
+    <div class="actions">
+      <a href="/" class="btn btn-primary">На главную</a>
+      <a href="/catalog/" class="btn btn-ghost">В каталог</a>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .nf { padding: 6rem 0; text-align: center; }
+  .code { font-size: 5rem; font-weight: 800; color: var(--color-accent); }
+  h1 { font-size: 2rem; margin: 0.5rem 0 1rem; }
+  p { color: var(--color-text-muted); margin-bottom: 2rem; }
+  .actions { display: flex; gap: 0.8rem; justify-content: center; }
+</style>

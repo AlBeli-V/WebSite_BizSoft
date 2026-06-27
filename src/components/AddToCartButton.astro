@@ -1,0 +1,55 @@
+---
+interface Props {
+  sku: string;
+  slug: string;
+  name: string;
+  price: number;
+  compact?: boolean;
+  label?: string;
+}
+const { sku, slug, name, price, compact = false, label = 'В корзину' } = Astro.props;
+---
+<button
+  class:list={['btn', 'btn-primary', 'add-to-cart', { 'btn-sm': compact }]}
+  data-add-to-cart
+  data-sku={sku}
+  data-slug={slug}
+  data-name={name}
+  data-price={price}
+  data-goal="add_to_cart"
+>
+  <span class="label-default">{label}</span>
+  <span class="label-added" hidden>Добавлено ✓</span>
+</button>
+
+<script>
+  import { addToCart } from '../lib/cart-client';
+
+  document.querySelectorAll('[data-add-to-cart]').forEach((el) => {
+    const btn = el as HTMLButtonElement;
+    if (btn.dataset.bound) return;
+    btn.dataset.bound = '1';
+    btn.addEventListener('click', () => {
+      addToCart({
+        sku: btn.dataset.sku!,
+        slug: btn.dataset.slug!,
+        name: btn.dataset.name!,
+        price: Number(btn.dataset.price || 0),
+      });
+      // Цель Метрики
+      const w = window as unknown as { ym?: (...a: unknown[]) => void };
+      if (typeof w.ym === 'function') {
+        const id = (import.meta as { env: Record<string, string> }).env.PUBLIC_METRIKA_ID;
+        if (id) w.ym(Number(id), 'reachGoal', 'add_to_cart');
+      }
+      const def = btn.querySelector('.label-default') as HTMLElement;
+      const added = btn.querySelector('.label-added') as HTMLElement;
+      def.hidden = true;
+      added.hidden = false;
+      setTimeout(() => {
+        def.hidden = false;
+        added.hidden = true;
+      }, 1600);
+    });
+  });
+</script>

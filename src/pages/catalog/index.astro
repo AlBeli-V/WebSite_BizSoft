@@ -1,0 +1,72 @@
+---
+export const prerender = false;
+
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import SectionHeading from '../../components/SectionHeading.astro';
+import CTASection from '../../components/CTASection.astro';
+import { getCategories, getProducts } from '../../lib/directus';
+
+let categories = [];
+const counts: Record<string, number> = {};
+try {
+  categories = await getCategories();
+  const all = await getProducts();
+  for (const p of all) {
+    const cat = typeof p.category === 'object' && p.category ? p.category.slug : '';
+    if (cat) counts[cat] = (counts[cat] || 0) + 1;
+  }
+} catch (e) {
+  console.error('catalog index error', e);
+}
+---
+<BaseLayout
+  title="Каталог ПО для бизнеса"
+  description="Каталог подписок и доступов к зарубежному ПО для российских юрлиц: AI-сервисы, графика, видеосвязь, инструменты разработки. По договору и счёту."
+>
+  <div class="container-page section">
+    <Breadcrumbs items={[{ name: 'Каталог', url: '/catalog/' }]} />
+    <SectionHeading eyebrow="Каталог" title="Разделы каталога">
+      <p>Выберите направление. Внутри — карточки сервисов с ценами, описанием, условиями оформления и FAQ.</p>
+    </SectionHeading>
+    <div class="cat-grid">
+      {categories.map((c) => (
+        <a href={`/catalog/${c.slug}/`} class="card card-hover cat-card reveal">
+          <div>
+            <h2>{c.name}</h2>
+            {c.seo_text && <p>{c.seo_text.slice(0, 140)}…</p>}
+          </div>
+          <div class="cat-foot">
+            <span class="count">{counts[c.slug] || 0} позиц.</span>
+            <span class="cat-link">Смотреть →</span>
+          </div>
+        </a>
+      ))}
+    </div>
+    {categories.length === 0 && <p class="muted">Каталог временно недоступен.</p>}
+  </div>
+  <CTASection />
+</BaseLayout>
+
+<style>
+  .section { padding-top: 2rem; }
+  .cat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.2rem;
+  }
+  .cat-card {
+    padding: 1.8rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 1.2rem;
+    min-height: 200px;
+  }
+  .cat-card h2 { font-size: 1.4rem; margin-bottom: 0.6rem; }
+  .cat-card p { color: var(--color-text-muted); font-size: 0.92rem; }
+  .cat-foot { display: flex; align-items: center; justify-content: space-between; }
+  .count { color: var(--color-text-dim); font-size: 0.85rem; }
+  .cat-link { color: var(--color-accent); font-weight: 600; }
+  .muted { color: var(--color-text-muted); }
+</style>

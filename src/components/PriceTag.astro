@@ -1,0 +1,52 @@
+---
+import { effectivePrice, formatRub } from '../lib/pricing';
+import type { Product } from '../lib/types';
+
+interface Props {
+  product: Product;
+  size?: 'md' | 'lg';
+}
+const { product, size = 'md' } = Astro.props;
+const eff = effectivePrice(product);
+---
+<div class:list={['price-tag', size]}>
+  {eff.isPromo && eff.promoLabel && <span class="promo-label">{eff.promoLabel}</span>}
+  <div class="price-row">
+    <span class="price-current">{formatRub(eff.price)}</span>
+    {eff.oldPrice != null && <span class="price-old">{formatRub(eff.oldPrice)}</span>}
+  </div>
+</div>
+
+<style>
+  .price-tag {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+  }
+  .promo-label {
+    align-self: flex-start;
+    background: color-mix(in srgb, var(--color-accent) 18%, transparent);
+    color: var(--color-accent);
+    font-size: 0.72rem;
+    font-weight: 600;
+    padding: 0.15rem 0.5rem;
+    border-radius: 6px;
+  }
+  .price-row {
+    display: flex;
+    align-items: baseline;
+    gap: 0.6rem;
+  }
+  .price-current {
+    font-weight: 700;
+    font-size: 1.15rem;
+  }
+  .lg .price-current {
+    font-size: 1.9rem;
+  }
+  .price-old {
+    color: var(--color-text-dim);
+    text-decoration: line-through;
+    font-size: 0.9rem;
+  }
+</style>

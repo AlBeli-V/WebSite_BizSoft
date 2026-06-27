@@ -1,0 +1,29 @@
+# build output
+dist/
+.output/
+
+# deps
+node_modules/
+
+# astro
+.astro/
+
+# env & secrets
+.env
+.env.local
+.env.*.local
+
+# logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+
+# editor / os
+.DS_Store
+.vscode/
+.idea/
+Thumbs.db
+
+# temp
+*.tmp
+.cache/

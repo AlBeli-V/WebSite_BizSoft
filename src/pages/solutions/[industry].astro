@@ -1,0 +1,70 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import FAQ from '../../components/FAQ.astro';
+import CTASection from '../../components/CTASection.astro';
+import { solutions } from '../../data/solutions';
+
+export function getStaticPaths() {
+  return solutions.map((s) => ({ params: { industry: s.slug }, props: { solution: s } }));
+}
+
+const { solution } = Astro.props;
+---
+<BaseLayout title={solution.metaTitle} description={solution.metaDescription}>
+  <div class="container-page section">
+    <Breadcrumbs items={[{ name: 'Решения', url: '/catalog/' }, { name: solution.title, url: `/solutions/${solution.slug}/` }]} />
+    <header class="head">
+      <span class="eyebrow">Решение под задачу</span>
+      <h1>{solution.title}</h1>
+      <p class="lead">{solution.lead}</p>
+      <div class="actions">
+        <a href="/pricing/" class="btn btn-primary" data-goal="solution_calc">Запросить расчёт</a>
+        <a href="/catalog/" class="btn btn-ghost">В каталог</a>
+      </div>
+    </header>
+
+    <div class="cols">
+      <div class="card col">
+        <h2>Знакомые задачи</h2>
+        <ul class="pains">{solution.pains.map((p) => <li>{p}</li>)}</ul>
+      </div>
+      <div class="card col">
+        <h2>Что предлагаем</h2>
+        <ul class="offer">{solution.offer.map((o) => <li>{o}</li>)}</ul>
+      </div>
+    </div>
+
+    <section class="related">
+      <h2>Подходящие разделы каталога</h2>
+      <div class="rel-grid">
+        {solution.relatedCategories.map((c) => (
+          <a href={`/catalog/${c.slug}/`} class="card card-hover rel">{c.name} →</a>
+        ))}
+      </div>
+    </section>
+
+    <FAQ items={solution.faq} />
+  </div>
+  <CTASection />
+</BaseLayout>
+
+<style>
+  .section { padding-top: 2rem; }
+  .head { max-width: 760px; margin-bottom: 2.5rem; }
+  h1 { font-size: clamp(1.9rem, 4vw, 2.8rem); margin: 0.8rem 0 1rem; }
+  .lead { color: var(--color-text-muted); font-size: 1.08rem; }
+  .actions { display: flex; gap: 0.8rem; margin-top: 1.5rem; flex-wrap: wrap; }
+  .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; margin-bottom: 2.5rem; }
+  .col { padding: 1.6rem; }
+  .col h2 { font-size: 1.3rem; margin-bottom: 1rem; }
+  .pains, .offer { list-style: none; padding: 0; display: grid; gap: 0.6rem; }
+  .pains li, .offer li { padding-left: 1.6rem; position: relative; color: #d7d9dd; }
+  .pains li::before { content: '—'; position: absolute; left: 0; color: var(--color-text-dim); }
+  .offer li::before { content: '✓'; position: absolute; left: 0; color: var(--color-accent); font-weight: 700; }
+  .related { margin-bottom: 1rem; }
+  .related h2 { font-size: 1.4rem; margin-bottom: 1rem; }
+  .rel-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; }
+  .rel { padding: 1.2rem 1.4rem; font-weight: 600; color: var(--color-accent); }
+  @media (max-width: 720px) { .cols { grid-template-columns: 1fr; } }
+</style>

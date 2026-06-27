@@ -1,0 +1,43 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import LeadForm from '../components/LeadForm.astro';
+import JsonLd from '../components/JsonLd.astro';
+import { localBusinessSchema } from '../lib/seo';
+import { seller } from '../config/site';
+---
+<BaseLayout title="Контакты" description="Контакты BizSoft (ИП Беляев А.В.): телефон, e-mail, адрес и форма обратной связи. Работаем с юрлицами по договору и счёту.">
+  <JsonLd schema={localBusinessSchema()} />
+  <div class="container-page section">
+    <Breadcrumbs items={[{ name: 'Контакты', url: '/contacts/' }]} />
+    <header class="head">
+      <h1>Контакты</h1>
+      <p class="lead">Свяжитесь любым удобным способом — ответим в рабочее время и поможем подобрать решение.</p>
+    </header>
+
+    <div class="grid">
+      <div class="info card">
+        <div class="row"><span>Телефон</span><a href={`tel:${seller.phoneHref}`}>{seller.phone}</a></div>
+        <div class="row"><span>E-mail</span><a href={`mailto:${seller.email}`}>{seller.email}</a></div>
+        <div class="row"><span>Адрес</span><span>{seller.address}</span></div>
+        <div class="row"><span>Продавец</span><span>{seller.shortName}</span></div>
+        <div class="row"><span>ИНН</span><span>{seller.inn}</span></div>
+        <div class="row"><span>ОГРНИП</span><span>{seller.ogrnip}</span></div>
+      </div>
+      <LeadForm source="contacts" title="Написать нам" submitLabel="Отправить" />
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .section { padding-top: 2rem; }
+  .head { max-width: 720px; margin-bottom: 2.5rem; }
+  h1 { font-size: clamp(1.9rem, 4vw, 2.8rem); margin-bottom: 1rem; }
+  .lead { color: var(--color-text-muted); font-size: 1.08rem; }
+  .grid { display: grid; grid-template-columns: 1fr 400px; gap: 2.5rem; align-items: start; }
+  .info { padding: 1.8rem; display: flex; flex-direction: column; gap: 0.9rem; }
+  .row { display: flex; justify-content: space-between; gap: 1rem; border-bottom: 1px solid var(--color-border); padding-bottom: 0.7rem; }
+  .row span:first-child { color: var(--color-text-muted); }
+  .row a { color: var(--color-accent); }
+  @media (max-width: 880px) { .grid { grid-template-columns: 1fr; } }
+</style>

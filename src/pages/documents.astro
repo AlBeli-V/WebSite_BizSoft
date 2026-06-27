@@ -1,0 +1,67 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import CTASection from '../components/CTASection.astro';
+import { seller } from '../config/site';
+
+const docs = [
+  { t: 'Договор поставки/оказания услуг', d: 'Типовой договор под ваше юрлицо. Закрепляет состав, сроки поставки и ответственность сторон. Образец предоставляем по запросу.' },
+  { t: 'Счёт на оплату', d: 'Выставляем по безналу с полными реквизитами. Оплата с расчётного счёта организации.' },
+  { t: 'Закрывающие документы', d: 'Акт (и счёт-фактура при необходимости) — передаём через ЭДО после поставки.' },
+  { t: 'Оферта и гарантии', d: 'Условия оказания услуг и гарантии своевременной поставки и работоспособности доступов.' },
+];
+---
+<BaseLayout title="Документы и реквизиты" description="Договор, счёт, закрывающие документы через ЭДО и реквизиты продавца BizSoft (ИП Беляев А.В.). Полный пакет для бухгалтерии юрлица.">
+  <div class="container-page section">
+    <Breadcrumbs items={[{ name: 'Документы', url: '/documents/' }]} />
+    <header class="head">
+      <h1>Документы и реквизиты</h1>
+      <p class="lead">Работаем по договору с полным пакетом документов. Образец договора и оферту предоставляем по запросу.</p>
+    </header>
+
+    <div class="docs">
+      {docs.map((d) => (
+        <div class="card doc reveal"><h2>{d.t}</h2><p>{d.d}</p></div>
+      ))}
+    </div>
+
+    <section class="req card">
+      <h2>Реквизиты продавца</h2>
+      <dl>
+        <div><dt>Продавец</dt><dd>{seller.legalName}</dd></div>
+        <div><dt>Адрес</dt><dd>{seller.address}</dd></div>
+        <div><dt>ИНН</dt><dd>{seller.inn}</dd></div>
+        <div><dt>ОГРНИП</dt><dd>{seller.ogrnip}</dd></div>
+        <div><dt>ОКПО</dt><dd>{seller.okpo}</dd></div>
+        <div><dt>ОКАТО</dt><dd>{seller.okato}</dd></div>
+        <div><dt>ОКТМО</dt><dd>{seller.oktmo}</dd></div>
+        <div><dt>Дата постановки на учёт</dt><dd>{seller.registrationDate}</dd></div>
+        <div><dt>Банк</dt><dd>{seller.bank.bankName}</dd></div>
+        <div><dt>Расчётный счёт</dt><dd>{seller.bank.account}</dd></div>
+        <div><dt>Корр. счёт</dt><dd>{seller.bank.corrAccount}</dd></div>
+        <div><dt>БИК</dt><dd>{seller.bank.bik}</dd></div>
+        <div><dt>Телефон</dt><dd><a href={`tel:${seller.phoneHref}`}>{seller.phone}</a></dd></div>
+        <div><dt>E-mail</dt><dd><a href={`mailto:${seller.email}`}>{seller.email}</a></dd></div>
+      </dl>
+    </section>
+  </div>
+  <CTASection title="Нужен образец договора?" primaryLabel="Запросить документы" primaryHref="/contacts/" />
+</BaseLayout>
+
+<style>
+  .section { padding-top: 2rem; }
+  .head { max-width: 720px; margin-bottom: 2.5rem; }
+  h1 { font-size: clamp(1.9rem, 4vw, 2.8rem); margin-bottom: 1rem; }
+  .lead { color: var(--color-text-muted); font-size: 1.08rem; }
+  .docs { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.2rem; margin-bottom: 2.5rem; }
+  .doc { padding: 1.6rem; }
+  .doc h2 { font-size: 1.2rem; margin-bottom: 0.5rem; }
+  .doc p { color: var(--color-text-muted); font-size: 0.94rem; }
+  .req { padding: 1.8rem; }
+  .req h2 { font-size: 1.4rem; margin-bottom: 1.2rem; }
+  dl { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 0.8rem 2rem; margin: 0; }
+  dl > div { display: flex; justify-content: space-between; gap: 1rem; border-bottom: 1px solid var(--color-border); padding-bottom: 0.5rem; }
+  dt { color: var(--color-text-muted); font-size: 0.9rem; }
+  dd { margin: 0; text-align: right; font-size: 0.9rem; }
+  dd a { color: var(--color-accent); }
+</style>

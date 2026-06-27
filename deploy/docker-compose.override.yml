@@ -1,0 +1,21 @@
+# Кладётся в /opt/bizsoft/docker-compose.override.yml — Docker Compose
+# автоматически сливает его с основным docker-compose.yml.
+# Добавляет SSR-сервис Astro в существующую сеть bizsoft_default рядом с Directus.
+services:
+  astro:
+    build:
+      context: ./astro-src
+    image: bizsoft-astro:latest
+    restart: unless-stopped
+    env_file:
+      - ./astro.env
+    environment:
+      DIRECTUS_URL: http://directus:8055
+      HOST: 0.0.0.0
+      PORT: "4321"
+      NODE_ENV: production
+    depends_on:
+      - directus
+    # Слушаем только локально; наружу проксирует nginx (HTTPS).
+    ports:
+      - "127.0.0.1:3000:4321"

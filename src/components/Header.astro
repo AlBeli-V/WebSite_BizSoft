@@ -1,0 +1,195 @@
+---
+import { mainNav, site } from '../config/site';
+const path = Astro.url.pathname;
+const isActive = (href: string) => (href === '/' ? path === '/' : path.startsWith(href));
+---
+<header class="site-header">
+  <div class="container-page header-inner">
+    <a href="/" class="wordmark" aria-label={`${site.name} — на главную`}>
+      Biz<span>Soft</span>
+    </a>
+
+    <nav class="main-nav" aria-label="Главное меню">
+      {mainNav.map((item) => (
+        <a href={item.href} class:list={['nav-link', { active: isActive(item.href) }]}>
+          {item.label}
+        </a>
+      ))}
+    </nav>
+
+    <div class="header-actions">
+      <a href="/cart/" class="cart-link" aria-label="Корзина">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle>
+          <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+        </svg>
+        <span class="cart-count" data-cart-count hidden>0</span>
+      </a>
+      <button class="burger" aria-label="Меню" aria-expanded="false" data-burger>
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+
+  <nav class="mobile-nav" aria-label="Мобильное меню" data-mobile-nav hidden>
+    {mainNav.map((item) => (
+      <a href={item.href} class:list={['mobile-link', { active: isActive(item.href) }]}>{item.label}</a>
+    ))}
+    <a href="/cart/" class="mobile-link">Корзина</a>
+  </nav>
+</header>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: color-mix(in srgb, var(--color-bg) 86%, transparent);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--color-border);
+  }
+  .header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    height: 64px;
+  }
+  .wordmark {
+    font-weight: 800;
+    font-size: 1.35rem;
+    letter-spacing: -0.03em;
+  }
+  .wordmark span {
+    color: var(--color-accent);
+  }
+  .main-nav {
+    display: flex;
+    gap: 1.4rem;
+    margin-inline: auto;
+  }
+  .nav-link {
+    font-size: 0.92rem;
+    color: var(--color-text-muted);
+    transition: color 0.18s ease;
+    white-space: nowrap;
+  }
+  .nav-link:hover,
+  .nav-link.active {
+    color: var(--color-text);
+  }
+  .nav-link.active {
+    color: var(--color-accent);
+  }
+  .header-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  .cart-link {
+    position: relative;
+    display: inline-flex;
+    color: var(--color-text-muted);
+    transition: color 0.18s ease;
+  }
+  .cart-link:hover {
+    color: var(--color-accent);
+  }
+  .cart-count {
+    position: absolute;
+    top: -8px;
+    right: -10px;
+    min-width: 16px;
+    height: 16px;
+    padding: 0 4px;
+    background: var(--color-accent);
+    color: #0e0f12;
+    font-size: 0.68rem;
+    font-weight: 700;
+    border-radius: 999px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .burger {
+    display: none;
+    flex-direction: column;
+    gap: 4px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 6px;
+  }
+  .burger span {
+    width: 22px;
+    height: 2px;
+    background: var(--color-text);
+    border-radius: 2px;
+  }
+  .mobile-nav {
+    display: none;
+    flex-direction: column;
+    padding: 0.5rem 20px 1rem;
+    border-top: 1px solid var(--color-border);
+  }
+  .mobile-link {
+    padding: 0.7rem 0;
+    color: var(--color-text-muted);
+    border-bottom: 1px solid var(--color-border);
+  }
+  .mobile-link.active {
+    color: var(--color-accent);
+  }
+  @media (max-width: 920px) {
+    .main-nav {
+      display: none;
+    }
+    .burger {
+      display: flex;
+    }
+    .mobile-nav[data-open] {
+      display: flex;
+    }
+  }
+</style>
+
+<script>
+  // Бургер-меню
+  const burger = document.querySelector('[data-burger]');
+  const mobileNav = document.querySelector('[data-mobile-nav]');
+  burger?.addEventListener('click', () => {
+    const open = mobileNav?.hasAttribute('data-open');
+    if (open) {
+      mobileNav?.removeAttribute('data-open');
+      mobileNav?.setAttribute('hidden', '');
+      burger.setAttribute('aria-expanded', 'false');
+    } else {
+      mobileNav?.setAttribute('data-open', '');
+      mobileNav?.removeAttribute('hidden');
+      burger.setAttribute('aria-expanded', 'true');
+    }
+  });
+
+  // Счётчик корзины из localStorage (обновляется событием cart:change)
+  function refreshCartCount() {
+    try {
+      const raw = localStorage.getItem('bizsoft_cart');
+      const items = raw ? JSON.parse(raw) : [];
+      const count = Array.isArray(items) ? items.reduce((s, i) => s + (i.qty || 0), 0) : 0;
+      document.querySelectorAll('[data-cart-count]').forEach((el) => {
+        const node = el as HTMLElement;
+        if (count > 0) {
+          node.textContent = String(count);
+          node.removeAttribute('hidden');
+        } else {
+          node.setAttribute('hidden', '');
+        }
+      });
+    } catch {
+      /* ignore */
+    }
+  }
+  refreshCartCount();
+  window.addEventListener('cart:change', refreshCartCount);
+  window.addEventListener('storage', refreshCartCount);
+</script>

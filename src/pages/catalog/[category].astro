@@ -1,0 +1,72 @@
+---
+export const prerender = false;
+
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import ProductCard from '../../components/ProductCard.astro';
+import FAQ from '../../components/FAQ.astro';
+import CTASection from '../../components/CTASection.astro';
+import JsonLd from '../../components/JsonLd.astro';
+import { getCategoryBySlug, getProducts } from '../../lib/directus';
+import { itemListSchema } from '../../lib/seo';
+
+const { category: slug } = Astro.params;
+
+let category = null;
+let products = [];
+try {
+  category = await getCategoryBySlug(slug!);
+  if (category) products = await getProducts({ categorySlug: slug });
+} catch (e) {
+  console.error('category page error', e);
+}
+
+if (!category) {
+  return new Response(null, { status: 404, statusText: 'Not Found' });
+}
+
+const faq = [
+  { q: 'Как оформляется покупка для юрлица?', a: 'Заключаем договор, выставляем счёт на оплату. После оплаты предоставляем доступы и передаём закрывающие документы через ЭДО.' },
+  { q: 'Можно ли получить коммерческое предложение?', a: 'Да. Добавьте нужные позиции в корзину и нажмите «Получить КП» — сформируем PDF с реквизитами и составом заказа.' },
+  { q: 'Цены окончательные?', a: 'Цены в каталоге ориентировочные. Итоговую стоимость с учётом объёма и актуального курса подтверждаем в счёте.' },
+];
+---
+<BaseLayout
+  title={category.meta_title || category.name}
+  description={category.meta_description || `${category.name}: подписки и доступы для юрлиц по договору и счёту.`}
+>
+  <JsonLd schema={itemListSchema(category, products)} />
+  <div class="container-page section">
+    <Breadcrumbs items={[{ name: 'Каталог', url: '/catalog/' }, { name: category.name, url: `/catalog/${category.slug}/` }]} />
+
+    <header class="cat-header">
+      <h1>{category.name}</h1>
+      {category.seo_text && <p class="lead">{category.seo_text}</p>}
+    </header>
+
+    {products.length > 0 ? (
+      <div class="product-grid">
+        {products.map((p) => <ProductCard product={p} />)}
+      </div>
+    ) : (
+      <p class="muted">В этом разделе пока нет опубликованных позиций. <a href="/pricing/">Запросите подбор →</a></p>
+    )}
+
+    <FAQ items={faq} title="Вопросы по разделу" />
+  </div>
+  <CTASection />
+</BaseLayout>
+
+<style>
+  .section { padding-top: 2rem; }
+  .cat-header { max-width: 760px; margin-bottom: 2.5rem; }
+  h1 { font-size: clamp(1.9rem, 4vw, 2.8rem); margin-bottom: 1rem; }
+  .lead { color: var(--color-text-muted); font-size: 1.05rem; }
+  .product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.2rem;
+  }
+  .muted { color: var(--color-text-muted); }
+  .muted a { color: var(--color-accent); }
+</style>

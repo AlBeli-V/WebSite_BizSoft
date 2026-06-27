@@ -1,0 +1,201 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import { seller } from '../../config/site';
+---
+<BaseLayout title="Корзина" description="Корзина BizSoft: соберите подписки и получите коммерческое предложение в PDF." noindex={true}>
+  <div class="container-page section">
+    <Breadcrumbs items={[{ name: 'Корзина', url: '/cart/' }]} />
+    <h1>Корзина</h1>
+
+    <div class="cart-layout">
+      <div class="cart-items" data-cart-items>
+        <p class="empty" data-empty>Корзина пуста. <a href="/catalog/">Перейти в каталог →</a></p>
+      </div>
+
+      <aside class="cart-summary card" data-summary hidden>
+        <div class="sum-row total"><span>Итого</span><span data-total>0 ₽</span></div>
+        <p class="sum-note">Цены ориентировочные. Итог подтверждаем в счёте.</p>
+        <button class="btn btn-primary" data-open-kp>Получить КП</button>
+        <button class="btn btn-ghost" data-pay>Оплатить</button>
+        <p class="pay-note" data-pay-note hidden>
+          Сейчас оплата идёт по счёту: сформируйте КП — выставим счёт и договор.
+          Онлайн-оплату подключим позже.
+        </p>
+        <ul class="cart-trust">
+          <li>✓ Договор и счёт</li>
+          <li>✓ Закрывающие через ЭДО</li>
+        </ul>
+      </aside>
+    </div>
+  </div>
+
+  <!-- Диалог «Получить КП» -->
+  <dialog class="kp-dialog" data-kp-dialog aria-label="Получить коммерческое предложение">
+    <form class="kp-form" data-kp-form>
+      <button type="button" class="kp-close" data-kp-close aria-label="Закрыть">✕</button>
+      <h2>Получить КП</h2>
+      <p class="kp-hint">Сформируем PDF с реквизитами и составом заказа, отправим на e-mail и дадим скачать.</p>
+      <label>Организация*<input name="buyer_company" required /></label>
+      <div class="kp-row">
+        <label>ИНН*<input name="buyer_inn" required inputmode="numeric" /></label>
+        <label>Контактное лицо*<input name="contact_name" required autocomplete="name" /></label>
+      </div>
+      <div class="kp-row">
+        <label>E-mail*<input name="email" type="email" required autocomplete="email" /></label>
+        <label>Телефон<input name="phone" type="tel" autocomplete="tel" /></label>
+      </div>
+      <label class="kp-consent">
+        <input type="checkbox" name="consent" required />
+        <span>Согласен на обработку персональных данных согласно <a href="/privacy/" target="_blank">политике</a>.</span>
+      </label>
+      <button type="submit" class="btn btn-primary kp-submit">Сформировать КП (PDF)</button>
+      <p class="kp-status" data-kp-status role="status" aria-live="polite"></p>
+    </form>
+  </dialog>
+</BaseLayout>
+
+<style>
+  .section { padding-top: 2rem; }
+  h1 { font-size: clamp(1.9rem, 4vw, 2.6rem); margin-bottom: 2rem; }
+  .cart-layout { display: grid; grid-template-columns: 1fr 320px; gap: 2rem; align-items: start; }
+  .cart-items { display: flex; flex-direction: column; gap: 0.8rem; }
+  .empty { color: var(--color-text-muted); }
+  .empty a { color: var(--color-accent); }
+  .cart-row { display: grid; grid-template-columns: 1fr auto auto auto; gap: 1rem; align-items: center; padding: 1rem 1.2rem; background: var(--color-bg-card); border: 1px solid var(--color-border); border-radius: var(--radius); }
+  .cart-row .ci-name { font-weight: 600; }
+  .cart-row .ci-sku { color: var(--color-text-dim); font-size: 0.8rem; }
+  .qty { display: flex; align-items: center; gap: 0.4rem; }
+  .qty button { width: 28px; height: 28px; border-radius: 6px; border: 1px solid var(--color-border-strong); background: var(--color-bg-elevated); color: var(--color-text); cursor: pointer; font-size: 1rem; }
+  .qty input { width: 44px; text-align: center; background: var(--color-bg-elevated); border: 1px solid var(--color-border-strong); border-radius: 6px; color: var(--color-text); padding: 0.3rem; font: inherit; }
+  .ci-sum { font-weight: 700; min-width: 90px; text-align: right; }
+  .ci-remove { background: none; border: none; color: var(--color-text-dim); cursor: pointer; font-size: 1.1rem; }
+  .ci-remove:hover { color: var(--color-danger); }
+  .cart-summary { padding: 1.5rem; display: flex; flex-direction: column; gap: 0.8rem; position: sticky; top: 84px; }
+  .sum-row { display: flex; justify-content: space-between; }
+  .sum-row.total { font-size: 1.3rem; font-weight: 700; }
+  .sum-note, .pay-note { color: var(--color-text-dim); font-size: 0.82rem; margin: 0; }
+  .cart-trust { list-style: none; padding: 0.8rem 0 0; margin: 0; border-top: 1px solid var(--color-border); display: grid; gap: 0.3rem; color: var(--color-text-muted); font-size: 0.85rem; }
+  .kp-dialog { border: 1px solid var(--color-border-strong); border-radius: var(--radius-lg); background: var(--color-bg-card); color: var(--color-text); padding: 0; max-width: 540px; width: calc(100% - 2rem); }
+  .kp-dialog::backdrop { background: rgba(0,0,0,0.6); }
+  .kp-form { padding: 2rem; display: flex; flex-direction: column; gap: 0.9rem; position: relative; }
+  .kp-form h2 { font-size: 1.5rem; }
+  .kp-hint { color: var(--color-text-muted); font-size: 0.9rem; margin-top: -0.4rem; }
+  .kp-close { position: absolute; top: 1rem; right: 1rem; background: none; border: none; color: var(--color-text-muted); font-size: 1.1rem; cursor: pointer; }
+  .kp-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.9rem; }
+  .kp-form label { display: flex; flex-direction: column; gap: 0.35rem; font-size: 0.86rem; color: var(--color-text-muted); }
+  .kp-form input { background: var(--color-bg-elevated); border: 1px solid var(--color-border-strong); border-radius: var(--radius-sm); padding: 0.6rem 0.7rem; color: var(--color-text); font: inherit; }
+  .kp-form input:focus { border-color: var(--color-accent); outline: none; }
+  .kp-consent { flex-direction: row; align-items: flex-start; gap: 0.5rem; font-size: 0.82rem; }
+  .kp-consent input { width: auto; margin-top: 0.2rem; }
+  .kp-consent a { color: var(--color-accent); }
+  .kp-status { font-size: 0.9rem; margin: 0; }
+  .kp-status.ok { color: var(--color-success); }
+  .kp-status.err { color: var(--color-danger); }
+  @media (max-width: 860px) { .cart-layout { grid-template-columns: 1fr; } .cart-summary { position: static; } }
+  @media (max-width: 520px) { .kp-row { grid-template-columns: 1fr; } .cart-row { grid-template-columns: 1fr auto; } }
+</style>
+
+<script>
+  import { readCart, setQty, removeFromCart, cartTotal, clearCart } from '../../lib/cart-client';
+  import { formatRub } from '../../lib/pricing';
+
+  const itemsEl = document.querySelector('[data-cart-items]') as HTMLElement;
+  const summaryEl = document.querySelector('[data-summary]') as HTMLElement;
+  const totalEl = document.querySelector('[data-total]') as HTMLElement;
+  const emptyEl = document.querySelector('[data-empty]') as HTMLElement;
+
+  function render() {
+    const items = readCart();
+    // удаляем старые строки
+    itemsEl.querySelectorAll('.cart-row').forEach((n) => n.remove());
+    if (items.length === 0) {
+      emptyEl.hidden = false;
+      summaryEl.hidden = true;
+      return;
+    }
+    emptyEl.hidden = true;
+    summaryEl.hidden = false;
+    for (const it of items) {
+      const row = document.createElement('div');
+      row.className = 'cart-row';
+      row.innerHTML = `
+        <div>
+          <div class="ci-name">${escapeHtml(it.name)}</div>
+          <div class="ci-sku">Артикул: ${escapeHtml(it.sku)} · ${formatRub(it.price)}</div>
+        </div>
+        <div class="qty">
+          <button type="button" data-dec aria-label="Меньше">−</button>
+          <input type="number" min="1" value="${it.qty}" data-qty />
+          <button type="button" data-inc aria-label="Больше">+</button>
+        </div>
+        <div class="ci-sum">${formatRub(it.price * it.qty)}</div>
+        <button class="ci-remove" data-remove aria-label="Удалить">✕</button>`;
+      row.querySelector('[data-inc]')!.addEventListener('click', () => { setQty(it.sku, it.qty + 1); render(); });
+      row.querySelector('[data-dec]')!.addEventListener('click', () => { setQty(it.sku, it.qty - 1); render(); });
+      row.querySelector('[data-remove]')!.addEventListener('click', () => { removeFromCart(it.sku); render(); });
+      row.querySelector('[data-qty]')!.addEventListener('change', (e) => {
+        const v = Math.max(1, Math.floor(Number((e.target as HTMLInputElement).value) || 1));
+        setQty(it.sku, v); render();
+      });
+      itemsEl.appendChild(row);
+    }
+    totalEl.textContent = formatRub(cartTotal(items));
+  }
+
+  function escapeHtml(s: string) {
+    return s.replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]!));
+  }
+
+  render();
+  window.addEventListener('cart:change', render);
+
+  // Оплатить → пояснение (заглушка). ТОЧКА ИНТЕГРАЦИИ ЭКВАЙРИНГА:
+  // здесь подключается платёжный провайдер (создание платежа и редирект).
+  const payNote = document.querySelector('[data-pay-note]') as HTMLElement;
+  document.querySelector('[data-pay]')?.addEventListener('click', () => { payNote.hidden = false; });
+
+  // Диалог КП
+  const dialog = document.querySelector('[data-kp-dialog]') as HTMLDialogElement;
+  const form = document.querySelector('[data-kp-form]') as HTMLFormElement;
+  const status = document.querySelector('[data-kp-status]') as HTMLElement;
+  document.querySelector('[data-open-kp]')?.addEventListener('click', () => {
+    if (readCart().length === 0) return;
+    status.textContent = ''; status.className = 'kp-status';
+    dialog.showModal();
+  });
+  document.querySelector('[data-kp-close]')?.addEventListener('click', () => dialog.close());
+  dialog.addEventListener('click', (e) => { if (e.target === dialog) dialog.close(); });
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const submit = form.querySelector('.kp-submit') as HTMLButtonElement;
+    submit.disabled = true;
+    status.textContent = 'Формируем PDF…'; status.className = 'kp-status';
+    try {
+      const fd = Object.fromEntries(new FormData(form).entries());
+      const items = readCart().map((i) => ({ sku: i.sku, qty: i.qty }));
+      const res = await fetch('/api/quote', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...fd, consent: (form.elements.namedItem('consent') as HTMLInputElement).checked, items }),
+      });
+      if (!res.ok) throw new Error('bad');
+      const blob = await res.blob();
+      const quoteNo = res.headers.get('X-Quote-No') || 'KP';
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url; a.download = `${quoteNo}.pdf`; document.body.appendChild(a); a.click(); a.remove();
+      URL.revokeObjectURL(url);
+      status.textContent = 'Готово! PDF скачан и отправлен на e-mail.'; status.className = 'kp-status ok';
+      const w = window as unknown as { ym?: (...a: unknown[]) => void };
+      const id = (import.meta as { env: Record<string, string> }).env.PUBLIC_METRIKA_ID;
+      if (typeof w.ym === 'function' && id) w.ym(Number(id), 'reachGoal', 'quote_pdf');
+    } catch {
+      status.textContent = 'Не удалось сформировать КП. Попробуйте позже или позвоните нам.';
+      status.className = 'kp-status err';
+    } finally {
+      submit.disabled = false;
+    }
+  });
+</script>

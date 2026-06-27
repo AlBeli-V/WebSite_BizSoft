@@ -1,0 +1,78 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import FAQ from '../../components/FAQ.astro';
+import CTASection from '../../components/CTASection.astro';
+import JsonLd from '../../components/JsonLd.astro';
+import { site, seller } from '../../config/site';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog', ({ data }) => !data.draft);
+  return posts.map((post) => ({ params: { slug: post.id }, props: { post } }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+
+function fmtDate(d: Date) {
+  return d.toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' });
+}
+
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: post.data.title,
+  description: post.data.description,
+  datePublished: post.data.date.toISOString(),
+  dateModified: (post.data.updated || post.data.date).toISOString(),
+  author: { '@type': 'Organization', name: seller.brand },
+  publisher: { '@type': 'Organization', name: seller.brand, url: site.url },
+  mainEntityOfPage: `${site.url}/blog/${post.id}/`,
+};
+---
+<BaseLayout title={post.data.title} description={post.data.description} type="article">
+  <JsonLd schema={articleSchema} />
+  <div class="container-page section">
+    <Breadcrumbs items={[{ name: 'База знаний', url: '/blog/' }, { name: post.data.title, url: `/blog/${post.id}/` }]} />
+
+    <article class="article">
+      <header>
+        <div class="tags">{post.data.tags.map((t) => <span>{t}</span>)}</div>
+        <h1>{post.data.title}</h1>
+        <p class="upd">Обновлено: {fmtDate(post.data.updated || post.data.date)}</p>
+      </header>
+
+      <div class="prose-bizsoft">
+        <Content />
+      </div>
+
+      {post.data.related.length > 0 && (
+        <aside class="related">
+          <h2>Полезное по теме</h2>
+          <div class="rel-grid">
+            {post.data.related.map((r) => (
+              <a href={r.href} class="card card-hover rel">{r.label} →</a>
+            ))}
+          </div>
+        </aside>
+      )}
+
+      <FAQ items={post.data.faq} />
+    </article>
+  </div>
+  <CTASection />
+</BaseLayout>
+
+<style>
+  .section { padding-top: 2rem; }
+  .article { max-width: 760px; }
+  .tags { display: flex; gap: 0.4rem; margin-bottom: 1rem; }
+  .tags span { background: var(--color-bg-elevated); color: var(--color-text-muted); font-size: 0.72rem; padding: 0.15rem 0.55rem; border-radius: 6px; }
+  h1 { font-size: clamp(1.8rem, 4vw, 2.6rem); margin-bottom: 0.6rem; }
+  .upd { color: var(--color-text-dim); font-size: 0.85rem; margin-bottom: 2rem; }
+  .related { margin-top: 3rem; }
+  .related h2 { font-size: 1.4rem; margin-bottom: 1rem; }
+  .rel-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; }
+  .rel { padding: 1.1rem 1.3rem; font-weight: 600; color: var(--color-accent); }
+</style>

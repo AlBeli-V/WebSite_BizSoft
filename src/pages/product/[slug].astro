@@ -1,0 +1,148 @@
+---
+export const prerender = false;
+
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import PriceTag from '../../components/PriceTag.astro';
+import AddToCartButton from '../../components/AddToCartButton.astro';
+import FAQ from '../../components/FAQ.astro';
+import QuestionForm from '../../components/QuestionForm.astro';
+import CTASection from '../../components/CTASection.astro';
+import JsonLd from '../../components/JsonLd.astro';
+import { getProductBySlug } from '../../lib/directus';
+import { productSchema } from '../../lib/seo';
+import { effectivePrice } from '../../lib/pricing';
+
+const { slug } = Astro.params;
+
+let product = null;
+try {
+  product = await getProductBySlug(slug!);
+} catch (e) {
+  console.error('product page error', e);
+}
+if (!product) {
+  return new Response(null, { status: 404, statusText: 'Not Found' });
+}
+
+const eff = effectivePrice(product);
+const category = typeof product.category === 'object' ? product.category : null;
+const features = Array.isArray(product.features)
+  ? product.features.map((f) => (typeof f === 'string' ? f : (f as { value?: string }).value)).filter(Boolean)
+  : [];
+const faq = Array.isArray(product.faq) ? product.faq : [];
+---
+<BaseLayout
+  title={product.meta_title || product.name}
+  description={product.meta_description || product.short_description || product.name}
+  type="product"
+>
+  <JsonLd schema={productSchema(product)} />
+  <div class="container-page section">
+    <Breadcrumbs
+      items={[
+        { name: 'Каталог', url: '/catalog/' },
+        ...(category ? [{ name: category.name, url: `/catalog/${category.slug}/` }] : []),
+        { name: product.name, url: `/product/${product.slug}/` },
+      ]}
+    />
+
+    <div class="product-layout">
+      <div class="product-main">
+        <span class="sku">Артикул: {product.sku}</span>
+        <h1>{product.name}</h1>
+        {product.short_description && <p class="lead">{product.short_description}</p>}
+
+        {product.description && (
+          <div class="prose-bizsoft block">
+            <h2>Описание</h2>
+            <p>{product.description}</p>
+          </div>
+        )}
+
+        {features.length > 0 && (
+          <div class="block">
+            <h2>Что входит</h2>
+            <ul class="features">
+              {features.map((f) => <li>{f}</li>)}
+            </ul>
+          </div>
+        )}
+
+        <div class="block">
+          <h2>Как оформляется</h2>
+          <ol class="steps">
+            <li>Добавляете товар в корзину и формируете заявку или КП.</li>
+            <li>Заключаем договор и выставляем счёт на оплату.</li>
+            <li>После оплаты предоставляем доступ к сервису.</li>
+            <li>Передаём закрывающие документы через ЭДО.</li>
+          </ol>
+        </div>
+
+        <div class="block">
+          <h2>Для кого</h2>
+          <p class="muted">Юридические лица и ИП в России, которым нужен легальный доступ к сервису с договором, счётом и закрывающими документами для бухгалтерии.</p>
+        </div>
+
+        {product.seo_text && (
+          <div class="prose-bizsoft block">
+            <p>{product.seo_text}</p>
+          </div>
+        )}
+
+        <FAQ items={faq} title="Частые вопросы о товаре" />
+      </div>
+
+      <aside class="product-aside">
+        <div class="card buy-card">
+          <PriceTag product={product} size="lg" />
+          <p class="price-note">Цена ориентировочная. Итог подтверждаем в счёте.</p>
+          <div class="buy-actions">
+            <AddToCartButton sku={product.sku} slug={product.slug} name={product.name} price={eff.price} />
+            <button class="btn btn-ghost" data-open-question data-product={product.name} data-sku={product.sku}>
+              Задать вопрос
+            </button>
+          </div>
+          <ul class="buy-trust">
+            <li>✓ Договор и счёт</li>
+            <li>✓ Закрывающие через ЭДО</li>
+            <li>✓ Поддержка на весь срок</li>
+          </ul>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <CTASection />
+  <QuestionForm source="product" />
+</BaseLayout>
+
+<style>
+  .section { padding-top: 2rem; }
+  .product-layout {
+    display: grid;
+    grid-template-columns: 1fr 360px;
+    gap: 3rem;
+    align-items: start;
+  }
+  .sku { color: var(--color-text-dim); font-size: 0.85rem; }
+  h1 { font-size: clamp(1.8rem, 3.5vw, 2.6rem); margin: 0.4rem 0 1rem; }
+  .lead { color: var(--color-text-muted); font-size: 1.1rem; max-width: 60ch; }
+  .block { margin-top: 2.2rem; }
+  .block h2 { font-size: 1.4rem; margin-bottom: 0.9rem; }
+  .features { list-style: none; padding: 0; display: grid; gap: 0.5rem; }
+  .features li { padding-left: 1.6rem; position: relative; color: #d7d9dd; }
+  .features li::before { content: '✓'; position: absolute; left: 0; color: var(--color-accent); font-weight: 700; }
+  .steps { padding-left: 1.2rem; color: #d7d9dd; display: grid; gap: 0.5rem; }
+  .muted { color: var(--color-text-muted); max-width: 60ch; }
+  .product-aside { position: sticky; top: 84px; }
+  .buy-card { padding: 1.6rem; display: flex; flex-direction: column; gap: 1rem; }
+  .price-note { color: var(--color-text-dim); font-size: 0.82rem; margin: 0; }
+  .buy-actions { display: flex; flex-direction: column; gap: 0.6rem; }
+  .buy-actions :global(.btn) { width: 100%; }
+  .buy-trust { list-style: none; padding: 1rem 0 0; margin: 0; border-top: 1px solid var(--color-border); display: grid; gap: 0.4rem; color: var(--color-text-muted); font-size: 0.88rem; }
+  @media (max-width: 900px) {
+    .product-layout { grid-template-columns: 1fr; }
+    .product-aside { position: static; }
+  }
+</style>

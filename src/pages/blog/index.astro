@@ -1,0 +1,51 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import CTASection from '../../components/CTASection.astro';
+
+const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.date.getTime() - a.data.date.getTime(),
+);
+
+function fmtDate(d: Date) {
+  return d.toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' });
+}
+---
+<BaseLayout title="База знаний" description="База знаний BizSoft: как покупать ПО для юрлиц, оформлять договор и закрывающие документы, считать стоимость подписок.">
+  <div class="container-page section">
+    <Breadcrumbs items={[{ name: 'База знаний', url: '/blog/' }]} />
+    <header class="head">
+      <h1>База знаний</h1>
+      <p class="lead">Разбираем, как российским компаниям легально покупать ПО, оформлять документы и считать стоимость.</p>
+    </header>
+
+    <div class="posts">
+      {posts.map((p) => (
+        <a href={`/blog/${p.id}/`} class="card card-hover post reveal">
+          <div class="tags">{p.data.tags.slice(0, 2).map((t) => <span>{t}</span>)}</div>
+          <h2>{p.data.title}</h2>
+          <p>{p.data.description}</p>
+          <span class="date">{fmtDate(p.data.updated || p.data.date)}</span>
+        </a>
+      ))}
+    </div>
+    {posts.length === 0 && <p class="muted">Скоро здесь появятся статьи.</p>}
+  </div>
+  <CTASection />
+</BaseLayout>
+
+<style>
+  .section { padding-top: 2rem; }
+  .head { max-width: 720px; margin-bottom: 2.5rem; }
+  h1 { font-size: clamp(1.9rem, 4vw, 2.8rem); margin-bottom: 1rem; }
+  .lead { color: var(--color-text-muted); font-size: 1.08rem; }
+  .posts { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.2rem; }
+  .post { padding: 1.6rem; display: flex; flex-direction: column; gap: 0.6rem; }
+  .tags { display: flex; gap: 0.4rem; }
+  .tags span { background: var(--color-bg-elevated); color: var(--color-text-muted); font-size: 0.72rem; padding: 0.15rem 0.55rem; border-radius: 6px; }
+  .post h2 { font-size: 1.25rem; }
+  .post p { color: var(--color-text-muted); font-size: 0.92rem; flex-grow: 1; }
+  .date { color: var(--color-text-dim); font-size: 0.82rem; }
+  .muted { color: var(--color-text-muted); }
+</style>

@@ -1,0 +1,48 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import CTASection from '../components/CTASection.astro';
+import { seller } from '../config/site';
+
+const values = [
+  { t: 'Легально', d: 'Только оформленная поставка с договором, счётом и закрывающими документами.' },
+  { t: 'Прозрачно', d: 'Понятные условия, реквизиты и сроки. Никаких скрытых платежей.' },
+  { t: 'Ответственно', d: 'Отвечаем за своевременность поставки и работоспособность доступов.' },
+];
+---
+<BaseLayout title="О компании" description="BizSoft (ИП Беляев А.В.) — поставка подписок на зарубежное ПО для российских юрлиц по договору и счёту с закрывающими документами через ЭДО.">
+  <div class="container-page section">
+    <Breadcrumbs items={[{ name: 'О нас', url: '/about/' }]} />
+    <header class="head">
+      <h1>О компании BizSoft</h1>
+      <p class="lead">BizSoft помогает российским организациям легально пользоваться нужными зарубежными ПО-сервисами: оформляем поставку по договору, с оплатой по счёту и закрывающими документами для бухгалтерии.</p>
+    </header>
+
+    <div class="prose-bizsoft block">
+      <h2>Что мы делаем</h2>
+      <p>Мы подбираем и поставляем подписки и доступы к сервисам — AI-инструментам для текста, кода и графики, графическим редакторам, видеоконференцсвязи и инструментам разработки. Берём на себя оформление: договор, счёт, своевременную поставку и передачу закрывающих документов через ЭДО.</p>
+      <h2>Почему это удобно бизнесу</h2>
+      <p>Бухгалтерии нужен полный пакет документов, а компании — работающий доступ в срок. Мы закрываем обе задачи: вы платите по счёту с расчётного счёта и получаете акт через электронный документооборот.</p>
+    </div>
+
+    <div class="values">
+      {values.map((v) => (<div class="card val reveal"><h3>{v.t}</h3><p>{v.d}</p></div>))}
+    </div>
+
+    <p class="req">Продавец: {seller.legalName}. ИНН {seller.inn}, ОГРНИП {seller.ogrnip}.</p>
+  </div>
+  <CTASection />
+</BaseLayout>
+
+<style>
+  .section { padding-top: 2rem; }
+  .head { max-width: 760px; margin-bottom: 2rem; }
+  h1 { font-size: clamp(1.9rem, 4vw, 2.8rem); margin-bottom: 1rem; }
+  .lead { color: var(--color-text-muted); font-size: 1.08rem; }
+  .block { margin-bottom: 2.5rem; }
+  .values { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.2rem; margin-bottom: 2rem; }
+  .val { padding: 1.5rem; }
+  .val h3 { font-size: 1.2rem; margin-bottom: 0.5rem; color: var(--color-accent); }
+  .val p { color: var(--color-text-muted); font-size: 0.94rem; }
+  .req { color: var(--color-text-dim); font-size: 0.9rem; }
+</style>

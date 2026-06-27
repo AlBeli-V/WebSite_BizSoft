@@ -1,0 +1,244 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+---
+<BaseLayout title="Инструменты цен (админ)" description="Служебная страница" noindex={true}>
+  <div class="container-page section admin">
+    <h1>Инструменты цен</h1>
+
+    <div class="token-bar card">
+      <label>Токен администратора
+        <input type="password" data-token placeholder="ADMIN_TOOLS_TOKEN" />
+      </label>
+      <button class="btn btn-primary" data-connect>Подключиться</button>
+      <span class="status" data-conn-status></span>
+    </div>
+
+    <div class="tools" data-tools hidden>
+      <!-- Курс ЦБ -->
+      <section class="card tool">
+        <h2>Курс доллара ЦБ РФ</h2>
+        <div class="rate-info" data-rate-info>—</div>
+        <div class="actions">
+          <button class="btn btn-ghost btn-sm" data-rate-refresh>Обновить по ЦБ сейчас</button>
+          <span class="manual">
+            <input type="number" step="0.01" data-manual-rate placeholder="курс вручную" />
+            <button class="btn btn-ghost btn-sm" data-rate-manual>Задать вручную</button>
+          </span>
+          <label class="chk"><input type="checkbox" data-auto-recalc /> авто-пересчёт привязанных</label>
+        </div>
+        <div class="actions">
+          <button class="btn btn-ghost btn-sm" data-recalc-preview>Пересчитать по курсу — предпросмотр</button>
+          <button class="btn btn-primary btn-sm" data-recalc-apply hidden>Применить пересчёт</button>
+        </div>
+        <div class="result" data-currency-result></div>
+      </section>
+
+      <!-- Массовое изменение -->
+      <section class="card tool">
+        <h2>Массовое изменение цен</h2>
+        <div class="grid-controls">
+          <label>Операция
+            <select data-op><option value="increase">Увеличить</option><option value="decrease">Уменьшить</option></select>
+          </label>
+          <label>Способ
+            <select data-mode><option value="percent">на %</option><option value="fixed">на сумму ₽</option></select>
+          </label>
+          <label>Значение<input type="number" step="0.01" data-amount value="10" /></label>
+          <label>Применить к
+            <select data-target><option value="base">базовой цене</option><option value="promo">акционной</option><option value="both">обеим</option></select>
+          </label>
+          <label>Округление
+            <select data-round><option value="to1">до 1 ₽</option><option value="to10">до 10 ₽</option><option value="to100">до 100 ₽</option><option value="psychological99">.99</option><option value="none">без</option></select>
+          </label>
+          <label>Только sku (через запятую, пусто = все)<input data-skus placeholder="напр. AI-TXT-TEAM,VCS-BIZ" /></label>
+        </div>
+        <div class="actions">
+          <button class="btn btn-ghost btn-sm" data-bulk-preview>Предпросмотр «было→станет»</button>
+          <button class="btn btn-primary btn-sm" data-bulk-apply hidden>Применить</button>
+        </div>
+        <div class="result" data-bulk-result></div>
+      </section>
+
+      <!-- CSV -->
+      <section class="card tool">
+        <h2>Импорт / экспорт CSV</h2>
+        <p class="hint">Формат: UTF-8 с BOM, разделитель «;». Импорт сопоставляется по sku.</p>
+        <div class="actions">
+          <button class="btn btn-ghost btn-sm" data-csv-export>Экспорт всех товаров (CSV)</button>
+        </div>
+        <label class="file">Импорт CSV<input type="file" accept=".csv,text/csv" data-csv-file /></label>
+        <div class="actions">
+          <button class="btn btn-ghost btn-sm" data-csv-dryrun hidden>Проверить (dry-run)</button>
+          <button class="btn btn-primary btn-sm" data-csv-apply hidden>Применить импорт</button>
+        </div>
+        <div class="result" data-csv-result></div>
+      </section>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .section { padding-top: 2rem; }
+  .admin h1 { font-size: 1.8rem; margin-bottom: 1.5rem; }
+  .token-bar { padding: 1.2rem; display: flex; gap: 1rem; align-items: end; flex-wrap: wrap; margin-bottom: 1.5rem; }
+  .tools { display: grid; gap: 1.5rem; }
+  .tool { padding: 1.6rem; }
+  .tool h2 { font-size: 1.3rem; margin-bottom: 1rem; }
+  label { display: flex; flex-direction: column; gap: 0.3rem; font-size: 0.85rem; color: var(--color-text-muted); }
+  input, select { background: var(--color-bg-elevated); border: 1px solid var(--color-border-strong); border-radius: 8px; padding: 0.5rem 0.6rem; color: var(--color-text); font: inherit; }
+  .grid-controls { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 0.9rem; margin-bottom: 1rem; }
+  .actions { display: flex; gap: 0.7rem; align-items: center; flex-wrap: wrap; margin: 0.8rem 0; }
+  .manual { display: flex; gap: 0.4rem; align-items: center; }
+  .chk { flex-direction: row; align-items: center; gap: 0.4rem; }
+  .chk input { width: auto; }
+  .rate-info { padding: 0.8rem; background: var(--color-bg-elevated); border-radius: 8px; font-size: 0.9rem; }
+  .result { margin-top: 1rem; font-size: 0.85rem; }
+  .result table { width: 100%; border-collapse: collapse; }
+  .result th, .result td { border: 1px solid var(--color-border); padding: 0.35rem 0.5rem; text-align: left; }
+  .result .ok { color: var(--color-success); }
+  .result .err { color: var(--color-danger); }
+  .hint { color: var(--color-text-dim); font-size: 0.82rem; }
+  .file { margin: 0.5rem 0; }
+  .status { font-size: 0.85rem; }
+</style>
+
+<script>
+  let TOKEN = '';
+  const $ = (s: string) => document.querySelector(s) as HTMLElement;
+  const tokenInput = $('[data-token]') as HTMLInputElement;
+  const connStatus = $('[data-conn-status]');
+  const tools = $('[data-tools]');
+
+  async function api(path: string, opts: RequestInit = {}) {
+    const res = await fetch(path, { ...opts, headers: { 'Content-Type': 'application/json', 'x-admin-token': TOKEN, ...(opts.headers || {}) } });
+    return res;
+  }
+  function fmt(n: number) { return new Intl.NumberFormat('ru-RU').format(n) + ' ₽'; }
+  function previewTable(rows: { sku: string; field?: string; before: any; after: any; name?: string }[]) {
+    if (!rows.length) return '<p>Изменений нет.</p>';
+    return '<table><tr><th>SKU</th><th>Поле</th><th>Было</th><th>Станет</th></tr>' +
+      rows.map((r) => `<tr><td>${r.sku}</td><td>${r.field || 'price'}</td><td>${r.before}</td><td class="ok">${r.after}</td></tr>`).join('') + '</table>';
+  }
+
+  // подключение
+  $('[data-connect]').addEventListener('click', async () => {
+    TOKEN = tokenInput.value.trim();
+    localStorage.setItem('bz_admin_token', TOKEN);
+    connStatus.textContent = 'Проверка…';
+    const res = await api('/api/admin/products');
+    if (res.ok) {
+      connStatus.textContent = '✓ подключено';
+      connStatus.className = 'status ok';
+      tools.hidden = false;
+      loadRate();
+    } else {
+      connStatus.textContent = '✗ неверный токен';
+      connStatus.className = 'status err';
+      tools.hidden = true;
+    }
+  });
+  const saved = localStorage.getItem('bz_admin_token');
+  if (saved) { tokenInput.value = saved; }
+
+  // ── Курс ЦБ ──
+  const rateInfo = $('[data-rate-info]');
+  const currencyResult = $('[data-currency-result]');
+  async function loadRate() {
+    const res = await api('/api/admin/currency');
+    if (!res.ok) return;
+    const { rate } = await res.json();
+    if (rate) {
+      rateInfo.innerHTML = `Курс: <b>${rate.usd_rate ?? '—'} ₽/$</b> · режим: ${rate.mode} · дата: ${rate.rate_date || '—'} · источник: ${rate.source || '—'} · авто-пересчёт: ${rate.auto_recalc ? 'да' : 'нет'}`;
+      ($('[data-auto-recalc]') as HTMLInputElement).checked = !!rate.auto_recalc;
+    } else rateInfo.textContent = 'Курс ещё не задан.';
+  }
+  $('[data-rate-refresh]').addEventListener('click', async () => {
+    currencyResult.textContent = 'Запрос к ЦБ…';
+    const res = await api('/api/admin/currency', { method: 'POST', body: JSON.stringify({ action: 'refresh' }) });
+    const d = await res.json();
+    currencyResult.textContent = d.ok ? `Обновлено. ${d.recalc ? 'Пересчитано: ' + d.recalc.applied : ''}` : (d.error || 'ошибка');
+    loadRate();
+  });
+  $('[data-rate-manual]').addEventListener('click', async () => {
+    const v = Number(($('[data-manual-rate]') as HTMLInputElement).value);
+    const auto = ($('[data-auto-recalc]') as HTMLInputElement).checked;
+    const res = await api('/api/admin/currency', { method: 'POST', body: JSON.stringify({ action: 'set-manual', usd_rate: v, auto_recalc: auto }) });
+    currencyResult.textContent = res.ok ? 'Курс задан.' : 'ошибка';
+    loadRate();
+  });
+  $('[data-recalc-preview]').addEventListener('click', async () => {
+    const res = await api('/api/admin/currency', { method: 'POST', body: JSON.stringify({ action: 'recalc-preview' }) });
+    const d = await res.json();
+    if (!res.ok) { currencyResult.textContent = d.error; return; }
+    currencyResult.innerHTML = previewTable(d.preview.map((p: any) => ({ sku: p.sku, field: 'price', before: fmt(p.before), after: fmt(p.after) })));
+    ($('[data-recalc-apply]') as HTMLElement).hidden = d.preview.length === 0;
+  });
+  $('[data-recalc-apply]').addEventListener('click', async () => {
+    const res = await api('/api/admin/currency', { method: 'POST', body: JSON.stringify({ action: 'recalc-apply' }) });
+    const d = await res.json();
+    currencyResult.textContent = res.ok ? `Применено: ${d.applied}` : d.error;
+    ($('[data-recalc-apply]') as HTMLElement).hidden = true;
+    loadRate();
+  });
+
+  // ── Массовое изменение ──
+  const bulkResult = $('[data-bulk-result]');
+  function bulkOpts() {
+    return {
+      operation: ($('[data-op]') as HTMLSelectElement).value,
+      mode: ($('[data-mode]') as HTMLSelectElement).value,
+      amount: Number(($('[data-amount]') as HTMLInputElement).value),
+      target: ($('[data-target]') as HTMLSelectElement).value,
+      rounding: ($('[data-round]') as HTMLSelectElement).value,
+    };
+  }
+  function bulkSkus() {
+    const v = ($('[data-skus]') as HTMLInputElement).value.trim();
+    return v ? v.split(',').map((s) => s.trim()).filter(Boolean) : [];
+  }
+  $('[data-bulk-preview]').addEventListener('click', async () => {
+    const res = await api('/api/admin/bulk', { method: 'POST', body: JSON.stringify({ mode: 'preview', opts: bulkOpts(), skus: bulkSkus() }) });
+    const d = await res.json();
+    if (!res.ok) { bulkResult.textContent = d.error; return; }
+    bulkResult.innerHTML = previewTable(d.preview.map((p: any) => ({ sku: p.sku, field: p.field, before: fmt(p.before), after: fmt(p.after) })));
+    ($('[data-bulk-apply]') as HTMLElement).hidden = d.preview.length === 0;
+  });
+  $('[data-bulk-apply]').addEventListener('click', async () => {
+    const res = await api('/api/admin/bulk', { method: 'POST', body: JSON.stringify({ mode: 'apply', opts: bulkOpts(), skus: bulkSkus() }) });
+    const d = await res.json();
+    bulkResult.textContent = res.ok ? `Применено товаров: ${d.applied}, изменений: ${d.changes}${d.failed?.length ? ', ошибок: ' + d.failed.length : ''}` : d.error;
+    ($('[data-bulk-apply]') as HTMLElement).hidden = true;
+  });
+
+  // ── CSV ──
+  const csvResult = $('[data-csv-result]');
+  let csvText = '';
+  $('[data-csv-export]').addEventListener('click', async () => {
+    const res = await api('/api/admin/csv');
+    if (!res.ok) { csvResult.textContent = 'ошибка экспорта'; return; }
+    const blob = await res.blob();
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a'); a.href = url; a.download = 'bizsoft-prices.csv'; a.click(); URL.revokeObjectURL(url);
+  });
+  ($('[data-csv-file]') as HTMLInputElement).addEventListener('change', async (e) => {
+    const file = (e.target as HTMLInputElement).files?.[0];
+    if (!file) return;
+    csvText = await file.text();
+    ($('[data-csv-dryrun]') as HTMLElement).hidden = false;
+  });
+  $('[data-csv-dryrun]').addEventListener('click', async () => {
+    const res = await api('/api/admin/csv', { method: 'POST', body: JSON.stringify({ csv: csvText, apply: false }) });
+    const d = await res.json();
+    if (!res.ok) { csvResult.textContent = d.error; return; }
+    let html = previewTable(d.changes.filter((c: any) => c.found).map((c: any) => ({ sku: c.sku, field: c.field, before: c.before, after: c.after })));
+    if (d.errors.length) html += '<p class="err">Ошибки: ' + d.errors.map((er: any) => `${er.sku}: ${er.message}`).join('; ') + '</p>';
+    csvResult.innerHTML = html;
+    ($('[data-csv-apply]') as HTMLElement).hidden = Object.keys(d.updates).length === 0;
+  });
+  $('[data-csv-apply]').addEventListener('click', async () => {
+    const res = await api('/api/admin/csv', { method: 'POST', body: JSON.stringify({ csv: csvText, apply: true }) });
+    const d = await res.json();
+    csvResult.textContent = res.ok ? `Применено: ${d.applied}, ошибок: ${(d.errors?.length || 0) + (d.failed?.length || 0)}` : d.error;
+    ($('[data-csv-apply]') as HTMLElement).hidden = true;
+  });
+</script>

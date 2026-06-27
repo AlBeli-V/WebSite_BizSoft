@@ -1,0 +1,52 @@
+# Автодеплой BizSoft по git-пушу в main.
+# ТРЕБУЕТ настройки секретов репозитория (Settings → Secrets and variables → Actions):
+#   SSH_HOST   — IP/хост сервера (напр. 159.194.216.59)
+#   SSH_USER   — deploy
+#   SSH_KEY    — приватный SSH-ключ с доступом к серверу
+# Совместим с GitHub / GitLab (для GitLab переписать на .gitlab-ci.yml аналогично).
+
+name: deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node + pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install & test & build (проверка перед деплоем)
+        run: |
+          pnpm install --frozen-lockfile=false
+          pnpm test
+          pnpm build
+
+      - name: Sync source to server
+        uses: easingthemes/ssh-deploy@main
+        with:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_KEY }}
+          REMOTE_HOST: ${{ secrets.SSH_HOST }}
+          REMOTE_USER: ${{ secrets.SSH_USER }}
+          SOURCE: "./"
+          TARGET: "/opt/bizsoft/astro-src"
+          EXCLUDE: "node_modules/, dist/, .astro/, .git/, .env"
+
+      - name: Rebuild & restart on server
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          script: bash /opt/bizsoft/deploy.sh

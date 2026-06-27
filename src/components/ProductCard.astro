@@ -1,0 +1,75 @@
+---
+import PriceTag from './PriceTag.astro';
+import AddToCartButton from './AddToCartButton.astro';
+import { effectivePrice } from '../lib/pricing';
+import type { Product } from '../lib/types';
+
+interface Props {
+  product: Product;
+}
+const { product } = Astro.props;
+const eff = effectivePrice(product);
+---
+<article class="card card-hover product-card reveal">
+  <a href={`/product/${product.slug}/`} class="product-link" aria-label={product.name}>
+    <div class="product-top">
+      <span class="sku">Артикул: {product.sku}</span>
+      <h3>{product.name}</h3>
+      {product.short_description && <p class="desc">{product.short_description}</p>}
+    </div>
+  </a>
+  <div class="product-bottom">
+    <PriceTag product={product} />
+    <div class="product-actions">
+      <AddToCartButton
+        sku={product.sku}
+        slug={product.slug}
+        name={product.name}
+        price={eff.price}
+        compact
+      />
+      <a href={`/product/${product.slug}/`} class="btn btn-ghost btn-sm">Подробнее</a>
+    </div>
+  </div>
+</article>
+
+<style>
+  .product-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 1.4rem;
+    height: 100%;
+  }
+  .product-link {
+    display: block;
+  }
+  .sku {
+    font-size: 0.75rem;
+    color: var(--color-text-dim);
+  }
+  .product-card h3 {
+    font-size: 1.15rem;
+    margin: 0.4rem 0 0.5rem;
+  }
+  .desc {
+    color: var(--color-text-muted);
+    font-size: 0.9rem;
+    margin: 0;
+  }
+  .product-bottom {
+    margin-top: 1.4rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  .product-actions {
+    display: flex;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+  }
+  :global(.btn-sm) {
+    padding: 0.5rem 0.9rem;
+    font-size: 0.85rem;
+  }
+</style>

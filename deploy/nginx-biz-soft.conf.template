@@ -1,0 +1,34 @@
+# Шаблон nginx для biz-soft.pro → SSR Astro (127.0.0.1:3000).
+# Реальный конфиг на сервере уже содержит SSL-блок от certbot — мы лишь
+# заменяем отдачу статической заглушки на проксирование к Node-сервису.
+# HTTPS-сертификат и редирект http→https остаются как настроил certbot.
+
+# gzip — в http-блоке (nginx.conf), здесь только проксирование.
+server {
+    server_name biz-soft.pro www.biz-soft.pro;
+
+    # Управляется certbot:
+    # listen 443 ssl http2;
+    # ssl_certificate /etc/letsencrypt/live/biz-soft.pro/fullchain.pem;
+    # ssl_certificate_key /etc/letsencrypt/live/biz-soft.pro/privkey.pem;
+
+    # Статика Astro (хешированные ассеты) — длинный кэш.
+    location /_astro/ {
+        proxy_pass http://127.0.0.1:3000;
+        proxy_set_header Host $host;
+        expires 1y;
+        add_header Cache-Control "public, immutable";
+    }
+
+    location / {
+        proxy_pass http://127.0.0.1:3000;
+        proxy_http_version 1.1;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_read_timeout 60s;
+    }
+}

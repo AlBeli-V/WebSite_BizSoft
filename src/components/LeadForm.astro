@@ -1,0 +1,74 @@
+---
+// Инлайн-форма заявки (для /pricing/ и др.). Постит на /api/lead.
+interface Props {
+  source?: string;
+  title?: string;
+  submitLabel?: string;
+}
+const { source = 'pricing', title = 'Запросить расчёт', submitLabel = 'Отправить заявку' } = Astro.props;
+---
+<form class="lead-form card" data-lead-form data-source={source}>
+  <h3>{title}</h3>
+  <div class="lf-row">
+    <label>Имя<input name="name" autocomplete="name" /></label>
+    <label>Компания<input name="company" autocomplete="organization" /></label>
+  </div>
+  <div class="lf-row">
+    <label>E-mail*<input name="email" type="email" required autocomplete="email" /></label>
+    <label>Телефон<input name="phone" type="tel" autocomplete="tel" /></label>
+  </div>
+  <label>Что нужно подобрать?<textarea name="message" rows="3" placeholder="Сервисы, количество пользователей, сроки…"></textarea></label>
+  <label class="lf-consent">
+    <input type="checkbox" name="consent" required />
+    <span>Согласен на обработку персональных данных согласно <a href="/privacy/" target="_blank">политике</a>.</span>
+  </label>
+  <button type="submit" class="btn btn-primary lf-submit">{submitLabel}</button>
+  <p class="lf-status" data-status role="status" aria-live="polite"></p>
+</form>
+
+<style>
+  .lead-form { padding: 1.8rem; display: flex; flex-direction: column; gap: 0.9rem; }
+  .lead-form h3 { font-size: 1.3rem; }
+  .lf-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.9rem; }
+  .lead-form label { display: flex; flex-direction: column; gap: 0.35rem; font-size: 0.86rem; color: var(--color-text-muted); }
+  .lead-form input, .lead-form textarea { background: var(--color-bg-elevated); border: 1px solid var(--color-border-strong); border-radius: var(--radius-sm); padding: 0.6rem 0.7rem; color: var(--color-text); font: inherit; }
+  .lead-form input:focus, .lead-form textarea:focus { border-color: var(--color-accent); outline: none; }
+  .lf-consent { flex-direction: row; align-items: flex-start; gap: 0.5rem; font-size: 0.82rem; }
+  .lf-consent input { width: auto; margin-top: 0.2rem; }
+  .lf-consent a { color: var(--color-accent); }
+  .lf-status { font-size: 0.9rem; margin: 0; }
+  .lf-status.ok { color: var(--color-success); }
+  .lf-status.err { color: var(--color-danger); }
+  @media (max-width: 520px) { .lf-row { grid-template-columns: 1fr; } }
+</style>
+
+<script>
+  document.querySelectorAll('[data-lead-form]').forEach((el) => {
+    const form = el as HTMLFormElement;
+    const status = form.querySelector('[data-status]') as HTMLElement;
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const submit = form.querySelector('.lf-submit') as HTMLButtonElement;
+      submit.disabled = true;
+      status.textContent = 'Отправляем…'; status.className = 'lf-status';
+      try {
+        const data = Object.fromEntries(new FormData(form).entries());
+        const res = await fetch('/api/lead', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ ...data, source: form.dataset.source, consent: (form.elements.namedItem('consent') as HTMLInputElement).checked }),
+        });
+        if (!res.ok) throw new Error('bad');
+        status.textContent = 'Заявка отправлена! Свяжемся с вами скоро.'; status.className = 'lf-status ok';
+        form.reset();
+        const w = window as unknown as { ym?: (...a: unknown[]) => void };
+        const id = (import.meta as { env: Record<string, string> }).env.PUBLIC_METRIKA_ID;
+        if (typeof w.ym === 'function' && id) w.ym(Number(id), 'reachGoal', 'lead_sent');
+      } catch {
+        status.textContent = 'Не удалось отправить. Позвоните нам или попробуйте позже.'; status.className = 'lf-status err';
+      } finally {
+        submit.disabled = false;
+      }
+    });
+  });
+</script>

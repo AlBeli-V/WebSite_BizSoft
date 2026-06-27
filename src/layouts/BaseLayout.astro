@@ -1,0 +1,88 @@
+---
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import SeoHead from '../components/SeoHead.astro';
+import Analytics from '../components/Analytics.astro';
+import CookieNotice from '../components/CookieNotice.astro';
+import JsonLd from '../components/JsonLd.astro';
+import { organizationSchema } from '../lib/seo';
+
+interface Props {
+  title?: string;
+  description?: string;
+  canonical?: string;
+  ogImage?: string;
+  noindex?: boolean;
+  type?: 'website' | 'article' | 'product';
+}
+
+const { title, description, canonical, ogImage, noindex, type } = Astro.props;
+---
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <SeoHead title={title} description={description} canonical={canonical} ogImage={ogImage} noindex={noindex} type={type} />
+    <JsonLd schema={organizationSchema()} />
+  </head>
+  <body>
+    <a href="#main" class="skip-link">К содержимому</a>
+    <Header />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer />
+    <Analytics />
+    <CookieNotice />
+
+    <style is:global>
+      .skip-link {
+        position: absolute;
+        left: -9999px;
+        top: 0;
+        background: var(--color-accent);
+        color: #0e0f12;
+        padding: 0.6rem 1rem;
+        z-index: 100;
+        border-radius: 0 0 8px 0;
+      }
+      .skip-link:focus {
+        left: 0;
+      }
+    </style>
+
+    <script>
+      // Плавное появление секций (уважает prefers-reduced-motion через CSS)
+      const reveal = () => {
+        const els = document.querySelectorAll('.reveal:not(.is-visible)');
+        if (!('IntersectionObserver' in window) || els.length === 0) {
+          els.forEach((el) => el.classList.add('is-visible'));
+          return;
+        }
+        const io = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((e) => {
+              if (e.isIntersecting) {
+                e.target.classList.add('is-visible');
+                io.unobserve(e.target);
+              }
+            });
+          },
+          { threshold: 0.12 },
+        );
+        els.forEach((el) => io.observe(el));
+      };
+      reveal();
+      document.addEventListener('astro:after-swap', reveal);
+    </script>
+  </body>
+</html>
