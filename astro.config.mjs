@@ -9,8 +9,9 @@ export default defineConfig({
   site: 'https://biz-soft.pro',
   output: 'static',
   // Единый URL-стандарт: без завершающего слеша (кроме главной "/").
+  // build.format оставляем 'directory' (дефолт): Node-адаптер так корректно
+  // отдаёт статику (about/index.html → /about). Редирект слеша делает nginx.
   trailingSlash: 'never',
-  build: { format: 'file' },
   adapter: node({ mode: 'standalone' }),
   vite: {
     plugins: [tailwindcss()],
