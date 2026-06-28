@@ -1,0 +1,37 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import SectionHeading from '../../components/SectionHeading.astro';
+import CTASection from '../../components/CTASection.astro';
+import { solutions } from '../../data/solutions';
+---
+<BaseLayout
+  title="Решения под задачи бизнеса"
+  description="Готовые решения BizSoft под задачи бизнеса: подбор ПО для дизайн-студий, IT-компаний и маркетинговых агентств. По договору, счёту и с закрывающими через ЭДО."
+>
+  <div class="container-page section">
+    <Breadcrumbs items={[{ name: 'Решения', url: '/solutions' }]} />
+    <SectionHeading eyebrow="Решения" title="Решения под задачи бизнеса">
+      <p>Подбираем комплекты ПО под конкретные сценарии. Оформление на юрлицо: договор, счёт, ЭДО.</p>
+    </SectionHeading>
+    <div class="grid">
+      {solutions.map((s) => (
+        <a href={`/solutions/${s.slug}`} class="card card-hover sol reveal">
+          <h2>{s.title}</h2>
+          <p>{s.lead}</p>
+          <span class="link">Подробнее →</span>
+        </a>
+      ))}
+    </div>
+  </div>
+  <CTASection />
+</BaseLayout>
+
+<style>
+  .section { padding-top: 2rem; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.2rem; }
+  .sol { padding: 1.6rem; display: flex; flex-direction: column; gap: 0.6rem; }
+  .sol h2 { font-size: 1.3rem; }
+  .sol p { color: var(--color-text-muted); font-size: 0.92rem; flex-grow: 1; }
+  .link { color: var(--color-accent); font-weight: 600; }
+</style>

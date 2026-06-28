@@ -7,10 +7,15 @@ export interface Category {
   name: string;
   slug: string;
   seo_text?: string | null;
+  intro?: string | null;
+  faqs?: { q: string; a: string }[] | null;
   meta_title?: string | null;
   meta_description?: string | null;
   sort?: number | null;
   status: PublishStatus;
+  noindex?: boolean | null;
+  related_products?: (string | { value?: string })[] | null;
+  related_articles?: (string | { value?: string })[] | null;
 }
 
 export interface ProductFaqItem {
@@ -80,6 +85,22 @@ export interface Product {
   faq?: ProductFaqItem[] | null;
   sort?: number | null;
   status: PublishStatus;
+  // ── SEO-архитектура / масштабирование ──
+  noindex?: boolean | null;
+  date_updated?: string | null;
+  for_whom?: string | null;
+  use_cases?: (string | { value?: string })[] | null;
+  former_names?: (string | { value?: string })[] | null;
+  old_slugs?: (string | { value?: string })[] | null;
+  related_products?: (string | { value?: string })[] | null;
+  related_solutions?: (string | { value?: string })[] | null;
+  price_from?: boolean | null;
+}
+
+/** Нормализовать list-поле Directus ([{value}] или [string]) в string[]. */
+export function listValues(v: unknown): string[] {
+  if (!Array.isArray(v)) return [];
+  return v.map((x) => (typeof x === 'string' ? x : (x as { value?: string })?.value || '')).filter(Boolean);
 }
 
 export interface Lead {

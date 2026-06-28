@@ -8,10 +8,10 @@ import FAQ from '../../components/FAQ.astro';
 import QuestionForm from '../../components/QuestionForm.astro';
 import CTASection from '../../components/CTASection.astro';
 import JsonLd from '../../components/JsonLd.astro';
-import { getProductBySlug, galleryImages } from '../../lib/directus';
+import { getProductBySlug, findCanonicalProductSlug, getProductsBySlugs, galleryImages } from '../../lib/directus';
 import { productSchema } from '../../lib/seo';
 import { effectivePrice, formatRub } from '../../lib/pricing';
-import { ORIGIN_LABEL, LICENSE_LABEL } from '../../lib/types';
+import { ORIGIN_LABEL, LICENSE_LABEL, listValues } from '../../lib/types';
 
 const { slug } = Astro.params;
 
@@ -22,6 +22,13 @@ try {
   console.error('product page error', e);
 }
 if (!product) {
+  // 301 со старого slug на актуальный, если задан в old_slugs
+  try {
+    const canonical = await findCanonicalProductSlug(slug!);
+    if (canonical) return Astro.redirect(`/product/${canonical}`, 301);
+  } catch (e) {
+    console.error('product redirect lookup', e);
+  }
   return new Response(null, { status: 404, statusText: 'Not Found' });
 }
 
@@ -34,6 +41,16 @@ const faq = Array.isArray(product.faq) ? product.faq : [];
 const gallery = galleryImages(product);
 const vat = product.vat_percent ?? 0;
 const byRequest = product.price <= 0 && !eff.isPromo;
+
+// Архитектурные блоки масштабирования
+const useCases = listValues(product.use_cases);
+const relatedSlugs = listValues(product.related_products);
+let relatedProducts = [];
+try {
+  if (relatedSlugs.length) relatedProducts = await getProductsBySlugs(relatedSlugs);
+} catch (e) {
+  console.error('related products', e);
+}
 ---
 <BaseLayout
   title={product.meta_title || product.name}
@@ -45,10 +62,10 @@ const byRequest = product.price <= 0 && !eff.isPromo;
   <div class="container-page section">
     <Breadcrumbs
       items={[
-        { name: 'Каталог', url: '/catalog/' },
-        ...(product.origin ? [{ name: ORIGIN_LABEL[product.origin], url: `/catalog/${product.origin}/` }] : []),
-        ...(category ? [{ name: category.name, url: `/catalog/${category.slug}/` }] : []),
-        { name: product.name, url: `/product/${product.slug}/` },
+        { name: 'Каталог', url: '/catalog' },
+        ...(product.origin ? [{ name: ORIGIN_LABEL[product.origin], url: `/catalog/${product.origin}` }] : []),
+        ...(category ? [{ name: category.name, url: `/catalog/${category.slug}` }] : []),
+        { name: product.name, url: `/product/${product.slug}` },
       ]}
     />
 
@@ -57,7 +74,7 @@ const byRequest = product.price <= 0 && !eff.isPromo;
         <div class="badges">
           {product.origin && <span class="badge" data-origin={product.origin}>{ORIGIN_LABEL[product.origin]}</span>}
           {product.license_type && <span class="badge badge-muted">{LICENSE_LABEL[product.license_type]}</span>}
-          {category && <a class="badge badge-link" href={`/catalog/${category.slug}/`}>{category.name}</a>}
+          {category && <a class="badge badge-link" href={`/catalog/${category.slug}`}>{category.name}</a>}
         </div>
         <span class="sku">Артикул: {product.sku}{product.vendor ? ` · Производитель: ${product.vendor}` : ''}</span>
         <h1>{product.name}</h1>
@@ -102,6 +119,20 @@ const byRequest = product.price <= 0 && !eff.isPromo;
           </table>
         </div>
 
+        {product.for_whom && (
+          <div class="block">
+            <h2>Для кого подходит</h2>
+            <p class="muted">{product.for_whom}</p>
+          </div>
+        )}
+
+        {useCases.length > 0 && (
+          <div class="block">
+            <h2>Какие задачи закрывает</h2>
+            <ul class="features">{useCases.map((u) => <li>{u}</li>)}</ul>
+          </div>
+        )}
+
         <div class="block">
           <h2>Как оформляется</h2>
           <ol class="steps">
@@ -112,11 +143,35 @@ const byRequest = product.price <= 0 && !eff.isPromo;
           </ol>
         </div>
 
+        <div class="block">
+          <h2>Что получает юридическое лицо</h2>
+          <ul class="features">
+            <li>Договор поставки/оказания услуг</li>
+            <li>Счёт на оплату по безналу в рублях</li>
+            <li>Акт об оказании услуг</li>
+            <li>Закрывающие документы через ЭДО</li>
+          </ul>
+        </div>
+
         {product.seo_text && (
           <div class="prose-bizsoft block"><p>{product.seo_text}</p></div>
         )}
 
         <FAQ items={faq} title="Частые вопросы о товаре" />
+
+        {relatedProducts.length > 0 && (
+          <div class="block">
+            <h2>Похожие товары</h2>
+            <div class="related-grid">
+              {relatedProducts.map((rp) => (
+                <a href={`/product/${rp.slug}`} class="card card-hover related-card">
+                  <strong>{rp.name}</strong>
+                  {rp.vendor && <span>{rp.vendor}</span>}
+                </a>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
 
       <aside class="product-aside">
@@ -226,6 +281,11 @@ const byRequest = product.price <= 0 && !eff.isPromo;
   .buy-actions { display: flex; flex-direction: column; gap: 0.6rem; }
   .buy-actions .btn { width: 100%; }
   .buy-trust { list-style: none; padding: 1rem 0 0; margin: 0; border-top: 1px solid var(--color-border); display: grid; gap: 0.4rem; color: var(--color-text-muted); font-size: 0.88rem; }
+  .muted { color: var(--color-text-muted); max-width: 65ch; }
+  .related-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 0.8rem; }
+  .related-card { padding: 1rem 1.2rem; display: flex; flex-direction: column; gap: 0.2rem; }
+  .related-card strong { font-size: 0.98rem; }
+  .related-card span { color: var(--color-text-dim); font-size: 0.8rem; }
   .lightbox { position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 100; display: flex; align-items: center; justify-content: center; }
   .lightbox[hidden] { display: none; }
   .lightbox img { max-width: 90vw; max-height: 88vh; object-fit: contain; background: #fff; border-radius: 8px; }

@@ -1,5 +1,6 @@
 ---
 import { site } from '../config/site';
+import { canonicalUrl as buildCanonical } from '../lib/seo';
 
 interface Props {
   title?: string;
@@ -9,6 +10,7 @@ interface Props {
   ogImage?: string;
   noindex?: boolean;
   type?: 'website' | 'article' | 'product';
+  /** оставлен для обратной совместимости; meta keywords больше не выводим */
   keywords?: string;
 }
 
@@ -16,24 +18,19 @@ const {
   title,
   description = site.description,
   canonical,
-  ogImage = '/og-default.svg',
+  ogImage = '/og-default.png',
   noindex = false,
   type = 'website',
-  keywords,
 } = Astro.props;
 
 const fullTitle = title ? `${title} — ${site.name}` : `${site.name} — ${site.tagline}`;
-const canonicalUrl = canonical
-  ? canonical.startsWith('http')
-    ? canonical
-    : new URL(canonical, site.url).href
-  : new URL(Astro.url.pathname, site.url).href;
+// Единый canonical без завершающего слеша (кроме главной).
+const canonicalUrl = buildCanonical(canonical || Astro.url.pathname);
 const ogImageUrl = ogImage.startsWith('http') ? ogImage : new URL(ogImage, site.url).href;
 ---
 
 <title>{fullTitle}</title>
 <meta name="description" content={description} />
-{keywords && <meta name="keywords" content={keywords} />}
 <link rel="canonical" href={canonicalUrl} />
 {noindex && <meta name="robots" content="noindex, nofollow" />}
 

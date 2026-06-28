@@ -1,11 +1,16 @@
 # BizSoft — biz-soft.pro
-# Разрешаем индексацию поисковикам и ИИ-краулерам.
+# Разрешаем индексацию поисковикам и ИИ-краулерам. Закрываем служебные разделы.
 
 User-agent: *
 Allow: /
-Disallow: /admin/
-Disallow: /cart/
-Disallow: /api/
+Disallow: /admin
+Disallow: /api
+Disallow: /cart
+Disallow: /checkout
+Disallow: /search
+Disallow: /consent
+
+# CSS/JS/изображения и публичные ассеты открыты (отдельных Disallow нет)
 
 User-agent: Googlebot
 Allow: /

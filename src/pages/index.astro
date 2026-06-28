@@ -53,8 +53,8 @@ const trust = [
           закрывающие документы через ЭДО.
         </p>
         <div class="hero-actions">
-          <a href="/catalog/" class="btn btn-primary" data-goal="hero_catalog">Перейти в каталог</a>
-          <a href="/pricing/" class="btn btn-ghost" data-goal="hero_calc">Запросить расчёт</a>
+          <a href="/catalog" class="btn btn-primary" data-goal="hero_catalog">Перейти в каталог</a>
+          <a href="/pricing" class="btn btn-ghost" data-goal="hero_calc">Запросить расчёт</a>
         </div>
         <ul class="hero-badges">
           <li>● Договор и счёт</li>
@@ -73,7 +73,7 @@ const trust = [
     </SectionHeading>
     <div class="cat-grid">
       {originCards.map((o) => (
-        <a href={`/catalog/${o.key}/`} class="card card-hover cat-card reveal">
+        <a href={`/catalog/${o.key}`} class="card card-hover cat-card reveal">
           <div class="cat-head">
             <h3>{o.label}</h3>
             <span class="cat-num">{originCounts[o.key] || 0}</span>

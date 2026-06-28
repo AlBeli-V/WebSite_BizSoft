@@ -42,7 +42,7 @@ try {
     if (pageCategory) {
       base = await getProducts({ categorySlug: segment! });
       title = pageCategory.name;
-      lead = pageCategory.seo_text || `${pageCategory.name}: лицензии и подписки для юрлиц по договору и счёту.`;
+      lead = pageCategory.intro || pageCategory.seo_text || `${pageCategory.name}: лицензии и подписки для юрлиц по договору и счёту.`;
     }
   }
 } catch (e) {
@@ -84,11 +84,12 @@ const filtered = base.filter((p) => {
   return true;
 });
 
-const faq = [
+const categoryFaqs = Array.isArray(pageCategory?.faqs) ? pageCategory!.faqs! : [];
+const faq = categoryFaqs.length > 0 ? categoryFaqs : [
   { q: 'Как купить ПО для юрлица?', a: 'Добавьте позиции в корзину и нажмите «Получить КП» либо оставьте заявку. Заключаем договор, выставляем счёт, после оплаты предоставляем доступ и передаём закрывающие через ЭДО.' },
   { q: 'Цены окончательные?', a: 'Цены ориентировочные (часть — по запросу или по курсу ЦБ). Итог подтверждаем в счёте.' },
 ];
-const basePath = `/catalog/${segment}/`;
+const basePath = `/catalog/${segment}`;
 ---
 <BaseLayout
   title={pageCategory ? (pageCategory.meta_title || title) : `${title} — каталог`}
@@ -96,7 +97,7 @@ const basePath = `/catalog/${segment}/`;
 >
   {pageCategory && <JsonLd schema={itemListSchema(pageCategory, filtered)} />}
   <div class="container-page section">
-    <Breadcrumbs items={[{ name: 'Каталог', url: '/catalog/' }, { name: title, url: basePath }]} />
+    <Breadcrumbs items={[{ name: 'Каталог', url: '/catalog' }, { name: title, url: basePath }]} />
     <header class="head">
       <h1>{title}</h1>
       <p class="lead">{lead}</p>

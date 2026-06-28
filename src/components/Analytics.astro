@@ -1,8 +1,12 @@
 ---
 // Яндекс.Метрика (с Вебвизором) + опц. Google Analytics.
 // ID — из env (PUBLIC_*). Без ID — ничего не подключается.
-const metrikaId = import.meta.env.PUBLIC_METRIKA_ID;
-const gaId = import.meta.env.PUBLIC_GA_ID;
+// ID — из env (PUBLIC_METRIKA_ID). Fallback — рабочий счётчик biz-soft.pro,
+// чтобы Метрика работала, даже если PUBLIC-переменная не попала в сборку.
+const metrikaId = import.meta.env.PUBLIC_METRIKA_ID || '110206070';
+// Google Analytics 4. Fallback — рабочий счётчик biz-soft.pro, чтобы тег работал,
+// даже если PUBLIC-переменная не попала в сборку.
+const gaId = import.meta.env.PUBLIC_GA_ID || 'G-V9BK2D1431';
 ---
 {metrikaId && (
   <>
@@ -13,8 +17,8 @@ const gaId = import.meta.env.PUBLIC_GA_ID;
         for (var j = 0; j < document.scripts.length; j++) { if (document.scripts[j].src === r) { return; } }
         k = e.createElement(t); a = e.getElementsByTagName(t)[0];
         k.async = 1; k.src = r; a.parentNode.insertBefore(k, a);
-      })(window, document, 'script', 'https://mc.yandex.ru/metrika/tag.js', 'ym');
-      ym(metrikaId, 'init', { clickmap: true, trackLinks: true, accurateTrackBounce: true, webvisor: true });
+      })(window, document, 'script', 'https://mc.yandex.ru/metrika/tag.js?id=' + metrikaId, 'ym');
+      ym(metrikaId, 'init', { ssr: true, webvisor: true, clickmap: true, ecommerce: 'dataLayer', accurateTrackBounce: true, trackLinks: true, referrer: document.referrer, url: location.href });
     </script>
     <noscript><div><img src={`https://mc.yandex.ru/watch/${metrikaId}`} style="position:absolute; left:-9999px;" alt="" /></div></noscript>
   </>

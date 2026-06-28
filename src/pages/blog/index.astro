@@ -14,7 +14,7 @@ function fmtDate(d: Date) {
 ---
 <BaseLayout title="База знаний" description="База знаний BizSoft: как покупать ПО для юрлиц, оформлять договор и закрывающие документы, считать стоимость подписок.">
   <div class="container-page section">
-    <Breadcrumbs items={[{ name: 'База знаний', url: '/blog/' }]} />
+    <Breadcrumbs items={[{ name: 'База знаний', url: '/blog' }]} />
     <header class="head">
       <h1>База знаний</h1>
       <p class="lead">Разбираем, как российским компаниям легально покупать ПО, оформлять документы и считать стоимость.</p>
@@ -22,7 +22,7 @@ function fmtDate(d: Date) {
 
     <div class="posts">
       {posts.map((p) => (
-        <a href={`/blog/${p.id}/`} class="card card-hover post reveal">
+        <a href={`/blog/${p.id}`} class="card card-hover post reveal">
           <div class="tags">{p.data.tags.slice(0, 2).map((t) => <span>{t}</span>)}</div>
           <h2>{p.data.title}</h2>
           <p>{p.data.description}</p>

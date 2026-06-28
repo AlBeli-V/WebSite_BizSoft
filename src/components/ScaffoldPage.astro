@@ -1,0 +1,33 @@
+---
+// Заготовка будущего раздела: noindex, минимальный контент, 200.
+// НЕ добавляется в sitemap. Когда раздел наполнен — заменить на полноценную страницу.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from './Breadcrumbs.astro';
+import type { Crumb } from '../lib/seo';
+
+interface Props {
+  title: string;
+  description: string;
+  crumbs: Crumb[];
+}
+const { title, description, crumbs } = Astro.props;
+---
+<BaseLayout title={title} description={description} noindex={true}>
+  <div class="container-page scaffold">
+    <Breadcrumbs items={crumbs} />
+    <h1>{title}</h1>
+    <p class="lead">{description}</p>
+    <p class="muted">Раздел в подготовке. Пока вы можете перейти в каталог или связаться с нами — поможем подобрать решение под вашу задачу.</p>
+    <div class="actions">
+      <a href="/catalog" class="btn btn-primary">Перейти в каталог</a>
+      <a href="/contacts" class="btn btn-ghost">Связаться с нами</a>
+    </div>
+  </div>
+</BaseLayout>
+<style>
+  .scaffold { padding: 2rem 0 4rem; }
+  h1 { font-size: clamp(1.8rem, 4vw, 2.6rem); margin-bottom: 1rem; }
+  .lead { color: var(--color-text-muted); font-size: 1.05rem; max-width: 60ch; }
+  .muted { color: var(--color-text-dim); margin: 1rem 0 1.5rem; max-width: 60ch; }
+  .actions { display: flex; gap: 0.8rem; flex-wrap: wrap; }
+</style>

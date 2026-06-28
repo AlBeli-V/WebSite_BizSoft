@@ -13,6 +13,17 @@ const blog = defineCollection({
     // блоки перелинковки на товары/разделы
     related: z.array(z.object({ label: z.string(), href: z.string() })).default([]),
     draft: z.boolean().default(false),
+    // ── SEO/GEO архитектура статьи ──
+    // прямой краткий ответ в начале (для сниппета и ИИ-выдачи)
+    summaryAnswer: z.string().optional(),
+    // авторство и проверка (E-E-A-T)
+    author: z.string().default('Редакция BizSoft'),
+    reviewedBy: z.string().optional(),
+    // явная перелинковка на товары/решения (slug-и)
+    relatedProducts: z.array(z.string()).default([]),
+    relatedSolutions: z.array(z.string()).default([]),
+    // исключить из индексации, не попадая в sitemap
+    noindex: z.boolean().default(false),
   }),
 });
 

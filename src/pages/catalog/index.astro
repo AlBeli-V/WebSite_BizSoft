@@ -37,7 +37,7 @@ const origins: { key: 'domestic' | 'foreign'; desc: string }[] = [
   description="Каталог лицензий и подписок на ПО для российских юрлиц: отечественное и иностранное ПО — офис, разработка, ВКС, дизайн, безопасность, AI. По договору и счёту."
 >
   <div class="container-page section">
-    <Breadcrumbs items={[{ name: 'Каталог', url: '/catalog/' }]} />
+    <Breadcrumbs items={[{ name: 'Каталог', url: '/catalog' }]} />
     <SectionHeading eyebrow="Каталог" title="Каталог программного обеспечения">
       <p>Сначала выберите происхождение ПО, затем фильтруйте по категории, производителю и названию.</p>
     </SectionHeading>
@@ -45,7 +45,7 @@ const origins: { key: 'domestic' | 'foreign'; desc: string }[] = [
     <!-- Два верхних раздела -->
     <div class="origin-grid">
       {origins.map((o) => (
-        <a href={`/catalog/${o.key}/`} class="card card-hover origin-card reveal">
+        <a href={`/catalog/${o.key}`} class="card card-hover origin-card reveal">
           <div class="origin-top">
             <span class="origin-badge" data-origin={o.key}>{o.key === 'domestic' ? 'РФ' : 'INT'}</span>
             <span class="origin-count">{originCounts[o.key] || 0} позиц.</span>
@@ -61,7 +61,7 @@ const origins: { key: 'domestic' | 'foreign'; desc: string }[] = [
     <h2 class="cats-title">Категории ПО</h2>
     <div class="cat-grid">
       {usedCategories.map((c) => (
-        <a href={`/catalog/${c.slug}/`} class="card card-hover cat-chip reveal">
+        <a href={`/catalog/${c.slug}`} class="card card-hover cat-chip reveal">
           <span>{c.name}</span>
           <span class="chip-count">{catCounts[c.slug]}</span>
         </a>

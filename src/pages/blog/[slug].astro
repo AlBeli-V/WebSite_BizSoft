@@ -6,8 +6,12 @@ import FAQ from '../../components/FAQ.astro';
 import CTASection from '../../components/CTASection.astro';
 import JsonLd from '../../components/JsonLd.astro';
 import { site, seller } from '../../config/site';
+import { canonicalUrl } from '../../lib/seo';
+import { getProductsBySlugs } from '../../lib/directus';
+import { solutions } from '../../data/solutions';
 
 export async function getStaticPaths() {
+  // noindex-статьи рендерим (с meta noindex), но draft исключаем из сборки
   const posts = await getCollection('blog', ({ data }) => !data.draft);
   return posts.map((post) => ({ params: { slug: post.id }, props: { post } }));
 }
@@ -19,46 +23,86 @@ function fmtDate(d: Date) {
   return d.toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' });
 }
 
+const d = post.data;
+const pageUrl = canonicalUrl(`/blog/${post.id}`);
+
+// связанные товары/решения
+let relatedProducts = [];
+try {
+  if (d.relatedProducts.length) relatedProducts = await getProductsBySlugs(d.relatedProducts);
+} catch (e) {
+  console.error('article related products', e);
+}
+const relatedSolutions = d.relatedSolutions
+  .map((slug) => solutions.find((s) => s.slug === slug))
+  .filter(Boolean);
+
 const articleSchema = {
   '@context': 'https://schema.org',
-  '@type': 'Article',
-  headline: post.data.title,
-  description: post.data.description,
-  datePublished: post.data.date.toISOString(),
-  dateModified: (post.data.updated || post.data.date).toISOString(),
-  author: { '@type': 'Organization', name: seller.brand },
+  '@type': 'BlogPosting',
+  headline: d.title,
+  description: d.description,
+  datePublished: d.date.toISOString(),
+  dateModified: (d.updated || d.date).toISOString(),
+  author: { '@type': 'Organization', name: d.author, url: site.url },
   publisher: { '@type': 'Organization', name: seller.brand, url: site.url },
-  mainEntityOfPage: `${site.url}/blog/${post.id}/`,
+  mainEntityOfPage: pageUrl,
+  ...(d.reviewedBy ? { reviewedBy: { '@type': 'Person', name: d.reviewedBy } } : {}),
 };
 ---
-<BaseLayout title={post.data.title} description={post.data.description} type="article">
+<BaseLayout title={d.title} description={d.description} type="article" noindex={d.noindex}>
   <JsonLd schema={articleSchema} />
   <div class="container-page section">
-    <Breadcrumbs items={[{ name: 'База знаний', url: '/blog/' }, { name: post.data.title, url: `/blog/${post.id}/` }]} />
+    <Breadcrumbs items={[{ name: 'База знаний', url: '/blog' }, { name: d.title, url: `/blog/${post.id}` }]} />
 
     <article class="article">
       <header>
-        <div class="tags">{post.data.tags.map((t) => <span>{t}</span>)}</div>
-        <h1>{post.data.title}</h1>
-        <p class="upd">Обновлено: {fmtDate(post.data.updated || post.data.date)}</p>
+        <div class="tags">{d.tags.map((t) => <span>{t}</span>)}</div>
+        <h1>{d.title}</h1>
+        <p class="byline">
+          <span>{d.author}</span>
+          <span class="dot">·</span>
+          <span>Опубликовано: {fmtDate(d.date)}</span>
+          <span class="dot">·</span>
+          <span>Обновлено: {fmtDate(d.updated || d.date)}</span>
+          {d.reviewedBy && (<><span class="dot">·</span><span>Проверил: {d.reviewedBy}</span></>)}
+        </p>
       </header>
+
+      {d.summaryAnswer && (
+        <div class="summary"><strong>Коротко:</strong> {d.summaryAnswer}</div>
+      )}
 
       <div class="prose-bizsoft">
         <Content />
       </div>
 
-      {post.data.related.length > 0 && (
+      {(relatedProducts.length > 0 || relatedSolutions.length > 0) && (
+        <aside class="related">
+          <h2>Связанные товары и решения</h2>
+          <div class="rel-grid">
+            {relatedProducts.map((rp) => (
+              <a href={`/product/${rp.slug}`} class="card card-hover rel">{rp.name} →</a>
+            ))}
+            {relatedSolutions.map((s) => (
+              <a href={`/solutions/${s.slug}`} class="card card-hover rel">{s.title} →</a>
+            ))}
+          </div>
+        </aside>
+      )}
+
+      {d.related.length > 0 && (
         <aside class="related">
           <h2>Полезное по теме</h2>
           <div class="rel-grid">
-            {post.data.related.map((r) => (
+            {d.related.map((r) => (
               <a href={r.href} class="card card-hover rel">{r.label} →</a>
             ))}
           </div>
         </aside>
       )}
 
-      <FAQ items={post.data.faq} />
+      <FAQ items={d.faq} />
     </article>
   </div>
   <CTASection />
@@ -70,7 +114,10 @@ const articleSchema = {
   .tags { display: flex; gap: 0.4rem; margin-bottom: 1rem; }
   .tags span { background: var(--color-bg-elevated); color: var(--color-text-muted); font-size: 0.72rem; padding: 0.15rem 0.55rem; border-radius: 6px; }
   h1 { font-size: clamp(1.8rem, 4vw, 2.6rem); margin-bottom: 0.6rem; }
-  .upd { color: var(--color-text-dim); font-size: 0.85rem; margin-bottom: 2rem; }
+  .byline { color: var(--color-text-dim); font-size: 0.85rem; margin-bottom: 1.5rem; display: flex; flex-wrap: wrap; gap: 0.4rem; align-items: center; }
+  .byline .dot { color: var(--color-border-strong); }
+  .summary { background: var(--color-bg-card); border: 1px solid var(--color-border); border-left: 3px solid var(--color-accent); border-radius: var(--radius); padding: 1rem 1.2rem; margin-bottom: 2rem; color: #d7d9dd; }
+  .summary strong { color: var(--color-text); }
   .related { margin-top: 3rem; }
   .related h2 { font-size: 1.4rem; margin-bottom: 1rem; }
   .rel-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; }

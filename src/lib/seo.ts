@@ -7,6 +7,36 @@ import { effectivePrice } from './pricing';
 import type { Product, Category } from './types';
 
 const ORG_ID = `${site.url}/#organization`;
+const WEBSITE_ID = `${site.url}/#website`;
+
+/**
+ * Единый канонический URL: https://biz-soft.pro + путь без завершающего слеша,
+ * кроме главной ("/"). Принимает путь или абсолютный URL.
+ */
+export function canonicalUrl(input: string): string {
+  let path = input || '/';
+  if (path.startsWith('http')) {
+    try { path = new URL(path).pathname; } catch { /* ignore */ }
+  }
+  // отбрасываем query/hash для canonical
+  path = path.split('?')[0].split('#')[0];
+  if (path !== '/') path = path.replace(/\/+$/, '');
+  if (!path.startsWith('/')) path = '/' + path;
+  return path === '/' ? `${site.url}/` : `${site.url}${path}`;
+}
+
+/** WebSite schema (site-wide). */
+export function websiteSchema() {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    '@id': WEBSITE_ID,
+    name: site.name,
+    url: site.url,
+    inLanguage: 'ru-RU',
+    publisher: { '@id': ORG_ID },
+  };
+}
 
 export function organizationSchema() {
   return {
@@ -79,6 +109,7 @@ export function breadcrumbSchema(crumbs: Crumb[]) {
 
 export function productSchema(p: Product) {
   const eff = effectivePrice(p);
+  const cat = typeof p.category === 'object' && p.category ? p.category : null;
   const schema: Record<string, unknown> = {
     '@context': 'https://schema.org',
     '@type': 'Product',
@@ -86,6 +117,7 @@ export function productSchema(p: Product) {
     sku: p.sku,
     description: p.short_description || p.meta_description || p.name,
     brand: { '@type': 'Brand', name: p.vendor || seller.brand },
+    ...(cat ? { category: cat.name } : {}),
   };
   if (eff.price > 0) {
     // Цена известна — обычное предложение.

@@ -15,7 +15,7 @@ const logo = logoUrl(product, { width: 96, height: 96, fit: 'contain', format: '
 const byRequest = product.price <= 0 && !eff.isPromo;
 ---
 <article class="card card-hover product-card reveal">
-  <a href={`/product/${product.slug}/`} class="product-link" aria-label={product.name}>
+  <a href={`/product/${product.slug}`} class="product-link" aria-label={product.name}>
     <div class="product-top">
       <div class="ptop-row">
         {logo ? (
@@ -46,7 +46,7 @@ const byRequest = product.price <= 0 && !eff.isPromo;
       ) : (
         <AddToCartButton sku={product.sku} slug={product.slug} name={product.name} price={eff.price} compact />
       )}
-      <a href={`/product/${product.slug}/`} class="btn btn-ghost btn-sm">Подробнее</a>
+      <a href={`/product/${product.slug}`} class="btn btn-ghost btn-sm">Подробнее</a>
     </div>
   </div>
 </article>

@@ -1,0 +1,14 @@
+---
+import ScaffoldPage from '../../components/ScaffoldPage.astro';
+import { docs } from '../../data/scaffold';
+
+export function getStaticPaths() {
+  return docs.map((d) => ({ params: { slug: d.slug }, props: { d } }));
+}
+const { d } = Astro.props;
+---
+<ScaffoldPage
+  title={d.title}
+  description={d.description}
+  crumbs={[{ name: 'Документы (docs)', url: '/docs' }, { name: d.title, url: `/docs/${d.slug}` }]}
+/>

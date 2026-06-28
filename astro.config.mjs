@@ -8,6 +8,9 @@ import tailwindcss from '@tailwindcss/vite';
 export default defineConfig({
   site: 'https://biz-soft.pro',
   output: 'static',
+  // Единый URL-стандарт: без завершающего слеша (кроме главной "/").
+  trailingSlash: 'never',
+  build: { format: 'file' },
   adapter: node({ mode: 'standalone' }),
   vite: {
     plugins: [tailwindcss()],

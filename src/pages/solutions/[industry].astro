@@ -3,24 +3,36 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import FAQ from '../../components/FAQ.astro';
 import CTASection from '../../components/CTASection.astro';
+import ScaffoldPage from '../../components/ScaffoldPage.astro';
 import { solutions } from '../../data/solutions';
+import { plannedSolutions } from '../../data/scaffold';
 
 export function getStaticPaths() {
-  return solutions.map((s) => ({ params: { industry: s.slug }, props: { solution: s } }));
+  return [
+    ...solutions.map((s) => ({ params: { industry: s.slug }, props: { solution: s, planned: null } })),
+    ...plannedSolutions.map((p) => ({ params: { industry: p.slug }, props: { solution: null, planned: p } })),
+  ];
 }
 
-const { solution } = Astro.props;
+const { solution, planned } = Astro.props as { solution: any; planned: any };
 ---
+{planned ? (
+  <ScaffoldPage
+    title={planned.title}
+    description={planned.description}
+    crumbs={[{ name: 'Решения', url: '/solutions' }, { name: planned.title, url: `/solutions/${planned.slug}` }]}
+  />
+) : (
 <BaseLayout title={solution.metaTitle} description={solution.metaDescription}>
   <div class="container-page section">
-    <Breadcrumbs items={[{ name: 'Решения', url: '/catalog/' }, { name: solution.title, url: `/solutions/${solution.slug}/` }]} />
+    <Breadcrumbs items={[{ name: 'Решения', url: '/solutions' }, { name: solution.title, url: `/solutions/${solution.slug}` }]} />
     <header class="head">
       <span class="eyebrow">Решение под задачу</span>
       <h1>{solution.title}</h1>
       <p class="lead">{solution.lead}</p>
       <div class="actions">
-        <a href="/pricing/" class="btn btn-primary" data-goal="solution_calc">Запросить расчёт</a>
-        <a href="/catalog/" class="btn btn-ghost">В каталог</a>
+        <a href="/pricing" class="btn btn-primary" data-goal="solution_calc">Запросить расчёт</a>
+        <a href="/catalog" class="btn btn-ghost">В каталог</a>
       </div>
     </header>
 
@@ -39,7 +51,7 @@ const { solution } = Astro.props;
       <h2>Подходящие разделы каталога</h2>
       <div class="rel-grid">
         {solution.relatedCategories.map((c) => (
-          <a href={`/catalog/${c.slug}/`} class="card card-hover rel">{c.name} →</a>
+          <a href={`/catalog/${c.slug}`} class="card card-hover rel">{c.name} →</a>
         ))}
       </div>
     </section>
@@ -48,6 +60,7 @@ const { solution } = Astro.props;
   </div>
   <CTASection />
 </BaseLayout>
+)}
 
 <style>
   .section { padding-top: 2rem; }

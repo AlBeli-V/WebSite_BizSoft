@@ -7,6 +7,7 @@
  * внутренней docker-сети (http://directus:8055); локально — через SSH-тоннель.
  */
 import type { Category, Product, CurrencyRate, PublishStatus } from './types';
+import { listValues } from './types';
 
 // Серверные значения читаем из process.env (рантайм) ПЕРЕД import.meta.env,
 // чтобы прод-окружение (Docker env) переопределяло любые значения сборки.
@@ -96,6 +97,15 @@ const PRODUCT_FIELDS = [
   'faq',
   'sort',
   'status',
+  'noindex',
+  'date_updated',
+  'for_whom',
+  'use_cases',
+  'former_names',
+  'old_slugs',
+  'related_products',
+  'related_solutions',
+  'price_from',
   'category.id',
   'category.name',
   'category.slug',
@@ -168,6 +178,17 @@ export async function getVendors(origin?: 'domestic' | 'foreign'): Promise<{ ven
   return [...counts.entries()].map(([vendor, count]) => ({ vendor, count })).sort((a, b) => a.vendor.localeCompare(b.vendor, 'ru'));
 }
 
+/** Если slug устарел (есть в old_slugs опубликованного товара) — вернуть актуальный slug для 301. */
+export async function findCanonicalProductSlug(oldSlug: string): Promise<string | null> {
+  const rows = await dx<{ slug: string; old_slugs?: unknown }[]>('/items/products', {
+    params: { fields: 'slug,old_slugs', filter: JSON.stringify({ status: { _eq: 'published' } }), limit: -1 },
+  });
+  for (const r of rows) {
+    if (listValues(r.old_slugs).includes(oldSlug)) return r.slug;
+  }
+  return null;
+}
+
 export async function getProductBySlug(slug: string): Promise<Product | null> {
   const data = await dx<Product[]>('/items/products', {
     params: {
@@ -186,6 +207,18 @@ export async function getProductsBySkus(skus: string[]): Promise<Product[]> {
     params: {
       fields: PRODUCT_FIELDS,
       filter: JSON.stringify({ sku: { _in: skus }, status: { _eq: 'published' } }),
+      limit: -1,
+    },
+  });
+}
+
+/** Опубликованные товары по списку slug (для блоков «связанные товары»). */
+export async function getProductsBySlugs(slugs: string[]): Promise<Product[]> {
+  if (!slugs.length) return [];
+  return dx<Product[]>('/items/products', {
+    params: {
+      fields: 'id,name,slug,vendor,origin,short_description,price,promo_price,promo_start,promo_end,currency,license_type,image',
+      filter: JSON.stringify({ slug: { _in: slugs }, status: { _eq: 'published' } }),
       limit: -1,
     },
   });

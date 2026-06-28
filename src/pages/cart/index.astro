@@ -5,12 +5,12 @@ import { seller } from '../../config/site';
 ---
 <BaseLayout title="Корзина" description="Корзина BizSoft: соберите подписки и получите коммерческое предложение в PDF." noindex={true}>
   <div class="container-page section">
-    <Breadcrumbs items={[{ name: 'Корзина', url: '/cart/' }]} />
+    <Breadcrumbs items={[{ name: 'Корзина', url: '/cart' }]} />
     <h1>Корзина</h1>
 
     <div class="cart-layout">
       <div class="cart-items" data-cart-items>
-        <p class="empty" data-empty>Корзина пуста. <a href="/catalog/">Перейти в каталог →</a></p>
+        <p class="empty" data-empty>Корзина пуста. <a href="/catalog">Перейти в каталог →</a></p>
       </div>
 
       <aside class="cart-summary card" data-summary hidden>
@@ -47,7 +47,7 @@ import { seller } from '../../config/site';
       </div>
       <label class="kp-consent">
         <input type="checkbox" name="consent" required />
-        <span>Согласен на обработку персональных данных согласно <a href="/privacy/" target="_blank">политике</a>.</span>
+        <span>Согласен на обработку персональных данных согласно <a href="/privacy" target="_blank">политике</a>.</span>
       </label>
       <button type="submit" class="btn btn-primary kp-submit">Сформировать КП (PDF)</button>
       <p class="kp-status" data-kp-status role="status" aria-live="polite"></p>

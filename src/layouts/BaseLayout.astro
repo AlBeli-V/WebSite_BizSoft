@@ -6,7 +6,7 @@ import SeoHead from '../components/SeoHead.astro';
 import Analytics from '../components/Analytics.astro';
 import CookieNotice from '../components/CookieNotice.astro';
 import JsonLd from '../components/JsonLd.astro';
-import { organizationSchema } from '../lib/seo';
+import { organizationSchema, websiteSchema } from '../lib/seo';
 
 interface Props {
   title?: string;
@@ -33,7 +33,7 @@ const { title, description, canonical, ogImage, noindex, type, keywords } = Astr
       rel="stylesheet"
     />
     <SeoHead title={title} description={description} canonical={canonical} ogImage={ogImage} noindex={noindex} type={type} keywords={keywords} />
-    <JsonLd schema={organizationSchema()} />
+    <JsonLd schema={[organizationSchema(), websiteSchema()]} />
   </head>
   <body>
     <a href="#main" class="skip-link">К содержимому</a>

@@ -66,21 +66,21 @@ export const site = {
 
 /** Главная навигация сайта. */
 export const mainNav: { label: string; href: string }[] = [
-  { label: 'Каталог', href: '/catalog/' },
-  { label: 'Как мы работаем', href: '/how-we-work/' },
-  { label: 'Стоимость', href: '/pricing/' },
-  { label: 'Документы', href: '/documents/' },
-  { label: 'База знаний', href: '/blog/' },
-  { label: 'О нас', href: '/about/' },
-  { label: 'Контакты', href: '/contacts/' },
+  { label: 'Каталог', href: '/catalog' },
+  { label: 'Как мы работаем', href: '/how-we-work' },
+  { label: 'Стоимость', href: '/pricing' },
+  { label: 'Документы', href: '/documents' },
+  { label: 'База знаний', href: '/blog' },
+  { label: 'О нас', href: '/about' },
+  { label: 'Контакты', href: '/contacts' },
 ];
 
 /** Подвал: дополнительные ссылки. */
 export const footerNav: { label: string; href: string }[] = [
-  { label: 'Кейсы', href: '/cases/' },
-  { label: 'FAQ', href: '/faq/' },
-  { label: 'Политика обработки ПДн', href: '/privacy/' },
-  { label: 'Согласие на обработку ПДн', href: '/consent/' },
+  { label: 'Кейсы', href: '/cases' },
+  { label: 'FAQ', href: '/faq' },
+  { label: 'Политика обработки ПДн', href: '/privacy' },
+  { label: 'Согласие на обработку ПДн', href: '/consent' },
 ];
 
 /** ID интеграций аналитики (плейсхолдеры, реальные значения — в .env/прод). */
