@@ -1,0 +1,379 @@
+---
+export const prerender = false;
+
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import FAQ from '../../components/FAQ.astro';
+import LeadForm from '../../components/LeadForm.astro';
+import QuestionForm from '../../components/QuestionForm.astro';
+import JsonLd from '../../components/JsonLd.astro';
+import { getProducts } from '../../lib/directus';
+import { effectivePrice, formatRub } from '../../lib/pricing';
+import { collectionPageSchema } from '../../lib/seo';
+import {
+  ZOOM_CARD_META, ZOOM_COMPARISON, ZOOM_DECISION, ZOOM_ADDONS,
+  ZOOM_SCENARIOS, ZOOM_SEGMENTS, ZOOM_FAQ, ZOOM_SUMMARY, ZOOM_VENDOR,
+} from '../../data/zoom';
+import type { Product } from '../../lib/types';
+
+// Порядок вывода карточек по ТЗ
+const ORDER = [
+  'ZOOM-WP-PRO', 'ZOOM-WP-BUSINESS', 'ZOOM-WP-BUSINESS-PLUS', 'ZOOM-WP-ENTERPRISE',
+  'ZOOM-WEBINARS-500', 'ZOOM-LARGE-MEETING-500', 'ZOOM-ROOMS',
+  'ZOOM-PHONE-METERED', 'ZOOM-PHONE-US-CA', 'ZOOM-PHONE-GLOBAL', 'ZOOM-EVENTS', 'ZOOM-AI-COMPANION',
+];
+
+let all: Product[] = [];
+try {
+  all = await getProducts();
+} catch (e) {
+  console.error('zoom landing data error', e);
+}
+const zoom = all
+  .filter((p) => p.sku.startsWith('ZOOM') && p.status === 'published')
+  .sort((a, b) => ORDER.indexOf(a.sku) - ORDER.indexOf(b.sku));
+
+const bySku = new Map(zoom.map((p) => [p.sku, p]));
+const priced = zoom.filter((p) => effectivePrice(p).price > 0);
+const minPrice = priced.length ? Math.min(...priced.map((p) => effectivePrice(p).price)) : 0;
+const ai = bySku.get('ZOOM-AI-COMPANION');
+
+const title = 'Купить Zoom для юридических лиц — тарифы Zoom Workplace и аддоны';
+const description = 'Подберите Zoom для бизнеса: Pro, Business, Business Plus, Enterprise, Webinars, Large Meeting, Rooms, Phone и Events. КП, счёт, договор и закрывающие документы для юридических лиц.';
+
+const ldItems = zoom.map((p) => ({ name: p.name, slug: p.slug }));
+const collectionLd = collectionPageSchema({ name: 'Zoom для бизнеса', description, url: '/vendors/zoom', items: ldItems });
+
+function cardBadgeClass(badge: string) {
+  if (badge === 'по запросу') return 'req';
+  if (badge === 'AI') return 'ai';
+  if (badge.includes('телефония')) return 'phone';
+  return 'cap';
+}
+
+// Вью-модели карточек считаем здесь, чтобы в шаблоне не было операторов < / <=
+const cards = zoom.map((p) => {
+  const eff = effectivePrice(p);
+  const meta = ZOOM_CARD_META[p.sku];
+  return {
+    name: p.name,
+    slug: p.slug,
+    sku: p.sku,
+    priceText: formatRub(eff.price),
+    note: p.price_note || '',
+    byRequest: eff.price <= 0,
+    meta,
+    badgeClass: meta ? cardBadgeClass(meta.badge) : '',
+    features: meta?.features?.slice(0, 5) || [],
+  };
+});
+---
+<BaseLayout title={title} description={description} type="website" canonical="/vendors/zoom">
+  <JsonLd schema={collectionLd} />
+
+  <div class="container-page section">
+    <Breadcrumbs items={[{ name: 'Каталог', url: '/catalog' }, { name: 'ВКС', url: '/catalog/vcs' }, { name: 'Zoom для бизнеса', url: '/vendors/zoom' }]} />
+
+    <!-- HERO -->
+    <header class="hero">
+      <div class="hero-main">
+        <div class="vendor-row">
+          <img src="/zoom-logo.svg" alt="Zoom" width="100" height="32" class="zoom-logo" />
+          <span class="vendor-legal">{ZOOM_VENDOR.legalName}</span>
+        </div>
+        <h1>Zoom для юридических лиц: тарифы, аддоны и оформление через BizSoft</h1>
+        <p class="hero-sub">
+          Подберите и оформите подписки Zoom для бизнеса: Zoom Workplace Pro, Business, Business Plus,
+          Enterprise, Webinars, Large Meeting, Rooms, Phone и Events. Подбор тарифа под количество
+          участников, формат встреч и требования к документам.
+        </p>
+        <ul class="chips">
+          <li>Для юрлиц</li><li>КП и счёт</li><li>Договор и закрывающие</li><li>Подбор тарифа и аддонов</li>
+        </ul>
+        <div class="hero-actions">
+          <button class="btn btn-primary" data-open-question data-product="Zoom — подбор тарифа" data-ev="click_get_quote">Получить расчёт и КП</button>
+          <a href="#chooser" class="btn btn-ghost" data-ev="click_choose_plan">Подобрать тариф Zoom</a>
+        </div>
+        {minPrice > 0 && <p class="from">Цены от <b>{formatRub(minPrice)}</b> · финальная стоимость фиксируется в КП или счёте</p>}
+      </div>
+    </header>
+
+    <!-- Прямой ответ (GEO/AEO) -->
+    <div class="summary"><strong>Коротко:</strong> {ZOOM_SUMMARY}</div>
+
+    <!-- Вводный SEO-блок -->
+    <section class="block prose-bizsoft">
+      <p>Zoom для бизнеса — это не один продукт, а набор тарифов и дополнений под разные задачи:
+        регулярные видеовстречи, вебинары, большие интерактивные собрания, переговорные комнаты,
+        корпоративная телефония и крупные онлайн-мероприятия. Для небольшой команды обычно достаточно
+        Zoom Workplace Pro; компаниям с встречами до 300 участников, SSO и администрированием — Zoom
+        Workplace Business; для вебинаров — Zoom Webinars, для интерактивных встреч на 500 — Zoom Large
+        Meeting 500, для переговорных — Zoom Rooms, для событий — Zoom Events.</p>
+    </section>
+
+    <!-- Карточки продуктов -->
+    <section class="block" id="products">
+      <h2>Тарифы и продукты Zoom</h2>
+      <div class="zgrid">
+        {cards.map((c) => (
+          <article class="card zcard">
+            <div class="zhead">
+              {c.meta && <span class={`zbadge ${c.badgeClass}`}>{c.meta.badge}</span>}
+            </div>
+            <h3>{c.name}</h3>
+            {c.meta?.forWhom && <p class="forwhom">{c.meta.forWhom}</p>}
+            <div class="zprice">
+              {c.byRequest
+                ? <span class="req">Цена по запросу</span>
+                : <span class="pv"><b>{c.priceText}</b> <span class="note">{c.note}</span></span>}
+            </div>
+            {c.features.length > 0 && (
+              <ul class="zfeat">{c.features.map((f) => <li>{f}</li>)}</ul>
+            )}
+            {c.meta?.check && <p class="zcheck">⚠ {c.meta.check}</p>}
+            <div class="zactions">
+              <button class="btn btn-primary btn-sm" data-open-question data-product={`Zoom — ${c.name}`} data-sku={c.sku} data-ev="click_get_quote">{c.byRequest ? 'Запросить цену' : 'Получить КП'}</button>
+              <a href={`/product/${c.slug}`} class="btn btn-ghost btn-sm" data-ev="click_product_card">Подробнее</a>
+            </div>
+            <p class="zfine">Финальная цена фиксируется в КП или счёте.</p>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <!-- Сравнение тарифов -->
+    <section class="block" id="compare">
+      <h2>Сравнение тарифов Zoom Workplace</h2>
+      <div class="table-wrap" data-ev-view="open_comparison_table">
+        <table class="cmp">
+          <thead>
+            <tr><th class="sticky">Функция</th>{ZOOM_COMPARISON.cols.map((c) => <th>{c}</th>)}</tr>
+          </thead>
+          <tbody>
+            {ZOOM_COMPARISON.rows.map((r) => (
+              <tr><th class="sticky">{r.label}</th>{r.values.map((v) => <td>{v}</td>)}</tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p class="muted small">«*» и «уточн.» — характеристики проверяются перед КП. Облачное хранилище: на карточках Biz-Soft указано 5 ГБ, в официальной документации Zoom — 10 ГБ; уточняется перед публикацией.</p>
+    </section>
+
+    <!-- Какой Zoom выбрать -->
+    <section class="block" id="chooser">
+      <h2>Какой Zoom выбрать</h2>
+      <div class="table-wrap">
+        <table class="cmp decision">
+          <thead><tr><th class="sticky">Сценарий</th><th>Рекомендуем</th><th>Почему</th></tr></thead>
+          <tbody>
+            {ZOOM_DECISION.map((d) => (
+              <tr>
+                <th class="sticky">{d.scenario}</th>
+                <td>{d.slug ? <a href={`/product/${d.slug}`}>{d.product}</a> : d.product}</td>
+                <td class="muted">{d.note}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Аддоны -->
+    <section class="block">
+      <h2>Аддоны Zoom: Webinars, Large Meeting, Rooms, Phone и Events</h2>
+      <div class="addons">
+        {ZOOM_ADDONS.map((a) => (
+          <a href={`/product/${a.slug}`} class="card addon">
+            <h3>{a.name}</h3>
+            <p>{a.text}</p>
+          </a>
+        ))}
+      </div>
+      <p class="muted small">Webinars и Large Meeting — разные продукты: Webinars для презентационного формата, Large Meeting для интерактивной встречи.</p>
+    </section>
+
+    <!-- AI Companion -->
+    <section class="block">
+      <h2>Zoom AI Companion</h2>
+      <div class="prose-bizsoft">
+        <p>Zoom AI Companion помогает работать со встречами: формировать summary, задавать вопросы по ходу
+          встречи, работать со smart recording, помогать с чатом и письмами. В подходящих платных планах
+          включается без дополнительной платы, но доступность функций зависит от региона, тарифа и настроек
+          аккаунта. <b>Важно:</b> результаты AI нужно проверять, а доступность для конкретного клиента —
+          уточнять перед КП.</p>
+      </div>
+      <button class="btn btn-ghost" data-open-question data-product="Zoom AI Companion" data-sku={ai?.sku} data-ev="click_get_quote">Уточнить доступность AI Companion</button>
+    </section>
+
+    <!-- Безопасность -->
+    <section class="block">
+      <h2>Безопасность и администрирование Zoom для бизнеса</h2>
+      <div class="prose-bizsoft">
+        <p>В зависимости от тарифа Zoom поддерживает администрирование пользователей, SSO, доменное
+          управление, политики, настройки безопасности встреч (waiting rooms, passcodes, watermarks),
+          шифрование и другие функции. Для крупных компаний отдельно проверяются требования к SSO,
+          доменам, политике хранения, записям, ролям администраторов, журналам, DLP/API и внутренним
+          политикам ИБ. Требования ИБ и соответствие конкретной юрисдикции уточняются до КП.</p>
+      </div>
+      <button class="btn btn-ghost" data-open-question data-product="Zoom — требования ИТ/ИБ" data-ev="click_get_quote">Обсудить требования ИТ/ИБ</button>
+    </section>
+
+    <!-- Сценарии -->
+    <section class="block">
+      <h2>Сценарии использования</h2>
+      <div class="cells">
+        {ZOOM_SCENARIOS.map((s) => (<div class="card cell"><h3>{s.title}</h3><p>{s.text}</p></div>))}
+      </div>
+    </section>
+
+    <!-- Сегменты -->
+    <section class="block">
+      <h2>Для каких компаний подходит Zoom</h2>
+      <div class="cells">
+        {ZOOM_SEGMENTS.map((s) => (<div class="card cell"><h3>{s.title}</h3><p>{s.text}</p></div>))}
+      </div>
+    </section>
+
+    <!-- Как купить -->
+    <section class="block">
+      <h2>Как купить Zoom через BizSoft</h2>
+      <ol class="steps">
+        <li>Вы оставляете заявку или выбираете товар в каталоге.</li>
+        <li>Менеджер уточняет сценарий: тариф, количество пользователей, аддоны, срок, документы.</li>
+        <li>BizSoft готовит КП или счёт.</li>
+        <li>После согласования оформляются договор и оплата по счёту.</li>
+        <li>После оплаты передаются доступы или инструкции по активации.</li>
+        <li>Закрывающие документы передаются в согласованном формате, в том числе через ЭДО.</li>
+      </ol>
+      <button class="btn btn-primary" data-open-question data-product="Zoom — расчёт и КП" data-ev="click_get_quote">Получить расчёт и КП</button>
+    </section>
+
+    <!-- Документы -->
+    <section class="block">
+      <h2>Документы для бухгалтерии и закупки</h2>
+      <div class="prose-bizsoft">
+        <p>Для юридических лиц важно корректное оформление. Через BizSoft можно запросить КП, счёт, договор
+          и закрывающие документы; закрывающие могут передаваться через <a href="/documents">ЭДО</a>.
+          Финальный состав документов зависит от условий сделки и подтверждается до оплаты. Для КП
+          подготовьте: название организации, ИНН, контактное лицо, email, нужный тариф, количество
+          пользователей, срок подписки и аддоны.</p>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <FAQ items={ZOOM_FAQ} title="Частые вопросы про Zoom для бизнеса" />
+
+    <!-- Финальный CTA -->
+    <section class="block final">
+      <div class="final-grid">
+        <div>
+          <h2>Подобрать Zoom для компании</h2>
+          <p class="muted">Опишите задачу: сколько пользователей и участников нужно, планируются ли вебинары,
+            большие встречи, переговорные, телефония или мероприятия. Подготовим расчёт, КП или счёт.</p>
+          <ul class="zfeat">
+            <li>Оформление для юрлиц: договор, счёт, закрывающие</li>
+            <li>Комплект: тариф + Webinars / Large Meeting / Rooms / Phone / Events</li>
+            <li>Подбор по сценарию и количеству участников</li>
+          </ul>
+        </div>
+        <LeadForm source="zoom-landing" title="Заявка на подбор Zoom" submitLabel="Получить расчёт и КП" />
+      </div>
+    </section>
+
+    <!-- Внутренние ссылки -->
+    <section class="block links">
+      <h2>Связанные товары и разделы</h2>
+      <div class="link-grid">
+        {zoom.map((p) => <a href={`/product/${p.slug}`}>{p.name}</a>)}
+        <a href="/catalog/vcs">Все ВКС-решения</a>
+        <a href="/how-we-work">Как мы работаем</a>
+        <a href="/pricing">Стоимость и расчёт</a>
+        <a href="/documents">Документы</a>
+        <a href="/contacts">Контакты</a>
+      </div>
+    </section>
+  </div>
+
+  <QuestionForm source="zoom" />
+</BaseLayout>
+
+<style>
+  .section { padding-top: 2rem; }
+  .hero { padding: 1rem 0 1.5rem; }
+  .hero-main { max-width: 820px; }
+  .vendor-row { display: flex; align-items: center; gap: 0.8rem; margin-bottom: 1rem; }
+  .zoom-logo { border-radius: 8px; }
+  .vendor-legal { color: var(--color-text-dim); font-size: 0.85rem; }
+  h1 { font-size: clamp(1.9rem, 4.5vw, 3rem); margin-bottom: 1rem; }
+  .hero-sub { color: var(--color-text-muted); font-size: 1.08rem; max-width: 62ch; }
+  .chips { display: flex; flex-wrap: wrap; gap: 0.5rem; list-style: none; padding: 0; margin: 1.2rem 0; }
+  .chips li { background: var(--color-bg-elevated); border: 1px solid var(--color-border); color: var(--color-text-muted); font-size: 0.82rem; padding: 0.25rem 0.7rem; border-radius: 999px; }
+  .hero-actions { display: flex; gap: 0.8rem; flex-wrap: wrap; margin-bottom: 0.8rem; }
+  .from { color: var(--color-text-muted); font-size: 0.92rem; }
+  .from b { color: var(--color-text); }
+  .summary { background: var(--color-bg-card); border: 1px solid var(--color-border); border-left: 3px solid var(--color-accent); border-radius: var(--radius); padding: 1rem 1.2rem; margin: 1.5rem 0; color: #d7d9dd; }
+  .summary strong { color: var(--color-text); }
+  .block { margin-top: 3rem; }
+  .block > h2 { font-size: clamp(1.4rem, 2.6vw, 1.9rem); margin-bottom: 1.2rem; }
+  .zgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.2rem; }
+  .zcard { padding: 1.4rem; display: flex; flex-direction: column; }
+  .zhead { display: flex; margin-bottom: 0.5rem; }
+  .zbadge { font-size: 0.7rem; font-weight: 700; padding: 0.15rem 0.55rem; border-radius: 6px; }
+  .zbadge.cap { background: color-mix(in srgb, var(--color-accent) 16%, transparent); color: var(--color-accent); }
+  .zbadge.req { background: var(--color-bg-elevated); color: var(--color-text-muted); }
+  .zbadge.ai { background: color-mix(in srgb, #8b5cf6 22%, transparent); color: #b794f6; }
+  .zbadge.phone { background: color-mix(in srgb, #0B5CFF 22%, transparent); color: #6ea0ff; }
+  .zcard h3 { font-size: 1.12rem; margin-bottom: 0.3rem; min-height: 2.4em; display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  .forwhom { color: var(--color-text-dim); font-size: 0.82rem; margin-bottom: 0.6rem; }
+  .zprice { margin: 0.3rem 0 0.7rem; }
+  .zprice b { font-size: 1.2rem; }
+  .zprice .note { color: var(--color-text-dim); font-size: 0.8rem; }
+  .zprice .req { font-weight: 700; }
+  .zfeat { list-style: none; padding: 0; margin: 0 0 0.7rem; display: grid; gap: 0.3rem; }
+  .zfeat li { padding-left: 1.3rem; position: relative; color: #d7d9dd; font-size: 0.88rem; }
+  .zfeat li::before { content: '✓'; position: absolute; left: 0; color: var(--color-accent); font-weight: 700; }
+  .zcheck { color: var(--color-text-dim); font-size: 0.78rem; margin: 0 0 0.7rem; }
+  .zactions { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: auto; }
+  .zfine { color: var(--color-text-dim); font-size: 0.72rem; margin: 0.6rem 0 0; }
+  .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  table.cmp { width: 100%; border-collapse: collapse; min-width: 640px; font-size: 0.92rem; }
+  table.cmp th, table.cmp td { border: 1px solid var(--color-border); padding: 0.55rem 0.8rem; text-align: left; }
+  table.cmp thead th { background: var(--color-bg-elevated); }
+  table.cmp .sticky { position: sticky; left: 0; background: var(--color-bg-card); font-weight: 600; }
+  table.decision a { color: var(--color-accent); }
+  .muted { color: var(--color-text-muted); }
+  .small { font-size: 0.82rem; margin-top: 0.6rem; }
+  .addons { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1rem; }
+  .addon { padding: 1.3rem; }
+  .addon h3 { font-size: 1.1rem; margin-bottom: 0.4rem; color: var(--color-accent); }
+  .addon p { color: var(--color-text-muted); font-size: 0.9rem; }
+  .cells { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1rem; }
+  .cell { padding: 1.3rem; }
+  .cell h3 { font-size: 1.05rem; margin-bottom: 0.4rem; }
+  .cell p { color: var(--color-text-muted); font-size: 0.9rem; }
+  .steps { padding-left: 1.2rem; color: #d7d9dd; display: grid; gap: 0.5rem; margin-bottom: 1.2rem; max-width: 800px; }
+  .final-grid { display: grid; grid-template-columns: 1fr 400px; gap: 2.5rem; align-items: start; }
+  .links .link-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 0.6rem; }
+  .links a { color: var(--color-accent); font-size: 0.92rem; padding: 0.5rem 0; }
+  @media (max-width: 880px) { .final-grid { grid-template-columns: 1fr; } }
+</style>
+
+<script>
+  // Аналитические события (Метрика + GA4)
+  function track(name: string, params: Record<string, unknown> = {}) {
+    const w = window as unknown as { ym?: (...a: unknown[]) => void; gtag?: (...a: unknown[]) => void };
+    const id = (import.meta as { env: Record<string, string> }).env.PUBLIC_METRIKA_ID || '110206070';
+    if (typeof w.ym === 'function' && id) w.ym(Number(id), 'reachGoal', name, params);
+    if (typeof w.gtag === 'function') w.gtag('event', name, params);
+  }
+  track('view_zoom_landing', { page_url: location.pathname });
+  document.querySelectorAll('[data-ev]').forEach((el) => {
+    el.addEventListener('click', () => track((el as HTMLElement).dataset.ev!, { block_name: 'zoom' }));
+  });
+  // событие просмотра таблицы сравнения (один раз)
+  const cmp = document.querySelector('[data-ev-view]');
+  if (cmp && 'IntersectionObserver' in window) {
+    const io = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { track((cmp as HTMLElement).dataset.evView!); io.disconnect(); } }), { threshold: 0.3 });
+    io.observe(cmp);
+  }
+</script>

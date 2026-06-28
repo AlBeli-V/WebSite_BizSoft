@@ -161,6 +161,29 @@ export function itemListSchema(category: Category, products: Product[]) {
   };
 }
 
+/** CollectionPage + ItemList для посадочной (напр. /vendors/zoom). */
+export function collectionPageSchema(opts: { name: string; description: string; url: string; items: { name: string; slug: string }[] }) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name: opts.name,
+    description: opts.description,
+    url: canonicalUrl(opts.url),
+    inLanguage: 'ru-RU',
+    isPartOf: { '@id': `${site.url}/#website` },
+    about: { '@id': ORG_ID },
+    mainEntity: {
+      '@type': 'ItemList',
+      itemListElement: opts.items.map((it, i) => ({
+        '@type': 'ListItem',
+        position: i + 1,
+        url: `${site.url}/product/${it.slug}`,
+        name: it.name,
+      })),
+    },
+  };
+}
+
 export function faqSchema(faq: { q: string; a: string }[]) {
   return {
     '@context': 'https://schema.org',
