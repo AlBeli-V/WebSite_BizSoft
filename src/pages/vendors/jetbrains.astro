@@ -1,0 +1,516 @@
+---
+export const prerender = false;
+
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import FAQ from '../../components/FAQ.astro';
+import LeadForm from '../../components/LeadForm.astro';
+import QuestionForm from '../../components/QuestionForm.astro';
+import JsonLd from '../../components/JsonLd.astro';
+import { getProducts } from '../../lib/directus';
+import { effectivePrice, formatRub } from '../../lib/pricing';
+import { collectionPageSchema } from '../../lib/seo';
+import {
+  JETBRAINS_CARD_META, JETBRAINS_COMPARISON, JETBRAINS_COMPARISON_INTRO, JETBRAINS_DECISION,
+  JETBRAINS_QUICK_PICKS, JETBRAINS_STACK, JETBRAINS_AI, JETBRAINS_TEAM,
+  JETBRAINS_PLUGIN_CATEGORIES, JETBRAINS_PLUGINS_NOTE, JETBRAINS_LICENSE_MANAGEMENT,
+  JETBRAINS_SCENARIOS, JETBRAINS_SEGMENTS, JETBRAINS_OBJECTIONS, JETBRAINS_FAQ,
+  JETBRAINS_SUMMARY, JETBRAINS_VENDOR,
+} from '../../data/jetbrains';
+import type { Product } from '../../lib/types';
+
+// Featured org-карточки (порядок задаётся sort из БД)
+const FEATURED = new Set(Object.keys(JETBRAINS_CARD_META));
+
+let all: Product[] = [];
+try {
+  all = await getProducts();
+} catch (e) {
+  console.error('jetbrains landing data error', e);
+}
+// Только основные продукты JetBrains: JB-*, но НЕ плагины JB-PLG-*
+const core = all
+  .filter((p) => p.sku.startsWith('JB-') && !p.sku.startsWith('JB-PLG-') && p.status === 'published');
+// Карточки лендинга — только featured org-продукты, сортировка по sort
+const jb = core
+  .filter((p) => FEATURED.has(p.sku))
+  .sort((a, b) => (a.sort ?? 0) - (b.sort ?? 0));
+
+const priced = jb.filter((p) => effectivePrice(p).price > 0);
+const minPrice = priced.length ? Math.min(...priced.map((p) => effectivePrice(p).price)) : 0;
+
+const title = 'Купить JetBrains для организации — цена, КП | Biz-Soft';
+const description = 'Лицензии JetBrains для команд: All Products Pack, IntelliJ IDEA, Rider, PyCharm, WebStorm и другие IDE. Оформление на юрлицо: договор, счёт, закрывающие, ЭДО. Подберём и пришлём КП.';
+
+const ldItems = jb.map((p) => ({ name: p.name, slug: p.slug }));
+const collectionLd = collectionPageSchema({ name: 'JetBrains для бизнеса', description, url: '/vendors/jetbrains', items: ldItems });
+
+function cardBadgeClass(badge: string) {
+  if (badge === 'все продукты') return 'pack';
+  if (badge === '.NET' || badge.includes('.NET') || badge === 'Visual Studio') return 'dotnet';
+  if (badge === 'SQL / БД') return 'db';
+  return 'cap';
+}
+
+// Вью-модели карточек считаем здесь, чтобы в шаблоне не было операторов < / <=
+const cards = jb.map((p) => {
+  const eff = effectivePrice(p);
+  const meta = JETBRAINS_CARD_META[p.sku];
+  return {
+    name: p.name,
+    slug: p.slug,
+    sku: p.sku,
+    anchor: p.sku.toLowerCase(),
+    priceText: formatRub(eff.price),
+    note: p.price_note || '',
+    byRequest: eff.price <= 0,
+    meta,
+    badgeClass: meta ? cardBadgeClass(meta.badge) : '',
+    features: meta?.features?.slice(0, 5) || [],
+  };
+});
+---
+<BaseLayout title={title} description={description} type="website" canonical="/vendors/jetbrains">
+  <JsonLd schema={collectionLd} />
+
+  <div class="container-page section">
+    <Breadcrumbs items={[{ name: 'Иностранное ПО', url: '/catalog/foreign' }, { name: 'JetBrains', url: '/vendors/jetbrains' }]} />
+
+    <!-- 1. HERO -->
+    <header class="hero">
+      <div class="hero-main">
+        <div class="vendor-row">
+          <span class="vendor-name">JetBrains</span>
+          <span class="vendor-legal">{JETBRAINS_VENDOR.legalName}</span>
+        </div>
+        <h1>JetBrains для бизнеса: лицензии IDE, All Products Pack и инструменты с оформлением на юрлицо</h1>
+        <p class="hero-sub">
+          Подберём набор продуктов JetBrains под ваш стек и команду, подготовим коммерческое предложение и
+          оформим покупку на организацию: договор, счёт, закрывающие документы, ЭДО.
+        </p>
+        <ul class="hero-bullets">
+          <li>Договор, счёт, акт или УПД — для вашей бухгалтерии</li>
+          <li>Подбор под язык, роль и число пользователей</li>
+          <li>Помощь с продлением и апгрейдом текущих лицензий</li>
+        </ul>
+        <div class="hero-actions">
+          <button class="btn btn-primary" data-open-question data-product="JetBrains — подбор лицензий" data-ev="click_get_quote">Получить КП на JetBrains</button>
+          <a href="#chooser" class="btn btn-ghost" data-ev="click_pick_licenses">Подобрать продукт</a>
+          <a href="#products" class="btn btn-ghost" data-ev="click_related_link">Смотреть каталог</a>
+        </div>
+        {minPrice > 0 && <p class="from">Цены от <b>{formatRub(minPrice)}</b> за пользователя в год · финальная стоимость фиксируется в КП или счёте</p>}
+      </div>
+    </header>
+
+    <!-- 3. Вводный SEO-блок / прямой ответ (AEO) -->
+    <div class="summary"><strong>Коротко:</strong> {JETBRAINS_SUMMARY}</div>
+
+    <section class="block prose-bizsoft">
+      <p>JetBrains — это набор профессиональных сред разработки (IDE) и инструментов для команд: IntelliJ IDEA
+        для Java и Kotlin, PyCharm для Python, WebStorm для JavaScript и TypeScript, PhpStorm, Rider для .NET,
+        CLion, GoLand, RubyMine, RustRover, DataGrip, а также All Products Pack, JetBrains AI и серверные
+        инструменты (TeamCity, YouTrack, Qodana, Datalore). Biz-Soft помогает организациям и ИП легально
+        приобрести и продлить лицензии JetBrains: мы подбираем продукты под задачи команды, рассчитываем
+        стоимость в коммерческом предложении и оформляем поставку по договору с полным пакетом документов.
+        Лицензии поставляются как годовая подписка на пользователя. Финальная цена фиксируется в счёте и
+        зависит от курса евро, типа лицензии и числа пользователей.</p>
+    </section>
+
+    <!-- 2. Быстрый подбор по стеку -->
+    <section class="block" id="quick">
+      <h2>Быстрый подбор продукта</h2>
+      <p class="muted">Выберите стек или задачу — подскажем подходящий продукт и подготовим расчёт. Кнопка
+        «Получить КП с этим выбором» предзаполнит форму.</p>
+      <div class="picks">
+        {JETBRAINS_QUICK_PICKS.map((p) => (
+          <a
+            href={p.target && p.target.startsWith('#') ? p.target : `#${p.target}`}
+            class="pick"
+            data-pick={p.query}
+            data-ev="quiz_step"
+          >
+            <span class="pick-lang">{p.label}</span>
+            <span class="pick-prod">{p.product}</span>
+          </a>
+        ))}
+      </div>
+      <div class="pick-result" data-pick-result hidden>
+        <p>Подходящий продукт: <b data-pick-name></b>.</p>
+        <button class="btn btn-primary btn-sm" data-open-question data-pick-cta data-ev="quiz_complete">Получить КП с этим выбором</button>
+      </div>
+    </section>
+
+    <!-- 4. Карточки продуктов JetBrains (из Directus) -->
+    <section class="block" id="products">
+      <h2>Продукты JetBrains для организаций</h2>
+      <div class="zgrid">
+        {cards.map((c) => (
+          <article class="card zcard" id={c.anchor}>
+            <div class="zhead">
+              {c.meta && <span class={`zbadge ${c.badgeClass}`}>{c.meta.badge}</span>}
+              <span class="zlic">Для организаций</span>
+            </div>
+            <h3>{c.name}</h3>
+            {c.meta?.forWhom && <p class="forwhom">{c.meta.forWhom}</p>}
+            <div class="zprice">
+              {c.byRequest
+                ? <span class="req">Цена по запросу</span>
+                : <span class="pv"><b>{c.priceText}</b> <span class="note">{c.note}</span></span>}
+            </div>
+            {c.features.length > 0 && (
+              <ul class="zfeat">{c.features.map((f) => <li>{f}</li>)}</ul>
+            )}
+            {c.meta?.check && <p class="zcheck">⚠ {c.meta.check}</p>}
+            <div class="zactions">
+              <button class="btn btn-primary btn-sm" data-open-question data-product={`JetBrains — ${c.name}`} data-sku={c.sku} data-ev="click_buy_org">{c.byRequest ? 'Уточнить цену' : 'Купить для организации'}</button>
+              <a href={`/product/${c.slug}`} class="btn btn-ghost btn-sm" data-ev="click_product_card">Подробнее</a>
+            </div>
+            <p class="zfine">Ориентир за пользователя в год, incl. VAT; финальная цена фиксируется в КП.</p>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <!-- 5. All Products Pack vs отдельная IDE -->
+    <section class="block" id="compare">
+      <h2>All Products Pack или отдельная IDE</h2>
+      <p class="prose-bizsoft">{JETBRAINS_COMPARISON_INTRO}</p>
+      <div class="table-wrap" data-ev-view="click_compare_app">
+        <table class="cmp">
+          <thead>
+            <tr><th class="sticky">Что важно</th>{JETBRAINS_COMPARISON.cols.map((c) => <th>{c}</th>)}</tr>
+          </thead>
+          <tbody>
+            {JETBRAINS_COMPARISON.rows.map((r) => (
+              <tr><th class="sticky">{r.label}</th>{r.values.map((v) => <td>{v}</td>)}</tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p class="muted small">«*» — состав и характеристики уточняются перед КП; пакет может обновляться вендором.</p>
+    </section>
+
+    <!-- 6. Decision matrix: какой JetBrains выбрать -->
+    <section class="block" id="chooser">
+      <h2>Какой JetBrains выбрать</h2>
+      <div class="table-wrap">
+        <table class="cmp decision">
+          <thead><tr><th class="sticky">Сценарий</th><th>Рекомендуем</th><th>Альтернатива</th><th>Почему</th></tr></thead>
+          <tbody>
+            {JETBRAINS_DECISION.map((d) => (
+              <tr>
+                <th class="sticky">{d.scenario}</th>
+                <td>{d.slug ? <a href={`#${d.slug}`}>{d.product}</a> : d.product}</td>
+                <td class="muted">{d.alt || '—'}</td>
+                <td class="muted">{d.note}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 7. IDE и инструменты по стеку -->
+    <section class="block" id="stack">
+      <h2>IDE и инструменты по стеку разработки</h2>
+      <div class="cells">
+        {JETBRAINS_STACK.map((s) => (
+          <div class="card cell">
+            <h3>{s.lang}</h3>
+            <p class="cell-prod">{s.product}</p>
+            <p>{s.text}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <!-- 8. JetBrains AI -->
+    <section class="block" id="ai">
+      <h2>JetBrains AI / AI Assistant</h2>
+      <p class="prose-bizsoft">{JETBRAINS_AI.intro}</p>
+      <div class="cells ai-tiers">
+        {JETBRAINS_AI.tiers.map((t) => (
+          <div class="card cell">
+            <div class="zhead"><span class="zbadge ai">AI</span></div>
+            <h3>{t.name}</h3>
+            <p class="cell-prod">{t.price}</p>
+            <p>{t.text}</p>
+          </div>
+        ))}
+      </div>
+      <p class="caveat"><b>Доступность уточняется.</b> {JETBRAINS_AI.caveat}
+        <a href={JETBRAINS_AI.caveatUrl} target="_blank" rel="noopener nofollow">Условия по территориям JetBrains AI</a>.</p>
+      <button class="btn btn-ghost" data-open-question data-product="JetBrains AI — тарифы" data-ev="click_clarify_price">Уточнить цену</button>
+    </section>
+
+    <!-- 10. Команда: TeamCity / YouTrack / Qodana / Datalore -->
+    <section class="block" id="team">
+      <h2>Командные инструменты JetBrains</h2>
+      <div class="cells">
+        {JETBRAINS_TEAM.map((t) => (
+          <div class="card cell">
+            <div class="zhead"><span class="zbadge req">по запросу</span></div>
+            <h3>{t.name}</h3>
+            <p class="cell-prod">{t.tagline}</p>
+            <p>{t.text}</p>
+            <p class="zcheck">{t.note}</p>
+            <button class="btn btn-ghost btn-sm" data-open-question data-product={`JetBrains — ${t.name}`} data-sku={t.sku} data-ev="click_clarify_price">Уточнить цену</button>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <!-- 9. Плагины Marketplace -->
+    <section class="block" id="plugins">
+      <h2>Плагины и расширения JetBrains Marketplace</h2>
+      <p class="prose-bizsoft">{JETBRAINS_PLUGINS_NOTE}</p>
+      <div class="pcats">
+        {JETBRAINS_PLUGIN_CATEGORIES.map((c) => (
+          <div class="card pcat" data-ev="expand_plugins_category">
+            <h3>{c.name}</h3>
+            <p>{c.text}</p>
+          </div>
+        ))}
+      </div>
+      <p class="muted small">Не выводим весь список плагинов на странице. Полный каталог расширений для
+        оформления на юрлицо — в разделе разработки.
+        <a href="/catalog/development" data-ev="click_plugins_catalog">Перейти в каталог плагинов →</a></p>
+    </section>
+
+    <!-- 11. Управление лицензиями, безопасность и администрирование -->
+    <section class="block" id="licenses">
+      <h2>Управление лицензиями, безопасность и администрирование</h2>
+      <p class="prose-bizsoft">Лицензии JetBrains управляются через JetBrains Account: вы распределяете места
+        между сотрудниками и контролируете подписки. Для организаций предусмотрены инструменты централизованного
+        управления. Biz-Soft помогает оформить, продлить и учесть лицензии: единый счёт, документы для
+        бухгалтерии и сопровождение при разворачивании. Конкретные технические сценарии (офлайн-активация,
+        сервер лицензий) уточняются у менеджера.</p>
+      <div class="cells">
+        {JETBRAINS_LICENSE_MANAGEMENT.map((l) => (<div class="card cell"><h3>{l.title}</h3><p>{l.text}</p></div>))}
+      </div>
+      <button class="btn btn-ghost" data-open-question data-product="JetBrains — лицензии для команды" data-ev="click_get_quote">Получить КП</button>
+    </section>
+
+    <!-- 12. Сценарии использования -->
+    <section class="block">
+      <h2>Сценарии использования</h2>
+      <div class="cells">
+        {JETBRAINS_SCENARIOS.map((s) => (<div class="card cell"><h3>{s.title}</h3><p>{s.text}</p></div>))}
+      </div>
+    </section>
+
+    <!-- 13. Для каких команд / отраслей -->
+    <section class="block">
+      <h2>Для каких команд подходит JetBrains</h2>
+      <div class="cells">
+        {JETBRAINS_SEGMENTS.map((s) => (<div class="card cell"><h3>{s.title}</h3><p>{s.text}</p></div>))}
+      </div>
+    </section>
+
+    <!-- 14. Как купить через Biz-Soft -->
+    <section class="block">
+      <h2>Как купить JetBrains через Biz-Soft</h2>
+      <ol class="steps">
+        <li>Оставляете заявку или список нужных продуктов.</li>
+        <li>Готовим КП с расчётом по числу пользователей.</li>
+        <li>Выставляем счёт и заключаем договор.</li>
+        <li>Передаём лицензии или доступ после оплаты.</li>
+        <li>Обмениваемся закрывающими документами через ЭДО.</li>
+      </ol>
+      <div class="hero-actions">
+        <button class="btn btn-primary" data-open-question data-product="JetBrains — счёт" data-ev="click_request_invoice">Запросить счёт</button>
+        <button class="btn btn-ghost" data-open-question data-product="JetBrains — продление" data-ev="click_renew">Продлить подписку</button>
+      </div>
+    </section>
+
+    <!-- 15. Документы и закрывающие -->
+    <section class="block">
+      <h2>Документы и закрывающие для бухгалтерии</h2>
+      <div class="prose-bizsoft">
+        <p>Работаем с организациями и ИП по договору. Предоставляем счёт, договор, акт или УПД, ведём
+          документооборот через <a href="/documents">ЭДО</a>. Закрывающие документы — для корректного учёта
+          расходов на ПО. Для КП подготовьте: название организации, ИНН, контактное лицо, email, нужную IDE
+          или пакет, количество пользователей и срок подписки.</p>
+      </div>
+    </section>
+
+    <!-- 16. Частые возражения -->
+    <section class="block" id="objections">
+      <h2>Частые возражения</h2>
+      <div class="faq-list">
+        {JETBRAINS_OBJECTIONS.map((o) => (
+          <details class="faq-item">
+            <summary><span>{o.q}</span></summary>
+            <div class="faq-answer"><p>{o.a}</p></div>
+          </details>
+        ))}
+      </div>
+    </section>
+
+    <!-- 17. FAQ (FAQPage schema) -->
+    <FAQ items={JETBRAINS_FAQ} title="Частые вопросы про JetBrains для бизнеса" />
+
+    <!-- 18. Финальный CTA -->
+    <section class="block final">
+      <div class="final-grid">
+        <div>
+          <h2>Посчитать стоимость JetBrains для вашей команды</h2>
+          <p class="muted">Опишите задачу: с какими языками и стеком работают разработчики, сколько
+            пользователей, нужен ли единый пакет или отдельные IDE, плагины и ИИ-ассистент. Подготовим
+            расчёт, КП или счёт и ответим на вопросы по оформлению на организацию.</p>
+          <ul class="zfeat">
+            <li>Оформление для юрлиц: договор, счёт, закрывающие</li>
+            <li>Комплект: IDE / All Products Pack / dotUltimate / плагины</li>
+            <li>Подбор по языку, стеку и количеству разработчиков</li>
+          </ul>
+        </div>
+        <LeadForm source="jetbrains-landing" title="Заявка на подбор JetBrains" submitLabel="Получить КП на JetBrains" />
+      </div>
+    </section>
+
+    <!-- 19. Внутренние ссылки / связанные товары -->
+    <section class="block links">
+      <h2>Связанные товары и разделы</h2>
+      <div class="link-grid">
+        {jb.map((p) => <a href={`/product/${p.slug}`} data-ev="click_related_link">{p.name}</a>)}
+        <a href="/catalog/development" data-ev="click_related_link">Все инструменты разработки</a>
+        <a href="/catalog/foreign" data-ev="click_related_link">Каталог иностранного ПО</a>
+        <a href="/how-we-work" data-ev="click_related_link">Как мы работаем</a>
+        <a href="/pricing" data-ev="click_related_link">Стоимость и расчёт</a>
+        <a href="/documents" data-ev="click_related_link">Документы</a>
+        <a href="/contacts" data-ev="click_related_link">Контакты</a>
+      </div>
+    </section>
+  </div>
+
+  <QuestionForm source="jetbrains" />
+</BaseLayout>
+
+<style>
+  .section { padding-top: 2rem; }
+  .hero { padding: 1rem 0 1.5rem; }
+  .hero-main { max-width: 860px; }
+  .vendor-row { display: flex; align-items: center; gap: 0.8rem; margin-bottom: 1rem; }
+  .vendor-name { font-weight: 800; font-size: 1.2rem; letter-spacing: -0.01em; }
+  .vendor-legal { color: var(--color-text-dim); font-size: 0.85rem; }
+  h1 { font-size: clamp(1.9rem, 4.5vw, 3rem); margin-bottom: 1rem; }
+  .hero-sub { color: var(--color-text-muted); font-size: 1.08rem; max-width: 64ch; }
+  .hero-bullets { list-style: none; padding: 0; margin: 1.2rem 0; display: grid; gap: 0.4rem; max-width: 64ch; }
+  .hero-bullets li { padding-left: 1.4rem; position: relative; color: #d7d9dd; }
+  .hero-bullets li::before { content: '✓'; position: absolute; left: 0; color: #FB0F60; font-weight: 700; }
+  .hero-actions { display: flex; gap: 0.8rem; flex-wrap: wrap; margin-bottom: 0.8rem; }
+  .from { color: var(--color-text-muted); font-size: 0.92rem; }
+  .from b { color: var(--color-text); }
+  .summary { background: var(--color-bg-card); border: 1px solid var(--color-border); border-left: 3px solid #FB0F60; border-radius: var(--radius); padding: 1rem 1.2rem; margin: 1.5rem 0; color: #d7d9dd; }
+  .summary strong { color: var(--color-text); }
+  .block { margin-top: 3rem; }
+  .block > h2 { font-size: clamp(1.4rem, 2.6vw, 1.9rem); margin-bottom: 1.2rem; }
+  .prose-bizsoft { max-width: 80ch; }
+  .prose-bizsoft a { color: #FB0F60; }
+  /* Быстрый подбор */
+  .picks { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 0.7rem; margin-top: 1rem; }
+  .pick { display: flex; flex-direction: column; gap: 0.15rem; padding: 0.7rem 0.9rem; background: var(--color-bg-card); border: 1px solid var(--color-border); border-radius: var(--radius); transition: border-color 0.15s; }
+  .pick:hover { border-color: #FB0F60; }
+  .pick-lang { font-weight: 700; font-size: 0.95rem; }
+  .pick-prod { color: var(--color-text-dim); font-size: 0.8rem; }
+  .pick-result { margin-top: 1rem; padding: 1rem 1.2rem; background: var(--color-bg-elevated); border: 1px solid var(--color-border); border-radius: var(--radius); display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
+  .pick-result p { margin: 0; }
+  /* Карточки */
+  .zgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.2rem; }
+  .zcard { padding: 1.4rem; display: flex; flex-direction: column; scroll-margin-top: 90px; }
+  .zhead { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem; }
+  .zlic { font-size: 0.7rem; color: var(--color-text-dim); border: 1px solid var(--color-border); border-radius: 6px; padding: 0.1rem 0.45rem; }
+  .zbadge { font-size: 0.7rem; font-weight: 700; padding: 0.15rem 0.55rem; border-radius: 6px; }
+  .zbadge.cap { background: color-mix(in srgb, #FB0F60 16%, transparent); color: #FB0F60; }
+  .zbadge.pack { background: color-mix(in srgb, #FB0F60 22%, transparent); color: #FB0F60; }
+  .zbadge.dotnet { background: color-mix(in srgb, #8b5cf6 22%, transparent); color: #b794f6; }
+  .zbadge.db { background: color-mix(in srgb, #0ea5e9 22%, transparent); color: #6ec5ff; }
+  .zbadge.ai { background: color-mix(in srgb, #8b5cf6 22%, transparent); color: #b794f6; }
+  .zbadge.req { background: var(--color-bg-elevated); color: var(--color-text-muted); }
+  .zcard h3 { font-size: 1.12rem; margin-bottom: 0.3rem; }
+  .forwhom { color: var(--color-text-dim); font-size: 0.82rem; margin-bottom: 0.6rem; }
+  .zprice { margin: 0.3rem 0 0.7rem; }
+  .zprice b { font-size: 1.2rem; }
+  .zprice .note { color: var(--color-text-dim); font-size: 0.8rem; }
+  .zprice .req { font-weight: 700; }
+  .zfeat { list-style: none; padding: 0; margin: 0 0 0.7rem; display: grid; gap: 0.3rem; }
+  .zfeat li { padding-left: 1.3rem; position: relative; color: #d7d9dd; font-size: 0.88rem; }
+  .zfeat li::before { content: '✓'; position: absolute; left: 0; color: #FB0F60; font-weight: 700; }
+  .zcheck { color: var(--color-text-dim); font-size: 0.78rem; margin: 0 0 0.7rem; }
+  .zactions { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: auto; }
+  .zfine { color: var(--color-text-dim); font-size: 0.72rem; margin: 0.6rem 0 0; }
+  /* Таблицы */
+  .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  table.cmp { width: 100%; border-collapse: collapse; min-width: 640px; font-size: 0.92rem; }
+  table.cmp th, table.cmp td { border: 1px solid var(--color-border); padding: 0.55rem 0.8rem; text-align: left; vertical-align: top; }
+  table.cmp thead th { background: var(--color-bg-elevated); }
+  table.cmp .sticky { position: sticky; left: 0; background: var(--color-bg-card); font-weight: 600; }
+  table.decision a { color: #FB0F60; }
+  .muted { color: var(--color-text-muted); }
+  .muted a { color: #FB0F60; }
+  .small { font-size: 0.82rem; margin-top: 0.6rem; }
+  /* Сетки ячеек */
+  .cells { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1rem; }
+  .cell { padding: 1.3rem; }
+  .cell h3 { font-size: 1.05rem; margin-bottom: 0.3rem; }
+  .cell-prod { color: #FB0F60; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.4rem; }
+  .cell p { color: var(--color-text-muted); font-size: 0.9rem; }
+  .cell p.cell-prod { color: #FB0F60; }
+  .ai-tiers .cell { display: flex; flex-direction: column; }
+  .caveat { background: var(--color-bg-elevated); border: 1px solid var(--color-border); border-left: 3px solid #FB0F60; border-radius: var(--radius); padding: 0.9rem 1.1rem; margin: 1.2rem 0; color: #d7d9dd; font-size: 0.9rem; max-width: 80ch; }
+  .caveat a { color: #FB0F60; }
+  /* Плагины */
+  .pcats { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 0.9rem; margin-top: 1rem; }
+  .pcat { padding: 1.1rem; }
+  .pcat h3 { font-size: 1rem; margin-bottom: 0.3rem; color: #FB0F60; }
+  .pcat p { color: var(--color-text-muted); font-size: 0.85rem; }
+  /* Возражения / аккордеон */
+  .faq-list { display: flex; flex-direction: column; gap: 0.6rem; max-width: 800px; }
+  .faq-item { background: var(--color-bg-card); border: 1px solid var(--color-border); border-radius: var(--radius); overflow: hidden; }
+  .faq-item summary { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 1.1rem 1.3rem; cursor: pointer; font-weight: 600; list-style: none; }
+  .faq-item summary::-webkit-details-marker { display: none; }
+  .faq-answer { padding: 0 1.3rem 1.2rem; color: var(--color-text-muted); }
+  .faq-answer p { margin: 0; }
+  /* Шаги */
+  .steps { padding-left: 1.2rem; color: #d7d9dd; display: grid; gap: 0.5rem; margin-bottom: 1.2rem; max-width: 800px; }
+  .final-grid { display: grid; grid-template-columns: 1fr 400px; gap: 2.5rem; align-items: start; }
+  .links .link-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 0.6rem; }
+  .links a { color: #FB0F60; font-size: 0.92rem; padding: 0.5rem 0; }
+  @media (max-width: 880px) { .final-grid { grid-template-columns: 1fr; } }
+</style>
+
+<script>
+  // Аналитические события (Метрика + GA4)
+  function track(name: string, params: Record<string, unknown> = {}) {
+    const w = window as unknown as { ym?: (...a: unknown[]) => void; gtag?: (...a: unknown[]) => void };
+    const id = (import.meta as { env: Record<string, string> }).env.PUBLIC_METRIKA_ID || '110206070';
+    if (typeof w.ym === 'function' && id) w.ym(Number(id), 'reachGoal', name, params);
+    if (typeof w.gtag === 'function') w.gtag('event', name, params);
+  }
+  track('view_jetbrains_landing', { page_url: location.pathname });
+  document.querySelectorAll('[data-ev]').forEach((el) => {
+    el.addEventListener('click', () => track((el as HTMLElement).dataset.ev!, { block_name: 'jetbrains' }));
+  });
+
+  // Быстрый подбор: при выборе стека показываем результат и предзаполняем КП
+  const result = document.querySelector('[data-pick-result]') as HTMLElement | null;
+  const resultName = document.querySelector('[data-pick-name]') as HTMLElement | null;
+  const resultCta = document.querySelector('[data-pick-cta]') as HTMLElement | null;
+  document.querySelectorAll('[data-pick]').forEach((el) => {
+    el.addEventListener('click', () => {
+      const q = (el as HTMLElement).dataset.pick || '';
+      if (result && resultName && resultCta) {
+        resultName.textContent = q;
+        resultCta.setAttribute('data-product', `JetBrains — ${q}`);
+        result.hidden = false;
+      }
+    });
+  });
+
+  // Событие просмотра таблицы сравнения (один раз)
+  const cmp = document.querySelector('[data-ev-view]');
+  if (cmp && 'IntersectionObserver' in window) {
+    const io = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { track((cmp as HTMLElement).dataset.evView!); io.disconnect(); } }), { threshold: 0.3 });
+    io.observe(cmp);
+  }
+</script>

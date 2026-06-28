@@ -75,6 +75,12 @@ export const mainNav: { label: string; href: string }[] = [
   { label: 'Контакты', href: '/contacts' },
 ];
 
+/** Готовые посадочные страницы производителей (для меню «Производители» и /vendors). */
+export const vendorLandings: { slug: string; name: string; description: string }[] = [
+  { slug: 'jetbrains', name: 'JetBrains', description: 'IDE для разработчиков: IntelliJ IDEA, PyCharm, GoLand, Rider, All Products Pack и 480+ плагинов.' },
+  { slug: 'zoom', name: 'Zoom', description: 'Видеоконференцсвязь для бизнеса: тарифы Workplace, вебинары, телефония, КП и документы.' },
+].sort((a, b) => a.name.localeCompare(b.name, 'ru'));
+
 /** Подвал: дополнительные ссылки. */
 export const footerNav: { label: string; href: string }[] = [
   { label: 'Кейсы', href: '/cases' },

@@ -9,10 +9,12 @@ export interface ScaffoldEntry {
   description: string;
 }
 
+// ВАЖНО: вендоры с готовой посадочной (своя страница vendors/<slug>.astro) сюда НЕ добавлять,
+// иначе [slug].astro пререндерит заглушку и перекроет реальную SSR-страницу.
+// Готовые лендинги (zoom, jetbrains) — в config/site.ts → vendorLandings.
 export const vendors: ScaffoldEntry[] = [
   { slug: 'openai', title: 'OpenAI', description: 'Продукты OpenAI (ChatGPT) для бизнеса по договору и счёту.' },
   { slug: 'figma', title: 'Figma', description: 'Лицензии Figma для команд дизайна по договору и счёту.' },
-  { slug: 'jetbrains', title: 'JetBrains', description: 'Среды разработки JetBrains для юрлиц по договору и счёту.' },
 ];
 
 export const docs: ScaffoldEntry[] = [

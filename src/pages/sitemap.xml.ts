@@ -4,6 +4,7 @@ import type { APIRoute } from 'astro';
 import { getCollection } from 'astro:content';
 import { getCategories, getProducts } from '../lib/directus';
 import { canonicalUrl } from '../lib/seo';
+import { productNoindex } from '../lib/catalog';
 import { solutions } from '../data/solutions';
 
 // Только опубликованные индексируемые страницы. Без cart/consent/admin/api/draft/noindex.
@@ -18,6 +19,7 @@ const STATIC_ROUTES: { path: string; priority: number; changefreq: string }[] = 
   { path: '/blog', priority: 0.7, changefreq: 'weekly' },
   { path: '/solutions', priority: 0.6, changefreq: 'monthly' },
   { path: '/vendors/zoom', priority: 0.9, changefreq: 'weekly' },
+  { path: '/vendors/jetbrains', priority: 0.9, changefreq: 'weekly' },
   { path: '/about', priority: 0.5, changefreq: 'yearly' },
   { path: '/cases', priority: 0.5, changefreq: 'monthly' },
   { path: '/contacts', priority: 0.6, changefreq: 'yearly' },
@@ -55,7 +57,7 @@ export const GET: APIRoute = async () => {
     for (const c of categories) entries.push(urlEntry(`/catalog/${c.slug}`, 0.8, 'weekly'));
     const products = await getProducts();
     for (const p of products) {
-      if (p.noindex) continue;
+      if (p.noindex || productNoindex(p.sku)) continue;
       const lastmod = p.date_updated ? String(p.date_updated).slice(0, 10) : undefined;
       entries.push(urlEntry(`/product/${p.slug}`, 0.7, 'weekly', lastmod));
     }

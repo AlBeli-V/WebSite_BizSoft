@@ -2,6 +2,7 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import { vendors } from '../../data/scaffold';
+import { vendorLandings } from '../../config/site';
 ---
 <BaseLayout
   title="Производители ПО"
@@ -13,11 +14,13 @@ import { vendors } from '../../data/scaffold';
     <h1>Производители ПО</h1>
     <p class="lead">Подбор и оформление ПО на юрлицо по договору и счёту. Готовые страницы вендоров:</p>
     <div class="vgrid">
-      <a href="/vendors/zoom" class="card card-hover v ready">
-        <strong>Zoom</strong>
-        <span>Видеоконференцсвязь для бизнеса: тарифы, аддоны, КП и документы.</span>
-        <em>Открыть →</em>
-      </a>
+      {vendorLandings.map((v) => (
+        <a href={`/vendors/${v.slug}`} class="card card-hover v ready">
+          <strong>{v.name}</strong>
+          <span>{v.description}</span>
+          <em>Открыть →</em>
+        </a>
+      ))}
       {vendors.map((v) => (
         <div class="card v soon">
           <strong>{v.title}</strong>

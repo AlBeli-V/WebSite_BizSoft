@@ -12,6 +12,7 @@ import { getProductBySlug, findCanonicalProductSlug, getProductsBySlugs, gallery
 import { productSchema } from '../../lib/seo';
 import { effectivePrice, formatRub } from '../../lib/pricing';
 import { ORIGIN_LABEL, LICENSE_LABEL, listValues } from '../../lib/types';
+import { vendorLegal, productNoindex } from '../../lib/catalog';
 
 const { slug } = Astro.params;
 
@@ -57,6 +58,7 @@ try {
   description={product.meta_description || product.short_description || product.name}
   type="product"
   keywords={product.keywords || undefined}
+  noindex={Boolean(product.noindex) || productNoindex(product.sku)}
 >
   <JsonLd schema={productSchema(product)} />
   <div class="container-page section">
@@ -76,7 +78,7 @@ try {
           {product.license_type && <span class="badge badge-muted">{LICENSE_LABEL[product.license_type]}</span>}
           {category && <a class="badge badge-link" href={`/catalog/${category.slug}`}>{category.name}</a>}
         </div>
-        <span class="sku">Артикул: {product.sku}{product.vendor ? ` · Производитель: ${product.vendor}` : ''}</span>
+        <span class="sku">Артикул: {product.sku}{product.vendor ? ` · Производитель: ${vendorLegal(product.vendor)}` : ''}</span>
         <h1>{product.name}</h1>
         {product.short_description && <p class="lead">{product.short_description}</p>}
 
@@ -109,10 +111,10 @@ try {
           <h2>Характеристики</h2>
           <table class="specs">
             <tbody>
-              {product.vendor && <tr><th>Производитель</th><td>{product.vendor}</td></tr>}
+              {product.vendor && <tr><th>Производитель</th><td>{vendorLegal(product.vendor)}</td></tr>}
               {product.origin && <tr><th>Происхождение</th><td>{ORIGIN_LABEL[product.origin]}</td></tr>}
               {category && <tr><th>Категория</th><td>{category.name}</td></tr>}
-              {product.license_type && <tr><th>Тип лицензии</th><td>{LICENSE_LABEL[product.license_type]}</td></tr>}
+              {product.license_type && <tr><th>Тип использования</th><td>{LICENSE_LABEL[product.license_type]}</td></tr>}
               <tr><th>Артикул</th><td>{product.sku}</td></tr>
               {!byRequest && vat > 0 && <tr><th>НДС</th><td>в т.ч. {vat}%</td></tr>}
             </tbody>

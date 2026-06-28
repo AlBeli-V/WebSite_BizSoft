@@ -30,3 +30,7 @@ Thumbs.db
 
 # Excel temp lock files
 ~$*
+
+# Рабочие выгрузки товаров (черновики, не публиковать)
+public/*-tovary-zagruzka.xlsx
+public/*_zoom.xlsx
