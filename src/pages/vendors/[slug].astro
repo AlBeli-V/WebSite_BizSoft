@@ -1,14 +1,31 @@
 ---
-import ScaffoldPage from '../../components/ScaffoldPage.astro';
-import { vendors } from '../../data/scaffold';
+export const prerender = false;
 
-export function getStaticPaths() {
-  return vendors.map((v) => ({ params: { slug: v.slug }, props: { v } }));
-}
-const { v } = Astro.props;
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ScaffoldPage from '../../components/ScaffoldPage.astro';
+import VendorLanding from '../../components/VendorLanding.astro';
+import { vendorBySlug } from '../../data/vendors';
+import { vendors as scaffoldVendors } from '../../data/scaffold';
+
+const { slug } = Astro.params;
+const entry = slug ? vendorBySlug(slug) : undefined;
+const scaffold = !entry && slug ? scaffoldVendors.find((v) => v.slug === slug) : undefined;
+if (!entry && !scaffold) return new Response(null, { status: 404 });
+
+const vTitle = entry ? (entry.title || entry.vendor) : '';
+const title = entry ? `Купить ${vTitle} для юрлица — тарифы, счёт и КП` : '';
+const description = entry
+  ? `${vTitle} для юридических лиц: ${entry.tagline} Оформление по договору и счёту, оплата в рублях, закрывающие документы через ЭДО.`
+  : '';
 ---
-<ScaffoldPage
-  title={`${v.title} — ПО по договору и счёту`}
-  description={v.description}
-  crumbs={[{ name: 'Производители', url: '/vendors' }, { name: v.title, url: `/vendors/${v.slug}` }]}
-/>
+{entry ? (
+  <BaseLayout title={title} description={description} type="website" canonical={`/vendors/${entry.slug}`}>
+    <VendorLanding entry={entry} />
+  </BaseLayout>
+) : (
+  <ScaffoldPage
+    title={`${scaffold!.title} — ПО по договору и счёту`}
+    description={scaffold!.description}
+    crumbs={[{ name: 'Производители', url: '/vendors' }, { name: scaffold!.title, url: `/vendors/${scaffold!.slug}` }]}
+  />
+)}

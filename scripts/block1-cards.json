@@ -1,0 +1,136 @@
+{
+  "block": "design",
+  "sortBase": 2000,
+  "vendors": [
+    {
+      "vendor": "Canva", "prefix": "CANVA", "category": "design",
+      "products": [
+        { "key": "PRO", "name": "Canva Pro", "license_type": "individual", "base_price": 109.99, "currency": "EUR", "vat_included": true, "billing_note_ru": "за пользователя в год", "price_on_request": false, "short_desc_ru": "Премиум-план для одного пользователя: расширенные инструменты дизайна, премиум-контент и ИИ-функции. Для соло-авторов и фрилансеров.", "features_ru": ["3,6 млн премиум-шаблонов", "141+ млн премиум-фото, видео и графики", "Удаление фона, изменение размера, перевод", "5 фирменных стилей (Brand Kit)", "Планировщик соцсетей", "100 ГБ хранилища"] },
+        { "key": "BUSINESS", "name": "Canva Business", "license_type": "org", "base_price": 170.00, "currency": "EUR", "vat_included": true, "billing_note_ru": "за пользователя в год", "price_on_request": false, "short_desc_ru": "План для команд и малого бизнеса: всё из Pro плюс совместная работа, управление брендом и администрирование команды.", "features_ru": ["Совместная работа и админ-панель", "100 фирменных стилей и согласование", "Расширенный доступ к ИИ", "Управление правами участников", "500 ГБ хранилища"] },
+        { "key": "ENT", "name": "Canva Enterprise", "license_type": "org", "base_price": 0, "currency": "EUR", "vat_included": false, "billing_note_ru": "цена по запросу", "price_on_request": true, "short_desc_ru": "Корпоративный план: безопасность корпоративного уровня, SSO/SCIM и централизованное управление. Цена по запросу.", "features_ru": ["Безопасность и контроль", "SSO и SCIM", "Пользовательские приложения", "1000 фирменных стилей", "Приоритетная поддержка", "1 ТБ хранилища"] }
+      ]
+    },
+    {
+      "vendor": "CorelDRAW", "prefix": "CDR", "category": "design",
+      "products": [
+        { "key": "GS-SUB", "name": "CorelDRAW Graphics Suite (подписка)", "license_type": "individual", "base_price": 369, "currency": "EUR", "vat_included": true, "billing_note_ru": "подписка на год", "price_on_request": false, "short_desc_ru": "Годовая подписка на профессиональный пакет векторной графики: последняя версия, облачные функции, ИИ-кредиты.", "features_ru": ["CorelDRAW, PHOTO-PAINT, Font Manager, Web", "Всегда актуальная версия", "Ежемесячные ИИ-кредиты", "7000+ клипартов, 1000+ шрифтов", "Windows и Mac"] },
+        { "key": "GS-PERP", "name": "CorelDRAW Graphics Suite (бессрочная лицензия)", "license_type": "individual", "base_price": 779, "currency": "EUR", "vat_included": true, "billing_note_ru": "разовая лицензия", "price_on_request": false, "short_desc_ru": "Одноразовая покупка с бессрочным правом использования пакета CorelDRAW Graphics Suite.", "features_ru": ["CorelDRAW, PHOTO-PAINT, Font Manager", "Бессрочное владение версией", "2000 разовых ИИ-кредитов", "Без будущих версий", "Windows и Mac"] },
+        { "key": "GS-BIZ", "name": "CorelDRAW Graphics Suite для бизнеса (Volume)", "license_type": "org", "base_price": 0, "currency": "EUR", "vat_included": false, "billing_note_ru": "цена по запросу", "price_on_request": true, "short_desc_ru": "Объёмное и корпоративное лицензирование CorelDRAW с централизованным управлением.", "features_ru": ["Объёмные мультиместные лицензии", "Централизованное развёртывание", "Программа Maintenance", "Поддержка для бизнеса"] },
+        { "key": "PAINTER-SUB", "name": "Corel Painter (подписка)", "license_type": "individual", "base_price": 225, "currency": "EUR", "vat_included": true, "billing_note_ru": "подписка на год", "price_on_request": false, "short_desc_ru": "Годовая подписка на профессиональную программу цифровой живописи с имитацией натуральных материалов.", "features_ru": ["Кисти Natural-Media и Fluid Paint", "ИИ: авторисование и перенос стиля", "Ускорение кистей GPU/CPU", "Совместимость с PSD и Wacom", "Windows и Mac"] },
+        { "key": "PAINTER-PERP", "name": "Corel Painter (бессрочная лицензия)", "license_type": "individual", "base_price": 425, "currency": "EUR", "vat_included": true, "billing_note_ru": "разовая лицензия", "price_on_request": false, "short_desc_ru": "Одноразовая покупка Corel Painter с бессрочным правом использования и полным набором инструментов живописи.", "features_ru": ["285 кистей в комплекте", "Имитация акварели, масла, пастели", "Клонирование и фотоживопись", "Настраиваемые кисти и палитры", "Windows и Mac"] }
+      ]
+    },
+    {
+      "vendor": "Sketch", "prefix": "SKETCH", "category": "design",
+      "products": [
+        { "key": "STANDARD", "name": "Sketch Standard", "license_type": "org", "base_price": 144, "currency": "USD", "vat_included": false, "billing_note_ru": "за редактора в год", "price_on_request": false, "short_desc_ru": "Подписка Sketch для дизайнеров и небольших команд: веб-приложение, совместная работа и родное приложение для Mac.", "features_ru": ["Совместное редактирование в реальном времени", "Безлимит документов и проектов", "Бесплатные зрители и комментаторы", "Приложение macOS и работа в браузере"] },
+        { "key": "PRO", "name": "Sketch Professional", "license_type": "org", "base_price": 288, "currency": "USD", "vat_included": false, "billing_note_ru": "за редактора в год", "price_on_request": false, "short_desc_ru": "Тариф Sketch для растущих команд и агентств: единый вход SSO, группы прав доступа, архивирование проектов.", "features_ru": ["Единый вход SSO", "Группы прав доступа", "Архивирование проектов", "Все возможности Standard"] },
+        { "key": "MAC", "name": "Sketch Mac-only (бессрочная лицензия)", "license_type": "individual", "base_price": 120, "currency": "USD", "vat_included": false, "billing_note_ru": "разовая покупка за место", "price_on_request": false, "short_desc_ru": "Бессрочная лицензия только для macOS без облачной совместной работы. Включает год обновлений.", "features_ru": ["Разовая покупка за место", "Включает год обновлений", "Только приложение Mac, офлайн", "Без облачной совместной работы"] }
+      ]
+    },
+    {
+      "vendor": "Framer", "prefix": "FRAMER", "category": "design",
+      "products": [
+        { "key": "BASIC", "name": "Framer Basic", "license_type": "org", "base_price": 10, "currency": "USD", "vat_included": false, "billing_note_ru": "за сайт/мес, годовая оплата", "price_on_request": false, "short_desc_ru": "Стартовый платный тариф Framer для одного сайта: свой домен, базовый CMS и хостинг. Для лендингов и небольших сайтов.", "features_ru": ["Бесплатный собственный домен", "2 коллекции CMS", "50 ГБ трафика", "Встроенное SEO", "2 редактора включено"] },
+        { "key": "PRO", "name": "Framer Pro", "license_type": "org", "base_price": 30, "currency": "USD", "vat_included": false, "billing_note_ru": "за сайт/мес, годовая оплата", "price_on_request": false, "short_desc_ru": "Профессиональный тариф Framer для одного сайта: расширенный CMS, стейджинг и ветки. Для растущих сайтов и команд.", "features_ru": ["Собственный домен", "10 коллекций CMS", "100 ГБ трафика", "Стейджинг и ветки с превью", "10 редакторов включено"] },
+        { "key": "SCALE", "name": "Framer Scale", "license_type": "org", "base_price": 100, "currency": "USD", "vat_included": false, "billing_note_ru": "за сайт/мес, только годовая", "price_on_request": false, "short_desc_ru": "Тариф Framer для крупных сайтов с высокими лимитами и расширенным хостингом. Только при годовой оплате.", "features_ru": ["Максимальные лимиты трафика и CMS", "Расширенный хостинг", "Индивидуальное число редакторов", "Приоритетная производительность"] },
+        { "key": "ENT", "name": "Framer Enterprise", "license_type": "org", "base_price": 0, "currency": "USD", "vat_included": false, "billing_note_ru": "цена по запросу", "price_on_request": true, "short_desc_ru": "Корпоративный тариф Framer с индивидуальными лимитами, SSO/SCIM и SLA. Цена по запросу.", "features_ru": ["Неограниченные редакторы", "SSO и SCIM", "SLA по аптайму", "Безопасность корпоративного уровня"] }
+      ]
+    },
+    {
+      "vendor": "Miro", "prefix": "MIRO", "category": "collaboration",
+      "products": [
+        { "key": "STARTER", "name": "Miro Starter", "license_type": "org", "base_price": 96, "currency": "USD", "vat_included": false, "billing_note_ru": "за участника в год", "price_on_request": false, "short_desc_ru": "Тариф Miro для небольших команд: безлимитные приватные доски и базовые инструменты совместной работы.", "features_ru": ["Безлимитные приватные доски", "Редактирование для гостей", "25 AI-кредитов на участника в месяц", "Таймер, голосование, фасилитация", "Экспорт в высоком разрешении"] },
+        { "key": "BUSINESS", "name": "Miro Business", "license_type": "org", "base_price": 240, "currency": "USD", "vat_included": false, "billing_note_ru": "за участника в год", "price_on_request": false, "short_desc_ru": "Тариф Miro для растущих компаний: безлимитные рабочие пространства, ИИ-агенты, интеграции и SSO.", "features_ru": ["Безлимитные пространства и гости", "50 AI-кредитов, ИИ-воркфлоу и агенты", "Интерактивные прототипы", "Интеграции Jira, Asana, Linear, Azure", "Единый вход SSO"] }
+      ]
+    },
+    {
+      "vendor": "Zeplin", "prefix": "ZEPLIN", "category": "design",
+      "products": [
+        { "key": "ADVANCED", "name": "Zeplin Advanced", "license_type": "org", "base_price": 144, "currency": "USD", "vat_included": false, "billing_note_ru": "за место в год", "price_on_request": false, "short_desc_ru": "Командный план Zeplin для передачи макетов в разработку: общее рабочее пространство, до 50 проектов, безлимит экранов.", "features_ru": ["До 50 проектов, безлимит экранов", "Общее рабочее пространство", "Flow-доски и расширенные права", "Бесплатные рецензенты", "Вечная история версий"] },
+        { "key": "ENT", "name": "Zeplin Enterprise", "license_type": "org", "base_price": 0, "currency": "USD", "vat_included": false, "billing_note_ru": "цена по запросу", "price_on_request": true, "short_desc_ru": "Корпоративный план Zeplin с безлимитом проектов и экранов, SSO/SCIM и SLA. Цена по запросу.", "features_ru": ["Всё из Advanced", "Безлимит проектов и экранов", "SSO, MFA, SCIM", "Журналы активности", "Персональный менеджер и SLA 24 ч"] }
+      ]
+    },
+    {
+      "vendor": "Clip Studio Paint", "prefix": "CSP", "category": "design",
+      "products": [
+        { "key": "PRO-PERP", "name": "Clip Studio Paint PRO (бессрочная)", "license_type": "individual", "base_price": 49.99, "currency": "USD", "vat_included": false, "billing_note_ru": "разовая лицензия", "price_on_request": false, "short_desc_ru": "Программа для рисования и иллюстрации с бессрочной лицензией на один компьютер (Windows/macOS).", "features_ru": ["Бессрочная лицензия, оплата один раз", "Полный набор кистей и инструментов", "Windows и macOS", "10 ГБ облачного хранилища"] },
+        { "key": "EX-PERP", "name": "Clip Studio Paint EX (бессрочная)", "license_type": "individual", "base_price": 219.99, "currency": "USD", "vat_included": false, "billing_note_ru": "разовая лицензия", "price_on_request": false, "short_desc_ru": "Старшая редакция для рисования, комиксов и анимации с бессрочной лицензией на один компьютер (Windows/macOS).", "features_ru": ["Бессрочная лицензия", "Все функции PRO плюс расширенные", "Многостраничные комиксы и вебтуны", "Покадровая анимация без ограничений", "10 ГБ хранилища"] },
+        { "key": "PRO-SUB", "name": "Clip Studio Paint PRO (подписка, 1 устройство)", "license_type": "individual", "base_price": 24.99, "currency": "USD", "vat_included": false, "billing_note_ru": "за год, подписка", "price_on_request": false, "short_desc_ru": "Годовая подписка PRO на одно устройство, включая планшеты (iPad, Android) и десктоп.", "features_ru": ["Годовая подписка", "iPad, iPhone, Android, Windows, macOS", "Постоянные обновления", "Ежемесячные бонусные материалы", "10 ГБ хранилища"] },
+        { "key": "EX-SUB", "name": "Clip Studio Paint EX (подписка, 1 устройство)", "license_type": "individual", "base_price": 71.99, "currency": "USD", "vat_included": false, "billing_note_ru": "за год, подписка", "price_on_request": false, "short_desc_ru": "Годовая подписка EX на одно устройство с поддержкой планшетов и десктопа: комиксы, анимация, все функции EX.", "features_ru": ["Годовая подписка", "Все функции EX: комиксы, анимация", "iPad, Android, Windows, macOS", "Постоянные обновления", "10 ГБ хранилища"] }
+      ]
+    },
+    {
+      "vendor": "Procreate", "prefix": "PROCR", "category": "design",
+      "products": [
+        { "key": "IPAD", "name": "Procreate для iPad", "license_type": "individual", "base_price": 14.99, "currency": "EUR", "vat_included": true, "billing_note_ru": "разовая покупка", "price_on_request": false, "short_desc_ru": "Профессиональное приложение для рисования и иллюстрации на iPad. Разовая покупка, без подписки.", "features_ru": ["Сотни кистей и свои кисти", "Холсты до 16K, Apple Pencil", "Слои, маски, режимы наложения", "Запись процесса в видео", "Все обновления включены"] },
+        { "key": "DREAMS", "name": "Procreate Dreams", "license_type": "individual", "base_price": 22.99, "currency": "EUR", "vat_included": true, "billing_note_ru": "разовая покупка", "price_on_request": false, "short_desc_ru": "Приложение для 2D-анимации на iPad. Разовая покупка, без подписки.", "features_ru": ["Покадровая и таймлайн-анимация", "Технология Performing", "Работа с видео и аудио", "Совместимо с файлами Procreate", "Все обновления включены"] }
+      ]
+    },
+    {
+      "vendor": "Astute Graphics", "prefix": "ASTUTE", "category": "design",
+      "products": [
+        { "key": "BUNDLE", "name": "Astute Graphics — полный набор плагинов", "license_type": "individual", "base_price": 149, "currency": "EUR", "vat_included": false, "billing_note_ru": "за пользователя в год", "price_on_request": false, "short_desc_ru": "Годовая подписка на полный набор плагинов Astute Graphics для Adobe Illustrator на одного пользователя.", "features_ru": ["Полный набор плагинов для Illustrator", "VectorScribe, DynamicSketch, MirrorMe и др.", "Постоянные обновления", "Приоритетная поддержка", "Лицензия на 1 пользователя в год"] }
+      ]
+    },
+    {
+      "vendor": "Freepik", "prefix": "FREEPIK", "category": "design",
+      "products": [
+        { "key": "PREMIUM", "name": "Freepik Premium (годовая)", "license_type": "individual", "base_price": 174, "currency": "USD", "vat_included": false, "billing_note_ru": "за год, оплата вперёд", "price_on_request": false, "short_desc_ru": "Безлимитный доступ к 250M+ премиум-ресурсам и 240K AI-кредитов в год.", "features_ru": ["250M+ премиум-фото, векторов, PSD", "240 000 AI-кредитов в год", "Без указания авторства", "Коммерческая лицензия"] },
+        { "key": "PREMIUM-PLUS", "name": "Freepik Premium+ (годовая)", "license_type": "individual", "base_price": 405, "currency": "USD", "vat_included": false, "billing_note_ru": "за год, оплата вперёд", "price_on_request": false, "short_desc_ru": "Всё из Premium плюс 600K AI-кредитов и безлимит на избранные AI-модели.", "features_ru": ["600 000 AI-кредитов в год", "Безлимит на избранные AI-модели", "Все премиум-ресурсы", "Расширенное редактирование"] }
+      ]
+    },
+    {
+      "vendor": "Envato", "prefix": "ENVATO", "category": "design",
+      "products": [
+        { "key": "CORE", "name": "Envato Elements Core (индивидуальный)", "license_type": "individual", "base_price": 198, "currency": "USD", "vat_included": false, "billing_note_ru": "за год ($16.5/мес)", "price_on_request": false, "short_desc_ru": "Безлимитные загрузки 28M+ ресурсов с пожизненной коммерческой лицензией и 10 AI-генераций в месяц.", "features_ru": ["Безлимитные загрузки 28M+ ресурсов", "Пожизненная коммерческая лицензия", "10 AI-генераций в месяц", "Новые материалы ежедневно"] },
+        { "key": "PLUS", "name": "Envato Elements Plus (индивидуальный)", "license_type": "individual", "base_price": 468, "currency": "USD", "vat_included": false, "billing_note_ru": "за год ($39/мес)", "price_on_request": false, "short_desc_ru": "Расширенный тариф с большим объёмом AI-генераций поверх Core.", "features_ru": ["Всё из Core", "Больше AI-генераций", "Безлимитные загрузки", "Пожизненная лицензия"] },
+        { "key": "TEAM-CORE", "name": "Envato Elements Team Core (за место)", "license_type": "org", "base_price": 129, "currency": "USD", "vat_included": false, "billing_note_ru": "за место в год, от 2 мест", "price_on_request": false, "short_desc_ru": "Командный тариф: общий биллинг, админ-панель, от 2 участников.", "features_ru": ["От 2 участников", "Общий биллинг и админ-панель", "Безлимитные загрузки на участника", "10 AI-генераций в месяц на участника"] }
+      ]
+    },
+    {
+      "vendor": "Shutterstock", "prefix": "SHUTTER", "category": "design",
+      "products": [
+        { "key": "IMG-10", "name": "Shutterstock 10 изображений/мес (год)", "license_type": "org", "base_price": 300, "currency": "USD", "vat_included": false, "billing_note_ru": "за год вперёд, ~$25/мес", "price_on_request": false, "short_desc_ru": "10 загрузок изображений в месяц со стандартной royalty-free лицензией.", "features_ru": ["10 изображений в месяц", "Стандартная royalty-free лицензия", "Полный доступ к библиотеке", "Доступ к шаблонам"] },
+        { "key": "IMG-50", "name": "Shutterstock 50 изображений/мес (год)", "license_type": "org", "base_price": 900, "currency": "USD", "vat_included": false, "billing_note_ru": "за год вперёд, ~$75/мес", "price_on_request": false, "short_desc_ru": "50 загрузок изображений в месяц для команд и агентств.", "features_ru": ["50 изображений в месяц", "Стандартная royalty-free лицензия", "Более низкая цена за изображение", "Полный доступ к библиотеке"] },
+        { "key": "IMG-350", "name": "Shutterstock 350 изображений/мес (год)", "license_type": "org", "base_price": 1548, "currency": "USD", "vat_included": false, "billing_note_ru": "за год вперёд, ~$129/мес", "price_on_request": false, "short_desc_ru": "350 загрузок изображений в месяц для высоких объёмов.", "features_ru": ["350 изображений в месяц", "Минимальная цена за изображение", "Стандартная royalty-free лицензия", "Полный доступ к библиотеке"] }
+      ]
+    },
+    {
+      "vendor": "Depositphotos", "prefix": "DEPOSIT", "category": "design",
+      "products": [
+        { "key": "UNL-YEAR", "name": "Depositphotos Unlimited (годовая)", "license_type": "org", "base_price": 261, "currency": "USD", "vat_included": false, "billing_note_ru": "за год вперёд", "price_on_request": false, "short_desc_ru": "Безлимитные загрузки из 176M+ ресурсов, годовая оплата вперёд.", "features_ru": ["Безлимитные загрузки", "176M+ ресурсов", "Стандартная коммерческая лицензия", "Безлимитная AI-генерация"] },
+        { "key": "UNL-MONTH", "name": "Depositphotos Unlimited (месячная)", "license_type": "org", "base_price": 29, "currency": "USD", "vat_included": false, "billing_note_ru": "в месяц, отмена в любой момент", "price_on_request": false, "short_desc_ru": "Безлимитные загрузки помесячно без обязательств.", "features_ru": ["Безлимитные загрузки", "Отмена в любой момент", "176M+ ресурсов", "Пожизненные права на скачанное"] },
+        { "key": "PACK-100", "name": "Depositphotos пакет 100 изображений", "license_type": "org", "base_price": 219, "currency": "USD", "vat_included": false, "billing_note_ru": "разовый пакет, срок 1 год", "price_on_request": false, "short_desc_ru": "Пакет из ~100 загрузок изображений со сроком действия 1 год, без ежемесячных обязательств.", "features_ru": ["~100 загрузок изображений", "Срок действия 1 год", "Без ежемесячных обязательств", "Стандартная или расширенная лицензия"] }
+      ]
+    },
+    {
+      "vendor": "Monotype", "prefix": "MONO", "category": "design",
+      "products": [
+        { "key": "IND", "name": "Monotype Fonts — Individual", "license_type": "individual", "base_price": 99, "currency": "USD", "vat_included": false, "billing_note_ru": "за год, 1 пользователь", "price_on_request": false, "short_desc_ru": "Годовая подписка для одного дизайнера: прототипирование всей библиотеки Monotype (30 000+ шрифтов).", "features_ru": ["1 пользователь, оплата раз в год", "Прототипирование 30 000+ шрифтов", "Синхронизация и установка на десктоп", "Веб-шрифты не включены"] },
+        { "key": "IND-PRO", "name": "Monotype Fonts — Individual Pro", "license_type": "individual", "base_price": 199, "currency": "USD", "vat_included": false, "billing_note_ru": "за год, 1 пользователь", "price_on_request": false, "short_desc_ru": "Расширенная годовая подписка для одного дизайнера с лицензиями на веб-шрифты (до 250 000 просмотров).", "features_ru": ["1 пользователь, оплата раз в год", "Веб-шрифты до 250 000 просмотров/мес", "Синхронизация на десктопе", "Полный доступ к прототипированию"] },
+        { "key": "TEAM", "name": "Monotype Fonts — Business / Team", "license_type": "org", "base_price": 0, "currency": "USD", "vat_included": false, "billing_note_ru": "цена по запросу", "price_on_request": true, "short_desc_ru": "Командная подписка для организаций: лицензии на десктоп, веб и приложения, управление шрифтами.", "features_ru": ["Несколько пользователей", "Лицензии десктоп + веб + приложения", "Управление шрифтами в команде", "Годовой контракт"] },
+        { "key": "MYFONTS", "name": "MyFonts — покупка отдельного шрифта", "license_type": "individual", "base_price": 0, "currency": "USD", "vat_included": false, "billing_note_ru": "цена за начертание", "price_on_request": true, "short_desc_ru": "Разовая покупка отдельных шрифтов/начертаний в маркетплейсе MyFonts. Цена зависит от начертания и словолитни.", "features_ru": ["Оплата за каждое начертание", "Бессрочная лицензия", "Цена зависит от начертания", "Десктоп / веб / приложение"] }
+      ]
+    },
+    {
+      "vendor": "Midjourney", "prefix": "MJ", "category": "ai",
+      "products": [
+        { "key": "BASIC", "name": "Midjourney Basic", "license_type": "individual", "base_price": 10, "currency": "USD", "vat_included": false, "billing_note_ru": "за пользователя в месяц", "price_on_request": false, "short_desc_ru": "Начальный тариф генерации изображений: ~3,3 часа быстрого GPU-времени в месяц.", "features_ru": ["~3,3 часа Fast GPU/мес", "Годовая оплата -20%", "Докупка Fast-часов $4/час"] },
+        { "key": "STANDARD", "name": "Midjourney Standard", "license_type": "individual", "base_price": 30, "currency": "USD", "vat_included": false, "billing_note_ru": "за пользователя в месяц", "price_on_request": false, "short_desc_ru": "Популярный тариф: 15 часов Fast GPU и безлимитный Relax-режим.", "features_ru": ["15 часов Fast GPU/мес", "Безлимитный Relax-режим", "Годовая оплата -20%"] },
+        { "key": "PRO", "name": "Midjourney Pro", "license_type": "individual", "base_price": 60, "currency": "USD", "vat_included": false, "billing_note_ru": "за пользователя в месяц", "price_on_request": false, "short_desc_ru": "30 часов Fast GPU, безлимитный Relax и приватный режим Stealth.", "features_ru": ["30 часов Fast GPU/мес", "Безлимитный Relax", "Режим Stealth", "Годовая оплата -20%"] },
+        { "key": "MEGA", "name": "Midjourney Mega", "license_type": "individual", "base_price": 120, "currency": "USD", "vat_included": false, "billing_note_ru": "за пользователя в месяц", "price_on_request": false, "short_desc_ru": "60 часов Fast GPU, безлимитный Relax и режим Stealth. Для студий и мощных задач.", "features_ru": ["60 часов Fast GPU/мес", "Безлимитный Relax", "Режим Stealth", "Высокая параллельность", "Годовая оплата -20%"] }
+      ]
+    },
+    {
+      "vendor": "Recraft", "prefix": "RECRAFT", "category": "ai",
+      "products": [
+        { "key": "BASIC", "name": "Recraft Basic", "license_type": "individual", "base_price": 12, "currency": "USD", "vat_included": false, "billing_note_ru": "за пользователя в месяц", "price_on_request": false, "short_desc_ru": "Стартовый платный тариф: 1000 кредитов в месяц, коммерческие права.", "features_ru": ["1000 кредитов/мес", "Коммерческое использование", "Годовая оплата дешевле"] },
+        { "key": "ADVANCED", "name": "Recraft Advanced", "license_type": "individual", "base_price": 33, "currency": "USD", "vat_included": false, "billing_note_ru": "за пользователя в месяц", "price_on_request": false, "short_desc_ru": "Расширенный тариф: 4000 кредитов в месяц для активной работы.", "features_ru": ["4000 кредитов/мес", "Коммерческое использование", "Годовая оплата -20%"] },
+        { "key": "PRO", "name": "Recraft Pro", "license_type": "individual", "base_price": 60, "currency": "USD", "vat_included": false, "billing_note_ru": "за пользователя в месяц", "price_on_request": false, "short_desc_ru": "Профессиональный тариф: ~8400 кредитов, экспорт в SVG/вектор.", "features_ru": ["~8400 кредитов/мес", "Экспорт в SVG/вектор", "Докупка кредитов", "Годовая оплата -20%"] },
+        { "key": "TEAM", "name": "Recraft Team (за место)", "license_type": "org", "base_price": 55, "currency": "USD", "vat_included": false, "billing_note_ru": "за пользователя в месяц", "price_on_request": false, "short_desc_ru": "Командный тариф: ~9000 кредитов на место, общие стили, SSO, поддержка 24/7.", "features_ru": ["~9000 кредитов на место/мес", "Общие стили и управление", "SSO", "Поддержка 24/7"] },
+        { "key": "ENT", "name": "Recraft Enterprise", "license_type": "org", "base_price": 0, "currency": "USD", "vat_included": false, "billing_note_ru": "цена по запросу", "price_on_request": true, "short_desc_ru": "Корпоративный тариф: API-доступ, SSO, аудит-логи, шифрование, SLA. Цена по запросу.", "features_ru": ["Доступ к API", "SSO, аудит-логи, шифрование", "Управление брендовыми ассетами", "Персональная поддержка и SLA"] }
+      ]
+    }
+  ]
+}

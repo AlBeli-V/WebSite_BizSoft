@@ -4,6 +4,7 @@
  * Organization/LocalBusiness-разметке и в PDF коммерческого предложения.
  * Меняем реквизиты — только здесь.
  */
+import { VENDORS } from '../data/vendors';
 
 export interface BankDetails {
   bankName: string;
@@ -77,8 +78,11 @@ export const mainNav: { label: string; href: string }[] = [
 
 /** Готовые посадочные страницы производителей (для меню «Производители» и /vendors). */
 export const vendorLandings: { slug: string; name: string; description: string }[] = [
+  // Bespoke-лендинги (отдельные страницы vendors/<slug>.astro)
   { slug: 'jetbrains', name: 'JetBrains', description: 'IDE для разработчиков: IntelliJ IDEA, PyCharm, GoLand, Rider, All Products Pack и 480+ плагинов.' },
   { slug: 'zoom', name: 'Zoom', description: 'Видеоконференцсвязь для бизнеса: тарифы Workplace, вебинары, телефония, КП и документы.' },
+  // Шаблонные лендинги производителей (креативные индустрии) — из src/data/vendors.ts
+  ...VENDORS.map((v) => ({ slug: v.slug, name: v.title || v.vendor, description: v.tagline })),
 ].sort((a, b) => a.name.localeCompare(b.name, 'ru'));
 
 /** Подвал: дополнительные ссылки. */

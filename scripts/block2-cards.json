@@ -1,0 +1,150 @@
+{
+  "block": "design",
+  "sortBase": 3000,
+  "vendors": [
+    {
+      "vendor": "Unity", "prefix": "UNITY", "category": "development",
+      "products": [
+        { "key": "PRO", "name": "Unity Pro", "license_type": "org", "base_price": 2310, "currency": "USD", "vat_included": false, "billing_note_ru": "за место в год", "price_on_request": false, "short_desc_ru": "Профессиональная подписка на игровой движок Unity для команд и студий. Оплата за каждое рабочее место в год.", "features_ru": ["Полный доступ к движку без ограничений по доходу до $25 млн", "Сборки для всех платформ, включая консоли", "Unity Build Automation и облачные сервисы", "Расширенная аналитика и приоритетная поддержка"] },
+        { "key": "ENT", "name": "Unity Enterprise", "license_type": "org", "base_price": 0, "currency": "USD", "vat_included": false, "billing_note_ru": "цена по запросу", "price_on_request": true, "short_desc_ru": "Корпоративная подписка Unity для крупных студий с доходом свыше $25 млн. Стоимость рассчитывается индивидуально.", "features_ru": ["Всё из Unity Pro плюс корпоративные возможности", "Выделенная премиум-поддержка и SLA", "Доступ к исходному коду движка по запросу", "Персональный менеджер"] }
+      ]
+    },
+    {
+      "vendor": "Unreal Engine", "prefix": "UE", "category": "development",
+      "products": [
+        { "key": "SUB", "name": "Unreal Subscription (за место)", "license_type": "org", "base_price": 1850, "currency": "USD", "vat_included": false, "billing_note_ru": "за место в год", "price_on_request": false, "short_desc_ru": "Годовая лицензия Unreal Engine на одно рабочее место для компаний, создающих неигровой контент (кино, ТВ, архвиз, вещание).", "features_ru": ["Unreal Engine 5 для рабочих мест", "Включает Twinmotion и RealityCapture", "Кино, ТВ, архвиз, вещание и события", "Управление местами через Developer Portal"] },
+        { "key": "REALITYSCAN", "name": "RealityScan (RealityCapture)", "license_type": "org", "base_price": 1250, "currency": "USD", "vat_included": false, "billing_note_ru": "за место в год", "price_on_request": false, "short_desc_ru": "Профессиональная фотограмметрия и 3D-реконструкция для студий и компаний.", "features_ru": ["Фотограмметрия и 3D-реконструкция", "AI-генерация масок", "Поддержка аэро-Lidar данных", "Контроль качества сканов"] }
+      ]
+    },
+    {
+      "vendor": "Autodesk", "prefix": "ADSK", "category": "design",
+      "products": [
+        { "key": "MAYA", "name": "Autodesk Maya", "license_type": "org", "base_price": 1945, "currency": "USD", "vat_included": false, "billing_note_ru": "за место в год", "price_on_request": false, "short_desc_ru": "3D-анимация, моделирование, симуляция и рендеринг для кино и игр.", "features_ru": ["3D-моделирование и анимация", "Симуляция ткани, частиц и жидкостей (Bifrost)", "Арнольд-рендеринг в комплекте", "Инструменты риггинга и VFX"] },
+        { "key": "3DSMAX", "name": "Autodesk 3ds Max", "license_type": "org", "base_price": 1945, "currency": "USD", "vat_included": false, "billing_note_ru": "за место в год", "price_on_request": false, "short_desc_ru": "3D-моделирование, рендеринг и анимация для дизайна, визуализации и игр.", "features_ru": ["Полигональное и сплайновое моделирование", "Архитектурная и продуктовая визуализация", "Арнольд-рендеринг в комплекте", "Расширяемость через скрипты и плагины"] },
+        { "key": "MECOLL", "name": "Autodesk Media & Entertainment Collection", "license_type": "org", "base_price": 3235, "currency": "USD", "vat_included": false, "billing_note_ru": "за место в год", "price_on_request": false, "short_desc_ru": "Набор Maya, 3ds Max, MotionBuilder, Mudbox и др. для кино, ТВ и игр.", "features_ru": ["Включает Maya и 3ds Max", "MotionBuilder и Mudbox в комплекте", "Инструменты для VFX и анимации", "Выгоднее покупки по отдельности"] },
+        { "key": "MOTIONBUILDER", "name": "Autodesk MotionBuilder", "license_type": "org", "base_price": 2225, "currency": "USD", "vat_included": false, "billing_note_ru": "за место в год", "price_on_request": false, "short_desc_ru": "3D-анимация персонажей и обработка захвата движения в реальном времени.", "features_ru": ["Захват и обработка motion capture", "Анимация персонажей в реальном времени", "Инструменты редактирования движения", "Совместимость с Maya и 3ds Max"] },
+        { "key": "MUDBOX", "name": "Autodesk Mudbox", "license_type": "org", "base_price": 100, "currency": "USD", "vat_included": false, "billing_note_ru": "за место в год", "price_on_request": false, "short_desc_ru": "Цифровая скульптура и рисование текстур в 3D.", "features_ru": ["Скульптинг высокой детализации", "3D-рисование текстур", "Ретопология и запекание карт", "Совместимость с Maya и 3ds Max"] }
+      ]
+    },
+    {
+      "vendor": "Maxon", "prefix": "MAXON", "category": "design",
+      "products": [
+        { "key": "ONE", "name": "Maxon One", "license_type": "org", "base_price": 1265, "currency": "USD", "vat_included": false, "billing_note_ru": "за место в год", "price_on_request": false, "short_desc_ru": "Полный набор Maxon: Cinema 4D, Redshift, ZBrush, Red Giant, Universe, Forger.", "features_ru": ["Cinema 4D для 3D-моделирования и анимации", "Рендер Redshift GPU", "Скульптинг ZBrush", "Red Giant для VFX и моушн-графики"] },
+        { "key": "C4D", "name": "Maxon Cinema 4D", "license_type": "org", "base_price": 839, "currency": "USD", "vat_included": false, "billing_note_ru": "за место в год", "price_on_request": false, "short_desc_ru": "3D-моделирование, анимация и симуляция; Redshift для C4D включён.", "features_ru": ["Профессиональное 3D-моделирование", "Анимация и симуляция", "Встроенный рендер Redshift", "Обширная библиотека ресурсов"] },
+        { "key": "ZBRUSH", "name": "Maxon ZBrush", "license_type": "org", "base_price": 399, "currency": "USD", "vat_included": false, "billing_note_ru": "за место в год", "price_on_request": false, "short_desc_ru": "Индустриальный стандарт цифрового скульптинга, покраски и текстурирования.", "features_ru": ["Цифровой скульптинг высокого разрешения", "Покраска и текстурирование", "Кисти и динамическая топология", "Экспорт в игровые пайплайны"] },
+        { "key": "REDSHIFT", "name": "Maxon Redshift", "license_type": "org", "base_price": 289, "currency": "USD", "vat_included": false, "billing_note_ru": "за место в год", "price_on_request": false, "short_desc_ru": "Полностью GPU-ускоренный рендерер для быстрого продакшена.", "features_ru": ["GPU-ускоренный рендеринг", "Поддержка Cinema 4D, Maya, Houdini", "Быстрый вывод продакшн-качества", "Гибкое управление материалами"] },
+        { "key": "REDGIANT", "name": "Maxon Red Giant Complete", "license_type": "org", "base_price": 639, "currency": "USD", "vat_included": false, "billing_note_ru": "за место в год", "price_on_request": false, "short_desc_ru": "Профессиональный набор для VFX, моушн-графики и постпродакшена видео.", "features_ru": ["Инструменты VFX и композитинга", "Моушн-графика и анимация", "Цветокоррекция и эффекты", "Плагины для After Effects и Premiere Pro"] }
+      ]
+    },
+    {
+      "vendor": "SideFX Houdini", "prefix": "HOU", "category": "design",
+      "products": [
+        { "key": "CORE", "name": "Houdini Core (годовая)", "license_type": "org", "base_price": 1995, "currency": "USD", "vat_included": false, "billing_note_ru": "за место в год", "price_on_request": false, "short_desc_ru": "Ядро Houdini для 3D-анимации, моделирования и рендеринга без продвинутой динамики.", "features_ru": ["Процедурное моделирование и анимация", "Композитинг и редактирование движения", "Рендеринг Karma/Mantra", "Node-locked лицензия"] },
+        { "key": "FX", "name": "Houdini FX (полная, годовая)", "license_type": "org", "base_price": 4495, "currency": "USD", "vat_included": false, "billing_note_ru": "за место в год", "price_on_request": false, "short_desc_ru": "Полная версия Houdini с динамикой, симуляциями частиц, жидкостей и разрушений.", "features_ru": ["Все возможности Houdini Core", "Динамика и симуляции (частицы, жидкости)", "Pyro, Vellum, RBD", "Продвинутый VFX-пайплайн"] },
+        { "key": "INDIE", "name": "Houdini Indie (годовая)", "license_type": "individual", "base_price": 299, "currency": "USD", "vat_included": false, "billing_note_ru": "1 год (доход до $100K)", "price_on_request": false, "short_desc_ru": "Полнофункциональная версия для инди-разработчиков с доходом до $100K в год.", "features_ru": ["Почти все возможности полной версии", "Ограничение: доход до $100K/год", "До 3 лицензий на пользователя", "Рендеринг до 4K"] },
+        { "key": "ENGINE-WS", "name": "Houdini Engine (рабочая станция)", "license_type": "org", "base_price": 525, "currency": "USD", "vat_included": false, "billing_note_ru": "рабочая станция, в год", "price_on_request": false, "short_desc_ru": "Загрузка Houdini Digital Assets в Maya, Unreal, Unity на одной рабочей станции.", "features_ru": ["Загрузка HDA в сторонние приложения", "Интеграция с Maya, Unreal, Unity", "Node-locked на рабочую станцию", "Годовая аренда"] }
+      ]
+    },
+    {
+      "vendor": "SpeedTree", "prefix": "SPDTR", "category": "design",
+      "products": [
+        { "key": "INDIE", "name": "SpeedTree Indie", "license_type": "individual", "base_price": 199, "currency": "USD", "vat_included": false, "billing_note_ru": "за место в год (до $200K)", "price_on_request": false, "short_desc_ru": "Подписка для авторов с доходом до $200K/год; единый модельер для игр и VFX.", "features_ru": ["Единая версия для игр и VFX", "Библиотека готовых деревьев", "Экспорт в игровые движки", "Доход до $200 000/год"] },
+        { "key": "PRO-NL", "name": "SpeedTree Pro (Node-locked)", "license_type": "org", "base_price": 499, "currency": "USD", "vat_included": false, "billing_note_ru": "за место в год, node-lock", "price_on_request": false, "short_desc_ru": "Профессиональная подписка (доход до $1 млн/год), лицензия привязана к устройству.", "features_ru": ["Полный функционал модельера", "Игры и VFX в одной версии", "Node-locked лицензия", "Доход до $1 млн/год"] },
+        { "key": "PRO-FL", "name": "SpeedTree Pro (Floating)", "license_type": "org", "base_price": 899, "currency": "USD", "vat_included": false, "billing_note_ru": "за место в год, floating", "price_on_request": false, "short_desc_ru": "Профессиональная подписка с плавающей лицензией для команд.", "features_ru": ["Плавающая (floating) лицензия", "Игры и VFX в одной версии", "Совместное использование мест", "Доход до $1 млн/год"] },
+        { "key": "ENT", "name": "SpeedTree Enterprise", "license_type": "org", "base_price": 0, "currency": "USD", "vat_included": false, "billing_note_ru": "цена по запросу", "price_on_request": true, "short_desc_ru": "Корпоративная подписка для студий с доходом свыше $1 млн/год, включает SDK.", "features_ru": ["Включает SDK", "Для студий с доходом >$1 млн/год", "Индивидуальные условия", "Расширенная поддержка"] }
+      ]
+    },
+    {
+      "vendor": "Marmoset", "prefix": "MRMST", "category": "design",
+      "products": [
+        { "key": "TB5-IND", "name": "Marmoset Toolbag 5 (Individual, бессрочная)", "license_type": "individual", "base_price": 399, "currency": "USD", "vat_included": false, "billing_note_ru": "разовая лицензия", "price_on_request": false, "short_desc_ru": "Бессрочная лицензия Toolbag 5 для фрилансеров; все обновления 5.x бесплатно.", "features_ru": ["Бессрочный доступ к Toolbag 5", "Все обновления 5.x бесплатно", "Доступ к библиотеке ассетов", "Без платы за поддержку"] },
+        { "key": "TB5-STUDIO", "name": "Marmoset Toolbag 5 (Studio, бессрочная)", "license_type": "org", "base_price": 1299, "currency": "USD", "vat_included": false, "billing_note_ru": "разовая, за место", "price_on_request": false, "short_desc_ru": "Бессрочная коммерческая лицензия Toolbag 5 для студий; скидки за объём.", "features_ru": ["Коммерческая лицензия для компаний", "Бессрочный доступ к v5", "Скидки за количество мест", "Пожизненная email-поддержка"] },
+        { "key": "TB-SUB-IND", "name": "Marmoset Toolbag (подписка, Individual)", "license_type": "individual", "base_price": 18.99, "currency": "USD", "vat_included": false, "billing_note_ru": "в месяц, 1 место", "price_on_request": false, "short_desc_ru": "Подписка на актуальную версию Toolbag для одного пользователя.", "features_ru": ["Всегда последняя версия", "Помесячно или годом", "Доступ к библиотеке ассетов", "Для фрилансеров"] },
+        { "key": "TB-SUB-STUDIO", "name": "Marmoset Toolbag (подписка, Studio)", "license_type": "org", "base_price": 49.99, "currency": "USD", "vat_included": false, "billing_note_ru": "в месяц, за место", "price_on_request": false, "short_desc_ru": "Коммерческая подписка Toolbag для студий; всегда актуальная версия.", "features_ru": ["Коммерческая лицензия для команд", "Всегда последняя версия", "Помесячно или годом", "Скидки за количество мест"] }
+      ]
+    },
+    {
+      "vendor": "Marvelous Designer", "prefix": "MVLS", "category": "design",
+      "products": [
+        { "key": "PERSONAL-M", "name": "Marvelous Designer Personal (месячная)", "license_type": "individual", "base_price": 39, "currency": "USD", "vat_included": false, "billing_note_ru": "подписка, в месяц", "price_on_request": false, "short_desc_ru": "Инструмент создания и симуляции 3D-одежды для одного пользователя.", "features_ru": ["Создание и симуляция 3D-одежды", "Windows и macOS", "Для физлиц и фрилансеров", "Помесячная оплата"] },
+        { "key": "PERSONAL-Y", "name": "Marvelous Designer Personal (годовая)", "license_type": "individual", "base_price": 280, "currency": "USD", "vat_included": false, "billing_note_ru": "подписка, в год", "price_on_request": false, "short_desc_ru": "Годовая подписка Personal для одного пользователя, Windows и macOS.", "features_ru": ["Создание и симуляция 3D-одежды", "Windows и macOS", "Экономия при годовой оплате", "Для фрилансеров"] },
+        { "key": "ENT-Y", "name": "Marvelous Designer Enterprise (годовая)", "license_type": "org", "base_price": 2000, "currency": "USD", "vat_included": false, "billing_note_ru": "подписка, в год", "price_on_request": false, "short_desc_ru": "Годовая корпоративная сетевая лицензия (Network Online) для Windows и macOS.", "features_ru": ["Сетевая лицензия для организаций", "Windows и macOS", "Годовая оплата", "Для студий и команд"] },
+        { "key": "ENT-LINUX", "name": "Marvelous Designer Enterprise + Linux (годовая)", "license_type": "org", "base_price": 2300, "currency": "USD", "vat_included": false, "billing_note_ru": "подписка, в год", "price_on_request": false, "short_desc_ru": "Годовая корпоративная лицензия с поддержкой Linux (Windows, macOS, Linux).", "features_ru": ["Сетевая лицензия для организаций", "Windows, macOS и Linux", "Годовая оплата", "Для студий и команд"] }
+      ]
+    },
+    {
+      "vendor": "Reallusion", "prefix": "RLSN", "category": "design",
+      "products": [
+        { "key": "CC5", "name": "Reallusion Character Creator 5 (бессрочная)", "license_type": "individual", "base_price": 299, "currency": "USD", "vat_included": false, "billing_note_ru": "разовая лицензия", "price_on_request": false, "short_desc_ru": "Бессрочная лицензия на создание и настройку 3D-персонажей.", "features_ru": ["Постоянное владение лицензией", "Создание 3D-персонажей", "Совместим с iClone и движками", "Единоразовая оплата"] },
+        { "key": "ICLONE8", "name": "Reallusion iClone 8 (бессрочная)", "license_type": "individual", "base_price": 599, "currency": "USD", "vat_included": false, "billing_note_ru": "разовая лицензия", "price_on_request": false, "short_desc_ru": "Бессрочная лицензия на 3D-анимацию персонажей и сцен в реальном времени.", "features_ru": ["Постоянное владение лицензией", "Анимация персонажей в реальном времени", "Симуляция и рендеринг сцен", "Единоразовая оплата"] },
+        { "key": "SUITE365", "name": "Reallusion 3D Suite 365 (годовая)", "license_type": "individual", "base_price": 599, "currency": "USD", "vat_included": false, "billing_note_ru": "подписка, в год", "price_on_request": false, "short_desc_ru": "Комплект Character Creator + iClone с набором дополнений, годовая подписка.", "features_ru": ["Character Creator и iClone в комплекте", "Набор дополнений включён", "Годовая оплата", "Доступ к обновлениям"] }
+      ]
+    },
+    {
+      "vendor": "Perforce", "prefix": "PRFRC", "category": "development",
+      "products": [
+        { "key": "P4-CLOUD", "name": "Perforce P4 (Helix Core) Cloud", "license_type": "org", "base_price": 39, "currency": "USD", "vat_included": false, "billing_note_ru": "за польз./мес, до 100", "price_on_request": false, "short_desc_ru": "Управляемая облачная система контроля версий Helix Core: хостинг и обслуживание на стороне Perforce.", "features_ru": ["Управляемый хостинг Perforce", "Безлимит рабочих областей", "P4 Code Review бесплатно от 3 мест", "Хранилище до 64 ГБ"] },
+        { "key": "P4-SCALE", "name": "Perforce P4 (Helix Core) Scale", "license_type": "org", "base_price": 0, "currency": "USD", "vat_included": false, "billing_note_ru": "цена по запросу", "price_on_request": true, "short_desc_ru": "Корпоративный тариф Helix Core: контроль версий кода и больших бинарных файлов без ограничений по числу пользователей.", "features_ru": ["Без лимита пользователей и репозиториев", "LDAP, SAML SSO", "Поддержка по телефону и email", "Подписка или бессрочная лицензия"] },
+        { "key": "P4-PLATFORM", "name": "Perforce P4 (Helix Core) Platform", "license_type": "org", "base_price": 0, "currency": "USD", "vat_included": false, "billing_note_ru": "цена по запросу", "price_on_request": true, "short_desc_ru": "Максимальный тариф Helix Core: всё из Scale плюс P4 DAM и P4 Plan.", "features_ru": ["Всё из Scale", "P4 DAM для арт-команд", "P4 Plan для управления проектами", "Корпоративная поддержка"] }
+      ]
+    },
+    {
+      "vendor": "Audiokinetic", "prefix": "WWISE", "category": "media",
+      "products": [
+        { "key": "PRO", "name": "Wwise Pro (за проект)", "license_type": "org", "base_price": 8000, "currency": "USD", "vat_included": false, "billing_note_ru": "от, за проект/платформу", "price_on_request": false, "short_desc_ru": "Тир Pro движка игрового аудио Wwise для проектов с бюджетом до $2M. Цена за проект и за платформу.", "features_ru": ["Полный движок Wwise", "Для проектов с бюджетом до $2M", "Цена за проект и за платформу", "Финальная сумма по запросу"] },
+        { "key": "PREMIUM", "name": "Wwise Premium (за проект)", "license_type": "org", "base_price": 25000, "currency": "USD", "vat_included": false, "billing_note_ru": "от, за проект/платформу", "price_on_request": false, "short_desc_ru": "Тир Premium Wwise для проектов с бюджетом свыше $2M. Цена за проект и за платформу.", "features_ru": ["Для проектов с бюджетом свыше $2M", "Цена за проект и за платформу", "Расширенные возможности", "Финальная сумма по запросу"] },
+        { "key": "PLATINUM", "name": "Wwise Platinum (за проект)", "license_type": "org", "base_price": 0, "currency": "USD", "vat_included": false, "billing_note_ru": "цена по запросу", "price_on_request": true, "short_desc_ru": "Тир Platinum Wwise для крупных проектов: премиум-плагины и расширенная поддержка.", "features_ru": ["Для крупных проектов свыше $2M", "Премиум-плагины", "Расширенная поддержка", "Цена и условия по запросу"] }
+      ]
+    },
+    {
+      "vendor": "FMOD", "prefix": "FMOD", "category": "media",
+      "products": [
+        { "key": "INDIE", "name": "FMOD Indie (за проект)", "license_type": "org", "base_price": 2000, "currency": "USD", "vat_included": false, "billing_note_ru": "за проект (до $600K бюджета)", "price_on_request": false, "short_desc_ru": "Инди-лицензия игрового аудио FMOD для проектов с бюджетом разработки до $600K.", "features_ru": ["Бюджет разработки до $600K", "$2,000 за проект", "Полный движок FMOD", "Для инди-команд"] },
+        { "key": "BASIC", "name": "FMOD Basic (за проект)", "license_type": "org", "base_price": 6000, "currency": "USD", "vat_included": false, "billing_note_ru": "за проект ($600K–$1.8M)", "price_on_request": false, "short_desc_ru": "Базовая лицензия FMOD для проектов с бюджетом разработки $600K–$1.8M.", "features_ru": ["Бюджет разработки $600K–$1.8M", "$6,000 за проект", "Для средних команд", "Полный движок FMOD"] },
+        { "key": "PREMIUM", "name": "FMOD Premium (за проект)", "license_type": "org", "base_price": 18000, "currency": "USD", "vat_included": false, "billing_note_ru": "за проект (свыше $1.8M)", "price_on_request": false, "short_desc_ru": "Премиум-лицензия FMOD для проектов с бюджетом разработки свыше $1.8M.", "features_ru": ["Бюджет разработки свыше $1.8M", "$18,000 за проект", "Для крупных команд", "Полный движок FMOD"] }
+      ]
+    },
+    {
+      "vendor": "Spine", "prefix": "SPINE", "category": "design",
+      "products": [
+        { "key": "ESSENTIAL", "name": "Spine Essential", "license_type": "individual", "base_price": 69, "currency": "USD", "vat_included": false, "billing_note_ru": "разовая лицензия", "price_on_request": false, "short_desc_ru": "Бессрочная лицензия на базовую версию редактора 2D-скелетной анимации.", "features_ru": ["Все базовые функции анимации", "Экспорт во все форматы", "Бесплатные будущие обновления", "Лицензия на 1 пользователя"] },
+        { "key": "PRO", "name": "Spine Professional", "license_type": "individual", "base_price": 379, "currency": "USD", "vat_included": false, "billing_note_ru": "разовая лицензия", "price_on_request": false, "short_desc_ru": "Бессрочная лицензия на полную версию: меши и продвинутая анимация для профессионалов.", "features_ru": ["Все функции, включая меши", "Продвинутая деформация и анимация", "Бесплатные обновления", "Лицензия на 1 пользователя"] }
+      ]
+    },
+    {
+      "vendor": "Rive", "prefix": "RIVE", "category": "design",
+      "products": [
+        { "key": "CADET", "name": "Rive Cadet", "license_type": "individual", "base_price": 9, "currency": "USD", "vat_included": false, "billing_note_ru": "за место в месяц", "price_on_request": false, "short_desc_ru": "Стартовый платный план Rive для небольших команд: интерактивная анимация, до 3 мест.", "features_ru": ["До 3 мест", "Безлимит файлов", "Экспорт .riv-файлов", "AI-агент с лимитами"] },
+        { "key": "VOYAGER", "name": "Rive Voyager", "license_type": "org", "base_price": 32, "currency": "USD", "vat_included": false, "billing_note_ru": "за место в месяц", "price_on_request": false, "short_desc_ru": "План Rive для растущих команд: библиотеки ассетов, хостинг встраиваемых URL, до 25 мест.", "features_ru": ["До 25 мест", "Библиотеки ассетов", "Хостинг встраиваемых URL", "Продвинутые AI-модели"] },
+        { "key": "ENT", "name": "Rive Enterprise", "license_type": "org", "base_price": 0, "currency": "USD", "vat_included": false, "billing_note_ru": "цена по запросу", "price_on_request": true, "short_desc_ru": "Корпоративный план Rive: SSO, SOC2, выделенная поддержка, кастомный рантайм.", "features_ru": ["Пространства подкоманд", "SSO, SOC2 Type II", "Выделенная поддержка", "Централизованный биллинг"] }
+      ]
+    },
+    {
+      "vendor": "QuadSpinner Gaea", "prefix": "GAEA", "category": "design",
+      "products": [
+        { "key": "INDIE", "name": "Gaea Indie", "license_type": "individual", "base_price": 99, "currency": "USD", "vat_included": false, "billing_note_ru": "разовая лицензия", "price_on_request": false, "short_desc_ru": "Процедурный генератор ландшафтов Gaea, издание Indie (доход до $100K), терраформинг до 8K.", "features_ru": ["Бессрочная лицензия", "Разрешение сборки до 8K", "Бесплатные минорные обновления", "Включает Gaea 3.0"] },
+        { "key": "PRO", "name": "Gaea Professional", "license_type": "org", "base_price": 199, "currency": "USD", "vat_included": false, "billing_note_ru": "разовая лицензия", "price_on_request": false, "short_desc_ru": "Gaea Professional для студий с доходом до $1M: высокие разрешения и продвинутые функции.", "features_ru": ["Бессрочная лицензия", "Высокое разрешение сборки", "Продвинутые функции", "Включает Gaea 3.0"] },
+        { "key": "ENT", "name": "Gaea Enterprise", "license_type": "org", "base_price": 299, "currency": "USD", "vat_included": false, "billing_note_ru": "разовая лицензия", "price_on_request": false, "short_desc_ru": "Gaea Enterprise для организаций с доходом свыше $1M: максимальные разрешения и все функции.", "features_ru": ["Бессрочная лицензия", "Максимальное разрешение сборки", "Все функции", "Включает Gaea 3.0"] }
+      ]
+    },
+    {
+      "vendor": "RizomUV", "prefix": "RIZOM", "category": "design",
+      "products": [
+        { "key": "VS-PERP", "name": "RizomUV Virtual Spaces (бессрочная, Indie)", "license_type": "individual", "base_price": 149.9, "currency": "EUR", "vat_included": false, "billing_note_ru": "разовая лицензия", "price_on_request": false, "short_desc_ru": "RizomUV Virtual Spaces — инструмент UV-развёртки. Бессрочная Indie-лицензия, год обновлений.", "features_ru": ["Бессрочная лицензия", "1 год обновлений включён", "Для Indie (до €100K)", "Развёртка UV для 3D-моделей"] },
+        { "key": "VS-SUB", "name": "RizomUV Virtual Spaces (подписка, NodeLocked)", "license_type": "org", "base_price": 34.9, "currency": "EUR", "vat_included": false, "billing_note_ru": "в месяц, 1 пользователь", "price_on_request": false, "short_desc_ru": "RizomUV VS, привязанная подписка на одного пользователя (до 2 машин).", "features_ru": ["Подписка помесячно", "1 пользователь, до 2 машин", "Все функции VS", "Актуальные обновления"] },
+        { "key": "RS-PERP", "name": "RizomUV Real Space (бессрочная, Indie)", "license_type": "individual", "base_price": 299.9, "currency": "EUR", "vat_included": false, "billing_note_ru": "разовая лицензия", "price_on_request": false, "short_desc_ru": "RizomUV Real Space — UV-развёртка с сохранением реальных масштабов. Бессрочная Indie-лицензия.", "features_ru": ["Бессрочная лицензия", "Реальные масштабы (Real Space)", "1 год обновлений", "Для Indie (до €100K)"] },
+        { "key": "RS-SUB", "name": "RizomUV Real Space (подписка, NodeLocked)", "license_type": "org", "base_price": 59.9, "currency": "EUR", "vat_included": false, "billing_note_ru": "в месяц, 1 пользователь", "price_on_request": false, "short_desc_ru": "RizomUV RS, привязанная подписка на одного пользователя (до 2 машин).", "features_ru": ["Подписка помесячно", "1 пользователь, до 2 машин", "Реальные масштабы", "Все функции RS"] }
+      ]
+    },
+    {
+      "vendor": "Photon Engine", "prefix": "PHOTON", "category": "development",
+      "products": [
+        { "key": "FUSION-100", "name": "Photon Fusion 100 CCU (Plus)", "license_type": "org", "base_price": 95, "currency": "USD", "vat_included": false, "billing_note_ru": "разово на 12 мес", "price_on_request": false, "short_desc_ru": "Photon Fusion, пакет 100 CCU: многопользовательский нетворкинг, ~40k MAU, 0.3 ТБ трафика/мес.", "features_ru": ["100 одновременных игроков (CCU)", "~40k MAU", "0.3 ТБ трафика/мес", "Оплата разово за 12 мес"] },
+        { "key": "FUSION-500", "name": "Photon Fusion 500 CCU", "license_type": "org", "base_price": 125, "currency": "USD", "vat_included": false, "billing_note_ru": "в месяц", "price_on_request": false, "short_desc_ru": "Photon Fusion, план 500 CCU: ~200k MAU, 1.5 ТБ трафика/мес, CCU Burst.", "features_ru": ["500 CCU", "~200k MAU", "1.5 ТБ трафика/мес", "CCU Burst включён"] },
+        { "key": "FUSION-1000", "name": "Photon Fusion 1000 CCU", "license_type": "org", "base_price": 250, "currency": "USD", "vat_included": false, "billing_note_ru": "в месяц", "price_on_request": false, "short_desc_ru": "Photon Fusion, план 1000 CCU: ~400k MAU, 3.0 ТБ трафика/мес, CCU Burst.", "features_ru": ["1000 CCU", "~400k MAU", "3.0 ТБ трафика/мес", "CCU Burst включён"] },
+        { "key": "FUSION-2000", "name": "Photon Fusion 2000 CCU", "license_type": "org", "base_price": 500, "currency": "USD", "vat_included": false, "billing_note_ru": "в месяц", "price_on_request": false, "short_desc_ru": "Photon Fusion, план 2000 CCU: ~800k MAU, 6.0 ТБ трафика/мес, CCU Burst.", "features_ru": ["2000 CCU", "~800k MAU", "6.0 ТБ трафика/мес", "CCU Burst включён"] },
+        { "key": "ENT", "name": "Photon Enterprise Cloud", "license_type": "org", "base_price": 0, "currency": "USD", "vat_included": false, "billing_note_ru": "цена по запросу", "price_on_request": true, "short_desc_ru": "Photon Enterprise Cloud: индивидуальные условия и выделенная инфраструктура.", "features_ru": ["Индивидуальная цена", "Выделенные ресурсы", "Корпоративная поддержка", "Гибкий CCU"] }
+      ]
+    }
+  ]
+}

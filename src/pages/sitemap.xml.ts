@@ -6,6 +6,7 @@ import { getCategories, getProducts } from '../lib/directus';
 import { canonicalUrl } from '../lib/seo';
 import { productNoindex } from '../lib/catalog';
 import { solutions } from '../data/solutions';
+import { VENDORS } from '../data/vendors';
 
 // Только опубликованные индексируемые страницы. Без cart/consent/admin/api/draft/noindex.
 const STATIC_ROUTES: { path: string; priority: number; changefreq: string }[] = [
@@ -39,6 +40,9 @@ export const GET: APIRoute = async () => {
 
   // Существующие наполненные посадочные solutions (реальный контент).
   for (const s of solutions) entries.push(urlEntry(`/solutions/${s.slug}`, 0.6, 'monthly'));
+
+  // Шаблонные посадочные производителей (креативные индустрии).
+  for (const v of VENDORS) entries.push(urlEntry(`/vendors/${v.slug}`, 0.8, 'weekly'));
 
   // Блог — только опубликованные (не draft), lastmod из updated/date.
   try {
