@@ -1,0 +1,212 @@
+---
+export const prerender = false;
+
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import FAQ from '../../components/FAQ.astro';
+import LeadForm from '../../components/LeadForm.astro';
+import QuestionForm from '../../components/QuestionForm.astro';
+import JsonLd from '../../components/JsonLd.astro';
+import { getProducts } from '../../lib/directus';
+import { effectivePrice, formatRub } from '../../lib/pricing';
+import { collectionPageSchema, faqSchema, breadcrumbSchema } from '../../lib/seo';
+import {
+  OPENAI_VENDOR, OPENAI_SUMMARY, OPENAI_ORDER, OPENAI_CARD_META,
+  OPENAI_COMPARISON, OPENAI_DECISION, OPENAI_SCENARIOS, OPENAI_FAQ,
+} from '../../data/openai';
+import type { Product } from '../../lib/types';
+
+let all: Product[] = [];
+try { all = await getProducts({ vendor: 'OpenAI' }); } catch (e) { console.error('openai landing', e); }
+const items = all.filter((p) => p.sku.startsWith('OPENAI-')).sort((a, b) => OPENAI_ORDER.indexOf(a.sku) - OPENAI_ORDER.indexOf(b.sku));
+
+const cards = items.map((p) => {
+  const eff = effectivePrice(p);
+  const meta = OPENAI_CARD_META[p.sku];
+  return { name: p.name, slug: p.slug, sku: p.sku, priceText: formatRub(eff.price), note: p.price_note || '', byRequest: eff.price <= 0, meta, features: meta?.features?.slice(0, 5) || [] };
+});
+const priced = items.filter((p) => effectivePrice(p).price > 0);
+const minPrice = priced.length ? Math.min(...priced.map((p) => effectivePrice(p).price)) : 0;
+const hasMin = minPrice > 0;
+
+const title = 'Купить ChatGPT (OpenAI) для юрлица — Plus, Pro, Business, Enterprise и API';
+const description = 'ChatGPT для бизнеса: тарифы Plus, Pro, Business, Enterprise и OpenAI API. Оформление на юрлицо по договору и счёту, оплата в рублях, закрывающие через ЭДО.';
+const pageUrl = '/vendors/openai';
+const crumbs = [{ name: 'Каталог', url: '/catalog' }, { name: 'AI-сервисы', url: '/catalog/ai' }, { name: 'OpenAI (ChatGPT)', url: pageUrl }];
+const ld = [
+  collectionPageSchema({ name: 'OpenAI (ChatGPT) для бизнеса', description, url: pageUrl, items: cards.map((c) => ({ name: c.name, slug: c.slug })) }),
+  faqSchema(OPENAI_FAQ),
+  breadcrumbSchema([{ name: 'Главная', url: '/' }, ...crumbs]),
+];
+---
+<BaseLayout title={title} description={description} type="website" canonical={pageUrl}>
+  <JsonLd schema={ld} />
+  <div class="container-page section" style={`--vc:${OPENAI_VENDOR.brandColor}`}>
+    <Breadcrumbs items={crumbs} />
+
+    <header class="hero">
+      <div class="vendor-row"><span class="vdot"></span><span class="vendor-legal">{OPENAI_VENDOR.legalName}</span></div>
+      <h1>OpenAI (ChatGPT) для юридических лиц: тарифы и оформление через BizSoft</h1>
+      <p class="hero-sub">Подберите доступ к ChatGPT для сотрудников и команд: Plus, Pro, Business, Enterprise и OpenAI API. Оформление на организацию с оплатой по счёту и закрывающими документами.</p>
+      <ul class="chips"><li>Для юрлиц</li><li>КП и счёт</li><li>Договор и закрывающие</li><li>Оплата в рублях</li></ul>
+      <div class="hero-actions">
+        <button class="btn btn-primary" data-open-question data-product="OpenAI — подбор тарифа" data-ev="click_get_quote">Получить расчёт и КП</button>
+        <a href="#products" class="btn btn-ghost" data-ev="click_choose_plan">Смотреть тарифы</a>
+      </div>
+      {hasMin && <p class="from">Цены от <b>{formatRub(minPrice)}</b> · финальная стоимость фиксируется в КП или счёте</p>}
+    </header>
+
+    <div class="summary"><strong>Коротко:</strong> {OPENAI_SUMMARY}</div>
+
+    <section class="block prose-bizsoft">
+      <p>Продукты OpenAI закрывают разные задачи: <b>ChatGPT Plus и Pro</b> — для отдельных сотрудников,
+        <b>ChatGPT Business</b> — для команд с админ-управлением и защитой данных, <b>ChatGPT Enterprise</b> —
+        для крупных организаций с требованиями информационной безопасности, а <b>OpenAI API</b> — для встраивания
+        моделей в собственные продукты с оплатой по использованию. BizSoft подберёт нужный вариант и оформит
+        поставку на юрлицо.</p>
+    </section>
+
+    <section class="block" id="products">
+      <h2>Тарифы и продукты OpenAI</h2>
+      <div class="vgrid">
+        {cards.map((c) => (
+          <article class="card vcard">
+            {c.meta && <div class="vhead"><span class="vbadge">{c.meta.badge}</span></div>}
+            <h3>{c.name}</h3>
+            {c.meta?.forWhom && <p class="forwhom">{c.meta.forWhom}</p>}
+            <div class="vprice">{c.byRequest ? <span class="req">Цена по запросу</span> : <span class="pv"><b>{c.priceText}</b> <span class="note">{c.note}</span></span>}</div>
+            {c.features.length > 0 && <ul class="vfeat">{c.features.map((f) => <li>{f}</li>)}</ul>}
+            {c.meta?.check && <p class="vcheck">⚠ {c.meta.check}</p>}
+            <div class="vactions">
+              <button class="btn btn-primary btn-sm" data-open-question data-product={`OpenAI — ${c.name}`} data-sku={c.sku} data-ev="click_get_quote">{c.byRequest ? 'Запросить цену' : 'Получить КП'}</button>
+              <a href={`/product/${c.slug}`} class="btn btn-ghost btn-sm" data-ev="click_product_card">Подробнее</a>
+            </div>
+          </article>
+        ))}
+      </div>
+      <p class="muted small">Цена в рублях пересчитывается по курсу ЦБ РФ; финальная стоимость фиксируется в КП или счёте.</p>
+    </section>
+
+    <section class="block" id="compare">
+      <h2>Сравнение тарифов ChatGPT</h2>
+      <div class="table-wrap">
+        <table class="cmp">
+          <thead><tr><th class="sticky">Параметр</th>{OPENAI_COMPARISON.cols.map((c) => <th>{c}</th>)}</tr></thead>
+          <tbody>{OPENAI_COMPARISON.rows.map((r) => (<tr><th class="sticky">{r.label}</th>{r.values.map((v) => <td>{v}</td>)}</tr>))}</tbody>
+        </table>
+      </div>
+      <p class="muted small">«уточн.» — доступность функции проверяется перед КП (зависит от региона и тарифа).</p>
+    </section>
+
+    <section class="block">
+      <h2>Какой продукт OpenAI выбрать</h2>
+      <div class="table-wrap">
+        <table class="cmp decision">
+          <thead><tr><th class="sticky">Сценарий</th><th>Рекомендуем</th><th>Почему</th></tr></thead>
+          <tbody>{OPENAI_DECISION.map((d) => (<tr><th class="sticky">{d.scenario}</th><td>{d.product}</td><td class="muted">{d.note}</td></tr>))}</tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="block">
+      <h2>Сценарии использования</h2>
+      <div class="cells">{OPENAI_SCENARIOS.map((s) => (<div class="card cell"><h3>{s.title}</h3><p>{s.text}</p></div>))}</div>
+    </section>
+
+    <section class="block">
+      <h2>Безопасность и данные</h2>
+      <div class="prose-bizsoft"><p>В тарифах ChatGPT Business и Enterprise данные организации по умолчанию не используются
+        для обучения моделей; доступны админ-управление, SSO, верификация домена, а в Enterprise — SCIM, EKM, RBAC и
+        аналитика. Конкретные настройки приватности, хранения данных и соответствие внутренним политикам ИБ уточняются
+        перед оформлением.</p></div>
+      <button class="btn btn-ghost" data-open-question data-product="OpenAI — требования ИБ" data-ev="click_get_quote">Обсудить требования ИБ</button>
+    </section>
+
+    <section class="block">
+      <h2>Как купить OpenAI через BizSoft</h2>
+      <ol class="steps">
+        <li>Вы оставляете заявку или выбираете тариф.</li>
+        <li>Менеджер уточняет продукт, количество пользователей, срок и документы.</li>
+        <li>BizSoft готовит КП или счёт с ценой в рублях.</li>
+        <li>Оформляются договор и оплата по счёту.</li>
+        <li>После оплаты передаём доступы и инструкции по активации.</li>
+        <li>Закрывающие документы — в согласованном формате, в том числе через ЭДО.</li>
+      </ol>
+      <button class="btn btn-primary" data-open-question data-product="OpenAI — расчёт и КП" data-ev="click_get_quote">Получить расчёт и КП</button>
+    </section>
+
+    <FAQ items={OPENAI_FAQ} title="Частые вопросы про ChatGPT и OpenAI для бизнеса" />
+
+    <section class="block final">
+      <div class="final-grid">
+        <div>
+          <h2>Подобрать OpenAI для компании</h2>
+          <p class="muted">Опишите задачу: сколько сотрудников, нужен ли API, какие требования к безопасности. Подготовим расчёт, КП или счёт.</p>
+          <ul class="vfeat"><li>Оформление для юрлиц: договор, счёт, закрывающие</li><li>Оплата в рублях по курсу ЦБ РФ</li><li>Подбор тарифа и количества пользователей</li></ul>
+        </div>
+        <LeadForm source="vendor-openai" title="Заявка на подбор OpenAI" submitLabel="Получить расчёт и КП" />
+      </div>
+    </section>
+
+    <section class="block links">
+      <h2>Связанные товары и разделы</h2>
+      <div class="link-grid">
+        {cards.map((c) => <a href={`/product/${c.slug}`}>{c.name}</a>)}
+        <a href="/catalog/ai">Все AI-сервисы</a><a href="/vendors">Все производители</a>
+        <a href="/how-we-work">Как мы работаем</a><a href="/documents">Документы</a><a href="/contacts">Контакты</a>
+      </div>
+    </section>
+  </div>
+  <QuestionForm source="openai" />
+</BaseLayout>
+
+<style>
+  .section { padding-top: 2rem; }
+  .hero { padding: 1rem 0 1.5rem; max-width: 820px; }
+  .vendor-row { display: flex; align-items: center; gap: 0.7rem; margin-bottom: 1rem; }
+  .vdot { width: 22px; height: 22px; border-radius: 6px; background: var(--vc, var(--color-accent)); }
+  .vendor-legal { color: var(--color-text-dim); font-size: 0.85rem; }
+  h1 { font-size: clamp(1.9rem, 4.5vw, 3rem); margin-bottom: 1rem; }
+  .hero-sub { color: var(--color-text-muted); font-size: 1.08rem; max-width: 64ch; }
+  .chips { display: flex; flex-wrap: wrap; gap: 0.5rem; list-style: none; padding: 0; margin: 1.2rem 0; }
+  .chips li { background: var(--color-bg-elevated); border: 1px solid var(--color-border); color: var(--color-text-muted); font-size: 0.82rem; padding: 0.25rem 0.7rem; border-radius: 999px; }
+  .hero-actions { display: flex; gap: 0.8rem; flex-wrap: wrap; margin-bottom: 0.8rem; }
+  .from { color: var(--color-text-muted); font-size: 0.92rem; } .from b { color: var(--color-text); }
+  .summary { background: var(--color-bg-card); border: 1px solid var(--color-border); border-left: 3px solid var(--vc, var(--color-accent)); border-radius: var(--radius); padding: 1rem 1.2rem; margin: 1.5rem 0; color: #d7d9dd; } .summary strong { color: var(--color-text); }
+  .block { margin-top: 3rem; } .block > h2 { font-size: clamp(1.4rem, 2.6vw, 1.9rem); margin-bottom: 1.2rem; }
+  .vgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.2rem; }
+  .vcard { padding: 1.4rem; display: flex; flex-direction: column; }
+  .vhead { display: flex; margin-bottom: 0.5rem; }
+  .vbadge { font-size: 0.7rem; font-weight: 700; padding: 0.15rem 0.55rem; border-radius: 6px; background: color-mix(in srgb, var(--vc) 16%, transparent); color: var(--vc); }
+  .vcard h3 { font-size: 1.1rem; margin-bottom: 0.3rem; }
+  .forwhom { color: var(--color-text-dim); font-size: 0.83rem; margin-bottom: 0.6rem; }
+  .vprice { margin: 0.3rem 0 0.7rem; } .vprice b { font-size: 1.2rem; } .vprice .note { color: var(--color-text-dim); font-size: 0.8rem; } .vprice .req { font-weight: 700; }
+  .vfeat { list-style: none; padding: 0; margin: 0 0 0.7rem; display: grid; gap: 0.3rem; }
+  .vfeat li { padding-left: 1.3rem; position: relative; color: #d7d9dd; font-size: 0.88rem; } .vfeat li::before { content: '✓'; position: absolute; left: 0; color: var(--vc, var(--color-accent)); font-weight: 700; }
+  .vcheck { color: var(--color-text-dim); font-size: 0.78rem; margin: 0 0 0.7rem; }
+  .vactions { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: auto; }
+  .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  table.cmp { width: 100%; border-collapse: collapse; min-width: 560px; font-size: 0.92rem; }
+  table.cmp th, table.cmp td { border: 1px solid var(--color-border); padding: 0.55rem 0.8rem; text-align: left; }
+  table.cmp thead th { background: var(--color-bg-elevated); }
+  table.cmp .sticky { position: sticky; left: 0; background: var(--color-bg-card); font-weight: 600; }
+  .muted { color: var(--color-text-muted); } .small { font-size: 0.82rem; margin-top: 0.6rem; }
+  .cells { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1rem; }
+  .cell { padding: 1.3rem; } .cell h3 { font-size: 1.05rem; margin-bottom: 0.4rem; } .cell p { color: var(--color-text-muted); font-size: 0.9rem; }
+  .steps { padding-left: 1.2rem; color: #d7d9dd; display: grid; gap: 0.5rem; margin-bottom: 1.2rem; max-width: 800px; }
+  .final-grid { display: grid; grid-template-columns: 1fr 400px; gap: 2.5rem; align-items: start; }
+  .links .link-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 0.6rem; }
+  .links a { color: var(--color-accent); font-size: 0.92rem; padding: 0.5rem 0; }
+  @media (max-width: 880px) { .final-grid { grid-template-columns: 1fr; } }
+</style>
+
+<script>
+  function track(name: string, params: Record<string, unknown> = {}) {
+    const w = window as unknown as { ym?: (...a: unknown[]) => void; gtag?: (...a: unknown[]) => void };
+    const id = (import.meta as { env: Record<string, string> }).env.PUBLIC_METRIKA_ID || '110206070';
+    if (typeof w.ym === 'function' && id) w.ym(Number(id), 'reachGoal', name, params);
+    if (typeof w.gtag === 'function') w.gtag('event', name, params);
+  }
+  track('view_openai_landing', { page_url: location.pathname });
+  document.querySelectorAll('[data-ev]').forEach((el) => el.addEventListener('click', () => track((el as HTMLElement).dataset.ev!, { block_name: 'openai' })));
+</script>
