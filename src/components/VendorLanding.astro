@@ -13,12 +13,14 @@ import { getProducts } from '../lib/directus';
 import { effectivePrice, formatRub } from '../lib/pricing';
 import { collectionPageSchema, faqSchema, breadcrumbSchema } from '../lib/seo';
 import { DOMAIN_AUDIENCE, type VendorEntry } from '../data/vendors';
+import { vendorContent } from '../data/vendor-content';
 import type { Product } from '../lib/types';
 
 interface Props { entry: VendorEntry }
 const { entry } = Astro.props;
 const title = entry.title || entry.vendor;
 const audience = DOMAIN_AUDIENCE[entry.domain];
+const content = vendorContent(entry.slug);
 
 let products: Product[] = [];
 try {
@@ -54,13 +56,18 @@ const crumbs = [
   { name: title, url: pageUrl },
 ];
 
-// FAQ — шаблонные вопросы под юрлицо (уникализируются названием вендора).
-const faq = [
+// FAQ — свой bespoke (если задан) либо шаблонные вопросы под юрлицо.
+const faq = content.faq?.length ? content.faq : [
   { q: `Как купить ${title} для юридического лица в России?`, a: `Через BizSoft: заключаем договор, выставляем счёт, оплата в рублях по безналичному расчёту. Закрывающие документы передаём в том числе через ЭДО. Оставьте заявку — подберём тариф и подготовим КП.` },
   { q: `Сколько стоит ${title}?`, a: `Цена в рублях рассчитывается от зарубежного прайса по курсу ЦБ РФ на дату счёта. Актуальную стоимость по каждому тарифу смотрите в карточках выше; финальная сумма фиксируется в КП или счёте.` },
   { q: `Можно ли оплатить ${title} с расчётного счёта организации?`, a: `Да. Мы работаем с юрлицами и ИП по договору и счёту, предоставляем закрывающие документы для бухгалтерии.` },
   { q: `Как быстро предоставляется доступ к ${title}?`, a: `После поступления оплаты передаём ключи, доступы или инструкции по активации в согласованные сроки.` },
 ];
+
+const summaryText = content.summary || `${entry.about} BizSoft поставляет ${title} российским юрлицам и ИП по договору с оплатой по счёту.`;
+const hasCompare = !!content.comparison && content.comparison.rows.length > 0;
+const hasDecision = !!content.decision && content.decision.length > 0;
+const hasScenarios = !!content.scenarios && content.scenarios.length > 0;
 
 const description = `${title} для юридических лиц: ${entry.tagline} Покупка по договору и счёту, оплата в рублях, закрывающие документы через ЭДО.`;
 const ld = [
@@ -90,7 +97,7 @@ const ld = [
   </header>
 
   <!-- Прямой ответ (GEO/AEO) -->
-  <div class="summary"><strong>Коротко:</strong> {entry.about} BizSoft поставляет {title} российским юрлицам и ИП по договору с оплатой по счёту.</div>
+  <div class="summary"><strong>Коротко:</strong> {summaryText}</div>
 
   <!-- Карточки продуктов -->
   {hasCards ? (
@@ -121,6 +128,38 @@ const ld = [
       <h2>Тарифы и продукты {title}</h2>
       <p class="muted">Подберём и рассчитаем нужные лицензии {title} под вашу задачу. Оставьте заявку — подготовим КП.</p>
       <button class="btn btn-primary" data-open-question data-product={`${title} — расчёт`} data-ev="click_get_quote">Запросить расчёт</button>
+    </section>
+  )}
+
+  {hasCompare && (
+    <section class="block" id="compare">
+      <h2>Сравнение тарифов {title}</h2>
+      <div class="table-wrap">
+        <table class="cmp">
+          <thead><tr><th class="sticky">Параметр</th>{content.comparison!.cols.map((c) => <th>{c}</th>)}</tr></thead>
+          <tbody>{content.comparison!.rows.map((r) => (<tr><th class="sticky">{r.label}</th>{r.values.map((v) => <td>{v}</td>)}</tr>))}</tbody>
+        </table>
+      </div>
+      <p class="muted small">Цены/характеристики ориентировочные; финальная стоимость в рублях — по курсу ЦБ РФ и фиксируется в КП.</p>
+    </section>
+  )}
+
+  {hasDecision && (
+    <section class="block">
+      <h2>Что выбрать</h2>
+      <div class="table-wrap">
+        <table class="cmp decision">
+          <thead><tr><th class="sticky">Сценарий</th><th>Рекомендуем</th><th>Почему</th></tr></thead>
+          <tbody>{content.decision!.map((d) => (<tr><th class="sticky">{d.scenario}</th><td>{d.product}</td><td class="muted">{d.note}</td></tr>))}</tbody>
+        </table>
+      </div>
+    </section>
+  )}
+
+  {hasScenarios && (
+    <section class="block">
+      <h2>Сценарии использования</h2>
+      <div class="cells">{content.scenarios!.map((s) => (<div class="card cell"><h3>{s.title}</h3><p>{s.text}</p></div>))}</div>
     </section>
   )}
 
@@ -220,6 +259,13 @@ const ld = [
   .final-grid { display: grid; grid-template-columns: 1fr 400px; gap: 2.5rem; align-items: start; }
   .links .link-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 0.6rem; }
   .links a { color: var(--color-accent); font-size: 0.92rem; padding: 0.5rem 0; }
+  .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  table.cmp { width: 100%; border-collapse: collapse; min-width: 560px; font-size: 0.92rem; }
+  table.cmp th, table.cmp td { border: 1px solid var(--color-border); padding: 0.55rem 0.8rem; text-align: left; }
+  table.cmp thead th { background: var(--color-bg-elevated); }
+  table.cmp .sticky { position: sticky; left: 0; background: var(--color-bg-card); font-weight: 600; }
+  .cells { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1rem; }
+  .cell { padding: 1.3rem; } .cell h3 { font-size: 1.05rem; margin-bottom: 0.4rem; } .cell p { color: var(--color-text-muted); font-size: 0.9rem; }
   @media (max-width: 880px) { .final-grid { grid-template-columns: 1fr; } }
 </style>
 
