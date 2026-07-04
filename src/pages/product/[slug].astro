@@ -60,7 +60,7 @@ try {
   keywords={product.keywords || undefined}
   noindex={Boolean(product.noindex) || productNoindex(product.sku)}
 >
-  <JsonLd schema={productSchema(product)} />
+  <JsonLd schema={productSchema(product, { images: gallery.map((g) => g.url) })} />
   <div class="container-page section">
     <Breadcrumbs
       items={[
