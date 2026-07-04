@@ -262,7 +262,7 @@ export const JETBRAINS_LICENSE_MANAGEMENT: { title: string; text: string }[] = [
 /** Сценарии использования (раздел C блок 12). */
 export const JETBRAINS_SCENARIOS: { title: string; text: string }[] = [
   { title: 'Backend-разработка', text: 'IntelliJ IDEA Ultimate, GoLand или PyCharm Pro для серверной логики, API и микросервисов.' },
-  { title: 'Frontend-разработка', text: 'WebStorm для React, Angular, Vue и Node.js — современный фронтенд под ключ.' },
+  { title: 'Frontend-разработка', text: 'WebStorm для React, Angular, Vue и Node.js: отладка, тесты и интеграция с npm.' },
   { title: '.NET-команды', text: 'Rider, ReSharper и dotUltimate для C#, F#, ASP.NET и игр на Unity.' },
   { title: 'Работа с данными', text: 'DataGrip для SQL и десятков СУБД, плюс PyCharm Pro и Datalore для анализа и ноутбуков.' },
   { title: 'DevOps и качество', text: 'TeamCity для CI/CD и Qodana для статанализа кода в пайплайне.' },
