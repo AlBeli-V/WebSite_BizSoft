@@ -4,32 +4,39 @@
   ─────────────────────────────────────────────────────────────
   ДИЗАЙН-ТОКЕНЫ BizSoft — единственный источник правды.
   Глобальная смена цвета/шрифта/отступов = правка только здесь.
-  Тёмная enterprise-IT эстетика, один акцент — оранжевый #FF763C.
+  Светлая воздушная эстетика в духе Apple: белый фон, много воздуха,
+  мягкие тени, сдержанная типографика. Один тёплый акцент — оранжевый.
   ─────────────────────────────────────────────────────────────
 */
 @theme {
-  /* Палитра */
-  --color-bg: #0e0f12;
-  --color-bg-elevated: #14161a;
-  --color-bg-card: #16181d;
-  --color-border: #23262d;
-  --color-border-strong: #2f333c;
-  --color-text: #f2f3f5;
-  --color-text-muted: #8a8f98;
-  --color-text-dim: #62666e;
-  --color-accent: #ff763c;
-  --color-accent-hover: #ff8c5a;
-  --color-accent-dim: #c95a2c;
-  --color-success: #3fb96b;
-  --color-danger: #e5484d;
+  /* Палитра — светлая, воздушная */
+  --color-bg: #ffffff;
+  --color-bg-elevated: #f5f5f7;
+  --color-bg-card: #ffffff;
+  --color-border: #e8e8ed;
+  --color-border-strong: #d2d2d7;
+  --color-text: #1d1d1f;
+  --color-text-muted: #6e6e73;
+  --color-text-dim: #86868b;
+  --color-accent: #f2591d;
+  --color-accent-hover: #d64a12;
+  --color-accent-dim: #b8420f;
+  --color-accent-soft: #fff2ec;
+  --color-success: #1a8f4c;
+  --color-danger: #d92d20;
 
-  /* Типографика */
-  --font-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  /* Типографика — сначала системный шрифт Apple, затем Inter как fallback */
+  --font-sans: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'SF Pro Display', 'Inter', system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
 
-  /* Скругления */
-  --radius-sm: 8px;
-  --radius: 12px;
-  --radius-lg: 16px;
+  /* Скругления — крупнее и мягче */
+  --radius-sm: 10px;
+  --radius: 14px;
+  --radius-lg: 20px;
+
+  /* Мягкие рассеянные тени */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.05);
+  --shadow: 0 4px 18px rgba(0, 0, 0, 0.06), 0 1px 4px rgba(0, 0, 0, 0.04);
+  --shadow-lg: 0 18px 48px rgba(0, 0, 0, 0.10), 0 4px 12px rgba(0, 0, 0, 0.05);
 
   /* Контейнер */
   --container-page: 1180px;
@@ -37,7 +44,7 @@
 
 @layer base {
   :root {
-    color-scheme: dark;
+    color-scheme: light;
   }
 
   html {
@@ -45,6 +52,7 @@
     color: var(--color-text);
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
     scroll-behavior: smooth;
   }
 
@@ -71,8 +79,8 @@
   h2,
   h3,
   h4 {
-    line-height: 1.15;
-    font-weight: 700;
+    line-height: 1.1;
+    font-weight: 600;
     letter-spacing: -0.02em;
     text-wrap: balance;
   }
@@ -84,7 +92,7 @@
 
   ::selection {
     background: var(--color-accent);
-    color: #0e0f12;
+    color: #fff;
   }
 
   :focus-visible {
@@ -99,7 +107,7 @@
     width: 100%;
     max-width: var(--container-page);
     margin-inline: auto;
-    padding-inline: 20px;
+    padding-inline: 22px;
   }
 
   /* Кнопки */
@@ -108,20 +116,20 @@
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
-    padding: 0.7rem 1.25rem;
-    border-radius: var(--radius);
-    font-weight: 600;
+    padding: 0.75rem 1.5rem;
+    border-radius: 980px;
+    font-weight: 500;
     font-size: 0.95rem;
     cursor: pointer;
     border: 1px solid transparent;
-    transition: background-color 0.18s ease, border-color 0.18s ease, transform 0.18s ease, color 0.18s ease;
+    transition: background-color 0.22s ease, border-color 0.22s ease, transform 0.15s ease, color 0.22s ease, box-shadow 0.22s ease;
   }
   .btn:active {
     transform: translateY(1px);
   }
   .btn-primary {
     background: var(--color-accent);
-    color: #0e0f12;
+    color: #fff;
   }
   .btn-primary:hover {
     background: var(--color-accent-hover);
@@ -141,11 +149,13 @@
     background: var(--color-bg-card);
     border: 1px solid var(--color-border);
     border-radius: var(--radius-lg);
-    transition: border-color 0.2s ease, transform 0.2s ease;
+    box-shadow: var(--shadow-sm);
+    transition: border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
   }
   .card-hover:hover {
-    border-color: var(--color-border-strong);
-    transform: translateY(-2px);
+    border-color: var(--color-border);
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-lg);
   }
 
   .section-num {
@@ -160,7 +170,7 @@
     letter-spacing: 0.12em;
     font-size: 0.78rem;
     font-weight: 600;
-    color: var(--color-text-muted);
+    color: var(--color-accent);
   }
 
   /* Плавное появление секций (Intersection Observer добавляет .is-visible) */
@@ -197,7 +207,7 @@
   .prose-bizsoft ul,
   .prose-bizsoft ol {
     margin-bottom: 1rem;
-    color: #d7d9dd;
+    color: #3a3a3c;
   }
   .prose-bizsoft ul,
   .prose-bizsoft ol {

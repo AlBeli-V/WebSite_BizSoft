@@ -396,12 +396,12 @@ const cards = jb.map((p) => {
   h1 { font-size: clamp(1.9rem, 4.5vw, 3rem); margin-bottom: 1rem; }
   .hero-sub { color: var(--color-text-muted); font-size: 1.08rem; max-width: 64ch; }
   .hero-bullets { list-style: none; padding: 0; margin: 1.2rem 0; display: grid; gap: 0.4rem; max-width: 64ch; }
-  .hero-bullets li { padding-left: 1.4rem; position: relative; color: #d7d9dd; }
+  .hero-bullets li { padding-left: 1.4rem; position: relative; color: var(--color-text-muted); }
   .hero-bullets li::before { content: '✓'; position: absolute; left: 0; color: #FB0F60; font-weight: 700; }
   .hero-actions { display: flex; gap: 0.8rem; flex-wrap: wrap; margin-bottom: 0.8rem; }
   .from { color: var(--color-text-muted); font-size: 0.92rem; }
   .from b { color: var(--color-text); }
-  .summary { background: var(--color-bg-card); border: 1px solid var(--color-border); border-left: 3px solid #FB0F60; border-radius: var(--radius); padding: 1rem 1.2rem; margin: 1.5rem 0; color: #d7d9dd; }
+  .summary { background: var(--color-bg-card); border: 1px solid var(--color-border); border-left: 3px solid #FB0F60; border-radius: var(--radius); padding: 1rem 1.2rem; margin: 1.5rem 0; color: var(--color-text-muted); box-shadow: var(--shadow-sm); }
   .summary strong { color: var(--color-text); }
   .block { margin-top: 3rem; }
   .block > h2 { font-size: clamp(1.4rem, 2.6vw, 1.9rem); margin-bottom: 1.2rem; }
@@ -423,9 +423,9 @@ const cards = jb.map((p) => {
   .zbadge { font-size: 0.7rem; font-weight: 700; padding: 0.15rem 0.55rem; border-radius: 6px; }
   .zbadge.cap { background: color-mix(in srgb, #FB0F60 16%, transparent); color: #FB0F60; }
   .zbadge.pack { background: color-mix(in srgb, #FB0F60 22%, transparent); color: #FB0F60; }
-  .zbadge.dotnet { background: color-mix(in srgb, #8b5cf6 22%, transparent); color: #b794f6; }
-  .zbadge.db { background: color-mix(in srgb, #0ea5e9 22%, transparent); color: #6ec5ff; }
-  .zbadge.ai { background: color-mix(in srgb, #8b5cf6 22%, transparent); color: #b794f6; }
+  .zbadge.dotnet { background: color-mix(in srgb, #8b5cf6 16%, transparent); color: #7c3aed; }
+  .zbadge.db { background: color-mix(in srgb, #0ea5e9 16%, transparent); color: #0369a1; }
+  .zbadge.ai { background: color-mix(in srgb, #8b5cf6 16%, transparent); color: #7c3aed; }
   .zbadge.req { background: var(--color-bg-elevated); color: var(--color-text-muted); }
   .zcard h3 { font-size: 1.12rem; margin-bottom: 0.3rem; }
   .forwhom { color: var(--color-text-dim); font-size: 0.82rem; margin-bottom: 0.6rem; }
@@ -434,7 +434,7 @@ const cards = jb.map((p) => {
   .zprice .note { color: var(--color-text-dim); font-size: 0.8rem; }
   .zprice .req { font-weight: 700; }
   .zfeat { list-style: none; padding: 0; margin: 0 0 0.7rem; display: grid; gap: 0.3rem; }
-  .zfeat li { padding-left: 1.3rem; position: relative; color: #d7d9dd; font-size: 0.88rem; }
+  .zfeat li { padding-left: 1.3rem; position: relative; color: var(--color-text-muted); font-size: 0.88rem; }
   .zfeat li::before { content: '✓'; position: absolute; left: 0; color: #FB0F60; font-weight: 700; }
   .zcheck { color: var(--color-text-dim); font-size: 0.78rem; margin: 0 0 0.7rem; }
   .zactions { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: auto; }
@@ -457,7 +457,7 @@ const cards = jb.map((p) => {
   .cell p { color: var(--color-text-muted); font-size: 0.9rem; }
   .cell p.cell-prod { color: #FB0F60; }
   .ai-tiers .cell { display: flex; flex-direction: column; }
-  .caveat { background: var(--color-bg-elevated); border: 1px solid var(--color-border); border-left: 3px solid #FB0F60; border-radius: var(--radius); padding: 0.9rem 1.1rem; margin: 1.2rem 0; color: #d7d9dd; font-size: 0.9rem; max-width: 80ch; }
+  .caveat { background: var(--color-bg-elevated); border: 1px solid var(--color-border); border-left: 3px solid #FB0F60; border-radius: var(--radius); padding: 0.9rem 1.1rem; margin: 1.2rem 0; color: var(--color-text-muted); font-size: 0.9rem; max-width: 80ch; }
   .caveat a { color: #FB0F60; }
   /* Плагины */
   .pcats { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 0.9rem; margin-top: 1rem; }
@@ -472,7 +472,7 @@ const cards = jb.map((p) => {
   .faq-answer { padding: 0 1.3rem 1.2rem; color: var(--color-text-muted); }
   .faq-answer p { margin: 0; }
   /* Шаги */
-  .steps { padding-left: 1.2rem; color: #d7d9dd; display: grid; gap: 0.5rem; margin-bottom: 1.2rem; max-width: 800px; }
+  .steps { padding-left: 1.2rem; color: var(--color-text-muted); display: grid; gap: 0.5rem; margin-bottom: 1.2rem; max-width: 800px; }
   .final-grid { display: grid; grid-template-columns: 1fr 400px; gap: 2.5rem; align-items: start; }
   .links .link-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 0.6rem; }
   .links a { color: #FB0F60; font-size: 0.92rem; padding: 0.5rem 0; }
