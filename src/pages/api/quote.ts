@@ -3,7 +3,7 @@ export const prerender = false;
 import type { APIRoute } from 'astro';
 import { getProductsBySkus, createQuote } from '../../lib/directus';
 import { effectivePrice } from '../../lib/pricing';
-import { sendMail, managerEmail } from '../../lib/mailer';
+import { sendMail, managerEmail, salesFrom } from '../../lib/mailer';
 import { generateQuotePdf, buildQuoteNo, formatDateRu, addDays, type QuoteData } from '../../lib/pdf-quote';
 import { site, seller } from '../../config/site';
 import type { QuoteItem } from '../../lib/types';
@@ -14,6 +14,11 @@ function isEmail(v: unknown): v is string {
   return typeof v === 'string' && /.+@.+\..+/.test(v);
 }
 
+/** Непустая строка после trim. */
+function filled(v: unknown): v is string {
+  return typeof v === 'string' && v.trim().length > 0;
+}
+
 export const POST: APIRoute = async ({ request }) => {
   let body: Record<string, unknown>;
   try {
@@ -22,8 +27,16 @@ export const POST: APIRoute = async ({ request }) => {
     return new Response(JSON.stringify({ error: 'bad json' }), { status: 400 });
   }
 
-  if (!isEmail(body.email)) return new Response(JSON.stringify({ error: 'email обязателен' }), { status: 422 });
-  if (body.consent !== true) return new Response(JSON.stringify({ error: 'нужно согласие на обработку ПДн' }), { status: 422 });
+  // Все поля формы КП обязательны
+  const company = body.buyer_company ?? body.company;
+  const inn = body.buyer_inn ?? body.inn;
+  const contact = body.contact_name ?? body.name;
+  if (!filled(company)) return new Response(JSON.stringify({ error: 'Укажите организацию' }), { status: 422 });
+  if (!filled(inn)) return new Response(JSON.stringify({ error: 'Укажите ИНН' }), { status: 422 });
+  if (!filled(contact)) return new Response(JSON.stringify({ error: 'Укажите контактное лицо' }), { status: 422 });
+  if (!isEmail(body.email)) return new Response(JSON.stringify({ error: 'Укажите корректный e-mail' }), { status: 422 });
+  if (!filled(body.phone)) return new Response(JSON.stringify({ error: 'Укажите телефон' }), { status: 422 });
+  if (body.consent !== true) return new Response(JSON.stringify({ error: 'Нужно согласие на обработку персональных данных' }), { status: 422 });
 
   const rawItems = Array.isArray(body.items) ? (body.items as CartLine[]) : [];
   const lines = rawItems
@@ -91,9 +104,12 @@ export const POST: APIRoute = async ({ request }) => {
     consent: true,
   }).catch((e) => console.error('createQuote failed', e));
 
-  // Письма покупателю и менеджеру с вложением
+  // ── Письма ──
   const filename = `KP_${quoteNo}.pdf`;
-  const mailText = [
+  const attachment = { filename, content: pdf, contentType: 'application/pdf' };
+
+  // 1. Клиенту — КП во вложении, отправитель hello@biz-soft.pro
+  const clientText = [
     `Здравствуйте${data.contactName ? ', ' + data.contactName : ''}!`,
     '',
     `Коммерческое предложение № ${quoteNo} во вложении.`,
@@ -104,12 +120,39 @@ export const POST: APIRoute = async ({ request }) => {
   ].join('\n');
 
   sendMail({
+    from: salesFrom,
     to: data.email,
-    cc: managerEmail !== data.email ? managerEmail : undefined,
+    replyTo: managerEmail,
     subject: `Коммерческое предложение № ${quoteNo} — BizSoft`,
-    text: mailText,
-    attachments: [{ filename, content: pdf, contentType: 'application/pdf' }],
-  }).catch((e) => console.error('quote mail failed', e));
+    text: clientText,
+    attachments: [attachment],
+  }).catch((e) => console.error('quote client mail failed', e));
+
+  // 2. Менеджеру — копия КП с данными заказчика из формы
+  const managerText = [
+    `Клиент запросил отправку КП № ${quoteNo} себе на почту.`,
+    '',
+    'Данные заказчика из формы:',
+    `Организация: ${data.buyerCompany}`,
+    `ИНН: ${data.buyerInn}`,
+    `Контактное лицо: ${data.contactName}`,
+    `E-mail: ${data.email}`,
+    `Телефон: ${data.phone}`,
+    '',
+    'Состав заказа:',
+    ...items.map((i) => `— ${i.name} (${i.sku}) × ${i.qty} = ${i.sum.toLocaleString('ru-RU')} ₽`),
+    '',
+    `Итого: ${total.toLocaleString('ru-RU')} ₽. Действует до ${data.validUntil}.`,
+  ].join('\n');
+
+  sendMail({
+    from: salesFrom,
+    to: managerEmail,
+    replyTo: data.email,
+    subject: `Отправлено КП № ${quoteNo} — ${data.buyerCompany}`,
+    text: managerText,
+    attachments: [attachment],
+  }).catch((e) => console.error('quote manager mail failed', e));
 
   return new Response(pdf, {
     status: 200,

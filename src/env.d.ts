@@ -13,6 +13,7 @@ interface ImportMetaEnv {
   readonly SMTP_USER: string;
   readonly SMTP_PASS: string;
   readonly SMTP_FROM: string;
+  readonly SMTP_FROM_SALES: string;
   readonly MANAGER_EMAIL: string;
   readonly PUBLIC_METRIKA_ID: string;
   readonly PUBLIC_GA_ID: string;

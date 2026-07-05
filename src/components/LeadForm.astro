@@ -10,14 +10,14 @@ const { source = 'pricing', title = 'Запросить расчёт', submitLab
 <form class="lead-form card" data-lead-form data-source={source}>
   <h3>{title}</h3>
   <div class="lf-row">
-    <label>Имя<input name="name" autocomplete="name" /></label>
-    <label>Компания<input name="company" autocomplete="organization" /></label>
+    <label>Имя*<input name="name" required autocomplete="name" /></label>
+    <label>Компания*<input name="company" required autocomplete="organization" /></label>
   </div>
   <div class="lf-row">
     <label>E-mail*<input name="email" type="email" required autocomplete="email" /></label>
-    <label>Телефон<input name="phone" type="tel" autocomplete="tel" /></label>
+    <label>Телефон*<input name="phone" type="tel" required autocomplete="tel" /></label>
   </div>
-  <label>Что нужно подобрать?<textarea name="message" rows="3" placeholder="Сервисы, количество пользователей, сроки…"></textarea></label>
+  <label>Что нужно подобрать?*<textarea name="message" rows="3" required placeholder="Сервисы, количество пользователей, сроки…"></textarea></label>
   <label class="lf-consent">
     <input type="checkbox" name="consent" required />
     <span>Согласен на обработку персональных данных согласно <a href="/privacy" target="_blank">политике</a>.</span>
@@ -58,14 +58,18 @@ const { source = 'pricing', title = 'Запросить расчёт', submitLab
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ ...data, source: form.dataset.source, consent: (form.elements.namedItem('consent') as HTMLInputElement).checked }),
         });
-        if (!res.ok) throw new Error('bad');
+        if (!res.ok) {
+          let msg = 'Не удалось отправить. Проверьте поля и попробуйте снова.';
+          try { const j = await res.json(); if (j?.error) msg = j.error; } catch { /* not json */ }
+          throw new Error(msg);
+        }
         status.textContent = 'Заявка отправлена! Свяжемся с вами скоро.'; status.className = 'lf-status ok';
         form.reset();
         const w = window as unknown as { ym?: (...a: unknown[]) => void };
         const id = (import.meta as { env: Record<string, string> }).env.PUBLIC_METRIKA_ID;
         if (typeof w.ym === 'function' && id) w.ym(Number(id), 'reachGoal', 'lead_sent');
-      } catch {
-        status.textContent = 'Не удалось отправить. Позвоните нам или попробуйте позже.'; status.className = 'lf-status err';
+      } catch (err) {
+        status.textContent = err instanceof Error && err.message ? err.message : 'Не удалось отправить. Позвоните нам или попробуйте позже.'; status.className = 'lf-status err';
       } finally {
         submit.disabled = false;
       }

@@ -43,7 +43,7 @@ import { seller } from '../../config/site';
       </div>
       <div class="kp-row">
         <label>E-mail*<input name="email" type="email" required autocomplete="email" /></label>
-        <label>Телефон<input name="phone" type="tel" autocomplete="tel" /></label>
+        <label>Телефон*<input name="phone" type="tel" required autocomplete="tel" /></label>
       </div>
       <label class="kp-consent">
         <input type="checkbox" name="consent" required />
@@ -180,7 +180,11 @@ import { seller } from '../../config/site';
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ...fd, consent: (form.elements.namedItem('consent') as HTMLInputElement).checked, items }),
       });
-      if (!res.ok) throw new Error('bad');
+      if (!res.ok) {
+        let msg = 'Не удалось сформировать КП. Проверьте поля и попробуйте снова.';
+        try { const j = await res.json(); if (j?.error) msg = j.error; } catch { /* not json */ }
+        throw new Error(msg);
+      }
       const blob = await res.blob();
       const quoteNo = res.headers.get('X-Quote-No') || 'KP';
       const url = URL.createObjectURL(blob);
@@ -191,8 +195,8 @@ import { seller } from '../../config/site';
       const w = window as unknown as { ym?: (...a: unknown[]) => void };
       const id = (import.meta as { env: Record<string, string> }).env.PUBLIC_METRIKA_ID;
       if (typeof w.ym === 'function' && id) w.ym(Number(id), 'reachGoal', 'quote_pdf');
-    } catch {
-      status.textContent = 'Не удалось сформировать КП. Попробуйте позже или позвоните нам.';
+    } catch (err) {
+      status.textContent = err instanceof Error && err.message ? err.message : 'Не удалось сформировать КП. Попробуйте позже или позвоните нам.';
       status.className = 'kp-status err';
     } finally {
       submit.disabled = false;
