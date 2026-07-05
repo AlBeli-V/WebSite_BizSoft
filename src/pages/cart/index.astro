@@ -47,7 +47,7 @@ import { seller } from '../../config/site';
       </div>
       <label class="kp-consent">
         <input type="checkbox" name="consent" required />
-        <span>Согласен на обработку персональных данных согласно <a href="/privacy" target="_blank">политике</a>.</span>
+        <span>Согласен на обработку персональных данных согласно <a href="/privacy" target="_blank" rel="noopener noreferrer">политике</a>.</span>
       </label>
       <button type="submit" class="btn btn-primary kp-submit">Сформировать КП (PDF)</button>
       <p class="kp-status" data-kp-status role="status" aria-live="polite"></p>
@@ -93,7 +93,14 @@ import { seller } from '../../config/site';
   .kp-status.ok { color: var(--color-success); }
   .kp-status.err { color: var(--color-danger); }
   @media (max-width: 860px) { .cart-layout { grid-template-columns: 1fr; } .cart-summary { position: static; } }
-  @media (max-width: 520px) { .kp-row { grid-template-columns: 1fr; } .cart-row { grid-template-columns: 1fr auto; } }
+  @media (max-width: 520px) {
+    .kp-row { grid-template-columns: 1fr; }
+    .cart-row { grid-template-columns: 1fr auto; }
+    /* Более удобные зоны нажатия на мобильном */
+    .qty button { width: 40px; height: 40px; }
+    .qty input { height: 40px; }
+    .ci-remove { min-width: 40px; min-height: 40px; }
+  }
 </style>
 
 <script>

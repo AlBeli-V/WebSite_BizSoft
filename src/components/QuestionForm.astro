@@ -38,7 +38,7 @@ const { source = 'question' } = Astro.props as { source?: string };
 
     <label class="qf-consent">
       <input type="checkbox" name="consent" required />
-      <span>Согласен на обработку персональных данных согласно <a href="/privacy" target="_blank">политике</a>.</span>
+      <span>Согласен на обработку персональных данных согласно <a href="/privacy" target="_blank" rel="noopener noreferrer">политике</a>.</span>
     </label>
 
     <button type="submit" class="btn btn-primary qf-submit">Отправить</button>

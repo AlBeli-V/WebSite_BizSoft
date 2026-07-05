@@ -12,7 +12,7 @@ const { items, title = 'Частые вопросы', schema = true } = Astro.pr
 ---
 {items.length > 0 && (
   <section class="faq reveal">
-    <h2>{title}</h2>
+    {title && <h2>{title}</h2>}
     <div class="faq-list">
       {items.map((item) => (
         <details class="faq-item">

@@ -52,10 +52,16 @@ const vendorsActive = path.startsWith('/vendors');
     {mainNav.map((item) => (
       <a href={item.href} class:list={['mobile-link', { active: isActive(item.href) }]}>{item.label}</a>
     ))}
-    <a href="/vendors" class:list={['mobile-link', { active: vendorsActive }]}>Производители</a>
-    {vendorLandings.map((v) => (
-      <a href={`/vendors/${v.slug}`} class="mobile-link mobile-sub">— {v.name}</a>
-    ))}
+    <details class="mobile-dd" open={vendorsActive}>
+      <summary class:list={['mobile-link', 'mobile-dd-summary', { active: vendorsActive }]}>
+        Производители
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
+      </summary>
+      <a href="/vendors" class="mobile-link mobile-sub mobile-sub-all">Все производители →</a>
+      {vendorLandings.map((v) => (
+        <a href={`/vendors/${v.slug}`} class="mobile-link mobile-sub">{v.name}</a>
+      ))}
+    </details>
     <a href="/cart" class="mobile-link">Корзина</a>
   </nav>
 </header>
@@ -171,8 +177,14 @@ const vendorsActive = path.startsWith('/vendors');
   .mobile-nav {
     display: none;
     flex-direction: column;
-    padding: 0.5rem 20px 1rem;
+    padding: 0.5rem 20px 1.5rem;
     border-top: 1px solid var(--color-border);
+    background: var(--color-bg);
+    /* Своя прокрутка: длинный список вендоров помещается и листается */
+    max-height: calc(100dvh - 64px);
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
   }
   .mobile-link {
     padding: 0.7rem 0;
@@ -183,6 +195,15 @@ const vendorsActive = path.startsWith('/vendors');
     color: var(--color-accent);
   }
   .mobile-sub { padding-left: 1rem; color: var(--color-text-dim); font-size: 0.92rem; }
+  .mobile-dd { display: flex; flex-direction: column; }
+  /* В Chromium содержимое <details> оборачивается в ::details-content,
+     из-за чего ссылки не наследуют flex-колонку — принудительно делаем их блоками. */
+  .mobile-dd a { display: block; width: 100%; }
+  .mobile-dd-summary { display: flex; align-items: center; justify-content: space-between; list-style: none; cursor: pointer; }
+  .mobile-dd-summary::-webkit-details-marker { display: none; }
+  .mobile-dd-summary svg { opacity: 0.6; transition: transform 0.2s ease; }
+  .mobile-dd[open] .mobile-dd-summary svg { transform: rotate(180deg); }
+  .mobile-sub-all { color: var(--color-accent); font-weight: 600; }
   @media (max-width: 920px) {
     .main-nav {
       display: none;

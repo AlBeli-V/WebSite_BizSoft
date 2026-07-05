@@ -1,0 +1,126 @@
+---
+/**
+ * Базовая доступная карусель: горизонтальный трек со scroll-snap,
+ * кнопки «назад/вперёд», опциональный автоскролл (data-autoplay, мс).
+ * Слайды передаются в слот; каждый слайд должен быть прямым потомком.
+ * Несколько каруселей на странице работают независимо (init по [data-carousel]).
+ */
+interface Props {
+  label: string;
+  /** Автопрокрутка в мс (0 — выкл). */
+  autoplay?: number;
+  /** Ширина слайда на десктопе, напр. '320px' или 'clamp(240px, 30%, 340px)'. */
+  slideWidth?: string;
+  /** Показывать точки-индикаторы. */
+  dots?: boolean;
+}
+const { label, autoplay = 0, slideWidth = 'clamp(260px, 80vw, 340px)', dots = false } = Astro.props;
+---
+<section class="carousel" data-carousel data-autoplay={autoplay} aria-roledescription="карусель" aria-label={label} style={`--slide-w:${slideWidth}`}>
+  <div class="carousel-viewport">
+    <div class="carousel-track" data-track role="list">
+      <slot />
+    </div>
+  </div>
+  <div class="carousel-controls">
+    <button type="button" class="carousel-btn" data-prev aria-label="Назад" disabled>
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"></polyline></svg>
+    </button>
+    {dots && <div class="carousel-dots" data-dots aria-hidden="true"></div>}
+    <button type="button" class="carousel-btn" data-next aria-label="Вперёд">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"></polyline></svg>
+    </button>
+  </div>
+</section>
+
+<style>
+  .carousel { position: relative; }
+  .carousel-viewport { overflow: hidden; }
+  .carousel-track {
+    display: flex;
+    gap: 1.1rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    padding: 0.4rem 0.2rem 1rem;
+    margin: 0;
+    list-style: none;
+    scrollbar-width: none;
+  }
+  .carousel-track::-webkit-scrollbar { display: none; }
+  .carousel-track > :global(*) {
+    scroll-snap-align: start;
+    flex: 0 0 var(--slide-w);
+    min-width: 0;
+  }
+  .carousel-controls {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.5rem;
+    margin-top: 0.4rem;
+  }
+  .carousel-dots { display: flex; gap: 0.4rem; margin-right: auto; }
+  .carousel-dots :global(button) {
+    width: 8px; height: 8px; padding: 0; border-radius: 999px; border: none;
+    background: var(--color-border-strong); cursor: pointer; transition: background 0.2s ease, transform 0.2s ease;
+  }
+  .carousel-dots :global(button[aria-current='true']) { background: var(--color-accent); transform: scale(1.25); }
+  .carousel-btn {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 40px; height: 40px; border-radius: 999px;
+    background: var(--color-bg-card); border: 1px solid var(--color-border-strong);
+    color: var(--color-text); cursor: pointer;
+    box-shadow: var(--shadow-sm);
+    transition: border-color 0.18s ease, color 0.18s ease, opacity 0.18s ease, background 0.18s ease;
+  }
+  .carousel-btn:hover:not(:disabled) { border-color: var(--color-accent); color: var(--color-accent); }
+  .carousel-btn:disabled { opacity: 0.4; cursor: default; }
+</style>
+
+<script>
+  function initCarousel(root: HTMLElement) {
+    const track = root.querySelector('[data-track]') as HTMLElement | null;
+    const prev = root.querySelector('[data-prev]') as HTMLButtonElement | null;
+    const next = root.querySelector('[data-next]') as HTMLButtonElement | null;
+    if (!track || !prev || !next) return;
+
+    const step = () => {
+      const first = track.firstElementChild as HTMLElement | null;
+      const gap = parseFloat(getComputedStyle(track).columnGap || '16') || 16;
+      return first ? first.getBoundingClientRect().width + gap : track.clientWidth * 0.8;
+    };
+    const maxScroll = () => track.scrollWidth - track.clientWidth - 2;
+
+    function sync() {
+      prev!.disabled = track!.scrollLeft <= 2;
+      next!.disabled = track!.scrollLeft >= maxScroll();
+    }
+    prev.addEventListener('click', () => track.scrollBy({ left: -step(), behavior: 'smooth' }));
+    next.addEventListener('click', () => track.scrollBy({ left: step(), behavior: 'smooth' }));
+    track.addEventListener('scroll', sync, { passive: true });
+    window.addEventListener('resize', sync);
+    sync();
+
+    // Автопрокрутка (пауза при наведении/фокусе/reduce-motion)
+    const ms = Number(root.dataset.autoplay || 0);
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (ms > 0 && !reduce) {
+      let timer: number | undefined;
+      const tick = () => {
+        if (track.scrollLeft >= maxScroll()) track.scrollTo({ left: 0, behavior: 'smooth' });
+        else track.scrollBy({ left: step(), behavior: 'smooth' });
+      };
+      const start = () => { timer = window.setInterval(tick, ms); };
+      const stop = () => { if (timer) window.clearInterval(timer); };
+      start();
+      root.addEventListener('mouseenter', stop);
+      root.addEventListener('mouseleave', start);
+      root.addEventListener('focusin', stop);
+      root.addEventListener('focusout', start);
+    }
+  }
+  const boot = () => document.querySelectorAll('[data-carousel]').forEach((el) => initCarousel(el as HTMLElement));
+  boot();
+  document.addEventListener('astro:after-swap', boot);
+</script>

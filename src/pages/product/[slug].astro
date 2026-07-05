@@ -233,7 +233,7 @@ try {
   </div>
 
   <!-- Лайтбокс -->
-  <div class="lightbox" data-lightbox hidden>
+  <div class="lightbox" data-lightbox hidden role="dialog" aria-modal="true" aria-label="Просмотр изображения товара">
     <button class="lb-close" data-lb-close aria-label="Закрыть">✕</button>
     <button class="lb-nav lb-prev" data-lb-prev aria-label="Назад">‹</button>
     <img data-lb-img src="" alt={product.name} />
@@ -297,6 +297,9 @@ try {
   @media (max-width: 900px) {
     .product-layout { grid-template-columns: 1fr; }
     .product-aside { position: static; }
+    /* Более удобные зоны нажатия на мобильном */
+    .qty button { width: 40px; height: 40px; }
+    .qty input { height: 40px; }
   }
 </style>
 
