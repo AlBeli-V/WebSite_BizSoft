@@ -107,14 +107,45 @@ export function breadcrumbSchema(crumbs: Crumb[]) {
   };
 }
 
-export function productSchema(p: Product) {
+/**
+ * Политика возврата и доставки для цифровых лицензий/подписок.
+ * Товар — электронный доступ: физической доставки нет (бесплатно, моментально),
+ * возврат активированной лицензии не предусмотрен. Значения фактические —
+ * закрывают рекомендованные поля Merchant listings в Search Console.
+ */
+function offerLogistics(currency: string) {
+  return {
+    hasMerchantReturnPolicy: {
+      '@type': 'MerchantReturnPolicy',
+      applicableCountry: 'RU',
+      returnPolicyCategory: 'https://schema.org/MerchantReturnNotPermitted',
+    },
+    shippingDetails: {
+      '@type': 'OfferShippingDetails',
+      shippingRate: { '@type': 'MonetaryAmount', value: 0, currency },
+      shippingDestination: { '@type': 'DefinedRegion', addressCountry: 'RU' },
+      deliveryTime: {
+        '@type': 'ShippingDeliveryTime',
+        handlingTime: { '@type': 'QuantitativeValue', minValue: 0, maxValue: 1, unitCode: 'DAY' },
+        transitTime: { '@type': 'QuantitativeValue', minValue: 0, maxValue: 0, unitCode: 'DAY' },
+      },
+    },
+  };
+}
+
+export function productSchema(p: Product, opts?: { images?: string[] }) {
   const eff = effectivePrice(p);
   const cat = typeof p.category === 'object' && p.category ? p.category : null;
+  const currency = p.currency || 'RUB';
+  // image — обязательное поле Product. Берём галерею товара; если её нет,
+  // подставляем брендовое изображение по умолчанию, чтобы поле всегда присутствовало.
+  const images = opts?.images?.length ? opts.images : [`${site.url}/og-default.png`];
   const schema: Record<string, unknown> = {
     '@context': 'https://schema.org',
     '@type': 'Product',
     name: p.name,
     sku: p.sku,
+    image: images,
     description: p.short_description || p.meta_description || p.name,
     brand: { '@type': 'Brand', name: p.vendor || seller.brand },
     ...(cat ? { category: cat.name } : {}),
@@ -124,10 +155,11 @@ export function productSchema(p: Product) {
     schema.offers = {
       '@type': 'Offer',
       url: `${site.url}/product/${p.slug}/`,
-      priceCurrency: p.currency || 'RUB',
+      priceCurrency: currency,
       price: eff.price,
       availability: 'https://schema.org/InStock',
       seller: { '@id': ORG_ID },
+      ...offerLogistics(currency),
       ...(eff.isPromo && p.promo_end ? { priceValidUntil: p.promo_end } : {}),
     };
   } else {
@@ -135,9 +167,10 @@ export function productSchema(p: Product) {
     schema.offers = {
       '@type': 'Offer',
       url: `${site.url}/product/${p.slug}/`,
-      priceCurrency: p.currency || 'RUB',
+      priceCurrency: currency,
       availability: 'https://schema.org/InStock',
       seller: { '@id': ORG_ID },
+      ...offerLogistics(currency),
     };
   }
   return schema;
