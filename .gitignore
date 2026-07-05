@@ -34,3 +34,6 @@ Thumbs.db
 # Рабочие выгрузки товаров (черновики, не публиковать)
 public/*-tovary-zagruzka.xlsx
 public/*_zoom.xlsx
+
+# build artifacts (сборка карточек AI и т.п.)
+out/
