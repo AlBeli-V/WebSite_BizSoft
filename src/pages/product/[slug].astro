@@ -13,6 +13,7 @@ import { productSchema } from '../../lib/seo';
 import { effectivePrice, formatRub } from '../../lib/pricing';
 import { ORIGIN_LABEL, LICENSE_LABEL, listValues } from '../../lib/types';
 import { vendorLegal, productNoindex } from '../../lib/catalog';
+import { getAiInterlinks } from '../../data/ai-interlinks';
 
 const { slug } = Astro.params;
 
@@ -57,6 +58,9 @@ try {
 } catch (e) {
   console.error('related products', e);
 }
+
+// Перелинковка AI-карточки (сравнения / статьи / категория) — только для AI-вендоров.
+const aiLinks = product.vendor ? getAiInterlinks(product.vendor) : null;
 ---
 <BaseLayout
   title={product.meta_title || product.name}
@@ -179,6 +183,23 @@ try {
             </div>
           </div>
         )}
+
+        {aiLinks && (
+          <div class="block ai-interlinks">
+            <div class="il-col">
+              <h3>Сравнения</h3>
+              <ul>{aiLinks.compare.map((l) => <li><a href={l.href}>{l.label} →</a></li>)}</ul>
+            </div>
+            <div class="il-col">
+              <h3>База знаний</h3>
+              <ul>{aiLinks.articles.map((l) => <li><a href={l.href}>{l.label} →</a></li>)}</ul>
+            </div>
+            <div class="il-col">
+              <h3>Категория</h3>
+              <ul><li><a href={aiLinks.category.href}>{aiLinks.category.label} →</a></li></ul>
+            </div>
+          </div>
+        )}
       </div>
 
       <aside class="product-aside">
@@ -289,6 +310,10 @@ try {
   .buy-actions .btn { width: 100%; }
   .buy-trust { list-style: none; padding: 1rem 0 0; margin: 0; border-top: 1px solid var(--color-border); display: grid; gap: 0.4rem; color: var(--color-text-muted); font-size: 0.88rem; }
   .muted { color: var(--color-text-muted); max-width: 65ch; }
+  .ai-interlinks { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1.2rem; }
+  .ai-interlinks h3 { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.04em; color: var(--color-text-dim); margin-bottom: 0.6rem; }
+  .ai-interlinks ul { list-style: none; padding: 0; display: grid; gap: 0.4rem; }
+  .ai-interlinks a { color: var(--color-accent); font-weight: 600; font-size: 0.92rem; }
   .related-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 0.8rem; }
   .related-card { padding: 1rem 1.2rem; display: flex; flex-direction: column; gap: 0.2rem; }
   .related-card strong { font-size: 0.98rem; }
