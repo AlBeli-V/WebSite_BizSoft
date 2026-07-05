@@ -1,0 +1,45 @@
+---
+/**
+ * Иконка категории каталога в едином линейном стиле (24×24, currentColor).
+ * Иконка подбирается по ключевым словам в slug/названии; иначе — базовая.
+ * Собственная простая графика (не бренд-логотипы).
+ */
+interface Props {
+  slug?: string;
+  name?: string;
+  size?: number;
+}
+const { slug = '', name = '', size = 24 } = Astro.props;
+const key = `${slug} ${name}`.toLowerCase();
+
+type Icon = 'design' | 'dev' | 'ai' | 'media' | 'collab' | 'office' | 'comm' | 'security' | 'os' | 'default';
+function pick(): Icon {
+  if (/(design|graphic|дизайн|график|вектор|фото|иллюстрац)/.test(key)) return 'design';
+  if (/(develop|code|ide|разработ|программир|devops)/.test(key)) return 'dev';
+  if (/(\bai\b|ии|нейро|gpt|генератив|artificial)/.test(key)) return 'ai';
+  if (/(media|video|audio|звук|видео|медиа|монтаж|3d|vfx|анимац)/.test(key)) return 'media';
+  if (/(collab|board|доск|совмест|whiteboard|коллаборац)/.test(key)) return 'collab';
+  if (/(office|офис|документ|таблиц|презентац)/.test(key)) return 'office';
+  if (/(communicat|вкс|связь|конференц|meeting|звонк|телефон)/.test(key)) return 'comm';
+  if (/(security|безопас|антивир|защит|vpn)/.test(key)) return 'security';
+  if (/(\bos\b|операцион|система)/.test(key)) return 'os';
+  return 'default';
+}
+const icon = pick();
+---
+<svg class="cat-icon" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+  {icon === 'design' && (<><path d="M12 19a7 7 0 1 1 7-7c0 1.7-1.3 3-3 3h-1.5a1.5 1.5 0 0 0-1 2.6c.3.3.5.7.5 1.1A1.3 1.3 0 0 1 12 19Z"/><circle cx="7.5" cy="10.5" r="1"/><circle cx="9.5" cy="7" r="1"/><circle cx="14.5" cy="7" r="1"/><circle cx="16.5" cy="10.5" r="1"/></>)}
+  {icon === 'dev' && (<><path d="m8 8-4 4 4 4"/><path d="m16 8 4 4-4 4"/><path d="m13 6-2 12"/></>)}
+  {icon === 'ai' && (<><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1"/><circle cx="12" cy="12" r="3.2"/></>)}
+  {icon === 'media' && (<><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m10 9 5 3-5 3z"/></>)}
+  {icon === 'collab' && (<><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M8 21h8M12 18v3M7 9h4M7 13h7"/></>)}
+  {icon === 'office' && (<><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h6"/></>)}
+  {icon === 'comm' && (<><path d="M21 15a2 2 0 0 1-2 2H8l-4 4V5a2 2 0 0 1 2-2h13a2 2 0 0 1 2 2z"/><path d="M8 9h8M8 12h5"/></>)}
+  {icon === 'security' && (<><path d="M12 3 5 6v5c0 4.5 3 7.5 7 9 4-1.5 7-4.5 7-9V6z"/><path d="m9.5 12 1.8 1.8 3.2-3.6"/></>)}
+  {icon === 'os' && (<><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></>)}
+  {icon === 'default' && (<><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></>)}
+</svg>
+
+<style>
+  .cat-icon { display: block; }
+</style>

@@ -8,77 +8,57 @@ import FAQ from '../../components/FAQ.astro';
 import CTASection from '../../components/CTASection.astro';
 import QuestionForm from '../../components/QuestionForm.astro';
 import JsonLd from '../../components/JsonLd.astro';
-import { getCategories, getProducts, getCategoryBySlug } from '../../lib/directus';
-import { ORIGIN_LABEL, LICENSE_LABEL, type Origin, type LicenseType } from '../../lib/types';
+import { getProducts, getCategoryBySlug } from '../../lib/directus';
+import { LICENSE_LABEL, type LicenseType } from '../../lib/types';
 import { productKind, PRODUCT_KIND_LABEL, type ProductKind } from '../../lib/catalog';
 import { itemListSchema } from '../../lib/seo';
 
 const { segment } = Astro.params;
-const isOrigin = segment === 'domestic' || segment === 'foreign';
+
+// Отечественное ПО убрано: старые origin-маршруты ведут в общий каталог.
+if (segment === 'domestic' || segment === 'foreign') {
+  return Astro.redirect('/catalog', 301);
+}
 
 const url = Astro.url;
 const qp = url.searchParams;
-const selCategory = qp.get('category') || '';
 const selVendor = qp.get('vendor') || '';
 const selLicense = (qp.get('license') || '') as LicenseType | '';
 const selKind = (qp.get('ptype') || '') as ProductKind | '';
-const selOrigin = (qp.get('origin') || '') as Origin | '';
 const q = (qp.get('q') || '').trim();
 
 let title = '';
 let lead = '';
 let base = [];
-let categories = [];
 let pageCategory = null;
 
 try {
-  categories = await getCategories();
-  if (isOrigin) {
-    base = await getProducts({ origin: segment as Origin });
-    title = ORIGIN_LABEL[segment as Origin];
-    lead = segment === 'domestic'
-      ? 'Российское ПО из реестра отечественного ПО для юрлиц: офис, ОС, безопасность, САПР, коммуникации. По договору, оплата по счёту в рублях.'
-      : 'Зарубежные сервисы для бизнеса: офис, разработка, дизайн, ВКС, AI. Оформление на юрлицо, оплата в рублях по курсу ЦБ.';
-  } else {
-    pageCategory = await getCategoryBySlug(segment!);
-    if (pageCategory) {
-      base = await getProducts({ categorySlug: segment! });
-      title = pageCategory.name;
-      lead = pageCategory.intro || pageCategory.seo_text || `${pageCategory.name}: лицензии и подписки для юрлиц по договору и счёту.`;
-    }
+  pageCategory = await getCategoryBySlug(segment!);
+  if (pageCategory) {
+    base = await getProducts({ categorySlug: segment! });
+    title = pageCategory.name;
+    lead = pageCategory.intro || pageCategory.seo_text || `${pageCategory.name}: зарубежные лицензии и подписки для юрлиц по договору и счёту.`;
   }
 } catch (e) {
   console.error('catalog segment error', e);
 }
 
-if (!isOrigin && !pageCategory) {
+if (!pageCategory) {
   return new Response(null, { status: 404, statusText: 'Not Found' });
 }
 
 // ── фасеты из базового набора ──
-const categoryFacet = new Map<string, { name: string; count: number }>();
 const vendorFacet = new Map<string, number>();
-const originFacet = new Map<string, number>();
 const kindFacet = new Map<ProductKind, number>();
 for (const p of base) {
-  const cat = typeof p.category === 'object' && p.category ? p.category : null;
-  if (cat) {
-    const f = categoryFacet.get(cat.slug) || { name: cat.name, count: 0 };
-    f.count++; categoryFacet.set(cat.slug, f);
-  }
   if (p.vendor) vendorFacet.set(p.vendor, (vendorFacet.get(p.vendor) || 0) + 1);
-  if (p.origin) originFacet.set(p.origin, (originFacet.get(p.origin) || 0) + 1);
   const k = productKind(p); kindFacet.set(k, (kindFacet.get(k) || 0) + 1);
 }
 const vendors = [...vendorFacet.entries()].sort((a, b) => a[0].localeCompare(b[0], 'ru'));
-const cats = [...categoryFacet.entries()].sort((a, b) => a[1].name.localeCompare(b[1].name, 'ru'));
 
 // ── применяем выбранные фильтры (в JS) ──
 const ql = q.toLowerCase();
 const filtered = base.filter((p) => {
-  const cat = typeof p.category === 'object' && p.category ? p.category : null;
-  if (!isOrigin) { if (selOrigin && p.origin !== selOrigin) return false; }
-  if (isOrigin) { if (selCategory && cat?.slug !== selCategory) return false; }
   if (selVendor && p.vendor !== selVendor) return false;
   if (selKind && productKind(p) !== selKind) return false;
   if (selLicense && p.license_type !== selLicense) return false;
@@ -95,11 +75,10 @@ const faq = categoryFaqs.length > 0 ? categoryFaqs : [
   { q: 'Цены окончательные?', a: 'Цены ориентировочные (часть — по запросу или по курсу ЦБ). Итог подтверждаем в счёте.' },
 ];
 const basePath = `/catalog/${segment}`;
-// Отфильтрованные/поисковые представления каталога не индексируем; canonical — на базовый раздел.
-const hasFilters = Boolean(selCategory || selVendor || selLicense || selKind || selOrigin || q);
+const hasFilters = Boolean(selVendor || selLicense || selKind || q);
 ---
 <BaseLayout
-  title={pageCategory ? (pageCategory.meta_title || title) : `${title} — каталог`}
+  title={pageCategory ? (pageCategory.meta_title || `${title} — каталог`) : `${title} — каталог`}
   description={pageCategory?.meta_description || lead.slice(0, 160)}
   canonical={basePath}
   noindex={hasFilters}
@@ -120,29 +99,6 @@ const hasFilters = Boolean(selCategory || selVendor || selLicense || selKind || 
             <input type="search" name="q" value={q} placeholder="Поиск по названию, вендору…" aria-label="Поиск" />
             <button type="submit" class="btn btn-primary btn-sm">Найти</button>
           </div>
-
-          {isOrigin && cats.length > 0 && (
-            <div class="f-group">
-              <label for="f-cat">Категория ПО</label>
-              <select id="f-cat" name="category" data-autosubmit>
-                <option value="">Все категории ({base.length})</option>
-                {cats.map(([slug, f]) => (
-                  <option value={slug} selected={selCategory === slug}>{f.name} ({f.count})</option>
-                ))}
-              </select>
-            </div>
-          )}
-
-          {!isOrigin && originFacet.size > 1 && (
-            <div class="f-group">
-              <label for="f-origin">Происхождение</label>
-              <select id="f-origin" name="origin" data-autosubmit>
-                <option value="">Любое</option>
-                <option value="domestic" selected={selOrigin === 'domestic'}>Отечественное ({originFacet.get('domestic') || 0})</option>
-                <option value="foreign" selected={selOrigin === 'foreign'}>Иностранное ({originFacet.get('foreign') || 0})</option>
-              </select>
-            </div>
-          )}
 
           {vendors.length > 0 && (
             <div class="f-group">
@@ -186,9 +142,7 @@ const hasFilters = Boolean(selCategory || selVendor || selLicense || selKind || 
       <div class="results">
         <div class="results-head">
           <span>Найдено: <b>{filtered.length}</b></span>
-          <a href={isOrigin ? `/catalog/${segment === 'domestic' ? 'foreign' : 'domestic'}/` : '/catalog/'} class="switch-link">
-            {isOrigin ? `→ ${ORIGIN_LABEL[segment === 'domestic' ? 'foreign' : 'domestic']}` : '← Весь каталог'}
-          </a>
+          <a href="/catalog/" class="switch-link">← Весь каталог</a>
         </div>
         {filtered.length > 0 ? (
           <div class="product-grid">

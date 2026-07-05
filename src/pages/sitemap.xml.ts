@@ -12,8 +12,6 @@ import { VENDORS } from '../data/vendors';
 const STATIC_ROUTES: { path: string; priority: number; changefreq: string }[] = [
   { path: '/', priority: 1.0, changefreq: 'weekly' },
   { path: '/catalog', priority: 0.9, changefreq: 'weekly' },
-  { path: '/catalog/domestic', priority: 0.8, changefreq: 'weekly' },
-  { path: '/catalog/foreign', priority: 0.8, changefreq: 'weekly' },
   { path: '/how-we-work', priority: 0.7, changefreq: 'monthly' },
   { path: '/pricing', priority: 0.8, changefreq: 'monthly' },
   { path: '/documents', priority: 0.6, changefreq: 'monthly' },
