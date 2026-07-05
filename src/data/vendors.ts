@@ -26,6 +26,9 @@ export interface VendorEntry {
 
 export const VENDORS: VendorEntry[] = [
   // ─── Блок 1: графический дизайн / AI-графика ───
+  { slug: 'adobe', vendor: 'Adobe', title: 'Adobe Creative Cloud', legalName: 'Adobe Inc.', brandColor: '#FA0F00', site: 'https://www.adobe.com', catSeg: 'design', catLabel: 'Дизайн и графика', domain: 'design',
+    tagline: 'Creative Cloud для бизнеса: Photoshop, Illustrator, Premiere Pro, After Effects, Acrobat и весь набор — тарифы для команд и Enterprise.',
+    about: 'Adobe Creative Cloud — набор профессиональных инструментов для дизайна, фото, вёрстки, видео и работы с PDF: Photoshop, Illustrator, InDesign, Premiere Pro, After Effects, Lightroom, Acrobat Pro и другие. Индустриальный стандарт в маркетинге, дизайне и продакшене.' },
   { slug: 'canva', vendor: 'Canva', legalName: 'Canva Pty Ltd', brandColor: '#00C4CC', site: 'https://www.canva.com', catSeg: 'design', catLabel: 'Дизайн и графика', domain: 'design',
     tagline: 'Онлайн-платформа для дизайна и брендинга: тарифы Pro, Business и Enterprise для команд.',
     about: 'Canva — облачный редактор для быстрого создания графики, презентаций, соцсетей и брендовых материалов. Подходит маркетинговым и дизайн-командам, которым нужен единый инструмент с шаблонами, брендкитом и совместной работой.' },
