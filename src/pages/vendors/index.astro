@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import VendorLogo from '../../components/VendorLogo.astro';
 import { vendors } from '../../data/scaffold';
 import { vendorLandings } from '../../config/site';
 ---
@@ -15,8 +16,11 @@ import { vendorLandings } from '../../config/site';
     <p class="lead">Подбор и оформление ПО на юрлицо по договору и счёту. Готовые страницы вендоров:</p>
     <div class="vgrid">
       {vendorLandings.map((v) => (
-        <a href={`/vendors/${v.slug}`} class="card card-hover v ready">
-          <strong>{v.name}</strong>
+        <a href={`/vendors/${v.slug}`} class="card card-hover v ready" aria-label={`${v.name} — купить для юрлица`}>
+          <span class="v-head">
+            <span class="v-logo" aria-hidden="true"><VendorLogo slug={v.slug} name={v.name} size={20} /></span>
+            <strong>{v.name}</strong>
+          </span>
           <span>{v.description}</span>
           <em>Открыть →</em>
         </a>
@@ -37,6 +41,8 @@ import { vendorLandings } from '../../config/site';
   .lead { color: var(--color-text-muted); margin-bottom: 1.5rem; }
   .vgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1rem; }
   .v { padding: 1.4rem; display: flex; flex-direction: column; gap: 0.4rem; }
+  .v-head { display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.1rem; }
+  .v-logo { width: 34px; height: 34px; border-radius: 9px; background: var(--color-bg-elevated); border: 1px solid var(--color-border); color: var(--color-text-muted); display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; }
   .v strong { font-size: 1.15rem; }
   .v span { color: var(--color-text-muted); font-size: 0.9rem; flex-grow: 1; }
   .v.ready em { color: var(--color-accent); font-weight: 600; font-style: normal; }
