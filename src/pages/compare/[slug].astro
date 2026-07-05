@@ -1,0 +1,126 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import FAQ from '../../components/FAQ.astro';
+import CTASection from '../../components/CTASection.astro';
+import JsonLd from '../../components/JsonLd.astro';
+import { comparisons } from '../../data/comparisons';
+import { faqSchema, breadcrumbSchema } from '../../lib/seo';
+
+export function getStaticPaths() {
+  return comparisons.map((c) => ({ params: { slug: c.slug }, props: { cmp: c } }));
+}
+
+const { cmp } = Astro.props as { cmp: (typeof comparisons)[number] };
+const path = `/compare/${cmp.slug}`;
+const crumbs = [
+  { name: 'Каталог', url: '/catalog' },
+  { name: 'AI-сервисы', url: '/catalog/ai' },
+  { name: 'Сравнения', url: '/catalog/ai' },
+  { name: cmp.h1, url: path },
+];
+---
+<BaseLayout title={cmp.metaTitle} description={cmp.metaDescription} canonical={path}>
+  <JsonLd schema={faqSchema(cmp.faq)} />
+  <JsonLd schema={breadcrumbSchema(crumbs)} />
+  <div class="container-page section">
+    <Breadcrumbs items={[{ name: 'AI-сервисы', url: '/catalog/ai' }, { name: cmp.h1, url: path }]} />
+    <header class="head">
+      <span class="eyebrow">Сравнение AI-сервисов</span>
+      <h1>{cmp.h1}</h1>
+      <p class="lead">{cmp.summaryAnswer}</p>
+      <div class="actions">
+        <a href="/pricing" class="btn btn-primary" data-goal="compare_calc">Запросить расчёт</a>
+        <a href={`/catalog/${cmp.category.slug}`} class="btn btn-ghost">{cmp.category.name} →</a>
+      </div>
+    </header>
+
+    <!-- Карточки сторон -->
+    <div class="sides">
+      {[cmp.a, cmp.b].map((s) => (
+        <div class="card side">
+          <h2><a href={s.href}>{s.name}</a></h2>
+          <p class="tagline">{s.tagline}</p>
+          <h3>Кому подходит</h3>
+          <ul>{s.bestFor.map((b) => <li>{b}</li>)}</ul>
+          <a href={s.href} class="btn btn-ghost btn-sm">Открыть карточку →</a>
+        </div>
+      ))}
+    </div>
+
+    <!-- Таблица сравнения -->
+    <section class="cmp-table-wrap">
+      <h2>Сравнение по параметрам</h2>
+      <div class="table-scroll">
+        <table class="cmp-table">
+          <thead>
+            <tr><th>Параметр</th><th>{cmp.a.name}</th><th>{cmp.b.name}</th></tr>
+          </thead>
+          <tbody>
+            {cmp.rows.map((r) => (
+              <tr><td class="pl">{r.label}</td><td>{r.a}</td><td>{r.b}</td></tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="why">
+      <h2>Почему покупать через Biz-Soft</h2>
+      <ul class="why-list">
+        <li>Оформление на российское юрлицо или ИП по договору</li>
+        <li>Оплата в рублях по счёту, по курсу ЦБ РФ на дату счёта</li>
+        <li>Закрывающие документы через ЭДО</li>
+        <li>Подбор тарифа и количества лицензий под задачу</li>
+      </ul>
+    </section>
+
+    <FAQ items={cmp.faq} title="Частые вопросы" />
+
+    {cmp.relatedCompare.length > 0 && (
+      <section class="related">
+        <h2>Другие сравнения</h2>
+        <div class="rel-grid">
+          {cmp.relatedCompare.map((r) => (
+            <a href={r.href} class="card card-hover rel">{r.label} →</a>
+          ))}
+        </div>
+      </section>
+    )}
+  </div>
+  <CTASection />
+</BaseLayout>
+
+<style>
+  .section { padding-top: 2rem; }
+  .head { max-width: 860px; margin-bottom: 2.2rem; }
+  .eyebrow { color: var(--color-text-dim); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; }
+  h1 { font-size: clamp(1.8rem, 4vw, 2.6rem); margin: 0.6rem 0 1rem; }
+  .lead { color: var(--color-text-muted); font-size: 1.05rem; line-height: 1.6; }
+  .actions { display: flex; gap: 0.8rem; margin-top: 1.4rem; flex-wrap: wrap; }
+  .sides { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; margin-bottom: 2.4rem; }
+  .side { padding: 1.5rem; }
+  .side h2 { font-size: 1.4rem; margin-bottom: 0.5rem; }
+  .side h2 a { color: var(--color-text); }
+  .side h2 a:hover { color: var(--color-accent); }
+  .side h3 { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.04em; color: var(--color-text-dim); margin: 1rem 0 0.6rem; }
+  .tagline { color: var(--color-text-muted); }
+  .side ul { list-style: none; padding: 0; display: grid; gap: 0.5rem; margin-bottom: 1rem; }
+  .side li { padding-left: 1.5rem; position: relative; }
+  .side li::before { content: '✓'; position: absolute; left: 0; color: var(--color-accent); font-weight: 700; }
+  .cmp-table-wrap { margin-bottom: 2.4rem; }
+  .cmp-table-wrap h2, .why h2, .related h2 { font-size: 1.4rem; margin-bottom: 1rem; }
+  .table-scroll { overflow-x: auto; }
+  .cmp-table { width: 100%; border-collapse: collapse; min-width: 560px; }
+  .cmp-table th, .cmp-table td { text-align: left; padding: 0.8rem 1rem; border-bottom: 1px solid var(--color-border); vertical-align: top; }
+  .cmp-table thead th { color: var(--color-text); font-weight: 700; border-bottom: 2px solid var(--color-border-strong); }
+  .cmp-table td.pl { color: var(--color-text-muted); font-weight: 600; }
+  .why { margin-bottom: 2.4rem; }
+  .why-list { list-style: none; padding: 0; display: grid; gap: 0.6rem; }
+  .why-list li { padding-left: 1.6rem; position: relative; }
+  .why-list li::before { content: '✓'; position: absolute; left: 0; color: var(--color-accent); font-weight: 700; }
+  .related { margin: 2rem 0 1rem; }
+  .rel-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; }
+  .rel { padding: 1.1rem 1.3rem; font-weight: 600; color: var(--color-accent); }
+  @media (max-width: 720px) { .sides { grid-template-columns: 1fr; } }
+</style>
