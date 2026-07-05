@@ -1,0 +1,109 @@
+---
+export const prerender = false;
+
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../../components/Breadcrumbs.astro';
+import ProductCard from '../../../components/ProductCard.astro';
+import FAQ from '../../../components/FAQ.astro';
+import CTASection from '../../../components/CTASection.astro';
+import QuestionForm from '../../../components/QuestionForm.astro';
+import JsonLd from '../../../components/JsonLd.astro';
+import { getProducts, getCategoryBySlug } from '../../../lib/directus';
+import { itemListSchema, breadcrumbSchema } from '../../../lib/seo';
+import { getAiSubcategory } from '../../../data/ai-hub';
+import { comparisons } from '../../../data/comparisons';
+
+const { sub } = Astro.params;
+const meta = getAiSubcategory(sub!);
+if (!meta) return new Response(null, { status: 404, statusText: 'Not Found' });
+
+const path = `/catalog/ai/${meta.sub}`;
+const crumbs = [
+  { name: 'Каталог', url: '/catalog' },
+  { name: 'AI-сервисы', url: '/catalog/ai' },
+  { name: meta.name, url: path },
+];
+
+// Пытаемся получить наполненную категорию из Directus. Пока её нет — «в подготовке».
+let pageCategory = null;
+let products = [];
+try {
+  pageCategory = await getCategoryBySlug(meta.categorySlug);
+  if (pageCategory) products = await getProducts({ categorySlug: meta.categorySlug });
+} catch (e) {
+  console.error('ai sub catalog error', e);
+}
+const ready = Boolean(pageCategory) && products.length > 0;
+
+// Сравнения, релевантные подкатегории (по category.slug вида "ai/<sub>").
+const relatedCompare = comparisons.filter((c) => c.category.slug === `ai/${meta.sub}`).slice(0, 4);
+
+const faq = [
+  { q: `Как купить ${meta.name.toLowerCase()} для юрлица?`, a: 'Оставьте заявку или добавьте позиции в корзину и нажмите «Получить КП». Заключаем договор, выставляем счёт в рублях, после оплаты предоставляем доступ и передаём закрывающие через ЭДО.' },
+  { q: 'Цена указана за год?', a: 'Да, для корпоративных AI-подписок мы ориентируемся на годовые тарифы. Рублёвая цена считается от годовой цены вендора по курсу ЦБ РФ на дату счёта; итог фиксируется в счёте.' },
+];
+---
+<BaseLayout
+  title={`${meta.name} — AI-сервисы для бизнеса`}
+  description={meta.intro.slice(0, 160)}
+  canonical={path}
+  noindex={!ready}
+>
+  {ready && pageCategory && <JsonLd schema={itemListSchema(pageCategory, products)} />}
+  <JsonLd schema={breadcrumbSchema(crumbs)} />
+  <div class="container-page section">
+    <Breadcrumbs items={[{ name: 'AI-сервисы', url: '/catalog/ai' }, { name: meta.name, url: path }]} />
+    <header class="head">
+      <span class="eyebrow">{meta.icon} AI-сервисы</span>
+      <h1>{meta.name}</h1>
+      <p class="lead">{meta.intro}</p>
+      <a href="/catalog/ai" class="switch-link">← Все AI-сервисы</a>
+    </header>
+
+    {ready ? (
+      <div class="product-grid">
+        {products.map((p) => <ProductCard product={p} />)}
+      </div>
+    ) : (
+      <div class="prep card">
+        <p class="muted">Раздел наполняется. Подберём тариф и оформим на юрлицо по счёту — оставьте заявку или посмотрите сравнения ниже.</p>
+        <div class="actions">
+          <a href="/pricing" class="btn btn-primary">Запросить расчёт</a>
+          <a href="/catalog/ai" class="btn btn-ghost">Все AI-сервисы</a>
+        </div>
+      </div>
+    )}
+
+    {relatedCompare.length > 0 && (
+      <section class="related">
+        <h2>Сравнения по теме</h2>
+        <div class="rel-grid">
+          {relatedCompare.map((c) => (
+            <a href={`/compare/${c.slug}`} class="card card-hover rel">{c.h1} →</a>
+          ))}
+        </div>
+      </section>
+    )}
+
+    <FAQ items={faq} title="Вопросы по разделу" />
+  </div>
+  <CTASection />
+  <QuestionForm source="catalog-ai" />
+</BaseLayout>
+
+<style>
+  .section { padding-top: 2rem; }
+  .head { max-width: 820px; margin-bottom: 2rem; }
+  .eyebrow { color: var(--color-text-dim); font-size: 0.85rem; }
+  h1 { font-size: clamp(1.8rem, 4vw, 2.6rem); margin: 0.5rem 0 0.8rem; }
+  .lead { color: var(--color-text-muted); font-size: 1.05rem; }
+  .switch-link { display: inline-block; margin-top: 0.8rem; color: var(--color-accent); font-weight: 600; }
+  .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 1.2rem; }
+  .prep { padding: 1.6rem; margin-bottom: 1.5rem; }
+  .prep .muted { color: var(--color-text-muted); margin-bottom: 1rem; max-width: 60ch; }
+  .actions { display: flex; gap: 0.8rem; flex-wrap: wrap; }
+  .related { margin: 2rem 0 1rem; }
+  .related h2 { font-size: 1.4rem; margin-bottom: 1rem; }
+  .rel-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; }
+  .rel { padding: 1.1rem 1.3rem; font-weight: 600; color: var(--color-accent); }
+</style>

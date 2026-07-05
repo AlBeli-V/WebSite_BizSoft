@@ -12,6 +12,9 @@ import { getProducts, getCategoryBySlug } from '../../lib/directus';
 import { LICENSE_LABEL, type LicenseType } from '../../lib/types';
 import { productKind, PRODUCT_KIND_LABEL, type ProductKind } from '../../lib/catalog';
 import { itemListSchema } from '../../lib/seo';
+import { aiSubcategories } from '../../data/ai-hub';
+import { comparisons } from '../../data/comparisons';
+import { solutions } from '../../data/solutions';
 
 const { segment } = Astro.params;
 
@@ -76,6 +79,11 @@ const faq = categoryFaqs.length > 0 ? categoryFaqs : [
 ];
 const basePath = `/catalog/${segment}`;
 const hasFilters = Boolean(selVendor || selLicense || selKind || q);
+
+// AI-хаб: навигация по подкатегориям + сравнения + сценарии (только для /catalog/ai).
+const isAi = segment === 'ai';
+const aiScenarios = isAi ? solutions.filter((s) => s.slug.startsWith('ai-dlya-')) : [];
+const aiCompare = isAi ? comparisons.slice(0, 6) : [];
 ---
 <BaseLayout
   title={pageCategory ? (pageCategory.meta_title || `${title} — каталог`) : `${title} — каталог`}
@@ -90,6 +98,18 @@ const hasFilters = Boolean(selVendor || selLicense || selKind || q);
       <h1>{title}</h1>
       <p class="lead">{lead}</p>
     </header>
+
+    {isAi && (
+      <nav class="ai-subs" aria-label="Категории AI-сервисов">
+        {aiSubcategories.map((s) => (
+          <a href={`/catalog/ai/${s.sub}`} class="card card-hover ai-sub">
+            <span class="ai-ico">{s.icon}</span>
+            <span class="ai-name">{s.name}</span>
+            <span class="ai-desc">{s.short}</span>
+          </a>
+        ))}
+      </nav>
+    )}
 
     <div class="catalog-layout">
       <!-- Фильтры -->
@@ -154,6 +174,27 @@ const hasFilters = Boolean(selVendor || selLicense || selKind || q);
       </div>
     </div>
 
+    {isAi && (
+      <section class="ai-links">
+        <div class="ai-col">
+          <h2>Популярные сравнения</h2>
+          <div class="ai-grid">
+            {aiCompare.map((c) => (
+              <a href={`/compare/${c.slug}`} class="card card-hover ai-link">{c.h1} →</a>
+            ))}
+          </div>
+        </div>
+        <div class="ai-col">
+          <h2>AI под задачу</h2>
+          <div class="ai-grid">
+            {aiScenarios.map((s) => (
+              <a href={`/solutions/${s.slug}`} class="card card-hover ai-link">{s.title} →</a>
+            ))}
+          </div>
+        </div>
+      </section>
+    )}
+
     <FAQ items={faq} title="Вопросы по разделу" />
   </div>
   <CTASection />
@@ -179,6 +220,17 @@ const hasFilters = Boolean(selVendor || selLicense || selKind || q);
   .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 1.2rem; }
   .empty { color: var(--color-text-muted); }
   .empty a { color: var(--color-accent); }
+  /* AI-хаб */
+  .ai-subs { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 0.9rem; margin-bottom: 2rem; }
+  .ai-sub { display: flex; flex-direction: column; gap: 0.3rem; padding: 1.1rem 1.2rem; }
+  .ai-ico { font-size: 1.5rem; }
+  .ai-name { font-weight: 700; color: var(--color-text); }
+  .ai-desc { font-size: 0.85rem; color: var(--color-text-muted); }
+  .ai-links { display: grid; grid-template-columns: 1fr 1fr; gap: 1.6rem; margin-top: 2.4rem; }
+  .ai-links h2 { font-size: 1.3rem; margin-bottom: 1rem; }
+  .ai-grid { display: grid; gap: 0.7rem; }
+  .ai-link { padding: 0.9rem 1.1rem; font-weight: 600; color: var(--color-accent); }
+  @media (max-width: 720px) { .ai-links { grid-template-columns: 1fr; } }
   @media (max-width: 820px) {
     .catalog-layout { grid-template-columns: 1fr; }
     .filters { position: static; }
