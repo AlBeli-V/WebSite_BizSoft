@@ -8,8 +8,10 @@ import Carousel from '../components/Carousel.astro';
 import Banner from '../components/Banner.astro';
 import LeadForm from '../components/LeadForm.astro';
 import QuestionForm from '../components/QuestionForm.astro';
+import VendorLogo from '../components/VendorLogo.astro';
 import JsonLd from '../components/JsonLd.astro';
 import { localBusinessSchema } from '../lib/seo';
+import { site } from '../config/site';
 
 // Узнаваемые бренды для логопанели и карточек. Ссылки — на готовые лендинги.
 type Brand = { name: string; slug: string; color: string; blurb: string };
@@ -69,12 +71,26 @@ const steps = [
   { n: '3', t: 'Договор и оплата', d: 'Заключаем договор, выставляем счёт и оплачиваем вендору.' },
   { n: '4', t: 'Активация и документы', d: 'Передаём доступы и закрывающие документы через ЭДО.' },
 ];
+
+// GEO/AEO: список подключаемых сервисов со ссылками на лендинги — для поиска и ИИ-ответов.
+const servicesItemList = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  name: 'Зарубежные сервисы и ПО, которые подключает BizSoft для юрлиц',
+  description: 'Популярные зарубежные SaaS-сервисы и ПО, которые BizSoft закупает и активирует для российских компаний по договору и счёту.',
+  itemListElement: brands.map((b, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    name: b.name,
+    url: `${site.url}/vendors/${b.slug}`,
+  })),
+};
 ---
 <BaseLayout
   title="BizSoft — Adobe, Figma, JetBrains и мировые сервисы для бизнеса по договору"
   description="Помогаем российским компаниям закупать и активировать зарубежные SaaS и ПО: Adobe, Figma, JetBrains, Miro, Zoom, OpenAI. Оплата картой или через счёт зарубежной компании, расходы по договору с закрывающими через ЭДО."
 >
-  <JsonLd schema={localBusinessSchema()} />
+  <JsonLd schema={[localBusinessSchema(), servicesItemList]} />
 
   <!-- HERO -->
   <section class="hero">
@@ -115,8 +131,8 @@ const steps = [
     <p class="logos-cap">Помогаем подключать сервисы, которыми пользуется весь мир</p>
     <Carousel label="Производители, которых мы подключаем" autoplay={2800} slideWidth="clamp(150px, 42vw, 190px)">
       {logoStrip.map((b) => (
-        <a href={`/vendors/${b.slug}`} class="logo-chip" role="listitem">
-          <span class="logo-badge" style={`--bc:${b.color}; --tc:${textOn(b.color)}`}>{b.name.slice(0, 1)}</span>
+        <a href={`/vendors/${b.slug}`} class="logo-chip" role="listitem" aria-label={`${b.name} — купить для юрлица`}>
+          <span class="logo-badge" style={`--bc:${b.color}; --tc:${textOn(b.color)}`}><VendorLogo slug={b.slug} name={b.name} size={18} /></span>
           <span class="logo-name">{b.name}</span>
         </a>
       ))}
@@ -179,8 +195,8 @@ const steps = [
     </SectionHeading>
     <Carousel label="Популярные сервисы" slideWidth="clamp(240px, 78vw, 300px)">
       {brands.map((b) => (
-        <a href={`/vendors/${b.slug}`} class="card card-hover service-card" role="listitem" data-goal="home_service">
-          <span class="logo-badge lg" style={`--bc:${b.color}; --tc:${textOn(b.color)}`}>{b.name.slice(0, 1)}</span>
+        <a href={`/vendors/${b.slug}`} class="card card-hover service-card" role="listitem" data-goal="home_service" aria-label={`${b.name} для бизнеса — тарифы и оформление`}>
+          <span class="logo-badge lg" style={`--bc:${b.color}; --tc:${textOn(b.color)}`}><VendorLogo slug={b.slug} name={b.name} size={28} /></span>
           <h3>{b.name}</h3>
           <p>{b.blurb}</p>
           <span class="service-link">Открыть →</span>

@@ -1,0 +1,27 @@
+---
+/**
+ * Брендовый логотип вендора: официальный SVG-глиф (simple-icons) по slug,
+ * либо буквенный знак-фолбэк, если логотипа нет в наборе.
+ * Декоративный (aria-hidden) — название вендора выводится рядом текстом.
+ */
+import { brandLogo } from '../data/logos';
+
+interface Props {
+  slug: string;
+  name: string;
+  size?: number;
+}
+const { slug, name, size = 24 } = Astro.props;
+const logo = brandLogo(slug);
+const letter = (name || '?').trim().charAt(0).toUpperCase();
+---
+{logo ? (
+  <svg class="vlogo" viewBox="0 0 24 24" width={size} height={size} fill="currentColor" aria-hidden="true" focusable="false" role="presentation"><path d={logo.path} /></svg>
+) : (
+  <span class="vlogo-letter" aria-hidden="true" style={`font-size:${Math.round(size * 0.62)}px`}>{letter}</span>
+)}
+
+<style>
+  .vlogo { display: block; }
+  .vlogo-letter { display: flex; align-items: center; justify-content: center; font-weight: 800; line-height: 1; }
+</style>
