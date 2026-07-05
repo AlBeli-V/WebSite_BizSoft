@@ -15,22 +15,22 @@ const { source = 'question' } = Astro.props as { source?: string };
       Вопрос по товару: <strong data-product-name></strong>
     </div>
 
-    <label>Имя
-      <input type="text" name="name" autocomplete="name" />
+    <label>Имя*
+      <input type="text" name="name" required autocomplete="name" />
     </label>
     <div class="qf-row">
       <label>E-mail*
         <input type="email" name="email" required autocomplete="email" />
       </label>
-      <label>Телефон
-        <input type="tel" name="phone" autocomplete="tel" />
+      <label>Телефон*
+        <input type="tel" name="phone" required autocomplete="tel" />
       </label>
     </div>
-    <label>Компания
-      <input type="text" name="company" autocomplete="organization" />
+    <label>Компания*
+      <input type="text" name="company" required autocomplete="organization" />
     </label>
-    <label>Сообщение
-      <textarea name="message" rows="3" placeholder="Что хотите уточнить?"></textarea>
+    <label>Сообщение*
+      <textarea name="message" rows="3" required placeholder="Что хотите уточнить?"></textarea>
     </label>
 
     <input type="hidden" name="product_ref" data-product-ref />
@@ -129,7 +129,11 @@ const { source = 'question' } = Astro.props as { source?: string };
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ ...data, consent: (form.elements.namedItem('consent') as HTMLInputElement).checked }),
         });
-        if (!res.ok) throw new Error('bad');
+        if (!res.ok) {
+          let msg = 'Не удалось отправить. Проверьте поля и попробуйте снова.';
+          try { const j = await res.json(); if (j?.error) msg = j.error; } catch { /* not json */ }
+          throw new Error(msg);
+        }
         status.textContent = 'Готово! Мы свяжемся с вами в ближайшее время.';
         status.className = 'qf-status ok';
         form.reset();
@@ -137,8 +141,8 @@ const { source = 'question' } = Astro.props as { source?: string };
         const id = (import.meta as { env: Record<string, string> }).env.PUBLIC_METRIKA_ID;
         if (typeof w.ym === 'function' && id) w.ym(Number(id), 'reachGoal', 'lead_sent');
         setTimeout(() => dialog.close(), 1800);
-      } catch {
-        status.textContent = 'Не удалось отправить. Позвоните нам или попробуйте позже.';
+      } catch (err) {
+        status.textContent = err instanceof Error && err.message ? err.message : 'Не удалось отправить. Позвоните нам или попробуйте позже.';
         status.className = 'qf-status err';
       } finally {
         submit.disabled = false;

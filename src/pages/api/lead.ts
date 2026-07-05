@@ -2,11 +2,15 @@ export const prerender = false;
 
 import type { APIRoute } from 'astro';
 import { createLead } from '../../lib/directus';
-import { sendMail } from '../../lib/mailer';
-import { seller } from '../../config/site';
+import { sendMail, managerEmail } from '../../lib/mailer';
 
 function isEmail(v: unknown): v is string {
   return typeof v === 'string' && /.+@.+\..+/.test(v);
+}
+
+/** Непустая строка после trim. */
+function filled(v: unknown): v is string {
+  return typeof v === 'string' && v.trim().length > 0;
 }
 
 export const POST: APIRoute = async ({ request }) => {
@@ -17,11 +21,14 @@ export const POST: APIRoute = async ({ request }) => {
     return new Response(JSON.stringify({ error: 'bad json' }), { status: 400 });
   }
 
-  if (!isEmail(body.email)) {
-    return new Response(JSON.stringify({ error: 'email обязателен' }), { status: 422 });
-  }
+  // Все поля формы обязательны
+  if (!filled(body.name)) return new Response(JSON.stringify({ error: 'Укажите имя' }), { status: 422 });
+  if (!filled(body.company)) return new Response(JSON.stringify({ error: 'Укажите компанию' }), { status: 422 });
+  if (!isEmail(body.email)) return new Response(JSON.stringify({ error: 'Укажите корректный e-mail' }), { status: 422 });
+  if (!filled(body.phone)) return new Response(JSON.stringify({ error: 'Укажите телефон' }), { status: 422 });
+  if (!filled(body.message)) return new Response(JSON.stringify({ error: 'Заполните сообщение' }), { status: 422 });
   if (body.consent !== true) {
-    return new Response(JSON.stringify({ error: 'нужно согласие на обработку ПДн' }), { status: 422 });
+    return new Response(JSON.stringify({ error: 'Нужно согласие на обработку персональных данных' }), { status: 422 });
   }
 
   const payload = {
@@ -42,9 +49,10 @@ export const POST: APIRoute = async ({ request }) => {
     return new Response(JSON.stringify({ error: 'не удалось сохранить заявку' }), { status: 502 });
   }
 
-  // Уведомление менеджеру (не блокируем ответ при сбое SMTP)
+  // Уведомление менеджеру на avbelyaev@biz-soft.pro (не блокируем ответ при сбое SMTP)
   sendMail({
-    to: seller.email,
+    to: managerEmail,
+    replyTo: payload.email,
     subject: `Новая заявка с сайта BizSoft${payload.product_ref ? ': ' + payload.product_ref : ''}`,
     text: [
       `Источник: ${payload.source}`,

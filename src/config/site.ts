@@ -21,6 +21,7 @@ export interface SellerDetails {
   phone: string;
   phoneHref: string;
   email: string;
+  salesEmail: string;
   inn: string;
   ogrnip: string;
   okpo: string;
@@ -34,10 +35,11 @@ export const seller: SellerDetails = {
   brand: 'BizSoft',
   legalName: 'Индивидуальный предприниматель Беляев Алексей Васильевич',
   shortName: 'ИП Беляев А.В.',
-  address: '115569, Москва, Каширское шоссе 80К1, 378',
+  address: '115569, Москва, Каширское шоссе 80К1',
   phone: '+7 (964) 716-11-11',
   phoneHref: '+79647161111',
   email: 'AVBelyaev@biz-soft.pro',
+  salesEmail: 'hello@biz-soft.pro',
   inn: '507202054051',
   ogrnip: '322774600665109',
   okpo: '2019116499',
