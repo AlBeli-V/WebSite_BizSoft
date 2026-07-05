@@ -74,7 +74,7 @@ const cards = jb.map((p) => {
   <JsonLd schema={collectionLd} />
 
   <div class="container-page section">
-    <Breadcrumbs items={[{ name: 'Иностранное ПО', url: '/catalog/foreign' }, { name: 'JetBrains', url: '/vendors/jetbrains' }]} />
+    <Breadcrumbs items={[{ name: 'Каталог', url: '/catalog' }, { name: 'JetBrains', url: '/vendors/jetbrains' }]} />
 
     <!-- 1. HERO -->
     <header class="hero">
@@ -374,7 +374,7 @@ const cards = jb.map((p) => {
       <div class="link-grid">
         {jb.map((p) => <a href={`/product/${p.slug}`} data-ev="click_related_link">{p.name}</a>)}
         <a href="/catalog/development" data-ev="click_related_link">Все инструменты разработки</a>
-        <a href="/catalog/foreign" data-ev="click_related_link">Каталог иностранного ПО</a>
+        <a href="/catalog" data-ev="click_related_link">Каталог ПО</a>
         <a href="/how-we-work" data-ev="click_related_link">Как мы работаем</a>
         <a href="/pricing" data-ev="click_related_link">Стоимость и расчёт</a>
         <a href="/documents" data-ev="click_related_link">Документы</a>

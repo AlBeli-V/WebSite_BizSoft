@@ -146,7 +146,10 @@ export async function getCategoryBySlug(slug: string): Promise<Category | null> 
 /** Опубликованные товары с фильтрами (origin/категория/вендор/поиск). */
 export async function getProducts(opts: ProductFilter = {}): Promise<Product[]> {
   const and: Record<string, unknown>[] = [{ status: { _eq: 'published' } }];
-  if (opts.origin) and.push({ origin: { _eq: opts.origin } });
+  // Отечественное ПО с сайта убрано: показываем только зарубежное.
+  // При явном origin используем его (кроме domestic — оно всегда исключается).
+  if (opts.origin && opts.origin !== 'domestic') and.push({ origin: { _eq: opts.origin } });
+  else and.push({ origin: { _neq: 'domestic' } });
   if (opts.categorySlug) and.push({ category: { slug: { _eq: opts.categorySlug } } });
   if (opts.vendor) and.push({ vendor: { _eq: opts.vendor } });
   if (opts.q) {
@@ -166,7 +169,9 @@ export async function getProducts(opts: ProductFilter = {}): Promise<Product[]> 
 /** Список вендоров (опц. в рамках происхождения) с количеством товаров. */
 export async function getVendors(origin?: 'domestic' | 'foreign'): Promise<{ vendor: string; count: number }[]> {
   const filter: Record<string, unknown> = { status: { _eq: 'published' } };
-  if (origin) filter.origin = { _eq: origin };
+  // Отечественное ПО исключено из выдачи вендоров.
+  if (origin && origin !== 'domestic') filter.origin = { _eq: origin };
+  else filter.origin = { _neq: 'domestic' };
   const rows = await dx<{ vendor: string | null }[]>('/items/products', {
     params: { fields: 'vendor', filter: JSON.stringify(filter), limit: -1 },
   });

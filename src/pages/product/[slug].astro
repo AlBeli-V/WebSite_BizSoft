@@ -33,6 +33,11 @@ if (!product) {
   return new Response(null, { status: 404, statusText: 'Not Found' });
 }
 
+// Отечественное ПО убрано с сайта — страницы таких товаров недоступны.
+if (product.origin === 'domestic') {
+  return new Response(null, { status: 404, statusText: 'Not Found' });
+}
+
 const eff = effectivePrice(product);
 const category = typeof product.category === 'object' ? product.category : null;
 const features = Array.isArray(product.features)

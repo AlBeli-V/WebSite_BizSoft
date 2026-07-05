@@ -5,8 +5,14 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import SectionHeading from '../../components/SectionHeading.astro';
 import CTASection from '../../components/CTASection.astro';
+import Carousel from '../../components/Carousel.astro';
+import VendorLogo from '../../components/VendorLogo.astro';
+import CategoryIcon from '../../components/CategoryIcon.astro';
+import FAQ from '../../components/FAQ.astro';
+import QuestionForm from '../../components/QuestionForm.astro';
+import JsonLd from '../../components/JsonLd.astro';
 import { getCategories, getProducts } from '../../lib/directus';
-import { ORIGIN_LABEL } from '../../lib/types';
+import { site } from '../../config/site';
 
 let categories = [];
 let products = [];
@@ -17,76 +23,232 @@ try {
   console.error('catalog index error', e);
 }
 
-const originCounts: Record<string, number> = { domestic: 0, foreign: 0 };
 const catCounts: Record<string, number> = {};
 for (const p of products) {
-  if (p.origin) originCounts[p.origin] = (originCounts[p.origin] || 0) + 1;
   const slug = typeof p.category === 'object' && p.category ? p.category.slug : '';
   if (slug) catCounts[slug] = (catCounts[slug] || 0) + 1;
 }
-// показываем только непустые категории
-const usedCategories = categories.filter((c) => (catCounts[c.slug] || 0) > 0);
+const usedCategories = categories
+  .filter((c) => (catCounts[c.slug] || 0) > 0)
+  .map((c) => ({
+    slug: c.slug,
+    name: c.name,
+    count: catCounts[c.slug],
+    blurb: (c.intro || '').trim() || 'Лицензии и подписки для бизнеса с оформлением на юрлицо.',
+  }));
 
-const origins: { key: 'domestic' | 'foreign'; desc: string }[] = [
-  { key: 'domestic', desc: 'Российское ПО из реестра: офис, ОС, безопасность, САПР, коммуникации. По договору и счёту.' },
-  { key: 'foreign', desc: 'Зарубежные сервисы для бизнеса: офис, разработка, дизайн, ВКС, AI. Оплата в рублях по курсу.' },
+// Узнаваемые производители для карусели (ссылки на лендинги).
+const brands = [
+  { name: 'Adobe', slug: 'adobe', color: '#FA0F00' },
+  { name: 'Figma', slug: 'figma', color: '#F24E1E' },
+  { name: 'JetBrains', slug: 'jetbrains', color: '#000000' },
+  { name: 'Miro', slug: 'miro', color: '#F2C500' },
+  { name: 'Zoom', slug: 'zoom', color: '#0B5CFF' },
+  { name: 'OpenAI', slug: 'openai', color: '#10A37F' },
+  { name: 'Canva', slug: 'canva', color: '#00C4CC' },
+  { name: 'Autodesk', slug: 'autodesk', color: '#111111' },
+];
+function textOn(hex: string): string {
+  const h = hex.replace('#', '');
+  const r = parseInt(h.slice(0, 2), 16), g = parseInt(h.slice(2, 4), 16), b = parseInt(h.slice(4, 6), 16);
+  return (0.2126 * r + 0.7152 * g + 0.0722 * b) / 255 > 0.62 ? '#1d1d1f' : '#ffffff';
+}
+
+const benefits = [
+  { t: 'Два пути оплаты', d: 'Картой, где вендор её принимает, или через счёт нашей зарубежной компании.' },
+  { t: 'Документы для бухгалтерии', d: 'Договор, счёт в рублях и закрывающие через ЭДО.' },
+  { t: 'Подбор под задачу', d: 'Поможем выбрать продукт, тариф и число лицензий.' },
+  { t: 'Поддержка и продление', d: 'Сопровождаем доступ на всём сроке подписки.' },
+];
+
+const faq = [
+  { q: 'Какое ПО есть в каталоге BizSoft?', a: 'Зарубежные сервисы и ПО для бизнеса: дизайн и графика, средства разработки, видео и медиа, AI-сервисы, онлайн-доски и коммуникации. Например, Adobe, Figma, JetBrains, Miro, Zoom, OpenAI и другие. Оформление на юрлицо по договору и счёту.' },
+  { q: 'Как купить ПО для юридического лица?', a: 'Выберите категорию или производителя, добавьте позиции в корзину и запросите КП, либо оставьте заявку. Заключаем договор, выставляем счёт, после оплаты предоставляем доступ и передаём закрывающие документы через ЭДО.' },
+  { q: 'Можно ли оплатить без зарубежной карты?', a: 'Да. Где вендор принимает карту — оплачиваем сами. Где оплата возможна только с зарубежного счёта — закупаем через счёт нашей компании за рубежом. Вы платите в рублях по договору.' },
+  { q: 'Цены в каталоге окончательные?', a: 'Цены ориентировочные: часть зависит от курса ЦБ РФ на дату счёта или считается по запросу. Итоговую стоимость фиксируем в коммерческом предложении или счёте.' },
+];
+
+const ld = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name: 'Каталог зарубежного ПО и SaaS для бизнеса — BizSoft',
+    description: 'Зарубежные сервисы и ПО для российских юрлиц по договору и счёту: дизайн, разработка, видео, AI, коммуникации.',
+    url: `${site.url}/catalog`,
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name: 'Категории каталога',
+    itemListElement: usedCategories.map((c, i) => ({
+      '@type': 'ListItem', position: i + 1, name: c.name, url: `${site.url}/catalog/${c.slug}`,
+    })),
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
+  },
 ];
 ---
 <BaseLayout
-  title="Каталог ПО для бизнеса"
-  description="Каталог лицензий и подписок на ПО для российских юрлиц: отечественное и иностранное ПО — офис, разработка, ВКС, дизайн, безопасность, AI. По договору и счёту."
+  title="Каталог зарубежного ПО и SaaS для бизнеса — по договору и счёту"
+  description="Каталог зарубежных сервисов и ПО для российских юрлиц: Adobe, Figma, JetBrains, Miro, Zoom, OpenAI и другие. Дизайн, разработка, видео, AI, коммуникации. Оплата в рублях, договор, закрывающие через ЭДО."
 >
+  <JsonLd schema={ld} />
+
   <div class="container-page section">
     <Breadcrumbs items={[{ name: 'Каталог', url: '/catalog' }]} />
-    <SectionHeading eyebrow="Каталог" title="Каталог программного обеспечения">
-      <p>Сначала выберите происхождение ПО, затем фильтруйте по категории, производителю и названию.</p>
-    </SectionHeading>
 
-    <!-- Два верхних раздела -->
-    <div class="origin-grid">
-      {origins.map((o) => (
-        <a href={`/catalog/${o.key}`} class="card card-hover origin-card reveal">
-          <div class="origin-top">
-            <span class="origin-badge" data-origin={o.key}>{o.key === 'domestic' ? 'РФ' : 'INT'}</span>
-            <span class="origin-count">{originCounts[o.key] || 0} позиц.</span>
+    <!-- HERO -->
+    <header class="cat-hero">
+      <span class="eyebrow">Каталог</span>
+      <h1>Зарубежное ПО и SaaS для бизнеса — <span class="accent">с оплатой и документами</span></h1>
+      <p class="lead">
+        Подбираем и оформляем на юрлицо сервисы, которыми пользуется весь мир: дизайн, разработка,
+        видео, AI и коммуникации. Оплачиваем картой, где вендор её принимает, и через счёт нашей
+        зарубежной компании, где иначе не выйдет. Вы платите в рублях по договору, закрывающие —
+        через ЭДО.
+      </p>
+      <div class="cat-actions">
+        <button class="btn btn-primary" data-open-question data-goal="catalog_discuss">Обсудить задачу</button>
+        <a href="/vendors" class="btn btn-ghost">Производители</a>
+      </div>
+      <ul class="cat-badges">
+        <li>Оплата картой или через зарубежный счёт</li>
+        <li>Договор, счёт и ЭДО</li>
+        <li>Оплата в рублях</li>
+      </ul>
+    </header>
+
+    <!-- ПЛАШКИ ЗАДАЧ -->
+    <section class="cat-block">
+      <SectionHeading num="01" eyebrow="По задачам" title="Выберите, что нужно команде">
+        <p>Каждый раздел — набор проверенных сервисов под конкретную задачу бизнеса.</p>
+      </SectionHeading>
+      {usedCategories.length > 0 ? (
+        <div class="task-grid">
+          {usedCategories.map((c) => (
+            <a href={`/catalog/${c.slug}`} class="task-tile reveal">
+              <span class="task-icon"><CategoryIcon slug={c.slug} name={c.name} size={26} /></span>
+              <span class="task-count">{c.count}</span>
+              <h3>{c.name}</h3>
+              <p>{c.blurb}</p>
+              <span class="task-link">Открыть раздел →</span>
+            </a>
+          ))}
+        </div>
+      ) : (
+        <p class="cat-empty">Разделы каталога загружаются. Напишите нам — подберём нужный сервис: <button class="link-btn" data-open-question>обсудить задачу →</button></p>
+      )}
+    </section>
+
+    <!-- ПРОИЗВОДИТЕЛИ -->
+    <section class="cat-block">
+      <SectionHeading num="02" eyebrow="Производители" title="Бренды, которые подключают чаще всего">
+        <p>Откройте страницу производителя — там тарифы, сравнение и оформление на юрлицо.</p>
+      </SectionHeading>
+      <Carousel label="Производители" autoplay={2800} slideWidth="clamp(150px, 42vw, 190px)">
+        {brands.map((b) => (
+          <a href={`/vendors/${b.slug}`} class="brand-chip" role="listitem" aria-label={`${b.name} — купить для юрлица`}>
+            <span class="brand-badge" style={`--bc:${b.color}; --tc:${textOn(b.color)}`}><VendorLogo slug={b.slug} name={b.name} size={18} /></span>
+            <span class="brand-name">{b.name}</span>
+          </a>
+        ))}
+      </Carousel>
+      <p class="all-vendors"><a href="/vendors">Все производители →</a></p>
+    </section>
+
+    <!-- ВЫГОДЫ -->
+    <section class="cat-block">
+      <SectionHeading num="03" eyebrow="Почему BizSoft" title="Закупка без простоев и с документами">
+      </SectionHeading>
+      <div class="benefit-grid">
+        {benefits.map((b) => (
+          <div class="card benefit-card reveal">
+            <h3>{b.t}</h3>
+            <p>{b.d}</p>
           </div>
-          <h2>{ORIGIN_LABEL[o.key]}</h2>
-          <p>{o.desc}</p>
-          <span class="origin-link">Открыть раздел →</span>
-        </a>
-      ))}
-    </div>
+        ))}
+      </div>
+    </section>
 
-    <!-- Категории ПО -->
-    <h2 class="cats-title">Категории ПО</h2>
-    <div class="cat-grid">
-      {usedCategories.map((c) => (
-        <a href={`/catalog/${c.slug}`} class="card card-hover cat-chip reveal">
-          <span>{c.name}</span>
-          <span class="chip-count">{catCounts[c.slug]}</span>
-        </a>
-      ))}
-    </div>
+    <FAQ items={faq} title="Частые вопросы по каталогу" />
   </div>
-  <CTASection />
+
+  <CTASection
+    title="Не нашли нужный сервис?"
+    text="Опишите задачу — подберём способ закупки, посчитаем стоимость и подготовим КП."
+    primaryLabel="Обсудить задачу"
+    primaryHref="/contacts/"
+    secondaryLabel="Все производители"
+    secondaryHref="/vendors/"
+  />
+  <QuestionForm source="catalog" />
 </BaseLayout>
 
 <style>
   .section { padding-top: 2rem; }
-  .origin-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; margin-bottom: 3rem; }
-  .origin-card { padding: 1.8rem; display: flex; flex-direction: column; gap: 0.7rem; min-height: 200px; }
-  .origin-top { display: flex; align-items: center; justify-content: space-between; }
-  .origin-badge { font-weight: 800; font-size: 0.78rem; padding: 0.2rem 0.6rem; border-radius: 6px; }
-  .origin-badge[data-origin='domestic'] { background: color-mix(in srgb, var(--color-success) 20%, transparent); color: var(--color-success); }
-  .origin-badge[data-origin='foreign'] { background: color-mix(in srgb, var(--color-accent) 18%, transparent); color: var(--color-accent); }
-  .origin-count { color: var(--color-text-dim); font-size: 0.85rem; }
-  .origin-card h2 { font-size: 1.6rem; }
-  .origin-card p { color: var(--color-text-muted); font-size: 0.95rem; flex-grow: 1; }
-  .origin-link { color: var(--color-accent); font-weight: 600; }
-  .cats-title { font-size: 1.4rem; margin-bottom: 1.2rem; }
-  .cat-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 0.8rem; }
-  .cat-chip { display: flex; align-items: center; justify-content: space-between; padding: 0.9rem 1.2rem; }
-  .cat-chip span:first-child { font-weight: 600; font-size: 0.95rem; }
-  .chip-count { color: var(--color-text-dim); font-size: 0.82rem; background: var(--color-bg-elevated); padding: 0.1rem 0.5rem; border-radius: 999px; }
-  @media (max-width: 680px) { .origin-grid { grid-template-columns: 1fr; } }
+
+  /* HERO */
+  .cat-hero { max-width: 760px; margin: 1rem 0 3rem; }
+  .cat-hero h1 { font-size: clamp(1.9rem, 4.5vw, 3rem); margin: 0.8rem 0 1rem; }
+  .accent { color: var(--color-accent); }
+  .cat-hero .lead { color: var(--color-text-muted); font-size: clamp(1.02rem, 1.6vw, 1.18rem); }
+  .cat-actions { display: flex; gap: 0.8rem; margin: 1.6rem 0 1.2rem; flex-wrap: wrap; }
+  .cat-badges { display: flex; gap: 0.6rem 1.4rem; list-style: none; padding: 0; margin: 0; flex-wrap: wrap; color: var(--color-text-muted); font-size: 0.9rem; }
+  .cat-badges li { position: relative; padding-left: 1.1rem; }
+  .cat-badges li::before { content: '●'; position: absolute; left: 0; color: var(--color-accent); font-size: 0.6rem; top: 0.35em; }
+
+  .cat-block { padding-top: clamp(2.5rem, 5vw, 4rem); }
+
+  /* Плашки задач — hover: выпирает + меняет цвет */
+  .task-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 1.2rem; }
+  .task-tile {
+    position: relative;
+    display: flex; flex-direction: column; gap: 0.5rem;
+    padding: 1.6rem;
+    background: var(--color-bg-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.28s ease, box-shadow 0.28s ease, background 0.28s ease, border-color 0.28s ease;
+    will-change: transform;
+  }
+  .task-tile:hover { transform: translateY(-8px) scale(1.015); box-shadow: var(--shadow-lg); background: var(--color-accent); border-color: var(--color-accent); }
+  .task-tile:hover h3,
+  .task-tile:hover p,
+  .task-tile:hover .task-link,
+  .task-tile:hover .task-icon { color: #fff; }
+  .task-tile:hover .task-icon { background: rgba(255, 255, 255, 0.18); }
+  .task-tile:hover .task-count { background: rgba(255, 255, 255, 0.2); color: #fff; }
+  .task-icon {
+    width: 48px; height: 48px; border-radius: 12px;
+    display: inline-flex; align-items: center; justify-content: center;
+    background: var(--color-accent-soft); color: var(--color-accent);
+    transition: background 0.28s ease, color 0.28s ease;
+  }
+  .task-count { position: absolute; top: 1.4rem; right: 1.5rem; font-size: 0.8rem; color: var(--color-text-dim); background: var(--color-bg-elevated); padding: 0.1rem 0.55rem; border-radius: 999px; transition: background 0.28s ease, color 0.28s ease; }
+  .task-tile h3 { font-size: 1.2rem; margin-top: 0.3rem; transition: color 0.28s ease; }
+  .task-tile p { color: var(--color-text-muted); font-size: 0.92rem; flex-grow: 1; transition: color 0.28s ease; margin: 0;
+    display: -webkit-box; -webkit-line-clamp: 3; line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+  .task-link { color: var(--color-accent); font-weight: 600; font-size: 0.9rem; transition: color 0.28s ease; }
+  @media (prefers-reduced-motion: reduce) { .task-tile:hover { transform: none; } }
+
+  .cat-empty { color: var(--color-text-muted); }
+  .link-btn { background: none; border: none; color: var(--color-accent); font: inherit; font-weight: 600; cursor: pointer; padding: 0; }
+
+  /* Производители */
+  .brand-chip { display: flex; align-items: center; gap: 0.6rem; padding: 0.7rem 0.9rem; border: 1px solid var(--color-border); border-radius: var(--radius); background: var(--color-bg-card); box-shadow: var(--shadow-sm); transition: border-color 0.18s ease, transform 0.18s ease; }
+  .brand-chip:hover { border-color: var(--color-accent); transform: translateY(-2px); }
+  .brand-badge { width: 30px; height: 30px; border-radius: 8px; display: inline-flex; align-items: center; justify-content: center; background: var(--bc); color: var(--tc); flex-shrink: 0; }
+  .brand-name { font-weight: 600; font-size: 0.92rem; white-space: nowrap; }
+  .all-vendors { margin-top: 1rem; }
+  .all-vendors a { color: var(--color-accent); font-weight: 600; }
+
+  /* Выгоды */
+  .benefit-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 1.2rem; }
+  .benefit-card { padding: 1.6rem; }
+  .benefit-card h3 { font-size: 1.12rem; margin-bottom: 0.5rem; }
+  .benefit-card p { color: var(--color-text-muted); font-size: 0.92rem; margin: 0; }
 </style>
