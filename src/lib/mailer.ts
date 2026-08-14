@@ -35,6 +35,8 @@ function getTransport(): nodemailer.Transporter | null {
       secure,
       auth: user ? { user, pass } : undefined,
     });
+    // Один раз при старте — куда и от кого шлём (без пароля), для диагностики по логам.
+    console.log(`[mailer] SMTP: ${host}:${port} secure=${secure} user=${user || '—'} from=${from}`);
   }
   return transporter;
 }
@@ -45,7 +47,7 @@ export async function sendMail(opts: MailOptions): Promise<boolean> {
     console.warn('[mailer] SMTP не настроен — письмо не отправлено:', opts.subject);
     return false;
   }
-  await t.sendMail({
+  const info = await t.sendMail({
     from: opts.from || from,
     to: opts.to,
     cc: opts.cc,
@@ -55,6 +57,8 @@ export async function sendMail(opts: MailOptions): Promise<boolean> {
     html: opts.html,
     attachments: opts.attachments,
   });
+  // Подтверждение доставки на SMTP-сервер — иначе по логам не отличить «отправлено» от «не было заявок».
+  console.log(`[mailer] отправлено: "${opts.subject}" → ${opts.to}${info.messageId ? ` (id: ${info.messageId})` : ''}`);
   return true;
 }
 
