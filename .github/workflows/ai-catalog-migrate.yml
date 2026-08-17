@@ -73,6 +73,14 @@ jobs:
             export APPLY
             T=$(sed -n 's/^ADMIN_TOOLS_TOKEN=//p' /opt/bizsoft/astro.env | tr -d '"\r')
 
+            # Админ-логин Directus для создания категорий: берём из env контейнера
+            # (ADMIN_EMAIL/ADMIN_PASSWORD из docker-compose). Не печатаем значения.
+            cd /opt/bizsoft
+            DIRECTUS_ADMIN_EMAIL=$(docker compose exec -T directus printenv ADMIN_EMAIL 2>/dev/null | tr -d '\r' || true)
+            DIRECTUS_ADMIN_PASSWORD=$(docker compose exec -T directus printenv ADMIN_PASSWORD 2>/dev/null | tr -d '\r' || true)
+            export DIRECTUS_ADMIN_EMAIL DIRECTUS_ADMIN_PASSWORD
+            [ -n "$DIRECTUS_ADMIN_EMAIL" ] && echo "admin-creds: найдены в контейнере directus" || echo "admin-creds: НЕ найдены — скрипт попробует статический токен"
+
             echo "== 1/4 Курс ЦБ (apply=$APPLY) =="
             if [ "$APPLY" = "true" ]; then
               curl -s -X POST http://127.0.0.1:3000/api/admin/currency \

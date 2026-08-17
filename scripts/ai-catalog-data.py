@@ -55,16 +55,25 @@ def api(method, path, body=None):
 
 
 # ── auth ──
-if env.get('DIRECTUS_ADMIN_EMAIL') and env.get('DIRECTUS_ADMIN_PASSWORD'):
-    d = api('POST', '/auth/login', {'email': env['DIRECTUS_ADMIN_EMAIL'], 'password': env['DIRECTUS_ADMIN_PASSWORD']})
-    TOKEN = d['access_token']
-    print('auth: admin login')
-elif env.get('DIRECTUS_TOKEN'):
-    TOKEN = env['DIRECTUS_TOKEN']
-    print('auth: static token')
-else:
-    print('!! нет DIRECTUS_ADMIN_EMAIL/PASSWORD и DIRECTUS_TOKEN в astro.env')
-    sys.exit(1)
+# Приоритет: админ-логин (переменные окружения — workflow достаёт их из env
+# контейнера Directus — либо astro.env), затем статический сервисный токен.
+# Создание категорий требует админ-прав; статический токен умеет только товары.
+admin_email = os.environ.get('DIRECTUS_ADMIN_EMAIL') or env.get('DIRECTUS_ADMIN_EMAIL')
+admin_pass = os.environ.get('DIRECTUS_ADMIN_PASSWORD') or env.get('DIRECTUS_ADMIN_PASSWORD')
+if admin_email and admin_pass:
+    try:
+        d = api('POST', '/auth/login', {'email': admin_email, 'password': admin_pass})
+        TOKEN = d['access_token']
+        print('auth: admin login')
+    except Exception as e:
+        print(f'!! admin login не удался ({e}); пробую статический токен')
+if TOKEN is None:
+    if env.get('DIRECTUS_TOKEN'):
+        TOKEN = env['DIRECTUS_TOKEN']
+        print('auth: static token')
+    else:
+        print('!! нет админ-логина и DIRECTUS_TOKEN')
+        sys.exit(1)
 
 # ── справочники ──
 CATS = [
