@@ -14,7 +14,9 @@
     "typecheck": "astro check",
     "test": "vitest run",
     "test:watch": "vitest",
-    "directus:schema": "node scripts/directus-setup.mjs"
+    "directus:schema": "node scripts/directus-setup.mjs",
+    "ai:cards": "node scripts/build-vendor-cards.mjs scripts/ai-catalog-cards.json out/ai-cards.xlsx",
+    "ai:import": "node scripts/import-cards.mjs out/ai-cards.xlsx"
   },
   "dependencies": {
     "@astrojs/node": "^9.1.3",

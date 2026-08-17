@@ -8,16 +8,26 @@ import FAQ from '../../components/FAQ.astro';
 import CTASection from '../../components/CTASection.astro';
 import QuestionForm from '../../components/QuestionForm.astro';
 import JsonLd from '../../components/JsonLd.astro';
-import { getProducts, getCategoryBySlug } from '../../lib/directus';
+import { getProducts, getCategoryBySlug, getProductsBySlugs } from '../../lib/directus';
 import { LICENSE_LABEL, type LicenseType } from '../../lib/types';
 import { productKind, PRODUCT_KIND_LABEL, type ProductKind } from '../../lib/catalog';
 import { itemListSchema } from '../../lib/seo';
+import { aiSubcategories, aiFlagships } from '../../data/ai-hub';
+import { comparisons } from '../../data/comparisons';
+import { solutions } from '../../data/solutions';
 
 const { segment } = Astro.params;
 
 // Отечественное ПО убрано: старые origin-маршруты ведут в общий каталог.
 if (segment === 'domestic' || segment === 'foreign') {
   return Astro.redirect('/catalog', 301);
+}
+
+// Плоские slug AI-подкатегорий Directus (ai-text и т.п.) канонизируем на вложенные
+// URL (/catalog/ai/text), чтобы не плодить дубли одной выдачи.
+const flatAiSub = aiSubcategories.find((s) => s.categorySlug === segment);
+if (flatAiSub) {
+  return Astro.redirect(`/catalog/ai/${flatAiSub.sub}`, 301);
 }
 
 const url = Astro.url;
@@ -76,6 +86,31 @@ const faq = categoryFaqs.length > 0 ? categoryFaqs : [
 ];
 const basePath = `/catalog/${segment}`;
 const hasFilters = Boolean(selVendor || selLicense || selKind || q);
+
+// AI-хаб: навигация по подкатегориям + сравнения + сценарии (только для /catalog/ai).
+const isAi = segment === 'ai';
+const aiScenarios = isAi ? solutions.filter((s) => s.slug.startsWith('ai-dlya-')) : [];
+const aiCompare = isAi ? comparisons.slice(0, 6) : [];
+
+// Витрина флагманов: ссылка на карточку, только если товар уже импортирован
+// (проверка в рантайме); иначе — на подкатегорию. Нет 404 до импорта.
+let flagships: { name: string; href: string }[] = [];
+if (isAi) {
+  const wanted = aiFlagships
+    .filter((f) => f.href.startsWith('/product/'))
+    .map((f) => f.href.slice('/product/'.length));
+  let existing = new Set<string>();
+  try {
+    const rows = await getProductsBySlugs(wanted);
+    existing = new Set(rows.map((r) => r.slug));
+  } catch (e) {
+    console.error('flagships lookup', e);
+  }
+  flagships = aiFlagships.map((f) => {
+    const slug = f.href.startsWith('/product/') ? f.href.slice('/product/'.length) : null;
+    return { name: f.name, href: slug && !existing.has(slug) ? `/catalog/ai/${f.sub}` : f.href };
+  });
+}
 ---
 <BaseLayout
   title={pageCategory ? (pageCategory.meta_title || `${title} — каталог`) : `${title} — каталог`}
@@ -90,6 +125,26 @@ const hasFilters = Boolean(selVendor || selLicense || selKind || q);
       <h1>{title}</h1>
       <p class="lead">{lead}</p>
     </header>
+
+    {isAi && flagships.length > 0 && (
+      <nav class="ai-flagships" aria-label="Популярные AI-сервисы">
+        {flagships.map((f) => (
+          <a href={f.href} class="ai-chip">{f.name}</a>
+        ))}
+      </nav>
+    )}
+
+    {isAi && (
+      <nav class="ai-subs" aria-label="Категории AI-сервисов">
+        {aiSubcategories.map((s) => (
+          <a href={`/catalog/ai/${s.sub}`} class="card card-hover ai-sub">
+            <span class="ai-ico">{s.icon}</span>
+            <span class="ai-name">{s.name}</span>
+            <span class="ai-desc">{s.short}</span>
+          </a>
+        ))}
+      </nav>
+    )}
 
     <div class="catalog-layout">
       <!-- Фильтры -->
@@ -154,6 +209,27 @@ const hasFilters = Boolean(selVendor || selLicense || selKind || q);
       </div>
     </div>
 
+    {isAi && (
+      <section class="ai-links">
+        <div class="ai-col">
+          <h2>Популярные сравнения</h2>
+          <div class="ai-grid">
+            {aiCompare.map((c) => (
+              <a href={`/compare/${c.slug}`} class="card card-hover ai-link">{c.h1} →</a>
+            ))}
+          </div>
+        </div>
+        <div class="ai-col">
+          <h2>AI под задачу</h2>
+          <div class="ai-grid">
+            {aiScenarios.map((s) => (
+              <a href={`/solutions/${s.slug}`} class="card card-hover ai-link">{s.title} →</a>
+            ))}
+          </div>
+        </div>
+      </section>
+    )}
+
     <FAQ items={faq} title="Вопросы по разделу" />
   </div>
   <CTASection />
@@ -179,6 +255,20 @@ const hasFilters = Boolean(selVendor || selLicense || selKind || q);
   .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 1.2rem; }
   .empty { color: var(--color-text-muted); }
   .empty a { color: var(--color-accent); }
+  /* AI-хаб */
+  .ai-flagships { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1.6rem; }
+  .ai-chip { display: inline-block; padding: 0.45rem 0.9rem; border: 1px solid var(--color-border-strong); border-radius: 999px; background: var(--color-bg-elevated); color: var(--color-text); font-size: 0.88rem; font-weight: 600; transition: border-color 0.15s, color 0.15s; }
+  .ai-chip:hover { border-color: var(--color-accent); color: var(--color-accent); }
+  .ai-subs { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 0.9rem; margin-bottom: 2rem; }
+  .ai-sub { display: flex; flex-direction: column; gap: 0.3rem; padding: 1.1rem 1.2rem; }
+  .ai-ico { font-size: 1.5rem; }
+  .ai-name { font-weight: 700; color: var(--color-text); }
+  .ai-desc { font-size: 0.85rem; color: var(--color-text-muted); }
+  .ai-links { display: grid; grid-template-columns: 1fr 1fr; gap: 1.6rem; margin-top: 2.4rem; }
+  .ai-links h2 { font-size: 1.3rem; margin-bottom: 1rem; }
+  .ai-grid { display: grid; gap: 0.7rem; }
+  .ai-link { padding: 0.9rem 1.1rem; font-weight: 600; color: var(--color-accent); }
+  @media (max-width: 720px) { .ai-links { grid-template-columns: 1fr; } }
   @media (max-width: 820px) {
     .catalog-layout { grid-template-columns: 1fr; }
     .filters { position: static; }
