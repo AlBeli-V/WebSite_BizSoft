@@ -27,11 +27,14 @@ jobs:
         env:
           APPLY: ${{ inputs.apply }}
           NEW_EMAIL: ${{ inputs.manager_email }}
+          # Пароль внешнего приложения Mail.ru — задаётся как repo-секрет SMTP_PASS
+          # (Settings → Secrets and variables → Actions). Если не задан — шаг его пропустит.
+          SMTP_PASS: ${{ secrets.SMTP_PASS }}
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
-          envs: APPLY,NEW_EMAIL
+          envs: APPLY,NEW_EMAIL,SMTP_PASS
           script: |
             set -e
             export APPLY NEW_EMAIL
@@ -59,14 +62,44 @@ jobs:
 
             if [ "$APPLY" = "true" ]; then
               echo
-              echo "== Применяю: MANAGER_EMAIL=$NEW_EMAIL =="
+              echo "== Применяю почтовый конфиг (Mail.ru, адрес $NEW_EMAIL) =="
               cp "$ENVF" "$ENVF.bak-$(date +%Y%m%d-%H%M%S)"
-              if grep -q '^MANAGER_EMAIL=' "$ENVF"; then
-                sed -i "s|^MANAGER_EMAIL=.*|MANAGER_EMAIL=$NEW_EMAIL|" "$ENVF"
-              else
-                printf '\nMANAGER_EMAIL=%s\n' "$NEW_EMAIL" >> "$ENVF"
-              fi
-              grep '^MANAGER_EMAIL=' "$ENVF"
+              python3 - "$NEW_EMAIL" <<'PY'
+            import os, re, sys
+            email = sys.argv[1]
+            envf = '/opt/bizsoft/astro.env'
+            pairs = {
+                'MANAGER_EMAIL': email,
+                'SMTP_HOST': 'smtp.mail.ru',
+                'SMTP_PORT': '465',
+                'SMTP_SECURE': 'true',
+                'SMTP_USER': email,
+                'SMTP_FROM': f'"BizSoft <{email}>"',
+                'SMTP_FROM_SALES': f'"BizSoft <{email}>"',
+            }
+            sp = os.environ.get('SMTP_PASS', '')
+            if sp:
+                pairs['SMTP_PASS'] = sp
+            lines = open(envf).read().splitlines()
+            out, seen = [], set()
+            for l in lines:
+                m = re.match(r'^([A-Z_]+)=', l)
+                if m and m.group(1) in pairs:
+                    k = m.group(1)
+                    out.append(f'{k}={pairs[k]}')
+                    seen.add(k)
+                else:
+                    out.append(l)
+            for k, v in pairs.items():
+                if k not in seen:
+                    out.append(f'{k}={v}')
+            open(envf, 'w').write('\n'.join(out) + '\n')
+            shown = {k: (v if k != 'SMTP_PASS' else '(записан, скрыт)') for k, v in pairs.items()}
+            for k in sorted(shown):
+                print(f'  {k} = {shown[k]}')
+            if not sp:
+                print('  SMTP_PASS = — секрет не задан, пропущен —')
+            PY
 
               echo "-- пересоздаю astro (env_file подхватывается только при пересоздании) --"
               docker compose up -d --force-recreate astro
@@ -78,12 +111,16 @@ jobs:
               done
               echo "HTTP главной после рестарта: $code"
 
-              echo "-- тестовая заявка (source=ops-mail-test, можно удалить в Leads) --"
-              curl -s -X POST http://127.0.0.1:3000/api/lead -H 'Content-Type: application/json' \
-                -d "{\"name\":\"Тест доставки почты\",\"company\":\"BizSoft (ops)\",\"email\":\"$NEW_EMAIL\",\"phone\":\"—\",\"message\":\"Тестовая заявка: проверка уведомлений на MANAGER_EMAIL после настройки. Можно удалить.\",\"consent\":true,\"source\":\"ops-mail-test\"}"
-              echo
-              sleep 5
-              echo "-- лог отправки --"
-              docker compose logs --tail 120 astro | grep -iE 'mailer|lead mail' | tail -10 || echo "(нет строк — смотрите полный лог)"
+              if grep -q '^SMTP_PASS=.\+' "$ENVF"; then
+                echo "-- тестовая заявка (source=ops-mail-test, можно удалить в Leads) --"
+                curl -s -X POST http://127.0.0.1:3000/api/lead -H 'Content-Type: application/json' \
+                  -d "{\"name\":\"Тест доставки почты\",\"company\":\"BizSoft (ops)\",\"email\":\"$NEW_EMAIL\",\"phone\":\"—\",\"message\":\"Тестовая заявка: проверка уведомлений на MANAGER_EMAIL после настройки. Можно удалить.\",\"consent\":true,\"source\":\"ops-mail-test\"}"
+                echo
+                sleep 5
+                echo "-- лог отправки --"
+                docker compose logs --tail 120 astro | grep -iE 'mailer|lead mail' | tail -10 || echo "(нет строк — смотрите полный лог)"
+              else
+                echo "-- тест пропущен: SMTP_PASS не задан (добавьте repo-секрет и перезапустите apply) --"
+              fi
             fi
             echo "== Готово (apply=$APPLY) =="
