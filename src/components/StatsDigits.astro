@@ -1,0 +1,97 @@
+---
+/**
+ * «Мы в цифрах» — динамический блок статистики в стиле эталона:
+ * оранжевый ярлык слева, крупные чёрные цифры с оранжевым «+»,
+ * анимация набора числа при появлении в вьюпорте.
+ */
+interface Stat {
+  /** Числовая часть для анимации (0 — без анимации). */
+  num: number;
+  /** Префикс перед числом (например «с »). */
+  pre?: string;
+  /** Суффикс после числа: «+», « г.», « дня»… */
+  suf?: string;
+  label: string;
+}
+interface Props {
+  stats: Stat[];
+  title?: string;
+}
+const { stats, title = 'Мы в цифрах' } = Astro.props;
+---
+<section class="digits" data-digits>
+  <div class="container-page digits-grid">
+    <p class="digits-cap"><span>/</span> {title}</p>
+    <div class="digits-items">
+      {stats.map((s) => (
+        <div class="digit">
+          <b>
+            {s.pre && <span class="d-pre">{s.pre}</span>}<span class="d-num" data-count={s.num > 0 ? s.num : undefined}>{s.num > 0 ? s.num : ''}</span>{s.suf && <span class:list={['d-suf', { accent: s.suf === '+' || s.suf === '%' }]}>{s.suf}</span>}
+          </b>
+          <span class="d-label">{s.label}</span>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .digits { background: #f4f2ee; padding: clamp(2.4rem, 5vw, 4rem) 0; }
+  .digits-grid { display: grid; grid-template-columns: 220px 1fr; gap: 2rem; align-items: start; }
+  .digits-cap { color: var(--color-accent); font-weight: 700; font-size: 1.02rem; margin: 0.4rem 0 0; }
+  .digits-cap span { margin-right: 0.35rem; }
+  .digits-items { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2.6rem 2rem; }
+  .digit b {
+    display: block;
+    font-size: clamp(2.6rem, 5.5vw, 4.2rem);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1;
+    color: #1a1a1c;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+  .d-suf { font-weight: 700; }
+  .d-suf.accent { color: var(--color-accent); }
+  .d-suf:not(.accent) { font-size: 0.55em; }
+  .d-pre { font-weight: 700; }
+  .d-label { display: block; color: #6d6d72; font-size: 0.98rem; margin-top: 0.7rem; }
+  @media (max-width: 960px) {
+    .digits-grid { grid-template-columns: 1fr; gap: 1.2rem; }
+    .digits-items { grid-template-columns: repeat(2, 1fr); gap: 1.8rem 1.4rem; }
+  }
+  @media (max-width: 480px) {
+    .digits-items { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+
+<script>
+  // Набор чисел при появлении блока (уважаем prefers-reduced-motion).
+  const root = document.querySelector('[data-digits]');
+  const nums = root ? Array.from(root.querySelectorAll<HTMLElement>('[data-count]')) : [];
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (root && nums.length && !reduced) {
+    const run = (el: HTMLElement) => {
+      const target = Number(el.dataset.count || '0');
+      const dur = 1200;
+      const t0 = performance.now();
+      const tick = (t: number) => {
+        const p = Math.min(1, (t - t0) / dur);
+        const eased = 1 - Math.pow(1 - p, 3);
+        el.textContent = String(Math.round(target * eased));
+        if (p < 1) requestAnimationFrame(tick);
+      };
+      el.textContent = '0';
+      requestAnimationFrame(tick);
+    };
+    const io = new IntersectionObserver((entries) => {
+      for (const e of entries) {
+        if (e.isIntersecting) {
+          nums.forEach(run);
+          io.disconnect();
+        }
+      }
+    }, { threshold: 0.35 });
+    io.observe(root);
+  }
+</script>

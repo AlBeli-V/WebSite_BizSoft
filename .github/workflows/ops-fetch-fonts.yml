@@ -1,0 +1,86 @@
+# Анализ шрифтов внешнего сайта (референс дизайна): скачивает страницу и её CSS,
+# извлекает @font-face/font-family. Только чтение; результат — в issue #22.
+
+name: ops-fetch-fonts
+
+on:
+  workflow_dispatch:
+    inputs:
+      url:
+        description: "URL страницы для анализа"
+        required: true
+        default: "https://www.matrix-it.ru/"
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  fonts:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fetch page and extract fonts
+        id: probe
+        env:
+          URL: ${{ inputs.url }}
+        run: |
+          set -e
+          {
+            python3 - <<'PY'
+          import os, re, urllib.request, urllib.parse
+          url = os.environ['URL']
+          def get(u):
+              req = urllib.request.Request(u, headers={'User-Agent': 'Mozilla/5.0 (font-audit)'})
+              return urllib.request.urlopen(req, timeout=30).read().decode('utf-8', 'ignore')
+          html = get(url)
+          css_links = re.findall(r'<link[^>]+rel=["\']stylesheet["\'][^>]*href=["\']([^"\']+)', html) + \
+                      re.findall(r'<link[^>]+href=["\']([^"\']+\.css[^"\']*)["\']', html)
+          css_all = '\n'.join(re.findall(r'<style[^>]*>(.*?)</style>', html, re.S))
+          seen = set()
+          for href in css_links:
+              full = urllib.parse.urljoin(url, href)
+              if full in seen: continue
+              seen.add(full)
+              try:
+                  css_all += '\n' + get(full)
+                  print(f'css: {full}')
+              except Exception as e:
+                  print(f'css FAIL {full}: {e}')
+          faces = re.findall(r'@font-face\s*{[^}]*}', css_all)
+          print(f'\n== @font-face ({len(faces)}) ==')
+          for f in faces[:40]:
+              fam = re.search(r"font-family:\s*['\"]?([^;'\"]+)", f)
+              src = re.findall(r'url\(([^)]+)\)', f)
+              w = re.search(r'font-weight:\s*([^;]+)', f)
+              print(f"  {fam.group(1).strip() if fam else '?'} | weight {w.group(1).strip() if w else '?'} | {src[0][:80] if src else '-'}")
+          fams = sorted(set(m.strip().strip('\'"') for m in re.findall(r'font-family:\s*([^;}]+)', css_all) for m in [m.split(',')[0]]))
+          print(f'\n== font-family (первые имена, {len(fams)}) ==')
+          for f in fams[:30]:
+              print(' ', f)
+          gf = sorted(set(re.findall(r'fonts\.googleapis\.com[^"\')\s]*', html + css_all)))
+          print('\n== google fonts ==')
+          for g in gf[:10]:
+              print(' ', g[:120])
+          PY
+          } | tee /tmp/fonts.txt
+          {
+            echo 'stdout<<EOF7'
+            cat /tmp/fonts.txt
+            echo 'EOF7'
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Post results to journal (issue #22)
+        if: always()
+        uses: actions/github-script@v7
+        env:
+          OUT: ${{ steps.probe.outputs.stdout }}
+          URL: ${{ inputs.url }}
+        with:
+          script: |
+            const out = (process.env.OUT || '(нет вывода)').slice(0, 60000);
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: 22,
+              body: '### ops-fetch-fonts · ' + process.env.URL + ' · ' + new Date().toISOString() + '\n```\n' + out + '\n```',
+            });
