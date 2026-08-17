@@ -23,7 +23,7 @@ export default defineConfig({
       {
         name: 'inter-font-display-optional',
         transform(code, id) {
-          if (id.includes('@fontsource/inter') && id.endsWith('.css')) {
+          if (id.includes('@fontsource/') && id.endsWith('.css')) {
             return code.replaceAll('font-display: swap;', 'font-display: optional;');
           }
         },
