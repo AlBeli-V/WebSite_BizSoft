@@ -9,12 +9,15 @@ import Banner from '../components/Banner.astro';
 import LeadForm from '../components/LeadForm.astro';
 import QuestionForm from '../components/QuestionForm.astro';
 import VendorLogo from '../components/VendorLogo.astro';
+import ProductCard from '../components/ProductCard.astro';
 import JsonLd from '../components/JsonLd.astro';
 import { localBusinessSchema } from '../lib/seo';
-import { site } from '../config/site';
+import { site, seller } from '../config/site';
 import { POPULAR_VENDORS } from '../data/popular';
+import { getProducts } from '../lib/directus';
+import { effectivePrice, formatRub } from '../lib/pricing';
 
-// Узнаваемые бренды для логопанели и карточек. Ссылки — на готовые лендинги.
+// Узнаваемые бренды для логопанели. Ссылки — на готовые лендинги.
 type Brand = { name: string; slug: string; color: string; blurb: string };
 const brands: Brand[] = [
   { name: 'Adobe', slug: 'adobe', color: '#FA0F00', blurb: 'Photoshop, Illustrator, Premiere Pro, Acrobat и весь Creative Cloud.' },
@@ -34,6 +37,39 @@ function textOn(hex: string): string {
   const lum = (0.2126 * r + 0.7152 * g + 0.0722 * b) / 255;
   return lum > 0.62 ? '#1d1d1f' : '#ffffff';
 }
+
+// ── Живые данные каталога: цифры доверия, плитки категорий, товары с ценами ──
+let all = [];
+try {
+  all = await getProducts();
+} catch (e) {
+  console.error('home products error', e);
+}
+const catSlug = (p) => (typeof p.category === 'object' && p.category ? p.category.slug : '');
+const productCount = all.length;
+const vendorCount = new Set(all.map((p) => p.vendor).filter(Boolean)).size;
+// округляем вниз до десятка — «380+»
+const tenDown = (n: number) => `${Math.max(10, Math.floor(n / 10) * 10)}+`;
+
+const catCount = (pred: (s: string) => boolean) => all.filter((p) => pred(catSlug(p))).length;
+const firstPresent = (slugs: string[]) => slugs.find((s) => all.some((p) => catSlug(p) === s));
+const tiles = [
+  { icon: '🧠', name: 'AI-сервисы', href: '/catalog/ai', note: 'ChatGPT, Claude, Copilot, Midjourney', count: catCount((s) => s.startsWith('ai')) },
+  { icon: '🎨', name: 'Дизайн и графика', href: `/catalog/${firstPresent(['design', 'graphics-design']) || 'design'}`, note: 'Figma, Adobe, Canva, CorelDRAW', count: catCount((s) => ['design', 'graphics-design'].includes(s)) },
+  { icon: '💻', name: 'Разработка', href: `/catalog/${firstPresent(['developer-tools', 'development']) || 'development'}`, note: 'JetBrains, Unity, Unreal', count: catCount((s) => ['developer-tools', 'development'].includes(s)) },
+  { icon: '🎬', name: 'Видео и медиа', href: `/catalog/${firstPresent(['media']) || 'media'}`, note: 'DaVinci, Avid, Runway', count: catCount((s) => s === 'media') },
+].filter((t) => t.count > 0);
+
+// Кураторский список бестселлеров (slug'и подтверждены в БД).
+const POPULAR_SLUGS = ['chatgpt-business', 'anthropic-team', 'ghcopilot-business', 'cursor-business', 'mscopilot-m365', 'gemini-workspace-standard', 'mj-standard', 'recraft-advanced'];
+const bySlug = new Map(all.map((p) => [p.slug, p]));
+const popular = POPULAR_SLUGS.map((s) => bySlug.get(s)).filter(Boolean);
+// Hero-карточки: первые 4 бестселлера с известной ценой.
+const heroCards = popular.filter((p) => effectivePrice(p).price > 0).slice(0, 4);
+const VENDOR_COLOR: Record<string, string> = {
+  OpenAI: '#10A37F', Anthropic: '#D97757', GitHub: '#24292F', Cursor: '#111111',
+  Microsoft: '#0078D4', Google: '#4285F4', Midjourney: '#1a1a2e', Recraft: '#111111',
+};
 
 const tracks = [
   {
@@ -64,6 +100,30 @@ const steps = [
   { n: '4', t: 'Активация и документы', d: 'Передаём доступы и закрывающие документы через ЭДО.' },
 ];
 
+const docBadges = [
+  { icon: '📄', t: 'Договор поставки', d: 'на ООО или ИП' },
+  { icon: '🧾', t: 'Счёт в рублях', d: 'по курсу ЦБ на дату счёта' },
+  { icon: '✅', t: 'Закрывающие через ЭДО', d: 'акты и УПД' },
+  { icon: '🛡️', t: seller.shortName, d: `ИНН ${seller.inn} · с 2022 года` },
+];
+
+const cases = [
+  { tag: 'Дизайн-студия · 12 мест', title: 'Figma + Adobe CC на всю команду', text: 'Единый счёт, доступы за 2 дня, продление без участия бухгалтерии.' },
+  { tag: 'IT-компания · 30 мест', title: 'JetBrains + GitHub Copilot', text: 'Годовые лицензии с фиксацией в счёте, закрывающие через ЭДО.' },
+  { tag: 'Агентство · 8 мест', title: 'ChatGPT Business + Midjourney', text: 'Корпоративные тарифы вместо личных карт сотрудников.' },
+];
+
+const compareLinks = [
+  { label: 'ChatGPT vs Claude: что выбрать бизнесу', href: '/compare/chatgpt-vs-claude' },
+  { label: 'Cursor vs GitHub Copilot', href: '/compare/cursor-vs-copilot' },
+  { label: 'Midjourney vs Adobe Firefly', href: '/compare/midjourney-vs-firefly' },
+];
+const kbLinks = [
+  { label: 'Как оформить AI-подписку на юрлицо', href: '/blog/kak-oformit-korporativnuyu-ai-podpisku-na-yurlico' },
+  { label: 'Enterprise или Team: чем отличаются тарифы', href: '/blog/enterprise-vs-team-korporativnye-tarify-ai' },
+  { label: 'Безопасность данных в корпоративных AI', href: '/blog/bezopasnost-dannyh-v-korporativnyh-ai' },
+];
+
 // GEO/AEO: список подключаемых сервисов со ссылками на лендинги — для поиска и ИИ-ответов.
 const servicesItemList = {
   '@context': 'https://schema.org',
@@ -80,42 +140,70 @@ const servicesItemList = {
 ---
 <BaseLayout
   title="BizSoft — Adobe, Figma, JetBrains и мировые сервисы для бизнеса по договору"
-  description="Помогаем российским компаниям закупать и активировать зарубежные SaaS и ПО: Adobe, Figma, JetBrains, Miro, Zoom, OpenAI. Оплата картой или через счёт зарубежной компании, расходы по договору с закрывающими через ЭДО."
+  description="Помогаем российским компаниям закупать и активировать зарубежные SaaS и ПО: Adobe, Figma, JetBrains, ChatGPT, Claude. Годовые подписки по договору и счёту, закрывающие через ЭДО."
 >
   <JsonLd schema={[localBusinessSchema(), servicesItemList]} />
 
-  <!-- HERO -->
+  <!-- HERO: заголовок + бестселлеры с ценами -->
   <section class="hero">
     <div class="container-page hero-grid">
       <div class="hero-content reveal is-visible">
         <span class="eyebrow">SaaS и ПО для бизнеса без границ</span>
         <h1>Команда остаётся в привычных инструментах — <span class="accent">закупку и оплату берём на себя</span></h1>
         <p class="hero-sub">
-          Adobe, Figma, JetBrains, Miro, Zoom, OpenAI и сотни зарубежных сервисов для российских
-          компаний. Оплачиваем картой, где вендор её принимает, и через счёт нашей зарубежной
-          компании, где иначе не выйдет. Расходы идут по договору, закрывающие — через ЭДО.
+          Adobe, Figma, JetBrains, ChatGPT, Claude и сотни зарубежных сервисов для российских
+          компаний. Годовые подписки по договору и счёту, закрывающие — через ЭДО.
         </p>
         <div class="hero-actions">
           <button class="btn btn-primary" data-open-question data-goal="hero_discuss">Обсудить задачу</button>
-          <a href="/catalog" class="btn btn-ghost" data-goal="hero_catalog">Смотреть сервисы</a>
+          <a href="/catalog" class="btn btn-ghost" data-goal="hero_catalog">Смотреть каталог</a>
         </div>
         <ul class="hero-badges">
-          <li>Оплата картой или через зарубежный счёт</li>
-          <li>Расходы по договору и ЭДО</li>
-          <li>Активация и поддержка на весь срок</li>
+          <li>Договор и счёт в ₽</li>
+          <li>Закрывающие через ЭДО</li>
+          <li>Поставка 1–3 дня</li>
         </ul>
       </div>
 
-      <!-- Hero-визуал: плитки узнаваемых приложений -->
-      <div class="hero-media reveal is-visible" aria-hidden="true">
-        <div class="tile-cloud">
-          {brands.slice(0, 6).map((b, i) => (
-            <span class={`app-tile t${i}`} style={`--bc:${b.color}; --tc:${textOn(b.color)}`}>{b.name.slice(0, 1)}</span>
-          ))}
+      {heroCards.length >= 2 ? (
+        <div class="hero-media reveal is-visible">
+          <div class="hero-cards">
+            {heroCards.map((p, i) => {
+              const eff = effectivePrice(p);
+              const color = VENDOR_COLOR[p.vendor || ''] || 'var(--color-accent)';
+              return (
+                <a href={`/product/${p.slug}`} class="card mini-card" data-goal="hero_product">
+                  {i === 0 && <span class="hit-badge">Хит</span>}
+                  <span class="mini-logo" style={`--bc:${color}; --tc:${textOn(color.startsWith('#') ? color : '#f2591d')}`}>{(p.vendor || p.name).slice(0, 1)}</span>
+                  <h3>{p.name}</h3>
+                  <div class="mini-price">от {formatRub(eff.price)} <small>{p.price_note || 'в год'}</small></div>
+                </a>
+              );
+            })}
+          </div>
         </div>
-      </div>
+      ) : (
+        <div class="hero-media reveal is-visible" aria-hidden="true">
+          <div class="tile-cloud">
+            {brands.slice(0, 6).map((b, i) => (
+              <span class={`app-tile t${i}`} style={`--bc:${b.color}; --tc:${textOn(b.color)}`}>{b.name.slice(0, 1)}</span>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
     <div class="hero-glow" aria-hidden="true"></div>
+  </section>
+
+  <!-- ЦИФРЫ ДОВЕРИЯ -->
+  <section class="trust-strip">
+    <div class="container-page trust-grid">
+      <div><b>{productCount > 0 ? tenDown(productCount) : '380+'}</b><span>позиций в каталоге</span></div>
+      <div><b>{vendorCount > 0 ? tenDown(vendorCount) : '60+'}</b><span>мировых вендоров</span></div>
+      <div><b>с 2022</b><span>года на рынке</span></div>
+      <div><b>1–3 дня</b><span>от оплаты до доступа</span></div>
+      <div><b>ЭДО</b><span>закрывающие документы</span></div>
+    </div>
   </section>
 
   <!-- ЛОГОПАНЕЛЬ -->
@@ -131,9 +219,40 @@ const servicesItemList = {
     </Carousel>
   </section>
 
+  <!-- КАТЕГОРИИ КАТАЛОГА -->
+  {tiles.length > 0 && (
+    <section class="container-page section">
+      <SectionHeading num="01" eyebrow="Каталог" title="Направления">
+        <p>Разделы каталога с фильтрами, ценами в рублях и оформлением на юрлицо.</p>
+      </SectionHeading>
+      <div class="cat-tiles">
+        {tiles.map((t) => (
+          <a href={t.href} class="card card-hover cat-tile" data-goal="home_category">
+            <span class="cat-ico" aria-hidden="true">{t.icon}</span>
+            <b>{t.name}</b>
+            <span class="cat-note">{t.count} {t.count % 10 === 1 && t.count % 100 !== 11 ? 'товар' : [2, 3, 4].includes(t.count % 10) && ![12, 13, 14].includes(t.count % 100) ? 'товара' : 'товаров'} · {t.note}</span>
+          </a>
+        ))}
+      </div>
+    </section>
+  )}
+
+  <!-- ПОПУЛЯРНЫЕ ТОВАРЫ С ЦЕНАМИ -->
+  {popular.length >= 4 && (
+    <section class="container-page section">
+      <SectionHeading num="02" eyebrow="Популярное" title="Чаще всего оформляют">
+        <p>Реальные карточки каталога: цена за год, оформление на юрлицо в два клика.</p>
+      </SectionHeading>
+      <div class="product-grid">
+        {popular.slice(0, 8).map((p) => <ProductCard product={p} />)}
+      </div>
+      <p class="all-vendors"><a href="/catalog">Весь каталог →</a></p>
+    </section>
+  )}
+
   <!-- ДВА ПУТИ ЗАКУПКИ -->
   <section class="container-page section">
-    <SectionHeading num="01" eyebrow="Как это устроено" title="Два пути закупки — подбираем под вендора">
+    <SectionHeading num="03" eyebrow="Как это устроено" title="Два пути закупки — подбираем под вендора">
       <p>Способ оплаты зависит от того, как вендор принимает деньги. Оба пути ведут к легальной поставке с документами.</p>
     </SectionHeading>
     <div class="track-grid">
@@ -166,7 +285,7 @@ const servicesItemList = {
 
   <!-- ВЫГОДЫ -->
   <section class="container-page section">
-    <SectionHeading num="02" eyebrow="Зачем это бизнесу" title="Устойчивость работы и прозрачные расходы">
+    <SectionHeading num="04" eyebrow="Зачем это бизнесу" title="Устойчивость работы и прозрачные расходы">
       <p>Мы закрываем не разовую покупку, а непрерывный доступ к инструментам с корректным оформлением.</p>
     </SectionHeading>
     <div class="outcome-grid">
@@ -180,27 +299,9 @@ const servicesItemList = {
     </div>
   </section>
 
-  <!-- ПОПУЛЯРНЫЕ СЕРВИСЫ (карусель → лендинги) -->
-  <section class="container-page section">
-    <SectionHeading num="03" eyebrow="Популярное" title="Сервисы, которые подключают чаще всего">
-      <p>Открывайте страницу сервиса — там тарифы, сравнение и оформление на юрлицо.</p>
-    </SectionHeading>
-    <Carousel label="Популярные сервисы" slideWidth="clamp(240px, 78vw, 300px)">
-      {brands.map((b) => (
-        <a href={`/vendors/${b.slug}`} class="card card-hover service-card" role="listitem" data-goal="home_service" aria-label={`${b.name} для бизнеса — тарифы и оформление`}>
-          <span class="logo-badge lg" style={`--bc:${b.color}; --tc:${textOn(b.color)}`}><VendorLogo slug={b.slug} name={b.name} size={28} /></span>
-          <h3>{b.name}</h3>
-          <p>{b.blurb}</p>
-          <span class="service-link">Открыть →</span>
-        </a>
-      ))}
-    </Carousel>
-    <p class="all-vendors"><a href="/vendors">Все производители →</a></p>
-  </section>
-
   <!-- ПРОЦЕСС -->
   <section class="container-page section">
-    <SectionHeading num="04" eyebrow="Процесс" title="От заявки до активации">
+    <SectionHeading num="05" eyebrow="Процесс" title="От заявки до активации">
       <p>Прозрачный порядок работы: вы видите стоимость и получаете полный пакет документов.</p>
     </SectionHeading>
     <ol class="steps-grid">
@@ -212,6 +313,51 @@ const servicesItemList = {
         </li>
       ))}
     </ol>
+  </section>
+
+  <!-- ОФОРМЛЕНИЕ ДЛЯ ЮРЛИЦ -->
+  <section class="container-page section">
+    <SectionHeading num="06" eyebrow="Оформление" title="Всё, что нужно бухгалтерии">
+      <p>Покупка выглядит как обычная поставка ПО от российского поставщика.</p>
+    </SectionHeading>
+    <div class="doc-grid">
+      {docBadges.map((d) => (
+        <div class="card doc-card">
+          <span class="doc-ico" aria-hidden="true">{d.icon}</span>
+          <div><b>{d.t}</b><span>{d.d}</span></div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- КЕЙСЫ -->
+  <section class="container-page section">
+    <SectionHeading eyebrow="Кейсы" title="Как это работает у клиентов">
+      <p>Типовые комплекты, которые оформляют команды. Подробнее — в разделе кейсов.</p>
+    </SectionHeading>
+    <div class="case-grid">
+      {cases.map((c) => (
+        <a href="/cases" class="card card-hover case-card">
+          <span class="case-tag">{c.tag}</span>
+          <h3>{c.title}</h3>
+          <p>{c.text}</p>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <!-- SEO-ВРЕЗКИ: СРАВНЕНИЯ И БАЗА ЗНАНИЙ -->
+  <section class="container-page section">
+    <div class="duo-grid">
+      <div class="card list-card">
+        <h3>Сравнения сервисов</h3>
+        {compareLinks.map((l) => <a href={l.href}>{l.label} <span>→</span></a>)}
+      </div>
+      <div class="card list-card">
+        <h3>База знаний</h3>
+        {kbLinks.map((l) => <a href={l.href}>{l.label} <span>→</span></a>)}
+      </div>
+    </div>
   </section>
 
   <!-- ФОРМА ОБРАТНОЙ СВЯЗИ -->
@@ -246,12 +392,12 @@ const servicesItemList = {
   .section { padding-top: clamp(3rem, 6vw, 5rem); }
 
   /* HERO */
-  .hero { position: relative; overflow: hidden; padding: clamp(2.5rem, 7vw, 5.5rem) 0 clamp(2rem, 4vw, 3.5rem); }
-  .hero-grid { position: relative; z-index: 1; display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 2.5rem; align-items: center; }
+  .hero { position: relative; overflow: hidden; padding: clamp(2.5rem, 7vw, 5rem) 0 clamp(2rem, 4vw, 3rem); background: linear-gradient(180deg, color-mix(in srgb, var(--color-accent) 5%, var(--color-bg)) 0%, var(--color-bg) 90%); }
+  .hero-grid { position: relative; z-index: 1; display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 2.5rem; align-items: center; }
   .hero-content { max-width: 640px; }
-  h1 { font-size: clamp(2rem, 5vw, 3.4rem); margin: 1rem 0 1.2rem; }
+  h1 { font-size: clamp(2rem, 5vw, 3.2rem); margin: 1rem 0 1.2rem; }
   .accent { color: var(--color-accent); }
-  .hero-sub { font-size: clamp(1.03rem, 1.6vw, 1.2rem); color: var(--color-text-muted); max-width: 60ch; }
+  .hero-sub { font-size: clamp(1.03rem, 1.6vw, 1.18rem); color: var(--color-text-muted); max-width: 60ch; }
   .hero-actions { display: flex; gap: 0.8rem; margin: 2rem 0 1.5rem; flex-wrap: wrap; }
   .hero-badges { display: flex; gap: 0.6rem 1.4rem; list-style: none; padding: 0; margin: 0; flex-wrap: wrap; color: var(--color-text-muted); font-size: 0.9rem; }
   .hero-badges li { position: relative; padding-left: 1.1rem; }
@@ -261,24 +407,26 @@ const servicesItemList = {
     background: radial-gradient(circle, color-mix(in srgb, var(--color-accent) 10%, transparent), transparent 62%);
     filter: blur(60px); z-index: 0; pointer-events: none;
   }
-  /* Hero-визуал: облако плиток приложений */
+  /* Hero: карточки-бестселлеры с ценами */
+  .hero-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; }
+  .mini-card { padding: 1rem 1.1rem; border-radius: var(--radius); display: flex; flex-direction: column; gap: 0.35rem; position: relative; transition: border-color 0.15s ease, transform 0.15s ease; }
+  .mini-card:hover { border-color: var(--color-accent); transform: translateY(-2px); }
+  .hit-badge { position: absolute; top: 0.7rem; right: 0.7rem; background: var(--color-accent); color: #fff; font-size: 0.62rem; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; border-radius: 5px; padding: 0.15rem 0.4rem; }
+  .mini-logo { width: 34px; height: 34px; border-radius: 9px; display: flex; align-items: center; justify-content: center; background: var(--bc); color: var(--tc, #fff); font-weight: 800; font-size: 0.95rem; }
+  .mini-card h3 { font-size: 0.88rem; line-height: 1.3; color: var(--color-text); }
+  .mini-price { font-weight: 800; font-size: 0.95rem; color: var(--color-text); }
+  .mini-price small { display: block; color: var(--color-text-muted); font-weight: 400; font-size: 0.7rem; }
+  /* Фолбэк: облако плиток (если БД недоступна) */
   .hero-media { display: flex; justify-content: center; }
-  .tile-cloud {
-    position: relative; width: min(360px, 90%); aspect-ratio: 1 / 0.9;
-    display: grid; grid-template-columns: repeat(3, 1fr); grid-auto-rows: 1fr; gap: 1rem; place-items: center;
-  }
-  .app-tile {
-    width: 100%; aspect-ratio: 1; border-radius: 22px;
-    display: flex; align-items: center; justify-content: center;
-    font-weight: 800; font-size: clamp(1.4rem, 3vw, 2rem);
-    background: var(--bc); color: var(--tc);
-    box-shadow: var(--shadow);
-  }
-  .app-tile.t1 { transform: translateY(-14px) rotate(-4deg); }
-  .app-tile.t2 { transform: translateY(10px) rotate(3deg); }
-  .app-tile.t3 { transform: translateY(8px) rotate(4deg); }
-  .app-tile.t4 { transform: translateY(-10px) rotate(-3deg); }
+  .tile-cloud { position: relative; width: min(360px, 90%); aspect-ratio: 1 / 0.9; display: grid; grid-template-columns: repeat(3, 1fr); grid-auto-rows: 1fr; gap: 1rem; place-items: center; }
+  .app-tile { width: 100%; aspect-ratio: 1; border-radius: 22px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: clamp(1.4rem, 3vw, 2rem); background: var(--bc); color: var(--tc); box-shadow: var(--shadow); }
   @media (prefers-reduced-motion: reduce) { .app-tile { transform: none !important; } }
+
+  /* Цифры доверия */
+  .trust-strip { border-block: 1px solid var(--color-border); background: var(--color-bg-elevated); padding: 1.3rem 0; }
+  .trust-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 0.8rem; text-align: center; }
+  .trust-grid b { display: block; font-size: 1.45rem; letter-spacing: -0.02em; }
+  .trust-grid span { color: var(--color-text-muted); font-size: 0.82rem; }
 
   /* Логопанель */
   .logos-sec { margin-top: clamp(1.5rem, 3vw, 2.5rem); }
@@ -287,6 +435,18 @@ const servicesItemList = {
   .logo-chip:hover { border-color: var(--color-accent); transform: translateY(-3px); box-shadow: var(--shadow); }
   .logo-badge { width: 40px; height: 40px; border-radius: 10px; display: inline-flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1.1rem; background: var(--bc); color: var(--tc); flex-shrink: 0; }
   .logo-name { font-weight: 600; font-size: 0.92rem; white-space: nowrap; }
+
+  /* Категории */
+  .cat-tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 1rem; }
+  .cat-tile { padding: 1.3rem 1.4rem; display: flex; flex-direction: column; gap: 0.3rem; }
+  .cat-ico { font-size: 1.5rem; }
+  .cat-tile b { font-size: 1.05rem; color: var(--color-text); }
+  .cat-note { color: var(--color-text-muted); font-size: 0.85rem; }
+
+  /* Популярные товары */
+  .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1.2rem; }
+  .all-vendors { margin-top: 1rem; }
+  .all-vendors a { color: var(--color-accent); font-weight: 600; }
 
   /* Два пути закупки */
   .track-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.4rem; }
@@ -305,21 +465,34 @@ const servicesItemList = {
   .outcome-card h3 { font-size: 1.15rem; margin: 0.7rem 0 0.5rem; }
   .outcome-card p { color: var(--color-text-muted); font-size: 0.92rem; }
 
-  /* Популярные сервисы */
-  .service-card { padding: 1.6rem; display: flex; flex-direction: column; gap: 0.5rem; height: 100%; }
-  .logo-badge.lg { width: 48px; height: 48px; border-radius: 12px; font-size: 1.5rem; margin-bottom: 0.5rem; }
-  .service-card h3 { font-size: 1.25rem; }
-  .service-card p { color: var(--color-text-muted); font-size: 0.92rem; flex-grow: 1; }
-  .service-link { color: var(--color-accent); font-weight: 600; font-size: 0.9rem; }
-  .all-vendors { margin-top: 1rem; }
-  .all-vendors a { color: var(--color-accent); font-weight: 600; }
-
   /* Процесс */
   .steps-grid { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.2rem; counter-reset: step; }
   .step-card { padding: 1.6rem; }
   .step-num { display: inline-flex; align-items: center; justify-content: center; width: 34px; height: 34px; border-radius: 999px; background: var(--color-accent); color: #fff; font-weight: 700; margin-bottom: 0.7rem; }
   .step-card h3 { font-size: 1.1rem; margin-bottom: 0.4rem; }
   .step-card p { color: var(--color-text-muted); font-size: 0.92rem; }
+
+  /* Оформление для юрлиц */
+  .doc-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 1rem; }
+  .doc-card { padding: 1.1rem 1.3rem; display: flex; gap: 0.85rem; align-items: center; }
+  .doc-ico { font-size: 1.4rem; }
+  .doc-card b { display: block; font-size: 0.95rem; }
+  .doc-card span { color: var(--color-text-muted); font-size: 0.82rem; }
+
+  /* Кейсы */
+  .case-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem; }
+  .case-card { padding: 1.4rem 1.5rem; display: flex; flex-direction: column; gap: 0.4rem; }
+  .case-tag { font-size: 0.74rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--color-accent); }
+  .case-card h3 { font-size: 1.05rem; color: var(--color-text); }
+  .case-card p { color: var(--color-text-muted); font-size: 0.9rem; }
+
+  /* SEO-врезки */
+  .duo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .list-card { padding: 1.4rem 1.5rem; }
+  .list-card h3 { font-size: 1.1rem; margin-bottom: 0.7rem; }
+  .list-card a { display: flex; justify-content: space-between; gap: 1rem; padding: 0.6rem 0; border-top: 1px solid var(--color-border); font-size: 0.92rem; font-weight: 600; color: var(--color-text); }
+  .list-card a:hover { color: var(--color-accent); }
+  .list-card a span { color: var(--color-text-dim); font-weight: 400; }
 
   /* Контактная секция */
   .contact-grid { display: grid; grid-template-columns: 1fr 420px; gap: 2.5rem; align-items: start; }
@@ -329,9 +502,11 @@ const servicesItemList = {
 
   @media (max-width: 900px) {
     .hero-grid { grid-template-columns: 1fr; }
-    .hero-media { order: -1; }
+    .hero-media { order: 1; }
     .tile-cloud { width: min(300px, 80%); }
-    .track-grid { grid-template-columns: 1fr; }
+    .trust-grid { grid-template-columns: repeat(2, 1fr); }
+    .trust-grid div:last-child { grid-column: span 2; }
+    .track-grid, .duo-grid { grid-template-columns: 1fr; }
     .contact-grid { grid-template-columns: 1fr; }
   }
 </style>

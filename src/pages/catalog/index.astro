@@ -9,6 +9,7 @@ import Carousel from '../../components/Carousel.astro';
 import VendorLogo from '../../components/VendorLogo.astro';
 import CategoryIcon from '../../components/CategoryIcon.astro';
 import FAQ from '../../components/FAQ.astro';
+import ProductCard from '../../components/ProductCard.astro';
 import QuestionForm from '../../components/QuestionForm.astro';
 import JsonLd from '../../components/JsonLd.astro';
 import { getCategories, getProducts } from '../../lib/directus';
@@ -23,6 +24,13 @@ try {
 } catch (e) {
   console.error('catalog index error', e);
 }
+
+// Поиск из шапки: /catalog?q=… — режим результатов вместо маркетинговой страницы.
+const q = (Astro.url.searchParams.get('q') || '').trim();
+const ql = q.toLowerCase();
+const searchResults = q
+  ? products.filter((p) => `${p.name} ${p.vendor || ''} ${p.keywords || ''} ${p.sku}`.toLowerCase().includes(ql))
+  : [];
 
 const catCounts: Record<string, number> = {};
 for (const p of products) {
@@ -82,14 +90,30 @@ const ld = [
 ];
 ---
 <BaseLayout
-  title="Каталог зарубежного ПО и SaaS для бизнеса — по договору и счёту"
+  title={q ? `Поиск «${q}» — каталог BizSoft` : 'Каталог зарубежного ПО и SaaS для бизнеса — по договору и счёту'}
   description="Каталог зарубежных сервисов и ПО для российских юрлиц: Adobe, Figma, JetBrains, Miro, Zoom, OpenAI и другие. Дизайн, разработка, видео, AI, коммуникации. Оплата в рублях, договор, закрывающие через ЭДО."
+  noindex={Boolean(q)}
 >
-  <JsonLd schema={ld} />
+  {!q && <JsonLd schema={ld} />}
 
   <div class="container-page section">
     <Breadcrumbs items={[{ name: 'Каталог', url: '/catalog' }]} />
 
+    {q && (
+      <section class="search-res">
+        <h1>Поиск: «{q}»</h1>
+        <p class="sr-meta">Найдено: <b>{searchResults.length}</b> · <a href="/catalog">Весь каталог →</a></p>
+        {searchResults.length > 0 ? (
+          <div class="sr-grid">
+            {searchResults.slice(0, 48).map((p) => <ProductCard product={p} />)}
+          </div>
+        ) : (
+          <p class="sr-empty">Ничего не нашлось. Попробуйте другое написание (например, латиницей) или <button class="btn btn-primary btn-sm" data-open-question>спросите нас</button> — подключаем и то, чего нет в каталоге.</p>
+        )}
+      </section>
+    )}
+
+    {!q && (<>
     <!-- HERO -->
     <header class="cat-hero">
       <span class="eyebrow">Каталог</span>
@@ -164,6 +188,7 @@ const ld = [
     </section>
 
     <FAQ items={faq} title="Частые вопросы по каталогу" />
+    </>)}
   </div>
 
   <CTASection
@@ -179,6 +204,14 @@ const ld = [
 
 <style>
   .section { padding-top: 2rem; }
+
+  /* Результаты поиска (?q=) */
+  .search-res { margin: 1rem 0 2rem; }
+  .search-res h1 { font-size: clamp(1.6rem, 3.5vw, 2.3rem); margin-bottom: 0.5rem; }
+  .sr-meta { color: var(--color-text-muted); margin-bottom: 1.4rem; }
+  .sr-meta a { color: var(--color-accent); font-weight: 600; }
+  .sr-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1.2rem; }
+  .sr-empty { color: var(--color-text-muted); display: flex; gap: 0.8rem; align-items: center; flex-wrap: wrap; }
 
   /* HERO */
   .cat-hero { max-width: 760px; margin: 1rem 0 3rem; }
