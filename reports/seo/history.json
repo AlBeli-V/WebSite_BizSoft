@@ -1,0 +1,17 @@
+{
+  "site": "biz-soft.pro",
+  "engine_note": "google via US search proxy; yandex недоступен из среды (egress blocked)",
+  "checks": [
+    {
+      "date": "2026-08-17",
+      "measured_keywords": ["brand-domain", "buy-foreign-soft", "chatgpt-corp", "closing-docs"],
+      "results": {
+        "brand-domain": { "visible": false, "position": null, "top_competitors": ["soft-pro.com", "play.google.com", "individualsoftware.com"] },
+        "buy-foreign-soft": { "visible": false, "position": null, "top_competitors": ["vc.ru", "klerk.ru", "companies.rbc.ru", "mtsbank.ru", "corp.pay-saas.ru", "raketapay.ru"] },
+        "chatgpt-corp": { "visible": false, "position": null, "top_competitors": ["companies.rbc.ru", "klerk.ru", "dtf.ru", "migsoft.ru", "ml-soft.ru"] },
+        "closing-docs": { "visible": false, "position": null, "top_competitors": ["ppt.ru", "fabrikant.ru", "cloudkassir.ru", "zakupki-kontur.ru", "seldongroup.ru"] }
+      },
+      "notes": "Базовый замер. Домен не виден ни по одному запросу корзины (US-прокси Google). Остальные запросы корзины будут замеряться со следующего прогона."
+    }
+  ]
+}
