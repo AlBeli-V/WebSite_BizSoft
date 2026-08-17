@@ -14,6 +14,7 @@ const ART = {
   oformit: { label: 'Как оформить AI-подписку на юрлицо', href: '/blog/kak-oformit-korporativnuyu-ai-podpisku-na-yurlico' },
   entVsTeam: { label: 'Enterprise или Team: что выбрать', href: '/blog/enterprise-vs-team-korporativnye-tarify-ai' },
   security: { label: 'Безопасность данных в корпоративных AI', href: '/blog/bezopasnost-dannyh-v-korporativnyh-ai' },
+  devAssistant: { label: 'Как выбрать AI-ассистента для разработки', href: '/blog/kak-vybrat-ai-assistenta-dlya-komandy-razrabotki' },
 } as const;
 
 const cmp = (slug: string, label: string): Link => ({ label, href: `/compare/${slug}` });
@@ -29,8 +30,8 @@ const MAP: Record<string, VendorInterlink> = {
   Anthropic: { compare: [cmp('chatgpt-vs-claude', 'ChatGPT vs Claude'), cmp('claude-vs-gemini', 'Claude vs Gemini')], articles: [ART.entVsTeam, ART.security], sub: 'text' },
   Google: { compare: [cmp('claude-vs-gemini', 'Claude vs Gemini'), cmp('copilot-vs-gemini', 'Copilot vs Gemini')], articles: [ART.oformit, ART.security], sub: 'office' },
   Microsoft: { compare: [cmp('copilot-vs-gemini', 'Copilot vs Gemini'), cmp('chatgpt-vs-gemini', 'ChatGPT vs Gemini')], articles: [ART.oformit, ART.security], sub: 'office' },
-  GitHub: { compare: [cmp('cursor-vs-copilot', 'Cursor vs Copilot'), cmp('chatgpt-vs-claude', 'ChatGPT vs Claude')], articles: [ART.oformit, ART.entVsTeam], sub: 'code' },
-  Cursor: { compare: [cmp('cursor-vs-copilot', 'Cursor vs Copilot'), cmp('chatgpt-vs-claude', 'ChatGPT vs Claude')], articles: [ART.oformit, ART.entVsTeam], sub: 'code' },
+  GitHub: { compare: [cmp('cursor-vs-copilot', 'Cursor vs Copilot'), cmp('chatgpt-vs-claude', 'ChatGPT vs Claude')], articles: [ART.devAssistant, ART.oformit], sub: 'code' },
+  Cursor: { compare: [cmp('cursor-vs-copilot', 'Cursor vs Copilot'), cmp('chatgpt-vs-claude', 'ChatGPT vs Claude')], articles: [ART.devAssistant, ART.oformit], sub: 'code' },
   Perplexity: { compare: [cmp('perplexity-vs-chatgpt', 'Perplexity vs ChatGPT'), cmp('chatgpt-vs-claude', 'ChatGPT vs Claude')], articles: [ART.security, ART.oformit], sub: 'text' },
   Midjourney: { compare: [cmp('midjourney-vs-firefly', 'Midjourney vs Firefly'), cmp('midjourney-vs-recraft', 'Midjourney vs Recraft')], articles: [ART.oformit, ART.security], sub: 'image' },
   Adobe: { compare: [cmp('midjourney-vs-firefly', 'Midjourney vs Firefly'), cmp('firefly-vs-canva', 'Firefly vs Canva')], articles: [ART.oformit, ART.security], sub: 'image' },

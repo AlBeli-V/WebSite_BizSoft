@@ -91,6 +91,8 @@ export const vendorLandings: { slug: string; name: string; description: string }
 
 /** Подвал: дополнительные ссылки. */
 export const footerNav: { label: string; href: string }[] = [
+  { label: 'AI-сервисы для бизнеса', href: '/catalog/ai' },
+  { label: 'Решения под задачу', href: '/solutions' },
   { label: 'Кейсы', href: '/cases' },
   { label: 'FAQ', href: '/faq' },
   { label: 'Политика обработки ПДн', href: '/privacy' },
