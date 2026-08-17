@@ -17,6 +17,14 @@ on:
         description: "Куда слать уведомления о заявках"
         required: true
         default: "hello@biz-soft.pro"
+      smtp_host:
+        description: "SMTP-сервер (почта на reg.ru)"
+        required: true
+        default: "mail.hosting.reg.ru"
+      smtp_port:
+        description: "SMTP-порт (25 — без SSL/STARTTLS, 465 — SSL)"
+        required: true
+        default: "25"
 
 jobs:
   mail:
@@ -27,14 +35,16 @@ jobs:
         env:
           APPLY: ${{ inputs.apply }}
           NEW_EMAIL: ${{ inputs.manager_email }}
-          # Пароль внешнего приложения Mail.ru — задаётся как repo-секрет SMTP_PASS
+          SMTP_HOST_IN: ${{ inputs.smtp_host }}
+          SMTP_PORT_IN: ${{ inputs.smtp_port }}
+          # Пароль ящика (панель reg.ru) — задаётся как repo-секрет SMTP_PASS
           # (Settings → Secrets and variables → Actions). Если не задан — шаг его пропустит.
           SMTP_PASS: ${{ secrets.SMTP_PASS }}
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
-          envs: APPLY,NEW_EMAIL,SMTP_PASS
+          envs: APPLY,NEW_EMAIL,SMTP_HOST_IN,SMTP_PORT_IN,SMTP_PASS
           script: |
             set -e
             export APPLY NEW_EMAIL
@@ -62,17 +72,20 @@ jobs:
 
             if [ "$APPLY" = "true" ]; then
               echo
-              echo "== Применяю почтовый конфиг (Mail.ru, адрес $NEW_EMAIL) =="
+              echo "== Применяю почтовый конфиг ($SMTP_HOST_IN:$SMTP_PORT_IN, адрес $NEW_EMAIL) =="
               cp "$ENVF" "$ENVF.bak-$(date +%Y%m%d-%H%M%S)"
               python3 - "$NEW_EMAIL" <<'PY'
             import os, re, sys
             email = sys.argv[1]
             envf = '/opt/bizsoft/astro.env'
+            host = os.environ.get('SMTP_HOST_IN', 'mail.hosting.reg.ru')
+            port = os.environ.get('SMTP_PORT_IN', '25')
             pairs = {
                 'MANAGER_EMAIL': email,
-                'SMTP_HOST': 'smtp.mail.ru',
-                'SMTP_PORT': '465',
-                'SMTP_SECURE': 'true',
+                'SMTP_HOST': host,
+                'SMTP_PORT': port,
+                # 465 — implicit SSL; 25/587 — без SSL (nodemailer применит STARTTLS, если сервер умеет)
+                'SMTP_SECURE': 'true' if port == '465' else 'false',
                 'SMTP_USER': email,
                 'SMTP_FROM': f'"BizSoft <{email}>"',
                 'SMTP_FROM_SALES': f'"BizSoft <{email}>"',
