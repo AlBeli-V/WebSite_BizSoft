@@ -79,14 +79,14 @@ const ld = [
 ];
 ---
 <BaseLayout
-  title="Производители ПО и SaaS — купить для юрлица | BizSoft"
-  description="Все производители зарубежного ПО и SaaS в каталоге BizSoft: OpenAI, Anthropic, Adobe, Figma, JetBrains, Microsoft и другие. Оформление на юрлицо по договору и счёту, закрывающие через ЭДО."
+  title="Каталог (ПО) программного обеспечения и web-сервисов — производители | BizSoft"
+  description="Каталог зарубежного ПО и web-сервисов для российских компаний: бессрочные лицензии, годовые подписки, API-ключи и токены пополнения балансов. OpenAI, Anthropic, Adobe, Figma, JetBrains, Microsoft и другие — по договору и счёту."
 >
   <JsonLd schema={ld} />
   <div class="container-page section">
     <Breadcrumbs items={crumbs} />
-    <h1>Каталог ПО по производителям</h1>
-    <p class="lead">Зарубежные вендоры, которых мы подключаем для российских компаний: годовые подписки и лицензии по договору и счёту.</p>
+    <h1>Каталог (ПО) программного обеспечения и web&#8209;сервисов</h1>
+    <p class="lead">В каталоге представлены вендоры, чьи подписки мы подключаем в интересах российских компаний: бессрочные лицензии, годовые подписки, API-ключи и токены пополнения балансов.</p>
 
     <CatalogTabs active="vendors" />
 
@@ -134,7 +134,8 @@ const ld = [
   .section { padding: 2rem 0 4rem; }
   h1 { font-size: clamp(1.8rem, 4vw, 2.6rem); margin-bottom: 0.6rem; }
   .lead { color: var(--color-text-muted); margin-bottom: 1.4rem; max-width: 70ch; }
-  /* Алфавит */
+  /* Алфавит: на десктопе строго в одну строку (буквы ужимаются),
+     на мобильных допускается перенос. */
   .alpha { display: flex; flex-wrap: wrap; align-items: center; gap: 0.35rem; padding: 0.9rem 1.1rem; margin-bottom: 1.6rem; }
   .alpha-cap { color: var(--color-text-muted); font-size: 0.9rem; margin-right: 0.4rem; }
   .alpha-btn {
@@ -146,6 +147,15 @@ const ld = [
   .alpha-btn.active { background: var(--color-accent); color: #fff; }
   .alpha-btn:disabled { opacity: 0.28; cursor: default; }
   .alpha-btn.all, .alpha-btn.top { text-transform: uppercase; letter-spacing: 0.04em; padding-inline: 0.7rem; }
+  @media (min-width: 861px) {
+    .alpha { flex-wrap: nowrap; gap: 0.1rem; padding: 0.9rem 0.9rem; }
+    .alpha-cap, .alpha-btn.all, .alpha-btn.top { flex: 0 0 auto; }
+    .alpha-btn { flex: 1 1 0; min-width: 0; padding-inline: 0.1rem; font-size: clamp(0.72rem, 1vw, 0.88rem); text-align: center; }
+    .alpha-btn.all, .alpha-btn.top { padding-inline: 0.65rem; }
+  }
+  @media (min-width: 861px) and (max-width: 1080px) {
+    .alpha-cap { display: none; }
+  }
   /* Карточки вендоров */
   .v-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 1rem; }
   .v-card { padding: 1.6rem 1.2rem 1.3rem; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 0.55rem; }

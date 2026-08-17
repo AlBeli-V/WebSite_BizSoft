@@ -7,7 +7,7 @@
   "packageManager": "pnpm@9.15.9",
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build",
+    "build": "node scripts/build-logos.mjs && astro build",
     "preview": "astro preview",
     "start": "node ./dist/server/entry.mjs",
     "astro": "astro",
