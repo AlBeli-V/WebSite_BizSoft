@@ -1,0 +1,120 @@
+# Одноразовая миграция данных AI-каталога (docs/ai-catalog-import.md).
+# Запуск вручную (workflow_dispatch): apply=false — dry-run (только отчёт),
+# apply=true — применить. Использует те же SSH-секреты, что и deploy.yml.
+#
+# Шаги на сервере:
+#   1. Курс ЦБ: apply — обновить (POST refresh), dry-run — показать текущий (GET).
+#   2. pre:  создать 8 категорий ai-*, перенести действующие AI-товары,
+#            снять с публикации потребительские тарифы (+301 через old_slugs).
+#   3. Импорт 23 карточек через /api/admin/import (цены: год × 1.9 × курс ЦБ).
+#   4. post: перелинковка related_products (Этап 5).
+
+name: ai-catalog-migrate
+
+on:
+  workflow_dispatch:
+    inputs:
+      apply:
+        description: "true — применить; false — dry-run"
+        required: true
+        default: "false"
+
+jobs:
+  migrate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Build import payload (xlsx → json body)
+        env:
+          APPLY: ${{ inputs.apply }}
+        run: |
+          pnpm install --frozen-lockfile=false
+          mkdir -p out
+          node scripts/build-vendor-cards.mjs scripts/ai-catalog-cards.json out/ai-cards.xlsx
+          node -e "
+            const fs = require('fs');
+            const b = fs.readFileSync('out/ai-cards.xlsx').toString('base64');
+            fs.writeFileSync('out/ai-import-body.json',
+              JSON.stringify({ format: 'xlsx', apply: process.env.APPLY === 'true', xlsxBase64: b }));
+            console.log('body ready, apply =', process.env.APPLY);
+          "
+
+      - name: Copy payload & data script to server
+        uses: appleboy/scp-action@v1
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          source: "out/ai-import-body.json,scripts/ai-catalog-data.py"
+          target: /tmp/ai-migrate
+          strip_components: 1
+          overwrite: true
+
+      - name: Run migration on server
+        uses: appleboy/ssh-action@v1
+        env:
+          APPLY: ${{ inputs.apply }}
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          envs: APPLY
+          script: |
+            set -e
+            export APPLY
+            T=$(sed -n 's/^ADMIN_TOOLS_TOKEN=//p' /opt/bizsoft/astro.env | tr -d '"\r')
+
+            echo "== 1/4 Курс ЦБ (apply=$APPLY) =="
+            if [ "$APPLY" = "true" ]; then
+              curl -s -X POST http://127.0.0.1:3000/api/admin/currency \
+                -H "x-admin-token: $T" -H 'Content-Type: application/json' \
+                -d '{"action":"refresh"}' -o /tmp/ai-migrate/cbr.json
+            else
+              curl -s http://127.0.0.1:3000/api/admin/currency \
+                -H "x-admin-token: $T" -o /tmp/ai-migrate/cbr.json
+            fi
+            python3 -c "import json;d=json.load(open('/tmp/ai-migrate/cbr.json'));r=d.get('rate') or {};print('usd:',r.get('usd_rate'),'eur:',r.get('eur_rate'),'date:',r.get('rate_date'),'mode:',r.get('mode'))"
+
+            echo "== 2/4 Категории / перенос / снятие (pre) =="
+            python3 /tmp/ai-migrate/ai-catalog-data.py pre
+
+            echo "== 3/4 Импорт карточек (apply=$APPLY) =="
+            curl -s -X POST http://127.0.0.1:3000/api/admin/import \
+              -H "x-admin-token: $T" -H 'Content-Type: application/json' \
+              --data-binary @/tmp/ai-migrate/ai-import-body.json -o /tmp/ai-migrate/resp.json
+            python3 - <<'PY'
+            import json
+            d = json.load(open('/tmp/ai-migrate/resp.json'))
+            if d.get('dryRun'):
+                s = d['summary']
+                print(f"DRY-RUN rows={s['rows']} create={s['create']} update={s['update']} errors={s['errors']}")
+                for i in d['items']:
+                    if i.get('errors'):
+                        print('  ERR', i['sku'], '; '.join(i['errors']))
+                for i in d['items']:
+                    if i.get('mode') == 'create':
+                        p = i['payload']
+                        price = p.get('price')
+                        print('  CREATE', i['sku'], '→', f"{price} ₽" if isinstance(price, (int, float)) else p.get('price_note', ''))
+            elif d.get('applied'):
+                print(f"APPLIED created={d['created']} updated={d['updated']} failed={len(d['failed'])}")
+                for f in d['failed']:
+                    print('  FAIL', f['sku'], f['error'])
+            else:
+                print(json.dumps(d)[:800])
+            PY
+
+            echo "== 4/4 Перелинковка (post) =="
+            python3 /tmp/ai-migrate/ai-catalog-data.py post
+
+            rm -f /tmp/ai-migrate/ai-import-body.json /tmp/ai-migrate/resp.json /tmp/ai-migrate/cbr.json
+            echo "== Готово (apply=$APPLY) =="
