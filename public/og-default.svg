@@ -7,8 +7,18 @@
       <stop offset="1" stop-color="#0E0F12" stop-opacity="0"/>
     </linearGradient>
   </defs>
-  <text x="90" y="250" font-family="Inter, system-ui, sans-serif" font-weight="800" font-size="92" fill="#F2F3F5">Biz<tspan fill="#FF763C">Soft</tspan></text>
-  <text x="92" y="330" font-family="Inter, system-ui, sans-serif" font-weight="500" font-size="40" fill="#8A8F98">Легальное ПО для бизнеса</text>
-  <text x="92" y="392" font-family="Inter, system-ui, sans-serif" font-weight="500" font-size="40" fill="#8A8F98">по договору и счёту</text>
-  <text x="92" y="560" font-family="Inter, system-ui, sans-serif" font-weight="600" font-size="30" fill="#FF763C">Договор · Счёт · ЭДО · Закрывающие документы</text>
+  <g transform="translate(84,120) scale(3.1)" fill="none">
+    <path d="M17 4.5 V30 M17 4.5 H26 A6.4 6.4 0 0 1 26 17.3 H17 M17 17.3 H27.5 A6.35 6.35 0 0 1 27.5 30 H17"
+      stroke="#F2F3F5" stroke-width="6.2" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M31 33.5 A7 7 0 0 0 24.5 29.5 H17 A5.8 5.8 0 0 0 17 41.1 H23 A5.8 5.8 0 0 1 23 52.7 H15 A7 7 0 0 1 8.5 48.7"
+      stroke="#0E0F12" stroke-width="10.4" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M31 33.5 A7 7 0 0 0 24.5 29.5 H17 A5.8 5.8 0 0 0 17 41.1 H23 A5.8 5.8 0 0 1 23 52.7 H15 A7 7 0 0 1 8.5 48.7"
+      stroke="#f2591d" stroke-width="6.2" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M20.5 20.8 L28.6 24.2 L21.8 28.2 Z" fill="#f2591d" stroke="#0E0F12" stroke-width="1.7" stroke-linejoin="round"/>
+  </g>
+  <text x="264" y="230" font-family="Inter, system-ui, sans-serif" font-weight="800" font-size="96" fill="#F2F3F5">BIZ<tspan fill="#FF763C">Soft</tspan></text>
+  <text x="268" y="286" font-family="Inter, system-ui, sans-serif" font-weight="700" font-size="27" letter-spacing="9" fill="#8A8F98"><tspan fill="#FF763C">B</tspan>USINESS <tspan fill="#FF763C">I</tspan>NTEGRATION <tspan fill="#FF763C">Z</tspan>ONE</text>
+  <text x="90" y="430" font-family="Inter, system-ui, sans-serif" font-weight="600" font-size="46" fill="#C9CDD3">Единая точка доступа</text>
+  <text x="90" y="492" font-family="Inter, system-ui, sans-serif" font-weight="600" font-size="46" fill="#C9CDD3">к ПО и AI-сервисам</text>
+  <text x="90" y="570" font-family="Inter, system-ui, sans-serif" font-weight="600" font-size="30" fill="#FF763C">Договор · Счёт · ЭДО · Закрывающие документы</text>
 </svg>

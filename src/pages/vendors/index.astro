@@ -29,6 +29,12 @@ const AI_SLUGS: Record<string, string> = {
   openai: 'openai', anthropic: 'anthropic', github: 'github', cursor: 'cursor',
   microsoft: 'microsoft', google: 'google', perplexity: 'perplexity', notion: 'notion',
   gamma: 'gamma', grammarly: 'grammarly', jasper: 'jasper',
+  // Ребрендинг: сервис Freepik переименован в Magnific (юрлицо то же — Freepik Company S.L.U.)
+  magnific: 'freepik', 'magnific (freepik)': 'freepik',
+};
+// Ребрендинги: новый знак — крупно, прежний — мелко рядом со старым названием.
+const DUAL_LOGO: Record<string, { main: string; prev: string }> = {
+  freepik: { main: '/brand-logos/magnific-logo.svg', prev: '/brand-logos/freepik-logo.svg' },
 };
 const slugify = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
 const vendorSlug = (name: string) => slugByName.get(name.toLowerCase()) || AI_SLUGS[name.toLowerCase()] || slugify(name);
@@ -46,14 +52,19 @@ const TOP = new Set(['openai', 'anthropic', 'microsoft', 'google', 'github', 'ad
 const items = rows.map((r) => {
   const slug = vendorSlug(r.vendor);
   const letter = /^[0-9]/.test(r.vendor) ? '0-9' : r.vendor.charAt(0).toUpperCase();
+  // «Новое имя (прежнее)» → новое крупно, прежнее мельче под ним.
+  const renamed = r.vendor.match(/^(.+?)\s*\((.+)\)$/);
+  const dual = DUAL_LOGO[slug];
   return {
-    name: r.vendor,
+    name: renamed ? renamed[1] : r.vendor,
+    prevName: renamed ? renamed[2] : null,
     count: r.count,
     slug,
     letter,
     top: TOP.has(slug),
     href: landingSlugs.has(slug) ? `/vendors/${slug}` : `/catalog?q=${encodeURIComponent(r.vendor)}`,
-    logo: logoFile(slug),
+    logo: dual?.main ?? logoFile(slug),
+    prevLogo: dual?.prev ?? null,
   };
 }).sort((a, b) => a.name.localeCompare(b.name, 'en'));
 
@@ -103,13 +114,19 @@ const ld = [
     {items.length > 0 ? (
       <div class="v-grid" data-vendor-grid>
         {items.map((v) => (
-          <a href={v.href} class="card card-hover v-card" data-letter={v.letter} data-top={v.top ? '1' : undefined} aria-label={`${v.name} — купить для юрлица`}>
+          <a href={v.href} class="card card-hover v-card" data-letter={v.letter} data-top={v.top ? '1' : undefined} aria-label={`${v.name}${v.prevName ? ` (ранее ${v.prevName})` : ''} — купить для юрлица`}>
             {v.logo ? (
               <img src={v.logo} alt={`Логотип ${v.name} — ПО ${v.name} для юрлица`} width="56" height="56" loading="lazy" decoding="async" class="v-logo" />
             ) : (
               <span class="v-letter" aria-hidden="true">{v.name.charAt(0).toUpperCase()}</span>
             )}
             <b>{v.name}</b>
+            {v.prevName && (
+              <span class="v-prev">
+                {v.prevLogo && <img src={v.prevLogo} alt={`Логотип ${v.prevName} — прежнее название ${v.name}`} width="16" height="16" loading="lazy" decoding="async" />}
+                ({v.prevName})
+              </span>
+            )}
             <span class="v-count">{v.count} {plural(v.count)}</span>
           </a>
         ))}
@@ -162,6 +179,8 @@ const ld = [
   .v-logo { width: 56px; height: 56px; object-fit: contain; }
   .v-letter { width: 56px; height: 56px; border-radius: 14px; background: var(--color-bg-elevated); border: 1px solid var(--color-border); display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1.5rem; color: var(--color-text-muted); }
   .v-card b { font-size: 1rem; color: var(--color-text); line-height: 1.25; }
+  .v-prev { display: inline-flex; align-items: center; gap: 0.3rem; color: var(--color-text-muted); font-size: 0.8rem; margin-top: -0.25rem; }
+  .v-prev img { width: 16px; height: 16px; object-fit: contain; border-radius: 4px; }
   .v-count { color: var(--color-text-dim); font-size: 0.82rem; }
   .v-empty { grid-column: 1 / -1; color: var(--color-text-muted); }
   .link-btn { background: none; border: none; padding: 0; font: inherit; color: var(--color-accent); font-weight: 600; cursor: pointer; }

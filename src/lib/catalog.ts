@@ -37,7 +37,10 @@ export const VENDOR_LEGAL: Record<string, string> = {
   'Clip Studio Paint': 'CELSYS, Inc.',
   Procreate: 'Savage Interactive Pty Ltd',
   'Astute Graphics': 'Astute Graphics Ltd',
-  Freepik: 'Freepik Company S.L.',
+  Freepik: 'Freepik Company S.L.U.',
+  // Сервис Freepik переименован в Magnific; юрлицо-правообладатель прежнее.
+  'Magnific (Freepik)': 'Freepik Company S.L.U.',
+  Magnific: 'Freepik Company S.L.U.',
   Envato: 'Envato Pty Ltd',
   Shutterstock: 'Shutterstock, Inc.',
   Depositphotos: 'Depositphotos Inc.',

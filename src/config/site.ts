@@ -32,7 +32,7 @@ export interface SellerDetails {
 }
 
 export const seller: SellerDetails = {
-  brand: 'BizSoft',
+  brand: 'BIZSoft',
   legalName: 'Индивидуальный предприниматель Беляев Алексей Васильевич',
   shortName: 'ИП Беляев А.В.',
   address: '115569, Москва, Каширское шоссе 80К1',
@@ -55,12 +55,12 @@ export const seller: SellerDetails = {
 };
 
 export const site = {
-  name: 'BizSoft',
+  name: 'BIZSoft',
   domain: 'biz-soft.pro',
   url: 'https://biz-soft.pro',
-  tagline: 'Легальное ПО для бизнеса по договору и счёту',
+  tagline: 'Единая точка доступа к ПО и AI-сервисам',
   description:
-    'BizSoft — поставка подписок и доступа к зарубежным ПО-сервисам для российских юрлиц: по договору, с оплатой по счёту и закрывающими документами через ЭДО.',
+    'BIZSoft (Business Integration Zone) — единая точка доступа к зарубежным ПО- и AI-сервисам для российских юрлиц: по договору, с оплатой по счёту и закрывающими документами через ЭДО.',
   // Срок действия коммерческого предложения по умолчанию (дней)
   quoteValidDays: 14,
   // Дефолтная наценка при привязке к курсу (страховка, если не задана у товара)
