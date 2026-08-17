@@ -30,8 +30,10 @@ const { source = 'pricing', title = 'Запросить расчёт', submitLab
   .lead-form { padding: 1.8rem; display: flex; flex-direction: column; gap: 0.9rem; }
   .lead-form h3 { font-size: 1.3rem; }
   .lf-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.9rem; }
+  /* min-width: 0 — иначе внутренняя ширина input распирает grid-колонку за карточку */
+  .lf-row > label { min-width: 0; }
   .lead-form label { display: flex; flex-direction: column; gap: 0.35rem; font-size: 0.86rem; color: var(--color-text-muted); }
-  .lead-form input, .lead-form textarea { background: var(--color-bg-elevated); border: 1px solid var(--color-border-strong); border-radius: var(--radius-sm); padding: 0.6rem 0.7rem; color: var(--color-text); font: inherit; }
+  .lead-form input, .lead-form textarea { background: var(--color-bg-elevated); border: 1px solid var(--color-border-strong); border-radius: var(--radius-sm); padding: 0.6rem 0.7rem; color: var(--color-text); font: inherit; width: 100%; min-width: 0; box-sizing: border-box; }
   .lead-form input:focus, .lead-form textarea:focus { border-color: var(--color-accent); outline: none; }
   .lf-consent { flex-direction: row; align-items: flex-start; gap: 0.5rem; font-size: 0.82rem; }
   .lf-consent input { width: auto; margin-top: 0.2rem; }

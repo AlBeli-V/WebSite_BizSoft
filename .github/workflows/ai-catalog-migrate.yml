@@ -121,8 +121,11 @@ jobs:
                 print(json.dumps(d)[:800])
             PY
 
-            echo "== 4/4 Перелинковка (post) =="
+            echo "== 4/5 Перелинковка (post) =="
             python3 /tmp/ai-migrate/ai-catalog-data.py post
+
+            echo "== 5/5 SEO-тексты карточек (seo) =="
+            python3 /tmp/ai-migrate/ai-catalog-data.py seo
 
             rm -f /tmp/ai-migrate/ai-import-body.json /tmp/ai-migrate/resp.json /tmp/ai-migrate/cbr.json
             echo "== Готово (apply=$APPLY) =="
