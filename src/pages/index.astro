@@ -6,6 +6,7 @@ import SectionHeading from '../components/SectionHeading.astro';
 import CTASection from '../components/CTASection.astro';
 import Carousel from '../components/Carousel.astro';
 import StatsDigits from '../components/StatsDigits.astro';
+import CategoryIcon from '../components/CategoryIcon.astro';
 import Banner from '../components/Banner.astro';
 import LeadForm from '../components/LeadForm.astro';
 import QuestionForm from '../components/QuestionForm.astro';
@@ -55,10 +56,10 @@ const tenDown = (n: number) => `${Math.max(10, Math.floor(n / 10) * 10)}+`;
 const catCount = (pred: (s: string) => boolean) => all.filter((p) => pred(catSlug(p))).length;
 const firstPresent = (slugs: string[]) => slugs.find((s) => all.some((p) => catSlug(p) === s));
 const tiles = [
-  { icon: '🧠', name: 'AI-сервисы', href: '/catalog/ai', note: 'ChatGPT, Claude, Copilot, Midjourney', count: catCount((s) => s.startsWith('ai')) },
-  { icon: '🎨', name: 'Дизайн и графика', href: `/catalog/${firstPresent(['design', 'graphics-design']) || 'design'}`, note: 'Figma, Adobe, Canva, CorelDRAW', count: catCount((s) => ['design', 'graphics-design'].includes(s)) },
-  { icon: '💻', name: 'Разработка', href: `/catalog/${firstPresent(['developer-tools', 'development']) || 'development'}`, note: 'JetBrains, Unity, Unreal', count: catCount((s) => ['developer-tools', 'development'].includes(s)) },
-  { icon: '🎬', name: 'Видео и медиа', href: `/catalog/${firstPresent(['media']) || 'media'}`, note: 'DaVinci, Avid, Runway', count: catCount((s) => s === 'media') },
+  { icon: 'ai', name: 'AI-сервисы', href: '/catalog/ai', note: 'ChatGPT, Claude, Copilot, Midjourney', count: catCount((s) => s.startsWith('ai')) },
+  { icon: 'design', name: 'Дизайн и графика', href: `/catalog/${firstPresent(['design', 'graphics-design']) || 'design'}`, note: 'Figma, Adobe, Canva, CorelDRAW', count: catCount((s) => ['design', 'graphics-design'].includes(s)) },
+  { icon: 'develop', name: 'Разработка', href: `/catalog/${firstPresent(['developer-tools', 'development']) || 'development'}`, note: 'JetBrains, Unity, Unreal', count: catCount((s) => ['developer-tools', 'development'].includes(s)) },
+  { icon: 'video', name: 'Видео и медиа', href: `/catalog/${firstPresent(['media']) || 'media'}`, note: 'DaVinci, Avid, Runway', count: catCount((s) => s === 'media') },
 ].filter((t) => t.count > 0);
 
 // Кураторский список бестселлеров (slug'и подтверждены в БД).
@@ -102,10 +103,10 @@ const steps = [
 ];
 
 const docBadges = [
-  { icon: '📄', t: 'Договор поставки', d: 'на ООО или ИП' },
-  { icon: '🧾', t: 'Счёт в рублях', d: 'по курсу ЦБ на дату счёта' },
-  { icon: '✅', t: 'Закрывающие через ЭДО', d: 'акты и УПД' },
-  { icon: '🛡️', t: seller.shortName, d: `ИНН ${seller.inn} · с 2022 года` },
+  { icon: 'office', t: 'Договор поставки', d: 'на ООО или ИП' },
+  { icon: 'документ', t: 'Счёт в рублях', d: 'по курсу ЦБ на дату счёта' },
+  { icon: 'security', t: 'Закрывающие через ЭДО', d: 'акты и УПД' },
+  { icon: 'защит', t: seller.shortName, d: `ИНН ${seller.inn} · с 2022 года` },
 ];
 
 const cases = [
@@ -228,7 +229,7 @@ const servicesItemList = {
       <div class="cat-tiles">
         {tiles.map((t) => (
           <a href={t.href} class="card card-hover cat-tile" data-goal="home_category">
-            <span class="cat-ico" aria-hidden="true">{t.icon}</span>
+            <span class="cat-ico" aria-hidden="true"><CategoryIcon slug={t.icon} name={t.name} size={34} /></span>
             <b>{t.name}</b>
             <span class="cat-note">{t.count} {t.count % 10 === 1 && t.count % 100 !== 11 ? 'товар' : [2, 3, 4].includes(t.count % 10) && ![12, 13, 14].includes(t.count % 100) ? 'товара' : 'товаров'} · {t.note}</span>
           </a>
@@ -323,7 +324,7 @@ const servicesItemList = {
     <div class="doc-grid">
       {docBadges.map((d) => (
         <div class="card doc-card">
-          <span class="doc-ico" aria-hidden="true">{d.icon}</span>
+          <span class="doc-ico" aria-hidden="true"><CategoryIcon slug={d.icon} name={d.t} size={24} /></span>
           <div><b>{d.t}</b><span>{d.d}</span></div>
         </div>
       ))}
@@ -441,7 +442,11 @@ const servicesItemList = {
   /* Категории */
   .cat-tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 1rem; }
   .cat-tile { padding: 1.3rem 1.4rem; display: flex; flex-direction: column; gap: 0.3rem; }
-  .cat-ico { font-size: 1.5rem; }
+  .cat-ico {
+    width: 64px; height: 64px; border-radius: 16px;
+    display: inline-flex; align-items: center; justify-content: center;
+    background: var(--color-accent-soft); color: var(--color-accent);
+  }
   .cat-tile b { font-size: 1.05rem; color: var(--color-text); }
   .cat-note { color: var(--color-text-muted); font-size: 0.85rem; }
 
@@ -477,7 +482,11 @@ const servicesItemList = {
   /* Оформление для юрлиц */
   .doc-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 1rem; }
   .doc-card { padding: 1.1rem 1.3rem; display: flex; gap: 0.85rem; align-items: center; }
-  .doc-ico { font-size: 1.4rem; }
+  .doc-ico {
+    width: 44px; height: 44px; border-radius: 12px; flex-shrink: 0;
+    display: inline-flex; align-items: center; justify-content: center;
+    background: var(--color-accent-soft); color: var(--color-accent);
+  }
   .doc-card b { display: block; font-size: 0.95rem; }
   .doc-card span { color: var(--color-text-muted); font-size: 0.82rem; }
 
