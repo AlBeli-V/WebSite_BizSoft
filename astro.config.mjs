@@ -14,7 +14,21 @@ export default defineConfig({
   trailingSlash: 'never',
   adapter: node({ mode: 'standalone' }),
   vite: {
-    plugins: [tailwindcss()],
+    plugins: [
+      tailwindcss(),
+      // Inter (self-host, @fontsource): font-display swap → optional.
+      // optional не делает своп после первой отрисовки: первый визит идёт на
+      // метрически подогнанном фолбэке (Inter-fallback в global.css), шрифт
+      // докачивается в кэш и работает со следующей страницы. Итог: CLS = 0.
+      {
+        name: 'inter-font-display-optional',
+        transform(code, id) {
+          if (id.includes('@fontsource/inter') && id.endsWith('.css')) {
+            return code.replaceAll('font-display: swap;', 'font-display: optional;');
+          }
+        },
+      },
+    ],
     // pdfkit подтягивает шрифты/потоки — оставляем его внешним для Node.
     ssr: { external: ['pdfkit', 'nodemailer', 'xlsx'] },
   },
