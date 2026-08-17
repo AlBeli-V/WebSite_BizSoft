@@ -1,0 +1,89 @@
+# Настройка почтовых уведомлений о заявках (MANAGER_EMAIL) на сервере.
+# Запуск вручную: apply=false — только диагностика (конфиг + логи);
+# apply=true — установить MANAGER_EMAIL, пересоздать astro и отправить
+# тестовую заявку (появится в Leads, её можно удалить).
+# Секреты не печатаются (SMTP_PASS показывается как задан/не задан).
+
+name: ops-mail
+
+on:
+  workflow_dispatch:
+    inputs:
+      apply:
+        description: "true — применить; false — только диагностика"
+        required: true
+        default: "false"
+      manager_email:
+        description: "Куда слать уведомления о заявках"
+        required: true
+        default: "hello@biz-soft.pro"
+
+jobs:
+  mail:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Diagnose / apply on server
+        uses: appleboy/ssh-action@v1
+        env:
+          APPLY: ${{ inputs.apply }}
+          NEW_EMAIL: ${{ inputs.manager_email }}
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          envs: APPLY,NEW_EMAIL
+          script: |
+            set -e
+            export APPLY NEW_EMAIL
+            ENVF=/opt/bizsoft/astro.env
+
+            echo "== Почтовая конфигурация (пароль скрыт) =="
+            python3 - <<'PY'
+            keys = ['SMTP_HOST', 'SMTP_PORT', 'SMTP_SECURE', 'SMTP_USER', 'SMTP_FROM', 'SMTP_FROM_SALES', 'MANAGER_EMAIL']
+            env = {}
+            for line in open('/opt/bizsoft/astro.env'):
+                line = line.strip()
+                if not line or line.startswith('#') or '=' not in line:
+                    continue
+                k, v = line.split('=', 1)
+                env[k.strip()] = v.strip().strip('"')
+            for k in keys:
+                print(f'{k} = {env.get(k, "— не задан —")}')
+            print('SMTP_PASS =', 'задан' if env.get('SMTP_PASS') else '— НЕ ЗАДАН —')
+            PY
+
+            echo
+            echo "== Последние строки логов почты =="
+            cd /opt/bizsoft
+            docker compose logs --tail 500 astro 2>/dev/null | grep -iE 'mailer|lead mail|quote mail' | tail -25 || echo "(строк mailer в логах нет)"
+
+            if [ "$APPLY" = "true" ]; then
+              echo
+              echo "== Применяю: MANAGER_EMAIL=$NEW_EMAIL =="
+              cp "$ENVF" "$ENVF.bak-$(date +%Y%m%d-%H%M%S)"
+              if grep -q '^MANAGER_EMAIL=' "$ENVF"; then
+                sed -i "s|^MANAGER_EMAIL=.*|MANAGER_EMAIL=$NEW_EMAIL|" "$ENVF"
+              else
+                printf '\nMANAGER_EMAIL=%s\n' "$NEW_EMAIL" >> "$ENVF"
+              fi
+              grep '^MANAGER_EMAIL=' "$ENVF"
+
+              echo "-- пересоздаю astro (env_file подхватывается только при пересоздании) --"
+              docker compose up -d --force-recreate astro
+              code=000
+              for i in $(seq 1 30); do
+                code=$(curl -s -o /dev/null -w '%{http_code}' http://127.0.0.1:3000/ || true)
+                [ "$code" = "200" ] && break
+                sleep 2
+              done
+              echo "HTTP главной после рестарта: $code"
+
+              echo "-- тестовая заявка (source=ops-mail-test, можно удалить в Leads) --"
+              curl -s -X POST http://127.0.0.1:3000/api/lead -H 'Content-Type: application/json' \
+                -d "{\"name\":\"Тест доставки почты\",\"company\":\"BizSoft (ops)\",\"email\":\"$NEW_EMAIL\",\"phone\":\"—\",\"message\":\"Тестовая заявка: проверка уведомлений на MANAGER_EMAIL после настройки. Можно удалить.\",\"consent\":true,\"source\":\"ops-mail-test\"}"
+              echo
+              sleep 5
+              echo "-- лог отправки --"
+              docker compose logs --tail 120 astro | grep -iE 'mailer|lead mail' | tail -10 || echo "(нет строк — смотрите полный лог)"
+            fi
+            echo "== Готово (apply=$APPLY) =="
