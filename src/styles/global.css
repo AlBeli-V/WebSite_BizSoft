@@ -28,7 +28,8 @@
   /* Типографика — сначала системный шрифт Apple, затем self-hosted Inter.
      'Inter-fallback' — Arial с метриками Inter (size-adjust): пока woff2 грузится,
      текст рендерится в тех же габаритах → своп шрифта не сдвигает макет (CLS 0). */
-  --font-sans: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'SF Pro Display', 'Inter', 'Inter-fallback', system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --font-sans: 'Raleway', 'Inter-fallback', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --font-display: 'Prosto One', 'Raleway', -apple-system, system-ui, sans-serif;
 
   /* Скругления — крупнее и мягче */
   --radius-sm: 10px;
@@ -92,9 +93,11 @@
   h2,
   h3,
   h4 {
-    line-height: 1.1;
-    font-weight: 600;
-    letter-spacing: -0.02em;
+    /* Дисплейный шрифт референса: Prosto One (один вес 400) */
+    font-family: var(--font-display);
+    line-height: 1.15;
+    font-weight: 400;
+    letter-spacing: 0;
     text-wrap: balance;
   }
 

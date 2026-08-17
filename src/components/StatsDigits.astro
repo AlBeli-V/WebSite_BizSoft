@@ -43,9 +43,10 @@ const { stats, title = 'Мы в цифрах' } = Astro.props;
   .digits-items { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2.6rem 2rem; }
   .digit b {
     display: block;
+    font-family: var(--font-display);
     font-size: clamp(2.6rem, 5.5vw, 4.2rem);
-    font-weight: 700;
-    letter-spacing: -0.03em;
+    font-weight: 400;
+    letter-spacing: -0.01em;
     line-height: 1;
     color: #1a1a1c;
     font-variant-numeric: tabular-nums;
