@@ -1,0 +1,74 @@
+# Отправка ежедневного SEO-отчёта (reports/seo/ГГГГ-ММ-ДД.md) на почту
+# после пуша в ветку мониторинга. Отправитель — ящик hello@biz-soft.pro
+# (SMTP reg.ru, 465/SSL), пароль — repo-секрет SMTP_PASS (тот же, что в ops-mail).
+# Ручной запуск: workflow_dispatch (шлёт последний по дате отчёт).
+
+name: seo-report-email
+
+on:
+  push:
+    branches:
+      - claude/biz-soft-rating-tracking-5rf03g
+    paths:
+      - "reports/seo/2*.md"
+      - ".github/workflows/seo-report-email.yml"
+  workflow_dispatch:
+
+jobs:
+  send:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Send latest SEO report
+        env:
+          SMTP_HOST: mail.hosting.reg.ru
+          SMTP_PORT: "465"
+          SMTP_USER: hello@biz-soft.pro
+          SMTP_PASS: ${{ secrets.SMTP_PASS }}
+          MAIL_TO: avbelyaev@biz-soft.pro
+        run: |
+          if [ -z "$SMTP_PASS" ]; then
+            echo "::error::Repo-секрет SMTP_PASS не задан (Settings → Secrets and variables → Actions) — письмо не отправлено."
+            exit 1
+          fi
+          python3 - <<'PY'
+          import glob, os, smtplib, ssl
+          from email.message import EmailMessage
+          from email.utils import formatdate
+
+          reports = sorted(glob.glob('reports/seo/2*.md'))
+          if not reports:
+              raise SystemExit('Нет файлов отчётов reports/seo/2*.md')
+          path = reports[-1]
+          date = os.path.basename(path)[:-3]
+          body = open(path, encoding='utf-8').read()
+
+          msg = EmailMessage()
+          msg['Subject'] = f'SEO-отчёт biz-soft.pro — {date}'
+          msg['From'] = f'BIZSoft SEO-мониторинг <{os.environ["SMTP_USER"]}>'
+          msg['To'] = os.environ['MAIL_TO']
+          msg['Date'] = formatdate(localtime=True)
+          msg.set_content(
+              body + '\n\n—\nАвтоматический отчёт SEO-мониторинга. '
+              'История: reports/seo/ в ветке claude/biz-soft-rating-tracking-5rf03g.'
+          )
+          msg.add_attachment(
+              body.encode('utf-8'), maintype='text', subtype='markdown',
+              filename=os.path.basename(path),
+          )
+
+          host, port = os.environ['SMTP_HOST'], int(os.environ['SMTP_PORT'])
+          try:
+              with smtplib.SMTP_SSL(host, port, context=ssl.create_default_context(), timeout=60) as s:
+                  s.login(os.environ['SMTP_USER'], os.environ['SMTP_PASS'])
+                  s.send_message(msg)
+          except (smtplib.SMTPException, OSError) as e:
+              # Фолбэк: 587 + STARTTLS, если 465 недоступен
+              print(f'465/SSL не сработал ({e}), пробую 587/STARTTLS')
+              with smtplib.SMTP(host, 587, timeout=60) as s:
+                  s.starttls(context=ssl.create_default_context())
+                  s.login(os.environ['SMTP_USER'], os.environ['SMTP_PASS'])
+                  s.send_message(msg)
+          print(f'Отчёт {path} отправлен на {os.environ["MAIL_TO"]}')
+          PY
