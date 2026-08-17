@@ -25,8 +25,10 @@
   --color-success: #1a8f4c;
   --color-danger: #d92d20;
 
-  /* Типографика — сначала системный шрифт Apple, затем Inter как fallback */
-  --font-sans: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'SF Pro Display', 'Inter', system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  /* Типографика — сначала системный шрифт Apple, затем self-hosted Inter.
+     'Inter-fallback' — Arial с метриками Inter (size-adjust): пока woff2 грузится,
+     текст рендерится в тех же габаритах → своп шрифта не сдвигает макет (CLS 0). */
+  --font-sans: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'SF Pro Display', 'Inter', 'Inter-fallback', system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
 
   /* Скругления — крупнее и мягче */
   --radius-sm: 10px;
@@ -43,7 +45,18 @@
 }
 
 @layer base {
-  :root {
+  /* Метрический фолбэк для Inter: Arial, подогнанный size-adjust'ом под метрики
+   Inter — своп веб-шрифта происходит без сдвига макета (защита CLS). */
+@font-face {
+  font-family: 'Inter-fallback';
+  src: local('Arial');
+  size-adjust: 107%;
+  ascent-override: 90.44%;
+  descent-override: 22.52%;
+  line-gap-override: 0%;
+}
+
+:root {
     color-scheme: light;
   }
 

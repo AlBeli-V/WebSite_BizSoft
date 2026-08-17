@@ -64,6 +64,26 @@ async function dx<T>(path: string, opts: FetchOpts = {}): Promise<T> {
   return json.data;
 }
 
+/**
+ * In-memory кэш публичных чтений каталога (TTL, по умолчанию 60 с).
+ * Каждая SSR-страница без кэша тянула из Directus весь каталог (~400 товаров
+ * со всеми SEO-полями) — кэш срезает TTFB и нагрузку на БД на порядок.
+ * Админ-чтения и записи НЕ кэшируются. Ошибки не кэшируются.
+ * Отключение: CATALOG_CACHE_TTL_MS=0.
+ */
+const CACHE_TTL_MS = Number(process.env.CATALOG_CACHE_TTL_MS ?? 60_000);
+const readCache = new Map<string, { t: number; v: unknown }>();
+async function cached<T>(key: string, fn: () => Promise<T>): Promise<T> {
+  if (!(CACHE_TTL_MS > 0)) return fn();
+  const hit = readCache.get(key);
+  if (hit && Date.now() - hit.t < CACHE_TTL_MS) return hit.v as T;
+  const v = await fn();
+  readCache.set(key, { t: Date.now(), v });
+  // страховка от разрастания (карточек ~сотни, но пусть будет предел)
+  if (readCache.size > 2000) readCache.clear();
+  return v;
+}
+
 const PRODUCT_FIELDS = [
   'id',
   'name',
@@ -124,27 +144,33 @@ export interface ProductFilter {
 
 /** Все опубликованные категории, отсортированные. */
 export async function getCategories(): Promise<Category[]> {
-  return dx<Category[]>('/items/categories', {
+  return cached('categories', () => dx<Category[]>('/items/categories', {
     params: {
       filter: JSON.stringify({ status: { _eq: 'published' } }),
       sort: 'sort,name',
       limit: -1,
     },
-  });
+  }));
 }
 
 export async function getCategoryBySlug(slug: string): Promise<Category | null> {
-  const data = await dx<Category[]>('/items/categories', {
-    params: {
-      filter: JSON.stringify({ slug: { _eq: slug }, status: { _eq: 'published' } }),
-      limit: 1,
-    },
+  return cached(`category:${slug}`, async () => {
+    const data = await dx<Category[]>('/items/categories', {
+      params: {
+        filter: JSON.stringify({ slug: { _eq: slug }, status: { _eq: 'published' } }),
+        limit: 1,
+      },
+    });
+    return data[0] ?? null;
   });
-  return data[0] ?? null;
 }
 
 /** Опубликованные товары с фильтрами (origin/категория/вендор/поиск). */
 export async function getProducts(opts: ProductFilter = {}): Promise<Product[]> {
+  return cached(`products:${JSON.stringify(opts)}`, () => fetchProducts(opts));
+}
+
+async function fetchProducts(opts: ProductFilter = {}): Promise<Product[]> {
   const and: Record<string, unknown>[] = [{ status: { _eq: 'published' } }];
   // Отечественное ПО с сайта убрано: показываем только зарубежное.
   // При явном origin используем его (кроме domestic — оно всегда исключается).
@@ -168,6 +194,10 @@ export async function getProducts(opts: ProductFilter = {}): Promise<Product[]> 
 
 /** Список вендоров (опц. в рамках происхождения) с количеством товаров. */
 export async function getVendors(origin?: 'domestic' | 'foreign'): Promise<{ vendor: string; count: number }[]> {
+  return cached(`vendors:${origin || ''}`, () => fetchVendors(origin));
+}
+
+async function fetchVendors(origin?: 'domestic' | 'foreign'): Promise<{ vendor: string; count: number }[]> {
   const filter: Record<string, unknown> = { status: { _eq: 'published' } };
   // Отечественное ПО исключено из выдачи вендоров.
   if (origin && origin !== 'domestic') filter.origin = { _eq: origin };
@@ -185,6 +215,7 @@ export async function getVendors(origin?: 'domestic' | 'foreign'): Promise<{ ven
 
 /** Если slug устарел (есть в old_slugs опубликованного товара) — вернуть актуальный slug для 301. */
 export async function findCanonicalProductSlug(oldSlug: string): Promise<string | null> {
+  return cached(`canonical:${oldSlug}`, async () => {
   const rows = await dx<{ slug: string; old_slugs?: unknown }[]>('/items/products', {
     params: { fields: 'slug,old_slugs', filter: JSON.stringify({ status: { _eq: 'published' } }), limit: -1 },
   });
@@ -192,17 +223,20 @@ export async function findCanonicalProductSlug(oldSlug: string): Promise<string 
     if (listValues(r.old_slugs).includes(oldSlug)) return r.slug;
   }
   return null;
+  });
 }
 
 export async function getProductBySlug(slug: string): Promise<Product | null> {
-  const data = await dx<Product[]>('/items/products', {
-    params: {
-      fields: PRODUCT_FIELDS,
-      filter: JSON.stringify({ slug: { _eq: slug }, status: { _eq: 'published' } }),
-      limit: 1,
-    },
+  return cached(`product:${slug}`, async () => {
+    const data = await dx<Product[]>('/items/products', {
+      params: {
+        fields: PRODUCT_FIELDS,
+        filter: JSON.stringify({ slug: { _eq: slug }, status: { _eq: 'published' } }),
+        limit: 1,
+      },
+    });
+    return data[0] ?? null;
   });
-  return data[0] ?? null;
 }
 
 /** Товары по списку sku (для пересчёта корзины на сервере при генерации КП). */
@@ -220,13 +254,13 @@ export async function getProductsBySkus(skus: string[]): Promise<Product[]> {
 /** Опубликованные товары по списку slug (для блоков «связанные товары»). */
 export async function getProductsBySlugs(slugs: string[]): Promise<Product[]> {
   if (!slugs.length) return [];
-  return dx<Product[]>('/items/products', {
+  return cached(`slugs:${[...slugs].sort().join(',')}`, () => dx<Product[]>('/items/products', {
     params: {
       fields: 'id,name,slug,vendor,origin,short_description,price,promo_price,promo_start,promo_end,currency,license_type,image',
       filter: JSON.stringify({ slug: { _in: slugs }, status: { _eq: 'published' } }),
       limit: -1,
     },
-  });
+  }));
 }
 
 /** Все товары для инструментов цен (любой статус) — требует токен. */

@@ -403,7 +403,9 @@ const servicesItemList = {
   .hero-badges li { position: relative; padding-left: 1.1rem; }
   .hero-badges li::before { content: '●'; position: absolute; left: 0; color: var(--color-accent); font-size: 0.6rem; top: 0.35em; }
   .hero-glow {
-    position: absolute; top: -30%; right: -10%; width: 60%; height: 120%;
+    /* Абсолютные размеры (не % от секции): высота hero меняется при загрузке
+       шрифта, и %-геометрия свечения давала layout shift (CLS). */
+    position: absolute; top: -160px; right: -120px; width: min(640px, 70vw); height: 640px;
     background: radial-gradient(circle, color-mix(in srgb, var(--color-accent) 10%, transparent), transparent 62%);
     filter: blur(60px); z-index: 0; pointer-events: none;
   }
