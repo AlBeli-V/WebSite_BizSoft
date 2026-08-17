@@ -17,14 +17,14 @@ const key = `${slug} ${name}`.toLowerCase();
 
 type Icon = 'design' | 'dev' | 'ai' | 'media' | 'collab' | 'office' | 'comm' | 'security' | 'os' | 'default';
 function pick(): Icon {
-  if (/(design|graphic|дизайн|график|вектор|фото|иллюстрац)/.test(key)) return 'design';
-  if (/(develop|code|ide|разработ|программир|devops)/.test(key)) return 'dev';
+  if (/(design|graphic|дизайн|график|вектор|фото|иллюстрац|изображ|image)/.test(key)) return 'design';
+  if (/(develop|code|\bide\b|разработ|программир|devops)/.test(key)) return 'dev';
   if (/(\bai\b|ии|нейро|gpt|генератив|artificial)/.test(key)) return 'ai';
   if (/(media|video|audio|звук|видео|медиа|монтаж|3d|vfx|анимац)/.test(key)) return 'media';
   if (/(collab|board|доск|совмест|whiteboard|коллаборац)/.test(key)) return 'collab';
   if (/(office|офис|документ|таблиц|презентац)/.test(key)) return 'office';
-  if (/(communicat|вкс|связь|конференц|meeting|звонк|телефон)/.test(key)) return 'comm';
-  if (/(security|безопас|антивир|защит|vpn)/.test(key)) return 'security';
+  if (/(communicat|вкс|связь|конференц|meeting|звонк|телефон|маркет|marketing)/.test(key)) return 'comm';
+  if (/(security|безопас|антивир|защит|vpn|enterprise|корпоратив)/.test(key)) return 'security';
   if (/(\bos\b|операцион|система)/.test(key)) return 'os';
   return 'default';
 }

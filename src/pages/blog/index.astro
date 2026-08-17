@@ -1,5 +1,6 @@
 ---
 import { getCollection } from 'astro:content';
+import HeroSteps from '../../components/HeroSteps.astro';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import CTASection from '../../components/CTASection.astro';
@@ -15,9 +16,12 @@ function fmtDate(d: Date) {
 <BaseLayout title="База знаний" description="База знаний BizSoft: как покупать ПО для юрлиц, оформлять договор и закрывающие документы, считать стоимость подписок.">
   <div class="container-page section">
     <Breadcrumbs items={[{ name: 'База знаний', url: '/blog' }]} />
-    <header class="head">
+    <header class="head hero-cols">
+      <div>
       <h1>База знаний</h1>
       <p class="lead">Разбираем, как российским компаниям легально покупать ПО, оформлять документы и считать стоимость.</p>
+    </div>
+      <HeroSteps />
     </header>
 
     <div class="posts">

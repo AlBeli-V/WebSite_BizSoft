@@ -1,24 +1,26 @@
 ---
 /**
- * Фирменный логотип BIZSoft — ЕДИНОЕ НЕИЗМЕНЯЕМОЕ ИЗОБРАЖЕНИЕ
- * public/brand/bizsoft-logo-primary-transparent.png (1140×350, 114:35).
+ * Фирменный логотип BIZSoft — перекомпонованный лок-ап из фрагментов
+ * оригинального файла бренда (без перерисовки элементов):
+ * знак уменьшен и выровнен по высоте с блоком «BIZSoft + BUSINESS
+ * INTEGRATION ZONE», слоган «Единая точка доступа к ПО и AI-сервисам»
+ * растянут во всю ширину лок-апа снизу (крупный и читаемый).
  *
- * По брендбуку (docs: CLAUDE_TASK.md) логотип НЕЛЬЗЯ перерисовывать
- * HTML/CSS/SVG-средствами, набирать текстом или обрезать — допускается
- * только пропорциональное масштабирование: меняем width, height всегда auto.
+ * Файл: public/brand/bizsoft-logo-lockup.png (1962×648 @2x).
+ * Масштабирование только пропорциональное: CSS width + height:auto.
  */
 interface Props {
-  /** header — крупный, на две строки шапки; footer — компактнее. */
+  /** header — в шапке (занимает обе строки); footer — компактнее. */
   variant?: 'header' | 'footer';
 }
 const { variant = 'header' } = Astro.props;
 ---
 <img
   class:list={['bizsoft-logo', variant]}
-  src="/brand/bizsoft-logo-primary-transparent.png"
-  width="1140"
-  height="350"
-  alt="BIZSoft — Business Integration Zone"
+  src="/brand/bizsoft-logo-lockup.png"
+  width="1962"
+  height="648"
+  alt="BIZSoft — Business Integration Zone. Единая точка доступа к ПО и AI-сервисам"
 />
 
 <style>
@@ -30,5 +32,5 @@ const { variant = 'header' } = Astro.props;
   /* Ширина в шапке задаётся ячейкой .wordmark (фикс. ширина — иначе
      процент в auto-треке грида зацикливается и раздувает колонку). */
   .header { width: 100%; }
-  .footer { width: min(252px, 100%); }
+  .footer { width: min(236px, 100%); }
 </style>

@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import HeroSteps from '../components/HeroSteps.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
 import CTASection from '../components/CTASection.astro';
 import { seller } from '../config/site';
@@ -14,9 +15,12 @@ const docs = [
 <BaseLayout title="Документы и реквизиты" description="Договор, счёт, закрывающие документы через ЭДО и реквизиты продавца BizSoft (ИП Беляев А.В.). Полный пакет для бухгалтерии юрлица.">
   <div class="container-page section">
     <Breadcrumbs items={[{ name: 'Документы', url: '/documents' }]} />
-    <header class="head">
+    <header class="head hero-cols">
+      <div>
       <h1>Документы и реквизиты</h1>
       <p class="lead">Работаем по договору с полным пакетом документов. Образец договора и оферту предоставляем по запросу.</p>
+    </div>
+      <HeroSteps />
     </header>
 
     <div class="docs">

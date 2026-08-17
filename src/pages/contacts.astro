@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import HeroSteps from '../components/HeroSteps.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
 import LeadForm from '../components/LeadForm.astro';
 import JsonLd from '../components/JsonLd.astro';
@@ -10,9 +11,12 @@ import { seller } from '../config/site';
   <JsonLd schema={localBusinessSchema()} />
   <div class="container-page section">
     <Breadcrumbs items={[{ name: 'Контакты', url: '/contacts' }]} />
-    <header class="head">
+    <header class="head hero-cols">
+      <div>
       <h1>Контакты</h1>
       <p class="lead">Напишите или позвоните удобным способом. Ответим в рабочее время и поможем с выбором сервисов и оформлением.</p>
+    </div>
+      <HeroSteps />
     </header>
 
     <div class="grid">

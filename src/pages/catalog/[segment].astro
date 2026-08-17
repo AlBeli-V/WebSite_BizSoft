@@ -2,6 +2,7 @@
 export const prerender = false;
 
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import CategoryIcon from '../../components/CategoryIcon.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import ProductCard from '../../components/ProductCard.astro';
 import FAQ from '../../components/FAQ.astro';
@@ -138,7 +139,7 @@ if (isAi) {
       <nav class="ai-subs" aria-label="Категории AI-сервисов">
         {aiSubcategories.map((s) => (
           <a href={`/catalog/ai/${s.sub}`} class="card card-hover ai-sub">
-            <span class="ai-ico">{s.icon}</span>
+            <span class="ai-ico"><CategoryIcon slug={s.sub} name={s.name} size={48} /></span>
             <span class="ai-name">{s.name}</span>
             <span class="ai-desc">{s.short}</span>
           </a>
@@ -260,8 +261,14 @@ if (isAi) {
   .ai-chip { display: inline-block; padding: 0.45rem 0.9rem; border: 1px solid var(--color-border-strong); border-radius: 999px; background: var(--color-bg-elevated); color: var(--color-text); font-size: 0.88rem; font-weight: 600; transition: border-color 0.15s, color 0.15s; }
   .ai-chip:hover { border-color: var(--color-accent); color: var(--color-accent); }
   .ai-subs { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 0.9rem; margin-bottom: 2rem; }
-  .ai-sub { display: flex; flex-direction: column; gap: 0.3rem; padding: 1.1rem 1.2rem; }
-  .ai-ico { font-size: 1.5rem; }
+  .ai-sub { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 0.45rem; padding: 1.6rem 1.2rem 1.4rem; }
+  /* Единая инфографика с /catalog: крупная линейная иконка в акцентном чипе */
+  .ai-ico {
+    width: 76px; height: 76px; border-radius: 19px;
+    display: inline-flex; align-items: center; justify-content: center;
+    background: var(--color-accent-soft); color: var(--color-accent);
+    margin-bottom: 0.25rem;
+  }
   .ai-name { font-weight: 700; color: var(--color-text); }
   .ai-desc { font-size: 0.85rem; color: var(--color-text-muted); }
   .ai-links { display: grid; grid-template-columns: 1fr 1fr; gap: 1.6rem; margin-top: 2.4rem; }
