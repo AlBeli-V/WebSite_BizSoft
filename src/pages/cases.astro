@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import HeroSteps from '../components/HeroSteps.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
 import CTASection from '../components/CTASection.astro';
 
@@ -13,9 +14,12 @@ const cases = [
 <BaseLayout title="Кейсы" description="Примеры поставок ПО для российских компаний через BizSoft: задача, решение и результат. Договор, счёт, ЭДО.">
   <div class="container-page section">
     <Breadcrumbs items={[{ name: 'Кейсы', url: '/cases' }]} />
-    <header class="head">
+    <header class="head hero-cols">
+      <div>
       <h1>Кейсы</h1>
       <p class="lead">Как мы помогаем компаниям получить нужное ПО легально и в срок. Ниже — типовые примеры.</p>
+    </div>
+      <HeroSteps />
     </header>
     <div class="cases">
       {cases.map((c) => (

@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import HeroSteps from '../components/HeroSteps.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
 import FAQ from '../components/FAQ.astro';
 import CTASection from '../components/CTASection.astro';
@@ -23,9 +24,12 @@ const faq = [
 <BaseLayout title="Как мы работаем" description="Процесс работы BizSoft: заявка → договор → счёт → оплата → поставка → ЭДО → гарантии. Прозрачно и по закону для юрлиц РФ.">
   <div class="container-page section">
     <Breadcrumbs items={[{ name: 'Как мы работаем', url: '/how-we-work' }]} />
-    <header class="head">
+    <header class="head hero-cols">
+      <div>
       <h1>Как мы работаем</h1>
       <p class="lead">От заявки до закрывающих документов. Каждый шаг оформлен: вы получаете легальный доступ и пакет документов для бухгалтерии.</p>
+    </div>
+      <HeroSteps />
     </header>
     <ol class="steps">
       {steps.map((s) => (

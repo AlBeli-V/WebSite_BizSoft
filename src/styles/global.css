@@ -257,3 +257,16 @@
     background: var(--color-bg-elevated);
   }
 }
+
+/* Герой в две колонки (вариант A): текст слева + инфографика шагов справа.
+   max-width переопределяет узкие .head страниц (утилита сильнее скоупа). */
+.hero-cols {
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  gap: clamp(2rem, 4vw, 3.5rem);
+  align-items: center;
+  max-width: none !important;
+}
+@media (max-width: 960px) {
+  .hero-cols { grid-template-columns: 1fr; }
+}

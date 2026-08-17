@@ -4,6 +4,7 @@ export const prerender = false;
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import CatalogTabs from '../../components/CatalogTabs.astro';
+import HeroSteps from '../../components/HeroSteps.astro';
 import CTASection from '../../components/CTASection.astro';
 import QuestionForm from '../../components/QuestionForm.astro';
 import JsonLd from '../../components/JsonLd.astro';
@@ -62,7 +63,7 @@ const items = rows.map((r) => {
     slug,
     letter,
     top: TOP.has(slug),
-    href: landingSlugs.has(slug) ? `/vendors/${slug}` : `/catalog?q=${encodeURIComponent(r.vendor)}`,
+    href: `/vendors/${slug}`,
     logo: dual?.main ?? logoFile(slug),
     prevLogo: dual?.prev ?? null,
   };
@@ -96,8 +97,13 @@ const ld = [
   <JsonLd schema={ld} />
   <div class="container-page section">
     <Breadcrumbs items={crumbs} />
-    <h1>Каталог (ПО) программного обеспечения и web&#8209;сервисов</h1>
-    <p class="lead">В каталоге представлены вендоры, чьи подписки мы подключаем в интересах российских компаний: бессрочные лицензии, годовые подписки, API-ключи и токены пополнения балансов.</p>
+    <div class="hero-cols v-hero">
+      <div>
+        <h1>Каталог (ПО) программного обеспечения и web&#8209;сервисов</h1>
+        <p class="lead">В каталоге представлены вендоры, чьи подписки мы подключаем в интересах российских компаний: бессрочные лицензии, годовые подписки, API-ключи и токены пополнения балансов.</p>
+      </div>
+      <HeroSteps />
+    </div>
 
     <CatalogTabs active="vendors" />
 
@@ -150,7 +156,8 @@ const ld = [
 <style>
   .section { padding: 2rem 0 4rem; }
   h1 { font-size: clamp(1.8rem, 4vw, 2.6rem); margin-bottom: 0.6rem; }
-  .lead { color: var(--color-text-muted); margin-bottom: 1.4rem; max-width: 70ch; }
+  .lead { color: var(--color-text-muted); max-width: 70ch; }
+  .v-hero { margin-bottom: 1.6rem; }
   /* Алфавит: на десктопе строго в одну строку (буквы ужимаются),
      на мобильных допускается перенос. */
   .alpha { display: flex; flex-wrap: wrap; align-items: center; gap: 0.35rem; padding: 0.9rem 1.1rem; margin-bottom: 1.6rem; }

@@ -4,23 +4,46 @@ export const prerender = false;
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import ScaffoldPage from '../../components/ScaffoldPage.astro';
 import VendorLanding from '../../components/VendorLanding.astro';
+import VendorGenericLanding from '../../components/VendorGenericLanding.astro';
 import { vendorBySlug } from '../../data/vendors';
 import { vendors as scaffoldVendors } from '../../data/scaffold';
+import { getVendors } from '../../lib/directus';
+import { vendorSlug } from '../../lib/vendor-links';
 
 const { slug } = Astro.params;
 const entry = slug ? vendorBySlug(slug) : undefined;
 const scaffold = !entry && slug ? scaffoldVendors.find((v) => v.slug === slug) : undefined;
-if (!entry && !scaffold) return new Response(null, { status: 404 });
+
+// Типовой лендинг для вендоров каталога без bespoke-страницы (эталон — /vendors/jetbrains).
+let live: { vendor: string; count: number } | undefined;
+if (!entry && !scaffold && slug) {
+  try {
+    live = (await getVendors()).find((r) => vendorSlug(r.vendor) === slug);
+  } catch (e) {
+    console.error('vendor fallback error', e);
+  }
+}
+if (!entry && !scaffold && !live) return new Response(null, { status: 404 });
 
 const vTitle = entry ? (entry.title || entry.vendor) : '';
 const title = entry ? `Купить ${vTitle} для юрлица — тарифы, счёт и КП` : '';
 const description = entry
   ? `${vTitle} для юридических лиц: ${entry.tagline} Оформление по договору и счёту, оплата в рублях, закрывающие документы через ЭДО.`
   : '';
+const liveName = live ? (live.vendor.match(/^(.+?)\s*\(/)?.[1] ?? live.vendor) : '';
 ---
 {entry ? (
   <BaseLayout title={title} description={description} type="website" canonical={`/vendors/${entry.slug}`}>
     <VendorLanding entry={entry} />
+  </BaseLayout>
+) : live ? (
+  <BaseLayout
+    title={`Купить ${liveName} для юрлица — тарифы, счёт и КП`}
+    description={`${liveName} для юридических лиц: годовые подписки и лицензии по договору и счёту в рублях, закрывающие документы через ЭДО. Расчёт и КП за 1 день.`}
+    type="website"
+    canonical={`/vendors/${slug}`}
+  >
+    <VendorGenericLanding vendor={live.vendor} slug={slug!} />
   </BaseLayout>
 ) : (
   <ScaffoldPage

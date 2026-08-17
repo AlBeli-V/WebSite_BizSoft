@@ -1,0 +1,140 @@
+---
+/**
+ * Типовой лендинг производителя (для вендоров без bespoke-страницы).
+ * Структура по эталону /vendors/jetbrains: герой с выгодами, «Коротко»,
+ * тарифы из каталога, FAQ, JSON-LD (Breadcrumb/CollectionPage/FAQ), CTA.
+ */
+import Breadcrumbs from './Breadcrumbs.astro';
+import HeroSteps from './HeroSteps.astro';
+import ProductCard from './ProductCard.astro';
+import FAQ from './FAQ.astro';
+import CTASection from './CTASection.astro';
+import QuestionForm from './QuestionForm.astro';
+import JsonLd from './JsonLd.astro';
+import { getProducts } from '../lib/directus';
+import { logoFile } from '../data/logos';
+import { vendorLegal } from '../lib/catalog';
+import { site } from '../config/site';
+import { breadcrumbSchema } from '../lib/seo';
+
+interface Props {
+  /** Имя вендора как в Directus (может содержать «Новое (прежнее)»). */
+  vendor: string;
+  slug: string;
+}
+const { vendor, slug } = Astro.props;
+
+const renamed = vendor.match(/^(.+?)\s*\((.+)\)$/);
+const name = renamed ? renamed[1] : vendor;
+const prevName = renamed ? renamed[2] : null;
+const logo = slug === 'freepik' ? '/brand-logos/magnific-logo.svg' : logoFile(slug);
+const legal = vendorLegal(vendor);
+
+let products = [];
+try {
+  products = await getProducts({ vendor });
+} catch (e) {
+  console.error('vendor landing products error', e);
+}
+
+const plural = (n: number) => (n % 10 === 1 && n % 100 !== 11 ? 'позиция' : [2, 3, 4].includes(n % 10) && ![12, 13, 14].includes(n % 100) ? 'позиции' : 'позиций');
+
+const summary = `BIZSoft оформляет ${name}${prevName ? ` (ранее ${prevName})` : ''} для российских юридических лиц и ИП: ${products.length ? `в каталоге ${products.length} ${plural(products.length)} — годовые подписки и лицензии` : 'подберём тариф под задачу'}. Заключаем договор, выставляем счёт в рублях, после оплаты передаём доступ и закрывающие документы через ЭДО.`;
+
+const faq = [
+  { q: `Как купить ${name} на юридическое лицо?`, a: `Выберите тариф ${name} из списка ниже или запросите КП. Мы заключаем договор, выставляем счёт в рублях; после оплаты предоставляем доступ и передаём закрывающие документы через ЭДО.` },
+  { q: `Можно ли оплатить ${name} без зарубежной карты?`, a: `Да. Оплату вендору берём на себя: где принимается карта — оплачиваем сами, где нужна оплата с зарубежного счёта — закупаем через счёт нашей зарубежной компании. Вы платите в рублях по договору.` },
+  { q: `Какие документы вы предоставляете?`, a: `Договор, счёт, акт и закрывающие документы через ЭДО — полный комплект для бухгалтерии российского юрлица.` },
+  { q: `Сколько занимает оформление ${name}?`, a: `КП и счёт готовим в течение 1 рабочего дня. Доступ передаём сразу после зачисления оплаты — обычно 1–3 рабочих дня на весь цикл.` },
+];
+
+const crumbs = [{ name: 'Каталог', url: '/catalog' }, { name: 'Производители', url: '/vendors' }, { name, url: `/vendors/${slug}` }];
+const ld = [
+  breadcrumbSchema(crumbs),
+  {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name: `${name} для юридических лиц — тарифы и оформление`,
+    url: `${site.url}/vendors/${slug}`,
+    mainEntity: {
+      '@type': 'ItemList',
+      itemListElement: products.slice(0, 30).map((p, i) => ({ '@type': 'ListItem', position: i + 1, name: p.name, url: `${site.url}/product/${p.slug}` })),
+    },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
+  },
+];
+---
+<JsonLd schema={ld} />
+<div class="container-page section">
+  <Breadcrumbs items={crumbs} />
+
+  <header class="hero-cols v-hero">
+    <div>
+      <div class="v-brand">
+        {logo && <img src={logo} alt={`Логотип ${name} — ПО ${name} для юрлица`} width="44" height="44" loading="eager" />}
+        <span>{name}{prevName && <em> (ранее {prevName})</em>}</span>
+        {legal !== vendor && <small>{legal}</small>}
+      </div>
+      <h1>{name} для юридических лиц: тарифы и оформление через BIZSoft</h1>
+      <p class="lead">
+        Подберите и оформите {name} на компанию: договор, счёт в рублях, оплата вендору с нашей стороны
+        и закрывающие документы через ЭДО.
+      </p>
+      <ul class="v-chips">
+        <li>Для юрлиц и ИП</li>
+        <li>КП и счёт за 1 день</li>
+        <li>Договор и закрывающие</li>
+      </ul>
+      <div class="v-actions">
+        <button class="btn btn-primary" data-open-question data-product={name}>Получить расчёт и КП</button>
+        <a href="/vendors" class="btn btn-ghost">Все производители</a>
+      </div>
+    </div>
+    <HeroSteps />
+  </header>
+
+  <div class="summary"><strong>Коротко:</strong> {summary}</div>
+
+  {products.length > 0 && (
+    <section class="v-products">
+      <h2>Тарифы и позиции {name}</h2>
+      <div class="v-grid">
+        {products.map((p) => <ProductCard product={p} />)}
+      </div>
+    </section>
+  )}
+
+  <FAQ items={faq} title={`Частые вопросы про ${name}`} />
+</div>
+<CTASection
+  title={`Нужен ${name} на компанию?`}
+  text="Опишите задачу и число пользователей — подберём тариф, посчитаем стоимость и подготовим КП."
+  primaryLabel="Обсудить задачу"
+  primaryHref="/contacts/"
+  secondaryLabel="Смотреть каталог"
+  secondaryHref="/catalog/"
+/>
+<QuestionForm source={`vendor-${slug}`} />
+
+<style>
+  .section { padding: 2rem 0 1rem; }
+  .v-hero { margin: 1rem 0 2rem; }
+  .v-brand { display: flex; align-items: center; gap: 0.65rem; margin-bottom: 1rem; flex-wrap: wrap; }
+  .v-brand img { width: 44px; height: 44px; object-fit: contain; border-radius: 10px; }
+  .v-brand span { font-weight: 700; font-size: 1.05rem; }
+  .v-brand em { font-style: normal; color: var(--color-text-muted); font-weight: 500; font-size: 0.9rem; }
+  .v-brand small { color: var(--color-text-dim); font-size: 0.82rem; }
+  h1 { font-size: clamp(1.7rem, 3.8vw, 2.5rem); margin-bottom: 0.8rem; }
+  .lead { color: var(--color-text-muted); font-size: 1.05rem; max-width: 60ch; }
+  .v-chips { display: flex; gap: 0.5rem 1.3rem; list-style: none; padding: 0; margin: 1rem 0 1.3rem; flex-wrap: wrap; color: var(--color-text-muted); font-size: 0.9rem; }
+  .v-chips li { position: relative; padding-left: 1.05rem; }
+  .v-chips li::before { content: '●'; position: absolute; left: 0; color: var(--color-accent); font-size: 0.6rem; top: 0.35em; }
+  .v-actions { display: flex; gap: 0.8rem; flex-wrap: wrap; }
+  .summary { background: var(--color-bg-card); border: 1px solid var(--color-border); border-left: 3px solid var(--color-accent); border-radius: var(--radius); padding: 1rem 1.2rem; margin: 0 0 2.2rem; color: var(--color-text); }
+  .v-products h2 { font-size: clamp(1.3rem, 2.6vw, 1.7rem); margin-bottom: 1.2rem; }
+  .v-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1.2rem; }
+</style>

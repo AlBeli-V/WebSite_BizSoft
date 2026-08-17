@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import HeroSteps from '../components/HeroSteps.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
 import FAQ from '../components/FAQ.astro';
 import CTASection from '../components/CTASection.astro';
@@ -17,9 +18,12 @@ const faq = [
 <BaseLayout title="Вопросы и ответы" description="Частые вопросы о покупке ПО для юрлиц через BizSoft: договор, счёт, ЭДО, сроки поставки, стоимость и КП.">
   <div class="container-page section">
     <Breadcrumbs items={[{ name: 'FAQ', url: '/faq' }]} />
-    <header class="head">
+    <header class="head hero-cols">
+      <div>
       <h1>Частые вопросы</h1>
       <p class="lead">Коротко о том, как мы работаем, оформляем документы и считаем стоимость.</p>
+    </div>
+      <HeroSteps />
     </header>
     <FAQ items={faq} title="" />
   </div>

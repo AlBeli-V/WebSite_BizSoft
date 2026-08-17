@@ -4,6 +4,7 @@ export const prerender = false;
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import SectionHeading from '../../components/SectionHeading.astro';
+import HeroSteps from '../../components/HeroSteps.astro';
 import CatalogTabs from '../../components/CatalogTabs.astro';
 import CTASection from '../../components/CTASection.astro';
 import Carousel from '../../components/Carousel.astro';
@@ -118,7 +119,8 @@ const ld = [
 
     {!q && (<>
     <!-- HERO -->
-    <header class="cat-hero">
+    <header class="cat-hero hero-cols">
+      <div>
       <span class="eyebrow">Каталог</span>
       <h1>Зарубежное ПО и SaaS для бизнеса — <span class="accent">с оплатой и документами</span></h1>
       <p class="lead">
@@ -136,6 +138,8 @@ const ld = [
         <li>Договор, счёт и ЭДО</li>
         <li>Оплата в рублях</li>
       </ul>
+    </div>
+      <HeroSteps />
     </header>
 
     <CatalogTabs active="categories" />

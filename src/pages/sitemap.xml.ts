@@ -2,13 +2,14 @@ export const prerender = false;
 
 import type { APIRoute } from 'astro';
 import { getCollection } from 'astro:content';
-import { getCategories, getProducts } from '../lib/directus';
+import { getCategories, getProducts, getVendors } from '../lib/directus';
 import { canonicalUrl } from '../lib/seo';
 import { productNoindex } from '../lib/catalog';
 import { solutions } from '../data/solutions';
 import { comparisons } from '../data/comparisons';
 import { aiSubcategories } from '../data/ai-hub';
 import { VENDORS } from '../data/vendors';
+import { vendorSlug } from '../lib/vendor-links';
 
 // Только опубликованные индексируемые страницы. Без cart/consent/admin/api/draft/noindex.
 const STATIC_ROUTES: { path: string; priority: number; changefreq: string }[] = [
@@ -47,7 +48,22 @@ export const GET: APIRoute = async () => {
   for (const c of comparisons) entries.push(urlEntry(`/compare/${c.slug}`, 0.7, 'monthly'));
 
   // Шаблонные посадочные производителей (креативные индустрии).
-  for (const v of VENDORS) entries.push(urlEntry(`/vendors/${v.slug}`, 0.8, 'weekly'));
+  const vendorSeen = new Set<string>();
+  for (const v of VENDORS) {
+    vendorSeen.add(v.slug);
+    entries.push(urlEntry(`/vendors/${v.slug}`, 0.8, 'weekly'));
+  }
+  // Типовые лендинги для остальных вендоров каталога (живой список из БД).
+  try {
+    for (const r of await getVendors()) {
+      const s = vendorSlug(r.vendor);
+      if (vendorSeen.has(s)) continue;
+      vendorSeen.add(s);
+      entries.push(urlEntry(`/vendors/${s}`, 0.8, 'weekly'));
+    }
+  } catch (e) {
+    console.error('sitemap vendors', e);
+  }
 
   // Блог — только опубликованные (не draft), lastmod из updated/date.
   try {
