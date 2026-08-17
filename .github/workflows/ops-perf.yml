@@ -1,0 +1,48 @@
+# Замер производительности прода с сервера: TTFB, размеры, заголовки
+# сжатия/кэширования по ключевым URL. Только чтение, ничего не меняет.
+
+name: ops-perf
+
+on:
+  workflow_dispatch:
+
+jobs:
+  perf:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Measure prod TTFB and headers
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          script: |
+            set -e
+            probe() {
+              url="$1"
+              echo "── $url"
+              curl -s -o /dev/null -w "  http=%{http_version} code=%{http_code} ttfb=%{time_starttransfer}s total=%{time_total}s size=%{size_download}B\n" \
+                -H 'Accept-Encoding: gzip, br' "$url"
+              curl -s -D - -o /dev/null -H 'Accept-Encoding: gzip, br' "$url" \
+                | grep -iE '^(content-encoding|cache-control|expires|content-type|server):' | sed 's/^/  /'
+            }
+            echo "== Страницы (SSR) =="
+            probe https://biz-soft.pro/
+            probe https://biz-soft.pro/catalog/ai
+            probe https://biz-soft.pro/product/anthropic-team
+            probe https://biz-soft.pro/catalog
+            echo
+            echo "== Статика =="
+            CSS=$(curl -s https://biz-soft.pro/ | grep -o '/_astro/[^"]*\.css' | head -1)
+            [ -n "$CSS" ] && probe "https://biz-soft.pro$CSS"
+            probe https://biz-soft.pro/robots.txt
+            LOGO=$(ls /opt/bizsoft/astro-src/public/brand-logos 2>/dev/null | head -1)
+            [ -n "$LOGO" ] && probe "https://biz-soft.pro/brand-logos/$LOGO"
+            echo
+            echo "== Повторный замер / (кэш соединения) =="
+            for i in 1 2 3; do
+              curl -s -o /dev/null -w "  run$i ttfb=%{time_starttransfer}s\n" -H 'Accept-Encoding: gzip' https://biz-soft.pro/
+            done
+            echo
+            echo "== Ресурсы контейнеров =="
+            cd /opt/bizsoft && docker stats --no-stream --format '  {{.Name}}: CPU {{.CPUPerc}} MEM {{.MemUsage}}'
