@@ -52,7 +52,7 @@ export function generateQuotePdf(data: QuoteData): Promise<Buffer> {
       const width = right - left;
 
       // ── Шапка ──
-      doc.font('b').fontSize(22).fillColor(DARK).text('Biz', left, 48, { continued: true });
+      doc.font('b').fontSize(22).fillColor(DARK).text('BIZ', left, 48, { continued: true });
       doc.fillColor(ACCENT).text('Soft');
       doc.font('r').fontSize(9).fillColor(MUTED).text(site.tagline, left, 74);
 

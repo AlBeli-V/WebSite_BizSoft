@@ -1,12 +1,12 @@
 ---
 import { seller, site, mainNav, footerNav } from '../config/site';
+import SiteLogo from './SiteLogo.astro';
 const year = 2026;
 ---
 <footer class="site-footer">
   <div class="container-page footer-grid">
     <div class="footer-brand">
-      <a href="/" class="wordmark">Biz<span>Soft</span></a>
-      <p class="footer-tagline">{site.tagline}</p>
+      <a href="/" class="wordmark"><SiteLogo variant="footer" /></a>
       <p class="footer-trust">
         Работаем по договору, оплата по счёту, закрывающие документы через ЭДО.
       </p>
@@ -52,18 +52,9 @@ const year = 2026;
     grid-template-columns: 1.6fr 1fr 1fr 1.2fr;
     gap: 2.5rem;
   }
-  .wordmark {
-    font-weight: 800;
-    font-size: 1.25rem;
-  }
-  .wordmark span {
-    color: var(--color-accent);
-  }
-  .footer-tagline {
-    margin: 0.8rem 0 0.4rem;
-    color: var(--color-text);
-  }
+  .wordmark { display: inline-block; --logo-halo: var(--color-bg-elevated); }
   .footer-trust {
+    margin-top: 0.9rem;
     color: var(--color-text-muted);
     font-size: 0.9rem;
     max-width: 32ch;

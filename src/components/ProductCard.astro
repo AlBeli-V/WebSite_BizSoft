@@ -3,6 +3,7 @@ import PriceTag from './PriceTag.astro';
 import AddToCartButton from './AddToCartButton.astro';
 import { effectivePrice } from '../lib/pricing';
 import { logoUrl } from '../lib/directus';
+import { logoFile } from '../data/logos';
 import { ORIGIN_LABEL, LICENSE_LABEL } from '../lib/types';
 import type { Product } from '../lib/types';
 
@@ -13,6 +14,14 @@ const { product } = Astro.props;
 const eff = effectivePrice(product);
 const logo = logoUrl(product, { width: 96, height: 96, fit: 'contain', format: 'webp' });
 const byRequest = product.price <= 0 && !eff.isPromo;
+// Ребрендинг вендора «Новое имя (прежнее)»: новое — крупно, прежнее — мельче ниже,
+// рядом с прежним названием показываем его логотип (если есть в brand-logos).
+const renamed = (product.vendor || '').match(/^(.+?)\s*\((.+)\)$/);
+const vendorMain = renamed ? renamed[1] : product.vendor;
+const vendorPrev = renamed ? renamed[2] : null;
+const vendorPrevLogo = vendorPrev
+  ? logoFile(vendorPrev.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, ''))
+  : null;
 ---
 <article class="card card-hover product-card reveal">
   <a href={`/product/${product.slug}`} class="product-link" aria-label={product.name}>
@@ -24,7 +33,17 @@ const byRequest = product.price <= 0 && !eff.isPromo;
           <span class="logo logo-ph" aria-hidden="true">{(product.vendor || product.name).slice(0, 1)}</span>
         )}
       </div>
-      {product.vendor && <span class="vendor">{product.vendor}</span>}
+      {product.vendor && (
+        <span class="vendor">
+          {vendorMain}
+          {vendorPrev && (
+            <span class="vendor-prev">
+              {vendorPrevLogo && <img src={vendorPrevLogo} alt={`Логотип ${vendorPrev} — прежнее название ${vendorMain}`} width="14" height="14" loading="lazy" />}
+              ({vendorPrev})
+            </span>
+          )}
+        </span>
+      )}
       <h3>{product.name}</h3>
       {product.short_description && <p class="desc">{product.short_description}</p>}
       <div class="tags">
@@ -59,7 +78,9 @@ const byRequest = product.price <= 0 && !eff.isPromo;
   .origin-tag { font-size: 0.68rem; font-weight: 700; padding: 0.12rem 0.45rem; border-radius: 5px; }
   .origin-tag[data-origin='domestic'] { background: color-mix(in srgb, var(--color-success) 18%, transparent); color: var(--color-success); }
   .origin-tag[data-origin='foreign'] { background: color-mix(in srgb, var(--color-accent) 16%, transparent); color: var(--color-accent); }
-  .vendor { font-size: 0.78rem; color: var(--color-text-dim); }
+  .vendor { font-size: 0.78rem; color: var(--color-text-dim); display: flex; flex-direction: column; gap: 0.1rem; }
+  .vendor-prev { display: inline-flex; align-items: center; gap: 0.28rem; font-size: 0.7rem; color: var(--color-text-muted); }
+  .vendor-prev img { width: 14px; height: 14px; object-fit: contain; border-radius: 3px; }
   .product-card h3 {
     font-size: 1.1rem;
     margin: 0.2rem 0 0.5rem;

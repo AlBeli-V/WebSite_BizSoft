@@ -123,7 +123,7 @@ export const POST: APIRoute = async ({ request }) => {
     from: salesFrom,
     to: data.email,
     replyTo: managerEmail,
-    subject: `Коммерческое предложение № ${quoteNo} — BizSoft`,
+    subject: `Коммерческое предложение № ${quoteNo} — BIZSoft`,
     text: clientText,
     attachments: [attachment],
   }).catch((e) => console.error('quote client mail failed', e));

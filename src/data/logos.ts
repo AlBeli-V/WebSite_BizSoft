@@ -154,10 +154,11 @@ export const LOGOS: Record<string, BrandLogo> = {
 };
 
 /** Слаги, для которых есть официальный файл public/brand-logos/<slug>.svg. */
-export const FILE_LOGOS: string[] = [];
+export const FILE_LOGOS: string[] = ["magnific"];
 
 /** Сгенерированные цветные SVG-файлы брендов (SEO-имена <slug>-logo.svg). */
 export const LOGO_FILE: Record<string, string> = {
+  "magnific": "/brand-logos/magnific-logo.svg",
   "jetbrains": "/brand-logos/jetbrains-logo.svg",
   "zoom": "/brand-logos/zoom-logo.svg",
   "figma": "/brand-logos/figma-logo.svg",

@@ -23,7 +23,7 @@ const port = Number(process.env.SMTP_PORT || import.meta.env.SMTP_PORT || 587);
 const secure = String(process.env.SMTP_SECURE || import.meta.env.SMTP_SECURE || 'false') === 'true';
 const user = process.env.SMTP_USER || import.meta.env.SMTP_USER || '';
 const pass = process.env.SMTP_PASS || import.meta.env.SMTP_PASS || '';
-const from = process.env.SMTP_FROM || import.meta.env.SMTP_FROM || 'BizSoft <hello@biz-soft.pro>';
+const from = process.env.SMTP_FROM || import.meta.env.SMTP_FROM || 'BIZSoft <hello@biz-soft.pro>';
 
 let transporter: nodemailer.Transporter | null = null;
 function getTransport(): nodemailer.Transporter | null {
@@ -68,4 +68,4 @@ export const managerEmail =
 
 /** Адрес отправителя для писем клиентам (КП, ответы). */
 export const salesFrom =
-  process.env.SMTP_FROM_SALES || import.meta.env.SMTP_FROM_SALES || 'BizSoft <hello@biz-soft.pro>';
+  process.env.SMTP_FROM_SALES || import.meta.env.SMTP_FROM_SALES || 'BIZSoft <hello@biz-soft.pro>';

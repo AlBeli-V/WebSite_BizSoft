@@ -1,0 +1,54 @@
+---
+/**
+ * Фирменный логотип BIZSoft (векторная отрисовка фирменного знака):
+ * монограмма BS — графитовая «B», акцентная «S» и треугольник-курсор —
+ * плюс словесный знак «BIZSoft» и слоганы.
+ *
+ * Подложка «S» (просвет в месте пересечения с «B») берёт цвет фона через
+ * CSS-переменную --logo-halo — задайте её равной фону, на котором стоит логотип.
+ */
+interface Props {
+  /** header — компактный (знак + BIZSoft + слоган-аббревиатура); footer — полный лок-ап. */
+  variant?: 'header' | 'footer';
+}
+const { variant = 'header' } = Astro.props;
+---
+<span class:list={['site-logo', variant]}>
+  <svg class="logo-mark" viewBox="0 0 48 60" fill="none" aria-hidden="true" focusable="false">
+    <path d="M17 4.5 V30 M17 4.5 H26 A6.4 6.4 0 0 1 26 17.3 H17 M17 17.3 H27.5 A6.35 6.35 0 0 1 27.5 30 H17"
+      stroke="var(--logo-b, #26262b)" stroke-width="6.2" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M31 33.5 A7 7 0 0 0 24.5 29.5 H17 A5.8 5.8 0 0 0 17 41.1 H23 A5.8 5.8 0 0 1 23 52.7 H15 A7 7 0 0 1 8.5 48.7"
+      stroke="var(--logo-halo, #fff)" stroke-width="10.4" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M31 33.5 A7 7 0 0 0 24.5 29.5 H17 A5.8 5.8 0 0 0 17 41.1 H23 A5.8 5.8 0 0 1 23 52.7 H15 A7 7 0 0 1 8.5 48.7"
+      stroke="var(--color-accent, #f2591d)" stroke-width="6.2" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M20.5 20.8 L28.6 24.2 L21.8 28.2 Z" fill="var(--color-accent, #f2591d)"
+      stroke="var(--logo-halo, #fff)" stroke-width="1.6" stroke-linejoin="round"/>
+  </svg>
+  <span class="logo-text">
+    <span class="logo-word">BIZ<b>Soft</b></span>
+    <span class="logo-abbr"><b>B</b>USINESS <b>I</b>NTEGRATION <b>Z</b>ONE</span>
+    {variant === 'footer' && <span class="logo-slogan">Единая точка доступа к ПО и AI-сервисам</span>}
+  </span>
+</span>
+
+<style>
+  .site-logo { display: inline-flex; align-items: center; gap: 0.6rem; }
+  .logo-mark { flex-shrink: 0; }
+  .logo-text { display: flex; flex-direction: column; line-height: 1.1; }
+  .logo-word { font-weight: 800; letter-spacing: -0.02em; color: var(--color-text); white-space: nowrap; }
+  .logo-word b { color: var(--color-accent); font-weight: 800; }
+  .logo-abbr { font-weight: 700; letter-spacing: 0.26em; color: var(--color-text-muted); white-space: nowrap; }
+  .logo-abbr b { color: var(--color-accent); font-weight: 700; }
+  /* Компакт для шапки */
+  .header .logo-mark { width: 30px; height: 37px; }
+  .header .logo-word { font-size: 1.32rem; }
+  .header .logo-abbr { font-size: 0.485rem; margin-top: 2px; }
+  /* Полный лок-ап для подвала */
+  .footer .logo-mark { width: 42px; height: 52px; }
+  .footer .logo-word { font-size: 1.5rem; }
+  .footer .logo-abbr { font-size: 0.55rem; margin-top: 3px; }
+  .logo-slogan { font-weight: 400; font-size: 0.82rem; color: var(--color-text-muted); margin-top: 5px; letter-spacing: 0; white-space: nowrap; }
+  @media (max-width: 400px) {
+    .header .logo-abbr { display: none; }
+  }
+</style>
