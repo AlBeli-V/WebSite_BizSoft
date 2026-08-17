@@ -38,6 +38,11 @@ ssh -L 8055:127.0.0.1:8055 deploy@159.194.216.59
 необходимости, добавить публичный ключ в `~/.ssh/authorized_keys` пользователя `deploy` на сервере
 (через того, у кого доступ уже есть, или через панель хостинга/консоль VPS).
 
+> **Windows / PowerShell.** В PowerShell `curl` — это алиас на `Invoke-WebRequest` (не понимает
+> `-I` и спрашивает `Uri:`). Используйте настоящий curl `curl.exe -I https://biz-soft.pro` или
+> нативно `iwr https://biz-soft.pro -Method Head | Select-Object StatusCode, StatusDescription`.
+> Для SSH-тоннеля подойдёт встроенный OpenSSH-клиент Windows (та же команда `ssh -L …`).
+
 ## 3. Локальная разработка против прод-Directus
 
 ```bash
