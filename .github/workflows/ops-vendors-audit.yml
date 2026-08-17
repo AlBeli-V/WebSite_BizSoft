@@ -28,7 +28,8 @@ jobs:
             python3 - <<'PY'
             import re
             html = open('/tmp/vendors-audit.html', encoding='utf-8').read()
-            cards = re.findall(r'v-card[^>]*>.*?</a>', html, re.S)
+            # Только реальные карточки-ссылки (не CSS-правила в <style>).
+            cards = re.findall(r'<a [^>]*class="[^"]*v-card[^"]*"[^>]*>.*?</a>', html, re.S)
             missing, have = [], []
             for c in cards:
                 m = re.search(r'<b[^>]*>([^<]+)</b>', c)
@@ -37,6 +38,9 @@ jobs:
             print(f'всего карточек: {len(cards)}')
             print(f'с логотипом: {len(have)}')
             print(f'без логотипа ({len(missing)}): ' + (', '.join(missing) or '—'))
+            magnific = [c for c in cards if '>Magnific<' in c]
+            dual = magnific and 'freepik-logo' in magnific[0] and 'magnific-logo' in magnific[0]
+            print('плитка Magnific: ' + ('есть, оба логотипа' if dual else ('есть, но без двойного лого' if magnific else 'НЕ НАЙДЕНА')))
             PY
 
       - name: Post results to journal (issue #22)
