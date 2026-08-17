@@ -1,51 +1,180 @@
 ---
+export const prerender = false;
+
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
-import VendorLogo from '../../components/VendorLogo.astro';
-import { vendors } from '../../data/scaffold';
-import { vendorLandings } from '../../config/site';
+import CatalogTabs from '../../components/CatalogTabs.astro';
+import CTASection from '../../components/CTASection.astro';
+import QuestionForm from '../../components/QuestionForm.astro';
+import JsonLd from '../../components/JsonLd.astro';
+import { getVendors } from '../../lib/directus';
+import { logoFile } from '../../data/logos';
+import { VENDORS } from '../../data/vendors';
+import { vendorLandings, site } from '../../config/site';
+import { breadcrumbSchema } from '../../lib/seo';
+
+// ── Слаги и лендинги: VENDORS + bespoke-страницы + AI-вендоры без лендингов ──
+const slugByName = new Map<string, string>();
+const landingSlugs = new Set<string>();
+for (const v of VENDORS) {
+  slugByName.set(v.vendor.toLowerCase(), v.slug);
+  if (v.title) slugByName.set(v.title.toLowerCase(), v.slug);
+  landingSlugs.add(v.slug);
+}
+for (const l of vendorLandings) {
+  slugByName.set(l.name.toLowerCase(), l.slug);
+  landingSlugs.add(l.slug);
+}
+const AI_SLUGS: Record<string, string> = {
+  openai: 'openai', anthropic: 'anthropic', github: 'github', cursor: 'cursor',
+  microsoft: 'microsoft', google: 'google', perplexity: 'perplexity', notion: 'notion',
+  gamma: 'gamma', grammarly: 'grammarly', jasper: 'jasper',
+};
+const slugify = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+const vendorSlug = (name: string) => slugByName.get(name.toLowerCase()) || AI_SLUGS[name.toLowerCase()] || slugify(name);
+
+// ── Живой список вендоров из каталога ──
+let rows: { vendor: string; count: number }[] = [];
+try {
+  rows = await getVendors();
+} catch (e) {
+  console.error('vendors list error', e);
+}
+
+const TOP = new Set(['openai', 'anthropic', 'microsoft', 'google', 'github', 'adobe', 'figma', 'jetbrains', 'zoom', 'canva', 'autodesk', 'midjourney']);
+
+const items = rows.map((r) => {
+  const slug = vendorSlug(r.vendor);
+  const letter = /^[0-9]/.test(r.vendor) ? '0-9' : r.vendor.charAt(0).toUpperCase();
+  return {
+    name: r.vendor,
+    count: r.count,
+    slug,
+    letter,
+    top: TOP.has(slug),
+    href: landingSlugs.has(slug) ? `/vendors/${slug}` : `/catalog?q=${encodeURIComponent(r.vendor)}`,
+    logo: logoFile(slug),
+  };
+}).sort((a, b) => a.name.localeCompare(b.name, 'en'));
+
+// Все вендоры зарубежные — алфавит только английский.
+const ALPHABET = '0-9 A B C D E F G H I J K L M N O P Q R S T U V W X Y Z'.split(' ');
+const present = new Set(items.map((i) => i.letter));
+
+const plural = (n: number) => (n % 10 === 1 && n % 100 !== 11 ? 'товар' : [2, 3, 4].includes(n % 10) && ![12, 13, 14].includes(n % 100) ? 'товара' : 'товаров');
+
+const crumbs = [{ name: 'Каталог', url: '/catalog' }, { name: 'Производители', url: '/vendors' }];
+const ld = [
+  breadcrumbSchema(crumbs),
+  {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name: 'Производители ПО и SaaS — каталог BizSoft',
+    url: `${site.url}/vendors`,
+    mainEntity: {
+      '@type': 'ItemList',
+      itemListElement: items.slice(0, 60).map((v, i) => ({ '@type': 'ListItem', position: i + 1, name: v.name, url: `${site.url}${v.href}` })),
+    },
+  },
+];
 ---
 <BaseLayout
-  title="Производители ПО"
-  description="Каталог по производителям ПО. Готова страница Zoom для бизнеса; остальные вендоры в подготовке."
-  noindex={true}
+  title="Производители ПО и SaaS — купить для юрлица | BizSoft"
+  description="Все производители зарубежного ПО и SaaS в каталоге BizSoft: OpenAI, Anthropic, Adobe, Figma, JetBrains, Microsoft и другие. Оформление на юрлицо по договору и счёту, закрывающие через ЭДО."
 >
+  <JsonLd schema={ld} />
   <div class="container-page section">
-    <Breadcrumbs items={[{ name: 'Производители', url: '/vendors' }]} />
-    <h1>Производители ПО</h1>
-    <p class="lead">Подбор и оформление ПО на юрлицо по договору и счёту. Готовые страницы вендоров:</p>
-    <div class="vgrid">
-      {vendorLandings.map((v) => (
-        <a href={`/vendors/${v.slug}`} class="card card-hover v ready" aria-label={`${v.name} — купить для юрлица`}>
-          <span class="v-head">
-            <span class="v-logo" aria-hidden="true"><VendorLogo slug={v.slug} name={v.name} size={20} /></span>
-            <strong>{v.name}</strong>
-          </span>
-          <span>{v.description}</span>
-          <em>Открыть →</em>
-        </a>
-      ))}
-      {vendors.map((v) => (
-        <div class="card v soon">
-          <strong>{v.title}</strong>
-          <span>{v.description}</span>
-          <em class="muted">Скоро</em>
-        </div>
+    <Breadcrumbs items={crumbs} />
+    <h1>Каталог ПО по производителям</h1>
+    <p class="lead">Зарубежные вендоры, которых мы подключаем для российских компаний: годовые подписки и лицензии по договору и счёту.</p>
+
+    <CatalogTabs active="vendors" />
+
+    <!-- Алфавитный фильтр (все вендоры зарубежные — только латиница) -->
+    <div class="alpha card" role="group" aria-label="Фильтр по алфавиту">
+      <span class="alpha-cap">Фильтр:</span>
+      <button class="alpha-btn all active" data-letter="all">Все</button>
+      <button class="alpha-btn top" data-letter="top">Топ</button>
+      {ALPHABET.map((l) => (
+        <button class="alpha-btn" data-letter={l} disabled={!present.has(l)}>{l}</button>
       ))}
     </div>
+
+    {items.length > 0 ? (
+      <div class="v-grid" data-vendor-grid>
+        {items.map((v) => (
+          <a href={v.href} class="card card-hover v-card" data-letter={v.letter} data-top={v.top ? '1' : undefined} aria-label={`${v.name} — купить для юрлица`}>
+            {v.logo ? (
+              <img src={v.logo} alt={`Логотип ${v.name} — ПО ${v.name} для юрлица`} width="56" height="56" loading="lazy" decoding="async" class="v-logo" />
+            ) : (
+              <span class="v-letter" aria-hidden="true">{v.name.charAt(0).toUpperCase()}</span>
+            )}
+            <b>{v.name}</b>
+            <span class="v-count">{v.count} {plural(v.count)}</span>
+          </a>
+        ))}
+        <p class="v-empty" data-empty hidden>По этой букве вендоров нет. <button class="link-btn" data-letter-reset>Показать всех →</button></p>
+      </div>
+    ) : (
+      <p class="lead">Список загружается. <a href="/catalog">Перейти в категории →</a></p>
+    )}
   </div>
+  <CTASection
+    title="Нет нужного производителя?"
+    text="Подключаем и вендоров вне каталога — опишите задачу, подберём способ закупки и посчитаем стоимость."
+    primaryLabel="Обсудить задачу"
+    primaryHref="/contacts/"
+    secondaryLabel="Смотреть категории"
+    secondaryHref="/catalog/"
+  />
+  <QuestionForm source="vendors" />
 </BaseLayout>
+
 <style>
   .section { padding: 2rem 0 4rem; }
-  h1 { font-size: clamp(1.8rem, 4vw, 2.6rem); margin-bottom: 0.8rem; }
-  .lead { color: var(--color-text-muted); margin-bottom: 1.5rem; }
-  .vgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1rem; }
-  .v { padding: 1.4rem; display: flex; flex-direction: column; gap: 0.4rem; }
-  .v-head { display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.1rem; }
-  .v-logo { width: 34px; height: 34px; border-radius: 9px; background: var(--color-bg-elevated); border: 1px solid var(--color-border); color: var(--color-text-muted); display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; }
-  .v strong { font-size: 1.15rem; }
-  .v span { color: var(--color-text-muted); font-size: 0.9rem; flex-grow: 1; }
-  .v.ready em { color: var(--color-accent); font-weight: 600; font-style: normal; }
-  .v.soon { opacity: 0.7; }
-  .muted { color: var(--color-text-dim); font-style: normal; font-size: 0.85rem; }
+  h1 { font-size: clamp(1.8rem, 4vw, 2.6rem); margin-bottom: 0.6rem; }
+  .lead { color: var(--color-text-muted); margin-bottom: 1.4rem; max-width: 70ch; }
+  /* Алфавит */
+  .alpha { display: flex; flex-wrap: wrap; align-items: center; gap: 0.35rem; padding: 0.9rem 1.1rem; margin-bottom: 1.6rem; }
+  .alpha-cap { color: var(--color-text-muted); font-size: 0.9rem; margin-right: 0.4rem; }
+  .alpha-btn {
+    min-width: 30px; padding: 0.32rem 0.5rem; border: none; background: none; cursor: pointer;
+    font: inherit; font-size: 0.88rem; font-weight: 700; color: var(--color-text-muted);
+    border-radius: 8px; transition: color 0.12s ease, background 0.12s ease;
+  }
+  .alpha-btn:hover:not(:disabled) { color: var(--color-accent); }
+  .alpha-btn.active { background: var(--color-accent); color: #fff; }
+  .alpha-btn:disabled { opacity: 0.28; cursor: default; }
+  .alpha-btn.all, .alpha-btn.top { text-transform: uppercase; letter-spacing: 0.04em; padding-inline: 0.7rem; }
+  /* Карточки вендоров */
+  .v-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 1rem; }
+  .v-card { padding: 1.6rem 1.2rem 1.3rem; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 0.55rem; }
+  .v-logo { width: 56px; height: 56px; object-fit: contain; }
+  .v-letter { width: 56px; height: 56px; border-radius: 14px; background: var(--color-bg-elevated); border: 1px solid var(--color-border); display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1.5rem; color: var(--color-text-muted); }
+  .v-card b { font-size: 1rem; color: var(--color-text); line-height: 1.25; }
+  .v-count { color: var(--color-text-dim); font-size: 0.82rem; }
+  .v-empty { grid-column: 1 / -1; color: var(--color-text-muted); }
+  .link-btn { background: none; border: none; padding: 0; font: inherit; color: var(--color-accent); font-weight: 600; cursor: pointer; }
+  @media (max-width: 640px) { .v-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); } }
 </style>
+
+<script>
+  // Фильтр по алфавиту: показ/скрытие карточек без перезагрузки.
+  const grid = document.querySelector('[data-vendor-grid]');
+  const buttons = document.querySelectorAll<HTMLButtonElement>('.alpha-btn');
+  const cards = grid ? Array.from(grid.querySelectorAll<HTMLElement>('.v-card')) : [];
+  const empty = grid?.querySelector<HTMLElement>('[data-empty]');
+
+  function apply(letter: string) {
+    let shown = 0;
+    for (const c of cards) {
+      const show = letter === 'all' || (letter === 'top' ? c.dataset.top === '1' : c.dataset.letter === letter);
+      c.hidden = !show;
+      if (show) shown++;
+    }
+    if (empty) empty.hidden = shown > 0;
+    buttons.forEach((b) => b.classList.toggle('active', b.dataset.letter === letter));
+  }
+  buttons.forEach((b) => b.addEventListener('click', () => apply(b.dataset.letter || 'all')));
+  document.querySelector('[data-letter-reset]')?.addEventListener('click', () => apply('all'));
+</script>

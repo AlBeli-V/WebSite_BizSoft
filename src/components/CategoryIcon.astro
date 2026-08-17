@@ -10,6 +10,9 @@ interface Props {
   size?: number;
 }
 const { slug = '', name = '', size = 24 } = Astro.props;
+// Толщина линии задана в координатах viewBox 24×24 и растёт вместе с иконкой —
+// для крупной инфографики утоньшаем, чтобы визуальная толщина осталась ~2px.
+const stroke = size >= 40 ? 1.35 : 1.7;
 const key = `${slug} ${name}`.toLowerCase();
 
 type Icon = 'design' | 'dev' | 'ai' | 'media' | 'collab' | 'office' | 'comm' | 'security' | 'os' | 'default';
@@ -27,7 +30,7 @@ function pick(): Icon {
 }
 const icon = pick();
 ---
-<svg class="cat-icon" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+<svg class="cat-icon" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width={stroke} stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
   {icon === 'design' && (<><path d="M12 19a7 7 0 1 1 7-7c0 1.7-1.3 3-3 3h-1.5a1.5 1.5 0 0 0-1 2.6c.3.3.5.7.5 1.1A1.3 1.3 0 0 1 12 19Z"/><circle cx="7.5" cy="10.5" r="1"/><circle cx="9.5" cy="7" r="1"/><circle cx="14.5" cy="7" r="1"/><circle cx="16.5" cy="10.5" r="1"/></>)}
   {icon === 'dev' && (<><path d="m8 8-4 4 4 4"/><path d="m16 8 4 4-4 4"/><path d="m13 6-2 12"/></>)}
   {icon === 'ai' && (<><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1"/><circle cx="12" cy="12" r="3.2"/></>)}
