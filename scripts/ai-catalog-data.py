@@ -99,16 +99,19 @@ RECAT_BY_VENDOR = {
 # OpenAI: только корпоративные тарифы едут в ai-text
 RECAT_OPENAI_NAMES = {'ChatGPT Business': 'ai-text', 'ChatGPT Enterprise': 'ai-text'}
 
-# (vendor, name, vendor преемника, name преемника) — снять с публикации + old_slugs преемнику
+# (sku, sku преемника) — снять с публикации + old_slugs преемнику (301).
+# SKU подтверждены dry-run'ом. OPENAI-BUSINESS — дубль ChatGPT Business:
+# канонической остаётся карточка INT-AI-CHATGPT (slug chatgpt-business).
 REMOVALS = [
-    ('OpenAI', 'ChatGPT Plus', 'OpenAI', 'ChatGPT Business'),
-    ('OpenAI', 'ChatGPT Pro', 'OpenAI', 'ChatGPT Business'),
-    ('OpenAI', 'OpenAI API — оплата по использованию', 'OpenAI', 'ChatGPT Business'),
-    ('Midjourney', 'Midjourney Basic', 'Midjourney', 'Midjourney Standard'),
-    ('Descript', 'Descript Hobbyist', 'Descript', 'Descript Creator'),
-    ('Recraft', 'Recraft Basic', 'Recraft', 'Recraft Advanced'),
-    ('ElevenLabs', 'ElevenLabs Starter', 'ElevenLabs', 'ElevenLabs Creator'),
-    ('HeyGen', 'HeyGen Creator', 'HeyGen', 'HeyGen Pro'),
+    ('OPENAI-PLUS', 'INT-AI-CHATGPT'),
+    ('OPENAI-PRO', 'INT-AI-CHATGPT'),
+    ('OPENAI-API', 'INT-AI-CHATGPT'),
+    ('OPENAI-BUSINESS', 'INT-AI-CHATGPT'),
+    ('MJ-BASIC', 'MJ-STANDARD'),
+    ('DSCRPT-HOBBYIST', 'DSCRPT-CREATOR'),
+    ('RECRAFT-BASIC', 'RECRAFT-ADVANCED'),
+    ('ELEVEN-STARTER', 'ELEVEN-CREATOR'),
+    ('HEYGEN-CREATOR', 'HEYGEN-PRO'),
 ]
 
 
@@ -145,7 +148,7 @@ def phase_pre():
 
     # 2) товары
     prods = api('GET', '/items/products?fields=id,sku,name,vendor,slug,status,old_slugs,related_products,category.id,category.slug&limit=-1')
-    by_vn = {(p.get('vendor'), p.get('name')): p for p in prods}
+    by_sku = {p.get('sku'): p for p in prods}
 
     # перенос в подкатегории
     moves = 0
@@ -170,22 +173,20 @@ def phase_pre():
         print('перенос: нечего переносить')
 
     # снятие с публикации + old_slugs преемнику
-    for vendor, name, s_vendor, s_name in REMOVALS:
-        p = by_vn.get((vendor, name))
-        if p is None and name.startswith('OpenAI API'):
-            p = next((x for x in prods if x.get('vendor') == 'OpenAI' and str(x.get('name', '')).startswith('OpenAI API')), None)
+    for sku, succ_sku in REMOVALS:
+        p = by_sku.get(sku)
         if p is None:
-            print(f'?? не найден: {vendor} / {name} — пропуск')
+            print(f'?? не найден sku {sku} — пропуск')
             continue
-        succ = by_vn.get((s_vendor, s_name))
+        succ = by_sku.get(succ_sku)
         if p.get('status') == 'published':
             if APPLY:
                 api('PATCH', f'/items/products/{p["id"]}', {'status': 'draft'})
-                print(f'✓ снят с публикации: {p["sku"]} «{name}»')
+                print(f'✓ снят с публикации: {p["sku"]} «{p["name"]}»')
             else:
-                print(f'{TAG}снять с публикации: {p["sku"]} «{name}»')
+                print(f'{TAG}снять с публикации: {p["sku"]} «{p["name"]}»')
         else:
-            print(f'= уже не опубликован: {p["sku"]} «{name}»')
+            print(f'= уже не опубликован: {p["sku"]} «{p["name"]}»')
         if succ is not None and p.get('slug'):
             old = list_values(succ.get('old_slugs'))
             if p['slug'] not in old:
