@@ -2,9 +2,9 @@
 // Автоматически подбирает глиф для КАЖДОГО вендора (VENDORS + bespoke) по названию.
 // Отсутствующие в наборе бренды рендерятся буквенным знаком в VendorLogo.astro.
 // Запуск: node scripts/build-logos.mjs
-import { readFileSync, writeFileSync, readdirSync, existsSync } from 'node:fs';
+import { readFileSync, writeFileSync, readdirSync, existsSync, copyFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
-import { dirname, resolve, basename } from 'node:path';
+import { dirname, resolve } from 'node:path';
 
 const __dir = dirname(fileURLToPath(import.meta.url));
 const OUT = resolve(__dir, '../src/data/logos.ts');
@@ -84,7 +84,25 @@ function visibleHex(hex) {
   return lum > 0.82 ? '#1d1d1f' : '#' + h;
 }
 const generated = {};
+
+// ── Официальные логотипы правообладателей: public/brand-logos/<slug>.<svg|png|webp> ──
+// Высший приоритет: копируются под SEO-именем <slug>-logo.<ext> и попадают в
+// LOGO_FILE вместо глифа/монограммы. Достаточно положить файл и пересобрать сайт.
+const fileLogos = [];
+if (existsSync(BRAND_DIR)) {
+  for (const f of readdirSync(BRAND_DIR)) {
+    const mExt = f.toLowerCase().match(/^(.+)\.(svg|png|webp)$/);
+    if (!mExt || mExt[1].endsWith('-logo')) continue;
+    const [, slug, ext] = mExt;
+    copyFileSync(resolve(BRAND_DIR, f), resolve(BRAND_DIR, `${slug}-logo.${ext}`));
+    generated[slug] = `/brand-logos/${slug}-logo.${ext}`;
+    fileLogos.push(slug);
+  }
+}
+fileLogos.sort();
+
 for (const [slug, ic] of Object.entries(out)) {
+  if (generated[slug]) continue;
   const fill = visibleHex(ic.hex);
   const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" role="img" aria-label="${ic.title}">` +
     `<title>${ic.title} — логотип</title><path fill="${fill}" d="${ic.path}"/></svg>\n`;
@@ -123,16 +141,6 @@ for (const t of targets) {
   writeFileSync(resolve(BRAND_DIR, fname), svg);
   generated[t.slug] = `/brand-logos/${fname}`;
 }
-
-// ── Официальные файлы логотипов из public/brand-logos/<slug>.svg ──
-// Имеют приоритет: рендерятся как <img> с фирменными цветами.
-const fileLogos = [];
-if (existsSync(BRAND_DIR)) {
-  for (const f of readdirSync(BRAND_DIR)) {
-    if (f.toLowerCase().endsWith('.svg') && !f.endsWith('-logo.svg')) fileLogos.push(basename(f, '.svg'));
-  }
-}
-fileLogos.sort();
 
 const body = `/**
  * Данные брендовых логотипов — АВТОГЕНЕРАЦИЯ: node scripts/build-logos.mjs
