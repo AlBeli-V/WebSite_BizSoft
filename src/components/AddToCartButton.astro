@@ -3,11 +3,12 @@ interface Props {
   sku: string;
   slug: string;
   name: string;
+  vendor?: string;
   price: number;
   compact?: boolean;
   label?: string;
 }
-const { sku, slug, name, price, compact = false, label = 'В избранное' } = Astro.props;
+const { sku, slug, name, vendor = '', price, compact = false, label = 'В избранное' } = Astro.props;
 ---
 <button
   class:list={['btn', 'btn-primary', 'add-to-cart', { 'btn-sm': compact }]}
@@ -15,6 +16,7 @@ const { sku, slug, name, price, compact = false, label = 'В избранное'
   data-sku={sku}
   data-slug={slug}
   data-name={name}
+  data-vendor={vendor}
   data-price={price}
   data-goal="add_to_cart"
 >
@@ -34,6 +36,7 @@ const { sku, slug, name, price, compact = false, label = 'В избранное'
         sku: btn.dataset.sku!,
         slug: btn.dataset.slug!,
         name: btn.dataset.name!,
+        vendor: btn.dataset.vendor || '',
         price: Number(btn.dataset.price || 0),
       });
       // Цель Метрики

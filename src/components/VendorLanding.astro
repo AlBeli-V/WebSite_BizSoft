@@ -136,7 +136,7 @@ const ld = [
               {c.byRequest ? (
                 <button class="btn btn-primary btn-sm" data-open-question data-product={`${title} — ${c.name}`} data-sku={c.sku} data-ev="click_get_quote">Запросить цену</button>
               ) : (
-                <AddToCartButton sku={c.sku} slug={c.slug} name={c.name} price={c.price} compact />
+                <AddToCartButton sku={c.sku} slug={c.slug} name={c.name} vendor={entry.vendor} price={c.price} compact />
               )}
               <a href={`/product/${c.slug}`} class="btn btn-ghost btn-sm" data-ev="click_product_card">Подробнее</a>
             </div>

@@ -13,14 +13,14 @@ const PRESETS: { name: string; note: string; slugs: string[] }[] = [
   { name: 'Отдел разработки', note: 'AI-ассистенты для кода', slugs: ['ghcopilot-business', 'cursor-business'] },
   { name: 'Дизайн и маркетинг с AI', note: 'Генерация изображений', slugs: ['mj-standard', 'recraft-advanced'] },
 ];
-let presets: { name: string; note: string; items: { sku: string; slug: string; name: string; price: number }[]; total: number }[] = [];
+let presets: { name: string; note: string; items: { sku: string; slug: string; name: string; vendor?: string; price: number }[]; total: number }[] = [];
 try {
   const all = await getProductsBySlugs(PRESETS.flatMap((p) => p.slugs));
   presets = PRESETS.map((pr) => {
     const items = pr.slugs
       .map((sl) => all.find((x) => x.slug === sl))
       .filter(Boolean)
-      .map((x) => ({ sku: x.sku, slug: x.slug, name: x.name, price: effectivePrice(x).price }))
+      .map((x) => ({ sku: x.sku, slug: x.slug, name: x.name, vendor: x.vendor || '', price: effectivePrice(x).price }))
       .filter((x) => Number.isFinite(x.price) && x.price > 0);
     return { name: pr.name, note: pr.note, items, total: items.reduce((a, x) => a + x.price, 0) };
   }).filter((pr) => pr.items.length >= 2);
@@ -34,24 +34,41 @@ try {
     <div class="cart-layout">
       <div class="cart-items" data-cart-items>
         <p class="empty" data-empty>В избранном пока пусто. <a href="/catalog">Перейти в каталог →</a></p>
+        <!-- КП-таблица: состав, количество (ввод/кнопки), цены и суммы с НДС -->
+        <div class="table-wrap" data-cart-table hidden>
+          <table class="kp-table">
+            <thead>
+              <tr>
+                <th class="c-num">№&nbsp;п/п</th>
+                <th class="c-vendor">Производитель</th>
+                <th class="c-name">Состав и описание</th>
+                <th class="c-qty">Кол-во</th>
+                <th class="c-money">Цена за ед., руб., в&nbsp;т.ч. НДС&nbsp;5%</th>
+                <th class="c-money">Сумма, руб., в&nbsp;т.ч. НДС&nbsp;5%</th>
+                <th class="c-del"></th>
+              </tr>
+            </thead>
+            <tbody data-cart-body></tbody>
+            <tfoot>
+              <tr class="t-total"><td colspan="5">ИТОГО, в т.ч. НДС 5%</td><td class="c-money" data-t-total></td><td></td></tr>
+              <tr class="t-vat"><td colspan="5">НДС 5%</td><td class="c-money" data-t-vat></td><td></td></tr>
+            </tfoot>
+          </table>
+        </div>
+        <p class="amount-words" data-amount-words hidden></p>
       </div>
 
       <aside class="cart-summary card" data-summary hidden>
-        <div class="sum-row total"><span>Итого</span><span data-total>0 ₽</span></div>
-        <p class="sum-note">Цены ориентировочные. Итог подтверждаем в счёте.</p>
+        <div class="sum-row total"><span>Итого, в&nbsp;т.ч. НДС&nbsp;5%</span><span data-total>0 ₽</span></div>
+        <p class="sum-note">Стоимость указана для целей бюджетирования.</p>
         <button class="btn btn-primary" data-open-kp>Получить КП</button>
-        <button class="btn btn-ghost" data-pay>Оплатить</button>
-        <p class="pay-note" data-pay-note hidden>
-          Сейчас оплата идёт по счёту: сформируйте КП — выставим счёт и договор.
-          Онлайн-оплату подключим позже.
-        </p>
         <button class="btn btn-ghost" data-share>Поделиться списком</button>
         <p class="share-note" data-share-note hidden>Ссылка скопирована — перешлите её коллеге или руководителю: подборка откроется у него без регистрации.</p>
-        <ul class="cart-trust">
-          <li>✓ В КП: реквизиты, состав, цены в рублях, условия</li>
-          <li>✓ Поставка 1–3 рабочих дня после оплаты</li>
-          <li>✓ Договор, счёт и закрывающие через ЭДО</li>
-        </ul>
+        <ol class="cart-steps">
+          <li>100% аванс</li>
+          <li>Поставка 1–5 дней</li>
+          <li>Договор, счёт и закрывающие через ЭДО</li>
+        </ol>
       </aside>
     </div>
 
@@ -122,20 +139,14 @@ try {
   .cart-items { display: flex; flex-direction: column; gap: 0.8rem; }
   .empty { color: var(--color-text-muted); }
   .empty a { color: var(--color-accent); }
-  .cart-row { display: grid; grid-template-columns: 1fr auto auto auto; gap: 1rem; align-items: center; padding: 1rem 1.2rem; background: var(--color-bg-card); border: 1px solid var(--color-border); border-radius: var(--radius); }
-  .cart-row .ci-name { font-weight: 600; }
-  .cart-row .ci-sku { color: var(--color-text-dim); font-size: 0.8rem; }
-  .qty { display: flex; align-items: center; gap: 0.4rem; }
-  .qty button { width: 28px; height: 28px; border-radius: 6px; border: 1px solid var(--color-border-strong); background: var(--color-bg-elevated); color: var(--color-text); cursor: pointer; font-size: 1rem; }
-  .qty input { width: 44px; text-align: center; background: var(--color-bg-elevated); border: 1px solid var(--color-border-strong); border-radius: 6px; color: var(--color-text); padding: 0.3rem; font: inherit; }
-  .ci-sum { font-weight: 700; min-width: 90px; text-align: right; }
-  .ci-remove { background: none; border: none; color: var(--color-text-dim); cursor: pointer; font-size: 1.1rem; }
-  .ci-remove:hover { color: var(--color-danger); }
   .cart-summary { padding: 1.5rem; display: flex; flex-direction: column; gap: 0.8rem; position: sticky; top: 84px; }
-  .sum-row { display: flex; justify-content: space-between; }
-  .sum-row.total { font-size: 1.3rem; font-weight: 700; }
-  .sum-note, .pay-note { color: var(--color-text-dim); font-size: 0.82rem; margin: 0; }
-  .cart-trust { list-style: none; padding: 0.8rem 0 0; margin: 0; border-top: 1px solid var(--color-border); display: grid; gap: 0.3rem; color: var(--color-text-muted); font-size: 0.85rem; }
+  .sum-row { display: flex; justify-content: space-between; gap: 0.6rem; }
+  .sum-row.total { font-size: 1.15rem; font-weight: 700; }
+  .sum-note { color: var(--color-text-dim); font-size: 0.82rem; margin: 0; }
+  /* Условия поставки: аккуратный нумерованный список с акцентными маркерами */
+  .cart-steps { list-style: none; counter-reset: step; padding: 0.9rem 0 0; margin: 0; border-top: 1px solid var(--color-border); display: grid; gap: 0.55rem; color: var(--color-text); font-size: 0.88rem; }
+  .cart-steps li { counter-increment: step; display: flex; align-items: center; gap: 0.6rem; }
+  .cart-steps li::before { content: counter(step); flex-shrink: 0; width: 22px; height: 22px; border-radius: 50%; background: color-mix(in srgb, var(--color-accent) 14%, transparent); color: var(--color-accent); font-weight: 700; font-size: 0.78rem; display: inline-flex; align-items: center; justify-content: center; }
   .kp-dialog { border: 1px solid var(--color-border-strong); border-radius: var(--radius-lg); background: var(--color-bg-card); color: var(--color-text); padding: 0; max-width: 540px; width: calc(100% - 2rem); }
   .kp-dialog::backdrop { background: rgba(0,0,0,0.6); }
   .kp-form { padding: 2rem; display: flex; flex-direction: column; gap: 0.9rem; position: relative; }
@@ -155,61 +166,104 @@ try {
   @media (max-width: 860px) { .cart-layout { grid-template-columns: 1fr; } .cart-summary { position: static; } }
   @media (max-width: 520px) {
     .kp-row { grid-template-columns: 1fr; }
-    .cart-row { grid-template-columns: 1fr auto; }
     /* Более удобные зоны нажатия на мобильном */
-    .qty button { width: 40px; height: 40px; }
-    .qty input { height: 40px; }
-    .ci-remove { min-width: 40px; min-height: 40px; }
+    .qty button { width: 34px; height: 34px; }
+    .qty input { height: 34px; }
+    .ci-remove { min-width: 34px; min-height: 34px; }
   }
+</style>
+
+<style is:global>
+  /* КП-таблица: строки создаются скриптом (innerHTML) и не получают
+     Astro-scoped атрибут — поэтому эти правила глобальные. */
+  .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .kp-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; min-width: 680px; background: var(--color-bg-card); }
+  .kp-table th, .kp-table td { border: 1px solid var(--color-border-strong); padding: 0.45rem 0.6rem; text-align: left; vertical-align: middle; }
+  .kp-table thead th { background: var(--color-bg-elevated); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.04em; color: var(--color-text-muted); }
+  .kp-table .c-num { width: 3rem; text-align: center; }
+  .kp-table .c-vendor { width: 9rem; }
+  .kp-table .c-name { width: 40%; min-width: 220px; }
+  .kp-table td.c-num { color: var(--color-text-muted); }
+  .kp-table .c-qty { width: 7.6rem; white-space: nowrap; }
+  .kp-table .c-money { width: 8.5rem; text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .kp-table .c-del { width: 2.2rem; text-align: center; }
+  .kp-table .ci-sku { color: var(--color-text-dim); font-size: 0.75rem; }
+  .kp-table tfoot td { font-weight: 700; }
+  .kp-table .t-vat td { font-weight: 400; color: var(--color-text-muted); }
+  .amount-words { margin: 0.2rem 0 0; color: var(--color-text); font-size: 0.85rem; max-width: 72ch; }
+  .qty { display: flex; align-items: center; gap: 0.25rem; flex-wrap: nowrap; }
+  .qty button { width: 26px; height: 26px; border-radius: 6px; border: 1px solid var(--color-border-strong); background: var(--color-bg-elevated); color: var(--color-text); cursor: pointer; font-size: 0.95rem; line-height: 1; }
+  .qty input { width: 44px; text-align: center; background: var(--color-bg-elevated); border: 1px solid var(--color-border-strong); border-radius: 6px; color: var(--color-text); padding: 0.25rem; font: inherit; font-size: 0.85rem; }
+  .qty input::-webkit-outer-spin-button, .qty input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+  .ci-remove { background: none; border: none; color: var(--color-text-dim); cursor: pointer; font-size: 1rem; padding: 0.2rem; }
+  .ci-remove:hover { color: var(--color-danger); }
 </style>
 
 <script>
   import { readCart, setQty, removeFromCart, cartTotal, clearCart, addToCart } from '../../lib/cart-client';
   import { formatRub } from '../../lib/pricing';
+  import { moneyFmt, vatIncluded, totalWithVatWords } from '../../lib/rub-words';
   import { maskAllPhones } from '../../lib/phone-mask';
   maskAllPhones();
 
-  const itemsEl = document.querySelector('[data-cart-items]') as HTMLElement;
   const summaryEl = document.querySelector('[data-summary]') as HTMLElement;
   const totalEl = document.querySelector('[data-total]') as HTMLElement;
   const emptyEl = document.querySelector('[data-empty]') as HTMLElement;
+  const tableWrap = document.querySelector('[data-cart-table]') as HTMLElement;
+  const bodyEl = document.querySelector('[data-cart-body]') as HTMLElement;
+  const tTotalEl = document.querySelector('[data-t-total]') as HTMLElement;
+  const tVatEl = document.querySelector('[data-t-vat]') as HTMLElement;
+  const wordsEl = document.querySelector('[data-amount-words]') as HTMLElement;
+
+  // Производитель для старых записей без поля vendor — первое слово названия.
+  const vendorOf = (it: { vendor?: string; name: string }) => it.vendor || it.name.split(' ')[0];
 
   function render() {
     const items = readCart();
-    // удаляем старые строки
-    itemsEl.querySelectorAll('.cart-row').forEach((n) => n.remove());
+    bodyEl.innerHTML = '';
     if (items.length === 0) {
       emptyEl.hidden = false;
       summaryEl.hidden = true;
+      tableWrap.hidden = true;
+      wordsEl.hidden = true;
       return;
     }
     emptyEl.hidden = true;
     summaryEl.hidden = false;
-    for (const it of items) {
-      const row = document.createElement('div');
-      row.className = 'cart-row';
-      row.innerHTML = `
-        <div>
-          <div class="ci-name">${escapeHtml(it.name)}</div>
-          <div class="ci-sku">Артикул: ${escapeHtml(it.sku)} · ${formatRub(it.price)}</div>
-        </div>
-        <div class="qty">
-          <button type="button" data-dec aria-label="Меньше">−</button>
-          <input type="number" min="1" value="${it.qty}" data-qty />
-          <button type="button" data-inc aria-label="Больше">+</button>
-        </div>
-        <div class="ci-sum">${formatRub(it.price * it.qty)}</div>
-        <button class="ci-remove" data-remove aria-label="Удалить">✕</button>`;
-      row.querySelector('[data-inc]')!.addEventListener('click', () => { setQty(it.sku, it.qty + 1); render(); });
-      row.querySelector('[data-dec]')!.addEventListener('click', () => { setQty(it.sku, it.qty - 1); render(); });
-      row.querySelector('[data-remove]')!.addEventListener('click', () => { removeFromCart(it.sku); render(); });
-      row.querySelector('[data-qty]')!.addEventListener('change', (e) => {
+    tableWrap.hidden = false;
+    wordsEl.hidden = false;
+
+    items.forEach((it, i) => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td class="c-num">${i + 1}</td>
+        <td>${escapeHtml(vendorOf(it))}</td>
+        <td class="c-name">${escapeHtml(it.name)}<div class="ci-sku">Артикул: ${escapeHtml(it.sku)}</div></td>
+        <td class="c-qty">
+          <div class="qty">
+            <button type="button" data-dec aria-label="Меньше">−</button>
+            <input type="number" min="1" value="${it.qty}" data-qty aria-label="Количество" />
+            <button type="button" data-inc aria-label="Больше">+</button>
+          </div>
+        </td>
+        <td class="c-money">${moneyFmt(it.price)}</td>
+        <td class="c-money">${moneyFmt(it.price * it.qty)}</td>
+        <td class="c-del"><button class="ci-remove" data-remove aria-label="Удалить позицию" title="Удалить">✕</button></td>`;
+      tr.querySelector('[data-inc]')!.addEventListener('click', () => { setQty(it.sku, it.qty + 1); render(); });
+      tr.querySelector('[data-dec]')!.addEventListener('click', () => { setQty(it.sku, it.qty - 1); render(); });
+      tr.querySelector('[data-remove]')!.addEventListener('click', () => { removeFromCart(it.sku); render(); });
+      tr.querySelector('[data-qty]')!.addEventListener('change', (e) => {
         const v = Math.max(1, Math.floor(Number((e.target as HTMLInputElement).value) || 1));
         setQty(it.sku, v); render();
       });
-      itemsEl.appendChild(row);
-    }
-    totalEl.textContent = formatRub(cartTotal(items));
+      bodyEl.appendChild(tr);
+    });
+
+    const total = cartTotal(items);
+    tTotalEl.textContent = moneyFmt(total);
+    tVatEl.textContent = moneyFmt(vatIncluded(total));
+    wordsEl.textContent = totalWithVatWords(total);
+    totalEl.textContent = formatRub(total);
   }
 
   function escapeHtml(s: string) {
@@ -225,7 +279,7 @@ try {
       if (Array.isArray(incoming)) {
         for (const it of incoming) {
           if (it && typeof it.sku === 'string' && typeof it.name === 'string' && Number.isFinite(it.price)) {
-            addToCart({ sku: it.sku, slug: String(it.slug || ''), name: it.name, price: it.price }, Math.max(1, Math.floor(it.qty || 1)));
+            addToCart({ sku: it.sku, slug: String(it.slug || ''), name: it.name, vendor: String(it.vendor || ''), price: it.price }, Math.max(1, Math.floor(it.qty || 1)));
           }
         }
       }
@@ -236,7 +290,7 @@ try {
   document.querySelector('[data-share]')?.addEventListener('click', async () => {
     const items = readCart();
     if (!items.length) return;
-    const payload = items.map((i) => ({ sku: i.sku, slug: i.slug, name: i.name, price: i.price, qty: i.qty }));
+    const payload = items.map((i) => ({ sku: i.sku, slug: i.slug, name: i.name, vendor: i.vendor || '', price: i.price, qty: i.qty }));
     const b64 = btoa(unescape(encodeURIComponent(JSON.stringify(payload)))).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
     const url = `${location.origin}/cart?share=${b64}`;
     try { await navigator.clipboard.writeText(url); } catch { prompt('Скопируйте ссылку на подборку:', url); }
@@ -248,7 +302,7 @@ try {
     btn.addEventListener('click', () => {
       try {
         const items = JSON.parse(btn.getAttribute('data-preset') || '[]');
-        for (const it of items) addToCart({ sku: it.sku, slug: it.slug, name: it.name, price: it.price }, 1);
+        for (const it of items) addToCart({ sku: it.sku, slug: it.slug, name: it.name, vendor: it.vendor || '', price: it.price }, 1);
         btn.textContent = 'Добавлено ✓';
         window.scrollTo({ top: 0, behavior: 'smooth' });
       } catch { /* noop */ }
@@ -257,11 +311,6 @@ try {
 
   render();
   window.addEventListener('cart:change', render);
-
-  // Оплатить → пояснение (заглушка). ТОЧКА ИНТЕГРАЦИИ ЭКВАЙРИНГА:
-  // здесь подключается платёжный провайдер (создание платежа и редирект).
-  const payNote = document.querySelector('[data-pay-note]') as HTMLElement;
-  document.querySelector('[data-pay]')?.addEventListener('click', () => { payNote.hidden = false; });
 
   // Диалог КП
   const dialog = document.querySelector('[data-kp-dialog]') as HTMLDialogElement;

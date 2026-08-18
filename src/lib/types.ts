@@ -155,6 +155,8 @@ export interface CartItem {
   sku: string;
   slug: string;
   name: string;
+  /** Производитель — колонка КП-таблицы избранного (у старых записей может отсутствовать). */
+  vendor?: string;
   price: number; // эффективная цена на момент добавления
   qty: number;
 }
