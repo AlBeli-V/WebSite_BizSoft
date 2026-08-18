@@ -17,7 +17,7 @@ interface Props {
 const { product } = Astro.props;
 const eff = effectivePrice(product);
 const logo = logoUrl(product, { width: 96, height: 96, fit: 'contain', format: 'webp' });
-const byRequest = product.price <= 0 && !eff.isPromo;
+const byRequest = !(product.price > 0) && !eff.isPromo; // NaN и null — тоже «по запросу»
 // Ребрендинг вендора «Новое имя (прежнее)»: новое — крупно, прежнее — мельче ниже,
 // рядом с прежним названием показываем его логотип (если есть в brand-logos).
 const renamed = (product.vendor || '').match(/^(.+?)\s*\((.+)\)$/);

@@ -32,7 +32,7 @@ try {
   pageCategory = await getCategoryBySlug(meta.categorySlug);
   if (pageCategory) products = await getProducts({ categorySlug: meta.categorySlug });
   // «Цена по запросу» — всегда в конце списка
-  products.sort((a, b) => Number(effectivePrice(a).price <= 0) - Number(effectivePrice(b).price <= 0));
+  products.sort((a, b) => Number(!(effectivePrice(a).price > 0)) - Number(!(effectivePrice(b).price > 0)));
 } catch (e) {
   console.error('ai sub catalog error', e);
 }

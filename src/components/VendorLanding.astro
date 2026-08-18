@@ -15,6 +15,9 @@ import { effectivePrice, formatRub } from '../lib/pricing';
 import { collectionPageSchema, faqSchema, breadcrumbSchema } from '../lib/seo';
 import { mergeExperimentFaq } from '../data/seo-experiments';
 import { planType, PLAN_LABEL } from '../lib/plan-type';
+import { productIcon } from '../data/product-icons';
+import ProductIcon from './ProductIcon.astro';
+import AddToCartButton from './AddToCartButton.astro';
 import { DOMAIN_AUDIENCE, type VendorEntry } from '../data/vendors';
 import { vendorContent } from '../data/vendor-content';
 import type { Product } from '../lib/types';
@@ -40,12 +43,14 @@ const cards = products.map((p) => {
     name: p.name,
     slug: p.slug,
     sku: p.sku,
+    price: eff.price,
     priceText: formatRub(eff.price),
     note: p.price_note || '',
-    byRequest: eff.price <= 0,
+    byRequest: !(eff.price > 0), // NaN и null — тоже «по запросу»
     short: p.short_description || '',
     features: feats,
     plan: planType(p.name, p.short_description || ''),
+    icon: Boolean(productIcon(p.slug)),
   };
 });
 // Карточки «Цена по запросу» — всегда в конце списка
@@ -115,6 +120,7 @@ const ld = [
       <div class="vgrid">
         {cards.map((c) => (
           <article class="card vcard">
+            {c.icon && <div class="vc-ico"><ProductIcon slug={c.slug} name={c.name} size={40} /></div>}
             <h3>{c.name}</h3>
             {c.plan && <span class="plan-tag" data-plan={c.plan}>{PLAN_LABEL[c.plan]}</span>}
             {c.short && <p class="forwhom">{c.short}</p>}
@@ -125,7 +131,11 @@ const ld = [
             </div>
             {c.features.length > 0 && <ul class="vfeat">{c.features.map((f) => <li>{f}</li>)}</ul>}
             <div class="vactions">
-              <button class="btn btn-primary btn-sm" data-open-question data-product={`${title} — ${c.name}`} data-sku={c.sku} data-ev="click_get_quote">{c.byRequest ? 'Запросить цену' : 'Получить КП'}</button>
+              {c.byRequest ? (
+                <button class="btn btn-primary btn-sm" data-open-question data-product={`${title} — ${c.name}`} data-sku={c.sku} data-ev="click_get_quote">Запросить цену</button>
+              ) : (
+                <AddToCartButton sku={c.sku} slug={c.slug} name={c.name} price={c.price} compact />
+              )}
               <a href={`/product/${c.slug}`} class="btn btn-ghost btn-sm" data-ev="click_product_card">Подробнее</a>
             </div>
           </article>
@@ -254,6 +264,7 @@ const ld = [
   .vgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.2rem; }
   .vcard { padding: 1.4rem; display: flex; flex-direction: column; }
   .vcard h3 { font-size: 1.1rem; margin-bottom: 0.4rem; }
+  .vc-ico { margin-bottom: 0.6rem; }
   .forwhom { color: var(--color-text-dim); font-size: 0.85rem; margin-bottom: 0.6rem; }
   /* Кому адресован тариф */
   .plan-tag { align-self: flex-start; font-size: 0.72rem; padding: 0.14rem 0.55rem; border-radius: 6px; margin-bottom: 0.5rem; }

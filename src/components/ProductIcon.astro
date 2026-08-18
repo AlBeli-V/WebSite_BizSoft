@@ -1,0 +1,32 @@
+---
+/**
+ * Профильная иконка товарной позиции (например, знак приложения Adobe).
+ * variant="hover": монохром, полноцвет при наведении на плитку/ссылку
+ * (правила .vi в global.css). variant="color" — статичная цветная
+ * (страница товара, рядом с названием).
+ * Если иконки для слага нет — ничего не рендерит.
+ */
+import { productIcon } from '../data/product-icons';
+
+interface Props {
+  slug: string;
+  name?: string;
+  size?: number;
+  variant?: 'hover' | 'color' | 'mono';
+}
+const { slug, name = '', size = 40, variant = 'hover' } = Astro.props;
+const icon = productIcon(slug);
+const alt = name ? `Значок ${name}` : '';
+---
+{icon && (variant === 'hover' ? (
+  <span class="vi" style={`width:${size}px;height:${size}px`}>
+    <img class="vi-mono" src={icon.mono} alt={alt} width={size} height={size} loading="lazy" decoding="async" />
+    <img class="vi-color" src={icon.color} alt="" aria-hidden="true" width={size} height={size} loading="lazy" decoding="async" />
+  </span>
+) : (
+  <img class="pi-static" src={variant === 'color' ? icon.color : icon.mono} alt={alt} width={size} height={size} loading="lazy" decoding="async" />
+))}
+
+<style>
+  .pi-static { object-fit: contain; display: block; }
+</style>

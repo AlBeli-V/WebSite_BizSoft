@@ -36,7 +36,7 @@ const searchResults = q
   ? products
       .filter((p) => `${p.name} ${p.vendor || ''} ${p.keywords || ''} ${p.sku}`.toLowerCase().includes(ql))
       // «Цена по запросу» — всегда в конце списка
-      .sort((a, b) => Number(effectivePrice(a).price <= 0) - Number(effectivePrice(b).price <= 0))
+      .sort((a, b) => Number(!(effectivePrice(a).price > 0)) - Number(!(effectivePrice(b).price > 0)))
   : [];
 
 const catCounts: Record<string, number> = {};
