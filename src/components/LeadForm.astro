@@ -9,13 +9,20 @@ const { source = 'pricing', title = 'Запросить расчёт', submitLab
 ---
 <form class="lead-form card" data-lead-form data-source={source}>
   <h3>{title}</h3>
-  <div class="lf-row">
-    <label>Имя*<input name="name" required autocomplete="name" /></label>
-    <label>Компания*<input name="company" required autocomplete="organization" /></label>
-  </div>
+  <p class="lf-promise">Отвечаем в рабочее время. В ответ пришлём расчёт в рублях и КП — в течение 1 рабочего дня.</p>
   <div class="lf-row">
     <label>E-mail*<input name="email" type="email" required autocomplete="email" /></label>
-    <label>Телефон*<input name="phone" type="tel" required autocomplete="tel" /></label>
+    <label>Телефон (необязательно)<input name="phone" type="tel" autocomplete="tel" /></label>
+  </div>
+  <div class="lf-row">
+    <label>Компания (необязательно)<input name="company" autocomplete="organization" /></label>
+    <label>Количество мест<input name="seats" type="number" min="1" max="10000" inputmode="numeric" placeholder="например, 10" /></label>
+  </div>
+  <div class="lf-chips" data-chips aria-label="Быстрый выбор">
+    <button type="button" class="lf-chip">Adobe / Figma</button>
+    <button type="button" class="lf-chip">AI-сервисы</button>
+    <button type="button" class="lf-chip">JetBrains</button>
+    <button type="button" class="lf-chip">Не знаю — нужен подбор</button>
   </div>
   <label>Что нужно подобрать?*<textarea name="message" rows="3" required placeholder="Сервисы, количество пользователей, сроки…"></textarea></label>
   <label class="lf-consent">
@@ -23,11 +30,19 @@ const { source = 'pricing', title = 'Запросить расчёт', submitLab
     <span>Согласен на обработку персональных данных согласно <a href="/privacy" target="_blank" rel="noopener noreferrer">политике</a>.</span>
   </label>
   <button type="submit" class="btn btn-primary lf-submit">{submitLabel}</button>
+  <p class="lf-alt">Или напишите нам напрямую: <a href="https://t.me/+79647161111" target="_blank" rel="noopener">Telegram</a> · <a href="mailto:hello@biz-soft.pro">hello@biz-soft.pro</a> · <a href="tel:+79647161111">+7 (964) 716-11-11</a></p>
   <p class="lf-status" data-status role="status" aria-live="polite"></p>
 </form>
 
 <style>
   .lead-form { padding: 1.8rem; display: flex; flex-direction: column; gap: 0.9rem; }
+  .lf-promise { margin: -0.3rem 0 0; color: var(--color-text-muted); font-size: 0.92rem; }
+  .lf-chips { display: flex; flex-wrap: wrap; gap: 0.45rem; }
+  .lf-chip { border: 1px solid var(--color-border-strong); background: var(--color-bg-card); border-radius: 999px; padding: 0.35rem 0.85rem; font: inherit; font-size: 0.86rem; font-weight: 600; cursor: pointer; color: var(--color-text-muted); transition: all 0.15s ease; }
+  .lf-chip:hover { border-color: var(--color-accent); color: var(--color-accent); }
+  .lf-chip.active { background: var(--color-accent); border-color: var(--color-accent); color: #fff; }
+  .lf-alt { margin: 0; color: var(--color-text-muted); font-size: 0.88rem; }
+  .lf-alt a { color: var(--color-accent); font-weight: 600; }
   .lead-form h3 { font-size: 1.3rem; }
   .lf-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.9rem; }
   /* min-width: 0 — иначе внутренняя ширина input распирает grid-колонку за карточку */
@@ -65,7 +80,9 @@ const { source = 'pricing', title = 'Запросить расчёт', submitLab
           try { const j = await res.json(); if (j?.error) msg = j.error; } catch { /* not json */ }
           throw new Error(msg);
         }
-        status.textContent = 'Заявка отправлена! Свяжемся с вами скоро.'; status.className = 'lf-status ok';
+        form.querySelectorAll('label, .lf-row, .lf-chips, .lf-submit, .lf-consent, .lf-alt, .lf-promise').forEach((n) => n.remove());
+        status.className = 'lf-status ok';
+        status.innerHTML = '<b>Заявка получена.</b> Ответим в рабочее время; КП — в течение 1 рабочего дня. Пока ждёте — посмотрите <a href="/documents">образцы документов</a> или <a href="/how-we-work">как проходит поставка</a>.';
         form.reset();
         const w = window as unknown as { ym?: (...a: unknown[]) => void };
         const id = (import.meta as { env: Record<string, string> }).env.PUBLIC_METRIKA_ID;
@@ -75,6 +92,19 @@ const { source = 'pricing', title = 'Запросить расчёт', submitLab
       } finally {
         submit.disabled = false;
       }
+    });
+  });
+  document.querySelectorAll('[data-chips]').forEach((wrap) => {
+    const form = wrap.closest('form');
+    const ta = form?.querySelector('textarea[name="message"]');
+    wrap.querySelectorAll('.lf-chip').forEach((chip) => {
+      chip.addEventListener('click', () => {
+        chip.classList.toggle('active');
+        if (!ta) return;
+        const t = chip.textContent?.trim() || '';
+        if (chip.classList.contains('active')) ta.value = ta.value ? `${ta.value}, ${t}` : t;
+        else ta.value = ta.value.split(', ').filter((x) => x !== t).join(', ');
+      });
     });
   });
 </script>

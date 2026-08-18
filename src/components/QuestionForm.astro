@@ -14,18 +14,18 @@ const { source = 'question' } = Astro.props as { source?: string };
     </div>
 
     <label>Имя*
-      <input type="text" name="name" required autocomplete="name" />
+      <input type="text" name="name" autocomplete="name" />
     </label>
     <div class="qf-row">
       <label>E-mail*
         <input type="email" name="email" required autocomplete="email" />
       </label>
       <label>Телефон*
-        <input type="tel" name="phone" required autocomplete="tel" />
+        <input type="tel" name="phone" autocomplete="tel" />
       </label>
     </div>
     <label>Компания*
-      <input type="text" name="company" required autocomplete="organization" />
+      <input type="text" name="company" autocomplete="organization" />
     </label>
     <label>Сообщение*
       <textarea name="message" rows="3" required placeholder="Что хотите уточнить?"></textarea>
