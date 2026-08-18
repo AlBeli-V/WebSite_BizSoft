@@ -1,0 +1,29 @@
+# Проверка живого сайта biz-soft.pro с раннера (из среды мониторинга egress закрыт):
+# какие счётчики аналитики реально отдаёт прод (GA4 gtag, Яндекс.Метрика).
+# Запуск: вручную (workflow_dispatch) или пушем этого файла.
+
+name: seo-site-check
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - claude/biz-soft-rating-tracking-5rf03g
+    paths:
+      - ".github/workflows/seo-site-check.yml"
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fetch homepage and grep analytics tags
+        run: |
+          curl -sSL --max-time 30 https://biz-soft.pro/ -o home.html
+          echo "== HTTP размер: $(wc -c < home.html) байт =="
+          echo "== GA4 (gtag) =="
+          grep -o 'gtag/js?id=[A-Z0-9-]*' home.html | sort -u || echo "gtag НЕ найден"
+          grep -o "G-[A-Z0-9]\{6,\}" home.html | sort -u || true
+          echo "== Яндекс.Метрика =="
+          grep -o 'metrika/tag.js?id=[0-9]*' home.html | sort -u || echo "метрика НЕ найдена"
+          echo "== title =="
+          grep -o '<title>[^<]*</title>' home.html | head -1
