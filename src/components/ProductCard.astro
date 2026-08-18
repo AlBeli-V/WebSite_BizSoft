@@ -4,6 +4,9 @@ import AddToCartButton from './AddToCartButton.astro';
 import { effectivePrice } from '../lib/pricing';
 import { logoUrl } from '../lib/directus';
 import { logoFile } from '../data/logos';
+import { vendorIcon } from '../data/vendor-icons';
+import { vendorSlug } from '../lib/vendor-links';
+import VendorIcon from './VendorIcon.astro';
 import { ORIGIN_LABEL, LICENSE_LABEL } from '../lib/types';
 import { planType, PLAN_LABEL } from '../lib/plan-type';
 import type { Product } from '../lib/types';
@@ -25,12 +28,17 @@ const vendorPrevLogo = vendorPrev
   : null;
 // Кому адресован тариф — бейдж только при уверенном определении
 const plan = planType(product.name, product.short_description || '');
+// Унифицированная иконка вендора из фирменного пакета (монохром → цвет при наведении)
+const packSlug = product.vendor ? vendorSlug(product.vendor) : '';
+const packIcon = packSlug ? vendorIcon(packSlug) : null;
 ---
 <article class="card card-hover product-card reveal">
   <a href={`/product/${product.slug}`} class="product-link" aria-label={product.name}>
     <div class="product-top">
       <div class="ptop-row">
-        {logo ? (
+        {packIcon ? (
+          <span class="logo logo-pack"><VendorIcon slug={packSlug} name={product.vendor} size={34} /></span>
+        ) : logo ? (
           <img src={logo} alt={`Логотип ${product.vendor || product.name}`} class="logo" width="40" height="40" loading="lazy" />
         ) : (
           <span class="logo logo-ph" aria-hidden="true">{(product.vendor || product.name).slice(0, 1)}</span>
@@ -79,6 +87,7 @@ const plan = planType(product.name, product.short_description || '');
   .ptop-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.7rem; }
   .logo { width: 40px; height: 40px; border-radius: 8px; object-fit: contain; background: #fff; padding: 3px; }
   .logo-ph { display: flex; align-items: center; justify-content: center; background: var(--color-bg-elevated); color: var(--color-accent); font-weight: 800; font-size: 1.2rem; padding: 0; }
+  .logo-pack { display: flex; align-items: center; justify-content: center; }
   .origin-tag { font-size: 0.68rem; font-weight: 700; padding: 0.12rem 0.45rem; border-radius: 5px; }
   .origin-tag[data-origin='domestic'] { background: color-mix(in srgb, var(--color-success) 18%, transparent); color: var(--color-success); }
   .origin-tag[data-origin='foreign'] { background: color-mix(in srgb, var(--color-accent) 16%, transparent); color: var(--color-accent); }

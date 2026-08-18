@@ -5,6 +5,7 @@ import CategoryIcon from './CategoryIcon.astro';
 import { getVendors, getCategories } from '../lib/directus';
 import { aiSubcategories } from '../data/ai-hub';
 import { logoFile } from '../data/logos';
+import { vendorIcon } from '../data/vendor-icons';
 import { VENDORS } from '../data/vendors';
 
 const path = Astro.url.pathname;
@@ -42,12 +43,13 @@ try {
     return {
       name: m ? m[1] : r.vendor,
       href: `/vendors/${slug}`,
-      logo: slug === 'freepik' ? '/brand-logos/magnific-logo.svg' : logoFile(slug),
+      // В меню «Топ-запросы» — цветные иконки фирменного пакета
+      logo: vendorIcon(slug)?.color ?? (slug === 'freepik' ? '/brand-logos/magnific-logo.svg' : logoFile(slug)),
     };
   }).sort((a, b) => a.name.localeCompare(b.name, 'en'));
 } catch { /* фолбэк ниже — статичные лендинги */ }
 if (ddVendors.length === 0) {
-  ddVendors = vendorLandings.map((v) => ({ name: v.name, href: `/vendors/${v.slug}`, logo: logoFile(v.slug) }));
+  ddVendors = vendorLandings.map((v) => ({ name: v.name, href: `/vendors/${v.slug}`, logo: vendorIcon(v.slug)?.color ?? logoFile(v.slug) }));
 }
 try {
   ddCats = (await getCategories()).map((c) => {
