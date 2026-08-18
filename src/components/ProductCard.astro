@@ -74,7 +74,7 @@ const packIcon = packSlug ? vendorIcon(packSlug) : null;
       {byRequest ? (
         <button class="btn btn-primary btn-sm" data-open-question data-product={product.name} data-sku={product.sku}>Запросить цену</button>
       ) : (
-        <AddToCartButton sku={product.sku} slug={product.slug} name={product.name} price={eff.price} compact />
+        <AddToCartButton sku={product.sku} slug={product.slug} name={product.name} vendor={vendorMain || ''} price={eff.price} compact />
       )}
       <a href={`/product/${product.slug}`} class="btn btn-ghost btn-sm">Подробнее</a>
     </div>
