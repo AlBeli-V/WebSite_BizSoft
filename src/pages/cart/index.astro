@@ -84,14 +84,14 @@ try {
       <button type="button" class="kp-close" data-kp-close aria-label="Закрыть">✕</button>
       <h2>Получить КП</h2>
       <p class="kp-hint">Сформируем PDF с реквизитами и составом заказа, отправим на e-mail и дадим скачать.</p>
-      <label>Организация*<input name="buyer_company" required /></label>
+      <label>Организация:<input name="buyer_company" required /></label>
       <div class="kp-row">
-        <label>ИНН*<input name="buyer_inn" required inputmode="numeric" /></label>
-        <label>Контактное лицо*<input name="contact_name" required autocomplete="name" /></label>
+        <label>ИНН:<input name="buyer_inn" required inputmode="numeric" /></label>
+        <label>ФИО:<input name="contact_name" required autocomplete="name" /></label>
       </div>
       <div class="kp-row">
-        <label>E-mail*<input name="email" type="email" required autocomplete="email" /></label>
-        <label>Телефон*<input name="phone" type="tel" required autocomplete="tel" /></label>
+        <label>E-mail:<input name="email" type="email" required autocomplete="email" /></label>
+        <label>Телефон:<input name="phone" type="tel" required autocomplete="tel" placeholder="+7 (___) ___-__-__" /></label>
       </div>
       <label class="kp-consent">
         <input type="checkbox" name="consent" required />
@@ -166,6 +166,8 @@ try {
 <script>
   import { readCart, setQty, removeFromCart, cartTotal, clearCart, addToCart } from '../../lib/cart-client';
   import { formatRub } from '../../lib/pricing';
+  import { maskAllPhones } from '../../lib/phone-mask';
+  maskAllPhones();
 
   const itemsEl = document.querySelector('[data-cart-items]') as HTMLElement;
   const summaryEl = document.querySelector('[data-summary]') as HTMLElement;
