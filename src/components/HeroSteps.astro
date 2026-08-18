@@ -9,11 +9,13 @@ interface Step {
   t: string;
   d: string;
 }
+import { STATS } from '../data/stats';
+
 interface Props {
   steps?: Step[];
 }
 const defaults: Step[] = [
-  { icon: 'grid', t: 'Выбираете сервис', d: '380+ продуктов: Adobe, Figma, ChatGPT, Claude, JetBrains…' },
+  { icon: 'grid', t: 'Выбираете сервис', d: `${STATS.productsFallback}+ позиций: Adobe, Figma, ChatGPT, Claude, JetBrains…` },
   { icon: 'doc', t: 'Договор и счёт в рублях', d: 'КП за 1 день, оплата с расчётного счёта вашей компании' },
   { icon: 'shield', t: 'Доступ и закрывающие', d: 'Рабочий доступ команде + документы через ЭДО' },
 ];
