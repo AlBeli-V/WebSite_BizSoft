@@ -12,6 +12,23 @@
         "closing-docs": { "visible": false, "position": null, "top_competitors": ["ppt.ru", "fabrikant.ru", "cloudkassir.ru", "zakupki-kontur.ru", "seldongroup.ru"] }
       },
       "notes": "Базовый замер. Домен не виден ни по одному запросу корзины (US-прокси Google). Остальные запросы корзины будут замеряться со следующего прогона."
+    },
+    {
+      "date": "2026-08-18",
+      "measured_keywords": ["brand-domain", "brand-name", "buy-foreign-soft", "pay-foreign-soft", "chatgpt-corp", "ai-subscription-company", "dev-ai-tools", "design-soft", "closing-docs", "how-to-buy"],
+      "results": {
+        "brand-domain": { "visible": false, "position": null, "top_competitors": ["play.google.com", "individualsoftware.com", "bizprosystem.com", "bizpluspro.com"] },
+        "brand-name": { "visible": false, "position": null, "top_competitors": ["myoffice.ru", "softmagazin.ru", "allsoft.by", "biznessoft.ru", "migsoft.ru"] },
+        "buy-foreign-soft": { "visible": false, "position": null, "top_competitors": ["vc.ru", "dtf.ru", "companies.rbc.ru", "mtsbank.ru", "corp.pay-saas.ru", "raketapay.ru"] },
+        "pay-foreign-soft": { "visible": false, "position": null, "top_competitors": ["sostav.ru", "klerk.ru", "corp.pay-saas.ru", "raketapay.ru", "ruscribe.ru"] },
+        "chatgpt-corp": { "visible": false, "position": null, "top_competitors": ["companies.rbc.ru", "klerk.ru", "habr.com", "dtf.ru", "ml-soft.ru"] },
+        "ai-subscription-company": { "visible": false, "position": null, "top_competitors": ["vc.ru", "klerk.ru", "oplata.guru"] },
+        "dev-ai-tools": { "visible": false, "position": null, "top_competitors": ["tproger.ru", "sourcecraft.dev", "t1-ai.ru", "wone-it.ru", "papaisoft.com"] },
+        "design-soft": { "visible": false, "position": null, "top_competitors": ["3ddd.ru", "law.ru", "rtmtech.ru", "it-lex.ru"] },
+        "closing-docs": { "visible": false, "position": null, "top_competitors": ["ppt.ru", "fabrikant.ru", "cloudkassir.ru", "buhonline.ru", "seldongroup.ru"] },
+        "how-to-buy": { "visible": false, "position": null, "top_competitors": ["sostav.ru", "vc.ru", "klerk.ru", "companies.rbc.ru", "mtsbank.ru", "raketapay.ru"] }
+      },
+      "notes": "Первый полный замер всех 10 запросов. Видимость по-прежнему нулевая. Главное наблюдение: RaketaPay присутствует в 5 из 10 выдач через контент-маркетинг (блоги на klerk.ru, vc.ru, sostav.ru). По брендовому запросу 'BIZSoft' выдачу перехватывает biznessoft.ru (Бизнес-СОФТ) — коллизия имени. Запросы dev-ai-tools и design-soft дают выдачу с другим интентом (российские ИИ-ассистенты / юридические статьи) — кандидаты на переформулировку корзины."
     }
   ]
 }
