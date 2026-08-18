@@ -29,7 +29,7 @@ try {
 <BaseLayout title="Избранное" description="Избранное BIZSoft: соберите подписки и получите коммерческое предложение в PDF." noindex={true}>
   <div class="container-page section">
     <Breadcrumbs items={[{ name: 'Избранное', url: '/cart' }]} />
-    <h1>Избранное</h1>
+    <h1 class="h1-spec">Избранное: редактирование спецификации для подготовки КП</h1>
 
     <div class="cart-layout">
       <div class="cart-items" data-cart-items>
@@ -39,19 +39,19 @@ try {
           <table class="kp-table">
             <thead>
               <tr>
-                <th class="c-num">№&nbsp;п/п</th>
+                <th class="c-num">№</th>
                 <th class="c-vendor">Производитель</th>
                 <th class="c-name">Состав и описание</th>
                 <th class="c-qty">Кол-во</th>
-                <th class="c-money">Цена за ед., руб., в&nbsp;т.ч. НДС&nbsp;5%</th>
-                <th class="c-money">Сумма, руб., в&nbsp;т.ч. НДС&nbsp;5%</th>
-                <th class="c-del"></th>
+                <th class="c-money">Цена руб</th>
+                <th class="c-money">Сумма руб</th>
+                <th class="c-del">Удалить</th>
               </tr>
             </thead>
             <tbody data-cart-body></tbody>
             <tfoot>
-              <tr class="t-total"><td colspan="5">ИТОГО, в т.ч. НДС 5%</td><td class="c-money" data-t-total></td><td></td></tr>
-              <tr class="t-vat"><td colspan="5">НДС 5%</td><td class="c-money" data-t-vat></td><td></td></tr>
+              <tr class="t-total"><td colspan="5" class="t-label">ИТОГО, в т.ч. НДС 5%:</td><td class="c-money" data-t-total></td><td></td></tr>
+              <tr class="t-vat"><td colspan="5" class="t-label">НДС 5%:</td><td class="c-money" data-t-vat></td><td></td></tr>
             </tfoot>
           </table>
         </div>
@@ -59,8 +59,7 @@ try {
       </div>
 
       <aside class="cart-summary card" data-summary hidden>
-        <div class="sum-row total"><span>Итого, в&nbsp;т.ч. НДС&nbsp;5%</span><span data-total>0 ₽</span></div>
-        <p class="sum-note">Стоимость указана для целей бюджетирования.</p>
+        <div class="sum-row total"><span>ИТОГО:</span><span data-total>0 ₽</span></div>
         <button class="btn btn-primary" data-open-kp>Получить КП</button>
         <button class="btn btn-ghost" data-share>Поделиться списком</button>
         <p class="share-note" data-share-note hidden>Ссылка скопирована — перешлите её коллеге или руководителю: подборка откроется у него без регистрации.</p>
@@ -135,6 +134,7 @@ try {
   .pc-bottom { margin-top: auto; padding-top: 0.8rem; display: flex; justify-content: space-between; align-items: center; gap: 0.6rem; }
   .pc-bottom b { font-variant-numeric: tabular-nums; }
   h1 { font-size: clamp(1.9rem, 4vw, 2.6rem); margin-bottom: 2rem; }
+  .h1-spec { font-size: clamp(1.4rem, 2.8vw, 2.1rem); max-width: 26ch; }
   .cart-layout { display: grid; grid-template-columns: 1fr 320px; gap: 2rem; align-items: start; }
   .cart-items { display: flex; flex-direction: column; gap: 0.8rem; }
   .empty { color: var(--color-text-muted); }
@@ -185,17 +185,18 @@ try {
   .kp-table .c-name { width: 40%; min-width: 220px; }
   .kp-table td.c-num { color: var(--color-text-muted); }
   .kp-table .c-qty { width: 7.6rem; white-space: nowrap; }
-  .kp-table .c-money { width: 8.5rem; text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
-  .kp-table .c-del { width: 2.2rem; text-align: center; }
+  .kp-table .c-money { width: 1%; text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .kp-table .c-del { width: 1%; text-align: center; white-space: nowrap; }
   .kp-table .ci-sku { color: var(--color-text-dim); font-size: 0.75rem; }
   .kp-table tfoot td { font-weight: 700; }
-  .kp-table .t-vat td { font-weight: 400; color: var(--color-text-muted); }
-  .amount-words { margin: 0.2rem 0 0; color: var(--color-text); font-size: 0.85rem; max-width: 72ch; }
+  .kp-table tfoot .t-label { text-align: right; }
+  
+  .amount-words { margin: 0.2rem 0 0; color: var(--color-text); font-size: 0.88rem; }
   .qty { display: flex; align-items: center; gap: 0.25rem; flex-wrap: nowrap; }
   .qty button { width: 26px; height: 26px; border-radius: 6px; border: 1px solid var(--color-border-strong); background: var(--color-bg-elevated); color: var(--color-text); cursor: pointer; font-size: 0.95rem; line-height: 1; }
   .qty input { width: 44px; text-align: center; background: var(--color-bg-elevated); border: 1px solid var(--color-border-strong); border-radius: 6px; color: var(--color-text); padding: 0.25rem; font: inherit; font-size: 0.85rem; }
   .qty input::-webkit-outer-spin-button, .qty input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
-  .ci-remove { background: none; border: none; color: var(--color-text-dim); cursor: pointer; font-size: 1rem; padding: 0.2rem; }
+  .ci-remove { background: none; border: none; color: var(--color-text); cursor: pointer; font-size: 1.05rem; font-weight: 800; padding: 0.2rem 0.45rem; }
   .ci-remove:hover { color: var(--color-danger); }
 </style>
 
@@ -262,7 +263,9 @@ try {
     const total = cartTotal(items);
     tTotalEl.textContent = moneyFmt(total);
     tVatEl.textContent = moneyFmt(vatIncluded(total));
-    wordsEl.textContent = totalWithVatWords(total);
+    const words = totalWithVatWords(total);
+    // Первая сумма — жирным; префикс «ИТОГО (предварительный расчет…)»
+    wordsEl.innerHTML = 'ИТОГО (предварительный расчет для целей бюджетирования): ' + words.replace(/^([\d\s\u202f\u00a0]+,\d\d)/, '<b>$1</b>');
     totalEl.textContent = formatRub(total);
   }
 
