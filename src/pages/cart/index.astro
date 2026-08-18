@@ -1,7 +1,30 @@
 ---
+export const prerender = false;
+
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import { seller } from '../../config/site';
+import { getProductsBySlugs } from '../../lib/directus';
+import { effectivePrice, formatRub } from '../../lib/pricing';
+
+// Б10 аудита: готовые наборы-пресеты — продолжение типовых сценариев.
+const PRESETS: { name: string; note: string; slugs: string[] }[] = [
+  { name: 'AI-ассистенты для команды', note: 'Тексты, знания, ассистенты', slugs: ['chatgpt-business', 'anthropic-team', 'gemini-workspace-standard'] },
+  { name: 'Отдел разработки', note: 'AI-ассистенты для кода', slugs: ['ghcopilot-business', 'cursor-business'] },
+  { name: 'Дизайн и маркетинг с AI', note: 'Генерация изображений', slugs: ['mj-standard', 'recraft-advanced'] },
+];
+let presets: { name: string; note: string; items: { sku: string; slug: string; name: string; price: number }[]; total: number }[] = [];
+try {
+  const all = await getProductsBySlugs(PRESETS.flatMap((p) => p.slugs));
+  presets = PRESETS.map((pr) => {
+    const items = pr.slugs
+      .map((sl) => all.find((x) => x.slug === sl))
+      .filter(Boolean)
+      .map((x) => ({ sku: x.sku, slug: x.slug, name: x.name, price: effectivePrice(x).price }))
+      .filter((x) => Number.isFinite(x.price) && x.price > 0);
+    return { name: pr.name, note: pr.note, items, total: items.reduce((a, x) => a + x.price, 0) };
+  }).filter((pr) => pr.items.length >= 2);
+} catch { /* без пресетов страница работает как раньше */ }
 ---
 <BaseLayout title="Корзина" description="Корзина BizSoft: соберите подписки и получите коммерческое предложение в PDF." noindex={true}>
   <div class="container-page section">
@@ -22,12 +45,37 @@ import { seller } from '../../config/site';
           Сейчас оплата идёт по счёту: сформируйте КП — выставим счёт и договор.
           Онлайн-оплату подключим позже.
         </p>
+        <button class="btn btn-ghost" data-share>Поделиться подборкой</button>
+        <p class="share-note" data-share-note hidden>Ссылка скопирована — перешлите её коллеге или руководителю: подборка откроется у него без регистрации.</p>
         <ul class="cart-trust">
-          <li>✓ Договор и счёт</li>
-          <li>✓ Закрывающие через ЭДО</li>
+          <li>✓ В КП: реквизиты, состав, цены в рублях, условия</li>
+          <li>✓ Поставка 1–3 рабочих дня после оплаты</li>
+          <li>✓ Договор, счёт и закрывающие через ЭДО</li>
         </ul>
       </aside>
     </div>
+
+    {presets.length > 0 && (
+      <section class="presets">
+        <h2>Готовые наборы</h2>
+        <p class="presets-lead">Соберите подборку в один клик — количество мест уточним в КП.</p>
+        <div class="presets-grid">
+          {presets.map((pr) => (
+            <div class="card preset-card">
+              <h3>{pr.name}</h3>
+              <p class="pc-note">{pr.note}</p>
+              <ul>
+                {pr.items.map((it) => <li>{it.name}</li>)}
+              </ul>
+              <div class="pc-bottom">
+                <b>от {formatRub(pr.total)}</b>
+                <button class="btn btn-primary btn-sm" data-preset={JSON.stringify(pr.items)}>Добавить набор</button>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+    )}
   </div>
 
   <!-- Диалог «Получить КП» -->
@@ -57,6 +105,18 @@ import { seller } from '../../config/site';
 
 <style>
   .section { padding-top: 2rem; }
+  .share-note { color: var(--color-text-muted); font-size: 0.82rem; margin: 0; }
+  .presets { margin-top: 3rem; }
+  .presets h2 { font-size: clamp(1.3rem, 2.6vw, 1.7rem); margin-bottom: 0.4rem; }
+  .presets-lead { color: var(--color-text-muted); margin-bottom: 1.2rem; }
+  .presets-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.2rem; }
+  .preset-card { padding: 1.5rem; display: flex; flex-direction: column; gap: 0.5rem; }
+  .preset-card h3 { font-size: 1.08rem; }
+  .pc-note { color: var(--color-text-dim); font-size: 0.85rem; margin: 0; }
+  .preset-card ul { list-style: none; padding: 0; margin: 0.3rem 0 0; color: var(--color-text-muted); font-size: 0.9rem; display: flex; flex-direction: column; gap: 0.25rem; }
+  .preset-card ul li::before { content: '+ '; color: var(--color-accent); font-weight: 700; }
+  .pc-bottom { margin-top: auto; padding-top: 0.8rem; display: flex; justify-content: space-between; align-items: center; gap: 0.6rem; }
+  .pc-bottom b { font-variant-numeric: tabular-nums; }
   h1 { font-size: clamp(1.9rem, 4vw, 2.6rem); margin-bottom: 2rem; }
   .cart-layout { display: grid; grid-template-columns: 1fr 320px; gap: 2rem; align-items: start; }
   .cart-items { display: flex; flex-direction: column; gap: 0.8rem; }
@@ -104,7 +164,7 @@ import { seller } from '../../config/site';
 </style>
 
 <script>
-  import { readCart, setQty, removeFromCart, cartTotal, clearCart } from '../../lib/cart-client';
+  import { readCart, setQty, removeFromCart, cartTotal, clearCart, addToCart } from '../../lib/cart-client';
   import { formatRub } from '../../lib/pricing';
 
   const itemsEl = document.querySelector('[data-cart-items]') as HTMLElement;
@@ -153,6 +213,45 @@ import { seller } from '../../config/site';
   function escapeHtml(s: string) {
     return s.replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]!));
   }
+
+  // Подборка по ссылке: /cart?share=<base64url(JSON)> — без регистрации.
+  try {
+    const share = new URLSearchParams(location.search).get('share');
+    if (share) {
+      const json = decodeURIComponent(escape(atob(share.replace(/-/g, '+').replace(/_/g, '/'))));
+      const incoming = JSON.parse(json);
+      if (Array.isArray(incoming)) {
+        for (const it of incoming) {
+          if (it && typeof it.sku === 'string' && typeof it.name === 'string' && Number.isFinite(it.price)) {
+            addToCart({ sku: it.sku, slug: String(it.slug || ''), name: it.name, price: it.price }, Math.max(1, Math.floor(it.qty || 1)));
+          }
+        }
+      }
+      history.replaceState(null, '', '/cart');
+    }
+  } catch { /* битая ссылка — просто показываем текущую подборку */ }
+
+  document.querySelector('[data-share]')?.addEventListener('click', async () => {
+    const items = readCart();
+    if (!items.length) return;
+    const payload = items.map((i) => ({ sku: i.sku, slug: i.slug, name: i.name, price: i.price, qty: i.qty }));
+    const b64 = btoa(unescape(encodeURIComponent(JSON.stringify(payload)))).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+    const url = `${location.origin}/cart?share=${b64}`;
+    try { await navigator.clipboard.writeText(url); } catch { prompt('Скопируйте ссылку на подборку:', url); }
+    const note = document.querySelector('[data-share-note]');
+    if (note) note.hidden = false;
+  });
+
+  document.querySelectorAll('[data-preset]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      try {
+        const items = JSON.parse(btn.getAttribute('data-preset') || '[]');
+        for (const it of items) addToCart({ sku: it.sku, slug: it.slug, name: it.name, price: it.price }, 1);
+        btn.textContent = 'Добавлено ✓';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } catch { /* noop */ }
+    });
+  });
 
   render();
   window.addEventListener('cart:change', render);
