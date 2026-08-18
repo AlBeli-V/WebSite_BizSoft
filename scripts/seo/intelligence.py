@@ -277,11 +277,13 @@ def main():
         'growth_score': score, 'yandex': yx, 'google': g,
         'vendor_radar': vendor_radar(yx if yx.get('available') else {}, g if g.get('available') else {}),
         'ppc_research_candidates': ppc_candidates(yx) if yx.get('available') else [],
-        'analytics_gaps': [
-            'Яндекс.Метрика / GA4 API не подключены — нет данных по сессиям и конверсиям',
-            'CRM/лиды не подключены — цепочка запрос→лид→сделка не измеряется',
-            'Рекламные кабинеты (Директ/Ads) не подключены — нет прогнозов CPC и данных PPC',
-        ],
+        'analytics_gaps': (
+            ([] if glob.glob(str(DATA_DIR / 'metrika-*.json')) else
+             ['Яндекс.Метрика API не подключена — нет данных по сессиям и конверсиям']) + [
+                'GA4 API не подключён — поведение Google-трафика не измеряется',
+                'CRM/лиды не подключены — цепочка запрос→лид→сделка не измеряется',
+                'Рекламные кабинеты (Директ/Ads) не подключены — нет прогнозов CPC и данных PPC',
+            ]),
     }
     out = OUT_DIR / f'{date}.json'
     out.write_text(json.dumps(result, ensure_ascii=False, indent=1), encoding='utf-8')

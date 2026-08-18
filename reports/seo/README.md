@@ -12,7 +12,7 @@
 
 ## Конвейер
 
-1. **Сбор** — `.github/workflows/seo-data-collect.yml` → `scripts/seo/collect.py` → сырые `data/gsc-*.json`, `data/yandex-*.json` (GSC: 28 дн, запросы/страницы/позиции/клики, задержка ~2–3 дня; Яндекс: индексация, ИКС, популярные запросы за 14 дн). Schedule GitHub не работает вне main — сборщик запускает агент (workflow_dispatch) в начале утреннего прогона.
+1. **Сбор** — `.github/workflows/seo-data-collect.yml` → `scripts/seo/collect.py` → сырые `data/gsc-*.json`, `data/yandex-*.json`, `data/metrika-*.json` (GSC: 28 дн, запросы/страницы/позиции/клики, задержка ~2–3 дня; Яндекс: индексация, ИКС, популярные запросы за 14 дн; Метрика: 14 дн — источники трафика, органика по ПС и посадочным, цели и их достижения `sumGoalReachesAny` — использовать в отчёте для блока конверсий: запрос→посадочная→визит→цель). Schedule GitHub не работает вне main — сборщик запускает агент (workflow_dispatch) в начале утреннего прогона.
 2. **Обработка** — `scripts/seo/intelligence.py` (детерминированный, только факты) → `intelligence/<дата>.json`:
    - окна динамики (7д/пред.7д/28д GSC; Яндекс — по мере накопления срезов);
    - классификация запросов: интент (transactional_b2b/transactional/branded/informational/…), коммерческая ценность High/Medium/Low, vendor;
