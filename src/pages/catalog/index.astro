@@ -17,6 +17,7 @@ import JsonLd from '../../components/JsonLd.astro';
 import { getCategories, getProducts } from '../../lib/directus';
 import { site } from '../../config/site';
 import { POPULAR_VENDORS } from '../../data/popular';
+import { SEO_EXPERIMENT_LINKS } from '../../data/seo-experiments';
 
 let categories = [];
 let products = [];
@@ -179,6 +180,9 @@ const ld = [
           </a>
         ))}
       </Carousel>
+      <p class="pop-links">
+        {SEO_EXPERIMENT_LINKS.map((l) => <a href={`/vendors/${l.slug}`}>{l.anchor}</a>)}
+      </p>
       <p class="all-vendors"><a href="/vendors">Все производители →</a></p>
     </section>
 
@@ -277,6 +281,9 @@ const ld = [
   .brand-chip:hover { border-color: var(--color-accent); transform: translateY(-3px); box-shadow: var(--shadow); }
   .brand-badge { width: 40px; height: 40px; border-radius: 10px; display: inline-flex; align-items: center; justify-content: center; background: var(--bc); color: var(--tc); flex-shrink: 0; }
   .brand-name { font-weight: 600; font-size: 0.95rem; white-space: nowrap; }
+  .pop-links { display: flex; flex-wrap: wrap; gap: 0.5rem 1.6rem; margin-top: 1.1rem; }
+  .pop-links a { color: var(--color-text-muted); font-size: 0.92rem; font-weight: 600; }
+  .pop-links a:hover { color: var(--color-accent); }
   .all-vendors { margin-top: 1rem; }
   .all-vendors a { color: var(--color-accent); font-weight: 600; }
 

@@ -13,6 +13,7 @@ import JsonLd from './JsonLd.astro';
 import { getProducts } from '../lib/directus';
 import { effectivePrice, formatRub } from '../lib/pricing';
 import { collectionPageSchema, faqSchema, breadcrumbSchema } from '../lib/seo';
+import { mergeExperimentFaq } from '../data/seo-experiments';
 import { DOMAIN_AUDIENCE, type VendorEntry } from '../data/vendors';
 import { vendorContent } from '../data/vendor-content';
 import type { Product } from '../lib/types';
@@ -58,12 +59,14 @@ const crumbs = [
 ];
 
 // FAQ — свой bespoke (если задан) либо шаблонные вопросы под юрлицо.
-const faq = content.faq?.length ? content.faq : [
+const baseFaq = content.faq?.length ? content.faq : [
   { q: `Как купить ${title} для юридического лица в России?`, a: `Через BizSoft: заключаем договор, выставляем счёт, оплата в рублях по безналичному расчёту. Закрывающие документы передаём в том числе через ЭДО. Оставьте заявку — подберём тариф и подготовим КП.` },
   { q: `Сколько стоит ${title}?`, a: `Цена в рублях рассчитывается от зарубежного прайса по курсу ЦБ РФ на дату счёта. Актуальную стоимость по каждому тарифу смотрите в карточках выше; финальная сумма фиксируется в КП или счёте.` },
   { q: `Можно ли оплатить ${title} с расчётного счёта организации?`, a: `Да. Мы работаем с юрлицами и ИП по договору и счёту, предоставляем закрывающие документы для бухгалтерии.` },
   { q: `Как быстро предоставляется доступ к ${title}?`, a: `После поступления оплаты передаём ключи, доступы или инструкции по активации в согласованные сроки.` },
 ];
+// SEO-эксперимент P0-1: коммерческий вопрос первым, без дублей (только 5 слагов).
+const faq = mergeExperimentFaq(baseFaq, entry.slug, entry.vendor);
 
 const summaryText = content.summary || `${entry.about} BizSoft поставляет ${title} российским юрлицам и ИП по договору с оплатой по счёту.`;
 const hasCompare = !!content.comparison && content.comparison.rows.length > 0;
@@ -191,7 +194,7 @@ const ld = [
   </section>
 
   <!-- FAQ -->
-  <FAQ items={faq} title={`Частые вопросы про ${title} для бизнеса`} />
+  <FAQ items={faq} title={`Частые вопросы про ${title} для бизнеса`} schema={false} />
 
   <!-- Финальный CTA -->
   <section class="block final">

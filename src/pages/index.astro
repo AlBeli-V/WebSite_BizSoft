@@ -7,6 +7,7 @@ import CTASection from '../components/CTASection.astro';
 import Carousel from '../components/Carousel.astro';
 import StatsDigits from '../components/StatsDigits.astro';
 import CategoryIcon from '../components/CategoryIcon.astro';
+import { SEO_EXPERIMENT_LINKS } from '../data/seo-experiments';
 import Banner from '../components/Banner.astro';
 import LeadForm from '../components/LeadForm.astro';
 import QuestionForm from '../components/QuestionForm.astro';
@@ -220,6 +221,14 @@ const servicesItemList = {
     </Carousel>
   </section>
 
+  <!-- Популярные сервисы для бизнеса (перелинковка SEO-эксперимента P0-1) -->
+  <section class="container-page pop-services">
+    <p class="ps-cap">Популярные сервисы для бизнеса:</p>
+    <p class="ps-links">
+      {SEO_EXPERIMENT_LINKS.map((l) => <a href={`/vendors/${l.slug}`}>{l.anchor}</a>)}
+    </p>
+  </section>
+
   <!-- КАТЕГОРИИ КАТАЛОГА -->
   {tiles.length > 0 && (
     <section class="container-page section">
@@ -426,6 +435,11 @@ const servicesItemList = {
   @media (prefers-reduced-motion: reduce) { .app-tile { transform: none !important; } }
 
   /* Цифры доверия */
+  .pop-services { display: flex; flex-wrap: wrap; gap: 0.4rem 1rem; align-items: baseline; margin-top: 1.4rem; }
+  .ps-cap { color: var(--color-text-dim); font-size: 0.9rem; margin: 0; }
+  .ps-links { display: flex; flex-wrap: wrap; gap: 0.4rem 1.5rem; margin: 0; }
+  .ps-links a { color: var(--color-text-muted); font-size: 0.92rem; font-weight: 600; }
+  .ps-links a:hover { color: var(--color-accent); }
   .trust-strip { border-block: 1px solid var(--color-border); background: var(--color-bg-elevated); padding: 1.3rem 0; }
   .trust-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 0.8rem; text-align: center; }
   .trust-grid b { display: block; font-size: 1.45rem; letter-spacing: -0.02em; }
