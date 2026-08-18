@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" width="512" height="512" role="img" aria-labelledby="jetbrains-obfuscateguard-color-title jetbrains-obfuscateguard-color-desc" data-icon-id="jetbrains-obfuscateguard" data-variant="color">
+  <title id="jetbrains-obfuscateguard-color-title">ObfuscateGuard — color icon</title>
+  <desc id="jetbrains-obfuscateguard-color-desc">Normalized color product icon used by 1 catalog card(s).</desc>
+  <metadata>
+  <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/">
+    <rdf:Description rdf:about="">
+      <dc:title>ObfuscateGuard — color</dc:title>
+      <dc:description>Normalized catalog product icon; assigned to 1 product card(s); 512×512 transparent canvas; 12.5% safe area.</dc:description>
+      <dc:creator>Jakub Jirák</dc:creator>
+      <dc:source>https://downloads.marketplace.jetbrains.com/files/30234/1072824/icon/default.svg</dc:source>
+      <dc:date>2026-08-18</dc:date>
+      <dc:rights>Publisher-provided Marketplace icon; copyright and trademark rights remain with the plugin publisher.</dc:rights>
+      <dc:identifier>jetbrains-obfuscateguard__color</dc:identifier>
+    </rdf:Description>
+  </rdf:RDF>
+</metadata>
+  <svg x="65" y="65" width="382" height="382" viewBox="0 0 40 40" preserveAspectRatio="xMidYMid meet"><!-- Background -->
+    <rect xmlns="http://www.w3.org/2000/svg" width="40" height="40" rx="8" fill="#2B5B84"/>
+    <!-- Shield / hexagon -->
+    <path xmlns="http://www.w3.org/2000/svg" d="M20 6 L30 12 L30 26 L20 34 L10 26 L10 12 Z" fill="none" stroke="#FFFFFF" stroke-width="2.5"/>
+    <!-- Inner glow -->
+    <path xmlns="http://www.w3.org/2000/svg" d="M20 11 L26 15 L26 24 L20 29 L14 24 L14 15 Z" fill="#4DA6FF" opacity="0.5"/>
+    <!-- Lock icon in center -->
+    <rect xmlns="http://www.w3.org/2000/svg" x="17" y="19" width="6" height="5" rx="1" fill="#FFFFFF"/>
+    <path xmlns="http://www.w3.org/2000/svg" d="M18.5 19 L18.5 17 C18.5 15.5 19.2 14.5 20 14.5 C20.8 14.5 21.5 15.5 21.5 17 L21.5 19" fill="none" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round"/>
+    <!-- Lock keyhole -->
+    <circle xmlns="http://www.w3.org/2000/svg" cx="20" cy="21.5" r="1" fill="#2B5B84"/>
+</svg>
+</svg>

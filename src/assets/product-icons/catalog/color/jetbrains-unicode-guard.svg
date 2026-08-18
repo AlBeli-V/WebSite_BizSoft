@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" width="512" height="512" role="img" aria-labelledby="jetbrains-unicode-guard-color-title jetbrains-unicode-guard-color-desc" data-icon-id="jetbrains-unicode-guard" data-variant="color">
+  <title id="jetbrains-unicode-guard-color-title">Unicode Guard — color icon</title>
+  <desc id="jetbrains-unicode-guard-color-desc">Normalized color product icon used by 2 catalog card(s).</desc>
+  <metadata>
+  <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/">
+    <rdf:Description rdf:about="">
+      <dc:title>Unicode Guard — color</dc:title>
+      <dc:description>Normalized catalog product icon; assigned to 2 product card(s); 512×512 transparent canvas; 12.5% safe area.</dc:description>
+      <dc:creator>Anbora Labs</dc:creator>
+      <dc:source>https://downloads.marketplace.jetbrains.com/files/32235/1079418/icon/default.svg</dc:source>
+      <dc:date>2026-08-18</dc:date>
+      <dc:rights>Publisher-provided Marketplace icon; copyright and trademark rights remain with the plugin publisher.</dc:rights>
+      <dc:identifier>jetbrains-unicode-guard__color</dc:identifier>
+    </rdf:Description>
+  </rdf:RDF>
+</metadata>
+  <svg x="65" y="65" width="382" height="382" viewBox="0 0 128 128" preserveAspectRatio="xMidYMid meet"><defs xmlns="http://www.w3.org/2000/svg">
+    <linearGradient id="shieldGradient" x1="24" y1="14" x2="104" y2="116" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#4F8CFF"/>
+      <stop offset="1" stop-color="#6D4CFF"/>
+    </linearGradient>
+    <linearGradient id="innerGradient" x1="37" y1="30" x2="91" y2="96" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity="0.96"/>
+      <stop offset="1" stop-color="#DDE7FF" stop-opacity="0.9"/>
+    </linearGradient>
+    <filter id="shadow" x="10" y="8" width="108" height="116" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="6" stdDeviation="6" flood-color="#1F2450" flood-opacity="0.24"/>
+    </filter>
+  </defs>
+
+  <!-- Shield -->
+  <path xmlns="http://www.w3.org/2000/svg" filter="url(#shadow)" d="M64 12L104 28V58C104 84.5 88.2 106.8 64 118C39.8 106.8 24 84.5 24 58V28L64 12Z" fill="url(#shieldGradient)"/>
+
+  <!-- Inner shield -->
+  <path xmlns="http://www.w3.org/2000/svg" d="M64 25L91 36V58.5C91 78 80.5 94.6 64 104C47.5 94.6 37 78 37 58.5V36L64 25Z" fill="url(#innerGradient)"/>
+
+  <!-- Unicode U -->
+  <path xmlns="http://www.w3.org/2000/svg" d="M48 46V66.5C48 76.2 54.3 82 64 82C73.7 82 80 76.2 80 66.5V46H72V66.2C72 71.6 69.1 74.8 64 74.8C58.9 74.8 56 71.6 56 66.2V46H48Z" fill="#29304D"/>
+
+  <!-- Plus sign -->
+  <path xmlns="http://www.w3.org/2000/svg" d="M85 48H91V54H97V60H91V66H85V60H79V54H85V48Z" fill="#29304D"/>
+
+  <!-- Suspicious invisible character marker -->
+  <circle xmlns="http://www.w3.org/2000/svg" cx="42" cy="88" r="8" fill="#FFB020"/>
+  <path xmlns="http://www.w3.org/2000/svg" d="M42 84V89" stroke="#29304D" stroke-width="2.4" stroke-linecap="round"/>
+  <circle xmlns="http://www.w3.org/2000/svg" cx="42" cy="92.5" r="1.4" fill="#29304D"/>
+
+  <!-- Small code brackets -->
+  <path xmlns="http://www.w3.org/2000/svg" d="M52 94L45 88L52 82" stroke="#4F5B93" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  <path xmlns="http://www.w3.org/2000/svg" d="M76 82L83 88L76 94" stroke="#4F5B93" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- Bottom security line -->
+  <path xmlns="http://www.w3.org/2000/svg" d="M57 91H71" stroke="#4F5B93" stroke-width="4" stroke-linecap="round"/>
+</svg>
+</svg>

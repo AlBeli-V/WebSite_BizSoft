@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" width="512" height="512" role="img" aria-labelledby="jetbrains-xml-key-finder-color-title jetbrains-xml-key-finder-color-desc" data-icon-id="jetbrains-xml-key-finder" data-variant="color">
+  <title id="jetbrains-xml-key-finder-color-title">XML Key Finder — color icon</title>
+  <desc id="jetbrains-xml-key-finder-color-desc">Normalized color product icon used by 2 catalog card(s).</desc>
+  <metadata>
+  <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/">
+    <rdf:Description rdf:about="">
+      <dc:title>XML Key Finder — color</dc:title>
+      <dc:description>Normalized catalog product icon; assigned to 2 product card(s); 512×512 transparent canvas; 12.5% safe area.</dc:description>
+      <dc:creator>FilieraFusion</dc:creator>
+      <dc:source>https://downloads.marketplace.jetbrains.com/files/30964/1008703/icon/default.svg</dc:source>
+      <dc:date>2026-08-18</dc:date>
+      <dc:rights>Publisher-provided Marketplace icon; copyright and trademark rights remain with the plugin publisher.</dc:rights>
+      <dc:identifier>jetbrains-xml-key-finder__color</dc:identifier>
+    </rdf:Description>
+  </rdf:RDF>
+</metadata>
+  <svg x="65" y="65" width="382" height="382" viewBox="0 0 256 256" preserveAspectRatio="xMidYMid meet"><!-- Background -->
+    <rect xmlns="http://www.w3.org/2000/svg" width="256" height="256" fill="#ffffff"/>
+
+    <!-- Document shape -->
+    <path xmlns="http://www.w3.org/2000/svg" d="M60 40 H140 L190 90 V200 H60 Z" fill="none" stroke="#0B1F3A" stroke-width="8" stroke-linejoin="round"/>
+
+    <!-- Folded corner -->
+    <path xmlns="http://www.w3.org/2000/svg" d="M140 40 V90 H190" fill="none" stroke="#0B1F3A" stroke-width="8" stroke-linejoin="round"/>
+
+    <!-- XML text -->
+    <text xmlns="http://www.w3.org/2000/svg" x="75" y="120" font-family="Arial, Helvetica, sans-serif" font-size="24" fill="#0B1F3A" font-weight="bold">
+        XML
+    </text>
+
+    <!-- Minimal lines -->
+    <line xmlns="http://www.w3.org/2000/svg" x1="75" y1="145" x2="140" y2="145" stroke="#2D8CFF" stroke-width="6" stroke-linecap="round"/>
+    <line xmlns="http://www.w3.org/2000/svg" x1="75" y1="170" x2="120" y2="170" stroke="#2D8CFF" stroke-width="6" stroke-linecap="round"/>
+
+    <!-- Magnifying glass -->
+    <circle xmlns="http://www.w3.org/2000/svg" cx="150" cy="165" r="32" fill="none" stroke="#2D8CFF" stroke-width="10"/>
+    <line xmlns="http://www.w3.org/2000/svg" x1="172" y1="187" x2="200" y2="215" stroke="#2D8CFF" stroke-width="10" stroke-linecap="round"/>
+</svg>
+</svg>

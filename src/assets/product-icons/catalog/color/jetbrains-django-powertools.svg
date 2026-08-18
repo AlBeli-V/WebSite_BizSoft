@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" width="512" height="512" role="img" aria-labelledby="jetbrains-django-powertools-color-title jetbrains-django-powertools-color-desc" data-icon-id="jetbrains-django-powertools" data-variant="color">
+  <title id="jetbrains-django-powertools-color-title">Django PowerTools — color icon</title>
+  <desc id="jetbrains-django-powertools-color-desc">Normalized color product icon used by 2 catalog card(s).</desc>
+  <metadata>
+  <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/">
+    <rdf:Description rdf:about="">
+      <dc:title>Django PowerTools — color</dc:title>
+      <dc:description>Normalized catalog product icon; assigned to 2 product card(s); 512×512 transparent canvas; 12.5% safe area.</dc:description>
+      <dc:creator>meanmail.dev</dc:creator>
+      <dc:source>https://downloads.marketplace.jetbrains.com/files/27023/1021651/icon/default.svg</dc:source>
+      <dc:date>2026-08-18</dc:date>
+      <dc:rights>Publisher-provided Marketplace icon; copyright and trademark rights remain with the plugin publisher.</dc:rights>
+      <dc:identifier>jetbrains-django-powertools__color</dc:identifier>
+    </rdf:Description>
+  </rdf:RDF>
+</metadata>
+  <svg x="65" y="65" width="382" height="382" viewBox="0 0 40 40" preserveAspectRatio="xMidYMid meet"><defs xmlns="http://www.w3.org/2000/svg">
+        <linearGradient id="djangoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#092E20;stop-opacity:1"/>
+            <stop offset="100%" style="stop-color:#0C4B33;stop-opacity:1"/>
+        </linearGradient>
+        <linearGradient id="toolsGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#666666;stop-opacity:1"/>
+            <stop offset="100%" style="stop-color:#999999;stop-opacity:1"/>
+        </linearGradient>
+    </defs>
+
+    <!-- Background -->
+    <rect xmlns="http://www.w3.org/2000/svg" x="2" y="2" width="36" height="36" rx="6" ry="6" fill="white" stroke="#EEEEEE" stroke-width="1"/>
+
+    <!-- Django "D" -->
+    <path xmlns="http://www.w3.org/2000/svg" d="M10,8 L10,32 L16,32 C22,32 26,28 26,20 C26,12 22,8 16,8 L10,8 Z" fill="url(#djangoGradient)"/>
+    <path xmlns="http://www.w3.org/2000/svg" d="M16,12 C19,12 21,14 21,20 C21,26 19,28 16,28 L15,28 L15,12 L16,12 Z" fill="white"/>
+
+    <!-- Gear icon representing tools -->
+    <path xmlns="http://www.w3.org/2000/svg" d="M30,14 L32,14 L32.5,16 C32.8,16.1 33.1,16.3 33.4,16.5 L35.2,15.4 L36.6,16.8 L35.5,18.6 C35.7,18.9 35.9,19.2 36,19.5 L38,20 L38,22 L36,22.5 C35.9,22.8 35.7,23.1 35.5,23.4 L36.6,25.2 L35.2,26.6 L33.4,25.5 C33.1,25.7 32.8,25.9 32.5,26 L32,28 L30,28 L29.5,26 C29.2,25.9 28.9,25.7 28.6,25.5 L26.8,26.6 L25.4,25.2 L26.5,23.4 C26.3,23.1 26.1,22.8 26,22.5 L24,22 L24,20 L26,19.5 C26.1,19.2 26.3,18.9 26.5,18.6 L25.4,16.8 L26.8,15.4 L28.6,16.5 C28.9,16.3 29.2,16.1 29.5,16 L30,14 Z" fill="url(#toolsGradient)"/>
+    <circle xmlns="http://www.w3.org/2000/svg" cx="31" cy="21" r="3" fill="white"/>
+</svg>
+</svg>

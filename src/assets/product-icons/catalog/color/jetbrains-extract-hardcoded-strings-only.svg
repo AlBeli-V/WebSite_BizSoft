@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" width="512" height="512" role="img" aria-labelledby="jetbrains-extract-hardcoded-strings-only-color-title jetbrains-extract-hardcoded-strings-only-color-desc" data-icon-id="jetbrains-extract-hardcoded-strings-only" data-variant="color">
+  <title id="jetbrains-extract-hardcoded-strings-only-color-title">Extract Hardcoded Strings Only — color icon</title>
+  <desc id="jetbrains-extract-hardcoded-strings-only-color-desc">Normalized color product icon used by 2 catalog card(s).</desc>
+  <metadata>
+  <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/">
+    <rdf:Description rdf:about="">
+      <dc:title>Extract Hardcoded Strings Only — color</dc:title>
+      <dc:description>Normalized catalog product icon; assigned to 2 product card(s); 512×512 transparent canvas; 12.5% safe area.</dc:description>
+      <dc:creator>codemagic</dc:creator>
+      <dc:source>https://downloads.marketplace.jetbrains.com/files/31523/1109922/icon/default.svg</dc:source>
+      <dc:date>2026-08-18</dc:date>
+      <dc:rights>Publisher-provided Marketplace icon; copyright and trademark rights remain with the plugin publisher.</dc:rights>
+      <dc:identifier>jetbrains-extract-hardcoded-strings-only__color</dc:identifier>
+    </rdf:Description>
+  </rdf:RDF>
+</metadata>
+  <svg x="65" y="65" width="382" height="382" viewBox="0 0 64 64" preserveAspectRatio="xMidYMid meet"><!-- Background -->
+    <rect xmlns="http://www.w3.org/2000/svg" x="6" y="6" width="52" height="52" rx="12" fill="#2B2D30"/>
+
+    <!-- Document -->
+    <rect xmlns="http://www.w3.org/2000/svg" x="18" y="14" width="28" height="36" rx="4" fill="#3C3F41"/>
+
+    <!-- Text lines -->
+    <rect xmlns="http://www.w3.org/2000/svg" x="22" y="20" width="20" height="3" rx="1.5" fill="#A9B7C6"/>
+    <rect xmlns="http://www.w3.org/2000/svg" x="22" y="26" width="16" height="3" rx="1.5" fill="#A9B7C6"/>
+    <rect xmlns="http://www.w3.org/2000/svg" x="22" y="32" width="18" height="3" rx="1.5" fill="#A9B7C6"/>
+
+    <!-- Arrow (extraction) -->
+    <path xmlns="http://www.w3.org/2000/svg" d="M32 40 L32 50" stroke="#4FC3F7" stroke-width="2.5" stroke-linecap="round"/>
+    <path xmlns="http://www.w3.org/2000/svg" d="M28 46 L32 50 L36 46" stroke="#4FC3F7" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <!-- Sparkle (AI / automation feel) -->
+    <circle xmlns="http://www.w3.org/2000/svg" cx="42" cy="18" r="2" fill="#FFD54F"/>
+    <circle xmlns="http://www.w3.org/2000/svg" cx="46" cy="22" r="1.5" fill="#FFD54F"/>
+
+</svg>
+</svg>

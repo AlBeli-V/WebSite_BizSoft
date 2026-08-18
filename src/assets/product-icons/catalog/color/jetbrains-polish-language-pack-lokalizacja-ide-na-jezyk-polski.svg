@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" width="512" height="512" role="img" aria-labelledby="jetbrains-polish-language-pack-lokalizacja-ide-na-jezyk-polski-color-title jetbrains-polish-language-pack-lokalizacja-ide-na-jezyk-polski-color-desc" data-icon-id="jetbrains-polish-language-pack-lokalizacja-ide-na-jezyk-polski" data-variant="color">
+  <title id="jetbrains-polish-language-pack-lokalizacja-ide-na-jezyk-polski-color-title">Polish Language Pack / Lokalizacja IDE Na Język Polski — color icon</title>
+  <desc id="jetbrains-polish-language-pack-lokalizacja-ide-na-jezyk-polski-color-desc">Normalized color product icon used by 2 catalog card(s).</desc>
+  <metadata>
+  <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/">
+    <rdf:Description rdf:about="">
+      <dc:title>Polish Language Pack / Lokalizacja IDE Na Język Polski — color</dc:title>
+      <dc:description>Normalized catalog product icon; assigned to 2 product card(s); 512×512 transparent canvas; 12.5% safe area.</dc:description>
+      <dc:creator>Code</dc:creator>
+      <dc:source>https://downloads.marketplace.jetbrains.com/files/25812/1140809/icon/default.svg</dc:source>
+      <dc:date>2026-08-18</dc:date>
+      <dc:rights>Publisher-provided Marketplace icon; copyright and trademark rights remain with the plugin publisher.</dc:rights>
+      <dc:identifier>jetbrains-polish-language-pack-lokalizacja-ide-na-jezyk-polski__color</dc:identifier>
+    </rdf:Description>
+  </rdf:RDF>
+</metadata>
+  <svg x="65" y="65" width="382" height="382" viewBox="0 0 120 120" preserveAspectRatio="xMidYMid meet"><defs xmlns="http://www.w3.org/2000/svg">
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="6" stdDeviation="6" flood-color="#000000" flood-opacity="0.4"/>
+    </filter>
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="120" y2="120" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#2B2D30"/>
+      <stop offset="100%" stop-color="#141517"/>
+    </linearGradient>
+    <linearGradient id="bubble1Grad" x1="50" y1="25" x2="105" y2="75" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#38BDF8"/>
+      <stop offset="100%" stop-color="#0EA5E9"/>
+    </linearGradient>
+    <linearGradient id="bubble2Grad" x1="15" y1="45" x2="70" y2="95" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#F8FAFC"/>
+      <stop offset="100%" stop-color="#DC2626"/>
+    </linearGradient>
+  </defs>
+
+  <rect xmlns="http://www.w3.org/2000/svg" x="0" y="0" width="120" height="120" rx="28" fill="url(#bgGrad)"/>
+  <rect xmlns="http://www.w3.org/2000/svg" x="1" y="1" width="118" height="118" rx="27" fill="none" stroke="#FFFFFF" stroke-opacity="0.1" stroke-width="2"/>
+
+  <path xmlns="http://www.w3.org/2000/svg" d="M 60 25 L 95 25 C 100.5 25 105 29.5 105 35 L 105 65 C 105 70.5 100.5 75 95 75 L 100 85 L 85 75 L 60 75 C 54.5 75 50 70.5 50 65 L 50 35 C 50 29.5 54.5 25 60 25 Z" fill="url(#bubble1Grad)" stroke="#FFFFFF" stroke-opacity="0.15" stroke-width="1.5"/>
+
+  <g xmlns="http://www.w3.org/2000/svg" stroke="#1E3A5F" stroke-width="2.3" fill="none" opacity="0.95" stroke-linecap="round">
+    <circle cx="77.5" cy="50" r="14"/>
+    <ellipse cx="77.5" cy="50" rx="6.5" ry="14"/>
+    <line x1="63.5" y1="50" x2="91.5" y2="50"/>
+    <path d="M 65.5 46 Q 77.5 42.5 89.5 46"/>
+    <path d="M 65.5 54 Q 77.5 57.5 89.5 54"/>
+  </g>
+
+  <path xmlns="http://www.w3.org/2000/svg" d="M 25 45 L 60 45 C 65.5 45 70 49.5 70 55 L 70 85 C 70 90.5 65.5 95 60 95 L 35 95 L 20 105 L 25 95 C 19.5 95 15 90.5 15 85 L 15 55 C 15 49.5 19.5 45 25 45 Z" fill="url(#bubble2Grad)" filter="url(#shadow)" stroke="#FFFFFF" stroke-opacity="0.15" stroke-width="1.5"/>
+
+  <g xmlns="http://www.w3.org/2000/svg" fill="#111827" opacity="0.96" font-family="Arial, Helvetica, sans-serif" font-weight="700" text-anchor="middle">
+    <text x="42.5" y="79" font-size="28">PL</text>
+  </g>
+</svg>
+</svg>

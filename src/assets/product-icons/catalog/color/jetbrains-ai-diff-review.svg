@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" width="512" height="512" role="img" aria-labelledby="jetbrains-ai-diff-review-color-title jetbrains-ai-diff-review-color-desc" data-icon-id="jetbrains-ai-diff-review" data-variant="color">
+  <title id="jetbrains-ai-diff-review-color-title">AI Diff Review — color icon</title>
+  <desc id="jetbrains-ai-diff-review-color-desc">Normalized color product icon used by 2 catalog card(s).</desc>
+  <metadata>
+  <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/">
+    <rdf:Description rdf:about="">
+      <dc:title>AI Diff Review — color</dc:title>
+      <dc:description>Normalized catalog product icon; assigned to 2 product card(s); 512×512 transparent canvas; 12.5% safe area.</dc:description>
+      <dc:creator>ContentaSoft</dc:creator>
+      <dc:source>https://downloads.marketplace.jetbrains.com/files/29112/901384/icon/default.svg</dc:source>
+      <dc:date>2026-08-18</dc:date>
+      <dc:rights>Publisher-provided Marketplace icon; copyright and trademark rights remain with the plugin publisher.</dc:rights>
+      <dc:identifier>jetbrains-ai-diff-review__color</dc:identifier>
+    </rdf:Description>
+  </rdf:RDF>
+</metadata>
+  <svg x="65" y="65" width="382" height="382" viewBox="0 0 40 40" preserveAspectRatio="xMidYMid meet"><!-- Background: Rounded square 32x32 with 4px padding (guideline: square = 32px) -->
+  <rect xmlns="http://www.w3.org/2000/svg" x="4" y="4" width="32" height="32" rx="6" fill="url(#mainGradient)"/>
+  
+  <!-- Code lines representing diff content -->
+  <rect xmlns="http://www.w3.org/2000/svg" x="9" y="11" width="12" height="2.5" rx="1.25" fill="white" fill-opacity="0.9"/>
+  <rect xmlns="http://www.w3.org/2000/svg" x="9" y="16" width="9" height="2.5" rx="1.25" fill="white" fill-opacity="0.6"/>
+  <rect xmlns="http://www.w3.org/2000/svg" x="9" y="21" width="10" height="2.5" rx="1.25" fill="white" fill-opacity="0.6"/>
+  
+  <!-- Plus symbol for added code (diff) -->
+  <rect xmlns="http://www.w3.org/2000/svg" x="9" y="27" width="6" height="2" rx="1" fill="#4ADE80"/>
+  <rect xmlns="http://www.w3.org/2000/svg" x="11" y="25" width="2" height="6" rx="1" fill="#4ADE80"/>
+  
+  <!-- AI check badge (inside the square bounds) -->
+  <circle xmlns="http://www.w3.org/2000/svg" cx="28" cy="12" r="5.5" fill="white"/>
+  <path xmlns="http://www.w3.org/2000/svg" d="M25.5 12L27.25 13.75L30.5 10.5" stroke="url(#checkGradient)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+  
+  <!-- AI sparkles (contained within the shape) -->
+  <circle xmlns="http://www.w3.org/2000/svg" cx="30" cy="26" r="1.5" fill="white" fill-opacity="0.7"/>
+  <circle xmlns="http://www.w3.org/2000/svg" cx="26" cy="30" r="1" fill="white" fill-opacity="0.5"/>
+  
+  <defs xmlns="http://www.w3.org/2000/svg">
+    <linearGradient id="mainGradient" x1="4" y1="4" x2="36" y2="36" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#6366F1"/>
+      <stop offset="0.5" stop-color="#8B5CF6"/>
+      <stop offset="1" stop-color="#A855F7"/>
+    </linearGradient>
+    <linearGradient id="checkGradient" x1="25" y1="10" x2="31" y2="14" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#6366F1"/>
+      <stop offset="1" stop-color="#A855F7"/>
+    </linearGradient>
+  </defs>
+</svg>
+</svg>

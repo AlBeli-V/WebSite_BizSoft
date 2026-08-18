@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" width="512" height="512" role="img" aria-labelledby="jetbrains-mongo-db-browser-color-title jetbrains-mongo-db-browser-color-desc" data-icon-id="jetbrains-mongo-db-browser" data-variant="color">
+  <title id="jetbrains-mongo-db-browser-color-title">Mongo DB Browser — color icon</title>
+  <desc id="jetbrains-mongo-db-browser-color-desc">Normalized color product icon used by 2 catalog card(s).</desc>
+  <metadata>
+  <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/">
+    <rdf:Description rdf:about="">
+      <dc:title>Mongo DB Browser — color</dc:title>
+      <dc:description>Normalized catalog product icon; assigned to 2 product card(s); 512×512 transparent canvas; 12.5% safe area.</dc:description>
+      <dc:creator>Side Hustle Solutions</dc:creator>
+      <dc:source>https://downloads.marketplace.jetbrains.com/files/20002/924505/icon/default.svg</dc:source>
+      <dc:date>2026-08-18</dc:date>
+      <dc:rights>Publisher-provided Marketplace icon; copyright and trademark rights remain with the plugin publisher.</dc:rights>
+      <dc:identifier>jetbrains-mongo-db-browser__color</dc:identifier>
+    </rdf:Description>
+  </rdf:RDF>
+</metadata>
+  <svg x="65" y="65" width="382" height="382" viewBox="0 0 31.3 32.47" preserveAspectRatio="xMidYMid meet"><defs xmlns="http://www.w3.org/2000/svg">
+        <linearGradient id="linear-gradient" x1="10.3" y1="17.23" x2="28.3" y2="17.23" gradientUnits="userSpaceOnUse">
+            <stop offset="0" stop-color="#cce0f4"/>
+            <stop offset="0.04" stop-color="#c3dcf2"/>
+            <stop offset="0.12" stop-color="#a9d2ee"/>
+            <stop offset="0.21" stop-color="#80c2e7"/>
+            <stop offset="0.32" stop-color="#47acde"/>
+            <stop offset="0.39" stop-color="#1e9cd7"/>
+            <stop offset="0.87" stop-color="#0075be"/>
+            <stop offset="0.99" stop-color="#005b97"/>
+        </linearGradient>
+    </defs>
+    <path xmlns="http://www.w3.org/2000/svg" d="M7.3,4.73h24v24H7.3Z" style="fill:none"/>
+    <path xmlns="http://www.w3.org/2000/svg" d="M28.3,14.23v3c0,2.49-4,4.5-9,4.5s-9-2-9-4.5v-3c0,2.49,4,4.5,9,4.5S28.3,16.72,28.3,14.23Zm-18,5c0,2.49,4,4.5,9,4.5s9-2,9-4.5v3c0,2.49-4,4.5-9,4.5s-9-2-9-4.5Zm9-2.5c-5,0-9-2-9-4.5s4-4.5,9-4.5,9,2,9,4.5S24.27,16.73,19.3,16.73Z" style="fill:url(#linear-gradient)"/>
+    <g xmlns="http://www.w3.org/2000/svg" id="mongodb-leaf">
+        <path id="mongodb-leaf-stem" d="M8,32.47l-.87-.3s.11-4.41-1.47-4.72c-1.06-1.22.17-51.86,4-.17a3.06,3.06,0,0,0-1.54,1.77A16.42,16.42,0,0,0,8,32.47Z" style="fill:#a6a385"/>
+        <path id="mongodb-leaf-right" d="M8.16,28.75s8.45-4.75,6-15.87C12.43,5.35,8.4,2.89,8,1.94A10.46,10.46,0,0,1,7,.08L7.32,21s-.84,6.94.82,7.72" style="fill:#499d4a"/>
+        <path id="mongodb-leaf-left" d="M6.7,28.48S-.4,23.63,0,15.09,5.44,2.36,6.41,1.6A2,2,0,0,0,7.1,0c.44,1,.36,14.19.42,15.75.19,6-.33,11.59-.82,12.73Z" style="fill:#58aa50"/>
+    </g>
+</svg>
+</svg>

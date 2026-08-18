@@ -7,6 +7,8 @@ import { logoFile } from '../data/logos';
 import { vendorIcon } from '../data/vendor-icons';
 import { vendorSlug } from '../lib/vendor-links';
 import VendorIcon from './VendorIcon.astro';
+import { productIcons } from '../data/product-icons';
+import ProductIcon from './ProductIcon.astro';
 import { ORIGIN_LABEL, LICENSE_LABEL } from '../lib/types';
 import { planType, PLAN_LABEL } from '../lib/plan-type';
 import type { Product } from '../lib/types';
@@ -28,15 +30,19 @@ const vendorPrevLogo = vendorPrev
   : null;
 // Кому адресован тариф — бейдж только при уверенном определении
 const plan = planType(product.name, product.short_description || '');
-// Унифицированная иконка вендора из фирменного пакета (монохром → цвет при наведении)
-const packSlug = product.vendor ? vendorSlug(product.vendor) : '';
+// Профильная иконка ПРОДУКТА (каталожный пакет) — приоритет; иначе иконка
+// вендора из фирменного пакета. Обе: монохром → цвет при наведении.
+const hasProductIcon = productIcons(product.slug).length > 0;
+const packSlug = !hasProductIcon && product.vendor ? vendorSlug(product.vendor) : '';
 const packIcon = packSlug ? vendorIcon(packSlug) : null;
 ---
 <article class="card card-hover product-card reveal">
   <a href={`/product/${product.slug}`} class="product-link" aria-label={product.name}>
     <div class="product-top">
       <div class="ptop-row">
-        {packIcon ? (
+        {hasProductIcon ? (
+          <span class="logo logo-pack"><ProductIcon slug={product.slug} name={product.name} size={34} /></span>
+        ) : packIcon ? (
           <span class="logo logo-pack"><VendorIcon slug={packSlug} name={product.vendor} size={34} /></span>
         ) : logo ? (
           <img src={logo} alt={`Логотип ${product.vendor || product.name}`} class="logo" width="40" height="40" loading="lazy" />

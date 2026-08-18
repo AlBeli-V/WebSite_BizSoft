@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" width="512" height="512" role="img" aria-labelledby="jetbrains-ultimate-progress-bar-color-title jetbrains-ultimate-progress-bar-color-desc" data-icon-id="jetbrains-ultimate-progress-bar" data-variant="color">
+  <title id="jetbrains-ultimate-progress-bar-color-title">Ultimate Progress Bar — color icon</title>
+  <desc id="jetbrains-ultimate-progress-bar-color-desc">Normalized color product icon used by 2 catalog card(s).</desc>
+  <metadata>
+  <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/">
+    <rdf:Description rdf:about="">
+      <dc:title>Ultimate Progress Bar — color</dc:title>
+      <dc:description>Normalized catalog product icon; assigned to 2 product card(s); 512×512 transparent canvas; 12.5% safe area.</dc:description>
+      <dc:creator>Side Hustle Solutions</dc:creator>
+      <dc:source>https://downloads.marketplace.jetbrains.com/files/29606/925857/icon/default.svg</dc:source>
+      <dc:date>2026-08-18</dc:date>
+      <dc:rights>Publisher-provided Marketplace icon; copyright and trademark rights remain with the plugin publisher.</dc:rights>
+      <dc:identifier>jetbrains-ultimate-progress-bar__color</dc:identifier>
+    </rdf:Description>
+  </rdf:RDF>
+</metadata>
+  <svg x="65" y="65" width="382" height="382" viewBox="0 0 40 40" preserveAspectRatio="xMidYMid meet"><!-- Track: Full U shape -->
+<path xmlns="http://www.w3.org/2000/svg" d="M9 12V24C9 30.6274 13.9249 34 20 34C26.0751 34 31 30.6274 31 24V12" stroke="#E0E0E0" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+<!-- Progress: 70% filled (Manual dasharray or shortened path) -->
+<!-- Total approx length ~22 + ~22 + curve. Let's just draw a sub-path for 70% -->
+<!-- Left side down (12), Curve (partial or full), Right side up (partial) -->
+<!-- Let's simpler path: M9 12 V 24 C 9 ... -->
+<!-- Drawing the filled part: Left vertical + Curve + small part of Right vertical -->
+<path xmlns="http://www.w3.org/2000/svg" d="M9 12V24C9 30.6274 13.9249 34 20 34C26.0751 34 31 30.6274 31 24V20" stroke="url(#gradient_light)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+<defs xmlns="http://www.w3.org/2000/svg">
+<linearGradient id="gradient_light" x1="9" y1="12" x2="31" y2="34" gradientUnits="userSpaceOnUse">
+<stop stop-color="#7B61FF"/>
+<stop offset="1" stop-color="#00C2FF"/>
+</linearGradient>
+</defs>
+</svg>
+</svg>

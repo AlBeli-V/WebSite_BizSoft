@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" width="512" height="512" role="img" aria-labelledby="jetbrains-kei-api-contract-testing-color-title jetbrains-kei-api-contract-testing-color-desc" data-icon-id="jetbrains-kei-api-contract-testing" data-variant="color">
+  <title id="jetbrains-kei-api-contract-testing-color-title">Kei - API Contract Testing — color icon</title>
+  <desc id="jetbrains-kei-api-contract-testing-color-desc">Normalized color product icon used by 1 catalog card(s).</desc>
+  <metadata>
+  <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/">
+    <rdf:Description rdf:about="">
+      <dc:title>Kei - API Contract Testing — color</dc:title>
+      <dc:description>Normalized catalog product icon; assigned to 1 product card(s); 512×512 transparent canvas; 12.5% safe area.</dc:description>
+      <dc:creator>Jakub Jirák</dc:creator>
+      <dc:source>https://downloads.marketplace.jetbrains.com/files/29067/1072827/icon/default.svg</dc:source>
+      <dc:date>2026-08-18</dc:date>
+      <dc:rights>Publisher-provided Marketplace icon; copyright and trademark rights remain with the plugin publisher.</dc:rights>
+      <dc:identifier>jetbrains-kei-api-contract-testing__color</dc:identifier>
+    </rdf:Description>
+  </rdf:RDF>
+</metadata>
+  <svg x="65" y="65" width="382" height="382" viewBox="0 0 40 40" preserveAspectRatio="xMidYMid meet"><!-- Background gradient -->
+  <defs xmlns="http://www.w3.org/2000/svg">
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#6366f1;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#8b5cf6;stop-opacity:1"/>
+    </linearGradient>
+    <linearGradient id="shieldGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#ffffff;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#e0e7ff;stop-opacity:1"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- Rounded background -->
+  <rect xmlns="http://www.w3.org/2000/svg" width="40" height="40" rx="8" fill="url(#bgGradient)"/>
+  
+  <!-- Shield outline (API Contract Protection) -->
+  <path xmlns="http://www.w3.org/2000/svg" d="M20 6 L28 10 L28 18 Q28 24 20 30 Q12 24 12 18 L12 10 Z" fill="none" stroke="url(#shieldGradient)" stroke-width="1.5" stroke-linejoin="round"/>
+  
+  <!-- Inner shield fill -->
+  <path xmlns="http://www.w3.org/2000/svg" d="M20 8 L26 11 L26 17 Q26 22 20 27 Q14 22 14 17 L14 11 Z" fill="url(#shieldGradient)" opacity="0.9"/>
+  
+  <!-- Checkmark symbol (Contract validation) -->
+  <path xmlns="http://www.w3.org/2000/svg" d="M17 18 L19 20 L23 14" stroke="#6366f1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  
+  <!-- API brackets decoration -->
+  <path xmlns="http://www.w3.org/2000/svg" d="M10 14 L11 14 L11 16 L10 16" stroke="#e0e7ff" stroke-width="1.5" stroke-linecap="round"/>
+  <path xmlns="http://www.w3.org/2000/svg" d="M30 14 L29 14 L29 16 L30 16" stroke="#e0e7ff" stroke-width="1.5" stroke-linecap="round"/>
+</svg>
+</svg>
