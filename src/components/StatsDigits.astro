@@ -36,7 +36,7 @@ const { stats, title = 'Мы в цифрах' } = Astro.props;
 </section>
 
 <style>
-  .digits { background: #f4f2ee; padding: clamp(2.4rem, 5vw, 4rem) 0; }
+  .digits { background: var(--color-band); padding: clamp(2.4rem, 5vw, 4rem) 0; }
   .digits-grid { display: grid; grid-template-columns: 220px 1fr; gap: 2rem; align-items: start; }
   .digits-cap { color: var(--color-accent); font-weight: 700; font-size: 1.02rem; margin: 0.4rem 0 0; }
   .digits-cap span { margin-right: 0.35rem; }

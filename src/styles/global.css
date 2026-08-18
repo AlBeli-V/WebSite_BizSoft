@@ -273,3 +273,15 @@
 @media (max-width: 960px) {
   .hero-cols { grid-template-columns: 1fr; }
 }
+
+/* Мягкая полоса-подложка (воздушное разделение логических блоков, как у
+   референса): светло-кремовый full-bleed за контейнером, карточки внутри
+   остаются белыми плитками. Тёмных заливок в системе нет. */
+:root { --color-band: #f4f2ee; }
+.band {
+  background: var(--color-band);
+  box-shadow: 0 0 0 100vmax var(--color-band);
+  clip-path: inset(0 -100vmax);
+  padding-block: clamp(2.2rem, 4.5vw, 3.6rem);
+  margin-block: clamp(1.6rem, 3vw, 2.6rem);
+}
