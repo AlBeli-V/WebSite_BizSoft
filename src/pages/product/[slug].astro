@@ -8,7 +8,7 @@ import FAQ from '../../components/FAQ.astro';
 import QuestionForm from '../../components/QuestionForm.astro';
 import CTASection from '../../components/CTASection.astro';
 import JsonLd from '../../components/JsonLd.astro';
-import { getProductBySlug, findCanonicalProductSlug, getProductsBySlugs, galleryImages } from '../../lib/directus';
+import { getProductBySlug, findCanonicalProductSlug, getProductsBySlugs, galleryImages , getCurrencyRate } from '../../lib/directus';
 import { productSchema } from '../../lib/seo';
 import { effectivePrice, formatRub } from '../../lib/pricing';
 import { ORIGIN_LABEL, LICENSE_LABEL, listValues } from '../../lib/types';
@@ -48,6 +48,11 @@ const faq = Array.isArray(product.faq) ? product.faq : [];
 const gallery = galleryImages(product);
 const vat = product.vat_percent ?? 0;
 const byRequest = product.price <= 0 && !eff.isPromo;
+let rateDate: string | null = null;
+try {
+  const rate = await getCurrencyRate();
+  if (rate?.rate_date) rateDate = new Date(rate.rate_date).toLocaleDateString('ru-RU');
+} catch { /* индикатор курса просто не показываем */ }
 
 // Архитектурные блоки масштабирования
 const useCases = listValues(product.use_cases);
@@ -68,6 +73,7 @@ const aiLinks = product.vendor ? getAiInterlinks(product.vendor) : null;
   type="product"
   keywords={product.keywords || undefined}
   noindex={Boolean(product.noindex) || productNoindex(product.sku)}
+  ogImage={`/og/product/${product.slug}.png`}
 >
   <JsonLd schema={productSchema(product, { images: gallery.map((g) => g.url) })} />
   <div class="container-page section">
@@ -209,7 +215,18 @@ const aiLinks = product.vendor ? getAiInterlinks(product.vendor) : null;
           ) : (
             <PriceTag product={product} size="lg" />
           )}
-          {product.price_note && !byRequest && <p class="price-note">{product.price_note}{vat > 0 ? ` · в т.ч. НДС ${vat}%` : ''}</p>}
+          {product.price_note && !byRequest && (
+            <p class="price-note">
+              {product.price_note}
+              {vat > 0 && (
+                <details class="vat-hint">
+                  <summary>в т.ч. НДС {vat}% ⓘ</summary>
+                  <span>Поставщик применяет УСН: НДС {vat}% уже включён в цену и отдельной строкой указывается в счёте и КП.</span>
+                </details>
+              )}
+            </p>
+          )}
+          {!byRequest && rateDate && <p class="rate-note">Цена рассчитана по курсу ЦБ на {rateDate} и фиксируется в счёте.</p>}
           {byRequest && <p class="price-note">Рассчитаем стоимость под вашу конфигурацию и количество.</p>}
 
           {!byRequest && (
@@ -230,6 +247,17 @@ const aiLinks = product.vendor ? getAiInterlinks(product.vendor) : null;
             </div>
           )}
 
+          {!byRequest && (
+            <div class="team-calc">
+              <span class="tc-cap">Сколько выйдет на команду</span>
+              {[5, 10, 30].map((n) => (
+                <button type="button" class="tc-row" data-team={n}>
+                  <span>{n} мест</span><b>{formatRub(eff.price * n)}</b>
+                </button>
+              ))}
+            </div>
+          )}
+
           <div class="buy-actions">
             {byRequest ? (
               <button class="btn btn-primary" data-open-question data-product={product.name} data-sku={product.sku}>Запросить цену</button>
@@ -242,7 +270,7 @@ const aiLinks = product.vendor ? getAiInterlinks(product.vendor) : null;
                 data-name={product.name}
                 data-price={eff.price}
               >
-                <span class="lbl-def">В корзину</span><span class="lbl-add" hidden>Добавлено ✓</span>
+                <span class="lbl-def">В подборку</span><span class="lbl-add" hidden>Добавлено ✓</span>
               </button>
             )}
             <button class="btn btn-ghost" data-open-question data-product={product.name} data-sku={product.sku}>Задать вопрос</button>
@@ -295,10 +323,20 @@ const aiLinks = product.vendor ? getAiInterlinks(product.vendor) : null;
   .specs th, .specs td { text-align: left; padding: 0.55rem 0.8rem; border-bottom: 1px solid var(--color-border); font-size: 0.93rem; }
   .specs th { color: var(--color-text-muted); font-weight: 500; width: 40%; }
   .steps { padding-left: 1.2rem; color: var(--color-text); display: grid; gap: 0.5rem; }
-  .product-aside { position: sticky; top: 84px; }
+  .product-aside { position: sticky; top: 124px; }
   .buy-card { padding: 1.6rem; display: flex; flex-direction: column; gap: 1rem; }
   .price-req { font-weight: 800; font-size: 1.5rem; }
   .price-note { color: var(--color-text-dim); font-size: 0.82rem; margin: 0; }
+  .vat-hint { display: inline-block; margin-left: 0.3rem; }
+  .vat-hint summary { display: inline; cursor: pointer; color: var(--color-accent); list-style: none; }
+  .vat-hint summary::-webkit-details-marker { display: none; }
+  .vat-hint span { display: block; margin-top: 0.4rem; padding: 0.6rem 0.8rem; background: var(--color-bg-elevated); border-radius: 8px; color: var(--color-text-muted); font-size: 0.82rem; }
+  .rate-note { color: var(--color-text-dim); font-size: 0.8rem; margin: 0; }
+  .team-calc { border-top: 1px dashed var(--color-border); padding-top: 0.8rem; display: flex; flex-direction: column; gap: 0.35rem; }
+  .tc-cap { font-size: 0.8rem; color: var(--color-text-dim); font-weight: 600; }
+  .tc-row { display: flex; justify-content: space-between; align-items: baseline; background: none; border: none; padding: 0.25rem 0; font: inherit; font-size: 0.9rem; color: var(--color-text-muted); cursor: pointer; }
+  .tc-row b { color: var(--color-text); font-variant-numeric: tabular-nums; }
+  .tc-row:hover span { color: var(--color-accent); }
   .qty-row { display: flex; align-items: center; justify-content: space-between; }
   .qty-label { color: var(--color-text-muted); font-size: 0.9rem; }
   .qty { display: flex; align-items: center; gap: 0.3rem; }
@@ -356,6 +394,12 @@ const aiLinks = product.vendor ? getAiInterlinks(product.vendor) : null;
   const totalEl = document.querySelector('[data-total]') as HTMLElement | null;
   const addBtn = document.querySelector('[data-add-cart]') as HTMLButtonElement | null;
   const unit = addBtn ? Number(addBtn.dataset.price || 0) : 0;
+  document.querySelectorAll('[data-team]').forEach((b) => {
+    b.addEventListener('click', () => {
+      const q = document.querySelector('[data-qty]');
+      if (q) { q.value = b.dataset.team || '1'; q.dispatchEvent(new Event('input', { bubbles: true })); }
+    });
+  });
 
   function curQty() { return Math.max(1, Math.floor(Number(qtyInput?.value || 1) || 1)); }
   function refreshTotal() { if (totalEl) totalEl.textContent = formatRub(unit * curQty()); }

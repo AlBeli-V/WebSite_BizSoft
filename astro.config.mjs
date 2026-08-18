@@ -30,6 +30,6 @@ export default defineConfig({
       },
     ],
     // pdfkit подтягивает шрифты/потоки — оставляем его внешним для Node.
-    ssr: { external: ['pdfkit', 'nodemailer', 'xlsx'] },
+    ssr: { external: ['pdfkit', 'nodemailer', 'xlsx', '@resvg/resvg-js'] },
   },
 });

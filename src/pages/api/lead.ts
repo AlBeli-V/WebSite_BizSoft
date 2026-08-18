@@ -22,7 +22,6 @@ export const POST: APIRoute = async ({ request }) => {
   }
 
   // Все поля формы обязательны
-  if (!filled(body.name)) return new Response(JSON.stringify({ error: 'Укажите имя' }), { status: 422 });
   if (!filled(body.company)) return new Response(JSON.stringify({ error: 'Укажите компанию' }), { status: 422 });
   if (!isEmail(body.email)) return new Response(JSON.stringify({ error: 'Укажите корректный e-mail' }), { status: 422 });
   if (!filled(body.phone)) return new Response(JSON.stringify({ error: 'Укажите телефон' }), { status: 422 });
