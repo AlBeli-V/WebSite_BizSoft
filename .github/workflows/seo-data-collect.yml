@@ -16,6 +16,9 @@ on:
       - ".github/workflows/seo-data-collect.yml"
       - "scripts/seo/collect.py"
 
+permissions:
+  contents: write
+
 jobs:
   collect:
     runs-on: ubuntu-latest

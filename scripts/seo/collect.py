@@ -61,7 +61,15 @@ def collect_yandex() -> dict:
     base = 'https://api.webmaster.yandex.net/v4/user'
     result = {'date': TODAY}
 
-    uid = requests.get(base, headers=headers, timeout=30).json()['user_id']
+    user_resp = requests.get(base, headers=headers, timeout=30)
+    user_data = user_resp.json()
+    if 'user_id' not in user_data:
+        result['error'] = (
+            f'API /user не вернул user_id (HTTP {user_resp.status_code}): '
+            f'{json.dumps(user_data, ensure_ascii=False)[:500]}'
+        )
+        return result
+    uid = user_data['user_id']
     hosts = requests.get(f'{base}/{uid}/hosts', headers=headers, timeout=30).json()
     result['hosts'] = hosts.get('hosts', [])
     match = [h for h in result['hosts'] if SITE in h['host_id']]
