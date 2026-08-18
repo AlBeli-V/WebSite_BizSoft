@@ -11,6 +11,7 @@ on:
       - claude/biz-soft-rating-tracking-5rf03g
     paths:
       - "reports/seo/2*.md"
+      - "reports/seo/2*.html"
       - ".github/workflows/seo-report-email.yml"
   workflow_dispatch:
 
@@ -37,26 +38,30 @@ jobs:
           from email.message import EmailMessage
           from email.utils import formatdate
 
-          reports = sorted(glob.glob('reports/seo/2*.md'))
-          if not reports:
-              raise SystemExit('Нет файлов отчётов reports/seo/2*.md')
-          path = reports[-1]
-          date = os.path.basename(path)[:-3]
-          body = open(path, encoding='utf-8').read()
+          htmls = sorted(glob.glob('reports/seo/2*.html'))
+          mds = sorted(glob.glob('reports/seo/2*.md'))
+          if not htmls and not mds:
+              raise SystemExit('Нет файлов отчётов reports/seo/2*.{html,md}')
+          # HTML-версия — основное тело письма; markdown — текстовый фолбэк того же дня
+          path = htmls[-1] if htmls else mds[-1]
+          date = os.path.basename(path).rsplit('.', 1)[0]
+          md_same_day = f'reports/seo/{date}.md'
 
           msg = EmailMessage()
           msg['Subject'] = f'SEO-отчёт biz-soft.pro — {date}'
           msg['From'] = f'BIZSoft SEO-мониторинг <{os.environ["SMTP_USER"]}>'
           msg['To'] = os.environ['MAIL_TO']
           msg['Date'] = formatdate(localtime=True)
+          if os.path.exists(md_same_day):
+              plain = open(md_same_day, encoding='utf-8').read()
+          else:
+              plain = f'SEO-отчёт biz-soft.pro за {date}. Откройте письмо в почтовом клиенте с поддержкой HTML.'
           msg.set_content(
-              body + '\n\n—\nАвтоматический отчёт SEO-мониторинга. '
+              plain + '\n\n—\nАвтоматический отчёт SEO-мониторинга. '
               'История: reports/seo/ в ветке claude/biz-soft-rating-tracking-5rf03g.'
           )
-          msg.add_attachment(
-              body.encode('utf-8'), maintype='text', subtype='markdown',
-              filename=os.path.basename(path),
-          )
+          if path.endswith('.html'):
+              msg.add_alternative(open(path, encoding='utf-8').read(), subtype='html')
 
           host, port = os.environ['SMTP_HOST'], int(os.environ['SMTP_PORT'])
           try:
