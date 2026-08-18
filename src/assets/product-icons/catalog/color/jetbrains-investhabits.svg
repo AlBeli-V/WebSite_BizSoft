@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" width="512" height="512" role="img" aria-labelledby="jetbrains-investhabits-color-title jetbrains-investhabits-color-desc" data-icon-id="jetbrains-investhabits" data-variant="color">
+  <title id="jetbrains-investhabits-color-title">InvestHabits — color icon</title>
+  <desc id="jetbrains-investhabits-color-desc">Normalized color product icon used by 1 catalog card(s).</desc>
+  <metadata>
+  <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/">
+    <rdf:Description rdf:about="">
+      <dc:title>InvestHabits — color</dc:title>
+      <dc:description>Normalized catalog product icon; assigned to 1 product card(s); 512×512 transparent canvas; 12.5% safe area.</dc:description>
+      <dc:creator>leeucob</dc:creator>
+      <dc:source>https://downloads.marketplace.jetbrains.com/files/30758/994095/icon/default.svg</dc:source>
+      <dc:date>2026-08-18</dc:date>
+      <dc:rights>Publisher-provided Marketplace icon; copyright and trademark rights remain with the plugin publisher.</dc:rights>
+      <dc:identifier>jetbrains-investhabits__color</dc:identifier>
+    </rdf:Description>
+  </rdf:RDF>
+</metadata>
+  <svg x="65" y="65" width="382" height="382" viewBox="0 0 800 800" preserveAspectRatio="xMidYMid meet"><!-- 核心：全屏化盾牌轮廓（填满画布+加粗线条） -->
+  <path xmlns="http://www.w3.org/2000/svg" d="M50 50 L750 50 L750 550 Q750 650 650 730 L400 780 L150 730 Q50 650 50 550 L50 50 Z" fill="#ffffff" stroke="#2e7d32" stroke-width="12" stroke-linejoin="round"/>
+  
+  <!-- 盾牌内部纹理（同步加粗+全屏适配） -->
+  <path xmlns="http://www.w3.org/2000/svg" d="M100 100 L700 100 L700 530 Q700 600 650 650 L400 700 L150 650 Q100 600 100 530 L100 100 Z" fill="transparent" stroke="#e8f5e9" stroke-width="6"/>
+  
+  <!-- 绿色上涨K线（加粗+全屏布局） -->
+  <!-- 第一根K线（基础增长） -->
+  <rect xmlns="http://www.w3.org/2000/svg" x="200" y="500" width="80" height="150" fill="#81c784"/>
+  <line xmlns="http://www.w3.org/2000/svg" x1="240" y1="450" x2="240" y2="500" stroke="#66bb6a" stroke-width="10"/>
+  <!-- 第二根K线（加速增长） -->
+  <rect xmlns="http://www.w3.org/2000/svg" x="360" y="400" width="80" height="250" fill="#66bb6a"/>
+  <line xmlns="http://www.w3.org/2000/svg" x1="400" y1="350" x2="400" y2="400" stroke="#4caf50" stroke-width="10"/>
+  <!-- 第三根K线（复利增长） -->
+  <rect xmlns="http://www.w3.org/2000/svg" x="520" y="300" width="80" height="350" fill="#4caf50"/>
+  <line xmlns="http://www.w3.org/2000/svg" x1="560" y1="250" x2="560" y2="300" stroke="#2e7d32" stroke-width="10"/>
+  
+  <!-- 复利增长曲线（加粗+贴合全屏K线） -->
+  <path xmlns="http://www.w3.org/2000/svg" d="M240 450 C300 400 380 350 560 250" fill="none" stroke="#2e7d32" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+  
+  <!-- 增长星标（放大+加粗，提升辨识度） -->
+  <polygon xmlns="http://www.w3.org/2000/svg" points="560 250 570 220 590 220 575 200 580 180 560 190 540 180 545 200 530 220 550 220" fill="#4caf50"/>
+</svg>
+</svg>

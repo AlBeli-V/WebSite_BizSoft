@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" width="512" height="512" role="img" aria-labelledby="jetbrains-gemini-context-packer-color-title jetbrains-gemini-context-packer-color-desc" data-icon-id="jetbrains-gemini-context-packer" data-variant="color">
+  <title id="jetbrains-gemini-context-packer-color-title">Gemini Context Packer — color icon</title>
+  <desc id="jetbrains-gemini-context-packer-color-desc">Normalized color product icon used by 1 catalog card(s).</desc>
+  <metadata>
+  <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/">
+    <rdf:Description rdf:about="">
+      <dc:title>Gemini Context Packer — color</dc:title>
+      <dc:description>Normalized catalog product icon; assigned to 1 product card(s); 512×512 transparent canvas; 12.5% safe area.</dc:description>
+      <dc:creator>triangcircularmedia</dc:creator>
+      <dc:source>https://downloads.marketplace.jetbrains.com/files/30168/959369/icon/default.svg</dc:source>
+      <dc:date>2026-08-18</dc:date>
+      <dc:rights>Publisher-provided Marketplace icon; copyright and trademark rights remain with the plugin publisher.</dc:rights>
+      <dc:identifier>jetbrains-gemini-context-packer__color</dc:identifier>
+    </rdf:Description>
+  </rdf:RDF>
+</metadata>
+  <svg x="65" y="65" width="382" height="382" viewBox="0 0 40 40" preserveAspectRatio="xMidYMid meet"><defs xmlns="http://www.w3.org/2000/svg">
+        <!-- The Signature TriangCircularMedia Gradient -->
+        <linearGradient id="techGradient" x1="10" y1="31" x2="32" y2="9" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stop-color="#39FF14"/>
+            <stop offset="100%" stop-color="#00C2FF"/>
+        </linearGradient>
+    </defs>
+
+    <!-- The "Crate" / Box (Container for the Context) -->
+    <!-- It's an open box shape, rounded corners for that premium feel -->
+    <path xmlns="http://www.w3.org/2000/svg" d="M12 20V28C12 29.6569 13.3431 31 15 31H25C26.6569 31 28 29.6569 28 28V20" stroke="url(#techGradient)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <!-- The "Data" Arrow (Packing Logic + XML) -->
+    <!-- A strong arrow pointing straight into the box -->
+    <path xmlns="http://www.w3.org/2000/svg" d="M20 9V25" stroke="url(#techGradient)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <!-- The Arrow Head -->
+    <path xmlns="http://www.w3.org/2000/svg" d="M15 20L20 25L25 20" stroke="url(#techGradient)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+</svg>

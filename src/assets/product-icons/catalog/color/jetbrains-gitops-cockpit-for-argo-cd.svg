@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" width="512" height="512" role="img" aria-labelledby="jetbrains-gitops-cockpit-for-argo-cd-color-title jetbrains-gitops-cockpit-for-argo-cd-color-desc" data-icon-id="jetbrains-gitops-cockpit-for-argo-cd" data-variant="color">
+  <title id="jetbrains-gitops-cockpit-for-argo-cd-color-title">GitOps Cockpit for Argo CD — color icon</title>
+  <desc id="jetbrains-gitops-cockpit-for-argo-cd-color-desc">Normalized color product icon used by 2 catalog card(s).</desc>
+  <metadata>
+  <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/">
+    <rdf:Description rdf:about="">
+      <dc:title>GitOps Cockpit for Argo CD — color</dc:title>
+      <dc:description>Normalized catalog product icon; assigned to 2 product card(s); 512×512 transparent canvas; 12.5% safe area.</dc:description>
+      <dc:creator>Michael Latta Software</dc:creator>
+      <dc:source>https://downloads.marketplace.jetbrains.com/files/30719/1117843/icon/default.svg</dc:source>
+      <dc:date>2026-08-18</dc:date>
+      <dc:rights>Publisher-provided Marketplace icon; copyright and trademark rights remain with the plugin publisher.</dc:rights>
+      <dc:identifier>jetbrains-gitops-cockpit-for-argo-cd__color</dc:identifier>
+    </rdf:Description>
+  </rdf:RDF>
+</metadata>
+  <svg x="65" y="65" width="382" height="382" viewBox="0 0 40 40" preserveAspectRatio="xMidYMid meet"><!-- Compass rose behind (4 points) -->
+    <path xmlns="http://www.w3.org/2000/svg" d="M20 2 L23 17 L20 15 L17 17 Z" fill="#5B8DEF"/>
+    <path xmlns="http://www.w3.org/2000/svg" d="M20 38 L17 23 L20 25 L23 23 Z" fill="#3D6BC7"/>
+    <path xmlns="http://www.w3.org/2000/svg" d="M2 20 L17 17 L15 20 L17 23 Z" fill="#4A7AD8"/>
+    <path xmlns="http://www.w3.org/2000/svg" d="M38 20 L23 23 L25 20 L23 17 Z" fill="#4A7AD8"/>
+
+    <!-- Compass circle -->
+    <circle xmlns="http://www.w3.org/2000/svg" cx="20" cy="20" r="12" fill="#EF8B5F" stroke="#D4714A" stroke-width="1"/>
+
+    <!-- Octopus head highlight -->
+    <ellipse xmlns="http://www.w3.org/2000/svg" cx="18" cy="17" rx="4" ry="3" fill="#F9A67A" opacity="0.6"/>
+
+    <!-- Eyes -->
+    <ellipse xmlns="http://www.w3.org/2000/svg" cx="16" cy="19" rx="2.5" ry="3" fill="white"/>
+    <ellipse xmlns="http://www.w3.org/2000/svg" cx="24" cy="19" rx="2.5" ry="3" fill="white"/>
+    <circle xmlns="http://www.w3.org/2000/svg" cx="16.5" cy="19.5" r="1.2" fill="#1a1a1a"/>
+    <circle xmlns="http://www.w3.org/2000/svg" cx="24.5" cy="19.5" r="1.2" fill="#1a1a1a"/>
+
+    <!-- Simple smile -->
+    <path xmlns="http://www.w3.org/2000/svg" d="M17 25 Q20 27 23 25" stroke="#D4714A" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+
+    <!-- Tentacles (simplified, curling out from bottom) -->
+    <path xmlns="http://www.w3.org/2000/svg" d="M12 28 Q8 32 6 30 Q5 28 7 27" stroke="#EF8B5F" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    <path xmlns="http://www.w3.org/2000/svg" d="M15 30 Q13 35 10 36 Q8 35 9 33" stroke="#EF8B5F" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    <path xmlns="http://www.w3.org/2000/svg" d="M25 30 Q27 35 30 36 Q32 35 31 33" stroke="#EF8B5F" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    <path xmlns="http://www.w3.org/2000/svg" d="M28 28 Q32 32 34 30 Q35 28 33 27" stroke="#EF8B5F" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+</svg>
+</svg>

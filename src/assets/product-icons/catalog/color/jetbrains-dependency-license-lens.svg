@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" width="512" height="512" role="img" aria-labelledby="jetbrains-dependency-license-lens-color-title jetbrains-dependency-license-lens-color-desc" data-icon-id="jetbrains-dependency-license-lens" data-variant="color">
+  <title id="jetbrains-dependency-license-lens-color-title">Dependency License Lens — color icon</title>
+  <desc id="jetbrains-dependency-license-lens-color-desc">Normalized color product icon used by 2 catalog card(s).</desc>
+  <metadata>
+  <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/">
+    <rdf:Description rdf:about="">
+      <dc:title>Dependency License Lens — color</dc:title>
+      <dc:description>Normalized catalog product icon; assigned to 2 product card(s); 512×512 transparent canvas; 12.5% safe area.</dc:description>
+      <dc:creator>Jakub Jirák</dc:creator>
+      <dc:source>https://downloads.marketplace.jetbrains.com/files/30194/983236/icon/default.svg</dc:source>
+      <dc:date>2026-08-18</dc:date>
+      <dc:rights>Publisher-provided Marketplace icon; copyright and trademark rights remain with the plugin publisher.</dc:rights>
+      <dc:identifier>jetbrains-dependency-license-lens__color</dc:identifier>
+    </rdf:Description>
+  </rdf:RDF>
+</metadata>
+  <svg x="65" y="65" width="382" height="382" viewBox="0 0 40 40" preserveAspectRatio="xMidYMid meet"><!-- Background -->
+    <rect xmlns="http://www.w3.org/2000/svg" width="40" height="40" rx="8" fill="#1A73E8"/>
+    <!-- Document -->
+    <rect xmlns="http://www.w3.org/2000/svg" x="8" y="6" width="18" height="24" rx="2" fill="#FFFFFF"/>
+    <!-- Document lines -->
+    <rect xmlns="http://www.w3.org/2000/svg" x="11" y="11" width="12" height="1.5" rx="0.75" fill="#90CAF9"/>
+    <rect xmlns="http://www.w3.org/2000/svg" x="11" y="15" width="10" height="1.5" rx="0.75" fill="#90CAF9"/>
+    <rect xmlns="http://www.w3.org/2000/svg" x="11" y="19" width="12" height="1.5" rx="0.75" fill="#90CAF9"/>
+    <rect xmlns="http://www.w3.org/2000/svg" x="11" y="23" width="8" height="1.5" rx="0.75" fill="#90CAF9"/>
+    <!-- Magnifying glass -->
+    <circle xmlns="http://www.w3.org/2000/svg" cx="28" cy="24" r="7" fill="#0D47A1" opacity="0.3"/>
+    <circle xmlns="http://www.w3.org/2000/svg" cx="28" cy="24" r="5.5" fill="none" stroke="#FFFFFF" stroke-width="2"/>
+    <line xmlns="http://www.w3.org/2000/svg" x1="32" y1="28.5" x2="36" y2="32.5" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round"/>
+    <!-- Check mark inside lens -->
+    <path xmlns="http://www.w3.org/2000/svg" d="M25 24 L27 26.5 L31 22" fill="none" stroke="#4CAF50" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+</svg>

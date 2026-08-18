@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" width="512" height="512" role="img" aria-labelledby="jetbrains-pascal-flow-color-title jetbrains-pascal-flow-color-desc" data-icon-id="jetbrains-pascal-flow" data-variant="color">
+  <title id="jetbrains-pascal-flow-color-title">Pascal Flow — color icon</title>
+  <desc id="jetbrains-pascal-flow-color-desc">Normalized color product icon used by 2 catalog card(s).</desc>
+  <metadata>
+  <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/">
+    <rdf:Description rdf:about="">
+      <dc:title>Pascal Flow — color</dc:title>
+      <dc:description>Normalized catalog product icon; assigned to 2 product card(s); 512×512 transparent canvas; 12.5% safe area.</dc:description>
+      <dc:creator>meanmail.dev</dc:creator>
+      <dc:source>https://downloads.marketplace.jetbrains.com/files/32155/1099606/icon/default.svg</dc:source>
+      <dc:date>2026-08-18</dc:date>
+      <dc:rights>Publisher-provided Marketplace icon; copyright and trademark rights remain with the plugin publisher.</dc:rights>
+      <dc:identifier>jetbrains-pascal-flow__color</dc:identifier>
+    </rdf:Description>
+  </rdf:RDF>
+</metadata>
+  <svg x="65" y="65" width="382" height="382" viewBox="0 0 40 40" preserveAspectRatio="xMidYMid meet"><defs xmlns="http://www.w3.org/2000/svg">
+        <linearGradient id="badge" x1="0" y1="0" x2="0" y2="40" gradientUnits="userSpaceOnUse">
+            <stop offset="0" stop-color="#56B6F0"/>
+            <stop offset="1" stop-color="#2B7BD6"/>
+        </linearGradient>
+        <linearGradient id="flow" x1="10" y1="31" x2="31" y2="31" gradientUnits="userSpaceOnUse">
+            <stop offset="0" stop-color="#9BE7D6"/>
+            <stop offset="1" stop-color="#36C6E6"/>
+        </linearGradient>
+    </defs>
+    <rect xmlns="http://www.w3.org/2000/svg" x="2" y="2" width="36" height="36" rx="9" fill="url(#badge)"/>
+    <rect xmlns="http://www.w3.org/2000/svg" x="2" y="2" width="36" height="17" rx="9" fill="#FFFFFF" opacity="0.07"/>
+    <path xmlns="http://www.w3.org/2000/svg" d="M16 29V12.5h6.4a4.8 4.8 0 0 1 0 9.6H16" fill="none" stroke="#FFFFFF" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/>
+    <path xmlns="http://www.w3.org/2000/svg" d="M10 30.6c5-3.2 9 2.6 14-0.4 2.4-1.4 4.6-0.9 6 0.6" fill="none" stroke="url(#flow)" stroke-width="2.8" stroke-linecap="round"/>
+</svg>
+</svg>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" width="512" height="512" role="img" aria-labelledby="jetbrains-owasp-ide-vulscanner-color-title jetbrains-owasp-ide-vulscanner-color-desc" data-icon-id="jetbrains-owasp-ide-vulscanner" data-variant="color">
+  <title id="jetbrains-owasp-ide-vulscanner-color-title">OWASP IDE-VulScanner — color icon</title>
+  <desc id="jetbrains-owasp-ide-vulscanner-color-desc">Normalized color product icon used by 2 catalog card(s).</desc>
+  <metadata>
+  <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/">
+    <rdf:Description rdf:about="">
+      <dc:title>OWASP IDE-VulScanner — color</dc:title>
+      <dc:description>Normalized catalog product icon; assigned to 2 product card(s); 512×512 transparent canvas; 12.5% safe area.</dc:description>
+      <dc:creator>DestinJiDee</dc:creator>
+      <dc:source>https://downloads.marketplace.jetbrains.com/files/21353/997639/icon/default.svg</dc:source>
+      <dc:date>2026-08-18</dc:date>
+      <dc:rights>Publisher-provided Marketplace icon; copyright and trademark rights remain with the plugin publisher.</dc:rights>
+      <dc:identifier>jetbrains-owasp-ide-vulscanner__color</dc:identifier>
+    </rdf:Description>
+  </rdf:RDF>
+</metadata>
+  <svg x="65" y="65" width="382" height="382" viewBox="0 0 16 16" preserveAspectRatio="xMidYMid meet"><defs xmlns="http://www.w3.org/2000/svg">
+    <linearGradient id="a" x1="13.749" x2="10.953" y1="11.079" y2="13.875" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#80570a"/>
+      <stop offset="1" stop-color="#590c0c"/>
+    </linearGradient>
+    <linearGradient id="b" x1="12.768" x2="11.354" y1="11.354" y2="12.767" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#ffdf78"/>
+      <stop offset="1" stop-color="#d88b00"/>
+    </linearGradient>
+    <linearGradient id="c" x1="7" x2="7" y1=".175" y2="14" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#3c4e80"/>
+      <stop offset="1" stop-color="#2c2e6e"/>
+    </linearGradient>
+    <linearGradient id="d" x1="7" x2="7" y1="1.074" y2="13.001" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#fff"/>
+      <stop offset=".194" stop-color="#f9feff"/>
+      <stop offset=".441" stop-color="#eaf9ff"/>
+      <stop offset=".716" stop-color="#d0f2ff"/>
+      <stop offset="1" stop-color="#ade9ff"/>
+    </linearGradient>
+    <linearGradient id="e" x1="7" x2="7" y1="2.125" y2="12" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#9cdaff"/>
+      <stop offset="1" stop-color="#fff"/>
+    </linearGradient>
+    <linearGradient id="f" x1="7" x2="7" y1="4" y2="10" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#c43939"/>
+      <stop offset="1" stop-color="#ff8b54"/>
+    </linearGradient>
+  </defs>
+  <path xmlns="http://www.w3.org/2000/svg" fill="url(#a)" d="M15.414 12.586L10.828 8 8 10.828l4.586 4.586a2 2 0 102.828-2.828z"/>
+  <path xmlns="http://www.w3.org/2000/svg" fill="url(#b)" d="M10.121 8.707l-1.414 1.414 4.586 4.586a1 1 0 101.414-1.414z"/>
+  <g xmlns="http://www.w3.org/2000/svg">
+    <circle cx="7" cy="7" r="7" fill="url(#c)"/>
+    <circle cx="7" cy="7" r="6" fill="url(#d)"/>
+    <circle cx="7" cy="7" r="5" fill="url(#e)"/>
+    <path fill="url(#f)" d="M11 10H9V4h2zM8 6H6v4h2zM5 8H3v2h2z"/>
+  </g>
+</svg>
+</svg>

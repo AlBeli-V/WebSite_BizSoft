@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" width="512" height="512" role="img" aria-labelledby="jetbrains-gradle-with-me-pro-gpvp-color-title jetbrains-gradle-with-me-pro-gpvp-color-desc" data-icon-id="jetbrains-gradle-with-me-pro-gpvp" data-variant="color">
+  <title id="jetbrains-gradle-with-me-pro-gpvp-color-title">Gradle With Me Pro(GPVP) — color icon</title>
+  <desc id="jetbrains-gradle-with-me-pro-gpvp-color-desc">Normalized color product icon used by 2 catalog card(s).</desc>
+  <metadata>
+  <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/">
+    <rdf:Description rdf:about="">
+      <dc:title>Gradle With Me Pro(GPVP) — color</dc:title>
+      <dc:description>Normalized catalog product icon; assigned to 2 product card(s); 512×512 transparent canvas; 12.5% safe area.</dc:description>
+      <dc:creator>新程快咖员</dc:creator>
+      <dc:source>https://downloads.marketplace.jetbrains.com/files/29099/1141540/icon/default.svg</dc:source>
+      <dc:date>2026-08-18</dc:date>
+      <dc:rights>Publisher-provided Marketplace icon; copyright and trademark rights remain with the plugin publisher.</dc:rights>
+      <dc:identifier>jetbrains-gradle-with-me-pro-gpvp__color</dc:identifier>
+    </rdf:Description>
+  </rdf:RDF>
+</metadata>
+  <svg x="65" y="65" width="382" height="382" viewBox="0 0 160 160" preserveAspectRatio="xMidYMid meet"><!--Powered by 豆包 and 百度AI -->
+
+    <!-- 定义资源：渐变、发光滤镜、阴影 -->
+    <defs xmlns="http://www.w3.org/2000/svg">
+        <!-- 工具图标主渐变：金属质感蓝紫过渡 -->
+        <linearGradient id="toolGrad" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#4361ee" stop-opacity="0.95"/>
+            <stop offset="50%" stop-color="#7209b7" stop-opacity="0.9"/>
+            <stop offset="100%" stop-color="#3a0ca3" stop-opacity="0.95"/>
+        </linearGradient>
+
+        <!-- 发光滤镜：提升精致感 -->
+        <filter id="iconGlow" x="-15%" y="-15%" width="130%" height="130%">
+            <feGaussianBlur in="SourceAlpha" stdDeviation="2" result="blur"/>
+            <feComposite in="SourceGraphic" in2="blur" operator="over" result="glow"/>
+            <feDropShadow dx="1" dy="1" stdDeviation="1.5" flood-color="#000" flood-opacity="0.2"/>
+        </filter>
+        <!-- 内阴影：增强图标立体感 -->
+        <filter id="innerShadow" x="-10%" y="-10%" width="120%" height="120%">
+            <feOffset dx="1" dy="1" result="offsetblur"/>
+            <feGaussianBlur stdDeviation="1" result="blur"/>
+            <feComposite in="SourceGraphic" in2="blur" operator="out" result="shadowDiff"/>
+            <feFlood flood-color="#000" flood-opacity="0.15" result="shadowColor"/>
+            <feComposite in="shadowColor" in2="shadowDiff" operator="in" result="shadow"/>
+            <feComposite in="SourceGraphic" in2="shadow" operator="over"/>
+        </filter>
+    </defs>
+
+    <!-- 工具图标主体：圆角矩形+内凹细节 -->
+    <rect xmlns="http://www.w3.org/2000/svg" x="20" y="20" width="120" height="120" rx="18" ry="18" fill="url(#toolGrad)" filter="url(#iconGlow)" stroke="#fff" stroke-width="0.8" stroke-opacity="0.3"/>
+
+    <!-- 内凹装饰：模拟工具按钮质感 -->
+    <rect xmlns="http://www.w3.org/2000/svg" x="28" y="28" width="104" height="104" rx="12" ry="12" fill="none" stroke="#fff" stroke-width="0.5" stroke-opacity="0.2" filter="url(#innerShadow)"/>
+
+
+    <defs xmlns="http://www.w3.org/2000/svg">
+        <!-- 渐变组合优化 -->
+        <linearGradient id="GGradient" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#1E90FF"/>
+            <stop offset="0.5" stop-color="#b34eff"/>
+            <stop offset="1" stop-color="#00CED1"/>
+
+        </linearGradient> <!-- 发光滤镜优化 -->
+        <filter id="glow" x="-25%" y="-25%" width="150%" height="150%">
+            <feGaussianBlur in="SourceGraphic" stdDeviation="5" result="blur"/>
+            <feMerge>
+                <feMergeNode in="blur"/>
+                <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+        </filter>
+    </defs>
+
+    <!-- 优化后的G字母路径 -->
+    <path xmlns="http://www.w3.org/2000/svg" d="M80,35 A45,45 0 0,1 125,80 A45,45 0 0,1 80,125 A45,45 0 0,1 35,80 A22,22 0 0,0 80,55 L80,80 L105,80" fill="none" stroke="url(#GGradient)" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" filter="url(#glow)"/>
+
+</svg>
+</svg>
