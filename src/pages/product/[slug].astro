@@ -14,6 +14,8 @@ import { effectivePrice, formatRub } from '../../lib/pricing';
 import { ORIGIN_LABEL, LICENSE_LABEL, listValues } from '../../lib/types';
 import { vendorLegal, productNoindex } from '../../lib/catalog';
 import { getAiInterlinks } from '../../data/ai-interlinks';
+import { productIcon } from '../../data/product-icons';
+import ProductIcon from '../../components/ProductIcon.astro';
 
 const { slug } = Astro.params;
 
@@ -94,7 +96,11 @@ const aiLinks = product.vendor ? getAiInterlinks(product.vendor) : null;
           {category && <a class="badge badge-link" href={`/catalog/${category.slug}`}>{category.name}</a>}
         </div>
         <span class="sku">Артикул: {product.sku}{product.vendor ? ` · Производитель: ${vendorLegal(product.vendor)}` : ''}</span>
-        <h1>{product.name}</h1>
+        {productIcon(product.slug) ? (
+          <h1 class="h1-ico"><ProductIcon slug={product.slug} name={product.name} size={44} variant="color" /> {product.name}</h1>
+        ) : (
+          <h1>{product.name}</h1>
+        )}
         {product.short_description && <p class="lead">{product.short_description}</p>}
 
         {gallery.length > 0 && (
@@ -308,6 +314,8 @@ const aiLinks = product.vendor ? getAiInterlinks(product.vendor) : null;
   .badge-link:hover { color: var(--color-accent); }
   .sku { color: var(--color-text-dim); font-size: 0.85rem; }
   h1 { font-size: clamp(1.8rem, 3.5vw, 2.6rem); margin: 0.4rem 0 1rem; }
+  /* Профильный значок продукта рядом с названием */
+  .h1-ico { display: flex; align-items: center; gap: 0.7rem; }
   .lead { color: var(--color-text-muted); font-size: 1.1rem; max-width: 60ch; }
   .gallery { display: flex; gap: 0.6rem; flex-wrap: wrap; margin-top: 1.4rem; }
   .gthumb { padding: 0; border: 1px solid var(--color-border); border-radius: 10px; background: #fff; cursor: zoom-in; overflow: hidden; }
