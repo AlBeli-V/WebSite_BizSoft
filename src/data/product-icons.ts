@@ -15,10 +15,26 @@ const MONO = new Map(Object.entries(monoFiles).map(([p, url]) => [slugOf(p), url
 
 export interface ProductIconPair { color: string; mono: string }
 
-export function productIcon(slug: string | undefined): ProductIconPair | null {
-  if (!slug) return null;
+/** Составные позиции: несколько значков приложений в одной плитке
+ * (например, тариф «Фотография» = Lightroom + Photoshop). */
+const COMPOSITE: Record<string, string[]> = {
+  'adobe-photo': ['adobe-lr', 'adobe-ps'],
+};
+
+function pair(slug: string): ProductIconPair | null {
   const color = COLOR.get(slug);
   const mono = MONO.get(slug);
-  if (!color || !mono) return null;
-  return { color, mono };
+  return color && mono ? { color, mono } : null;
+}
+
+export function productIcon(slug: string | undefined): ProductIconPair | null {
+  if (!slug) return null;
+  return pair(slug);
+}
+
+/** Все значки позиции (составные — несколько; обычные — один; нет — пусто). */
+export function productIcons(slug: string | undefined): ProductIconPair[] {
+  if (!slug) return [];
+  const slugs = COMPOSITE[slug] ?? [slug];
+  return slugs.map(pair).filter((p): p is ProductIconPair => p !== null);
 }
