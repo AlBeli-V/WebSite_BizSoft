@@ -1,0 +1,46 @@
+# Проверка живой страницы прода: HTTP-заголовки + совпадения по шаблону.
+# Нужен, потому что из сессии Claude нет egress к biz-soft.pro —
+# позволяет убедиться, что деплой реально отдаёт свежий HTML/CSS.
+name: ops-probe
+on:
+  workflow_dispatch:
+    inputs:
+      url:
+        description: 'URL страницы'
+        required: true
+        default: 'https://biz-soft.pro/vendors/adobe'
+      pattern:
+        description: 'grep -oE шаблон'
+        required: true
+        default: 'vendor-icons/[a-z]+/adobe\.svg|#3f3f46|Диадок'
+permissions:
+  issues: write
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fetch and grep
+        id: probe
+        run: |
+          {
+            echo 'result<<PROBE_EOF'
+            echo "## Заголовки"
+            curl -sSI --max-time 30 "${{ inputs.url }}" | head -25
+            echo
+            echo "## Совпадения: ${{ inputs.pattern }}"
+            curl -sS --max-time 30 "${{ inputs.url }}" | grep -oE "${{ inputs.pattern }}" | sort | uniq -c | head -40 || echo "(нет совпадений)"
+            echo 'PROBE_EOF'
+          } >> "$GITHUB_OUTPUT"
+      - name: Post to issue
+        uses: actions/github-script@v7
+        env:
+          PROBE_URL: ${{ inputs.url }}
+          PROBE_RESULT: ${{ steps.probe.outputs.result }}
+        with:
+          script: |
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: 22,
+              body: '### ops-probe: ' + process.env.PROBE_URL + '\n\n```\n' + process.env.PROBE_RESULT + '\n```',
+            });

@@ -5,6 +5,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import FAQ from '../../components/FAQ.astro';
 import LeadForm from '../../components/LeadForm.astro';
+import VendorIcon from '../../components/VendorIcon.astro';
 import QuestionForm from '../../components/QuestionForm.astro';
 import JsonLd from '../../components/JsonLd.astro';
 import { getProducts } from '../../lib/directus';
@@ -45,7 +46,7 @@ const ld = [
     <Breadcrumbs items={crumbs} />
 
     <header class="hero">
-      <div class="vendor-row"><span class="vdot"></span><span class="vendor-legal">{FIGMA_VENDOR.legalName}</span></div>
+      <div class="vendor-row"><VendorIcon slug="figma" name="Figma" size={44} /><span class="vendor-name">Figma</span><span class="vendor-legal">{FIGMA_VENDOR.legalName}</span></div>
       <h1>Figma для юридических лиц: места, планы и оформление через BIZSoft</h1>
       <p class="hero-sub">Подберите Figma по новой модели посадочных мест — Full (дизайн), Dev (разработка) и Collab (просмотр) на планах Professional, Organization и Enterprise. Оформление на организацию с оплатой по счёту.</p>
       <ul class="chips"><li>Для юрлиц</li><li>КП и счёт</li><li>Договор и закрывающие</li><li>Оплата в рублях</li></ul>
@@ -152,7 +153,7 @@ const ld = [
   .section { padding-top: 2rem; }
   .hero { padding: 1rem 0 1.5rem; max-width: 820px; }
   .vendor-row { display: flex; align-items: center; gap: 0.7rem; margin-bottom: 1rem; }
-  .vdot { width: 22px; height: 22px; border-radius: 6px; background: var(--vc, var(--color-accent)); }
+  .vendor-name { font-weight: 700; font-size: 1.05rem; }
   .vendor-legal { color: var(--color-text-dim); font-size: 0.85rem; }
   h1 { font-size: clamp(1.9rem, 4.5vw, 3rem); margin-bottom: 1rem; }
   .hero-sub { color: var(--color-text-muted); font-size: 1.08rem; max-width: 64ch; }
