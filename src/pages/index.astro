@@ -463,7 +463,9 @@ const servicesItemList = {
   .logos-cap { text-align: center; color: var(--color-text-dim); font-size: 0.9rem; margin-bottom: 1rem; }
   .logo-chip { display: flex; align-items: center; gap: 0.75rem; padding: 1rem 1.1rem; border: 1px solid var(--color-border); border-radius: var(--radius); background: var(--color-bg-card); box-shadow: var(--shadow-sm); transition: border-color 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease; }
   .logo-chip:hover { border-color: var(--color-accent); transform: translateY(-3px); box-shadow: var(--shadow); }
-  .logo-badge { width: 40px; height: 40px; border-radius: 10px; display: inline-flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1.1rem; background: var(--bc); color: var(--tc); flex-shrink: 0; }
+  /* Нейтральная плашка под унифицированные иконки (монохром → цвет при наведении);
+     --bc остаётся фолбэком для буквенного знака */
+  .logo-badge { width: 40px; height: 40px; border-radius: 10px; display: inline-flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1.1rem; background: #fff; border: 1px solid var(--color-border); color: var(--bc); flex-shrink: 0; }
   .logo-name { font-weight: 600; font-size: 0.92rem; white-space: nowrap; }
 
   /* Категории */

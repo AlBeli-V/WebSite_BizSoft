@@ -198,6 +198,28 @@
     color: var(--color-accent);
   }
 
+  /* Иконки производителей (.vi — VendorIcon.astro): монохром по умолчанию,
+     полноцвет при наведении на саму иконку или её ссылку/карточку/кнопку */
+  .vi { position: relative; display: inline-flex; flex-shrink: 0; }
+  .vi img { display: block; width: 100%; height: 100%; object-fit: contain; }
+  .vi .vi-color { position: absolute; inset: 0; opacity: 0; transition: opacity 0.15s ease; }
+  /* grayscale страхует растровые «mono»-файлы пакета, где вшит цветной оригинал */
+  .vi .vi-mono { transition: opacity 0.15s ease; filter: grayscale(1); }
+  .vi:hover .vi-color,
+  a:hover .vi .vi-color,
+  button:hover .vi .vi-color,
+  .card:hover .vi .vi-color,
+  .card-hover:hover .vi .vi-color {
+    opacity: 1;
+  }
+  .vi:hover .vi-mono,
+  a:hover .vi .vi-mono,
+  button:hover .vi .vi-mono,
+  .card:hover .vi .vi-mono,
+  .card-hover:hover .vi .vi-mono {
+    opacity: 0;
+  }
+
   /* Плавное появление секций (Intersection Observer добавляет .is-visible) */
   .reveal {
     opacity: 0;

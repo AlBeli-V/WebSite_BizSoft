@@ -4,6 +4,8 @@
  * «Производители → Топ-запросы»). Клик дописывает вендора в textarea формы.
  */
 import { logoFile } from '../data/logos';
+import { vendorIcon } from '../data/vendor-icons';
+import VendorIcon from './VendorIcon.astro';
 
 const TOP: { slug: string; name: string }[] = [
   { slug: 'openai', name: 'OpenAI' },
@@ -15,13 +17,17 @@ const TOP: { slug: string; name: string }[] = [
   { slug: 'github', name: 'GitHub' },
   { slug: 'cursor', name: 'Cursor' },
 ];
-const chips = TOP.map((t) => ({ ...t, logo: logoFile(t.slug) }));
+const chips = TOP.map((t) => ({ ...t, pack: Boolean(vendorIcon(t.slug)), logo: logoFile(t.slug) }));
 ---
 <p class="vc-cap">Дополнительно подобрать:</p>
 <div class="vc-chips" data-chips aria-label="Дополнительно подобрать">
   {chips.map((c) => (
     <button type="button" class="vc-chip">
-      {c.logo && <img src={c.logo} alt="" width="16" height="16" loading="lazy" />}
+      {c.pack ? (
+        <VendorIcon slug={c.slug} size={16} />
+      ) : (
+        c.logo && <img src={c.logo} alt="" width="16" height="16" loading="lazy" />
+      )}
       {c.name}
     </button>
   ))}
