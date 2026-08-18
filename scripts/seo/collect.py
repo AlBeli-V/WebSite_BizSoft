@@ -139,6 +139,53 @@ def collect_metrika() -> dict:
     return result
 
 
+def collect_ga4() -> dict:
+    """GA4 Data API: каналы, органические посадочные, источники. Авторизация —
+    тот же сервисный аккаунт, что и GSC; property — секрет GA4_PROPERTY_ID."""
+    from google.auth.transport.requests import Request
+    from google.oauth2 import service_account
+
+    info = json.loads(os.environ['GSC_SERVICE_ACCOUNT_JSON'])
+    creds = service_account.Credentials.from_service_account_info(
+        info, scopes=['https://www.googleapis.com/auth/analytics.readonly'])
+    creds.refresh(Request())
+    headers = {'Authorization': f'Bearer {creds.token}'}
+    prop = os.environ['GA4_PROPERTY_ID'].strip()
+    url = f'https://analyticsdata.googleapis.com/v1beta/properties/{prop}:runReport'
+    date_to = dt.date.today() - dt.timedelta(days=1)
+    date_from = date_to - dt.timedelta(days=13)
+    dates = [{'startDate': date_from.isoformat(), 'endDate': date_to.isoformat()}]
+    result = {'date': TODAY, 'property': prop,
+              'window': {'from': date_from.isoformat(), 'to': date_to.isoformat()}}
+
+    organic_filter = {'filter': {'fieldName': 'sessionDefaultChannelGroup',
+                                 'stringFilter': {'value': 'Organic Search'}}}
+    reports = {
+        'channels': {
+            'dateRanges': dates,
+            'dimensions': [{'name': 'sessionDefaultChannelGroup'}],
+            'metrics': [{'name': 'sessions'}, {'name': 'totalUsers'}, {'name': 'keyEvents'}],
+        },
+        'organic_sources': {
+            'dateRanges': dates,
+            'dimensions': [{'name': 'sessionSource'}],
+            'metrics': [{'name': 'sessions'}, {'name': 'keyEvents'}],
+            'dimensionFilter': organic_filter,
+        },
+        'organic_landing_pages': {
+            'dateRanges': dates,
+            'dimensions': [{'name': 'landingPage'}],
+            'metrics': [{'name': 'sessions'}, {'name': 'keyEvents'}],
+            'dimensionFilter': organic_filter,
+            'limit': 50,
+        },
+    }
+    for key, body in reports.items():
+        r = requests.post(url, headers=headers, json=body, timeout=30)
+        result[key] = r.json() if r.ok else {'error': f'HTTP {r.status_code}: {r.text[:400]}'}
+    return result
+
+
 def main() -> int:
     OUT_DIR.mkdir(parents=True, exist_ok=True)
     ok = True
@@ -146,6 +193,7 @@ def main() -> int:
         ('gsc', collect_gsc, 'GSC_SERVICE_ACCOUNT_JSON'),
         ('yandex', collect_yandex, 'YANDEX_WEBMASTER_TOKEN'),
         ('metrika', collect_metrika, 'YANDEX_METRIKA_TOKEN'),
+        ('ga4', collect_ga4, 'GA4_PROPERTY_ID'),
     ):
         if not os.environ.get(secret):
             data = {'date': TODAY, 'error': f'секрет {secret} не задан'}
