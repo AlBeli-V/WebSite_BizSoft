@@ -9,6 +9,7 @@ import { vendorBySlug } from '../../data/vendors';
 import { vendors as scaffoldVendors } from '../../data/scaffold';
 import { getVendors } from '../../lib/directus';
 import { vendorSlug } from '../../lib/vendor-links';
+import { SEO_EXPERIMENTS } from '../../data/seo-experiments';
 
 const { slug } = Astro.params;
 const entry = slug ? vendorBySlug(slug) : undefined;
@@ -26,9 +27,11 @@ if (!entry && !scaffold && slug) {
 if (!entry && !scaffold && !live) return new Response(null, { status: 404 });
 
 const vTitle = entry ? (entry.title || entry.vendor) : '';
-const title = entry ? `Купить ${vTitle} для юрлица — тарифы, счёт и КП` : '';
+// SEO-эксперимент P0-1: точечные метаданные 5 страниц (см. seo-experiments.ts).
+const exp = entry ? SEO_EXPERIMENTS[entry.slug] : undefined;
+const title = entry ? (exp?.title ?? `Купить ${vTitle} для юрлица — тарифы, счёт и КП`) : '';
 const description = entry
-  ? `${vTitle} для юридических лиц: ${entry.tagline} Оформление по договору и счёту, оплата в рублях, закрывающие документы через ЭДО.`
+  ? (exp?.description ?? `${vTitle} для юридических лиц: ${entry.tagline} Оформление по договору и счёту, оплата в рублях, закрывающие документы через ЭДО.`)
   : '';
 const liveName = live ? (live.vendor.match(/^(.+?)\s*\(/)?.[1] ?? live.vendor) : '';
 ---
