@@ -14,9 +14,6 @@ importers:
       '@astrojs/sitemap':
         specifier: ^3.2.1
         version: 3.7.3
-      '@fontsource/inter':
-        specifier: ^5.3.0
-        version: 5.3.0
       '@fontsource/prosto-one':
         specifier: ^5.3.0
         version: 5.3.0
@@ -585,9 +582,6 @@ packages:
     engines: {node: '>=18'}
     cpu: [x64]
     os: [win32]
-
-  '@fontsource/inter@5.3.0':
-    resolution: {integrity: sha512-RofMylZmjlJEfELXeNHFWBRcSs75rGU/6bV2S2jfnvv/3rPXPGe0LgUJTklcHZ9lM4OZmAVFhcJPnACfb91A3g==}
 
   '@fontsource/prosto-one@5.3.0':
     resolution: {integrity: sha512-bOD3L1irJNwuL+T8hBOggmTP1ymhJYyMMM2T2sdk5Lx+poBuCog8+wCDykv7ts9JlTWHYAKt7/LrkfTp7XPPzQ==}
@@ -2849,8 +2843,6 @@ snapshots:
 
   '@esbuild/win32-x64@0.28.1':
     optional: true
-
-  '@fontsource/inter@5.3.0': {}
 
   '@fontsource/prosto-one@5.3.0': {}
 

@@ -7,7 +7,7 @@ interface Props {
   compact?: boolean;
   label?: string;
 }
-const { sku, slug, name, price, compact = false, label = 'В корзину' } = Astro.props;
+const { sku, slug, name, price, compact = false, label = 'В избранное' } = Astro.props;
 ---
 <button
   class:list={['btn', 'btn-primary', 'add-to-cart', { 'btn-sm': compact }]}
