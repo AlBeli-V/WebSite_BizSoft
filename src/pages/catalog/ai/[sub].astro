@@ -12,6 +12,7 @@ import { getProducts, getCategoryBySlug } from '../../../lib/directus';
 import { itemListSchema, breadcrumbSchema } from '../../../lib/seo';
 import { getAiSubcategory } from '../../../data/ai-hub';
 import { comparisons } from '../../../data/comparisons';
+import { effectivePrice } from '../../../lib/pricing';
 
 const { sub } = Astro.params;
 const meta = getAiSubcategory(sub!);
@@ -30,6 +31,8 @@ let products = [];
 try {
   pageCategory = await getCategoryBySlug(meta.categorySlug);
   if (pageCategory) products = await getProducts({ categorySlug: meta.categorySlug });
+  // «Цена по запросу» — всегда в конце списка
+  products.sort((a, b) => Number(effectivePrice(a).price <= 0) - Number(effectivePrice(b).price <= 0));
 } catch (e) {
   console.error('ai sub catalog error', e);
 }

@@ -94,7 +94,7 @@ const cards = zoom.map((p) => {
           <button class="btn btn-primary" data-open-question data-product="Zoom — подбор тарифа" data-ev="click_get_quote">Получить расчёт и КП</button>
           <a href="#chooser" class="btn btn-ghost" data-ev="click_choose_plan">Подобрать тариф Zoom</a>
         </div>
-        {minPrice > 0 && <p class="from">Цены от <b>{formatRub(minPrice)}</b> · финальная стоимость фиксируется в КП или счёте</p>}
+        {minPrice > 0 && <p class="from">Цены от <b>{formatRub(minPrice)}</b> в год</p>}
       </div>
     </header>
 
@@ -135,8 +135,7 @@ const cards = zoom.map((p) => {
               <button class="btn btn-primary btn-sm" data-open-question data-product={`Zoom — ${c.name}`} data-sku={c.sku} data-ev="click_get_quote">{c.byRequest ? 'Запросить цену' : 'Получить КП'}</button>
               <a href={`/product/${c.slug}`} class="btn btn-ghost btn-sm" data-ev="click_product_card">Подробнее</a>
             </div>
-            <p class="zfine">Финальная цена фиксируется в КП или счёте.</p>
-          </article>
+                      </article>
         ))}
       </div>
     </section>
@@ -156,7 +155,7 @@ const cards = zoom.map((p) => {
           </tbody>
         </table>
       </div>
-      <p class="muted small">«*» и «уточн.» — характеристики проверяются перед КП. Облачное хранилище: на карточках Biz-Soft указано 5 ГБ, в официальной документации Zoom — 10 ГБ; уточняется перед публикацией.</p>
+      <p class="muted small">«*» и «уточн.» — характеристики проверяются перед КП. Облачное хранилище: на карточках BIZSoft указано 5 ГБ, в официальной документации Zoom — 10 ГБ; уточняется перед публикацией.</p>
     </section>
 
     <!-- Какой Zoom выбрать -->

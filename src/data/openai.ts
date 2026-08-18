@@ -11,7 +11,7 @@ export const OPENAI_VENDOR = {
 };
 
 export const OPENAI_SUMMARY =
-  'BIZSoft подбирает и оформляет доступ к продуктам OpenAI для юридических лиц: ChatGPT Plus и Pro для сотрудников, ChatGPT Business для команд, ChatGPT Enterprise для крупных организаций и OpenAI API с оплатой по использованию. Договор, счёт и закрывающие документы; оплата в рублях по курсу ЦБ, финальная стоимость фиксируется в КП.';
+  'BIZSoft подбирает и оформляет доступ к продуктам OpenAI для юридических лиц: ChatGPT Plus и Pro для сотрудников, ChatGPT Business для команд, ChatGPT Enterprise для крупных организаций и OpenAI API с оплатой по использованию. Договор, счёт и закрывающие документы; оплата в рублях по курсу ЦБ.';
 
 export const OPENAI_ORDER = ['OPENAI-PLUS', 'OPENAI-PRO', 'OPENAI-BUSINESS', 'OPENAI-ENTERPRISE', 'OPENAI-API'];
 

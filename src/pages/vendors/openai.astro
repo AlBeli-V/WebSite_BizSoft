@@ -53,7 +53,7 @@ const ld = [
         <button class="btn btn-primary" data-open-question data-product="OpenAI — подбор тарифа" data-ev="click_get_quote">Получить расчёт и КП</button>
         <a href="#products" class="btn btn-ghost" data-ev="click_choose_plan">Смотреть тарифы</a>
       </div>
-      {hasMin && <p class="from">Цены от <b>{formatRub(minPrice)}</b> · финальная стоимость фиксируется в КП или счёте</p>}
+      {hasMin && <p class="from">Цены от <b>{formatRub(minPrice)}</b> в год</p>}
     </header>
 
     <div class="summary"><strong>Коротко:</strong> {OPENAI_SUMMARY}</div>
@@ -84,7 +84,7 @@ const ld = [
           </article>
         ))}
       </div>
-      <p class="muted small">Цена в рублях пересчитывается по курсу ЦБ РФ; финальная стоимость фиксируется в КП или счёте.</p>
+      <p class="muted small">Цена в рублях пересчитывается по курсу ЦБ РФ.</p>
     </section>
 
     <section class="block" id="compare">
