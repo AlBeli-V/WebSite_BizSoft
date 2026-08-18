@@ -6,6 +6,8 @@ import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import FAQ from '../../components/FAQ.astro';
 import LeadForm from '../../components/LeadForm.astro';
 import VendorIcon from '../../components/VendorIcon.astro';
+import { productIcons } from '../../data/product-icons';
+import ProductIcon from '../../components/ProductIcon.astro';
 import QuestionForm from '../../components/QuestionForm.astro';
 import JsonLd from '../../components/JsonLd.astro';
 import { getProducts } from '../../lib/directus';
@@ -73,7 +75,10 @@ const ld = [
         {cards.map((c) => (
           <article class="card vcard">
             {c.meta && <div class="vhead"><span class="vbadge">{c.meta.badge}</span></div>}
-            <h3>{c.name}</h3>
+            <div class="pih">
+              {productIcons(c.slug).length > 0 && <ProductIcon slug={c.slug} name={c.name} size={36} />}
+              <h3>{c.name}</h3>
+            </div>
             {c.meta?.forWhom && <p class="forwhom">{c.meta.forWhom}</p>}
             <div class="vprice">{c.byRequest ? <span class="req">Цена по запросу</span> : <span class="pv"><b>{c.priceText}</b> <span class="note">{c.note}</span></span>}</div>
             {c.features.length > 0 && <ul class="vfeat">{c.features.map((f) => <li>{f}</li>)}</ul>}
@@ -199,6 +204,9 @@ const ld = [
   .links .link-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 0.6rem; }
   .links a { color: var(--color-accent); font-size: 0.92rem; padding: 0.5rem 0; }
   @media (max-width: 880px) { .final-grid { grid-template-columns: 1fr; } }
+  /* Значок продукта слева от названия в плитке */
+  .pih { display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.4rem; }
+  .pih h3 { margin-bottom: 0; }
 </style>
 
 <script>

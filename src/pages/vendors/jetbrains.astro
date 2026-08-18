@@ -6,6 +6,8 @@ import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import FAQ from '../../components/FAQ.astro';
 import LeadForm from '../../components/LeadForm.astro';
 import VendorIcon from '../../components/VendorIcon.astro';
+import { productIcons } from '../../data/product-icons';
+import ProductIcon from '../../components/ProductIcon.astro';
 import QuestionForm from '../../components/QuestionForm.astro';
 import JsonLd from '../../components/JsonLd.astro';
 import { getProducts } from '../../lib/directus';
@@ -151,7 +153,10 @@ const cards = jb.map((p) => {
               {c.meta && <span class={`zbadge ${c.badgeClass}`}>{c.meta.badge}</span>}
               <span class="zlic">Для организаций</span>
             </div>
-            <h3>{c.name}</h3>
+            <div class="pih">
+              {productIcons(c.slug).length > 0 && <ProductIcon slug={c.slug} name={c.name} size={36} />}
+              <h3>{c.name}</h3>
+            </div>
             {c.meta?.forWhom && <p class="forwhom">{c.meta.forWhom}</p>}
             <div class="zprice">
               {c.byRequest
@@ -478,6 +483,9 @@ const cards = jb.map((p) => {
   .links .link-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 0.6rem; }
   .links a { color: #FB0F60; font-size: 0.92rem; padding: 0.5rem 0; }
   @media (max-width: 880px) { .final-grid { grid-template-columns: 1fr; } }
+  /* Значок продукта слева от названия в плитке */
+  .pih { display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.4rem; }
+  .pih h3 { margin-bottom: 0; }
 </style>
 
 <script>
