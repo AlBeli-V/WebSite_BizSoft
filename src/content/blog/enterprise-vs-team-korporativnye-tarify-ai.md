@@ -4,7 +4,7 @@ description: "Разбор различий между Team/Business и Enterpri
 date: 2026-07-05
 tags: ["AI", "Enterprise", "Team", "сравнение", "безопасность"]
 summaryAnswer: "Team/Business-тарифы дают общее рабочее пространство, админ-панель и защиту данных для небольших и средних команд; Enterprise добавляет SSO, SCIM-провижининг, ролевой доступ, журналы аудита, настраиваемое хранение и комплаенс (SOC 2, HIPAA) для крупных организаций с индивидуальной ценой."
-author: "Редакция BizSoft"
+author: "Редакция BIZSoft"
 related:
   - { label: "Каталог AI-сервисов", href: "/catalog/ai" }
   - { label: "AI для бизнеса", href: "/solutions/ai-dlya-biznesa" }
