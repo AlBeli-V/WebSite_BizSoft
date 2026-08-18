@@ -97,12 +97,55 @@ def collect_yandex() -> dict:
     return result
 
 
+def collect_metrika() -> dict:
+    """Яндекс.Метрика: источники трафика, органика по ПС и посадочным, цели.
+    Токен — YANDEX_METRIKA_TOKEN (scope metrika:read), счётчик — YANDEX_METRIKA_COUNTER_ID."""
+    token = os.environ['YANDEX_METRIKA_TOKEN']
+    counter = os.environ['YANDEX_METRIKA_COUNTER_ID'].strip()
+    headers = {'Authorization': f'OAuth {token}'}
+    stat = 'https://api-metrika.yandex.net/stat/v1/data'
+    date_to = dt.date.today() - dt.timedelta(days=1)
+    date_from = date_to - dt.timedelta(days=13)
+    base = {'ids': counter, 'date1': date_from.isoformat(), 'date2': date_to.isoformat(),
+            'accuracy': 'full', 'limit': 100}
+    result = {'date': TODAY, 'counter': counter,
+              'window': {'from': date_from.isoformat(), 'to': date_to.isoformat()}}
+
+    goals_resp = requests.get(
+        f'https://api-metrika.yandex.net/management/v1/counter/{counter}/goals',
+        headers=headers, timeout=30)
+    result['goals'] = goals_resp.json().get('goals', []) if goals_resp.ok else {
+        'error': f'HTTP {goals_resp.status_code}: {goals_resp.text[:300]}'}
+
+    queries = {
+        'traffic_sources': {
+            'dimensions': 'ym:s:lastTrafficSource',
+            'metrics': 'ym:s:visits,ym:s:users,ym:s:bounceRate,ym:s:pageDepth,ym:s:sumGoalReachesAny',
+        },
+        'organic_by_engine': {
+            'dimensions': 'ym:s:lastSearchEngineRoot',
+            'metrics': 'ym:s:visits,ym:s:users,ym:s:bounceRate,ym:s:sumGoalReachesAny',
+            'filters': "ym:s:lastTrafficSource=='organic'",
+        },
+        'organic_landing_pages': {
+            'dimensions': 'ym:s:startURLPath',
+            'metrics': 'ym:s:visits,ym:s:bounceRate,ym:s:sumGoalReachesAny',
+            'filters': "ym:s:lastTrafficSource=='organic'",
+        },
+    }
+    for key, params in queries.items():
+        r = requests.get(stat, headers=headers, params={**base, **params}, timeout=30)
+        result[key] = r.json() if r.ok else {'error': f'HTTP {r.status_code}: {r.text[:300]}'}
+    return result
+
+
 def main() -> int:
     OUT_DIR.mkdir(parents=True, exist_ok=True)
     ok = True
     for name, fn, secret in (
         ('gsc', collect_gsc, 'GSC_SERVICE_ACCOUNT_JSON'),
         ('yandex', collect_yandex, 'YANDEX_WEBMASTER_TOKEN'),
+        ('metrika', collect_metrika, 'YANDEX_METRIKA_TOKEN'),
     ):
         if not os.environ.get(secret):
             data = {'date': TODAY, 'error': f'секрет {secret} не задан'}
