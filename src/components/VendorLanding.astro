@@ -15,7 +15,7 @@ import { effectivePrice, formatRub } from '../lib/pricing';
 import { collectionPageSchema, faqSchema, breadcrumbSchema } from '../lib/seo';
 import { mergeExperimentFaq } from '../data/seo-experiments';
 import { planType, PLAN_LABEL } from '../lib/plan-type';
-import { productIcon } from '../data/product-icons';
+import { productIcons } from '../data/product-icons';
 import ProductIcon from './ProductIcon.astro';
 import AddToCartButton from './AddToCartButton.astro';
 import { DOMAIN_AUDIENCE, type VendorEntry } from '../data/vendors';
@@ -50,7 +50,7 @@ const cards = products.map((p) => {
     short: p.short_description || '',
     features: feats,
     plan: planType(p.name, p.short_description || ''),
-    icon: Boolean(productIcon(p.slug)),
+    icon: productIcons(p.slug).length > 0,
   };
 });
 // Карточки «Цена по запросу» — всегда в конце списка
@@ -120,8 +120,10 @@ const ld = [
       <div class="vgrid">
         {cards.map((c) => (
           <article class="card vcard">
-            {c.icon && <div class="vc-ico"><ProductIcon slug={c.slug} name={c.name} size={40} /></div>}
-            <h3>{c.name}</h3>
+            <div class="vc-head">
+              {c.icon && <ProductIcon slug={c.slug} name={c.name} size={38} />}
+              <h3>{c.name}</h3>
+            </div>
             {c.plan && <span class="plan-tag" data-plan={c.plan}>{PLAN_LABEL[c.plan]}</span>}
             {c.short && <p class="forwhom">{c.short}</p>}
             <div class="vprice">
@@ -263,8 +265,9 @@ const ld = [
   .block > h2 { font-size: clamp(1.4rem, 2.6vw, 1.9rem); margin-bottom: 1.2rem; }
   .vgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.2rem; }
   .vcard { padding: 1.4rem; display: flex; flex-direction: column; }
-  .vcard h3 { font-size: 1.1rem; margin-bottom: 0.4rem; }
-  .vc-ico { margin-bottom: 0.6rem; }
+  /* Значок слева перед названием; у составных позиций — несколько значков */
+  .vc-head { display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.4rem; }
+  .vcard h3 { font-size: 1.1rem; margin-bottom: 0; }
   .forwhom { color: var(--color-text-dim); font-size: 0.85rem; margin-bottom: 0.6rem; }
   /* Кому адресован тариф */
   .plan-tag { align-self: flex-start; font-size: 0.72rem; padding: 0.14rem 0.55rem; border-radius: 6px; margin-bottom: 0.5rem; }

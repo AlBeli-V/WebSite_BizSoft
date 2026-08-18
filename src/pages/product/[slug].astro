@@ -14,7 +14,7 @@ import { effectivePrice, formatRub } from '../../lib/pricing';
 import { ORIGIN_LABEL, LICENSE_LABEL, listValues } from '../../lib/types';
 import { vendorLegal, productNoindex } from '../../lib/catalog';
 import { getAiInterlinks } from '../../data/ai-interlinks';
-import { productIcon } from '../../data/product-icons';
+import { productIcons } from '../../data/product-icons';
 import ProductIcon from '../../components/ProductIcon.astro';
 
 const { slug } = Astro.params;
@@ -96,7 +96,7 @@ const aiLinks = product.vendor ? getAiInterlinks(product.vendor) : null;
           {category && <a class="badge badge-link" href={`/catalog/${category.slug}`}>{category.name}</a>}
         </div>
         <span class="sku">Артикул: {product.sku}{product.vendor ? ` · Производитель: ${vendorLegal(product.vendor)}` : ''}</span>
-        {productIcon(product.slug) ? (
+        {productIcons(product.slug).length > 0 ? (
           <h1 class="h1-ico"><ProductIcon slug={product.slug} name={product.name} size={44} variant="color" /> {product.name}</h1>
         ) : (
           <h1>{product.name}</h1>

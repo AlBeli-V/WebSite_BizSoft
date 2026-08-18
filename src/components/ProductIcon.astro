@@ -1,12 +1,14 @@
 ---
 /**
- * Профильная иконка товарной позиции (например, знак приложения Adobe).
- * variant="hover": монохром, полноцвет при наведении на плитку/ссылку
- * (правила .vi в global.css). variant="color" — статичная цветная
- * (страница товара, рядом с названием).
- * Если иконки для слага нет — ничего не рендерит.
+ * Профильные значки товарной позиции (например, знаки приложений Adobe).
+ * Составные позиции (тариф «Фотография» = Lightroom + Photoshop) рендерят
+ * несколько значков в ряд — при наведении на плитку все становятся цветными
+ * одновременно (правила .vi в global.css).
+ * variant="hover": монохром → цвет при наведении на плитку/ссылку.
+ * variant="color": статичные цветные (страница товара, рядом с названием).
+ * Если значков для слага нет — не рендерит ничего.
  */
-import { productIcon } from '../data/product-icons';
+import { productIcons } from '../data/product-icons';
 
 interface Props {
   slug: string;
@@ -15,18 +17,25 @@ interface Props {
   variant?: 'hover' | 'color' | 'mono';
 }
 const { slug, name = '', size = 40, variant = 'hover' } = Astro.props;
-const icon = productIcon(slug);
+const icons = productIcons(slug);
 const alt = name ? `Значок ${name}` : '';
 ---
-{icon && (variant === 'hover' ? (
-  <span class="vi" style={`width:${size}px;height:${size}px`}>
-    <img class="vi-mono" src={icon.mono} alt={alt} width={size} height={size} loading="lazy" decoding="async" />
-    <img class="vi-color" src={icon.color} alt="" aria-hidden="true" width={size} height={size} loading="lazy" decoding="async" />
+{icons.length > 0 && (
+  <span class="pi-row" style={`--pi:${size}px`}>
+    {icons.map((icon, i) => (
+      variant === 'hover' ? (
+        <span class="vi" style={`width:${size}px;height:${size}px`}>
+          <img class="vi-mono" src={icon.mono} alt={i === 0 ? alt : ''} width={size} height={size} loading="lazy" decoding="async" />
+          <img class="vi-color" src={icon.color} alt="" aria-hidden="true" width={size} height={size} loading="lazy" decoding="async" />
+        </span>
+      ) : (
+        <img class="pi-static" src={variant === 'color' ? icon.color : icon.mono} alt={i === 0 ? alt : ''} width={size} height={size} loading="lazy" decoding="async" />
+      )
+    ))}
   </span>
-) : (
-  <img class="pi-static" src={variant === 'color' ? icon.color : icon.mono} alt={alt} width={size} height={size} loading="lazy" decoding="async" />
-))}
+)}
 
 <style>
+  .pi-row { display: inline-flex; align-items: center; gap: 0.4rem; flex-shrink: 0; }
   .pi-static { object-fit: contain; display: block; }
 </style>
