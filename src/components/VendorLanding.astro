@@ -14,6 +14,7 @@ import { getProducts } from '../lib/directus';
 import { effectivePrice, formatRub } from '../lib/pricing';
 import { collectionPageSchema, faqSchema, breadcrumbSchema } from '../lib/seo';
 import { mergeExperimentFaq } from '../data/seo-experiments';
+import { planType, PLAN_LABEL } from '../lib/plan-type';
 import { DOMAIN_AUDIENCE, type VendorEntry } from '../data/vendors';
 import { vendorContent } from '../data/vendor-content';
 import type { Product } from '../lib/types';
@@ -44,8 +45,11 @@ const cards = products.map((p) => {
     byRequest: eff.price <= 0,
     short: p.short_description || '',
     features: feats,
+    plan: planType(p.name, p.short_description || ''),
   };
 });
+// Карточки «Цена по запросу» — всегда в конце списка
+cards.sort((a, b) => Number(a.byRequest) - Number(b.byRequest));
 const priced = cards.filter((c) => !c.byRequest);
 const minPrice = priced.length ? Math.min(...products.filter((p) => effectivePrice(p).price > 0).map((p) => effectivePrice(p).price)) : 0;
 const hasMin = minPrice > 0;
@@ -61,7 +65,7 @@ const crumbs = [
 // FAQ — свой bespoke (если задан) либо шаблонные вопросы под юрлицо.
 const baseFaq = content.faq?.length ? content.faq : [
   { q: `Как купить ${title} для юридического лица в России?`, a: `Через BIZSoft: заключаем договор, выставляем счёт, оплата в рублях по безналичному расчёту. Закрывающие документы передаём в том числе через ЭДО. Оставьте заявку — подберём тариф и подготовим КП.` },
-  { q: `Сколько стоит ${title}?`, a: `Цена в рублях рассчитывается от зарубежного прайса по курсу ЦБ РФ на дату счёта. Актуальную стоимость по каждому тарифу смотрите в карточках выше; финальная сумма фиксируется в КП или счёте.` },
+  { q: `Сколько стоит ${title}?`, a: `Цена в рублях рассчитывается от зарубежного прайса по курсу ЦБ РФ на дату счёта. Актуальную стоимость по каждому тарифу смотрите в карточках выше.` },
   { q: `Можно ли оплатить ${title} с расчётного счёта организации?`, a: `Да. Мы работаем с юрлицами и ИП по договору и счёту, предоставляем закрывающие документы для бухгалтерии.` },
   { q: `Как быстро предоставляется доступ к ${title}?`, a: `После поступления оплаты передаём ключи, доступы или инструкции по активации в согласованные сроки.` },
 ];
@@ -97,7 +101,7 @@ const ld = [
       <button class="btn btn-primary" data-open-question data-product={`${title} — подбор тарифа`} data-ev="click_get_quote">Получить расчёт и КП</button>
       {hasCards && <a href="#products" class="btn btn-ghost" data-ev="click_choose_plan">Смотреть тарифы</a>}
     </div>
-    {hasMin && <p class="from">Цены от <b>{formatRub(minPrice)}</b> · финальная стоимость фиксируется в КП или счёте</p>}
+    {hasMin && <p class="from">Цены от <b>{formatRub(minPrice)}</b> в год</p>}
   </header>
 
   <!-- Прямой ответ (GEO/AEO) -->
@@ -111,6 +115,7 @@ const ld = [
         {cards.map((c) => (
           <article class="card vcard">
             <h3>{c.name}</h3>
+            {c.plan && <span class="plan-tag" data-plan={c.plan}>{PLAN_LABEL[c.plan]}</span>}
             {c.short && <p class="forwhom">{c.short}</p>}
             <div class="vprice">
               {c.byRequest
@@ -125,7 +130,7 @@ const ld = [
           </article>
         ))}
       </div>
-      <p class="muted small">Финальная цена фиксируется в КП или счёте. Стоимость в рублях пересчитывается по курсу ЦБ РФ.</p>
+      <p class="muted small">Стоимость в рублях пересчитывается по курсу ЦБ РФ на дату счёта.</p>
     </section>
   ) : (
     <section class="block" id="products">
@@ -144,7 +149,7 @@ const ld = [
           <tbody>{content.comparison!.rows.map((r) => (<tr><th class="sticky">{r.label}</th>{r.values.map((v) => <td>{v}</td>)}</tr>))}</tbody>
         </table>
       </div>
-      <p class="muted small">Цены/характеристики ориентировочные; финальная стоимость в рублях — по курсу ЦБ РФ и фиксируется в КП.</p>
+      <p class="muted small">Цены и характеристики ориентировочные; стоимость в рублях — по курсу ЦБ РФ.</p>
     </section>
   )}
 
@@ -249,6 +254,10 @@ const ld = [
   .vcard { padding: 1.4rem; display: flex; flex-direction: column; }
   .vcard h3 { font-size: 1.1rem; margin-bottom: 0.4rem; }
   .forwhom { color: var(--color-text-dim); font-size: 0.85rem; margin-bottom: 0.6rem; }
+  /* Кому адресован тариф */
+  .plan-tag { align-self: flex-start; font-size: 0.72rem; padding: 0.14rem 0.55rem; border-radius: 6px; margin-bottom: 0.5rem; }
+  .plan-tag[data-plan='team'] { color: var(--vc, var(--color-accent)); background: color-mix(in srgb, var(--vc, var(--color-accent)) 12%, transparent); font-weight: 700; }
+  .plan-tag[data-plan='individual'] { color: var(--color-text-muted); border: 1px solid var(--color-border-strong); font-weight: 600; }
   .vprice { margin: 0.3rem 0 0.7rem; }
   .vprice b { font-size: 1.2rem; }
   .vprice .note { color: var(--color-text-dim); font-size: 0.8rem; }

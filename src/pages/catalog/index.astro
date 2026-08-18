@@ -18,6 +18,7 @@ import { getCategories, getProducts } from '../../lib/directus';
 import { site } from '../../config/site';
 import { POPULAR_VENDORS } from '../../data/popular';
 import { SEO_EXPERIMENT_LINKS } from '../../data/seo-experiments';
+import { effectivePrice } from '../../lib/pricing';
 
 let categories = [];
 let products = [];
@@ -32,7 +33,10 @@ try {
 const q = (Astro.url.searchParams.get('q') || '').trim();
 const ql = q.toLowerCase();
 const searchResults = q
-  ? products.filter((p) => `${p.name} ${p.vendor || ''} ${p.keywords || ''} ${p.sku}`.toLowerCase().includes(ql))
+  ? products
+      .filter((p) => `${p.name} ${p.vendor || ''} ${p.keywords || ''} ${p.sku}`.toLowerCase().includes(ql))
+      // «Цена по запросу» — всегда в конце списка
+      .sort((a, b) => Number(effectivePrice(a).price <= 0) - Number(effectivePrice(b).price <= 0))
   : [];
 
 const catCounts: Record<string, number> = {};

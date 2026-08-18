@@ -12,6 +12,7 @@ import CTASection from './CTASection.astro';
 import QuestionForm from './QuestionForm.astro';
 import JsonLd from './JsonLd.astro';
 import { getProducts } from '../lib/directus';
+import { effectivePrice } from '../lib/pricing';
 import { logoFile } from '../data/logos';
 import { vendorLegal } from '../lib/catalog';
 import { site } from '../config/site';
@@ -36,6 +37,8 @@ try {
 } catch (e) {
   console.error('vendor landing products error', e);
 }
+// «Цена по запросу» — всегда в конце списка
+products.sort((a, b) => Number(effectivePrice(a).price <= 0) - Number(effectivePrice(b).price <= 0));
 
 const plural = (n: number) => (n % 10 === 1 && n % 100 !== 11 ? 'позиция' : [2, 3, 4].includes(n % 10) && ![12, 13, 14].includes(n % 100) ? 'позиции' : 'позиций');
 

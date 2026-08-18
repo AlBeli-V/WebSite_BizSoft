@@ -39,7 +39,7 @@ const jb = core
 const priced = jb.filter((p) => effectivePrice(p).price > 0);
 const minPrice = priced.length ? Math.min(...priced.map((p) => effectivePrice(p).price)) : 0;
 
-const title = 'Купить JetBrains для организации — цена, КП | Biz-Soft';
+const title = 'Купить JetBrains для организации — цена, КП | BIZSoft';
 const description = 'Лицензии JetBrains для команд: All Products Pack, IntelliJ IDEA, Rider, PyCharm, WebStorm и другие IDE. Оформление на юрлицо: договор, счёт, закрывающие, ЭДО. Подберём и пришлём КП.';
 
 const ldItems = jb.map((p) => ({ name: p.name, slug: p.slug }));
@@ -98,7 +98,7 @@ const cards = jb.map((p) => {
           <a href="#chooser" class="btn btn-ghost" data-ev="click_pick_licenses">Подобрать продукт</a>
           <a href="#products" class="btn btn-ghost" data-ev="click_related_link">Смотреть каталог</a>
         </div>
-        {minPrice > 0 && <p class="from">Цены от <b>{formatRub(minPrice)}</b> за пользователя в год · финальная стоимость фиксируется в КП или счёте</p>}
+        {minPrice > 0 && <p class="from">Цены от <b>{formatRub(minPrice)}</b> за пользователя в год</p>}
       </div>
     </header>
 
@@ -109,11 +109,10 @@ const cards = jb.map((p) => {
       <p>JetBrains — это набор профессиональных сред разработки (IDE) и инструментов для команд: IntelliJ IDEA
         для Java и Kotlin, PyCharm для Python, WebStorm для JavaScript и TypeScript, PhpStorm, Rider для .NET,
         CLion, GoLand, RubyMine, RustRover, DataGrip, а также All Products Pack, JetBrains AI и серверные
-        инструменты (TeamCity, YouTrack, Qodana, Datalore). Biz-Soft помогает организациям и ИП легально
+        инструменты (TeamCity, YouTrack, Qodana, Datalore). BIZSoft помогает организациям и ИП легально
         приобрести и продлить лицензии JetBrains: мы подбираем продукты под задачи команды, рассчитываем
         стоимость в коммерческом предложении и оформляем поставку по договору с полным пакетом документов.
-        Лицензии поставляются как годовая подписка на пользователя. Финальная цена фиксируется в счёте и
-        зависит от курса евро, типа лицензии и числа пользователей.</p>
+        Лицензии поставляются как годовая подписка на пользователя; стоимость зависит от курса евро, типа лицензии и числа пользователей.</p>
     </section>
 
     <!-- 2. Быстрый подбор по стеку -->
@@ -165,7 +164,7 @@ const cards = jb.map((p) => {
               <button class="btn btn-primary btn-sm" data-open-question data-product={`JetBrains — ${c.name}`} data-sku={c.sku} data-ev="click_buy_org">{c.byRequest ? 'Уточнить цену' : 'Купить для организации'}</button>
               <a href={`/product/${c.slug}`} class="btn btn-ghost btn-sm" data-ev="click_product_card">Подробнее</a>
             </div>
-            <p class="zfine">Ориентир за пользователя в год, incl. VAT; финальная цена фиксируется в КП.</p>
+            <p class="zfine">Ориентир за пользователя в год, с учётом VAT.</p>
           </article>
         ))}
       </div>
@@ -282,7 +281,7 @@ const cards = jb.map((p) => {
       <h2>Управление лицензиями, безопасность и администрирование</h2>
       <p class="prose-bizsoft">Лицензии JetBrains управляются через JetBrains Account: вы распределяете места
         между сотрудниками и контролируете подписки. Для организаций предусмотрены инструменты централизованного
-        управления. Biz-Soft помогает оформить, продлить и учесть лицензии: единый счёт, документы для
+        управления. BIZSoft помогает оформить, продлить и учесть лицензии: единый счёт, документы для
         бухгалтерии и сопровождение при разворачивании. Конкретные технические сценарии (офлайн-активация,
         сервер лицензий) уточняются у менеджера.</p>
       <div class="cells">
@@ -307,9 +306,9 @@ const cards = jb.map((p) => {
       </div>
     </section>
 
-    <!-- 14. Как купить через Biz-Soft -->
+    <!-- 14. Как купить через BIZSoft -->
     <section class="block">
-      <h2>Как купить JetBrains через Biz-Soft</h2>
+      <h2>Как купить JetBrains через BIZSoft</h2>
       <ol class="steps">
         <li>Оставляете заявку или список нужных продуктов.</li>
         <li>Готовим КП с расчётом по числу пользователей.</li>

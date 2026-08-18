@@ -16,8 +16,10 @@
   --color-border: #e8e8ed;
   --color-border-strong: #d2d2d7;
   --color-text: #1d1d1f;
-  --color-text-muted: #565660;
-  --color-text-dim: #66666e;
+  /* Контраст вторичного текста: затемнены по замечанию владельца —
+     серые описания в карточках и блоках читались плохо (особенно на Raleway 400) */
+  --color-text-muted: #3f3f46;
+  --color-text-dim: #52525b;
   --color-accent: #f2591d;
   --color-accent-hover: #d64a12;
   --color-accent-dim: #b8420f;

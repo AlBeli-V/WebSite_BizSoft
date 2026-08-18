@@ -16,6 +16,7 @@ import { itemListSchema } from '../../lib/seo';
 import { aiSubcategories, aiFlagships } from '../../data/ai-hub';
 import { comparisons } from '../../data/comparisons';
 import { solutions } from '../../data/solutions';
+import { effectivePrice } from '../../lib/pricing';
 
 const { segment } = Astro.params;
 
@@ -89,6 +90,8 @@ const filtered = base.filter((p) => {
   }
   return true;
 });
+// «Цена по запросу» — всегда в конце списка
+filtered.sort((a, b) => Number(effectivePrice(a).price <= 0) - Number(effectivePrice(b).price <= 0));
 
 const categoryFaqs = Array.isArray(pageCategory?.faqs) ? pageCategory!.faqs! : [];
 const faq = categoryFaqs.length > 0 ? categoryFaqs : [
