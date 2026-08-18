@@ -390,7 +390,9 @@ const navRest = mainNav.filter((i) => i.href !== '/catalog');
     .cat-btn { display: none; }
     .btn-kp { display: none; }
     .burger { display: flex; }
-    .header-inner { justify-content: space-between; }
+    /* Поиск/телефон скрыты — прижимаем избранное и бургер к правому краю */
+    .header-inner { justify-content: flex-end; }
+    .header-actions { margin-left: auto; }
     .mobile-nav[data-open] { display: flex; }
   }
 </style>

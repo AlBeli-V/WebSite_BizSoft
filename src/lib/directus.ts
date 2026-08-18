@@ -72,13 +72,27 @@ async function dx<T>(path: string, opts: FetchOpts = {}): Promise<T> {
  * Отключение: CATALOG_CACHE_TTL_MS=0.
  */
 const CACHE_TTL_MS = Number(process.env.CATALOG_CACHE_TTL_MS ?? 60_000);
-const readCache = new Map<string, { t: number; v: unknown }>();
+// stale-while-revalidate: после истечения TTL устаревшее значение отдаётся
+// сразу (без ожидания Directus), а обновление идёт в фоне. Потолок
+// устаревания — 10 TTL (10 минут по умолчанию), дальше ждём свежие данные.
+const STALE_MAX_MS = CACHE_TTL_MS * 10;
+const readCache = new Map<string, { t: number; v: unknown; refreshing?: boolean }>();
 async function cached<T>(key: string, fn: () => Promise<T>): Promise<T> {
   if (!(CACHE_TTL_MS > 0)) return fn();
   const hit = readCache.get(key);
-  if (hit && Date.now() - hit.t < CACHE_TTL_MS) return hit.v as T;
+  const now = Date.now();
+  if (hit && now - hit.t < CACHE_TTL_MS) return hit.v as T;
+  if (hit && now - hit.t < STALE_MAX_MS) {
+    if (!hit.refreshing) {
+      hit.refreshing = true;
+      fn()
+        .then((v) => readCache.set(key, { t: Date.now(), v }))
+        .catch(() => { hit.refreshing = false; });
+    }
+    return hit.v as T;
+  }
   const v = await fn();
-  readCache.set(key, { t: Date.now(), v });
+  readCache.set(key, { t: now, v });
   // страховка от разрастания (карточек ~сотни, но пусть будет предел)
   if (readCache.size > 2000) readCache.clear();
   return v;
