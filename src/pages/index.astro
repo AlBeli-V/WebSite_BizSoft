@@ -8,6 +8,7 @@ import Carousel from '../components/Carousel.astro';
 import StatsDigits from '../components/StatsDigits.astro';
 import CategoryIcon from '../components/CategoryIcon.astro';
 import { SEO_EXPERIMENT_LINKS } from '../data/seo-experiments';
+import { STATS } from '../data/stats';
 import Banner from '../components/Banner.astro';
 import LeadForm from '../components/LeadForm.astro';
 import QuestionForm from '../components/QuestionForm.astro';
@@ -152,10 +153,10 @@ const servicesItemList = {
     <div class="container-page hero-grid">
       <div class="hero-content reveal is-visible">
         <span class="eyebrow">SaaS и ПО для бизнеса без границ</span>
-        <h1>Команда остаётся в привычных инструментах — <span class="accent">закупку и оплату берём на себя</span></h1>
+        <h1>Закупку зарубежного ПО <span class="accent">берём на себя</span></h1>
         <p class="hero-sub">
-          Adobe, Figma, JetBrains, ChatGPT, Claude и сотни зарубежных сервисов для российских
-          компаний. Годовые подписки по договору и счёту, закрывающие — через ЭДО.
+          Команда остаётся в привычных инструментах: Adobe, Figma, JetBrains, ChatGPT, Claude
+          и сотни зарубежных сервисов. Договор, счёт в рублях, закрывающие — через ЭДО.
         </p>
         <div class="hero-actions">
           <button class="btn btn-primary" data-open-question data-goal="hero_discuss">Обсудить задачу</button>
@@ -200,10 +201,10 @@ const servicesItemList = {
 
   <!-- ЦИФРЫ ДОВЕРИЯ -->
   <StatsDigits stats={[
-    { num: productCount > 0 ? Math.max(10, Math.floor(productCount / 10) * 10) : 380, suf: '+', label: 'позиций в каталоге' },
-    { num: vendorCount > 0 ? Math.max(10, Math.floor(vendorCount / 10) * 10) : 60, suf: '+', label: 'мировых вендоров' },
-    { num: 2022, pre: 'с ', suf: ' г.', label: 'работаем на рынке' },
-    { num: 8, label: 'AI-направлений в каталоге' },
+    { num: productCount > 0 ? Math.max(10, Math.floor(productCount / 10) * 10) : STATS.productsFallback, suf: '+', label: 'позиций в каталоге' },
+    { num: vendorCount > 0 ? Math.max(10, Math.floor(vendorCount / 10) * 10) : STATS.vendorsFallback, suf: '+', label: 'мировых вендоров' },
+    { num: STATS.sinceYear, pre: 'с ', suf: ' г.', label: 'работаем на рынке' },
+    { num: STATS.aiDirections, label: 'AI-направлений в каталоге' },
     { num: 1, suf: ' день', label: 'на КП и счёт' },
     { num: 100, suf: '%', label: 'сделок с закрывающими по ЭДО' },
   ]} />
@@ -294,6 +295,18 @@ const servicesItemList = {
   </section>
 
   <!-- ВЫГОДЫ -->
+  <!-- СНЯТИЕ РИСКОВ (Б6 аудита): отвечаем на возражения до формы -->
+  <section class="container-page section">
+    <SectionHeading num="03•1" eyebrow="Частые сомнения" title="Снимаем риски закупки">
+      <p>Четыре вопроса, которые задаёт каждый закупщик, — отвечаем сразу.</p>
+    </SectionHeading>
+    <div class="risk-grid">
+      <div class="card risk-card"><h3>Это легально?</h3><p>Да: вы заключаете договор поставки с российским поставщиком и платите в рублях по безналу. Валютных операций и зарубежных платежей у вашей компании не возникает.</p></div>
+      <div class="card risk-card"><h3>Не заблокируют ли аккаунт?</h3><p>Оформляем официальные корпоративные тарифы на вашу команду и сопровождаем доступ весь срок подписки. Если у вендора возникают вопросы — решаем их мы.</p></div>
+      <div class="card risk-card"><h3>Что будет при продлении?</h3><p>Заранее напоминаем об окончании срока, выставляем счёт на новый период и продлеваем так, чтобы доступ команды не прерывался.</p></div>
+      <div class="card risk-card"><h3>Как с НДС и закрывающими?</h3><p>Выставляем счёт в рублях, передаём договор, акт и УПД через ЭДО — полный комплект для бухгалтерии. Ставка НДС указывается в счёте и КП.</p></div>
+    </div>
+  </section>
   <section class="container-page section">
     <SectionHeading num="04" eyebrow="Зачем это бизнесу" title="Устойчивость работы и прозрачные расходы">
       <p>Мы закрываем не разовую покупку, а непрерывный доступ к инструментам с корректным оформлением.</p>
@@ -405,7 +418,7 @@ const servicesItemList = {
   .hero { position: relative; overflow: hidden; padding: clamp(2.5rem, 7vw, 5rem) 0 clamp(2rem, 4vw, 3rem); background: linear-gradient(180deg, color-mix(in srgb, var(--color-accent) 5%, var(--color-bg)) 0%, var(--color-bg) 90%); }
   .hero-grid { position: relative; z-index: 1; display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 2.5rem; align-items: center; }
   .hero-content { max-width: 640px; }
-  h1 { font-size: clamp(2rem, 5vw, 3.2rem); margin: 1rem 0 1.2rem; }
+  h1 { font-size: clamp(2.6rem, 5.8vw, 4.1rem); margin: 1rem 0 1.2rem; line-height: 1.06; }
   .accent { color: var(--color-accent); }
   .hero-sub { font-size: clamp(1.03rem, 1.6vw, 1.18rem); color: var(--color-text-muted); max-width: 60ch; }
   .hero-actions { display: flex; gap: 0.8rem; margin: 2rem 0 1.5rem; flex-wrap: wrap; }
@@ -479,6 +492,12 @@ const servicesItemList = {
   .track-points { list-style: none; padding: 0; margin: 0.4rem 0 0; display: grid; gap: 0.4rem; }
   .track-points li { padding-left: 1.5rem; position: relative; font-size: 0.92rem; }
   .track-points li::before { content: '✓'; position: absolute; left: 0; color: var(--color-accent); font-weight: 700; }
+
+  /* Снятие рисков */
+  .risk-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.2rem; }
+  .risk-card { padding: 1.6rem; }
+  .risk-card h3 { font-size: 1.1rem; margin-bottom: 0.5rem; }
+  .risk-card p { color: var(--color-text-muted); font-size: 0.92rem; margin: 0; }
 
   /* Выгоды */
   .outcome-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 1.2rem; }

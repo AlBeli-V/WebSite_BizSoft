@@ -3,6 +3,7 @@ import { mainNav, site, seller, vendorLandings } from '../config/site';
 import SiteLogo from './SiteLogo.astro';
 import CategoryIcon from './CategoryIcon.astro';
 import { getVendors, getCategories } from '../lib/directus';
+import { aiSubcategories } from '../data/ai-hub';
 import { logoFile } from '../data/logos';
 import { VENDORS } from '../data/vendors';
 
@@ -49,8 +50,19 @@ if (ddVendors.length === 0) {
   ddVendors = vendorLandings.map((v) => ({ name: v.name, href: `/vendors/${v.slug}`, logo: logoFile(v.slug) }));
 }
 try {
-  ddCats = (await getCategories()).map((c) => ({ name: c.name, slug: c.slug }));
+  ddCats = (await getCategories()).map((c) => {
+    // Канонический URL AI-подкатегорий — вложенный /catalog/ai/<sub> (без дублей).
+    const aiSub = aiSubcategories.find((s) => s.categorySlug === c.slug);
+    return { name: c.name, slug: aiSub ? `ai/${aiSub.sub}` : c.slug };
+  });
 } catch { /* меню «Тип» покажет только ссылку на каталог */ }
+
+// Б1 аудита: мега-меню группируется — «Топ-запросы» с логотипами, остальное текстом.
+const TOP_ORDER = ['openai', 'anthropic', 'adobe', 'figma', 'jetbrains', 'microsoft', 'github', 'cursor'];
+const ddTop = TOP_ORDER
+  .map((t) => ddVendors.find((v) => v.href === `/vendors/${t}`))
+  .filter(Boolean) as typeof ddVendors;
+const ddRest = ddVendors.filter((v) => !ddTop.includes(v));
 
 const navRest = mainNav.filter((i) => i.href !== '/catalog');
 ---
@@ -71,6 +83,14 @@ const navRest = mainNav.filter((i) => i.href !== '/catalog');
       {seller.phone}
       <small>Пн–Пт 10:00–19:00</small>
     </a>
+    <div class="h-msg">
+      <a href={`https://t.me/${seller.phoneHref}`} target="_blank" rel="noopener" aria-label="Написать в Telegram" title="Telegram">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21.5 4.5 2.9 11.7c-.9.35-.85 1.65.07 1.93l4.63 1.4 1.8 5.5c.28.86 1.4 1 1.9.25l2.4-3.6 4.9 3.6c.75.55 1.83.14 2-.78l2.5-13.8c.2-1.05-.85-1.9-1.7-1.4Z"/></svg>
+      </a>
+      <a href={`https://wa.me/${seller.phoneHref.replace('+', '')}`} target="_blank" rel="noopener" aria-label="Написать в WhatsApp" title="WhatsApp">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a9 9 0 0 0-7.8 13.5L3 21l4.6-1.2A9 9 0 1 0 12 3Z"/><path d="M8.8 8.6c.3-.7.9-.7 1.2-.1l.7 1.3c.15.3.05.6-.2.9l-.5.5c.5 1.1 1.5 2.1 2.6 2.6l.5-.5c.3-.25.6-.35.9-.2l1.3.7c.6.3.6.9-.1 1.2-3 .9-7.3-3.4-6.4-6.4Z"/></svg>
+      </a>
+    </div>
 
     <div class="header-actions">
       <a href="/cart" class="cart-link" aria-label="Корзина">
@@ -79,6 +99,7 @@ const navRest = mainNav.filter((i) => i.href !== '/catalog');
           <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
         </svg>
         <span class="cart-count" data-cart-count hidden>0</span>
+        <span class="cart-label">Корзина</span>
       </a>
       <a href="/pricing" class="btn btn-primary btn-kp" data-goal="header_kp">Получить КП</a>
       <button class="burger" aria-label="Меню" aria-expanded="false" data-burger>
@@ -96,11 +117,16 @@ const navRest = mainNav.filter((i) => i.href !== '/catalog');
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg>
         </a>
         <div class="nav-dd-menu dd-scroll dd-cols" role="menu">
-          {ddVendors.map((v) => (
+          <p class="dd-cap">/ Топ-запросы</p>
+          {ddTop.map((v) => (
             <a href={v.href} class="dd-item dd-logo-item" role="menuitem">
               {v.logo ? <img src={v.logo} alt="" width="18" height="18" loading="lazy" /> : <span class="dd-dot" aria-hidden="true">{v.name.charAt(0)}</span>}
               {v.name}
             </a>
+          ))}
+          <p class="dd-cap">/ Все вендоры</p>
+          {ddRest.map((v) => (
+            <a href={v.href} class="dd-item" role="menuitem">{v.name}</a>
           ))}
           <a href="/vendors" class="dd-item dd-all" role="menuitem">Все производители →</a>
         </div>
@@ -252,6 +278,11 @@ const navRest = mainNav.filter((i) => i.href !== '/catalog');
   .dd-logo-item img { width: 18px; height: 18px; object-fit: contain; border-radius: 4px; flex-shrink: 0; }
   .dd-dot { width: 18px; height: 18px; border-radius: 4px; background: var(--color-bg-elevated); border: 1px solid var(--color-border); display: inline-flex; align-items: center; justify-content: center; font-size: 0.62rem; font-weight: 800; color: var(--color-text-muted); flex-shrink: 0; }
   .dd-ic { width: 18px; height: 18px; display: inline-flex; align-items: center; justify-content: center; color: var(--color-accent); flex-shrink: 0; }
+  .dd-cap { grid-column: 1 / -1; margin: 0.35rem 0 0.1rem; padding: 0 0.7rem; font-family: ui-monospace, monospace; font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--color-accent); font-weight: 700; }
+  .cart-label { font-size: 0.85rem; font-weight: 600; }
+  .h-msg { display: flex; gap: 0.45rem; }
+  .h-msg a { color: var(--color-text-muted); display: inline-flex; padding: 4px; border-radius: 8px; transition: color 0.15s ease; }
+  .h-msg a:hover { color: var(--color-accent); }
   .header-actions {
     display: flex;
     align-items: center;
@@ -331,7 +362,8 @@ const navRest = mainNav.filter((i) => i.href !== '/catalog');
   .m-search input { width: 100%; box-sizing: border-box; background: var(--color-bg-elevated); border: 1px solid var(--color-border-strong); border-radius: 999px; padding: 0.55rem 1rem; font: inherit; font-size: 0.95rem; color: var(--color-text); }
   .m-phone { color: var(--color-text); font-weight: 700; }
   /* Постепенное сжатие первого ряда */
-  @media (max-width: 1120px) { .h-phone small { display: none; } }
+  @media (max-width: 1180px) { .cart-label { display: none; } }
+  @media (max-width: 1120px) { .h-phone small { display: none; } .h-msg { display: none; } }
   @media (max-width: 1020px) { .h-phone { display: none; } }
   @media (max-width: 920px) {
     .wordmark { width: clamp(180px, 42vw, 232px); }

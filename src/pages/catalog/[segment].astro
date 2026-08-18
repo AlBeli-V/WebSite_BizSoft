@@ -46,7 +46,17 @@ let pageCategory = null;
 try {
   pageCategory = await getCategoryBySlug(segment!);
   if (pageCategory) {
-    base = await getProducts({ categorySlug: segment! });
+    if (segment === 'ai') {
+      // Родительская категория AI агрегирует товары всех дочерних ai-*:
+      // прямые привязки к «ai» + все подкатегории (ai-text, ai-code, …).
+      const all = await getProducts();
+      base = all.filter((p) => {
+        const cs = typeof p.category === 'object' && p.category ? p.category.slug : '';
+        return cs === 'ai' || cs.startsWith('ai-');
+      });
+    } else {
+      base = await getProducts({ categorySlug: segment! });
+    }
     title = pageCategory.name;
     lead = pageCategory.intro || pageCategory.seo_text || `${pageCategory.name}: зарубежные лицензии и подписки для юрлиц по договору и счёту.`;
   }
