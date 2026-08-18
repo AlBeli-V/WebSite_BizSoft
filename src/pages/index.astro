@@ -16,6 +16,11 @@ import VendorLogo from '../components/VendorLogo.astro';
 import ProductCard from '../components/ProductCard.astro';
 import JsonLd from '../components/JsonLd.astro';
 import { localBusinessSchema } from '../lib/seo';
+import { productIcons } from '../data/product-icons';
+import ProductIcon from '../components/ProductIcon.astro';
+import { vendorIcon } from '../data/vendor-icons';
+import VendorIcon from '../components/VendorIcon.astro';
+import { vendorSlug } from '../lib/vendor-links';
 import { site, seller } from '../config/site';
 import { POPULAR_VENDORS } from '../data/popular';
 import { getProducts } from '../lib/directus';
@@ -178,7 +183,13 @@ const servicesItemList = {
               return (
                 <a href={`/product/${p.slug}`} class="card mini-card" data-goal="hero_product">
                   {i === 0 && <span class="hit-badge">Хит</span>}
-                  <span class="mini-logo" style={`--bc:${color}; --tc:${textOn(color.startsWith('#') ? color : '#f2591d')}`}>{(p.vendor || p.name).slice(0, 1)}</span>
+                  {productIcons(p.slug).length > 0 ? (
+                    <span class="mini-logo has-ico"><ProductIcon slug={p.slug} name={p.name} size={30} /></span>
+                  ) : vendorIcon(vendorSlug(p.vendor || '')) ? (
+                    <span class="mini-logo has-ico"><VendorIcon slug={vendorSlug(p.vendor || '')} name={p.vendor} size={30} /></span>
+                  ) : (
+                    <span class="mini-logo" style={`--bc:${color}; --tc:${textOn(color.startsWith('#') ? color : '#f2591d')}`}>{(p.vendor || p.name).slice(0, 1)}</span>
+                  )}
                   <h3>{p.name}</h3>
                   <div class="mini-price">от {formatRub(eff.price)} <small>{p.price_note || 'в год'}</small></div>
                 </a>
@@ -190,7 +201,9 @@ const servicesItemList = {
         <div class="hero-media reveal is-visible" aria-hidden="true">
           <div class="tile-cloud">
             {brands.slice(0, 6).map((b, i) => (
-              <span class={`app-tile t${i}`} style={`--bc:${b.color}; --tc:${textOn(b.color)}`}>{b.name.slice(0, 1)}</span>
+              <span class={`app-tile t${i}`} style={`--bc:${b.color}; --tc:${textOn(b.color)}`}>
+                {vendorIcon(b.slug) ? <VendorIcon slug={b.slug} name={b.name} size={64} variant="color" /> : b.name.slice(0, 1)}
+              </span>
             ))}
           </div>
         </div>
@@ -438,6 +451,9 @@ const servicesItemList = {
   .mini-card:hover { border-color: var(--color-accent); transform: translateY(-2px); }
   .hit-badge { position: absolute; top: 0.7rem; right: 0.7rem; background: var(--color-accent); color: #fff; font-size: 0.62rem; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; border-radius: 5px; padding: 0.15rem 0.4rem; }
   .mini-logo { width: 34px; height: 34px; border-radius: 9px; display: flex; align-items: center; justify-content: center; background: var(--bc); color: var(--tc, #fff); font-weight: 800; font-size: 0.95rem; }
+  /* Плитка с настоящей иконкой продукта/вендора — нейтральный фон */
+  .mini-logo.has-ico { background: #fff; border: 1px solid var(--color-border); }
+  .app-tile:has(.vi-static) { background: #fff; border: 1px solid var(--color-border); }
   .mini-card h3 { font-size: 0.88rem; line-height: 1.3; color: var(--color-text); }
   .mini-price { font-weight: 800; font-size: 0.95rem; color: var(--color-text); }
   .mini-price small { display: block; color: var(--color-text-muted); font-weight: 400; font-size: 0.7rem; }
