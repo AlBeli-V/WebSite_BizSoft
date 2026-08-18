@@ -5,6 +5,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import FAQ from '../../components/FAQ.astro';
 import LeadForm from '../../components/LeadForm.astro';
+import VendorIcon from '../../components/VendorIcon.astro';
 import QuestionForm from '../../components/QuestionForm.astro';
 import JsonLd from '../../components/JsonLd.astro';
 import { getProducts } from '../../lib/directus';
@@ -80,6 +81,7 @@ const cards = jb.map((p) => {
     <header class="hero">
       <div class="hero-main">
         <div class="vendor-row">
+          <VendorIcon slug="jetbrains" name="JetBrains" size={44} />
           <span class="vendor-name">JetBrains</span>
           <span class="vendor-legal">{JETBRAINS_VENDOR.legalName}</span>
         </div>
