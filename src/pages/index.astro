@@ -132,8 +132,8 @@ const kbLinks = [
 const servicesItemList = {
   '@context': 'https://schema.org',
   '@type': 'ItemList',
-  name: 'Зарубежные сервисы и ПО, которые подключает BizSoft для юрлиц',
-  description: 'Популярные зарубежные SaaS-сервисы и ПО, которые BizSoft закупает и активирует для российских компаний по договору и счёту.',
+  name: 'Зарубежные сервисы и ПО, которые подключает BIZSoft для юрлиц',
+  description: 'Популярные зарубежные SaaS-сервисы и ПО, которые BIZSoft закупает и активирует для российских компаний по договору и счёту.',
   itemListElement: brands.map((b, i) => ({
     '@type': 'ListItem',
     position: i + 1,
@@ -143,8 +143,8 @@ const servicesItemList = {
 };
 ---
 <BaseLayout
-  title="BizSoft — Adobe, Figma, JetBrains и мировые сервисы для бизнеса по договору"
-  description="Помогаем российским компаниям закупать и активировать зарубежные SaaS и ПО: Adobe, Figma, JetBrains, ChatGPT, Claude. Годовые подписки по договору и счёту, закрывающие через ЭДО."
+  title="BIZSoft — ПО и AI-сервисы для бизнеса: ChatGPT, Claude, Adobe, Figma, JetBrains"
+  description="Единая точка доступа к зарубежному ПО и AI-сервисам для российских юрлиц: ChatGPT, Claude, Midjourney, Adobe, Figma, JetBrains. Договор, оплата в рублях по счёту, закрывающие через ЭДО, доступ за 1–3 дня."
 >
   <JsonLd schema={[localBusinessSchema(), servicesItemList]} />
 
