@@ -148,10 +148,12 @@ jobs:
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          if git diff --quiet -- data/catalog-snapshot.json; then
+          # git add до сравнения: для нового (неотслеживаемого) файла
+          # `git diff` пуст и коммит молча пропускается.
+          git add data/catalog-snapshot.json
+          if git diff --cached --quiet -- data/catalog-snapshot.json; then
             echo "снимок не изменился — коммит не нужен"
             exit 0
           fi
-          git add data/catalog-snapshot.json
           git commit -m "ops-export-products: снимок каталога для выгрузок"
           git push origin HEAD:${{ github.ref_name }}
