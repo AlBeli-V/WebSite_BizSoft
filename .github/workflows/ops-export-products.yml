@@ -103,9 +103,32 @@ jobs:
             categories = fetch("/items/categories?fields=id,name,slug,sort,status&limit=-1"
                                "&filter[status][_eq]=published&sort[]=sort&sort[]=name")
 
-            # Плагины JetBrains Marketplace (JB-PLG-*, ~870 позиций) в выгрузку не
-            # берём: они noindex и не попадают ни в sitemap, ни в прайс-лист —
-            # иначе снимок распухает в разы.
+            # Разрез каталога считаем ДО фильтров — иначе не объяснить, почему в
+            # прайс-листе позиций меньше, чем карточек в базе.
+            def sku_hidden(sku):
+                s = (sku or "").upper()
+                return s.startswith("JB-PLG-") or (s.startswith("JB-") and s.endswith("-IND"))
+
+            def has_price(p):
+                return bool(p.get("price") or 0) or bool(p.get("promo_price") or 0)
+
+            stats = {
+                "published_total": len(products),
+                "jb_marketplace_plugins": sum(1 for p in products if (p.get("sku") or "").upper().startswith("JB-PLG-")),
+                "jb_individual_licenses": sum(1 for p in products
+                                              if (p.get("sku") or "").upper().startswith("JB-")
+                                              and (p.get("sku") or "").upper().endswith("-IND")),
+                "domestic": sum(1 for p in products if p.get("origin") == "domestic"),
+                "noindex_flag": sum(1 for p in products if p.get("noindex")),
+                "without_price": sum(1 for p in products if not has_price(p)),
+                "feed_eligible": sum(1 for p in products
+                                     if p.get("origin") != "domestic" and not p.get("noindex")
+                                     and not sku_hidden(p.get("sku")) and has_price(p)),
+            }
+
+            # Плагины JetBrains Marketplace (JB-PLG-*) в снимок не берём: они noindex
+            # и не попадают ни в sitemap, ни в прайс-лист — иначе снимок распухает
+            # в разы. Их число остаётся в stats.
             products = [p for p in products if not (p.get("sku") or "").upper().startswith("JB-PLG-")]
             # Длинные тексты режем: в прайс-листах описание всё равно ограничено.
             for p in products:
@@ -113,7 +136,7 @@ jobs:
                     if isinstance(p.get(key), str) and len(p[key]) > 3200:
                         p[key] = p[key][:3200]
 
-            blob = json.dumps({"products": products, "categories": categories},
+            blob = json.dumps({"stats": stats, "products": products, "categories": categories},
                               ensure_ascii=False, sort_keys=True, separators=(",", ":")).encode()
             b64 = base64.b64encode(gzip.compress(blob, mtime=0)).decode()
             print(f"SNAPSHOT_BEGIN products={len(products)} categories={len(categories)} bytes={len(blob)}")
@@ -141,7 +164,8 @@ jobs:
           pathlib.Path("data").mkdir(exist_ok=True)
           pathlib.Path("data/catalog-snapshot.json").write_text(
               json.dumps(data, ensure_ascii=False, indent=1, sort_keys=True) + "\n", encoding="utf-8")
-          print(f"товаров: {len(data['products'])}, категорий: {len(data['categories'])}")
+          print(f"в снимке: товаров {len(data['products'])}, категорий {len(data['categories'])}")
+          print("разрез каталога: " + json.dumps(data.get("stats", {}), ensure_ascii=False, sort_keys=True))
           PY
 
       - name: Commit snapshot
