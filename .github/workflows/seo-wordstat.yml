@@ -1,0 +1,69 @@
+# Сбор рыночного спроса из Вордстата (Yandex Cloud Search API v2) и gap-анализ семантики.
+# Яндекс недоступен из контейнера мониторинга — сеть работает через раннер GitHub Actions.
+# Лимит сервиса — 100 запросов в час на облако, поэтому полный проход по каталогу
+# (около 560 запросов) разбит на часовые прогоны: сборщик держит помесячный кэш
+# и на каждом запуске добирает следующие до 90 фраз.
+# Запуск ежечасный: сборщик сам знает, что уже собрано в этом месяце, и после
+# завершения прохода не делает ни одного обращения к API — холостой прогон дешёв.
+# Новый месяц — новый кэш и новый проход. Также вручную (workflow_dispatch) и при изменении
+# самого сборщика — пока файл не попал в main, запуск по API доступен только через push.
+
+name: seo-wordstat
+
+on:
+  schedule:
+    - cron: "25 * * * *"
+  push:
+    branches:
+      - claude/biz-soft-rating-tracking-5rf03g
+    paths:
+      - ".github/workflows/seo-wordstat.yml"
+      - "scripts/seo/collect_wordstat.py"
+      - "scripts/seo/semantics.py"
+      - "reports/seo/semantics/clusters.json"
+      - "reports/seo/semantics/discovery.json"
+      - "scripts/seo/build_clusters.py"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: claude/biz-soft-rating-tracking-5rf03g
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install deps
+        run: pip install --quiet requests
+
+      - name: Collect Wordstat demand
+        env:
+          WORDSTAT_API_KEY: ${{ secrets.WORDSTAT_API_KEY }}
+        run: |
+          if [ -z "$WORDSTAT_API_KEY" ]; then
+            echo "::error::Секрет WORDSTAT_API_KEY не задан — сбор спроса пропущен."
+            exit 1
+          fi
+          python3 scripts/seo/build_clusters.py
+          python3 scripts/seo/collect_wordstat.py
+          python3 scripts/seo/semantics.py || echo "gap-анализ отложен: данных пока мало"
+
+      - name: Commit results
+        run: |
+          git config user.name "Claude"
+          git config user.email "noreply@anthropic.com"
+          git add reports/seo/semantics/
+          if git diff --cached --quiet; then
+            echo "Изменений нет"
+          else
+            git commit -m "Вордстат: рыночный спрос и gap-анализ семантики ($(date -u +%F))"
+            git pull --rebase origin claude/biz-soft-rating-tracking-5rf03g
+            git push origin HEAD:claude/biz-soft-rating-tracking-5rf03g
+          fi
