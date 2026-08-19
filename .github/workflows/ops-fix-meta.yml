@@ -136,7 +136,7 @@ jobs:
             if only:
                 flt['slug'] = {'_in': only}
             url = ('/items/products?limit=-1&sort[]=vendor&sort[]=name'
-                   '&fields=id,slug,name,sku,short_description,meta_title,meta_description'
+                   '&fields=id,slug,name,sku,short_description,description,meta_title,meta_description'
                    f'&filter={urllib.parse.quote(json.dumps(flt))}')
             rows = [r for r in req('GET', url, token=tok)['data'] if not noindex(r.get('sku'))]
             print(f'карточек к проверке: {len(rows)} | режим: '
@@ -145,6 +145,11 @@ jobs:
             changed = 0
             for r in rows:
                 patch = {}
+                # единое написание бренда во всех текстовых полях карточки
+                for f in ('short_description', 'description'):
+                    cur = r.get(f) or ''
+                    if 'BizSoft' in cur:
+                        patch[f] = cur.replace('BizSoft', BRAND)
                 nt = build_title(r['name'], r.get('meta_title'))
                 if nt != (r.get('meta_title') or ''):
                     patch['meta_title'] = nt
@@ -155,15 +160,17 @@ jobs:
                     continue
                 changed += 1
                 print(f"[{r['slug']}]")
-                for f in ('meta_title', 'meta_description'):
+                for f in ('meta_title', 'meta_description', 'short_description', 'description'):
                     if f in patch:
                         stats['title' if f == 'meta_title' else 'desc'] += 1
+                        if f in ('short_description', 'description'):
+                            stats['brand'] = stats.get('brand', 0) + 1
                         print(f"  {f} было ({len(r.get(f) or '')}): {r.get(f) or '—'}")
                         print(f"  {f} стало ({len(patch[f])}): {patch[f]}")
                 if apply:
                     req('PATCH', f"/items/products/{r['id']}", patch, token=tok)
             print(f"\nизменено карточек: {changed} | meta_title: {stats['title']}, "
-                  f"meta_description: {stats['desc']}")
+                  f"meta_description: {stats['desc']}, бренд в текстах: {stats.get('brand', 0)}")
             PYEOF
       - name: Save to file
         run: |
