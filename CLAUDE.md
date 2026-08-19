@@ -25,7 +25,11 @@
   «интеграционными» sku (INT-AI-CHATGPT, INT-DESIGN-FIGMA). Ключи меты и
   порядка карточек — slug ИЛИ sku.
 - Живую выгрузку каталога (vendor/name/slug/sku/price) даёт workflow
-  `ops-export-products` (комментарий в issue #22).
+  `ops-export-products` (комментарий в issue #22). Он же коммитит
+  машиночитаемый снимок `data/catalog-snapshot.json` в ветку запуска.
+- Прайс-лист для Яндекс Бизнеса — SSR-маршрут `/yandex-business.xml`
+  (правила отбора и полей: `src/lib/yml-feed.ts`, см. `docs/yandex-business-feed.md`).
+  Ссылку в Яндекс Бизнес даём на этот URL — файл не перезаливаем.
 
 ## Доступ к прод-серверу
 

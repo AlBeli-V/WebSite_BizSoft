@@ -1,10 +1,16 @@
 # Выгрузка каталога «производитель — продукт» из прод-Directus
 # (для подбора иконок к каждой товарной позиции).
 # Результат — нумерованный список комментарием в журнал-issue #22.
+#
+# Второй артефакт — машиночитаемый снимок каталога `data/catalog-snapshot.json`
+# (товары + категории с ценами и описаниями). Коммитится в ветку запуска и
+# нужен, чтобы собирать выгрузки (например прайс-лист Яндекс Бизнеса,
+# src/lib/yml-feed.ts) без доступа к прод-Directus.
 name: ops-export-products
 on: workflow_dispatch
 permissions:
   issues: write
+  contents: write
 jobs:
   export:
     runs-on: ubuntu-latest
@@ -61,3 +67,91 @@ jobs:
                 body: `### ops-export-products (${i + 1}/${parts.length})\n\n\`\`\`\n${parts[i]}\`\`\``,
               });
             }
+
+      # ── Машиночитаемый снимок каталога ────────────────────────────────────
+      # Передаём gzip+base64 построчно между маркерами: вывод ssh-action
+      # содержит служебные строки, JSON «как есть» из него не вырезать.
+      - name: Dump catalog snapshot
+        id: snapshot
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          capture_stdout: true
+          script: |
+            set -e
+            TOKEN=$(sed -n 's/^DIRECTUS_TOKEN=//p' /opt/bizsoft/astro.env | tr -d '"\r')
+            python3 - "$TOKEN" <<'PYEOF'
+            import base64, gzip, json, sys, urllib.request
+            token = sys.argv[1]
+
+            def fetch(path):
+                req = urllib.request.Request("http://localhost:8055" + path,
+                                             headers={"Authorization": f"Bearer {token}"})
+                return json.load(urllib.request.urlopen(req))["data"]
+
+            fields = ",".join([
+                "id", "name", "sku", "vendor", "origin", "license_type", "slug",
+                "short_description", "description", "seo_text", "meta_description",
+                "price", "promo_price", "promo_start", "promo_end", "currency",
+                "status", "noindex", "sort", "date_updated",
+                "category.id", "category.name", "category.slug",
+            ])
+            products = fetch(f"/items/products?fields={fields}&limit=-1"
+                             "&filter[status][_eq]=published&sort[]=sort&sort[]=name")
+            categories = fetch("/items/categories?fields=id,name,slug,sort,status&limit=-1"
+                               "&filter[status][_eq]=published&sort[]=sort&sort[]=name")
+
+            # Плагины JetBrains Marketplace (JB-PLG-*, ~870 позиций) в выгрузку не
+            # берём: они noindex и не попадают ни в sitemap, ни в прайс-лист —
+            # иначе снимок распухает в разы.
+            products = [p for p in products if not (p.get("sku") or "").upper().startswith("JB-PLG-")]
+            # Длинные тексты режем: в прайс-листах описание всё равно ограничено.
+            for p in products:
+                for key in ("description", "seo_text"):
+                    if isinstance(p.get(key), str) and len(p[key]) > 3200:
+                        p[key] = p[key][:3200]
+
+            blob = json.dumps({"products": products, "categories": categories},
+                              ensure_ascii=False, sort_keys=True, separators=(",", ":")).encode()
+            b64 = base64.b64encode(gzip.compress(blob, mtime=0)).decode()
+            print(f"SNAPSHOT_BEGIN products={len(products)} categories={len(categories)} bytes={len(blob)}")
+            for i in range(0, len(b64), 500):
+                print(b64[i:i + 500])
+            print("SNAPSHOT_END")
+            PYEOF
+
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+
+      - name: Decode snapshot
+        run: |
+          cat > /tmp/ops-snapshot.txt <<'OPS_SNAPSHOT_EOF'
+          ${{ steps.snapshot.outputs.stdout }}
+          OPS_SNAPSHOT_EOF
+          python3 - <<'PY'
+          import base64, gzip, json, pathlib, re
+          raw = pathlib.Path("/tmp/ops-snapshot.txt").read_text()
+          m = re.search(r"SNAPSHOT_BEGIN[^\n]*\n(.*?)\nSNAPSHOT_END", raw, re.S)
+          if not m:
+              raise SystemExit("маркеры снимка не найдены — проверьте вывод шага Dump catalog snapshot")
+          data = json.loads(gzip.decompress(base64.b64decode("".join(m.group(1).split()))))
+          pathlib.Path("data").mkdir(exist_ok=True)
+          pathlib.Path("data/catalog-snapshot.json").write_text(
+              json.dumps(data, ensure_ascii=False, indent=1, sort_keys=True) + "\n", encoding="utf-8")
+          print(f"товаров: {len(data['products'])}, категорий: {len(data['categories'])}")
+          PY
+
+      - name: Commit snapshot
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          if git diff --quiet -- data/catalog-snapshot.json; then
+            echo "снимок не изменился — коммит не нужен"
+            exit 0
+          fi
+          git add data/catalog-snapshot.json
+          git commit -m "ops-export-products: снимок каталога для выгрузок"
+          git push origin HEAD:${{ github.ref_name }}
