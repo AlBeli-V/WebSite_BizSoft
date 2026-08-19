@@ -1,61 +1,76 @@
 {
-  "schema_version": "3.0.0",
-  "roles": {
-    "data_auditor": {
-      "title": "Data Auditor",
-      "mode": "агент"
-    },
-    "seo_lead": {
-      "title": "SEO Lead",
-      "mode": "агент"
-    },
-    "ppc_lead": {
-      "title": "PPC Lead",
-      "mode": "агент"
-    }
+ "schema_version": "3.1.0",
+ "roles": {
+  "data_auditor": {
+   "title": "Data Auditor",
+   "mode": "агент"
   },
-  "zones": {
-    "GREEN": "агент выполняет автономно, решение не требуется",
-    "YELLOW": "агент выполняет, руководителя информируем",
-    "RED": "требуется решение руководителя: бюджет, юридические обязательства, цены, домены, необратимые изменения"
+  "seo_lead": {
+   "title": "SEO Lead",
+   "mode": "агент"
   },
-  "actions": [
-    {
-      "id": "DATA-001",
-      "title": "Сверка источников измерения",
-      "plain": "Сводим цифры Вебмастера, Метрики и GA4 к одному определению визита",
-      "zone": "GREEN",
-      "owner_role": "data_auditor",
-      "status": "in_progress",
-      "status_label": "в работе",
-      "due": "2026-08-22",
-      "ticket": "reports/seo/tasks/DATA-001-analytics-reconciliation.md",
-      "outcome": "Итог: одно определение визита для всех источников — после этого вернём в отчёт оценку кликабельности."
-    },
-    {
-      "id": "SEO-EXP-001",
-      "title": "Наблюдение за изменением карточек вендоров",
-      "plain": "Заголовки и блок вопросов внедрены одной правкой 19.08 — наблюдаем как одно изменение",
-      "zone": "GREEN",
-      "owner_role": "seo_lead",
-      "status": "observing",
-      "status_label": "наблюдение",
-      "due": "2026-08-26",
-      "combined_deployment": true,
-      "ticket": "reports/seo/tasks/SEO-EXP-001-vendor-metadata.md",
-      "outcome": "Итог: узнаем, дошли ли новые описания до выдачи и как это сказалось на переходах."
-    },
-    {
-      "id": "PPC-RES-001",
-      "title": "Рекламный тест",
-      "plain": "Не запускается: нет источника рыночного объёма и не завершена сверка измерения",
-      "zone": "RED",
-      "owner_role": "ppc_lead",
-      "status": "blocked_by_policy",
-      "status_label": "остановлено правилом",
-      "due": null,
-      "ticket": "reports/seo/tasks/PPC-RES-001-forecast.md",
-      "outcome": "Вернёмся к задаче после сверки измерения и подключения источника рыночного объёма."
-    }
-  ]
+  "ppc_lead": {
+   "title": "PPC Lead",
+   "mode": "агент"
+  }
+ },
+ "zones": {
+  "GREEN": "агент выполняет автономно, решение не требуется",
+  "YELLOW": "агент выполняет, руководителя информируем",
+  "RED": "требуется решение руководителя: бюджет, юридические обязательства, цены, домены, необратимые изменения"
+ },
+ "actions": [
+  {
+   "id": "DATA-001",
+   "title": "Сверка источников измерения",
+   "plain": "Сводим цифры Вебмастера, Метрики и GA4 к одному определению визита",
+   "zone": "GREEN",
+   "owner_role": "data_auditor",
+   "status": "in_progress",
+   "status_label": "в работе",
+   "due": "2026-08-22",
+   "ticket": "reports/seo/tasks/DATA-001-analytics-reconciliation.md",
+   "outcome": "Итог: одно определение визита для всех источников — после этого вернём в отчёт оценку кликабельности."
+  },
+  {
+   "id": "SEO-EXP-001",
+   "title": "Наблюдение за изменением карточек вендоров",
+   "plain": "Заголовки и блок вопросов внедрены одной правкой 19.08 — наблюдаем как одно изменение",
+   "zone": "GREEN",
+   "owner_role": "seo_lead",
+   "status": "observing",
+   "status_label": "наблюдение",
+   "due": "2026-08-26",
+   "combined_deployment": true,
+   "ticket": "reports/seo/tasks/SEO-EXP-001-vendor-metadata.md",
+   "outcome": "Итог: узнаем, дошли ли новые описания до выдачи и как это сказалось на переходах.",
+   "demand_clusters": [
+    "canva",
+    "depositphotos",
+    "coreldraw",
+    "heygen",
+    "marmoset"
+   ]
+  },
+  {
+   "id": "PPC-RES-001",
+   "title": "Рекламный тест",
+   "plain": "Не запускается: нет источника рыночного объёма и не завершена сверка измерения",
+   "zone": "RED",
+   "owner_role": "ppc_lead",
+   "status": "blocked_by_policy",
+   "status_label": "остановлено правилом",
+   "due": null,
+   "ticket": "reports/seo/tasks/PPC-RES-001-forecast.md",
+   "outcome": "Вернёмся к задаче после сверки измерения и подключения источника рыночного объёма.",
+   "demand_clusters": [
+    "heygen",
+    "depositphotos",
+    "coreldraw"
+   ]
+  }
+ ],
+ "notes": {
+  "demand_clusters": "Кластеры рыночного спроса, которыми обосновано действие. Генератор берёт из них фразу и частотность для строки «Зачем» в письме. Источник — market_demand в снимке; если замера нет, строка не выводится."
+ }
 }

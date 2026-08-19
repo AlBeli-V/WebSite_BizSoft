@@ -182,6 +182,38 @@ def run_checks(snap: dict) -> dict:
             f"Исключено {idx['excluded_urls']} URL; причины и коммерческая значимость неизвестны.",
             "Нельзя утверждать, что все исключения — проблема (тикет INDEX-001).")
 
+    # 12. Рыночный спрос: свежесть, полнота и запрет на сравнение с нашей видимостью
+    md = snap.get("market_demand") or {}
+    if not md.get("available"):
+        add("info", "MARKET_DEMAND_ABSENT",
+            "Рыночный спрос не измерен",
+            md.get("reason", "замер отсутствует"),
+            "Формулировки о рыночном спросе и о товарах с подтверждённым спросом "
+            "в отчёт не попадают.")
+    else:
+        src = md["source"]
+        if md.get("stale"):
+            add("warning", "MARKET_DEMAND_STALE",
+                "Замер спроса устарел",
+                f"Последний замер {src['measured_at']}, возраст {src['age_days']} дн. "
+                f"при обновлении {src['refresh']}.",
+                "Числа спроса публикуются с датой замера и не выдаются за текущие.")
+        if not md.get("complete"):
+            add("warning", "MARKET_DEMAND_PARTIAL",
+                "Замер спроса неполный",
+                f"Собрано {md.get('coverage')} запросов месяца; "
+                f"кластеров с данными {md.get('clusters_measured')} "
+                f"из {md.get('clusters_planned')}.",
+                "Выводы о разрывах семантики помечаются как предварительные, "
+                "решения об ассортименте по неполному замеру не принимаются.")
+        add("info", "DEMAND_NOT_COMPARABLE_TO_VISIBILITY",
+            "Спрос и наша видимость не сопоставляются напрямую",
+            f"Спрос — {src.get('unit')}, {src.get('window')}, регион {src.get('region')}, "
+            "соответствие "
+            f"{src.get('match_type')}. Наша видимость — выборка топ-100 запросов Вебмастера.",
+            "Доля голоса не рассчитывается; спрос используется как обоснование действий, "
+            "а не как наш показатель.")
+
     levels = [f["level"] for f in findings]
     status = "critical" if "critical" in levels else ("warning" if "warning" in levels else "ok")
     return {
@@ -195,7 +227,10 @@ def run_checks(snap: dict) -> dict:
             "allow_green_overall_status": status == "ok",
             "allow_expected_ctr_claims": bool(snap.get("ctr_model", {}).get("approved")),
             "allow_lead_wording": False,
-            "allow_market_demand_wording": False,
+            "allow_market_demand_wording": bool(
+                (snap.get("market_demand") or {}).get("available")),
+            "allow_assortment_decisions": bool(
+                (snap.get("market_demand") or {}).get("complete")),
         },
     }
 

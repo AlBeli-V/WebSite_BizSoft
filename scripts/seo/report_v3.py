@@ -42,7 +42,18 @@ def ru(d: str) -> str:
 
 
 def num(v) -> str:
-    return "нет данных" if v is None else f"{int(v)}"
+    """Число с пробелом в разрядах: 1 240, а не 1240 — письмо читает человек."""
+    return "нет данных" if v is None else f"{int(v):,}".replace(",", " ")
+
+
+def plural(n: int, one: str, few: str, many: str) -> str:
+    """Согласование существительного с числом: 1 запрос, 2 запроса, 5 запросов."""
+    n = abs(int(n))
+    if n % 10 == 1 and n % 100 != 11:
+        return one
+    if n % 10 in (2, 3, 4) and n % 100 not in (12, 13, 14):
+        return few
+    return many
 
 
 def words(*parts: str) -> int:
@@ -94,6 +105,34 @@ def build_kpis(snap):
     ]
 
 
+def demand_change(md):
+    """Запись «Что изменилось» появляется только в день нового замера спроса.
+
+    В остальные дни спрос молчит: месячная величина, показанная как суточное
+    изменение, — это выдуманная динамика.
+    """
+    if not md.get("available") or md["source"].get("age_days") != 0:
+        return None
+    cards, phrases = md.get("gap_cards") or 0, md.get("gap_phrases") or 0
+    if not cards:
+        return None
+    top = (md.get("top_commercial") or [{}])[0]
+    lead = ""
+    if top.get("cluster") and top.get("commercial_impressions"):
+        lead = (f" Больше всего покупательского спроса у карточки {top['cluster']} — "
+                f"{num(top['commercial_impressions'])} запросов в месяц.")
+    partial = "" if md.get("complete") else " Замер ещё идёт, список пополнится."
+    ph_word = plural(phrases, "покупательский запрос", "покупательских запроса",
+                     "покупательских запросов")
+    card_word = plural(cards, "карточке", "карточках", "карточках")
+    return {"title": "Обновлён замер рыночного спроса",
+            "text": f"Сверили, что люди ищут в Яндексе, с тем, по каким словам видны наши "
+                    f"страницы. Нашли {phrases} {ph_word} на {cards} {card_word}, "
+                    f"по которым мы в выдаче не показываемся.{lead}{partial} "
+                    "Это не изменение наших показателей за сутки, а обновление картины рынка.",
+            "zero": False}
+
+
 def build_changes(snap, prev, st):
     ch = []
     t = snap["google"]["totals"]
@@ -127,15 +166,44 @@ def build_changes(snap, prev, st):
         ch.append({"title": "Запросы на первой странице",
                    "text": f"{tot['queries_position_le_10']} из {tot['queries_tracked']} запросов выборки, "
                            f"изменение {td['absolute']:+d}.", "zero": False})
+    dc = demand_change(snap.get("market_demand") or {})
+    if dc:
+        ch.insert(0, dc)
     return ch[:3]
 
 
-def build_actions(actions_cfg):
+def demand_evidence(action, md):
+    """Одна строка обоснования действия рыночным спросом.
+
+    Спрос обновляется помесячно, поэтому он не может быть показателем дня.
+    Его роль в письме — объяснить, почему действие вообще стоит делать:
+    какая фраза и сколько её ищут за месяц. Без измеренного спроса строки нет.
+    """
+    if not md.get("available"):
+        return ""
+    gaps = md.get("gaps") or {}
+    clusters = action.get("demand_clusters") or []
+    rows = [(c, r) for c in clusters for r in gaps.get(c, [])]
+    if not rows:
+        return ""
+    rows.sort(key=lambda x: -(x[1]["impressions"] or 0))
+    top = rows[:2]
+    listed = ", ".join(f"«{r['phrase']}» — {num(r['impressions'])}" for _, r in top)
+    tail = (" Замер спроса от " + ru(md["source"]["measured_at"]) + "."
+            if md.get("complete") else
+            " Замер спроса от " + ru(md["source"]["measured_at"]) + ", он ещё не завершён, "
+            "поэтому список фраз пополнится.")
+    return (f"Зачем: этого ищут в Яндексе, а у нас по этим словам страница не видна — "
+            f"{listed} запросов в месяц.{tail}")
+
+
+def build_actions(actions_cfg, md):
     roles = actions_cfg["roles"]
     out = []
     for a in actions_cfg["actions"][:3]:
         out.append({**a, "owner": roles[a["owner_role"]]["title"],
                     "outcome": a.get("outcome", ""),
+                    "demand": demand_evidence(a, md),
                     "due_label": ru(a["due"]) if a.get("due") else "без запуска",
                     "ticket_url": f"{BLOB}/{a['ticket']}"})
     return out
@@ -165,8 +233,15 @@ def assemble(snap, prev, dq, actions_cfg):
     st = composite_status(snap, prev)
     yx, g, m, ga = snap["yandex"], snap["google"], snap["analytics"]["metrika"], snap["analytics"]["ga4"]
     date = snap["report_date"]
+    md = snap.get("market_demand") or {}
+    if md.get("available"):
+        demand_fresh = (f"; рыночный спрос — замер {ru(md['source']['measured_at'])}"
+                        + ("" if md.get("complete") else " (собирается)")
+                        + ", обновление раз в месяц")
+    else:
+        demand_fresh = "; рыночный спрос ещё не измерен"
     freshness = (f"Данные: Яндекс/Google по {ru(yx['source']['latest_event_date'])}; "
-                 f"Метрика/GA4 по {ru(m['source']['latest_event_date'])}")
+                 f"Метрика/GA4 по {ru(m['source']['latest_event_date'])}{demand_fresh}")
     summary = (f"Яндекс — {st['yandex']}: страницы в поиске и позиции держатся на прежнем уровне; "
                f"Google — {st['google']}. Общий вывод: {st['overall']}, потому что сверка источников "
                "измерения ещё идёт и оценка кликабельности до её окончания не публикуется.")
@@ -181,7 +256,7 @@ def assemble(snap, prev, dq, actions_cfg):
                          "Задачи, которые система ведёт сама, перечислены ниже — вмешательство не нужно, "
                          "результат придёт в отчётах по срокам.",
         "kpis": build_kpis(snap),
-        "actions": build_actions(actions_cfg),
+        "actions": build_actions(actions_cfg, md),
         "changes": build_changes(snap, prev, st),
         "blocking": blocking,
         "warnings": warns,
@@ -204,6 +279,7 @@ def visible_word_count(b) -> int:
     parts += [f"{k['label']} {k['value']} {k['note']}" for k in b["kpis"]]
     parts += [f"{a['id']} {a['title']} {a['plain']} {a['outcome']} {a['owner']} {a['status_label']} {a['due_label']}"
               for a in b["actions"]]
+    parts += [a.get("demand", "") for a in b["actions"]]
     parts += [f"{c['title']} {c['text']}" for c in b["changes"]]
     if b["blocking"]:
         parts.append(f"{b['blocking']['title']} {b['blocking']['text']}")
@@ -238,6 +314,8 @@ def html_email(b, charts, cid_mode: bool) -> str:
     acts = ""
     for a in b["actions"]:
         color = {"GREEN": GOOD, "YELLOW": WARN, "RED": MUTED}[a["zone"]]
+        why = (f"<div style='font-size:14px;color:{INK};padding-top:4px;line-height:1.5;'>"
+               f"{a['demand']}</div>") if a.get("demand") else ""
         acts += (f"<div style='border:1px solid {LINE};border-left:3px solid {color};border-radius:9px;"
                  f"padding:11px 14px;margin-bottom:8px;'>"
                  f"<div style='font-size:15.5px;font-weight:600;line-height:1.45;'>{a['title']}"
@@ -245,6 +323,7 @@ def html_email(b, charts, cid_mode: bool) -> str:
                  f"border:1px solid {LINE};border-radius:4px;padding:1px 5px;'>{a['id']}</a></div>"
                  f"<div style='font-size:14.5px;color:{INK};padding-top:4px;line-height:1.5;'>{a['plain']}</div>"
                  f"<div style='font-size:14px;color:{MUTED};padding-top:4px;line-height:1.5;'>{a['outcome']}</div>"
+                 f"{why}"
                  f"<div data-meta='1' style='font-size:13px;color:{MUTED};padding-top:5px;'>"
                  f"{a['owner']} · {a['status_label']} · {a['due_label']}</div></div>")
 
@@ -352,6 +431,8 @@ def plain_text(b) -> str:
     for a in b["actions"]:
         L.append(f"- [{a['id']}] {a['title']} — {a['plain']}")
         L.append(f"  {a['outcome']}")
+        if a.get("demand"):
+            L.append(f"  {a['demand']}")
         L.append(f"  {a['owner']} · {a['status_label']} · {a['due_label']}")
     L += ["", "ЧТО ИЗМЕНИЛОСЬ"]
     for c in b["changes"]:
@@ -395,7 +476,67 @@ def appendix(snap, prev, dq, svg_charts, b) -> str:
     base = report_v2.md_appendix(snap, prev, dq, svg_charts)
     yx, g = snap["yandex"], snap["google"]
     m, ga = snap["analytics"]["metrika"], snap["analytics"]["ga4"]
-    extra = ["", "## 15. Свежесть источников (полная таблица)", "",
+    md = snap.get("market_demand") or {}
+    dm = ["", "## 15. Рыночный спрос (Вордстат)", ""]
+    if not md.get("available"):
+        dm += [f"Замер недоступен: {md.get('reason', 'нет данных')}. "
+               "Формулировки о рыночном спросе и решения об ассортименте в отчёт не попадают.", ""]
+    else:
+        src = md["source"]
+        dm += [f"**Замер:** {src['measured_at']} (возраст {src['age_days']} дн., "
+               f"обновление {src['refresh']}). **Регион:** {src['region']}. "
+               f"**Единица:** {src['unit']}. **Окно:** {src['window']}. "
+               f"**Соответствие:** {src['match_type']}.",
+               f"**Полнота:** собрано {md.get('coverage')} запросов месяца; "
+               f"кластеров с данными {md.get('clusters_measured')} из {md.get('clusters_planned')}"
+               + ("." if md.get("complete") else " — проход не завершён, выводы предварительные."),
+               "",
+               "ФАКТ — числа Вордстата. Это объём поисковых запросов в Яндексе, а не покупки, "
+               "не заявки и не выручка; на Google не переносится. Доля голоса не рассчитывается: "
+               "наша видимость известна по выборке топ-100 запросов Вебмастера, охват и периоды "
+               "источников не сверены (DATA-001).", ""]
+        top = md.get("top_commercial") or []
+        if top:
+            dm += ["### 15.1. Коммерческий спрос по карточкам", "",
+                   "Сортировка по сумме показов коммерческих фраз. Общая частотность бренда "
+                   "покупательским спросом не является: у canva 119 076 показов бренда и "
+                   "1 096 покупательских — решение принимается по второй колонке.", "",
+                   "| Карточка | Коммерческий спрос, показы/мес | Спрос по бренду, показы/мес |",
+                   "|---|---|---|"]
+            for c in top:
+                dm.append(f"| {c['cluster']} ({c.get('page') or 'страницы нет'}) | "
+                          f"{num(c.get('commercial_impressions'))} | {num(c.get('seed_impressions'))} |")
+            dm.append("")
+        gaps = md.get("gaps") or {}
+        if gaps:
+            dm += ["### 15.2. Разрывы: спрос есть, наша страница по запросу не видна", "",
+                   f"Всего {md.get('gap_phrases')} "
+                   f"{plural(md.get('gap_phrases') or 0, 'запрос', 'запроса', 'запросов')} "
+                   f"на {md.get('gap_cards')} "
+                   f"{plural(md.get('gap_cards') or 0, 'карточке', 'карточках', 'карточках')}. "
+                   "Отсутствие запроса в выборке Вебмастера не доказывает нулевую видимость — "
+                   "это список кандидатов на доработку, а не диагноз.", "",
+                   "| Карточка | Запрос | Показы/мес |", "|---|---|---|"]
+            for cluster, rows in gaps.items():
+                for r in rows:
+                    dm.append(f"| {cluster} | {r['phrase']} | {num(r['impressions'])} |")
+            dm.append("")
+        disc = md.get("discovery") or []
+        if disc:
+            dm += ["### 15.3. Товары с подтверждённым спросом, которых у нас нет", "",
+                   "| Бренд | Спрос по фразе покупки на юрлицо, показы/мес |", "|---|---|"]
+            for d in disc:
+                dm.append(f"| {d['brand']} | {num(d.get('demand'))} |")
+            dm.append("")
+        dm += ["### 15.4. Как спрос используется в отчёте", "",
+               "- В письме спроса как показателя дня нет: источник обновляется раз в месяц, "
+               "и суточная дельта у него отсутствует по построению.",
+               "- Спрос служит обоснованием действий: у каждого действия, вызванного разрывом "
+               "семантики, указана фраза и её частотность.",
+               "- Запись в блоке «Что изменилось» появляется только в день нового замера.",
+               "- Решения об ассортименте принимаются только по завершённому проходу.", ""]
+
+    extra = dm + ["", "## 16. Свежесть источников (полная таблица)", "",
              "| Источник | Метрика API | Последнее событие | Период | Дней | Сбор | Статус |",
              "|---|---|---|---|---|---|---|"]
     for src, metric in ((yx["source"], "popular queries (выборка топ-100)"),
@@ -406,11 +547,11 @@ def appendix(snap, prev, dq, svg_charts, b) -> str:
                      f"{src['current_period_start']}–{src['current_period_end']} | "
                      f"{src['current_period_days']} | {src['collected_at']} | {src['status']} |")
     extra += ["| CRM | — | нет данных | — | — | не подключена | unavailable |", "",
-              "## 16. Все предупреждения качества данных", "",
+              "## 17. Все предупреждения качества данных", "",
               "| Уровень | Код | Что означает | Влияние |", "|---|---|---|---|"]
     for f in dq["findings"]:
         extra.append(f"| {f['level']} | `{f['code']}` | {f['detail']} | {f['effect_on_report']} |")
-    extra += ["", "## 17. Действия, роли и зоны ответственности", "",
+    extra += ["", "## 18. Действия, роли и зоны ответственности", "",
               "| ID | Действие | Зона | Роль-владелец | Статус | Срок | Тикет |", "|---|---|---|---|---|---|---|"]
     for a in b["actions"]:
         extra.append(f"| {a['id']} | {a['title']} | {a['zone']} | {a['owner']} | {a['status_label']} | "
@@ -419,7 +560,7 @@ def appendix(snap, prev, dq, svg_charts, b) -> str:
               "руководителя информируем; **RED** — требуется решение руководителя (бюджет, "
               "юридические обязательства, цены, домены, необратимые изменения). Владельцы GREEN и "
               "YELLOW назначаются автоматически по карте ролей `reports/seo/intelligence/actions.json`.",
-              "", "## 18. Совместное внедрение и его следствие", "",
+              "", "## 19. Совместное внедрение и его следствие", "",
               "Заголовки, описания и блок вопросов пяти карточек вендоров выкачены одной правкой "
               "2026-08-19. Это **один эксперимент**: вклад отдельных элементов неразделим по "
               "построению, ретроспективное разделение на два независимых эксперимента запрещено. "
@@ -427,7 +568,7 @@ def appendix(snap, prev, dq, svg_charts, b) -> str:
               "уникальные пользователи с целевым событием. Откат (rollback): возврат прежних "
               "значений из истории репозитория. Условие остановки (stop-condition): ухудшение любого "
               "контрольного показателя за пределами обычного разброса.",
-              "", "## 19. Технический словарь", "",
+              "", "## 20. Технический словарь", "",
               "| В письме | В системах и API |", "|---|---|",
               "| визиты из поиска | `ym:s:visits`, фильтр `lastTrafficSource == organic` |",
               "| целевые события | `ym:s:sumGoalReachesAny`; в GA4 — key events |",

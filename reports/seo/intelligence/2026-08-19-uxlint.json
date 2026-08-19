@@ -1,6 +1,6 @@
 {
  "report_date": "2026-08-19",
- "generated_at": "2026-08-19T21:35:36+00:00",
+ "generated_at": "2026-08-19T22:53:48+00:00",
  "limits": {
   "visible_words_max": 650,
   "visible_words_min": 450,
@@ -15,12 +15,12 @@
   {
    "check": "visible_words",
    "status": "pass",
-   "detail": "480 видимых слов (коридор 450–650)"
+   "detail": "485 видимых слов (коридор 450–650)"
   },
   {
    "check": "plain_text_words",
    "status": "pass",
-   "detail": "533 слов в текстовой версии"
+   "detail": "538 слов в текстовой версии"
   },
   {
    "check": "kpi_cards",
@@ -88,6 +88,16 @@
    "detail": "без ручного назначения владельцев: ок"
   },
   {
+   "check": "demand_not_daily",
+   "status": "pass",
+   "detail": "предложений о спросе: 1; смешанных с суточными словами: 0"
+  },
+  {
+   "check": "demand_not_our_impressions",
+   "status": "pass",
+   "detail": "подмен понятий: нет"
+  },
+  {
    "check": "links_absolute",
    "status": "pass",
    "detail": "3 ссылок, все абсолютные"
@@ -99,8 +109,8 @@
   }
  ],
  "summary": {
-  "total": 17,
-  "passed": 17,
+  "total": 19,
+  "passed": 19,
   "failed": 0
  },
  "status": "pass"

@@ -119,6 +119,22 @@ def run(date: str) -> dict:
     add("no_manual_owner_for_green_yellow", not manual and "назначает руководитель" not in vis,
         f"без ручного назначения владельцев: {manual or 'ок'}")
 
+    # Рыночный спрос: месячная величина не выдаётся за суточную и за наши показы
+    demand_sentences = [snt for snt in re.split(r"(?<=[.!?])\s+", vis)
+                        if "запросов в месяц" in snt or "показов в месяц" in snt
+                        or "спрос" in snt.lower()]
+    daily_words = ("за сутки", "вчера", "за день", "день ко дню")
+    mixed = [snt for snt in demand_sentences if any(w in snt.lower() for w in daily_words)]
+    add("demand_not_daily", not mixed,
+        f"предложений о спросе: {len(demand_sentences)}; смешанных с суточными словами: "
+        f"{len(mixed)}")
+
+    # Спрос рынка не подменяет наши показы, доля голоса не публикуется
+    substitution = [t for t in ("доля голоса", "наши показы в вордстате", "показы вордстата у нас")
+                    if t in vis.lower()]
+    add("demand_not_our_impressions", not substitution,
+        f"подмен понятий: {substitution or 'нет'}")
+
     # Ссылки
     links = re.findall(r'href="([^"]+)"', email)
     add("links_absolute", all(l.startswith("http") for l in links), f"{len(links)} ссылок, все абсолютные")

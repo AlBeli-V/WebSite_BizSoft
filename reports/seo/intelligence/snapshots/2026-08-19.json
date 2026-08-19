@@ -1,7 +1,7 @@
 {
- "schema_version": "2.0.0",
+ "schema_version": "2.1.0",
  "report_date": "2026-08-19",
- "generated_at": "2026-08-19T20:31:25+00:00",
+ "generated_at": "2026-08-19T22:53:47+00:00",
  "reporting_timezone": "Asia/Bishkek (UTC+6)",
  "thresholds": {
   "low_impressions": 50,
@@ -2705,6 +2705,11 @@
    "source": "src/data/seo-experiments.ts (рендер: src/pages/vendors/[slug].astro → VendorLanding)"
   }
  ],
+ "market_demand": {
+  "available": false,
+  "reason": "замер рыночного спроса ещё не собран",
+  "comparable_to_visibility": false
+ },
  "data_revisions": [
   {
    "metric": "yandex.indexed_urls (базовая линия предыдущего дня)",

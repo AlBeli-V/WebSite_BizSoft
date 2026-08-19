@@ -69,9 +69,11 @@ def main() -> int:
     a(f"**Источник спроса:** Вордстат, регион {src['region_name']} ({src['region_id']}), "
       f"{src['window']}, соответствие широкое, устройства все. Единица — {src['unit']}.")
     a(f"**Источник нашей видимости:** Яндекс.Вебмастер, {scope}.")
-    a(f"**Расход API:** {quota['requests_made']} запросов за прогон "
-      f"(потолок прогона {quota['run_cap']}, месячный бюджет {quota['monthly_budget']}), "
-      f"ошибок {quota['failures']}.")
+    a(f"**Полнота замера:** собрано {quota.get('collected_total')} из "
+      f"{quota.get('planned_total')} запросов месяца"
+      f"{'' if quota.get('complete') else ' — проход не завершён, выводы предварительные'}. "
+      f"Лимит сервиса {quota.get('hourly_limit')} запросов в час, "
+      f"за этот прогон {quota.get('requests_this_run')}, ошибок {quota.get('failures')}.")
     a("")
     a("ФАКТ — числа обоих источников. ИНТЕРПРЕТАЦИЯ — вывод о разрыве. Показы Вордстата "
       "не переносятся на Google и не равны заявкам или выручке. Доля голоса не "
@@ -161,8 +163,15 @@ def main() -> int:
 
     brief = {
         "report_date": date,
+        "collected_at": core.get("collected_at"),
         "region": src["region_name"],
-        "requests_made": quota["requests_made"],
+        "unit": src["unit"],
+        "window": src["window"],
+        "match_type": src["match_type"],
+        "requests_made": quota.get("requests_this_run", quota.get("requests_made")),
+        "coverage": f"{quota.get('collected_total')}/{quota.get('planned_total')}",
+        "complete": quota.get("complete", False),
+        "clusters_planned": len(core["clusters"]),
         "clusters_measured": len(measured),
         "top_commercial": [
             {"cluster": c["cluster"], "page": c.get("page"),

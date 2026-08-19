@@ -18,7 +18,7 @@ import pathlib
 import subprocess
 import sys
 
-SCHEMA_VERSION = "2.0.0"
+SCHEMA_VERSION = "2.1.0"
 TIMEZONE = "Asia/Bishkek (UTC+6)"
 DATA_DIR = pathlib.Path("reports/seo/data")
 OUT_DIR = pathlib.Path("reports/seo/intelligence/snapshots")
@@ -346,6 +346,69 @@ def build_analytics(metrika: dict | None, ga4: dict | None, date: str) -> dict:
     return out
 
 
+SEMANTICS_DIR = pathlib.Path("reports/seo/semantics")
+DEMAND_STALE_DAYS = 45      # старше — замер считается устаревшим
+
+
+def build_market_demand(date: str) -> dict:
+    """Рыночный спрос из Вордстата — знаменатель для нашей видимости.
+
+    Источник обновляется помесячно, поэтому в снимок дня попадает последний
+    доступный замер с его собственной датой и возрастом. Суточной дельты у спроса
+    нет и быть не может: сравнивать его день ко дню запрещено методикой.
+    """
+    briefs = sorted(SEMANTICS_DIR.glob("brief-*.json"))
+    if not briefs:
+        return {"available": False,
+                "reason": "замер рыночного спроса ещё не собран",
+                "comparable_to_visibility": False}
+    brief = json.loads(briefs[-1].read_text(encoding="utf-8"))
+    if "coverage" not in brief:
+        # Замеры до 19.08.2026 собраны без фильтра релевантности: по транслитерациям
+        # брендов в них попали омонимы («корал тревел», «пион корал шарм»).
+        # Такой замер не используется — лучше отсутствие данных, чем чужие числа.
+        return {"available": False,
+                "reason": "замер собран до включения фильтра релевантности и не используется",
+                "comparable_to_visibility": False}
+    measured = brief.get("clusters_measured") or 0
+    if not measured:
+        return {"available": False,
+                "reason": "замер начат, но ни один кластер ещё не собран",
+                "measured_at": brief.get("report_date"),
+                "coverage": brief.get("coverage"),
+                "complete": brief.get("complete", False),
+                "comparable_to_visibility": False}
+    measured_at = brief.get("report_date")
+    age = (dt.date.fromisoformat(date) - dt.date.fromisoformat(measured_at)).days
+    gaps = brief.get("gaps") or {}
+    return {
+        "available": True,
+        "source": {
+            "source_name": "yandex_wordstat",
+            "measured_at": measured_at,
+            "age_days": age,
+            "region": brief.get("region"),
+            "unit": brief.get("unit"),
+            "window": brief.get("window"),
+            "match_type": brief.get("match_type"),
+            "refresh": "помесячно",
+        },
+        "coverage": brief.get("coverage"),
+        "complete": brief.get("complete", False),
+        "stale": age > DEMAND_STALE_DAYS,
+        "clusters_measured": measured,
+        "clusters_planned": brief.get("clusters_planned"),
+        "top_commercial": brief.get("top_commercial") or [],
+        "gap_cards": len(gaps),
+        "gap_phrases": sum(len(v) for v in gaps.values()),
+        "gaps": gaps,
+        "discovery": brief.get("discovery") or [],
+        # Доля голоса не рассчитывается: наша видимость известна по выборке
+        # топ-100 запросов Вебмастера, охват и периоды источников не сверены.
+        "comparable_to_visibility": False,
+    }
+
+
 def build_experiments() -> list[dict]:
     p = pathlib.Path("reports/seo/intelligence/seo-experiments.json")
     if not p.exists():
@@ -387,6 +450,7 @@ def main() -> int:
         "google": build_google(load("gsc", date), load("gsc", prev_date)),
         "analytics": build_analytics(load("metrika", date), load("ga4", date), date),
         "experiments": build_experiments(),
+        "market_demand": build_market_demand(date),
         "data_revisions": [r for r in [
             revisions_for("yandex", date, lambda d: d.get("summary", {}).get("searchable_pages_count"),
                           "yandex.indexed_urls"),

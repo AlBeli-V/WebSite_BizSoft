@@ -137,8 +137,33 @@ class TestQuality(unittest.TestCase):
     def test_lead_wording_forbidden(self):
         self.assertFalse(self.dq["publication_rules"]["allow_lead_wording"])
 
-    def test_market_demand_wording_forbidden(self):
-        self.assertFalse(self.dq["publication_rules"]["allow_market_demand_wording"])
+    def test_market_demand_wording_requires_measurement(self):
+        """Говорить о рыночном спросе можно только при наличии замера."""
+        import importlib.util
+        spec = importlib.util.spec_from_file_location(
+            "quality", ROOT / "scripts" / "seo" / "quality.py")
+        q = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(q)
+        snap = json.loads((ROOT / "reports/seo/intelligence/snapshots/2026-08-19.json")
+                          .read_text(encoding="utf-8"))
+
+        without = q.run_checks({**snap, "market_demand": {"available": False,
+                                                          "reason": "не собран"}})
+        self.assertFalse(without["publication_rules"]["allow_market_demand_wording"])
+        self.assertFalse(without["publication_rules"]["allow_assortment_decisions"])
+        self.assertIn("MARKET_DEMAND_ABSENT", [f["code"] for f in without["findings"]])
+
+        partial = q.run_checks({**snap, "market_demand": {
+            "available": True, "complete": False, "stale": False,
+            "coverage": "90/554", "clusters_measured": 8, "clusters_planned": 53,
+            "source": {"measured_at": "2026-09-01", "age_days": 0, "region": "Россия",
+                       "unit": "показы", "window": "30 дней", "match_type": "broad",
+                       "refresh": "помесячно"}}})
+        codes = [f["code"] for f in partial["findings"]]
+        self.assertTrue(partial["publication_rules"]["allow_market_demand_wording"])
+        self.assertFalse(partial["publication_rules"]["allow_assortment_decisions"])
+        self.assertIn("MARKET_DEMAND_PARTIAL", codes)
+        self.assertIn("DEMAND_NOT_COMPARABLE_TO_VISIBILITY", codes)
 
     def test_expected_ctr_claims_forbidden(self):
         self.assertFalse(self.dq["publication_rules"]["allow_expected_ctr_claims"])
@@ -321,3 +346,64 @@ class TestWordstat(unittest.TestCase):
     def test_row_marks_missing_count_as_none(self):
         """Нет данных — None, не ноль."""
         self.assertIsNone(self.cw.row({"phrase": "x"})["impressions_wordstat"])
+
+
+class TestMarketDemandInReport(unittest.TestCase):
+    """Интеграция рыночного спроса: обоснование действий, событие обновления, дисциплина."""
+
+    def setUp(self):
+        import importlib.util
+        spec = importlib.util.spec_from_file_location(
+            "report_v3", ROOT / "scripts" / "seo" / "report_v3.py")
+        self.r3 = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(self.r3)
+        self.md = {
+            "available": True,
+            "complete": True,
+            "source": {"measured_at": "2026-09-01", "age_days": 0, "region": "Россия",
+                       "unit": "показы в поиске Яндекса", "window": "последние 30 дней",
+                       "match_type": "broad", "refresh": "помесячно"},
+            "gap_cards": 2, "gap_phrases": 3,
+            "top_commercial": [{"cluster": "heygen", "page": "/vendors/heygen",
+                                "commercial_impressions": 1240, "seed_impressions": 12441}],
+            "gaps": {"heygen": [{"phrase": "heygen подписка", "impressions": 180},
+                                {"phrase": "heygen оплатить", "impressions": 124}],
+                     "canva": [{"phrase": "canva подписка", "impressions": 337}]},
+            "discovery": [],
+        }
+
+    def test_evidence_names_phrase_and_frequency(self):
+        line = self.r3.demand_evidence(
+            {"demand_clusters": ["heygen", "canva"]}, self.md)
+        self.assertIn("canva подписка", line)
+        self.assertIn("337", line)
+        self.assertIn("в месяц", line)
+
+    def test_no_evidence_without_measurement(self):
+        self.assertEqual(self.r3.demand_evidence(
+            {"demand_clusters": ["heygen"]}, {"available": False}), "")
+
+    def test_no_evidence_for_unrelated_action(self):
+        self.assertEqual(self.r3.demand_evidence({"demand_clusters": []}, self.md), "")
+
+    def test_partial_measurement_is_disclosed(self):
+        md = dict(self.md, complete=False)
+        line = self.r3.demand_evidence({"demand_clusters": ["canva"]}, md)
+        self.assertIn("не завершён", line)
+
+    def test_change_entry_only_on_measurement_day(self):
+        self.assertIsNotNone(self.r3.demand_change(self.md))
+        stale = dict(self.md, source=dict(self.md["source"], age_days=12))
+        self.assertIsNone(self.r3.demand_change(stale))
+
+    def test_change_entry_denies_daily_reading(self):
+        text = self.r3.demand_change(self.md)["text"]
+        self.assertIn("не изменение наших показателей за сутки", text)
+
+    def test_demand_never_becomes_a_kpi_card(self):
+        """Спрос обновляется помесячно и не может быть показателем дня."""
+        snap = json.loads((ROOT / "reports/seo/intelligence/snapshots/2026-08-19.json")
+                          .read_text(encoding="utf-8"))
+        labels = " ".join(k["label"].lower() for k in self.r3.build_kpis(snap))
+        self.assertNotIn("спрос", labels)
+        self.assertNotIn("вордстат", labels)
