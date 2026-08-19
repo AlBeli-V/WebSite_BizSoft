@@ -49,6 +49,11 @@ for (const f of files) {
   const pkg = JSON.parse(readFileSync(resolve(CATALOG_DIR, f), 'utf8'));
   const vendor = pkg.vendor_entry?.vendor || '';
   for (const p of pkg.products || []) {
+    // Архивный стаб: {sku, archive: true} — upsert только статуса (снятие с витрины).
+    if (p.archive) {
+      rows.push({ sku: p.sku, status: 'archived' });
+      continue;
+    }
     const hasBase = typeof p.base_price_usd === 'number' && p.base_price_usd > 0;
     rows.push({
       sku: p.sku,
