@@ -1,6 +1,6 @@
-# Разовая проверка доступа к API Вордстата: живой ли ключ, какие методы доступны,
-# какие поля возвращаются и в каких лимитах. Ключ не печатается — только статусы,
-# форма ответа и обезличенные примеры строк.
+# Разовая проверка доступа к API Вордстата: живой ли ключ, какой хост и схема авторизации,
+# какие методы доступны и какие поля возвращаются. Ключ не печатается — только статусы,
+# сертификаты хостов, форма ответа и обезличенные примеры строк.
 # Запуск: вручную (workflow_dispatch) или пушем самого файла воркфлоу
 # (dispatch по API недоступен, пока файла нет в main).
 
@@ -36,66 +36,96 @@ jobs:
             exit 1
           fi
           python3 - <<'PY'
-          import json, os, time
+          import json, os, socket, ssl, time
           import requests
 
           TOKEN = os.environ["WORDSTAT_API_KEY"].strip()
           PHRASE = os.environ.get("PHRASE") or "оплата canva для юридических лиц"
-          BASE = "https://api.wordstat.yandex.net"
-          H = {"Authorization": f"Bearer {TOKEN}", "Content-Type": "application/json"}
 
-          def shape(v, depth=0):
-              if isinstance(v, dict):
-                  return {k: shape(x, depth + 1) for k, x in list(v.items())[:12]}
-              if isinstance(v, list):
-                  return [shape(v[0], depth + 1), f"...всего {len(v)}"] if v else []
-              return type(v).__name__
+          print(f"== 0. формат ключа: длина {len(TOKEN)}, префикс {TOKEN[:4]}…, "
+                f"точек {TOKEN.count('.')}, дефисов {TOKEN.count('-')} ==")
 
-          def call(path, body):
-              t0 = time.time()
+          HOSTS = [
+              "api.wordstat.yandex.net",
+              "api.wordstat.yandex.ru",
+              "wordstat.yandex.ru",
+              "api-wordstat.yandex.net",
+              "api.direct.yandex.com",
+          ]
+
+          print("== 1. DNS и сертификаты хостов ==")
+          for host in HOSTS:
               try:
-                  r = requests.post(BASE + path, headers=H, json=body, timeout=40)
+                  ip = socket.gethostbyname(host)
               except Exception as e:
-                  print(f"  {path}: сетевая ошибка {type(e).__name__}: {e}")
-                  return None
-              ms = int((time.time() - t0) * 1000)
-              print(f"  {path}: HTTP {r.status_code} за {ms} мс")
-              for k in ("X-RateLimit-Limit", "X-RateLimit-Remaining", "Retry-After"):
-                  if k in r.headers:
-                      print(f"    заголовок {k}: {r.headers[k]}")
-              if r.status_code != 200:
-                  print(f"    тело: {r.text[:300]}")
-                  return None
+                  print(f"  {host}: DNS не резолвится ({type(e).__name__})")
+                  continue
+              ctx = ssl.create_default_context()
+              ctx.check_hostname = False
+              ctx.verify_mode = ssl.CERT_NONE
               try:
-                  return r.json()
-              except Exception:
-                  print(f"    ответ не JSON: {r.text[:200]}")
-                  return None
+                  with socket.create_connection((host, 443), timeout=15) as sock:
+                      with ctx.wrap_socket(sock, server_hostname=host) as ss:
+                          cert = ss.getpeercert()
+                  cn = dict(x[0] for x in cert.get("subject", ())).get("commonName", "?")
+                  san = [v for k, v in cert.get("subjectAltName", ()) if k == "DNS"]
+                  print(f"  {host} → {ip}; CN={cn}; SAN({len(san)}): {', '.join(san[:8])}")
+              except Exception as e:
+                  print(f"  {host} → {ip}; TLS-ошибка {type(e).__name__}: {e}")
 
-          print("== 1. topRequests (частотность и связанные запросы) ==")
-          data = call("/v1/topRequests", {"phrase": PHRASE, "numPhrases": 20})
-          if data:
-              print("    структура ответа:", json.dumps(shape(data), ensure_ascii=False)[:600])
-              def walk(node, path=""):
+          print("== 2. перебор баз, путей и схем авторизации ==")
+          BASES = [
+              "https://api.wordstat.yandex.net",
+              "https://api.wordstat.yandex.ru",
+          ]
+          AUTHS = {
+              "Bearer": f"Bearer {TOKEN}",
+              "Api-Key": f"Api-Key {TOKEN}",
+              "OAuth": f"OAuth {TOKEN}",
+          }
+          PATHS = ["/v1/topRequests", "/v1/regions"]
+          ok = []
+          for base in BASES:
+              for path in PATHS:
+                  for name, value in AUTHS.items():
+                      body = {"phrase": PHRASE, "numPhrases": 5} if "top" in path else {"phrase": PHRASE}
+                      t0 = time.time()
+                      try:
+                          r = requests.post(base + path, json=body, timeout=30,
+                                            headers={"Authorization": value,
+                                                     "Content-Type": "application/json"})
+                      except Exception as e:
+                          msg = str(e)
+                          short = "hostname mismatch" if "Hostname mismatch" in msg else type(e).__name__
+                          print(f"  {base}{path} [{name}]: сеть/TLS — {short}")
+                          continue
+                      ms = int((time.time() - t0) * 1000)
+                      print(f"  {base}{path} [{name}]: HTTP {r.status_code} за {ms} мс; "
+                            f"тело: {r.text[:200]}")
+                      for k in ("X-RateLimit-Limit", "X-RateLimit-Remaining", "Retry-After"):
+                          if k in r.headers:
+                              print(f"      заголовок {k}: {r.headers[k]}")
+                      if r.status_code == 200:
+                          ok.append((base, path, name, r))
+
+          print("== 3. структура успешных ответов ==")
+          if not ok:
+              print("  успешных ответов нет")
+          for base, path, name, r in ok:
+              try:
+                  data = r.json()
+              except Exception:
+                  print(f"  {base}{path} [{name}]: ответ не JSON")
+                  continue
+              def walk(node, p=""):
                   if isinstance(node, dict):
                       for k, v in node.items():
-                          walk(v, f"{path}.{k}")
+                          walk(v, f"{p}.{k}")
                   elif isinstance(node, list) and node and isinstance(node[0], dict):
-                      print(f"    примеры из {path} (до 5):")
+                      print(f"    примеры из {p} (до 5):")
                       for row in node[:5]:
                           print("      ", json.dumps(row, ensure_ascii=False)[:160])
+              print(f"  {base}{path} [{name}]: ключи верхнего уровня "
+                    f"{list(data)[:12] if isinstance(data, dict) else type(data).__name__}")
               walk(data)
-
-          print("== 2. dynamics (динамика по периодам) ==")
-          call("/v1/dynamics", {"phrase": PHRASE, "period": "monthly"})
-
-          print("== 3. regions (разбивка по регионам) ==")
-          call("/v1/regions", {"phrase": PHRASE})
-
-          print("== 4. проверка типов соответствия ==")
-          for variant in (f'"{PHRASE}"', f'!{PHRASE.split()[0]}'):
-              call("/v1/topRequests", {"phrase": variant, "numPhrases": 5})
-
-          print("== 5. регион Россия (id 225) ==")
-          call("/v1/topRequests", {"phrase": PHRASE, "numPhrases": 5, "regions": [225]})
           PY
