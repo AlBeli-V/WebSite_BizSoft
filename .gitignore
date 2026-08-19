@@ -37,3 +37,7 @@ public/*_zoom.xlsx
 
 # build artifacts (сборка карточек AI и т.п.)
 out/
+
+# Python
+__pycache__/
+*.pyc
