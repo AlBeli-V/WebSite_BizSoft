@@ -1,0 +1,90 @@
+{
+  "vendor_entry": {
+    "slug": "dropbox",
+    "vendor": "Dropbox",
+    "legalName": "Dropbox, Inc.",
+    "brandColor": "#0061FF",
+    "site": "https://www.dropbox.com",
+    "catSeg": "collaboration",
+    "catLabel": "Доски и совместная работа",
+    "domain": "it",
+    "tagline": "Облачное хранилище и совместная работа с файлами: командные тарифы Business и Business Plus от 3 пользователей.",
+    "about": "Dropbox — облачный сервис хранения и синхронизации файлов с общими папками, контролем доступа и восстановлением версий. Командные тарифы дают единое пространство для отдела или всей компании: администрирование пользователей, передача больших файлов, электронные подписи и интеграции с офисными пакетами."
+  },
+  "products": [
+    {
+      "sku": "DROPBOX-STANDARD",
+      "slug": "dropbox-standard",
+      "name": "Dropbox Business",
+      "official_name": "Dropbox Business (ранее Dropbox Standard)",
+      "category": "collaboration",
+      "license_type": "org",
+      "short_description": "Командный тариф Dropbox: 9+ ТБ на команду, общие папки, администрирование и передача файлов до 100 ГБ. От 3 пользователей.",
+      "description": "Dropbox Business (ранее Standard) — базовый командный тариф Dropbox для отделов и небольших компаний от 3 пользователей. Команда получает единое облачное пространство объёмом от 9 ТБ, общие папки с настройкой прав доступа и консоль администратора для управления участниками.\n\nВ тариф входят передача больших файлов через Dropbox Transfer (до 100 ГБ), восстановление удалённых файлов и версий за 180 дней, удалённая очистка корпоративных данных с утерянных устройств, а также интеграции с Microsoft 365, Google Workspace, Slack и Zoom.\n\nОт старшего тарифа Business Plus этот план отличается меньшим объёмом хранилища, лимитом Transfer 100 ГБ вместо 250 ГБ, сроком восстановления 180 дней вместо года и базовым (одноуровневым) администрированием. Если нужны роли админов и расширенный контроль данных — смотрите Dropbox Business Plus.\n\nОформим подписку на вашу компанию: договор, счёт в рублях, закрывающие документы через ЭДО, доступ за 1–3 рабочих дня. Минимальный заказ — 3 пользователя, оплата за год.",
+      "keywords": "купить Dropbox для юрлица, Dropbox Business цена, Dropbox Standard тариф, Dropbox для компании, облачное хранилище для бизнеса, Dropbox подписка на организацию, Dropbox Business купить в России, Dropbox team plan, buy Dropbox Business, корпоративный Dropbox, Dropbox счёт в рублях",
+      "features": [
+        "9+ ТБ облачного хранилища на команду",
+        "Общие папки и гибкие права доступа",
+        "Dropbox Transfer: передача файлов до 100 ГБ",
+        "Восстановление файлов и версий за 180 дней",
+        "Консоль администратора и управление участниками",
+        "Удалённая очистка данных с утерянных устройств",
+        "Интеграции с Microsoft 365, Google Workspace, Slack, Zoom"
+      ],
+      "base_price_usd": 180,
+      "billing": "за 1 пользователя в год",
+      "min_quantity": 3,
+      "price_confidence": "official-today",
+      "source_url": "https://www.dropbox.com/plans",
+      "checkout_url": "https://www.dropbox.com/business/plans-comparison",
+      "checked_at": "2026-08-19",
+      "notes": "$15/пользователь/мес при годовой оплате ($18/мес при помесячной). Минимум 3 пользователя. Цена подтверждена по нескольким независимым обзорам тарифов Dropbox (прямой доступ к dropbox.com из среды недоступен).",
+      "status": "published",
+      "markup_coeff": null,
+      "sort": null
+    },
+    {
+      "sku": "DROPBOX-ADVANCED",
+      "slug": "dropbox-advanced",
+      "name": "Dropbox Business Plus",
+      "official_name": "Dropbox Business Plus (ранее Dropbox Advanced)",
+      "category": "collaboration",
+      "license_type": "org",
+      "short_description": "Старший командный тариф Dropbox: 15+ ТБ, роли администраторов, восстановление за 1 год, передача файлов до 250 ГБ. От 3 пользователей.",
+      "description": "Dropbox Business Plus (ранее Advanced) — расширенный командный тариф для компаний, которым нужен строгий контроль над данными и администрированием. Команда получает от 15 ТБ хранилища, многоуровневые роли администраторов и расширенные инструменты аудита.\n\nВ тариф входит всё из Dropbox Business, а также: передача файлов через Dropbox Transfer до 250 ГБ, восстановление удалённых файлов и версий за 1 год, отслеживание соответствия требованиям (compliance tracking), верификация домена и расширенное управление устройствами сотрудников.\n\nОт базового Business этот план отличается объёмом хранилища, годовым сроком восстановления, лимитом Transfer и главное — тем, что администрирование можно разделить между несколькими ролями: полезно, когда IT-отдел управляет доступами нескольких подразделений. Индивидуальные условия и корпоративные SSO-сценарии уровня Enterprise — отдельным запросом.\n\nОформим подписку на вашу компанию: договор, счёт в рублях, закрывающие документы через ЭДО, доступ за 1–3 рабочих дня. Минимальный заказ — 3 пользователя, оплата за год.",
+      "keywords": "купить Dropbox Business Plus, Dropbox Advanced цена, Dropbox Business Plus тариф, Dropbox для юридического лица, Dropbox корпоративная подписка, облачное хранилище для компании, Dropbox admin roles, buy Dropbox Advanced, Dropbox 15 TB, Dropbox подписка для организации, Dropbox закрывающие документы",
+      "features": [
+        "15+ ТБ облачного хранилища на команду",
+        "Многоуровневые роли администраторов",
+        "Dropbox Transfer: передача файлов до 250 ГБ",
+        "Восстановление файлов и версий за 1 год",
+        "Отслеживание соответствия требованиям (compliance tracking)",
+        "Верификация домена и управление устройствами",
+        "Всё, что входит в тариф Dropbox Business"
+      ],
+      "base_price_usd": 288,
+      "billing": "за 1 пользователя в год",
+      "min_quantity": 3,
+      "price_confidence": "official-today",
+      "source_url": "https://www.dropbox.com/plans",
+      "checkout_url": "https://www.dropbox.com/business/plans-comparison",
+      "checked_at": "2026-08-19",
+      "notes": "$24/пользователь/мес при годовой оплате ($30/мес при помесячной). Минимум 3 пользователя. Цена подтверждена по нескольким независимым обзорам тарифов Dropbox (прямой доступ к dropbox.com из среды недоступен).",
+      "status": "published",
+      "markup_coeff": null,
+      "sort": null
+    }
+  ],
+  "rejected": [
+    {
+      "name": "Dropbox Enterprise",
+      "reason": "Enterprise-тариф, цена только по запросу через отдел продаж Dropbox (contact sales), индивидуальные условия — не заводим как товар с фиксированной ценой.",
+      "source_url": "https://www.dropbox.com/business/plans-comparison"
+    },
+    {
+      "name": "Dropbox Plus / Essentials (Professional)",
+      "reason": "Индивидуальные тарифы для одного пользователя, не командные — вне фокуса каталога для юрлиц.",
+      "source_url": "https://www.dropbox.com/plans"
+    }
+  ]
+}

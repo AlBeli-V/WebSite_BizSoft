@@ -1,0 +1,100 @@
+{
+  "vendor_entry": {
+    "slug": "bitdefender",
+    "vendor": "Bitdefender",
+    "legalName": "Bitdefender SRL",
+    "brandColor": "#ED1C24",
+    "site": "https://www.bitdefender.com",
+    "catSeg": "security",
+    "catLabel": "Антивирусы и безопасность",
+    "domain": "it",
+    "tagline": "Защита конечных точек GravityZone для малого бизнеса: тарифы Small Business Security и Business Security Premium на 1–100 устройств.",
+    "about": "Bitdefender GravityZone — платформа защиты рабочих станций, серверов и мобильных устройств с управлением из единой облачной консоли. Подходит малому и среднему бизнесу, которому нужен корпоративный уровень защиты от вирусов, шифровальщиков и фишинга без выделенной команды безопасности."
+  },
+  "products": [
+    {
+      "sku": "BITDEFENDER-GRAVITYZONE-BUSINESS",
+      "slug": "bitdefender-gravityzone-business",
+      "name": "Bitdefender GravityZone Small Business Security",
+      "official_name": "GravityZone Small Business Security",
+      "category": "security",
+      "license_type": "org",
+      "short_description": "Годовая подписка на защиту рабочих станций и серверов малого бизнеса (1–100 устройств): антивирус, защита от шифровальщиков и фишинга, облачная консоль.",
+      "description": "GravityZone Small Business Security — актуальное название базового бизнес-тарифа Bitdefender для малых компаний (в онлайн-магазине соседствует с классическим тарифом Business Security). Продаётся через онлайн-checkout на 1–100 устройств с годовой подпиской.\n\nВ подписку входят: защита рабочих станций и серверов от вирусов, шифровальщиков и фишинга, поведенческий анализ процессов, веб-фильтрация, откат файлов после атак шифровальщиков и управление из облачной консоли GravityZone. Готовые политики защиты позволяют развернуть продукт без выделенного специалиста по безопасности.\n\nОт старшего тарифа Business Security Premium отличается отсутствием песочницы Sandbox Analyzer, технологии HyperDetect и расширенного анализа рисков — они нужны компаниям, которых беспокоят целевые атаки, а не только массовое вредоносное ПО.\n\nОформим покупку на вашу компанию: договор, счёт в рублях, закрывающие документы через ЭДО, доступ за 1–3 рабочих дня.\n\nОриентир по прайсу производителя: $32.5 за 1 устройство в год (на 2026-08-19, требует подтверждения). Точную стоимость в рублях зафиксируем в коммерческом предложении.",
+      "keywords": "купить Bitdefender для юрлица, Bitdefender GravityZone цена, GravityZone Small Business Security, антивирус для малого бизнеса, Bitdefender лицензия на устройство, защита от шифровальщиков для бизнеса, Bitdefender business antivirus price, GravityZone подписка на год, корпоративный антивирус купить, Bitdefender облачная консоль",
+      "features": [
+        "Защита рабочих станций (Windows, macOS) и серверов",
+        "Защита от шифровальщиков с откатом изменённых файлов",
+        "Поведенческий анализ процессов и веб-фильтрация",
+        "Антифишинг и защита при онлайн-платежах",
+        "Облачная консоль управления GravityZone",
+        "Готовые политики защиты «из коробки»",
+        "Онлайн-подписка на 1–100 устройств"
+      ],
+      "base_price_usd": null,
+      "billing": "за 1 устройство в год",
+      "min_quantity": 5,
+      "price_confidence": "search-estimate",
+      "source_url": "https://tekpon.com/software/bitdefender-gravityzone/pricing/",
+      "checkout_url": "https://www.bitdefender.com/en-us/business/products/small-business-security",
+      "checked_at": "2026-08-19",
+      "notes": "Пересчёт из конфигурации онлайн-магазина «10 устройств / 1 год»: список $324.99/год (≈$32.5 за устройство), по акции первого года встречалось $227.49. Цена за устройство зависит от числа устройств и срока (1–3 года); в сторонних обзорах встречаются и оценки до $57/устройство/год. Сайт вендора недоступен для прямой проверки — цифры из поисковой выдачи.",
+      "status": "published",
+      "markup_coeff": null,
+      "sort": null
+    },
+    {
+      "sku": "BITDEFENDER-GRAVITYZONE-PREMIUM",
+      "slug": "bitdefender-gravityzone-premium",
+      "name": "Bitdefender GravityZone Business Security Premium",
+      "official_name": "GravityZone Business Security Premium",
+      "category": "security",
+      "license_type": "org",
+      "short_description": "Старший SMB-тариф GravityZone: песочница Sandbox Analyzer, HyperDetect и расширенный анализ рисков для защиты от целевых атак. Подписка на год.",
+      "description": "GravityZone Business Security Premium — старший тариф SMB-линейки Bitdefender для компаний, которым нужна защита не только от массового вредоносного ПО, но и от целевых и бесфайловых атак. Продаётся через онлайн-checkout с годовой подпиской.\n\nПоверх возможностей базовых тарифов (антивирус, защита от шифровальщиков, веб-фильтрация, облачная консоль) Premium добавляет: облачную песочницу Sandbox Analyzer для детонации подозрительных файлов, настраиваемое машинное обучение HyperDetect для перехвата атак на стадии до исполнения, расширенный анализ рисков конечных точек и защиту сетевого трафика.\n\nВыбирайте Premium, если в компании есть данные, привлекательные для целевых атак (финансы, клиентские базы), или требования по безопасности от заказчиков и регуляторов. Для базовой гигиены безопасности небольшого офиса достаточно Small Business Security.\n\nОформим покупку на вашу компанию: договор, счёт в рублях, закрывающие документы через ЭДО, доступ за 1–3 рабочих дня.\n\nОриентир по прайсу производителя: $95.89 за 1 устройство в год (на 2026-08-19, требует подтверждения). Точную стоимость в рублях зафиксируем в коммерческом предложении.",
+      "keywords": "Bitdefender Business Security Premium купить, GravityZone Premium цена, Bitdefender песочница Sandbox Analyzer, HyperDetect, защита от целевых атак, Bitdefender EDR для малого бизнеса, GravityZone Business Security Premium price, корпоративный антивирус премиум, Bitdefender для юрлица, антивирус с песочницей",
+      "features": [
+        "Все возможности базовых SMB-тарифов GravityZone",
+        "Облачная песочница Sandbox Analyzer",
+        "HyperDetect — настраиваемое машинное обучение для перехвата атак",
+        "Защита от бесфайловых атак и эксплойтов",
+        "Расширенный анализ рисков конечных точек",
+        "Защита сетевого трафика (Network Attack Defense)",
+        "Облачная консоль GravityZone, подписка на 1–100 устройств"
+      ],
+      "base_price_usd": null,
+      "billing": "за 1 устройство в год",
+      "min_quantity": 5,
+      "price_confidence": "search-estimate",
+      "source_url": "https://costbench.com/software/endpoint-security/bitdefender/",
+      "checkout_url": "https://www.bitdefender.com/en-us/business/products/gravityzone-premium-security",
+      "checked_at": "2026-08-19",
+      "notes": "Пересчёт из минимальной конфигурации онлайн-магазина «5 устройств / 1 год»: список ≈$479.45/год ($95.89 за устройство), по акции первого года встречалось $286.99 за 5 устройств (≈$57.4 за устройство). Цена за устройство снижается с ростом количества и срока подписки. Сайт вендора недоступен для прямой проверки — цифры из поисковой выдачи.",
+      "status": "published",
+      "markup_coeff": null,
+      "sort": null
+    }
+  ],
+  "rejected": [
+    {
+      "name": "GravityZone Business Security Enterprise (EDR/XDR)",
+      "reason": "Корпоративный тариф с EDR/XDR, продаётся по индивидуальному запросу (contact sales), нет онлайн-checkout для SMB.",
+      "source_url": "https://www.bitdefender.com/en-us/business/products/gravityzone-enterprise-security"
+    },
+    {
+      "name": "Bitdefender XDR / GravityZone XDR",
+      "reason": "Расширенное обнаружение и реагирование уровня enterprise, цена только по запросу.",
+      "source_url": "https://www.bitdefender.com/en-us/business/products/xdr"
+    },
+    {
+      "name": "Bitdefender MDR (Managed Detection and Response)",
+      "reason": "Управляемый сервис безопасности с индивидуальным расчётом, не продаётся как фиксированная онлайн-подписка.",
+      "source_url": "https://www.bitdefender.com/en-us/business/services/managed-detection-response"
+    },
+    {
+      "name": "Партнёрские программы MSP/MSSP (помесячное лицензирование)",
+      "reason": "Только для сервис-провайдеров по партнёрскому договору, usage-based/помесячная модель, не для конечных SMB-клиентов.",
+      "source_url": "https://www.bitdefender.com/en-us/business/msp-security"
+    }
+  ]
+}
