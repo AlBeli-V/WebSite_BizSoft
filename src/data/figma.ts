@@ -45,13 +45,11 @@ export const FIGMA_ORDER = [
   'FIGMA-ENT-FULL', 'FIGMA-ENT-DEV', 'FIGMA-ENT-COLLAB',
 ];
 
-/** Сравнение планов (цена за Full seat/мес, годовая оплата). */
+/** Сравнение планов (возможности; рублёвые цены мест — в плитках выше). */
 export const FIGMA_COMPARISON = {
   cols: ['Professional', 'Organization', 'Enterprise'],
   rows: [
-    { label: 'Full seat (дизайн)', values: ['$16', '$55', '$90'] },
-    { label: 'Dev seat (разработка)', values: ['$12', '$25', '$35'] },
-    { label: 'Collab seat (просмотр)', values: ['$3', '$5', '$5'] },
+    { label: 'Типы мест', values: ['Full / Dev / Collab', 'Full / Dev / Collab', 'Full / Dev / Collab'] },
     { label: 'Библиотеки между командами', values: ['—', 'да', 'да'] },
     { label: 'SSO', values: ['—', '—', 'да'] },
     { label: 'Несколько воркспейсов', values: ['—', '—', 'да'] },
