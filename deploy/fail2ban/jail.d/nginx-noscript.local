@@ -1,0 +1,16 @@
+# Jail fail2ban против сканеров-переборщиков по 404/444.
+# Ставится в /etc/fail2ban/jail.d/nginx-noscript.local на сервере (нужен root).
+# fail2ban-server уже запущен на хосте — достаточно добавить этот jail и
+# перезапустить сервис: systemctl reload fail2ban
+#
+# Логика: >40 «мусорных» ответов (404/444/403/400) с одного IP за 10 минут →
+# бан на 24 часа. Легитимные пользователи столько 404 не собирают.
+
+[nginx-noscript]
+enabled  = true
+port     = http,https
+filter   = nginx-noscript
+logpath  = /var/log/nginx/access.log
+findtime = 600
+maxretry = 40
+bantime  = 86400

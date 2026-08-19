@@ -12,6 +12,17 @@ server {
     # ssl_certificate /etc/letsencrypt/live/biz-soft.pro/fullchain.pem;
     # ssl_certificate_key /etc/letsencrypt/live/biz-soft.pro/privkey.pem;
 
+    # ── Отсечение сканерного шума (≈39% запросов — 404 от ботов-сканеров) ──
+    # return 444: nginx рвёт соединение без ответа, запрос не доходит до SSR
+    # и не засоряет статистику. На biz-soft.pro нет PHP/WordPress/.git/.env —
+    # все такие пути гарантированно вредоносные пробы.
+    # Важно: regex-location'ы стоят ДО location /, nginx проверяет их первыми.
+    # /.well-known НЕ трогаем — через него certbot обновляет сертификат.
+    location ~* \.(php|phtml|asp|aspx|jsp|cgi|env|bak|sql|old)$ { return 444; }
+    location ~* /(wp-admin|wp-content|wp-includes|wp-login|wordpress|xmlrpc) { return 444; }
+    location ~* /\.(git|svn|hg|aws|ssh|DS_Store) { return 444; }
+    location ~* /(phpmyadmin|adminer|SDK/webLanguage) { return 444; }
+
     # Статика Astro (хешированные ассеты) — длинный кэш.
     location /_astro/ {
         proxy_pass http://127.0.0.1:3000;
