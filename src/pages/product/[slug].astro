@@ -323,6 +323,9 @@ const aiLinks = product.vendor ? getAiInterlinks(product.vendor) : null;
   .block { margin-top: 2.2rem; }
   .block h2 { font-size: 1.4rem; margin-bottom: 0.9rem; }
   .collapsible.clamped { display: -webkit-box; -webkit-line-clamp: 8; line-clamp: 8; -webkit-box-orient: vertical; overflow: hidden; }
+  /* Описание в Directus хранится абзацами через перевод строки — сохраняем разбивку,
+     иначе текст склеивается в сплошную простыню. */
+  .collapsible p { white-space: pre-line; }
   .readmore { margin-top: 0.6rem; background: none; border: none; color: var(--color-accent); font-weight: 600; cursor: pointer; padding: 0; font-size: 0.92rem; }
   .features { list-style: none; padding: 0; display: grid; gap: 0.5rem; }
   .features li { padding-left: 1.6rem; position: relative; color: var(--color-text); }
