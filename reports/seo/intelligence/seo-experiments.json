@@ -20,6 +20,34 @@
       "success_metric": "CTR кластеров Canva/Depositphotos/CorelDRAW/HeyGen/Marmoset в Яндекс.Вебмастере ≥2% через 7 дней (26.08.2026), ≥3% через 14 дней (02.09.2026)",
       "control_group": "остальные vendor-страницы без изменений",
       "source": "src/data/seo-experiments.ts (рендер: src/pages/vendors/[slug].astro → VendorLanding)"
+    },
+    {
+      "id": "cluster-depositphotos",
+      "start": "2026-08-19",
+      "status": "running",
+      "pages": [
+        "/blog/kak-oplatit-depositphotos-dlya-yurlica",
+        "/vendors/depositphotos",
+        "/product/deposit-unl-year",
+        "/product/deposit-unl-month",
+        "/product/deposit-pack-100"
+      ],
+      "baseline": {
+        "period": "14 дней до 19.08.2026",
+        "impressions_cluster": 273,
+        "positions": "3–9",
+        "note": "Depositphotos — лидер спроса среди кластеров вендоров по данным Яндекс.Вебмастера"
+      },
+      "changes": [
+        "статья src/content/blog/kak-oplatit-depositphotos-dlya-yurlica.md: прямой ответ в первых двух предложениях, H2/H3, таблица сравнения тарифов (пакет 100 изображений, Unlimited месяц, Unlimited год), FAQ-блок из 6 вопросов с FAQPage-разметкой",
+        "частотные формулировки кластера в заголовках и тексте: «для юридических лиц», «в рублях», «по счёту», «пакет»",
+        "перелинковка статья → /vendors/depositphotos, /catalog, /documents и три карточки товаров",
+        "обратная перелинковка карточка → статья: product/[slug].astro выводит статьи, которые ссылаются на товар через relatedProducts (раньше блок статей был только у AI-вендоров)"
+      ],
+      "hypothesis": "Информационная статья под транзакционный интент «оплатить Depositphotos для юрлица» перехватывает запросы, по которым карточки и лендинг стоят на позициях 3–9, и передаёт им ссылочный вес через взаимную перелинковку — это поднимает показы всего кластера и выводит статью в топ-10.",
+      "success_metric": "рост показов кластера Depositphotos относительно базовых 273 показов за 14 дней и вход статьи /blog/kak-oplatit-depositphotos-dlya-yurlica в топ-10 Яндекса за 14 дней (контроль 02.09.2026)",
+      "control_group": "кластеры Canva, CorelDRAW, HeyGen, Marmoset — без статей блога",
+      "source": "src/content/blog/kak-oplatit-depositphotos-dlya-yurlica.md; обратные ссылки — src/pages/product/[slug].astro"
     }
   ]
 }
