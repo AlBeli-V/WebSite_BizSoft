@@ -1,0 +1,2805 @@
+{
+ "schema_version": "2.0.0",
+ "report_date": "2026-08-19",
+ "collected_at": "2026-08-19T22:32:23+00:00",
+ "source": {
+  "source_name": "yandex_wordstat",
+  "endpoint": "https://searchapi.api.cloud.yandex.net/v2/wordstat/topRequests",
+  "region_id": "225",
+  "region_name": "Россия",
+  "devices": "DEVICE_ALL",
+  "match_type": "broad",
+  "window": "последние 30 дней",
+  "unit": "показы в поиске Яндекса",
+  "num_phrases_requested": 300,
+  "modifiers": [
+   "купить",
+   "оплата",
+   "для юридических лиц",
+   "тариф",
+   "подписка",
+   "лицензия"
+  ],
+  "notes": "Показы Вордстата — объём поисковых запросов в Яндексе, не покупки и не выручка. На Google не переносятся. Пустой ответ означает частотность ниже порога выдачи, а не ноль."
+ },
+ "quota": {
+  "hourly_limit": 100,
+  "monthly_budget": 10000,
+  "run_cap": 90,
+  "requests_this_run": 1,
+  "failures": 0,
+  "stopped_by": "hourly_quota_exceeded",
+  "collected_total": 0,
+  "planned_total": 554,
+  "complete": false
+ },
+ "clusters": [
+  {
+   "cluster": "canva",
+   "vendor": "Canva",
+   "page": "/vendors/canva",
+   "priority": 1,
+   "relevance_token": "canva",
+   "status": "not_collected",
+   "coverage": "0/7",
+   "seed_impressions": null,
+   "probes": [
+    {
+     "phrase": "canva",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "canva купить",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "canva оплата",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "canva для юридических лиц",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "canva тариф",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "canva подписка",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "canva лицензия",
+     "status": "not_collected",
+     "total_impressions": null
+    }
+   ],
+   "phrases_dropped_as_irrelevant": 0,
+   "phrases": [],
+   "associations": [],
+   "commercial_phrases": 0,
+   "commercial_impressions": null,
+   "confidence": "low"
+  },
+  {
+   "cluster": "coreldraw",
+   "vendor": "CorelDRAW",
+   "page": "/vendors/coreldraw",
+   "priority": 1,
+   "relevance_token": "coreldraw",
+   "status": "not_collected",
+   "coverage": "0/7",
+   "seed_impressions": null,
+   "probes": [
+    {
+     "phrase": "coreldraw",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "coreldraw купить",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "coreldraw оплата",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "coreldraw для юридических лиц",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "coreldraw тариф",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "coreldraw подписка",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "coreldraw лицензия",
+     "status": "not_collected",
+     "total_impressions": null
+    }
+   ],
+   "phrases_dropped_as_irrelevant": 0,
+   "phrases": [],
+   "associations": [],
+   "commercial_phrases": 0,
+   "commercial_impressions": null,
+   "confidence": "low"
+  },
+  {
+   "cluster": "depositphotos",
+   "vendor": "Depositphotos",
+   "page": "/vendors/depositphotos",
+   "priority": 1,
+   "relevance_token": "depositphotos",
+   "status": "not_collected",
+   "coverage": "0/7",
+   "seed_impressions": null,
+   "probes": [
+    {
+     "phrase": "depositphotos",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "depositphotos купить",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "depositphotos оплата",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "depositphotos для юридических лиц",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "depositphotos тариф",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "depositphotos подписка",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "depositphotos лицензия",
+     "status": "not_collected",
+     "total_impressions": null
+    }
+   ],
+   "phrases_dropped_as_irrelevant": 0,
+   "phrases": [],
+   "associations": [],
+   "commercial_phrases": 0,
+   "commercial_impressions": null,
+   "confidence": "low"
+  },
+  {
+   "cluster": "heygen",
+   "vendor": "HeyGen",
+   "page": "/vendors/heygen",
+   "priority": 1,
+   "relevance_token": "heygen",
+   "status": "not_collected",
+   "coverage": "0/7",
+   "seed_impressions": null,
+   "probes": [
+    {
+     "phrase": "heygen",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "heygen купить",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "heygen оплата",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "heygen для юридических лиц",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "heygen тариф",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "heygen подписка",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "heygen лицензия",
+     "status": "not_collected",
+     "total_impressions": null
+    }
+   ],
+   "phrases_dropped_as_irrelevant": 0,
+   "phrases": [],
+   "associations": [],
+   "commercial_phrases": 0,
+   "commercial_impressions": null,
+   "confidence": "low"
+  },
+  {
+   "cluster": "marmoset",
+   "vendor": "Marmoset",
+   "page": "/vendors/marmoset",
+   "priority": 1,
+   "relevance_token": "marmoset",
+   "status": "not_collected",
+   "coverage": "0/7",
+   "seed_impressions": null,
+   "probes": [
+    {
+     "phrase": "marmoset toolbag",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "marmoset toolbag купить",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "marmoset toolbag оплата",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "marmoset toolbag для юридических лиц",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "marmoset toolbag тариф",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "marmoset toolbag подписка",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "marmoset toolbag лицензия",
+     "status": "not_collected",
+     "total_impressions": null
+    }
+   ],
+   "phrases_dropped_as_irrelevant": 0,
+   "phrases": [],
+   "associations": [],
+   "commercial_phrases": 0,
+   "commercial_impressions": null,
+   "confidence": "low"
+  },
+  {
+   "cluster": "оплата-зарубежных-сервисов",
+   "vendor": null,
+   "page": null,
+   "priority": 1,
+   "relevance_token": "оплата",
+   "status": "not_collected",
+   "coverage": "0/4",
+   "seed_impressions": null,
+   "probes": [
+    {
+     "phrase": "оплата зарубежных сервисов",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "оплата зарубежных сервисов купить",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "оплата зарубежных сервисов оплата",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "оплата зарубежных сервисов для юридических лиц",
+     "status": "not_collected",
+     "total_impressions": null
+    }
+   ],
+   "phrases_dropped_as_irrelevant": 0,
+   "phrases": [],
+   "associations": [],
+   "commercial_phrases": 0,
+   "commercial_impressions": null,
+   "confidence": "low"
+  },
+  {
+   "cluster": "blackmagic",
+   "vendor": "Blackmagic Design",
+   "page": "/vendors/blackmagic",
+   "priority": 2,
+   "relevance_token": "davinci",
+   "status": "not_collected",
+   "coverage": "0/7",
+   "seed_impressions": null,
+   "probes": [
+    {
+     "phrase": "davinci resolve",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "davinci resolve купить",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "davinci resolve оплата",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "davinci resolve для юридических лиц",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "davinci resolve тариф",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "davinci resolve подписка",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "davinci resolve лицензия",
+     "status": "not_collected",
+     "total_impressions": null
+    }
+   ],
+   "phrases_dropped_as_irrelevant": 0,
+   "phrases": [],
+   "associations": [],
+   "commercial_phrases": 0,
+   "commercial_impressions": null,
+   "confidence": "low"
+  },
+  {
+   "cluster": "elevenlabs",
+   "vendor": "ElevenLabs",
+   "page": "/vendors/elevenlabs",
+   "priority": 2,
+   "relevance_token": "elevenlabs",
+   "status": "not_collected",
+   "coverage": "0/7",
+   "seed_impressions": null,
+   "probes": [
+    {
+     "phrase": "elevenlabs",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "elevenlabs купить",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "elevenlabs оплата",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "elevenlabs для юридических лиц",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "elevenlabs тариф",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "elevenlabs подписка",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "elevenlabs лицензия",
+     "status": "not_collected",
+     "total_impressions": null
+    }
+   ],
+   "phrases_dropped_as_irrelevant": 0,
+   "phrases": [],
+   "associations": [],
+   "commercial_phrases": 0,
+   "commercial_impressions": null,
+   "confidence": "low"
+  },
+  {
+   "cluster": "midjourney",
+   "vendor": "Midjourney",
+   "page": "/vendors/midjourney",
+   "priority": 2,
+   "relevance_token": "midjourney",
+   "status": "not_collected",
+   "coverage": "0/7",
+   "seed_impressions": null,
+   "probes": [
+    {
+     "phrase": "midjourney",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "midjourney купить",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "midjourney оплата",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "midjourney для юридических лиц",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "midjourney тариф",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "midjourney подписка",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "midjourney лицензия",
+     "status": "not_collected",
+     "total_impressions": null
+    }
+   ],
+   "phrases_dropped_as_irrelevant": 0,
+   "phrases": [],
+   "associations": [],
+   "commercial_phrases": 0,
+   "commercial_impressions": null,
+   "confidence": "low"
+  },
+  {
+   "cluster": "procreate",
+   "vendor": "Procreate",
+   "page": "/vendors/procreate",
+   "priority": 2,
+   "relevance_token": "procreate",
+   "status": "not_collected",
+   "coverage": "0/7",
+   "seed_impressions": null,
+   "probes": [
+    {
+     "phrase": "procreate",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "procreate купить",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "procreate оплата",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "procreate для юридических лиц",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "procreate тариф",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "procreate подписка",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "procreate лицензия",
+     "status": "not_collected",
+     "total_impressions": null
+    }
+   ],
+   "phrases_dropped_as_irrelevant": 0,
+   "phrases": [],
+   "associations": [],
+   "commercial_phrases": 0,
+   "commercial_impressions": null,
+   "confidence": "low"
+  },
+  {
+   "cluster": "unity",
+   "vendor": "Unity",
+   "page": "/vendors/unity",
+   "priority": 2,
+   "relevance_token": "unity",
+   "status": "not_collected",
+   "coverage": "0/7",
+   "seed_impressions": null,
+   "probes": [
+    {
+     "phrase": "unity",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "unity купить",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "unity оплата",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "unity для юридических лиц",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "unity тариф",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "unity подписка",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "unity лицензия",
+     "status": "not_collected",
+     "total_impressions": null
+    }
+   ],
+   "phrases_dropped_as_irrelevant": 0,
+   "phrases": [],
+   "associations": [],
+   "commercial_phrases": 0,
+   "commercial_impressions": null,
+   "confidence": "low"
+  },
+  {
+   "cluster": "нейросети-для-бизнеса",
+   "vendor": null,
+   "page": null,
+   "priority": 2,
+   "relevance_token": "нейросети",
+   "status": "not_collected",
+   "coverage": "0/4",
+   "seed_impressions": null,
+   "probes": [
+    {
+     "phrase": "нейросети для бизнеса",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "нейросети для бизнеса купить",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "нейросети для бизнеса оплата",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "нейросети для бизнеса для юридических лиц",
+     "status": "not_collected",
+     "total_impressions": null
+    }
+   ],
+   "phrases_dropped_as_irrelevant": 0,
+   "phrases": [],
+   "associations": [],
+   "commercial_phrases": 0,
+   "commercial_impressions": null,
+   "confidence": "low"
+  },
+  {
+   "cluster": "оплата-по-счету-для-юрлиц",
+   "vendor": null,
+   "page": null,
+   "priority": 2,
+   "relevance_token": "оплата",
+   "status": "not_collected",
+   "coverage": "0/4",
+   "seed_impressions": null,
+   "probes": [
+    {
+     "phrase": "оплата иностранных сервисов по счету",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "оплата иностранных сервисов по счету купить",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "оплата иностранных сервисов по счету оплата",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "оплата иностранных сервисов по счету для юридических лиц",
+     "status": "not_collected",
+     "total_impressions": null
+    }
+   ],
+   "phrases_dropped_as_irrelevant": 0,
+   "phrases": [],
+   "associations": [],
+   "commercial_phrases": 0,
+   "commercial_impressions": null,
+   "confidence": "low"
+  },
+  {
+   "cluster": "adobe",
+   "vendor": "Adobe",
+   "page": "/vendors/adobe",
+   "priority": 3,
+   "relevance_token": "adobe",
+   "status": "not_collected",
+   "coverage": "0/7",
+   "seed_impressions": null,
+   "probes": [
+    {
+     "phrase": "adobe",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "adobe купить",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "adobe оплата",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "adobe для юридических лиц",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "adobe тариф",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "adobe подписка",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "adobe лицензия",
+     "status": "not_collected",
+     "total_impressions": null
+    }
+   ],
+   "phrases_dropped_as_irrelevant": 0,
+   "phrases": [],
+   "associations": [],
+   "commercial_phrases": 0,
+   "commercial_impressions": null,
+   "confidence": "low"
+  },
+  {
+   "cluster": "artlist",
+   "vendor": "Artlist",
+   "page": "/vendors/artlist",
+   "priority": 3,
+   "relevance_token": "artlist",
+   "status": "not_collected",
+   "coverage": "0/7",
+   "seed_impressions": null,
+   "probes": [
+    {
+     "phrase": "artlist",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "artlist купить",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "artlist оплата",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "artlist для юридических лиц",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "artlist тариф",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "artlist подписка",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "artlist лицензия",
+     "status": "not_collected",
+     "total_impressions": null
+    }
+   ],
+   "phrases_dropped_as_irrelevant": 0,
+   "phrases": [],
+   "associations": [],
+   "commercial_phrases": 0,
+   "commercial_impressions": null,
+   "confidence": "low"
+  },
+  {
+   "cluster": "astute-graphics",
+   "vendor": "Astute Graphics",
+   "page": "/vendors/astute-graphics",
+   "priority": 3,
+   "relevance_token": "astute",
+   "status": "not_collected",
+   "coverage": "0/7",
+   "seed_impressions": null,
+   "probes": [
+    {
+     "phrase": "astute graphics",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "astute graphics купить",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "astute graphics оплата",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "astute graphics для юридических лиц",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "astute graphics тариф",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "astute graphics подписка",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "astute graphics лицензия",
+     "status": "not_collected",
+     "total_impressions": null
+    }
+   ],
+   "phrases_dropped_as_irrelevant": 0,
+   "phrases": [],
+   "associations": [],
+   "commercial_phrases": 0,
+   "commercial_impressions": null,
+   "confidence": "low"
+  },
+  {
+   "cluster": "autodesk",
+   "vendor": "Autodesk",
+   "page": "/vendors/autodesk",
+   "priority": 3,
+   "relevance_token": "autodesk",
+   "status": "not_collected",
+   "coverage": "0/7",
+   "seed_impressions": null,
+   "probes": [
+    {
+     "phrase": "autodesk",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "autodesk купить",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "autodesk оплата",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "autodesk для юридических лиц",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "autodesk тариф",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "autodesk подписка",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "autodesk лицензия",
+     "status": "not_collected",
+     "total_impressions": null
+    }
+   ],
+   "phrases_dropped_as_irrelevant": 0,
+   "phrases": [],
+   "associations": [],
+   "commercial_phrases": 0,
+   "commercial_impressions": null,
+   "confidence": "low"
+  },
+  {
+   "cluster": "avid",
+   "vendor": "Avid",
+   "page": "/vendors/avid",
+   "priority": 3,
+   "relevance_token": "avid",
+   "status": "not_collected",
+   "coverage": "0/7",
+   "seed_impressions": null,
+   "probes": [
+    {
+     "phrase": "avid",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "avid купить",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "avid оплата",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "avid для юридических лиц",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "avid тариф",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "avid подписка",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "avid лицензия",
+     "status": "not_collected",
+     "total_impressions": null
+    }
+   ],
+   "phrases_dropped_as_irrelevant": 0,
+   "phrases": [],
+   "associations": [],
+   "commercial_phrases": 0,
+   "commercial_impressions": null,
+   "confidence": "low"
+  },
+  {
+   "cluster": "boris-fx",
+   "vendor": "Boris FX",
+   "page": "/vendors/boris-fx",
+   "priority": 3,
+   "relevance_token": "boris",
+   "status": "not_collected",
+   "coverage": "0/7",
+   "seed_impressions": null,
+   "probes": [
+    {
+     "phrase": "boris fx",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "boris fx купить",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "boris fx оплата",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "boris fx для юридических лиц",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "boris fx тариф",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "boris fx подписка",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "boris fx лицензия",
+     "status": "not_collected",
+     "total_impressions": null
+    }
+   ],
+   "phrases_dropped_as_irrelevant": 0,
+   "phrases": [],
+   "associations": [],
+   "commercial_phrases": 0,
+   "commercial_impressions": null,
+   "confidence": "low"
+  },
+  {
+   "cluster": "clip-studio-paint",
+   "vendor": "Clip Studio Paint",
+   "page": "/vendors/clip-studio-paint",
+   "priority": 3,
+   "relevance_token": "clip",
+   "status": "not_collected",
+   "coverage": "0/7",
+   "seed_impressions": null,
+   "probes": [
+    {
+     "phrase": "clip studio paint",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "clip studio paint купить",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "clip studio paint оплата",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "clip studio paint для юридических лиц",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "clip studio paint тариф",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "clip studio paint подписка",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "clip studio paint лицензия",
+     "status": "not_collected",
+     "total_impressions": null
+    }
+   ],
+   "phrases_dropped_as_irrelevant": 0,
+   "phrases": [],
+   "associations": [],
+   "commercial_phrases": 0,
+   "commercial_impressions": null,
+   "confidence": "low"
+  },
+  {
+   "cluster": "descript",
+   "vendor": "Descript",
+   "page": "/vendors/descript",
+   "priority": 3,
+   "relevance_token": "descript",
+   "status": "not_collected",
+   "coverage": "0/7",
+   "seed_impressions": null,
+   "probes": [
+    {
+     "phrase": "descript",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "descript купить",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "descript оплата",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "descript для юридических лиц",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "descript тариф",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "descript подписка",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "descript лицензия",
+     "status": "not_collected",
+     "total_impressions": null
+    }
+   ],
+   "phrases_dropped_as_irrelevant": 0,
+   "phrases": [],
+   "associations": [],
+   "commercial_phrases": 0,
+   "commercial_impressions": null,
+   "confidence": "low"
+  },
+  {
+   "cluster": "envato",
+   "vendor": "Envato",
+   "page": "/vendors/envato",
+   "priority": 3,
+   "relevance_token": "envato",
+   "status": "not_collected",
+   "coverage": "0/7",
+   "seed_impressions": null,
+   "probes": [
+    {
+     "phrase": "envato",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "envato купить",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "envato оплата",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "envato для юридических лиц",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "envato тариф",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "envato подписка",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "envato лицензия",
+     "status": "not_collected",
+     "total_impressions": null
+    }
+   ],
+   "phrases_dropped_as_irrelevant": 0,
+   "phrases": [],
+   "associations": [],
+   "commercial_phrases": 0,
+   "commercial_impressions": null,
+   "confidence": "low"
+  },
+  {
+   "cluster": "epidemic-sound",
+   "vendor": "Epidemic Sound",
+   "page": "/vendors/epidemic-sound",
+   "priority": 3,
+   "relevance_token": "epidemic",
+   "status": "not_collected",
+   "coverage": "0/7",
+   "seed_impressions": null,
+   "probes": [
+    {
+     "phrase": "epidemic sound",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "epidemic sound купить",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "epidemic sound оплата",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "epidemic sound для юридических лиц",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "epidemic sound тариф",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "epidemic sound подписка",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "epidemic sound лицензия",
+     "status": "not_collected",
+     "total_impressions": null
+    }
+   ],
+   "phrases_dropped_as_irrelevant": 0,
+   "phrases": [],
+   "associations": [],
+   "commercial_phrases": 0,
+   "commercial_impressions": null,
+   "confidence": "low"
+  },
+  {
+   "cluster": "fmod",
+   "vendor": "FMOD",
+   "page": "/vendors/fmod",
+   "priority": 3,
+   "relevance_token": "fmod",
+   "status": "not_collected",
+   "coverage": "0/7",
+   "seed_impressions": null,
+   "probes": [
+    {
+     "phrase": "fmod",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "fmod купить",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "fmod оплата",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "fmod для юридических лиц",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "fmod тариф",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "fmod подписка",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "fmod лицензия",
+     "status": "not_collected",
+     "total_impressions": null
+    }
+   ],
+   "phrases_dropped_as_irrelevant": 0,
+   "phrases": [],
+   "associations": [],
+   "commercial_phrases": 0,
+   "commercial_impressions": null,
+   "confidence": "low"
+  },
+  {
+   "cluster": "foundry",
+   "vendor": "Foundry",
+   "page": "/vendors/foundry",
+   "priority": 3,
+   "relevance_token": "foundry",
+   "status": "not_collected",
+   "coverage": "0/7",
+   "seed_impressions": null,
+   "probes": [
+    {
+     "phrase": "foundry",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "foundry купить",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "foundry оплата",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "foundry для юридических лиц",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "foundry тариф",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "foundry подписка",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "foundry лицензия",
+     "status": "not_collected",
+     "total_impressions": null
+    }
+   ],
+   "phrases_dropped_as_irrelevant": 0,
+   "phrases": [],
+   "associations": [],
+   "commercial_phrases": 0,
+   "commercial_impressions": null,
+   "confidence": "low"
+  },
+  {
+   "cluster": "framer",
+   "vendor": "Framer",
+   "page": "/vendors/framer",
+   "priority": 3,
+   "relevance_token": "framer",
+   "status": "not_collected",
+   "coverage": "0/7",
+   "seed_impressions": null,
+   "probes": [
+    {
+     "phrase": "framer",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "framer купить",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "framer оплата",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "framer для юридических лиц",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "framer тариф",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "framer подписка",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "framer лицензия",
+     "status": "not_collected",
+     "total_impressions": null
+    }
+   ],
+   "phrases_dropped_as_irrelevant": 0,
+   "phrases": [],
+   "associations": [],
+   "commercial_phrases": 0,
+   "commercial_impressions": null,
+   "confidence": "low"
+  },
+  {
+   "cluster": "freepik",
+   "vendor": "Freepik",
+   "page": "/vendors/freepik",
+   "priority": 3,
+   "relevance_token": "freepik",
+   "status": "not_collected",
+   "coverage": "0/7",
+   "seed_impressions": null,
+   "probes": [
+    {
+     "phrase": "freepik",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "freepik купить",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "freepik оплата",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "freepik для юридических лиц",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "freepik тариф",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "freepik подписка",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "freepik лицензия",
+     "status": "not_collected",
+     "total_impressions": null
+    }
+   ],
+   "phrases_dropped_as_irrelevant": 0,
+   "phrases": [],
+   "associations": [],
+   "commercial_phrases": 0,
+   "commercial_impressions": null,
+   "confidence": "low"
+  },
+  {
+   "cluster": "gaea",
+   "vendor": "QuadSpinner Gaea",
+   "page": "/vendors/gaea",
+   "priority": 3,
+   "relevance_token": "quadspinner",
+   "status": "not_collected",
+   "coverage": "0/7",
+   "seed_impressions": null,
+   "probes": [
+    {
+     "phrase": "quadspinner gaea",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "quadspinner gaea купить",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "quadspinner gaea оплата",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "quadspinner gaea для юридических лиц",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "quadspinner gaea тариф",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "quadspinner gaea подписка",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "quadspinner gaea лицензия",
+     "status": "not_collected",
+     "total_impressions": null
+    }
+   ],
+   "phrases_dropped_as_irrelevant": 0,
+   "phrases": [],
+   "associations": [],
+   "commercial_phrases": 0,
+   "commercial_impressions": null,
+   "confidence": "low"
+  },
+  {
+   "cluster": "houdini",
+   "vendor": "SideFX Houdini",
+   "page": "/vendors/houdini",
+   "priority": 3,
+   "relevance_token": "sidefx",
+   "status": "not_collected",
+   "coverage": "0/7",
+   "seed_impressions": null,
+   "probes": [
+    {
+     "phrase": "sidefx houdini",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "sidefx houdini купить",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "sidefx houdini оплата",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "sidefx houdini для юридических лиц",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "sidefx houdini тариф",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "sidefx houdini подписка",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "sidefx houdini лицензия",
+     "status": "not_collected",
+     "total_impressions": null
+    }
+   ],
+   "phrases_dropped_as_irrelevant": 0,
+   "phrases": [],
+   "associations": [],
+   "commercial_phrases": 0,
+   "commercial_impressions": null,
+   "confidence": "low"
+  },
+  {
+   "cluster": "marvelous-designer",
+   "vendor": "Marvelous Designer",
+   "page": "/vendors/marvelous-designer",
+   "priority": 3,
+   "relevance_token": "marvelous",
+   "status": "not_collected",
+   "coverage": "0/7",
+   "seed_impressions": null,
+   "probes": [
+    {
+     "phrase": "marvelous designer",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "marvelous designer купить",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "marvelous designer оплата",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "marvelous designer для юридических лиц",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "marvelous designer тариф",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "marvelous designer подписка",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "marvelous designer лицензия",
+     "status": "not_collected",
+     "total_impressions": null
+    }
+   ],
+   "phrases_dropped_as_irrelevant": 0,
+   "phrases": [],
+   "associations": [],
+   "commercial_phrases": 0,
+   "commercial_impressions": null,
+   "confidence": "low"
+  },
+  {
+   "cluster": "maxon",
+   "vendor": "Maxon",
+   "page": "/vendors/maxon",
+   "priority": 3,
+   "relevance_token": "maxon",
+   "status": "not_collected",
+   "coverage": "0/7",
+   "seed_impressions": null,
+   "probes": [
+    {
+     "phrase": "maxon",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "maxon купить",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "maxon оплата",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "maxon для юридических лиц",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "maxon тариф",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "maxon подписка",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "maxon лицензия",
+     "status": "not_collected",
+     "total_impressions": null
+    }
+   ],
+   "phrases_dropped_as_irrelevant": 0,
+   "phrases": [],
+   "associations": [],
+   "commercial_phrases": 0,
+   "commercial_impressions": null,
+   "confidence": "low"
+  },
+  {
+   "cluster": "miro",
+   "vendor": "Miro",
+   "page": "/vendors/miro",
+   "priority": 3,
+   "relevance_token": "miro",
+   "status": "not_collected",
+   "coverage": "0/7",
+   "seed_impressions": null,
+   "probes": [
+    {
+     "phrase": "miro",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "miro купить",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "miro оплата",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "miro для юридических лиц",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "miro тариф",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "miro подписка",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "miro лицензия",
+     "status": "not_collected",
+     "total_impressions": null
+    }
+   ],
+   "phrases_dropped_as_irrelevant": 0,
+   "phrases": [],
+   "associations": [],
+   "commercial_phrases": 0,
+   "commercial_impressions": null,
+   "confidence": "low"
+  },
+  {
+   "cluster": "monotype",
+   "vendor": "Monotype",
+   "page": "/vendors/monotype",
+   "priority": 3,
+   "relevance_token": "monotype",
+   "status": "not_collected",
+   "coverage": "0/7",
+   "seed_impressions": null,
+   "probes": [
+    {
+     "phrase": "monotype",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "monotype купить",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "monotype оплата",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "monotype для юридических лиц",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "monotype тариф",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "monotype подписка",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "monotype лицензия",
+     "status": "not_collected",
+     "total_impressions": null
+    }
+   ],
+   "phrases_dropped_as_irrelevant": 0,
+   "phrases": [],
+   "associations": [],
+   "commercial_phrases": 0,
+   "commercial_impressions": null,
+   "confidence": "low"
+  },
+  {
+   "cluster": "motion-array",
+   "vendor": "Motion Array",
+   "page": "/vendors/motion-array",
+   "priority": 3,
+   "relevance_token": "motion",
+   "status": "not_collected",
+   "coverage": "0/7",
+   "seed_impressions": null,
+   "probes": [
+    {
+     "phrase": "motion array",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "motion array купить",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "motion array оплата",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "motion array для юридических лиц",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "motion array тариф",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "motion array подписка",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "motion array лицензия",
+     "status": "not_collected",
+     "total_impressions": null
+    }
+   ],
+   "phrases_dropped_as_irrelevant": 0,
+   "phrases": [],
+   "associations": [],
+   "commercial_phrases": 0,
+   "commercial_impressions": null,
+   "confidence": "low"
+  },
+  {
+   "cluster": "native-instruments",
+   "vendor": "Native Instruments",
+   "page": "/vendors/native-instruments",
+   "priority": 3,
+   "relevance_token": "native",
+   "status": "not_collected",
+   "coverage": "0/7",
+   "seed_impressions": null,
+   "probes": [
+    {
+     "phrase": "native instruments",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "native instruments купить",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "native instruments оплата",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "native instruments для юридических лиц",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "native instruments тариф",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "native instruments подписка",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "native instruments лицензия",
+     "status": "not_collected",
+     "total_impressions": null
+    }
+   ],
+   "phrases_dropped_as_irrelevant": 0,
+   "phrases": [],
+   "associations": [],
+   "commercial_phrases": 0,
+   "commercial_impressions": null,
+   "confidence": "low"
+  },
+  {
+   "cluster": "perforce",
+   "vendor": "Perforce",
+   "page": "/vendors/perforce",
+   "priority": 3,
+   "relevance_token": "perforce",
+   "status": "not_collected",
+   "coverage": "0/7",
+   "seed_impressions": null,
+   "probes": [
+    {
+     "phrase": "perforce",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "perforce купить",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "perforce оплата",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "perforce для юридических лиц",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "perforce тариф",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "perforce подписка",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "perforce лицензия",
+     "status": "not_collected",
+     "total_impressions": null
+    }
+   ],
+   "phrases_dropped_as_irrelevant": 0,
+   "phrases": [],
+   "associations": [],
+   "commercial_phrases": 0,
+   "commercial_impressions": null,
+   "confidence": "low"
+  },
+  {
+   "cluster": "photon",
+   "vendor": "Photon Engine",
+   "page": "/vendors/photon",
+   "priority": 3,
+   "relevance_token": "photon",
+   "status": "not_collected",
+   "coverage": "0/7",
+   "seed_impressions": null,
+   "probes": [
+    {
+     "phrase": "photon engine",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "photon engine купить",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "photon engine оплата",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "photon engine для юридических лиц",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "photon engine тариф",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "photon engine подписка",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "photon engine лицензия",
+     "status": "not_collected",
+     "total_impressions": null
+    }
+   ],
+   "phrases_dropped_as_irrelevant": 0,
+   "phrases": [],
+   "associations": [],
+   "commercial_phrases": 0,
+   "commercial_impressions": null,
+   "confidence": "low"
+  },
+  {
+   "cluster": "reallusion",
+   "vendor": "Reallusion",
+   "page": "/vendors/reallusion",
+   "priority": 3,
+   "relevance_token": "reallusion",
+   "status": "not_collected",
+   "coverage": "0/7",
+   "seed_impressions": null,
+   "probes": [
+    {
+     "phrase": "reallusion",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "reallusion купить",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "reallusion оплата",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "reallusion для юридических лиц",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "reallusion тариф",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "reallusion подписка",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "reallusion лицензия",
+     "status": "not_collected",
+     "total_impressions": null
+    }
+   ],
+   "phrases_dropped_as_irrelevant": 0,
+   "phrases": [],
+   "associations": [],
+   "commercial_phrases": 0,
+   "commercial_impressions": null,
+   "confidence": "low"
+  },
+  {
+   "cluster": "recraft",
+   "vendor": "Recraft",
+   "page": "/vendors/recraft",
+   "priority": 3,
+   "relevance_token": "recraft",
+   "status": "not_collected",
+   "coverage": "0/7",
+   "seed_impressions": null,
+   "probes": [
+    {
+     "phrase": "recraft",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "recraft купить",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "recraft оплата",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "recraft для юридических лиц",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "recraft тариф",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "recraft подписка",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "recraft лицензия",
+     "status": "not_collected",
+     "total_impressions": null
+    }
+   ],
+   "phrases_dropped_as_irrelevant": 0,
+   "phrases": [],
+   "associations": [],
+   "commercial_phrases": 0,
+   "commercial_impressions": null,
+   "confidence": "low"
+  },
+  {
+   "cluster": "rive",
+   "vendor": "Rive",
+   "page": "/vendors/rive",
+   "priority": 3,
+   "relevance_token": "rive",
+   "status": "not_collected",
+   "coverage": "0/7",
+   "seed_impressions": null,
+   "probes": [
+    {
+     "phrase": "rive",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "rive купить",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "rive оплата",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "rive для юридических лиц",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "rive тариф",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "rive подписка",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "rive лицензия",
+     "status": "not_collected",
+     "total_impressions": null
+    }
+   ],
+   "phrases_dropped_as_irrelevant": 0,
+   "phrases": [],
+   "associations": [],
+   "commercial_phrases": 0,
+   "commercial_impressions": null,
+   "confidence": "low"
+  },
+  {
+   "cluster": "rizomuv",
+   "vendor": "RizomUV",
+   "page": "/vendors/rizomuv",
+   "priority": 3,
+   "relevance_token": "rizomuv",
+   "status": "not_collected",
+   "coverage": "0/7",
+   "seed_impressions": null,
+   "probes": [
+    {
+     "phrase": "rizomuv",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "rizomuv купить",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "rizomuv оплата",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "rizomuv для юридических лиц",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "rizomuv тариф",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "rizomuv подписка",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "rizomuv лицензия",
+     "status": "not_collected",
+     "total_impressions": null
+    }
+   ],
+   "phrases_dropped_as_irrelevant": 0,
+   "phrases": [],
+   "associations": [],
+   "commercial_phrases": 0,
+   "commercial_impressions": null,
+   "confidence": "low"
+  },
+  {
+   "cluster": "runway",
+   "vendor": "Runway",
+   "page": "/vendors/runway",
+   "priority": 3,
+   "relevance_token": "runway",
+   "status": "not_collected",
+   "coverage": "0/7",
+   "seed_impressions": null,
+   "probes": [
+    {
+     "phrase": "runway",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "runway купить",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "runway оплата",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "runway для юридических лиц",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "runway тариф",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "runway подписка",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "runway лицензия",
+     "status": "not_collected",
+     "total_impressions": null
+    }
+   ],
+   "phrases_dropped_as_irrelevant": 0,
+   "phrases": [],
+   "associations": [],
+   "commercial_phrases": 0,
+   "commercial_impressions": null,
+   "confidence": "low"
+  },
+  {
+   "cluster": "shutterstock",
+   "vendor": "Shutterstock",
+   "page": "/vendors/shutterstock",
+   "priority": 3,
+   "relevance_token": "shutterstock",
+   "status": "not_collected",
+   "coverage": "0/7",
+   "seed_impressions": null,
+   "probes": [
+    {
+     "phrase": "shutterstock",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "shutterstock купить",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "shutterstock оплата",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "shutterstock для юридических лиц",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "shutterstock тариф",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "shutterstock подписка",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "shutterstock лицензия",
+     "status": "not_collected",
+     "total_impressions": null
+    }
+   ],
+   "phrases_dropped_as_irrelevant": 0,
+   "phrases": [],
+   "associations": [],
+   "commercial_phrases": 0,
+   "commercial_impressions": null,
+   "confidence": "low"
+  },
+  {
+   "cluster": "sketch",
+   "vendor": "Sketch",
+   "page": "/vendors/sketch",
+   "priority": 3,
+   "relevance_token": "sketch",
+   "status": "not_collected",
+   "coverage": "0/7",
+   "seed_impressions": null,
+   "probes": [
+    {
+     "phrase": "sketch",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "sketch купить",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "sketch оплата",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "sketch для юридических лиц",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "sketch тариф",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "sketch подписка",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "sketch лицензия",
+     "status": "not_collected",
+     "total_impressions": null
+    }
+   ],
+   "phrases_dropped_as_irrelevant": 0,
+   "phrases": [],
+   "associations": [],
+   "commercial_phrases": 0,
+   "commercial_impressions": null,
+   "confidence": "low"
+  },
+  {
+   "cluster": "speedtree",
+   "vendor": "SpeedTree",
+   "page": "/vendors/speedtree",
+   "priority": 3,
+   "relevance_token": "speedtree",
+   "status": "not_collected",
+   "coverage": "0/7",
+   "seed_impressions": null,
+   "probes": [
+    {
+     "phrase": "speedtree",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "speedtree купить",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "speedtree оплата",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "speedtree для юридических лиц",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "speedtree тариф",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "speedtree подписка",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "speedtree лицензия",
+     "status": "not_collected",
+     "total_impressions": null
+    }
+   ],
+   "phrases_dropped_as_irrelevant": 0,
+   "phrases": [],
+   "associations": [],
+   "commercial_phrases": 0,
+   "commercial_impressions": null,
+   "confidence": "low"
+  },
+  {
+   "cluster": "spine",
+   "vendor": "Spine",
+   "page": "/vendors/spine",
+   "priority": 3,
+   "relevance_token": "spine",
+   "status": "not_collected",
+   "coverage": "0/7",
+   "seed_impressions": null,
+   "probes": [
+    {
+     "phrase": "spine",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "spine купить",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "spine оплата",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "spine для юридических лиц",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "spine тариф",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "spine подписка",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "spine лицензия",
+     "status": "not_collected",
+     "total_impressions": null
+    }
+   ],
+   "phrases_dropped_as_irrelevant": 0,
+   "phrases": [],
+   "associations": [],
+   "commercial_phrases": 0,
+   "commercial_impressions": null,
+   "confidence": "low"
+  },
+  {
+   "cluster": "telestream",
+   "vendor": "Telestream",
+   "page": "/vendors/telestream",
+   "priority": 3,
+   "relevance_token": "telestream",
+   "status": "not_collected",
+   "coverage": "0/7",
+   "seed_impressions": null,
+   "probes": [
+    {
+     "phrase": "telestream",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "telestream купить",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "telestream оплата",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "telestream для юридических лиц",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "telestream тариф",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "telestream подписка",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "telestream лицензия",
+     "status": "not_collected",
+     "total_impressions": null
+    }
+   ],
+   "phrases_dropped_as_irrelevant": 0,
+   "phrases": [],
+   "associations": [],
+   "commercial_phrases": 0,
+   "commercial_impressions": null,
+   "confidence": "low"
+  },
+  {
+   "cluster": "topaz-labs",
+   "vendor": "Topaz Labs",
+   "page": "/vendors/topaz-labs",
+   "priority": 3,
+   "relevance_token": "topaz",
+   "status": "not_collected",
+   "coverage": "0/7",
+   "seed_impressions": null,
+   "probes": [
+    {
+     "phrase": "topaz labs",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "topaz labs купить",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "topaz labs оплата",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "topaz labs для юридических лиц",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "topaz labs тариф",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "topaz labs подписка",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "topaz labs лицензия",
+     "status": "not_collected",
+     "total_impressions": null
+    }
+   ],
+   "phrases_dropped_as_irrelevant": 0,
+   "phrases": [],
+   "associations": [],
+   "commercial_phrases": 0,
+   "commercial_impressions": null,
+   "confidence": "low"
+  },
+  {
+   "cluster": "unreal-engine",
+   "vendor": "Unreal Engine",
+   "page": "/vendors/unreal-engine",
+   "priority": 3,
+   "relevance_token": "unreal",
+   "status": "not_collected",
+   "coverage": "0/7",
+   "seed_impressions": null,
+   "probes": [
+    {
+     "phrase": "unreal engine",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "unreal engine купить",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "unreal engine оплата",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "unreal engine для юридических лиц",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "unreal engine тариф",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "unreal engine подписка",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "unreal engine лицензия",
+     "status": "not_collected",
+     "total_impressions": null
+    }
+   ],
+   "phrases_dropped_as_irrelevant": 0,
+   "phrases": [],
+   "associations": [],
+   "commercial_phrases": 0,
+   "commercial_impressions": null,
+   "confidence": "low"
+  },
+  {
+   "cluster": "vegas",
+   "vendor": "MAGIX Vegas",
+   "page": "/vendors/vegas",
+   "priority": 3,
+   "relevance_token": "magix",
+   "status": "not_collected",
+   "coverage": "0/7",
+   "seed_impressions": null,
+   "probes": [
+    {
+     "phrase": "magix vegas",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "magix vegas купить",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "magix vegas оплата",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "magix vegas для юридических лиц",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "magix vegas тариф",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "magix vegas подписка",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "magix vegas лицензия",
+     "status": "not_collected",
+     "total_impressions": null
+    }
+   ],
+   "phrases_dropped_as_irrelevant": 0,
+   "phrases": [],
+   "associations": [],
+   "commercial_phrases": 0,
+   "commercial_impressions": null,
+   "confidence": "low"
+  },
+  {
+   "cluster": "wondershare",
+   "vendor": "Wondershare",
+   "page": "/vendors/wondershare",
+   "priority": 3,
+   "relevance_token": "wondershare",
+   "status": "not_collected",
+   "coverage": "0/7",
+   "seed_impressions": null,
+   "probes": [
+    {
+     "phrase": "wondershare",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "wondershare купить",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "wondershare оплата",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "wondershare для юридических лиц",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "wondershare тариф",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "wondershare подписка",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "wondershare лицензия",
+     "status": "not_collected",
+     "total_impressions": null
+    }
+   ],
+   "phrases_dropped_as_irrelevant": 0,
+   "phrases": [],
+   "associations": [],
+   "commercial_phrases": 0,
+   "commercial_impressions": null,
+   "confidence": "low"
+  },
+  {
+   "cluster": "wwise",
+   "vendor": "Audiokinetic",
+   "page": "/vendors/wwise",
+   "priority": 3,
+   "relevance_token": "audiokinetic",
+   "status": "not_collected",
+   "coverage": "0/7",
+   "seed_impressions": null,
+   "probes": [
+    {
+     "phrase": "audiokinetic",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "audiokinetic купить",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "audiokinetic оплата",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "audiokinetic для юридических лиц",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "audiokinetic тариф",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "audiokinetic подписка",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "audiokinetic лицензия",
+     "status": "not_collected",
+     "total_impressions": null
+    }
+   ],
+   "phrases_dropped_as_irrelevant": 0,
+   "phrases": [],
+   "associations": [],
+   "commercial_phrases": 0,
+   "commercial_impressions": null,
+   "confidence": "low"
+  },
+  {
+   "cluster": "zeplin",
+   "vendor": "Zeplin",
+   "page": "/vendors/zeplin",
+   "priority": 3,
+   "relevance_token": "zeplin",
+   "status": "not_collected",
+   "coverage": "0/7",
+   "seed_impressions": null,
+   "probes": [
+    {
+     "phrase": "zeplin",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "zeplin купить",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "zeplin оплата",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "zeplin для юридических лиц",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "zeplin тариф",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "zeplin подписка",
+     "status": "not_collected",
+     "total_impressions": null
+    },
+    {
+     "phrase": "zeplin лицензия",
+     "status": "not_collected",
+     "total_impressions": null
+    }
+   ],
+   "phrases_dropped_as_irrelevant": 0,
+   "phrases": [],
+   "associations": [],
+   "commercial_phrases": 0,
+   "commercial_impressions": null,
+   "confidence": "low"
+  }
+ ],
+ "seasonality": [],
+ "geography": [],
+ "discovery": []
+}
