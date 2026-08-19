@@ -1,5 +1,5 @@
 {
- "schema_version": "3.1.0",
+ "schema_version": "4.0.0",
  "roles": {
   "data_auditor": {
    "title": "Data Auditor",
@@ -30,7 +30,14 @@
    "status_label": "в работе",
    "due": "2026-08-22",
    "ticket": "reports/seo/tasks/DATA-001-analytics-reconciliation.md",
-   "outcome": "Итог: одно определение визита для всех источников — после этого вернём в отчёт оценку кликабельности."
+   "outcome": "Итог: одно определение визита для всех источников — после этого вернём в отчёт оценку кликабельности.",
+   "stage": "implemented",
+   "status_changed_at": "2026-08-19",
+   "artifact": "методика измерений",
+   "ci": null,
+   "qa": null,
+   "deploy": null,
+   "rollback": null
   },
   {
    "id": "SEO-EXP-001",
@@ -50,7 +57,15 @@
     "coreldraw",
     "heygen",
     "marmoset"
-   ]
+   ],
+   "stage": "observing",
+   "status_changed_at": "2026-08-19",
+   "artifact": "PR 57",
+   "pr": 57,
+   "ci": "passed",
+   "qa": "passed",
+   "deploy": "на сайте",
+   "rollback": "доступен: revert PR 57"
   },
   {
    "id": "PPC-RES-001",
@@ -67,10 +82,29 @@
     "heygen",
     "depositphotos",
     "coreldraw"
-   ]
+   ],
+   "stage": "blocked",
+   "status_changed_at": "2026-08-19",
+   "artifact": "тикет",
+   "ci": null,
+   "qa": null,
+   "deploy": null,
+   "rollback": null
   }
  ],
  "notes": {
-  "demand_clusters": "Кластеры рыночного спроса, которыми обосновано действие. Генератор берёт из них фразу и частотность для строки «Зачем» в письме. Источник — market_demand в снимке; если замера нет, строка не выводится."
- }
+  "demand_clusters": "Кластеры рыночного спроса, которыми обосновано действие. Генератор берёт из них фразу и частотность для строки «Зачем» в письме. Источник — market_demand в снимке; если замера нет, строка не выводится.",
+  "stages": "Стадия исполнения задачи. Для задач с изменением сайта показываются PR, статусы CI и QA, факт выката и наличие отката. В письмо попадают только задачи, сменившие статус сегодня, заблокированные или с контрольной датой в ближайшие 7 дней."
+ },
+ "stages": [
+  "proposed",
+  "approved",
+  "implemented",
+  "tested",
+  "deployed",
+  "observing",
+  "accepted",
+  "rejected",
+  "blocked"
+ ]
 }

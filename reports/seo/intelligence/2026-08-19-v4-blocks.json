@@ -1,0 +1,873 @@
+{
+ "date": "2026-08-19",
+ "date_h": "19.08.2026",
+ "title": "BIZSoft Growth Intelligence",
+ "subtitle": "Daily Search, Demand &amp; Experiment Control",
+ "pills": [
+  {
+   "label": "ПОИСК",
+   "state": "mixed",
+   "text": "смешанная"
+  },
+  {
+   "label": "ДАННЫЕ",
+   "state": "limited",
+   "text": "ограничено"
+  },
+  {
+   "label": "ОТ ВАС",
+   "state": "none",
+   "text": "не требуется"
+  }
+ ],
+ "sources_line": "Яндекс по 17.08 · Google по 17.08 · Метрика по 18.08 · спрос не измерен",
+ "user_action": "Решений от вас сегодня не требуется.",
+ "user_action_required": false,
+ "kpis": [
+  {
+   "key": "yandex",
+   "label": "Видимость в Яндексе",
+   "value": "926",
+   "unit": "показов",
+   "delta": "−19",
+   "delta_dir": "down",
+   "relative": null,
+   "relative_note": "относительный процент не публикуется: окна источника пересекаются",
+   "period": "05.08–17.08",
+   "source": "Яндекс.Вебмастер, выборка топ-100 запросов",
+   "confidence": "достаточная",
+   "interpretation": "На первой странице 83 из 100 запросов выборки, −3 к вчера. CTR выборки 0,65% — показы и переходы здесь измерены на одних и тех же запросах, поэтому величина корректна; CTR всего сайта она не заменяет.",
+   "muted": false,
+   "sparkline": null
+  },
+  {
+   "key": "google",
+   "label": "Видимость в Google",
+   "value": "31",
+   "unit": "показов за неделю",
+   "delta": "+12",
+   "delta_dir": "up",
+   "relative": "+63,2%",
+   "relative_note": "низкая база: десятки показов",
+   "period": "11.08–17.08 против 04.08–10.08",
+   "source": "Google Search Console, весь сайт",
+   "confidence": "низкая, малые числа",
+   "interpretation": "Переходов из Google по-прежнему нет.",
+   "muted": false,
+   "sparkline": [
+    2,
+    6,
+    3,
+    2,
+    0,
+    3,
+    3,
+    2,
+    1,
+    3,
+    3,
+    3,
+    8,
+    11
+   ],
+   "slope": {
+    "prev_label": "пред. неделя",
+    "prev": 19,
+    "cur_label": "эта неделя",
+    "cur": 31,
+    "label": "Показы Google за неделю"
+   }
+  },
+  {
+   "key": "traffic",
+   "label": "Органический трафик",
+   "value": "37",
+   "unit": "визитов",
+   "delta": null,
+   "delta_dir": "flat",
+   "relative": null,
+   "relative_note": "сравнение с предыдущим периодом появится после накопления серии",
+   "period": "05.08–18.08",
+   "source": "Яндекс.Метрика, весь сайт",
+   "confidence": "достаточная",
+   "interpretation": "Считается по всему сайту и всем поисковикам — с выборкой запросов Вебмастера не сравнивается.",
+   "muted": false,
+   "sparkline": null
+  },
+  {
+   "key": "commercial",
+   "label": "Коммерческий сигнал",
+   "value": "3",
+   "unit": "целевых событий",
+   "delta": null,
+   "delta_dir": "flat",
+   "relative": null,
+   "relative_note": "",
+   "period": "05.08–18.08",
+   "source": "Метрика; обращения и выручка не измеряются",
+   "confidence": "низкая: 3 события",
+   "interpretation": "Это срабатывания форм на сайте, а не подтверждённые обращения: CRM не подключена.",
+   "muted": true,
+   "sparkline": null,
+   "sample_ctr": "CTR выборки 0,65%"
+  }
+ ],
+ "signals": [
+  {
+   "tone": "positive",
+   "metric": "Показы в Google за неделю",
+   "current": "31",
+   "previous": "19",
+   "delta": "+12",
+   "confidence": "низкая, база в десятки показов",
+   "meaning": "Страницы сайта стали показываться чаще; переходов это пока не дало."
+  },
+  {
+   "tone": "neutral",
+   "metric": "Страницы в поиске Яндекса",
+   "current": "169",
+   "previous": "169",
+   "delta": "+0",
+   "confidence": "достаточная",
+   "meaning": "Объём проиндексированного сайта не изменился."
+  },
+  {
+   "tone": "negative",
+   "metric": "Запросы выборки на первой странице",
+   "current": "83",
+   "previous": "86",
+   "delta": "−3",
+   "confidence": "достаточная, но только по выборке 100 запросов",
+   "meaning": "Яндекс в целом стабилен, внутри выборки есть умеренное снижение."
+  }
+ ],
+ "drivers": {
+  "available": true,
+  "reason": null,
+  "blocks": [
+   {
+    "engine": "google",
+    "engine_label": "Google",
+    "metric_label": "показы",
+    "window_label": "накопленное окно 27 дней, сдвинуто на сутки",
+    "pages": {
+     "available": true,
+     "reason": null,
+     "total_delta": 9,
+     "net_delta_of_shown": 6,
+     "drivers": [
+      {
+       "entity": "/vendors/jetbrains",
+       "vendor": "jetbrains",
+       "current": 13,
+       "previous": 8,
+       "delta": 5,
+       "clicks_delta": 0,
+       "position_delta": 2.6,
+       "state": "changed",
+       "confidence": "low",
+       "share_of_total_delta": 0.38461538461538464
+      },
+      {
+       "entity": "/vendors/blackmagic",
+       "vendor": "blackmagic",
+       "current": 13,
+       "previous": 11,
+       "delta": 2,
+       "clicks_delta": 0,
+       "position_delta": -0.14,
+       "state": "changed",
+       "confidence": "low",
+       "share_of_total_delta": 0.15384615384615385
+      },
+      {
+       "entity": "/vendors/elevenlabs",
+       "vendor": "elevenlabs",
+       "current": 1,
+       "previous": 0,
+       "delta": 1,
+       "clicks_delta": 0,
+       "position_delta": null,
+       "state": "new",
+       "confidence": "very_low",
+       "share_of_total_delta": 0.07692307692307693
+      }
+     ],
+     "detractors": [
+      {
+       "entity": "/product/prfrc-p4-cloud",
+       "vendor": null,
+       "current": 8,
+       "previous": 9,
+       "delta": -1,
+       "clicks_delta": 0,
+       "position_delta": -1.22,
+       "state": "changed",
+       "confidence": "very_low",
+       "share_of_total_delta": 0.07692307692307693
+      },
+      {
+       "entity": "/product/deposit-unl-year",
+       "vendor": null,
+       "current": 0,
+       "previous": 1,
+       "delta": -1,
+       "clicks_delta": 0,
+       "position_delta": null,
+       "state": "lost",
+       "confidence": "very_low",
+       "share_of_total_delta": 0.07692307692307693
+      }
+     ],
+     "all": [
+      {
+       "entity": "/vendors/jetbrains",
+       "vendor": "jetbrains",
+       "current": 13,
+       "previous": 8,
+       "delta": 5,
+       "clicks_delta": 0,
+       "position_delta": 2.6,
+       "state": "changed",
+       "confidence": "low",
+       "share_of_total_delta": 0.38461538461538464
+      },
+      {
+       "entity": "/vendors/blackmagic",
+       "vendor": "blackmagic",
+       "current": 13,
+       "previous": 11,
+       "delta": 2,
+       "clicks_delta": 0,
+       "position_delta": -0.14,
+       "state": "changed",
+       "confidence": "low",
+       "share_of_total_delta": 0.15384615384615385
+      },
+      {
+       "entity": "/product/prfrc-p4-cloud",
+       "vendor": null,
+       "current": 8,
+       "previous": 9,
+       "delta": -1,
+       "clicks_delta": 0,
+       "position_delta": -1.22,
+       "state": "changed",
+       "confidence": "very_low",
+       "share_of_total_delta": 0.07692307692307693
+      },
+      {
+       "entity": "/vendors/elevenlabs",
+       "vendor": "elevenlabs",
+       "current": 1,
+       "previous": 0,
+       "delta": 1,
+       "clicks_delta": 0,
+       "position_delta": null,
+       "state": "new",
+       "confidence": "very_low",
+       "share_of_total_delta": 0.07692307692307693
+      },
+      {
+       "entity": "/product/deposit-unl-year",
+       "vendor": null,
+       "current": 0,
+       "previous": 1,
+       "delta": -1,
+       "clicks_delta": 0,
+       "position_delta": null,
+       "state": "lost",
+       "confidence": "very_low",
+       "share_of_total_delta": 0.07692307692307693
+      }
+     ],
+     "counted": 8
+    },
+    "queries": {
+     "available": true,
+     "reason": null,
+     "total_delta": 4,
+     "net_delta_of_shown": 4,
+     "drivers": [
+      {
+       "entity": "jetbrains ai купить",
+       "vendor": "jetbrains",
+       "current": 6,
+       "previous": 4,
+       "delta": 2,
+       "clicks_delta": 0,
+       "position_delta": -1.25,
+       "state": "changed",
+       "confidence": "very_low",
+       "share_of_total_delta": 0.3333333333333333
+      },
+      {
+       "entity": "jetbrains rider купить",
+       "vendor": "jetbrains",
+       "current": 3,
+       "previous": 2,
+       "delta": 1,
+       "clicks_delta": 0,
+       "position_delta": -2.33,
+       "state": "changed",
+       "confidence": "very_low",
+       "share_of_total_delta": 0.16666666666666666
+      },
+      {
+       "entity": "davinci resolve купить",
+       "vendor": null,
+       "current": 5,
+       "previous": 4,
+       "delta": 1,
+       "clicks_delta": 0,
+       "position_delta": -0.25,
+       "state": "changed",
+       "confidence": "very_low",
+       "share_of_total_delta": 0.16666666666666666
+      },
+      {
+       "entity": "bizmore erp",
+       "vendor": null,
+       "current": 1,
+       "previous": 0,
+       "delta": 1,
+       "clicks_delta": 0,
+       "position_delta": null,
+       "state": "new",
+       "confidence": "very_low",
+       "share_of_total_delta": 0.16666666666666666
+      }
+     ],
+     "detractors": [
+      {
+       "entity": "perforce cloud",
+       "vendor": null,
+       "current": 2,
+       "previous": 3,
+       "delta": -1,
+       "clicks_delta": 0,
+       "position_delta": 1,
+       "state": "changed",
+       "confidence": "very_low",
+       "share_of_total_delta": 0.16666666666666666
+      }
+     ],
+     "all": [
+      {
+       "entity": "jetbrains ai купить",
+       "vendor": "jetbrains",
+       "current": 6,
+       "previous": 4,
+       "delta": 2,
+       "clicks_delta": 0,
+       "position_delta": -1.25,
+       "state": "changed",
+       "confidence": "very_low",
+       "share_of_total_delta": 0.3333333333333333
+      },
+      {
+       "entity": "perforce cloud",
+       "vendor": null,
+       "current": 2,
+       "previous": 3,
+       "delta": -1,
+       "clicks_delta": 0,
+       "position_delta": 1,
+       "state": "changed",
+       "confidence": "very_low",
+       "share_of_total_delta": 0.16666666666666666
+      },
+      {
+       "entity": "jetbrains rider купить",
+       "vendor": "jetbrains",
+       "current": 3,
+       "previous": 2,
+       "delta": 1,
+       "clicks_delta": 0,
+       "position_delta": -2.33,
+       "state": "changed",
+       "confidence": "very_low",
+       "share_of_total_delta": 0.16666666666666666
+      },
+      {
+       "entity": "davinci resolve купить",
+       "vendor": null,
+       "current": 5,
+       "previous": 4,
+       "delta": 1,
+       "clicks_delta": 0,
+       "position_delta": -0.25,
+       "state": "changed",
+       "confidence": "very_low",
+       "share_of_total_delta": 0.16666666666666666
+      },
+      {
+       "entity": "bizmore erp",
+       "vendor": null,
+       "current": 1,
+       "previous": 0,
+       "delta": 1,
+       "clicks_delta": 0,
+       "position_delta": null,
+       "state": "new",
+       "confidence": "very_low",
+       "share_of_total_delta": 0.16666666666666666
+      }
+     ],
+     "counted": 5
+    }
+   },
+   {
+    "engine": "yandex",
+    "engine_label": "Яндекс",
+    "metric_label": "показы",
+    "window_label": "выборка топ-100 запросов, окно 2026-08-05–2026-08-17",
+    "pages": {
+     "available": false,
+     "reason": "источник не отдаёт разбивку по страницам"
+    },
+    "queries": {
+     "available": true,
+     "reason": null,
+     "total_delta": -19,
+     "net_delta_of_shown": -14,
+     "drivers": [
+      {
+       "entity": "рекрафт тарифы",
+       "vendor": null,
+       "current": 17,
+       "previous": 13,
+       "delta": 4,
+       "clicks_delta": 0,
+       "position_delta": 0.03,
+       "state": "changed",
+       "confidence": "low",
+       "share_of_total_delta": 0.04040404040404041
+      }
+     ],
+     "detractors": [
+      {
+       "entity": "heygen тарифы",
+       "vendor": null,
+       "current": 90,
+       "previous": 96,
+       "delta": -6,
+       "clicks_delta": 0,
+       "position_delta": 0.08,
+       "state": "changed",
+       "confidence": "sufficient",
+       "share_of_total_delta": 0.06060606060606061
+      },
+      {
+       "entity": "collab seat figma",
+       "vendor": null,
+       "current": 0,
+       "previous": 5,
+       "delta": -5,
+       "clicks_delta": 0,
+       "position_delta": null,
+       "state": "lost",
+       "confidence": "very_low",
+       "share_of_total_delta": 0.050505050505050504
+      },
+      {
+       "entity": "heygen купить",
+       "vendor": null,
+       "current": 31,
+       "previous": 35,
+       "delta": -4,
+       "clicks_delta": 0,
+       "position_delta": -0.16,
+       "state": "changed",
+       "confidence": "low",
+       "share_of_total_delta": 0.04040404040404041
+      },
+      {
+       "entity": "хейген тарифы",
+       "vendor": null,
+       "current": 0,
+       "previous": 3,
+       "delta": -3,
+       "clicks_delta": 0,
+       "position_delta": null,
+       "state": "lost",
+       "confidence": "very_low",
+       "share_of_total_delta": 0.030303030303030304
+      }
+     ],
+     "all": [
+      {
+       "entity": "heygen тарифы",
+       "vendor": null,
+       "current": 90,
+       "previous": 96,
+       "delta": -6,
+       "clicks_delta": 0,
+       "position_delta": 0.08,
+       "state": "changed",
+       "confidence": "sufficient",
+       "share_of_total_delta": 0.06060606060606061
+      },
+      {
+       "entity": "collab seat figma",
+       "vendor": null,
+       "current": 0,
+       "previous": 5,
+       "delta": -5,
+       "clicks_delta": 0,
+       "position_delta": null,
+       "state": "lost",
+       "confidence": "very_low",
+       "share_of_total_delta": 0.050505050505050504
+      },
+      {
+       "entity": "heygen купить",
+       "vendor": null,
+       "current": 31,
+       "previous": 35,
+       "delta": -4,
+       "clicks_delta": 0,
+       "position_delta": -0.16,
+       "state": "changed",
+       "confidence": "low",
+       "share_of_total_delta": 0.04040404040404041
+      },
+      {
+       "entity": "рекрафт тарифы",
+       "vendor": null,
+       "current": 17,
+       "previous": 13,
+       "delta": 4,
+       "clicks_delta": 0,
+       "position_delta": 0.03,
+       "state": "changed",
+       "confidence": "low",
+       "share_of_total_delta": 0.04040404040404041
+      },
+      {
+       "entity": "хейген тарифы",
+       "vendor": null,
+       "current": 0,
+       "previous": 3,
+       "delta": -3,
+       "clicks_delta": 0,
+       "position_delta": null,
+       "state": "lost",
+       "confidence": "very_low",
+       "share_of_total_delta": 0.030303030303030304
+      }
+     ],
+     "counted": 49
+    }
+   }
+  ]
+ },
+ "driver_rows": [
+  {
+   "entity": "/vendors/jetbrains",
+   "vendor": "jetbrains",
+   "current": 13,
+   "previous": 8,
+   "delta": 5,
+   "clicks_delta": 0,
+   "position_delta": 2.6,
+   "state": "changed",
+   "confidence": "low",
+   "share_of_total_delta": 0.38461538461538464
+  },
+  {
+   "entity": "/vendors/blackmagic",
+   "vendor": "blackmagic",
+   "current": 13,
+   "previous": 11,
+   "delta": 2,
+   "clicks_delta": 0,
+   "position_delta": -0.14,
+   "state": "changed",
+   "confidence": "low",
+   "share_of_total_delta": 0.15384615384615385
+  },
+  {
+   "entity": "/product/prfrc-p4-cloud",
+   "vendor": null,
+   "current": 8,
+   "previous": 9,
+   "delta": -1,
+   "clicks_delta": 0,
+   "position_delta": -1.22,
+   "state": "changed",
+   "confidence": "very_low",
+   "share_of_total_delta": 0.07692307692307693
+  },
+  {
+   "entity": "/vendors/elevenlabs",
+   "vendor": "elevenlabs",
+   "current": 1,
+   "previous": 0,
+   "delta": 1,
+   "clicks_delta": 0,
+   "position_delta": null,
+   "state": "new",
+   "confidence": "very_low",
+   "share_of_total_delta": 0.07692307692307693
+  },
+  {
+   "entity": "/product/deposit-unl-year",
+   "vendor": null,
+   "current": 0,
+   "previous": 1,
+   "delta": -1,
+   "clicks_delta": 0,
+   "position_delta": null,
+   "state": "lost",
+   "confidence": "very_low",
+   "share_of_total_delta": 0.07692307692307693
+  }
+ ],
+ "driver_summary": "Показы выросли на страницах: /vendors/jetbrains (+5), /vendors/blackmagic (+2), /vendors/elevenlabs (+1).",
+ "driver_blocks": [
+  {
+   "engine": "Google",
+   "window": "накопленное окно 27 дней, сдвинуто на сутки",
+   "available": true,
+   "text": "Изменение +9 по страницам. Прибавили: /vendors/jetbrains, /vendors/blackmagic, /vendors/elevenlabs. Потеряли: /product/prfrc-p4-cloud, /product/deposit-unl-year.",
+   "rows": [
+    {
+     "entity": "/vendors/jetbrains",
+     "delta": "+5",
+     "share": "38%",
+     "state": "",
+     "positive": true,
+     "position_delta": 2.6
+    },
+    {
+     "entity": "/vendors/blackmagic",
+     "delta": "+2",
+     "share": "15%",
+     "state": "",
+     "positive": true,
+     "position_delta": -0.14
+    },
+    {
+     "entity": "/product/prfrc-p4-cloud",
+     "delta": "−1",
+     "share": "8%",
+     "state": "",
+     "positive": false,
+     "position_delta": -1.22
+    },
+    {
+     "entity": "/vendors/elevenlabs",
+     "delta": "+1",
+     "share": "8%",
+     "state": "новая",
+     "positive": true,
+     "position_delta": null
+    },
+    {
+     "entity": "/product/deposit-unl-year",
+     "delta": "−1",
+     "share": "8%",
+     "state": "выпала",
+     "positive": false,
+     "position_delta": null
+    }
+   ],
+   "counted": 8
+  },
+  {
+   "engine": "Яндекс",
+   "window": "выборка топ-100 запросов, окно 2026-08-05–2026-08-17",
+   "available": true,
+   "text": "Изменение −19 по запросам. Прибавили: рекрафт тарифы. Потеряли: heygen тарифы, collab seat figma, heygen купить.",
+   "rows": [
+    {
+     "entity": "heygen тарифы",
+     "delta": "−6",
+     "share": "6%",
+     "state": "",
+     "positive": false,
+     "position_delta": 0.08
+    },
+    {
+     "entity": "collab seat figma",
+     "delta": "−5",
+     "share": "5%",
+     "state": "выпала",
+     "positive": false,
+     "position_delta": null
+    },
+    {
+     "entity": "heygen купить",
+     "delta": "−4",
+     "share": "4%",
+     "state": "",
+     "positive": false,
+     "position_delta": -0.16
+    },
+    {
+     "entity": "рекрафт тарифы",
+     "delta": "+4",
+     "share": "4%",
+     "state": "",
+     "positive": true,
+     "position_delta": 0.03
+    },
+    {
+     "entity": "хейген тарифы",
+     "delta": "−3",
+     "share": "3%",
+     "state": "выпала",
+     "positive": false,
+     "position_delta": null
+    }
+   ],
+   "counted": 49
+  }
+ ],
+ "experiments": [
+  {
+   "id": "snippets-5-vendors",
+   "ticket": "SEO-EXP-001",
+   "hypothesis": "Коммерческие сниппеты с явным интентом «оплата на юрлицо, счёт, договор, ЭДО» и FAQ-разметка поднимут кликабельность страниц в выдаче Яндекса по транзакционным запросам кластеров.",
+   "treatment": "title по формуле «Оплата {Vendor} для юр(идических )лиц из России — счёт, договор, ЭДО | BIZSoft» (HeyGen и Marmoset — свои формулы); ядро ≤65 символов; description: «Оплатим подписку {Vendor} на вашу компанию в рублях по счёту. Договор, закрывающие документы через ЭДО, доступ за 1–3 дня.» (≤160); FAQ-блок «Как купить {Vendor} на юрлицо» — 4 вопроса (счёт и договор, ЭДО, сроки 1–3 дня, рубли по курсу ЦБ) с FAQPage-разметкой",
+   "combined_treatment": true,
+   "combined_note": "Метаданные и FAQ внедрены одной правкой на одних и тех же страницах, поэтому их вклады не разделяются.",
+   "start": "2026-08-19",
+   "days_elapsed": 0,
+   "minimum_exposure": "7 дн. и 500 показов",
+   "pages_total": 5,
+   "pages_recrawled": null,
+   "new_snippets_detected": null,
+   "impressions_since_deploy": 584,
+   "impressions_estimated": true,
+   "clicks_since_deploy": 1,
+   "primary_metric": "CTR кластеров Canva/Depositphotos/CorelDRAW/HeyGen/Marmoset в Яндекс.Вебмастере ≥2% через 7 дней (26.08.2026), ≥3% через 14 дней (02.09.2026)",
+   "current_result": "1 переход на 584 показа по запросам кластеров",
+   "confidence": "sufficient",
+   "next_review": "2026-08-26",
+   "verdict": "too_early",
+   "verdict_reason": "прошло 0 дн. из 7 минимальных: окно источника ещё не покрывает изменение",
+   "hypothesis_plain": "понятнее ли описание страницы в выдаче для того, кто покупает на компанию, и чаще ли по ней переходят",
+   "treatment_plain": "переписали заголовок и описание страницы под покупку по счёту и добавили блок ответов на частые вопросы.",
+   "metric_plain": "переходы из выдачи Яндекса по запросам этих пяти карточек; первая контрольная точка — 26.08, вторая — 02.09",
+   "confidence_plain": "достаточная по объёму показов"
+  }
+ ],
+ "board": [
+  {
+   "id": "DATA-001",
+   "task": "Сверка источников измерения",
+   "owner": "Data Auditor",
+   "stage": "внедрено",
+   "status": "в работе",
+   "zone": "GREEN",
+   "due": "22.08",
+   "artifact": "методика измерений",
+   "artifact_url": "https://github.com/AlBeli-V/WebSite_BizSoft/blob/claude/biz-soft-rating-tracking-5rf03g/reports/seo/tasks/DATA-001-analytics-reconciliation.md",
+   "pr": null,
+   "ci": null,
+   "qa": null,
+   "deploy": null,
+   "rollback": null
+  },
+  {
+   "id": "SEO-EXP-001",
+   "task": "Наблюдение за изменением карточек вендоров",
+   "owner": "SEO Lead",
+   "stage": "наблюдение",
+   "status": "наблюдение",
+   "zone": "GREEN",
+   "due": "26.08",
+   "artifact": "PR 57",
+   "artifact_url": "https://github.com/AlBeli-V/WebSite_BizSoft/pull/57",
+   "pr": 57,
+   "ci": "passed",
+   "qa": "passed",
+   "deploy": "на сайте",
+   "rollback": "доступен: revert PR 57"
+  },
+  {
+   "id": "PPC-RES-001",
+   "task": "Рекламный тест",
+   "owner": "PPC Lead",
+   "stage": "заблокировано",
+   "status": "остановлено правилом",
+   "zone": "RED",
+   "due": "без срока",
+   "artifact": "тикет",
+   "artifact_url": "https://github.com/AlBeli-V/WebSite_BizSoft/blob/claude/biz-soft-rating-tracking-5rf03g/reports/seo/tasks/PPC-RES-001-forecast.md",
+   "pr": null,
+   "ci": null,
+   "qa": null,
+   "deploy": null,
+   "rollback": null
+  }
+ ],
+ "opportunities": {
+  "available": true,
+  "reason": null,
+  "items": [
+   {
+    "cluster": "heygen тарифы",
+    "engine": "yandex",
+    "evidence": "90 показов по запросу за период, средняя позиция 6.46 — в первой десятке, но без переходов",
+    "evidence_kind": "our_impressions",
+    "potential": "в первой десятке, но без переходов",
+    "confidence": "sufficient",
+    "recommended_action": "переписать заголовок и описание страницы под запрос",
+    "effort": 1,
+    "score": 0.9,
+    "decision_date": "2026-08-26"
+   },
+   {
+    "cluster": "оплата depositphotos для юридических лиц из россии",
+    "engine": "yandex",
+    "evidence": "32 показов по запросу за период, средняя позиция 3.09 — в первой десятке, но без переходов",
+    "evidence_kind": "our_impressions",
+    "potential": "в первой десятке, но без переходов",
+    "confidence": "low",
+    "recommended_action": "переписать заголовок и описание страницы под запрос",
+    "effort": 1,
+    "score": 0.192,
+    "decision_date": "2026-08-26"
+   },
+   {
+    "cluster": "как оплатить depositphotos в рублях",
+    "engine": "yandex",
+    "evidence": "32 показов по запросу за период, средняя позиция 7.09 — в первой десятке, но без переходов",
+    "evidence_kind": "our_impressions",
+    "potential": "в первой десятке, но без переходов",
+    "confidence": "low",
+    "recommended_action": "переписать заголовок и описание страницы под запрос",
+    "effort": 1,
+    "score": 0.192,
+    "decision_date": "2026-08-26"
+   }
+  ],
+  "considered": 34,
+  "market_demand_used": false
+ },
+ "health": {
+  "status": "limited",
+  "reason": "охваты источников различаются",
+  "colour": "warning",
+  "detail": "Поиск Яндекса отдаёт выборку запросов, аналитика — весь сайт. Источники исправны, но их числа описывают разные множества и напрямую не сравниваются."
+ },
+ "measurement_summary": "Мы не сводим эти числа в одно: показы и переходы Яндекса относятся к весь сайт, визиты Метрики — к весь сайт и ко всем поисковым системам сразу. Это разные множества, а не расхождение источников: приводить их к одному определению визита было бы ошибкой. Сравнивать между собой можно показы и переходы одной выборки, а также визиты Метрики и сессии GA4.",
+ "checkpoints": [
+  {
+   "date": "26.08",
+   "what": "SEO-EXP-001: первый замер кликабельности изменённых страниц"
+  },
+  {
+   "date": "22.08",
+   "what": "DATA-001: Сверка источников измерения"
+  }
+ ],
+ "links": {
+  "web": "https://github.com/AlBeli-V/WebSite_BizSoft/blob/claude/biz-soft-rating-tracking-5rf03g/reports/seo/intelligence/2026-08-19-appendix.md",
+  "web_public": false,
+  "tasks": "https://github.com/AlBeli-V/WebSite_BizSoft/tree/claude/biz-soft-rating-tracking-5rf03g/reports/seo/tasks"
+ }
+}

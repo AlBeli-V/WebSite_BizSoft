@@ -15,6 +15,9 @@ import json
 import pathlib
 import sys
 
+sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
+import measurement  # noqa: E402
+
 SNAP_DIR = pathlib.Path("reports/seo/intelligence/snapshots")
 OUT_DIR = pathlib.Path("reports/seo/intelligence/data-quality")
 
@@ -77,19 +80,22 @@ def run_checks(snap: dict) -> dict:
         clicks = yx["totals"]["clicks"]
         visits = an["metrika"]["organic_visits"]
         sessions = an.get("ga4", {}).get("organic_sessions")
-        if clicks is not None and visits:
-            ratio = visits / clicks if clicks else None
-            if ratio is None or ratio > snap["thresholds"]["reconciliation_ratio"]:
-                add("critical", "SOURCE_RECONCILIATION",
-                    "Клики поиска и органические визиты расходятся кратно",
-                    f"Яндекс.Вебмастер: {clicks} кликов (выборка топ-100 запросов, "
-                    f"{yx['source']['current_period_start']}–{yx['source']['current_period_end']}); "
-                    f"Метрика: {visits:.0f} органических визитов; "
-                    f"GA4: {sessions} органических сессий "
-                    f"({an['metrika']['source']['current_period_start']}–"
-                    f"{an['metrika']['source']['current_period_end']}).",
-                    "Низкий CTR по выборке запросов не может считаться доказанным «узким местом» "
-                    "до сверки источников (тикет DATA-001).")
+        # Клики по выборке топ-100 запросов и визиты всего сайта измеряют разные
+        # множества. Их отношение — не «расхождение источников», а разница охвата,
+        # поэтому это ограничение (limited), а не поломка (degraded).
+        if clicks is not None and visits and not measurement.scopes_comparable(snap):
+            add("warning", "SCOPE_MISMATCH",
+                "Охваты поиска и аналитики различаются",
+                f"Яндекс.Вебмастер: {clicks} кликов по выборке "
+                f"{yx['totals']['queries_tracked']} запросов "
+                f"({yx['source']['current_period_start']}–{yx['source']['current_period_end']}); "
+                f"Метрика: {visits:.0f} органических визитов всего сайта; "
+                f"GA4: {sessions} органических сессий "
+                f"({an['metrika']['source']['current_period_start']}–"
+                f"{an['metrika']['source']['current_period_end']}).",
+                "Клики выборки и визиты сайта не сравниваются между собой. CTR "
+                "публикуется как CTR выборки с указанием охвата; вывод о кликабельности "
+                "всего сайта не делается.")
 
     # 4. Разные окна аналитики и поиска
     if an.get("metrika", {}).get("available") and yx.get("available"):
@@ -216,8 +222,12 @@ def run_checks(snap: dict) -> dict:
 
     levels = [f["level"] for f in findings]
     status = "critical" if "critical" in levels else ("warning" if "warning" in levels else "ok")
+    health = measurement.data_health(snap, findings)
     return {
-        "schema_version": "2.0.0",
+        "schema_version": "3.0.0",
+        "data_health": health,
+        "measurement_map": measurement.build_map(snap),
+        "sample_ctr": measurement.sample_ctr(snap),
         "report_date": snap["report_date"],
         "generated_at": dt.datetime.now(dt.timezone.utc).isoformat(timespec="seconds"),
         "status": status,
@@ -225,6 +235,7 @@ def run_checks(snap: dict) -> dict:
         "findings": findings,
         "publication_rules": {
             "allow_green_overall_status": status == "ok",
+            "allow_sitewide_ctr_claims": measurement.scopes_comparable(snap),
             "allow_expected_ctr_claims": bool(snap.get("ctr_model", {}).get("approved")),
             "allow_lead_wording": False,
             "allow_market_demand_wording": bool(
