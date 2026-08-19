@@ -56,7 +56,9 @@ export const VENDORS: VendorEntry[] = [
   { slug: 'astute-graphics', vendor: 'Astute Graphics', legalName: 'Astute Graphics Ltd', brandColor: '#FF5A00', site: 'https://astutegraphics.com', catSeg: 'design', catLabel: 'Дизайн и графика', domain: 'design',
     tagline: 'Набор плагинов для Adobe Illustrator: годовая подписка на полный комплект.',
     about: 'Astute Graphics — набор из десятков плагинов, ускоряющих векторную работу в Adobe Illustrator: точное рисование, динамические кисти, работа с цветом и узорами.' },
-  { slug: 'freepik', vendor: 'Freepik', legalName: 'Freepik Company S.L.', brandColor: '#1273EB', site: 'https://www.freepik.com', catSeg: 'design', catLabel: 'Дизайн и графика', domain: 'design',
+  // Вендор в Directus переименован в «Magnific (Freepik)» — точное совпадение обязательно,
+  // иначе лендинг остаётся без товаров.
+  { slug: 'freepik', vendor: 'Magnific (Freepik)', title: 'Magnific', legalName: 'Freepik Company S.L.', brandColor: '#1273EB', site: 'https://magnific.ai', catSeg: 'design', catLabel: 'Дизайн и графика', domain: 'design',
     tagline: 'Стоковые ресурсы и AI-генерация: тарифы Premium и Premium+.',
     about: 'Freepik — библиотека фото, векторов, PSD и AI-инструментов для дизайнеров, маркетологов и агентств с коммерческой лицензией.' },
   { slug: 'envato', vendor: 'Envato', legalName: 'Envato Pty Ltd', brandColor: '#82B541', site: 'https://elements.envato.com', catSeg: 'design', catLabel: 'Дизайн и графика', domain: 'design',

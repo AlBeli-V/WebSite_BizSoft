@@ -22,11 +22,18 @@ import type { Product } from '../../lib/types';
 
 let all: Product[] = [];
 try { all = await getProducts({ vendor: 'Figma' }); } catch (e) { console.error('figma landing', e); }
-const items = all.filter((p) => p.sku.startsWith('FIGMA-')).sort((a, b) => FIGMA_ORDER.indexOf(a.sku) - FIGMA_ORDER.indexOf(b.sku));
+// Без фильтра по префиксу sku: у части товаров «интеграционные» sku
+// (Figma Organization = INT-DESIGN-FIGMA). Порядок — по FIGMA_ORDER (slug или sku),
+// не перечисленные в нём товары — в конец списка.
+const orderKey = (p: Product) => {
+  const i = FIGMA_ORDER.findIndex((k) => k === p.slug || k === p.sku);
+  return i === -1 ? FIGMA_ORDER.length : i;
+};
+const items = all.slice().sort((a, b) => orderKey(a) - orderKey(b));
 
 const cards = items.map((p) => {
   const eff = effectivePrice(p);
-  const meta = FIGMA_CARD_META[p.sku];
+  const meta = FIGMA_CARD_META[p.slug] ?? FIGMA_CARD_META[p.sku];
   return { name: p.name, slug: p.slug, sku: p.sku, price: eff.price, priceText: formatRub(eff.price), note: p.price_note || '', byRequest: !(eff.price > 0), meta, features: meta?.features?.slice(0, 5) || [] };
 });
 const priced = items.filter((p) => effectivePrice(p).price > 0);

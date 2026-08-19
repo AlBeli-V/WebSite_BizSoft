@@ -1,6 +1,8 @@
 /**
  * Редакторский контент bespoke-лендинга OpenAI (/vendors/openai).
- * Цены и slug — ЖИВЫЕ из Directus по sku OPENAI-*; здесь — обвязка.
+ * Цены и slug — ЖИВЫЕ из Directus по вендору OpenAI (без фильтра по sku:
+ * товары приходят и с «интеграционными» sku вроде INT-AI-CHATGPT); здесь — обвязка.
+ * Ключи меты и порядка — slug ИЛИ sku товара.
  */
 
 export const OPENAI_VENDOR = {
@@ -13,13 +15,14 @@ export const OPENAI_VENDOR = {
 export const OPENAI_SUMMARY =
   'BIZSoft подбирает и оформляет доступ к продуктам OpenAI для юридических лиц: ChatGPT Plus и Pro для сотрудников, ChatGPT Business для команд, ChatGPT Enterprise для крупных организаций и OpenAI API с оплатой по использованию. Договор, счёт и закрывающие документы; оплата в рублях по курсу ЦБ.';
 
-export const OPENAI_ORDER = ['OPENAI-PLUS', 'OPENAI-PRO', 'OPENAI-BUSINESS', 'OPENAI-ENTERPRISE', 'OPENAI-API'];
+export const OPENAI_ORDER = ['OPENAI-PLUS', 'OPENAI-PRO', 'chatgpt-business', 'OPENAI-BUSINESS', 'openai-enterprise', 'OPENAI-ENTERPRISE', 'OPENAI-API'];
 
 export interface OpenAiCardMeta { badge: string; forWhom: string; features: string[]; check?: string }
 export const OPENAI_CARD_META: Record<string, OpenAiCardMeta> = {
   'OPENAI-PLUS': { badge: 'для сотрудника', forWhom: 'Отдельные специалисты и фрилансеры', features: ['Новейшие модели GPT', 'Расширенные лимиты и Deep Research', 'Голос, изображения, анализ файлов', 'GPTs, Projects, Codex'] },
   'OPENAI-PRO': { badge: 'максимум', forWhom: 'Интенсивная работа, аналитика, R&D', features: ['Лимиты до 20× от Plus', 'Режим Pro для сложных задач', 'Agent Mode и Deep Research', 'Генерация видео Sora'] },
-  'OPENAI-BUSINESS': { badge: 'для команд', forWhom: 'Компании и отделы от 2 пользователей', features: ['Командное пространство', 'Админ-управление, SSO, домен', 'SOC 2, данные не в обучении', 'Company Knowledge, Projects'], check: 'При годовой оплате — $20 за пользователя в месяц (минимум 2 пользователя).' },
+  // ChatGPT Business в Directus живёт под sku INT-AI-CHATGPT — ключ по slug.
+  'chatgpt-business': { badge: 'для команд', forWhom: 'Компании и отделы от 2 пользователей', features: ['Командное пространство', 'Админ-управление, SSO, домен', 'SOC 2, данные не в обучении', 'Company Knowledge, Projects'], check: 'Тариф доступен от 2 пользователей; при годовой оплате — $20 за пользователя в месяц.' },
   'OPENAI-ENTERPRISE': { badge: 'по запросу', forWhom: 'Крупные организации с требованиями ИБ', features: ['SCIM, EKM, RBAC, аналитика', 'Расширенная приватность', 'Максимальные лимиты', 'Централизованное управление'], check: 'Цена договорная, рассчитывается индивидуально.' },
   'OPENAI-API': { badge: 'API', forWhom: 'Разработка и интеграции в продукты', features: ['Оплата по токенам (вход/выход)', 'Модели GPT, Realtime, эмбеддинги', 'Batch и flex-режимы', 'Масштабирование под нагрузку'], check: 'Стоимость зависит от моделей и объёма — рассчитывается по использованию.' },
 };
