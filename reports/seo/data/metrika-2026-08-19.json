@@ -103,6 +103,23 @@
       {
         "dimensions": [
           {
+            "icon_id": "0",
+            "icon_type": "traffic-source",
+            "name": "Direct traffic",
+            "id": "direct"
+          }
+        ],
+        "metrics": [
+          37.0,
+          35.0,
+          70.27027027,
+          1.27027027,
+          0.0
+        ]
+      },
+      {
+        "dimensions": [
+          {
             "icon_id": "2",
             "icon_type": "traffic-source",
             "name": "Search engine traffic",
@@ -115,23 +132,6 @@
           29.72972973,
           1.40540541,
           3.0
-        ]
-      },
-      {
-        "dimensions": [
-          {
-            "icon_id": "0",
-            "icon_type": "traffic-source",
-            "name": "Direct traffic",
-            "id": "direct"
-          }
-        ],
-        "metrics": [
-          36.0,
-          35.0,
-          72.22222222,
-          1.16666667,
-          0.0
         ]
       },
       {
@@ -157,27 +157,27 @@
     "sampled": false,
     "contains_sensitive_data": false,
     "sample_share": 1.0,
-    "sample_size": 77,
-    "sample_space": 77,
+    "sample_size": 78,
+    "sample_space": 78,
     "data_lag": 0,
     "totals": [
-      77.0,
+      78.0,
       64.0,
-      50.64935065,
-      1.55844156,
+      50.0,
+      1.6025641,
       3.0
     ],
     "min": [
       4.0,
       4.0,
       29.72972973,
-      1.16666667,
+      1.27027027,
       0.0
     ],
     "max": [
       37.0,
       35.0,
-      72.22222222,
+      70.27027027,
       6.5,
       3.0
     ]
@@ -244,8 +244,8 @@
     "sampled": false,
     "contains_sensitive_data": false,
     "sample_share": 1.0,
-    "sample_size": 77,
-    "sample_space": 77,
+    "sample_size": 78,
+    "sample_space": 78,
     "data_lag": 0,
     "totals": [
       37.0,
@@ -507,8 +507,8 @@
     "sampled": false,
     "contains_sensitive_data": false,
     "sample_share": 1.0,
-    "sample_size": 77,
-    "sample_space": 77,
+    "sample_size": 78,
+    "sample_space": 78,
     "data_lag": 0,
     "totals": [
       37.0,
