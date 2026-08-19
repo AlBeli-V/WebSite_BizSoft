@@ -1,5 +1,7 @@
 # Проверка живого сайта biz-soft.pro с раннера (из среды мониторинга egress закрыт):
-# какие счётчики аналитики реально отдаёт прод (GA4 gtag, Яндекс.Метрика).
+# какие счётчики аналитики реально отдаёт прод и в каком состоянии страницы эксперимента.
+# Результат сохраняется в reports/seo/intelligence/site-check-<дата>.json — из него
+# отчёт V4 берёт фактическую экспозицию эксперимента (сколько страниц уже обновлено).
 # Запуск: вручную (workflow_dispatch) или пушем этого файла.
 
 name: seo-site-check
@@ -12,10 +14,17 @@ on:
     paths:
       - ".github/workflows/seo-site-check.yml"
 
+permissions:
+  contents: write
+
 jobs:
   check:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: claude/biz-soft-rating-tracking-5rf03g
+
       - name: Fetch homepage and grep analytics tags
         run: |
           curl -sSL --max-time 30 https://biz-soft.pro/ -o home.html
@@ -27,13 +36,53 @@ jobs:
           echo "== title =="
           grep -o '<title>[^<]*</title>' home.html | head -1
 
-      - name: Check experiment snippets on live vendor pages
+      - name: Check experiment pages and store exposure
         run: |
-          for p in canva depositphotos coreldraw heygen marmoset; do
-            code=$(curl -sSL --max-time 30 -o page.html -w '%{http_code}' "https://biz-soft.pro/vendors/$p")
-            title=$(grep -o '<title>[^<]*</title>' page.html | head -1)
-            faq=$(grep -c 'FAQPage' page.html || true)
-            echo "== /vendors/$p (HTTP $code) =="
-            echo "   $title"
-            echo "   FAQPage-разметка: $faq вхожд."
-          done
+          python3 - <<'PY'
+          import datetime as dt, json, pathlib, re, subprocess
+
+          PAGES = ["canva", "depositphotos", "coreldraw", "heygen", "marmoset"]
+          # Признак внедрённого варианта: коммерческий заголовок + FAQPage-разметка.
+          TITLE_MARKER = re.compile(r"(Оплат\w+|купить)", re.I)
+
+          rows, recrawled, snippets = [], 0, 0
+          for slug in PAGES:
+              url = f"https://biz-soft.pro/vendors/{slug}"
+              html = subprocess.run(["curl", "-sSL", "--max-time", "30", url],
+                                    capture_output=True, text=True).stdout
+              title = (re.search(r"<title>([^<]*)</title>", html) or [None, ""])[1]
+              faq = html.count("FAQPage")
+              new_snippet = bool(TITLE_MARKER.search(title)) and faq > 0
+              recrawled += 1 if html else 0
+              snippets += 1 if new_snippet else 0
+              rows.append({"page": f"/vendors/{slug}", "http_ok": bool(html),
+                           "title": title, "faqpage_blocks": faq,
+                           "new_snippet_detected": new_snippet})
+              print(f"/vendors/{slug}: FAQPage={faq} новый заголовок={new_snippet}")
+              print(f"   {title}")
+
+          out = {"checked_at": dt.datetime.now(dt.timezone.utc).isoformat(timespec="seconds"),
+                 "experiments": {"snippets-5-vendors": {
+                     "pages_total": len(PAGES),
+                     "pages_recrawled": recrawled,
+                     "new_snippets_detected": snippets,
+                     "pages": rows}}}
+          date = dt.date.today().isoformat()
+          path = pathlib.Path(f"reports/seo/intelligence/site-check-{date}.json")
+          path.parent.mkdir(parents=True, exist_ok=True)
+          path.write_text(json.dumps(out, ensure_ascii=False, indent=1), encoding="utf-8")
+          print(f"сохранено: {path}")
+          PY
+
+      - name: Commit result
+        run: |
+          git config user.name "Claude"
+          git config user.email "noreply@anthropic.com"
+          git add reports/seo/intelligence/site-check-*.json
+          if git diff --cached --quiet; then
+            echo "Изменений нет"
+          else
+            git commit -m "Проверка живых страниц эксперимента ($(date -u +%F))"
+            git pull --rebase origin claude/biz-soft-rating-tracking-5rf03g
+            git push origin HEAD:claude/biz-soft-rating-tracking-5rf03g
+          fi
