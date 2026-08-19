@@ -17,6 +17,7 @@ import { aiSubcategories, aiFlagships } from '../../data/ai-hub';
 import { comparisons } from '../../data/comparisons';
 import { solutions } from '../../data/solutions';
 import { effectivePrice } from '../../lib/pricing';
+import type { Product } from '../../lib/types';
 
 const { segment } = Astro.params;
 
@@ -41,7 +42,7 @@ const q = (qp.get('q') || '').trim();
 
 let title = '';
 let lead = '';
-let base = [];
+let base: Product[] = [];
 let pageCategory = null;
 
 try {

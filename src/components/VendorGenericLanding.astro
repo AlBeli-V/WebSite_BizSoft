@@ -19,6 +19,7 @@ import VendorIcon from './VendorIcon.astro';
 import { vendorLegal } from '../lib/catalog';
 import { site } from '../config/site';
 import { breadcrumbSchema } from '../lib/seo';
+import type { Product } from '../lib/types';
 
 interface Props {
   /** Имя вендора как в Directus (может содержать «Новое (прежнее)»). */
@@ -34,7 +35,7 @@ const packIcon = vendorIcon(slug);
 const logo = packIcon ? null : (slug === 'freepik' ? '/brand-logos/magnific-logo.svg' : logoFile(slug));
 const legal = vendorLegal(vendor);
 
-let products = [];
+let products: Product[] = [];
 try {
   products = await getProducts({ vendor });
 } catch (e) {

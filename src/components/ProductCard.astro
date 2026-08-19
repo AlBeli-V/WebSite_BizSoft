@@ -43,7 +43,7 @@ const packIcon = packSlug ? vendorIcon(packSlug) : null;
         {hasProductIcon ? (
           <span class="logo logo-pack"><ProductIcon slug={product.slug} name={product.name} size={34} /></span>
         ) : packIcon ? (
-          <span class="logo logo-pack"><VendorIcon slug={packSlug} name={product.vendor} size={34} /></span>
+          <span class="logo logo-pack"><VendorIcon slug={packSlug} name={product.vendor || ''} size={34} /></span>
         ) : logo ? (
           <img src={logo} alt={`Логотип ${product.vendor || product.name}`} class="logo" width="40" height="40" loading="lazy" />
         ) : (

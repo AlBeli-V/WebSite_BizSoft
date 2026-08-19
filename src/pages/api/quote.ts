@@ -154,7 +154,7 @@ export const POST: APIRoute = async ({ request }) => {
     attachments: [attachment],
   }).catch((e) => console.error('quote manager mail failed', e));
 
-  return new Response(pdf, {
+  return new Response(new Uint8Array(pdf), {
     status: 200,
     headers: {
       'Content-Type': 'application/pdf',

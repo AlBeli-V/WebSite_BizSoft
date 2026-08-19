@@ -6,6 +6,7 @@ import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import { seller } from '../../config/site';
 import { getProductsBySlugs } from '../../lib/directus';
 import { effectivePrice, formatRub } from '../../lib/pricing';
+import type { Product } from '../../lib/types';
 
 // Б10 аудита: готовые наборы-пресеты — продолжение типовых сценариев.
 const PRESETS: { name: string; note: string; slugs: string[] }[] = [
@@ -19,7 +20,7 @@ try {
   presets = PRESETS.map((pr) => {
     const items = pr.slugs
       .map((sl) => all.find((x) => x.slug === sl))
-      .filter(Boolean)
+      .filter((x): x is Product => Boolean(x))
       .map((x) => ({ sku: x.sku, slug: x.slug, name: x.name, vendor: x.vendor || '', price: effectivePrice(x).price }))
       .filter((x) => Number.isFinite(x.price) && x.price > 0);
     return { name: pr.name, note: pr.note, items, total: items.reduce((a, x) => a + x.price, 0) };
@@ -297,7 +298,7 @@ try {
     const b64 = btoa(unescape(encodeURIComponent(JSON.stringify(payload)))).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
     const url = `${location.origin}/cart?share=${b64}`;
     try { await navigator.clipboard.writeText(url); } catch { prompt('Скопируйте ссылку на подборку:', url); }
-    const note = document.querySelector('[data-share-note]');
+    const note = document.querySelector<HTMLElement>('[data-share-note]');
     if (note) note.hidden = false;
   });
 
