@@ -33,105 +33,59 @@ jobs:
           H = {"Authorization": f"Api-Key {TOKEN}", "Content-Type": "application/json"}
 
           def call(path, body, label=""):
-              t0 = time.time()
               try:
                   r = requests.post(BASE + path, json=body, headers=H, timeout=40)
               except Exception as e:
                   print(f"  {path} {label}: сеть {type(e).__name__}")
-                  return None, None
-              ms = int((time.time() - t0) * 1000)
-              return r, ms
-
-          def show(path, body, label=""):
-              r, ms = call(path, body, label)
-              if r is None:
                   return None
-              print(f"  {path} {label}: HTTP {r.status_code} за {ms} мс")
+              print(f"  {path} {label}: HTTP {r.status_code}")
               if r.status_code != 200:
-                  print(f"      тело: {r.text[:300] or '(пусто)'}")
+                  print(f"      {r.text[:280] or '(пусто)'}")
                   return None
               try:
-                  d = r.json()
+                  return r.json()
               except Exception:
-                  print("      ответ не JSON")
+                  print("      не JSON")
                   return None
-              if not d:
-                  print("      пустой ответ {} — частотность ниже порога выдачи")
-              return d
 
-          print("== 1. поиск имён методов ==")
-          for path in ("/getDynamics", "/dynamics", "/getRegionsDistribution",
-                       "/regionsDistribution", "/regions", "/getRegionsTree",
-                       "/regionsTree", "/topRequests"):
-              r, ms = call(path, {"phrase": "canva"})
-              if r is not None:
-                  print(f"  {path}: HTTP {r.status_code} — {r.text[:160] or '(пустое тело)'}")
+          print("== dynamics: подбор значений period и дат ==")
+          for period in ("PERIOD_MONTHLY", "MONTHLY", "monthly", "PERIOD_DAILY", "PERIOD_WEEKLY"):
+              d = call("/dynamics", {"phrase": "canva", "period": period,
+                                     "fromDate": "2025-08-01", "toDate": "2026-08-01"}, period)
+              if d:
+                  print("      ключи:", list(d))
+                  print("      ", json.dumps(d, ensure_ascii=False)[:700])
+                  break
 
-          print("== 2. topRequests: полный ответ на частотную фразу ==")
-          d = show("/topRequests", {"phrase": "canva", "numPhrases": 15}, "canva")
+          print("== dynamics: недельный период, короткое окно ==")
+          d = call("/dynamics", {"phrase": "canva", "period": "PERIOD_WEEKLY",
+                                 "fromDate": "2026-06-01", "toDate": "2026-08-01",
+                                 "regions": ["225"]}, "weekly+регион")
+          if d:
+              print("      ", json.dumps(d, ensure_ascii=False)[:700])
+
+          print("== regions: полный формат ==")
+          d = call("/regions", {"phrase": "canva"}, "canva")
           if d:
               print("      ключи:", list(d))
-              print("      totalCount:", d.get("totalCount"))
-              for row in (d.get("results") or [])[:10]:
-                  print("       результат:", json.dumps(row, ensure_ascii=False))
-              for row in (d.get("associations") or [])[:5]:
-                  print("       ассоциация:", json.dumps(row, ensure_ascii=False))
+              rows = d.get("results") or []
+              print(f"      строк: {len(rows)}")
+              for row in sorted(rows, key=lambda x: -int(x.get("count", 0)))[:5]:
+                  print("       ", json.dumps(row, ensure_ascii=False))
 
-          print("== 3. влияние региона (фраза canva) ==")
-          for label, extra in (("без региона", {}), ("Россия 225", {"regions": ["225"]}),
-                               ("Москва 213", {"regions": ["213"]}),
-                               ("СПб 2", {"regions": ["2"]})):
-              b = {"phrase": "canva", "numPhrases": 1}
-              b.update(extra)
-              d = show("/topRequests", b, label)
+          print("== getRegionsTree: размер справочника ==")
+          d = call("/getRegionsTree", {}, "")
+          if d:
+              def count(nodes):
+                  return sum(1 + count(n.get("children") or []) for n in nodes)
+              print("      узлов:", count(d.get("regions") or []))
+              for n in (d.get("regions") or [])[:3]:
+                  print("       корень:", n.get("id"), n.get("name"))
+
+          print("== numPhrases: верхняя граница ==")
+          for n in (200, 2000, 2001):
+              d = call("/topRequests", {"phrase": "canva", "numPhrases": n, "regions": ["225"]}, f"n={n}")
               if d:
-                  print("      totalCount:", d.get("totalCount"))
-
-          print("== 4. устройства ==")
-          for dev in ("DEVICE_ALL", "DEVICE_DESKTOP", "DEVICE_PHONE", "DEVICE_TABLET"):
-              d = show("/topRequests", {"phrase": "canva", "numPhrases": 1, "devices": [dev]}, dev)
-              if d:
-                  print("      totalCount:", d.get("totalCount"))
-
-          print("== 5. типы соответствия ==")
-          for label, ph in (("широкое", "canva для бизнеса"),
-                            ('кавычки', '"canva для бизнеса"'),
-                            ("восклицательный", "!canva !для !бизнеса")):
-              d = show("/topRequests", {"phrase": ph, "numPhrases": 1}, label)
-              if d:
-                  print("      totalCount:", d.get("totalCount"))
-
-          print("== 6. коммерческие кластеры BIZSoft ==")
-          cluster = ["canva", "canva для юридических лиц", "depositphotos", "depositphotos оплата",
-                     "coreldraw", "coreldraw купить", "heygen", "figma", "figma купить",
-                     "midjourney", "midjourney подписка", "оплата зарубежных сервисов",
-                     "оплата зарубежных сервисов для юридических лиц", "подписка на нейросети для бизнеса"]
-          t0 = time.time()
-          codes = {}
-          for ph in cluster:
-              r, ms = call("/topRequests", {"phrase": ph, "numPhrases": 5, "regions": ["225"]})
-              if r is None:
-                  continue
-              codes[r.status_code] = codes.get(r.status_code, 0) + 1
-              if r.status_code != 200:
-                  print(f"  «{ph}»: HTTP {r.status_code} {r.text[:120]}")
-                  continue
-              d = r.json()
-              total = d.get("totalCount", "—") if d else "0/нет данных"
-              tops = ", ".join(f"{x['phrase']} — {x['count']}" for x in (d.get("results") or [])[:3])
-              print(f"  «{ph}»: всего {total}; топ: {tops or '—'}")
-          print(f"  14 запросов за {int(time.time() - t0)} с; коды: {codes}")
-
-          print("== 7. лимит скорости: 20 запросов подряд ==")
-          t0 = time.time()
-          codes = {}
-          for i in range(20):
-              r, ms = call("/topRequests", {"phrase": f"canva тариф {i}", "numPhrases": 1})
-              if r is None:
-                  continue
-              codes[r.status_code] = codes.get(r.status_code, 0) + 1
-              if r.status_code == 429:
-                  print(f"      429 на запросе {i}: {r.text[:200]}; Retry-After={r.headers.get('Retry-After')}")
-                  break
-          print(f"  коды: {codes} за {int(time.time() - t0)} с")
+                  print("      получено строк:", len(d.get("results") or []),
+                        "| ассоциаций:", len(d.get("associations") or []))
           PY
