@@ -60,7 +60,7 @@
 
 ## Процедура ежедневного прогона (для агента)
 
-0. Запустить `seo-data-collect.yml` (workflow_dispatch, ref ветки), дождаться коммита данных, `git pull`.
+0. Запустить `seo-data-collect.yml` (workflow_dispatch, ref ветки), дождаться коммита данных, `git pull`. **Также `git fetch origin main`** и синхронизировать реестры экспериментов: правки сайта делаются в main, и реестр там — первичен (`git show origin/main:reports/seo/intelligence/seo-experiments.json`); объединить с локальным по id (main приоритетнее) и, при отличиях, закоммитить объединённый в ветку мониторинга. Статусы рекомендаций в отчёте («ждёт запуска» / «запущен») определять ПО РЕЕСТРУ и коммитам main, а не по инерции вчерашнего отчёта.
 1. Запустить `python3 scripts/seo/intelligence.py`, прочитать `intelligence/<дата>.json` (+сравнить со score-history и вчерашним intelligence-JSON: динамика, new/lost запросы).
 2. WebSearch по корзине `keywords.json` → конкурентный контроль, дописать в `history.json`.
 3. Написать отчёт (структура выше): html-письмо + md; каждый блок — с «Резюме для руководителя».

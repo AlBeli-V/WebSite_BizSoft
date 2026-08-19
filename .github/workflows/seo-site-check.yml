@@ -22,8 +22,18 @@ jobs:
           echo "== HTTP размер: $(wc -c < home.html) байт =="
           echo "== GA4 (gtag) =="
           grep -o 'gtag/js?id=[A-Z0-9-]*' home.html | sort -u || echo "gtag НЕ найден"
-          grep -o "G-[A-Z0-9]\{6,\}" home.html | sort -u || true
           echo "== Яндекс.Метрика =="
           grep -o 'metrika/tag.js?id=[0-9]*' home.html | sort -u || echo "метрика НЕ найдена"
           echo "== title =="
           grep -o '<title>[^<]*</title>' home.html | head -1
+
+      - name: Check experiment snippets on live vendor pages
+        run: |
+          for p in canva depositphotos coreldraw heygen marmoset; do
+            code=$(curl -sSL --max-time 30 -o page.html -w '%{http_code}' "https://biz-soft.pro/vendors/$p")
+            title=$(grep -o '<title>[^<]*</title>' page.html | head -1)
+            faq=$(grep -c 'FAQPage' page.html || true)
+            echo "== /vendors/$p (HTTP $code) =="
+            echo "   $title"
+            echo "   FAQPage-разметка: $faq вхожд."
+          done
