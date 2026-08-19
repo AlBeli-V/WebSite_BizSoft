@@ -1,13 +1,16 @@
 // Импорт карточек товаров из вендорских JSON-пакетов (scripts/catalog/<slug>.json)
-// через штатный /api/admin/import (формат CSV — без Excel).
-// Токен читается из .env (SITE_URL, ADMIN_TOOLS_TOKEN). Usage:
+// через штатный /api/admin/import. Транспорт — xlsx-контейнер (создаётся
+// программно; ручной Excel в цепочке не нужен): CSV-парсер импорта не
+// поддерживает многострочные описания в кавычках, а xlsx переносы строк
+// сохраняет. Токен читается из .env (SITE_URL, ADMIN_TOOLS_TOKEN). Usage:
 //   node scripts/import-vendors.mjs                        — dry-run по всем пакетам
 //   node scripts/import-vendors.mjs docker gitlab          — dry-run по выбранным slug
 //   node scripts/import-vendors.mjs --apply [slugs...]     — применить
-//   node scripts/import-vendors.mjs --emit <file.csv>      — только собрать CSV
-//     (без сети и .env; используется воркфлоу ops-import-vendors: CSV собирается
+//   node scripts/import-vendors.mjs --emit <file.xlsx>     — только собрать файл
+//     (без сети и .env; используется воркфлоу ops-import-vendors: файл собирается
 //     на раннере, а POST к админ-API выполняется на сервере, где лежит токен)
 import { readFileSync, readdirSync, writeFileSync } from 'node:fs';
+import * as XLSX from 'xlsx';
 import { fileURLToPath } from 'node:url';
 import { dirname, resolve, basename } from 'node:path';
 
@@ -35,16 +38,11 @@ const files = readdirSync(CATALOG_DIR)
   .filter((f) => slugs.length === 0 || slugs.includes(basename(f, '.json')));
 if (files.length === 0) { console.error('нет пакетов в scripts/catalog/'); process.exit(1); }
 
-// Строка CSV-импорта (разделитель «;», квотирование как в src/lib/csv.ts).
+// Колонки листа «Товары» (схема штатного импорта, см. src/lib/bulk-import.ts).
 const COLS = ['sku', 'name', 'vendor', 'origin', 'category', 'license_type',
   'short_description', 'description', 'keywords',
   'base_price_usd', 'peg_currency', 'markup_coeff', 'price_locked',
   'price', 'price_note', 'vat_percent', 'currency', 'features', 'status', 'sort'];
-const esc = (v) => {
-  const s = v == null ? '' : String(v);
-  return s.includes(';') || s.includes('"') || s.includes('\n') || s.includes('\r')
-    ? '"' + s.replace(/"/g, '""') + '"' : s;
-};
 
 const rows = [];
 for (const f of files) {
@@ -79,11 +77,14 @@ for (const f of files) {
   }
 }
 
-const csv = [COLS.join(';'), ...rows.map((r) => COLS.map((c) => esc(r[c])).join(';'))].join('\n');
-console.log(`пакетов: ${files.length}, строк: ${rows.length}${emitPath ? ' — только CSV' : apply ? ' — ПРИМЕНЯЕМ' : ' — dry-run'}`);
+const sheet = XLSX.utils.aoa_to_sheet([COLS, ...rows.map((r) => COLS.map((c) => r[c] ?? ''))]);
+const wb = XLSX.utils.book_new();
+XLSX.utils.book_append_sheet(wb, sheet, 'Товары');
+const xlsxBase64 = XLSX.write(wb, { type: 'base64', bookType: 'xlsx' });
+console.log(`пакетов: ${files.length}, строк: ${rows.length}${emitPath ? ' — только файл' : apply ? ' — ПРИМЕНЯЕМ' : ' — dry-run'}`);
 
 if (emitPath) {
-  writeFileSync(emitPath, csv);
+  writeFileSync(emitPath, Buffer.from(xlsxBase64, 'base64'));
   console.log('записан:', emitPath);
   process.exit(0);
 }
@@ -92,7 +93,7 @@ const env = loadEnv();
 const res = await fetch(`${env.SITE_URL}/api/admin/import`, {
   method: 'POST',
   headers: { 'Content-Type': 'application/json', 'x-admin-token': env.ADMIN_TOOLS_TOKEN },
-  body: JSON.stringify({ format: 'csv', csv, apply }),
+  body: JSON.stringify({ format: 'xlsx', xlsxBase64, apply }),
 });
 const text = await res.text();
 let data; try { data = JSON.parse(text); } catch { console.log('HTTP', res.status, text.slice(0, 500)); process.exit(1); }
