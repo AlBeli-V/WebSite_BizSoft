@@ -150,7 +150,7 @@ jobs:
                 flt['slug'] = {'_in': only}
             url = ('/items/products?limit=-1&sort[]=vendor&sort[]=name'
                    '&fields=id,slug,name,sku,meta_title,meta_description,' + ','.join(TEXT_FIELDS)
-                   f'&filter={urllib.parse.quote(json.dumps(flt))}')
+                   + f'&filter={urllib.parse.quote(json.dumps(flt))}')
             rows = [r for r in req('GET', url, token=tok)['data'] if not noindex(r.get('sku'))]
             print(f'карточек к проверке: {len(rows)} | режим: '
                   f"{'ПРИМЕНЕНО' if apply else 'план (без записи)'}\n")
