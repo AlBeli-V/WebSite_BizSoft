@@ -124,6 +124,19 @@ jobs:
                         return (body + tail).strip()
                 return trim_words(lead, DESC_MAX).rstrip(' .,;:-—') + '.'
 
+            TEXT_FIELDS = ('short_description', 'description', 'seo_text',
+                           'for_whom', 'features', 'use_cases', 'faq')
+
+            def fix_brand(v):
+                """Написание бренда внутри строк, списков и объектов."""
+                if isinstance(v, str):
+                    return v.replace('BizSoft', BRAND)
+                if isinstance(v, list):
+                    return [fix_brand(i) for i in v]
+                if isinstance(v, dict):
+                    return {k: fix_brand(i) for k, i in v.items()}
+                return v
+
             def noindex(sku):
                 s = (sku or '').upper()
                 return s.startswith('JB-PLG-') or (s.startswith('JB-') and s.endswith('-IND'))
@@ -136,7 +149,7 @@ jobs:
             if only:
                 flt['slug'] = {'_in': only}
             url = ('/items/products?limit=-1&sort[]=vendor&sort[]=name'
-                   '&fields=id,slug,name,sku,short_description,description,meta_title,meta_description'
+                   '&fields=id,slug,name,sku,meta_title,meta_description,' + ','.join(TEXT_FIELDS)
                    f'&filter={urllib.parse.quote(json.dumps(flt))}')
             rows = [r for r in req('GET', url, token=tok)['data'] if not noindex(r.get('sku'))]
             print(f'карточек к проверке: {len(rows)} | режим: '
@@ -145,11 +158,13 @@ jobs:
             changed = 0
             for r in rows:
                 patch = {}
-                # единое написание бренда во всех текстовых полях карточки
-                for f in ('short_description', 'description'):
-                    cur = r.get(f) or ''
-                    if 'BizSoft' in cur:
-                        patch[f] = cur.replace('BizSoft', BRAND)
+                # единое написание бренда во всех текстовых полях карточки,
+                # включая списки (features, use_cases, faq)
+                for f in TEXT_FIELDS:
+                    cur = r.get(f)
+                    fixed = fix_brand(cur)
+                    if fixed != cur:
+                        patch[f] = fixed
                 nt = build_title(r['name'], r.get('meta_title'))
                 if nt != (r.get('meta_title') or ''):
                     patch['meta_title'] = nt
@@ -160,11 +175,13 @@ jobs:
                     continue
                 changed += 1
                 print(f"[{r['slug']}]")
-                for f in ('meta_title', 'meta_description', 'short_description', 'description'):
+                for f in ('meta_title', 'meta_description') + TEXT_FIELDS:
                     if f in patch:
-                        stats['title' if f == 'meta_title' else 'desc'] += 1
-                        if f in ('short_description', 'description'):
+                        if f in TEXT_FIELDS:
                             stats['brand'] = stats.get('brand', 0) + 1
+                            print(f'  {f}: написание бренда приведено к {BRAND}')
+                            continue
+                        stats['title' if f == 'meta_title' else 'desc'] += 1
                         print(f"  {f} было ({len(r.get(f) or '')}): {r.get(f) or '—'}")
                         print(f"  {f} стало ({len(patch[f])}): {patch[f]}")
                 if apply:
