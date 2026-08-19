@@ -10,6 +10,7 @@ from __future__ import annotations
 import json
 import pathlib
 import sys
+import re
 import unittest
 
 ROOT = pathlib.Path(__file__).resolve().parents[3]
@@ -143,56 +144,109 @@ class TestQuality(unittest.TestCase):
         self.assertFalse(self.dq["publication_rules"]["allow_expected_ctr_claims"])
 
 
-class TestExecutiveBrief(unittest.TestCase):
+class TestExecutiveV3(unittest.TestCase):
+    """Письмо V3: объём, структура, язык, отсутствие противоречий."""
+
     @classmethod
     def setUpClass(cls):
-        cls.md = (BASE / f"{DATE}-executive.md").read_text(encoding="utf-8")
-        cls.html = (BASE / f"{DATE}-executive.html").read_text(encoding="utf-8")
+        cls.email = (BASE / f"{DATE}-executive-email.html").read_text(encoding="utf-8")
+        cls.preview = (BASE / f"{DATE}-executive.html").read_text(encoding="utf-8")
+        cls.text = (BASE / f"{DATE}-executive.txt").read_text(encoding="utf-8")
+        cls.lint = load_json(BASE / f"{DATE}-uxlint.json")
+        cls.actions = load_json(BASE / "actions.json")
 
-    def test_word_limit(self):
-        self.assertLessEqual(len(self.md.split()), 900)
+    def test_uxlint_passes(self):
+        self.assertEqual(self.lint["status"], "pass", self.lint["summary"])
 
-    def test_max_three_decisions(self):
-        self.assertLessEqual(self.md.count("DEC-00"), 3)
+    def test_visible_words_in_range(self):
+        c = next(x for x in self.lint["checks"] if x["check"] == "visible_words")
+        self.assertEqual(c["status"], "pass", c["detail"])
 
-    def test_no_trust_claim(self):
-        self.assertNotIn("наращивает доверие", self.md)
-        self.assertNotIn("наращивает доверие", self.html)
+    def test_plain_text_within_limit(self):
+        self.assertLessEqual(len(self.text.split()), 650)
 
-    def test_no_market_demand_claim(self):
-        for bad in ("искали 96", "HeyGen ищут", "спрос вырос"):
-            self.assertNotIn(bad, self.md)
+    def test_no_inline_svg_in_email(self):
+        self.assertNotIn("<svg", self.email)
 
-    def test_no_top5_without_sample(self):
-        self.assertNotIn("уже в топ-5", self.md)
-        self.assertNotIn("уже в топ-5", self.html)
+    def test_charts_are_png_with_alt(self):
+        imgs = re.findall(r"<img [^>]+>", self.email)
+        self.assertLessEqual(len(imgs), 2)
+        for tag in imgs:
+            self.assertIn("alt=", tag)
+            self.assertTrue("cid:" in tag or ".png" in tag)
 
-    def test_no_lead_wording_for_goal_events(self):
-        self.assertNotIn("3 заявки", self.md)
-        self.assertNotIn("заявки-действия", self.md)
+    def test_no_funnel_before_reconciliation(self):
+        self.assertFalse(re.search(r"(src|cid)[^>]*funnel", self.email))
 
-    def test_no_technical_commands_in_body(self):
-        for bad in ("pnpm ", "git ", "python3 ", "ПРОМТ", "Claude Code"):
-            self.assertNotIn(bad, self.md.split("## Следующая контрольная точка")[0])
+    def test_zero_delta_wording(self):
+        """delta = 0 → запрещены слова роста и падения в этом блоке."""
+        forbidden = ["вырос", "рост", "увеличил", "снизил", "падени", "сократил", "прибав"]
+        sentences = [s for s in re.split(r"(?<=[.!?])\s+", self.text) if "169" in s]
+        self.assertTrue(sentences, "предложение с числом страниц не найдено")
+        for s in sentences:
+            for w in forbidden:
+                self.assertNotIn(w, s.lower(), f"в блоке с нулевой дельтой: {s}")
+        self.assertIn("не изменилось", " ".join(sentences))
 
-    def test_no_growth_score_in_body(self):
-        self.assertNotIn("Growth Score", self.md)
+    def test_forbidden_technical_terms_absent(self):
+        body = self.email.split('<tr><td style="background:#fafafb;')[0]
+        body = re.sub(r'alt="[^"]*"', " ", body)
+        for term in ("SOURCE_RECONCILIATION", "guardrail", "snapshot", "ym:s:",
+                     "popular queries", "rollback", "stop-condition", "key events"):
+            self.assertNotIn(term.lower(), body.lower())
 
-    def test_no_expected_ctr_3_3(self):
-        self.assertNotIn("3,3%", self.md)
-        self.assertNotIn("потерянных кликов", self.md)
+    def test_composite_status_present(self):
+        self.assertIn("Яндекс —", self.text)
+        self.assertIn("Google —", self.text)
+        self.assertIn("вывод предварительный", self.text)
 
-    def test_crm_metrics_shown_as_no_data(self):
-        self.assertIn("Квалифицированные лиды: нет данных", self.md)
+    def test_from_you_block_no_action_required(self):
+        self.assertIn("ОТ ВАС: Действий не требуется.", self.text)
 
-    def test_single_canonical_visits_value(self):
-        self.assertNotIn("77", self.md.split("## Ключевые показатели")[1].split("## Что изменилось")[0])
+    def test_no_manual_owner_assignment(self):
+        self.assertNotIn("назначает руководитель", self.text)
+        for a in self.actions["actions"]:
+            if a["zone"] in ("GREEN", "YELLOW"):
+                self.assertTrue(a.get("owner_role"))
 
-    def test_critical_warning_visible_in_html_text(self):
-        self.assertIn("КРИТИЧЕСКОЕ РАСХОЖДЕНИЕ ДАННЫХ", self.html)
+    def test_roles_are_resolved(self):
+        for role in ("Data Auditor", "SEO Lead", "PPC Lead"):
+            self.assertIn(role, self.text)
 
-    def test_html_container_width(self):
-        self.assertIn("max-width:660px", self.html)
+    def test_ppc_blocked_by_policy(self):
+        ppc = next(a for a in self.actions["actions"] if a["id"] == "PPC-RES-001")
+        self.assertEqual(ppc["status"], "blocked_by_policy")
+
+    def test_combined_experiment_not_split(self):
+        combined = [a for a in self.actions["actions"] if a.get("combined_deployment")]
+        self.assertEqual(len(combined), 1)
+        self.assertNotIn("CRO-EXP-002", self.text)
+
+    def test_no_full_freshness_table_in_body(self):
+        self.assertIn("Данные: Яндекс/Google по", self.text)
+        self.assertNotIn("current_period_days", self.email)
+
+    def test_links_are_clickable_urls(self):
+        for key in ("appendix.md", "/tree/", "data-quality", "/pull/"):
+            self.assertIn(key, self.email)
+        self.assertNotIn(">reports/seo/", self.email)
+
+    def test_container_and_typography(self):
+        self.assertIn("max-width:640px", self.email)
+        self.assertIn("font-size:21px", self.email)
+
+    def test_plain_text_tables_are_narrow(self):
+        for line in self.text.splitlines():
+            self.assertLessEqual(line.count("|"), 2, line)
+
+    def test_eml_has_inline_images(self):
+        eml = (BASE / f"{DATE}-executive.eml").read_bytes()
+        self.assertIn(b"image/png", eml)
+        self.assertIn(b"inline", eml)
+
+    def test_previews_exist(self):
+        for name in ("mobile", "desktop"):
+            self.assertTrue((BASE / "previews" / f"{DATE}-{name}.png").exists())
 
 
 class TestAppendix(unittest.TestCase):
@@ -206,6 +260,23 @@ class TestAppendix(unittest.TestCase):
 
     def test_scope_explained(self):
         self.assertIn("разные scope", self.md.lower())
+
+    def test_full_freshness_table_moved_here(self):
+        self.assertIn("Свежесть источников (полная таблица)", self.md)
+
+    def test_all_warnings_here(self):
+        self.assertIn("Все предупреждения качества данных", self.md)
+
+    def test_technical_glossary(self):
+        for term in ("ym:s:visits", "guardrails", "stop-condition", "SOURCE_RECONCILIATION"):
+            self.assertIn(term, self.md)
+
+    def test_roles_and_zones_documented(self):
+        self.assertIn("Data Auditor", self.md)
+        self.assertIn("GREEN", self.md)
+
+    def test_combined_deployment_documented(self):
+        self.assertIn("один эксперимент", self.md)
 
     def test_tickets_listed(self):
         for t in ("DATA-001", "SEO-EXP-001", "CRO-EXP-002", "INDEX-001", "PPC-RES-001",

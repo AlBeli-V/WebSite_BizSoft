@@ -10,6 +10,7 @@ on:
     branches:
       - claude/biz-soft-rating-tracking-5rf03g
     paths:
+      - "reports/seo/intelligence/*-executive-email.html"
       - "reports/seo/intelligence/*-executive.html"
       - "reports/seo/2*.md"
       - "reports/seo/2*.html"
@@ -35,52 +36,67 @@ jobs:
             exit 1
           fi
           python3 - <<'PY'
-          import glob, os, smtplib, ssl
+          import glob, os, smtplib, ssl, pathlib, re
           from email.message import EmailMessage
-          from email.utils import formatdate
+          from email.utils import formatdate, make_msgid
 
-          # Приоритет: executive brief v2; иначе — прежний формат отчёта
-          execs = sorted(glob.glob('reports/seo/intelligence/*-executive.html'))
-          htmls = sorted(glob.glob('reports/seo/2*.html'))
-          mds = sorted(glob.glob('reports/seo/2*.md'))
-          if not execs and not htmls and not mds:
+          # V3: письмо с PNG-вложениями (CID). Фолбэк — прежние форматы отчёта.
+          v3 = sorted(glob.glob('reports/seo/intelligence/*-executive-email.html'))
+          v2 = sorted(glob.glob('reports/seo/intelligence/*-executive.html'))
+          old = sorted(glob.glob('reports/seo/2*.html'))
+          if not (v3 or v2 or old):
               raise SystemExit('Нет файлов отчётов')
-          if execs:
-              path = execs[-1]
-              date = os.path.basename(path).replace('-executive.html', '')
-              md_same_day = f'reports/seo/intelligence/{date}-executive.md'
-          else:
-              path = htmls[-1] if htmls else mds[-1]
-              date = os.path.basename(path).rsplit('.', 1)[0]
-              md_same_day = f'reports/seo/{date}.md'
 
           msg = EmailMessage()
-          msg['Subject'] = f'BIZSoft Search Performance Brief — {date}'
           msg['From'] = f'BIZSoft SEO-мониторинг <{os.environ["SMTP_USER"]}>'
           msg['To'] = os.environ['MAIL_TO']
           msg['Date'] = formatdate(localtime=True)
-          if os.path.exists(md_same_day):
-              plain = open(md_same_day, encoding='utf-8').read()
+
+          if v3:
+              path = v3[-1]
+              date = os.path.basename(path).replace('-executive-email.html', '')
+              html = pathlib.Path(path).read_text(encoding='utf-8')
+              txt_path = f'reports/seo/intelligence/{date}-executive.txt'
+              plain = pathlib.Path(txt_path).read_text(encoding='utf-8')
+              msg['Subject'] = f'BIZSoft Search Performance — {date}'
+              msg.set_content(plain)
+              # подменяем cid:chart-* на реальные Content-ID и прикрепляем PNG
+              charts = {}
+              for cid_key in sorted(set(re.findall(r'cid:(chart-[a-z-]+)', html))):
+                  png = f'reports/seo/intelligence/charts/{date}-{cid_key.replace("chart-", "")}.png'
+                  if not os.path.exists(png):
+                      continue
+                  real = make_msgid(domain='biz-soft.pro')
+                  html = html.replace(f'cid:{cid_key}', f'cid:{real[1:-1]}')
+                  charts[real] = png
+              msg.add_alternative(html, subtype='html')
+              part = msg.get_payload()[-1]
+              for real, png in charts.items():
+                  part.add_related(pathlib.Path(png).read_bytes(), 'image', 'png',
+                                   cid=real, filename=os.path.basename(png),
+                                   disposition='inline')
+              print(f'V3: {path}, вложений {len(charts)}')
           else:
-              plain = f'SEO-отчёт biz-soft.pro за {date}. Откройте письмо в почтовом клиенте с поддержкой HTML.'
-          msg.set_content(
-              plain + '\n\n—\nАвтоматический отчёт SEO-мониторинга. '
-              'История: reports/seo/ в ветке claude/biz-soft-rating-tracking-5rf03g.'
-          )
-          if path.endswith('.html'):
-              msg.add_alternative(open(path, encoding='utf-8').read(), subtype='html')
+              path = v2[-1] if v2 else old[-1]
+              date = os.path.basename(path).replace('-executive.html', '').rsplit('.', 1)[0]
+              md = (f'reports/seo/intelligence/{date}-executive.md' if v2 else f'reports/seo/{date}.md')
+              plain = (pathlib.Path(md).read_text(encoding='utf-8') if os.path.exists(md)
+                       else f'Отчёт biz-soft.pro за {date}.')
+              msg['Subject'] = f'BIZSoft Search Performance — {date}'
+              msg.set_content(plain)
+              msg.add_alternative(pathlib.Path(path).read_text(encoding='utf-8'), subtype='html')
+              print(f'Фолбэк: {path}')
 
           host, port = os.environ['SMTP_HOST'], int(os.environ['SMTP_PORT'])
           try:
-              with smtplib.SMTP_SSL(host, port, context=ssl.create_default_context(), timeout=60) as s:
-                  s.login(os.environ['SMTP_USER'], os.environ['SMTP_PASS'])
-                  s.send_message(msg)
+              with smtplib.SMTP_SSL(host, port, context=ssl.create_default_context(), timeout=60) as sm:
+                  sm.login(os.environ['SMTP_USER'], os.environ['SMTP_PASS'])
+                  sm.send_message(msg)
           except (smtplib.SMTPException, OSError) as e:
-              # Фолбэк: 587 + STARTTLS, если 465 недоступен
               print(f'465/SSL не сработал ({e}), пробую 587/STARTTLS')
-              with smtplib.SMTP(host, 587, timeout=60) as s:
-                  s.starttls(context=ssl.create_default_context())
-                  s.login(os.environ['SMTP_USER'], os.environ['SMTP_PASS'])
-                  s.send_message(msg)
+              with smtplib.SMTP(host, 587, timeout=60) as sm:
+                  sm.starttls(context=ssl.create_default_context())
+                  sm.login(os.environ['SMTP_USER'], os.environ['SMTP_PASS'])
+                  sm.send_message(msg)
           print(f'Отчёт {path} отправлен на {os.environ["MAIL_TO"]}')
           PY

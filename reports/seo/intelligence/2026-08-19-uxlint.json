@@ -1,0 +1,107 @@
+{
+ "report_date": "2026-08-19",
+ "generated_at": "2026-08-19T21:35:36+00:00",
+ "limits": {
+  "visible_words_max": 650,
+  "visible_words_min": 450,
+  "kpi_cards": 4,
+  "change_cards": 3,
+  "action_cards": 3,
+  "charts": 2,
+  "min_font_px": 14.0,
+  "plain_words_max": 650
+ },
+ "checks": [
+  {
+   "check": "visible_words",
+   "status": "pass",
+   "detail": "480 видимых слов (коридор 450–650)"
+  },
+  {
+   "check": "plain_text_words",
+   "status": "pass",
+   "detail": "533 слов в текстовой версии"
+  },
+  {
+   "check": "kpi_cards",
+   "status": "pass",
+   "detail": "4 карточек показателей"
+  },
+  {
+   "check": "action_cards",
+   "status": "pass",
+   "detail": "3 карточек действий"
+  },
+  {
+   "check": "change_cards",
+   "status": "pass",
+   "detail": "3 блоков изменений"
+  },
+  {
+   "check": "charts",
+   "status": "pass",
+   "detail": "2 изображений"
+  },
+  {
+   "check": "no_inline_svg",
+   "status": "pass",
+   "detail": "inline SVG в письме отсутствует"
+  },
+  {
+   "check": "no_small_font",
+   "status": "pass",
+   "detail": "тело от 14.0px, метаданные от 12.5px"
+  },
+  {
+   "check": "all_images_have_alt",
+   "status": "pass",
+   "detail": "у всех изображений есть alt"
+  },
+  {
+   "check": "no_raw_repo_paths",
+   "status": "pass",
+   "detail": "локальных путей в теле: 0"
+  },
+  {
+   "check": "no_forbidden_terms",
+   "status": "pass",
+   "detail": "запрещённые термины: нет"
+  },
+  {
+   "check": "no_zero_delta_contradiction",
+   "status": "pass",
+   "detail": "в блоке с нулевой дельтой слов роста/падения: нет"
+  },
+  {
+   "check": "no_funnel_before_reconciliation",
+   "status": "pass",
+   "detail": "воронка не показывается: вместо неё карта измерения"
+  },
+  {
+   "check": "no_split_experiment_claim",
+   "status": "pass",
+   "detail": "совместных внедрений: 1; в письме не заявляется раздельная оценка"
+  },
+  {
+   "check": "no_manual_owner_for_green_yellow",
+   "status": "pass",
+   "detail": "без ручного назначения владельцев: ок"
+  },
+  {
+   "check": "links_absolute",
+   "status": "pass",
+   "detail": "3 ссылок, все абсолютные"
+  },
+  {
+   "check": "preview_uses_relative_images",
+   "status": "pass",
+   "detail": "preview-версия ссылается на файлы, письмо — на вложения"
+  }
+ ],
+ "summary": {
+  "total": 17,
+  "passed": 17,
+  "failed": 0
+ },
+ "status": "pass"
+}
