@@ -49,7 +49,16 @@ jobs:
             apply = os.environ.get('P_APPLY', 'false').lower() == 'true'
             rows = req('GET', '/items/products?fields=id,slug,price_note,short_description&limit=-1', token=tok)['data']
 
-            def transform(note):
+            # Пороги лицензирования (доход/бюджет студии) — условия вендора, не цены:
+            # такие приписки не трогаем.
+            THRESHOLD = re.compile(r'доход|бюджет|выручк', re.I)
+            SPECIAL = {
+                # базовая цена в месяц + доплата за каждое место — без $-суммы
+                'heygen-business': 'в месяц + доплата за место',
+            }
+            def transform(slug, note):
+                if slug in SPECIAL: return SPECIAL[slug]
+                if THRESHOLD.search(note): return note
                 out = note
                 annual = False
                 def drop(m):
@@ -59,29 +68,34 @@ jobs:
                 out = re.sub(r'\s*\([^)]*\$[^)]*\)', drop, out)          # скобки с $
                 if '$' in out:                                            # $ вне скобок
                     if 'годов' in out: annual = True
-                    out = re.sub(r'[,;]?\s*[-—–]?\s*\$\s?\d[\d\s.,]*(?:/мес\.?|/год|\s*в\s+мес(?:яц)?)?[^,;.)]*', '', out)
+                    out = re.sub(r'[,;]?\s*[-—–+]?\s*~?\$\s?\d[\d\s.,]*(?:/мес\.?|/год|\s*в\s+мес(?:яц)?)?[^,;.)]*', '', out)
                 out = re.sub(r'\bза место\b', 'за 1 место', out)
                 out = re.sub(r'\bза пользователя\b', 'за 1 пользователя', out)
-                out = re.sub(r'\s{2,}', ' ', out).strip(' ,;—-')
+                out = re.sub(r'\bза участника\b', 'за 1 участника', out)
+                out = re.sub(r'\s{2,}', ' ', out).strip(' ,;~—-+')
                 if annual and 'годов' not in out:
                     out += ' при годовой схеме оплаты'
                 return out
 
-            changed = 0
+            changed = kept = 0
             for r in rows:
                 note = r.get('price_note') or ''
                 if '$' in note:
-                    new = transform(note)
+                    new = transform(r['slug'], note)
+                    if new == note:
+                        kept += 1
+                        print(f"[{r['slug']}] порог лицензирования, не трогаем: {note}")
+                        continue
                     print(f"[{r['slug']}]")
                     print(f"  было:  {note}")
                     print(f"  стало: {new}")
                     if apply:
                         req('PATCH', f"/items/products/{r['id']}", {'price_note': new}, token=tok)
                     changed += 1
-            print(f"\nprice_note с $: {changed} | режим: {'ПРИМЕНЕНО' if apply else 'план (без записи)'}")
-            sd = [r['slug'] for r in rows if '$' in (r.get('short_description') or '')]
-            print(f"short_description с $ (только список, не меняем): {len(sd)}")
-            for s in sd: print('  -', s)
+            print(f"\nprice_note с $: изменяем {changed}, пороги оставляем {kept} | режим: {'ПРИМЕНЕНО' if apply else 'план (без записи)'}")
+            sd = [r for r in rows if '$' in (r.get('short_description') or '')]
+            print(f"short_description с $ (только показываем, не меняем): {len(sd)}")
+            for r in sd: print(f"  - [{r['slug']}] {r['short_description']}")
             PYEOF
       - name: Save result to file
         run: |
