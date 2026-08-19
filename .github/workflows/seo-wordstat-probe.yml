@@ -1,8 +1,7 @@
-# Разовая проверка доступа к API Вордстата (Yandex Cloud Search API v2):
-# живой ли ключ, какая схема авторизации, какие методы доступны, какие поля возвращаются.
-# Ключ не печатается — только статусы, форма ответа и обезличенные примеры строк.
-# Запуск: вручную (workflow_dispatch) или пушем самого файла воркфлоу
-# (dispatch по API недоступен, пока файла нет в main).
+# Разовая проверка API Вордстата (Yandex Cloud Search API v2): какие методы доступны,
+# как ведут себя регион, устройства, типы соответствия, какие лимиты.
+# Ключ не печатается — только статусы, форма ответа и примеры строк.
+# Запуск: вручную (workflow_dispatch) или пушем самого файла воркфлоу.
 
 name: seo-wordstat-probe
 
@@ -13,11 +12,6 @@ on:
     paths:
       - ".github/workflows/seo-wordstat-probe.yml"
   workflow_dispatch:
-    inputs:
-      phrase:
-        description: "Фраза для пробного запроса"
-        required: true
-        default: "купить canva на юрлицо"
 
 jobs:
   probe:
@@ -29,125 +23,115 @@ jobs:
       - name: Probe Wordstat API
         env:
           WORDSTAT_API_KEY: ${{ secrets.WORDSTAT_API_KEY }}
-          WORDSTAT_FOLDER_ID: ${{ secrets.WORDSTAT_FOLDER_ID }}
-          PHRASE: ${{ inputs.phrase || 'купить canva на юрлицо' }}
         run: |
-          if [ -z "$WORDSTAT_API_KEY" ]; then
-            echo "::error::Секрет WORDSTAT_API_KEY не задан"
-            exit 1
-          fi
           python3 - <<'PY'
           import json, os, time
           import requests
 
           TOKEN = os.environ["WORDSTAT_API_KEY"].strip()
-          FOLDER = (os.environ.get("WORDSTAT_FOLDER_ID") or "").strip()
-          PHRASE = os.environ.get("PHRASE") or "купить canva на юрлицо"
           BASE = "https://searchapi.api.cloud.yandex.net/v2/wordstat"
+          H = {"Authorization": f"Api-Key {TOKEN}", "Content-Type": "application/json"}
 
-          print(f"== 0. ключ: длина {len(TOKEN)}, префикс {TOKEN[:4]}…; folderId задан: {bool(FOLDER)} ==")
-
-          def call(path, body, auth, label):
+          def call(path, body, label=""):
               t0 = time.time()
               try:
-                  r = requests.post(BASE + path, json=body, timeout=40,
-                                    headers={"Authorization": auth,
-                                             "Content-Type": "application/json"})
+                  r = requests.post(BASE + path, json=body, headers=H, timeout=40)
               except Exception as e:
-                  print(f"  {path} [{label}]: сетевая ошибка {type(e).__name__}: {str(e)[:160]}")
-                  return None
+                  print(f"  {path} {label}: сеть {type(e).__name__}")
+                  return None, None
               ms = int((time.time() - t0) * 1000)
-              print(f"  {path} [{label}]: HTTP {r.status_code} за {ms} мс")
-              for k in ("X-RateLimit-Limit", "X-RateLimit-Remaining", "Retry-After",
-                        "x-ratelimit-limit", "x-ratelimit-remaining"):
-                  if k in r.headers:
-                      print(f"      {k}: {r.headers[k]}")
+              return r, ms
+
+          def show(path, body, label=""):
+              r, ms = call(path, body, label)
+              if r is None:
+                  return None
+              print(f"  {path} {label}: HTTP {r.status_code} за {ms} мс")
               if r.status_code != 200:
-                  print(f"      тело: {r.text[:400]}")
+                  print(f"      тело: {r.text[:300] or '(пусто)'}")
                   return None
               try:
-                  return r.json()
+                  d = r.json()
               except Exception:
-                  print(f"      ответ не JSON: {r.text[:200]}")
+                  print("      ответ не JSON")
                   return None
+              if not d:
+                  print("      пустой ответ {} — частотность ниже порога выдачи")
+              return d
 
-          def dump(data, limit=6):
-              def walk(node, p=""):
-                  if isinstance(node, dict):
-                      for k, v in node.items():
-                          walk(v, f"{p}.{k}")
-                  elif isinstance(node, list) and node and isinstance(node[0], dict):
-                      print(f"      строки из {p} (до {limit} из {len(node)}):")
-                      for row in node[:limit]:
-                          print("        ", json.dumps(row, ensure_ascii=False)[:200])
-                  elif not isinstance(node, list):
-                      print(f"      {p or '(корень)'} = {json.dumps(node, ensure_ascii=False)[:120]}")
-              walk(data)
+          print("== 1. поиск имён методов ==")
+          for path in ("/getDynamics", "/dynamics", "/getRegionsDistribution",
+                       "/regionsDistribution", "/regions", "/getRegionsTree",
+                       "/regionsTree", "/topRequests"):
+              r, ms = call(path, {"phrase": "canva"})
+              if r is not None:
+                  print(f"  {path}: HTTP {r.status_code} — {r.text[:160] or '(пустое тело)'}")
 
-          print("== 1. схема авторизации (topRequests) ==")
-          body = {"phrase": PHRASE, "numPhrases": 5}
-          if FOLDER:
-              body["folderId"] = FOLDER
-          good = None
-          for label, auth in (("Api-Key", f"Api-Key {TOKEN}"),
-                              ("Api-key", f"Api-key {TOKEN}"),
-                              ("Bearer", f"Bearer {TOKEN}")):
-              data = call("/topRequests", body, auth, label)
-              if data is not None and good is None:
-                  good = auth
-                  print("      структура ответа:")
-                  dump(data)
-          if not good:
-              print("  рабочая схема авторизации не найдена — дальше не идём")
-              raise SystemExit(0)
-
-          print("== 2. параметры topRequests: регион, устройства, объём ==")
-          for name, extra in (
-              ("регион Россия (225)", {"regions": ["225"]}),
-              ("регион Москва (213)", {"regions": ["213"]}),
-              ("только десктоп", {"devices": ["DEVICE_DESKTOP"]}),
-              ("numPhrases=50", {"numPhrases": 50}),
-              ("кавычки (точное вхождение)", {"phrase": f'"{PHRASE}"'}),
-          ):
-              b = dict(body)
-              b.update(extra)
-              print(f"  -- {name}")
-              d = call("/topRequests", b, good, name)
-              if d:
-                  dump(d, limit=3)
-
-          print("== 3. getDynamics (динамика по периодам) ==")
-          for period in ("PERIOD_MONTHLY", "monthly"):
-              b = {"phrase": PHRASE, "period": period}
-              if FOLDER:
-                  b["folderId"] = FOLDER
-              d = call("/getDynamics", b, good, period)
-              if d:
-                  dump(d, limit=3)
-                  break
-
-          print("== 4. getRegionsDistribution (разбивка по регионам) ==")
-          b = {"phrase": PHRASE}
-          if FOLDER:
-              b["folderId"] = FOLDER
-          d = call("/getRegionsDistribution", b, good, "regions")
+          print("== 2. topRequests: полный ответ на частотную фразу ==")
+          d = show("/topRequests", {"phrase": "canva", "numPhrases": 15}, "canva")
           if d:
-              dump(d, limit=5)
+              print("      ключи:", list(d))
+              print("      totalCount:", d.get("totalCount"))
+              for row in (d.get("results") or [])[:10]:
+                  print("       результат:", json.dumps(row, ensure_ascii=False))
+              for row in (d.get("associations") or [])[:5]:
+                  print("       ассоциация:", json.dumps(row, ensure_ascii=False))
 
-          print("== 5. пробный батч 8 фраз: скорость и лимиты ==")
-          batch = ["купить canva на юрлицо", "depositphotos оплата с расчетного счета",
-                   "coreldraw купить лицензию юридическому лицу", "heygen тарифы",
-                   "figma купить юридическим лицом", "unity pro стоимость",
-                   "procreate купить в россии", "midjourney оплата для юрлиц"]
-          t0 = time.time()
-          okc = 0
-          for ph in batch:
-              b = {"phrase": ph, "numPhrases": 3, "regions": ["225"]}
-              if FOLDER:
-                  b["folderId"] = FOLDER
-              d = call("/topRequests", b, good, ph[:24])
+          print("== 3. влияние региона (фраза canva) ==")
+          for label, extra in (("без региона", {}), ("Россия 225", {"regions": ["225"]}),
+                               ("Москва 213", {"regions": ["213"]}),
+                               ("СПб 2", {"regions": ["2"]})):
+              b = {"phrase": "canva", "numPhrases": 1}
+              b.update(extra)
+              d = show("/topRequests", b, label)
               if d:
-                  okc += 1
-                  dump(d, limit=2)
-          print(f"  итог батча: {okc}/{len(batch)} успешно за {int(time.time() - t0)} с")
+                  print("      totalCount:", d.get("totalCount"))
+
+          print("== 4. устройства ==")
+          for dev in ("DEVICE_ALL", "DEVICE_DESKTOP", "DEVICE_PHONE", "DEVICE_TABLET"):
+              d = show("/topRequests", {"phrase": "canva", "numPhrases": 1, "devices": [dev]}, dev)
+              if d:
+                  print("      totalCount:", d.get("totalCount"))
+
+          print("== 5. типы соответствия ==")
+          for label, ph in (("широкое", "canva для бизнеса"),
+                            ('кавычки', '"canva для бизнеса"'),
+                            ("восклицательный", "!canva !для !бизнеса")):
+              d = show("/topRequests", {"phrase": ph, "numPhrases": 1}, label)
+              if d:
+                  print("      totalCount:", d.get("totalCount"))
+
+          print("== 6. коммерческие кластеры BIZSoft ==")
+          cluster = ["canva", "canva для юридических лиц", "depositphotos", "depositphotos оплата",
+                     "coreldraw", "coreldraw купить", "heygen", "figma", "figma купить",
+                     "midjourney", "midjourney подписка", "оплата зарубежных сервисов",
+                     "оплата зарубежных сервисов для юридических лиц", "подписка на нейросети для бизнеса"]
+          t0 = time.time()
+          codes = {}
+          for ph in cluster:
+              r, ms = call("/topRequests", {"phrase": ph, "numPhrases": 5, "regions": ["225"]})
+              if r is None:
+                  continue
+              codes[r.status_code] = codes.get(r.status_code, 0) + 1
+              if r.status_code != 200:
+                  print(f"  «{ph}»: HTTP {r.status_code} {r.text[:120]}")
+                  continue
+              d = r.json()
+              total = d.get("totalCount", "—") if d else "0/нет данных"
+              tops = ", ".join(f"{x['phrase']} — {x['count']}" for x in (d.get("results") or [])[:3])
+              print(f"  «{ph}»: всего {total}; топ: {tops or '—'}")
+          print(f"  14 запросов за {int(time.time() - t0)} с; коды: {codes}")
+
+          print("== 7. лимит скорости: 20 запросов подряд ==")
+          t0 = time.time()
+          codes = {}
+          for i in range(20):
+              r, ms = call("/topRequests", {"phrase": f"canva тариф {i}", "numPhrases": 1})
+              if r is None:
+                  continue
+              codes[r.status_code] = codes.get(r.status_code, 0) + 1
+              if r.status_code == 429:
+                  print(f"      429 на запросе {i}: {r.text[:200]}; Retry-After={r.headers.get('Retry-After')}")
+                  break
+          print(f"  коды: {codes} за {int(time.time() - t0)} с")
           PY
