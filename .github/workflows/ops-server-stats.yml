@@ -129,7 +129,7 @@ jobs:
             readlogs | awk -v cutoff="$CUTOFF" '
               BEGIN {
                 split("Jan:01 Feb:02 Mar:03 Apr:04 May:05 Jun:06 Jul:07 Aug:08 Sep:09 Oct:10 Nov:11 Dec:12", mm, " ")
-                for (i in mm) { split(mm[i], p, ":"); mon[p[1]] = p[2] }
+                for (i in mm) { split(mm[i], pp, ":"); mon[pp[1]] = pp[2] }
               }
               {
                 # $4 = [19/Aug/2026:12:00:00
@@ -149,11 +149,13 @@ jobs:
                 # путь без query
                 path = $7; sub(/\?.*/, "", path)
                 paths[path]++
+                if (st == "404") p404[path]++
                 ip[$1]++
                 # UA — всё после пятой кавычки
                 ua = $0; nq = split(ua, q, "\"")
                 agent = (nq >= 6) ? q[6] : "-"
                 if (tolower(agent) ~ /bot|crawl|spider|slurp|petal|ahrefs|semrush|yandex|bingpreview|gpt|claude|scan/) bots++
+                uacnt[substr(agent,1,90)]++
               }
               END {
                 printf "Всего запросов за 7 дней: %d (~%.0f/день, ~%.2f/сек в среднем)\n", total, total/7, total/(7*86400)
@@ -183,6 +185,16 @@ jobs:
                 for (p in ip) { arr[++m2] = sprintf("%08d %s", ip[p], p) }
                 n = asort(arr); c = 0
                 for (i=n; i>=1 && c<10; i--) { c++; split(arr[i], z, " "); printf "  %d  %s\n", z[1]+0, z[2] }
+                print "\n── Топ-10 путей 404 ──"
+                delete arr; m2 = 0
+                for (p in p404) { arr[++m2] = sprintf("%08d %s", p404[p], substr(p,1,80)) }
+                n = asort(arr); c = 0
+                for (i=n; i>=1 && c<10; i--) { c++; ix = index(arr[i], " "); printf "  %d  %s\n", substr(arr[i],1,ix-1)+0, substr(arr[i],ix+1) }
+                print "\n── Топ-8 User-Agent ──"
+                delete arr; m2 = 0
+                for (p in uacnt) { arr[++m2] = sprintf("%08d %s", uacnt[p], p) }
+                n = asort(arr); c = 0
+                for (i=n; i>=1 && c<8; i--) { c++; ix = index(arr[i], " "); printf "  %d  %s\n", substr(arr[i],1,ix-1)+0, substr(arr[i],ix+1) }
               }' || echo "(логи nginx недоступны для пользователя $(whoami))"
             echo
             echo "── nginx error.log (последние 20) ──"
