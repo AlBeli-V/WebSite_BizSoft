@@ -16,64 +16,13 @@
       "sku": "CLOUDFLARE-PRO",
       "slug": "cloudflare-pro",
       "name": "Cloudflare Pro",
-      "official_name": "Cloudflare Pro Plan",
-      "category": "security",
-      "license_type": "org",
-      "short_description": "Годовая подписка Cloudflare Pro на один домен: WAF с управляемыми правилами, защита от DDoS, CDN, оптимизация изображений и аналитика.",
-      "description": "Cloudflare Pro — базовый платный тариф для бизнес-сайтов, оформляется на один домен (зону). Подходит корпоративным сайтам, блогам и небольшим интернет-проектам, которым нужны защита и ускорение без сложной настройки.\n\nВ тариф входят: защита от DDoS-атак без ограничения объёма, WAF с управляемыми наборами правил Cloudflare, глобальный CDN с кешированием статики, автоматическая оптимизация изображений (Polish, Mirage), расширенная аналитика трафика и до 20 правил Page Rules.\n\nОт тарифа Business отличается меньшим числом кастомных правил WAF, отсутствием загрузки собственного SSL-сертификата, расширенной защиты от ботов и приоритетной поддержки. Если сайт напрямую приносит выручку — рассмотрите Business.\n\nОформим подписку на вашу компанию: договор, счёт в рублях, закрывающие документы через ЭДО, доступ за 1–3 рабочих дня.",
-      "keywords": "Cloudflare Pro купить, Cloudflare Pro цена, Cloudflare для юрлица, защита сайта от DDoS, WAF для сайта, Cloudflare тариф Pro, CDN для сайта купить, Cloudflare Pro plan price, Cloudflare подписка на домен, ускорение сайта Cloudflare",
-      "features": [
-        "Защита от DDoS-атак без ограничения объёма",
-        "WAF с управляемыми наборами правил Cloudflare",
-        "Глобальный CDN и кеширование статики",
-        "Автоматическая оптимизация изображений (Polish, Mirage)",
-        "Бесплатный SSL-сертификат Cloudflare",
-        "Расширенная аналитика трафика",
-        "До 20 Page Rules"
-      ],
-      "base_price_usd": 240,
-      "billing": "за 1 домен в год",
-      "min_quantity": 1,
-      "price_confidence": "official-today",
-      "source_url": "https://costbench.com/software/cdn-edge/cloudflare/",
-      "checkout_url": "https://www.cloudflare.com/plans/",
-      "checked_at": "2026-08-19",
-      "notes": "Пересчёт годовой суммы: $20/мес за домен при годовой оплате (12 × $20 = $240); при помесячной оплате — $25/мес ($300/год). Тариф привязан к одной зоне (домену). Сайт вендора недоступен для прямой проверки — цены из поисковой выдачи, стабильны много лет.",
-      "status": "published",
-      "markup_coeff": null,
-      "sort": null
+      "archive": true
     },
     {
       "sku": "CLOUDFLARE-BUSINESS",
       "slug": "cloudflare-business",
       "name": "Cloudflare Business",
-      "official_name": "Cloudflare Business Plan",
-      "category": "security",
-      "license_type": "org",
-      "short_description": "Годовая подписка Cloudflare Business на один домен: расширенный WAF, защита от ботов, собственный SSL, SLA 100% и приоритетная поддержка 24/7.",
-      "description": "Cloudflare Business — тариф для сайтов, критичных для бизнеса: интернет-магазинов, сервисов приёма платежей и площадок с высокой посещаемостью. Оформляется на один домен (зону).\n\nПоверх возможностей Pro тариф добавляет: расширенный WAF с большим числом кастомных правил, продвинутую защиту от вредоносных ботов, возможность загрузить собственный SSL-сертификат, поддержку PCI DSS, гарантию аптайма 100% по SLA, до 50 Page Rules и приоритетную поддержку в чате 24/7.\n\nВыбирайте Business, когда простои или взлом сайта напрямую означают потерю выручки, либо когда требования безопасности (PCI DSS, собственные сертификаты) не закрываются тарифом Pro. Для информационных сайтов обычно достаточно Pro.\n\nОформим подписку на вашу компанию: договор, счёт в рублях, закрывающие документы через ЭДО, доступ за 1–3 рабочих дня.",
-      "keywords": "Cloudflare Business купить, Cloudflare Business цена, Cloudflare Business plan price, защита интернет-магазина от DDoS, Cloudflare PCI DSS, Cloudflare собственный SSL, защита от ботов Cloudflare, Cloudflare SLA, Cloudflare для юрлица, тариф Business на домен",
-      "features": [
-        "Все возможности тарифа Pro",
-        "Расширенный WAF с большим числом кастомных правил",
-        "Продвинутая защита от вредоносных ботов",
-        "Загрузка собственного SSL-сертификата",
-        "Поддержка требований PCI DSS",
-        "SLA с гарантией аптайма 100%",
-        "До 50 Page Rules",
-        "Приоритетная поддержка, чат 24/7"
-      ],
-      "base_price_usd": 2400,
-      "billing": "за 1 домен в год",
-      "min_quantity": 1,
-      "price_confidence": "official-today",
-      "source_url": "https://costbench.com/software/cdn-edge/cloudflare/",
-      "checkout_url": "https://www.cloudflare.com/plans/",
-      "checked_at": "2026-08-19",
-      "notes": "Пересчёт годовой суммы: $200/мес за домен при годовой оплате (12 × $200 = $2400); при помесячной оплате — $250/мес ($3000/год). Тариф привязан к одной зоне (домену). Сайт вендора недоступен для прямой проверки — цены из поисковой выдачи, стабильны много лет.",
-      "status": "published",
-      "markup_coeff": null,
-      "sort": null
+      "archive": true
     }
   ],
   "rejected": [
@@ -107,5 +56,6 @@
       "reason": "Отдельная линейка с per-user лицензированием и порогами usage, вне задания по тарифам для доменов.",
       "source_url": "https://www.cloudflare.com/zero-trust/"
     }
-  ]
+  ],
+  "removed": true
 }

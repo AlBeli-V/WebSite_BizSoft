@@ -31,10 +31,10 @@
         "Docker Scout — анализ уязвимостей образов",
         "Подписка на 1 пользователя на 12 месяцев"
       ],
-      "base_price_usd": 108,
+      "base_price_usd": 130,
       "billing": "за 1 пользователя в год",
       "min_quantity": 1,
-      "price_confidence": "official-today",
+      "price_confidence": "supplier-price",
       "source_url": "https://www.docker.com/pricing/",
       "checkout_url": "https://app.docker.com/billing/",
       "checked_at": "2026-08-19",
@@ -62,10 +62,10 @@
         "Больше параллельных облачных сборок",
         "Подписка на 12 месяцев, количество мест — по числу пользователей"
       ],
-      "base_price_usd": 180,
+      "base_price_usd": 216,
       "billing": "за 1 пользователя в год",
       "min_quantity": 1,
-      "price_confidence": "official-today",
+      "price_confidence": "supplier-price",
       "source_url": "https://www.docker.com/pricing/",
       "checkout_url": "https://app.docker.com/billing/",
       "checked_at": "2026-08-19",
@@ -73,14 +73,38 @@
       "status": "published",
       "markup_coeff": null,
       "sort": null
+    },
+    {
+      "sku": "DOCKER-BUSINESS",
+      "slug": "docker-business",
+      "name": "Docker Business",
+      "official_name": "Docker Business",
+      "category": "development",
+      "license_type": "org",
+      "short_description": "Корпоративный план Docker: Hardened Docker Desktop, SSO/SCIM, контроль реестров и образов, централизованное управление настройками. Для организаций с требованиями безопасности. Оформление на юрлицо: договор, счёт, ЭДО.",
+      "description": "Docker Business — старший коммерческий план Docker для организаций с повышенными требованиями к безопасности и комплаенсу. Он включает всё из планов Pro и Team и добавляет корпоративные инструменты управления и защиты среды разработки.\n\nКлючевые возможности: Hardened Docker Desktop с централизованной блокировкой настроек (администраторы фиксируют параметры безопасности, и разработчики не могут их ослабить), единый вход SSO и автоматическая синхронизация пользователей по SCIM, Registry Access Management (контроль, к каким реестрам могут обращаться разработчики) и Image Access Management (контроль допустимых образов), а также усиленная изоляция контейнеров.\n\nПлан рассчитан на средние и крупные организации, где важно централизованно управлять парком Docker Desktop, ограничивать источники образов и соответствовать требованиям информационной безопасности. Количество пользователей не ограничено сверху; отдельные функции (например, SCIM) по условиям Docker могут требовать минимального числа мест — уточним при расчёте.\n\nПокупка на юридическое лицо: оформим подписку на вашу компанию — договор, счёт в рублях, закрывающие документы через ЭДО, доступ в течение 1–3 рабочих дней.",
+      "keywords": "купить Docker Business для юрлица, Docker Business цена, Docker Business подписка, Docker Desktop корпоративная лицензия, Docker SSO SCIM, Hardened Docker Desktop, Registry Access Management, Docker для организаций, Docker оплата по счёту в рублях, buy Docker Business, Docker Business license, Docker лицензия для компании",
+      "features": [
+        "Hardened Docker Desktop: централизованная блокировка настроек безопасности",
+        "Единый вход (SSO) и синхронизация пользователей по SCIM",
+        "Registry Access Management: контроль доступных реестров",
+        "Image Access Management: контроль допустимых образов",
+        "Усиленная изоляция контейнеров (Enhanced Container Isolation)",
+        "Централизованное управление парком Docker Desktop",
+        "Все возможности планов Docker Pro и Team"
+      ],
+      "base_price_usd": 346.0,
+      "billing": "за 1 пользователя в год",
+      "min_quantity": 1,
+      "price_confidence": "supplier-price",
+      "source_url": null,
+      "checkout_url": null,
+      "checked_at": "2026-08-19",
+      "notes": "цена прайса поставщика; по условиям Docker отдельные функции (SCIM) могут требовать минимального числа мест — сверить при выставлении счёта",
+      "status": "published"
     }
   ],
   "rejected": [
-    {
-      "name": "Docker Business",
-      "reason": "На официальной странице цен 2026-08-19 тариф ($24/пользователь/мес) доступен только через «Contact sales» — прямой покупки нет, только по запросу через отдел продаж.",
-      "source_url": "https://www.docker.com/pricing/"
-    },
     {
       "name": "Docker Personal",
       "reason": "Бесплатный план для личного использования — не является товаром.",

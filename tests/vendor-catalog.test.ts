@@ -11,12 +11,17 @@ import { VENDORS } from '../src/data/vendors';
 import { computePegRub } from '../src/lib/pricing';
 
 const CATALOG = resolve(__dirname, '../scripts/catalog');
-const packages = existsSync(CATALOG)
+const allPackages = existsSync(CATALOG)
   ? readdirSync(CATALOG).filter((f) => f.endsWith('.json')).map((f) => ({
       slug: basename(f, '.json'),
       pkg: JSON.parse(readFileSync(resolve(CATALOG, f), 'utf8')),
     }))
   : [];
+// removed-пакеты содержат только архивные стабы (вендор снят с витрины);
+// архивные стабы {sku, archive} не проверяются на полноту полей.
+const packages = allPackages
+  .filter(({ pkg }) => !pkg.removed)
+  .map(({ slug, pkg }) => ({ slug, pkg: { ...pkg, products: pkg.products.filter((p: { archive?: boolean }) => !p.archive) } }));
 
 const STOP_LIST = ['sap', 'oracle', 'vmware', 'broadcom', 'veeam', 'citrix', 'cisco',
   'salesforce', 'ibm', 'solidworks', 'archicad', 'red hat', 'redhat', 'canonical',
@@ -52,7 +57,7 @@ describe('VENDORS', () => {
 
 describe('пакеты scripts/catalog', () => {
   it('партия загружена', () => {
-    expect(packages.length).toBeGreaterThanOrEqual(12);
+    expect(packages.length).toBeGreaterThanOrEqual(9);
   });
 
   it('обязательные поля SKU заполнены, sku = slug в верхнем регистре', () => {
@@ -73,7 +78,8 @@ describe('пакеты scripts/catalog', () => {
     const all = packages.flatMap(({ pkg }) => pkg.products.map((p: { slug: string; name: string }) => p));
     expect(new Set(all.map((p) => p.slug)).size).toBe(all.length);
     for (const p of all) expect(p.name.toLowerCase(), `enterprise-тариф ${p.slug}`).not.toContain('enterprise');
-    for (const bad of ['docker-business', 'gitlab-ultimate', 'gitlab-dedicated', 'slack-enterprise']) {
+    // docker-business разрешён с 19.08.2026: поставка подтверждена поставщиком
+    for (const bad of ['gitlab-ultimate', 'gitlab-dedicated', 'slack-enterprise']) {
       expect(all.map((p) => p.slug), `${bad} под запретом`).not.toContain(bad);
     }
   });
@@ -122,11 +128,11 @@ describe('контрольные расчёты цены (формула compute
   const rates = { usd: 80, eur: null };
   const cases: [string, number, number | null, number][] = [
     // [описание, base_usd, coeff|null(=1.85), ожидаемые ₽ при курсе 80]
-    ['подписка docker-pro', 108, null, 15984],
-    ['подписка slack-business-plus', 180, null, 26640],
-    ['подписка cloudflare-business', 2400, null, 355200],
-    ['ключ ms-office-hb-2021-win (коэф. 1.0)', 256.83, 1.0, 20546],
-    ['ключ ms-windows-11-pro (коэф. 1.0)', 222.06, 1.0, 17765],
+    ['подписка docker-pro', 130, null, 19240],
+    ['подписка anydesk-solo', 403, null, 59644],
+    ['подписка dropbox-standard', 200, null, 29600],
+    ['ключ ms-office-hb-2021-win (коэф. 1.0)', 257, 1.0, 20560],
+    ['ключ ms-windows-11-pro (коэф. 1.0)', 222, 1.0, 17760],
   ];
   it.each(cases)('%s', (_label, base, coeff, expected) => {
     const rub = computePegRub(
