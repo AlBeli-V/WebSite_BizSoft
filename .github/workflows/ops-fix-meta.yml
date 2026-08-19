@@ -54,6 +54,10 @@ jobs:
                              **({'Authorization': f'Bearer {token}'} if token else {})})
                 return json.load(urllib.request.urlopen(r))
 
+            # служебные слова, на которых нельзя обрывать фразу
+            STOP = {'с', 'в', 'на', 'и', 'для', 'по', 'из', 'к', 'у', 'о', 'от', 'до', 'за',
+                    'при', 'над', 'под', 'а', 'но', 'или', 'что', 'как', 'же', 'то', 'из-за'}
+
             def trim_words(text, limit):
                 """Обрезка по границе слова без многоточия внутри фразы."""
                 if len(text) <= limit:
@@ -62,16 +66,34 @@ jobs:
                 sp = cut.rfind(' ')
                 return (cut[:sp] if sp > limit * 0.6 else cut).rstrip(' ,;:-—')
 
+            def tidy(body):
+                """Снимаем висящий хвост: предлог, союз, одинокое число, обрывок слова."""
+                while True:
+                    words = body.split()
+                    if len(words) < 2:
+                        return body
+                    w = words[-1].strip('.,;:—-()«»').lower()
+                    if w in STOP or w.isdigit() or len(w) <= 1:
+                        body = ' '.join(words[:-1])
+                        continue
+                    return body
+
             def build_title(name, cur):
                 t = (cur or '').replace('BizSoft', BRAND).strip()
                 if not t:
                     t = f'{name} — купить для юрлица | {BRAND}'
-                if len(t) > TITLE_MAX:
-                    t = f'{name} | {BRAND}'          # короткая форма без хвоста
-                if len(t) > TITLE_MAX:               # всё ещё длинно — режем название
-                    room = TITLE_MAX - len(f' | {BRAND}')
-                    t = f'{trim_words(name, room)} | {BRAND}'
-                return t
+                if len(t) <= TITLE_MAX:
+                    return t
+                # длинный заголовок укорачиваем целыми смысловыми кусками,
+                # а не обрезкой посередине скобки
+                short = re.sub(r'\s*\([^)]*\)', '', name).strip()
+                for cand in (f'{short} — купить для юрлица | {BRAND}',
+                             f'{name} | {BRAND}',
+                             f'{short} | {BRAND}'):
+                    if len(cand) <= TITLE_MAX:
+                        return cand
+                room = TITLE_MAX - len(f' | {BRAND}')
+                return f'{tidy(trim_words(short, room))} | {BRAND}'
 
             def build_desc(short, cur):
                 cur = (cur or '').strip()
@@ -84,13 +106,19 @@ jobs:
                     room = DESC_MAX - len(tail)
                     body = lead if len(lead) <= room else trim_words(lead, room)
                     if len(lead) > room:
-                        # заканчиваем последним завершённым предложением
+                        # заканчиваем последним завершённым предложением,
+                        # иначе — последним элементом перечисления
                         dot = body.rfind('.')
                         if dot > room * 0.5:
                             body = body[:dot]
+                        else:
+                            comma = body.rfind(',')
+                            if comma > room * 0.5:
+                                body = body[:comma]
                         # не оставляем разорванную скобку «(Photoshop, ... и др.»
                         if body.count('(') > body.count(')'):
                             body = body[:body.rfind('(')]
+                        body = tidy(body)
                     body = body.rstrip(' .,;:-—') + '.'
                     if len(body) + len(tail) <= DESC_MAX:
                         return (body + tail).strip()
