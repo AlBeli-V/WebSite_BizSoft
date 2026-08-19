@@ -103,12 +103,27 @@ jobs:
             echo "════ NGINX: СТАТИСТИКА ЗА 7 ДНЕЙ ════"
             NL=/var/log/nginx
             readlogs() {
-              for f in "$NL"/access.log "$NL"/access.log.1; do
-                [ -f "$f" ] && ($S cat "$f" 2>/dev/null || cat "$f" 2>/dev/null)
-              done
-              for f in "$NL"/access.log.*.gz; do
-                [ -f "$f" ] && ($S zcat "$f" 2>/dev/null || zcat "$f" 2>/dev/null)
-              done
+              if [ -r "$NL/access.log" ]; then
+                for f in "$NL"/access.log "$NL"/access.log.1; do
+                  [ -f "$f" ] && cat "$f" 2>/dev/null
+                done
+                for f in "$NL"/access.log.*.gz; do
+                  [ -f "$f" ] && zcat "$f" 2>/dev/null
+                done
+              else
+                # Файлы www-data:adm недоступны deploy напрямую — читаем
+                # read-only через docker (deploy в группе docker); образ уже на хосте.
+                docker run --rm -v "$NL":/logs:ro --entrypoint sh postgres:16-alpine -c \
+                  'cat /logs/access.log /logs/access.log.1 2>/dev/null; for f in /logs/access.log.*.gz; do zcat "$f" 2>/dev/null; done' 2>/dev/null
+              fi
+            }
+            readerr() {
+              if [ -r "$NL/error.log" ]; then
+                cat "$NL/error.log" 2>/dev/null
+              else
+                docker run --rm -v "$NL":/logs:ro --entrypoint sh postgres:16-alpine -c \
+                  'cat /logs/error.log 2>/dev/null' 2>/dev/null
+              fi
             }
             CUTOFF=$(date -d "-7 day" +%s)
             readlogs | awk -v cutoff="$CUTOFF" '
@@ -128,6 +143,9 @@ jobs:
                 st = $9; cls = substr(st,1,1)"xx"
                 status[st]++; perday_cls[date" "cls]++
                 bytes += $10 + 0
+                hr = substr(d,13,2)
+                hourcnt[date" "hr]++
+                if (cls == "5xx" && n5 < 10) { n5++; sample5[n5] = $1" "d" \""$6" "$7"\" "st }
                 # путь без query
                 path = $7; sub(/\?.*/, "", path)
                 paths[path]++
@@ -150,6 +168,11 @@ jobs:
                 n = asorti(status, ss)
                 for (i=1;i<=n;i++) printf "  %s: %d\n", ss[i], status[ss[i]]
                 printf "\nДоля бото-трафика (по UA): %.1f%%\n", (total ? bots*100.0/total : 0)
+                printf "Уникальных IP: %d\n", length(ip)
+                mx = 0; mh = "-"
+                for (h in hourcnt) if (hourcnt[h] > mx) { mx = hourcnt[h]; mh = h }
+                printf "Пиковый час: %s → %d запросов (~%.2f rps)\n", mh, mx, mx/3600.0
+                if (n5) { print "\n── Примеры 5xx ──"; for (i=1;i<=n5;i++) print "  " sample5[i] }
                 print "\n── Топ-15 путей ──"
                 m2 = 0
                 for (p in paths) { arr[++m2] = sprintf("%08d %s", paths[p], p) }
@@ -162,8 +185,8 @@ jobs:
                 for (i=n; i>=1 && c<10; i--) { c++; split(arr[i], z, " "); printf "  %d  %s\n", z[1]+0, z[2] }
               }' || echo "(логи nginx недоступны для пользователя $(whoami))"
             echo
-            echo "── nginx error.log (последние 20 за 7 дней) ──"
-            ($S cat "$NL"/error.log 2>/dev/null || cat "$NL"/error.log 2>/dev/null) | tail -20 || echo "  (недоступен или пуст)"
+            echo "── nginx error.log (последние 20) ──"
+            readerr | tail -20 || echo "  (недоступен или пуст)"
             echo
             echo "── Ротация логов nginx ──"
             ls -lh "$NL"/ 2>/dev/null | head -15 || $S ls -lh "$NL"/ 2>/dev/null | head -15 || true
