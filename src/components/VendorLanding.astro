@@ -13,7 +13,7 @@ import JsonLd from './JsonLd.astro';
 import { getProducts } from '../lib/directus';
 import { effectivePrice, formatRub } from '../lib/pricing';
 import { collectionPageSchema, faqSchema, breadcrumbSchema } from '../lib/seo';
-import { mergeExperimentFaq } from '../data/seo-experiments';
+import { SEO_EXPERIMENTS } from '../data/seo-experiments';
 import { planType, PLAN_LABEL } from '../lib/plan-type';
 import { productIcons } from '../data/product-icons';
 import ProductIcon from './ProductIcon.astro';
@@ -74,8 +74,11 @@ const baseFaq = content.faq?.length ? content.faq : [
   { q: `Можно ли оплатить ${title} с расчётного счёта организации?`, a: `Да. Мы работаем с юрлицами и ИП по договору и счёту, предоставляем закрывающие документы для бухгалтерии.` },
   { q: `Как быстро предоставляется доступ к ${title}?`, a: `После поступления оплаты передаём ключи, доступы или инструкции по активации в согласованные сроки.` },
 ];
-// SEO-эксперимент P0-1: коммерческий вопрос первым, без дублей (только 5 слагов).
-const faq = mergeExperimentFaq(baseFaq, entry.slug, entry.vendor);
+// SEO-эксперимент snippets-5-vendors: на 5 целевых страницах FAQ-блок
+// «Как купить {Vendor} на юрлицо» целиком заменяет типовой; остальные — контроль.
+const exp = SEO_EXPERIMENTS[entry.slug];
+const faq = exp ? exp.faq : baseFaq;
+const faqTitle = exp ? exp.faqTitle : `Частые вопросы про ${title} для бизнеса`;
 
 const summaryText = content.summary || `${entry.about} BIZSoft поставляет ${title} российским юрлицам и ИП по договору с оплатой по счёту.`;
 const hasCompare = !!content.comparison && content.comparison.rows.length > 0;
@@ -212,7 +215,7 @@ const ld = [
   </section>
 
   <!-- FAQ -->
-  <FAQ items={faq} title={`Частые вопросы про ${title} для бизнеса`} schema={false} />
+  <FAQ items={faq} title={faqTitle} schema={false} />
 
   <!-- Финальный CTA -->
   <section class="block final">
