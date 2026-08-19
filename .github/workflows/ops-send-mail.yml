@@ -1,0 +1,86 @@
+# Отправка письма с прод-сервера через настроенный SMTP (реквизиты берутся из
+# /opt/bizsoft/astro.env, в лог не попадают). Используется для постановки задач
+# и уведомлений команде. Результат — в журнал-issue #22.
+name: ops-send-mail
+on:
+  workflow_dispatch:
+    inputs:
+      to:
+        description: 'Получатель'
+        required: true
+        default: 'hello@biz-soft.pro'
+      subject:
+        description: 'Тема письма'
+        required: true
+      body:
+        description: 'Текст письма (\n — перенос строки)'
+        required: true
+permissions:
+  issues: write
+jobs:
+  send:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send mail
+        id: run
+        uses: appleboy/ssh-action@v1
+        env:
+          P_TO: ${{ inputs.to }}
+          P_SUBJECT: ${{ inputs.subject }}
+          P_BODY: ${{ inputs.body }}
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          envs: P_TO,P_SUBJECT,P_BODY
+          capture_stdout: true
+          script: |
+            set -e
+            ENVF=/opt/bizsoft/astro.env
+            for k in SMTP_HOST SMTP_PORT SMTP_SECURE SMTP_USER SMTP_PASS SMTP_FROM; do
+              v=$(sed -n "s/^$k=//p" "$ENVF" | tr -d '"\r')
+              export "$k=$v"
+            done
+            python3 - <<'PYEOF'
+            import os, smtplib, ssl
+            from email.message import EmailMessage
+            host = os.environ.get('SMTP_HOST', '')
+            if not host:
+                print('SMTP не настроен в astro.env — письмо не отправлено'); raise SystemExit(1)
+            port = int(os.environ.get('SMTP_PORT') or 587)
+            secure = (os.environ.get('SMTP_SECURE') or 'false').lower() == 'true'
+            user = os.environ.get('SMTP_USER', '')
+            sender = os.environ.get('SMTP_FROM') or 'BIZSoft <hello@biz-soft.pro>'
+            msg = EmailMessage()
+            msg['From'] = sender
+            msg['To'] = os.environ['P_TO']
+            msg['Subject'] = os.environ['P_SUBJECT']
+            msg.set_content(os.environ['P_BODY'].replace('\\n', '\n'))
+            print(f"SMTP {host}:{port} secure={secure} user={'задан' if user else '—'}")
+            print(f"от: {sender}\nкому: {msg['To']}\nтема: {msg['Subject']}")
+            ctx = ssl.create_default_context()
+            if secure:
+                srv = smtplib.SMTP_SSL(host, port, context=ctx, timeout=30)
+            else:
+                srv = smtplib.SMTP(host, port, timeout=30)
+                try:
+                    srv.starttls(context=ctx)
+                except smtplib.SMTPNotSupportedError:
+                    print('сервер без STARTTLS — отправка без шифрования')
+            with srv:
+                if user:
+                    srv.login(user, os.environ.get('SMTP_PASS', ''))
+                srv.send_message(msg)
+            print('письмо отправлено')
+            PYEOF
+      - name: Post to issue
+        if: always()
+        uses: actions/github-script@v7
+        env:
+          OUT: ${{ steps.run.outputs.stdout }}
+        with:
+          script: |
+            await github.rest.issues.createComment({
+              owner: context.repo.owner, repo: context.repo.repo, issue_number: 22,
+              body: '### ops-send-mail\n\n```\n' + (process.env.OUT || '(нет вывода)') + '\n```',
+            });
