@@ -16,6 +16,8 @@ on:
         description: 'device-scale-factor'
         required: false
         default: '1'
+permissions:
+  issues: write
 jobs:
   shot:
     runs-on: ubuntu-latest
