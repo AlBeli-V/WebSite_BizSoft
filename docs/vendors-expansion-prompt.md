@@ -125,28 +125,31 @@ self-service подписка вендора, а поставка ключа с�
   «Активация должна быть произведена в течение 5 дней с момента получения
   ключа. По истечении этого срока успешная активация не гарантируется,
   ключ активации замене и возврату не подлежит.»;
-- цена: ₽ по фиксированному курсу 85 ₽/$ (решение руководителя), поэтому
-  `price` задаётся готовой суммой и `price_locked = 1` (иначе штатная
-  переоценка по курсу ЦБ её перезапишет); `base_price_usd` заполнить для
-  аудита, `peg_to_usd` НЕ включать; `origin = Иностранное`;
+- цена: ежедневная переоценка по курсу ЦБ (обновлённая постановка
+  19.08.2026 — фикс-курс 85 отменён): `base_price_usd` из прайса поставщика,
+  `peg_to_usd = 1`, `markup_coeff = 1.0` (прайс поставщика уже розничный),
+  `price` не задавать — считается и обновляется автоматически
+  (`ops-currency-refresh`, ежедневно 07:10 МСК); `origin = Иностранное`;
   категория — существующая (office; Visual Studio → dev; Windows → system);
   `vat_percent` — по действующей логике BizSoft (как у соседних карточек).
 
-| Наименование (после очистки) | USD | ₽ (×85, до рубля) | Примечание |
-|---|---|---|---|
-| Microsoft Office Home and Business 2021 (WIN) | 256,83 | 21 831 | |
-| Microsoft Office Home and Business 2021 (MAC) | 272,41 | 23 155 | |
-| Microsoft Office Home and Business 2024 (WIN) | 448,82 | 38 150 | |
-| Microsoft Office Home and Business 2024 (MAC) | 833,44 | 70 842 | |
-| Microsoft Office Professional Plus 2021 (WIN) | 237,92 | 20 223 | |
-| Microsoft Office Professional Plus 2024 (WIN) | 237,92 | 20 223 | цена = 2021 — подтвердить у поставщика |
-| Visual Studio Professional 2022 | 703,52 | 59 799 | |
-| Visual Studio Professional 2019 | 703,52 | 59 799 | |
-| Microsoft Visio Standard 2021 | 478,74 | 40 693 | |
-| Microsoft Visio Professional 2024 | 837,80 | 71 213 | |
-| Microsoft Visio Professional 2019 | 837,80 | 71 213 | |
-| Microsoft Project Professional 2024 | 889,00 | 75 565 | |
-| Windows 11 Pro | 222,06 | 18 875 | в прайсе «Windows Pro 11» — официальное имя «Windows 11 Pro» |
+| Наименование (после очистки) | База USD (прайс поставщика) | Примечание |
+|---|---|---|
+| Microsoft Office Home and Business 2021 (WIN) | 256,83 | |
+| Microsoft Office Home and Business 2021 (MAC) | 272,41 | |
+| Microsoft Office Home and Business 2024 (WIN) | 448,82 | |
+| Microsoft Office Home and Business 2024 (MAC) | 833,44 | |
+| Microsoft Office Professional Plus 2021 (WIN) | 237,92 | |
+| Microsoft Office Professional Plus 2024 (WIN) | 237,92 | цена = 2021 — подтвердить у поставщика |
+| Visual Studio Professional 2022 | 703,52 | |
+| Visual Studio Professional 2019 | 703,52 | |
+| Microsoft Visio Standard 2021 | 478,74 | |
+| Microsoft Visio Professional 2024 | 837,80 | |
+| Microsoft Visio Professional 2019 | 837,80 | |
+| Microsoft Project Professional 2024 | 889,00 | |
+| Windows 11 Pro | 222,06 | в прайсе «Windows Pro 11» — официальное имя «Windows 11 Pro» |
+
+Рублёвая цена = USD × курс ЦБ × 1.0, пересчитывается ежедневно.
 
 **Не заводить без подтверждения поставщиком (таких версий продукта не
 существует или версия сомнительна)** — в pricing-audit.md со статусом
@@ -186,8 +189,10 @@ checkout_url, checked_at, метрика, страна биллинга), — в
 умножать слепо на 12), минимальное количество, налоги страны биллинга,
 действующую VAT-логику BizSoft, округление. Promo — только через
 promo_price/promo_start/promo_end. Неподтверждённая цена = пустая `price`
-(«Цена по запросу») + ориентир с датой в описании. Исключение — коробочные
-ключи Microsoft (§5.2): фикс ₽ по курсу 85, `price_locked = 1`.
+(«Цена по запросу») + ориентир с датой в описании. Коробочные ключи
+Microsoft (§5.2) — та же привязка к курсу ЦБ, но с коэффициентом 1.0.
+Ежедневная переоценка всех привязанных товаров — воркфлоу
+`ops-currency-refresh` (курс ЦБ + reprice, `price_locked` не трогается).
 
 ## 9. Страницы
 
@@ -236,7 +241,7 @@ rejected-позиции, результаты тестов/сборки и чт�
 |---|---|
 | Наследование | использованы VendorGenericLanding/VendorLanding и данные Directus, как у существующих вендоров |
 | Ассортимент | только перечисленные self-service SKU; stop-list отсутствует |
-| Цена | формула `computePegRub` совпала с 5 существующими SKU; ключи Microsoft — ₽×85 c `price_locked` |
+| Цена | формула `computePegRub` совпала с контрольными расчётами; ключи Microsoft — привязка к ЦБ с коэффициентом 1.0 |
 | Checkout | для каждого опубликованного SKU в pricing-audit.md есть источник, checkout URL и дата |
 | Без цены | карточки без подтверждённой цены — «Цена по запросу», без прямой покупки |
 | Microsoft | M365 — без цены и в `draft` до утверждения tenant-check; ключи — с припиской про 5 дней |

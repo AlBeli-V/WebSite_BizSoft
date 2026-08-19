@@ -1,0 +1,95 @@
+{
+  "vendor_entry": {
+    "slug": "docker",
+    "vendor": "Docker",
+    "legalName": "Docker, Inc.",
+    "brandColor": "#2496ED",
+    "site": "https://www.docker.com",
+    "catSeg": "development",
+    "catLabel": "Разработка",
+    "domain": "it",
+    "tagline": "Платформа контейнерной разработки: тарифы Pro и Team с Docker Desktop, Docker Hub и облачными сборками.",
+    "about": "Docker — стандартный инструмент контейнеризации приложений: Docker Desktop для локальной разработки, Docker Hub для хранения образов, Build Cloud для ускорения сборок и Docker Scout для анализа уязвимостей. Подписки Pro и Team нужны компаниям, которые используют Docker Desktop в коммерческих целях и работают с приватными репозиториями образов."
+  },
+  "products": [
+    {
+      "sku": "DOCKER-PRO",
+      "slug": "docker-pro",
+      "name": "Docker Pro",
+      "official_name": "Docker Pro",
+      "category": "development",
+      "license_type": "org",
+      "short_description": "Годовая подписка Docker Pro для одного пользователя: коммерческая лицензия Docker Desktop, неограниченные приватные репозитории Docker Hub и повышенные лимиты.",
+      "description": "Docker Pro — персональная платная подписка Docker для профессиональной разработки. Она даёт право использовать Docker Desktop в коммерческих целях и расширяет возможности бесплатного плана: подходит разработчикам, DevOps-инженерам и небольшим компаниям, где с контейнерами работает один специалист.\n\nВ подписку входят неограниченные приватные репозитории Docker Hub, повышенные лимиты на скачивание образов, включённые минуты Docker Build Cloud для облачных сборок, минуты Testcontainers Cloud и анализ уязвимостей образов Docker Scout для ограниченного числа репозиториев.\n\nОт тарифа Team подписка Pro отличается тем, что рассчитана строго на одного пользователя: в ней нет организации, командных ролей и совместного управления доступом. Если с образами работает несколько сотрудников, выбирайте Docker Team.\n\nОформим Docker Pro на вашу компанию: договор, счёт в рублях, закрывающие документы через ЭДО, доступ за 1–3 рабочих дня. Цена указана за годовую подписку на одного пользователя.",
+      "keywords": "купить Docker Pro для юрлица, Docker Pro цена, Docker подписка для компании, Docker Desktop лицензия, Docker Pro тариф, Docker Hub приватные репозитории, buy Docker Pro, Docker Pro price, Docker license Russia, Docker Desktop коммерческое использование",
+      "features": [
+        "Docker Desktop с правом коммерческого использования",
+        "Неограниченные приватные репозитории Docker Hub",
+        "Повышенные лимиты на скачивание образов (rate limit)",
+        "Включённые минуты Docker Build Cloud для облачных сборок",
+        "Минуты Testcontainers Cloud для интеграционных тестов",
+        "Docker Scout — анализ уязвимостей образов",
+        "Подписка на 1 пользователя на 12 месяцев"
+      ],
+      "base_price_usd": 108,
+      "billing": "за 1 пользователя в год",
+      "min_quantity": 1,
+      "price_confidence": "official-today",
+      "source_url": "https://www.docker.com/pricing/",
+      "checkout_url": "https://app.docker.com/billing/",
+      "checked_at": "2026-08-19",
+      "notes": "$9 за пользователя в месяц при годовой оплате; при помесячной оплате — $11/мес. Цена подтверждена по официальной странице docker.com/pricing 2026-08-19.",
+      "status": "published",
+      "markup_coeff": null,
+      "sort": null
+    },
+    {
+      "sku": "DOCKER-TEAM",
+      "slug": "docker-team",
+      "name": "Docker Team",
+      "official_name": "Docker Team",
+      "category": "development",
+      "license_type": "org",
+      "short_description": "Годовая подписка Docker Team: организация в Docker Hub, роли и права доступа, совместные приватные репозитории и увеличенные лимиты сборок для команды.",
+      "description": "Docker Team — командная подписка Docker для компаний, где с контейнерами работает несколько разработчиков. Она включает всё из тарифа Pro и добавляет организацию в Docker Hub: общие приватные репозитории, команды, роли и управление правами доступа (RBAC).\n\nВ подписку входят коммерческая лицензия Docker Desktop для каждого пользователя, неограниченные приватные репозитории, повышенные лимиты скачивания образов, увеличенные пакеты минут Docker Build Cloud и Testcontainers Cloud, а также больше параллельных облачных сборок, чем в Pro.\n\nОт Pro тариф отличается именно командными возможностями: единая организация, централизованное добавление и удаление участников, разграничение прав по репозиториям. Функции корпоративного уровня — SSO, SCIM, централизованные политики безопасности — входят только в Docker Business, который вендор продаёт через отдел продаж.\n\nОформим Docker Team на вашу компанию: договор, счёт в рублях, закрывающие документы через ЭДО, доступ за 1–3 рабочих дня. Цена указана за годовую подписку на одного пользователя; количество мест — по числу участников команды.",
+      "keywords": "купить Docker Team для юрлица, Docker Team цена, Docker для команды, Docker подписка организация, Docker Team тариф, Docker Hub организация, buy Docker Team, Docker Team price, Docker лицензия для компании, Docker Desktop для бизнеса",
+      "features": [
+        "Всё из Docker Pro для каждого участника",
+        "Организация в Docker Hub с общими приватными репозиториями",
+        "Команды, роли и управление правами доступа (RBAC)",
+        "Централизованное управление участниками",
+        "Увеличенные пакеты минут Docker Build Cloud и Testcontainers Cloud",
+        "Больше параллельных облачных сборок",
+        "Подписка на 12 месяцев, количество мест — по числу пользователей"
+      ],
+      "base_price_usd": 180,
+      "billing": "за 1 пользователя в год",
+      "min_quantity": 1,
+      "price_confidence": "official-today",
+      "source_url": "https://www.docker.com/pricing/",
+      "checkout_url": "https://app.docker.com/billing/",
+      "checked_at": "2026-08-19",
+      "notes": "$15 за пользователя в месяц при годовой оплате; при помесячной оплате — $16/мес. Цена подтверждена по официальной странице docker.com/pricing 2026-08-19.",
+      "status": "published",
+      "markup_coeff": null,
+      "sort": null
+    }
+  ],
+  "rejected": [
+    {
+      "name": "Docker Business",
+      "reason": "На официальной странице цен 2026-08-19 тариф ($24/пользователь/мес) доступен только через «Contact sales» — прямой покупки нет, только по запросу через отдел продаж.",
+      "source_url": "https://www.docker.com/pricing/"
+    },
+    {
+      "name": "Docker Personal",
+      "reason": "Бесплатный план для личного использования — не является товаром.",
+      "source_url": "https://www.docker.com/pricing/"
+    },
+    {
+      "name": "Premium Support / TAM",
+      "reason": "Дополнительные услуги поддержки (Premium Support, Technical Account Manager) продаются только через отдел продаж, цены не публикуются.",
+      "source_url": "https://www.docker.com/pricing/"
+    }
+  ]
+}

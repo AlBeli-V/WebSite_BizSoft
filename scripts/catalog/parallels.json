@@ -1,0 +1,155 @@
+{
+  "vendor_entry": {
+    "slug": "parallels",
+    "vendor": "Parallels",
+    "legalName": "Parallels International GmbH",
+    "brandColor": "#D80000",
+    "site": "https://www.parallels.com",
+    "catSeg": "system",
+    "catLabel": "Системное ПО",
+    "domain": "it",
+    "tagline": "Windows и Linux на Mac без перезагрузки: редакции Standard, Pro и Business — подписка или бессрочная лицензия.",
+    "about": "Parallels Desktop — среда виртуализации для macOS, позволяющая запускать Windows- и Linux-приложения на Mac, включая компьютеры с Apple Silicon. Нужен компаниям, где сотрудники на Mac работают с Windows-программами: бухгалтерским и учётным ПО, клиент-банками, CAD и внутренними системами. Редакции различаются лимитами виртуальных машин, инструментами разработчика и централизованным управлением."
+  },
+  "products": [
+    {
+      "sku": "PARALLELS-DESKTOP-STANDARD-SUB",
+      "slug": "parallels-desktop-standard-sub",
+      "name": "Parallels Desktop Standard (подписка)",
+      "official_name": "Parallels Desktop for Mac Standard Edition (subscription)",
+      "category": "system",
+      "license_type": "org",
+      "short_description": "Годовая подписка на Parallels Desktop Standard: запуск Windows-приложений на Mac, обновления до новых версий включены.",
+      "description": "Parallels Desktop Standard Edition по годовой подписке — базовый вариант для сотрудников, которым нужно запускать Windows-приложения на Mac: офисные программы, учётные системы, клиент-банки, внутренние корпоративные приложения.\n\nПодписка включает обновления до всех новых мажорных версий Parallels Desktop и поддержку на весь срок действия. Виртуальной машине доступно до 8 ГБ видеопамяти и 4 виртуальных процессора — достаточно для типовых офисных задач. Поддерживаются Mac на Intel и Apple Silicon.\n\nОт бессрочной Standard подписка отличается моделью оплаты и включёнными обновлениями; от Pro и Business — лимитами ресурсов ВМ и отсутствием инструментов разработчика и централизованного управления.\n\nОформим на вашу компанию: договор, счёт в рублях, закрывающие документы через ЭДО, доступ за 1–3 рабочих дня. Лицензия Windows приобретается отдельно.",
+      "keywords": "купить Parallels Desktop для юрлица, Parallels Desktop цена, Parallels Standard подписка, Windows на Mac, параллелс десктоп купить, Parallels Desktop subscription, виртуальная машина Mac, Parallels лицензия, Parallels Desktop for Mac buy, Parallels счёт в рублях",
+      "features": [
+        "Запуск Windows- и Linux-приложений на Mac без перезагрузки",
+        "Поддержка Apple Silicon (Windows on ARM) и Intel",
+        "До 8 ГБ vRAM и 4 vCPU на виртуальную машину",
+        "Обновления до новых мажорных версий включены",
+        "Режим Coherence: Windows-приложения как нативные окна macOS",
+        "Поддержка вендора на весь срок подписки"
+      ],
+      "base_price_usd": 99.99,
+      "billing": "за 1 компьютер (Mac) в год",
+      "min_quantity": 1,
+      "price_confidence": "official-today",
+      "source_url": "https://www.parallels.com/products/desktop/buy/",
+      "checkout_url": "https://www.parallels.com/products/desktop/buy/",
+      "checked_at": "2026-08-19",
+      "notes": "$99.99/год — цена с официальной страницы покупки, полученная через поисковую выдачу (прямой доступ к parallels.com из окружения заблокирован). Несколько независимых обзоров 2026 г. подтверждают цифру. Вендор регулярно проводит акции — розничная цена может быть ниже базовой.",
+      "status": "published",
+      "markup_coeff": null,
+      "sort": null
+    },
+    {
+      "sku": "PARALLELS-DESKTOP-STANDARD-PERPETUAL",
+      "slug": "parallels-desktop-standard-perpetual",
+      "name": "Parallels Desktop Standard (бессрочная)",
+      "official_name": "Parallels Desktop for Mac Standard Edition (perpetual license)",
+      "category": "system",
+      "license_type": "org",
+      "short_description": "Бессрочная лицензия Parallels Desktop Standard: разовая оплата, купленная версия работает без ограничения срока. Обновления на новые версии — за доплату.",
+      "description": "Бессрочная лицензия Parallels Desktop Standard Edition — вариант для компаний с разовым бюджетом на закупку ПО. Оплата одна, купленная версия работает без ограничения по сроку.\n\nФункционально идентична подписочной Standard: запуск Windows- и Linux-приложений на Mac (Intel и Apple Silicon), до 8 ГБ vRAM и 4 vCPU на виртуальную машину, режим Coherence. Отличие — в модели владения: обновления до следующих мажорных версий Parallels Desktop не включены и при необходимости оплачиваются как апгрейд.\n\nСтоит учитывать, что новые версии macOS со временем могут требовать новой версии Parallels Desktop, поэтому при долгом горизонте использования подписка может оказаться практичнее. Бессрочный вариант существует только для редакции Standard — Pro и Business доступны только по подписке.\n\nОформим на вашу компанию: договор, счёт в рублях, закрывающие документы через ЭДО, доступ за 1–3 рабочих дня. Лицензия Windows приобретается отдельно.",
+      "keywords": "Parallels Desktop бессрочная лицензия, Parallels perpetual license, купить Parallels навсегда, Parallels Desktop разовая покупка, Parallels Standard цена, параллелс бессрочно, Parallels Desktop one-time purchase, Windows на Mac лицензия, Parallels для юрлица, Parallels без подписки",
+      "features": [
+        "Разовая оплата, срок действия лицензии не ограничен",
+        "Запуск Windows- и Linux-приложений на Mac без перезагрузки",
+        "Поддержка Apple Silicon и Intel",
+        "До 8 ГБ vRAM и 4 vCPU на виртуальную машину",
+        "Режим Coherence: Windows-приложения как нативные окна macOS",
+        "Апгрейд до новых мажорных версий — за доплату по льготной цене"
+      ],
+      "base_price_usd": 219.99,
+      "billing": "за 1 компьютер (Mac), разовая оплата (бессрочная лицензия)",
+      "min_quantity": 1,
+      "price_confidence": "official-today",
+      "source_url": "https://www.parallels.com/products/desktop/buy/",
+      "checkout_url": "https://www.parallels.com/products/desktop/buy/",
+      "checked_at": "2026-08-19",
+      "notes": "$219.99 разово — цена по данным поисковой выдачи со ссылкой на официальную страницу покупки (прямой доступ к parallels.com заблокирован). Апгрейд с предыдущей бессрочной версии — около $53.99 по тем же источникам. Сверить с https://www.parallels.com/products/desktop/buy/ перед выставлением счёта.",
+      "status": "published",
+      "markup_coeff": null,
+      "sort": null
+    },
+    {
+      "sku": "PARALLELS-DESKTOP-PRO",
+      "slug": "parallels-desktop-pro",
+      "name": "Parallels Desktop Pro Edition",
+      "official_name": "Parallels Desktop for Mac Pro Edition",
+      "category": "system",
+      "license_type": "org",
+      "short_description": "Подписка Pro Edition для разработчиков и опытных пользователей: до 128 ГБ vRAM и 32 vCPU на ВМ, CLI, интеграции с инструментами разработки.",
+      "description": "Parallels Desktop Pro Edition — редакция для разработчиков, тестировщиков и опытных пользователей, которым не хватает лимитов Standard.\n\nВиртуальной машине доступно до 128 ГБ видеопамяти и 32 виртуальных процессора. Добавлены инструменты разработки: интерфейс командной строки (prlctl), интеграции с Docker и Vagrant, расширенные сетевые настройки для симуляции разных условий сети, вложенная виртуализация и плагин для среды разработки. Обновления до новых версий включены в подписку.\n\nОт Standard редакция отличается лимитами ресурсов и инструментами разработчика; от Business — отсутствием централизованного управления лицензиями: Pro подходит отдельным специалистам, Business — управляемому парку машин. Продаётся только по годовой подписке, бессрочного варианта нет.\n\nОформим на вашу компанию: договор, счёт в рублях, закрывающие документы через ЭДО, доступ за 1–3 рабочих дня.",
+      "keywords": "Parallels Desktop Pro купить, Parallels Pro Edition цена, Parallels для разработчиков, Parallels Pro subscription, виртуализация для разработки Mac, Parallels CLI, параллелс про, Parallels Desktop Pro license, Parallels Docker Vagrant, Parallels Pro для юрлица",
+      "features": [
+        "До 128 ГБ vRAM и 32 vCPU на виртуальную машину",
+        "Интерфейс командной строки и автоматизация (prlctl)",
+        "Интеграции с Docker, Vagrant и средами разработки",
+        "Расширенные сетевые настройки и симуляция условий сети",
+        "Вложенная виртуализация",
+        "Снапшоты и отладочные инструменты",
+        "Обновления до новых версий включены"
+      ],
+      "base_price_usd": 119.99,
+      "billing": "за 1 пользователя в год",
+      "min_quantity": 1,
+      "price_confidence": "official-today",
+      "source_url": "https://www.parallels.com/products/desktop/buy/",
+      "checkout_url": "https://www.parallels.com/products/desktop/buy/",
+      "checked_at": "2026-08-19",
+      "notes": "$119.99/год — по данным поисковой выдачи со ссылкой на официальную страницу покупки (прямой доступ к parallels.com заблокирован). Только годовая подписка, бессрочной лицензии для Pro нет.",
+      "status": "published",
+      "markup_coeff": null,
+      "sort": null
+    },
+    {
+      "sku": "PARALLELS-DESKTOP-BUSINESS",
+      "slug": "parallels-desktop-business",
+      "name": "Parallels Desktop Business Edition",
+      "official_name": "Parallels Desktop for Mac Business Edition",
+      "category": "system",
+      "license_type": "org",
+      "short_description": "Подписка Business Edition для компаний: централизованное управление лицензиями, массовое развёртывание, единый корпоративный ключ.",
+      "description": "Parallels Desktop Business Edition — редакция для организаций с парком Mac. Включает все возможности Pro Edition (до 128 ГБ vRAM и 32 vCPU на ВМ, CLI, инструменты разработчика) и добавляет корпоративное администрирование.\n\nИТ-отдел получает централизованную консоль управления лицензиями, единый корпоративный ключ вместо привязки к личным аккаунтам сотрудников, массовое развёртывание преднастроенных образов и политики для конечных машин. Обновления включены в подписку, поддержка — приоритетная для бизнес-клиентов.\n\nОт Pro редакция отличается именно управлением: если лицензий больше нескольких штук и ими нужно управлять централизованно, Business экономит время администраторов. Продаётся только по годовой подписке.\n\nОформим на вашу компанию: договор, счёт в рублях, закрывающие документы через ЭДО, доступ за 1–3 рабочих дня. Количество лицензий можно увеличивать в течение срока действия.",
+      "keywords": "Parallels Desktop Business купить, Parallels Business Edition цена, Parallels для компании, Parallels корпоративная лицензия, Parallels массовое развёртывание, Parallels Business subscription, параллелс бизнес, Parallels volume license, Parallels Desktop для юрлица, Parallels управление лицензиями",
+      "features": [
+        "Все возможности Pro Edition",
+        "Централизованная консоль управления лицензиями",
+        "Единый корпоративный ключ (без личных аккаунтов сотрудников)",
+        "Массовое развёртывание преднастроенных образов ВМ",
+        "Политики и ограничения для конечных машин",
+        "Приоритетная поддержка для бизнес-клиентов",
+        "Обновления до новых версий включены"
+      ],
+      "base_price_usd": 149.99,
+      "billing": "за 1 пользователя в год",
+      "min_quantity": 1,
+      "price_confidence": "official-today",
+      "source_url": "https://www.parallels.com/products/desktop/buy/",
+      "checkout_url": "https://www.parallels.com/products/desktop/buy/",
+      "checked_at": "2026-08-19",
+      "notes": "$149.99/год за пользователя — по данным поисковой выдачи со ссылкой на официальную страницу покупки (прямой доступ к parallels.com заблокирован). Только годовая подписка. При больших объёмах у вендора возможны скидки за количество — уточнять при заказе.",
+      "status": "published",
+      "markup_coeff": null,
+      "sort": null
+    }
+  ],
+  "rejected": [
+    {
+      "name": "Parallels Desktop Enterprise Edition",
+      "reason": "Продаётся только через отдел продаж (quote-only), цена индивидуальная — не подходит для каталога с фиксированными ценами.",
+      "source_url": "https://www.parallels.com/products/desktop/enterprise/"
+    },
+    {
+      "name": "Parallels RAS (Remote Application Server)",
+      "reason": "Инфраструктурный продукт доставки приложений и рабочих столов, лицензируется по индивидуальному расчёту через отдел продаж (contact sales).",
+      "source_url": "https://www.parallels.com/products/ras/"
+    },
+    {
+      "name": "Parallels DaaS",
+      "reason": "Облачный Desktop-as-a-Service, usage-based-модель и продажа через отдел продаж — фиксированную цену для каталога зафиксировать нельзя.",
+      "source_url": "https://www.parallels.com/products/daas/"
+    }
+  ]
+}
