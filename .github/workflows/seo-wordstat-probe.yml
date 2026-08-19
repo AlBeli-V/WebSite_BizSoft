@@ -1,0 +1,95 @@
+# Разовая проверка доступа к API Вордстата: живой ли ключ, какие методы доступны,
+# какие поля возвращаются и в каких лимитах. Ключ не печатается — только статусы,
+# форма ответа и обезличенные примеры строк.
+# Запуск: вручную (workflow_dispatch).
+
+name: seo-wordstat-probe
+
+on:
+  workflow_dispatch:
+    inputs:
+      phrase:
+        description: "Фраза для пробного запроса"
+        required: true
+        default: "оплата canva для юридических лиц"
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install deps
+        run: pip install --quiet requests
+
+      - name: Probe Wordstat API
+        env:
+          WORDSTAT_API_KEY: ${{ secrets.WORDSTAT_API_KEY }}
+          PHRASE: ${{ inputs.phrase }}
+        run: |
+          if [ -z "$WORDSTAT_API_KEY" ]; then
+            echo "::error::Секрет WORDSTAT_API_KEY не задан"
+            exit 1
+          fi
+          python3 - <<'PY'
+          import json, os, time
+          import requests
+
+          TOKEN = os.environ["WORDSTAT_API_KEY"].strip()
+          PHRASE = os.environ.get("PHRASE") or "оплата canva для юридических лиц"
+          BASE = "https://api.wordstat.yandex.net"
+          H = {"Authorization": f"Bearer {TOKEN}", "Content-Type": "application/json"}
+
+          def shape(v, depth=0):
+              if isinstance(v, dict):
+                  return {k: shape(x, depth + 1) for k, x in list(v.items())[:12]}
+              if isinstance(v, list):
+                  return [shape(v[0], depth + 1), f"...всего {len(v)}"] if v else []
+              return type(v).__name__
+
+          def call(path, body):
+              t0 = time.time()
+              try:
+                  r = requests.post(BASE + path, headers=H, json=body, timeout=40)
+              except Exception as e:
+                  print(f"  {path}: сетевая ошибка {type(e).__name__}: {e}")
+                  return None
+              ms = int((time.time() - t0) * 1000)
+              print(f"  {path}: HTTP {r.status_code} за {ms} мс")
+              for k in ("X-RateLimit-Limit", "X-RateLimit-Remaining", "Retry-After"):
+                  if k in r.headers:
+                      print(f"    заголовок {k}: {r.headers[k]}")
+              if r.status_code != 200:
+                  print(f"    тело: {r.text[:300]}")
+                  return None
+              try:
+                  return r.json()
+              except Exception:
+                  print(f"    ответ не JSON: {r.text[:200]}")
+                  return None
+
+          print("== 1. topRequests (частотность и связанные запросы) ==")
+          data = call("/v1/topRequests", {"phrase": PHRASE, "numPhrases": 20})
+          if data:
+              print("    структура ответа:", json.dumps(shape(data), ensure_ascii=False)[:600])
+              def walk(node, path=""):
+                  if isinstance(node, dict):
+                      for k, v in node.items():
+                          walk(v, f"{path}.{k}")
+                  elif isinstance(node, list) and node and isinstance(node[0], dict):
+                      print(f"    примеры из {path} (до 5):")
+                      for row in node[:5]:
+                          print("      ", json.dumps(row, ensure_ascii=False)[:160])
+              walk(data)
+
+          print("== 2. dynamics (динамика по периодам) ==")
+          call("/v1/dynamics", {"phrase": PHRASE, "period": "monthly"})
+
+          print("== 3. regions (разбивка по регионам) ==")
+          call("/v1/regions", {"phrase": PHRASE})
+
+          print("== 4. проверка типов соответствия ==")
+          for variant in (f'"{PHRASE}"', f'!{PHRASE.split()[0]}'):
+              call("/v1/topRequests", {"phrase": variant, "numPhrases": 5})
+
+          print("== 5. регион Россия (id 225) ==")
+          call("/v1/topRequests", {"phrase": PHRASE, "numPhrases": 5, "regions": [225]})
+          PY
