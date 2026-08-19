@@ -1,6 +1,6 @@
-# Разовая проверка доступа к API Вордстата: живой ли ключ, какой хост и схема авторизации,
-# какие методы доступны и какие поля возвращаются. Ключ не печатается — только статусы,
-# сертификаты хостов, форма ответа и обезличенные примеры строк.
+# Разовая проверка доступа к API Вордстата (Yandex Cloud Search API v2):
+# живой ли ключ, какая схема авторизации, какие методы доступны, какие поля возвращаются.
+# Ключ не печатается — только статусы, форма ответа и обезличенные примеры строк.
 # Запуск: вручную (workflow_dispatch) или пушем самого файла воркфлоу
 # (dispatch по API недоступен, пока файла нет в main).
 
@@ -17,7 +17,7 @@ on:
       phrase:
         description: "Фраза для пробного запроса"
         required: true
-        default: "оплата canva для юридических лиц"
+        default: "купить canva на юрлицо"
 
 jobs:
   probe:
@@ -29,103 +29,125 @@ jobs:
       - name: Probe Wordstat API
         env:
           WORDSTAT_API_KEY: ${{ secrets.WORDSTAT_API_KEY }}
-          PHRASE: ${{ inputs.phrase || 'оплата canva для юридических лиц' }}
+          WORDSTAT_FOLDER_ID: ${{ secrets.WORDSTAT_FOLDER_ID }}
+          PHRASE: ${{ inputs.phrase || 'купить canva на юрлицо' }}
         run: |
           if [ -z "$WORDSTAT_API_KEY" ]; then
             echo "::error::Секрет WORDSTAT_API_KEY не задан"
             exit 1
           fi
           python3 - <<'PY'
-          import json, os, socket, ssl, time
+          import json, os, time
           import requests
 
           TOKEN = os.environ["WORDSTAT_API_KEY"].strip()
-          PHRASE = os.environ.get("PHRASE") or "оплата canva для юридических лиц"
+          FOLDER = (os.environ.get("WORDSTAT_FOLDER_ID") or "").strip()
+          PHRASE = os.environ.get("PHRASE") or "купить canva на юрлицо"
+          BASE = "https://searchapi.api.cloud.yandex.net/v2/wordstat"
 
-          print(f"== 0. формат ключа: длина {len(TOKEN)}, префикс {TOKEN[:4]}…, "
-                f"точек {TOKEN.count('.')}, дефисов {TOKEN.count('-')} ==")
+          print(f"== 0. ключ: длина {len(TOKEN)}, префикс {TOKEN[:4]}…; folderId задан: {bool(FOLDER)} ==")
 
-          HOSTS = [
-              "api.wordstat.yandex.net",
-              "api.wordstat.yandex.ru",
-              "wordstat.yandex.ru",
-              "api-wordstat.yandex.net",
-              "api.direct.yandex.com",
-          ]
-
-          print("== 1. DNS и сертификаты хостов ==")
-          for host in HOSTS:
+          def call(path, body, auth, label):
+              t0 = time.time()
               try:
-                  ip = socket.gethostbyname(host)
+                  r = requests.post(BASE + path, json=body, timeout=40,
+                                    headers={"Authorization": auth,
+                                             "Content-Type": "application/json"})
               except Exception as e:
-                  print(f"  {host}: DNS не резолвится ({type(e).__name__})")
-                  continue
-              ctx = ssl.create_default_context()
-              ctx.check_hostname = False
-              ctx.verify_mode = ssl.CERT_NONE
+                  print(f"  {path} [{label}]: сетевая ошибка {type(e).__name__}: {str(e)[:160]}")
+                  return None
+              ms = int((time.time() - t0) * 1000)
+              print(f"  {path} [{label}]: HTTP {r.status_code} за {ms} мс")
+              for k in ("X-RateLimit-Limit", "X-RateLimit-Remaining", "Retry-After",
+                        "x-ratelimit-limit", "x-ratelimit-remaining"):
+                  if k in r.headers:
+                      print(f"      {k}: {r.headers[k]}")
+              if r.status_code != 200:
+                  print(f"      тело: {r.text[:400]}")
+                  return None
               try:
-                  with socket.create_connection((host, 443), timeout=15) as sock:
-                      with ctx.wrap_socket(sock, server_hostname=host) as ss:
-                          cert = ss.getpeercert()
-                  cn = dict(x[0] for x in cert.get("subject", ())).get("commonName", "?")
-                  san = [v for k, v in cert.get("subjectAltName", ()) if k == "DNS"]
-                  print(f"  {host} → {ip}; CN={cn}; SAN({len(san)}): {', '.join(san[:8])}")
-              except Exception as e:
-                  print(f"  {host} → {ip}; TLS-ошибка {type(e).__name__}: {e}")
-
-          print("== 2. перебор баз, путей и схем авторизации ==")
-          BASES = [
-              "https://api.wordstat.yandex.net",
-              "https://api.wordstat.yandex.ru",
-          ]
-          AUTHS = {
-              "Bearer": f"Bearer {TOKEN}",
-              "Api-Key": f"Api-Key {TOKEN}",
-              "OAuth": f"OAuth {TOKEN}",
-          }
-          PATHS = ["/v1/topRequests", "/v1/regions"]
-          ok = []
-          for base in BASES:
-              for path in PATHS:
-                  for name, value in AUTHS.items():
-                      body = {"phrase": PHRASE, "numPhrases": 5} if "top" in path else {"phrase": PHRASE}
-                      t0 = time.time()
-                      try:
-                          r = requests.post(base + path, json=body, timeout=30,
-                                            headers={"Authorization": value,
-                                                     "Content-Type": "application/json"})
-                      except Exception as e:
-                          msg = str(e)
-                          short = "hostname mismatch" if "Hostname mismatch" in msg else type(e).__name__
-                          print(f"  {base}{path} [{name}]: сеть/TLS — {short}")
-                          continue
-                      ms = int((time.time() - t0) * 1000)
-                      print(f"  {base}{path} [{name}]: HTTP {r.status_code} за {ms} мс; "
-                            f"тело: {r.text[:200]}")
-                      for k in ("X-RateLimit-Limit", "X-RateLimit-Remaining", "Retry-After"):
-                          if k in r.headers:
-                              print(f"      заголовок {k}: {r.headers[k]}")
-                      if r.status_code == 200:
-                          ok.append((base, path, name, r))
-
-          print("== 3. структура успешных ответов ==")
-          if not ok:
-              print("  успешных ответов нет")
-          for base, path, name, r in ok:
-              try:
-                  data = r.json()
+                  return r.json()
               except Exception:
-                  print(f"  {base}{path} [{name}]: ответ не JSON")
-                  continue
+                  print(f"      ответ не JSON: {r.text[:200]}")
+                  return None
+
+          def dump(data, limit=6):
               def walk(node, p=""):
                   if isinstance(node, dict):
                       for k, v in node.items():
                           walk(v, f"{p}.{k}")
                   elif isinstance(node, list) and node and isinstance(node[0], dict):
-                      print(f"    примеры из {p} (до 5):")
-                      for row in node[:5]:
-                          print("      ", json.dumps(row, ensure_ascii=False)[:160])
-              print(f"  {base}{path} [{name}]: ключи верхнего уровня "
-                    f"{list(data)[:12] if isinstance(data, dict) else type(data).__name__}")
+                      print(f"      строки из {p} (до {limit} из {len(node)}):")
+                      for row in node[:limit]:
+                          print("        ", json.dumps(row, ensure_ascii=False)[:200])
+                  elif not isinstance(node, list):
+                      print(f"      {p or '(корень)'} = {json.dumps(node, ensure_ascii=False)[:120]}")
               walk(data)
+
+          print("== 1. схема авторизации (topRequests) ==")
+          body = {"phrase": PHRASE, "numPhrases": 5}
+          if FOLDER:
+              body["folderId"] = FOLDER
+          good = None
+          for label, auth in (("Api-Key", f"Api-Key {TOKEN}"),
+                              ("Api-key", f"Api-key {TOKEN}"),
+                              ("Bearer", f"Bearer {TOKEN}")):
+              data = call("/topRequests", body, auth, label)
+              if data is not None and good is None:
+                  good = auth
+                  print("      структура ответа:")
+                  dump(data)
+          if not good:
+              print("  рабочая схема авторизации не найдена — дальше не идём")
+              raise SystemExit(0)
+
+          print("== 2. параметры topRequests: регион, устройства, объём ==")
+          for name, extra in (
+              ("регион Россия (225)", {"regions": ["225"]}),
+              ("регион Москва (213)", {"regions": ["213"]}),
+              ("только десктоп", {"devices": ["DEVICE_DESKTOP"]}),
+              ("numPhrases=50", {"numPhrases": 50}),
+              ("кавычки (точное вхождение)", {"phrase": f'"{PHRASE}"'}),
+          ):
+              b = dict(body)
+              b.update(extra)
+              print(f"  -- {name}")
+              d = call("/topRequests", b, good, name)
+              if d:
+                  dump(d, limit=3)
+
+          print("== 3. getDynamics (динамика по периодам) ==")
+          for period in ("PERIOD_MONTHLY", "monthly"):
+              b = {"phrase": PHRASE, "period": period}
+              if FOLDER:
+                  b["folderId"] = FOLDER
+              d = call("/getDynamics", b, good, period)
+              if d:
+                  dump(d, limit=3)
+                  break
+
+          print("== 4. getRegionsDistribution (разбивка по регионам) ==")
+          b = {"phrase": PHRASE}
+          if FOLDER:
+              b["folderId"] = FOLDER
+          d = call("/getRegionsDistribution", b, good, "regions")
+          if d:
+              dump(d, limit=5)
+
+          print("== 5. пробный батч 8 фраз: скорость и лимиты ==")
+          batch = ["купить canva на юрлицо", "depositphotos оплата с расчетного счета",
+                   "coreldraw купить лицензию юридическому лицу", "heygen тарифы",
+                   "figma купить юридическим лицом", "unity pro стоимость",
+                   "procreate купить в россии", "midjourney оплата для юрлиц"]
+          t0 = time.time()
+          okc = 0
+          for ph in batch:
+              b = {"phrase": ph, "numPhrases": 3, "regions": ["225"]}
+              if FOLDER:
+                  b["folderId"] = FOLDER
+              d = call("/topRequests", b, good, ph[:24])
+              if d:
+                  okc += 1
+                  dump(d, limit=2)
+          print(f"  итог батча: {okc}/{len(batch)} успешно за {int(time.time() - t0)} с")
           PY
