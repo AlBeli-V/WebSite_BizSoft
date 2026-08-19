@@ -1,11 +1,17 @@
 # Разовая проверка доступа к API Вордстата: живой ли ключ, какие методы доступны,
 # какие поля возвращаются и в каких лимитах. Ключ не печатается — только статусы,
 # форма ответа и обезличенные примеры строк.
-# Запуск: вручную (workflow_dispatch).
+# Запуск: вручную (workflow_dispatch) или пушем самого файла воркфлоу
+# (dispatch по API недоступен, пока файла нет в main).
 
 name: seo-wordstat-probe
 
 on:
+  push:
+    branches:
+      - claude/biz-soft-rating-tracking-5rf03g
+    paths:
+      - ".github/workflows/seo-wordstat-probe.yml"
   workflow_dispatch:
     inputs:
       phrase:
@@ -23,7 +29,7 @@ jobs:
       - name: Probe Wordstat API
         env:
           WORDSTAT_API_KEY: ${{ secrets.WORDSTAT_API_KEY }}
-          PHRASE: ${{ inputs.phrase }}
+          PHRASE: ${{ inputs.phrase || 'оплата canva для юридических лиц' }}
         run: |
           if [ -z "$WORDSTAT_API_KEY" ]; then
             echo "::error::Секрет WORDSTAT_API_KEY не задан"
