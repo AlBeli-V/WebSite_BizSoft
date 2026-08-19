@@ -2,12 +2,12 @@
 """Gap-анализ семантики: рыночный спрос (Вордстат) против нашей видимости (Вебмастер).
 
 Читает reports/seo/semantics/core-<дата>.json и reports/seo/intelligence/snapshots/<дата>.json,
-пишет reports/seo/semantics/gap-<дата>.md.
+пишет reports/seo/semantics/gap-<дата>.md и brief-<дата>.json — компактную выжимку
+для приложения к письму.
 
-Ограничение, зафиксированное в методике: наша видимость известна только по выборке
-топ-100 запросов Вебмастера, поэтому «запроса нет в выборке» не равно «запроса нет
-совсем». Отношение «наши показы / показы Вордстата» не считается до закрытия DATA-001:
-источники не сверены по охвату и периодам.
+Ограничение методики: наша видимость известна только по выборке топ-100 запросов
+Вебмастера, поэтому «запроса нет в выборке» не равно «запроса нет совсем».
+Доля голоса (наши показы к рыночным) не считается до закрытия DATA-001.
 
 Запуск: python3 scripts/seo/semantics.py [YYYY-MM-DD]
 """
@@ -21,32 +21,34 @@ import sys
 
 SEM_DIR = pathlib.Path("reports/seo/semantics")
 SNAP_DIR = pathlib.Path("reports/seo/intelligence/snapshots")
-MIN_DEMAND = 30      # ниже — сигнал слабый, в выводы не идёт
-TOP_GAPS = 8         # сколько разрывов показывать на кластер
+MIN_DEMAND = 30
+TOP_GAPS = 10
+TOP_CLUSTERS = 25
 
 
-def our_queries(date: str) -> tuple[list[str], str]:
+def fmt(n) -> str:
+    if n is None:
+        return "нет данных"
+    return f"{n:,}".replace(",", " ")
+
+
+def our_queries(date: str) -> tuple[set[str], str]:
     path = SNAP_DIR / f"{date}.json"
     if not path.exists():
-        return [], "snapshot отсутствует"
+        return set(), "snapshot отсутствует"
     snap = json.loads(path.read_text(encoding="utf-8"))
     yandex = snap.get("yandex") or {}
-    entities = [e for e in (yandex.get("entities") or []) if e.get("entity_type") == "query"]
+    queries = {e["entity_id"].lower() for e in (yandex.get("entities") or [])
+               if e.get("entity_type") == "query"}
     scope = (yandex.get("totals") or {}).get("scope_note", "охват выборки не указан")
-    return [e["entity_id"].lower() for e in entities], scope
+    return queries, scope
 
 
-def gaps(cluster: dict, seen: list[str]) -> list[dict]:
-    out = []
-    for p in cluster.get("phrases", []):
-        if p["intent"] != "commercial":
-            continue
-        if (p["impressions_wordstat"] or 0) < MIN_DEMAND:
-            continue
-        if any(p["phrase"].lower() == q for q in seen):
-            continue
-        out.append(p)
-    out.sort(key=lambda p: -(p["impressions_wordstat"] or 0))
+def gaps(cluster: dict, seen: set[str]) -> list[dict]:
+    out = [p for p in cluster.get("phrases", [])
+           if p["intent"] == "commercial"
+           and (p["impressions_wordstat"] or 0) >= MIN_DEMAND
+           and p["phrase"].lower() not in seen]
     return out[:TOP_GAPS]
 
 
@@ -58,94 +60,123 @@ def main() -> int:
         return 1
     core = json.loads(core_path.read_text(encoding="utf-8"))
     seen, scope = our_queries(date)
-    src = core["source"]
+    src, quota = core["source"], core["quota"]
 
     lines: list[str] = []
     a = lines.append
     a(f"# Спрос и разрывы семантики — {date}")
     a("")
     a(f"**Источник спроса:** Вордстат, регион {src['region_name']} ({src['region_id']}), "
-      f"{src['window']}, соответствие широкое, устройства все. "
-      f"Единица — {src['unit']}.")
+      f"{src['window']}, соответствие широкое, устройства все. Единица — {src['unit']}.")
     a(f"**Источник нашей видимости:** Яндекс.Вебмастер, {scope}.")
+    a(f"**Расход API:** {quota['requests_made']} запросов за прогон "
+      f"(потолок прогона {quota['run_cap']}, месячный бюджет {quota['monthly_budget']}), "
+      f"ошибок {quota['failures']}.")
     a("")
-    a("ФАКТ — числа обоих источников. ИНТЕРПРЕТАЦИЯ — вывод о разрыве. "
-      "Показы Вордстата не переносятся на Google и не равны заявкам или выручке. "
-      "Доля голоса (наши показы к рыночным) не рассчитывается: охват и периоды "
-      "источников не сверены (DATA-001).")
+    a("ФАКТ — числа обоих источников. ИНТЕРПРЕТАЦИЯ — вывод о разрыве. Показы Вордстата "
+      "не переносятся на Google и не равны заявкам или выручке. Доля голоса не "
+      "рассчитывается: охват и периоды источников не сверены (DATA-001).")
     a("")
 
-    a("## Спрос по кластерам")
+    measured = [c for c in core["clusters"] if c["status"] == "ok"]
+    ranked = sorted(measured, key=lambda c: -(c.get("commercial_impressions") or 0))
+
+    a("## Коммерческий спрос по карточкам товара")
     a("")
-    a("| Кластер | Наша страница | Спрос, показы/мес | Коммерческих фраз | Статус |")
-    a("|---|---|---|---|---|")
-    for c in core["clusters"]:
-        demand = c.get("total_impressions")
-        demand_txt = f"{demand:,}".replace(",", " ") if demand is not None else "нет данных"
-        page = c.get("page") or "—"
-        status = {"ok": "измерено",
-                  "below_threshold": "ниже порога выдачи",
-                  "quota_exceeded": "квота исчерпана"}.get(c["status"], c["status"])
-        a(f"| {c['cluster']} | {page} | {demand_txt} | "
-          f"{c.get('commercial_phrases', 0)} | {status} |")
+    a("Отсортировано по сумме показов коммерческих фраз — это и есть покупательский "
+      "спрос, в отличие от общей частотности бренда.")
+    a("")
+    a("| Карточка | Коммерческий спрос | Общий спрос по бренду | Коммерческих фраз |")
+    a("|---|---|---|---|")
+    for c in ranked[:TOP_CLUSTERS]:
+        page = c.get("page") or "страницы нет"
+        a(f"| {c['cluster']} ({page}) | {fmt(c.get('commercial_impressions'))} | "
+          f"{fmt(c.get('seed_impressions'))} | {c.get('commercial_phrases', 0)} |")
     a("")
 
     a("## Разрывы: спрос есть, запроса нет в нашей выборке")
     a("")
-    a(f"Коммерческие фразы с частотностью от {MIN_DEMAND} показов, которых нет "
-      "в выборке топ-100 запросов Вебмастера. Отсутствие в выборке не доказывает "
-      "нулевую видимость — это список кандидатов на проверку и доработку страницы.")
+    a(f"Коммерческие фразы от {MIN_DEMAND} показов в месяц, которых нет в выборке "
+      "топ-100 запросов Вебмастера. Отсутствие в выборке не доказывает нулевую "
+      "видимость — это список кандидатов на доработку страницы.")
     a("")
-    any_gap = False
-    for c in core["clusters"]:
-        if c["status"] != "ok" or not c.get("page"):
+    gap_index: dict[str, list[dict]] = {}
+    for c in ranked:
+        if not c.get("page"):
             continue
         rows = gaps(c, seen)
         if not rows:
             continue
-        any_gap = True
+        gap_index[c["cluster"]] = rows
         a(f"### {c['cluster']} → {c['page']}")
         a("")
         a("| Фраза | Показы/мес |")
         a("|---|---|")
         for p in rows:
-            a(f"| {p['phrase']} | {p['impressions_wordstat']} |")
+            a(f"| {p['phrase']} | {fmt(p['impressions_wordstat'])} |")
         a("")
-    if not any_gap:
+    if not gap_index:
         a("Разрывов выше порога не обнаружено.")
         a("")
 
-    a("## Кандидаты на новые страницы")
+    disc = [d for d in core.get("discovery", [])
+            if d["status"] == "ok" and (d.get("demand") or 0) >= MIN_DEMAND]
+    a("## Разведка рынка: товары, которых у нас нет")
     a("")
-    a("Кластеры с измеренным спросом, под которые своей страницы нет.")
+    a("Бренды вне каталога с измеренным спросом на покупку для юрлица.")
     a("")
-    cands = [c for c in core["clusters"]
-             if not c.get("page") and c["status"] == "ok"
-             and (c.get("total_impressions") or 0) >= MIN_DEMAND]
-    if cands:
-        a("| Кластер | Спрос, показы/мес | Топ коммерческих фраз |")
+    if disc:
+        a("| Бренд | Спрос по фразе покупки | Топ коммерческих формулировок |")
         a("|---|---|---|")
-        for c in sorted(cands, key=lambda x: -(x["total_impressions"] or 0)):
-            top = [p for p in c["phrases"] if p["intent"] == "commercial"][:3]
-            txt = "; ".join(f"{p['phrase']} — {p['impressions_wordstat']}" for p in top) or "—"
-            a(f"| {c['cluster']} | {c['total_impressions']} | {txt} |")
+        for d in sorted(disc, key=lambda x: -(x["demand"] or 0))[:30]:
+            top = "; ".join(f"{p['phrase']} — {fmt(p['impressions_wordstat'])}"
+                            for p in (d.get("top_commercial") or [])[:3]) or "—"
+            a(f"| {d['brand']} | {fmt(d['demand'])} | {top} |")
     else:
         a("Кандидатов выше порога нет.")
     a("")
 
+    seasons = [s for s in core.get("seasonality", []) if s["status"] == "ok"]
+    a("## Сезонность и география")
+    a("")
+    a(f"Помесячная динамика собрана по {len(seasons)} кластерам, "
+      f"региональный срез — по {len([g for g in core.get('geography', []) if g['status'] == 'ok'])}. "
+      "Данные лежат в core-файле и используются для выбора момента правок, "
+      "а не для выводов о росте: месяц к месяцу сравнивается только с поправкой на сезон.")
+    a("")
+
     a("## Ограничения")
     a("")
-    a("- Вордстат измеряет показы в поиске Яндекса за 30 дней; это спрос, а не продажи.")
-    a("- Частотность зависит от региона, типа соответствия и сезона; здесь зафиксированы "
+    a("- Вордстат измеряет показы в поиске Яндекса за 30 дней: это спрос, не продажи.")
+    a("- Частотность зависит от региона, типа соответствия и сезона; зафиксированы "
       f"регион {src['region_name']}, широкое соответствие, все устройства.")
     a("- Данные Яндекса не переносятся на Google.")
     a("- Пустой ответ API означает частотность ниже порога выдачи, а не ноль.")
+    a("- Высокий общий спрос по бренду не означает покупательский интент: проверяйте "
+      "колонку коммерческого спроса.")
     a("")
 
     SEM_DIR.mkdir(parents=True, exist_ok=True)
-    out = SEM_DIR / f"gap-{date}.md"
-    out.write_text("\n".join(lines), encoding="utf-8")
-    print(f"gap-анализ: {out}")
+    (SEM_DIR / f"gap-{date}.md").write_text("\n".join(lines), encoding="utf-8")
+
+    brief = {
+        "report_date": date,
+        "region": src["region_name"],
+        "requests_made": quota["requests_made"],
+        "clusters_measured": len(measured),
+        "top_commercial": [
+            {"cluster": c["cluster"], "page": c.get("page"),
+             "commercial_impressions": c.get("commercial_impressions"),
+             "seed_impressions": c.get("seed_impressions")}
+            for c in ranked[:10]],
+        "gaps": {k: [{"phrase": p["phrase"], "impressions": p["impressions_wordstat"]}
+                     for p in v] for k, v in gap_index.items()},
+        "discovery": [{"brand": d["brand"], "demand": d["demand"]}
+                      for d in sorted(disc, key=lambda x: -(x["demand"] or 0))[:15]],
+    }
+    (SEM_DIR / f"brief-{date}.json").write_text(
+        json.dumps(brief, ensure_ascii=False, indent=1), encoding="utf-8")
+    print(f"gap-анализ: {SEM_DIR}/gap-{date}.md; выжимка: brief-{date}.json")
     return 0
 
 

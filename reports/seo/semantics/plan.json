@@ -1,0 +1,806 @@
+{
+ "schema_version": "1.0.0",
+ "region_id": "225",
+ "region_name": "Россия",
+ "modifiers": [
+  "купить",
+  "оплата",
+  "для юридических лиц",
+  "тариф",
+  "подписка",
+  "лицензия"
+ ],
+ "clusters": [
+  {
+   "cluster": "canva",
+   "vendor": "Canva",
+   "page": "/vendors/canva",
+   "priority": 1,
+   "phrases": [
+    "canva",
+    "canva купить",
+    "canva оплата",
+    "canva для юридических лиц",
+    "canva тариф",
+    "canva подписка",
+    "canva лицензия"
+   ]
+  },
+  {
+   "cluster": "coreldraw",
+   "vendor": "CorelDRAW",
+   "page": "/vendors/coreldraw",
+   "priority": 1,
+   "phrases": [
+    "coreldraw",
+    "coreldraw купить",
+    "coreldraw оплата",
+    "coreldraw для юридических лиц",
+    "coreldraw тариф",
+    "coreldraw подписка",
+    "coreldraw лицензия",
+    "корел купить"
+   ]
+  },
+  {
+   "cluster": "depositphotos",
+   "vendor": "Depositphotos",
+   "page": "/vendors/depositphotos",
+   "priority": 1,
+   "phrases": [
+    "depositphotos",
+    "depositphotos купить",
+    "depositphotos оплата",
+    "depositphotos для юридических лиц",
+    "depositphotos тариф",
+    "depositphotos подписка",
+    "depositphotos лицензия"
+   ]
+  },
+  {
+   "cluster": "heygen",
+   "vendor": "HeyGen",
+   "page": "/vendors/heygen",
+   "priority": 1,
+   "phrases": [
+    "heygen",
+    "heygen купить",
+    "heygen оплата",
+    "heygen для юридических лиц",
+    "heygen тариф",
+    "heygen подписка",
+    "heygen лицензия"
+   ]
+  },
+  {
+   "cluster": "marmoset",
+   "vendor": "Marmoset",
+   "page": "/vendors/marmoset",
+   "priority": 1,
+   "phrases": [
+    "marmoset toolbag",
+    "marmoset toolbag купить",
+    "marmoset toolbag оплата",
+    "marmoset toolbag для юридических лиц",
+    "marmoset toolbag тариф",
+    "marmoset toolbag подписка",
+    "marmoset toolbag лицензия"
+   ]
+  },
+  {
+   "cluster": "оплата-зарубежных-сервисов",
+   "vendor": null,
+   "page": null,
+   "priority": 1,
+   "phrases": [
+    "оплата зарубежных сервисов",
+    "оплата зарубежных сервисов купить",
+    "оплата зарубежных сервисов оплата",
+    "оплата зарубежных сервисов для юридических лиц"
+   ]
+  },
+  {
+   "cluster": "blackmagic",
+   "vendor": "Blackmagic Design",
+   "page": "/vendors/blackmagic",
+   "priority": 2,
+   "phrases": [
+    "davinci resolve",
+    "davinci resolve купить",
+    "davinci resolve оплата",
+    "davinci resolve для юридических лиц",
+    "davinci resolve тариф",
+    "davinci resolve подписка",
+    "davinci resolve лицензия",
+    "davinci resolve купить"
+   ]
+  },
+  {
+   "cluster": "elevenlabs",
+   "vendor": "ElevenLabs",
+   "page": "/vendors/elevenlabs",
+   "priority": 2,
+   "phrases": [
+    "elevenlabs",
+    "elevenlabs купить",
+    "elevenlabs оплата",
+    "elevenlabs для юридических лиц",
+    "elevenlabs тариф",
+    "elevenlabs подписка",
+    "elevenlabs лицензия"
+   ]
+  },
+  {
+   "cluster": "midjourney",
+   "vendor": "Midjourney",
+   "page": "/vendors/midjourney",
+   "priority": 2,
+   "phrases": [
+    "midjourney",
+    "midjourney купить",
+    "midjourney оплата",
+    "midjourney для юридических лиц",
+    "midjourney тариф",
+    "midjourney подписка",
+    "midjourney лицензия",
+    "миджорни купить"
+   ]
+  },
+  {
+   "cluster": "procreate",
+   "vendor": "Procreate",
+   "page": "/vendors/procreate",
+   "priority": 2,
+   "phrases": [
+    "procreate",
+    "procreate купить",
+    "procreate оплата",
+    "procreate для юридических лиц",
+    "procreate тариф",
+    "procreate подписка",
+    "procreate лицензия",
+    "прокриэйт купить"
+   ]
+  },
+  {
+   "cluster": "unity",
+   "vendor": "Unity",
+   "page": "/vendors/unity",
+   "priority": 2,
+   "phrases": [
+    "unity",
+    "unity купить",
+    "unity оплата",
+    "unity для юридических лиц",
+    "unity тариф",
+    "unity подписка",
+    "unity лицензия"
+   ]
+  },
+  {
+   "cluster": "нейросети-для-бизнеса",
+   "vendor": null,
+   "page": null,
+   "priority": 2,
+   "phrases": [
+    "нейросети для бизнеса",
+    "нейросети для бизнеса купить",
+    "нейросети для бизнеса оплата",
+    "нейросети для бизнеса для юридических лиц"
+   ]
+  },
+  {
+   "cluster": "оплата-по-счету-для-юрлиц",
+   "vendor": null,
+   "page": null,
+   "priority": 2,
+   "phrases": [
+    "оплата иностранных сервисов по счету",
+    "оплата иностранных сервисов по счету купить",
+    "оплата иностранных сервисов по счету оплата",
+    "оплата иностранных сервисов по счету для юридических лиц"
+   ]
+  },
+  {
+   "cluster": "adobe",
+   "vendor": "Adobe",
+   "page": "/vendors/adobe",
+   "priority": 3,
+   "phrases": [
+    "adobe",
+    "adobe купить",
+    "adobe оплата",
+    "adobe для юридических лиц",
+    "adobe тариф",
+    "adobe подписка",
+    "adobe лицензия"
+   ]
+  },
+  {
+   "cluster": "artlist",
+   "vendor": "Artlist",
+   "page": "/vendors/artlist",
+   "priority": 3,
+   "phrases": [
+    "artlist",
+    "artlist купить",
+    "artlist оплата",
+    "artlist для юридических лиц",
+    "artlist тариф",
+    "artlist подписка",
+    "artlist лицензия"
+   ]
+  },
+  {
+   "cluster": "astute-graphics",
+   "vendor": "Astute Graphics",
+   "page": "/vendors/astute-graphics",
+   "priority": 3,
+   "phrases": [
+    "astute graphics",
+    "astute graphics купить",
+    "astute graphics оплата",
+    "astute graphics для юридических лиц",
+    "astute graphics тариф",
+    "astute graphics подписка",
+    "astute graphics лицензия"
+   ]
+  },
+  {
+   "cluster": "autodesk",
+   "vendor": "Autodesk",
+   "page": "/vendors/autodesk",
+   "priority": 3,
+   "phrases": [
+    "autodesk",
+    "autodesk купить",
+    "autodesk оплата",
+    "autodesk для юридических лиц",
+    "autodesk тариф",
+    "autodesk подписка",
+    "autodesk лицензия"
+   ]
+  },
+  {
+   "cluster": "avid",
+   "vendor": "Avid",
+   "page": "/vendors/avid",
+   "priority": 3,
+   "phrases": [
+    "avid",
+    "avid купить",
+    "avid оплата",
+    "avid для юридических лиц",
+    "avid тариф",
+    "avid подписка",
+    "avid лицензия"
+   ]
+  },
+  {
+   "cluster": "boris-fx",
+   "vendor": "Boris FX",
+   "page": "/vendors/boris-fx",
+   "priority": 3,
+   "phrases": [
+    "boris fx",
+    "boris fx купить",
+    "boris fx оплата",
+    "boris fx для юридических лиц",
+    "boris fx тариф",
+    "boris fx подписка",
+    "boris fx лицензия"
+   ]
+  },
+  {
+   "cluster": "clip-studio-paint",
+   "vendor": "Clip Studio Paint",
+   "page": "/vendors/clip-studio-paint",
+   "priority": 3,
+   "phrases": [
+    "clip studio paint",
+    "clip studio paint купить",
+    "clip studio paint оплата",
+    "clip studio paint для юридических лиц",
+    "clip studio paint тариф",
+    "clip studio paint подписка",
+    "clip studio paint лицензия"
+   ]
+  },
+  {
+   "cluster": "descript",
+   "vendor": "Descript",
+   "page": "/vendors/descript",
+   "priority": 3,
+   "phrases": [
+    "descript",
+    "descript купить",
+    "descript оплата",
+    "descript для юридических лиц",
+    "descript тариф",
+    "descript подписка",
+    "descript лицензия"
+   ]
+  },
+  {
+   "cluster": "envato",
+   "vendor": "Envato",
+   "page": "/vendors/envato",
+   "priority": 3,
+   "phrases": [
+    "envato",
+    "envato купить",
+    "envato оплата",
+    "envato для юридических лиц",
+    "envato тариф",
+    "envato подписка",
+    "envato лицензия"
+   ]
+  },
+  {
+   "cluster": "epidemic-sound",
+   "vendor": "Epidemic Sound",
+   "page": "/vendors/epidemic-sound",
+   "priority": 3,
+   "phrases": [
+    "epidemic sound",
+    "epidemic sound купить",
+    "epidemic sound оплата",
+    "epidemic sound для юридических лиц",
+    "epidemic sound тариф",
+    "epidemic sound подписка",
+    "epidemic sound лицензия"
+   ]
+  },
+  {
+   "cluster": "fmod",
+   "vendor": "FMOD",
+   "page": "/vendors/fmod",
+   "priority": 3,
+   "phrases": [
+    "fmod",
+    "fmod купить",
+    "fmod оплата",
+    "fmod для юридических лиц",
+    "fmod тариф",
+    "fmod подписка",
+    "fmod лицензия"
+   ]
+  },
+  {
+   "cluster": "foundry",
+   "vendor": "Foundry",
+   "page": "/vendors/foundry",
+   "priority": 3,
+   "phrases": [
+    "foundry",
+    "foundry купить",
+    "foundry оплата",
+    "foundry для юридических лиц",
+    "foundry тариф",
+    "foundry подписка",
+    "foundry лицензия"
+   ]
+  },
+  {
+   "cluster": "framer",
+   "vendor": "Framer",
+   "page": "/vendors/framer",
+   "priority": 3,
+   "phrases": [
+    "framer",
+    "framer купить",
+    "framer оплата",
+    "framer для юридических лиц",
+    "framer тариф",
+    "framer подписка",
+    "framer лицензия"
+   ]
+  },
+  {
+   "cluster": "freepik",
+   "vendor": "Freepik",
+   "page": "/vendors/freepik",
+   "priority": 3,
+   "phrases": [
+    "freepik",
+    "freepik купить",
+    "freepik оплата",
+    "freepik для юридических лиц",
+    "freepik тариф",
+    "freepik подписка",
+    "freepik лицензия"
+   ]
+  },
+  {
+   "cluster": "gaea",
+   "vendor": "QuadSpinner Gaea",
+   "page": "/vendors/gaea",
+   "priority": 3,
+   "phrases": [
+    "quadspinner gaea",
+    "quadspinner gaea купить",
+    "quadspinner gaea оплата",
+    "quadspinner gaea для юридических лиц",
+    "quadspinner gaea тариф",
+    "quadspinner gaea подписка",
+    "quadspinner gaea лицензия"
+   ]
+  },
+  {
+   "cluster": "houdini",
+   "vendor": "SideFX Houdini",
+   "page": "/vendors/houdini",
+   "priority": 3,
+   "phrases": [
+    "sidefx houdini",
+    "sidefx houdini купить",
+    "sidefx houdini оплата",
+    "sidefx houdini для юридических лиц",
+    "sidefx houdini тариф",
+    "sidefx houdini подписка",
+    "sidefx houdini лицензия"
+   ]
+  },
+  {
+   "cluster": "marvelous-designer",
+   "vendor": "Marvelous Designer",
+   "page": "/vendors/marvelous-designer",
+   "priority": 3,
+   "phrases": [
+    "marvelous designer",
+    "marvelous designer купить",
+    "marvelous designer оплата",
+    "marvelous designer для юридических лиц",
+    "marvelous designer тариф",
+    "marvelous designer подписка",
+    "marvelous designer лицензия"
+   ]
+  },
+  {
+   "cluster": "maxon",
+   "vendor": "Maxon",
+   "page": "/vendors/maxon",
+   "priority": 3,
+   "phrases": [
+    "maxon",
+    "maxon купить",
+    "maxon оплата",
+    "maxon для юридических лиц",
+    "maxon тариф",
+    "maxon подписка",
+    "maxon лицензия"
+   ]
+  },
+  {
+   "cluster": "miro",
+   "vendor": "Miro",
+   "page": "/vendors/miro",
+   "priority": 3,
+   "phrases": [
+    "miro",
+    "miro купить",
+    "miro оплата",
+    "miro для юридических лиц",
+    "miro тариф",
+    "miro подписка",
+    "miro лицензия"
+   ]
+  },
+  {
+   "cluster": "monotype",
+   "vendor": "Monotype",
+   "page": "/vendors/monotype",
+   "priority": 3,
+   "phrases": [
+    "monotype",
+    "monotype купить",
+    "monotype оплата",
+    "monotype для юридических лиц",
+    "monotype тариф",
+    "monotype подписка",
+    "monotype лицензия"
+   ]
+  },
+  {
+   "cluster": "motion-array",
+   "vendor": "Motion Array",
+   "page": "/vendors/motion-array",
+   "priority": 3,
+   "phrases": [
+    "motion array",
+    "motion array купить",
+    "motion array оплата",
+    "motion array для юридических лиц",
+    "motion array тариф",
+    "motion array подписка",
+    "motion array лицензия"
+   ]
+  },
+  {
+   "cluster": "native-instruments",
+   "vendor": "Native Instruments",
+   "page": "/vendors/native-instruments",
+   "priority": 3,
+   "phrases": [
+    "native instruments",
+    "native instruments купить",
+    "native instruments оплата",
+    "native instruments для юридических лиц",
+    "native instruments тариф",
+    "native instruments подписка",
+    "native instruments лицензия"
+   ]
+  },
+  {
+   "cluster": "perforce",
+   "vendor": "Perforce",
+   "page": "/vendors/perforce",
+   "priority": 3,
+   "phrases": [
+    "perforce",
+    "perforce купить",
+    "perforce оплата",
+    "perforce для юридических лиц",
+    "perforce тариф",
+    "perforce подписка",
+    "perforce лицензия"
+   ]
+  },
+  {
+   "cluster": "photon",
+   "vendor": "Photon Engine",
+   "page": "/vendors/photon",
+   "priority": 3,
+   "phrases": [
+    "photon engine",
+    "photon engine купить",
+    "photon engine оплата",
+    "photon engine для юридических лиц",
+    "photon engine тариф",
+    "photon engine подписка",
+    "photon engine лицензия"
+   ]
+  },
+  {
+   "cluster": "reallusion",
+   "vendor": "Reallusion",
+   "page": "/vendors/reallusion",
+   "priority": 3,
+   "phrases": [
+    "reallusion",
+    "reallusion купить",
+    "reallusion оплата",
+    "reallusion для юридических лиц",
+    "reallusion тариф",
+    "reallusion подписка",
+    "reallusion лицензия"
+   ]
+  },
+  {
+   "cluster": "recraft",
+   "vendor": "Recraft",
+   "page": "/vendors/recraft",
+   "priority": 3,
+   "phrases": [
+    "recraft",
+    "recraft купить",
+    "recraft оплата",
+    "recraft для юридических лиц",
+    "recraft тариф",
+    "recraft подписка",
+    "recraft лицензия"
+   ]
+  },
+  {
+   "cluster": "rive",
+   "vendor": "Rive",
+   "page": "/vendors/rive",
+   "priority": 3,
+   "phrases": [
+    "rive",
+    "rive купить",
+    "rive оплата",
+    "rive для юридических лиц",
+    "rive тариф",
+    "rive подписка",
+    "rive лицензия"
+   ]
+  },
+  {
+   "cluster": "rizomuv",
+   "vendor": "RizomUV",
+   "page": "/vendors/rizomuv",
+   "priority": 3,
+   "phrases": [
+    "rizomuv",
+    "rizomuv купить",
+    "rizomuv оплата",
+    "rizomuv для юридических лиц",
+    "rizomuv тариф",
+    "rizomuv подписка",
+    "rizomuv лицензия"
+   ]
+  },
+  {
+   "cluster": "runway",
+   "vendor": "Runway",
+   "page": "/vendors/runway",
+   "priority": 3,
+   "phrases": [
+    "runway",
+    "runway купить",
+    "runway оплата",
+    "runway для юридических лиц",
+    "runway тариф",
+    "runway подписка",
+    "runway лицензия"
+   ]
+  },
+  {
+   "cluster": "shutterstock",
+   "vendor": "Shutterstock",
+   "page": "/vendors/shutterstock",
+   "priority": 3,
+   "phrases": [
+    "shutterstock",
+    "shutterstock купить",
+    "shutterstock оплата",
+    "shutterstock для юридических лиц",
+    "shutterstock тариф",
+    "shutterstock подписка",
+    "shutterstock лицензия"
+   ]
+  },
+  {
+   "cluster": "sketch",
+   "vendor": "Sketch",
+   "page": "/vendors/sketch",
+   "priority": 3,
+   "phrases": [
+    "sketch",
+    "sketch купить",
+    "sketch оплата",
+    "sketch для юридических лиц",
+    "sketch тариф",
+    "sketch подписка",
+    "sketch лицензия"
+   ]
+  },
+  {
+   "cluster": "speedtree",
+   "vendor": "SpeedTree",
+   "page": "/vendors/speedtree",
+   "priority": 3,
+   "phrases": [
+    "speedtree",
+    "speedtree купить",
+    "speedtree оплата",
+    "speedtree для юридических лиц",
+    "speedtree тариф",
+    "speedtree подписка",
+    "speedtree лицензия"
+   ]
+  },
+  {
+   "cluster": "spine",
+   "vendor": "Spine",
+   "page": "/vendors/spine",
+   "priority": 3,
+   "phrases": [
+    "spine",
+    "spine купить",
+    "spine оплата",
+    "spine для юридических лиц",
+    "spine тариф",
+    "spine подписка",
+    "spine лицензия"
+   ]
+  },
+  {
+   "cluster": "telestream",
+   "vendor": "Telestream",
+   "page": "/vendors/telestream",
+   "priority": 3,
+   "phrases": [
+    "telestream",
+    "telestream купить",
+    "telestream оплата",
+    "telestream для юридических лиц",
+    "telestream тариф",
+    "telestream подписка",
+    "telestream лицензия"
+   ]
+  },
+  {
+   "cluster": "topaz-labs",
+   "vendor": "Topaz Labs",
+   "page": "/vendors/topaz-labs",
+   "priority": 3,
+   "phrases": [
+    "topaz labs",
+    "topaz labs купить",
+    "topaz labs оплата",
+    "topaz labs для юридических лиц",
+    "topaz labs тариф",
+    "topaz labs подписка",
+    "topaz labs лицензия"
+   ]
+  },
+  {
+   "cluster": "unreal-engine",
+   "vendor": "Unreal Engine",
+   "page": "/vendors/unreal-engine",
+   "priority": 3,
+   "phrases": [
+    "unreal engine",
+    "unreal engine купить",
+    "unreal engine оплата",
+    "unreal engine для юридических лиц",
+    "unreal engine тариф",
+    "unreal engine подписка",
+    "unreal engine лицензия"
+   ]
+  },
+  {
+   "cluster": "vegas",
+   "vendor": "MAGIX Vegas",
+   "page": "/vendors/vegas",
+   "priority": 3,
+   "phrases": [
+    "magix vegas",
+    "magix vegas купить",
+    "magix vegas оплата",
+    "magix vegas для юридических лиц",
+    "magix vegas тариф",
+    "magix vegas подписка",
+    "magix vegas лицензия"
+   ]
+  },
+  {
+   "cluster": "wondershare",
+   "vendor": "Wondershare",
+   "page": "/vendors/wondershare",
+   "priority": 3,
+   "phrases": [
+    "wondershare",
+    "wondershare купить",
+    "wondershare оплата",
+    "wondershare для юридических лиц",
+    "wondershare тариф",
+    "wondershare подписка",
+    "wondershare лицензия"
+   ]
+  },
+  {
+   "cluster": "wwise",
+   "vendor": "Audiokinetic",
+   "page": "/vendors/wwise",
+   "priority": 3,
+   "phrases": [
+    "audiokinetic",
+    "audiokinetic купить",
+    "audiokinetic оплата",
+    "audiokinetic для юридических лиц",
+    "audiokinetic тариф",
+    "audiokinetic подписка",
+    "audiokinetic лицензия"
+   ]
+  },
+  {
+   "cluster": "zeplin",
+   "vendor": "Zeplin",
+   "page": "/vendors/zeplin",
+   "priority": 3,
+   "phrases": [
+    "zeplin",
+    "zeplin купить",
+    "zeplin оплата",
+    "zeplin для юридических лиц",
+    "zeplin тариф",
+    "zeplin подписка",
+    "zeplin лицензия"
+   ]
+  }
+ ],
+ "planned_requests": 366
+}

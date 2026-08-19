@@ -17,6 +17,8 @@ on:
       - "scripts/seo/collect_wordstat.py"
       - "scripts/seo/semantics.py"
       - "reports/seo/semantics/clusters.json"
+      - "reports/seo/semantics/discovery.json"
+      - "scripts/seo/build_clusters.py"
   workflow_dispatch:
 
 permissions:
@@ -45,6 +47,7 @@ jobs:
             echo "::error::Секрет WORDSTAT_API_KEY не задан — сбор спроса пропущен."
             exit 1
           fi
+          python3 scripts/seo/build_clusters.py
           python3 scripts/seo/collect_wordstat.py
           python3 scripts/seo/semantics.py
 
