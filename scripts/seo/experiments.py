@@ -52,11 +52,11 @@ def impressions_for_pages(snap: dict, pages: list[str]) -> tuple[int | None, int
     return imp, clicks
 
 
-def verdict_for(days: int, impressions: int | None, recrawled: int | None,
+def verdict_for(days: int, impressions: int | None, live: int | None,
                 total: int) -> tuple[str, str]:
-    if recrawled is not None and total and recrawled < total:
+    if live is not None and total and live < total:
         return ("too_early",
-                f"поиск обновил {recrawled} из {total} страниц — эффект ещё не может "
+                f"изменение выкачено на {live} из {total} страниц — эффект не может "
                 "проявиться на всей группе")
     if days < MIN_EXPOSURE_DAYS:
         return ("too_early",
@@ -82,9 +82,12 @@ def build(snap: dict, date: str, site_check: dict | None = None) -> list[dict]:
         days = (today - start).days
         imp, clicks = impressions_for_pages(snap, pages)
         checked = (site_check or {}).get(e["id"], {})
-        recrawled = checked.get("pages_recrawled")
+        # Проверка живого сайта подтверждает выкат, но не обновление сниппета в
+        # выдаче: индекс поисковика по своему же сайту не проверить. Разводим
+        # эти сущности, чтобы не выдавать выкат за переобход.
+        live = checked.get("pages_recrawled")
         snippets = checked.get("new_snippets_detected")
-        v, why = verdict_for(days, imp, recrawled, len(pages))
+        v, why = verdict_for(days, imp, live, len(pages))
         out.append({
             "id": e["id"],
             "ticket": "SEO-EXP-001",
@@ -97,8 +100,13 @@ def build(snap: dict, date: str, site_check: dict | None = None) -> list[dict]:
             "days_elapsed": days,
             "minimum_exposure": f"{MIN_EXPOSURE_DAYS} дн. и {MIN_EXPOSURE_IMPRESSIONS} показов",
             "pages_total": len(pages),
-            "pages_recrawled": recrawled,
-            "new_snippets_detected": snippets,
+            "pages_live_with_treatment": live,
+            "new_variant_detected_on_site": snippets,
+            "search_snippet_refresh": ("не подтверждено" if live else "нет данных"),
+            "search_snippet_refresh_note":
+                "Выкат на сайте проверен напрямую. Обновил ли Яндекс сниппет в выдаче, "
+                "по нашему сайту установить нельзя — это будет видно по данным "
+                "Вебмастера через несколько дней после переобхода.",
             "impressions_since_deploy": imp,
             "impressions_estimated": True,
             "clicks_since_deploy": clicks,

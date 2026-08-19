@@ -125,9 +125,8 @@ def kpi_cards(snap: dict, prev: dict | None, dq: dict) -> list[dict]:
          "interpretation": f"На первой странице {yt['queries_position_le_10']} из "
                            f"{yt['queries_tracked']} запросов выборки, "
                            f"{signed(top_delta)} к вчера. "
-                           f"CTR выборки {pct(sample.get('value'), 2)} — показы и переходы "
-                           f"здесь измерены на одних и тех же запросах, поэтому величина "
-                           f"корректна; CTR всего сайта она не заменяет.",
+                           f"CTR выборки {pct(sample.get('value'), 2)} — "
+                           f"{sample.get('caveat', '')}.",
          "muted": False, "sparkline": None},
         {"key": "google", "label": "Видимость в Google",
          "value": num(gt["impressions_last7"]), "unit": "показов за неделю",
@@ -154,8 +153,8 @@ def kpi_cards(snap: dict, prev: dict | None, dq: dict) -> list[dict]:
                    f"{ru_date(m['source']['current_period_end'])}",
          "source": "Яндекс.Метрика, весь сайт",
          "confidence": "достаточная",
-         "interpretation": "Считается по всему сайту и всем поисковикам — "
-                           "с выборкой запросов Вебмастера не сравнивается.",
+         "interpretation": "Люди, пришедшие на сайт из поиска: весь сайт, "
+                           "все поисковые системы.",
          "muted": False, "sparkline": None},
     ]
 
@@ -176,7 +175,7 @@ def kpi_cards(snap: dict, prev: dict | None, dq: dict) -> list[dict]:
             "relative_note": "",
             "period": f"{ru_date(m['source']['current_period_start'])}–"
                       f"{ru_date(m['source']['current_period_end'])}",
-            "source": "Метрика; обращения и выручка не измеряются",
+            "source": "Яндекс.Метрика, весь сайт",
             "confidence": f"низкая: {counted(events, 'событие', 'события', 'событий')}",
             "interpretation": "Это срабатывания форм на сайте, а не подтверждённые "
                               "обращения: CRM не подключена.",
@@ -220,7 +219,7 @@ def signals(snap: dict, prev: dict | None) -> list[dict]:
         "metric": "Запросы выборки на первой странице",
         "current": num(yt["queries_position_le_10"]),
         "previous": num(yp["queries_position_le_10"]), "delta": signed(td),
-        "confidence": "достаточная, но только по выборке 100 запросов",
+        "confidence": "достаточная",
         "meaning": "Яндекс в целом стабилен, внутри выборки есть умеренное снижение."
                    if td < 0 else "Внутри выборки прибавилось запросов на первой странице."})
     return out[:3]
@@ -351,12 +350,11 @@ def _measurement_summary(dq: dict) -> str:
     rows = {r["metric"]: r for r in dq.get("measurement_map", [])}
     imp = rows.get("impressions", {})
     visits = rows.get("visits", {})
-    return (f"Мы не сводим эти числа в одно: показы и переходы Яндекса относятся к "
-            f"{imp.get('scope', 'выборке запросов')}, визиты Метрики — к "
-            f"{visits.get('scope', 'всему сайту')} и ко всем поисковым системам сразу. "
-            f"Это разные множества, а не расхождение источников: приводить их к одному "
-            f"определению визита было бы ошибкой. Сравнивать между собой можно показы "
-            f"и переходы одной выборки, а также визиты Метрики и сессии GA4.")
+    return (f"Показы и переходы Яндекса относятся к {imp.get('scope', 'выборке запросов')}, "
+            f"визиты Метрики — к {visits.get('scope', 'всему сайту')} и ко всем поисковым "
+            f"системам сразу. Приводить их к одному определению визита было бы ошибкой: "
+            f"мы бы получили одно число вместо двух разных фактов. Корректно сопоставлять "
+            f"показы с переходами одной выборки, а визиты Метрики — с сессиями GA4.")
 
 
 def _sources_line(snap: dict) -> str:
@@ -391,7 +389,7 @@ def _checkpoints(exps, actions_cfg) -> list[dict]:
 
 def _pill(p: dict) -> str:
     c = PILL_COLOUR[p["state"]]
-    return (f"<span style=\"display:inline-block;padding:3px 10px;margin:0 6px 6px 0;"
+    return (f"<span data-meta=\"1\" style=\"display:inline-block;padding:3px 10px;margin:0 6px 6px 0;"
             f"border:1px solid {c};border-radius:999px;font-size:12.5px;"
             f"color:{c};white-space:nowrap;\">{p['label']}: {p['text']}</span>")
 
@@ -401,14 +399,12 @@ def _kpi_cell(k: dict, charts: dict, cid_mode: bool) -> str:
     tone = T["muted"] if k["muted"] else T["text_primary"]
     delta = (f"<span style=\"font-size:14px;color:{dir_colour};font-weight:600;\">"
              f"{k['delta']}</span>" if k["delta"] else "")
-    rel = (f"<span style=\"font-size:13px;color:{T['text_secondary']};\"> "
+    rel = (f"<span data-meta=\"1\" style=\"font-size:13px;color:{T['text_secondary']};\"> "
            f"{k['relative']}</span>" if k.get("relative") else "")
     spark = ""
-    if k.get("sparkline"):
-        spark = charts_v4.sparkline_svg(k["sparkline"], 120, 26,
-                                        T["positive"] if k["delta_dir"] != "down"
-                                        else T["danger"])
-        spark = f"<div style=\"padding-top:{SP['s']}px;\">{spark}</div>"
+    if k.get("slope") and charts.get("kpi-slope"):
+        spark = (f"<div style=\"padding-top:{SP['s']}px;\">"
+                 f"{_img(charts, 'kpi-slope', cid_mode)}</div>")
     return (
         f"<table role=\"presentation\" width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" "
         f"style=\"background:{T['surface']};border:1px solid {T['border']};"
@@ -418,7 +414,8 @@ def _kpi_cell(k: dict, charts: dict, cid_mode: bool) -> str:
         f"<div style=\"padding-top:{SP['xs']}px;\">"
         f"<span style=\"font-size:30px;line-height:1.1;font-weight:700;color:{tone};\">"
         f"{k['value']}</span> "
-        f"<span style=\"font-size:13.5px;color:{T['text_secondary']};\">{k['unit']}</span>"
+        f"<span data-meta=\"1\" style=\"font-size:13.5px;color:{T['text_secondary']};\">"
+        f"{k['unit']}</span>"
         f" {delta}{rel}</div>"
         f"{spark}"
         f"<div style=\"font-size:14.5px;color:{T['text_primary']};padding-top:{SP['s']}px;"
@@ -481,16 +478,27 @@ def html_email(b: dict, charts: dict, cid_mode: bool) -> str:
             f"color:{T['text_primary']};line-height:1.55;\">"
             f"<b>От вас:</b> {b['user_action']} Остальное система ведёт сама.</td></tr>")
 
-    # D. KPI
-    kpi_cells = "".join(
-        f"<td class=\"kpi\" width=\"50%\" style=\"padding:{SP['s']}px;vertical-align:top;\">"
-        f"{_kpi_cell(k, charts, cid_mode)}</td>"
-        + ("</tr><tr>" if i % 2 == 1 and i < len(b["kpis"]) - 1 else "")
-        for i, k in enumerate(b["kpis"]))
+    # D. KPI — fluid hybrid: две колонки на десктопе, одна на узком экране.
+    # Ширина карточки задана max-width, а не процентом: Gmail вырезает <style>
+    # с media queries, поэтому вёрстка не должна на них опираться.
+    cells = []
+    for i, k in enumerate(b["kpis"]):
+        mso_open = ("<!--[if mso]><table role=\"presentation\" width=\"100%\"><tr>"
+                    "<td width=\"50%\" valign=\"top\"><![endif]-->" if i == 0 else
+                    "<!--[if mso]></td><td width=\"50%\" valign=\"top\"><![endif]-->"
+                    if i % 2 == 1 else
+                    "<!--[if mso]></td></tr><tr><td width=\"50%\" valign=\"top\">"
+                    "<![endif]-->")
+        cells.append(
+            f"{mso_open}"
+            f"<div class=\"kpi\" style=\"display:inline-block;width:100%;"
+            f"max-width:308px;vertical-align:top;padding:{SP['s']}px;font-size:15px;\">"
+            f"{_kpi_cell(k, charts, cid_mode)}</div>")
+    cells.append("<!--[if mso]></td></tr></table><![endif]-->")
     rows.append(_section(
         "Показатели",
-        f"<table role=\"presentation\" width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" "
-        f"style=\"margin:-{SP['s']}px;\"><tr>{kpi_cells}</tr></table>"))
+        f"<div data-meta=\"1\" style=\"font-size:0;margin:-{SP['s']}px;\">"
+        f"{''.join(cells)}</div>"))
     rows.append(FIRST_SCREEN_MARKER)
 
     # E. Сигналы дня
@@ -555,8 +563,10 @@ def html_email(b: dict, charts: dict, cid_mode: bool) -> str:
             f"<div style=\"font-size:15px;padding-top:{SP['m']}px;line-height:1.65;\">"
             f"Запуск {ru_date(e['start'])}, прошло {counted(e['days_elapsed'], 'день', 'дня', 'дней')}. "
             f"Минимум для вывода: {e['minimum_exposure']}.<br>"
-            f"Обновлено в поиске: {num(e['pages_recrawled'])} из {e['pages_total']} · "
-            f"новых описаний найдено: {num(e['new_snippets_detected'])}<br>"
+            f"Новый вариант на сайте: {num(e['pages_live_with_treatment'])} из "
+            f"{e['pages_total']} страниц, проверено напрямую.<br>"
+            f"Обновление сниппета в выдаче: {e['search_snippet_refresh']} — "
+            f"{e['search_snippet_refresh_note']}<br>"
             f"Накоплено: {e['current_result']} — достоверность {e['confidence_plain']}.<br>"
             f"Целевой показатель: {e['metric_plain']}<br>"
             f"Вывод: <b>{VERDICT_LABEL[e['verdict']]}</b> — {e['verdict_reason']}. "
@@ -564,36 +574,41 @@ def html_email(b: dict, charts: dict, cid_mode: bool) -> str:
             f"<div style=\"padding-top:{SP['m']}px;\">{_img(charts, 'experiment', cid_mode)}</div>"
             f"</td></tr></table>"))
 
-    # H. Автономное исполнение
+    # H. Автономное исполнение — фиксированный layout: содержимое переносится,
+    # а не распирает письмо. Статус и результат уходят в подпись под задачей,
+    # иначе шесть колонок не помещаются в 375 px.
     if b["board"]:
         head = ("Задача", "Кто", "Стадия", "Срок")
-        th = "".join(f"<th align=\"left\" style=\"font-size:12.5px;font-weight:600;"
+        th = "".join(f"<th align=\"left\" data-meta=\"1\" style=\"font-size:12.5px;font-weight:600;"
                      f"color:{T['text_secondary']};padding:0 {SP['s']}px {SP['s']}px 0;\">"
                      f"{h}</th>" for h in head)
         trs = ""
         for r in b["board"]:
-            extra = ""
+            meta = f"{r['status']} · {r.get('artifact') or 'без артефакта'}"
             if r.get("pr"):
-                extra = (f"<div data-meta=\"1\" style=\"font-size:12.5px;"
-                         f"color:{T['text_secondary']};padding-top:2px;\">"
-                         f"PR {r['pr']} · проверки {r['ci']} · тестирование {r['qa']} · "
-                         f"{r['deploy']} · откат {r['rollback']}</div>")
-            trs += (f"<tr><td class=\"cell\" style=\"padding:{SP['s']}px {SP['s']}px "
-                    f"{SP['s']}px 0;border-top:1px solid {T['border']};"
-                    f"font-size:14.5px;line-height:1.5;\">"
+                meta += (f" · PR {r['pr']} · проверки {r['ci']} · тестирование {r['qa']}"
+                         f" · {r['deploy']} · откат {r['rollback']}")
+            cell = (f"padding:{SP['s']}px {SP['s']}px {SP['s']}px 0;"
+                    f"border-top:1px solid {T['border']};")
+            trs += (f"<tr><td style=\"{cell}font-size:14.5px;line-height:1.5;"
+                    f"word-break:break-word;\">"
                     f"<a href=\"{r['artifact_url']}\" style=\"color:{T['text_primary']};"
-                    f"text-decoration:none;\">{r['task']}</a>{extra}</td>"
-                    f"<td class=\"cell\" style=\"padding:{SP['s']}px {SP['s']}px {SP['s']}px 0;"
-                    f"border-top:1px solid {T['border']};font-size:14px;"
-                    f"color:{T['text_secondary']};\">{r['owner']}</td>"
-                    f"<td class=\"cell\" style=\"padding:{SP['s']}px {SP['s']}px {SP['s']}px 0;"
-                    f"border-top:1px solid {T['border']};font-size:14px;\">{r['status']}</td>"
-                    f"<td class=\"cell\" style=\"padding:{SP['s']}px 0;"
-                    f"border-top:1px solid {T['border']};font-size:14px;"
-                    f"color:{T['text_secondary']};\">{r['due']}</td></tr>")
+                    f"text-decoration:none;\">{r['task']}</a>"
+                    f"<div data-meta=\"1\" style=\"font-size:12.5px;"
+                    f"color:{T['text_secondary']};padding-top:2px;line-height:1.45;\">"
+                    f"{meta}</div></td>"
+                    f"<td style=\"{cell}font-size:14px;color:{T['text_secondary']};"
+                    f"word-break:break-word;\">{r['owner']}</td>"
+                    f"<td style=\"{cell}font-size:14px;word-break:break-word;\">"
+                    f"{r['stage']}</td>"
+                    f"<td style=\"padding:{SP['s']}px 0;border-top:1px solid {T['border']};"
+                    f"font-size:14px;color:{T['text_secondary']};\">{r['due']}</td></tr>")
         rows.append(_section(
             "Система уже делает",
-            f"<table role=\"presentation\" width=\"100%\" cellpadding=\"0\" cellspacing=\"0\">"
+            f"<table role=\"presentation\" width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" "
+            f"style=\"width:100%;table-layout:fixed;\">"
+            f"<colgroup><col style=\"width:46%\"><col style=\"width:19%\">"
+            f"<col style=\"width:19%\"><col style=\"width:16%\"></colgroup>"
             f"<tr>{th}</tr>{trs}</table>",
             "Показаны задачи со сменой статуса, блокировкой или сроком в ближайшую неделю"))
 
@@ -638,6 +653,11 @@ def html_email(b: dict, charts: dict, cid_mode: bool) -> str:
         cps = "".join(
             f"<div style=\"font-size:15px;padding:{SP['xs']}px 0;line-height:1.55;\">"
             f"<b>{c['date']}</b> — {c['what']}</div>" for c in b["checkpoints"])
+        cps += (f"<div data-meta=\"1\" style=\"font-size:12.5px;color:{T['text_secondary']};"
+                f"padding-top:{SP['s']}px;line-height:1.45;\">"
+                f"До этих дат выводы по эксперименту не делаются: данных выдачи за более "
+                f"короткий срок недостаточно, чтобы отличить эффект от обычных колебаний."
+                f"</div>")
         rows.append(_section("Следующие проверки", cps))
 
     # L. Ссылки
@@ -655,7 +675,7 @@ def html_email(b: dict, charts: dict, cid_mode: bool) -> str:
     media = (
         "@media only screen and (max-width:480px){"
         ".wrap{width:100%!important;padding:16px!important}"
-        ".kpi{display:block!important;width:100%!important;padding:6px 0!important}"
+        ".kpi{max-width:100%!important;padding:6px 0!important}"
         ".cell{display:block!important;width:100%!important;border-top:0!important;"
         "padding:2px 0!important}"
         ".row{border-top:1px solid #EAECF0!important;padding-top:10px!important}"
@@ -669,8 +689,8 @@ def html_email(b: dict, charts: dict, cid_mode: bool) -> str:
         f"<table role=\"presentation\" width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" "
         f"style=\"background:{T['background']};\"><tr>"
         f"<td align=\"center\" style=\"padding:{SP['xl']}px {SP['m']}px;\">"
-        f"<table role=\"presentation\" class=\"wrap\" width=\"680\" cellpadding=\"0\" "
-        f"cellspacing=\"0\" style=\"width:680px;max-width:680px;background:{T['surface']};"
+        f"<table role=\"presentation\" class=\"wrap\" width=\"100%\" cellpadding=\"0\" "
+        f"cellspacing=\"0\" style=\"width:100%;max-width:680px;background:{T['surface']};"
         f"border-radius:16px;padding:{SP['xxl']}px;font-family:{FONT};"
         f"color:{T['text_primary']};\">"
         + "".join(rows) +
@@ -699,15 +719,17 @@ def plain_text(b: dict) -> str:
                  f"({round(r['share_of_total_delta'] * 100)}% изменения)")
     for e in b["experiments"]:
         L += ["", "КОНТРОЛЬ ЭКСПЕРИМЕНТА",
-              f"- {e['ticket']}: {e['pages_total']} карточек, обновлено в поиске "
-              f"{num(e['pages_recrawled'])}, новых описаний {num(e['new_snippets_detected'])}",
+              f"- {e['ticket']}: {e['pages_total']} карточек, новый вариант на сайте "
+              f"{num(e['pages_live_with_treatment'])}, обновление сниппета в выдаче: "
+              f"{e['search_snippet_refresh']}",
               f"  {e['current_result']}",
               f"  вывод: {VERDICT_LABEL[e['verdict']]} — {e['verdict_reason']}",
               f"  {e['combined_note']}"]
     if b["board"]:
         L += ["", "СИСТЕМА УЖЕ ДЕЛАЕТ"]
         for r in b["board"]:
-            L.append(f"- {r['task']} — {r['owner']} · {r['status']} · до {r['due']}")
+            L.append(f"- {r['task']} — {r['owner']} · стадия: {r['stage']} · "
+                     f"{r['status']} · до {r['due']} · {r.get('artifact') or '—'}")
             if r.get("pr"):
                 L.append(f"  PR {r['pr']} · проверки {r['ci']} · тестирование {r['qa']} · "
                          f"{r['deploy']} · откат {r['rollback']}")

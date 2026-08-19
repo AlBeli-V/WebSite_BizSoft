@@ -121,11 +121,18 @@ class TestQuality(unittest.TestCase):
         cls.dq = load_json(BASE / "data-quality" / f"{DATE}.json")
         cls.codes = {f["code"]: f for f in cls.dq["findings"]}
 
-    def test_reconciliation_is_critical(self):
-        self.assertEqual(self.codes["SOURCE_RECONCILIATION"]["level"], "critical")
-        self.assertEqual(self.dq["status"], "critical")
+    def test_scope_mismatch_is_warning_not_critical(self):
+        """Исправление методики 19.08.2026: разный охват — ограничение, а не поломка.
 
-    def test_no_green_status_when_critical(self):
+        Клики по выборке топ-100 запросов и визиты всего сайта измеряют разные
+        множества, поэтому их отношение не является расхождением источников.
+        """
+        self.assertNotIn("SOURCE_RECONCILIATION", self.codes)
+        self.assertEqual(self.codes["SCOPE_MISMATCH"]["level"], "warning")
+        self.assertEqual(self.dq["data_health"]["status"], "limited")
+        self.assertEqual(self.dq["status"], "warning")
+
+    def test_no_green_status_while_warnings_remain(self):
         self.assertFalse(self.dq["publication_rules"]["allow_green_overall_status"])
 
     def test_measurement_change_warning(self):

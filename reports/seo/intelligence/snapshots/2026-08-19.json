@@ -1,7 +1,7 @@
 {
  "schema_version": "2.1.0",
  "report_date": "2026-08-19",
- "generated_at": "2026-08-19T22:53:47+00:00",
+ "generated_at": "2026-08-19T23:42:06+00:00",
  "reporting_timezone": "Asia/Bishkek (UTC+6)",
  "thresholds": {
   "low_impressions": 50,
@@ -2707,7 +2707,10 @@
  ],
  "market_demand": {
   "available": false,
-  "reason": "замер рыночного спроса ещё не собран",
+  "reason": "замер начат, но ни один кластер ещё не собран",
+  "measured_at": "2026-08-19",
+  "coverage": "0/554",
+  "complete": false,
   "comparable_to_visibility": false
  },
  "data_revisions": [

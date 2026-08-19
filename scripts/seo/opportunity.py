@@ -22,11 +22,14 @@ CONFIDENCE_WEIGHT = {"sufficient": 1.0, "low": 0.6, "very_low": 0.3, "unknown": 
 # Полоса позиций → ожидаемый эффект и трудоёмкость типового действия.
 BANDS = [
     (0.0, 10.0, "в первой десятке, но без переходов", 0.9, 1,
-     "переписать заголовок и описание страницы под запрос"),
+     "переписать заголовок и описание страницы под запрос",
+     "переходы при том же объёме показов — платить за них не нужно"),
     (10.0, 20.0, "на второй странице", 0.7, 2,
-     "усилить страницу под запрос: заголовок, ответ на вопрос, внутренняя ссылка"),
+     "усилить страницу под запрос: заголовок, ответ на вопрос, внутренняя ссылка",
+     "выход на первую страницу открывает основной объём показов"),
     (20.0, 40.0, "далеко от первой страницы", 0.4, 3,
-     "отдельный блок или страница под кластер запроса"),
+     "отдельный блок или страница под кластер запроса",
+     "новая точка входа там, где сейчас нас практически не видно"),
 ]
 MIN_IMPRESSIONS = 8
 
@@ -34,9 +37,10 @@ MIN_IMPRESSIONS = 8
 def band_for(position: float | None):
     if position is None:
         return None
-    for lo, hi, label, impact, effort, action in BANDS:
+    for lo, hi, label, impact, effort, action, upside in BANDS:
         if lo < position <= hi:
-            return {"label": label, "impact": impact, "effort": effort, "action": action}
+            return {"label": label, "impact": impact, "effort": effort,
+                    "action": action, "upside": upside}
     return None
 
 
@@ -74,7 +78,7 @@ def from_queries(snap: dict, engine: str) -> list[dict]:
             "evidence": f"{imp} показов по запросу за период, средняя позиция "
                         f"{r['average_position']} — {band['label']}",
             "evidence_kind": "our_impressions",
-            "potential": band["label"],
+            "potential": band["upside"],
             "confidence": r.get("confidence", "unknown"),
             "recommended_action": band["action"],
             "effort": band["effort"],
@@ -103,7 +107,7 @@ def from_market_demand(snap: dict) -> list[dict]:
                         f"(рыночный спрос, замер {md['source']['measured_at']}), "
                         "наша страница по этим словам не видна",
             "evidence_kind": "market_demand",
-            "potential": "спрос есть, страница под него не оптимизирована",
+            "potential": "запрос с подтверждённым спросом, по которому нас нет",
             "confidence": "sufficient" if md.get("complete") else "low",
             "recommended_action": "довести карточку до запроса: заголовок, описание, ответ в FAQ",
             "effort": 2,
