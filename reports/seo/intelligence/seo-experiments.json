@@ -1,0 +1,25 @@
+{
+  "experiments": [
+    {
+      "id": "snippets-5-vendors",
+      "start": "2026-08-19",
+      "status": "running",
+      "pages": [
+        "/vendors/canva",
+        "/vendors/depositphotos",
+        "/vendors/coreldraw",
+        "/vendors/heygen",
+        "/vendors/marmoset"
+      ],
+      "changes": [
+        "title по формуле «Оплата {Vendor} для юр(идических )лиц из России — счёт, договор, ЭДО | BIZSoft» (HeyGen и Marmoset — свои формулы); ядро ≤65 символов",
+        "description: «Оплатим подписку {Vendor} на вашу компанию в рублях по счёту. Договор, закрывающие документы через ЭДО, доступ за 1–3 дня.» (≤160)",
+        "FAQ-блок «Как купить {Vendor} на юрлицо» — 4 вопроса (счёт и договор, ЭДО, сроки 1–3 дня, рубли по курсу ЦБ) с FAQPage-разметкой"
+      ],
+      "hypothesis": "Коммерческие сниппеты с явным интентом «оплата на юрлицо, счёт, договор, ЭДО» и FAQ-разметка поднимут кликабельность страниц в выдаче Яндекса по транзакционным запросам кластеров.",
+      "success_metric": "CTR кластеров Canva/Depositphotos/CorelDRAW/HeyGen/Marmoset в Яндекс.Вебмастере ≥2% через 7 дней (26.08.2026), ≥3% через 14 дней (02.09.2026)",
+      "control_group": "остальные vendor-страницы без изменений",
+      "source": "src/data/seo-experiments.ts (рендер: src/pages/vendors/[slug].astro → VendorLanding)"
+    }
+  ]
+}

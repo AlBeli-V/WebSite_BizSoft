@@ -33,6 +33,7 @@
     "xlsx": "0.18.5"
   },
   "devDependencies": {
+    "@astrojs/check": "^0.9.10",
     "@types/node": "^22.13.4",
     "@types/nodemailer": "^6.4.17",
     "@types/pdfkit": "^0.13.9",
