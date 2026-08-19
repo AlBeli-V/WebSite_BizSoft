@@ -18,7 +18,7 @@ SEO и разработки. Письмо уходит в 9:00 (Asia/Bishkek, UT
 | 5. Отчёт | `python3 scripts/seo/report_v3.py <дата>` | письмо (`-executive-email.html`), preview, `.txt`, `.eml`, приложение |
 | 6. UX lint письма | `python3 scripts/seo/uxlint.py <дата>` | `intelligence/<дата>-uxlint.json` (17 проверок) |
 | 7. Скриншоты | `node scripts/seo/render.mjs <манифест>` | `intelligence/previews/<дата>-{mobile,desktop}.png` |
-| 8. Тесты | `python3 -m unittest discover -s scripts/seo/tests` | 52 проверки расчётов, формулировок и письма |
+| 8. Тесты | `python3 -m unittest discover -s scripts/seo/tests` | 56 проверок расчётов, формулировок, письма и сбора спроса |
 | 9. Доставка | `seo-report-email.yml` | письмо с PNG-вложениями (CID) + текстовая версия |
 | 10. Проверка сайта | `seo-site-check.yml` | title и FAQPage на живых страницах экспериментов |
 | 11. Рыночный спрос | `seo-wordstat.yml` → `build_clusters.py` → `collect_wordstat.py` → `semantics.py` | `semantics/core-<дата>.json`, `gap-<дата>.md`, `brief-<дата>.json` (помесячно) |

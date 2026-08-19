@@ -286,3 +286,38 @@ class TestAppendix(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)
+
+
+class TestWordstat(unittest.TestCase):
+    """Сбор рыночного спроса: релевантность, единицы, дисциплина нуля."""
+
+    def setUp(self):
+        import importlib.util
+        spec = importlib.util.spec_from_file_location(
+            "collect_wordstat", ROOT / "scripts" / "seo" / "collect_wordstat.py")
+        self.cw = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(self.cw)
+
+    def test_relevance_filter_drops_homonyms(self):
+        """«корал тревел» не должен считаться спросом на CorelDRAW."""
+        noise = [{"phrase": "корал тревел купить"}, {"phrase": "пионы корал шарм купить"},
+                 {"phrase": "корела водка купить"}]
+        for item in noise:
+            self.assertFalse(self.cw.relevant(item, "coreldraw"))
+        self.assertTrue(self.cw.relevant({"phrase": "coreldraw купить"}, "coreldraw"))
+
+    def test_dedupe_keeps_highest_frequency(self):
+        rows = [{"phrase": "canva купить", "impressions_wordstat": 10},
+                {"phrase": "canva купить", "impressions_wordstat": 40}]
+        out = self.cw.dedupe(rows)
+        self.assertEqual(len(out), 1)
+        self.assertEqual(out[0]["impressions_wordstat"], 40)
+
+    def test_hourly_limit_is_declared(self):
+        """Лимит сервиса зафиксирован в коде, а потолок прогона ниже него."""
+        self.assertEqual(self.cw.HOURLY_LIMIT, 100)
+        self.assertLess(self.cw.RUN_CAP, self.cw.HOURLY_LIMIT)
+
+    def test_row_marks_missing_count_as_none(self):
+        """Нет данных — None, не ноль."""
+        self.assertIsNone(self.cw.row({"phrase": "x"})["impressions_wordstat"])
