@@ -6,6 +6,11 @@ name: ops-server-stats
 
 on:
   workflow_dispatch:
+  # workflow_dispatch недоступен для веток вне default, поэтому дополнительно
+  # запускаемся по пушу изменения самого файла на рабочей ветке диагностики.
+  push:
+    branches: ['claude/beget-logs-load-analysis-ovbvbc']
+    paths: ['.github/workflows/ops-server-stats.yml']
 
 permissions:
   contents: read
