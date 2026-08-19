@@ -1,0 +1,40 @@
+# Скриншот живой страницы сайта Chrome'ом на runner'е (у сессий Claude нет
+# прямого доступа к проду — визуальная проверка через artifact этого workflow).
+name: ops-screenshot
+on:
+  workflow_dispatch:
+    inputs:
+      url:
+        description: 'Полный URL страницы'
+        required: true
+        default: 'https://biz-soft.pro/'
+      window:
+        description: 'Размер окна WxH'
+        required: false
+        default: '1440x1000'
+      dsf:
+        description: 'device-scale-factor'
+        required: false
+        default: '1'
+jobs:
+  shot:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Screenshot
+        env:
+          URL: ${{ inputs.url }}
+          WIN: ${{ inputs.window }}
+          DSF: ${{ inputs.dsf }}
+        run: |
+          W="${WIN%x*}"; H="${WIN#*x}"
+          google-chrome --headless=new --no-sandbox --disable-gpu \
+            --window-size="$W,$H" --force-device-scale-factor="$DSF" \
+            --virtual-time-budget=15000 --hide-scrollbars \
+            --screenshot=shot.png "$URL"
+          ls -la shot.png
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: screenshot
+          path: shot.png
+          retention-days: 3
