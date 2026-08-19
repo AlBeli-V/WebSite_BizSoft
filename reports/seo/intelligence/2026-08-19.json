@@ -5,22 +5,22 @@
   "gsc": 2
  },
  "growth_score": {
-  "score": 44,
+  "score": 49,
   "components": {
    "yandex_visibility": 90.0,
    "yandex_engagement": 19.8,
    "yandex_demand": 46.3,
    "indexation": 84.1,
    "authority": 0.0,
-   "google_visibility": 3.1,
-   "google_demand": 20.8,
-   "google_trend": 54.5
+   "google_visibility": 3.0,
+   "google_demand": 23.0,
+   "google_trend": 100
   },
   "excluded": [],
   "notes": [
    "Google: малые абсолютные значения, тренд ненадёжен"
   ],
-  "delta_vs_prev": 4
+  "delta_vs_prev": 9
  },
  "yandex": {
   "available": true,
@@ -1748,14 +1748,14 @@
  },
  "google": {
   "available": true,
-  "window_days": 26,
+  "window_days": 27,
   "totals": {
-   "impressions_28d": 104,
+   "impressions_28d": 115,
    "clicks_28d": 0,
-   "impressions_7d": 23,
-   "impressions_prev7d": 22,
-   "impressions_7d_change_pct": 4.5,
-   "queries": 32,
+   "impressions_7d": 31,
+   "impressions_prev7d": 19,
+   "impressions_7d_change_pct": 63.2,
+   "queries": 33,
    "top10": 0,
    "top30": 1
   },
@@ -1785,6 +1785,16 @@
     "impressions": 1,
     "clicks": 0,
     "position": 92,
+    "vendor": null,
+    "branded": false,
+    "intent": "other",
+    "commercial_value": "Low"
+   },
+   {
+    "query": "bizmore erp",
+    "impressions": 1,
+    "clicks": 0,
+    "position": 65,
     "vendor": null,
     "branded": false,
     "intent": "other",
@@ -1862,9 +1872,9 @@
    },
    {
     "query": "davinci resolve купить",
-    "impressions": 4,
+    "impressions": 5,
     "clicks": 0,
-    "position": 46.2,
+    "position": 46,
     "vendor": "davinci",
     "branded": false,
     "intent": "transactional",
@@ -1892,9 +1902,9 @@
    },
    {
     "query": "jetbrains ai купить",
-    "impressions": 4,
+    "impressions": 6,
     "clicks": 0,
-    "position": 33.8,
+    "position": 32.5,
     "vendor": "jetbrains",
     "branded": false,
     "intent": "transactional",
@@ -1902,9 +1912,9 @@
    },
    {
     "query": "jetbrains rider купить",
-    "impressions": 2,
+    "impressions": 3,
     "clicks": 0,
-    "position": 42,
+    "position": 39.7,
     "vendor": "jetbrains",
     "branded": false,
     "intent": "transactional",
@@ -2084,9 +2094,9 @@
   "pages": [
    {
     "url": "https://biz-soft.pro/",
-    "impressions": 8,
+    "impressions": 9,
     "clicks": 0,
-    "position": 47.8
+    "position": 49.7
    },
    {
     "url": "https://biz-soft.pro/about",
@@ -2246,15 +2256,15 @@
    },
    {
     "url": "https://biz-soft.pro/vendors/adobe",
-    "impressions": 5,
+    "impressions": 6,
     "clicks": 0,
-    "position": 40.6
+    "position": 42.7
    },
    {
     "url": "https://biz-soft.pro/vendors/blackmagic",
-    "impressions": 11,
+    "impressions": 13,
     "clicks": 0,
-    "position": 53.5
+    "position": 53.3
    },
    {
     "url": "https://biz-soft.pro/vendors/boris-fx",
@@ -2263,10 +2273,16 @@
     "position": 42
    },
    {
-    "url": "https://biz-soft.pro/vendors/jetbrains",
-    "impressions": 8,
+    "url": "https://biz-soft.pro/vendors/elevenlabs",
+    "impressions": 1,
     "clicks": 0,
-    "position": 40.2
+    "position": 9
+   },
+   {
+    "url": "https://biz-soft.pro/vendors/jetbrains",
+    "impressions": 13,
+    "clicks": 0,
+    "position": 42.8
    },
    {
     "url": "https://biz-soft.pro/vendors/openai",
@@ -2282,9 +2298,9 @@
    },
    {
     "url": "https://biz-soft.pro/vendors/zoom",
-    "impressions": 37,
+    "impressions": 38,
     "clicks": 0,
-    "position": 44.9
+    "position": 45.6
    },
    {
     "url": "https://www.biz-soft.pro/product/adobe-ae",
@@ -2353,20 +2369,20 @@
    "high_value_queries": 1
   },
   {
-   "vendor": "davinci",
-   "shows": 7,
-   "clicks": 0,
-   "queries": 3,
-   "best_position": 46.2,
-   "high_value_queries": 3
-  },
-  {
    "vendor": "jetbrains",
-   "shows": 6,
+   "shows": 9,
    "clicks": 0,
    "queries": 2,
-   "best_position": 33.8,
+   "best_position": 32.5,
    "high_value_queries": 2
+  },
+  {
+   "vendor": "davinci",
+   "shows": 8,
+   "clicks": 0,
+   "queries": 3,
+   "best_position": 46,
+   "high_value_queries": 3
   },
   {
    "vendor": "miro",
