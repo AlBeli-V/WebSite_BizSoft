@@ -4,7 +4,10 @@
 //   node scripts/import-vendors.mjs                        — dry-run по всем пакетам
 //   node scripts/import-vendors.mjs docker gitlab          — dry-run по выбранным slug
 //   node scripts/import-vendors.mjs --apply [slugs...]     — применить
-import { readFileSync, readdirSync } from 'node:fs';
+//   node scripts/import-vendors.mjs --emit <file.csv>      — только собрать CSV
+//     (без сети и .env; используется воркфлоу ops-import-vendors: CSV собирается
+//     на раннере, а POST к админ-API выполняется на сервере, где лежит токен)
+import { readFileSync, readdirSync, writeFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, resolve, basename } from 'node:path';
 
@@ -23,7 +26,9 @@ function loadEnv() {
 
 const args = process.argv.slice(2);
 const apply = args.includes('--apply');
-const slugs = args.filter((a) => a !== '--apply');
+const emitIdx = args.indexOf('--emit');
+const emitPath = emitIdx >= 0 ? args[emitIdx + 1] : null;
+const slugs = args.filter((a, i) => a !== '--apply' && a !== '--emit' && i !== emitIdx + 1);
 
 const files = readdirSync(CATALOG_DIR)
   .filter((f) => f.endsWith('.json'))
@@ -75,7 +80,13 @@ for (const f of files) {
 }
 
 const csv = [COLS.join(';'), ...rows.map((r) => COLS.map((c) => esc(r[c])).join(';'))].join('\n');
-console.log(`пакетов: ${files.length}, строк: ${rows.length}${apply ? ' — ПРИМЕНЯЕМ' : ' — dry-run'}`);
+console.log(`пакетов: ${files.length}, строк: ${rows.length}${emitPath ? ' — только CSV' : apply ? ' — ПРИМЕНЯЕМ' : ' — dry-run'}`);
+
+if (emitPath) {
+  writeFileSync(emitPath, csv);
+  console.log('записан:', emitPath);
+  process.exit(0);
+}
 
 const env = loadEnv();
 const res = await fetch(`${env.SITE_URL}/api/admin/import`, {
