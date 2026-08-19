@@ -30,13 +30,22 @@ MODIFIERS = [
     "лицензия",
 ]
 
-# Русскоязычные синонимы брендов, где транслитерация — реальный поисковый спрос.
-ALIASES = {
-    "coreldraw": ["корел"],
-    "midjourney": ["миджорни"],
-    "procreate": ["прокриэйт"],
-    "blackmagic": ["davinci resolve"],
-    "jetbrains": ["джетбрейнс"],
+# Латиница бренда как якорь релевантности: русские транслитерации («корел»,
+# «корал») тянут омонимы — «корал тревел», «пионы корал шарм», «корела водка».
+# Проверено на замере 19.08.2026, поэтому транслитерации не используются.
+# Исключение — продуктовые названия, под которыми товар реально ищут.
+PRODUCT_NAMES = {
+    "blackmagic": "davinci resolve",
+    "marmoset": "marmoset toolbag",
+    "unreal-engine": "unreal engine",
+    "clip-studio-paint": "clip studio paint",
+    "marvelous-designer": "marvelous designer",
+    "native-instruments": "native instruments",
+    "epidemic-sound": "epidemic sound",
+    "astute-graphics": "astute graphics",
+    "boris-fx": "boris fx",
+    "topaz-labs": "topaz labs",
+    "motion-array": "motion array",
 }
 
 
@@ -60,15 +69,14 @@ def main() -> int:
     plan: list[dict] = []
     for v in vendors():
         slug, name = v["slug"], v["vendor"]
-        base = seeds.get(slug, name.lower())
+        base = PRODUCT_NAMES.get(slug) or seeds.get(slug) or name.lower()
         phrases = [base] + [f"{base} {mod}" for mod in MODIFIERS]
-        for alias in ALIASES.get(slug, []):
-            phrases.append(f"{alias} купить")
         plan.append({
             "cluster": slug,
             "vendor": name,
             "page": f"/vendors/{slug}",
             "priority": priority.get(slug, 3),
+            "relevance_token": base.split()[0],
             "phrases": phrases,
         })
 
@@ -80,6 +88,7 @@ def main() -> int:
                 "vendor": None,
                 "page": None,
                 "priority": c.get("priority", 3),
+                "relevance_token": c["seed"].split()[0],
                 "phrases": [c["seed"]] + [f"{c['seed']} {m}" for m in MODIFIERS[:3]],
             })
 

@@ -16,6 +16,7 @@
    "vendor": "Canva",
    "page": "/vendors/canva",
    "priority": 1,
+   "relevance_token": "canva",
    "phrases": [
     "canva",
     "canva купить",
@@ -31,6 +32,7 @@
    "vendor": "CorelDRAW",
    "page": "/vendors/coreldraw",
    "priority": 1,
+   "relevance_token": "coreldraw",
    "phrases": [
     "coreldraw",
     "coreldraw купить",
@@ -38,8 +40,7 @@
     "coreldraw для юридических лиц",
     "coreldraw тариф",
     "coreldraw подписка",
-    "coreldraw лицензия",
-    "корел купить"
+    "coreldraw лицензия"
    ]
   },
   {
@@ -47,6 +48,7 @@
    "vendor": "Depositphotos",
    "page": "/vendors/depositphotos",
    "priority": 1,
+   "relevance_token": "depositphotos",
    "phrases": [
     "depositphotos",
     "depositphotos купить",
@@ -62,6 +64,7 @@
    "vendor": "HeyGen",
    "page": "/vendors/heygen",
    "priority": 1,
+   "relevance_token": "heygen",
    "phrases": [
     "heygen",
     "heygen купить",
@@ -77,6 +80,7 @@
    "vendor": "Marmoset",
    "page": "/vendors/marmoset",
    "priority": 1,
+   "relevance_token": "marmoset",
    "phrases": [
     "marmoset toolbag",
     "marmoset toolbag купить",
@@ -92,6 +96,7 @@
    "vendor": null,
    "page": null,
    "priority": 1,
+   "relevance_token": "оплата",
    "phrases": [
     "оплата зарубежных сервисов",
     "оплата зарубежных сервисов купить",
@@ -104,6 +109,7 @@
    "vendor": "Blackmagic Design",
    "page": "/vendors/blackmagic",
    "priority": 2,
+   "relevance_token": "davinci",
    "phrases": [
     "davinci resolve",
     "davinci resolve купить",
@@ -111,8 +117,7 @@
     "davinci resolve для юридических лиц",
     "davinci resolve тариф",
     "davinci resolve подписка",
-    "davinci resolve лицензия",
-    "davinci resolve купить"
+    "davinci resolve лицензия"
    ]
   },
   {
@@ -120,6 +125,7 @@
    "vendor": "ElevenLabs",
    "page": "/vendors/elevenlabs",
    "priority": 2,
+   "relevance_token": "elevenlabs",
    "phrases": [
     "elevenlabs",
     "elevenlabs купить",
@@ -135,6 +141,7 @@
    "vendor": "Midjourney",
    "page": "/vendors/midjourney",
    "priority": 2,
+   "relevance_token": "midjourney",
    "phrases": [
     "midjourney",
     "midjourney купить",
@@ -142,8 +149,7 @@
     "midjourney для юридических лиц",
     "midjourney тариф",
     "midjourney подписка",
-    "midjourney лицензия",
-    "миджорни купить"
+    "midjourney лицензия"
    ]
   },
   {
@@ -151,6 +157,7 @@
    "vendor": "Procreate",
    "page": "/vendors/procreate",
    "priority": 2,
+   "relevance_token": "procreate",
    "phrases": [
     "procreate",
     "procreate купить",
@@ -158,8 +165,7 @@
     "procreate для юридических лиц",
     "procreate тариф",
     "procreate подписка",
-    "procreate лицензия",
-    "прокриэйт купить"
+    "procreate лицензия"
    ]
   },
   {
@@ -167,6 +173,7 @@
    "vendor": "Unity",
    "page": "/vendors/unity",
    "priority": 2,
+   "relevance_token": "unity",
    "phrases": [
     "unity",
     "unity купить",
@@ -182,6 +189,7 @@
    "vendor": null,
    "page": null,
    "priority": 2,
+   "relevance_token": "нейросети",
    "phrases": [
     "нейросети для бизнеса",
     "нейросети для бизнеса купить",
@@ -194,6 +202,7 @@
    "vendor": null,
    "page": null,
    "priority": 2,
+   "relevance_token": "оплата",
    "phrases": [
     "оплата иностранных сервисов по счету",
     "оплата иностранных сервисов по счету купить",
@@ -206,6 +215,7 @@
    "vendor": "Adobe",
    "page": "/vendors/adobe",
    "priority": 3,
+   "relevance_token": "adobe",
    "phrases": [
     "adobe",
     "adobe купить",
@@ -221,6 +231,7 @@
    "vendor": "Artlist",
    "page": "/vendors/artlist",
    "priority": 3,
+   "relevance_token": "artlist",
    "phrases": [
     "artlist",
     "artlist купить",
@@ -236,6 +247,7 @@
    "vendor": "Astute Graphics",
    "page": "/vendors/astute-graphics",
    "priority": 3,
+   "relevance_token": "astute",
    "phrases": [
     "astute graphics",
     "astute graphics купить",
@@ -251,6 +263,7 @@
    "vendor": "Autodesk",
    "page": "/vendors/autodesk",
    "priority": 3,
+   "relevance_token": "autodesk",
    "phrases": [
     "autodesk",
     "autodesk купить",
@@ -266,6 +279,7 @@
    "vendor": "Avid",
    "page": "/vendors/avid",
    "priority": 3,
+   "relevance_token": "avid",
    "phrases": [
     "avid",
     "avid купить",
@@ -281,6 +295,7 @@
    "vendor": "Boris FX",
    "page": "/vendors/boris-fx",
    "priority": 3,
+   "relevance_token": "boris",
    "phrases": [
     "boris fx",
     "boris fx купить",
@@ -296,6 +311,7 @@
    "vendor": "Clip Studio Paint",
    "page": "/vendors/clip-studio-paint",
    "priority": 3,
+   "relevance_token": "clip",
    "phrases": [
     "clip studio paint",
     "clip studio paint купить",
@@ -311,6 +327,7 @@
    "vendor": "Descript",
    "page": "/vendors/descript",
    "priority": 3,
+   "relevance_token": "descript",
    "phrases": [
     "descript",
     "descript купить",
@@ -326,6 +343,7 @@
    "vendor": "Envato",
    "page": "/vendors/envato",
    "priority": 3,
+   "relevance_token": "envato",
    "phrases": [
     "envato",
     "envato купить",
@@ -341,6 +359,7 @@
    "vendor": "Epidemic Sound",
    "page": "/vendors/epidemic-sound",
    "priority": 3,
+   "relevance_token": "epidemic",
    "phrases": [
     "epidemic sound",
     "epidemic sound купить",
@@ -356,6 +375,7 @@
    "vendor": "FMOD",
    "page": "/vendors/fmod",
    "priority": 3,
+   "relevance_token": "fmod",
    "phrases": [
     "fmod",
     "fmod купить",
@@ -371,6 +391,7 @@
    "vendor": "Foundry",
    "page": "/vendors/foundry",
    "priority": 3,
+   "relevance_token": "foundry",
    "phrases": [
     "foundry",
     "foundry купить",
@@ -386,6 +407,7 @@
    "vendor": "Framer",
    "page": "/vendors/framer",
    "priority": 3,
+   "relevance_token": "framer",
    "phrases": [
     "framer",
     "framer купить",
@@ -401,6 +423,7 @@
    "vendor": "Freepik",
    "page": "/vendors/freepik",
    "priority": 3,
+   "relevance_token": "freepik",
    "phrases": [
     "freepik",
     "freepik купить",
@@ -416,6 +439,7 @@
    "vendor": "QuadSpinner Gaea",
    "page": "/vendors/gaea",
    "priority": 3,
+   "relevance_token": "quadspinner",
    "phrases": [
     "quadspinner gaea",
     "quadspinner gaea купить",
@@ -431,6 +455,7 @@
    "vendor": "SideFX Houdini",
    "page": "/vendors/houdini",
    "priority": 3,
+   "relevance_token": "sidefx",
    "phrases": [
     "sidefx houdini",
     "sidefx houdini купить",
@@ -446,6 +471,7 @@
    "vendor": "Marvelous Designer",
    "page": "/vendors/marvelous-designer",
    "priority": 3,
+   "relevance_token": "marvelous",
    "phrases": [
     "marvelous designer",
     "marvelous designer купить",
@@ -461,6 +487,7 @@
    "vendor": "Maxon",
    "page": "/vendors/maxon",
    "priority": 3,
+   "relevance_token": "maxon",
    "phrases": [
     "maxon",
     "maxon купить",
@@ -476,6 +503,7 @@
    "vendor": "Miro",
    "page": "/vendors/miro",
    "priority": 3,
+   "relevance_token": "miro",
    "phrases": [
     "miro",
     "miro купить",
@@ -491,6 +519,7 @@
    "vendor": "Monotype",
    "page": "/vendors/monotype",
    "priority": 3,
+   "relevance_token": "monotype",
    "phrases": [
     "monotype",
     "monotype купить",
@@ -506,6 +535,7 @@
    "vendor": "Motion Array",
    "page": "/vendors/motion-array",
    "priority": 3,
+   "relevance_token": "motion",
    "phrases": [
     "motion array",
     "motion array купить",
@@ -521,6 +551,7 @@
    "vendor": "Native Instruments",
    "page": "/vendors/native-instruments",
    "priority": 3,
+   "relevance_token": "native",
    "phrases": [
     "native instruments",
     "native instruments купить",
@@ -536,6 +567,7 @@
    "vendor": "Perforce",
    "page": "/vendors/perforce",
    "priority": 3,
+   "relevance_token": "perforce",
    "phrases": [
     "perforce",
     "perforce купить",
@@ -551,6 +583,7 @@
    "vendor": "Photon Engine",
    "page": "/vendors/photon",
    "priority": 3,
+   "relevance_token": "photon",
    "phrases": [
     "photon engine",
     "photon engine купить",
@@ -566,6 +599,7 @@
    "vendor": "Reallusion",
    "page": "/vendors/reallusion",
    "priority": 3,
+   "relevance_token": "reallusion",
    "phrases": [
     "reallusion",
     "reallusion купить",
@@ -581,6 +615,7 @@
    "vendor": "Recraft",
    "page": "/vendors/recraft",
    "priority": 3,
+   "relevance_token": "recraft",
    "phrases": [
     "recraft",
     "recraft купить",
@@ -596,6 +631,7 @@
    "vendor": "Rive",
    "page": "/vendors/rive",
    "priority": 3,
+   "relevance_token": "rive",
    "phrases": [
     "rive",
     "rive купить",
@@ -611,6 +647,7 @@
    "vendor": "RizomUV",
    "page": "/vendors/rizomuv",
    "priority": 3,
+   "relevance_token": "rizomuv",
    "phrases": [
     "rizomuv",
     "rizomuv купить",
@@ -626,6 +663,7 @@
    "vendor": "Runway",
    "page": "/vendors/runway",
    "priority": 3,
+   "relevance_token": "runway",
    "phrases": [
     "runway",
     "runway купить",
@@ -641,6 +679,7 @@
    "vendor": "Shutterstock",
    "page": "/vendors/shutterstock",
    "priority": 3,
+   "relevance_token": "shutterstock",
    "phrases": [
     "shutterstock",
     "shutterstock купить",
@@ -656,6 +695,7 @@
    "vendor": "Sketch",
    "page": "/vendors/sketch",
    "priority": 3,
+   "relevance_token": "sketch",
    "phrases": [
     "sketch",
     "sketch купить",
@@ -671,6 +711,7 @@
    "vendor": "SpeedTree",
    "page": "/vendors/speedtree",
    "priority": 3,
+   "relevance_token": "speedtree",
    "phrases": [
     "speedtree",
     "speedtree купить",
@@ -686,6 +727,7 @@
    "vendor": "Spine",
    "page": "/vendors/spine",
    "priority": 3,
+   "relevance_token": "spine",
    "phrases": [
     "spine",
     "spine купить",
@@ -701,6 +743,7 @@
    "vendor": "Telestream",
    "page": "/vendors/telestream",
    "priority": 3,
+   "relevance_token": "telestream",
    "phrases": [
     "telestream",
     "telestream купить",
@@ -716,6 +759,7 @@
    "vendor": "Topaz Labs",
    "page": "/vendors/topaz-labs",
    "priority": 3,
+   "relevance_token": "topaz",
    "phrases": [
     "topaz labs",
     "topaz labs купить",
@@ -731,6 +775,7 @@
    "vendor": "Unreal Engine",
    "page": "/vendors/unreal-engine",
    "priority": 3,
+   "relevance_token": "unreal",
    "phrases": [
     "unreal engine",
     "unreal engine купить",
@@ -746,6 +791,7 @@
    "vendor": "MAGIX Vegas",
    "page": "/vendors/vegas",
    "priority": 3,
+   "relevance_token": "magix",
    "phrases": [
     "magix vegas",
     "magix vegas купить",
@@ -761,6 +807,7 @@
    "vendor": "Wondershare",
    "page": "/vendors/wondershare",
    "priority": 3,
+   "relevance_token": "wondershare",
    "phrases": [
     "wondershare",
     "wondershare купить",
@@ -776,6 +823,7 @@
    "vendor": "Audiokinetic",
    "page": "/vendors/wwise",
    "priority": 3,
+   "relevance_token": "audiokinetic",
    "phrases": [
     "audiokinetic",
     "audiokinetic купить",
@@ -791,6 +839,7 @@
    "vendor": "Zeplin",
    "page": "/vendors/zeplin",
    "priority": 3,
+   "relevance_token": "zeplin",
    "phrases": [
     "zeplin",
     "zeplin купить",
@@ -802,5 +851,5 @@
    ]
   }
  ],
- "planned_requests": 366
+ "planned_requests": 362
 }

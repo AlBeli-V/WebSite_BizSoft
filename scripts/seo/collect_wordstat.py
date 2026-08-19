@@ -7,17 +7,20 @@
        → {results:[{phrase,count}], associations:[{phrase,count}], totalCount}
   POST .../regions   {phrase} → {results:[{region,count,share,affinityIndex}]}
   POST .../dynamics  {phrase, period, fromDate, toDate} — даты в RFC3339
-  POST .../getRegionsTree {} → справочник регионов
 Авторизация: Authorization: Api-Key <ключ> (секрет WORDSTAT_API_KEY).
 
-Единица — показы в поиске Яндекса за 30 дней: это спрос, не покупки и не выручка.
+ЛИМИТ СЕРВИСА: 100 запросов в час на облако
+(`search-api.wordstatRequestsPerHour.rate`, замер 19.08.2026 — HTTP 429).
+Поэтому сбор возобновляемый: каждый прогон берёт до RUN_CAP новых фраз,
+кладёт ответы в помесячный кэш и продолжает с того места на следующем часу.
+Полный проход по каталогу — около семи часовых прогонов.
+
+Единица — показы в поиске Яндекса за 30 дней: спрос, не покупки и не выручка.
 Пустой ответ {} означает «частотность ниже порога выдачи», а не ноль.
+Бюджет обращений согласован руководителем 19.08.2026: до 10 000 запросов в месяц.
 
-Бюджет запросов согласован руководителем 19.08.2026: до 10 000 запросов в месяц.
-Скрипт держит жёсткий потолок на прогон и пишет фактический расход в артефакт.
-
-Запуск: python3 scripts/seo/collect_wordstat.py [YYYY-MM-DD] [--max-requests N]
-Результат: reports/seo/semantics/core-<дата>.json
+Запуск: python3 scripts/seo/collect_wordstat.py [YYYY-MM-DD] [--run-cap N]
+Результат: reports/seo/semantics/cache-<ГГГГ-ММ>.json и core-<дата>.json
 """
 
 from __future__ import annotations
@@ -40,27 +43,14 @@ PLAN = pathlib.Path("reports/seo/semantics/plan.json")
 DISCOVERY = pathlib.Path("reports/seo/semantics/discovery.json")
 OUT_DIR = pathlib.Path("reports/seo/semantics")
 
-MONTHLY_BUDGET = 10_000   # согласованный потолок запросов в месяц
-MAX_REQUESTS = 3_000      # потолок одного прогона
-NUM_PHRASES = 300         # глубина выдачи бесплатна: это один и тот же запрос
-PAUSE_SEC = 0.25
+HOURLY_LIMIT = 100        # жёсткий лимит сервиса
+RUN_CAP = 90              # запас, чтобы не упереться в 429 на последних фразах
+MONTHLY_BUDGET = 10_000   # согласованный потолок
+NUM_PHRASES = 300         # глубина выдачи квоту не тратит
+PAUSE_SEC = 0.2
 LOW_DEMAND_LIMIT = 30
-DYNAMICS_CLUSTERS = 30    # сезонность по стольким верхним кластерам
-REGION_CLUSTERS = 15      # региональный срез по стольким верхним кластерам
-
-
-class Budget:
-    def __init__(self, cap: int):
-        self.cap = cap
-        self.used = 0
-        self.failures = 0
-        self.quota_hit = False
-
-    def spend(self) -> bool:
-        if self.used >= self.cap or self.quota_hit:
-            return False
-        self.used += 1
-        return True
+DYNAMICS_CLUSTERS = 25
+REGION_CLUSTERS = 15
 
 
 def headers() -> dict:
@@ -70,54 +60,112 @@ def headers() -> dict:
     return {"Authorization": f"Api-Key {token}", "Content-Type": "application/json"}
 
 
-def call(path: str, body: dict, h: dict, budget: Budget) -> tuple[dict | None, str]:
-    if not budget.spend():
-        return None, "budget_exhausted"
-    try:
-        r = requests.post(BASE + path, json=body, headers=h, timeout=40)
-    except requests.RequestException as e:
-        budget.failures += 1
-        return None, f"network_error: {type(e).__name__}"
-    time.sleep(PAUSE_SEC)
-    if r.status_code == 429:
-        budget.quota_hit = True
-        return None, "quota_exceeded"
-    if r.status_code != 200:
-        budget.failures += 1
-        return None, f"http_{r.status_code}"
-    try:
-        data = r.json()
-    except ValueError:
-        budget.failures += 1
-        return None, "not_json"
-    if not data:
-        return None, "below_threshold"
-    return data, "ok"
+class Session:
+    """Один часовой прогон: считает запросы и останавливается на лимите."""
+
+    def __init__(self, cap: int, h: dict):
+        self.cap = cap
+        self.h = h
+        self.used = 0
+        self.failures = 0
+        self.stopped = None
+
+    def can_continue(self) -> bool:
+        return self.stopped is None and self.used < self.cap
+
+    def post(self, path: str, body: dict) -> tuple[dict | None, str]:
+        if not self.can_continue():
+            return None, "run_cap_reached"
+        self.used += 1
+        try:
+            r = requests.post(BASE + path, json=body, headers=self.h, timeout=40)
+        except requests.RequestException as e:
+            self.failures += 1
+            return None, f"network_error: {type(e).__name__}"
+        time.sleep(PAUSE_SEC)
+        if r.status_code == 429:
+            self.stopped = "hourly_quota_exceeded"
+            return None, "quota_exceeded"
+        if r.status_code != 200:
+            self.failures += 1
+            return None, f"http_{r.status_code}"
+        try:
+            data = r.json()
+        except ValueError:
+            self.failures += 1
+            return None, "not_json"
+        if not data:
+            return None, "below_threshold"
+        return data, "ok"
 
 
-def phrase_row(row: dict) -> dict:
-    text = row.get("phrase", "")
-    count = row.get("count")
-    return {
-        "phrase": text,
-        "impressions_wordstat": int(count) if count is not None else None,
-        "intent": classify_intent(text),
-    }
+def row(item: dict) -> dict:
+    text = item.get("phrase", "")
+    count = item.get("count")
+    return {"phrase": text,
+            "impressions_wordstat": int(count) if count is not None else None,
+            "intent": classify_intent(text)}
 
 
-def collect_phrase(phrase: str, region: str, h: dict, budget: Budget) -> dict:
-    data, status = call("/topRequests",
-                        {"phrase": phrase, "numPhrases": NUM_PHRASES, "regions": [region]},
-                        h, budget)
-    out = {"phrase": phrase, "status": status, "total_impressions": None,
-           "results": [], "associations": []}
-    if status != "ok":
-        return out
-    total = data.get("totalCount")
-    out["total_impressions"] = int(total) if total is not None else None
-    out["results"] = [phrase_row(r) for r in (data.get("results") or [])]
-    out["associations"] = [phrase_row(r) for r in (data.get("associations") or [])]
-    return out
+def fetch(kind: str, phrase: str, region: str, s: Session) -> dict:
+    """Один запрос к API; результат сразу приводится к компактному виду."""
+    if kind == "top":
+        data, status = s.post("/topRequests",
+                              {"phrase": phrase, "numPhrases": NUM_PHRASES,
+                               "regions": [region]})
+        if status != "ok":
+            return {"status": status}
+        total = data.get("totalCount")
+        return {"status": "ok",
+                "total_impressions": int(total) if total is not None else None,
+                "results": [row(r) for r in (data.get("results") or [])],
+                "associations": [row(r) for r in (data.get("associations") or [])]}
+    if kind == "regions":
+        data, status = s.post("/regions", {"phrase": phrase})
+        if status != "ok":
+            return {"status": status}
+        rows = sorted(data.get("results") or [],
+                      key=lambda r: -int(r.get("count") or 0))[:25]
+        return {"status": "ok", "regions": rows}
+    if kind == "dynamics":
+        today = dt.date.today()
+        start = (today - dt.timedelta(days=365)).isoformat()
+        data, status = s.post("/dynamics",
+                              {"phrase": phrase, "period": "PERIOD_MONTHLY",
+                               "regions": [region],
+                               "fromDate": f"{start}T00:00:00Z",
+                               "toDate": f"{today.isoformat()}T00:00:00Z"})
+        return {"status": status, "series": data if status == "ok" else None}
+    raise ValueError(kind)
+
+
+def request_plan(plan: dict, discovery: dict | None) -> list[dict]:
+    """Полный список запросов месяца в порядке приоритета."""
+    specs: list[dict] = []
+    for c in plan["clusters"]:
+        for phrase in c["phrases"]:
+            specs.append({"kind": "top", "phrase": phrase, "cluster": c["cluster"]})
+    if discovery:
+        tpl = discovery.get("template", "{brand} купить для юридических лиц")
+        for brand in discovery.get("brands", []):
+            specs.append({"kind": "top", "phrase": tpl.format(brand=brand),
+                          "cluster": None, "brand": brand})
+    seeds = [c["phrases"][0] for c in plan["clusters"]]
+    for phrase in seeds[:DYNAMICS_CLUSTERS]:
+        specs.append({"kind": "dynamics", "phrase": phrase})
+    for phrase in seeds[:REGION_CLUSTERS]:
+        specs.append({"kind": "regions", "phrase": phrase})
+    return specs
+
+
+def relevant(item: dict, token: str) -> bool:
+    """Фраза относится к кластеру, только если содержит якорь бренда.
+
+    Без проверки транслитерации притягивают омонимы: по «корел купить»
+    Вордстат отдаёт «корал тревел», «пионы корал шарм», «корела водка».
+    Замер 19.08.2026: 24 922 «коммерческих» показа CorelDRAW оказались чужими.
+    """
+    return token.lower() in item.get("phrase", "").lower()
 
 
 def dedupe(rows: list[dict]) -> list[dict]:
@@ -129,92 +177,63 @@ def dedupe(rows: list[dict]) -> list[dict]:
     return sorted(best.values(), key=lambda r: -(r["impressions_wordstat"] or 0))
 
 
-def collect_cluster(item: dict, region: str, h: dict, budget: Budget) -> dict:
-    probes = [collect_phrase(p, region, h, budget) for p in item["phrases"]]
-    measured = [p for p in probes if p["status"] == "ok"]
-    all_rows = dedupe([r for p in measured for r in p["results"]])
-    commercial = [r for r in all_rows if r["intent"] == "commercial"]
-    seed_total = next((p["total_impressions"] for p in probes
-                       if p["phrase"] == item["phrases"][0]), None)
-    return {
-        "cluster": item["cluster"],
-        "vendor": item.get("vendor"),
-        "page": item.get("page"),
-        "priority": item.get("priority"),
-        "status": "ok" if measured else (probes[0]["status"] if probes else "no_probes"),
-        "seed_impressions": seed_total,
-        "probes": [{"phrase": p["phrase"], "status": p["status"],
-                    "total_impressions": p["total_impressions"]} for p in probes],
-        "phrases": all_rows[:400],
-        "associations": dedupe([r for p in measured for r in p["associations"]])[:40],
-        "commercial_phrases": len(commercial),
-        "commercial_impressions": sum(r["impressions_wordstat"] or 0 for r in commercial) or None,
-        "confidence": "sufficient" if (seed_total or 0) >= LOW_DEMAND_LIMIT else "low",
-    }
-
-
-def collect_dynamics(phrase: str, region: str, h: dict, budget: Budget) -> dict:
-    today = dt.date.today()
-    start = (today - dt.timedelta(days=365)).isoformat()
-    body = {"phrase": phrase, "period": "PERIOD_MONTHLY", "regions": [region],
-            "fromDate": f"{start}T00:00:00Z", "toDate": f"{today.isoformat()}T00:00:00Z"}
-    data, status = call("/dynamics", body, h, budget)
-    return {"phrase": phrase, "status": status,
-            "series": data if status == "ok" else None}
-
-
-def collect_regions(phrase: str, h: dict, budget: Budget) -> dict:
-    data, status = call("/regions", {"phrase": phrase}, h, budget)
-    rows = (data or {}).get("results") or []
-    rows = sorted(rows, key=lambda r: -int(r.get("count") or 0))[:25]
-    return {"phrase": phrase, "status": status, "regions": rows}
-
-
-def collect_discovery(region: str, h: dict, budget: Budget) -> list[dict]:
-    if not DISCOVERY.exists():
-        return []
-    cfg = json.loads(DISCOVERY.read_text(encoding="utf-8"))
-    template = cfg.get("template", "{brand} купить для юридических лиц")
-    out = []
-    for brand in cfg.get("brands", []):
-        probe = collect_phrase(template.format(brand=brand), region, h, budget)
-        commercial = [r for r in probe["results"] if r["intent"] == "commercial"]
-        out.append({
-            "brand": brand,
-            "status": probe["status"],
-            "demand": probe["total_impressions"],
-            "top_commercial": commercial[:5],
+def assemble(plan: dict, discovery: dict | None, cache: dict, date: str,
+             region: str, session: Session, specs: list[dict]) -> dict:
+    clusters = []
+    for c in plan["clusters"]:
+        token = c.get("relevance_token") or c["phrases"][0].split()[0]
+        probes = [{"phrase": p, **cache.get(f"top|{p}", {"status": "not_collected"})}
+                  for p in c["phrases"]]
+        measured = [p for p in probes if p.get("status") == "ok"]
+        raw = dedupe([r for p in measured for r in p.get("results", [])])
+        rows = [r for r in raw if relevant(r, token)]
+        commercial = [r for r in rows if r["intent"] == "commercial"]
+        seed = cache.get(f"top|{c['phrases'][0]}", {})
+        clusters.append({
+            "cluster": c["cluster"],
+            "vendor": c.get("vendor"),
+            "page": c.get("page"),
+            "priority": c.get("priority"),
+            "relevance_token": token,
+            "status": "ok" if measured else "not_collected",
+            "coverage": f"{len(measured)}/{len(probes)}",
+            "seed_impressions": seed.get("total_impressions"),
+            "probes": [{"phrase": p["phrase"], "status": p.get("status"),
+                        "total_impressions": p.get("total_impressions")} for p in probes],
+            "phrases_dropped_as_irrelevant": len(raw) - len(rows),
+            "phrases": rows[:400],
+            "associations": [r for r in dedupe(
+                [r for p in measured for r in p.get("associations", [])])
+                if relevant(r, token)][:40],
+            "commercial_phrases": len(commercial),
+            "commercial_impressions": sum(
+                r["impressions_wordstat"] or 0 for r in commercial) or None,
+            "confidence": "sufficient" if (seed.get("total_impressions") or 0)
+                          >= LOW_DEMAND_LIMIT else "low",
         })
-        if budget.quota_hit or budget.used >= budget.cap:
-            break
-    return out
 
+    disc_rows = []
+    if discovery:
+        tpl = discovery.get("template", "{brand} купить для юридических лиц")
+        for brand in discovery.get("brands", []):
+            entry = cache.get(f"top|{tpl.format(brand=brand)}")
+            if not entry:
+                continue
+            token = brand.split()[0]
+            commercial = [r for r in entry.get("results", [])
+                          if r["intent"] == "commercial" and relevant(r, token)]
+            disc_rows.append({"brand": brand, "status": entry.get("status"),
+                              "demand": entry.get("total_impressions"),
+                              "top_commercial": commercial[:5]})
 
-def main() -> int:
-    args = [a for a in sys.argv[1:] if not a.startswith("--")]
-    date = args[0] if args else dt.date.today().isoformat()
-    cap = MAX_REQUESTS
-    if "--max-requests" in sys.argv:
-        cap = int(sys.argv[sys.argv.index("--max-requests") + 1])
+    seeds = [c["phrases"][0] for c in plan["clusters"]]
+    seasonality = [{"phrase": p, **cache[f"dynamics|{p}"]}
+                   for p in seeds[:DYNAMICS_CLUSTERS] if f"dynamics|{p}" in cache]
+    geography = [{"phrase": p, **cache[f"regions|{p}"]}
+                 for p in seeds[:REGION_CLUSTERS] if f"regions|{p}" in cache]
 
-    plan = json.loads(PLAN.read_text(encoding="utf-8"))
-    region = plan.get("region_id", "225")
-    h = headers()
-    budget = Budget(cap)
-
-    clusters = [collect_cluster(c, region, h, budget) for c in plan["clusters"]]
-
-    ranked = sorted([c for c in clusters if c["status"] == "ok"],
-                    key=lambda c: -(c["seed_impressions"] or 0))
-    dynamics = [collect_dynamics(c["cluster"] if c["vendor"] is None else c["vendor"].lower(),
-                                 region, h, budget)
-                for c in ranked[:DYNAMICS_CLUSTERS]]
-    regions = [collect_regions(c["cluster"] if c["vendor"] is None else c["vendor"].lower(),
-                               h, budget)
-               for c in ranked[:REGION_CLUSTERS]]
-    discovery = collect_discovery(region, h, budget)
-
-    snap = {
+    done = sum(1 for s in specs if f"{s['kind']}|{s['phrase']}" in cache)
+    return {
         "schema_version": SCHEMA_VERSION,
         "report_date": date,
         "collected_at": dt.datetime.now(dt.timezone.utc).isoformat(timespec="seconds"),
@@ -234,25 +253,61 @@ def main() -> int:
                      "частотность ниже порога выдачи, а не ноль.",
         },
         "quota": {
+            "hourly_limit": HOURLY_LIMIT,
             "monthly_budget": MONTHLY_BUDGET,
-            "run_cap": cap,
-            "requests_made": budget.used,
-            "failures": budget.failures,
-            "quota_exceeded": budget.quota_hit,
+            "run_cap": session.cap,
+            "requests_this_run": session.used,
+            "failures": session.failures,
+            "stopped_by": session.stopped,
+            "collected_total": done,
+            "planned_total": len(specs),
+            "complete": done >= len(specs),
         },
         "clusters": clusters,
-        "seasonality": dynamics,
-        "geography": regions,
-        "discovery": discovery,
+        "seasonality": seasonality,
+        "geography": geography,
+        "discovery": disc_rows,
     }
+
+
+def main() -> int:
+    args = [a for a in sys.argv[1:] if not a.startswith("--")]
+    date = args[0] if args else dt.date.today().isoformat()
+    cap = RUN_CAP
+    if "--run-cap" in sys.argv:
+        cap = int(sys.argv[sys.argv.index("--run-cap") + 1])
+
+    plan = json.loads(PLAN.read_text(encoding="utf-8"))
+    discovery = json.loads(DISCOVERY.read_text(encoding="utf-8")) if DISCOVERY.exists() else None
+    region = plan.get("region_id", "225")
+
     OUT_DIR.mkdir(parents=True, exist_ok=True)
-    out = OUT_DIR / f"core-{date}.json"
-    out.write_text(json.dumps(snap, ensure_ascii=False, indent=1), encoding="utf-8")
-    ok = sum(1 for c in clusters if c["status"] == "ok")
-    print(f"wordstat: {out} — кластеров {ok}/{len(clusters)}, "
-          f"сезонность {sum(1 for d in dynamics if d['status'] == 'ok')}/{len(dynamics)}, "
-          f"регионы {sum(1 for r in regions if r['status'] == 'ok')}/{len(regions)}, "
-          f"разведка {len(discovery)}, запросов {budget.used}, ошибок {budget.failures}")
+    cache_path = OUT_DIR / f"cache-{date[:7]}.json"
+    cache = json.loads(cache_path.read_text(encoding="utf-8")) if cache_path.exists() else {}
+
+    specs = request_plan(plan, discovery)
+    session = Session(cap, headers())
+    for spec in specs:
+        key = f"{spec['kind']}|{spec['phrase']}"
+        if key in cache:
+            continue
+        if not session.can_continue():
+            break
+        result = fetch(spec["kind"], spec["phrase"], region, session)
+        if result.get("status") in ("run_cap_reached", "quota_exceeded"):
+            break
+        cache[key] = result
+
+    cache_path.write_text(json.dumps(cache, ensure_ascii=False), encoding="utf-8")
+    snap = assemble(plan, discovery, cache, date, region, session, specs)
+    (OUT_DIR / f"core-{date}.json").write_text(
+        json.dumps(snap, ensure_ascii=False, indent=1), encoding="utf-8")
+
+    q = snap["quota"]
+    print(f"wordstat: запросов за прогон {q['requests_this_run']}, ошибок {q['failures']}, "
+          f"остановка: {q['stopped_by'] or 'нет'}; "
+          f"собрано {q['collected_total']}/{q['planned_total']} "
+          f"({'полный проход' if q['complete'] else 'продолжится в следующем часу'})")
     return 0
 
 

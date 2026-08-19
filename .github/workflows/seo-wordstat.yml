@@ -1,14 +1,16 @@
 # Сбор рыночного спроса из Вордстата (Yandex Cloud Search API v2) и gap-анализ семантики.
 # Яндекс недоступен из контейнера мониторинга — сеть работает через раннер GitHub Actions.
-# Частотность обновляется помесячно: ежедневный прогон не нужен и тратит квоту.
-# Запуск: 1-е число месяца в 03:20 UTC, вручную (workflow_dispatch) и при изменении
+# Лимит сервиса — 100 запросов в час на облако, поэтому полный проход по каталогу
+# (около 560 запросов) разбит на часовые прогоны: сборщик держит помесячный кэш
+# и на каждом запуске добирает следующие до 90 фраз.
+# Запуск: ежечасно 1–2 числа месяца, вручную (workflow_dispatch) и при изменении
 # самого сборщика — пока файл не попал в main, запуск по API доступен только через push.
 
 name: seo-wordstat
 
 on:
   schedule:
-    - cron: "20 3 1 * *"
+    - cron: "20 * 1-2 * *"
   push:
     branches:
       - claude/biz-soft-rating-tracking-5rf03g
@@ -49,7 +51,7 @@ jobs:
           fi
           python3 scripts/seo/build_clusters.py
           python3 scripts/seo/collect_wordstat.py
-          python3 scripts/seo/semantics.py
+          python3 scripts/seo/semantics.py || echo "gap-анализ отложен: данных пока мало"
 
       - name: Commit results
         run: |
