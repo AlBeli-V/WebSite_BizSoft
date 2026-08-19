@@ -1,4 +1,5 @@
 ---
+import { getCollection } from 'astro:content';
 export const prerender = false;
 
 import BaseLayout from '../../layouts/BaseLayout.astro';
@@ -68,6 +69,19 @@ try {
 
 // Перелинковка AI-карточки (сравнения / статьи / категория) — только для AI-вендоров.
 const aiLinks = product.vendor ? getAiInterlinks(product.vendor) : null;
+
+// Обратная перелинковка «карточка → статья»: берём статьи, которые сами
+// ссылаются на этот товар через relatedProducts, — связь описывается один раз
+// во frontmatter статьи и работает для любого вендора, не только AI.
+let blogLinks: { id: string; title: string }[] = [];
+try {
+  const posts = await getCollection('blog', ({ data }) => !data.draft && !data.noindex);
+  blogLinks = posts
+    .filter((p) => (p.data.relatedProducts || []).includes(product.slug))
+    .map((p) => ({ id: p.id, title: p.data.title }));
+} catch (e) {
+  console.error('blog interlinks', e);
+}
 ---
 <BaseLayout
   title={product.meta_title || product.name}
@@ -193,6 +207,17 @@ const aiLinks = product.vendor ? getAiInterlinks(product.vendor) : null;
                 </a>
               ))}
             </div>
+          </div>
+        )}
+
+        {blogLinks.length > 0 && (
+          <div class="block">
+            <h2>Полезные статьи</h2>
+            <ul class="blog-links">
+              {blogLinks.map((b) => (
+                <li><a href={`/blog/${b.id}`}>{b.title}</a></li>
+              ))}
+            </ul>
           </div>
         )}
 
@@ -326,6 +351,8 @@ const aiLinks = product.vendor ? getAiInterlinks(product.vendor) : null;
   /* Описание в Directus хранится абзацами через перевод строки — сохраняем разбивку,
      иначе текст склеивается в сплошную простыню. */
   .collapsible p { white-space: pre-line; }
+  .blog-links { margin: 0; padding-left: 1.1rem; display: flex; flex-direction: column; gap: 0.4rem; }
+  .blog-links a { color: var(--color-accent); font-weight: 600; }
   .readmore { margin-top: 0.6rem; background: none; border: none; color: var(--color-accent); font-weight: 600; cursor: pointer; padding: 0; font-size: 0.92rem; }
   .features { list-style: none; padding: 0; display: grid; gap: 0.5rem; }
   .features li { padding-left: 1.6rem; position: relative; color: var(--color-text); }
