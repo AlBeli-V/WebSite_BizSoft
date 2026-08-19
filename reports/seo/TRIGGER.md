@@ -12,6 +12,9 @@
 
 ## Зависимости системы (что должно быть живо)
 
-- Секреты репозитория: `SMTP_PASS`, `GSC_SERVICE_ACCOUNT_JSON`, `YANDEX_WEBMASTER_TOKEN`, `YANDEX_METRIKA_TOKEN`, `YANDEX_METRIKA_COUNTER_ID`, `GA4_PROPERTY_ID`.
-- Воркфлоу: `seo-data-collect.yml` (сбор), `seo-report-email.yml` (почта), `seo-site-check.yml` и `seo-ga4-admin.yml` (утилиты).
-- Токен Яндекса живёт ~1 год — при истечении перевыпустить (oauth.yandex.ru, приложение с доступами Вебмастер+Метрика) и обновить секреты.
+- Секреты репозитория: `SMTP_PASS`, `GSC_SERVICE_ACCOUNT_JSON`, `YANDEX_WEBMASTER_TOKEN`,
+  `YANDEX_METRIKA_TOKEN`, `YANDEX_METRIKA_COUNTER_ID`, `GA4_PROPERTY_ID`.
+- Воркфлоу: `seo-data-collect.yml` (сбор), `seo-report-email.yml` (почта, отправляет
+  `intelligence/<дата>-executive.html`), `seo-site-check.yml` и `seo-ga4-admin.yml` (утилиты).
+- Скрипты v2: `scripts/seo/{snapshot,quality,charts,report_v2}.py`, тесты `scripts/seo/tests/`.
+- Токен Яндекса живёт ~1 год — при истечении перевыпустить и обновить секреты.

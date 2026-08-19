@@ -10,6 +10,7 @@ on:
     branches:
       - claude/biz-soft-rating-tracking-5rf03g
     paths:
+      - "reports/seo/intelligence/*-executive.html"
       - "reports/seo/2*.md"
       - "reports/seo/2*.html"
       - ".github/workflows/seo-report-email.yml"
@@ -38,17 +39,23 @@ jobs:
           from email.message import EmailMessage
           from email.utils import formatdate
 
+          # Приоритет: executive brief v2; иначе — прежний формат отчёта
+          execs = sorted(glob.glob('reports/seo/intelligence/*-executive.html'))
           htmls = sorted(glob.glob('reports/seo/2*.html'))
           mds = sorted(glob.glob('reports/seo/2*.md'))
-          if not htmls and not mds:
-              raise SystemExit('Нет файлов отчётов reports/seo/2*.{html,md}')
-          # HTML-версия — основное тело письма; markdown — текстовый фолбэк того же дня
-          path = htmls[-1] if htmls else mds[-1]
-          date = os.path.basename(path).rsplit('.', 1)[0]
-          md_same_day = f'reports/seo/{date}.md'
+          if not execs and not htmls and not mds:
+              raise SystemExit('Нет файлов отчётов')
+          if execs:
+              path = execs[-1]
+              date = os.path.basename(path).replace('-executive.html', '')
+              md_same_day = f'reports/seo/intelligence/{date}-executive.md'
+          else:
+              path = htmls[-1] if htmls else mds[-1]
+              date = os.path.basename(path).rsplit('.', 1)[0]
+              md_same_day = f'reports/seo/{date}.md'
 
           msg = EmailMessage()
-          msg['Subject'] = f'SEO-отчёт biz-soft.pro — {date}'
+          msg['Subject'] = f'BIZSoft Search Performance Brief — {date}'
           msg['From'] = f'BIZSoft SEO-мониторинг <{os.environ["SMTP_USER"]}>'
           msg['To'] = os.environ['MAIL_TO']
           msg['Date'] = formatdate(localtime=True)
