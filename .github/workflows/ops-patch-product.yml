@@ -1,0 +1,85 @@
+# Точечная правка полей одной товарной позиции в прод-Directus по слагу.
+# Патчатся только переданные поля (name / short_description / price_note).
+# Пример: slug=chatgpt-business, price_note="за пользователя в год, минимум 2 пользователя".
+# Результат (было/стало по каждому полю) — комментарий в журнал-issue #22.
+name: ops-patch-product
+on:
+  workflow_dispatch:
+    inputs:
+      slug:
+        description: 'Слаг товара'
+        required: true
+      name:
+        description: 'Новое название (пусто — не менять)'
+        required: false
+      short_description:
+        description: 'Новое краткое описание (пусто — не менять)'
+        required: false
+      price_note:
+        description: 'Новая приписка к цене (пусто — не менять)'
+        required: false
+permissions:
+  issues: write
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Patch in Directus
+        id: run
+        uses: appleboy/ssh-action@v1
+        env:
+          P_SLUG: ${{ inputs.slug }}
+          P_NAME: ${{ inputs.name }}
+          P_SHORT: ${{ inputs.short_description }}
+          P_NOTE: ${{ inputs.price_note }}
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          envs: P_SLUG,P_NAME,P_SHORT,P_NOTE
+          capture_stdout: true
+          script: |
+            set -e
+            cd /opt/bizsoft
+            ADMIN_EMAIL=$(docker compose exec -T directus printenv ADMIN_EMAIL | tr -d '\r')
+            ADMIN_PASSWORD=$(docker compose exec -T directus printenv ADMIN_PASSWORD | tr -d '\r')
+            export ADMIN_EMAIL ADMIN_PASSWORD
+            python3 - <<'PYEOF'
+            import json, os, urllib.request
+            base = 'http://127.0.0.1:8055'
+            def req(method, path, data=None, token=None):
+                r = urllib.request.Request(base + path, method=method,
+                    data=json.dumps(data).encode() if data is not None else None,
+                    headers={'Content-Type': 'application/json',
+                             **({'Authorization': f'Bearer {token}'} if token else {})})
+                return json.load(urllib.request.urlopen(r))
+            auth = req('POST', '/auth/login', {'email': os.environ['ADMIN_EMAIL'], 'password': os.environ['ADMIN_PASSWORD']})
+            tok = auth['data']['access_token']
+            slug = os.environ['P_SLUG']
+            fields = {'name': os.environ.get('P_NAME', ''),
+                      'short_description': os.environ.get('P_SHORT', ''),
+                      'price_note': os.environ.get('P_NOTE', '')}
+            payload = {k: v for k, v in fields.items() if v}
+            if not payload:
+                print('не передано ни одного поля для правки'); raise SystemExit(1)
+            items = req('GET', f'/items/products?filter[slug][_eq]={slug}&fields=id,slug,name,short_description,price_note', token=tok)['data']
+            if not items:
+                print(f'товар со слагом {slug} не найден'); raise SystemExit(1)
+            it = items[0]
+            print(f"[slug: {it['slug']}]")
+            for k, v in payload.items():
+                print(f"{k} было:  {it.get(k) or '—'}")
+                print(f"{k} стало: {v}")
+            req('PATCH', f"/items/products/{it['id']}", payload, token=tok)
+            print('OK')
+            PYEOF
+      - name: Post to issue
+        uses: actions/github-script@v7
+        env:
+          RESULT: ${{ steps.run.outputs.stdout }}
+        with:
+          script: |
+            await github.rest.issues.createComment({
+              owner: context.repo.owner, repo: context.repo.repo, issue_number: 22,
+              body: '### ops-patch-product\n\n```\n' + process.env.RESULT + '\n```',
+            });
