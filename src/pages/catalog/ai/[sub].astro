@@ -13,6 +13,7 @@ import { itemListSchema, breadcrumbSchema } from '../../../lib/seo';
 import { getAiSubcategory } from '../../../data/ai-hub';
 import { comparisons } from '../../../data/comparisons';
 import { effectivePrice } from '../../../lib/pricing';
+import type { Product } from '../../../lib/types';
 
 const { sub } = Astro.params;
 const meta = getAiSubcategory(sub!);
@@ -27,7 +28,7 @@ const crumbs = [
 
 // Пытаемся получить наполненную категорию из Directus. Пока её нет — «в подготовке».
 let pageCategory = null;
-let products = [];
+let products: Product[] = [];
 try {
   pageCategory = await getCategoryBySlug(meta.categorySlug);
   if (pageCategory) products = await getProducts({ categorySlug: meta.categorySlug });

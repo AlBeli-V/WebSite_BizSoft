@@ -59,7 +59,7 @@ try {
 // Архитектурные блоки масштабирования
 const useCases = listValues(product.use_cases);
 const relatedSlugs = listValues(product.related_products);
-let relatedProducts = [];
+let relatedProducts: Awaited<ReturnType<typeof getProductsBySlugs>> = [];
 try {
   if (relatedSlugs.length) relatedProducts = await getProductsBySlugs(relatedSlugs);
 } catch (e) {
@@ -402,9 +402,9 @@ const aiLinks = product.vendor ? getAiInterlinks(product.vendor) : null;
   const totalEl = document.querySelector('[data-total]') as HTMLElement | null;
   const addBtn = document.querySelector('[data-add-cart]') as HTMLButtonElement | null;
   const unit = addBtn ? Number(addBtn.dataset.price || 0) : 0;
-  document.querySelectorAll('[data-team]').forEach((b) => {
+  document.querySelectorAll<HTMLButtonElement>('[data-team]').forEach((b) => {
     b.addEventListener('click', () => {
-      const q = document.querySelector('[data-qty]');
+      const q = document.querySelector<HTMLInputElement>('[data-qty]');
       if (q) { q.value = b.dataset.team || '1'; q.dispatchEvent(new Event('input', { bubbles: true })); }
     });
   });

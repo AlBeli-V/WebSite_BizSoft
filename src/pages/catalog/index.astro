@@ -19,9 +19,10 @@ import { site } from '../../config/site';
 import { POPULAR_VENDORS } from '../../data/popular';
 import { SEO_EXPERIMENT_LINKS } from '../../data/seo-experiments';
 import { effectivePrice } from '../../lib/pricing';
+import type { Product, Category } from '../../lib/types';
 
-let categories = [];
-let products = [];
+let categories: Category[] = [];
+let products: Product[] = [];
 try {
   categories = await getCategories();
   products = await getProducts();
