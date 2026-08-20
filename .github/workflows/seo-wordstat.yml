@@ -52,7 +52,10 @@ jobs:
       - name: Run research
         env:
           WORDSTAT_API_KEY: ${{ secrets.WORDSTAT_API_KEY }}
-          MODE: ${{ inputs.mode || 'daily' }}
+          # Пуш кода проверяет план, но не тратит квоту: платный прогон запускается
+          # только по расписанию или явным выбором режима. Иначе каждая правка
+          # исходников отнимала бы часовой слот у запланированного исследования.
+          MODE: ${{ inputs.mode || (github.event_name == 'push' && 'dry-run') || 'daily' }}
           MAX_CALLS: ${{ inputs.max_calls || '90' }}
         run: |
           if [ -z "$WORDSTAT_API_KEY" ]; then
