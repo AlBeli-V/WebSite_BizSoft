@@ -14,19 +14,19 @@
 
 | Метод | Вызовов | Стоимость |
 |---|---|---|
-| getTop | 296 | 5.92 ₽ |
+| getTop | 345 | 6.90 ₽ |
 | getDynamics | 57 | 1.14 ₽ |
 | getRegionsDistribution | 19 | 0.95 ₽ |
-| **Итого** | **372** | **8.01 ₽** |
+| **Итого** | **421** | **8.99 ₽** |
 
 ## Бюджет и квота
 
 - месячный потолок: 5500 ₽
-- план расходует: 0.1% потолка
+- план расходует: 0.2% потолка
 - максимум, который вообще можно потратить при действующей квоте: 8280 ₽
 - бюджет является ограничением: да
-- время прохода при 100 запросах в час: 0.7 ч
-- при 500 запросах в час: 0.7 ч
+- время прохода при 100 запросах в час: 0.8 ч
+- при 500 запросах в час: 0.8 ч
 
 План не предполагает освоения всего бюджета: цель — полезная информация на вызов, а не расход рублей.
 
@@ -43,24 +43,24 @@
 | 7 | getTop | sketchup | discovery | 1.0 | 24.0 |
 | 8 | getTop | bitdefender | discovery | 1.0 | 24.0 |
 | 9 | getTop | microsoft | discovery | 1.0 | 24.0 |
-| 10 | getTop | jetbrains | discovery | 1.0 | 24.0 |
-| 11 | getTop | zoom | discovery | 1.0 | 24.0 |
-| 12 | getTop | openai | discovery | 1.0 | 24.0 |
-| 13 | getTop | figma | discovery | 1.0 | 24.0 |
-| 14 | getTop | anydesk купить | discovery | 0.831 | 19.944 |
-| 15 | getTop | docker купить | discovery | 0.831 | 19.944 |
-| 16 | getTop | gitlab купить | discovery | 0.831 | 19.944 |
-| 17 | getTop | parallels купить | discovery | 0.831 | 19.944 |
-| 18 | getTop | acronis купить | discovery | 0.831 | 19.944 |
-| 19 | getTop | dropbox купить | discovery | 0.831 | 19.944 |
-| 20 | getTop | sketchup купить | discovery | 0.831 | 19.944 |
-| 21 | getTop | bitdefender купить | discovery | 0.831 | 19.944 |
-| 22 | getTop | microsoft купить | discovery | 0.831 | 19.944 |
-| 23 | getTop | jetbrains купить | discovery | 0.831 | 19.944 |
-| 24 | getTop | zoom купить | discovery | 0.831 | 19.944 |
-| 25 | getTop | openai купить | discovery | 0.831 | 19.944 |
-| 26 | getTop | figma купить | discovery | 0.831 | 19.944 |
-| 27 | getTop | slack купить | vendor_expansion | 0.6 | 16.8 |
-| 28 | getTop | atlassian купить | vendor_expansion | 0.6 | 16.8 |
-| 29 | getTop | monday.com купить | vendor_expansion | 0.6 | 16.8 |
-| 30 | getTop | clickup купить | vendor_expansion | 0.6 | 16.8 |
+| 10 | getTop | anthropic | discovery | 1.0 | 24.0 |
+| 11 | getTop | google | discovery | 1.0 | 24.0 |
+| 12 | getTop | perplexity | discovery | 1.0 | 24.0 |
+| 13 | getTop | cursor | discovery | 1.0 | 24.0 |
+| 14 | getTop | github | discovery | 1.0 | 24.0 |
+| 15 | getTop | notion | discovery | 1.0 | 24.0 |
+| 16 | getTop | solidworks | discovery | 1.0 | 24.0 |
+| 17 | getTop | jetbrains | discovery | 1.0 | 24.0 |
+| 18 | getTop | zoom | discovery | 1.0 | 24.0 |
+| 19 | getTop | openai | discovery | 1.0 | 24.0 |
+| 20 | getTop | figma | discovery | 1.0 | 24.0 |
+| 21 | getTop | anydesk купить | discovery | 0.831 | 19.944 |
+| 22 | getTop | docker купить | discovery | 0.831 | 19.944 |
+| 23 | getTop | gitlab купить | discovery | 0.831 | 19.944 |
+| 24 | getTop | parallels купить | discovery | 0.831 | 19.944 |
+| 25 | getTop | acronis купить | discovery | 0.831 | 19.944 |
+| 26 | getTop | dropbox купить | discovery | 0.831 | 19.944 |
+| 27 | getTop | sketchup купить | discovery | 0.831 | 19.944 |
+| 28 | getTop | bitdefender купить | discovery | 0.831 | 19.944 |
+| 29 | getTop | microsoft купить | discovery | 0.831 | 19.944 |
+| 30 | getTop | anthropic купить | discovery | 0.831 | 19.944 |
