@@ -139,6 +139,19 @@ function parseSnapshot(lines) {
   return tables;
 }
 
+/** Общее начало строк — для восстановления имени продукта из заголовков таблиц. */
+function commonPrefix(list) {
+  if (!list.length) return '';
+  let out = list[0];
+  for (const item of list.slice(1)) {
+    let i = 0;
+    while (i < out.length && i < item.length && out[i] === item[i]) i += 1;
+    out = out.slice(0, i);
+    if (!out) break;
+  }
+  return out;
+}
+
 /** Слаг из свободного текста. */
 function slugify(text) {
   return text
@@ -242,6 +255,17 @@ function main() {
     }
     if (!offers.length) continue;
 
+    // Часть страниц магазина отдаёт в <title> просто «ManageEngine»: имя
+    // продукта там только в заголовках таблиц прайса. Без этого две разные
+    // страницы получили бы один слаг «manageengine» и слились бы в одно
+    // семейство.
+    if (!familyName || /^(ManageEngine( Store)?|Store)$/i.test(familyName)) {
+      const baseTitles = offers.filter((o) => o.kind === 'base').map((o) => o.offer_name);
+      const guess = commonPrefix(baseTitles).replace(/[\s\-–—:]+$/, '').trim();
+      if (guess.length >= 4) familyName = guess;
+      else familyName = slugify(new URL(row.source_url).pathname.replace(/\//g, ' ')).replace(/-/g, ' ').trim();
+    }
+
     // Продукт поставки — это пара «способ развёртывания + модель лицензии».
     // Подписка в облаке и вечная лицензия на своих серверах у вендора
     // продаются как разные продукты, и на витрине это должны быть разные
@@ -295,17 +319,41 @@ function main() {
     });
   }
 
+  // Один и тот же продукт попадает в обход по нескольким адресам, которые
+  // различаются только строкой запроса. Оставляем полный снимок, лишние
+  // отбрасываем — иначе семейство задвоится и получит один слаг на двоих.
+  const byFamily = new Map();
+  const dropped = [];
+  for (const family of families) {
+    const kept = byFamily.get(family.family_slug);
+    const size = (f) => f.deployment_products.reduce(
+      (s, dp) => s + dp.offers.reduce((n, o) => n + o.variants.length, 0), 0);
+    if (!kept) { byFamily.set(family.family_slug, family); continue; }
+    if (size(family) > size(kept)) {
+      byFamily.set(family.family_slug, family);
+      dropped.push(kept.source_url);
+    } else {
+      dropped.push(family.source_url);
+    }
+  }
+  const unique = [...byFamily.values()];
+  const recount = (key) => unique.reduce((s, f) => s + f.deployment_products.reduce(
+    (n, dp) => n + (key === 'offers' ? dp.offers.length
+      : key === 'variants' ? dp.offers.reduce((k, o) => k + o.variants.length, 0) : 0), 0), 0);
+
   const manifest = {
     generated_from: dir,
     source_collected_at: details.collected_at,
     counts: {
-      families: families.length,
-      deployment_products: families.reduce((s, f) => s + f.deployment_products.length, 0),
-      offers: offerCount,
-      variants: variantCount,
+      families: unique.length,
+      deployment_products: unique.reduce((s, f) => s + f.deployment_products.length, 0),
+      offers: recount('offers'),
+      variants: recount('variants'),
       variants_on_request: onRequestCount,
+      duplicate_urls_dropped: dropped.length,
     },
-    families,
+    duplicate_urls: dropped,
+    families: unique,
   };
 
   const out = path.join(dir, 'manifest.json');

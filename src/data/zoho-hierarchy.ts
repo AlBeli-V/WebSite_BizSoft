@@ -785,7 +785,7 @@ export const ZOHO_GROUPS: ZohoGroup[] = [
                 "name": "ADAudit Plus - Add Ons (Annual Subscription)",
                 "edition": null,
                 "licenseModel": "subscription",
-                "kind": "base",
+                "kind": "addon",
                 "variants": [
                   {
                     "name": "5 Windows Servers",
@@ -1353,7 +1353,7 @@ export const ZOHO_GROUPS: ZohoGroup[] = [
                 "name": "ADAudit Plus - Add Ons",
                 "edition": null,
                 "licenseModel": "perpetual",
-                "kind": "base",
+                "kind": "addon",
                 "variants": [
                   {
                     "name": "5 Windows Servers",
@@ -8479,18 +8479,18 @@ export const ZOHO_GROUPS: ZohoGroup[] = [
         "priced": true,
         "sourceUrl": "https://store.manageengine.com/desktop-central/?MEstore&cat=UEMS",
         "sourceSnapshotId": "d5c7e8cea6da",
-        "sourceCheckedAt": "2026-08-20T21:40:56.926Z",
+        "sourceCheckedAt": "2026-08-20T22:02:30.678Z",
         "deployments": [
           {
             "deployment": "saas",
-            "licenseModel": null,
-            "slug": "endpoint-central-saas",
+            "licenseModel": "subscription",
+            "slug": "endpoint-central-saas-subscription",
             "offers": [
               {
                 "slug": "endpoint-central-professional-edition",
                 "name": "Endpoint Central Professional Edition",
                 "edition": "Professional",
-                "licenseModel": null,
+                "licenseModel": "subscription",
                 "kind": "base",
                 "variants": [
                   {
@@ -8721,7 +8721,7 @@ export const ZOHO_GROUPS: ZohoGroup[] = [
                 "slug": "endpoint-central-enterprise-distributed-edition",
                 "name": "Endpoint Central Enterprise(Distributed) Edition",
                 "edition": "Enterprise(Distributed)",
-                "licenseModel": null,
+                "licenseModel": "subscription",
                 "kind": "base",
                 "variants": [
                   {
@@ -8952,7 +8952,7 @@ export const ZOHO_GROUPS: ZohoGroup[] = [
                 "slug": "endpoint-central-uem-edition",
                 "name": "Endpoint Central UEM Edition",
                 "edition": "UEM",
-                "licenseModel": null,
+                "licenseModel": "subscription",
                 "kind": "base",
                 "variants": [
                   {
@@ -9183,7 +9183,7 @@ export const ZOHO_GROUPS: ZohoGroup[] = [
                 "slug": "endpoint-central-security-edition",
                 "name": "Endpoint Central Security Edition",
                 "edition": "Security",
-                "licenseModel": null,
+                "licenseModel": "subscription",
                 "kind": "base",
                 "variants": [
                   {
@@ -9414,7 +9414,7 @@ export const ZOHO_GROUPS: ZohoGroup[] = [
                 "slug": "endpoint-central-malware-protection-add-on",
                 "name": "Endpoint Central Malware Protection Add-on",
                 "edition": null,
-                "licenseModel": null,
+                "licenseModel": "subscription",
                 "kind": "addon",
                 "variants": [
                   {
@@ -9627,7 +9627,7 @@ export const ZOHO_GROUPS: ZohoGroup[] = [
                 "slug": "endpoint-central-ransomware-protection-add-on",
                 "name": "Endpoint Central Ransomware Protection Add-on",
                 "edition": null,
-                "licenseModel": null,
+                "licenseModel": "subscription",
                 "kind": "addon",
                 "variants": [
                   {
@@ -9840,7 +9840,7 @@ export const ZOHO_GROUPS: ZohoGroup[] = [
                 "slug": "endpoint-central-os-deployment-add-on",
                 "name": "Endpoint Central OS Deployment Add-on",
                 "edition": null,
-                "licenseModel": null,
+                "licenseModel": "subscription",
                 "kind": "addon",
                 "variants": [
                   {
@@ -10005,7 +10005,7 @@ export const ZOHO_GROUPS: ZohoGroup[] = [
                 "slug": "endpoint-central-dex-add-on",
                 "name": "Endpoint Central DEX Add-on",
                 "edition": null,
-                "licenseModel": null,
+                "licenseModel": "subscription",
                 "kind": "addon",
                 "variants": [
                   {
@@ -10086,7 +10086,7 @@ export const ZOHO_GROUPS: ZohoGroup[] = [
                 "slug": "endpoint-central-secure-private-access-add-on",
                 "name": "Endpoint Central Secure Private Access Add-on",
                 "edition": null,
-                "licenseModel": null,
+                "licenseModel": "subscription",
                 "kind": "addon",
                 "variants": [
                   {
@@ -10191,8 +10191,8 @@ export const ZOHO_GROUPS: ZohoGroup[] = [
                 "slug": "endpoint-central-additional-users",
                 "name": "Endpoint Central Additional Users",
                 "edition": null,
-                "licenseModel": null,
-                "kind": "base",
+                "licenseModel": "subscription",
+                "kind": "addon",
                 "variants": [
                   {
                     "name": "Additional 1 User",
@@ -10254,8 +10254,8 @@ export const ZOHO_GROUPS: ZohoGroup[] = [
                 "slug": "endpoint-central-multi-language-pack",
                 "name": "Endpoint Central Multi-Language Pack",
                 "edition": null,
-                "licenseModel": null,
-                "kind": "base",
+                "licenseModel": "subscription",
+                "kind": "addon",
                 "variants": [
                   {
                     "name": "Multi-Language Pack License",
@@ -10272,8 +10272,8 @@ export const ZOHO_GROUPS: ZohoGroup[] = [
                 "slug": "endpoint-central-failover-service",
                 "name": "Endpoint Central Failover Service",
                 "edition": null,
-                "licenseModel": null,
-                "kind": "base",
+                "licenseModel": "subscription",
+                "kind": "addon",
                 "variants": [
                   {
                     "name": "Failover Service for computers less than 1000",
@@ -10308,7 +10308,7 @@ export const ZOHO_GROUPS: ZohoGroup[] = [
                 "slug": "onboarding-implementation-and-training-max-4-participants",
                 "name": "Onboarding, Implementation and Training (Max: 4 Participants)",
                 "edition": null,
-                "licenseModel": null,
+                "licenseModel": "subscription",
                 "kind": "service",
                 "variants": [
                   {
@@ -10341,6 +10341,1831 @@ export const ZOHO_GROUPS: ZohoGroup[] = [
                 ]
               }
             ]
+          },
+          {
+            "deployment": "saas",
+            "licenseModel": "perpetual",
+            "slug": "endpoint-central-saas-perpetual",
+            "offers": [
+              {
+                "slug": "endpoint-central-professional-edition-perpetual",
+                "name": "Endpoint Central Professional Edition",
+                "edition": "Professional",
+                "licenseModel": "perpetual",
+                "kind": "base",
+                "variants": [
+                  {
+                    "name": "50 endpoints and Single User License",
+                    "metric": {
+                      "quantity": 50,
+                      "unit": "endpoints and single user license"
+                    },
+                    "amountUsd": 1987,
+                    "priceStatus": "listed",
+                    "maintenance": "US$398",
+                    "sku": "ME-ENDPOINT-CENTRAL-PROFESSIONAL-50-ENDPOINTS-AND-SINGLE-USER-LICENSE-PERP",
+                    "slug": "me-endpoint-central-professional-50-endpoints-and-single-user-license-perp"
+                  },
+                  {
+                    "name": "100 endpoints and Single User License",
+                    "metric": {
+                      "quantity": 100,
+                      "unit": "endpoints and single user license"
+                    },
+                    "amountUsd": 3612,
+                    "priceStatus": "listed",
+                    "maintenance": "US$723",
+                    "sku": "ME-ENDPOINT-CENTRAL-PROFESSIONAL-100-ENDPOINTS-AND-SINGLE-USER-LICENSE-PERP",
+                    "slug": "me-endpoint-central-professional-100-endpoints-and-single-user-license-perp"
+                  },
+                  {
+                    "name": "250 endpoints and Single User License",
+                    "metric": {
+                      "quantity": 250,
+                      "unit": "endpoints and single user license"
+                    },
+                    "amountUsd": 7237,
+                    "priceStatus": "listed",
+                    "maintenance": "US$1,448",
+                    "sku": "ME-ENDPOINT-CENTRAL-PROFESSIONAL-250-ENDPOINTS-AND-SINGLE-USER-LICENSE-PERP",
+                    "slug": "me-endpoint-central-professional-250-endpoints-and-single-user-license-perp"
+                  },
+                  {
+                    "name": "500 endpoints and Single User License",
+                    "metric": {
+                      "quantity": 500,
+                      "unit": "endpoints and single user license"
+                    },
+                    "amountUsd": 12612,
+                    "priceStatus": "listed",
+                    "maintenance": "US$2,523",
+                    "sku": "ME-ENDPOINT-CENTRAL-PROFESSIONAL-500-ENDPOINTS-AND-SINGLE-USER-LICENSE-PERP",
+                    "slug": "me-endpoint-central-professional-500-endpoints-and-single-user-license-perp"
+                  },
+                  {
+                    "name": "1000 endpoints and Single User License",
+                    "metric": {
+                      "quantity": 1000,
+                      "unit": "endpoints and single user license"
+                    },
+                    "amountUsd": 21612,
+                    "priceStatus": "listed",
+                    "maintenance": "US$4,322",
+                    "sku": "ME-ENDPOINT-CENTRAL-PROFESSIONAL-1000-ENDPOINTS-AND-SINGLE-USER-LICENSE-PERP",
+                    "slug": "me-endpoint-central-professional-1000-endpoints-and-single-user-license-perp"
+                  },
+                  {
+                    "name": "2500 endpoints and Single User License",
+                    "metric": {
+                      "quantity": 2500,
+                      "unit": "endpoints and single user license"
+                    },
+                    "amountUsd": 44987,
+                    "priceStatus": "listed",
+                    "maintenance": "US$8,998",
+                    "sku": "ME-ENDPOINT-CENTRAL-PROFESSIONAL-2500-ENDPOINTS-AND-SINGLE-USER-LICENSE-PERP",
+                    "slug": "me-endpoint-central-professional-2500-endpoints-and-single-user-license-perp"
+                  },
+                  {
+                    "name": "5000 endpoints and Single User License",
+                    "metric": {
+                      "quantity": 5000,
+                      "unit": "endpoints and single user license"
+                    },
+                    "amountUsd": 71987,
+                    "priceStatus": "listed",
+                    "maintenance": "US$14,398",
+                    "sku": "ME-ENDPOINT-CENTRAL-PROFESSIONAL-5000-ENDPOINTS-AND-SINGLE-USER-LICENSE-PERP",
+                    "slug": "me-endpoint-central-professional-5000-endpoints-and-single-user-license-perp"
+                  },
+                  {
+                    "name": "10000 endpoints and Single User License",
+                    "metric": {
+                      "quantity": 10000,
+                      "unit": "endpoints and single user license"
+                    },
+                    "amountUsd": 107987,
+                    "priceStatus": "listed",
+                    "maintenance": "US$21,598",
+                    "sku": "ME-ENDPOINT-CENTRAL-PROFESSIONAL-10000-ENDPOINTS-AND-SINGLE-USER-LICENSE-PERP",
+                    "slug": "me-endpoint-central-professional-10000-endpoints-and-single-user-license-perp"
+                  },
+                  {
+                    "name": "10 Servers and Single User License",
+                    "metric": {
+                      "quantity": 10,
+                      "unit": "servers and single user license"
+                    },
+                    "amountUsd": 738,
+                    "priceStatus": "listed",
+                    "maintenance": "US$147",
+                    "sku": "ME-ENDPOINT-CENTRAL-PROFESSIONAL-10-SERVERS-AND-SINGLE-USER-LICENSE-PERP",
+                    "slug": "me-endpoint-central-professional-10-servers-and-single-user-license-perp"
+                  },
+                  {
+                    "name": "25 Servers and Single User License",
+                    "metric": {
+                      "quantity": 25,
+                      "unit": "servers and single user license"
+                    },
+                    "amountUsd": 1613,
+                    "priceStatus": "listed",
+                    "maintenance": "US$322",
+                    "sku": "ME-ENDPOINT-CENTRAL-PROFESSIONAL-25-SERVERS-AND-SINGLE-USER-LICENSE-PERP",
+                    "slug": "me-endpoint-central-professional-25-servers-and-single-user-license-perp"
+                  },
+                  {
+                    "name": "50 Servers and Single User License",
+                    "metric": {
+                      "quantity": 50,
+                      "unit": "servers and single user license"
+                    },
+                    "amountUsd": 2988,
+                    "priceStatus": "listed",
+                    "maintenance": "US$597",
+                    "sku": "ME-ENDPOINT-CENTRAL-PROFESSIONAL-50-SERVERS-AND-SINGLE-USER-LICENSE-PERP",
+                    "slug": "me-endpoint-central-professional-50-servers-and-single-user-license-perp"
+                  },
+                  {
+                    "name": "100 Servers and Single User License",
+                    "metric": {
+                      "quantity": 100,
+                      "unit": "servers and single user license"
+                    },
+                    "amountUsd": 5488,
+                    "priceStatus": "listed",
+                    "maintenance": "US$1,097",
+                    "sku": "ME-ENDPOINT-CENTRAL-PROFESSIONAL-100-SERVERS-AND-SINGLE-USER-LICENSE-PERP",
+                    "slug": "me-endpoint-central-professional-100-servers-and-single-user-license-perp"
+                  },
+                  {
+                    "name": "250 Servers and Single User License",
+                    "metric": {
+                      "quantity": 250,
+                      "unit": "servers and single user license"
+                    },
+                    "amountUsd": 10613,
+                    "priceStatus": "listed",
+                    "maintenance": "US$2,122",
+                    "sku": "ME-ENDPOINT-CENTRAL-PROFESSIONAL-250-SERVERS-AND-SINGLE-USER-LICENSE-PERP",
+                    "slug": "me-endpoint-central-professional-250-servers-and-single-user-license-perp"
+                  },
+                  {
+                    "name": "500 Servers and Single User License",
+                    "metric": {
+                      "quantity": 500,
+                      "unit": "servers and single user license"
+                    },
+                    "amountUsd": 18988,
+                    "priceStatus": "listed",
+                    "maintenance": "US$3,797",
+                    "sku": "ME-ENDPOINT-CENTRAL-PROFESSIONAL-500-SERVERS-AND-SINGLE-USER-LICENSE-PERP",
+                    "slug": "me-endpoint-central-professional-500-servers-and-single-user-license-perp"
+                  },
+                  {
+                    "name": "1000 Servers and Single User License",
+                    "metric": {
+                      "quantity": 1000,
+                      "unit": "servers and single user license"
+                    },
+                    "amountUsd": 32488,
+                    "priceStatus": "listed",
+                    "maintenance": "US$6,497",
+                    "sku": "ME-ENDPOINT-CENTRAL-PROFESSIONAL-1000-SERVERS-AND-SINGLE-USER-LICENSE-PERP",
+                    "slug": "me-endpoint-central-professional-1000-servers-and-single-user-license-perp"
+                  },
+                  {
+                    "name": "2500 Servers and Single User License",
+                    "metric": {
+                      "quantity": 2500,
+                      "unit": "servers and single user license"
+                    },
+                    "amountUsd": 67488,
+                    "priceStatus": "listed",
+                    "maintenance": "US$13,497",
+                    "sku": "ME-ENDPOINT-CENTRAL-PROFESSIONAL-2500-SERVERS-AND-SINGLE-USER-LICENSE-PERP",
+                    "slug": "me-endpoint-central-professional-2500-servers-and-single-user-license-perp"
+                  },
+                  {
+                    "name": "5000 Servers and Single User License",
+                    "metric": {
+                      "quantity": 5000,
+                      "unit": "servers and single user license"
+                    },
+                    "amountUsd": 107988,
+                    "priceStatus": "listed",
+                    "maintenance": "US$21,597",
+                    "sku": "ME-ENDPOINT-CENTRAL-PROFESSIONAL-5000-SERVERS-AND-SINGLE-USER-LICENSE-PERP",
+                    "slug": "me-endpoint-central-professional-5000-servers-and-single-user-license-perp"
+                  },
+                  {
+                    "name": "Secure Gateway Server",
+                    "metric": null,
+                    "amountUsd": 860,
+                    "priceStatus": "listed",
+                    "maintenance": "US$175",
+                    "sku": "ME-ENDPOINT-CENTRAL-PROFESSIONAL-SECURE-GATEWAY-SERVER-PERP",
+                    "slug": "me-endpoint-central-professional-secure-gateway-server-perp"
+                  },
+                  {
+                    "name": "One-time Server & Data Migration",
+                    "metric": null,
+                    "amountUsd": 295,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-ENDPOINT-CENTRAL-PROFESSIONAL-ONE-TIME-SERVER-DATA-MIGRATION-PERP",
+                    "slug": "me-endpoint-central-professional-one-time-server-data-migration-perp"
+                  }
+                ]
+              },
+              {
+                "slug": "endpoint-central-enterprise-distributed-edition-perpetual",
+                "name": "Endpoint Central Enterprise(Distributed) Edition",
+                "edition": "Enterprise(Distributed)",
+                "licenseModel": "perpetual",
+                "kind": "base",
+                "variants": [
+                  {
+                    "name": "50 endpoints and Single User License",
+                    "metric": {
+                      "quantity": 50,
+                      "unit": "endpoints and single user license"
+                    },
+                    "amountUsd": 2362,
+                    "priceStatus": "listed",
+                    "maintenance": "US$473",
+                    "sku": "ME-ENDPOINT-CENTRAL-ENTERPRISE-DISTRIBUTED-ENTERPRISE-50-ENDPOINTS-AND-SINGLE-USER-LICENSE-PERP",
+                    "slug": "me-endpoint-central-enterprise-distributed-enterprise-50-endpoints-and-single-user-license-perp"
+                  },
+                  {
+                    "name": "100 endpoints and Single User License",
+                    "metric": {
+                      "quantity": 100,
+                      "unit": "endpoints and single user license"
+                    },
+                    "amountUsd": 4487,
+                    "priceStatus": "listed",
+                    "maintenance": "US$898",
+                    "sku": "ME-ENDPOINT-CENTRAL-ENTERPRISE-DISTRIBUTED-ENTERPRISE-100-ENDPOINTS-AND-SINGLE-USER-LICENSE-PERP",
+                    "slug": "me-endpoint-central-enterprise-distributed-enterprise-100-endpoints-and-single-user-license-perp"
+                  },
+                  {
+                    "name": "250 endpoints and Single User License",
+                    "metric": {
+                      "quantity": 250,
+                      "unit": "endpoints and single user license"
+                    },
+                    "amountUsd": 8987,
+                    "priceStatus": "listed",
+                    "maintenance": "US$1,798",
+                    "sku": "ME-ENDPOINT-CENTRAL-ENTERPRISE-DISTRIBUTED-ENTERPRISE-250-ENDPOINTS-AND-SINGLE-USER-LICENSE-PERP",
+                    "slug": "me-endpoint-central-enterprise-distributed-enterprise-250-endpoints-and-single-user-license-perp"
+                  },
+                  {
+                    "name": "500 endpoints and Single User License",
+                    "metric": {
+                      "quantity": 500,
+                      "unit": "endpoints and single user license"
+                    },
+                    "amountUsd": 15862,
+                    "priceStatus": "listed",
+                    "maintenance": "US$3,173",
+                    "sku": "ME-ENDPOINT-CENTRAL-ENTERPRISE-DISTRIBUTED-ENTERPRISE-500-ENDPOINTS-AND-SINGLE-USER-LICENSE-PERP",
+                    "slug": "me-endpoint-central-enterprise-distributed-enterprise-500-endpoints-and-single-user-license-perp"
+                  },
+                  {
+                    "name": "1000 endpoints and Single User License",
+                    "metric": {
+                      "quantity": 1000,
+                      "unit": "endpoints and single user license"
+                    },
+                    "amountUsd": 26987,
+                    "priceStatus": "listed",
+                    "maintenance": "US$5,398",
+                    "sku": "ME-ENDPOINT-CENTRAL-ENTERPRISE-DISTRIBUTED-ENTERPRISE-1000-ENDPOINTS-AND-SINGLE-USER-LICENSE-PERP",
+                    "slug": "me-endpoint-central-enterprise-distributed-enterprise-1000-endpoints-and-single-user-license-perp"
+                  },
+                  {
+                    "name": "2500 endpoints and Single User License",
+                    "metric": {
+                      "quantity": 2500,
+                      "unit": "endpoints and single user license"
+                    },
+                    "amountUsd": 56237,
+                    "priceStatus": "listed",
+                    "maintenance": "US$11,248",
+                    "sku": "ME-ENDPOINT-CENTRAL-ENTERPRISE-DISTRIBUTED-ENTERPRISE-2500-ENDPOINTS-AND-SINGLE-USER-LICENSE-PERP",
+                    "slug": "me-endpoint-central-enterprise-distributed-enterprise-2500-endpoints-and-single-user-license-perp"
+                  },
+                  {
+                    "name": "5000 endpoints and Single User License",
+                    "metric": {
+                      "quantity": 5000,
+                      "unit": "endpoints and single user license"
+                    },
+                    "amountUsd": 89987,
+                    "priceStatus": "listed",
+                    "maintenance": "US$17,998",
+                    "sku": "ME-ENDPOINT-CENTRAL-ENTERPRISE-DISTRIBUTED-ENTERPRISE-5000-ENDPOINTS-AND-SINGLE-USER-LICENSE-PERP",
+                    "slug": "me-endpoint-central-enterprise-distributed-enterprise-5000-endpoints-and-single-user-license-perp"
+                  },
+                  {
+                    "name": "10000 endpoints and Single User License",
+                    "metric": {
+                      "quantity": 10000,
+                      "unit": "endpoints and single user license"
+                    },
+                    "amountUsd": 134987,
+                    "priceStatus": "listed",
+                    "maintenance": "US$26,998",
+                    "sku": "ME-ENDPOINT-CENTRAL-ENTERPRISE-DISTRIBUTED-ENTERPRISE-10000-ENDPOINTS-AND-SINGLE-USER-LICENSE-PERP",
+                    "slug": "me-endpoint-central-enterprise-distributed-enterprise-10000-endpoints-and-single-user-license-perp"
+                  },
+                  {
+                    "name": "10 Servers and Single User License",
+                    "metric": {
+                      "quantity": 10,
+                      "unit": "servers and single user license"
+                    },
+                    "amountUsd": 863,
+                    "priceStatus": "listed",
+                    "maintenance": "US$172",
+                    "sku": "ME-ENDPOINT-CENTRAL-ENTERPRISE-DISTRIBUTED-ENTERPRISE-10-SERVERS-AND-SINGLE-USER-LICENSE-PERP",
+                    "slug": "me-endpoint-central-enterprise-distributed-enterprise-10-servers-and-single-user-license-perp"
+                  },
+                  {
+                    "name": "25 Servers and Single User License",
+                    "metric": {
+                      "quantity": 25,
+                      "unit": "servers and single user license"
+                    },
+                    "amountUsd": 1863,
+                    "priceStatus": "listed",
+                    "maintenance": "US$372",
+                    "sku": "ME-ENDPOINT-CENTRAL-ENTERPRISE-DISTRIBUTED-ENTERPRISE-25-SERVERS-AND-SINGLE-USER-LICENSE-PERP",
+                    "slug": "me-endpoint-central-enterprise-distributed-enterprise-25-servers-and-single-user-license-perp"
+                  },
+                  {
+                    "name": "50 Servers and Single User License",
+                    "metric": {
+                      "quantity": 50,
+                      "unit": "servers and single user license"
+                    },
+                    "amountUsd": 3613,
+                    "priceStatus": "listed",
+                    "maintenance": "US$722",
+                    "sku": "ME-ENDPOINT-CENTRAL-ENTERPRISE-DISTRIBUTED-ENTERPRISE-50-SERVERS-AND-SINGLE-USER-LICENSE-PERP",
+                    "slug": "me-endpoint-central-enterprise-distributed-enterprise-50-servers-and-single-user-license-perp"
+                  },
+                  {
+                    "name": "100 Servers and Single User License",
+                    "metric": {
+                      "quantity": 100,
+                      "unit": "servers and single user license"
+                    },
+                    "amountUsd": 6738,
+                    "priceStatus": "listed",
+                    "maintenance": "US$1,347",
+                    "sku": "ME-ENDPOINT-CENTRAL-ENTERPRISE-DISTRIBUTED-ENTERPRISE-100-SERVERS-AND-SINGLE-USER-LICENSE-PERP",
+                    "slug": "me-endpoint-central-enterprise-distributed-enterprise-100-servers-and-single-user-license-perp"
+                  },
+                  {
+                    "name": "250 Servers and Single User License",
+                    "metric": {
+                      "quantity": 250,
+                      "unit": "servers and single user license"
+                    },
+                    "amountUsd": 13738,
+                    "priceStatus": "listed",
+                    "maintenance": "US$2,747",
+                    "sku": "ME-ENDPOINT-CENTRAL-ENTERPRISE-DISTRIBUTED-ENTERPRISE-250-SERVERS-AND-SINGLE-USER-LICENSE-PERP",
+                    "slug": "me-endpoint-central-enterprise-distributed-enterprise-250-servers-and-single-user-license-perp"
+                  },
+                  {
+                    "name": "500 Servers and Single User License",
+                    "metric": {
+                      "quantity": 500,
+                      "unit": "servers and single user license"
+                    },
+                    "amountUsd": 23863,
+                    "priceStatus": "listed",
+                    "maintenance": "US$4,772",
+                    "sku": "ME-ENDPOINT-CENTRAL-ENTERPRISE-DISTRIBUTED-ENTERPRISE-500-SERVERS-AND-SINGLE-USER-LICENSE-PERP",
+                    "slug": "me-endpoint-central-enterprise-distributed-enterprise-500-servers-and-single-user-license-perp"
+                  },
+                  {
+                    "name": "1000 Servers and Single User License",
+                    "metric": {
+                      "quantity": 1000,
+                      "unit": "servers and single user license"
+                    },
+                    "amountUsd": 40488,
+                    "priceStatus": "listed",
+                    "maintenance": "US$8,097",
+                    "sku": "ME-ENDPOINT-CENTRAL-ENTERPRISE-DISTRIBUTED-ENTERPRISE-1000-SERVERS-AND-SINGLE-USER-LICENSE-PERP",
+                    "slug": "me-endpoint-central-enterprise-distributed-enterprise-1000-servers-and-single-user-license-perp"
+                  },
+                  {
+                    "name": "2500 Servers and Single User License",
+                    "metric": {
+                      "quantity": 2500,
+                      "unit": "servers and single user license"
+                    },
+                    "amountUsd": 84363,
+                    "priceStatus": "listed",
+                    "maintenance": "US$16,872",
+                    "sku": "ME-ENDPOINT-CENTRAL-ENTERPRISE-DISTRIBUTED-ENTERPRISE-2500-SERVERS-AND-SINGLE-USER-LICENSE-PERP",
+                    "slug": "me-endpoint-central-enterprise-distributed-enterprise-2500-servers-and-single-user-license-perp"
+                  },
+                  {
+                    "name": "5000 Servers and Single User License",
+                    "metric": {
+                      "quantity": 5000,
+                      "unit": "servers and single user license"
+                    },
+                    "amountUsd": 134988,
+                    "priceStatus": "listed",
+                    "maintenance": "US$26,997",
+                    "sku": "ME-ENDPOINT-CENTRAL-ENTERPRISE-DISTRIBUTED-ENTERPRISE-5000-SERVERS-AND-SINGLE-USER-LICENSE-PERP",
+                    "slug": "me-endpoint-central-enterprise-distributed-enterprise-5000-servers-and-single-user-license-perp"
+                  },
+                  {
+                    "name": "Secure Gateway Server",
+                    "metric": null,
+                    "amountUsd": 860,
+                    "priceStatus": "listed",
+                    "maintenance": "US$175",
+                    "sku": "ME-ENDPOINT-CENTRAL-ENTERPRISE-DISTRIBUTED-ENTERPRISE-SECURE-GATEWAY-SERVER-PERP",
+                    "slug": "me-endpoint-central-enterprise-distributed-enterprise-secure-gateway-server-perp"
+                  },
+                  {
+                    "name": "One-time Server & Data Migration",
+                    "metric": null,
+                    "amountUsd": 295,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-ENDPOINT-CENTRAL-ENTERPRISE-DISTRIBUTED-ENTERPRISE-ONE-TIME-SERVER-DATA-MIGRATION-PERP",
+                    "slug": "me-endpoint-central-enterprise-distributed-enterprise-one-time-server-data-migration-perp"
+                  }
+                ]
+              },
+              {
+                "slug": "endpoint-central-uem-edition-perpetual",
+                "name": "Endpoint Central UEM Edition",
+                "edition": "UEM",
+                "licenseModel": "perpetual",
+                "kind": "base",
+                "variants": [
+                  {
+                    "name": "50 endpoints and Single User License",
+                    "metric": {
+                      "quantity": 50,
+                      "unit": "endpoints and single user license"
+                    },
+                    "amountUsd": 2738,
+                    "priceStatus": "listed",
+                    "maintenance": "US$547",
+                    "sku": "ME-ENDPOINT-CENTRAL-UEM-50-ENDPOINTS-AND-SINGLE-USER-LICENSE-PERP",
+                    "slug": "me-endpoint-central-uem-50-endpoints-and-single-user-license-perp"
+                  },
+                  {
+                    "name": "100 endpoints and Single User License",
+                    "metric": {
+                      "quantity": 100,
+                      "unit": "endpoints and single user license"
+                    },
+                    "amountUsd": 5238,
+                    "priceStatus": "listed",
+                    "maintenance": "US$1,047",
+                    "sku": "ME-ENDPOINT-CENTRAL-UEM-100-ENDPOINTS-AND-SINGLE-USER-LICENSE-PERP",
+                    "slug": "me-endpoint-central-uem-100-endpoints-and-single-user-license-perp"
+                  },
+                  {
+                    "name": "250 endpoints and Single User License",
+                    "metric": {
+                      "quantity": 250,
+                      "unit": "endpoints and single user license"
+                    },
+                    "amountUsd": 10488,
+                    "priceStatus": "listed",
+                    "maintenance": "US$2,097",
+                    "sku": "ME-ENDPOINT-CENTRAL-UEM-250-ENDPOINTS-AND-SINGLE-USER-LICENSE-PERP",
+                    "slug": "me-endpoint-central-uem-250-endpoints-and-single-user-license-perp"
+                  },
+                  {
+                    "name": "500 endpoints and Single User License",
+                    "metric": {
+                      "quantity": 500,
+                      "unit": "endpoints and single user license"
+                    },
+                    "amountUsd": 18488,
+                    "priceStatus": "listed",
+                    "maintenance": "US$3,697",
+                    "sku": "ME-ENDPOINT-CENTRAL-UEM-500-ENDPOINTS-AND-SINGLE-USER-LICENSE-PERP",
+                    "slug": "me-endpoint-central-uem-500-endpoints-and-single-user-license-perp"
+                  },
+                  {
+                    "name": "1000 endpoints and Single User License",
+                    "metric": {
+                      "quantity": 1000,
+                      "unit": "endpoints and single user license"
+                    },
+                    "amountUsd": 31363,
+                    "priceStatus": "listed",
+                    "maintenance": "US$6,272",
+                    "sku": "ME-ENDPOINT-CENTRAL-UEM-1000-ENDPOINTS-AND-SINGLE-USER-LICENSE-PERP",
+                    "slug": "me-endpoint-central-uem-1000-endpoints-and-single-user-license-perp"
+                  },
+                  {
+                    "name": "2500 endpoints and Single User License",
+                    "metric": {
+                      "quantity": 2500,
+                      "unit": "endpoints and single user license"
+                    },
+                    "amountUsd": 65463,
+                    "priceStatus": "listed",
+                    "maintenance": "US$13,092",
+                    "sku": "ME-ENDPOINT-CENTRAL-UEM-2500-ENDPOINTS-AND-SINGLE-USER-LICENSE-PERP",
+                    "slug": "me-endpoint-central-uem-2500-endpoints-and-single-user-license-perp"
+                  },
+                  {
+                    "name": "5000 endpoints and Single User License",
+                    "metric": {
+                      "quantity": 5000,
+                      "unit": "endpoints and single user license"
+                    },
+                    "amountUsd": 104738,
+                    "priceStatus": "listed",
+                    "maintenance": "US$20,947",
+                    "sku": "ME-ENDPOINT-CENTRAL-UEM-5000-ENDPOINTS-AND-SINGLE-USER-LICENSE-PERP",
+                    "slug": "me-endpoint-central-uem-5000-endpoints-and-single-user-license-perp"
+                  },
+                  {
+                    "name": "10000 endpoints and Single User License",
+                    "metric": {
+                      "quantity": 10000,
+                      "unit": "endpoints and single user license"
+                    },
+                    "amountUsd": 157113,
+                    "priceStatus": "listed",
+                    "maintenance": "US$31,422",
+                    "sku": "ME-ENDPOINT-CENTRAL-UEM-10000-ENDPOINTS-AND-SINGLE-USER-LICENSE-PERP",
+                    "slug": "me-endpoint-central-uem-10000-endpoints-and-single-user-license-perp"
+                  },
+                  {
+                    "name": "10 Servers and Single User License",
+                    "metric": {
+                      "quantity": 10,
+                      "unit": "servers and single user license"
+                    },
+                    "amountUsd": 988,
+                    "priceStatus": "listed",
+                    "maintenance": "US$197",
+                    "sku": "ME-ENDPOINT-CENTRAL-UEM-10-SERVERS-AND-SINGLE-USER-LICENSE-PERP",
+                    "slug": "me-endpoint-central-uem-10-servers-and-single-user-license-perp"
+                  },
+                  {
+                    "name": "25 Servers and Single User License",
+                    "metric": {
+                      "quantity": 25,
+                      "unit": "servers and single user license"
+                    },
+                    "amountUsd": 2238,
+                    "priceStatus": "listed",
+                    "maintenance": "US$447",
+                    "sku": "ME-ENDPOINT-CENTRAL-UEM-25-SERVERS-AND-SINGLE-USER-LICENSE-PERP",
+                    "slug": "me-endpoint-central-uem-25-servers-and-single-user-license-perp"
+                  },
+                  {
+                    "name": "50 Servers and Single User License",
+                    "metric": {
+                      "quantity": 50,
+                      "unit": "servers and single user license"
+                    },
+                    "amountUsd": 4113,
+                    "priceStatus": "listed",
+                    "maintenance": "US$822",
+                    "sku": "ME-ENDPOINT-CENTRAL-UEM-50-SERVERS-AND-SINGLE-USER-LICENSE-PERP",
+                    "slug": "me-endpoint-central-uem-50-servers-and-single-user-license-perp"
+                  },
+                  {
+                    "name": "100 Servers and Single User License",
+                    "metric": {
+                      "quantity": 100,
+                      "unit": "servers and single user license"
+                    },
+                    "amountUsd": 7863,
+                    "priceStatus": "listed",
+                    "maintenance": "US$1,572",
+                    "sku": "ME-ENDPOINT-CENTRAL-UEM-100-SERVERS-AND-SINGLE-USER-LICENSE-PERP",
+                    "slug": "me-endpoint-central-uem-100-servers-and-single-user-license-perp"
+                  },
+                  {
+                    "name": "250 Servers and Single User License",
+                    "metric": {
+                      "quantity": 250,
+                      "unit": "servers and single user license"
+                    },
+                    "amountUsd": 15613,
+                    "priceStatus": "listed",
+                    "maintenance": "US$3,122",
+                    "sku": "ME-ENDPOINT-CENTRAL-UEM-250-SERVERS-AND-SINGLE-USER-LICENSE-PERP",
+                    "slug": "me-endpoint-central-uem-250-servers-and-single-user-license-perp"
+                  },
+                  {
+                    "name": "500 Servers and Single User License",
+                    "metric": {
+                      "quantity": 500,
+                      "unit": "servers and single user license"
+                    },
+                    "amountUsd": 27738,
+                    "priceStatus": "listed",
+                    "maintenance": "US$5,547",
+                    "sku": "ME-ENDPOINT-CENTRAL-UEM-500-SERVERS-AND-SINGLE-USER-LICENSE-PERP",
+                    "slug": "me-endpoint-central-uem-500-servers-and-single-user-license-perp"
+                  },
+                  {
+                    "name": "1000 Servers and Single User License",
+                    "metric": {
+                      "quantity": 1000,
+                      "unit": "servers and single user license"
+                    },
+                    "amountUsd": 47113,
+                    "priceStatus": "listed",
+                    "maintenance": "US$9,422",
+                    "sku": "ME-ENDPOINT-CENTRAL-UEM-1000-SERVERS-AND-SINGLE-USER-LICENSE-PERP",
+                    "slug": "me-endpoint-central-uem-1000-servers-and-single-user-license-perp"
+                  },
+                  {
+                    "name": "2500 Servers and Single User License",
+                    "metric": {
+                      "quantity": 2500,
+                      "unit": "servers and single user license"
+                    },
+                    "amountUsd": 98238,
+                    "priceStatus": "listed",
+                    "maintenance": "US$19,647",
+                    "sku": "ME-ENDPOINT-CENTRAL-UEM-2500-SERVERS-AND-SINGLE-USER-LICENSE-PERP",
+                    "slug": "me-endpoint-central-uem-2500-servers-and-single-user-license-perp"
+                  },
+                  {
+                    "name": "5000 Servers and Single User License",
+                    "metric": {
+                      "quantity": 5000,
+                      "unit": "servers and single user license"
+                    },
+                    "amountUsd": 157113,
+                    "priceStatus": "listed",
+                    "maintenance": "US$31,422",
+                    "sku": "ME-ENDPOINT-CENTRAL-UEM-5000-SERVERS-AND-SINGLE-USER-LICENSE-PERP",
+                    "slug": "me-endpoint-central-uem-5000-servers-and-single-user-license-perp"
+                  },
+                  {
+                    "name": "Secure Gateway Server",
+                    "metric": null,
+                    "amountUsd": 860,
+                    "priceStatus": "listed",
+                    "maintenance": "US$175",
+                    "sku": "ME-ENDPOINT-CENTRAL-UEM-SECURE-GATEWAY-SERVER-PERP",
+                    "slug": "me-endpoint-central-uem-secure-gateway-server-perp"
+                  },
+                  {
+                    "name": "One-time Server & Data Migration",
+                    "metric": null,
+                    "amountUsd": 295,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-ENDPOINT-CENTRAL-UEM-ONE-TIME-SERVER-DATA-MIGRATION-PERP",
+                    "slug": "me-endpoint-central-uem-one-time-server-data-migration-perp"
+                  }
+                ]
+              },
+              {
+                "slug": "endpoint-central-security-edition-perpetual",
+                "name": "Endpoint Central Security Edition",
+                "edition": "Security",
+                "licenseModel": "perpetual",
+                "kind": "base",
+                "variants": [
+                  {
+                    "name": "50 endpoints and Single User License",
+                    "metric": {
+                      "quantity": 50,
+                      "unit": "endpoints and single user license"
+                    },
+                    "amountUsd": 4238,
+                    "priceStatus": "listed",
+                    "maintenance": "US$848",
+                    "sku": "ME-ENDPOINT-CENTRAL-SECURITY-50-ENDPOINTS-AND-SINGLE-USER-LICENSE-PERP",
+                    "slug": "me-endpoint-central-security-50-endpoints-and-single-user-license-perp"
+                  },
+                  {
+                    "name": "100 endpoints and Single User License",
+                    "metric": {
+                      "quantity": 100,
+                      "unit": "endpoints and single user license"
+                    },
+                    "amountUsd": 8113,
+                    "priceStatus": "listed",
+                    "maintenance": "US$1,623",
+                    "sku": "ME-ENDPOINT-CENTRAL-SECURITY-100-ENDPOINTS-AND-SINGLE-USER-LICENSE-PERP",
+                    "slug": "me-endpoint-central-security-100-endpoints-and-single-user-license-perp"
+                  },
+                  {
+                    "name": "250 endpoints and Single User License",
+                    "metric": {
+                      "quantity": 250,
+                      "unit": "endpoints and single user license"
+                    },
+                    "amountUsd": 16238,
+                    "priceStatus": "listed",
+                    "maintenance": "US$3,248",
+                    "sku": "ME-ENDPOINT-CENTRAL-SECURITY-250-ENDPOINTS-AND-SINGLE-USER-LICENSE-PERP",
+                    "slug": "me-endpoint-central-security-250-endpoints-and-single-user-license-perp"
+                  },
+                  {
+                    "name": "500 endpoints and Single User License",
+                    "metric": {
+                      "quantity": 500,
+                      "unit": "endpoints and single user license"
+                    },
+                    "amountUsd": 28613,
+                    "priceStatus": "listed",
+                    "maintenance": "US$5,723",
+                    "sku": "ME-ENDPOINT-CENTRAL-SECURITY-500-ENDPOINTS-AND-SINGLE-USER-LICENSE-PERP",
+                    "slug": "me-endpoint-central-security-500-endpoints-and-single-user-license-perp"
+                  },
+                  {
+                    "name": "1000 endpoints and Single User License",
+                    "metric": {
+                      "quantity": 1000,
+                      "unit": "endpoints and single user license"
+                    },
+                    "amountUsd": 48488,
+                    "priceStatus": "listed",
+                    "maintenance": "US$9,698",
+                    "sku": "ME-ENDPOINT-CENTRAL-SECURITY-1000-ENDPOINTS-AND-SINGLE-USER-LICENSE-PERP",
+                    "slug": "me-endpoint-central-security-1000-endpoints-and-single-user-license-perp"
+                  },
+                  {
+                    "name": "2500 endpoints and Single User License",
+                    "metric": {
+                      "quantity": 2500,
+                      "unit": "endpoints and single user license"
+                    },
+                    "amountUsd": 101238,
+                    "priceStatus": "listed",
+                    "maintenance": "US$20,248",
+                    "sku": "ME-ENDPOINT-CENTRAL-SECURITY-2500-ENDPOINTS-AND-SINGLE-USER-LICENSE-PERP",
+                    "slug": "me-endpoint-central-security-2500-endpoints-and-single-user-license-perp"
+                  },
+                  {
+                    "name": "5000 endpoints and Single User License",
+                    "metric": {
+                      "quantity": 5000,
+                      "unit": "endpoints and single user license"
+                    },
+                    "amountUsd": 161988,
+                    "priceStatus": "listed",
+                    "maintenance": "US$32,398",
+                    "sku": "ME-ENDPOINT-CENTRAL-SECURITY-5000-ENDPOINTS-AND-SINGLE-USER-LICENSE-PERP",
+                    "slug": "me-endpoint-central-security-5000-endpoints-and-single-user-license-perp"
+                  },
+                  {
+                    "name": "10000 endpoints and Single User License",
+                    "metric": {
+                      "quantity": 10000,
+                      "unit": "endpoints and single user license"
+                    },
+                    "amountUsd": 242863,
+                    "priceStatus": "listed",
+                    "maintenance": "US$48,573",
+                    "sku": "ME-ENDPOINT-CENTRAL-SECURITY-10000-ENDPOINTS-AND-SINGLE-USER-LICENSE-PERP",
+                    "slug": "me-endpoint-central-security-10000-endpoints-and-single-user-license-perp"
+                  },
+                  {
+                    "name": "10 Servers and Single User License",
+                    "metric": {
+                      "quantity": 10,
+                      "unit": "servers and single user license"
+                    },
+                    "amountUsd": 1238,
+                    "priceStatus": "listed",
+                    "maintenance": "US$247",
+                    "sku": "ME-ENDPOINT-CENTRAL-SECURITY-10-SERVERS-AND-SINGLE-USER-LICENSE-PERP",
+                    "slug": "me-endpoint-central-security-10-servers-and-single-user-license-perp"
+                  },
+                  {
+                    "name": "25 Servers and Single User License",
+                    "metric": {
+                      "quantity": 25,
+                      "unit": "servers and single user license"
+                    },
+                    "amountUsd": 2863,
+                    "priceStatus": "listed",
+                    "maintenance": "US$572",
+                    "sku": "ME-ENDPOINT-CENTRAL-SECURITY-25-SERVERS-AND-SINGLE-USER-LICENSE-PERP",
+                    "slug": "me-endpoint-central-security-25-servers-and-single-user-license-perp"
+                  },
+                  {
+                    "name": "50 Servers and Single User License",
+                    "metric": {
+                      "quantity": 50,
+                      "unit": "servers and single user license"
+                    },
+                    "amountUsd": 5488,
+                    "priceStatus": "listed",
+                    "maintenance": "US$1,097",
+                    "sku": "ME-ENDPOINT-CENTRAL-SECURITY-50-SERVERS-AND-SINGLE-USER-LICENSE-PERP",
+                    "slug": "me-endpoint-central-security-50-servers-and-single-user-license-perp"
+                  },
+                  {
+                    "name": "100 Servers and Single User License",
+                    "metric": {
+                      "quantity": 100,
+                      "unit": "servers and single user license"
+                    },
+                    "amountUsd": 10613,
+                    "priceStatus": "listed",
+                    "maintenance": "US$2,122",
+                    "sku": "ME-ENDPOINT-CENTRAL-SECURITY-100-SERVERS-AND-SINGLE-USER-LICENSE-PERP",
+                    "slug": "me-endpoint-central-security-100-servers-and-single-user-license-perp"
+                  },
+                  {
+                    "name": "250 Servers and Single User License",
+                    "metric": {
+                      "quantity": 250,
+                      "unit": "servers and single user license"
+                    },
+                    "amountUsd": 21113,
+                    "priceStatus": "listed",
+                    "maintenance": "US$4,222",
+                    "sku": "ME-ENDPOINT-CENTRAL-SECURITY-250-SERVERS-AND-SINGLE-USER-LICENSE-PERP",
+                    "slug": "me-endpoint-central-security-250-servers-and-single-user-license-perp"
+                  },
+                  {
+                    "name": "500 Servers and Single User License",
+                    "metric": {
+                      "quantity": 500,
+                      "unit": "servers and single user license"
+                    },
+                    "amountUsd": 37613,
+                    "priceStatus": "listed",
+                    "maintenance": "US$7,522",
+                    "sku": "ME-ENDPOINT-CENTRAL-SECURITY-500-SERVERS-AND-SINGLE-USER-LICENSE-PERP",
+                    "slug": "me-endpoint-central-security-500-servers-and-single-user-license-perp"
+                  },
+                  {
+                    "name": "1000 Servers and Single User License",
+                    "metric": {
+                      "quantity": 1000,
+                      "unit": "servers and single user license"
+                    },
+                    "amountUsd": 63863,
+                    "priceStatus": "listed",
+                    "maintenance": "US$12,772",
+                    "sku": "ME-ENDPOINT-CENTRAL-SECURITY-1000-SERVERS-AND-SINGLE-USER-LICENSE-PERP",
+                    "slug": "me-endpoint-central-security-1000-servers-and-single-user-license-perp"
+                  },
+                  {
+                    "name": "2500 Servers and Single User License",
+                    "metric": {
+                      "quantity": 2500,
+                      "unit": "servers and single user license"
+                    },
+                    "amountUsd": 133488,
+                    "priceStatus": "listed",
+                    "maintenance": "US$26,697",
+                    "sku": "ME-ENDPOINT-CENTRAL-SECURITY-2500-SERVERS-AND-SINGLE-USER-LICENSE-PERP",
+                    "slug": "me-endpoint-central-security-2500-servers-and-single-user-license-perp"
+                  },
+                  {
+                    "name": "5000 Servers and Single User License",
+                    "metric": {
+                      "quantity": 5000,
+                      "unit": "servers and single user license"
+                    },
+                    "amountUsd": 213613,
+                    "priceStatus": "listed",
+                    "maintenance": "US$42,722",
+                    "sku": "ME-ENDPOINT-CENTRAL-SECURITY-5000-SERVERS-AND-SINGLE-USER-LICENSE-PERP",
+                    "slug": "me-endpoint-central-security-5000-servers-and-single-user-license-perp"
+                  },
+                  {
+                    "name": "Secure Gateway Server",
+                    "metric": null,
+                    "amountUsd": 860,
+                    "priceStatus": "listed",
+                    "maintenance": "US$175",
+                    "sku": "ME-ENDPOINT-CENTRAL-SECURITY-SECURE-GATEWAY-SERVER-PERP",
+                    "slug": "me-endpoint-central-security-secure-gateway-server-perp"
+                  },
+                  {
+                    "name": "One-time Server & Data Migration",
+                    "metric": null,
+                    "amountUsd": 295,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-ENDPOINT-CENTRAL-SECURITY-ONE-TIME-SERVER-DATA-MIGRATION-PERP",
+                    "slug": "me-endpoint-central-security-one-time-server-data-migration-perp"
+                  }
+                ]
+              },
+              {
+                "slug": "endpoint-central-malware-protection-add-on-perpetual",
+                "name": "Endpoint Central Malware Protection Add-on",
+                "edition": null,
+                "licenseModel": "perpetual",
+                "kind": "addon",
+                "variants": [
+                  {
+                    "name": "50 Workstations",
+                    "metric": {
+                      "quantity": 50,
+                      "unit": "workstation"
+                    },
+                    "amountUsd": 1238,
+                    "priceStatus": "listed",
+                    "maintenance": "US$247",
+                    "sku": "ME-ENDPOINT-CENTRAL-MALWARE-PROTECTION-50-WORKSTATIONS-PERP",
+                    "slug": "me-endpoint-central-malware-protection-50-workstations-perp"
+                  },
+                  {
+                    "name": "100 Workstations",
+                    "metric": {
+                      "quantity": 100,
+                      "unit": "workstation"
+                    },
+                    "amountUsd": 2238,
+                    "priceStatus": "listed",
+                    "maintenance": "US$447",
+                    "sku": "ME-ENDPOINT-CENTRAL-MALWARE-PROTECTION-100-WORKSTATIONS-PERP",
+                    "slug": "me-endpoint-central-malware-protection-100-workstations-perp"
+                  },
+                  {
+                    "name": "250 Workstations",
+                    "metric": {
+                      "quantity": 250,
+                      "unit": "workstation"
+                    },
+                    "amountUsd": 4863,
+                    "priceStatus": "listed",
+                    "maintenance": "US$972",
+                    "sku": "ME-ENDPOINT-CENTRAL-MALWARE-PROTECTION-250-WORKSTATIONS-PERP",
+                    "slug": "me-endpoint-central-malware-protection-250-workstations-perp"
+                  },
+                  {
+                    "name": "500 Workstations",
+                    "metric": {
+                      "quantity": 500,
+                      "unit": "workstation"
+                    },
+                    "amountUsd": 8738,
+                    "priceStatus": "listed",
+                    "maintenance": "US$1,747",
+                    "sku": "ME-ENDPOINT-CENTRAL-MALWARE-PROTECTION-500-WORKSTATIONS-PERP",
+                    "slug": "me-endpoint-central-malware-protection-500-workstations-perp"
+                  },
+                  {
+                    "name": "1000 Workstations",
+                    "metric": {
+                      "quantity": 1000,
+                      "unit": "workstation"
+                    },
+                    "amountUsd": 15738,
+                    "priceStatus": "listed",
+                    "maintenance": "US$3,147",
+                    "sku": "ME-ENDPOINT-CENTRAL-MALWARE-PROTECTION-1000-WORKSTATIONS-PERP",
+                    "slug": "me-endpoint-central-malware-protection-1000-workstations-perp"
+                  },
+                  {
+                    "name": "2500 Workstations",
+                    "metric": {
+                      "quantity": 2500,
+                      "unit": "workstation"
+                    },
+                    "amountUsd": 35113,
+                    "priceStatus": "listed",
+                    "maintenance": "US$7,022",
+                    "sku": "ME-ENDPOINT-CENTRAL-MALWARE-PROTECTION-2500-WORKSTATIONS-PERP",
+                    "slug": "me-endpoint-central-malware-protection-2500-workstations-perp"
+                  },
+                  {
+                    "name": "5000 Workstations",
+                    "metric": {
+                      "quantity": 5000,
+                      "unit": "workstation"
+                    },
+                    "amountUsd": 62738,
+                    "priceStatus": "listed",
+                    "maintenance": "US$12,547",
+                    "sku": "ME-ENDPOINT-CENTRAL-MALWARE-PROTECTION-5000-WORKSTATIONS-PERP",
+                    "slug": "me-endpoint-central-malware-protection-5000-workstations-perp"
+                  },
+                  {
+                    "name": "10000 Workstations",
+                    "metric": {
+                      "quantity": 10000,
+                      "unit": "workstation"
+                    },
+                    "amountUsd": 111988,
+                    "priceStatus": "listed",
+                    "maintenance": "US$22,397",
+                    "sku": "ME-ENDPOINT-CENTRAL-MALWARE-PROTECTION-10000-WORKSTATIONS-PERP",
+                    "slug": "me-endpoint-central-malware-protection-10000-workstations-perp"
+                  },
+                  {
+                    "name": "10 Servers",
+                    "metric": {
+                      "quantity": 10,
+                      "unit": "server"
+                    },
+                    "amountUsd": 488,
+                    "priceStatus": "listed",
+                    "maintenance": "US$97",
+                    "sku": "ME-ENDPOINT-CENTRAL-MALWARE-PROTECTION-10-SERVERS-PERP",
+                    "slug": "me-endpoint-central-malware-protection-10-servers-perp"
+                  },
+                  {
+                    "name": "25 Servers",
+                    "metric": {
+                      "quantity": 25,
+                      "unit": "server"
+                    },
+                    "amountUsd": 1238,
+                    "priceStatus": "listed",
+                    "maintenance": "US$247",
+                    "sku": "ME-ENDPOINT-CENTRAL-MALWARE-PROTECTION-25-SERVERS-PERP",
+                    "slug": "me-endpoint-central-malware-protection-25-servers-perp"
+                  },
+                  {
+                    "name": "50 Servers",
+                    "metric": {
+                      "quantity": 50,
+                      "unit": "server"
+                    },
+                    "amountUsd": 2488,
+                    "priceStatus": "listed",
+                    "maintenance": "US$497",
+                    "sku": "ME-ENDPOINT-CENTRAL-MALWARE-PROTECTION-50-SERVERS-PERP",
+                    "slug": "me-endpoint-central-malware-protection-50-servers-perp"
+                  },
+                  {
+                    "name": "100 Servers",
+                    "metric": {
+                      "quantity": 100,
+                      "unit": "server"
+                    },
+                    "amountUsd": 4363,
+                    "priceStatus": "listed",
+                    "maintenance": "US$872",
+                    "sku": "ME-ENDPOINT-CENTRAL-MALWARE-PROTECTION-100-SERVERS-PERP",
+                    "slug": "me-endpoint-central-malware-protection-100-servers-perp"
+                  },
+                  {
+                    "name": "250 Servers",
+                    "metric": {
+                      "quantity": 250,
+                      "unit": "server"
+                    },
+                    "amountUsd": 9863,
+                    "priceStatus": "listed",
+                    "maintenance": "US$1,972",
+                    "sku": "ME-ENDPOINT-CENTRAL-MALWARE-PROTECTION-250-SERVERS-PERP",
+                    "slug": "me-endpoint-central-malware-protection-250-servers-perp"
+                  },
+                  {
+                    "name": "500 Servers",
+                    "metric": {
+                      "quantity": 500,
+                      "unit": "server"
+                    },
+                    "amountUsd": 17613,
+                    "priceStatus": "listed",
+                    "maintenance": "US$3,522",
+                    "sku": "ME-ENDPOINT-CENTRAL-MALWARE-PROTECTION-500-SERVERS-PERP",
+                    "slug": "me-endpoint-central-malware-protection-500-servers-perp"
+                  },
+                  {
+                    "name": "1000 Servers",
+                    "metric": {
+                      "quantity": 1000,
+                      "unit": "server"
+                    },
+                    "amountUsd": 31488,
+                    "priceStatus": "listed",
+                    "maintenance": "US$6,297",
+                    "sku": "ME-ENDPOINT-CENTRAL-MALWARE-PROTECTION-1000-SERVERS-PERP",
+                    "slug": "me-endpoint-central-malware-protection-1000-servers-perp"
+                  },
+                  {
+                    "name": "2500 Servers",
+                    "metric": {
+                      "quantity": 2500,
+                      "unit": "server"
+                    },
+                    "amountUsd": 70238,
+                    "priceStatus": "listed",
+                    "maintenance": "US$14,047",
+                    "sku": "ME-ENDPOINT-CENTRAL-MALWARE-PROTECTION-2500-SERVERS-PERP",
+                    "slug": "me-endpoint-central-malware-protection-2500-servers-perp"
+                  },
+                  {
+                    "name": "5000 Servers",
+                    "metric": {
+                      "quantity": 5000,
+                      "unit": "server"
+                    },
+                    "amountUsd": 125363,
+                    "priceStatus": "listed",
+                    "maintenance": "US$25,072",
+                    "sku": "ME-ENDPOINT-CENTRAL-MALWARE-PROTECTION-5000-SERVERS-PERP",
+                    "slug": "me-endpoint-central-malware-protection-5000-servers-perp"
+                  }
+                ]
+              },
+              {
+                "slug": "endpoint-central-ransomware-protection-add-on-perpetual",
+                "name": "Endpoint Central Ransomware Protection Add-on",
+                "edition": null,
+                "licenseModel": "perpetual",
+                "kind": "addon",
+                "variants": [
+                  {
+                    "name": "50 Workstations",
+                    "metric": {
+                      "quantity": 50,
+                      "unit": "workstation"
+                    },
+                    "amountUsd": 363,
+                    "priceStatus": "listed",
+                    "maintenance": "US$72",
+                    "sku": "ME-ENDPOINT-CENTRAL-RANSOMWARE-PROTECTION-50-WORKSTATIONS-PERP",
+                    "slug": "me-endpoint-central-ransomware-protection-50-workstations-perp"
+                  },
+                  {
+                    "name": "100 Workstations",
+                    "metric": {
+                      "quantity": 100,
+                      "unit": "workstation"
+                    },
+                    "amountUsd": 738,
+                    "priceStatus": "listed",
+                    "maintenance": "US$147",
+                    "sku": "ME-ENDPOINT-CENTRAL-RANSOMWARE-PROTECTION-100-WORKSTATIONS-PERP",
+                    "slug": "me-endpoint-central-ransomware-protection-100-workstations-perp"
+                  },
+                  {
+                    "name": "250 Workstations",
+                    "metric": {
+                      "quantity": 250,
+                      "unit": "workstation"
+                    },
+                    "amountUsd": 1738,
+                    "priceStatus": "listed",
+                    "maintenance": "US$347",
+                    "sku": "ME-ENDPOINT-CENTRAL-RANSOMWARE-PROTECTION-250-WORKSTATIONS-PERP",
+                    "slug": "me-endpoint-central-ransomware-protection-250-workstations-perp"
+                  },
+                  {
+                    "name": "500 Workstations",
+                    "metric": {
+                      "quantity": 500,
+                      "unit": "workstation"
+                    },
+                    "amountUsd": 3113,
+                    "priceStatus": "listed",
+                    "maintenance": "US$622",
+                    "sku": "ME-ENDPOINT-CENTRAL-RANSOMWARE-PROTECTION-500-WORKSTATIONS-PERP",
+                    "slug": "me-endpoint-central-ransomware-protection-500-workstations-perp"
+                  },
+                  {
+                    "name": "1000 Workstations",
+                    "metric": {
+                      "quantity": 1000,
+                      "unit": "workstation"
+                    },
+                    "amountUsd": 5738,
+                    "priceStatus": "listed",
+                    "maintenance": "US$1,147",
+                    "sku": "ME-ENDPOINT-CENTRAL-RANSOMWARE-PROTECTION-1000-WORKSTATIONS-PERP",
+                    "slug": "me-endpoint-central-ransomware-protection-1000-workstations-perp"
+                  },
+                  {
+                    "name": "2500 Workstations",
+                    "metric": {
+                      "quantity": 2500,
+                      "unit": "workstation"
+                    },
+                    "amountUsd": 13363,
+                    "priceStatus": "listed",
+                    "maintenance": "US$2,672",
+                    "sku": "ME-ENDPOINT-CENTRAL-RANSOMWARE-PROTECTION-2500-WORKSTATIONS-PERP",
+                    "slug": "me-endpoint-central-ransomware-protection-2500-workstations-perp"
+                  },
+                  {
+                    "name": "5000 Workstations",
+                    "metric": {
+                      "quantity": 5000,
+                      "unit": "workstation"
+                    },
+                    "amountUsd": 24863,
+                    "priceStatus": "listed",
+                    "maintenance": "US$4,972",
+                    "sku": "ME-ENDPOINT-CENTRAL-RANSOMWARE-PROTECTION-5000-WORKSTATIONS-PERP",
+                    "slug": "me-endpoint-central-ransomware-protection-5000-workstations-perp"
+                  },
+                  {
+                    "name": "10000 Workstations",
+                    "metric": {
+                      "quantity": 10000,
+                      "unit": "workstation"
+                    },
+                    "amountUsd": 49738,
+                    "priceStatus": "listed",
+                    "maintenance": "US$9,947",
+                    "sku": "ME-ENDPOINT-CENTRAL-RANSOMWARE-PROTECTION-10000-WORKSTATIONS-PERP",
+                    "slug": "me-endpoint-central-ransomware-protection-10000-workstations-perp"
+                  },
+                  {
+                    "name": "10 Servers",
+                    "metric": {
+                      "quantity": 10,
+                      "unit": "server"
+                    },
+                    "amountUsd": 113,
+                    "priceStatus": "listed",
+                    "maintenance": "US$22",
+                    "sku": "ME-ENDPOINT-CENTRAL-RANSOMWARE-PROTECTION-10-SERVERS-PERP",
+                    "slug": "me-endpoint-central-ransomware-protection-10-servers-perp"
+                  },
+                  {
+                    "name": "25 Servers",
+                    "metric": {
+                      "quantity": 25,
+                      "unit": "server"
+                    },
+                    "amountUsd": 363,
+                    "priceStatus": "listed",
+                    "maintenance": "US$72",
+                    "sku": "ME-ENDPOINT-CENTRAL-RANSOMWARE-PROTECTION-25-SERVERS-PERP",
+                    "slug": "me-endpoint-central-ransomware-protection-25-servers-perp"
+                  },
+                  {
+                    "name": "50 Servers",
+                    "metric": {
+                      "quantity": 50,
+                      "unit": "server"
+                    },
+                    "amountUsd": 738,
+                    "priceStatus": "listed",
+                    "maintenance": "US$147",
+                    "sku": "ME-ENDPOINT-CENTRAL-RANSOMWARE-PROTECTION-50-SERVERS-PERP",
+                    "slug": "me-endpoint-central-ransomware-protection-50-servers-perp"
+                  },
+                  {
+                    "name": "100 Servers",
+                    "metric": {
+                      "quantity": 100,
+                      "unit": "server"
+                    },
+                    "amountUsd": 1488,
+                    "priceStatus": "listed",
+                    "maintenance": "US$297",
+                    "sku": "ME-ENDPOINT-CENTRAL-RANSOMWARE-PROTECTION-100-SERVERS-PERP",
+                    "slug": "me-endpoint-central-ransomware-protection-100-servers-perp"
+                  },
+                  {
+                    "name": "250 Servers",
+                    "metric": {
+                      "quantity": 250,
+                      "unit": "server"
+                    },
+                    "amountUsd": 3488,
+                    "priceStatus": "listed",
+                    "maintenance": "US$697",
+                    "sku": "ME-ENDPOINT-CENTRAL-RANSOMWARE-PROTECTION-250-SERVERS-PERP",
+                    "slug": "me-endpoint-central-ransomware-protection-250-servers-perp"
+                  },
+                  {
+                    "name": "500 Servers",
+                    "metric": {
+                      "quantity": 500,
+                      "unit": "server"
+                    },
+                    "amountUsd": 6238,
+                    "priceStatus": "listed",
+                    "maintenance": "US$1,247",
+                    "sku": "ME-ENDPOINT-CENTRAL-RANSOMWARE-PROTECTION-500-SERVERS-PERP",
+                    "slug": "me-endpoint-central-ransomware-protection-500-servers-perp"
+                  },
+                  {
+                    "name": "1000 Servers",
+                    "metric": {
+                      "quantity": 1000,
+                      "unit": "server"
+                    },
+                    "amountUsd": 11488,
+                    "priceStatus": "listed",
+                    "maintenance": "US$2,297",
+                    "sku": "ME-ENDPOINT-CENTRAL-RANSOMWARE-PROTECTION-1000-SERVERS-PERP",
+                    "slug": "me-endpoint-central-ransomware-protection-1000-servers-perp"
+                  },
+                  {
+                    "name": "2500 Servers",
+                    "metric": {
+                      "quantity": 2500,
+                      "unit": "server"
+                    },
+                    "amountUsd": 26738,
+                    "priceStatus": "listed",
+                    "maintenance": "US$5,347",
+                    "sku": "ME-ENDPOINT-CENTRAL-RANSOMWARE-PROTECTION-2500-SERVERS-PERP",
+                    "slug": "me-endpoint-central-ransomware-protection-2500-servers-perp"
+                  },
+                  {
+                    "name": "5000 Servers",
+                    "metric": {
+                      "quantity": 5000,
+                      "unit": "server"
+                    },
+                    "amountUsd": 49738,
+                    "priceStatus": "listed",
+                    "maintenance": "US$9,947",
+                    "sku": "ME-ENDPOINT-CENTRAL-RANSOMWARE-PROTECTION-5000-SERVERS-PERP",
+                    "slug": "me-endpoint-central-ransomware-protection-5000-servers-perp"
+                  }
+                ]
+              },
+              {
+                "slug": "endpoint-central-os-deployment-add-on-perpetual",
+                "name": "Endpoint Central OS Deployment Add-on",
+                "edition": null,
+                "licenseModel": "perpetual",
+                "kind": "addon",
+                "variants": [
+                  {
+                    "name": "50 Workstations",
+                    "metric": {
+                      "quantity": 50,
+                      "unit": "workstation"
+                    },
+                    "amountUsd": 863,
+                    "priceStatus": "listed",
+                    "maintenance": "US$173",
+                    "sku": "ME-ENDPOINT-CENTRAL-OS-DEPLOYMENT-50-WORKSTATIONS-PERP",
+                    "slug": "me-endpoint-central-os-deployment-50-workstations-perp"
+                  },
+                  {
+                    "name": "100 Workstations",
+                    "metric": {
+                      "quantity": 100,
+                      "unit": "workstation"
+                    },
+                    "amountUsd": 1488,
+                    "priceStatus": "listed",
+                    "maintenance": "US$298",
+                    "sku": "ME-ENDPOINT-CENTRAL-OS-DEPLOYMENT-100-WORKSTATIONS-PERP",
+                    "slug": "me-endpoint-central-os-deployment-100-workstations-perp"
+                  },
+                  {
+                    "name": "250 Workstations",
+                    "metric": {
+                      "quantity": 250,
+                      "unit": "workstation"
+                    },
+                    "amountUsd": 2988,
+                    "priceStatus": "listed",
+                    "maintenance": "US$598",
+                    "sku": "ME-ENDPOINT-CENTRAL-OS-DEPLOYMENT-250-WORKSTATIONS-PERP",
+                    "slug": "me-endpoint-central-os-deployment-250-workstations-perp"
+                  },
+                  {
+                    "name": "500 Workstations",
+                    "metric": {
+                      "quantity": 500,
+                      "unit": "workstation"
+                    },
+                    "amountUsd": 5238,
+                    "priceStatus": "listed",
+                    "maintenance": "US$1,048",
+                    "sku": "ME-ENDPOINT-CENTRAL-OS-DEPLOYMENT-500-WORKSTATIONS-PERP",
+                    "slug": "me-endpoint-central-os-deployment-500-workstations-perp"
+                  },
+                  {
+                    "name": "1000 Workstations",
+                    "metric": {
+                      "quantity": 1000,
+                      "unit": "workstation"
+                    },
+                    "amountUsd": 8988,
+                    "priceStatus": "listed",
+                    "maintenance": "US$1,798",
+                    "sku": "ME-ENDPOINT-CENTRAL-OS-DEPLOYMENT-1000-WORKSTATIONS-PERP",
+                    "slug": "me-endpoint-central-os-deployment-1000-workstations-perp"
+                  },
+                  {
+                    "name": "2500 Workstations",
+                    "metric": {
+                      "quantity": 2500,
+                      "unit": "workstation"
+                    },
+                    "amountUsd": 18738,
+                    "priceStatus": "listed",
+                    "maintenance": "US$3,748",
+                    "sku": "ME-ENDPOINT-CENTRAL-OS-DEPLOYMENT-2500-WORKSTATIONS-PERP",
+                    "slug": "me-endpoint-central-os-deployment-2500-workstations-perp"
+                  },
+                  {
+                    "name": "5000 Workstations",
+                    "metric": {
+                      "quantity": 5000,
+                      "unit": "workstation"
+                    },
+                    "amountUsd": 29988,
+                    "priceStatus": "listed",
+                    "maintenance": "US$5,998",
+                    "sku": "ME-ENDPOINT-CENTRAL-OS-DEPLOYMENT-5000-WORKSTATIONS-PERP",
+                    "slug": "me-endpoint-central-os-deployment-5000-workstations-perp"
+                  },
+                  {
+                    "name": "10 Servers",
+                    "metric": {
+                      "quantity": 10,
+                      "unit": "server"
+                    },
+                    "amountUsd": 988,
+                    "priceStatus": "listed",
+                    "maintenance": "US$198",
+                    "sku": "ME-ENDPOINT-CENTRAL-OS-DEPLOYMENT-10-SERVERS-PERP",
+                    "slug": "me-endpoint-central-os-deployment-10-servers-perp"
+                  },
+                  {
+                    "name": "25 Servers",
+                    "metric": {
+                      "quantity": 25,
+                      "unit": "server"
+                    },
+                    "amountUsd": 2113,
+                    "priceStatus": "listed",
+                    "maintenance": "US$423",
+                    "sku": "ME-ENDPOINT-CENTRAL-OS-DEPLOYMENT-25-SERVERS-PERP",
+                    "slug": "me-endpoint-central-os-deployment-25-servers-perp"
+                  },
+                  {
+                    "name": "50 Servers",
+                    "metric": {
+                      "quantity": 50,
+                      "unit": "server"
+                    },
+                    "amountUsd": 3988,
+                    "priceStatus": "listed",
+                    "maintenance": "US$798",
+                    "sku": "ME-ENDPOINT-CENTRAL-OS-DEPLOYMENT-50-SERVERS-PERP",
+                    "slug": "me-endpoint-central-os-deployment-50-servers-perp"
+                  },
+                  {
+                    "name": "100 Servers",
+                    "metric": {
+                      "quantity": 100,
+                      "unit": "server"
+                    },
+                    "amountUsd": 7488,
+                    "priceStatus": "listed",
+                    "maintenance": "US$1,498",
+                    "sku": "ME-ENDPOINT-CENTRAL-OS-DEPLOYMENT-100-SERVERS-PERP",
+                    "slug": "me-endpoint-central-os-deployment-100-servers-perp"
+                  },
+                  {
+                    "name": "250 Servers",
+                    "metric": {
+                      "quantity": 250,
+                      "unit": "server"
+                    },
+                    "amountUsd": 14988,
+                    "priceStatus": "listed",
+                    "maintenance": "US$2,998",
+                    "sku": "ME-ENDPOINT-CENTRAL-OS-DEPLOYMENT-250-SERVERS-PERP",
+                    "slug": "me-endpoint-central-os-deployment-250-servers-perp"
+                  },
+                  {
+                    "name": "500 Servers",
+                    "metric": {
+                      "quantity": 500,
+                      "unit": "server"
+                    },
+                    "amountUsd": 26488,
+                    "priceStatus": "listed",
+                    "maintenance": "US$5,298",
+                    "sku": "ME-ENDPOINT-CENTRAL-OS-DEPLOYMENT-500-SERVERS-PERP",
+                    "slug": "me-endpoint-central-os-deployment-500-servers-perp"
+                  }
+                ]
+              },
+              {
+                "slug": "endpoint-central-dex-add-on-perpetual",
+                "name": "Endpoint Central DEX Add-on",
+                "edition": null,
+                "licenseModel": "perpetual",
+                "kind": "addon",
+                "variants": [
+                  {
+                    "name": "50 Endpoints and 1 Technician",
+                    "metric": null,
+                    "amountUsd": 487,
+                    "priceStatus": "listed",
+                    "maintenance": "US$98",
+                    "sku": "ME-ENDPOINT-CENTRAL-DEX-50-ENDPOINTS-AND-1-TECHNICIAN-PERP",
+                    "slug": "me-endpoint-central-dex-50-endpoints-and-1-technician-perp"
+                  },
+                  {
+                    "name": "100 Endpoints and 1 Technician",
+                    "metric": null,
+                    "amountUsd": 1112,
+                    "priceStatus": "listed",
+                    "maintenance": "US$223",
+                    "sku": "ME-ENDPOINT-CENTRAL-DEX-100-ENDPOINTS-AND-1-TECHNICIAN-PERP",
+                    "slug": "me-endpoint-central-dex-100-endpoints-and-1-technician-perp"
+                  },
+                  {
+                    "name": "250 Endpoints and 1 Technician",
+                    "metric": null,
+                    "amountUsd": 2362,
+                    "priceStatus": "listed",
+                    "maintenance": "US$473",
+                    "sku": "ME-ENDPOINT-CENTRAL-DEX-250-ENDPOINTS-AND-1-TECHNICIAN-PERP",
+                    "slug": "me-endpoint-central-dex-250-endpoints-and-1-technician-perp"
+                  },
+                  {
+                    "name": "500 Endpoints and 1 Technician",
+                    "metric": null,
+                    "amountUsd": 4112,
+                    "priceStatus": "listed",
+                    "maintenance": "US$823",
+                    "sku": "ME-ENDPOINT-CENTRAL-DEX-500-ENDPOINTS-AND-1-TECHNICIAN-PERP",
+                    "slug": "me-endpoint-central-dex-500-endpoints-and-1-technician-perp"
+                  },
+                  {
+                    "name": "1000 Endpoints and 1 Technician",
+                    "metric": null,
+                    "amountUsd": 7112,
+                    "priceStatus": "listed",
+                    "maintenance": "US$1,423",
+                    "sku": "ME-ENDPOINT-CENTRAL-DEX-1000-ENDPOINTS-AND-1-TECHNICIAN-PERP",
+                    "slug": "me-endpoint-central-dex-1000-endpoints-and-1-technician-perp"
+                  },
+                  {
+                    "name": "2500 Endpoints and 1 Technician",
+                    "metric": null,
+                    "amountUsd": 15237,
+                    "priceStatus": "listed",
+                    "maintenance": "US$3,048",
+                    "sku": "ME-ENDPOINT-CENTRAL-DEX-2500-ENDPOINTS-AND-1-TECHNICIAN-PERP",
+                    "slug": "me-endpoint-central-dex-2500-endpoints-and-1-technician-perp"
+                  },
+                  {
+                    "name": "5000 Endpoints and 1 Technician",
+                    "metric": null,
+                    "amountUsd": 26112,
+                    "priceStatus": "listed",
+                    "maintenance": "US$5,223",
+                    "sku": "ME-ENDPOINT-CENTRAL-DEX-5000-ENDPOINTS-AND-1-TECHNICIAN-PERP",
+                    "slug": "me-endpoint-central-dex-5000-endpoints-and-1-technician-perp"
+                  },
+                  {
+                    "name": "10000 Endpoints and 1 Technician",
+                    "metric": null,
+                    "amountUsd": 44987,
+                    "priceStatus": "listed",
+                    "maintenance": "US$8,998",
+                    "sku": "ME-ENDPOINT-CENTRAL-DEX-10000-ENDPOINTS-AND-1-TECHNICIAN-PERP",
+                    "slug": "me-endpoint-central-dex-10000-endpoints-and-1-technician-perp"
+                  }
+                ]
+              },
+              {
+                "slug": "endpoint-central-secure-private-access-add-on-perpetual",
+                "name": "Endpoint Central Secure Private Access Add-on",
+                "edition": null,
+                "licenseModel": "perpetual",
+                "kind": "addon",
+                "variants": [
+                  {
+                    "name": "50 Workstations",
+                    "metric": {
+                      "quantity": 50,
+                      "unit": "workstation"
+                    },
+                    "amountUsd": 863,
+                    "priceStatus": "listed",
+                    "maintenance": "US$172",
+                    "sku": "ME-ENDPOINT-CENTRAL-SECURE-PRIVATE-ACCESS-50-WORKSTATIONS-PERP",
+                    "slug": "me-endpoint-central-secure-private-access-50-workstations-perp"
+                  },
+                  {
+                    "name": "100 Workstations",
+                    "metric": {
+                      "quantity": 100,
+                      "unit": "workstation"
+                    },
+                    "amountUsd": 1613,
+                    "priceStatus": "listed",
+                    "maintenance": "US$322",
+                    "sku": "ME-ENDPOINT-CENTRAL-SECURE-PRIVATE-ACCESS-100-WORKSTATIONS-PERP",
+                    "slug": "me-endpoint-central-secure-private-access-100-workstations-perp"
+                  },
+                  {
+                    "name": "250 Workstations",
+                    "metric": {
+                      "quantity": 250,
+                      "unit": "workstation"
+                    },
+                    "amountUsd": 3613,
+                    "priceStatus": "listed",
+                    "maintenance": "US$722",
+                    "sku": "ME-ENDPOINT-CENTRAL-SECURE-PRIVATE-ACCESS-250-WORKSTATIONS-PERP",
+                    "slug": "me-endpoint-central-secure-private-access-250-workstations-perp"
+                  },
+                  {
+                    "name": "500 Workstations",
+                    "metric": {
+                      "quantity": 500,
+                      "unit": "workstation"
+                    },
+                    "amountUsd": 6613,
+                    "priceStatus": "listed",
+                    "maintenance": "US$1,322",
+                    "sku": "ME-ENDPOINT-CENTRAL-SECURE-PRIVATE-ACCESS-500-WORKSTATIONS-PERP",
+                    "slug": "me-endpoint-central-secure-private-access-500-workstations-perp"
+                  },
+                  {
+                    "name": "1000 Workstations",
+                    "metric": {
+                      "quantity": 1000,
+                      "unit": "workstation"
+                    },
+                    "amountUsd": 12238,
+                    "priceStatus": "listed",
+                    "maintenance": "US$2,447",
+                    "sku": "ME-ENDPOINT-CENTRAL-SECURE-PRIVATE-ACCESS-1000-WORKSTATIONS-PERP",
+                    "slug": "me-endpoint-central-secure-private-access-1000-workstations-perp"
+                  },
+                  {
+                    "name": "2500 Workstations",
+                    "metric": {
+                      "quantity": 2500,
+                      "unit": "workstation"
+                    },
+                    "amountUsd": 28238,
+                    "priceStatus": "listed",
+                    "maintenance": "US$5,647",
+                    "sku": "ME-ENDPOINT-CENTRAL-SECURE-PRIVATE-ACCESS-2500-WORKSTATIONS-PERP",
+                    "slug": "me-endpoint-central-secure-private-access-2500-workstations-perp"
+                  },
+                  {
+                    "name": "5000 Workstations",
+                    "metric": {
+                      "quantity": 5000,
+                      "unit": "workstation"
+                    },
+                    "amountUsd": 51863,
+                    "priceStatus": "listed",
+                    "maintenance": "US$10,372",
+                    "sku": "ME-ENDPOINT-CENTRAL-SECURE-PRIVATE-ACCESS-5000-WORKSTATIONS-PERP",
+                    "slug": "me-endpoint-central-secure-private-access-5000-workstations-perp"
+                  },
+                  {
+                    "name": "10000 Workstations",
+                    "metric": {
+                      "quantity": 10000,
+                      "unit": "workstation"
+                    },
+                    "amountUsd": 95238,
+                    "priceStatus": "listed",
+                    "maintenance": "US$19,047",
+                    "sku": "ME-ENDPOINT-CENTRAL-SECURE-PRIVATE-ACCESS-10000-WORKSTATIONS-PERP",
+                    "slug": "me-endpoint-central-secure-private-access-10000-workstations-perp"
+                  }
+                ]
+              },
+              {
+                "slug": "endpoint-central-additional-users-perpetual",
+                "name": "Endpoint Central Additional Users",
+                "edition": null,
+                "licenseModel": "perpetual",
+                "kind": "addon",
+                "variants": [
+                  {
+                    "name": "Additional 1 User",
+                    "metric": null,
+                    "amountUsd": 862,
+                    "priceStatus": "listed",
+                    "maintenance": "US$173",
+                    "sku": "ME-ENDPOINT-CENTRAL-ADDITIONAL-USERS-ADDITIONAL-1-USER-PERP",
+                    "slug": "me-endpoint-central-additional-users-additional-1-user-perp"
+                  },
+                  {
+                    "name": "Additional 2 Users",
+                    "metric": null,
+                    "amountUsd": 1487,
+                    "priceStatus": "listed",
+                    "maintenance": "US$298",
+                    "sku": "ME-ENDPOINT-CENTRAL-ADDITIONAL-USERS-ADDITIONAL-2-USERS-PERP",
+                    "slug": "me-endpoint-central-additional-users-additional-2-users-perp"
+                  },
+                  {
+                    "name": "Additional 5 Users",
+                    "metric": null,
+                    "amountUsd": 2987,
+                    "priceStatus": "listed",
+                    "maintenance": "US$598",
+                    "sku": "ME-ENDPOINT-CENTRAL-ADDITIONAL-USERS-ADDITIONAL-5-USERS-PERP",
+                    "slug": "me-endpoint-central-additional-users-additional-5-users-perp"
+                  },
+                  {
+                    "name": "Additional 10 Users",
+                    "metric": null,
+                    "amountUsd": 4862,
+                    "priceStatus": "listed",
+                    "maintenance": "US$973",
+                    "sku": "ME-ENDPOINT-CENTRAL-ADDITIONAL-USERS-ADDITIONAL-10-USERS-PERP",
+                    "slug": "me-endpoint-central-additional-users-additional-10-users-perp"
+                  },
+                  {
+                    "name": "Additional 25 Users",
+                    "metric": null,
+                    "amountUsd": 9612,
+                    "priceStatus": "listed",
+                    "maintenance": "US$1,923",
+                    "sku": "ME-ENDPOINT-CENTRAL-ADDITIONAL-USERS-ADDITIONAL-25-USERS-PERP",
+                    "slug": "me-endpoint-central-additional-users-additional-25-users-perp"
+                  },
+                  {
+                    "name": "Additional 50 Users",
+                    "metric": null,
+                    "amountUsd": 14987,
+                    "priceStatus": "listed",
+                    "maintenance": "US$2,998",
+                    "sku": "ME-ENDPOINT-CENTRAL-ADDITIONAL-USERS-ADDITIONAL-50-USERS-PERP",
+                    "slug": "me-endpoint-central-additional-users-additional-50-users-perp"
+                  }
+                ]
+              },
+              {
+                "slug": "endpoint-central-multi-language-pack-perpetual",
+                "name": "Endpoint Central Multi-Language Pack",
+                "edition": null,
+                "licenseModel": "perpetual",
+                "kind": "addon",
+                "variants": [
+                  {
+                    "name": "Multi-Language Pack License",
+                    "metric": null,
+                    "amountUsd": 865,
+                    "priceStatus": "listed",
+                    "maintenance": "US$173",
+                    "sku": "ME-ENDPOINT-CENTRAL-MULTI-LANGUAGE-PACK-MULTI-LANGUAGE-PACK-LICENSE-PERP",
+                    "slug": "me-endpoint-central-multi-language-pack-multi-language-pack-license-perp"
+                  }
+                ]
+              },
+              {
+                "slug": "endpoint-central-failover-service-perpetual",
+                "name": "Endpoint Central Failover Service",
+                "edition": null,
+                "licenseModel": "perpetual",
+                "kind": "addon",
+                "variants": [
+                  {
+                    "name": "Failover Service for computers less than 1000",
+                    "metric": null,
+                    "amountUsd": 2990,
+                    "priceStatus": "listed",
+                    "maintenance": "US$598",
+                    "sku": "ME-ENDPOINT-CENTRAL-FAILOVER-SERVICE-FAILOVER-SERVICE-FOR-COMPUTERS-LESS-THAN-100-PERP",
+                    "slug": "me-endpoint-central-failover-service-failover-service-for-computers-less-than-100-perp"
+                  },
+                  {
+                    "name": "Failover Service for computers 1001 to 5000",
+                    "metric": null,
+                    "amountUsd": 5990,
+                    "priceStatus": "listed",
+                    "maintenance": "US$1,198",
+                    "sku": "ME-ENDPOINT-CENTRAL-FAILOVER-SERVICE-FAILOVER-SERVICE-FOR-COMPUTERS-1001-TO-5000-PERP",
+                    "slug": "me-endpoint-central-failover-service-failover-service-for-computers-1001-to-5000-perp"
+                  },
+                  {
+                    "name": "Failover Service for computers above 5000",
+                    "metric": null,
+                    "amountUsd": 8990,
+                    "priceStatus": "listed",
+                    "maintenance": "US$1,798",
+                    "sku": "ME-ENDPOINT-CENTRAL-FAILOVER-SERVICE-FAILOVER-SERVICE-FOR-COMPUTERS-ABOVE-5000-PERP",
+                    "slug": "me-endpoint-central-failover-service-failover-service-for-computers-above-5000-perp"
+                  }
+                ]
+              }
+            ]
           }
         ]
       },
@@ -10353,18 +12178,18 @@ export const ZOHO_GROUPS: ZohoGroup[] = [
         "priced": true,
         "sourceUrl": "https://store.manageengine.com/patch-management/?MEstore&cat=UEMS",
         "sourceSnapshotId": "1a4726aa0149",
-        "sourceCheckedAt": "2026-08-20T21:41:02.507Z",
+        "sourceCheckedAt": "2026-08-20T22:02:50.596Z",
         "deployments": [
           {
             "deployment": "saas",
-            "licenseModel": null,
-            "slug": "patch-manager-plus-saas",
+            "licenseModel": "subscription",
+            "slug": "patch-manager-plus-saas-subscription",
             "offers": [
               {
                 "slug": "patch-manager-plus-enterprise-edition",
                 "name": "Patch Manager Plus - Enterprise Edition",
                 "edition": "Enterprise",
-                "licenseModel": null,
+                "licenseModel": "subscription",
                 "kind": "base",
                 "variants": [
                   {
@@ -10586,7 +12411,7 @@ export const ZOHO_GROUPS: ZohoGroup[] = [
                 "slug": "patch-manager-plus-professional-edition",
                 "name": "Patch Manager Plus - Professional Edition",
                 "edition": "Professional",
-                "licenseModel": null,
+                "licenseModel": "subscription",
                 "kind": "base",
                 "variants": [
                   {
@@ -10808,8 +12633,8 @@ export const ZOHO_GROUPS: ZohoGroup[] = [
                 "slug": "patch-manager-plus-additional-users",
                 "name": "Patch Manager Plus - Additional Users",
                 "edition": null,
-                "licenseModel": null,
-                "kind": "base",
+                "licenseModel": "subscription",
+                "kind": "addon",
                 "variants": [
                   {
                     "name": "Additional 1 User",
@@ -10871,7 +12696,7 @@ export const ZOHO_GROUPS: ZohoGroup[] = [
                 "slug": "patch-manager-plus-remote-access-plus-add-on",
                 "name": "Patch Manager Plus - Remote Access Plus Add-on",
                 "edition": null,
-                "licenseModel": null,
+                "licenseModel": "subscription",
                 "kind": "addon",
                 "variants": [
                   {
@@ -10988,7 +12813,7 @@ export const ZOHO_GROUPS: ZohoGroup[] = [
                 "slug": "patch-manager-plus-failover-server-add-ons",
                 "name": "Patch Manager Plus - Failover Server Add-ons",
                 "edition": null,
-                "licenseModel": null,
+                "licenseModel": "subscription",
                 "kind": "addon",
                 "variants": [
                   {
@@ -11024,8 +12849,8 @@ export const ZOHO_GROUPS: ZohoGroup[] = [
                 "slug": "patch-manager-plus-multi-language-pack",
                 "name": "Patch Manager Plus - Multi-Language Pack",
                 "edition": null,
-                "licenseModel": null,
-                "kind": "base",
+                "licenseModel": "subscription",
+                "kind": "addon",
                 "variants": [
                   {
                     "name": "Multi language pack license",
@@ -11042,7 +12867,7 @@ export const ZOHO_GROUPS: ZohoGroup[] = [
                 "slug": "patch-manager-plus-training",
                 "name": "Patch Manager Plus - Training",
                 "edition": null,
-                "licenseModel": null,
+                "licenseModel": "subscription",
                 "kind": "service",
                 "variants": [
                   {
@@ -11053,6 +12878,691 @@ export const ZOHO_GROUPS: ZohoGroup[] = [
                     "maintenance": "Included",
                     "sku": "ME-PATCH-MANAGER-PLUS-TRAINING-WEB-BASED-TRAINING",
                     "slug": "me-patch-manager-plus-training-web-based-training"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "deployment": "saas",
+            "licenseModel": "perpetual",
+            "slug": "patch-manager-plus-saas-perpetual",
+            "offers": [
+              {
+                "slug": "patch-manager-plus-enterprise-edition-perpetual",
+                "name": "Patch Manager Plus - Enterprise Edition",
+                "edition": "Enterprise",
+                "licenseModel": "perpetual",
+                "kind": "base",
+                "variants": [
+                  {
+                    "name": "50 Computers and Single User License",
+                    "metric": {
+                      "quantity": 50,
+                      "unit": "computers and single user license"
+                    },
+                    "amountUsd": 862,
+                    "priceStatus": "listed",
+                    "maintenance": "US$173",
+                    "sku": "ME-PATCH-MANAGER-PLUS-ENTERPRISE-50-COMPUTERS-AND-SINGLE-USER-LICENSE-PERP",
+                    "slug": "me-patch-manager-plus-enterprise-50-computers-and-single-user-license-perp"
+                  },
+                  {
+                    "name": "100 Computers and Single User License",
+                    "metric": {
+                      "quantity": 100,
+                      "unit": "computers and single user license"
+                    },
+                    "amountUsd": 1737,
+                    "priceStatus": "listed",
+                    "maintenance": "US$348",
+                    "sku": "ME-PATCH-MANAGER-PLUS-ENTERPRISE-100-COMPUTERS-AND-SINGLE-USER-LICENSE-PERP",
+                    "slug": "me-patch-manager-plus-enterprise-100-computers-and-single-user-license-perp"
+                  },
+                  {
+                    "name": "250 Computers and Single User License",
+                    "metric": {
+                      "quantity": 250,
+                      "unit": "computers and single user license"
+                    },
+                    "amountUsd": 3487,
+                    "priceStatus": "listed",
+                    "maintenance": "US$698",
+                    "sku": "ME-PATCH-MANAGER-PLUS-ENTERPRISE-250-COMPUTERS-AND-SINGLE-USER-LICENSE-PERP",
+                    "slug": "me-patch-manager-plus-enterprise-250-computers-and-single-user-license-perp"
+                  },
+                  {
+                    "name": "500 Computers and Single User License",
+                    "metric": {
+                      "quantity": 500,
+                      "unit": "computers and single user license"
+                    },
+                    "amountUsd": 6112,
+                    "priceStatus": "listed",
+                    "maintenance": "US$1,223",
+                    "sku": "ME-PATCH-MANAGER-PLUS-ENTERPRISE-500-COMPUTERS-AND-SINGLE-USER-LICENSE-PERP",
+                    "slug": "me-patch-manager-plus-enterprise-500-computers-and-single-user-license-perp"
+                  },
+                  {
+                    "name": "1000 Computers and Single User License",
+                    "metric": {
+                      "quantity": 1000,
+                      "unit": "computers and single user license"
+                    },
+                    "amountUsd": 10737,
+                    "priceStatus": "listed",
+                    "maintenance": "US$2,148",
+                    "sku": "ME-PATCH-MANAGER-PLUS-ENTERPRISE-1000-COMPUTERS-AND-SINGLE-USER-LICENSE-PERP",
+                    "slug": "me-patch-manager-plus-enterprise-1000-computers-and-single-user-license-perp"
+                  },
+                  {
+                    "name": "2500 Computers and Single User License",
+                    "metric": {
+                      "quantity": 2500,
+                      "unit": "computers and single user license"
+                    },
+                    "amountUsd": 21487,
+                    "priceStatus": "listed",
+                    "maintenance": "US$4,298",
+                    "sku": "ME-PATCH-MANAGER-PLUS-ENTERPRISE-2500-COMPUTERS-AND-SINGLE-USER-LICENSE-PERP",
+                    "slug": "me-patch-manager-plus-enterprise-2500-computers-and-single-user-license-perp"
+                  },
+                  {
+                    "name": "5000 Computers and Single User License",
+                    "metric": {
+                      "quantity": 5000,
+                      "unit": "computers and single user license"
+                    },
+                    "amountUsd": 34487,
+                    "priceStatus": "listed",
+                    "maintenance": "US$6,898",
+                    "sku": "ME-PATCH-MANAGER-PLUS-ENTERPRISE-5000-COMPUTERS-AND-SINGLE-USER-LICENSE-PERP",
+                    "slug": "me-patch-manager-plus-enterprise-5000-computers-and-single-user-license-perp"
+                  },
+                  {
+                    "name": "10000 Computers and Single User License",
+                    "metric": {
+                      "quantity": 10000,
+                      "unit": "computers and single user license"
+                    },
+                    "amountUsd": 52487,
+                    "priceStatus": "listed",
+                    "maintenance": "US$10,498",
+                    "sku": "ME-PATCH-MANAGER-PLUS-ENTERPRISE-10000-COMPUTERS-AND-SINGLE-USER-LICENSE-PERP",
+                    "slug": "me-patch-manager-plus-enterprise-10000-computers-and-single-user-license-perp"
+                  },
+                  {
+                    "name": "10 Servers and Single User License",
+                    "metric": {
+                      "quantity": 10,
+                      "unit": "servers and single user license"
+                    },
+                    "amountUsd": 362,
+                    "priceStatus": "listed",
+                    "maintenance": "US$73",
+                    "sku": "ME-PATCH-MANAGER-PLUS-ENTERPRISE-10-SERVERS-AND-SINGLE-USER-LICENSE-PERP",
+                    "slug": "me-patch-manager-plus-enterprise-10-servers-and-single-user-license-perp"
+                  },
+                  {
+                    "name": "25 Servers and Single User License",
+                    "metric": {
+                      "quantity": 25,
+                      "unit": "servers and single user license"
+                    },
+                    "amountUsd": 862,
+                    "priceStatus": "listed",
+                    "maintenance": "US$173",
+                    "sku": "ME-PATCH-MANAGER-PLUS-ENTERPRISE-25-SERVERS-AND-SINGLE-USER-LICENSE-PERP",
+                    "slug": "me-patch-manager-plus-enterprise-25-servers-and-single-user-license-perp"
+                  },
+                  {
+                    "name": "50 Servers and Single User License",
+                    "metric": {
+                      "quantity": 50,
+                      "unit": "servers and single user license"
+                    },
+                    "amountUsd": 1612,
+                    "priceStatus": "listed",
+                    "maintenance": "US$323",
+                    "sku": "ME-PATCH-MANAGER-PLUS-ENTERPRISE-50-SERVERS-AND-SINGLE-USER-LICENSE-PERP",
+                    "slug": "me-patch-manager-plus-enterprise-50-servers-and-single-user-license-perp"
+                  },
+                  {
+                    "name": "100 Servers and Single User License",
+                    "metric": {
+                      "quantity": 100,
+                      "unit": "servers and single user license"
+                    },
+                    "amountUsd": 2862,
+                    "priceStatus": "listed",
+                    "maintenance": "US$573",
+                    "sku": "ME-PATCH-MANAGER-PLUS-ENTERPRISE-100-SERVERS-AND-SINGLE-USER-LICENSE-PERP",
+                    "slug": "me-patch-manager-plus-enterprise-100-servers-and-single-user-license-perp"
+                  },
+                  {
+                    "name": "250 Servers and Single User License",
+                    "metric": {
+                      "quantity": 250,
+                      "unit": "servers and single user license"
+                    },
+                    "amountUsd": 6612,
+                    "priceStatus": "listed",
+                    "maintenance": "US$1,323",
+                    "sku": "ME-PATCH-MANAGER-PLUS-ENTERPRISE-250-SERVERS-AND-SINGLE-USER-LICENSE-PERP",
+                    "slug": "me-patch-manager-plus-enterprise-250-servers-and-single-user-license-perp"
+                  },
+                  {
+                    "name": "500 Servers and Single User License",
+                    "metric": {
+                      "quantity": 500,
+                      "unit": "servers and single user license"
+                    },
+                    "amountUsd": 11862,
+                    "priceStatus": "listed",
+                    "maintenance": "US$2,373",
+                    "sku": "ME-PATCH-MANAGER-PLUS-ENTERPRISE-500-SERVERS-AND-SINGLE-USER-LICENSE-PERP",
+                    "slug": "me-patch-manager-plus-enterprise-500-servers-and-single-user-license-perp"
+                  },
+                  {
+                    "name": "1000 Servers and Single User License",
+                    "metric": {
+                      "quantity": 1000,
+                      "unit": "servers and single user license"
+                    },
+                    "amountUsd": 21237,
+                    "priceStatus": "listed",
+                    "maintenance": "US$4,248",
+                    "sku": "ME-PATCH-MANAGER-PLUS-ENTERPRISE-1000-SERVERS-AND-SINGLE-USER-LICENSE-PERP",
+                    "slug": "me-patch-manager-plus-enterprise-1000-servers-and-single-user-license-perp"
+                  },
+                  {
+                    "name": "2500 Servers and Single User License",
+                    "metric": {
+                      "quantity": 2500,
+                      "unit": "servers and single user license"
+                    },
+                    "amountUsd": 42975,
+                    "priceStatus": "listed",
+                    "maintenance": "US$8,595",
+                    "sku": "ME-PATCH-MANAGER-PLUS-ENTERPRISE-2500-SERVERS-AND-SINGLE-USER-LICENSE-PERP",
+                    "slug": "me-patch-manager-plus-enterprise-2500-servers-and-single-user-license-perp"
+                  },
+                  {
+                    "name": "5000 Servers and Single User License",
+                    "metric": {
+                      "quantity": 5000,
+                      "unit": "servers and single user license"
+                    },
+                    "amountUsd": 68975,
+                    "priceStatus": "listed",
+                    "maintenance": "US$13,795",
+                    "sku": "ME-PATCH-MANAGER-PLUS-ENTERPRISE-5000-SERVERS-AND-SINGLE-USER-LICENSE-PERP",
+                    "slug": "me-patch-manager-plus-enterprise-5000-servers-and-single-user-license-perp"
+                  },
+                  {
+                    "name": "Secure Gateway Server",
+                    "metric": null,
+                    "amountUsd": 750,
+                    "priceStatus": "listed",
+                    "maintenance": "US$150",
+                    "sku": "ME-PATCH-MANAGER-PLUS-ENTERPRISE-SECURE-GATEWAY-SERVER-PERP",
+                    "slug": "me-patch-manager-plus-enterprise-secure-gateway-server-perp"
+                  }
+                ]
+              },
+              {
+                "slug": "patch-manager-plus-professional-edition-perpetual",
+                "name": "Patch Manager Plus - Professional Edition",
+                "edition": "Professional",
+                "licenseModel": "perpetual",
+                "kind": "base",
+                "variants": [
+                  {
+                    "name": "50 Computers and Single User License",
+                    "metric": {
+                      "quantity": 50,
+                      "unit": "computers and single user license"
+                    },
+                    "amountUsd": 612,
+                    "priceStatus": "listed",
+                    "maintenance": "US$123",
+                    "sku": "ME-PATCH-MANAGER-PLUS-PROFESSIONAL-50-COMPUTERS-AND-SINGLE-USER-LICENSE-PERP",
+                    "slug": "me-patch-manager-plus-professional-50-computers-and-single-user-license-perp"
+                  },
+                  {
+                    "name": "100 Computers and Single User License",
+                    "metric": {
+                      "quantity": 100,
+                      "unit": "computers and single user license"
+                    },
+                    "amountUsd": 1112,
+                    "priceStatus": "listed",
+                    "maintenance": "US$223",
+                    "sku": "ME-PATCH-MANAGER-PLUS-PROFESSIONAL-100-COMPUTERS-AND-SINGLE-USER-LICENSE-PERP",
+                    "slug": "me-patch-manager-plus-professional-100-computers-and-single-user-license-perp"
+                  },
+                  {
+                    "name": "250 Computers and Single User License",
+                    "metric": {
+                      "quantity": 250,
+                      "unit": "computers and single user license"
+                    },
+                    "amountUsd": 2237,
+                    "priceStatus": "listed",
+                    "maintenance": "US$448",
+                    "sku": "ME-PATCH-MANAGER-PLUS-PROFESSIONAL-250-COMPUTERS-AND-SINGLE-USER-LICENSE-PERP",
+                    "slug": "me-patch-manager-plus-professional-250-computers-and-single-user-license-perp"
+                  },
+                  {
+                    "name": "500 Computers and Single User License",
+                    "metric": {
+                      "quantity": 500,
+                      "unit": "computers and single user license"
+                    },
+                    "amountUsd": 3987,
+                    "priceStatus": "listed",
+                    "maintenance": "US$798",
+                    "sku": "ME-PATCH-MANAGER-PLUS-PROFESSIONAL-500-COMPUTERS-AND-SINGLE-USER-LICENSE-PERP",
+                    "slug": "me-patch-manager-plus-professional-500-computers-and-single-user-license-perp"
+                  },
+                  {
+                    "name": "1000 Computers and Single User License",
+                    "metric": {
+                      "quantity": 1000,
+                      "unit": "computers and single user license"
+                    },
+                    "amountUsd": 6987,
+                    "priceStatus": "listed",
+                    "maintenance": "US$1,398",
+                    "sku": "ME-PATCH-MANAGER-PLUS-PROFESSIONAL-1000-COMPUTERS-AND-SINGLE-USER-LICENSE-PERP",
+                    "slug": "me-patch-manager-plus-professional-1000-computers-and-single-user-license-perp"
+                  },
+                  {
+                    "name": "2500 Computers and Single User License",
+                    "metric": {
+                      "quantity": 2500,
+                      "unit": "computers and single user license"
+                    },
+                    "amountUsd": 14487,
+                    "priceStatus": "listed",
+                    "maintenance": "US$2,898",
+                    "sku": "ME-PATCH-MANAGER-PLUS-PROFESSIONAL-2500-COMPUTERS-AND-SINGLE-USER-LICENSE-PERP",
+                    "slug": "me-patch-manager-plus-professional-2500-computers-and-single-user-license-perp"
+                  },
+                  {
+                    "name": "5000 Computers and Single User License",
+                    "metric": {
+                      "quantity": 5000,
+                      "unit": "computers and single user license"
+                    },
+                    "amountUsd": 22487,
+                    "priceStatus": "listed",
+                    "maintenance": "US$4,498",
+                    "sku": "ME-PATCH-MANAGER-PLUS-PROFESSIONAL-5000-COMPUTERS-AND-SINGLE-USER-LICENSE-PERP",
+                    "slug": "me-patch-manager-plus-professional-5000-computers-and-single-user-license-perp"
+                  },
+                  {
+                    "name": "10000 Computers and Single User License",
+                    "metric": {
+                      "quantity": 10000,
+                      "unit": "computers and single user license"
+                    },
+                    "amountUsd": 33737,
+                    "priceStatus": "listed",
+                    "maintenance": "US$6,748",
+                    "sku": "ME-PATCH-MANAGER-PLUS-PROFESSIONAL-10000-COMPUTERS-AND-SINGLE-USER-LICENSE-PERP",
+                    "slug": "me-patch-manager-plus-professional-10000-computers-and-single-user-license-perp"
+                  },
+                  {
+                    "name": "10 Servers and Single User License",
+                    "metric": {
+                      "quantity": 10,
+                      "unit": "servers and single user license"
+                    },
+                    "amountUsd": 237,
+                    "priceStatus": "listed",
+                    "maintenance": "US$48",
+                    "sku": "ME-PATCH-MANAGER-PLUS-PROFESSIONAL-10-SERVERS-AND-SINGLE-USER-LICENSE-PERP",
+                    "slug": "me-patch-manager-plus-professional-10-servers-and-single-user-license-perp"
+                  },
+                  {
+                    "name": "25 Servers and Single User License",
+                    "metric": {
+                      "quantity": 25,
+                      "unit": "servers and single user license"
+                    },
+                    "amountUsd": 562,
+                    "priceStatus": "listed",
+                    "maintenance": "US$113",
+                    "sku": "ME-PATCH-MANAGER-PLUS-PROFESSIONAL-25-SERVERS-AND-SINGLE-USER-LICENSE-PERP",
+                    "slug": "me-patch-manager-plus-professional-25-servers-and-single-user-license-perp"
+                  },
+                  {
+                    "name": "50 Servers and Single User License",
+                    "metric": {
+                      "quantity": 50,
+                      "unit": "servers and single user license"
+                    },
+                    "amountUsd": 1112,
+                    "priceStatus": "listed",
+                    "maintenance": "US$223",
+                    "sku": "ME-PATCH-MANAGER-PLUS-PROFESSIONAL-50-SERVERS-AND-SINGLE-USER-LICENSE-PERP",
+                    "slug": "me-patch-manager-plus-professional-50-servers-and-single-user-license-perp"
+                  },
+                  {
+                    "name": "100 Servers and Single User License",
+                    "metric": {
+                      "quantity": 100,
+                      "unit": "servers and single user license"
+                    },
+                    "amountUsd": 1987,
+                    "priceStatus": "listed",
+                    "maintenance": "US$398",
+                    "sku": "ME-PATCH-MANAGER-PLUS-PROFESSIONAL-100-SERVERS-AND-SINGLE-USER-LICENSE-PERP",
+                    "slug": "me-patch-manager-plus-professional-100-servers-and-single-user-license-perp"
+                  },
+                  {
+                    "name": "250 Servers and Single User License",
+                    "metric": {
+                      "quantity": 250,
+                      "unit": "servers and single user license"
+                    },
+                    "amountUsd": 4362,
+                    "priceStatus": "listed",
+                    "maintenance": "US$873",
+                    "sku": "ME-PATCH-MANAGER-PLUS-PROFESSIONAL-250-SERVERS-AND-SINGLE-USER-LICENSE-PERP",
+                    "slug": "me-patch-manager-plus-professional-250-servers-and-single-user-license-perp"
+                  },
+                  {
+                    "name": "500 Servers and Single User License",
+                    "metric": {
+                      "quantity": 500,
+                      "unit": "servers and single user license"
+                    },
+                    "amountUsd": 7487,
+                    "priceStatus": "listed",
+                    "maintenance": "US$1,498",
+                    "sku": "ME-PATCH-MANAGER-PLUS-PROFESSIONAL-500-SERVERS-AND-SINGLE-USER-LICENSE-PERP",
+                    "slug": "me-patch-manager-plus-professional-500-servers-and-single-user-license-perp"
+                  },
+                  {
+                    "name": "1000 Servers and Single User License",
+                    "metric": {
+                      "quantity": 1000,
+                      "unit": "servers and single user license"
+                    },
+                    "amountUsd": 13737,
+                    "priceStatus": "listed",
+                    "maintenance": "US$2,748",
+                    "sku": "ME-PATCH-MANAGER-PLUS-PROFESSIONAL-1000-SERVERS-AND-SINGLE-USER-LICENSE-PERP",
+                    "slug": "me-patch-manager-plus-professional-1000-servers-and-single-user-license-perp"
+                  },
+                  {
+                    "name": "2500 Servers and Single User License",
+                    "metric": {
+                      "quantity": 2500,
+                      "unit": "servers and single user license"
+                    },
+                    "amountUsd": 28987,
+                    "priceStatus": "listed",
+                    "maintenance": "US$5,798",
+                    "sku": "ME-PATCH-MANAGER-PLUS-PROFESSIONAL-2500-SERVERS-AND-SINGLE-USER-LICENSE-PERP",
+                    "slug": "me-patch-manager-plus-professional-2500-servers-and-single-user-license-perp"
+                  },
+                  {
+                    "name": "5000 Servers and Single User License",
+                    "metric": {
+                      "quantity": 5000,
+                      "unit": "servers and single user license"
+                    },
+                    "amountUsd": 44987,
+                    "priceStatus": "listed",
+                    "maintenance": "US$8,998",
+                    "sku": "ME-PATCH-MANAGER-PLUS-PROFESSIONAL-5000-SERVERS-AND-SINGLE-USER-LICENSE-PERP",
+                    "slug": "me-patch-manager-plus-professional-5000-servers-and-single-user-license-perp"
+                  },
+                  {
+                    "name": "Secure Gateway Server",
+                    "metric": null,
+                    "amountUsd": 750,
+                    "priceStatus": "listed",
+                    "maintenance": "US$150",
+                    "sku": "ME-PATCH-MANAGER-PLUS-PROFESSIONAL-SECURE-GATEWAY-SERVER-PERP",
+                    "slug": "me-patch-manager-plus-professional-secure-gateway-server-perp"
+                  }
+                ]
+              },
+              {
+                "slug": "patch-manager-plus-additional-users-perpetual",
+                "name": "Patch Manager Plus - Additional Users",
+                "edition": null,
+                "licenseModel": "perpetual",
+                "kind": "addon",
+                "variants": [
+                  {
+                    "name": "Additional 1 User",
+                    "metric": null,
+                    "amountUsd": 487,
+                    "priceStatus": "listed",
+                    "maintenance": "US$98",
+                    "sku": "ME-PATCH-MANAGER-PLUS-ADDITIONAL-USERS-ADDITIONAL-1-USER-PERP",
+                    "slug": "me-patch-manager-plus-additional-users-additional-1-user-perp"
+                  },
+                  {
+                    "name": "Additional 2 Users",
+                    "metric": null,
+                    "amountUsd": 862,
+                    "priceStatus": "listed",
+                    "maintenance": "US$173",
+                    "sku": "ME-PATCH-MANAGER-PLUS-ADDITIONAL-USERS-ADDITIONAL-2-USERS-PERP",
+                    "slug": "me-patch-manager-plus-additional-users-additional-2-users-perp"
+                  },
+                  {
+                    "name": "Additional 5 Users",
+                    "metric": null,
+                    "amountUsd": 1737,
+                    "priceStatus": "listed",
+                    "maintenance": "US$348",
+                    "sku": "ME-PATCH-MANAGER-PLUS-ADDITIONAL-USERS-ADDITIONAL-5-USERS-PERP",
+                    "slug": "me-patch-manager-plus-additional-users-additional-5-users-perp"
+                  },
+                  {
+                    "name": "Additional 10 Users",
+                    "metric": null,
+                    "amountUsd": 2487,
+                    "priceStatus": "listed",
+                    "maintenance": "US$498",
+                    "sku": "ME-PATCH-MANAGER-PLUS-ADDITIONAL-USERS-ADDITIONAL-10-USERS-PERP",
+                    "slug": "me-patch-manager-plus-additional-users-additional-10-users-perp"
+                  },
+                  {
+                    "name": "Additional 25 Users",
+                    "metric": null,
+                    "amountUsd": 4987,
+                    "priceStatus": "listed",
+                    "maintenance": "US$998",
+                    "sku": "ME-PATCH-MANAGER-PLUS-ADDITIONAL-USERS-ADDITIONAL-25-USERS-PERP",
+                    "slug": "me-patch-manager-plus-additional-users-additional-25-users-perp"
+                  },
+                  {
+                    "name": "Additional 50 Users",
+                    "metric": null,
+                    "amountUsd": 8737,
+                    "priceStatus": "listed",
+                    "maintenance": "US$1,748",
+                    "sku": "ME-PATCH-MANAGER-PLUS-ADDITIONAL-USERS-ADDITIONAL-50-USERS-PERP",
+                    "slug": "me-patch-manager-plus-additional-users-additional-50-users-perp"
+                  }
+                ]
+              },
+              {
+                "slug": "patch-manager-plus-remote-access-plus-add-ons-perpetual",
+                "name": "Patch Manager Plus - Remote Access Plus Add-ons",
+                "edition": null,
+                "licenseModel": "perpetual",
+                "kind": "addon",
+                "variants": [
+                  {
+                    "name": "100 Computers",
+                    "metric": {
+                      "quantity": 100,
+                      "unit": "computer"
+                    },
+                    "amountUsd": 737,
+                    "priceStatus": "listed",
+                    "maintenance": "US$148",
+                    "sku": "ME-PATCH-MANAGER-PLUS-REMOTE-ACCESS-PLUS-100-COMPUTERS-PERP",
+                    "slug": "me-patch-manager-plus-remote-access-plus-100-computers-perp"
+                  },
+                  {
+                    "name": "250 Computers",
+                    "metric": {
+                      "quantity": 250,
+                      "unit": "computer"
+                    },
+                    "amountUsd": 1487,
+                    "priceStatus": "listed",
+                    "maintenance": "US$298",
+                    "sku": "ME-PATCH-MANAGER-PLUS-REMOTE-ACCESS-PLUS-250-COMPUTERS-PERP",
+                    "slug": "me-patch-manager-plus-remote-access-plus-250-computers-perp"
+                  },
+                  {
+                    "name": "500 Computers",
+                    "metric": {
+                      "quantity": 500,
+                      "unit": "computer"
+                    },
+                    "amountUsd": 2487,
+                    "priceStatus": "listed",
+                    "maintenance": "US$498",
+                    "sku": "ME-PATCH-MANAGER-PLUS-REMOTE-ACCESS-PLUS-500-COMPUTERS-PERP",
+                    "slug": "me-patch-manager-plus-remote-access-plus-500-computers-perp"
+                  },
+                  {
+                    "name": "750 Computers",
+                    "metric": {
+                      "quantity": 750,
+                      "unit": "computer"
+                    },
+                    "amountUsd": 3737,
+                    "priceStatus": "listed",
+                    "maintenance": "US$748",
+                    "sku": "ME-PATCH-MANAGER-PLUS-REMOTE-ACCESS-PLUS-750-COMPUTERS-PERP",
+                    "slug": "me-patch-manager-plus-remote-access-plus-750-computers-perp"
+                  },
+                  {
+                    "name": "1000 Computers",
+                    "metric": {
+                      "quantity": 1000,
+                      "unit": "computer"
+                    },
+                    "amountUsd": 4237,
+                    "priceStatus": "listed",
+                    "maintenance": "US$848",
+                    "sku": "ME-PATCH-MANAGER-PLUS-REMOTE-ACCESS-PLUS-1000-COMPUTERS-PERP",
+                    "slug": "me-patch-manager-plus-remote-access-plus-1000-computers-perp"
+                  },
+                  {
+                    "name": "2000 Computers",
+                    "metric": {
+                      "quantity": 2000,
+                      "unit": "computer"
+                    },
+                    "amountUsd": 7362,
+                    "priceStatus": "listed",
+                    "maintenance": "US$1,473",
+                    "sku": "ME-PATCH-MANAGER-PLUS-REMOTE-ACCESS-PLUS-2000-COMPUTERS-PERP",
+                    "slug": "me-patch-manager-plus-remote-access-plus-2000-computers-perp"
+                  },
+                  {
+                    "name": "3000 Computers",
+                    "metric": {
+                      "quantity": 3000,
+                      "unit": "computer"
+                    },
+                    "amountUsd": 9737,
+                    "priceStatus": "listed",
+                    "maintenance": "US$1,948",
+                    "sku": "ME-PATCH-MANAGER-PLUS-REMOTE-ACCESS-PLUS-3000-COMPUTERS-PERP",
+                    "slug": "me-patch-manager-plus-remote-access-plus-3000-computers-perp"
+                  },
+                  {
+                    "name": "5000 Computers",
+                    "metric": {
+                      "quantity": 5000,
+                      "unit": "computer"
+                    },
+                    "amountUsd": 13987,
+                    "priceStatus": "listed",
+                    "maintenance": "US$2,798",
+                    "sku": "ME-PATCH-MANAGER-PLUS-REMOTE-ACCESS-PLUS-5000-COMPUTERS-PERP",
+                    "slug": "me-patch-manager-plus-remote-access-plus-5000-computers-perp"
+                  },
+                  {
+                    "name": "10000 Computers",
+                    "metric": {
+                      "quantity": 10000,
+                      "unit": "computer"
+                    },
+                    "amountUsd": 23112,
+                    "priceStatus": "listed",
+                    "maintenance": "US$4,623",
+                    "sku": "ME-PATCH-MANAGER-PLUS-REMOTE-ACCESS-PLUS-10000-COMPUTERS-PERP",
+                    "slug": "me-patch-manager-plus-remote-access-plus-10000-computers-perp"
+                  }
+                ]
+              },
+              {
+                "slug": "patch-manager-plus-failover-server-add-ons-perpetual",
+                "name": "Patch Manager Plus - Failover Server Add-ons",
+                "edition": null,
+                "licenseModel": "perpetual",
+                "kind": "addon",
+                "variants": [
+                  {
+                    "name": "Failover Server less than 1000 computers",
+                    "metric": null,
+                    "amountUsd": 2990,
+                    "priceStatus": "listed",
+                    "maintenance": "US$598",
+                    "sku": "ME-PATCH-MANAGER-PLUS-FAILOVER-SERVER-FAILOVER-SERVER-LESS-THAN-1000-COMPUTERS-PERP",
+                    "slug": "me-patch-manager-plus-failover-server-failover-server-less-than-1000-computers-perp"
+                  },
+                  {
+                    "name": "Failover Server 1000 - 5000 computers",
+                    "metric": null,
+                    "amountUsd": 5990,
+                    "priceStatus": "listed",
+                    "maintenance": "US$1,198",
+                    "sku": "ME-PATCH-MANAGER-PLUS-FAILOVER-SERVER-FAILOVER-SERVER-1000-5000-COMPUTERS-PERP",
+                    "slug": "me-patch-manager-plus-failover-server-failover-server-1000-5000-computers-perp"
+                  },
+                  {
+                    "name": "Failover Server above 5000 computers",
+                    "metric": null,
+                    "amountUsd": 8990,
+                    "priceStatus": "listed",
+                    "maintenance": "US$1,798",
+                    "sku": "ME-PATCH-MANAGER-PLUS-FAILOVER-SERVER-FAILOVER-SERVER-ABOVE-5000-COMPUTERS-PERP",
+                    "slug": "me-patch-manager-plus-failover-server-failover-server-above-5000-computers-perp"
+                  }
+                ]
+              },
+              {
+                "slug": "patch-manager-plus-multi-language-pack-perpetual",
+                "name": "Patch Manager Plus - Multi-Language Pack",
+                "edition": null,
+                "licenseModel": "perpetual",
+                "kind": "addon",
+                "variants": [
+                  {
+                    "name": "Multi language pack license",
+                    "metric": null,
+                    "amountUsd": 462,
+                    "priceStatus": "listed",
+                    "maintenance": "US$93",
+                    "sku": "ME-PATCH-MANAGER-PLUS-MULTI-LANGUAGE-PACK-MULTI-LANGUAGE-PACK-LICENSE-PERP",
+                    "slug": "me-patch-manager-plus-multi-language-pack-multi-language-pack-license-perp"
                   }
                 ]
               }
@@ -11069,18 +13579,18 @@ export const ZOHO_GROUPS: ZohoGroup[] = [
         "priced": true,
         "sourceUrl": "https://store.manageengine.com/sccm-third-party-patch-management/?MEstore",
         "sourceSnapshotId": "f85c9c533911",
-        "sourceCheckedAt": "2026-08-20T21:41:08.045Z",
+        "sourceCheckedAt": "2026-08-20T22:03:08.535Z",
         "deployments": [
           {
             "deployment": "unspecified",
-            "licenseModel": null,
-            "slug": "patch-connect-plus",
+            "licenseModel": "subscription",
+            "slug": "patch-connect-plus-subscription",
             "offers": [
               {
                 "slug": "patch-connect-plus-standard-edition",
                 "name": "Patch Connect Plus Standard Edition",
                 "edition": "Standard",
-                "licenseModel": null,
+                "licenseModel": "subscription",
                 "kind": "base",
                 "variants": [
                   {
@@ -11149,7 +13659,7 @@ export const ZOHO_GROUPS: ZohoGroup[] = [
                 "slug": "patch-connect-plus-professional-edition",
                 "name": "Patch Connect Plus Professional Edition",
                 "edition": "Professional",
-                "licenseModel": null,
+                "licenseModel": "subscription",
                 "kind": "base",
                 "variants": [
                   {
@@ -11218,7 +13728,7 @@ export const ZOHO_GROUPS: ZohoGroup[] = [
                 "slug": "patch-connect-plus-enterprise-edition",
                 "name": "Patch Connect Plus Enterprise Edition",
                 "edition": "Enterprise",
-                "licenseModel": null,
+                "licenseModel": "subscription",
                 "kind": "base",
                 "variants": [
                   {
@@ -11287,7 +13797,7 @@ export const ZOHO_GROUPS: ZohoGroup[] = [
                 "slug": "patch-connect-plus-training",
                 "name": "Patch Connect Plus Training",
                 "edition": null,
-                "licenseModel": null,
+                "licenseModel": "subscription",
                 "kind": "service",
                 "variants": [
                   {
@@ -11298,6 +13808,220 @@ export const ZOHO_GROUPS: ZohoGroup[] = [
                     "maintenance": "Included",
                     "sku": "ME-PATCH-CONNECT-PLUS-TRAINING-WEB-BASED-INSTALLATION-SETUP-TRAINING",
                     "slug": "me-patch-connect-plus-training-web-based-installation-setup-training"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "deployment": "unspecified",
+            "licenseModel": "perpetual",
+            "slug": "patch-connect-plus-perpetual",
+            "offers": [
+              {
+                "slug": "patch-connect-plus-standard-edition-perpetual",
+                "name": "Patch Connect Plus Standard Edition",
+                "edition": "Standard",
+                "licenseModel": "perpetual",
+                "kind": "base",
+                "variants": [
+                  {
+                    "name": "250 computers",
+                    "metric": {
+                      "quantity": 250,
+                      "unit": "computer"
+                    },
+                    "amountUsd": 812,
+                    "priceStatus": "listed",
+                    "maintenance": "US$163",
+                    "sku": "ME-PATCH-CONNECT-PLUS-STANDARD-250-COMPUTERS-PERP",
+                    "slug": "me-patch-connect-plus-standard-250-computers-perp"
+                  },
+                  {
+                    "name": "500 computers",
+                    "metric": {
+                      "quantity": 500,
+                      "unit": "computer"
+                    },
+                    "amountUsd": 1362,
+                    "priceStatus": "listed",
+                    "maintenance": "US$273",
+                    "sku": "ME-PATCH-CONNECT-PLUS-STANDARD-500-COMPUTERS-PERP",
+                    "slug": "me-patch-connect-plus-standard-500-computers-perp"
+                  },
+                  {
+                    "name": "1000 computers",
+                    "metric": {
+                      "quantity": 1000,
+                      "unit": "computer"
+                    },
+                    "amountUsd": 2487,
+                    "priceStatus": "listed",
+                    "maintenance": "US$498",
+                    "sku": "ME-PATCH-CONNECT-PLUS-STANDARD-1000-COMPUTERS-PERP",
+                    "slug": "me-patch-connect-plus-standard-1000-computers-perp"
+                  },
+                  {
+                    "name": "5000 computers",
+                    "metric": {
+                      "quantity": 5000,
+                      "unit": "computer"
+                    },
+                    "amountUsd": 11237,
+                    "priceStatus": "listed",
+                    "maintenance": "US$2,248",
+                    "sku": "ME-PATCH-CONNECT-PLUS-STANDARD-5000-COMPUTERS-PERP",
+                    "slug": "me-patch-connect-plus-standard-5000-computers-perp"
+                  },
+                  {
+                    "name": "10000 computers",
+                    "metric": {
+                      "quantity": 10000,
+                      "unit": "computer"
+                    },
+                    "amountUsd": 19987,
+                    "priceStatus": "listed",
+                    "maintenance": "US$3,998",
+                    "sku": "ME-PATCH-CONNECT-PLUS-STANDARD-10000-COMPUTERS-PERP",
+                    "slug": "me-patch-connect-plus-standard-10000-computers-perp"
+                  }
+                ]
+              },
+              {
+                "slug": "patch-connect-plus-professional-edition-perpetual",
+                "name": "Patch Connect Plus Professional Edition",
+                "edition": "Professional",
+                "licenseModel": "perpetual",
+                "kind": "base",
+                "variants": [
+                  {
+                    "name": "250 computers",
+                    "metric": {
+                      "quantity": 250,
+                      "unit": "computer"
+                    },
+                    "amountUsd": 1562,
+                    "priceStatus": "listed",
+                    "maintenance": "US$313",
+                    "sku": "ME-PATCH-CONNECT-PLUS-PROFESSIONAL-250-COMPUTERS-PERP",
+                    "slug": "me-patch-connect-plus-professional-250-computers-perp"
+                  },
+                  {
+                    "name": "500 computers",
+                    "metric": {
+                      "quantity": 500,
+                      "unit": "computer"
+                    },
+                    "amountUsd": 2812,
+                    "priceStatus": "listed",
+                    "maintenance": "US$563",
+                    "sku": "ME-PATCH-CONNECT-PLUS-PROFESSIONAL-500-COMPUTERS-PERP",
+                    "slug": "me-patch-connect-plus-professional-500-computers-perp"
+                  },
+                  {
+                    "name": "1000 computers",
+                    "metric": {
+                      "quantity": 1000,
+                      "unit": "computer"
+                    },
+                    "amountUsd": 4987,
+                    "priceStatus": "listed",
+                    "maintenance": "US$998",
+                    "sku": "ME-PATCH-CONNECT-PLUS-PROFESSIONAL-1000-COMPUTERS-PERP",
+                    "slug": "me-patch-connect-plus-professional-1000-computers-perp"
+                  },
+                  {
+                    "name": "5000 computers",
+                    "metric": {
+                      "quantity": 5000,
+                      "unit": "computer"
+                    },
+                    "amountUsd": 22487,
+                    "priceStatus": "listed",
+                    "maintenance": "US$4,498",
+                    "sku": "ME-PATCH-CONNECT-PLUS-PROFESSIONAL-5000-COMPUTERS-PERP",
+                    "slug": "me-patch-connect-plus-professional-5000-computers-perp"
+                  },
+                  {
+                    "name": "10000 computers",
+                    "metric": {
+                      "quantity": 10000,
+                      "unit": "computer"
+                    },
+                    "amountUsd": 39987,
+                    "priceStatus": "listed",
+                    "maintenance": "US$7,998",
+                    "sku": "ME-PATCH-CONNECT-PLUS-PROFESSIONAL-10000-COMPUTERS-PERP",
+                    "slug": "me-patch-connect-plus-professional-10000-computers-perp"
+                  }
+                ]
+              },
+              {
+                "slug": "patch-connect-plus-enterprise-edition-perpetual",
+                "name": "Patch Connect Plus Enterprise Edition",
+                "edition": "Enterprise",
+                "licenseModel": "perpetual",
+                "kind": "base",
+                "variants": [
+                  {
+                    "name": "250 computers",
+                    "metric": {
+                      "quantity": 250,
+                      "unit": "computer"
+                    },
+                    "amountUsd": 2495,
+                    "priceStatus": "listed",
+                    "maintenance": "US$498",
+                    "sku": "ME-PATCH-CONNECT-PLUS-ENTERPRISE-250-COMPUTERS-PERP",
+                    "slug": "me-patch-connect-plus-enterprise-250-computers-perp"
+                  },
+                  {
+                    "name": "500 computers",
+                    "metric": {
+                      "quantity": 500,
+                      "unit": "computer"
+                    },
+                    "amountUsd": 4595,
+                    "priceStatus": "listed",
+                    "maintenance": "US$923",
+                    "sku": "ME-PATCH-CONNECT-PLUS-ENTERPRISE-500-COMPUTERS-PERP",
+                    "slug": "me-patch-connect-plus-enterprise-500-computers-perp"
+                  },
+                  {
+                    "name": "1000 computers",
+                    "metric": {
+                      "quantity": 1000,
+                      "unit": "computer"
+                    },
+                    "amountUsd": 8495,
+                    "priceStatus": "listed",
+                    "maintenance": "US$1,698",
+                    "sku": "ME-PATCH-CONNECT-PLUS-ENTERPRISE-1000-COMPUTERS-PERP",
+                    "slug": "me-patch-connect-plus-enterprise-1000-computers-perp"
+                  },
+                  {
+                    "name": "5000 computers",
+                    "metric": {
+                      "quantity": 5000,
+                      "unit": "computer"
+                    },
+                    "amountUsd": 38795,
+                    "priceStatus": "listed",
+                    "maintenance": "US$7,748",
+                    "sku": "ME-PATCH-CONNECT-PLUS-ENTERPRISE-5000-COMPUTERS-PERP",
+                    "slug": "me-patch-connect-plus-enterprise-5000-computers-perp"
+                  },
+                  {
+                    "name": "10000 computers",
+                    "metric": {
+                      "quantity": 10000,
+                      "unit": "computer"
+                    },
+                    "amountUsd": 69995,
+                    "priceStatus": "listed",
+                    "maintenance": "US$13,898",
+                    "sku": "ME-PATCH-CONNECT-PLUS-ENTERPRISE-10000-COMPUTERS-PERP",
+                    "slug": "me-patch-connect-plus-enterprise-10000-computers-perp"
                   }
                 ]
               }
@@ -11314,18 +14038,18 @@ export const ZOHO_GROUPS: ZohoGroup[] = [
         "priced": true,
         "sourceUrl": "https://store.manageengine.com/mobile-device-manager/?MEstore&cat=UEMS",
         "sourceSnapshotId": "1c7fb9f273e6",
-        "sourceCheckedAt": "2026-08-20T21:41:12.613Z",
+        "sourceCheckedAt": "2026-08-20T22:03:24.007Z",
         "deployments": [
           {
             "deployment": "saas",
-            "licenseModel": null,
-            "slug": "mobile-device-manager-plus-saas",
+            "licenseModel": "subscription",
+            "slug": "mobile-device-manager-plus-saas-subscription",
             "offers": [
               {
                 "slug": "mobile-device-manager-plus-standard-edition",
                 "name": "Mobile Device Manager Plus - Standard Edition",
                 "edition": "Standard",
-                "licenseModel": null,
+                "licenseModel": "subscription",
                 "kind": "base",
                 "variants": [
                   {
@@ -11406,7 +14130,7 @@ export const ZOHO_GROUPS: ZohoGroup[] = [
                 "slug": "mobile-device-manager-plus-professional-edition",
                 "name": "Mobile Device Manager Plus - Professional Edition",
                 "edition": "Professional",
-                "licenseModel": null,
+                "licenseModel": "subscription",
                 "kind": "base",
                 "variants": [
                   {
@@ -11487,8 +14211,8 @@ export const ZOHO_GROUPS: ZohoGroup[] = [
                 "slug": "mobile-device-manager-plus-additional-users",
                 "name": "Mobile Device Manager Plus - Additional Users",
                 "edition": null,
-                "licenseModel": null,
-                "kind": "base",
+                "licenseModel": "subscription",
+                "kind": "addon",
                 "variants": [
                   {
                     "name": "Additional 1 User",
@@ -11550,7 +14274,7 @@ export const ZOHO_GROUPS: ZohoGroup[] = [
                 "slug": "mobile-device-manager-plus-failover-server-add-ons",
                 "name": "Mobile Device Manager Plus - Failover Server Add-ons",
                 "edition": null,
-                "licenseModel": null,
+                "licenseModel": "subscription",
                 "kind": "addon",
                 "variants": [
                   {
@@ -11586,8 +14310,8 @@ export const ZOHO_GROUPS: ZohoGroup[] = [
                 "slug": "mobile-device-manager-plus-multi-language-pack",
                 "name": "Mobile Device Manager Plus - Multi-Language Pack",
                 "edition": null,
-                "licenseModel": null,
-                "kind": "base",
+                "licenseModel": "subscription",
+                "kind": "addon",
                 "variants": [
                   {
                     "name": "Multi language Pack License",
@@ -11604,7 +14328,7 @@ export const ZOHO_GROUPS: ZohoGroup[] = [
                 "slug": "mobile-device-manager-plus-training",
                 "name": "Mobile Device Manager Plus - Training",
                 "edition": null,
-                "licenseModel": null,
+                "licenseModel": "subscription",
                 "kind": "service",
                 "variants": [
                   {
@@ -11637,6 +14361,328 @@ export const ZOHO_GROUPS: ZohoGroup[] = [
                 ]
               }
             ]
+          },
+          {
+            "deployment": "saas",
+            "licenseModel": "perpetual",
+            "slug": "mobile-device-manager-plus-saas-perpetual",
+            "offers": [
+              {
+                "slug": "mobile-device-manager-plus-standard-edition-perpetual",
+                "name": "Mobile Device Manager Plus - Standard Edition",
+                "edition": "Standard",
+                "licenseModel": "perpetual",
+                "kind": "base",
+                "variants": [
+                  {
+                    "name": "Single User License with 50 Mobile Devices",
+                    "metric": null,
+                    "amountUsd": 1238,
+                    "priceStatus": "listed",
+                    "maintenance": "US$247",
+                    "sku": "ME-MOBILE-DEVICE-MANAGER-PLUS-STANDARD-SINGLE-USER-LICENSE-WITH-50-MOBILE-DEVICES-PERP",
+                    "slug": "me-mobile-device-manager-plus-standard-single-user-license-with-50-mobile-devices-perp"
+                  },
+                  {
+                    "name": "Single User License with 100 Mobile Devices",
+                    "metric": null,
+                    "amountUsd": 2363,
+                    "priceStatus": "listed",
+                    "maintenance": "US$472",
+                    "sku": "ME-MOBILE-DEVICE-MANAGER-PLUS-STANDARD-SINGLE-USER-LICENSE-WITH-100-MOBILE-DEVICES-PERP",
+                    "slug": "me-mobile-device-manager-plus-standard-single-user-license-with-100-mobile-devices-perp"
+                  },
+                  {
+                    "name": "Single User License with 250 Mobile Devices",
+                    "metric": null,
+                    "amountUsd": 5488,
+                    "priceStatus": "listed",
+                    "maintenance": "US$1,097",
+                    "sku": "ME-MOBILE-DEVICE-MANAGER-PLUS-STANDARD-SINGLE-USER-LICENSE-WITH-250-MOBILE-DEVICES-PERP",
+                    "slug": "me-mobile-device-manager-plus-standard-single-user-license-with-250-mobile-devices-perp"
+                  },
+                  {
+                    "name": "Single User License with 500 Mobile Devices",
+                    "metric": null,
+                    "amountUsd": 9988,
+                    "priceStatus": "listed",
+                    "maintenance": "US$1,997",
+                    "sku": "ME-MOBILE-DEVICE-MANAGER-PLUS-STANDARD-SINGLE-USER-LICENSE-WITH-500-MOBILE-DEVICES-PERP",
+                    "slug": "me-mobile-device-manager-plus-standard-single-user-license-with-500-mobile-devices-perp"
+                  },
+                  {
+                    "name": "Single User License with 1000 Mobile Devices",
+                    "metric": null,
+                    "amountUsd": 16738,
+                    "priceStatus": "listed",
+                    "maintenance": "US$3,347",
+                    "sku": "ME-MOBILE-DEVICE-MANAGER-PLUS-STANDARD-SINGLE-USER-LICENSE-WITH-1000-MOBILE-DEVICES-PERP",
+                    "slug": "me-mobile-device-manager-plus-standard-single-user-license-with-1000-mobile-devices-perp"
+                  },
+                  {
+                    "name": "Single User License with 2500 Mobile Devices",
+                    "metric": null,
+                    "amountUsd": 31238,
+                    "priceStatus": "listed",
+                    "maintenance": "US$6,247",
+                    "sku": "ME-MOBILE-DEVICE-MANAGER-PLUS-STANDARD-SINGLE-USER-LICENSE-WITH-2500-MOBILE-DEVICES-PERP",
+                    "slug": "me-mobile-device-manager-plus-standard-single-user-license-with-2500-mobile-devices-perp"
+                  },
+                  {
+                    "name": "Single User License with 5000 Mobile Devices",
+                    "metric": null,
+                    "amountUsd": 49988,
+                    "priceStatus": "listed",
+                    "maintenance": "US$9,997",
+                    "sku": "ME-MOBILE-DEVICE-MANAGER-PLUS-STANDARD-SINGLE-USER-LICENSE-WITH-5000-MOBILE-DEVICES-PERP",
+                    "slug": "me-mobile-device-manager-plus-standard-single-user-license-with-5000-mobile-devices-perp"
+                  },
+                  {
+                    "name": "Single User License with 10000 Mobile Devices",
+                    "metric": null,
+                    "amountUsd": 74988,
+                    "priceStatus": "listed",
+                    "maintenance": "US$14,997",
+                    "sku": "ME-MOBILE-DEVICE-MANAGER-PLUS-STANDARD-SINGLE-USER-LICENSE-WITH-10000-MOBILE-DEVICE-PERP",
+                    "slug": "me-mobile-device-manager-plus-standard-single-user-license-with-10000-mobile-device-perp"
+                  }
+                ]
+              },
+              {
+                "slug": "mobile-device-manager-plus-professional-edition-perpetual",
+                "name": "Mobile Device Manager Plus - Professional Edition",
+                "edition": "Professional",
+                "licenseModel": "perpetual",
+                "kind": "base",
+                "variants": [
+                  {
+                    "name": "Single User License with 50 Mobile Devices",
+                    "metric": null,
+                    "amountUsd": 2237,
+                    "priceStatus": "listed",
+                    "maintenance": "US$448",
+                    "sku": "ME-MOBILE-DEVICE-MANAGER-PLUS-PROFESSIONAL-SINGLE-USER-LICENSE-WITH-50-MOBILE-DEVICES-PERP",
+                    "slug": "me-mobile-device-manager-plus-professional-single-user-license-with-50-mobile-devices-perp"
+                  },
+                  {
+                    "name": "Single User License with 100 Mobile Devices",
+                    "metric": null,
+                    "amountUsd": 4237,
+                    "priceStatus": "listed",
+                    "maintenance": "US$848",
+                    "sku": "ME-MOBILE-DEVICE-MANAGER-PLUS-PROFESSIONAL-SINGLE-USER-LICENSE-WITH-100-MOBILE-DEVICES-PERP",
+                    "slug": "me-mobile-device-manager-plus-professional-single-user-license-with-100-mobile-devices-perp"
+                  },
+                  {
+                    "name": "Single User License with 250 Mobile Devices",
+                    "metric": null,
+                    "amountUsd": 9737,
+                    "priceStatus": "listed",
+                    "maintenance": "US$1,948",
+                    "sku": "ME-MOBILE-DEVICE-MANAGER-PLUS-PROFESSIONAL-SINGLE-USER-LICENSE-WITH-250-MOBILE-DEVICES-PERP",
+                    "slug": "me-mobile-device-manager-plus-professional-single-user-license-with-250-mobile-devices-perp"
+                  },
+                  {
+                    "name": "Single User License with 500 Mobile Devices",
+                    "metric": null,
+                    "amountUsd": 17987,
+                    "priceStatus": "listed",
+                    "maintenance": "US$3,598",
+                    "sku": "ME-MOBILE-DEVICE-MANAGER-PLUS-PROFESSIONAL-SINGLE-USER-LICENSE-WITH-500-MOBILE-DEVICES-PERP",
+                    "slug": "me-mobile-device-manager-plus-professional-single-user-license-with-500-mobile-devices-perp"
+                  },
+                  {
+                    "name": "Single User License with 1000 Mobile Devices",
+                    "metric": null,
+                    "amountUsd": 29987,
+                    "priceStatus": "listed",
+                    "maintenance": "US$5,998",
+                    "sku": "ME-MOBILE-DEVICE-MANAGER-PLUS-PROFESSIONAL-SINGLE-USER-LICENSE-WITH-1000-MOBILE-DEVICES-PERP",
+                    "slug": "me-mobile-device-manager-plus-professional-single-user-license-with-1000-mobile-devices-perp"
+                  },
+                  {
+                    "name": "Single User License with 2500 Mobile Devices",
+                    "metric": null,
+                    "amountUsd": 56237,
+                    "priceStatus": "listed",
+                    "maintenance": "US$11,248",
+                    "sku": "ME-MOBILE-DEVICE-MANAGER-PLUS-PROFESSIONAL-SINGLE-USER-LICENSE-WITH-2500-MOBILE-DEVICES-PERP",
+                    "slug": "me-mobile-device-manager-plus-professional-single-user-license-with-2500-mobile-devices-perp"
+                  },
+                  {
+                    "name": "Single User License with 5000 Mobile Devices",
+                    "metric": null,
+                    "amountUsd": 89987,
+                    "priceStatus": "listed",
+                    "maintenance": "US$17,998",
+                    "sku": "ME-MOBILE-DEVICE-MANAGER-PLUS-PROFESSIONAL-SINGLE-USER-LICENSE-WITH-5000-MOBILE-DEVICES-PERP",
+                    "slug": "me-mobile-device-manager-plus-professional-single-user-license-with-5000-mobile-devices-perp"
+                  },
+                  {
+                    "name": "Single User License with 10000 Mobile Devices",
+                    "metric": null,
+                    "amountUsd": 134987,
+                    "priceStatus": "listed",
+                    "maintenance": "US$26,998",
+                    "sku": "ME-MOBILE-DEVICE-MANAGER-PLUS-PROFESSIONAL-SINGLE-USER-LICENSE-WITH-10000-MOBILE-DEVICE-PERP",
+                    "slug": "me-mobile-device-manager-plus-professional-single-user-license-with-10000-mobile-device-perp"
+                  }
+                ]
+              },
+              {
+                "slug": "mobile-device-manager-plus-additional-users-perpetual",
+                "name": "Mobile Device Manager Plus - Additional Users",
+                "edition": null,
+                "licenseModel": "perpetual",
+                "kind": "addon",
+                "variants": [
+                  {
+                    "name": "Additional 1 User",
+                    "metric": null,
+                    "amountUsd": 862,
+                    "priceStatus": "listed",
+                    "maintenance": "US$173",
+                    "sku": "ME-MOBILE-DEVICE-MANAGER-PLUS-ADDITIONAL-USERS-ADDITIONAL-1-USER-PERP",
+                    "slug": "me-mobile-device-manager-plus-additional-users-additional-1-user-perp"
+                  },
+                  {
+                    "name": "Additional 2 Users",
+                    "metric": null,
+                    "amountUsd": 1487,
+                    "priceStatus": "listed",
+                    "maintenance": "US$298",
+                    "sku": "ME-MOBILE-DEVICE-MANAGER-PLUS-ADDITIONAL-USERS-ADDITIONAL-2-USERS-PERP",
+                    "slug": "me-mobile-device-manager-plus-additional-users-additional-2-users-perp"
+                  },
+                  {
+                    "name": "Additional 5 Users",
+                    "metric": null,
+                    "amountUsd": 2987,
+                    "priceStatus": "listed",
+                    "maintenance": "US$598",
+                    "sku": "ME-MOBILE-DEVICE-MANAGER-PLUS-ADDITIONAL-USERS-ADDITIONAL-5-USERS-PERP",
+                    "slug": "me-mobile-device-manager-plus-additional-users-additional-5-users-perp"
+                  },
+                  {
+                    "name": "Additional 10 Users",
+                    "metric": null,
+                    "amountUsd": 4862,
+                    "priceStatus": "listed",
+                    "maintenance": "US$973",
+                    "sku": "ME-MOBILE-DEVICE-MANAGER-PLUS-ADDITIONAL-USERS-ADDITIONAL-10-USERS-PERP",
+                    "slug": "me-mobile-device-manager-plus-additional-users-additional-10-users-perp"
+                  },
+                  {
+                    "name": "Additional 25 Users",
+                    "metric": null,
+                    "amountUsd": 9612,
+                    "priceStatus": "listed",
+                    "maintenance": "US$1,923",
+                    "sku": "ME-MOBILE-DEVICE-MANAGER-PLUS-ADDITIONAL-USERS-ADDITIONAL-25-USERS-PERP",
+                    "slug": "me-mobile-device-manager-plus-additional-users-additional-25-users-perp"
+                  },
+                  {
+                    "name": "Additional 50 Users",
+                    "metric": null,
+                    "amountUsd": 14987,
+                    "priceStatus": "listed",
+                    "maintenance": "US$2,998",
+                    "sku": "ME-MOBILE-DEVICE-MANAGER-PLUS-ADDITIONAL-USERS-ADDITIONAL-50-USERS-PERP",
+                    "slug": "me-mobile-device-manager-plus-additional-users-additional-50-users-perp"
+                  }
+                ]
+              },
+              {
+                "slug": "mobile-device-manager-plus-failover-server-add-ons-perpetual",
+                "name": "Mobile Device Manager Plus - Failover Server Add-ons",
+                "edition": null,
+                "licenseModel": "perpetual",
+                "kind": "addon",
+                "variants": [
+                  {
+                    "name": "Failover Server less than 1000 mobile devices",
+                    "metric": null,
+                    "amountUsd": 2990,
+                    "priceStatus": "listed",
+                    "maintenance": "US$598",
+                    "sku": "ME-MOBILE-DEVICE-MANAGER-PLUS-FAILOVER-SERVER-FAILOVER-SERVER-LESS-THAN-1000-MOBILE-DEVICE-PERP",
+                    "slug": "me-mobile-device-manager-plus-failover-server-failover-server-less-than-1000-mobile-device-perp"
+                  },
+                  {
+                    "name": "Failover Server 1000 - 5000 mobile devices",
+                    "metric": null,
+                    "amountUsd": 5990,
+                    "priceStatus": "listed",
+                    "maintenance": "US$1,198",
+                    "sku": "ME-MOBILE-DEVICE-MANAGER-PLUS-FAILOVER-SERVER-FAILOVER-SERVER-1000-5000-MOBILE-DEVICES-PERP",
+                    "slug": "me-mobile-device-manager-plus-failover-server-failover-server-1000-5000-mobile-devices-perp"
+                  },
+                  {
+                    "name": "Failover Server above 5000 mobile devices",
+                    "metric": null,
+                    "amountUsd": 8990,
+                    "priceStatus": "listed",
+                    "maintenance": "US$1,798",
+                    "sku": "ME-MOBILE-DEVICE-MANAGER-PLUS-FAILOVER-SERVER-FAILOVER-SERVER-ABOVE-5000-MOBILE-DEVICES-PERP",
+                    "slug": "me-mobile-device-manager-plus-failover-server-failover-server-above-5000-mobile-devices-perp"
+                  }
+                ]
+              },
+              {
+                "slug": "mobile-device-manager-plus-multi-language-pack-perpetual",
+                "name": "Mobile Device Manager Plus - Multi-Language Pack",
+                "edition": null,
+                "licenseModel": "perpetual",
+                "kind": "addon",
+                "variants": [
+                  {
+                    "name": "Multi language Pack License",
+                    "metric": null,
+                    "amountUsd": 862,
+                    "priceStatus": "listed",
+                    "maintenance": "US$173",
+                    "sku": "ME-MOBILE-DEVICE-MANAGER-PLUS-MULTI-LANGUAGE-PACK-MULTI-LANGUAGE-PACK-LICENSE-PERP",
+                    "slug": "me-mobile-device-manager-plus-multi-language-pack-multi-language-pack-license-perp"
+                  }
+                ]
+              },
+              {
+                "slug": "mobile-device-manager-plus-training-perpetual",
+                "name": "Mobile Device Manager Plus - Training",
+                "edition": null,
+                "licenseModel": "perpetual",
+                "kind": "service",
+                "variants": [
+                  {
+                    "name": "Training (3 hours)",
+                    "metric": null,
+                    "amountUsd": 495,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-MOBILE-DEVICE-MANAGER-PLUS-TRAINING-TRAINING-PERP",
+                    "slug": "me-mobile-device-manager-plus-training-training-perp"
+                  },
+                  {
+                    "name": "Installation and Setup and Training (4 hours)",
+                    "metric": null,
+                    "amountUsd": 995,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-MOBILE-DEVICE-MANAGER-PLUS-TRAINING-INSTALLATION-AND-SETUP-AND-TRAINING-PERP",
+                    "slug": "me-mobile-device-manager-plus-training-installation-and-setup-and-training-perp"
+                  },
+                  {
+                    "name": "Training",
+                    "metric": null,
+                    "amountUsd": 3995,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-MOBILE-DEVICE-MANAGER-PLUS-TRAINING-TRAINING-PERP-2",
+                    "slug": "me-mobile-device-manager-plus-training-training-perp-2"
+                  }
+                ]
+              }
+            ]
           }
         ]
       },
@@ -11646,11 +14692,746 @@ export const ZOHO_GROUPS: ZohoGroup[] = [
         "tagline": "Remote troubleshooting with integrated chat, voice, and video",
         "subgroup": "Endpoint management",
         "storeUrl": "https://store.manageengine.com/remote-desktop-management/?MEstore&cat=UEMS",
-        "priced": false,
+        "priced": true,
         "sourceUrl": "https://store.manageengine.com/remote-desktop-management/?MEstore&cat=UEMS",
-        "sourceSnapshotId": null,
-        "sourceCheckedAt": null,
-        "deployments": []
+        "sourceSnapshotId": "677ed6da553a",
+        "sourceCheckedAt": "2026-08-20T22:03:41.715Z",
+        "deployments": [
+          {
+            "deployment": "saas",
+            "licenseModel": "subscription",
+            "slug": "remote-access-plus-saas-subscription",
+            "offers": [
+              {
+                "slug": "remote-access-plus-standard-edition",
+                "name": "Remote Access Plus - Standard Edition",
+                "edition": "Standard",
+                "licenseModel": "subscription",
+                "kind": "base",
+                "variants": [
+                  {
+                    "name": "25 Computers and 5 Users",
+                    "metric": null,
+                    "amountUsd": 75,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-REMOTE-ACCESS-PLUS-STANDARD-25-COMPUTERS-AND-5-USERS",
+                    "slug": "me-remote-access-plus-standard-25-computers-and-5-users"
+                  },
+                  {
+                    "name": "50 Computers and 5 Users",
+                    "metric": null,
+                    "amountUsd": 145,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-REMOTE-ACCESS-PLUS-STANDARD-50-COMPUTERS-AND-5-USERS",
+                    "slug": "me-remote-access-plus-standard-50-computers-and-5-users"
+                  },
+                  {
+                    "name": "100 Computers and 5 Users",
+                    "metric": null,
+                    "amountUsd": 195,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-REMOTE-ACCESS-PLUS-STANDARD-100-COMPUTERS-AND-5-USERS",
+                    "slug": "me-remote-access-plus-standard-100-computers-and-5-users"
+                  },
+                  {
+                    "name": "250 Computers and 5 Users",
+                    "metric": null,
+                    "amountUsd": 395,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-REMOTE-ACCESS-PLUS-STANDARD-250-COMPUTERS-AND-5-USERS",
+                    "slug": "me-remote-access-plus-standard-250-computers-and-5-users"
+                  },
+                  {
+                    "name": "500 Computers and 5 Users",
+                    "metric": null,
+                    "amountUsd": 645,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-REMOTE-ACCESS-PLUS-STANDARD-500-COMPUTERS-AND-5-USERS",
+                    "slug": "me-remote-access-plus-standard-500-computers-and-5-users"
+                  },
+                  {
+                    "name": "750 Computers and 5 Users",
+                    "metric": null,
+                    "amountUsd": 995,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-REMOTE-ACCESS-PLUS-STANDARD-750-COMPUTERS-AND-5-USERS",
+                    "slug": "me-remote-access-plus-standard-750-computers-and-5-users"
+                  },
+                  {
+                    "name": "1000 Computers and 5 Users",
+                    "metric": null,
+                    "amountUsd": 1095,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-REMOTE-ACCESS-PLUS-STANDARD-1000-COMPUTERS-AND-5-USERS",
+                    "slug": "me-remote-access-plus-standard-1000-computers-and-5-users"
+                  },
+                  {
+                    "name": "2000 Computers and 5 Users",
+                    "metric": null,
+                    "amountUsd": 1945,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-REMOTE-ACCESS-PLUS-STANDARD-2000-COMPUTERS-AND-5-USERS",
+                    "slug": "me-remote-access-plus-standard-2000-computers-and-5-users"
+                  },
+                  {
+                    "name": "3000 Computers and 5 Users",
+                    "metric": null,
+                    "amountUsd": 2595,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-REMOTE-ACCESS-PLUS-STANDARD-3000-COMPUTERS-AND-5-USERS",
+                    "slug": "me-remote-access-plus-standard-3000-computers-and-5-users"
+                  },
+                  {
+                    "name": "5000 Computers and 5 Users",
+                    "metric": null,
+                    "amountUsd": 4095,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-REMOTE-ACCESS-PLUS-STANDARD-5000-COMPUTERS-AND-5-USERS",
+                    "slug": "me-remote-access-plus-standard-5000-computers-and-5-users"
+                  },
+                  {
+                    "name": "10000 Computers and 5 Users",
+                    "metric": null,
+                    "amountUsd": 7695,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-REMOTE-ACCESS-PLUS-STANDARD-10000-COMPUTERS-AND-5-USERS",
+                    "slug": "me-remote-access-plus-standard-10000-computers-and-5-users"
+                  },
+                  {
+                    "name": "Secure Gateway Server",
+                    "metric": null,
+                    "amountUsd": 145,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-REMOTE-ACCESS-PLUS-STANDARD-SECURE-GATEWAY-SERVER",
+                    "slug": "me-remote-access-plus-standard-secure-gateway-server"
+                  }
+                ]
+              },
+              {
+                "slug": "remote-access-plus-professional-edition",
+                "name": "Remote Access Plus - Professional Edition",
+                "edition": "Professional",
+                "licenseModel": "subscription",
+                "kind": "base",
+                "variants": [
+                  {
+                    "name": "25 Computers and 5 Users",
+                    "metric": null,
+                    "amountUsd": 95,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-REMOTE-ACCESS-PLUS-PROFESSIONAL-25-COMPUTERS-AND-5-USERS",
+                    "slug": "me-remote-access-plus-professional-25-computers-and-5-users"
+                  },
+                  {
+                    "name": "50 Computers and 5 Users",
+                    "metric": null,
+                    "amountUsd": 195,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-REMOTE-ACCESS-PLUS-PROFESSIONAL-50-COMPUTERS-AND-5-USERS",
+                    "slug": "me-remote-access-plus-professional-50-computers-and-5-users"
+                  },
+                  {
+                    "name": "100 Computers and 5 Users",
+                    "metric": null,
+                    "amountUsd": 295,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-REMOTE-ACCESS-PLUS-PROFESSIONAL-100-COMPUTERS-AND-5-USERS",
+                    "slug": "me-remote-access-plus-professional-100-computers-and-5-users"
+                  },
+                  {
+                    "name": "250 Computers and 5 Users",
+                    "metric": null,
+                    "amountUsd": 595,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-REMOTE-ACCESS-PLUS-PROFESSIONAL-250-COMPUTERS-AND-5-USERS",
+                    "slug": "me-remote-access-plus-professional-250-computers-and-5-users"
+                  },
+                  {
+                    "name": "500 Computers and 5 Users",
+                    "metric": null,
+                    "amountUsd": 995,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-REMOTE-ACCESS-PLUS-PROFESSIONAL-500-COMPUTERS-AND-5-USERS",
+                    "slug": "me-remote-access-plus-professional-500-computers-and-5-users"
+                  },
+                  {
+                    "name": "750 Computers and 5 Users",
+                    "metric": null,
+                    "amountUsd": 1495,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-REMOTE-ACCESS-PLUS-PROFESSIONAL-750-COMPUTERS-AND-5-USERS",
+                    "slug": "me-remote-access-plus-professional-750-computers-and-5-users"
+                  },
+                  {
+                    "name": "1000 Computers and 5 Users",
+                    "metric": null,
+                    "amountUsd": 1695,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-REMOTE-ACCESS-PLUS-PROFESSIONAL-1000-COMPUTERS-AND-5-USERS",
+                    "slug": "me-remote-access-plus-professional-1000-computers-and-5-users"
+                  },
+                  {
+                    "name": "2000 Computers and 5 Users",
+                    "metric": null,
+                    "amountUsd": 2945,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-REMOTE-ACCESS-PLUS-PROFESSIONAL-2000-COMPUTERS-AND-5-USERS",
+                    "slug": "me-remote-access-plus-professional-2000-computers-and-5-users"
+                  },
+                  {
+                    "name": "3000 Computers and 5 Users",
+                    "metric": null,
+                    "amountUsd": 3895,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-REMOTE-ACCESS-PLUS-PROFESSIONAL-3000-COMPUTERS-AND-5-USERS",
+                    "slug": "me-remote-access-plus-professional-3000-computers-and-5-users"
+                  },
+                  {
+                    "name": "5000 Computers and 5 Users",
+                    "metric": null,
+                    "amountUsd": 5595,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-REMOTE-ACCESS-PLUS-PROFESSIONAL-5000-COMPUTERS-AND-5-USERS",
+                    "slug": "me-remote-access-plus-professional-5000-computers-and-5-users"
+                  },
+                  {
+                    "name": "10000 Computers and 5 Users",
+                    "metric": null,
+                    "amountUsd": 9245,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-REMOTE-ACCESS-PLUS-PROFESSIONAL-10000-COMPUTERS-AND-5-USERS",
+                    "slug": "me-remote-access-plus-professional-10000-computers-and-5-users"
+                  },
+                  {
+                    "name": "Secure Gateway Server",
+                    "metric": null,
+                    "amountUsd": 145,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-REMOTE-ACCESS-PLUS-PROFESSIONAL-SECURE-GATEWAY-SERVER",
+                    "slug": "me-remote-access-plus-professional-secure-gateway-server"
+                  }
+                ]
+              },
+              {
+                "slug": "remote-access-plus-additional-users",
+                "name": "Remote Access Plus - Additional Users",
+                "edition": null,
+                "licenseModel": "subscription",
+                "kind": "addon",
+                "variants": [
+                  {
+                    "name": "Additional 1 User",
+                    "metric": null,
+                    "amountUsd": 95,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-REMOTE-ACCESS-PLUS-ADDITIONAL-USERS-ADDITIONAL-1-USER",
+                    "slug": "me-remote-access-plus-additional-users-additional-1-user"
+                  },
+                  {
+                    "name": "Additional 2 Users",
+                    "metric": null,
+                    "amountUsd": 175,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-REMOTE-ACCESS-PLUS-ADDITIONAL-USERS-ADDITIONAL-2-USERS",
+                    "slug": "me-remote-access-plus-additional-users-additional-2-users"
+                  },
+                  {
+                    "name": "Additional 5 Users",
+                    "metric": null,
+                    "amountUsd": 345,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-REMOTE-ACCESS-PLUS-ADDITIONAL-USERS-ADDITIONAL-5-USERS",
+                    "slug": "me-remote-access-plus-additional-users-additional-5-users"
+                  },
+                  {
+                    "name": "Additional 10 Users",
+                    "metric": null,
+                    "amountUsd": 545,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-REMOTE-ACCESS-PLUS-ADDITIONAL-USERS-ADDITIONAL-10-USERS",
+                    "slug": "me-remote-access-plus-additional-users-additional-10-users"
+                  },
+                  {
+                    "name": "Additional 25 Users",
+                    "metric": null,
+                    "amountUsd": 995,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-REMOTE-ACCESS-PLUS-ADDITIONAL-USERS-ADDITIONAL-25-USERS",
+                    "slug": "me-remote-access-plus-additional-users-additional-25-users"
+                  },
+                  {
+                    "name": "Additional 50 Users",
+                    "metric": null,
+                    "amountUsd": 1655,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-REMOTE-ACCESS-PLUS-ADDITIONAL-USERS-ADDITIONAL-50-USERS",
+                    "slug": "me-remote-access-plus-additional-users-additional-50-users"
+                  }
+                ]
+              },
+              {
+                "slug": "remote-access-plus-failover-service",
+                "name": "Remote Access Plus - Failover Service",
+                "edition": null,
+                "licenseModel": "subscription",
+                "kind": "addon",
+                "variants": [
+                  {
+                    "name": "Failover Service for computers less than 1000",
+                    "metric": null,
+                    "amountUsd": 1195,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-REMOTE-ACCESS-PLUS-FAILOVER-SERVICE-FAILOVER-SERVICE-FOR-COMPUTERS-LESS-THAN-100",
+                    "slug": "me-remote-access-plus-failover-service-failover-service-for-computers-less-than-100"
+                  },
+                  {
+                    "name": "Failover Service for computers 1001 to 5000",
+                    "metric": null,
+                    "amountUsd": 2395,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-REMOTE-ACCESS-PLUS-FAILOVER-SERVICE-FAILOVER-SERVICE-FOR-COMPUTERS-1001-TO-5000",
+                    "slug": "me-remote-access-plus-failover-service-failover-service-for-computers-1001-to-5000"
+                  },
+                  {
+                    "name": "Failover Service for computers above 5000",
+                    "metric": null,
+                    "amountUsd": 3595,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-REMOTE-ACCESS-PLUS-FAILOVER-SERVICE-FAILOVER-SERVICE-FOR-COMPUTERS-ABOVE-5000",
+                    "slug": "me-remote-access-plus-failover-service-failover-service-for-computers-above-5000"
+                  }
+                ]
+              },
+              {
+                "slug": "remote-access-plus-multi-language-pack",
+                "name": "Remote Access Plus - Multi-Language Pack",
+                "edition": null,
+                "licenseModel": "subscription",
+                "kind": "addon",
+                "variants": [
+                  {
+                    "name": "Multi-Language Pack License",
+                    "metric": null,
+                    "amountUsd": 185,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-REMOTE-ACCESS-PLUS-MULTI-LANGUAGE-PACK-MULTI-LANGUAGE-PACK-LICENSE",
+                    "slug": "me-remote-access-plus-multi-language-pack-multi-language-pack-license"
+                  }
+                ]
+              },
+              {
+                "slug": "remote-access-plus-training",
+                "name": "Remote Access Plus - Training",
+                "edition": null,
+                "licenseModel": "subscription",
+                "kind": "service",
+                "variants": [
+                  {
+                    "name": "Web-based Installation, Setup & Training (3hrs each for 2 days)",
+                    "metric": null,
+                    "amountUsd": 995,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-REMOTE-ACCESS-PLUS-TRAINING-WEB-BASED-INSTALLATION-SETUP-TRAINING",
+                    "slug": "me-remote-access-plus-training-web-based-installation-setup-training"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "deployment": "saas",
+            "licenseModel": "perpetual",
+            "slug": "remote-access-plus-saas-perpetual",
+            "offers": [
+              {
+                "slug": "remote-access-plus-standard-edition-perpetual",
+                "name": "Remote Access Plus - Standard Edition",
+                "edition": "Standard",
+                "licenseModel": "perpetual",
+                "kind": "base",
+                "variants": [
+                  {
+                    "name": "25 Computers and 5 Users",
+                    "metric": null,
+                    "amountUsd": 187,
+                    "priceStatus": "listed",
+                    "maintenance": "US$38",
+                    "sku": "ME-REMOTE-ACCESS-PLUS-STANDARD-25-COMPUTERS-AND-5-USERS-PERP",
+                    "slug": "me-remote-access-plus-standard-25-computers-and-5-users-perp"
+                  },
+                  {
+                    "name": "50 Computers and 5 Users",
+                    "metric": null,
+                    "amountUsd": 362,
+                    "priceStatus": "listed",
+                    "maintenance": "US$73",
+                    "sku": "ME-REMOTE-ACCESS-PLUS-STANDARD-50-COMPUTERS-AND-5-USERS-PERP",
+                    "slug": "me-remote-access-plus-standard-50-computers-and-5-users-perp"
+                  },
+                  {
+                    "name": "100 Computers and 5 Users",
+                    "metric": null,
+                    "amountUsd": 487,
+                    "priceStatus": "listed",
+                    "maintenance": "US$98",
+                    "sku": "ME-REMOTE-ACCESS-PLUS-STANDARD-100-COMPUTERS-AND-5-USERS-PERP",
+                    "slug": "me-remote-access-plus-standard-100-computers-and-5-users-perp"
+                  },
+                  {
+                    "name": "250 Computers and 5 Users",
+                    "metric": null,
+                    "amountUsd": 987,
+                    "priceStatus": "listed",
+                    "maintenance": "US$198",
+                    "sku": "ME-REMOTE-ACCESS-PLUS-STANDARD-250-COMPUTERS-AND-5-USERS-PERP",
+                    "slug": "me-remote-access-plus-standard-250-computers-and-5-users-perp"
+                  },
+                  {
+                    "name": "500 Computers and 5 Users",
+                    "metric": null,
+                    "amountUsd": 1612,
+                    "priceStatus": "listed",
+                    "maintenance": "US$323",
+                    "sku": "ME-REMOTE-ACCESS-PLUS-STANDARD-500-COMPUTERS-AND-5-USERS-PERP",
+                    "slug": "me-remote-access-plus-standard-500-computers-and-5-users-perp"
+                  },
+                  {
+                    "name": "750 Computers and 5 Users",
+                    "metric": null,
+                    "amountUsd": 2487,
+                    "priceStatus": "listed",
+                    "maintenance": "US$498",
+                    "sku": "ME-REMOTE-ACCESS-PLUS-STANDARD-750-COMPUTERS-AND-5-USERS-PERP",
+                    "slug": "me-remote-access-plus-standard-750-computers-and-5-users-perp"
+                  },
+                  {
+                    "name": "1000 Computers and 5 Users",
+                    "metric": null,
+                    "amountUsd": 2737,
+                    "priceStatus": "listed",
+                    "maintenance": "US$548",
+                    "sku": "ME-REMOTE-ACCESS-PLUS-STANDARD-1000-COMPUTERS-AND-5-USERS-PERP",
+                    "slug": "me-remote-access-plus-standard-1000-computers-and-5-users-perp"
+                  },
+                  {
+                    "name": "2000 Computers and 5 Users",
+                    "metric": null,
+                    "amountUsd": 4862,
+                    "priceStatus": "listed",
+                    "maintenance": "US$973",
+                    "sku": "ME-REMOTE-ACCESS-PLUS-STANDARD-2000-COMPUTERS-AND-5-USERS-PERP",
+                    "slug": "me-remote-access-plus-standard-2000-computers-and-5-users-perp"
+                  },
+                  {
+                    "name": "3000 Computers and 5 Users",
+                    "metric": null,
+                    "amountUsd": 6487,
+                    "priceStatus": "listed",
+                    "maintenance": "US$1,298",
+                    "sku": "ME-REMOTE-ACCESS-PLUS-STANDARD-3000-COMPUTERS-AND-5-USERS-PERP",
+                    "slug": "me-remote-access-plus-standard-3000-computers-and-5-users-perp"
+                  },
+                  {
+                    "name": "5000 Computers and 5 Users",
+                    "metric": null,
+                    "amountUsd": 10237,
+                    "priceStatus": "listed",
+                    "maintenance": "US$2,048",
+                    "sku": "ME-REMOTE-ACCESS-PLUS-STANDARD-5000-COMPUTERS-AND-5-USERS-PERP",
+                    "slug": "me-remote-access-plus-standard-5000-computers-and-5-users-perp"
+                  },
+                  {
+                    "name": "10000 Computers and 5 Users",
+                    "metric": null,
+                    "amountUsd": 19237,
+                    "priceStatus": "listed",
+                    "maintenance": "US$3,848",
+                    "sku": "ME-REMOTE-ACCESS-PLUS-STANDARD-10000-COMPUTERS-AND-5-USERS-PERP",
+                    "slug": "me-remote-access-plus-standard-10000-computers-and-5-users-perp"
+                  },
+                  {
+                    "name": "Secure Gateway Server",
+                    "metric": null,
+                    "amountUsd": 362,
+                    "priceStatus": "listed",
+                    "maintenance": "US$72",
+                    "sku": "ME-REMOTE-ACCESS-PLUS-STANDARD-SECURE-GATEWAY-SERVER-PERP",
+                    "slug": "me-remote-access-plus-standard-secure-gateway-server-perp"
+                  }
+                ]
+              },
+              {
+                "slug": "remote-access-plus-professional-edition-perpetual",
+                "name": "Remote Access Plus - Professional Edition",
+                "edition": "Professional",
+                "licenseModel": "perpetual",
+                "kind": "base",
+                "variants": [
+                  {
+                    "name": "25 Computers and 5 Users",
+                    "metric": null,
+                    "amountUsd": 237,
+                    "priceStatus": "listed",
+                    "maintenance": "US$48",
+                    "sku": "ME-REMOTE-ACCESS-PLUS-PROFESSIONAL-25-COMPUTERS-AND-5-USERS-PERP",
+                    "slug": "me-remote-access-plus-professional-25-computers-and-5-users-perp"
+                  },
+                  {
+                    "name": "50 Computers and 5 Users",
+                    "metric": null,
+                    "amountUsd": 487,
+                    "priceStatus": "listed",
+                    "maintenance": "US$98",
+                    "sku": "ME-REMOTE-ACCESS-PLUS-PROFESSIONAL-50-COMPUTERS-AND-5-USERS-PERP",
+                    "slug": "me-remote-access-plus-professional-50-computers-and-5-users-perp"
+                  },
+                  {
+                    "name": "100 Computers and 5 Users",
+                    "metric": null,
+                    "amountUsd": 737,
+                    "priceStatus": "listed",
+                    "maintenance": "US$148",
+                    "sku": "ME-REMOTE-ACCESS-PLUS-PROFESSIONAL-100-COMPUTERS-AND-5-USERS-PERP",
+                    "slug": "me-remote-access-plus-professional-100-computers-and-5-users-perp"
+                  },
+                  {
+                    "name": "250 Computers and 5 Users",
+                    "metric": null,
+                    "amountUsd": 1487,
+                    "priceStatus": "listed",
+                    "maintenance": "US$298",
+                    "sku": "ME-REMOTE-ACCESS-PLUS-PROFESSIONAL-250-COMPUTERS-AND-5-USERS-PERP",
+                    "slug": "me-remote-access-plus-professional-250-computers-and-5-users-perp"
+                  },
+                  {
+                    "name": "500 Computers and 5 Users",
+                    "metric": null,
+                    "amountUsd": 2487,
+                    "priceStatus": "listed",
+                    "maintenance": "US$498",
+                    "sku": "ME-REMOTE-ACCESS-PLUS-PROFESSIONAL-500-COMPUTERS-AND-5-USERS-PERP",
+                    "slug": "me-remote-access-plus-professional-500-computers-and-5-users-perp"
+                  },
+                  {
+                    "name": "750 Computers and 5 Users",
+                    "metric": null,
+                    "amountUsd": 3737,
+                    "priceStatus": "listed",
+                    "maintenance": "US$748",
+                    "sku": "ME-REMOTE-ACCESS-PLUS-PROFESSIONAL-750-COMPUTERS-AND-5-USERS-PERP",
+                    "slug": "me-remote-access-plus-professional-750-computers-and-5-users-perp"
+                  },
+                  {
+                    "name": "1000 Computers and 5 Users",
+                    "metric": null,
+                    "amountUsd": 4237,
+                    "priceStatus": "listed",
+                    "maintenance": "US$848",
+                    "sku": "ME-REMOTE-ACCESS-PLUS-PROFESSIONAL-1000-COMPUTERS-AND-5-USERS-PERP",
+                    "slug": "me-remote-access-plus-professional-1000-computers-and-5-users-perp"
+                  },
+                  {
+                    "name": "2000 Computers and 5 Users",
+                    "metric": null,
+                    "amountUsd": 7362,
+                    "priceStatus": "listed",
+                    "maintenance": "US$1,473",
+                    "sku": "ME-REMOTE-ACCESS-PLUS-PROFESSIONAL-2000-COMPUTERS-AND-5-USERS-PERP",
+                    "slug": "me-remote-access-plus-professional-2000-computers-and-5-users-perp"
+                  },
+                  {
+                    "name": "3000 Computers and 5 Users",
+                    "metric": null,
+                    "amountUsd": 9737,
+                    "priceStatus": "listed",
+                    "maintenance": "US$1,948",
+                    "sku": "ME-REMOTE-ACCESS-PLUS-PROFESSIONAL-3000-COMPUTERS-AND-5-USERS-PERP",
+                    "slug": "me-remote-access-plus-professional-3000-computers-and-5-users-perp"
+                  },
+                  {
+                    "name": "5000 Computers and 5 Users",
+                    "metric": null,
+                    "amountUsd": 13987,
+                    "priceStatus": "listed",
+                    "maintenance": "US$2,798",
+                    "sku": "ME-REMOTE-ACCESS-PLUS-PROFESSIONAL-5000-COMPUTERS-AND-5-USERS-PERP",
+                    "slug": "me-remote-access-plus-professional-5000-computers-and-5-users-perp"
+                  },
+                  {
+                    "name": "10000 Computers and 5 Users",
+                    "metric": null,
+                    "amountUsd": 23112,
+                    "priceStatus": "listed",
+                    "maintenance": "US$4,623",
+                    "sku": "ME-REMOTE-ACCESS-PLUS-PROFESSIONAL-10000-COMPUTERS-AND-5-USERS-PERP",
+                    "slug": "me-remote-access-plus-professional-10000-computers-and-5-users-perp"
+                  },
+                  {
+                    "name": "Secure Gateway Server",
+                    "metric": null,
+                    "amountUsd": 362,
+                    "priceStatus": "listed",
+                    "maintenance": "US$72",
+                    "sku": "ME-REMOTE-ACCESS-PLUS-PROFESSIONAL-SECURE-GATEWAY-SERVER-PERP",
+                    "slug": "me-remote-access-plus-professional-secure-gateway-server-perp"
+                  }
+                ]
+              },
+              {
+                "slug": "remote-access-plus-additional-users-perpetual",
+                "name": "Remote Access Plus - Additional Users",
+                "edition": null,
+                "licenseModel": "perpetual",
+                "kind": "addon",
+                "variants": [
+                  {
+                    "name": "Additional 1 User",
+                    "metric": null,
+                    "amountUsd": 195,
+                    "priceStatus": "listed",
+                    "maintenance": "US$39",
+                    "sku": "ME-REMOTE-ACCESS-PLUS-ADDITIONAL-USERS-ADDITIONAL-1-USER-PERP",
+                    "slug": "me-remote-access-plus-additional-users-additional-1-user-perp"
+                  },
+                  {
+                    "name": "Additional 2 Users",
+                    "metric": null,
+                    "amountUsd": 355,
+                    "priceStatus": "listed",
+                    "maintenance": "US$71",
+                    "sku": "ME-REMOTE-ACCESS-PLUS-ADDITIONAL-USERS-ADDITIONAL-2-USERS-PERP",
+                    "slug": "me-remote-access-plus-additional-users-additional-2-users-perp"
+                  },
+                  {
+                    "name": "Additional 5 Users",
+                    "metric": null,
+                    "amountUsd": 695,
+                    "priceStatus": "listed",
+                    "maintenance": "US$139",
+                    "sku": "ME-REMOTE-ACCESS-PLUS-ADDITIONAL-USERS-ADDITIONAL-5-USERS-PERP",
+                    "slug": "me-remote-access-plus-additional-users-additional-5-users-perp"
+                  },
+                  {
+                    "name": "Additional 10 Users",
+                    "metric": null,
+                    "amountUsd": 1095,
+                    "priceStatus": "listed",
+                    "maintenance": "US$219",
+                    "sku": "ME-REMOTE-ACCESS-PLUS-ADDITIONAL-USERS-ADDITIONAL-10-USERS-PERP",
+                    "slug": "me-remote-access-plus-additional-users-additional-10-users-perp"
+                  },
+                  {
+                    "name": "Additional 25 Users",
+                    "metric": null,
+                    "amountUsd": 1995,
+                    "priceStatus": "listed",
+                    "maintenance": "US$399",
+                    "sku": "ME-REMOTE-ACCESS-PLUS-ADDITIONAL-USERS-ADDITIONAL-25-USERS-PERP",
+                    "slug": "me-remote-access-plus-additional-users-additional-25-users-perp"
+                  },
+                  {
+                    "name": "Additional 50 Users",
+                    "metric": null,
+                    "amountUsd": 3310,
+                    "priceStatus": "listed",
+                    "maintenance": "US$662",
+                    "sku": "ME-REMOTE-ACCESS-PLUS-ADDITIONAL-USERS-ADDITIONAL-50-USERS-PERP",
+                    "slug": "me-remote-access-plus-additional-users-additional-50-users-perp"
+                  }
+                ]
+              },
+              {
+                "slug": "remote-access-plus-failover-service-perpetual",
+                "name": "Remote Access Plus - Failover Service",
+                "edition": null,
+                "licenseModel": "perpetual",
+                "kind": "addon",
+                "variants": [
+                  {
+                    "name": "Failover Service for computers less than 1000",
+                    "metric": null,
+                    "amountUsd": 2990,
+                    "priceStatus": "listed",
+                    "maintenance": "US$598",
+                    "sku": "ME-REMOTE-ACCESS-PLUS-FAILOVER-SERVICE-FAILOVER-SERVICE-FOR-COMPUTERS-LESS-THAN-100-PERP",
+                    "slug": "me-remote-access-plus-failover-service-failover-service-for-computers-less-than-100-perp"
+                  },
+                  {
+                    "name": "Failover Service for computers 1001 to 5000",
+                    "metric": null,
+                    "amountUsd": 5990,
+                    "priceStatus": "listed",
+                    "maintenance": "US$1,198",
+                    "sku": "ME-REMOTE-ACCESS-PLUS-FAILOVER-SERVICE-FAILOVER-SERVICE-FOR-COMPUTERS-1001-TO-5000-PERP",
+                    "slug": "me-remote-access-plus-failover-service-failover-service-for-computers-1001-to-5000-perp"
+                  },
+                  {
+                    "name": "Failover Service for computers above 5000",
+                    "metric": null,
+                    "amountUsd": 8990,
+                    "priceStatus": "listed",
+                    "maintenance": "US$1,798",
+                    "sku": "ME-REMOTE-ACCESS-PLUS-FAILOVER-SERVICE-FAILOVER-SERVICE-FOR-COMPUTERS-ABOVE-5000-PERP",
+                    "slug": "me-remote-access-plus-failover-service-failover-service-for-computers-above-5000-perp"
+                  }
+                ]
+              },
+              {
+                "slug": "remote-access-plus-multi-language-pack-perpetual",
+                "name": "Remote Access Plus - Multi-Language Pack",
+                "edition": null,
+                "licenseModel": "perpetual",
+                "kind": "addon",
+                "variants": [
+                  {
+                    "name": "Multi-Language Pack License",
+                    "metric": null,
+                    "amountUsd": 462,
+                    "priceStatus": "listed",
+                    "maintenance": "US$93",
+                    "sku": "ME-REMOTE-ACCESS-PLUS-MULTI-LANGUAGE-PACK-MULTI-LANGUAGE-PACK-LICENSE-PERP",
+                    "slug": "me-remote-access-plus-multi-language-pack-multi-language-pack-license-perp"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
       },
       {
         "slug": "os-deployer",
@@ -11658,11 +15439,872 @@ export const ZOHO_GROUPS: ZohoGroup[] = [
         "tagline": "Automated OS image creation and seamless role-based deployment",
         "subgroup": "Endpoint management",
         "storeUrl": "https://store.manageengine.com/os-deployer/?MEstore",
-        "priced": false,
+        "priced": true,
         "sourceUrl": "https://store.manageengine.com/os-deployer/?MEstore",
-        "sourceSnapshotId": null,
-        "sourceCheckedAt": null,
-        "deployments": []
+        "sourceSnapshotId": "ff7ef171062a",
+        "sourceCheckedAt": "2026-08-20T22:03:57.103Z",
+        "deployments": [
+          {
+            "deployment": "unspecified",
+            "licenseModel": "subscription",
+            "slug": "os-deployer-subscription",
+            "offers": [
+              {
+                "slug": "os-deployer-professional-edition",
+                "name": "OS Deployer Professional Edition",
+                "edition": "Professional",
+                "licenseModel": "subscription",
+                "kind": "base",
+                "variants": [
+                  {
+                    "name": "100 Workstations",
+                    "metric": {
+                      "quantity": 100,
+                      "unit": "workstation"
+                    },
+                    "amountUsd": 645,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-OS-DEPLOYER-PROFESSIONAL-100-WORKSTATIONS",
+                    "slug": "me-os-deployer-professional-100-workstations"
+                  },
+                  {
+                    "name": "250 Workstations",
+                    "metric": {
+                      "quantity": 250,
+                      "unit": "workstation"
+                    },
+                    "amountUsd": 1295,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-OS-DEPLOYER-PROFESSIONAL-250-WORKSTATIONS",
+                    "slug": "me-os-deployer-professional-250-workstations"
+                  },
+                  {
+                    "name": "500 Workstations",
+                    "metric": {
+                      "quantity": 500,
+                      "unit": "workstation"
+                    },
+                    "amountUsd": 2345,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-OS-DEPLOYER-PROFESSIONAL-500-WORKSTATIONS",
+                    "slug": "me-os-deployer-professional-500-workstations"
+                  },
+                  {
+                    "name": "1000 Workstations",
+                    "metric": {
+                      "quantity": 1000,
+                      "unit": "workstation"
+                    },
+                    "amountUsd": 3945,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-OS-DEPLOYER-PROFESSIONAL-1000-WORKSTATIONS",
+                    "slug": "me-os-deployer-professional-1000-workstations"
+                  },
+                  {
+                    "name": "2500 Workstations",
+                    "metric": {
+                      "quantity": 2500,
+                      "unit": "workstation"
+                    },
+                    "amountUsd": 8245,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-OS-DEPLOYER-PROFESSIONAL-2500-WORKSTATIONS",
+                    "slug": "me-os-deployer-professional-2500-workstations"
+                  },
+                  {
+                    "name": "5000 Workstations",
+                    "metric": {
+                      "quantity": 5000,
+                      "unit": "workstation"
+                    },
+                    "amountUsd": 12995,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-OS-DEPLOYER-PROFESSIONAL-5000-WORKSTATIONS",
+                    "slug": "me-os-deployer-professional-5000-workstations"
+                  },
+                  {
+                    "name": "10 Servers",
+                    "metric": {
+                      "quantity": 10,
+                      "unit": "server"
+                    },
+                    "amountUsd": 325,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-OS-DEPLOYER-PROFESSIONAL-10-SERVERS",
+                    "slug": "me-os-deployer-professional-10-servers"
+                  },
+                  {
+                    "name": "25 Servers",
+                    "metric": {
+                      "quantity": 25,
+                      "unit": "server"
+                    },
+                    "amountUsd": 795,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-OS-DEPLOYER-PROFESSIONAL-25-SERVERS",
+                    "slug": "me-os-deployer-professional-25-servers"
+                  },
+                  {
+                    "name": "50 Servers",
+                    "metric": {
+                      "quantity": 50,
+                      "unit": "server"
+                    },
+                    "amountUsd": 1295,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-OS-DEPLOYER-PROFESSIONAL-50-SERVERS",
+                    "slug": "me-os-deployer-professional-50-servers"
+                  },
+                  {
+                    "name": "100 Servers",
+                    "metric": {
+                      "quantity": 100,
+                      "unit": "server"
+                    },
+                    "amountUsd": 2295,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-OS-DEPLOYER-PROFESSIONAL-100-SERVERS",
+                    "slug": "me-os-deployer-professional-100-servers"
+                  },
+                  {
+                    "name": "250 Servers",
+                    "metric": {
+                      "quantity": 250,
+                      "unit": "server"
+                    },
+                    "amountUsd": 4845,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-OS-DEPLOYER-PROFESSIONAL-250-SERVERS",
+                    "slug": "me-os-deployer-professional-250-servers"
+                  },
+                  {
+                    "name": "500 Servers",
+                    "metric": {
+                      "quantity": 500,
+                      "unit": "server"
+                    },
+                    "amountUsd": 7995,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-OS-DEPLOYER-PROFESSIONAL-500-SERVERS",
+                    "slug": "me-os-deployer-professional-500-servers"
+                  }
+                ]
+              },
+              {
+                "slug": "os-deployer-enterprise-edition",
+                "name": "OS Deployer Enterprise Edition",
+                "edition": "Enterprise",
+                "licenseModel": "subscription",
+                "kind": "base",
+                "variants": [
+                  {
+                    "name": "100 Workstations",
+                    "metric": {
+                      "quantity": 100,
+                      "unit": "workstation"
+                    },
+                    "amountUsd": 745,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-OS-DEPLOYER-ENTERPRISE-100-WORKSTATIONS",
+                    "slug": "me-os-deployer-enterprise-100-workstations"
+                  },
+                  {
+                    "name": "250 Workstations",
+                    "metric": {
+                      "quantity": 250,
+                      "unit": "workstation"
+                    },
+                    "amountUsd": 1495,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-OS-DEPLOYER-ENTERPRISE-250-WORKSTATIONS",
+                    "slug": "me-os-deployer-enterprise-250-workstations"
+                  },
+                  {
+                    "name": "500 Workstations",
+                    "metric": {
+                      "quantity": 500,
+                      "unit": "workstation"
+                    },
+                    "amountUsd": 2695,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-OS-DEPLOYER-ENTERPRISE-500-WORKSTATIONS",
+                    "slug": "me-os-deployer-enterprise-500-workstations"
+                  },
+                  {
+                    "name": "1000 Workstations",
+                    "metric": {
+                      "quantity": 1000,
+                      "unit": "workstation"
+                    },
+                    "amountUsd": 4545,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-OS-DEPLOYER-ENTERPRISE-1000-WORKSTATIONS",
+                    "slug": "me-os-deployer-enterprise-1000-workstations"
+                  },
+                  {
+                    "name": "2500 Workstations",
+                    "metric": {
+                      "quantity": 2500,
+                      "unit": "workstation"
+                    },
+                    "amountUsd": 9495,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-OS-DEPLOYER-ENTERPRISE-2500-WORKSTATIONS",
+                    "slug": "me-os-deployer-enterprise-2500-workstations"
+                  },
+                  {
+                    "name": "5000 Workstations",
+                    "metric": {
+                      "quantity": 5000,
+                      "unit": "workstation"
+                    },
+                    "amountUsd": 14995,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-OS-DEPLOYER-ENTERPRISE-5000-WORKSTATIONS",
+                    "slug": "me-os-deployer-enterprise-5000-workstations"
+                  },
+                  {
+                    "name": "10 Servers",
+                    "metric": {
+                      "quantity": 10,
+                      "unit": "server"
+                    },
+                    "amountUsd": 375,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-OS-DEPLOYER-ENTERPRISE-10-SERVERS",
+                    "slug": "me-os-deployer-enterprise-10-servers"
+                  },
+                  {
+                    "name": "25 Servers",
+                    "metric": {
+                      "quantity": 25,
+                      "unit": "server"
+                    },
+                    "amountUsd": 925,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-OS-DEPLOYER-ENTERPRISE-25-SERVERS",
+                    "slug": "me-os-deployer-enterprise-25-servers"
+                  },
+                  {
+                    "name": "50 Servers",
+                    "metric": {
+                      "quantity": 50,
+                      "unit": "server"
+                    },
+                    "amountUsd": 1495,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-OS-DEPLOYER-ENTERPRISE-50-SERVERS",
+                    "slug": "me-os-deployer-enterprise-50-servers"
+                  },
+                  {
+                    "name": "100 Servers",
+                    "metric": {
+                      "quantity": 100,
+                      "unit": "server"
+                    },
+                    "amountUsd": 2695,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-OS-DEPLOYER-ENTERPRISE-100-SERVERS",
+                    "slug": "me-os-deployer-enterprise-100-servers"
+                  },
+                  {
+                    "name": "250 Servers",
+                    "metric": {
+                      "quantity": 250,
+                      "unit": "server"
+                    },
+                    "amountUsd": 5595,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-OS-DEPLOYER-ENTERPRISE-250-SERVERS",
+                    "slug": "me-os-deployer-enterprise-250-servers"
+                  },
+                  {
+                    "name": "500 Servers",
+                    "metric": {
+                      "quantity": 500,
+                      "unit": "server"
+                    },
+                    "amountUsd": 8995,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-OS-DEPLOYER-ENTERPRISE-500-SERVERS",
+                    "slug": "me-os-deployer-enterprise-500-servers"
+                  }
+                ]
+              },
+              {
+                "slug": "os-deployer-additional-users",
+                "name": "OS Deployer Additional Users",
+                "edition": null,
+                "licenseModel": "subscription",
+                "kind": "addon",
+                "variants": [
+                  {
+                    "name": "1 Additional User",
+                    "metric": {
+                      "quantity": 1,
+                      "unit": "additional user"
+                    },
+                    "amountUsd": 195,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-OS-DEPLOYER-ADDITIONAL-USERS-1-ADDITIONAL-USER",
+                    "slug": "me-os-deployer-additional-users-1-additional-user"
+                  },
+                  {
+                    "name": "2 Additional Users",
+                    "metric": {
+                      "quantity": 2,
+                      "unit": "additional user"
+                    },
+                    "amountUsd": 345,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-OS-DEPLOYER-ADDITIONAL-USERS-2-ADDITIONAL-USERS",
+                    "slug": "me-os-deployer-additional-users-2-additional-users"
+                  },
+                  {
+                    "name": "5 Additional Users",
+                    "metric": {
+                      "quantity": 5,
+                      "unit": "additional user"
+                    },
+                    "amountUsd": 695,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-OS-DEPLOYER-ADDITIONAL-USERS-5-ADDITIONAL-USERS",
+                    "slug": "me-os-deployer-additional-users-5-additional-users"
+                  },
+                  {
+                    "name": "10 Additional Users",
+                    "metric": {
+                      "quantity": 10,
+                      "unit": "additional user"
+                    },
+                    "amountUsd": 995,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-OS-DEPLOYER-ADDITIONAL-USERS-10-ADDITIONAL-USERS",
+                    "slug": "me-os-deployer-additional-users-10-additional-users"
+                  },
+                  {
+                    "name": "25 Additional Users",
+                    "metric": {
+                      "quantity": 25,
+                      "unit": "additional user"
+                    },
+                    "amountUsd": 1995,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-OS-DEPLOYER-ADDITIONAL-USERS-25-ADDITIONAL-USERS",
+                    "slug": "me-os-deployer-additional-users-25-additional-users"
+                  },
+                  {
+                    "name": "50 Additional Users",
+                    "metric": {
+                      "quantity": 50,
+                      "unit": "additional user"
+                    },
+                    "amountUsd": 3495,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-OS-DEPLOYER-ADDITIONAL-USERS-50-ADDITIONAL-USERS",
+                    "slug": "me-os-deployer-additional-users-50-additional-users"
+                  }
+                ]
+              },
+              {
+                "slug": "os-deployer-multi-language-pack",
+                "name": "OS Deployer Multi-Language Pack",
+                "edition": null,
+                "licenseModel": "subscription",
+                "kind": "addon",
+                "variants": [
+                  {
+                    "name": "Multi-Language Pack License",
+                    "metric": null,
+                    "amountUsd": 185,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-OS-DEPLOYER-MULTI-LANGUAGE-PACK-MULTI-LANGUAGE-PACK-LICENSE",
+                    "slug": "me-os-deployer-multi-language-pack-multi-language-pack-license"
+                  }
+                ]
+              },
+              {
+                "slug": "os-deployer-secure-gateway-server",
+                "name": "OS Deployer Secure Gateway Server",
+                "edition": null,
+                "licenseModel": "subscription",
+                "kind": "base",
+                "variants": [
+                  {
+                    "name": "Secure Gateway Server",
+                    "metric": null,
+                    "amountUsd": 300,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-OS-DEPLOYER-SECURE-GATEWAY-SERVER-SECURE-GATEWAY-SERVER",
+                    "slug": "me-os-deployer-secure-gateway-server-secure-gateway-server"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "deployment": "unspecified",
+            "licenseModel": "perpetual",
+            "slug": "os-deployer-perpetual",
+            "offers": [
+              {
+                "slug": "os-deployer-professional-edition-perpetual",
+                "name": "OS Deployer Professional Edition",
+                "edition": "Professional",
+                "licenseModel": "perpetual",
+                "kind": "base",
+                "variants": [
+                  {
+                    "name": "100 Workstations",
+                    "metric": {
+                      "quantity": 100,
+                      "unit": "workstation"
+                    },
+                    "amountUsd": 1613,
+                    "priceStatus": "listed",
+                    "maintenance": "US$323",
+                    "sku": "ME-OS-DEPLOYER-PROFESSIONAL-100-WORKSTATIONS-PERP",
+                    "slug": "me-os-deployer-professional-100-workstations-perp"
+                  },
+                  {
+                    "name": "250 Workstations",
+                    "metric": {
+                      "quantity": 250,
+                      "unit": "workstation"
+                    },
+                    "amountUsd": 3238,
+                    "priceStatus": "listed",
+                    "maintenance": "US$648",
+                    "sku": "ME-OS-DEPLOYER-PROFESSIONAL-250-WORKSTATIONS-PERP",
+                    "slug": "me-os-deployer-professional-250-workstations-perp"
+                  },
+                  {
+                    "name": "500 Workstations",
+                    "metric": {
+                      "quantity": 500,
+                      "unit": "workstation"
+                    },
+                    "amountUsd": 5863,
+                    "priceStatus": "listed",
+                    "maintenance": "US$1,173",
+                    "sku": "ME-OS-DEPLOYER-PROFESSIONAL-500-WORKSTATIONS-PERP",
+                    "slug": "me-os-deployer-professional-500-workstations-perp"
+                  },
+                  {
+                    "name": "1000 Workstations",
+                    "metric": {
+                      "quantity": 1000,
+                      "unit": "workstation"
+                    },
+                    "amountUsd": 9863,
+                    "priceStatus": "listed",
+                    "maintenance": "US$1,973",
+                    "sku": "ME-OS-DEPLOYER-PROFESSIONAL-1000-WORKSTATIONS-PERP",
+                    "slug": "me-os-deployer-professional-1000-workstations-perp"
+                  },
+                  {
+                    "name": "2500 Workstations",
+                    "metric": {
+                      "quantity": 2500,
+                      "unit": "workstation"
+                    },
+                    "amountUsd": 20613,
+                    "priceStatus": "listed",
+                    "maintenance": "US$4,123",
+                    "sku": "ME-OS-DEPLOYER-PROFESSIONAL-2500-WORKSTATIONS-PERP",
+                    "slug": "me-os-deployer-professional-2500-workstations-perp"
+                  },
+                  {
+                    "name": "5000 Workstations",
+                    "metric": {
+                      "quantity": 5000,
+                      "unit": "workstation"
+                    },
+                    "amountUsd": 32488,
+                    "priceStatus": "listed",
+                    "maintenance": "US$6,498",
+                    "sku": "ME-OS-DEPLOYER-PROFESSIONAL-5000-WORKSTATIONS-PERP",
+                    "slug": "me-os-deployer-professional-5000-workstations-perp"
+                  },
+                  {
+                    "name": "10 Servers",
+                    "metric": {
+                      "quantity": 10,
+                      "unit": "server"
+                    },
+                    "amountUsd": 813,
+                    "priceStatus": "listed",
+                    "maintenance": "US$163",
+                    "sku": "ME-OS-DEPLOYER-PROFESSIONAL-10-SERVERS-PERP",
+                    "slug": "me-os-deployer-professional-10-servers-perp"
+                  },
+                  {
+                    "name": "25 Servers",
+                    "metric": {
+                      "quantity": 25,
+                      "unit": "server"
+                    },
+                    "amountUsd": 1988,
+                    "priceStatus": "listed",
+                    "maintenance": "US$398",
+                    "sku": "ME-OS-DEPLOYER-PROFESSIONAL-25-SERVERS-PERP",
+                    "slug": "me-os-deployer-professional-25-servers-perp"
+                  },
+                  {
+                    "name": "50 Servers",
+                    "metric": {
+                      "quantity": 50,
+                      "unit": "server"
+                    },
+                    "amountUsd": 3238,
+                    "priceStatus": "listed",
+                    "maintenance": "US$648",
+                    "sku": "ME-OS-DEPLOYER-PROFESSIONAL-50-SERVERS-PERP",
+                    "slug": "me-os-deployer-professional-50-servers-perp"
+                  },
+                  {
+                    "name": "100 Servers",
+                    "metric": {
+                      "quantity": 100,
+                      "unit": "server"
+                    },
+                    "amountUsd": 5738,
+                    "priceStatus": "listed",
+                    "maintenance": "US$1,148",
+                    "sku": "ME-OS-DEPLOYER-PROFESSIONAL-100-SERVERS-PERP",
+                    "slug": "me-os-deployer-professional-100-servers-perp"
+                  },
+                  {
+                    "name": "250 Servers",
+                    "metric": {
+                      "quantity": 250,
+                      "unit": "server"
+                    },
+                    "amountUsd": 12113,
+                    "priceStatus": "listed",
+                    "maintenance": "US$2,423",
+                    "sku": "ME-OS-DEPLOYER-PROFESSIONAL-250-SERVERS-PERP",
+                    "slug": "me-os-deployer-professional-250-servers-perp"
+                  },
+                  {
+                    "name": "500 Servers",
+                    "metric": {
+                      "quantity": 500,
+                      "unit": "server"
+                    },
+                    "amountUsd": 19988,
+                    "priceStatus": "listed",
+                    "maintenance": "US$3,998",
+                    "sku": "ME-OS-DEPLOYER-PROFESSIONAL-500-SERVERS-PERP",
+                    "slug": "me-os-deployer-professional-500-servers-perp"
+                  }
+                ]
+              },
+              {
+                "slug": "os-deployer-enterprise-edition-perpetual",
+                "name": "OS Deployer Enterprise Edition",
+                "edition": "Enterprise",
+                "licenseModel": "perpetual",
+                "kind": "base",
+                "variants": [
+                  {
+                    "name": "100 Workstations",
+                    "metric": {
+                      "quantity": 100,
+                      "unit": "workstation"
+                    },
+                    "amountUsd": 1863,
+                    "priceStatus": "listed",
+                    "maintenance": "US$373",
+                    "sku": "ME-OS-DEPLOYER-ENTERPRISE-100-WORKSTATIONS-PERP",
+                    "slug": "me-os-deployer-enterprise-100-workstations-perp"
+                  },
+                  {
+                    "name": "250 Workstations",
+                    "metric": {
+                      "quantity": 250,
+                      "unit": "workstation"
+                    },
+                    "amountUsd": 3738,
+                    "priceStatus": "listed",
+                    "maintenance": "US$748",
+                    "sku": "ME-OS-DEPLOYER-ENTERPRISE-250-WORKSTATIONS-PERP",
+                    "slug": "me-os-deployer-enterprise-250-workstations-perp"
+                  },
+                  {
+                    "name": "500 Workstations",
+                    "metric": {
+                      "quantity": 500,
+                      "unit": "workstation"
+                    },
+                    "amountUsd": 6738,
+                    "priceStatus": "listed",
+                    "maintenance": "US$1,348",
+                    "sku": "ME-OS-DEPLOYER-ENTERPRISE-500-WORKSTATIONS-PERP",
+                    "slug": "me-os-deployer-enterprise-500-workstations-perp"
+                  },
+                  {
+                    "name": "1000 Workstations",
+                    "metric": {
+                      "quantity": 1000,
+                      "unit": "workstation"
+                    },
+                    "amountUsd": 11363,
+                    "priceStatus": "listed",
+                    "maintenance": "US$2,273",
+                    "sku": "ME-OS-DEPLOYER-ENTERPRISE-1000-WORKSTATIONS-PERP",
+                    "slug": "me-os-deployer-enterprise-1000-workstations-perp"
+                  },
+                  {
+                    "name": "2500 Workstations",
+                    "metric": {
+                      "quantity": 2500,
+                      "unit": "workstation"
+                    },
+                    "amountUsd": 23738,
+                    "priceStatus": "listed",
+                    "maintenance": "US$4,748",
+                    "sku": "ME-OS-DEPLOYER-ENTERPRISE-2500-WORKSTATIONS-PERP",
+                    "slug": "me-os-deployer-enterprise-2500-workstations-perp"
+                  },
+                  {
+                    "name": "5000 Workstations",
+                    "metric": {
+                      "quantity": 5000,
+                      "unit": "workstation"
+                    },
+                    "amountUsd": 37488,
+                    "priceStatus": "listed",
+                    "maintenance": "US$7,498",
+                    "sku": "ME-OS-DEPLOYER-ENTERPRISE-5000-WORKSTATIONS-PERP",
+                    "slug": "me-os-deployer-enterprise-5000-workstations-perp"
+                  },
+                  {
+                    "name": "10 Servers",
+                    "metric": {
+                      "quantity": 10,
+                      "unit": "server"
+                    },
+                    "amountUsd": 938,
+                    "priceStatus": "listed",
+                    "maintenance": "US$188",
+                    "sku": "ME-OS-DEPLOYER-ENTERPRISE-10-SERVERS-PERP",
+                    "slug": "me-os-deployer-enterprise-10-servers-perp"
+                  },
+                  {
+                    "name": "25 Servers",
+                    "metric": {
+                      "quantity": 25,
+                      "unit": "server"
+                    },
+                    "amountUsd": 2313,
+                    "priceStatus": "listed",
+                    "maintenance": "US$463",
+                    "sku": "ME-OS-DEPLOYER-ENTERPRISE-25-SERVERS-PERP",
+                    "slug": "me-os-deployer-enterprise-25-servers-perp"
+                  },
+                  {
+                    "name": "50 Servers",
+                    "metric": {
+                      "quantity": 50,
+                      "unit": "server"
+                    },
+                    "amountUsd": 3738,
+                    "priceStatus": "listed",
+                    "maintenance": "US$748",
+                    "sku": "ME-OS-DEPLOYER-ENTERPRISE-50-SERVERS-PERP",
+                    "slug": "me-os-deployer-enterprise-50-servers-perp"
+                  },
+                  {
+                    "name": "100 Servers",
+                    "metric": {
+                      "quantity": 100,
+                      "unit": "server"
+                    },
+                    "amountUsd": 6738,
+                    "priceStatus": "listed",
+                    "maintenance": "US$1,348",
+                    "sku": "ME-OS-DEPLOYER-ENTERPRISE-100-SERVERS-PERP",
+                    "slug": "me-os-deployer-enterprise-100-servers-perp"
+                  },
+                  {
+                    "name": "250 Servers",
+                    "metric": {
+                      "quantity": 250,
+                      "unit": "server"
+                    },
+                    "amountUsd": 13988,
+                    "priceStatus": "listed",
+                    "maintenance": "US$2,798",
+                    "sku": "ME-OS-DEPLOYER-ENTERPRISE-250-SERVERS-PERP",
+                    "slug": "me-os-deployer-enterprise-250-servers-perp"
+                  },
+                  {
+                    "name": "500 Servers",
+                    "metric": {
+                      "quantity": 500,
+                      "unit": "server"
+                    },
+                    "amountUsd": 22488,
+                    "priceStatus": "listed",
+                    "maintenance": "US$4,498",
+                    "sku": "ME-OS-DEPLOYER-ENTERPRISE-500-SERVERS-PERP",
+                    "slug": "me-os-deployer-enterprise-500-servers-perp"
+                  }
+                ]
+              },
+              {
+                "slug": "os-deployer-additional-users-perpetual",
+                "name": "OS Deployer Additional Users",
+                "edition": null,
+                "licenseModel": "perpetual",
+                "kind": "addon",
+                "variants": [
+                  {
+                    "name": "1 Additional User",
+                    "metric": {
+                      "quantity": 1,
+                      "unit": "additional user"
+                    },
+                    "amountUsd": 488,
+                    "priceStatus": "listed",
+                    "maintenance": "US$98",
+                    "sku": "ME-OS-DEPLOYER-ADDITIONAL-USERS-1-ADDITIONAL-USER-PERP",
+                    "slug": "me-os-deployer-additional-users-1-additional-user-perp"
+                  },
+                  {
+                    "name": "2 Additional Users",
+                    "metric": {
+                      "quantity": 2,
+                      "unit": "additional user"
+                    },
+                    "amountUsd": 863,
+                    "priceStatus": "listed",
+                    "maintenance": "US$173",
+                    "sku": "ME-OS-DEPLOYER-ADDITIONAL-USERS-2-ADDITIONAL-USERS-PERP",
+                    "slug": "me-os-deployer-additional-users-2-additional-users-perp"
+                  },
+                  {
+                    "name": "5 Additional Users",
+                    "metric": {
+                      "quantity": 5,
+                      "unit": "additional user"
+                    },
+                    "amountUsd": 1738,
+                    "priceStatus": "listed",
+                    "maintenance": "US$348",
+                    "sku": "ME-OS-DEPLOYER-ADDITIONAL-USERS-5-ADDITIONAL-USERS-PERP",
+                    "slug": "me-os-deployer-additional-users-5-additional-users-perp"
+                  },
+                  {
+                    "name": "10 Additional Users",
+                    "metric": {
+                      "quantity": 10,
+                      "unit": "additional user"
+                    },
+                    "amountUsd": 2488,
+                    "priceStatus": "listed",
+                    "maintenance": "US$498",
+                    "sku": "ME-OS-DEPLOYER-ADDITIONAL-USERS-10-ADDITIONAL-USERS-PERP",
+                    "slug": "me-os-deployer-additional-users-10-additional-users-perp"
+                  },
+                  {
+                    "name": "25 Additional Users",
+                    "metric": {
+                      "quantity": 25,
+                      "unit": "additional user"
+                    },
+                    "amountUsd": 4988,
+                    "priceStatus": "listed",
+                    "maintenance": "US$998",
+                    "sku": "ME-OS-DEPLOYER-ADDITIONAL-USERS-25-ADDITIONAL-USERS-PERP",
+                    "slug": "me-os-deployer-additional-users-25-additional-users-perp"
+                  },
+                  {
+                    "name": "50 Additional Users",
+                    "metric": {
+                      "quantity": 50,
+                      "unit": "additional user"
+                    },
+                    "amountUsd": 8738,
+                    "priceStatus": "listed",
+                    "maintenance": "US$1,748",
+                    "sku": "ME-OS-DEPLOYER-ADDITIONAL-USERS-50-ADDITIONAL-USERS-PERP",
+                    "slug": "me-os-deployer-additional-users-50-additional-users-perp"
+                  }
+                ]
+              },
+              {
+                "slug": "os-deployer-multi-language-pack-perpetual",
+                "name": "OS Deployer Multi-Language Pack",
+                "edition": null,
+                "licenseModel": "perpetual",
+                "kind": "addon",
+                "variants": [
+                  {
+                    "name": "Multi-Language Pack License",
+                    "metric": null,
+                    "amountUsd": 462,
+                    "priceStatus": "listed",
+                    "maintenance": "US$93",
+                    "sku": "ME-OS-DEPLOYER-MULTI-LANGUAGE-PACK-MULTI-LANGUAGE-PACK-LICENSE-PERP",
+                    "slug": "me-os-deployer-multi-language-pack-multi-language-pack-license-perp"
+                  }
+                ]
+              },
+              {
+                "slug": "os-deployer-secure-gateway-server-perpetual",
+                "name": "OS Deployer Secure Gateway Server",
+                "edition": null,
+                "licenseModel": "perpetual",
+                "kind": "base",
+                "variants": [
+                  {
+                    "name": "Secure Gateway Server",
+                    "metric": null,
+                    "amountUsd": 750,
+                    "priceStatus": "listed",
+                    "maintenance": "US$150",
+                    "sku": "ME-OS-DEPLOYER-SECURE-GATEWAY-SERVER-SECURE-GATEWAY-SERVER-PERP",
+                    "slug": "me-os-deployer-secure-gateway-server-secure-gateway-server-perp"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
       },
       {
         "slug": "vulnerability-manager-plus",
@@ -11670,11 +16312,1550 @@ export const ZOHO_GROUPS: ZohoGroup[] = [
         "tagline": "Prioritization-focused enterprise vulnerability management",
         "subgroup": "Endpoint security",
         "storeUrl": "https://store.manageengine.com/vulnerability-management/?MEstore",
-        "priced": false,
+        "priced": true,
         "sourceUrl": "https://store.manageengine.com/vulnerability-management/?MEstore",
-        "sourceSnapshotId": null,
-        "sourceCheckedAt": null,
-        "deployments": []
+        "sourceSnapshotId": "01759fc16332",
+        "sourceCheckedAt": "2026-08-20T22:04:16.634Z",
+        "deployments": [
+          {
+            "deployment": "saas",
+            "licenseModel": "subscription",
+            "slug": "vulnerability-manager-plus-saas-subscription",
+            "offers": [
+              {
+                "slug": "vulnerability-manager-plus-enterprise-edition",
+                "name": "Vulnerability Manager Plus Enterprise Edition",
+                "edition": "Enterprise",
+                "licenseModel": "subscription",
+                "kind": "base",
+                "variants": [
+                  {
+                    "name": "100 Workstations and Single User License",
+                    "metric": {
+                      "quantity": 100,
+                      "unit": "workstations and single user license"
+                    },
+                    "amountUsd": 1195,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-VULNERABILITY-MANAGER-PLUS-ENTERPRISE-100-WORKSTATIONS-AND-SINGLE-USER-LICENSE",
+                    "slug": "me-vulnerability-manager-plus-enterprise-100-workstations-and-single-user-license"
+                  },
+                  {
+                    "name": "250 Workstations and Single User License",
+                    "metric": {
+                      "quantity": 250,
+                      "unit": "workstations and single user license"
+                    },
+                    "amountUsd": 2395,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-VULNERABILITY-MANAGER-PLUS-ENTERPRISE-250-WORKSTATIONS-AND-SINGLE-USER-LICENSE",
+                    "slug": "me-vulnerability-manager-plus-enterprise-250-workstations-and-single-user-license"
+                  },
+                  {
+                    "name": "500 Workstations and Single User License",
+                    "metric": {
+                      "quantity": 500,
+                      "unit": "workstations and single user license"
+                    },
+                    "amountUsd": 4205,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-VULNERABILITY-MANAGER-PLUS-ENTERPRISE-500-WORKSTATIONS-AND-SINGLE-USER-LICENSE",
+                    "slug": "me-vulnerability-manager-plus-enterprise-500-workstations-and-single-user-license"
+                  },
+                  {
+                    "name": "1000 Workstations and Single User License",
+                    "metric": {
+                      "quantity": 1000,
+                      "unit": "workstations and single user license"
+                    },
+                    "amountUsd": 7385,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-VULNERABILITY-MANAGER-PLUS-ENTERPRISE-1000-WORKSTATIONS-AND-SINGLE-USER-LICENSE",
+                    "slug": "me-vulnerability-manager-plus-enterprise-1000-workstations-and-single-user-license"
+                  },
+                  {
+                    "name": "2500 Workstations and Single User License",
+                    "metric": {
+                      "quantity": 2500,
+                      "unit": "workstations and single user license"
+                    },
+                    "amountUsd": 14775,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-VULNERABILITY-MANAGER-PLUS-ENTERPRISE-2500-WORKSTATIONS-AND-SINGLE-USER-LICENSE",
+                    "slug": "me-vulnerability-manager-plus-enterprise-2500-workstations-and-single-user-license"
+                  },
+                  {
+                    "name": "5000 Workstations and Single User License",
+                    "metric": {
+                      "quantity": 5000,
+                      "unit": "workstations and single user license"
+                    },
+                    "amountUsd": 23715,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-VULNERABILITY-MANAGER-PLUS-ENTERPRISE-5000-WORKSTATIONS-AND-SINGLE-USER-LICENSE",
+                    "slug": "me-vulnerability-manager-plus-enterprise-5000-workstations-and-single-user-license"
+                  },
+                  {
+                    "name": "10000 Workstations and Single User License",
+                    "metric": {
+                      "quantity": 10000,
+                      "unit": "workstations and single user license"
+                    },
+                    "amountUsd": 36095,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-VULNERABILITY-MANAGER-PLUS-ENTERPRISE-10000-WORKSTATIONS-AND-SINGLE-USER-LICENSE",
+                    "slug": "me-vulnerability-manager-plus-enterprise-10000-workstations-and-single-user-license"
+                  },
+                  {
+                    "name": "10 Servers and Single User License",
+                    "metric": {
+                      "quantity": 10,
+                      "unit": "servers and single user license"
+                    },
+                    "amountUsd": 245,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-VULNERABILITY-MANAGER-PLUS-ENTERPRISE-10-SERVERS-AND-SINGLE-USER-LICENSE",
+                    "slug": "me-vulnerability-manager-plus-enterprise-10-servers-and-single-user-license"
+                  },
+                  {
+                    "name": "25 Servers and Single User License",
+                    "metric": {
+                      "quantity": 25,
+                      "unit": "servers and single user license"
+                    },
+                    "amountUsd": 595,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-VULNERABILITY-MANAGER-PLUS-ENTERPRISE-25-SERVERS-AND-SINGLE-USER-LICENSE",
+                    "slug": "me-vulnerability-manager-plus-enterprise-25-servers-and-single-user-license"
+                  },
+                  {
+                    "name": "50 Servers and Single User License",
+                    "metric": {
+                      "quantity": 50,
+                      "unit": "servers and single user license"
+                    },
+                    "amountUsd": 1045,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-VULNERABILITY-MANAGER-PLUS-ENTERPRISE-50-SERVERS-AND-SINGLE-USER-LICENSE",
+                    "slug": "me-vulnerability-manager-plus-enterprise-50-servers-and-single-user-license"
+                  },
+                  {
+                    "name": "100 Servers and Single User License",
+                    "metric": {
+                      "quantity": 100,
+                      "unit": "servers and single user license"
+                    },
+                    "amountUsd": 1895,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-VULNERABILITY-MANAGER-PLUS-ENTERPRISE-100-SERVERS-AND-SINGLE-USER-LICENSE",
+                    "slug": "me-vulnerability-manager-plus-enterprise-100-servers-and-single-user-license"
+                  },
+                  {
+                    "name": "250 Servers and Single User License",
+                    "metric": {
+                      "quantity": 250,
+                      "unit": "servers and single user license"
+                    },
+                    "amountUsd": 4395,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-VULNERABILITY-MANAGER-PLUS-ENTERPRISE-250-SERVERS-AND-SINGLE-USER-LICENSE",
+                    "slug": "me-vulnerability-manager-plus-enterprise-250-servers-and-single-user-license"
+                  },
+                  {
+                    "name": "500 Servers and Single User License",
+                    "metric": {
+                      "quantity": 500,
+                      "unit": "servers and single user license"
+                    },
+                    "amountUsd": 7995,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-VULNERABILITY-MANAGER-PLUS-ENTERPRISE-500-SERVERS-AND-SINGLE-USER-LICENSE",
+                    "slug": "me-vulnerability-manager-plus-enterprise-500-servers-and-single-user-license"
+                  },
+                  {
+                    "name": "1000 Servers and Single User License",
+                    "metric": {
+                      "quantity": 1000,
+                      "unit": "servers and single user license"
+                    },
+                    "amountUsd": 14495,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-VULNERABILITY-MANAGER-PLUS-ENTERPRISE-1000-SERVERS-AND-SINGLE-USER-LICENSE",
+                    "slug": "me-vulnerability-manager-plus-enterprise-1000-servers-and-single-user-license"
+                  },
+                  {
+                    "name": "2500 Servers and Single User License",
+                    "metric": {
+                      "quantity": 2500,
+                      "unit": "servers and single user license"
+                    },
+                    "amountUsd": 29550,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-VULNERABILITY-MANAGER-PLUS-ENTERPRISE-2500-SERVERS-AND-SINGLE-USER-LICENSE",
+                    "slug": "me-vulnerability-manager-plus-enterprise-2500-servers-and-single-user-license"
+                  },
+                  {
+                    "name": "5000 Servers and Single User License",
+                    "metric": {
+                      "quantity": 5000,
+                      "unit": "servers and single user license"
+                    },
+                    "amountUsd": 47430,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-VULNERABILITY-MANAGER-PLUS-ENTERPRISE-5000-SERVERS-AND-SINGLE-USER-LICENSE",
+                    "slug": "me-vulnerability-manager-plus-enterprise-5000-servers-and-single-user-license"
+                  },
+                  {
+                    "name": "10 Network Devices",
+                    "metric": {
+                      "quantity": 10,
+                      "unit": "network device"
+                    },
+                    "amountUsd": 245,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-VULNERABILITY-MANAGER-PLUS-ENTERPRISE-10-NETWORK-DEVICES",
+                    "slug": "me-vulnerability-manager-plus-enterprise-10-network-devices"
+                  },
+                  {
+                    "name": "25 Network Devices",
+                    "metric": {
+                      "quantity": 25,
+                      "unit": "network device"
+                    },
+                    "amountUsd": 595,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-VULNERABILITY-MANAGER-PLUS-ENTERPRISE-25-NETWORK-DEVICES",
+                    "slug": "me-vulnerability-manager-plus-enterprise-25-network-devices"
+                  },
+                  {
+                    "name": "50 Network Devices",
+                    "metric": {
+                      "quantity": 50,
+                      "unit": "network device"
+                    },
+                    "amountUsd": 1045,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-VULNERABILITY-MANAGER-PLUS-ENTERPRISE-50-NETWORK-DEVICES",
+                    "slug": "me-vulnerability-manager-plus-enterprise-50-network-devices"
+                  },
+                  {
+                    "name": "100 Network Devices",
+                    "metric": {
+                      "quantity": 100,
+                      "unit": "network device"
+                    },
+                    "amountUsd": 1895,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-VULNERABILITY-MANAGER-PLUS-ENTERPRISE-100-NETWORK-DEVICES",
+                    "slug": "me-vulnerability-manager-plus-enterprise-100-network-devices"
+                  },
+                  {
+                    "name": "250 Network Devices",
+                    "metric": {
+                      "quantity": 250,
+                      "unit": "network device"
+                    },
+                    "amountUsd": 4395,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-VULNERABILITY-MANAGER-PLUS-ENTERPRISE-250-NETWORK-DEVICES",
+                    "slug": "me-vulnerability-manager-plus-enterprise-250-network-devices"
+                  },
+                  {
+                    "name": "500 Network Devices",
+                    "metric": {
+                      "quantity": 500,
+                      "unit": "network device"
+                    },
+                    "amountUsd": 7995,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-VULNERABILITY-MANAGER-PLUS-ENTERPRISE-500-NETWORK-DEVICES",
+                    "slug": "me-vulnerability-manager-plus-enterprise-500-network-devices"
+                  },
+                  {
+                    "name": "1000 Network Devices",
+                    "metric": {
+                      "quantity": 1000,
+                      "unit": "network device"
+                    },
+                    "amountUsd": 14495,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-VULNERABILITY-MANAGER-PLUS-ENTERPRISE-1000-NETWORK-DEVICES",
+                    "slug": "me-vulnerability-manager-plus-enterprise-1000-network-devices"
+                  },
+                  {
+                    "name": "2500 Network Devices",
+                    "metric": {
+                      "quantity": 2500,
+                      "unit": "network device"
+                    },
+                    "amountUsd": 29550,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-VULNERABILITY-MANAGER-PLUS-ENTERPRISE-2500-NETWORK-DEVICES",
+                    "slug": "me-vulnerability-manager-plus-enterprise-2500-network-devices"
+                  },
+                  {
+                    "name": "5000 Network Devices",
+                    "metric": {
+                      "quantity": 5000,
+                      "unit": "network device"
+                    },
+                    "amountUsd": 47430,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-VULNERABILITY-MANAGER-PLUS-ENTERPRISE-5000-NETWORK-DEVICES",
+                    "slug": "me-vulnerability-manager-plus-enterprise-5000-network-devices"
+                  },
+                  {
+                    "name": "Secure Gateway Server",
+                    "metric": null,
+                    "amountUsd": 300,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-VULNERABILITY-MANAGER-PLUS-ENTERPRISE-SECURE-GATEWAY-SERVER",
+                    "slug": "me-vulnerability-manager-plus-enterprise-secure-gateway-server"
+                  }
+                ]
+              },
+              {
+                "slug": "vulnerability-manager-plus-professional-edition",
+                "name": "Vulnerability Manager Plus Professional Edition",
+                "edition": "Professional",
+                "licenseModel": "subscription",
+                "kind": "base",
+                "variants": [
+                  {
+                    "name": "100 Workstations and Single User License",
+                    "metric": {
+                      "quantity": 100,
+                      "unit": "workstations and single user license"
+                    },
+                    "amountUsd": 695,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-VULNERABILITY-MANAGER-PLUS-PROFESSIONAL-100-WORKSTATIONS-AND-SINGLE-USER-LICENSE",
+                    "slug": "me-vulnerability-manager-plus-professional-100-workstations-and-single-user-license"
+                  },
+                  {
+                    "name": "250 Workstations and Single User License",
+                    "metric": {
+                      "quantity": 250,
+                      "unit": "workstations and single user license"
+                    },
+                    "amountUsd": 1395,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-VULNERABILITY-MANAGER-PLUS-PROFESSIONAL-250-WORKSTATIONS-AND-SINGLE-USER-LICENSE",
+                    "slug": "me-vulnerability-manager-plus-professional-250-workstations-and-single-user-license"
+                  },
+                  {
+                    "name": "500 Workstations and Single User License",
+                    "metric": {
+                      "quantity": 500,
+                      "unit": "workstations and single user license"
+                    },
+                    "amountUsd": 2445,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-VULNERABILITY-MANAGER-PLUS-PROFESSIONAL-500-WORKSTATIONS-AND-SINGLE-USER-LICENSE",
+                    "slug": "me-vulnerability-manager-plus-professional-500-workstations-and-single-user-license"
+                  },
+                  {
+                    "name": "1000 Workstations and Single User License",
+                    "metric": {
+                      "quantity": 1000,
+                      "unit": "workstations and single user license"
+                    },
+                    "amountUsd": 4295,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-VULNERABILITY-MANAGER-PLUS-PROFESSIONAL-1000-WORKSTATIONS-AND-SINGLE-USER-LICENSE",
+                    "slug": "me-vulnerability-manager-plus-professional-1000-workstations-and-single-user-license"
+                  },
+                  {
+                    "name": "2500 Workstations and Single User License",
+                    "metric": {
+                      "quantity": 2500,
+                      "unit": "workstations and single user license"
+                    },
+                    "amountUsd": 8595,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-VULNERABILITY-MANAGER-PLUS-PROFESSIONAL-2500-WORKSTATIONS-AND-SINGLE-USER-LICENSE",
+                    "slug": "me-vulnerability-manager-plus-professional-2500-workstations-and-single-user-license"
+                  },
+                  {
+                    "name": "5000 Workstations and Single User License",
+                    "metric": {
+                      "quantity": 5000,
+                      "unit": "workstations and single user license"
+                    },
+                    "amountUsd": 13795,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-VULNERABILITY-MANAGER-PLUS-PROFESSIONAL-5000-WORKSTATIONS-AND-SINGLE-USER-LICENSE",
+                    "slug": "me-vulnerability-manager-plus-professional-5000-workstations-and-single-user-license"
+                  },
+                  {
+                    "name": "10000 Workstations and Single User License",
+                    "metric": {
+                      "quantity": 10000,
+                      "unit": "workstations and single user license"
+                    },
+                    "amountUsd": 20995,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-VULNERABILITY-MANAGER-PLUS-PROFESSIONAL-10000-WORKSTATIONS-AND-SINGLE-USER-LICENSE",
+                    "slug": "me-vulnerability-manager-plus-professional-10000-workstations-and-single-user-license"
+                  },
+                  {
+                    "name": "10 Servers and Single User License",
+                    "metric": {
+                      "quantity": 10,
+                      "unit": "servers and single user license"
+                    },
+                    "amountUsd": 145,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-VULNERABILITY-MANAGER-PLUS-PROFESSIONAL-10-SERVERS-AND-SINGLE-USER-LICENSE",
+                    "slug": "me-vulnerability-manager-plus-professional-10-servers-and-single-user-license"
+                  },
+                  {
+                    "name": "25 Servers and Single User License",
+                    "metric": {
+                      "quantity": 25,
+                      "unit": "servers and single user license"
+                    },
+                    "amountUsd": 345,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-VULNERABILITY-MANAGER-PLUS-PROFESSIONAL-25-SERVERS-AND-SINGLE-USER-LICENSE",
+                    "slug": "me-vulnerability-manager-plus-professional-25-servers-and-single-user-license"
+                  },
+                  {
+                    "name": "50 Servers and Single User License",
+                    "metric": {
+                      "quantity": 50,
+                      "unit": "servers and single user license"
+                    },
+                    "amountUsd": 645,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-VULNERABILITY-MANAGER-PLUS-PROFESSIONAL-50-SERVERS-AND-SINGLE-USER-LICENSE",
+                    "slug": "me-vulnerability-manager-plus-professional-50-servers-and-single-user-license"
+                  },
+                  {
+                    "name": "100 Servers and Single User License",
+                    "metric": {
+                      "quantity": 100,
+                      "unit": "servers and single user license"
+                    },
+                    "amountUsd": 1145,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-VULNERABILITY-MANAGER-PLUS-PROFESSIONAL-100-SERVERS-AND-SINGLE-USER-LICENSE",
+                    "slug": "me-vulnerability-manager-plus-professional-100-servers-and-single-user-license"
+                  },
+                  {
+                    "name": "250 Servers and Single User License",
+                    "metric": {
+                      "quantity": 250,
+                      "unit": "servers and single user license"
+                    },
+                    "amountUsd": 2645,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-VULNERABILITY-MANAGER-PLUS-PROFESSIONAL-250-SERVERS-AND-SINGLE-USER-LICENSE",
+                    "slug": "me-vulnerability-manager-plus-professional-250-servers-and-single-user-license"
+                  },
+                  {
+                    "name": "500 Servers and Single User License",
+                    "metric": {
+                      "quantity": 500,
+                      "unit": "servers and single user license"
+                    },
+                    "amountUsd": 4745,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-VULNERABILITY-MANAGER-PLUS-PROFESSIONAL-500-SERVERS-AND-SINGLE-USER-LICENSE",
+                    "slug": "me-vulnerability-manager-plus-professional-500-servers-and-single-user-license"
+                  },
+                  {
+                    "name": "1000 Servers and Single User License",
+                    "metric": {
+                      "quantity": 1000,
+                      "unit": "servers and single user license"
+                    },
+                    "amountUsd": 8495,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-VULNERABILITY-MANAGER-PLUS-PROFESSIONAL-1000-SERVERS-AND-SINGLE-USER-LICENSE",
+                    "slug": "me-vulnerability-manager-plus-professional-1000-servers-and-single-user-license"
+                  },
+                  {
+                    "name": "2500 Servers and Single User License",
+                    "metric": {
+                      "quantity": 2500,
+                      "unit": "servers and single user license"
+                    },
+                    "amountUsd": 17190,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-VULNERABILITY-MANAGER-PLUS-PROFESSIONAL-2500-SERVERS-AND-SINGLE-USER-LICENSE",
+                    "slug": "me-vulnerability-manager-plus-professional-2500-servers-and-single-user-license"
+                  },
+                  {
+                    "name": "5000 Servers and Single User License",
+                    "metric": {
+                      "quantity": 5000,
+                      "unit": "servers and single user license"
+                    },
+                    "amountUsd": 27590,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-VULNERABILITY-MANAGER-PLUS-PROFESSIONAL-5000-SERVERS-AND-SINGLE-USER-LICENSE",
+                    "slug": "me-vulnerability-manager-plus-professional-5000-servers-and-single-user-license"
+                  },
+                  {
+                    "name": "10 Network Devices",
+                    "metric": {
+                      "quantity": 10,
+                      "unit": "network device"
+                    },
+                    "amountUsd": 145,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-VULNERABILITY-MANAGER-PLUS-PROFESSIONAL-10-NETWORK-DEVICES",
+                    "slug": "me-vulnerability-manager-plus-professional-10-network-devices"
+                  },
+                  {
+                    "name": "25 Network Devices",
+                    "metric": {
+                      "quantity": 25,
+                      "unit": "network device"
+                    },
+                    "amountUsd": 345,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-VULNERABILITY-MANAGER-PLUS-PROFESSIONAL-25-NETWORK-DEVICES",
+                    "slug": "me-vulnerability-manager-plus-professional-25-network-devices"
+                  },
+                  {
+                    "name": "50 Network Devices",
+                    "metric": {
+                      "quantity": 50,
+                      "unit": "network device"
+                    },
+                    "amountUsd": 645,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-VULNERABILITY-MANAGER-PLUS-PROFESSIONAL-50-NETWORK-DEVICES",
+                    "slug": "me-vulnerability-manager-plus-professional-50-network-devices"
+                  },
+                  {
+                    "name": "100 Network Devices",
+                    "metric": {
+                      "quantity": 100,
+                      "unit": "network device"
+                    },
+                    "amountUsd": 1145,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-VULNERABILITY-MANAGER-PLUS-PROFESSIONAL-100-NETWORK-DEVICES",
+                    "slug": "me-vulnerability-manager-plus-professional-100-network-devices"
+                  },
+                  {
+                    "name": "250 Network Devices",
+                    "metric": {
+                      "quantity": 250,
+                      "unit": "network device"
+                    },
+                    "amountUsd": 2645,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-VULNERABILITY-MANAGER-PLUS-PROFESSIONAL-250-NETWORK-DEVICES",
+                    "slug": "me-vulnerability-manager-plus-professional-250-network-devices"
+                  },
+                  {
+                    "name": "500 Network Devices",
+                    "metric": {
+                      "quantity": 500,
+                      "unit": "network device"
+                    },
+                    "amountUsd": 4745,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-VULNERABILITY-MANAGER-PLUS-PROFESSIONAL-500-NETWORK-DEVICES",
+                    "slug": "me-vulnerability-manager-plus-professional-500-network-devices"
+                  },
+                  {
+                    "name": "1000 Network Devices",
+                    "metric": {
+                      "quantity": 1000,
+                      "unit": "network device"
+                    },
+                    "amountUsd": 8495,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-VULNERABILITY-MANAGER-PLUS-PROFESSIONAL-1000-NETWORK-DEVICES",
+                    "slug": "me-vulnerability-manager-plus-professional-1000-network-devices"
+                  },
+                  {
+                    "name": "2500 Network Devices",
+                    "metric": {
+                      "quantity": 2500,
+                      "unit": "network device"
+                    },
+                    "amountUsd": 17190,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-VULNERABILITY-MANAGER-PLUS-PROFESSIONAL-2500-NETWORK-DEVICES",
+                    "slug": "me-vulnerability-manager-plus-professional-2500-network-devices"
+                  },
+                  {
+                    "name": "5000 Network Devices",
+                    "metric": {
+                      "quantity": 5000,
+                      "unit": "network device"
+                    },
+                    "amountUsd": 27590,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-VULNERABILITY-MANAGER-PLUS-PROFESSIONAL-5000-NETWORK-DEVICES",
+                    "slug": "me-vulnerability-manager-plus-professional-5000-network-devices"
+                  },
+                  {
+                    "name": "Secure Gateway Server",
+                    "metric": null,
+                    "amountUsd": 300,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-VULNERABILITY-MANAGER-PLUS-PROFESSIONAL-SECURE-GATEWAY-SERVER",
+                    "slug": "me-vulnerability-manager-plus-professional-secure-gateway-server"
+                  }
+                ]
+              },
+              {
+                "slug": "vulnerability-manager-plus-additional-users",
+                "name": "Vulnerability Manager Plus Additional Users",
+                "edition": null,
+                "licenseModel": "subscription",
+                "kind": "addon",
+                "variants": [
+                  {
+                    "name": "Additional 1 User",
+                    "metric": null,
+                    "amountUsd": 195,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-VULNERABILITY-MANAGER-PLUS-ADDITIONAL-USERS-ADDITIONAL-1-USER",
+                    "slug": "me-vulnerability-manager-plus-additional-users-additional-1-user"
+                  },
+                  {
+                    "name": "Additional 2 Users",
+                    "metric": null,
+                    "amountUsd": 345,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-VULNERABILITY-MANAGER-PLUS-ADDITIONAL-USERS-ADDITIONAL-2-USERS",
+                    "slug": "me-vulnerability-manager-plus-additional-users-additional-2-users"
+                  },
+                  {
+                    "name": "Additional 5 Users",
+                    "metric": null,
+                    "amountUsd": 695,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-VULNERABILITY-MANAGER-PLUS-ADDITIONAL-USERS-ADDITIONAL-5-USERS",
+                    "slug": "me-vulnerability-manager-plus-additional-users-additional-5-users"
+                  },
+                  {
+                    "name": "Additional 10 Users",
+                    "metric": null,
+                    "amountUsd": 995,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-VULNERABILITY-MANAGER-PLUS-ADDITIONAL-USERS-ADDITIONAL-10-USERS",
+                    "slug": "me-vulnerability-manager-plus-additional-users-additional-10-users"
+                  },
+                  {
+                    "name": "Additional 25 Users",
+                    "metric": null,
+                    "amountUsd": 1995,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-VULNERABILITY-MANAGER-PLUS-ADDITIONAL-USERS-ADDITIONAL-25-USERS",
+                    "slug": "me-vulnerability-manager-plus-additional-users-additional-25-users"
+                  },
+                  {
+                    "name": "Additional 50 Users",
+                    "metric": null,
+                    "amountUsd": 3495,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-VULNERABILITY-MANAGER-PLUS-ADDITIONAL-USERS-ADDITIONAL-50-USERS",
+                    "slug": "me-vulnerability-manager-plus-additional-users-additional-50-users"
+                  }
+                ]
+              },
+              {
+                "slug": "vulnerability-manager-plus-failover-service",
+                "name": "Vulnerability Manager Plus Failover Service",
+                "edition": null,
+                "licenseModel": "subscription",
+                "kind": "addon",
+                "variants": [
+                  {
+                    "name": "Failover Service for computers less than 1000",
+                    "metric": null,
+                    "amountUsd": 1195,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-VULNERABILITY-MANAGER-PLUS-FAILOVER-SERVICE-FAILOVER-SERVICE-FOR-COMPUTERS-LESS-THAN-100",
+                    "slug": "me-vulnerability-manager-plus-failover-service-failover-service-for-computers-less-than-100"
+                  },
+                  {
+                    "name": "Failover Service for computers 1001 to 5000",
+                    "metric": null,
+                    "amountUsd": 2395,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-VULNERABILITY-MANAGER-PLUS-FAILOVER-SERVICE-FAILOVER-SERVICE-FOR-COMPUTERS-1001-TO-5000",
+                    "slug": "me-vulnerability-manager-plus-failover-service-failover-service-for-computers-1001-to-5000"
+                  },
+                  {
+                    "name": "Failover Service for computers above 5000",
+                    "metric": null,
+                    "amountUsd": 3595,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-VULNERABILITY-MANAGER-PLUS-FAILOVER-SERVICE-FAILOVER-SERVICE-FOR-COMPUTERS-ABOVE-5000",
+                    "slug": "me-vulnerability-manager-plus-failover-service-failover-service-for-computers-above-5000"
+                  }
+                ]
+              },
+              {
+                "slug": "vulnerability-manager-plus-multi-language-pack",
+                "name": "Vulnerability Manager Plus Multi-Language Pack",
+                "edition": null,
+                "licenseModel": "subscription",
+                "kind": "addon",
+                "variants": [
+                  {
+                    "name": "Multi-Language Pack License",
+                    "metric": null,
+                    "amountUsd": 185,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-VULNERABILITY-MANAGER-PLUS-MULTI-LANGUAGE-PACK-MULTI-LANGUAGE-PACK-LICENSE",
+                    "slug": "me-vulnerability-manager-plus-multi-language-pack-multi-language-pack-license"
+                  }
+                ]
+              },
+              {
+                "slug": "vulnerability-manager-plus-training",
+                "name": "Vulnerability Manager Plus Training",
+                "edition": null,
+                "licenseModel": "subscription",
+                "kind": "service",
+                "variants": [
+                  {
+                    "name": "Web-based Training (2hrs each for 2 days)",
+                    "metric": null,
+                    "amountUsd": 495,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-VULNERABILITY-MANAGER-PLUS-TRAINING-WEB-BASED-TRAINING",
+                    "slug": "me-vulnerability-manager-plus-training-web-based-training"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "deployment": "saas",
+            "licenseModel": "perpetual",
+            "slug": "vulnerability-manager-plus-saas-perpetual",
+            "offers": [
+              {
+                "slug": "vulnerability-manager-plus-enterprise-edition-perpetual",
+                "name": "Vulnerability Manager Plus Enterprise Edition",
+                "edition": "Enterprise",
+                "licenseModel": "perpetual",
+                "kind": "base",
+                "variants": [
+                  {
+                    "name": "100 Workstations and Single User License",
+                    "metric": {
+                      "quantity": 100,
+                      "unit": "workstations and single user license"
+                    },
+                    "amountUsd": 2987,
+                    "priceStatus": "listed",
+                    "maintenance": "US$598",
+                    "sku": "ME-VULNERABILITY-MANAGER-PLUS-ENTERPRISE-100-WORKSTATIONS-AND-SINGLE-USER-LICENSE-PERP",
+                    "slug": "me-vulnerability-manager-plus-enterprise-100-workstations-and-single-user-license-perp"
+                  },
+                  {
+                    "name": "250 Workstations and Single User License",
+                    "metric": {
+                      "quantity": 250,
+                      "unit": "workstations and single user license"
+                    },
+                    "amountUsd": 5987,
+                    "priceStatus": "listed",
+                    "maintenance": "US$1,198",
+                    "sku": "ME-VULNERABILITY-MANAGER-PLUS-ENTERPRISE-250-WORKSTATIONS-AND-SINGLE-USER-LICENSE-PERP",
+                    "slug": "me-vulnerability-manager-plus-enterprise-250-workstations-and-single-user-license-perp"
+                  },
+                  {
+                    "name": "500 Workstations and Single User License",
+                    "metric": {
+                      "quantity": 500,
+                      "unit": "workstations and single user license"
+                    },
+                    "amountUsd": 10512,
+                    "priceStatus": "listed",
+                    "maintenance": "US$2,103",
+                    "sku": "ME-VULNERABILITY-MANAGER-PLUS-ENTERPRISE-500-WORKSTATIONS-AND-SINGLE-USER-LICENSE-PERP",
+                    "slug": "me-vulnerability-manager-plus-enterprise-500-workstations-and-single-user-license-perp"
+                  },
+                  {
+                    "name": "1000 Workstations and Single User License",
+                    "metric": {
+                      "quantity": 1000,
+                      "unit": "workstations and single user license"
+                    },
+                    "amountUsd": 18462,
+                    "priceStatus": "listed",
+                    "maintenance": "US$3,693",
+                    "sku": "ME-VULNERABILITY-MANAGER-PLUS-ENTERPRISE-1000-WORKSTATIONS-AND-SINGLE-USER-LICENSE-PERP",
+                    "slug": "me-vulnerability-manager-plus-enterprise-1000-workstations-and-single-user-license-perp"
+                  },
+                  {
+                    "name": "2500 Workstations and Single User License",
+                    "metric": {
+                      "quantity": 2500,
+                      "unit": "workstations and single user license"
+                    },
+                    "amountUsd": 36937,
+                    "priceStatus": "listed",
+                    "maintenance": "US$7,388",
+                    "sku": "ME-VULNERABILITY-MANAGER-PLUS-ENTERPRISE-2500-WORKSTATIONS-AND-SINGLE-USER-LICENSE-PERP",
+                    "slug": "me-vulnerability-manager-plus-enterprise-2500-workstations-and-single-user-license-perp"
+                  },
+                  {
+                    "name": "5000 Workstations and Single User License",
+                    "metric": {
+                      "quantity": 5000,
+                      "unit": "workstations and single user license"
+                    },
+                    "amountUsd": 59287,
+                    "priceStatus": "listed",
+                    "maintenance": "US$11,858",
+                    "sku": "ME-VULNERABILITY-MANAGER-PLUS-ENTERPRISE-5000-WORKSTATIONS-AND-SINGLE-USER-LICENSE-PERP",
+                    "slug": "me-vulnerability-manager-plus-enterprise-5000-workstations-and-single-user-license-perp"
+                  },
+                  {
+                    "name": "10000 Workstations and Single User License",
+                    "metric": {
+                      "quantity": 10000,
+                      "unit": "workstations and single user license"
+                    },
+                    "amountUsd": 90237,
+                    "priceStatus": "listed",
+                    "maintenance": "US$18,048",
+                    "sku": "ME-VULNERABILITY-MANAGER-PLUS-ENTERPRISE-10000-WORKSTATIONS-AND-SINGLE-USER-LICENSE-PERP",
+                    "slug": "me-vulnerability-manager-plus-enterprise-10000-workstations-and-single-user-license-perp"
+                  },
+                  {
+                    "name": "10 Servers and Single User License",
+                    "metric": {
+                      "quantity": 10,
+                      "unit": "servers and single user license"
+                    },
+                    "amountUsd": 612,
+                    "priceStatus": "listed",
+                    "maintenance": "US$123",
+                    "sku": "ME-VULNERABILITY-MANAGER-PLUS-ENTERPRISE-10-SERVERS-AND-SINGLE-USER-LICENSE-PERP",
+                    "slug": "me-vulnerability-manager-plus-enterprise-10-servers-and-single-user-license-perp"
+                  },
+                  {
+                    "name": "25 Servers and Single User License",
+                    "metric": {
+                      "quantity": 25,
+                      "unit": "servers and single user license"
+                    },
+                    "amountUsd": 1487,
+                    "priceStatus": "listed",
+                    "maintenance": "US$298",
+                    "sku": "ME-VULNERABILITY-MANAGER-PLUS-ENTERPRISE-25-SERVERS-AND-SINGLE-USER-LICENSE-PERP",
+                    "slug": "me-vulnerability-manager-plus-enterprise-25-servers-and-single-user-license-perp"
+                  },
+                  {
+                    "name": "50 Servers and Single User License",
+                    "metric": {
+                      "quantity": 50,
+                      "unit": "servers and single user license"
+                    },
+                    "amountUsd": 2612,
+                    "priceStatus": "listed",
+                    "maintenance": "US$523",
+                    "sku": "ME-VULNERABILITY-MANAGER-PLUS-ENTERPRISE-50-SERVERS-AND-SINGLE-USER-LICENSE-PERP",
+                    "slug": "me-vulnerability-manager-plus-enterprise-50-servers-and-single-user-license-perp"
+                  },
+                  {
+                    "name": "100 Servers and Single User License",
+                    "metric": {
+                      "quantity": 100,
+                      "unit": "servers and single user license"
+                    },
+                    "amountUsd": 4737,
+                    "priceStatus": "listed",
+                    "maintenance": "US$948",
+                    "sku": "ME-VULNERABILITY-MANAGER-PLUS-ENTERPRISE-100-SERVERS-AND-SINGLE-USER-LICENSE-PERP",
+                    "slug": "me-vulnerability-manager-plus-enterprise-100-servers-and-single-user-license-perp"
+                  },
+                  {
+                    "name": "250 Servers and Single User License",
+                    "metric": {
+                      "quantity": 250,
+                      "unit": "servers and single user license"
+                    },
+                    "amountUsd": 10987,
+                    "priceStatus": "listed",
+                    "maintenance": "US$2,198",
+                    "sku": "ME-VULNERABILITY-MANAGER-PLUS-ENTERPRISE-250-SERVERS-AND-SINGLE-USER-LICENSE-PERP",
+                    "slug": "me-vulnerability-manager-plus-enterprise-250-servers-and-single-user-license-perp"
+                  },
+                  {
+                    "name": "500 Servers and Single User License",
+                    "metric": {
+                      "quantity": 500,
+                      "unit": "servers and single user license"
+                    },
+                    "amountUsd": 19987,
+                    "priceStatus": "listed",
+                    "maintenance": "US$3,998",
+                    "sku": "ME-VULNERABILITY-MANAGER-PLUS-ENTERPRISE-500-SERVERS-AND-SINGLE-USER-LICENSE-PERP",
+                    "slug": "me-vulnerability-manager-plus-enterprise-500-servers-and-single-user-license-perp"
+                  },
+                  {
+                    "name": "1000 Servers and Single User License",
+                    "metric": {
+                      "quantity": 1000,
+                      "unit": "servers and single user license"
+                    },
+                    "amountUsd": 36237,
+                    "priceStatus": "listed",
+                    "maintenance": "US$7,248",
+                    "sku": "ME-VULNERABILITY-MANAGER-PLUS-ENTERPRISE-1000-SERVERS-AND-SINGLE-USER-LICENSE-PERP",
+                    "slug": "me-vulnerability-manager-plus-enterprise-1000-servers-and-single-user-license-perp"
+                  },
+                  {
+                    "name": "2500 Servers and Single User License",
+                    "metric": {
+                      "quantity": 2500,
+                      "unit": "servers and single user license"
+                    },
+                    "amountUsd": 73875,
+                    "priceStatus": "listed",
+                    "maintenance": "US$14,775",
+                    "sku": "ME-VULNERABILITY-MANAGER-PLUS-ENTERPRISE-2500-SERVERS-AND-SINGLE-USER-LICENSE-PERP",
+                    "slug": "me-vulnerability-manager-plus-enterprise-2500-servers-and-single-user-license-perp"
+                  },
+                  {
+                    "name": "5000 Servers and Single User License",
+                    "metric": {
+                      "quantity": 5000,
+                      "unit": "servers and single user license"
+                    },
+                    "amountUsd": 118575,
+                    "priceStatus": "listed",
+                    "maintenance": "US$23,715",
+                    "sku": "ME-VULNERABILITY-MANAGER-PLUS-ENTERPRISE-5000-SERVERS-AND-SINGLE-USER-LICENSE-PERP",
+                    "slug": "me-vulnerability-manager-plus-enterprise-5000-servers-and-single-user-license-perp"
+                  },
+                  {
+                    "name": "10 Network Devices",
+                    "metric": {
+                      "quantity": 10,
+                      "unit": "network device"
+                    },
+                    "amountUsd": 612,
+                    "priceStatus": "listed",
+                    "maintenance": "US$123",
+                    "sku": "ME-VULNERABILITY-MANAGER-PLUS-ENTERPRISE-10-NETWORK-DEVICES-PERP",
+                    "slug": "me-vulnerability-manager-plus-enterprise-10-network-devices-perp"
+                  },
+                  {
+                    "name": "25 Network Devices",
+                    "metric": {
+                      "quantity": 25,
+                      "unit": "network device"
+                    },
+                    "amountUsd": 1487,
+                    "priceStatus": "listed",
+                    "maintenance": "US$298",
+                    "sku": "ME-VULNERABILITY-MANAGER-PLUS-ENTERPRISE-25-NETWORK-DEVICES-PERP",
+                    "slug": "me-vulnerability-manager-plus-enterprise-25-network-devices-perp"
+                  },
+                  {
+                    "name": "50 Network Devices",
+                    "metric": {
+                      "quantity": 50,
+                      "unit": "network device"
+                    },
+                    "amountUsd": 2612,
+                    "priceStatus": "listed",
+                    "maintenance": "US$523",
+                    "sku": "ME-VULNERABILITY-MANAGER-PLUS-ENTERPRISE-50-NETWORK-DEVICES-PERP",
+                    "slug": "me-vulnerability-manager-plus-enterprise-50-network-devices-perp"
+                  },
+                  {
+                    "name": "100 Network Devices",
+                    "metric": {
+                      "quantity": 100,
+                      "unit": "network device"
+                    },
+                    "amountUsd": 4737,
+                    "priceStatus": "listed",
+                    "maintenance": "US$948",
+                    "sku": "ME-VULNERABILITY-MANAGER-PLUS-ENTERPRISE-100-NETWORK-DEVICES-PERP",
+                    "slug": "me-vulnerability-manager-plus-enterprise-100-network-devices-perp"
+                  },
+                  {
+                    "name": "250 Network Devices",
+                    "metric": {
+                      "quantity": 250,
+                      "unit": "network device"
+                    },
+                    "amountUsd": 10987,
+                    "priceStatus": "listed",
+                    "maintenance": "US$2,198",
+                    "sku": "ME-VULNERABILITY-MANAGER-PLUS-ENTERPRISE-250-NETWORK-DEVICES-PERP",
+                    "slug": "me-vulnerability-manager-plus-enterprise-250-network-devices-perp"
+                  },
+                  {
+                    "name": "500 Network Devices",
+                    "metric": {
+                      "quantity": 500,
+                      "unit": "network device"
+                    },
+                    "amountUsd": 19987,
+                    "priceStatus": "listed",
+                    "maintenance": "US$3,998",
+                    "sku": "ME-VULNERABILITY-MANAGER-PLUS-ENTERPRISE-500-NETWORK-DEVICES-PERP",
+                    "slug": "me-vulnerability-manager-plus-enterprise-500-network-devices-perp"
+                  },
+                  {
+                    "name": "1000 Network Devices",
+                    "metric": {
+                      "quantity": 1000,
+                      "unit": "network device"
+                    },
+                    "amountUsd": 36237,
+                    "priceStatus": "listed",
+                    "maintenance": "US$7,248",
+                    "sku": "ME-VULNERABILITY-MANAGER-PLUS-ENTERPRISE-1000-NETWORK-DEVICES-PERP",
+                    "slug": "me-vulnerability-manager-plus-enterprise-1000-network-devices-perp"
+                  },
+                  {
+                    "name": "2500 Network Devices",
+                    "metric": {
+                      "quantity": 2500,
+                      "unit": "network device"
+                    },
+                    "amountUsd": 73875,
+                    "priceStatus": "listed",
+                    "maintenance": "US$14,775",
+                    "sku": "ME-VULNERABILITY-MANAGER-PLUS-ENTERPRISE-2500-NETWORK-DEVICES-PERP",
+                    "slug": "me-vulnerability-manager-plus-enterprise-2500-network-devices-perp"
+                  },
+                  {
+                    "name": "5000 Network Devices",
+                    "metric": {
+                      "quantity": 5000,
+                      "unit": "network device"
+                    },
+                    "amountUsd": 118575,
+                    "priceStatus": "listed",
+                    "maintenance": "US$23,715",
+                    "sku": "ME-VULNERABILITY-MANAGER-PLUS-ENTERPRISE-5000-NETWORK-DEVICES-PERP",
+                    "slug": "me-vulnerability-manager-plus-enterprise-5000-network-devices-perp"
+                  },
+                  {
+                    "name": "Secure Gateway Server",
+                    "metric": null,
+                    "amountUsd": 750,
+                    "priceStatus": "listed",
+                    "maintenance": "US$150",
+                    "sku": "ME-VULNERABILITY-MANAGER-PLUS-ENTERPRISE-SECURE-GATEWAY-SERVER-PERP",
+                    "slug": "me-vulnerability-manager-plus-enterprise-secure-gateway-server-perp"
+                  }
+                ]
+              },
+              {
+                "slug": "vulnerability-manager-plus-professional-edition-perpetual",
+                "name": "Vulnerability Manager Plus Professional Edition",
+                "edition": "Professional",
+                "licenseModel": "perpetual",
+                "kind": "base",
+                "variants": [
+                  {
+                    "name": "100 Workstations and Single User License",
+                    "metric": {
+                      "quantity": 100,
+                      "unit": "workstations and single user license"
+                    },
+                    "amountUsd": 1737,
+                    "priceStatus": "listed",
+                    "maintenance": "US$348",
+                    "sku": "ME-VULNERABILITY-MANAGER-PLUS-PROFESSIONAL-100-WORKSTATIONS-AND-SINGLE-USER-LICENSE-PERP",
+                    "slug": "me-vulnerability-manager-plus-professional-100-workstations-and-single-user-license-perp"
+                  },
+                  {
+                    "name": "250 Workstations and Single User License",
+                    "metric": {
+                      "quantity": 250,
+                      "unit": "workstations and single user license"
+                    },
+                    "amountUsd": 3487,
+                    "priceStatus": "listed",
+                    "maintenance": "US$698",
+                    "sku": "ME-VULNERABILITY-MANAGER-PLUS-PROFESSIONAL-250-WORKSTATIONS-AND-SINGLE-USER-LICENSE-PERP",
+                    "slug": "me-vulnerability-manager-plus-professional-250-workstations-and-single-user-license-perp"
+                  },
+                  {
+                    "name": "500 Workstations and Single User License",
+                    "metric": {
+                      "quantity": 500,
+                      "unit": "workstations and single user license"
+                    },
+                    "amountUsd": 6112,
+                    "priceStatus": "listed",
+                    "maintenance": "US$1,223",
+                    "sku": "ME-VULNERABILITY-MANAGER-PLUS-PROFESSIONAL-500-WORKSTATIONS-AND-SINGLE-USER-LICENSE-PERP",
+                    "slug": "me-vulnerability-manager-plus-professional-500-workstations-and-single-user-license-perp"
+                  },
+                  {
+                    "name": "1000 Workstations and Single User License",
+                    "metric": {
+                      "quantity": 1000,
+                      "unit": "workstations and single user license"
+                    },
+                    "amountUsd": 10737,
+                    "priceStatus": "listed",
+                    "maintenance": "US$2,148",
+                    "sku": "ME-VULNERABILITY-MANAGER-PLUS-PROFESSIONAL-1000-WORKSTATIONS-AND-SINGLE-USER-LICENSE-PERP",
+                    "slug": "me-vulnerability-manager-plus-professional-1000-workstations-and-single-user-license-perp"
+                  },
+                  {
+                    "name": "2500 Workstations and Single User License",
+                    "metric": {
+                      "quantity": 2500,
+                      "unit": "workstations and single user license"
+                    },
+                    "amountUsd": 21487,
+                    "priceStatus": "listed",
+                    "maintenance": "US$4,298",
+                    "sku": "ME-VULNERABILITY-MANAGER-PLUS-PROFESSIONAL-2500-WORKSTATIONS-AND-SINGLE-USER-LICENSE-PERP",
+                    "slug": "me-vulnerability-manager-plus-professional-2500-workstations-and-single-user-license-perp"
+                  },
+                  {
+                    "name": "5000 Workstations and Single User License",
+                    "metric": {
+                      "quantity": 5000,
+                      "unit": "workstations and single user license"
+                    },
+                    "amountUsd": 34487,
+                    "priceStatus": "listed",
+                    "maintenance": "US$6,898",
+                    "sku": "ME-VULNERABILITY-MANAGER-PLUS-PROFESSIONAL-5000-WORKSTATIONS-AND-SINGLE-USER-LICENSE-PERP",
+                    "slug": "me-vulnerability-manager-plus-professional-5000-workstations-and-single-user-license-perp"
+                  },
+                  {
+                    "name": "10000 Workstations and Single User License",
+                    "metric": {
+                      "quantity": 10000,
+                      "unit": "workstations and single user license"
+                    },
+                    "amountUsd": 52487,
+                    "priceStatus": "listed",
+                    "maintenance": "US$10,498",
+                    "sku": "ME-VULNERABILITY-MANAGER-PLUS-PROFESSIONAL-10000-WORKSTATIONS-AND-SINGLE-USER-LICENSE-PERP",
+                    "slug": "me-vulnerability-manager-plus-professional-10000-workstations-and-single-user-license-perp"
+                  },
+                  {
+                    "name": "10 Servers and Single User License",
+                    "metric": {
+                      "quantity": 10,
+                      "unit": "servers and single user license"
+                    },
+                    "amountUsd": 362,
+                    "priceStatus": "listed",
+                    "maintenance": "US$73",
+                    "sku": "ME-VULNERABILITY-MANAGER-PLUS-PROFESSIONAL-10-SERVERS-AND-SINGLE-USER-LICENSE-PERP",
+                    "slug": "me-vulnerability-manager-plus-professional-10-servers-and-single-user-license-perp"
+                  },
+                  {
+                    "name": "25 Servers and Single User License",
+                    "metric": {
+                      "quantity": 25,
+                      "unit": "servers and single user license"
+                    },
+                    "amountUsd": 862,
+                    "priceStatus": "listed",
+                    "maintenance": "US$173",
+                    "sku": "ME-VULNERABILITY-MANAGER-PLUS-PROFESSIONAL-25-SERVERS-AND-SINGLE-USER-LICENSE-PERP",
+                    "slug": "me-vulnerability-manager-plus-professional-25-servers-and-single-user-license-perp"
+                  },
+                  {
+                    "name": "50 Servers and Single User License",
+                    "metric": {
+                      "quantity": 50,
+                      "unit": "servers and single user license"
+                    },
+                    "amountUsd": 1612,
+                    "priceStatus": "listed",
+                    "maintenance": "US$323",
+                    "sku": "ME-VULNERABILITY-MANAGER-PLUS-PROFESSIONAL-50-SERVERS-AND-SINGLE-USER-LICENSE-PERP",
+                    "slug": "me-vulnerability-manager-plus-professional-50-servers-and-single-user-license-perp"
+                  },
+                  {
+                    "name": "100 Servers and Single User License",
+                    "metric": {
+                      "quantity": 100,
+                      "unit": "servers and single user license"
+                    },
+                    "amountUsd": 2862,
+                    "priceStatus": "listed",
+                    "maintenance": "US$573",
+                    "sku": "ME-VULNERABILITY-MANAGER-PLUS-PROFESSIONAL-100-SERVERS-AND-SINGLE-USER-LICENSE-PERP",
+                    "slug": "me-vulnerability-manager-plus-professional-100-servers-and-single-user-license-perp"
+                  },
+                  {
+                    "name": "250 Servers and Single User License",
+                    "metric": {
+                      "quantity": 250,
+                      "unit": "servers and single user license"
+                    },
+                    "amountUsd": 6612,
+                    "priceStatus": "listed",
+                    "maintenance": "US$1,323",
+                    "sku": "ME-VULNERABILITY-MANAGER-PLUS-PROFESSIONAL-250-SERVERS-AND-SINGLE-USER-LICENSE-PERP",
+                    "slug": "me-vulnerability-manager-plus-professional-250-servers-and-single-user-license-perp"
+                  },
+                  {
+                    "name": "500 Servers and Single User License",
+                    "metric": {
+                      "quantity": 500,
+                      "unit": "servers and single user license"
+                    },
+                    "amountUsd": 11862,
+                    "priceStatus": "listed",
+                    "maintenance": "US$2,373",
+                    "sku": "ME-VULNERABILITY-MANAGER-PLUS-PROFESSIONAL-500-SERVERS-AND-SINGLE-USER-LICENSE-PERP",
+                    "slug": "me-vulnerability-manager-plus-professional-500-servers-and-single-user-license-perp"
+                  },
+                  {
+                    "name": "1000 Servers and Single User License",
+                    "metric": {
+                      "quantity": 1000,
+                      "unit": "servers and single user license"
+                    },
+                    "amountUsd": 21237,
+                    "priceStatus": "listed",
+                    "maintenance": "US$4,248",
+                    "sku": "ME-VULNERABILITY-MANAGER-PLUS-PROFESSIONAL-1000-SERVERS-AND-SINGLE-USER-LICENSE-PERP",
+                    "slug": "me-vulnerability-manager-plus-professional-1000-servers-and-single-user-license-perp"
+                  },
+                  {
+                    "name": "2500 Servers and Single User License",
+                    "metric": {
+                      "quantity": 2500,
+                      "unit": "servers and single user license"
+                    },
+                    "amountUsd": 42975,
+                    "priceStatus": "listed",
+                    "maintenance": "US$8,595",
+                    "sku": "ME-VULNERABILITY-MANAGER-PLUS-PROFESSIONAL-2500-SERVERS-AND-SINGLE-USER-LICENSE-PERP",
+                    "slug": "me-vulnerability-manager-plus-professional-2500-servers-and-single-user-license-perp"
+                  },
+                  {
+                    "name": "5000 Servers and Single User License",
+                    "metric": {
+                      "quantity": 5000,
+                      "unit": "servers and single user license"
+                    },
+                    "amountUsd": 68975,
+                    "priceStatus": "listed",
+                    "maintenance": "US$13,795",
+                    "sku": "ME-VULNERABILITY-MANAGER-PLUS-PROFESSIONAL-5000-SERVERS-AND-SINGLE-USER-LICENSE-PERP",
+                    "slug": "me-vulnerability-manager-plus-professional-5000-servers-and-single-user-license-perp"
+                  },
+                  {
+                    "name": "10 Network Devices",
+                    "metric": {
+                      "quantity": 10,
+                      "unit": "network device"
+                    },
+                    "amountUsd": 362,
+                    "priceStatus": "listed",
+                    "maintenance": "US$73",
+                    "sku": "ME-VULNERABILITY-MANAGER-PLUS-PROFESSIONAL-10-NETWORK-DEVICES-PERP",
+                    "slug": "me-vulnerability-manager-plus-professional-10-network-devices-perp"
+                  },
+                  {
+                    "name": "25 Network Devices",
+                    "metric": {
+                      "quantity": 25,
+                      "unit": "network device"
+                    },
+                    "amountUsd": 862,
+                    "priceStatus": "listed",
+                    "maintenance": "US$173",
+                    "sku": "ME-VULNERABILITY-MANAGER-PLUS-PROFESSIONAL-25-NETWORK-DEVICES-PERP",
+                    "slug": "me-vulnerability-manager-plus-professional-25-network-devices-perp"
+                  },
+                  {
+                    "name": "50 Network Devices",
+                    "metric": {
+                      "quantity": 50,
+                      "unit": "network device"
+                    },
+                    "amountUsd": 1612,
+                    "priceStatus": "listed",
+                    "maintenance": "US$323",
+                    "sku": "ME-VULNERABILITY-MANAGER-PLUS-PROFESSIONAL-50-NETWORK-DEVICES-PERP",
+                    "slug": "me-vulnerability-manager-plus-professional-50-network-devices-perp"
+                  },
+                  {
+                    "name": "100 Network Devices",
+                    "metric": {
+                      "quantity": 100,
+                      "unit": "network device"
+                    },
+                    "amountUsd": 2862,
+                    "priceStatus": "listed",
+                    "maintenance": "US$573",
+                    "sku": "ME-VULNERABILITY-MANAGER-PLUS-PROFESSIONAL-100-NETWORK-DEVICES-PERP",
+                    "slug": "me-vulnerability-manager-plus-professional-100-network-devices-perp"
+                  },
+                  {
+                    "name": "250 Network Devices",
+                    "metric": {
+                      "quantity": 250,
+                      "unit": "network device"
+                    },
+                    "amountUsd": 6612,
+                    "priceStatus": "listed",
+                    "maintenance": "US$1,323",
+                    "sku": "ME-VULNERABILITY-MANAGER-PLUS-PROFESSIONAL-250-NETWORK-DEVICES-PERP",
+                    "slug": "me-vulnerability-manager-plus-professional-250-network-devices-perp"
+                  },
+                  {
+                    "name": "500 Network Devices",
+                    "metric": {
+                      "quantity": 500,
+                      "unit": "network device"
+                    },
+                    "amountUsd": 11862,
+                    "priceStatus": "listed",
+                    "maintenance": "US$2,373",
+                    "sku": "ME-VULNERABILITY-MANAGER-PLUS-PROFESSIONAL-500-NETWORK-DEVICES-PERP",
+                    "slug": "me-vulnerability-manager-plus-professional-500-network-devices-perp"
+                  },
+                  {
+                    "name": "1000 Network Devices",
+                    "metric": {
+                      "quantity": 1000,
+                      "unit": "network device"
+                    },
+                    "amountUsd": 21237,
+                    "priceStatus": "listed",
+                    "maintenance": "US$4,248",
+                    "sku": "ME-VULNERABILITY-MANAGER-PLUS-PROFESSIONAL-1000-NETWORK-DEVICES-PERP",
+                    "slug": "me-vulnerability-manager-plus-professional-1000-network-devices-perp"
+                  },
+                  {
+                    "name": "2500 Network Devices",
+                    "metric": {
+                      "quantity": 2500,
+                      "unit": "network device"
+                    },
+                    "amountUsd": 42975,
+                    "priceStatus": "listed",
+                    "maintenance": "US$8,595",
+                    "sku": "ME-VULNERABILITY-MANAGER-PLUS-PROFESSIONAL-2500-NETWORK-DEVICES-PERP",
+                    "slug": "me-vulnerability-manager-plus-professional-2500-network-devices-perp"
+                  },
+                  {
+                    "name": "5000 Network Devices",
+                    "metric": {
+                      "quantity": 5000,
+                      "unit": "network device"
+                    },
+                    "amountUsd": 68975,
+                    "priceStatus": "listed",
+                    "maintenance": "US$13,795",
+                    "sku": "ME-VULNERABILITY-MANAGER-PLUS-PROFESSIONAL-5000-NETWORK-DEVICES-PERP",
+                    "slug": "me-vulnerability-manager-plus-professional-5000-network-devices-perp"
+                  },
+                  {
+                    "name": "Secure Gateway Server",
+                    "metric": null,
+                    "amountUsd": 750,
+                    "priceStatus": "listed",
+                    "maintenance": "US$150",
+                    "sku": "ME-VULNERABILITY-MANAGER-PLUS-PROFESSIONAL-SECURE-GATEWAY-SERVER-PERP",
+                    "slug": "me-vulnerability-manager-plus-professional-secure-gateway-server-perp"
+                  }
+                ]
+              },
+              {
+                "slug": "vulnerability-manager-plus-additional-users-perpetual",
+                "name": "Vulnerability Manager Plus Additional Users",
+                "edition": null,
+                "licenseModel": "perpetual",
+                "kind": "addon",
+                "variants": [
+                  {
+                    "name": "Additional 1 User",
+                    "metric": null,
+                    "amountUsd": 487,
+                    "priceStatus": "listed",
+                    "maintenance": "US$98",
+                    "sku": "ME-VULNERABILITY-MANAGER-PLUS-ADDITIONAL-USERS-ADDITIONAL-1-USER-PERP",
+                    "slug": "me-vulnerability-manager-plus-additional-users-additional-1-user-perp"
+                  },
+                  {
+                    "name": "Additional 2 Users",
+                    "metric": null,
+                    "amountUsd": 862,
+                    "priceStatus": "listed",
+                    "maintenance": "US$173",
+                    "sku": "ME-VULNERABILITY-MANAGER-PLUS-ADDITIONAL-USERS-ADDITIONAL-2-USERS-PERP",
+                    "slug": "me-vulnerability-manager-plus-additional-users-additional-2-users-perp"
+                  },
+                  {
+                    "name": "Additional 5 Users",
+                    "metric": null,
+                    "amountUsd": 1737,
+                    "priceStatus": "listed",
+                    "maintenance": "US$348",
+                    "sku": "ME-VULNERABILITY-MANAGER-PLUS-ADDITIONAL-USERS-ADDITIONAL-5-USERS-PERP",
+                    "slug": "me-vulnerability-manager-plus-additional-users-additional-5-users-perp"
+                  },
+                  {
+                    "name": "Additional 10 Users",
+                    "metric": null,
+                    "amountUsd": 2487,
+                    "priceStatus": "listed",
+                    "maintenance": "US$498",
+                    "sku": "ME-VULNERABILITY-MANAGER-PLUS-ADDITIONAL-USERS-ADDITIONAL-10-USERS-PERP",
+                    "slug": "me-vulnerability-manager-plus-additional-users-additional-10-users-perp"
+                  },
+                  {
+                    "name": "Additional 25 Users",
+                    "metric": null,
+                    "amountUsd": 4987,
+                    "priceStatus": "listed",
+                    "maintenance": "US$998",
+                    "sku": "ME-VULNERABILITY-MANAGER-PLUS-ADDITIONAL-USERS-ADDITIONAL-25-USERS-PERP",
+                    "slug": "me-vulnerability-manager-plus-additional-users-additional-25-users-perp"
+                  },
+                  {
+                    "name": "Additional 50 Users",
+                    "metric": null,
+                    "amountUsd": 8737,
+                    "priceStatus": "listed",
+                    "maintenance": "US$1,748",
+                    "sku": "ME-VULNERABILITY-MANAGER-PLUS-ADDITIONAL-USERS-ADDITIONAL-50-USERS-PERP",
+                    "slug": "me-vulnerability-manager-plus-additional-users-additional-50-users-perp"
+                  }
+                ]
+              },
+              {
+                "slug": "vulnerability-manager-plus-failover-service-perpetual",
+                "name": "Vulnerability Manager Plus Failover Service",
+                "edition": null,
+                "licenseModel": "perpetual",
+                "kind": "addon",
+                "variants": [
+                  {
+                    "name": "Failover Service for computers less than 1000",
+                    "metric": null,
+                    "amountUsd": 2990,
+                    "priceStatus": "listed",
+                    "maintenance": "US$598",
+                    "sku": "ME-VULNERABILITY-MANAGER-PLUS-FAILOVER-SERVICE-FAILOVER-SERVICE-FOR-COMPUTERS-LESS-THAN-100-PERP",
+                    "slug": "me-vulnerability-manager-plus-failover-service-failover-service-for-computers-less-than-100-perp"
+                  },
+                  {
+                    "name": "Failover Service for computers 1001 to 5000",
+                    "metric": null,
+                    "amountUsd": 5990,
+                    "priceStatus": "listed",
+                    "maintenance": "US$1,198",
+                    "sku": "ME-VULNERABILITY-MANAGER-PLUS-FAILOVER-SERVICE-FAILOVER-SERVICE-FOR-COMPUTERS-1001-TO-5000-PERP",
+                    "slug": "me-vulnerability-manager-plus-failover-service-failover-service-for-computers-1001-to-5000-perp"
+                  },
+                  {
+                    "name": "Failover Service for computers above 5000",
+                    "metric": null,
+                    "amountUsd": 8990,
+                    "priceStatus": "listed",
+                    "maintenance": "US$1,798",
+                    "sku": "ME-VULNERABILITY-MANAGER-PLUS-FAILOVER-SERVICE-FAILOVER-SERVICE-FOR-COMPUTERS-ABOVE-5000-PERP",
+                    "slug": "me-vulnerability-manager-plus-failover-service-failover-service-for-computers-above-5000-perp"
+                  }
+                ]
+              },
+              {
+                "slug": "vulnerability-manager-plus-multi-language-pack-perpetual",
+                "name": "Vulnerability Manager Plus Multi-Language Pack",
+                "edition": null,
+                "licenseModel": "perpetual",
+                "kind": "addon",
+                "variants": [
+                  {
+                    "name": "Multi-Language Pack License",
+                    "metric": null,
+                    "amountUsd": 462,
+                    "priceStatus": "listed",
+                    "maintenance": "US$93",
+                    "sku": "ME-VULNERABILITY-MANAGER-PLUS-MULTI-LANGUAGE-PACK-MULTI-LANGUAGE-PACK-LICENSE-PERP",
+                    "slug": "me-vulnerability-manager-plus-multi-language-pack-multi-language-pack-license-perp"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
       },
       {
         "slug": "application-control-plus",
@@ -11682,11 +17863,482 @@ export const ZOHO_GROUPS: ZohoGroup[] = [
         "tagline": "Software discovery and endpoint privilege management",
         "subgroup": "Endpoint security",
         "storeUrl": "https://store.manageengine.com/application-control/?MEstore",
-        "priced": false,
+        "priced": true,
         "sourceUrl": "https://store.manageengine.com/application-control/?MEstore",
-        "sourceSnapshotId": null,
-        "sourceCheckedAt": null,
-        "deployments": []
+        "sourceSnapshotId": "47f6d74496bf",
+        "sourceCheckedAt": "2026-08-20T22:04:33.121Z",
+        "deployments": [
+          {
+            "deployment": "unspecified",
+            "licenseModel": "subscription",
+            "slug": "application-control-plus-subscription",
+            "offers": [
+              {
+                "slug": "application-control-plus-professional-edition",
+                "name": "Application Control Plus Professional Edition",
+                "edition": "Professional",
+                "licenseModel": "subscription",
+                "kind": "base",
+                "variants": [
+                  {
+                    "name": "100 Workstations",
+                    "metric": {
+                      "quantity": 100,
+                      "unit": "workstation"
+                    },
+                    "amountUsd": 995,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-APPLICATION-CONTROL-PLUS-PROFESSIONAL-100-WORKSTATIONS",
+                    "slug": "me-application-control-plus-professional-100-workstations"
+                  },
+                  {
+                    "name": "250 Workstations",
+                    "metric": {
+                      "quantity": 250,
+                      "unit": "workstation"
+                    },
+                    "amountUsd": 1995,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-APPLICATION-CONTROL-PLUS-PROFESSIONAL-250-WORKSTATIONS",
+                    "slug": "me-application-control-plus-professional-250-workstations"
+                  },
+                  {
+                    "name": "500 Workstations",
+                    "metric": {
+                      "quantity": 500,
+                      "unit": "workstation"
+                    },
+                    "amountUsd": 3495,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-APPLICATION-CONTROL-PLUS-PROFESSIONAL-500-WORKSTATIONS",
+                    "slug": "me-application-control-plus-professional-500-workstations"
+                  },
+                  {
+                    "name": "1000 Workstations",
+                    "metric": {
+                      "quantity": 1000,
+                      "unit": "workstation"
+                    },
+                    "amountUsd": 6195,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-APPLICATION-CONTROL-PLUS-PROFESSIONAL-1000-WORKSTATIONS",
+                    "slug": "me-application-control-plus-professional-1000-workstations"
+                  },
+                  {
+                    "name": "2500 Workstations",
+                    "metric": {
+                      "quantity": 2500,
+                      "unit": "workstation"
+                    },
+                    "amountUsd": 12345,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-APPLICATION-CONTROL-PLUS-PROFESSIONAL-2500-WORKSTATIONS",
+                    "slug": "me-application-control-plus-professional-2500-workstations"
+                  },
+                  {
+                    "name": "5000 Workstations",
+                    "metric": {
+                      "quantity": 5000,
+                      "unit": "workstation"
+                    },
+                    "amountUsd": 19995,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-APPLICATION-CONTROL-PLUS-PROFESSIONAL-5000-WORKSTATIONS",
+                    "slug": "me-application-control-plus-professional-5000-workstations"
+                  },
+                  {
+                    "name": "10000 Workstations",
+                    "metric": {
+                      "quantity": 10000,
+                      "unit": "workstation"
+                    },
+                    "amountUsd": 29995,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-APPLICATION-CONTROL-PLUS-PROFESSIONAL-10000-WORKSTATIONS",
+                    "slug": "me-application-control-plus-professional-10000-workstations"
+                  },
+                  {
+                    "name": "Secure Gateway Server",
+                    "metric": null,
+                    "amountUsd": 300,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-APPLICATION-CONTROL-PLUS-PROFESSIONAL-SECURE-GATEWAY-SERVER",
+                    "slug": "me-application-control-plus-professional-secure-gateway-server"
+                  }
+                ]
+              },
+              {
+                "slug": "application-control-plus-additional-users",
+                "name": "Application Control Plus Additional Users",
+                "edition": null,
+                "licenseModel": "subscription",
+                "kind": "addon",
+                "variants": [
+                  {
+                    "name": "Additional 1 User",
+                    "metric": null,
+                    "amountUsd": 195,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-APPLICATION-CONTROL-PLUS-ADDITIONAL-USERS-ADDITIONAL-1-USER",
+                    "slug": "me-application-control-plus-additional-users-additional-1-user"
+                  },
+                  {
+                    "name": "Additional 2 Users",
+                    "metric": null,
+                    "amountUsd": 345,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-APPLICATION-CONTROL-PLUS-ADDITIONAL-USERS-ADDITIONAL-2-USERS",
+                    "slug": "me-application-control-plus-additional-users-additional-2-users"
+                  },
+                  {
+                    "name": "Additional 5 Users",
+                    "metric": null,
+                    "amountUsd": 695,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-APPLICATION-CONTROL-PLUS-ADDITIONAL-USERS-ADDITIONAL-5-USERS",
+                    "slug": "me-application-control-plus-additional-users-additional-5-users"
+                  },
+                  {
+                    "name": "Additional 10 Users",
+                    "metric": null,
+                    "amountUsd": 995,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-APPLICATION-CONTROL-PLUS-ADDITIONAL-USERS-ADDITIONAL-10-USERS",
+                    "slug": "me-application-control-plus-additional-users-additional-10-users"
+                  },
+                  {
+                    "name": "Additional 25 Users",
+                    "metric": null,
+                    "amountUsd": 1995,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-APPLICATION-CONTROL-PLUS-ADDITIONAL-USERS-ADDITIONAL-25-USERS",
+                    "slug": "me-application-control-plus-additional-users-additional-25-users"
+                  },
+                  {
+                    "name": "Additional 50 Users",
+                    "metric": null,
+                    "amountUsd": 3495,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-APPLICATION-CONTROL-PLUS-ADDITIONAL-USERS-ADDITIONAL-50-USERS",
+                    "slug": "me-application-control-plus-additional-users-additional-50-users"
+                  }
+                ]
+              },
+              {
+                "slug": "application-control-plus-failover-service",
+                "name": "Application Control Plus - Failover Service",
+                "edition": null,
+                "licenseModel": "subscription",
+                "kind": "addon",
+                "variants": [
+                  {
+                    "name": "Failover Service for computers less than 1000",
+                    "metric": null,
+                    "amountUsd": 1195,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-APPLICATION-CONTROL-PLUS-FAILOVER-SERVICE-FAILOVER-SERVICE-FOR-COMPUTERS-LESS-THAN-100",
+                    "slug": "me-application-control-plus-failover-service-failover-service-for-computers-less-than-100"
+                  },
+                  {
+                    "name": "Failover Service for computers 1001 to 5000",
+                    "metric": null,
+                    "amountUsd": 2395,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-APPLICATION-CONTROL-PLUS-FAILOVER-SERVICE-FAILOVER-SERVICE-FOR-COMPUTERS-1001-TO-5000",
+                    "slug": "me-application-control-plus-failover-service-failover-service-for-computers-1001-to-5000"
+                  },
+                  {
+                    "name": "Failover Service for computers above 5000",
+                    "metric": null,
+                    "amountUsd": 3595,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-APPLICATION-CONTROL-PLUS-FAILOVER-SERVICE-FAILOVER-SERVICE-FOR-COMPUTERS-ABOVE-5000",
+                    "slug": "me-application-control-plus-failover-service-failover-service-for-computers-above-5000"
+                  }
+                ]
+              },
+              {
+                "slug": "application-control-plus-multi-language-pack",
+                "name": "Application Control Plus Multi-Language Pack",
+                "edition": null,
+                "licenseModel": "subscription",
+                "kind": "addon",
+                "variants": [
+                  {
+                    "name": "Multi-Language Pack License",
+                    "metric": null,
+                    "amountUsd": 185,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-APPLICATION-CONTROL-PLUS-MULTI-LANGUAGE-PACK-MULTI-LANGUAGE-PACK-LICENSE",
+                    "slug": "me-application-control-plus-multi-language-pack-multi-language-pack-license"
+                  }
+                ]
+              },
+              {
+                "slug": "application-control-plus-training",
+                "name": "Application Control Plus Training",
+                "edition": null,
+                "licenseModel": "subscription",
+                "kind": "service",
+                "variants": [
+                  {
+                    "name": "Web-based Training (2hrs each for 2 days)",
+                    "metric": null,
+                    "amountUsd": 495,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-APPLICATION-CONTROL-PLUS-TRAINING-WEB-BASED-TRAINING",
+                    "slug": "me-application-control-plus-training-web-based-training"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "deployment": "unspecified",
+            "licenseModel": "perpetual",
+            "slug": "application-control-plus-perpetual",
+            "offers": [
+              {
+                "slug": "application-control-plus-professional-edition-perpetual",
+                "name": "Application Control Plus Professional Edition",
+                "edition": "Professional",
+                "licenseModel": "perpetual",
+                "kind": "base",
+                "variants": [
+                  {
+                    "name": "100 Workstations",
+                    "metric": {
+                      "quantity": 100,
+                      "unit": "workstation"
+                    },
+                    "amountUsd": 2487,
+                    "priceStatus": "listed",
+                    "maintenance": "US$498",
+                    "sku": "ME-APPLICATION-CONTROL-PLUS-PROFESSIONAL-100-WORKSTATIONS-PERP",
+                    "slug": "me-application-control-plus-professional-100-workstations-perp"
+                  },
+                  {
+                    "name": "250 Workstations",
+                    "metric": {
+                      "quantity": 250,
+                      "unit": "workstation"
+                    },
+                    "amountUsd": 4987,
+                    "priceStatus": "listed",
+                    "maintenance": "US$998",
+                    "sku": "ME-APPLICATION-CONTROL-PLUS-PROFESSIONAL-250-WORKSTATIONS-PERP",
+                    "slug": "me-application-control-plus-professional-250-workstations-perp"
+                  },
+                  {
+                    "name": "500 Workstations",
+                    "metric": {
+                      "quantity": 500,
+                      "unit": "workstation"
+                    },
+                    "amountUsd": 8737,
+                    "priceStatus": "listed",
+                    "maintenance": "US$1,748",
+                    "sku": "ME-APPLICATION-CONTROL-PLUS-PROFESSIONAL-500-WORKSTATIONS-PERP",
+                    "slug": "me-application-control-plus-professional-500-workstations-perp"
+                  },
+                  {
+                    "name": "1000 Workstations",
+                    "metric": {
+                      "quantity": 1000,
+                      "unit": "workstation"
+                    },
+                    "amountUsd": 15487,
+                    "priceStatus": "listed",
+                    "maintenance": "US$3,098",
+                    "sku": "ME-APPLICATION-CONTROL-PLUS-PROFESSIONAL-1000-WORKSTATIONS-PERP",
+                    "slug": "me-application-control-plus-professional-1000-workstations-perp"
+                  },
+                  {
+                    "name": "2500 Workstations",
+                    "metric": {
+                      "quantity": 2500,
+                      "unit": "workstation"
+                    },
+                    "amountUsd": 30862,
+                    "priceStatus": "listed",
+                    "maintenance": "US$6,173",
+                    "sku": "ME-APPLICATION-CONTROL-PLUS-PROFESSIONAL-2500-WORKSTATIONS-PERP",
+                    "slug": "me-application-control-plus-professional-2500-workstations-perp"
+                  },
+                  {
+                    "name": "5000 Workstations",
+                    "metric": {
+                      "quantity": 5000,
+                      "unit": "workstation"
+                    },
+                    "amountUsd": 49987,
+                    "priceStatus": "listed",
+                    "maintenance": "US$9,998",
+                    "sku": "ME-APPLICATION-CONTROL-PLUS-PROFESSIONAL-5000-WORKSTATIONS-PERP",
+                    "slug": "me-application-control-plus-professional-5000-workstations-perp"
+                  },
+                  {
+                    "name": "10000 Workstations",
+                    "metric": {
+                      "quantity": 10000,
+                      "unit": "workstation"
+                    },
+                    "amountUsd": 74987,
+                    "priceStatus": "listed",
+                    "maintenance": "US$14,998",
+                    "sku": "ME-APPLICATION-CONTROL-PLUS-PROFESSIONAL-10000-WORKSTATIONS-PERP",
+                    "slug": "me-application-control-plus-professional-10000-workstations-perp"
+                  },
+                  {
+                    "name": "Secure Gateway Server",
+                    "metric": null,
+                    "amountUsd": 750,
+                    "priceStatus": "listed",
+                    "maintenance": "US$150",
+                    "sku": "ME-APPLICATION-CONTROL-PLUS-PROFESSIONAL-SECURE-GATEWAY-SERVER-PERP",
+                    "slug": "me-application-control-plus-professional-secure-gateway-server-perp"
+                  }
+                ]
+              },
+              {
+                "slug": "application-control-plus-additional-users-perpetual",
+                "name": "Application Control Plus Additional Users",
+                "edition": null,
+                "licenseModel": "perpetual",
+                "kind": "addon",
+                "variants": [
+                  {
+                    "name": "Additional 1 User",
+                    "metric": null,
+                    "amountUsd": 487,
+                    "priceStatus": "listed",
+                    "maintenance": "US$98",
+                    "sku": "ME-APPLICATION-CONTROL-PLUS-ADDITIONAL-USERS-ADDITIONAL-1-USER-PERP",
+                    "slug": "me-application-control-plus-additional-users-additional-1-user-perp"
+                  },
+                  {
+                    "name": "Additional 2 Users",
+                    "metric": null,
+                    "amountUsd": 862,
+                    "priceStatus": "listed",
+                    "maintenance": "US$173",
+                    "sku": "ME-APPLICATION-CONTROL-PLUS-ADDITIONAL-USERS-ADDITIONAL-2-USERS-PERP",
+                    "slug": "me-application-control-plus-additional-users-additional-2-users-perp"
+                  },
+                  {
+                    "name": "Additional 5 Users",
+                    "metric": null,
+                    "amountUsd": 1737,
+                    "priceStatus": "listed",
+                    "maintenance": "US$348",
+                    "sku": "ME-APPLICATION-CONTROL-PLUS-ADDITIONAL-USERS-ADDITIONAL-5-USERS-PERP",
+                    "slug": "me-application-control-plus-additional-users-additional-5-users-perp"
+                  },
+                  {
+                    "name": "Additional 10 Users",
+                    "metric": null,
+                    "amountUsd": 2487,
+                    "priceStatus": "listed",
+                    "maintenance": "US$498",
+                    "sku": "ME-APPLICATION-CONTROL-PLUS-ADDITIONAL-USERS-ADDITIONAL-10-USERS-PERP",
+                    "slug": "me-application-control-plus-additional-users-additional-10-users-perp"
+                  },
+                  {
+                    "name": "Additional 25 Users",
+                    "metric": null,
+                    "amountUsd": 4987,
+                    "priceStatus": "listed",
+                    "maintenance": "US$998",
+                    "sku": "ME-APPLICATION-CONTROL-PLUS-ADDITIONAL-USERS-ADDITIONAL-25-USERS-PERP",
+                    "slug": "me-application-control-plus-additional-users-additional-25-users-perp"
+                  },
+                  {
+                    "name": "Additional 50 Users",
+                    "metric": null,
+                    "amountUsd": 8737,
+                    "priceStatus": "listed",
+                    "maintenance": "US$1,748",
+                    "sku": "ME-APPLICATION-CONTROL-PLUS-ADDITIONAL-USERS-ADDITIONAL-50-USERS-PERP",
+                    "slug": "me-application-control-plus-additional-users-additional-50-users-perp"
+                  }
+                ]
+              },
+              {
+                "slug": "application-control-plus-failover-service-perpetual",
+                "name": "Application Control Plus - Failover Service",
+                "edition": null,
+                "licenseModel": "perpetual",
+                "kind": "addon",
+                "variants": [
+                  {
+                    "name": "Failover Service for computers less than 1000",
+                    "metric": null,
+                    "amountUsd": 2990,
+                    "priceStatus": "listed",
+                    "maintenance": "US$598",
+                    "sku": "ME-APPLICATION-CONTROL-PLUS-FAILOVER-SERVICE-FAILOVER-SERVICE-FOR-COMPUTERS-LESS-THAN-100-PERP",
+                    "slug": "me-application-control-plus-failover-service-failover-service-for-computers-less-than-100-perp"
+                  },
+                  {
+                    "name": "Failover Service for computers 1001 to 5000",
+                    "metric": null,
+                    "amountUsd": 5990,
+                    "priceStatus": "listed",
+                    "maintenance": "US$1,198",
+                    "sku": "ME-APPLICATION-CONTROL-PLUS-FAILOVER-SERVICE-FAILOVER-SERVICE-FOR-COMPUTERS-1001-TO-5000-PERP",
+                    "slug": "me-application-control-plus-failover-service-failover-service-for-computers-1001-to-5000-perp"
+                  },
+                  {
+                    "name": "Failover Service for computers above 5000",
+                    "metric": null,
+                    "amountUsd": 8990,
+                    "priceStatus": "listed",
+                    "maintenance": "US$1,798",
+                    "sku": "ME-APPLICATION-CONTROL-PLUS-FAILOVER-SERVICE-FAILOVER-SERVICE-FOR-COMPUTERS-ABOVE-5000-PERP",
+                    "slug": "me-application-control-plus-failover-service-failover-service-for-computers-above-5000-perp"
+                  }
+                ]
+              },
+              {
+                "slug": "application-control-plus-multi-language-pack-perpetual",
+                "name": "Application Control Plus Multi-Language Pack",
+                "edition": null,
+                "licenseModel": "perpetual",
+                "kind": "addon",
+                "variants": [
+                  {
+                    "name": "Multi-Language Pack License",
+                    "metric": null,
+                    "amountUsd": 462,
+                    "priceStatus": "listed",
+                    "maintenance": "US$93",
+                    "sku": "ME-APPLICATION-CONTROL-PLUS-MULTI-LANGUAGE-PACK-MULTI-LANGUAGE-PACK-LICENSE-PERP",
+                    "slug": "me-application-control-plus-multi-language-pack-multi-language-pack-license-perp"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
       },
       {
         "slug": "device-control-plus",
@@ -11694,11 +18346,482 @@ export const ZOHO_GROUPS: ZohoGroup[] = [
         "tagline": "Data theft prevention with strict peripheral device control",
         "subgroup": "Endpoint security",
         "storeUrl": "https://store.manageengine.com/device-control/?MEstore",
-        "priced": false,
+        "priced": true,
         "sourceUrl": "https://store.manageengine.com/device-control/?MEstore",
-        "sourceSnapshotId": null,
-        "sourceCheckedAt": null,
-        "deployments": []
+        "sourceSnapshotId": "f6f468524276",
+        "sourceCheckedAt": "2026-08-20T22:04:51.022Z",
+        "deployments": [
+          {
+            "deployment": "unspecified",
+            "licenseModel": "subscription",
+            "slug": "device-control-plus-subscription",
+            "offers": [
+              {
+                "slug": "device-control-plus-professional-edition",
+                "name": "Device Control Plus - Professional Edition",
+                "edition": "Professional",
+                "licenseModel": "subscription",
+                "kind": "base",
+                "variants": [
+                  {
+                    "name": "100 Computers",
+                    "metric": {
+                      "quantity": 100,
+                      "unit": "computer"
+                    },
+                    "amountUsd": 595,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-DEVICE-CONTROL-PLUS-PROFESSIONAL-100-COMPUTERS",
+                    "slug": "me-device-control-plus-professional-100-computers"
+                  },
+                  {
+                    "name": "250 Computers",
+                    "metric": {
+                      "quantity": 250,
+                      "unit": "computer"
+                    },
+                    "amountUsd": 1195,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-DEVICE-CONTROL-PLUS-PROFESSIONAL-250-COMPUTERS",
+                    "slug": "me-device-control-plus-professional-250-computers"
+                  },
+                  {
+                    "name": "500 Computers",
+                    "metric": {
+                      "quantity": 500,
+                      "unit": "computer"
+                    },
+                    "amountUsd": 2095,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-DEVICE-CONTROL-PLUS-PROFESSIONAL-500-COMPUTERS",
+                    "slug": "me-device-control-plus-professional-500-computers"
+                  },
+                  {
+                    "name": "1000 Computers",
+                    "metric": {
+                      "quantity": 1000,
+                      "unit": "computer"
+                    },
+                    "amountUsd": 3645,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-DEVICE-CONTROL-PLUS-PROFESSIONAL-1000-COMPUTERS",
+                    "slug": "me-device-control-plus-professional-1000-computers"
+                  },
+                  {
+                    "name": "2500 Computers",
+                    "metric": {
+                      "quantity": 2500,
+                      "unit": "computer"
+                    },
+                    "amountUsd": 7345,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-DEVICE-CONTROL-PLUS-PROFESSIONAL-2500-COMPUTERS",
+                    "slug": "me-device-control-plus-professional-2500-computers"
+                  },
+                  {
+                    "name": "5000 Computers",
+                    "metric": {
+                      "quantity": 5000,
+                      "unit": "computer"
+                    },
+                    "amountUsd": 11795,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-DEVICE-CONTROL-PLUS-PROFESSIONAL-5000-COMPUTERS",
+                    "slug": "me-device-control-plus-professional-5000-computers"
+                  },
+                  {
+                    "name": "10000 Computers",
+                    "metric": {
+                      "quantity": 10000,
+                      "unit": "computer"
+                    },
+                    "amountUsd": 17975,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-DEVICE-CONTROL-PLUS-PROFESSIONAL-10000-COMPUTERS",
+                    "slug": "me-device-control-plus-professional-10000-computers"
+                  },
+                  {
+                    "name": "Secure Gateway Server",
+                    "metric": null,
+                    "amountUsd": 345,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-DEVICE-CONTROL-PLUS-PROFESSIONAL-SECURE-GATEWAY-SERVER",
+                    "slug": "me-device-control-plus-professional-secure-gateway-server"
+                  }
+                ]
+              },
+              {
+                "slug": "device-control-plus-additional-users",
+                "name": "Device Control Plus - Additional Users",
+                "edition": null,
+                "licenseModel": "subscription",
+                "kind": "addon",
+                "variants": [
+                  {
+                    "name": "Additional 1 User",
+                    "metric": null,
+                    "amountUsd": 195,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-DEVICE-CONTROL-PLUS-ADDITIONAL-USERS-ADDITIONAL-1-USER",
+                    "slug": "me-device-control-plus-additional-users-additional-1-user"
+                  },
+                  {
+                    "name": "Additional 2 Users",
+                    "metric": null,
+                    "amountUsd": 345,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-DEVICE-CONTROL-PLUS-ADDITIONAL-USERS-ADDITIONAL-2-USERS",
+                    "slug": "me-device-control-plus-additional-users-additional-2-users"
+                  },
+                  {
+                    "name": "Additional 5 Users",
+                    "metric": null,
+                    "amountUsd": 695,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-DEVICE-CONTROL-PLUS-ADDITIONAL-USERS-ADDITIONAL-5-USERS",
+                    "slug": "me-device-control-plus-additional-users-additional-5-users"
+                  },
+                  {
+                    "name": "Additional 10 Users",
+                    "metric": null,
+                    "amountUsd": 995,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-DEVICE-CONTROL-PLUS-ADDITIONAL-USERS-ADDITIONAL-10-USERS",
+                    "slug": "me-device-control-plus-additional-users-additional-10-users"
+                  },
+                  {
+                    "name": "Additional 25 Users",
+                    "metric": null,
+                    "amountUsd": 1995,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-DEVICE-CONTROL-PLUS-ADDITIONAL-USERS-ADDITIONAL-25-USERS",
+                    "slug": "me-device-control-plus-additional-users-additional-25-users"
+                  },
+                  {
+                    "name": "Additional 50 Users",
+                    "metric": null,
+                    "amountUsd": 3495,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-DEVICE-CONTROL-PLUS-ADDITIONAL-USERS-ADDITIONAL-50-USERS",
+                    "slug": "me-device-control-plus-additional-users-additional-50-users"
+                  }
+                ]
+              },
+              {
+                "slug": "device-control-plus-failover-service",
+                "name": "Device Control Plus - Failover Service",
+                "edition": null,
+                "licenseModel": "subscription",
+                "kind": "addon",
+                "variants": [
+                  {
+                    "name": "Failover Service for computers less than 1000",
+                    "metric": null,
+                    "amountUsd": 1195,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-DEVICE-CONTROL-PLUS-FAILOVER-SERVICE-FAILOVER-SERVICE-FOR-COMPUTERS-LESS-THAN-100",
+                    "slug": "me-device-control-plus-failover-service-failover-service-for-computers-less-than-100"
+                  },
+                  {
+                    "name": "Failover Service for computers 1001 to 5000",
+                    "metric": null,
+                    "amountUsd": 2395,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-DEVICE-CONTROL-PLUS-FAILOVER-SERVICE-FAILOVER-SERVICE-FOR-COMPUTERS-1001-TO-5000",
+                    "slug": "me-device-control-plus-failover-service-failover-service-for-computers-1001-to-5000"
+                  },
+                  {
+                    "name": "Failover Service for computers above 5000",
+                    "metric": null,
+                    "amountUsd": 3595,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-DEVICE-CONTROL-PLUS-FAILOVER-SERVICE-FAILOVER-SERVICE-FOR-COMPUTERS-ABOVE-5000",
+                    "slug": "me-device-control-plus-failover-service-failover-service-for-computers-above-5000"
+                  }
+                ]
+              },
+              {
+                "slug": "device-control-plus-multi-language-pack",
+                "name": "Device Control Plus - Multi-Language Pack",
+                "edition": null,
+                "licenseModel": "subscription",
+                "kind": "addon",
+                "variants": [
+                  {
+                    "name": "Multi-Language Pack License",
+                    "metric": null,
+                    "amountUsd": 185,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-DEVICE-CONTROL-PLUS-MULTI-LANGUAGE-PACK-MULTI-LANGUAGE-PACK-LICENSE",
+                    "slug": "me-device-control-plus-multi-language-pack-multi-language-pack-license"
+                  }
+                ]
+              },
+              {
+                "slug": "device-control-plus-training",
+                "name": "Device Control Plus - Training",
+                "edition": null,
+                "licenseModel": "subscription",
+                "kind": "service",
+                "variants": [
+                  {
+                    "name": "Web-based Training (2hrs each for 2 days)",
+                    "metric": null,
+                    "amountUsd": 495,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-DEVICE-CONTROL-PLUS-TRAINING-WEB-BASED-TRAINING",
+                    "slug": "me-device-control-plus-training-web-based-training"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "deployment": "unspecified",
+            "licenseModel": "perpetual",
+            "slug": "device-control-plus-perpetual",
+            "offers": [
+              {
+                "slug": "device-control-plus-professional-edition-perpetual",
+                "name": "Device Control Plus - Professional Edition",
+                "edition": "Professional",
+                "licenseModel": "perpetual",
+                "kind": "base",
+                "variants": [
+                  {
+                    "name": "100 Computers",
+                    "metric": {
+                      "quantity": 100,
+                      "unit": "computer"
+                    },
+                    "amountUsd": 1488,
+                    "priceStatus": "listed",
+                    "maintenance": "US$298",
+                    "sku": "ME-DEVICE-CONTROL-PLUS-PROFESSIONAL-100-COMPUTERS-PERP",
+                    "slug": "me-device-control-plus-professional-100-computers-perp"
+                  },
+                  {
+                    "name": "250 Computers",
+                    "metric": {
+                      "quantity": 250,
+                      "unit": "computer"
+                    },
+                    "amountUsd": 2988,
+                    "priceStatus": "listed",
+                    "maintenance": "US$598",
+                    "sku": "ME-DEVICE-CONTROL-PLUS-PROFESSIONAL-250-COMPUTERS-PERP",
+                    "slug": "me-device-control-plus-professional-250-computers-perp"
+                  },
+                  {
+                    "name": "500 Computers",
+                    "metric": {
+                      "quantity": 500,
+                      "unit": "computer"
+                    },
+                    "amountUsd": 5238,
+                    "priceStatus": "listed",
+                    "maintenance": "US$1,048",
+                    "sku": "ME-DEVICE-CONTROL-PLUS-PROFESSIONAL-500-COMPUTERS-PERP",
+                    "slug": "me-device-control-plus-professional-500-computers-perp"
+                  },
+                  {
+                    "name": "1000 Computers",
+                    "metric": {
+                      "quantity": 1000,
+                      "unit": "computer"
+                    },
+                    "amountUsd": 9113,
+                    "priceStatus": "listed",
+                    "maintenance": "US$1,833",
+                    "sku": "ME-DEVICE-CONTROL-PLUS-PROFESSIONAL-1000-COMPUTERS-PERP",
+                    "slug": "me-device-control-plus-professional-1000-computers-perp"
+                  },
+                  {
+                    "name": "2500 Computers",
+                    "metric": {
+                      "quantity": 2500,
+                      "unit": "computer"
+                    },
+                    "amountUsd": 18363,
+                    "priceStatus": "listed",
+                    "maintenance": "US$3,673",
+                    "sku": "ME-DEVICE-CONTROL-PLUS-PROFESSIONAL-2500-COMPUTERS-PERP",
+                    "slug": "me-device-control-plus-professional-2500-computers-perp"
+                  },
+                  {
+                    "name": "5000 Computers",
+                    "metric": {
+                      "quantity": 5000,
+                      "unit": "computer"
+                    },
+                    "amountUsd": 29488,
+                    "priceStatus": "listed",
+                    "maintenance": "US$5,898",
+                    "sku": "ME-DEVICE-CONTROL-PLUS-PROFESSIONAL-5000-COMPUTERS-PERP",
+                    "slug": "me-device-control-plus-professional-5000-computers-perp"
+                  },
+                  {
+                    "name": "10000 Computers",
+                    "metric": {
+                      "quantity": 10000,
+                      "unit": "computer"
+                    },
+                    "amountUsd": 44938,
+                    "priceStatus": "listed",
+                    "maintenance": "US$8,988",
+                    "sku": "ME-DEVICE-CONTROL-PLUS-PROFESSIONAL-10000-COMPUTERS-PERP",
+                    "slug": "me-device-control-plus-professional-10000-computers-perp"
+                  },
+                  {
+                    "name": "Secure Gateway Server",
+                    "metric": null,
+                    "amountUsd": 860,
+                    "priceStatus": "listed",
+                    "maintenance": "US$175",
+                    "sku": "ME-DEVICE-CONTROL-PLUS-PROFESSIONAL-SECURE-GATEWAY-SERVER-PERP",
+                    "slug": "me-device-control-plus-professional-secure-gateway-server-perp"
+                  }
+                ]
+              },
+              {
+                "slug": "device-control-plus-additional-users-perpetual",
+                "name": "Device Control Plus - Additional Users",
+                "edition": null,
+                "licenseModel": "perpetual",
+                "kind": "addon",
+                "variants": [
+                  {
+                    "name": "Additional 1 User",
+                    "metric": null,
+                    "amountUsd": 487,
+                    "priceStatus": "listed",
+                    "maintenance": "US$98",
+                    "sku": "ME-DEVICE-CONTROL-PLUS-ADDITIONAL-USERS-ADDITIONAL-1-USER-PERP",
+                    "slug": "me-device-control-plus-additional-users-additional-1-user-perp"
+                  },
+                  {
+                    "name": "Additional 2 Users",
+                    "metric": null,
+                    "amountUsd": 862,
+                    "priceStatus": "listed",
+                    "maintenance": "US$173",
+                    "sku": "ME-DEVICE-CONTROL-PLUS-ADDITIONAL-USERS-ADDITIONAL-2-USERS-PERP",
+                    "slug": "me-device-control-plus-additional-users-additional-2-users-perp"
+                  },
+                  {
+                    "name": "Additional 5 Users",
+                    "metric": null,
+                    "amountUsd": 1737,
+                    "priceStatus": "listed",
+                    "maintenance": "US$348",
+                    "sku": "ME-DEVICE-CONTROL-PLUS-ADDITIONAL-USERS-ADDITIONAL-5-USERS-PERP",
+                    "slug": "me-device-control-plus-additional-users-additional-5-users-perp"
+                  },
+                  {
+                    "name": "Additional 10 Users",
+                    "metric": null,
+                    "amountUsd": 2487,
+                    "priceStatus": "listed",
+                    "maintenance": "US$498",
+                    "sku": "ME-DEVICE-CONTROL-PLUS-ADDITIONAL-USERS-ADDITIONAL-10-USERS-PERP",
+                    "slug": "me-device-control-plus-additional-users-additional-10-users-perp"
+                  },
+                  {
+                    "name": "Additional 25 Users",
+                    "metric": null,
+                    "amountUsd": 4987,
+                    "priceStatus": "listed",
+                    "maintenance": "US$998",
+                    "sku": "ME-DEVICE-CONTROL-PLUS-ADDITIONAL-USERS-ADDITIONAL-25-USERS-PERP",
+                    "slug": "me-device-control-plus-additional-users-additional-25-users-perp"
+                  },
+                  {
+                    "name": "Additional 50 Users",
+                    "metric": null,
+                    "amountUsd": 8737,
+                    "priceStatus": "listed",
+                    "maintenance": "US$1,748",
+                    "sku": "ME-DEVICE-CONTROL-PLUS-ADDITIONAL-USERS-ADDITIONAL-50-USERS-PERP",
+                    "slug": "me-device-control-plus-additional-users-additional-50-users-perp"
+                  }
+                ]
+              },
+              {
+                "slug": "device-control-plus-failover-service-perpetual",
+                "name": "Device Control Plus - Failover Service",
+                "edition": null,
+                "licenseModel": "perpetual",
+                "kind": "addon",
+                "variants": [
+                  {
+                    "name": "Failover Service for computers less than 1000",
+                    "metric": null,
+                    "amountUsd": 2990,
+                    "priceStatus": "listed",
+                    "maintenance": "US$598",
+                    "sku": "ME-DEVICE-CONTROL-PLUS-FAILOVER-SERVICE-FAILOVER-SERVICE-FOR-COMPUTERS-LESS-THAN-100-PERP",
+                    "slug": "me-device-control-plus-failover-service-failover-service-for-computers-less-than-100-perp"
+                  },
+                  {
+                    "name": "Failover Service for computers 1001 to 5000",
+                    "metric": null,
+                    "amountUsd": 5990,
+                    "priceStatus": "listed",
+                    "maintenance": "US$1,198",
+                    "sku": "ME-DEVICE-CONTROL-PLUS-FAILOVER-SERVICE-FAILOVER-SERVICE-FOR-COMPUTERS-1001-TO-5000-PERP",
+                    "slug": "me-device-control-plus-failover-service-failover-service-for-computers-1001-to-5000-perp"
+                  },
+                  {
+                    "name": "Failover Service for computers above 5000",
+                    "metric": null,
+                    "amountUsd": 8990,
+                    "priceStatus": "listed",
+                    "maintenance": "US$1,798",
+                    "sku": "ME-DEVICE-CONTROL-PLUS-FAILOVER-SERVICE-FAILOVER-SERVICE-FOR-COMPUTERS-ABOVE-5000-PERP",
+                    "slug": "me-device-control-plus-failover-service-failover-service-for-computers-above-5000-perp"
+                  }
+                ]
+              },
+              {
+                "slug": "device-control-plus-multi-language-pack-perpetual",
+                "name": "Device Control Plus - Multi-Language Pack",
+                "edition": null,
+                "licenseModel": "perpetual",
+                "kind": "addon",
+                "variants": [
+                  {
+                    "name": "Multi-Language Pack License",
+                    "metric": null,
+                    "amountUsd": 462,
+                    "priceStatus": "listed",
+                    "maintenance": "US$93",
+                    "sku": "ME-DEVICE-CONTROL-PLUS-MULTI-LANGUAGE-PACK-MULTI-LANGUAGE-PACK-LICENSE-PERP",
+                    "slug": "me-device-control-plus-multi-language-pack-multi-language-pack-license-perp"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
       },
       {
         "slug": "browser-security-plus",
@@ -11706,11 +18829,524 @@ export const ZOHO_GROUPS: ZohoGroup[] = [
         "tagline": "Browser security with isolation, lockdown, and activity tracking",
         "subgroup": "Endpoint security",
         "storeUrl": "https://store.manageengine.com/secure-browser/?MEstore",
-        "priced": false,
+        "priced": true,
         "sourceUrl": "https://store.manageengine.com/secure-browser/?MEstore",
-        "sourceSnapshotId": null,
-        "sourceCheckedAt": null,
-        "deployments": []
+        "sourceSnapshotId": "cfea0abaf476",
+        "sourceCheckedAt": "2026-08-20T22:05:08.214Z",
+        "deployments": [
+          {
+            "deployment": "unspecified",
+            "licenseModel": "subscription",
+            "slug": "browser-security-plus-subscription",
+            "offers": [
+              {
+                "slug": "browser-security-plus-professional-edition",
+                "name": "Browser Security Plus - Professional Edition",
+                "edition": "Professional",
+                "licenseModel": "subscription",
+                "kind": "base",
+                "variants": [
+                  {
+                    "name": "50 Computers and Single User License",
+                    "metric": {
+                      "quantity": 50,
+                      "unit": "computers and single user license"
+                    },
+                    "amountUsd": 345,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-BROWSER-SECURITY-PLUS-PROFESSIONAL-50-COMPUTERS-AND-SINGLE-USER-LICENSE",
+                    "slug": "me-browser-security-plus-professional-50-computers-and-single-user-license"
+                  },
+                  {
+                    "name": "100 Computers and Single User License",
+                    "metric": {
+                      "quantity": 100,
+                      "unit": "computers and single user license"
+                    },
+                    "amountUsd": 645,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-BROWSER-SECURITY-PLUS-PROFESSIONAL-100-COMPUTERS-AND-SINGLE-USER-LICENSE",
+                    "slug": "me-browser-security-plus-professional-100-computers-and-single-user-license"
+                  },
+                  {
+                    "name": "250 Computers and Single User License",
+                    "metric": {
+                      "quantity": 250,
+                      "unit": "computers and single user license"
+                    },
+                    "amountUsd": 1295,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-BROWSER-SECURITY-PLUS-PROFESSIONAL-250-COMPUTERS-AND-SINGLE-USER-LICENSE",
+                    "slug": "me-browser-security-plus-professional-250-computers-and-single-user-license"
+                  },
+                  {
+                    "name": "500 Computers and Single User License",
+                    "metric": {
+                      "quantity": 500,
+                      "unit": "computers and single user license"
+                    },
+                    "amountUsd": 2295,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-BROWSER-SECURITY-PLUS-PROFESSIONAL-500-COMPUTERS-AND-SINGLE-USER-LICENSE",
+                    "slug": "me-browser-security-plus-professional-500-computers-and-single-user-license"
+                  },
+                  {
+                    "name": "1000 Computers and Single User License",
+                    "metric": {
+                      "quantity": 1000,
+                      "unit": "computers and single user license"
+                    },
+                    "amountUsd": 3895,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-BROWSER-SECURITY-PLUS-PROFESSIONAL-1000-COMPUTERS-AND-SINGLE-USER-LICENSE",
+                    "slug": "me-browser-security-plus-professional-1000-computers-and-single-user-license"
+                  },
+                  {
+                    "name": "2500 Computers and Single User License",
+                    "metric": {
+                      "quantity": 2500,
+                      "unit": "computers and single user license"
+                    },
+                    "amountUsd": 8145,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-BROWSER-SECURITY-PLUS-PROFESSIONAL-2500-COMPUTERS-AND-SINGLE-USER-LICENSE",
+                    "slug": "me-browser-security-plus-professional-2500-computers-and-single-user-license"
+                  },
+                  {
+                    "name": "5000 Computers and Single User License",
+                    "metric": {
+                      "quantity": 5000,
+                      "unit": "computers and single user license"
+                    },
+                    "amountUsd": 12995,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-BROWSER-SECURITY-PLUS-PROFESSIONAL-5000-COMPUTERS-AND-SINGLE-USER-LICENSE",
+                    "slug": "me-browser-security-plus-professional-5000-computers-and-single-user-license"
+                  },
+                  {
+                    "name": "10000 Computers and Single User License",
+                    "metric": {
+                      "quantity": 10000,
+                      "unit": "computers and single user license"
+                    },
+                    "amountUsd": 19495,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-BROWSER-SECURITY-PLUS-PROFESSIONAL-10000-COMPUTERS-AND-SINGLE-USER-LICENSE",
+                    "slug": "me-browser-security-plus-professional-10000-computers-and-single-user-license"
+                  },
+                  {
+                    "name": "Secure Gateway Server",
+                    "metric": null,
+                    "amountUsd": 300,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-BROWSER-SECURITY-PLUS-PROFESSIONAL-SECURE-GATEWAY-SERVER",
+                    "slug": "me-browser-security-plus-professional-secure-gateway-server"
+                  }
+                ]
+              },
+              {
+                "slug": "browser-security-plus-additional-users",
+                "name": "Browser Security Plus - Additional Users",
+                "edition": null,
+                "licenseModel": "subscription",
+                "kind": "addon",
+                "variants": [
+                  {
+                    "name": "Additional 1 User",
+                    "metric": null,
+                    "amountUsd": 195,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-BROWSER-SECURITY-PLUS-ADDITIONAL-USERS-ADDITIONAL-1-USER",
+                    "slug": "me-browser-security-plus-additional-users-additional-1-user"
+                  },
+                  {
+                    "name": "Additional 2 Users",
+                    "metric": null,
+                    "amountUsd": 345,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-BROWSER-SECURITY-PLUS-ADDITIONAL-USERS-ADDITIONAL-2-USERS",
+                    "slug": "me-browser-security-plus-additional-users-additional-2-users"
+                  },
+                  {
+                    "name": "Additional 5 Users",
+                    "metric": null,
+                    "amountUsd": 695,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-BROWSER-SECURITY-PLUS-ADDITIONAL-USERS-ADDITIONAL-5-USERS",
+                    "slug": "me-browser-security-plus-additional-users-additional-5-users"
+                  },
+                  {
+                    "name": "Additional 10 Users",
+                    "metric": null,
+                    "amountUsd": 995,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-BROWSER-SECURITY-PLUS-ADDITIONAL-USERS-ADDITIONAL-10-USERS",
+                    "slug": "me-browser-security-plus-additional-users-additional-10-users"
+                  },
+                  {
+                    "name": "Additional 25 Users",
+                    "metric": null,
+                    "amountUsd": 1995,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-BROWSER-SECURITY-PLUS-ADDITIONAL-USERS-ADDITIONAL-25-USERS",
+                    "slug": "me-browser-security-plus-additional-users-additional-25-users"
+                  },
+                  {
+                    "name": "Additional 50 Users",
+                    "metric": null,
+                    "amountUsd": 3495,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-BROWSER-SECURITY-PLUS-ADDITIONAL-USERS-ADDITIONAL-50-USERS",
+                    "slug": "me-browser-security-plus-additional-users-additional-50-users"
+                  }
+                ]
+              },
+              {
+                "slug": "browser-security-plus-multi-language-pack-license",
+                "name": "Browser Security Plus - Multi-Language Pack License",
+                "edition": null,
+                "licenseModel": "subscription",
+                "kind": "addon",
+                "variants": [
+                  {
+                    "name": "Multi-Language Pack License",
+                    "metric": null,
+                    "amountUsd": 185,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-BROWSER-SECURITY-PLUS-MULTI-LANGUAGE-PACK-LICENS-MULTI-LANGUAGE-PACK-LICENSE",
+                    "slug": "me-browser-security-plus-multi-language-pack-licens-multi-language-pack-license"
+                  }
+                ]
+              },
+              {
+                "slug": "browser-security-plus-failover-service",
+                "name": "Browser Security Plus - Failover Service",
+                "edition": null,
+                "licenseModel": "subscription",
+                "kind": "addon",
+                "variants": [
+                  {
+                    "name": "Failover Service for computers less than 1000",
+                    "metric": null,
+                    "amountUsd": 1195,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-BROWSER-SECURITY-PLUS-FAILOVER-SERVICE-FAILOVER-SERVICE-FOR-COMPUTERS-LESS-THAN-100",
+                    "slug": "me-browser-security-plus-failover-service-failover-service-for-computers-less-than-100"
+                  },
+                  {
+                    "name": "Failover Service for computers 1001 to 5000",
+                    "metric": null,
+                    "amountUsd": 2395,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-BROWSER-SECURITY-PLUS-FAILOVER-SERVICE-FAILOVER-SERVICE-FOR-COMPUTERS-1001-TO-5000",
+                    "slug": "me-browser-security-plus-failover-service-failover-service-for-computers-1001-to-5000"
+                  },
+                  {
+                    "name": "Failover Service for computers above 5000",
+                    "metric": null,
+                    "amountUsd": 3595,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-BROWSER-SECURITY-PLUS-FAILOVER-SERVICE-FAILOVER-SERVICE-FOR-COMPUTERS-ABOVE-5000",
+                    "slug": "me-browser-security-plus-failover-service-failover-service-for-computers-above-5000"
+                  }
+                ]
+              },
+              {
+                "slug": "browser-security-plus-training",
+                "name": "Browser Security Plus - Training",
+                "edition": null,
+                "licenseModel": "subscription",
+                "kind": "service",
+                "variants": [
+                  {
+                    "name": "Web-based Training (3 hours)",
+                    "metric": null,
+                    "amountUsd": 495,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-BROWSER-SECURITY-PLUS-TRAINING-WEB-BASED-TRAINING",
+                    "slug": "me-browser-security-plus-training-web-based-training"
+                  },
+                  {
+                    "name": "Web-based Installation and Setup and Training (4 hours)",
+                    "metric": null,
+                    "amountUsd": 995,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-BROWSER-SECURITY-PLUS-TRAINING-WEB-BASED-INSTALLATION-AND-SETUP-AND-TRAININ",
+                    "slug": "me-browser-security-plus-training-web-based-installation-and-setup-and-trainin"
+                  },
+                  {
+                    "name": "Onsite Training",
+                    "metric": null,
+                    "amountUsd": 3995,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-BROWSER-SECURITY-PLUS-TRAINING-ONSITE-TRAINING",
+                    "slug": "me-browser-security-plus-training-onsite-training"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "deployment": "unspecified",
+            "licenseModel": "perpetual",
+            "slug": "browser-security-plus-perpetual",
+            "offers": [
+              {
+                "slug": "browser-security-plus-professional-edition-perpetual",
+                "name": "Browser Security Plus - Professional Edition",
+                "edition": "Professional",
+                "licenseModel": "perpetual",
+                "kind": "base",
+                "variants": [
+                  {
+                    "name": "50 Computers and Single User License",
+                    "metric": {
+                      "quantity": 50,
+                      "unit": "computers and single user license"
+                    },
+                    "amountUsd": 863,
+                    "priceStatus": "listed",
+                    "maintenance": "US$172",
+                    "sku": "ME-BROWSER-SECURITY-PLUS-PROFESSIONAL-50-COMPUTERS-AND-SINGLE-USER-LICENSE-PERP",
+                    "slug": "me-browser-security-plus-professional-50-computers-and-single-user-license-perp"
+                  },
+                  {
+                    "name": "100 Computers and Single User License",
+                    "metric": {
+                      "quantity": 100,
+                      "unit": "computers and single user license"
+                    },
+                    "amountUsd": 1613,
+                    "priceStatus": "listed",
+                    "maintenance": "US$322",
+                    "sku": "ME-BROWSER-SECURITY-PLUS-PROFESSIONAL-100-COMPUTERS-AND-SINGLE-USER-LICENSE-PERP",
+                    "slug": "me-browser-security-plus-professional-100-computers-and-single-user-license-perp"
+                  },
+                  {
+                    "name": "250 Computers and Single User License",
+                    "metric": {
+                      "quantity": 250,
+                      "unit": "computers and single user license"
+                    },
+                    "amountUsd": 3238,
+                    "priceStatus": "listed",
+                    "maintenance": "US$647",
+                    "sku": "ME-BROWSER-SECURITY-PLUS-PROFESSIONAL-250-COMPUTERS-AND-SINGLE-USER-LICENSE-PERP",
+                    "slug": "me-browser-security-plus-professional-250-computers-and-single-user-license-perp"
+                  },
+                  {
+                    "name": "500 Computers and Single User License",
+                    "metric": {
+                      "quantity": 500,
+                      "unit": "computers and single user license"
+                    },
+                    "amountUsd": 5738,
+                    "priceStatus": "listed",
+                    "maintenance": "US$1,147",
+                    "sku": "ME-BROWSER-SECURITY-PLUS-PROFESSIONAL-500-COMPUTERS-AND-SINGLE-USER-LICENSE-PERP",
+                    "slug": "me-browser-security-plus-professional-500-computers-and-single-user-license-perp"
+                  },
+                  {
+                    "name": "1000 Computers and Single User License",
+                    "metric": {
+                      "quantity": 1000,
+                      "unit": "computers and single user license"
+                    },
+                    "amountUsd": 9738,
+                    "priceStatus": "listed",
+                    "maintenance": "US$1,947",
+                    "sku": "ME-BROWSER-SECURITY-PLUS-PROFESSIONAL-1000-COMPUTERS-AND-SINGLE-USER-LICENSE-PERP",
+                    "slug": "me-browser-security-plus-professional-1000-computers-and-single-user-license-perp"
+                  },
+                  {
+                    "name": "2500 Computers and Single User License",
+                    "metric": {
+                      "quantity": 2500,
+                      "unit": "computers and single user license"
+                    },
+                    "amountUsd": 20363,
+                    "priceStatus": "listed",
+                    "maintenance": "US$4,072",
+                    "sku": "ME-BROWSER-SECURITY-PLUS-PROFESSIONAL-2500-COMPUTERS-AND-SINGLE-USER-LICENSE-PERP",
+                    "slug": "me-browser-security-plus-professional-2500-computers-and-single-user-license-perp"
+                  },
+                  {
+                    "name": "5000 Computers and Single User License",
+                    "metric": {
+                      "quantity": 5000,
+                      "unit": "computers and single user license"
+                    },
+                    "amountUsd": 32488,
+                    "priceStatus": "listed",
+                    "maintenance": "US$6,497",
+                    "sku": "ME-BROWSER-SECURITY-PLUS-PROFESSIONAL-5000-COMPUTERS-AND-SINGLE-USER-LICENSE-PERP",
+                    "slug": "me-browser-security-plus-professional-5000-computers-and-single-user-license-perp"
+                  },
+                  {
+                    "name": "10000 Computers and Single User License",
+                    "metric": {
+                      "quantity": 10000,
+                      "unit": "computers and single user license"
+                    },
+                    "amountUsd": 48738,
+                    "priceStatus": "listed",
+                    "maintenance": "US$9,747",
+                    "sku": "ME-BROWSER-SECURITY-PLUS-PROFESSIONAL-10000-COMPUTERS-AND-SINGLE-USER-LICENSE-PERP",
+                    "slug": "me-browser-security-plus-professional-10000-computers-and-single-user-license-perp"
+                  },
+                  {
+                    "name": "Secure Gateway Server",
+                    "metric": null,
+                    "amountUsd": 750,
+                    "priceStatus": "listed",
+                    "maintenance": "US$150",
+                    "sku": "ME-BROWSER-SECURITY-PLUS-PROFESSIONAL-SECURE-GATEWAY-SERVER-PERP",
+                    "slug": "me-browser-security-plus-professional-secure-gateway-server-perp"
+                  }
+                ]
+              },
+              {
+                "slug": "browser-security-plus-additional-users-perpetual",
+                "name": "Browser Security Plus - Additional Users",
+                "edition": null,
+                "licenseModel": "perpetual",
+                "kind": "addon",
+                "variants": [
+                  {
+                    "name": "Additional 1 User",
+                    "metric": null,
+                    "amountUsd": 488,
+                    "priceStatus": "listed",
+                    "maintenance": "US$97",
+                    "sku": "ME-BROWSER-SECURITY-PLUS-ADDITIONAL-USERS-ADDITIONAL-1-USER-PERP",
+                    "slug": "me-browser-security-plus-additional-users-additional-1-user-perp"
+                  },
+                  {
+                    "name": "Additional 2 Users",
+                    "metric": null,
+                    "amountUsd": 863,
+                    "priceStatus": "listed",
+                    "maintenance": "US$172",
+                    "sku": "ME-BROWSER-SECURITY-PLUS-ADDITIONAL-USERS-ADDITIONAL-2-USERS-PERP",
+                    "slug": "me-browser-security-plus-additional-users-additional-2-users-perp"
+                  },
+                  {
+                    "name": "Additional 5 Users",
+                    "metric": null,
+                    "amountUsd": 1738,
+                    "priceStatus": "listed",
+                    "maintenance": "US$347",
+                    "sku": "ME-BROWSER-SECURITY-PLUS-ADDITIONAL-USERS-ADDITIONAL-5-USERS-PERP",
+                    "slug": "me-browser-security-plus-additional-users-additional-5-users-perp"
+                  },
+                  {
+                    "name": "Additional 10 Users",
+                    "metric": null,
+                    "amountUsd": 2488,
+                    "priceStatus": "listed",
+                    "maintenance": "US$497",
+                    "sku": "ME-BROWSER-SECURITY-PLUS-ADDITIONAL-USERS-ADDITIONAL-10-USERS-PERP",
+                    "slug": "me-browser-security-plus-additional-users-additional-10-users-perp"
+                  },
+                  {
+                    "name": "Additional 25 Users",
+                    "metric": null,
+                    "amountUsd": 4988,
+                    "priceStatus": "listed",
+                    "maintenance": "US$997",
+                    "sku": "ME-BROWSER-SECURITY-PLUS-ADDITIONAL-USERS-ADDITIONAL-25-USERS-PERP",
+                    "slug": "me-browser-security-plus-additional-users-additional-25-users-perp"
+                  },
+                  {
+                    "name": "Additional 50 Users",
+                    "metric": null,
+                    "amountUsd": 8738,
+                    "priceStatus": "listed",
+                    "maintenance": "US$1,747",
+                    "sku": "ME-BROWSER-SECURITY-PLUS-ADDITIONAL-USERS-ADDITIONAL-50-USERS-PERP",
+                    "slug": "me-browser-security-plus-additional-users-additional-50-users-perp"
+                  }
+                ]
+              },
+              {
+                "slug": "browser-security-plus-multi-language-pack-license-perpetual",
+                "name": "Browser Security Plus - Multi-Language Pack License",
+                "edition": null,
+                "licenseModel": "perpetual",
+                "kind": "addon",
+                "variants": [
+                  {
+                    "name": "Multi-Language Pack License",
+                    "metric": null,
+                    "amountUsd": 462,
+                    "priceStatus": "listed",
+                    "maintenance": "US$93",
+                    "sku": "ME-BROWSER-SECURITY-PLUS-MULTI-LANGUAGE-PACK-LICENS-MULTI-LANGUAGE-PACK-LICENSE-PERP",
+                    "slug": "me-browser-security-plus-multi-language-pack-licens-multi-language-pack-license-perp"
+                  }
+                ]
+              },
+              {
+                "slug": "browser-security-plus-failover-service-perpetual",
+                "name": "Browser Security Plus - Failover Service",
+                "edition": null,
+                "licenseModel": "perpetual",
+                "kind": "addon",
+                "variants": [
+                  {
+                    "name": "Failover Service for computers less than 1000",
+                    "metric": null,
+                    "amountUsd": 2990,
+                    "priceStatus": "listed",
+                    "maintenance": "US$598",
+                    "sku": "ME-BROWSER-SECURITY-PLUS-FAILOVER-SERVICE-FAILOVER-SERVICE-FOR-COMPUTERS-LESS-THAN-100-PERP",
+                    "slug": "me-browser-security-plus-failover-service-failover-service-for-computers-less-than-100-perp"
+                  },
+                  {
+                    "name": "Failover Service for computers 1001 to 5000",
+                    "metric": null,
+                    "amountUsd": 5990,
+                    "priceStatus": "listed",
+                    "maintenance": "US$1,198",
+                    "sku": "ME-BROWSER-SECURITY-PLUS-FAILOVER-SERVICE-FAILOVER-SERVICE-FOR-COMPUTERS-1001-TO-5000-PERP",
+                    "slug": "me-browser-security-plus-failover-service-failover-service-for-computers-1001-to-5000-perp"
+                  },
+                  {
+                    "name": "Failover Service for computers above 5000",
+                    "metric": null,
+                    "amountUsd": 8990,
+                    "priceStatus": "listed",
+                    "maintenance": "US$1,798",
+                    "sku": "ME-BROWSER-SECURITY-PLUS-FAILOVER-SERVICE-FAILOVER-SERVICE-FOR-COMPUTERS-ABOVE-5000-PERP",
+                    "slug": "me-browser-security-plus-failover-service-failover-service-for-computers-above-5000-perp"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
       },
       {
         "slug": "endpoint-dlp-plus",
@@ -11718,11 +19354,482 @@ export const ZOHO_GROUPS: ZohoGroup[] = [
         "tagline": "Sensitive data protection and compliance for endpoint devices",
         "subgroup": "Endpoint security",
         "storeUrl": "https://store.manageengine.com/endpoint-dlp/?MEstore",
-        "priced": false,
+        "priced": true,
         "sourceUrl": "https://store.manageengine.com/endpoint-dlp/?MEstore",
-        "sourceSnapshotId": null,
-        "sourceCheckedAt": null,
-        "deployments": []
+        "sourceSnapshotId": "c758d36190e1",
+        "sourceCheckedAt": "2026-08-20T22:05:25.320Z",
+        "deployments": [
+          {
+            "deployment": "unspecified",
+            "licenseModel": "subscription",
+            "slug": "endpoint-dlp-plus-subscription",
+            "offers": [
+              {
+                "slug": "endpoint-dlp-plus-professional-edition",
+                "name": "Endpoint DLP Plus Professional Edition",
+                "edition": "Professional",
+                "licenseModel": "subscription",
+                "kind": "base",
+                "variants": [
+                  {
+                    "name": "100 Workstations",
+                    "metric": {
+                      "quantity": 100,
+                      "unit": "workstation"
+                    },
+                    "amountUsd": 795,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-ENDPOINT-DLP-PLUS-PROFESSIONAL-100-WORKSTATIONS",
+                    "slug": "me-endpoint-dlp-plus-professional-100-workstations"
+                  },
+                  {
+                    "name": "250 Workstations",
+                    "metric": {
+                      "quantity": 250,
+                      "unit": "workstation"
+                    },
+                    "amountUsd": 1595,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-ENDPOINT-DLP-PLUS-PROFESSIONAL-250-WORKSTATIONS",
+                    "slug": "me-endpoint-dlp-plus-professional-250-workstations"
+                  },
+                  {
+                    "name": "500 Workstations",
+                    "metric": {
+                      "quantity": 500,
+                      "unit": "workstation"
+                    },
+                    "amountUsd": 2795,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-ENDPOINT-DLP-PLUS-PROFESSIONAL-500-WORKSTATIONS",
+                    "slug": "me-endpoint-dlp-plus-professional-500-workstations"
+                  },
+                  {
+                    "name": "1000 Workstations",
+                    "metric": {
+                      "quantity": 1000,
+                      "unit": "workstation"
+                    },
+                    "amountUsd": 4995,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-ENDPOINT-DLP-PLUS-PROFESSIONAL-1000-WORKSTATIONS",
+                    "slug": "me-endpoint-dlp-plus-professional-1000-workstations"
+                  },
+                  {
+                    "name": "2500 Workstations",
+                    "metric": {
+                      "quantity": 2500,
+                      "unit": "workstation"
+                    },
+                    "amountUsd": 9895,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-ENDPOINT-DLP-PLUS-PROFESSIONAL-2500-WORKSTATIONS",
+                    "slug": "me-endpoint-dlp-plus-professional-2500-workstations"
+                  },
+                  {
+                    "name": "5000 Workstations",
+                    "metric": {
+                      "quantity": 5000,
+                      "unit": "workstation"
+                    },
+                    "amountUsd": 15895,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-ENDPOINT-DLP-PLUS-PROFESSIONAL-5000-WORKSTATIONS",
+                    "slug": "me-endpoint-dlp-plus-professional-5000-workstations"
+                  },
+                  {
+                    "name": "10000 Workstations",
+                    "metric": {
+                      "quantity": 10000,
+                      "unit": "workstation"
+                    },
+                    "amountUsd": 24165,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-ENDPOINT-DLP-PLUS-PROFESSIONAL-10000-WORKSTATIONS",
+                    "slug": "me-endpoint-dlp-plus-professional-10000-workstations"
+                  },
+                  {
+                    "name": "Secure Gateway Server",
+                    "metric": null,
+                    "amountUsd": 300,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-ENDPOINT-DLP-PLUS-PROFESSIONAL-SECURE-GATEWAY-SERVER",
+                    "slug": "me-endpoint-dlp-plus-professional-secure-gateway-server"
+                  }
+                ]
+              },
+              {
+                "slug": "endpoint-dlp-plus-additional-users",
+                "name": "Endpoint DLP Plus Additional Users",
+                "edition": null,
+                "licenseModel": "subscription",
+                "kind": "addon",
+                "variants": [
+                  {
+                    "name": "Additional 1 User",
+                    "metric": null,
+                    "amountUsd": 195,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-ENDPOINT-DLP-PLUS-ADDITIONAL-USERS-ADDITIONAL-1-USER",
+                    "slug": "me-endpoint-dlp-plus-additional-users-additional-1-user"
+                  },
+                  {
+                    "name": "Additional 2 Users",
+                    "metric": null,
+                    "amountUsd": 345,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-ENDPOINT-DLP-PLUS-ADDITIONAL-USERS-ADDITIONAL-2-USERS",
+                    "slug": "me-endpoint-dlp-plus-additional-users-additional-2-users"
+                  },
+                  {
+                    "name": "Additional 5 Users",
+                    "metric": null,
+                    "amountUsd": 695,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-ENDPOINT-DLP-PLUS-ADDITIONAL-USERS-ADDITIONAL-5-USERS",
+                    "slug": "me-endpoint-dlp-plus-additional-users-additional-5-users"
+                  },
+                  {
+                    "name": "Additional 10 Users",
+                    "metric": null,
+                    "amountUsd": 995,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-ENDPOINT-DLP-PLUS-ADDITIONAL-USERS-ADDITIONAL-10-USERS",
+                    "slug": "me-endpoint-dlp-plus-additional-users-additional-10-users"
+                  },
+                  {
+                    "name": "Additional 25 Users",
+                    "metric": null,
+                    "amountUsd": 1995,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-ENDPOINT-DLP-PLUS-ADDITIONAL-USERS-ADDITIONAL-25-USERS",
+                    "slug": "me-endpoint-dlp-plus-additional-users-additional-25-users"
+                  },
+                  {
+                    "name": "Additional 50 Users",
+                    "metric": null,
+                    "amountUsd": 3495,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-ENDPOINT-DLP-PLUS-ADDITIONAL-USERS-ADDITIONAL-50-USERS",
+                    "slug": "me-endpoint-dlp-plus-additional-users-additional-50-users"
+                  }
+                ]
+              },
+              {
+                "slug": "endpoint-dlp-plus-failover-service",
+                "name": "Endpoint DLP Plus - Failover Service",
+                "edition": null,
+                "licenseModel": "subscription",
+                "kind": "addon",
+                "variants": [
+                  {
+                    "name": "Failover Service for computers less than 1000",
+                    "metric": null,
+                    "amountUsd": 1195,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-ENDPOINT-DLP-PLUS-FAILOVER-SERVICE-FAILOVER-SERVICE-FOR-COMPUTERS-LESS-THAN-100",
+                    "slug": "me-endpoint-dlp-plus-failover-service-failover-service-for-computers-less-than-100"
+                  },
+                  {
+                    "name": "Failover Service for computers 1001 to 5000",
+                    "metric": null,
+                    "amountUsd": 2395,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-ENDPOINT-DLP-PLUS-FAILOVER-SERVICE-FAILOVER-SERVICE-FOR-COMPUTERS-1001-TO-5000",
+                    "slug": "me-endpoint-dlp-plus-failover-service-failover-service-for-computers-1001-to-5000"
+                  },
+                  {
+                    "name": "Failover Service for computers above 5000",
+                    "metric": null,
+                    "amountUsd": 3595,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-ENDPOINT-DLP-PLUS-FAILOVER-SERVICE-FAILOVER-SERVICE-FOR-COMPUTERS-ABOVE-5000",
+                    "slug": "me-endpoint-dlp-plus-failover-service-failover-service-for-computers-above-5000"
+                  }
+                ]
+              },
+              {
+                "slug": "endpoint-dlp-plus-multi-language-pack-license",
+                "name": "Endpoint DLP Plus - Multi-Language Pack License",
+                "edition": null,
+                "licenseModel": "subscription",
+                "kind": "addon",
+                "variants": [
+                  {
+                    "name": "Multi-Language Pack License",
+                    "metric": null,
+                    "amountUsd": 185,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-ENDPOINT-DLP-PLUS-MULTI-LANGUAGE-PACK-LICENS-MULTI-LANGUAGE-PACK-LICENSE",
+                    "slug": "me-endpoint-dlp-plus-multi-language-pack-licens-multi-language-pack-license"
+                  }
+                ]
+              },
+              {
+                "slug": "endpoint-dlp-plus-training",
+                "name": "Endpoint DLP Plus Training",
+                "edition": null,
+                "licenseModel": "subscription",
+                "kind": "service",
+                "variants": [
+                  {
+                    "name": "Web-based Training (2hrs each for 2 days)",
+                    "metric": null,
+                    "amountUsd": 495,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-ENDPOINT-DLP-PLUS-TRAINING-WEB-BASED-TRAINING",
+                    "slug": "me-endpoint-dlp-plus-training-web-based-training"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "deployment": "unspecified",
+            "licenseModel": "perpetual",
+            "slug": "endpoint-dlp-plus-perpetual",
+            "offers": [
+              {
+                "slug": "endpoint-dlp-plus-professional-edition-perpetual",
+                "name": "Endpoint DLP Plus Professional Edition",
+                "edition": "Professional",
+                "licenseModel": "perpetual",
+                "kind": "base",
+                "variants": [
+                  {
+                    "name": "100 Workstations",
+                    "metric": {
+                      "quantity": 100,
+                      "unit": "workstation"
+                    },
+                    "amountUsd": 1987,
+                    "priceStatus": "listed",
+                    "maintenance": "US$398",
+                    "sku": "ME-ENDPOINT-DLP-PLUS-PROFESSIONAL-100-WORKSTATIONS-PERP",
+                    "slug": "me-endpoint-dlp-plus-professional-100-workstations-perp"
+                  },
+                  {
+                    "name": "250 Workstations",
+                    "metric": {
+                      "quantity": 250,
+                      "unit": "workstation"
+                    },
+                    "amountUsd": 3987,
+                    "priceStatus": "listed",
+                    "maintenance": "US$798",
+                    "sku": "ME-ENDPOINT-DLP-PLUS-PROFESSIONAL-250-WORKSTATIONS-PERP",
+                    "slug": "me-endpoint-dlp-plus-professional-250-workstations-perp"
+                  },
+                  {
+                    "name": "500 Workstations",
+                    "metric": {
+                      "quantity": 500,
+                      "unit": "workstation"
+                    },
+                    "amountUsd": 6987,
+                    "priceStatus": "listed",
+                    "maintenance": "US$1,398",
+                    "sku": "ME-ENDPOINT-DLP-PLUS-PROFESSIONAL-500-WORKSTATIONS-PERP",
+                    "slug": "me-endpoint-dlp-plus-professional-500-workstations-perp"
+                  },
+                  {
+                    "name": "1000 Workstations",
+                    "metric": {
+                      "quantity": 1000,
+                      "unit": "workstation"
+                    },
+                    "amountUsd": 12487,
+                    "priceStatus": "listed",
+                    "maintenance": "US$2,498",
+                    "sku": "ME-ENDPOINT-DLP-PLUS-PROFESSIONAL-1000-WORKSTATIONS-PERP",
+                    "slug": "me-endpoint-dlp-plus-professional-1000-workstations-perp"
+                  },
+                  {
+                    "name": "2500 Workstations",
+                    "metric": {
+                      "quantity": 2500,
+                      "unit": "workstation"
+                    },
+                    "amountUsd": 24737,
+                    "priceStatus": "listed",
+                    "maintenance": "US$4,948",
+                    "sku": "ME-ENDPOINT-DLP-PLUS-PROFESSIONAL-2500-WORKSTATIONS-PERP",
+                    "slug": "me-endpoint-dlp-plus-professional-2500-workstations-perp"
+                  },
+                  {
+                    "name": "5000 Workstations",
+                    "metric": {
+                      "quantity": 5000,
+                      "unit": "workstation"
+                    },
+                    "amountUsd": 39737,
+                    "priceStatus": "listed",
+                    "maintenance": "US$7,948",
+                    "sku": "ME-ENDPOINT-DLP-PLUS-PROFESSIONAL-5000-WORKSTATIONS-PERP",
+                    "slug": "me-endpoint-dlp-plus-professional-5000-workstations-perp"
+                  },
+                  {
+                    "name": "10000 Workstations",
+                    "metric": {
+                      "quantity": 10000,
+                      "unit": "workstation"
+                    },
+                    "amountUsd": 60412,
+                    "priceStatus": "listed",
+                    "maintenance": "US$12,083",
+                    "sku": "ME-ENDPOINT-DLP-PLUS-PROFESSIONAL-10000-WORKSTATIONS-PERP",
+                    "slug": "me-endpoint-dlp-plus-professional-10000-workstations-perp"
+                  },
+                  {
+                    "name": "Secure Gateway Server",
+                    "metric": null,
+                    "amountUsd": 750,
+                    "priceStatus": "listed",
+                    "maintenance": "US$150",
+                    "sku": "ME-ENDPOINT-DLP-PLUS-PROFESSIONAL-SECURE-GATEWAY-SERVER-PERP",
+                    "slug": "me-endpoint-dlp-plus-professional-secure-gateway-server-perp"
+                  }
+                ]
+              },
+              {
+                "slug": "endpoint-dlp-plus-additional-users-perpetual",
+                "name": "Endpoint DLP Plus Additional Users",
+                "edition": null,
+                "licenseModel": "perpetual",
+                "kind": "addon",
+                "variants": [
+                  {
+                    "name": "Additional 1 User",
+                    "metric": null,
+                    "amountUsd": 487,
+                    "priceStatus": "listed",
+                    "maintenance": "US$98",
+                    "sku": "ME-ENDPOINT-DLP-PLUS-ADDITIONAL-USERS-ADDITIONAL-1-USER-PERP",
+                    "slug": "me-endpoint-dlp-plus-additional-users-additional-1-user-perp"
+                  },
+                  {
+                    "name": "Additional 2 Users",
+                    "metric": null,
+                    "amountUsd": 862,
+                    "priceStatus": "listed",
+                    "maintenance": "US$173",
+                    "sku": "ME-ENDPOINT-DLP-PLUS-ADDITIONAL-USERS-ADDITIONAL-2-USERS-PERP",
+                    "slug": "me-endpoint-dlp-plus-additional-users-additional-2-users-perp"
+                  },
+                  {
+                    "name": "Additional 5 Users",
+                    "metric": null,
+                    "amountUsd": 1737,
+                    "priceStatus": "listed",
+                    "maintenance": "US$348",
+                    "sku": "ME-ENDPOINT-DLP-PLUS-ADDITIONAL-USERS-ADDITIONAL-5-USERS-PERP",
+                    "slug": "me-endpoint-dlp-plus-additional-users-additional-5-users-perp"
+                  },
+                  {
+                    "name": "Additional 10 Users",
+                    "metric": null,
+                    "amountUsd": 2487,
+                    "priceStatus": "listed",
+                    "maintenance": "US$498",
+                    "sku": "ME-ENDPOINT-DLP-PLUS-ADDITIONAL-USERS-ADDITIONAL-10-USERS-PERP",
+                    "slug": "me-endpoint-dlp-plus-additional-users-additional-10-users-perp"
+                  },
+                  {
+                    "name": "Additional 25 Users",
+                    "metric": null,
+                    "amountUsd": 4987,
+                    "priceStatus": "listed",
+                    "maintenance": "US$998",
+                    "sku": "ME-ENDPOINT-DLP-PLUS-ADDITIONAL-USERS-ADDITIONAL-25-USERS-PERP",
+                    "slug": "me-endpoint-dlp-plus-additional-users-additional-25-users-perp"
+                  },
+                  {
+                    "name": "Additional 50 Users",
+                    "metric": null,
+                    "amountUsd": 8737,
+                    "priceStatus": "listed",
+                    "maintenance": "US$1,748",
+                    "sku": "ME-ENDPOINT-DLP-PLUS-ADDITIONAL-USERS-ADDITIONAL-50-USERS-PERP",
+                    "slug": "me-endpoint-dlp-plus-additional-users-additional-50-users-perp"
+                  }
+                ]
+              },
+              {
+                "slug": "endpoint-dlp-plus-failover-service-perpetual",
+                "name": "Endpoint DLP Plus - Failover Service",
+                "edition": null,
+                "licenseModel": "perpetual",
+                "kind": "addon",
+                "variants": [
+                  {
+                    "name": "Failover Service for computers less than 1000",
+                    "metric": null,
+                    "amountUsd": 2990,
+                    "priceStatus": "listed",
+                    "maintenance": "US$598",
+                    "sku": "ME-ENDPOINT-DLP-PLUS-FAILOVER-SERVICE-FAILOVER-SERVICE-FOR-COMPUTERS-LESS-THAN-100-PERP",
+                    "slug": "me-endpoint-dlp-plus-failover-service-failover-service-for-computers-less-than-100-perp"
+                  },
+                  {
+                    "name": "Failover Service for computers 1001 to 5000",
+                    "metric": null,
+                    "amountUsd": 5990,
+                    "priceStatus": "listed",
+                    "maintenance": "US$1,198",
+                    "sku": "ME-ENDPOINT-DLP-PLUS-FAILOVER-SERVICE-FAILOVER-SERVICE-FOR-COMPUTERS-1001-TO-5000-PERP",
+                    "slug": "me-endpoint-dlp-plus-failover-service-failover-service-for-computers-1001-to-5000-perp"
+                  },
+                  {
+                    "name": "Failover Service for computers above 5000",
+                    "metric": null,
+                    "amountUsd": 8990,
+                    "priceStatus": "listed",
+                    "maintenance": "US$1,798",
+                    "sku": "ME-ENDPOINT-DLP-PLUS-FAILOVER-SERVICE-FAILOVER-SERVICE-FOR-COMPUTERS-ABOVE-5000-PERP",
+                    "slug": "me-endpoint-dlp-plus-failover-service-failover-service-for-computers-above-5000-perp"
+                  }
+                ]
+              },
+              {
+                "slug": "endpoint-dlp-plus-multi-language-pack-license-perpetual",
+                "name": "Endpoint DLP Plus - Multi-Language Pack License",
+                "edition": null,
+                "licenseModel": "perpetual",
+                "kind": "addon",
+                "variants": [
+                  {
+                    "name": "Multi-Language Pack License",
+                    "metric": null,
+                    "amountUsd": 462,
+                    "priceStatus": "listed",
+                    "maintenance": "US$93",
+                    "sku": "ME-ENDPOINT-DLP-PLUS-MULTI-LANGUAGE-PACK-LICENS-MULTI-LANGUAGE-PACK-LICENSE-PERP",
+                    "slug": "me-endpoint-dlp-plus-multi-language-pack-licens-multi-language-pack-license-perp"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
       },
       {
         "slug": "ransomware-protection-plus",
@@ -11730,11 +19837,794 @@ export const ZOHO_GROUPS: ZohoGroup[] = [
         "tagline": "Real-time ransomware mitigation and file recovery for business continuity",
         "subgroup": "Endpoint security",
         "storeUrl": "https://store.manageengine.com/ransomware-protection/?MEstore",
-        "priced": false,
+        "priced": true,
         "sourceUrl": "https://store.manageengine.com/ransomware-protection/?MEstore",
-        "sourceSnapshotId": null,
-        "sourceCheckedAt": null,
-        "deployments": []
+        "sourceSnapshotId": "60cdec689bb7",
+        "sourceCheckedAt": "2026-08-20T22:05:42.618Z",
+        "deployments": [
+          {
+            "deployment": "saas",
+            "licenseModel": "subscription",
+            "slug": "ransomware-protection-plus-saas-subscription",
+            "offers": [
+              {
+                "slug": "ransomware-protection-plus-enterprise-edition",
+                "name": "Ransomware Protection Plus - Enterprise Edition",
+                "edition": "Enterprise",
+                "licenseModel": "subscription",
+                "kind": "base",
+                "variants": [
+                  {
+                    "name": "50 Workstations",
+                    "metric": {
+                      "quantity": 50,
+                      "unit": "workstation"
+                    },
+                    "amountUsd": 345,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-RANSOMWARE-PROTECTION-PLUS-ENTERPRISE-50-WORKSTATIONS",
+                    "slug": "me-ransomware-protection-plus-enterprise-50-workstations"
+                  },
+                  {
+                    "name": "100 Workstations",
+                    "metric": {
+                      "quantity": 100,
+                      "unit": "workstation"
+                    },
+                    "amountUsd": 595,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-RANSOMWARE-PROTECTION-PLUS-ENTERPRISE-100-WORKSTATIONS",
+                    "slug": "me-ransomware-protection-plus-enterprise-100-workstations"
+                  },
+                  {
+                    "name": "250 Workstations",
+                    "metric": {
+                      "quantity": 250,
+                      "unit": "workstation"
+                    },
+                    "amountUsd": 1395,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-RANSOMWARE-PROTECTION-PLUS-ENTERPRISE-250-WORKSTATIONS",
+                    "slug": "me-ransomware-protection-plus-enterprise-250-workstations"
+                  },
+                  {
+                    "name": "500 Workstations",
+                    "metric": {
+                      "quantity": 500,
+                      "unit": "workstation"
+                    },
+                    "amountUsd": 2495,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-RANSOMWARE-PROTECTION-PLUS-ENTERPRISE-500-WORKSTATIONS",
+                    "slug": "me-ransomware-protection-plus-enterprise-500-workstations"
+                  },
+                  {
+                    "name": "1000 Workstations",
+                    "metric": {
+                      "quantity": 1000,
+                      "unit": "workstation"
+                    },
+                    "amountUsd": 4545,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-RANSOMWARE-PROTECTION-PLUS-ENTERPRISE-1000-WORKSTATIONS",
+                    "slug": "me-ransomware-protection-plus-enterprise-1000-workstations"
+                  },
+                  {
+                    "name": "2500 Workstations",
+                    "metric": {
+                      "quantity": 2500,
+                      "unit": "workstation"
+                    },
+                    "amountUsd": 10245,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-RANSOMWARE-PROTECTION-PLUS-ENTERPRISE-2500-WORKSTATIONS",
+                    "slug": "me-ransomware-protection-plus-enterprise-2500-workstations"
+                  },
+                  {
+                    "name": "5000 Workstations",
+                    "metric": {
+                      "quantity": 5000,
+                      "unit": "workstation"
+                    },
+                    "amountUsd": 18445,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-RANSOMWARE-PROTECTION-PLUS-ENTERPRISE-5000-WORKSTATIONS",
+                    "slug": "me-ransomware-protection-plus-enterprise-5000-workstations"
+                  },
+                  {
+                    "name": "10000 Workstations",
+                    "metric": {
+                      "quantity": 10000,
+                      "unit": "workstation"
+                    },
+                    "amountUsd": 33295,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-RANSOMWARE-PROTECTION-PLUS-ENTERPRISE-10000-WORKSTATIONS",
+                    "slug": "me-ransomware-protection-plus-enterprise-10000-workstations"
+                  },
+                  {
+                    "name": "10 Servers",
+                    "metric": {
+                      "quantity": 10,
+                      "unit": "server"
+                    },
+                    "amountUsd": 145,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-RANSOMWARE-PROTECTION-PLUS-ENTERPRISE-10-SERVERS",
+                    "slug": "me-ransomware-protection-plus-enterprise-10-servers"
+                  },
+                  {
+                    "name": "25 Servers",
+                    "metric": {
+                      "quantity": 25,
+                      "unit": "server"
+                    },
+                    "amountUsd": 345,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-RANSOMWARE-PROTECTION-PLUS-ENTERPRISE-25-SERVERS",
+                    "slug": "me-ransomware-protection-plus-enterprise-25-servers"
+                  },
+                  {
+                    "name": "50 Servers",
+                    "metric": {
+                      "quantity": 50,
+                      "unit": "server"
+                    },
+                    "amountUsd": 695,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-RANSOMWARE-PROTECTION-PLUS-ENTERPRISE-50-SERVERS",
+                    "slug": "me-ransomware-protection-plus-enterprise-50-servers"
+                  },
+                  {
+                    "name": "100 Servers",
+                    "metric": {
+                      "quantity": 100,
+                      "unit": "server"
+                    },
+                    "amountUsd": 1245,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-RANSOMWARE-PROTECTION-PLUS-ENTERPRISE-100-SERVERS",
+                    "slug": "me-ransomware-protection-plus-enterprise-100-servers"
+                  },
+                  {
+                    "name": "250 Servers",
+                    "metric": {
+                      "quantity": 250,
+                      "unit": "server"
+                    },
+                    "amountUsd": 2795,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-RANSOMWARE-PROTECTION-PLUS-ENTERPRISE-250-SERVERS",
+                    "slug": "me-ransomware-protection-plus-enterprise-250-servers"
+                  },
+                  {
+                    "name": "500 Servers",
+                    "metric": {
+                      "quantity": 500,
+                      "unit": "server"
+                    },
+                    "amountUsd": 5045,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-RANSOMWARE-PROTECTION-PLUS-ENTERPRISE-500-SERVERS",
+                    "slug": "me-ransomware-protection-plus-enterprise-500-servers"
+                  },
+                  {
+                    "name": "1000 Servers",
+                    "metric": {
+                      "quantity": 1000,
+                      "unit": "server"
+                    },
+                    "amountUsd": 9095,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-RANSOMWARE-PROTECTION-PLUS-ENTERPRISE-1000-SERVERS",
+                    "slug": "me-ransomware-protection-plus-enterprise-1000-servers"
+                  },
+                  {
+                    "name": "2500 Servers",
+                    "metric": {
+                      "quantity": 2500,
+                      "unit": "server"
+                    },
+                    "amountUsd": 20495,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-RANSOMWARE-PROTECTION-PLUS-ENTERPRISE-2500-SERVERS",
+                    "slug": "me-ransomware-protection-plus-enterprise-2500-servers"
+                  },
+                  {
+                    "name": "5000 Servers",
+                    "metric": {
+                      "quantity": 5000,
+                      "unit": "server"
+                    },
+                    "amountUsd": 36495,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-RANSOMWARE-PROTECTION-PLUS-ENTERPRISE-5000-SERVERS",
+                    "slug": "me-ransomware-protection-plus-enterprise-5000-servers"
+                  }
+                ]
+              },
+              {
+                "slug": "ransomware-protection-plus-additional-technicians",
+                "name": "Ransomware Protection Plus - Additional Technicians",
+                "edition": null,
+                "licenseModel": "subscription",
+                "kind": "addon",
+                "variants": [
+                  {
+                    "name": "1 Additional Technician",
+                    "metric": {
+                      "quantity": 1,
+                      "unit": "additional technician"
+                    },
+                    "amountUsd": 195,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-RANSOMWARE-PROTECTION-PLUS-ADDITIONAL-TECHNICIANS-1-ADDITIONAL-TECHNICIAN",
+                    "slug": "me-ransomware-protection-plus-additional-technicians-1-additional-technician"
+                  },
+                  {
+                    "name": "2 Additional Technicians",
+                    "metric": {
+                      "quantity": 2,
+                      "unit": "additional technician"
+                    },
+                    "amountUsd": 345,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-RANSOMWARE-PROTECTION-PLUS-ADDITIONAL-TECHNICIANS-2-ADDITIONAL-TECHNICIANS",
+                    "slug": "me-ransomware-protection-plus-additional-technicians-2-additional-technicians"
+                  },
+                  {
+                    "name": "5 Additional Technicians",
+                    "metric": {
+                      "quantity": 5,
+                      "unit": "additional technician"
+                    },
+                    "amountUsd": 695,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-RANSOMWARE-PROTECTION-PLUS-ADDITIONAL-TECHNICIANS-5-ADDITIONAL-TECHNICIANS",
+                    "slug": "me-ransomware-protection-plus-additional-technicians-5-additional-technicians"
+                  },
+                  {
+                    "name": "10 Additional Technicians",
+                    "metric": {
+                      "quantity": 10,
+                      "unit": "additional technician"
+                    },
+                    "amountUsd": 995,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-RANSOMWARE-PROTECTION-PLUS-ADDITIONAL-TECHNICIANS-10-ADDITIONAL-TECHNICIANS",
+                    "slug": "me-ransomware-protection-plus-additional-technicians-10-additional-technicians"
+                  },
+                  {
+                    "name": "25 Additional Technicians",
+                    "metric": {
+                      "quantity": 25,
+                      "unit": "additional technician"
+                    },
+                    "amountUsd": 1995,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-RANSOMWARE-PROTECTION-PLUS-ADDITIONAL-TECHNICIANS-25-ADDITIONAL-TECHNICIANS",
+                    "slug": "me-ransomware-protection-plus-additional-technicians-25-additional-technicians"
+                  },
+                  {
+                    "name": "50 Additional Technicians",
+                    "metric": {
+                      "quantity": 50,
+                      "unit": "additional technician"
+                    },
+                    "amountUsd": 3495,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-RANSOMWARE-PROTECTION-PLUS-ADDITIONAL-TECHNICIANS-50-ADDITIONAL-TECHNICIANS",
+                    "slug": "me-ransomware-protection-plus-additional-technicians-50-additional-technicians"
+                  }
+                ]
+              },
+              {
+                "slug": "ransomware-protection-plus-failover-service",
+                "name": "Ransomware Protection Plus - Failover Service",
+                "edition": null,
+                "licenseModel": "subscription",
+                "kind": "addon",
+                "variants": [
+                  {
+                    "name": "Failover Service for computers less than 1000",
+                    "metric": null,
+                    "amountUsd": 1195,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-RANSOMWARE-PROTECTION-PLUS-FAILOVER-SERVICE-FAILOVER-SERVICE-FOR-COMPUTERS-LESS-THAN-100",
+                    "slug": "me-ransomware-protection-plus-failover-service-failover-service-for-computers-less-than-100"
+                  },
+                  {
+                    "name": "Failover Service for computers 1001 to 5000",
+                    "metric": null,
+                    "amountUsd": 2395,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-RANSOMWARE-PROTECTION-PLUS-FAILOVER-SERVICE-FAILOVER-SERVICE-FOR-COMPUTERS-1001-TO-5000",
+                    "slug": "me-ransomware-protection-plus-failover-service-failover-service-for-computers-1001-to-5000"
+                  },
+                  {
+                    "name": "Failover Service for computers above 5000",
+                    "metric": null,
+                    "amountUsd": 3595,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-RANSOMWARE-PROTECTION-PLUS-FAILOVER-SERVICE-FAILOVER-SERVICE-FOR-COMPUTERS-ABOVE-5000",
+                    "slug": "me-ransomware-protection-plus-failover-service-failover-service-for-computers-above-5000"
+                  }
+                ]
+              },
+              {
+                "slug": "ransomware-protection-plus-secure-gateway-server",
+                "name": "Ransomware Protection Plus - Secure Gateway Server",
+                "edition": null,
+                "licenseModel": "subscription",
+                "kind": "base",
+                "variants": [
+                  {
+                    "name": "Secure Gateway Server",
+                    "metric": null,
+                    "amountUsd": 300,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-RANSOMWARE-PROTECTION-PLUS-SECURE-GATEWAY-SERVER-SECURE-GATEWAY-SERVER",
+                    "slug": "me-ransomware-protection-plus-secure-gateway-server-secure-gateway-server"
+                  }
+                ]
+              },
+              {
+                "slug": "ransomware-protection-plus-multi-language-pack",
+                "name": "Ransomware Protection Plus - Multi-Language Pack",
+                "edition": null,
+                "licenseModel": "subscription",
+                "kind": "addon",
+                "variants": [
+                  {
+                    "name": "Multi-Language Pack License",
+                    "metric": null,
+                    "amountUsd": 185,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-RANSOMWARE-PROTECTION-PLUS-MULTI-LANGUAGE-PACK-MULTI-LANGUAGE-PACK-LICENSE",
+                    "slug": "me-ransomware-protection-plus-multi-language-pack-multi-language-pack-license"
+                  }
+                ]
+              },
+              {
+                "slug": "ransomware-protection-plus-training",
+                "name": "Ransomware Protection Plus - Training",
+                "edition": null,
+                "licenseModel": "subscription",
+                "kind": "service",
+                "variants": [
+                  {
+                    "name": "Web-based Training (3 hours)",
+                    "metric": null,
+                    "amountUsd": 495,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-RANSOMWARE-PROTECTION-PLUS-TRAINING-WEB-BASED-TRAINING",
+                    "slug": "me-ransomware-protection-plus-training-web-based-training"
+                  },
+                  {
+                    "name": "Web-based Installation and Setup and Training (4 hours)",
+                    "metric": null,
+                    "amountUsd": 995,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-RANSOMWARE-PROTECTION-PLUS-TRAINING-WEB-BASED-INSTALLATION-AND-SETUP-AND-TRAININ",
+                    "slug": "me-ransomware-protection-plus-training-web-based-installation-and-setup-and-trainin"
+                  },
+                  {
+                    "name": "Onsite Training",
+                    "metric": null,
+                    "amountUsd": 3995,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-RANSOMWARE-PROTECTION-PLUS-TRAINING-ONSITE-TRAINING",
+                    "slug": "me-ransomware-protection-plus-training-onsite-training"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "deployment": "saas",
+            "licenseModel": "perpetual",
+            "slug": "ransomware-protection-plus-saas-perpetual",
+            "offers": [
+              {
+                "slug": "ransomware-protection-plus-enterprise-edition-perpetual",
+                "name": "Ransomware Protection Plus - Enterprise Edition",
+                "edition": "Enterprise",
+                "licenseModel": "perpetual",
+                "kind": "base",
+                "variants": [
+                  {
+                    "name": "50 Workstations",
+                    "metric": {
+                      "quantity": 50,
+                      "unit": "workstation"
+                    },
+                    "amountUsd": 863,
+                    "priceStatus": "listed",
+                    "maintenance": "US$172",
+                    "sku": "ME-RANSOMWARE-PROTECTION-PLUS-ENTERPRISE-50-WORKSTATIONS-PERP",
+                    "slug": "me-ransomware-protection-plus-enterprise-50-workstations-perp"
+                  },
+                  {
+                    "name": "100 Workstations",
+                    "metric": {
+                      "quantity": 100,
+                      "unit": "workstation"
+                    },
+                    "amountUsd": 1488,
+                    "priceStatus": "listed",
+                    "maintenance": "US$297",
+                    "sku": "ME-RANSOMWARE-PROTECTION-PLUS-ENTERPRISE-100-WORKSTATIONS-PERP",
+                    "slug": "me-ransomware-protection-plus-enterprise-100-workstations-perp"
+                  },
+                  {
+                    "name": "250 Workstations",
+                    "metric": {
+                      "quantity": 250,
+                      "unit": "workstation"
+                    },
+                    "amountUsd": 3488,
+                    "priceStatus": "listed",
+                    "maintenance": "US$697",
+                    "sku": "ME-RANSOMWARE-PROTECTION-PLUS-ENTERPRISE-250-WORKSTATIONS-PERP",
+                    "slug": "me-ransomware-protection-plus-enterprise-250-workstations-perp"
+                  },
+                  {
+                    "name": "500 Workstations",
+                    "metric": {
+                      "quantity": 500,
+                      "unit": "workstation"
+                    },
+                    "amountUsd": 6238,
+                    "priceStatus": "listed",
+                    "maintenance": "US$1,247",
+                    "sku": "ME-RANSOMWARE-PROTECTION-PLUS-ENTERPRISE-500-WORKSTATIONS-PERP",
+                    "slug": "me-ransomware-protection-plus-enterprise-500-workstations-perp"
+                  },
+                  {
+                    "name": "1000 Workstations",
+                    "metric": {
+                      "quantity": 1000,
+                      "unit": "workstation"
+                    },
+                    "amountUsd": 11363,
+                    "priceStatus": "listed",
+                    "maintenance": "US$2,272",
+                    "sku": "ME-RANSOMWARE-PROTECTION-PLUS-ENTERPRISE-1000-WORKSTATIONS-PERP",
+                    "slug": "me-ransomware-protection-plus-enterprise-1000-workstations-perp"
+                  },
+                  {
+                    "name": "2500 Workstations",
+                    "metric": {
+                      "quantity": 2500,
+                      "unit": "workstation"
+                    },
+                    "amountUsd": 25613,
+                    "priceStatus": "listed",
+                    "maintenance": "US$5,122",
+                    "sku": "ME-RANSOMWARE-PROTECTION-PLUS-ENTERPRISE-2500-WORKSTATIONS-PERP",
+                    "slug": "me-ransomware-protection-plus-enterprise-2500-workstations-perp"
+                  },
+                  {
+                    "name": "5000 Workstations",
+                    "metric": {
+                      "quantity": 5000,
+                      "unit": "workstation"
+                    },
+                    "amountUsd": 46113,
+                    "priceStatus": "listed",
+                    "maintenance": "US$9,222",
+                    "sku": "ME-RANSOMWARE-PROTECTION-PLUS-ENTERPRISE-5000-WORKSTATIONS-PERP",
+                    "slug": "me-ransomware-protection-plus-enterprise-5000-workstations-perp"
+                  },
+                  {
+                    "name": "10000 Workstations",
+                    "metric": {
+                      "quantity": 10000,
+                      "unit": "workstation"
+                    },
+                    "amountUsd": 83238,
+                    "priceStatus": "listed",
+                    "maintenance": "US$16,647",
+                    "sku": "ME-RANSOMWARE-PROTECTION-PLUS-ENTERPRISE-10000-WORKSTATIONS-PERP",
+                    "slug": "me-ransomware-protection-plus-enterprise-10000-workstations-perp"
+                  },
+                  {
+                    "name": "10 Servers",
+                    "metric": {
+                      "quantity": 10,
+                      "unit": "server"
+                    },
+                    "amountUsd": 363,
+                    "priceStatus": "listed",
+                    "maintenance": "US$72",
+                    "sku": "ME-RANSOMWARE-PROTECTION-PLUS-ENTERPRISE-10-SERVERS-PERP",
+                    "slug": "me-ransomware-protection-plus-enterprise-10-servers-perp"
+                  },
+                  {
+                    "name": "25 Servers",
+                    "metric": {
+                      "quantity": 25,
+                      "unit": "server"
+                    },
+                    "amountUsd": 863,
+                    "priceStatus": "listed",
+                    "maintenance": "US$172",
+                    "sku": "ME-RANSOMWARE-PROTECTION-PLUS-ENTERPRISE-25-SERVERS-PERP",
+                    "slug": "me-ransomware-protection-plus-enterprise-25-servers-perp"
+                  },
+                  {
+                    "name": "50 Servers",
+                    "metric": {
+                      "quantity": 50,
+                      "unit": "server"
+                    },
+                    "amountUsd": 1738,
+                    "priceStatus": "listed",
+                    "maintenance": "US$347",
+                    "sku": "ME-RANSOMWARE-PROTECTION-PLUS-ENTERPRISE-50-SERVERS-PERP",
+                    "slug": "me-ransomware-protection-plus-enterprise-50-servers-perp"
+                  },
+                  {
+                    "name": "100 Servers",
+                    "metric": {
+                      "quantity": 100,
+                      "unit": "server"
+                    },
+                    "amountUsd": 3113,
+                    "priceStatus": "listed",
+                    "maintenance": "US$622",
+                    "sku": "ME-RANSOMWARE-PROTECTION-PLUS-ENTERPRISE-100-SERVERS-PERP",
+                    "slug": "me-ransomware-protection-plus-enterprise-100-servers-perp"
+                  },
+                  {
+                    "name": "250 Servers",
+                    "metric": {
+                      "quantity": 250,
+                      "unit": "server"
+                    },
+                    "amountUsd": 6988,
+                    "priceStatus": "listed",
+                    "maintenance": "US$1,397",
+                    "sku": "ME-RANSOMWARE-PROTECTION-PLUS-ENTERPRISE-250-SERVERS-PERP",
+                    "slug": "me-ransomware-protection-plus-enterprise-250-servers-perp"
+                  },
+                  {
+                    "name": "500 Servers",
+                    "metric": {
+                      "quantity": 500,
+                      "unit": "server"
+                    },
+                    "amountUsd": 12613,
+                    "priceStatus": "listed",
+                    "maintenance": "US$2,522",
+                    "sku": "ME-RANSOMWARE-PROTECTION-PLUS-ENTERPRISE-500-SERVERS-PERP",
+                    "slug": "me-ransomware-protection-plus-enterprise-500-servers-perp"
+                  },
+                  {
+                    "name": "1000 Servers",
+                    "metric": {
+                      "quantity": 1000,
+                      "unit": "server"
+                    },
+                    "amountUsd": 22738,
+                    "priceStatus": "listed",
+                    "maintenance": "US$4,547",
+                    "sku": "ME-RANSOMWARE-PROTECTION-PLUS-ENTERPRISE-1000-SERVERS-PERP",
+                    "slug": "me-ransomware-protection-plus-enterprise-1000-servers-perp"
+                  },
+                  {
+                    "name": "2500 Servers",
+                    "metric": {
+                      "quantity": 2500,
+                      "unit": "server"
+                    },
+                    "amountUsd": 51238,
+                    "priceStatus": "listed",
+                    "maintenance": "US$10,247",
+                    "sku": "ME-RANSOMWARE-PROTECTION-PLUS-ENTERPRISE-2500-SERVERS-PERP",
+                    "slug": "me-ransomware-protection-plus-enterprise-2500-servers-perp"
+                  },
+                  {
+                    "name": "5000 Servers",
+                    "metric": {
+                      "quantity": 5000,
+                      "unit": "server"
+                    },
+                    "amountUsd": 92363,
+                    "priceStatus": "listed",
+                    "maintenance": "US$18,472",
+                    "sku": "ME-RANSOMWARE-PROTECTION-PLUS-ENTERPRISE-5000-SERVERS-PERP",
+                    "slug": "me-ransomware-protection-plus-enterprise-5000-servers-perp"
+                  }
+                ]
+              },
+              {
+                "slug": "ransomware-protection-plus-additional-technicians-perpetual",
+                "name": "Ransomware Protection Plus - Additional Technicians",
+                "edition": null,
+                "licenseModel": "perpetual",
+                "kind": "addon",
+                "variants": [
+                  {
+                    "name": "1 Additional Technician",
+                    "metric": {
+                      "quantity": 1,
+                      "unit": "additional technician"
+                    },
+                    "amountUsd": 488,
+                    "priceStatus": "listed",
+                    "maintenance": "US$97",
+                    "sku": "ME-RANSOMWARE-PROTECTION-PLUS-ADDITIONAL-TECHNICIANS-1-ADDITIONAL-TECHNICIAN-PERP",
+                    "slug": "me-ransomware-protection-plus-additional-technicians-1-additional-technician-perp"
+                  },
+                  {
+                    "name": "2 Additional Technicians",
+                    "metric": {
+                      "quantity": 2,
+                      "unit": "additional technician"
+                    },
+                    "amountUsd": 863,
+                    "priceStatus": "listed",
+                    "maintenance": "US$172",
+                    "sku": "ME-RANSOMWARE-PROTECTION-PLUS-ADDITIONAL-TECHNICIANS-2-ADDITIONAL-TECHNICIANS-PERP",
+                    "slug": "me-ransomware-protection-plus-additional-technicians-2-additional-technicians-perp"
+                  },
+                  {
+                    "name": "5 Additional Technicians",
+                    "metric": {
+                      "quantity": 5,
+                      "unit": "additional technician"
+                    },
+                    "amountUsd": 1738,
+                    "priceStatus": "listed",
+                    "maintenance": "US$347",
+                    "sku": "ME-RANSOMWARE-PROTECTION-PLUS-ADDITIONAL-TECHNICIANS-5-ADDITIONAL-TECHNICIANS-PERP",
+                    "slug": "me-ransomware-protection-plus-additional-technicians-5-additional-technicians-perp"
+                  },
+                  {
+                    "name": "10 Additional Technicians",
+                    "metric": {
+                      "quantity": 10,
+                      "unit": "additional technician"
+                    },
+                    "amountUsd": 2488,
+                    "priceStatus": "listed",
+                    "maintenance": "US$497",
+                    "sku": "ME-RANSOMWARE-PROTECTION-PLUS-ADDITIONAL-TECHNICIANS-10-ADDITIONAL-TECHNICIANS-PERP",
+                    "slug": "me-ransomware-protection-plus-additional-technicians-10-additional-technicians-perp"
+                  },
+                  {
+                    "name": "25 Additional Technicians",
+                    "metric": {
+                      "quantity": 25,
+                      "unit": "additional technician"
+                    },
+                    "amountUsd": 4988,
+                    "priceStatus": "listed",
+                    "maintenance": "US$997",
+                    "sku": "ME-RANSOMWARE-PROTECTION-PLUS-ADDITIONAL-TECHNICIANS-25-ADDITIONAL-TECHNICIANS-PERP",
+                    "slug": "me-ransomware-protection-plus-additional-technicians-25-additional-technicians-perp"
+                  },
+                  {
+                    "name": "50 Additional Technicians",
+                    "metric": {
+                      "quantity": 50,
+                      "unit": "additional technician"
+                    },
+                    "amountUsd": 8738,
+                    "priceStatus": "listed",
+                    "maintenance": "US$1,747",
+                    "sku": "ME-RANSOMWARE-PROTECTION-PLUS-ADDITIONAL-TECHNICIANS-50-ADDITIONAL-TECHNICIANS-PERP",
+                    "slug": "me-ransomware-protection-plus-additional-technicians-50-additional-technicians-perp"
+                  }
+                ]
+              },
+              {
+                "slug": "ransomware-protection-plus-failover-service-perpetual",
+                "name": "Ransomware Protection Plus - Failover Service",
+                "edition": null,
+                "licenseModel": "perpetual",
+                "kind": "addon",
+                "variants": [
+                  {
+                    "name": "Failover Service for computers less than 1000",
+                    "metric": null,
+                    "amountUsd": 2990,
+                    "priceStatus": "listed",
+                    "maintenance": "US$598",
+                    "sku": "ME-RANSOMWARE-PROTECTION-PLUS-FAILOVER-SERVICE-FAILOVER-SERVICE-FOR-COMPUTERS-LESS-THAN-100-PERP",
+                    "slug": "me-ransomware-protection-plus-failover-service-failover-service-for-computers-less-than-100-perp"
+                  },
+                  {
+                    "name": "Failover Service for computers 1001 to 5000",
+                    "metric": null,
+                    "amountUsd": 5990,
+                    "priceStatus": "listed",
+                    "maintenance": "US$1,198",
+                    "sku": "ME-RANSOMWARE-PROTECTION-PLUS-FAILOVER-SERVICE-FAILOVER-SERVICE-FOR-COMPUTERS-1001-TO-5000-PERP",
+                    "slug": "me-ransomware-protection-plus-failover-service-failover-service-for-computers-1001-to-5000-perp"
+                  },
+                  {
+                    "name": "Failover Service for computers above 5000",
+                    "metric": null,
+                    "amountUsd": 8990,
+                    "priceStatus": "listed",
+                    "maintenance": "US$1,798",
+                    "sku": "ME-RANSOMWARE-PROTECTION-PLUS-FAILOVER-SERVICE-FAILOVER-SERVICE-FOR-COMPUTERS-ABOVE-5000-PERP",
+                    "slug": "me-ransomware-protection-plus-failover-service-failover-service-for-computers-above-5000-perp"
+                  }
+                ]
+              },
+              {
+                "slug": "ransomware-protection-plus-secure-gateway-server-perpetual",
+                "name": "Ransomware Protection Plus - Secure Gateway Server",
+                "edition": null,
+                "licenseModel": "perpetual",
+                "kind": "base",
+                "variants": [
+                  {
+                    "name": "Secure Gateway Server",
+                    "metric": null,
+                    "amountUsd": 750,
+                    "priceStatus": "listed",
+                    "maintenance": "US$150",
+                    "sku": "ME-RANSOMWARE-PROTECTION-PLUS-SECURE-GATEWAY-SERVER-SECURE-GATEWAY-SERVER-PERP",
+                    "slug": "me-ransomware-protection-plus-secure-gateway-server-secure-gateway-server-perp"
+                  }
+                ]
+              },
+              {
+                "slug": "ransomware-protection-plus-multi-language-pack-perpetual",
+                "name": "Ransomware Protection Plus - Multi-Language Pack",
+                "edition": null,
+                "licenseModel": "perpetual",
+                "kind": "addon",
+                "variants": [
+                  {
+                    "name": "Multi-Language Pack License",
+                    "metric": null,
+                    "amountUsd": 462,
+                    "priceStatus": "listed",
+                    "maintenance": "US$93",
+                    "sku": "ME-RANSOMWARE-PROTECTION-PLUS-MULTI-LANGUAGE-PACK-MULTI-LANGUAGE-PACK-LICENSE-PERP",
+                    "slug": "me-ransomware-protection-plus-multi-language-pack-multi-language-pack-license-perp"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
       },
       {
         "slug": "malware-protection-plus",
@@ -11742,11 +20632,794 @@ export const ZOHO_GROUPS: ZohoGroup[] = [
         "tagline": "Next-gen antivirus software for threat detection and breach prevention",
         "subgroup": "Endpoint security",
         "storeUrl": "https://store.manageengine.com/malware-protection/?MEstore",
-        "priced": false,
+        "priced": true,
         "sourceUrl": "https://store.manageengine.com/malware-protection/?MEstore",
-        "sourceSnapshotId": null,
-        "sourceCheckedAt": null,
-        "deployments": []
+        "sourceSnapshotId": "023664db28eb",
+        "sourceCheckedAt": "2026-08-20T22:06:00.711Z",
+        "deployments": [
+          {
+            "deployment": "saas",
+            "licenseModel": "subscription",
+            "slug": "malware-protection-plus-saas-subscription",
+            "offers": [
+              {
+                "slug": "malware-protection-plus-enterprise-edition",
+                "name": "Malware Protection Plus - Enterprise Edition",
+                "edition": "Enterprise",
+                "licenseModel": "subscription",
+                "kind": "base",
+                "variants": [
+                  {
+                    "name": "50 Workstations",
+                    "metric": {
+                      "quantity": 50,
+                      "unit": "workstation"
+                    },
+                    "amountUsd": 745,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-MALWARE-PROTECTION-PLUS-ENTERPRISE-50-WORKSTATIONS",
+                    "slug": "me-malware-protection-plus-enterprise-50-workstations"
+                  },
+                  {
+                    "name": "100 Workstations",
+                    "metric": {
+                      "quantity": 100,
+                      "unit": "workstation"
+                    },
+                    "amountUsd": 1345,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-MALWARE-PROTECTION-PLUS-ENTERPRISE-100-WORKSTATIONS",
+                    "slug": "me-malware-protection-plus-enterprise-100-workstations"
+                  },
+                  {
+                    "name": "250 Workstations",
+                    "metric": {
+                      "quantity": 250,
+                      "unit": "workstation"
+                    },
+                    "amountUsd": 2945,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-MALWARE-PROTECTION-PLUS-ENTERPRISE-250-WORKSTATIONS",
+                    "slug": "me-malware-protection-plus-enterprise-250-workstations"
+                  },
+                  {
+                    "name": "500 Workstations",
+                    "metric": {
+                      "quantity": 500,
+                      "unit": "workstation"
+                    },
+                    "amountUsd": 5295,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-MALWARE-PROTECTION-PLUS-ENTERPRISE-500-WORKSTATIONS",
+                    "slug": "me-malware-protection-plus-enterprise-500-workstations"
+                  },
+                  {
+                    "name": "1000 Workstations",
+                    "metric": {
+                      "quantity": 1000,
+                      "unit": "workstation"
+                    },
+                    "amountUsd": 9445,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-MALWARE-PROTECTION-PLUS-ENTERPRISE-1000-WORKSTATIONS",
+                    "slug": "me-malware-protection-plus-enterprise-1000-workstations"
+                  },
+                  {
+                    "name": "2500 Workstations",
+                    "metric": {
+                      "quantity": 2500,
+                      "unit": "workstation"
+                    },
+                    "amountUsd": 21095,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-MALWARE-PROTECTION-PLUS-ENTERPRISE-2500-WORKSTATIONS",
+                    "slug": "me-malware-protection-plus-enterprise-2500-workstations"
+                  },
+                  {
+                    "name": "5000 Workstations",
+                    "metric": {
+                      "quantity": 5000,
+                      "unit": "workstation"
+                    },
+                    "amountUsd": 37645,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-MALWARE-PROTECTION-PLUS-ENTERPRISE-5000-WORKSTATIONS",
+                    "slug": "me-malware-protection-plus-enterprise-5000-workstations"
+                  },
+                  {
+                    "name": "10000 Workstations",
+                    "metric": {
+                      "quantity": 10000,
+                      "unit": "workstation"
+                    },
+                    "amountUsd": 67195,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-MALWARE-PROTECTION-PLUS-ENTERPRISE-10000-WORKSTATIONS",
+                    "slug": "me-malware-protection-plus-enterprise-10000-workstations"
+                  },
+                  {
+                    "name": "10 Servers",
+                    "metric": {
+                      "quantity": 10,
+                      "unit": "server"
+                    },
+                    "amountUsd": 295,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-MALWARE-PROTECTION-PLUS-ENTERPRISE-10-SERVERS",
+                    "slug": "me-malware-protection-plus-enterprise-10-servers"
+                  },
+                  {
+                    "name": "25 Servers",
+                    "metric": {
+                      "quantity": 25,
+                      "unit": "server"
+                    },
+                    "amountUsd": 745,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-MALWARE-PROTECTION-PLUS-ENTERPRISE-25-SERVERS",
+                    "slug": "me-malware-protection-plus-enterprise-25-servers"
+                  },
+                  {
+                    "name": "50 Servers",
+                    "metric": {
+                      "quantity": 50,
+                      "unit": "server"
+                    },
+                    "amountUsd": 1495,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-MALWARE-PROTECTION-PLUS-ENTERPRISE-50-SERVERS",
+                    "slug": "me-malware-protection-plus-enterprise-50-servers"
+                  },
+                  {
+                    "name": "100 Servers",
+                    "metric": {
+                      "quantity": 100,
+                      "unit": "server"
+                    },
+                    "amountUsd": 2645,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-MALWARE-PROTECTION-PLUS-ENTERPRISE-100-SERVERS",
+                    "slug": "me-malware-protection-plus-enterprise-100-servers"
+                  },
+                  {
+                    "name": "250 Servers",
+                    "metric": {
+                      "quantity": 250,
+                      "unit": "server"
+                    },
+                    "amountUsd": 5945,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-MALWARE-PROTECTION-PLUS-ENTERPRISE-250-SERVERS",
+                    "slug": "me-malware-protection-plus-enterprise-250-servers"
+                  },
+                  {
+                    "name": "500 Servers",
+                    "metric": {
+                      "quantity": 500,
+                      "unit": "server"
+                    },
+                    "amountUsd": 10595,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-MALWARE-PROTECTION-PLUS-ENTERPRISE-500-SERVERS",
+                    "slug": "me-malware-protection-plus-enterprise-500-servers"
+                  },
+                  {
+                    "name": "1000 Servers",
+                    "metric": {
+                      "quantity": 1000,
+                      "unit": "server"
+                    },
+                    "amountUsd": 18895,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-MALWARE-PROTECTION-PLUS-ENTERPRISE-1000-SERVERS",
+                    "slug": "me-malware-protection-plus-enterprise-1000-servers"
+                  },
+                  {
+                    "name": "2500 Servers",
+                    "metric": {
+                      "quantity": 2500,
+                      "unit": "server"
+                    },
+                    "amountUsd": 42195,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-MALWARE-PROTECTION-PLUS-ENTERPRISE-2500-SERVERS",
+                    "slug": "me-malware-protection-plus-enterprise-2500-servers"
+                  },
+                  {
+                    "name": "5000 Servers",
+                    "metric": {
+                      "quantity": 5000,
+                      "unit": "server"
+                    },
+                    "amountUsd": 75295,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-MALWARE-PROTECTION-PLUS-ENTERPRISE-5000-SERVERS",
+                    "slug": "me-malware-protection-plus-enterprise-5000-servers"
+                  }
+                ]
+              },
+              {
+                "slug": "malware-protection-plus-additional-technicians",
+                "name": "Malware Protection Plus - Additional Technicians",
+                "edition": null,
+                "licenseModel": "subscription",
+                "kind": "addon",
+                "variants": [
+                  {
+                    "name": "1 Additional Technician",
+                    "metric": {
+                      "quantity": 1,
+                      "unit": "additional technician"
+                    },
+                    "amountUsd": 195,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-MALWARE-PROTECTION-PLUS-ADDITIONAL-TECHNICIANS-1-ADDITIONAL-TECHNICIAN",
+                    "slug": "me-malware-protection-plus-additional-technicians-1-additional-technician"
+                  },
+                  {
+                    "name": "2 Additional Technicians",
+                    "metric": {
+                      "quantity": 2,
+                      "unit": "additional technician"
+                    },
+                    "amountUsd": 345,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-MALWARE-PROTECTION-PLUS-ADDITIONAL-TECHNICIANS-2-ADDITIONAL-TECHNICIANS",
+                    "slug": "me-malware-protection-plus-additional-technicians-2-additional-technicians"
+                  },
+                  {
+                    "name": "5 Additional Technicians",
+                    "metric": {
+                      "quantity": 5,
+                      "unit": "additional technician"
+                    },
+                    "amountUsd": 695,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-MALWARE-PROTECTION-PLUS-ADDITIONAL-TECHNICIANS-5-ADDITIONAL-TECHNICIANS",
+                    "slug": "me-malware-protection-plus-additional-technicians-5-additional-technicians"
+                  },
+                  {
+                    "name": "10 Additional Technicians",
+                    "metric": {
+                      "quantity": 10,
+                      "unit": "additional technician"
+                    },
+                    "amountUsd": 995,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-MALWARE-PROTECTION-PLUS-ADDITIONAL-TECHNICIANS-10-ADDITIONAL-TECHNICIANS",
+                    "slug": "me-malware-protection-plus-additional-technicians-10-additional-technicians"
+                  },
+                  {
+                    "name": "25 Additional Technicians",
+                    "metric": {
+                      "quantity": 25,
+                      "unit": "additional technician"
+                    },
+                    "amountUsd": 1995,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-MALWARE-PROTECTION-PLUS-ADDITIONAL-TECHNICIANS-25-ADDITIONAL-TECHNICIANS",
+                    "slug": "me-malware-protection-plus-additional-technicians-25-additional-technicians"
+                  },
+                  {
+                    "name": "50 Additional Technicians",
+                    "metric": {
+                      "quantity": 50,
+                      "unit": "additional technician"
+                    },
+                    "amountUsd": 3495,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-MALWARE-PROTECTION-PLUS-ADDITIONAL-TECHNICIANS-50-ADDITIONAL-TECHNICIANS",
+                    "slug": "me-malware-protection-plus-additional-technicians-50-additional-technicians"
+                  }
+                ]
+              },
+              {
+                "slug": "malware-protection-plus-failover-service",
+                "name": "Malware Protection Plus - Failover Service",
+                "edition": null,
+                "licenseModel": "subscription",
+                "kind": "addon",
+                "variants": [
+                  {
+                    "name": "Failover Service for computers less than 1000",
+                    "metric": null,
+                    "amountUsd": 1195,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-MALWARE-PROTECTION-PLUS-FAILOVER-SERVICE-FAILOVER-SERVICE-FOR-COMPUTERS-LESS-THAN-100",
+                    "slug": "me-malware-protection-plus-failover-service-failover-service-for-computers-less-than-100"
+                  },
+                  {
+                    "name": "Failover Service for computers 1001 to 5000",
+                    "metric": null,
+                    "amountUsd": 2395,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-MALWARE-PROTECTION-PLUS-FAILOVER-SERVICE-FAILOVER-SERVICE-FOR-COMPUTERS-1001-TO-5000",
+                    "slug": "me-malware-protection-plus-failover-service-failover-service-for-computers-1001-to-5000"
+                  },
+                  {
+                    "name": "Failover Service for computers above 5000",
+                    "metric": null,
+                    "amountUsd": 3595,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-MALWARE-PROTECTION-PLUS-FAILOVER-SERVICE-FAILOVER-SERVICE-FOR-COMPUTERS-ABOVE-5000",
+                    "slug": "me-malware-protection-plus-failover-service-failover-service-for-computers-above-5000"
+                  }
+                ]
+              },
+              {
+                "slug": "malware-protection-plus-secure-gateway-server",
+                "name": "Malware Protection Plus - Secure Gateway Server",
+                "edition": null,
+                "licenseModel": "subscription",
+                "kind": "base",
+                "variants": [
+                  {
+                    "name": "Secure Gateway Server",
+                    "metric": null,
+                    "amountUsd": 300,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-MALWARE-PROTECTION-PLUS-SECURE-GATEWAY-SERVER-SECURE-GATEWAY-SERVER",
+                    "slug": "me-malware-protection-plus-secure-gateway-server-secure-gateway-server"
+                  }
+                ]
+              },
+              {
+                "slug": "malware-protection-plus-multi-language-pack",
+                "name": "Malware Protection Plus - Multi-Language Pack",
+                "edition": null,
+                "licenseModel": "subscription",
+                "kind": "addon",
+                "variants": [
+                  {
+                    "name": "Multi-Language Pack License",
+                    "metric": null,
+                    "amountUsd": 185,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-MALWARE-PROTECTION-PLUS-MULTI-LANGUAGE-PACK-MULTI-LANGUAGE-PACK-LICENSE",
+                    "slug": "me-malware-protection-plus-multi-language-pack-multi-language-pack-license"
+                  }
+                ]
+              },
+              {
+                "slug": "malware-protection-plus-training",
+                "name": "Malware Protection Plus - Training",
+                "edition": null,
+                "licenseModel": "subscription",
+                "kind": "service",
+                "variants": [
+                  {
+                    "name": "Web-based Training (3 hours)",
+                    "metric": null,
+                    "amountUsd": 495,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-MALWARE-PROTECTION-PLUS-TRAINING-WEB-BASED-TRAINING",
+                    "slug": "me-malware-protection-plus-training-web-based-training"
+                  },
+                  {
+                    "name": "Web-based Installation and Setup and Training (4 hours)",
+                    "metric": null,
+                    "amountUsd": 995,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-MALWARE-PROTECTION-PLUS-TRAINING-WEB-BASED-INSTALLATION-AND-SETUP-AND-TRAININ",
+                    "slug": "me-malware-protection-plus-training-web-based-installation-and-setup-and-trainin"
+                  },
+                  {
+                    "name": "Onsite Training",
+                    "metric": null,
+                    "amountUsd": 3995,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-MALWARE-PROTECTION-PLUS-TRAINING-ONSITE-TRAINING",
+                    "slug": "me-malware-protection-plus-training-onsite-training"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "deployment": "saas",
+            "licenseModel": "perpetual",
+            "slug": "malware-protection-plus-saas-perpetual",
+            "offers": [
+              {
+                "slug": "malware-protection-plus-enterprise-edition-perpetual",
+                "name": "Malware Protection Plus - Enterprise Edition",
+                "edition": "Enterprise",
+                "licenseModel": "perpetual",
+                "kind": "base",
+                "variants": [
+                  {
+                    "name": "50 Workstations",
+                    "metric": {
+                      "quantity": 50,
+                      "unit": "workstation"
+                    },
+                    "amountUsd": 1863,
+                    "priceStatus": "listed",
+                    "maintenance": "US$372",
+                    "sku": "ME-MALWARE-PROTECTION-PLUS-ENTERPRISE-50-WORKSTATIONS-PERP",
+                    "slug": "me-malware-protection-plus-enterprise-50-workstations-perp"
+                  },
+                  {
+                    "name": "100 Workstations",
+                    "metric": {
+                      "quantity": 100,
+                      "unit": "workstation"
+                    },
+                    "amountUsd": 3363,
+                    "priceStatus": "listed",
+                    "maintenance": "US$672",
+                    "sku": "ME-MALWARE-PROTECTION-PLUS-ENTERPRISE-100-WORKSTATIONS-PERP",
+                    "slug": "me-malware-protection-plus-enterprise-100-workstations-perp"
+                  },
+                  {
+                    "name": "250 Workstations",
+                    "metric": {
+                      "quantity": 250,
+                      "unit": "workstation"
+                    },
+                    "amountUsd": 7363,
+                    "priceStatus": "listed",
+                    "maintenance": "US$1,472",
+                    "sku": "ME-MALWARE-PROTECTION-PLUS-ENTERPRISE-250-WORKSTATIONS-PERP",
+                    "slug": "me-malware-protection-plus-enterprise-250-workstations-perp"
+                  },
+                  {
+                    "name": "500 Workstations",
+                    "metric": {
+                      "quantity": 500,
+                      "unit": "workstation"
+                    },
+                    "amountUsd": 13238,
+                    "priceStatus": "listed",
+                    "maintenance": "US$2,647",
+                    "sku": "ME-MALWARE-PROTECTION-PLUS-ENTERPRISE-500-WORKSTATIONS-PERP",
+                    "slug": "me-malware-protection-plus-enterprise-500-workstations-perp"
+                  },
+                  {
+                    "name": "1000 Workstations",
+                    "metric": {
+                      "quantity": 1000,
+                      "unit": "workstation"
+                    },
+                    "amountUsd": 23613,
+                    "priceStatus": "listed",
+                    "maintenance": "US$4,722",
+                    "sku": "ME-MALWARE-PROTECTION-PLUS-ENTERPRISE-1000-WORKSTATIONS-PERP",
+                    "slug": "me-malware-protection-plus-enterprise-1000-workstations-perp"
+                  },
+                  {
+                    "name": "2500 Workstations",
+                    "metric": {
+                      "quantity": 2500,
+                      "unit": "workstation"
+                    },
+                    "amountUsd": 52738,
+                    "priceStatus": "listed",
+                    "maintenance": "US$10,547",
+                    "sku": "ME-MALWARE-PROTECTION-PLUS-ENTERPRISE-2500-WORKSTATIONS-PERP",
+                    "slug": "me-malware-protection-plus-enterprise-2500-workstations-perp"
+                  },
+                  {
+                    "name": "5000 Workstations",
+                    "metric": {
+                      "quantity": 5000,
+                      "unit": "workstation"
+                    },
+                    "amountUsd": 94113,
+                    "priceStatus": "listed",
+                    "maintenance": "US$18,822",
+                    "sku": "ME-MALWARE-PROTECTION-PLUS-ENTERPRISE-5000-WORKSTATIONS-PERP",
+                    "slug": "me-malware-protection-plus-enterprise-5000-workstations-perp"
+                  },
+                  {
+                    "name": "10000 Workstations",
+                    "metric": {
+                      "quantity": 10000,
+                      "unit": "workstation"
+                    },
+                    "amountUsd": 167988,
+                    "priceStatus": "listed",
+                    "maintenance": "US$33,597",
+                    "sku": "ME-MALWARE-PROTECTION-PLUS-ENTERPRISE-10000-WORKSTATIONS-PERP",
+                    "slug": "me-malware-protection-plus-enterprise-10000-workstations-perp"
+                  },
+                  {
+                    "name": "10 Servers",
+                    "metric": {
+                      "quantity": 10,
+                      "unit": "server"
+                    },
+                    "amountUsd": 738,
+                    "priceStatus": "listed",
+                    "maintenance": "US$147",
+                    "sku": "ME-MALWARE-PROTECTION-PLUS-ENTERPRISE-10-SERVERS-PERP",
+                    "slug": "me-malware-protection-plus-enterprise-10-servers-perp"
+                  },
+                  {
+                    "name": "25 Servers",
+                    "metric": {
+                      "quantity": 25,
+                      "unit": "server"
+                    },
+                    "amountUsd": 1863,
+                    "priceStatus": "listed",
+                    "maintenance": "US$372",
+                    "sku": "ME-MALWARE-PROTECTION-PLUS-ENTERPRISE-25-SERVERS-PERP",
+                    "slug": "me-malware-protection-plus-enterprise-25-servers-perp"
+                  },
+                  {
+                    "name": "50 Servers",
+                    "metric": {
+                      "quantity": 50,
+                      "unit": "server"
+                    },
+                    "amountUsd": 3738,
+                    "priceStatus": "listed",
+                    "maintenance": "US$747",
+                    "sku": "ME-MALWARE-PROTECTION-PLUS-ENTERPRISE-50-SERVERS-PERP",
+                    "slug": "me-malware-protection-plus-enterprise-50-servers-perp"
+                  },
+                  {
+                    "name": "100 Servers",
+                    "metric": {
+                      "quantity": 100,
+                      "unit": "server"
+                    },
+                    "amountUsd": 6613,
+                    "priceStatus": "listed",
+                    "maintenance": "US$1,322",
+                    "sku": "ME-MALWARE-PROTECTION-PLUS-ENTERPRISE-100-SERVERS-PERP",
+                    "slug": "me-malware-protection-plus-enterprise-100-servers-perp"
+                  },
+                  {
+                    "name": "250 Servers",
+                    "metric": {
+                      "quantity": 250,
+                      "unit": "server"
+                    },
+                    "amountUsd": 14863,
+                    "priceStatus": "listed",
+                    "maintenance": "US$2,972",
+                    "sku": "ME-MALWARE-PROTECTION-PLUS-ENTERPRISE-250-SERVERS-PERP",
+                    "slug": "me-malware-protection-plus-enterprise-250-servers-perp"
+                  },
+                  {
+                    "name": "500 Servers",
+                    "metric": {
+                      "quantity": 500,
+                      "unit": "server"
+                    },
+                    "amountUsd": 26488,
+                    "priceStatus": "listed",
+                    "maintenance": "US$5,297",
+                    "sku": "ME-MALWARE-PROTECTION-PLUS-ENTERPRISE-500-SERVERS-PERP",
+                    "slug": "me-malware-protection-plus-enterprise-500-servers-perp"
+                  },
+                  {
+                    "name": "1000 Servers",
+                    "metric": {
+                      "quantity": 1000,
+                      "unit": "server"
+                    },
+                    "amountUsd": 47238,
+                    "priceStatus": "listed",
+                    "maintenance": "US$9,447",
+                    "sku": "ME-MALWARE-PROTECTION-PLUS-ENTERPRISE-1000-SERVERS-PERP",
+                    "slug": "me-malware-protection-plus-enterprise-1000-servers-perp"
+                  },
+                  {
+                    "name": "2500 Servers",
+                    "metric": {
+                      "quantity": 2500,
+                      "unit": "server"
+                    },
+                    "amountUsd": 105488,
+                    "priceStatus": "listed",
+                    "maintenance": "US$21,097",
+                    "sku": "ME-MALWARE-PROTECTION-PLUS-ENTERPRISE-2500-SERVERS-PERP",
+                    "slug": "me-malware-protection-plus-enterprise-2500-servers-perp"
+                  },
+                  {
+                    "name": "5000 Servers",
+                    "metric": {
+                      "quantity": 5000,
+                      "unit": "server"
+                    },
+                    "amountUsd": 188238,
+                    "priceStatus": "listed",
+                    "maintenance": "US$37,647",
+                    "sku": "ME-MALWARE-PROTECTION-PLUS-ENTERPRISE-5000-SERVERS-PERP",
+                    "slug": "me-malware-protection-plus-enterprise-5000-servers-perp"
+                  }
+                ]
+              },
+              {
+                "slug": "malware-protection-plus-additional-technicians-perpetual",
+                "name": "Malware Protection Plus - Additional Technicians",
+                "edition": null,
+                "licenseModel": "perpetual",
+                "kind": "addon",
+                "variants": [
+                  {
+                    "name": "1 Additional Technician",
+                    "metric": {
+                      "quantity": 1,
+                      "unit": "additional technician"
+                    },
+                    "amountUsd": 488,
+                    "priceStatus": "listed",
+                    "maintenance": "US$97",
+                    "sku": "ME-MALWARE-PROTECTION-PLUS-ADDITIONAL-TECHNICIANS-1-ADDITIONAL-TECHNICIAN-PERP",
+                    "slug": "me-malware-protection-plus-additional-technicians-1-additional-technician-perp"
+                  },
+                  {
+                    "name": "2 Additional Technicians",
+                    "metric": {
+                      "quantity": 2,
+                      "unit": "additional technician"
+                    },
+                    "amountUsd": 863,
+                    "priceStatus": "listed",
+                    "maintenance": "US$172",
+                    "sku": "ME-MALWARE-PROTECTION-PLUS-ADDITIONAL-TECHNICIANS-2-ADDITIONAL-TECHNICIANS-PERP",
+                    "slug": "me-malware-protection-plus-additional-technicians-2-additional-technicians-perp"
+                  },
+                  {
+                    "name": "5 Additional Technicians",
+                    "metric": {
+                      "quantity": 5,
+                      "unit": "additional technician"
+                    },
+                    "amountUsd": 1738,
+                    "priceStatus": "listed",
+                    "maintenance": "US$347",
+                    "sku": "ME-MALWARE-PROTECTION-PLUS-ADDITIONAL-TECHNICIANS-5-ADDITIONAL-TECHNICIANS-PERP",
+                    "slug": "me-malware-protection-plus-additional-technicians-5-additional-technicians-perp"
+                  },
+                  {
+                    "name": "10 Additional Technicians",
+                    "metric": {
+                      "quantity": 10,
+                      "unit": "additional technician"
+                    },
+                    "amountUsd": 2488,
+                    "priceStatus": "listed",
+                    "maintenance": "US$497",
+                    "sku": "ME-MALWARE-PROTECTION-PLUS-ADDITIONAL-TECHNICIANS-10-ADDITIONAL-TECHNICIANS-PERP",
+                    "slug": "me-malware-protection-plus-additional-technicians-10-additional-technicians-perp"
+                  },
+                  {
+                    "name": "25 Additional Technicians",
+                    "metric": {
+                      "quantity": 25,
+                      "unit": "additional technician"
+                    },
+                    "amountUsd": 4988,
+                    "priceStatus": "listed",
+                    "maintenance": "US$997",
+                    "sku": "ME-MALWARE-PROTECTION-PLUS-ADDITIONAL-TECHNICIANS-25-ADDITIONAL-TECHNICIANS-PERP",
+                    "slug": "me-malware-protection-plus-additional-technicians-25-additional-technicians-perp"
+                  },
+                  {
+                    "name": "50 Additional Technicians",
+                    "metric": {
+                      "quantity": 50,
+                      "unit": "additional technician"
+                    },
+                    "amountUsd": 8738,
+                    "priceStatus": "listed",
+                    "maintenance": "US$1,747",
+                    "sku": "ME-MALWARE-PROTECTION-PLUS-ADDITIONAL-TECHNICIANS-50-ADDITIONAL-TECHNICIANS-PERP",
+                    "slug": "me-malware-protection-plus-additional-technicians-50-additional-technicians-perp"
+                  }
+                ]
+              },
+              {
+                "slug": "malware-protection-plus-failover-service-perpetual",
+                "name": "Malware Protection Plus - Failover Service",
+                "edition": null,
+                "licenseModel": "perpetual",
+                "kind": "addon",
+                "variants": [
+                  {
+                    "name": "Failover Service for computers less than 1000",
+                    "metric": null,
+                    "amountUsd": 2990,
+                    "priceStatus": "listed",
+                    "maintenance": "US$598",
+                    "sku": "ME-MALWARE-PROTECTION-PLUS-FAILOVER-SERVICE-FAILOVER-SERVICE-FOR-COMPUTERS-LESS-THAN-100-PERP",
+                    "slug": "me-malware-protection-plus-failover-service-failover-service-for-computers-less-than-100-perp"
+                  },
+                  {
+                    "name": "Failover Service for computers 1001 to 5000",
+                    "metric": null,
+                    "amountUsd": 5990,
+                    "priceStatus": "listed",
+                    "maintenance": "US$1,198",
+                    "sku": "ME-MALWARE-PROTECTION-PLUS-FAILOVER-SERVICE-FAILOVER-SERVICE-FOR-COMPUTERS-1001-TO-5000-PERP",
+                    "slug": "me-malware-protection-plus-failover-service-failover-service-for-computers-1001-to-5000-perp"
+                  },
+                  {
+                    "name": "Failover Service for computers above 5000",
+                    "metric": null,
+                    "amountUsd": 8990,
+                    "priceStatus": "listed",
+                    "maintenance": "US$1,798",
+                    "sku": "ME-MALWARE-PROTECTION-PLUS-FAILOVER-SERVICE-FAILOVER-SERVICE-FOR-COMPUTERS-ABOVE-5000-PERP",
+                    "slug": "me-malware-protection-plus-failover-service-failover-service-for-computers-above-5000-perp"
+                  }
+                ]
+              },
+              {
+                "slug": "malware-protection-plus-secure-gateway-server-perpetual",
+                "name": "Malware Protection Plus - Secure Gateway Server",
+                "edition": null,
+                "licenseModel": "perpetual",
+                "kind": "base",
+                "variants": [
+                  {
+                    "name": "Secure Gateway Server",
+                    "metric": null,
+                    "amountUsd": 750,
+                    "priceStatus": "listed",
+                    "maintenance": "US$150",
+                    "sku": "ME-MALWARE-PROTECTION-PLUS-SECURE-GATEWAY-SERVER-SECURE-GATEWAY-SERVER-PERP",
+                    "slug": "me-malware-protection-plus-secure-gateway-server-secure-gateway-server-perp"
+                  }
+                ]
+              },
+              {
+                "slug": "malware-protection-plus-multi-language-pack-perpetual",
+                "name": "Malware Protection Plus - Multi-Language Pack",
+                "edition": null,
+                "licenseModel": "perpetual",
+                "kind": "addon",
+                "variants": [
+                  {
+                    "name": "Multi-Language Pack License",
+                    "metric": null,
+                    "amountUsd": 462,
+                    "priceStatus": "listed",
+                    "maintenance": "US$93",
+                    "sku": "ME-MALWARE-PROTECTION-PLUS-MULTI-LANGUAGE-PACK-MULTI-LANGUAGE-PACK-LICENSE-PERP",
+                    "slug": "me-malware-protection-plus-multi-language-pack-multi-language-pack-license-perp"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
       },
       {
         "slug": "endpoint-central-edr",
@@ -11774,11 +21447,1820 @@ export const ZOHO_GROUPS: ZohoGroup[] = [
         "tagline": "Full-stack IT operations management and observability platform",
         "subgroup": "Full-stack observability and digital experience monitoring",
         "storeUrl": "https://store.manageengine.com/it-operations-management/?MEstore",
-        "priced": false,
+        "priced": true,
         "sourceUrl": "https://store.manageengine.com/it-operations-management/?MEstore",
-        "sourceSnapshotId": null,
-        "sourceCheckedAt": null,
-        "deployments": []
+        "sourceSnapshotId": "e2f1b25b4b65",
+        "sourceCheckedAt": "2026-08-20T22:06:33.001Z",
+        "deployments": [
+          {
+            "deployment": "saas",
+            "licenseModel": "subscription",
+            "slug": "opmanager-nexus-saas-subscription",
+            "offers": [
+              {
+                "slug": "opmanager-nexus-subscription",
+                "name": "OpManager Nexus - Subscription",
+                "edition": null,
+                "licenseModel": "subscription",
+                "kind": "base",
+                "variants": [
+                  {
+                    "name": "50 Devices Pack with 2 Users and 1 Firewall",
+                    "metric": null,
+                    "amountUsd": 1233,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-OPMANAGER-NEXUS-50-DEVICES-PACK-WITH-2-USERS-AND-1-FIREWALL",
+                    "slug": "me-opmanager-nexus-50-devices-pack-with-2-users-and-1-firewall"
+                  },
+                  {
+                    "name": "100 Devices Pack with 2 Users and 1 Firewall",
+                    "metric": null,
+                    "amountUsd": 2267,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-OPMANAGER-NEXUS-100-DEVICES-PACK-WITH-2-USERS-AND-1-FIREWALL",
+                    "slug": "me-opmanager-nexus-100-devices-pack-with-2-users-and-1-firewall"
+                  },
+                  {
+                    "name": "250 Devices Pack with 3 Users and 2 Firewalls",
+                    "metric": null,
+                    "amountUsd": 5250,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-OPMANAGER-NEXUS-250-DEVICES-PACK-WITH-3-USERS-AND-2-FIREWALL",
+                    "slug": "me-opmanager-nexus-250-devices-pack-with-3-users-and-2-firewall"
+                  },
+                  {
+                    "name": "500 Devices Pack with 5 Users and 3 Firewalls",
+                    "metric": null,
+                    "amountUsd": 7667,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-OPMANAGER-NEXUS-500-DEVICES-PACK-WITH-5-USERS-AND-3-FIREWALL",
+                    "slug": "me-opmanager-nexus-500-devices-pack-with-5-users-and-3-firewall"
+                  },
+                  {
+                    "name": "1000 Devices Pack with 10 Users and 5 Firewalls",
+                    "metric": null,
+                    "amountUsd": 12000,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-OPMANAGER-NEXUS-1000-DEVICES-PACK-WITH-10-USERS-AND-5-FIREWA",
+                    "slug": "me-opmanager-nexus-1000-devices-pack-with-10-users-and-5-firewa"
+                  }
+                ]
+              },
+              {
+                "slug": "opmanager-nexus-add-ons",
+                "name": "OpManager Nexus - Add-ons",
+                "edition": null,
+                "licenseModel": "subscription",
+                "kind": "addon",
+                "variants": [
+                  {
+                    "name": "Each IP SLA Monitor (WAN RTT / VOIP)",
+                    "metric": null,
+                    "amountUsd": 50,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-OPMANAGER-NEXUS-EACH-IP-SLA-MONITOR",
+                    "slug": "me-opmanager-nexus-each-ip-sla-monitor"
+                  },
+                  {
+                    "name": "DPI - 1 Agent",
+                    "metric": null,
+                    "amountUsd": 38,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-OPMANAGER-NEXUS-DPI-1-AGENT",
+                    "slug": "me-opmanager-nexus-dpi-1-agent"
+                  }
+                ]
+              },
+              {
+                "slug": "opmanager-nexus-additional-user-pack",
+                "name": "OpManager Nexus - Additional User Pack",
+                "edition": null,
+                "licenseModel": "subscription",
+                "kind": "addon",
+                "variants": [
+                  {
+                    "name": "1 User Pack",
+                    "metric": {
+                      "quantity": 1,
+                      "unit": "user pack"
+                    },
+                    "amountUsd": 98,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-OPMANAGER-NEXUS-ADDITIONAL-USER-PACK-1-USER-PACK",
+                    "slug": "me-opmanager-nexus-additional-user-pack-1-user-pack"
+                  },
+                  {
+                    "name": "2 User Pack",
+                    "metric": {
+                      "quantity": 2,
+                      "unit": "user pack"
+                    },
+                    "amountUsd": 138,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-OPMANAGER-NEXUS-ADDITIONAL-USER-PACK-2-USER-PACK",
+                    "slug": "me-opmanager-nexus-additional-user-pack-2-user-pack"
+                  },
+                  {
+                    "name": "5 User Pack",
+                    "metric": {
+                      "quantity": 5,
+                      "unit": "user pack"
+                    },
+                    "amountUsd": 238,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-OPMANAGER-NEXUS-ADDITIONAL-USER-PACK-5-USER-PACK",
+                    "slug": "me-opmanager-nexus-additional-user-pack-5-user-pack"
+                  },
+                  {
+                    "name": "10 User Pack",
+                    "metric": {
+                      "quantity": 10,
+                      "unit": "user pack"
+                    },
+                    "amountUsd": 378,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-OPMANAGER-NEXUS-ADDITIONAL-USER-PACK-10-USER-PACK",
+                    "slug": "me-opmanager-nexus-additional-user-pack-10-user-pack"
+                  },
+                  {
+                    "name": "25 User Pack",
+                    "metric": {
+                      "quantity": 25,
+                      "unit": "user pack"
+                    },
+                    "amountUsd": 618,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-OPMANAGER-NEXUS-ADDITIONAL-USER-PACK-25-USER-PACK",
+                    "slug": "me-opmanager-nexus-additional-user-pack-25-user-pack"
+                  },
+                  {
+                    "name": "Unlimited User Pack",
+                    "metric": null,
+                    "amountUsd": 958,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-OPMANAGER-NEXUS-ADDITIONAL-USER-PACK-UNLIMITED-USER-PACK",
+                    "slug": "me-opmanager-nexus-additional-user-pack-unlimited-user-pack"
+                  }
+                ]
+              },
+              {
+                "slug": "lite-device-add-on-uptime-wan-access-points-network-paths",
+                "name": "Lite Device Add-on (Uptime, WAN, Access Points, Network Paths)",
+                "edition": null,
+                "licenseModel": "subscription",
+                "kind": "addon",
+                "variants": [
+                  {
+                    "name": "50 Lite Devices",
+                    "metric": {
+                      "quantity": 50,
+                      "unit": "lite device"
+                    },
+                    "amountUsd": 225,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-OPMANAGER-NEXUS-LITE-DEVICE-50-LITE-DEVICES",
+                    "slug": "me-opmanager-nexus-lite-device-50-lite-devices"
+                  },
+                  {
+                    "name": "100 Lite Devices",
+                    "metric": {
+                      "quantity": 100,
+                      "unit": "lite device"
+                    },
+                    "amountUsd": 395,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-OPMANAGER-NEXUS-LITE-DEVICE-100-LITE-DEVICES",
+                    "slug": "me-opmanager-nexus-lite-device-100-lite-devices"
+                  },
+                  {
+                    "name": "250 Lite Devices",
+                    "metric": {
+                      "quantity": 250,
+                      "unit": "lite device"
+                    },
+                    "amountUsd": 795,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-OPMANAGER-NEXUS-LITE-DEVICE-250-LITE-DEVICES",
+                    "slug": "me-opmanager-nexus-lite-device-250-lite-devices"
+                  },
+                  {
+                    "name": "500 Lite Devices",
+                    "metric": {
+                      "quantity": 500,
+                      "unit": "lite device"
+                    },
+                    "amountUsd": 1295,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-OPMANAGER-NEXUS-LITE-DEVICE-500-LITE-DEVICES",
+                    "slug": "me-opmanager-nexus-lite-device-500-lite-devices"
+                  },
+                  {
+                    "name": "1000 Lite Devices",
+                    "metric": {
+                      "quantity": 1000,
+                      "unit": "lite device"
+                    },
+                    "amountUsd": 2045,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-OPMANAGER-NEXUS-LITE-DEVICE-1000-LITE-DEVICES",
+                    "slug": "me-opmanager-nexus-lite-device-1000-lite-devices"
+                  },
+                  {
+                    "name": "2500 Lite Devices",
+                    "metric": {
+                      "quantity": 2500,
+                      "unit": "lite device"
+                    },
+                    "amountUsd": 3995,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-OPMANAGER-NEXUS-LITE-DEVICE-2500-LITE-DEVICES",
+                    "slug": "me-opmanager-nexus-lite-device-2500-lite-devices"
+                  },
+                  {
+                    "name": "5000 Lite Devices",
+                    "metric": {
+                      "quantity": 5000,
+                      "unit": "lite device"
+                    },
+                    "amountUsd": 6245,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-OPMANAGER-NEXUS-LITE-DEVICE-5000-LITE-DEVICES",
+                    "slug": "me-opmanager-nexus-lite-device-5000-lite-devices"
+                  }
+                ]
+              },
+              {
+                "slug": "opmanager-nexus-apm-plugin",
+                "name": "OpManager Nexus - APM Plugin",
+                "edition": null,
+                "licenseModel": "subscription",
+                "kind": "base",
+                "variants": [
+                  {
+                    "name": "APM Insight for Java Web Transaction Monitoring Add-on APM Plugin",
+                    "metric": null,
+                    "amountUsd": 958,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-OPMANAGER-NEXUS-APM-PLUGIN-APM-INSIGHT-FOR-JAVA-WEB-TRANSACTION-MONITOR",
+                    "slug": "me-opmanager-nexus-apm-plugin-apm-insight-for-java-web-transaction-monitor"
+                  },
+                  {
+                    "name": "APM Insight .Net Agent Add-on APM Plugin",
+                    "metric": null,
+                    "amountUsd": 958,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-OPMANAGER-NEXUS-APM-PLUGIN-APM-INSIGHT-NET-AGENT-ADD-ON-APM-PLUGIN",
+                    "slug": "me-opmanager-nexus-apm-plugin-apm-insight-net-agent-add-on-apm-plugin"
+                  },
+                  {
+                    "name": "APM Insight Node.js Agent Add-on APM Plugin",
+                    "metric": null,
+                    "amountUsd": 958,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-OPMANAGER-NEXUS-APM-PLUGIN-APM-INSIGHT-NODE-JS-AGENT-ADD-ON-APM-PLUGIN",
+                    "slug": "me-opmanager-nexus-apm-plugin-apm-insight-node-js-agent-add-on-apm-plugin"
+                  },
+                  {
+                    "name": "APM Insight PHP Agent Add-on APM Plugin",
+                    "metric": null,
+                    "amountUsd": 958,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-OPMANAGER-NEXUS-APM-PLUGIN-APM-INSIGHT-PHP-AGENT-ADD-ON-APM-PLUGIN",
+                    "slug": "me-opmanager-nexus-apm-plugin-apm-insight-php-agent-add-on-apm-plugin"
+                  },
+                  {
+                    "name": "APM Insight Python Agent Add-on APM Plugin",
+                    "metric": null,
+                    "amountUsd": 958,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-OPMANAGER-NEXUS-APM-PLUGIN-APM-INSIGHT-PYTHON-AGENT-ADD-ON-APM-PLUGIN",
+                    "slug": "me-opmanager-nexus-apm-plugin-apm-insight-python-agent-add-on-apm-plugin"
+                  },
+                  {
+                    "name": "APM Insight OpenTelemetry Add-on APM Plugin",
+                    "metric": null,
+                    "amountUsd": 958,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-OPMANAGER-NEXUS-APM-PLUGIN-APM-INSIGHT-OPENTELEMETRY-ADD-ON-APM-PLUGIN",
+                    "slug": "me-opmanager-nexus-apm-plugin-apm-insight-opentelemetry-add-on-apm-plugin"
+                  },
+                  {
+                    "name": "End User Monitoring (EUM) Add-on APM Plugin",
+                    "metric": null,
+                    "amountUsd": 958,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-OPMANAGER-NEXUS-APM-PLUGIN-END-USER-MONITORING-ADD-ON-APM-PLUGIN",
+                    "slug": "me-opmanager-nexus-apm-plugin-end-user-monitoring-add-on-apm-plugin"
+                  },
+                  {
+                    "name": "IBM i Add-on APM Plugin",
+                    "metric": null,
+                    "amountUsd": 1150,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-OPMANAGER-NEXUS-APM-PLUGIN-IBM-I-ADD-ON-APM-PLUGIN",
+                    "slug": "me-opmanager-nexus-apm-plugin-ibm-i-add-on-apm-plugin"
+                  },
+                  {
+                    "name": "Microsoft Office SharePoint Monitor Add-on APM Plugin",
+                    "metric": null,
+                    "amountUsd": 236,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-OPMANAGER-NEXUS-APM-PLUGIN-MICROSOFT-OFFICE-SHAREPOINT-MONITOR-ADD-ON-A",
+                    "slug": "me-opmanager-nexus-apm-plugin-microsoft-office-sharepoint-monitor-add-on-a"
+                  },
+                  {
+                    "name": "Oracle EBS Add-on APM Plugin",
+                    "metric": null,
+                    "amountUsd": 958,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-OPMANAGER-NEXUS-APM-PLUGIN-ORACLE-EBS-ADD-ON-APM-PLUGIN",
+                    "slug": "me-opmanager-nexus-apm-plugin-oracle-ebs-add-on-apm-plugin"
+                  },
+                  {
+                    "name": "SAP Monitor Add-on APM Plugin",
+                    "metric": null,
+                    "amountUsd": 1918,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-OPMANAGER-NEXUS-APM-PLUGIN-SAP-MONITOR-ADD-ON-APM-PLUGIN",
+                    "slug": "me-opmanager-nexus-apm-plugin-sap-monitor-add-on-apm-plugin"
+                  },
+                  {
+                    "name": "Siebel Monitor Add-on APM Plugin",
+                    "metric": null,
+                    "amountUsd": 958,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-OPMANAGER-NEXUS-APM-PLUGIN-SIEBEL-MONITOR-ADD-ON-APM-PLUGIN",
+                    "slug": "me-opmanager-nexus-apm-plugin-siebel-monitor-add-on-apm-plugin"
+                  },
+                  {
+                    "name": "WebSphere MQ Monitor Add-on APM Plugin",
+                    "metric": null,
+                    "amountUsd": 756,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-OPMANAGER-NEXUS-APM-PLUGIN-WEBSPHERE-MQ-MONITOR-ADD-ON-APM-PLUGIN",
+                    "slug": "me-opmanager-nexus-apm-plugin-websphere-mq-monitor-add-on-apm-plugin"
+                  }
+                ]
+              },
+              {
+                "slug": "opmanager-nexus-apm-plugin-applogs-monitoring-add-on",
+                "name": "OpManager Nexus - APM Plugin - AppLogs Monitoring Add-on",
+                "edition": null,
+                "licenseModel": "subscription",
+                "kind": "addon",
+                "variants": [
+                  {
+                    "name": "10 GB Logs per month APM Plugin",
+                    "metric": {
+                      "quantity": 10,
+                      "unit": "gb logs per month apm plugin"
+                    },
+                    "amountUsd": 115,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-OPMANAGER-NEXUS-APM-PLUGIN-APPLOGS-MONITOR-10-GB-LOGS-PER-MONTH-APM-PLUGIN",
+                    "slug": "me-opmanager-nexus-apm-plugin-applogs-monitor-10-gb-logs-per-month-apm-plugin"
+                  },
+                  {
+                    "name": "50 GB Logs per month APM Plugin",
+                    "metric": {
+                      "quantity": 50,
+                      "unit": "gb logs per month apm plugin"
+                    },
+                    "amountUsd": 555,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-OPMANAGER-NEXUS-APM-PLUGIN-APPLOGS-MONITOR-50-GB-LOGS-PER-MONTH-APM-PLUGIN",
+                    "slug": "me-opmanager-nexus-apm-plugin-applogs-monitor-50-gb-logs-per-month-apm-plugin"
+                  },
+                  {
+                    "name": "100 GB Logs per month APM Plugin",
+                    "metric": {
+                      "quantity": 100,
+                      "unit": "gb logs per month apm plugin"
+                    },
+                    "amountUsd": 975,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-OPMANAGER-NEXUS-APM-PLUGIN-APPLOGS-MONITOR-100-GB-LOGS-PER-MONTH-APM-PLUGIN",
+                    "slug": "me-opmanager-nexus-apm-plugin-applogs-monitor-100-gb-logs-per-month-apm-plugin"
+                  },
+                  {
+                    "name": "250 GB Logs per month APM Plugin",
+                    "metric": {
+                      "quantity": 250,
+                      "unit": "gb logs per month apm plugin"
+                    },
+                    "amountUsd": 2275,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-OPMANAGER-NEXUS-APM-PLUGIN-APPLOGS-MONITOR-250-GB-LOGS-PER-MONTH-APM-PLUGIN",
+                    "slug": "me-opmanager-nexus-apm-plugin-applogs-monitor-250-gb-logs-per-month-apm-plugin"
+                  },
+                  {
+                    "name": "500 GB Logs per month APM Plugin",
+                    "metric": {
+                      "quantity": 500,
+                      "unit": "gb logs per month apm plugin"
+                    },
+                    "amountUsd": 4275,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-OPMANAGER-NEXUS-APM-PLUGIN-APPLOGS-MONITOR-500-GB-LOGS-PER-MONTH-APM-PLUGIN",
+                    "slug": "me-opmanager-nexus-apm-plugin-applogs-monitor-500-gb-logs-per-month-apm-plugin"
+                  }
+                ]
+              },
+              {
+                "slug": "opmanager-nexus-apm-plugin-real-user-monitor-rum-add-on",
+                "name": "OpManager Nexus - APM Plugin - Real User Monitor (RUM) Add-on",
+                "edition": null,
+                "licenseModel": "subscription",
+                "kind": "addon",
+                "variants": [
+                  {
+                    "name": "100 Thousand Page Views per month APM Plugin",
+                    "metric": {
+                      "quantity": 100,
+                      "unit": "thousand page views per month apm plugin"
+                    },
+                    "amountUsd": 52,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-OPMANAGER-NEXUS-APM-PLUGIN-REAL-USER-MONIT-100-THOUSAND-PAGE-VIEWS-PER-MONTH-APM-PLUGIN",
+                    "slug": "me-opmanager-nexus-apm-plugin-real-user-monit-100-thousand-page-views-per-month-apm-plugin"
+                  },
+                  {
+                    "name": "250 Thousand Page Views per month APM Plugin",
+                    "metric": {
+                      "quantity": 250,
+                      "unit": "thousand page views per month apm plugin"
+                    },
+                    "amountUsd": 116,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-OPMANAGER-NEXUS-APM-PLUGIN-REAL-USER-MONIT-250-THOUSAND-PAGE-VIEWS-PER-MONTH-APM-PLUGIN",
+                    "slug": "me-opmanager-nexus-apm-plugin-real-user-monit-250-thousand-page-views-per-month-apm-plugin"
+                  },
+                  {
+                    "name": "500 Thousand Page Views per month APM Plugin",
+                    "metric": {
+                      "quantity": 500,
+                      "unit": "thousand page views per month apm plugin"
+                    },
+                    "amountUsd": 212,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-OPMANAGER-NEXUS-APM-PLUGIN-REAL-USER-MONIT-500-THOUSAND-PAGE-VIEWS-PER-MONTH-APM-PLUGIN",
+                    "slug": "me-opmanager-nexus-apm-plugin-real-user-monit-500-thousand-page-views-per-month-apm-plugin"
+                  },
+                  {
+                    "name": "1 Million Page Views per month APM Plugin",
+                    "metric": {
+                      "quantity": 1,
+                      "unit": "million page views per month apm plugin"
+                    },
+                    "amountUsd": 388,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-OPMANAGER-NEXUS-APM-PLUGIN-REAL-USER-MONIT-1-MILLION-PAGE-VIEWS-PER-MONTH-APM-PLUGIN",
+                    "slug": "me-opmanager-nexus-apm-plugin-real-user-monit-1-million-page-views-per-month-apm-plugin"
+                  },
+                  {
+                    "name": "2 Million Page Views per month APM Plugin",
+                    "metric": {
+                      "quantity": 2,
+                      "unit": "million page views per month apm plugin"
+                    },
+                    "amountUsd": 692,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-OPMANAGER-NEXUS-APM-PLUGIN-REAL-USER-MONIT-2-MILLION-PAGE-VIEWS-PER-MONTH-APM-PLUGIN",
+                    "slug": "me-opmanager-nexus-apm-plugin-real-user-monit-2-million-page-views-per-month-apm-plugin"
+                  },
+                  {
+                    "name": "3 Million Page Views per month APM Plugin",
+                    "metric": {
+                      "quantity": 3,
+                      "unit": "million page views per month apm plugin"
+                    },
+                    "amountUsd": 940,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-OPMANAGER-NEXUS-APM-PLUGIN-REAL-USER-MONIT-3-MILLION-PAGE-VIEWS-PER-MONTH-APM-PLUGIN",
+                    "slug": "me-opmanager-nexus-apm-plugin-real-user-monit-3-million-page-views-per-month-apm-plugin"
+                  },
+                  {
+                    "name": "4 Million Page Views per month APM Plugin",
+                    "metric": {
+                      "quantity": 4,
+                      "unit": "million page views per month apm plugin"
+                    },
+                    "amountUsd": 1076,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-OPMANAGER-NEXUS-APM-PLUGIN-REAL-USER-MONIT-4-MILLION-PAGE-VIEWS-PER-MONTH-APM-PLUGIN",
+                    "slug": "me-opmanager-nexus-apm-plugin-real-user-monit-4-million-page-views-per-month-apm-plugin"
+                  },
+                  {
+                    "name": "5 Million Page Views per month APM Plugin",
+                    "metric": {
+                      "quantity": 5,
+                      "unit": "million page views per month apm plugin"
+                    },
+                    "amountUsd": 1124,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-OPMANAGER-NEXUS-APM-PLUGIN-REAL-USER-MONIT-5-MILLION-PAGE-VIEWS-PER-MONTH-APM-PLUGIN",
+                    "slug": "me-opmanager-nexus-apm-plugin-real-user-monit-5-million-page-views-per-month-apm-plugin"
+                  },
+                  {
+                    "name": "7.5 Million Page Views per month APM Plugin",
+                    "metric": null,
+                    "amountUsd": 1620,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-OPMANAGER-NEXUS-APM-PLUGIN-REAL-USER-MONIT-7-5-MILLION-PAGE-VIEWS-PER-MONTH-APM-PLUGIN",
+                    "slug": "me-opmanager-nexus-apm-plugin-real-user-monit-7-5-million-page-views-per-month-apm-plugin"
+                  },
+                  {
+                    "name": "10 Million Page Views per month APM Plugin",
+                    "metric": {
+                      "quantity": 10,
+                      "unit": "million page views per month apm plugin"
+                    },
+                    "amountUsd": 2076,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-OPMANAGER-NEXUS-APM-PLUGIN-REAL-USER-MONIT-10-MILLION-PAGE-VIEWS-PER-MONTH-APM-PLUGIN",
+                    "slug": "me-opmanager-nexus-apm-plugin-real-user-monit-10-million-page-views-per-month-apm-plugin"
+                  },
+                  {
+                    "name": "20 Million Page Views per month APM Plugin",
+                    "metric": {
+                      "quantity": 20,
+                      "unit": "million page views per month apm plugin"
+                    },
+                    "amountUsd": 3996,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-OPMANAGER-NEXUS-APM-PLUGIN-REAL-USER-MONIT-20-MILLION-PAGE-VIEWS-PER-MONTH-APM-PLUGIN",
+                    "slug": "me-opmanager-nexus-apm-plugin-real-user-monit-20-million-page-views-per-month-apm-plugin"
+                  },
+                  {
+                    "name": "30 Million Page Views per month APM Plugin",
+                    "metric": {
+                      "quantity": 30,
+                      "unit": "million page views per month apm plugin"
+                    },
+                    "amountUsd": 5756,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-OPMANAGER-NEXUS-APM-PLUGIN-REAL-USER-MONIT-30-MILLION-PAGE-VIEWS-PER-MONTH-APM-PLUGIN",
+                    "slug": "me-opmanager-nexus-apm-plugin-real-user-monit-30-million-page-views-per-month-apm-plugin"
+                  },
+                  {
+                    "name": "40 Million Page Views per month APM Plugin",
+                    "metric": {
+                      "quantity": 40,
+                      "unit": "million page views per month apm plugin"
+                    },
+                    "amountUsd": 7356,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-OPMANAGER-NEXUS-APM-PLUGIN-REAL-USER-MONIT-40-MILLION-PAGE-VIEWS-PER-MONTH-APM-PLUGIN",
+                    "slug": "me-opmanager-nexus-apm-plugin-real-user-monit-40-million-page-views-per-month-apm-plugin"
+                  },
+                  {
+                    "name": "50 Million Page Views per month APM Plugin",
+                    "metric": {
+                      "quantity": 50,
+                      "unit": "million page views per month apm plugin"
+                    },
+                    "amountUsd": 8796,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-OPMANAGER-NEXUS-APM-PLUGIN-REAL-USER-MONIT-50-MILLION-PAGE-VIEWS-PER-MONTH-APM-PLUGIN",
+                    "slug": "me-opmanager-nexus-apm-plugin-real-user-monit-50-million-page-views-per-month-apm-plugin"
+                  },
+                  {
+                    "name": "75 Million Page Views per month APM Plugin",
+                    "metric": {
+                      "quantity": 75,
+                      "unit": "million page views per month apm plugin"
+                    },
+                    "amountUsd": 12596,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-OPMANAGER-NEXUS-APM-PLUGIN-REAL-USER-MONIT-75-MILLION-PAGE-VIEWS-PER-MONTH-APM-PLUGIN",
+                    "slug": "me-opmanager-nexus-apm-plugin-real-user-monit-75-million-page-views-per-month-apm-plugin"
+                  },
+                  {
+                    "name": "100 Million Page Views per month APM Plugin",
+                    "metric": {
+                      "quantity": 100,
+                      "unit": "million page views per month apm plugin"
+                    },
+                    "amountUsd": 15996,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-OPMANAGER-NEXUS-APM-PLUGIN-REAL-USER-MONIT-100-MILLION-PAGE-VIEWS-PER-MONTH-APM-PLUGIN",
+                    "slug": "me-opmanager-nexus-apm-plugin-real-user-monit-100-million-page-views-per-month-apm-plugin"
+                  }
+                ]
+              },
+              {
+                "slug": "opmanager-nexus-flow-interfaces",
+                "name": "OpManager Nexus - Flow Interfaces",
+                "edition": null,
+                "licenseModel": "subscription",
+                "kind": "base",
+                "variants": [
+                  {
+                    "name": "10 Flow Interfaces",
+                    "metric": {
+                      "quantity": 10,
+                      "unit": "flow interface"
+                    },
+                    "amountUsd": 198,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-OPMANAGER-NEXUS-FLOW-INTERFACES-10-FLOW-INTERFACES",
+                    "slug": "me-opmanager-nexus-flow-interfaces-10-flow-interfaces"
+                  },
+                  {
+                    "name": "25 Flow Interfaces",
+                    "metric": {
+                      "quantity": 25,
+                      "unit": "flow interface"
+                    },
+                    "amountUsd": 438,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-OPMANAGER-NEXUS-FLOW-INTERFACES-25-FLOW-INTERFACES",
+                    "slug": "me-opmanager-nexus-flow-interfaces-25-flow-interfaces"
+                  },
+                  {
+                    "name": "50 Flow Interfaces",
+                    "metric": {
+                      "quantity": 50,
+                      "unit": "flow interface"
+                    },
+                    "amountUsd": 798,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-OPMANAGER-NEXUS-FLOW-INTERFACES-50-FLOW-INTERFACES",
+                    "slug": "me-opmanager-nexus-flow-interfaces-50-flow-interfaces"
+                  },
+                  {
+                    "name": "100 Flow Interfaces",
+                    "metric": {
+                      "quantity": 100,
+                      "unit": "flow interface"
+                    },
+                    "amountUsd": 1318,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-OPMANAGER-NEXUS-FLOW-INTERFACES-100-FLOW-INTERFACES",
+                    "slug": "me-opmanager-nexus-flow-interfaces-100-flow-interfaces"
+                  },
+                  {
+                    "name": "250 Flow Interfaces",
+                    "metric": {
+                      "quantity": 250,
+                      "unit": "flow interface"
+                    },
+                    "amountUsd": 2918,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-OPMANAGER-NEXUS-FLOW-INTERFACES-250-FLOW-INTERFACES",
+                    "slug": "me-opmanager-nexus-flow-interfaces-250-flow-interfaces"
+                  },
+                  {
+                    "name": "500 Flow Interfaces",
+                    "metric": {
+                      "quantity": 500,
+                      "unit": "flow interface"
+                    },
+                    "amountUsd": 4398,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-OPMANAGER-NEXUS-FLOW-INTERFACES-500-FLOW-INTERFACES",
+                    "slug": "me-opmanager-nexus-flow-interfaces-500-flow-interfaces"
+                  },
+                  {
+                    "name": "HighPerf - Up to 100 Interfaces (Add-on)",
+                    "metric": null,
+                    "amountUsd": 395,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-OPMANAGER-NEXUS-FLOW-INTERFACES-HIGHPERF-UP-TO-100-INTERFACES",
+                    "slug": "me-opmanager-nexus-flow-interfaces-highperf-up-to-100-interfaces"
+                  },
+                  {
+                    "name": "HighPerf - More than 100 Interfaces (Add-on)",
+                    "metric": null,
+                    "amountUsd": 995,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-OPMANAGER-NEXUS-FLOW-INTERFACES-HIGHPERF-MORE-THAN-100-INTERFACES",
+                    "slug": "me-opmanager-nexus-flow-interfaces-highperf-more-than-100-interfaces"
+                  }
+                ]
+              },
+              {
+                "slug": "opmanager-nexus-additional-firewall",
+                "name": "OpManager Nexus - Additional Firewall",
+                "edition": null,
+                "licenseModel": "subscription",
+                "kind": "addon",
+                "variants": [
+                  {
+                    "name": "1 Additional Firewall",
+                    "metric": {
+                      "quantity": 1,
+                      "unit": "additional firewall"
+                    },
+                    "amountUsd": 495,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-OPMANAGER-NEXUS-ADDITIONAL-FIREWALL-1-ADDITIONAL-FIREWALL",
+                    "slug": "me-opmanager-nexus-additional-firewall-1-additional-firewall"
+                  },
+                  {
+                    "name": "2 Additional Firewalls",
+                    "metric": {
+                      "quantity": 2,
+                      "unit": "additional firewall"
+                    },
+                    "amountUsd": 895,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-OPMANAGER-NEXUS-ADDITIONAL-FIREWALL-2-ADDITIONAL-FIREWALLS",
+                    "slug": "me-opmanager-nexus-additional-firewall-2-additional-firewalls"
+                  },
+                  {
+                    "name": "5 Additional Firewalls",
+                    "metric": {
+                      "quantity": 5,
+                      "unit": "additional firewall"
+                    },
+                    "amountUsd": 2145,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-OPMANAGER-NEXUS-ADDITIONAL-FIREWALL-5-ADDITIONAL-FIREWALLS",
+                    "slug": "me-opmanager-nexus-additional-firewall-5-additional-firewalls"
+                  },
+                  {
+                    "name": "10 Additional Firewalls",
+                    "metric": {
+                      "quantity": 10,
+                      "unit": "additional firewall"
+                    },
+                    "amountUsd": 3595,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-OPMANAGER-NEXUS-ADDITIONAL-FIREWALL-10-ADDITIONAL-FIREWALLS",
+                    "slug": "me-opmanager-nexus-additional-firewall-10-additional-firewalls"
+                  },
+                  {
+                    "name": "20 Additional Firewalls",
+                    "metric": {
+                      "quantity": 20,
+                      "unit": "additional firewall"
+                    },
+                    "amountUsd": 4795,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-OPMANAGER-NEXUS-ADDITIONAL-FIREWALL-20-ADDITIONAL-FIREWALLS",
+                    "slug": "me-opmanager-nexus-additional-firewall-20-additional-firewalls"
+                  },
+                  {
+                    "name": "50 Additional Firewalls",
+                    "metric": {
+                      "quantity": 50,
+                      "unit": "additional firewall"
+                    },
+                    "amountUsd": 8395,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-OPMANAGER-NEXUS-ADDITIONAL-FIREWALL-50-ADDITIONAL-FIREWALLS",
+                    "slug": "me-opmanager-nexus-additional-firewall-50-additional-firewalls"
+                  }
+                ]
+              },
+              {
+                "slug": "opmanager-nexus-ipam-spm-management-add-on",
+                "name": "OpManager Nexus - IPAM & SPM (Management Add-on)",
+                "edition": null,
+                "licenseModel": "subscription",
+                "kind": "addon",
+                "variants": [
+                  {
+                    "name": "Every additional 250 Used ports in Switch Port Mapper (SPM)",
+                    "metric": null,
+                    "amountUsd": 46,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-OPMANAGER-NEXUS-IPAM-SPM-EVERY-ADDITIONAL-250-USED-PORTS-IN-SWITCH-PO",
+                    "slug": "me-opmanager-nexus-ipam-spm-every-additional-250-used-ports-in-switch-po"
+                  },
+                  {
+                    "name": "Every additional 250 Used IP Addresses in IP Address Manager (IPAM)",
+                    "metric": null,
+                    "amountUsd": 60,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-OPMANAGER-NEXUS-IPAM-SPM-EVERY-ADDITIONAL-250-USED-IP-ADDRESSES-IN-IP",
+                    "slug": "me-opmanager-nexus-ipam-spm-every-additional-250-used-ip-addresses-in-ip"
+                  },
+                  {
+                    "name": "Unlimited Ports in Switch Port Mapper (SPM)",
+                    "metric": null,
+                    "amountUsd": 3070,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-OPMANAGER-NEXUS-IPAM-SPM-UNLIMITED-PORTS-IN-SWITCH-PORT-MAPPER",
+                    "slug": "me-opmanager-nexus-ipam-spm-unlimited-ports-in-switch-port-mapper"
+                  },
+                  {
+                    "name": "Unlimited IP Addresses in IP Address Manager (IPAM)",
+                    "metric": null,
+                    "amountUsd": 3995,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-OPMANAGER-NEXUS-IPAM-SPM-UNLIMITED-IP-ADDRESSES-IN-IP-ADDRESS-MANAGER",
+                    "slug": "me-opmanager-nexus-ipam-spm-unlimited-ip-addresses-in-ip-address-manager"
+                  },
+                  {
+                    "name": "Unlimited Ports in SPM and Unlimited IP Addresses in IPAM",
+                    "metric": null,
+                    "amountUsd": 5295,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-OPMANAGER-NEXUS-IPAM-SPM-UNLIMITED-PORTS-IN-SPM-AND-UNLIMITED-IP-ADDR",
+                    "slug": "me-opmanager-nexus-ipam-spm-unlimited-ports-in-spm-and-unlimited-ip-addr"
+                  }
+                ]
+              },
+              {
+                "slug": "opmanager-nexus-customer-onboarding-implementation-and-training",
+                "name": "OpManager Nexus Customer Onboarding, Implementation and Training",
+                "edition": null,
+                "licenseModel": "subscription",
+                "kind": "service",
+                "variants": [
+                  {
+                    "name": "Onsite Training and Onboarding Assistance (2 Days)*",
+                    "metric": null,
+                    "amountUsd": 3995,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-OPMANAGER-NEXUS-CUSTOMER-ONBOARDING-IMPLEM-ONSITE-TRAINING-AND-ONBOARDING-ASSISTANCE",
+                    "slug": "me-opmanager-nexus-customer-onboarding-implem-onsite-training-and-onboarding-assistance"
+                  },
+                  {
+                    "name": "Online Training (2 Days with 3 hours/day)#",
+                    "metric": null,
+                    "amountUsd": 995,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-OPMANAGER-NEXUS-CUSTOMER-ONBOARDING-IMPLEM-ONLINE-TRAINING",
+                    "slug": "me-opmanager-nexus-customer-onboarding-implem-online-training"
+                  },
+                  {
+                    "name": "One-Time Migration/Upgrade Assistance^",
+                    "metric": null,
+                    "amountUsd": 295,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-OPMANAGER-NEXUS-CUSTOMER-ONBOARDING-IMPLEM-ONE-TIME-MIGRATION-UPGRADE-ASSISTANCE",
+                    "slug": "me-opmanager-nexus-customer-onboarding-implem-one-time-migration-upgrade-assistance"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "deployment": "saas",
+            "licenseModel": "perpetual",
+            "slug": "opmanager-nexus-saas-perpetual",
+            "offers": [
+              {
+                "slug": "opmanager-nexus-perpetual-perpetual",
+                "name": "OpManager Nexus - Perpetual",
+                "edition": null,
+                "licenseModel": "perpetual",
+                "kind": "base",
+                "variants": [
+                  {
+                    "name": "50 Devices Pack with 2 Users and 1 Firewall",
+                    "metric": null,
+                    "amountUsd": 3095,
+                    "priceStatus": "listed",
+                    "maintenance": "US$619",
+                    "sku": "ME-OPMANAGER-NEXUS-50-DEVICES-PACK-WITH-2-USERS-AND-1-FIREWALL-PERP",
+                    "slug": "me-opmanager-nexus-50-devices-pack-with-2-users-and-1-firewall-perp"
+                  },
+                  {
+                    "name": "100 Devices Pack with 2 Users and 1 Firewall",
+                    "metric": null,
+                    "amountUsd": 5645,
+                    "priceStatus": "listed",
+                    "maintenance": "US$1,129",
+                    "sku": "ME-OPMANAGER-NEXUS-100-DEVICES-PACK-WITH-2-USERS-AND-1-FIREWALL-PERP",
+                    "slug": "me-opmanager-nexus-100-devices-pack-with-2-users-and-1-firewall-perp"
+                  },
+                  {
+                    "name": "250 Devices Pack with 3 Users and 2 Firewalls",
+                    "metric": null,
+                    "amountUsd": 13145,
+                    "priceStatus": "listed",
+                    "maintenance": "US$2,629",
+                    "sku": "ME-OPMANAGER-NEXUS-250-DEVICES-PACK-WITH-3-USERS-AND-2-FIREWALL-PERP",
+                    "slug": "me-opmanager-nexus-250-devices-pack-with-3-users-and-2-firewall-perp"
+                  },
+                  {
+                    "name": "500 Devices Pack with 5 Users and 3 Firewalls",
+                    "metric": null,
+                    "amountUsd": 19145,
+                    "priceStatus": "listed",
+                    "maintenance": "US$3,829",
+                    "sku": "ME-OPMANAGER-NEXUS-500-DEVICES-PACK-WITH-5-USERS-AND-3-FIREWALL-PERP",
+                    "slug": "me-opmanager-nexus-500-devices-pack-with-5-users-and-3-firewall-perp"
+                  },
+                  {
+                    "name": "1000 Devices Pack with 10 Users and 5 Firewalls",
+                    "metric": null,
+                    "amountUsd": 29995,
+                    "priceStatus": "listed",
+                    "maintenance": "US$5,999",
+                    "sku": "ME-OPMANAGER-NEXUS-1000-DEVICES-PACK-WITH-10-USERS-AND-5-FIREWA-PERP",
+                    "slug": "me-opmanager-nexus-1000-devices-pack-with-10-users-and-5-firewa-perp"
+                  }
+                ]
+              },
+              {
+                "slug": "opmanager-nexus-add-ons-perpetual",
+                "name": "OpManager Nexus - Add-ons",
+                "edition": null,
+                "licenseModel": "perpetual",
+                "kind": "addon",
+                "variants": [
+                  {
+                    "name": "Each IP SLA Monitor (WAN RTT / VOIP)",
+                    "metric": null,
+                    "amountUsd": 125,
+                    "priceStatus": "listed",
+                    "maintenance": "US$25",
+                    "sku": "ME-OPMANAGER-NEXUS-EACH-IP-SLA-MONITOR-PERP",
+                    "slug": "me-opmanager-nexus-each-ip-sla-monitor-perp"
+                  },
+                  {
+                    "name": "DPI - 1 Agent",
+                    "metric": null,
+                    "amountUsd": 95,
+                    "priceStatus": "listed",
+                    "maintenance": "US$19",
+                    "sku": "ME-OPMANAGER-NEXUS-DPI-1-AGENT-PERP",
+                    "slug": "me-opmanager-nexus-dpi-1-agent-perp"
+                  }
+                ]
+              },
+              {
+                "slug": "opmanager-nexus-additional-user-pack-perpetual",
+                "name": "OpManager Nexus - Additional User Pack",
+                "edition": null,
+                "licenseModel": "perpetual",
+                "kind": "addon",
+                "variants": [
+                  {
+                    "name": "1 User Pack",
+                    "metric": {
+                      "quantity": 1,
+                      "unit": "user pack"
+                    },
+                    "amountUsd": 245,
+                    "priceStatus": "listed",
+                    "maintenance": "US$49",
+                    "sku": "ME-OPMANAGER-NEXUS-ADDITIONAL-USER-PACK-1-USER-PACK-PERP",
+                    "slug": "me-opmanager-nexus-additional-user-pack-1-user-pack-perp"
+                  },
+                  {
+                    "name": "2 User Pack",
+                    "metric": {
+                      "quantity": 2,
+                      "unit": "user pack"
+                    },
+                    "amountUsd": 345,
+                    "priceStatus": "listed",
+                    "maintenance": "US$69",
+                    "sku": "ME-OPMANAGER-NEXUS-ADDITIONAL-USER-PACK-2-USER-PACK-PERP",
+                    "slug": "me-opmanager-nexus-additional-user-pack-2-user-pack-perp"
+                  },
+                  {
+                    "name": "5 User Pack",
+                    "metric": {
+                      "quantity": 5,
+                      "unit": "user pack"
+                    },
+                    "amountUsd": 595,
+                    "priceStatus": "listed",
+                    "maintenance": "US$119",
+                    "sku": "ME-OPMANAGER-NEXUS-ADDITIONAL-USER-PACK-5-USER-PACK-PERP",
+                    "slug": "me-opmanager-nexus-additional-user-pack-5-user-pack-perp"
+                  },
+                  {
+                    "name": "10 User Pack",
+                    "metric": {
+                      "quantity": 10,
+                      "unit": "user pack"
+                    },
+                    "amountUsd": 945,
+                    "priceStatus": "listed",
+                    "maintenance": "US$189",
+                    "sku": "ME-OPMANAGER-NEXUS-ADDITIONAL-USER-PACK-10-USER-PACK-PERP",
+                    "slug": "me-opmanager-nexus-additional-user-pack-10-user-pack-perp"
+                  },
+                  {
+                    "name": "25 User Pack",
+                    "metric": {
+                      "quantity": 25,
+                      "unit": "user pack"
+                    },
+                    "amountUsd": 1545,
+                    "priceStatus": "listed",
+                    "maintenance": "US$309",
+                    "sku": "ME-OPMANAGER-NEXUS-ADDITIONAL-USER-PACK-25-USER-PACK-PERP",
+                    "slug": "me-opmanager-nexus-additional-user-pack-25-user-pack-perp"
+                  },
+                  {
+                    "name": "Unlimited User Pack",
+                    "metric": null,
+                    "amountUsd": 2395,
+                    "priceStatus": "listed",
+                    "maintenance": "US$479",
+                    "sku": "ME-OPMANAGER-NEXUS-ADDITIONAL-USER-PACK-UNLIMITED-USER-PACK-PERP",
+                    "slug": "me-opmanager-nexus-additional-user-pack-unlimited-user-pack-perp"
+                  }
+                ]
+              },
+              {
+                "slug": "lite-device-add-on-uptime-wan-access-points-network-paths-perpetual",
+                "name": "Lite Device Add-on (Uptime, WAN, Access Points, Network Paths)",
+                "edition": null,
+                "licenseModel": "perpetual",
+                "kind": "addon",
+                "variants": [
+                  {
+                    "name": "50 Lite Devices",
+                    "metric": {
+                      "quantity": 50,
+                      "unit": "lite device"
+                    },
+                    "amountUsd": 545,
+                    "priceStatus": "listed",
+                    "maintenance": "US$109",
+                    "sku": "ME-OPMANAGER-NEXUS-LITE-DEVICE-50-LITE-DEVICES-PERP",
+                    "slug": "me-opmanager-nexus-lite-device-50-lite-devices-perp"
+                  },
+                  {
+                    "name": "100 Lite Devices",
+                    "metric": {
+                      "quantity": 100,
+                      "unit": "lite device"
+                    },
+                    "amountUsd": 995,
+                    "priceStatus": "listed",
+                    "maintenance": "US$199",
+                    "sku": "ME-OPMANAGER-NEXUS-LITE-DEVICE-100-LITE-DEVICES-PERP",
+                    "slug": "me-opmanager-nexus-lite-device-100-lite-devices-perp"
+                  },
+                  {
+                    "name": "250 Lite Devices",
+                    "metric": {
+                      "quantity": 250,
+                      "unit": "lite device"
+                    },
+                    "amountUsd": 1995,
+                    "priceStatus": "listed",
+                    "maintenance": "US$399",
+                    "sku": "ME-OPMANAGER-NEXUS-LITE-DEVICE-250-LITE-DEVICES-PERP",
+                    "slug": "me-opmanager-nexus-lite-device-250-lite-devices-perp"
+                  },
+                  {
+                    "name": "500 Lite Devices",
+                    "metric": {
+                      "quantity": 500,
+                      "unit": "lite device"
+                    },
+                    "amountUsd": 3245,
+                    "priceStatus": "listed",
+                    "maintenance": "US$649",
+                    "sku": "ME-OPMANAGER-NEXUS-LITE-DEVICE-500-LITE-DEVICES-PERP",
+                    "slug": "me-opmanager-nexus-lite-device-500-lite-devices-perp"
+                  },
+                  {
+                    "name": "1000 Lite Devices",
+                    "metric": {
+                      "quantity": 1000,
+                      "unit": "lite device"
+                    },
+                    "amountUsd": 5095,
+                    "priceStatus": "listed",
+                    "maintenance": "US$1,019",
+                    "sku": "ME-OPMANAGER-NEXUS-LITE-DEVICE-1000-LITE-DEVICES-PERP",
+                    "slug": "me-opmanager-nexus-lite-device-1000-lite-devices-perp"
+                  },
+                  {
+                    "name": "2500 Lite Devices",
+                    "metric": {
+                      "quantity": 2500,
+                      "unit": "lite device"
+                    },
+                    "amountUsd": 9995,
+                    "priceStatus": "listed",
+                    "maintenance": "US$1,999",
+                    "sku": "ME-OPMANAGER-NEXUS-LITE-DEVICE-2500-LITE-DEVICES-PERP",
+                    "slug": "me-opmanager-nexus-lite-device-2500-lite-devices-perp"
+                  },
+                  {
+                    "name": "5000 Lite Devices",
+                    "metric": {
+                      "quantity": 5000,
+                      "unit": "lite device"
+                    },
+                    "amountUsd": 15595,
+                    "priceStatus": "listed",
+                    "maintenance": "US$3,119",
+                    "sku": "ME-OPMANAGER-NEXUS-LITE-DEVICE-5000-LITE-DEVICES-PERP",
+                    "slug": "me-opmanager-nexus-lite-device-5000-lite-devices-perp"
+                  }
+                ]
+              },
+              {
+                "slug": "opmanager-nexus-apm-plugin-perpetual",
+                "name": "OpManager Nexus - APM Plugin",
+                "edition": null,
+                "licenseModel": "perpetual",
+                "kind": "base",
+                "variants": [
+                  {
+                    "name": "APM Insight for Java Web Transaction Monitoring Add-on APM Plugin",
+                    "metric": null,
+                    "amountUsd": 2395,
+                    "priceStatus": "listed",
+                    "maintenance": "US$479",
+                    "sku": "ME-OPMANAGER-NEXUS-APM-PLUGIN-APM-INSIGHT-FOR-JAVA-WEB-TRANSACTION-MONITOR-PERP",
+                    "slug": "me-opmanager-nexus-apm-plugin-apm-insight-for-java-web-transaction-monitor-perp"
+                  },
+                  {
+                    "name": "APM Insight .Net Agent Add-on APM Plugin",
+                    "metric": null,
+                    "amountUsd": 2395,
+                    "priceStatus": "listed",
+                    "maintenance": "US$479",
+                    "sku": "ME-OPMANAGER-NEXUS-APM-PLUGIN-APM-INSIGHT-NET-AGENT-ADD-ON-APM-PLUGIN-PERP",
+                    "slug": "me-opmanager-nexus-apm-plugin-apm-insight-net-agent-add-on-apm-plugin-perp"
+                  },
+                  {
+                    "name": "APM Insight Node.js Agent Add-on APM Plugin",
+                    "metric": null,
+                    "amountUsd": 2395,
+                    "priceStatus": "listed",
+                    "maintenance": "US$479",
+                    "sku": "ME-OPMANAGER-NEXUS-APM-PLUGIN-APM-INSIGHT-NODE-JS-AGENT-ADD-ON-APM-PLUGIN-PERP",
+                    "slug": "me-opmanager-nexus-apm-plugin-apm-insight-node-js-agent-add-on-apm-plugin-perp"
+                  },
+                  {
+                    "name": "APM Insight PHP Agent Add-on APM Plugin",
+                    "metric": null,
+                    "amountUsd": 2395,
+                    "priceStatus": "listed",
+                    "maintenance": "US$479",
+                    "sku": "ME-OPMANAGER-NEXUS-APM-PLUGIN-APM-INSIGHT-PHP-AGENT-ADD-ON-APM-PLUGIN-PERP",
+                    "slug": "me-opmanager-nexus-apm-plugin-apm-insight-php-agent-add-on-apm-plugin-perp"
+                  },
+                  {
+                    "name": "APM Insight Python Agent Add-on APM Plugin",
+                    "metric": null,
+                    "amountUsd": 2395,
+                    "priceStatus": "listed",
+                    "maintenance": "US$479",
+                    "sku": "ME-OPMANAGER-NEXUS-APM-PLUGIN-APM-INSIGHT-PYTHON-AGENT-ADD-ON-APM-PLUGIN-PERP",
+                    "slug": "me-opmanager-nexus-apm-plugin-apm-insight-python-agent-add-on-apm-plugin-perp"
+                  },
+                  {
+                    "name": "APM Insight OpenTelemetry Add-on APM Plugin",
+                    "metric": null,
+                    "amountUsd": 2395,
+                    "priceStatus": "listed",
+                    "maintenance": "US$479",
+                    "sku": "ME-OPMANAGER-NEXUS-APM-PLUGIN-APM-INSIGHT-OPENTELEMETRY-ADD-ON-APM-PLUGIN-PERP",
+                    "slug": "me-opmanager-nexus-apm-plugin-apm-insight-opentelemetry-add-on-apm-plugin-perp"
+                  },
+                  {
+                    "name": "End User Monitoring (EUM) Add-on APM Plugin",
+                    "metric": null,
+                    "amountUsd": 2390,
+                    "priceStatus": "listed",
+                    "maintenance": "US$479",
+                    "sku": "ME-OPMANAGER-NEXUS-APM-PLUGIN-END-USER-MONITORING-ADD-ON-APM-PLUGIN-PERP",
+                    "slug": "me-opmanager-nexus-apm-plugin-end-user-monitoring-add-on-apm-plugin-perp"
+                  },
+                  {
+                    "name": "IBM i Add-on APM Plugin",
+                    "metric": null,
+                    "amountUsd": 2875,
+                    "priceStatus": "listed",
+                    "maintenance": "US$575",
+                    "sku": "ME-OPMANAGER-NEXUS-APM-PLUGIN-IBM-I-ADD-ON-APM-PLUGIN-PERP",
+                    "slug": "me-opmanager-nexus-apm-plugin-ibm-i-add-on-apm-plugin-perp"
+                  },
+                  {
+                    "name": "Microsoft Office SharePoint Monitor Add-on APM Plugin",
+                    "metric": null,
+                    "amountUsd": 590,
+                    "priceStatus": "listed",
+                    "maintenance": "US$118",
+                    "sku": "ME-OPMANAGER-NEXUS-APM-PLUGIN-MICROSOFT-OFFICE-SHAREPOINT-MONITOR-ADD-ON-A-PERP",
+                    "slug": "me-opmanager-nexus-apm-plugin-microsoft-office-sharepoint-monitor-add-on-a-perp"
+                  },
+                  {
+                    "name": "Oracle EBS Add-on APM Plugin",
+                    "metric": null,
+                    "amountUsd": 2390,
+                    "priceStatus": "listed",
+                    "maintenance": "US$479",
+                    "sku": "ME-OPMANAGER-NEXUS-APM-PLUGIN-ORACLE-EBS-ADD-ON-APM-PLUGIN-PERP",
+                    "slug": "me-opmanager-nexus-apm-plugin-oracle-ebs-add-on-apm-plugin-perp"
+                  },
+                  {
+                    "name": "SAP Monitor Add-on APM Plugin",
+                    "metric": null,
+                    "amountUsd": 4795,
+                    "priceStatus": "listed",
+                    "maintenance": "US$959",
+                    "sku": "ME-OPMANAGER-NEXUS-APM-PLUGIN-SAP-MONITOR-ADD-ON-APM-PLUGIN-PERP",
+                    "slug": "me-opmanager-nexus-apm-plugin-sap-monitor-add-on-apm-plugin-perp"
+                  },
+                  {
+                    "name": "Siebel Monitor Add-on APM Plugin",
+                    "metric": null,
+                    "amountUsd": 2390,
+                    "priceStatus": "listed",
+                    "maintenance": "US$479",
+                    "sku": "ME-OPMANAGER-NEXUS-APM-PLUGIN-SIEBEL-MONITOR-ADD-ON-APM-PLUGIN-PERP",
+                    "slug": "me-opmanager-nexus-apm-plugin-siebel-monitor-add-on-apm-plugin-perp"
+                  },
+                  {
+                    "name": "WebSphere MQ Monitor Add-on APM Plugin",
+                    "metric": null,
+                    "amountUsd": 1890,
+                    "priceStatus": "listed",
+                    "maintenance": "US$378",
+                    "sku": "ME-OPMANAGER-NEXUS-APM-PLUGIN-WEBSPHERE-MQ-MONITOR-ADD-ON-APM-PLUGIN-PERP",
+                    "slug": "me-opmanager-nexus-apm-plugin-websphere-mq-monitor-add-on-apm-plugin-perp"
+                  }
+                ]
+              },
+              {
+                "slug": "opmanager-nexus-apm-plugin-applogs-monitoring-add-on-perpetual",
+                "name": "OpManager Nexus - APM Plugin - AppLogs Monitoring Add-on",
+                "edition": null,
+                "licenseModel": "perpetual",
+                "kind": "addon",
+                "variants": [
+                  {
+                    "name": "10 GB Logs per month APM Plugin",
+                    "metric": {
+                      "quantity": 10,
+                      "unit": "gb logs per month apm plugin"
+                    },
+                    "amountUsd": 295,
+                    "priceStatus": "listed",
+                    "maintenance": "US$59",
+                    "sku": "ME-OPMANAGER-NEXUS-APM-PLUGIN-APPLOGS-MONITOR-10-GB-LOGS-PER-MONTH-APM-PLUGIN-PERP",
+                    "slug": "me-opmanager-nexus-apm-plugin-applogs-monitor-10-gb-logs-per-month-apm-plugin-perp"
+                  },
+                  {
+                    "name": "50 GB Logs per month APM Plugin",
+                    "metric": {
+                      "quantity": 50,
+                      "unit": "gb logs per month apm plugin"
+                    },
+                    "amountUsd": 1395,
+                    "priceStatus": "listed",
+                    "maintenance": "US$279",
+                    "sku": "ME-OPMANAGER-NEXUS-APM-PLUGIN-APPLOGS-MONITOR-50-GB-LOGS-PER-MONTH-APM-PLUGIN-PERP",
+                    "slug": "me-opmanager-nexus-apm-plugin-applogs-monitor-50-gb-logs-per-month-apm-plugin-perp"
+                  },
+                  {
+                    "name": "100 GB Logs per month APM Plugin",
+                    "metric": {
+                      "quantity": 100,
+                      "unit": "gb logs per month apm plugin"
+                    },
+                    "amountUsd": 2445,
+                    "priceStatus": "listed",
+                    "maintenance": "US$489",
+                    "sku": "ME-OPMANAGER-NEXUS-APM-PLUGIN-APPLOGS-MONITOR-100-GB-LOGS-PER-MONTH-APM-PLUGIN-PERP",
+                    "slug": "me-opmanager-nexus-apm-plugin-applogs-monitor-100-gb-logs-per-month-apm-plugin-perp"
+                  },
+                  {
+                    "name": "250 GB Logs per month APM Plugin",
+                    "metric": {
+                      "quantity": 250,
+                      "unit": "gb logs per month apm plugin"
+                    },
+                    "amountUsd": 5695,
+                    "priceStatus": "listed",
+                    "maintenance": "US$1,139",
+                    "sku": "ME-OPMANAGER-NEXUS-APM-PLUGIN-APPLOGS-MONITOR-250-GB-LOGS-PER-MONTH-APM-PLUGIN-PERP",
+                    "slug": "me-opmanager-nexus-apm-plugin-applogs-monitor-250-gb-logs-per-month-apm-plugin-perp"
+                  },
+                  {
+                    "name": "500 GB Logs per month APM Plugin",
+                    "metric": {
+                      "quantity": 500,
+                      "unit": "gb logs per month apm plugin"
+                    },
+                    "amountUsd": 10695,
+                    "priceStatus": "listed",
+                    "maintenance": "US$2,139",
+                    "sku": "ME-OPMANAGER-NEXUS-APM-PLUGIN-APPLOGS-MONITOR-500-GB-LOGS-PER-MONTH-APM-PLUGIN-PERP",
+                    "slug": "me-opmanager-nexus-apm-plugin-applogs-monitor-500-gb-logs-per-month-apm-plugin-perp"
+                  }
+                ]
+              },
+              {
+                "slug": "opmanager-nexus-apm-plugin-real-user-monitor-rum-add-on-perpetual",
+                "name": "OpManager Nexus - APM Plugin - Real User Monitor (RUM) Add-on",
+                "edition": null,
+                "licenseModel": "perpetual",
+                "kind": "addon",
+                "variants": [
+                  {
+                    "name": "100 Thousand Page Views per month APM Plugin",
+                    "metric": {
+                      "quantity": 100,
+                      "unit": "thousand page views per month apm plugin"
+                    },
+                    "amountUsd": 130,
+                    "priceStatus": "listed",
+                    "maintenance": "US$26",
+                    "sku": "ME-OPMANAGER-NEXUS-APM-PLUGIN-REAL-USER-MONIT-100-THOUSAND-PAGE-VIEWS-PER-MONTH-APM-PLUGIN-PERP",
+                    "slug": "me-opmanager-nexus-apm-plugin-real-user-monit-100-thousand-page-views-per-month-apm-plugin-perp"
+                  },
+                  {
+                    "name": "250 Thousand Page Views per month APM Plugin",
+                    "metric": {
+                      "quantity": 250,
+                      "unit": "thousand page views per month apm plugin"
+                    },
+                    "amountUsd": 290,
+                    "priceStatus": "listed",
+                    "maintenance": "US$58",
+                    "sku": "ME-OPMANAGER-NEXUS-APM-PLUGIN-REAL-USER-MONIT-250-THOUSAND-PAGE-VIEWS-PER-MONTH-APM-PLUGIN-PERP",
+                    "slug": "me-opmanager-nexus-apm-plugin-real-user-monit-250-thousand-page-views-per-month-apm-plugin-perp"
+                  },
+                  {
+                    "name": "500 Thousand Page Views per month APM Plugin",
+                    "metric": {
+                      "quantity": 500,
+                      "unit": "thousand page views per month apm plugin"
+                    },
+                    "amountUsd": 530,
+                    "priceStatus": "listed",
+                    "maintenance": "US$106",
+                    "sku": "ME-OPMANAGER-NEXUS-APM-PLUGIN-REAL-USER-MONIT-500-THOUSAND-PAGE-VIEWS-PER-MONTH-APM-PLUGIN-PERP",
+                    "slug": "me-opmanager-nexus-apm-plugin-real-user-monit-500-thousand-page-views-per-month-apm-plugin-perp"
+                  },
+                  {
+                    "name": "1 Million Page Views per month APM Plugin",
+                    "metric": {
+                      "quantity": 1,
+                      "unit": "million page views per month apm plugin"
+                    },
+                    "amountUsd": 970,
+                    "priceStatus": "listed",
+                    "maintenance": "US$194",
+                    "sku": "ME-OPMANAGER-NEXUS-APM-PLUGIN-REAL-USER-MONIT-1-MILLION-PAGE-VIEWS-PER-MONTH-APM-PLUGIN-PERP",
+                    "slug": "me-opmanager-nexus-apm-plugin-real-user-monit-1-million-page-views-per-month-apm-plugin-perp"
+                  },
+                  {
+                    "name": "2 Million Page Views per month APM Plugin",
+                    "metric": {
+                      "quantity": 2,
+                      "unit": "million page views per month apm plugin"
+                    },
+                    "amountUsd": 1730,
+                    "priceStatus": "listed",
+                    "maintenance": "US$346",
+                    "sku": "ME-OPMANAGER-NEXUS-APM-PLUGIN-REAL-USER-MONIT-2-MILLION-PAGE-VIEWS-PER-MONTH-APM-PLUGIN-PERP",
+                    "slug": "me-opmanager-nexus-apm-plugin-real-user-monit-2-million-page-views-per-month-apm-plugin-perp"
+                  },
+                  {
+                    "name": "3 Million Page Views per month APM Plugin",
+                    "metric": {
+                      "quantity": 3,
+                      "unit": "million page views per month apm plugin"
+                    },
+                    "amountUsd": 2350,
+                    "priceStatus": "listed",
+                    "maintenance": "US$470",
+                    "sku": "ME-OPMANAGER-NEXUS-APM-PLUGIN-REAL-USER-MONIT-3-MILLION-PAGE-VIEWS-PER-MONTH-APM-PLUGIN-PERP",
+                    "slug": "me-opmanager-nexus-apm-plugin-real-user-monit-3-million-page-views-per-month-apm-plugin-perp"
+                  },
+                  {
+                    "name": "4 Million Page Views per month APM Plugin",
+                    "metric": {
+                      "quantity": 4,
+                      "unit": "million page views per month apm plugin"
+                    },
+                    "amountUsd": 2690,
+                    "priceStatus": "listed",
+                    "maintenance": "US$538",
+                    "sku": "ME-OPMANAGER-NEXUS-APM-PLUGIN-REAL-USER-MONIT-4-MILLION-PAGE-VIEWS-PER-MONTH-APM-PLUGIN-PERP",
+                    "slug": "me-opmanager-nexus-apm-plugin-real-user-monit-4-million-page-views-per-month-apm-plugin-perp"
+                  },
+                  {
+                    "name": "5 Million Page Views per month APM Plugin",
+                    "metric": {
+                      "quantity": 5,
+                      "unit": "million page views per month apm plugin"
+                    },
+                    "amountUsd": 2810,
+                    "priceStatus": "listed",
+                    "maintenance": "US$562",
+                    "sku": "ME-OPMANAGER-NEXUS-APM-PLUGIN-REAL-USER-MONIT-5-MILLION-PAGE-VIEWS-PER-MONTH-APM-PLUGIN-PERP",
+                    "slug": "me-opmanager-nexus-apm-plugin-real-user-monit-5-million-page-views-per-month-apm-plugin-perp"
+                  },
+                  {
+                    "name": "7.5 Million Page Views per month APM Plugin",
+                    "metric": null,
+                    "amountUsd": 4050,
+                    "priceStatus": "listed",
+                    "maintenance": "US$810",
+                    "sku": "ME-OPMANAGER-NEXUS-APM-PLUGIN-REAL-USER-MONIT-7-5-MILLION-PAGE-VIEWS-PER-MONTH-APM-PLUGIN-PERP",
+                    "slug": "me-opmanager-nexus-apm-plugin-real-user-monit-7-5-million-page-views-per-month-apm-plugin-perp"
+                  },
+                  {
+                    "name": "10 Million Page Views per month APM Plugin",
+                    "metric": {
+                      "quantity": 10,
+                      "unit": "million page views per month apm plugin"
+                    },
+                    "amountUsd": 5190,
+                    "priceStatus": "listed",
+                    "maintenance": "US$1,038",
+                    "sku": "ME-OPMANAGER-NEXUS-APM-PLUGIN-REAL-USER-MONIT-10-MILLION-PAGE-VIEWS-PER-MONTH-APM-PLUGIN-PERP",
+                    "slug": "me-opmanager-nexus-apm-plugin-real-user-monit-10-million-page-views-per-month-apm-plugin-perp"
+                  },
+                  {
+                    "name": "20 Million Page Views per month APM Plugin",
+                    "metric": {
+                      "quantity": 20,
+                      "unit": "million page views per month apm plugin"
+                    },
+                    "amountUsd": 9990,
+                    "priceStatus": "listed",
+                    "maintenance": "US$1,998",
+                    "sku": "ME-OPMANAGER-NEXUS-APM-PLUGIN-REAL-USER-MONIT-20-MILLION-PAGE-VIEWS-PER-MONTH-APM-PLUGIN-PERP",
+                    "slug": "me-opmanager-nexus-apm-plugin-real-user-monit-20-million-page-views-per-month-apm-plugin-perp"
+                  },
+                  {
+                    "name": "30 Million Page Views per month APM Plugin",
+                    "metric": {
+                      "quantity": 30,
+                      "unit": "million page views per month apm plugin"
+                    },
+                    "amountUsd": 14390,
+                    "priceStatus": "listed",
+                    "maintenance": "US$2,878",
+                    "sku": "ME-OPMANAGER-NEXUS-APM-PLUGIN-REAL-USER-MONIT-30-MILLION-PAGE-VIEWS-PER-MONTH-APM-PLUGIN-PERP",
+                    "slug": "me-opmanager-nexus-apm-plugin-real-user-monit-30-million-page-views-per-month-apm-plugin-perp"
+                  },
+                  {
+                    "name": "40 Million Page Views per month APM Plugin",
+                    "metric": {
+                      "quantity": 40,
+                      "unit": "million page views per month apm plugin"
+                    },
+                    "amountUsd": 18390,
+                    "priceStatus": "listed",
+                    "maintenance": "US$3,678",
+                    "sku": "ME-OPMANAGER-NEXUS-APM-PLUGIN-REAL-USER-MONIT-40-MILLION-PAGE-VIEWS-PER-MONTH-APM-PLUGIN-PERP",
+                    "slug": "me-opmanager-nexus-apm-plugin-real-user-monit-40-million-page-views-per-month-apm-plugin-perp"
+                  },
+                  {
+                    "name": "50 Million Page Views per month APM Plugin",
+                    "metric": {
+                      "quantity": 50,
+                      "unit": "million page views per month apm plugin"
+                    },
+                    "amountUsd": 21990,
+                    "priceStatus": "listed",
+                    "maintenance": "US$4,398",
+                    "sku": "ME-OPMANAGER-NEXUS-APM-PLUGIN-REAL-USER-MONIT-50-MILLION-PAGE-VIEWS-PER-MONTH-APM-PLUGIN-PERP",
+                    "slug": "me-opmanager-nexus-apm-plugin-real-user-monit-50-million-page-views-per-month-apm-plugin-perp"
+                  },
+                  {
+                    "name": "75 Million Page Views per month APM Plugin",
+                    "metric": {
+                      "quantity": 75,
+                      "unit": "million page views per month apm plugin"
+                    },
+                    "amountUsd": 31490,
+                    "priceStatus": "listed",
+                    "maintenance": "US$6,298",
+                    "sku": "ME-OPMANAGER-NEXUS-APM-PLUGIN-REAL-USER-MONIT-75-MILLION-PAGE-VIEWS-PER-MONTH-APM-PLUGIN-PERP",
+                    "slug": "me-opmanager-nexus-apm-plugin-real-user-monit-75-million-page-views-per-month-apm-plugin-perp"
+                  },
+                  {
+                    "name": "100 Million Page Views per month APM Plugin",
+                    "metric": {
+                      "quantity": 100,
+                      "unit": "million page views per month apm plugin"
+                    },
+                    "amountUsd": 39990,
+                    "priceStatus": "listed",
+                    "maintenance": "US$7,998",
+                    "sku": "ME-OPMANAGER-NEXUS-APM-PLUGIN-REAL-USER-MONIT-100-MILLION-PAGE-VIEWS-PER-MONTH-APM-PLUGIN-PERP",
+                    "slug": "me-opmanager-nexus-apm-plugin-real-user-monit-100-million-page-views-per-month-apm-plugin-perp"
+                  }
+                ]
+              },
+              {
+                "slug": "opmanager-nexus-flow-interfaces-perpetual",
+                "name": "OpManager Nexus - Flow Interfaces",
+                "edition": null,
+                "licenseModel": "perpetual",
+                "kind": "base",
+                "variants": [
+                  {
+                    "name": "10 Flow Interfaces",
+                    "metric": {
+                      "quantity": 10,
+                      "unit": "flow interface"
+                    },
+                    "amountUsd": 495,
+                    "priceStatus": "listed",
+                    "maintenance": "US$99",
+                    "sku": "ME-OPMANAGER-NEXUS-FLOW-INTERFACES-10-FLOW-INTERFACES-PERP",
+                    "slug": "me-opmanager-nexus-flow-interfaces-10-flow-interfaces-perp"
+                  },
+                  {
+                    "name": "25 Flow Interfaces",
+                    "metric": {
+                      "quantity": 25,
+                      "unit": "flow interface"
+                    },
+                    "amountUsd": 1095,
+                    "priceStatus": "listed",
+                    "maintenance": "US$219",
+                    "sku": "ME-OPMANAGER-NEXUS-FLOW-INTERFACES-25-FLOW-INTERFACES-PERP",
+                    "slug": "me-opmanager-nexus-flow-interfaces-25-flow-interfaces-perp"
+                  },
+                  {
+                    "name": "50 Flow Interfaces",
+                    "metric": {
+                      "quantity": 50,
+                      "unit": "flow interface"
+                    },
+                    "amountUsd": 1995,
+                    "priceStatus": "listed",
+                    "maintenance": "US$399",
+                    "sku": "ME-OPMANAGER-NEXUS-FLOW-INTERFACES-50-FLOW-INTERFACES-PERP",
+                    "slug": "me-opmanager-nexus-flow-interfaces-50-flow-interfaces-perp"
+                  },
+                  {
+                    "name": "100 Flow Interfaces",
+                    "metric": {
+                      "quantity": 100,
+                      "unit": "flow interface"
+                    },
+                    "amountUsd": 3295,
+                    "priceStatus": "listed",
+                    "maintenance": "US$659",
+                    "sku": "ME-OPMANAGER-NEXUS-FLOW-INTERFACES-100-FLOW-INTERFACES-PERP",
+                    "slug": "me-opmanager-nexus-flow-interfaces-100-flow-interfaces-perp"
+                  },
+                  {
+                    "name": "250 Flow Interfaces",
+                    "metric": {
+                      "quantity": 250,
+                      "unit": "flow interface"
+                    },
+                    "amountUsd": 7295,
+                    "priceStatus": "listed",
+                    "maintenance": "US$1,459",
+                    "sku": "ME-OPMANAGER-NEXUS-FLOW-INTERFACES-250-FLOW-INTERFACES-PERP",
+                    "slug": "me-opmanager-nexus-flow-interfaces-250-flow-interfaces-perp"
+                  },
+                  {
+                    "name": "500 Flow Interfaces",
+                    "metric": {
+                      "quantity": 500,
+                      "unit": "flow interface"
+                    },
+                    "amountUsd": 10995,
+                    "priceStatus": "listed",
+                    "maintenance": "US$2,199",
+                    "sku": "ME-OPMANAGER-NEXUS-FLOW-INTERFACES-500-FLOW-INTERFACES-PERP",
+                    "slug": "me-opmanager-nexus-flow-interfaces-500-flow-interfaces-perp"
+                  },
+                  {
+                    "name": "HighPerf - Up to 100 Interfaces (Add-on)",
+                    "metric": null,
+                    "amountUsd": 995,
+                    "priceStatus": "listed",
+                    "maintenance": "US$199",
+                    "sku": "ME-OPMANAGER-NEXUS-FLOW-INTERFACES-HIGHPERF-UP-TO-100-INTERFACES-PERP",
+                    "slug": "me-opmanager-nexus-flow-interfaces-highperf-up-to-100-interfaces-perp"
+                  },
+                  {
+                    "name": "HighPerf - More than 100 Interfaces (Add-on)",
+                    "metric": null,
+                    "amountUsd": 2495,
+                    "priceStatus": "listed",
+                    "maintenance": "US$499",
+                    "sku": "ME-OPMANAGER-NEXUS-FLOW-INTERFACES-HIGHPERF-MORE-THAN-100-INTERFACES-PERP",
+                    "slug": "me-opmanager-nexus-flow-interfaces-highperf-more-than-100-interfaces-perp"
+                  }
+                ]
+              },
+              {
+                "slug": "opmanager-nexus-additional-firewall-perpetual",
+                "name": "OpManager Nexus - Additional Firewall",
+                "edition": null,
+                "licenseModel": "perpetual",
+                "kind": "addon",
+                "variants": [
+                  {
+                    "name": "1 Additional Firewall",
+                    "metric": {
+                      "quantity": 1,
+                      "unit": "additional firewall"
+                    },
+                    "amountUsd": 1238,
+                    "priceStatus": "listed",
+                    "maintenance": "US$248",
+                    "sku": "ME-OPMANAGER-NEXUS-ADDITIONAL-FIREWALL-1-ADDITIONAL-FIREWALL-PERP",
+                    "slug": "me-opmanager-nexus-additional-firewall-1-additional-firewall-perp"
+                  },
+                  {
+                    "name": "2 Additional Firewalls",
+                    "metric": {
+                      "quantity": 2,
+                      "unit": "additional firewall"
+                    },
+                    "amountUsd": 2238,
+                    "priceStatus": "listed",
+                    "maintenance": "US$448",
+                    "sku": "ME-OPMANAGER-NEXUS-ADDITIONAL-FIREWALL-2-ADDITIONAL-FIREWALLS-PERP",
+                    "slug": "me-opmanager-nexus-additional-firewall-2-additional-firewalls-perp"
+                  },
+                  {
+                    "name": "5 Additional Firewalls",
+                    "metric": {
+                      "quantity": 5,
+                      "unit": "additional firewall"
+                    },
+                    "amountUsd": 5362,
+                    "priceStatus": "listed",
+                    "maintenance": "US$1,072",
+                    "sku": "ME-OPMANAGER-NEXUS-ADDITIONAL-FIREWALL-5-ADDITIONAL-FIREWALLS-PERP",
+                    "slug": "me-opmanager-nexus-additional-firewall-5-additional-firewalls-perp"
+                  },
+                  {
+                    "name": "10 Additional Firewalls",
+                    "metric": {
+                      "quantity": 10,
+                      "unit": "additional firewall"
+                    },
+                    "amountUsd": 8988,
+                    "priceStatus": "listed",
+                    "maintenance": "US$1,798",
+                    "sku": "ME-OPMANAGER-NEXUS-ADDITIONAL-FIREWALL-10-ADDITIONAL-FIREWALLS-PERP",
+                    "slug": "me-opmanager-nexus-additional-firewall-10-additional-firewalls-perp"
+                  },
+                  {
+                    "name": "20 Additional Firewalls",
+                    "metric": {
+                      "quantity": 20,
+                      "unit": "additional firewall"
+                    },
+                    "amountUsd": 11988,
+                    "priceStatus": "listed",
+                    "maintenance": "US$2,398",
+                    "sku": "ME-OPMANAGER-NEXUS-ADDITIONAL-FIREWALL-20-ADDITIONAL-FIREWALLS-PERP",
+                    "slug": "me-opmanager-nexus-additional-firewall-20-additional-firewalls-perp"
+                  },
+                  {
+                    "name": "50 Additional Firewalls",
+                    "metric": {
+                      "quantity": 50,
+                      "unit": "additional firewall"
+                    },
+                    "amountUsd": 20988,
+                    "priceStatus": "listed",
+                    "maintenance": "US$4,198",
+                    "sku": "ME-OPMANAGER-NEXUS-ADDITIONAL-FIREWALL-50-ADDITIONAL-FIREWALLS-PERP",
+                    "slug": "me-opmanager-nexus-additional-firewall-50-additional-firewalls-perp"
+                  }
+                ]
+              },
+              {
+                "slug": "opmanager-nexus-ipam-spm-management-add-on-perpetual",
+                "name": "OpManager Nexus - IPAM & SPM (Management Add-on)",
+                "edition": null,
+                "licenseModel": "perpetual",
+                "kind": "addon",
+                "variants": [
+                  {
+                    "name": "Every additional 250 Used ports in Switch Port Mapper (SPM)",
+                    "metric": null,
+                    "amountUsd": 115,
+                    "priceStatus": "listed",
+                    "maintenance": "US$23",
+                    "sku": "ME-OPMANAGER-NEXUS-IPAM-SPM-EVERY-ADDITIONAL-250-USED-PORTS-IN-SWITCH-PO-PERP",
+                    "slug": "me-opmanager-nexus-ipam-spm-every-additional-250-used-ports-in-switch-po-perp"
+                  },
+                  {
+                    "name": "Every additional 250 Used IP Addresses in IP Address Manager (IPAM)",
+                    "metric": null,
+                    "amountUsd": 150,
+                    "priceStatus": "listed",
+                    "maintenance": "US$30",
+                    "sku": "ME-OPMANAGER-NEXUS-IPAM-SPM-EVERY-ADDITIONAL-250-USED-IP-ADDRESSES-IN-IP-PERP",
+                    "slug": "me-opmanager-nexus-ipam-spm-every-additional-250-used-ip-addresses-in-ip-perp"
+                  },
+                  {
+                    "name": "Unlimited Ports in Switch Port Mapper (SPM)",
+                    "metric": null,
+                    "amountUsd": 7675,
+                    "priceStatus": "listed",
+                    "maintenance": "US$1,535",
+                    "sku": "ME-OPMANAGER-NEXUS-IPAM-SPM-UNLIMITED-PORTS-IN-SWITCH-PORT-MAPPER-PERP",
+                    "slug": "me-opmanager-nexus-ipam-spm-unlimited-ports-in-switch-port-mapper-perp"
+                  },
+                  {
+                    "name": "Unlimited IP Addresses in IP Address Manager (IPAM)",
+                    "metric": null,
+                    "amountUsd": 9995,
+                    "priceStatus": "listed",
+                    "maintenance": "US$1,999",
+                    "sku": "ME-OPMANAGER-NEXUS-IPAM-SPM-UNLIMITED-IP-ADDRESSES-IN-IP-ADDRESS-MANAGER-PERP",
+                    "slug": "me-opmanager-nexus-ipam-spm-unlimited-ip-addresses-in-ip-address-manager-perp"
+                  },
+                  {
+                    "name": "Unlimited Ports in SPM and Unlimited IP Addresses in IPAM",
+                    "metric": null,
+                    "amountUsd": 13245,
+                    "priceStatus": "listed",
+                    "maintenance": "US$2,649",
+                    "sku": "ME-OPMANAGER-NEXUS-IPAM-SPM-UNLIMITED-PORTS-IN-SPM-AND-UNLIMITED-IP-ADDR-PERP",
+                    "slug": "me-opmanager-nexus-ipam-spm-unlimited-ports-in-spm-and-unlimited-ip-addr-perp"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
       },
       {
         "slug": "applications-manager",
@@ -11786,11 +23268,1682 @@ export const ZOHO_GROUPS: ZohoGroup[] = [
         "tagline": "Application, database, infrastructure and digital experience monitoring",
         "subgroup": "Full-stack observability and digital experience monitoring",
         "storeUrl": "https://store.manageengine.com/applications_manager/?MEstore",
-        "priced": false,
+        "priced": true,
         "sourceUrl": "https://store.manageengine.com/applications_manager/?MEstore",
-        "sourceSnapshotId": null,
-        "sourceCheckedAt": null,
-        "deployments": []
+        "sourceSnapshotId": "bf24da32fa31",
+        "sourceCheckedAt": "2026-08-20T22:06:50.201Z",
+        "deployments": [
+          {
+            "deployment": "unspecified",
+            "licenseModel": "subscription",
+            "slug": "applications-manager-subscription",
+            "offers": [
+              {
+                "slug": "applications-manager-professional-edition",
+                "name": "Applications Manager Professional Edition",
+                "edition": "Professional",
+                "licenseModel": "subscription",
+                "kind": "base",
+                "variants": [
+                  {
+                    "name": "10 Monitors with 1 User",
+                    "metric": null,
+                    "amountUsd": 395,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-APPLICATIONS-MANAGER-PROFESSIONAL-10-MONITORS-WITH-1-USER",
+                    "slug": "me-applications-manager-professional-10-monitors-with-1-user"
+                  },
+                  {
+                    "name": "25 Monitors with 1 User",
+                    "metric": null,
+                    "amountUsd": 945,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-APPLICATIONS-MANAGER-PROFESSIONAL-25-MONITORS-WITH-1-USER",
+                    "slug": "me-applications-manager-professional-25-monitors-with-1-user"
+                  },
+                  {
+                    "name": "50 Monitors with 1 User",
+                    "metric": null,
+                    "amountUsd": 1795,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-APPLICATIONS-MANAGER-PROFESSIONAL-50-MONITORS-WITH-1-USER",
+                    "slug": "me-applications-manager-professional-50-monitors-with-1-user"
+                  },
+                  {
+                    "name": "100 Monitors with 1 User",
+                    "metric": null,
+                    "amountUsd": 3195,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-APPLICATIONS-MANAGER-PROFESSIONAL-100-MONITORS-WITH-1-USER",
+                    "slug": "me-applications-manager-professional-100-monitors-with-1-user"
+                  },
+                  {
+                    "name": "250 Monitors with 1 User",
+                    "metric": null,
+                    "amountUsd": 7195,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-APPLICATIONS-MANAGER-PROFESSIONAL-250-MONITORS-WITH-1-USER",
+                    "slug": "me-applications-manager-professional-250-monitors-with-1-user"
+                  },
+                  {
+                    "name": "500 Monitors with 1 User",
+                    "metric": null,
+                    "amountUsd": 10995,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-APPLICATIONS-MANAGER-PROFESSIONAL-500-MONITORS-WITH-1-USER",
+                    "slug": "me-applications-manager-professional-500-monitors-with-1-user"
+                  },
+                  {
+                    "name": "750 Monitors with 1 User",
+                    "metric": null,
+                    "amountUsd": 14395,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-APPLICATIONS-MANAGER-PROFESSIONAL-750-MONITORS-WITH-1-USER",
+                    "slug": "me-applications-manager-professional-750-monitors-with-1-user"
+                  },
+                  {
+                    "name": "APM Insight for Java Web Transaction Monitoring (Add On)",
+                    "metric": null,
+                    "amountUsd": 1195,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-APPLICATIONS-MANAGER-PROFESSIONAL-APM-INSIGHT-FOR-JAVA-WEB-TRANSACTION-MONITOR",
+                    "slug": "me-applications-manager-professional-apm-insight-for-java-web-transaction-monitor"
+                  },
+                  {
+                    "name": "APM Insight .Net Agent (Add On)",
+                    "metric": null,
+                    "amountUsd": 1195,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-APPLICATIONS-MANAGER-PROFESSIONAL-APM-INSIGHT-NET-AGENT",
+                    "slug": "me-applications-manager-professional-apm-insight-net-agent"
+                  },
+                  {
+                    "name": "APM Insight Node.js Agent (Add On)",
+                    "metric": null,
+                    "amountUsd": 1195,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-APPLICATIONS-MANAGER-PROFESSIONAL-APM-INSIGHT-NODE-JS-AGENT",
+                    "slug": "me-applications-manager-professional-apm-insight-node-js-agent"
+                  },
+                  {
+                    "name": "APM Insight PHP Agent (Add On)",
+                    "metric": null,
+                    "amountUsd": 1195,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-APPLICATIONS-MANAGER-PROFESSIONAL-APM-INSIGHT-PHP-AGENT",
+                    "slug": "me-applications-manager-professional-apm-insight-php-agent"
+                  },
+                  {
+                    "name": "APM Insight Python Agent (Add On)",
+                    "metric": null,
+                    "amountUsd": 1195,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-APPLICATIONS-MANAGER-PROFESSIONAL-APM-INSIGHT-PYTHON-AGENT",
+                    "slug": "me-applications-manager-professional-apm-insight-python-agent"
+                  },
+                  {
+                    "name": "APM Insight OpenTelemetry (Add On)",
+                    "metric": null,
+                    "amountUsd": 1195,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-APPLICATIONS-MANAGER-PROFESSIONAL-APM-INSIGHT-OPENTELEMETRY",
+                    "slug": "me-applications-manager-professional-apm-insight-opentelemetry"
+                  },
+                  {
+                    "name": "End User Monitoring (EUM) (Add On)",
+                    "metric": null,
+                    "amountUsd": 1195,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-APPLICATIONS-MANAGER-PROFESSIONAL-END-USER-MONITORING",
+                    "slug": "me-applications-manager-professional-end-user-monitoring"
+                  },
+                  {
+                    "name": "IBM i (Add On)",
+                    "metric": null,
+                    "amountUsd": 1445,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-APPLICATIONS-MANAGER-PROFESSIONAL-IBM-I",
+                    "slug": "me-applications-manager-professional-ibm-i"
+                  },
+                  {
+                    "name": "Microsoft Office SharePoint Monitor (Add On)",
+                    "metric": null,
+                    "amountUsd": 295,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-APPLICATIONS-MANAGER-PROFESSIONAL-MICROSOFT-OFFICE-SHAREPOINT-MONITOR",
+                    "slug": "me-applications-manager-professional-microsoft-office-sharepoint-monitor"
+                  },
+                  {
+                    "name": "Oracle EBS (Add On)",
+                    "metric": null,
+                    "amountUsd": 1195,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-APPLICATIONS-MANAGER-PROFESSIONAL-ORACLE-EBS",
+                    "slug": "me-applications-manager-professional-oracle-ebs"
+                  },
+                  {
+                    "name": "SAP Monitor (Add On)",
+                    "metric": null,
+                    "amountUsd": 2395,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-APPLICATIONS-MANAGER-PROFESSIONAL-SAP-MONITOR",
+                    "slug": "me-applications-manager-professional-sap-monitor"
+                  },
+                  {
+                    "name": "Siebel Monitor (Add On)",
+                    "metric": null,
+                    "amountUsd": 1195,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-APPLICATIONS-MANAGER-PROFESSIONAL-SIEBEL-MONITOR",
+                    "slug": "me-applications-manager-professional-siebel-monitor"
+                  },
+                  {
+                    "name": "WebSphere MQ Monitor (Add On)",
+                    "metric": null,
+                    "amountUsd": 945,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-APPLICATIONS-MANAGER-PROFESSIONAL-WEBSPHERE-MQ-MONITOR",
+                    "slug": "me-applications-manager-professional-websphere-mq-monitor"
+                  },
+                  {
+                    "name": "Failover - Hot Standby Engine (MSSQL and Remote PGSQL)",
+                    "metric": null,
+                    "amountUsd": 1915,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-APPLICATIONS-MANAGER-PROFESSIONAL-FAILOVER-HOT-STANDBY-ENGINE",
+                    "slug": "me-applications-manager-professional-failover-hot-standby-engine"
+                  }
+                ]
+              },
+              {
+                "slug": "applogs-monitoring-add-on-professional-edition",
+                "name": "AppLogs Monitoring Add-on - Professional Edition",
+                "edition": "Professional",
+                "licenseModel": "subscription",
+                "kind": "addon",
+                "variants": [
+                  {
+                    "name": "10 GB Logs per month",
+                    "metric": {
+                      "quantity": 10,
+                      "unit": "gb logs per month"
+                    },
+                    "amountUsd": 115,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-APPLICATIONS-MANAGER-PROFESSIONAL-APPLOGS-MONITORING-10-GB-LOGS-PER-MONTH",
+                    "slug": "me-applications-manager-professional-applogs-monitoring-10-gb-logs-per-month"
+                  },
+                  {
+                    "name": "50 GB Logs per month",
+                    "metric": {
+                      "quantity": 50,
+                      "unit": "gb logs per month"
+                    },
+                    "amountUsd": 555,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-APPLICATIONS-MANAGER-PROFESSIONAL-APPLOGS-MONITORING-50-GB-LOGS-PER-MONTH",
+                    "slug": "me-applications-manager-professional-applogs-monitoring-50-gb-logs-per-month"
+                  },
+                  {
+                    "name": "100 GB Logs per month",
+                    "metric": {
+                      "quantity": 100,
+                      "unit": "gb logs per month"
+                    },
+                    "amountUsd": 975,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-APPLICATIONS-MANAGER-PROFESSIONAL-APPLOGS-MONITORING-100-GB-LOGS-PER-MONTH",
+                    "slug": "me-applications-manager-professional-applogs-monitoring-100-gb-logs-per-month"
+                  },
+                  {
+                    "name": "250 GB Logs per month",
+                    "metric": {
+                      "quantity": 250,
+                      "unit": "gb logs per month"
+                    },
+                    "amountUsd": 2275,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-APPLICATIONS-MANAGER-PROFESSIONAL-APPLOGS-MONITORING-250-GB-LOGS-PER-MONTH",
+                    "slug": "me-applications-manager-professional-applogs-monitoring-250-gb-logs-per-month"
+                  },
+                  {
+                    "name": "500 GB Logs per month",
+                    "metric": {
+                      "quantity": 500,
+                      "unit": "gb logs per month"
+                    },
+                    "amountUsd": 4275,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-APPLICATIONS-MANAGER-PROFESSIONAL-APPLOGS-MONITORING-500-GB-LOGS-PER-MONTH",
+                    "slug": "me-applications-manager-professional-applogs-monitoring-500-gb-logs-per-month"
+                  }
+                ]
+              },
+              {
+                "slug": "applications-manager-enterprise-edition",
+                "name": "Applications Manager Enterprise Edition",
+                "edition": "Enterprise",
+                "licenseModel": "subscription",
+                "kind": "base",
+                "variants": [
+                  {
+                    "name": "100 Monitors with 1 User",
+                    "metric": null,
+                    "amountUsd": 3995,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-APPLICATIONS-MANAGER-ENTERPRISE-100-MONITORS-WITH-1-USER",
+                    "slug": "me-applications-manager-enterprise-100-monitors-with-1-user"
+                  },
+                  {
+                    "name": "250 Monitors with 1 User",
+                    "metric": null,
+                    "amountUsd": 9595,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-APPLICATIONS-MANAGER-ENTERPRISE-250-MONITORS-WITH-1-USER",
+                    "slug": "me-applications-manager-enterprise-250-monitors-with-1-user"
+                  },
+                  {
+                    "name": "500 Monitors with 1 User",
+                    "metric": null,
+                    "amountUsd": 13195,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-APPLICATIONS-MANAGER-ENTERPRISE-500-MONITORS-WITH-1-USER",
+                    "slug": "me-applications-manager-enterprise-500-monitors-with-1-user"
+                  },
+                  {
+                    "name": "750 Monitors with 1 User",
+                    "metric": null,
+                    "amountUsd": 17995,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-APPLICATIONS-MANAGER-ENTERPRISE-750-MONITORS-WITH-1-USER",
+                    "slug": "me-applications-manager-enterprise-750-monitors-with-1-user"
+                  },
+                  {
+                    "name": "1000 Monitors with 1 User",
+                    "metric": null,
+                    "amountUsd": 22795,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-APPLICATIONS-MANAGER-ENTERPRISE-1000-MONITORS-WITH-1-USER",
+                    "slug": "me-applications-manager-enterprise-1000-monitors-with-1-user"
+                  },
+                  {
+                    "name": "2000 Monitors with 1 User",
+                    "metric": null,
+                    "amountUsd": 40795,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-APPLICATIONS-MANAGER-ENTERPRISE-2000-MONITORS-WITH-1-USER",
+                    "slug": "me-applications-manager-enterprise-2000-monitors-with-1-user"
+                  },
+                  {
+                    "name": "5000 Monitors with 1 User",
+                    "metric": null,
+                    "amountUsd": 83995,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-APPLICATIONS-MANAGER-ENTERPRISE-5000-MONITORS-WITH-1-USER",
+                    "slug": "me-applications-manager-enterprise-5000-monitors-with-1-user"
+                  },
+                  {
+                    "name": "APM Insight for Java Web Transaction Monitoring (Add On)",
+                    "metric": null,
+                    "amountUsd": 1795,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-APPLICATIONS-MANAGER-ENTERPRISE-APM-INSIGHT-FOR-JAVA-WEB-TRANSACTION-MONITOR",
+                    "slug": "me-applications-manager-enterprise-apm-insight-for-java-web-transaction-monitor"
+                  },
+                  {
+                    "name": "APM Insight .Net Agent (Add On)",
+                    "metric": null,
+                    "amountUsd": 1795,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-APPLICATIONS-MANAGER-ENTERPRISE-APM-INSIGHT-NET-AGENT",
+                    "slug": "me-applications-manager-enterprise-apm-insight-net-agent"
+                  },
+                  {
+                    "name": "APM Insight Node.js Agent (Add On)",
+                    "metric": null,
+                    "amountUsd": 1795,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-APPLICATIONS-MANAGER-ENTERPRISE-APM-INSIGHT-NODE-JS-AGENT",
+                    "slug": "me-applications-manager-enterprise-apm-insight-node-js-agent"
+                  },
+                  {
+                    "name": "APM Insight PHP Agent (Add On)",
+                    "metric": null,
+                    "amountUsd": 1795,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-APPLICATIONS-MANAGER-ENTERPRISE-APM-INSIGHT-PHP-AGENT",
+                    "slug": "me-applications-manager-enterprise-apm-insight-php-agent"
+                  },
+                  {
+                    "name": "APM Insight Python Agent (Add On)",
+                    "metric": null,
+                    "amountUsd": 1795,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-APPLICATIONS-MANAGER-ENTERPRISE-APM-INSIGHT-PYTHON-AGENT",
+                    "slug": "me-applications-manager-enterprise-apm-insight-python-agent"
+                  },
+                  {
+                    "name": "APM Insight OpenTelemetry (Add On)",
+                    "metric": null,
+                    "amountUsd": 1795,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-APPLICATIONS-MANAGER-ENTERPRISE-APM-INSIGHT-OPENTELEMETRY",
+                    "slug": "me-applications-manager-enterprise-apm-insight-opentelemetry"
+                  },
+                  {
+                    "name": "End User Monitoring (EUM) (Add On)",
+                    "metric": null,
+                    "amountUsd": 2395,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-APPLICATIONS-MANAGER-ENTERPRISE-END-USER-MONITORING",
+                    "slug": "me-applications-manager-enterprise-end-user-monitoring"
+                  },
+                  {
+                    "name": "IBM i (Add On)",
+                    "metric": null,
+                    "amountUsd": 1445,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-APPLICATIONS-MANAGER-ENTERPRISE-IBM-I",
+                    "slug": "me-applications-manager-enterprise-ibm-i"
+                  },
+                  {
+                    "name": "Microsoft Office SharePoint Monitor (Add On)",
+                    "metric": null,
+                    "amountUsd": 395,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-APPLICATIONS-MANAGER-ENTERPRISE-MICROSOFT-OFFICE-SHAREPOINT-MONITOR",
+                    "slug": "me-applications-manager-enterprise-microsoft-office-sharepoint-monitor"
+                  },
+                  {
+                    "name": "Oracle EBS (Add On)",
+                    "metric": null,
+                    "amountUsd": 1195,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-APPLICATIONS-MANAGER-ENTERPRISE-ORACLE-EBS",
+                    "slug": "me-applications-manager-enterprise-oracle-ebs"
+                  },
+                  {
+                    "name": "SAP Monitor (Add On)",
+                    "metric": null,
+                    "amountUsd": 2395,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-APPLICATIONS-MANAGER-ENTERPRISE-SAP-MONITOR",
+                    "slug": "me-applications-manager-enterprise-sap-monitor"
+                  },
+                  {
+                    "name": "Siebel Monitor (Add On)",
+                    "metric": null,
+                    "amountUsd": 1195,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-APPLICATIONS-MANAGER-ENTERPRISE-SIEBEL-MONITOR",
+                    "slug": "me-applications-manager-enterprise-siebel-monitor"
+                  },
+                  {
+                    "name": "WebSphere MQ Monitor (Add On)",
+                    "metric": null,
+                    "amountUsd": 1195,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-APPLICATIONS-MANAGER-ENTERPRISE-WEBSPHERE-MQ-MONITOR",
+                    "slug": "me-applications-manager-enterprise-websphere-mq-monitor"
+                  },
+                  {
+                    "name": "Failover - Hot Standby Engine (MSSQL and Remote PGSQL)",
+                    "metric": null,
+                    "amountUsd": 3345,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-APPLICATIONS-MANAGER-ENTERPRISE-FAILOVER-HOT-STANDBY-ENGINE",
+                    "slug": "me-applications-manager-enterprise-failover-hot-standby-engine"
+                  }
+                ]
+              },
+              {
+                "slug": "applogs-monitoring-add-on-enterprise-edition",
+                "name": "AppLogs Monitoring Add-on - Enterprise Edition",
+                "edition": "Enterprise",
+                "licenseModel": "subscription",
+                "kind": "addon",
+                "variants": [
+                  {
+                    "name": "100 GB Logs per month",
+                    "metric": {
+                      "quantity": 100,
+                      "unit": "gb logs per month"
+                    },
+                    "amountUsd": 1175,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-APPLICATIONS-MANAGER-ENTERPRISE-APPLOGS-MONITORING-100-GB-LOGS-PER-MONTH",
+                    "slug": "me-applications-manager-enterprise-applogs-monitoring-100-gb-logs-per-month"
+                  },
+                  {
+                    "name": "250 GB Logs per month",
+                    "metric": {
+                      "quantity": 250,
+                      "unit": "gb logs per month"
+                    },
+                    "amountUsd": 2775,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-APPLICATIONS-MANAGER-ENTERPRISE-APPLOGS-MONITORING-250-GB-LOGS-PER-MONTH",
+                    "slug": "me-applications-manager-enterprise-applogs-monitoring-250-gb-logs-per-month"
+                  },
+                  {
+                    "name": "500 GB Logs per month",
+                    "metric": {
+                      "quantity": 500,
+                      "unit": "gb logs per month"
+                    },
+                    "amountUsd": 5375,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-APPLICATIONS-MANAGER-ENTERPRISE-APPLOGS-MONITORING-500-GB-LOGS-PER-MONTH",
+                    "slug": "me-applications-manager-enterprise-applogs-monitoring-500-gb-logs-per-month"
+                  },
+                  {
+                    "name": "750 GB Logs per month",
+                    "metric": {
+                      "quantity": 750,
+                      "unit": "gb logs per month"
+                    },
+                    "amountUsd": 7375,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-APPLICATIONS-MANAGER-ENTERPRISE-APPLOGS-MONITORING-750-GB-LOGS-PER-MONTH",
+                    "slug": "me-applications-manager-enterprise-applogs-monitoring-750-gb-logs-per-month"
+                  },
+                  {
+                    "name": "1000 GB Logs per month",
+                    "metric": {
+                      "quantity": 1000,
+                      "unit": "gb logs per month"
+                    },
+                    "amountUsd": 9275,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-APPLICATIONS-MANAGER-ENTERPRISE-APPLOGS-MONITORING-1000-GB-LOGS-PER-MONTH",
+                    "slug": "me-applications-manager-enterprise-applogs-monitoring-1000-gb-logs-per-month"
+                  }
+                ]
+              },
+              {
+                "slug": "applications-manager-real-user-monitor-rum-add-on",
+                "name": "Applications Manager - Real User Monitor (RUM) Add-on",
+                "edition": null,
+                "licenseModel": "subscription",
+                "kind": "addon",
+                "variants": [
+                  {
+                    "name": "100 Thousand Page Views per month",
+                    "metric": {
+                      "quantity": 100,
+                      "unit": "thousand page views per month"
+                    },
+                    "amountUsd": 65,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-APPLICATIONS-MANAGER-REAL-USER-MONITOR-100-THOUSAND-PAGE-VIEWS-PER-MONTH",
+                    "slug": "me-applications-manager-real-user-monitor-100-thousand-page-views-per-month"
+                  },
+                  {
+                    "name": "250 Thousand Page Views per month",
+                    "metric": {
+                      "quantity": 250,
+                      "unit": "thousand page views per month"
+                    },
+                    "amountUsd": 145,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-APPLICATIONS-MANAGER-REAL-USER-MONITOR-250-THOUSAND-PAGE-VIEWS-PER-MONTH",
+                    "slug": "me-applications-manager-real-user-monitor-250-thousand-page-views-per-month"
+                  },
+                  {
+                    "name": "500 Thousand Page Views per month",
+                    "metric": {
+                      "quantity": 500,
+                      "unit": "thousand page views per month"
+                    },
+                    "amountUsd": 265,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-APPLICATIONS-MANAGER-REAL-USER-MONITOR-500-THOUSAND-PAGE-VIEWS-PER-MONTH",
+                    "slug": "me-applications-manager-real-user-monitor-500-thousand-page-views-per-month"
+                  },
+                  {
+                    "name": "1 Million Page Views per month",
+                    "metric": {
+                      "quantity": 1,
+                      "unit": "million page views per month"
+                    },
+                    "amountUsd": 485,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-APPLICATIONS-MANAGER-REAL-USER-MONITOR-1-MILLION-PAGE-VIEWS-PER-MONTH",
+                    "slug": "me-applications-manager-real-user-monitor-1-million-page-views-per-month"
+                  },
+                  {
+                    "name": "2 Million Page Views per month",
+                    "metric": {
+                      "quantity": 2,
+                      "unit": "million page views per month"
+                    },
+                    "amountUsd": 865,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-APPLICATIONS-MANAGER-REAL-USER-MONITOR-2-MILLION-PAGE-VIEWS-PER-MONTH",
+                    "slug": "me-applications-manager-real-user-monitor-2-million-page-views-per-month"
+                  },
+                  {
+                    "name": "3 Million Page Views per month",
+                    "metric": {
+                      "quantity": 3,
+                      "unit": "million page views per month"
+                    },
+                    "amountUsd": 1175,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-APPLICATIONS-MANAGER-REAL-USER-MONITOR-3-MILLION-PAGE-VIEWS-PER-MONTH",
+                    "slug": "me-applications-manager-real-user-monitor-3-million-page-views-per-month"
+                  },
+                  {
+                    "name": "4 Million Page Views per month",
+                    "metric": {
+                      "quantity": 4,
+                      "unit": "million page views per month"
+                    },
+                    "amountUsd": 1345,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-APPLICATIONS-MANAGER-REAL-USER-MONITOR-4-MILLION-PAGE-VIEWS-PER-MONTH",
+                    "slug": "me-applications-manager-real-user-monitor-4-million-page-views-per-month"
+                  },
+                  {
+                    "name": "5 Million Page Views per month",
+                    "metric": {
+                      "quantity": 5,
+                      "unit": "million page views per month"
+                    },
+                    "amountUsd": 1405,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-APPLICATIONS-MANAGER-REAL-USER-MONITOR-5-MILLION-PAGE-VIEWS-PER-MONTH",
+                    "slug": "me-applications-manager-real-user-monitor-5-million-page-views-per-month"
+                  },
+                  {
+                    "name": "7.5 Million Page Views per month",
+                    "metric": null,
+                    "amountUsd": 2025,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-APPLICATIONS-MANAGER-REAL-USER-MONITOR-7-5-MILLION-PAGE-VIEWS-PER-MONTH",
+                    "slug": "me-applications-manager-real-user-monitor-7-5-million-page-views-per-month"
+                  },
+                  {
+                    "name": "10 Million Page Views per month",
+                    "metric": {
+                      "quantity": 10,
+                      "unit": "million page views per month"
+                    },
+                    "amountUsd": 2595,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-APPLICATIONS-MANAGER-REAL-USER-MONITOR-10-MILLION-PAGE-VIEWS-PER-MONTH",
+                    "slug": "me-applications-manager-real-user-monitor-10-million-page-views-per-month"
+                  },
+                  {
+                    "name": "20 Million Page Views per month",
+                    "metric": {
+                      "quantity": 20,
+                      "unit": "million page views per month"
+                    },
+                    "amountUsd": 4995,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-APPLICATIONS-MANAGER-REAL-USER-MONITOR-20-MILLION-PAGE-VIEWS-PER-MONTH",
+                    "slug": "me-applications-manager-real-user-monitor-20-million-page-views-per-month"
+                  },
+                  {
+                    "name": "30 Million Page Views per month",
+                    "metric": {
+                      "quantity": 30,
+                      "unit": "million page views per month"
+                    },
+                    "amountUsd": 7195,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-APPLICATIONS-MANAGER-REAL-USER-MONITOR-30-MILLION-PAGE-VIEWS-PER-MONTH",
+                    "slug": "me-applications-manager-real-user-monitor-30-million-page-views-per-month"
+                  },
+                  {
+                    "name": "40 Million Page Views per month",
+                    "metric": {
+                      "quantity": 40,
+                      "unit": "million page views per month"
+                    },
+                    "amountUsd": 9195,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-APPLICATIONS-MANAGER-REAL-USER-MONITOR-40-MILLION-PAGE-VIEWS-PER-MONTH",
+                    "slug": "me-applications-manager-real-user-monitor-40-million-page-views-per-month"
+                  },
+                  {
+                    "name": "50 Million Page Views per month",
+                    "metric": {
+                      "quantity": 50,
+                      "unit": "million page views per month"
+                    },
+                    "amountUsd": 10995,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-APPLICATIONS-MANAGER-REAL-USER-MONITOR-50-MILLION-PAGE-VIEWS-PER-MONTH",
+                    "slug": "me-applications-manager-real-user-monitor-50-million-page-views-per-month"
+                  },
+                  {
+                    "name": "75 Million Page Views per month",
+                    "metric": {
+                      "quantity": 75,
+                      "unit": "million page views per month"
+                    },
+                    "amountUsd": 15745,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-APPLICATIONS-MANAGER-REAL-USER-MONITOR-75-MILLION-PAGE-VIEWS-PER-MONTH",
+                    "slug": "me-applications-manager-real-user-monitor-75-million-page-views-per-month"
+                  },
+                  {
+                    "name": "100 Million Page Views per month",
+                    "metric": {
+                      "quantity": 100,
+                      "unit": "million page views per month"
+                    },
+                    "amountUsd": 19995,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-APPLICATIONS-MANAGER-REAL-USER-MONITOR-100-MILLION-PAGE-VIEWS-PER-MONTH",
+                    "slug": "me-applications-manager-real-user-monitor-100-million-page-views-per-month"
+                  }
+                ]
+              },
+              {
+                "slug": "applications-manager-additional-user-pack",
+                "name": "Applications Manager Additional User Pack",
+                "edition": null,
+                "licenseModel": "subscription",
+                "kind": "addon",
+                "variants": [
+                  {
+                    "name": "1 User Pack",
+                    "metric": {
+                      "quantity": 1,
+                      "unit": "user pack"
+                    },
+                    "amountUsd": 98,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-APPLICATIONS-MANAGER-ADDITIONAL-USER-PACK-1-USER-PACK",
+                    "slug": "me-applications-manager-additional-user-pack-1-user-pack"
+                  },
+                  {
+                    "name": "2 User Pack",
+                    "metric": {
+                      "quantity": 2,
+                      "unit": "user pack"
+                    },
+                    "amountUsd": 138,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-APPLICATIONS-MANAGER-ADDITIONAL-USER-PACK-2-USER-PACK",
+                    "slug": "me-applications-manager-additional-user-pack-2-user-pack"
+                  },
+                  {
+                    "name": "5 User Pack",
+                    "metric": {
+                      "quantity": 5,
+                      "unit": "user pack"
+                    },
+                    "amountUsd": 238,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-APPLICATIONS-MANAGER-ADDITIONAL-USER-PACK-5-USER-PACK",
+                    "slug": "me-applications-manager-additional-user-pack-5-user-pack"
+                  },
+                  {
+                    "name": "10 User Pack",
+                    "metric": {
+                      "quantity": 10,
+                      "unit": "user pack"
+                    },
+                    "amountUsd": 378,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-APPLICATIONS-MANAGER-ADDITIONAL-USER-PACK-10-USER-PACK",
+                    "slug": "me-applications-manager-additional-user-pack-10-user-pack"
+                  },
+                  {
+                    "name": "25 User Pack",
+                    "metric": {
+                      "quantity": 25,
+                      "unit": "user pack"
+                    },
+                    "amountUsd": 618,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-APPLICATIONS-MANAGER-ADDITIONAL-USER-PACK-25-USER-PACK",
+                    "slug": "me-applications-manager-additional-user-pack-25-user-pack"
+                  },
+                  {
+                    "name": "Unlimited User Pack",
+                    "metric": null,
+                    "amountUsd": 958,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-APPLICATIONS-MANAGER-ADDITIONAL-USER-PACK-UNLIMITED-USER-PACK",
+                    "slug": "me-applications-manager-additional-user-pack-unlimited-user-pack"
+                  }
+                ]
+              },
+              {
+                "slug": "applications-manager-customer-onboarding-implementation-and-training",
+                "name": "Applications Manager Customer Onboarding, Implementation and Training",
+                "edition": null,
+                "licenseModel": "subscription",
+                "kind": "service",
+                "variants": [
+                  {
+                    "name": "Onsite Training and Onboarding Assistance (2 Days)*",
+                    "metric": null,
+                    "amountUsd": 3995,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-APPLICATIONS-MANAGER-CUSTOMER-ONBOARDING-IMPLEM-ONSITE-TRAINING-AND-ONBOARDING-ASSISTANCE",
+                    "slug": "me-applications-manager-customer-onboarding-implem-onsite-training-and-onboarding-assistance"
+                  },
+                  {
+                    "name": "Online Training (2 Days with 3 hours/day)#",
+                    "metric": null,
+                    "amountUsd": 995,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-APPLICATIONS-MANAGER-CUSTOMER-ONBOARDING-IMPLEM-ONLINE-TRAINING",
+                    "slug": "me-applications-manager-customer-onboarding-implem-online-training"
+                  },
+                  {
+                    "name": "One-Time Migration/Upgrade Assistance^",
+                    "metric": null,
+                    "amountUsd": 295,
+                    "priceStatus": "listed",
+                    "maintenance": "Included",
+                    "sku": "ME-APPLICATIONS-MANAGER-CUSTOMER-ONBOARDING-IMPLEM-ONE-TIME-MIGRATION-UPGRADE-ASSISTANCE",
+                    "slug": "me-applications-manager-customer-onboarding-implem-one-time-migration-upgrade-assistance"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "deployment": "unspecified",
+            "licenseModel": "perpetual",
+            "slug": "applications-manager-perpetual",
+            "offers": [
+              {
+                "slug": "applications-manager-professional-edition-perpetual",
+                "name": "Applications Manager Professional Edition",
+                "edition": "Professional",
+                "licenseModel": "perpetual",
+                "kind": "base",
+                "variants": [
+                  {
+                    "name": "10 Monitors with 1 User",
+                    "metric": null,
+                    "amountUsd": 995,
+                    "priceStatus": "listed",
+                    "maintenance": "US$199",
+                    "sku": "ME-APPLICATIONS-MANAGER-PROFESSIONAL-10-MONITORS-WITH-1-USER-PERP",
+                    "slug": "me-applications-manager-professional-10-monitors-with-1-user-perp"
+                  },
+                  {
+                    "name": "25 Monitors with 1 User",
+                    "metric": null,
+                    "amountUsd": 2395,
+                    "priceStatus": "listed",
+                    "maintenance": "US$479",
+                    "sku": "ME-APPLICATIONS-MANAGER-PROFESSIONAL-25-MONITORS-WITH-1-USER-PERP",
+                    "slug": "me-applications-manager-professional-25-monitors-with-1-user-perp"
+                  },
+                  {
+                    "name": "50 Monitors with 1 User",
+                    "metric": null,
+                    "amountUsd": 4495,
+                    "priceStatus": "listed",
+                    "maintenance": "US$899",
+                    "sku": "ME-APPLICATIONS-MANAGER-PROFESSIONAL-50-MONITORS-WITH-1-USER-PERP",
+                    "slug": "me-applications-manager-professional-50-monitors-with-1-user-perp"
+                  },
+                  {
+                    "name": "100 Monitors with 1 User",
+                    "metric": null,
+                    "amountUsd": 7995,
+                    "priceStatus": "listed",
+                    "maintenance": "US$1,599",
+                    "sku": "ME-APPLICATIONS-MANAGER-PROFESSIONAL-100-MONITORS-WITH-1-USER-PERP",
+                    "slug": "me-applications-manager-professional-100-monitors-with-1-user-perp"
+                  },
+                  {
+                    "name": "250 Monitors with 1 User",
+                    "metric": null,
+                    "amountUsd": 17995,
+                    "priceStatus": "listed",
+                    "maintenance": "US$3,599",
+                    "sku": "ME-APPLICATIONS-MANAGER-PROFESSIONAL-250-MONITORS-WITH-1-USER-PERP",
+                    "slug": "me-applications-manager-professional-250-monitors-with-1-user-perp"
+                  },
+                  {
+                    "name": "500 Monitors with 1 User",
+                    "metric": null,
+                    "amountUsd": 27495,
+                    "priceStatus": "listed",
+                    "maintenance": "US$5,499",
+                    "sku": "ME-APPLICATIONS-MANAGER-PROFESSIONAL-500-MONITORS-WITH-1-USER-PERP",
+                    "slug": "me-applications-manager-professional-500-monitors-with-1-user-perp"
+                  },
+                  {
+                    "name": "750 Monitors with 1 User",
+                    "metric": null,
+                    "amountUsd": 35995,
+                    "priceStatus": "listed",
+                    "maintenance": "US$7,299",
+                    "sku": "ME-APPLICATIONS-MANAGER-PROFESSIONAL-750-MONITORS-WITH-1-USER-PERP",
+                    "slug": "me-applications-manager-professional-750-monitors-with-1-user-perp"
+                  },
+                  {
+                    "name": "APM Insight for Java Web Transaction Monitoring (Add On)",
+                    "metric": null,
+                    "amountUsd": 2995,
+                    "priceStatus": "listed",
+                    "maintenance": "US$599",
+                    "sku": "ME-APPLICATIONS-MANAGER-PROFESSIONAL-APM-INSIGHT-FOR-JAVA-WEB-TRANSACTION-MONITOR-PERP",
+                    "slug": "me-applications-manager-professional-apm-insight-for-java-web-transaction-monitor-perp"
+                  },
+                  {
+                    "name": "APM Insight .Net Agent (Add On)",
+                    "metric": null,
+                    "amountUsd": 2995,
+                    "priceStatus": "listed",
+                    "maintenance": "US$599",
+                    "sku": "ME-APPLICATIONS-MANAGER-PROFESSIONAL-APM-INSIGHT-NET-AGENT-PERP",
+                    "slug": "me-applications-manager-professional-apm-insight-net-agent-perp"
+                  },
+                  {
+                    "name": "APM Insight Node.js Agent (Add On)",
+                    "metric": null,
+                    "amountUsd": 2995,
+                    "priceStatus": "listed",
+                    "maintenance": "US$599",
+                    "sku": "ME-APPLICATIONS-MANAGER-PROFESSIONAL-APM-INSIGHT-NODE-JS-AGENT-PERP",
+                    "slug": "me-applications-manager-professional-apm-insight-node-js-agent-perp"
+                  },
+                  {
+                    "name": "APM Insight PHP Agent (Add On)",
+                    "metric": null,
+                    "amountUsd": 2995,
+                    "priceStatus": "listed",
+                    "maintenance": "US$599",
+                    "sku": "ME-APPLICATIONS-MANAGER-PROFESSIONAL-APM-INSIGHT-PHP-AGENT-PERP",
+                    "slug": "me-applications-manager-professional-apm-insight-php-agent-perp"
+                  },
+                  {
+                    "name": "APM Insight Python Agent (Add On)",
+                    "metric": null,
+                    "amountUsd": 2995,
+                    "priceStatus": "listed",
+                    "maintenance": "US$599",
+                    "sku": "ME-APPLICATIONS-MANAGER-PROFESSIONAL-APM-INSIGHT-PYTHON-AGENT-PERP",
+                    "slug": "me-applications-manager-professional-apm-insight-python-agent-perp"
+                  },
+                  {
+                    "name": "APM Insight OpenTelemetry (Add On)",
+                    "metric": null,
+                    "amountUsd": 2995,
+                    "priceStatus": "listed",
+                    "maintenance": "US$599",
+                    "sku": "ME-APPLICATIONS-MANAGER-PROFESSIONAL-APM-INSIGHT-OPENTELEMETRY-PERP",
+                    "slug": "me-applications-manager-professional-apm-insight-opentelemetry-perp"
+                  },
+                  {
+                    "name": "End User Monitoring (EUM) (Add On)",
+                    "metric": null,
+                    "amountUsd": 2995,
+                    "priceStatus": "listed",
+                    "maintenance": "US$599",
+                    "sku": "ME-APPLICATIONS-MANAGER-PROFESSIONAL-END-USER-MONITORING-PERP",
+                    "slug": "me-applications-manager-professional-end-user-monitoring-perp"
+                  },
+                  {
+                    "name": "IBM i (Add On)",
+                    "metric": null,
+                    "amountUsd": 3595,
+                    "priceStatus": "listed",
+                    "maintenance": "US$719",
+                    "sku": "ME-APPLICATIONS-MANAGER-PROFESSIONAL-IBM-I-PERP",
+                    "slug": "me-applications-manager-professional-ibm-i-perp"
+                  },
+                  {
+                    "name": "Microsoft Office SharePoint Monitor (Add On)",
+                    "metric": null,
+                    "amountUsd": 595,
+                    "priceStatus": "listed",
+                    "maintenance": "US$119",
+                    "sku": "ME-APPLICATIONS-MANAGER-PROFESSIONAL-MICROSOFT-OFFICE-SHAREPOINT-MONITOR-PERP",
+                    "slug": "me-applications-manager-professional-microsoft-office-sharepoint-monitor-perp"
+                  },
+                  {
+                    "name": "Oracle EBS (Add On)",
+                    "metric": null,
+                    "amountUsd": 2995,
+                    "priceStatus": "listed",
+                    "maintenance": "US$599",
+                    "sku": "ME-APPLICATIONS-MANAGER-PROFESSIONAL-ORACLE-EBS-PERP",
+                    "slug": "me-applications-manager-professional-oracle-ebs-perp"
+                  },
+                  {
+                    "name": "SAP Monitor (Add On)",
+                    "metric": null,
+                    "amountUsd": 5995,
+                    "priceStatus": "listed",
+                    "maintenance": "US$1,199",
+                    "sku": "ME-APPLICATIONS-MANAGER-PROFESSIONAL-SAP-MONITOR-PERP",
+                    "slug": "me-applications-manager-professional-sap-monitor-perp"
+                  },
+                  {
+                    "name": "Siebel Monitor (Add On)",
+                    "metric": null,
+                    "amountUsd": 2995,
+                    "priceStatus": "listed",
+                    "maintenance": "US$599",
+                    "sku": "ME-APPLICATIONS-MANAGER-PROFESSIONAL-SIEBEL-MONITOR-PERP",
+                    "slug": "me-applications-manager-professional-siebel-monitor-perp"
+                  },
+                  {
+                    "name": "WebSphere MQ Monitor (Add On)",
+                    "metric": null,
+                    "amountUsd": 2395,
+                    "priceStatus": "listed",
+                    "maintenance": "US$479",
+                    "sku": "ME-APPLICATIONS-MANAGER-PROFESSIONAL-WEBSPHERE-MQ-MONITOR-PERP",
+                    "slug": "me-applications-manager-professional-websphere-mq-monitor-perp"
+                  },
+                  {
+                    "name": "Failover - Hot Standby Engine (MSSQL and Remote PGSQL)",
+                    "metric": null,
+                    "amountUsd": 4795,
+                    "priceStatus": "listed",
+                    "maintenance": "US$959",
+                    "sku": "ME-APPLICATIONS-MANAGER-PROFESSIONAL-FAILOVER-HOT-STANDBY-ENGINE-PERP",
+                    "slug": "me-applications-manager-professional-failover-hot-standby-engine-perp"
+                  }
+                ]
+              },
+              {
+                "slug": "applogs-monitoring-add-on-professional-edition-perpetual",
+                "name": "AppLogs Monitoring Add-on - Professional Edition",
+                "edition": "Professional",
+                "licenseModel": "perpetual",
+                "kind": "addon",
+                "variants": [
+                  {
+                    "name": "10 GB Logs per month",
+                    "metric": {
+                      "quantity": 10,
+                      "unit": "gb logs per month"
+                    },
+                    "amountUsd": 295,
+                    "priceStatus": "listed",
+                    "maintenance": "US$59",
+                    "sku": "ME-APPLICATIONS-MANAGER-PROFESSIONAL-APPLOGS-MONITORING-10-GB-LOGS-PER-MONTH-PERP",
+                    "slug": "me-applications-manager-professional-applogs-monitoring-10-gb-logs-per-month-perp"
+                  },
+                  {
+                    "name": "50 GB Logs per month",
+                    "metric": {
+                      "quantity": 50,
+                      "unit": "gb logs per month"
+                    },
+                    "amountUsd": 1395,
+                    "priceStatus": "listed",
+                    "maintenance": "US$279",
+                    "sku": "ME-APPLICATIONS-MANAGER-PROFESSIONAL-APPLOGS-MONITORING-50-GB-LOGS-PER-MONTH-PERP",
+                    "slug": "me-applications-manager-professional-applogs-monitoring-50-gb-logs-per-month-perp"
+                  },
+                  {
+                    "name": "100 GB Logs per month",
+                    "metric": {
+                      "quantity": 100,
+                      "unit": "gb logs per month"
+                    },
+                    "amountUsd": 2445,
+                    "priceStatus": "listed",
+                    "maintenance": "US$489",
+                    "sku": "ME-APPLICATIONS-MANAGER-PROFESSIONAL-APPLOGS-MONITORING-100-GB-LOGS-PER-MONTH-PERP",
+                    "slug": "me-applications-manager-professional-applogs-monitoring-100-gb-logs-per-month-perp"
+                  },
+                  {
+                    "name": "250 GB Logs per month",
+                    "metric": {
+                      "quantity": 250,
+                      "unit": "gb logs per month"
+                    },
+                    "amountUsd": 5695,
+                    "priceStatus": "listed",
+                    "maintenance": "US$1,139",
+                    "sku": "ME-APPLICATIONS-MANAGER-PROFESSIONAL-APPLOGS-MONITORING-250-GB-LOGS-PER-MONTH-PERP",
+                    "slug": "me-applications-manager-professional-applogs-monitoring-250-gb-logs-per-month-perp"
+                  },
+                  {
+                    "name": "500 GB Logs per month",
+                    "metric": {
+                      "quantity": 500,
+                      "unit": "gb logs per month"
+                    },
+                    "amountUsd": 10695,
+                    "priceStatus": "listed",
+                    "maintenance": "US$2,139",
+                    "sku": "ME-APPLICATIONS-MANAGER-PROFESSIONAL-APPLOGS-MONITORING-500-GB-LOGS-PER-MONTH-PERP",
+                    "slug": "me-applications-manager-professional-applogs-monitoring-500-gb-logs-per-month-perp"
+                  }
+                ]
+              },
+              {
+                "slug": "applications-manager-enterprise-edition-perpetual",
+                "name": "Applications Manager Enterprise Edition",
+                "edition": "Enterprise",
+                "licenseModel": "perpetual",
+                "kind": "base",
+                "variants": [
+                  {
+                    "name": "100 Monitors with 1 User",
+                    "metric": null,
+                    "amountUsd": 9995,
+                    "priceStatus": "listed",
+                    "maintenance": "US$1,999",
+                    "sku": "ME-APPLICATIONS-MANAGER-ENTERPRISE-100-MONITORS-WITH-1-USER-PERP",
+                    "slug": "me-applications-manager-enterprise-100-monitors-with-1-user-perp"
+                  },
+                  {
+                    "name": "250 Monitors with 1 User",
+                    "metric": null,
+                    "amountUsd": 23995,
+                    "priceStatus": "listed",
+                    "maintenance": "US$4,799",
+                    "sku": "ME-APPLICATIONS-MANAGER-ENTERPRISE-250-MONITORS-WITH-1-USER-PERP",
+                    "slug": "me-applications-manager-enterprise-250-monitors-with-1-user-perp"
+                  },
+                  {
+                    "name": "500 Monitors with 1 User",
+                    "metric": null,
+                    "amountUsd": 32995,
+                    "priceStatus": "listed",
+                    "maintenance": "US$6,599",
+                    "sku": "ME-APPLICATIONS-MANAGER-ENTERPRISE-500-MONITORS-WITH-1-USER-PERP",
+                    "slug": "me-applications-manager-enterprise-500-monitors-with-1-user-perp"
+                  },
+                  {
+                    "name": "750 Monitors with 1 User",
+                    "metric": null,
+                    "amountUsd": 44995,
+                    "priceStatus": "listed",
+                    "maintenance": "US$8,999",
+                    "sku": "ME-APPLICATIONS-MANAGER-ENTERPRISE-750-MONITORS-WITH-1-USER-PERP",
+                    "slug": "me-applications-manager-enterprise-750-monitors-with-1-user-perp"
+                  },
+                  {
+                    "name": "1000 Monitors with 1 User",
+                    "metric": null,
+                    "amountUsd": 56995,
+                    "priceStatus": "listed",
+                    "maintenance": "US$11,399",
+                    "sku": "ME-APPLICATIONS-MANAGER-ENTERPRISE-1000-MONITORS-WITH-1-USER-PERP",
+                    "slug": "me-applications-manager-enterprise-1000-monitors-with-1-user-perp"
+                  },
+                  {
+                    "name": "2000 Monitors with 1 User",
+                    "metric": null,
+                    "amountUsd": 101995,
+                    "priceStatus": "listed",
+                    "maintenance": "US$20,399",
+                    "sku": "ME-APPLICATIONS-MANAGER-ENTERPRISE-2000-MONITORS-WITH-1-USER-PERP",
+                    "slug": "me-applications-manager-enterprise-2000-monitors-with-1-user-perp"
+                  },
+                  {
+                    "name": "5000 Monitors with 1 User",
+                    "metric": null,
+                    "amountUsd": 209995,
+                    "priceStatus": "listed",
+                    "maintenance": "US$41,999",
+                    "sku": "ME-APPLICATIONS-MANAGER-ENTERPRISE-5000-MONITORS-WITH-1-USER-PERP",
+                    "slug": "me-applications-manager-enterprise-5000-monitors-with-1-user-perp"
+                  },
+                  {
+                    "name": "APM Insight for Java Web Transaction Monitoring (Add On)",
+                    "metric": null,
+                    "amountUsd": 4495,
+                    "priceStatus": "listed",
+                    "maintenance": "US$899",
+                    "sku": "ME-APPLICATIONS-MANAGER-ENTERPRISE-APM-INSIGHT-FOR-JAVA-WEB-TRANSACTION-MONITOR-PERP",
+                    "slug": "me-applications-manager-enterprise-apm-insight-for-java-web-transaction-monitor-perp"
+                  },
+                  {
+                    "name": "APM Insight .Net Agent (Add On)",
+                    "metric": null,
+                    "amountUsd": 4495,
+                    "priceStatus": "listed",
+                    "maintenance": "US$899",
+                    "sku": "ME-APPLICATIONS-MANAGER-ENTERPRISE-APM-INSIGHT-NET-AGENT-PERP",
+                    "slug": "me-applications-manager-enterprise-apm-insight-net-agent-perp"
+                  },
+                  {
+                    "name": "APM Insight Node.js Agent (Add On)",
+                    "metric": null,
+                    "amountUsd": 4495,
+                    "priceStatus": "listed",
+                    "maintenance": "US$899",
+                    "sku": "ME-APPLICATIONS-MANAGER-ENTERPRISE-APM-INSIGHT-NODE-JS-AGENT-PERP",
+                    "slug": "me-applications-manager-enterprise-apm-insight-node-js-agent-perp"
+                  },
+                  {
+                    "name": "APM Insight PHP Agent (Add On)",
+                    "metric": null,
+                    "amountUsd": 4495,
+                    "priceStatus": "listed",
+                    "maintenance": "US$899",
+                    "sku": "ME-APPLICATIONS-MANAGER-ENTERPRISE-APM-INSIGHT-PHP-AGENT-PERP",
+                    "slug": "me-applications-manager-enterprise-apm-insight-php-agent-perp"
+                  },
+                  {
+                    "name": "APM Insight Python Agent (Add On)",
+                    "metric": null,
+                    "amountUsd": 4495,
+                    "priceStatus": "listed",
+                    "maintenance": "US$899",
+                    "sku": "ME-APPLICATIONS-MANAGER-ENTERPRISE-APM-INSIGHT-PYTHON-AGENT-PERP",
+                    "slug": "me-applications-manager-enterprise-apm-insight-python-agent-perp"
+                  },
+                  {
+                    "name": "APM Insight OpenTelemetry (Add On)",
+                    "metric": null,
+                    "amountUsd": 4495,
+                    "priceStatus": "listed",
+                    "maintenance": "US$899",
+                    "sku": "ME-APPLICATIONS-MANAGER-ENTERPRISE-APM-INSIGHT-OPENTELEMETRY-PERP",
+                    "slug": "me-applications-manager-enterprise-apm-insight-opentelemetry-perp"
+                  },
+                  {
+                    "name": "End User Monitoring (EUM) (Add On)",
+                    "metric": null,
+                    "amountUsd": 5995,
+                    "priceStatus": "listed",
+                    "maintenance": "US$1,199",
+                    "sku": "ME-APPLICATIONS-MANAGER-ENTERPRISE-END-USER-MONITORING-PERP",
+                    "slug": "me-applications-manager-enterprise-end-user-monitoring-perp"
+                  },
+                  {
+                    "name": "IBM i (Add On)",
+                    "metric": null,
+                    "amountUsd": 3595,
+                    "priceStatus": "listed",
+                    "maintenance": "US$719",
+                    "sku": "ME-APPLICATIONS-MANAGER-ENTERPRISE-IBM-I-PERP",
+                    "slug": "me-applications-manager-enterprise-ibm-i-perp"
+                  },
+                  {
+                    "name": "Microsoft Office SharePoint Monitor (Add On)",
+                    "metric": null,
+                    "amountUsd": 845,
+                    "priceStatus": "listed",
+                    "maintenance": "US$169",
+                    "sku": "ME-APPLICATIONS-MANAGER-ENTERPRISE-MICROSOFT-OFFICE-SHAREPOINT-MONITOR-PERP",
+                    "slug": "me-applications-manager-enterprise-microsoft-office-sharepoint-monitor-perp"
+                  },
+                  {
+                    "name": "Oracle EBS (Add On)",
+                    "metric": null,
+                    "amountUsd": 2995,
+                    "priceStatus": "listed",
+                    "maintenance": "US$599",
+                    "sku": "ME-APPLICATIONS-MANAGER-ENTERPRISE-ORACLE-EBS-PERP",
+                    "slug": "me-applications-manager-enterprise-oracle-ebs-perp"
+                  },
+                  {
+                    "name": "SAP Monitor (Add On)",
+                    "metric": null,
+                    "amountUsd": 5995,
+                    "priceStatus": "listed",
+                    "maintenance": "US$1,199",
+                    "sku": "ME-APPLICATIONS-MANAGER-ENTERPRISE-SAP-MONITOR-PERP",
+                    "slug": "me-applications-manager-enterprise-sap-monitor-perp"
+                  },
+                  {
+                    "name": "Siebel Monitor (Add On)",
+                    "metric": null,
+                    "amountUsd": 2995,
+                    "priceStatus": "listed",
+                    "maintenance": "US$599",
+                    "sku": "ME-APPLICATIONS-MANAGER-ENTERPRISE-SIEBEL-MONITOR-PERP",
+                    "slug": "me-applications-manager-enterprise-siebel-monitor-perp"
+                  },
+                  {
+                    "name": "WebSphere MQ Monitor (Add On)",
+                    "metric": null,
+                    "amountUsd": 2995,
+                    "priceStatus": "listed",
+                    "maintenance": "US$599",
+                    "sku": "ME-APPLICATIONS-MANAGER-ENTERPRISE-WEBSPHERE-MQ-MONITOR-PERP",
+                    "slug": "me-applications-manager-enterprise-websphere-mq-monitor-perp"
+                  },
+                  {
+                    "name": "Failover - Hot Standby Engine (MSSQL and Remote PGSQL)",
+                    "metric": null,
+                    "amountUsd": 8395,
+                    "priceStatus": "listed",
+                    "maintenance": "US$1,679",
+                    "sku": "ME-APPLICATIONS-MANAGER-ENTERPRISE-FAILOVER-HOT-STANDBY-ENGINE-PERP",
+                    "slug": "me-applications-manager-enterprise-failover-hot-standby-engine-perp"
+                  }
+                ]
+              },
+              {
+                "slug": "applogs-monitoring-add-on-enterprise-edition-perpetual",
+                "name": "AppLogs Monitoring Add-on - Enterprise Edition",
+                "edition": "Enterprise",
+                "licenseModel": "perpetual",
+                "kind": "addon",
+                "variants": [
+                  {
+                    "name": "100 GB Logs per month",
+                    "metric": {
+                      "quantity": 100,
+                      "unit": "gb logs per month"
+                    },
+                    "amountUsd": 2945,
+                    "priceStatus": "listed",
+                    "maintenance": "US$589",
+                    "sku": "ME-APPLICATIONS-MANAGER-ENTERPRISE-APPLOGS-MONITORING-100-GB-LOGS-PER-MONTH-PERP",
+                    "slug": "me-applications-manager-enterprise-applogs-monitoring-100-gb-logs-per-month-perp"
+                  },
+                  {
+                    "name": "250 GB Logs per month",
+                    "metric": {
+                      "quantity": 250,
+                      "unit": "gb logs per month"
+                    },
+                    "amountUsd": 6945,
+                    "priceStatus": "listed",
+                    "maintenance": "US$1,389",
+                    "sku": "ME-APPLICATIONS-MANAGER-ENTERPRISE-APPLOGS-MONITORING-250-GB-LOGS-PER-MONTH-PERP",
+                    "slug": "me-applications-manager-enterprise-applogs-monitoring-250-gb-logs-per-month-perp"
+                  },
+                  {
+                    "name": "500 GB Logs per month",
+                    "metric": {
+                      "quantity": 500,
+                      "unit": "gb logs per month"
+                    },
+                    "amountUsd": 13445,
+                    "priceStatus": "listed",
+                    "maintenance": "US$2,689",
+                    "sku": "ME-APPLICATIONS-MANAGER-ENTERPRISE-APPLOGS-MONITORING-500-GB-LOGS-PER-MONTH-PERP",
+                    "slug": "me-applications-manager-enterprise-applogs-monitoring-500-gb-logs-per-month-perp"
+                  },
+                  {
+                    "name": "750 GB Logs per month",
+                    "metric": {
+                      "quantity": 750,
+                      "unit": "gb logs per month"
+                    },
+                    "amountUsd": 18445,
+                    "priceStatus": "listed",
+                    "maintenance": "US$3,689",
+                    "sku": "ME-APPLICATIONS-MANAGER-ENTERPRISE-APPLOGS-MONITORING-750-GB-LOGS-PER-MONTH-PERP",
+                    "slug": "me-applications-manager-enterprise-applogs-monitoring-750-gb-logs-per-month-perp"
+                  },
+                  {
+                    "name": "1000 GB Logs per month",
+                    "metric": {
+                      "quantity": 1000,
+                      "unit": "gb logs per month"
+                    },
+                    "amountUsd": 23195,
+                    "priceStatus": "listed",
+                    "maintenance": "US$4,639",
+                    "sku": "ME-APPLICATIONS-MANAGER-ENTERPRISE-APPLOGS-MONITORING-1000-GB-LOGS-PER-MONTH-PERP",
+                    "slug": "me-applications-manager-enterprise-applogs-monitoring-1000-gb-logs-per-month-perp"
+                  }
+                ]
+              },
+              {
+                "slug": "applications-manager-real-user-monitor-rum-add-on-perpetual",
+                "name": "Applications Manager - Real User Monitor (RUM) Add-on",
+                "edition": null,
+                "licenseModel": "perpetual",
+                "kind": "addon",
+                "variants": [
+                  {
+                    "name": "100 Thousand Page Views per month",
+                    "metric": {
+                      "quantity": 100,
+                      "unit": "thousand page views per month"
+                    },
+                    "amountUsd": 165,
+                    "priceStatus": "listed",
+                    "maintenance": "US$33",
+                    "sku": "ME-APPLICATIONS-MANAGER-REAL-USER-MONITOR-100-THOUSAND-PAGE-VIEWS-PER-MONTH-PERP",
+                    "slug": "me-applications-manager-real-user-monitor-100-thousand-page-views-per-month-perp"
+                  },
+                  {
+                    "name": "250 Thousand Page Views per month",
+                    "metric": {
+                      "quantity": 250,
+                      "unit": "thousand page views per month"
+                    },
+                    "amountUsd": 365,
+                    "priceStatus": "listed",
+                    "maintenance": "US$73",
+                    "sku": "ME-APPLICATIONS-MANAGER-REAL-USER-MONITOR-250-THOUSAND-PAGE-VIEWS-PER-MONTH-PERP",
+                    "slug": "me-applications-manager-real-user-monitor-250-thousand-page-views-per-month-perp"
+                  },
+                  {
+                    "name": "500 Thousand Page Views per month",
+                    "metric": {
+                      "quantity": 500,
+                      "unit": "thousand page views per month"
+                    },
+                    "amountUsd": 665,
+                    "priceStatus": "listed",
+                    "maintenance": "US$133",
+                    "sku": "ME-APPLICATIONS-MANAGER-REAL-USER-MONITOR-500-THOUSAND-PAGE-VIEWS-PER-MONTH-PERP",
+                    "slug": "me-applications-manager-real-user-monitor-500-thousand-page-views-per-month-perp"
+                  },
+                  {
+                    "name": "1 Million Page Views per month",
+                    "metric": {
+                      "quantity": 1,
+                      "unit": "million page views per month"
+                    },
+                    "amountUsd": 1215,
+                    "priceStatus": "listed",
+                    "maintenance": "US$243",
+                    "sku": "ME-APPLICATIONS-MANAGER-REAL-USER-MONITOR-1-MILLION-PAGE-VIEWS-PER-MONTH-PERP",
+                    "slug": "me-applications-manager-real-user-monitor-1-million-page-views-per-month-perp"
+                  },
+                  {
+                    "name": "2 Million Page Views per month",
+                    "metric": {
+                      "quantity": 2,
+                      "unit": "million page views per month"
+                    },
+                    "amountUsd": 2165,
+                    "priceStatus": "listed",
+                    "maintenance": "US$433",
+                    "sku": "ME-APPLICATIONS-MANAGER-REAL-USER-MONITOR-2-MILLION-PAGE-VIEWS-PER-MONTH-PERP",
+                    "slug": "me-applications-manager-real-user-monitor-2-million-page-views-per-month-perp"
+                  },
+                  {
+                    "name": "3 Million Page Views per month",
+                    "metric": {
+                      "quantity": 3,
+                      "unit": "million page views per month"
+                    },
+                    "amountUsd": 2935,
+                    "priceStatus": "listed",
+                    "maintenance": "US$587",
+                    "sku": "ME-APPLICATIONS-MANAGER-REAL-USER-MONITOR-3-MILLION-PAGE-VIEWS-PER-MONTH-PERP",
+                    "slug": "me-applications-manager-real-user-monitor-3-million-page-views-per-month-perp"
+                  },
+                  {
+                    "name": "4 Million Page Views per month",
+                    "metric": {
+                      "quantity": 4,
+                      "unit": "million page views per month"
+                    },
+                    "amountUsd": 3365,
+                    "priceStatus": "listed",
+                    "maintenance": "US$673",
+                    "sku": "ME-APPLICATIONS-MANAGER-REAL-USER-MONITOR-4-MILLION-PAGE-VIEWS-PER-MONTH-PERP",
+                    "slug": "me-applications-manager-real-user-monitor-4-million-page-views-per-month-perp"
+                  },
+                  {
+                    "name": "5 Million Page Views per month",
+                    "metric": {
+                      "quantity": 5,
+                      "unit": "million page views per month"
+                    },
+                    "amountUsd": 3515,
+                    "priceStatus": "listed",
+                    "maintenance": "US$703",
+                    "sku": "ME-APPLICATIONS-MANAGER-REAL-USER-MONITOR-5-MILLION-PAGE-VIEWS-PER-MONTH-PERP",
+                    "slug": "me-applications-manager-real-user-monitor-5-million-page-views-per-month-perp"
+                  },
+                  {
+                    "name": "7.5 Million Page Views per month",
+                    "metric": null,
+                    "amountUsd": 5065,
+                    "priceStatus": "listed",
+                    "maintenance": "US$1,013",
+                    "sku": "ME-APPLICATIONS-MANAGER-REAL-USER-MONITOR-7-5-MILLION-PAGE-VIEWS-PER-MONTH-PERP",
+                    "slug": "me-applications-manager-real-user-monitor-7-5-million-page-views-per-month-perp"
+                  },
+                  {
+                    "name": "10 Million Page Views per month",
+                    "metric": {
+                      "quantity": 10,
+                      "unit": "million page views per month"
+                    },
+                    "amountUsd": 6485,
+                    "priceStatus": "listed",
+                    "maintenance": "US$1,297",
+                    "sku": "ME-APPLICATIONS-MANAGER-REAL-USER-MONITOR-10-MILLION-PAGE-VIEWS-PER-MONTH-PERP",
+                    "slug": "me-applications-manager-real-user-monitor-10-million-page-views-per-month-perp"
+                  },
+                  {
+                    "name": "20 Million Page Views per month",
+                    "metric": {
+                      "quantity": 20,
+                      "unit": "million page views per month"
+                    },
+                    "amountUsd": 12485,
+                    "priceStatus": "listed",
+                    "maintenance": "US$2,497",
+                    "sku": "ME-APPLICATIONS-MANAGER-REAL-USER-MONITOR-20-MILLION-PAGE-VIEWS-PER-MONTH-PERP",
+                    "slug": "me-applications-manager-real-user-monitor-20-million-page-views-per-month-perp"
+                  },
+                  {
+                    "name": "30 Million Page Views per month",
+                    "metric": {
+                      "quantity": 30,
+                      "unit": "million page views per month"
+                    },
+                    "amountUsd": 17985,
+                    "priceStatus": "listed",
+                    "maintenance": "US$3,597",
+                    "sku": "ME-APPLICATIONS-MANAGER-REAL-USER-MONITOR-30-MILLION-PAGE-VIEWS-PER-MONTH-PERP",
+                    "slug": "me-applications-manager-real-user-monitor-30-million-page-views-per-month-perp"
+                  },
+                  {
+                    "name": "40 Million Page Views per month",
+                    "metric": {
+                      "quantity": 40,
+                      "unit": "million page views per month"
+                    },
+                    "amountUsd": 22985,
+                    "priceStatus": "listed",
+                    "maintenance": "US$4,597",
+                    "sku": "ME-APPLICATIONS-MANAGER-REAL-USER-MONITOR-40-MILLION-PAGE-VIEWS-PER-MONTH-PERP",
+                    "slug": "me-applications-manager-real-user-monitor-40-million-page-views-per-month-perp"
+                  },
+                  {
+                    "name": "50 Million Page Views per month",
+                    "metric": {
+                      "quantity": 50,
+                      "unit": "million page views per month"
+                    },
+                    "amountUsd": 27485,
+                    "priceStatus": "listed",
+                    "maintenance": "US$5,497",
+                    "sku": "ME-APPLICATIONS-MANAGER-REAL-USER-MONITOR-50-MILLION-PAGE-VIEWS-PER-MONTH-PERP",
+                    "slug": "me-applications-manager-real-user-monitor-50-million-page-views-per-month-perp"
+                  },
+                  {
+                    "name": "75 Million Page Views per month",
+                    "metric": {
+                      "quantity": 75,
+                      "unit": "million page views per month"
+                    },
+                    "amountUsd": 39365,
+                    "priceStatus": "listed",
+                    "maintenance": "US$7,873",
+                    "sku": "ME-APPLICATIONS-MANAGER-REAL-USER-MONITOR-75-MILLION-PAGE-VIEWS-PER-MONTH-PERP",
+                    "slug": "me-applications-manager-real-user-monitor-75-million-page-views-per-month-perp"
+                  },
+                  {
+                    "name": "100 Million Page Views per month",
+                    "metric": {
+                      "quantity": 100,
+                      "unit": "million page views per month"
+                    },
+                    "amountUsd": 49985,
+                    "priceStatus": "listed",
+                    "maintenance": "US$9,997",
+                    "sku": "ME-APPLICATIONS-MANAGER-REAL-USER-MONITOR-100-MILLION-PAGE-VIEWS-PER-MONTH-PERP",
+                    "slug": "me-applications-manager-real-user-monitor-100-million-page-views-per-month-perp"
+                  }
+                ]
+              },
+              {
+                "slug": "applications-manager-additional-user-pack-perpetual",
+                "name": "Applications Manager Additional User Pack",
+                "edition": null,
+                "licenseModel": "perpetual",
+                "kind": "addon",
+                "variants": [
+                  {
+                    "name": "1 User Pack",
+                    "metric": {
+                      "quantity": 1,
+                      "unit": "user pack"
+                    },
+                    "amountUsd": 245,
+                    "priceStatus": "listed",
+                    "maintenance": "US$49",
+                    "sku": "ME-APPLICATIONS-MANAGER-ADDITIONAL-USER-PACK-1-USER-PACK-PERP",
+                    "slug": "me-applications-manager-additional-user-pack-1-user-pack-perp"
+                  },
+                  {
+                    "name": "2 User Pack",
+                    "metric": {
+                      "quantity": 2,
+                      "unit": "user pack"
+                    },
+                    "amountUsd": 345,
+                    "priceStatus": "listed",
+                    "maintenance": "US$69",
+                    "sku": "ME-APPLICATIONS-MANAGER-ADDITIONAL-USER-PACK-2-USER-PACK-PERP",
+                    "slug": "me-applications-manager-additional-user-pack-2-user-pack-perp"
+                  },
+                  {
+                    "name": "5 User Pack",
+                    "metric": {
+                      "quantity": 5,
+                      "unit": "user pack"
+                    },
+                    "amountUsd": 595,
+                    "priceStatus": "listed",
+                    "maintenance": "US$119",
+                    "sku": "ME-APPLICATIONS-MANAGER-ADDITIONAL-USER-PACK-5-USER-PACK-PERP",
+                    "slug": "me-applications-manager-additional-user-pack-5-user-pack-perp"
+                  },
+                  {
+                    "name": "10 User Pack",
+                    "metric": {
+                      "quantity": 10,
+                      "unit": "user pack"
+                    },
+                    "amountUsd": 945,
+                    "priceStatus": "listed",
+                    "maintenance": "US$189",
+                    "sku": "ME-APPLICATIONS-MANAGER-ADDITIONAL-USER-PACK-10-USER-PACK-PERP",
+                    "slug": "me-applications-manager-additional-user-pack-10-user-pack-perp"
+                  },
+                  {
+                    "name": "25 User Pack",
+                    "metric": {
+                      "quantity": 25,
+                      "unit": "user pack"
+                    },
+                    "amountUsd": 1545,
+                    "priceStatus": "listed",
+                    "maintenance": "US$309",
+                    "sku": "ME-APPLICATIONS-MANAGER-ADDITIONAL-USER-PACK-25-USER-PACK-PERP",
+                    "slug": "me-applications-manager-additional-user-pack-25-user-pack-perp"
+                  },
+                  {
+                    "name": "Unlimited User Pack",
+                    "metric": null,
+                    "amountUsd": 2395,
+                    "priceStatus": "listed",
+                    "maintenance": "US$479",
+                    "sku": "ME-APPLICATIONS-MANAGER-ADDITIONAL-USER-PACK-UNLIMITED-USER-PACK-PERP",
+                    "slug": "me-applications-manager-additional-user-pack-unlimited-user-pack-perp"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
       },
       {
         "slug": "opmanager",
@@ -12169,133 +25322,6 @@ export const ZOHO_GROUPS: ZohoGroup[] = [
 
 export const ZOHO_RULES: ZohoRule[] = [
   {
-    "id": "endpoint-central-endpoint-central-malware-protection-add-on-requires-base",
-    "appliesTo": {
-      "offerSlug": "endpoint-central-malware-protection-add-on",
-      "familySlug": "endpoint-central"
-    },
-    "requires": {
-      "familySlug": "endpoint-central"
-    },
-    "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
-  },
-  {
-    "id": "endpoint-central-endpoint-central-ransomware-protection-add-on-requires-base",
-    "appliesTo": {
-      "offerSlug": "endpoint-central-ransomware-protection-add-on",
-      "familySlug": "endpoint-central"
-    },
-    "requires": {
-      "familySlug": "endpoint-central"
-    },
-    "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
-  },
-  {
-    "id": "endpoint-central-endpoint-central-os-deployment-add-on-requires-base",
-    "appliesTo": {
-      "offerSlug": "endpoint-central-os-deployment-add-on",
-      "familySlug": "endpoint-central"
-    },
-    "requires": {
-      "familySlug": "endpoint-central"
-    },
-    "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
-  },
-  {
-    "id": "endpoint-central-endpoint-central-dex-add-on-requires-base",
-    "appliesTo": {
-      "offerSlug": "endpoint-central-dex-add-on",
-      "familySlug": "endpoint-central"
-    },
-    "requires": {
-      "familySlug": "endpoint-central"
-    },
-    "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
-  },
-  {
-    "id": "endpoint-central-endpoint-central-secure-private-access-add-on-requires-base",
-    "appliesTo": {
-      "offerSlug": "endpoint-central-secure-private-access-add-on",
-      "familySlug": "endpoint-central"
-    },
-    "requires": {
-      "familySlug": "endpoint-central"
-    },
-    "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
-  },
-  {
-    "id": "endpoint-central-endpoint-central-additional-users-additional-extends",
-    "appliesTo": {
-      "offerSlug": "endpoint-central-additional-users",
-      "familySlug": "endpoint-central",
-      "variantPattern": "^Additional\\s"
-    },
-    "extends": {
-      "offerSlug": "endpoint-central-additional-users",
-      "familySlug": "endpoint-central"
-    },
-    "reason": "Позиция увеличивает объём уже выбранной лицензии и отдельно не поставляется"
-  },
-  {
-    "id": "patch-manager-plus-patch-manager-plus-additional-users-additional-extends",
-    "appliesTo": {
-      "offerSlug": "patch-manager-plus-additional-users",
-      "familySlug": "patch-manager-plus",
-      "variantPattern": "^Additional\\s"
-    },
-    "extends": {
-      "offerSlug": "patch-manager-plus-additional-users",
-      "familySlug": "patch-manager-plus"
-    },
-    "reason": "Позиция увеличивает объём уже выбранной лицензии и отдельно не поставляется"
-  },
-  {
-    "id": "patch-manager-plus-patch-manager-plus-remote-access-plus-add-on-requires-base",
-    "appliesTo": {
-      "offerSlug": "patch-manager-plus-remote-access-plus-add-on",
-      "familySlug": "patch-manager-plus"
-    },
-    "requires": {
-      "familySlug": "patch-manager-plus"
-    },
-    "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
-  },
-  {
-    "id": "patch-manager-plus-patch-manager-plus-failover-server-add-ons-requires-base",
-    "appliesTo": {
-      "offerSlug": "patch-manager-plus-failover-server-add-ons",
-      "familySlug": "patch-manager-plus"
-    },
-    "requires": {
-      "familySlug": "patch-manager-plus"
-    },
-    "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
-  },
-  {
-    "id": "mobile-device-manager-plus-mobile-device-manager-plus-additional-users-additional-extends",
-    "appliesTo": {
-      "offerSlug": "mobile-device-manager-plus-additional-users",
-      "familySlug": "mobile-device-manager-plus",
-      "variantPattern": "^Additional\\s"
-    },
-    "extends": {
-      "offerSlug": "mobile-device-manager-plus-additional-users",
-      "familySlug": "mobile-device-manager-plus"
-    },
-    "reason": "Позиция увеличивает объём уже выбранной лицензии и отдельно не поставляется"
-  },
-  {
-    "id": "mobile-device-manager-plus-mobile-device-manager-plus-failover-server-add-ons-requires-base",
-    "appliesTo": {
-      "offerSlug": "mobile-device-manager-plus-failover-server-add-ons",
-      "familySlug": "mobile-device-manager-plus"
-    },
-    "requires": {
-      "familySlug": "mobile-device-manager-plus"
-    },
-    "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
-  },
-  {
     "id": "admanager-plus-admanager-plus-standard-edition-annual-subscription-additional-extends",
     "appliesTo": {
       "offerSlug": "admanager-plus-standard-edition-annual-subscription",
@@ -12366,6 +25392,28 @@ export const ZOHO_RULES: ZohoRule[] = [
     },
     "requires": {
       "familySlug": "admanager-plus"
+    },
+    "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+  },
+  {
+    "id": "adaudit-plus-adaudit-plus-add-ons-annual-subscription-requires-base",
+    "appliesTo": {
+      "offerSlug": "adaudit-plus-add-ons-annual-subscription",
+      "familySlug": "adaudit-plus"
+    },
+    "requires": {
+      "familySlug": "adaudit-plus"
+    },
+    "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+  },
+  {
+    "id": "adaudit-plus-adaudit-plus-add-ons-perpetual-requires-base",
+    "appliesTo": {
+      "offerSlug": "adaudit-plus-add-ons-perpetual",
+      "familySlug": "adaudit-plus"
+    },
+    "requires": {
+      "familySlug": "adaudit-plus"
     },
     "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
   },
@@ -12794,6 +25842,1384 @@ export const ZOHO_RULES: ZohoRule[] = [
       "familySlug": "assetexplorer"
     },
     "reason": "Позиция увеличивает объём уже выбранной лицензии и отдельно не поставляется"
+  },
+  {
+    "id": "endpoint-central-endpoint-central-malware-protection-add-on-requires-base",
+    "appliesTo": {
+      "offerSlug": "endpoint-central-malware-protection-add-on",
+      "familySlug": "endpoint-central"
+    },
+    "requires": {
+      "familySlug": "endpoint-central"
+    },
+    "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+  },
+  {
+    "id": "endpoint-central-endpoint-central-ransomware-protection-add-on-requires-base",
+    "appliesTo": {
+      "offerSlug": "endpoint-central-ransomware-protection-add-on",
+      "familySlug": "endpoint-central"
+    },
+    "requires": {
+      "familySlug": "endpoint-central"
+    },
+    "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+  },
+  {
+    "id": "endpoint-central-endpoint-central-os-deployment-add-on-requires-base",
+    "appliesTo": {
+      "offerSlug": "endpoint-central-os-deployment-add-on",
+      "familySlug": "endpoint-central"
+    },
+    "requires": {
+      "familySlug": "endpoint-central"
+    },
+    "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+  },
+  {
+    "id": "endpoint-central-endpoint-central-dex-add-on-requires-base",
+    "appliesTo": {
+      "offerSlug": "endpoint-central-dex-add-on",
+      "familySlug": "endpoint-central"
+    },
+    "requires": {
+      "familySlug": "endpoint-central"
+    },
+    "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+  },
+  {
+    "id": "endpoint-central-endpoint-central-secure-private-access-add-on-requires-base",
+    "appliesTo": {
+      "offerSlug": "endpoint-central-secure-private-access-add-on",
+      "familySlug": "endpoint-central"
+    },
+    "requires": {
+      "familySlug": "endpoint-central"
+    },
+    "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+  },
+  {
+    "id": "endpoint-central-endpoint-central-additional-users-requires-base",
+    "appliesTo": {
+      "offerSlug": "endpoint-central-additional-users",
+      "familySlug": "endpoint-central"
+    },
+    "requires": {
+      "familySlug": "endpoint-central"
+    },
+    "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+  },
+  {
+    "id": "endpoint-central-endpoint-central-additional-users-additional-extends",
+    "appliesTo": {
+      "offerSlug": "endpoint-central-additional-users",
+      "familySlug": "endpoint-central",
+      "variantPattern": "^Additional\\s"
+    },
+    "extends": {
+      "offerSlug": "endpoint-central-additional-users",
+      "familySlug": "endpoint-central"
+    },
+    "reason": "Позиция увеличивает объём уже выбранной лицензии и отдельно не поставляется"
+  },
+  {
+    "id": "endpoint-central-endpoint-central-multi-language-pack-requires-base",
+    "appliesTo": {
+      "offerSlug": "endpoint-central-multi-language-pack",
+      "familySlug": "endpoint-central"
+    },
+    "requires": {
+      "familySlug": "endpoint-central"
+    },
+    "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+  },
+  {
+    "id": "endpoint-central-endpoint-central-failover-service-requires-base",
+    "appliesTo": {
+      "offerSlug": "endpoint-central-failover-service",
+      "familySlug": "endpoint-central"
+    },
+    "requires": {
+      "familySlug": "endpoint-central"
+    },
+    "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+  },
+  {
+    "id": "endpoint-central-endpoint-central-malware-protection-add-on-perpetual-requires-base",
+    "appliesTo": {
+      "offerSlug": "endpoint-central-malware-protection-add-on-perpetual",
+      "familySlug": "endpoint-central"
+    },
+    "requires": {
+      "familySlug": "endpoint-central"
+    },
+    "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+  },
+  {
+    "id": "endpoint-central-endpoint-central-ransomware-protection-add-on-perpetual-requires-base",
+    "appliesTo": {
+      "offerSlug": "endpoint-central-ransomware-protection-add-on-perpetual",
+      "familySlug": "endpoint-central"
+    },
+    "requires": {
+      "familySlug": "endpoint-central"
+    },
+    "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+  },
+  {
+    "id": "endpoint-central-endpoint-central-os-deployment-add-on-perpetual-requires-base",
+    "appliesTo": {
+      "offerSlug": "endpoint-central-os-deployment-add-on-perpetual",
+      "familySlug": "endpoint-central"
+    },
+    "requires": {
+      "familySlug": "endpoint-central"
+    },
+    "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+  },
+  {
+    "id": "endpoint-central-endpoint-central-dex-add-on-perpetual-requires-base",
+    "appliesTo": {
+      "offerSlug": "endpoint-central-dex-add-on-perpetual",
+      "familySlug": "endpoint-central"
+    },
+    "requires": {
+      "familySlug": "endpoint-central"
+    },
+    "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+  },
+  {
+    "id": "endpoint-central-endpoint-central-secure-private-access-add-on-perpetual-requires-base",
+    "appliesTo": {
+      "offerSlug": "endpoint-central-secure-private-access-add-on-perpetual",
+      "familySlug": "endpoint-central"
+    },
+    "requires": {
+      "familySlug": "endpoint-central"
+    },
+    "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+  },
+  {
+    "id": "endpoint-central-endpoint-central-additional-users-perpetual-requires-base",
+    "appliesTo": {
+      "offerSlug": "endpoint-central-additional-users-perpetual",
+      "familySlug": "endpoint-central"
+    },
+    "requires": {
+      "familySlug": "endpoint-central"
+    },
+    "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+  },
+  {
+    "id": "endpoint-central-endpoint-central-additional-users-perpetual-additional-extends",
+    "appliesTo": {
+      "offerSlug": "endpoint-central-additional-users-perpetual",
+      "familySlug": "endpoint-central",
+      "variantPattern": "^Additional\\s"
+    },
+    "extends": {
+      "offerSlug": "endpoint-central-additional-users-perpetual",
+      "familySlug": "endpoint-central"
+    },
+    "reason": "Позиция увеличивает объём уже выбранной лицензии и отдельно не поставляется"
+  },
+  {
+    "id": "endpoint-central-endpoint-central-multi-language-pack-perpetual-requires-base",
+    "appliesTo": {
+      "offerSlug": "endpoint-central-multi-language-pack-perpetual",
+      "familySlug": "endpoint-central"
+    },
+    "requires": {
+      "familySlug": "endpoint-central"
+    },
+    "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+  },
+  {
+    "id": "endpoint-central-endpoint-central-failover-service-perpetual-requires-base",
+    "appliesTo": {
+      "offerSlug": "endpoint-central-failover-service-perpetual",
+      "familySlug": "endpoint-central"
+    },
+    "requires": {
+      "familySlug": "endpoint-central"
+    },
+    "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+  },
+  {
+    "id": "patch-manager-plus-patch-manager-plus-additional-users-requires-base",
+    "appliesTo": {
+      "offerSlug": "patch-manager-plus-additional-users",
+      "familySlug": "patch-manager-plus"
+    },
+    "requires": {
+      "familySlug": "patch-manager-plus"
+    },
+    "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+  },
+  {
+    "id": "patch-manager-plus-patch-manager-plus-additional-users-additional-extends",
+    "appliesTo": {
+      "offerSlug": "patch-manager-plus-additional-users",
+      "familySlug": "patch-manager-plus",
+      "variantPattern": "^Additional\\s"
+    },
+    "extends": {
+      "offerSlug": "patch-manager-plus-additional-users",
+      "familySlug": "patch-manager-plus"
+    },
+    "reason": "Позиция увеличивает объём уже выбранной лицензии и отдельно не поставляется"
+  },
+  {
+    "id": "patch-manager-plus-patch-manager-plus-remote-access-plus-add-on-requires-base",
+    "appliesTo": {
+      "offerSlug": "patch-manager-plus-remote-access-plus-add-on",
+      "familySlug": "patch-manager-plus"
+    },
+    "requires": {
+      "familySlug": "patch-manager-plus"
+    },
+    "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+  },
+  {
+    "id": "patch-manager-plus-patch-manager-plus-failover-server-add-ons-requires-base",
+    "appliesTo": {
+      "offerSlug": "patch-manager-plus-failover-server-add-ons",
+      "familySlug": "patch-manager-plus"
+    },
+    "requires": {
+      "familySlug": "patch-manager-plus"
+    },
+    "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+  },
+  {
+    "id": "patch-manager-plus-patch-manager-plus-multi-language-pack-requires-base",
+    "appliesTo": {
+      "offerSlug": "patch-manager-plus-multi-language-pack",
+      "familySlug": "patch-manager-plus"
+    },
+    "requires": {
+      "familySlug": "patch-manager-plus"
+    },
+    "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+  },
+  {
+    "id": "patch-manager-plus-patch-manager-plus-additional-users-perpetual-requires-base",
+    "appliesTo": {
+      "offerSlug": "patch-manager-plus-additional-users-perpetual",
+      "familySlug": "patch-manager-plus"
+    },
+    "requires": {
+      "familySlug": "patch-manager-plus"
+    },
+    "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+  },
+  {
+    "id": "patch-manager-plus-patch-manager-plus-additional-users-perpetual-additional-extends",
+    "appliesTo": {
+      "offerSlug": "patch-manager-plus-additional-users-perpetual",
+      "familySlug": "patch-manager-plus",
+      "variantPattern": "^Additional\\s"
+    },
+    "extends": {
+      "offerSlug": "patch-manager-plus-additional-users-perpetual",
+      "familySlug": "patch-manager-plus"
+    },
+    "reason": "Позиция увеличивает объём уже выбранной лицензии и отдельно не поставляется"
+  },
+  {
+    "id": "patch-manager-plus-patch-manager-plus-remote-access-plus-add-ons-perpetual-requires-base",
+    "appliesTo": {
+      "offerSlug": "patch-manager-plus-remote-access-plus-add-ons-perpetual",
+      "familySlug": "patch-manager-plus"
+    },
+    "requires": {
+      "familySlug": "patch-manager-plus"
+    },
+    "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+  },
+  {
+    "id": "patch-manager-plus-patch-manager-plus-failover-server-add-ons-perpetual-requires-base",
+    "appliesTo": {
+      "offerSlug": "patch-manager-plus-failover-server-add-ons-perpetual",
+      "familySlug": "patch-manager-plus"
+    },
+    "requires": {
+      "familySlug": "patch-manager-plus"
+    },
+    "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+  },
+  {
+    "id": "patch-manager-plus-patch-manager-plus-multi-language-pack-perpetual-requires-base",
+    "appliesTo": {
+      "offerSlug": "patch-manager-plus-multi-language-pack-perpetual",
+      "familySlug": "patch-manager-plus"
+    },
+    "requires": {
+      "familySlug": "patch-manager-plus"
+    },
+    "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+  },
+  {
+    "id": "mobile-device-manager-plus-mobile-device-manager-plus-additional-users-requires-base",
+    "appliesTo": {
+      "offerSlug": "mobile-device-manager-plus-additional-users",
+      "familySlug": "mobile-device-manager-plus"
+    },
+    "requires": {
+      "familySlug": "mobile-device-manager-plus"
+    },
+    "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+  },
+  {
+    "id": "mobile-device-manager-plus-mobile-device-manager-plus-additional-users-additional-extends",
+    "appliesTo": {
+      "offerSlug": "mobile-device-manager-plus-additional-users",
+      "familySlug": "mobile-device-manager-plus",
+      "variantPattern": "^Additional\\s"
+    },
+    "extends": {
+      "offerSlug": "mobile-device-manager-plus-additional-users",
+      "familySlug": "mobile-device-manager-plus"
+    },
+    "reason": "Позиция увеличивает объём уже выбранной лицензии и отдельно не поставляется"
+  },
+  {
+    "id": "mobile-device-manager-plus-mobile-device-manager-plus-failover-server-add-ons-requires-base",
+    "appliesTo": {
+      "offerSlug": "mobile-device-manager-plus-failover-server-add-ons",
+      "familySlug": "mobile-device-manager-plus"
+    },
+    "requires": {
+      "familySlug": "mobile-device-manager-plus"
+    },
+    "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+  },
+  {
+    "id": "mobile-device-manager-plus-mobile-device-manager-plus-multi-language-pack-requires-base",
+    "appliesTo": {
+      "offerSlug": "mobile-device-manager-plus-multi-language-pack",
+      "familySlug": "mobile-device-manager-plus"
+    },
+    "requires": {
+      "familySlug": "mobile-device-manager-plus"
+    },
+    "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+  },
+  {
+    "id": "mobile-device-manager-plus-mobile-device-manager-plus-additional-users-perpetual-requires-base",
+    "appliesTo": {
+      "offerSlug": "mobile-device-manager-plus-additional-users-perpetual",
+      "familySlug": "mobile-device-manager-plus"
+    },
+    "requires": {
+      "familySlug": "mobile-device-manager-plus"
+    },
+    "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+  },
+  {
+    "id": "mobile-device-manager-plus-mobile-device-manager-plus-additional-users-perpetual-additional-extends",
+    "appliesTo": {
+      "offerSlug": "mobile-device-manager-plus-additional-users-perpetual",
+      "familySlug": "mobile-device-manager-plus",
+      "variantPattern": "^Additional\\s"
+    },
+    "extends": {
+      "offerSlug": "mobile-device-manager-plus-additional-users-perpetual",
+      "familySlug": "mobile-device-manager-plus"
+    },
+    "reason": "Позиция увеличивает объём уже выбранной лицензии и отдельно не поставляется"
+  },
+  {
+    "id": "mobile-device-manager-plus-mobile-device-manager-plus-failover-server-add-ons-perpetual-requires-base",
+    "appliesTo": {
+      "offerSlug": "mobile-device-manager-plus-failover-server-add-ons-perpetual",
+      "familySlug": "mobile-device-manager-plus"
+    },
+    "requires": {
+      "familySlug": "mobile-device-manager-plus"
+    },
+    "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+  },
+  {
+    "id": "mobile-device-manager-plus-mobile-device-manager-plus-multi-language-pack-perpetual-requires-base",
+    "appliesTo": {
+      "offerSlug": "mobile-device-manager-plus-multi-language-pack-perpetual",
+      "familySlug": "mobile-device-manager-plus"
+    },
+    "requires": {
+      "familySlug": "mobile-device-manager-plus"
+    },
+    "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+  },
+  {
+    "id": "remote-access-plus-remote-access-plus-additional-users-requires-base",
+    "appliesTo": {
+      "offerSlug": "remote-access-plus-additional-users",
+      "familySlug": "remote-access-plus"
+    },
+    "requires": {
+      "familySlug": "remote-access-plus"
+    },
+    "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+  },
+  {
+    "id": "remote-access-plus-remote-access-plus-additional-users-additional-extends",
+    "appliesTo": {
+      "offerSlug": "remote-access-plus-additional-users",
+      "familySlug": "remote-access-plus",
+      "variantPattern": "^Additional\\s"
+    },
+    "extends": {
+      "offerSlug": "remote-access-plus-additional-users",
+      "familySlug": "remote-access-plus"
+    },
+    "reason": "Позиция увеличивает объём уже выбранной лицензии и отдельно не поставляется"
+  },
+  {
+    "id": "remote-access-plus-remote-access-plus-failover-service-requires-base",
+    "appliesTo": {
+      "offerSlug": "remote-access-plus-failover-service",
+      "familySlug": "remote-access-plus"
+    },
+    "requires": {
+      "familySlug": "remote-access-plus"
+    },
+    "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+  },
+  {
+    "id": "remote-access-plus-remote-access-plus-multi-language-pack-requires-base",
+    "appliesTo": {
+      "offerSlug": "remote-access-plus-multi-language-pack",
+      "familySlug": "remote-access-plus"
+    },
+    "requires": {
+      "familySlug": "remote-access-plus"
+    },
+    "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+  },
+  {
+    "id": "remote-access-plus-remote-access-plus-additional-users-perpetual-requires-base",
+    "appliesTo": {
+      "offerSlug": "remote-access-plus-additional-users-perpetual",
+      "familySlug": "remote-access-plus"
+    },
+    "requires": {
+      "familySlug": "remote-access-plus"
+    },
+    "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+  },
+  {
+    "id": "remote-access-plus-remote-access-plus-additional-users-perpetual-additional-extends",
+    "appliesTo": {
+      "offerSlug": "remote-access-plus-additional-users-perpetual",
+      "familySlug": "remote-access-plus",
+      "variantPattern": "^Additional\\s"
+    },
+    "extends": {
+      "offerSlug": "remote-access-plus-additional-users-perpetual",
+      "familySlug": "remote-access-plus"
+    },
+    "reason": "Позиция увеличивает объём уже выбранной лицензии и отдельно не поставляется"
+  },
+  {
+    "id": "remote-access-plus-remote-access-plus-failover-service-perpetual-requires-base",
+    "appliesTo": {
+      "offerSlug": "remote-access-plus-failover-service-perpetual",
+      "familySlug": "remote-access-plus"
+    },
+    "requires": {
+      "familySlug": "remote-access-plus"
+    },
+    "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+  },
+  {
+    "id": "remote-access-plus-remote-access-plus-multi-language-pack-perpetual-requires-base",
+    "appliesTo": {
+      "offerSlug": "remote-access-plus-multi-language-pack-perpetual",
+      "familySlug": "remote-access-plus"
+    },
+    "requires": {
+      "familySlug": "remote-access-plus"
+    },
+    "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+  },
+  {
+    "id": "os-deployer-os-deployer-additional-users-requires-base",
+    "appliesTo": {
+      "offerSlug": "os-deployer-additional-users",
+      "familySlug": "os-deployer"
+    },
+    "requires": {
+      "familySlug": "os-deployer"
+    },
+    "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+  },
+  {
+    "id": "os-deployer-os-deployer-multi-language-pack-requires-base",
+    "appliesTo": {
+      "offerSlug": "os-deployer-multi-language-pack",
+      "familySlug": "os-deployer"
+    },
+    "requires": {
+      "familySlug": "os-deployer"
+    },
+    "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+  },
+  {
+    "id": "os-deployer-os-deployer-additional-users-perpetual-requires-base",
+    "appliesTo": {
+      "offerSlug": "os-deployer-additional-users-perpetual",
+      "familySlug": "os-deployer"
+    },
+    "requires": {
+      "familySlug": "os-deployer"
+    },
+    "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+  },
+  {
+    "id": "os-deployer-os-deployer-multi-language-pack-perpetual-requires-base",
+    "appliesTo": {
+      "offerSlug": "os-deployer-multi-language-pack-perpetual",
+      "familySlug": "os-deployer"
+    },
+    "requires": {
+      "familySlug": "os-deployer"
+    },
+    "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+  },
+  {
+    "id": "vulnerability-manager-plus-vulnerability-manager-plus-additional-users-requires-base",
+    "appliesTo": {
+      "offerSlug": "vulnerability-manager-plus-additional-users",
+      "familySlug": "vulnerability-manager-plus"
+    },
+    "requires": {
+      "familySlug": "vulnerability-manager-plus"
+    },
+    "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+  },
+  {
+    "id": "vulnerability-manager-plus-vulnerability-manager-plus-additional-users-additional-extends",
+    "appliesTo": {
+      "offerSlug": "vulnerability-manager-plus-additional-users",
+      "familySlug": "vulnerability-manager-plus",
+      "variantPattern": "^Additional\\s"
+    },
+    "extends": {
+      "offerSlug": "vulnerability-manager-plus-additional-users",
+      "familySlug": "vulnerability-manager-plus"
+    },
+    "reason": "Позиция увеличивает объём уже выбранной лицензии и отдельно не поставляется"
+  },
+  {
+    "id": "vulnerability-manager-plus-vulnerability-manager-plus-failover-service-requires-base",
+    "appliesTo": {
+      "offerSlug": "vulnerability-manager-plus-failover-service",
+      "familySlug": "vulnerability-manager-plus"
+    },
+    "requires": {
+      "familySlug": "vulnerability-manager-plus"
+    },
+    "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+  },
+  {
+    "id": "vulnerability-manager-plus-vulnerability-manager-plus-multi-language-pack-requires-base",
+    "appliesTo": {
+      "offerSlug": "vulnerability-manager-plus-multi-language-pack",
+      "familySlug": "vulnerability-manager-plus"
+    },
+    "requires": {
+      "familySlug": "vulnerability-manager-plus"
+    },
+    "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+  },
+  {
+    "id": "vulnerability-manager-plus-vulnerability-manager-plus-additional-users-perpetual-requires-base",
+    "appliesTo": {
+      "offerSlug": "vulnerability-manager-plus-additional-users-perpetual",
+      "familySlug": "vulnerability-manager-plus"
+    },
+    "requires": {
+      "familySlug": "vulnerability-manager-plus"
+    },
+    "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+  },
+  {
+    "id": "vulnerability-manager-plus-vulnerability-manager-plus-additional-users-perpetual-additional-extends",
+    "appliesTo": {
+      "offerSlug": "vulnerability-manager-plus-additional-users-perpetual",
+      "familySlug": "vulnerability-manager-plus",
+      "variantPattern": "^Additional\\s"
+    },
+    "extends": {
+      "offerSlug": "vulnerability-manager-plus-additional-users-perpetual",
+      "familySlug": "vulnerability-manager-plus"
+    },
+    "reason": "Позиция увеличивает объём уже выбранной лицензии и отдельно не поставляется"
+  },
+  {
+    "id": "vulnerability-manager-plus-vulnerability-manager-plus-failover-service-perpetual-requires-base",
+    "appliesTo": {
+      "offerSlug": "vulnerability-manager-plus-failover-service-perpetual",
+      "familySlug": "vulnerability-manager-plus"
+    },
+    "requires": {
+      "familySlug": "vulnerability-manager-plus"
+    },
+    "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+  },
+  {
+    "id": "vulnerability-manager-plus-vulnerability-manager-plus-multi-language-pack-perpetual-requires-base",
+    "appliesTo": {
+      "offerSlug": "vulnerability-manager-plus-multi-language-pack-perpetual",
+      "familySlug": "vulnerability-manager-plus"
+    },
+    "requires": {
+      "familySlug": "vulnerability-manager-plus"
+    },
+    "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+  },
+  {
+    "id": "application-control-plus-application-control-plus-additional-users-requires-base",
+    "appliesTo": {
+      "offerSlug": "application-control-plus-additional-users",
+      "familySlug": "application-control-plus"
+    },
+    "requires": {
+      "familySlug": "application-control-plus"
+    },
+    "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+  },
+  {
+    "id": "application-control-plus-application-control-plus-additional-users-additional-extends",
+    "appliesTo": {
+      "offerSlug": "application-control-plus-additional-users",
+      "familySlug": "application-control-plus",
+      "variantPattern": "^Additional\\s"
+    },
+    "extends": {
+      "offerSlug": "application-control-plus-additional-users",
+      "familySlug": "application-control-plus"
+    },
+    "reason": "Позиция увеличивает объём уже выбранной лицензии и отдельно не поставляется"
+  },
+  {
+    "id": "application-control-plus-application-control-plus-failover-service-requires-base",
+    "appliesTo": {
+      "offerSlug": "application-control-plus-failover-service",
+      "familySlug": "application-control-plus"
+    },
+    "requires": {
+      "familySlug": "application-control-plus"
+    },
+    "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+  },
+  {
+    "id": "application-control-plus-application-control-plus-multi-language-pack-requires-base",
+    "appliesTo": {
+      "offerSlug": "application-control-plus-multi-language-pack",
+      "familySlug": "application-control-plus"
+    },
+    "requires": {
+      "familySlug": "application-control-plus"
+    },
+    "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+  },
+  {
+    "id": "application-control-plus-application-control-plus-additional-users-perpetual-requires-base",
+    "appliesTo": {
+      "offerSlug": "application-control-plus-additional-users-perpetual",
+      "familySlug": "application-control-plus"
+    },
+    "requires": {
+      "familySlug": "application-control-plus"
+    },
+    "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+  },
+  {
+    "id": "application-control-plus-application-control-plus-additional-users-perpetual-additional-extends",
+    "appliesTo": {
+      "offerSlug": "application-control-plus-additional-users-perpetual",
+      "familySlug": "application-control-plus",
+      "variantPattern": "^Additional\\s"
+    },
+    "extends": {
+      "offerSlug": "application-control-plus-additional-users-perpetual",
+      "familySlug": "application-control-plus"
+    },
+    "reason": "Позиция увеличивает объём уже выбранной лицензии и отдельно не поставляется"
+  },
+  {
+    "id": "application-control-plus-application-control-plus-failover-service-perpetual-requires-base",
+    "appliesTo": {
+      "offerSlug": "application-control-plus-failover-service-perpetual",
+      "familySlug": "application-control-plus"
+    },
+    "requires": {
+      "familySlug": "application-control-plus"
+    },
+    "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+  },
+  {
+    "id": "application-control-plus-application-control-plus-multi-language-pack-perpetual-requires-base",
+    "appliesTo": {
+      "offerSlug": "application-control-plus-multi-language-pack-perpetual",
+      "familySlug": "application-control-plus"
+    },
+    "requires": {
+      "familySlug": "application-control-plus"
+    },
+    "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+  },
+  {
+    "id": "device-control-plus-device-control-plus-additional-users-requires-base",
+    "appliesTo": {
+      "offerSlug": "device-control-plus-additional-users",
+      "familySlug": "device-control-plus"
+    },
+    "requires": {
+      "familySlug": "device-control-plus"
+    },
+    "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+  },
+  {
+    "id": "device-control-plus-device-control-plus-additional-users-additional-extends",
+    "appliesTo": {
+      "offerSlug": "device-control-plus-additional-users",
+      "familySlug": "device-control-plus",
+      "variantPattern": "^Additional\\s"
+    },
+    "extends": {
+      "offerSlug": "device-control-plus-additional-users",
+      "familySlug": "device-control-plus"
+    },
+    "reason": "Позиция увеличивает объём уже выбранной лицензии и отдельно не поставляется"
+  },
+  {
+    "id": "device-control-plus-device-control-plus-failover-service-requires-base",
+    "appliesTo": {
+      "offerSlug": "device-control-plus-failover-service",
+      "familySlug": "device-control-plus"
+    },
+    "requires": {
+      "familySlug": "device-control-plus"
+    },
+    "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+  },
+  {
+    "id": "device-control-plus-device-control-plus-multi-language-pack-requires-base",
+    "appliesTo": {
+      "offerSlug": "device-control-plus-multi-language-pack",
+      "familySlug": "device-control-plus"
+    },
+    "requires": {
+      "familySlug": "device-control-plus"
+    },
+    "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+  },
+  {
+    "id": "device-control-plus-device-control-plus-additional-users-perpetual-requires-base",
+    "appliesTo": {
+      "offerSlug": "device-control-plus-additional-users-perpetual",
+      "familySlug": "device-control-plus"
+    },
+    "requires": {
+      "familySlug": "device-control-plus"
+    },
+    "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+  },
+  {
+    "id": "device-control-plus-device-control-plus-additional-users-perpetual-additional-extends",
+    "appliesTo": {
+      "offerSlug": "device-control-plus-additional-users-perpetual",
+      "familySlug": "device-control-plus",
+      "variantPattern": "^Additional\\s"
+    },
+    "extends": {
+      "offerSlug": "device-control-plus-additional-users-perpetual",
+      "familySlug": "device-control-plus"
+    },
+    "reason": "Позиция увеличивает объём уже выбранной лицензии и отдельно не поставляется"
+  },
+  {
+    "id": "device-control-plus-device-control-plus-failover-service-perpetual-requires-base",
+    "appliesTo": {
+      "offerSlug": "device-control-plus-failover-service-perpetual",
+      "familySlug": "device-control-plus"
+    },
+    "requires": {
+      "familySlug": "device-control-plus"
+    },
+    "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+  },
+  {
+    "id": "device-control-plus-device-control-plus-multi-language-pack-perpetual-requires-base",
+    "appliesTo": {
+      "offerSlug": "device-control-plus-multi-language-pack-perpetual",
+      "familySlug": "device-control-plus"
+    },
+    "requires": {
+      "familySlug": "device-control-plus"
+    },
+    "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+  },
+  {
+    "id": "browser-security-plus-browser-security-plus-additional-users-requires-base",
+    "appliesTo": {
+      "offerSlug": "browser-security-plus-additional-users",
+      "familySlug": "browser-security-plus"
+    },
+    "requires": {
+      "familySlug": "browser-security-plus"
+    },
+    "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+  },
+  {
+    "id": "browser-security-plus-browser-security-plus-additional-users-additional-extends",
+    "appliesTo": {
+      "offerSlug": "browser-security-plus-additional-users",
+      "familySlug": "browser-security-plus",
+      "variantPattern": "^Additional\\s"
+    },
+    "extends": {
+      "offerSlug": "browser-security-plus-additional-users",
+      "familySlug": "browser-security-plus"
+    },
+    "reason": "Позиция увеличивает объём уже выбранной лицензии и отдельно не поставляется"
+  },
+  {
+    "id": "browser-security-plus-browser-security-plus-multi-language-pack-license-requires-base",
+    "appliesTo": {
+      "offerSlug": "browser-security-plus-multi-language-pack-license",
+      "familySlug": "browser-security-plus"
+    },
+    "requires": {
+      "familySlug": "browser-security-plus"
+    },
+    "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+  },
+  {
+    "id": "browser-security-plus-browser-security-plus-failover-service-requires-base",
+    "appliesTo": {
+      "offerSlug": "browser-security-plus-failover-service",
+      "familySlug": "browser-security-plus"
+    },
+    "requires": {
+      "familySlug": "browser-security-plus"
+    },
+    "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+  },
+  {
+    "id": "browser-security-plus-browser-security-plus-additional-users-perpetual-requires-base",
+    "appliesTo": {
+      "offerSlug": "browser-security-plus-additional-users-perpetual",
+      "familySlug": "browser-security-plus"
+    },
+    "requires": {
+      "familySlug": "browser-security-plus"
+    },
+    "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+  },
+  {
+    "id": "browser-security-plus-browser-security-plus-additional-users-perpetual-additional-extends",
+    "appliesTo": {
+      "offerSlug": "browser-security-plus-additional-users-perpetual",
+      "familySlug": "browser-security-plus",
+      "variantPattern": "^Additional\\s"
+    },
+    "extends": {
+      "offerSlug": "browser-security-plus-additional-users-perpetual",
+      "familySlug": "browser-security-plus"
+    },
+    "reason": "Позиция увеличивает объём уже выбранной лицензии и отдельно не поставляется"
+  },
+  {
+    "id": "browser-security-plus-browser-security-plus-multi-language-pack-license-perpetual-requires-base",
+    "appliesTo": {
+      "offerSlug": "browser-security-plus-multi-language-pack-license-perpetual",
+      "familySlug": "browser-security-plus"
+    },
+    "requires": {
+      "familySlug": "browser-security-plus"
+    },
+    "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+  },
+  {
+    "id": "browser-security-plus-browser-security-plus-failover-service-perpetual-requires-base",
+    "appliesTo": {
+      "offerSlug": "browser-security-plus-failover-service-perpetual",
+      "familySlug": "browser-security-plus"
+    },
+    "requires": {
+      "familySlug": "browser-security-plus"
+    },
+    "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+  },
+  {
+    "id": "endpoint-dlp-plus-endpoint-dlp-plus-additional-users-requires-base",
+    "appliesTo": {
+      "offerSlug": "endpoint-dlp-plus-additional-users",
+      "familySlug": "endpoint-dlp-plus"
+    },
+    "requires": {
+      "familySlug": "endpoint-dlp-plus"
+    },
+    "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+  },
+  {
+    "id": "endpoint-dlp-plus-endpoint-dlp-plus-additional-users-additional-extends",
+    "appliesTo": {
+      "offerSlug": "endpoint-dlp-plus-additional-users",
+      "familySlug": "endpoint-dlp-plus",
+      "variantPattern": "^Additional\\s"
+    },
+    "extends": {
+      "offerSlug": "endpoint-dlp-plus-additional-users",
+      "familySlug": "endpoint-dlp-plus"
+    },
+    "reason": "Позиция увеличивает объём уже выбранной лицензии и отдельно не поставляется"
+  },
+  {
+    "id": "endpoint-dlp-plus-endpoint-dlp-plus-failover-service-requires-base",
+    "appliesTo": {
+      "offerSlug": "endpoint-dlp-plus-failover-service",
+      "familySlug": "endpoint-dlp-plus"
+    },
+    "requires": {
+      "familySlug": "endpoint-dlp-plus"
+    },
+    "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+  },
+  {
+    "id": "endpoint-dlp-plus-endpoint-dlp-plus-multi-language-pack-license-requires-base",
+    "appliesTo": {
+      "offerSlug": "endpoint-dlp-plus-multi-language-pack-license",
+      "familySlug": "endpoint-dlp-plus"
+    },
+    "requires": {
+      "familySlug": "endpoint-dlp-plus"
+    },
+    "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+  },
+  {
+    "id": "endpoint-dlp-plus-endpoint-dlp-plus-additional-users-perpetual-requires-base",
+    "appliesTo": {
+      "offerSlug": "endpoint-dlp-plus-additional-users-perpetual",
+      "familySlug": "endpoint-dlp-plus"
+    },
+    "requires": {
+      "familySlug": "endpoint-dlp-plus"
+    },
+    "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+  },
+  {
+    "id": "endpoint-dlp-plus-endpoint-dlp-plus-additional-users-perpetual-additional-extends",
+    "appliesTo": {
+      "offerSlug": "endpoint-dlp-plus-additional-users-perpetual",
+      "familySlug": "endpoint-dlp-plus",
+      "variantPattern": "^Additional\\s"
+    },
+    "extends": {
+      "offerSlug": "endpoint-dlp-plus-additional-users-perpetual",
+      "familySlug": "endpoint-dlp-plus"
+    },
+    "reason": "Позиция увеличивает объём уже выбранной лицензии и отдельно не поставляется"
+  },
+  {
+    "id": "endpoint-dlp-plus-endpoint-dlp-plus-failover-service-perpetual-requires-base",
+    "appliesTo": {
+      "offerSlug": "endpoint-dlp-plus-failover-service-perpetual",
+      "familySlug": "endpoint-dlp-plus"
+    },
+    "requires": {
+      "familySlug": "endpoint-dlp-plus"
+    },
+    "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+  },
+  {
+    "id": "endpoint-dlp-plus-endpoint-dlp-plus-multi-language-pack-license-perpetual-requires-base",
+    "appliesTo": {
+      "offerSlug": "endpoint-dlp-plus-multi-language-pack-license-perpetual",
+      "familySlug": "endpoint-dlp-plus"
+    },
+    "requires": {
+      "familySlug": "endpoint-dlp-plus"
+    },
+    "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+  },
+  {
+    "id": "ransomware-protection-plus-ransomware-protection-plus-additional-technicians-requires-base",
+    "appliesTo": {
+      "offerSlug": "ransomware-protection-plus-additional-technicians",
+      "familySlug": "ransomware-protection-plus"
+    },
+    "requires": {
+      "familySlug": "ransomware-protection-plus"
+    },
+    "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+  },
+  {
+    "id": "ransomware-protection-plus-ransomware-protection-plus-failover-service-requires-base",
+    "appliesTo": {
+      "offerSlug": "ransomware-protection-plus-failover-service",
+      "familySlug": "ransomware-protection-plus"
+    },
+    "requires": {
+      "familySlug": "ransomware-protection-plus"
+    },
+    "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+  },
+  {
+    "id": "ransomware-protection-plus-ransomware-protection-plus-multi-language-pack-requires-base",
+    "appliesTo": {
+      "offerSlug": "ransomware-protection-plus-multi-language-pack",
+      "familySlug": "ransomware-protection-plus"
+    },
+    "requires": {
+      "familySlug": "ransomware-protection-plus"
+    },
+    "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+  },
+  {
+    "id": "ransomware-protection-plus-ransomware-protection-plus-additional-technicians-perpetual-requires-base",
+    "appliesTo": {
+      "offerSlug": "ransomware-protection-plus-additional-technicians-perpetual",
+      "familySlug": "ransomware-protection-plus"
+    },
+    "requires": {
+      "familySlug": "ransomware-protection-plus"
+    },
+    "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+  },
+  {
+    "id": "ransomware-protection-plus-ransomware-protection-plus-failover-service-perpetual-requires-base",
+    "appliesTo": {
+      "offerSlug": "ransomware-protection-plus-failover-service-perpetual",
+      "familySlug": "ransomware-protection-plus"
+    },
+    "requires": {
+      "familySlug": "ransomware-protection-plus"
+    },
+    "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+  },
+  {
+    "id": "ransomware-protection-plus-ransomware-protection-plus-multi-language-pack-perpetual-requires-base",
+    "appliesTo": {
+      "offerSlug": "ransomware-protection-plus-multi-language-pack-perpetual",
+      "familySlug": "ransomware-protection-plus"
+    },
+    "requires": {
+      "familySlug": "ransomware-protection-plus"
+    },
+    "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+  },
+  {
+    "id": "malware-protection-plus-malware-protection-plus-additional-technicians-requires-base",
+    "appliesTo": {
+      "offerSlug": "malware-protection-plus-additional-technicians",
+      "familySlug": "malware-protection-plus"
+    },
+    "requires": {
+      "familySlug": "malware-protection-plus"
+    },
+    "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+  },
+  {
+    "id": "malware-protection-plus-malware-protection-plus-failover-service-requires-base",
+    "appliesTo": {
+      "offerSlug": "malware-protection-plus-failover-service",
+      "familySlug": "malware-protection-plus"
+    },
+    "requires": {
+      "familySlug": "malware-protection-plus"
+    },
+    "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+  },
+  {
+    "id": "malware-protection-plus-malware-protection-plus-multi-language-pack-requires-base",
+    "appliesTo": {
+      "offerSlug": "malware-protection-plus-multi-language-pack",
+      "familySlug": "malware-protection-plus"
+    },
+    "requires": {
+      "familySlug": "malware-protection-plus"
+    },
+    "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+  },
+  {
+    "id": "malware-protection-plus-malware-protection-plus-additional-technicians-perpetual-requires-base",
+    "appliesTo": {
+      "offerSlug": "malware-protection-plus-additional-technicians-perpetual",
+      "familySlug": "malware-protection-plus"
+    },
+    "requires": {
+      "familySlug": "malware-protection-plus"
+    },
+    "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+  },
+  {
+    "id": "malware-protection-plus-malware-protection-plus-failover-service-perpetual-requires-base",
+    "appliesTo": {
+      "offerSlug": "malware-protection-plus-failover-service-perpetual",
+      "familySlug": "malware-protection-plus"
+    },
+    "requires": {
+      "familySlug": "malware-protection-plus"
+    },
+    "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+  },
+  {
+    "id": "malware-protection-plus-malware-protection-plus-multi-language-pack-perpetual-requires-base",
+    "appliesTo": {
+      "offerSlug": "malware-protection-plus-multi-language-pack-perpetual",
+      "familySlug": "malware-protection-plus"
+    },
+    "requires": {
+      "familySlug": "malware-protection-plus"
+    },
+    "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+  },
+  {
+    "id": "opmanager-nexus-opmanager-nexus-add-ons-requires-base",
+    "appliesTo": {
+      "offerSlug": "opmanager-nexus-add-ons",
+      "familySlug": "opmanager-nexus"
+    },
+    "requires": {
+      "familySlug": "opmanager-nexus"
+    },
+    "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+  },
+  {
+    "id": "opmanager-nexus-opmanager-nexus-additional-user-pack-requires-base",
+    "appliesTo": {
+      "offerSlug": "opmanager-nexus-additional-user-pack",
+      "familySlug": "opmanager-nexus"
+    },
+    "requires": {
+      "familySlug": "opmanager-nexus"
+    },
+    "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+  },
+  {
+    "id": "opmanager-nexus-lite-device-add-on-uptime-wan-access-points-network-paths-requires-base",
+    "appliesTo": {
+      "offerSlug": "lite-device-add-on-uptime-wan-access-points-network-paths",
+      "familySlug": "opmanager-nexus"
+    },
+    "requires": {
+      "familySlug": "opmanager-nexus"
+    },
+    "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+  },
+  {
+    "id": "opmanager-nexus-opmanager-nexus-apm-plugin-applogs-monitoring-add-on-requires-base",
+    "appliesTo": {
+      "offerSlug": "opmanager-nexus-apm-plugin-applogs-monitoring-add-on",
+      "familySlug": "opmanager-nexus"
+    },
+    "requires": {
+      "familySlug": "opmanager-nexus"
+    },
+    "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+  },
+  {
+    "id": "opmanager-nexus-opmanager-nexus-apm-plugin-real-user-monitor-rum-add-on-requires-base",
+    "appliesTo": {
+      "offerSlug": "opmanager-nexus-apm-plugin-real-user-monitor-rum-add-on",
+      "familySlug": "opmanager-nexus"
+    },
+    "requires": {
+      "familySlug": "opmanager-nexus"
+    },
+    "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+  },
+  {
+    "id": "opmanager-nexus-opmanager-nexus-additional-firewall-requires-base",
+    "appliesTo": {
+      "offerSlug": "opmanager-nexus-additional-firewall",
+      "familySlug": "opmanager-nexus"
+    },
+    "requires": {
+      "familySlug": "opmanager-nexus"
+    },
+    "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+  },
+  {
+    "id": "opmanager-nexus-opmanager-nexus-ipam-spm-management-add-on-requires-base",
+    "appliesTo": {
+      "offerSlug": "opmanager-nexus-ipam-spm-management-add-on",
+      "familySlug": "opmanager-nexus"
+    },
+    "requires": {
+      "familySlug": "opmanager-nexus"
+    },
+    "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+  },
+  {
+    "id": "opmanager-nexus-opmanager-nexus-add-ons-perpetual-requires-base",
+    "appliesTo": {
+      "offerSlug": "opmanager-nexus-add-ons-perpetual",
+      "familySlug": "opmanager-nexus"
+    },
+    "requires": {
+      "familySlug": "opmanager-nexus"
+    },
+    "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+  },
+  {
+    "id": "opmanager-nexus-opmanager-nexus-additional-user-pack-perpetual-requires-base",
+    "appliesTo": {
+      "offerSlug": "opmanager-nexus-additional-user-pack-perpetual",
+      "familySlug": "opmanager-nexus"
+    },
+    "requires": {
+      "familySlug": "opmanager-nexus"
+    },
+    "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+  },
+  {
+    "id": "opmanager-nexus-lite-device-add-on-uptime-wan-access-points-network-paths-perpetual-requires-base",
+    "appliesTo": {
+      "offerSlug": "lite-device-add-on-uptime-wan-access-points-network-paths-perpetual",
+      "familySlug": "opmanager-nexus"
+    },
+    "requires": {
+      "familySlug": "opmanager-nexus"
+    },
+    "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+  },
+  {
+    "id": "opmanager-nexus-opmanager-nexus-apm-plugin-applogs-monitoring-add-on-perpetual-requires-base",
+    "appliesTo": {
+      "offerSlug": "opmanager-nexus-apm-plugin-applogs-monitoring-add-on-perpetual",
+      "familySlug": "opmanager-nexus"
+    },
+    "requires": {
+      "familySlug": "opmanager-nexus"
+    },
+    "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+  },
+  {
+    "id": "opmanager-nexus-opmanager-nexus-apm-plugin-real-user-monitor-rum-add-on-perpetual-requires-base",
+    "appliesTo": {
+      "offerSlug": "opmanager-nexus-apm-plugin-real-user-monitor-rum-add-on-perpetual",
+      "familySlug": "opmanager-nexus"
+    },
+    "requires": {
+      "familySlug": "opmanager-nexus"
+    },
+    "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+  },
+  {
+    "id": "opmanager-nexus-opmanager-nexus-additional-firewall-perpetual-requires-base",
+    "appliesTo": {
+      "offerSlug": "opmanager-nexus-additional-firewall-perpetual",
+      "familySlug": "opmanager-nexus"
+    },
+    "requires": {
+      "familySlug": "opmanager-nexus"
+    },
+    "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+  },
+  {
+    "id": "opmanager-nexus-opmanager-nexus-ipam-spm-management-add-on-perpetual-requires-base",
+    "appliesTo": {
+      "offerSlug": "opmanager-nexus-ipam-spm-management-add-on-perpetual",
+      "familySlug": "opmanager-nexus"
+    },
+    "requires": {
+      "familySlug": "opmanager-nexus"
+    },
+    "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+  },
+  {
+    "id": "applications-manager-applogs-monitoring-add-on-professional-edition-requires-base",
+    "appliesTo": {
+      "offerSlug": "applogs-monitoring-add-on-professional-edition",
+      "familySlug": "applications-manager"
+    },
+    "requires": {
+      "familySlug": "applications-manager"
+    },
+    "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+  },
+  {
+    "id": "applications-manager-applogs-monitoring-add-on-enterprise-edition-requires-base",
+    "appliesTo": {
+      "offerSlug": "applogs-monitoring-add-on-enterprise-edition",
+      "familySlug": "applications-manager"
+    },
+    "requires": {
+      "familySlug": "applications-manager"
+    },
+    "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+  },
+  {
+    "id": "applications-manager-applications-manager-real-user-monitor-rum-add-on-requires-base",
+    "appliesTo": {
+      "offerSlug": "applications-manager-real-user-monitor-rum-add-on",
+      "familySlug": "applications-manager"
+    },
+    "requires": {
+      "familySlug": "applications-manager"
+    },
+    "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+  },
+  {
+    "id": "applications-manager-applications-manager-additional-user-pack-requires-base",
+    "appliesTo": {
+      "offerSlug": "applications-manager-additional-user-pack",
+      "familySlug": "applications-manager"
+    },
+    "requires": {
+      "familySlug": "applications-manager"
+    },
+    "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+  },
+  {
+    "id": "applications-manager-applogs-monitoring-add-on-professional-edition-perpetual-requires-base",
+    "appliesTo": {
+      "offerSlug": "applogs-monitoring-add-on-professional-edition-perpetual",
+      "familySlug": "applications-manager"
+    },
+    "requires": {
+      "familySlug": "applications-manager"
+    },
+    "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+  },
+  {
+    "id": "applications-manager-applogs-monitoring-add-on-enterprise-edition-perpetual-requires-base",
+    "appliesTo": {
+      "offerSlug": "applogs-monitoring-add-on-enterprise-edition-perpetual",
+      "familySlug": "applications-manager"
+    },
+    "requires": {
+      "familySlug": "applications-manager"
+    },
+    "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+  },
+  {
+    "id": "applications-manager-applications-manager-real-user-monitor-rum-add-on-perpetual-requires-base",
+    "appliesTo": {
+      "offerSlug": "applications-manager-real-user-monitor-rum-add-on-perpetual",
+      "familySlug": "applications-manager"
+    },
+    "requires": {
+      "familySlug": "applications-manager"
+    },
+    "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+  },
+  {
+    "id": "applications-manager-applications-manager-additional-user-pack-perpetual-requires-base",
+    "appliesTo": {
+      "offerSlug": "applications-manager-additional-user-pack-perpetual",
+      "familySlug": "applications-manager"
+    },
+    "requires": {
+      "familySlug": "applications-manager"
+    },
+    "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
   }
 ];
 
