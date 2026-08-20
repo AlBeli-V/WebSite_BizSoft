@@ -147,11 +147,31 @@ class TestLimiter(unittest.TestCase):
         self.assertEqual(again.hour_used(), 3)
         self.assertEqual(again.hour_remaining(), 2)
 
-    def test_unknown_state_is_treated_as_exhausted(self):
+    def test_unknown_state_pauses_briefly_not_for_an_hour(self):
+        """Нечитаемое состояние — повод для короткой паузы, а не блокировки на час.
+
+        Ограничитель не должен быть строже сервиса: он ждёт минуту и проверяет
+        пробой, вместо того чтобы вслепую терять целое окно.
+        """
         self.tmp.parent.mkdir(parents=True, exist_ok=True)
         self.tmp.write_text("не json", encoding="utf-8")
         rl = self.limiter()
-        self.assertEqual(rl.hour_remaining(), 0)
+        self.assertGreater(rl.seconds_until_slot(), 0)
+        self.assertLessEqual(rl.seconds_until_slot(), self.L.PROBE_START_SEC)
+        self.assertLess(rl.seconds_until_slot(), 3600)
+
+    def test_quota_error_does_not_fake_own_usage(self):
+        """Отказ сервиса не должен подделывать наш собственный счёт вызовов."""
+        rl = self.limiter(rph=100)
+        for _ in range(5):
+            rl.acquire(sleep=lambda s: None)
+        rl.note_quota_error("allowed 100 requests")
+        self.assertEqual(rl.hour_used(), 5, "счёт реальных вызовов искажён")
+        self.assertLessEqual(rl.seconds_until_slot(), self.L.PROBE_START_SEC)
+
+    def test_wait_for_slot_returns_when_free(self):
+        rl = self.limiter(rph=100)
+        self.assertEqual(rl.wait_for_slot(sleep=lambda s: None), 0.0)
 
     def test_second_window_throttles(self):
         slept = []
@@ -167,7 +187,7 @@ class TestLimiter(unittest.TestCase):
         self.assertEqual(rl.rph, 100)
 
     def test_quota_error_waits_probe_interval_not_full_hour(self):
-        """После отказа ждём 10 минут и пробуем, а не блокируемся на час вслепую."""
+        """После отказа ждём минуту и пробуем, а не блокируемся на час вслепую."""
         rl = self.limiter(rph=100)
         rl.note_quota_error("allowed 100 requests")
         self.assertLessEqual(rl.seconds_until_slot(), self.L.PROBE_START_SEC)

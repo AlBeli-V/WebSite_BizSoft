@@ -291,12 +291,21 @@ def _artifact_url(a: dict) -> str:
 def web_url(date: str) -> tuple[str, bool]:
     """Адрес полного отчёта.
 
-    Порядок: собственный домен (если задан), затем опубликованная страница из
-    report-url.txt. Ссылка на репозиторий остаётся последним вариантом и всегда
-    помечается технической — приватный репозиторий руководитель открыть не может.
+    Порядок выбора:
+      1. собственный домен, если задан — открывается кем угодно;
+      2. Markdown-отчёт в репозитории — GitHub показывает его как страницу,
+         и доступ к репозиторию у получателя уже есть;
+      3. опубликованная страница как запасной вариант.
+
+    Ссылка на HTML в репозитории не годится: GitHub отдаёт его исходным текстом,
+    а не страницей. Опубликованная страница на claude.ai приватна и получателю
+    письма не открывается — на этом ссылка и ломалась.
     """
     if PUBLIC_REPORT_BASE_URL:
         return f"{PUBLIC_REPORT_BASE_URL}/daily/{date}", True
+    md = pathlib.Path(f"reports/seo/public/daily/{date}/README.md")
+    if md.exists():
+        return f"{REPO}/blob/{BRANCH}/reports/seo/public/daily/{date}/README.md", True
     if REPORT_URL_FILE.exists():
         url = REPORT_URL_FILE.read_text(encoding="utf-8").strip()
         if url:

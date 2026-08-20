@@ -183,16 +183,29 @@ def run(date: str) -> dict:
     # Без этой проверки письмо спокойно уходило со ссылкой на файл, который
     # генератор больше не создаёт: все остальные проверки при этом были зелёными.
     web = blocks["links"]["web"]
-    if web.startswith("https://claude.ai/") or web.startswith("http") and \
-            "github.com" not in web:
+    # HTML в репозитории GitHub отдаёт исходным текстом, а не страницей: такая
+    # ссылка формально жива, но отчёт по ней не прочитать.
+    if "github.com" in web and web.endswith(".html"):
+        add("report_link_target_exists", False,
+            "ссылка ведёт на HTML в репозитории — GitHub покажет исходный текст")
+    elif web.startswith("https://claude.ai/") or (web.startswith("http")
+                                                  and "github.com" not in web):
         target_ok, target_note = True, "внешний адрес опубликованной страницы"
+        add("report_link_target_exists", target_ok, target_note)
     else:
-        rel = web.split("/blob/", 1)[-1].split("/", 1)[-1] if "/blob/" in web else \
-            web.split("/tree/", 1)[-1].split("/", 1)[-1] if "/tree/" in web else ""
+        # Имя ветки содержит слэш, поэтому отрезается целиком, а не по первому
+        # разделителю: иначе путь к файлу получается смещённым.
+        branch = "claude/biz-soft-rating-tracking-5rf03g/"
+        rest = ""
+        for marker in ("/blob/", "/tree/"):
+            if marker in web:
+                rest = web.split(marker, 1)[-1]
+                break
+        rel = rest[len(branch):] if rest.startswith(branch) else ""
         target = pathlib.Path(rel)
         target_ok = bool(rel) and target.exists()
         target_note = f"цель ссылки {rel or '—'}: {'есть' if target_ok else 'НЕ СУЩЕСТВУЕТ'}"
-    add("report_link_target_exists", target_ok, target_note)
+        add("report_link_target_exists", target_ok, target_note)
 
     # Совместное внедрение не разделяется.
     combined = [a["id"] for a in actions["actions"] if a.get("combined_deployment")]

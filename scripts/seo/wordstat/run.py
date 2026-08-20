@@ -77,8 +77,16 @@ def prepare(date: str, cfg: dict):
     return uni, vendors, clusters, tiers, gaps, seed_plan, dyn, reg, stats
 
 
-def run_tasks(tasks, client, uni, vendors, stats, budget, cfg, date, *, cap=None):
-    """Выполнить задачи до исчерпания лимитов. Возвращает сводку прогона."""
+def run_tasks(tasks, client, uni, vendors, stats, budget, cfg, date, *, cap=None,
+              wait_for_quota=False, deadline=None, sleep=None):
+    """Выполнить задачи до исчерпания лимитов. Возвращает сводку прогона.
+
+    В режиме ожидания квоты прогон не завершается при исчерпании часового окна,
+    а дожидается следующего: полный цикл исследования — около 240 вызовов, это
+    2,5 часа при квоте 100 в час, и растягивать его на недели незачем.
+    """
+    import time as _time
+    sleep = sleep or _time.sleep
     index = D.vendor_index(vendors)
     vendor_by_slug = {v["slug"]: v for v in vendors}
     done = {"calls": 0, "ok": 0, "empty": 0, "raw": 0, "new_phrases": 0,
@@ -86,12 +94,15 @@ def run_tasks(tasks, client, uni, vendors, stats, budget, cfg, date, *, cap=None
     known_clusters = {r.get("cluster") for r in uni.rows.values()}
     empty_streak: dict[str, int] = {}
 
-    for task in tasks:
+    queue = list(tasks)
+    while queue:
+        task = queue[0]
         if cap is not None and done["calls"] >= cap:
             done["stopped"] = "достигнут потолок прогона"
             break
         pattern = task.get("pattern")
         if pattern and empty_streak.get(pattern, 0) >= cfg["thresholds"]["empty_seed_streak_stop"]:
+            queue.pop(0)
             continue
 
         if task["method"] == "getTop":
@@ -104,6 +115,15 @@ def run_tasks(tasks, client, uni, vendors, stats, budget, cfg, date, *, cap=None
             res = client.regions(task["phrase"], reason=task["reason"],
                                  cluster=task.get("cluster"))
 
+        if res["status"] == "quota_exceeded" and wait_for_quota:
+            if deadline is not None and _time.time() >= deadline:
+                done["stopped"] = "исчерпан отведённый срок полного цикла"
+                break
+            waited = client.limiter.wait_for_slot(sleep=sleep)
+            done["waited_sec"] = round(done.get("waited_sec", 0) + waited, 1)
+            done["quota_waits"] = done.get("quota_waits", 0) + 1
+            continue                      # та же задача пробуется снова
+        queue.pop(0)
         if res["status"] in ("quota_exceeded", "budget_blocked"):
             done["stopped"] = client.stopped_by or res["status"]
             break
@@ -169,6 +189,11 @@ def main() -> int:
     ap.add_argument("--dry-run", action="store_true")
     ap.add_argument("--pilot", action="store_true")
     ap.add_argument("--daily", action="store_true")
+    ap.add_argument("--full", action="store_true",
+                    help="полный цикл исследования: ждёт освобождения квоты "
+                         "и продолжает, пока задачи не кончатся")
+    ap.add_argument("--max-hours", type=float, default=5.0,
+                    help="потолок длительности полного цикла в часах")
     ap.add_argument("--max-calls", type=int, default=None)
     ap.add_argument("--hours", type=int, default=1)
     args = ap.parse_args()
@@ -182,16 +207,24 @@ def main() -> int:
     planner_mod.write_plan_md(plan, OUT / f"{date[:7]}-research-plan.md")
 
     budget = budget_mod.BudgetController(cfg, today=date, pilot=args.pilot)
-    # Плановый прогон берёт квоту за вычетом резерва: часть слотов остаётся
-    # свободной под срочные проверки, иначе исследование по расписанию
-    # блокирует любую валидацию до следующего часа.
-    usable_quota = (cfg["quota"]["requests_per_hour"]
-                    - cfg["quota"].get("reserved_slots_per_hour", 0))
-    alloc = planner_mod.allocate_day(
-        plan["tasks"], hourly_quota=usable_quota,
-        hours_available=args.hours, budget_remaining_rub=budget.remaining(),
-        daily_cap_rub=(cfg["budget"]["pilot_cap_rub"] if args.pilot
-                       else cfg["budget"]["daily_cap_rub"]))
+    if args.full:
+        # Полный цикл: очередь не режется часовым окном. Ограничителями остаются
+        # бюджет и отведённый срок — цикл идёт до конца задач, а не по слотам.
+        alloc = {"slots_available": len(plan["tasks"]),
+                 "selected": plan["tasks"],
+                 "estimated_cost_rub": plan["estimated_cost_rub"],
+                 "limited_by": "полный цикл: ограничивают бюджет и срок"}
+    else:
+        # Плановый прогон берёт квоту за вычетом резерва: часть слотов остаётся
+        # свободной под срочные проверки, иначе исследование по расписанию
+        # блокирует любую валидацию до следующего часа.
+        usable_quota = (cfg["quota"]["requests_per_hour"]
+                        - cfg["quota"].get("reserved_slots_per_hour", 0))
+        alloc = planner_mod.allocate_day(
+            plan["tasks"], hourly_quota=usable_quota,
+            hours_available=args.hours, budget_remaining_rub=budget.remaining(),
+            daily_cap_rub=(cfg["budget"]["pilot_cap_rub"] if args.pilot
+                           else cfg["budget"]["daily_cap_rub"]))
 
     if args.dry_run:
         report = {
@@ -223,15 +256,17 @@ def main() -> int:
         print(f"  {'universe':28} {report['universe']}")
         return 0
 
-    if not (args.pilot or args.daily):
-        print("Массовый прогон без режима запрещён: укажите --dry-run, --pilot "
-              "или --daily.", file=sys.stderr)
+    if not (args.pilot or args.daily or args.full):
+        print("Массовый прогон без режима запрещён: укажите --dry-run, --pilot, "
+              "--daily или --full.", file=sys.stderr)
         return 2
 
+    import time as _time
     client = client_mod.WordstatClient(budget, cfg)
-    cap = args.max_calls
+    deadline = _time.time() + args.max_hours * 3600 if args.full else None
     done = run_tasks(alloc["selected"], client, uni, vendors, stats, budget, cfg,
-                     date, cap=cap)
+                     date, cap=args.max_calls, wait_for_quota=args.full,
+                     deadline=deadline)
     uni.save()
     stats.save()
 
@@ -244,9 +279,10 @@ def main() -> int:
     save_state(state)
 
     eff = budget.efficiency()
-    result = {"mode": "pilot" if args.pilot else "daily", "date": date,
+    mode = "full" if args.full else ("pilot" if args.pilot else "daily")
+    result = {"mode": mode, "date": date,
               "run": done, "efficiency": eff, "universe": uni.stats()}
-    (OUT / f"{date}-{result['mode']}-result.json").write_text(
+    (OUT / f"{date}-{mode}-result.json").write_text(
         json.dumps(result, ensure_ascii=False, indent=1), encoding="utf-8")
     print(json.dumps(result, ensure_ascii=False, indent=1))
     return 0

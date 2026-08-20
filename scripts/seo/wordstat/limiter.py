@@ -24,10 +24,13 @@ import time
 STATE_PATH = pathlib.Path("reports/seo/wordstat/limiter-state.json")
 MAX_ATTEMPTS = 4
 BASE_BACKOFF_SEC = 2.0
-# После отказа по квоте не блокируемся на весь час вслепую: сервис мог освободить
-# окно раньше. Ждём интервал, делаем один пробный запрос и по его исходу решаем.
-PROBE_START_SEC = 600
-PROBE_MAX_SEC = 3600
+# Ограничитель не должен быть строже сервиса. Раньше отказ по квоте заполнял
+# часовое окно синтетическими метками и блокировал работу на час — при том, что
+# Яндекс мог освободить слоты через минуту. Теперь ведётся только счёт реальных
+# вызовов, а отказ даёт короткую паузу с пробой: 60 с, при повторе удвоение
+# до 15 минут. Арбитром выступает сервис, а не наша перестраховка.
+PROBE_START_SEC = 60
+PROBE_MAX_SEC = 900
 
 
 class QuotaExhausted(RuntimeError):
@@ -62,9 +65,9 @@ class RateLimiter:
             data = json.loads(self.path.read_text(encoding="utf-8"))
             marks = [float(t) for t in data.get("marks", [])]
         except (ValueError, TypeError, OSError):
-            # Состояние нечитаемо: считаем окно полным и ждём безопасный интервал.
-            return {"marks": [self.now()] * self.rph,
-                    "blocked_until": self.now() + PROBE_START_SEC,
+            # Состояние нечитаемо: ждём короткую паузу и проверяем пробой,
+            # а не блокируем работу на час вслепую.
+            return {"marks": [], "blocked_until": self.now() + PROBE_START_SEC,
                     "probe_interval": PROBE_START_SEC, "observed_quota": None}
         cutoff = self.now() - 3600
         return {"marks": [t for t in marks if t > cutoff],
@@ -121,9 +124,8 @@ class RateLimiter:
                 f"ожидание после отказа по квоте, проба через "
                 f"{self.seconds_until_slot():.0f} с")
         if self.probe_due():
-            # Пробный запрос: окно очищаем, чтобы вызов прошёл, но интервал
-            # оставляем на случай повторного отказа.
-            self.hour_marks = []
+            # Пробный запрос разрешён: снимаем паузу, счёт реальных вызовов
+            # остаётся нетронутым.
             self.blocked_until = 0.0
         if self.hour_remaining() <= 0:
             raise QuotaExhausted(
@@ -146,6 +148,22 @@ class RateLimiter:
             self._save_marks()
 
     # ── Реакция на ответ сервиса ─────────────────────────────────────────
+    def wait_for_slot(self, sleep=time.sleep, max_wait_sec: float = 3600) -> float:
+        """Дождаться освобождения слота. Возвращает, сколько прождали.
+
+        Нужно длинному прогону: он не должен завершаться при исчерпании часового
+        окна, если полный цикл исследования помещается в несколько окон подряд.
+        """
+        waited = 0.0
+        while waited < max_wait_sec:
+            delay = self.seconds_until_slot()
+            if delay <= 0:
+                return waited
+            step = min(delay + 1, max_wait_sec - waited)
+            sleep(step)
+            waited += step
+        return waited
+
     def note_quota_error(self, message: str) -> None:
         """Извлечь фактическую квоту из текста ошибки и зафиксировать её."""
         import re
@@ -154,9 +172,8 @@ class RateLimiter:
             self.observed_quota = int(m.group(1))
             if self.observed_quota < self.rph:
                 self.rph = self.observed_quota
-        # Сервис отказал: ждём интервал, затем один пробный запрос. При повторном
-        # отказе интервал удваивается, но не превышает часа.
-        self.hour_marks = [self.now()] * self.rph
+        # Синтетическое заполнение окна убрано: оно врало о собственном расходе
+        # и блокировало работу дольше, чем сам сервис. Ставим короткую паузу.
         self.blocked_until = self.now() + self.probe_interval
         self.probe_interval = min(PROBE_MAX_SEC, self.probe_interval * 2)
         self._save_marks()

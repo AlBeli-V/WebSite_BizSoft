@@ -418,6 +418,132 @@ def build_html(b: dict, snap: dict, dq: dict, date: str) -> str:
 </div></body></html>"""
 
 
+def build_markdown(b: dict, snap: dict, dq: dict, date: str) -> str:
+    """Полный отчёт в Markdown.
+
+    GitHub отображает Markdown как страницу, а HTML — как исходный текст. Ссылка
+    в письме должна вести туда, где отчёт читается, а не в код. Приватная
+    страница на claude.ai для получателя письма не открывается, поэтому основной
+    адрес — файл в репозитории, к которому доступ уже есть.
+    """
+    cov = b["health"]
+    L = [f"# BIZSoft Growth Intelligence — {ru_date_full(date)}", "",
+         "Daily Search, Demand & Experiment Control", "",
+         " · ".join(f"**{p['label']}:** {p['text']}" for p in b["pills"]), "",
+         b["sources_line"], "",
+         "---", "", "## Итог дня", "",
+         f"**От вас:** {b['user_action']}", "",
+         "| Показатель | Значение | Изменение | Период | Источник | Достоверность |",
+         "|---|---|---|---|---|---|"]
+    for k in b["kpis"]:
+        L.append(f"| {k['label']} | {k['value']} {k['unit']} | {k['delta'] or '—'} | "
+                 f"{k['period']} | {k['source']} | {k['confidence']} |")
+    L += ["", *(f"- **{k['label']}.** {k['interpretation']}" for k in b["kpis"]), ""]
+
+    L += ["## Сигналы дня", "",
+          "| Показатель | Было | Стало | Изменение | Что это значит |",
+          "|---|---|---|---|---|"]
+    for s_ in b["signals"]:
+        L.append(f"| {s_['metric']} | {s_['previous']} | {s_['current']} | "
+                 f"{s_['delta']} | {s_['meaning']} |")
+    L.append("")
+
+    L += ["## Что дало изменение", ""]
+    for db in b["driver_blocks"]:
+        L += [f"### {db['engine']}", "", f"*{db['window']}*", "", db["text"], "",
+              "| Изменение | Адрес | Доля | Состояние |", "|---|---|---|---|"]
+        for r in db["rows"]:
+            L.append(f"| {r['delta']} | {r['entity']} | {r['share']} | "
+                     f"{r['state'] or '—'} |")
+        L.append("")
+
+    L += ["## Контроль экспериментов", ""]
+    for e in b["experiments"]:
+        L += [f"### {e['ticket']}", "",
+              f"**Проверяем.** {e['hypothesis']}", "",
+              f"**Что изменили.** {e['treatment']}", "",
+              f"**Совместное внедрение.** {e['combined_note']}", "",
+              "| Параметр | Значение |", "|---|---|",
+              f"| запуск | {ru_date_full(e['start'])} |",
+              f"| прошло дней | {e['days_elapsed']} |",
+              f"| минимальная экспозиция | {e['minimum_exposure']} |",
+              f"| страниц всего | {e['pages_total']} |",
+              f"| новый вариант на сайте | {num(e['pages_live_with_treatment'])} |",
+              f"| обновление сниппета в выдаче | {e['search_snippet_refresh']} |",
+              f"| накоплено | {e['current_result']} |",
+              f"| целевой показатель | {e['primary_metric']} |",
+              f"| следующая проверка | {ru_date_full(e['next_review'])} |",
+              f"| вывод | **{VERDICT_LABEL[e['verdict']]}** — {e['verdict_reason']} |", ""]
+
+    L += ["## Журнал исполнения", "",
+          "| Задача | Владелец | Стадия | Статус | Срок | Артефакт |",
+          "|---|---|---|---|---|---|"]
+    for r in b["board"]:
+        L.append(f"| [{r['task']}]({r['artifact_url']}) | {r['owner']} | {r['stage']} | "
+                 f"{r['status']} | {r['due']} | {r.get('artifact') or '—'} |")
+    L.append("")
+
+    L += ["## Радар возможностей", "",
+          "| Кластер | Доказательство | Потенциал | Действие | Решение к |",
+          "|---|---|---|---|---|"]
+    for o in b["opportunities"]["items"]:
+        L.append(f"| {o['cluster']} | {o['evidence']} | {o['potential']} | "
+                 f"{o['recommended_action']} | {ru_date_full(o['decision_date'])} |")
+    L.append("")
+
+    if DEMAND_STATE.exists():
+        st = json.loads(DEMAND_STATE.read_text(encoding="utf-8"))
+        if st["coverage"].get("available"):
+            uni, c = st["universe"], st["coverage"]
+            total = f"{uni['total_commercial_demand']:,}".replace(",", " ")
+            L += ["## Спрос и покрытие рынка", "",
+                  f"Измеренный покупательский спрос — {total} показов в месяц по "
+                  f"{uni['clusters']} кластерам. Считается по частотности "
+                  f"коммерческих фраз, а не по числу ключевых слов.", "",
+                  "| Уровень | Доля спроса |", "|---|---|"]
+            for k, v in c["levels"].items():
+                L.append(f"| {k} | {'нет данных' if v is None else f'{v:.1%}'} |")
+            L += ["", "### Непокрытый коммерческий спрос", "",
+                  "| Кластер | Спрос, показов/мес | Класс | Действие |",
+                  "|---|---|---|---|"]
+            for u in st["uncovered_top"]:
+                L.append(f"| {u['cluster']} | {num(u['demand'])} | "
+                         f"{u['gap']} | {u['action']} |")
+            L.append("")
+
+    L += ["## Карта измерений", "", b["measurement_summary"], "",
+          "| Источник | Показатель | Охват | Период | Сравнимо с |",
+          "|---|---|---|---|---|"]
+    for m in dq.get("measurement_map", []):
+        L.append(f"| {m['source']} | {m['metric']} | {m['scope']} | {m['period']} | "
+                 f"{', '.join(m['comparable_with']) or '—'} |")
+    L += ["", "## Качество данных", "",
+          f"**{PILL_LABEL[cov['status']].capitalize()}:** {cov['reason']}. {cov['detail']}",
+          "", "| Уровень | Проверка | Что обнаружено |", "|---|---|---|"]
+    for f in dq["findings"]:
+        L.append(f"| {f['level']} | {f['title']} | {f['detail']} |")
+
+    yx = snap["yandex"]
+    L += ["", "## Запросы Яндекса — выборка топ-100", "",
+          "| Запрос | Показы | Клики | Средняя позиция | Интент |", "|---|---|---|---|---|"]
+    for e in sorted(yx.get("entities") or [], key=lambda e: -e["impressions"])[:50]:
+        L.append(f"| {e['entity_id']} | {num(e['impressions'])} | {num(e['clicks'])} | "
+                 f"{e['average_position']} | {e['intent']} |")
+
+    g = snap["google"]
+    L += ["", "## Страницы в Google", "",
+          "| Страница | Показы | Клики | Средняя позиция |", "|---|---|---|---|"]
+    for p_ in sorted(g.get("pages") or [], key=lambda p: -p["impressions"])[:30]:
+        L.append(f"| {p_['entity_id']} | {num(p_['impressions'])} | "
+                 f"{num(p_['clicks'])} | {p_['average_position']} |")
+
+    L += ["", "---", "",
+          f"Методика — [reporting-methodology.md]({BLOB}/docs/seo/reporting-methodology.md). "
+          f"Тикеты — [reports/seo/tasks]({REPO}/tree/{BRANCH}/reports/seo/tasks). "
+          "Отчёт собран автоматически; числа не редактируются вручную.", ""]
+    return "\n".join(L)
+
+
 def main() -> int:
     date = sys.argv[1] if len(sys.argv) > 1 else dt.date.today().isoformat()
     snap = json.loads((BASE / "snapshots" / f"{date}.json").read_text(encoding="utf-8"))
@@ -430,6 +556,7 @@ def main() -> int:
     out = OUT / date
     out.mkdir(parents=True, exist_ok=True)
     (out / "index.html").write_text(html, encoding="utf-8")
+    (out / "README.md").write_text(build_markdown(b, snap, dq, date), encoding="utf-8")
 
     # Страница «последний отчёт» живёт по одному и тому же пути: ссылка в письме
     # не должна меняться каждый день, иначе вчерашняя ссылка ведёт в никуда.
@@ -437,6 +564,7 @@ def main() -> int:
     latest.write_text(html, encoding="utf-8")
 
     print(f"веб-отчёт: {out / 'index.html'}")
+    print(f"markdown:  {out / 'README.md'}")
     print(f"последний: {latest}")
     return 0
 

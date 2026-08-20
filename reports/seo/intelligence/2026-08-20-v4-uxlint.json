@@ -111,12 +111,12 @@
   {
    "check": "public_url_or_marked_fallback",
    "ok": true,
-   "detail": "основная ссылка: https://claude.ai/code/artifact/8bf1fa5d-0822-4723-8315-70e9d71179ca; помечена как техническая: нет"
+   "detail": "основная ссылка: https://github.com/AlBeli-V/WebSite_BizSoft/blob/claude/biz-soft-rating-tracking-5rf03g/reports/seo/public/daily/2026-08-20/README.md; помечена как техническая: нет"
   },
   {
    "check": "report_link_target_exists",
    "ok": true,
-   "detail": "внешний адрес опубликованной страницы"
+   "detail": "цель ссылки reports/seo/public/daily/2026-08-20/README.md: есть"
   },
   {
    "check": "no_split_combined_experiment",

@@ -242,31 +242,7 @@
      "drivers": [],
      "detractors": [
       {
-       "entity": "zoombusiness",
-       "vendor": "zoom",
-       "current": 0,
-       "previous": 1,
-       "delta": -1,
-       "clicks_delta": 0,
-       "position_delta": null,
-       "state": "lost",
-       "confidence": "very_low",
-       "share_of_total_delta": 0.2
-      },
-      {
        "entity": "perforce cloud hosting",
-       "vendor": null,
-       "current": 0,
-       "previous": 1,
-       "delta": -1,
-       "clicks_delta": 0,
-       "position_delta": null,
-       "state": "lost",
-       "confidence": "very_low",
-       "share_of_total_delta": 0.2
-      },
-      {
-       "entity": "perforce helix pricing",
        "vendor": null,
        "current": 0,
        "previous": 1,
@@ -291,6 +267,30 @@
       },
       {
        "entity": "bigsoft",
+       "vendor": null,
+       "current": 0,
+       "previous": 1,
+       "delta": -1,
+       "clicks_delta": 0,
+       "position_delta": null,
+       "state": "lost",
+       "confidence": "very_low",
+       "share_of_total_delta": 0.2
+      },
+      {
+       "entity": "zoombusiness",
+       "vendor": "zoom",
+       "current": 0,
+       "previous": 1,
+       "delta": -1,
+       "clicks_delta": 0,
+       "position_delta": null,
+       "state": "lost",
+       "confidence": "very_low",
+       "share_of_total_delta": 0.2
+      },
+      {
+       "entity": "perforce helix pricing",
        "vendor": null,
        "current": 0,
        "previous": 1,
@@ -304,31 +304,7 @@
      ],
      "all": [
       {
-       "entity": "zoombusiness",
-       "vendor": "zoom",
-       "current": 0,
-       "previous": 1,
-       "delta": -1,
-       "clicks_delta": 0,
-       "position_delta": null,
-       "state": "lost",
-       "confidence": "very_low",
-       "share_of_total_delta": 0.2
-      },
-      {
        "entity": "perforce cloud hosting",
-       "vendor": null,
-       "current": 0,
-       "previous": 1,
-       "delta": -1,
-       "clicks_delta": 0,
-       "position_delta": null,
-       "state": "lost",
-       "confidence": "very_low",
-       "share_of_total_delta": 0.2
-      },
-      {
-       "entity": "perforce helix pricing",
        "vendor": null,
        "current": 0,
        "previous": 1,
@@ -353,6 +329,30 @@
       },
       {
        "entity": "bigsoft",
+       "vendor": null,
+       "current": 0,
+       "previous": 1,
+       "delta": -1,
+       "clicks_delta": 0,
+       "position_delta": null,
+       "state": "lost",
+       "confidence": "very_low",
+       "share_of_total_delta": 0.2
+      },
+      {
+       "entity": "zoombusiness",
+       "vendor": "zoom",
+       "current": 0,
+       "previous": 1,
+       "delta": -1,
+       "clicks_delta": 0,
+       "position_delta": null,
+       "state": "lost",
+       "confidence": "very_low",
+       "share_of_total_delta": 0.2
+      },
+      {
+       "entity": "perforce helix pricing",
        "vendor": null,
        "current": 0,
        "previous": 1,
@@ -383,24 +383,24 @@
      "net_delta_of_shown": -23,
      "drivers": [
       {
-       "entity": "лицензия marmoset toolbag 5 studio",
-       "vendor": null,
-       "current": 2,
-       "previous": 0,
-       "delta": 2,
-       "clicks_delta": 1,
-       "position_delta": null,
-       "state": "new",
-       "confidence": "very_low",
-       "share_of_total_delta": 0.02564102564102564
-      },
-      {
        "entity": "купить подписку эпедемик саундс в рф",
        "vendor": null,
        "current": 2,
        "previous": 0,
        "delta": 2,
        "clicks_delta": 0,
+       "position_delta": null,
+       "state": "new",
+       "confidence": "very_low",
+       "share_of_total_delta": 0.02564102564102564
+      },
+      {
+       "entity": "лицензия marmoset toolbag 5 studio",
+       "vendor": null,
+       "current": 2,
+       "previous": 0,
+       "delta": 2,
+       "clicks_delta": 1,
        "position_delta": null,
        "state": "new",
        "confidence": "very_low",
@@ -433,13 +433,13 @@
        "share_of_total_delta": 0.0641025641025641
       },
       {
-       "entity": "дешево оплатить depositphotos из россии",
+       "entity": "как оплатить depositphotos в рублях",
        "vendor": null,
-       "current": 18,
-       "previous": 21,
+       "current": 29,
+       "previous": 32,
        "delta": -3,
        "clicks_delta": 0,
-       "position_delta": 0.38,
+       "position_delta": -0.09,
        "state": "changed",
        "confidence": "low",
        "share_of_total_delta": 0.038461538461538464
@@ -447,24 +447,24 @@
      ],
      "all": [
       {
-       "entity": "лицензия marmoset toolbag 5 studio",
-       "vendor": null,
-       "current": 2,
-       "previous": 0,
-       "delta": 2,
-       "clicks_delta": 1,
-       "position_delta": null,
-       "state": "new",
-       "confidence": "very_low",
-       "share_of_total_delta": 0.02564102564102564
-      },
-      {
        "entity": "купить подписку эпедемик саундс в рф",
        "vendor": null,
        "current": 2,
        "previous": 0,
        "delta": 2,
        "clicks_delta": 0,
+       "position_delta": null,
+       "state": "new",
+       "confidence": "very_low",
+       "share_of_total_delta": 0.02564102564102564
+      },
+      {
+       "entity": "лицензия marmoset toolbag 5 studio",
+       "vendor": null,
+       "current": 2,
+       "previous": 0,
+       "delta": 2,
+       "clicks_delta": 1,
        "position_delta": null,
        "state": "new",
        "confidence": "very_low",
@@ -495,13 +495,13 @@
        "share_of_total_delta": 0.0641025641025641
       },
       {
-       "entity": "дешево оплатить depositphotos из россии",
+       "entity": "как оплатить depositphotos в рублях",
        "vendor": null,
-       "current": 18,
-       "previous": 21,
+       "current": 29,
+       "previous": 32,
        "delta": -3,
        "clicks_delta": 0,
-       "position_delta": 0.38,
+       "position_delta": -0.09,
        "state": "changed",
        "confidence": "low",
        "share_of_total_delta": 0.038461538461538464
@@ -589,10 +589,10 @@
    "engine": "Яндекс",
    "window": "выборка топ-100 запросов, окно 2026-08-06–2026-08-17",
    "available": true,
-   "text": "Изменение −66 по запросам. Прибавили: лицензия marmoset toolbag 5 studio, купить подписку эпедемик саундс в рф. Потеряли: heygen тарифы, купить аккаунт heygen, дешево оплатить depositphotos из россии.",
+   "text": "Изменение −66 по запросам. Прибавили: купить подписку эпедемик саундс в рф, лицензия marmoset toolbag 5 studio. Потеряли: heygen тарифы, купить аккаунт heygen, как оплатить depositphotos в рублях.",
    "rows": [
     {
-     "entity": "лицензия marmoset toolbag 5 studio",
+     "entity": "купить подписку эпедемик саундс в рф",
      "delta": "+2",
      "share": "3%",
      "state": "новая",
@@ -600,7 +600,7 @@
      "position_delta": null
     },
     {
-     "entity": "купить подписку эпедемик саундс в рф",
+     "entity": "лицензия marmoset toolbag 5 studio",
      "delta": "+2",
      "share": "3%",
      "state": "новая",
@@ -624,12 +624,12 @@
      "position_delta": 0.63
     },
     {
-     "entity": "дешево оплатить depositphotos из россии",
+     "entity": "как оплатить depositphotos в рублях",
      "delta": "−3",
      "share": "4%",
      "state": "",
      "positive": false,
-     "position_delta": 0.38
+     "position_delta": -0.09
     }
    ],
    "counted": 35
@@ -792,7 +792,7 @@
   }
  ],
  "links": {
-  "web": "https://claude.ai/code/artifact/8bf1fa5d-0822-4723-8315-70e9d71179ca",
+  "web": "https://github.com/AlBeli-V/WebSite_BizSoft/blob/claude/biz-soft-rating-tracking-5rf03g/reports/seo/public/daily/2026-08-20/README.md",
   "web_public": true,
   "tasks": "https://github.com/AlBeli-V/WebSite_BizSoft/tree/claude/biz-soft-rating-tracking-5rf03g/reports/seo/tasks"
  }
