@@ -89,7 +89,7 @@ export const ZOHO_GROUPS: ZohoGroup[] = [
       {
         "slug": "admanager-plus",
         "name": "ADManager Plus",
-        "tagline": "Active Directory, Microsoft 365, and Exchange management and reporting",
+        "tagline": "Управление Active Directory: массовые операции, делегирование и отчётность.",
         "subgroup": "Active Directory management",
         "storeUrl": "https://store.manageengine.com/ad-manager/?MEstore",
         "priced": true,
@@ -629,7 +629,7 @@ export const ZOHO_GROUPS: ZohoGroup[] = [
       {
         "slug": "adaudit-plus",
         "name": "ADAudit Plus",
-        "tagline": "Hybrid AD, cloud, and file auditing; security; and compliance",
+        "tagline": "Аудит Active Directory и файловых серверов в реальном времени.",
         "subgroup": "Active Directory management",
         "storeUrl": "https://store.manageengine.com/active-directory-audit/?MEstore&SIEM",
         "priced": true,
@@ -1745,7 +1745,7 @@ export const ZOHO_GROUPS: ZohoGroup[] = [
       {
         "slug": "exchange-reporter-plus",
         "name": "Exchange Reporter Plus",
-        "tagline": "Reporting, auditing, and monitoring for hybrid Exchange and Skype",
+        "tagline": "Отчётность и аудит почтовой системы Exchange.",
         "subgroup": "Active Directory management",
         "storeUrl": "https://store.manageengine.com/exchange-reports/?MEstore",
         "priced": true,
@@ -2204,7 +2204,7 @@ export const ZOHO_GROUPS: ZohoGroup[] = [
       {
         "slug": "m365-manager-plus",
         "name": "M365 Manager Plus",
-        "tagline": "Microsoft 365 management, reporting, and auditing",
+        "tagline": "Управление, отчётность и аудит Microsoft 365 из одного интерфейса.",
         "subgroup": "Identity governance and administration",
         "storeUrl": "https://store.manageengine.com/microsoft-365-management-reporting/?MEstore",
         "priced": true,
@@ -2699,7 +2699,7 @@ export const ZOHO_GROUPS: ZohoGroup[] = [
       {
         "slug": "pam360",
         "name": "PAM360",
-        "tagline": "Privileged access management, built for modern MSPs",
+        "tagline": "Управление привилегированным доступом: хранилище секретов, сессии и запись действий.",
         "subgroup": "Privileged access management",
         "storeUrl": "https://store.manageengine.com/privileged-access-management/msp.html?MEstore",
         "priced": true,
@@ -3197,7 +3197,7 @@ export const ZOHO_GROUPS: ZohoGroup[] = [
       {
         "slug": "password-manager-pro",
         "name": "Password Manager Pro",
-        "tagline": "Centralized, multi-tenant, enterprise password management",
+        "tagline": "Корпоративное хранилище паролей администраторов и учётных записей служб.",
         "subgroup": "Privileged access management",
         "storeUrl": "https://store.manageengine.com/passwordmanagerpro-msp/?MEstore",
         "priced": true,
@@ -4211,7 +4211,7 @@ export const ZOHO_GROUPS: ZohoGroup[] = [
       {
         "slug": "access-manager-plus",
         "name": "Access Manager Plus",
-        "tagline": "Secure remote access and privileged session management",
+        "tagline": "Удалённый доступ к серверам через контролируемые сессии.",
         "subgroup": "Privileged access management",
         "storeUrl": "https://store.manageengine.com/privileged-session-management/?MEstore",
         "priced": true,
@@ -4472,7 +4472,7 @@ export const ZOHO_GROUPS: ZohoGroup[] = [
       {
         "slug": "key-manager-plus",
         "name": "Key Manager Plus",
-        "tagline": "Certificate life cycle management for public and private SSL/TLS certificates",
+        "tagline": "Учёт SSL-сертификатов и ключей SSH со сроками и продлением.",
         "subgroup": "Privileged access management",
         "storeUrl": "https://store.manageengine.com/key-manager/?MEstore",
         "priced": true,
@@ -4861,7 +4861,7 @@ export const ZOHO_GROUPS: ZohoGroup[] = [
       {
         "slug": "servicedesk-plus",
         "name": "ServiceDesk Plus",
-        "tagline": "AI-driven unified service management platform",
+        "tagline": "Служба поддержки: заявки, согласования, база решений и учёт ИТ-активов.",
         "subgroup": "Enterprise and IT service management",
         "storeUrl": "https://store.manageengine.com/service-desk/?MEstore",
         "priced": true,
@@ -6094,7 +6094,7 @@ export const ZOHO_GROUPS: ZohoGroup[] = [
       {
         "slug": "servicedesk-plus-multi-language",
         "name": "ServiceDesk Plus – Multi Language",
-        "tagline": "AI-driven unified service management platform",
+        "tagline": "Служба поддержки с интерфейсом на нескольких языках одновременно.",
         "subgroup": "Enterprise and IT service management",
         "storeUrl": "https://store.manageengine.com/service-desk/multi-language-store.html?MEstore",
         "priced": true,
@@ -7165,7 +7165,7 @@ export const ZOHO_GROUPS: ZohoGroup[] = [
       {
         "slug": "supportcenter-plus",
         "name": "SupportCenter Plus",
-        "tagline": "Customer support with built-in billing for businesses",
+        "tagline": "Поддержка внешних клиентов: обращения, договоры обслуживания и биллинг.",
         "subgroup": "Customer service management",
         "storeUrl": "https://store.manageengine.com/support-center/?MEstore",
         "priced": true,
@@ -8160,7 +8160,7 @@ export const ZOHO_GROUPS: ZohoGroup[] = [
       {
         "slug": "assetexplorer",
         "name": "AssetExplorer",
-        "tagline": "IT asset management with an integrated CMDB",
+        "tagline": "Учёт ИТ-активов и конфигурационная база без службы поддержки.",
         "subgroup": "IT asset management",
         "storeUrl": "https://store.manageengine.com/asset-explorer/?MEstore",
         "priced": true,
@@ -8473,7 +8473,7 @@ export const ZOHO_GROUPS: ZohoGroup[] = [
       {
         "slug": "endpoint-central",
         "name": "Endpoint Central",
-        "tagline": "Integrated endpoint management and protection platform",
+        "tagline": "Единое управление рабочими местами: обновления, программы, настройки и защита.",
         "subgroup": "Endpoint management and protection platform (UEM and EPP)",
         "storeUrl": "https://store.manageengine.com/desktop-central/?MEstore&cat=UEMS",
         "priced": true,
@@ -12172,7 +12172,7 @@ export const ZOHO_GROUPS: ZohoGroup[] = [
       {
         "slug": "patch-manager-plus",
         "name": "Patch Manager Plus",
-        "tagline": "Automated patching across multiple OSs and 850+ third party apps",
+        "tagline": "Только обновления: операционные системы и сторонние программы по расписанию.",
         "subgroup": "Endpoint management",
         "storeUrl": "https://store.manageengine.com/patch-management/?MEstore&cat=UEMS",
         "priced": true,
@@ -13573,7 +13573,7 @@ export const ZOHO_GROUPS: ZohoGroup[] = [
       {
         "slug": "patch-connect-plus",
         "name": "Patch Connect Plus",
-        "tagline": "Simplified third-party patch deployment via ConfigMgr and Intune",
+        "tagline": "Обновления сторонних программ через уже развёрнутые ConfigMgr или Intune.",
         "subgroup": "Endpoint management",
         "storeUrl": "https://store.manageengine.com/sccm-third-party-patch-management/?MEstore",
         "priced": true,
@@ -14032,7 +14032,7 @@ export const ZOHO_GROUPS: ZohoGroup[] = [
       {
         "slug": "mobile-device-manager-plus",
         "name": "Mobile Device Manager Plus",
-        "tagline": "Seamless mobile device management from onboarding to retirement",
+        "tagline": "Управление телефонами и планшетами: выдача, настройка, защита, списание.",
         "subgroup": "Endpoint management",
         "storeUrl": "https://store.manageengine.com/mobile-device-manager/?MEstore&cat=UEMS",
         "priced": true,
@@ -14689,7 +14689,7 @@ export const ZOHO_GROUPS: ZohoGroup[] = [
       {
         "slug": "remote-access-plus",
         "name": "Remote Access Plus",
-        "tagline": "Remote troubleshooting with integrated chat, voice, and video",
+        "tagline": "Удалённая помощь пользователям: подключение к экрану, диагностика, чат и звонок.",
         "subgroup": "Endpoint management",
         "storeUrl": "https://store.manageengine.com/remote-desktop-management/?MEstore&cat=UEMS",
         "priced": true,
@@ -15436,7 +15436,7 @@ export const ZOHO_GROUPS: ZohoGroup[] = [
       {
         "slug": "os-deployer",
         "name": "OS Deployer",
-        "tagline": "Automated OS image creation and seamless role-based deployment",
+        "tagline": "Развёртывание операционных систем образами, включая массовую замену парка.",
         "subgroup": "Endpoint management",
         "storeUrl": "https://store.manageengine.com/os-deployer/?MEstore",
         "priced": true,
@@ -16309,7 +16309,7 @@ export const ZOHO_GROUPS: ZohoGroup[] = [
       {
         "slug": "vulnerability-manager-plus",
         "name": "Vulnerability Manager Plus",
-        "tagline": "Prioritization-focused enterprise vulnerability management",
+        "tagline": "Поиск уязвимостей и их устранение из одного интерфейса.",
         "subgroup": "Endpoint security",
         "storeUrl": "https://store.manageengine.com/vulnerability-management/?MEstore",
         "priced": true,
@@ -17860,7 +17860,7 @@ export const ZOHO_GROUPS: ZohoGroup[] = [
       {
         "slug": "application-control-plus",
         "name": "Application Control Plus",
-        "tagline": "Software discovery and endpoint privilege management",
+        "tagline": "Контроль запускаемых программ: белые и чёрные списки, повышение прав по правилу.",
         "subgroup": "Endpoint security",
         "storeUrl": "https://store.manageengine.com/application-control/?MEstore",
         "priced": true,
@@ -18343,7 +18343,7 @@ export const ZOHO_GROUPS: ZohoGroup[] = [
       {
         "slug": "device-control-plus",
         "name": "Device Control Plus",
-        "tagline": "Data theft prevention with strict peripheral device control",
+        "tagline": "Контроль съёмных носителей и портов на рабочих местах.",
         "subgroup": "Endpoint security",
         "storeUrl": "https://store.manageengine.com/device-control/?MEstore",
         "priced": true,
@@ -18826,7 +18826,7 @@ export const ZOHO_GROUPS: ZohoGroup[] = [
       {
         "slug": "browser-security-plus",
         "name": "Browser Security Plus",
-        "tagline": "Browser security with isolation, lockdown, and activity tracking",
+        "tagline": "Управление браузерами: настройки, расширения и изоляция сайтов.",
         "subgroup": "Endpoint security",
         "storeUrl": "https://store.manageengine.com/secure-browser/?MEstore",
         "priced": true,
@@ -19351,7 +19351,7 @@ export const ZOHO_GROUPS: ZohoGroup[] = [
       {
         "slug": "endpoint-dlp-plus",
         "name": "Endpoint DLP Plus",
-        "tagline": "Sensitive data protection and compliance for endpoint devices",
+        "tagline": "Защита от утечки данных на рабочих местах: поиск, классификация, контроль каналов.",
         "subgroup": "Endpoint security",
         "storeUrl": "https://store.manageengine.com/endpoint-dlp/?MEstore",
         "priced": true,
@@ -19834,7 +19834,7 @@ export const ZOHO_GROUPS: ZohoGroup[] = [
       {
         "slug": "ransomware-protection-plus",
         "name": "Ransomware Protection Plus",
-        "tagline": "Real-time ransomware mitigation and file recovery for business continuity",
+        "tagline": "Обнаружение шифровальщиков по поведению и откат зашифрованных файлов.",
         "subgroup": "Endpoint security",
         "storeUrl": "https://store.manageengine.com/ransomware-protection/?MEstore",
         "priced": true,
@@ -20629,7 +20629,7 @@ export const ZOHO_GROUPS: ZohoGroup[] = [
       {
         "slug": "malware-protection-plus",
         "name": "Malware Protection Plus",
-        "tagline": "Next-gen antivirus software for threat detection and breach prevention",
+        "tagline": "Защита рабочих мест от вредоносных программ с поведенческим анализом.",
         "subgroup": "Endpoint security",
         "storeUrl": "https://store.manageengine.com/malware-protection/?MEstore",
         "priced": true,
@@ -21444,7 +21444,7 @@ export const ZOHO_GROUPS: ZohoGroup[] = [
       {
         "slug": "opmanager-nexus",
         "name": "OpManager Nexus",
-        "tagline": "Full-stack IT operations management and observability platform",
+        "tagline": "Наблюдаемость инфраструктуры: сеть, серверы и приложения в одном пульте.",
         "subgroup": "Full-stack observability and digital experience monitoring",
         "storeUrl": "https://store.manageengine.com/it-operations-management/?MEstore",
         "priced": true,
@@ -23265,7 +23265,7 @@ export const ZOHO_GROUPS: ZohoGroup[] = [
       {
         "slug": "applications-manager",
         "name": "Applications Manager",
-        "tagline": "Application, database, infrastructure and digital experience monitoring",
+        "tagline": "Мониторинг приложений, баз данных и серверов приложений.",
         "subgroup": "Full-stack observability and digital experience monitoring",
         "storeUrl": "https://store.manageengine.com/applications_manager/?MEstore",
         "priced": true,

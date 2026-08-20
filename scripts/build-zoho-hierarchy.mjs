@@ -35,6 +35,9 @@ for (const f of ['taxonomy.json', 'manifest.json']) {
 const taxonomy = JSON.parse(readFileSync(resolve(dir, 'taxonomy.json'), 'utf8'));
 const manifest = JSON.parse(readFileSync(resolve(dir, 'manifest.json'), 'utf8'));
 const groupCopy = JSON.parse(readFileSync(resolve(__dir, 'content/zoho-groups.json'), 'utf8'));
+// Русские названия и подводки семейств лежат там же, где тексты карточек:
+// на витрине магазина вендора всё по-английски, а покупателю нужен русский.
+const cardsCopy = JSON.parse(readFileSync(resolve(__dir, 'content/zoho-cards.json'), 'utf8'));
 const rulesFile = resolve(__dir, 'content/zoho-rules.json');
 const rules = existsSync(rulesFile) ? JSON.parse(readFileSync(rulesFile, 'utf8')).rules || [] : [];
 
@@ -61,10 +64,14 @@ const groups = taxonomy.groups.map((tg) => {
   const families = tg.products.map((p) => {
     const m = byUrl.get(p.url) || byName.get(norm(p.name)) || null;
     if (m) withPrice += 1; else withoutPrice += 1;
+    const slug = m ? m.family_slug : norm(p.name).replace(/ /g, '-');
+    const famCopy = cardsCopy.families?.[slug];
     return {
-      slug: m ? m.family_slug : norm(p.name).replace(/ /g, '-'),
+      slug,
       name: p.name,
-      tagline: p.tagline,
+      // Слоган с витрины вендора английский. Где есть свой русский текст —
+      // показываем его; где нет, оставляем оригинал, а не выдумываем перевод.
+      tagline: famCopy?.short || p.tagline,
       subgroup: p.subgroup,
       storeUrl: p.url,
       // Прайс есть не у всех: часть продуктов витрины уводит на страницу

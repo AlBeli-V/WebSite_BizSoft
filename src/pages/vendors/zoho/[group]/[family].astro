@@ -66,8 +66,14 @@ const KIND_LABEL: Record<string, string> = {
 };
 
 const deployments = family.deployments.map((d) => {
-  const parts = [DEPLOYMENT_LABEL[d.deployment], MODEL_LABEL[d.licenseModel ?? 'unspecified']]
-    .filter(Boolean);
+  // Поставка без указанной вендором модели лицензии — это, как правило,
+  // набор дополнений к продукту, а не самостоятельная поставка. Называть её
+  // «поставка по прайсу вендора» рядом с «облачная поставка, годовая
+  // подписка» — сбивать покупателя с толку.
+  const onlyExtras = d.offers.every((o) => o.kind !== 'base');
+  const parts = d.licenseModel
+    ? [DEPLOYMENT_LABEL[d.deployment], MODEL_LABEL[d.licenseModel]].filter(Boolean)
+    : [onlyExtras ? 'Дополнения к продукту' : DEPLOYMENT_LABEL[d.deployment]];
   return {
     ...d,
     label: parts.join(', '),
@@ -126,8 +132,7 @@ const ld = [
       <p class="lead">{family.tagline}</p>
       {family.priced ? (
         <p class="f-meta">
-          Поставок у вендора: {deployments.length}. Позиций прайса: {variantCount}
-          {liveCount > 0 && <em>, из них в каталоге с ценой: {liveCount}</em>}.
+          Поставок у вендора: {deployments.length}. Позиций прайса: {variantCount}{liveCount > 0 ? `, из них в каталоге с ценой: ${liveCount}` : ''}.
         </p>
       ) : (
         <p class="f-meta">

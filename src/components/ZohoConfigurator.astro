@@ -49,13 +49,19 @@ const payload = {
 };
 
 // Поставок может быть несколько: подписка и вечная лицензия — разные наборы.
-const deployLabels = family.deployments.map((d) => ({
-  key: `${d.deployment}|${d.licenseModel ?? 'unspecified'}`,
-  label: [
-    d.deployment === 'saas' ? 'облако' : d.deployment === 'on_prem' ? 'свои серверы' : null,
-    d.licenseModel === 'perpetual' ? 'вечная лицензия' : d.licenseModel === 'subscription' ? 'подписка' : null,
-  ].filter(Boolean).join(', ') || 'прайс вендора',
-}));
+const deployLabels = family.deployments.map((d) => {
+  const place = d.deployment === 'saas' ? 'облако' : d.deployment === 'on_prem' ? 'свои серверы' : null;
+  const model = d.licenseModel === 'perpetual' ? 'вечная лицензия'
+    : d.licenseModel === 'subscription' ? 'подписка' : null;
+  // Набор без базовых лицензий — это дополнения; в списке поставок он должен
+  // называться так, иначе рядом окажутся «облако» и «облако, подписка».
+  const onlyExtras = d.offers.every((o) => o.kind !== 'base');
+  return {
+    key: `${d.deployment}|${d.licenseModel ?? 'unspecified'}`,
+    label: model ? [place, model].filter(Boolean).join(', ')
+      : onlyExtras ? 'дополнения к продукту' : (place || 'прайс вендора'),
+  };
+});
 ---
 <section class="cfg" data-zoho-configurator>
   <h2>Собрать спецификацию</h2>
