@@ -2,6 +2,18 @@
 export const prerender = false;
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import AdminTabs from '../../components/AdminTabs.astro';
+import { STAGE_SPECS, LOST_REASONS, FIELD_HINTS, URGENCY_LABEL } from '../../crm/stages';
+import { TEMPLATES } from '../../crm/templates';
+
+// Регламент отдаётся страницей, а не зашит в скрипт: правила живут в одном
+// месте (src/crm), а интерфейс их только показывает.
+const CRM = {
+  stages: STAGE_SPECS.map((s) => ({ id: s.id, label: s.label, action: s.action, hint: s.hint, template: s.template ?? null })),
+  reasons: LOST_REASONS,
+  hints: FIELD_HINTS,
+  urgency: URGENCY_LABEL,
+  templates: TEMPLATES.map((x) => ({ id: x.id, label: x.label, hint: x.hint })),
+};
 ---
 <BaseLayout title="Заявки — админ-кабинет" description="Служебная страница" noindex={true}>
   <div class="container-page section admin-console">
@@ -27,9 +39,11 @@ import AdminTabs from '../../components/AdminTabs.astro';
         <button class="ac-chip" data-filter="all">Все</button>
         <button class="ac-chip" data-filter="won">Оплачено</button>
         <button class="ac-chip" data-filter="lost">Отказы</button>
+        <button class="ac-chip" data-filter="overdue">Просрочено</button>
         <button class="ac-chip" data-filter="spam">Корзина</button>
       </div>
       <input class="ac-search" data-search type="search" placeholder="Поиск: имя, компания, почта, товар" />
+      <a class="ac-open" data-export download>Выгрузить CSV</a>
     </div>
 
     <div class="ac-table-wrap" data-table-wrap hidden>
@@ -37,7 +51,7 @@ import AdminTabs from '../../components/AdminTabs.astro';
         <thead>
           <tr>
             <th>Дата</th><th>Клиент</th><th>Контакты</th><th>Запрос</th>
-            <th>Стадия</th><th>Ответственный</th><th class="num">Сумма</th><th></th>
+            <th>Стадия</th><th>Срок</th><th>Ответственный</th><th class="num">Сумма</th><th></th>
           </tr>
         </thead>
         <tbody data-rows></tbody>
@@ -46,6 +60,8 @@ import AdminTabs from '../../components/AdminTabs.astro';
 
     <p class="ac-msg" data-msg></p>
   </div>
+
+  <script type="application/json" id="crm-config" set:html={JSON.stringify(CRM)}></script>
 
   <div class="ac-overlay" data-overlay hidden>
     <div class="ac-panel" role="dialog" aria-modal="true" aria-label="Карточка заявки">
@@ -189,6 +205,49 @@ import AdminTabs from '../../components/AdminTabs.astro';
   .ac-event time { font-size: 0.74rem; color: var(--color-text-dim); }
   .ac-event p { margin: 0.2rem 0 0; font-size: 0.9rem; white-space: pre-wrap; }
   .ac-event .who { font-size: 0.74rem; color: var(--color-text-dim); }
+
+  /* Срочность: по ней менеджер решает, за что браться первым. */
+  .admin-console .ac-urg { font-size: 0.8rem; font-weight: 600; white-space: nowrap; }
+  .admin-console .ac-urg.overdue { color: var(--color-danger); }
+  .admin-console .ac-urg.due { color: var(--color-accent); }
+  .admin-console .ac-urg.ok, .admin-console .ac-urg.none { color: var(--color-text-dim); font-weight: 400; }
+
+  /* Шапка карточки прилипает: контакты и «в календарь» под рукой при прокрутке. */
+  .ac-head {
+    position: sticky; top: 0; z-index: 2; background: var(--color-bg);
+    padding: 0 0 0.8rem; margin: 0 0 0.4rem; border-bottom: 1px solid var(--color-border);
+  }
+  .ac-quick { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.6rem; }
+  .ac-quick .ac-open { text-decoration: none; }
+
+  .ac-next {
+    background: var(--color-accent-soft); border-radius: 10px; padding: 0.8rem 0.9rem; margin-top: 0.9rem;
+  }
+  .ac-next-title {
+    font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em;
+    color: var(--color-accent-dim); font-weight: 700;
+  }
+  .ac-next-action { font-size: 1rem; font-weight: 600; margin: 0.15rem 0 0.25rem; }
+  .ac-warn {
+    background: #FFFAEB; border: 1px solid #F79009; color: #93370D;
+    border-radius: 10px; padding: 0.7rem 0.85rem; font-size: 0.88rem; margin-top: 0.9rem;
+  }
+
+  /* Знак вопроса у подписи поля */
+  .ac-fields label { position: relative; }
+  .ac-q {
+    width: 18px; height: 18px; border-radius: 50%; border: 1px solid var(--color-border-strong);
+    background: transparent; color: var(--color-text-dim); font-size: 11px; line-height: 1;
+    cursor: pointer; padding: 0; margin-left: 0.25rem; vertical-align: middle;
+  }
+  .ac-q:hover { border-color: var(--color-accent); color: var(--color-accent); }
+  .ac-tip {
+    position: absolute; z-index: 5; top: 1.4rem; left: 0; right: 0;
+    background: var(--color-text); color: var(--color-bg); border-radius: 8px;
+    padding: 0.55rem 0.7rem; font-size: 0.82rem; line-height: 1.4; font-weight: 400;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.18);
+  }
+  .ac-compose .ac-open.suggest { border-color: var(--color-accent); color: var(--color-accent); font-weight: 600; }
 </style>
 
 <script>
@@ -204,17 +263,20 @@ import AdminTabs from '../../components/AdminTabs.astro';
   const detail = $('[data-detail]');
   const msg = $('[data-msg]');
 
-  const STAGES: [string, string][] = [
-    ['new', 'Новая'], ['in_progress', 'В работе'], ['qualified', 'Квалифицирована'],
-    ['proposal', 'Отправлено КП'], ['invoiced', 'Выставлен счёт'],
-    ['won', 'Оплачено'], ['lost', 'Отказ'], ['spam', 'Мусор'],
-  ];
-  const REASONS: [string, string][] = [
-    ['', '—'], ['price', 'Цена'], ['timing', 'Сроки'], ['no_supply', 'Не смогли поставить'],
-    ['competitor', 'Выбрали другого'], ['no_contact', 'Не вышли на связь'], ['not_our_case', 'Не наш профиль'],
-  ];
+  const CFG = JSON.parse((document.getElementById('crm-config') as HTMLElement).textContent || '{}');
+  const STAGES: any[] = CFG.stages || [];
+  const REASONS: any[] = [{ id: '', label: '—' }, ...(CFG.reasons || [])];
+  const HINTS: Record<string, string> = CFG.hints || {};
+  const URG: Record<string, string> = CFG.urgency || {};
+  const TEMPLATES: any[] = CFG.templates || [];
   const KINDS: Record<string, string> = { note: 'Заметка', call: 'Звонок', email: 'Письмо', stage: 'Стадия' };
-  const stageName = (v: string) => (STAGES.find((s) => s[0] === v) || ['', v])[1];
+  const specOf = (v: string) => STAGES.find((s) => s.id === v);
+  const stageName = (v: string) => specOf(v)?.label ?? v;
+  /** Подпись поля со знаком вопроса: подсказка и по наведению, и по тапу. */
+  const withHint = (label: string, field: string) => {
+    const h = HINTS[field];
+    return h ? `${esc(label)} <button type="button" class="ac-q" data-hint="${esc(h)}" aria-label="Подсказка">?</button>` : esc(label);
+  };
 
   let TOKEN = localStorage.getItem('bz_admin_token') || '';
   let ME = localStorage.getItem('bz_admin_me') || '';
@@ -223,6 +285,7 @@ import AdminTabs from '../../components/AdminTabs.astro';
   let FILTER = 'work';
   let QUERY = '';
   let OPEN_ID: string | null = null;
+  let DUPES: Record<string, string[]> = {};
   if (TOKEN) tokenInput.value = TOKEN;
   if (ME) meInput.value = ME;
 
@@ -231,6 +294,24 @@ import AdminTabs from '../../components/AdminTabs.astro';
     ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c] as string));
   const dt = (v?: string) => (v ? new Date(v).toLocaleDateString('ru-RU') : '');
   const dtFull = (v?: string) => (v ? new Date(v).toLocaleString('ru-RU', { dateStyle: 'short', timeStyle: 'short' }) : '');
+
+  /** Один клиент, несколько обращений: совпадение по почте или телефону. */
+  function findDuplicates(leads: any[]): Record<string, string[]> {
+    const byKey: Record<string, string[]> = {};
+    for (const l of leads) {
+      for (const raw of [l.email, l.phone]) {
+        const key = String(raw || '').trim().toLowerCase().replace(/[\s()-]/g, '');
+        if (key.length < 5) continue;
+        (byKey[key] ||= []).push(String(l.id));
+      }
+    }
+    const out: Record<string, string[]> = {};
+    for (const ids of Object.values(byKey)) {
+      if (ids.length < 2) continue;
+      for (const id of ids) out[id] = ids.filter((x) => x !== id);
+    }
+    return out;
+  }
 
   function setMsg(text: string, isError = false) {
     msg.textContent = text;
@@ -271,6 +352,7 @@ import AdminTabs from '../../components/AdminTabs.astro';
     if (s === 'spam') return false;
     if (FILTER === 'won' && s !== 'won') return false;
     if (FILTER === 'lost' && s !== 'lost') return false;
+    if (FILTER === 'overdue' && l.urgency !== 'overdue') return false;
     if (FILTER === 'work' && (s === 'won' || s === 'lost')) return false;
     if (!QUERY) return true;
     const hay = [l.name, l.company, l.email, l.phone, l.product_ref, l.message, l.owner]
@@ -278,10 +360,15 @@ import AdminTabs from '../../components/AdminTabs.astro';
     return hay.includes(QUERY);
   }
 
+  const ORDER: Record<string, number> = { overdue: 0, due: 1, ok: 2, none: 3 };
   function renderRows() {
-    const list = LEADS.filter(matches);
+    // Сначала то, что горит: менеджер открывает список и сразу видит, за что браться.
+    const list = LEADS.filter(matches).sort((a, b) => {
+      const d = (ORDER[a.urgency] ?? 2) - (ORDER[b.urgency] ?? 2);
+      return d !== 0 ? d : String(b.created_at).localeCompare(String(a.created_at));
+    });
     if (!list.length) {
-      rows.innerHTML = '<tr><td colspan="8" class="ac-first"><span class="ac-sub">Заявок в этом разделе нет.</span></td></tr>';
+      rows.innerHTML = '<tr><td colspan="9" class="ac-first"><span class="ac-sub">Заявок в этом разделе нет.</span></td></tr>';
       return;
     }
     rows.innerHTML = list.map((l) => {
@@ -298,6 +385,8 @@ import AdminTabs from '../../components/AdminTabs.astro';
         <td data-label="Запрос" class="ac-req"><div class="ac-sub">${esc(l.product_ref || l.message || '—')}</div></td>
         <td data-label="Стадия"><span class="ac-badge${cls}">${esc(stageName(s))}</span>
           ${ev.length ? `<div class="ac-sub">${ev.length} соб.</div>` : ''}</td>
+        <td data-label="Срок"><span class="ac-urg ${esc(l.urgency || 'ok')}">${esc(URG[l.urgency] || '—')}</span>
+          ${l.next_action_at ? `<div class="ac-sub">${esc(dt(l.next_action_at))}</div>` : ''}</td>
         <td data-label="Ответственный"><span class="ac-sub">${esc(l.owner || '—')}</span></td>
         <td data-label="Сумма" class="num"><span class="ac-sub">${l.amount ? money(Number(l.amount)) : '—'}</span></td>
         <td class="num"><button class="ac-open" data-open>Открыть</button></td>
@@ -307,28 +396,43 @@ import AdminTabs from '../../components/AdminTabs.astro';
 
   function renderDetail(l: any) {
     const s = l.status || 'new';
+    const spec = specOf(s);
     const ev = (EVENTS[String(l.id)] || []).slice().sort((a, b) =>
       String(b.created_at).localeCompare(String(a.created_at)));
+    const dupIds: string[] = DUPES[String(l.id)] || [];
+
     detail.innerHTML = `
-      <h2>${esc(l.name || 'Без имени')}</h2>
-      <div class="ac-sub">${esc(l.company || '—')} · ${esc(dtFull(l.created_at))}${l.source ? ' · ' + esc(l.source) : ''}</div>
-      <div class="ac-sub">
-        ${l.phone ? `<a href="tel:${esc(l.phone)}">${esc(l.phone)}</a> · ` : ''}
-        ${l.email ? `<a href="mailto:${esc(l.email)}">${esc(l.email)}</a>` : ''}
+      <div class="ac-head">
+        <h2>${esc(l.name || 'Без имени')}</h2>
+        <div class="ac-sub">${esc(l.company || '—')} · ${esc(dtFull(l.created_at))}${l.source ? ' · ' + esc(l.source) : ''}</div>
+        <div class="ac-quick">
+          ${l.phone ? `<a class="ac-open" href="tel:${esc(l.phone)}">Позвонить</a>` : ''}
+          ${l.email ? `<a class="ac-open" href="mailto:${esc(l.email)}">Написать вручную</a>` : ''}
+          ${l.next_action_at ? `<a class="ac-open" href="/api/admin/crm/ics?id=${esc(l.id)}&amp;token=${encodeURIComponent(TOKEN)}">В календарь</a>` : ''}
+        </div>
       </div>
-      ${l.product_ref ? `<div class="ac-sub">Товар: ${esc(l.product_ref)}</div>` : ''}
-      ${l.message ? `<div class="ac-quote">${esc(l.message)}</div>` : '<div style="height:.8rem"></div>'}
+
+      ${dupIds.length ? `<div class="ac-warn">Похоже, этот клиент обращался ещё ${dupIds.length} ${dupIds.length === 1 ? 'раз' : 'раза'} — совпадают телефон или почта. Проверьте, не ведёте ли вы одну сделку дважды.</div>` : ''}
+
+      <div class="ac-next">
+        <div class="ac-next-title">Что дальше</div>
+        <div class="ac-next-action">${esc(spec?.action || 'Определите стадию заявки')}</div>
+        <div class="ac-sub">${esc(spec?.hint || '')}</div>
+      </div>
+
+      ${l.product_ref ? `<div class="ac-sub" style="margin-top:.8rem">Запрос: ${esc(l.product_ref)}</div>` : ''}
+      ${l.message ? `<div class="ac-quote">${esc(l.message)}</div>` : '<div style="height:.6rem"></div>'}
 
       <div class="ac-fields">
-        <label>Стадия<select data-f="status">${STAGES.map(([v, t]) =>
-          `<option value="${v}"${v === s ? ' selected' : ''}>${t}</option>`).join('')}</select></label>
-        <label>Ответственный<input data-f="owner" value="${esc(l.owner || '')}" placeholder="Кто ведёт" /></label>
-        <label>Сумма, ₽<input data-f="amount" inputmode="decimal" value="${l.amount ?? ''}" placeholder="0" /></label>
-        <label>Вернуться<input data-f="next_action_at" type="date" value="${l.next_action_at ? String(l.next_action_at).slice(0, 10) : ''}" /></label>
-        <label class="wide ac-reason" ${s === 'lost' ? '' : 'hidden'}>Причина отказа<select data-f="lost_reason">${
-          REASONS.map(([v, t]) => `<option value="${v}"${v === (l.lost_reason || '') ? ' selected' : ''}>${t}</option>`).join('')
+        <label>${withHint('Стадия', 'status')}<select data-f="status">${STAGES.map((x) =>
+          `<option value="${x.id}"${x.id === s ? ' selected' : ''}>${esc(x.label)}</option>`).join('')}</select></label>
+        <label>${withHint('Ответственный', 'owner')}<input data-f="owner" value="${esc(l.owner || '')}" placeholder="Кто ведёт" /></label>
+        <label>${withHint('Сумма, ₽', 'amount')}<input data-f="amount" inputmode="decimal" value="${l.amount ?? ''}" placeholder="0" /></label>
+        <label>${withHint('Вернуться', 'next_action_at')}<input data-f="next_action_at" type="date" value="${l.next_action_at ? String(l.next_action_at).slice(0, 10) : ''}" /></label>
+        <label class="wide ac-reason" ${s === 'lost' ? '' : 'hidden'}>${withHint('Причина отказа', 'lost_reason')}<select data-f="lost_reason">${
+          REASONS.map((r) => `<option value="${r.id}"${r.id === (l.lost_reason || '') ? ' selected' : ''}>${esc(r.label)}</option>`).join('')
         }</select></label>
-        <label class="wide">Внутренняя заметка<textarea data-f="note" placeholder="Служебная пометка по заявке">${esc(l.note || '')}</textarea></label>
+        <label class="wide">${withHint('Внутренняя заметка', 'note')}<textarea data-f="note" placeholder="Служебная пометка по заявке">${esc(l.note || '')}</textarea></label>
       </div>
       <div class="ac-actions">
         <button class="btn btn-primary" data-save>Сохранить</button>
@@ -336,21 +440,24 @@ import AdminTabs from '../../components/AdminTabs.astro';
         <span class="ac-ok" data-saved hidden>Сохранено</span>
       </div>
 
-      <div class="ac-section-title">Написать клиенту</div>
+      <div class="ac-section-title">Письмо клиенту</div>
       <div class="ac-compose">
-        <input data-mail-subject placeholder="Тема письма" value="BIZSoft — по вашей заявке${l.product_ref ? ': ' + esc(l.product_ref) : ''}" />
-        <textarea data-mail-text placeholder="Текст письма клиенту"></textarea>
+        <div class="ac-compose-row">
+          ${TEMPLATES.map((x) => `<button class="ac-open${spec?.template === x.id ? ' suggest' : ''}" data-tpl="${esc(x.id)}" title="${esc(x.hint)}">${esc(x.label)}</button>`).join('')}
+        </div>
+        <input data-mail-subject placeholder="Тема письма" value="" />
+        <textarea data-mail-text placeholder="Выберите шаблон выше — текст подставится с содержанием заявки, потом поправьте под клиента"></textarea>
         <div class="ac-compose-row">
           <button class="btn btn-primary" data-send ${l.email ? '' : 'disabled'}>Отправить на ${esc(l.email || '—')}</button>
         </div>
       </div>
 
-      <div class="ac-section-title">Добавить в историю</div>
+      <div class="ac-section-title">Записать в историю</div>
       <div class="ac-compose">
         <textarea data-note-text placeholder="Что обсудили, о чём договорились"></textarea>
         <div class="ac-compose-row">
-          <button class="ac-open" data-log="call">Записать звонок</button>
-          <button class="ac-open" data-log="note">Сохранить заметку</button>
+          <button class="ac-open" data-log="call">Звонок</button>
+          <button class="ac-open" data-log="note">Заметка</button>
         </div>
       </div>
 
@@ -390,6 +497,9 @@ import AdminTabs from '../../components/AdminTabs.astro';
       const data = await api('GET');
       LEADS = data.leads || [];
       EVENTS = data.events || {};
+      DUPES = findDuplicates(LEADS);
+      const exp = document.querySelector('[data-export]') as HTMLAnchorElement | null;
+      if (exp) exp.href = `/api/admin/crm/export?token=${encodeURIComponent(TOKEN)}`;
       renderStats(data.summary);
       renderRows();
       if (keepOpen && OPEN_ID) {
@@ -478,6 +588,23 @@ import AdminTabs from '../../components/AdminTabs.astro';
       return;
     }
 
+    const tpl = target.closest('[data-tpl]') as HTMLElement | null;
+    if (tpl) {
+      try {
+        const res = await fetch('/api/admin/crm/templates', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'x-admin-token': TOKEN },
+          body: JSON.stringify({ id: OPEN_ID, template: tpl.dataset.tpl, manager: ME }),
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || `HTTP ${res.status}`);
+        (detail.querySelector('[data-mail-subject]') as HTMLInputElement).value = data.subject;
+        (detail.querySelector('[data-mail-text]') as HTMLTextAreaElement).value = data.body;
+        setMsg('Шаблон подставлен — проверьте текст перед отправкой.');
+      } catch (err: any) { setMsg(err.message, true); }
+      return;
+    }
+
     const logBtn = target.closest('[data-log]') as HTMLElement | null;
     if (logBtn) {
       const box = detail.querySelector('[data-note-text]') as HTMLTextAreaElement;
@@ -489,6 +616,18 @@ import AdminTabs from '../../components/AdminTabs.astro';
         await load(true);
       } catch (err: any) { setMsg(err.message, true); }
     }
+  });
+
+  // Подсказки: наведение даёт title, тап на телефоне — всплывающее пояснение.
+  document.addEventListener('click', (e) => {
+    const q = (e.target as HTMLElement).closest('[data-hint]') as HTMLElement | null;
+    document.querySelectorAll('.ac-tip').forEach((n) => n.remove());
+    if (!q) return;
+    e.preventDefault();
+    const tip = document.createElement('div');
+    tip.className = 'ac-tip';
+    tip.textContent = q.dataset.hint || '';
+    q.parentElement?.appendChild(tip);
   });
 
   if (TOKEN) load();

@@ -8,12 +8,16 @@ import {
 import { checkAdmin, unauthorized } from '../../../lib/admin-auth';
 import { sendMail, salesFrom, managerEmail } from '../../../lib/mailer';
 
-/** Стадии воронки в порядке продвижения. spam — корзина, в воронке не участвует. */
-export const STAGES = ['new', 'in_progress', 'qualified', 'proposal', 'invoiced', 'won', 'lost'] as const;
-export const ALL_STATUSES = [...STAGES, 'spam'] as const;
-type Status = (typeof ALL_STATUSES)[number];
+// Правила воронки живут в модуле CRM: там же они покрыты тестами и оттуда
+// же их читает страница. Дублировать список стадий в API — верный способ
+// разъехаться с интерфейсом.
+import {
+  STAGES, ALL_STATUSES, LOST_REASONS, validateTransition, urgencyOf,
+  type Status,
+} from '../../../crm/stages';
 
-const LOST_REASONS = ['price', 'timing', 'no_supply', 'competitor', 'no_contact', 'not_our_case'];
+export { STAGES, ALL_STATUSES };
+
 const EDITABLE = ['status', 'owner', 'amount', 'lost_reason', 'next_action_at', 'note'] as const;
 
 const json = (data: unknown, status = 200) =>
@@ -68,7 +72,10 @@ export const GET: APIRoute = async ({ request }) => {
       if (!k) continue;
       (byLead[k] ||= []).push(e);
     }
-    return json({ leads, events: byLead, summary: summarize(leads) });
+    // Срочность считается на сервере: у телефона может быть сбита дата, а по
+    // этому признаку менеджер решает, за что браться первым.
+    const withUrgency = leads.map((l) => ({ ...l, urgency: urgencyOf(l) }));
+    return json({ leads: withUrgency, events: byLead, summary: summarize(leads) });
   } catch (e) {
     console.error('admin leads read failed', e);
     return json({ error: 'не удалось получить заявки' }, 502);
@@ -97,7 +104,7 @@ export const PATCH: APIRoute = async ({ request }) => {
   if (typeof patch.status === 'string' && !ALL_STATUSES.includes(patch.status as Status)) {
     return json({ error: `неизвестная стадия: ${patch.status}` }, 422);
   }
-  if (typeof patch.lost_reason === 'string' && !LOST_REASONS.includes(patch.lost_reason)) {
+  if (typeof patch.lost_reason === 'string' && !LOST_REASONS.some((r) => r.id === patch.lost_reason)) {
     return json({ error: `неизвестная причина отказа: ${patch.lost_reason}` }, 422);
   }
   if (patch.amount !== undefined && patch.amount !== null) {
@@ -106,6 +113,14 @@ export const PATCH: APIRoute = async ({ request }) => {
     patch.amount = n;
   }
   if (!Object.keys(patch).length) return json({ error: 'нечего менять' }, 422);
+
+  // Переход на стадию проверяется по регламенту: иначе в воронку попадают
+  // выигранные сделки без суммы и отказы без причины, и отчёт считает по пустоте.
+  if (typeof patch.status === 'string' && patch.status !== body.prev_status) {
+    const merged = { ...body, ...patch } as Record<string, unknown>;
+    const problems = validateTransition(merged, patch.status);
+    if (problems.length) return json({ error: problems.join(' '), blocked: problems }, 422);
+  }
 
   // Даты стадий проставляет система: если бы их вводили руками, воронка врала бы
   // при первом пропуске, а по ней считается срок сделки.
