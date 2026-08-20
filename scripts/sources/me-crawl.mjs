@@ -8,6 +8,9 @@
  *   STAGE=discovery node scripts/sources/me-crawl.mjs   — карта магазина
  *   STAGE=details   node scripts/sources/me-crawl.mjs   — страницы продуктов
  *
+ * Окно волны задаётся OFFSET и LIMIT; details.json дополняется, а не
+ * перезаписывается, поэтому волны можно гнать по очереди.
+ *
  * Ничего не отправляем и не покупаем: только чтение. Частота ограничена,
  * каждый снимок сохраняется с URL и датой, чтобы у любого значения в каталоге
  * был воспроизводимый источник.
@@ -19,7 +22,10 @@ import { resolve } from 'node:path';
 
 const STAGE = process.env.STAGE || 'discovery';
 const LIMIT = Number(process.env.LIMIT || 25);
-const DAY = new Date().toISOString().slice(0, 10);
+const OFFSET = Number(process.env.OFFSET || 0); // окно волны в списке ссылок
+// Каталог снимков привязан к дате. Волны идут не один день, поэтому дату
+// можно задать явно — иначе details не найдёт вчерашний discovery.json.
+const DAY = (process.env.DAY || '').trim() || new Date().toISOString().slice(0, 10);
 const OUT = resolve(`data/sources/manageengine/${DAY}`);
 const STORE = 'https://store.manageengine.com/';
 const PAUSE_MS = 1500; // вежливая пауза между страницами
@@ -31,14 +37,64 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 const snapId = (url) => createHash('sha1').update(url).digest('hex').slice(0, 12);
 
 /** Снимок страницы: HTML + текст + метаданные источника. */
-async function snapshot(page, url, dir) {
+async function snapshot(page, url, dir, tab = null) {
   const html = await page.content();
   const text = await page.evaluate(() => document.body?.innerText || '');
-  const id = snapId(url);
+  const id = snapId(tab ? `${url}#tab=${tab}` : url);
   mkdirSync(dir, { recursive: true });
   writeFileSync(`${dir}/${id}.html`, html);
   writeFileSync(`${dir}/${id}.txt`, text);
-  return { source_snapshot_id: id, source_url: url, source_checked_at: new Date().toISOString() };
+  return {
+    source_snapshot_id: id,
+    source_url: url,
+    source_checked_at: new Date().toISOString(),
+    ...(tab ? { tab } : {}),
+  };
+}
+
+/**
+ * Переключатели прайса на странице магазина: «Annual Subscription /
+ * Perpetual» и «Cloud / On-Premise». Обходчик по умолчанию снимает только
+ * активную вкладку, и вечные лицензии в снимок не попадают. Здесь мы
+ * находим сами переключатели по тексту — вслепую кликать по странице
+ * магазина нельзя.
+ */
+const TAB_LABELS = [
+  'Annual Subscription', 'Perpetual', 'Subscription',
+  'On-Premise', 'On-Premises', 'Cloud',
+];
+
+async function findTabs(page) {
+  return page.evaluate((labels) => {
+    const out = [];
+    const nodes = document.querySelectorAll('a,button,li,span,label,div[role="tab"]');
+    for (const el of nodes) {
+      const text = (el.textContent || '').replace(/\s+/g, ' ').trim();
+      if (!labels.includes(text)) continue;
+      // Переключатель — короткий кликабельный элемент, а не абзац с тем же словом.
+      if (el.children.length > 1) continue;
+      const box = el.getBoundingClientRect();
+      if (box.width < 20 || box.height < 10) continue;
+      if (out.some((o) => o.text === text)) continue;
+      out.push({ text, tag: el.tagName.toLowerCase() });
+    }
+    return out;
+  }, TAB_LABELS);
+}
+
+/** Кликнуть по вкладке с заданным текстом. Возвращает true, если получилось. */
+async function clickTab(page, text) {
+  const target = page.locator(
+    `a:text-is("${text}"), button:text-is("${text}"), li:text-is("${text}"), span:text-is("${text}"), label:text-is("${text}")`
+  ).first();
+  try {
+    await target.click({ timeout: 5000 });
+    await page.waitForLoadState('networkidle', { timeout: 15000 }).catch(() => {});
+    await sleep(1200);
+    return true;
+  } catch {
+    return false;
+  }
 }
 
 async function open(page, url) {
@@ -95,34 +151,60 @@ async function details(page) {
     return;
   }
   const { links } = JSON.parse(readFileSync(file, 'utf8'));
-  const targets = links.slice(0, LIMIT);
-  say(`страниц к обходу: ${targets.length} из ${links.length}`);
+  const targets = links.slice(OFFSET, OFFSET + LIMIT);
+  say(`страниц к обходу: ${targets.length} из ${links.length} (окно ${OFFSET}–${OFFSET + targets.length})`);
 
-  const rows = [];
+  // Волны докладываются в один и тот же details.json: перезапись потеряла бы
+  // предыдущие окна.
+  const prev = existsSync(`${OUT}/details.json`)
+    ? JSON.parse(readFileSync(`${OUT}/details.json`, 'utf8')).rows || []
+    : [];
+  const rows = prev.filter((r) => !targets.some((t) => t.url === r.url));
+  if (prev.length) say(`уже снято ранее: ${prev.length}, оставляем ${rows.length}`);
+
+  // Снятие коммерческих данных с текущего состояния страницы. Вызывается и
+  // для активной вкладки, и после клика по каждой из остальных.
+  const scrape = () => {
+    const txt = (el) => (el?.textContent || '').replace(/\s+/g, ' ').trim();
+    const body = document.body?.innerText || '';
+    return {
+      title: document.title,
+      h1: txt(document.querySelector('h1')),
+      // Денежные суммы с окружением — цену без контекста использовать нельзя.
+      money: (body.match(/.{0,70}(?:US\$|\$|₹|€)\s?[0-9][0-9,. ]*.{0,70}/g) || []).slice(0, 60),
+      editions: [...new Set((body.match(/\b(Standard|Professional|Enterprise|Free|Premium)\s+Edition\b/g) || []))],
+      metrics: [...new Set((body.match(/\b\d[\d,]*\s+(Technicians?|Users?|Devices?|Endpoints?|Servers?|Agents?|Nodes?|Domain Controllers?|Mailboxes?)\b/gi) || []))].slice(0, 60),
+      terms: [...new Set((body.match(/\b(Annual Subscription|Perpetual|Subscription|Maintenance|AMS|Renewal)\b/gi) || []))],
+      deployment: /\b(On-?Prem|Cloud|SaaS)\b/i.test(body)
+        ? [...new Set((body.match(/\b(On-?Premises?|On-?Prem|Cloud|SaaS)\b/gi) || []))] : [],
+    };
+  };
+
   for (const [i, l] of targets.entries()) {
     try {
       await open(page, l.url);
       const meta = await snapshot(page, l.url, `${OUT}/details`);
-      const data = await page.evaluate(() => {
-        const txt = (el) => (el?.textContent || '').replace(/\s+/g, ' ').trim();
-        const body = document.body?.innerText || '';
-        return {
-          title: document.title,
-          h1: txt(document.querySelector('h1')),
-          // Денежные суммы с окружением — цену без контекста использовать нельзя.
-          money: (body.match(/.{0,70}(?:US\$|\$|₹|€)\s?[0-9][0-9,. ]*.{0,70}/g) || []).slice(0, 60),
-          editions: [...new Set((body.match(/\b(Standard|Professional|Enterprise|Free|Premium)\s+Edition\b/g) || []))],
-          metrics: [...new Set((body.match(/\b\d[\d,]*\s+(Technicians?|Users?|Devices?|Endpoints?|Servers?|Agents?|Nodes?|Domain Controllers?|Mailboxes?)\b/gi) || []))].slice(0, 60),
-          terms: [...new Set((body.match(/\b(Annual Subscription|Perpetual|Subscription|Maintenance|AMS|Renewal)\b/gi) || []))],
-          deployment: /\b(On-?Prem|Cloud|SaaS)\b/i.test(body)
-            ? [...new Set((body.match(/\b(On-?Premises?|On-?Prem|Cloud|SaaS)\b/gi) || []))] : [],
-        };
-      });
-      rows.push({ ...l, ...meta, ...data });
+      const data = await page.evaluate(scrape);
+
+      // Вкладки прайса. Активную мы уже сняли выше; кликаем по остальным и
+      // снимаем каждую отдельно — иначе вечные лицензии и вторая схема
+      // поставки в снимок не попадают вовсе.
+      const tabs = [];
+      const found = await findTabs(page);
+      for (const t of found) {
+        if (!(await clickTab(page, t.text))) continue;
+        const tabMeta = await snapshot(page, l.url, `${OUT}/details`, t.text);
+        const tabData = await page.evaluate(scrape);
+        if (tabData.money.length) tabs.push({ ...tabMeta, ...tabData });
+        await sleep(PAUSE_MS);
+      }
+
+      rows.push({ ...l, ...meta, ...data, tabs });
       say(`${i + 1}/${targets.length} ${l.url}`);
       say(`    редакции: ${data.editions.join(', ') || '—'}`);
       say(`    метрики: ${data.metrics.slice(0, 6).join('; ') || '—'}`);
       say(`    сумм найдено: ${data.money.length}`);
+      say(`    вкладок снято: ${tabs.length ? tabs.map((t) => t.tab).join(', ') : '—'}`);
     } catch (e) {
       say(`${i + 1}/${targets.length} ${l.url} → ошибка: ${e.message}`);
       rows.push({ ...l, error: e.message });
