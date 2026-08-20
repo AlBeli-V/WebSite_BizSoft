@@ -138,7 +138,8 @@ def kpi_cards(snap: dict, prev: dict | None, dq: dict) -> list[dict]:
          "period": f"{ru_date(gt['last7_start'])}–{ru_date(gt['last7_end'])} "
                    f"против {ru_date(gt['prev7_start'])}–{ru_date(gt['prev7_end'])}",
          "source": "Google Search Console, весь сайт",
-         "confidence": "низкая, малые числа",
+         "confidence": ("данные не обновились с прошлого отчёта"
+                        if source_stale(snap, prev, "google") else "низкая, малые числа"),
          "interpretation": "Переходов из Google по-прежнему нет.",
          "muted": False,
          "sparkline": daily if len(daily) > 2 else None,
@@ -191,6 +192,25 @@ def _dir(delta) -> str:
     return "up" if delta > 0 else "down"
 
 
+def source_stale(snap: dict, prev: dict | None, engine: str) -> bool:
+    """Источник не обновился: последняя дата события та же, что в прошлом отчёте.
+
+    Повторять вчерашнюю дельту как сегодняшнюю новость нельзя — это одно и то же
+    наблюдение, поданное дважды.
+    """
+    if not prev:
+        return False
+    return (snap[engine]["source"]["latest_event_date"]
+            == prev[engine]["source"]["latest_event_date"])
+
+
+def delta_text(d: int | None) -> str:
+    """Нулевая дельта словами: числа «+0» в письме не бывает."""
+    if d is None:
+        return "нет данных"
+    return "без изменений" if d == 0 else signed(d)
+
+
 def signals(snap: dict, prev: dict | None) -> list[dict]:
     """Три сигнала дня: положительный, нейтральный, отрицательный."""
     if not prev:
@@ -198,18 +218,26 @@ def signals(snap: dict, prev: dict | None) -> list[dict]:
     out = []
     gt = snap["google"]["totals"]
     d = gt["impressions_last7"] - gt["impressions_prev7"]
+    stale = source_stale(snap, prev, "google")
     out.append({
-        "tone": "positive", "metric": "Показы в Google за неделю",
+        "tone": "neutral" if stale else "positive",
+        "metric": "Показы в Google за неделю",
         "current": num(gt["impressions_last7"]), "previous": num(gt["impressions_prev7"]),
-        "delta": signed(d), "confidence": "низкая, база в десятки показов",
-        "meaning": "Страницы сайта стали показываться чаще; переходов это пока не дало."})
+        "delta": delta_text(d),
+        "confidence": ("данные не обновились с прошлого отчёта" if stale
+                       else "низкая, база в десятки показов"),
+        "meaning": (f"Google не отдал новых данных: последний день выгрузки прежний — "
+                    f"{ru_date(snap['google']['source']['latest_event_date'])}. "
+                    "Значение повторяет вчерашнее и новым наблюдением не является."
+                    if stale else
+                    "Страницы сайта стали показываться чаще; переходов это пока не дало.")})
 
     yt, yp = snap["yandex"]["totals"], prev["yandex"]["totals"]
     idx = snap["yandex"]["indexation"]["indexed_urls"]
     pidx = prev["yandex"]["indexation"]["indexed_urls"]
     out.append({
         "tone": "neutral", "metric": "Страницы в поиске Яндекса",
-        "current": num(idx), "previous": num(pidx), "delta": signed(idx - pidx),
+        "current": num(idx), "previous": num(pidx), "delta": delta_text(idx - pidx),
         "confidence": "достаточная",
         "meaning": "Объём проиндексированного сайта не изменился."})
 
@@ -218,7 +246,7 @@ def signals(snap: dict, prev: dict | None) -> list[dict]:
         "tone": "negative" if td < 0 else ("positive" if td > 0 else "neutral"),
         "metric": "Запросы выборки на первой странице",
         "current": num(yt["queries_position_le_10"]),
-        "previous": num(yp["queries_position_le_10"]), "delta": signed(td),
+        "previous": num(yp["queries_position_le_10"]), "delta": delta_text(td),
         "confidence": "достаточная",
         "meaning": "Яндекс в целом стабилен, внутри выборки есть умеренное снижение."
                    if td < 0 else "Внутри выборки прибавилось запросов на первой странице."})
@@ -336,9 +364,14 @@ def _driver_blocks(dec: dict) -> list[dict]:
                 for i in part["all"]]
         ups = [r for r in rows if r["positive"]]
         downs = [r for r in rows if not r["positive"]]
-        text = (f"Изменение {signed(part['total_delta'])} по {kind}. "
-                f"Прибавили: {', '.join(r['entity'] for r in ups[:3]) or '—'}. "
-                f"Потеряли: {', '.join(r['entity'] for r in downs[:3]) or '—'}.")
+        pieces = [f"Изменение {signed(part['total_delta'])} по {kind}."]
+        if ups:
+            pieces.append(f"Прибавили: {', '.join(r['entity'] for r in ups[:3])}.")
+        if downs:
+            pieces.append(f"Потеряли: {', '.join(r['entity'] for r in downs[:3])}.")
+        if not ups:
+            pieces.append("Растущих адресов выше порога значимости нет.")
+        text = " ".join(pieces)
         out.append({"engine": b["engine_label"], "window": b["window_label"],
                     "available": True, "text": text, "rows": rows,
                     "counted": part["counted"]})

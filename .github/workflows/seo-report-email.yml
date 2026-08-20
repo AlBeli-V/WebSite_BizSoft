@@ -1,4 +1,4 @@
-# Отправка ежедневного SEO-отчёта (reports/seo/ГГГГ-ММ-ДД.md) на почту
+# Отправка ежедневного письма BIZSoft Growth Intelligence (V4) на почту
 # после пуша в ветку мониторинга. Отправитель — ящик hello@biz-soft.pro
 # (SMTP reg.ru, 465/SSL), пароль — repo-секрет SMTP_PASS (тот же, что в ops-mail).
 # Ручной запуск: workflow_dispatch (шлёт последний по дате отчёт).
@@ -10,6 +10,7 @@ on:
     branches:
       - claude/biz-soft-rating-tracking-5rf03g
     paths:
+      - "reports/seo/intelligence/*-v4-email.html"
       - "reports/seo/intelligence/*-executive-email.html"
       - "reports/seo/intelligence/*-executive.html"
       - "reports/seo/2*.md"
@@ -40,11 +41,13 @@ jobs:
           from email.message import EmailMessage
           from email.utils import formatdate, make_msgid
 
-          # V3: письмо с PNG-вложениями (CID). Фолбэк — прежние форматы отчёта.
+          # V4: письмо «Executive Command Center» с PNG-вложениями (CID).
+          # Фолбэк — прежние форматы отчёта, если V4 почему-то не собрался.
+          v4 = sorted(glob.glob('reports/seo/intelligence/*-v4-email.html'))
           v3 = sorted(glob.glob('reports/seo/intelligence/*-executive-email.html'))
           v2 = sorted(glob.glob('reports/seo/intelligence/*-executive.html'))
           old = sorted(glob.glob('reports/seo/2*.html'))
-          if not (v3 or v2 or old):
+          if not (v4 or v3 or v2 or old):
               raise SystemExit('Нет файлов отчётов')
 
           msg = EmailMessage()
@@ -52,13 +55,17 @@ jobs:
           msg['To'] = os.environ['MAIL_TO']
           msg['Date'] = formatdate(localtime=True)
 
-          if v3:
-              path = v3[-1]
-              date = os.path.basename(path).replace('-executive-email.html', '')
+          if v4 or v3:
+              newest = v4[-1] if v4 else v3[-1]
+              suffix = '-v4-email.html' if v4 else '-executive-email.html'
+              txt_suffix = '-v4.txt' if v4 else '-executive.txt'
+              subject_prefix = 'BIZSoft Growth Intelligence' if v4 else 'BIZSoft Search Performance'
+              path = newest
+              date = os.path.basename(path).replace(suffix, '')
               html = pathlib.Path(path).read_text(encoding='utf-8')
-              txt_path = f'reports/seo/intelligence/{date}-executive.txt'
-              plain = pathlib.Path(txt_path).read_text(encoding='utf-8')
-              msg['Subject'] = f'BIZSoft Search Performance — {date}'
+              plain = pathlib.Path(
+                  f'reports/seo/intelligence/{date}{txt_suffix}').read_text(encoding='utf-8')
+              msg['Subject'] = f'{subject_prefix} — {date}'
               msg.set_content(plain)
               # подменяем cid:chart-* на реальные Content-ID и прикрепляем PNG
               charts = {}
@@ -75,7 +82,7 @@ jobs:
                   part.add_related(pathlib.Path(png).read_bytes(), 'image', 'png',
                                    cid=real, filename=os.path.basename(png),
                                    disposition='inline')
-              print(f'V3: {path}, вложений {len(charts)}')
+              print(f'{"V4" if v4 else "V3"}: {path}, вложений {len(charts)}')
           else:
               path = v2[-1] if v2 else old[-1]
               date = os.path.basename(path).replace('-executive.html', '').rsplit('.', 1)[0]

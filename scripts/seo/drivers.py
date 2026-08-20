@@ -71,15 +71,22 @@ def decompose(cur_rows, prev_rows, vendors, metric="impressions", limit=5):
         i["share_of_total_delta"] = abs(i["delta"]) / gross
     items.sort(key=lambda i: -abs(i["delta"]))
 
-    shown = [i for i in items
-             if abs(i["delta"]) >= MIN_ABS or i["share_of_total_delta"] >= MIN_SHARE][:limit]
+    # Рост и снижение отбираются раздельно: иначе при общем падении в верхних
+    # строках по модулю не остаётся ни одного драйвера роста, и блок «драйверы
+    # и детракторы» показывает только одну сторону изменения.
+    significant = [i for i in items
+                   if abs(i["delta"]) >= MIN_ABS or i["share_of_total_delta"] >= MIN_SHARE]
+    half = max(1, limit // 2)
+    gains = [i for i in significant if i["delta"] > 0][:half]
+    losses = [i for i in significant if i["delta"] < 0][:limit - len(gains)]
+    shown = gains + losses
     return {
         "available": bool(shown),
         "reason": None if shown else "изменения слишком дробные, чтобы назвать драйвер",
         "total_delta": total,
         "net_delta_of_shown": sum(i["delta"] for i in shown),
-        "drivers": [i for i in shown if i["delta"] > 0],
-        "detractors": [i for i in shown if i["delta"] < 0],
+        "drivers": gains,
+        "detractors": losses,
         "all": shown,
         "counted": len(items),
     }
