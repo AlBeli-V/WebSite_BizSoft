@@ -1,0 +1,92 @@
+{
+ "checked_at": "2026-08-20T06:21:33+00:00",
+ "results": [
+  {
+   "variant": "как в прогоне: 365 дней назад, произвольные даты",
+   "body": {
+    "phrase": "adobe купить",
+    "period": "PERIOD_MONTHLY",
+    "regions": [
+     "225"
+    ],
+    "fromDate": "2025-08-20T00:00:00Z",
+    "toDate": "2026-08-20T00:00:00Z"
+   },
+   "status": 404,
+   "response": "",
+   "ok": false
+  },
+  {
+   "variant": "границы месяцев",
+   "body": {
+    "phrase": "adobe купить",
+    "period": "PERIOD_MONTHLY",
+    "regions": [
+     "225"
+    ],
+    "fromDate": "2025-08-01T00:00:00Z",
+    "toDate": "2026-08-01T00:00:00Z"
+   },
+   "status": 404,
+   "response": "",
+   "ok": false
+  },
+  {
+   "variant": "даты без времени",
+   "body": {
+    "phrase": "adobe купить",
+    "period": "PERIOD_MONTHLY",
+    "regions": [
+     "225"
+    ],
+    "fromDate": "2025-08-01",
+    "toDate": "2026-08-01"
+   },
+   "status": 404,
+   "response": "",
+   "ok": false
+  },
+  {
+   "variant": "период MONTHLY без префикса",
+   "body": {
+    "phrase": "adobe купить",
+    "period": "MONTHLY",
+    "regions": [
+     "225"
+    ],
+    "fromDate": "2025-08-01T00:00:00Z",
+    "toDate": "2026-08-01T00:00:00Z"
+   },
+   "status": 404,
+   "response": "",
+   "ok": false
+  },
+  {
+   "variant": "недельный период",
+   "body": {
+    "phrase": "adobe купить",
+    "period": "PERIOD_WEEKLY",
+    "regions": [
+     "225"
+    ],
+    "fromDate": "2026-05-22T00:00:00Z",
+    "toDate": "2026-08-20T00:00:00Z"
+   },
+   "status": 404,
+   "response": "",
+   "ok": false
+  },
+  {
+   "variant": "без регионов",
+   "body": {
+    "phrase": "adobe купить",
+    "period": "PERIOD_MONTHLY",
+    "fromDate": "2025-08-01T00:00:00Z",
+    "toDate": "2026-08-01T00:00:00Z"
+   },
+   "status": 404,
+   "response": "",
+   "ok": false
+  }
+ ]
+}
