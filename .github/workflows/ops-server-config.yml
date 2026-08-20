@@ -20,6 +20,14 @@ on:
         description: 'true — после замены запустить ./deploy.sh (пересборка образа)'
         required: false
         default: 'false'
+      metrika_id:
+        description: 'PUBLIC_METRIKA_ID — проставить в astro.env, если отсутствует'
+        required: false
+        default: '110206070'
+      ga_id:
+        description: 'PUBLIC_GA_ID — проставить в astro.env, если отсутствует'
+        required: false
+        default: 'G-V9BK2D1431'
 permissions:
   contents: read
   issues: write
@@ -46,11 +54,13 @@ jobs:
         env:
           P_APPLY: ${{ inputs.apply }}
           P_REBUILD: ${{ inputs.rebuild }}
+          P_METRIKA: ${{ inputs.metrika_id }}
+          P_GA: ${{ inputs.ga_id }}
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
-          envs: P_APPLY,P_REBUILD
+          envs: P_APPLY,P_REBUILD,P_METRIKA,P_GA
           command_timeout: 20m
           capture_stdout: true
           script: |
@@ -78,10 +88,20 @@ jobs:
 
             echo
             echo "== 2. PUBLIC_* в astro.env =="
-            for k in PUBLIC_METRIKA_ID PUBLIC_GA_ID; do
+            # Переменная нужна на СБОРКЕ: пустая строка в astro.env так же
+            # бесполезна, как её отсутствие, поэтому проверяем непустоту.
+            ensure_var() {
+              k=$1; want=$2
               v=$(sed -n "s/^$k=//p" ./astro.env 2>/dev/null | tr -d '"\r' | head -1)
-              if [ -n "$v" ]; then echo "  $k=$v"; else echo "  $k — НЕ ЗАДАН"; fi
-            done
+              if [ -n "$v" ]; then echo "  $k=$v"; return; fi
+              if [ "$P_APPLY" != "true" ] || [ -z "$want" ]; then echo "  $k — НЕ ЗАДАН"; return; fi
+              cp -p ./astro.env "./astro.env.bak-$STAMP" 2>/dev/null || true
+              sed -i "/^$k=/d" ./astro.env
+              printf '%s=%s\n' "$k" "$want" >> ./astro.env
+              echo "  $k — не был задан, проставлен: $want"
+            }
+            ensure_var PUBLIC_METRIKA_ID "$P_METRIKA"
+            ensure_var PUBLIC_GA_ID "$P_GA"
 
             echo
             echo "== 4. Обращения к удалённым прайс-файлам в логах nginx =="
