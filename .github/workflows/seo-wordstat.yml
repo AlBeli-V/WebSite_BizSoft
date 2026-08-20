@@ -37,6 +37,16 @@ on:
 permissions:
   contents: write
 
+# Часовая квота одна на облако, а прогонов может быть несколько: ночной полный
+# цикл идёт часами, а почасовой добор стартует каждые 60 минут. Без очереди они
+# делят одно окно, ловят 429 и оба тормозят. Группа сериализует всё, что тратит
+# квоту; проверка оплаты сети Wordstat не трогает и идёт параллельно.
+concurrency:
+  group: seo-wordstat-${{ (github.event_name == 'push'
+         || inputs.mode == 'payments' || inputs.mode == 'dry-run')
+         && 'offline' || 'api' }}
+  cancel-in-progress: false
+
 jobs:
   research:
     runs-on: ubuntu-latest
