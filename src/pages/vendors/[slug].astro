@@ -12,6 +12,15 @@ import { vendorSlug } from '../../lib/vendor-links';
 import { SEO_EXPERIMENTS } from '../../data/seo-experiments';
 
 const { slug } = Astro.params;
+
+// Переименованные вендоры: старый адрес отдаём 301-м, чтобы не терять
+// уже проиндексированные ссылки и накопленный вес страницы.
+// manageengine → zoho: ManageEngine это линейка продуктов, производитель — Zoho.
+const RENAMED: Record<string, string> = { manageengine: 'zoho' };
+if (slug && RENAMED[slug]) {
+  return Astro.redirect(`/vendors/${RENAMED[slug]}`, 301);
+}
+
 const entry = slug ? vendorBySlug(slug) : undefined;
 const scaffold = !entry && slug ? scaffoldVendors.find((v) => v.slug === slug) : undefined;
 
