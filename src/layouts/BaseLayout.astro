@@ -1,16 +1,19 @@
 ---
-// Inter — self-host с нашего сервера (woff2 в /_astro с вечным кэшем).
-// Лицензия: SIL Open Font License 1.1 — полностью бесплатна, включая коммерческое
-// использование; копия — docs/licenses/Inter-OFL.txt. Внешний Google Fonts убран:
-// быстрее из РФ и нет зависимости от стороннего CDN.
-// Шрифты как у референса: Raleway (текст) + Prosto One (заголовки/цифры).
-// Оба — Google Fonts, лицензия SIL OFL 1.1 (полностью бесплатные), самохост.
+// Фирменные шрифты: Raleway (текст) + Prosto One (заголовки/цифры).
+// Оба — SIL OFL 1.1 (полностью бесплатные), self-host с нашего сервера
+// (woff2 в /_astro с вечным кэшем) — быстрее из РФ, без стороннего CDN.
 import '@fontsource/raleway/400.css';
 import '@fontsource/raleway/500.css';
 import '@fontsource/raleway/600.css';
 import '@fontsource/raleway/700.css';
 import '@fontsource/raleway/800.css';
 import '@fontsource/prosto-one/400.css';
+// Preload критичных начертаний: шрифт готов к первой отрисовке даже при
+// холодном кэше (инкогнито) — страница сразу в фирменной типографике.
+import ralewayCyr400 from '@fontsource/raleway/files/raleway-cyrillic-400-normal.woff2?url';
+import ralewayCyr700 from '@fontsource/raleway/files/raleway-cyrillic-700-normal.woff2?url';
+import ralewayLat400 from '@fontsource/raleway/files/raleway-latin-400-normal.woff2?url';
+import prostoCyr400 from '@fontsource/prosto-one/files/prosto-one-cyrillic-400-normal.woff2?url';
 import '../styles/global.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
@@ -41,6 +44,10 @@ const { title, description, canonical, ogImage, noindex, type, keywords } = Astr
     <!-- Фавикон — фирменный знак из брендового пакета (без перерисовки) -->
     <link rel="icon" type="image/png" href="/brand/bizsoft-favicon.png" />
     <link rel="apple-touch-icon" href="/brand/bizsoft-favicon.png" />
+    <link rel="preload" href={ralewayCyr400} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={ralewayCyr700} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={ralewayLat400} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={prostoCyr400} as="font" type="font/woff2" crossorigin />
     <noscript>
       <style>
         /* Без JS секции с плавным появлением остаются видимыми */

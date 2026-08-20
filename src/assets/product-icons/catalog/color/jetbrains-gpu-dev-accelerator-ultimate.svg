@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" width="512" height="512" role="img" aria-labelledby="jetbrains-gpu-dev-accelerator-ultimate-color-title jetbrains-gpu-dev-accelerator-ultimate-color-desc" data-icon-id="jetbrains-gpu-dev-accelerator-ultimate" data-variant="color">
+  <title id="jetbrains-gpu-dev-accelerator-ultimate-color-title">GPU Dev Accelerator Ultimate — color icon</title>
+  <desc id="jetbrains-gpu-dev-accelerator-ultimate-color-desc">Normalized color product icon used by 2 catalog card(s).</desc>
+  <metadata>
+  <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/">
+    <rdf:Description rdf:about="">
+      <dc:title>GPU Dev Accelerator Ultimate — color</dc:title>
+      <dc:description>Normalized catalog product icon; assigned to 2 product card(s); 512×512 transparent canvas; 12.5% safe area.</dc:description>
+      <dc:creator>Jakub Jirák</dc:creator>
+      <dc:source>https://downloads.marketplace.jetbrains.com/files/29044/1120906/icon/default.svg</dc:source>
+      <dc:date>2026-08-18</dc:date>
+      <dc:rights>Publisher-provided Marketplace icon; copyright and trademark rights remain with the plugin publisher.</dc:rights>
+      <dc:identifier>jetbrains-gpu-dev-accelerator-ultimate__color</dc:identifier>
+    </rdf:Description>
+  </rdf:RDF>
+</metadata>
+  <svg x="65" y="65" width="382" height="382" viewBox="0 0 40 40" preserveAspectRatio="xMidYMid meet"><defs xmlns="http://www.w3.org/2000/svg">
+    <linearGradient id="gpuGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#16c79a;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#11d3bc;stop-opacity:1"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- Background chip -->
+  <rect xmlns="http://www.w3.org/2000/svg" x="4" y="4" width="32" height="32" rx="2" fill="#1a1a2e" stroke="url(#gpuGrad)" stroke-width="2"/>
+  
+  <!-- GPU cores grid -->
+  <rect xmlns="http://www.w3.org/2000/svg" x="10" y="10" width="8" height="8" fill="#16c79a" rx="1"/>
+  <rect xmlns="http://www.w3.org/2000/svg" x="22" y="10" width="8" height="8" fill="#16c79a" rx="1"/>
+  <rect xmlns="http://www.w3.org/2000/svg" x="10" y="22" width="8" height="8" fill="#16c79a" rx="1"/>
+  <rect xmlns="http://www.w3.org/2000/svg" x="22" y="22" width="8" height="8" fill="#16c79a" rx="1"/>
+  
+  <!-- Connection lines -->
+  <line xmlns="http://www.w3.org/2000/svg" x1="12" y1="14" x2="28" y2="14" stroke="#11d3bc" stroke-width="1.5"/>
+  <line xmlns="http://www.w3.org/2000/svg" x1="12" y1="26" x2="28" y2="26" stroke="#11d3bc" stroke-width="1.5"/>
+  <line xmlns="http://www.w3.org/2000/svg" x1="14" y1="12" x2="14" y2="28" stroke="#11d3bc" stroke-width="1.5"/>
+  <line xmlns="http://www.w3.org/2000/svg" x1="26" y1="12" x2="26" y2="28" stroke="#11d3bc" stroke-width="1.5"/>
+  
+  <!-- Center highlight -->
+  <circle xmlns="http://www.w3.org/2000/svg" cx="20" cy="20" r="2" fill="#11d3bc" opacity="0.8"/>
+</svg>
+</svg>

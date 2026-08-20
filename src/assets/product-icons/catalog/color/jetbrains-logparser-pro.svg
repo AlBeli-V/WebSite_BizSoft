@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" width="512" height="512" role="img" aria-labelledby="jetbrains-logparser-pro-color-title jetbrains-logparser-pro-color-desc" data-icon-id="jetbrains-logparser-pro" data-variant="color">
+  <title id="jetbrains-logparser-pro-color-title">LogParser Pro — color icon</title>
+  <desc id="jetbrains-logparser-pro-color-desc">Normalized color product icon used by 2 catalog card(s).</desc>
+  <metadata>
+  <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/">
+    <rdf:Description rdf:about="">
+      <dc:title>LogParser Pro — color</dc:title>
+      <dc:description>Normalized catalog product icon; assigned to 2 product card(s); 512×512 transparent canvas; 12.5% safe area.</dc:description>
+      <dc:creator>Jakub Jirák</dc:creator>
+      <dc:source>https://downloads.marketplace.jetbrains.com/files/29050/1077640/icon/default.svg</dc:source>
+      <dc:date>2026-08-18</dc:date>
+      <dc:rights>Publisher-provided Marketplace icon; copyright and trademark rights remain with the plugin publisher.</dc:rights>
+      <dc:identifier>jetbrains-logparser-pro__color</dc:identifier>
+    </rdf:Description>
+  </rdf:RDF>
+</metadata>
+  <svg x="65" y="65" width="382" height="382" viewBox="0 0 40 40" preserveAspectRatio="xMidYMid meet"><defs xmlns="http://www.w3.org/2000/svg">
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#E74C3C;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#C0392B;stop-opacity:1"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect xmlns="http://www.w3.org/2000/svg" width="40" height="40" rx="8" fill="url(#bgGradient)"/>
+  
+  <!-- Log lines icon -->
+  <g xmlns="http://www.w3.org/2000/svg" transform="translate(8, 10)">
+    <!-- Top line with dot -->
+    <circle cx="2" cy="2" r="1.5" fill="#F39C12"/>
+    <line x1="5" y1="2" x2="22" y2="2" stroke="#ECF0F1" stroke-width="1.5" stroke-linecap="round"/>
+    
+    <!-- Middle line with dot -->
+    <circle cx="2" cy="9" r="1.5" fill="#16A085"/>
+    <line x1="5" y1="9" x2="18" y2="9" stroke="#ECF0F1" stroke-width="1.5" stroke-linecap="round"/>
+    
+    <!-- Bottom line with dot -->
+    <circle cx="2" cy="16" r="1.5" fill="#5499C7"/>
+    <line x1="5" y1="16" x2="20" y2="16" stroke="#ECF0F1" stroke-width="1.5" stroke-linecap="round"/>
+    
+    <!-- Correlation arrow -->
+    <path d="M 19 5 L 22 9 L 19 13" stroke="#F39C12" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+</svg>
+</svg>

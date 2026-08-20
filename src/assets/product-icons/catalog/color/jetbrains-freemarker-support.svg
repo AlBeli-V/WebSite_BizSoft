@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" width="512" height="512" role="img" aria-labelledby="jetbrains-freemarker-support-color-title jetbrains-freemarker-support-color-desc" data-icon-id="jetbrains-freemarker-support" data-variant="color">
+  <title id="jetbrains-freemarker-support-color-title">FreeMarker Support — color icon</title>
+  <desc id="jetbrains-freemarker-support-color-desc">Normalized color product icon used by 2 catalog card(s).</desc>
+  <metadata>
+  <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/">
+    <rdf:Description rdf:about="">
+      <dc:title>FreeMarker Support — color</dc:title>
+      <dc:description>Normalized catalog product icon; assigned to 2 product card(s); 512×512 transparent canvas; 12.5% safe area.</dc:description>
+      <dc:creator>Toby Tan</dc:creator>
+      <dc:source>https://downloads.marketplace.jetbrains.com/files/31231/1090196/icon/default.svg</dc:source>
+      <dc:date>2026-08-18</dc:date>
+      <dc:rights>Publisher-provided Marketplace icon; copyright and trademark rights remain with the plugin publisher.</dc:rights>
+      <dc:identifier>jetbrains-freemarker-support__color</dc:identifier>
+    </rdf:Description>
+  </rdf:RDF>
+</metadata>
+  <svg x="65" y="65" width="382" height="382" viewBox="0 0 64 64" preserveAspectRatio="xMidYMid meet"><defs xmlns="http://www.w3.org/2000/svg">
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00796B"/>
+      <stop offset="100%" stop-color="#004D40"/>
+    </linearGradient>
+    <linearGradient id="fGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="100%" stop-color="#B2DFDB"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect xmlns="http://www.w3.org/2000/svg" width="64" height="64" rx="11" ry="11" fill="url(#bg)"/>
+
+  <!-- Subtle inner glow rim -->
+  <rect xmlns="http://www.w3.org/2000/svg" x="1.5" y="1.5" width="61" height="61" rx="9.5" ry="9.5" fill="none" stroke="white" stroke-width="0.8" stroke-opacity="0.12"/>
+
+  <!-- Bold "F" glyph -->
+  <rect xmlns="http://www.w3.org/2000/svg" x="13" y="13" width="7" height="34" rx="2" fill="url(#fGrad)"/>
+  <rect xmlns="http://www.w3.org/2000/svg" x="13" y="13" width="25" height="7" rx="2" fill="url(#fGrad)"/>
+  <rect xmlns="http://www.w3.org/2000/svg" x="13" y="26" width="19" height="6" rx="2" fill="url(#fGrad)"/>
+
+  <!-- Bottom-right <#> — bottom aligned with F stem (y=47), top no higher than F mid-bar (y=32) -->
+  <!-- < -->
+  <polyline xmlns="http://www.w3.org/2000/svg" points="33,35 30,41 33,47" fill="none" stroke="#80CBC4" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- # vertical lines -->
+  <line xmlns="http://www.w3.org/2000/svg" x1="38" y1="34" x2="37.5" y2="48" stroke="#9ED8D3" stroke-width="1.9" stroke-linecap="round"/>
+  <line xmlns="http://www.w3.org/2000/svg" x1="43" y1="34" x2="42.5" y2="48" stroke="#9ED8D3" stroke-width="1.9" stroke-linecap="round"/>
+  <!-- # horizontal lines -->
+  <line xmlns="http://www.w3.org/2000/svg" x1="36.5" y1="38.5" x2="44" y2="38.5" stroke="#9ED8D3" stroke-width="1.7" stroke-linecap="round"/>
+  <line xmlns="http://www.w3.org/2000/svg" x1="36" y1="43.5" x2="43.5" y2="43.5" stroke="#9ED8D3" stroke-width="1.7" stroke-linecap="round"/>
+  <!-- > -->
+  <polyline xmlns="http://www.w3.org/2000/svg" points="47,35 50,41 47,47" fill="none" stroke="#26A69A" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+</svg>

@@ -1,0 +1,89 @@
+# Переобход страниц в Яндекс.Вебмастере по API (recrawl/queue).
+# Токен: секрет YANDEX_OAUTH, либо YANDEX_OAUTH= в /opt/bizsoft/astro.env.
+# Значение токена в логи не печатается. Результат — комментарием в issue #22.
+
+name: ops-yandex-recrawl
+
+on:
+  workflow_dispatch:
+    inputs:
+      urls:
+        description: "URL через запятую (полные https)"
+        required: true
+        default: "https://biz-soft.pro/vendors/canva,https://biz-soft.pro/vendors/depositphotos,https://biz-soft.pro/vendors/coreldraw,https://biz-soft.pro/vendors/heygen,https://biz-soft.pro/vendors/marmoset"
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  recrawl:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send recrawl requests
+        id: run
+        uses: appleboy/ssh-action@v1
+        env:
+          URLS: ${{ inputs.urls }}
+          YTOKEN: ${{ secrets.YANDEX_OAUTH }}
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          envs: URLS,YTOKEN
+          capture_stdout: true
+          script: |
+            set -e
+            if [ -z "$YTOKEN" ]; then
+              YTOKEN=$(sed -n 's/^YANDEX_OAUTH=//p' /opt/bizsoft/astro.env 2>/dev/null | tr -d '"\r' || true)
+            fi
+            if [ -z "$YTOKEN" ]; then
+              echo "токен: НЕ НАЙДЕН (ни секрета YANDEX_OAUTH, ни YANDEX_OAUTH в astro.env)"
+              echo "нужно: создать OAuth-приложение на oauth.yandex.ru с доступом «Яндекс.Вебмастер»,"
+              echo "получить токен и добавить его секретом YANDEX_OAUTH в GitHub-репозиторий."
+              exit 0
+            fi
+            echo "токен: задан"
+            export YTOKEN URLS
+            python3 - <<'PY'
+            import json, os, urllib.request
+            tok = os.environ['YTOKEN']
+            def req(method, path, body=None):
+                r = urllib.request.Request('https://api.webmaster.yandex.net/v4' + path,
+                    data=json.dumps(body).encode() if body else None, method=method)
+                r.add_header('Authorization', f'OAuth {tok}')
+                r.add_header('Content-Type', 'application/json')
+                try:
+                    with urllib.request.urlopen(r, timeout=30) as resp:
+                        return resp.status, json.loads(resp.read() or b'{}')
+                except urllib.error.HTTPError as e:
+                    return e.code, json.loads(e.read() or b'{}')
+            st, u = req('GET', '/user')
+            if st != 200:
+                print(f'user: HTTP {st} {u}'); raise SystemExit
+            uid = u['user_id']
+            st, hs = req('GET', f'/user/{uid}/hosts')
+            host = next((h['host_id'] for h in hs.get('hosts', []) if 'biz-soft.pro' in h['host_id'] and h['host_id'].startswith('https')), None)
+            print(f'host_id: {host}')
+            if not host:
+                print('hosts:', [h['host_id'] for h in hs.get('hosts', [])]); raise SystemExit
+            st, q = req('GET', f'/user/{uid}/hosts/{host}/recrawl/quota')
+            print(f"квота: {q}")
+            for url in os.environ['URLS'].split(','):
+                url = url.strip()
+                st, resp = req('POST', f'/user/{uid}/hosts/{host}/recrawl/queue', {'url': url})
+                print(f'  {url} → HTTP {st} {resp.get("task_id", resp)}')
+            PY
+
+      - name: Post results to journal (issue #22)
+        if: always()
+        uses: actions/github-script@v7
+        env:
+          OUT: ${{ steps.run.outputs.stdout }}
+        with:
+          script: |
+            const out = (process.env.OUT || '(нет вывода)').slice(0, 60000);
+            await github.rest.issues.createComment({
+              owner: context.repo.owner, repo: context.repo.repo, issue_number: 22,
+              body: '### ops-yandex-recrawl · ' + new Date().toISOString() + '\n```\n' + out + '\n```',
+            });

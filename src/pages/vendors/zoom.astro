@@ -5,6 +5,10 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import FAQ from '../../components/FAQ.astro';
 import LeadForm from '../../components/LeadForm.astro';
+import VendorIcon from '../../components/VendorIcon.astro';
+import { productIcons } from '../../data/product-icons';
+import ProductIcon from '../../components/ProductIcon.astro';
+import AddToCartButton from '../../components/AddToCartButton.astro';
 import QuestionForm from '../../components/QuestionForm.astro';
 import JsonLd from '../../components/JsonLd.astro';
 import { getProducts } from '../../lib/directus';
@@ -61,7 +65,7 @@ const cards = zoom.map((p) => {
     sku: p.sku,
     priceText: formatRub(eff.price),
     note: p.price_note || '',
-    byRequest: eff.price <= 0,
+    price: eff.price, byRequest: !(eff.price > 0),
     meta,
     badgeClass: meta ? cardBadgeClass(meta.badge) : '',
     features: meta?.features?.slice(0, 5) || [],
@@ -78,10 +82,11 @@ const cards = zoom.map((p) => {
     <header class="hero">
       <div class="hero-main">
         <div class="vendor-row">
-          <img src="/zoom-logo.svg" alt="Zoom" width="100" height="32" class="zoom-logo" />
+          <VendorIcon slug="zoom" name="Zoom" size={44} />
+          <span class="vendor-name">Zoom</span>
           <span class="vendor-legal">{ZOOM_VENDOR.legalName}</span>
         </div>
-        <h1>Zoom для юридических лиц: тарифы, аддоны и оформление через BizSoft</h1>
+        <h1>Zoom для юридических лиц: тарифы, аддоны и оформление через BIZSoft</h1>
         <p class="hero-sub">
           Подберите и оформите подписки Zoom для бизнеса: Zoom Workplace Pro, Business, Business Plus,
           Enterprise, Webinars, Large Meeting, Rooms, Phone и Events. Подбор тарифа под количество
@@ -94,7 +99,7 @@ const cards = zoom.map((p) => {
           <button class="btn btn-primary" data-open-question data-product="Zoom — подбор тарифа" data-ev="click_get_quote">Получить расчёт и КП</button>
           <a href="#chooser" class="btn btn-ghost" data-ev="click_choose_plan">Подобрать тариф Zoom</a>
         </div>
-        {minPrice > 0 && <p class="from">Цены от <b>{formatRub(minPrice)}</b> · финальная стоимость фиксируется в КП или счёте</p>}
+        {minPrice > 0 && <p class="from">Цены от <b>{formatRub(minPrice)}</b> в год</p>}
       </div>
     </header>
 
@@ -120,7 +125,10 @@ const cards = zoom.map((p) => {
             <div class="zhead">
               {c.meta && <span class={`zbadge ${c.badgeClass}`}>{c.meta.badge}</span>}
             </div>
-            <h3>{c.name}</h3>
+            <div class="pih">
+              {productIcons(c.slug).length > 0 && <ProductIcon slug={c.slug} name={c.name} size={36} />}
+              <h3>{c.name}</h3>
+            </div>
             {c.meta?.forWhom && <p class="forwhom">{c.meta.forWhom}</p>}
             <div class="zprice">
               {c.byRequest
@@ -132,11 +140,14 @@ const cards = zoom.map((p) => {
             )}
             {c.meta?.check && <p class="zcheck">⚠ {c.meta.check}</p>}
             <div class="zactions">
-              <button class="btn btn-primary btn-sm" data-open-question data-product={`Zoom — ${c.name}`} data-sku={c.sku} data-ev="click_get_quote">{c.byRequest ? 'Запросить цену' : 'Получить КП'}</button>
+              {c.byRequest ? (
+                <button class="btn btn-primary btn-sm" data-open-question data-product={`Zoom — ${c.name}`} data-sku={c.sku} data-ev="click_get_quote">Запросить цену</button>
+              ) : (
+                <AddToCartButton sku={c.sku} slug={c.slug} name={c.name} vendor="Zoom" price={c.price} compact />
+              )}
               <a href={`/product/${c.slug}`} class="btn btn-ghost btn-sm" data-ev="click_product_card">Подробнее</a>
             </div>
-            <p class="zfine">Финальная цена фиксируется в КП или счёте.</p>
-          </article>
+                      </article>
         ))}
       </div>
     </section>
@@ -156,7 +167,7 @@ const cards = zoom.map((p) => {
           </tbody>
         </table>
       </div>
-      <p class="muted small">«*» и «уточн.» — характеристики проверяются перед КП. Облачное хранилище: на карточках Biz-Soft указано 5 ГБ, в официальной документации Zoom — 10 ГБ; уточняется перед публикацией.</p>
+      <p class="muted small">«*» и «уточн.» — характеристики проверяются перед КП. Облачное хранилище: на карточках BIZSoft указано 5 ГБ, в официальной документации Zoom — 10 ГБ; уточняется перед публикацией.</p>
     </section>
 
     <!-- Какой Zoom выбрать -->
@@ -236,11 +247,11 @@ const cards = zoom.map((p) => {
 
     <!-- Как купить -->
     <section class="block">
-      <h2>Как купить Zoom через BizSoft</h2>
+      <h2>Как купить Zoom через BIZSoft</h2>
       <ol class="steps">
         <li>Вы оставляете заявку или выбираете товар в каталоге.</li>
         <li>Менеджер уточняет сценарий: тариф, количество пользователей, аддоны, срок, документы.</li>
-        <li>BizSoft готовит КП или счёт.</li>
+        <li>BIZSoft готовит КП или счёт.</li>
         <li>После согласования оформляются договор и оплата по счёту.</li>
         <li>После оплаты передаются доступы или инструкции по активации.</li>
         <li>Закрывающие документы передаются в согласованном формате, в том числе через ЭДО.</li>
@@ -252,7 +263,7 @@ const cards = zoom.map((p) => {
     <section class="block">
       <h2>Документы для бухгалтерии и закупки</h2>
       <div class="prose-bizsoft">
-        <p>Для юридических лиц важно корректное оформление. Через BizSoft можно запросить КП, счёт, договор
+        <p>Для юридических лиц важно корректное оформление. Через BIZSoft можно запросить КП, счёт, договор
           и закрывающие документы; закрывающие могут передаваться через <a href="/documents">ЭДО</a>.
           Финальный состав документов зависит от условий сделки и подтверждается до оплаты. Для КП
           подготовьте: название организации, ИНН, контактное лицо, email, нужный тариф, количество
@@ -276,7 +287,7 @@ const cards = zoom.map((p) => {
             <li>Подбор по сценарию и количеству участников</li>
           </ul>
         </div>
-        <LeadForm source="zoom-landing" title="Заявка на подбор Zoom" submitLabel="Получить расчёт и КП" />
+        <LeadForm source="zoom-landing" title="Подбор Zoom" submitLabel="Получить расчёт и КП" />
       </div>
     </section>
 
@@ -302,7 +313,7 @@ const cards = zoom.map((p) => {
   .hero { padding: 1rem 0 1.5rem; }
   .hero-main { max-width: 820px; }
   .vendor-row { display: flex; align-items: center; gap: 0.8rem; margin-bottom: 1rem; }
-  .zoom-logo { border-radius: 8px; }
+  .vendor-name { font-weight: 700; font-size: 1.05rem; }
   .vendor-legal { color: var(--color-text-dim); font-size: 0.85rem; }
   h1 { font-size: clamp(1.9rem, 4.5vw, 3rem); margin-bottom: 1rem; }
   .hero-sub { color: var(--color-text-muted); font-size: 1.08rem; max-width: 62ch; }
@@ -356,6 +367,9 @@ const cards = zoom.map((p) => {
   .links .link-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 0.6rem; }
   .links a { color: var(--color-accent); font-size: 0.92rem; padding: 0.5rem 0; }
   @media (max-width: 880px) { .final-grid { grid-template-columns: 1fr; } }
+  /* Значок продукта слева от названия в плитке */
+  .pih { display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.4rem; }
+  .pih h3 { margin-bottom: 0; }
 </style>
 
 <script>

@@ -5,6 +5,10 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import FAQ from '../../components/FAQ.astro';
 import LeadForm from '../../components/LeadForm.astro';
+import VendorIcon from '../../components/VendorIcon.astro';
+import { productIcons } from '../../data/product-icons';
+import ProductIcon from '../../components/ProductIcon.astro';
+import AddToCartButton from '../../components/AddToCartButton.astro';
 import QuestionForm from '../../components/QuestionForm.astro';
 import JsonLd from '../../components/JsonLd.astro';
 import { getProducts } from '../../lib/directus';
@@ -39,7 +43,7 @@ const jb = core
 const priced = jb.filter((p) => effectivePrice(p).price > 0);
 const minPrice = priced.length ? Math.min(...priced.map((p) => effectivePrice(p).price)) : 0;
 
-const title = 'Купить JetBrains для организации — цена, КП | Biz-Soft';
+const title = 'Купить JetBrains для организации — цена, КП | BIZSoft';
 const description = 'Лицензии JetBrains для команд: All Products Pack, IntelliJ IDEA, Rider, PyCharm, WebStorm и другие IDE. Оформление на юрлицо: договор, счёт, закрывающие, ЭДО. Подберём и пришлём КП.';
 
 const ldItems = jb.map((p) => ({ name: p.name, slug: p.slug }));
@@ -63,7 +67,7 @@ const cards = jb.map((p) => {
     anchor: p.sku.toLowerCase(),
     priceText: formatRub(eff.price),
     note: p.price_note || '',
-    byRequest: eff.price <= 0,
+    price: eff.price, byRequest: !(eff.price > 0),
     meta,
     badgeClass: meta ? cardBadgeClass(meta.badge) : '',
     features: meta?.features?.slice(0, 5) || [],
@@ -80,6 +84,7 @@ const cards = jb.map((p) => {
     <header class="hero">
       <div class="hero-main">
         <div class="vendor-row">
+          <VendorIcon slug="jetbrains" name="JetBrains" size={44} />
           <span class="vendor-name">JetBrains</span>
           <span class="vendor-legal">{JETBRAINS_VENDOR.legalName}</span>
         </div>
@@ -98,7 +103,7 @@ const cards = jb.map((p) => {
           <a href="#chooser" class="btn btn-ghost" data-ev="click_pick_licenses">Подобрать продукт</a>
           <a href="#products" class="btn btn-ghost" data-ev="click_related_link">Смотреть каталог</a>
         </div>
-        {minPrice > 0 && <p class="from">Цены от <b>{formatRub(minPrice)}</b> за пользователя в год · финальная стоимость фиксируется в КП или счёте</p>}
+        {minPrice > 0 && <p class="from">Цены от <b>{formatRub(minPrice)}</b> за пользователя в год</p>}
       </div>
     </header>
 
@@ -109,11 +114,10 @@ const cards = jb.map((p) => {
       <p>JetBrains — это набор профессиональных сред разработки (IDE) и инструментов для команд: IntelliJ IDEA
         для Java и Kotlin, PyCharm для Python, WebStorm для JavaScript и TypeScript, PhpStorm, Rider для .NET,
         CLion, GoLand, RubyMine, RustRover, DataGrip, а также All Products Pack, JetBrains AI и серверные
-        инструменты (TeamCity, YouTrack, Qodana, Datalore). Biz-Soft помогает организациям и ИП легально
+        инструменты (TeamCity, YouTrack, Qodana, Datalore). BIZSoft помогает организациям и ИП легально
         приобрести и продлить лицензии JetBrains: мы подбираем продукты под задачи команды, рассчитываем
         стоимость в коммерческом предложении и оформляем поставку по договору с полным пакетом документов.
-        Лицензии поставляются как годовая подписка на пользователя. Финальная цена фиксируется в счёте и
-        зависит от курса евро, типа лицензии и числа пользователей.</p>
+        Лицензии поставляются как годовая подписка на пользователя; стоимость зависит от курса евро, типа лицензии и числа пользователей.</p>
     </section>
 
     <!-- 2. Быстрый подбор по стеку -->
@@ -150,7 +154,10 @@ const cards = jb.map((p) => {
               {c.meta && <span class={`zbadge ${c.badgeClass}`}>{c.meta.badge}</span>}
               <span class="zlic">Для организаций</span>
             </div>
-            <h3>{c.name}</h3>
+            <div class="pih">
+              {productIcons(c.slug).length > 0 && <ProductIcon slug={c.slug} name={c.name} size={36} />}
+              <h3>{c.name}</h3>
+            </div>
             {c.meta?.forWhom && <p class="forwhom">{c.meta.forWhom}</p>}
             <div class="zprice">
               {c.byRequest
@@ -162,10 +169,14 @@ const cards = jb.map((p) => {
             )}
             {c.meta?.check && <p class="zcheck">⚠ {c.meta.check}</p>}
             <div class="zactions">
-              <button class="btn btn-primary btn-sm" data-open-question data-product={`JetBrains — ${c.name}`} data-sku={c.sku} data-ev="click_buy_org">{c.byRequest ? 'Уточнить цену' : 'Купить для организации'}</button>
+              {c.byRequest ? (
+                <button class="btn btn-primary btn-sm" data-open-question data-product={`JetBrains — ${c.name}`} data-sku={c.sku} data-ev="click_buy_org">Уточнить цену</button>
+              ) : (
+                <AddToCartButton sku={c.sku} slug={c.slug} name={c.name} vendor="JetBrains" price={c.price} compact />
+              )}
               <a href={`/product/${c.slug}`} class="btn btn-ghost btn-sm" data-ev="click_product_card">Подробнее</a>
             </div>
-            <p class="zfine">Ориентир за пользователя в год, incl. VAT; финальная цена фиксируется в КП.</p>
+            <p class="zfine">Ориентир за пользователя в год, с учётом VAT.</p>
           </article>
         ))}
       </div>
@@ -282,7 +293,7 @@ const cards = jb.map((p) => {
       <h2>Управление лицензиями, безопасность и администрирование</h2>
       <p class="prose-bizsoft">Лицензии JetBrains управляются через JetBrains Account: вы распределяете места
         между сотрудниками и контролируете подписки. Для организаций предусмотрены инструменты централизованного
-        управления. Biz-Soft помогает оформить, продлить и учесть лицензии: единый счёт, документы для
+        управления. BIZSoft помогает оформить, продлить и учесть лицензии: единый счёт, документы для
         бухгалтерии и сопровождение при разворачивании. Конкретные технические сценарии (офлайн-активация,
         сервер лицензий) уточняются у менеджера.</p>
       <div class="cells">
@@ -307,9 +318,9 @@ const cards = jb.map((p) => {
       </div>
     </section>
 
-    <!-- 14. Как купить через Biz-Soft -->
+    <!-- 14. Как купить через BIZSoft -->
     <section class="block">
-      <h2>Как купить JetBrains через Biz-Soft</h2>
+      <h2>Как купить JetBrains через BIZSoft</h2>
       <ol class="steps">
         <li>Оставляете заявку или список нужных продуктов.</li>
         <li>Готовим КП с расчётом по числу пользователей.</li>
@@ -364,7 +375,7 @@ const cards = jb.map((p) => {
             <li>Подбор по языку, стеку и количеству разработчиков</li>
           </ul>
         </div>
-        <LeadForm source="jetbrains-landing" title="Заявка на подбор JetBrains" submitLabel="Получить КП на JetBrains" />
+        <LeadForm source="jetbrains-landing" title="Подбор JetBrains" submitLabel="Получить КП на JetBrains" />
       </div>
     </section>
 
@@ -477,6 +488,9 @@ const cards = jb.map((p) => {
   .links .link-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 0.6rem; }
   .links a { color: #FB0F60; font-size: 0.92rem; padding: 0.5rem 0; }
   @media (max-width: 880px) { .final-grid { grid-template-columns: 1fr; } }
+  /* Значок продукта слева от названия в плитке */
+  .pih { display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.4rem; }
+  .pih h3 { margin-bottom: 0; }
 </style>
 
 <script>

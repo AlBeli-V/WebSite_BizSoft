@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" width="512" height="512" role="img" aria-labelledby="jetbrains-ai-context-prompt-color-title jetbrains-ai-context-prompt-color-desc" data-icon-id="jetbrains-ai-context-prompt" data-variant="color">
+  <title id="jetbrains-ai-context-prompt-color-title">AI Context Prompt — color icon</title>
+  <desc id="jetbrains-ai-context-prompt-color-desc">Normalized color product icon used by 2 catalog card(s).</desc>
+  <metadata>
+  <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/">
+    <rdf:Description rdf:about="">
+      <dc:title>AI Context Prompt — color</dc:title>
+      <dc:description>Normalized catalog product icon; assigned to 2 product card(s); 512×512 transparent canvas; 12.5% safe area.</dc:description>
+      <dc:creator>甲木庚金</dc:creator>
+      <dc:source>https://downloads.marketplace.jetbrains.com/files/31859/1052086/icon/default.svg</dc:source>
+      <dc:date>2026-08-18</dc:date>
+      <dc:rights>Publisher-provided Marketplace icon; copyright and trademark rights remain with the plugin publisher.</dc:rights>
+      <dc:identifier>jetbrains-ai-context-prompt__color</dc:identifier>
+    </rdf:Description>
+  </rdf:RDF>
+</metadata>
+  <svg x="65" y="65" width="382" height="382" viewBox="0 0 80 80" preserveAspectRatio="xMidYMid meet"><defs xmlns="http://www.w3.org/2000/svg">
+    <linearGradient id="bg" x1="9" y1="8" x2="70" y2="72" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#38BDF8"/>
+      <stop offset="1" stop-color="#2563EB"/>
+    </linearGradient>
+    <linearGradient id="tailA" x1="73" y1="32" x2="57" y2="46" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FBBF24" stop-opacity="0"/>
+      <stop offset="1" stop-color="#FBBF24" stop-opacity="0.95"/>
+    </linearGradient>
+    <linearGradient id="tailB" x1="69" y1="17" x2="47" y2="38" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FBBF24" stop-opacity="0"/>
+      <stop offset="1" stop-color="#FBBF24" stop-opacity="0.95"/>
+    </linearGradient>
+    <linearGradient id="tailC" x1="58" y1="10" x2="37" y2="30" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FBBF24" stop-opacity="0"/>
+      <stop offset="1" stop-color="#FBBF24" stop-opacity="0.95"/>
+    </linearGradient>
+  </defs>
+  <rect xmlns="http://www.w3.org/2000/svg" x="7" y="7" width="66" height="66" rx="15" fill="url(#bg)"/>
+  <path xmlns="http://www.w3.org/2000/svg" d="M73 32L57 46" stroke="url(#tailA)" stroke-width="3.2" stroke-linecap="round"/>
+  <path xmlns="http://www.w3.org/2000/svg" d="M69 17L47 38" stroke="url(#tailB)" stroke-width="4.6" stroke-linecap="round"/>
+  <path xmlns="http://www.w3.org/2000/svg" d="M58 10L37 30" stroke="url(#tailC)" stroke-width="3.2" stroke-linecap="round"/>
+  <path xmlns="http://www.w3.org/2000/svg" d="M57 41L58.55 44.45L62 46L58.55 47.55L57 51L55.45 47.55L52 46L55.45 44.45L57 41Z" fill="#FBBF24"/>
+  <path xmlns="http://www.w3.org/2000/svg" d="M47 30L49.55 35.45L55 38L49.55 40.55L47 46L44.45 40.55L39 38L44.45 35.45L47 30Z" fill="#FBBF24"/>
+  <path xmlns="http://www.w3.org/2000/svg" d="M37 25L38.55 28.45L42 30L38.55 31.55L37 35L35.45 31.55L32 30L35.45 28.45L37 25Z" fill="#FBBF24"/>
+  <path xmlns="http://www.w3.org/2000/svg" d="M20 46L31.5 54L20 62" fill="none" stroke="#F8FAFC" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+  <path xmlns="http://www.w3.org/2000/svg" d="M38 61H58" stroke="#F8FAFC" stroke-width="6" stroke-linecap="round"/>
+</svg>
+</svg>

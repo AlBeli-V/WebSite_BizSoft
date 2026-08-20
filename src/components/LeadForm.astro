@@ -1,5 +1,9 @@
 ---
-// Инлайн-форма заявки (для /pricing/ и др.). Постит на /api/lead.
+// Инлайн-форма подбора (vendor-лендинги, /pricing и др.). Постит на /api/lead.
+// Все поля обязательные; телефон — с маской +7; чипы топ-вендоров с иконками.
+import VendorChips from './VendorChips.astro';
+import ContactDirect from './ContactDirect.astro';
+
 interface Props {
   source?: string;
   title?: string;
@@ -9,42 +13,49 @@ const { source = 'pricing', title = 'Запросить расчёт', submitLab
 ---
 <form class="lead-form card" data-lead-form data-source={source}>
   <h3>{title}</h3>
-  <div class="lf-row">
-    <label>Имя*<input name="name" required autocomplete="name" /></label>
-    <label>Компания*<input name="company" required autocomplete="organization" /></label>
+  <div class="lf-grid">
+    <label>ФИО:<input name="name" required autocomplete="name" /></label>
+    <label>E-mail:<input name="email" type="email" required autocomplete="email" /></label>
+    <label>Телефон:<input name="phone" type="tel" required autocomplete="tel" placeholder="+7 (___) ___-__-__" /></label>
+    <label>Компания:<input name="company" required autocomplete="organization" /></label>
+    <label>Количество мест:<input name="seats" type="number" min="1" max="10000" required inputmode="numeric" placeholder="например, 10" /></label>
   </div>
-  <div class="lf-row">
-    <label>E-mail*<input name="email" type="email" required autocomplete="email" /></label>
-    <label>Телефон*<input name="phone" type="tel" required autocomplete="tel" /></label>
-  </div>
-  <label>Что нужно подобрать?*<textarea name="message" rows="3" required placeholder="Сервисы, количество пользователей, сроки…"></textarea></label>
+  <label>Что нужно подобрать?<textarea name="message" rows="3" required placeholder="Сервисы, количество пользователей, сроки…"></textarea></label>
+  <VendorChips />
   <label class="lf-consent">
     <input type="checkbox" name="consent" required />
     <span>Согласен на обработку персональных данных согласно <a href="/privacy" target="_blank" rel="noopener noreferrer">политике</a>.</span>
   </label>
   <button type="submit" class="btn btn-primary lf-submit">{submitLabel}</button>
+  <div class="lf-alt"><ContactDirect /></div>
   <p class="lf-status" data-status role="status" aria-live="polite"></p>
 </form>
 
 <style>
   .lead-form { padding: 1.8rem; display: flex; flex-direction: column; gap: 0.9rem; }
   .lead-form h3 { font-size: 1.3rem; }
-  .lf-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.9rem; }
-  /* min-width: 0 — иначе внутренняя ширина input распирает grid-колонку за карточку */
-  .lf-row > label { min-width: 0; }
-  .lead-form label { display: flex; flex-direction: column; gap: 0.35rem; font-size: 0.86rem; color: var(--color-text-muted); }
-  .lead-form input, .lead-form textarea { background: var(--color-bg-elevated); border: 1px solid var(--color-border-strong); border-radius: var(--radius-sm); padding: 0.6rem 0.7rem; color: var(--color-text); font: inherit; width: 100%; min-width: 0; box-sizing: border-box; }
+  /* Всегда ровная сетка: подписи в одну строку, инпуты выровнены по горизонтали */
+  .lf-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.9rem; }
+  .lf-grid > label { min-width: 0; }
+  .lead-form label { display: flex; flex-direction: column; gap: 0.35rem; font-size: 0.88rem; font-weight: 600; color: var(--color-text); white-space: nowrap; }
+  .lead-form label:has(textarea) { white-space: normal; }
+  .lead-form input, .lead-form textarea { background: var(--color-bg-elevated); border: 1px solid var(--color-border-strong); border-radius: var(--radius-sm); padding: 0.6rem 0.7rem; color: var(--color-text); font: inherit; font-weight: 400; width: 100%; min-width: 0; box-sizing: border-box; }
   .lead-form input:focus, .lead-form textarea:focus { border-color: var(--color-accent); outline: none; }
-  .lf-consent { flex-direction: row; align-items: flex-start; gap: 0.5rem; font-size: 0.82rem; }
-  .lf-consent input { width: auto; margin-top: 0.2rem; }
-  .lf-consent a { color: var(--color-accent); }
+  /* Специфичнее, чем .lead-form label — иначе nowrap/column из общего правила ломают строку согласия */
+  .lead-form .lf-consent { flex-direction: row; align-items: flex-start; gap: 0.5rem; font-size: 0.82rem; font-weight: 400; white-space: normal; }
+  .lead-form .lf-consent input { width: auto; margin-top: 0.2rem; }
+  .lead-form .lf-consent a { color: var(--color-accent); }
+  .lf-alt { margin: 0; }
   .lf-status { font-size: 0.9rem; margin: 0; }
   .lf-status.ok { color: var(--color-success); }
   .lf-status.err { color: var(--color-danger); }
-  @media (max-width: 520px) { .lf-row { grid-template-columns: 1fr; } }
+  @media (max-width: 520px) { .lf-grid { grid-template-columns: 1fr; } }
 </style>
 
 <script>
+  import { maskAllPhones } from '../lib/phone-mask';
+  maskAllPhones();
+
   document.querySelectorAll('[data-lead-form]').forEach((el) => {
     const form = el as HTMLFormElement;
     const status = form.querySelector('[data-status]') as HTMLElement;
@@ -65,7 +76,9 @@ const { source = 'pricing', title = 'Запросить расчёт', submitLab
           try { const j = await res.json(); if (j?.error) msg = j.error; } catch { /* not json */ }
           throw new Error(msg);
         }
-        status.textContent = 'Заявка отправлена! Свяжемся с вами скоро.'; status.className = 'lf-status ok';
+        form.querySelectorAll('label, .lf-grid, .vc-cap, .vc-chips, [data-chips], .lf-submit, .lf-consent, .lf-alt').forEach((n) => n.remove());
+        status.className = 'lf-status ok';
+        status.innerHTML = '<b>Заявка получена.</b> Ответим в рабочее время. Пока ждёте — посмотрите <a href="/documents">образцы документов</a> или <a href="/how-we-work">как проходит поставка</a>.';
         form.reset();
         const w = window as unknown as { ym?: (...a: unknown[]) => void };
         const id = (import.meta as { env: Record<string, string> }).env.PUBLIC_METRIKA_ID;

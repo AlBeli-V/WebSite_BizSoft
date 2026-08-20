@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" width="512" height="512" role="img" aria-labelledby="jetbrains-csv-color-pro-color-title jetbrains-csv-color-pro-color-desc" data-icon-id="jetbrains-csv-color-pro" data-variant="color">
+  <title id="jetbrains-csv-color-pro-color-title">CSV Color Pro — color icon</title>
+  <desc id="jetbrains-csv-color-pro-color-desc">Normalized color product icon used by 2 catalog card(s).</desc>
+  <metadata>
+  <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/">
+    <rdf:Description rdf:about="">
+      <dc:title>CSV Color Pro — color</dc:title>
+      <dc:description>Normalized catalog product icon; assigned to 2 product card(s); 512×512 transparent canvas; 12.5% safe area.</dc:description>
+      <dc:creator>Vladislav Ogorodnik</dc:creator>
+      <dc:source>https://downloads.marketplace.jetbrains.com/files/26716/734336/icon/default.svg</dc:source>
+      <dc:date>2026-08-18</dc:date>
+      <dc:rights>Publisher-provided Marketplace icon; copyright and trademark rights remain with the plugin publisher.</dc:rights>
+      <dc:identifier>jetbrains-csv-color-pro__color</dc:identifier>
+    </rdf:Description>
+  </rdf:RDF>
+</metadata>
+  <svg x="65" y="65" width="382" height="382" viewBox="0 0 16 16" preserveAspectRatio="xMidYMid meet"><g xmlns="http://www.w3.org/2000/svg" fill="none" fill-rule="evenodd">
+        <!-- Background -->
+        <rect x="1" y="1" width="14" height="14" fill="#F0F0F0" rx="2"/>
+
+        <!-- CSV columns with different colors -->
+        <rect x="2" y="3" width="3" height="10" fill="#FF6B6B" rx="1"/>
+        <rect x="6" y="3" width="3" height="10" fill="#4ECDC4" rx="1"/>
+        <rect x="10" y="3" width="3" height="10" fill="#45B7D1" rx="1"/>
+
+        <!-- CSV Text -->
+        <text x="3.5" y="8.5" font-family="Arial" font-size="4" fill="#FFFFFF" text-anchor="middle" dominant-baseline="middle">C</text>
+        <text x="7.5" y="8.5" font-family="Arial" font-size="4" fill="#FFFFFF" text-anchor="middle" dominant-baseline="middle">S</text>
+        <text x="11.5" y="8.5" font-family="Arial" font-size="4" fill="#FFFFFF" text-anchor="middle" dominant-baseline="middle">V</text>
+    </g>
+</svg>
+</svg>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" width="512" height="512" role="img" aria-labelledby="jetbrains-structurizr-dsl-color-title jetbrains-structurizr-dsl-color-desc" data-icon-id="jetbrains-structurizr-dsl" data-variant="color">
+  <title id="jetbrains-structurizr-dsl-color-title">Structurizr DSL — color icon</title>
+  <desc id="jetbrains-structurizr-dsl-color-desc">Normalized color product icon used by 1 catalog card(s).</desc>
+  <metadata>
+  <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/">
+    <rdf:Description rdf:about="">
+      <dc:title>Structurizr DSL — color</dc:title>
+      <dc:description>Normalized catalog product icon; assigned to 1 product card(s); 512×512 transparent canvas; 12.5% safe area.</dc:description>
+      <dc:creator>Jakub Jirák</dc:creator>
+      <dc:source>https://downloads.marketplace.jetbrains.com/files/29351/1071848/icon/default.svg</dc:source>
+      <dc:date>2026-08-18</dc:date>
+      <dc:rights>Publisher-provided Marketplace icon; copyright and trademark rights remain with the plugin publisher.</dc:rights>
+      <dc:identifier>jetbrains-structurizr-dsl__color</dc:identifier>
+    </rdf:Description>
+  </rdf:RDF>
+</metadata>
+  <svg x="65" y="65" width="382" height="382" viewBox="0 0 40 40" preserveAspectRatio="xMidYMid meet"><!-- Background with Structurizr blue -->
+  <rect xmlns="http://www.w3.org/2000/svg" width="40" height="40" rx="8" fill="#1168BD"/>
+  
+  <!-- C4 Architecture boxes -->
+  <g xmlns="http://www.w3.org/2000/svg" fill="#FFFFFF">
+    <!-- Top box (Person/User) -->
+    <rect x="14" y="6" width="12" height="8" rx="2"/>
+    
+    <!-- Middle row (Software Systems) -->
+    <rect x="6" y="17" width="12" height="8" rx="2"/>
+    <rect x="22" y="17" width="12" height="8" rx="2"/>
+    
+    <!-- Bottom box (Container/Database) -->
+    <rect x="14" y="28" width="12" height="8" rx="2"/>
+  </g>
+  
+  <!-- Connection arrows -->
+  <g xmlns="http://www.w3.org/2000/svg" stroke="#FFFFFF" stroke-width="1.5" fill="none" opacity="0.8">
+    <!-- Top to left -->
+    <path d="M 16 14 L 12 17"/>
+    <!-- Top to right -->
+    <path d="M 24 14 L 28 17"/>
+    <!-- Left to bottom -->
+    <path d="M 12 25 L 16 28"/>
+    <!-- Right to bottom -->
+    <path d="M 28 25 L 24 28"/>
+  </g>
+</svg>
+</svg>

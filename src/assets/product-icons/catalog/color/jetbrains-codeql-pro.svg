@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" width="512" height="512" role="img" aria-labelledby="jetbrains-codeql-pro-color-title jetbrains-codeql-pro-color-desc" data-icon-id="jetbrains-codeql-pro" data-variant="color">
+  <title id="jetbrains-codeql-pro-color-title">CodeQL Pro — color icon</title>
+  <desc id="jetbrains-codeql-pro-color-desc">Normalized color product icon used by 2 catalog card(s).</desc>
+  <metadata>
+  <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/">
+    <rdf:Description rdf:about="">
+      <dc:title>CodeQL Pro — color</dc:title>
+      <dc:description>Normalized catalog product icon; assigned to 2 product card(s); 512×512 transparent canvas; 12.5% safe area.</dc:description>
+      <dc:creator>Code</dc:creator>
+      <dc:source>https://downloads.marketplace.jetbrains.com/files/31940/1072530/icon/default.svg</dc:source>
+      <dc:date>2026-08-18</dc:date>
+      <dc:rights>Publisher-provided Marketplace icon; copyright and trademark rights remain with the plugin publisher.</dc:rights>
+      <dc:identifier>jetbrains-codeql-pro__color</dc:identifier>
+    </rdf:Description>
+  </rdf:RDF>
+</metadata>
+  <svg x="65" y="65" width="382" height="382" viewBox="0 0 40 40" preserveAspectRatio="xMidYMid meet"><!--
+    Plugin icon for CodeQL Pro. Rounded `<>QL` glyph block in CodeQL
+    blue (#2088ff). Native 32-unit paths are placed inside a transform
+    that scales 1.4× and recenters on the 40×40 canvas, so the mark
+    spans x=0.4..39.6 and y=10.2..29.8 — nearly the full width,
+    ~50% of the height — versus the prior translate-only layout
+    that left ~10 units of vertical empty space below the frame.
+    A "Pro" badge is overlaid on the upper-right corner OF the mark
+    in canvas coords (outside the scaling group) so its size stays
+    independent of the mark scale.
+  -->
+  <g xmlns="http://www.w3.org/2000/svg" transform="translate(-2.4 -1) scale(1.4)">
+    <!-- Outer rounded frame -->
+    <path d="M26.889,24H5.111A3.061,3.061,0,0,1,2,21V11A3.061,3.061,0,0,1,5.111,8H26.889A3.061,3.061,0,0,1,30,11V21A3.061,3.061,0,0,1,26.889,24ZM5.111,10a1.02,1.02,0,0,0-1.037,1V21a1.02,1.02,0,0,0,1.037,1H26.889a1.02,1.02,0,0,0,1.037-1V11a1.02,1.02,0,0,0-1.037-1Z" fill="#2088ff"/>
+    <!-- Right-side "= =" data lines -->
+    <path d="M22.741,15H20.667a1,1,0,1,1,0-2h2.074a1,1,0,1,1,0,2Z" fill="#2088ff"/>
+    <path d="M24.815,19H20.667a1,1,0,1,1,0-2h4.148a1,1,0,1,1,0,2Z" fill="#2088ff"/>
+    <!-- "QL" lettering -->
+    <path d="M12.217,16a3.412,3.412,0,0,1-.256,1.369,2.661,2.661,0,0,1-.7.972l.863,1.045h-1.19l-.487-.576a3.075,3.075,0,0,1-1.057.179,2.941,2.941,0,0,1-1.444-.353,2.539,2.539,0,0,1-1.01-1.021A3.276,3.276,0,0,1,6.566,16a3.281,3.281,0,0,1,.372-1.619,2.54,2.54,0,0,1,1.01-1.019,3.138,3.138,0,0,1,2.884,0,2.545,2.545,0,0,1,1.012,1.019A3.271,3.271,0,0,1,12.217,16Zm-3.267.886h1.084l.448.554a1.7,1.7,0,0,0,.325-.6A2.718,2.718,0,0,0,10.924,16a2.109,2.109,0,0,0-.419-1.413A1.393,1.393,0,0,0,9.392,14.1a1.4,1.4,0,0,0-1.114.488A2.109,2.109,0,0,0,7.86,16a2.112,2.112,0,0,0,.418,1.412,1.392,1.392,0,0,0,1.114.489,1.664,1.664,0,0,0,.33-.032ZM13.6,19V13h1.276v4.986h2.587V19Z" fill="#2088ff"/>
+  </g>
+  <!--
+    "Pro" badge — sits on the mark's upper-right corner like a stamp.
+    Canvas coords (outside the scale transform) so its size is fixed.
+    Same hue (~212°) as the brand blue at reduced lightness so the
+    chip reads as the darker sibling of the surrounding fill, not a
+    separate logo.
+  -->
+  <rect xmlns="http://www.w3.org/2000/svg" x="25" y="4.5" width="14" height="8" rx="1.5" ry="1.5" fill="#0d63cc"/>
+  <text xmlns="http://www.w3.org/2000/svg" x="32" y="10.3" font-family="-apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="6" font-weight="700" fill="#ffffff" text-anchor="middle" letter-spacing="0.3">Pro</text>
+</svg>
+</svg>

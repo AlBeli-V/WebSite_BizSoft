@@ -110,7 +110,7 @@ export function buildPlan(
 
     const setField = (field: string, value: unknown) => {
       payload[field] = value;
-      let before = cur ? (cur as Record<string, unknown>)[field] : undefined;
+      let before = cur ? (cur as unknown as Record<string, unknown>)[field] : undefined;
       // category в существующем товаре приходит объектом {id,...} — сравниваем по id
       if (field === 'category' && before && typeof before === 'object') before = (before as { id?: unknown }).id;
       const beforeStr = before == null ? '' : (typeof before === 'object' ? JSON.stringify(before) : String(before));
@@ -169,8 +169,8 @@ export function buildPlan(
       const eff = {
         peg_to_usd: true,
         peg_currency: pc,
-        base_price_usd: (payload.base_price_usd ?? cur?.base_price_usd) ?? null,
-        base_price_eur: (payload.base_price_eur ?? cur?.base_price_eur) ?? null,
+        base_price_usd: ((payload.base_price_usd ?? cur?.base_price_usd) ?? null) as number | null,
+        base_price_eur: ((payload.base_price_eur ?? cur?.base_price_eur) ?? null) as number | null,
         markup_coeff: (payload.markup_coeff as number | undefined) ?? cur?.markup_coeff ?? null,
       };
       const rub = computePegRub(eff, opts.rates, opts.defaultCoeff ?? DEFAULT_MARKUP_COEFF);

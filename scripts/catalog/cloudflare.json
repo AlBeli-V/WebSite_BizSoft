@@ -1,0 +1,61 @@
+{
+  "vendor_entry": {
+    "slug": "cloudflare",
+    "vendor": "Cloudflare",
+    "legalName": "Cloudflare, Inc.",
+    "brandColor": "#F38020",
+    "site": "https://www.cloudflare.com",
+    "catSeg": "security",
+    "catLabel": "Антивирусы и безопасность",
+    "domain": "it",
+    "tagline": "Защита и ускорение сайтов: тарифы Pro и Business с WAF, CDN и защитой от DDoS для каждого домена.",
+    "about": "Cloudflare — облачная платформа безопасности и производительности сайтов: CDN, защита от DDoS-атак, WAF, DNS и SSL. Подходит компаниям, которым нужно защитить корпоративный сайт или интернет-магазин от атак и ускорить его работу для посетителей по всему миру."
+  },
+  "products": [
+    {
+      "sku": "CLOUDFLARE-PRO",
+      "slug": "cloudflare-pro",
+      "name": "Cloudflare Pro",
+      "archive": true
+    },
+    {
+      "sku": "CLOUDFLARE-BUSINESS",
+      "slug": "cloudflare-business",
+      "name": "Cloudflare Business",
+      "archive": true
+    }
+  ],
+  "rejected": [
+    {
+      "name": "Cloudflare Enterprise",
+      "reason": "Индивидуальный расчёт через отдел продаж (contact sales), нет публичной цены и онлайн-checkout.",
+      "source_url": "https://www.cloudflare.com/plans/enterprise/"
+    },
+    {
+      "name": "Cloudflare Workers",
+      "reason": "Serverless-платформа с usage-based оплатой (по числу запросов и CPU-времени), не фиксированная подписка.",
+      "source_url": "https://workers.cloudflare.com/"
+    },
+    {
+      "name": "Cloudflare R2",
+      "reason": "Объектное хранилище с usage-based оплатой за объём и операции.",
+      "source_url": "https://www.cloudflare.com/developer-platform/r2/"
+    },
+    {
+      "name": "Argo Smart Routing",
+      "reason": "Дополнение с оплатой по трафику (usage-based).",
+      "source_url": "https://www.cloudflare.com/application-services/products/argo-smart-routing/"
+    },
+    {
+      "name": "Cloudflare Stream / Images",
+      "reason": "Медиа-продукты с оплатой по потреблению (минуты видео, число изображений).",
+      "source_url": "https://www.cloudflare.com/developer-platform/stream/"
+    },
+    {
+      "name": "Cloudflare Zero Trust (Access, Gateway)",
+      "reason": "Отдельная линейка с per-user лицензированием и порогами usage, вне задания по тарифам для доменов.",
+      "source_url": "https://www.cloudflare.com/zero-trust/"
+    }
+  ],
+  "removed": true
+}

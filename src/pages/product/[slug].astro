@@ -1,4 +1,5 @@
 ---
+import { getCollection } from 'astro:content';
 export const prerender = false;
 
 import BaseLayout from '../../layouts/BaseLayout.astro';
@@ -8,12 +9,14 @@ import FAQ from '../../components/FAQ.astro';
 import QuestionForm from '../../components/QuestionForm.astro';
 import CTASection from '../../components/CTASection.astro';
 import JsonLd from '../../components/JsonLd.astro';
-import { getProductBySlug, findCanonicalProductSlug, getProductsBySlugs, galleryImages } from '../../lib/directus';
+import { getProductBySlug, findCanonicalProductSlug, getProductsBySlugs, galleryImages , getCurrencyRate } from '../../lib/directus';
 import { productSchema } from '../../lib/seo';
 import { effectivePrice, formatRub } from '../../lib/pricing';
 import { ORIGIN_LABEL, LICENSE_LABEL, listValues } from '../../lib/types';
 import { vendorLegal, productNoindex } from '../../lib/catalog';
 import { getAiInterlinks } from '../../data/ai-interlinks';
+import { productIcons } from '../../data/product-icons';
+import ProductIcon from '../../components/ProductIcon.astro';
 
 const { slug } = Astro.params;
 
@@ -48,11 +51,16 @@ const faq = Array.isArray(product.faq) ? product.faq : [];
 const gallery = galleryImages(product);
 const vat = product.vat_percent ?? 0;
 const byRequest = product.price <= 0 && !eff.isPromo;
+let rateDate: string | null = null;
+try {
+  const rate = await getCurrencyRate();
+  if (rate?.rate_date) rateDate = new Date(rate.rate_date).toLocaleDateString('ru-RU');
+} catch { /* индикатор курса просто не показываем */ }
 
 // Архитектурные блоки масштабирования
 const useCases = listValues(product.use_cases);
 const relatedSlugs = listValues(product.related_products);
-let relatedProducts = [];
+let relatedProducts: Awaited<ReturnType<typeof getProductsBySlugs>> = [];
 try {
   if (relatedSlugs.length) relatedProducts = await getProductsBySlugs(relatedSlugs);
 } catch (e) {
@@ -61,6 +69,19 @@ try {
 
 // Перелинковка AI-карточки (сравнения / статьи / категория) — только для AI-вендоров.
 const aiLinks = product.vendor ? getAiInterlinks(product.vendor) : null;
+
+// Обратная перелинковка «карточка → статья»: берём статьи, которые сами
+// ссылаются на этот товар через relatedProducts, — связь описывается один раз
+// во frontmatter статьи и работает для любого вендора, не только AI.
+let blogLinks: { id: string; title: string }[] = [];
+try {
+  const posts = await getCollection('blog', ({ data }) => !data.draft && !data.noindex);
+  blogLinks = posts
+    .filter((p) => (p.data.relatedProducts || []).includes(product.slug))
+    .map((p) => ({ id: p.id, title: p.data.title }));
+} catch (e) {
+  console.error('blog interlinks', e);
+}
 ---
 <BaseLayout
   title={product.meta_title || product.name}
@@ -68,6 +89,7 @@ const aiLinks = product.vendor ? getAiInterlinks(product.vendor) : null;
   type="product"
   keywords={product.keywords || undefined}
   noindex={Boolean(product.noindex) || productNoindex(product.sku)}
+  ogImage={`/og/product/${product.slug}.png`}
 >
   <JsonLd schema={productSchema(product, { images: gallery.map((g) => g.url) })} />
   <div class="container-page section">
@@ -88,7 +110,11 @@ const aiLinks = product.vendor ? getAiInterlinks(product.vendor) : null;
           {category && <a class="badge badge-link" href={`/catalog/${category.slug}`}>{category.name}</a>}
         </div>
         <span class="sku">Артикул: {product.sku}{product.vendor ? ` · Производитель: ${vendorLegal(product.vendor)}` : ''}</span>
-        <h1>{product.name}</h1>
+        {productIcons(product.slug).length > 0 ? (
+          <h1 class="h1-ico"><ProductIcon slug={product.slug} name={product.name} size={44} variant="color" /> {product.name}</h1>
+        ) : (
+          <h1>{product.name}</h1>
+        )}
         {product.short_description && <p class="lead">{product.short_description}</p>}
 
         {gallery.length > 0 && (
@@ -147,7 +173,7 @@ const aiLinks = product.vendor ? getAiInterlinks(product.vendor) : null;
         <div class="block">
           <h2>Как оформляется</h2>
           <ol class="steps">
-            <li>Добавляете товар в корзину и формируете заявку или КП.</li>
+            <li>Добавляете товар в избранное и формируете заявку или КП.</li>
             <li>Заключаем договор и выставляем счёт на оплату.</li>
             <li>После оплаты предоставляем доступ к сервису.</li>
             <li>Передаём закрывающие документы через ЭДО.</li>
@@ -184,6 +210,17 @@ const aiLinks = product.vendor ? getAiInterlinks(product.vendor) : null;
           </div>
         )}
 
+        {blogLinks.length > 0 && (
+          <div class="block">
+            <h2>Полезные статьи</h2>
+            <ul class="blog-links">
+              {blogLinks.map((b) => (
+                <li><a href={`/blog/${b.id}`}>{b.title}</a></li>
+              ))}
+            </ul>
+          </div>
+        )}
+
         {aiLinks && (
           <div class="block ai-interlinks">
             <div class="il-col">
@@ -209,7 +246,18 @@ const aiLinks = product.vendor ? getAiInterlinks(product.vendor) : null;
           ) : (
             <PriceTag product={product} size="lg" />
           )}
-          {product.price_note && !byRequest && <p class="price-note">{product.price_note}{vat > 0 ? ` · в т.ч. НДС ${vat}%` : ''}</p>}
+          {product.price_note && !byRequest && (
+            <p class="price-note">
+              {product.price_note}
+              {vat > 0 && (
+                <details class="vat-hint">
+                  <summary>в т.ч. НДС {vat}% ⓘ</summary>
+                  <span>Поставщик применяет УСН: НДС {vat}% уже включён в цену и отдельной строкой указывается в счёте и КП.</span>
+                </details>
+              )}
+            </p>
+          )}
+          {!byRequest && rateDate && <p class="rate-note">Цена рассчитана по курсу ЦБ на {rateDate} и фиксируется в счёте.</p>}
           {byRequest && <p class="price-note">Рассчитаем стоимость под вашу конфигурацию и количество.</p>}
 
           {!byRequest && (
@@ -230,6 +278,17 @@ const aiLinks = product.vendor ? getAiInterlinks(product.vendor) : null;
             </div>
           )}
 
+          {!byRequest && (
+            <div class="team-calc">
+              <span class="tc-cap">Сколько выйдет на команду</span>
+              {[5, 10, 30].map((n) => (
+                <button type="button" class="tc-row" data-team={n}>
+                  <span>{n} мест</span><b>{formatRub(eff.price * n)}</b>
+                </button>
+              ))}
+            </div>
+          )}
+
           <div class="buy-actions">
             {byRequest ? (
               <button class="btn btn-primary" data-open-question data-product={product.name} data-sku={product.sku}>Запросить цену</button>
@@ -242,7 +301,7 @@ const aiLinks = product.vendor ? getAiInterlinks(product.vendor) : null;
                 data-name={product.name}
                 data-price={eff.price}
               >
-                <span class="lbl-def">В корзину</span><span class="lbl-add" hidden>Добавлено ✓</span>
+                <span class="lbl-def">В избранное</span><span class="lbl-add" hidden>Добавлено ✓</span>
               </button>
             )}
             <button class="btn btn-ghost" data-open-question data-product={product.name} data-sku={product.sku}>Задать вопрос</button>
@@ -280,6 +339,8 @@ const aiLinks = product.vendor ? getAiInterlinks(product.vendor) : null;
   .badge-link:hover { color: var(--color-accent); }
   .sku { color: var(--color-text-dim); font-size: 0.85rem; }
   h1 { font-size: clamp(1.8rem, 3.5vw, 2.6rem); margin: 0.4rem 0 1rem; }
+  /* Профильный значок продукта рядом с названием */
+  .h1-ico { display: flex; align-items: center; gap: 0.7rem; }
   .lead { color: var(--color-text-muted); font-size: 1.1rem; max-width: 60ch; }
   .gallery { display: flex; gap: 0.6rem; flex-wrap: wrap; margin-top: 1.4rem; }
   .gthumb { padding: 0; border: 1px solid var(--color-border); border-radius: 10px; background: #fff; cursor: zoom-in; overflow: hidden; }
@@ -287,6 +348,11 @@ const aiLinks = product.vendor ? getAiInterlinks(product.vendor) : null;
   .block { margin-top: 2.2rem; }
   .block h2 { font-size: 1.4rem; margin-bottom: 0.9rem; }
   .collapsible.clamped { display: -webkit-box; -webkit-line-clamp: 8; line-clamp: 8; -webkit-box-orient: vertical; overflow: hidden; }
+  /* Описание в Directus хранится абзацами через перевод строки — сохраняем разбивку,
+     иначе текст склеивается в сплошную простыню. */
+  .collapsible p { white-space: pre-line; }
+  .blog-links { margin: 0; padding-left: 1.1rem; display: flex; flex-direction: column; gap: 0.4rem; }
+  .blog-links a { color: var(--color-accent); font-weight: 600; }
   .readmore { margin-top: 0.6rem; background: none; border: none; color: var(--color-accent); font-weight: 600; cursor: pointer; padding: 0; font-size: 0.92rem; }
   .features { list-style: none; padding: 0; display: grid; gap: 0.5rem; }
   .features li { padding-left: 1.6rem; position: relative; color: var(--color-text); }
@@ -295,10 +361,20 @@ const aiLinks = product.vendor ? getAiInterlinks(product.vendor) : null;
   .specs th, .specs td { text-align: left; padding: 0.55rem 0.8rem; border-bottom: 1px solid var(--color-border); font-size: 0.93rem; }
   .specs th { color: var(--color-text-muted); font-weight: 500; width: 40%; }
   .steps { padding-left: 1.2rem; color: var(--color-text); display: grid; gap: 0.5rem; }
-  .product-aside { position: sticky; top: 84px; }
+  .product-aside { position: sticky; top: 124px; }
   .buy-card { padding: 1.6rem; display: flex; flex-direction: column; gap: 1rem; }
   .price-req { font-weight: 800; font-size: 1.5rem; }
   .price-note { color: var(--color-text-dim); font-size: 0.82rem; margin: 0; }
+  .vat-hint { display: inline-block; margin-left: 0.3rem; }
+  .vat-hint summary { display: inline; cursor: pointer; color: var(--color-accent); list-style: none; }
+  .vat-hint summary::-webkit-details-marker { display: none; }
+  .vat-hint span { display: block; margin-top: 0.4rem; padding: 0.6rem 0.8rem; background: var(--color-bg-elevated); border-radius: 8px; color: var(--color-text-muted); font-size: 0.82rem; }
+  .rate-note { color: var(--color-text-dim); font-size: 0.8rem; margin: 0; }
+  .team-calc { border-top: 1px dashed var(--color-border); padding-top: 0.8rem; display: flex; flex-direction: column; gap: 0.35rem; }
+  .tc-cap { font-size: 0.8rem; color: var(--color-text-dim); font-weight: 600; }
+  .tc-row { display: flex; justify-content: space-between; align-items: baseline; background: none; border: none; padding: 0.25rem 0; font: inherit; font-size: 0.9rem; color: var(--color-text-muted); cursor: pointer; }
+  .tc-row b { color: var(--color-text); font-variant-numeric: tabular-nums; }
+  .tc-row:hover span { color: var(--color-accent); }
   .qty-row { display: flex; align-items: center; justify-content: space-between; }
   .qty-label { color: var(--color-text-muted); font-size: 0.9rem; }
   .qty { display: flex; align-items: center; gap: 0.3rem; }
@@ -356,6 +432,12 @@ const aiLinks = product.vendor ? getAiInterlinks(product.vendor) : null;
   const totalEl = document.querySelector('[data-total]') as HTMLElement | null;
   const addBtn = document.querySelector('[data-add-cart]') as HTMLButtonElement | null;
   const unit = addBtn ? Number(addBtn.dataset.price || 0) : 0;
+  document.querySelectorAll<HTMLButtonElement>('[data-team]').forEach((b) => {
+    b.addEventListener('click', () => {
+      const q = document.querySelector<HTMLInputElement>('[data-qty]');
+      if (q) { q.value = b.dataset.team || '1'; q.dispatchEvent(new Event('input', { bubbles: true })); }
+    });
+  });
 
   function curQty() { return Math.max(1, Math.floor(Number(qtyInput?.value || 1) || 1)); }
   function refreshTotal() { if (totalEl) totalEl.textContent = formatRub(unit * curQty()); }

@@ -6,9 +6,14 @@
  * INTEGRATION ZONE», слоган «Единая точка доступа к ПО и AI-сервисам»
  * растянут во всю ширину лок-апа снизу (крупный и читаемый).
  *
- * Файл: public/brand/bizsoft-logo-lockup.png (1962×648 @2x).
+ * Файл: src/assets/brand/bizsoft-logo-lockup.png (1024×339, 4× плотность
+ * для ширины шапки 256px). Идёт через ассет-пайплайн (?url) — хешированный
+ * URL в /_astro с годовым immutable-кэшем. Копия остаётся в
+ * public/brand/ для внешних ссылок.
  * Масштабирование только пропорциональное: CSS width + height:auto.
  */
+import lockupUrl from '../assets/brand/bizsoft-logo-lockup.png?url';
+
 interface Props {
   /** header — в шапке (занимает обе строки); footer — компактнее. */
   variant?: 'header' | 'footer';
@@ -17,9 +22,9 @@ const { variant = 'header' } = Astro.props;
 ---
 <img
   class:list={['bizsoft-logo', variant]}
-  src="/brand/bizsoft-logo-lockup.png"
-  width="1962"
-  height="648"
+  src={lockupUrl}
+  width="1024"
+  height="339"
   alt="BIZSoft — Business Integration Zone. Единая точка доступа к ПО и AI-сервисам"
 />
 

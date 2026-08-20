@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" width="512" height="512" role="img" aria-labelledby="jetbrains-adr-companion-color-title jetbrains-adr-companion-color-desc" data-icon-id="jetbrains-adr-companion" data-variant="color">
+  <title id="jetbrains-adr-companion-color-title">ADR Companion — color icon</title>
+  <desc id="jetbrains-adr-companion-color-desc">Normalized color product icon used by 1 catalog card(s).</desc>
+  <metadata>
+  <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/">
+    <rdf:Description rdf:about="">
+      <dc:title>ADR Companion — color</dc:title>
+      <dc:description>Normalized catalog product icon; assigned to 1 product card(s); 512×512 transparent canvas; 12.5% safe area.</dc:description>
+      <dc:creator>Jakub Jirák</dc:creator>
+      <dc:source>https://downloads.marketplace.jetbrains.com/files/30189/1130597/icon/default.svg</dc:source>
+      <dc:date>2026-08-18</dc:date>
+      <dc:rights>Publisher-provided Marketplace icon; copyright and trademark rights remain with the plugin publisher.</dc:rights>
+      <dc:identifier>jetbrains-adr-companion__color</dc:identifier>
+    </rdf:Description>
+  </rdf:RDF>
+</metadata>
+  <svg x="65" y="65" width="382" height="382" viewBox="0 0 40 40" preserveAspectRatio="xMidYMid meet"><defs xmlns="http://www.w3.org/2000/svg">
+    <linearGradient id="adrBg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#5C6BC0"/>
+      <stop offset="1" stop-color="#3949AB"/>
+    </linearGradient>
+  </defs>
+  <rect xmlns="http://www.w3.org/2000/svg" x="4" y="3" width="32" height="34" rx="7" fill="url(#adrBg)"/>
+  <!-- decision graph: one decision point forking to a rejected and an accepted path -->
+  <g xmlns="http://www.w3.org/2000/svg" fill="none" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round">
+    <path d="M20 13 L20 20"/>
+    <path d="M20 20 L12 28" stroke-opacity="0.5"/>
+    <path d="M20 20 L28 28"/>
+  </g>
+  <!-- decision node -->
+  <circle xmlns="http://www.w3.org/2000/svg" cx="20" cy="12" r="3.4" fill="#FFFFFF"/>
+  <!-- rejected alternative (hollow) -->
+  <circle xmlns="http://www.w3.org/2000/svg" cx="12" cy="29" r="3" fill="none" stroke="#FFFFFF" stroke-width="2.2" stroke-opacity="0.5"/>
+  <!-- accepted decision (green, checked) -->
+  <circle xmlns="http://www.w3.org/2000/svg" cx="28" cy="29" r="4.4" fill="#66BB6A"/>
+  <polyline xmlns="http://www.w3.org/2000/svg" points="25.9,29.2 27.4,30.8 30.2,27.4" fill="none" stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+</svg>

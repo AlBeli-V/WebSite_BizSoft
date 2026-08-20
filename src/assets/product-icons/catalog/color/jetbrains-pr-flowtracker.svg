@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" width="512" height="512" role="img" aria-labelledby="jetbrains-pr-flowtracker-color-title jetbrains-pr-flowtracker-color-desc" data-icon-id="jetbrains-pr-flowtracker" data-variant="color">
+  <title id="jetbrains-pr-flowtracker-color-title">PR-FlowTracker — color icon</title>
+  <desc id="jetbrains-pr-flowtracker-color-desc">Normalized color product icon used by 2 catalog card(s).</desc>
+  <metadata>
+  <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/">
+    <rdf:Description rdf:about="">
+      <dc:title>PR-FlowTracker — color</dc:title>
+      <dc:description>Normalized catalog product icon; assigned to 2 product card(s); 512×512 transparent canvas; 12.5% safe area.</dc:description>
+      <dc:creator>itRunFenix</dc:creator>
+      <dc:source>https://downloads.marketplace.jetbrains.com/files/25582/1111305/icon/default.svg</dc:source>
+      <dc:date>2026-08-18</dc:date>
+      <dc:rights>Publisher-provided Marketplace icon; copyright and trademark rights remain with the plugin publisher.</dc:rights>
+      <dc:identifier>jetbrains-pr-flowtracker__color</dc:identifier>
+    </rdf:Description>
+  </rdf:RDF>
+</metadata>
+  <svg x="65" y="65" width="382" height="382" viewBox="12 0 40 60" preserveAspectRatio="xMidYMid meet"><defs xmlns="http://www.w3.org/2000/svg">
+        <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:orange;stop-opacity:1"/>
+            <stop offset="100%" style="stop-color:purple;stop-opacity:1"/>
+        </linearGradient>
+    </defs>
+    <g xmlns="http://www.w3.org/2000/svg" stroke="url(#grad1)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none">
+        <path d="M20 10 L10 20 L20 30"/>  <!-- Arrow pointing right -->
+        <path d="M44 10 L54 20 L44 30"/>  <!-- Arrow pointing left -->
+
+        <!-- Powiększona zakrzywiona ścieżka -->
+        <path d="M32 20 C50 5, 50 35, 32 20"/>  <!-- Powiększona krzywa po prawej -->
+        <path d="M32 20 C14 5, 14 35, 32 20"/>  <!-- Powiększona krzywa po lewej -->
+
+        <circle cx="32" cy="42" r="6" stroke="url(#grad1)" fill="url(#grad1)"/> <!-- Status indicator -->
+    </g>
+</svg>
+</svg>

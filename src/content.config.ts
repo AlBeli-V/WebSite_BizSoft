@@ -17,7 +17,7 @@ const blog = defineCollection({
     // прямой краткий ответ в начале (для сниппета и ИИ-выдачи)
     summaryAnswer: z.string().optional(),
     // авторство и проверка (E-E-A-T)
-    author: z.string().default('Редакция BizSoft'),
+    author: z.string().default('Редакция BIZSoft'),
     reviewedBy: z.string().optional(),
     // явная перелинковка на товары/решения (slug-и)
     relatedProducts: z.array(z.string()).default([]),

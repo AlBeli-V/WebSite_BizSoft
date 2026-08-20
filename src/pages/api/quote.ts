@@ -43,7 +43,7 @@ export const POST: APIRoute = async ({ request }) => {
     .filter((i) => i && typeof i.sku === 'string' && Number(i.qty) > 0)
     .map((i) => ({ sku: i.sku, qty: Math.min(9999, Math.max(1, Math.floor(Number(i.qty)))) }));
 
-  if (lines.length === 0) return new Response(JSON.stringify({ error: 'корзина пуста' }), { status: 422 });
+  if (lines.length === 0) return new Response(JSON.stringify({ error: 'список избранного пуст' }), { status: 422 });
 
   // Пересчёт по авторитетным ценам из БД (с учётом акции на момент запроса)
   let products;
@@ -154,7 +154,7 @@ export const POST: APIRoute = async ({ request }) => {
     attachments: [attachment],
   }).catch((e) => console.error('quote manager mail failed', e));
 
-  return new Response(pdf, {
+  return new Response(new Uint8Array(pdf), {
     status: 200,
     headers: {
       'Content-Type': 'application/pdf',

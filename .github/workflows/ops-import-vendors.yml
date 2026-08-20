@@ -1,0 +1,111 @@
+# Импорт карточек товаров партии вендоров в Directus прода.
+# Файл xlsx собирается на раннере из scripts/catalog/*.json
+# (scripts/import-vendors.mjs --emit; CSV не используется — парсер CSV импорта
+# не поддерживает многострочные описания), копируется на сервер по scp и
+# отправляется в штатный /api/admin/import (upsert по sku); токен
+# ADMIN_TOOLS_TOKEN берётся из /opt/bizsoft/astro.env. Перед импортом
+# обновляется курс ЦБ, чтобы рублёвые цены привязанных товаров посчитались
+# сразу. Результат — в журнал issue #22.
+
+name: ops-import-vendors
+
+on:
+  workflow_dispatch:
+    inputs:
+      apply:
+        description: "true — применить; false — dry-run"
+        required: true
+        default: "false"
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build xlsx from catalog packages
+        run: |
+          npm install --no-save xlsx@0.18.5
+          node scripts/import-vendors.mjs --emit /tmp/cards.xlsx
+          ls -la /tmp/cards.xlsx
+
+      - name: Copy xlsx to server
+        uses: appleboy/scp-action@v1
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          source: /tmp/cards.xlsx
+          target: /tmp/
+          strip_components: 1
+
+      - name: Import on server
+        id: run
+        uses: appleboy/ssh-action@v1
+        env:
+          APPLY: ${{ inputs.apply }}
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          envs: APPLY
+          capture_stdout: true
+          script: |
+            set -e
+            TOKEN=$(sed -n 's/^ADMIN_TOOLS_TOKEN=//p' /opt/bizsoft/astro.env | tr -d '"\r')
+            if [ -z "$TOKEN" ]; then echo "ADMIN_TOOLS_TOKEN не найден в astro.env"; exit 0; fi
+            export TOKEN
+            python3 - <<'PY'
+            import base64, json, os, urllib.request
+            tok = os.environ['TOKEN']
+            apply = os.environ.get('APPLY', 'false') == 'true'
+            def post(path, body):
+                r = urllib.request.Request('http://127.0.0.1:3000' + path,
+                    data=json.dumps(body).encode(), method='POST')
+                r.add_header('Content-Type', 'application/json')
+                r.add_header('x-admin-token', tok)
+                with urllib.request.urlopen(r, timeout=300) as resp:
+                    return json.loads(resp.read() or b'{}')
+            cur = post('/api/admin/currency', {'action': 'refresh'})
+            rate = (cur.get('rate') or {})
+            print(f"курс ЦБ: USD={rate.get('usd_rate')} EUR={rate.get('eur_rate')} дата={rate.get('rate_date')}")
+            xlsx = base64.b64encode(open('/tmp/cards.xlsx', 'rb').read()).decode()
+            data = post('/api/admin/import', {'format': 'xlsx', 'xlsxBase64': xlsx, 'apply': apply})
+            if data.get('dryRun'):
+                s = data['summary']
+                print(f"DRY-RUN: rows={s['rows']} create={s['create']} update={s['update']} errors={s['errors']}")
+                for i in data['items']:
+                    if i.get('errors'):
+                        print(f"  ОШИБКА {i['sku']}: {'; '.join(i['errors'])}")
+                print("ЦЕНЫ (create):")
+                for i in data['items']:
+                    if i['mode'] == 'create':
+                        price = i['payload'].get('price')
+                        st = i['payload'].get('status')
+                        print(f"  {i['sku']}  →  {str(price) + ' RUB' if price else '(по запросу)'}  [{st}]")
+            elif data.get('applied'):
+                print(f"APPLIED: created={data['created']} updated={data['updated']} failed={len(data['failed'])}")
+                for f in data['failed']:
+                    print(f"  FAIL {f['sku']}: {f['error']}")
+            else:
+                print('ответ:', json.dumps(data, ensure_ascii=False)[:1500])
+            os.remove('/tmp/cards.xlsx')
+            PY
+
+      - name: Post results to journal (issue #22)
+        if: always()
+        uses: actions/github-script@v7
+        env:
+          OUT: ${{ steps.run.outputs.stdout }}
+          APPLY: ${{ inputs.apply }}
+        with:
+          script: |
+            const out = (process.env.OUT || '(нет вывода)').slice(0, 60000);
+            await github.rest.issues.createComment({
+              owner: context.repo.owner, repo: context.repo.repo, issue_number: 22,
+              body: '### ops-import-vendors (apply=' + process.env.APPLY + ') · ' + new Date().toISOString() + '\n```\n' + out + '\n```',
+            });

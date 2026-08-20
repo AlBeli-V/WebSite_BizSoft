@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" width="512" height="512" role="img" aria-labelledby="jetbrains-maven-search-pro-mpvp-color-title jetbrains-maven-search-pro-mpvp-color-desc" data-icon-id="jetbrains-maven-search-pro-mpvp" data-variant="color">
+  <title id="jetbrains-maven-search-pro-mpvp-color-title">Maven Search Pro(MPVP) — color icon</title>
+  <desc id="jetbrains-maven-search-pro-mpvp-color-desc">Normalized color product icon used by 6 catalog card(s).</desc>
+  <metadata>
+  <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/">
+    <rdf:Description rdf:about="">
+      <dc:title>Maven Search Pro(MPVP) — color</dc:title>
+      <dc:description>Normalized catalog product icon; assigned to 6 product card(s); 512×512 transparent canvas; 12.5% safe area.</dc:description>
+      <dc:creator>新程快咖员</dc:creator>
+      <dc:source>https://downloads.marketplace.jetbrains.com/files/29270/1141838/icon/default.svg</dc:source>
+      <dc:date>2026-08-18</dc:date>
+      <dc:rights>Publisher-provided Marketplace icon; copyright and trademark rights remain with the plugin publisher.</dc:rights>
+      <dc:identifier>jetbrains-maven-search-pro-mpvp__color</dc:identifier>
+    </rdf:Description>
+  </rdf:RDF>
+</metadata>
+  <svg x="65" y="65" width="382" height="382" viewBox="0 0 160 160" preserveAspectRatio="xMidYMid meet"><defs xmlns="http://www.w3.org/2000/svg">
+        
+        <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#d7180a"/>
+<!--
+            <stop offset="100%" stop-color="#9370db"/>
+-->
+            <stop offset="100%" stop-color="#233ae5"/>
+        </linearGradient>
+
+        <linearGradient id="MGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#00f2fe"/>
+            <stop offset="100%" stop-color="#4facfe"/>
+        </linearGradient>
+
+        <filter id="glow">
+            <feGaussianBlur stdDeviation="3" result="glow"/>
+            <feMerge>
+                <feMergeNode in="glow"/>
+                <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+        </filter>
+
+        
+        <linearGradient id="starGradient2" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#ff9a9e"/>
+            <stop offset="100%" stop-color="#fad0c4"/>
+        </linearGradient>
+        
+        <filter id="starGlow2" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur stdDeviation="2" result="glow"/>
+            <feMerge>
+                <feMergeNode in="glow"/>
+                <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+        </filter>
+
+    </defs>
+
+    <rect xmlns="http://www.w3.org/2000/svg" width="160" height="160" rx="30" fill="url(#bgGradient)"/>
+
+    <path xmlns="http://www.w3.org/2000/svg" d="M60 120          C72 12, 90 60, 100 120          C125 -10, 130 150, 137 110" fill="none" stroke="url(#MGradient)" stroke-width="12" stroke-linecap="round" filter="url(#glow)"/>
+
+
+    <polygon xmlns="http://www.w3.org/2000/svg" points="66,25 20,33 25,25 15,20" fill="none" stroke="url(#starGradient2)" stroke-width="2" stroke-linecap="round" filter="url(#starGlow2)"/>
+
+    <g xmlns="http://www.w3.org/2000/svg" transform="translate(40 50)">
+        <circle r="12" fill="#77a" filter="url(#starGlow)"/>
+        <polygon points="0,-18 4,-6 16,-6 6,2 10,14 0,6 -10,14 -6,2 -16,-6 -4,-6" fill="#ffd93d"/>
+    </g>
+
+    <path xmlns="http://www.w3.org/2000/svg" d="M40 60 L40 100" stroke="#9370db" stroke-width="6" stroke-dasharray="4 4"/>
+
+    <g xmlns="http://www.w3.org/2000/svg" transform="translate(140 30)">
+        <circle r="12" fill="#77c" filter="url(#starGlow)"/>
+        <polygon points="0,-18 4,-6 16,-6 6,2 10,14 0,6 -10,14 -6,2 -16,-6 -4,-6" fill="#ffd93d"/>
+    </g>
+
+</svg>
+</svg>

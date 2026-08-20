@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" width="512" height="512" role="img" aria-labelledby="jetbrains-lucide-dark-theme-color-title jetbrains-lucide-dark-theme-color-desc" data-icon-id="jetbrains-lucide-dark-theme" data-variant="color">
+  <title id="jetbrains-lucide-dark-theme-color-title">Lucide Dark Theme — color icon</title>
+  <desc id="jetbrains-lucide-dark-theme-color-desc">Normalized color product icon used by 2 catalog card(s).</desc>
+  <metadata>
+  <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/">
+    <rdf:Description rdf:about="">
+      <dc:title>Lucide Dark Theme — color</dc:title>
+      <dc:description>Normalized catalog product icon; assigned to 2 product card(s); 512×512 transparent canvas; 12.5% safe area.</dc:description>
+      <dc:creator>Jetplugins</dc:creator>
+      <dc:source>https://downloads.marketplace.jetbrains.com/files/30680/1021833/icon/default.svg</dc:source>
+      <dc:date>2026-08-18</dc:date>
+      <dc:rights>Publisher-provided Marketplace icon; copyright and trademark rights remain with the plugin publisher.</dc:rights>
+      <dc:identifier>jetbrains-lucide-dark-theme__color</dc:identifier>
+    </rdf:Description>
+  </rdf:RDF>
+</metadata>
+  <svg x="65" y="65" width="382" height="382" viewBox="0 0 24 24" preserveAspectRatio="xMidYMid meet"><!-- Bottom strip: soft blue (bottom layer) -->
+  <path xmlns="http://www.w3.org/2000/svg" d="M16.7 13H19a2 2 0 0 1 2 2v4a2 2 0 0 1-2 2H7" stroke="#4A7FC1" fill="#AECCEE"/>
+
+  <!-- Diagonal fan: soft yellow (middle layer) -->
+  <path xmlns="http://www.w3.org/2000/svg" d="m11 8 2.3-2.3a2.4 2.4 0 0 1 3.404.004L18.6 7.6a2.4 2.4 0 0 1 .026 3.434L9.9 19.8" stroke="#BF9520" fill="#F5DFA0"/>
+
+  <!-- Book body: soft red (top layer) -->
+  <path xmlns="http://www.w3.org/2000/svg" d="M11 17a4 4 0 0 1-8 0V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2Z" stroke="#C05050" fill="#F0B0B0"/>
+
+  <!-- Dot (topmost layer) -->
+  <path xmlns="http://www.w3.org/2000/svg" d="M 7 17h.01" stroke="#4A7FC1" stroke-width="2.5"/>
+</svg>
+</svg>

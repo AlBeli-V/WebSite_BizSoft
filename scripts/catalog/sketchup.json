@@ -1,0 +1,156 @@
+{
+  "vendor_entry": {
+    "slug": "sketchup",
+    "vendor": "SketchUp",
+    "legalName": "Trimble Inc.",
+    "brandColor": "#005F9E",
+    "site": "https://www.sketchup.com",
+    "catSeg": "architecture",
+    "catLabel": "Архитектура и BIM",
+    "domain": "design",
+    "tagline": "3D-моделирование для архитектуры, интерьеров и строительства: годовые подписки Go, Pro и Studio.",
+    "about": "SketchUp — программа 3D-моделирования от Trimble для архитекторов, дизайнеров интерьеров, строителей и ландшафтных проектировщиков. Известна быстрым освоением и большой библиотекой готовых моделей 3D Warehouse; в подписки входят десктопное и веб-приложение, LayOut для рабочей документации, а в Studio — фотореалистичный рендер V-Ray."
+  },
+  "products": [
+    {
+      "sku": "SKETCHUP-GO",
+      "slug": "sketchup-go",
+      "name": "SketchUp Go",
+      "official_name": "SketchUp Go (Core plans, годовая подписка)",
+      "category": "architecture",
+      "license_type": "org",
+      "short_description": "Лёгкая годовая подписка SketchUp для работы в браузере и на iPad: просмотр, правки и согласование 3D-моделей без десктопного приложения.",
+      "description": "SketchUp Go — младшая подписка SketchUp для тех, кто работает с 3D-моделями в браузере и на iPad: руководителей проектов, выездных специалистов, заказчиков и смежников. Позволяет открывать, править и согласовывать модели без установки десктопного приложения.\n\nВ подписку входят веб-версия SketchUp, приложение для iPad, доступ к библиотеке готовых моделей 3D Warehouse и неограниченное облачное хранилище Trimble Connect с историей версий. Модели синхронизируются между устройствами автоматически.\n\nОт SketchUp Pro тариф отличается отсутствием десктопного приложения, LayOut (рабочая документация) и поддержки расширений: Go — это инструмент просмотра и лёгкого редактирования, а не основное рабочее место проектировщика. Для полноценного моделирования и чертежей выбирайте Pro.\n\nОформим подписку на вашу компанию: договор, счёт в рублях, закрывающие документы через ЭДО, доступ за 1–3 рабочих дня.",
+      "keywords": "купить SketchUp Go, SketchUp Go цена, SketchUp подписка для юрлица, SketchUp для iPad, SketchUp в браузере, SketchUp Go годовая подписка, buy SketchUp Go, SketchUp web, СкетчАп купить, SketchUp для компании",
+      "features": [
+        "Веб-версия SketchUp и приложение для iPad",
+        "Просмотр и редактирование моделей .skp",
+        "Библиотека готовых моделей 3D Warehouse",
+        "Безлимитное облачное хранилище Trimble Connect",
+        "История версий и обмен моделями с командой",
+        "Годовая подписка на именованного пользователя"
+      ],
+      "base_price_usd": 158,
+      "billing": "за 1 пользователя в год",
+      "min_quantity": 1,
+      "price_confidence": "supplier-price",
+      "source_url": "https://www.sketchup.com/plans-and-pricing",
+      "checkout_url": "https://www.sketchup.com/plans-and-pricing",
+      "checked_at": "2026-08-19",
+      "notes": "$129/год за пользователя — сходится по нескольким независимым обзорам тарифов SketchUp 2026 (прямой доступ к sketchup.com из среды недоступен). Цена без налогов, может отличаться по регионам.",
+      "status": "published",
+      "markup_coeff": null,
+      "sort": null
+    },
+    {
+      "sku": "SKETCHUP-PRO",
+      "slug": "sketchup-pro",
+      "name": "SketchUp Pro",
+      "official_name": "SketchUp Pro (Core plans, годовая подписка)",
+      "category": "architecture",
+      "license_type": "org",
+      "short_description": "Основная годовая подписка SketchUp: десктопное приложение для Windows/Mac, LayOut для рабочей документации и поддержка расширений.",
+      "description": "SketchUp Pro — основной тариф SketchUp для архитекторов, дизайнеров интерьеров и проектировщиков, которым нужно полноценное рабочее место 3D-моделирования. Включает десктопное приложение для Windows и Mac, а также веб-версию и приложение для iPad.\n\nВ подписку входит LayOut — инструмент подготовки рабочей документации: планы, развёртки, узлы и альбомы чертежей на основе 3D-модели. Поддерживаются расширения из Extension Warehouse, импорт/экспорт DWG/DXF, IFC и других форматов, библиотека 3D Warehouse и безлимитное хранилище Trimble Connect.\n\nОт Go тариф отличается наличием десктопного приложения, LayOut и расширений; от Studio — отсутствием рендера V-Ray, импорта Revit и работы с облаками точек. Для большинства проектных задач Pro — оптимальный выбор; визуализаторам и BIM-командам стоит смотреть Studio.\n\nОформим подписку на вашу компанию: договор, счёт в рублях, закрывающие документы через ЭДО, доступ за 1–3 рабочих дня.",
+      "keywords": "купить SketchUp Pro, SketchUp Pro цена, SketchUp Pro подписка, SketchUp Pro для юрлица, SketchUp Pro годовая лицензия, СкетчАп Про купить, buy SketchUp Pro, SketchUp LayOut, SketchUp Pro Windows Mac, SketchUp для архитекторов, SketchUp Pro в России",
+      "features": [
+        "Десктопное приложение SketchUp для Windows и Mac",
+        "LayOut: чертежи и альбомы рабочей документации",
+        "Поддержка расширений Extension Warehouse",
+        "Импорт/экспорт DWG, DXF, IFC и других форматов",
+        "Веб-версия и приложение для iPad в комплекте",
+        "Безлимитное облачное хранилище Trimble Connect",
+        "Годовая подписка на именованного пользователя"
+      ],
+      "base_price_usd": 490,
+      "billing": "за 1 пользователя в год",
+      "min_quantity": 1,
+      "price_confidence": "supplier-price",
+      "source_url": "https://www.sketchup.com/plans-and-pricing",
+      "checkout_url": "https://www.sketchup.com/plans-and-pricing",
+      "checked_at": "2026-08-19",
+      "notes": "$399/год за пользователя — сходится по нескольким независимым обзорам тарифов SketchUp 2026 (прямой доступ к sketchup.com из среды недоступен). Цена без налогов, может отличаться по регионам.",
+      "status": "published",
+      "markup_coeff": null,
+      "sort": null
+    },
+    {
+      "sku": "SKETCHUP-PRO-SCAN",
+      "slug": "sketchup-pro-scan",
+      "name": "SketchUp Pro Scan (годовая подписка)",
+      "official_name": "SketchUp Pro Scan",
+      "category": "architecture",
+      "license_type": "org",
+      "short_description": "План SketchUp Pro с модулем Scan Essentials: импорт и обработка облаков точек прямо в среде 3D-моделирования SketchUp. Годовая подписка на пользователя. Оформление на юрлицо: договор, счёт, ЭДО.",
+      "description": "SketchUp Pro Scan — годовая подписка Trimble, объединяющая полный план SketchUp Pro и расширение Scan Essentials для работы с облаками точек. Решение класса scan-to-3D: данные лазерного сканирования импортируются прямо в среду моделирования SketchUp.\n\nВ состав входят все возможности SketchUp Pro (десктоп-редактор, веб- и iPad-версии, LayOut для рабочей документации, доступ к библиотеке 3D Warehouse) плюс Scan Essentials: импорт, просмотр и обработка облаков точек, моделирование поверх скан-данных, использование облаков точек для обмеров и визуальной сверки.\n\nПлан рассчитан на архитекторов, проектировщиков и изыскателей, которые работают с результатами лазерного сканирования существующих зданий и площадок — обмерные модели, реконструкция, контроль соответствия построенного проекту. От обычного SketchUp Pro план отличается именно модулем Scan Essentials.\n\nПокупка на юридическое лицо: оформим подписку на вашу компанию — договор, счёт в рублях, закрывающие документы через ЭДО, доступ в течение 1–3 рабочих дней.",
+      "keywords": "купить SketchUp Pro Scan для юрлица, SketchUp Pro Scan цена, SketchUp Scan Essentials подписка, SketchUp облака точек, scan to 3D SketchUp, SketchUp Pro Scan годовая лицензия, SketchUp для работы с лазерным сканированием, SketchUp оплата по счёту в рублях, buy SketchUp Pro Scan, Trimble Scan Essentials купить",
+      "features": [
+        "Все возможности плана SketchUp Pro",
+        "Scan Essentials: импорт и обработка облаков точек",
+        "Моделирование поверх данных лазерного сканирования",
+        "Обмеры и визуальная сверка по облаку точек",
+        "LayOut для рабочей документации",
+        "Годовая подписка на одного пользователя"
+      ],
+      "base_price_usd": 605.0,
+      "billing": "за 1 пользователя в год",
+      "min_quantity": 1,
+      "price_confidence": "supplier-price",
+      "source_url": null,
+      "checkout_url": null,
+      "checked_at": "2026-08-19",
+      "notes": "цена прайса поставщика; состав плана (Pro + Scan Essentials) сверить при выставлении счёта",
+      "status": "published"
+    },
+    {
+      "sku": "SKETCHUP-PRO-CIVIL",
+      "slug": "sketchup-pro-civil",
+      "name": "SketchUp Pro Civil Contractor (годовая подписка)",
+      "official_name": "SketchUp Pro Civil Contractor",
+      "category": "architecture",
+      "license_type": "org",
+      "short_description": "План SketchUp Pro для подрядчиков по гражданскому строительству: 3D-моделирование площадок и объектов на базе полного SketchUp Pro. Годовая подписка на пользователя. Оформление на юрлицо: договор, счёт, ЭДО.",
+      "description": "SketchUp Pro Civil Contractor — специализированный годовой план Trimble на базе SketchUp Pro, ориентированный на подрядчиков по гражданскому строительству. Продаётся только по годовой подписке.\n\nВ состав входят все возможности SketchUp Pro: десктоп-редактор для 3D-моделирования, веб- и iPad-версии, LayOut для рабочей документации, доступ к библиотеке 3D Warehouse. Поверх этого план дополнен инструментами для задач гражданского строительства — работы с площадками, объёмами и строительными данными (точный состав дополнительных модулей — по условиям тарифа Trimble, уточним при расчёте).\n\nПлан подходит строительным подрядчикам и инженерным компаниям, которым нужно быстрое 3D-моделирование строительных площадок и объектов инфраструктуры в привычной среде SketchUp. От обычного SketchUp Pro он отличается отраслевой комплектацией для гражданского строительства.\n\nПокупка на юридическое лицо: оформим подписку на вашу компанию — договор, счёт в рублях, закрывающие документы через ЭДО, доступ в течение 1–3 рабочих дней.",
+      "keywords": "купить SketchUp Pro Civil Contractor для юрлица, SketchUp Civil Contractor цена, SketchUp для строительных подрядчиков, SketchUp гражданское строительство, SketchUp Pro Civil годовая подписка, 3D-моделирование строительных площадок, SketchUp Pro подписка для компании, SketchUp оплата по счёту в рублях, buy SketchUp Pro Civil Contractor, Trimble SketchUp Civil купить",
+      "features": [
+        "Все возможности плана SketchUp Pro",
+        "Отраслевая комплектация для гражданского строительства (по условиям тарифа Trimble)",
+        "3D-моделирование строительных площадок и объектов",
+        "LayOut для рабочей документации",
+        "Только годовая подписка (без помесячной оплаты)",
+        "Годовая подписка на одного пользователя"
+      ],
+      "base_price_usd": 605.0,
+      "billing": "за 1 пользователя в год",
+      "min_quantity": 1,
+      "price_confidence": "supplier-price",
+      "source_url": null,
+      "checkout_url": null,
+      "checked_at": "2026-08-19",
+      "notes": "цена прайса поставщика; точный состав отраслевых модулей Civil Contractor сверить у Trimble при выставлении счёта",
+      "status": "published"
+    },
+    {
+      "sku": "SKETCHUP-STUDIO",
+      "slug": "sketchup-studio",
+      "name": "SketchUp Studio",
+      "archive": true
+    }
+  ],
+  "rejected": [
+    {
+      "name": "SketchUp Free",
+      "reason": "Бесплатный веб-тариф только для персонального некоммерческого использования — не продаётся и не подходит юрлицам.",
+      "source_url": "https://www.sketchup.com/plans-and-pricing"
+    },
+    {
+      "name": "SketchUp для образования (Studio for Educators / Students)",
+      "reason": "Специальные образовательные лицензии с проверкой статуса — вне фокуса каталога для коммерческих юрлиц.",
+      "source_url": "https://www.sketchup.com/plans-and-pricing"
+    },
+    {
+      "name": "Корпоративные решения Trimble (enterprise-соглашения, Trimble Construction One и связанные пакеты)",
+      "reason": "Enterprise-предложения Trimble продаются только через отдел продаж по индивидуальному расчёту (contact sales) — не заводим как товары с фиксированной ценой.",
+      "source_url": "https://www.trimble.com"
+    }
+  ]
+}

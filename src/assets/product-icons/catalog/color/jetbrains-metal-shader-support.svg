@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" width="512" height="512" role="img" aria-labelledby="jetbrains-metal-shader-support-color-title jetbrains-metal-shader-support-color-desc" data-icon-id="jetbrains-metal-shader-support" data-variant="color">
+  <title id="jetbrains-metal-shader-support-color-title">Metal Shader Support — color icon</title>
+  <desc id="jetbrains-metal-shader-support-color-desc">Normalized color product icon used by 2 catalog card(s).</desc>
+  <metadata>
+  <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/">
+    <rdf:Description rdf:about="">
+      <dc:title>Metal Shader Support — color</dc:title>
+      <dc:description>Normalized catalog product icon; assigned to 2 product card(s); 512×512 transparent canvas; 12.5% safe area.</dc:description>
+      <dc:creator>Jakub Jirák</dc:creator>
+      <dc:source>https://downloads.marketplace.jetbrains.com/files/29038/1072839/icon/default.svg</dc:source>
+      <dc:date>2026-08-18</dc:date>
+      <dc:rights>Publisher-provided Marketplace icon; copyright and trademark rights remain with the plugin publisher.</dc:rights>
+      <dc:identifier>jetbrains-metal-shader-support__color</dc:identifier>
+    </rdf:Description>
+  </rdf:RDF>
+</metadata>
+  <svg x="65" y="65" width="382" height="382" viewBox="0 0 16 16" preserveAspectRatio="xMidYMid meet"><defs xmlns="http://www.w3.org/2000/svg">
+    <linearGradient id="metalGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#4a90e2;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#7b68ee;stop-opacity:1"/>
+    </linearGradient>
+  </defs>
+  <rect xmlns="http://www.w3.org/2000/svg" width="12" height="14" x="2" y="1" rx="1" fill="url(#metalGradient)"/>
+  <text xmlns="http://www.w3.org/2000/svg" x="8" y="11" font-family="Arial" font-size="7" fill="white" text-anchor="middle" font-weight="bold">M</text>
+</svg>
+</svg>

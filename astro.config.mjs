@@ -14,22 +14,14 @@ export default defineConfig({
   trailingSlash: 'never',
   adapter: node({ mode: 'standalone' }),
   vite: {
-    plugins: [
-      tailwindcss(),
-      // Inter (self-host, @fontsource): font-display swap → optional.
-      // optional не делает своп после первой отрисовки: первый визит идёт на
-      // метрически подогнанном фолбэке (Inter-fallback в global.css), шрифт
-      // докачивается в кэш и работает со следующей страницы. Итог: CLS = 0.
-      {
-        name: 'inter-font-display-optional',
-        transform(code, id) {
-          if (id.includes('@fontsource/') && id.endsWith('.css')) {
-            return code.replaceAll('font-display: swap;', 'font-display: optional;');
-          }
-        },
-      },
-    ],
+    // Шрифты остаются на font-display: swap (дефолт @fontsource): фирменный
+    // Raleway/Prosto One появляется сразу после загрузки даже при первом визите.
+    // (Прежний рерайт swap → optional оставлял первый визит на системном
+    // фолбэке — сайт выглядел «со старым шрифтом» в инкогнито/без кэша.)
+    // Сдвиг макета гасится preload критичных woff2 в BaseLayout + метрическим
+    // фолбэком Raleway-fallback в global.css.
+    plugins: [tailwindcss()],
     // pdfkit подтягивает шрифты/потоки — оставляем его внешним для Node.
-    ssr: { external: ['pdfkit', 'nodemailer', 'xlsx'] },
+    ssr: { external: ['pdfkit', 'nodemailer', 'xlsx', '@resvg/resvg-js'] },
   },
 });

@@ -4,7 +4,13 @@ import AddToCartButton from './AddToCartButton.astro';
 import { effectivePrice } from '../lib/pricing';
 import { logoUrl } from '../lib/directus';
 import { logoFile } from '../data/logos';
+import { vendorIcon } from '../data/vendor-icons';
+import { vendorSlug } from '../lib/vendor-links';
+import VendorIcon from './VendorIcon.astro';
+import { productIcons } from '../data/product-icons';
+import ProductIcon from './ProductIcon.astro';
 import { ORIGIN_LABEL, LICENSE_LABEL } from '../lib/types';
+import { planType, PLAN_LABEL } from '../lib/plan-type';
 import type { Product } from '../lib/types';
 
 interface Props {
@@ -13,7 +19,7 @@ interface Props {
 const { product } = Astro.props;
 const eff = effectivePrice(product);
 const logo = logoUrl(product, { width: 96, height: 96, fit: 'contain', format: 'webp' });
-const byRequest = product.price <= 0 && !eff.isPromo;
+const byRequest = !(product.price > 0) && !eff.isPromo; // NaN и null — тоже «по запросу»
 // Ребрендинг вендора «Новое имя (прежнее)»: новое — крупно, прежнее — мельче ниже,
 // рядом с прежним названием показываем его логотип (если есть в brand-logos).
 const renamed = (product.vendor || '').match(/^(.+?)\s*\((.+)\)$/);
@@ -22,12 +28,23 @@ const vendorPrev = renamed ? renamed[2] : null;
 const vendorPrevLogo = vendorPrev
   ? logoFile(vendorPrev.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, ''))
   : null;
+// Кому адресован тариф — бейдж только при уверенном определении
+const plan = planType(product.name, product.short_description || '');
+// Профильная иконка ПРОДУКТА (каталожный пакет) — приоритет; иначе иконка
+// вендора из фирменного пакета. Обе: монохром → цвет при наведении.
+const hasProductIcon = productIcons(product.slug).length > 0;
+const packSlug = !hasProductIcon && product.vendor ? vendorSlug(product.vendor) : '';
+const packIcon = packSlug ? vendorIcon(packSlug) : null;
 ---
 <article class="card card-hover product-card reveal">
   <a href={`/product/${product.slug}`} class="product-link" aria-label={product.name}>
     <div class="product-top">
       <div class="ptop-row">
-        {logo ? (
+        {hasProductIcon ? (
+          <span class="logo logo-pack"><ProductIcon slug={product.slug} name={product.name} size={34} /></span>
+        ) : packIcon ? (
+          <span class="logo logo-pack"><VendorIcon slug={packSlug} name={product.vendor || ''} size={34} /></span>
+        ) : logo ? (
           <img src={logo} alt={`Логотип ${product.vendor || product.name}`} class="logo" width="40" height="40" loading="lazy" />
         ) : (
           <span class="logo logo-ph" aria-hidden="true">{(product.vendor || product.name).slice(0, 1)}</span>
@@ -47,6 +64,7 @@ const vendorPrevLogo = vendorPrev
       <h3>{product.name}</h3>
       {product.short_description && <p class="desc">{product.short_description}</p>}
       <div class="tags">
+        {plan && <span class="tag plan" data-plan={plan}>{PLAN_LABEL[plan]}</span>}
         {product.license_type && <span class="tag">{LICENSE_LABEL[product.license_type]}</span>}
       </div>
     </div>
@@ -62,7 +80,7 @@ const vendorPrevLogo = vendorPrev
       {byRequest ? (
         <button class="btn btn-primary btn-sm" data-open-question data-product={product.name} data-sku={product.sku}>Запросить цену</button>
       ) : (
-        <AddToCartButton sku={product.sku} slug={product.slug} name={product.name} price={eff.price} compact />
+        <AddToCartButton sku={product.sku} slug={product.slug} name={product.name} vendor={vendorMain || ''} price={eff.price} compact />
       )}
       <a href={`/product/${product.slug}`} class="btn btn-ghost btn-sm">Подробнее</a>
     </div>
@@ -75,6 +93,7 @@ const vendorPrevLogo = vendorPrev
   .ptop-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.7rem; }
   .logo { width: 40px; height: 40px; border-radius: 8px; object-fit: contain; background: #fff; padding: 3px; }
   .logo-ph { display: flex; align-items: center; justify-content: center; background: var(--color-bg-elevated); color: var(--color-accent); font-weight: 800; font-size: 1.2rem; padding: 0; }
+  .logo-pack { display: flex; align-items: center; justify-content: center; }
   .origin-tag { font-size: 0.68rem; font-weight: 700; padding: 0.12rem 0.45rem; border-radius: 5px; }
   .origin-tag[data-origin='domestic'] { background: color-mix(in srgb, var(--color-success) 18%, transparent); color: var(--color-success); }
   .origin-tag[data-origin='foreign'] { background: color-mix(in srgb, var(--color-accent) 16%, transparent); color: var(--color-accent); }
@@ -105,6 +124,9 @@ const vendorPrevLogo = vendorPrev
   }
   .tags { display: flex; flex-wrap: wrap; gap: 0.3rem; margin-top: 0.7rem; }
   .tag { font-size: 0.72rem; color: var(--color-text-muted); background: var(--color-bg-elevated); padding: 0.12rem 0.5rem; border-radius: 6px; }
+  /* Кому адресован тариф: команда — акцентный, индивидуальный — нейтральный контур */
+  .tag.plan[data-plan='team'] { color: var(--color-accent); background: color-mix(in srgb, var(--color-accent) 12%, transparent); font-weight: 700; }
+  .tag.plan[data-plan='individual'] { color: var(--color-text-muted); background: transparent; border: 1px solid var(--color-border-strong); font-weight: 600; }
   .product-bottom { margin-top: 1.2rem; display: flex; flex-direction: column; gap: 0.4rem; }
   .price-req { font-weight: 700; font-size: 1.05rem; color: var(--color-text); }
   .price-note { color: var(--color-text-dim); font-size: 0.78rem; }

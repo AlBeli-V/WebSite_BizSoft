@@ -14,7 +14,10 @@ export function getStaticPaths() {
   ];
 }
 
-const { solution, planned } = Astro.props as { solution: any; planned: any };
+import type { Solution } from '../../data/solutions';
+type Planned = (typeof plannedSolutions)[number];
+// solution=null только на planned-страницах — шаблон обходит его через {planned ? …}
+const { solution, planned } = Astro.props as { solution: Solution; planned: Planned | null };
 ---
 {planned ? (
   <ScaffoldPage

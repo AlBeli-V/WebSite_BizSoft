@@ -5,7 +5,7 @@
  * Zoom и JetBrains — отдельные bespoke-страницы (vendors/zoom.astro, vendors/jetbrains.astro).
  */
 
-export type VendorDomain = 'design' | 'games' | 'video' | 'ai';
+export type VendorDomain = 'design' | 'games' | 'video' | 'ai' | 'it';
 
 export interface VendorEntry {
   slug: string;
@@ -56,7 +56,9 @@ export const VENDORS: VendorEntry[] = [
   { slug: 'astute-graphics', vendor: 'Astute Graphics', legalName: 'Astute Graphics Ltd', brandColor: '#FF5A00', site: 'https://astutegraphics.com', catSeg: 'design', catLabel: 'Дизайн и графика', domain: 'design',
     tagline: 'Набор плагинов для Adobe Illustrator: годовая подписка на полный комплект.',
     about: 'Astute Graphics — набор из десятков плагинов, ускоряющих векторную работу в Adobe Illustrator: точное рисование, динамические кисти, работа с цветом и узорами.' },
-  { slug: 'freepik', vendor: 'Freepik', legalName: 'Freepik Company S.L.', brandColor: '#1273EB', site: 'https://www.freepik.com', catSeg: 'design', catLabel: 'Дизайн и графика', domain: 'design',
+  // Вендор в Directus переименован в «Magnific (Freepik)» — точное совпадение обязательно,
+  // иначе лендинг остаётся без товаров.
+  { slug: 'freepik', vendor: 'Magnific (Freepik)', title: 'Magnific', legalName: 'Freepik Company S.L.', brandColor: '#1273EB', site: 'https://magnific.ai', catSeg: 'design', catLabel: 'Дизайн и графика', domain: 'design',
     tagline: 'Стоковые ресурсы и AI-генерация: тарифы Premium и Premium+.',
     about: 'Freepik — библиотека фото, векторов, PSD и AI-инструментов для дизайнеров, маркетологов и агентств с коммерческой лицензией.' },
   { slug: 'envato', vendor: 'Envato', legalName: 'Envato Pty Ltd', brandColor: '#82B541', site: 'https://elements.envato.com', catSeg: 'design', catLabel: 'Дизайн и графика', domain: 'design',
@@ -180,6 +182,34 @@ export const VENDORS: VendorEntry[] = [
   { slug: 'heygen', vendor: 'HeyGen', legalName: 'HeyGen, Inc.', brandColor: '#7A5AF8', site: 'https://www.heygen.com', catSeg: 'ai', catLabel: 'AI-сервисы', domain: 'video',
     tagline: 'ИИ-видео с аватарами: тарифы Creator, Pro и Business.',
     about: 'HeyGen — генерация видео с ИИ-аватарами и синхронной озвучкой на 175+ языках для обучения, маркетинга и локализации.' },
+  // ─── Блок 4: ИТ-инфраструктура и бизнес-ПО ───
+  { slug: 'anydesk', vendor: 'AnyDesk', legalName: 'AnyDesk Software GmbH', brandColor: '#EF443B', site: 'https://anydesk.com', catSeg: 'system', catLabel: 'Системное ПО', domain: 'it',
+    tagline: 'Удалённый доступ и удалённая поддержка: тарифы Solo, Standard и Advanced по годовой подписке.',
+    about: 'AnyDesk — программа удалённого доступа к компьютерам и серверам: техническая поддержка пользователей, администрирование, работа с офисной машиной из любой точки. Лёгкий клиент с низкими задержками работает на Windows, macOS, Linux, Android и iOS. Подходит ИТ-отделам, сервисным компаниям и командам аутсорсинговой поддержки.' },
+  { slug: 'docker', vendor: 'Docker', legalName: 'Docker, Inc.', brandColor: '#2496ED', site: 'https://www.docker.com', catSeg: 'development', catLabel: 'Разработка', domain: 'it',
+    tagline: 'Платформа контейнерной разработки: тарифы Pro и Team с Docker Desktop, Docker Hub и облачными сборками.',
+    about: 'Docker — стандартный инструмент контейнеризации приложений: Docker Desktop для локальной разработки, Docker Hub для хранения образов, Build Cloud для ускорения сборок и Docker Scout для анализа уязвимостей. Подписки Pro и Team нужны компаниям, которые используют Docker Desktop в коммерческих целях и работают с приватными репозиториями образов.' },
+  { slug: 'gitlab', vendor: 'GitLab', legalName: 'GitLab Inc.', brandColor: '#FC6D26', site: 'https://about.gitlab.com', catSeg: 'development', catLabel: 'Разработка', domain: 'it',
+    tagline: 'DevSecOps-платформа полного цикла: тариф Premium в облаке GitLab.com или на собственных серверах.',
+    about: 'GitLab — единая платформа для разработки: Git-репозитории, code review, CI/CD, планирование релизов и базовая безопасность в одном продукте. Тариф Premium нужен командам, которым не хватает бесплатного плана: расширенные правила ревью и защиты веток, эпики и роадмапы, увеличенные CI/CD-минуты и приоритетная поддержка.' },
+  { slug: 'parallels', vendor: 'Parallels', legalName: 'Parallels International GmbH', brandColor: '#D80000', site: 'https://www.parallels.com', catSeg: 'system', catLabel: 'Системное ПО', domain: 'it',
+    tagline: 'Windows и Linux на Mac без перезагрузки: редакции Standard, Pro и Business — подписка или бессрочная лицензия.',
+    about: 'Parallels Desktop — среда виртуализации для macOS, позволяющая запускать Windows- и Linux-приложения на Mac, включая компьютеры с Apple Silicon. Нужен компаниям, где сотрудники на Mac работают с Windows-программами: бухгалтерским и учётным ПО, клиент-банками, CAD и внутренними системами. Редакции различаются лимитами виртуальных машин, инструментами разработчика и централизованным управлением.' },
+  { slug: 'acronis', vendor: 'Acronis', legalName: 'Acronis International GmbH', brandColor: '#0057B8', site: 'https://www.acronis.com', catSeg: 'security', catLabel: 'Антивирусы и безопасность', domain: 'it',
+    tagline: 'Киберзащита и резервное копирование в одном продукте: редакции Standard и Advanced для рабочих станций и серверов малого бизнеса.',
+    about: 'Acronis Cyber Protect — решение, объединяющее резервное копирование, антивирусную защиту и управление обновлениями в одной консоли. Подходит малому и среднему бизнесу, которому нужно защитить рабочие станции и серверы от сбоев, шифровальщиков и потери данных без развёртывания нескольких отдельных систем.' },
+  { slug: 'dropbox', vendor: 'Dropbox', legalName: 'Dropbox, Inc.', brandColor: '#0061FF', site: 'https://www.dropbox.com', catSeg: 'collaboration', catLabel: 'Доски и совместная работа', domain: 'it',
+    tagline: 'Облачное хранилище и совместная работа с файлами: командные тарифы Business и Business Plus от 3 пользователей.',
+    about: 'Dropbox — облачный сервис хранения и синхронизации файлов с общими папками, контролем доступа и восстановлением версий. Командные тарифы дают единое пространство для отдела или всей компании: администрирование пользователей, передача больших файлов, электронные подписи и интеграции с офисными пакетами.' },
+  { slug: 'sketchup', vendor: 'SketchUp', legalName: 'Trimble Inc.', brandColor: '#005F9E', site: 'https://www.sketchup.com', catSeg: 'architecture', catLabel: 'Архитектура и BIM', domain: 'it',
+    tagline: '3D-моделирование для архитектуры, интерьеров и строительства: годовые подписки Go, Pro и Studio.',
+    about: 'SketchUp — программа 3D-моделирования от Trimble для архитекторов, дизайнеров интерьеров, строителей и ландшафтных проектировщиков. Известна быстрым освоением и большой библиотекой готовых моделей 3D Warehouse; в подписки входят десктопное и веб-приложение, LayOut для рабочей документации, а в Studio — фотореалистичный рендер V-Ray.' },
+  { slug: 'bitdefender', vendor: 'Bitdefender', legalName: 'Bitdefender SRL', brandColor: '#ED1C24', site: 'https://www.bitdefender.com', catSeg: 'security', catLabel: 'Антивирусы и безопасность', domain: 'it',
+    tagline: 'Защита конечных точек GravityZone для малого бизнеса: тарифы Small Business Security и Business Security Premium на 1–100 устройств.',
+    about: 'Bitdefender GravityZone — платформа защиты рабочих станций, серверов и мобильных устройств с управлением из единой облачной консоли. Подходит малому и среднему бизнесу, которому нужен корпоративный уровень защиты от вирусов, шифровальщиков и фишинга без выделенной команды безопасности.' },
+  { slug: 'microsoft', vendor: 'Microsoft', legalName: 'Microsoft Corporation', brandColor: '#0078D4', site: 'https://www.microsoft.com', catSeg: 'office', catLabel: 'Офисное ПО', domain: 'it',
+    tagline: 'Офисные продукты Microsoft: подписки Microsoft 365 для бизнеса и бессрочные лицензии Office, Visio, Project и Windows 11 Pro.',
+    about: 'Microsoft — разработчик Windows, Office и облачной платформы Microsoft 365. Мы помогаем юрлицам легально оформить подписки Microsoft 365 (только на tenant компании в поддерживаемой стране, после предварительной проверки) и поставляем бессрочные коробочные версии Office, Visio, Project и Windows 11 Pro электронным ключом активации.' },
 ];
 
 export function vendorBySlug(slug: string): VendorEntry | undefined {
@@ -192,4 +222,5 @@ export const DOMAIN_AUDIENCE: Record<VendorDomain, string> = {
   games: 'игровых студий, разработчиков и 3D-художников',
   video: 'видеопродакшн-студий, моушн-дизайнеров и монтажёров',
   ai: 'креативных команд, использующих генеративный ИИ',
+  it: 'ИТ-отделов, команд разработки и системных администраторов',
 };

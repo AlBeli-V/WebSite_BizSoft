@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" width="512" height="512" role="img" aria-labelledby="jetbrains-saltstack-color-title jetbrains-saltstack-color-desc" data-icon-id="jetbrains-saltstack" data-variant="color">
+  <title id="jetbrains-saltstack-color-title">SaltStack — color icon</title>
+  <desc id="jetbrains-saltstack-color-desc">Normalized color product icon used by 1 catalog card(s).</desc>
+  <metadata>
+  <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/">
+    <rdf:Description rdf:about="">
+      <dc:title>SaltStack — color</dc:title>
+      <dc:description>Normalized catalog product icon; assigned to 1 product card(s); 512×512 transparent canvas; 12.5% safe area.</dc:description>
+      <dc:creator>SomeBlackMagic</dc:creator>
+      <dc:source>https://downloads.marketplace.jetbrains.com/files/30291/1135929/icon/default.svg</dc:source>
+      <dc:date>2026-08-18</dc:date>
+      <dc:rights>Publisher-provided Marketplace icon; copyright and trademark rights remain with the plugin publisher.</dc:rights>
+      <dc:identifier>jetbrains-saltstack__color</dc:identifier>
+    </rdf:Description>
+  </rdf:RDF>
+</metadata>
+  <svg x="65" y="65" width="382" height="382" viewBox="0 0 40 40" preserveAspectRatio="xMidYMid meet"><defs xmlns="http://www.w3.org/2000/svg">
+        <!-- Background gradient -->
+        <linearGradient id="bg" x1="0" y1="0" x2="40" y2="40" gradientUnits="userSpaceOnUse">
+            <stop offset="0" stop-color="#2B7BFF"/>
+            <stop offset="0.55" stop-color="#B43BFF"/>
+            <stop offset="1" stop-color="#FF7A2E"/>
+        </linearGradient>
+
+        <!-- subtle highlight curve -->
+        <linearGradient id="sheen" x1="0" y1="40" x2="40" y2="0" gradientUnits="userSpaceOnUse">
+            <stop offset="0" stop-color="#FFFFFF" stop-opacity="0.16"/>
+            <stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/>
+        </linearGradient>
+
+        <!-- cube shading -->
+        <linearGradient id="cubeTop" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#FFFFFF"/>
+            <stop offset="1" stop-color="#F2F6FF"/>
+        </linearGradient>
+
+        <linearGradient id="cubeLeft" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#E9EFFA"/>
+            <stop offset="1" stop-color="#C8D3E6"/>
+        </linearGradient>
+
+        <linearGradient id="cubeRight" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#5E7FA8"/>
+            <stop offset="1" stop-color="#274766"/>
+        </linearGradient>
+
+        <!-- shadow under cubes -->
+        <filter id="softShadow" x="-30%" y="-30%" width="160%" height="160%">
+            <feGaussianBlur in="SourceAlpha" stdDeviation="1.0" result="b"/>
+            <feOffset in="b" dx="0" dy="1" result="o"/>
+            <feColorMatrix in="o" type="matrix" values="0 0 0 0 0                 0 0 0 0 0                 0 0 0 0 0                 0 0 0 0.30 0" result="s"/>
+            <feMerge>
+                <feMergeNode in="s"/>
+                <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+        </filter>
+
+        <!-- clip for rounded square -->
+        <clipPath id="clip">
+            <rect x="1.5" y="1.5" width="37" height="37" rx="9"/>
+        </clipPath>
+    </defs>
+
+    <!-- Rounded background -->
+    <rect xmlns="http://www.w3.org/2000/svg" x="1.5" y="1.5" width="37" height="37" rx="9" fill="url(#bg)"/>
+
+    <!-- sheen (clipped) -->
+    <g xmlns="http://www.w3.org/2000/svg" clip-path="url(#clip)">
+        <path d="M-6 28 C 6 12, 18 10, 50 18 L 50 50 L -6 50 Z" fill="url(#sheen)"/>
+        <path d="M-6 10 C 12 2, 18 2, 50 6 L 50 20 C 22 18, 6 20, -6 26 Z" fill="#FFFFFF" opacity="0.06"/>
+    </g>
+
+    <!-- Cubes group (centered) -->
+    <g xmlns="http://www.w3.org/2000/svg" transform="translate(-2.5 -2)" filter="url(#softShadow)">
+        <!-- Cube A (left) -->
+        <g transform="translate(6.5,16)">
+            <polygon points="8,0 16,4.5 8,9 0,4.5" fill="url(#cubeTop)"/>
+            <polygon points="0,4.5 8,9 8,18 0,13.5" fill="url(#cubeLeft)"/>
+            <polygon points="16,4.5 8,9 8,18 16,13.5" fill="url(#cubeRight)"/>
+            <polygon points="8,0 16,4.5 16,13.5 8,18 0,13.5 0,4.5" fill="none" stroke="#0B1E33" stroke-opacity="0.55" stroke-width="0.6"/>
+        </g>
+
+        <!-- Cube B (top/center) -->
+        <g transform="translate(15.5,9)">
+            <polygon points="8,0 16,4.5 8,9 0,4.5" fill="url(#cubeTop)"/>
+            <polygon points="0,4.5 8,9 8,18 0,13.5" fill="url(#cubeLeft)"/>
+            <polygon points="16,4.5 8,9 8,18 16,13.5" fill="url(#cubeRight)"/>
+            <polygon points="8,0 16,4.5 16,13.5 8,18 0,13.5 0,4.5" fill="none" stroke="#0B1E33" stroke-opacity="0.55" stroke-width="0.6"/>
+        </g>
+
+        <!-- Cube C (right) -->
+        <g transform="translate(22.5,17)">
+            <polygon points="8,0 16,4.5 8,9 0,4.5" fill="url(#cubeTop)"/>
+            <polygon points="0,4.5 8,9 8,18 0,13.5" fill="url(#cubeLeft)"/>
+            <polygon points="16,4.5 8,9 8,18 16,13.5" fill="url(#cubeRight)"/>
+            <polygon points="8,0 16,4.5 16,13.5 8,18 0,13.5 0,4.5" fill="none" stroke="#0B1E33" stroke-opacity="0.55" stroke-width="0.6"/>
+        </g>
+    </g>
+
+    <!-- outer border -->
+    <rect xmlns="http://www.w3.org/2000/svg" x="1.5" y="1.5" width="37" height="37" rx="9" fill="none" stroke="#000000" stroke-opacity="0.12" stroke-width="1"/>
+</svg>
+</svg>

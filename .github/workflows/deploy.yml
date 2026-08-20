@@ -41,6 +41,12 @@ jobs:
           REMOTE_USER: ${{ secrets.SSH_USER }}
           SOURCE: "./"
           TARGET: "/opt/bizsoft/astro-src"
+          # --delete: без него на сервере навсегда остаются файлы, которых нет
+          # в репозитории (напр. старый src/pages/vendors/adobe.astro продолжал
+          # перекрывать актуальный шаблон [slug].astro при каждой сборке).
+          # Исключённые пути (node_modules, dist, .env) rsync при --delete
+          # не трогает — они защищены самими правилами exclude.
+          ARGS: "-rlgoDzvc -i --delete"
           EXCLUDE: "node_modules/, dist/, .astro/, .git/, .env"
 
       - name: Rebuild & restart on server

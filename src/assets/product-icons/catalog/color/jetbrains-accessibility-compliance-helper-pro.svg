@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" width="512" height="512" role="img" aria-labelledby="jetbrains-accessibility-compliance-helper-pro-color-title jetbrains-accessibility-compliance-helper-pro-color-desc" data-icon-id="jetbrains-accessibility-compliance-helper-pro" data-variant="color">
+  <title id="jetbrains-accessibility-compliance-helper-pro-color-title">Accessibility Compliance Helper Pro — color icon</title>
+  <desc id="jetbrains-accessibility-compliance-helper-pro-color-desc">Normalized color product icon used by 2 catalog card(s).</desc>
+  <metadata>
+  <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/">
+    <rdf:Description rdf:about="">
+      <dc:title>Accessibility Compliance Helper Pro — color</dc:title>
+      <dc:description>Normalized catalog product icon; assigned to 2 product card(s); 512×512 transparent canvas; 12.5% safe area.</dc:description>
+      <dc:creator>Jakub Jirák</dc:creator>
+      <dc:source>https://downloads.marketplace.jetbrains.com/files/28974/1083601/icon/default.svg</dc:source>
+      <dc:date>2026-08-18</dc:date>
+      <dc:rights>Publisher-provided Marketplace icon; copyright and trademark rights remain with the plugin publisher.</dc:rights>
+      <dc:identifier>jetbrains-accessibility-compliance-helper-pro__color</dc:identifier>
+    </rdf:Description>
+  </rdf:RDF>
+</metadata>
+  <svg x="65" y="65" width="382" height="382" viewBox="0 0 256 256" preserveAspectRatio="xMidYMid meet"><title xmlns="http://www.w3.org/2000/svg" id="title">Accessibility Compliance Checker Pro Icon</title>
+  <desc xmlns="http://www.w3.org/2000/svg" id="desc">Rounded square badge with accessibility scan ring and compliance checkmark</desc>
+  <defs xmlns="http://www.w3.org/2000/svg">
+    <linearGradient id="bg" x1="32" y1="0" x2="224" y2="256" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#0D47A1"/>
+      <stop offset="100%" stop-color="#1976D2"/>
+    </linearGradient>
+    <linearGradient id="ring" x1="64" y1="64" x2="192" y2="192" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#E3F2FD"/>
+      <stop offset="100%" stop-color="#90CAF9"/>
+    </linearGradient>
+    <linearGradient id="glare" x1="72" y1="48" x2="184" y2="168" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+
+  <rect xmlns="http://www.w3.org/2000/svg" x="16" y="16" width="224" height="224" rx="56" fill="url(#bg)"/>
+  <rect xmlns="http://www.w3.org/2000/svg" x="16" y="16" width="224" height="224" rx="56" stroke="#64B5F6" stroke-opacity="0.35" stroke-width="4"/>
+
+  <circle xmlns="http://www.w3.org/2000/svg" cx="128" cy="120" r="76" fill="#0E3C80" opacity="0.35"/>
+  <circle xmlns="http://www.w3.org/2000/svg" cx="128" cy="120" r="70" stroke="url(#ring)" stroke-width="12" fill="none"/>
+  <circle xmlns="http://www.w3.org/2000/svg" cx="128" cy="120" r="46" fill="#E8F4FF"/>
+  <circle xmlns="http://www.w3.org/2000/svg" cx="128" cy="120" r="46" fill="url(#glare)"/>
+
+  <path xmlns="http://www.w3.org/2000/svg" d="M101 123.5L121.5 144L157 98" stroke="#1DE9B6" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <g xmlns="http://www.w3.org/2000/svg" fill="#BBDEFB">
+    <rect x="74" y="178" width="24" height="36" rx="8"/>
+    <rect x="116" y="178" width="24" height="48" rx="8"/>
+    <rect x="158" y="178" width="24" height="30" rx="8"/>
+  </g>
+  <g xmlns="http://www.w3.org/2000/svg" fill="#4CAF50">
+    <rect x="80" y="184" width="12" height="24" rx="6" opacity="0.7"/>
+    <rect x="122" y="184" width="12" height="36" rx="6"/>
+    <rect x="164" y="184" width="12" height="18" rx="6" opacity="0.85"/>
+  </g>
+</svg>
+</svg>

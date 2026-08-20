@@ -1,0 +1,67 @@
+# Переименование одной товарной позиции в прод-Directus по слагу.
+# Пример: slug=adobe-photo, name="Adobe Photography".
+# Результат — комментарий в журнал-issue #22.
+name: ops-rename-product
+on:
+  workflow_dispatch:
+    inputs:
+      slug:
+        description: 'Слаг товара'
+        required: true
+      name:
+        description: 'Новое название'
+        required: true
+permissions:
+  issues: write
+jobs:
+  rename:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Rename in Directus
+        id: run
+        uses: appleboy/ssh-action@v1
+        env:
+          P_SLUG: ${{ inputs.slug }}
+          P_NAME: ${{ inputs.name }}
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          envs: P_SLUG,P_NAME
+          capture_stdout: true
+          script: |
+            set -e
+            cd /opt/bizsoft
+            ADMIN_EMAIL=$(docker compose exec -T directus printenv ADMIN_EMAIL | tr -d '\r')
+            ADMIN_PASSWORD=$(docker compose exec -T directus printenv ADMIN_PASSWORD | tr -d '\r')
+            export ADMIN_EMAIL ADMIN_PASSWORD
+            python3 - <<'PYEOF'
+            import json, os, urllib.request
+            base = 'http://127.0.0.1:8055'
+            def req(method, path, data=None, token=None):
+                r = urllib.request.Request(base + path, method=method,
+                    data=json.dumps(data).encode() if data is not None else None,
+                    headers={'Content-Type': 'application/json',
+                             **({'Authorization': f'Bearer {token}'} if token else {})})
+                return json.load(urllib.request.urlopen(r))
+            auth = req('POST', '/auth/login', {'email': os.environ['ADMIN_EMAIL'], 'password': os.environ['ADMIN_PASSWORD']})
+            tok = auth['data']['access_token']
+            slug, name = os.environ['P_SLUG'], os.environ['P_NAME']
+            items = req('GET', f'/items/products?filter[slug][_eq]={slug}&fields=id,name,slug', token=tok)['data']
+            if not items:
+                print(f'товар со слагом {slug} не найден'); raise SystemExit(1)
+            it = items[0]
+            print(f"было: '{it['name']}' [slug: {it['slug']}]")
+            req('PATCH', f"/items/products/{it['id']}", {'name': name}, token=tok)
+            print(f"стало: '{name}'")
+            PYEOF
+      - name: Post to issue
+        uses: actions/github-script@v7
+        env:
+          RESULT: ${{ steps.run.outputs.stdout }}
+        with:
+          script: |
+            await github.rest.issues.createComment({
+              owner: context.repo.owner, repo: context.repo.repo, issue_number: 22,
+              body: '### ops-rename-product\n\n```\n' + process.env.RESULT + '\n```',
+            });

@@ -22,7 +22,7 @@ export const POST: APIRoute = async ({ request }) => {
   }
 
   // Все поля формы обязательны
-  if (!filled(body.name)) return new Response(JSON.stringify({ error: 'Укажите имя' }), { status: 422 });
+  if (!filled(body.name)) return new Response(JSON.stringify({ error: 'Укажите ФИО' }), { status: 422 });
   if (!filled(body.company)) return new Response(JSON.stringify({ error: 'Укажите компанию' }), { status: 422 });
   if (!isEmail(body.email)) return new Response(JSON.stringify({ error: 'Укажите корректный e-mail' }), { status: 422 });
   if (!filled(body.phone)) return new Response(JSON.stringify({ error: 'Укажите телефон' }), { status: 422 });
@@ -53,7 +53,7 @@ export const POST: APIRoute = async ({ request }) => {
   sendMail({
     to: managerEmail,
     replyTo: payload.email,
-    subject: `Новая заявка с сайта BizSoft${payload.product_ref ? ': ' + payload.product_ref : ''}`,
+    subject: `Новая заявка с сайта BIZSoft${payload.product_ref ? ': ' + payload.product_ref : ''}`,
     text: [
       `Источник: ${payload.source}`,
       payload.product_ref && `Товар: ${payload.product_ref}`,
