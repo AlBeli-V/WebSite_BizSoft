@@ -58,8 +58,13 @@ export interface CbrRates {
  * Загрузить и декодировать курсы USD и EUR ЦБ (windows-1251 → UTF-8).
  * Бросает при сетевой ошибке — вызывающий код обязан НЕ перезатирать последние удачные курсы.
  */
+export const CBR_TIMEOUT_MS = Number(process.env.CBR_TIMEOUT_MS ?? 10_000);
+
 export async function fetchCbrRates(fetchImpl: typeof fetch = fetch): Promise<CbrRates> {
-  const res = await fetchImpl(CBR_USD_URL);
+  // Без таймаута зависший cbr.ru держит запрос переоценки открытым бесконечно.
+  const res = await fetchImpl(CBR_USD_URL, {
+    signal: CBR_TIMEOUT_MS > 0 ? AbortSignal.timeout(CBR_TIMEOUT_MS) : undefined,
+  });
   if (!res.ok) throw new Error(`CBR HTTP ${res.status}`);
   const buf = await res.arrayBuffer();
   const xml = new TextDecoder('windows-1251').decode(buf);

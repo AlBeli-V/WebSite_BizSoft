@@ -14,6 +14,9 @@
     "typecheck": "astro check",
     "test": "vitest run",
     "test:watch": "vitest",
+    "smoke": "node scripts/ci/smoke.mjs",
+    "check:artifacts": "node scripts/ci/check-artifacts.mjs",
+    "verify": "pnpm test && pnpm typecheck && pnpm build && pnpm check:artifacts && pnpm smoke",
     "directus:schema": "node scripts/directus-setup.mjs",
     "ai:cards": "node scripts/build-vendor-cards.mjs scripts/ai-catalog-cards.json out/ai-cards.xlsx",
     "ai:import": "node scripts/import-cards.mjs out/ai-cards.xlsx"

@@ -29,6 +29,15 @@ export class DirectusError extends Error {
   }
 }
 
+/**
+ * Потолок ожидания ответа Directus. Без него зависший (а не упавший) Directus
+ * держит SSR-запрос открытым бесконечно: соединения Node копятся, и сайт
+ * перестаёт отвечать целиком, хотя сам процесс жив. Значение щедрое —
+ * выборки идут с limit: -1 и на холодной БД занимают секунды.
+ * Настраивается через DIRECTUS_TIMEOUT_MS.
+ */
+const DIRECTUS_TIMEOUT_MS = Number(process.env.DIRECTUS_TIMEOUT_MS ?? 10_000);
+
 async function dx<T>(path: string, opts: FetchOpts = {}): Promise<T> {
   const url = new URL(DIRECTUS_URL + path);
   if (opts.params) {
@@ -43,11 +52,23 @@ async function dx<T>(path: string, opts: FetchOpts = {}): Promise<T> {
   const headers: Record<string, string> = { 'Content-Type': 'application/json' };
   if (DIRECTUS_TOKEN) headers.Authorization = `Bearer ${DIRECTUS_TOKEN}`;
 
-  const res = await fetch(url, {
-    method: opts.method || 'GET',
-    headers,
-    body: opts.body !== undefined ? JSON.stringify(opts.body) : undefined,
-  });
+  let res: Response;
+  try {
+    res = await fetch(url, {
+      method: opts.method || 'GET',
+      headers,
+      body: opts.body !== undefined ? JSON.stringify(opts.body) : undefined,
+      signal: DIRECTUS_TIMEOUT_MS > 0 ? AbortSignal.timeout(DIRECTUS_TIMEOUT_MS) : undefined,
+    });
+  } catch (e) {
+    // Обрыв и таймаут приводим к тому же типу, что и ошибки Directus, чтобы
+    // вызывающий код различал «нет данных» и «источник недоступен» одинаково.
+    const timedOut = e instanceof Error && (e.name === 'TimeoutError' || e.name === 'AbortError');
+    throw new DirectusError(
+      `Directus ${path}: ${timedOut ? `нет ответа за ${DIRECTUS_TIMEOUT_MS} мс` : (e as Error).message}`,
+      504,
+    );
+  }
 
   if (!res.ok) {
     let detail = res.statusText;

@@ -91,6 +91,7 @@ const { source = 'question' } = Astro.props as { source?: string };
 </style>
 
 <script>
+  import { trackGoal } from '@/lib/analytics';
   import { maskAllPhones } from '../lib/phone-mask';
   maskAllPhones();
 
@@ -144,9 +145,7 @@ const { source = 'question' } = Astro.props as { source?: string };
         status.textContent = 'Готово! Мы свяжемся с вами в ближайшее время.';
         status.className = 'qf-status ok';
         form.reset();
-        const w = window as unknown as { ym?: (...a: unknown[]) => void };
-        const id = (import.meta as { env: Record<string, string> }).env.PUBLIC_METRIKA_ID;
-        if (typeof w.ym === 'function' && id) w.ym(Number(id), 'reachGoal', 'lead_sent');
+        trackGoal('lead_sent', { source: 'question' });
         setTimeout(() => dialog.close(), 1800);
       } catch (err) {
         status.textContent = err instanceof Error && err.message ? err.message : 'Не удалось отправить. Позвоните нам или попробуйте позже.';

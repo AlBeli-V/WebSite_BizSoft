@@ -494,16 +494,11 @@ const cards = jb.map((p) => {
 </style>
 
 <script>
+  import { trackGoal } from '@/lib/analytics';
   // Аналитические события (Метрика + GA4)
-  function track(name: string, params: Record<string, unknown> = {}) {
-    const w = window as unknown as { ym?: (...a: unknown[]) => void; gtag?: (...a: unknown[]) => void };
-    const id = (import.meta as { env: Record<string, string> }).env.PUBLIC_METRIKA_ID || '110206070';
-    if (typeof w.ym === 'function' && id) w.ym(Number(id), 'reachGoal', name, params);
-    if (typeof w.gtag === 'function') w.gtag('event', name, params);
-  }
-  track('view_jetbrains_landing', { page_url: location.pathname });
+  trackGoal('view_jetbrains_landing', { page_url: location.pathname });
   document.querySelectorAll('[data-ev]').forEach((el) => {
-    el.addEventListener('click', () => track((el as HTMLElement).dataset.ev!, { block_name: 'jetbrains' }));
+    el.addEventListener('click', () => trackGoal((el as HTMLElement).dataset.ev!, { block_name: 'jetbrains' }));
   });
 
   // Быстрый подбор: при выборе стека показываем результат и предзаполняем КП
@@ -524,7 +519,7 @@ const cards = jb.map((p) => {
   // Событие просмотра таблицы сравнения (один раз)
   const cmp = document.querySelector('[data-ev-view]');
   if (cmp && 'IntersectionObserver' in window) {
-    const io = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { track((cmp as HTMLElement).dataset.evView!); io.disconnect(); } }), { threshold: 0.3 });
+    const io = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { trackGoal((cmp as HTMLElement).dataset.evView!); io.disconnect(); } }), { threshold: 0.3 });
     io.observe(cmp);
   }
 </script>

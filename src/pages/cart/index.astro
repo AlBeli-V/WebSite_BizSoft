@@ -202,6 +202,7 @@ try {
 </style>
 
 <script>
+  import { trackGoal } from '@/lib/analytics';
   import { readCart, setQty, removeFromCart, cartTotal, clearCart, addToCart } from '../../lib/cart-client';
   import { formatRub } from '../../lib/pricing';
   import { moneyFmt, vatIncluded, totalWithVatWords } from '../../lib/rub-words';
@@ -353,9 +354,7 @@ try {
       a.href = url; a.download = `${quoteNo}.pdf`; document.body.appendChild(a); a.click(); a.remove();
       URL.revokeObjectURL(url);
       status.textContent = 'Готово! PDF скачан и отправлен на e-mail.'; status.className = 'kp-status ok';
-      const w = window as unknown as { ym?: (...a: unknown[]) => void };
-      const id = (import.meta as { env: Record<string, string> }).env.PUBLIC_METRIKA_ID;
-      if (typeof w.ym === 'function' && id) w.ym(Number(id), 'reachGoal', 'quote_pdf');
+      trackGoal('quote_pdf', { quote_no: quoteNo });
     } catch (err) {
       status.textContent = err instanceof Error && err.message ? err.message : 'Не удалось сформировать КП. Попробуйте позже или позвоните нам.';
       status.className = 'kp-status err';
