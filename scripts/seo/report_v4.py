@@ -41,6 +41,7 @@ PUBLIC_REPORT_BASE_URL = os.environ.get("PUBLIC_REPORT_BASE_URL", "").rstrip("/"
 # Адрес опубликованной страницы отчёта. Файл проще переменной окружения: его видно
 # в репозитории и он переживает пересоздание среды.
 REPORT_URL_FILE = pathlib.Path("reports/seo/public/report-url.txt")
+DEMAND_STATE = pathlib.Path("reports/seo/wordstat/intelligence-state.json")
 
 # ── Design tokens ───────────────────────────────────────────────────────────
 T = {
@@ -347,6 +348,7 @@ def assemble(snap, prev, dq, actions_cfg, site_check):
         "board": board,
         "opportunities": opps,
         "health": health,
+        "demand": load_demand(),
         "measurement_summary": _measurement_summary(dq),
         "checkpoints": _checkpoints(exps, actions_cfg),
         "links": {"web": url, "web_public": public,
@@ -675,6 +677,36 @@ def html_email(b: dict, charts: dict, cid_mode: bool) -> str:
             for o in b["opportunities"]["items"])
         rows.append(_section("Где ближе всего рост", items))
 
+    # I-б. Спрос и направления развития — результат регулярного исследования рынка.
+    dm = b.get("demand") or {}
+    if dm.get("available"):
+        cov = dm["coverage"]
+        lead = dm.get("lead_opportunity")
+        lead_html = ""
+        if lead:
+            lead_html = (
+                f"<div style=\"font-size:15px;padding-top:{SP['m']}px;line-height:1.6;\">"
+                f"<b>Ближайшее направление: {lead['cluster']}.</b> "
+                f"{lead['why']} — {num(lead['demand'])} "
+                f"{plural(lead['demand'], 'запрос', 'запроса', 'запросов')} в месяц. "
+                f"Что делаем: {lead['action']}.</div>")
+        rows.append(_section(
+            dm["title"],
+            f"<div style=\"font-size:15px;line-height:1.6;\">{dm['summary']}</div>"
+            f"<table role=\"presentation\" width=\"100%\" cellpadding=\"0\" "
+            f"cellspacing=\"0\" style=\"margin-top:{SP['m']}px;\"><tr>"
+            + "".join(
+                f"<td width=\"33%\" style=\"padding-right:{SP['m']}px;\">"
+                f"<div style=\"font-size:22px;font-weight:700;\">{v:.0%}</div>"
+                f"<div data-meta=\"1\" style=\"font-size:12.5px;"
+                f"color:{T['text_secondary']};\">{label}</div></td>"
+                for label, v in (("есть своя страница", cov["page"]),
+                                 ("страница в поиске", cov["indexed"]),
+                                 ("на первой странице", cov["top10"])))
+            + f"</tr></table>{lead_html}",
+            f"Замер спроса от {ru_date(dm.get('measured_at'))}, "
+            f"обновляется по расписанию исследования"))
+
     # J. Здоровье данных
     h = b["health"]
     colour = {"positive": T["positive"], "warning": T["warning"],
@@ -785,6 +817,18 @@ def plain_text(b: dict) -> str:
             L.append(f"  потенциал: {o['potential']}")
             L.append(f"  что делаем: {o['recommended_action']} "
                      f"(решение к {ru_date(o['decision_date'])})")
+    dm = b.get("demand") or {}
+    if dm.get("available"):
+        cov = dm["coverage"]
+        L += ["", dm["title"].upper(), dm["summary"],
+              f"Покрытие: страница {cov['page']:.0%}, в поиске {cov['indexed']:.0%}, "
+              f"первая страница {cov['top10']:.0%}."]
+        if dm.get("lead_opportunity"):
+            lead = dm["lead_opportunity"]
+            L.append(f"Ближайшее направление: {lead['cluster']} — {lead['action']} "
+                     f"({num(lead['demand'])} "
+                     f"{plural(lead['demand'], 'запрос', 'запроса', 'запросов')} "
+                     "в месяц).")
     h = b["health"]
     L += ["", "ЗДОРОВЬЕ ДАННЫХ",
           f"{PILL_LABEL[h['status']].capitalize()}: {h['reason']}. {h['detail']}",
@@ -836,6 +880,19 @@ def build_eml(b: dict, html: str, text: str, charts: dict, date: str) -> bytes:
             part.add_related(path.read_bytes(), "image", "png", cid=cid,
                              filename=path.name, disposition="inline")
     return msg.as_bytes()
+
+
+def load_demand() -> dict:
+    """Блок спроса из системы исследования рынка.
+
+    Спрос обновляется по расписанию исследования, а не ежедневно, поэтому в письме
+    он идёт отдельным блоком аналитики и не смешивается с суточными показателями.
+    """
+    if not DEMAND_STATE.exists():
+        return {"available": False, "reason": "исследование спроса ещё не выполнялось"}
+    state = json.loads(DEMAND_STATE.read_text(encoding="utf-8"))
+    return state.get("executive_block") or {"available": False,
+                                            "reason": "нет сводки исследования"}
 
 
 def load_site_check(date: str) -> dict | None:

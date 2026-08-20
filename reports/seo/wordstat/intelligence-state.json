@@ -1,0 +1,423 @@
+{
+ "date": "2026-08-20",
+ "generated_at": "2026-08-20T04:09:21+00:00",
+ "measured_at": "2026-08-20",
+ "universe": {
+  "phrases": 6500,
+  "commercial_phrases": 658,
+  "clusters": 45,
+  "total_commercial_demand": 69053,
+  "total_demand": 4097795,
+  "with_page": 6304,
+  "cost_rub": 2.2008
+ },
+ "coverage": {
+  "available": true,
+  "total_commercial_demand": 69053,
+  "levels": {
+   "page": 0.7681,
+   "indexed": 0.5436,
+   "top10": 0.1773,
+   "clicks": 0.0004,
+   "conversion_measured": 0.0,
+   "qualified_leads": null
+  },
+  "note": "Доли считаются по сумме частотностей коммерческих фраз кластера. Уровень «обращения» появится после подключения CRM."
+ },
+ "coverage_by_category": {
+  "Дизайн и графика": {
+   "demand": 40496,
+   "covered": 40468,
+   "top10": 4547,
+   "clicks": 26,
+   "page_coverage": 0.999,
+   "top10_coverage": 0.112,
+   "click_coverage": 0.001
+  },
+  "не определено": {
+   "demand": 15961,
+   "covered": 0,
+   "top10": 0,
+   "clicks": 0,
+   "page_coverage": 0.0,
+   "top10_coverage": 0.0,
+   "click_coverage": 0.0
+  },
+  "Средства разработки": {
+   "demand": 5280,
+   "covered": 5257,
+   "top10": 5257,
+   "clicks": 0,
+   "page_coverage": 0.996,
+   "top10_coverage": 0.996,
+   "click_coverage": 0.0
+  },
+  "Звук, видео и медиа": {
+   "demand": 3765,
+   "covered": 3765,
+   "top10": 998,
+   "clicks": 0,
+   "page_coverage": 1.0,
+   "top10_coverage": 0.265,
+   "click_coverage": 0.0
+  },
+  "AI-сервисы": {
+   "demand": 2771,
+   "covered": 2771,
+   "top10": 664,
+   "clicks": 0,
+   "page_coverage": 1.0,
+   "top10_coverage": 0.24,
+   "click_coverage": 0.0
+  },
+  "Доски и совместная работа": {
+   "demand": 780,
+   "covered": 780,
+   "top10": 780,
+   "clicks": 0,
+   "page_coverage": 1.0,
+   "top10_coverage": 1.0,
+   "click_coverage": 0.0
+  }
+ },
+ "tiers": {
+  "A": 16,
+  "B": 7,
+  "C": 22
+ },
+ "gaps_by_class": {
+  "GAP-A": 1,
+  "GAP-B": 13,
+  "GAP-C": 2,
+  "GAP-D": 6,
+  "GAP-F": 1
+ },
+ "uncovered_top": [
+  {
+   "cluster": "оплата зарубежных сервисов",
+   "demand": 15947,
+   "gap": "GAP-A",
+   "action": "новая посадочная страница или материал",
+   "top_phrase": "оплата зарубежных сервисов"
+  }
+ ],
+ "opportunities": [
+  {
+   "cluster": "adobe",
+   "vendor": "Adobe",
+   "category": "Дизайн и графика",
+   "gap": "GAP-F",
+   "gap_title": "Спрос большой, органика будет долгой",
+   "recommended_action": "исследование платного канала",
+   "commercial_demand": 23322,
+   "commercial_phrases": 209,
+   "url": "/vendors/adobe",
+   "page_exists": true,
+   "indexed": true,
+   "best_position": null,
+   "impressions": 0,
+   "clicks": 0,
+   "ctr": null,
+   "trend": "unknown",
+   "top_phrases": [
+    {
+     "phrase": "adobe купить",
+     "frequency": 3887
+    },
+    {
+     "phrase": "adobe подписка",
+     "frequency": 1979
+    },
+    {
+     "phrase": "лицензия adobe",
+     "frequency": 1403
+    },
+    {
+     "phrase": "adobe pro купить",
+     "frequency": 811
+    },
+    {
+     "phrase": "adobe photoshop купить",
+     "frequency": 683
+    }
+   ],
+   "subclusters": {
+    "покупка": 13227,
+    "подписка и продление": 5120,
+    "цены и тарифы": 4679,
+    "оплата": 296
+   },
+   "opportunity_score": 0.216,
+   "components": {
+    "normalized_demand": 1.0,
+    "commercial_intent": 1.0,
+    "coverage_gap": 0.8,
+    "trend_factor": 0.9,
+    "confidence": 0.9,
+    "estimated_effort": 3.0
+   },
+   "confidence_note": "достаточная: кластер измерен несколькими фразами"
+  },
+  {
+   "cluster": "оплата зарубежных сервисов",
+   "vendor": null,
+   "category": null,
+   "gap": "GAP-A",
+   "gap_title": "Спрос есть, страницы нет",
+   "recommended_action": "новая посадочная страница или материал",
+   "commercial_demand": 15947,
+   "commercial_phrases": 58,
+   "url": null,
+   "page_exists": false,
+   "indexed": false,
+   "best_position": null,
+   "impressions": 0,
+   "clicks": 0,
+   "ctr": null,
+   "trend": "unknown",
+   "top_phrases": [
+    {
+     "phrase": "оплата зарубежных сервисов",
+     "frequency": 11541
+    },
+    {
+     "phrase": "оплата зарубежных сервисов из россии",
+     "frequency": 1081
+    },
+    {
+     "phrase": "оплата подписок зарубежных сервисов",
+     "frequency": 474
+    },
+    {
+     "phrase": "озон оплата зарубежных сервисов",
+     "frequency": 469
+    },
+    {
+     "phrase": "оплата зарубежных сервисов бесплатно",
+     "frequency": 357
+    }
+   ],
+   "subclusters": {
+    "оплата": 15947
+   },
+   "opportunity_score": 0.11078,
+   "components": {
+    "normalized_demand": 0.6838,
+    "commercial_intent": 1.0,
+    "coverage_gap": 1.0,
+    "trend_factor": 0.9,
+    "confidence": 0.9,
+    "estimated_effort": 5.0
+   },
+   "confidence_note": "достаточная: кластер измерен несколькими фразами"
+  },
+  {
+   "cluster": "autodesk",
+   "vendor": "Autodesk",
+   "category": "Дизайн и графика",
+   "gap": "GAP-B",
+   "gap_title": "Страница есть, не индексируется",
+   "recommended_action": "техническое SEO",
+   "commercial_demand": 7391,
+   "commercial_phrases": 62,
+   "url": "/vendors/autodesk",
+   "page_exists": true,
+   "indexed": false,
+   "best_position": null,
+   "impressions": 0,
+   "clicks": 0,
+   "ctr": null,
+   "trend": "unknown",
+   "top_phrases": [
+    {
+     "phrase": "autodesk license",
+     "frequency": 1800
+    },
+    {
+     "phrase": "лицензия autodesk",
+     "frequency": 1015
+    },
+    {
+     "phrase": "autodesk купить",
+     "frequency": 349
+    },
+    {
+     "phrase": "autodesk license manager",
+     "frequency": 332
+    },
+    {
+     "phrase": "autodesk network license",
+     "frequency": 330
+    }
+   ],
+   "subclusters": {
+    "цены и тарифы": 3450,
+    "прочее": 3232,
+    "покупка": 646,
+    "подписка и продление": 63
+   },
+   "opportunity_score": 0.10909,
+   "components": {
+    "normalized_demand": 0.3169,
+    "commercial_intent": 1.0,
+    "coverage_gap": 0.85,
+    "trend_factor": 0.9,
+    "confidence": 0.9,
+    "estimated_effort": 2.0
+   },
+   "confidence_note": "достаточная: кластер измерен несколькими фразами"
+  },
+  {
+   "cluster": "unity",
+   "vendor": "Unity",
+   "category": "Средства разработки",
+   "gap": "GAP-D",
+   "gap_title": "Позиция хорошая, показы есть, переходов мало",
+   "recommended_action": "эксперимент со сниппетом",
+   "commercial_demand": 5257,
+   "commercial_phrases": 41,
+   "url": "/vendors/unity",
+   "page_exists": true,
+   "indexed": true,
+   "best_position": 10.0,
+   "impressions": 2,
+   "clicks": 0,
+   "ctr": 0.0,
+   "trend": "unknown",
+   "top_phrases": [
+    {
+     "phrase": "unity купить",
+     "frequency": 1314
+    },
+    {
+     "phrase": "unity сцена",
+     "frequency": 725
+    },
+    {
+     "phrase": "assassin unity купить",
+     "frequency": 631
+    },
+    {
+     "phrase": "assassins creed unity купить",
+     "frequency": 620
+    },
+    {
+     "phrase": "assassin s unity купить",
+     "frequency": 310
+    }
+   ],
+   "subclusters": {
+    "покупка": 4024,
+    "цены и тарифы": 1102,
+    "подписка и продление": 109,
+    "оплата": 22
+   },
+   "opportunity_score": 0.0639,
+   "components": {
+    "normalized_demand": 0.2254,
+    "commercial_intent": 1.0,
+    "coverage_gap": 0.35,
+    "trend_factor": 0.9,
+    "confidence": 0.9,
+    "estimated_effort": 1.0
+   },
+   "confidence_note": "достаточная: кластер измерен несколькими фразами"
+  },
+  {
+   "cluster": "rive",
+   "vendor": "Rive",
+   "category": "Дизайн и графика",
+   "gap": "GAP-B",
+   "gap_title": "Страница есть, не индексируется",
+   "recommended_action": "техническое SEO",
+   "commercial_demand": 2350,
+   "commercial_phrases": 34,
+   "url": "/vendors/rive",
+   "page_exists": true,
+   "indexed": false,
+   "best_position": null,
+   "impressions": 0,
+   "clicks": 0,
+   "ctr": null,
+   "trend": "unknown",
+   "top_phrases": [
+    {
+     "phrase": "rive купить",
+     "frequency": 675
+    },
+    {
+     "phrase": "riven купить",
+     "frequency": 675
+    },
+    {
+     "phrase": "la rive купить",
+     "frequency": 408
+    },
+    {
+     "phrase": "rive gauche купить",
+     "frequency": 75
+    },
+    {
+     "phrase": "la rive цена",
+     "frequency": 63
+    }
+   ],
+   "subclusters": {
+    "покупка": 2287,
+    "цены и тарифы": 63
+   },
+   "opportunity_score": 0.0347,
+   "components": {
+    "normalized_demand": 0.1008,
+    "commercial_intent": 1.0,
+    "coverage_gap": 0.85,
+    "trend_factor": 0.9,
+    "confidence": 0.9,
+    "estimated_effort": 2.0
+   },
+   "confidence_note": "достаточная: кластер измерен несколькими фразами"
+  }
+ ],
+ "efficiency": {
+  "calls_total": 0,
+  "calls_paid": 0,
+  "cost_month_rub": 0.0,
+  "cost_today_rub": 0,
+  "remaining_budget_rub": 5500,
+  "forecast_month_end_rub": 0,
+  "state": "open",
+  "cache_hit_rate": null,
+  "duplicate_rate": null,
+  "unique_phrases": 0,
+  "new_commercial_phrases": 0,
+  "new_clusters": 0,
+  "cost_per_1000_unique_phrases_rub": null,
+  "cost_per_1000_commercial_phrases_rub": null,
+  "cost_per_new_cluster_rub": null,
+  "empty_response_rate": null
+ },
+ "quota": {
+  "requests_per_hour": 100,
+  "target": 500,
+  "budget_is_binding": false,
+  "max_possible_spend_rub": 1656.0
+ },
+ "executive_block": {
+  "available": true,
+  "title": "Спрос и направления развития",
+  "summary": "Мы видим 69 053 покупательских запросов в месяц по 45 направлениям каталога. Своя страница есть под 77% этого спроса, в поиске находится 54%, на первой странице — 18%. Без страницы остаётся 15 947 запросов в месяц — это направления, где спрос есть, а нас в выдаче нет.",
+  "coverage": {
+   "page": 0.7681,
+   "indexed": 0.5436,
+   "top10": 0.1773
+  },
+  "lead_opportunity": {
+   "cluster": "adobe",
+   "demand": 23322,
+   "action": "исследование платного канала",
+   "why": "Спрос большой, органика будет долгой",
+   "confidence": "достаточная: кластер измерен несколькими фразами"
+  },
+  "measured_at": "2026-08-20"
+ }
+}

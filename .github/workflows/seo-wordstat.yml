@@ -1,12 +1,11 @@
-# Сбор рыночного спроса из Вордстата (Yandex Cloud Search API v2) и gap-анализ семантики.
-# Яндекс недоступен из контейнера мониторинга — сеть работает через раннер GitHub Actions.
-# Лимит сервиса — 100 запросов в час на облако, поэтому полный проход по каталогу
-# (около 560 запросов) разбит на часовые прогоны: сборщик держит помесячный кэш
-# и на каждом запуске добирает следующие до 90 фраз.
-# Запуск ежечасный: сборщик сам знает, что уже собрано в этом месяце, и после
-# завершения прохода не делает ни одного обращения к API — холостой прогон дешёв.
-# Новый месяц — новый кэш и новый проход. Также вручную (workflow_dispatch) и при изменении
-# самого сборщика — пока файл не попал в main, запуск по API доступен только через push.
+# Wordstat Intelligence: обнаружение коммерческого спроса и приоритеты развития.
+# Яндекс недоступен из среды мониторинга — сеть работает через раннер GitHub Actions.
+#
+# Ограничение сервиса — 100 запросов в час на облако, поэтому прогон берёт ровно
+# один часовой слот и продолжает с того места на следующем часу. Расход и причина
+# каждого вызова пишутся в журнал бюджета.
+#
+# Режимы: dry-run (без вызовов), pilot (потолок 500 ₽), daily (суточный прогон).
 
 name: seo-wordstat
 
@@ -18,18 +17,25 @@ on:
       - claude/biz-soft-rating-tracking-5rf03g
     paths:
       - ".github/workflows/seo-wordstat.yml"
-      - "scripts/seo/collect_wordstat.py"
-      - "scripts/seo/semantics.py"
-      - "reports/seo/semantics/clusters.json"
-      - "reports/seo/semantics/discovery.json"
-      - "scripts/seo/build_clusters.py"
+      - "scripts/seo/wordstat/**"
   workflow_dispatch:
+    inputs:
+      mode:
+        description: "Режим прогона"
+        required: true
+        default: "daily"
+        type: choice
+        options: [dry-run, pilot, daily]
+      max_calls:
+        description: "Потолок вызовов за прогон"
+        required: false
+        default: "90"
 
 permissions:
   contents: write
 
 jobs:
-  collect:
+  research:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -43,27 +49,33 @@ jobs:
       - name: Install deps
         run: pip install --quiet requests
 
-      - name: Collect Wordstat demand
+      - name: Run research
         env:
           WORDSTAT_API_KEY: ${{ secrets.WORDSTAT_API_KEY }}
+          MODE: ${{ inputs.mode || 'daily' }}
+          MAX_CALLS: ${{ inputs.max_calls || '90' }}
         run: |
           if [ -z "$WORDSTAT_API_KEY" ]; then
-            echo "::error::Секрет WORDSTAT_API_KEY не задан — сбор спроса пропущен."
+            echo "::error::Секрет WORDSTAT_API_KEY не задан — исследование пропущено."
             exit 1
           fi
-          python3 scripts/seo/build_clusters.py
-          python3 scripts/seo/collect_wordstat.py
-          python3 scripts/seo/semantics.py || echo "gap-анализ отложен: данных пока мало"
+          python3 scripts/seo/wordstat/run.py --dry-run
+          case "$MODE" in
+            dry-run) echo "Только план, вызовы не выполнялись." ;;
+            pilot)   python3 scripts/seo/wordstat/run.py --pilot --max-calls "$MAX_CALLS" ;;
+            daily)   python3 scripts/seo/wordstat/run.py --daily --max-calls "$MAX_CALLS" ;;
+          esac
+          python3 scripts/seo/wordstat/report.py || true
 
       - name: Commit results
         run: |
           git config user.name "Claude"
           git config user.email "noreply@anthropic.com"
-          git add reports/seo/semantics/
+          git add reports/seo/wordstat/
           if git diff --cached --quiet; then
             echo "Изменений нет"
           else
-            git commit -m "Вордстат: рыночный спрос и gap-анализ семантики ($(date -u +%F))"
+            git commit -m "Wordstat Intelligence: прогон $(date -u +%F' '%H:%M)"
             git pull --rebase origin claude/biz-soft-rating-tracking-5rf03g
             git push origin HEAD:claude/biz-soft-rating-tracking-5rf03g
           fi

@@ -1,0 +1,91 @@
+{
+ "schema_version": "1.0.0",
+ "currency": "RUB",
+ "pricing": [
+  {
+   "method": "getTop",
+   "api_path": "/topRequests",
+   "price_per_1000": 20,
+   "currency": "RUB",
+   "effective_date": "2026-08-01"
+  },
+  {
+   "method": "getDynamics",
+   "api_path": "/dynamics",
+   "price_per_1000": 20,
+   "currency": "RUB",
+   "effective_date": "2026-08-01"
+  },
+  {
+   "method": "getRegionsDistribution",
+   "api_path": "/regions",
+   "price_per_1000": 50,
+   "currency": "RUB",
+   "effective_date": "2026-08-01"
+  },
+  {
+   "method": "getRegionsTree",
+   "api_path": "/getRegionsTree",
+   "price_per_1000": 0,
+   "currency": "RUB",
+   "effective_date": "2026-08-01"
+  }
+ ],
+ "quota": {
+  "requests_per_second": 10,
+  "requests_per_hour": 100,
+  "requests_per_hour_target": 500,
+  "confirmed_at": "2026-08-19",
+  "source": "ответ сервиса: search-api.wordstatRequestsPerHour.rate rate quota limit exceed: allowed 100 requests",
+  "note": "Целевая квота 500/час не получена. Система готова к ней технически, но планирует расход по действующей."
+ },
+ "budget": {
+  "monthly_hard_cap_rub": 5500,
+  "monthly_soft_stop_rub": 5000,
+  "safety_reserve_rub": 500,
+  "pilot_cap_rub": 500,
+  "daily_cap_rub": 400
+ },
+ "envelopes": {
+  "discovery_gettop": 0.7,
+  "dynamics": 0.2,
+  "regions": 0.1,
+  "note": "Ориентиры распределения, а не план обязательных расходов. Неизрасходованная доля не осваивается ради освоения."
+ },
+ "collection": {
+  "num_phrases": 300,
+  "region_id": "225",
+  "region_name": "Россия",
+  "devices": "DEVICE_ALL",
+  "match_type": "broad",
+  "cache_ttl_days": 30,
+  "dynamics_ttl_days": 30,
+  "regions_ttl_days": 90
+ },
+ "thresholds": {
+  "min_frequency": 30,
+  "empty_seed_streak_stop": 3,
+  "duplicate_rate_stop": 0.85,
+  "min_information_gain": 0.15,
+  "max_expansion_depth": 2,
+  "max_calls_per_vendor": 12,
+  "max_calls_per_cluster": 8
+ },
+ "tiers": {
+  "A": {
+   "max_items": 300,
+   "dynamics_every_days": 7,
+   "regions_every_days": 90
+  },
+  "B": {
+   "max_items": 3000,
+   "dynamics_every_days": 30,
+   "regions_every_days": null
+  },
+  "C": {
+   "max_items": null,
+   "dynamics_every_days": null,
+   "regions_every_days": null
+  }
+ }
+}
