@@ -1,5 +1,5 @@
 {
- "checked_at": "2026-08-20T06:21:33+00:00",
+ "checked_at": "2026-08-20T06:22:44+00:00",
  "results": [
   {
    "variant": "как в прогоне: 365 дней назад, произвольные даты",
@@ -12,8 +12,8 @@
     "fromDate": "2025-08-20T00:00:00Z",
     "toDate": "2026-08-20T00:00:00Z"
    },
-   "status": 404,
-   "response": "",
+   "status": 400,
+   "response": "{\n \"code\": 3,\n \"message\": \"rpc error: code = InvalidArgument desc = The from field value should be the first day of the month\",\n \"details\": [\n  {\n   \"@type\": \"type.googleapis.com/google.rpc.RequestInfo\",\n   \"requestId\": \"3632a682-e9f9-4d4f-9eec-9739c1ce510b\"\n  }\n ]\n}\n",
    "ok": false
   },
   {
@@ -27,8 +27,8 @@
     "fromDate": "2025-08-01T00:00:00Z",
     "toDate": "2026-08-01T00:00:00Z"
    },
-   "status": 404,
-   "response": "",
+   "status": 400,
+   "response": "{\n \"code\": 3,\n \"message\": \"rpc error: code = InvalidArgument desc = The to field value should be the last day of the month\",\n \"details\": [\n  {\n   \"@type\": \"type.googleapis.com/google.rpc.RequestInfo\",\n   \"requestId\": \"e95fe691-0437-4271-84cd-af0ec8f9369d\"\n  }\n ]\n}\n",
    "ok": false
   },
   {
@@ -42,8 +42,8 @@
     "fromDate": "2025-08-01",
     "toDate": "2026-08-01"
    },
-   "status": 404,
-   "response": "",
+   "status": 400,
+   "response": "to_date: invalid value Field 'toDate', Invalid time format: 2026-08-01 for type type.googleapis.com/google.protobuf.Timestamp",
    "ok": false
   },
   {
@@ -57,8 +57,8 @@
     "fromDate": "2025-08-01T00:00:00Z",
     "toDate": "2026-08-01T00:00:00Z"
    },
-   "status": 404,
-   "response": "",
+   "status": 400,
+   "response": "period: invalid value \"MONTHLY\" for type type.googleapis.com/yandex.cloud.searchapi.v2.GetDynamicsRequest.Period",
    "ok": false
   },
   {
@@ -72,8 +72,8 @@
     "fromDate": "2026-05-22T00:00:00Z",
     "toDate": "2026-08-20T00:00:00Z"
    },
-   "status": 404,
-   "response": "",
+   "status": 400,
+   "response": "{\n \"code\": 3,\n \"message\": \"rpc error: code = InvalidArgument desc = The from field value should be Monday\",\n \"details\": [\n  {\n   \"@type\": \"type.googleapis.com/google.rpc.RequestInfo\",\n   \"requestId\": \"84fca4da-5ae3-4e06-906a-0ab744db0b48\"\n  }\n ]\n}\n",
    "ok": false
   },
   {
@@ -84,8 +84,8 @@
     "fromDate": "2025-08-01T00:00:00Z",
     "toDate": "2026-08-01T00:00:00Z"
    },
-   "status": 404,
-   "response": "",
+   "status": 400,
+   "response": "{\n \"code\": 3,\n \"message\": \"rpc error: code = InvalidArgument desc = The to field value should be the last day of the month\",\n \"details\": [\n  {\n   \"@type\": \"type.googleapis.com/google.rpc.RequestInfo\",\n   \"requestId\": \"ab3b395e-6f8d-4bf7-a81a-814dcc1b8b5b\"\n  }\n ]\n}\n",
    "ok": false
   }
  ]
