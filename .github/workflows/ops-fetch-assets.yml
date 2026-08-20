@@ -48,19 +48,45 @@ jobs:
           if m:
               url = f'https://drive.google.com/uc?export=download&id={m.group(1)}'
               print('Google Drive: ссылка преобразована в прямую')
-          # OneDrive / SharePoint: короткая ссылка отдаёт HTML-страницу,
-          # поэтому берём содержимое через shares-API (u!<base64 от ссылки>).
+          # OneDrive / SharePoint: короткая ссылка отдаёт HTML-страницу
+          # предпросмотра. Пробуем несколько способов получить сам файл и
+          # печатаем результат каждого — так видно, публичная ли ссылка.
+          candidates = [url]
           if any(h in url for h in ('1drv.ms', 'onedrive.live.com', 'sharepoint.com')):
               import base64
               token = base64.urlsafe_b64encode(url.encode()).decode().rstrip('=')
-              url = f'https://api.onedrive.com/v1.0/shares/u!{token}/root/content'
-              print('OneDrive: ссылка преобразована через shares-API')
-          req = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0'})
-          with urllib.request.urlopen(req, timeout=180) as r, open('/tmp/asset.bin', 'wb') as f:
-              size = 0
-              while chunk := r.read(1 << 20):
-                  f.write(chunk); size += len(chunk)
-          print(f'скачано: {size} байт')
+              candidates = [
+                  f'https://api.onedrive.com/v1.0/shares/u!{token}/root/content',
+                  f'https://graph.microsoft.com/v1.0/shares/u!{token}/driveItem/content',
+                  url + ('&' if '?' in url else '?') + 'download=1',
+                  url,
+              ]
+
+          UA = ('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 '
+                '(KHTML, like Gecko) Chrome/120.0 Safari/537.36')
+          size = 0
+          for i, cand in enumerate(candidates, 1):
+              short = cand[:80] + ('…' if len(cand) > 80 else '')
+              try:
+                  req = urllib.request.Request(cand, headers={'User-Agent': UA})
+                  with urllib.request.urlopen(req, timeout=180) as r:
+                      ctype = (r.headers.get('Content-Type') or '').lower()
+                      if 'text/html' in ctype:
+                          print(f'{i}. {short} → HTML-страница, не файл')
+                          continue
+                      with open('/tmp/asset.bin', 'wb') as f:
+                          while chunk := r.read(1 << 20):
+                              f.write(chunk); size += len(chunk)
+                      print(f'{i}. {short} → OK, {ctype}, {size} байт')
+                      break
+              except Exception as e:
+                  code = getattr(e, 'code', '')
+                  print(f'{i}. {short} → ошибка {code} {e.__class__.__name__}')
+          if not size:
+              print('НЕ УДАЛОСЬ СКАЧАТЬ: ни один способ не отдал файл.')
+              print('Скорее всего, доступ по ссылке ограничен — нужен режим')
+              print('«Все, у кого есть ссылка» без входа в учётную запись.')
+              raise SystemExit(1)
           PYEOF
           file /tmp/asset.bin
           mkdir -p "$DEST"
