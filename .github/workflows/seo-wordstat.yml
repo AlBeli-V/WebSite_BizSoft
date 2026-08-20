@@ -74,8 +74,24 @@ jobs:
           git add reports/seo/wordstat/
           if git diff --cached --quiet; then
             echo "Изменений нет"
-          else
-            git commit -m "Wordstat Intelligence: прогон $(date -u +%F' '%H:%M)"
-            git pull --rebase origin claude/biz-soft-rating-tracking-5rf03g
-            git push origin HEAD:claude/biz-soft-rating-tracking-5rf03g
+            exit 0
           fi
+          git commit -m "Wordstat Intelligence: прогон $(date -u +%F' '%H:%M)"
+          # Артефакты прогона — машинные файлы: журнал бюджета, состояние лимитера,
+          # база семантики. При параллельной работе они конфликтуют, и разрешать
+          # такой конфликт вручную нечего: свежий результат прогона всегда полнее.
+          BRANCH=claude/biz-soft-rating-tracking-5rf03g
+          for attempt in 1 2 3; do
+            git fetch origin "$BRANCH"
+            if git rebase -X theirs "origin/$BRANCH"; then
+              if git push origin "HEAD:$BRANCH"; then
+                echo "Опубликовано с попытки $attempt"
+                exit 0
+              fi
+            else
+              git rebase --abort || true
+            fi
+            sleep $((attempt * 5))
+          done
+          echo "::error::Не удалось опубликовать результат прогона за три попытки."
+          exit 1

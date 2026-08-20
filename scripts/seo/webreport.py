@@ -33,6 +33,71 @@ BASE = pathlib.Path("reports/seo/intelligence")
 OUT = pathlib.Path("reports/seo/public/daily")
 
 
+DEMAND_STATE = pathlib.Path("reports/seo/wordstat/intelligence-state.json")
+
+
+def _demand_section() -> str:
+    """Покрытие спроса и разрывы: полные таблицы живут здесь, не в письме."""
+    if not DEMAND_STATE.exists():
+        return "<p class='muted'>Исследование спроса ещё не выполнялось.</p>"
+    st = json.loads(DEMAND_STATE.read_text(encoding="utf-8"))
+    cov, uni = st["coverage"], st["universe"]
+    if not cov.get("available"):
+        return "<p class='muted'>Спрос ещё не измерен.</p>"
+    meaning = {"page": "есть релевантная страница",
+               "indexed": "страница участвует в поиске",
+               "top10": "мы на первой странице выдачи",
+               "clicks": "по запросу к нам приходят",
+               "conversion_measured": "конверсия измеряется",
+               "qualified_leads": "обращения подтверждены CRM"}
+    levels = table(["Уровень", "Доля спроса", "Что означает"],
+                   [[k, "нет данных" if v is None else f"{v:.1%}", meaning[k]]
+                    for k, v in cov["levels"].items()])
+    uncovered = table(["Кластер", "Спрос, показов/мес", "Класс", "Действие"],
+                      [[u["cluster"], f"{u['demand']:,}".replace(",", " "),
+                        f"<span class='chip'>{u['gap']}</span>", u["action"]]
+                       for u in st["uncovered_top"]])
+    opportunities = ""
+    for o in st["opportunities"]:
+        c = o["components"]
+        opportunities += (
+            f"<h3>{o['cluster']} — {o['recommended_action']}</h3>"
+            f"<p>{o['gap_title']}. Спрос "
+            f"{o['commercial_demand']:,} показов в месяц по {o['commercial_phrases']} "
+            f"коммерческим фразам. Страница: {o['url'] or 'нет'}, "
+            f"позиция {o['best_position'] or '—'}, тренд {o['trend']}.</p>"
+            f"<p class='muted'>Балл {o['opportunity_score']} = спрос "
+            f"{c['normalized_demand']} × интент {c['commercial_intent']} × разрыв "
+            f"{c['coverage_gap']} × тренд {c['trend_factor']} × уверенность "
+            f"{c['confidence']} / трудоёмкость {c['estimated_effort']}. "
+            f"{o['confidence_note']}.</p>").replace(",", " ", 0)
+    eff = st["efficiency"]
+    q = st["quota"]
+    economics = table(
+        ["Показатель", "Значение"],
+        [["вызовов всего", str(eff["calls_total"])],
+         ["из них платных", str(eff["calls_paid"])],
+         ["расход за месяц", f"{eff['cost_month_rub']:.2f} ₽"],
+         ["остаток бюджета", f"{eff['remaining_budget_rub']:.2f} ₽"],
+         ["попаданий в кэш", "—" if eff["cache_hit_rate"] is None
+          else f"{eff['cache_hit_rate']:.1%}"],
+         ["пустых ответов", "—" if eff["empty_response_rate"] is None
+          else f"{eff['empty_response_rate']:.1%}"],
+         ["стоимость 1000 уникальных фраз",
+          f"{eff['cost_per_1000_unique_phrases_rub'] or '—'} ₽"],
+         ["квота", f"{q['requests_per_hour']} запросов в час"],
+         ["максимум расхода при этой квоте", f"{q['max_possible_spend_rub']:.0f} ₽/мес"],
+         ["бюджет является ограничением",
+          "да" if q["budget_is_binding"] else "нет — ограничивает квота"]])
+    total = f"{uni['total_commercial_demand']:,}".replace(",", " ")
+    return (f"<p>Измеренный покупательский спрос — {total} показов в месяц по "
+            f"{uni['clusters']} кластерам. Считается по частотности коммерческих фраз, "
+            f"а не по числу ключевых слов.</p>{levels}"
+            f"<h3>Непокрытый коммерческий спрос</h3>{uncovered}"
+            f"<h3>Возможности</h3>{opportunities}"
+            f"<h3>Экономика исследования</h3>{economics}")
+
+
 def embed_png(path: pathlib.Path) -> str:
     """PNG внутрь страницы: отчёт открывается по ссылке, а не только из репозитория."""
     return "data:image/png;base64," + base64.b64encode(path.read_bytes()).decode()
@@ -288,6 +353,8 @@ def build_html(b: dict, snap: dict, dq: dict, date: str) -> str:
     health_cls = {"positive": "positive", "warning": "warning", "danger": "danger"}[
         b["health"]["colour"]]
 
+    demand = _demand_section()
+
     return f"""<!doctype html><html lang="ru"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>BIZSoft Growth Intelligence</title>
@@ -323,6 +390,8 @@ def build_html(b: dict, snap: dict, dq: dict, date: str) -> str:
 <section><h2>Журнал исполнения</h2>{board}</section>
 
 <section><h2>Радар возможностей</h2>{opp}</section>
+
+<section><h2>Спрос и покрытие рынка</h2>{demand}</section>
 
 <section><h2>Графики</h2>{charts or "<p class='muted'>Графиков нет.</p>"}</section>
 
