@@ -9,7 +9,7 @@
   "new_phrases": 0,
   "new_clusters": 0,
   "new_commercial": 0,
-  "stopped": "часовая квота исчерпана: часовая квота 100 исчерпана, следующий слот через 2403 с"
+  "stopped": "часовая квота исчерпана: {\n \"code\": 8,\n \"message\": \"search-api.wordstatRequestsPerHour.rate rate quota limit exceed: allowed 100 requests\",\n \"det"
  },
  "efficiency": {
   "calls_total": 10,
