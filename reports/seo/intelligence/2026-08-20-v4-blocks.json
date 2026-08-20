@@ -170,18 +170,6 @@
        "share_of_total_delta": 0.6
       },
       {
-       "entity": "/",
-       "vendor": null,
-       "current": 8,
-       "previous": 9,
-       "delta": -1,
-       "clicks_delta": 0,
-       "position_delta": -3.79,
-       "state": "changed",
-       "confidence": "very_low",
-       "share_of_total_delta": 0.2
-      },
-      {
        "entity": "/product/zoom-wp-business",
        "vendor": "zoom",
        "current": 1,
@@ -189,6 +177,18 @@
        "delta": -1,
        "clicks_delta": 0,
        "position_delta": -20,
+       "state": "changed",
+       "confidence": "very_low",
+       "share_of_total_delta": 0.2
+      },
+      {
+       "entity": "/",
+       "vendor": null,
+       "current": 8,
+       "previous": 9,
+       "delta": -1,
+       "clicks_delta": 0,
+       "position_delta": -3.79,
        "state": "changed",
        "confidence": "very_low",
        "share_of_total_delta": 0.2
@@ -208,18 +208,6 @@
        "share_of_total_delta": 0.6
       },
       {
-       "entity": "/",
-       "vendor": null,
-       "current": 8,
-       "previous": 9,
-       "delta": -1,
-       "clicks_delta": 0,
-       "position_delta": -3.79,
-       "state": "changed",
-       "confidence": "very_low",
-       "share_of_total_delta": 0.2
-      },
-      {
        "entity": "/product/zoom-wp-business",
        "vendor": "zoom",
        "current": 1,
@@ -227,6 +215,18 @@
        "delta": -1,
        "clicks_delta": 0,
        "position_delta": -20,
+       "state": "changed",
+       "confidence": "very_low",
+       "share_of_total_delta": 0.2
+      },
+      {
+       "entity": "/",
+       "vendor": null,
+       "current": 8,
+       "previous": 9,
+       "delta": -1,
+       "clicks_delta": 0,
+       "position_delta": -3.79,
        "state": "changed",
        "confidence": "very_low",
        "share_of_total_delta": 0.2
@@ -254,7 +254,19 @@
        "share_of_total_delta": 0.2
       },
       {
-       "entity": "perforce helix pricing",
+       "entity": "zoombusiness",
+       "vendor": "zoom",
+       "current": 0,
+       "previous": 1,
+       "delta": -1,
+       "clicks_delta": 0,
+       "position_delta": null,
+       "state": "lost",
+       "confidence": "very_low",
+       "share_of_total_delta": 0.2
+      },
+      {
+       "entity": "bigsoft",
        "vendor": null,
        "current": 0,
        "previous": 1,
@@ -278,19 +290,7 @@
        "share_of_total_delta": 0.2
       },
       {
-       "entity": "zoombusiness",
-       "vendor": "zoom",
-       "current": 0,
-       "previous": 1,
-       "delta": -1,
-       "clicks_delta": 0,
-       "position_delta": null,
-       "state": "lost",
-       "confidence": "very_low",
-       "share_of_total_delta": 0.2
-      },
-      {
-       "entity": "bigsoft",
+       "entity": "perforce helix pricing",
        "vendor": null,
        "current": 0,
        "previous": 1,
@@ -316,7 +316,19 @@
        "share_of_total_delta": 0.2
       },
       {
-       "entity": "perforce helix pricing",
+       "entity": "zoombusiness",
+       "vendor": "zoom",
+       "current": 0,
+       "previous": 1,
+       "delta": -1,
+       "clicks_delta": 0,
+       "position_delta": null,
+       "state": "lost",
+       "confidence": "very_low",
+       "share_of_total_delta": 0.2
+      },
+      {
+       "entity": "bigsoft",
        "vendor": null,
        "current": 0,
        "previous": 1,
@@ -340,19 +352,7 @@
        "share_of_total_delta": 0.2
       },
       {
-       "entity": "zoombusiness",
-       "vendor": "zoom",
-       "current": 0,
-       "previous": 1,
-       "delta": -1,
-       "clicks_delta": 0,
-       "position_delta": null,
-       "state": "lost",
-       "confidence": "very_low",
-       "share_of_total_delta": 0.2
-      },
-      {
-       "entity": "bigsoft",
+       "entity": "perforce helix pricing",
        "vendor": null,
        "current": 0,
        "previous": 1,
@@ -526,18 +526,6 @@
    "share_of_total_delta": 0.6
   },
   {
-   "entity": "/",
-   "vendor": null,
-   "current": 8,
-   "previous": 9,
-   "delta": -1,
-   "clicks_delta": 0,
-   "position_delta": -3.79,
-   "state": "changed",
-   "confidence": "very_low",
-   "share_of_total_delta": 0.2
-  },
-  {
    "entity": "/product/zoom-wp-business",
    "vendor": "zoom",
    "current": 1,
@@ -545,6 +533,18 @@
    "delta": -1,
    "clicks_delta": 0,
    "position_delta": -20,
+   "state": "changed",
+   "confidence": "very_low",
+   "share_of_total_delta": 0.2
+  },
+  {
+   "entity": "/",
+   "vendor": null,
+   "current": 8,
+   "previous": 9,
+   "delta": -1,
+   "clicks_delta": 0,
+   "position_delta": -3.79,
    "state": "changed",
    "confidence": "very_low",
    "share_of_total_delta": 0.2
@@ -556,7 +556,7 @@
    "engine": "Google",
    "window": "накопленное окно 26 дней, сдвинуто на сутки",
    "available": true,
-   "text": "Изменение −5 по страницам. Потеряли: /product/prfrc-p4-cloud, /, /product/zoom-wp-business. Растущих адресов выше порога значимости нет.",
+   "text": "Изменение −5 по страницам. Потеряли: /product/prfrc-p4-cloud, /product/zoom-wp-business, /. Растущих адресов выше порога значимости нет.",
    "rows": [
     {
      "entity": "/product/prfrc-p4-cloud",
@@ -567,20 +567,20 @@
      "position_delta": -2.6
     },
     {
-     "entity": "/",
-     "delta": "−1",
-     "share": "20%",
-     "state": "",
-     "positive": false,
-     "position_delta": -3.79
-    },
-    {
      "entity": "/product/zoom-wp-business",
      "delta": "−1",
      "share": "20%",
      "state": "",
      "positive": false,
      "position_delta": -20
+    },
+    {
+     "entity": "/",
+     "delta": "−1",
+     "share": "20%",
+     "state": "",
+     "positive": false,
+     "position_delta": -3.79
     }
    ],
    "counted": 3
@@ -774,8 +774,8 @@
   }
  ],
  "links": {
-  "web": "https://github.com/AlBeli-V/WebSite_BizSoft/blob/claude/biz-soft-rating-tracking-5rf03g/reports/seo/intelligence/2026-08-20-appendix.md",
-  "web_public": false,
+  "web": "https://claude.ai/code/artifact/8bf1fa5d-0822-4723-8315-70e9d71179ca",
+  "web_public": true,
   "tasks": "https://github.com/AlBeli-V/WebSite_BizSoft/tree/claude/biz-soft-rating-tracking-5rf03g/reports/seo/tasks"
  }
 }

@@ -2,16 +2,16 @@
  "date": "2026-08-20",
  "passed": true,
  "counts": {
-  "total": 25,
+  "total": 26,
   "failed": 0
  },
- "visible_words": 823,
+ "visible_words": 821,
  "first_screen_words": 157,
  "checks": [
   {
    "check": "visible_words",
    "ok": true,
-   "detail": "823 слов при пределе 1000"
+   "detail": "821 слов при пределе 1000"
   },
   {
    "check": "first_screen_words",
@@ -111,7 +111,12 @@
   {
    "check": "public_url_or_marked_fallback",
    "ok": true,
-   "detail": "основная ссылка: https://github.com/AlBeli-V/WebSite_BizSoft/blob/claude/biz-soft-rating-tracking-5rf03g/reports/seo/intelligence/2026-08-20-appendix.md; помечена как техническая: да"
+   "detail": "основная ссылка: https://claude.ai/code/artifact/8bf1fa5d-0822-4723-8315-70e9d71179ca; помечена как техническая: нет"
+  },
+  {
+   "check": "report_link_target_exists",
+   "ok": true,
+   "detail": "внешний адрес опубликованной страницы"
   },
   {
    "check": "no_split_combined_experiment",

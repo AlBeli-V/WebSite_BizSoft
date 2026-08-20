@@ -16,6 +16,7 @@
 
 from __future__ import annotations
 
+import base64
 import datetime as dt
 import json
 import pathlib
@@ -24,12 +25,17 @@ import sys
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
 
 import report_v2  # noqa: E402
-from report_v4 import (BLOB, REPO, T, VERDICT_LABEL, PILL_LABEL,  # noqa: E402
+from report_v4 import (BLOB, BRANCH, PILL_LABEL, REPO, VERDICT_LABEL,  # noqa: E402
                        assemble, load_site_check)
 from textfmt import num, pct, ru_date, ru_date_full, signed  # noqa: E402
 
 BASE = pathlib.Path("reports/seo/intelligence")
 OUT = pathlib.Path("reports/seo/public/daily")
+
+
+def embed_png(path: pathlib.Path) -> str:
+    """PNG внутрь страницы: отчёт открывается по ссылке, а не только из репозитория."""
+    return "data:image/png;base64," + base64.b64encode(path.read_bytes()).decode()
 
 
 def table(headers: list[str], rows: list[list[str]]) -> str:
@@ -111,63 +117,204 @@ def build_html(b: dict, snap: dict, dq: dict, date: str) -> str:
          for o in b["opportunities"]["items"]])
 
     charts = "".join(
-        f"<figure><img src='../../charts/{date}-{n}.png' alt='{n}'>"
+        f"<figure><img src='{embed_png(BASE / 'charts' / f'{date}-{n}.png')}' alt='{c}'>"
         f"<figcaption>{c}</figcaption></figure>"
         for n, c in (("kpi-slope", "Показы Google неделя к неделе"),
                      ("drivers", "Вклад страниц в изменение показов"),
                      ("experiment", "Ход эксперимента"))
         if (BASE / "charts" / f"{date}-{n}.png").exists())
 
-    css = f"""
-    :root{{--bg:{T['background']};--surface:{T['surface']};--ink:{T['text_primary']};
-      --muted:{T['text_secondary']};--line:{T['border']};--brand:{T['brand']};}}
-    *{{box-sizing:border-box}}
-    body{{margin:0;background:var(--bg);color:var(--ink);
-      font:16px/1.6 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-serif;}}
-    .wrap{{max-width:1040px;margin:0 auto;padding:32px 20px 64px;}}
-    header{{padding-bottom:16px;border-bottom:1px solid var(--line);}}
-    h1{{font-size:28px;margin:0;}} h2{{font-size:20px;margin:32px 0 8px;}}
-    h3{{font-size:17px;margin:24px 0 8px;}}
-    .sub{{color:var(--muted);font-size:14px;}}
-    .pills span{{display:inline-block;border:1px solid var(--muted);border-radius:999px;
-      padding:3px 10px;margin:8px 8px 0 0;font-size:13px;color:var(--muted);}}
-    section{{background:var(--surface);border:1px solid var(--line);border-radius:14px;
-      padding:20px 24px;margin-top:20px;}}
-    table{{border-collapse:collapse;width:100%;font-size:14px;}}
-    th,td{{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);
-      vertical-align:top;}}
-    th{{color:var(--muted);font-weight:600;font-size:13px;}}
-    .scroll{{overflow-x:auto;}}
-    .muted{{color:var(--muted);}}
-    figure{{margin:16px 0;}} img{{max-width:100%;height:auto;border:1px solid var(--line);
-      border-radius:10px;}}
-    figcaption{{color:var(--muted);font-size:13px;padding-top:6px;}}
-    a{{color:var(--brand);}}
-    @media(max-width:640px){{.wrap{{padding:20px 14px 48px}} h1{{font-size:23px}}}}
+    # Токены светлой темы объявлены на голом :root, тёмные — отдельно для
+    # системной настройки и для явного выбора: у зрителя три состояния, и цвет,
+    # объявленный только внутри media-блока, в неотмеченном состоянии не сработает.
+    css = """
+    :root{
+      --ground:#F6F8FB; --surface:#FFFFFF; --ink:#101828; --muted:#667085;
+      --line:#EAECF0; --line-strong:#D8DDE5; --brand:#F4511E;
+      --positive:#12B76A; --warning:#B54708; --warning-bg:#FFFAEB;
+      --danger:#D92D20; --info:#2E90FA; --chip:#F2F4F7;
+    }
+    @media (prefers-color-scheme: dark){
+      :root:not([data-theme="light"]){
+        --ground:#0C111D; --surface:#161B26; --ink:#ECEFF3; --muted:#94A3B8;
+        --line:#1F2733; --line-strong:#2A3444; --brand:#FF7A45;
+        --positive:#3DDC97; --warning:#F5A524; --warning-bg:#231A0B;
+        --danger:#FF6B60; --info:#5BA8FF; --chip:#1C2431;
+      }
+    }
+    :root[data-theme="dark"]{
+      --ground:#0C111D; --surface:#161B26; --ink:#ECEFF3; --muted:#94A3B8;
+      --line:#1F2733; --line-strong:#2A3444; --brand:#FF7A45;
+      --positive:#3DDC97; --warning:#F5A524; --warning-bg:#231A0B;
+      --danger:#FF6B60; --info:#5BA8FF; --chip:#1C2431;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0; background:var(--ground); color:var(--ink);
+      font:400 16px/1.6 'IBM Plex Sans','Segoe UI',system-ui,-apple-system,sans-serif;
+      -webkit-font-smoothing:antialiased;
+    }
+    .wrap{max-width:1080px;margin:0 auto;padding:0 24px 96px}
+    header{padding:40px 0 20px}
+    h1{
+      font-size:clamp(26px,3.4vw,36px); line-height:1.15; margin:0;
+      letter-spacing:-.02em; text-wrap:balance;
+    }
+    .sub{color:var(--muted);font-size:14.5px;margin-top:6px}
+    .statusbar{
+      position:sticky; top:0; z-index:5; background:var(--ground);
+      border-bottom:1px solid var(--line); padding:12px 0; margin-bottom:8px;
+      display:flex; flex-wrap:wrap; gap:8px; align-items:center;
+    }
+    .pill{
+      font:500 12.5px/1 'IBM Plex Mono',ui-monospace,monospace;
+      letter-spacing:.04em; text-transform:uppercase;
+      border:1px solid var(--line-strong); border-radius:999px; padding:6px 11px;
+      color:var(--muted); white-space:nowrap;
+    }
+    .pill.positive{color:var(--positive);border-color:var(--positive)}
+    .pill.warning{color:var(--warning);border-color:var(--warning)}
+    .pill.danger{color:var(--danger);border-color:var(--danger)}
+    .freshness{
+      font:400 12.5px/1.5 'IBM Plex Mono',ui-monospace,monospace;
+      color:var(--muted); margin-left:auto;
+    }
+    section{padding:36px 0;border-top:1px solid var(--line)}
+    section:first-of-type{border-top:0}
+    h2{
+      font-size:13px; font-weight:600; letter-spacing:.09em; text-transform:uppercase;
+      color:var(--muted); margin:0 0 18px;
+      font-family:'IBM Plex Mono',ui-monospace,monospace;
+    }
+    h3{font-size:17px;margin:26px 0 10px;letter-spacing:-.01em}
+    p{margin:0 0 12px;max-width:72ch}
+    .lede{font-size:17px;line-height:1.65}
+    .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(232px,1fr));gap:14px}
+    .card{
+      background:var(--surface); border:1px solid var(--line);
+      border-radius:14px; padding:18px 18px 16px;
+    }
+    .card .label{font-size:13px;color:var(--muted)}
+    .card .value{
+      font:600 30px/1.15 'IBM Plex Sans',sans-serif;
+      font-variant-numeric:tabular-nums; margin-top:4px; letter-spacing:-.02em;
+    }
+    .card .unit{font-size:13.5px;color:var(--muted);font-weight:400}
+    .card .delta{font-size:14px;font-weight:600}
+    .card .delta.up{color:var(--positive)} .card .delta.down{color:var(--danger)}
+    .card .note{font-size:14px;margin-top:8px;line-height:1.5}
+    .card .meta{
+      font:400 12px/1.5 'IBM Plex Mono',ui-monospace,monospace;
+      color:var(--muted); margin-top:10px;
+    }
+    .scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+    table{border-collapse:collapse;width:100%;font-size:14px;font-variant-numeric:tabular-nums}
+    th,td{text-align:left;padding:9px 12px 9px 0;border-bottom:1px solid var(--line);
+      vertical-align:top}
+    th{
+      font:600 11.5px/1.4 'IBM Plex Mono',ui-monospace,monospace;
+      letter-spacing:.06em; text-transform:uppercase; color:var(--muted);
+      border-bottom-color:var(--line-strong);
+    }
+    td:first-child{padding-left:0}
+    .chip{
+      display:inline-block; font:500 11.5px/1 'IBM Plex Mono',ui-monospace,monospace;
+      letter-spacing:.04em; text-transform:uppercase; padding:4px 8px;
+      border-radius:5px; background:var(--chip); color:var(--muted);
+    }
+    .chip.critical{background:var(--danger);color:#fff}
+    .chip.warning{color:var(--warning);background:var(--warning-bg)}
+    .callout{
+      background:var(--warning-bg); border-left:3px solid var(--warning);
+      border-radius:0 10px 10px 0; padding:16px 18px; margin:0 0 16px;
+    }
+    .muted{color:var(--muted)}
+    figure{margin:0 0 22px}
+    img{max-width:100%;height:auto;border:1px solid var(--line);border-radius:10px;
+      background:#fff}
+    figcaption{
+      font:400 12.5px/1.5 'IBM Plex Mono',ui-monospace,monospace;
+      color:var(--muted); padding-top:7px;
+    }
+    a{color:var(--brand);text-underline-offset:2px}
+    a:focus-visible{outline:2px solid var(--brand);outline-offset:2px;border-radius:3px}
+    footer{padding:28px 0;border-top:1px solid var(--line);color:var(--muted);font-size:13.5px}
+    @media (max-width:640px){
+      .wrap{padding:0 16px 64px} header{padding:28px 0 14px}
+      .freshness{margin-left:0;flex-basis:100%}
+      section{padding:28px 0}
+    }
+    @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
     """
 
-    kpi_rows = [[k["label"], f"{k['value']} {k['unit']}", k["delta"] or "—",
-                 k["period"], k["source"], k["confidence"], k["interpretation"]]
-                for k in b["kpis"]]
+    pill_class = {"positive": "positive", "mixed": "warning", "negative": "danger",
+                  "stable": "", "verified": "positive", "limited": "warning",
+                  "degraded": "danger", "none": "", "required": "warning"}
+    pills = "".join(
+        f"<span class='pill {pill_class.get(p['state'], '')}'>{p['label']}: {p['text']}</span>"
+        for p in b["pills"])
+
+    cards = ""
+    for k in b["kpis"]:
+        dcls = {"up": "up", "down": "down", "flat": ""}[k["delta_dir"]]
+        delta = (f"<span class='delta {dcls}'>{k['delta']}</span>"
+                 if k["delta"] else "")
+        rel = f"<span class='unit'> {k['relative']}</span>" if k.get("relative") else ""
+        cards += (
+            f"<div class='card'><div class='label'>{k['label']}</div>"
+            f"<div class='value'>{k['value']} <span class='unit'>{k['unit']}</span> "
+            f"{delta}{rel}</div>"
+            f"<div class='note'>{k['interpretation']}</div>"
+            f"<div class='meta'>{k['period']} · {k['source']}<br>"
+            f"достоверность: {k['confidence']}</div></div>")
+
+    signals = ""
+    for s_ in b["signals"]:
+        tone = {"positive": "positive", "neutral": "", "negative": "danger"}[s_["tone"]]
+        signals += (
+            f"<tr><td><span class='chip {tone}'>{s_['tone']}</span></td>"
+            f"<td><b>{s_['metric']}</b><div class='muted'>{s_['meaning']}</div></td>"
+            f"<td>{s_['previous']}</td><td>{s_['current']}</td><td>{s_['delta']}</td>"
+            f"<td class='muted'>{s_['confidence']}</td></tr>")
+
+    findings_rows = []
+    for f in dq["findings"]:
+        cls = {"critical": "critical", "warning": "warning", "info": ""}[f["level"]]
+        findings_rows.append([f"<span class='chip {cls}'>{f['level']}</span>",
+                              f["title"], f["detail"], f.get("effect_on_report") or "—"])
+    findings = table(["Уровень", "Проверка", "Что обнаружено", "Следствие для отчёта"],
+                     findings_rows)
+
+    health_cls = {"positive": "positive", "warning": "warning", "danger": "danger"}[
+        b["health"]["colour"]]
 
     return f"""<!doctype html><html lang="ru"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>BIZSoft Growth Intelligence — {ru_date_full(date)}</title>
+<title>BIZSoft Growth Intelligence</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
 <style>{css}</style></head><body><div class="wrap">
-<header><h1>BIZSoft Growth Intelligence</h1>
-<div class="sub">Daily Search, Demand &amp; Experiment Control · {ru_date_full(date)}</div>
-<div class="pills">{''.join(f"<span>{p['label']}: {p['text']}</span>" for p in b['pills'])}</div>
-<div class="sub">{b['sources_line']}</div></header>
 
-<section><h2>Итог дня</h2>
-<p><b>От вас:</b> {b['user_action']}</p>
-{table(["Показатель", "Значение", "Изменение", "Период", "Источник", "Достоверность", "Что это значит"], kpi_rows)}
+<header>
+  <h1>BIZSoft Growth Intelligence</h1>
+  <div class="sub">Daily Search, Demand &amp; Experiment Control · {ru_date_full(date)}</div>
+</header>
+
+<div class="statusbar">{pills}<span class="freshness">{b['sources_line']}</span></div>
+
+<section>
+  <h2>Итог дня</h2>
+  <p class="lede"><b>От вас:</b> {b['user_action']}</p>
+  <div class="cards">{cards}</div>
 </section>
 
-<section><h2>Сигналы дня</h2>
-{table(["Показатель", "Было", "Стало", "Изменение", "Достоверность", "Что это значит"],
-       [[s['metric'], s['previous'], s['current'], s['delta'], s['confidence'], s['meaning']]
-        for s in b['signals']])}</section>
+<section>
+  <h2>Сигналы дня</h2>
+  <div class="scroll"><table><thead><tr>
+    <th>Тон</th><th>Показатель</th><th>Было</th><th>Стало</th><th>Δ</th><th>Достоверность</th>
+  </tr></thead><tbody>{signals}</tbody></table></div>
+</section>
 
 <section><h2>Что дало изменение</h2>{drivers}</section>
 
@@ -179,22 +326,26 @@ def build_html(b: dict, snap: dict, dq: dict, date: str) -> str:
 
 <section><h2>Графики</h2>{charts or "<p class='muted'>Графиков нет.</p>"}</section>
 
-<section><h2>Карта измерений</h2>
-<p>{b['measurement_summary']}</p>
-{mmap}</section>
+<section>
+  <h2>Карта измерений</h2>
+  <div class="callout"><b class="chip {health_cls}">{PILL_LABEL[b['health']['status']]}</b>
+    <p style="margin:10px 0 0">{b['health']['detail']}</p></div>
+  <p>{b['measurement_summary']}</p>
+  {mmap}
+</section>
 
-<section><h2>Качество данных</h2>
-<p><b>{PILL_LABEL[b['health']['status']].capitalize()}:</b> {b['health']['reason']}. {b['health']['detail']}</p>
-{findings}</section>
+<section><h2>Качество данных</h2>{findings}</section>
 
-<section><h2>Запросы Яндекса (выборка топ-100)</h2>{queries}</section>
+<section><h2>Запросы Яндекса — выборка топ-100</h2>{queries}</section>
 <section><h2>Страницы в Google</h2>{pages}</section>
 <section><h2>Запросы Google</h2>{gq}</section>
 
-<section><h2>Методика</h2>
-<p>Полное описание — <a href="{BLOB}/docs/seo/reporting-methodology.md">reporting-methodology.md</a>.
-Тикеты и журнал работ — <a href="{REPO}/tree/{b['links']['web'] and 'claude/biz-soft-rating-tracking-5rf03g'}/reports/seo/tasks">reports/seo/tasks</a>.</p>
-</section>
+<footer>
+  Методика — <a href="{BLOB}/docs/seo/reporting-methodology.md">reporting-methodology.md</a>.
+  Тикеты и журнал работ — <a href="{REPO}/tree/{BRANCH}/reports/seo/tasks">reports/seo/tasks</a>.
+  Отчёт собран автоматически из данных Яндекс.Вебмастера, Google Search Console,
+  Яндекс.Метрики и GA4; числа не редактируются вручную.
+</footer>
 </div></body></html>"""
 
 
@@ -206,10 +357,18 @@ def main() -> int:
     actions_cfg = json.loads((BASE / "actions.json").read_text(encoding="utf-8"))
     b = assemble(snap, prev, dq, actions_cfg, load_site_check(date))
 
+    html = build_html(b, snap, dq, date)
     out = OUT / date
     out.mkdir(parents=True, exist_ok=True)
-    (out / "index.html").write_text(build_html(b, snap, dq, date), encoding="utf-8")
+    (out / "index.html").write_text(html, encoding="utf-8")
+
+    # Страница «последний отчёт» живёт по одному и тому же пути: ссылка в письме
+    # не должна меняться каждый день, иначе вчерашняя ссылка ведёт в никуда.
+    latest = OUT.parent / "latest.html"
+    latest.write_text(html, encoding="utf-8")
+
     print(f"веб-отчёт: {out / 'index.html'}")
+    print(f"последний: {latest}")
     return 0
 
 

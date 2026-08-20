@@ -38,6 +38,9 @@ REPO = "https://github.com/AlBeli-V/WebSite_BizSoft"
 BRANCH = "claude/biz-soft-rating-tracking-5rf03g"
 BLOB = f"{REPO}/blob/{BRANCH}"
 PUBLIC_REPORT_BASE_URL = os.environ.get("PUBLIC_REPORT_BASE_URL", "").rstrip("/")
+# Адрес опубликованной страницы отчёта. Файл проще переменной окружения: его видно
+# в репозитории и он переживает пересоздание среды.
+REPORT_URL_FILE = pathlib.Path("reports/seo/public/report-url.txt")
 
 # ── Design tokens ───────────────────────────────────────────────────────────
 T = {
@@ -285,10 +288,19 @@ def _artifact_url(a: dict) -> str:
 
 
 def web_url(date: str) -> tuple[str, bool]:
-    """Публичный веб-отчёт; GitHub — только технический запасной вариант."""
+    """Адрес полного отчёта.
+
+    Порядок: собственный домен (если задан), затем опубликованная страница из
+    report-url.txt. Ссылка на репозиторий остаётся последним вариантом и всегда
+    помечается технической — приватный репозиторий руководитель открыть не может.
+    """
     if PUBLIC_REPORT_BASE_URL:
         return f"{PUBLIC_REPORT_BASE_URL}/daily/{date}", True
-    return f"{BLOB}/reports/seo/intelligence/{date}-appendix.md", False
+    if REPORT_URL_FILE.exists():
+        url = REPORT_URL_FILE.read_text(encoding="utf-8").strip()
+        if url:
+            return url, True
+    return f"{REPO}/tree/{BRANCH}/reports/seo/public/daily/{date}", False
 
 
 def assemble(snap, prev, dq, actions_cfg, site_check):

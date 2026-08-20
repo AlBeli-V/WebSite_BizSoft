@@ -179,6 +179,21 @@ def run(date: str) -> dict:
         f"основная ссылка: {primary}; помечена как техническая: "
         f"{'да' if 'техническая копия' in vis else 'нет'}")
 
+    # Ссылка «Полный отчёт» должна вести на существующую страницу.
+    # Без этой проверки письмо спокойно уходило со ссылкой на файл, который
+    # генератор больше не создаёт: все остальные проверки при этом были зелёными.
+    web = blocks["links"]["web"]
+    if web.startswith("https://claude.ai/") or web.startswith("http") and \
+            "github.com" not in web:
+        target_ok, target_note = True, "внешний адрес опубликованной страницы"
+    else:
+        rel = web.split("/blob/", 1)[-1].split("/", 1)[-1] if "/blob/" in web else \
+            web.split("/tree/", 1)[-1].split("/", 1)[-1] if "/tree/" in web else ""
+        target = pathlib.Path(rel)
+        target_ok = bool(rel) and target.exists()
+        target_note = f"цель ссылки {rel or '—'}: {'есть' if target_ok else 'НЕ СУЩЕСТВУЕТ'}"
+    add("report_link_target_exists", target_ok, target_note)
+
     # Совместное внедрение не разделяется.
     combined = [a["id"] for a in actions["actions"] if a.get("combined_deployment")]
     split = "CRO-EXP-002" in vis
