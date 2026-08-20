@@ -23,12 +23,14 @@ const packages = allPackages
   .filter(({ pkg }) => !pkg.removed)
   .map(({ slug, pkg }) => ({ slug, pkg: { ...pkg, products: pkg.products.filter((p: { archive?: boolean }) => !p.archive) } }));
 
-// SOLIDWORKS исключён из стоп-листа 20.08.2026 решением руководителя: прайс
-// вендора получен, восемь тарифов заведены. Остальные позиции стоп-листа
-// (docs/vendors-expansion-prompt.md, раздел 6) остаются в силе.
+// Из стоп-листа выведены решением руководителя 20.08.2026: SOLIDWORKS (прайс
+// вендора получен, восемь тарифов заведены), Atlassian и TeamViewer
+// (self-service checkout и оплата картой подтверждены, тарифы сняты со страниц
+// вендоров). Остальные позиции стоп-листа (docs/vendors-expansion-prompt.md,
+// раздел 6) остаются в силе.
 const STOP_LIST = ['sap', 'oracle', 'vmware', 'broadcom', 'veeam', 'citrix', 'cisco',
   'salesforce', 'ibm', 'archicad', 'red hat', 'redhat', 'canonical',
-  'mathworks', 'mongodb', 'elastic', 'teamviewer', 'atlassian', 'eset'];
+  'mathworks', 'mongodb', 'elastic', 'eset'];
 
 const ALLOWED_CATEGORIES = ['system', 'security', 'development', 'collaboration',
   'architecture', 'vcs', 'office', 'design', 'ai', 'media', 'pm', 'monitoring',
