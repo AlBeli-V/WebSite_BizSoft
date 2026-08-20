@@ -115,7 +115,7 @@ class BudgetController:
     def record(self, *, method: str, phrase: str, cluster: str | None, reason: str,
                cache_hit: bool, result_count: int = 0, unique_result_count: int = 0,
                new_commercial_phrases: int = 0, new_clusters: int = 0,
-               status: str = "ok") -> dict:
+               status: str = "ok", error: str | None = None) -> dict:
         price = 0.0 if cache_hit else config.price_of(method, self.today, self.cfg)
         entry = {
             "timestamp": dt.datetime.now(dt.timezone.utc).isoformat(timespec="seconds"),
@@ -132,6 +132,10 @@ class BudgetController:
             "status": status,
             "pilot": self.pilot,
         }
+        # Текст отказа сервиса — единственный способ понять, что не так с телом
+        # запроса. Без него отладка превращается в перебор догадок за деньги.
+        if error:
+            entry["error"] = error[:300]
         with self.path.open("a", encoding="utf-8") as f:
             f.write(json.dumps(entry, ensure_ascii=False) + "\n")
         self.entries.append(entry)

@@ -140,12 +140,13 @@ class WordstatClient:
                     "source": "error"}
 
         if resp.status_code != 200:
+            detail = (getattr(resp, "text", "") or "")[:300]
             self.budget.record(method=method, phrase=phrase, cluster=cluster,
                                reason=reason, cache_hit=False,
-                               status=f"http_{resp.status_code}")
+                               status=f"http_{resp.status_code}", error=detail)
             return {"status": f"http_{resp.status_code}", "data": None,
                     "cost_rub": config.price_of(method, today, self.cfg),
-                    "source": "error"}
+                    "source": "error", "error": detail}
 
         data = resp.json()
         status = "ok" if data else "below_threshold"
