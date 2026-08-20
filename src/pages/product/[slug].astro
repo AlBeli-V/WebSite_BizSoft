@@ -410,6 +410,7 @@ try {
 </style>
 
 <script>
+  import { trackGoal } from '@/lib/analytics';
   import { addToCart } from '../../lib/cart-client';
   import { formatRub } from '../../lib/pricing';
 
@@ -449,9 +450,7 @@ try {
 
   addBtn?.addEventListener('click', () => {
     addToCart({ sku: addBtn.dataset.sku!, slug: addBtn.dataset.slug!, name: addBtn.dataset.name!, price: unit }, curQty());
-    const w = window as unknown as { ym?: (...a: unknown[]) => void };
-    const id = (import.meta as { env: Record<string, string> }).env.PUBLIC_METRIKA_ID;
-    if (typeof w.ym === 'function' && id) w.ym(Number(id), 'reachGoal', 'add_to_cart');
+    trackGoal('add_to_cart', { sku: addBtn.dataset.sku || '' });
     const def = addBtn.querySelector('.lbl-def') as HTMLElement;
     const add = addBtn.querySelector('.lbl-add') as HTMLElement;
     def.hidden = true; add.hidden = false;

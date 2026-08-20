@@ -93,9 +93,28 @@ check('админ-API без токена отдаёт 401', async () => {
   const r = await req('/api/admin/products');
   return { ok: r.status === 401, got: String(r.status) };
 });
-check('цели Метрики присутствуют в разметке карточки товара', async () => {
+check('цели Метрики доезжают до браузера на карточке товара', async () => {
+  // Код целей лежит в общем чанке и подключается как модуль, поэтому
+  // ищем его не в самой разметке, а в подключаемых ею скриптах.
   const r = await req('/product/chatgpt-business');
-  return { ok: r.body.includes('reachGoal'), got: r.body.includes('reachGoal') ? 'есть' : 'НЕТ' };
+  if (r.body.includes('reachGoal')) return { ok: true, got: 'инлайн' };
+  // Модуль целей общий, поэтому подключается вложенным импортом: обходим
+  // граф импортов от страницы вглубь.
+  // Внутри чанков импорты относительные («./analytics.abc.js»), в разметке —
+  // абсолютные. Приводим к одному виду и обходим граф вглубь.
+  const RE = /["'(](?:\/_astro\/|\.\/)([\w.\-]+\.js)["')]/g;
+  const seen = new Set();
+  const queue = [...r.body.matchAll(RE)].map((m) => m[1]);
+  while (queue.length) {
+    const file = queue.shift();
+    if (seen.has(file)) continue;
+    seen.add(file);
+    const chunk = await req(`/_astro/${file}`);
+    if (chunk.status !== 200) continue;
+    if (chunk.body.includes('reachGoal')) return { ok: true, got: `чанк ${file}` };
+    for (const m of chunk.body.matchAll(RE)) queue.push(m[1]);
+  }
+  return { ok: false, got: `НЕТ (обойдено чанков: ${seen.size})` };
 });
 check('форма заявки: пустой POST отклоняется с 422', async () => {
   const r = await req('/api/lead', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: '{}' });

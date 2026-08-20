@@ -4,6 +4,16 @@
 set -euo pipefail
 cd /opt/bizsoft
 
+# PUBLIC_* нужны на этапе сборки (Astro вшивает их в клиентский бандл), а
+# env_file в compose действует только в рантайме. Подставляем их в окружение
+# перед сборкой, чтобы build args из docker-compose.override.yml не были пустыми.
+if [ -f ./astro.env ]; then
+  set -a
+  # shellcheck disable=SC1091
+  . ./astro.env
+  set +a
+fi
+
 echo "→ Сборка образа Astro…"
 docker compose build astro
 

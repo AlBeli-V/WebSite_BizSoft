@@ -53,6 +53,7 @@ const { source = 'pricing', title = 'Запросить расчёт', submitLab
 </style>
 
 <script>
+  import { trackGoal } from '@/lib/analytics';
   import { maskAllPhones } from '../lib/phone-mask';
   maskAllPhones();
 
@@ -80,9 +81,7 @@ const { source = 'pricing', title = 'Запросить расчёт', submitLab
         status.className = 'lf-status ok';
         status.innerHTML = '<b>Заявка получена.</b> Ответим в рабочее время. Пока ждёте — посмотрите <a href="/documents">образцы документов</a> или <a href="/how-we-work">как проходит поставка</a>.';
         form.reset();
-        const w = window as unknown as { ym?: (...a: unknown[]) => void };
-        const id = (import.meta as { env: Record<string, string> }).env.PUBLIC_METRIKA_ID;
-        if (typeof w.ym === 'function' && id) w.ym(Number(id), 'reachGoal', 'lead_sent');
+        trackGoal('lead_sent', { source: form.dataset.source || 'site' });
       } catch (err) {
         status.textContent = err instanceof Error && err.message ? err.message : 'Не удалось отправить. Позвоните нам или попробуйте позже.'; status.className = 'lf-status err';
       } finally {
