@@ -55,6 +55,32 @@ PRODUCT_NAMES = {
 }
 
 
+SITE_CONFIG_TS = pathlib.Path("src/config/site.ts")
+
+
+def bespoke_landings() -> list[dict]:
+    """Вендоры с отдельной страницей: их нет в vendors.ts, но они есть на сайте.
+
+    Zoom, JetBrains, OpenAI и Figma живут в собственных .astro-страницах и
+    перечислены только в site.ts. Без них система считала их «отсутствующими
+    в каталоге» и предлагала завести заново.
+    """
+    if not SITE_CONFIG_TS.exists():
+        return []
+    text = SITE_CONFIG_TS.read_text(encoding="utf-8")
+    start = text.find("export const vendorLandings")
+    if start < 0:
+        return []
+    block = text[start:text.find("];", start)]
+    out = []
+    for m in re.finditer(r"\{\s*slug:\s*'([^']+)',\s*name:\s*'([^']+)'", block):
+        slug, name = m.group(1), m.group(2)
+        out.append({"slug": slug, "vendor": name, "category": "",
+                    "anchor": PRODUCT_NAMES.get(slug, name.lower()),
+                    "url": f"/vendors/{slug}"})
+    return out
+
+
 def site_vendors() -> list[dict]:
     """Вендоры каталога: источник seed-фраз и якорей релевантности."""
     if not VENDORS_TS.exists():
@@ -68,6 +94,8 @@ def site_vendors() -> list[dict]:
         out.append({"slug": slug, "vendor": name, "category": category,
                     "anchor": PRODUCT_NAMES.get(slug, name.lower()),
                     "url": f"/vendors/{slug}"})
+    known = {v["slug"] for v in out}
+    out.extend(v for v in bespoke_landings() if v["slug"] not in known)
     return out
 
 
