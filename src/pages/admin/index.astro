@@ -1,0 +1,495 @@
+---
+export const prerender = false;
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import AdminTabs from '../../components/AdminTabs.astro';
+---
+<BaseLayout title="Заявки — админ-кабинет" description="Служебная страница" noindex={true}>
+  <div class="container-page section admin-console">
+    <AdminTabs active="leads" />
+
+    <div class="ac-bar card">
+      <label class="ac-token">
+        <span>Токен доступа</span>
+        <input type="password" data-token placeholder="ADMIN_TOOLS_TOKEN" autocomplete="current-password" />
+      </label>
+      <label class="ac-token">
+        <span>Ваше имя</span>
+        <input type="text" data-me placeholder="Кто работает" autocomplete="name" />
+      </label>
+      <button class="btn btn-primary" data-load>Открыть</button>
+    </div>
+
+    <div class="ac-stats" data-stats hidden></div>
+
+    <div class="ac-toolbar" data-toolbar hidden>
+      <div class="ac-chips" data-filters>
+        <button class="ac-chip is-on" data-filter="work">В работе</button>
+        <button class="ac-chip" data-filter="all">Все</button>
+        <button class="ac-chip" data-filter="won">Оплачено</button>
+        <button class="ac-chip" data-filter="lost">Отказы</button>
+        <button class="ac-chip" data-filter="spam">Корзина</button>
+      </div>
+      <input class="ac-search" data-search type="search" placeholder="Поиск: имя, компания, почта, товар" />
+    </div>
+
+    <div class="ac-table-wrap" data-table-wrap hidden>
+      <table class="ac-table">
+        <thead>
+          <tr>
+            <th>Дата</th><th>Клиент</th><th>Контакты</th><th>Запрос</th>
+            <th>Стадия</th><th>Ответственный</th><th class="num">Сумма</th><th></th>
+          </tr>
+        </thead>
+        <tbody data-rows></tbody>
+      </table>
+    </div>
+
+    <p class="ac-msg" data-msg></p>
+  </div>
+
+  <div class="ac-overlay" data-overlay hidden>
+    <div class="ac-panel" role="dialog" aria-modal="true" aria-label="Карточка заявки">
+      <button class="ac-close" data-close aria-label="Закрыть">✕</button>
+      <div data-detail></div>
+    </div>
+  </div>
+</BaseLayout>
+
+<style is:global>
+  /* Стили глобальные намеренно: таблица и карточка строятся скриптом, а
+     скоупленные стили Astro к вставленным через innerHTML узлам не применяются —
+     на этом первая версия страницы и развалилась. Всё под .admin-console. */
+  .admin-console { max-width: 1180px; }
+  .admin-console h1 { font-size: 1.5rem; margin: 0 0 1rem; }
+
+  .admin-console .ac-bar {
+    padding: 1rem; display: flex; gap: 0.8rem; align-items: end; flex-wrap: wrap; margin-bottom: 1.2rem;
+  }
+  .admin-console .ac-token { display: flex; flex-direction: column; gap: 0.3rem; flex: 1 1 200px; }
+  .admin-console .ac-token span { font-size: 0.8rem; color: var(--color-text-dim); }
+  .admin-console input, .admin-console select, .admin-console textarea {
+    width: 100%; padding: 0.6rem 0.7rem; border-radius: 8px;
+    border: 1px solid var(--color-border-strong); background: var(--color-bg);
+    color: var(--color-text); font: inherit; font-size: 16px; /* 16px — иначе iOS зумит форму */
+  }
+  .admin-console textarea { min-height: 80px; resize: vertical; }
+
+  .admin-console .ac-stats {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    gap: 0.7rem; margin-bottom: 1.2rem;
+  }
+  .admin-console .ac-stat {
+    padding: 0.85rem 0.9rem; border: 1px solid var(--color-border); border-radius: 12px;
+    background: var(--color-bg-card);
+  }
+  .admin-console .ac-stat b { display: block; font-size: 1.35rem; line-height: 1.2; }
+  .admin-console .ac-stat span { display: block; font-size: 0.76rem; color: var(--color-text-dim); margin-top: 0.15rem; }
+
+  .admin-console .ac-toolbar {
+    display: flex; gap: 0.8rem; flex-wrap: wrap; align-items: center; margin-bottom: 1rem;
+  }
+  .admin-console .ac-chips { display: flex; gap: 0.4rem; flex-wrap: wrap; }
+  .admin-console .ac-chip {
+    padding: 0.45rem 0.85rem; border-radius: 999px; border: 1px solid var(--color-border-strong);
+    background: transparent; color: var(--color-text); font: inherit; font-size: 0.88rem; cursor: pointer;
+  }
+  .admin-console .ac-chip.is-on { background: var(--color-text); color: var(--color-bg); border-color: var(--color-text); }
+  .admin-console .ac-search { flex: 1 1 240px; max-width: 340px; }
+
+  .admin-console .ac-table-wrap { overflow-x: auto; border: 1px solid var(--color-border); border-radius: 12px; }
+  .admin-console .ac-table { width: 100%; border-collapse: collapse; font-size: 0.92rem; }
+  .admin-console .ac-table th {
+    text-align: left; font-size: 0.74rem; text-transform: uppercase; letter-spacing: 0.04em;
+    color: var(--color-text-dim); font-weight: 600; padding: 0.7rem 0.8rem;
+    background: var(--color-bg-elevated); border-bottom: 1px solid var(--color-border); white-space: nowrap;
+  }
+  .admin-console .ac-table td { padding: 0.75rem 0.8rem; border-bottom: 1px solid var(--color-border); vertical-align: top; }
+  .admin-console .ac-table tbody tr:last-child td { border-bottom: 0; }
+  .admin-console .ac-table tbody tr:hover { background: var(--color-bg-elevated); }
+  .admin-console .ac-table .num { text-align: right; white-space: nowrap; }
+  .admin-console .ac-name { font-weight: 600; }
+  .admin-console .ac-sub { font-size: 0.82rem; color: var(--color-text-dim); }
+  .admin-console .ac-req { max-width: 320px; }
+  .admin-console .ac-req .ac-sub { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  .admin-console .ac-table a { color: inherit; }
+
+  .admin-console .ac-badge {
+    display: inline-block; font-size: 0.75rem; padding: 0.2rem 0.55rem; border-radius: 999px;
+    border: 1px solid var(--color-border-strong); white-space: nowrap;
+  }
+  .admin-console .ac-badge.won { background: #ECFDF3; border-color: #12B76A; color: #027A48; }
+  .admin-console .ac-badge.lost { background: #FEF3F2; border-color: #F04438; color: #B42318; }
+  .admin-console .ac-badge.spam { background: var(--color-bg-elevated); color: var(--color-text-dim); }
+  .admin-console .ac-badge.hot { background: var(--color-accent-soft); border-color: var(--color-accent); color: var(--color-accent-dim); }
+
+  .admin-console .ac-open {
+    border: 1px solid var(--color-border-strong); background: transparent; color: var(--color-text);
+    border-radius: 8px; padding: 0.4rem 0.7rem; font: inherit; font-size: 0.85rem; cursor: pointer; white-space: nowrap;
+  }
+  .admin-console .ac-open:hover { border-color: var(--color-accent); color: var(--color-accent); }
+  .admin-console .ac-msg { margin-top: 1rem; font-size: 0.9rem; color: var(--color-text-dim); }
+  .admin-console .ac-msg.err { color: var(--color-danger); }
+
+  /* Мобильный вид: та же таблица разворачивается в карточки, без второй разметки. */
+  @media (max-width: 860px) {
+    .admin-console .ac-table-wrap { border: 0; overflow: visible; }
+    .admin-console .ac-table, .admin-console .ac-table tbody, .admin-console .ac-table tr, .admin-console .ac-table td { display: block; width: 100%; }
+    .admin-console .ac-table thead { display: none; }
+    .admin-console .ac-table tr {
+      border: 1px solid var(--color-border); border-radius: 12px; padding: 0.9rem;
+      margin-bottom: 0.8rem; background: var(--color-bg-card);
+    }
+    .admin-console .ac-table td { border: 0; padding: 0.2rem 0; }
+    .admin-console .ac-table td[data-label]::before {
+      content: attr(data-label) ' '; font-size: 0.72rem; text-transform: uppercase;
+      letter-spacing: 0.04em; color: var(--color-text-dim); display: block; margin-top: 0.4rem;
+    }
+    .admin-console .ac-table td.ac-first::before { content: none; }
+    .admin-console .ac-table .num { text-align: left; }
+    .admin-console .ac-req { max-width: none; }
+  }
+
+  /* Карточка заявки */
+  .admin-console-open { overflow: hidden; }
+  .ac-overlay {
+    position: fixed; inset: 0; background: rgba(0, 0, 0, 0.45); z-index: 1000;
+    display: flex; justify-content: flex-end;
+  }
+  .ac-panel {
+    background: var(--color-bg); width: min(560px, 100%); height: 100%; overflow-y: auto;
+    padding: 1.4rem; position: relative; -webkit-overflow-scrolling: touch;
+  }
+  .ac-close {
+    position: absolute; top: 0.9rem; right: 0.9rem; border: 0; background: transparent;
+    font-size: 1.2rem; color: var(--color-text-dim); cursor: pointer; padding: 0.3rem 0.5rem;
+  }
+  .ac-panel h2 { font-size: 1.2rem; margin: 0 0 0.2rem; padding-right: 2rem; }
+  .ac-panel .ac-sub { margin-bottom: 0.9rem; }
+  .ac-panel .ac-quote {
+    background: var(--color-bg-elevated); border-radius: 10px; padding: 0.8rem;
+    font-size: 0.92rem; white-space: pre-wrap; margin-bottom: 1rem;
+  }
+  .ac-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 0.7rem; }
+  .ac-fields label { display: flex; flex-direction: column; gap: 0.25rem; font-size: 0.78rem; color: var(--color-text-dim); }
+  .ac-fields .wide { grid-column: 1 / -1; }
+  @media (max-width: 520px) { .ac-fields { grid-template-columns: 1fr; } }
+  .ac-actions { display: flex; gap: 0.6rem; align-items: center; flex-wrap: wrap; margin: 1rem 0 1.4rem; }
+  .ac-danger {
+    border: 1px solid var(--color-danger); color: var(--color-danger); background: transparent;
+    border-radius: 8px; padding: 0.55rem 0.9rem; font: inherit; cursor: pointer;
+  }
+  .ac-ok { color: var(--color-success); font-size: 0.86rem; }
+  .ac-section-title { font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.04em; color: var(--color-text-dim); margin: 1.2rem 0 0.6rem; }
+  .ac-compose { display: flex; flex-direction: column; gap: 0.6rem; }
+  .ac-compose-row { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+  .ac-history { display: flex; flex-direction: column; gap: 0.7rem; margin-top: 0.6rem; }
+  .ac-event { border-left: 2px solid var(--color-border-strong); padding: 0 0 0 0.8rem; }
+  .ac-event.email { border-left-color: var(--color-accent); }
+  .ac-event.stage { border-left-color: var(--color-success); }
+  .ac-event time { font-size: 0.74rem; color: var(--color-text-dim); }
+  .ac-event p { margin: 0.2rem 0 0; font-size: 0.9rem; white-space: pre-wrap; }
+  .ac-event .who { font-size: 0.74rem; color: var(--color-text-dim); }
+</style>
+
+<script>
+  const $ = (s: string) => document.querySelector(s) as HTMLElement;
+  const tokenInput = $('[data-token]') as HTMLInputElement;
+  const meInput = $('[data-me]') as HTMLInputElement;
+  const rows = $('[data-rows]');
+  const statsBox = $('[data-stats]');
+  const toolbar = $('[data-toolbar]');
+  const tableWrap = $('[data-table-wrap]');
+  const searchInput = $('[data-search]') as HTMLInputElement;
+  const overlay = $('[data-overlay]');
+  const detail = $('[data-detail]');
+  const msg = $('[data-msg]');
+
+  const STAGES: [string, string][] = [
+    ['new', 'Новая'], ['in_progress', 'В работе'], ['qualified', 'Квалифицирована'],
+    ['proposal', 'Отправлено КП'], ['invoiced', 'Выставлен счёт'],
+    ['won', 'Оплачено'], ['lost', 'Отказ'], ['spam', 'Мусор'],
+  ];
+  const REASONS: [string, string][] = [
+    ['', '—'], ['price', 'Цена'], ['timing', 'Сроки'], ['no_supply', 'Не смогли поставить'],
+    ['competitor', 'Выбрали другого'], ['no_contact', 'Не вышли на связь'], ['not_our_case', 'Не наш профиль'],
+  ];
+  const KINDS: Record<string, string> = { note: 'Заметка', call: 'Звонок', email: 'Письмо', stage: 'Стадия' };
+  const stageName = (v: string) => (STAGES.find((s) => s[0] === v) || ['', v])[1];
+
+  let TOKEN = localStorage.getItem('bz_admin_token') || '';
+  let ME = localStorage.getItem('bz_admin_me') || '';
+  let LEADS: any[] = [];
+  let EVENTS: Record<string, any[]> = {};
+  let FILTER = 'work';
+  let QUERY = '';
+  let OPEN_ID: string | null = null;
+  if (TOKEN) tokenInput.value = TOKEN;
+  if (ME) meInput.value = ME;
+
+  const money = (n: number) => new Intl.NumberFormat('ru-RU').format(Math.round(n)) + ' ₽';
+  const esc = (s: unknown) => String(s ?? '').replace(/[&<>"]/g, (c) =>
+    ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c] as string));
+  const dt = (v?: string) => (v ? new Date(v).toLocaleDateString('ru-RU') : '');
+  const dtFull = (v?: string) => (v ? new Date(v).toLocaleString('ru-RU', { dateStyle: 'short', timeStyle: 'short' }) : '');
+
+  function setMsg(text: string, isError = false) {
+    msg.textContent = text;
+    msg.classList.toggle('err', isError);
+  }
+
+  async function api(method: string, body?: unknown) {
+    const res = await fetch('/api/admin/leads', {
+      method,
+      headers: { 'Content-Type': 'application/json', 'x-admin-token': TOKEN },
+      body: body ? JSON.stringify(body) : undefined,
+    });
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok) throw new Error(data.error || `HTTP ${res.status}`);
+    return data;
+  }
+
+  function renderStats(s: any) {
+    const cards: [string, string][] = [
+      ['Заявок', String(s.total)],
+      ['В работе', String(s.in_work)],
+      ['Оплачено', String(s.won)],
+      ['Выручка', s.revenue ? money(s.revenue) : '—'],
+      ['Конверсия', s.close_rate === null ? 'нет закрытых' : Math.round(s.close_rate * 100) + '%'],
+      ['Средний чек', s.average_deal ? money(s.average_deal) : '—'],
+      ['В корзине', String(s.spam)],
+    ];
+    statsBox.innerHTML = cards.map(([label, val]) =>
+      `<div class="ac-stat"><b>${esc(val)}</b><span>${esc(label)}</span></div>`).join('');
+    statsBox.hidden = false;
+    toolbar.hidden = false;
+    tableWrap.hidden = false;
+  }
+
+  function matches(l: any) {
+    const s = l.status || 'new';
+    if (FILTER === 'spam') return s === 'spam';
+    if (s === 'spam') return false;
+    if (FILTER === 'won' && s !== 'won') return false;
+    if (FILTER === 'lost' && s !== 'lost') return false;
+    if (FILTER === 'work' && (s === 'won' || s === 'lost')) return false;
+    if (!QUERY) return true;
+    const hay = [l.name, l.company, l.email, l.phone, l.product_ref, l.message, l.owner]
+      .join(' ').toLowerCase();
+    return hay.includes(QUERY);
+  }
+
+  function renderRows() {
+    const list = LEADS.filter(matches);
+    if (!list.length) {
+      rows.innerHTML = '<tr><td colspan="8" class="ac-first"><span class="ac-sub">Заявок в этом разделе нет.</span></td></tr>';
+      return;
+    }
+    rows.innerHTML = list.map((l) => {
+      const s = l.status || 'new';
+      const cls = s === 'won' ? ' won' : s === 'lost' ? ' lost' : s === 'spam' ? ' spam' : s === 'new' ? ' hot' : '';
+      const ev = EVENTS[String(l.id)] || [];
+      return `<tr data-id="${esc(l.id)}">
+        <td data-label="Дата" class="ac-first"><span class="ac-sub">${esc(dt(l.created_at))}</span></td>
+        <td data-label="Клиент"><div class="ac-name">${esc(l.name || 'Без имени')}</div>
+          <div class="ac-sub">${esc(l.company || '—')}</div></td>
+        <td data-label="Контакты"><div class="ac-sub">
+          ${l.phone ? `<a href="tel:${esc(l.phone)}">${esc(l.phone)}</a><br>` : ''}
+          ${l.email ? `<a href="mailto:${esc(l.email)}">${esc(l.email)}</a>` : ''}</div></td>
+        <td data-label="Запрос" class="ac-req"><div class="ac-sub">${esc(l.product_ref || l.message || '—')}</div></td>
+        <td data-label="Стадия"><span class="ac-badge${cls}">${esc(stageName(s))}</span>
+          ${ev.length ? `<div class="ac-sub">${ev.length} соб.</div>` : ''}</td>
+        <td data-label="Ответственный"><span class="ac-sub">${esc(l.owner || '—')}</span></td>
+        <td data-label="Сумма" class="num"><span class="ac-sub">${l.amount ? money(Number(l.amount)) : '—'}</span></td>
+        <td class="num"><button class="ac-open" data-open>Открыть</button></td>
+      </tr>`;
+    }).join('');
+  }
+
+  function renderDetail(l: any) {
+    const s = l.status || 'new';
+    const ev = (EVENTS[String(l.id)] || []).slice().sort((a, b) =>
+      String(b.created_at).localeCompare(String(a.created_at)));
+    detail.innerHTML = `
+      <h2>${esc(l.name || 'Без имени')}</h2>
+      <div class="ac-sub">${esc(l.company || '—')} · ${esc(dtFull(l.created_at))}${l.source ? ' · ' + esc(l.source) : ''}</div>
+      <div class="ac-sub">
+        ${l.phone ? `<a href="tel:${esc(l.phone)}">${esc(l.phone)}</a> · ` : ''}
+        ${l.email ? `<a href="mailto:${esc(l.email)}">${esc(l.email)}</a>` : ''}
+      </div>
+      ${l.product_ref ? `<div class="ac-sub">Товар: ${esc(l.product_ref)}</div>` : ''}
+      ${l.message ? `<div class="ac-quote">${esc(l.message)}</div>` : '<div style="height:.8rem"></div>'}
+
+      <div class="ac-fields">
+        <label>Стадия<select data-f="status">${STAGES.map(([v, t]) =>
+          `<option value="${v}"${v === s ? ' selected' : ''}>${t}</option>`).join('')}</select></label>
+        <label>Ответственный<input data-f="owner" value="${esc(l.owner || '')}" placeholder="Кто ведёт" /></label>
+        <label>Сумма, ₽<input data-f="amount" inputmode="decimal" value="${l.amount ?? ''}" placeholder="0" /></label>
+        <label>Вернуться<input data-f="next_action_at" type="date" value="${l.next_action_at ? String(l.next_action_at).slice(0, 10) : ''}" /></label>
+        <label class="wide ac-reason" ${s === 'lost' ? '' : 'hidden'}>Причина отказа<select data-f="lost_reason">${
+          REASONS.map(([v, t]) => `<option value="${v}"${v === (l.lost_reason || '') ? ' selected' : ''}>${t}</option>`).join('')
+        }</select></label>
+        <label class="wide">Внутренняя заметка<textarea data-f="note" placeholder="Служебная пометка по заявке">${esc(l.note || '')}</textarea></label>
+      </div>
+      <div class="ac-actions">
+        <button class="btn btn-primary" data-save>Сохранить</button>
+        <button class="ac-danger" data-delete>Удалить</button>
+        <span class="ac-ok" data-saved hidden>Сохранено</span>
+      </div>
+
+      <div class="ac-section-title">Написать клиенту</div>
+      <div class="ac-compose">
+        <input data-mail-subject placeholder="Тема письма" value="BIZSoft — по вашей заявке${l.product_ref ? ': ' + esc(l.product_ref) : ''}" />
+        <textarea data-mail-text placeholder="Текст письма клиенту"></textarea>
+        <div class="ac-compose-row">
+          <button class="btn btn-primary" data-send ${l.email ? '' : 'disabled'}>Отправить на ${esc(l.email || '—')}</button>
+        </div>
+      </div>
+
+      <div class="ac-section-title">Добавить в историю</div>
+      <div class="ac-compose">
+        <textarea data-note-text placeholder="Что обсудили, о чём договорились"></textarea>
+        <div class="ac-compose-row">
+          <button class="ac-open" data-log="call">Записать звонок</button>
+          <button class="ac-open" data-log="note">Сохранить заметку</button>
+        </div>
+      </div>
+
+      <div class="ac-section-title">История (${ev.length})</div>
+      <div class="ac-history">
+        ${ev.length ? ev.map((e) => `<div class="ac-event ${esc(e.kind)}">
+          <time>${esc(dtFull(e.created_at))} · ${esc(KINDS[e.kind] || e.kind)}</time>
+          ${e.subject ? `<div class="who">${esc(e.subject)}</div>` : ''}
+          <p>${esc(e.text)}</p>
+          ${e.author ? `<div class="who">${esc(e.author)}</div>` : ''}
+        </div>`).join('') : '<span class="ac-sub">Пока ничего не записано.</span>'}
+      </div>`;
+  }
+
+  function openLead(id: string) {
+    const l = LEADS.find((x) => String(x.id) === String(id));
+    if (!l) return;
+    OPEN_ID = String(id);
+    renderDetail(l);
+    overlay.hidden = false;
+    document.documentElement.classList.add('admin-console-open');
+  }
+
+  function closePanel() {
+    overlay.hidden = true;
+    OPEN_ID = null;
+    document.documentElement.classList.remove('admin-console-open');
+  }
+
+  async function load(keepOpen = false) {
+    TOKEN = tokenInput.value.trim();
+    ME = meInput.value.trim();
+    localStorage.setItem('bz_admin_token', TOKEN);
+    localStorage.setItem('bz_admin_me', ME);
+    setMsg('Загружаю…');
+    try {
+      const data = await api('GET');
+      LEADS = data.leads || [];
+      EVENTS = data.events || {};
+      renderStats(data.summary);
+      renderRows();
+      if (keepOpen && OPEN_ID) {
+        const l = LEADS.find((x) => String(x.id) === OPEN_ID);
+        if (l) renderDetail(l); else closePanel();
+      }
+      setMsg('');
+    } catch (e: any) {
+      setMsg(e.message, true);
+      statsBox.hidden = true; toolbar.hidden = true; tableWrap.hidden = true;
+    }
+  }
+
+  ($('[data-load]') as HTMLElement).addEventListener('click', () => load());
+  ($('[data-close]') as HTMLElement).addEventListener('click', closePanel);
+  overlay.addEventListener('click', (e) => { if (e.target === overlay) closePanel(); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !overlay.hidden) closePanel(); });
+
+  ($('[data-filters]') as HTMLElement).addEventListener('click', (e) => {
+    const chip = (e.target as HTMLElement).closest('[data-filter]') as HTMLElement | null;
+    if (!chip) return;
+    FILTER = chip.dataset.filter || 'work';
+    document.querySelectorAll('.ac-chip').forEach((c) => c.classList.toggle('is-on', c === chip));
+    renderRows();
+  });
+
+  searchInput.addEventListener('input', () => { QUERY = searchInput.value.trim().toLowerCase(); renderRows(); });
+
+  rows.addEventListener('click', (e) => {
+    const tr = (e.target as HTMLElement).closest('tr[data-id]') as HTMLElement | null;
+    if (!tr) return;
+    if ((e.target as HTMLElement).closest('a')) return; // звонок и почта — не открытие
+    openLead(tr.dataset.id as string);
+  });
+
+  detail.addEventListener('change', (e) => {
+    const sel = e.target as HTMLSelectElement;
+    if (sel.dataset.f !== 'status') return;
+    const reason = detail.querySelector('.ac-reason') as HTMLElement;
+    if (reason) reason.hidden = sel.value !== 'lost';
+  });
+
+  detail.addEventListener('click', async (e) => {
+    const target = e.target as HTMLElement;
+    const lead = LEADS.find((x) => String(x.id) === OPEN_ID);
+    if (!lead) return;
+
+    if (target.closest('[data-save]')) {
+      const payload: Record<string, unknown> = { id: OPEN_ID, prev_status: lead.status || 'new' };
+      detail.querySelectorAll('[data-f]').forEach((el) => {
+        const f = (el as HTMLElement).dataset.f as string;
+        const v = (el as HTMLInputElement).value.trim();
+        payload[f] = f === 'amount' ? (v === '' ? null : Number(v)) : v;
+      });
+      try {
+        await api('PATCH', payload);
+        const flag = detail.querySelector('[data-saved]') as HTMLElement;
+        if (flag) { flag.hidden = false; setTimeout(() => { flag.hidden = true; }, 1800); }
+        await load(true);
+      } catch (err: any) { setMsg(err.message, true); }
+      return;
+    }
+
+    if (target.closest('[data-delete]')) {
+      const who = lead.name || lead.company || 'заявку';
+      if (!confirm(`Удалить ${who} безвозвратно? История по ней тоже пропадёт.`)) return;
+      try {
+        await api('DELETE', { id: OPEN_ID });
+        closePanel();
+        await load();
+      } catch (err: any) { setMsg(err.message, true); }
+      return;
+    }
+
+    if (target.closest('[data-send]')) {
+      const subject = (detail.querySelector('[data-mail-subject]') as HTMLInputElement).value.trim();
+      const text = (detail.querySelector('[data-mail-text]') as HTMLTextAreaElement).value.trim();
+      if (!text) { setMsg('Письмо пустое — нечего отправлять.', true); return; }
+      const btn = target.closest('[data-send]') as HTMLButtonElement;
+      btn.disabled = true;
+      try {
+        await api('POST', { id: OPEN_ID, kind: 'email', to: lead.email, subject, text, author: ME });
+        setMsg('Письмо отправлено.');
+        await load(true);
+      } catch (err: any) { setMsg(err.message, true); btn.disabled = false; }
+      return;
+    }
+
+    const logBtn = target.closest('[data-log]') as HTMLElement | null;
+    if (logBtn) {
+      const box = detail.querySelector('[data-note-text]') as HTMLTextAreaElement;
+      const text = box.value.trim();
+      if (!text) { setMsg('Пустая запись — нечего сохранять.', true); return; }
+      try {
+        await api('POST', { id: OPEN_ID, kind: logBtn.dataset.log, text, author: ME });
+        box.value = '';
+        await load(true);
+      } catch (err: any) { setMsg(err.message, true); }
+    }
+  });
+
+  if (TOKEN) load();
+</script>

@@ -343,6 +343,32 @@ export async function patchLead(id: string | number, payload: Record<string, unk
   await dx(`/items/leads/${id}`, { auth: true, method: 'PATCH', body: payload });
 }
 
+export async function deleteLead(id: string | number): Promise<void> {
+  await dx(`/items/leads/${id}`, { auth: true, method: 'DELETE' });
+}
+
+export interface LeadEvent {
+  id: string | number;
+  created_at?: string;
+  lead?: number;
+  kind?: string;
+  author?: string;
+  subject?: string;
+  text?: string;
+}
+
+/** История работы по всем заявкам: письма, звонки, заметки, смены стадии. */
+export async function getLeadEvents(limit = 1000): Promise<LeadEvent[]> {
+  return dx<LeadEvent[]>('/items/lead_events', {
+    auth: true,
+    params: { limit, sort: '-created_at' },
+  });
+}
+
+export async function createLeadEvent(payload: Record<string, unknown>): Promise<void> {
+  await dx('/items/lead_events', { auth: true, method: 'POST', body: payload });
+}
+
 export async function createQuote(payload: Record<string, unknown>): Promise<void> {
   await dx('/items/quotes', { auth: true, method: 'POST', body: payload });
 }
