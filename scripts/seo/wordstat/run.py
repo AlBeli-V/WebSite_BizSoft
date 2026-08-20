@@ -182,8 +182,13 @@ def main() -> int:
     planner_mod.write_plan_md(plan, OUT / f"{date[:7]}-research-plan.md")
 
     budget = budget_mod.BudgetController(cfg, today=date, pilot=args.pilot)
+    # Плановый прогон берёт квоту за вычетом резерва: часть слотов остаётся
+    # свободной под срочные проверки, иначе исследование по расписанию
+    # блокирует любую валидацию до следующего часа.
+    usable_quota = (cfg["quota"]["requests_per_hour"]
+                    - cfg["quota"].get("reserved_slots_per_hour", 0))
     alloc = planner_mod.allocate_day(
-        plan["tasks"], hourly_quota=cfg["quota"]["requests_per_hour"],
+        plan["tasks"], hourly_quota=usable_quota,
         hours_available=args.hours, budget_remaining_rub=budget.remaining(),
         daily_cap_rub=(cfg["budget"]["pilot_cap_rub"] if args.pilot
                        else cfg["budget"]["daily_cap_rub"]))
