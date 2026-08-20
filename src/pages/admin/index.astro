@@ -48,6 +48,7 @@ const CRM = {
         <button class="ac-view" data-view="board">Канбан</button>
       </div>
       <a class="ac-open" data-export download>Выгрузить CSV</a>
+      <button class="ac-open" data-import-quotes>Подтянуть КП</button>
     </div>
 
     <div class="ac-table-wrap" data-table-wrap hidden>
@@ -153,6 +154,7 @@ const CRM = {
   .admin-console .ac-badge.won { background: #ECFDF3; border-color: #12B76A; color: #027A48; }
   .admin-console .ac-badge.lost { background: #FEF3F2; border-color: #F04438; color: #B42318; }
   .admin-console .ac-badge.spam { background: var(--color-bg-elevated); color: var(--color-text-dim); }
+  .admin-console .ac-badge.kp { background: var(--color-bg-elevated); border-color: var(--color-border-strong); font-weight: 600; }
   .admin-console .ac-badge.hot { background: var(--color-accent-soft); border-color: var(--color-accent); color: var(--color-accent-dim); }
 
   .admin-console .ac-open {
@@ -498,7 +500,7 @@ const CRM = {
             return `<article class="ac-card ${esc(l.urgency || '')}" data-id="${esc(l.id)}">
               <div class="ac-card-name">${esc(l.name || 'Без имени')}</div>
               <div class="ac-sub">${esc(l.company || '—')}</div>
-              ${l.product_ref ? `<div class="ac-sub">${esc(l.product_ref)}</div>` : ''}
+              ${l.product_ref ? `<div class="ac-sub">${l.source === 'quote' ? '📄 ' : ''}${esc(l.product_ref)}</div>` : ''}
               <div class="ac-card-row">
                 <span class="ac-sub">${l.amount ? esc(money(Number(l.amount))) : '—'}</span>
                 ${nx ? `<button class="ac-next-btn" data-move-to="${esc(nx.id)}" data-lead="${esc(l.id)}">${esc(nx.label)} →</button>` : ''}
@@ -539,7 +541,9 @@ const CRM = {
         <td data-label="Контакты"><div class="ac-sub">
           ${l.phone ? `<a href="tel:${esc(l.phone)}">${esc(l.phone)}</a><br>` : ''}
           ${l.email ? `<a href="mailto:${esc(l.email)}">${esc(l.email)}</a>` : ''}</div></td>
-        <td data-label="Запрос" class="ac-req"><div class="ac-sub">${esc(l.product_ref || l.message || '—')}</div></td>
+        <td data-label="Запрос" class="ac-req">
+          ${l.source === 'quote' ? '<span class="ac-badge kp">КП</span> ' : ''}
+          <span class="ac-sub">${esc(l.product_ref || l.message || '—')}</span></td>
         <td data-label="Стадия"><span class="ac-badge${cls}">${esc(stageName(s))}</span>
           ${ev.length ? `<div class="ac-sub">${ev.length} соб.</div>` : ''}</td>
         <td data-label="Срок"><span class="ac-urg ${esc(l.urgency || 'ok')}">${esc(URG[l.urgency] || '—')}</span>
@@ -577,6 +581,8 @@ const CRM = {
         <div class="ac-sub">${esc(spec?.hint || '')}</div>
       </div>
 
+      ${l.inn ? `<div class="ac-sub">ИНН ${esc(l.inn)}</div>` : ''}
+      ${l.quote_no ? `<div class="ac-sub">Скачано КП № ${esc(l.quote_no)}</div>` : ''}
       ${l.product_ref ? `<div class="ac-sub" style="margin-top:.8rem">Запрос: ${esc(l.product_ref)}</div>` : ''}
       ${l.message ? `<div class="ac-quote">${esc(l.message)}</div>` : '<div style="height:.6rem"></div>'}
 
@@ -900,6 +906,38 @@ const CRM = {
       err.hidden = false;
       btn.disabled = false;
     }
+  });
+
+  /**
+   * Перенос ранее скачанных КП в воронку. Сначала сухой прогон: показываем,
+   * что будет сделано, и только после подтверждения применяем.
+   */
+  ($('[data-import-quotes]') as HTMLElement).addEventListener('click', async () => {
+    const call = async (apply: boolean) => {
+      const res = await fetch('/api/admin/crm/import-quotes', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'x-admin-token': TOKEN },
+        body: JSON.stringify({ apply }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || `HTTP ${res.status}`);
+      return data;
+    };
+    try {
+      setMsg('Смотрю скачанные КП…');
+      const dry = await call(false);
+      const s = dry.summary;
+      if (!s.planned) { setMsg(`Все скачанные КП уже в воронке (проверено ${dry.quotes_total}).`); return; }
+      const sample = (dry.planned || []).slice(0, 5)
+        .map((x: any) => `${x.quote_no} · ${x.company || 'без названия'} · ${x.action}`).join('\n');
+      if (!confirm(`Найдено ${s.planned} КП вне воронки из ${dry.quotes_total}.\n\n${sample}${s.planned > 5 ? '\n…' : ''}\n\nПеренести?`)) {
+        setMsg('Перенос отменён.');
+        return;
+      }
+      const done = await call(true);
+      setMsg(`Перенесено: новых заявок ${done.summary.created}, событий к существующим ${done.summary.attached}.`);
+      await load();
+    } catch (e: any) { setMsg(e.message, true); }
   });
 
   // Подсказки: наведение даёт title, тап на телефоне — всплывающее пояснение.

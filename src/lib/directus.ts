@@ -317,6 +317,8 @@ export interface Lead {
   message?: string;
   product_ref?: string;
   source?: string;
+  inn?: string;
+  quote_no?: string;
   status?: string;
   owner?: string;
   amount?: number | null;
@@ -367,6 +369,24 @@ export async function getLeadEvents(limit = 1000): Promise<LeadEvent[]> {
 
 export async function createLeadEvent(payload: Record<string, unknown>): Promise<void> {
   await dx('/items/lead_events', { auth: true, method: 'POST', body: payload });
+}
+
+export interface Quote {
+  id: string | number;
+  created_at?: string;
+  quote_no?: string;
+  buyer_company?: string;
+  buyer_inn?: string;
+  contact_name?: string;
+  email?: string;
+  phone?: string;
+  items?: { sku: string; name: string; qty: number; sum: number }[];
+  total?: number;
+}
+
+/** Скачанные коммерческие предложения — источник фактической истории обращений. */
+export async function getQuotes(limit = 500): Promise<Quote[]> {
+  return dx<Quote[]>('/items/quotes', { auth: true, params: { limit, sort: '-created_at' } });
 }
 
 export async function createQuote(payload: Record<string, unknown>): Promise<void> {
