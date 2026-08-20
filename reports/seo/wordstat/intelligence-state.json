@@ -1,23 +1,23 @@
 {
  "date": "2026-08-20",
- "generated_at": "2026-08-20T04:09:21+00:00",
+ "generated_at": "2026-08-20T04:12:15+00:00",
  "measured_at": "2026-08-20",
  "universe": {
-  "phrases": 6500,
-  "commercial_phrases": 658,
-  "clusters": 45,
-  "total_commercial_demand": 69053,
-  "total_demand": 4097795,
-  "with_page": 6304,
-  "cost_rub": 2.2008
+  "phrases": 7746,
+  "commercial_phrases": 691,
+  "clusters": 57,
+  "total_commercial_demand": 71592,
+  "total_demand": 4461520,
+  "with_page": 7542,
+  "cost_rub": 2.4011
  },
  "coverage": {
   "available": true,
-  "total_commercial_demand": 69053,
+  "total_commercial_demand": 71592,
   "levels": {
-   "page": 0.7681,
-   "indexed": 0.5436,
-   "top10": 0.1773,
+   "page": 0.7763,
+   "indexed": 0.5246,
+   "top10": 0.1712,
    "clicks": 0.0004,
    "conversion_measured": 0.0,
    "qualified_leads": null
@@ -26,12 +26,12 @@
  },
  "coverage_by_category": {
   "Дизайн и графика": {
-   "demand": 40496,
-   "covered": 40468,
-   "top10": 4547,
+   "demand": 42178,
+   "covered": 42150,
+   "top10": 4561,
    "clicks": 26,
    "page_coverage": 0.999,
-   "top10_coverage": 0.112,
+   "top10_coverage": 0.108,
    "click_coverage": 0.001
   },
   "не определено": {
@@ -44,21 +44,21 @@
    "click_coverage": 0.0
   },
   "Средства разработки": {
-   "demand": 5280,
-   "covered": 5257,
+   "demand": 5423,
+   "covered": 5400,
    "top10": 5257,
    "clicks": 0,
    "page_coverage": 0.996,
-   "top10_coverage": 0.996,
+   "top10_coverage": 0.969,
    "click_coverage": 0.0
   },
   "Звук, видео и медиа": {
-   "demand": 3765,
-   "covered": 3765,
+   "demand": 4479,
+   "covered": 4479,
    "top10": 998,
    "clicks": 0,
    "page_coverage": 1.0,
-   "top10_coverage": 0.265,
+   "top10_coverage": 0.223,
    "click_coverage": 0.0
   },
   "AI-сервисы": {
@@ -81,13 +81,13 @@
   }
  },
  "tiers": {
-  "A": 16,
-  "B": 7,
-  "C": 22
+  "A": 18,
+  "B": 9,
+  "C": 30
  },
  "gaps_by_class": {
   "GAP-A": 1,
-  "GAP-B": 13,
+  "GAP-B": 17,
   "GAP-C": 2,
   "GAP-D": 6,
   "GAP-F": 1
@@ -379,22 +379,22 @@
   }
  ],
  "efficiency": {
-  "calls_total": 0,
-  "calls_paid": 0,
-  "cost_month_rub": 0.0,
-  "cost_today_rub": 0,
-  "remaining_budget_rub": 5500,
-  "forecast_month_end_rub": 0,
+  "calls_total": 10,
+  "calls_paid": 10,
+  "cost_month_rub": 0.2,
+  "cost_today_rub": 0.2,
+  "remaining_budget_rub": 5499.8,
+  "forecast_month_end_rub": 0.31,
   "state": "open",
-  "cache_hit_rate": null,
-  "duplicate_rate": null,
-  "unique_phrases": 0,
-  "new_commercial_phrases": 0,
-  "new_clusters": 0,
-  "cost_per_1000_unique_phrases_rub": null,
-  "cost_per_1000_commercial_phrases_rub": null,
-  "cost_per_new_cluster_rub": null,
-  "empty_response_rate": null
+  "cache_hit_rate": 0.0,
+  "duplicate_rate": 0.0056,
+  "unique_phrases": 1246,
+  "new_commercial_phrases": 33,
+  "new_clusters": 12,
+  "cost_per_1000_unique_phrases_rub": 0.161,
+  "cost_per_1000_commercial_phrases_rub": 6.061,
+  "cost_per_new_cluster_rub": 0.0167,
+  "empty_response_rate": 0.0
  },
  "quota": {
   "requests_per_hour": 100,
@@ -405,11 +405,11 @@
  "executive_block": {
   "available": true,
   "title": "Спрос и направления развития",
-  "summary": "Мы видим 69 053 покупательских запросов в месяц по 45 направлениям каталога. Своя страница есть под 77% этого спроса, в поиске находится 54%, на первой странице — 18%. Без страницы остаётся 15 947 запросов в месяц — это направления, где спрос есть, а нас в выдаче нет.",
+  "summary": "Мы видим 71 592 покупательских запросов в месяц по 57 направлениям каталога. Своя страница есть под 78% этого спроса, в поиске находится 52%, на первой странице — 17%. Без страницы остаётся 15 947 запросов в месяц — это направления, где спрос есть, а нас в выдаче нет.",
   "coverage": {
-   "page": 0.7681,
-   "indexed": 0.5436,
-   "top10": 0.1773
+   "page": 0.7763,
+   "indexed": 0.5246,
+   "top10": 0.1712
   },
   "lead_opportunity": {
    "cluster": "adobe",
