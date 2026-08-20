@@ -1,0 +1,574 @@
+{
+  "generated_from": "data/sources/manageengine/2026-08-20",
+  "source_collected_at": "2026-08-20T21:41:14.115Z",
+  "rules": [
+    {
+      "id": "admanager-plus-admanager-plus-standard-edition-annual-subscription-additional-extends",
+      "appliesTo": {
+        "offerSlug": "admanager-plus-standard-edition-annual-subscription",
+        "familySlug": "admanager-plus",
+        "variantPattern": "^Additional\\s"
+      },
+      "extends": {
+        "offerSlug": "admanager-plus-standard-edition-annual-subscription",
+        "familySlug": "admanager-plus"
+      },
+      "reason": "Позиция увеличивает объём уже выбранной лицензии и отдельно не поставляется"
+    },
+    {
+      "id": "admanager-plus-admanager-plus-professional-edition-annual-subscription-additional-extends",
+      "appliesTo": {
+        "offerSlug": "admanager-plus-professional-edition-annual-subscription",
+        "familySlug": "admanager-plus",
+        "variantPattern": "^Additional\\s"
+      },
+      "extends": {
+        "offerSlug": "admanager-plus-professional-edition-annual-subscription",
+        "familySlug": "admanager-plus"
+      },
+      "reason": "Позиция увеличивает объём уже выбранной лицензии и отдельно не поставляется"
+    },
+    {
+      "id": "admanager-plus-admanager-plus-backup-and-recovery-add-on-requires-base",
+      "appliesTo": {
+        "offerSlug": "admanager-plus-backup-and-recovery-add-on",
+        "familySlug": "admanager-plus"
+      },
+      "requires": {
+        "familySlug": "admanager-plus"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "m365-manager-plus-m365-manager-plus-exchange-online-backup-add-on-requires-base",
+      "appliesTo": {
+        "offerSlug": "m365-manager-plus-exchange-online-backup-add-on",
+        "familySlug": "m365-manager-plus"
+      },
+      "requires": {
+        "familySlug": "m365-manager-plus"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "password-manager-pro-password-manager-pro-add-ons-requires-base",
+      "appliesTo": {
+        "offerSlug": "password-manager-pro-add-ons",
+        "familySlug": "password-manager-pro"
+      },
+      "requires": {
+        "familySlug": "password-manager-pro"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "servicedesk-plus-servicedesk-plus-professional-edition-annual-subscription-additional-extends",
+      "appliesTo": {
+        "offerSlug": "servicedesk-plus-professional-edition-annual-subscription",
+        "familySlug": "servicedesk-plus",
+        "variantPattern": "^Additional\\s"
+      },
+      "extends": {
+        "offerSlug": "servicedesk-plus-professional-edition-annual-subscription",
+        "familySlug": "servicedesk-plus"
+      },
+      "reason": "Позиция увеличивает объём уже выбранной лицензии и отдельно не поставляется"
+    },
+    {
+      "id": "servicedesk-plus-add-on-for-professional-edition-annual-subscription-requires-professional",
+      "appliesTo": {
+        "offerSlug": "add-on-for-professional-edition-annual-subscription",
+        "familySlug": "servicedesk-plus"
+      },
+      "requires": {
+        "edition": "Professional",
+        "familySlug": "servicedesk-plus",
+        "offerSlug": "servicedesk-plus-professional-edition-annual-subscription"
+      },
+      "reason": "Вендор продаёт это дополнение только к редакции Professional — так названа таблица прайса"
+    },
+    {
+      "id": "servicedesk-plus-servicedesk-plus-enterprise-edition-annual-subscription-additional-extends",
+      "appliesTo": {
+        "offerSlug": "servicedesk-plus-enterprise-edition-annual-subscription",
+        "familySlug": "servicedesk-plus",
+        "variantPattern": "^Additional\\s"
+      },
+      "extends": {
+        "offerSlug": "servicedesk-plus-enterprise-edition-annual-subscription",
+        "familySlug": "servicedesk-plus"
+      },
+      "reason": "Позиция увеличивает объём уже выбранной лицензии и отдельно не поставляется"
+    },
+    {
+      "id": "servicedesk-plus-servicedesk-plus-uem-remote-access-plus-add-on-annual-subscription-requires-base",
+      "appliesTo": {
+        "offerSlug": "servicedesk-plus-uem-remote-access-plus-add-on-annual-subscription",
+        "familySlug": "servicedesk-plus"
+      },
+      "requires": {
+        "familySlug": "servicedesk-plus"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "servicedesk-plus-servicedesk-plus-uem-remote-access-plus-add-on-annual-subscription-additional-extends",
+      "appliesTo": {
+        "offerSlug": "servicedesk-plus-uem-remote-access-plus-add-on-annual-subscription",
+        "familySlug": "servicedesk-plus",
+        "variantPattern": "^Additional\\s"
+      },
+      "extends": {
+        "offerSlug": "servicedesk-plus-uem-remote-access-plus-add-on-annual-subscription",
+        "familySlug": "servicedesk-plus"
+      },
+      "reason": "Позиция увеличивает объём уже выбранной лицензии и отдельно не поставляется"
+    },
+    {
+      "id": "servicedesk-plus-analytics-plus-on-premise-add-on-for-servicedesk-plus-requires-base",
+      "appliesTo": {
+        "offerSlug": "analytics-plus-on-premise-add-on-for-servicedesk-plus",
+        "familySlug": "servicedesk-plus"
+      },
+      "requires": {
+        "familySlug": "servicedesk-plus"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "servicedesk-plus-analytics-plus-on-premise-add-on-for-servicedesk-plus-additional-extends",
+      "appliesTo": {
+        "offerSlug": "analytics-plus-on-premise-add-on-for-servicedesk-plus",
+        "familySlug": "servicedesk-plus",
+        "variantPattern": "^Additional\\s"
+      },
+      "extends": {
+        "offerSlug": "analytics-plus-on-premise-add-on-for-servicedesk-plus",
+        "familySlug": "servicedesk-plus"
+      },
+      "reason": "Позиция увеличивает объём уже выбранной лицензии и отдельно не поставляется"
+    },
+    {
+      "id": "servicedesk-plus-analytics-plus-cloud-add-on-for-servicedesk-plus-requires-base",
+      "appliesTo": {
+        "offerSlug": "analytics-plus-cloud-add-on-for-servicedesk-plus",
+        "familySlug": "servicedesk-plus"
+      },
+      "requires": {
+        "familySlug": "servicedesk-plus"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "servicedesk-plus-analytics-plus-cloud-add-on-for-servicedesk-plus-additional-extends",
+      "appliesTo": {
+        "offerSlug": "analytics-plus-cloud-add-on-for-servicedesk-plus",
+        "familySlug": "servicedesk-plus",
+        "variantPattern": "^Additional\\s"
+      },
+      "extends": {
+        "offerSlug": "analytics-plus-cloud-add-on-for-servicedesk-plus",
+        "familySlug": "servicedesk-plus"
+      },
+      "reason": "Позиция увеличивает объём уже выбранной лицензии и отдельно не поставляется"
+    },
+    {
+      "id": "servicedesk-plus-servicedesk-plus-active-directory-management-add-on-annual-subscription-requires-base",
+      "appliesTo": {
+        "offerSlug": "servicedesk-plus-active-directory-management-add-on-annual-subscription",
+        "familySlug": "servicedesk-plus"
+      },
+      "requires": {
+        "familySlug": "servicedesk-plus"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "servicedesk-plus-analytics-plus-on-premise-add-on-for-servicedesk-plus-excludes-analytics-plus-cloud-add-on-for-servicedesk-plus",
+      "appliesTo": {
+        "offerSlug": "analytics-plus-on-premise-add-on-for-servicedesk-plus",
+        "familySlug": "servicedesk-plus"
+      },
+      "excludes": {
+        "offerSlug": "analytics-plus-cloud-add-on-for-servicedesk-plus"
+      },
+      "reason": "Одно и то же дополнение в облачной и коробочной поставке — берут что-то одно"
+    },
+    {
+      "id": "servicedesk-plus-analytics-plus-cloud-add-on-for-servicedesk-plus-excludes-analytics-plus-on-premise-add-on-for-servicedesk-plus",
+      "appliesTo": {
+        "offerSlug": "analytics-plus-cloud-add-on-for-servicedesk-plus",
+        "familySlug": "servicedesk-plus"
+      },
+      "excludes": {
+        "offerSlug": "analytics-plus-on-premise-add-on-for-servicedesk-plus"
+      },
+      "reason": "Одно и то же дополнение в облачной и коробочной поставке — берут что-то одно"
+    },
+    {
+      "id": "servicedesk-plus-multi-language-servicedesk-plus-professional-edition-multi-language-annual-subscription-additional-extends",
+      "appliesTo": {
+        "offerSlug": "servicedesk-plus-professional-edition-multi-language-annual-subscription",
+        "familySlug": "servicedesk-plus-multi-language",
+        "variantPattern": "^Additional\\s"
+      },
+      "extends": {
+        "offerSlug": "servicedesk-plus-professional-edition-multi-language-annual-subscription",
+        "familySlug": "servicedesk-plus-multi-language"
+      },
+      "reason": "Позиция увеличивает объём уже выбранной лицензии и отдельно не поставляется"
+    },
+    {
+      "id": "servicedesk-plus-multi-language-add-on-for-professional-edition-multi-language-annual-subscription-requires-professional",
+      "appliesTo": {
+        "offerSlug": "add-on-for-professional-edition-multi-language-annual-subscription",
+        "familySlug": "servicedesk-plus-multi-language"
+      },
+      "requires": {
+        "edition": "Professional",
+        "familySlug": "servicedesk-plus-multi-language",
+        "offerSlug": "servicedesk-plus-professional-edition-multi-language-annual-subscription"
+      },
+      "reason": "Вендор продаёт это дополнение только к редакции Professional — так названа таблица прайса"
+    },
+    {
+      "id": "servicedesk-plus-multi-language-servicedesk-plus-enterprise-edition-multi-language-annual-subscription-additional-extends",
+      "appliesTo": {
+        "offerSlug": "servicedesk-plus-enterprise-edition-multi-language-annual-subscription",
+        "familySlug": "servicedesk-plus-multi-language",
+        "variantPattern": "^Additional\\s"
+      },
+      "extends": {
+        "offerSlug": "servicedesk-plus-enterprise-edition-multi-language-annual-subscription",
+        "familySlug": "servicedesk-plus-multi-language"
+      },
+      "reason": "Позиция увеличивает объём уже выбранной лицензии и отдельно не поставляется"
+    },
+    {
+      "id": "servicedesk-plus-multi-language-analytics-plus-on-premise-add-on-for-servicedesk-plus-requires-base",
+      "appliesTo": {
+        "offerSlug": "analytics-plus-on-premise-add-on-for-servicedesk-plus",
+        "familySlug": "servicedesk-plus-multi-language"
+      },
+      "requires": {
+        "familySlug": "servicedesk-plus-multi-language"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "servicedesk-plus-multi-language-analytics-plus-on-premise-add-on-for-servicedesk-plus-additional-extends",
+      "appliesTo": {
+        "offerSlug": "analytics-plus-on-premise-add-on-for-servicedesk-plus",
+        "familySlug": "servicedesk-plus-multi-language",
+        "variantPattern": "^Additional\\s"
+      },
+      "extends": {
+        "offerSlug": "analytics-plus-on-premise-add-on-for-servicedesk-plus",
+        "familySlug": "servicedesk-plus-multi-language"
+      },
+      "reason": "Позиция увеличивает объём уже выбранной лицензии и отдельно не поставляется"
+    },
+    {
+      "id": "servicedesk-plus-multi-language-analytics-plus-cloud-add-on-for-servicedesk-plus-requires-base",
+      "appliesTo": {
+        "offerSlug": "analytics-plus-cloud-add-on-for-servicedesk-plus",
+        "familySlug": "servicedesk-plus-multi-language"
+      },
+      "requires": {
+        "familySlug": "servicedesk-plus-multi-language"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "servicedesk-plus-multi-language-analytics-plus-cloud-add-on-for-servicedesk-plus-additional-extends",
+      "appliesTo": {
+        "offerSlug": "analytics-plus-cloud-add-on-for-servicedesk-plus",
+        "familySlug": "servicedesk-plus-multi-language",
+        "variantPattern": "^Additional\\s"
+      },
+      "extends": {
+        "offerSlug": "analytics-plus-cloud-add-on-for-servicedesk-plus",
+        "familySlug": "servicedesk-plus-multi-language"
+      },
+      "reason": "Позиция увеличивает объём уже выбранной лицензии и отдельно не поставляется"
+    },
+    {
+      "id": "servicedesk-plus-multi-language-servicedesk-plus-active-directory-management-add-on-annual-subscription-requires-base",
+      "appliesTo": {
+        "offerSlug": "servicedesk-plus-active-directory-management-add-on-annual-subscription",
+        "familySlug": "servicedesk-plus-multi-language"
+      },
+      "requires": {
+        "familySlug": "servicedesk-plus-multi-language"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "servicedesk-plus-multi-language-analytics-plus-on-premise-add-on-for-servicedesk-plus-excludes-analytics-plus-cloud-add-on-for-servicedesk-plus",
+      "appliesTo": {
+        "offerSlug": "analytics-plus-on-premise-add-on-for-servicedesk-plus",
+        "familySlug": "servicedesk-plus-multi-language"
+      },
+      "excludes": {
+        "offerSlug": "analytics-plus-cloud-add-on-for-servicedesk-plus"
+      },
+      "reason": "Одно и то же дополнение в облачной и коробочной поставке — берут что-то одно"
+    },
+    {
+      "id": "servicedesk-plus-multi-language-analytics-plus-cloud-add-on-for-servicedesk-plus-excludes-analytics-plus-on-premise-add-on-for-servicedesk-plus",
+      "appliesTo": {
+        "offerSlug": "analytics-plus-cloud-add-on-for-servicedesk-plus",
+        "familySlug": "servicedesk-plus-multi-language"
+      },
+      "excludes": {
+        "offerSlug": "analytics-plus-on-premise-add-on-for-servicedesk-plus"
+      },
+      "reason": "Одно и то же дополнение в облачной и коробочной поставке — берут что-то одно"
+    },
+    {
+      "id": "supportcenter-plus-supportcenter-plus-addons-subscription-model-requires-base",
+      "appliesTo": {
+        "offerSlug": "supportcenter-plus-addons-subscription-model",
+        "familySlug": "supportcenter-plus"
+      },
+      "requires": {
+        "familySlug": "supportcenter-plus"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "supportcenter-plus-supportcenter-plus-multi-language-addons-subscription-model-requires-base",
+      "appliesTo": {
+        "offerSlug": "supportcenter-plus-multi-language-addons-subscription-model",
+        "familySlug": "supportcenter-plus"
+      },
+      "requires": {
+        "familySlug": "supportcenter-plus"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "supportcenter-plus-supportcenter-plus-analytics-plus-on-premise-add-on-subscription-model-requires-base",
+      "appliesTo": {
+        "offerSlug": "supportcenter-plus-analytics-plus-on-premise-add-on-subscription-model",
+        "familySlug": "supportcenter-plus"
+      },
+      "requires": {
+        "familySlug": "supportcenter-plus"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "supportcenter-plus-supportcenter-plus-analytics-plus-on-premise-add-on-subscription-model-additional-extends",
+      "appliesTo": {
+        "offerSlug": "supportcenter-plus-analytics-plus-on-premise-add-on-subscription-model",
+        "familySlug": "supportcenter-plus",
+        "variantPattern": "^Additional\\s"
+      },
+      "extends": {
+        "offerSlug": "supportcenter-plus-analytics-plus-on-premise-add-on-subscription-model",
+        "familySlug": "supportcenter-plus"
+      },
+      "reason": "Позиция увеличивает объём уже выбранной лицензии и отдельно не поставляется"
+    },
+    {
+      "id": "supportcenter-plus-supportcenter-plus-analytics-plus-cloud-addon-subscription-model-requires-base",
+      "appliesTo": {
+        "offerSlug": "supportcenter-plus-analytics-plus-cloud-addon-subscription-model",
+        "familySlug": "supportcenter-plus"
+      },
+      "requires": {
+        "familySlug": "supportcenter-plus"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "supportcenter-plus-supportcenter-plus-analytics-plus-cloud-addon-subscription-model-additional-extends",
+      "appliesTo": {
+        "offerSlug": "supportcenter-plus-analytics-plus-cloud-addon-subscription-model",
+        "familySlug": "supportcenter-plus",
+        "variantPattern": "^Additional\\s"
+      },
+      "extends": {
+        "offerSlug": "supportcenter-plus-analytics-plus-cloud-addon-subscription-model",
+        "familySlug": "supportcenter-plus"
+      },
+      "reason": "Позиция увеличивает объём уже выбранной лицензии и отдельно не поставляется"
+    },
+    {
+      "id": "supportcenter-plus-supportcenter-plus-remote-support-add-on-subscription-model-requires-base",
+      "appliesTo": {
+        "offerSlug": "supportcenter-plus-remote-support-add-on-subscription-model",
+        "familySlug": "supportcenter-plus"
+      },
+      "requires": {
+        "familySlug": "supportcenter-plus"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "assetexplorer-assetexplorer-subscription-model-additional-extends",
+      "appliesTo": {
+        "offerSlug": "assetexplorer-subscription-model",
+        "familySlug": "assetexplorer",
+        "variantPattern": "^Additional\\s"
+      },
+      "extends": {
+        "offerSlug": "assetexplorer-subscription-model",
+        "familySlug": "assetexplorer"
+      },
+      "reason": "Позиция увеличивает объём уже выбранной лицензии и отдельно не поставляется"
+    },
+    {
+      "id": "assetexplorer-assetexplorer-uem-remote-access-plus-add-ons-subscription-model-requires-base",
+      "appliesTo": {
+        "offerSlug": "assetexplorer-uem-remote-access-plus-add-ons-subscription-model",
+        "familySlug": "assetexplorer"
+      },
+      "requires": {
+        "familySlug": "assetexplorer"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "assetexplorer-assetexplorer-uem-remote-access-plus-add-ons-subscription-model-additional-extends",
+      "appliesTo": {
+        "offerSlug": "assetexplorer-uem-remote-access-plus-add-ons-subscription-model",
+        "familySlug": "assetexplorer",
+        "variantPattern": "^Additional\\s"
+      },
+      "extends": {
+        "offerSlug": "assetexplorer-uem-remote-access-plus-add-ons-subscription-model",
+        "familySlug": "assetexplorer"
+      },
+      "reason": "Позиция увеличивает объём уже выбранной лицензии и отдельно не поставляется"
+    },
+    {
+      "id": "endpoint-central-endpoint-central-malware-protection-add-on-requires-base",
+      "appliesTo": {
+        "offerSlug": "endpoint-central-malware-protection-add-on",
+        "familySlug": "endpoint-central"
+      },
+      "requires": {
+        "familySlug": "endpoint-central"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "endpoint-central-endpoint-central-ransomware-protection-add-on-requires-base",
+      "appliesTo": {
+        "offerSlug": "endpoint-central-ransomware-protection-add-on",
+        "familySlug": "endpoint-central"
+      },
+      "requires": {
+        "familySlug": "endpoint-central"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "endpoint-central-endpoint-central-os-deployment-add-on-requires-base",
+      "appliesTo": {
+        "offerSlug": "endpoint-central-os-deployment-add-on",
+        "familySlug": "endpoint-central"
+      },
+      "requires": {
+        "familySlug": "endpoint-central"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "endpoint-central-endpoint-central-dex-add-on-requires-base",
+      "appliesTo": {
+        "offerSlug": "endpoint-central-dex-add-on",
+        "familySlug": "endpoint-central"
+      },
+      "requires": {
+        "familySlug": "endpoint-central"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "endpoint-central-endpoint-central-secure-private-access-add-on-requires-base",
+      "appliesTo": {
+        "offerSlug": "endpoint-central-secure-private-access-add-on",
+        "familySlug": "endpoint-central"
+      },
+      "requires": {
+        "familySlug": "endpoint-central"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "endpoint-central-endpoint-central-additional-users-additional-extends",
+      "appliesTo": {
+        "offerSlug": "endpoint-central-additional-users",
+        "familySlug": "endpoint-central",
+        "variantPattern": "^Additional\\s"
+      },
+      "extends": {
+        "offerSlug": "endpoint-central-additional-users",
+        "familySlug": "endpoint-central"
+      },
+      "reason": "Позиция увеличивает объём уже выбранной лицензии и отдельно не поставляется"
+    },
+    {
+      "id": "patch-manager-plus-patch-manager-plus-additional-users-additional-extends",
+      "appliesTo": {
+        "offerSlug": "patch-manager-plus-additional-users",
+        "familySlug": "patch-manager-plus",
+        "variantPattern": "^Additional\\s"
+      },
+      "extends": {
+        "offerSlug": "patch-manager-plus-additional-users",
+        "familySlug": "patch-manager-plus"
+      },
+      "reason": "Позиция увеличивает объём уже выбранной лицензии и отдельно не поставляется"
+    },
+    {
+      "id": "patch-manager-plus-patch-manager-plus-remote-access-plus-add-on-requires-base",
+      "appliesTo": {
+        "offerSlug": "patch-manager-plus-remote-access-plus-add-on",
+        "familySlug": "patch-manager-plus"
+      },
+      "requires": {
+        "familySlug": "patch-manager-plus"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "patch-manager-plus-patch-manager-plus-failover-server-add-ons-requires-base",
+      "appliesTo": {
+        "offerSlug": "patch-manager-plus-failover-server-add-ons",
+        "familySlug": "patch-manager-plus"
+      },
+      "requires": {
+        "familySlug": "patch-manager-plus"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "mobile-device-manager-plus-mobile-device-manager-plus-additional-users-additional-extends",
+      "appliesTo": {
+        "offerSlug": "mobile-device-manager-plus-additional-users",
+        "familySlug": "mobile-device-manager-plus",
+        "variantPattern": "^Additional\\s"
+      },
+      "extends": {
+        "offerSlug": "mobile-device-manager-plus-additional-users",
+        "familySlug": "mobile-device-manager-plus"
+      },
+      "reason": "Позиция увеличивает объём уже выбранной лицензии и отдельно не поставляется"
+    },
+    {
+      "id": "mobile-device-manager-plus-mobile-device-manager-plus-failover-server-add-ons-requires-base",
+      "appliesTo": {
+        "offerSlug": "mobile-device-manager-plus-failover-server-add-ons",
+        "familySlug": "mobile-device-manager-plus"
+      },
+      "requires": {
+        "familySlug": "mobile-device-manager-plus"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    }
+  ]
+}
