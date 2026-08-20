@@ -1,6 +1,6 @@
 {
  "date": "2026-08-20",
- "generated_at": "2026-08-20T06:23:57+00:00",
+ "generated_at": "2026-08-20T06:24:48+00:00",
  "measured_at": "2026-08-20",
  "universe": {
   "phrases": 10054,
@@ -1206,22 +1206,22 @@
   "note": "Российские вендоры исключены: их лицензии продаются напрямую, услуга оплаты из-за рубежа к ним неприменима."
  },
  "efficiency": {
-  "calls_total": 243,
-  "calls_paid": 243,
-  "cost_month_rub": 5.4,
-  "cost_today_rub": 5.4,
-  "remaining_budget_rub": 5494.6,
-  "forecast_month_end_rub": 8.37,
+  "calls_total": 424,
+  "calls_paid": 320,
+  "cost_month_rub": 7.21,
+  "cost_today_rub": 7.21,
+  "remaining_budget_rub": 5492.79,
+  "forecast_month_end_rub": 11.18,
   "state": "open",
-  "cache_hit_rate": 0.0,
-  "duplicate_rate": 0.0161,
+  "cache_hit_rate": 0.2453,
+  "duplicate_rate": 0.0363,
   "unique_phrases": 3554,
   "new_commercial_phrases": 1700,
   "new_clusters": 84,
-  "cost_per_1000_unique_phrases_rub": 1.519,
-  "cost_per_1000_commercial_phrases_rub": 3.176,
-  "cost_per_new_cluster_rub": 0.0643,
-  "empty_response_rate": 0.2263
+  "cost_per_1000_unique_phrases_rub": 2.029,
+  "cost_per_1000_commercial_phrases_rub": 4.241,
+  "cost_per_new_cluster_rub": 0.0858,
+  "empty_response_rate": 0.2382
  },
  "quota": {
   "requests_per_hour": 500,
