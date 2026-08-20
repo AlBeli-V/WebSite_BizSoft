@@ -583,6 +583,39 @@ class TestFullCycle(unittest.TestCase):
         self.assertEqual(done["stopped"], "quota_exceeded")
 
 
+class TestDynamicsRequest(unittest.TestCase):
+    """Динамика: сервис принимает только целые завершённые месяцы."""
+
+    def setUp(self):
+        self.C = load("client")
+
+    def _body(self, today):
+        class Budget:
+            pass
+        b = Budget()
+        b.today = today
+        c = self.C.WordstatClient.__new__(self.C.WordstatClient)
+        c.cfg = {"collection": {"region_id": "225"}}
+        c.budget = b
+        c.call = lambda method, body, **kw: body
+        return c.dynamics("adobe купить", reason="trend_monitoring")
+
+    def test_range_starts_on_first_and_ends_on_last_day(self):
+        body = self._body("2026-08-20")
+        self.assertTrue(body["fromDate"].startswith("2025-08-01"))
+        self.assertTrue(body["toDate"].startswith("2026-07-31"))
+
+    def test_current_incomplete_month_is_excluded(self):
+        """Текущий месяц ещё набирает частотность — в ряд его ставить нельзя."""
+        body = self._body("2026-08-20")
+        self.assertNotIn("2026-08-31", body["toDate"])
+
+    def test_year_boundary_is_handled(self):
+        body = self._body("2026-01-05")
+        self.assertTrue(body["fromDate"].startswith("2025-01-01"))
+        self.assertTrue(body["toDate"].startswith("2025-12-31"))
+
+
 class TestVendorExpansion(unittest.TestCase):
     """Расширение каталога: российские исключены, оплата влияет на порядок."""
 

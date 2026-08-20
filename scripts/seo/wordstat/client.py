@@ -164,10 +164,23 @@ class WordstatClient:
         return self.call("getTop", body, reason=reason, cluster=cluster, phrase=phrase)
 
     def dynamics(self, phrase: str, *, reason: str, cluster: str | None = None,
-                 days: int = 365, region: str | None = None,
+                 months: int = 12, region: str | None = None,
                  today: str | None = None) -> dict:
-        end = dt.date.fromisoformat(today or self.budget.today)
-        start = end - dt.timedelta(days=days)
+        """Помесячная динамика спроса.
+
+        Сервис принимает только целые месяцы: начало — первое число, конец —
+        последнее. Произвольные даты он отвергает («The from field value should
+        be the first day of the month»), и такой запрос стоит денег, ничего не
+        возвращая: 27 отказов в прогоне 20.08.2026 были именно этим.
+
+        Последний месяц берётся завершённым: текущий ещё набирает частотность,
+        и его нельзя ставить в один ряд с полными месяцами.
+        """
+        today_d = dt.date.fromisoformat(today or self.budget.today)
+        end = today_d.replace(day=1) - dt.timedelta(days=1)      # конец прошлого месяца
+        start = end.replace(day=1)
+        for _ in range(max(1, months) - 1):
+            start = (start - dt.timedelta(days=1)).replace(day=1)
         body = {"phrase": phrase, "period": "PERIOD_MONTHLY",
                 "regions": [region or self.cfg["collection"]["region_id"]],
                 "fromDate": f"{start.isoformat()}T00:00:00Z",
