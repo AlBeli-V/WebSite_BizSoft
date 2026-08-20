@@ -255,7 +255,8 @@ export const LOGO_FILE: Record<string, string> = {
   "artlist": "/brand-logos/artlist-logo.svg",
   "motion-array": "/brand-logos/motion-array-logo.svg",
   "parallels": "/brand-logos/parallels-logo.svg",
-  "acronis": "/brand-logos/acronis-logo.svg"
+  "acronis": "/brand-logos/acronis-logo.svg",
+  "solidworks": "/brand-logos/solidworks-logo.svg"
 };
 
 export function brandLogo(slug: string): BrandLogo | undefined {

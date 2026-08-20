@@ -1,12 +1,21 @@
 import { describe, expect, it } from 'vitest';
 import { SEO_EXPERIMENTS, SEO_EXPERIMENT_LINKS } from '../src/data/seo-experiments';
 
-const SLUGS = ['canva', 'depositphotos', 'coreldraw', 'heygen', 'marmoset'];
+// Два эксперимента живут в одном файле, но считаются раздельно: даты старта
+// разные, и смешивать их метрики нельзя.
+const EXP_1 = ['canva', 'depositphotos', 'coreldraw', 'heygen', 'marmoset'];
+const EXP_2 = ['adobe', 'autodesk', 'procreate', 'blackmagic', 'midjourney', 'clip-studio-paint'];
+const SLUGS = [...EXP_1, ...EXP_2];
 
-describe('SEO-эксперимент snippets-5-vendors', () => {
-  it('ровно 5 целевых страниц — контрольная группа не затронута', () => {
+describe('SEO-эксперименты на vendor-страницах', () => {
+  it('обе группы на месте, пересечений нет — иначе метрики смешаются', () => {
     expect(Object.keys(SEO_EXPERIMENTS).sort()).toEqual([...SLUGS].sort());
     expect(SEO_EXPERIMENT_LINKS.map((l) => l.slug).sort()).toEqual([...SLUGS].sort());
+    expect(EXP_1.filter((s) => EXP_2.includes(s))).toEqual([]);
+  });
+
+  it('контрольная группа не затронута: правок ровно 11 из 66 страниц', () => {
+    expect(Object.keys(SEO_EXPERIMENTS)).toHaveLength(11);
   });
 
   it('бренд в title ровно один раз, до 65 символов без учёта «| BIZSoft»', () => {

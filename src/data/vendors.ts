@@ -210,6 +210,29 @@ export const VENDORS: VendorEntry[] = [
   { slug: 'microsoft', vendor: 'Microsoft', legalName: 'Microsoft Corporation', brandColor: '#0078D4', site: 'https://www.microsoft.com', catSeg: 'office', catLabel: 'Офисное ПО', domain: 'it',
     tagline: 'Офисные продукты Microsoft: подписки Microsoft 365 для бизнеса и бессрочные лицензии Office, Visio, Project и Windows 11 Pro.',
     about: 'Microsoft — разработчик Windows, Office и облачной платформы Microsoft 365. Мы помогаем юрлицам легально оформить подписки Microsoft 365 (только на tenant компании в поддерживаемой стране, после предварительной проверки) и поставляем бессрочные коробочные версии Office, Visio, Project и Windows 11 Pro электронным ключом активации.' },
+
+  // ─── Блок 5: AI-ассистенты и инженерное ПО (добавлены 20.08.2026 по замеру спроса) ───
+  { slug: 'anthropic', vendor: 'Anthropic', title: 'Anthropic Claude', legalName: 'Anthropic PBC', brandColor: '#D97757', site: 'https://www.anthropic.com', catSeg: 'ai', catLabel: 'AI-сервисы', domain: 'ai',
+    tagline: 'Claude для команд и организаций: тарифы Team и Enterprise с общими проектами, SSO и контролем данных.',
+    about: 'Anthropic Claude — текстовый AI-ассистент для работы с документами, кодом и знаниями компании. Тариф Team даёт общие проекты и совместные чаты для отдела, Enterprise добавляет SSO, расширенный контекст, аудит и корпоративные политики хранения данных. Востребован в аналитике, юридической и продуктовой работе, где важны длинные документы и точность формулировок.' },
+  { slug: 'google', vendor: 'Google', title: 'Google Gemini', legalName: 'Google LLC', brandColor: '#4285F4', site: 'https://workspace.google.com', catSeg: 'ai', catLabel: 'AI-сервисы', domain: 'ai',
+    tagline: 'Gemini для Google Workspace: AI в Документах, Таблицах, Gmail и Meet на тарифах Business и Enterprise.',
+    about: 'Gemini for Google Workspace встраивает AI прямо в рабочие документы компании: черновики и правки в Документах, формулы и анализ в Таблицах, письма в Gmail, конспекты встреч в Meet. Подключается к домену организации, поэтому данные остаются в контуре Workspace. Подходит компаниям, которые уже живут в Google Workspace и хотят AI без смены инструментов.' },
+  { slug: 'perplexity', vendor: 'Perplexity', legalName: 'Perplexity AI, Inc.', brandColor: '#20808D', site: 'https://www.perplexity.ai', catSeg: 'ai', catLabel: 'AI-сервисы', domain: 'ai',
+    tagline: 'AI-поиск с источниками для команд: тарифы Enterprise Pro с SSO, аудитом и внутренними файлами.',
+    about: 'Perplexity — поисковый AI-ассистент, который отвечает со ссылками на источники, а не по памяти модели. Enterprise Pro добавляет поиск по внутренним файлам компании, SSO, журнал действий и запрет на обучение модели на ваших данных. Используется в аналитике рынка, конкурентной разведке и подготовке материалов, где ответ нужно проверить по первоисточнику.' },
+  { slug: 'cursor', vendor: 'Cursor', legalName: 'Anysphere Inc.', brandColor: '#111111', site: 'https://cursor.com', catSeg: 'development', catLabel: 'Средства разработки', domain: 'it',
+    tagline: 'AI-редактор кода для команд разработки: тариф Business с централизованным биллингом и политиками приватности.',
+    about: 'Cursor — редактор кода на базе VS Code со встроенным AI: пишет и рефакторит код по описанию, объясняет чужие модули, ищет по всей кодовой базе. Тариф Business даёт единый счёт на команду, режим приватности с запретом хранения кода и управление доступом. Применяется командами разработки для ускорения рутинных правок и разбора незнакомого кода.' },
+  { slug: 'github', vendor: 'GitHub', legalName: 'GitHub, Inc.', brandColor: '#24292F', site: 'https://github.com', catSeg: 'development', catLabel: 'Средства разработки', domain: 'it',
+    tagline: 'GitHub Copilot для команд: тарифы Business и Enterprise с политиками организации и исключением публичного кода.',
+    about: 'GitHub Copilot — AI-помощник разработчика прямо в редакторе: дописывает код, предлагает тесты, объясняет изменения в pull request. Тариф Business даёт управление доступом на уровне организации, фильтр совпадений с публичным кодом и запрет на обучение на вашем коде; Enterprise добавляет знание внутренних репозиториев компании.' },
+  { slug: 'notion', vendor: 'Notion', legalName: 'Notion Labs, Inc.', brandColor: '#111111', site: 'https://www.notion.com', catSeg: 'collaboration', catLabel: 'Доски и совместная работа', domain: 'it',
+    tagline: 'Рабочее пространство для документов, баз знаний и задач: тарифы Business и Enterprise с SSO и Notion AI.',
+    about: 'Notion — единое пространство для базы знаний, документации, задач и внутренних регламентов компании. Тариф Business добавляет SSO, приватные разделы команд и расширенную выгрузку, Enterprise — журнал аудита и управление жизненным циклом контента. Часто заменяет разрозненные вики, таблицы и трекеры одним инструментом.' },
+  { slug: 'solidworks', vendor: 'SOLIDWORKS', legalName: 'Dassault Systèmes SolidWorks Corporation', brandColor: '#E31E24', site: 'https://www.solidworks.com', catSeg: 'engineering', catLabel: 'Инженерное ПО (CAD/CAE)', domain: 'it',
+    tagline: 'Инженерный CAD для проектирования изделий: подписки SOLIDWORKS Design Standard, Professional и Premium, облачный xDesign.',
+    about: 'SOLIDWORKS — система трёхмерного проектирования изделий и машиностроительной документации от Dassault Systèmes. Применяется в машиностроении, приборостроении, проектировании оснастки и оборудования: параметрическое моделирование деталей и сборок, чертежи по ЕСКД-подобным стандартам, расчёты прочности и подготовка производства. Отдельная линия xDesign работает целиком в браузере и не требует установки.' },
 ];
 
 export function vendorBySlug(slug: string): VendorEntry | undefined {
