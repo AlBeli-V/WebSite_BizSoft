@@ -1,15 +1,15 @@
 {
  "report_date": "2026-08-20",
- "collected_at": "2026-08-20T01:58:16+00:00",
+ "collected_at": "2026-08-20T03:24:43+00:00",
  "region": "Россия",
  "unit": "показы в поиске Яндекса",
  "window": "последние 30 дней",
  "match_type": "broad",
  "requests_made": 90,
- "coverage": "180/554",
+ "coverage": "270/554",
  "complete": false,
  "clusters_planned": 53,
- "clusters_measured": 27,
+ "clusters_measured": 40,
  "top_commercial": [
   {
    "cluster": "adobe",
@@ -34,6 +34,12 @@
    "page": "/vendors/unity",
    "commercial_impressions": 5692,
    "seed_impressions": 196433
+  },
+  {
+   "cluster": "rive",
+   "page": "/vendors/rive",
+   "commercial_impressions": 2350,
+   "seed_impressions": 19374
   },
   {
    "cluster": "procreate",
@@ -64,12 +70,6 @@
    "page": "/vendors/coreldraw",
    "commercial_impressions": 1006,
    "seed_impressions": 58752
-  },
-  {
-   "cluster": "clip-studio-paint",
-   "page": "/vendors/clip-studio-paint",
-   "commercial_impressions": 963,
-   "seed_impressions": 17015
   }
  ],
  "gaps": {
@@ -159,10 +159,6 @@
   ],
   "unity": [
    {
-    "phrase": "unity купить",
-    "impressions": 1314
-   },
-   {
     "phrase": "unity сцена",
     "impressions": 725
    },
@@ -197,16 +193,54 @@
    {
     "phrase": "unity подписки",
     "impressions": 89
+   },
+   {
+    "phrase": "assassins creed unity купить стим",
+    "impressions": 73
+   }
+  ],
+  "rive": [
+   {
+    "phrase": "rive купить",
+    "impressions": 675
+   },
+   {
+    "phrase": "riven купить",
+    "impressions": 675
+   },
+   {
+    "phrase": "la rive купить",
+    "impressions": 408
+   },
+   {
+    "phrase": "rive gauche купить",
+    "impressions": 75
+   },
+   {
+    "phrase": "la rive цена",
+    "impressions": 63
+   },
+   {
+    "phrase": "купить воду la rive",
+    "impressions": 57
+   },
+   {
+    "phrase": "rive туалетная вода купить",
+    "impressions": 46
+   },
+   {
+    "phrase": "купить туалетную воду la rive",
+    "impressions": 46
+   },
+   {
+    "phrase": "la rive game for men купить",
+    "impressions": 44
    }
   ],
   "procreate": [
    {
     "phrase": "купить procreate",
     "impressions": 823
-   },
-   {
-    "phrase": "procreate купить в россии",
-    "impressions": 265
    },
    {
     "phrase": "купить procreate на ipad",
@@ -219,10 +253,6 @@
    {
     "phrase": "как купить procreate на айпад в россии",
     "impressions": 101
-   },
-   {
-    "phrase": "procreate цена",
-    "impressions": 96
    },
    {
     "phrase": "как оплатить procreate",
@@ -239,6 +269,10 @@
    {
     "phrase": "как оплатить procreate из россии",
     "impressions": 38
+   },
+   {
+    "phrase": "можно ли купить procreate",
+    "impressions": 35
    }
   ],
   "blackmagic": [
@@ -477,24 +511,26 @@
     "impressions": 180
    },
    {
-    "phrase": "heygen купить",
-    "impressions": 159
-   },
-   {
     "phrase": "heygen оплатить",
     "impressions": 124
    },
    {
-    "phrase": "heygen купить подписку",
-    "impressions": 68
-   },
-   {
-    "phrase": "heygen тарифы",
-    "impressions": 38
-   },
-   {
     "phrase": "как оплатить heygen из россии",
     "impressions": 35
+   }
+  ],
+  "miro": [
+   {
+    "phrase": "miro подписка",
+    "impressions": 67
+   },
+   {
+    "phrase": "miro цены",
+    "impressions": 57
+   },
+   {
+    "phrase": "elena miro купить",
+    "impressions": 42
    }
   ],
   "elevenlabs": [
@@ -513,6 +549,34 @@
    {
     "phrase": "elevenlabs тарифы",
     "impressions": 32
+   }
+  ],
+  "native-instruments": [
+   {
+    "phrase": "купить native instruments",
+    "impressions": 143
+   },
+   {
+    "phrase": "native instruments mk3 купить",
+    "impressions": 62
+   },
+   {
+    "phrase": "купить native instruments traktor",
+    "impressions": 43
+   },
+   {
+    "phrase": "native instruments maschine mk3 купить",
+    "impressions": 31
+   }
+  ],
+  "maxon": [
+   {
+    "phrase": "maxon купить",
+    "impressions": 159
+   },
+   {
+    "phrase": "maxon sd 9 купить",
+    "impressions": 81
    }
   ],
   "freepik": [
@@ -538,6 +602,24 @@
    },
    {
     "phrase": "лицензии freepik",
+    "impressions": 30
+   }
+  ],
+  "recraft": [
+   {
+    "phrase": "recraft подписка",
+    "impressions": 66
+   },
+   {
+    "phrase": "recraft купить",
+    "impressions": 63
+   },
+   {
+    "phrase": "recraft купить подписку",
+    "impressions": 34
+   },
+   {
+    "phrase": "подписка recraft ai",
     "impressions": 30
    }
   ],
@@ -569,6 +651,12 @@
    {
     "phrase": "artlist купить",
     "impressions": 39
+   }
+  ],
+  "monotype": [
+   {
+    "phrase": "monotype лицензия",
+    "impressions": 44
    }
   ]
  },

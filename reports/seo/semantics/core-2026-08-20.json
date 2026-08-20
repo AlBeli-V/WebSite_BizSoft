@@ -1,7 +1,7 @@
 {
  "schema_version": "2.0.0",
  "report_date": "2026-08-20",
- "collected_at": "2026-08-20T01:58:16+00:00",
+ "collected_at": "2026-08-20T03:24:43+00:00",
  "source": {
   "source_name": "yandex_wordstat",
   "endpoint": "https://searchapi.api.cloud.yandex.net/v2/wordstat/topRequests",
@@ -29,7 +29,7 @@
   "requests_this_run": 90,
   "failures": 0,
   "stopped_by": null,
-  "collected_total": 180,
+  "collected_total": 270,
   "planned_total": 554,
   "complete": false
  },
@@ -25956,48 +25956,54 @@
    "page": "/vendors/gaea",
    "priority": 3,
    "relevance_token": "quadspinner",
-   "status": "not_collected",
-   "coverage": "0/7",
-   "seed_impressions": null,
+   "status": "ok",
+   "coverage": "2/7",
+   "seed_impressions": 29,
    "probes": [
     {
      "phrase": "quadspinner gaea",
-     "status": "not_collected",
-     "total_impressions": null
+     "status": "ok",
+     "total_impressions": 29
     },
     {
      "phrase": "quadspinner gaea купить",
-     "status": "not_collected",
-     "total_impressions": null
+     "status": "ok",
+     "total_impressions": 5
     },
     {
      "phrase": "quadspinner gaea оплата",
-     "status": "not_collected",
+     "status": "below_threshold",
      "total_impressions": null
     },
     {
      "phrase": "quadspinner gaea для юридических лиц",
-     "status": "not_collected",
+     "status": "below_threshold",
      "total_impressions": null
     },
     {
      "phrase": "quadspinner gaea тариф",
-     "status": "not_collected",
+     "status": "below_threshold",
      "total_impressions": null
     },
     {
      "phrase": "quadspinner gaea подписка",
-     "status": "not_collected",
+     "status": "below_threshold",
      "total_impressions": null
     },
     {
      "phrase": "quadspinner gaea лицензия",
-     "status": "not_collected",
+     "status": "below_threshold",
      "total_impressions": null
     }
    ],
    "phrases_dropped_as_irrelevant": 0,
-   "phrases": [],
+   "phrases": [
+    {
+     "phrase": "quadspinner gaea",
+     "impressions_wordstat": 29,
+     "intent": "unknown"
+    }
+   ],
    "associations": [],
    "commercial_phrases": 0,
    "commercial_impressions": null,
@@ -26009,52 +26015,63 @@
    "page": "/vendors/houdini",
    "priority": 3,
    "relevance_token": "sidefx",
-   "status": "not_collected",
-   "coverage": "0/7",
-   "seed_impressions": null,
+   "status": "ok",
+   "coverage": "2/7",
+   "seed_impressions": 108,
    "probes": [
     {
      "phrase": "sidefx houdini",
-     "status": "not_collected",
-     "total_impressions": null
+     "status": "ok",
+     "total_impressions": 108
     },
     {
      "phrase": "sidefx houdini купить",
-     "status": "not_collected",
-     "total_impressions": null
+     "status": "ok",
+     "total_impressions": 2
     },
     {
      "phrase": "sidefx houdini оплата",
-     "status": "not_collected",
+     "status": "below_threshold",
      "total_impressions": null
     },
     {
      "phrase": "sidefx houdini для юридических лиц",
-     "status": "not_collected",
+     "status": "below_threshold",
      "total_impressions": null
     },
     {
      "phrase": "sidefx houdini тариф",
-     "status": "not_collected",
+     "status": "below_threshold",
      "total_impressions": null
     },
     {
      "phrase": "sidefx houdini подписка",
-     "status": "not_collected",
+     "status": "below_threshold",
      "total_impressions": null
     },
     {
      "phrase": "sidefx houdini лицензия",
-     "status": "not_collected",
+     "status": "below_threshold",
      "total_impressions": null
     }
    ],
    "phrases_dropped_as_irrelevant": 0,
-   "phrases": [],
+   "phrases": [
+    {
+     "phrase": "sidefx houdini",
+     "impressions_wordstat": 108,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "sidefx houdini скачать",
+     "impressions_wordstat": 11,
+     "intent": "unknown"
+    }
+   ],
    "associations": [],
    "commercial_phrases": 0,
    "commercial_impressions": null,
-   "confidence": "low"
+   "confidence": "sufficient"
   },
   {
    "cluster": "marvelous-designer",
@@ -26062,52 +26079,328 @@
    "page": "/vendors/marvelous-designer",
    "priority": 3,
    "relevance_token": "marvelous",
-   "status": "not_collected",
-   "coverage": "0/7",
-   "seed_impressions": null,
+   "status": "ok",
+   "coverage": "4/7",
+   "seed_impressions": 2141,
    "probes": [
     {
      "phrase": "marvelous designer",
-     "status": "not_collected",
-     "total_impressions": null
+     "status": "ok",
+     "total_impressions": 2141
     },
     {
      "phrase": "marvelous designer купить",
-     "status": "not_collected",
-     "total_impressions": null
+     "status": "ok",
+     "total_impressions": 8
     },
     {
      "phrase": "marvelous designer оплата",
-     "status": "not_collected",
+     "status": "below_threshold",
      "total_impressions": null
     },
     {
      "phrase": "marvelous designer для юридических лиц",
-     "status": "not_collected",
+     "status": "below_threshold",
      "total_impressions": null
     },
     {
      "phrase": "marvelous designer тариф",
-     "status": "not_collected",
+     "status": "below_threshold",
      "total_impressions": null
     },
     {
      "phrase": "marvelous designer подписка",
-     "status": "not_collected",
-     "total_impressions": null
+     "status": "ok",
+     "total_impressions": 8
     },
     {
      "phrase": "marvelous designer лицензия",
-     "status": "not_collected",
-     "total_impressions": null
+     "status": "ok",
+     "total_impressions": 9
     }
    ],
    "phrases_dropped_as_irrelevant": 0,
-   "phrases": [],
+   "phrases": [
+    {
+     "phrase": "marvelous designer",
+     "impressions_wordstat": 2141,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "marvelous designer скачать",
+     "impressions_wordstat": 434,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "marvelous designer торрент",
+     "impressions_wordstat": 117,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "marvelous designer скачать торрент",
+     "impressions_wordstat": 101,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "marvelous designer бесплатный",
+     "impressions_wordstat": 81,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "marvelous designer скачать бесплатно",
+     "impressions_wordstat": 64,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "marvelous designer personal",
+     "impressions_wordstat": 63,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "marvelous designer ткани",
+     "impressions_wordstat": 63,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "marvelous designer 2026",
+     "impressions_wordstat": 62,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "marvelous designer 3d",
+     "impressions_wordstat": 58,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "marvelous designer одежда",
+     "impressions_wordstat": 54,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "marvelous designer 2026 скачать",
+     "impressions_wordstat": 44,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "marvelous designer 2025",
+     "impressions_wordstat": 39,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "marvelous designer платья в стиле стим панк",
+     "impressions_wordstat": 37,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "marvelous designer clo",
+     "impressions_wordstat": 32,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "marvelous designer clothes",
+     "impressions_wordstat": 32,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "marvelous designer 2026 скачать торрент",
+     "impressions_wordstat": 30,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "marvelous designer clo 3d",
+     "impressions_wordstat": 30,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "marvelous designer boots",
+     "impressions_wordstat": 29,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "marvelous designer enterprise",
+     "impressions_wordstat": 29,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "marvelous designer как сделать рукава фонарики",
+     "impressions_wordstat": 26,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "marvelous designer torrent",
+     "impressions_wordstat": 25,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "marvelous designer версии",
+     "impressions_wordstat": 25,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "как в marvelous designer сделать сапоги",
+     "impressions_wordstat": 25,
+     "intent": "informational"
+    },
+    {
+     "phrase": "marvelous designer 10",
+     "impressions_wordstat": 23,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "marvelous designer русский",
+     "impressions_wordstat": 22,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "marvelous designer модели",
+     "impressions_wordstat": 21,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "marvelous designer 12",
+     "impressions_wordstat": 20,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "marvelous designer уроки",
+     "impressions_wordstat": 19,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "marvelous designer download",
+     "impressions_wordstat": 18,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "marvelous designer скачать на русском",
+     "impressions_wordstat": 17,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "marvelous designer аватар",
+     "impressions_wordstat": 17,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "marvelous designer выкройки",
+     "impressions_wordstat": 16,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "marvelous designer 2025 скачать",
+     "impressions_wordstat": 15,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "marvelous designer clo3d",
+     "impressions_wordstat": 14,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "marvelous designer что за программа",
+     "impressions_wordstat": 12,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "marvelous designer blender",
+     "impressions_wordstat": 11,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "marvelous designer clothes pack",
+     "impressions_wordstat": 11,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "marvelous designer сколько стоит",
+     "impressions_wordstat": 10,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "marvelous designer скачать взлом",
+     "impressions_wordstat": 10,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "marvelous designer 2025 скачать торрент",
+     "impressions_wordstat": 10,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "marvelous designer 2025 торрент",
+     "impressions_wordstat": 10,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "marvelous designer assets",
+     "impressions_wordstat": 9,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "marvelous designer скачать старые версии бесплатно",
+     "impressions_wordstat": 9,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "marvelous designer купить",
+     "impressions_wordstat": 8,
+     "intent": "commercial"
+    },
+    {
+     "phrase": "marvelous designer mastery beginner to advanced",
+     "impressions_wordstat": 8,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "marvelous designer материалы",
+     "impressions_wordstat": 8,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "marvelous designer настройки ткани",
+     "impressions_wordstat": 7,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "marvelous designer resize and reposition windows",
+     "impressions_wordstat": 7,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "таблица пресетов ткани marvelous designer",
+     "impressions_wordstat": 7,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "marvelous designer как сделать шнуровку на платье",
+     "impressions_wordstat": 6,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "marvelous designer или clo 3d что выбрать",
+     "impressions_wordstat": 6,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "marvelous designer models",
+     "impressions_wordstat": 5,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "marvelous designer кряк",
+     "impressions_wordstat": 5,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "marvelous designer шов добавить",
+     "impressions_wordstat": 5,
+     "intent": "unknown"
+    }
+   ],
    "associations": [],
-   "commercial_phrases": 0,
-   "commercial_impressions": null,
-   "confidence": "low"
+   "commercial_phrases": 1,
+   "commercial_impressions": 8,
+   "confidence": "sufficient"
   },
   {
    "cluster": "maxon",
@@ -26115,52 +26408,1123 @@
    "page": "/vendors/maxon",
    "priority": 3,
    "relevance_token": "maxon",
-   "status": "not_collected",
-   "coverage": "0/7",
-   "seed_impressions": null,
+   "status": "ok",
+   "coverage": "4/7",
+   "seed_impressions": 5272,
    "probes": [
     {
      "phrase": "maxon",
-     "status": "not_collected",
-     "total_impressions": null
+     "status": "ok",
+     "total_impressions": 5272
     },
     {
      "phrase": "maxon купить",
-     "status": "not_collected",
-     "total_impressions": null
+     "status": "ok",
+     "total_impressions": 159
     },
     {
      "phrase": "maxon оплата",
-     "status": "not_collected",
+     "status": "below_threshold",
      "total_impressions": null
     },
     {
      "phrase": "maxon для юридических лиц",
-     "status": "not_collected",
+     "status": "below_threshold",
      "total_impressions": null
     },
     {
      "phrase": "maxon тариф",
-     "status": "not_collected",
+     "status": "below_threshold",
      "total_impressions": null
     },
     {
      "phrase": "maxon подписка",
-     "status": "not_collected",
-     "total_impressions": null
+     "status": "ok",
+     "total_impressions": 7
     },
     {
      "phrase": "maxon лицензия",
-     "status": "not_collected",
-     "total_impressions": null
+     "status": "ok",
+     "total_impressions": 28
     }
    ],
    "phrases_dropped_as_irrelevant": 0,
-   "phrases": [],
+   "phrases": [
+    {
+     "phrase": "maxon",
+     "impressions_wordstat": 5272,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon cinema",
+     "impressions_wordstat": 742,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon 4d",
+     "impressions_wordstat": 668,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon app",
+     "impressions_wordstat": 611,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "скачать maxon",
+     "impressions_wordstat": 413,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon motor",
+     "impressions_wordstat": 331,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon cinema 4d что это",
+     "impressions_wordstat": 270,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon 2026",
+     "impressions_wordstat": 169,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon app скачать",
+     "impressions_wordstat": 168,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon купить",
+     "impressions_wordstat": 159,
+     "intent": "commercial"
+    },
+    {
+     "phrase": "maxon sd 9",
+     "impressions_wordstat": 129,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon mx",
+     "impressions_wordstat": 127,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon red giant",
+     "impressions_wordstat": 108,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon cinebench",
+     "impressions_wordstat": 102,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "антенна maxon",
+     "impressions_wordstat": 100,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon net",
+     "impressions_wordstat": 99,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon zbrush",
+     "impressions_wordstat": 95,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon autograph",
+     "impressions_wordstat": 94,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "телефон maxon",
+     "impressions_wordstat": 89,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon sd 9 купить",
+     "impressions_wordstat": 81,
+     "intent": "commercial"
+    },
+    {
+     "phrase": "maxon redshift",
+     "impressions_wordstat": 79,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "www maxon",
+     "impressions_wordstat": 70,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon cinema 4d скачать",
+     "impressions_wordstat": 65,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "скачать maxon 4d",
+     "impressions_wordstat": 65,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon ec",
+     "impressions_wordstat": 63,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon программы",
+     "impressions_wordstat": 62,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "www maxon net",
+     "impressions_wordstat": 60,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "https www maxon net",
+     "impressions_wordstat": 59,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon od808",
+     "impressions_wordstat": 56,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon studio",
+     "impressions_wordstat": 56,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon download",
+     "impressions_wordstat": 51,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon cinema 2026",
+     "impressions_wordstat": 51,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon cinema 4d 2026",
+     "impressions_wordstat": 51,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon hydramax lotion restorative moisturizer",
+     "impressions_wordstat": 49,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon 2024",
+     "impressions_wordstat": 49,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon dc",
+     "impressions_wordstat": 45,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon dc motor",
+     "impressions_wordstat": 45,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon 4d studio",
+     "impressions_wordstat": 45,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon cinema 4d studio",
+     "impressions_wordstat": 45,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon od",
+     "impressions_wordstat": 44,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon двигатель",
+     "impressions_wordstat": 44,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon margiela",
+     "impressions_wordstat": 43,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon песня",
+     "impressions_wordstat": 41,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "https www maxon net en try",
+     "impressions_wordstat": 40,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon effects",
+     "impressions_wordstat": 39,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon after effects",
+     "impressions_wordstat": 38,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon горелки",
+     "impressions_wordstat": 37,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon crack",
+     "impressions_wordstat": 37,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon 2025",
+     "impressions_wordstat": 36,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "папка maxon",
+     "impressions_wordstat": 36,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon rlm",
+     "impressions_wordstat": 35,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon cinema 4d redshift",
+     "impressions_wordstat": 35,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon app 2026",
+     "impressions_wordstat": 34,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon телефон раскладушка",
+     "impressions_wordstat": 32,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon приложение",
+     "impressions_wordstat": 31,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon licensing",
+     "impressions_wordstat": 31,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon sd 9 japan",
+     "impressions_wordstat": 30,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon скачать торрент",
+     "impressions_wordstat": 30,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon mx b4",
+     "impressions_wordstat": 30,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon cinema 4d что это за программа",
+     "impressions_wordstat": 29,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon cinema что это за программа",
+     "impressions_wordstat": 29,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon 808",
+     "impressions_wordstat": 29,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon лицензия",
+     "impressions_wordstat": 28,
+     "intent": "commercial"
+    },
+    {
+     "phrase": "моторы maxon",
+     "impressions_wordstat": 28,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon рация",
+     "impressions_wordstat": 28,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon 2023",
+     "impressions_wordstat": 27,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon sd 9 sonic distortion",
+     "impressions_wordstat": 27,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon 27 lp",
+     "impressions_wordstat": 27,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon app 2026.1 0",
+     "impressions_wordstat": 26,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon 4d скачать торрент",
+     "impressions_wordstat": 26,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon cinema 4d скачать торрент",
+     "impressions_wordstat": 26,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon cinema 4d торрент",
+     "impressions_wordstat": 26,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon cinebench 2026",
+     "impressions_wordstat": 26,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon 335899",
+     "impressions_wordstat": 26,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon universe",
+     "impressions_wordstat": 25,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon od 808",
+     "impressions_wordstat": 25,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "редуктор maxon",
+     "impressions_wordstat": 23,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "инструкция к микшерному пульту maxon mx 6",
+     "impressions_wordstat": 23,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon app download",
+     "impressions_wordstat": 23,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "install maxon app",
+     "impressions_wordstat": 23,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon sd 9 japan купить",
+     "impressions_wordstat": 22,
+     "intent": "commercial"
+    },
+    {
+     "phrase": "maxon cinema 4d 2023",
+     "impressions_wordstat": 22,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon отзывы",
+     "impressions_wordstat": 22,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "pm100 maxon",
+     "impressions_wordstat": 22,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "118721 maxon",
+     "impressions_wordstat": 22,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon 10",
+     "impressions_wordstat": 21,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon systems",
+     "impressions_wordstat": 21,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon app 2024",
+     "impressions_wordstat": 20,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon dcx",
+     "impressions_wordstat": 20,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "как удалить maxon",
+     "impressions_wordstat": 20,
+     "intent": "informational"
+    },
+    {
+     "phrase": "maxon схема",
+     "impressions_wordstat": 20,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon sd 9 sonic distortion купить",
+     "impressions_wordstat": 19,
+     "intent": "commercial"
+    },
+    {
+     "phrase": "maxon creators",
+     "impressions_wordstat": 19,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon cinema 4",
+     "impressions_wordstat": 18,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon 820",
+     "impressions_wordstat": 18,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon cinema 2024",
+     "impressions_wordstat": 17,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon cinema 4d 2024",
+     "impressions_wordstat": 17,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "сайт maxon",
+     "impressions_wordstat": 17,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon app 2026.1 0 скачать",
+     "impressions_wordstat": 17,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "135545 maxon",
+     "impressions_wordstat": 17,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon app 11025 ошибка",
+     "impressions_wordstat": 17,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon cinema 4d after effects",
+     "impressions_wordstat": 17,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon ec i 40",
+     "impressions_wordstat": 17,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon 3d",
+     "impressions_wordstat": 16,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "c program files maxon",
+     "impressions_wordstat": 16,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon exe",
+     "impressions_wordstat": 16,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon 652992 ec i 40",
+     "impressions_wordstat": 16,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "cineware maxon",
+     "impressions_wordstat": 15,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon 5",
+     "impressions_wordstat": 15,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "скачать maxon cinema 4d 2026 rerack",
+     "impressions_wordstat": 15,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon daot rework",
+     "impressions_wordstat": 15,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon adobe",
+     "impressions_wordstat": 15,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon усть",
+     "impressions_wordstat": 14,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon усть каменогорск",
+     "impressions_wordstat": 14,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon ae",
+     "impressions_wordstat": 14,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon кинотеатр",
+     "impressions_wordstat": 14,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon creators dreamworks",
+     "impressions_wordstat": 14,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon cinema 4d 2025",
+     "impressions_wordstat": 14,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon ecosystem",
+     "impressions_wordstat": 14,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "электродвигатель maxon",
+     "impressions_wordstat": 13,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon c4d",
+     "impressions_wordstat": 13,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon motor 142775",
+     "impressions_wordstat": 13,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon re",
+     "impressions_wordstat": 12,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon app 2026.5 0 crack",
+     "impressions_wordstat": 12,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon cinema r16 торрент",
+     "impressions_wordstat": 12,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "рации maxon 27 lp",
+     "impressions_wordstat": 12,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon app rlm",
+     "impressions_wordstat": 12,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon 218803 pdf",
+     "impressions_wordstat": 12,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon mx 7920",
+     "impressions_wordstat": 12,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon 10 метров",
+     "impressions_wordstat": 12,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon zbrush 2026",
+     "impressions_wordstat": 11,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon zbrush скачать",
+     "impressions_wordstat": 11,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon скачать бесплатно",
+     "impressions_wordstat": 11,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon isaev",
+     "impressions_wordstat": 11,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon motor каталог",
+     "impressions_wordstat": 11,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon app 2025",
+     "impressions_wordstat": 11,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon app 2024.5",
+     "impressions_wordstat": 11,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon motor 283840",
+     "impressions_wordstat": 11,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "hido maxon",
+     "impressions_wordstat": 11,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon od808 overdrive",
+     "impressions_wordstat": 10,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon s",
+     "impressions_wordstat": 10,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon autograph скачать",
+     "impressions_wordstat": 10,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon cinema 4d можно ли удалить",
+     "impressions_wordstat": 10,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "электрод maxon 027732",
+     "impressions_wordstat": 10,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "rlm mode maxon что это",
+     "impressions_wordstat": 10,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon mx5010",
+     "impressions_wordstat": 10,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon app 2026 скачать",
+     "impressions_wordstat": 10,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon официальный сайт",
+     "impressions_wordstat": 10,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "ballozi maxon",
+     "impressions_wordstat": 10,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon motor 124326",
+     "impressions_wordstat": 10,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "482944 maxon",
+     "impressions_wordstat": 10,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon od820",
+     "impressions_wordstat": 10,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon 273754",
+     "impressions_wordstat": 9,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon sd 9 sonic distortion japan купить",
+     "impressions_wordstat": 9,
+     "intent": "commercial"
+    },
+    {
+     "phrase": "maxon ec motor",
+     "impressions_wordstat": 9,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon autograph does not save program settings",
+     "impressions_wordstat": 9,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon changelog",
+     "impressions_wordstat": 9,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon app 2025 скачать",
+     "impressions_wordstat": 9,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon rapper",
+     "impressions_wordstat": 9,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon cinema 4d 2026.3 3 скачать",
+     "impressions_wordstat": 9,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon login",
+     "impressions_wordstat": 9,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "high like me maxon",
+     "impressions_wordstat": 8,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon motor 135545",
+     "impressions_wordstat": 8,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "как удалить maxon app",
+     "impressions_wordstat": 8,
+     "intent": "informational"
+    },
+    {
+     "phrase": "maxon кинотеатр усть",
+     "impressions_wordstat": 8,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon кинотеатр усть каменогорск",
+     "impressions_wordstat": 8,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon computer gmbh",
+     "impressions_wordstat": 8,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon 261191",
+     "impressions_wordstat": 8,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "купить нить covidien maxon 3 0",
+     "impressions_wordstat": 8,
+     "intent": "commercial"
+    },
+    {
+     "phrase": "maxon cinema 16",
+     "impressions_wordstat": 8,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon zbrush 2023.2 2",
+     "impressions_wordstat": 8,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon 404",
+     "impressions_wordstat": 8,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon чья компания",
+     "impressions_wordstat": 7,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "реклама телефона maxon",
+     "impressions_wordstat": 7,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon st9 pro super tube аналог",
+     "impressions_wordstat": 7,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon od 808 japan",
+     "impressions_wordstat": 7,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon od808 и копия как отличить видео",
+     "impressions_wordstat": 7,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "беспроводной приемник видеосигнала maxon wx02",
+     "impressions_wordstat": 7,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon dc motor 43.032 000 22.00 074",
+     "impressions_wordstat": 6,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon mx d7 микшерный пульт обзор",
+     "impressions_wordstat": 6,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon афиша",
+     "impressions_wordstat": 6,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon mx 1000 разъем",
+     "impressions_wordstat": 6,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "1020383 maxon motor какое напряжение",
+     "impressions_wordstat": 6,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon b16",
+     "impressions_wordstat": 6,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "песня помним maxon",
+     "impressions_wordstat": 6,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon cinema усть",
+     "impressions_wordstat": 6,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon cinema усть каменогорск",
+     "impressions_wordstat": 6,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon панель",
+     "impressions_wordstat": 6,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon vpn",
+     "impressions_wordstat": 6,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon 868 своими руками",
+     "impressions_wordstat": 5,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "антенна maxon на 20 метровый диапазон",
+     "impressions_wordstat": 5,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon autograph не сохраняются настройки программы",
+     "impressions_wordstat": 5,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon app 2026 5.0",
+     "impressions_wordstat": 5,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon cinebench r23",
+     "impressions_wordstat": 5,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon cinebench скачать",
+     "impressions_wordstat": 5,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon человек паук текст песни",
+     "impressions_wordstat": 5,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon cinema 4d 2026.3 3 скачать торрент",
+     "impressions_wordstat": 5,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon sd 270 форум",
+     "impressions_wordstat": 5,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon ленинский просп 119 отзывы",
+     "impressions_wordstat": 5,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon motor 142775 цена",
+     "impressions_wordstat": 5,
+     "intent": "commercial"
+    },
+    {
+     "phrase": "мотор maxon 1224",
+     "impressions_wordstat": 5,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon step motor",
+     "impressions_wordstat": 5,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon газовый клапан механический",
+     "impressions_wordstat": 5,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "sm2450 maxon",
+     "impressions_wordstat": 5,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon sd 9 отзывы",
+     "impressions_wordstat": 5,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "ballozi maxon antisplit",
+     "impressions_wordstat": 5,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon датчики",
+     "impressions_wordstat": 5,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "высоковольтный провод для горелки maxon",
+     "impressions_wordstat": 5,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "антенна maxon на 40 метров",
+     "impressions_wordstat": 5,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon hall in english",
+     "impressions_wordstat": 5,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon od 820 schematic",
+     "impressions_wordstat": 5,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maxon cinema усть каменогорск афиша",
+     "impressions_wordstat": 4,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "афиша усть каменогорск maxon",
+     "impressions_wordstat": 4,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "как удалить maxon app с компьютера полностью",
+     "impressions_wordstat": 3,
+     "intent": "informational"
+    }
+   ],
    "associations": [],
-   "commercial_phrases": 0,
-   "commercial_impressions": null,
-   "confidence": "low"
+   "commercial_phrases": 8,
+   "commercial_impressions": 331,
+   "confidence": "sufficient"
   },
   {
    "cluster": "miro",
@@ -26168,52 +27532,1618 @@
    "page": "/vendors/miro",
    "priority": 3,
    "relevance_token": "miro",
-   "status": "not_collected",
-   "coverage": "0/7",
-   "seed_impressions": null,
+   "status": "ok",
+   "coverage": "6/7",
+   "seed_impressions": 49587,
    "probes": [
     {
      "phrase": "miro",
-     "status": "not_collected",
-     "total_impressions": null
+     "status": "ok",
+     "total_impressions": 49587
     },
     {
      "phrase": "miro купить",
-     "status": "not_collected",
-     "total_impressions": null
+     "status": "ok",
+     "total_impressions": 291
     },
     {
      "phrase": "miro оплата",
-     "status": "not_collected",
-     "total_impressions": null
+     "status": "ok",
+     "total_impressions": 10
     },
     {
      "phrase": "miro для юридических лиц",
-     "status": "not_collected",
+     "status": "below_threshold",
      "total_impressions": null
     },
     {
      "phrase": "miro тариф",
-     "status": "not_collected",
-     "total_impressions": null
+     "status": "ok",
+     "total_impressions": 25
     },
     {
      "phrase": "miro подписка",
-     "status": "not_collected",
-     "total_impressions": null
+     "status": "ok",
+     "total_impressions": 67
     },
     {
      "phrase": "miro лицензия",
-     "status": "not_collected",
-     "total_impressions": null
+     "status": "ok",
+     "total_impressions": 4
     }
    ],
    "phrases_dropped_as_irrelevant": 0,
-   "phrases": [],
+   "phrases": [
+    {
+     "phrase": "miro",
+     "impressions_wordstat": 49587,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro доска",
+     "impressions_wordstat": 7106,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro интерактивная",
+     "impressions_wordstat": 4832,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro доска интерактивная",
+     "impressions_wordstat": 4796,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro com",
+     "impressions_wordstat": 2518,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro скачать",
+     "impressions_wordstat": 1553,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "elena miro",
+     "impressions_wordstat": 976,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro board",
+     "impressions_wordstat": 840,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "https miro",
+     "impressions_wordstat": 819,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "https miro com",
+     "impressions_wordstat": 780,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro онлайн",
+     "impressions_wordstat": 722,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro 2",
+     "impressions_wordstat": 661,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro ai",
+     "impressions_wordstat": 659,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro s",
+     "impressions_wordstat": 650,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "онлайн доска miro",
+     "impressions_wordstat": 631,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "порно miro",
+     "impressions_wordstat": 604,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro app",
+     "impressions_wordstat": 602,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "аналог miro",
+     "impressions_wordstat": 548,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro com app",
+     "impressions_wordstat": 544,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro avelines quest",
+     "impressions_wordstat": 532,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "zlata miro",
+     "impressions_wordstat": 530,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro 3",
+     "impressions_wordstat": 500,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro board app",
+     "impressions_wordstat": 492,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro com app board",
+     "impressions_wordstat": 481,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "https miro com app",
+     "impressions_wordstat": 471,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "rant miro",
+     "impressions_wordstat": 460,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro share",
+     "impressions_wordstat": 456,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro aveline s quest",
+     "impressions_wordstat": 456,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro porn",
+     "impressions_wordstat": 447,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro 1",
+     "impressions_wordstat": 446,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "https miro com app board",
+     "impressions_wordstat": 416,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro link",
+     "impressions_wordstat": 415,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro приложение",
+     "impressions_wordstat": 392,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "песни miro",
+     "impressions_wordstat": 386,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro одежда",
+     "impressions_wordstat": 374,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro скачать бесплатно",
+     "impressions_wordstat": 359,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "сайт miro",
+     "impressions_wordstat": 324,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro на русском",
+     "impressions_wordstat": 322,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro 4",
+     "impressions_wordstat": 315,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "elena miro одежда",
+     "impressions_wordstat": 315,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro видео",
+     "impressions_wordstat": 295,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro купить",
+     "impressions_wordstat": 291,
+     "intent": "commercial"
+    },
+    {
+     "phrase": "miro вход",
+     "impressions_wordstat": 288,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "zlata miro слив",
+     "impressions_wordstat": 285,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro на компьютер",
+     "impressions_wordstat": 284,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro скачать на компьютер",
+     "impressions_wordstat": 265,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro остекление",
+     "impressions_wordstat": 263,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro 3d",
+     "impressions_wordstat": 260,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro video",
+     "impressions_wordstat": 254,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro avelines quest ep2",
+     "impressions_wordstat": 249,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro share board",
+     "impressions_wordstat": 246,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro ai porn",
+     "impressions_wordstat": 245,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro porno",
+     "impressions_wordstat": 241,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro платформа",
+     "impressions_wordstat": 240,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro доска скачать",
+     "impressions_wordstat": 238,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro futa",
+     "impressions_wordstat": 233,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro скачать бесплатно на компьютер",
+     "impressions_wordstat": 232,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "уроки miro",
+     "impressions_wordstat": 228,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "автолюлька miro",
+     "impressions_wordstat": 227,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "aveline s quest ep2 miro",
+     "impressions_wordstat": 220,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "me miro",
+     "impressions_wordstat": 219,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro создать",
+     "impressions_wordstat": 218,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "affect3d miro",
+     "impressions_wordstat": 214,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro ru",
+     "impressions_wordstat": 211,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro short",
+     "impressions_wordstat": 205,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro перевод",
+     "impressions_wordstat": 204,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro sun beauty",
+     "impressions_wordstat": 200,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "автолюлька rant miro",
+     "impressions_wordstat": 199,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro безрамное",
+     "impressions_wordstat": 197,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro de",
+     "impressions_wordstat": 196,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro официальный сайт",
+     "impressions_wordstat": 194,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro semberac",
+     "impressions_wordstat": 192,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "https miro com welcomeonboard",
+     "impressions_wordstat": 187,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "https miro welcomeonboard",
+     "impressions_wordstat": 187,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro безрамное остекление",
+     "impressions_wordstat": 185,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro карта",
+     "impressions_wordstat": 178,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro short drops",
+     "impressions_wordstat": 176,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "dj miro",
+     "impressions_wordstat": 175,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "futanari miro",
+     "impressions_wordstat": 170,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro английский",
+     "impressions_wordstat": 168,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro magic",
+     "impressions_wordstat": 164,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro upgrade",
+     "impressions_wordstat": 158,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "доска miro com",
+     "impressions_wordstat": 153,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "мир miros",
+     "impressions_wordstat": 147,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "автокресло miro",
+     "impressions_wordstat": 146,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro работа",
+     "impressions_wordstat": 144,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro xxx",
+     "impressions_wordstat": 143,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "joan miro",
+     "impressions_wordstat": 140,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro яндекс",
+     "impressions_wordstat": 139,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "elena miro официальный",
+     "impressions_wordstat": 139,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "elena miro официальный сайт",
+     "impressions_wordstat": 139,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro вакансии",
+     "impressions_wordstat": 137,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "diana miro",
+     "impressions_wordstat": 137,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro отзывы",
+     "impressions_wordstat": 134,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro mahnilari",
+     "impressions_wordstat": 134,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro предохранители",
+     "impressions_wordstat": 133,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro shorts porn",
+     "impressions_wordstat": 132,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "бренд miro",
+     "impressions_wordstat": 132,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "скачать песню miro",
+     "impressions_wordstat": 131,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro в россии",
+     "impressions_wordstat": 130,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro схемы",
+     "impressions_wordstat": 130,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro lessons",
+     "impressions_wordstat": 129,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro shorts drop porn",
+     "impressions_wordstat": 127,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro world",
+     "impressions_wordstat": 127,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "миро miro",
+     "impressions_wordstat": 126,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro 2026",
+     "impressions_wordstat": 122,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro in the mirror",
+     "impressions_wordstat": 122,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro com онлайн",
+     "impressions_wordstat": 121,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "ai futa miro",
+     "impressions_wordstat": 120,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro in the magic mirror",
+     "impressions_wordstat": 120,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "доску miro на русском",
+     "impressions_wordstat": 119,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro com онлайн доска",
+     "impressions_wordstat": 118,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "очки miro",
+     "impressions_wordstat": 118,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro onsuz",
+     "impressions_wordstat": 118,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro mp3",
+     "impressions_wordstat": 117,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro как добавить",
+     "impressions_wordstat": 116,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "dj ilham dj miro",
+     "impressions_wordstat": 115,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "орхидея miro sun beauty",
+     "impressions_wordstat": 115,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miros glamp",
+     "impressions_wordstat": 114,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "теплые полы miro",
+     "impressions_wordstat": 113,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "автокресло rant miro",
+     "impressions_wordstat": 113,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "система miro",
+     "impressions_wordstat": 113,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro для репетитора",
+     "impressions_wordstat": 113,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro 18",
+     "impressions_wordstat": 111,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "rue de miro",
+     "impressions_wordstat": 111,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro ии",
+     "impressions_wordstat": 110,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro доска интерактивная скачать",
+     "impressions_wordstat": 110,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro обучение",
+     "impressions_wordstat": 109,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "hentai miro",
+     "impressions_wordstat": 108,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "виртуальная доска miro",
+     "impressions_wordstat": 108,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro 8",
+     "impressions_wordstat": 107,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro ai video",
+     "impressions_wordstat": 107,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "d miro",
+     "impressions_wordstat": 106,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro таблица",
+     "impressions_wordstat": 105,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro porn videos",
+     "impressions_wordstat": 105,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro download",
+     "impressions_wordstat": 104,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "zlata miro порно",
+     "impressions_wordstat": 104,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro инструкция",
+     "impressions_wordstat": 103,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "notion miro",
+     "impressions_wordstat": 103,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro на русском языке",
+     "impressions_wordstat": 103,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "porn futa miro",
+     "impressions_wordstat": 102,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro aveline s quest 2",
+     "impressions_wordstat": 100,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "magic world miro miro",
+     "impressions_wordstat": 100,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro in the magic mirror world",
+     "impressions_wordstat": 100,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro инструмент",
+     "impressions_wordstat": 100,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro шаблоны",
+     "impressions_wordstat": 97,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "доска miro для репетиторов",
+     "impressions_wordstat": 97,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro ai futanari",
+     "impressions_wordstat": 96,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "бесплатная доска miro",
+     "impressions_wordstat": 95,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro google",
+     "impressions_wordstat": 95,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro доска приложение",
+     "impressions_wordstat": 95,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro sun beauty 3521",
+     "impressions_wordstat": 94,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miros town 3.0",
+     "impressions_wordstat": 92,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "phal miro sun beauty",
+     "impressions_wordstat": 90,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro c",
+     "impressions_wordstat": 90,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro haverinen",
+     "impressions_wordstat": 89,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro фото",
+     "impressions_wordstat": 89,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro nude",
+     "impressions_wordstat": 88,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "3d affect miro",
+     "impressions_wordstat": 88,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "maurice lacroix miros",
+     "impressions_wordstat": 88,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro free",
+     "impressions_wordstat": 88,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro b",
+     "impressions_wordstat": 88,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro lift",
+     "impressions_wordstat": 86,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "зеркало miro",
+     "impressions_wordstat": 86,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro 9",
+     "impressions_wordstat": 86,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro slide",
+     "impressions_wordstat": 83,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "ai futanari porn by miro",
+     "impressions_wordstat": 82,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro ai porn videos",
+     "impressions_wordstat": 80,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro canvas",
+     "impressions_wordstat": 79,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro картинки",
+     "impressions_wordstat": 79,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "скачать приложение miro",
+     "impressions_wordstat": 79,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "компания miro",
+     "impressions_wordstat": 77,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "pur ti miro",
+     "impressions_wordstat": 77,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "avelines quest episode 2 miro",
+     "impressions_wordstat": 77,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro english",
+     "impressions_wordstat": 76,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "sap miro",
+     "impressions_wordstat": 76,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro in the magical mirror",
+     "impressions_wordstat": 75,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "magical mirror girl miro",
+     "impressions_wordstat": 75,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro как пользоваться",
+     "impressions_wordstat": 75,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro урок английского",
+     "impressions_wordstat": 75,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro figma",
+     "impressions_wordstat": 75,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro lift видео",
+     "impressions_wordstat": 74,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro com на русском",
+     "impressions_wordstat": 74,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro map",
+     "impressions_wordstat": 74,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "база miro",
+     "impressions_wordstat": 73,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "padlet miro",
+     "impressions_wordstat": 73,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "российский аналог miro",
+     "impressions_wordstat": 72,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "сервиса miro",
+     "impressions_wordstat": 72,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "хентай miro",
+     "impressions_wordstat": 72,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "big boom dj ilham dj miro",
+     "impressions_wordstat": 71,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro зайти",
+     "impressions_wordstat": 70,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "holst miro",
+     "impressions_wordstat": 70,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "untitled miro",
+     "impressions_wordstat": 70,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "e miro",
+     "impressions_wordstat": 70,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "wiking miro",
+     "impressions_wordstat": 69,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miros town dvd",
+     "impressions_wordstat": 69,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "te miro",
+     "impressions_wordstat": 69,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro платформа для обучения",
+     "impressions_wordstat": 69,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro личный кабинет",
+     "impressions_wordstat": 69,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "shorts drop 6 by miro",
+     "impressions_wordstat": 68,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "новая miro",
+     "impressions_wordstat": 68,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro доступ",
+     "impressions_wordstat": 68,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro на русском онлайн",
+     "impressions_wordstat": 68,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro магазин",
+     "impressions_wordstat": 68,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro регистрация",
+     "impressions_wordstat": 67,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "аналоги miro доски",
+     "impressions_wordstat": 67,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro подписка",
+     "impressions_wordstat": 67,
+     "intent": "commercial"
+    },
+    {
+     "phrase": "miro онлайн доска на русском",
+     "impressions_wordstat": 66,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "phal miro sun beauty 3521",
+     "impressions_wordstat": 66,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "yandex miro",
+     "impressions_wordstat": 66,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro редактор",
+     "impressions_wordstat": 64,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "перевод песни miro",
+     "impressions_wordstat": 64,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "al miros",
+     "impressions_wordstat": 62,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "zlata miro слив порно",
+     "impressions_wordstat": 62,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro презентации",
+     "impressions_wordstat": 61,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "https miro ru",
+     "impressions_wordstat": 61,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro на пк",
+     "impressions_wordstat": 60,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "mind miro",
+     "impressions_wordstat": 60,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "порно miro ai",
+     "impressions_wordstat": 60,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro visio",
+     "impressions_wordstat": 60,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro yandex ru",
+     "impressions_wordstat": 59,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro готовые уроки",
+     "impressions_wordstat": 59,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "rue de miro масло",
+     "impressions_wordstat": 57,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "установить miro",
+     "impressions_wordstat": 57,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro цены",
+     "impressions_wordstat": 57,
+     "intent": "commercial"
+    },
+    {
+     "phrase": "miro вход в личный кабинет",
+     "impressions_wordstat": 57,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "скачать miro на пк",
+     "impressions_wordstat": 57,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "работает ли miro",
+     "impressions_wordstat": 57,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "zlata miro nude",
+     "impressions_wordstat": 57,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "j miro",
+     "impressions_wordstat": 57,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro com онлайн доска на русском",
+     "impressions_wordstat": 56,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "cosmic gate diana miro",
+     "impressions_wordstat": 56,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "rant miro ay370",
+     "impressions_wordstat": 56,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro online",
+     "impressions_wordstat": 55,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro futa quest",
+     "impressions_wordstat": 55,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro futa quest aveline",
+     "impressions_wordstat": 55,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro нейросеть",
+     "impressions_wordstat": 55,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "голые miro",
+     "impressions_wordstat": 55,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "canva miro",
+     "impressions_wordstat": 54,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro io",
+     "impressions_wordstat": 53,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "elena miro магазины",
+     "impressions_wordstat": 53,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro login",
+     "impressions_wordstat": 52,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "использование miro",
+     "impressions_wordstat": 52,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro визуализация",
+     "impressions_wordstat": 52,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "antonio miro",
+     "impressions_wordstat": 51,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "профиль miro",
+     "impressions_wordstat": 51,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "проект miro",
+     "impressions_wordstat": 51,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro lite",
+     "impressions_wordstat": 51,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro работает в россии",
+     "impressions_wordstat": 51,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro 3d porn",
+     "impressions_wordstat": 51,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro pdf",
+     "impressions_wordstat": 50,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "obsidian miro notion",
+     "impressions_wordstat": 50,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro windows",
+     "impressions_wordstat": 50,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro drawing",
+     "impressions_wordstat": 50,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro semberac jadna bosno",
+     "impressions_wordstat": 50,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro зайти по почте",
+     "impressions_wordstat": 50,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "электронная доска miro",
+     "impressions_wordstat": 50,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro mindmeister",
+     "impressions_wordstat": 50,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro vk",
+     "impressions_wordstat": 50,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro скачать на русском",
+     "impressions_wordstat": 50,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro зарегистрироваться",
+     "impressions_wordstat": 49,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro edit",
+     "impressions_wordstat": 49,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "aveline s quest ep2 miro porno",
+     "impressions_wordstat": 49,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro слушать",
+     "impressions_wordstat": 49,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "senya miro",
+     "impressions_wordstat": 49,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro для учителей",
+     "impressions_wordstat": 49,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "телемост miro",
+     "impressions_wordstat": 49,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "ссылка на miro",
+     "impressions_wordstat": 49,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "sex miro",
+     "impressions_wordstat": 48,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro semberac jadna bosno suverena",
+     "impressions_wordstat": 48,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro draw",
+     "impressions_wordstat": 48,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro sims",
+     "impressions_wordstat": 48,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro команда",
+     "impressions_wordstat": 48,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro доска 2",
+     "impressions_wordstat": 48,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "доска miro скачать бесплатно",
+     "impressions_wordstat": 47,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro что это за программа",
+     "impressions_wordstat": 47,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro com ru",
+     "impressions_wordstat": 47,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "орхидея miro sun beauty 3521",
+     "impressions_wordstat": 47,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro интернет магазин",
+     "impressions_wordstat": 47,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro игра",
+     "impressions_wordstat": 47,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro войти",
+     "impressions_wordstat": 47,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "альтернатива miro",
+     "impressions_wordstat": 47,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro доска интерактивная на русском",
+     "impressions_wordstat": 46,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro открыть",
+     "impressions_wordstat": 46,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "flip miro",
+     "impressions_wordstat": 46,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro torrent",
+     "impressions_wordstat": 46,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro аккаунт",
+     "impressions_wordstat": 46,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro jira",
+     "impressions_wordstat": 46,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro рф",
+     "impressions_wordstat": 46,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "elena miro интернет",
+     "impressions_wordstat": 45,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miros 12",
+     "impressions_wordstat": 45,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro окна",
+     "impressions_wordstat": 45,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro платья",
+     "impressions_wordstat": 45,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro математика",
+     "impressions_wordstat": 45,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro havalardan",
+     "impressions_wordstat": 45,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro 955",
+     "impressions_wordstat": 45,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro процессы",
+     "impressions_wordstat": 45,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "zlata miro голая",
+     "impressions_wordstat": 44,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "elena miro интернет магазин",
+     "impressions_wordstat": 44,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "miro draw io",
+     "impressions_wordstat": 44,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "elena miro купить",
+     "impressions_wordstat": 42,
+     "intent": "commercial"
+    },
+    {
+     "phrase": "miro тарифы",
+     "impressions_wordstat": 25,
+     "intent": "commercial"
+    },
+    {
+     "phrase": "elena miro одежда купить",
+     "impressions_wordstat": 22,
+     "intent": "commercial"
+    },
+    {
+     "phrase": "1139 3 переговорное устройство ip miro купить",
+     "impressions_wordstat": 15,
+     "intent": "commercial"
+    },
+    {
+     "phrase": "купить подписку miro",
+     "impressions_wordstat": 14,
+     "intent": "commercial"
+    },
+    {
+     "phrase": "благовоние церковное agion miro пасхалия где купить",
+     "impressions_wordstat": 12,
+     "intent": "commercial"
+    },
+    {
+     "phrase": "елена миро elena miro женская одежда купить",
+     "impressions_wordstat": 11,
+     "intent": "commercial"
+    },
+    {
+     "phrase": "miro оплата",
+     "impressions_wordstat": 10,
+     "intent": "commercial"
+    },
+    {
+     "phrase": "maurice lacroix miros 69848 купить",
+     "impressions_wordstat": 9,
+     "intent": "commercial"
+    },
+    {
+     "phrase": "miro explore купить",
+     "impressions_wordstat": 7,
+     "intent": "commercial"
+    },
+    {
+     "phrase": "elena miro пуховик купить",
+     "impressions_wordstat": 7,
+     "intent": "commercial"
+    },
+    {
+     "phrase": "marie miro сарафан купить",
+     "impressions_wordstat": 5,
+     "intent": "commercial"
+    },
+    {
+     "phrase": "купить одежду antonio miro",
+     "impressions_wordstat": 5,
+     "intent": "commercial"
+    }
+   ],
    "associations": [],
-   "commercial_phrases": 0,
-   "commercial_impressions": null,
-   "confidence": "low"
+   "commercial_phrases": 16,
+   "commercial_impressions": 599,
+   "confidence": "sufficient"
   },
   {
    "cluster": "monotype",
@@ -26221,52 +29151,323 @@
    "page": "/vendors/monotype",
    "priority": 3,
    "relevance_token": "monotype",
-   "status": "not_collected",
-   "coverage": "0/7",
-   "seed_impressions": null,
+   "status": "ok",
+   "coverage": "3/7",
+   "seed_impressions": 1362,
    "probes": [
     {
      "phrase": "monotype",
-     "status": "not_collected",
-     "total_impressions": null
+     "status": "ok",
+     "total_impressions": 1362
     },
     {
      "phrase": "monotype купить",
-     "status": "not_collected",
-     "total_impressions": null
+     "status": "ok",
+     "total_impressions": 5
     },
     {
      "phrase": "monotype оплата",
-     "status": "not_collected",
+     "status": "below_threshold",
      "total_impressions": null
     },
     {
      "phrase": "monotype для юридических лиц",
-     "status": "not_collected",
+     "status": "below_threshold",
      "total_impressions": null
     },
     {
      "phrase": "monotype тариф",
-     "status": "not_collected",
+     "status": "below_threshold",
      "total_impressions": null
     },
     {
      "phrase": "monotype подписка",
-     "status": "not_collected",
+     "status": "below_threshold",
      "total_impressions": null
     },
     {
      "phrase": "monotype лицензия",
-     "status": "not_collected",
-     "total_impressions": null
+     "status": "ok",
+     "total_impressions": 44
     }
    ],
    "phrases_dropped_as_irrelevant": 0,
-   "phrases": [],
+   "phrases": [
+    {
+     "phrase": "monotype",
+     "impressions_wordstat": 1362,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "monotype corsiva",
+     "impressions_wordstat": 855,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "шрифт monotype",
+     "impressions_wordstat": 709,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "шрифт monotype corsiva",
+     "impressions_wordstat": 586,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "monotype скачать",
+     "impressions_wordstat": 404,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "шрифты monotype скачать",
+     "impressions_wordstat": 358,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "monotype corsiva скачать",
+     "impressions_wordstat": 336,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "monotype corsiva скачать шрифт",
+     "impressions_wordstat": 318,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "monotype corsiva русский",
+     "impressions_wordstat": 52,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "monotype шрифты русские",
+     "impressions_wordstat": 50,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "шрифт monotype corsiva русский",
+     "impressions_wordstat": 50,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "monotype лицензия",
+     "impressions_wordstat": 44,
+     "intent": "commercial"
+    },
+    {
+     "phrase": "monotype кириллица",
+     "impressions_wordstat": 43,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "monotype corsiva русский скачать",
+     "impressions_wordstat": 41,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "скачать шрифт monotype corsiva русский",
+     "impressions_wordstat": 41,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "скачать шрифт monotype русский",
+     "impressions_wordstat": 41,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "monotype corsiva кириллица",
+     "impressions_wordstat": 41,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "monotype imaging",
+     "impressions_wordstat": 35,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "monotype fonts",
+     "impressions_wordstat": 33,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "бесплатные шрифты monotype",
+     "impressions_wordstat": 32,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "monotype bold",
+     "impressions_wordstat": 30,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "monotype corsiva шрифт кириллица",
+     "impressions_wordstat": 29,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "шрифт monotype кириллица",
+     "impressions_wordstat": 29,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "monotype corsiva лицензия",
+     "impressions_wordstat": 27,
+     "intent": "commercial"
+    },
+    {
+     "phrase": "monotype corsiva скачать шрифт кириллица",
+     "impressions_wordstat": 23,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "monotype corsiva bold",
+     "impressions_wordstat": 22,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "monotype com",
+     "impressions_wordstat": 21,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "шрифт monotype скачать бесплатно",
+     "impressions_wordstat": 21,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "monotype corsiva похожие",
+     "impressions_wordstat": 21,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "never sold monotypes",
+     "impressions_wordstat": 20,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "monotype corsiva скачать бесплатно",
+     "impressions_wordstat": 18,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "скачать шрифты бесплатно monotype corsiva",
+     "impressions_wordstat": 18,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "monotype corsiva шрифт лицензия",
+     "impressions_wordstat": 18,
+     "intent": "commercial"
+    },
+    {
+     "phrase": "monotype coursiva",
+     "impressions_wordstat": 17,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "tommy jeans hilfiger monotype corduroy baseball cap",
+     "impressions_wordstat": 16,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "monotype regular",
+     "impressions_wordstat": 16,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "скачать шрифт monotype corsiva русский бесплатно",
+     "impressions_wordstat": 15,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "шрифт похожий на monotype corsiva",
+     "impressions_wordstat": 15,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "com monotype android",
+     "impressions_wordstat": 14,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "com monotype android font",
+     "impressions_wordstat": 14,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "monotype android",
+     "impressions_wordstat": 14,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "monotype bold скачать",
+     "impressions_wordstat": 14,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "шрифт monotype bold",
+     "impressions_wordstat": 12,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "шрифт monotype bold скачать",
+     "impressions_wordstat": 11,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "monotype corsiva regular",
+     "impressions_wordstat": 10,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "monotype corsiva bold скачать",
+     "impressions_wordstat": 10,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "шрифт monotype corsiva bold",
+     "impressions_wordstat": 10,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "monotype corsiva cyrillic",
+     "impressions_wordstat": 10,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "шрифт monotype corsiva bold скачать",
+     "impressions_wordstat": 9,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "monotype cursiva",
+     "impressions_wordstat": 7,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "kolagoigopeb4864 gmail comsilver palace monotype beta test",
+     "impressions_wordstat": 5,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "monotype italic",
+     "impressions_wordstat": 5,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "com monotype android font samsungone",
+     "impressions_wordstat": 5,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "monotype corsiva italic",
+     "impressions_wordstat": 4,
+     "intent": "unknown"
+    }
+   ],
    "associations": [],
-   "commercial_phrases": 0,
-   "commercial_impressions": null,
-   "confidence": "low"
+   "commercial_phrases": 3,
+   "commercial_impressions": 89,
+   "confidence": "sufficient"
   },
   {
    "cluster": "motion-array",
@@ -26274,52 +29475,134 @@
    "page": "/vendors/motion-array",
    "priority": 3,
    "relevance_token": "motion",
-   "status": "not_collected",
-   "coverage": "0/7",
-   "seed_impressions": null,
+   "status": "ok",
+   "coverage": "3/7",
+   "seed_impressions": 923,
    "probes": [
     {
      "phrase": "motion array",
-     "status": "not_collected",
-     "total_impressions": null
+     "status": "ok",
+     "total_impressions": 923
     },
     {
      "phrase": "motion array купить",
-     "status": "not_collected",
-     "total_impressions": null
+     "status": "ok",
+     "total_impressions": 4
     },
     {
      "phrase": "motion array оплата",
-     "status": "not_collected",
+     "status": "below_threshold",
      "total_impressions": null
     },
     {
      "phrase": "motion array для юридических лиц",
-     "status": "not_collected",
+     "status": "below_threshold",
      "total_impressions": null
     },
     {
      "phrase": "motion array тариф",
-     "status": "not_collected",
+     "status": "below_threshold",
      "total_impressions": null
     },
     {
      "phrase": "motion array подписка",
-     "status": "not_collected",
-     "total_impressions": null
+     "status": "ok",
+     "total_impressions": 7
     },
     {
      "phrase": "motion array лицензия",
-     "status": "not_collected",
+     "status": "below_threshold",
      "total_impressions": null
     }
    ],
    "phrases_dropped_as_irrelevant": 0,
-   "phrases": [],
-   "associations": [],
-   "commercial_phrases": 0,
-   "commercial_impressions": null,
-   "confidence": "low"
+   "phrases": [
+    {
+     "phrase": "motion array",
+     "impressions_wordstat": 923,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "motion array free",
+     "impressions_wordstat": 16,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "motion array слушать",
+     "impressions_wordstat": 15,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "motion array бесплатно",
+     "impressions_wordstat": 14,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "motion array скачать бесплатно",
+     "impressions_wordstat": 14,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "motion array sounds",
+     "impressions_wordstat": 11,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "motion array com",
+     "impressions_wordstat": 7,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "скачать с motion array",
+     "impressions_wordstat": 7,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "motion array подписка",
+     "impressions_wordstat": 7,
+     "intent": "commercial"
+    },
+    {
+     "phrase": "motion array downloader",
+     "impressions_wordstat": 6,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "motion array premiere pro",
+     "impressions_wordstat": 5,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "clumsy puppy motion array скачать",
+     "impressions_wordstat": 5,
+     "intent": "unknown"
+    }
+   ],
+   "associations": [
+    {
+     "phrase": "motionmuse",
+     "impressions_wordstat": 1164,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "motion muse ai",
+     "impressions_wordstat": 763,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "motionarray",
+     "impressions_wordstat": 126,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "mesh2motion",
+     "impressions_wordstat": 108,
+     "intent": "unknown"
+    }
+   ],
+   "commercial_phrases": 1,
+   "commercial_impressions": 7,
+   "confidence": "sufficient"
   },
   {
    "cluster": "native-instruments",
@@ -26327,52 +29610,1583 @@
    "page": "/vendors/native-instruments",
    "priority": 3,
    "relevance_token": "native",
-   "status": "not_collected",
-   "coverage": "0/7",
-   "seed_impressions": null,
+   "status": "ok",
+   "coverage": "3/7",
+   "seed_impressions": 7507,
    "probes": [
     {
      "phrase": "native instruments",
-     "status": "not_collected",
-     "total_impressions": null
+     "status": "ok",
+     "total_impressions": 7507
     },
     {
      "phrase": "native instruments купить",
-     "status": "not_collected",
-     "total_impressions": null
+     "status": "ok",
+     "total_impressions": 143
     },
     {
      "phrase": "native instruments оплата",
-     "status": "not_collected",
+     "status": "below_threshold",
      "total_impressions": null
     },
     {
      "phrase": "native instruments для юридических лиц",
-     "status": "not_collected",
+     "status": "below_threshold",
      "total_impressions": null
     },
     {
      "phrase": "native instruments тариф",
-     "status": "not_collected",
+     "status": "below_threshold",
      "total_impressions": null
     },
     {
      "phrase": "native instruments подписка",
-     "status": "not_collected",
+     "status": "below_threshold",
      "total_impressions": null
     },
     {
      "phrase": "native instruments лицензия",
-     "status": "not_collected",
-     "total_impressions": null
+     "status": "ok",
+     "total_impressions": 12
     }
    ],
    "phrases_dropped_as_irrelevant": 0,
-   "phrases": [],
+   "phrases": [
+    {
+     "phrase": "native instruments",
+     "impressions_wordstat": 7507,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments traktor",
+     "impressions_wordstat": 879,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments kontrol",
+     "impressions_wordstat": 848,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments mk3",
+     "impressions_wordstat": 803,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments kontakt",
+     "impressions_wordstat": 798,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instrument's komplete instruments",
+     "impressions_wordstat": 782,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments komplete",
+     "impressions_wordstat": 782,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "скачать native instruments",
+     "impressions_wordstat": 706,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments maschine",
+     "impressions_wordstat": 663,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments komplete kontrol",
+     "impressions_wordstat": 340,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments traktor kontrol",
+     "impressions_wordstat": 327,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments pro",
+     "impressions_wordstat": 321,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments audio",
+     "impressions_wordstat": 310,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments session",
+     "impressions_wordstat": 279,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments s88",
+     "impressions_wordstat": 274,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments 2",
+     "impressions_wordstat": 267,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments 6",
+     "impressions_wordstat": 263,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments traktor mk3",
+     "impressions_wordstat": 255,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments guitar",
+     "impressions_wordstat": 253,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments kontrol s88",
+     "impressions_wordstat": 245,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments mk2",
+     "impressions_wordstat": 245,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instrument торрент",
+     "impressions_wordstat": 233,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments komplete audio",
+     "impressions_wordstat": 232,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "dj native instruments",
+     "impressions_wordstat": 232,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments guitar rig",
+     "impressions_wordstat": 224,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments maschine mk3",
+     "impressions_wordstat": 223,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments 1",
+     "impressions_wordstat": 217,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments traktor pro",
+     "impressions_wordstat": 206,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments 4",
+     "impressions_wordstat": 200,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "контроллер native instruments",
+     "impressions_wordstat": 199,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments скачать торрент",
+     "impressions_wordstat": 189,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instrument's massive",
+     "impressions_wordstat": 189,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments massive",
+     "impressions_wordstat": 189,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments guitarist",
+     "impressions_wordstat": 185,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments s4",
+     "impressions_wordstat": 179,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments traktor s4",
+     "impressions_wordstat": 176,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments session guitarist",
+     "impressions_wordstat": 174,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments kontakt скачать",
+     "impressions_wordstat": 168,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments traktor dj",
+     "impressions_wordstat": 167,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments kontakt 8",
+     "impressions_wordstat": 163,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments 7",
+     "impressions_wordstat": 160,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "dj контроллер native instruments",
+     "impressions_wordstat": 152,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments traktor dj контроллер",
+     "impressions_wordstat": 145,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments s88 mk3",
+     "impressions_wordstat": 144,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "купить native instruments",
+     "impressions_wordstat": 143,
+     "intent": "commercial"
+    },
+    {
+     "phrase": "native instruments kontrol s4",
+     "impressions_wordstat": 135,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments traktor kontrol s4",
+     "impressions_wordstat": 135,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments s2",
+     "impressions_wordstat": 135,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments komplete kontrol s88",
+     "impressions_wordstat": 133,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments komplete s88",
+     "impressions_wordstat": 133,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments mk1",
+     "impressions_wordstat": 133,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments клавиатура",
+     "impressions_wordstat": 133,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments vst",
+     "impressions_wordstat": 128,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments studio",
+     "impressions_wordstat": 123,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments audio 6",
+     "impressions_wordstat": 122,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "контроллер native instruments traktor kontrol",
+     "impressions_wordstat": 121,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments s61",
+     "impressions_wordstat": 118,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments kontrol s88 mk3",
+     "impressions_wordstat": 118,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments komplete 6",
+     "impressions_wordstat": 117,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments сайт",
+     "impressions_wordstat": 116,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "dj контроллер native instruments traktor kontrol",
+     "impressions_wordstat": 116,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments komplete audio 6",
+     "impressions_wordstat": 113,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments s4 mk3",
+     "impressions_wordstat": 113,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments 5",
+     "impressions_wordstat": 112,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments 3",
+     "impressions_wordstat": 112,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments kontrol s4 mk3",
+     "impressions_wordstat": 112,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments traktor kontrol s4 mk3",
+     "impressions_wordstat": 112,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments traktor s4 mk3",
+     "impressions_wordstat": 112,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments kontrol s61",
+     "impressions_wordstat": 111,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "machine native instruments",
+     "impressions_wordstat": 109,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments traktor s2",
+     "impressions_wordstat": 109,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments официальный",
+     "impressions_wordstat": 107,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments s2 mk3",
+     "impressions_wordstat": 106,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments официальный сайт",
+     "impressions_wordstat": 106,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments kontrol s2",
+     "impressions_wordstat": 102,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments traktor kontrol s2",
+     "impressions_wordstat": 102,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments komplete mk2",
+     "impressions_wordstat": 101,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments traktor s2 mk3",
+     "impressions_wordstat": 95,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "midi native instruments",
+     "impressions_wordstat": 94,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments audio 2",
+     "impressions_wordstat": 94,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments kontrol s2 mk3",
+     "impressions_wordstat": 90,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments traktor kontrol s2 mk3",
+     "impressions_wordstat": 90,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments session guitarist electric",
+     "impressions_wordstat": 88,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "библиотеки native instruments",
+     "impressions_wordstat": 87,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments com",
+     "impressions_wordstat": 85,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments s61 mk3",
+     "impressions_wordstat": 83,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments плагин",
+     "impressions_wordstat": 81,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments traktor скачать",
+     "impressions_wordstat": 80,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments komplete kontrol s88 mk1",
+     "impressions_wordstat": 78,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments kontrol s61 mk3",
+     "impressions_wordstat": 77,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "noire native instruments",
+     "impressions_wordstat": 76,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments komplete 2",
+     "impressions_wordstat": 75,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments kontakt 7",
+     "impressions_wordstat": 75,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments komplete kontrol mk3",
+     "impressions_wordstat": 72,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments superstarsaw",
+     "impressions_wordstat": 71,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instrument battery",
+     "impressions_wordstat": 71,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments kontakt торрент",
+     "impressions_wordstat": 70,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instrument torrent",
+     "impressions_wordstat": 70,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments traktor 4",
+     "impressions_wordstat": 69,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "миди клавиатура native instruments",
+     "impressions_wordstat": 69,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments komplete audio 2",
+     "impressions_wordstat": 66,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments service",
+     "impressions_wordstat": 65,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments service center",
+     "impressions_wordstat": 65,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments control",
+     "impressions_wordstat": 65,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments komplete kontrol s61",
+     "impressions_wordstat": 64,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments карта",
+     "impressions_wordstat": 64,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments maschine mk2",
+     "impressions_wordstat": 63,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments bass",
+     "impressions_wordstat": 62,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments mikro",
+     "impressions_wordstat": 62,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments mk3 купить",
+     "impressions_wordstat": 62,
+     "intent": "commercial"
+    },
+    {
+     "phrase": "native instruments mx2",
+     "impressions_wordstat": 61,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments strings",
+     "impressions_wordstat": 60,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "midi клавиатуры native instruments",
+     "impressions_wordstat": 60,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments electric sunburst",
+     "impressions_wordstat": 59,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments звуковая",
+     "impressions_wordstat": 59,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments guitar rig 6",
+     "impressions_wordstat": 59,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments kontakt скачать торрент",
+     "impressions_wordstat": 58,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native access native instruments",
+     "impressions_wordstat": 57,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments драйвер",
+     "impressions_wordstat": 57,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments guitar rig pro",
+     "impressions_wordstat": 57,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments traktor pro скачать",
+     "impressions_wordstat": 56,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "звуковая карта native instruments",
+     "impressions_wordstat": 56,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments guitar rig 7",
+     "impressions_wordstat": 55,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments maschine mikro",
+     "impressions_wordstat": 55,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments traktor pro 4",
+     "impressions_wordstat": 53,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments a49",
+     "impressions_wordstat": 53,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments komplete 1",
+     "impressions_wordstat": 52,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments komplete kontrol mk2",
+     "impressions_wordstat": 52,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments x1",
+     "impressions_wordstat": 52,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments traktor mx2",
+     "impressions_wordstat": 52,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments symphony",
+     "impressions_wordstat": 52,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments audio 1",
+     "impressions_wordstat": 51,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments guitar rig скачать",
+     "impressions_wordstat": 51,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments session guitarist electric sunburst",
+     "impressions_wordstat": 51,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments s49",
+     "impressions_wordstat": 51,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments traktor mk2",
+     "impressions_wordstat": 51,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments s",
+     "impressions_wordstat": 50,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments key",
+     "impressions_wordstat": 50,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments guitar rig 5",
+     "impressions_wordstat": 49,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments massive x",
+     "impressions_wordstat": 49,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments battery 4",
+     "impressions_wordstat": 49,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments audio dj",
+     "impressions_wordstat": 49,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments driver",
+     "impressions_wordstat": 49,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments kontrol s49",
+     "impressions_wordstat": 49,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments traktor x1",
+     "impressions_wordstat": 48,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments reaktor",
+     "impressions_wordstat": 48,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments kontakt 8 скачать",
+     "impressions_wordstat": 47,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments fm8",
+     "impressions_wordstat": 47,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments kontakt 1",
+     "impressions_wordstat": 47,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments acoustic",
+     "impressions_wordstat": 47,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments komplete audio 1",
+     "impressions_wordstat": 47,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments maschine plus",
+     "impressions_wordstat": 47,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments symphony series",
+     "impressions_wordstat": 46,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments audio 6 mk2",
+     "impressions_wordstat": 46,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments komplete 6 mk2",
+     "impressions_wordstat": 46,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments komplete audio 6 mk2",
+     "impressions_wordstat": 46,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments maschine 3",
+     "impressions_wordstat": 45,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments session guitarist electric sunburst deluxe",
+     "impressions_wordstat": 45,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments absynth",
+     "impressions_wordstat": 45,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments komplete control",
+     "impressions_wordstat": 45,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "контроллер native instruments traktor kontrol s2",
+     "impressions_wordstat": 44,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "контроллер native instruments s4 mk3",
+     "impressions_wordstat": 44,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "dj контроллер native instruments traktor s2",
+     "impressions_wordstat": 44,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "купить native instruments traktor",
+     "impressions_wordstat": 43,
+     "intent": "commercial"
+    },
+    {
+     "phrase": "native instruments drummer",
+     "impressions_wordstat": 43,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments traktor 2",
+     "impressions_wordstat": 42,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "www native instruments",
+     "impressions_wordstat": 41,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments komplete s49",
+     "impressions_wordstat": 41,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments traktor s2 mk3 dj",
+     "impressions_wordstat": 40,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments session guitarist скачать",
+     "impressions_wordstat": 40,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments kontakt библиотеки",
+     "impressions_wordstat": 40,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "www native instruments com",
+     "impressions_wordstat": 40,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments komplete start",
+     "impressions_wordstat": 39,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "программы native instruments",
+     "impressions_wordstat": 39,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments komplete kontrol s49",
+     "impressions_wordstat": 38,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "скачать native instruments komplete",
+     "impressions_wordstat": 38,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments mac os",
+     "impressions_wordstat": 37,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments session guitarist acoustic",
+     "impressions_wordstat": 36,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments komplete a49",
+     "impressions_wordstat": 36,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments traktor x1 mk3",
+     "impressions_wordstat": 35,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments x1 mk3",
+     "impressions_wordstat": 35,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments maschine обзор",
+     "impressions_wordstat": 34,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments скачать бесплатно",
+     "impressions_wordstat": 34,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments s3",
+     "impressions_wordstat": 34,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments komplete звуковая карта",
+     "impressions_wordstat": 33,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "звуковая карта native instruments komplete audio",
+     "impressions_wordstat": 33,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "скачать native instrument 4",
+     "impressions_wordstat": 33,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments drum",
+     "impressions_wordstat": 32,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments z1",
+     "impressions_wordstat": 32,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "скачать vst native instruments",
+     "impressions_wordstat": 32,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments guitar rig торрент",
+     "impressions_wordstat": 31,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments kontakt mac",
+     "impressions_wordstat": 31,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments maschine mk3 купить",
+     "impressions_wordstat": 31,
+     "intent": "commercial"
+    },
+    {
+     "phrase": "native instruments studio drummer",
+     "impressions_wordstat": 31,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments update",
+     "impressions_wordstat": 31,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "midi клавиатура native instruments kontrol s88 mk3",
+     "impressions_wordstat": 31,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments mikro mk3",
+     "impressions_wordstat": 30,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments bundle",
+     "impressions_wordstat": 30,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments session bassist",
+     "impressions_wordstat": 30,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments kontakt 8 торрент",
+     "impressions_wordstat": 30,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments m32",
+     "impressions_wordstat": 30,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments komplete kontrol s61 mk3",
+     "impressions_wordstat": 30,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments kontakt 5",
+     "impressions_wordstat": 30,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments scarbee",
+     "impressions_wordstat": 29,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments guitar rig скачать торрент",
+     "impressions_wordstat": 29,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "owner manual native instruments maschine",
+     "impressions_wordstat": 29,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments library",
+     "impressions_wordstat": 29,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instrument a61",
+     "impressions_wordstat": 29,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments play",
+     "impressions_wordstat": 29,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "commonprogramfiles native instruments service center",
+     "impressions_wordstat": 29,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments vintage",
+     "impressions_wordstat": 28,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments audio 2 dj",
+     "impressions_wordstat": 28,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments reaktor 6",
+     "impressions_wordstat": 28,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments scene nightshade",
+     "impressions_wordstat": 27,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments maschine 2.18 4",
+     "impressions_wordstat": 26,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments kontakt 8 скачать торрент",
+     "impressions_wordstat": 26,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments komplete kontrol s88 mk3",
+     "impressions_wordstat": 26,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments traktor s3",
+     "impressions_wordstat": 26,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "купить native instruments komplete",
+     "impressions_wordstat": 26,
+     "intent": "commercial"
+    },
+    {
+     "phrase": "native instruments maschine mikro mk3",
+     "impressions_wordstat": 26,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments kontakt 7 скачать",
+     "impressions_wordstat": 25,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments komplete kontrol s88 mk2",
+     "impressions_wordstat": 25,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "контакт native instruments",
+     "impressions_wordstat": 25,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments action",
+     "impressions_wordstat": 24,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments maschine mikro mk2",
+     "impressions_wordstat": 24,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments guitar rig 7 pro",
+     "impressions_wordstat": 24,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments fx",
+     "impressions_wordstat": 24,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments choir",
+     "impressions_wordstat": 24,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments super saw",
+     "impressions_wordstat": 23,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments t",
+     "impressions_wordstat": 23,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments download",
+     "impressions_wordstat": 23,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments komplete 11",
+     "impressions_wordstat": 22,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments komplete m32",
+     "impressions_wordstat": 22,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "https www native instruments",
+     "impressions_wordstat": 22,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "звуковая карта native instruments audio 6",
+     "impressions_wordstat": 22,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments piano",
+     "impressions_wordstat": 22,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments kontakt 2",
+     "impressions_wordstat": 22,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments kontakt 6",
+     "impressions_wordstat": 22,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments absynth 6",
+     "impressions_wordstat": 22,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments horns",
+     "impressions_wordstat": 22,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments session horns",
+     "impressions_wordstat": 22,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments standalone",
+     "impressions_wordstat": 22,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments session guitarist electric скачать",
+     "impressions_wordstat": 22,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments play series",
+     "impressions_wordstat": 22,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments komplete 15",
+     "impressions_wordstat": 22,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instrument 88",
+     "impressions_wordstat": 21,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "https www native instruments com",
+     "impressions_wordstat": 21,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "complete native instruments",
+     "impressions_wordstat": 21,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments noire скачать",
+     "impressions_wordstat": 20,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments komplete kontrol a49",
+     "impressions_wordstat": 20,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments kontrol a49",
+     "impressions_wordstat": 20,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "как установить native instruments",
+     "impressions_wordstat": 20,
+     "intent": "informational"
+    },
+    {
+     "phrase": "native instruments audio driver",
+     "impressions_wordstat": 20,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments library kontakt",
+     "impressions_wordstat": 20,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments factory",
+     "impressions_wordstat": 20,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments maschine studio pdf",
+     "impressions_wordstat": 19,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments keygen",
+     "impressions_wordstat": 19,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments choir omnia",
+     "impressions_wordstat": 19,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments kontrol s49 mk3",
+     "impressions_wordstat": 19,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments traktor z1",
+     "impressions_wordstat": 19,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments guitar rig 6 pro",
+     "impressions_wordstat": 19,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments strummed acoustic",
+     "impressions_wordstat": 18,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "ensemble native instruments",
+     "impressions_wordstat": 18,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments maschine mk1",
+     "impressions_wordstat": 18,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments valves pro",
+     "impressions_wordstat": 18,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments komplete kontrol s61 mk2",
+     "impressions_wordstat": 18,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments traktor kontrol x1 mk3",
+     "impressions_wordstat": 18,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments komplete kontrol s49 mk2",
+     "impressions_wordstat": 18,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments guitar rig 6 скачать",
+     "impressions_wordstat": 17,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments drumlab",
+     "impressions_wordstat": 17,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments traktor pro 2",
+     "impressions_wordstat": 17,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments kontakt 8.12 1",
+     "impressions_wordstat": 17,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments kontakt mac os",
+     "impressions_wordstat": 17,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments komplete kontrol a61",
+     "impressions_wordstat": 17,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments maschine грувбокс",
+     "impressions_wordstat": 16,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments vst торрент",
+     "impressions_wordstat": 16,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments select",
+     "impressions_wordstat": 16,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments kontakt torrent",
+     "impressions_wordstat": 16,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments superstarsaw v 1.0 0",
+     "impressions_wordstat": 16,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments komplete start скачать",
+     "impressions_wordstat": 16,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments session horns pro",
+     "impressions_wordstat": 16,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments kontakt portable",
+     "impressions_wordstat": 16,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments service center 2.6 0",
+     "impressions_wordstat": 16,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments maschine mk3 plus",
+     "impressions_wordstat": 16,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments alicia s keys",
+     "impressions_wordstat": 16,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments traktor kontrol s3",
+     "impressions_wordstat": 15,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "подробные характеристики native instruments komplete control a49",
+     "impressions_wordstat": 15,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments plugins",
+     "impressions_wordstat": 15,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments battery скачать",
+     "impressions_wordstat": 15,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments scarbee rickenbacker",
+     "impressions_wordstat": 15,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments session strings pro",
+     "impressions_wordstat": 15,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments session guitarist strummed acoustic",
+     "impressions_wordstat": 15,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments software",
+     "impressions_wordstat": 15,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments the grandeur",
+     "impressions_wordstat": 15,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments maschine vst",
+     "impressions_wordstat": 14,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments komplete kontrol m32",
+     "impressions_wordstat": 14,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments kontrol m32",
+     "impressions_wordstat": 14,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments the giant",
+     "impressions_wordstat": 14,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments traktor mx4",
+     "impressions_wordstat": 14,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments komplete audio driver",
+     "impressions_wordstat": 14,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "native instruments kontakt купить",
+     "impressions_wordstat": 8,
+     "intent": "commercial"
+    },
+    {
+     "phrase": "запчасти native instruments купить",
+     "impressions_wordstat": 8,
+     "intent": "commercial"
+    },
+    {
+     "phrase": "native instruments komplete audio 6 mk2 купить",
+     "impressions_wordstat": 7,
+     "intent": "commercial"
+    },
+    {
+     "phrase": "native instruments expansion купить",
+     "impressions_wordstat": 6,
+     "intent": "commercial"
+    },
+    {
+     "phrase": "native instruments traktor купить в москве",
+     "impressions_wordstat": 6,
+     "intent": "commercial"
+    },
+    {
+     "phrase": "native instruments maschine mikro mk3 купить",
+     "impressions_wordstat": 5,
+     "intent": "commercial"
+    }
+   ],
    "associations": [],
-   "commercial_phrases": 0,
-   "commercial_impressions": null,
-   "confidence": "low"
+   "commercial_phrases": 11,
+   "commercial_impressions": 345,
+   "confidence": "sufficient"
   },
   {
    "cluster": "perforce",
@@ -26380,52 +31194,113 @@
    "page": "/vendors/perforce",
    "priority": 3,
    "relevance_token": "perforce",
-   "status": "not_collected",
-   "coverage": "0/7",
-   "seed_impressions": null,
+   "status": "ok",
+   "coverage": "2/7",
+   "seed_impressions": 338,
    "probes": [
     {
      "phrase": "perforce",
-     "status": "not_collected",
-     "total_impressions": null
+     "status": "ok",
+     "total_impressions": 338
     },
     {
      "phrase": "perforce купить",
-     "status": "not_collected",
-     "total_impressions": null
+     "status": "ok",
+     "total_impressions": 7
     },
     {
      "phrase": "perforce оплата",
-     "status": "not_collected",
+     "status": "below_threshold",
      "total_impressions": null
     },
     {
      "phrase": "perforce для юридических лиц",
-     "status": "not_collected",
+     "status": "below_threshold",
      "total_impressions": null
     },
     {
      "phrase": "perforce тариф",
-     "status": "not_collected",
+     "status": "below_threshold",
      "total_impressions": null
     },
     {
      "phrase": "perforce подписка",
-     "status": "not_collected",
+     "status": "below_threshold",
      "total_impressions": null
     },
     {
      "phrase": "perforce лицензия",
-     "status": "not_collected",
+     "status": "below_threshold",
      "total_impressions": null
     }
    ],
    "phrases_dropped_as_irrelevant": 0,
-   "phrases": [],
+   "phrases": [
+    {
+     "phrase": "perforce",
+     "impressions_wordstat": 338,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "perforce p4merge",
+     "impressions_wordstat": 67,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "perforce скачать",
+     "impressions_wordstat": 31,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "perforce helix",
+     "impressions_wordstat": 27,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "perforce p4merge скачать",
+     "impressions_wordstat": 25,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "perforce p4merge для 1с",
+     "impressions_wordstat": 24,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "perforce server",
+     "impressions_wordstat": 16,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "perforce helix core",
+     "impressions_wordstat": 15,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "perforce p4merge для 1с скачать",
+     "impressions_wordstat": 13,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "perforce p4",
+     "impressions_wordstat": 9,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "perforce p4 server на synology",
+     "impressions_wordstat": 5,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "perforce перевод",
+     "impressions_wordstat": 5,
+     "intent": "unknown"
+    }
+   ],
    "associations": [],
    "commercial_phrases": 0,
    "commercial_impressions": null,
-   "confidence": "low"
+   "confidence": "sufficient"
   },
   {
    "cluster": "photon",
@@ -26433,52 +31308,74 @@
    "page": "/vendors/photon",
    "priority": 3,
    "relevance_token": "photon",
-   "status": "not_collected",
-   "coverage": "0/7",
-   "seed_impressions": null,
+   "status": "ok",
+   "coverage": "1/7",
+   "seed_impressions": 222,
    "probes": [
     {
      "phrase": "photon engine",
-     "status": "not_collected",
-     "total_impressions": null
+     "status": "ok",
+     "total_impressions": 222
     },
     {
      "phrase": "photon engine купить",
-     "status": "not_collected",
+     "status": "below_threshold",
      "total_impressions": null
     },
     {
      "phrase": "photon engine оплата",
-     "status": "not_collected",
+     "status": "below_threshold",
      "total_impressions": null
     },
     {
      "phrase": "photon engine для юридических лиц",
-     "status": "not_collected",
+     "status": "below_threshold",
      "total_impressions": null
     },
     {
      "phrase": "photon engine тариф",
-     "status": "not_collected",
+     "status": "below_threshold",
      "total_impressions": null
     },
     {
      "phrase": "photon engine подписка",
-     "status": "not_collected",
+     "status": "below_threshold",
      "total_impressions": null
     },
     {
      "phrase": "photon engine лицензия",
-     "status": "not_collected",
+     "status": "below_threshold",
      "total_impressions": null
     }
    ],
    "phrases_dropped_as_irrelevant": 0,
-   "phrases": [],
-   "associations": [],
+   "phrases": [
+    {
+     "phrase": "photon engine",
+     "impressions_wordstat": 222,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "photon engine repo",
+     "impressions_wordstat": 23,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "photon engine voice",
+     "impressions_wordstat": 15,
+     "intent": "unknown"
+    }
+   ],
+   "associations": [
+    {
+     "phrase": "photonengine",
+     "impressions_wordstat": 326,
+     "intent": "unknown"
+    }
+   ],
    "commercial_phrases": 0,
    "commercial_impressions": null,
-   "confidence": "low"
+   "confidence": "sufficient"
   },
   {
    "cluster": "reallusion",
@@ -26486,52 +31383,148 @@
    "page": "/vendors/reallusion",
    "priority": 3,
    "relevance_token": "reallusion",
-   "status": "not_collected",
-   "coverage": "0/7",
-   "seed_impressions": null,
+   "status": "ok",
+   "coverage": "3/7",
+   "seed_impressions": 641,
    "probes": [
     {
      "phrase": "reallusion",
-     "status": "not_collected",
-     "total_impressions": null
+     "status": "ok",
+     "total_impressions": 641
     },
     {
      "phrase": "reallusion купить",
-     "status": "not_collected",
-     "total_impressions": null
+     "status": "ok",
+     "total_impressions": 5
     },
     {
      "phrase": "reallusion оплата",
-     "status": "not_collected",
+     "status": "below_threshold",
      "total_impressions": null
     },
     {
      "phrase": "reallusion для юридических лиц",
-     "status": "not_collected",
+     "status": "below_threshold",
      "total_impressions": null
     },
     {
      "phrase": "reallusion тариф",
-     "status": "not_collected",
+     "status": "below_threshold",
      "total_impressions": null
     },
     {
      "phrase": "reallusion подписка",
-     "status": "not_collected",
-     "total_impressions": null
+     "status": "ok",
+     "total_impressions": 3
     },
     {
      "phrase": "reallusion лицензия",
-     "status": "not_collected",
+     "status": "below_threshold",
      "total_impressions": null
     }
    ],
    "phrases_dropped_as_irrelevant": 0,
-   "phrases": [],
+   "phrases": [
+    {
+     "phrase": "reallusion",
+     "impressions_wordstat": 641,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "reallusion character",
+     "impressions_wordstat": 169,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "reallusion character creator",
+     "impressions_wordstat": 152,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "reallusion forum",
+     "impressions_wordstat": 77,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "reallusion скачать",
+     "impressions_wordstat": 51,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "reallusion iclone",
+     "impressions_wordstat": 47,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "reallusion character creator 4",
+     "impressions_wordstat": 36,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "reallusion accurig",
+     "impressions_wordstat": 23,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "reallusion character creator 5",
+     "impressions_wordstat": 22,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "reallusion character creator скачать",
+     "impressions_wordstat": 22,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "reallusion cartoon animator",
+     "impressions_wordstat": 22,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "actorcore reallusion",
+     "impressions_wordstat": 16,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "reallusion headshot 1.3 как установить урок",
+     "impressions_wordstat": 14,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "reallusion iclone 8.73",
+     "impressions_wordstat": 11,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "reallusion hub",
+     "impressions_wordstat": 9,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "reallusion ultimate pantyhose",
+     "impressions_wordstat": 5,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "reallusion free 3d character base mesh",
+     "impressions_wordstat": 5,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "регистрация на reallusion 3d character contest",
+     "impressions_wordstat": 5,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "reallusion iclone pro",
+     "impressions_wordstat": 3,
+     "intent": "unknown"
+    }
+   ],
    "associations": [],
    "commercial_phrases": 0,
    "commercial_impressions": null,
-   "confidence": "low"
+   "confidence": "sufficient"
   },
   {
    "cluster": "recraft",
@@ -26539,52 +31532,638 @@
    "page": "/vendors/recraft",
    "priority": 3,
    "relevance_token": "recraft",
-   "status": "not_collected",
-   "coverage": "0/7",
-   "seed_impressions": null,
+   "status": "ok",
+   "coverage": "5/7",
+   "seed_impressions": 8286,
    "probes": [
     {
      "phrase": "recraft",
-     "status": "not_collected",
-     "total_impressions": null
+     "status": "ok",
+     "total_impressions": 8286
     },
     {
      "phrase": "recraft купить",
-     "status": "not_collected",
-     "total_impressions": null
+     "status": "ok",
+     "total_impressions": 63
     },
     {
      "phrase": "recraft оплата",
-     "status": "not_collected",
-     "total_impressions": null
+     "status": "ok",
+     "total_impressions": 8
     },
     {
      "phrase": "recraft для юридических лиц",
-     "status": "not_collected",
+     "status": "below_threshold",
      "total_impressions": null
     },
     {
      "phrase": "recraft тариф",
-     "status": "not_collected",
-     "total_impressions": null
+     "status": "ok",
+     "total_impressions": 9
     },
     {
      "phrase": "recraft подписка",
-     "status": "not_collected",
-     "total_impressions": null
+     "status": "ok",
+     "total_impressions": 66
     },
     {
      "phrase": "recraft лицензия",
-     "status": "not_collected",
+     "status": "below_threshold",
      "total_impressions": null
     }
    ],
    "phrases_dropped_as_irrelevant": 0,
-   "phrases": [],
+   "phrases": [
+    {
+     "phrase": "recraft",
+     "impressions_wordstat": 8286,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "recraft ai",
+     "impressions_wordstat": 2457,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "recraft нейросеть",
+     "impressions_wordstat": 798,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "recrafted mobs",
+     "impressions_wordstat": 489,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "нейросеть recraft ai",
+     "impressions_wordstat": 343,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "recraft скачать",
+     "impressions_wordstat": 228,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "recraft бесплатно",
+     "impressions_wordstat": 179,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "recraft v4",
+     "impressions_wordstat": 149,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "seiko recraft",
+     "impressions_wordstat": 126,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "recraft нейросеть бесплатно",
+     "impressions_wordstat": 118,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "recraft майнкрафт",
+     "impressions_wordstat": 106,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "nike court borough recraft",
+     "impressions_wordstat": 98,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "recraft v3",
+     "impressions_wordstat": 95,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "recrafted resource pack",
+     "impressions_wordstat": 95,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "court borough low recraft",
+     "impressions_wordstat": 88,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "recrafted minecraft",
+     "impressions_wordstat": 88,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "recraft al",
+     "impressions_wordstat": 84,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "nike court borough low recraft",
+     "impressions_wordstat": 82,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "recraft 4.1",
+     "impressions_wordstat": 77,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "recraft ai бесплатная",
+     "impressions_wordstat": 72,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "recrafted mod",
+     "impressions_wordstat": 68,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "recraft v 4.1",
+     "impressions_wordstat": 67,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "recraft подписка",
+     "impressions_wordstat": 66,
+     "intent": "commercial"
+    },
+    {
+     "phrase": "recraft купить",
+     "impressions_wordstat": 63,
+     "intent": "commercial"
+    },
+    {
+     "phrase": "www recraft",
+     "impressions_wordstat": 63,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "www recraft ai",
+     "impressions_wordstat": 63,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "сайт recraft",
+     "impressions_wordstat": 60,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "https recraft ai",
+     "impressions_wordstat": 52,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "recraft ai нейросеть бесплатно",
+     "impressions_wordstat": 48,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "https www recraft",
+     "impressions_wordstat": 46,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "https www recraft ai",
+     "impressions_wordstat": 46,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "recraft upscale",
+     "impressions_wordstat": 45,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "recraft официальный сайт",
+     "impressions_wordstat": 44,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "ресурспак recrafted",
+     "impressions_wordstat": 39,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "recraft ai сайт",
+     "impressions_wordstat": 39,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "кеды nike court borough low recraft",
+     "impressions_wordstat": 39,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "recraft ai нейросеть официальный сайт",
+     "impressions_wordstat": 34,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "recraft ai официальный сайт",
+     "impressions_wordstat": 34,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "recraft купить подписку",
+     "impressions_wordstat": 34,
+     "intent": "commercial"
+    },
+    {
+     "phrase": "ии recraft",
+     "impressions_wordstat": 33,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "recraft логотип",
+     "impressions_wordstat": 33,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "recraft на русском",
+     "impressions_wordstat": 33,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "midjourney recraft",
+     "impressions_wordstat": 32,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "recraft studio",
+     "impressions_wordstat": 31,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "ресурс пак recrafted",
+     "impressions_wordstat": 30,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "подписка recraft ai",
+     "impressions_wordstat": 30,
+     "intent": "commercial"
+    },
+    {
+     "phrase": "купить recraft ai",
+     "impressions_wordstat": 29,
+     "intent": "commercial"
+    },
+    {
+     "phrase": "recrafted creatures",
+     "impressions_wordstat": 28,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "recraft snkm97",
+     "impressions_wordstat": 27,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "seiko recraft snkm97",
+     "impressions_wordstat": 27,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "recraft v4 pro",
+     "impressions_wordstat": 26,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "текстур пак recrafted",
+     "impressions_wordstat": 26,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "скачать ресурс пак recrafted",
+     "impressions_wordstat": 25,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "recraft нейросеть на русском",
+     "impressions_wordstat": 25,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "recraft россия",
+     "impressions_wordstat": 24,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "recraft ai скачать",
+     "impressions_wordstat": 21,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "project recraft",
+     "impressions_wordstat": 21,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "мод recrafted mobs на на майнкрафт",
+     "impressions_wordstat": 20,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "recraft crisp upscale",
+     "impressions_wordstat": 19,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "recrafted mc",
+     "impressions_wordstat": 19,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "recrafted resource pack скачать",
+     "impressions_wordstat": 19,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "recraft скачать бесплатно",
+     "impressions_wordstat": 19,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "иконка recraft",
+     "impressions_wordstat": 19,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "recraft ai купить подписку",
+     "impressions_wordstat": 18,
+     "intent": "commercial"
+    },
+    {
+     "phrase": "приложение recraft",
+     "impressions_wordstat": 18,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "nike court borough low recraft bg",
+     "impressions_wordstat": 18,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "кеды nike court borough low recraft bg",
+     "impressions_wordstat": 18,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "recraft как пользоваться",
+     "impressions_wordstat": 18,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "скачать recrafted mobs",
+     "impressions_wordstat": 17,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "recraft v 4.1 pro",
+     "impressions_wordstat": 17,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "insect recrafted",
+     "impressions_wordstat": 17,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "recraft оплатить",
+     "impressions_wordstat": 16,
+     "intent": "commercial"
+    },
+    {
+     "phrase": "скачать приложение recraft",
+     "impressions_wordstat": 15,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "recrafted creatures minecraft",
+     "impressions_wordstat": 15,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "recraft early access",
+     "impressions_wordstat": 15,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "скачать recrafted mods",
+     "impressions_wordstat": 15,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "app recraft ai",
+     "impressions_wordstat": 14,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "recraft com",
+     "impressions_wordstat": 14,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "nike air max 95 recraft",
+     "impressions_wordstat": 14,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "recraft mcp",
+     "impressions_wordstat": 14,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "recraft vectorize",
+     "impressions_wordstat": 12,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "recraft ai на русском",
+     "impressions_wordstat": 12,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "мод майнкрафт recrafted mobs forge 1.20 1",
+     "impressions_wordstat": 12,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "beta recrafted",
+     "impressions_wordstat": 12,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "recraft 4",
+     "impressions_wordstat": 12,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "recraft api",
+     "impressions_wordstat": 11,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "recrafted texture pack",
+     "impressions_wordstat": 10,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "recrafted ресурспаки mr choon",
+     "impressions_wordstat": 10,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "текстур пак recrafted mobs",
+     "impressions_wordstat": 10,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "скачать ресурс пак recrafted mobs",
+     "impressions_wordstat": 9,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "project recraft нейросеть",
+     "impressions_wordstat": 9,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "recraft ai projects",
+     "impressions_wordstat": 9,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "recrafted early",
+     "impressions_wordstat": 9,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "recraft vectorizer",
+     "impressions_wordstat": 9,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "industrial recrafted",
+     "impressions_wordstat": 9,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "recraft v4 vector",
+     "impressions_wordstat": 9,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "кроссовки nike court borough low recraft",
+     "impressions_wordstat": 8,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "recraft v3 нейросеть",
+     "impressions_wordstat": 8,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "recrafted сливы текстурпаки",
+     "impressions_wordstat": 8,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "recraft нейросеть скачать бесплатно",
+     "impressions_wordstat": 8,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "seiko recraft snkp27",
+     "impressions_wordstat": 7,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "seiko recraft snkp23",
+     "impressions_wordstat": 7,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "recraft 3",
+     "impressions_wordstat": 7,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "recrafted mobs ресурспак",
+     "impressions_wordstat": 7,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "recraft v 4.1 vector",
+     "impressions_wordstat": 7,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "recraft al нейросеть",
+     "impressions_wordstat": 6,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "recrafted mods скачать для маинкравт бедрок 1.26",
+     "impressions_wordstat": 6,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "скачать моды на майнкрафт recrafted mods",
+     "impressions_wordstat": 6,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "recraft ai как пользоваться в россии",
+     "impressions_wordstat": 6,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "скачать мод на майнкрафт recrafted mobs",
+     "impressions_wordstat": 5,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "recraft старая версия скачать",
+     "impressions_wordstat": 5,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "recraft v 4.1 pro скачать",
+     "impressions_wordstat": 5,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "recraft mockup",
+     "impressions_wordstat": 5,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "recraft ai нейросеть на русском",
+     "impressions_wordstat": 5,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "alpha recrafted",
+     "impressions_wordstat": 5,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "сумка patagonia recrafted work station",
+     "impressions_wordstat": 5,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "recraft al скачать",
+     "impressions_wordstat": 5,
+     "intent": "unknown"
+    }
+   ],
    "associations": [],
-   "commercial_phrases": 0,
-   "commercial_impressions": null,
-   "confidence": "low"
+   "commercial_phrases": 7,
+   "commercial_impressions": 256,
+   "confidence": "sufficient"
   },
   {
    "cluster": "rive",
@@ -26592,39 +32171,39 @@
    "page": "/vendors/rive",
    "priority": 3,
    "relevance_token": "rive",
-   "status": "not_collected",
-   "coverage": "0/7",
-   "seed_impressions": null,
+   "status": "ok",
+   "coverage": "4/7",
+   "seed_impressions": 19374,
    "probes": [
     {
      "phrase": "rive",
-     "status": "not_collected",
-     "total_impressions": null
+     "status": "ok",
+     "total_impressions": 19374
     },
     {
      "phrase": "rive купить",
-     "status": "not_collected",
-     "total_impressions": null
+     "status": "ok",
+     "total_impressions": 675
     },
     {
      "phrase": "rive оплата",
-     "status": "not_collected",
-     "total_impressions": null
+     "status": "ok",
+     "total_impressions": 2
     },
     {
      "phrase": "rive для юридических лиц",
-     "status": "not_collected",
+     "status": "below_threshold",
      "total_impressions": null
     },
     {
      "phrase": "rive тариф",
-     "status": "not_collected",
+     "status": "below_threshold",
      "total_impressions": null
     },
     {
      "phrase": "rive подписка",
-     "status": "not_collected",
-     "total_impressions": null
+     "status": "ok",
+     "total_impressions": 3
     },
     {
      "phrase": "rive лицензия",
@@ -26632,12 +32211,1644 @@
      "total_impressions": null
     }
    ],
-   "phrases_dropped_as_irrelevant": 0,
-   "phrases": [],
-   "associations": [],
-   "commercial_phrases": 0,
-   "commercial_impressions": null,
-   "confidence": "low"
+   "phrases_dropped_as_irrelevant": 2,
+   "phrases": [
+    {
+     "phrase": "riven",
+     "impressions_wordstat": 19476,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "rive",
+     "impressions_wordstat": 19374,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "la rive",
+     "impressions_wordstat": 4382,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "rive gauche",
+     "impressions_wordstat": 3045,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "clara rives",
+     "impressions_wordstat": 972,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "rive духи",
+     "impressions_wordstat": 725,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "riven скачать",
+     "impressions_wordstat": 689,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "rive скачать",
+     "impressions_wordstat": 683,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "rive купить",
+     "impressions_wordstat": 675,
+     "intent": "commercial"
+    },
+    {
+     "phrase": "riven купить",
+     "impressions_wordstat": 675,
+     "intent": "commercial"
+    },
+    {
+     "phrase": "духи la rive",
+     "impressions_wordstat": 656,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "riven realms",
+     "impressions_wordstat": 531,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "vagrus the riven",
+     "impressions_wordstat": 473,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "rive woman",
+     "impressions_wordstat": 469,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "vagrus the riven realms",
+     "impressions_wordstat": 464,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "la rive woman",
+     "impressions_wordstat": 451,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "rive отзывы",
+     "impressions_wordstat": 409,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "riven отзывы",
+     "impressions_wordstat": 409,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "la rive купить",
+     "impressions_wordstat": 408,
+     "intent": "commercial"
+    },
+    {
+     "phrase": "порно riven",
+     "impressions_wordstat": 406,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "порно rives",
+     "impressions_wordstat": 406,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "laurent rive",
+     "impressions_wordstat": 393,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "amelia rive",
+     "impressions_wordstat": 357,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "amelia riven",
+     "impressions_wordstat": 357,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "rive de",
+     "impressions_wordstat": 353,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "saint laurent rive gauche",
+     "impressions_wordstat": 339,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "odeon rive gauche",
+     "impressions_wordstat": 301,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "sante rive",
+     "impressions_wordstat": 289,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "rive туалетная вода",
+     "impressions_wordstat": 283,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "riven песни",
+     "impressions_wordstat": 281,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "песня rive",
+     "impressions_wordstat": 281,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "hotel rives",
+     "impressions_wordstat": 280,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "rive love",
+     "impressions_wordstat": 276,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "jacob delafon odeon rive",
+     "impressions_wordstat": 275,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "la rive отзывы",
+     "impressions_wordstat": 273,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "rive gauche yves",
+     "impressions_wordstat": 269,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "rive gauche yves saint",
+     "impressions_wordstat": 267,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "delafon rive gauche",
+     "impressions_wordstat": 265,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "jacob delafon odeon rive gauche",
+     "impressions_wordstat": 262,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "jacob delafon rive gauche",
+     "impressions_wordstat": 262,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "yves laurent rive gauche",
+     "impressions_wordstat": 260,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "yves saint laurent rive gauche",
+     "impressions_wordstat": 260,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "la rive men",
+     "impressions_wordstat": 255,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "elysee rive",
+     "impressions_wordstat": 254,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "rive gauche магазины",
+     "impressions_wordstat": 254,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "rive перевод",
+     "impressions_wordstat": 254,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "riven перевод",
+     "impressions_wordstat": 254,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "rive gauche интернет",
+     "impressions_wordstat": 253,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "la rive туалетная",
+     "impressions_wordstat": 246,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "туалетна вода la rive",
+     "impressions_wordstat": 242,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "rive gauche интернет магазин",
+     "impressions_wordstat": 242,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "riven winx",
+     "impressions_wordstat": 236,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "valdobbiadene rive",
+     "impressions_wordstat": 227,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "prosecco rive",
+     "impressions_wordstat": 225,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "la rive парфюмерия",
+     "impressions_wordstat": 223,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "elysee rive hotel",
+     "impressions_wordstat": 222,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "warframe riven",
+     "impressions_wordstat": 212,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "porn riven",
+     "impressions_wordstat": 210,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "rives porn",
+     "impressions_wordstat": 210,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "парфюм la rive",
+     "impressions_wordstat": 201,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "rive 4",
+     "impressions_wordstat": 193,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "rive line",
+     "impressions_wordstat": 190,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "atlas rive",
+     "impressions_wordstat": 189,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "d rive",
+     "impressions_wordstat": 187,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "rive игра",
+     "impressions_wordstat": 185,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "riven игра",
+     "impressions_wordstat": 185,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "rive club",
+     "impressions_wordstat": 182,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "la rive женский",
+     "impressions_wordstat": 181,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "rive me",
+     "impressions_wordstat": 180,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "платформа rive",
+     "impressions_wordstat": 178,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "rive песня скачать",
+     "impressions_wordstat": 173,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "riven скачать песни",
+     "impressions_wordstat": 173,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "rive прохождение",
+     "impressions_wordstat": 164,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "прохождение riven",
+     "impressions_wordstat": 164,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "clara rives порно",
+     "impressions_wordstat": 159,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "la rive мужской",
+     "impressions_wordstat": 157,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "rive atlas concorde",
+     "impressions_wordstat": 156,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "sante rive вино",
+     "impressions_wordstat": 150,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "la rive духи женские",
+     "impressions_wordstat": 149,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "riven 2",
+     "impressions_wordstat": 148,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "rive dolce",
+     "impressions_wordstat": 147,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "riven solo",
+     "impressions_wordstat": 144,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "elysees rive 4",
+     "impressions_wordstat": 144,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "elysee rive hotel 4",
+     "impressions_wordstat": 140,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "rive market",
+     "impressions_wordstat": 139,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "riven market",
+     "impressions_wordstat": 139,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "myst riven",
+     "impressions_wordstat": 138,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "riven porno",
+     "impressions_wordstat": 138,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "la rive touch",
+     "impressions_wordstat": 135,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "rive аналоги",
+     "impressions_wordstat": 133,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "haute rive",
+     "impressions_wordstat": 131,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "rive 2",
+     "impressions_wordstat": 129,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "la rive аналог",
+     "impressions_wordstat": 128,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "la rive her choice",
+     "impressions_wordstat": 127,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "rive antica",
+     "impressions_wordstat": 126,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "rive gosh",
+     "impressions_wordstat": 126,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "prosecco valdobbiadene superiore rive docg",
+     "impressions_wordstat": 121,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "donna la rive",
+     "impressions_wordstat": 121,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "kenzie rives",
+     "impressions_wordstat": 120,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "rive aqua",
+     "impressions_wordstat": 114,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "rive dolce riva",
+     "impressions_wordstat": 113,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "rive antica riva",
+     "impressions_wordstat": 113,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "rive скачать бесплатно",
+     "impressions_wordstat": 113,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "sante rive soave",
+     "impressions_wordstat": 112,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "moon rive",
+     "impressions_wordstat": 112,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "la rive sweet",
+     "impressions_wordstat": 111,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "dream rive",
+     "impressions_wordstat": 111,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "rive black",
+     "impressions_wordstat": 110,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "rive droite",
+     "impressions_wordstat": 109,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "rive керамогранит",
+     "impressions_wordstat": 108,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "сумка rive",
+     "impressions_wordstat": 107,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "rive red",
+     "impressions_wordstat": 105,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "rive видео",
+     "impressions_wordstat": 103,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "dream la rive",
+     "impressions_wordstat": 101,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "la rive moon",
+     "impressions_wordstat": 101,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "belles rives",
+     "impressions_wordstat": 100,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "riven the sequel to myst",
+     "impressions_wordstat": 100,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "riven торрент",
+     "impressions_wordstat": 100,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "rive торрент",
+     "impressions_wordstat": 99,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "sennelier rive gauche",
+     "impressions_wordstat": 98,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "ysl rive gauche",
+     "impressions_wordstat": 97,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "aqua la rive",
+     "impressions_wordstat": 97,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "rive 1",
+     "impressions_wordstat": 95,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "max rive",
+     "impressions_wordstat": 94,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "max riven",
+     "impressions_wordstat": 94,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "rive grey",
+     "impressions_wordstat": 92,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "la rive red",
+     "impressions_wordstat": 92,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "riven vr",
+     "impressions_wordstat": 92,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "rive miss",
+     "impressions_wordstat": 91,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "rive обзор",
+     "impressions_wordstat": 91,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "riven обзор",
+     "impressions_wordstat": 91,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "clara rives слив",
+     "impressions_wordstat": 90,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "riven x",
+     "impressions_wordstat": 90,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "x rive",
+     "impressions_wordstat": 90,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "le rive",
+     "impressions_wordstat": 90,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "la rive miss",
+     "impressions_wordstat": 89,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "la rive red line",
+     "impressions_wordstat": 89,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "la rive grey",
+     "impressions_wordstat": 89,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "clara rives porn",
+     "impressions_wordstat": 88,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "la rive miss dream",
+     "impressions_wordstat": 88,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "xxx rives",
+     "impressions_wordstat": 87,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "riven tides",
+     "impressions_wordstat": 87,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "сайт rive",
+     "impressions_wordstat": 86,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "сайт riven",
+     "impressions_wordstat": 86,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "odeon rive gauche раковина",
+     "impressions_wordstat": 85,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "la rive madame",
+     "impressions_wordstat": 83,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "riven mods",
+     "impressions_wordstat": 83,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "elysee rive ex elysee hotel",
+     "impressions_wordstat": 82,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "riven 2024",
+     "impressions_wordstat": 82,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "ford rive",
+     "impressions_wordstat": 81,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "rive russia",
+     "impressions_wordstat": 81,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "lola rive",
+     "impressions_wordstat": 81,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "warframe riven market",
+     "impressions_wordstat": 80,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "la rive vanilla",
+     "impressions_wordstat": 80,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "la rive мужская туалетная",
+     "impressions_wordstat": 79,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "la rive мужская туалетная вода",
+     "impressions_wordstat": 79,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "riven скачать торрент",
+     "impressions_wordstat": 79,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "rive скачать торрент",
+     "impressions_wordstat": 78,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "riven solo arkeon",
+     "impressions_wordstat": 78,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "la rive vanilla touch",
+     "impressions_wordstat": 78,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "раковина jacob delafon odeon rive",
+     "impressions_wordstat": 77,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "раковина jacob delafon rive gauche",
+     "impressions_wordstat": 77,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "раковины jacob delafon odeon rive gauche",
+     "impressions_wordstat": 77,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "tom ford rive",
+     "impressions_wordstat": 77,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "rive blue",
+     "impressions_wordstat": 77,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "elysee rive ex elysee hotel 4",
+     "impressions_wordstat": 76,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "rive gauche купить",
+     "impressions_wordstat": 75,
+     "intent": "commercial"
+    },
+    {
+     "phrase": "la rive prestige",
+     "impressions_wordstat": 75,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "rive game",
+     "impressions_wordstat": 75,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "rive gaming",
+     "impressions_wordstat": 75,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "riven game",
+     "impressions_wordstat": 75,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "рыболовное rive",
+     "impressions_wordstat": 74,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "atlas concorde russia rive",
+     "impressions_wordstat": 74,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "riven 18",
+     "impressions_wordstat": 73,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "riven wish",
+     "impressions_wordstat": 73,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "la rive love dance",
+     "impressions_wordstat": 72,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "la rive in love",
+     "impressions_wordstat": 72,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "amelia rive порно",
+     "impressions_wordstat": 72,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "amelia riven порно",
+     "impressions_wordstat": 72,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "la rive absolute",
+     "impressions_wordstat": 71,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "clara rives голая",
+     "impressions_wordstat": 71,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "rive cash",
+     "impressions_wordstat": 71,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "сумка rive gauche",
+     "impressions_wordstat": 71,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "la rive cash",
+     "impressions_wordstat": 70,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "la rive absolute sport",
+     "impressions_wordstat": 69,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "harry potter riven winx club",
+     "impressions_wordstat": 67,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "la rive fleur",
+     "impressions_wordstat": 67,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "rive d36",
+     "impressions_wordstat": 66,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "парфюмерная вода la rive",
+     "impressions_wordstat": 66,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "madame in love la rive",
+     "impressions_wordstat": 66,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "rive анимация",
+     "impressions_wordstat": 65,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "вино sante rive soave",
+     "impressions_wordstat": 63,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "la rive цена",
+     "impressions_wordstat": 63,
+     "intent": "commercial"
+    },
+    {
+     "phrase": "only rives",
+     "impressions_wordstat": 62,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "la rive my only wish",
+     "impressions_wordstat": 61,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "sante rive valpolicella",
+     "impressions_wordstat": 61,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "la rive духи аналоги",
+     "impressions_wordstat": 61,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "cielo sante rive",
+     "impressions_wordstat": 61,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "rive официальный сайт",
+     "impressions_wordstat": 61,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "la rive hitfire",
+     "impressions_wordstat": 59,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "rive d ambre",
+     "impressions_wordstat": 59,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "rive gauche перевод",
+     "impressions_wordstat": 59,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "vargus the riven",
+     "impressions_wordstat": 59,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "la rive fleur de femme",
+     "impressions_wordstat": 58,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "riven build",
+     "impressions_wordstat": 58,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "купить воду la rive",
+     "impressions_wordstat": 57,
+     "intent": "commercial"
+    },
+    {
+     "phrase": "london rive",
+     "impressions_wordstat": 57,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "rive di san pietro",
+     "impressions_wordstat": 57,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "la rive аналоги каким духам",
+     "impressions_wordstat": 56,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "la rive аналоги каких духов",
+     "impressions_wordstat": 56,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "la rive cute",
+     "impressions_wordstat": 55,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "vargus the riven realms",
+     "impressions_wordstat": 55,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "керамогранит atlas concorde rive",
+     "impressions_wordstat": 54,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "порно lola rive",
+     "impressions_wordstat": 54,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "ароматы la rive",
+     "impressions_wordstat": 54,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "rive com",
+     "impressions_wordstat": 54,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "riven com",
+     "impressions_wordstat": 54,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "wifi s rive gauche",
+     "impressions_wordstat": 54,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "la rive дезодорант",
+     "impressions_wordstat": 53,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "la rive фрагрантика",
+     "impressions_wordstat": 53,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "rive gauche духи",
+     "impressions_wordstat": 53,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "la rive black",
+     "impressions_wordstat": 52,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "la rive touch of woman",
+     "impressions_wordstat": 52,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "rive di san pietro di barbozza",
+     "impressions_wordstat": 52,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "riven last call",
+     "impressions_wordstat": 52,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "la rive 315",
+     "impressions_wordstat": 51,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "рыболовная платформа rive",
+     "impressions_wordstat": 51,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "la rive blue",
+     "impressions_wordstat": 51,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "harry potter riven winx club ao3",
+     "impressions_wordstat": 51,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "la rive pink",
+     "impressions_wordstat": 51,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "rive app",
+     "impressions_wordstat": 50,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "prosecco valdobbiadene superiore rive di colbertaldo",
+     "impressions_wordstat": 50,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "still point riven solo",
+     "impressions_wordstat": 49,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "la rive destinee",
+     "impressions_wordstat": 49,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "rive gauche отзывы",
+     "impressions_wordstat": 49,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "vagrus the riven realms скачать",
+     "impressions_wordstat": 49,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "rive river",
+     "impressions_wordstat": 48,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "rive смотреть",
+     "impressions_wordstat": 48,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "rive acqua riva",
+     "impressions_wordstat": 48,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "elysee rive hotel 4 турция",
+     "impressions_wordstat": 47,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "tom ford rive d ambre",
+     "impressions_wordstat": 47,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "la rive taste of kiss",
+     "impressions_wordstat": 47,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "rive зависимый",
+     "impressions_wordstat": 47,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "elysee rive hotel аланья",
+     "impressions_wordstat": 47,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "riven карта",
+     "impressions_wordstat": 47,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "rive туалетная вода купить",
+     "impressions_wordstat": 46,
+     "intent": "commercial"
+    },
+    {
+     "phrase": "купить туалетную воду la rive",
+     "impressions_wordstat": 46,
+     "intent": "commercial"
+    },
+    {
+     "phrase": "saint laurent rive droite",
+     "impressions_wordstat": 46,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "la rive ideal",
+     "impressions_wordstat": 46,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "riven sex",
+     "impressions_wordstat": 45,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "clara rives 18",
+     "impressions_wordstat": 45,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "riven lol",
+     "impressions_wordstat": 44,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "la rive game for men купить",
+     "impressions_wordstat": 44,
+     "intent": "commercial"
+    },
+    {
+     "phrase": "духи la rive woman",
+     "impressions_wordstat": 44,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "мод riven",
+     "impressions_wordstat": 43,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "ванна odeon rive gauche",
+     "impressions_wordstat": 43,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "la rive pearl",
+     "impressions_wordstat": 43,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "pearl rive",
+     "impressions_wordstat": 43,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "la rive blue line",
+     "impressions_wordstat": 42,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "la rive elegant",
+     "impressions_wordstat": 42,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "la rive river",
+     "impressions_wordstat": 42,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "315 prestige la rive",
+     "impressions_wordstat": 41,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "les rives",
+     "impressions_wordstat": 41,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "la rive парфюм отзывы",
+     "impressions_wordstat": 41,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "bi es la rive",
+     "impressions_wordstat": 41,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "clara rives porno",
+     "impressions_wordstat": 41,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "rive beauty",
+     "impressions_wordstat": 40,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "la rive in flames",
+     "impressions_wordstat": 40,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "rive dolce riva керамогранит",
+     "impressions_wordstat": 40,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "body la rive",
+     "impressions_wordstat": 40,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "elysee rive hotel 4 турция аланья",
+     "impressions_wordstat": 40,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "riven перевод на русский",
+     "impressions_wordstat": 39,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "la rive aqua bella",
+     "impressions_wordstat": 39,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "rive на пк",
+     "impressions_wordstat": 39,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "la rive love river",
+     "impressions_wordstat": 38,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "rive зависимый скачать",
+     "impressions_wordstat": 38,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "la rive she is mine",
+     "impressions_wordstat": 38,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "atlas concorde rive dolce riva",
+     "impressions_wordstat": 37,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "warframe riven mods",
+     "impressions_wordstat": 37,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "la rive woman отзыв",
+     "impressions_wordstat": 36,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "rive gauche pour",
+     "impressions_wordstat": 36,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "rive dolce riva 20x120",
+     "impressions_wordstat": 36,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "riven 1997",
+     "impressions_wordstat": 36,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "sante rive bardolino",
+     "impressions_wordstat": 36,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "la rive grey line",
+     "impressions_wordstat": 36,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "la rive beauty",
+     "impressions_wordstat": 36,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "kenzy rives",
+     "impressions_wordstat": 35,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "la rive sweet hope",
+     "impressions_wordstat": 35,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "golden rives",
+     "impressions_wordstat": 35,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "yves saint laurent parfums corp rive gauche",
+     "impressions_wordstat": 35,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "поплавки rive",
+     "impressions_wordstat": 34,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "rive фильмы",
+     "impressions_wordstat": 34,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "la rive духи мужские",
+     "impressions_wordstat": 34,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "rive gauche pour homme",
+     "impressions_wordstat": 34,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "rive homme gauche",
+     "impressions_wordstat": 34,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "amelia riven porno",
+     "impressions_wordstat": 33,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "marvels rives",
+     "impressions_wordstat": 32,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "la rive queen",
+     "impressions_wordstat": 32,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "rive acqua riva 20x120",
+     "impressions_wordstat": 32,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "aqua la rive купить",
+     "impressions_wordstat": 22,
+     "intent": "commercial"
+    },
+    {
+     "phrase": "купить туалетную воду body la rive",
+     "impressions_wordstat": 22,
+     "intent": "commercial"
+    },
+    {
+     "phrase": "купить платформу rive",
+     "impressions_wordstat": 20,
+     "intent": "commercial"
+    },
+    {
+     "phrase": "la rive moon купить",
+     "impressions_wordstat": 17,
+     "intent": "commercial"
+    },
+    {
+     "phrase": "la rive river of love купить",
+     "impressions_wordstat": 14,
+     "intent": "commercial"
+    },
+    {
+     "phrase": "la rive парфюмерия купить",
+     "impressions_wordstat": 14,
+     "intent": "commercial"
+    },
+    {
+     "phrase": "donna la rive купить",
+     "impressions_wordstat": 14,
+     "intent": "commercial"
+    },
+    {
+     "phrase": "amore di fiore la rive купить",
+     "impressions_wordstat": 12,
+     "intent": "commercial"
+    },
+    {
+     "phrase": "мурманск купить туалетную воду body la rive",
+     "impressions_wordstat": 12,
+     "intent": "commercial"
+    },
+    {
+     "phrase": "la rive парфюм пробник купить",
+     "impressions_wordstat": 11,
+     "intent": "commercial"
+    },
+    {
+     "phrase": "la rive absolute sport купить",
+     "impressions_wordstat": 11,
+     "intent": "commercial"
+    },
+    {
+     "phrase": "la rive sweet woman купить",
+     "impressions_wordstat": 10,
+     "intent": "commercial"
+    },
+    {
+     "phrase": "la rive in woman купить",
+     "impressions_wordstat": 9,
+     "intent": "commercial"
+    },
+    {
+     "phrase": "la rive fleur de femme купить",
+     "impressions_wordstat": 9,
+     "intent": "commercial"
+    },
+    {
+     "phrase": "aqua bella la rive купить",
+     "impressions_wordstat": 8,
+     "intent": "commercial"
+    },
+    {
+     "phrase": "la rive distant wave купить",
+     "impressions_wordstat": 7,
+     "intent": "commercial"
+    },
+    {
+     "phrase": "riven игра на пс5 купить",
+     "impressions_wordstat": 7,
+     "intent": "commercial"
+    },
+    {
+     "phrase": "rive smart compact купить",
+     "impressions_wordstat": 7,
+     "intent": "commercial"
+    },
+    {
+     "phrase": "la rive madame in love где купить",
+     "impressions_wordstat": 6,
+     "intent": "commercial"
+    },
+    {
+     "phrase": "rive уколы худение купить",
+     "impressions_wordstat": 6,
+     "intent": "commercial"
+    },
+    {
+     "phrase": "la rive love dance купить",
+     "impressions_wordstat": 6,
+     "intent": "commercial"
+    },
+    {
+     "phrase": "la rive prestige grey купить",
+     "impressions_wordstat": 5,
+     "intent": "commercial"
+    },
+    {
+     "phrase": "платформа rive d36 купить",
+     "impressions_wordstat": 5,
+     "intent": "commercial"
+    },
+    {
+     "phrase": "la rive woman оригинал купить",
+     "impressions_wordstat": 5,
+     "intent": "commercial"
+    },
+    {
+     "phrase": "la rive extreme story купить",
+     "impressions_wordstat": 2,
+     "intent": "commercial"
+    }
+   ],
+   "associations": [
+    {
+     "phrase": "rive",
+     "impressions_wordstat": 19037,
+     "intent": "unknown"
+    },
+    {
+     "phrase": "cry me a river",
+     "impressions_wordstat": 5955,
+     "intent": "unknown"
+    }
+   ],
+   "commercial_phrases": 34,
+   "commercial_impressions": 2350,
+   "confidence": "sufficient"
   },
   {
    "cluster": "rizomuv",
