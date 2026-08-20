@@ -24,7 +24,9 @@ sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
 
 import config as C  # noqa: E402
 
-URL = "https://searchapi.api.cloud.yandex.net/v2/wordstat/getDynamics"
+# Путь тот же, что у клиента: /dynamics. Прошлый пробник стучался в
+# /getDynamics и получал 404 — проверял несуществующий адрес, а не тело.
+URL = "https://searchapi.api.cloud.yandex.net/v2/wordstat/dynamics"
 PHRASE = "adobe купить"
 
 
