@@ -305,8 +305,6 @@ const APP_PERMS = [
   // с телефона через сайт, а не через админку Directus (она наружу не смотрит).
   // delete нужен для удаления мусорных заявок из корзины админ-кабинета.
   ['leads', 'create'], ['leads', 'read'], ['leads', 'update'], ['leads', 'delete'],
-  // Чтение quotes нужно переносу истории скачанных КП в воронку.
-  ['quotes', 'read'],
   ['lead_events', 'create'], ['lead_events', 'read'], ['lead_events', 'delete'],
   ['quotes', 'create'], ['quotes', 'read'],
   ['currency_rate', 'read'], ['currency_rate', 'create'], ['currency_rate', 'update'],
