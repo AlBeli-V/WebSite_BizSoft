@@ -10,6 +10,12 @@
 # перезапускает приложение и кладёт значение в /root/admin-token.txt на сервере
 # с правами 600. Забрать его оттуда — одной командой по SSH. В журнал уходят
 # только первые и последние четыре символа, чтобы можно было сверить.
+#
+# Режим send: отправляет действующий токен письмом на указанный адрес. Значение
+# читается на сервере и подставляется в письмо там же — через параметры запуска
+# оно не проходит, потому что параметры workflow_dispatch видны в интерфейсе
+# Actions всем, у кого есть доступ к репозиторию. В журнал уходит только адрес
+# получателя и факт отправки.
 
 name: ops-admin-token
 
@@ -17,11 +23,15 @@ on:
   workflow_dispatch:
     inputs:
       mode:
-        description: "check — проверить; rotate — выпустить новый"
+        description: "check — проверить; rotate — выпустить новый; send — прислать письмом"
         required: true
         default: "check"
         type: choice
-        options: [check, rotate]
+        options: [check, rotate, send]
+      email:
+        description: "Куда прислать токен (только для режима send)"
+        required: false
+        default: ""
 
 permissions:
   contents: read
@@ -36,11 +46,12 @@ jobs:
         uses: appleboy/ssh-action@v1
         env:
           MODE: ${{ inputs.mode }}
+          P_TO: ${{ inputs.email }}
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
-          envs: MODE
+          envs: MODE,P_TO
           capture_stdout: true
           command_timeout: 10m
           script: |
@@ -57,6 +68,70 @@ jobs:
                 echo "ADMIN_TOOLS_TOKEN задан, длина ${#CUR} символов, начинается на $(printf %.4s "$CUR")… — админ-страницы работают"
               fi
               echo "Забрать значение: ssh <сервер> \"grep '^ADMIN_TOOLS_TOKEN=' $ENV_FILE\""
+              exit 0
+            fi
+
+            if [ "$MODE" = "send" ]; then
+              if [ -z "$P_TO" ]; then
+                echo "::error::для режима send нужен адрес получателя"
+                exit 1
+              fi
+              if [ -z "$CUR" ]; then
+                echo "::error::ADMIN_TOOLS_TOKEN не задан — отправлять нечего"
+                exit 1
+              fi
+              for k in SMTP_HOST SMTP_PORT SMTP_SECURE SMTP_USER SMTP_PASS SMTP_FROM; do
+                v=$(sed -n "s/^$k=//p" "$ENV_FILE" | tr -d '"\r')
+                export "$k=$v"
+              done
+              export TOKEN_VALUE="$CUR"
+              python3 - <<'PYEOF'
+            import os, smtplib, ssl
+            from email.message import EmailMessage
+
+            host = os.environ.get('SMTP_HOST', '')
+            if not host:
+                print('SMTP не настроен в astro.env — письмо не отправлено')
+                raise SystemExit(1)
+            port = int(os.environ.get('SMTP_PORT') or 587)
+            secure = (os.environ.get('SMTP_SECURE') or 'false').lower() == 'true'
+            user = os.environ.get('SMTP_USER', '')
+            password = os.environ.get('SMTP_PASS', '')
+            sender = os.environ.get('SMTP_FROM') or 'BIZSoft <hello@biz-soft.pro>'
+            token = os.environ['TOKEN_VALUE']
+
+            msg = EmailMessage()
+            msg['From'] = sender
+            msg['To'] = os.environ['P_TO']
+            msg['Subject'] = 'BIZSoft: токен админ-инструментов'
+            msg.set_content(
+                'Токен доступа к админ-страницам сайта:\n\n'
+                f'    {token}\n\n'
+                'Где вводится:\n'
+                '  https://biz-soft.pro/admin/leads  — заявки и воронка продаж\n'
+                '  https://biz-soft.pro/admin/prices — цены и переоценка\n\n'
+                'Браузер запомнит его после первого ввода. На айфоне: открыть в Safari,\n'
+                '«Поделиться» → «На экран «Домой»» — дальше открывается как приложение.\n\n'
+                'Этим токеном меняются цены и данные клиентов. Не пересылайте его дальше;\n'
+                'если письмо попало не туда, токен нужно заменить: воркфлоу ops-admin-token,\n'
+                'режим rotate.\n\n'
+                'Письмо отправлено по прямому распоряжению владельца.\n'
+            )
+            ctx = ssl.create_default_context()
+            if secure or port == 465:
+                with smtplib.SMTP_SSL(host, port, context=ctx, timeout=30) as s:
+                    if user:
+                        s.login(user, password)
+                    s.send_message(msg)
+            else:
+                with smtplib.SMTP(host, port, timeout=30) as s:
+                    s.starttls(context=ctx)
+                    if user:
+                        s.login(user, password)
+                    s.send_message(msg)
+            print('письмо отправлено')
+            PYEOF
+              echo "Токен отправлен на $P_TO. Значение в журнал не выводится."
               exit 0
             fi
 
