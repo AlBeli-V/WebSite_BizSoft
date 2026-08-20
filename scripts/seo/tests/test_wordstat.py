@@ -166,6 +166,45 @@ class TestLimiter(unittest.TestCase):
         self.assertEqual(rl.observed_quota, 100)
         self.assertEqual(rl.rph, 100)
 
+    def test_quota_error_waits_probe_interval_not_full_hour(self):
+        """После отказа ждём 10 минут и пробуем, а не блокируемся на час вслепую."""
+        rl = self.limiter(rph=100)
+        rl.note_quota_error("allowed 100 requests")
+        self.assertLessEqual(rl.seconds_until_slot(), self.L.PROBE_START_SEC)
+        self.assertLess(rl.seconds_until_slot(), 3600)
+
+    def test_probe_is_allowed_after_interval(self):
+        rl = self.limiter(rph=100)
+        rl.note_quota_error("allowed 100 requests")
+        later = self.L.RateLimiter(10, 100, now=1000.0 + self.L.PROBE_START_SEC + 1,
+                                   state_path=self.tmp)
+        self.assertTrue(later.probe_due())
+        later.acquire(sleep=lambda s: None)          # проба обязана пройти
+        self.assertEqual(later.hour_used(), 1)
+
+    def test_success_clears_the_block(self):
+        rl = self.limiter(rph=100)
+        rl.note_quota_error("allowed 100 requests")
+        later = self.L.RateLimiter(10, 100, now=1000.0 + self.L.PROBE_START_SEC + 1,
+                                   state_path=self.tmp)
+        later.acquire(sleep=lambda s: None)
+        later.note_success()
+        self.assertEqual(later.blocked_until, 0.0)
+        self.assertEqual(later.probe_interval, self.L.PROBE_START_SEC)
+
+    def test_repeated_refusal_doubles_the_wait(self):
+        rl = self.limiter(rph=100)
+        rl.note_quota_error("x")
+        first = rl.probe_interval
+        rl.note_quota_error("x")
+        self.assertEqual(rl.probe_interval, min(self.L.PROBE_MAX_SEC, first * 2))
+
+    def test_probe_interval_is_capped(self):
+        rl = self.limiter(rph=100)
+        for _ in range(10):
+            rl.note_quota_error("x")
+        self.assertLessEqual(rl.probe_interval, self.L.PROBE_MAX_SEC)
+
     def test_backoff_grows(self):
         rl = self.limiter()
         self.assertLess(rl.backoff_delay(0), rl.backoff_delay(3))
