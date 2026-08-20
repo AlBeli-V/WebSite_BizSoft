@@ -1,7 +1,134 @@
 {
   "generated_from": "data/sources/manageengine/2026-08-20",
-  "source_collected_at": "2026-08-20T21:41:14.115Z",
+  "source_collected_at": "2026-08-20T22:00:20.070Z",
   "rules": [
+    {
+      "id": "endpoint-central-endpoint-central-malware-protection-add-on-requires-base",
+      "appliesTo": {
+        "offerSlug": "endpoint-central-malware-protection-add-on",
+        "familySlug": "endpoint-central"
+      },
+      "requires": {
+        "familySlug": "endpoint-central"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "endpoint-central-endpoint-central-ransomware-protection-add-on-requires-base",
+      "appliesTo": {
+        "offerSlug": "endpoint-central-ransomware-protection-add-on",
+        "familySlug": "endpoint-central"
+      },
+      "requires": {
+        "familySlug": "endpoint-central"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "endpoint-central-endpoint-central-os-deployment-add-on-requires-base",
+      "appliesTo": {
+        "offerSlug": "endpoint-central-os-deployment-add-on",
+        "familySlug": "endpoint-central"
+      },
+      "requires": {
+        "familySlug": "endpoint-central"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "endpoint-central-endpoint-central-dex-add-on-requires-base",
+      "appliesTo": {
+        "offerSlug": "endpoint-central-dex-add-on",
+        "familySlug": "endpoint-central"
+      },
+      "requires": {
+        "familySlug": "endpoint-central"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "endpoint-central-endpoint-central-secure-private-access-add-on-requires-base",
+      "appliesTo": {
+        "offerSlug": "endpoint-central-secure-private-access-add-on",
+        "familySlug": "endpoint-central"
+      },
+      "requires": {
+        "familySlug": "endpoint-central"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "endpoint-central-endpoint-central-additional-users-additional-extends",
+      "appliesTo": {
+        "offerSlug": "endpoint-central-additional-users",
+        "familySlug": "endpoint-central",
+        "variantPattern": "^Additional\\s"
+      },
+      "extends": {
+        "offerSlug": "endpoint-central-additional-users",
+        "familySlug": "endpoint-central"
+      },
+      "reason": "Позиция увеличивает объём уже выбранной лицензии и отдельно не поставляется"
+    },
+    {
+      "id": "patch-manager-plus-patch-manager-plus-additional-users-additional-extends",
+      "appliesTo": {
+        "offerSlug": "patch-manager-plus-additional-users",
+        "familySlug": "patch-manager-plus",
+        "variantPattern": "^Additional\\s"
+      },
+      "extends": {
+        "offerSlug": "patch-manager-plus-additional-users",
+        "familySlug": "patch-manager-plus"
+      },
+      "reason": "Позиция увеличивает объём уже выбранной лицензии и отдельно не поставляется"
+    },
+    {
+      "id": "patch-manager-plus-patch-manager-plus-remote-access-plus-add-on-requires-base",
+      "appliesTo": {
+        "offerSlug": "patch-manager-plus-remote-access-plus-add-on",
+        "familySlug": "patch-manager-plus"
+      },
+      "requires": {
+        "familySlug": "patch-manager-plus"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "patch-manager-plus-patch-manager-plus-failover-server-add-ons-requires-base",
+      "appliesTo": {
+        "offerSlug": "patch-manager-plus-failover-server-add-ons",
+        "familySlug": "patch-manager-plus"
+      },
+      "requires": {
+        "familySlug": "patch-manager-plus"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "mobile-device-manager-plus-mobile-device-manager-plus-additional-users-additional-extends",
+      "appliesTo": {
+        "offerSlug": "mobile-device-manager-plus-additional-users",
+        "familySlug": "mobile-device-manager-plus",
+        "variantPattern": "^Additional\\s"
+      },
+      "extends": {
+        "offerSlug": "mobile-device-manager-plus-additional-users",
+        "familySlug": "mobile-device-manager-plus"
+      },
+      "reason": "Позиция увеличивает объём уже выбранной лицензии и отдельно не поставляется"
+    },
+    {
+      "id": "mobile-device-manager-plus-mobile-device-manager-plus-failover-server-add-ons-requires-base",
+      "appliesTo": {
+        "offerSlug": "mobile-device-manager-plus-failover-server-add-ons",
+        "familySlug": "mobile-device-manager-plus"
+      },
+      "requires": {
+        "familySlug": "mobile-device-manager-plus"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
     {
       "id": "admanager-plus-admanager-plus-standard-edition-annual-subscription-additional-extends",
       "appliesTo": {
@@ -40,6 +167,43 @@
       "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
     },
     {
+      "id": "admanager-plus-admanager-plus-standard-edition-perpetual-additional-extends",
+      "appliesTo": {
+        "offerSlug": "admanager-plus-standard-edition-perpetual",
+        "familySlug": "admanager-plus",
+        "variantPattern": "^Additional\\s"
+      },
+      "extends": {
+        "offerSlug": "admanager-plus-standard-edition-perpetual",
+        "familySlug": "admanager-plus"
+      },
+      "reason": "Позиция увеличивает объём уже выбранной лицензии и отдельно не поставляется"
+    },
+    {
+      "id": "admanager-plus-admanager-plus-professional-edition-perpetual-additional-extends",
+      "appliesTo": {
+        "offerSlug": "admanager-plus-professional-edition-perpetual",
+        "familySlug": "admanager-plus",
+        "variantPattern": "^Additional\\s"
+      },
+      "extends": {
+        "offerSlug": "admanager-plus-professional-edition-perpetual",
+        "familySlug": "admanager-plus"
+      },
+      "reason": "Позиция увеличивает объём уже выбранной лицензии и отдельно не поставляется"
+    },
+    {
+      "id": "admanager-plus-admanager-plus-backup-and-recovery-add-on-perpetual-requires-base",
+      "appliesTo": {
+        "offerSlug": "admanager-plus-backup-and-recovery-add-on-perpetual",
+        "familySlug": "admanager-plus"
+      },
+      "requires": {
+        "familySlug": "admanager-plus"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
       "id": "m365-manager-plus-m365-manager-plus-exchange-online-backup-add-on-requires-base",
       "appliesTo": {
         "offerSlug": "m365-manager-plus-exchange-online-backup-add-on",
@@ -51,9 +215,31 @@
       "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
     },
     {
+      "id": "m365-manager-plus-m365-manager-plus-exchange-online-backup-add-on-perpetual-requires-base",
+      "appliesTo": {
+        "offerSlug": "m365-manager-plus-exchange-online-backup-add-on-perpetual",
+        "familySlug": "m365-manager-plus"
+      },
+      "requires": {
+        "familySlug": "m365-manager-plus"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
       "id": "password-manager-pro-password-manager-pro-add-ons-requires-base",
       "appliesTo": {
         "offerSlug": "password-manager-pro-add-ons",
+        "familySlug": "password-manager-pro"
+      },
+      "requires": {
+        "familySlug": "password-manager-pro"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "password-manager-pro-password-manager-pro-add-ons-perpetual-requires-base",
+      "appliesTo": {
+        "offerSlug": "password-manager-pro-add-ons-perpetual",
         "familySlug": "password-manager-pro"
       },
       "requires": {
@@ -125,6 +311,17 @@
       "reason": "Позиция увеличивает объём уже выбранной лицензии и отдельно не поставляется"
     },
     {
+      "id": "servicedesk-plus-servicedesk-plus-active-directory-management-add-on-annual-subscription-requires-base",
+      "appliesTo": {
+        "offerSlug": "servicedesk-plus-active-directory-management-add-on-annual-subscription",
+        "familySlug": "servicedesk-plus"
+      },
+      "requires": {
+        "familySlug": "servicedesk-plus"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
       "id": "servicedesk-plus-analytics-plus-on-premise-add-on-for-servicedesk-plus-requires-base",
       "appliesTo": {
         "offerSlug": "analytics-plus-on-premise-add-on-for-servicedesk-plus",
@@ -171,17 +368,6 @@
         "familySlug": "servicedesk-plus"
       },
       "reason": "Позиция увеличивает объём уже выбранной лицензии и отдельно не поставляется"
-    },
-    {
-      "id": "servicedesk-plus-servicedesk-plus-active-directory-management-add-on-annual-subscription-requires-base",
-      "appliesTo": {
-        "offerSlug": "servicedesk-plus-active-directory-management-add-on-annual-subscription",
-        "familySlug": "servicedesk-plus"
-      },
-      "requires": {
-        "familySlug": "servicedesk-plus"
-      },
-      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
     },
     {
       "id": "servicedesk-plus-analytics-plus-on-premise-add-on-for-servicedesk-plus-excludes-analytics-plus-cloud-add-on-for-servicedesk-plus",
@@ -245,6 +431,17 @@
       "reason": "Позиция увеличивает объём уже выбранной лицензии и отдельно не поставляется"
     },
     {
+      "id": "servicedesk-plus-multi-language-servicedesk-plus-active-directory-management-add-on-annual-subscription-requires-base",
+      "appliesTo": {
+        "offerSlug": "servicedesk-plus-active-directory-management-add-on-annual-subscription",
+        "familySlug": "servicedesk-plus-multi-language"
+      },
+      "requires": {
+        "familySlug": "servicedesk-plus-multi-language"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
       "id": "servicedesk-plus-multi-language-analytics-plus-on-premise-add-on-for-servicedesk-plus-requires-base",
       "appliesTo": {
         "offerSlug": "analytics-plus-on-premise-add-on-for-servicedesk-plus",
@@ -291,17 +488,6 @@
         "familySlug": "servicedesk-plus-multi-language"
       },
       "reason": "Позиция увеличивает объём уже выбранной лицензии и отдельно не поставляется"
-    },
-    {
-      "id": "servicedesk-plus-multi-language-servicedesk-plus-active-directory-management-add-on-annual-subscription-requires-base",
-      "appliesTo": {
-        "offerSlug": "servicedesk-plus-active-directory-management-add-on-annual-subscription",
-        "familySlug": "servicedesk-plus-multi-language"
-      },
-      "requires": {
-        "familySlug": "servicedesk-plus-multi-language"
-      },
-      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
     },
     {
       "id": "servicedesk-plus-multi-language-analytics-plus-on-premise-add-on-for-servicedesk-plus-excludes-analytics-plus-cloud-add-on-for-servicedesk-plus",
@@ -442,133 +628,6 @@
         "familySlug": "assetexplorer"
       },
       "reason": "Позиция увеличивает объём уже выбранной лицензии и отдельно не поставляется"
-    },
-    {
-      "id": "endpoint-central-endpoint-central-malware-protection-add-on-requires-base",
-      "appliesTo": {
-        "offerSlug": "endpoint-central-malware-protection-add-on",
-        "familySlug": "endpoint-central"
-      },
-      "requires": {
-        "familySlug": "endpoint-central"
-      },
-      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
-    },
-    {
-      "id": "endpoint-central-endpoint-central-ransomware-protection-add-on-requires-base",
-      "appliesTo": {
-        "offerSlug": "endpoint-central-ransomware-protection-add-on",
-        "familySlug": "endpoint-central"
-      },
-      "requires": {
-        "familySlug": "endpoint-central"
-      },
-      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
-    },
-    {
-      "id": "endpoint-central-endpoint-central-os-deployment-add-on-requires-base",
-      "appliesTo": {
-        "offerSlug": "endpoint-central-os-deployment-add-on",
-        "familySlug": "endpoint-central"
-      },
-      "requires": {
-        "familySlug": "endpoint-central"
-      },
-      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
-    },
-    {
-      "id": "endpoint-central-endpoint-central-dex-add-on-requires-base",
-      "appliesTo": {
-        "offerSlug": "endpoint-central-dex-add-on",
-        "familySlug": "endpoint-central"
-      },
-      "requires": {
-        "familySlug": "endpoint-central"
-      },
-      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
-    },
-    {
-      "id": "endpoint-central-endpoint-central-secure-private-access-add-on-requires-base",
-      "appliesTo": {
-        "offerSlug": "endpoint-central-secure-private-access-add-on",
-        "familySlug": "endpoint-central"
-      },
-      "requires": {
-        "familySlug": "endpoint-central"
-      },
-      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
-    },
-    {
-      "id": "endpoint-central-endpoint-central-additional-users-additional-extends",
-      "appliesTo": {
-        "offerSlug": "endpoint-central-additional-users",
-        "familySlug": "endpoint-central",
-        "variantPattern": "^Additional\\s"
-      },
-      "extends": {
-        "offerSlug": "endpoint-central-additional-users",
-        "familySlug": "endpoint-central"
-      },
-      "reason": "Позиция увеличивает объём уже выбранной лицензии и отдельно не поставляется"
-    },
-    {
-      "id": "patch-manager-plus-patch-manager-plus-additional-users-additional-extends",
-      "appliesTo": {
-        "offerSlug": "patch-manager-plus-additional-users",
-        "familySlug": "patch-manager-plus",
-        "variantPattern": "^Additional\\s"
-      },
-      "extends": {
-        "offerSlug": "patch-manager-plus-additional-users",
-        "familySlug": "patch-manager-plus"
-      },
-      "reason": "Позиция увеличивает объём уже выбранной лицензии и отдельно не поставляется"
-    },
-    {
-      "id": "patch-manager-plus-patch-manager-plus-remote-access-plus-add-on-requires-base",
-      "appliesTo": {
-        "offerSlug": "patch-manager-plus-remote-access-plus-add-on",
-        "familySlug": "patch-manager-plus"
-      },
-      "requires": {
-        "familySlug": "patch-manager-plus"
-      },
-      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
-    },
-    {
-      "id": "patch-manager-plus-patch-manager-plus-failover-server-add-ons-requires-base",
-      "appliesTo": {
-        "offerSlug": "patch-manager-plus-failover-server-add-ons",
-        "familySlug": "patch-manager-plus"
-      },
-      "requires": {
-        "familySlug": "patch-manager-plus"
-      },
-      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
-    },
-    {
-      "id": "mobile-device-manager-plus-mobile-device-manager-plus-additional-users-additional-extends",
-      "appliesTo": {
-        "offerSlug": "mobile-device-manager-plus-additional-users",
-        "familySlug": "mobile-device-manager-plus",
-        "variantPattern": "^Additional\\s"
-      },
-      "extends": {
-        "offerSlug": "mobile-device-manager-plus-additional-users",
-        "familySlug": "mobile-device-manager-plus"
-      },
-      "reason": "Позиция увеличивает объём уже выбранной лицензии и отдельно не поставляется"
-    },
-    {
-      "id": "mobile-device-manager-plus-mobile-device-manager-plus-failover-server-add-ons-requires-base",
-      "appliesTo": {
-        "offerSlug": "mobile-device-manager-plus-failover-server-add-ons",
-        "familySlug": "mobile-device-manager-plus"
-      },
-      "requires": {
-        "familySlug": "mobile-device-manager-plus"
-      },
-      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
     }
   ]
 }

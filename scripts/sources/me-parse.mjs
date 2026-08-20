@@ -88,32 +88,50 @@ function parseSnapshot(lines) {
     }
   }
 
-  const headers = [];
+  // Шапка таблицы начинается со строки «Products», за ней идут подписи
+  // денежных столбцов. Названия столбцов у вендора не одинаковые: на вкладке
+  // подписки это «License Fee», на вкладке вечной лицензии — «Perpetual».
+  // Поэтому подписи не перечисляем списком, а собираем до первой строки, за
+  // которой стоит сумма: такая строка — уже название позиции, а не столбец.
+  const tables = [];
+  const heads = [];
   for (let i = 1; i < footer; i += 1) {
-    if (lines[i] === 'License Fee' && lines[i - 1] === 'Products') headers.push(i);
+    if (lines[i] !== 'Products') continue;
+    const title = (lines[i - 1] || '').trim();
+    if (!title) continue;
+    const cols = [];
+    let j = i + 1;
+    while (j < footer && cols.length < 3) {
+      const cell = lines[j];
+      if (!cell || cell.length > 40 || parseMoney(cell)) break;
+      if (parseMoney(lines[j + 1])) break; // это уже позиция прайса
+      cols.push(cell);
+      j += 1;
+    }
+    if (!cols.length) continue;
+    heads.push({ title, cols, start: j, at: i });
   }
 
-  const tables = [];
-  headers.forEach((h, idx) => {
-    const title = (lines[h - 2] || '').trim();
-    if (!title) return;
-    // Третий столбец таблицы: обычно «AMS*», иногда «Maintenance».
-    const thirdCol = (lines[h + 1] || '').trim();
-    const hasThird = !parseMoney(thirdCol) && thirdCol.length > 0 && thirdCol.length < 40;
-    const stop = Math.min(idx + 1 < headers.length ? headers[idx + 1] - 2 : lines.length, footer);
-
+  heads.forEach((h, idx) => {
+    const stop = Math.min(idx + 1 < heads.length ? heads[idx + 1].at - 1 : footer, footer);
+    const stride = 1 + h.cols.length;
     const rows = [];
-    let j = h + (hasThird ? 2 : 1);
+    let j = h.start;
     while (j + 1 < stop) {
       const money = parseMoney(lines[j + 1]);
       if (!money) { j += 1; continue; }
       const name = (lines[j] || '').trim();
       if (!name || parseMoney(name)) { j += 1; continue; }
-      const third = hasThird ? (lines[j + 2] || '').trim() : null;
-      rows.push({ name, ...money, ams: third });
-      j += hasThird ? 3 : 2;
+      rows.push({
+        name,
+        ...money,
+        // Второй денежный столбец — сопровождение: «Included» у подписки,
+        // отдельная сумма у вечной лицензии.
+        ams: h.cols.length > 1 ? (lines[j + 2] || '').trim() : null,
+      });
+      j += stride;
     }
-    if (rows.length) tables.push({ title, third_column: hasThird ? thirdCol : null, rows });
+    if (rows.length) tables.push({ title: h.title, columns: h.cols, rows });
   });
   return tables;
 }
@@ -141,79 +159,134 @@ function main() {
   let onRequestCount = 0;
 
   for (const row of details.rows) {
-    const txtPath = path.join(dir, 'details', `${row.source_snapshot_id}.txt`);
-    if (!fs.existsSync(txtPath)) continue;
-    const lines = fs.readFileSync(txtPath, 'utf8').split('\n').map((l) => l.trim());
-    const tables = parseSnapshot(lines);
-    if (!tables.length) continue;
+    // Страница отдаёт несколько вкладок прайса: подписка и вечная лицензия,
+    // облако и установка на свои серверы. Каждая вкладка снята отдельным
+    // снимком; разбираем все и складываем в одно семейство.
+    const views = [
+      { id: row.source_snapshot_id, tab: null, checked_at: row.source_checked_at },
+      ...(row.tabs || []).map((t) => ({
+        id: t.source_snapshot_id, tab: t.tab, checked_at: t.source_checked_at,
+      })),
+    ];
 
-    // Подпись над таблицами («Pricing for cloud edition») задаёт способ
-    // развёртывания для всей страницы, если в заголовке таблицы его нет.
-    const pageHint = lines.filter((l) => /^Pricing for /i.test(l)).join(' ');
-    const familyName = (row.title || row.label || '')
-      .replace(/\s*(Store|Pricing & Plans|\| Buy Online).*$/i, '')
-      .replace(/^ManageEngine\s+/i, '')
-      .trim();
+    let familyName = '';
+    let pageDeployment = null;
+    const offers = [];
+    const seenOffers = new Map();
 
-    const offers = tables.map((t) => {
-      const meta = classify(t.title, pageHint);
-      offerCount += 1;
-      const variants = t.rows.map((r) => {
-        variantCount += 1;
-        if (r.price_status === 'on_request') onRequestCount += 1;
-        return {
+    for (const view of views) {
+      const txtPath = path.join(dir, 'details', `${view.id}.txt`);
+      if (!fs.existsSync(txtPath)) continue;
+      const lines = fs.readFileSync(txtPath, 'utf8').split('\n').map((l) => l.trim());
+      const tables = parseSnapshot(lines);
+      if (!tables.length) continue;
+
+      // Подпись над таблицами («Pricing for cloud edition») задаёт способ
+      // развёртывания для всей страницы, если в заголовке таблицы его нет.
+      const pageHint = lines.filter((l) => /^Pricing for /i.test(l)).join(' ');
+      if (!pageDeployment) pageDeployment = classify('', pageHint).deployment;
+      if (!familyName) {
+        familyName = (row.title || row.label || '')
+          .replace(/\s*(Store|Pricing & Plans|\| Buy Online).*$/i, '')
+          .replace(/^ManageEngine\s+/i, '')
+          .trim();
+      }
+
+      for (const t of tables) {
+        const meta = classify(t.title, `${pageHint} ${view.tab || ''}`);
+        const variants = t.rows.map((r) => ({
           variant_name: r.name,
           metric: parseMetric(r.name),
           amount_usd: r.amount_usd,
           price_status: r.price_status,
           maintenance: r.ams,
+        }));
+        // Вкладка «по умолчанию» и вкладка «Subscription» отдают один и тот же
+        // прайс. Различать их по модели лицензии нельзя: у вкладки по
+        // умолчанию подписи нет, и одинаковые таблицы разошлись бы по двум
+        // «разным» продуктам. Ключ — название таблицы и сами цены; при
+        // повторе только уточняем модель и способ поставки.
+        const fingerprint = `${t.title}|${variants.map((v) => `${v.variant_name}=${v.amount_usd}`).join(',')}`;
+        const twin = seenOffers.get(fingerprint);
+        if (twin) {
+          if (!twin.license_model && meta.license_model) {
+            twin.license_model = meta.license_model;
+            twin.offer_slug = slugify(t.title) + (meta.license_model === 'perpetual' ? '-perpetual' : '');
+          }
+          if (!twin.deployment && meta.deployment) twin.deployment = meta.deployment;
+          continue;
+        }
+
+        offerCount += 1;
+        for (const v of variants) {
+          variantCount += 1;
+          if (v.price_status === 'on_request') onRequestCount += 1;
+        }
+        const offer = {
+          offer_slug: slugify(t.title) + (meta.license_model === 'perpetual' ? '-perpetual' : ''),
+          offer_name: t.title,
+          edition: meta.edition,
+          deployment: meta.deployment,
+          license_model: meta.license_model,
+          kind: meta.is_service ? 'service' : meta.is_addon ? 'addon' : 'base',
+          source_snapshot_id: view.id,
+          source_tab: view.tab,
+          variants,
         };
-      });
-      return {
-        offer_slug: slugify(t.title),
-        offer_name: t.title,
-        edition: meta.edition,
-        deployment: meta.deployment,
-        license_model: meta.license_model,
-        kind: meta.is_service ? 'service' : meta.is_addon ? 'addon' : 'base',
-        variants,
-      };
-    });
+        offers.push(offer);
+        seenOffers.set(fingerprint, offer);
+      }
+    }
+    if (!offers.length) continue;
 
-    // Способ развёртывания страницы — из подписи над таблицами.
-    const pageDeployment = classify('', pageHint).deployment;
-
-    // Продукт по способу развёртывания собирается ТОЛЬКО из базовых
-    // предложений. Дополнение вида «Analytics Plus On-Premise add-on» — это
-    // add-on со своим способом поставки, а не отдельная поставка семейства;
-    // такие строки приписываются к продукту страницы, а собственный признак
+    // Продукт поставки — это пара «способ развёртывания + модель лицензии».
+    // Подписка в облаке и вечная лицензия на своих серверах у вендора
+    // продаются как разные продукты, и на витрине это должны быть разные
+    // страницы. Способ развёртывания берётся только оттуда, где вендор его
+    // назвал: у перечня вечных лицензий он обычно не подписан, и ставить
+    // «установка на свои серверы» по догадке нельзя.
+    //
+    // Дополнение вида «Analytics Plus On-Premise add-on» — это add-on со
+    // своим способом поставки, а не отдельная поставка семейства; такие
+    // строки приписываются к продукту страницы, а собственный признак
     // сохраняется в addon_deployment.
-    const byDeployment = new Map();
-    const attach = (key, offer) => {
-      if (!byDeployment.has(key)) byDeployment.set(key, []);
-      byDeployment.get(key).push(offer);
+    const byProduct = new Map();
+    const attach = (deployment, model, offer) => {
+      const key = `${deployment}|${model}`;
+      if (!byProduct.has(key)) byProduct.set(key, { deployment, license_model: model, offers: [] });
+      byProduct.get(key).offers.push(offer);
     };
     for (const offer of offers) {
+      const model = offer.license_model || 'unspecified';
       if (offer.kind === 'base') {
-        attach(offer.deployment || pageDeployment || 'unspecified', offer);
+        attach(offer.deployment || pageDeployment || 'unspecified', model, offer);
       } else {
         offer.addon_deployment = offer.deployment;
         offer.deployment = pageDeployment;
-        attach(pageDeployment || 'unspecified', offer);
+        attach(pageDeployment || 'unspecified', model, offer);
       }
     }
 
+    const famSlug = slugify(familyName);
+    const suffix = (deployment, model) => {
+      const parts = [];
+      if (deployment !== 'unspecified') parts.push(deployment.replace('_', '-'));
+      if (model !== 'unspecified') parts.push(model);
+      return parts.length ? `-${parts.join('-')}` : '';
+    };
+
     families.push({
-      family_slug: slugify(familyName),
+      family_slug: famSlug,
       family_name: familyName,
       vendor: 'Zoho',
       brand_line: 'ManageEngine',
       source_url: row.source_url,
       source_snapshot_id: row.source_snapshot_id,
       source_checked_at: row.source_checked_at,
-      deployment_products: [...byDeployment.entries()].map(([deployment, list]) => ({
+      deployment_products: [...byProduct.values()].map(({ deployment, license_model, offers: list }) => ({
         deployment,
-        product_slug: `${slugify(familyName)}${deployment === 'unspecified' ? '' : `-${deployment.replace('_', '-')}`}`,
+        license_model,
+        product_slug: `${famSlug}${suffix(deployment, license_model)}`,
         offers: list,
       })),
     });

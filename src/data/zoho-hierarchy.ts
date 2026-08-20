@@ -89,11 +89,11 @@ export const ZOHO_GROUPS: ZohoGroup[] = [
         "priced": true,
         "sourceUrl": "https://store.manageengine.com/ad-manager/?MEstore",
         "sourceSnapshotId": "7730901a7469",
-        "sourceCheckedAt": "2026-08-20T21:39:33.842Z",
+        "sourceCheckedAt": "2026-08-20T21:57:13.938Z",
         "deployments": [
           {
             "deployment": "unspecified",
-            "slug": "admanager-plus",
+            "slug": "admanager-plus-subscription",
             "offers": [
               {
                 "slug": "admanager-plus-standard-edition-annual-subscription",
@@ -228,7 +228,7 @@ export const ZOHO_GROUPS: ZohoGroup[] = [
                 "slug": "admanager-plus-backup-and-recovery-add-on",
                 "name": "ADManager Plus Backup and Recovery add-on",
                 "edition": null,
-                "licenseModel": null,
+                "licenseModel": "subscription",
                 "kind": "addon",
                 "variants": [
                   {
@@ -297,7 +297,7 @@ export const ZOHO_GROUPS: ZohoGroup[] = [
                 "slug": "admanager-plus-onboarding-implementation-training",
                 "name": "ADManager Plus Onboarding, Implementation & Training",
                 "edition": null,
-                "licenseModel": null,
+                "licenseModel": "subscription",
                 "kind": "service",
                 "variants": [
                   {
@@ -331,6 +331,210 @@ export const ZOHO_GROUPS: ZohoGroup[] = [
                 ]
               }
             ]
+          },
+          {
+            "deployment": "unspecified",
+            "slug": "admanager-plus-perpetual",
+            "offers": [
+              {
+                "slug": "admanager-plus-standard-edition-perpetual",
+                "name": "ADManager Plus Standard Edition",
+                "edition": "Standard",
+                "licenseModel": "perpetual",
+                "kind": "base",
+                "variants": [
+                  {
+                    "name": "1 Domain (Unrestricted Objects) with 2 help desk Technicians",
+                    "metric": {
+                      "quantity": 1,
+                      "unit": "domain"
+                    },
+                    "amountUsd": 1485,
+                    "priceStatus": "listed",
+                    "maintenance": "US$297"
+                  },
+                  {
+                    "name": "1 Domain (Unrestricted Objects) with 5 help desk Technicians",
+                    "metric": {
+                      "quantity": 1,
+                      "unit": "domain"
+                    },
+                    "amountUsd": 2988,
+                    "priceStatus": "listed",
+                    "maintenance": "US$598"
+                  },
+                  {
+                    "name": "1 Domain (Unrestricted Objects) with 10 help desk Technicians",
+                    "metric": {
+                      "quantity": 1,
+                      "unit": "domain"
+                    },
+                    "amountUsd": 5738,
+                    "priceStatus": "listed",
+                    "maintenance": "US$1,148"
+                  },
+                  {
+                    "name": "1 Domain (Unrestricted Objects) with 20 help desk Technicians",
+                    "metric": {
+                      "quantity": 1,
+                      "unit": "domain"
+                    },
+                    "amountUsd": 10988,
+                    "priceStatus": "listed",
+                    "maintenance": "US$2,198"
+                  },
+                  {
+                    "name": "Additional 1 Domain",
+                    "metric": null,
+                    "amountUsd": 900,
+                    "priceStatus": "listed",
+                    "maintenance": "US$180"
+                  }
+                ]
+              },
+              {
+                "slug": "admanager-plus-professional-edition-perpetual",
+                "name": "ADManager Plus Professional Edition",
+                "edition": "Professional",
+                "licenseModel": "perpetual",
+                "kind": "base",
+                "variants": [
+                  {
+                    "name": "1 Domain (Unrestricted Objects)",
+                    "metric": {
+                      "quantity": 1,
+                      "unit": "domain"
+                    },
+                    "amountUsd": 1985,
+                    "priceStatus": "listed",
+                    "maintenance": "US$397"
+                  },
+                  {
+                    "name": "1 Domain (Unrestricted Objects) with 2 help desk Technicians",
+                    "metric": {
+                      "quantity": 1,
+                      "unit": "domain"
+                    },
+                    "amountUsd": 4485,
+                    "priceStatus": "listed",
+                    "maintenance": "US$897"
+                  },
+                  {
+                    "name": "1 Domain (Unrestricted Objects) with 5 help desk Technicians",
+                    "metric": {
+                      "quantity": 1,
+                      "unit": "domain"
+                    },
+                    "amountUsd": 8385,
+                    "priceStatus": "listed",
+                    "maintenance": "US$1,677"
+                  },
+                  {
+                    "name": "1 Domain (Unrestricted Objects) with 10 help desk Technicians",
+                    "metric": {
+                      "quantity": 1,
+                      "unit": "domain"
+                    },
+                    "amountUsd": 14988,
+                    "priceStatus": "listed",
+                    "maintenance": "US$2,998"
+                  },
+                  {
+                    "name": "1 Domain (Unrestricted Objects) with 20 help desk Technicians",
+                    "metric": {
+                      "quantity": 1,
+                      "unit": "domain"
+                    },
+                    "amountUsd": 26488,
+                    "priceStatus": "listed",
+                    "maintenance": "US$5,298"
+                  },
+                  {
+                    "name": "Additional 1 Domain",
+                    "metric": null,
+                    "amountUsd": 1500,
+                    "priceStatus": "listed",
+                    "maintenance": "US$300"
+                  },
+                  {
+                    "name": "Governance, Risk and Compliance add-on",
+                    "metric": null,
+                    "amountUsd": 1238,
+                    "priceStatus": "listed",
+                    "maintenance": "US$248"
+                  }
+                ]
+              },
+              {
+                "slug": "admanager-plus-backup-and-recovery-add-on-perpetual",
+                "name": "ADManager Plus Backup and Recovery add-on",
+                "edition": null,
+                "licenseModel": "perpetual",
+                "kind": "addon",
+                "variants": [
+                  {
+                    "name": "250 User Objects",
+                    "metric": {
+                      "quantity": 250,
+                      "unit": "user object"
+                    },
+                    "amountUsd": 488,
+                    "priceStatus": "listed",
+                    "maintenance": "US$98"
+                  },
+                  {
+                    "name": "500 User Objects",
+                    "metric": {
+                      "quantity": 500,
+                      "unit": "user object"
+                    },
+                    "amountUsd": 738,
+                    "priceStatus": "listed",
+                    "maintenance": "US$148"
+                  },
+                  {
+                    "name": "1000 User Objects",
+                    "metric": {
+                      "quantity": 1000,
+                      "unit": "user object"
+                    },
+                    "amountUsd": 1238,
+                    "priceStatus": "listed",
+                    "maintenance": "US$248"
+                  },
+                  {
+                    "name": "2000 User Objects",
+                    "metric": {
+                      "quantity": 2000,
+                      "unit": "user object"
+                    },
+                    "amountUsd": 2488,
+                    "priceStatus": "listed",
+                    "maintenance": "US$498"
+                  },
+                  {
+                    "name": "3000 User Objects",
+                    "metric": {
+                      "quantity": 3000,
+                      "unit": "user object"
+                    },
+                    "amountUsd": 3613,
+                    "priceStatus": "listed",
+                    "maintenance": "US$723"
+                  },
+                  {
+                    "name": "5000 User Objects",
+                    "metric": {
+                      "quantity": 5000,
+                      "unit": "user object"
+                    },
+                    "amountUsd": 5738,
+                    "priceStatus": "listed",
+                    "maintenance": "US$1,148"
+                  }
+                ]
+              }
+            ]
           }
         ]
       },
@@ -343,11 +547,11 @@ export const ZOHO_GROUPS: ZohoGroup[] = [
         "priced": true,
         "sourceUrl": "https://store.manageengine.com/active-directory-audit/?MEstore&IAM",
         "sourceSnapshotId": "3e71734e528d",
-        "sourceCheckedAt": "2026-08-20T21:39:39.518Z",
+        "sourceCheckedAt": "2026-08-20T21:57:31.399Z",
         "deployments": [
           {
             "deployment": "unspecified",
-            "slug": "adaudit-plus",
+            "slug": "adaudit-plus-subscription",
             "offers": [
               {
                 "slug": "adaudit-plus-standard-edition-annual-subscription",
@@ -779,7 +983,7 @@ export const ZOHO_GROUPS: ZohoGroup[] = [
                 "slug": "adaudit-plus-onboarding-implementation-training",
                 "name": "ADAudit Plus Onboarding, Implementation & Training",
                 "edition": null,
-                "licenseModel": null,
+                "licenseModel": "subscription",
                 "kind": "service",
                 "variants": [
                   {
@@ -813,6 +1017,438 @@ export const ZOHO_GROUPS: ZohoGroup[] = [
                 ]
               }
             ]
+          },
+          {
+            "deployment": "unspecified",
+            "slug": "adaudit-plus-perpetual",
+            "offers": [
+              {
+                "slug": "adaudit-plus-standard-edition-perpetual",
+                "name": "ADAudit Plus Standard Edition",
+                "edition": "Standard",
+                "licenseModel": "perpetual",
+                "kind": "base",
+                "variants": [
+                  {
+                    "name": "2 Domain Controllers",
+                    "metric": {
+                      "quantity": 2,
+                      "unit": "domain controller"
+                    },
+                    "amountUsd": 1488,
+                    "priceStatus": "listed",
+                    "maintenance": "US$298"
+                  },
+                  {
+                    "name": "5 Domain Controllers",
+                    "metric": {
+                      "quantity": 5,
+                      "unit": "domain controller"
+                    },
+                    "amountUsd": 2988,
+                    "priceStatus": "listed",
+                    "maintenance": "US$598"
+                  },
+                  {
+                    "name": "10 Domain Controllers",
+                    "metric": {
+                      "quantity": 10,
+                      "unit": "domain controller"
+                    },
+                    "amountUsd": 5363,
+                    "priceStatus": "listed",
+                    "maintenance": "US$1,073"
+                  },
+                  {
+                    "name": "15 Domain Controllers",
+                    "metric": {
+                      "quantity": 15,
+                      "unit": "domain controller"
+                    },
+                    "amountUsd": 8488,
+                    "priceStatus": "listed",
+                    "maintenance": "US$1,698"
+                  },
+                  {
+                    "name": "20 Domain Controllers",
+                    "metric": {
+                      "quantity": 20,
+                      "unit": "domain controller"
+                    },
+                    "amountUsd": 10988,
+                    "priceStatus": "listed",
+                    "maintenance": "US$2,198"
+                  }
+                ]
+              },
+              {
+                "slug": "adaudit-plus-professional-edition-perpetual",
+                "name": "ADAudit Plus Professional Edition",
+                "edition": "Professional",
+                "licenseModel": "perpetual",
+                "kind": "base",
+                "variants": [
+                  {
+                    "name": "2 Domain Controllers",
+                    "metric": {
+                      "quantity": 2,
+                      "unit": "domain controller"
+                    },
+                    "amountUsd": 2363,
+                    "priceStatus": "listed",
+                    "maintenance": "US$473"
+                  },
+                  {
+                    "name": "5 Domain Controllers",
+                    "metric": {
+                      "quantity": 5,
+                      "unit": "domain controller"
+                    },
+                    "amountUsd": 4488,
+                    "priceStatus": "listed",
+                    "maintenance": "US$898"
+                  },
+                  {
+                    "name": "10 Domain Controllers",
+                    "metric": {
+                      "quantity": 10,
+                      "unit": "domain controller"
+                    },
+                    "amountUsd": 8738,
+                    "priceStatus": "listed",
+                    "maintenance": "US$1,748"
+                  },
+                  {
+                    "name": "15 Domain Controllers",
+                    "metric": {
+                      "quantity": 15,
+                      "unit": "domain controller"
+                    },
+                    "amountUsd": 12738,
+                    "priceStatus": "listed",
+                    "maintenance": "US$2,548"
+                  },
+                  {
+                    "name": "20 Domain Controllers",
+                    "metric": {
+                      "quantity": 20,
+                      "unit": "domain controller"
+                    },
+                    "amountUsd": 16488,
+                    "priceStatus": "listed",
+                    "maintenance": "US$3,298"
+                  }
+                ]
+              },
+              {
+                "slug": "adaudit-plus-add-ons-perpetual",
+                "name": "ADAudit Plus - Add Ons",
+                "edition": null,
+                "licenseModel": "perpetual",
+                "kind": "base",
+                "variants": [
+                  {
+                    "name": "5 Windows Servers",
+                    "metric": {
+                      "quantity": 5,
+                      "unit": "windows server"
+                    },
+                    "amountUsd": 863,
+                    "priceStatus": "listed",
+                    "maintenance": "US$173"
+                  },
+                  {
+                    "name": "10 Windows Servers",
+                    "metric": {
+                      "quantity": 10,
+                      "unit": "windows server"
+                    },
+                    "amountUsd": 1488,
+                    "priceStatus": "listed",
+                    "maintenance": "US$298"
+                  },
+                  {
+                    "name": "20 Windows Servers",
+                    "metric": {
+                      "quantity": 20,
+                      "unit": "windows server"
+                    },
+                    "amountUsd": 2363,
+                    "priceStatus": "listed",
+                    "maintenance": "US$473"
+                  },
+                  {
+                    "name": "50 Windows Servers",
+                    "metric": {
+                      "quantity": 50,
+                      "unit": "windows server"
+                    },
+                    "amountUsd": 4988,
+                    "priceStatus": "listed",
+                    "maintenance": "US$998"
+                  },
+                  {
+                    "name": "100 Windows Servers",
+                    "metric": {
+                      "quantity": 100,
+                      "unit": "windows server"
+                    },
+                    "amountUsd": 8238,
+                    "priceStatus": "listed",
+                    "maintenance": "US$1,648"
+                  },
+                  {
+                    "name": "2 Windows File Servers",
+                    "metric": {
+                      "quantity": 2,
+                      "unit": "windows file server"
+                    },
+                    "amountUsd": 1238,
+                    "priceStatus": "listed",
+                    "maintenance": "US$248"
+                  },
+                  {
+                    "name": "5 Windows File Servers",
+                    "metric": {
+                      "quantity": 5,
+                      "unit": "windows file server"
+                    },
+                    "amountUsd": 2613,
+                    "priceStatus": "listed",
+                    "maintenance": "US$523"
+                  },
+                  {
+                    "name": "10 Windows File Servers",
+                    "metric": {
+                      "quantity": 10,
+                      "unit": "windows file server"
+                    },
+                    "amountUsd": 4988,
+                    "priceStatus": "listed",
+                    "maintenance": "US$998"
+                  },
+                  {
+                    "name": "15 Windows File Servers",
+                    "metric": {
+                      "quantity": 15,
+                      "unit": "windows file server"
+                    },
+                    "amountUsd": 7113,
+                    "priceStatus": "listed",
+                    "maintenance": "US$1,423"
+                  },
+                  {
+                    "name": "20 Windows File Servers",
+                    "metric": {
+                      "quantity": 20,
+                      "unit": "windows file server"
+                    },
+                    "amountUsd": 8988,
+                    "priceStatus": "listed",
+                    "maintenance": "US$1,798"
+                  },
+                  {
+                    "name": "1 NetApp/EMC/Synology/Hitachi/Huawei/Amazon FSx/QNAP/Azure/CTERA/Nutanix/Qumulo File Server",
+                    "metric": null,
+                    "amountUsd": 1488,
+                    "priceStatus": "listed",
+                    "maintenance": "US$298"
+                  },
+                  {
+                    "name": "2 NetApp/EMC/Synology/Hitachi/Huawei/Amazon FSx/QNAP/Azure/CTERA/Nutanix/Qumulo File Servers",
+                    "metric": null,
+                    "amountUsd": 2488,
+                    "priceStatus": "listed",
+                    "maintenance": "US$498"
+                  },
+                  {
+                    "name": "3 NetApp/EMC/Synology/Hitachi/Huawei/Amazon FSx/QNAP/Azure/CTERA/Nutanix/Qumulo File Servers",
+                    "metric": null,
+                    "amountUsd": 3488,
+                    "priceStatus": "listed",
+                    "maintenance": "US$698"
+                  },
+                  {
+                    "name": "5 NetApp/EMC/Synology/Hitachi/Huawei/Amazon FSx/QNAP/Azure/CTERA/Nutanix/Qumulo File Servers",
+                    "metric": null,
+                    "amountUsd": 5488,
+                    "priceStatus": "listed",
+                    "maintenance": "US$1,098"
+                  },
+                  {
+                    "name": "100 Workstations",
+                    "metric": {
+                      "quantity": 100,
+                      "unit": "workstation"
+                    },
+                    "amountUsd": 613,
+                    "priceStatus": "listed",
+                    "maintenance": "US$123"
+                  },
+                  {
+                    "name": "250 Workstations",
+                    "metric": {
+                      "quantity": 250,
+                      "unit": "workstation"
+                    },
+                    "amountUsd": 1488,
+                    "priceStatus": "listed",
+                    "maintenance": "US$298"
+                  },
+                  {
+                    "name": "500 Workstations",
+                    "metric": {
+                      "quantity": 500,
+                      "unit": "workstation"
+                    },
+                    "amountUsd": 2363,
+                    "priceStatus": "listed",
+                    "maintenance": "US$473"
+                  },
+                  {
+                    "name": "1000 Workstations",
+                    "metric": {
+                      "quantity": 1000,
+                      "unit": "workstation"
+                    },
+                    "amountUsd": 4488,
+                    "priceStatus": "listed",
+                    "maintenance": "US$898"
+                  },
+                  {
+                    "name": "1 Azure AD tenant",
+                    "metric": {
+                      "quantity": 1,
+                      "unit": "azure ad tenant"
+                    },
+                    "amountUsd": 2488,
+                    "priceStatus": "listed",
+                    "maintenance": "US$498"
+                  },
+                  {
+                    "name": "2 Azure AD tenants",
+                    "metric": {
+                      "quantity": 2,
+                      "unit": "azure ad tenant"
+                    },
+                    "amountUsd": 4238,
+                    "priceStatus": "listed",
+                    "maintenance": "US$848"
+                  },
+                  {
+                    "name": "3 Azure AD tenants",
+                    "metric": {
+                      "quantity": 3,
+                      "unit": "azure ad tenant"
+                    },
+                    "amountUsd": 5738,
+                    "priceStatus": "listed",
+                    "maintenance": "US$1,148"
+                  },
+                  {
+                    "name": "5 Azure AD tenants",
+                    "metric": {
+                      "quantity": 5,
+                      "unit": "azure ad tenant"
+                    },
+                    "amountUsd": 8738,
+                    "priceStatus": "listed",
+                    "maintenance": "US$1,748"
+                  },
+                  {
+                    "name": "AD Backup and Recovery for 250 Users",
+                    "metric": null,
+                    "amountUsd": 488,
+                    "priceStatus": "listed",
+                    "maintenance": "US$98"
+                  },
+                  {
+                    "name": "AD Backup and Recovery for 500 Users",
+                    "metric": null,
+                    "amountUsd": 738,
+                    "priceStatus": "listed",
+                    "maintenance": "US$148"
+                  },
+                  {
+                    "name": "AD Backup and Recovery for 1000 Users",
+                    "metric": null,
+                    "amountUsd": 1238,
+                    "priceStatus": "listed",
+                    "maintenance": "US$248"
+                  },
+                  {
+                    "name": "AD Backup and Recovery for 2000 Users",
+                    "metric": null,
+                    "amountUsd": 2488,
+                    "priceStatus": "listed",
+                    "maintenance": "US$498"
+                  },
+                  {
+                    "name": "AD Backup and Recovery for 3000 Users",
+                    "metric": null,
+                    "amountUsd": 3613,
+                    "priceStatus": "listed",
+                    "maintenance": "US$723"
+                  },
+                  {
+                    "name": "AD Backup and Recovery for 5000 Users",
+                    "metric": null,
+                    "amountUsd": 5613,
+                    "priceStatus": "listed",
+                    "maintenance": "US$1,123"
+                  },
+                  {
+                    "name": "FileAnalysis for 2 TB",
+                    "metric": null,
+                    "amountUsd": 363,
+                    "priceStatus": "listed",
+                    "maintenance": "US$73"
+                  },
+                  {
+                    "name": "FileAnalysis for 5 TB",
+                    "metric": null,
+                    "amountUsd": 738,
+                    "priceStatus": "listed",
+                    "maintenance": "US$148"
+                  },
+                  {
+                    "name": "FileAnalysis for 10 TB",
+                    "metric": null,
+                    "amountUsd": 1238,
+                    "priceStatus": "listed",
+                    "maintenance": "US$248"
+                  },
+                  {
+                    "name": "FileAnalysis for 15 TB",
+                    "metric": null,
+                    "amountUsd": 1613,
+                    "priceStatus": "listed",
+                    "maintenance": "US$323"
+                  },
+                  {
+                    "name": "FileAnalysis for 20 TB",
+                    "metric": null,
+                    "amountUsd": 1863,
+                    "priceStatus": "listed",
+                    "maintenance": "US$373"
+                  },
+                  {
+                    "name": "FileAnalysis for 40 TB",
+                    "metric": null,
+                    "amountUsd": 3238,
+                    "priceStatus": "listed",
+                    "maintenance": "US$648"
+                  },
+                  {
+                    "name": "FileAnalysis for 50 TB",
+                    "metric": null,
+                    "amountUsd": 3738,
+                    "priceStatus": "listed",
+                    "maintenance": "US$748"
+                  }
+                ]
+              }
+            ]
           }
         ]
       },
@@ -837,11 +1473,11 @@ export const ZOHO_GROUPS: ZohoGroup[] = [
         "priced": true,
         "sourceUrl": "https://store.manageengine.com/exchange-reports/?MEstore",
         "sourceSnapshotId": "ac697c810673",
-        "sourceCheckedAt": "2026-08-20T21:39:51.264Z",
+        "sourceCheckedAt": "2026-08-20T21:57:59.074Z",
         "deployments": [
           {
             "deployment": "unspecified",
-            "slug": "exchange-reporter-plus",
+            "slug": "exchange-reporter-plus-subscription",
             "offers": [
               {
                 "slug": "exchange-reporter-plus-standard-edition-annual-subscription",
@@ -1005,7 +1641,7 @@ export const ZOHO_GROUPS: ZohoGroup[] = [
                 "slug": "exchange-reporter-plus-onboarding-implementation-training",
                 "name": "Exchange Reporter Plus Onboarding, Implementation & Training",
                 "edition": null,
-                "licenseModel": null,
+                "licenseModel": "subscription",
                 "kind": "service",
                 "variants": [
                   {
@@ -1028,6 +1664,170 @@ export const ZOHO_GROUPS: ZohoGroup[] = [
                     "amountUsd": 495,
                     "priceStatus": "listed",
                     "maintenance": "Included"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "deployment": "unspecified",
+            "slug": "exchange-reporter-plus-perpetual",
+            "offers": [
+              {
+                "slug": "exchange-reporter-plus-standard-edition-perpetual",
+                "name": "Exchange Reporter Plus Standard Edition",
+                "edition": "Standard",
+                "licenseModel": "perpetual",
+                "kind": "base",
+                "variants": [
+                  {
+                    "name": "100 Mailboxes",
+                    "metric": {
+                      "quantity": 100,
+                      "unit": "mailbox"
+                    },
+                    "amountUsd": 863,
+                    "priceStatus": "listed",
+                    "maintenance": "US$173"
+                  },
+                  {
+                    "name": "200 Mailboxes",
+                    "metric": {
+                      "quantity": 200,
+                      "unit": "mailbox"
+                    },
+                    "amountUsd": 1488,
+                    "priceStatus": "listed",
+                    "maintenance": "US$298"
+                  },
+                  {
+                    "name": "500 Mailboxes",
+                    "metric": {
+                      "quantity": 500,
+                      "unit": "mailbox"
+                    },
+                    "amountUsd": 2363,
+                    "priceStatus": "listed",
+                    "maintenance": "US$473"
+                  },
+                  {
+                    "name": "1000 Mailboxes",
+                    "metric": {
+                      "quantity": 1000,
+                      "unit": "mailbox"
+                    },
+                    "amountUsd": 3863,
+                    "priceStatus": "listed",
+                    "maintenance": "US$773"
+                  },
+                  {
+                    "name": "2000 Mailboxes",
+                    "metric": {
+                      "quantity": 2000,
+                      "unit": "mailbox"
+                    },
+                    "amountUsd": 4488,
+                    "priceStatus": "listed",
+                    "maintenance": "US$898"
+                  },
+                  {
+                    "name": "3000 Mailboxes",
+                    "metric": {
+                      "quantity": 3000,
+                      "unit": "mailbox"
+                    },
+                    "amountUsd": 5988,
+                    "priceStatus": "listed",
+                    "maintenance": "US$1,198"
+                  },
+                  {
+                    "name": "5000 Mailboxes",
+                    "metric": {
+                      "quantity": 5000,
+                      "unit": "mailbox"
+                    },
+                    "amountUsd": 8988,
+                    "priceStatus": "listed",
+                    "maintenance": "US$1,798"
+                  }
+                ]
+              },
+              {
+                "slug": "exchange-reporter-plus-professional-edition-perpetual",
+                "name": "Exchange Reporter Plus Professional Edition",
+                "edition": "Professional",
+                "licenseModel": "perpetual",
+                "kind": "base",
+                "variants": [
+                  {
+                    "name": "100 Mailboxes",
+                    "metric": {
+                      "quantity": 100,
+                      "unit": "mailbox"
+                    },
+                    "amountUsd": 1488,
+                    "priceStatus": "listed",
+                    "maintenance": "US$298"
+                  },
+                  {
+                    "name": "200 Mailboxes",
+                    "metric": {
+                      "quantity": 200,
+                      "unit": "mailbox"
+                    },
+                    "amountUsd": 2363,
+                    "priceStatus": "listed",
+                    "maintenance": "US$473"
+                  },
+                  {
+                    "name": "500 Mailboxes",
+                    "metric": {
+                      "quantity": 500,
+                      "unit": "mailbox"
+                    },
+                    "amountUsd": 3863,
+                    "priceStatus": "listed",
+                    "maintenance": "US$773"
+                  },
+                  {
+                    "name": "1000 Mailboxes",
+                    "metric": {
+                      "quantity": 1000,
+                      "unit": "mailbox"
+                    },
+                    "amountUsd": 5988,
+                    "priceStatus": "listed",
+                    "maintenance": "US$1,198"
+                  },
+                  {
+                    "name": "2000 Mailboxes",
+                    "metric": {
+                      "quantity": 2000,
+                      "unit": "mailbox"
+                    },
+                    "amountUsd": 6863,
+                    "priceStatus": "listed",
+                    "maintenance": "US$1,373"
+                  },
+                  {
+                    "name": "3000 Mailboxes",
+                    "metric": {
+                      "quantity": 3000,
+                      "unit": "mailbox"
+                    },
+                    "amountUsd": 8988,
+                    "priceStatus": "listed",
+                    "maintenance": "US$1,798"
+                  },
+                  {
+                    "name": "5000 Mailboxes",
+                    "metric": {
+                      "quantity": 5000,
+                      "unit": "mailbox"
+                    },
+                    "amountUsd": 13488,
+                    "priceStatus": "listed",
+                    "maintenance": "US$2,698"
                   }
                 ]
               }
@@ -1068,17 +1868,17 @@ export const ZOHO_GROUPS: ZohoGroup[] = [
         "priced": true,
         "sourceUrl": "https://store.manageengine.com/microsoft-365-management-reporting/?MEstore",
         "sourceSnapshotId": "f03d2bbf26d3",
-        "sourceCheckedAt": "2026-08-20T21:40:07.900Z",
+        "sourceCheckedAt": "2026-08-20T21:58:34.363Z",
         "deployments": [
           {
             "deployment": "unspecified",
-            "slug": "m365-manager-plus",
+            "slug": "m365-manager-plus-subscription",
             "offers": [
               {
                 "slug": "m365-manager-plus-standard-edition",
                 "name": "M365 Manager Plus - Standard Edition",
                 "edition": "Standard",
-                "licenseModel": null,
+                "licenseModel": "subscription",
                 "kind": "base",
                 "variants": [
                   {
@@ -1136,7 +1936,7 @@ export const ZOHO_GROUPS: ZohoGroup[] = [
                 "slug": "m365-manager-plus-professional-edition",
                 "name": "M365 Manager Plus - Professional Edition",
                 "edition": "Professional",
-                "licenseModel": null,
+                "licenseModel": "subscription",
                 "kind": "base",
                 "variants": [
                   {
@@ -1194,7 +1994,7 @@ export const ZOHO_GROUPS: ZohoGroup[] = [
                 "slug": "m365-manager-plus-exchange-online-backup-add-on",
                 "name": "M365 Manager Plus - Exchange Online Backup Add-on",
                 "edition": null,
-                "licenseModel": null,
+                "licenseModel": "subscription",
                 "kind": "addon",
                 "variants": [
                   {
@@ -1252,7 +2052,7 @@ export const ZOHO_GROUPS: ZohoGroup[] = [
                 "slug": "m365-manager-plus-onboarding-implementation-training",
                 "name": "M365 Manager Plus Onboarding, Implementation & Training",
                 "edition": null,
-                "licenseModel": null,
+                "licenseModel": "subscription",
                 "kind": "service",
                 "variants": [
                   {
@@ -1279,6 +2079,186 @@ export const ZOHO_GROUPS: ZohoGroup[] = [
                 ]
               }
             ]
+          },
+          {
+            "deployment": "unspecified",
+            "slug": "m365-manager-plus-perpetual",
+            "offers": [
+              {
+                "slug": "m365-manager-plus-standard-edition-perpetual",
+                "name": "M365 Manager Plus - Standard Edition",
+                "edition": "Standard",
+                "licenseModel": "perpetual",
+                "kind": "base",
+                "variants": [
+                  {
+                    "name": "100 Users/Mailboxes with 1 Help Desk Technician",
+                    "metric": null,
+                    "amountUsd": 885,
+                    "priceStatus": "listed",
+                    "maintenance": "US$177"
+                  },
+                  {
+                    "name": "200 Users/Mailboxes with 1 Help Desk Technician",
+                    "metric": null,
+                    "amountUsd": 1485,
+                    "priceStatus": "listed",
+                    "maintenance": "US$297"
+                  },
+                  {
+                    "name": "500 Users/Mailboxes with 1 Help Desk Technician",
+                    "metric": null,
+                    "amountUsd": 2385,
+                    "priceStatus": "listed",
+                    "maintenance": "US$477"
+                  },
+                  {
+                    "name": "1000 Users/Mailboxes with 1 Help Desk Technician",
+                    "metric": null,
+                    "amountUsd": 3885,
+                    "priceStatus": "listed",
+                    "maintenance": "US$777"
+                  },
+                  {
+                    "name": "2000 Users/Mailboxes with 1 Help Desk Technician",
+                    "metric": null,
+                    "amountUsd": 5988,
+                    "priceStatus": "listed",
+                    "maintenance": "US$1,198"
+                  },
+                  {
+                    "name": "3000 Users/Mailboxes with 1 Help Desk Technician",
+                    "metric": null,
+                    "amountUsd": 8238,
+                    "priceStatus": "listed",
+                    "maintenance": "US$1,648"
+                  },
+                  {
+                    "name": "5000 Users/Mailboxes with 1 Help Desk Technician",
+                    "metric": null,
+                    "amountUsd": 12488,
+                    "priceStatus": "listed",
+                    "maintenance": "US$2,498"
+                  }
+                ]
+              },
+              {
+                "slug": "m365-manager-plus-professional-edition-perpetual",
+                "name": "M365 Manager Plus - Professional Edition",
+                "edition": "Professional",
+                "licenseModel": "perpetual",
+                "kind": "base",
+                "variants": [
+                  {
+                    "name": "100 Users/Mailboxes with 1 Help Desk Technician",
+                    "metric": null,
+                    "amountUsd": 1485,
+                    "priceStatus": "listed",
+                    "maintenance": "US$297"
+                  },
+                  {
+                    "name": "200 Users/Mailboxes with 1 Help Desk Technician",
+                    "metric": null,
+                    "amountUsd": 2385,
+                    "priceStatus": "listed",
+                    "maintenance": "US$477"
+                  },
+                  {
+                    "name": "500 Users/Mailboxes with 1 Help Desk Technician",
+                    "metric": null,
+                    "amountUsd": 3885,
+                    "priceStatus": "listed",
+                    "maintenance": "US$777"
+                  },
+                  {
+                    "name": "1000 Users/Mailboxes with 1 Help Desk Technician",
+                    "metric": null,
+                    "amountUsd": 5985,
+                    "priceStatus": "listed",
+                    "maintenance": "US$1,197"
+                  },
+                  {
+                    "name": "2000 Users/Mailboxes with 1 Help Desk Technician",
+                    "metric": null,
+                    "amountUsd": 8988,
+                    "priceStatus": "listed",
+                    "maintenance": "US$1,798"
+                  },
+                  {
+                    "name": "3000 Users/Mailboxes with 1 Help Desk Technician",
+                    "metric": null,
+                    "amountUsd": 11988,
+                    "priceStatus": "listed",
+                    "maintenance": "US$2,398"
+                  },
+                  {
+                    "name": "5000 Users/Mailboxes with 1 Help Desk Technician",
+                    "metric": null,
+                    "amountUsd": 17488,
+                    "priceStatus": "listed",
+                    "maintenance": "US$3,498"
+                  }
+                ]
+              },
+              {
+                "slug": "m365-manager-plus-exchange-online-backup-add-on-perpetual",
+                "name": "M365 Manager Plus - Exchange Online Backup Add-on",
+                "edition": null,
+                "licenseModel": "perpetual",
+                "kind": "addon",
+                "variants": [
+                  {
+                    "name": "100 Users/Mailboxes",
+                    "metric": null,
+                    "amountUsd": 363,
+                    "priceStatus": "listed",
+                    "maintenance": "US$73"
+                  },
+                  {
+                    "name": "200 Users/Mailboxes",
+                    "metric": null,
+                    "amountUsd": 488,
+                    "priceStatus": "listed",
+                    "maintenance": "US$98"
+                  },
+                  {
+                    "name": "500 Users/Mailboxes",
+                    "metric": null,
+                    "amountUsd": 738,
+                    "priceStatus": "listed",
+                    "maintenance": "US$148"
+                  },
+                  {
+                    "name": "1000 Users/Mailboxes",
+                    "metric": null,
+                    "amountUsd": 1238,
+                    "priceStatus": "listed",
+                    "maintenance": "US$248"
+                  },
+                  {
+                    "name": "2000 Users/Mailboxes",
+                    "metric": null,
+                    "amountUsd": 2488,
+                    "priceStatus": "listed",
+                    "maintenance": "US$498"
+                  },
+                  {
+                    "name": "3000 Users/Mailboxes",
+                    "metric": null,
+                    "amountUsd": 2738,
+                    "priceStatus": "listed",
+                    "maintenance": "US$548"
+                  },
+                  {
+                    "name": "5000 Users/Mailboxes",
+                    "metric": null,
+                    "amountUsd": 3238,
+                    "priceStatus": "listed",
+                    "maintenance": "US$648"
+                  }
+                ]
+              }
+            ]
           }
         ]
       },
@@ -1291,17 +2271,17 @@ export const ZOHO_GROUPS: ZohoGroup[] = [
         "priced": true,
         "sourceUrl": "https://store.manageengine.com/privileged-access-management/?MEstore",
         "sourceSnapshotId": "c12e9a21fb26",
-        "sourceCheckedAt": "2026-08-20T21:40:13.810Z",
+        "sourceCheckedAt": "2026-08-20T21:58:51.920Z",
         "deployments": [
           {
             "deployment": "unspecified",
-            "slug": "pam360",
+            "slug": "pam360-subscription",
             "offers": [
               {
                 "slug": "pam360-enterprise-edition",
                 "name": "PAM360 Enterprise Edition",
                 "edition": "Enterprise",
-                "licenseModel": null,
+                "licenseModel": "subscription",
                 "kind": "base",
                 "variants": [
                   {
@@ -1380,7 +2360,7 @@ export const ZOHO_GROUPS: ZohoGroup[] = [
                 "slug": "pam360-enterprise-edition-multi-language",
                 "name": "PAM360 Enterprise Edition Multi-Language",
                 "edition": "Enterprise",
-                "licenseModel": null,
+                "licenseModel": "subscription",
                 "kind": "base",
                 "variants": [
                   {
@@ -1459,7 +2439,7 @@ export const ZOHO_GROUPS: ZohoGroup[] = [
                 "slug": "pam360-training",
                 "name": "PAM360 - Training",
                 "edition": null,
-                "licenseModel": null,
+                "licenseModel": "subscription",
                 "kind": "service",
                 "variants": [
                   {
@@ -1489,7 +2469,7 @@ export const ZOHO_GROUPS: ZohoGroup[] = [
                 "slug": "pam360-onboarding-and-implementation",
                 "name": "PAM360 - Onboarding and Implementation",
                 "edition": null,
-                "licenseModel": null,
+                "licenseModel": "subscription",
                 "kind": "service",
                 "variants": [
                   {
@@ -1537,6 +2517,170 @@ export const ZOHO_GROUPS: ZohoGroup[] = [
                 ]
               }
             ]
+          },
+          {
+            "deployment": "unspecified",
+            "slug": "pam360-perpetual",
+            "offers": [
+              {
+                "slug": "pam360-enterprise-edition-perpetual",
+                "name": "PAM360 Enterprise Edition",
+                "edition": "Enterprise",
+                "licenseModel": "perpetual",
+                "kind": "base",
+                "variants": [
+                  {
+                    "name": "10 Administrators (Unrestricted resources and users) and 25 keys",
+                    "metric": {
+                      "quantity": 10,
+                      "unit": "administrator"
+                    },
+                    "amountUsd": 19995,
+                    "priceStatus": "listed",
+                    "maintenance": "US$3,999"
+                  },
+                  {
+                    "name": "20 Administrators (Unrestricted resources and users) and 50 keys",
+                    "metric": {
+                      "quantity": 20,
+                      "unit": "administrator"
+                    },
+                    "amountUsd": 32495,
+                    "priceStatus": "listed",
+                    "maintenance": "US$6,499"
+                  },
+                  {
+                    "name": "25 Administrators (Unrestricted resources and users) and 100 keys",
+                    "metric": {
+                      "quantity": 25,
+                      "unit": "administrator"
+                    },
+                    "amountUsd": 37495,
+                    "priceStatus": "listed",
+                    "maintenance": "US$7,499"
+                  },
+                  {
+                    "name": "50 Administrators (Unrestricted resources and users) and 200 keys",
+                    "metric": {
+                      "quantity": 50,
+                      "unit": "administrator"
+                    },
+                    "amountUsd": 62495,
+                    "priceStatus": "listed",
+                    "maintenance": "US$12,499"
+                  },
+                  {
+                    "name": "100 Administrators (Unrestricted resources and users) and 300 keys",
+                    "metric": {
+                      "quantity": 100,
+                      "unit": "administrator"
+                    },
+                    "amountUsd": 92495,
+                    "priceStatus": "listed",
+                    "maintenance": "US$18,499"
+                  },
+                  {
+                    "name": "150 Administrators (Unrestricted resources and users) and 500 keys",
+                    "metric": {
+                      "quantity": 150,
+                      "unit": "administrator"
+                    },
+                    "amountUsd": 112495,
+                    "priceStatus": "listed",
+                    "maintenance": "US$22,499"
+                  },
+                  {
+                    "name": "200 Administrators (Unrestricted resources and users) and 1000 keys",
+                    "metric": {
+                      "quantity": 200,
+                      "unit": "administrator"
+                    },
+                    "amountUsd": 124995,
+                    "priceStatus": "listed",
+                    "maintenance": "US$24,999"
+                  }
+                ]
+              },
+              {
+                "slug": "pam360-enterprise-edition-multi-language-perpetual",
+                "name": "PAM360 Enterprise Edition Multi-Language",
+                "edition": "Enterprise",
+                "licenseModel": "perpetual",
+                "kind": "base",
+                "variants": [
+                  {
+                    "name": "10 Administrators (Unrestricted resources and users) and 25 keys",
+                    "metric": {
+                      "quantity": 10,
+                      "unit": "administrator"
+                    },
+                    "amountUsd": 23995,
+                    "priceStatus": "listed",
+                    "maintenance": "US$4,799"
+                  },
+                  {
+                    "name": "20 Administrators (Unrestricted resources and users) and 50 keys",
+                    "metric": {
+                      "quantity": 20,
+                      "unit": "administrator"
+                    },
+                    "amountUsd": 38995,
+                    "priceStatus": "listed",
+                    "maintenance": "US$7,799"
+                  },
+                  {
+                    "name": "25 Administrators (Unrestricted resources and users) and 100 keys",
+                    "metric": {
+                      "quantity": 25,
+                      "unit": "administrator"
+                    },
+                    "amountUsd": 44995,
+                    "priceStatus": "listed",
+                    "maintenance": "US$8,999"
+                  },
+                  {
+                    "name": "50 Administrators (Unrestricted resources and users) and 200 keys",
+                    "metric": {
+                      "quantity": 50,
+                      "unit": "administrator"
+                    },
+                    "amountUsd": 74995,
+                    "priceStatus": "listed",
+                    "maintenance": "US$14,999"
+                  },
+                  {
+                    "name": "100 Administrators (Unrestricted resources and users) and 300 keys",
+                    "metric": {
+                      "quantity": 100,
+                      "unit": "administrator"
+                    },
+                    "amountUsd": 110995,
+                    "priceStatus": "listed",
+                    "maintenance": "US$22,199"
+                  },
+                  {
+                    "name": "150 Administrators (Unrestricted resources and users) and 500 keys",
+                    "metric": {
+                      "quantity": 150,
+                      "unit": "administrator"
+                    },
+                    "amountUsd": 134995,
+                    "priceStatus": "listed",
+                    "maintenance": "US$26,999"
+                  },
+                  {
+                    "name": "200 Administrators (Unrestricted resources and users) and 1000 keys",
+                    "metric": {
+                      "quantity": 200,
+                      "unit": "administrator"
+                    },
+                    "amountUsd": 149995,
+                    "priceStatus": "listed",
+                    "maintenance": "US$29,999"
+                  }
+                ]
+              }
+            ]
           }
         ]
       },
@@ -1549,17 +2693,17 @@ export const ZOHO_GROUPS: ZohoGroup[] = [
         "priced": true,
         "sourceUrl": "https://store.manageengine.com/passwordmanagerpro/?MEstore",
         "sourceSnapshotId": "fcdcff536922",
-        "sourceCheckedAt": "2026-08-20T21:40:18.939Z",
+        "sourceCheckedAt": "2026-08-20T21:59:09.898Z",
         "deployments": [
           {
             "deployment": "unspecified",
-            "slug": "password-manager-pro",
+            "slug": "password-manager-pro-subscription",
             "offers": [
               {
                 "slug": "password-manager-pro-standard-edition",
                 "name": "Password Manager Pro Standard Edition",
                 "edition": "Standard",
-                "licenseModel": null,
+                "licenseModel": "subscription",
                 "kind": "base",
                 "variants": [
                   {
@@ -1658,7 +2802,7 @@ export const ZOHO_GROUPS: ZohoGroup[] = [
                 "slug": "password-manager-pro-premium-edition",
                 "name": "Password Manager Pro Premium Edition",
                 "edition": "Premium",
-                "licenseModel": null,
+                "licenseModel": "subscription",
                 "kind": "base",
                 "variants": [
                   {
@@ -1747,7 +2891,7 @@ export const ZOHO_GROUPS: ZohoGroup[] = [
                 "slug": "password-manager-pro-enterprise-edition",
                 "name": "Password Manager Pro Enterprise Edition",
                 "edition": "Enterprise",
-                "licenseModel": null,
+                "licenseModel": "subscription",
                 "kind": "base",
                 "variants": [
                   {
@@ -1826,7 +2970,7 @@ export const ZOHO_GROUPS: ZohoGroup[] = [
                 "slug": "password-manager-pro-add-ons",
                 "name": "Password Manager Pro - Add-ons",
                 "edition": null,
-                "licenseModel": null,
+                "licenseModel": "subscription",
                 "kind": "addon",
                 "variants": [
                   {
@@ -1935,7 +3079,7 @@ export const ZOHO_GROUPS: ZohoGroup[] = [
                 "slug": "password-manager-pro-training",
                 "name": "Password Manager Pro - Training",
                 "edition": null,
-                "licenseModel": null,
+                "licenseModel": "subscription",
                 "kind": "service",
                 "variants": [
                   {
@@ -1965,7 +3109,7 @@ export const ZOHO_GROUPS: ZohoGroup[] = [
                 "slug": "password-manager-pro-onboarding-and-implementation",
                 "name": "Password Manager Pro - Onboarding and Implementation",
                 "edition": null,
-                "licenseModel": null,
+                "licenseModel": "subscription",
                 "kind": "service",
                 "variants": [
                   {
@@ -2013,6 +3157,388 @@ export const ZOHO_GROUPS: ZohoGroup[] = [
                 ]
               }
             ]
+          },
+          {
+            "deployment": "unspecified",
+            "slug": "password-manager-pro-perpetual",
+            "offers": [
+              {
+                "slug": "password-manager-pro-standard-edition-perpetual",
+                "name": "Password Manager Pro Standard Edition",
+                "edition": "Standard",
+                "licenseModel": "perpetual",
+                "kind": "base",
+                "variants": [
+                  {
+                    "name": "2 Administrators (unrestricted resources and users)",
+                    "metric": {
+                      "quantity": 2,
+                      "unit": "administrator"
+                    },
+                    "amountUsd": 1495,
+                    "priceStatus": "listed",
+                    "maintenance": "US$299"
+                  },
+                  {
+                    "name": "5 Administrators (unrestricted resources and users)",
+                    "metric": {
+                      "quantity": 5,
+                      "unit": "administrator"
+                    },
+                    "amountUsd": 2395,
+                    "priceStatus": "listed",
+                    "maintenance": "US$479"
+                  },
+                  {
+                    "name": "10 Administrators (unrestricted resources and users)",
+                    "metric": {
+                      "quantity": 10,
+                      "unit": "administrator"
+                    },
+                    "amountUsd": 3895,
+                    "priceStatus": "listed",
+                    "maintenance": "US$779"
+                  },
+                  {
+                    "name": "20 Administrators (unrestricted resources and users)",
+                    "metric": {
+                      "quantity": 20,
+                      "unit": "administrator"
+                    },
+                    "amountUsd": 5995,
+                    "priceStatus": "listed",
+                    "maintenance": "US$1,199"
+                  },
+                  {
+                    "name": "25 Administrators (unrestricted resources and users)",
+                    "metric": {
+                      "quantity": 25,
+                      "unit": "administrator"
+                    },
+                    "amountUsd": 6895,
+                    "priceStatus": "listed",
+                    "maintenance": "US$1,379"
+                  },
+                  {
+                    "name": "50 Administrators (unrestricted resources and users)",
+                    "metric": {
+                      "quantity": 50,
+                      "unit": "administrator"
+                    },
+                    "amountUsd": 11995,
+                    "priceStatus": "listed",
+                    "maintenance": "US$2,399"
+                  },
+                  {
+                    "name": "100 Administrators (unrestricted resources and users)",
+                    "metric": {
+                      "quantity": 100,
+                      "unit": "administrator"
+                    },
+                    "amountUsd": 20395,
+                    "priceStatus": "listed",
+                    "maintenance": "US$4,079"
+                  },
+                  {
+                    "name": "150 Administrators (unrestricted resources and users)",
+                    "metric": {
+                      "quantity": 150,
+                      "unit": "administrator"
+                    },
+                    "amountUsd": 23995,
+                    "priceStatus": "listed",
+                    "maintenance": "US$4,799"
+                  },
+                  {
+                    "name": "200 Administrators (unrestricted resources and users)",
+                    "metric": {
+                      "quantity": 200,
+                      "unit": "administrator"
+                    },
+                    "amountUsd": 26995,
+                    "priceStatus": "listed",
+                    "maintenance": "US$5,399"
+                  }
+                ]
+              },
+              {
+                "slug": "password-manager-pro-premium-edition-perpetual",
+                "name": "Password Manager Pro Premium Edition",
+                "edition": "Premium",
+                "licenseModel": "perpetual",
+                "kind": "base",
+                "variants": [
+                  {
+                    "name": "5 Administrators (unrestricted resources and users)",
+                    "metric": {
+                      "quantity": 5,
+                      "unit": "administrator"
+                    },
+                    "amountUsd": 3595,
+                    "priceStatus": "listed",
+                    "maintenance": "US$719"
+                  },
+                  {
+                    "name": "10 Administrators (unrestricted resources and users)",
+                    "metric": {
+                      "quantity": 10,
+                      "unit": "administrator"
+                    },
+                    "amountUsd": 5995,
+                    "priceStatus": "listed",
+                    "maintenance": "US$1,199"
+                  },
+                  {
+                    "name": "20 Administrators (unrestricted resources and users)",
+                    "metric": {
+                      "quantity": 20,
+                      "unit": "administrator"
+                    },
+                    "amountUsd": 8995,
+                    "priceStatus": "listed",
+                    "maintenance": "US$1,799"
+                  },
+                  {
+                    "name": "25 Administrators (unrestricted resources and users)",
+                    "metric": {
+                      "quantity": 25,
+                      "unit": "administrator"
+                    },
+                    "amountUsd": 10495,
+                    "priceStatus": "listed",
+                    "maintenance": "US$2,099"
+                  },
+                  {
+                    "name": "50 Administrators (unrestricted resources and users)",
+                    "metric": {
+                      "quantity": 50,
+                      "unit": "administrator"
+                    },
+                    "amountUsd": 17995,
+                    "priceStatus": "listed",
+                    "maintenance": "US$3,599"
+                  },
+                  {
+                    "name": "100 Administrators (unrestricted resources and users)",
+                    "metric": {
+                      "quantity": 100,
+                      "unit": "administrator"
+                    },
+                    "amountUsd": 30595,
+                    "priceStatus": "listed",
+                    "maintenance": "US$6,119"
+                  },
+                  {
+                    "name": "150 Administrators (unrestricted resources and users)",
+                    "metric": {
+                      "quantity": 150,
+                      "unit": "administrator"
+                    },
+                    "amountUsd": 35995,
+                    "priceStatus": "listed",
+                    "maintenance": "US$7,199"
+                  },
+                  {
+                    "name": "200 Administrators (unrestricted resources and users)",
+                    "metric": {
+                      "quantity": 200,
+                      "unit": "administrator"
+                    },
+                    "amountUsd": 40495,
+                    "priceStatus": "listed",
+                    "maintenance": "US$8,099"
+                  }
+                ]
+              },
+              {
+                "slug": "password-manager-pro-enterprise-edition-perpetual",
+                "name": "Password Manager Pro Enterprise Edition",
+                "edition": "Enterprise",
+                "licenseModel": "perpetual",
+                "kind": "base",
+                "variants": [
+                  {
+                    "name": "10 Administrators (unrestricted resources and users) and 10 keys",
+                    "metric": {
+                      "quantity": 10,
+                      "unit": "administrator"
+                    },
+                    "amountUsd": 10195,
+                    "priceStatus": "listed",
+                    "maintenance": "US$2,039"
+                  },
+                  {
+                    "name": "20 Administrators (unrestricted resources and users) and 10 keys",
+                    "metric": {
+                      "quantity": 20,
+                      "unit": "administrator"
+                    },
+                    "amountUsd": 16195,
+                    "priceStatus": "listed",
+                    "maintenance": "US$3,239"
+                  },
+                  {
+                    "name": "25 Administrators (unrestricted resources and users) and 10 keys",
+                    "metric": {
+                      "quantity": 25,
+                      "unit": "administrator"
+                    },
+                    "amountUsd": 19195,
+                    "priceStatus": "listed",
+                    "maintenance": "US$3,839"
+                  },
+                  {
+                    "name": "50 Administrators (unrestricted resources and users) and 10 keys",
+                    "metric": {
+                      "quantity": 50,
+                      "unit": "administrator"
+                    },
+                    "amountUsd": 31195,
+                    "priceStatus": "listed",
+                    "maintenance": "US$6,239"
+                  },
+                  {
+                    "name": "100 Administrators (unrestricted resources and users) and 10 keys",
+                    "metric": {
+                      "quantity": 100,
+                      "unit": "administrator"
+                    },
+                    "amountUsd": 46195,
+                    "priceStatus": "listed",
+                    "maintenance": "US$9,239"
+                  },
+                  {
+                    "name": "150 Administrators (unrestricted resources and users) and 10 keys",
+                    "metric": {
+                      "quantity": 150,
+                      "unit": "administrator"
+                    },
+                    "amountUsd": 56695,
+                    "priceStatus": "listed",
+                    "maintenance": "US$11,339"
+                  },
+                  {
+                    "name": "200 Administrators (unrestricted resources and users) and 10 keys",
+                    "metric": {
+                      "quantity": 200,
+                      "unit": "administrator"
+                    },
+                    "amountUsd": 61195,
+                    "priceStatus": "listed",
+                    "maintenance": "US$12,239"
+                  }
+                ]
+              },
+              {
+                "slug": "password-manager-pro-add-ons-perpetual",
+                "name": "Password Manager Pro - Add-ons",
+                "edition": null,
+                "licenseModel": "perpetual",
+                "kind": "addon",
+                "variants": [
+                  {
+                    "name": "25 Keys",
+                    "metric": {
+                      "quantity": 25,
+                      "unit": "key"
+                    },
+                    "amountUsd": 1195,
+                    "priceStatus": "listed",
+                    "maintenance": "US$238"
+                  },
+                  {
+                    "name": "50 Keys",
+                    "metric": {
+                      "quantity": 50,
+                      "unit": "key"
+                    },
+                    "amountUsd": 1795,
+                    "priceStatus": "listed",
+                    "maintenance": "US$358"
+                  },
+                  {
+                    "name": "100 Keys",
+                    "metric": {
+                      "quantity": 100,
+                      "unit": "key"
+                    },
+                    "amountUsd": 2695,
+                    "priceStatus": "listed",
+                    "maintenance": "US$538"
+                  },
+                  {
+                    "name": "200 Keys",
+                    "metric": {
+                      "quantity": 200,
+                      "unit": "key"
+                    },
+                    "amountUsd": 3295,
+                    "priceStatus": "listed",
+                    "maintenance": "US$658"
+                  },
+                  {
+                    "name": "300 Keys",
+                    "metric": {
+                      "quantity": 300,
+                      "unit": "key"
+                    },
+                    "amountUsd": 3895,
+                    "priceStatus": "listed",
+                    "maintenance": "US$778"
+                  },
+                  {
+                    "name": "500 Keys",
+                    "metric": {
+                      "quantity": 500,
+                      "unit": "key"
+                    },
+                    "amountUsd": 5095,
+                    "priceStatus": "listed",
+                    "maintenance": "US$1,018"
+                  },
+                  {
+                    "name": "1000 Keys",
+                    "metric": {
+                      "quantity": 1000,
+                      "unit": "key"
+                    },
+                    "amountUsd": 6595,
+                    "priceStatus": "listed",
+                    "maintenance": "US$1,318"
+                  },
+                  {
+                    "name": "2000 Keys",
+                    "metric": {
+                      "quantity": 2000,
+                      "unit": "key"
+                    },
+                    "amountUsd": 9895,
+                    "priceStatus": "listed",
+                    "maintenance": "US$1,978"
+                  },
+                  {
+                    "name": "3000 Keys",
+                    "metric": {
+                      "quantity": 3000,
+                      "unit": "key"
+                    },
+                    "amountUsd": 12595,
+                    "priceStatus": "listed",
+                    "maintenance": "US$2,518"
+                  },
+                  {
+                    "name": "5000 Keys",
+                    "metric": {
+                      "quantity": 5000,
+                      "unit": "key"
+                    },
+                    "amountUsd": 17995,
+                    "priceStatus": "listed",
+                    "maintenance": "US$3,598"
+                  }
+                ]
+              }
+            ]
           }
         ]
       },
@@ -2025,17 +3551,17 @@ export const ZOHO_GROUPS: ZohoGroup[] = [
         "priced": true,
         "sourceUrl": "https://store.manageengine.com/privileged-session-management/?MEstore",
         "sourceSnapshotId": "b24f6c9c32f6",
-        "sourceCheckedAt": "2026-08-20T21:40:23.695Z",
+        "sourceCheckedAt": "2026-08-20T21:59:26.850Z",
         "deployments": [
           {
             "deployment": "unspecified",
-            "slug": "access-manager-plus",
+            "slug": "access-manager-plus-subscription",
             "offers": [
               {
                 "slug": "access-manager-plus-standard-edition",
                 "name": "Access Manager Plus Standard Edition",
                 "edition": "Standard",
-                "licenseModel": null,
+                "licenseModel": "subscription",
                 "kind": "base",
                 "variants": [
                   {
@@ -2131,6 +3657,111 @@ export const ZOHO_GROUPS: ZohoGroup[] = [
                 ]
               }
             ]
+          },
+          {
+            "deployment": "unspecified",
+            "slug": "access-manager-plus-perpetual",
+            "offers": [
+              {
+                "slug": "access-manager-plus-standard-edition-perpetual",
+                "name": "Access Manager Plus Standard Edition",
+                "edition": "Standard",
+                "licenseModel": "perpetual",
+                "kind": "base",
+                "variants": [
+                  {
+                    "name": "5 Users and Unlimited Connections",
+                    "metric": {
+                      "quantity": 5,
+                      "unit": "users and unlimited connection"
+                    },
+                    "amountUsd": 1238,
+                    "priceStatus": "listed",
+                    "maintenance": "US$248"
+                  },
+                  {
+                    "name": "10 Users and Unlimited Connections",
+                    "metric": {
+                      "quantity": 10,
+                      "unit": "users and unlimited connection"
+                    },
+                    "amountUsd": 2238,
+                    "priceStatus": "listed",
+                    "maintenance": "US$448"
+                  },
+                  {
+                    "name": "15 Users and Unlimited Connections",
+                    "metric": {
+                      "quantity": 15,
+                      "unit": "users and unlimited connection"
+                    },
+                    "amountUsd": 2988,
+                    "priceStatus": "listed",
+                    "maintenance": "US$598"
+                  },
+                  {
+                    "name": "20 Users and Unlimited Connections",
+                    "metric": {
+                      "quantity": 20,
+                      "unit": "users and unlimited connection"
+                    },
+                    "amountUsd": 3488,
+                    "priceStatus": "listed",
+                    "maintenance": "US$698"
+                  },
+                  {
+                    "name": "25 Users and Unlimited Connections",
+                    "metric": {
+                      "quantity": 25,
+                      "unit": "users and unlimited connection"
+                    },
+                    "amountUsd": 3988,
+                    "priceStatus": "listed",
+                    "maintenance": "US$798"
+                  },
+                  {
+                    "name": "50 Users and Unlimited Connections",
+                    "metric": {
+                      "quantity": 50,
+                      "unit": "users and unlimited connection"
+                    },
+                    "amountUsd": 7488,
+                    "priceStatus": "listed",
+                    "maintenance": "US$1,498"
+                  },
+                  {
+                    "name": "75 Users and Unlimited Connections",
+                    "metric": {
+                      "quantity": 75,
+                      "unit": "users and unlimited connection"
+                    },
+                    "amountUsd": 9988,
+                    "priceStatus": "listed",
+                    "maintenance": "US$1,998"
+                  },
+                  {
+                    "name": "100 Users and Unlimited Connections",
+                    "metric": {
+                      "quantity": 100,
+                      "unit": "users and unlimited connection"
+                    },
+                    "amountUsd": 12488,
+                    "priceStatus": "listed",
+                    "maintenance": "US$2,498"
+                  },
+                  {
+                    "name": "200 Users and Unlimited Connections",
+                    "metric": {
+                      "quantity": 200,
+                      "unit": "users and unlimited connection"
+                    },
+                    "amountUsd": 22488,
+                    "priceStatus": "listed",
+                    "maintenance": "US$4,498"
+                  }
+                ]
+              }
+            ]
           }
         ]
       },
@@ -2143,11 +3774,11 @@ export const ZOHO_GROUPS: ZohoGroup[] = [
         "priced": true,
         "sourceUrl": "https://store.manageengine.com/key-manager/?MEstore",
         "sourceSnapshotId": "a96d9f7b80f6",
-        "sourceCheckedAt": "2026-08-20T21:40:28.748Z",
+        "sourceCheckedAt": "2026-08-20T21:59:44.021Z",
         "deployments": [
           {
             "deployment": "saas",
-            "slug": "key-manager-plus-saas",
+            "slug": "key-manager-plus-saas-subscription",
             "offers": [
               {
                 "slug": "key-manager-plus-subscription-model",
@@ -2299,6 +3930,161 @@ export const ZOHO_GROUPS: ZohoGroup[] = [
                 ]
               }
             ]
+          },
+          {
+            "deployment": "saas",
+            "slug": "key-manager-plus-saas-perpetual",
+            "offers": [
+              {
+                "slug": "key-manager-plus-perpetual-model-perpetual",
+                "name": "Key Manager Plus - Perpetual Model",
+                "edition": null,
+                "licenseModel": "perpetual",
+                "kind": "base",
+                "variants": [
+                  {
+                    "name": "25 Keys",
+                    "metric": {
+                      "quantity": 25,
+                      "unit": "key"
+                    },
+                    "amountUsd": 1188,
+                    "priceStatus": "listed",
+                    "maintenance": "US$238"
+                  },
+                  {
+                    "name": "50 Keys",
+                    "metric": {
+                      "quantity": 50,
+                      "unit": "key"
+                    },
+                    "amountUsd": 1863,
+                    "priceStatus": "listed",
+                    "maintenance": "US$373"
+                  },
+                  {
+                    "name": "100 Keys",
+                    "metric": {
+                      "quantity": 100,
+                      "unit": "key"
+                    },
+                    "amountUsd": 2688,
+                    "priceStatus": "listed",
+                    "maintenance": "US$538"
+                  },
+                  {
+                    "name": "200 Keys",
+                    "metric": {
+                      "quantity": 200,
+                      "unit": "key"
+                    },
+                    "amountUsd": 3363,
+                    "priceStatus": "listed",
+                    "maintenance": "US$673"
+                  },
+                  {
+                    "name": "300 Keys",
+                    "metric": {
+                      "quantity": 300,
+                      "unit": "key"
+                    },
+                    "amountUsd": 3863,
+                    "priceStatus": "listed",
+                    "maintenance": "US$773"
+                  },
+                  {
+                    "name": "500 Keys",
+                    "metric": {
+                      "quantity": 500,
+                      "unit": "key"
+                    },
+                    "amountUsd": 5113,
+                    "priceStatus": "listed",
+                    "maintenance": "US$1,023"
+                  },
+                  {
+                    "name": "1000 Keys",
+                    "metric": {
+                      "quantity": 1000,
+                      "unit": "key"
+                    },
+                    "amountUsd": 6613,
+                    "priceStatus": "listed",
+                    "maintenance": "US$1,323"
+                  },
+                  {
+                    "name": "2000 Keys",
+                    "metric": {
+                      "quantity": 2000,
+                      "unit": "key"
+                    },
+                    "amountUsd": 9863,
+                    "priceStatus": "listed",
+                    "maintenance": "US$1,973"
+                  },
+                  {
+                    "name": "3000 Keys",
+                    "metric": {
+                      "quantity": 3000,
+                      "unit": "key"
+                    },
+                    "amountUsd": 12613,
+                    "priceStatus": "listed",
+                    "maintenance": "US$2,523"
+                  },
+                  {
+                    "name": "5000 Keys",
+                    "metric": {
+                      "quantity": 5000,
+                      "unit": "key"
+                    },
+                    "amountUsd": 17988,
+                    "priceStatus": "listed",
+                    "maintenance": "US$3,597"
+                  },
+                  {
+                    "name": "10000 Keys",
+                    "metric": {
+                      "quantity": 10000,
+                      "unit": "key"
+                    },
+                    "amountUsd": 34488,
+                    "priceStatus": "listed",
+                    "maintenance": "US$6,897"
+                  },
+                  {
+                    "name": "15000 Keys",
+                    "metric": {
+                      "quantity": 15000,
+                      "unit": "key"
+                    },
+                    "amountUsd": 41988,
+                    "priceStatus": "listed",
+                    "maintenance": "US$8,397"
+                  },
+                  {
+                    "name": "20000 Keys",
+                    "metric": {
+                      "quantity": 20000,
+                      "unit": "key"
+                    },
+                    "amountUsd": 49488,
+                    "priceStatus": "listed",
+                    "maintenance": "US$9,897"
+                  },
+                  {
+                    "name": "25000 Keys",
+                    "metric": {
+                      "quantity": 25000,
+                      "unit": "key"
+                    },
+                    "amountUsd": 56988,
+                    "priceStatus": "listed",
+                    "maintenance": "US$11,397"
+                  }
+                ]
+              }
+            ]
           }
         ]
       }
@@ -2319,11 +4105,11 @@ export const ZOHO_GROUPS: ZohoGroup[] = [
         "priced": true,
         "sourceUrl": "https://store.manageengine.com/service-desk/?MEstore",
         "sourceSnapshotId": "a34f339547ed",
-        "sourceCheckedAt": "2026-08-20T21:40:33.817Z",
+        "sourceCheckedAt": "2026-08-20T22:00:03.217Z",
         "deployments": [
           {
             "deployment": "saas",
-            "slug": "servicedesk-plus-saas",
+            "slug": "servicedesk-plus-saas-subscription",
             "offers": [
               {
                 "slug": "servicedesk-plus-standard-edition-annual-subscription",
@@ -2886,6 +4672,121 @@ export const ZOHO_GROUPS: ZohoGroup[] = [
                 ]
               },
               {
+                "slug": "servicedesk-plus-active-directory-management-add-on-annual-subscription",
+                "name": "ServiceDesk Plus Active Directory Management Add-on (Annual Subscription)",
+                "edition": null,
+                "licenseModel": "subscription",
+                "kind": "addon",
+                "variants": [
+                  {
+                    "name": "2 AD service desk Technicians",
+                    "metric": {
+                      "quantity": 2,
+                      "unit": "ad service desk technician"
+                    },
+                    "amountUsd": 200,
+                    "priceStatus": "listed",
+                    "maintenance": "Included"
+                  },
+                  {
+                    "name": "5 AD service desk Technicians",
+                    "metric": {
+                      "quantity": 5,
+                      "unit": "ad service desk technician"
+                    },
+                    "amountUsd": 500,
+                    "priceStatus": "listed",
+                    "maintenance": "Included"
+                  },
+                  {
+                    "name": "10 AD service desk Technicians",
+                    "metric": {
+                      "quantity": 10,
+                      "unit": "ad service desk technician"
+                    },
+                    "amountUsd": 1000,
+                    "priceStatus": "listed",
+                    "maintenance": "Included"
+                  },
+                  {
+                    "name": "50 AD service desk Technicians",
+                    "metric": {
+                      "quantity": 50,
+                      "unit": "ad service desk technician"
+                    },
+                    "amountUsd": 5000,
+                    "priceStatus": "listed",
+                    "maintenance": "Included"
+                  },
+                  {
+                    "name": "100 AD service desk Technicians",
+                    "metric": {
+                      "quantity": 100,
+                      "unit": "ad service desk technician"
+                    },
+                    "amountUsd": 10000,
+                    "priceStatus": "listed",
+                    "maintenance": "Included"
+                  },
+                  {
+                    "name": "200 AD service desk Technicians",
+                    "metric": {
+                      "quantity": 200,
+                      "unit": "ad service desk technician"
+                    },
+                    "amountUsd": 20000,
+                    "priceStatus": "listed",
+                    "maintenance": "Included"
+                  },
+                  {
+                    "name": "2 privileged AD Technicians",
+                    "metric": {
+                      "quantity": 2,
+                      "unit": "privileged ad technician"
+                    },
+                    "amountUsd": 1195,
+                    "priceStatus": "listed",
+                    "maintenance": "Included"
+                  },
+                  {
+                    "name": "5 privileged AD Technicians",
+                    "metric": {
+                      "quantity": 5,
+                      "unit": "privileged ad technician"
+                    },
+                    "amountUsd": 2745,
+                    "priceStatus": "listed",
+                    "maintenance": "Included"
+                  },
+                  {
+                    "name": "10 privileged AD Technicians",
+                    "metric": {
+                      "quantity": 10,
+                      "unit": "privileged ad technician"
+                    },
+                    "amountUsd": 4795,
+                    "priceStatus": "listed",
+                    "maintenance": "Included"
+                  },
+                  {
+                    "name": "1 additional domain",
+                    "metric": {
+                      "quantity": 1,
+                      "unit": "additional domain"
+                    },
+                    "amountUsd": 595,
+                    "priceStatus": "listed",
+                    "maintenance": "Included"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "deployment": "saas",
+            "slug": "servicedesk-plus-saas",
+            "offers": [
+              {
                 "slug": "analytics-plus-on-premise-add-on-for-servicedesk-plus",
                 "name": "Analytics Plus On-Premise add-on for ServiceDesk Plus",
                 "edition": null,
@@ -3195,115 +5096,6 @@ export const ZOHO_GROUPS: ZohoGroup[] = [
                     "maintenance": "Included"
                   }
                 ]
-              },
-              {
-                "slug": "servicedesk-plus-active-directory-management-add-on-annual-subscription",
-                "name": "ServiceDesk Plus Active Directory Management Add-on (Annual Subscription)",
-                "edition": null,
-                "licenseModel": "subscription",
-                "kind": "addon",
-                "variants": [
-                  {
-                    "name": "2 AD service desk Technicians",
-                    "metric": {
-                      "quantity": 2,
-                      "unit": "ad service desk technician"
-                    },
-                    "amountUsd": 200,
-                    "priceStatus": "listed",
-                    "maintenance": "Included"
-                  },
-                  {
-                    "name": "5 AD service desk Technicians",
-                    "metric": {
-                      "quantity": 5,
-                      "unit": "ad service desk technician"
-                    },
-                    "amountUsd": 500,
-                    "priceStatus": "listed",
-                    "maintenance": "Included"
-                  },
-                  {
-                    "name": "10 AD service desk Technicians",
-                    "metric": {
-                      "quantity": 10,
-                      "unit": "ad service desk technician"
-                    },
-                    "amountUsd": 1000,
-                    "priceStatus": "listed",
-                    "maintenance": "Included"
-                  },
-                  {
-                    "name": "50 AD service desk Technicians",
-                    "metric": {
-                      "quantity": 50,
-                      "unit": "ad service desk technician"
-                    },
-                    "amountUsd": 5000,
-                    "priceStatus": "listed",
-                    "maintenance": "Included"
-                  },
-                  {
-                    "name": "100 AD service desk Technicians",
-                    "metric": {
-                      "quantity": 100,
-                      "unit": "ad service desk technician"
-                    },
-                    "amountUsd": 10000,
-                    "priceStatus": "listed",
-                    "maintenance": "Included"
-                  },
-                  {
-                    "name": "200 AD service desk Technicians",
-                    "metric": {
-                      "quantity": 200,
-                      "unit": "ad service desk technician"
-                    },
-                    "amountUsd": 20000,
-                    "priceStatus": "listed",
-                    "maintenance": "Included"
-                  },
-                  {
-                    "name": "2 privileged AD Technicians",
-                    "metric": {
-                      "quantity": 2,
-                      "unit": "privileged ad technician"
-                    },
-                    "amountUsd": 1195,
-                    "priceStatus": "listed",
-                    "maintenance": "Included"
-                  },
-                  {
-                    "name": "5 privileged AD Technicians",
-                    "metric": {
-                      "quantity": 5,
-                      "unit": "privileged ad technician"
-                    },
-                    "amountUsd": 2745,
-                    "priceStatus": "listed",
-                    "maintenance": "Included"
-                  },
-                  {
-                    "name": "10 privileged AD Technicians",
-                    "metric": {
-                      "quantity": 10,
-                      "unit": "privileged ad technician"
-                    },
-                    "amountUsd": 4795,
-                    "priceStatus": "listed",
-                    "maintenance": "Included"
-                  },
-                  {
-                    "name": "1 additional domain",
-                    "metric": {
-                      "quantity": 1,
-                      "unit": "additional domain"
-                    },
-                    "amountUsd": 595,
-                    "priceStatus": "listed",
-                    "maintenance": "Included"
-                  }
-                ]
               }
             ]
           }
@@ -3318,11 +5110,11 @@ export const ZOHO_GROUPS: ZohoGroup[] = [
         "priced": true,
         "sourceUrl": "https://store.manageengine.com/service-desk/multi-language-store.html?MEstore",
         "sourceSnapshotId": "608a3e0ff8fa",
-        "sourceCheckedAt": "2026-08-20T21:40:39.699Z",
+        "sourceCheckedAt": "2026-08-20T22:00:08.875Z",
         "deployments": [
           {
             "deployment": "saas",
-            "slug": "servicedesk-plus-multi-language-saas",
+            "slug": "servicedesk-plus-multi-language-saas-subscription",
             "offers": [
               {
                 "slug": "servicedesk-plus-standard-edition-multi-language-annual-subscription",
@@ -3757,6 +5549,121 @@ export const ZOHO_GROUPS: ZohoGroup[] = [
                 ]
               },
               {
+                "slug": "servicedesk-plus-active-directory-management-add-on-annual-subscription",
+                "name": "ServiceDesk Plus Active Directory Management Add-on (Annual Subscription)",
+                "edition": null,
+                "licenseModel": "subscription",
+                "kind": "addon",
+                "variants": [
+                  {
+                    "name": "2 AD service desk Technicians",
+                    "metric": {
+                      "quantity": 2,
+                      "unit": "ad service desk technician"
+                    },
+                    "amountUsd": 200,
+                    "priceStatus": "listed",
+                    "maintenance": "Included"
+                  },
+                  {
+                    "name": "5 AD service desk Technicians",
+                    "metric": {
+                      "quantity": 5,
+                      "unit": "ad service desk technician"
+                    },
+                    "amountUsd": 500,
+                    "priceStatus": "listed",
+                    "maintenance": "Included"
+                  },
+                  {
+                    "name": "10 AD service desk Technicians",
+                    "metric": {
+                      "quantity": 10,
+                      "unit": "ad service desk technician"
+                    },
+                    "amountUsd": 1000,
+                    "priceStatus": "listed",
+                    "maintenance": "Included"
+                  },
+                  {
+                    "name": "50 AD service desk Technicians",
+                    "metric": {
+                      "quantity": 50,
+                      "unit": "ad service desk technician"
+                    },
+                    "amountUsd": 5000,
+                    "priceStatus": "listed",
+                    "maintenance": "Included"
+                  },
+                  {
+                    "name": "100 AD service desk Technicians",
+                    "metric": {
+                      "quantity": 100,
+                      "unit": "ad service desk technician"
+                    },
+                    "amountUsd": 10000,
+                    "priceStatus": "listed",
+                    "maintenance": "Included"
+                  },
+                  {
+                    "name": "200 AD service desk Technicians",
+                    "metric": {
+                      "quantity": 200,
+                      "unit": "ad service desk technician"
+                    },
+                    "amountUsd": 20000,
+                    "priceStatus": "listed",
+                    "maintenance": "Included"
+                  },
+                  {
+                    "name": "2 privileged AD Technicians",
+                    "metric": {
+                      "quantity": 2,
+                      "unit": "privileged ad technician"
+                    },
+                    "amountUsd": 1195,
+                    "priceStatus": "listed",
+                    "maintenance": "Included"
+                  },
+                  {
+                    "name": "5 privileged AD Technicians",
+                    "metric": {
+                      "quantity": 5,
+                      "unit": "privileged ad technician"
+                    },
+                    "amountUsd": 2745,
+                    "priceStatus": "listed",
+                    "maintenance": "Included"
+                  },
+                  {
+                    "name": "10 privileged AD Technicians",
+                    "metric": {
+                      "quantity": 10,
+                      "unit": "privileged ad technician"
+                    },
+                    "amountUsd": 4795,
+                    "priceStatus": "listed",
+                    "maintenance": "Included"
+                  },
+                  {
+                    "name": "1 additional domain",
+                    "metric": {
+                      "quantity": 1,
+                      "unit": "additional domain"
+                    },
+                    "amountUsd": 595,
+                    "priceStatus": "listed",
+                    "maintenance": "Included"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "deployment": "saas",
+            "slug": "servicedesk-plus-multi-language-saas",
+            "offers": [
+              {
                 "slug": "analytics-plus-on-premise-add-on-for-servicedesk-plus",
                 "name": "Analytics Plus On-Premise add-on for ServiceDesk Plus",
                 "edition": null,
@@ -4066,115 +5973,6 @@ export const ZOHO_GROUPS: ZohoGroup[] = [
                     "maintenance": "Included"
                   }
                 ]
-              },
-              {
-                "slug": "servicedesk-plus-active-directory-management-add-on-annual-subscription",
-                "name": "ServiceDesk Plus Active Directory Management Add-on (Annual Subscription)",
-                "edition": null,
-                "licenseModel": "subscription",
-                "kind": "addon",
-                "variants": [
-                  {
-                    "name": "2 AD service desk Technicians",
-                    "metric": {
-                      "quantity": 2,
-                      "unit": "ad service desk technician"
-                    },
-                    "amountUsd": 200,
-                    "priceStatus": "listed",
-                    "maintenance": "Included"
-                  },
-                  {
-                    "name": "5 AD service desk Technicians",
-                    "metric": {
-                      "quantity": 5,
-                      "unit": "ad service desk technician"
-                    },
-                    "amountUsd": 500,
-                    "priceStatus": "listed",
-                    "maintenance": "Included"
-                  },
-                  {
-                    "name": "10 AD service desk Technicians",
-                    "metric": {
-                      "quantity": 10,
-                      "unit": "ad service desk technician"
-                    },
-                    "amountUsd": 1000,
-                    "priceStatus": "listed",
-                    "maintenance": "Included"
-                  },
-                  {
-                    "name": "50 AD service desk Technicians",
-                    "metric": {
-                      "quantity": 50,
-                      "unit": "ad service desk technician"
-                    },
-                    "amountUsd": 5000,
-                    "priceStatus": "listed",
-                    "maintenance": "Included"
-                  },
-                  {
-                    "name": "100 AD service desk Technicians",
-                    "metric": {
-                      "quantity": 100,
-                      "unit": "ad service desk technician"
-                    },
-                    "amountUsd": 10000,
-                    "priceStatus": "listed",
-                    "maintenance": "Included"
-                  },
-                  {
-                    "name": "200 AD service desk Technicians",
-                    "metric": {
-                      "quantity": 200,
-                      "unit": "ad service desk technician"
-                    },
-                    "amountUsd": 20000,
-                    "priceStatus": "listed",
-                    "maintenance": "Included"
-                  },
-                  {
-                    "name": "2 privileged AD Technicians",
-                    "metric": {
-                      "quantity": 2,
-                      "unit": "privileged ad technician"
-                    },
-                    "amountUsd": 1195,
-                    "priceStatus": "listed",
-                    "maintenance": "Included"
-                  },
-                  {
-                    "name": "5 privileged AD Technicians",
-                    "metric": {
-                      "quantity": 5,
-                      "unit": "privileged ad technician"
-                    },
-                    "amountUsd": 2745,
-                    "priceStatus": "listed",
-                    "maintenance": "Included"
-                  },
-                  {
-                    "name": "10 privileged AD Technicians",
-                    "metric": {
-                      "quantity": 10,
-                      "unit": "privileged ad technician"
-                    },
-                    "amountUsd": 4795,
-                    "priceStatus": "listed",
-                    "maintenance": "Included"
-                  },
-                  {
-                    "name": "1 additional domain",
-                    "metric": {
-                      "quantity": 1,
-                      "unit": "additional domain"
-                    },
-                    "amountUsd": 595,
-                    "priceStatus": "listed",
-                    "maintenance": "Included"
-                  }
-                ]
               }
             ]
           }
@@ -4189,11 +5987,11 @@ export const ZOHO_GROUPS: ZohoGroup[] = [
         "priced": true,
         "sourceUrl": "https://store.manageengine.com/support-center/?MEstore",
         "sourceSnapshotId": "7fcdb8a6801b",
-        "sourceCheckedAt": "2026-08-20T21:40:45.924Z",
+        "sourceCheckedAt": "2026-08-20T22:00:13.759Z",
         "deployments": [
           {
             "deployment": "unspecified",
-            "slug": "supportcenter-plus",
+            "slug": "supportcenter-plus-subscription",
             "offers": [
               {
                 "slug": "supportcenter-plus-standard-edition-subscription-model",
@@ -5021,11 +6819,11 @@ export const ZOHO_GROUPS: ZohoGroup[] = [
         "priced": true,
         "sourceUrl": "https://store.manageengine.com/asset-explorer/?MEstore",
         "sourceSnapshotId": "05912421514f",
-        "sourceCheckedAt": "2026-08-20T21:40:50.631Z",
+        "sourceCheckedAt": "2026-08-20T22:00:18.567Z",
         "deployments": [
           {
             "deployment": "unspecified",
-            "slug": "assetexplorer",
+            "slug": "assetexplorer-subscription",
             "offers": [
               {
                 "slug": "assetexplorer-subscription-model",
@@ -8459,6 +10257,133 @@ export const ZOHO_GROUPS: ZohoGroup[] = [
 
 export const ZOHO_RULES: ZohoRule[] = [
   {
+    "id": "endpoint-central-endpoint-central-malware-protection-add-on-requires-base",
+    "appliesTo": {
+      "offerSlug": "endpoint-central-malware-protection-add-on",
+      "familySlug": "endpoint-central"
+    },
+    "requires": {
+      "familySlug": "endpoint-central"
+    },
+    "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+  },
+  {
+    "id": "endpoint-central-endpoint-central-ransomware-protection-add-on-requires-base",
+    "appliesTo": {
+      "offerSlug": "endpoint-central-ransomware-protection-add-on",
+      "familySlug": "endpoint-central"
+    },
+    "requires": {
+      "familySlug": "endpoint-central"
+    },
+    "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+  },
+  {
+    "id": "endpoint-central-endpoint-central-os-deployment-add-on-requires-base",
+    "appliesTo": {
+      "offerSlug": "endpoint-central-os-deployment-add-on",
+      "familySlug": "endpoint-central"
+    },
+    "requires": {
+      "familySlug": "endpoint-central"
+    },
+    "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+  },
+  {
+    "id": "endpoint-central-endpoint-central-dex-add-on-requires-base",
+    "appliesTo": {
+      "offerSlug": "endpoint-central-dex-add-on",
+      "familySlug": "endpoint-central"
+    },
+    "requires": {
+      "familySlug": "endpoint-central"
+    },
+    "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+  },
+  {
+    "id": "endpoint-central-endpoint-central-secure-private-access-add-on-requires-base",
+    "appliesTo": {
+      "offerSlug": "endpoint-central-secure-private-access-add-on",
+      "familySlug": "endpoint-central"
+    },
+    "requires": {
+      "familySlug": "endpoint-central"
+    },
+    "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+  },
+  {
+    "id": "endpoint-central-endpoint-central-additional-users-additional-extends",
+    "appliesTo": {
+      "offerSlug": "endpoint-central-additional-users",
+      "familySlug": "endpoint-central",
+      "variantPattern": "^Additional\\s"
+    },
+    "extends": {
+      "offerSlug": "endpoint-central-additional-users",
+      "familySlug": "endpoint-central"
+    },
+    "reason": "Позиция увеличивает объём уже выбранной лицензии и отдельно не поставляется"
+  },
+  {
+    "id": "patch-manager-plus-patch-manager-plus-additional-users-additional-extends",
+    "appliesTo": {
+      "offerSlug": "patch-manager-plus-additional-users",
+      "familySlug": "patch-manager-plus",
+      "variantPattern": "^Additional\\s"
+    },
+    "extends": {
+      "offerSlug": "patch-manager-plus-additional-users",
+      "familySlug": "patch-manager-plus"
+    },
+    "reason": "Позиция увеличивает объём уже выбранной лицензии и отдельно не поставляется"
+  },
+  {
+    "id": "patch-manager-plus-patch-manager-plus-remote-access-plus-add-on-requires-base",
+    "appliesTo": {
+      "offerSlug": "patch-manager-plus-remote-access-plus-add-on",
+      "familySlug": "patch-manager-plus"
+    },
+    "requires": {
+      "familySlug": "patch-manager-plus"
+    },
+    "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+  },
+  {
+    "id": "patch-manager-plus-patch-manager-plus-failover-server-add-ons-requires-base",
+    "appliesTo": {
+      "offerSlug": "patch-manager-plus-failover-server-add-ons",
+      "familySlug": "patch-manager-plus"
+    },
+    "requires": {
+      "familySlug": "patch-manager-plus"
+    },
+    "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+  },
+  {
+    "id": "mobile-device-manager-plus-mobile-device-manager-plus-additional-users-additional-extends",
+    "appliesTo": {
+      "offerSlug": "mobile-device-manager-plus-additional-users",
+      "familySlug": "mobile-device-manager-plus",
+      "variantPattern": "^Additional\\s"
+    },
+    "extends": {
+      "offerSlug": "mobile-device-manager-plus-additional-users",
+      "familySlug": "mobile-device-manager-plus"
+    },
+    "reason": "Позиция увеличивает объём уже выбранной лицензии и отдельно не поставляется"
+  },
+  {
+    "id": "mobile-device-manager-plus-mobile-device-manager-plus-failover-server-add-ons-requires-base",
+    "appliesTo": {
+      "offerSlug": "mobile-device-manager-plus-failover-server-add-ons",
+      "familySlug": "mobile-device-manager-plus"
+    },
+    "requires": {
+      "familySlug": "mobile-device-manager-plus"
+    },
+    "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+  },
+  {
     "id": "admanager-plus-admanager-plus-standard-edition-annual-subscription-additional-extends",
     "appliesTo": {
       "offerSlug": "admanager-plus-standard-edition-annual-subscription",
@@ -8496,6 +10421,43 @@ export const ZOHO_RULES: ZohoRule[] = [
     "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
   },
   {
+    "id": "admanager-plus-admanager-plus-standard-edition-perpetual-additional-extends",
+    "appliesTo": {
+      "offerSlug": "admanager-plus-standard-edition-perpetual",
+      "familySlug": "admanager-plus",
+      "variantPattern": "^Additional\\s"
+    },
+    "extends": {
+      "offerSlug": "admanager-plus-standard-edition-perpetual",
+      "familySlug": "admanager-plus"
+    },
+    "reason": "Позиция увеличивает объём уже выбранной лицензии и отдельно не поставляется"
+  },
+  {
+    "id": "admanager-plus-admanager-plus-professional-edition-perpetual-additional-extends",
+    "appliesTo": {
+      "offerSlug": "admanager-plus-professional-edition-perpetual",
+      "familySlug": "admanager-plus",
+      "variantPattern": "^Additional\\s"
+    },
+    "extends": {
+      "offerSlug": "admanager-plus-professional-edition-perpetual",
+      "familySlug": "admanager-plus"
+    },
+    "reason": "Позиция увеличивает объём уже выбранной лицензии и отдельно не поставляется"
+  },
+  {
+    "id": "admanager-plus-admanager-plus-backup-and-recovery-add-on-perpetual-requires-base",
+    "appliesTo": {
+      "offerSlug": "admanager-plus-backup-and-recovery-add-on-perpetual",
+      "familySlug": "admanager-plus"
+    },
+    "requires": {
+      "familySlug": "admanager-plus"
+    },
+    "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+  },
+  {
     "id": "m365-manager-plus-m365-manager-plus-exchange-online-backup-add-on-requires-base",
     "appliesTo": {
       "offerSlug": "m365-manager-plus-exchange-online-backup-add-on",
@@ -8507,9 +10469,31 @@ export const ZOHO_RULES: ZohoRule[] = [
     "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
   },
   {
+    "id": "m365-manager-plus-m365-manager-plus-exchange-online-backup-add-on-perpetual-requires-base",
+    "appliesTo": {
+      "offerSlug": "m365-manager-plus-exchange-online-backup-add-on-perpetual",
+      "familySlug": "m365-manager-plus"
+    },
+    "requires": {
+      "familySlug": "m365-manager-plus"
+    },
+    "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+  },
+  {
     "id": "password-manager-pro-password-manager-pro-add-ons-requires-base",
     "appliesTo": {
       "offerSlug": "password-manager-pro-add-ons",
+      "familySlug": "password-manager-pro"
+    },
+    "requires": {
+      "familySlug": "password-manager-pro"
+    },
+    "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+  },
+  {
+    "id": "password-manager-pro-password-manager-pro-add-ons-perpetual-requires-base",
+    "appliesTo": {
+      "offerSlug": "password-manager-pro-add-ons-perpetual",
       "familySlug": "password-manager-pro"
     },
     "requires": {
@@ -8581,6 +10565,17 @@ export const ZOHO_RULES: ZohoRule[] = [
     "reason": "Позиция увеличивает объём уже выбранной лицензии и отдельно не поставляется"
   },
   {
+    "id": "servicedesk-plus-servicedesk-plus-active-directory-management-add-on-annual-subscription-requires-base",
+    "appliesTo": {
+      "offerSlug": "servicedesk-plus-active-directory-management-add-on-annual-subscription",
+      "familySlug": "servicedesk-plus"
+    },
+    "requires": {
+      "familySlug": "servicedesk-plus"
+    },
+    "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+  },
+  {
     "id": "servicedesk-plus-analytics-plus-on-premise-add-on-for-servicedesk-plus-requires-base",
     "appliesTo": {
       "offerSlug": "analytics-plus-on-premise-add-on-for-servicedesk-plus",
@@ -8627,17 +10622,6 @@ export const ZOHO_RULES: ZohoRule[] = [
       "familySlug": "servicedesk-plus"
     },
     "reason": "Позиция увеличивает объём уже выбранной лицензии и отдельно не поставляется"
-  },
-  {
-    "id": "servicedesk-plus-servicedesk-plus-active-directory-management-add-on-annual-subscription-requires-base",
-    "appliesTo": {
-      "offerSlug": "servicedesk-plus-active-directory-management-add-on-annual-subscription",
-      "familySlug": "servicedesk-plus"
-    },
-    "requires": {
-      "familySlug": "servicedesk-plus"
-    },
-    "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
   },
   {
     "id": "servicedesk-plus-analytics-plus-on-premise-add-on-for-servicedesk-plus-excludes-analytics-plus-cloud-add-on-for-servicedesk-plus",
@@ -8701,6 +10685,17 @@ export const ZOHO_RULES: ZohoRule[] = [
     "reason": "Позиция увеличивает объём уже выбранной лицензии и отдельно не поставляется"
   },
   {
+    "id": "servicedesk-plus-multi-language-servicedesk-plus-active-directory-management-add-on-annual-subscription-requires-base",
+    "appliesTo": {
+      "offerSlug": "servicedesk-plus-active-directory-management-add-on-annual-subscription",
+      "familySlug": "servicedesk-plus-multi-language"
+    },
+    "requires": {
+      "familySlug": "servicedesk-plus-multi-language"
+    },
+    "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+  },
+  {
     "id": "servicedesk-plus-multi-language-analytics-plus-on-premise-add-on-for-servicedesk-plus-requires-base",
     "appliesTo": {
       "offerSlug": "analytics-plus-on-premise-add-on-for-servicedesk-plus",
@@ -8747,17 +10742,6 @@ export const ZOHO_RULES: ZohoRule[] = [
       "familySlug": "servicedesk-plus-multi-language"
     },
     "reason": "Позиция увеличивает объём уже выбранной лицензии и отдельно не поставляется"
-  },
-  {
-    "id": "servicedesk-plus-multi-language-servicedesk-plus-active-directory-management-add-on-annual-subscription-requires-base",
-    "appliesTo": {
-      "offerSlug": "servicedesk-plus-active-directory-management-add-on-annual-subscription",
-      "familySlug": "servicedesk-plus-multi-language"
-    },
-    "requires": {
-      "familySlug": "servicedesk-plus-multi-language"
-    },
-    "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
   },
   {
     "id": "servicedesk-plus-multi-language-analytics-plus-on-premise-add-on-for-servicedesk-plus-excludes-analytics-plus-cloud-add-on-for-servicedesk-plus",
@@ -8898,133 +10882,6 @@ export const ZOHO_RULES: ZohoRule[] = [
       "familySlug": "assetexplorer"
     },
     "reason": "Позиция увеличивает объём уже выбранной лицензии и отдельно не поставляется"
-  },
-  {
-    "id": "endpoint-central-endpoint-central-malware-protection-add-on-requires-base",
-    "appliesTo": {
-      "offerSlug": "endpoint-central-malware-protection-add-on",
-      "familySlug": "endpoint-central"
-    },
-    "requires": {
-      "familySlug": "endpoint-central"
-    },
-    "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
-  },
-  {
-    "id": "endpoint-central-endpoint-central-ransomware-protection-add-on-requires-base",
-    "appliesTo": {
-      "offerSlug": "endpoint-central-ransomware-protection-add-on",
-      "familySlug": "endpoint-central"
-    },
-    "requires": {
-      "familySlug": "endpoint-central"
-    },
-    "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
-  },
-  {
-    "id": "endpoint-central-endpoint-central-os-deployment-add-on-requires-base",
-    "appliesTo": {
-      "offerSlug": "endpoint-central-os-deployment-add-on",
-      "familySlug": "endpoint-central"
-    },
-    "requires": {
-      "familySlug": "endpoint-central"
-    },
-    "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
-  },
-  {
-    "id": "endpoint-central-endpoint-central-dex-add-on-requires-base",
-    "appliesTo": {
-      "offerSlug": "endpoint-central-dex-add-on",
-      "familySlug": "endpoint-central"
-    },
-    "requires": {
-      "familySlug": "endpoint-central"
-    },
-    "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
-  },
-  {
-    "id": "endpoint-central-endpoint-central-secure-private-access-add-on-requires-base",
-    "appliesTo": {
-      "offerSlug": "endpoint-central-secure-private-access-add-on",
-      "familySlug": "endpoint-central"
-    },
-    "requires": {
-      "familySlug": "endpoint-central"
-    },
-    "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
-  },
-  {
-    "id": "endpoint-central-endpoint-central-additional-users-additional-extends",
-    "appliesTo": {
-      "offerSlug": "endpoint-central-additional-users",
-      "familySlug": "endpoint-central",
-      "variantPattern": "^Additional\\s"
-    },
-    "extends": {
-      "offerSlug": "endpoint-central-additional-users",
-      "familySlug": "endpoint-central"
-    },
-    "reason": "Позиция увеличивает объём уже выбранной лицензии и отдельно не поставляется"
-  },
-  {
-    "id": "patch-manager-plus-patch-manager-plus-additional-users-additional-extends",
-    "appliesTo": {
-      "offerSlug": "patch-manager-plus-additional-users",
-      "familySlug": "patch-manager-plus",
-      "variantPattern": "^Additional\\s"
-    },
-    "extends": {
-      "offerSlug": "patch-manager-plus-additional-users",
-      "familySlug": "patch-manager-plus"
-    },
-    "reason": "Позиция увеличивает объём уже выбранной лицензии и отдельно не поставляется"
-  },
-  {
-    "id": "patch-manager-plus-patch-manager-plus-remote-access-plus-add-on-requires-base",
-    "appliesTo": {
-      "offerSlug": "patch-manager-plus-remote-access-plus-add-on",
-      "familySlug": "patch-manager-plus"
-    },
-    "requires": {
-      "familySlug": "patch-manager-plus"
-    },
-    "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
-  },
-  {
-    "id": "patch-manager-plus-patch-manager-plus-failover-server-add-ons-requires-base",
-    "appliesTo": {
-      "offerSlug": "patch-manager-plus-failover-server-add-ons",
-      "familySlug": "patch-manager-plus"
-    },
-    "requires": {
-      "familySlug": "patch-manager-plus"
-    },
-    "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
-  },
-  {
-    "id": "mobile-device-manager-plus-mobile-device-manager-plus-additional-users-additional-extends",
-    "appliesTo": {
-      "offerSlug": "mobile-device-manager-plus-additional-users",
-      "familySlug": "mobile-device-manager-plus",
-      "variantPattern": "^Additional\\s"
-    },
-    "extends": {
-      "offerSlug": "mobile-device-manager-plus-additional-users",
-      "familySlug": "mobile-device-manager-plus"
-    },
-    "reason": "Позиция увеличивает объём уже выбранной лицензии и отдельно не поставляется"
-  },
-  {
-    "id": "mobile-device-manager-plus-mobile-device-manager-plus-failover-server-add-ons-requires-base",
-    "appliesTo": {
-      "offerSlug": "mobile-device-manager-plus-failover-server-add-ons",
-      "familySlug": "mobile-device-manager-plus"
-    },
-    "requires": {
-      "familySlug": "mobile-device-manager-plus"
-    },
-    "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
   }
 ];
 
