@@ -1,7 +1,8 @@
 export const prerender = false;
 
 import type { APIRoute } from 'astro';
-import { getProductsBySkus, createQuote } from '../../lib/directus';
+import { getProductsBySkus, createQuote, createLead, getLeads, createLeadEvent } from '../../lib/directus';
+import { leadFromQuote, describeQuote } from '../../lib/quote-lead';
 import { effectivePrice } from '../../lib/pricing';
 import { sendMail, managerEmail, salesFrom } from '../../lib/mailer';
 import { generateQuotePdf, buildQuoteNo, formatDateRu, addDays, type QuoteData } from '../../lib/pdf-quote';
@@ -17,6 +18,39 @@ function isEmail(v: unknown): v is string {
 /** Непустая строка после trim. */
 function filled(v: unknown): v is string {
   return typeof v === 'string' && v.trim().length > 0;
+}
+
+/**
+ * Записать скачивание КП в воронку.
+ *
+ * Если клиент уже есть в работе, второй карточки не заводим: повторное
+ * скачивание — событие существующей сделки, а не новая заявка. Иначе один
+ * человек, качнувший КП трижды, превращается в три сделки и ломает конверсию.
+ */
+async function recordQuoteLead(q: Parameters<typeof leadFromQuote>[0]): Promise<void> {
+  const email = q.email.trim().toLowerCase();
+  let open: { id: string | number } | undefined;
+  try {
+    const leads = await getLeads(500);
+    open = leads.find((l) =>
+      String(l.email || '').trim().toLowerCase() === email &&
+      !['won', 'lost', 'spam'].includes(String(l.status || 'new')));
+  } catch (e) {
+    // Не смогли проверить — заводим новую: потерять контакт хуже, чем задвоить.
+    console.error('quote lead lookup failed', e);
+  }
+
+  if (open) {
+    await createLeadEvent({
+      lead: Number(open.id),
+      kind: 'email',
+      subject: `Клиент скачал КП № ${q.quoteNo} на ${q.total.toLocaleString('ru-RU')} ₽`,
+      text: describeQuote(q),
+      author: 'сайт',
+    });
+    return;
+  }
+  await createLead(leadFromQuote(q));
 }
 
 export const POST: APIRoute = async ({ request }) => {
@@ -103,6 +137,21 @@ export const POST: APIRoute = async ({ request }) => {
     total,
     consent: true,
   }).catch((e) => console.error('createQuote failed', e));
+
+  // Заявка в воронку. Скачивание КП — самый тёплый контакт на сайте: назвали
+  // организацию, ИНН, телефон и собрали корзину. Раньше это оседало в quotes и
+  // в почте менеджера, а в воронке канал не существовал.
+  recordQuoteLead({
+    quoteNo,
+    buyerCompany: data.buyerCompany,
+    buyerInn: data.buyerInn,
+    contactName: data.contactName,
+    email: data.email,
+    phone: data.phone,
+    items,
+    total,
+    validUntil: data.validUntil,
+  }).catch((e) => console.error('quote lead failed', e));
 
   // ── Письма ──
   const filename = `KP_${quoteNo}.pdf`;

@@ -198,6 +198,9 @@ async function buildSchema() {
   await ensureField('leads', 'product_ref', { type: 'string', meta: { interface: 'input' } });
   await ensureField('leads', 'consent', { type: 'boolean', meta: { interface: 'boolean' }, schema: { default_value: false } });
   await ensureField('leads', 'source', { type: 'string', meta: { interface: 'input' } });
+  // Реквизиты и номер КП: заявка из скачивания предложения приходит уже с ними.
+  await ensureField('leads', 'inn', { type: 'string', meta: { interface: 'input', width: 'half', note: 'ИНН организации, если клиент его указал.' } });
+  await ensureField('leads', 'quote_no', { type: 'string', meta: { interface: 'input', width: 'half', note: 'Номер скачанного коммерческого предложения.' } });
 
   // ── воронка продаж (добавлено 20.08.2026) ──
   // До этого заявка хранила только контакт: по ней нельзя было сказать, чем
@@ -302,6 +305,8 @@ const APP_PERMS = [
   // с телефона через сайт, а не через админку Directus (она наружу не смотрит).
   // delete нужен для удаления мусорных заявок из корзины админ-кабинета.
   ['leads', 'create'], ['leads', 'read'], ['leads', 'update'], ['leads', 'delete'],
+  // Чтение quotes нужно переносу истории скачанных КП в воронку.
+  ['quotes', 'read'],
   ['lead_events', 'create'], ['lead_events', 'read'], ['lead_events', 'delete'],
   ['quotes', 'create'], ['quotes', 'read'],
   ['currency_rate', 'read'], ['currency_rate', 'create'], ['currency_rate', 'update'],
