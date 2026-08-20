@@ -8,6 +8,7 @@ import VendorGenericLanding from '../../components/VendorGenericLanding.astro';
 import { vendorBySlug } from '../../data/vendors';
 import { vendors as scaffoldVendors } from '../../data/scaffold';
 import { getVendors } from '../../lib/directus';
+import { isSourceUnavailable, serviceUnavailable } from '../../lib/http';
 import { vendorSlug } from '../../lib/vendor-links';
 import { SEO_EXPERIMENTS } from '../../data/seo-experiments';
 
@@ -21,7 +22,10 @@ if (!entry && !scaffold && slug) {
   try {
     live = (await getVendors()).find((r) => vendorSlug(r.vendor) === slug);
   } catch (e) {
+    // Список вендоров живёт в БД: без него нельзя отличить «вендора нет»
+    // от «БД недоступна», а 404 удалил бы лендинг из индекса.
     console.error('vendor fallback error', e);
+    if (isSourceUnavailable(e)) return serviceUnavailable();
   }
 }
 if (!entry && !scaffold && !live) return new Response(null, { status: 404 });

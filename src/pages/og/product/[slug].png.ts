@@ -10,6 +10,7 @@ import { Resvg } from '@resvg/resvg-js';
 import { readFileSync } from 'node:fs';
 import { createRequire } from 'node:module';
 import { getProductBySlug } from '../../../lib/directus';
+import { isSourceUnavailable, serviceUnavailable } from '../../../lib/http';
 import { effectivePrice } from '../../../lib/pricing';
 
 const require = createRequire(import.meta.url);
@@ -43,7 +44,10 @@ export const GET: APIRoute = async ({ params }) => {
   let product = null;
   try {
     product = await getProductBySlug(slug);
-  } catch { /* ниже отдадим 404 */ }
+  } catch (e) {
+    // Соцсеть повторит запрос по 503; по 404 закэширует отсутствие картинки.
+    if (isSourceUnavailable(e)) return serviceUnavailable();
+  }
   if (!product) return new Response(null, { status: 404 });
 
   const eff = effectivePrice(product);
