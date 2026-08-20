@@ -14,10 +14,10 @@
 
 | Метод | Вызовов | Стоимость |
 |---|---|---|
-| getTop | 207 | 4.14 ₽ |
+| getTop | 296 | 5.92 ₽ |
 | getDynamics | 66 | 1.32 ₽ |
 | getRegionsDistribution | 24 | 1.20 ₽ |
-| **Итого** | **297** | **6.66 ₽** |
+| **Итого** | **386** | **8.44 ₽** |
 
 ## Бюджет и квота
 
@@ -25,8 +25,8 @@
 - план расходует: 0.1% потолка
 - максимум, который вообще можно потратить при действующей квоте: 8280 ₽
 - бюджет является ограничением: да
-- время прохода при 100 запросах в час: 0.6 ч
-- при 500 запросах в час: 0.6 ч
+- время прохода при 100 запросах в час: 0.8 ч
+- при 500 запросах в час: 0.8 ч
 
 План не предполагает освоения всего бюджета: цель — полезная информация на вызов, а не расход рублей.
 
@@ -34,33 +34,33 @@
 
 | № | Метод | Фраза | Причина | Ожидаемый прирост | Ранг |
 |---|---|---|---|---|---|
-| 1 | getTop | slack купить | vendor_expansion | 0.6 | 16.8 |
-| 2 | getTop | atlassian купить | vendor_expansion | 0.6 | 16.8 |
-| 3 | getTop | monday.com купить | vendor_expansion | 0.6 | 16.8 |
-| 4 | getTop | clickup купить | vendor_expansion | 0.6 | 16.8 |
-| 5 | getTop | trello купить | vendor_expansion | 0.6 | 16.8 |
-| 6 | getTop | airtable купить | vendor_expansion | 0.6 | 16.8 |
-| 7 | getTop | smartsheet купить | vendor_expansion | 0.6 | 16.8 |
-| 8 | getTop | basecamp купить | vendor_expansion | 0.6 | 16.8 |
-| 9 | getTop | hubspot купить | vendor_expansion | 0.6 | 16.8 |
-| 10 | getTop | salesforce купить | vendor_expansion | 0.6 | 16.8 |
-| 11 | getTop | pipedrive купить | vendor_expansion | 0.6 | 16.8 |
-| 12 | getTop | zoho купить | vendor_expansion | 0.6 | 16.8 |
-| 13 | getTop | freshdesk купить | vendor_expansion | 0.6 | 16.8 |
-| 14 | getTop | zendesk купить | vendor_expansion | 0.6 | 16.8 |
-| 15 | getTop | mailchimp купить | vendor_expansion | 0.6 | 16.8 |
-| 16 | getTop | sendgrid купить | vendor_expansion | 0.6 | 16.8 |
-| 17 | getTop | twilio купить | vendor_expansion | 0.6 | 16.8 |
-| 18 | getTop | brevo купить | vendor_expansion | 0.6 | 16.8 |
-| 19 | getTop | klaviyo купить | vendor_expansion | 0.6 | 16.8 |
-| 20 | getTop | camtasia купить | vendor_expansion | 0.6 | 16.8 |
-| 21 | getTop | semrush купить | vendor_expansion | 0.6 | 16.8 |
-| 22 | getTop | serpstat купить | vendor_expansion | 0.6 | 16.8 |
-| 23 | getTop | moz купить | vendor_expansion | 0.6 | 16.8 |
-| 24 | getTop | pika labs купить | vendor_expansion | 0.6 | 16.8 |
-| 25 | getTop | webflow купить | vendor_expansion | 0.6 | 16.8 |
-| 26 | getTop | squarespace купить | vendor_expansion | 0.6 | 16.8 |
-| 27 | getTop | softr купить | vendor_expansion | 0.6 | 16.8 |
-| 28 | getTop | retool купить | vendor_expansion | 0.6 | 16.8 |
-| 29 | getTop | docker купить | vendor_expansion | 0.6 | 16.8 |
-| 30 | getTop | datadog купить | vendor_expansion | 0.6 | 16.8 |
+| 1 | getTop | anydesk | discovery | 1.0 | 24.0 |
+| 2 | getTop | docker | discovery | 1.0 | 24.0 |
+| 3 | getTop | gitlab | discovery | 1.0 | 24.0 |
+| 4 | getTop | parallels | discovery | 1.0 | 24.0 |
+| 5 | getTop | acronis | discovery | 1.0 | 24.0 |
+| 6 | getTop | dropbox | discovery | 1.0 | 24.0 |
+| 7 | getTop | sketchup | discovery | 1.0 | 24.0 |
+| 8 | getTop | bitdefender | discovery | 1.0 | 24.0 |
+| 9 | getTop | microsoft | discovery | 1.0 | 24.0 |
+| 10 | getTop | jetbrains | discovery | 1.0 | 24.0 |
+| 11 | getTop | zoom | discovery | 1.0 | 24.0 |
+| 12 | getTop | openai | discovery | 1.0 | 24.0 |
+| 13 | getTop | figma | discovery | 1.0 | 24.0 |
+| 14 | getTop | anydesk купить | discovery | 0.831 | 19.944 |
+| 15 | getTop | docker купить | discovery | 0.831 | 19.944 |
+| 16 | getTop | gitlab купить | discovery | 0.831 | 19.944 |
+| 17 | getTop | parallels купить | discovery | 0.831 | 19.944 |
+| 18 | getTop | acronis купить | discovery | 0.831 | 19.944 |
+| 19 | getTop | dropbox купить | discovery | 0.831 | 19.944 |
+| 20 | getTop | sketchup купить | discovery | 0.831 | 19.944 |
+| 21 | getTop | bitdefender купить | discovery | 0.831 | 19.944 |
+| 22 | getTop | microsoft купить | discovery | 0.831 | 19.944 |
+| 23 | getTop | jetbrains купить | discovery | 0.831 | 19.944 |
+| 24 | getTop | zoom купить | discovery | 0.831 | 19.944 |
+| 25 | getTop | openai купить | discovery | 0.831 | 19.944 |
+| 26 | getTop | figma купить | discovery | 0.831 | 19.944 |
+| 27 | getTop | slack купить | vendor_expansion | 0.6 | 16.8 |
+| 28 | getTop | atlassian купить | vendor_expansion | 0.6 | 16.8 |
+| 29 | getTop | monday.com купить | vendor_expansion | 0.6 | 16.8 |
+| 30 | getTop | clickup купить | vendor_expansion | 0.6 | 16.8 |
