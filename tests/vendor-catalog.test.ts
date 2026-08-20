@@ -63,6 +63,19 @@ describe('пакеты scripts/catalog', () => {
     expect(packages.length).toBeGreaterThanOrEqual(9);
   });
 
+  it('цена из веб-исследования помечена честно, а не выдана за прайс поставщика', () => {
+    // Сайты части вендоров из среды недоступны: цена собрана по обзорам.
+    // Такая карточка обязана нести пометку и оговорку в notes — иначе через
+    // месяц никто не вспомнит, что число нужно подтвердить на checkout.
+    for (const { pkg } of packages) {
+      for (const p of pkg.products) {
+        if (p.price_confidence !== 'search-estimate') continue;
+        expect(String(p.notes || '').length, `${p.slug}.notes без пояснения происхождения цены`)
+          .toBeGreaterThan(40);
+      }
+    }
+  });
+
   it('обязательные поля SKU заполнены, sku = slug в верхнем регистре', () => {
     for (const { pkg } of packages) {
       for (const p of pkg.products) {
