@@ -151,6 +151,10 @@ AMBIGUOUS_BRANDS = {
     "box", "linear", "cursor", "zoom", "framer", "notion", "arc", "bolt",
     "craft", "loom", "origin", "pitch", "frame", "gamma", "runway", "flux",
     "luma", "canvas", "sketch", "unity", "spark", "wave", "vector",
+    # Вендоры каталога с именем-обычным словом: «rive» — парфюм La Rive,
+    # «avid» — английское слово, «spine» — обувь, «foundry» и «photon» — общие
+    # технические термины. Замер 20.08.2026 показал их спрос завышенным.
+    "rive", "avid", "spine", "foundry", "photon",
 }
 
 # Признаки того, что запрос всё-таки про программу или подписку.
@@ -162,6 +166,14 @@ SOFTWARE_MARKERS = (
 )
 
 
+# Служебные слова шаблонов seed-фраз: их отбрасывают, чтобы найти имя бренда.
+SEED_TEMPLATE_WORDS = {
+    "купить", "цена", "цены", "стоимость", "подписка", "подписку", "лицензия",
+    "лицензию", "тариф", "тарифы", "оплата", "оплатить", "для", "юридических",
+    "лиц", "россии", "заказать", "приобрести",
+}
+
+
 def relevant_to_seed(phrase: str, seed: str | None) -> bool:
     """Относится ли фраза к тому вендору, ради которого делался запрос.
 
@@ -170,12 +182,29 @@ def relevant_to_seed(phrase: str, seed: str | None) -> bool:
     """
     if not seed:
         return True
-    low_seed = normalize(seed)
-    brand = low_seed.replace(" купить", "").replace("купить ", "").strip()
+    # Seed бывает и голым именем бренда, и шаблоном «{бренд} купить»,
+    # «лицензия {бренд}», «{бренд} подписка». Отбрасываем служебные слова
+    # шаблона и смотрим, что осталось.
+    words = [w for w in _phrase_words(seed) if w not in SEED_TEMPLATE_WORDS]
+    brand = " ".join(words)
     if brand not in AMBIGUOUS_BRANDS:
         return True
     low = normalize(phrase)
     return any(m in low for m in SOFTWARE_MARKERS)
+
+
+# Физические товары и игры: у брендов ПО есть тёзки в обуви, парфюмерии и
+# мототехнике. Такие запросы к продаже лицензий отношения не имеют независимо
+# от того, чьё имя в них стоит: «spine кроссовки», «la rive» (парфюм),
+# «assassins creed unity» (игра), «road glide» (мотоцикл).
+PHYSICAL_GOODS = (
+    "кроссовк", "ботинк", "обув", "кед", "сандал", "парфюм", "туалетн вод",
+    "духи", "одеколон", "крем", "шампун", "сумк", "рюкзак", "часы", "велосипед",
+    "мотоцикл", "харлей", "harley", "davidson", "шин", "диск колес", "автомобил",
+    "телевизор", "приставк", "смартфон", "наушник", "холодильник", "пылесос",
+    "assassins creed", "игру", "игра для", "диск с игрой", "футболк", "куртк",
+    "тревел", "тур в", "путёвк", "путевк", "водк", "пион", "цвет",
+)
 
 
 def in_scope(phrase: str) -> bool:
@@ -183,19 +212,33 @@ def in_scope(phrase: str) -> bool:
     low = normalize(phrase)
     if "карт" in low and any(k in low for k in ("оплат", "виртуальн", "выпуст", "банк")):
         return False
+    if any(k in low for k in PHYSICAL_GOODS):
+        return False
     return not any(k in low for k in OUT_OF_SCOPE)
+
+
+def _phrase_words(text: str) -> list[str]:
+    return [w for w in re.split(r"[^a-z0-9\u0430-\u044f]+", normalize(text)) if w]
+
+
+def _has_run(words: list[str], run: list[str]) -> bool:
+    n = len(run)
+    return n > 0 and any(words[i:i + n] == run for i in range(len(words) - n + 1))
 
 
 def cluster_of(phrase: str, vendors: dict[str, str], seed: str | None = None) -> str | None:
     """Кластер по якорю вендора; иначе — по seed-фразе, а не по обрубку слова.
 
-    Обрубок («зарубежных», «виртуальн») именем кластера быть не может: по нему
-    нельзя понять ни тему, ни нужную страницу.
+    Якорь сравнивается по целым словам. Подстрока врёт: «avid» сидит внутри
+    «davidson» и приписывала Harley-Davidson к Avid, «rive» внутри «la rive»
+    приводила парфюмерию в кластер Rive. Обрубок («зарубежных», «виртуальн»)
+    именем кластера быть не может: по нему нельзя понять ни тему, ни страницу.
     """
-    low = normalize(phrase)
+    words = _phrase_words(phrase)
     for token, cluster in vendors.items():
-        if token in low:
+        if _has_run(words, _phrase_words(token)):
             return cluster
+    low = normalize(phrase)
     if seed:
         return normalize(seed)
     words = [w for w in low.split() if w not in STOPWORDS and len(w) > 4]

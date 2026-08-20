@@ -1,23 +1,23 @@
 {
  "date": "2026-08-20",
- "generated_at": "2026-08-20T07:30:45+00:00",
+ "generated_at": "2026-08-20T07:35:04+00:00",
  "measured_at": "2026-08-20",
  "universe": {
   "phrases": 10054,
-  "commercial_phrases": 1708,
+  "commercial_phrases": 1576,
   "clusters": 129,
-  "total_commercial_demand": 183500,
+  "total_commercial_demand": 175336,
   "total_demand": 5055788,
   "with_page": 8238,
   "cost_rub": 4.1814
  },
  "coverage": {
   "available": true,
-  "total_commercial_demand": 183500,
+  "total_commercial_demand": 175336,
   "levels": {
-   "page": 0.2885,
-   "indexed": 0.1784,
-   "top10": 0.0406,
+   "page": 0.2664,
+   "indexed": 0.1806,
+   "top10": 0.0363,
    "clicks": 0.0001,
    "conversion_measured": 0.0,
    "qualified_leads": null
@@ -26,7 +26,7 @@
  },
  "coverage_by_category": {
   "не определено": {
-   "demand": 130532,
+   "demand": 128622,
    "covered": 0,
    "top10": 0,
    "clicks": 0,
@@ -35,35 +35,35 @@
    "click_coverage": 0.0
   },
   "Дизайн и графика": {
-   "demand": 42644,
-   "covered": 42616,
+   "demand": 38961,
+   "covered": 38961,
    "top10": 4561,
    "clicks": 26,
-   "page_coverage": 0.999,
-   "top10_coverage": 0.107,
+   "page_coverage": 1.0,
+   "top10_coverage": 0.117,
    "click_coverage": 0.001
   },
-  "Звук, видео и медиа": {
-   "demand": 5188,
-   "covered": 5188,
-   "top10": 998,
+  "AI-сервисы": {
+   "demand": 3138,
+   "covered": 3138,
+   "top10": 1031,
    "clicks": 0,
    "page_coverage": 1.0,
-   "top10_coverage": 0.192,
+   "top10_coverage": 0.329,
    "click_coverage": 0.0
   },
-  "AI-сервисы": {
-   "demand": 3212,
-   "covered": 3212,
-   "top10": 1105,
+  "Звук, видео и медиа": {
+   "demand": 2829,
+   "covered": 2829,
+   "top10": 0,
    "clicks": 0,
    "page_coverage": 1.0,
-   "top10_coverage": 0.344,
+   "top10_coverage": 0.0,
    "click_coverage": 0.0
   },
   "Средства разработки": {
-   "demand": 1144,
-   "covered": 1144,
+   "demand": 1006,
+   "covered": 1006,
    "top10": 0,
    "clicks": 0,
    "page_coverage": 1.0,
@@ -81,23 +81,23 @@
   }
  },
  "tiers": {
-  "A": 24,
+  "A": 20,
   "B": 42,
-  "C": 62
+  "C": 65
  },
  "gaps_by_class": {
   "GAP-A": 14,
-  "GAP-B": 15,
+  "GAP-B": 13,
   "GAP-C": 2,
-  "GAP-D": 4,
+  "GAP-D": 3,
   "GAP-F": 1,
   "GAP-G": 18,
-  "GAP-H": 12
+  "GAP-H": 11
  },
  "uncovered_top": [
   {
    "cluster": "claude купить",
-   "demand": 26286,
+   "demand": 26109,
    "gap": "GAP-G",
    "action": "ранняя возможность",
    "top_phrase": "claude купить"
@@ -111,21 +111,21 @@
   },
   {
    "cluster": "spotify купить",
-   "demand": 15081,
+   "demand": 15075,
    "gap": "GAP-G",
    "action": "ранняя возможность",
    "top_phrase": "spotify купить"
   },
   {
    "cluster": "bubble купить",
-   "demand": 14306,
+   "demand": 13792,
    "gap": "GAP-A",
    "action": "новая посадочная страница или материал",
    "top_phrase": "bubble купить"
   },
   {
    "cluster": "gemini купить",
-   "demand": 13657,
+   "demand": 13596,
    "gap": "GAP-G",
    "action": "ранняя возможность",
    "top_phrase": "gemini купить"
@@ -152,18 +152,18 @@
    "top_phrase": "suno купить"
   },
   {
-   "cluster": "glide купить",
-   "demand": 3510,
-   "gap": "GAP-G",
-   "action": "ранняя возможность",
-   "top_phrase": "glide купить"
-  },
-  {
    "cluster": "perplexity купить",
    "demand": 3491,
    "gap": "GAP-G",
    "action": "ранняя возможность",
    "top_phrase": "perplexity купить"
+  },
+  {
+   "cluster": "box купить",
+   "demand": 3285,
+   "gap": "GAP-A",
+   "action": "новая посадочная страница или материал",
+   "top_phrase": "pro box купить"
   }
  ],
  "opportunities": [
@@ -174,8 +174,8 @@
    "gap": "GAP-G",
    "gap_title": "Спрос растёт",
    "recommended_action": "ранняя возможность",
-   "commercial_demand": 26286,
-   "commercial_phrases": 148,
+   "commercial_demand": 26109,
+   "commercial_phrases": 144,
    "url": null,
    "page_exists": false,
    "indexed": false,
@@ -207,7 +207,7 @@
     }
    ],
    "subclusters": {
-    "покупка": 26276,
+    "покупка": 26099,
     "цены и тарифы": 10
    },
    "opportunity_score": 0.2925,
@@ -266,9 +266,9 @@
     "цены и тарифы": 4679,
     "оплата": 296
    },
-   "opportunity_score": 0.21293,
+   "opportunity_score": 0.21439,
    "components": {
-    "normalized_demand": 0.8872,
+    "normalized_demand": 0.8933,
     "commercial_intent": 1.0,
     "coverage_gap": 0.8,
     "trend_factor": 1.0,
@@ -319,9 +319,9 @@
    "subclusters": {
     "оплата": 15947
    },
-   "opportunity_score": 0.17746,
+   "opportunity_score": 0.17866,
    "components": {
-    "normalized_demand": 0.6067,
+    "normalized_demand": 0.6108,
     "commercial_intent": 1.0,
     "coverage_gap": 1.0,
     "trend_factor": 1.3,
@@ -337,8 +337,8 @@
    "gap": "GAP-G",
    "gap_title": "Спрос растёт",
    "recommended_action": "ранняя возможность",
-   "commercial_demand": 15081,
-   "commercial_phrases": 51,
+   "commercial_demand": 15075,
+   "commercial_phrases": 50,
    "url": null,
    "page_exists": false,
    "indexed": false,
@@ -370,11 +370,11 @@
     }
    ],
    "subclusters": {
-    "покупка": 15081
+    "покупка": 15075
    },
-   "opportunity_score": 0.16781,
+   "opportunity_score": 0.16889,
    "components": {
-    "normalized_demand": 0.5737,
+    "normalized_demand": 0.5774,
     "commercial_intent": 1.0,
     "coverage_gap": 1.0,
     "trend_factor": 1.3,
@@ -390,8 +390,8 @@
    "gap": "GAP-G",
    "gap_title": "Спрос растёт",
    "recommended_action": "ранняя возможность",
-   "commercial_demand": 13657,
-   "commercial_phrases": 120,
+   "commercial_demand": 13596,
+   "commercial_phrases": 116,
    "url": null,
    "page_exists": false,
    "indexed": false,
@@ -423,11 +423,11 @@
     }
    ],
    "subclusters": {
-    "покупка": 13657
+    "покупка": 13596
    },
-   "opportunity_score": 0.15198,
+   "opportunity_score": 0.1523,
    "components": {
-    "normalized_demand": 0.5196,
+    "normalized_demand": 0.5207,
     "commercial_intent": 1.0,
     "coverage_gap": 1.0,
     "trend_factor": 1.3,
@@ -454,9 +454,9 @@
     },
     "recommendation": "рекомендуем добавить",
     "recommendation_why": "оплата картой на сайте вендора — сделка выполнима сразу",
-    "total_demand": 26304,
-    "commercial_demand": 26286,
-    "commercial_phrases": 148,
+    "total_demand": 26127,
+    "commercial_demand": 26109,
+    "commercial_phrases": 144,
     "top_phrases": [
      {
       "phrase": "claude купить",
@@ -484,7 +484,7 @@
     "effort_note": "одна карточка вендора",
     "demand_confidence": "высокая",
     "demand_confidence_note": null,
-    "priority_score": 26286.0,
+    "priority_score": 26109.0,
     "seo": {
      "url": "/vendors/claude",
      "title": "Оплата Claude для юридических лиц из России — счёт, договор, ЭДО | BIZSoft",
@@ -1145,7 +1145,7 @@
    }
   ],
   "recommended_total": 29,
-  "combined_demand": 96218,
+  "combined_demand": 94382,
   "by_payment": {
    "card": 13,
    "likely_card": 7,
@@ -1203,11 +1203,11 @@
   "title": "Спрос и направления развития",
   "expansion": {
    "title": "Каких вендоров добавить",
-   "summary": "Проверили спрос на 53 зарубежных разработчиков вне каталога. У 29 покупательский спрос подтверждён — суммарно 96 218 запросов в месяц. У 3 из них на сайте есть оплата картой — их можно заводить сразу. Ещё 9 требуют ручной проверки: спрос есть, способ оплаты автоматически определить не удалось. По 3 названиям цифру спроса нельзя брать на веру: имя бренда совпадает с обычным английским словом.",
+   "summary": "Проверили спрос на 53 зарубежных разработчиков вне каталога. У 29 покупательский спрос подтверждён — суммарно 94 382 запросов в месяц. У 3 из них на сайте есть оплата картой — их можно заводить сразу. Ещё 9 требуют ручной проверки: спрос есть, способ оплаты автоматически определить не удалось. По 3 названиям цифру спроса нельзя брать на веру: имя бренда совпадает с обычным английским словом.",
    "items": [
     {
      "brand": "claude",
-     "demand": 26286,
+     "demand": 26109,
      "kind": "AI-сервис",
      "payment": "card",
      "recommendation": "рекомендуем добавить",
@@ -1248,15 +1248,15 @@
    ],
    "note": "Российские вендоры исключены: их лицензии продаются напрямую, услуга оплаты из-за рубежа к ним неприменима."
   },
-  "summary": "Мы видим 183 500 покупательских запросов в месяц по 129 направлениям каталога. Своя страница есть под 29% этого спроса, в поиске находится 18%, на первой странице — 4%. Без страницы остаётся 107 444 запросов в месяц — это направления, где спрос есть, а нас в выдаче нет.",
+  "summary": "Мы видим 175 336 покупательских запросов в месяц по 129 направлениям каталога. Своя страница есть под 27% этого спроса, в поиске находится 18%, на первой странице — 4%. Без страницы остаётся 106 461 запросов в месяц — это направления, где спрос есть, а нас в выдаче нет.",
   "coverage": {
-   "page": 0.2885,
-   "indexed": 0.1784,
-   "top10": 0.0406
+   "page": 0.2664,
+   "indexed": 0.1806,
+   "top10": 0.0363
   },
   "lead_opportunity": {
    "cluster": "claude купить",
-   "demand": 26286,
+   "demand": 26109,
    "action": "ранняя возможность",
    "why": "Спрос растёт",
    "confidence": "достаточная: кластер измерен несколькими фразами"
