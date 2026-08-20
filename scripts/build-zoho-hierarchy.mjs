@@ -52,6 +52,59 @@ const copyBySource = new Map(groupCopy.groups.map((g) => [g.source, g]));
 const missingCopy = taxonomy.groups.map((g) => g.group).filter((g) => !copyBySource.has(g));
 if (missingCopy.length) throw new Error(`нет русского названия для групп: ${missingCopy.join('; ')}`);
 
+/**
+ * Артикул и адрес позиции. Собираются здесь, чтобы витрина и импорт брали их
+ * из одного места: разойдись они — на странице появилась бы кнопка «в
+ * корзину» для несуществующего товара.
+ *
+ * Две позиции ServiceDesk Plus уже опубликованы и проиндексированы. Их
+ * артикулы и адреса закреплены: смена слага дала бы 404 на живой странице.
+ */
+const PINNED = {
+  'servicedesk-plus|servicedesk-plus-standard-edition-annual-subscription|10 Technicians':
+    'MANAGEENGINE-SERVICEDESK-STANDARD-10',
+  'servicedesk-plus|servicedesk-plus-professional-edition-annual-subscription|5 Technicians (500 IT Assets)':
+    'MANAGEENGINE-SERVICEDESK-PROFESSIONAL-5',
+};
+
+const token = (text) => (text || '')
+  .toUpperCase()
+  .replace(/[^A-Z0-9]+/g, '-')
+  .replace(/^-+|-+$/g, '');
+
+const usedSkus = new Set();
+
+function makeSku(familySlug, offer, variant) {
+  const pinned = PINNED[`${familySlug}|${offer.offer_slug}|${variant.variant_name}`];
+  if (pinned) { usedSkus.add(pinned); return pinned; }
+
+  // Различающая часть предложения: редакция плюс то, что вендор дописал к
+  // ней сверх названия семейства. Одной редакции мало: «PAM360 Enterprise
+  // Edition» и «PAM360 Enterprise Edition Multi-Language» — разные прайсы.
+  const familyRe = new RegExp(familySlug.replace(/-/g, '[ -]'), 'ig');
+  const noiseRe = /\b(annual|subscription|perpetual|edition|add-?ons?|model|store|pricing)\b/ig;
+  const rest = offer.offer_name
+    .replace(/\([^)]*\)/g, ' ')
+    .replace(familyRe, ' ')
+    .replace(offer.edition ? new RegExp(`\\b${offer.edition.replace(/[()]/g, '')}\\b`, 'ig') : /$^/, ' ')
+    .replace(noiseRe, ' ');
+  const offerPart = [token(offer.edition), token(rest).slice(0, 26)]
+    .filter(Boolean).join('-');
+  // Название позиции целиком, без скобочных уточнений: по одной лишь метрике
+  // «1 Domain» четыре разные строки прайса ADManager Plus дали бы один и тот
+  // же артикул с безликими хвостами -2, -3, -4.
+  const variantPart = token(variant.variant_name.replace(/\([^)]*\)/g, ' ')).slice(0, 44);
+  const model = offer.license_model === 'perpetual' ? '-PERP' : '';
+
+  const base = ['ME', token(familySlug), offerPart, variantPart]
+    .filter(Boolean).join('-').replace(/-{2,}/g, '-').slice(0, 96) + model;
+  let sku = base;
+  let n = 2;
+  while (usedSkus.has(sku)) { sku = `${base}-${n}`; n += 1; }
+  usedSkus.add(sku);
+  return sku;
+}
+
 let withPrice = 0;
 let withoutPrice = 0;
 
@@ -75,6 +128,7 @@ const groups = taxonomy.groups.map((tg) => {
       sourceCheckedAt: m?.source_checked_at ?? null,
       deployments: (m?.deployment_products ?? []).map((dp) => ({
         deployment: dp.deployment,
+        licenseModel: dp.license_model === 'unspecified' ? null : dp.license_model,
         slug: dp.product_slug,
         offers: dp.offers.map((o) => ({
           slug: o.offer_slug,
@@ -82,13 +136,18 @@ const groups = taxonomy.groups.map((tg) => {
           edition: o.edition,
           licenseModel: o.license_model,
           kind: o.kind,
-          variants: o.variants.map((v) => ({
-            name: v.variant_name,
-            metric: v.metric,
-            amountUsd: v.amount_usd,
-            priceStatus: v.price_status,
-            maintenance: v.maintenance,
-          })),
+          variants: o.variants.map((v) => {
+            const sku = makeSku(m.family_slug, o, v);
+            return {
+              name: v.variant_name,
+              metric: v.metric,
+              amountUsd: v.amount_usd,
+              priceStatus: v.price_status,
+              maintenance: v.maintenance,
+              sku,
+              slug: sku.toLowerCase(),
+            };
+          }),
         })),
       })),
     };
@@ -117,6 +176,10 @@ export interface ZohoVariant {
   amountUsd: number | null;
   priceStatus: 'listed' | 'on_request';
   maintenance: string | null;
+  /** Артикул позиции в каталоге. Совпадает с тем, что заводит импорт. */
+  sku: string;
+  /** Адрес карточки: /product/<slug>. */
+  slug: string;
 }
 
 export interface ZohoOffer {
@@ -130,6 +193,8 @@ export interface ZohoOffer {
 
 export interface ZohoDeployment {
   deployment: 'saas' | 'on_prem' | 'unspecified';
+  /** Модель лицензии поставки: подписка или вечная лицензия. */
+  licenseModel: 'subscription' | 'perpetual' | null;
   slug: string;
   offers: ZohoOffer[];
 }
@@ -161,7 +226,7 @@ export interface ZohoRule {
   appliesTo: { offerSlug?: string; familySlug?: string; variantPattern?: string };
   requires?: { edition?: string; familySlug?: string; offerSlug?: string };
   excludes?: { offerSlug?: string };
-  extends?: { offerSlug?: string; familySlug?: string };
+  extends?: { edition?: string; familySlug?: string; offerSlug?: string };
   reason: string;
 }
 
@@ -194,3 +259,4 @@ const fams = groups.reduce((s, g) => s + g.families.length, 0);
 console.log(`✓ zoho-hierarchy.ts: ${groups.length} групп, ${fams} семейств`);
 console.log(`  с прайсом: ${withPrice}, без прайса (расчёт под запрос): ${withoutPrice}`);
 console.log(`  правил совместимости: ${rules.length}`);
+console.log(`  артикулов позиций: ${usedSkus.size}`);

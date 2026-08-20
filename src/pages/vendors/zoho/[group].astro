@@ -1,0 +1,129 @@
+---
+export const prerender = false;
+
+/**
+ * Функциональная группа линейки ManageEngine: /vendors/zoho/<группа>.
+ * Состав группы — из разбора витрины магазина вендора (zoho-hierarchy.ts).
+ */
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../../components/Breadcrumbs.astro';
+import CTASection from '../../../components/CTASection.astro';
+import QuestionForm from '../../../components/QuestionForm.astro';
+import JsonLd from '../../../components/JsonLd.astro';
+import { ZOHO_GROUPS, zohoGroup } from '../../../data/zoho-hierarchy';
+import { ZOHO_HUB_ENABLED } from '../../../lib/zoho-hub';
+import { site } from '../../../config/site';
+import { breadcrumbSchema } from '../../../lib/seo';
+
+// Раздел выключается одной переменной окружения: если новая витрина
+// не понравится, откат не требует правки кода и выката из репозитория.
+if (!ZOHO_HUB_ENABLED) return Astro.redirect('/vendors/zoho', 302);
+
+const { group: groupSlug } = Astro.params;
+const group = groupSlug ? zohoGroup(groupSlug) : undefined;
+if (!group || group.families.length === 0) return new Response(null, { status: 404 });
+
+// Внутри группы вендор делит продукты на подразделы — сохраняем это деление.
+const bySubgroup = new Map<string, typeof group.families>();
+for (const family of group.families) {
+  const key = family.subgroup || '';
+  if (!bySubgroup.has(key)) bySubgroup.set(key, []);
+  bySubgroup.get(key)!.push(family);
+}
+const sections = [...bySubgroup.entries()].map(([subgroup, families]) => ({ subgroup, families }));
+
+const title = `${group.name} — ManageEngine от Zoho для юрлица`;
+const description = `${group.lead} Оформление на компанию: договор, счёт в рублях, закрывающие документы через ЭДО.`;
+
+const crumbs = [
+  { name: 'Каталог', url: '/catalog' },
+  { name: 'Производители', url: '/vendors' },
+  { name: 'Zoho', url: '/vendors/zoho' },
+  { name: group.name, url: `/vendors/zoho/${group.slug}` },
+];
+const ld = [
+  breadcrumbSchema(crumbs),
+  {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name: title,
+    url: `${site.url}/vendors/zoho/${group.slug}`,
+    mainEntity: {
+      '@type': 'ItemList',
+      itemListElement: group.families.map((f, i) => ({
+        '@type': 'ListItem', position: i + 1, name: `ManageEngine ${f.name}`,
+        url: `${site.url}/vendors/zoho/${group.slug}/${f.slug}`,
+      })),
+    },
+  },
+];
+
+const others = ZOHO_GROUPS.filter((g) => g.slug !== group.slug && g.families.length > 0);
+---
+<BaseLayout title={title} description={description} type="website" canonical={`/vendors/zoho/${group.slug}`}>
+  <JsonLd schema={ld} />
+  <div class="container-page section">
+    <Breadcrumbs items={crumbs} />
+
+    <header class="g-head">
+      <p class="g-kicker">Zoho ManageEngine</p>
+      <h1>{group.name}</h1>
+      <p class="lead">{group.lead}</p>
+    </header>
+
+    {sections.map((s) => (
+      <section class="g-section">
+        {s.subgroup && <h2>{s.subgroup}</h2>}
+        <div class="g-grid">
+          {s.families.map((f) => (
+            <a class="g-card" href={`/vendors/zoho/${group.slug}/${f.slug}`}>
+              <h3>{f.name}</h3>
+              <p>{f.tagline}</p>
+              <span class="g-note">
+                {f.priced
+                  ? `${f.deployments.length > 1 ? 'подписка и вечная лицензия' : 'прайс вендора опубликован'}`
+                  : 'расчёт под запрос'}
+              </span>
+            </a>
+          ))}
+        </div>
+      </section>
+    ))}
+
+    <nav class="g-others">
+      <h2>Другие направления линейки</h2>
+      <ul>
+        {others.map((g) => <li><a href={`/vendors/zoho/${g.slug}`}>{g.name}</a></li>)}
+      </ul>
+    </nav>
+  </div>
+  <CTASection
+    title={`Подобрать продукт: ${group.name}`}
+    text="Напишите задачу и объём — число специалистов, устройств или контроллеров домена. Подберём редакцию и подготовим КП."
+    primaryLabel="Обсудить задачу"
+    primaryHref="/contacts/"
+    secondaryLabel="Вся линейка ManageEngine"
+    secondaryHref="/vendors/zoho"
+  />
+  <QuestionForm source={`zoho-group-${group.slug}`} />
+</BaseLayout>
+
+<style>
+  .section { padding: 2rem 0 1rem; }
+  .g-head { margin: 1rem 0 2rem; max-width: 68ch; }
+  .g-kicker { color: var(--color-text-dim); font-size: 0.85rem; margin: 0 0 0.4rem; text-transform: uppercase; letter-spacing: 0.06em; }
+  h1 { font-size: clamp(1.6rem, 3.4vw, 2.3rem); margin-bottom: 0.7rem; }
+  .lead { color: var(--color-text-muted); font-size: 1.02rem; }
+  .g-section { margin-bottom: 2.2rem; }
+  .g-section h2 { font-size: 1.15rem; margin-bottom: 0.9rem; color: var(--color-text-muted); font-weight: 600; }
+  .g-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1rem; }
+  .g-card { display: flex; flex-direction: column; gap: 0.45rem; padding: 1rem 1.1rem; background: var(--color-bg-card); border: 1px solid var(--color-border); border-radius: var(--radius); text-decoration: none; color: inherit; transition: border-color 0.15s, transform 0.15s; }
+  .g-card:hover { border-color: var(--color-accent); transform: translateY(-2px); }
+  .g-card h3 { font-size: 1rem; margin: 0; }
+  .g-card p { color: var(--color-text-muted); font-size: 0.87rem; margin: 0; line-height: 1.5; }
+  .g-note { color: var(--color-text-dim); font-size: 0.78rem; margin-top: auto; padding-top: 0.35rem; }
+  .g-others { margin: 2.5rem 0 2rem; }
+  .g-others h2 { font-size: 1.1rem; margin-bottom: 0.8rem; }
+  .g-others ul { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 0.5rem 1.1rem; }
+  .g-others a { color: var(--color-text-muted); font-size: 0.9rem; }
+</style>
