@@ -90,24 +90,58 @@ def is_russian(brand: str, russian: list[str]) -> bool:
     return any(r in low or low in r for r in russian)
 
 
-def already_in_catalogue(brand: str, vendors: list[dict]) -> bool:
-    low = N.normalize(brand)
+def _words(text: str) -> list[str]:
+    return [w for w in re.split(r"[^a-z0-9\u0430-\u044f]+", N.normalize(text)) if w]
+
+
+def already_in_catalogue(brand: str, vendors: list[dict],
+                         product_of: dict | None = None) -> bool:
+    """Есть ли этот бренд на сайте — сам по себе или как продукт нашего вендора.
+
+    Сравнение идёт по целым словам. Подстрока обманывает: «rive» сидит внутри
+    «pipedrive», «sketch» внутри «sketchup», «audio» содержит «udio» — по такому
+    совпадению система вычёркивала кандидатов, которых на сайте нет.
+
+    Продукт вендора из каталога тоже считается закрытым вопросом: AutoCAD — это
+    Autodesk, Cinema 4D — Maxon, канал закупки по ним уже отработан.
+    """
+    brand_words = _words(brand)
+    if not brand_words:
+        return False
+    parent = (product_of or {}).get(brand.lower())
     for v in vendors:
-        anchor = N.normalize(v["anchor"])
-        if anchor in low or low in anchor or N.normalize(v["slug"]) in low:
+        names = (v["anchor"], v["slug"].replace("-", " "), v["vendor"])
+        for name in names:
+            name_words = _words(name)
+            if not name_words:
+                continue
+            if name_words == brand_words:
+                return True
+            # Многословное имя вендора внутри названия продукта: «adobe stock».
+            if len(name_words) > 1 and _contains(brand_words, name_words):
+                return True
+            if len(name_words) == 1 and name_words[0] in brand_words:
+                return True
+        if parent and _words(parent) in ([_words(n) for n in names]):
             return True
     return False
+
+
+def _contains(haystack: list[str], needle: list[str]) -> bool:
+    n = len(needle)
+    return any(haystack[i:i + n] == needle for i in range(len(haystack) - n + 1))
 
 
 def pending(vendors: list[dict], universe) -> list[dict]:
     """Кандидаты, которых нет в каталоге и которые ещё не измерены."""
     cfg = load_candidates()
     russian = cfg.get("russian_vendors", [])
+    product_of = cfg.get("product_of", {})
     template = cfg.get("template", "{brand} купить")
     out = []
     for item in cfg.get("candidates", []):
         brand = item["brand"] if isinstance(item, dict) else item
-        if is_russian(brand, russian) or already_in_catalogue(brand, vendors):
+        if is_russian(brand, russian) or already_in_catalogue(brand, vendors, product_of):
             continue
         phrase = template.format(brand=brand)
         out.append({"brand": brand, "phrase": phrase,
@@ -160,6 +194,7 @@ def build(universe, vendors: list[dict], limit: int = 10) -> dict:
     """Рекомендации по расширению каталога, отсортированные по спросу."""
     cfg = load_candidates()
     russian = cfg.get("russian_vendors", [])
+    product_of = cfg.get("product_of", {})
     template = cfg.get("template", "{brand} купить")
     payments = load_payments()
     rows = []
@@ -167,7 +202,7 @@ def build(universe, vendors: list[dict], limit: int = 10) -> dict:
     for item in cfg.get("candidates", []):
         brand = item["brand"] if isinstance(item, dict) else item
         kind = item.get("kind") if isinstance(item, dict) else None
-        if is_russian(brand, russian) or already_in_catalogue(brand, vendors):
+        if is_russian(brand, russian) or already_in_catalogue(brand, vendors, product_of):
             continue
         seed = template.format(brand=brand)
         related = [r for r in universe.rows.values()

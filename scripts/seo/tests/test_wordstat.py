@@ -602,6 +602,24 @@ class TestVendorExpansion(unittest.TestCase):
         self.assertTrue(self.V.already_in_catalogue("Canva", vendors))
         self.assertFalse(self.V.already_in_catalogue("Notion", vendors))
 
+    def test_substring_is_not_a_catalogue_match(self):
+        """«rive» внутри «pipedrive» — не тот же вендор."""
+        vendors = [{"slug": "rive", "anchor": "rive", "vendor": "Rive",
+                    "url": "/vendors/rive", "category": "Дизайн"},
+                   {"slug": "sketch", "anchor": "sketch", "vendor": "Sketch",
+                    "url": "/vendors/sketch", "category": "Дизайн"}]
+        self.assertFalse(self.V.already_in_catalogue("pipedrive", vendors))
+        self.assertFalse(self.V.already_in_catalogue("sketchup", vendors))
+        self.assertTrue(self.V.already_in_catalogue("Rive", vendors))
+
+    def test_product_of_catalogue_vendor_is_closed_question(self):
+        """AutoCAD — это Autodesk: канал закупки уже есть, проверять нечего."""
+        vendors = [{"slug": "autodesk", "anchor": "autodesk", "vendor": "Autodesk",
+                    "url": "/vendors/autodesk", "category": "Дизайн"}]
+        self.assertTrue(self.V.already_in_catalogue(
+            "autocad", vendors, {"autocad": "Autodesk"}))
+        self.assertFalse(self.V.already_in_catalogue("autocad", vendors))
+
     def test_seo_scaffold_is_ready_to_use(self):
         seo = self.V.seo_scaffold("notion", [{"phrase": "notion купить"}])
         self.assertEqual(seo["url"], "/vendors/notion")

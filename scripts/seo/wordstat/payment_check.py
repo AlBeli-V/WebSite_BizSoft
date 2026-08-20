@@ -14,6 +14,11 @@
 найдены; подтверждение — при первой сделке. Отсутствие признаков не означает
 отказ: страница могла не открыться или прятать оплату за входом.
 
+Проверяются только вендоры, которых на сайте ещё нет. Каталог собран
+руководителем, каналы закупки по нему уже отработаны — вопрос «принимают ли
+карту» к ним не относится. Для существующих карточек Вордстат работает на
+другую задачу: усиление семантики и рост в выдаче.
+
 Запускается на раннере: сайты вендоров недоступны из среды мониторинга.
 Запуск: python3 scripts/seo/wordstat/payment_check.py [--limit N]
 """
@@ -29,6 +34,11 @@ import sys
 import time
 
 import requests
+
+sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
+
+import discovery as D  # noqa: E402
+import vendor_expansion as VX  # noqa: E402
 
 CANDIDATES = pathlib.Path("reports/seo/wordstat/vendor-candidates.json")
 CACHE = pathlib.Path("reports/seo/wordstat/payment-check.json")
@@ -159,11 +169,26 @@ def main() -> int:
     cache = load_cache()
     only = {b.strip().lower() for b in args.only.split(",") if b.strip()}
 
+    # Вендоры каталога из проверки исключены: их выбрали и завели осознанно,
+    # канал покупки по ним уже есть. Проверка отвечает на вопрос только по тем,
+    # кого на сайте нет и кого предлагается добавить.
+    site = D.site_vendors()
+    russian = cfg.get("russian_vendors", [])
+    in_catalogue = [item["brand"] for item in cfg["candidates"]
+                    if VX.already_in_catalogue(item["brand"], site)
+                    or VX.is_russian(item["brand"], russian)]
+    for brand in in_catalogue:
+        cache.pop(brand, None)
+    if in_catalogue:
+        print(f"вне проверки — уже в каталоге: {len(in_catalogue)}")
+
     checked = skipped = 0
     for item in cfg["candidates"]:
         if checked >= args.limit:
             break
         brand = item["brand"]
+        if brand in in_catalogue:
+            continue
         if only and brand.lower() not in only:
             continue
         entry = cache.get(brand)

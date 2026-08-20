@@ -99,7 +99,7 @@ def run_tasks(tasks, client, uni, vendors, stats, budget, cfg, date, *, cap=None
 
     В режиме ожидания квоты прогон не завершается при исчерпании часового окна,
     а дожидается следующего: полный цикл исследования — около 240 вызовов, это
-    2,5 часа при квоте 100 в час, и растягивать его на недели незачем.
+    один часовой слот при квоте 500 в час, и растягивать его на недели незачем.
     """
     import time as _time
     sleep = sleep or _time.sleep
@@ -254,7 +254,7 @@ def main() -> int:
             "planned_calls_total": plan["planned_calls"],
             "estimated_cost_rub": plan["estimated_cost_rub"],
             "budget_utilisation": plan["budget_utilisation"],
-            "runtime_hours_at_100": plan["runtime_hours_at_current_quota"],
+            "runtime_hours_at_current_quota": plan["runtime_hours_at_current_quota"],
             "runtime_hours_at_500": plan["runtime_hours_at_target_quota"],
             "max_possible_spend_rub": plan["max_possible_spend_current_quota_rub"],
             "budget_is_binding": plan["budget_is_binding"],

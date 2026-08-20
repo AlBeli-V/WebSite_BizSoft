@@ -14,18 +14,18 @@
 
 | Метод | Вызовов | Стоимость |
 |---|---|---|
-| getTop | 301 | 6.02 ₽ |
+| getTop | 295 | 5.90 ₽ |
 | getDynamics | 27 | 0.54 ₽ |
 | getRegionsDistribution | 18 | 0.90 ₽ |
-| **Итого** | **346** | **7.46 ₽** |
+| **Итого** | **340** | **7.34 ₽** |
 
 ## Бюджет и квота
 
 - месячный потолок: 5500 ₽
 - план расходует: 0.1% потолка
-- максимум, который вообще можно потратить при действующей квоте: 1656 ₽
-- бюджет является ограничением: нет — ограничивает квота
-- время прохода при 100 запросах в час: 3.5 ч
+- максимум, который вообще можно потратить при действующей квоте: 8280 ₽
+- бюджет является ограничением: да
+- время прохода при 100 запросах в час: 0.7 ч
 - при 500 запросах в час: 0.7 ч
 
 План не предполагает освоения всего бюджета: цель — полезная информация на вызов, а не расход рублей.
@@ -52,15 +52,15 @@
 | 16 | getTop | linear купить | vendor_expansion | 0.6 | 16.8 |
 | 17 | getTop | hubspot купить | vendor_expansion | 0.6 | 16.8 |
 | 18 | getTop | salesforce купить | vendor_expansion | 0.6 | 16.8 |
-| 19 | getTop | zoho купить | vendor_expansion | 0.6 | 16.8 |
-| 20 | getTop | freshdesk купить | vendor_expansion | 0.6 | 16.8 |
-| 21 | getTop | zendesk купить | vendor_expansion | 0.6 | 16.8 |
-| 22 | getTop | intercom купить | vendor_expansion | 0.6 | 16.8 |
-| 23 | getTop | mailchimp купить | vendor_expansion | 0.6 | 16.8 |
-| 24 | getTop | sendgrid купить | vendor_expansion | 0.6 | 16.8 |
-| 25 | getTop | twilio купить | vendor_expansion | 0.6 | 16.8 |
-| 26 | getTop | brevo купить | vendor_expansion | 0.6 | 16.8 |
-| 27 | getTop | klaviyo купить | vendor_expansion | 0.6 | 16.8 |
-| 28 | getTop | affinity designer купить | vendor_expansion | 0.6 | 16.8 |
-| 29 | getTop | affinity photo купить | vendor_expansion | 0.6 | 16.8 |
-| 30 | getTop | capcut купить | vendor_expansion | 0.6 | 16.8 |
+| 19 | getTop | pipedrive купить | vendor_expansion | 0.6 | 16.8 |
+| 20 | getTop | zoho купить | vendor_expansion | 0.6 | 16.8 |
+| 21 | getTop | freshdesk купить | vendor_expansion | 0.6 | 16.8 |
+| 22 | getTop | zendesk купить | vendor_expansion | 0.6 | 16.8 |
+| 23 | getTop | intercom купить | vendor_expansion | 0.6 | 16.8 |
+| 24 | getTop | mailchimp купить | vendor_expansion | 0.6 | 16.8 |
+| 25 | getTop | sendgrid купить | vendor_expansion | 0.6 | 16.8 |
+| 26 | getTop | twilio купить | vendor_expansion | 0.6 | 16.8 |
+| 27 | getTop | brevo купить | vendor_expansion | 0.6 | 16.8 |
+| 28 | getTop | klaviyo купить | vendor_expansion | 0.6 | 16.8 |
+| 29 | getTop | affinity designer купить | vendor_expansion | 0.6 | 16.8 |
+| 30 | getTop | affinity photo купить | vendor_expansion | 0.6 | 16.8 |
