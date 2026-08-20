@@ -519,6 +519,70 @@ class TestOpportunity(unittest.TestCase):
         self.assertEqual(len(self.O.rank(gaps, 5)), 5)
 
 
+class TestFullCycle(unittest.TestCase):
+    """Полный цикл: задачи не теряются, зацикливания нет, срок соблюдается."""
+
+    def setUp(self):
+        self.R = load("run")
+        self.B = load("budget")
+        self.U = load("universe")
+        self.D = load("discovery")
+        self.cfg = load("config").load()
+        tmp = pathlib.Path(tempfile.mkdtemp())
+        self.B.LEDGER_DIR = tmp
+        self.ctl = self.B.BudgetController(self.cfg, today="2026-08-20")
+        self.ctl.path = tmp / "l.jsonl"
+        self.ctl.entries = []
+        self.uni = self.U.Universe(tmp / "u.jsonl")
+        self.stats = self.D.PatternStats(tmp / "s.json")
+        self.tasks = [{"method": "getTop", "phrase": f"фраза {i}", "cluster": "c",
+                       "reason": "discovery"} for i in range(5)]
+
+    def client(self, quota_hits):
+        limiter = type("L", (), {"wait_for_slot": lambda self, sleep=None,
+                                 max_wait_sec=3600: 1.0})()
+
+        class Fake:
+            def __init__(self):
+                self.n = 0
+                self.limiter = limiter
+                self.stopped_by = None
+
+            def top(self, phrase, **kw):
+                self.n += 1
+                if self.n <= quota_hits:
+                    return {"status": "quota_exceeded", "data": None,
+                            "cost_rub": 0, "source": "quota"}
+                return {"status": "ok", "cost_rub": 0.02, "source": "api",
+                        "data": {"results": [{"phrase": f"{phrase} купить",
+                                              "count": "100"}]}}
+
+            dynamics = regions = top
+
+        return Fake()
+
+    def execute(self, client, **kw):
+        return self.R.run_tasks(self.tasks, client, self.uni, [], self.stats,
+                                self.ctl, self.cfg, "2026-08-20",
+                                sleep=lambda s: None, **kw)
+
+    def test_tasks_survive_quota_waits(self):
+        done = self.execute(self.client(3), wait_for_quota=True)
+        self.assertEqual(done["calls"], len(self.tasks))
+        self.assertEqual(done["quota_waits"], 3)
+
+    def test_deadline_stops_the_cycle(self):
+        import time
+        done = self.execute(self.client(10 ** 6), wait_for_quota=True,
+                            deadline=time.time() - 1)
+        self.assertIn("срок", done["stopped"])
+
+    def test_without_waiting_run_stops_on_quota(self):
+        done = self.execute(self.client(1), wait_for_quota=False)
+        self.assertEqual(done["calls"], 0)
+        self.assertEqual(done["stopped"], "quota_exceeded")
+
+
 class TestIntegration(unittest.TestCase):
     """Сквозные свойства системы на реальных артефактах."""
 
