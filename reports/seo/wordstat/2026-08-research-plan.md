@@ -4,20 +4,20 @@
 
 ## Что уже известно
 
-- фраз в базе семантики: 6 500
-- из них коммерческих: 658
-- кластеров: 45, без страницы на сайте: 1
+- фраз в базе семантики: 7 746
+- из них коммерческих: 691
+- кластеров: 57, без страницы на сайте: 1
 - спрос непокрытых кластеров: 15 947 показов в месяц
-- уровни мониторинга: A — 16, B — 7, C — 22
+- уровни мониторинга: A — 18, B — 9, C — 30
 
 ## Что планируется
 
 | Метод | Вызовов | Стоимость |
 |---|---|---|
-| getTop | 199 | 3.98 ₽ |
-| getDynamics | 23 | 0.46 ₽ |
-| getRegionsDistribution | 16 | 0.80 ₽ |
-| **Итого** | **238** | **5.24 ₽** |
+| getTop | 165 | 3.30 ₽ |
+| getDynamics | 27 | 0.54 ₽ |
+| getRegionsDistribution | 18 | 0.90 ₽ |
+| **Итого** | **210** | **4.74 ₽** |
 
 ## Бюджет и квота
 
@@ -25,8 +25,8 @@
 - план расходует: 0.1% потолка
 - максимум, который вообще можно потратить при действующей квоте: 1656 ₽
 - бюджет является ограничением: нет — ограничивает квота
-- время прохода при 100 запросах в час: 2.4 ч
-- при 500 запросах в час: 0.5 ч
+- время прохода при 100 запросах в час: 2.1 ч
+- при 500 запросах в час: 0.4 ч
 
 План не предполагает освоения всего бюджета: цель — полезная информация на вызов, а не расход рублей.
 
@@ -34,33 +34,33 @@
 
 | № | Метод | Фраза | Причина | Ожидаемый прирост | Ранг |
 |---|---|---|---|---|---|
-| 1 | getTop | zeplin | discovery | 1.0 | 24.0 |
-| 2 | getTop | shutterstock | discovery | 1.0 | 24.0 |
-| 3 | getTop | unreal engine | discovery | 1.0 | 24.0 |
-| 4 | getTop | speedtree | discovery | 1.0 | 24.0 |
-| 5 | getTop | audiokinetic | discovery | 1.0 | 24.0 |
-| 6 | getTop | spine | discovery | 1.0 | 24.0 |
-| 7 | getTop | rizomuv | discovery | 1.0 | 24.0 |
-| 8 | getTop | topaz labs | discovery | 1.0 | 24.0 |
-| 9 | getTop | wondershare | discovery | 1.0 | 24.0 |
-| 10 | getTop | magix vegas | discovery | 1.0 | 24.0 |
-| 11 | getTop | telestream | discovery | 1.0 | 24.0 |
-| 12 | getTop | zeplin купить | discovery | 0.946 | 22.704 |
-| 13 | getTop | shutterstock купить | discovery | 0.946 | 22.704 |
-| 14 | getTop | unreal engine купить | discovery | 0.946 | 22.704 |
-| 15 | getTop | speedtree купить | discovery | 0.946 | 22.704 |
-| 16 | getTop | audiokinetic купить | discovery | 0.946 | 22.704 |
-| 17 | getTop | spine купить | discovery | 0.946 | 22.704 |
-| 18 | getTop | rizomuv купить | discovery | 0.946 | 22.704 |
-| 19 | getTop | topaz labs купить | discovery | 0.946 | 22.704 |
-| 20 | getTop | wondershare купить | discovery | 0.946 | 22.704 |
-| 21 | getTop | magix vegas купить | discovery | 0.946 | 22.704 |
-| 22 | getTop | telestream купить | discovery | 0.946 | 22.704 |
-| 23 | getTop | zeplin подписка | discovery | 0.784 | 18.816 |
-| 24 | getTop | shutterstock подписка | discovery | 0.784 | 18.816 |
-| 25 | getTop | unreal engine подписка | discovery | 0.784 | 18.816 |
-| 26 | getTop | speedtree подписка | discovery | 0.784 | 18.816 |
-| 27 | getTop | audiokinetic подписка | discovery | 0.784 | 18.816 |
-| 28 | getTop | spine подписка | discovery | 0.784 | 18.816 |
-| 29 | getTop | rizomuv подписка | discovery | 0.784 | 18.816 |
-| 30 | getTop | topaz labs подписка | discovery | 0.784 | 18.816 |
+| 1 | getTop | telestream | discovery | 1.0 | 24.0 |
+| 2 | getTop | telestream купить | discovery | 0.946 | 22.704 |
+| 3 | getTop | telestream подписка | discovery | 0.784 | 18.816 |
+| 4 | getTop | runway | discovery | 0.6958 | 16.699 |
+| 5 | getTop | telestream лицензия | discovery | 0.694 | 16.656 |
+| 6 | getTop | sketch | discovery | 0.6819 | 16.366 |
+| 7 | getTop | quadspinner gaea купить | discovery | 0.6582 | 15.797 |
+| 8 | getTop | runway купить | discovery | 0.6582 | 15.797 |
+| 9 | getTop | sidefx houdini купить | discovery | 0.6536 | 15.686 |
+| 10 | getTop | zeplin купить | discovery | 0.6497 | 15.593 |
+| 11 | getTop | photon engine купить | discovery | 0.6497 | 15.593 |
+| 12 | getTop | sketch купить | discovery | 0.6451 | 15.482 |
+| 13 | getTop | audiokinetic купить | discovery | 0.6412 | 15.389 |
+| 14 | getTop | astute graphics купить | discovery | 0.6373 | 15.295 |
+| 15 | getTop | perforce купить | discovery | 0.6121 | 14.69 |
+| 16 | getTop | motion array купить | discovery | 0.6121 | 14.69 |
+| 17 | getTop | topaz labs купить | discovery | 0.5963 | 14.311 |
+| 18 | getTop | descript купить | discovery | 0.5919 | 14.206 |
+| 19 | getTop | speedtree купить | discovery | 0.5837 | 14.009 |
+| 20 | getTop | reallusion купить | discovery | 0.5837 | 14.009 |
+| 21 | getTop | depositphotos купить | discovery | 0.5719 | 13.726 |
+| 22 | getTop | rizomuv купить | discovery | 0.5602 | 13.445 |
+| 23 | getTop | quadspinner gaea подписка | discovery | 0.5455 | 13.092 |
+| 24 | getTop | runway подписка | discovery | 0.5455 | 13.092 |
+| 25 | getTop | sidefx houdini подписка | discovery | 0.5417 | 13.001 |
+| 26 | getTop | telestream оплата | discovery | 0.541 | 12.984 |
+| 27 | getTop | zeplin подписка | discovery | 0.5384 | 12.922 |
+| 28 | getTop | photon engine подписка | discovery | 0.5384 | 12.922 |
+| 29 | getTop | marmoset toolbag купить | discovery | 0.5372 | 12.893 |
+| 30 | getTop | sketch подписка | discovery | 0.5346 | 12.83 |

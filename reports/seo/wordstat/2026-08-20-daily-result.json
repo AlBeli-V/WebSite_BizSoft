@@ -2,14 +2,14 @@
  "mode": "daily",
  "date": "2026-08-20",
  "run": {
-  "calls": 10,
-  "ok": 10,
+  "calls": 0,
+  "ok": 0,
   "empty": 0,
-  "raw": 1253,
-  "new_phrases": 1246,
-  "new_clusters": 12,
-  "new_commercial": 33,
-  "stopped": "часовая квота исчерпана: {\n \"code\": 8,\n \"message\": \"search-api.wordstatRequestsPerHour.rate rate quota limit exceed: allowed 100 requests\",\n \"det"
+  "raw": 0,
+  "new_phrases": 0,
+  "new_clusters": 0,
+  "new_commercial": 0,
+  "stopped": "часовая квота исчерпана: часовая квота 100 исчерпана, следующий слот через 3493 с"
  },
  "efficiency": {
   "calls_total": 10,
@@ -35,7 +35,7 @@
   "clusters": 57,
   "total_commercial_demand": 71592,
   "total_demand": 4461520,
-  "with_page": 6304,
+  "with_page": 7542,
   "cost_rub": 2.4011
  }
 }
