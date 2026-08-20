@@ -74,6 +74,10 @@ export function makeSku(familySlug, offer, variant) {
 export function pickCards(manifest) {
   const cards = [];
   for (const family of manifest.families) {
+    // Обучение и сертификация — работы вендора, а не лицензии. У них
+    // отдельная страница магазина, и таблицы там не подписаны как «Training»,
+    // поэтому отсекаем по имени семейства.
+    if (/^(training|certification|onboarding)/i.test(family.family_name)) continue;
     for (const dp of family.deployment_products) {
       for (const offer of dp.offers) {
         if (offer.kind !== 'base') continue;

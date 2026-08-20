@@ -87,13 +87,31 @@ function main() {
     if (!label) continue;
     // Ищем строку главной, с которой начинается подпись ссылки: это название
     // продукта, а остаток подписи — его слоган.
+    // Один и тот же продукт может стоять на витрине дважды: в своём разделе и
+    // в разделе для сервис-провайдеров, под тем же названием, но с разным
+    // слоганом и разной ссылкой. Совпадения по одному названию мало — иначе
+    // обе ссылки указали бы на одно место и один из разделов остался бы без
+    // продукта. Поэтому требуем, чтобы следующей строкой шёл слоган именно
+    // этой ссылки.
     let found = -1;
     let name = '';
     for (let i = 0; i < lines.length; i += 1) {
       const l = lines[i];
       if (!l || l.length < 3) continue;
-      if (label === l || (label.startsWith(l) && label[l.length] === ' ')) {
-        if (l.length > name.length) { found = i; name = l; }
+      if (!(label === l || (label.startsWith(l) && label[l.length] === ' '))) continue;
+      const tail = label.slice(l.length).trim();
+      const exact = tail === '' || (lines[i + 1] || '') === tail;
+      if (!exact) continue;
+      if (l.length > name.length) { found = i; name = l; }
+    }
+    // Запасной путь: слоган на витрине мог быть перенесён по строкам.
+    if (found < 0) {
+      for (let i = 0; i < lines.length; i += 1) {
+        const l = lines[i];
+        if (!l || l.length < 3) continue;
+        if (label === l || (label.startsWith(l) && label[l.length] === ' ')) {
+          if (l.length > name.length) { found = i; name = l; }
+        }
       }
     }
     if (found < 0) { unmatched.push(label); continue; }
