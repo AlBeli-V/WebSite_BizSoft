@@ -1,829 +1,826 @@
 {
- "schema_version": "1.0.0",
- "note": "Кандидаты на добавление в каталог: зарубежные разработчики ПО и сервисов, которых у нас нет. Спрос измеряется Вордстатом по коммерческой формулировке; приоритет — по покупательскому спросу от большего к меньшему. Российские вендоры исключены: их лицензии продаются напрямую и услуга оплаты из-за рубежа к ним неприменима.",
- "template": "{brand} купить",
- "secondary_template": "{brand} подписка",
- "exclude_russian": true,
- "russian_vendors": [
-  "1с",
-  "1c",
-  "битрикс",
-  "bitrix",
-  "мойсклад",
-  "контур",
-  "диадок",
-  "яндекс",
-  "yandex",
-  "vk",
-  "вк",
-  "kaspersky",
-  "касперский",
-  "abbyy",
-  "dr.web",
-  "drweb",
-  "мойофис",
-  "myoffice",
-  "р7",
-  "r7-office",
-  "астра",
-  "astra linux",
-  "alt linux",
-  "red os",
-  "сбер",
-  "sber",
-  "gigachat",
-  "тинькофф",
-  "amocrm",
-  "мегаплан",
-  "сбис",
-  "такском",
-  "elma",
-  "directum",
-  "docsvision",
-  "naumen",
-  "just ai",
-  "аспро",
-  "insales",
-  "ozon",
-  "wildberries",
-  "авито",
-  "мтс",
-  "ростелеком",
-  "positive technologies",
-  "infowatch",
-  "код безопасности",
-  "инфотекс",
-  "пачка",
-  "compass",
-  "yonote",
-  "weeek",
-  "битрикс24",
-  "мойдокумент"
- ],
- "candidates": [
-  {
-   "brand": "notion",
-   "kind": "classic",
-   "pricing_url": "https://www.notion.com/pricing"
-  },
-  {
-   "brand": "slack",
-   "kind": "classic",
-   "pricing_url": "https://slack.com/pricing"
-  },
-  {
-   "brand": "atlassian",
-   "kind": "classic",
-   "pricing_url": "https://www.atlassian.com/software/jira/pricing"
-  },
-  {
-   "brand": "jira",
-   "kind": "classic",
-   "pricing_url": "https://www.atlassian.com/software/jira/pricing"
-  },
-  {
-   "brand": "confluence",
-   "kind": "classic",
-   "pricing_url": "https://www.atlassian.com/software/confluence/pricing"
-  },
-  {
-   "brand": "asana",
-   "kind": "classic",
-   "pricing_url": "https://asana.com/pricing"
-  },
-  {
-   "brand": "monday.com",
-   "kind": "classic",
-   "pricing_url": "https://monday.com/pricing"
-  },
-  {
-   "brand": "clickup",
-   "kind": "classic",
-   "pricing_url": "https://clickup.com/pricing"
-  },
-  {
-   "brand": "trello",
-   "kind": "classic",
-   "pricing_url": "https://trello.com/pricing"
-  },
-  {
-   "brand": "airtable",
-   "kind": "classic",
-   "pricing_url": "https://airtable.com/pricing"
-  },
-  {
-   "brand": "smartsheet",
-   "kind": "classic",
-   "pricing_url": null
-  },
-  {
-   "brand": "basecamp",
-   "kind": "classic",
-   "pricing_url": null
-  },
-  {
-   "brand": "linear",
-   "kind": "classic",
-   "pricing_url": null
-  },
-  {
-   "brand": "hubspot",
-   "kind": "classic",
-   "pricing_url": "https://www.hubspot.com/pricing"
-  },
-  {
-   "brand": "salesforce",
-   "kind": "classic",
-   "pricing_url": "https://www.salesforce.com/editions-pricing/overview/"
-  },
-  {
-   "brand": "pipedrive",
-   "kind": "classic",
-   "pricing_url": "https://www.pipedrive.com/en/pricing"
-  },
-  {
-   "brand": "zoho",
-   "kind": "classic",
-   "pricing_url": null
-  },
-  {
-   "brand": "freshdesk",
-   "kind": "classic",
-   "pricing_url": null
-  },
-  {
-   "brand": "zendesk",
-   "kind": "classic",
-   "pricing_url": "https://www.zendesk.com/pricing/"
-  },
-  {
-   "brand": "intercom",
-   "kind": "classic",
-   "pricing_url": "https://www.intercom.com/pricing"
-  },
-  {
-   "brand": "mailchimp",
-   "kind": "classic",
-   "pricing_url": "https://mailchimp.com/pricing/"
-  },
-  {
-   "brand": "sendgrid",
-   "kind": "classic",
-   "pricing_url": null
-  },
-  {
-   "brand": "twilio",
-   "kind": "classic",
-   "pricing_url": null
-  },
-  {
-   "brand": "brevo",
-   "kind": "classic",
-   "pricing_url": null
-  },
-  {
-   "brand": "klaviyo",
-   "kind": "classic",
-   "pricing_url": null
-  },
-  {
-   "brand": "adobe creative cloud",
-   "kind": "classic",
-   "pricing_url": null
-  },
-  {
-   "brand": "adobe photoshop",
-   "kind": "classic",
-   "pricing_url": null
-  },
-  {
-   "brand": "adobe illustrator",
-   "kind": "classic",
-   "pricing_url": null
-  },
-  {
-   "brand": "adobe after effects",
-   "kind": "classic",
-   "pricing_url": null
-  },
-  {
-   "brand": "adobe premiere",
-   "kind": "classic",
-   "pricing_url": null
-  },
-  {
-   "brand": "adobe acrobat",
-   "kind": "classic",
-   "pricing_url": null
-  },
-  {
-   "brand": "affinity designer",
-   "kind": "classic",
-   "pricing_url": null
-  },
-  {
-   "brand": "affinity photo",
-   "kind": "classic",
-   "pricing_url": null
-  },
-  {
-   "brand": "capcut",
-   "kind": "classic",
-   "pricing_url": null
-  },
-  {
-   "brand": "filmora",
-   "kind": "classic",
-   "pricing_url": null
-  },
-  {
-   "brand": "camtasia",
-   "kind": "classic",
-   "pricing_url": null
-  },
-  {
-   "brand": "screaming frog",
-   "kind": "classic",
-   "pricing_url": null
-  },
-  {
-   "brand": "ahrefs",
-   "kind": "classic",
-   "pricing_url": null
-  },
-  {
-   "brand": "semrush",
-   "kind": "classic",
-   "pricing_url": null
-  },
-  {
-   "brand": "similarweb",
-   "kind": "classic",
-   "pricing_url": null
-  },
-  {
-   "brand": "serpstat",
-   "kind": "classic",
-   "pricing_url": null
-  },
-  {
-   "brand": "moz",
-   "kind": "classic",
-   "pricing_url": null
-  },
-  {
-   "brand": "openai",
-   "kind": "ai",
-   "pricing_url": "https://openai.com/api/pricing/"
-  },
-  {
-   "brand": "chatgpt plus",
-   "kind": "ai",
-   "pricing_url": "https://openai.com/chatgpt/pricing/"
-  },
-  {
-   "brand": "claude",
-   "kind": "ai",
-   "pricing_url": "https://www.anthropic.com/pricing"
-  },
-  {
-   "brand": "perplexity",
-   "kind": "ai",
-   "pricing_url": "https://www.perplexity.ai/pro"
-  },
-  {
-   "brand": "gemini",
-   "kind": "ai",
-   "pricing_url": null
-  },
-  {
-   "brand": "github copilot",
-   "kind": "ai",
-   "pricing_url": "https://github.com/features/copilot/plans"
-  },
-  {
-   "brand": "cursor",
-   "kind": "ai",
-   "pricing_url": "https://cursor.com/pricing"
-  },
-  {
-   "brand": "replit",
-   "kind": "ai",
-   "pricing_url": "https://replit.com/pricing"
-  },
-  {
-   "brand": "windsurf",
-   "kind": "ai",
-   "pricing_url": null
-  },
-  {
-   "brand": "stable diffusion",
-   "kind": "ai",
-   "pricing_url": null
-  },
-  {
-   "brand": "leonardo ai",
-   "kind": "ai",
-   "pricing_url": null
-  },
-  {
-   "brand": "ideogram",
-   "kind": "ai",
-   "pricing_url": null
-  },
-  {
-   "brand": "kling ai",
-   "kind": "ai",
-   "pricing_url": null
-  },
-  {
-   "brand": "runway ml",
-   "kind": "ai",
-   "pricing_url": "https://runwayml.com/pricing"
-  },
-  {
-   "brand": "pika labs",
-   "kind": "ai",
-   "pricing_url": null
-  },
-  {
-   "brand": "luma ai",
-   "kind": "ai",
-   "pricing_url": null
-  },
-  {
-   "brand": "suno",
-   "kind": "ai",
-   "pricing_url": "https://suno.com/pricing"
-  },
-  {
-   "brand": "udio",
-   "kind": "ai",
-   "pricing_url": null
-  },
-  {
-   "brand": "synthesia",
-   "kind": "ai",
-   "pricing_url": "https://www.synthesia.io/pricing"
-  },
-  {
-   "brand": "webflow",
-   "kind": "classic",
-   "pricing_url": "https://webflow.com/pricing"
-  },
-  {
-   "brand": "wix",
-   "kind": "classic",
-   "pricing_url": null
-  },
-  {
-   "brand": "squarespace",
-   "kind": "classic",
-   "pricing_url": null
-  },
-  {
-   "brand": "shopify",
-   "kind": "classic",
-   "pricing_url": "https://www.shopify.com/pricing"
-  },
-  {
-   "brand": "wordpress",
-   "kind": "classic",
-   "pricing_url": null
-  },
-  {
-   "brand": "elementor",
-   "kind": "classic",
-   "pricing_url": null
-  },
-  {
-   "brand": "bubble",
-   "kind": "classic",
-   "pricing_url": null
-  },
-  {
-   "brand": "softr",
-   "kind": "classic",
-   "pricing_url": null
-  },
-  {
-   "brand": "glide",
-   "kind": "classic",
-   "pricing_url": null
-  },
-  {
-   "brand": "retool",
-   "kind": "classic",
-   "pricing_url": null
-  },
-  {
-   "brand": "docker",
-   "kind": "classic",
-   "pricing_url": "https://www.docker.com/pricing/"
-  },
-  {
-   "brand": "gitlab",
-   "kind": "classic",
-   "pricing_url": "https://about.gitlab.com/pricing/"
-  },
-  {
-   "brand": "github",
-   "kind": "classic",
-   "pricing_url": "https://github.com/pricing"
-  },
-  {
-   "brand": "visual studio",
-   "kind": "classic",
-   "pricing_url": null
-  },
-  {
-   "brand": "postman",
-   "kind": "classic",
-   "pricing_url": null
-  },
-  {
-   "brand": "datadog",
-   "kind": "classic",
-   "pricing_url": "https://www.datadoghq.com/pricing/"
-  },
-  {
-   "brand": "sentry",
-   "kind": "classic",
-   "pricing_url": "https://sentry.io/pricing/"
-  },
-  {
-   "brand": "new relic",
-   "kind": "classic",
-   "pricing_url": null
-  },
-  {
-   "brand": "grafana",
-   "kind": "classic",
-   "pricing_url": null
-  },
-  {
-   "brand": "jetbrains rider",
-   "kind": "classic",
-   "pricing_url": null
-  },
-  {
-   "brand": "aws",
-   "kind": "classic",
-   "pricing_url": null
-  },
-  {
-   "brand": "google cloud",
-   "kind": "classic",
-   "pricing_url": null
-  },
-  {
-   "brand": "microsoft azure",
-   "kind": "classic",
-   "pricing_url": null
-  },
-  {
-   "brand": "cloudflare",
-   "kind": "classic",
-   "pricing_url": "https://www.cloudflare.com/plans/"
-  },
-  {
-   "brand": "digitalocean",
-   "kind": "classic",
-   "pricing_url": "https://www.digitalocean.com/pricing"
-  },
-  {
-   "brand": "vercel",
-   "kind": "classic",
-   "pricing_url": "https://vercel.com/pricing"
-  },
-  {
-   "brand": "netlify",
-   "kind": "classic",
-   "pricing_url": "https://www.netlify.com/pricing/"
-  },
-  {
-   "brand": "heroku",
-   "kind": "classic",
-   "pricing_url": null
-  },
-  {
-   "brand": "supabase",
-   "kind": "classic",
-   "pricing_url": "https://supabase.com/pricing"
-  },
-  {
-   "brand": "firebase",
-   "kind": "classic",
-   "pricing_url": null
-  },
-  {
-   "brand": "zoom",
-   "kind": "classic",
-   "pricing_url": "https://zoom.us/pricing"
-  },
-  {
-   "brand": "microsoft teams",
-   "kind": "classic",
-   "pricing_url": null
-  },
-  {
-   "brand": "google workspace",
-   "kind": "classic",
-   "pricing_url": null
-  },
-  {
-   "brand": "microsoft 365",
-   "kind": "classic",
-   "pricing_url": null
-  },
-  {
-   "brand": "dropbox",
-   "kind": "classic",
-   "pricing_url": "https://www.dropbox.com/plans"
-  },
-  {
-   "brand": "box",
-   "kind": "classic",
-   "pricing_url": null
-  },
-  {
-   "brand": "1password",
-   "kind": "classic",
-   "pricing_url": "https://1password.com/pricing"
-  },
-  {
-   "brand": "lastpass",
-   "kind": "classic",
-   "pricing_url": null
-  },
-  {
-   "brand": "nordvpn",
-   "kind": "classic",
-   "pricing_url": null
-  },
-  {
-   "brand": "tableau",
-   "kind": "classic",
-   "pricing_url": "https://www.tableau.com/pricing/teams-orgs"
-  },
-  {
-   "brand": "power bi",
-   "kind": "classic",
-   "pricing_url": null
-  },
-  {
-   "brand": "looker",
-   "kind": "classic",
-   "pricing_url": null
-  },
-  {
-   "brand": "amplitude",
-   "kind": "classic",
-   "pricing_url": "https://amplitude.com/pricing"
-  },
-  {
-   "brand": "mixpanel",
-   "kind": "classic",
-   "pricing_url": "https://mixpanel.com/pricing/"
-  },
-  {
-   "brand": "hotjar",
-   "kind": "classic",
-   "pricing_url": "https://www.hotjar.com/pricing/"
-  },
-  {
-   "brand": "fullstory",
-   "kind": "classic",
-   "pricing_url": null
-  },
-  {
-   "brand": "optimizely",
-   "kind": "classic",
-   "pricing_url": null
-  },
-  {
-   "brand": "vwo",
-   "kind": "classic",
-   "pricing_url": null
-  },
-  {
-   "brand": "autocad",
-   "kind": "classic",
-   "pricing_url": "https://www.autodesk.com/products/autocad/overview"
-  },
-  {
-   "brand": "solidworks",
-   "kind": "classic",
-   "pricing_url": "https://www.solidworks.com/how-to-buy"
-  },
-  {
-   "brand": "revit",
-   "kind": "classic",
-   "pricing_url": null
-  },
-  {
-   "brand": "sketchup",
-   "kind": "classic",
-   "pricing_url": "https://www.sketchup.com/plans-and-pricing"
-  },
-  {
-   "brand": "rhino 3d",
-   "kind": "classic",
-   "pricing_url": null
-  },
-  {
-   "brand": "ansys",
-   "kind": "classic",
-   "pricing_url": null
-  },
-  {
-   "brand": "matlab",
-   "kind": "classic",
-   "pricing_url": "https://www.mathworks.com/pricing-licensing.html"
-  },
-  {
-   "brand": "labview",
-   "kind": "classic",
-   "pricing_url": null
-  },
-  {
-   "brand": "altium designer",
-   "kind": "classic",
-   "pricing_url": null
-  },
-  {
-   "brand": "kicad",
-   "kind": "classic",
-   "pricing_url": null
-  },
-  {
-   "brand": "godot",
-   "kind": "classic",
-   "pricing_url": null
-  },
-  {
-   "brand": "blender",
-   "kind": "classic",
-   "pricing_url": "https://www.blender.org/download/"
-  },
-  {
-   "brand": "cinema 4d",
-   "kind": "classic",
-   "pricing_url": "https://www.maxon.net/en/pricing"
-  },
-  {
-   "brand": "maya",
-   "kind": "classic",
-   "pricing_url": null
-  },
-  {
-   "brand": "3ds max",
-   "kind": "classic",
-   "pricing_url": null
-  },
-  {
-   "brand": "zbrush",
-   "kind": "classic",
-   "pricing_url": null
-  },
-  {
-   "brand": "substance painter",
-   "kind": "classic",
-   "pricing_url": null
-  },
-  {
-   "brand": "keyshot",
-   "kind": "classic",
-   "pricing_url": null
-  },
-  {
-   "brand": "vray",
-   "kind": "classic",
-   "pricing_url": null
-  },
-  {
-   "brand": "corona renderer",
-   "kind": "classic",
-   "pricing_url": null
-  },
-  {
-   "brand": "spotify",
-   "kind": "classic",
-   "pricing_url": "https://www.spotify.com/premium/"
-  },
-  {
-   "brand": "youtube premium",
-   "kind": "classic",
-   "pricing_url": "https://www.youtube.com/premium"
-  },
-  {
-   "brand": "envato elements",
-   "kind": "classic",
-   "pricing_url": "https://elements.envato.com/pricing"
-  },
-  {
-   "brand": "getty images",
-   "kind": "classic",
-   "pricing_url": "https://www.gettyimages.com/plans-and-pricing"
-  },
-  {
-   "brand": "adobe stock",
-   "kind": "classic",
-   "pricing_url": "https://stock.adobe.com/plans"
-  },
-  {
-   "brand": "flaticon",
-   "kind": "classic",
-   "pricing_url": null
-  },
-  {
-   "brand": "iconscout",
-   "kind": "classic",
-   "pricing_url": null
-  },
-  {
-   "brand": "storyblocks",
-   "kind": "classic",
-   "pricing_url": null
-  },
-  {
-   "brand": "artgrid",
-   "kind": "classic",
-   "pricing_url": null
-  },
-  {
-   "brand": "grammarly",
-   "kind": "ai",
-   "pricing_url": "https://www.grammarly.com/plans"
-  },
-  {
-   "brand": "deepl",
-   "kind": "ai",
-   "pricing_url": "https://www.deepl.com/pro"
-  },
-  {
-   "brand": "quillbot",
-   "kind": "ai",
-   "pricing_url": null
-  },
-  {
-   "brand": "otter.ai",
-   "kind": "ai",
-   "pricing_url": null
-  },
-  {
-   "brand": "fireflies.ai",
-   "kind": "ai",
-   "pricing_url": null
-  },
-  {
-   "brand": "figma",
-   "kind": "classic",
-   "pricing_url": null
-  },
-  {
-   "brand": "framer",
-   "kind": "classic",
-   "pricing_url": null
-  },
-  {
-   "brand": "webflow cms",
-   "kind": "classic",
-   "pricing_url": null
-  },
-  {
-   "brand": "protopie",
-   "kind": "classic",
-   "pricing_url": null
-  },
-  {
-   "brand": "principle",
-   "kind": "classic",
-   "pricing_url": null
-  },
-  {
-   "brand": "salesforce marketing cloud",
-   "kind": "classic",
-   "pricing_url": null
-  },
-  {
-   "brand": "marketo",
-   "kind": "classic",
-   "pricing_url": null
-  },
-  {
-   "brand": "activecampaign",
-   "kind": "classic",
-   "pricing_url": null
-  },
-  {
-   "brand": "convertkit",
-   "kind": "classic",
-   "pricing_url": null
-  }
- ],
- "payment_check": {
-  "note": "Признаки самостоятельной оплаты картой ищутся в HTML страницы тарифов. Это эвристика, а не доказательство: вердикт «карта» означает, что признаки найдены, и требует подтверждения при первой сделке.",
-  "cache_ttl_days": 30
- }
+  "schema_version": "1.0.0",
+  "note": "Кандидаты на добавление в каталог: зарубежные разработчики ПО и сервисов, которых у нас нет. Спрос измеряется Вордстатом по коммерческой формулировке; приоритет — по покупательскому спросу от большего к меньшему. Российские вендоры исключены: их лицензии продаются напрямую и услуга оплаты из-за рубежа к ним неприменима.",
+  "template": "{brand} купить",
+  "secondary_template": "{brand} подписка",
+  "exclude_russian": true,
+  "russian_vendors": [
+    "1с",
+    "1c",
+    "битрикс",
+    "bitrix",
+    "мойсклад",
+    "контур",
+    "диадок",
+    "яндекс",
+    "yandex",
+    "vk",
+    "вк",
+    "kaspersky",
+    "касперский",
+    "abbyy",
+    "dr.web",
+    "drweb",
+    "мойофис",
+    "myoffice",
+    "р7",
+    "r7-office",
+    "астра",
+    "astra linux",
+    "alt linux",
+    "red os",
+    "сбер",
+    "sber",
+    "gigachat",
+    "тинькофф",
+    "amocrm",
+    "мегаплан",
+    "сбис",
+    "такском",
+    "elma",
+    "directum",
+    "docsvision",
+    "naumen",
+    "just ai",
+    "аспро",
+    "insales",
+    "ozon",
+    "wildberries",
+    "авито",
+    "мтс",
+    "ростелеком",
+    "positive technologies",
+    "infowatch",
+    "код безопасности",
+    "инфотекс",
+    "пачка",
+    "compass",
+    "yonote",
+    "weeek",
+    "битрикс24",
+    "мойдокумент"
+  ],
+  "candidates": [
+    {
+      "brand": "notion",
+      "kind": "classic",
+      "pricing_url": "https://www.notion.com/pricing"
+    },
+    {
+      "brand": "slack",
+      "kind": "classic",
+      "pricing_url": "https://slack.com/pricing"
+    },
+    {
+      "brand": "atlassian",
+      "kind": "classic",
+      "pricing_url": "https://www.atlassian.com/software/jira/pricing"
+    },
+    {
+      "brand": "jira",
+      "kind": "classic",
+      "pricing_url": "https://www.atlassian.com/software/jira/pricing"
+    },
+    {
+      "brand": "confluence",
+      "kind": "classic",
+      "pricing_url": "https://www.atlassian.com/software/confluence/pricing"
+    },
+    {
+      "brand": "asana",
+      "kind": "classic",
+      "pricing_url": "https://asana.com/pricing"
+    },
+    {
+      "brand": "monday.com",
+      "kind": "classic",
+      "pricing_url": "https://monday.com/pricing"
+    },
+    {
+      "brand": "clickup",
+      "kind": "classic",
+      "pricing_url": "https://clickup.com/pricing"
+    },
+    {
+      "brand": "trello",
+      "kind": "classic",
+      "pricing_url": "https://trello.com/pricing"
+    },
+    {
+      "brand": "airtable",
+      "kind": "classic",
+      "pricing_url": "https://airtable.com/pricing"
+    },
+    {
+      "brand": "smartsheet",
+      "kind": "classic",
+      "pricing_url": null
+    },
+    {
+      "brand": "basecamp",
+      "kind": "classic",
+      "pricing_url": null
+    },
+    {
+      "brand": "linear",
+      "kind": "classic",
+      "pricing_url": "https://linear.app/pricing"
+    },
+    {
+      "brand": "hubspot",
+      "kind": "classic",
+      "pricing_url": "https://www.hubspot.com/pricing"
+    },
+    {
+      "brand": "salesforce",
+      "kind": "classic",
+      "pricing_url": "https://www.salesforce.com/editions-pricing/overview/"
+    },
+    {
+      "brand": "pipedrive",
+      "kind": "classic",
+      "pricing_url": "https://www.pipedrive.com/en/pricing"
+    },
+    {
+      "brand": "zoho",
+      "kind": "classic",
+      "pricing_url": "https://www.zoho.com/pricing.html"
+    },
+    {
+      "brand": "freshdesk",
+      "kind": "classic",
+      "pricing_url": null
+    },
+    {
+      "brand": "zendesk",
+      "kind": "classic",
+      "pricing_url": "https://www.zendesk.com/pricing/"
+    },
+    {
+      "brand": "intercom",
+      "kind": "classic",
+      "pricing_url": "https://www.intercom.com/pricing"
+    },
+    {
+      "brand": "mailchimp",
+      "kind": "classic",
+      "pricing_url": "https://mailchimp.com/pricing/"
+    },
+    {
+      "brand": "sendgrid",
+      "kind": "classic",
+      "pricing_url": null
+    },
+    {
+      "brand": "twilio",
+      "kind": "classic",
+      "pricing_url": null
+    },
+    {
+      "brand": "brevo",
+      "kind": "classic",
+      "pricing_url": "https://www.brevo.com/pricing/"
+    },
+    {
+      "brand": "klaviyo",
+      "kind": "classic",
+      "pricing_url": null
+    },
+    {
+      "brand": "adobe creative cloud",
+      "kind": "classic",
+      "pricing_url": "https://www.adobe.com/creativecloud/plans.html"
+    },
+    {
+      "brand": "adobe photoshop",
+      "kind": "classic",
+      "pricing_url": "https://www.adobe.com/products/photoshop/plans.html"
+    },
+    {
+      "brand": "adobe illustrator",
+      "kind": "classic",
+      "pricing_url": "https://www.adobe.com/products/illustrator/plans.html"
+    },
+    {
+      "brand": "adobe after effects",
+      "kind": "classic",
+      "pricing_url": "https://www.adobe.com/products/aftereffects.html"
+    },
+    {
+      "brand": "adobe premiere",
+      "kind": "classic",
+      "pricing_url": "https://www.adobe.com/products/premiere.html"
+    },
+    {
+      "brand": "adobe acrobat",
+      "kind": "classic",
+      "pricing_url": "https://www.adobe.com/acrobat/pricing.html"
+    },
+    {
+      "brand": "affinity designer",
+      "kind": "classic",
+      "pricing_url": null
+    },
+    {
+      "brand": "affinity photo",
+      "kind": "classic",
+      "pricing_url": null
+    },
+    {
+      "brand": "capcut",
+      "kind": "classic",
+      "pricing_url": "https://www.capcut.com/pricing"
+    },
+    {
+      "brand": "filmora",
+      "kind": "classic",
+      "pricing_url": "https://filmora.wondershare.com/buy/video-editor.html"
+    },
+    {
+      "brand": "camtasia",
+      "kind": "classic",
+      "pricing_url": null
+    },
+    {
+      "brand": "screaming frog",
+      "kind": "classic",
+      "pricing_url": null
+    },
+    {
+      "brand": "ahrefs",
+      "kind": "classic",
+      "pricing_url": null
+    },
+    {
+      "brand": "semrush",
+      "kind": "classic",
+      "pricing_url": null
+    },
+    {
+      "brand": "similarweb",
+      "kind": "classic",
+      "pricing_url": null
+    },
+    {
+      "brand": "serpstat",
+      "kind": "classic",
+      "pricing_url": "https://serpstat.com/pay/"
+    },
+    {
+      "brand": "moz",
+      "kind": "classic",
+      "pricing_url": null
+    },
+    {
+      "brand": "openai",
+      "kind": "ai",
+      "pricing_url": "https://openai.com/api/pricing/"
+    },
+    {
+      "brand": "chatgpt plus",
+      "kind": "ai",
+      "pricing_url": "https://openai.com/chatgpt/pricing/"
+    },
+    {
+      "brand": "claude",
+      "kind": "ai",
+      "pricing_url": "https://www.anthropic.com/pricing"
+    },
+    {
+      "brand": "perplexity",
+      "kind": "ai",
+      "pricing_url": "https://www.perplexity.ai/pro"
+    },
+    {
+      "brand": "gemini",
+      "kind": "ai",
+      "pricing_url": "https://one.google.com/about/google-ai-plans/"
+    },
+    {
+      "brand": "github copilot",
+      "kind": "ai",
+      "pricing_url": "https://github.com/features/copilot/plans"
+    },
+    {
+      "brand": "cursor",
+      "kind": "ai",
+      "pricing_url": "https://cursor.com/pricing"
+    },
+    {
+      "brand": "replit",
+      "kind": "ai",
+      "pricing_url": "https://replit.com/pricing"
+    },
+    {
+      "brand": "windsurf",
+      "kind": "ai",
+      "pricing_url": null
+    },
+    {
+      "brand": "stable diffusion",
+      "kind": "ai",
+      "pricing_url": null
+    },
+    {
+      "brand": "leonardo ai",
+      "kind": "ai",
+      "pricing_url": null
+    },
+    {
+      "brand": "ideogram",
+      "kind": "ai",
+      "pricing_url": null
+    },
+    {
+      "brand": "kling ai",
+      "kind": "ai",
+      "pricing_url": null
+    },
+    {
+      "brand": "runway ml",
+      "kind": "ai",
+      "pricing_url": "https://runwayml.com/pricing"
+    },
+    {
+      "brand": "pika labs",
+      "kind": "ai",
+      "pricing_url": null
+    },
+    {
+      "brand": "luma ai",
+      "kind": "ai",
+      "pricing_url": null
+    },
+    {
+      "brand": "suno",
+      "kind": "ai",
+      "pricing_url": "https://suno.com/pricing"
+    },
+    {
+      "brand": "udio",
+      "kind": "ai",
+      "pricing_url": null
+    },
+    {
+      "brand": "synthesia",
+      "kind": "ai",
+      "pricing_url": "https://www.synthesia.io/pricing"
+    },
+    {
+      "brand": "webflow",
+      "kind": "classic",
+      "pricing_url": "https://webflow.com/pricing"
+    },
+    {
+      "brand": "wix",
+      "kind": "classic",
+      "pricing_url": null
+    },
+    {
+      "brand": "squarespace",
+      "kind": "classic",
+      "pricing_url": null
+    },
+    {
+      "brand": "shopify",
+      "kind": "classic",
+      "pricing_url": "https://www.shopify.com/pricing"
+    },
+    {
+      "brand": "wordpress",
+      "kind": "classic",
+      "pricing_url": null
+    },
+    {
+      "brand": "elementor",
+      "kind": "classic",
+      "pricing_url": null
+    },
+    {
+      "brand": "bubble",
+      "kind": "classic",
+      "pricing_url": null
+    },
+    {
+      "brand": "softr",
+      "kind": "classic",
+      "pricing_url": null
+    },
+    {
+      "brand": "glide",
+      "kind": "classic",
+      "pricing_url": null
+    },
+    {
+      "brand": "retool",
+      "kind": "classic",
+      "pricing_url": null
+    },
+    {
+      "brand": "docker",
+      "kind": "classic",
+      "pricing_url": "https://www.docker.com/pricing/"
+    },
+    {
+      "brand": "gitlab",
+      "kind": "classic",
+      "pricing_url": "https://about.gitlab.com/pricing/"
+    },
+    {
+      "brand": "github",
+      "kind": "classic",
+      "pricing_url": "https://github.com/pricing"
+    },
+    {
+      "brand": "visual studio",
+      "kind": "classic",
+      "pricing_url": null
+    },
+    {
+      "brand": "postman",
+      "kind": "classic",
+      "pricing_url": null
+    },
+    {
+      "brand": "datadog",
+      "kind": "classic",
+      "pricing_url": "https://www.datadoghq.com/pricing/"
+    },
+    {
+      "brand": "sentry",
+      "kind": "classic",
+      "pricing_url": "https://sentry.io/pricing/"
+    },
+    {
+      "brand": "new relic",
+      "kind": "classic",
+      "pricing_url": null
+    },
+    {
+      "brand": "grafana",
+      "kind": "classic",
+      "pricing_url": null
+    },
+    {
+      "brand": "jetbrains rider",
+      "kind": "classic",
+      "pricing_url": "https://www.jetbrains.com/rider/buy/"
+    },
+    {
+      "brand": "aws",
+      "kind": "classic",
+      "pricing_url": null
+    },
+    {
+      "brand": "google cloud",
+      "kind": "classic",
+      "pricing_url": "https://cloud.google.com/pricing"
+    },
+    {
+      "brand": "microsoft azure",
+      "kind": "classic",
+      "pricing_url": "https://azure.microsoft.com/en-us/pricing/"
+    },
+    {
+      "brand": "cloudflare",
+      "kind": "classic",
+      "pricing_url": "https://www.cloudflare.com/plans/"
+    },
+    {
+      "brand": "digitalocean",
+      "kind": "classic",
+      "pricing_url": "https://www.digitalocean.com/pricing"
+    },
+    {
+      "brand": "vercel",
+      "kind": "classic",
+      "pricing_url": "https://vercel.com/pricing"
+    },
+    {
+      "brand": "netlify",
+      "kind": "classic",
+      "pricing_url": "https://www.netlify.com/pricing/"
+    },
+    {
+      "brand": "heroku",
+      "kind": "classic",
+      "pricing_url": null
+    },
+    {
+      "brand": "supabase",
+      "kind": "classic",
+      "pricing_url": "https://supabase.com/pricing"
+    },
+    {
+      "brand": "firebase",
+      "kind": "classic",
+      "pricing_url": null
+    },
+    {
+      "brand": "zoom",
+      "kind": "classic",
+      "pricing_url": "https://zoom.us/pricing"
+    },
+    {
+      "brand": "microsoft teams",
+      "kind": "classic",
+      "pricing_url": "https://www.microsoft.com/en-us/microsoft-teams/compare-microsoft-teams-business-options"
+    },
+    {
+      "brand": "google workspace",
+      "kind": "classic",
+      "pricing_url": "https://workspace.google.com/pricing.html"
+    },
+    {
+      "brand": "microsoft 365",
+      "kind": "classic",
+      "pricing_url": null
+    },
+    {
+      "brand": "dropbox",
+      "kind": "classic",
+      "pricing_url": "https://www.dropbox.com/plans"
+    },
+    {
+      "brand": "box",
+      "kind": "classic",
+      "pricing_url": "https://www.box.com/pricing"
+    },
+    {
+      "brand": "1password",
+      "kind": "classic",
+      "pricing_url": "https://1password.com/pricing"
+    },
+    {
+      "brand": "lastpass",
+      "kind": "classic",
+      "pricing_url": null
+    },
+    {
+      "brand": "nordvpn",
+      "kind": "classic",
+      "pricing_url": "https://nordvpn.com/pricing/"
+    },
+    {
+      "brand": "tableau",
+      "kind": "classic",
+      "pricing_url": "https://www.tableau.com/pricing/teams-orgs"
+    },
+    {
+      "brand": "power bi",
+      "kind": "classic",
+      "pricing_url": null
+    },
+    {
+      "brand": "looker",
+      "kind": "classic",
+      "pricing_url": null
+    },
+    {
+      "brand": "amplitude",
+      "kind": "classic",
+      "pricing_url": "https://amplitude.com/pricing"
+    },
+    {
+      "brand": "mixpanel",
+      "kind": "classic",
+      "pricing_url": "https://mixpanel.com/pricing/"
+    },
+    {
+      "brand": "hotjar",
+      "kind": "classic",
+      "pricing_url": "https://www.hotjar.com/pricing/"
+    },
+    {
+      "brand": "fullstory",
+      "kind": "classic",
+      "pricing_url": null
+    },
+    {
+      "brand": "optimizely",
+      "kind": "classic",
+      "pricing_url": null
+    },
+    {
+      "brand": "vwo",
+      "kind": "classic",
+      "pricing_url": null
+    },
+    {
+      "brand": "autocad",
+      "kind": "classic",
+      "pricing_url": "https://www.autodesk.com/products/autocad/overview"
+    },
+    {
+      "brand": "solidworks",
+      "kind": "classic",
+      "pricing_url": "https://www.solidworks.com/how-to-buy"
+    },
+    {
+      "brand": "revit",
+      "kind": "classic",
+      "pricing_url": "https://www.autodesk.com/products/revit/overview"
+    },
+    {
+      "brand": "sketchup",
+      "kind": "classic",
+      "pricing_url": "https://www.sketchup.com/plans-and-pricing"
+    },
+    {
+      "brand": "rhino 3d",
+      "kind": "classic",
+      "pricing_url": "https://www.rhino3d.com/store/"
+    },
+    {
+      "brand": "ansys",
+      "kind": "classic",
+      "pricing_url": "https://www.ansys.com/products"
+    },
+    {
+      "brand": "matlab",
+      "kind": "classic",
+      "pricing_url": "https://www.mathworks.com/pricing-licensing.html"
+    },
+    {
+      "brand": "labview",
+      "kind": "classic",
+      "pricing_url": null
+    },
+    {
+      "brand": "altium designer",
+      "kind": "classic",
+      "pricing_url": "https://www.altium.com/altium-designer/pricing"
+    },
+    {
+      "brand": "cinema 4d",
+      "kind": "classic",
+      "pricing_url": "https://www.maxon.net/en/pricing"
+    },
+    {
+      "brand": "maya",
+      "kind": "classic",
+      "pricing_url": "https://www.autodesk.com/products/maya/overview"
+    },
+    {
+      "brand": "3ds max",
+      "kind": "classic",
+      "pricing_url": "https://www.autodesk.com/products/3ds-max/overview"
+    },
+    {
+      "brand": "zbrush",
+      "kind": "classic",
+      "pricing_url": null
+    },
+    {
+      "brand": "substance painter",
+      "kind": "classic",
+      "pricing_url": "https://www.adobe.com/products/substance3d-painter.html"
+    },
+    {
+      "brand": "keyshot",
+      "kind": "classic",
+      "pricing_url": null
+    },
+    {
+      "brand": "vray",
+      "kind": "classic",
+      "pricing_url": null
+    },
+    {
+      "brand": "corona renderer",
+      "kind": "classic",
+      "pricing_url": null
+    },
+    {
+      "brand": "spotify",
+      "kind": "classic",
+      "pricing_url": "https://www.spotify.com/premium/"
+    },
+    {
+      "brand": "youtube premium",
+      "kind": "classic",
+      "pricing_url": "https://www.youtube.com/premium"
+    },
+    {
+      "brand": "envato elements",
+      "kind": "classic",
+      "pricing_url": "https://elements.envato.com/pricing"
+    },
+    {
+      "brand": "getty images",
+      "kind": "classic",
+      "pricing_url": "https://www.gettyimages.com/purchase/subscriptions"
+    },
+    {
+      "brand": "adobe stock",
+      "kind": "classic",
+      "pricing_url": "https://stock.adobe.com/plans"
+    },
+    {
+      "brand": "flaticon",
+      "kind": "classic",
+      "pricing_url": null
+    },
+    {
+      "brand": "iconscout",
+      "kind": "classic",
+      "pricing_url": "https://iconscout.com/pricing"
+    },
+    {
+      "brand": "storyblocks",
+      "kind": "classic",
+      "pricing_url": null
+    },
+    {
+      "brand": "artgrid",
+      "kind": "classic",
+      "pricing_url": null
+    },
+    {
+      "brand": "grammarly",
+      "kind": "ai",
+      "pricing_url": "https://www.grammarly.com/plans"
+    },
+    {
+      "brand": "deepl",
+      "kind": "ai",
+      "pricing_url": "https://www.deepl.com/pro"
+    },
+    {
+      "brand": "quillbot",
+      "kind": "ai",
+      "pricing_url": "https://quillbot.com/premium"
+    },
+    {
+      "brand": "otter.ai",
+      "kind": "ai",
+      "pricing_url": null
+    },
+    {
+      "brand": "fireflies.ai",
+      "kind": "ai",
+      "pricing_url": "https://fireflies.ai/pricing"
+    },
+    {
+      "brand": "figma",
+      "kind": "classic",
+      "pricing_url": null
+    },
+    {
+      "brand": "framer",
+      "kind": "classic",
+      "pricing_url": null
+    },
+    {
+      "brand": "webflow cms",
+      "kind": "classic",
+      "pricing_url": "https://webflow.com/pricing"
+    },
+    {
+      "brand": "protopie",
+      "kind": "classic",
+      "pricing_url": "https://www.protopie.io/pricing"
+    },
+    {
+      "brand": "principle",
+      "kind": "classic",
+      "pricing_url": null
+    },
+    {
+      "brand": "salesforce marketing cloud",
+      "kind": "classic",
+      "pricing_url": "https://www.salesforce.com/marketing/pricing/"
+    },
+    {
+      "brand": "marketo",
+      "kind": "classic",
+      "pricing_url": "https://business.adobe.com/products/marketo/adobe-marketo.html"
+    },
+    {
+      "brand": "activecampaign",
+      "kind": "classic",
+      "pricing_url": null
+    },
+    {
+      "brand": "convertkit",
+      "kind": "classic",
+      "pricing_url": "https://kit.com/pricing"
+    }
+  ],
+  "payment_check": {
+    "note": "Признаки самостоятельной оплаты картой ищутся в HTML страницы тарифов. Это эвристика, а не доказательство: вердикт «карта» означает, что признаки найдены, и требует подтверждения при первой сделке.",
+    "cache_ttl_days": 30
+  },
+  "free_software": [
+    "godot",
+    "kicad",
+    "blender",
+    "gimp",
+    "inkscape",
+    "krita",
+    "obs studio",
+    "libreoffice",
+    "audacity",
+    "vlc"
+  ]
 }

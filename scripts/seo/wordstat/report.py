@@ -124,6 +124,10 @@ def executive_block(state: dict) -> dict:
         if manual:
             summary += (f" Ещё {len(manual)} требуют ручной проверки: спрос есть, "
                         "способ оплаты автоматически определить не удалось.")
+        weak = exp.get("low_confidence") or []
+        if weak:
+            summary += (f" По {len(weak)} названиям цифру спроса нельзя брать на "
+                        "веру: имя бренда совпадает с обычным английским словом.")
         expansion = {
             "title": "Каких вендоров добавить",
             "summary": summary,
@@ -131,7 +135,9 @@ def executive_block(state: dict) -> dict:
                        "kind": "AI-сервис" if r["kind"] == "ai" else "классический",
                        "payment": r["payment"]["verdict"],
                        "recommendation": r["recommendation"],
-                       "effort": r["effort_note"], "url": r["seo"]["url"]}
+                       "effort": r["effort_note"], "url": r["seo"]["url"],
+                       "confidence": r.get("demand_confidence"),
+                       "confidence_note": r.get("demand_confidence_note")}
                       for r in (ready or exp["recommended"][:3])],
             "manual_check": manual[:5],
             "note": exp["note"],
@@ -196,8 +202,9 @@ def write_markdown(state: dict, path: pathlib.Path) -> None:
               f"у {exp['recommended_total']}. {exp['note']}", "",
               "Приоритет — по покупательскому спросу с поправкой на трудоёмкость "
               "запуска: карточка одного продукта дешевле линейки тарифов.", "",
-              "| Вендор | Тип | Спрос | Оплата картой | Рекомендация | Трудоёмкость | Адрес |",
-              "|---|---|---|---|---|---|---|"]
+              "| Вендор | Тип | Спрос | Достоверность | Оплата картой | "
+              "Рекомендация | Трудоёмкость | Адрес |",
+              "|---|---|---|---|---|---|---|---|"]
         pay_label = {"card": "есть", "likely_card": "вероятно",
                      "sales_only": "только через продажи", "unknown": "не определена",
                      "unreachable": "сайт не открылся", "not_checked": "не проверялась"}
@@ -205,6 +212,7 @@ def write_markdown(state: dict, path: pathlib.Path) -> None:
             kind = "AI" if r["kind"] == "ai" else "классический"
             L.append(f"| {r['brand']} | {kind} | "
                      f"{format(r['commercial_demand'], ',').replace(',', ' ')} | "
+                     f"{r.get('demand_confidence', '—')} | "
                      f"{pay_label.get(r['payment']['verdict'], '—')} | "
                      f"{r['recommendation']} | {r['effort_note']} | "
                      f"`{r['seo']['url']}` |")
@@ -212,6 +220,11 @@ def write_markdown(state: dict, path: pathlib.Path) -> None:
             L += ["", "Распределение по способу оплаты: "
                   + ", ".join(f"{pay_label.get(k, k)} — {v}"
                               for k, v in exp["by_payment"].items()) + ".", ""]
+        if exp.get("low_confidence"):
+            L += ["**Спрос требует проверки выдачи** — имя бренда совпадает с "
+                  "обычным английским словом, и в замер попадают чужие товары: "
+                  + ", ".join(exp["low_confidence"]) + ". Решение по ним "
+                  "принимать только после ручного просмотра выдачи.", ""]
         if exp.get("needs_manual_check"):
             L += ["**Требуют ручной проверки** — спрос есть, способ оплаты "
                   "автоматически определить не удалось: "

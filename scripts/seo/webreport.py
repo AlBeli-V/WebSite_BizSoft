@@ -94,8 +94,61 @@ def _demand_section() -> str:
             f"{uni['clusters']} кластерам. Считается по частотности коммерческих фраз, "
             f"а не по числу ключевых слов.</p>{levels}"
             f"<h3>Непокрытый коммерческий спрос</h3>{uncovered}"
+            f"{_expansion_section(st)}"
             f"<h3>Возможности</h3>{opportunities}"
             f"<h3>Экономика исследования</h3>{economics}")
+
+
+# Способ оплаты решает судьбу рекомендации: спрос без возможности заплатить
+# картой сделкой не становится, поэтому колонка стоит рядом со спросом.
+PAY_LABEL = {"card": "есть", "likely_card": "вероятно",
+             "sales_only": "только через продажи", "unknown": "не определена",
+             "unreachable": "сайт не открылся", "not_checked": "не проверялась"}
+
+
+def _expansion_section(st: dict) -> str:
+    """Каких вендоров добавить: спрос, оплата, трудоёмкость, готовая обвязка."""
+    exp = st.get("vendor_expansion") or {}
+    if not exp.get("available"):
+        reason = exp.get("reason") or "данных пока нет"
+        return (f"<h3>Каких вендоров добавить</h3>"
+                f"<p class='muted'>{reason.capitalize()}.</p>")
+    rows = [[r["brand"],
+             "AI" if r["kind"] == "ai" else "классический",
+             f"{r['commercial_demand']:,}".replace(",", " "),
+             r.get("demand_confidence", "—"),
+             PAY_LABEL.get(r["payment"]["verdict"], "—"),
+             r["recommendation"], r["effort_note"],
+             f"<code>{r['seo']['url']}</code>"]
+            for r in exp["recommended"]]
+    body = table(["Вендор", "Тип", "Спрос, показов/мес", "Достоверность",
+                  "Оплата картой", "Рекомендация", "Трудоёмкость", "Адрес"], rows)
+    notes = []
+    if exp.get("low_confidence"):
+        notes.append("Спрос требует ручного просмотра выдачи (имя бренда — "
+                     "обычное английское слово): " + ", ".join(exp["low_confidence"]) + ".")
+    if exp.get("needs_manual_check"):
+        notes.append("Способ оплаты определить автоматически не удалось: "
+                     + ", ".join(exp["needs_manual_check"]) + ".")
+    note_html = "".join(f"<p class='muted'>{n}</p>" for n in notes)
+    scaffold = ""
+    for r in exp["recommended"][:3]:
+        seo = r["seo"]
+        scaffold += (
+            f"<h4>{r['brand']} — <code>{seo['url']}</code></h4>"
+            f"<p>{seo['title']}<br><span class='muted'>{seo['description']}</span></p>"
+            f"<p class='muted'>Целевые запросы: "
+            + ", ".join(f"«{ph['phrase']}» — {ph['frequency']}"
+                        for ph in r["top_phrases"][:5])
+            + f"<br>Разделы вопросов: " + "; ".join(seo["faq_topics"]) + "</p>")
+    combined = f"{exp['combined_demand']:,}".replace(",", " ")
+    return (f"<h3>Каких вендоров добавить</h3>"
+            f"<p>Проверен спрос на {exp['candidates_measured']} зарубежных "
+            f"разработчиков вне каталога; покупательский спрос подтверждён "
+            f"у {exp['recommended_total']} — суммарно "
+            f"{combined} показов в месяц. {exp['note']}</p>"
+            + body + note_html
+            + (f"<h4>SEO-обвязка для первых трёх</h4>{scaffold}" if scaffold else ""))
 
 
 def embed_png(path: pathlib.Path) -> str:
@@ -510,6 +563,34 @@ def build_markdown(b: dict, snap: dict, dq: dict, date: str) -> str:
                 L.append(f"| {u['cluster']} | {num(u['demand'])} | "
                          f"{u['gap']} | {u['action']} |")
             L.append("")
+            exp = st.get("vendor_expansion") or {}
+            L += ["### Каких вендоров добавить", ""]
+            if not exp.get("available"):
+                L += [(exp.get("reason") or "данных пока нет").capitalize() + ".", ""]
+            else:
+                combined = f"{exp['combined_demand']:,}".replace(",", " ")
+                L += [f"Проверен спрос на {exp['candidates_measured']} зарубежных "
+                      f"разработчиков вне каталога; покупательский спрос подтверждён "
+                      f"у {exp['recommended_total']} — суммарно {combined} показов "
+                      f"в месяц. {exp['note']}", "",
+                      "| Вендор | Тип | Спрос | Достоверность | Оплата картой | "
+                      "Рекомендация | Адрес |", "|---|---|---|---|---|---|---|"]
+                for r in exp["recommended"]:
+                    L.append(
+                        f"| {r['brand']} | "
+                        f"{'AI' if r['kind'] == 'ai' else 'классический'} | "
+                        f"{num(r['commercial_demand'])} | "
+                        f"{r.get('demand_confidence', '—')} | "
+                        f"{PAY_LABEL.get(r['payment']['verdict'], '—')} | "
+                        f"{r['recommendation']} | `{r['seo']['url']}` |")
+                if exp.get("low_confidence"):
+                    L += ["", "Спрос требует ручного просмотра выдачи (имя бренда — "
+                          "обычное английское слово): "
+                          + ", ".join(exp["low_confidence"]) + "."]
+                if exp.get("needs_manual_check"):
+                    L += ["", "Способ оплаты определить автоматически не удалось: "
+                          + ", ".join(exp["needs_manual_check"]) + "."]
+                L.append("")
 
     L += ["## Карта измерений", "", b["measurement_summary"], "",
           "| Источник | Показатель | Охват | Период | Сравнимо с |",

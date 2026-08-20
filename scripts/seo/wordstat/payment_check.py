@@ -55,13 +55,29 @@ SALES_ONLY = [
     "contact us for pricing", "get a demo", "book a demo",
 ]
 GUESS_PATHS = ("/pricing", "/plans", "/pricing/", "/plans-and-pricing", "/buy")
+# Домен угадывается не только в зоне .com: у части сервисов основной адрес в
+# .app, .ai или .io. Без www часть сайтов отвечает отказом на уровне DNS,
+# поэтому проверяются оба варианта.
+GUESS_HOSTS = ("www.{slug}.com", "{slug}.com", "{slug}.app", "{slug}.ai", "{slug}.io")
 
 
 def guess_urls(brand: str, explicit: str | None) -> list[str]:
-    if explicit:
-        return [explicit]
+    """Адреса-кандидаты. Явный адрес идёт первым, но не отменяет запасные.
+
+    Явный адрес может устареть или закрыться защитой от ботов; тогда проверка
+    продолжается по угаданным, а не сдаётся с вердиктом «сайт не открылся».
+    """
     slug = re.sub(r"[^a-z0-9]+", "", brand.lower())
-    return [f"https://{slug}.com{p}" for p in GUESS_PATHS[:3]]
+    urls = [explicit] if explicit else []
+    for host in GUESS_HOSTS:
+        for path in GUESS_PATHS[:2]:
+            urls.append(f"https://{host.format(slug=slug)}{path}")
+    seen, out = set(), []
+    for u in urls:
+        if u and u not in seen:
+            seen.add(u)
+            out.append(u)
+    return out[:8]
 
 
 def fetch(url: str) -> tuple[str | None, int | None, str | None]:
@@ -115,11 +131,20 @@ def load_cache() -> dict:
     return json.loads(CACHE.read_text(encoding="utf-8")) if CACHE.exists() else {}
 
 
+# Неудачная проверка живёт в кэше недолго: «сайт не открылся» — это отсутствие
+# ответа, а не ответ. Держать такой вердикт месяц значит месяц не знать правды,
+# тогда как адрес мог быть уточнён или защита от ботов снята.
+RETRY_TTL_DAYS = 3
+RETRY_VERDICTS = ("unreachable", "unknown")
+
+
 def fresh(entry: dict, ttl_days: int) -> bool:
     try:
         age = (dt.date.today() - dt.date.fromisoformat(entry["checked_at"])).days
     except (KeyError, ValueError):
         return False
+    if entry.get("verdict") in RETRY_VERDICTS:
+        return age <= RETRY_TTL_DAYS
     return age <= ttl_days
 
 

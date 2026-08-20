@@ -634,6 +634,37 @@ class TestVendorExpansion(unittest.TestCase):
         action, why = self.V.PAYMENT_ACTION["card"]
         self.assertIn("рекомендуем", action)
 
+    def test_failed_payment_check_is_retried_sooner(self):
+        """«Сайт не открылся» — не ответ: держать такой вердикт месяц нельзя."""
+        stale = {"verdict": "unreachable", "checked_at": "2026-08-10"}
+        good = {"verdict": "card", "checked_at": "2026-08-10"}
+        self.assertFalse(self.P.fresh(stale, 30))
+        self.assertTrue(self.P.fresh(good, 30))
+
+    def test_explicit_url_does_not_cancel_fallbacks(self):
+        """Явный адрес может устареть — проверка продолжается по запасным."""
+        urls = self.P.guess_urls("linear", "https://linear.com/pricing")
+        self.assertEqual(urls[0], "https://linear.com/pricing")
+        self.assertIn("https://linear.app/pricing", urls)
+
+    def test_generic_word_brands_are_marked_low_confidence(self):
+        """«box купить» ловит коробки, а не софт — цифру нельзя брать на веру."""
+        phrases = [{"phrase": f"box {i}"} for i in range(5)]
+        level, note = self.V.demand_confidence("box", phrases)
+        self.assertEqual(level, "низкая")
+        self.assertIn("вручную", note)
+
+    def test_thin_evidence_is_not_high_confidence(self):
+        level, note = self.V.demand_confidence("smartsheet", [{"phrase": "a"}])
+        self.assertEqual(level, "средняя")
+        self.assertIsNotNone(note)
+
+    def test_distinct_brand_with_evidence_is_high_confidence(self):
+        phrases = [{"phrase": f"smartsheet {i}"} for i in range(4)]
+        level, note = self.V.demand_confidence("smartsheet", phrases)
+        self.assertEqual(level, "высокая")
+        self.assertIsNone(note)
+
 
 class TestIntegration(unittest.TestCase):
     """Сквозные свойства системы на реальных артефактах."""

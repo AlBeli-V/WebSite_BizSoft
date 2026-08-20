@@ -716,6 +716,41 @@ def html_email(b: dict, charts: dict, cid_mode: bool) -> str:
             f"Замер спроса от {ru_date(dm.get('measured_at'))}, "
             f"обновляется по расписанию исследования"))
 
+    # I-в. Расширение каталога: кого добавить. Спрос без возможности оплатить
+    # сделкой не становится, поэтому способ оплаты стоит рядом с цифрой спроса.
+    exp = dm.get("expansion") if dm.get("available") else None
+    if exp and exp.get("items"):
+        cards = "".join(
+            f"<div style=\"border:1px solid {T['border']};border-radius:10px;"
+            f"padding:{SP['m']}px;margin-top:{SP['s']}px;\">"
+            f"<div style=\"font-size:15.5px;font-weight:700;"
+            f"color:{T['text_primary']};\">{it['brand']} "
+            f"<span data-meta=\"1\" style=\"font-size:12.5px;font-weight:500;"
+            f"color:{T['text_secondary']};\">· {it['kind']}</span></div>"
+            f"<div style=\"font-size:15px;padding-top:{SP['xs']}px;line-height:1.55;\">"
+            f"{num(it['demand'])} "
+            f"{plural(it['demand'], 'запрос', 'запроса', 'запросов')} в месяц · "
+            f"{PAYMENT_LABEL.get(it['payment'], 'оплата не определена')}. "
+            f"{it['recommendation'].capitalize()}: {it['effort']}.</div>"
+            + (f"<div data-meta=\"1\" style=\"font-size:12.5px;"
+               f"color:{T['text_secondary']};padding-top:{SP['xs']}px;"
+               f"line-height:1.45;\">{it['confidence_note']}</div>"
+               if it.get("confidence_note") else "")
+            + "</div>"
+            for it in exp["items"])
+        manual = ""
+        if exp.get("manual_check"):
+            manual = (f"<div style=\"font-size:15px;padding-top:{SP['m']}px;"
+                      f"line-height:1.55;\"><b>Проверить вручную:</b> "
+                      + ", ".join(exp["manual_check"])
+                      + " — спрос есть, способ оплаты автоматически определить "
+                        "не удалось.</div>")
+        rows.append(_section(
+            exp["title"],
+            f"<div style=\"font-size:15px;line-height:1.6;\">{exp['summary']}</div>"
+            f"{cards}{manual}",
+            exp.get("note")))
+
     # J. Здоровье данных
     h = b["health"]
     colour = {"positive": T["positive"], "warning": T["warning"],
@@ -838,6 +873,16 @@ def plain_text(b: dict) -> str:
                      f"({num(lead['demand'])} "
                      f"{plural(lead['demand'], 'запрос', 'запроса', 'запросов')} "
                      "в месяц).")
+        exp = dm.get("expansion")
+        if exp and exp.get("items"):
+            L += ["", exp["title"].upper(), exp["summary"]]
+            for it in exp["items"]:
+                L.append(f"- {it['brand']} ({it['kind']}): {num(it['demand'])} "
+                         f"{plural(it['demand'], 'запрос', 'запроса', 'запросов')} "
+                         f"в месяц, {PAYMENT_LABEL.get(it['payment'], 'оплата не определена')} "
+                         f"— {it['recommendation']}")
+            if exp.get("manual_check"):
+                L.append("Проверить вручную: " + ", ".join(exp["manual_check"]) + ".")
     h = b["health"]
     L += ["", "ЗДОРОВЬЕ ДАННЫХ",
           f"{PILL_LABEL[h['status']].capitalize()}: {h['reason']}. {h['detail']}",
@@ -889,6 +934,17 @@ def build_eml(b: dict, html: str, text: str, charts: dict, date: str) -> bytes:
             part.add_related(path.read_bytes(), "image", "png", cid=cid,
                              filename=path.name, disposition="inline")
     return msg.as_bytes()
+
+
+# Как звучит способ оплаты в письме: без API-терминов, языком решения.
+PAYMENT_LABEL = {
+    "card": "оплата картой на сайте вендора есть",
+    "likely_card": "покупка на сайте есть, платёжную систему подтвердить при первой сделке",
+    "sales_only": "покупка только через отдел продаж",
+    "unknown": "способ оплаты не определён",
+    "unreachable": "сайт вендора не открылся при проверке",
+    "not_checked": "оплата ещё не проверялась",
+}
 
 
 def load_demand() -> dict:

@@ -51,6 +51,28 @@ PAYMENT_ACTION = {
 }
 
 
+# Бренды, чьё имя — обычное английское слово. Вордстат отдаёт по ним запросы про
+# совсем другие товары («box» — коробки и мототехника, «linear» — приводы), и
+# частотность выглядит выше реальной. Такие кандидаты показываются, но с явной
+# пометкой: цифру нельзя принимать за спрос на софт без ручной проверки выдачи.
+AMBIGUOUS_BRANDS = {
+    "box", "linear", "cursor", "zoom", "framer", "notion", "arc", "bolt",
+    "craft", "loom", "origin", "pitch", "frame", "gamma", "runway", "flux",
+    "luma", "canvas", "sketch", "unity", "spark", "wave", "vector",
+}
+
+
+def demand_confidence(brand: str, phrases: list[dict]) -> tuple[str, str | None]:
+    """Насколько цифре спроса можно верить."""
+    if brand.lower() in AMBIGUOUS_BRANDS:
+        return "низкая", ("имя бренда — обычное английское слово, в выборку "
+                          "попадают запросы про другие товары; проверить выдачу "
+                          "вручную перед решением")
+    if len(phrases) < 3:
+        return "средняя", "спрос подтверждён менее чем тремя фразами"
+    return "высокая", None
+
+
 def load_payments() -> dict:
     if not PAYMENT_PATH.exists():
         return {}
@@ -161,6 +183,7 @@ def build(universe, vendors: list[dict], limit: int = 10) -> dict:
         if total < MIN_DEMAND or commercial_demand < MIN_COMMERCIAL:
             continue
         effort, effort_note = effort_of(commercial)
+        confidence, confidence_note = demand_confidence(brand, commercial)
         trend = universe.trend(commercial[0]["phrase"]) if commercial else {"direction": "unknown"}
         pay = payments.get(brand) or {"verdict": "not_checked",
                                       "note": "оплата ещё не проверялась"}
@@ -179,6 +202,8 @@ def build(universe, vendors: list[dict], limit: int = 10) -> dict:
             "trend": trend["direction"],
             "effort": effort,
             "effort_note": effort_note,
+            "demand_confidence": confidence,
+            "demand_confidence_note": confidence_note,
             "priority_score": round(commercial_demand / effort, 1),
             "seo": seo_scaffold(brand, commercial or [{"phrase": seed}]),
             "measured_at": max((r.get("last_seen") or "") for r in related),
@@ -189,6 +214,7 @@ def build(universe, vendors: list[dict], limit: int = 10) -> dict:
     order = {"card": 0, "likely_card": 1, "not_checked": 2, "unknown": 2,
              "unreachable": 2, "sales_only": 3}
     rows.sort(key=lambda r: (order.get(r["payment"]["verdict"], 2),
+                             r["demand_confidence"] == "низкая",
                              -r["priority_score"]))
     measured = sum(1 for c in pending(vendors, universe) if c["measured"])
     total_candidates = len(pending(vendors, universe))
@@ -204,6 +230,8 @@ def build(universe, vendors: list[dict], limit: int = 10) -> dict:
                        for v in sorted({r["payment"]["verdict"] for r in rows})},
         "by_kind": {k: sum(1 for r in rows if r["kind"] == k)
                     for k in sorted({r["kind"] for r in rows if r["kind"]})},
+        "low_confidence": [r["brand"] for r in rows
+                           if r["demand_confidence"] == "низкая"],
         "needs_manual_check": [r["brand"] for r in rows
                                if r["payment"]["verdict"] in
                                ("unknown", "unreachable", "not_checked")][:10],
