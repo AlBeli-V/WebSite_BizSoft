@@ -40,6 +40,9 @@ export const POST: APIRoute = async ({ request }) => {
     product_ref: String(body.product_ref || '').slice(0, 300),
     consent: true,
     source: String(body.source || 'site').slice(0, 60),
+    // Стадия воронки с первой секунды: заявка без статуса не попадает ни в один
+    // фильтр воронки и теряется из виду, хотя формально сохранена.
+    status: 'new',
   };
 
   try {

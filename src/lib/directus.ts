@@ -306,8 +306,41 @@ export async function getAllProductsAdmin(): Promise<Product[]> {
   });
 }
 
+export interface Lead {
+  id: string | number;
+  created_at?: string;
+  updated_at?: string;
+  name?: string;
+  company?: string;
+  email?: string;
+  phone?: string;
+  message?: string;
+  product_ref?: string;
+  source?: string;
+  status?: string;
+  owner?: string;
+  amount?: number | null;
+  qualified_at?: string | null;
+  closed_at?: string | null;
+  lost_reason?: string | null;
+  next_action_at?: string | null;
+  note?: string | null;
+}
+
 export async function createLead(payload: Record<string, unknown>): Promise<void> {
   await dx('/items/leads', { auth: true, method: 'POST', body: payload });
+}
+
+/** Заявки для админ-страницы воронки: свежие сверху. */
+export async function getLeads(limit = 200): Promise<Lead[]> {
+  return dx<Lead[]>('/items/leads', {
+    auth: true,
+    params: { limit, sort: '-created_at' },
+  });
+}
+
+export async function patchLead(id: string | number, payload: Record<string, unknown>): Promise<void> {
+  await dx(`/items/leads/${id}`, { auth: true, method: 'PATCH', body: payload });
 }
 
 export async function createQuote(payload: Record<string, unknown>): Promise<void> {

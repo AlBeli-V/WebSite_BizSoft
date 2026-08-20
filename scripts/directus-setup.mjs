@@ -199,6 +199,50 @@ async function buildSchema() {
   await ensureField('leads', 'consent', { type: 'boolean', meta: { interface: 'boolean' }, schema: { default_value: false } });
   await ensureField('leads', 'source', { type: 'string', meta: { interface: 'input' } });
 
+  // ── воронка продаж (добавлено 20.08.2026) ──
+  // До этого заявка хранила только контакт: по ней нельзя было сказать, чем
+  // дело кончилось. Уровни «обращение → сделка → выручка» в отчётах оставались
+  // пустыми не потому, что продаж не было, а потому, что их негде было отметить.
+  await ensureField('leads', 'status', {
+    type: 'string',
+    meta: {
+      interface: 'select-dropdown', width: 'half',
+      note: 'Стадия воронки. Меняется менеджером по мере работы с заявкой.',
+      options: { choices: [
+        { text: 'Новая', value: 'new' },
+        { text: 'В работе', value: 'in_progress' },
+        { text: 'Квалифицирована', value: 'qualified' },
+        { text: 'Отправлено КП', value: 'proposal' },
+        { text: 'Выставлен счёт', value: 'invoiced' },
+        { text: 'Оплачено', value: 'won' },
+        { text: 'Отказ', value: 'lost' },
+      ] },
+    },
+    schema: { default_value: 'new' },
+  });
+  await ensureField('leads', 'owner', { type: 'string', meta: { interface: 'input', width: 'half', note: 'Ответственный менеджер.' } });
+  await ensureField('leads', 'amount', { type: 'float', meta: { interface: 'input', width: 'half', note: 'Сумма сделки в рублях. Заполняется при выставлении счёта.' } });
+  await ensureField('leads', 'qualified_at', { type: 'timestamp', meta: { interface: 'datetime', width: 'half', note: 'Когда стало ясно, что это реальный покупатель.' } });
+  await ensureField('leads', 'closed_at', { type: 'timestamp', meta: { interface: 'datetime', width: 'half', note: 'Дата оплаты или отказа.' } });
+  await ensureField('leads', 'lost_reason', {
+    type: 'string',
+    meta: {
+      interface: 'select-dropdown', width: 'half',
+      note: 'Заполняется только при отказе — по нему видно, где теряем сделки.',
+      options: { choices: [
+        { text: 'Цена', value: 'price' },
+        { text: 'Сроки', value: 'timing' },
+        { text: 'Не смогли поставить', value: 'no_supply' },
+        { text: 'Выбрали другого поставщика', value: 'competitor' },
+        { text: 'Не вышли на связь', value: 'no_contact' },
+        { text: 'Не наш профиль', value: 'not_our_case' },
+      ] },
+    },
+  });
+  await ensureField('leads', 'next_action_at', { type: 'timestamp', meta: { interface: 'datetime', width: 'half', note: 'Когда вернуться к заявке.' } });
+  await ensureField('leads', 'note', { type: 'text', meta: { interface: 'input-multiline', note: 'Внутренний комментарий менеджера. Клиенту не показывается.' } });
+  await ensureField('leads', 'updated_at', { type: 'timestamp', meta: { interface: 'datetime', special: ['date-updated'], readonly: true, width: 'half' } });
+
   // ── quotes ──
   await ensureCollection('quotes', { icon: 'request_quote' });
   await ensureField('quotes', 'created_at', { type: 'timestamp', meta: { interface: 'datetime', special: ['date-created'], readonly: true, width: 'half' } });
@@ -228,7 +272,9 @@ async function buildSchema() {
 const APP_PERMS = [
   ['categories', 'read'],
   ['products', 'read'], ['products', 'update'],
-  ['leads', 'create'],
+  // Чтение и правка лидов нужны админ-странице /admin/leads: воронка ведётся
+  // с телефона через сайт, а не через админку Directus (она наружу не смотрит).
+  ['leads', 'create'], ['leads', 'read'], ['leads', 'update'],
   ['quotes', 'create'], ['quotes', 'read'],
   ['currency_rate', 'read'], ['currency_rate', 'create'], ['currency_rate', 'update'],
   ['directus_files', 'read'],
