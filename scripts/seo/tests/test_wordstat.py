@@ -583,6 +583,47 @@ class TestFullCycle(unittest.TestCase):
         self.assertEqual(done["stopped"], "quota_exceeded")
 
 
+class TestHomonymFilter(unittest.TestCase):
+    """Бренд-омоним: имя в запросе не доказывает, что запрос про софт."""
+
+    def setUp(self):
+        self.N = load("normalize")
+
+    def test_foreign_products_are_dropped_for_ambiguous_brand(self):
+        for phrase in ("tv box купить", "xiaomi box купить", "nike zoom купить",
+                       "zoom отбеливание купить"):
+            seed = "box купить" if "box" in phrase else "zoom купить"
+            self.assertFalse(self.N.relevant_to_seed(phrase, seed), phrase)
+
+    def test_software_marker_keeps_the_phrase(self):
+        self.assertTrue(self.N.relevant_to_seed("box подписка", "box купить"))
+        self.assertTrue(self.N.relevant_to_seed("zoom тариф", "zoom купить"))
+
+    def test_distinct_brand_needs_no_marker(self):
+        self.assertTrue(self.N.relevant_to_seed("claude купить", "claude купить"))
+        self.assertTrue(self.N.relevant_to_seed("adobe photoshop купить",
+                                                "adobe купить"))
+
+
+class TestTrendFromSeries(unittest.TestCase):
+    """Тренд считается по годовому ряду, а не по крайним точкам."""
+
+    def setUp(self):
+        self.U = load("universe")
+
+    def test_halves_are_compared_not_endpoints(self):
+        """Один провальный последний месяц не делает растущий спрос падающим."""
+        series = [{"month": f"2025-{m:02d}", "frequency": f} for m, f in
+                  enumerate([100, 110, 105, 115, 300, 320, 310, 200], start=1)]
+        t = self.U.Universe._trend_from_series(series)
+        self.assertEqual(t["direction"], "growing")
+
+    def test_flat_series_is_stable(self):
+        series = [{"month": f"2025-{m:02d}", "frequency": 100} for m in range(1, 9)]
+        self.assertEqual(
+            self.U.Universe._trend_from_series(series)["direction"], "stable")
+
+
 class TestDynamicsRequest(unittest.TestCase):
     """Динамика: сервис принимает только целые завершённые месяцы."""
 

@@ -32,6 +32,7 @@ FIELDS = (
     "page_exists", "indexed_yandex", "indexed_google", "yandex_position",
     "google_position", "yandex_impressions", "google_impressions", "clicks", "ctr",
     "conversion_evidence", "priority_score", "confidence", "in_scope",
+    "monthly_dynamics",
 )
 
 
@@ -51,6 +52,13 @@ class Universe:
         for line in self.path.read_text(encoding="utf-8").splitlines():
             if line.strip():
                 row = json.loads(line)
+                # Правила отбора уточняются по мере находок: фразы, собранные до
+                # появления фильтра омонимов, иначе остались бы засчитанными.
+                # Пересчёт при загрузке дешевле повторного сбора и не даёт базе
+                # разъехаться со свежими правилами.
+                row["in_scope"] = (N.in_scope(row["phrase"])
+                                   and N.relevant_to_seed(row["phrase"],
+                                                          row.get("source_seed")))
                 self.rows[row["morph_key"]] = row
 
     def __len__(self) -> int:
@@ -82,7 +90,7 @@ class Universe:
         commercial, informational = N.intent_scores(phrase)
         row.update({
             "cluster": row["cluster"] or N.cluster_of(phrase, vendors, source_seed),
-            "in_scope": N.in_scope(phrase),
+            "in_scope": N.in_scope(phrase) and N.relevant_to_seed(phrase, source_seed),
             "subcluster": N.subcluster_of(phrase),
             "intent": N.classify_intent(phrase),
             "commercial_intent_score": commercial,
@@ -115,9 +123,38 @@ class Universe:
                 row[k] = v
         return row
 
-    def trend(self, phrase: str) -> dict:
-        """Направление спроса по накопленной истории."""
+    def observe_dynamics(self, phrase: str, results: list[dict]) -> dict | None:
+        """Сохранить помесячный ряд спроса.
+
+        Раньше ответ сервиса на запрос динамики выбрасывался сразу после оплаты:
+        деньги списывались, а тренд у всех кластеров оставался «неизвестен».
+        Ряд нужен именно здесь — по нему считается направление спроса за год,
+        а не по двум соседним суточным замерам одного и того же числа.
+        """
         row = self.get(phrase)
+        if row is None or not results:
+            return None
+        series = []
+        for r in results:
+            date = (r.get("date") or "")[:10]
+            count = r.get("count")
+            if not date or count is None:
+                continue
+            try:
+                series.append({"month": date[:7], "frequency": int(count)})
+            except (TypeError, ValueError):
+                continue
+        if not series:
+            return None
+        row["monthly_dynamics"] = series
+        return row
+
+    def trend(self, phrase: str) -> dict:
+        """Направление спроса: сначала по годовому ряду, иначе по замерам."""
+        row = self.get(phrase)
+        series = (row or {}).get("monthly_dynamics") or []
+        if len(series) >= 4:
+            return self._trend_from_series(series)
         hist = [h for h in (row or {}).get("historical_frequency", [])
                 if h.get("frequency") is not None]
         if len(hist) < 2:
@@ -131,6 +168,26 @@ class Universe:
                      "declining" if change < -0.15 else "stable")
         return {"direction": direction, "change": round(change, 3),
                 "from": first, "to": last, "points": len(hist)}
+
+    @staticmethod
+    def _trend_from_series(series: list[dict]) -> dict:
+        """Направление за год: две половины ряда, а не первая и последняя точки.
+
+        Одна точка — это один месяц со своей сезонностью и шумом. Сравнение
+        половин сглаживает и то и другое, и не объявляет рост из-за единственного
+        удачного месяца.
+        """
+        half = len(series) // 2
+        old_avg = sum(p["frequency"] for p in series[:half]) / half
+        new_avg = sum(p["frequency"] for p in series[half:]) / (len(series) - half)
+        if not old_avg:
+            return {"direction": "unknown", "change": None, "reason": "нулевая база"}
+        change = (new_avg - old_avg) / old_avg
+        direction = ("growing" if change > 0.15 else
+                     "declining" if change < -0.15 else "stable")
+        return {"direction": direction, "change": round(change, 3),
+                "from": round(old_avg), "to": round(new_avg),
+                "points": len(series), "source": "годовой ряд Вордстата"}
 
     def save(self) -> None:
         self.path.parent.mkdir(parents=True, exist_ok=True)

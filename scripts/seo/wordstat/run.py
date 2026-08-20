@@ -159,10 +159,16 @@ def run_tasks(tasks, client, uni, vendors, stats, budget, cfg, date, *, cap=None
         if pattern:
             empty_streak[pattern] = 0
         if task["method"] != "getTop":
+            # Ответ на запрос динамики раньше выбрасывался сразу после оплаты:
+            # тренд у всех кластеров оставался «неизвестен», хотя ряд был куплен.
+            rows_out = (res["data"] or {}).get("results") or []
+            if task["method"] == "getDynamics":
+                uni.observe_dynamics(task["phrase"], rows_out)
             if res["source"] == "api":
                 budget.record(method=task["method"], phrase=task["phrase"],
                               cluster=task.get("cluster"), reason=task["reason"],
-                              cache_hit=False, status="ok", result_count=1)
+                              cache_hit=False, status="ok",
+                              result_count=len(rows_out) or 1)
             continue
 
         rows = (res["data"] or {}).get("results") or []

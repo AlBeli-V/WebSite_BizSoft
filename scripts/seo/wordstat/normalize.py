@@ -141,6 +141,43 @@ OUT_OF_SCOPE = (
 )
 
 
+# Бренды, чьё имя — обычное английское слово. Вордстат по ним отдаёт запросы про
+# совсем другие товары: «box купить» — это TV-боксы Xiaomi и Honda N-Box, «zoom
+# купить» — кроссовки Nike Zoom и отбеливание зубов. На замере 20.08.2026 такой
+# мусор дал 104 291 и 30 599 показов «спроса» и вывел «box» в первую строку
+# приоритетов. Для этих брендов недостаточно, что фраза содержит имя: нужен
+# признак софта или подписки, иначе фраза не засчитывается.
+AMBIGUOUS_BRANDS = {
+    "box", "linear", "cursor", "zoom", "framer", "notion", "arc", "bolt",
+    "craft", "loom", "origin", "pitch", "frame", "gamma", "runway", "flux",
+    "luma", "canvas", "sketch", "unity", "spark", "wave", "vector",
+}
+
+# Признаки того, что запрос всё-таки про программу или подписку.
+SOFTWARE_MARKERS = (
+    "подписк", "лицензи", "тариф", "аккаунт", "план", "ключ", "активаци",
+    "продлen", "продлени", "pro", "premium", "plus", "business", "enterprise",
+    "team", "cloud", "облак", "ai", "api", "app", "софт", "программ",
+    "для юридических", "юрлиц", "юр лиц", "корпоратив", "организаци",
+)
+
+
+def relevant_to_seed(phrase: str, seed: str | None) -> bool:
+    """Относится ли фраза к тому вендору, ради которого делался запрос.
+
+    Правило применяется только к брендам-омонимам. Для остальных имя бренда
+    в запросе — достаточная привязка.
+    """
+    if not seed:
+        return True
+    low_seed = normalize(seed)
+    brand = low_seed.replace(" купить", "").replace("купить ", "").strip()
+    if brand not in AMBIGUOUS_BRANDS:
+        return True
+    low = normalize(phrase)
+    return any(m in low for m in SOFTWARE_MARKERS)
+
+
 def in_scope(phrase: str) -> bool:
     """Относится ли запрос к продаже лицензий на ПО юридическим лицам."""
     low = normalize(phrase)

@@ -51,15 +51,10 @@ PAYMENT_ACTION = {
 }
 
 
-# Бренды, чьё имя — обычное английское слово. Вордстат отдаёт по ним запросы про
-# совсем другие товары («box» — коробки и мототехника, «linear» — приводы), и
-# частотность выглядит выше реальной. Такие кандидаты показываются, но с явной
-# пометкой: цифру нельзя принимать за спрос на софт без ручной проверки выдачи.
-AMBIGUOUS_BRANDS = {
-    "box", "linear", "cursor", "zoom", "framer", "notion", "arc", "bolt",
-    "craft", "loom", "origin", "pitch", "frame", "gamma", "runway", "flux",
-    "luma", "canvas", "sketch", "unity", "spark", "wave", "vector",
-}
+# Список брендов-омонимов один на систему и живёт в normalize: там же по нему
+# отсеиваются чужие фразы при сборе. Здесь он нужен, чтобы пометить оставшийся
+# спрос низкой достоверностью — фильтр строгий, но не безошибочный.
+AMBIGUOUS_BRANDS = N.AMBIGUOUS_BRANDS
 
 
 def demand_confidence(brand: str, phrases: list[dict]) -> tuple[str, str | None]:

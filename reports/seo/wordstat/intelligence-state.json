@@ -1,23 +1,23 @@
 {
  "date": "2026-08-20",
- "generated_at": "2026-08-20T06:24:48+00:00",
+ "generated_at": "2026-08-20T07:05:58+00:00",
  "measured_at": "2026-08-20",
  "universe": {
   "phrases": 10054,
-  "commercial_phrases": 2358,
+  "commercial_phrases": 1708,
   "clusters": 129,
-  "total_commercial_demand": 322591,
+  "total_commercial_demand": 183500,
   "total_demand": 5055788,
   "with_page": 8238,
   "cost_rub": 4.1814
  },
  "coverage": {
   "available": true,
-  "total_commercial_demand": 322591,
+  "total_commercial_demand": 183500,
   "levels": {
-   "page": 0.1869,
-   "indexed": 0.1242,
-   "top10": 0.0458,
+   "page": 0.2885,
+   "indexed": 0.1784,
+   "top10": 0.0406,
    "clicks": 0.0001,
    "conversion_measured": 0.0,
    "qualified_leads": null
@@ -26,7 +26,7 @@
  },
  "coverage_by_category": {
   "не определено": {
-   "demand": 262238,
+   "demand": 130532,
    "covered": 0,
    "top10": 0,
    "clicks": 0,
@@ -35,31 +35,13 @@
    "click_coverage": 0.0
   },
   "Дизайн и графика": {
-   "demand": 43673,
-   "covered": 43645,
+   "demand": 42644,
+   "covered": 42616,
    "top10": 4561,
    "clicks": 26,
    "page_coverage": 0.999,
-   "top10_coverage": 0.104,
+   "top10_coverage": 0.107,
    "click_coverage": 0.001
-  },
-  "Средства разработки": {
-   "demand": 5423,
-   "covered": 5400,
-   "top10": 5257,
-   "clicks": 0,
-   "page_coverage": 0.996,
-   "top10_coverage": 0.969,
-   "click_coverage": 0.0
-  },
-  "AI-сервисы": {
-   "demand": 5289,
-   "covered": 5289,
-   "top10": 3182,
-   "clicks": 0,
-   "page_coverage": 1.0,
-   "top10_coverage": 0.602,
-   "click_coverage": 0.0
   },
   "Звук, видео и медиа": {
    "demand": 5188,
@@ -68,6 +50,24 @@
    "clicks": 0,
    "page_coverage": 1.0,
    "top10_coverage": 0.192,
+   "click_coverage": 0.0
+  },
+  "AI-сервисы": {
+   "demand": 3212,
+   "covered": 3212,
+   "top10": 1105,
+   "clicks": 0,
+   "page_coverage": 1.0,
+   "top10_coverage": 0.344,
+   "click_coverage": 0.0
+  },
+  "Средства разработки": {
+   "demand": 1144,
+   "covered": 1144,
+   "top10": 0,
+   "clicks": 0,
+   "page_coverage": 1.0,
+   "top10_coverage": 0.0,
    "click_coverage": 0.0
   },
   "Доски и совместная работа": {
@@ -81,51 +81,39 @@
   }
  },
  "tiers": {
-  "A": 27,
-  "B": 40,
+  "A": 24,
+  "B": 42,
   "C": 62
  },
  "gaps_by_class": {
-  "GAP-A": 39,
-  "GAP-B": 18,
+  "GAP-A": 14,
+  "GAP-B": 15,
   "GAP-C": 2,
-  "GAP-D": 7,
-  "GAP-F": 1
+  "GAP-D": 4,
+  "GAP-F": 1,
+  "GAP-G": 18,
+  "GAP-H": 12
  },
  "uncovered_top": [
   {
-   "cluster": "box купить",
-   "demand": 104291,
-   "gap": "GAP-A",
-   "action": "новая посадочная страница или материал",
-   "top_phrase": "box купить"
-  },
-  {
-   "cluster": "zoom купить",
-   "demand": 30599,
-   "gap": "GAP-A",
-   "action": "новая посадочная страница или материал",
-   "top_phrase": "zoom купить"
-  },
-  {
    "cluster": "claude купить",
    "demand": 26286,
-   "gap": "GAP-A",
-   "action": "новая посадочная страница или материал",
+   "gap": "GAP-G",
+   "action": "ранняя возможность",
    "top_phrase": "claude купить"
   },
   {
    "cluster": "оплата зарубежных сервисов",
    "demand": 15947,
-   "gap": "GAP-A",
-   "action": "новая посадочная страница или материал",
+   "gap": "GAP-G",
+   "action": "ранняя возможность",
    "top_phrase": "оплата зарубежных сервисов"
   },
   {
    "cluster": "spotify купить",
    "demand": 15081,
-   "gap": "GAP-A",
-   "action": "новая посадочная страница или материал",
+   "gap": "GAP-G",
+   "action": "ранняя возможность",
    "top_phrase": "spotify купить"
   },
   {
@@ -138,8 +126,8 @@
   {
    "cluster": "gemini купить",
    "demand": 13657,
-   "gap": "GAP-A",
-   "action": "новая посадочная страница или материал",
+   "gap": "GAP-G",
+   "action": "ранняя возможность",
    "top_phrase": "gemini купить"
   },
   {
@@ -152,8 +140,8 @@
   {
    "cluster": "chatgpt plus купить",
    "demand": 4851,
-   "gap": "GAP-A",
-   "action": "новая посадочная страница или материал",
+   "gap": "GAP-G",
+   "action": "ранняя возможность",
    "top_phrase": "купить chatgpt plus"
   },
   {
@@ -162,18 +150,32 @@
    "gap": "GAP-A",
    "action": "новая посадочная страница или материал",
    "top_phrase": "suno купить"
+  },
+  {
+   "cluster": "glide купить",
+   "demand": 3510,
+   "gap": "GAP-G",
+   "action": "ранняя возможность",
+   "top_phrase": "glide купить"
+  },
+  {
+   "cluster": "perplexity купить",
+   "demand": 3491,
+   "gap": "GAP-G",
+   "action": "ранняя возможность",
+   "top_phrase": "perplexity купить"
   }
  ],
  "opportunities": [
   {
-   "cluster": "box купить",
+   "cluster": "claude купить",
    "vendor": null,
    "category": null,
-   "gap": "GAP-A",
-   "gap_title": "Спрос есть, страницы нет",
-   "recommended_action": "новая посадочная страница или материал",
-   "commercial_demand": 104291,
-   "commercial_phrases": 296,
+   "gap": "GAP-G",
+   "gap_title": "Спрос растёт",
+   "recommended_action": "ранняя возможность",
+   "commercial_demand": 26286,
+   "commercial_phrases": 148,
    "url": null,
    "page_exists": false,
    "indexed": false,
@@ -181,40 +183,41 @@
    "impressions": 0,
    "clicks": 0,
    "ctr": null,
-   "trend": "unknown",
+   "trend": "growing",
    "top_phrases": [
     {
-     "phrase": "box купить",
-     "frequency": 30187
+     "phrase": "claude купить",
+     "frequency": 9944
     },
     {
-     "phrase": "s box купить",
-     "frequency": 2518
+     "phrase": "claude купить подписку",
+     "frequency": 4435
     },
     {
-     "phrase": "tv box купить",
-     "frequency": 2474
+     "phrase": "claude pro купить",
+     "frequency": 1107
     },
     {
-     "phrase": "xiaomi box купить",
-     "frequency": 2370
+     "phrase": "claude code купить",
+     "frequency": 1101
     },
     {
-     "phrase": "xiaomi box s купить",
-     "frequency": 1702
+     "phrase": "купить аккаунт claude",
+     "frequency": 883
     }
    ],
    "subclusters": {
-    "покупка": 104291
+    "покупка": 26276,
+    "цены и тарифы": 10
    },
-   "opportunity_score": 0.162,
+   "opportunity_score": 0.2925,
    "components": {
     "normalized_demand": 1.0,
     "commercial_intent": 1.0,
     "coverage_gap": 1.0,
-    "trend_factor": 0.9,
+    "trend_factor": 1.3,
     "confidence": 0.9,
-    "estimated_effort": 5.0
+    "estimated_effort": 4.0
    },
    "confidence_note": "достаточная: кластер измерен несколькими фразами"
   },
@@ -234,7 +237,7 @@
    "impressions": 0,
    "clicks": 0,
    "ctr": null,
-   "trend": "unknown",
+   "trend": "stable",
    "top_phrases": [
     {
      "phrase": "adobe купить",
@@ -263,122 +266,14 @@
     "цены и тарифы": 4679,
     "оплата": 296
    },
-   "opportunity_score": 0.0483,
+   "opportunity_score": 0.21293,
    "components": {
-    "normalized_demand": 0.2236,
+    "normalized_demand": 0.8872,
     "commercial_intent": 1.0,
     "coverage_gap": 0.8,
-    "trend_factor": 0.9,
+    "trend_factor": 1.0,
     "confidence": 0.9,
     "estimated_effort": 3.0
-   },
-   "confidence_note": "достаточная: кластер измерен несколькими фразами"
-  },
-  {
-   "cluster": "zoom купить",
-   "vendor": null,
-   "category": null,
-   "gap": "GAP-A",
-   "gap_title": "Спрос есть, страницы нет",
-   "recommended_action": "новая посадочная страница или материал",
-   "commercial_demand": 30599,
-   "commercial_phrases": 299,
-   "url": null,
-   "page_exists": false,
-   "indexed": false,
-   "best_position": null,
-   "impressions": 0,
-   "clicks": 0,
-   "ctr": null,
-   "trend": "unknown",
-   "top_phrases": [
-    {
-     "phrase": "zoom купить",
-     "frequency": 7960
-    },
-    {
-     "phrase": "nike zoom купить",
-     "frequency": 1553
-    },
-    {
-     "phrase": "zoom отбеливание купить",
-     "frequency": 727
-    },
-    {
-     "phrase": "nike air zoom купить",
-     "frequency": 687
-    },
-    {
-     "phrase": "zoom 4 купить",
-     "frequency": 656
-    }
-   ],
-   "subclusters": {
-    "покупка": 30551,
-    "цены и тарифы": 48
-   },
-   "opportunity_score": 0.04753,
-   "components": {
-    "normalized_demand": 0.2934,
-    "commercial_intent": 1.0,
-    "coverage_gap": 1.0,
-    "trend_factor": 0.9,
-    "confidence": 0.9,
-    "estimated_effort": 5.0
-   },
-   "confidence_note": "достаточная: кластер измерен несколькими фразами"
-  },
-  {
-   "cluster": "claude купить",
-   "vendor": null,
-   "category": null,
-   "gap": "GAP-A",
-   "gap_title": "Спрос есть, страницы нет",
-   "recommended_action": "новая посадочная страница или материал",
-   "commercial_demand": 26286,
-   "commercial_phrases": 148,
-   "url": null,
-   "page_exists": false,
-   "indexed": false,
-   "best_position": null,
-   "impressions": 0,
-   "clicks": 0,
-   "ctr": null,
-   "trend": "unknown",
-   "top_phrases": [
-    {
-     "phrase": "claude купить",
-     "frequency": 9944
-    },
-    {
-     "phrase": "claude купить подписку",
-     "frequency": 4435
-    },
-    {
-     "phrase": "claude pro купить",
-     "frequency": 1107
-    },
-    {
-     "phrase": "claude code купить",
-     "frequency": 1101
-    },
-    {
-     "phrase": "купить аккаунт claude",
-     "frequency": 883
-    }
-   ],
-   "subclusters": {
-    "покупка": 26276,
-    "цены и тарифы": 10
-   },
-   "opportunity_score": 0.04082,
-   "components": {
-    "normalized_demand": 0.252,
-    "commercial_intent": 1.0,
-    "coverage_gap": 1.0,
-    "trend_factor": 0.9,
-    "confidence": 0.9,
-    "estimated_effort": 5.0
    },
    "confidence_note": "достаточная: кластер измерен несколькими фразами"
   },
@@ -386,9 +281,9 @@
    "cluster": "оплата зарубежных сервисов",
    "vendor": null,
    "category": null,
-   "gap": "GAP-A",
-   "gap_title": "Спрос есть, страницы нет",
-   "recommended_action": "новая посадочная страница или материал",
+   "gap": "GAP-G",
+   "gap_title": "Спрос растёт",
+   "recommended_action": "ранняя возможность",
    "commercial_demand": 15947,
    "commercial_phrases": 58,
    "url": null,
@@ -398,7 +293,7 @@
    "impressions": 0,
    "clicks": 0,
    "ctr": null,
-   "trend": "unknown",
+   "trend": "growing",
    "top_phrases": [
     {
      "phrase": "оплата зарубежных сервисов",
@@ -424,14 +319,120 @@
    "subclusters": {
     "оплата": 15947
    },
-   "opportunity_score": 0.02477,
+   "opportunity_score": 0.17746,
    "components": {
-    "normalized_demand": 0.1529,
+    "normalized_demand": 0.6067,
     "commercial_intent": 1.0,
     "coverage_gap": 1.0,
-    "trend_factor": 0.9,
+    "trend_factor": 1.3,
     "confidence": 0.9,
-    "estimated_effort": 5.0
+    "estimated_effort": 4.0
+   },
+   "confidence_note": "достаточная: кластер измерен несколькими фразами"
+  },
+  {
+   "cluster": "spotify купить",
+   "vendor": null,
+   "category": null,
+   "gap": "GAP-G",
+   "gap_title": "Спрос растёт",
+   "recommended_action": "ранняя возможность",
+   "commercial_demand": 15081,
+   "commercial_phrases": 51,
+   "url": null,
+   "page_exists": false,
+   "indexed": false,
+   "best_position": null,
+   "impressions": 0,
+   "clicks": 0,
+   "ctr": null,
+   "trend": "growing",
+   "top_phrases": [
+    {
+     "phrase": "spotify купить",
+     "frequency": 5395
+    },
+    {
+     "phrase": "купить аккаунт spotify",
+     "frequency": 1882
+    },
+    {
+     "phrase": "spotify купить подписку",
+     "frequency": 1609
+    },
+    {
+     "phrase": "spotify аккаунт купить мир",
+     "frequency": 1543
+    },
+    {
+     "phrase": "spotify аккаунт купить мир танков",
+     "frequency": 1543
+    }
+   ],
+   "subclusters": {
+    "покупка": 15081
+   },
+   "opportunity_score": 0.16781,
+   "components": {
+    "normalized_demand": 0.5737,
+    "commercial_intent": 1.0,
+    "coverage_gap": 1.0,
+    "trend_factor": 1.3,
+    "confidence": 0.9,
+    "estimated_effort": 4.0
+   },
+   "confidence_note": "достаточная: кластер измерен несколькими фразами"
+  },
+  {
+   "cluster": "gemini купить",
+   "vendor": null,
+   "category": null,
+   "gap": "GAP-G",
+   "gap_title": "Спрос растёт",
+   "recommended_action": "ранняя возможность",
+   "commercial_demand": 13657,
+   "commercial_phrases": 120,
+   "url": null,
+   "page_exists": false,
+   "indexed": false,
+   "best_position": null,
+   "impressions": 0,
+   "clicks": 0,
+   "ctr": null,
+   "trend": "growing",
+   "top_phrases": [
+    {
+     "phrase": "gemini купить",
+     "frequency": 5300
+    },
+    {
+     "phrase": "gemini pro купить",
+     "frequency": 1442
+    },
+    {
+     "phrase": "купить подписку gemini",
+     "frequency": 1336
+    },
+    {
+     "phrase": "gemini ai купить",
+     "frequency": 342
+    },
+    {
+     "phrase": "gemini google купить",
+     "frequency": 290
+    }
+   ],
+   "subclusters": {
+    "покупка": 13657
+   },
+   "opportunity_score": 0.15198,
+   "components": {
+    "normalized_demand": 0.5196,
+    "commercial_intent": 1.0,
+    "coverage_gap": 1.0,
+    "trend_factor": 1.3,
+    "confidence": 0.9,
+    "estimated_effort": 4.0
    },
    "confidence_note": "достаточная: кластер измерен несколькими фразами"
   }
@@ -478,7 +479,7 @@
       "frequency": 883
      }
     ],
-    "trend": "unknown",
+    "trend": "growing",
     "effort": 1.0,
     "effort_note": "одна карточка вендора",
     "demand_confidence": "высокая",
@@ -551,7 +552,7 @@
       "frequency": 293
      }
     ],
-    "trend": "unknown",
+    "trend": "stable",
     "effort": 1.0,
     "effort_note": "одна карточка вендора",
     "demand_confidence": "высокая",
@@ -625,7 +626,7 @@
       "frequency": 137
      }
     ],
-    "trend": "unknown",
+    "trend": "growing",
     "effort": 1.0,
     "effort_note": "одна карточка вендора",
     "demand_confidence": "высокая",
@@ -698,7 +699,7 @@
       "frequency": 163
      }
     ],
-    "trend": "unknown",
+    "trend": "stable",
     "effort": 1.0,
     "effort_note": "одна карточка вендора",
     "demand_confidence": "высокая",
@@ -771,7 +772,7 @@
       "frequency": 33
      }
     ],
-    "trend": "unknown",
+    "trend": "growing",
     "effort": 1.0,
     "effort_note": "одна карточка вендора",
     "demand_confidence": "высокая",
@@ -844,7 +845,7 @@
       "frequency": 15
      }
     ],
-    "trend": "unknown",
+    "trend": "growing",
     "effort": 1.0,
     "effort_note": "одна карточка вендора",
     "demand_confidence": "высокая",
@@ -916,7 +917,7 @@
       "frequency": 19
      }
     ],
-    "trend": "unknown",
+    "trend": "stable",
     "effort": 1.0,
     "effort_note": "одна карточка вендора",
     "demand_confidence": "высокая",
@@ -989,7 +990,7 @@
       "frequency": 21
      }
     ],
-    "trend": "unknown",
+    "trend": "stable",
     "effort": 1.0,
     "effort_note": "одна карточка вендора",
     "demand_confidence": "высокая",
@@ -1137,7 +1138,7 @@
       "frequency": 17
      }
     ],
-    "trend": "unknown",
+    "trend": "growing",
     "effort": 1.0,
     "effort_note": "одна карточка вендора",
     "demand_confidence": "высокая",
@@ -1173,23 +1174,22 @@
     "measured_at": "2026-08-20"
    }
   ],
-  "recommended_total": 39,
-  "combined_demand": 246477,
+  "recommended_total": 38,
+  "combined_demand": 114753,
   "by_payment": {
    "card": 19,
-   "likely_card": 11,
+   "likely_card": 10,
    "unknown": 6,
    "unreachable": 3
   },
   "by_kind": {
    "ai": 13,
-   "classic": 26
+   "classic": 25
   },
   "low_confidence": [
    "zoom",
    "cursor",
    "notion",
-   "linear",
    "box"
   ],
   "needs_manual_check": [
@@ -1234,7 +1234,7 @@
   "title": "Спрос и направления развития",
   "expansion": {
    "title": "Каких вендоров добавить",
-   "summary": "Проверили спрос на 65 зарубежных разработчиков вне каталога. У 39 покупательский спрос подтверждён — суммарно 246 477 запросов в месяц. У 3 из них на сайте есть оплата картой — их можно заводить сразу. Ещё 9 требуют ручной проверки: спрос есть, способ оплаты автоматически определить не удалось. По 5 названиям цифру спроса нельзя брать на веру: имя бренда совпадает с обычным английским словом.",
+   "summary": "Проверили спрос на 65 зарубежных разработчиков вне каталога. У 38 покупательский спрос подтверждён — суммарно 114 753 запросов в месяц. У 3 из них на сайте есть оплата картой — их можно заводить сразу. Ещё 9 требуют ручной проверки: спрос есть, способ оплаты автоматически определить не удалось. По 4 названиям цифру спроса нельзя брать на веру: имя бренда совпадает с обычным английским словом.",
    "items": [
     {
      "brand": "claude",
@@ -1279,17 +1279,17 @@
    ],
    "note": "Российские вендоры исключены: их лицензии продаются напрямую, услуга оплаты из-за рубежа к ним неприменима."
   },
-  "summary": "Мы видим 322 591 покупательских запросов в месяц по 129 направлениям каталога. Своя страница есть под 19% этого спроса, в поиске находится 12%, на первой странице — 5%. Без страницы остаётся 235 333 запросов в месяц — это направления, где спрос есть, а нас в выдаче нет.",
+  "summary": "Мы видим 183 500 покупательских запросов в месяц по 129 направлениям каталога. Своя страница есть под 29% этого спроса, в поиске находится 18%, на первой странице — 4%. Без страницы остаётся 107 444 запросов в месяц — это направления, где спрос есть, а нас в выдаче нет.",
   "coverage": {
-   "page": 0.1869,
-   "indexed": 0.1242,
-   "top10": 0.0458
+   "page": 0.2885,
+   "indexed": 0.1784,
+   "top10": 0.0406
   },
   "lead_opportunity": {
-   "cluster": "box купить",
-   "demand": 104291,
-   "action": "новая посадочная страница или материал",
-   "why": "Спрос есть, страницы нет",
+   "cluster": "claude купить",
+   "demand": 26286,
+   "action": "ранняя возможность",
+   "why": "Спрос растёт",
    "confidence": "достаточная: кластер измерен несколькими фразами"
   },
   "measured_at": "2026-08-20"
