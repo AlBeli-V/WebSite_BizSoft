@@ -1,0 +1,33 @@
+# BIZSoft icon package — 2026-08-20
+
+Пакет построен из вкладок «Производители» и «Продукты» исходного Excel.
+
+## Состав
+
+- Обработано производителей: 14.
+- Обработано продуктовых SKU: 34.
+- Исключены полностью: SOLIDWORKS и SketchUp.
+- SVG: цветные и монохромные, размеры 512 / 256 / 128 px.
+- Холст: viewBox 0 0 512 512; прозрачный фон; безопасная зона 12,5% (64 единицы).
+- Для карточек продуктов используется ОДИН компактный product-mark на вендора. Отдельные файлы для каждого тарифа/SKU не создаются.
+- `metadata/product-map.csv` и `.json` определяют, какой product-mark применять к каждой карточке товара.
+
+## Правило применения
+
+1. На странице/карточке производителя использовать `svg/<variant>/vendors/<vendor>-vendor-<variant>-512.svg`.
+2. На карточке любого продукта использовать `svg/<variant>/products/<vendor>-product-<variant>-512.svg`.
+3. 512 — базовый вариант; 256/128 — если система требует фиксированный declared width/height. Геометрия во всех размерах идентична.
+4. Цветной вариант — основной для светлого нейтрального интерфейса. Монохромный — когда дизайн-система требует единый черный знак.
+5. Не растягивать непропорционально, не добавлять фон внутрь SVG, не обрезать safe-zone.
+
+## Важное ограничение по источникам
+
+Пакет различает `asset_basis` в manifest. Для брендов, где в окружении был доступен проверяемый векторный brand glyph/open icon, он использован для компактного product-mark. Для остальных создан самодостаточный типографический fallback (название вендора для vendor и короткий идентификатор для product). Такой fallback предназначен для идентификации в каталоге и НЕ утверждается как официальный логотип бренда. Перед публичным маркетинговым использованием следует заменить fallback на официальный asset из brand/press kit правообладателя.
+
+## Метаданные
+
+`metadata/manifest.json` и `metadata/manifest.csv` содержат: vendor, тип ассета, вариант, размер, файл, источник, сайт производителя, основу ассета, правовой статус и safe-zone.
+
+
+## Corrected marks — 2026-08-20
+The following marks were replaced from user-provided visual references: BrowserStack, CapCut, Kling AI, Leonardo AI, Principle. Vendor hierarchy corrected: **Zoho** is the vendor; **ManageEngine** is represented as the product/product-family mark. For these corrected assets, raster artwork is embedded directly inside SVG without automatic vector tracing. Use vendor SVGs for vendor cards/filters and product SVGs for all SKUs belonging to that product family.
