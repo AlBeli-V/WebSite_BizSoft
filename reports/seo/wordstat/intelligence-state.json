@@ -1,6 +1,6 @@
 {
  "date": "2026-08-20",
- "generated_at": "2026-08-20T06:02:51+00:00",
+ "generated_at": "2026-08-20T06:14:10+00:00",
  "measured_at": "2026-08-20",
  "universe": {
   "phrases": 7746,
@@ -381,7 +381,7 @@
  "vendor_expansion": {
   "available": false,
   "reason": "спрос кандидатов ещё не измерен",
-  "candidates_total": 136,
+  "candidates_total": 130,
   "candidates_measured": 0,
   "recommended": [],
   "recommended_total": 0,
@@ -411,10 +411,10 @@
   "empty_response_rate": 0.0
  },
  "quota": {
-  "requests_per_hour": 100,
+  "requests_per_hour": 500,
   "target": 500,
-  "budget_is_binding": false,
-  "max_possible_spend_rub": 1656.0
+  "budget_is_binding": true,
+  "max_possible_spend_rub": 8280.0
  },
  "executive_block": {
   "available": true,
