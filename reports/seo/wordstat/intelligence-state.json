@@ -1,24 +1,24 @@
 {
  "date": "2026-08-20",
- "generated_at": "2026-08-20T07:35:58+00:00",
+ "generated_at": "2026-08-20T07:36:31+00:00",
  "measured_at": "2026-08-20",
  "universe": {
   "phrases": 10054,
-  "commercial_phrases": 1576,
+  "commercial_phrases": 1376,
   "clusters": 129,
-  "total_commercial_demand": 175336,
+  "total_commercial_demand": 157919,
   "total_demand": 5055788,
   "with_page": 8238,
   "cost_rub": 4.1814
  },
  "coverage": {
   "available": true,
-  "total_commercial_demand": 175336,
+  "total_commercial_demand": 157919,
   "levels": {
-   "page": 0.2664,
-   "indexed": 0.1806,
-   "top10": 0.0363,
-   "clicks": 0.0001,
+   "page": 0.2957,
+   "indexed": 0.2005,
+   "top10": 0.0403,
+   "clicks": 0.0002,
    "conversion_measured": 0.0,
    "qualified_leads": null
   },
@@ -26,7 +26,7 @@
  },
  "coverage_by_category": {
   "не определено": {
-   "demand": 128622,
+   "demand": 111217,
    "covered": 0,
    "top10": 0,
    "clicks": 0,
@@ -35,8 +35,8 @@
    "click_coverage": 0.0
   },
   "Дизайн и графика": {
-   "demand": 38961,
-   "covered": 38961,
+   "demand": 38949,
+   "covered": 38949,
    "top10": 4561,
    "clicks": 26,
    "page_coverage": 1.0,
@@ -81,18 +81,18 @@
   }
  },
  "tiers": {
-  "A": 20,
-  "B": 42,
-  "C": 65
+  "A": 19,
+  "B": 38,
+  "C": 69
  },
  "gaps_by_class": {
-  "GAP-A": 14,
+  "GAP-A": 13,
   "GAP-B": 13,
   "GAP-C": 2,
   "GAP-D": 3,
   "GAP-F": 1,
-  "GAP-G": 18,
-  "GAP-H": 11
+  "GAP-G": 15,
+  "GAP-H": 10
  },
  "uncovered_top": [
   {
@@ -115,13 +115,6 @@
    "gap": "GAP-G",
    "action": "ранняя возможность",
    "top_phrase": "spotify купить"
-  },
-  {
-   "cluster": "bubble купить",
-   "demand": 13792,
-   "gap": "GAP-A",
-   "action": "новая посадочная страница или материал",
-   "top_phrase": "bubble купить"
   },
   {
    "cluster": "gemini купить",
@@ -164,6 +157,13 @@
    "gap": "GAP-A",
    "action": "новая посадочная страница или материал",
    "top_phrase": "pro box купить"
+  },
+  {
+   "cluster": "capcut купить",
+   "demand": 2875,
+   "gap": "GAP-G",
+   "action": "ранняя возможность",
+   "top_phrase": "capcut купить"
   }
  ],
  "opportunities": [
@@ -949,109 +949,31 @@
     "measured_at": "2026-08-20"
    },
    {
-    "brand": "sentry",
+    "brand": "slack",
     "kind": "classic",
     "payment": {
      "verdict": "card",
      "note": "найдены признаки самостоятельной оплаты картой",
-     "url": "https://sentry.io/pricing/",
+     "url": "https://slack.com/pricing",
      "checked_at": "2026-08-20"
     },
     "recommendation": "рекомендуем добавить",
     "recommendation_why": "оплата картой на сайте вендора — сделка выполнима сразу",
-    "total_demand": 227,
-    "commercial_demand": 227,
-    "commercial_phrases": 5,
+    "total_demand": 187,
+    "commercial_demand": 123,
+    "commercial_phrases": 3,
     "top_phrases": [
      {
-      "phrase": "sentry купить",
-      "frequency": 164
+      "phrase": "slacker купить",
+      "frequency": 73
      },
      {
-      "phrase": "купить ошейник sentry",
-      "frequency": 31
+      "phrase": "slack core 920r купить",
+      "frequency": 34
      },
      {
-      "phrase": "travel sentry чемодан купить",
-      "frequency": 14
-     },
-     {
-      "phrase": "new sentry calming collar для кошек купить",
-      "frequency": 10
-     },
-     {
-      "phrase": "bugscents sentry pro купить в москве",
-      "frequency": 8
-     }
-    ],
-    "trend": "declining",
-    "effort": 1.0,
-    "effort_note": "одна карточка вендора",
-    "demand_confidence": "высокая",
-    "demand_confidence_note": null,
-    "priority_score": 227.0,
-    "seo": {
-     "url": "/vendors/sentry",
-     "title": "Оплата Sentry для юридических лиц из России — счёт, договор, ЭДО | BIZSoft",
-     "description": "Оплатим подписку Sentry на вашу компанию в рублях по счёту. Договор, закрывающие документы через ЭДО, доступ за 1–3 дня.",
-     "h1": "Sentry для юридических лиц",
-     "faq_topics": [
-      "Как купить Sentry на юрлицо — по счёту и договору?",
-      "Какие закрывающие документы вы предоставляете?",
-      "Как быстро появится доступ к Sentry после оплаты?",
-      "В какой валюте оплата и как считается цена?"
-     ],
-     "target_phrases": [
-      "sentry купить",
-      "купить ошейник sentry",
-      "travel sentry чемодан купить",
-      "new sentry calming collar для кошек купить",
-      "bugscents sentry pro купить в москве"
-     ],
-     "needed_subclusters": [
-      "покупка"
-     ],
-     "internal_links": [
-      "/catalog",
-      "/blog/kak-kupit-zarubezhnoe-po-dlya-yurlica"
-     ]
-    },
-    "measured_at": "2026-08-20"
-   },
-   {
-    "brand": "intercom",
-    "kind": "classic",
-    "payment": {
-     "verdict": "card",
-     "note": "найдены признаки самостоятельной оплаты картой",
-     "url": "https://www.intercom.com/pricing",
-     "checked_at": "2026-08-20"
-    },
-    "recommendation": "рекомендуем добавить",
-    "recommendation_why": "оплата картой на сайте вендора — сделка выполнима сразу",
-    "total_demand": 185,
-    "commercial_demand": 185,
-    "commercial_phrases": 5,
-    "top_phrases": [
-     {
-      "phrase": "intercom купить",
-      "frequency": 108
-     },
-     {
-      "phrase": "ls2 intercom spectrum купить",
-      "frequency": 35
-     },
-     {
-      "phrase": "cardo intercom ls2 4x купить",
-      "frequency": 18
-     },
-     {
-      "phrase": "ls2 intercom spectrum купить онлайн",
-      "frequency": 15
-     },
-     {
-      "phrase": "ubiquiti intercom viewer купить",
-      "frequency": 9
+      "phrase": "slack core 920r электросамокат купить",
+      "frequency": 16
      }
     ],
     "trend": "growing",
@@ -1059,24 +981,22 @@
     "effort_note": "одна карточка вендора",
     "demand_confidence": "высокая",
     "demand_confidence_note": null,
-    "priority_score": 185.0,
+    "priority_score": 123.0,
     "seo": {
-     "url": "/vendors/intercom",
-     "title": "Оплата Intercom для юридических лиц из России — счёт, договор, ЭДО | BIZSoft",
-     "description": "Оплатим подписку Intercom на вашу компанию в рублях по счёту. Договор, закрывающие документы через ЭДО, доступ за 1–3 дня.",
-     "h1": "Intercom для юридических лиц",
+     "url": "/vendors/slack",
+     "title": "Оплата Slack для юридических лиц из России — счёт, договор, ЭДО | BIZSoft",
+     "description": "Оплатим подписку Slack на вашу компанию в рублях по счёту. Договор, закрывающие документы через ЭДО, доступ за 1–3 дня.",
+     "h1": "Slack для юридических лиц",
      "faq_topics": [
-      "Как купить Intercom на юрлицо — по счёту и договору?",
+      "Как купить Slack на юрлицо — по счёту и договору?",
       "Какие закрывающие документы вы предоставляете?",
-      "Как быстро появится доступ к Intercom после оплаты?",
+      "Как быстро появится доступ к Slack после оплаты?",
       "В какой валюте оплата и как считается цена?"
      ],
      "target_phrases": [
-      "intercom купить",
-      "ls2 intercom spectrum купить",
-      "cardo intercom ls2 4x купить",
-      "ls2 intercom spectrum купить онлайн",
-      "ubiquiti intercom viewer купить"
+      "slacker купить",
+      "slack core 920r купить",
+      "slack core 920r электросамокат купить"
      ],
      "needed_subclusters": [
       "покупка"
@@ -1089,49 +1009,139 @@
     "measured_at": "2026-08-20"
    },
    {
-    "brand": "replit",
+    "brand": "cursor",
     "kind": "ai",
     "payment": {
      "verdict": "card",
      "note": "найдены признаки самостоятельной оплаты картой",
-     "url": "https://replit.com/pricing",
+     "url": "https://cursor.com/pricing",
      "checked_at": "2026-08-20"
     },
     "recommendation": "рекомендуем добавить",
     "recommendation_why": "оплата картой на сайте вендора — сделка выполнима сразу",
-    "total_demand": 127,
-    "commercial_demand": 127,
-    "commercial_phrases": 2,
+    "total_demand": 1695,
+    "commercial_demand": 1695,
+    "commercial_phrases": 13,
     "top_phrases": [
      {
-      "phrase": "replit купить",
-      "frequency": 84
+      "phrase": "cursor купить подписку",
+      "frequency": 498
      },
      {
-      "phrase": "replit купить подписку",
-      "frequency": 43
+      "phrase": "cursor pro купить",
+      "frequency": 427
+     },
+     {
+      "phrase": "cursor ai купить",
+      "frequency": 330
+     },
+     {
+      "phrase": "купить аккаунт cursor",
+      "frequency": 133
+     },
+     {
+      "phrase": "cursor ai купить подписку",
+      "frequency": 106
      }
     ],
-    "trend": "growing",
+    "trend": "unknown",
     "effort": 1.0,
     "effort_note": "одна карточка вендора",
-    "demand_confidence": "средняя",
-    "demand_confidence_note": "спрос подтверждён менее чем тремя фразами",
-    "priority_score": 127.0,
+    "demand_confidence": "низкая",
+    "demand_confidence_note": "имя бренда — обычное английское слово, в выборку попадают запросы про другие товары; проверить выдачу вручную перед решением",
+    "priority_score": 1695.0,
     "seo": {
-     "url": "/vendors/replit",
-     "title": "Оплата Replit для юридических лиц из России — счёт, договор, ЭДО | BIZSoft",
-     "description": "Оплатим подписку Replit на вашу компанию в рублях по счёту. Договор, закрывающие документы через ЭДО, доступ за 1–3 дня.",
-     "h1": "Replit для юридических лиц",
+     "url": "/vendors/cursor",
+     "title": "Оплата Cursor для юридических лиц из России — счёт, договор, ЭДО | BIZSoft",
+     "description": "Оплатим подписку Cursor на вашу компанию в рублях по счёту. Договор, закрывающие документы через ЭДО, доступ за 1–3 дня.",
+     "h1": "Cursor для юридических лиц",
      "faq_topics": [
-      "Как купить Replit на юрлицо — по счёту и договору?",
+      "Как купить Cursor на юрлицо — по счёту и договору?",
       "Какие закрывающие документы вы предоставляете?",
-      "Как быстро появится доступ к Replit после оплаты?",
+      "Как быстро появится доступ к Cursor после оплаты?",
       "В какой валюте оплата и как считается цена?"
      ],
      "target_phrases": [
-      "replit купить",
-      "replit купить подписку"
+      "cursor купить подписку",
+      "cursor pro купить",
+      "cursor ai купить",
+      "купить аккаунт cursor",
+      "cursor ai купить подписку",
+      "купить подписку cursor pro",
+      "cursor ai pro купить",
+      "купить аккаунт cursor ai"
+     ],
+     "needed_subclusters": [
+      "покупка"
+     ],
+     "internal_links": [
+      "/catalog",
+      "/blog/kak-kupit-zarubezhnoe-po-dlya-yurlica"
+     ]
+    },
+    "measured_at": "2026-08-20"
+   },
+   {
+    "brand": "notion",
+    "kind": "classic",
+    "payment": {
+     "verdict": "card",
+     "note": "найдены признаки самостоятельной оплаты картой",
+     "url": "https://www.notion.com/pricing",
+     "checked_at": "2026-08-20"
+    },
+    "recommendation": "рекомендуем добавить",
+    "recommendation_why": "оплата картой на сайте вендора — сделка выполнима сразу",
+    "total_demand": 262,
+    "commercial_demand": 262,
+    "commercial_phrases": 7,
+    "top_phrases": [
+     {
+      "phrase": "notion подписка купить",
+      "frequency": 85
+     },
+     {
+      "phrase": "купить аккаунт notion",
+      "frequency": 55
+     },
+     {
+      "phrase": "notion ai купить",
+      "frequency": 52
+     },
+     {
+      "phrase": "notion enterprise купить",
+      "frequency": 21
+     },
+     {
+      "phrase": "notion business купить",
+      "frequency": 20
+     }
+    ],
+    "trend": "unknown",
+    "effort": 1.0,
+    "effort_note": "одна карточка вендора",
+    "demand_confidence": "низкая",
+    "demand_confidence_note": "имя бренда — обычное английское слово, в выборку попадают запросы про другие товары; проверить выдачу вручную перед решением",
+    "priority_score": 262.0,
+    "seo": {
+     "url": "/vendors/notion",
+     "title": "Оплата Notion для юридических лиц из России — счёт, договор, ЭДО | BIZSoft",
+     "description": "Оплатим подписку Notion на вашу компанию в рублях по счёту. Договор, закрывающие документы через ЭДО, доступ за 1–3 дня.",
+     "h1": "Notion для юридических лиц",
+     "faq_topics": [
+      "Как купить Notion на юрлицо — по счёту и договору?",
+      "Какие закрывающие документы вы предоставляете?",
+      "Как быстро появится доступ к Notion после оплаты?",
+      "В какой валюте оплата и как считается цена?"
+     ],
+     "target_phrases": [
+      "notion подписка купить",
+      "купить аккаунт notion",
+      "notion ai купить",
+      "notion enterprise купить",
+      "notion business купить",
+      "notion ai купить подписку",
+      "notion ai купить аккаунт"
      ],
      "needed_subclusters": [
       "покупка"
@@ -1144,17 +1154,17 @@
     "measured_at": "2026-08-20"
    }
   ],
-  "recommended_total": 29,
-  "combined_demand": 94382,
+  "recommended_total": 24,
+  "combined_demand": 76840,
   "by_payment": {
-   "card": 13,
-   "likely_card": 7,
-   "unknown": 6,
+   "card": 10,
+   "likely_card": 6,
+   "unknown": 5,
    "unreachable": 3
   },
   "by_kind": {
-   "ai": 11,
-   "classic": 18
+   "ai": 10,
+   "classic": 14
   },
   "low_confidence": [
    "cursor",
@@ -1162,7 +1172,6 @@
    "box"
   ],
   "needs_manual_check": [
-   "bubble",
    "gemini",
    "perplexity",
    "capcut",
@@ -1203,7 +1212,7 @@
   "title": "Спрос и направления развития",
   "expansion": {
    "title": "Каких вендоров добавить",
-   "summary": "Проверили спрос на 53 зарубежных разработчиков вне каталога. У 29 покупательский спрос подтверждён — суммарно 94 382 запросов в месяц. У 3 из них на сайте есть оплата картой — их можно заводить сразу. Ещё 9 требуют ручной проверки: спрос есть, способ оплаты автоматически определить не удалось. По 3 названиям цифру спроса нельзя брать на веру: имя бренда совпадает с обычным английским словом.",
+   "summary": "Проверили спрос на 53 зарубежных разработчиков вне каталога. У 24 покупательский спрос подтверждён — суммарно 76 840 запросов в месяц. У 3 из них на сайте есть оплата картой — их можно заводить сразу. Ещё 8 требуют ручной проверки: спрос есть, способ оплаты автоматически определить не удалось. По 3 названиям цифру спроса нельзя брать на веру: имя бренда совпадает с обычным английским словом.",
    "items": [
     {
      "brand": "claude",
@@ -1240,19 +1249,19 @@
     }
    ],
    "manual_check": [
-    "bubble",
     "gemini",
     "perplexity",
     "capcut",
-    "principle"
+    "principle",
+    "nordvpn"
    ],
    "note": "Российские вендоры исключены: их лицензии продаются напрямую, услуга оплаты из-за рубежа к ним неприменима."
   },
-  "summary": "Мы видим 175 336 покупательских запросов в месяц по 129 направлениям каталога. Своя страница есть под 27% этого спроса, в поиске находится 18%, на первой странице — 4%. Без страницы остаётся 106 461 запросов в месяц — это направления, где спрос есть, а нас в выдаче нет.",
+  "summary": "Мы видим 157 919 покупательских запросов в месяц по 129 направлениям каталога. Своя страница есть под 30% этого спроса, в поиске находится 20%, на первой странице — 4%. Без страницы остаётся 95 544 запросов в месяц — это направления, где спрос есть, а нас в выдаче нет.",
   "coverage": {
-   "page": 0.2664,
-   "indexed": 0.1806,
-   "top10": 0.0363
+   "page": 0.2957,
+   "indexed": 0.2005,
+   "top10": 0.0403
   },
   "lead_opportunity": {
    "cluster": "claude купить",
