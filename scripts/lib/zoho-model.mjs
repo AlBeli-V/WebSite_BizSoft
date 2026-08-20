@@ -86,7 +86,7 @@ export function pickCards(manifest) {
         // «Secure Gateway Server» и подобные — инфраструктурные компоненты
         // внутри той же таблицы: покупаются в дополнение к лицензии, а не
         // вместо неё.
-        const EXTRA = /^additional\b|add-?on\b|\bmigration\b|\btraining\b|\bonboarding\b|\bimplementation\b|multi[- ]?language pack|failover|pack license|gateway|\bsummary server\b/i;
+        const EXTRA = /^additional\b|add[- ]?ons?\b|\bmigration\b|\btraining\b|\bonboarding\b|\bimplementation\b|multi[- ]?language pack|failover|pack license|gateway|\bsummary server\b/i;
         const priced = offer.variants.filter(
           (v) => v.price_status === 'listed' && v.amount_usd > 0 && !EXTRA.test(v.variant_name));
         if (!priced.length) continue;

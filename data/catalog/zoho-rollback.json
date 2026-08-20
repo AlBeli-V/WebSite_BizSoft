@@ -1,0 +1,400 @@
+{
+ "vendor_entry": {
+  "slug": "zoho",
+  "vendor": "Zoho",
+  "legalName": "Zoho Corporation Pvt. Ltd.",
+  "brandColor": "#E42527",
+  "site": "https://www.zoho.com",
+  "catSeg": "system",
+  "catLabel": "Системное ПО",
+  "domain": "it",
+  "tagline": "ManageEngine ServiceDesk Plus от Zoho: служба поддержки и учёт ИТ-активов, годовые подписки на пакеты специалистов.",
+  "about": "Zoho — разработчик деловых приложений, чья линейка систем управления ИТ-инфраструктурой выпускается под маркой ManageEngine. Флагман линейки для служб поддержки — ServiceDesk Plus: заявки пользователей, согласования, база решений и учёт того, что вообще стоит у компании на балансе. Лицензия считается не по числу сотрудников компании, а по числу технических специалистов, которые обрабатывают заявки, — обращаться в поддержку могут все."
+ },
+ "products": [
+  {
+   "sku": "ME-ADMANAGER-PLUS-STANDARD-1-DOMAIN-WITH-2-HELP-DESK-TECHNICIANS",
+   "archive": true
+  },
+  {
+   "sku": "ME-ADMANAGER-PLUS-PROFESSIONAL-1-DOMAIN",
+   "archive": true
+  },
+  {
+   "sku": "ME-ADMANAGER-PLUS-STANDARD-1-DOMAIN-WITH-2-HELP-DESK-TECHNICIANS-PERP",
+   "archive": true
+  },
+  {
+   "sku": "ME-ADMANAGER-PLUS-PROFESSIONAL-1-DOMAIN-PERP",
+   "archive": true
+  },
+  {
+   "sku": "ME-ADAUDIT-PLUS-STANDARD-2-DOMAIN-CONTROLLERS",
+   "archive": true
+  },
+  {
+   "sku": "ME-ADAUDIT-PLUS-PROFESSIONAL-2-DOMAIN-CONTROLLERS",
+   "archive": true
+  },
+  {
+   "sku": "ME-ADAUDIT-PLUS-STANDARD-2-DOMAIN-CONTROLLERS-PERP",
+   "archive": true
+  },
+  {
+   "sku": "ME-ADAUDIT-PLUS-PROFESSIONAL-2-DOMAIN-CONTROLLERS-PERP",
+   "archive": true
+  },
+  {
+   "sku": "ME-EXCHANGE-REPORTER-PLUS-STANDARD-100-MAILBOXES",
+   "archive": true
+  },
+  {
+   "sku": "ME-EXCHANGE-REPORTER-PLUS-PROFESSIONAL-100-MAILBOXES",
+   "archive": true
+  },
+  {
+   "sku": "ME-EXCHANGE-REPORTER-PLUS-STANDARD-100-MAILBOXES-PERP",
+   "archive": true
+  },
+  {
+   "sku": "ME-EXCHANGE-REPORTER-PLUS-PROFESSIONAL-100-MAILBOXES-PERP",
+   "archive": true
+  },
+  {
+   "sku": "ME-M365-MANAGER-PLUS-STANDARD-100-USERS-MAILBOXES-WITH-1-HELP-DESK-TECHNIC",
+   "archive": true
+  },
+  {
+   "sku": "ME-M365-MANAGER-PLUS-PROFESSIONAL-100-USERS-MAILBOXES-WITH-1-HELP-DESK-TECHNIC",
+   "archive": true
+  },
+  {
+   "sku": "ME-M365-MANAGER-PLUS-STANDARD-100-USERS-MAILBOXES-WITH-1-HELP-DESK-TECHNIC-PERP",
+   "archive": true
+  },
+  {
+   "sku": "ME-M365-MANAGER-PLUS-PROFESSIONAL-100-USERS-MAILBOXES-WITH-1-HELP-DESK-TECHNIC-PERP",
+   "archive": true
+  },
+  {
+   "sku": "ME-PAM360-ENTERPRISE-10-ADMINISTRATORS-AND-25-KEYS",
+   "archive": true
+  },
+  {
+   "sku": "ME-PAM360-ENTERPRISE-MULTI-LANGUAGE-10-ADMINISTRATORS-AND-25-KEYS",
+   "archive": true
+  },
+  {
+   "sku": "ME-PAM360-ENTERPRISE-10-ADMINISTRATORS-AND-25-KEYS-PERP",
+   "archive": true
+  },
+  {
+   "sku": "ME-PAM360-ENTERPRISE-MULTI-LANGUAGE-10-ADMINISTRATORS-AND-25-KEYS-PERP",
+   "archive": true
+  },
+  {
+   "sku": "ME-PASSWORD-MANAGER-PRO-STANDARD-2-ADMINISTRATORS",
+   "archive": true
+  },
+  {
+   "sku": "ME-PASSWORD-MANAGER-PRO-PREMIUM-5-ADMINISTRATORS",
+   "archive": true
+  },
+  {
+   "sku": "ME-PASSWORD-MANAGER-PRO-ENTERPRISE-10-ADMINISTRATORS-AND-10-KEYS",
+   "archive": true
+  },
+  {
+   "sku": "ME-PASSWORD-MANAGER-PRO-STANDARD-2-ADMINISTRATORS-PERP",
+   "archive": true
+  },
+  {
+   "sku": "ME-PASSWORD-MANAGER-PRO-PREMIUM-5-ADMINISTRATORS-PERP",
+   "archive": true
+  },
+  {
+   "sku": "ME-PASSWORD-MANAGER-PRO-ENTERPRISE-10-ADMINISTRATORS-AND-10-KEYS-PERP",
+   "archive": true
+  },
+  {
+   "sku": "ME-ACCESS-MANAGER-PLUS-STANDARD-5-USERS-AND-UNLIMITED-CONNECTIONS",
+   "archive": true
+  },
+  {
+   "sku": "ME-ACCESS-MANAGER-PLUS-STANDARD-5-USERS-AND-UNLIMITED-CONNECTIONS-PERP",
+   "archive": true
+  },
+  {
+   "sku": "ME-KEY-MANAGER-PLUS-25-KEYS",
+   "archive": true
+  },
+  {
+   "sku": "ME-KEY-MANAGER-PLUS-25-KEYS-PERP",
+   "archive": true
+  },
+  {
+   "sku": "ME-SERVICEDESK-PLUS-PROFESSIONAL-2-TECHNICIANS",
+   "archive": true
+  },
+  {
+   "sku": "ME-SERVICEDESK-PLUS-ENTERPRISE-2-TECHNICIANS",
+   "archive": true
+  },
+  {
+   "sku": "ME-SERVICEDESK-PLUS-MULTI-LANGUAGE-STANDARD-SERVICEDESK-PLUS-MULTI-LAN-10-TECHNICIANS",
+   "archive": true
+  },
+  {
+   "sku": "ME-SERVICEDESK-PLUS-MULTI-LANGUAGE-PROFESSIONAL-SERVICEDESK-PLUS-MULTI-LAN-2-TECHNICIANS",
+   "archive": true
+  },
+  {
+   "sku": "ME-SERVICEDESK-PLUS-MULTI-LANGUAGE-ENTERPRISE-SERVICEDESK-PLUS-MULTI-LAN-2-TECHNICIANS",
+   "archive": true
+  },
+  {
+   "sku": "ME-SUPPORTCENTER-PLUS-STANDARD-10-SUPPORT-REPRESENTATIVES",
+   "archive": true
+  },
+  {
+   "sku": "ME-SUPPORTCENTER-PLUS-PROFESSIONAL-2-SUPPORT-REPRESENTATIVES",
+   "archive": true
+  },
+  {
+   "sku": "ME-SUPPORTCENTER-PLUS-ENTERPRISE-2-SUPPORT-REPRESENTATIVES",
+   "archive": true
+  },
+  {
+   "sku": "ME-SUPPORTCENTER-PLUS-STANDARD-MULTI-LANGUAGE-10-SUPPORT-REPRESENTATIVES",
+   "archive": true
+  },
+  {
+   "sku": "ME-SUPPORTCENTER-PLUS-PROFESSIONAL-MULTI-LANGUAGE-2-SUPPORT-REPRESENTATIVES",
+   "archive": true
+  },
+  {
+   "sku": "ME-SUPPORTCENTER-PLUS-ENTERPRISE-MULTI-LANGUAGE-2-SUPPORT-REPRESENTATIVES",
+   "archive": true
+  },
+  {
+   "sku": "ME-ASSETEXPLORER-250-IT-ASSETS",
+   "archive": true
+  },
+  {
+   "sku": "ME-ENDPOINT-CENTRAL-PROFESSIONAL-10-SERVERS-AND-SINGLE-USER-LICENSE",
+   "archive": true
+  },
+  {
+   "sku": "ME-ENDPOINT-CENTRAL-ENTERPRISE-DISTRIBUTED-ENTERPRISE-10-SERVERS-AND-SINGLE-USER-LICENSE",
+   "archive": true
+  },
+  {
+   "sku": "ME-ENDPOINT-CENTRAL-UEM-10-SERVERS-AND-SINGLE-USER-LICENSE",
+   "archive": true
+  },
+  {
+   "sku": "ME-ENDPOINT-CENTRAL-SECURITY-10-SERVERS-AND-SINGLE-USER-LICENSE",
+   "archive": true
+  },
+  {
+   "sku": "ME-ENDPOINT-CENTRAL-PROFESSIONAL-10-SERVERS-AND-SINGLE-USER-LICENSE-PERP",
+   "archive": true
+  },
+  {
+   "sku": "ME-ENDPOINT-CENTRAL-ENTERPRISE-DISTRIBUTED-ENTERPRISE-10-SERVERS-AND-SINGLE-USER-LICENSE-PERP",
+   "archive": true
+  },
+  {
+   "sku": "ME-ENDPOINT-CENTRAL-UEM-10-SERVERS-AND-SINGLE-USER-LICENSE-PERP",
+   "archive": true
+  },
+  {
+   "sku": "ME-ENDPOINT-CENTRAL-SECURITY-10-SERVERS-AND-SINGLE-USER-LICENSE-PERP",
+   "archive": true
+  },
+  {
+   "sku": "ME-PATCH-MANAGER-PLUS-ENTERPRISE-10-SERVERS-AND-SINGLE-USER-LICENSE",
+   "archive": true
+  },
+  {
+   "sku": "ME-PATCH-MANAGER-PLUS-PROFESSIONAL-10-SERVERS-AND-SINGLE-USER-LICENSE",
+   "archive": true
+  },
+  {
+   "sku": "ME-PATCH-MANAGER-PLUS-ENTERPRISE-10-SERVERS-AND-SINGLE-USER-LICENSE-PERP",
+   "archive": true
+  },
+  {
+   "sku": "ME-PATCH-MANAGER-PLUS-PROFESSIONAL-10-SERVERS-AND-SINGLE-USER-LICENSE-PERP",
+   "archive": true
+  },
+  {
+   "sku": "ME-PATCH-CONNECT-PLUS-STANDARD-250-COMPUTERS",
+   "archive": true
+  },
+  {
+   "sku": "ME-PATCH-CONNECT-PLUS-PROFESSIONAL-250-COMPUTERS",
+   "archive": true
+  },
+  {
+   "sku": "ME-PATCH-CONNECT-PLUS-ENTERPRISE-250-COMPUTERS",
+   "archive": true
+  },
+  {
+   "sku": "ME-PATCH-CONNECT-PLUS-STANDARD-250-COMPUTERS-PERP",
+   "archive": true
+  },
+  {
+   "sku": "ME-PATCH-CONNECT-PLUS-PROFESSIONAL-250-COMPUTERS-PERP",
+   "archive": true
+  },
+  {
+   "sku": "ME-PATCH-CONNECT-PLUS-ENTERPRISE-250-COMPUTERS-PERP",
+   "archive": true
+  },
+  {
+   "sku": "ME-MOBILE-DEVICE-MANAGER-PLUS-STANDARD-SINGLE-USER-LICENSE-WITH-50-MOBILE-DEVICES",
+   "archive": true
+  },
+  {
+   "sku": "ME-MOBILE-DEVICE-MANAGER-PLUS-PROFESSIONAL-SINGLE-USER-LICENSE-WITH-50-MOBILE-DEVICES",
+   "archive": true
+  },
+  {
+   "sku": "ME-MOBILE-DEVICE-MANAGER-PLUS-STANDARD-SINGLE-USER-LICENSE-WITH-50-MOBILE-DEVICES-PERP",
+   "archive": true
+  },
+  {
+   "sku": "ME-MOBILE-DEVICE-MANAGER-PLUS-PROFESSIONAL-SINGLE-USER-LICENSE-WITH-50-MOBILE-DEVICES-PERP",
+   "archive": true
+  },
+  {
+   "sku": "ME-REMOTE-ACCESS-PLUS-STANDARD-25-COMPUTERS-AND-5-USERS",
+   "archive": true
+  },
+  {
+   "sku": "ME-REMOTE-ACCESS-PLUS-PROFESSIONAL-25-COMPUTERS-AND-5-USERS",
+   "archive": true
+  },
+  {
+   "sku": "ME-REMOTE-ACCESS-PLUS-STANDARD-25-COMPUTERS-AND-5-USERS-PERP",
+   "archive": true
+  },
+  {
+   "sku": "ME-REMOTE-ACCESS-PLUS-PROFESSIONAL-25-COMPUTERS-AND-5-USERS-PERP",
+   "archive": true
+  },
+  {
+   "sku": "ME-OS-DEPLOYER-PROFESSIONAL-10-SERVERS",
+   "archive": true
+  },
+  {
+   "sku": "ME-OS-DEPLOYER-ENTERPRISE-10-SERVERS",
+   "archive": true
+  },
+  {
+   "sku": "ME-OS-DEPLOYER-PROFESSIONAL-10-SERVERS-PERP",
+   "archive": true
+  },
+  {
+   "sku": "ME-OS-DEPLOYER-ENTERPRISE-10-SERVERS-PERP",
+   "archive": true
+  },
+  {
+   "sku": "ME-VULNERABILITY-MANAGER-PLUS-ENTERPRISE-10-SERVERS-AND-SINGLE-USER-LICENSE",
+   "archive": true
+  },
+  {
+   "sku": "ME-VULNERABILITY-MANAGER-PLUS-PROFESSIONAL-10-SERVERS-AND-SINGLE-USER-LICENSE",
+   "archive": true
+  },
+  {
+   "sku": "ME-VULNERABILITY-MANAGER-PLUS-ENTERPRISE-10-SERVERS-AND-SINGLE-USER-LICENSE-PERP",
+   "archive": true
+  },
+  {
+   "sku": "ME-VULNERABILITY-MANAGER-PLUS-PROFESSIONAL-10-SERVERS-AND-SINGLE-USER-LICENSE-PERP",
+   "archive": true
+  },
+  {
+   "sku": "ME-APPLICATION-CONTROL-PLUS-PROFESSIONAL-100-WORKSTATIONS",
+   "archive": true
+  },
+  {
+   "sku": "ME-APPLICATION-CONTROL-PLUS-PROFESSIONAL-100-WORKSTATIONS-PERP",
+   "archive": true
+  },
+  {
+   "sku": "ME-DEVICE-CONTROL-PLUS-PROFESSIONAL-100-COMPUTERS",
+   "archive": true
+  },
+  {
+   "sku": "ME-DEVICE-CONTROL-PLUS-PROFESSIONAL-100-COMPUTERS-PERP",
+   "archive": true
+  },
+  {
+   "sku": "ME-BROWSER-SECURITY-PLUS-PROFESSIONAL-50-COMPUTERS-AND-SINGLE-USER-LICENSE",
+   "archive": true
+  },
+  {
+   "sku": "ME-BROWSER-SECURITY-PLUS-PROFESSIONAL-50-COMPUTERS-AND-SINGLE-USER-LICENSE-PERP",
+   "archive": true
+  },
+  {
+   "sku": "ME-ENDPOINT-DLP-PLUS-PROFESSIONAL-100-WORKSTATIONS",
+   "archive": true
+  },
+  {
+   "sku": "ME-ENDPOINT-DLP-PLUS-PROFESSIONAL-100-WORKSTATIONS-PERP",
+   "archive": true
+  },
+  {
+   "sku": "ME-RANSOMWARE-PROTECTION-PLUS-ENTERPRISE-10-SERVERS",
+   "archive": true
+  },
+  {
+   "sku": "ME-RANSOMWARE-PROTECTION-PLUS-ENTERPRISE-10-SERVERS-PERP",
+   "archive": true
+  },
+  {
+   "sku": "ME-MALWARE-PROTECTION-PLUS-ENTERPRISE-10-SERVERS",
+   "archive": true
+  },
+  {
+   "sku": "ME-MALWARE-PROTECTION-PLUS-ENTERPRISE-10-SERVERS-PERP",
+   "archive": true
+  },
+  {
+   "sku": "ME-OPMANAGER-NEXUS-50-DEVICES-PACK-WITH-2-USERS-AND-1-FIREWALL",
+   "archive": true
+  },
+  {
+   "sku": "ME-OPMANAGER-NEXUS-FLOW-INTERFACES-10-FLOW-INTERFACES",
+   "archive": true
+  },
+  {
+   "sku": "ME-OPMANAGER-NEXUS-50-DEVICES-PACK-WITH-2-USERS-AND-1-FIREWALL-PERP",
+   "archive": true
+  },
+  {
+   "sku": "ME-OPMANAGER-NEXUS-FLOW-INTERFACES-10-FLOW-INTERFACES-PERP",
+   "archive": true
+  },
+  {
+   "sku": "ME-APPLICATIONS-MANAGER-PROFESSIONAL-10-MONITORS-WITH-1-USER",
+   "archive": true
+  },
+  {
+   "sku": "ME-APPLICATIONS-MANAGER-ENTERPRISE-100-MONITORS-WITH-1-USER",
+   "archive": true
+  },
+  {
+   "sku": "ME-APPLICATIONS-MANAGER-PROFESSIONAL-10-MONITORS-WITH-1-USER-PERP",
+   "archive": true
+  },
+  {
+   "sku": "ME-APPLICATIONS-MANAGER-ENTERPRISE-100-MONITORS-WITH-1-USER-PERP",
+   "archive": true
+  }
+ ]
+}
