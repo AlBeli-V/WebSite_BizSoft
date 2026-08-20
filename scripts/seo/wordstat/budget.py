@@ -80,7 +80,11 @@ class BudgetController:
         b = self.cfg["budget"]
         if cost >= b["monthly_hard_cap_rub"]:
             return "hard_stop"
-        if cost >= b["monthly_soft_stop_rub"]:
+        # Мягкая остановка срабатывает на границе рабочей части бюджета:
+        # резерв контроля предназначен для проверки решений, а не для
+        # продолжения массового исследования.
+        working_cap = b.get("working_cap_rub", b["monthly_soft_stop_rub"])
+        if cost >= min(working_cap, b["monthly_soft_stop_rub"]):
             return "soft_stop"
         if self.pilot and self.cost_pilot() >= b["pilot_cap_rub"]:
             return "pilot_stop"

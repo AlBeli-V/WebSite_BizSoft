@@ -79,6 +79,20 @@ class TestBudget(unittest.TestCase):
         self.assertFalse(ok)
         self.assertIn("жёсткая остановка", why)
 
+    def test_soft_stop_guards_the_working_share(self):
+        """Мягкая остановка охраняет рабочую часть, резерв — только для проверок."""
+        ctl = self.controller()
+        self.spend(ctl, self.cfg["budget"]["working_cap_rub"] + 1)
+        self.assertEqual(ctl.state(), "soft_stop")
+        self.assertFalse(ctl.can_spend("getTop", "discovery")[0])
+        self.assertTrue(ctl.can_spend("getTop", "decision_validation")[0])
+
+    def test_reserve_is_a_fifth_of_the_cap(self):
+        b = self.cfg["budget"]
+        self.assertEqual(b["working_cap_rub"] + b["control_reserve_rub"],
+                         b["monthly_hard_cap_rub"])
+        self.assertLess(b["control_reserve_rub"], b["working_cap_rub"])
+
     def test_soft_stop_allows_only_critical(self):
         ctl = self.controller()
         self.spend(ctl, 5100)

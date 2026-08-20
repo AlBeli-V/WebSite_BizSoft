@@ -11,6 +11,9 @@ name: seo-wordstat
 
 on:
   schedule:
+    # Полный цикл раз в сутки: около 210 вызовов, 2,1 часа при квоте 100 в час.
+    - cron: "20 1 * * *"
+    # Почасовой добор: продолжает цикл, если тот прервался, и обновляет отчёт.
     - cron: "25 * * * *"
   push:
     branches:
@@ -25,7 +28,7 @@ on:
         required: true
         default: "daily"
         type: choice
-        options: [dry-run, pilot, daily, benchmark]
+        options: [dry-run, full, pilot, daily, benchmark]
       max_calls:
         description: "Потолок вызовов за прогон"
         required: false
@@ -37,6 +40,7 @@ permissions:
 jobs:
   research:
     runs-on: ubuntu-latest
+    timeout-minutes: 330
     steps:
       - uses: actions/checkout@v4
         with:
@@ -55,7 +59,11 @@ jobs:
           # Пуш кода проверяет план, но не тратит квоту: платный прогон запускается
           # только по расписанию или явным выбором режима. Иначе каждая правка
           # исходников отнимала бы часовой слот у запланированного исследования.
-          MODE: ${{ inputs.mode || (github.event_name == 'push' && 'dry-run') || 'daily' }}
+          # Ночной запуск — полный цикл, остальные часы — добор.
+          MODE: ${{ inputs.mode
+                 || (github.event_name == 'push' && 'dry-run')
+                 || (github.event.schedule == '20 1 * * *' && 'full')
+                 || 'daily' }}
           MAX_CALLS: ${{ inputs.max_calls || '70' }}
         run: |
           if [ -z "$WORDSTAT_API_KEY" ]; then
@@ -67,6 +75,7 @@ jobs:
             dry-run) echo "Только план, вызовы не выполнялись." ;;
             pilot)   python3 scripts/seo/wordstat/run.py --pilot --max-calls "$MAX_CALLS" ;;
             daily)   python3 scripts/seo/wordstat/run.py --daily --max-calls "$MAX_CALLS" ;;
+            full)    python3 scripts/seo/wordstat/run.py --full --max-hours 5 ;;
             benchmark) python3 scripts/seo/wordstat/benchmark.py ;;
           esac
           python3 scripts/seo/wordstat/report.py || true
