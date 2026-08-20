@@ -33,21 +33,36 @@ jobs:
           pnpm test
           pnpm build
 
+      # Раньше здесь был сторонний easingthemes/ssh-deploy@main. Ссылка на
+      # подвижную ветку означала, что любой новый коммит в чужом репозитории
+      # автоматически исполнялся на нашем раннере с приватным ключом от
+      # прод-сервера. Закрепить по SHA — тоже вариант, но вызов и так
+      # укладывается в несколько строк rsync, поэтому зависимость убрана.
+      # Флаги и список исключений сохранены дословно.
       - name: Sync source to server
-        uses: easingthemes/ssh-deploy@main
-        with:
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_KEY }}
-          REMOTE_HOST: ${{ secrets.SSH_HOST }}
-          REMOTE_USER: ${{ secrets.SSH_USER }}
-          SOURCE: "./"
-          TARGET: "/opt/bizsoft/astro-src"
+        env:
+          SSH_KEY: ${{ secrets.SSH_KEY }}
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          SSH_USER: ${{ secrets.SSH_USER }}
+        run: |
+          set -euo pipefail
+          install -m 700 -d ~/.ssh
+          printf '%s\n' "$SSH_KEY" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          ssh-keyscan -H "$SSH_HOST" >> ~/.ssh/known_hosts 2>/dev/null
           # --delete: без него на сервере навсегда остаются файлы, которых нет
           # в репозитории (напр. старый src/pages/vendors/adobe.astro продолжал
           # перекрывать актуальный шаблон [slug].astro при каждой сборке).
           # Исключённые пути (node_modules, dist, .env) rsync при --delete
           # не трогает — они защищены самими правилами exclude.
-          ARGS: "-rlgoDzvc -i --delete"
-          EXCLUDE: "node_modules/, dist/, .astro/, .git/, .env"
+          rsync -rlgoDzvc -i --delete \
+            --exclude 'node_modules/' \
+            --exclude 'dist/' \
+            --exclude '.astro/' \
+            --exclude '.git/' \
+            --exclude '.env' \
+            -e "ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=yes" \
+            ./ "$SSH_USER@$SSH_HOST:/opt/bizsoft/astro-src"
 
       - name: Rebuild & restart on server
         uses: appleboy/ssh-action@v1
