@@ -1484,7 +1484,7 @@
               "edition": null,
               "deployment": "saas",
               "license_model": null,
-              "kind": "base",
+              "kind": "addon",
               "source_snapshot_id": "d5c7e8cea6da",
               "source_tab": null,
               "variants": [
@@ -1530,7 +1530,8 @@
                   "price_status": "listed",
                   "maintenance": "Included"
                 }
-              ]
+              ],
+              "addon_deployment": "saas"
             },
             {
               "offer_slug": "endpoint-central-multi-language-pack",
@@ -1538,7 +1539,7 @@
               "edition": null,
               "deployment": "saas",
               "license_model": null,
-              "kind": "base",
+              "kind": "addon",
               "source_snapshot_id": "d5c7e8cea6da",
               "source_tab": null,
               "variants": [
@@ -1549,7 +1550,8 @@
                   "price_status": "listed",
                   "maintenance": "Included"
                 }
-              ]
+              ],
+              "addon_deployment": "saas"
             },
             {
               "offer_slug": "endpoint-central-failover-service",
@@ -1557,7 +1559,7 @@
               "edition": null,
               "deployment": "saas",
               "license_model": null,
-              "kind": "base",
+              "kind": "addon",
               "source_snapshot_id": "d5c7e8cea6da",
               "source_tab": null,
               "variants": [
@@ -1582,7 +1584,8 @@
                   "price_status": "listed",
                   "maintenance": "Included"
                 }
-              ]
+              ],
+              "addon_deployment": "saas"
             },
             {
               "offer_slug": "onboarding-implementation-and-training-max-4-participants",
@@ -2020,7 +2023,7 @@
               "edition": null,
               "deployment": "saas",
               "license_model": null,
-              "kind": "base",
+              "kind": "addon",
               "source_snapshot_id": "1a4726aa0149",
               "source_tab": null,
               "variants": [
@@ -2066,7 +2069,8 @@
                   "price_status": "listed",
                   "maintenance": "Included"
                 }
-              ]
+              ],
+              "addon_deployment": "saas"
             },
             {
               "offer_slug": "patch-manager-plus-remote-access-plus-add-on",
@@ -2211,7 +2215,7 @@
               "edition": null,
               "deployment": "saas",
               "license_model": null,
-              "kind": "base",
+              "kind": "addon",
               "source_snapshot_id": "1a4726aa0149",
               "source_tab": null,
               "variants": [
@@ -2222,7 +2226,8 @@
                   "price_status": "listed",
                   "maintenance": "Included"
                 }
-              ]
+              ],
+              "addon_deployment": "saas"
             },
             {
               "offer_slug": "patch-manager-plus-training",
@@ -2628,7 +2633,7 @@
               "edition": null,
               "deployment": "saas",
               "license_model": null,
-              "kind": "base",
+              "kind": "addon",
               "source_snapshot_id": "1c7fb9f273e6",
               "source_tab": null,
               "variants": [
@@ -2674,7 +2679,8 @@
                   "price_status": "listed",
                   "maintenance": "Included"
                 }
-              ]
+              ],
+              "addon_deployment": "saas"
             },
             {
               "offer_slug": "mobile-device-manager-plus-failover-server-add-ons",
@@ -2716,7 +2722,7 @@
               "edition": null,
               "deployment": "saas",
               "license_model": null,
-              "kind": "base",
+              "kind": "addon",
               "source_snapshot_id": "1c7fb9f273e6",
               "source_tab": null,
               "variants": [
@@ -2727,7 +2733,8 @@
                   "price_status": "listed",
                   "maintenance": "Included"
                 }
-              ]
+              ],
+              "addon_deployment": "saas"
             },
             {
               "offer_slug": "mobile-device-manager-plus-training",
@@ -3393,7 +3400,7 @@
               "edition": null,
               "deployment": null,
               "license_model": "subscription",
-              "kind": "base",
+              "kind": "addon",
               "source_snapshot_id": "3e71734e528d",
               "source_tab": null,
               "variants": [
@@ -3696,7 +3703,8 @@
                   "price_status": "listed",
                   "maintenance": "Included"
                 }
-              ]
+              ],
+              "addon_deployment": null
             },
             {
               "offer_slug": "adaudit-plus-onboarding-implementation-training",
@@ -3876,7 +3884,7 @@
               "edition": null,
               "deployment": null,
               "license_model": "perpetual",
-              "kind": "base",
+              "kind": "addon",
               "source_snapshot_id": "8ab65e7c6af2",
               "source_tab": "Perpetual",
               "variants": [
@@ -4179,7 +4187,8 @@
                   "price_status": "listed",
                   "maintenance": "US$748"
                 }
-              ]
+              ],
+              "addon_deployment": null
             }
           ]
         }

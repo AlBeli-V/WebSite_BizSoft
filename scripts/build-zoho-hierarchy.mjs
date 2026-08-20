@@ -12,6 +12,7 @@
 import { readFileSync, writeFileSync, existsSync, readdirSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, resolve } from 'node:path';
+import { makeSku, usedSkus } from './lib/zoho-model.mjs';
 
 const __dir = dirname(fileURLToPath(import.meta.url));
 const ROOT = resolve(__dir, '..');
@@ -51,59 +52,6 @@ const byName = new Map(manifest.families.map((f) => [norm(f.family_name), f]));
 const copyBySource = new Map(groupCopy.groups.map((g) => [g.source, g]));
 const missingCopy = taxonomy.groups.map((g) => g.group).filter((g) => !copyBySource.has(g));
 if (missingCopy.length) throw new Error(`нет русского названия для групп: ${missingCopy.join('; ')}`);
-
-/**
- * Артикул и адрес позиции. Собираются здесь, чтобы витрина и импорт брали их
- * из одного места: разойдись они — на странице появилась бы кнопка «в
- * корзину» для несуществующего товара.
- *
- * Две позиции ServiceDesk Plus уже опубликованы и проиндексированы. Их
- * артикулы и адреса закреплены: смена слага дала бы 404 на живой странице.
- */
-const PINNED = {
-  'servicedesk-plus|servicedesk-plus-standard-edition-annual-subscription|10 Technicians':
-    'MANAGEENGINE-SERVICEDESK-STANDARD-10',
-  'servicedesk-plus|servicedesk-plus-professional-edition-annual-subscription|5 Technicians (500 IT Assets)':
-    'MANAGEENGINE-SERVICEDESK-PROFESSIONAL-5',
-};
-
-const token = (text) => (text || '')
-  .toUpperCase()
-  .replace(/[^A-Z0-9]+/g, '-')
-  .replace(/^-+|-+$/g, '');
-
-const usedSkus = new Set();
-
-function makeSku(familySlug, offer, variant) {
-  const pinned = PINNED[`${familySlug}|${offer.offer_slug}|${variant.variant_name}`];
-  if (pinned) { usedSkus.add(pinned); return pinned; }
-
-  // Различающая часть предложения: редакция плюс то, что вендор дописал к
-  // ней сверх названия семейства. Одной редакции мало: «PAM360 Enterprise
-  // Edition» и «PAM360 Enterprise Edition Multi-Language» — разные прайсы.
-  const familyRe = new RegExp(familySlug.replace(/-/g, '[ -]'), 'ig');
-  const noiseRe = /\b(annual|subscription|perpetual|edition|add-?ons?|model|store|pricing)\b/ig;
-  const rest = offer.offer_name
-    .replace(/\([^)]*\)/g, ' ')
-    .replace(familyRe, ' ')
-    .replace(offer.edition ? new RegExp(`\\b${offer.edition.replace(/[()]/g, '')}\\b`, 'ig') : /$^/, ' ')
-    .replace(noiseRe, ' ');
-  const offerPart = [token(offer.edition), token(rest).slice(0, 26)]
-    .filter(Boolean).join('-');
-  // Название позиции целиком, без скобочных уточнений: по одной лишь метрике
-  // «1 Domain» четыре разные строки прайса ADManager Plus дали бы один и тот
-  // же артикул с безликими хвостами -2, -3, -4.
-  const variantPart = token(variant.variant_name.replace(/\([^)]*\)/g, ' ')).slice(0, 44);
-  const model = offer.license_model === 'perpetual' ? '-PERP' : '';
-
-  const base = ['ME', token(familySlug), offerPart, variantPart]
-    .filter(Boolean).join('-').replace(/-{2,}/g, '-').slice(0, 96) + model;
-  let sku = base;
-  let n = 2;
-  while (usedSkus.has(sku)) { sku = `${base}-${n}`; n += 1; }
-  usedSkus.add(sku);
-  return sku;
-}
 
 let withPrice = 0;
 let withoutPrice = 0;

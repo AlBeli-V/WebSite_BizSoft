@@ -49,8 +49,11 @@ function classify(title, pageHint) {
   if (/perpetual/.test(t)) licenseModel = 'perpetual';
   else if (/subscription/.test(t)) licenseModel = 'subscription';
 
-  const isAddon = /add-?on|addons?\b/.test(t);
-  const isService = /training|onboarding|implementation/.test(t);
+  // Дополнением считается не только «Add-on»: вендор так же называет
+  // таблицы «Additional Users», «Multi-Language Pack» и «Failover Service» —
+  // это надстройки к уже купленной лицензии, а не отдельная поставка.
+  const isAddon = /add[- ]?ons?\b|\badditional\b|multi[- ]?language pack|failover|pack license/.test(t);
+  const isService = /training|onboarding|implementation|migration|certification/.test(t);
 
   let edition = null;
   const em = title.match(/\b(Free|Standard|Professional|Premium|Enterprise(?:\s*\(Distributed\))?|UEM|Security)\s+Edition\b/i);
