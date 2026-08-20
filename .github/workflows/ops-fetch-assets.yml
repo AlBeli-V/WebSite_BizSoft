@@ -1,0 +1,80 @@
+# Приём файлов в репозиторий по ссылке, минуя загрузку через чат.
+# Runner скачивает архив (прямая ссылка, Яндекс.Диск или Google Drive),
+# распаковывает и коммитит содержимое в указанную ветку.
+# Нужен, когда вложение не проходит через интерфейс: аплоад падает,
+# а веб-загрузка в приватный репозиторий требует авторизации.
+name: ops-fetch-assets
+on:
+  workflow_dispatch:
+    inputs:
+      url:
+        description: 'Ссылка на архив (прямая, Яндекс.Диск или Google Drive)'
+        required: true
+      dest:
+        description: 'Куда распаковать в репозитории'
+        required: true
+        default: 'assets/incoming'
+      branch:
+        description: 'Ветка назначения'
+        required: true
+        default: 'claude/assets-incoming'
+permissions:
+  contents: write
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Download and unpack
+        env:
+          SRC_URL: ${{ inputs.url }}
+          DEST: ${{ inputs.dest }}
+        run: |
+          set -e
+          python3 - <<'PYEOF'
+          import json, os, re, urllib.parse, urllib.request
+          url = os.environ['SRC_URL'].strip()
+          # Яндекс.Диск: публичная ссылка → прямая через API
+          if 'disk.yandex' in url or 'yadi.sk' in url:
+              api = ('https://cloud-api.yandex.net/v1/disk/public/resources/download?public_key='
+                     + urllib.parse.quote(url, safe=''))
+              with urllib.request.urlopen(api, timeout=60) as r:
+                  url = json.load(r)['href']
+              print('Яндекс.Диск: получена прямая ссылка')
+          # Google Drive: файл по id
+          m = re.search(r'drive\.google\.com/(?:file/d/|open\?id=)([\w-]+)', url)
+          if m:
+              url = f'https://drive.google.com/uc?export=download&id={m.group(1)}'
+              print('Google Drive: ссылка преобразована в прямую')
+          req = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0'})
+          with urllib.request.urlopen(req, timeout=180) as r, open('/tmp/asset.bin', 'wb') as f:
+              size = 0
+              while chunk := r.read(1 << 20):
+                  f.write(chunk); size += len(chunk)
+          print(f'скачано: {size} байт')
+          PYEOF
+          file /tmp/asset.bin
+          mkdir -p "$DEST"
+          if file /tmp/asset.bin | grep -qi zip; then
+            unzip -o -q /tmp/asset.bin -d "$DEST"
+          else
+            echo "не ZIP — кладу файл как есть"; cp /tmp/asset.bin "$DEST/asset.bin"
+          fi
+          echo "== распаковано =="
+          find "$DEST" -type f | head -40
+          echo "== всего файлов: $(find "$DEST" -type f | wc -l) =="
+      - name: Commit to branch
+        env:
+          DEST: ${{ inputs.dest }}
+          TARGET: ${{ inputs.branch }}
+        run: |
+          set -e
+          git config user.name 'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+          git checkout -B "$TARGET"
+          git add -A "$DEST"
+          git commit -m "assets: приём файлов по ссылке в $DEST" || { echo 'нечего коммитить'; exit 0; }
+          git push -u origin "$TARGET" --force
+          echo "запушено в ветку $TARGET"
