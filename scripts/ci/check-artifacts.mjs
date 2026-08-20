@@ -9,6 +9,7 @@
  */
 import { readdirSync, readFileSync, statSync, existsSync } from 'node:fs';
 import { join, extname } from 'node:path';
+import XLSX from 'xlsx';
 
 const BASELINE = process.argv.includes('--baseline');
 const results = [];
@@ -24,10 +25,28 @@ function walk(dir, out = []) {
   return out;
 }
 
-// ── SEC-001: служебные выгрузки не должны лежать в public/ ──
-const LEAKY = ['.xlsx', '.xls', '.csv', '.ods'];
-const leaked = walk('public').filter((f) => LEAKY.includes(extname(f).toLowerCase()));
-add(leaked.length === 0, 'в public/ нет табличных выгрузок', leaked.length ? leaked.join(', ') : 'нет');
+// ── SEC-001: в public/ не должно быть закупочных цен и коэффициентов наценки ──
+// Проверяем содержимое, а не расширение: шаблон загрузки лежать там имеет
+// право, выгрузка каталога с себестоимостью — нет.
+const SENSITIVE = ['base_price_usd', 'base_price_eur', 'markup_coeff', 'markup_percent'];
+const tables = walk('public').filter((f) => ['.xlsx', '.xls', '.ods'].includes(extname(f).toLowerCase()));
+const leaked = [];
+for (const f of tables) {
+  const wb = XLSX.readFile(f);
+  for (const name of wb.SheetNames) {
+    const rows = XLSX.utils.sheet_to_json(wb.Sheets[name], { defval: '' });
+    // Строки-примеры шаблона (sku EXAMPLE-*) содержат условные значения —
+    // они и должны показывать формат. Реальные выгрузки таких sku не имеют.
+    const hits = rows
+      .filter((r) => !/^EXAMPLE-/i.test(String(r.sku ?? '')))
+      .filter((r) => SENSITIVE.some((k) => String(r[k] ?? '').trim() !== ''));
+    if (hits.length) { leaked.push(`${f} (${hits.length} строк)`); break; }
+  }
+}
+add(leaked.length === 0, 'в public/ нет закупочных цен и наценок', leaked.length ? leaked.join(', ') : `проверено файлов: ${tables.length}`);
+
+const csvLeaked = walk('public').filter((f) => extname(f).toLowerCase() === '.csv');
+add(csvLeaked.length === 0, 'в public/ нет CSV-выгрузок', csvLeaked.length ? csvLeaked.join(', ') : 'нет');
 
 // ── ANL-001: вызовы целей не должны вырезаться минификатором ──
 if (existsSync('dist/client/_astro')) {
