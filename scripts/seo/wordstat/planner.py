@@ -29,6 +29,7 @@ import discovery as D  # noqa: E402
 PRIORITY = {
     "decision_validation": 1,
     "opportunity_validation": 2,
+    "vendor_expansion": 3,
     "discovery": 3,
     "trend_monitoring": 4,
     "exploration": 5,
@@ -37,6 +38,9 @@ PRIORITY = {
 # Ценность задачи для бизнеса: сколько решений она разблокирует.
 BUSINESS_VALUE = {
     "decision_validation": 1.0, "opportunity_validation": 0.8,
+    # Расширение каталога ценно наравне с обнаружением: оно отвечает на вопрос,
+    # какие товары добавить, а не только как улучшить имеющиеся.
+    "vendor_expansion": 0.7,
     "discovery": 0.6, "regional_research": 0.5,
     "trend_monitoring": 0.4, "exploration": 0.2,
 }
@@ -56,9 +60,10 @@ def build_tasks(seed_plan: list[dict], dynamics: list[dict], regions: list[dict]
     for s in seed_plan:
         tasks.append({
             "method": "getTop", "phrase": s["phrase"], "cluster": s["cluster"],
-            "reason": "discovery", "expected_information_gain":
-                s["expected_information_gain"], "confidence": 0.8,
-            "why": s["rationale"],
+            "reason": s.get("reason_override", "discovery"),
+            "expected_information_gain": s["expected_information_gain"],
+            "confidence": 0.8, "why": s["rationale"],
+            "pattern": s.get("pattern"), "vendor": s.get("vendor"),
         })
     for d in dynamics:
         tasks.append({

@@ -14,10 +14,10 @@
 
 | Метод | Вызовов | Стоимость |
 |---|---|---|
-| getTop | 165 | 3.30 ₽ |
+| getTop | 304 | 6.08 ₽ |
 | getDynamics | 27 | 0.54 ₽ |
 | getRegionsDistribution | 18 | 0.90 ₽ |
-| **Итого** | **210** | **4.74 ₽** |
+| **Итого** | **349** | **7.52 ₽** |
 
 ## Бюджет и квота
 
@@ -25,8 +25,8 @@
 - план расходует: 0.1% потолка
 - максимум, который вообще можно потратить при действующей квоте: 1656 ₽
 - бюджет является ограничением: нет — ограничивает квота
-- время прохода при 100 запросах в час: 2.1 ч
-- при 500 запросах в час: 0.4 ч
+- время прохода при 100 запросах в час: 3.5 ч
+- при 500 запросах в час: 0.7 ч
 
 План не предполагает освоения всего бюджета: цель — полезная информация на вызов, а не расход рублей.
 
@@ -37,30 +37,30 @@
 | 1 | getTop | telestream | discovery | 1.0 | 24.0 |
 | 2 | getTop | telestream купить | discovery | 0.946 | 22.704 |
 | 3 | getTop | telestream подписка | discovery | 0.784 | 18.816 |
-| 4 | getTop | runway | discovery | 0.6958 | 16.699 |
-| 5 | getTop | telestream лицензия | discovery | 0.694 | 16.656 |
-| 6 | getTop | sketch | discovery | 0.6819 | 16.366 |
-| 7 | getTop | quadspinner gaea купить | discovery | 0.6582 | 15.797 |
-| 8 | getTop | runway купить | discovery | 0.6582 | 15.797 |
-| 9 | getTop | sidefx houdini купить | discovery | 0.6536 | 15.686 |
-| 10 | getTop | zeplin купить | discovery | 0.6497 | 15.593 |
-| 11 | getTop | photon engine купить | discovery | 0.6497 | 15.593 |
-| 12 | getTop | sketch купить | discovery | 0.6451 | 15.482 |
-| 13 | getTop | audiokinetic купить | discovery | 0.6412 | 15.389 |
-| 14 | getTop | astute graphics купить | discovery | 0.6373 | 15.295 |
-| 15 | getTop | perforce купить | discovery | 0.6121 | 14.69 |
-| 16 | getTop | motion array купить | discovery | 0.6121 | 14.69 |
-| 17 | getTop | topaz labs купить | discovery | 0.5963 | 14.311 |
-| 18 | getTop | descript купить | discovery | 0.5919 | 14.206 |
-| 19 | getTop | speedtree купить | discovery | 0.5837 | 14.009 |
-| 20 | getTop | reallusion купить | discovery | 0.5837 | 14.009 |
-| 21 | getTop | depositphotos купить | discovery | 0.5719 | 13.726 |
-| 22 | getTop | rizomuv купить | discovery | 0.5602 | 13.445 |
-| 23 | getTop | quadspinner gaea подписка | discovery | 0.5455 | 13.092 |
-| 24 | getTop | runway подписка | discovery | 0.5455 | 13.092 |
-| 25 | getTop | sidefx houdini подписка | discovery | 0.5417 | 13.001 |
-| 26 | getTop | telestream оплата | discovery | 0.541 | 12.984 |
-| 27 | getTop | zeplin подписка | discovery | 0.5384 | 12.922 |
-| 28 | getTop | photon engine подписка | discovery | 0.5384 | 12.922 |
-| 29 | getTop | marmoset toolbag купить | discovery | 0.5372 | 12.893 |
-| 30 | getTop | sketch подписка | discovery | 0.5346 | 12.83 |
+| 4 | getTop | notion купить | vendor_expansion | 0.6 | 16.8 |
+| 5 | getTop | slack купить | vendor_expansion | 0.6 | 16.8 |
+| 6 | getTop | atlassian купить | vendor_expansion | 0.6 | 16.8 |
+| 7 | getTop | jira купить | vendor_expansion | 0.6 | 16.8 |
+| 8 | getTop | confluence купить | vendor_expansion | 0.6 | 16.8 |
+| 9 | getTop | asana купить | vendor_expansion | 0.6 | 16.8 |
+| 10 | getTop | monday.com купить | vendor_expansion | 0.6 | 16.8 |
+| 11 | getTop | clickup купить | vendor_expansion | 0.6 | 16.8 |
+| 12 | getTop | trello купить | vendor_expansion | 0.6 | 16.8 |
+| 13 | getTop | airtable купить | vendor_expansion | 0.6 | 16.8 |
+| 14 | getTop | smartsheet купить | vendor_expansion | 0.6 | 16.8 |
+| 15 | getTop | basecamp купить | vendor_expansion | 0.6 | 16.8 |
+| 16 | getTop | linear купить | vendor_expansion | 0.6 | 16.8 |
+| 17 | getTop | hubspot купить | vendor_expansion | 0.6 | 16.8 |
+| 18 | getTop | salesforce купить | vendor_expansion | 0.6 | 16.8 |
+| 19 | getTop | zoho купить | vendor_expansion | 0.6 | 16.8 |
+| 20 | getTop | freshdesk купить | vendor_expansion | 0.6 | 16.8 |
+| 21 | getTop | zendesk купить | vendor_expansion | 0.6 | 16.8 |
+| 22 | getTop | intercom купить | vendor_expansion | 0.6 | 16.8 |
+| 23 | getTop | mailchimp купить | vendor_expansion | 0.6 | 16.8 |
+| 24 | getTop | sendgrid купить | vendor_expansion | 0.6 | 16.8 |
+| 25 | getTop | twilio купить | vendor_expansion | 0.6 | 16.8 |
+| 26 | getTop | brevo купить | vendor_expansion | 0.6 | 16.8 |
+| 27 | getTop | klaviyo купить | vendor_expansion | 0.6 | 16.8 |
+| 28 | getTop | affinity designer купить | vendor_expansion | 0.6 | 16.8 |
+| 29 | getTop | affinity photo купить | vendor_expansion | 0.6 | 16.8 |
+| 30 | getTop | capcut купить | vendor_expansion | 0.6 | 16.8 |

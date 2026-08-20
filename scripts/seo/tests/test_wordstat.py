@@ -583,6 +583,58 @@ class TestFullCycle(unittest.TestCase):
         self.assertEqual(done["stopped"], "quota_exceeded")
 
 
+class TestVendorExpansion(unittest.TestCase):
+    """Расширение каталога: российские исключены, оплата влияет на порядок."""
+
+    def setUp(self):
+        self.V = load("vendor_expansion")
+        self.P = load("payment_check")
+
+    def test_russian_vendors_are_excluded(self):
+        russian = ["1с", "битрикс", "kaspersky", "мойофис"]
+        for brand in ("1С-Битрикс", "Kaspersky", "МойОфис"):
+            self.assertTrue(self.V.is_russian(brand, russian), brand)
+        self.assertFalse(self.V.is_russian("Notion", russian))
+
+    def test_catalogue_vendors_are_not_recommended_again(self):
+        vendors = [{"slug": "canva", "anchor": "canva", "vendor": "Canva",
+                    "url": "/vendors/canva", "category": "Дизайн"}]
+        self.assertTrue(self.V.already_in_catalogue("Canva", vendors))
+        self.assertFalse(self.V.already_in_catalogue("Notion", vendors))
+
+    def test_seo_scaffold_is_ready_to_use(self):
+        seo = self.V.seo_scaffold("notion", [{"phrase": "notion купить"}])
+        self.assertEqual(seo["url"], "/vendors/notion")
+        self.assertIn("Notion", seo["title"])
+        self.assertLessEqual(len(seo["description"]), 200)
+        self.assertEqual(len(seo["faq_topics"]), 4)
+
+    def test_effort_grows_with_product_line(self):
+        one = self.V.effort_of([{"phrase": "notion купить"}])[0]
+        many = self.V.effort_of([
+            {"phrase": "notion купить"}, {"phrase": "notion тариф"},
+            {"phrase": "notion подписка"}, {"phrase": "notion лицензия"},
+            {"phrase": "notion оплата"}, {"phrase": "notion для юридических лиц"}])[0]
+        self.assertLess(one, many)
+
+    def test_payment_classifier_distinguishes_models(self):
+        card = self.P.classify("visa mastercard buy now $12 per month checkout.stripe")
+        sales = self.P.classify("contact sales request a quote enterprise")
+        empty = self.P.classify("about us careers")
+        self.assertEqual(card["verdict"], "card")
+        self.assertEqual(sales["verdict"], "sales_only")
+        self.assertEqual(empty["verdict"], "unknown")
+
+    def test_unknown_payment_means_manual_check(self):
+        for verdict in ("unknown", "unreachable", "not_checked"):
+            action, why = self.V.PAYMENT_ACTION[verdict]
+            self.assertIn("вручную", action)
+
+    def test_card_payment_is_recommended(self):
+        action, why = self.V.PAYMENT_ACTION["card"]
+        self.assertIn("рекомендуем", action)
+
+
 class TestIntegration(unittest.TestCase):
     """Сквозные свойства системы на реальных артефактах."""
 

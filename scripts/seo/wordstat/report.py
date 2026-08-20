@@ -25,6 +25,7 @@ import discovery as D            # noqa: E402
 import opportunity as opp_mod    # noqa: E402
 import tiers as tiers_mod        # noqa: E402
 import universe as universe_mod  # noqa: E402
+import vendor_expansion as vx    # noqa: E402
 
 OUT = pathlib.Path("reports/seo/wordstat")
 SNAP_DIR = pathlib.Path("reports/seo/intelligence/snapshots")
@@ -68,6 +69,7 @@ def build_state(date: str) -> dict:
              "top_phrase": g["top_phrases"][0]["phrase"] if g["top_phrases"] else None}
             for g in uncovered[:10]],
         "opportunities": top,
+        "vendor_expansion": vx.build(uni, vendors),
         "efficiency": bud.efficiency(),
         "quota": {
             "requests_per_hour": cfg["quota"]["requests_per_hour"],
@@ -105,9 +107,40 @@ def executive_block(state: dict) -> dict:
         lines.append(
             f"Без страницы остаётся {spaced(uncovered_demand)} запросов в месяц — "
             "это направления, где спрос есть, а нас в выдаче нет.")
+    exp = state.get("vendor_expansion") or {}
+    expansion = None
+    if exp.get("available"):
+        ready = [r for r in exp["recommended"]
+                 if r["payment"]["verdict"] in ("card", "likely_card")][:3]
+        manual = exp.get("needs_manual_check") or []
+        summary = (
+            f"Проверили спрос на {exp['candidates_measured']} зарубежных "
+            f"разработчиков вне каталога. У {exp['recommended_total']} "
+            f"покупательский спрос подтверждён — суммарно "
+            f"{spaced(exp['combined_demand'])} запросов в месяц.")
+        if ready:
+            summary += (f" У {len(ready)} из них на сайте есть оплата картой — "
+                        "их можно заводить сразу.")
+        if manual:
+            summary += (f" Ещё {len(manual)} требуют ручной проверки: спрос есть, "
+                        "способ оплаты автоматически определить не удалось.")
+        expansion = {
+            "title": "Каких вендоров добавить",
+            "summary": summary,
+            "items": [{"brand": r["brand"], "demand": r["commercial_demand"],
+                       "kind": "AI-сервис" if r["kind"] == "ai" else "классический",
+                       "payment": r["payment"]["verdict"],
+                       "recommendation": r["recommendation"],
+                       "effort": r["effort_note"], "url": r["seo"]["url"]}
+                      for r in (ready or exp["recommended"][:3])],
+            "manual_check": manual[:5],
+            "note": exp["note"],
+        }
+
     return {
         "available": True,
         "title": "Спрос и направления развития",
+        "expansion": expansion,
         "summary": " ".join(lines),
         "coverage": {"page": levels["page"], "indexed": levels["indexed"],
                      "top10": levels["top10"]},
@@ -155,6 +188,51 @@ def write_markdown(state: dict, path: pathlib.Path) -> None:
     for u in state["uncovered_top"]:
         L.append(f"| {u['cluster']} | {u['demand']:,} | {u['gap']} | {u['action']} |"
                  .replace(",", " "))
+    exp = state.get("vendor_expansion") or {}
+    if exp.get("available"):
+        L += ["", "## Каких вендоров добавить в каталог", "",
+              f"Проверен спрос на {exp['candidates_measured']} зарубежных "
+              f"разработчиков вне каталога; покупательский спрос подтверждён "
+              f"у {exp['recommended_total']}. {exp['note']}", "",
+              "Приоритет — по покупательскому спросу с поправкой на трудоёмкость "
+              "запуска: карточка одного продукта дешевле линейки тарифов.", "",
+              "| Вендор | Тип | Спрос | Оплата картой | Рекомендация | Трудоёмкость | Адрес |",
+              "|---|---|---|---|---|---|---|"]
+        pay_label = {"card": "есть", "likely_card": "вероятно",
+                     "sales_only": "только через продажи", "unknown": "не определена",
+                     "unreachable": "сайт не открылся", "not_checked": "не проверялась"}
+        for r in exp["recommended"]:
+            kind = "AI" if r["kind"] == "ai" else "классический"
+            L.append(f"| {r['brand']} | {kind} | "
+                     f"{format(r['commercial_demand'], ',').replace(',', ' ')} | "
+                     f"{pay_label.get(r['payment']['verdict'], '—')} | "
+                     f"{r['recommendation']} | {r['effort_note']} | "
+                     f"`{r['seo']['url']}` |")
+        if exp.get("by_payment"):
+            L += ["", "Распределение по способу оплаты: "
+                  + ", ".join(f"{pay_label.get(k, k)} — {v}"
+                              for k, v in exp["by_payment"].items()) + ".", ""]
+        if exp.get("needs_manual_check"):
+            L += ["**Требуют ручной проверки** — спрос есть, способ оплаты "
+                  "автоматически определить не удалось: "
+                  + ", ".join(exp["needs_manual_check"]) + ".", ""]
+        L += ["", "### SEO-обвязка для первых трёх", "",
+              "Заготовки для создания страниц: адрес, заголовок, описание, "
+              "темы вопросов и целевые запросы.", ""]
+        for r in exp["recommended"][:3]:
+            seo = r["seo"]
+            L += [f"**{r['brand']}** — `{seo['url']}` "
+                  f"({'AI-сервис' if r['kind'] == 'ai' else 'классический'}, "
+                  f"оплата: {r['payment']['note'] or '—'})", "",
+                  f"- заголовок: {seo['title']}",
+                  f"- описание: {seo['description']}",
+                  f"- H1: {seo['h1']}",
+                  f"- целевые запросы: " + ", ".join(
+                      f"«{p['phrase']}» — {p['frequency']}" for p in r["top_phrases"][:5]),
+                  f"- разделы вопросов: " + "; ".join(seo["faq_topics"]),
+                  f"- нужные подкластеры: " + ", ".join(seo["needed_subclusters"]),
+                  f"- перелинковка: " + ", ".join(seo["internal_links"]), ""]
+
     L += ["", "## Возможности", ""]
     for o in state["opportunities"]:
         c = o["components"]

@@ -31,6 +31,7 @@ import opportunity as opp_mod    # noqa: E402
 import planner as planner_mod    # noqa: E402
 import tiers as tiers_mod        # noqa: E402
 import universe as universe_mod  # noqa: E402
+import vendor_expansion as vx    # noqa: E402
 
 OUT = pathlib.Path("reports/seo/wordstat")
 STATE = OUT / "last-runs.json"
@@ -69,6 +70,21 @@ def prepare(date: str, cfg: dict):
     covered = {c["cluster"] for c in clusters.values() if c["page_exists"]}
     stats = D.PatternStats()
     seed_plan = D.build_seed_plan(vendors, uni, stats, covered, cfg["thresholds"])
+    # Кандидаты на расширение каталога: спрос на вендоров, которых у нас нет.
+    # Измеряются один раз, дальше отвечает кэш — это дешёвая, но важная часть
+    # исследования: она отвечает на вопрос «что добавить», а не только
+    # «как улучшить существующее».
+    for cand in vx.pending(vendors, uni):
+        if cand["measured"]:
+            continue
+        seed_plan.append({
+            "phrase": cand["phrase"], "cluster": None, "vendor": cand["brand"],
+            "category": "кандидат на добавление", "url": None,
+            "pattern": None, "rationale": "спрос на вендора, которого нет в каталоге",
+            "expected_information_gain": 0.6, "depth": 0,
+            "reason_override": "vendor_expansion",
+        })
+
     state = load_state()
     dyn = tiers_mod.dynamics_due(clusters, tiers, state, cfg, date)
     reg = tiers_mod.regions_due(clusters, tiers, state, cfg, date,

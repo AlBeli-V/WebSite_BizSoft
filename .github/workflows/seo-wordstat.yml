@@ -28,7 +28,7 @@ on:
         required: true
         default: "daily"
         type: choice
-        options: [dry-run, full, pilot, daily, benchmark]
+        options: [dry-run, full, pilot, daily, benchmark, payments]
       max_calls:
         description: "Потолок вызовов за прогон"
         required: false
@@ -75,8 +75,10 @@ jobs:
             dry-run) echo "Только план, вызовы не выполнялись." ;;
             pilot)   python3 scripts/seo/wordstat/run.py --pilot --max-calls "$MAX_CALLS" ;;
             daily)   python3 scripts/seo/wordstat/run.py --daily --max-calls "$MAX_CALLS" ;;
-            full)    python3 scripts/seo/wordstat/run.py --full --max-hours 5 ;;
+            full)    python3 scripts/seo/wordstat/run.py --full --max-hours 4
+                     python3 scripts/seo/wordstat/payment_check.py --limit 200 ;;
             benchmark) python3 scripts/seo/wordstat/benchmark.py ;;
+            payments)  python3 scripts/seo/wordstat/payment_check.py --limit 200 ;;
           esac
           python3 scripts/seo/wordstat/report.py || true
 
