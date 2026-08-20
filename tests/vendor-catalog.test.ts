@@ -23,8 +23,11 @@ const packages = allPackages
   .filter(({ pkg }) => !pkg.removed)
   .map(({ slug, pkg }) => ({ slug, pkg: { ...pkg, products: pkg.products.filter((p: { archive?: boolean }) => !p.archive) } }));
 
+// SOLIDWORKS исключён из стоп-листа 20.08.2026 решением руководителя: прайс
+// вендора получен, восемь тарифов заведены. Остальные позиции стоп-листа
+// (docs/vendors-expansion-prompt.md, раздел 6) остаются в силе.
 const STOP_LIST = ['sap', 'oracle', 'vmware', 'broadcom', 'veeam', 'citrix', 'cisco',
-  'salesforce', 'ibm', 'solidworks', 'archicad', 'red hat', 'redhat', 'canonical',
+  'salesforce', 'ibm', 'archicad', 'red hat', 'redhat', 'canonical',
   'mathworks', 'mongodb', 'elastic', 'teamviewer', 'atlassian', 'eset'];
 
 const ALLOWED_CATEGORIES = ['system', 'security', 'development', 'collaboration',

@@ -21,9 +21,11 @@ export const docs: ScaffoldEntry[] = [
   { slug: 'zakryvayushchie-dokumenty', title: 'Закрывающие документы', description: 'Какие закрывающие документы получает юрлицо.' },
 ];
 
-/** Будущие посадочные solutions (пока заготовки). */
-export const plannedSolutions: ScaffoldEntry[] = [
-  { slug: 'po-dlya-yurlic-po-schetu', title: 'ПО для юрлиц по счёту', description: 'Поставка ПО для юридических лиц с оплатой по счёту.' },
-  { slug: 'inostrannoe-po-po-dogovoru', title: 'Иностранное ПО по договору', description: 'Зарубежное ПО для российских компаний по договору.' },
-  { slug: 'ai-servisy-dlya-biznesa', title: 'AI-сервисы для бизнеса', description: 'AI-сервисы для компаний по договору и счёту.' },
-];
+/** Будущие посадочные solutions (пока заготовки).
+ *
+ * Пусто с 20.08.2026: три заготовки — «ПО для юрлиц по счёту», «Иностранное ПО
+ * по договору» и «AI-сервисы для бизнеса» — наполнены содержанием и переехали
+ * в src/data/solutions.ts. Замер Вордстата показал по их теме 15 947 запросов
+ * в месяц с растущим трендом, и держать эти адреса под noindex было потерей.
+ */
+export const plannedSolutions: ScaffoldEntry[] = [];
