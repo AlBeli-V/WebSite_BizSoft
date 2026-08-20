@@ -1,18 +1,18 @@
 {
  "{vendor}": {
-  "calls": 37,
+  "calls": 40,
   "empty": 0,
-  "unique_new": 5877
+  "unique_new": 6479
  },
  "{vendor} купить": {
-  "calls": 37,
-  "empty": 2,
-  "unique_new": 271
+  "calls": 65,
+  "empty": 7,
+  "unique_new": 330
  },
  "{vendor} оплата": {
-  "calls": 37,
-  "empty": 17,
-  "unique_new": 9
+  "calls": 43,
+  "empty": 22,
+  "unique_new": 10
  },
  "{vendor} для юридических лиц": {
   "calls": 37,
@@ -20,18 +20,23 @@
   "unique_new": 0
  },
  "{vendor} тариф": {
-  "calls": 37,
-  "empty": 23,
-  "unique_new": 5
+  "calls": 43,
+  "empty": 28,
+  "unique_new": 6
  },
  "{vendor} подписка": {
-  "calls": 37,
-  "empty": 8,
-  "unique_new": 68
+  "calls": 43,
+  "empty": 13,
+  "unique_new": 69
  },
  "{vendor} лицензия": {
-  "calls": 36,
-  "empty": 11,
+  "calls": 39,
+  "empty": 14,
   "unique_new": 88
+ },
+ "{vendor} цена": {
+  "calls": 6,
+  "empty": 5,
+  "unique_new": 5
  }
 }

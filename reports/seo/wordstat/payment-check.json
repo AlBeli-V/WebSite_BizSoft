@@ -761,26 +761,6 @@
   "checked_at": "2026-08-20",
   "kind": "ai"
  },
- "runway ml": {
-  "verdict": "card",
-  "note": "найдены признаки самостоятельной оплаты картой",
-  "card_markers": [
-   "credit card"
-  ],
-  "buy_markers": [
-   "get started",
-   "purchase",
-   "subscribe now"
-  ],
-  "sales_markers": [
-   "contact sales"
-  ],
-  "has_prices": true,
-  "url": "https://runwayml.com/pricing",
-  "http_status": 200,
-  "checked_at": "2026-08-20",
-  "kind": "ai"
- },
  "suno": {
   "verdict": "card",
   "note": "найдены признаки самостоятельной оплаты картой",
@@ -1736,41 +1716,6 @@
   "checked_at": "2026-08-20",
   "kind": "classic"
  },
- "envato elements": {
-  "verdict": "card",
-  "note": "найдены признаки самостоятельной оплаты картой",
-  "card_markers": [
-   "visa"
-  ],
-  "buy_markers": [
-   "purchase"
-  ],
-  "sales_markers": [
-   "contact sales"
-  ],
-  "has_prices": true,
-  "url": "https://elements.envato.com/pricing",
-  "http_status": 200,
-  "checked_at": "2026-08-20",
-  "kind": "classic"
- },
- "adobe stock": {
-  "verdict": "card",
-  "note": "найдены признаки самостоятельной оплаты картой",
-  "card_markers": [
-   "credit card"
-  ],
-  "buy_markers": [
-   "buy now",
-   "purchase"
-  ],
-  "sales_markers": [],
-  "has_prices": true,
-  "url": "https://stock.adobe.com/plans",
-  "http_status": 200,
-  "checked_at": "2026-08-20",
-  "kind": "classic"
- },
  "flaticon": {
   "verdict": "card",
   "note": "найдены признаки самостоятельной оплаты картой",
@@ -1864,23 +1809,6 @@
   "checked_at": "2026-08-20",
   "kind": "classic"
  },
- "framer": {
-  "verdict": "card",
-  "note": "найдены признаки самостоятельной оплаты картой",
-  "card_markers": [
-   "credit card"
-  ],
-  "buy_markers": [
-   "get started",
-   "purchase"
-  ],
-  "sales_markers": [],
-  "has_prices": true,
-  "url": "https://framer.com/pricing",
-  "http_status": 200,
-  "checked_at": "2026-08-20",
-  "kind": "classic"
- },
  "activecampaign": {
   "verdict": "card",
   "note": "найдены признаки самостоятельной оплаты картой",
@@ -1951,78 +1879,6 @@
   "has_prices": true,
   "url": "https://www.brevo.com/pricing/",
   "http_status": 200,
-  "checked_at": "2026-08-20",
-  "kind": "classic"
- },
- "adobe creative cloud": {
-  "verdict": "unreachable",
-  "note": "страница тарифов не открылась",
-  "url": "https://www.adobe.com/creativecloud/plans.html",
-  "http_status": null,
-  "card_markers": [],
-  "buy_markers": [],
-  "sales_markers": [],
-  "has_prices": false,
-  "checked_at": "2026-08-20",
-  "kind": "classic"
- },
- "adobe photoshop": {
-  "verdict": "unreachable",
-  "note": "страница тарифов не открылась",
-  "url": "https://www.adobe.com/products/photoshop/plans.html",
-  "http_status": null,
-  "card_markers": [],
-  "buy_markers": [],
-  "sales_markers": [],
-  "has_prices": false,
-  "checked_at": "2026-08-20",
-  "kind": "classic"
- },
- "adobe illustrator": {
-  "verdict": "unreachable",
-  "note": "страница тарифов не открылась",
-  "url": "https://www.adobe.com/products/illustrator/plans.html",
-  "http_status": null,
-  "card_markers": [],
-  "buy_markers": [],
-  "sales_markers": [],
-  "has_prices": false,
-  "checked_at": "2026-08-20",
-  "kind": "classic"
- },
- "adobe after effects": {
-  "verdict": "unreachable",
-  "note": "страница тарифов не открылась",
-  "url": "https://www.adobe.com/products/aftereffects.html",
-  "http_status": null,
-  "card_markers": [],
-  "buy_markers": [],
-  "sales_markers": [],
-  "has_prices": false,
-  "checked_at": "2026-08-20",
-  "kind": "classic"
- },
- "adobe premiere": {
-  "verdict": "unreachable",
-  "note": "страница тарифов не открылась",
-  "url": "https://www.adobe.com/products/premiere.html",
-  "http_status": null,
-  "card_markers": [],
-  "buy_markers": [],
-  "sales_markers": [],
-  "has_prices": false,
-  "checked_at": "2026-08-20",
-  "kind": "classic"
- },
- "adobe acrobat": {
-  "verdict": "unreachable",
-  "note": "страница тарифов не открылась",
-  "url": "https://www.adobe.com/acrobat/pricing.html",
-  "http_status": null,
-  "card_markers": [],
-  "buy_markers": [],
-  "sales_markers": [],
-  "has_prices": false,
   "checked_at": "2026-08-20",
   "kind": "classic"
  },
