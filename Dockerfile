@@ -7,7 +7,7 @@ FROM node:22-alpine AS build
 WORKDIR /app
 RUN corepack enable && corepack prepare pnpm@9.15.9 --activate
 COPY package.json pnpm-lock.yaml* ./
-RUN pnpm install --frozen-lockfile=false
+RUN pnpm install --frozen-lockfile
 COPY . .
 RUN pnpm build
 
@@ -19,7 +19,7 @@ ENV PORT=4321
 RUN corepack enable && corepack prepare pnpm@9.15.9 --activate
 COPY package.json pnpm-lock.yaml* ./
 # Только прод-зависимости (pdfkit, nodemailer, dejavu-fonts-ttf, astro runtime и т.д.)
-RUN pnpm install --prod --frozen-lockfile=false
+RUN pnpm install --prod --frozen-lockfile
 COPY --from=build /app/dist ./dist
 EXPOSE 4321
 CMD ["node", "./dist/server/entry.mjs"]
