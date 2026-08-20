@@ -1,15 +1,15 @@
 {
  "report_date": "2026-08-20",
- "collected_at": "2026-08-20T03:24:43+00:00",
+ "collected_at": "2026-08-20T04:09:07+00:00",
  "region": "Россия",
  "unit": "показы в поиске Яндекса",
  "window": "последние 30 дней",
  "match_type": "broad",
  "requests_made": 90,
- "coverage": "270/554",
+ "coverage": "360/554",
  "complete": false,
  "clusters_planned": 53,
- "clusters_measured": 40,
+ "clusters_measured": 53,
  "top_commercial": [
   {
    "cluster": "adobe",
@@ -36,10 +36,22 @@
    "seed_impressions": 196433
   },
   {
+   "cluster": "runway",
+   "page": "/vendors/runway",
+   "commercial_impressions": 2468,
+   "seed_impressions": 61154
+  },
+  {
    "cluster": "rive",
    "page": "/vendors/rive",
    "commercial_impressions": 2350,
    "seed_impressions": 19374
+  },
+  {
+   "cluster": "spine",
+   "page": "/vendors/spine",
+   "commercial_impressions": 2047,
+   "seed_impressions": 25979
   },
   {
    "cluster": "procreate",
@@ -58,18 +70,6 @@
    "page": "/vendors/midjourney",
    "commercial_impressions": 1124,
    "seed_impressions": 51871
-  },
-  {
-   "cluster": "canva",
-   "page": "/vendors/canva",
-   "commercial_impressions": 1096,
-   "seed_impressions": 119076
-  },
-  {
-   "cluster": "coreldraw",
-   "page": "/vendors/coreldraw",
-   "commercial_impressions": 1006,
-   "seed_impressions": 58752
   }
  ],
  "gaps": {
@@ -199,6 +199,48 @@
     "impressions": 73
    }
   ],
+  "runway": [
+   {
+    "phrase": "runway купить",
+    "impressions": 951
+   },
+   {
+    "phrase": "runway подписка",
+    "impressions": 192
+   },
+   {
+    "phrase": "runway красноярск купить",
+    "impressions": 123
+   },
+   {
+    "phrase": "купить квартиру runway",
+    "impressions": 98
+   },
+   {
+    "phrase": "runway красноярск купить квартиру",
+    "impressions": 87
+   },
+   {
+    "phrase": "runway купить подписку",
+    "impressions": 76
+   },
+   {
+    "phrase": "yamaguchi runway купить",
+    "impressions": 57
+   },
+   {
+    "phrase": "купить yamaguchi runway x",
+    "impressions": 55
+   },
+   {
+    "phrase": "runway октан корректор купить",
+    "impressions": 54
+   },
+   {
+    "phrase": "журнал runway купить",
+    "impressions": 39
+   }
+  ],
   "rive": [
    {
     "phrase": "rive купить",
@@ -235,6 +277,48 @@
    {
     "phrase": "la rive game for men купить",
     "impressions": 44
+   }
+  ],
+  "spine": [
+   {
+    "phrase": "spine купить",
+    "impressions": 749
+   },
+   {
+    "phrase": "spine кроссовки купить",
+    "impressions": 153
+   },
+   {
+    "phrase": "купить ботинки spine",
+    "impressions": 126
+   },
+   {
+    "phrase": "spine цена",
+    "impressions": 99
+   },
+   {
+    "phrase": "купить лыжные ботинки spine",
+    "impressions": 94
+   },
+   {
+    "phrase": "yoga spine купить",
+    "impressions": 84
+   },
+   {
+    "phrase": "spine skate купить",
+    "impressions": 40
+   },
+   {
+    "phrase": "spine concept купить",
+    "impressions": 36
+   },
+   {
+    "phrase": "spine corsa купить",
+    "impressions": 32
+   },
+   {
+    "phrase": "spine pro купить",
+    "impressions": 30
    }
   ],
   "procreate": [
@@ -431,6 +515,32 @@
     "impressions": 33
    }
   ],
+  "sketch": [
+   {
+    "phrase": "sketches купить",
+    "impressions": 454
+   },
+   {
+    "phrase": "sketch аппарат купить",
+    "impressions": 126
+   },
+   {
+    "phrase": "etch a sketch купить",
+    "impressions": 87
+   },
+   {
+    "phrase": "sketch массаж купить",
+    "impressions": 71
+   },
+   {
+    "phrase": "sketch аппарат для массажа купить",
+    "impressions": 50
+   },
+   {
+    "phrase": "etch a sketch волшебный экран купить",
+    "impressions": 33
+   }
+  ],
   "clip-studio-paint": [
    {
     "phrase": "clip studio paint купить",
@@ -459,6 +569,48 @@
    {
     "phrase": "clip studio paint купить лицензию",
     "impressions": 40
+   }
+  ],
+  "wondershare": [
+   {
+    "phrase": "wondershare подписка",
+    "impressions": 239
+   },
+   {
+    "phrase": "wondershare купить",
+    "impressions": 148
+   },
+   {
+    "phrase": "wondershare ключи лицензионные",
+    "impressions": 73
+   },
+   {
+    "phrase": "wondershare ключ активации лицензионный",
+    "impressions": 72
+   },
+   {
+    "phrase": "лицензия wondershare",
+    "impressions": 52
+   },
+   {
+    "phrase": "wondershare filmora купить",
+    "impressions": 49
+   },
+   {
+    "phrase": "ключ wondershare recoverit активации лицензионный",
+    "impressions": 42
+   },
+   {
+    "phrase": "wondershare recoverit ключ активации лицензионный бесплатно",
+    "impressions": 40
+   },
+   {
+    "phrase": "wondershare filmora подписка",
+    "impressions": 39
+   },
+   {
+    "phrase": "как отменить подписку wondershare",
+    "impressions": 32
    }
   ],
   "foundry": [
@@ -603,6 +755,30 @@
    {
     "phrase": "лицензии freepik",
     "impressions": 30
+   }
+  ],
+  "shutterstock": [
+   {
+    "phrase": "shutterstock лицензия",
+    "impressions": 92
+   },
+   {
+    "phrase": "купить shutterstock",
+    "impressions": 73
+   },
+   {
+    "phrase": "shutterstock подписка",
+    "impressions": 30
+   }
+  ],
+  "unreal-engine": [
+   {
+    "phrase": "unreal engine сцена",
+    "impressions": 143
+   },
+   {
+    "phrase": "unreal engine купить",
+    "impressions": 64
    }
   ],
   "recraft": [
