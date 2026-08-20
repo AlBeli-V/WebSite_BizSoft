@@ -5,13 +5,13 @@
   "total": 26,
   "failed": 0
  },
- "visible_words": 821,
+ "visible_words": 910,
  "first_screen_words": 157,
  "checks": [
   {
    "check": "visible_words",
    "ok": true,
-   "detail": "821 слов при пределе 1000"
+   "detail": "910 слов при пределе 1000"
   },
   {
    "check": "first_screen_words",

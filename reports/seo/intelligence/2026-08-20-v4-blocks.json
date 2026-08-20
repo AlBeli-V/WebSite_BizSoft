@@ -170,18 +170,6 @@
        "share_of_total_delta": 0.6
       },
       {
-       "entity": "/",
-       "vendor": null,
-       "current": 8,
-       "previous": 9,
-       "delta": -1,
-       "clicks_delta": 0,
-       "position_delta": -3.79,
-       "state": "changed",
-       "confidence": "very_low",
-       "share_of_total_delta": 0.2
-      },
-      {
        "entity": "/product/zoom-wp-business",
        "vendor": "zoom",
        "current": 1,
@@ -189,6 +177,18 @@
        "delta": -1,
        "clicks_delta": 0,
        "position_delta": -20,
+       "state": "changed",
+       "confidence": "very_low",
+       "share_of_total_delta": 0.2
+      },
+      {
+       "entity": "/",
+       "vendor": null,
+       "current": 8,
+       "previous": 9,
+       "delta": -1,
+       "clicks_delta": 0,
+       "position_delta": -3.79,
        "state": "changed",
        "confidence": "very_low",
        "share_of_total_delta": 0.2
@@ -208,18 +208,6 @@
        "share_of_total_delta": 0.6
       },
       {
-       "entity": "/",
-       "vendor": null,
-       "current": 8,
-       "previous": 9,
-       "delta": -1,
-       "clicks_delta": 0,
-       "position_delta": -3.79,
-       "state": "changed",
-       "confidence": "very_low",
-       "share_of_total_delta": 0.2
-      },
-      {
        "entity": "/product/zoom-wp-business",
        "vendor": "zoom",
        "current": 1,
@@ -227,6 +215,18 @@
        "delta": -1,
        "clicks_delta": 0,
        "position_delta": -20,
+       "state": "changed",
+       "confidence": "very_low",
+       "share_of_total_delta": 0.2
+      },
+      {
+       "entity": "/",
+       "vendor": null,
+       "current": 8,
+       "previous": 9,
+       "delta": -1,
+       "clicks_delta": 0,
+       "position_delta": -3.79,
        "state": "changed",
        "confidence": "very_low",
        "share_of_total_delta": 0.2
@@ -242,7 +242,31 @@
      "drivers": [],
      "detractors": [
       {
-       "entity": "bigsoft",
+       "entity": "zoombusiness",
+       "vendor": "zoom",
+       "current": 0,
+       "previous": 1,
+       "delta": -1,
+       "clicks_delta": 0,
+       "position_delta": null,
+       "state": "lost",
+       "confidence": "very_low",
+       "share_of_total_delta": 0.2
+      },
+      {
+       "entity": "perforce cloud hosting",
+       "vendor": null,
+       "current": 0,
+       "previous": 1,
+       "delta": -1,
+       "clicks_delta": 0,
+       "position_delta": null,
+       "state": "lost",
+       "confidence": "very_low",
+       "share_of_total_delta": 0.2
+      },
+      {
+       "entity": "perforce helix pricing",
        "vendor": null,
        "current": 0,
        "previous": 1,
@@ -266,31 +290,7 @@
        "share_of_total_delta": 0.2
       },
       {
-       "entity": "zoombusiness",
-       "vendor": "zoom",
-       "current": 0,
-       "previous": 1,
-       "delta": -1,
-       "clicks_delta": 0,
-       "position_delta": null,
-       "state": "lost",
-       "confidence": "very_low",
-       "share_of_total_delta": 0.2
-      },
-      {
-       "entity": "perforce helix pricing",
-       "vendor": null,
-       "current": 0,
-       "previous": 1,
-       "delta": -1,
-       "clicks_delta": 0,
-       "position_delta": null,
-       "state": "lost",
-       "confidence": "very_low",
-       "share_of_total_delta": 0.2
-      },
-      {
-       "entity": "perforce cloud hosting",
+       "entity": "bigsoft",
        "vendor": null,
        "current": 0,
        "previous": 1,
@@ -304,7 +304,31 @@
      ],
      "all": [
       {
-       "entity": "bigsoft",
+       "entity": "zoombusiness",
+       "vendor": "zoom",
+       "current": 0,
+       "previous": 1,
+       "delta": -1,
+       "clicks_delta": 0,
+       "position_delta": null,
+       "state": "lost",
+       "confidence": "very_low",
+       "share_of_total_delta": 0.2
+      },
+      {
+       "entity": "perforce cloud hosting",
+       "vendor": null,
+       "current": 0,
+       "previous": 1,
+       "delta": -1,
+       "clicks_delta": 0,
+       "position_delta": null,
+       "state": "lost",
+       "confidence": "very_low",
+       "share_of_total_delta": 0.2
+      },
+      {
+       "entity": "perforce helix pricing",
        "vendor": null,
        "current": 0,
        "previous": 1,
@@ -328,31 +352,7 @@
        "share_of_total_delta": 0.2
       },
       {
-       "entity": "zoombusiness",
-       "vendor": "zoom",
-       "current": 0,
-       "previous": 1,
-       "delta": -1,
-       "clicks_delta": 0,
-       "position_delta": null,
-       "state": "lost",
-       "confidence": "very_low",
-       "share_of_total_delta": 0.2
-      },
-      {
-       "entity": "perforce helix pricing",
-       "vendor": null,
-       "current": 0,
-       "previous": 1,
-       "delta": -1,
-       "clicks_delta": 0,
-       "position_delta": null,
-       "state": "lost",
-       "confidence": "very_low",
-       "share_of_total_delta": 0.2
-      },
-      {
-       "entity": "perforce cloud hosting",
+       "entity": "bigsoft",
        "vendor": null,
        "current": 0,
        "previous": 1,
@@ -526,18 +526,6 @@
    "share_of_total_delta": 0.6
   },
   {
-   "entity": "/",
-   "vendor": null,
-   "current": 8,
-   "previous": 9,
-   "delta": -1,
-   "clicks_delta": 0,
-   "position_delta": -3.79,
-   "state": "changed",
-   "confidence": "very_low",
-   "share_of_total_delta": 0.2
-  },
-  {
    "entity": "/product/zoom-wp-business",
    "vendor": "zoom",
    "current": 1,
@@ -545,6 +533,18 @@
    "delta": -1,
    "clicks_delta": 0,
    "position_delta": -20,
+   "state": "changed",
+   "confidence": "very_low",
+   "share_of_total_delta": 0.2
+  },
+  {
+   "entity": "/",
+   "vendor": null,
+   "current": 8,
+   "previous": 9,
+   "delta": -1,
+   "clicks_delta": 0,
+   "position_delta": -3.79,
    "state": "changed",
    "confidence": "very_low",
    "share_of_total_delta": 0.2
@@ -556,7 +556,7 @@
    "engine": "Google",
    "window": "накопленное окно 26 дней, сдвинуто на сутки",
    "available": true,
-   "text": "Изменение −5 по страницам. Потеряли: /product/prfrc-p4-cloud, /, /product/zoom-wp-business. Растущих адресов выше порога значимости нет.",
+   "text": "Изменение −5 по страницам. Потеряли: /product/prfrc-p4-cloud, /product/zoom-wp-business, /. Растущих адресов выше порога значимости нет.",
    "rows": [
     {
      "entity": "/product/prfrc-p4-cloud",
@@ -567,20 +567,20 @@
      "position_delta": -2.6
     },
     {
-     "entity": "/",
-     "delta": "−1",
-     "share": "20%",
-     "state": "",
-     "positive": false,
-     "position_delta": -3.79
-    },
-    {
      "entity": "/product/zoom-wp-business",
      "delta": "−1",
      "share": "20%",
      "state": "",
      "positive": false,
      "position_delta": -20
+    },
+    {
+     "entity": "/",
+     "delta": "−1",
+     "share": "20%",
+     "state": "",
+     "positive": false,
+     "position_delta": -3.79
     }
    ],
    "counted": 3
@@ -769,11 +769,11 @@
  "demand": {
   "available": true,
   "title": "Спрос и направления развития",
-  "summary": "Мы видим 69 053 покупательских запросов в месяц по 45 направлениям каталога. Своя страница есть под 77% этого спроса, в поиске находится 54%, на первой странице — 18%. Без страницы остаётся 15 947 запросов в месяц — это направления, где спрос есть, а нас в выдаче нет.",
+  "summary": "Мы видим 71 592 покупательских запросов в месяц по 57 направлениям каталога. Своя страница есть под 78% этого спроса, в поиске находится 52%, на первой странице — 17%. Без страницы остаётся 15 947 запросов в месяц — это направления, где спрос есть, а нас в выдаче нет.",
   "coverage": {
-   "page": 0.7681,
-   "indexed": 0.5436,
-   "top10": 0.1773
+   "page": 0.7763,
+   "indexed": 0.5246,
+   "top10": 0.1712
   },
   "lead_opportunity": {
    "cluster": "adobe",
