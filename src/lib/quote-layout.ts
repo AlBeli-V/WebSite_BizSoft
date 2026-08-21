@@ -11,7 +11,7 @@
  */
 import { seller, site } from '../config/site';
 import { formatRub } from './pricing';
-import { amountPhrase } from './rub-words';
+import { moneyFmt, totalWithVatWords, vatIncluded } from './rub-words';
 import { salutation } from './salutation';
 import type { QuoteItem } from './types';
 
@@ -36,6 +36,15 @@ export interface QuoteData {
   /** Исходящий номер. Поле есть всегда, значение проставляется вручную. */
   outgoingNo?: string;
 }
+
+/**
+ * Ставка НДС в ценах предложения.
+ *
+ * Цены в таблице указаны с включённым налогом, поэтому итог подписывается
+ * «в т.ч.», а не «плюс»: разница между этими двумя словами — пять процентов
+ * суммы договора.
+ */
+export const VAT_PERCENT = 5;
 
 /** Оговорка о статусе документа — по распоряжению руководителя 21.08.2026. */
 export const PRELIMINARY_NOTE =
@@ -322,13 +331,19 @@ export function buildQuoteLayout(data: QuoteData, measure: Measure): Page[] {
   });
 
   // ── Итог и сумма прописью ──────────────────────────────────────────────
+  // Цены в таблице указаны с НДС, поэтому итог называется «в т.ч.», а налог
+  // выделяется отдельной строкой: покупателю нужно видеть сумму вычета, а не
+  // выводить её самому.
   y += 8;
-  text(`Итого: ${formatRub(data.total)}`, left, y,
+  // Копейки здесь обязательны: formatRub округляет до рубля, и строка НДС
+  // разошлась бы с суммой прописью — а её сверяют до копейки.
+  text(`ИТОГО в т.ч. НДС ${VAT_PERCENT}%: ${moneyFmt(data.total)} ₽`, left, y,
        { bold: true, size: 12, color: COLOR.dark, width, align: 'right' });
-  y += 14;
-  y = para('Стоимость предложения указана в российских рублях и составляет '
-           + `${amountPhrase(data.total)}. `
-           + 'НДС не облагается: применяется специальный налоговый режим.',
+  y += 16;
+  text(`НДС ${VAT_PERCENT}%: ${moneyFmt(vatIncluded(data.total, VAT_PERCENT))} ₽`, left, y,
+       { bold: true, size: 10, color: COLOR.dark, width, align: 'right' });
+  y += 16;
+  y = para(`Стоимость предложения: ${totalWithVatWords(data.total, VAT_PERCENT)}`,
            left, y, width, { size: 9 });
 
   // ── Условия ────────────────────────────────────────────────────────────

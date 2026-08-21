@@ -17,7 +17,8 @@ import {
 } from 'docx';
 import { seller, site } from '../config/site';
 import { formatRub } from './pricing';
-import { WATERMARK, type QuoteData } from './quote-layout';
+import { moneyFmt, totalWithVatWords, vatIncluded } from './rub-words';
+import { VAT_PERCENT, WATERMARK, type QuoteData } from './quote-layout';
 
 const GREY = '6B7280';
 const DARK = '14161A';
@@ -134,9 +135,15 @@ export async function generateQuoteDocx(data: QuoteData): Promise<Buffer> {
 
   const tail = [
     new Paragraph({ spacing: { before: 200 }, alignment: AlignmentType.RIGHT,
-      children: [new TextRun({ text: `Итого: ${formatRub(data.total)}`, bold: true, size: 24, color: DARK, font: 'Calibri' })] }),
-    line('НДС не облагается (применяется специальный налоговый режим).',
-         { size: 8, color: GREY, align: AlignmentType.RIGHT }),
+      children: [new TextRun({
+        text: `ИТОГО в т.ч. НДС ${VAT_PERCENT}%: ${moneyFmt(data.total)} ₽`,
+        bold: true, size: 24, color: DARK, font: 'Calibri' })] }),
+    new Paragraph({ spacing: { after: 120 }, alignment: AlignmentType.RIGHT,
+      children: [new TextRun({
+        text: `НДС ${VAT_PERCENT}%: ${moneyFmt(vatIncluded(data.total, VAT_PERCENT))} ₽`,
+        bold: true, size: 20, color: DARK, font: 'Calibri' })] }),
+    line(`Стоимость предложения: ${totalWithVatWords(data.total, VAT_PERCENT)}`,
+         { size: 9, color: '374151' }),
     watermarkBand(mark),
     ...Array.from({ length: Math.max(0, bands - 2) }, () => watermarkBand(mark)),
     line(`${seller.shortName} · ${site.url} · ${seller.phone}`,
