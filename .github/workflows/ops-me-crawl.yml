@@ -15,7 +15,7 @@ on:
   workflow_dispatch:
     inputs:
       stage:
-        description: 'discovery — карта магазина; details — страницы продуктов'
+        description: 'discovery — карта магазина; details — страницы продуктов; pricing — прайсы на сайте продукта'
         required: true
         default: 'discovery'
       limit:
