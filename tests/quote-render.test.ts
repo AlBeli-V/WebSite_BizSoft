@@ -48,6 +48,32 @@ describe('раскладка КП', () => {
     expect(new Set(marks.map((m) => m.kind === 'watermark' && m.y)).size).toBe(WATERMARK.rows);
   });
 
+  it('это штамп с рамкой, а не просто надпись', () => {
+    const [m] = watermarks('BIZSoft', 'BZ-1') as any[];
+    expect(m.w).toBeGreaterThan(0);
+    expect(m.h).toBeGreaterThan(0);
+    expect(m.radius).toBeGreaterThan(0);
+    expect(m.stroke).toBeGreaterThan(0);
+    expect(m.dash.length).toBeGreaterThan(2);
+    expect(m.angle).not.toBe(0);
+  });
+
+  it('в оттиске марка и номер, а не пометка «черновик»', () => {
+    // Документ действующий: «черновик» на живом предложении обесценил бы
+    // его в глазах получателя, а знак должен мешать присвоить, а не отменять.
+    const [m] = watermarks('BIZSoft', 'BZ-20260821-0042') as any[];
+    expect(m.text).toBe('BIZSoft');
+    expect(m.sub).toBe('BZ-20260821-0042');
+    expect(/draft|черновик|копия/i.test(`${m.text} ${m.sub}`)).toBe(false);
+  });
+
+  it('рамка попадает в оба формата одинаково', () => {
+    const page = buildQuoteLayout(data, pdfMeasure())[0];
+    const svg = quotePageSvg(page.items);
+    expect(svg).toContain('stroke-dasharray');
+    expect(svg).toMatch(/<rect[^>]+fill="none"/);
+  });
+
   it('знак идёт под содержимым: рисуется раньше текста', () => {
     const first = pages[0].items.findIndex((i) => i.kind !== 'watermark');
     const lastMark = pages[0].items.map((i) => i.kind).lastIndexOf('watermark');

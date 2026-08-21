@@ -37,8 +37,9 @@ export type Primitive =
   | { kind: 'rect'; x: number; y: number; w: number; h: number; fill: string }
   | { kind: 'line'; x1: number; y1: number; x2: number; y2: number;
       color: string; lineWidth: number }
-  | { kind: 'watermark'; x: number; y: number; text: string; size: number;
-      color: string; opacity: number; angle: number };
+  | { kind: 'watermark'; x: number; y: number; text: string; sub?: string;
+      size: number; subSize: number; w: number; h: number; radius: number;
+      stroke: number; dash: number[]; color: string; opacity: number; angle: number };
 
 export interface Page { items: Primitive[] }
 
@@ -73,7 +74,8 @@ export const PAGE = { width: 595.28, height: 841.89, margin: 48 };
 export const COLOR = {
   accent: '#FF763C', dark: '#14161A', muted: '#6B7280',
   body: '#374151', rule: '#E5E7EB', head: '#F3F4F6',
-  watermark: '#14161A',
+  /** Штамп: фирменный оранжевый, как оттиск на образце. */
+  stamp: '#FF763C',
 };
 
 /**
@@ -85,9 +87,31 @@ export const COLOR = {
  * Знак идёт под содержимым и с низкой непрозрачностью — он должен мешать
  * присвоить документ, а не читать его.
  */
-export const WATERMARK = { cols: 3, rows: 4, opacity: 0.05, size: 13, angle: -30 };
+export const WATERMARK = {
+  cols: 3, rows: 4,
+  /** Заметен, но не спорит с текстом: читаемость документа важнее приметности знака. */
+  opacity: 0.17,
+  size: 17, subSize: 7.5,
+  w: 148, h: 52, radius: 8, stroke: 2.4,
+  angle: -30,
+  /**
+   * Рваная обводка вместо сплошной.
+   *
+   * На образце руководителя штамп потёртый — краска легла неровно. Растровую
+   * текстуру пришлось бы тащить картинкой в оба формата; неравномерный пунктир
+   * даёт тот же эффект оттиска вектором и одинаково выглядит в PDF и в JPG.
+   */
+  dash: [9, 2, 4, 2, 14, 3, 6, 2],
+};
 
-export function watermarks(text: string): Primitive[] {
+/**
+ * Штамп: рамка со скруглёнными углами и надпись внутри — как на образце.
+ *
+ * Внутри не «DRAFT», а марка продавца и номер КП. Документ действующий:
+ * пометка «черновик» на живом предложении обесценила бы его в глазах
+ * получателя, а задача знака — не дать присвоить документ, а не отменить его.
+ */
+export function watermarks(text: string, sub?: string): Primitive[] {
   const out: Primitive[] = [];
   const stepX = PAGE.width / WATERMARK.cols;
   const stepY = PAGE.height / WATERMARK.rows;
@@ -98,8 +122,15 @@ export function watermarks(text: string): Primitive[] {
         x: stepX * (c + 0.5),
         y: stepY * (r + 0.5),
         text,
+        sub,
         size: WATERMARK.size,
-        color: COLOR.watermark,
+        subSize: WATERMARK.subSize,
+        w: WATERMARK.w,
+        h: WATERMARK.h,
+        radius: WATERMARK.radius,
+        stroke: WATERMARK.stroke,
+        dash: WATERMARK.dash,
+        color: COLOR.stamp,
         opacity: WATERMARK.opacity,
         angle: WATERMARK.angle,
       });
@@ -138,11 +169,12 @@ export function buildQuoteLayout(data: QuoteData, measure: Measure): Page[] {
   const left = PAGE.margin;
   const right = PAGE.width - PAGE.margin;
   const width = right - left;
-  const mark = `BIZSoft · ${data.quoteNo}`;
+  const mark = 'BIZSoft';
+  const markSub = data.quoteNo;
 
   const pages: Page[] = [];
-  let items: Primitive[] = [...watermarks(mark)];
-  const newPage = () => { pages.push({ items }); items = [...watermarks(mark)]; };
+  let items: Primitive[] = [...watermarks(mark, markSub)];
+  const newPage = () => { pages.push({ items }); items = [...watermarks(mark, markSub)]; };
 
   // ── Шапка ──
   items.push({ kind: 'text', x: left, y: 48, text: 'BIZ', bold: true, size: 22, color: COLOR.dark });

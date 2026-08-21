@@ -49,11 +49,27 @@ function draw(doc: PDFKit.PDFDocument, p: Primitive): void {
   if (p.kind === 'watermark') {
     doc.save();
     doc.rotate(p.angle, { origin: [p.x, p.y] });
-    doc.fillOpacity(p.opacity).font('b').fontSize(p.size).fillColor(p.color);
-    const w = doc.widthOfString(p.text);
-    doc.text(p.text, p.x - w / 2, p.y - p.size / 2, { lineBreak: false });
+    doc.fillOpacity(p.opacity).strokeOpacity(p.opacity);
+
+    // Рамка оттиска. Пунктир имитирует потёртость краски — сплошная линия
+    // выглядит печатью на бланке, а не штампом.
+    doc.roundedRect(p.x - p.w / 2, p.y - p.h / 2, p.w, p.h, p.radius)
+      .lineWidth(p.stroke).strokeColor(p.color).dash(p.dash[0], { space: p.dash[1] }).stroke();
+    doc.undash();
+
+    const hasSub = Boolean(p.sub);
+    doc.font('b').fontSize(p.size).fillColor(p.color);
+    const tw = doc.widthOfString(p.text);
+    const ty = hasSub ? p.y - p.size * 0.75 : p.y - p.size / 2;
+    doc.text(p.text, p.x - tw / 2, ty, { lineBreak: false });
+    if (hasSub) {
+      doc.font('r').fontSize(p.subSize);
+      const sw = doc.widthOfString(p.sub!);
+      doc.text(p.sub!, p.x - sw / 2, p.y + p.size * 0.35, { lineBreak: false });
+    }
+
     doc.restore();
-    doc.fillOpacity(1);
+    doc.fillOpacity(1).strokeOpacity(1);
     return;
   }
   doc.font(p.bold ? 'b' : 'r').fontSize(p.size).fillColor(p.color);

@@ -44,9 +44,20 @@ function svgOf(p: Primitive): string {
       + `stroke="${p.color}" stroke-width="${p.lineWidth}"/>`;
   }
   if (p.kind === 'watermark') {
+    const hasSub = Boolean(p.sub);
+    const ty = hasSub ? p.y - p.size * 0.05 : p.y + p.size * 0.35;
+    const sub = hasSub
+      ? `<text x="${p.x}" y="${p.y + p.size * 0.35 + p.subSize * ASCENT}" `
+        + `font-family="DejaVu Sans" font-size="${p.subSize}" fill="${p.color}" `
+        + `text-anchor="middle">${esc(p.sub!)}</text>`
+      : '';
     return `<g transform="rotate(${p.angle} ${p.x} ${p.y})" opacity="${p.opacity}">`
-      + `<text x="${p.x}" y="${p.y}" font-family="DejaVu Sans" font-weight="bold" `
-      + `font-size="${p.size}" fill="${p.color}" text-anchor="middle">${esc(p.text)}</text></g>`;
+      + `<rect x="${p.x - p.w / 2}" y="${p.y - p.h / 2}" width="${p.w}" height="${p.h}" `
+      + `rx="${p.radius}" ry="${p.radius}" fill="none" stroke="${p.color}" `
+      + `stroke-width="${p.stroke}" stroke-dasharray="${p.dash.join(' ')}"/>`
+      + `<text x="${p.x}" y="${ty}" font-family="DejaVu Sans" font-weight="bold" `
+      + `font-size="${p.size}" fill="${p.color}" text-anchor="middle">${esc(p.text)}</text>`
+      + sub + `</g>`;
   }
   const y = p.y + p.size * ASCENT;
   let x = p.x;
