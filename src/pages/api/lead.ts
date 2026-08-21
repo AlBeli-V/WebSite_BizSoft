@@ -1,6 +1,7 @@
 export const prerender = false;
 
 import type { APIRoute } from 'astro';
+import { defaultLeadOwner } from '../../config/site';
 import { createLead } from '../../lib/directus';
 import { sendMail, managerEmail } from '../../lib/mailer';
 
@@ -40,6 +41,12 @@ export const POST: APIRoute = async ({ request }) => {
     product_ref: String(body.product_ref || '').slice(0, 300),
     consent: true,
     source: String(body.source || 'site').slice(0, 60),
+    // Стадия воронки с первой секунды: заявка без статуса не попадает ни в один
+    // фильтр воронки и теряется из виду, хотя формально сохранена.
+    status: 'new',
+    // Ответственный по умолчанию — распоряжение руководителя 21.08.2026.
+    // Заявка без владельца ничья, и о ней забывают.
+    owner: defaultLeadOwner,
   };
 
   try {

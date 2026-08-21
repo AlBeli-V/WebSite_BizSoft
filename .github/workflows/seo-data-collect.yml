@@ -1,94 +1,54 @@
-# Сбор SEO-данных из Яндекс.Вебмастера: сводка индексации и выборки
-# исключённых из поиска страниц (scripts/seo/collect.py).
-# Скрипт выполняется на сервере по SSH: OAuth-токен может отсутствовать в
-# секретах GitHub (YANDEX_OAUTH), но на сервере он есть в /opt/bizsoft/astro.env.
-# Результат коммитится в data/yandex-<дата>.json той ветки, с которой запущен
-# воркфлоу; краткое резюме — комментарием в журнал issue #22.
+# Ежедневный сбор SEO-данных из Google Search Console и Яндекс.Вебмастера
+# в reports/seo/data/ ветки мониторинга (утренний отчёт читает эти файлы).
+# Расписание: 02:40 UTC (08:40 Бишкек) — до формирования отчёта в 09:03.
+# Секреты: GSC_SERVICE_ACCOUNT_JSON, YANDEX_WEBMASTER_TOKEN.
 
 name: seo-data-collect
 
 on:
+  schedule:
+    - cron: "40 2 * * *"
   workflow_dispatch:
+  push:
+    branches:
+      - claude/biz-soft-rating-tracking-5rf03g
+    paths:
+      - ".github/workflows/seo-data-collect.yml"
+      - "scripts/seo/collect.py"
 
 permissions:
   contents: write
-  issues: write
 
 jobs:
   collect:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
-      - name: Encode collector script
-        id: enc
-        run: echo "b64=$(base64 -w0 scripts/seo/collect.py)" >> "$GITHUB_OUTPUT"
-
-      - name: Run collector on server
-        id: run
-        uses: appleboy/ssh-action@v1
-        env:
-          SCRIPT_B64: ${{ steps.enc.outputs.b64 }}
-          YTOKEN: ${{ secrets.YANDEX_OAUTH }}
         with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USER }}
-          key: ${{ secrets.SSH_KEY }}
-          envs: SCRIPT_B64,YTOKEN
-          capture_stdout: true
-          script: |
-            set -e
-            if [ -z "$YTOKEN" ]; then
-              YTOKEN=$(sed -n 's/^YANDEX_OAUTH=//p' /opt/bizsoft/astro.env 2>/dev/null | tr -d '"\r' || true)
-            fi
-            if [ -z "$YTOKEN" ]; then
-              echo "токен: НЕ НАЙДЕН (ни секрета YANDEX_OAUTH, ни YANDEX_OAUTH в astro.env)"
-              exit 0
-            fi
-            echo "токен: задан"
-            echo "$SCRIPT_B64" | base64 -d > /tmp/seo-collect.py
-            YANDEX_OAUTH="$YTOKEN" python3 /tmp/seo-collect.py --yandex --stdout-b64
-            rm -f /tmp/seo-collect.py
+          ref: claude/biz-soft-rating-tracking-5rf03g
 
-      - name: Decode payload and commit data file
+      - name: Install deps
+        run: pip install --quiet requests google-auth
+
+      - name: Collect GSC + Yandex data
         env:
-          OUT: ${{ steps.run.outputs.stdout }}
-        run: |
-          printf '%s' "$OUT" > /tmp/collect-out.txt
-          python3 - <<'PY'
-          import base64, datetime, gzip, json, os, re, sys
-          out = open('/tmp/collect-out.txt', encoding='utf-8', errors='replace').read()
-          m = re.search(r'---YJSON-BEGIN---(.*?)---YJSON-END---', out, re.S)
-          if not m:
-              print('маркеры данных не найдены — файл не записан')
-              sys.exit(0)
-          raw = gzip.decompress(base64.b64decode(''.join(m.group(1).split())))
-          os.makedirs('data', exist_ok=True)
-          path = f'data/yandex-{datetime.date.today().isoformat()}.json'
-          with open(path, 'w', encoding='utf-8') as f:
-              json.dump(json.loads(raw), f, ensure_ascii=False, indent=2)
-          print('записано:', path)
-          PY
-          if [ -n "$(git status --porcelain data 2>/dev/null)" ]; then
-            git config user.name "github-actions[bot]"
-            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git add data/
-            git commit -m "seo-data-collect: выгрузка Яндекс.Вебмастера $(date -u +%F)"
-            git push origin "HEAD:${GITHUB_REF_NAME}"
-          else
-            echo "данных для коммита нет"
-          fi
+          GSC_SERVICE_ACCOUNT_JSON: ${{ secrets.GSC_SERVICE_ACCOUNT_JSON }}
+          YANDEX_WEBMASTER_TOKEN: ${{ secrets.YANDEX_WEBMASTER_TOKEN }}
+          YANDEX_METRIKA_TOKEN: ${{ secrets.YANDEX_METRIKA_TOKEN }}
+          YANDEX_METRIKA_COUNTER_ID: ${{ secrets.YANDEX_METRIKA_COUNTER_ID }}
+          GA4_PROPERTY_ID: ${{ secrets.GA4_PROPERTY_ID }}
+        run: python3 scripts/seo/collect.py
 
-      - name: Post summary to journal (issue #22)
+      - name: Commit data
         if: always()
-        uses: actions/github-script@v7
-        env:
-          OUT: ${{ steps.run.outputs.stdout }}
-        with:
-          script: |
-            const raw = process.env.OUT || '(нет вывода)';
-            const summary = raw.split('---YJSON-BEGIN---')[0].trim().slice(0, 60000);
-            await github.rest.issues.createComment({
-              owner: context.repo.owner, repo: context.repo.repo, issue_number: 22,
-              body: '### seo-data-collect · ' + new Date().toISOString() + '\n```\n' + summary + '\n```',
-            });
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add reports/seo/data
+          if git diff --cached --quiet; then
+            echo "Нет новых данных для коммита"
+          else
+            git commit -m "SEO-данные GSC/Яндекс за $(date -u +%F)"
+            git pull --rebase origin claude/biz-soft-rating-tracking-5rf03g
+            git push origin claude/biz-soft-rating-tracking-5rf03g
+          fi

@@ -1,0 +1,205 @@
+---
+/**
+ * Хаб производителя Zoho: десять функциональных групп линейки ManageEngine.
+ *
+ * Иерархия от 20.08.2026: производитель — Zoho, ManageEngine это его
+ * продуктовая линейка. Поэтому здесь знак и название Zoho, а знаки
+ * ManageEngine — на страницах семейств и в карточках товаров.
+ *
+ * Состав групп берётся из src/data/zoho-hierarchy.ts — разбора витрины
+ * магазина вендора, а не из редакторского списка.
+ */
+import Breadcrumbs from './Breadcrumbs.astro';
+import HeroSteps from './HeroSteps.astro';
+import ProductCard from './ProductCard.astro';
+import FAQ from './FAQ.astro';
+import CTASection from './CTASection.astro';
+import QuestionForm from './QuestionForm.astro';
+import JsonLd from './JsonLd.astro';
+import VendorIcon from './VendorIcon.astro';
+import { ZOHO_GROUPS, ZOHO_SOURCE } from '../data/zoho-hierarchy';
+import { getProducts } from '../lib/directus';
+import { effectivePrice } from '../lib/pricing';
+import { site } from '../config/site';
+import { breadcrumbSchema } from '../lib/seo';
+import type { Product } from '../lib/types';
+
+// Уже опубликованные позиции линейки — они остаются на своих адресах и
+// после перестройки раздела.
+let products: Product[] = [];
+try {
+  products = await getProducts({ vendor: 'Zoho' });
+} catch (e) {
+  console.error('zoho hub products error', e);
+}
+products.sort((a, b) => Number(!(effectivePrice(a).price > 0)) - Number(!(effectivePrice(b).price > 0)));
+
+// Пустые группы не показываем: витрина вендора уводит из них на страницы без
+// магазина, и открывать пустой раздел покупателю незачем.
+const groups = ZOHO_GROUPS.filter((g) => g.families.length > 0).map((g) => ({
+  ...g,
+  priced: g.families.filter((f) => f.priced).length,
+}));
+const familyCount = groups.reduce((s, g) => s + g.families.length, 0);
+
+const plural = (n: number, one: string, few: string, many: string) =>
+  n % 10 === 1 && n % 100 !== 11 ? one
+    : [2, 3, 4].includes(n % 10) && ![12, 13, 14].includes(n % 100) ? few : many;
+
+const faq = [
+  {
+    q: 'Zoho или ManageEngine — кто производитель?',
+    a: 'Производитель — Zoho Corporation. ManageEngine это подразделение и торговая марка Zoho, под которой выпускается линейка систем управления ИТ-инфраструктурой. В договоре и счёте указывается конкретный продукт линейки.',
+  },
+  {
+    q: 'Как считается лицензия?',
+    a: 'У каждого продукта своя лицензионная метрика: служба поддержки считается по числу технических специалистов, управление рабочими местами — по числу устройств, аудит Active Directory — по числу контроллеров домена. Метрика указана в каждой позиции: платит компания за объём, а не за всех сотрудников.',
+  },
+  {
+    q: 'Подписка или вечная лицензия?',
+    a: 'У части продуктов вендор продаёт оба варианта: годовую подписку и вечную лицензию с отдельной оплатой сопровождения. Где вендор публикует оба прайса, на витрине показаны обе поставки; где публикует только один — только его. Недостающие варианты считаем по запросу.',
+  },
+  {
+    q: 'Можно ли купить дополнение отдельно?',
+    a: 'Нет. Дополнения вендора продаются только к базовой лицензии, а часть из них — только к конкретной редакции. Конфигуратор на странице продукта не даст собрать спецификацию, которую вендор не поставит.',
+  },
+  {
+    q: 'Как оплатить без зарубежной карты?',
+    a: 'Оплату вендору берём на себя. Вы заключаете договор с российским юридическим лицом BIZSoft, платите в рублях по счёту и получаете закрывающие документы через ЭДО.',
+  },
+];
+
+const crumbs = [
+  { name: 'Каталог', url: '/catalog' },
+  { name: 'Производители', url: '/vendors' },
+  { name: 'Zoho', url: '/vendors/zoho' },
+];
+
+const ld = [
+  breadcrumbSchema(crumbs),
+  {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name: 'Zoho ManageEngine для юридических лиц — каталог линейки',
+    url: `${site.url}/vendors/zoho`,
+    mainEntity: {
+      '@type': 'ItemList',
+      itemListElement: groups.map((g, i) => ({
+        '@type': 'ListItem', position: i + 1, name: g.name, url: `${site.url}/vendors/zoho/${g.slug}`,
+      })),
+    },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
+  },
+];
+---
+<JsonLd schema={ld} />
+<div class="container-page section">
+  <Breadcrumbs items={crumbs} />
+
+  <header class="hero-cols z-hero">
+    <div>
+      <div class="z-brand">
+        <VendorIcon slug="zoho" name="Zoho" size={44} />
+        <span>Zoho</span>
+        <small>Zoho Corporation Pvt. Ltd.</small>
+      </div>
+      <h1>Zoho ManageEngine для юридических лиц: линейка, редакции и оформление</h1>
+      <p class="lead">
+        ManageEngine — линейка систем управления ИТ-инфраструктурой производителя Zoho:
+        служба поддержки и учёт активов, учётные записи и доступ, рабочие места,
+        мониторинг сети и разбор событий безопасности. Подберём редакцию под
+        ваш объём и оформим на компанию.
+      </p>
+      <ul class="z-chips">
+        <li>{groups.length} {plural(groups.length, 'направление', 'направления', 'направлений')}</li>
+        <li>{familyCount} {plural(familyCount, 'продукт', 'продукта', 'продуктов')}</li>
+        <li>Договор, счёт в рублях, ЭДО</li>
+      </ul>
+      <div class="z-actions">
+        <button class="btn btn-primary" data-open-question data-product="Zoho ManageEngine">Получить расчёт и КП</button>
+        <a href="/vendors" class="btn btn-ghost">Все производители</a>
+      </div>
+    </div>
+    <HeroSteps />
+  </header>
+
+  <div class="summary">
+    <strong>Коротко:</strong> производитель — Zoho, ManageEngine это его продуктовая
+    линейка. Лицензия у каждого продукта считается по своей метрике — специалистам,
+    устройствам, контроллерам домена, — поэтому стоимость зависит от объёма, а не от
+    численности компании. Выберите направление и продукт: на странице продукта видны
+    редакции, объёмы и что с чем совместимо.
+  </div>
+
+  <section class="z-groups">
+    <h2>Направления линейки ManageEngine</h2>
+    <div class="z-grid">
+      {groups.map((g) => (
+        <a class="z-card" href={`/vendors/zoho/${g.slug}`}>
+          <h3>{g.name}</h3>
+          <p>{g.lead}</p>
+          <span class="z-count">
+            {g.families.length} {plural(g.families.length, 'продукт', 'продукта', 'продуктов')}
+            {g.priced > 0 && <em>· {g.priced} с опубликованным прайсом</em>}
+          </span>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  {products.length > 0 && (
+    <section class="z-products">
+      <h2>Позиции ManageEngine в каталоге</h2>
+      <div class="z-cards">
+        {products.map((p) => <ProductCard product={p} />)}
+      </div>
+    </section>
+  )}
+
+  <p class="z-source">
+    Состав линейки и редакции сверены с витриной магазина вендора
+    <a href={ZOHO_SOURCE.url} rel="nofollow noopener" target="_blank">store.manageengine.com</a>
+    {' '}— снято {ZOHO_SOURCE.day}. Цены на витрине BIZSoft указаны в рублях и
+    пересчитываются по курсу ЦБ ежедневно.
+  </p>
+
+  <FAQ items={faq} title="Частые вопросы про Zoho ManageEngine" />
+</div>
+<CTASection
+  title="Нужен продукт ManageEngine на компанию?"
+  text="Опишите задачу и объём — число специалистов, устройств или контроллеров домена. Подберём редакцию, посчитаем стоимость и подготовим КП."
+  primaryLabel="Обсудить задачу"
+  primaryHref="/contacts/"
+  secondaryLabel="Смотреть каталог"
+  secondaryHref="/catalog/"
+/>
+<QuestionForm source="vendor-zoho" />
+
+<style>
+  .section { padding: 2rem 0 1rem; }
+  .z-hero { margin: 1rem 0 2rem; }
+  .z-brand { display: flex; align-items: center; gap: 0.65rem; margin-bottom: 1rem; flex-wrap: wrap; }
+  .z-brand span { font-weight: 700; font-size: 1.05rem; }
+  .z-brand small { color: var(--color-text-dim); font-size: 0.82rem; }
+  h1 { font-size: clamp(1.7rem, 3.8vw, 2.5rem); margin-bottom: 0.8rem; }
+  .lead { color: var(--color-text-muted); font-size: 1.05rem; max-width: 62ch; }
+  .z-chips { display: flex; gap: 0.5rem 1.3rem; list-style: none; padding: 0; margin: 1rem 0 1.3rem; flex-wrap: wrap; color: var(--color-text-muted); font-size: 0.9rem; }
+  .z-chips li { position: relative; padding-left: 1.05rem; }
+  .z-chips li::before { content: '●'; position: absolute; left: 0; color: var(--color-accent); font-size: 0.6rem; top: 0.35em; }
+  .z-actions { display: flex; gap: 0.8rem; flex-wrap: wrap; }
+  .summary { background: var(--color-bg-card); border: 1px solid var(--color-border); border-left: 3px solid var(--color-accent); border-radius: var(--radius); padding: 1rem 1.2rem; margin: 0 0 2.2rem; }
+  .z-groups h2, .z-products h2 { font-size: clamp(1.3rem, 2.6vw, 1.7rem); margin-bottom: 1.2rem; }
+  .z-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1rem; margin-bottom: 2.4rem; }
+  .z-card { display: flex; flex-direction: column; gap: 0.5rem; padding: 1.1rem 1.2rem; background: var(--color-bg-card); border: 1px solid var(--color-border); border-radius: var(--radius); text-decoration: none; color: inherit; transition: border-color 0.15s, transform 0.15s; }
+  .z-card:hover { border-color: var(--color-accent); transform: translateY(-2px); }
+  .z-card h3 { font-size: 1.05rem; margin: 0; }
+  .z-card p { color: var(--color-text-muted); font-size: 0.9rem; margin: 0; line-height: 1.5; }
+  .z-count { color: var(--color-text-dim); font-size: 0.82rem; margin-top: auto; padding-top: 0.4rem; }
+  .z-count em { font-style: normal; }
+  .z-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1.2rem; margin-bottom: 2rem; }
+  .z-source { color: var(--color-text-dim); font-size: 0.85rem; margin: 0 0 2rem; }
+</style>

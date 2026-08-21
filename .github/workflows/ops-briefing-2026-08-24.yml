@@ -1,0 +1,137 @@
+# Одноразовое письмо-напоминание руководителю: понедельник 24.08.2026, 10:00 МСК.
+#
+# Расписание живёт здесь, а не в сессионном Routine: у Routine нет доступа к
+# GitHub-инструментам, он не смог бы запустить отправку. Cron GitHub Actions
+# работает независимо от того, жива ли сессия ассистента.
+#
+# Время в cron — UTC: 07:00 UTC = 10:00 МСК (правило часового пояса в CLAUDE.md).
+# Тело письма берётся из reports/ops/briefing-2026-08-24.md (раздел «Тело
+# письма»), чтобы текст был согласован заранее, а не собирался в момент отправки.
+# На сервер тело едет base64-строкой: многострочный русский текст в обычной
+# переменной окружения ssh-action ломается на переносах и кавычках.
+name: ops-briefing-2026-08-24
+on:
+  schedule:
+    # 10:00 МСК понедельника 24.08.2026
+    - cron: '0 7 24 8 *'
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'true — показать письмо, не отправляя'
+        required: false
+        default: 'true'
+permissions:
+  contents: read
+  issues: write
+jobs:
+  send:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Extract letter body
+        id: body
+        run: |
+          python3 - <<'PY'
+          import base64, os, re
+          src = 'reports/ops/briefing-2026-08-24.md'
+          text = open(src, encoding='utf-8').read()
+          # Всё между «## Тело письма» и следующим разделителем/заголовком.
+          m = re.search(r'^## Тело письма\s*\n(.*?)(?=^---\s*$|^## )', text, re.S | re.M)
+          if not m:
+              raise SystemExit(f'в {src} не найден раздел «## Тело письма»')
+          body = m.group(1).strip()
+          # Markdown в письмо не тащим: заголовки — обычные строки, жирный снимаем.
+          body = re.sub(r'^#{1,6}\s*', '', body, flags=re.M).replace('**', '')
+          b64 = base64.b64encode(body.encode()).decode()
+          with open(os.environ['GITHUB_OUTPUT'], 'a', encoding='utf-8') as out:
+              out.write(f'b64={b64}\n')
+              out.write(f'chars={len(body)}\n')
+          print(f'символов в теле: {len(body)}')
+          print('--- первые строки ---')
+          print('\n'.join(body.splitlines()[:6]))
+          PY
+
+      - name: Guard — только 24.08.2026
+        id: guard
+        run: |
+          TODAY=$(date -u +%Y-%m-%d)
+          if [ "${{ github.event_name }}" = "schedule" ] && [ "$TODAY" != "2026-08-24" ]; then
+            echo "сегодня $TODAY, письмо запланировано на 2026-08-24 — пропускаю"
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "skip=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Send
+        id: run
+        if: steps.guard.outputs.skip == 'false' && inputs.dry_run != 'true'
+        uses: appleboy/ssh-action@v1
+        env:
+          P_TO: hello@biz-soft.pro
+          P_SUBJECT: 'BIZSoft: решения за вами и план на понедельник 24.08'
+          P_BODY_B64: ${{ steps.body.outputs.b64 }}
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          envs: P_TO,P_SUBJECT,P_BODY_B64
+          capture_stdout: true
+          script: |
+            set -e
+            ENVF=/opt/bizsoft/astro.env
+            for k in SMTP_HOST SMTP_PORT SMTP_SECURE SMTP_USER SMTP_PASS SMTP_FROM; do
+              v=$(sed -n "s/^$k=//p" "$ENVF" | tr -d '"\r')
+              export "$k=$v"
+            done
+            python3 - <<'PYEOF'
+            import base64, os, smtplib, ssl
+            from email.message import EmailMessage
+            host = os.environ.get('SMTP_HOST', '')
+            if not host:
+                print('SMTP не настроен в astro.env — письмо не отправлено'); raise SystemExit(1)
+            port = int(os.environ.get('SMTP_PORT') or 587)
+            secure = (os.environ.get('SMTP_SECURE') or 'false').lower() == 'true'
+            user = os.environ.get('SMTP_USER', '')
+            sender = os.environ.get('SMTP_FROM') or 'BIZSoft <hello@biz-soft.pro>'
+            body = base64.b64decode(os.environ['P_BODY_B64']).decode()
+            msg = EmailMessage()
+            msg['From'] = sender
+            msg['To'] = os.environ['P_TO']
+            msg['Subject'] = os.environ['P_SUBJECT']
+            msg.set_content(body)
+            print(f"SMTP {host}:{port} secure={secure} user={'задан' if user else '—'}")
+            print(f"от: {sender}\nкому: {msg['To']}\nтема: {msg['Subject']}")
+            print(f"символов в теле: {len(body)}")
+            ctx = ssl.create_default_context()
+            if secure:
+                srv = smtplib.SMTP_SSL(host, port, context=ctx, timeout=30)
+            else:
+                srv = smtplib.SMTP(host, port, timeout=30)
+                try:
+                    srv.starttls(context=ctx)
+                except smtplib.SMTPNotSupportedError:
+                    print('сервер без STARTTLS — отправка без шифрования')
+            with srv:
+                if user:
+                    srv.login(user, os.environ.get('SMTP_PASS', ''))
+                srv.send_message(msg)
+            print('письмо отправлено')
+            PYEOF
+
+      - name: Post to issue
+        if: steps.guard.outputs.skip == 'false'
+        uses: actions/github-script@v7
+        env:
+          RESULT: ${{ steps.run.outputs.stdout }}
+          CHARS: ${{ steps.body.outputs.chars }}
+          DRY: ${{ inputs.dry_run }}
+        with:
+          script: |
+            const dry = process.env.DRY === 'true';
+            const out = process.env.RESULT || '(отправка не выполнялась)';
+            await github.rest.issues.createComment({
+              owner: context.repo.owner, repo: context.repo.repo, issue_number: 22,
+              body: `### ops-briefing-2026-08-24 (${dry ? 'dry-run' : 'отправка'})\n\n`
+                  + `Тело письма: ${process.env.CHARS} символов.\n\n\`\`\`\n${out}\n\`\`\``,
+            });

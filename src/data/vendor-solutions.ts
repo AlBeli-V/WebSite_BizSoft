@@ -64,6 +64,13 @@ export const VENDOR_SOLUTIONS: Record<string, string[]> = {
   'unreal-engine': ['it-companies', 'inostrannoe-po-po-dogovoru'],
   gitlab: ['it-companies', 'ai-dlya-razrabotchikov'],
   docker: ['it-companies', 'po-dlya-yurlic-po-schetu'],
+  atlassian: ['it-companies', 'po-dlya-yurlic-po-schetu', 'inostrannoe-po-po-dogovoru'],
+  postman: ['it-companies', 'ai-dlya-razrabotchikov', 'inostrannoe-po-po-dogovoru'],
+  sentry: ['it-companies', 'ai-dlya-razrabotchikov', 'po-dlya-yurlic-po-schetu'],
+  browserstack: ['it-companies', 'po-dlya-yurlic-po-schetu', 'inostrannoe-po-po-dogovoru'],
+  n8n: ['it-companies', 'ai-servisy-dlya-biznesa', 'po-dlya-yurlic-po-schetu'],
+  teamviewer: ['it-companies', 'po-dlya-yurlic-po-schetu', 'inostrannoe-po-po-dogovoru'],
+  zoho: ['it-companies', 'po-dlya-yurlic-po-schetu', 'inostrannoe-po-po-dogovoru'],
 };
 
 /** Обратная карта: какие вендоры показывать плитками на странице решения. */

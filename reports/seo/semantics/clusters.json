@@ -1,0 +1,23 @@
+{
+  "schema_version": "1.0.0",
+  "note": "Приоритетные кластеры для сбора рыночного спроса из Вордстата. seed — базовая фраза (широкое соответствие), page — наша страница под кластер (null = страницы нет, кандидат на создание). Список ограничен приоритетом: суточная квота API конечна.",
+  "region_id": "225",
+  "region_name": "Россия",
+  "clusters": [
+    {"cluster": "canva", "seed": "canva", "page": "/vendors/canva", "priority": 1},
+    {"cluster": "depositphotos", "seed": "depositphotos", "page": "/vendors/depositphotos", "priority": 1},
+    {"cluster": "coreldraw", "seed": "coreldraw", "page": "/vendors/coreldraw", "priority": 1},
+    {"cluster": "heygen", "seed": "heygen", "page": "/vendors/heygen", "priority": 1},
+    {"cluster": "marmoset", "seed": "marmoset toolbag", "page": "/vendors/marmoset", "priority": 1},
+    {"cluster": "figma", "seed": "figma", "page": "/vendors/figma", "priority": 2},
+    {"cluster": "midjourney", "seed": "midjourney", "page": "/vendors/midjourney", "priority": 2},
+    {"cluster": "unity", "seed": "unity", "page": "/vendors/unity", "priority": 2},
+    {"cluster": "procreate", "seed": "procreate", "page": "/vendors/procreate", "priority": 2},
+    {"cluster": "elevenlabs", "seed": "elevenlabs", "page": "/vendors/elevenlabs", "priority": 2},
+    {"cluster": "jetbrains", "seed": "jetbrains", "page": "/vendors/jetbrains", "priority": 2},
+    {"cluster": "blackmagic", "seed": "davinci resolve", "page": "/vendors/blackmagic", "priority": 2},
+    {"cluster": "оплата-зарубежных-сервисов", "seed": "оплата зарубежных сервисов", "page": null, "priority": 1},
+    {"cluster": "оплата-по-счету-для-юрлиц", "seed": "оплата иностранных сервисов по счету", "page": null, "priority": 2},
+    {"cluster": "нейросети-для-бизнеса", "seed": "нейросети для бизнеса", "page": null, "priority": 2}
+  ]
+}
