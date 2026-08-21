@@ -1,6 +1,6 @@
 {
  "date": "2026-08-21",
- "generated_at": "2026-08-21T02:01:59+00:00",
+ "generated_at": "2026-08-21T02:37:52+00:00",
  "measured_at": "2026-08-21",
  "universe": {
   "phrases": 16501,
@@ -140,13 +140,13 @@
   "C": 73
  },
  "gaps_by_class": {
-  "GAP-A": 14,
-  "GAP-B": 27,
-  "GAP-C": 4,
-  "GAP-D": 3,
+  "GAP-A": 12,
+  "GAP-B": 22,
+  "GAP-C": 3,
+  "GAP-D": 2,
   "GAP-F": 1,
-  "GAP-G": 15,
-  "GAP-H": 10
+  "GAP-G": 17,
+  "GAP-H": 17
  },
  "uncovered_top": [
   {
@@ -237,7 +237,7 @@
    "impressions": 0,
    "clicks": 0,
    "ctr": null,
-   "trend": "unknown",
+   "trend": "stable",
    "top_phrases": [
     {
      "phrase": "google pixel купить",
@@ -265,66 +265,12 @@
     "прочее": 13018,
     "цены и тарифы": 176
    },
-   "opportunity_score": 0.34425,
+   "opportunity_score": 0.3825,
    "components": {
     "normalized_demand": 1.0,
     "commercial_intent": 1.0,
     "coverage_gap": 0.85,
-    "trend_factor": 0.9,
-    "confidence": 0.9,
-    "estimated_effort": 2.0
-   },
-   "confidence_note": "достаточная: кластер измерен несколькими фразами"
-  },
-  {
-   "cluster": "microsoft",
-   "vendor": "Microsoft",
-   "category": "Офисное ПО",
-   "gap": "GAP-B",
-   "gap_title": "Страница есть, не индексируется",
-   "recommended_action": "техническое SEO",
-   "commercial_demand": 55439,
-   "commercial_phrases": 248,
-   "url": "/vendors/microsoft",
-   "page_exists": true,
-   "indexed": false,
-   "best_position": null,
-   "impressions": 0,
-   "clicks": 0,
-   "ctr": null,
-   "trend": "unknown",
-   "top_phrases": [
-    {
-     "phrase": "купить microsoft",
-     "frequency": 12604
-    },
-    {
-     "phrase": "microsoft office купить",
-     "frequency": 4644
-    },
-    {
-     "phrase": "купить ключ microsoft",
-     "frequency": 1942
-    },
-    {
-     "phrase": "купить microsoft simulator",
-     "frequency": 1316
-    },
-    {
-     "phrase": "microsoft 2024 купить",
-     "frequency": 1301
-    }
-   ],
-   "subclusters": {
-    "покупка": 53907,
-    "цены и тарифы": 1532
-   },
-   "opportunity_score": 0.07546,
-   "components": {
-    "normalized_demand": 0.2192,
-    "commercial_intent": 1.0,
-    "coverage_gap": 0.85,
-    "trend_factor": 0.9,
+    "trend_factor": 1.0,
     "confidence": 0.9,
     "estimated_effort": 2.0
    },
@@ -485,6 +431,59 @@
    "opportunity_score": 0.01843,
    "components": {
     "normalized_demand": 0.063,
+    "commercial_intent": 1.0,
+    "coverage_gap": 1.0,
+    "trend_factor": 1.3,
+    "confidence": 0.9,
+    "estimated_effort": 4.0
+   },
+   "confidence_note": "достаточная: кластер измерен несколькими фразами"
+  },
+  {
+   "cluster": "spotify купить",
+   "vendor": null,
+   "category": null,
+   "gap": "GAP-G",
+   "gap_title": "Спрос растёт",
+   "recommended_action": "ранняя возможность",
+   "commercial_demand": 15075,
+   "commercial_phrases": 50,
+   "url": null,
+   "page_exists": false,
+   "indexed": false,
+   "best_position": null,
+   "impressions": 0,
+   "clicks": 0,
+   "ctr": null,
+   "trend": "growing",
+   "top_phrases": [
+    {
+     "phrase": "spotify купить",
+     "frequency": 5395
+    },
+    {
+     "phrase": "купить аккаунт spotify",
+     "frequency": 1882
+    },
+    {
+     "phrase": "spotify купить подписку",
+     "frequency": 1609
+    },
+    {
+     "phrase": "spotify аккаунт купить мир",
+     "frequency": 1543
+    },
+    {
+     "phrase": "spotify аккаунт купить мир танков",
+     "frequency": 1543
+    }
+   ],
+   "subclusters": {
+    "покупка": 15075
+   },
+   "opportunity_score": 0.01743,
+   "components": {
+    "normalized_demand": 0.0596,
     "commercial_intent": 1.0,
     "coverage_gap": 1.0,
     "trend_factor": 1.3,
@@ -1234,22 +1233,22 @@
   "note": "Российские вендоры исключены: их лицензии продаются напрямую, услуга оплаты из-за рубежа к ним неприменима."
  },
  "efficiency": {
-  "calls_total": 704,
-  "calls_paid": 348,
-  "cost_month_rub": 7.77,
-  "cost_today_rub": 0.0,
-  "remaining_budget_rub": 5492.23,
-  "forecast_month_end_rub": 11.47,
+  "calls_total": 893,
+  "calls_paid": 385,
+  "cost_month_rub": 8.9,
+  "cost_today_rub": 1.13,
+  "remaining_budget_rub": 5491.1,
+  "forecast_month_end_rub": 13.14,
   "state": "open",
-  "cache_hit_rate": 0.5057,
-  "duplicate_rate": 0.0218,
+  "cache_hit_rate": 0.5689,
+  "duplicate_rate": 0.2875,
   "unique_phrases": 10001,
   "new_commercial_phrases": 2363,
   "new_clusters": 105,
-  "cost_per_1000_unique_phrases_rub": 0.777,
-  "cost_per_1000_commercial_phrases_rub": 3.288,
-  "cost_per_new_cluster_rub": 0.074,
-  "empty_response_rate": 0.2926
+  "cost_per_1000_unique_phrases_rub": 0.89,
+  "cost_per_1000_commercial_phrases_rub": 3.766,
+  "cost_per_new_cluster_rub": 0.0848,
+  "empty_response_rate": 0.2822
  },
  "quota": {
   "requests_per_hour": 500,

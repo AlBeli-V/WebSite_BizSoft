@@ -1,24 +1,4 @@
 {
- "notion": {
-  "verdict": "card",
-  "note": "найдены признаки самостоятельной оплаты картой",
-  "card_markers": [
-   "credit card",
-   "debit card"
-  ],
-  "buy_markers": [
-   "get started",
-   "purchase"
-  ],
-  "sales_markers": [
-   "contact sales"
-  ],
-  "has_prices": true,
-  "url": "https://www.notion.com/pricing",
-  "http_status": 200,
-  "checked_at": "2026-08-20",
-  "kind": "classic"
- },
  "slack": {
   "verdict": "card",
   "note": "найдены признаки самостоятельной оплаты картой",
@@ -615,25 +595,6 @@
   "checked_at": "2026-08-20",
   "kind": "classic"
  },
- "openai": {
-  "verdict": "card",
-  "note": "найдены признаки самостоятельной оплаты картой",
-  "card_markers": [
-   "credit card"
-  ],
-  "buy_markers": [
-   "get started",
-   "purchase"
-  ],
-  "sales_markers": [
-   "contact sales"
-  ],
-  "has_prices": true,
-  "url": "https://openai.com/api/pricing/",
-  "http_status": 200,
-  "checked_at": "2026-08-20",
-  "kind": "ai"
- },
  "chatgpt plus": {
   "verdict": "card",
   "note": "найдены признаки самостоятельной оплаты картой",
@@ -669,47 +630,6 @@
   ],
   "has_prices": true,
   "url": "https://www.anthropic.com/pricing",
-  "http_status": 200,
-  "checked_at": "2026-08-20",
-  "kind": "ai"
- },
- "github copilot": {
-  "verdict": "card",
-  "note": "найдены признаки самостоятельной оплаты картой",
-  "card_markers": [
-   "credit card"
-  ],
-  "buy_markers": [
-   "get started",
-   "purchase"
-  ],
-  "sales_markers": [
-   "contact sales"
-  ],
-  "has_prices": true,
-  "url": "https://github.com/features/copilot/plans",
-  "http_status": 200,
-  "checked_at": "2026-08-20",
-  "kind": "ai"
- },
- "cursor": {
-  "verdict": "card",
-  "note": "найдены признаки самостоятельной оплаты картой",
-  "card_markers": [
-   "credit card",
-   "debit card",
-   "stripe"
-  ],
-  "buy_markers": [
-   "/checkout",
-   "get started",
-   "purchase"
-  ],
-  "sales_markers": [
-   "contact sales"
-  ],
-  "has_prices": true,
-  "url": "https://cursor.com/pricing",
   "http_status": 200,
   "checked_at": "2026-08-20",
   "kind": "ai"
@@ -1001,67 +921,6 @@
   "checked_at": "2026-08-20",
   "kind": "classic"
  },
- "docker": {
-  "verdict": "likely_card",
-  "note": "есть цены и кнопки покупки, платёжная система не опознана",
-  "card_markers": [],
-  "buy_markers": [
-   "buy now",
-   "get started",
-   "purchase",
-   "start free trial"
-  ],
-  "sales_markers": [
-   "contact sales",
-   "contact us for pricing"
-  ],
-  "has_prices": true,
-  "url": "https://www.docker.com/pricing/",
-  "http_status": 200,
-  "checked_at": "2026-08-20",
-  "kind": "classic"
- },
- "gitlab": {
-  "verdict": "card",
-  "note": "найдены признаки самостоятельной оплаты картой",
-  "card_markers": [
-   "credit card",
-   "debit card"
-  ],
-  "buy_markers": [
-   "get started",
-   "purchase"
-  ],
-  "sales_markers": [
-   "book a demo",
-   "contact sales",
-   "talk to sales"
-  ],
-  "has_prices": true,
-  "url": "https://about.gitlab.com/pricing/",
-  "http_status": 200,
-  "checked_at": "2026-08-20",
-  "kind": "classic"
- },
- "github": {
-  "verdict": "card",
-  "note": "найдены признаки самостоятельной оплаты картой",
-  "card_markers": [
-   "credit card",
-   "stripe"
-  ],
-  "buy_markers": [
-   "get started"
-  ],
-  "sales_markers": [
-   "contact sales"
-  ],
-  "has_prices": true,
-  "url": "https://github.com/pricing",
-  "http_status": 200,
-  "checked_at": "2026-08-20",
-  "kind": "classic"
- },
  "visual studio": {
   "verdict": "likely_card",
   "note": "есть цены и кнопки покупки, платёжная система не опознана",
@@ -1314,61 +1173,6 @@
   "checked_at": "2026-08-20",
   "kind": "classic"
  },
- "zoom": {
-  "verdict": "card",
-  "note": "найдены признаки самостоятельной оплаты картой",
-  "card_markers": [
-   "card number",
-   "credit card"
-  ],
-  "buy_markers": [],
-  "sales_markers": [
-   "contact sales"
-  ],
-  "has_prices": true,
-  "url": "https://zoom.us/pricing",
-  "http_status": 200,
-  "checked_at": "2026-08-20",
-  "kind": "classic"
- },
- "microsoft 365": {
-  "verdict": "card",
-  "note": "найдены признаки самостоятельной оплаты картой",
-  "card_markers": [
-   "paddle"
-  ],
-  "buy_markers": [
-   "get started"
-  ],
-  "sales_markers": [
-   "contact sales"
-  ],
-  "has_prices": true,
-  "url": "https://microsoft365.com/pricing",
-  "http_status": 200,
-  "checked_at": "2026-08-20",
-  "kind": "classic"
- },
- "dropbox": {
-  "verdict": "card",
-  "note": "найдены признаки самостоятельной оплаты картой",
-  "card_markers": [
-   "braintree"
-  ],
-  "buy_markers": [
-   "/checkout",
-   "buy now"
-  ],
-  "sales_markers": [
-   "contact sales",
-   "contact us for pricing"
-  ],
-  "has_prices": true,
-  "url": "https://www.dropbox.com/plans",
-  "http_status": 200,
-  "checked_at": "2026-08-20",
-  "kind": "classic"
- },
  "1password": {
   "verdict": "likely_card",
   "note": "есть цены и кнопки покупки, платёжная система не опознана",
@@ -1548,46 +1352,6 @@
   ],
   "has_prices": true,
   "url": "https://vwo.com/pricing",
-  "http_status": 200,
-  "checked_at": "2026-08-20",
-  "kind": "classic"
- },
- "solidworks": {
-  "verdict": "card",
-  "note": "найдены признаки самостоятельной оплаты картой",
-  "card_markers": [
-   "credit card"
-  ],
-  "buy_markers": [
-   "get started",
-   "purchase"
-  ],
-  "sales_markers": [],
-  "has_prices": true,
-  "url": "https://www.solidworks.com/how-to-buy",
-  "http_status": 200,
-  "checked_at": "2026-08-20",
-  "kind": "classic"
- },
- "sketchup": {
-  "verdict": "card",
-  "note": "найдены признаки самостоятельной оплаты картой",
-  "card_markers": [
-   "american express",
-   "mastercard",
-   "visa"
-  ],
-  "buy_markers": [
-   "buy now",
-   "get started",
-   "purchase",
-   "subscribe now"
-  ],
-  "sales_markers": [
-   "contact sales"
-  ],
-  "has_prices": true,
-  "url": "https://www.sketchup.com/plans-and-pricing",
   "http_status": 200,
   "checked_at": "2026-08-20",
   "kind": "classic"
@@ -1785,30 +1549,6 @@
   "checked_at": "2026-08-20",
   "kind": "ai"
  },
- "figma": {
-  "verdict": "card",
-  "note": "найдены признаки самостоятельной оплаты картой",
-  "card_markers": [
-   "braintree",
-   "stripe",
-   "visa"
-  ],
-  "buy_markers": [
-   "/checkout",
-   "get started",
-   "purchase",
-   "select plan"
-  ],
-  "sales_markers": [
-   "contact sales",
-   "talk to sales"
-  ],
-  "has_prices": true,
-  "url": "https://figma.com/pricing",
-  "http_status": 200,
-  "checked_at": "2026-08-20",
-  "kind": "classic"
- },
  "activecampaign": {
   "verdict": "card",
   "note": "найдены признаки самостоятельной оплаты картой",
@@ -1927,18 +1667,6 @@
   "checked_at": "2026-08-20",
   "kind": "classic"
  },
- "perplexity": {
-  "verdict": "unknown",
-  "note": "признаков оплаты на странице не найдено",
-  "card_markers": [],
-  "buy_markers": [],
-  "sales_markers": [],
-  "has_prices": true,
-  "url": "https://www.perplexity.ai/pro",
-  "http_status": 200,
-  "checked_at": "2026-08-20",
-  "kind": "ai"
- },
  "gemini": {
   "verdict": "unknown",
   "note": "признаков оплаты на странице не найдено",
@@ -2019,92 +1747,6 @@
   "sales_markers": [],
   "has_prices": true,
   "url": "https://bubble.com/pricing",
-  "http_status": 200,
-  "checked_at": "2026-08-20",
-  "kind": "classic"
- },
- "jetbrains rider": {
-  "verdict": "unknown",
-  "note": "признаков оплаты на странице не найдено",
-  "card_markers": [],
-  "buy_markers": [],
-  "sales_markers": [
-   "contact sales"
-  ],
-  "has_prices": true,
-  "url": "https://www.jetbrains.com/rider/buy/",
-  "http_status": 200,
-  "checked_at": "2026-08-20",
-  "kind": "classic"
- },
- "google cloud": {
-  "verdict": "likely_card",
-  "note": "есть цены и кнопки покупки, платёжная система не опознана",
-  "card_markers": [],
-  "buy_markers": [
-   "get started"
-  ],
-  "sales_markers": [
-   "contact sales",
-   "request a quote"
-  ],
-  "has_prices": true,
-  "url": "https://cloud.google.com/pricing",
-  "http_status": 200,
-  "checked_at": "2026-08-20",
-  "kind": "classic"
- },
- "microsoft azure": {
-  "verdict": "card",
-  "note": "найдены признаки самостоятельной оплаты картой",
-  "card_markers": [
-   "credit card",
-   "paddle"
-  ],
-  "buy_markers": [
-   "get started",
-   "purchase"
-  ],
-  "sales_markers": [
-   "contact sales",
-   "request pricing"
-  ],
-  "has_prices": true,
-  "url": "https://azure.microsoft.com/en-us/pricing/",
-  "http_status": 200,
-  "checked_at": "2026-08-20",
-  "kind": "classic"
- },
- "microsoft teams": {
-  "verdict": "card",
-  "note": "найдены признаки самостоятельной оплаты картой",
-  "card_markers": [
-   "credit card"
-  ],
-  "buy_markers": [
-   "buy now",
-   "get started",
-   "purchase"
-  ],
-  "sales_markers": [],
-  "has_prices": true,
-  "url": "https://www.microsoft.com/en-us/microsoft-teams/compare-microsoft-teams-business-options",
-  "http_status": 200,
-  "checked_at": "2026-08-20",
-  "kind": "classic"
- },
- "google workspace": {
-  "verdict": "likely_card",
-  "note": "есть цены и кнопки покупки, платёжная система не опознана",
-  "card_markers": [],
-  "buy_markers": [
-   "purchase"
-  ],
-  "sales_markers": [
-   "contact sales"
-  ],
-  "has_prices": true,
-  "url": "https://workspace.google.com/pricing.html",
   "http_status": 200,
   "checked_at": "2026-08-20",
   "kind": "classic"
