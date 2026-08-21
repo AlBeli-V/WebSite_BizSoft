@@ -204,6 +204,10 @@ try {
 <script>
   import { trackGoal } from '@/lib/analytics';
   import { readCart, setQty, removeFromCart, cartTotal, clearCart, addToCart } from '../../lib/cart-client';
+
+  // Открыли подборку. Знаменатель для формы КП: видно, сколько дошло до
+  // корзины и сколько из них вообще начало заполнять форму.
+  trackGoal('view_cart', { items: readCart().length, total: cartTotal() });
   import { formatRub } from '../../lib/pricing';
   import { moneyFmt, vatIncluded, totalWithVatWords } from '../../lib/rub-words';
   import { maskAllPhones } from '../../lib/phone-mask';
@@ -254,7 +258,10 @@ try {
         <td class="c-del"><button class="ci-remove" data-remove aria-label="Удалить позицию" title="Удалить">✕</button></td>`;
       tr.querySelector('[data-inc]')!.addEventListener('click', () => { setQty(it.sku, it.qty + 1); render(); });
       tr.querySelector('[data-dec]')!.addEventListener('click', () => { setQty(it.sku, it.qty - 1); render(); });
-      tr.querySelector('[data-remove]')!.addEventListener('click', () => { removeFromCart(it.sku); render(); });
+      tr.querySelector('[data-remove]')!.addEventListener('click', () => {
+        trackGoal('remove_from_cart', { sku: it.sku });
+        removeFromCart(it.sku); render();
+      });
       tr.querySelector('[data-qty]')!.addEventListener('change', (e) => {
         const v = Math.max(1, Math.floor(Number((e.target as HTMLInputElement).value) || 1));
         setQty(it.sku, v); render();
@@ -324,6 +331,9 @@ try {
   document.querySelector('[data-open-kp]')?.addEventListener('click', () => {
     if (readCart().length === 0) return;
     status.textContent = ''; status.className = 'kp-status';
+    // Форма открыта, но ещё не отправлена. Разрыв между этой целью и
+    // quote_pdf показывает, сколько людей упирается в саму форму.
+    trackGoal('begin_checkout', { items: readCart().length, total: cartTotal() });
     dialog.showModal();
   });
   document.querySelector('[data-kp-close]')?.addEventListener('click', () => dialog.close());
@@ -358,6 +368,9 @@ try {
     } catch (err) {
       status.textContent = err instanceof Error && err.message ? err.message : 'Не удалось сформировать КП. Попробуйте позже или позвоните нам.';
       status.className = 'kp-status err';
+      // Без этой цели сбой неотличим от того, что клиент передумал: в отчёте
+      // и то и другое выглядит как незавершённое оформление.
+      trackGoal('quote_error', { reason: err instanceof Error ? err.message.slice(0, 100) : 'unknown' });
     } finally {
       submit.disabled = false;
     }

@@ -453,6 +453,13 @@ try {
   qtyInput?.addEventListener('input', refreshTotal);
   refreshTotal();
 
+  // Просмотр карточки: знаменатель для добавлений в подборку. Без него
+  // «добавили 3 раза» не говорит ничего — 3 из 5 и 3 из 500 разные вещи.
+  trackGoal('view_product', {
+    sku: addBtn?.dataset.sku || '',
+    slug: addBtn?.dataset.slug || location.pathname,
+  });
+
   addBtn?.addEventListener('click', () => {
     addToCart({ sku: addBtn.dataset.sku!, slug: addBtn.dataset.slug!, name: addBtn.dataset.name!, price: unit }, curQty());
     trackGoal('add_to_cart', { sku: addBtn.dataset.sku || '' });
