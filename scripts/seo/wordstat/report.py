@@ -59,6 +59,10 @@ def build_state(date: str) -> dict:
                        if uni.rows else None,
         "universe": uni.stats(),
         "coverage": coverage,
+        # Спрос, принадлежность которого не определена. Не входит в коммерческий
+        # спрос и в решения об ассортименте, но показывается рядом: иначе вендор
+        # с омонимичным именем и собственным лендингом становится невидим.
+        "unattributed_demand": cov_mod.unattributed_demand(uni),
         "coverage_by_category": cov_mod.coverage_by(clusters, "category"),
         "tiers": {t: sum(1 for v in tiers.values() if v == t) for t in ("A", "B", "C")},
         "gaps_by_class": {k: sum(1 for g in gaps if g["gap"] == k)
@@ -78,6 +82,24 @@ def build_state(date: str) -> dict:
             "max_possible_spend_rub": round(config.max_monthly_spend(cfg), 0),
         },
     }
+
+
+def unattributed_line(state: dict) -> str | None:
+    """Строка о спросе, принадлежность которого не определена.
+
+    Показывается рядом с покрытием, а не прячется. Иначе вендор с омонимичным
+    именем — Zoom, Box — выглядит как вендор без спроса, хотя спрос есть и его
+    просто нельзя отделить от чужого товара.
+    """
+    ua = state.get("unattributed_demand") or {}
+    if not ua.get("available"):
+        return None
+    sp = lambda n: f"{int(n):,}".replace(",", " ")
+    top = list(ua["by_cluster"].items())[:3]
+    names = ", ".join(f"{c} — {sp(v)}" for c, v in top)
+    return (f"Ещё {sp(ua['total'])} запросов в месяц не отнесены ни к нам, ни к "
+            f"чужому товару: это голые фразы омонимичных брендов ({names}). "
+            "В спрос и в решения об ассортименте они не входят.")
 
 
 def executive_block(state: dict) -> dict:
@@ -107,6 +129,9 @@ def executive_block(state: dict) -> dict:
         lines.append(
             f"Без страницы остаётся {spaced(uncovered_demand)} запросов в месяц — "
             "это направления, где спрос есть, а нас в выдаче нет.")
+    ua_line = unattributed_line(state)
+    if ua_line:
+        lines.append(ua_line)
     exp = state.get("vendor_expansion") or {}
     expansion = None
     if exp.get("available"):

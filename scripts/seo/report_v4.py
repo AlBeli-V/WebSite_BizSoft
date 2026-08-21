@@ -55,6 +55,10 @@ FONT = ("-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',"
         "Arial,sans-serif")
 FIRST_SCREEN_MARKER = "<!--first-screen-end-->"
 
+# База, ниже которой относительное изменение не публикуется. Совпадает с
+# порогом low_base в quality.delta: одно определение малой базы на всю систему.
+LOW_BASE = 30
+
 PILL_COLOUR = {
     "positive": T["positive"], "mixed": T["warning"], "negative": T["danger"],
     "stable": T["info"], "verified": T["positive"], "limited": T["warning"],
@@ -108,6 +112,12 @@ def kpi_cards(snap: dict, prev: dict | None, dq: dict) -> list[dict]:
     """Четыре показателя руководителя. Отсутствие CRM — приглушённое состояние."""
     yt = snap["yandex"]["totals"]
     yp = (prev or {}).get("yandex", {}).get("totals", {})
+    # Сколько целей сайт шлёт мимо счётчика — берём из проверки качества,
+    # а не вписываем числом в текст.
+    declared = snap.get("declared_goals") or []
+    configured = {g_["name"] for g_ in
+                  ((snap.get("analytics") or {}).get("metrika") or {}).get("goals_configured") or []}
+    goals_missing = len([n for n in declared if n not in configured])
     g, gt = snap["google"], snap["google"]["totals"]
     m = snap["analytics"]["metrika"]
     sample = dq.get("sample_ctr") or {}
@@ -152,8 +162,12 @@ def kpi_cards(snap: dict, prev: dict | None, dq: dict) -> list[dict]:
          "value": num(gt["impressions_last7"]), "unit": "показов за неделю",
          "delta": signed(gt["impressions_last7"] - gt["impressions_prev7"]),
          "delta_dir": _dir(gt["impressions_last7"] - gt["impressions_prev7"]),
-         "relative": signed_pct((gt["impressions_last7"] - gt["impressions_prev7"])
-                                / gt["impressions_prev7"]) if gt["impressions_prev7"] else None,
+         # Процент при малой базе — это шум, поданный как результат. Рост с 19
+         # до 38 показов даёт «+100,0 %», хотя при пуассоновском разбросе
+         # такая разница ожидаема. Абсолютные числа остаются, процент — нет.
+         "relative": (signed_pct((gt["impressions_last7"] - gt["impressions_prev7"])
+                                 / gt["impressions_prev7"])
+                      if gt["impressions_prev7"] >= LOW_BASE else None),
          "relative_note": "низкая база: десятки показов",
          "period": f"{ru_date(gt['last7_start'])}–{ru_date(gt['last7_end'])} "
                    f"против {ru_date(gt['prev7_start'])}–{ru_date(gt['prev7_end'])}",
@@ -199,13 +213,22 @@ def kpi_cards(snap: dict, prev: dict | None, dq: dict) -> list[dict]:
                       f"{ru_date(m['source']['current_period_end'])}",
             "source": "Яндекс.Метрика, весь сайт",
             "confidence": f"низкая: {counted(events, 'событие', 'события', 'событий')}",
-            # Ноль по вырезанной цели — не «обращений не было», а «не измерялось».
-            # Смешивать эти два утверждения нельзя: первое требует объяснения
-            # и действий, второе — починки счётчика.
-            "interpretation": ("Это автоцели Метрики, а не подтверждённые обращения. "
-                               "Три конверсионные цели (форма, корзина, скачивание КП) "
-                               "не измеряются: вызовы вырезаны из сборки. Ноль по ним "
-                               "означает отсутствие замера, а не отсутствие обращений."
+            # Ноль по незаведённой цели — не «обращений не было», а «не
+            # измерялось». Смешивать эти два утверждения нельзя: первое требует
+            # объяснения и действий, второе — заведения целей в счётчике.
+            #
+            # Причина называется та, что действует сейчас. Прежняя формулировка
+            # «вызовы вырезаны из сборки» описывала уже устранённый дефект: в
+            # src/lib/analytics.ts стоит непустой фолбэк идентификатора, и код
+            # достижим. Остаётся отсутствие целей в счётчике, и починка нужна
+            # именно там — текст, называющий закрытую причину, отправлял работу
+            # не по адресу.
+            "interpretation": (f"Это автоцели Метрики, а не подтверждённые обращения. "
+                               f"Сайт отправляет {goals_missing} "
+                               f"{plural(goals_missing, 'цель', 'цели', 'целей')}, "
+                               f"которых нет в счётчике, поэтому счётчик их "
+                               f"отбрасывает. Ноль по ним означает отсутствие "
+                               f"замера, а не отсутствие обращений."
                                if gap else
                                "Это срабатывания форм на сайте, а не подтверждённые "
                                "обращения: CRM не подключена."),

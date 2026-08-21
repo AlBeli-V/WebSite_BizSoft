@@ -49,6 +49,23 @@ GOAL_CALL = re.compile(r"trackGoal\(\s*['\"]([a-z0-9_]+)['\"]")
 GOAL_ATTR = re.compile(r"data-ev(?:-view)?=\"([a-z0-9_]+)\"")
 
 
+GOALS_REGISTRY = pathlib.Path("src/lib/goals.ts")
+GOAL_LEVEL = re.compile(r"^\s{2}([a-z0-9_]+):\s*'(\w+)',", re.M)
+
+
+def goal_levels() -> dict[str, str]:
+    """Уровень каждой цели из реестра src/lib/goals.ts.
+
+    Реестр — единственный источник ответа на вопрос, обязана ли цель быть
+    заведена в Метрике. Уровень engagement живёт в GA4 и в параметрах визита;
+    требовать для него цель Метрики значит превратить список целей в свалку,
+    которой перестают пользоваться.
+    """
+    if not GOALS_REGISTRY.exists():
+        return {}
+    return dict(GOAL_LEVEL.findall(GOALS_REGISTRY.read_text(encoding="utf-8")))
+
+
 def declared_goals() -> list[str]:
     """Имена целей, которые фактически отправляет сайт.
 
@@ -533,6 +550,7 @@ def main() -> int:
         "generated_at": dt.datetime.now(dt.timezone.utc).isoformat(timespec="seconds"),
         "reporting_timezone": TIMEZONE,
         "declared_goals": declared_goals(),
+        "goal_levels": goal_levels(),
         "thresholds": THRESHOLDS,
         "yandex": build_yandex(load("yandex", date), load("yandex", prev_date), date),
         "google": build_google(load("gsc", date), load("gsc", prev_date)),

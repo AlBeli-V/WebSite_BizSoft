@@ -22,6 +22,8 @@ MIN_ABS = 3               # и меньше трёх показов тоже
 # разница в два показа неотличима от пуассоновского шума, и называть её
 # драйвером — это выдавать шум за причину.
 MIN_SHARE_OF_BASE = 0.05
+# Ниже этой базы разложение на драйверы описывает шум, а не причину.
+LOW_BASE = 60
 
 
 def vendor_of(entity_id: str, vendors: set[str]) -> str | None:
@@ -94,9 +96,16 @@ def decompose(cur_rows, prev_rows, vendors, metric="impressions", limit=5):
     # и детракторы» показывает только одну сторону изменения.
     base = sum(i["current"] for i in items) or 1
     floor = threshold(base)
+    # При малой базе доля от общего изменения перестаёт что-либо значить:
+    # когда суммарная дельта — двадцать показов, вклад в 10 % это два показа.
+    # Поэтому «или» превращается в «и»: драйвером называется только то, что
+    # заметно и по абсолютной величине, и по доле.
+    small = base < LOW_BASE
     significant = [i for i in items
                    if i["state"] != "dropped_from_sample"
-                   and (abs(i["delta"]) >= floor or i["share_of_total_delta"] >= MIN_SHARE)]
+                   and ((abs(i["delta"]) >= floor and i["share_of_total_delta"] >= MIN_SHARE)
+                        if small else
+                        (abs(i["delta"]) >= floor or i["share_of_total_delta"] >= MIN_SHARE))]
     half = max(1, limit // 2)
     gains = [i for i in significant if i["delta"] > 0][:half]
     losses = [i for i in significant if i["delta"] < 0][:limit - len(gains)]

@@ -338,9 +338,16 @@ def run_checks(snap: dict, prev: dict | None = None) -> dict:
     # отправляет 23 имени целей, в счётчике заведено 4 автоцели, пересечение
     # пустое. Данные для сверки уже лежали в снимке — сверки не было.
     declared = snap.get("declared_goals") or []
+    levels = snap.get("goal_levels") or {}
+    # Сверяются только уровни, для которых цель в Метрике обязательна.
+    # Уровень engagement живёт в GA4: требовать для него цель значит утопить
+    # список конверсий в просмотрах.
+    required = {"lead", "micro", "intent"}
     if declared and an.get("metrika", {}).get("available"):
         configured = {g_["name"] for g_ in an["metrika"].get("goals_configured") or []}
-        missing = [n for n in declared if n not in configured]
+        missing = [n for n in declared
+                   if levels.get(n, "engagement") in required and n not in configured]
+        declared = [n for n in declared if levels.get(n, "engagement") in required]
         if missing:
             add("critical", "GOAL_NOT_CONFIGURED",
                 "Сайт отправляет цели, которых нет в счётчике",

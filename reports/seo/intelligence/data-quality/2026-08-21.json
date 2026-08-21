@@ -103,7 +103,7 @@
   "caveat": "только выборка топ-100 запросов, не CTR всего сайта"
  },
  "report_date": "2026-08-21",
- "generated_at": "2026-08-21T09:29:09+00:00",
+ "generated_at": "2026-08-21T09:42:58+00:00",
  "status": "critical",
  "counts": {
   "critical": 3,
@@ -248,7 +248,7 @@
    "level": "critical",
    "code": "GOAL_NOT_CONFIGURED",
    "title": "Сайт отправляет цели, которых нет в счётчике",
-   "detail": "Не заведено 26 из 26: add_to_cart, click_buy_org, click_choose_plan, click_clarify_price, click_compare_app, click_get_quote и ещё 20. Вызов reachGoal по незаведённой цели счётчик отбрасывает.",
+   "detail": "Не заведено 12 из 12: add_to_cart, click_buy_org, click_choose_plan, click_clarify_price, click_get_quote, click_renew и ещё 6. Вызов reachGoal по незаведённой цели счётчик отбрасывает.",
    "effect_on_report": "Ноль по этим целям означает «не измерялось». Конверсия сайта и конверсия канала не публикуются."
   },
   {

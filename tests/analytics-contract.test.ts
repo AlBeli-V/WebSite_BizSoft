@@ -97,6 +97,36 @@ describe('события', () => {
     expect(cart.indexOf("trackGoal('quote_pdf'")).toBeGreaterThan(cart.indexOf('if (!res.ok)'));
   });
 
+  it('каждый data-goal есть в реестре целей', () => {
+    // Атрибут data-goal стоял на главных CTA сайта и не имел обработчика ни
+    // одного: разметка была, событий не было. Теперь привязка одна на весь
+    // сайт, а реестр не даёт появиться имени, которого никто не ждёт.
+    const registry = read('src/lib/goals.ts');
+    const names = new Set<string>();
+    for (const f of files) {
+      for (const m of read(f).matchAll(/data-goal="([a-z0-9_]+)"/g)) names.add(m[1]);
+    }
+    expect(names.size).toBeGreaterThan(0);
+    expect([...names].filter((n) => !registry.includes(`${n}:`))).toEqual([]);
+  });
+
+  it('data-goal подключён ровно одним обработчиком', () => {
+    const binders = files.filter((f) => read(f).includes("closest?.('[data-goal]')")
+                                     || read(f).includes("querySelectorAll('[data-goal]')"));
+    expect(binders).toEqual(['src/layouts/BaseLayout.astro']);
+  });
+
+  it('одно действие не отправляет цель дважды', () => {
+    // Кнопка с собственным вызовом trackGoal и с атрибутом data-goal
+    // отправила бы событие и напрямую, и через делегированный обработчик.
+    const doubles = files.filter((f) => {
+      const text = read(f);
+      const attrs = [...text.matchAll(/data-goal="([a-z0-9_]+)"/g)].map((m) => m[1]);
+      return attrs.some((n) => text.includes(`trackGoal('${n}'`));
+    });
+    expect(doubles).toEqual([]);
+  });
+
   it('в параметры событий не попадают персональные данные', () => {
     const forbidden = /trackGoal\([^)]*\b(email|phone|inn|fio|passport)\b\s*:/;
     const leaks = files.filter((f) => forbidden.test(read(f)));

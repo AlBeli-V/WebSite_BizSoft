@@ -56,8 +56,17 @@ class Universe:
                 # появления фильтра омонимов, иначе остались бы засчитанными.
                 # Пересчёт при загрузке дешевле повторного сбора и не даёт базе
                 # разъехаться со свежими правилами.
+                #
+                # Интент пересчитывается вместе с охватом. Пересчитывать одно и
+                # оставлять другое — значит держать в одной строке правила
+                # разных версий: фраза с новым охватом и старым интентом даёт
+                # число, которое не воспроизводится ни одним набором правил.
+                commercial, informational = N.intent_scores(row["phrase"])
                 row["attribution"] = N.attribution_of(row["phrase"],
                                                       row.get("source_seed"))
+                row["intent"] = N.classify_intent(row["phrase"])
+                row["commercial_intent_score"] = commercial
+                row["informational_intent_score"] = informational
                 row["in_scope"] = (N.in_scope(row["phrase"])
                                    and row["attribution"] == "confident")
                 self.rows[row["morph_key"]] = row

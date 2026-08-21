@@ -47,7 +47,7 @@
    "unit": "показов за неделю",
    "delta": "+19",
    "delta_dir": "up",
-   "relative": "+100,0%",
+   "relative": null,
    "relative_note": "низкая база: десятки показов",
    "period": "12.08–18.08 против 05.08–11.08",
    "source": "Google Search Console, весь сайт",
@@ -106,7 +106,7 @@
    "period": "07.08–20.08",
    "source": "Яндекс.Метрика, весь сайт",
    "confidence": "низкая: 3 события",
-   "interpretation": "Это автоцели Метрики, а не подтверждённые обращения. Три конверсионные цели (форма, корзина, скачивание КП) не измеряются: вызовы вырезаны из сборки. Ноль по ним означает отсутствие замера, а не отсутствие обращений.",
+   "interpretation": "Это автоцели Метрики, а не подтверждённые обращения. Сайт отправляет 26 целей, которых нет в счётчике, поэтому счётчик их отбрасывает. Ноль по ним означает отсутствие замера, а не отсутствие обращений.",
    "muted": true,
    "sparkline": null,
    "sample_ctr": "CTR выборки 0,52%"
@@ -154,7 +154,7 @@
      "available": true,
      "reason": null,
      "total_delta": 13,
-     "net_delta_of_shown": 2,
+     "net_delta_of_shown": 4,
      "drivers": [
       {
        "entity": "/vendors/blackmagic",
@@ -167,46 +167,9 @@
        "state": "changed",
        "confidence": "low",
        "share_of_total_delta": 0.19047619047619047
-      },
-      {
-       "entity": "/",
-       "vendor": null,
-       "current": 10,
-       "previous": 8,
-       "delta": 2,
-       "clicks_delta": 1,
-       "position_delta": -17.38,
-       "state": "changed",
-       "confidence": "low",
-       "share_of_total_delta": 0.09523809523809523
       }
      ],
-     "detractors": [
-      {
-       "entity": "/product/prfrc-p4-cloud",
-       "vendor": null,
-       "current": 3,
-       "previous": 5,
-       "delta": -2,
-       "clicks_delta": 0,
-       "position_delta": 3.6,
-       "state": "changed",
-       "confidence": "very_low",
-       "share_of_total_delta": 0.09523809523809523
-      },
-      {
-       "entity": "/product/spine-essential",
-       "vendor": null,
-       "current": 2,
-       "previous": 4,
-       "delta": -2,
-       "clicks_delta": 0,
-       "position_delta": -1.5,
-       "state": "changed",
-       "confidence": "very_low",
-       "share_of_total_delta": 0.09523809523809523
-      }
-     ],
+     "detractors": [],
      "all": [
       {
        "entity": "/vendors/blackmagic",
@@ -219,42 +182,6 @@
        "state": "changed",
        "confidence": "low",
        "share_of_total_delta": 0.19047619047619047
-      },
-      {
-       "entity": "/",
-       "vendor": null,
-       "current": 10,
-       "previous": 8,
-       "delta": 2,
-       "clicks_delta": 1,
-       "position_delta": -17.38,
-       "state": "changed",
-       "confidence": "low",
-       "share_of_total_delta": 0.09523809523809523
-      },
-      {
-       "entity": "/product/prfrc-p4-cloud",
-       "vendor": null,
-       "current": 3,
-       "previous": 5,
-       "delta": -2,
-       "clicks_delta": 0,
-       "position_delta": 3.6,
-       "state": "changed",
-       "confidence": "very_low",
-       "share_of_total_delta": 0.09523809523809523
-      },
-      {
-       "entity": "/product/spine-essential",
-       "vendor": null,
-       "current": 2,
-       "previous": 4,
-       "delta": -2,
-       "clicks_delta": 0,
-       "position_delta": -1.5,
-       "state": "changed",
-       "confidence": "very_low",
-       "share_of_total_delta": 0.09523809523809523
       }
      ],
      "counted": 14,
@@ -262,88 +189,13 @@
      "dropped_from_sample": []
     },
     "queries": {
-     "available": true,
-     "reason": null,
+     "available": false,
+     "reason": "изменения слишком дробные, чтобы назвать драйвер",
      "total_delta": 1,
-     "net_delta_of_shown": 1,
-     "drivers": [
-      {
-       "entity": "bizsoft",
-       "vendor": null,
-       "current": 4,
-       "previous": 2,
-       "delta": 2,
-       "clicks_delta": 1,
-       "position_delta": -16.0,
-       "state": "changed",
-       "confidence": "very_low",
-       "share_of_total_delta": 0.2857142857142857
-      },
-      {
-       "entity": "dehancer prices",
-       "vendor": null,
-       "current": 1,
-       "previous": 0,
-       "delta": 1,
-       "clicks_delta": 0,
-       "position_delta": null,
-       "state": "new",
-       "confidence": "very_low",
-       "share_of_total_delta": 0.14285714285714285
-      }
-     ],
-     "detractors": [
-      {
-       "entity": "spine essential",
-       "vendor": null,
-       "current": 2,
-       "previous": 4,
-       "delta": -2,
-       "clicks_delta": 0,
-       "position_delta": -1.5,
-       "state": "changed",
-       "confidence": "very_low",
-       "share_of_total_delta": 0.2857142857142857
-      }
-     ],
-     "all": [
-      {
-       "entity": "bizsoft",
-       "vendor": null,
-       "current": 4,
-       "previous": 2,
-       "delta": 2,
-       "clicks_delta": 1,
-       "position_delta": -16.0,
-       "state": "changed",
-       "confidence": "very_low",
-       "share_of_total_delta": 0.2857142857142857
-      },
-      {
-       "entity": "dehancer prices",
-       "vendor": null,
-       "current": 1,
-       "previous": 0,
-       "delta": 1,
-       "clicks_delta": 0,
-       "position_delta": null,
-       "state": "new",
-       "confidence": "very_low",
-       "share_of_total_delta": 0.14285714285714285
-      },
-      {
-       "entity": "spine essential",
-       "vendor": null,
-       "current": 2,
-       "previous": 4,
-       "delta": -2,
-       "clicks_delta": 0,
-       "position_delta": -1.5,
-       "state": "changed",
-       "confidence": "very_low",
-       "share_of_total_delta": 0.2857142857142857
-      }
-     ],
+     "net_delta_of_shown": 0,
+     "drivers": [],
+     "detractors": [],
+     "all": [],
      "counted": 5,
      "min_delta": 3,
      "dropped_from_sample": [
@@ -440,51 +292,15 @@
    "state": "changed",
    "confidence": "low",
    "share_of_total_delta": 0.19047619047619047
-  },
-  {
-   "entity": "/",
-   "vendor": null,
-   "current": 10,
-   "previous": 8,
-   "delta": 2,
-   "clicks_delta": 1,
-   "position_delta": -17.38,
-   "state": "changed",
-   "confidence": "low",
-   "share_of_total_delta": 0.09523809523809523
-  },
-  {
-   "entity": "/product/prfrc-p4-cloud",
-   "vendor": null,
-   "current": 3,
-   "previous": 5,
-   "delta": -2,
-   "clicks_delta": 0,
-   "position_delta": 3.6,
-   "state": "changed",
-   "confidence": "very_low",
-   "share_of_total_delta": 0.09523809523809523
-  },
-  {
-   "entity": "/product/spine-essential",
-   "vendor": null,
-   "current": 2,
-   "previous": 4,
-   "delta": -2,
-   "clicks_delta": 0,
-   "position_delta": -1.5,
-   "state": "changed",
-   "confidence": "very_low",
-   "share_of_total_delta": 0.09523809523809523
   }
  ],
- "driver_summary": "Показы выросли на страницах: /vendors/blackmagic (+4), / (+2).",
+ "driver_summary": "Показы выросли на страницах: /vendors/blackmagic (+4).",
  "driver_blocks": [
   {
    "engine": "Google",
    "window": "накопленное окно 26 дней, сдвинуто на сутки",
    "available": true,
-   "text": "Изменение +13 по страницам. Прибавили: /vendors/blackmagic, /. Потеряли: /product/prfrc-p4-cloud, /product/spine-essential.",
+   "text": "Изменение +13 по страницам. Прибавили: /vendors/blackmagic.",
    "rows": [
     {
      "entity": "/vendors/blackmagic",
@@ -493,30 +309,6 @@
      "state": "",
      "positive": true,
      "position_delta": 2.81
-    },
-    {
-     "entity": "/",
-     "delta": "+2",
-     "share": "10%",
-     "state": "",
-     "positive": true,
-     "position_delta": -17.38
-    },
-    {
-     "entity": "/product/prfrc-p4-cloud",
-     "delta": "−2",
-     "share": "10%",
-     "state": "",
-     "positive": false,
-     "position_delta": 3.6
-    },
-    {
-     "entity": "/product/spine-essential",
-     "delta": "−2",
-     "share": "10%",
-     "state": "",
-     "positive": false,
-     "position_delta": -1.5
     }
    ],
    "counted": 14
@@ -679,14 +471,14 @@
   },
   {
    "id": "ANL-001",
-   "task": "Три конверсионные цели не измеряются",
+   "task": "Конверсионные цели не заведены в счётчике",
    "owner": "Data Auditor",
    "stage": "заблокировано",
-   "status": "ждёт починки счётчика",
-   "zone": "GREEN",
+   "status": "ждёт заведения целей в интерфейсах",
+   "zone": "RED",
    "due": "27.08",
    "artifact": "reports/seo/measurement-limits.json",
-   "artifact_url": "https://github.com/AlBeli-V/WebSite_BizSoft/blob/claude/biz-soft-rating-tracking-5rf03g/TECHNICAL_AUDIT_REPORT.md (находка P1)",
+   "artifact_url": "https://github.com/AlBeli-V/WebSite_BizSoft/blob/claude/biz-soft-rating-tracking-5rf03g/reports/seo/tasks/ANL-004-metrika-goals.md",
    "pr": null,
    "ci": null,
    "qa": null,
@@ -796,17 +588,17 @@
    ],
    "note": "Российские вендоры исключены: их лицензии продаются напрямую, услуга оплаты из-за рубежа к ним неприменима."
   },
-  "summary": "Мы видим 490 638 покупательских запросов в месяц по 150 направлениям каталога. Своя страница есть под 77% этого спроса, в поиске находится 6%, на первой странице — 1%. Без страницы остаётся 95 576 запросов в месяц — это направления, где спрос есть, а нас в выдаче нет.",
+  "summary": "Мы видим 246 435 покупательских запросов в месяц по 150 направлениям каталога. Своя страница есть под 55% этого спроса, в поиске находится 13%, на первой странице — 2%. Без страницы остаётся 95 993 запросов в месяц — это направления, где спрос есть, а нас в выдаче нет. Ещё 52 116 запросов в месяц не отнесены ни к нам, ни к чужому товару: это голые фразы омонимичных брендов (box купить — 30 187, zoom купить — 8 049, bubble купить — 5 732). В спрос и в решения об ассортименте они не входят.",
   "coverage": {
-   "page": 0.773,
-   "indexed": 0.0646,
-   "top10": 0.0087
+   "page": 0.5489,
+   "indexed": 0.1319,
+   "top10": 0.0204
   },
   "lead_opportunity": {
-   "cluster": "google",
-   "demand": 252950,
-   "action": "техническое SEO",
-   "why": "Страница есть, не индексируется",
+   "cluster": "claude купить",
+   "demand": 26106,
+   "action": "ранняя возможность",
+   "why": "Спрос растёт",
    "confidence": "достаточная: кластер измерен несколькими фразами"
   },
   "measured_at": "2026-08-21"
