@@ -1,0 +1,97 @@
+# Применяет оптимизацию #1 из reports/server/load-analysis-2026-08-19.md:
+#   - копирует обновлённый deploy.sh (с builder prune) в /opt/bizsoft/deploy.sh
+#   - разово чистит build-кэш Docker (наблюдали ~9.6 ГБ)
+# Всё под пользователем deploy (в группе docker), root не нужен.
+# apply=false — только показать, что будет сделано (место до/после prune --dry-run нет,
+#               поэтому показываем текущий df и docker system df).
+# Результат публикуется в журнал-issue #22.
+
+name: ops-apply-cleanup
+
+on:
+  workflow_dispatch:
+    inputs:
+      apply:
+        description: "true — применить (обновить deploy.sh + prune); false — только диагностика"
+        required: true
+        default: "false"
+  # dispatch вне main недоступен — на рабочей ветке применяем по пушу файла.
+  push:
+    branches: ['claude/beget-logs-load-analysis-ovbvbc']
+    paths: ['.github/workflows/ops-apply-cleanup.yml']
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Copy updated deploy.sh to server
+        if: ${{ github.event_name == 'push' || inputs.apply == 'true' }}
+        uses: appleboy/scp-action@v1
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          source: "deploy/deploy.sh"
+          target: /tmp/ops-cleanup
+          strip_components: 1
+          overwrite: true
+
+      - name: Cleanup build cache on server
+        id: run
+        uses: appleboy/ssh-action@v1
+        env:
+          APPLY: ${{ github.event_name == 'push' && 'true' || inputs.apply }}
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          capture_stdout: true
+          envs: APPLY
+          script: |
+            echo "── Диск ДО ──"; df -h / | tail -1
+            echo "── docker system df ДО ──"; docker system df
+            echo
+            if [ "$APPLY" = "true" ]; then
+              echo "→ Обновляю /opt/bizsoft/deploy.sh"
+              if [ -f /tmp/ops-cleanup/deploy.sh ]; then
+                cp /opt/bizsoft/deploy.sh /opt/bizsoft/deploy.sh.bak 2>/dev/null || true
+                cp /tmp/ops-cleanup/deploy.sh /opt/bizsoft/deploy.sh
+                chmod +x /opt/bizsoft/deploy.sh
+                echo "  готово (бэкап: deploy.sh.bak)"
+              else
+                echo "  ⚠ /tmp/ops-cleanup/deploy.sh не найден — пропуск"
+              fi
+              echo
+              echo "→ Чищу build-кэш (оставляю 2 ГБ)…"
+              docker builder prune -f --keep-storage=2GB
+              echo
+              echo "── Диск ПОСЛЕ ──"; df -h / | tail -1
+              echo "── docker system df ПОСЛЕ ──"; docker system df
+            else
+              echo "(dry-run: apply=false — ничего не менялось)"
+              echo "Освобождаемый build-кэш (RECLAIMABLE выше). Запустите с apply=true."
+            fi
+            echo
+            echo "✓ Готово: $(date -u +%FT%TZ)"
+
+      - name: Post results to journal (issue #22)
+        if: always()
+        uses: actions/github-script@v7
+        env:
+          OUT: ${{ steps.run.outputs.stdout }}
+          APPLY: ${{ github.event_name == 'push' && 'true' || inputs.apply }}
+        with:
+          script: |
+            const out = (process.env.OUT || '(нет вывода)').slice(0, 60000);
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: 22,
+              body: '### ops-apply-cleanup (apply=' + process.env.APPLY + ') · ' + new Date().toISOString() + '\n```\n' + out + '\n```',
+            });

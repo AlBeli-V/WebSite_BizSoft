@@ -1,8 +1,11 @@
 ---
 /**
  * Иконка категории каталога в едином линейном стиле (24×24, currentColor).
- * Иконка подбирается по ключевым словам в slug/названии; иначе — базовая.
  * Собственная простая графика (не бренд-логотипы).
+ *
+ * Разделы каталога заводим мы, поэтому слаг знаем точно — по нему и
+ * выбираем. Подбор по ключевым словам оставлен запасным путём: он нужен для
+ * подкатегорий (ai-text, ai-video…) и для разделов, которых ещё нет в карте.
  */
 interface Props {
   slug?: string;
@@ -15,8 +18,42 @@ const { slug = '', name = '', size = 24 } = Astro.props;
 const stroke = size >= 40 ? 1.35 : 1.7;
 const key = `${slug} ${name}`.toLowerCase();
 
-type Icon = 'design' | 'dev' | 'ai' | 'media' | 'collab' | 'office' | 'comm' | 'security' | 'os' | 'default';
+type Icon = 'design' | 'dev' | 'ai' | 'media' | 'collab' | 'office' | 'comm'
+  | 'security' | 'os' | 'iam' | 'helpdesk' | 'endpoint' | 'monitoring'
+  | 'pm' | 'database' | 'engineering' | 'architecture' | 'default';
+
+/**
+ * Точное соответствие «слаг раздела → иконка».
+ *
+ * Половина разделов по ключевым словам не опознавалась и получала безликий
+ * квадратик по умолчанию: «Системное ПО и ОС», «Трекеры и управление
+ * проектами», «СУБД и данные», «Мониторинг и аналитика», «Инженерное ПО»,
+ * «Архитектура и BIM». Плитка с одинаковой иконкой ничего не подсказывает о
+ * назначении раздела — ради этого карта и заведена.
+ */
+const BY_SLUG: Record<string, Icon> = {
+  office: 'office',
+  development: 'dev',
+  vcs: 'comm',
+  collaboration: 'collab',
+  pm: 'pm',
+  media: 'media',
+  system: 'os',
+  engineering: 'engineering',
+  architecture: 'architecture',
+  design: 'design',
+  security: 'security',
+  monitoring: 'monitoring',
+  ai: 'ai',
+  database: 'database',
+  iam: 'iam',
+  helpdesk: 'helpdesk',
+  endpoint: 'endpoint',
+};
+
 function pick(): Icon {
+  const exact = BY_SLUG[slug];
+  if (exact) return exact;
   if (/(design|graphic|дизайн|график|вектор|фото|иллюстрац|изображ|image)/.test(key)) return 'design';
   if (/(develop|code|\bide\b|разработ|программир|devops)/.test(key)) return 'dev';
   if (/(\bai\b|ии|нейро|gpt|генератив|artificial)/.test(key)) return 'ai';
@@ -26,6 +63,14 @@ function pick(): Icon {
   if (/(communicat|вкс|связь|конференц|meeting|звонк|телефон|маркет|marketing)/.test(key)) return 'comm';
   if (/(security|безопас|антивир|защит|vpn|enterprise|корпоратив)/.test(key)) return 'security';
   if (/(\bos\b|операцион|система)/.test(key)) return 'os';
+  if (/(identity|учётн|учетн|привилегированн|парол)/.test(key)) return 'iam';
+  if (/(helpdesk|service.?desk|сервис-деск|техподдержк|заявк|обращен)/.test(key)) return 'helpdesk';
+  if (/(endpoint|рабочие места|устройств)/.test(key)) return 'endpoint';
+  if (/(monitor|монитор|наблюден|инфраструктур)/.test(key)) return 'monitoring';
+  if (/(проект|задач|трекер|планирован)/.test(key)) return 'pm';
+  if (/(database|субд|баз[аы] данных)/.test(key)) return 'database';
+  if (/(engineer|инженер|\bcad\b|\bсапр\b|черт[её]ж)/.test(key)) return 'engineering';
+  if (/(architect|архитектур|\bbim\b)/.test(key)) return 'architecture';
   return 'default';
 }
 const icon = pick();
@@ -40,6 +85,22 @@ const icon = pick();
   {icon === 'comm' && (<><path d="M21 15a2 2 0 0 1-2 2H8l-4 4V5a2 2 0 0 1 2-2h13a2 2 0 0 1 2 2z"/><path d="M8 9h8M8 12h5"/></>)}
   {icon === 'security' && (<><path d="M12 3 5 6v5c0 4.5 3 7.5 7 9 4-1.5 7-4.5 7-9V6z"/><path d="m9.5 12 1.8 1.8 3.2-3.6"/></>)}
   {icon === 'os' && (<><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></>)}
+  {/* Учётные записи и доступ — ключ: кольцо и бородка. */}
+  {icon === 'iam' && (<><circle cx="8" cy="12" r="4"/><path d="M12 12h9M17.5 12v3M20.2 12v2.4"/></>)}
+  {/* Сервис-деск — гарнитура оператора поддержки. */}
+  {icon === 'helpdesk' && (<><path d="M4 13v-2.2a8 8 0 0 1 16 0V13"/><rect x="2.4" y="12" width="4.2" height="6.2" rx="1.6"/><rect x="17.4" y="12" width="4.2" height="6.2" rx="1.6"/><path d="M19.5 18.2v.5a2.4 2.4 0 0 1-2.4 2.4H14"/></>)}
+  {/* Рабочие места — ноутбук и телефон: парк устройств сотрудников. */}
+  {icon === 'endpoint' && (<><rect x="2" y="5" width="13" height="9" rx="1.6"/><path d="M1 16.6h15"/><rect x="17.4" y="8" width="5.1" height="11" rx="1.6"/><path d="M19.4 16.8h1.1"/></>)}
+  {/* Мониторинг — стрелка на шкале: состояние инфраструктуры. */}
+  {icon === 'monitoring' && (<><path d="M3.5 17.5a8.5 8.5 0 1 1 17 0"/><path d="M12 17.5 16 11.8"/><circle cx="12" cy="17.5" r="1.1"/></>)}
+  {/* Управление проектами — планшет с отмеченными задачами. */}
+  {icon === 'pm' && (<><rect x="4.5" y="5" width="15" height="16" rx="2"/><path d="M9 5V3.9a.9.9 0 0 1 .9-.9h4.2a.9.9 0 0 1 .9.9V5"/><path d="m8.5 11.6 1.6 1.6 3.4-3.6M8.5 17.1l1.6 1.6 3.4-3.6"/></>)}
+  {/* Базы данных — цилиндр хранилища. */}
+  {icon === 'database' && (<><ellipse cx="12" cy="6" rx="7.5" ry="3"/><path d="M4.5 6v12c0 1.7 3.4 3 7.5 3s7.5-1.3 7.5-3V6"/><path d="M4.5 12c0 1.7 3.4 3 7.5 3s7.5-1.3 7.5-3"/></>)}
+  {/* Инженерное ПО — чертёжный циркуль. */}
+  {icon === 'engineering' && (<><path d="M12 3.2a2 2 0 0 1 2 2v3.6l3.4 11.6M12 3.2a2 2 0 0 0-2 2v3.6L6.6 20.4"/><path d="M10 8.8h4"/></>)}
+  {/* Архитектура и BIM — здание с несущим контуром. */}
+  {icon === 'architecture' && (<><path d="M2.5 20.5h19"/><path d="M4.5 20.5V9.6L12 4l7.5 5.6v10.9"/><path d="M9.5 20.5V15h5v5.5"/></>)}
   {icon === 'default' && (<><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></>)}
 </svg>
 

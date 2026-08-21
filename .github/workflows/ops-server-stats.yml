@@ -1,0 +1,221 @@
+# Диагностика сервера: утилизация ресурсов хоста, docker-контейнеры,
+# статистика nginx-логов за последние 7 дней. Только чтение, ничего не меняет.
+# Результат публикуется комментарием в журнал-issue #22 (как ops-perf).
+
+name: ops-server-stats
+
+on:
+  workflow_dispatch:
+  # workflow_dispatch недоступен для веток вне default, поэтому дополнительно
+  # запускаемся по пушу изменения самого файла на рабочей ветке диагностики.
+  push:
+    branches: ['claude/beget-logs-load-analysis-ovbvbc']
+    paths: ['.github/workflows/ops-server-stats.yml']
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  stats:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Collect server stats over SSH
+        id: probe
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          capture_stdout: true
+          command_timeout: 15m
+          script: |
+            # Не валим весь сбор из-за одной недоступной секции.
+            S=""; sudo -n true 2>/dev/null && S="sudo -n"
+
+            echo "════ ХОСТ ════"
+            hostname; uname -r; grep PRETTY /etc/os-release 2>/dev/null
+            echo "CPU: $(nproc) ядер"; uptime
+            echo
+            echo "── Память (МБ) ──"; free -m
+            echo
+            echo "── Диск ──"; df -h | grep -vE 'tmpfs|udev|overlay|shm'
+            df -i / | tail -1 | awk '{print "inodes использовано: "$5}'
+            echo
+            echo "── Load / vmstat (3 замера) ──"
+            cat /proc/loadavg
+            vmstat 1 3 2>/dev/null || true
+            echo
+            echo "── Топ процессов по CPU/MEM ──"
+            ps aux --sort=-%cpu | head -8
+            ps aux --sort=-%mem | head -8
+
+            echo
+            echo "════ ИСТОРИЯ УТИЛИЗАЦИИ (sar, 7 дней) ════"
+            if command -v sar >/dev/null 2>&1; then
+              for i in 6 5 4 3 2 1 0; do
+                d=$(date -d "-$i day" +%d 2>/dev/null)
+                dt=$(date -d "-$i day" +%F 2>/dev/null)
+                for f in /var/log/sysstat/sa$d /var/log/sa/sa$d; do
+                  if [ -f "$f" ]; then
+                    echo "── $dt: CPU (avg/max %idle → загрузка) ──"
+                    sar -u -f "$f" 2>/dev/null | tail -2 | head -1
+                    sar -u -f "$f" 2>/dev/null | awk 'NR>3 && $NF ~ /^[0-9.]+$/ {if(min==""||$NF<min)min=$NF} END {print "  min %idle за день: " min}'
+                    echo "── $dt: память ──"
+                    sar -r -f "$f" 2>/dev/null | tail -2 | head -1
+                    echo "── $dt: очередь/load ──"
+                    sar -q -f "$f" 2>/dev/null | tail -2 | head -1
+                    break
+                  fi
+                done
+              done
+            else
+              echo "sysstat/sar не установлен — истории утилизации по дням нет"
+            fi
+
+            echo
+            echo "════ DOCKER ════"
+            cd /opt/bizsoft 2>/dev/null || true
+            docker compose ps 2>/dev/null || $S docker compose ps 2>/dev/null || echo "(docker недоступен)"
+            echo
+            docker stats --no-stream 2>/dev/null || $S docker stats --no-stream 2>/dev/null || true
+            echo
+            echo "── Рестарты/OOM контейнеров ──"
+            for c in $(docker ps --format '{{.Names}}' 2>/dev/null); do
+              echo "  $c: restarts=$(docker inspect -f '{{.RestartCount}}' $c) oomkilled=$(docker inspect -f '{{.State.OOMKilled}}' $c) started=$(docker inspect -f '{{.State.StartedAt}}' $c)"
+            done
+            echo
+            echo "── docker system df ──"
+            docker system df 2>/dev/null || true
+
+            echo
+            echo "── Ошибки в логах astro (7 дней, последние 25) ──"
+            docker logs --since 168h bizsoft-astro-1 2>&1 | grep -iE 'error|fatal|unhandled|ECONN|ETIMEDOUT|EADDR' | tail -25 || echo "  (нет)"
+            echo "── Ошибки в логах directus (7 дней, последние 25) ──"
+            docker logs --since 168h bizsoft-directus-1 2>&1 | grep -iE '"level":50|error|fatal' | grep -viE 'errors":0' | tail -25 || echo "  (нет)"
+
+            echo
+            echo "════ OOM / ЯДРО (7 дней) ════"
+            ($S journalctl -k --since "7 days ago" 2>/dev/null || dmesg 2>/dev/null) | grep -iE 'oom|out of memory|killed process' | tail -15
+            [ $? -ne 0 ] && echo "  (событий OOM нет или журнал недоступен)"
+
+            echo
+            echo "════ NGINX: СТАТИСТИКА ЗА 7 ДНЕЙ ════"
+            NL=/var/log/nginx
+            readlogs() {
+              if [ -r "$NL/access.log" ]; then
+                for f in "$NL"/access.log "$NL"/access.log.1; do
+                  [ -f "$f" ] && cat "$f" 2>/dev/null
+                done
+                for f in "$NL"/access.log.*.gz; do
+                  [ -f "$f" ] && zcat "$f" 2>/dev/null
+                done
+              else
+                # Файлы www-data:adm недоступны deploy напрямую — читаем
+                # read-only через docker (deploy в группе docker); образ уже на хосте.
+                docker run --rm -v "$NL":/logs:ro --entrypoint sh postgres:16-alpine -c \
+                  'cat /logs/access.log /logs/access.log.1 2>/dev/null; for f in /logs/access.log.*.gz; do zcat "$f" 2>/dev/null; done' 2>/dev/null
+              fi
+            }
+            readerr() {
+              if [ -r "$NL/error.log" ]; then
+                cat "$NL/error.log" 2>/dev/null
+              else
+                docker run --rm -v "$NL":/logs:ro --entrypoint sh postgres:16-alpine -c \
+                  'cat /logs/error.log 2>/dev/null' 2>/dev/null
+              fi
+            }
+            CUTOFF=$(date -d "-7 day" +%s)
+            readlogs | awk -v cutoff="$CUTOFF" '
+              BEGIN {
+                split("Jan:01 Feb:02 Mar:03 Apr:04 May:05 Jun:06 Jul:07 Aug:08 Sep:09 Oct:10 Nov:11 Dec:12", mm, " ")
+                for (i in mm) { split(mm[i], pp, ":"); mon[pp[1]] = pp[2] }
+              }
+              {
+                # $4 = [19/Aug/2026:12:00:00
+                d = substr($4, 2)
+                day = substr(d,1,2); m = substr(d,4,3); y = substr(d,8,4)
+                ts = mktime(y" "mon[m]" "day" 00 00 00")
+                if (ts < cutoff) next
+                date = y"-"mon[m]"-"day
+                total++
+                perday[date]++
+                st = $9; cls = substr(st,1,1)"xx"
+                status[st]++; perday_cls[date" "cls]++
+                bytes += $10 + 0
+                hr = substr(d,13,2)
+                hourcnt[date" "hr]++
+                if (cls == "5xx" && n5 < 10) { n5++; sample5[n5] = $1" "d" \""$6" "$7"\" "st }
+                # путь без query
+                path = $7; sub(/\?.*/, "", path)
+                paths[path]++
+                if (st == "404") p404[path]++
+                ip[$1]++
+                # UA — всё после пятой кавычки
+                ua = $0; nq = split(ua, q, "\"")
+                agent = (nq >= 6) ? q[6] : "-"
+                if (tolower(agent) ~ /bot|crawl|spider|slurp|petal|ahrefs|semrush|yandex|bingpreview|gpt|claude|scan/) bots++
+                uacnt[substr(agent,1,90)]++
+              }
+              END {
+                printf "Всего запросов за 7 дней: %d (~%.0f/день, ~%.2f/сек в среднем)\n", total, total/7, total/(7*86400)
+                printf "Трафик (body bytes): %.2f ГБ\n\n", bytes/1073741824
+                print "── Запросы по дням ──"
+                n = asorti(perday, sd)
+                for (i=1;i<=n;i++) {
+                  d = sd[i]
+                  printf "  %s: %6d  (2xx:%d 3xx:%d 4xx:%d 5xx:%d)\n", d, perday[d], perday_cls[d" 2xx"], perday_cls[d" 3xx"], perday_cls[d" 4xx"], perday_cls[d" 5xx"]
+                }
+                print "\n── Коды ответов ──"
+                n = asorti(status, ss)
+                for (i=1;i<=n;i++) printf "  %s: %d\n", ss[i], status[ss[i]]
+                printf "\nДоля бото-трафика (по UA): %.1f%%\n", (total ? bots*100.0/total : 0)
+                printf "Уникальных IP: %d\n", length(ip)
+                mx = 0; mh = "-"
+                for (h in hourcnt) if (hourcnt[h] > mx) { mx = hourcnt[h]; mh = h }
+                printf "Пиковый час: %s → %d запросов (~%.2f rps)\n", mh, mx, mx/3600.0
+                if (n5) { print "\n── Примеры 5xx ──"; for (i=1;i<=n5;i++) print "  " sample5[i] }
+                print "\n── Топ-15 путей ──"
+                m2 = 0
+                for (p in paths) { arr[++m2] = sprintf("%08d %s", paths[p], p) }
+                n = asort(arr); c = 0
+                for (i=n; i>=1 && c<15; i--) { c++; split(arr[i], z, " "); printf "  %d  %s\n", z[1]+0, z[2] }
+                print "\n── Топ-10 IP ──"
+                delete arr; m2 = 0
+                for (p in ip) { arr[++m2] = sprintf("%08d %s", ip[p], p) }
+                n = asort(arr); c = 0
+                for (i=n; i>=1 && c<10; i--) { c++; split(arr[i], z, " "); printf "  %d  %s\n", z[1]+0, z[2] }
+                print "\n── Топ-10 путей 404 ──"
+                delete arr; m2 = 0
+                for (p in p404) { arr[++m2] = sprintf("%08d %s", p404[p], substr(p,1,80)) }
+                n = asort(arr); c = 0
+                for (i=n; i>=1 && c<10; i--) { c++; ix = index(arr[i], " "); printf "  %d  %s\n", substr(arr[i],1,ix-1)+0, substr(arr[i],ix+1) }
+                print "\n── Топ-8 User-Agent ──"
+                delete arr; m2 = 0
+                for (p in uacnt) { arr[++m2] = sprintf("%08d %s", uacnt[p], p) }
+                n = asort(arr); c = 0
+                for (i=n; i>=1 && c<8; i--) { c++; ix = index(arr[i], " "); printf "  %d  %s\n", substr(arr[i],1,ix-1)+0, substr(arr[i],ix+1) }
+              }' || echo "(логи nginx недоступны для пользователя $(whoami))"
+            echo
+            echo "── nginx error.log (последние 20) ──"
+            readerr | tail -20 || echo "  (недоступен или пуст)"
+            echo
+            echo "── Ротация логов nginx ──"
+            ls -lh "$NL"/ 2>/dev/null | head -15 || $S ls -lh "$NL"/ 2>/dev/null | head -15 || true
+            echo
+            echo "✓ Сбор завершён: $(date -u +%FT%TZ)"
+
+      - name: Post results to journal (issue #22)
+        if: always()
+        uses: actions/github-script@v7
+        env:
+          OUT: ${{ steps.probe.outputs.stdout }}
+        with:
+          script: |
+            const out = (process.env.OUT || '(нет вывода)').slice(0, 60000);
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: 22,
+              body: '### ops-server-stats · ' + new Date().toISOString() + '\n```\n' + out + '\n```',
+            });

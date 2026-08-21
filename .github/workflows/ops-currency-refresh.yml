@@ -33,14 +33,24 @@ jobs:
             set -e
             TOKEN=$(sed -n 's/^ADMIN_TOOLS_TOKEN=//p' /opt/bizsoft/astro.env | tr -d '"\r')
             if [ -z "$TOKEN" ]; then echo "ADMIN_TOOLS_TOKEN не найден в astro.env"; exit 0; fi
+            # Таймаут 60 секунд был рассчитан на каталог в тысячу позиций.
+            # После партии ManageEngine их около шести тысяч, и запрос,
+            # не уложившись, обрывался бы на середине: часть цен обновлена,
+            # часть нет, и в журнале «ошибка сети» вместо внятной причины.
             api() {
-              curl -sS --max-time 60 -X POST http://127.0.0.1:3000/api/admin/currency \
+              curl -sS --max-time 600 -X POST http://127.0.0.1:3000/api/admin/currency \
                 -H "Content-Type: application/json" -H "x-admin-token: $TOKEN" -d "$1"
             }
             echo "== refresh курса ЦБ =="
             api '{"action":"refresh"}' | head -c 1500; echo
             echo "== переоценка привязанных товаров =="
+            # Замеряем длительность: это единственное место, где видно, во что
+            # обходится ночная переоценка выросшего каталога. Без замера
+            # «успевает или нет» остаётся догадкой до первого сбоя.
+            START=$(date +%s)
             api '{"action":"reprice-apply","scope":{"type":"all"}}' | head -c 1500; echo
+            echo "== длительность переоценки: $(( $(date +%s) - START )) с =="
+            echo "   (было рассчитано на ~1100 позиций, стало ~5900)"
 
       - name: Post results to journal (issue #22)
         if: always()

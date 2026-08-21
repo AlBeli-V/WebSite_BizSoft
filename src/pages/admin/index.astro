@@ -1,0 +1,960 @@
+---
+export const prerender = false;
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import AdminTabs from '../../components/AdminTabs.astro';
+import { STAGE_SPECS, LOST_REASONS, FIELD_HINTS, URGENCY_LABEL } from '../../crm/stages';
+import { TEMPLATES } from '../../crm/templates';
+
+// Регламент отдаётся страницей, а не зашит в скрипт: правила живут в одном
+// месте (src/crm), а интерфейс их только показывает.
+const CRM = {
+  stages: STAGE_SPECS.map((s) => ({ id: s.id, label: s.label, action: s.action, hint: s.hint, template: s.template ?? null })),
+  reasons: LOST_REASONS,
+  hints: FIELD_HINTS,
+  urgency: URGENCY_LABEL,
+  templates: TEMPLATES.map((x) => ({ id: x.id, label: x.label, hint: x.hint })),
+};
+---
+<BaseLayout title="Заявки — админ-кабинет" description="Служебная страница" noindex={true}>
+  <div class="container-page section admin-console">
+    <AdminTabs active="leads" />
+
+    <div class="ac-bar card">
+      <label class="ac-token">
+        <span>Токен доступа</span>
+        <input type="password" data-token placeholder="ADMIN_TOOLS_TOKEN" autocomplete="current-password" />
+      </label>
+      <label class="ac-token">
+        <span>Ваше имя</span>
+        <input type="text" data-me placeholder="Кто работает" autocomplete="name" />
+      </label>
+      <button class="btn btn-primary" data-load>Открыть</button>
+    </div>
+
+    <div class="ac-stats" data-stats hidden></div>
+
+    <div class="ac-toolbar" data-toolbar hidden>
+      <div class="ac-chips" data-filters>
+        <button class="ac-chip is-on" data-filter="work">В работе</button>
+        <button class="ac-chip" data-filter="all">Все</button>
+        <button class="ac-chip" data-filter="won">Оплачено</button>
+        <button class="ac-chip" data-filter="lost">Отказы</button>
+        <button class="ac-chip" data-filter="overdue">Просрочено</button>
+        <button class="ac-chip" data-filter="spam">Корзина</button>
+      </div>
+      <input class="ac-search" data-search type="search" placeholder="Поиск: имя, компания, почта, товар" />
+      <div class="ac-views" role="group" aria-label="Вид">
+        <button class="ac-view is-on" data-view="list">Список</button>
+        <button class="ac-view" data-view="board">Канбан</button>
+      </div>
+      <a class="ac-open" data-export download>Выгрузить CSV</a>
+      <button class="ac-open" data-import-quotes>Подтянуть КП</button>
+    </div>
+
+    <div class="ac-table-wrap" data-table-wrap hidden>
+      <table class="ac-table">
+        <thead>
+          <tr>
+            <th>Дата</th><th>Клиент</th><th>Контакты</th><th>Запрос</th>
+            <th>Стадия</th><th>Срок</th><th>Ответственный</th><th class="num">Сумма</th><th></th>
+          </tr>
+        </thead>
+        <tbody data-rows></tbody>
+      </table>
+    </div>
+
+    <div class="ac-board" data-board hidden></div>
+
+    <p class="ac-msg" data-msg></p>
+  </div>
+
+  <div class="ac-overlay ac-modal-wrap" data-move hidden>
+    <div class="ac-modal" role="dialog" aria-modal="true" aria-label="Перевод на следующую стадию">
+      <div data-move-body></div>
+    </div>
+  </div>
+
+  <script type="application/json" id="crm-config" set:html={JSON.stringify(CRM)}></script>
+
+  <div class="ac-overlay" data-overlay hidden>
+    <div class="ac-panel" role="dialog" aria-modal="true" aria-label="Карточка заявки">
+      <div class="ac-navbar">
+        <button class="ac-back" data-close>
+          <span aria-hidden="true">‹</span> К заявкам
+        </button>
+        <span class="ac-grab" aria-hidden="true"></span>
+      </div>
+      <div data-detail></div>
+    </div>
+  </div>
+</BaseLayout>
+
+<style is:global>
+  /* Стили глобальные намеренно: таблица и карточка строятся скриптом, а
+     скоупленные стили Astro к вставленным через innerHTML узлам не применяются —
+     на этом первая версия страницы и развалилась. Всё под .admin-console. */
+  .admin-console { max-width: 1180px; }
+  .admin-console h1 { font-size: 1.5rem; margin: 0 0 1rem; }
+
+  .admin-console .ac-bar {
+    padding: 1rem; display: flex; gap: 0.8rem; align-items: end; flex-wrap: wrap; margin-bottom: 1.2rem;
+  }
+  .admin-console .ac-token { display: flex; flex-direction: column; gap: 0.3rem; flex: 1 1 200px; }
+  .admin-console .ac-token span { font-size: 0.8rem; color: var(--color-text-dim); }
+  .admin-console input, .admin-console select, .admin-console textarea {
+    width: 100%; padding: 0.6rem 0.7rem; border-radius: 8px;
+    border: 1px solid var(--color-border-strong); background: var(--color-bg);
+    color: var(--color-text); font: inherit; font-size: 16px; /* 16px — иначе iOS зумит форму */
+  }
+  .admin-console textarea { min-height: 80px; resize: vertical; }
+
+  .admin-console .ac-stats {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    gap: 0.7rem; margin-bottom: 1.2rem;
+  }
+  .admin-console .ac-stat {
+    padding: 0.85rem 0.9rem; border: 1px solid var(--color-border); border-radius: 12px;
+    background: var(--color-bg-card);
+  }
+  .admin-console .ac-stat b { display: block; font-size: 1.35rem; line-height: 1.2; }
+  .admin-console .ac-stat span { display: block; font-size: 0.76rem; color: var(--color-text-dim); margin-top: 0.15rem; }
+
+  .admin-console .ac-toolbar {
+    display: flex; gap: 0.8rem; flex-wrap: wrap; align-items: center; margin-bottom: 1rem;
+  }
+  .admin-console .ac-chips { display: flex; gap: 0.4rem; flex-wrap: wrap; }
+  .admin-console .ac-chip {
+    padding: 0.45rem 0.85rem; border-radius: 999px; border: 1px solid var(--color-border-strong);
+    background: transparent; color: var(--color-text); font: inherit; font-size: 0.88rem; cursor: pointer;
+  }
+  .admin-console .ac-chip.is-on { background: var(--color-text); color: var(--color-bg); border-color: var(--color-text); }
+  .admin-console .ac-search { flex: 1 1 240px; max-width: 340px; }
+
+  .admin-console .ac-table-wrap { overflow-x: auto; border: 1px solid var(--color-border); border-radius: 12px; }
+  .admin-console .ac-table { width: 100%; border-collapse: collapse; font-size: 0.92rem; }
+  .admin-console .ac-table th {
+    text-align: left; font-size: 0.74rem; text-transform: uppercase; letter-spacing: 0.04em;
+    color: var(--color-text-dim); font-weight: 600; padding: 0.7rem 0.8rem;
+    background: var(--color-bg-elevated); border-bottom: 1px solid var(--color-border); white-space: nowrap;
+  }
+  .admin-console .ac-table td { padding: 0.75rem 0.8rem; border-bottom: 1px solid var(--color-border); vertical-align: top; }
+  .admin-console .ac-table tbody tr:last-child td { border-bottom: 0; }
+  .admin-console .ac-table tbody tr:hover { background: var(--color-bg-elevated); }
+  .admin-console .ac-table .num { text-align: right; white-space: nowrap; }
+  .admin-console .ac-name { font-weight: 600; }
+  .admin-console .ac-sub { font-size: 0.82rem; color: var(--color-text-dim); }
+  .admin-console .ac-req { max-width: 320px; }
+  .admin-console .ac-req .ac-sub { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  .admin-console .ac-table a { color: inherit; }
+
+  .admin-console .ac-badge {
+    display: inline-block; font-size: 0.75rem; padding: 0.2rem 0.55rem; border-radius: 999px;
+    border: 1px solid var(--color-border-strong); white-space: nowrap;
+  }
+  .admin-console .ac-badge.won { background: #ECFDF3; border-color: #12B76A; color: #027A48; }
+  .admin-console .ac-badge.lost { background: #FEF3F2; border-color: #F04438; color: #B42318; }
+  .admin-console .ac-badge.spam { background: var(--color-bg-elevated); color: var(--color-text-dim); }
+  .admin-console .ac-badge.kp { background: var(--color-bg-elevated); border-color: var(--color-border-strong); font-weight: 600; }
+  .admin-console .ac-badge.hot { background: var(--color-accent-soft); border-color: var(--color-accent); color: var(--color-accent-dim); }
+
+  .admin-console .ac-open {
+    border: 1px solid var(--color-border-strong); background: transparent; color: var(--color-text);
+    border-radius: 8px; padding: 0.4rem 0.7rem; font: inherit; font-size: 0.85rem; cursor: pointer; white-space: nowrap;
+  }
+  .admin-console .ac-open:hover { border-color: var(--color-accent); color: var(--color-accent); }
+  .admin-console .ac-msg { margin-top: 1rem; font-size: 0.9rem; color: var(--color-text-dim); }
+  .admin-console .ac-msg.err { color: var(--color-danger); }
+
+  /* Мобильный вид: та же таблица разворачивается в карточки, без второй разметки. */
+  @media (max-width: 860px) {
+    .admin-console .ac-table-wrap { border: 0; overflow: visible; }
+    .admin-console .ac-table, .admin-console .ac-table tbody, .admin-console .ac-table tr, .admin-console .ac-table td { display: block; width: 100%; }
+    .admin-console .ac-table thead { display: none; }
+    .admin-console .ac-table tr {
+      border: 1px solid var(--color-border); border-radius: 12px; padding: 0.9rem;
+      margin-bottom: 0.8rem; background: var(--color-bg-card);
+    }
+    .admin-console .ac-table td { border: 0; padding: 0.2rem 0; }
+    .admin-console .ac-table td[data-label]::before {
+      content: attr(data-label) ' '; font-size: 0.72rem; text-transform: uppercase;
+      letter-spacing: 0.04em; color: var(--color-text-dim); display: block; margin-top: 0.4rem;
+    }
+    .admin-console .ac-table td.ac-first::before { content: none; }
+    .admin-console .ac-table .num { text-align: left; }
+    .admin-console .ac-req { max-width: none; }
+  }
+
+  /* Карточка заявки */
+  .admin-console-open { overflow: hidden; }
+  .ac-overlay {
+    position: fixed; inset: 0; background: rgba(0, 0, 0, 0.45); z-index: 1000;
+    display: flex; justify-content: flex-end;
+  }
+  .ac-panel {
+    background: var(--color-bg); width: min(560px, 100%); height: 100%; overflow-y: auto;
+    padding: 1.4rem; position: relative; -webkit-overflow-scrolling: touch;
+  }
+  .ac-close {
+    position: absolute; top: 0.9rem; right: 0.9rem; border: 0; background: transparent;
+    font-size: 1.2rem; color: var(--color-text-dim); cursor: pointer; padding: 0.3rem 0.5rem;
+  }
+  .ac-panel h2 { font-size: 1.2rem; margin: 0 0 0.2rem; padding-right: 2rem; }
+  .ac-panel .ac-sub { margin-bottom: 0.9rem; }
+  .ac-panel .ac-quote {
+    background: var(--color-bg-elevated); border-radius: 10px; padding: 0.8rem;
+    font-size: 0.92rem; white-space: pre-wrap; margin-bottom: 1rem;
+  }
+  .ac-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 0.7rem; }
+  .ac-fields label { display: flex; flex-direction: column; gap: 0.25rem; font-size: 0.78rem; color: var(--color-text-dim); }
+  .ac-fields .wide { grid-column: 1 / -1; }
+  @media (max-width: 520px) { .ac-fields { grid-template-columns: 1fr; } }
+  .ac-actions { display: flex; gap: 0.6rem; align-items: center; flex-wrap: wrap; margin: 1rem 0 1.4rem; }
+  .ac-danger {
+    border: 1px solid var(--color-danger); color: var(--color-danger); background: transparent;
+    border-radius: 8px; padding: 0.55rem 0.9rem; font: inherit; cursor: pointer;
+  }
+  .ac-ok { color: var(--color-success); font-size: 0.86rem; }
+  .ac-section-title { font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.04em; color: var(--color-text-dim); margin: 1.2rem 0 0.6rem; }
+  .ac-compose { display: flex; flex-direction: column; gap: 0.6rem; }
+  .ac-compose-row { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+  .ac-history { display: flex; flex-direction: column; gap: 0.7rem; margin-top: 0.6rem; }
+  .ac-event { border-left: 2px solid var(--color-border-strong); padding: 0 0 0 0.8rem; }
+  .ac-event.email { border-left-color: var(--color-accent); }
+  .ac-event.stage { border-left-color: var(--color-success); }
+  .ac-event time { font-size: 0.74rem; color: var(--color-text-dim); }
+  .ac-event p { margin: 0.2rem 0 0; font-size: 0.9rem; white-space: pre-wrap; }
+  .ac-event .who { font-size: 0.74rem; color: var(--color-text-dim); }
+
+  /* Срочность: по ней менеджер решает, за что браться первым. */
+  .admin-console .ac-urg { font-size: 0.8rem; font-weight: 600; white-space: nowrap; }
+  .admin-console .ac-urg.overdue { color: var(--color-danger); }
+  .admin-console .ac-urg.due { color: var(--color-accent); }
+  .admin-console .ac-urg.ok, .admin-console .ac-urg.none { color: var(--color-text-dim); font-weight: 400; }
+
+  /* Шапка карточки прилипает: контакты и «в календарь» под рукой при прокрутке. */
+  .ac-head {
+    position: sticky; top: 0; z-index: 2; background: var(--color-bg);
+    padding: 0 0 0.8rem; margin: 0 0 0.4rem; border-bottom: 1px solid var(--color-border);
+  }
+  .ac-quick { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.6rem; }
+  .ac-quick .ac-open { text-decoration: none; }
+
+  .ac-next {
+    background: var(--color-accent-soft); border-radius: 10px; padding: 0.8rem 0.9rem; margin-top: 0.9rem;
+  }
+  .ac-next-title {
+    font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em;
+    color: var(--color-accent-dim); font-weight: 700;
+  }
+  .ac-next-action { font-size: 1rem; font-weight: 600; margin: 0.15rem 0 0.25rem; }
+  .ac-warn {
+    background: #FFFAEB; border: 1px solid #F79009; color: #93370D;
+    border-radius: 10px; padding: 0.7rem 0.85rem; font-size: 0.88rem; margin-top: 0.9rem;
+  }
+
+  /* Знак вопроса у подписи поля */
+  .ac-fields label { position: relative; }
+  .ac-q {
+    width: 18px; height: 18px; border-radius: 50%; border: 1px solid var(--color-border-strong);
+    background: transparent; color: var(--color-text-dim); font-size: 11px; line-height: 1;
+    cursor: pointer; padding: 0; margin-left: 0.25rem; vertical-align: middle;
+  }
+  .ac-q:hover { border-color: var(--color-accent); color: var(--color-accent); }
+  .ac-tip {
+    position: absolute; z-index: 5; top: 1.4rem; left: 0; right: 0;
+    background: var(--color-text); color: var(--color-bg); border-radius: 8px;
+    padding: 0.55rem 0.7rem; font-size: 0.82rem; line-height: 1.4; font-weight: 400;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.18);
+  }
+  .ac-compose .ac-open.suggest { border-color: var(--color-accent); color: var(--color-accent); font-weight: 600; }
+
+  /* ── Переключатель вида ── */
+  .admin-console .ac-views { display: inline-flex; border: 1px solid var(--color-border-strong); border-radius: 999px; overflow: hidden; }
+  .admin-console .ac-view {
+    border: 0; background: transparent; color: var(--color-text-dim);
+    font: inherit; font-size: 0.88rem; padding: 0.45rem 0.9rem; cursor: pointer; min-height: 40px;
+  }
+  .admin-console .ac-view.is-on { background: var(--color-text); color: var(--color-bg); }
+
+  /* ── Канбан ── */
+  .admin-console .ac-board {
+    display: flex; gap: 0.8rem; overflow-x: auto; padding-bottom: 0.6rem;
+    scroll-snap-type: x proximity; -webkit-overflow-scrolling: touch;
+  }
+  .admin-console .ac-col {
+    flex: 0 0 82vw; max-width: 300px; scroll-snap-align: start;
+    background: var(--color-bg-elevated); border-radius: 14px; padding: 0.7rem;
+  }
+  @media (min-width: 861px) { .admin-console .ac-col { flex-basis: 260px; } }
+  .admin-console .ac-col-head {
+    display: flex; justify-content: space-between; align-items: baseline;
+    gap: 0.4rem; margin-bottom: 0.6rem; padding: 0 0.2rem;
+  }
+  .admin-console .ac-col-head b { font-size: 0.9rem; }
+  .admin-console .ac-col-head span { font-size: 0.78rem; color: var(--color-text-dim); }
+  .admin-console .ac-col-body { display: flex; flex-direction: column; gap: 0.55rem; min-height: 40px; }
+  .admin-console .ac-card {
+    background: var(--color-bg-card); border: 1px solid var(--color-border);
+    border-radius: 12px; padding: 0.7rem 0.75rem; cursor: pointer;
+  }
+  .admin-console .ac-card:active { transform: scale(0.99); }
+  .admin-console .ac-card.overdue { border-left: 3px solid var(--color-danger); }
+  .admin-console .ac-card.due { border-left: 3px solid var(--color-accent); }
+  .admin-console .ac-card-name { font-weight: 600; font-size: 0.94rem; }
+  .admin-console .ac-card-row { display: flex; justify-content: space-between; gap: 0.5rem; align-items: center; margin-top: 0.45rem; }
+  .admin-console .ac-next-btn {
+    border: 1px solid var(--color-accent); color: var(--color-accent); background: transparent;
+    border-radius: 8px; padding: 0.35rem 0.6rem; font: inherit; font-size: 0.82rem;
+    cursor: pointer; min-height: 36px; white-space: nowrap;
+  }
+  .admin-console .ac-col-empty { font-size: 0.82rem; color: var(--color-text-dim); padding: 0.4rem 0.2rem; }
+
+  /* ── Карточка: снизу на телефоне, сбоку на большом экране ── */
+  .ac-overlay { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.45); z-index: 1000; display: flex; justify-content: flex-end; }
+  .ac-panel {
+    background: var(--color-bg); width: min(560px, 100%); height: 100%; overflow-y: auto;
+    padding: 0 1.2rem 1.2rem; position: relative;
+    -webkit-overflow-scrolling: touch; overscroll-behavior: contain;
+  }
+  @media (max-width: 860px) {
+    .ac-overlay { align-items: flex-end; justify-content: center; }
+    .ac-panel {
+      height: 92dvh; width: 100%; border-radius: 18px 18px 0 0;
+      padding-bottom: calc(1.2rem + env(safe-area-inset-bottom));
+      animation: ac-rise 0.22s ease-out;
+    }
+    @keyframes ac-rise { from { transform: translateY(6%); opacity: 0.6; } to { transform: none; opacity: 1; } }
+  }
+
+  /* Навигация: крупная кнопка возврата вместо крестика в углу */
+  .ac-navbar {
+    position: sticky; top: 0; z-index: 3; background: var(--color-bg);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0.6rem 0 0.5rem; border-bottom: 1px solid var(--color-border); margin-bottom: 0.8rem;
+  }
+  .ac-back {
+    border: 0; background: transparent; color: var(--color-accent);
+    font: inherit; font-size: 1rem; font-weight: 600; cursor: pointer;
+    padding: 0.4rem 0.6rem 0.4rem 0; min-height: 44px; display: flex; align-items: center; gap: 0.2rem;
+  }
+  .ac-back span { font-size: 1.5rem; line-height: 1; }
+  .ac-grab { width: 36px; height: 4px; border-radius: 2px; background: var(--color-border-strong); }
+  @media (min-width: 861px) { .ac-grab { display: none; } }
+  .ac-head { position: static; border: 0; padding: 0 0 0.4rem; }
+
+  /* Кнопки — не мельче 44 точек: иначе пальцем не попасть */
+  .admin-console .ac-open, .ac-panel .btn, .ac-danger { min-height: 44px; display: inline-flex; align-items: center; justify-content: center; }
+
+  /* ── Диалог перевода стадии ── */
+  .ac-modal-wrap { align-items: center; justify-content: center; padding: 1rem; }
+  .ac-modal {
+    background: var(--color-bg); border-radius: 16px; padding: 1.2rem;
+    width: min(460px, 100%); max-height: 86dvh; overflow-y: auto;
+    padding-bottom: calc(1.2rem + env(safe-area-inset-bottom));
+  }
+  .ac-modal h3 { font-size: 1.05rem; margin: 0 0 0.3rem; }
+  .ac-modal .ac-blocked { color: var(--color-danger); font-size: 0.88rem; margin: 0.5rem 0; }
+  .ac-modal-actions { display: flex; gap: 0.6rem; margin-top: 1rem; }
+  .ac-modal-actions .btn, .ac-modal-actions .ac-open { flex: 1; }
+</style>
+
+<script>
+  const $ = (s: string) => document.querySelector(s) as HTMLElement;
+  const tokenInput = $('[data-token]') as HTMLInputElement;
+  const meInput = $('[data-me]') as HTMLInputElement;
+  const rows = $('[data-rows]');
+  const statsBox = $('[data-stats]');
+  const toolbar = $('[data-toolbar]');
+  const tableWrap = $('[data-table-wrap]');
+  const searchInput = $('[data-search]') as HTMLInputElement;
+  const overlay = $('[data-overlay]');
+  const board = $('[data-board]');
+  const moveWrap = $('[data-move]');
+  const moveBody = $('[data-move-body]');
+  const detail = $('[data-detail]');
+  const msg = $('[data-msg]');
+
+  const CFG = JSON.parse((document.getElementById('crm-config') as HTMLElement).textContent || '{}');
+  const STAGES: any[] = CFG.stages || [];
+  const REASONS: any[] = [{ id: '', label: '—' }, ...(CFG.reasons || [])];
+  const HINTS: Record<string, string> = CFG.hints || {};
+  const URG: Record<string, string> = CFG.urgency || {};
+  const TEMPLATES: any[] = CFG.templates || [];
+  const KINDS: Record<string, string> = { note: 'Заметка', call: 'Звонок', email: 'Письмо', stage: 'Стадия' };
+  const specOf = (v: string) => STAGES.find((s) => s.id === v);
+  const stageName = (v: string) => specOf(v)?.label ?? v;
+  /** Подпись поля со знаком вопроса: подсказка и по наведению, и по тапу. */
+  const withHint = (label: string, field: string) => {
+    const h = HINTS[field];
+    return h ? `${esc(label)} <button type="button" class="ac-q" data-hint="${esc(h)}" aria-label="Подсказка">?</button>` : esc(label);
+  };
+
+  let TOKEN = localStorage.getItem('bz_admin_token') || '';
+  // Ответственный по умолчанию — распоряжение руководителя 21.08.2026.
+  // Пустое поле означало, что заявку надо подписывать руками при каждом
+  // переводе по стадиям, и половина заявок оставалась ничьей.
+  const DEFAULT_ME = 'Беляев Алексей';
+  let ME = localStorage.getItem('bz_admin_me') || DEFAULT_ME;
+  let LEADS: any[] = [];
+  let EVENTS: Record<string, any[]> = {};
+  let FILTER = 'work';
+  let QUERY = '';
+  let OPEN_ID: string | null = null;
+  let DUPES: Record<string, string[]> = {};
+  let VIEW = localStorage.getItem('bz_admin_view') || 'list';
+  let MOVE_ID: string | null = null;
+  let PENDING_STAGE = '';
+  if (TOKEN) tokenInput.value = TOKEN;
+  if (ME) meInput.value = ME;
+
+  const money = (n: number) => new Intl.NumberFormat('ru-RU').format(Math.round(n)) + ' ₽';
+  const esc = (s: unknown) => String(s ?? '').replace(/[&<>"]/g, (c) =>
+    ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c] as string));
+  const dt = (v?: string) => (v ? new Date(v).toLocaleDateString('ru-RU') : '');
+  const dtFull = (v?: string) => (v ? new Date(v).toLocaleString('ru-RU', { dateStyle: 'short', timeStyle: 'short' }) : '');
+
+  /** Один клиент, несколько обращений: совпадение по почте или телефону. */
+  function findDuplicates(leads: any[]): Record<string, string[]> {
+    const byKey: Record<string, string[]> = {};
+    for (const l of leads) {
+      for (const raw of [l.email, l.phone]) {
+        const key = String(raw || '').trim().toLowerCase().replace(/[\s()-]/g, '');
+        if (key.length < 5) continue;
+        (byKey[key] ||= []).push(String(l.id));
+      }
+    }
+    const out: Record<string, string[]> = {};
+    for (const ids of Object.values(byKey)) {
+      if (ids.length < 2) continue;
+      for (const id of ids) out[id] = ids.filter((x) => x !== id);
+    }
+    return out;
+  }
+
+  function setMsg(text: string, isError = false) {
+    msg.textContent = text;
+    msg.classList.toggle('err', isError);
+  }
+
+  async function api(method: string, body?: unknown) {
+    const res = await fetch('/api/admin/leads', {
+      method,
+      headers: { 'Content-Type': 'application/json', 'x-admin-token': TOKEN },
+      body: body ? JSON.stringify(body) : undefined,
+    });
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok) throw new Error(data.error || `HTTP ${res.status}`);
+    return data;
+  }
+
+  function renderStats(s: any) {
+    const cards: [string, string][] = [
+      ['Заявок', String(s.total)],
+      ['В работе', String(s.in_work)],
+      ['Оплачено', String(s.won)],
+      ['Выручка', s.revenue ? money(s.revenue) : '—'],
+      ['Конверсия', s.close_rate === null ? 'нет закрытых' : Math.round(s.close_rate * 100) + '%'],
+      ['Средний чек', s.average_deal ? money(s.average_deal) : '—'],
+      ['В корзине', String(s.spam)],
+    ];
+    statsBox.innerHTML = cards.map(([label, val]) =>
+      `<div class="ac-stat"><b>${esc(val)}</b><span>${esc(label)}</span></div>`).join('');
+    statsBox.hidden = false;
+    toolbar.hidden = false;
+    tableWrap.hidden = false;
+  }
+
+  function matches(l: any) {
+    const s = l.status || 'new';
+    if (FILTER === 'spam') return s === 'spam';
+    if (s === 'spam') return false;
+    if (FILTER === 'won' && s !== 'won') return false;
+    if (FILTER === 'lost' && s !== 'lost') return false;
+    if (FILTER === 'overdue' && l.urgency !== 'overdue') return false;
+    if (FILTER === 'work' && (s === 'won' || s === 'lost')) return false;
+    if (!QUERY) return true;
+    const hay = [l.name, l.company, l.email, l.phone, l.product_ref, l.message, l.owner]
+      .join(' ').toLowerCase();
+    return hay.includes(QUERY);
+  }
+
+  const ORDER: Record<string, number> = { overdue: 0, due: 1, ok: 2, none: 3 };
+
+  /** Следующая стадия по цепочке продажи. Отказ и мусор — тупики. */
+  function nextStage(id: string): any | null {
+    const chain = STAGES.filter((s: any) => s.id !== 'lost' && s.id !== 'spam');
+    const i = chain.findIndex((s: any) => s.id === id);
+    return i >= 0 && i < chain.length - 1 ? chain[i + 1] : null;
+  }
+
+  function renderBoard() {
+    const cols = STAGES.filter((s: any) => s.id !== 'spam');
+    board.innerHTML = cols.map((col: any) => {
+      const items = LEADS.filter((l) => (l.status || 'new') === col.id && matches(l))
+        .sort((a, b) => (ORDER[a.urgency] ?? 2) - (ORDER[b.urgency] ?? 2));
+      const sum = items.reduce((acc, l) => acc + (Number(l.amount) || 0), 0);
+      return `<section class="ac-col">
+        <div class="ac-col-head">
+          <b title="${esc(col.hint)}">${esc(col.label)}</b>
+          <span>${items.length}${sum ? ' · ' + esc(money(sum)) : ''}</span>
+        </div>
+        <div class="ac-col-body">
+          ${items.length ? items.map((l) => {
+            const nx = nextStage(col.id);
+            return `<article class="ac-card ${esc(l.urgency || '')}" data-id="${esc(l.id)}">
+              <div class="ac-card-name">${esc(l.name || 'Без имени')}</div>
+              <div class="ac-sub">${esc(l.company || '—')}</div>
+              ${l.product_ref ? `<div class="ac-sub">${l.source === 'quote' ? '📄 ' : ''}${esc(l.product_ref)}</div>` : ''}
+              <div class="ac-card-row">
+                <span class="ac-sub">${l.amount ? esc(money(Number(l.amount))) : '—'}</span>
+                ${nx ? `<button class="ac-next-btn" data-move-to="${esc(nx.id)}" data-lead="${esc(l.id)}">${esc(nx.label)} →</button>` : ''}
+              </div>
+            </article>`;
+          }).join('') : '<div class="ac-col-empty">Пусто</div>'}
+        </div>
+      </section>`;
+    }).join('');
+  }
+
+  function applyView() {
+    const isBoard = VIEW === 'board';
+    tableWrap.hidden = isBoard;
+    board.hidden = !isBoard;
+    document.querySelectorAll('.ac-view').forEach((b) =>
+      b.classList.toggle('is-on', (b as HTMLElement).dataset.view === VIEW));
+    if (isBoard) renderBoard(); else renderRows();
+  }
+  function renderRows() {
+    // Сначала то, что горит: менеджер открывает список и сразу видит, за что браться.
+    const list = LEADS.filter(matches).sort((a, b) => {
+      const d = (ORDER[a.urgency] ?? 2) - (ORDER[b.urgency] ?? 2);
+      return d !== 0 ? d : String(b.created_at).localeCompare(String(a.created_at));
+    });
+    if (!list.length) {
+      rows.innerHTML = '<tr><td colspan="9" class="ac-first"><span class="ac-sub">Заявок в этом разделе нет.</span></td></tr>';
+      return;
+    }
+    rows.innerHTML = list.map((l) => {
+      const s = l.status || 'new';
+      const cls = s === 'won' ? ' won' : s === 'lost' ? ' lost' : s === 'spam' ? ' spam' : s === 'new' ? ' hot' : '';
+      const ev = EVENTS[String(l.id)] || [];
+      return `<tr data-id="${esc(l.id)}">
+        <td data-label="Дата" class="ac-first"><span class="ac-sub">${esc(dt(l.created_at))}</span></td>
+        <td data-label="Клиент"><div class="ac-name">${esc(l.name || 'Без имени')}</div>
+          <div class="ac-sub">${esc(l.company || '—')}</div></td>
+        <td data-label="Контакты"><div class="ac-sub">
+          ${l.phone ? `<a href="tel:${esc(l.phone)}">${esc(l.phone)}</a><br>` : ''}
+          ${l.email ? `<a href="mailto:${esc(l.email)}">${esc(l.email)}</a>` : ''}</div></td>
+        <td data-label="Запрос" class="ac-req">
+          ${l.source === 'quote' ? '<span class="ac-badge kp">КП</span> ' : ''}
+          <span class="ac-sub">${esc(l.product_ref || l.message || '—')}</span></td>
+        <td data-label="Стадия"><span class="ac-badge${cls}">${esc(stageName(s))}</span>
+          ${ev.length ? `<div class="ac-sub">${ev.length} соб.</div>` : ''}</td>
+        <td data-label="Срок"><span class="ac-urg ${esc(l.urgency || 'ok')}">${esc(URG[l.urgency] || '—')}</span>
+          ${l.next_action_at ? `<div class="ac-sub">${esc(dt(l.next_action_at))}</div>` : ''}</td>
+        <td data-label="Ответственный"><span class="ac-sub">${esc(l.owner || '—')}</span></td>
+        <td data-label="Сумма" class="num"><span class="ac-sub">${l.amount ? money(Number(l.amount)) : '—'}</span></td>
+        <td class="num"><button class="ac-open" data-open>Открыть</button></td>
+      </tr>`;
+    }).join('');
+  }
+
+  function renderDetail(l: any) {
+    const s = l.status || 'new';
+    const spec = specOf(s);
+    const ev = (EVENTS[String(l.id)] || []).slice().sort((a, b) =>
+      String(b.created_at).localeCompare(String(a.created_at)));
+    const dupIds: string[] = DUPES[String(l.id)] || [];
+
+    detail.innerHTML = `
+      <div class="ac-head">
+        <h2>${esc(l.name || 'Без имени')}</h2>
+        <div class="ac-sub">${esc(l.company || '—')} · ${esc(dtFull(l.created_at))}${l.source ? ' · ' + esc(l.source) : ''}</div>
+        <div class="ac-quick">
+          ${l.phone ? `<a class="ac-open" href="tel:${esc(l.phone)}">Позвонить</a>` : ''}
+          ${l.email ? `<a class="ac-open" href="mailto:${esc(l.email)}">Написать вручную</a>` : ''}
+          ${l.next_action_at ? `<a class="ac-open" href="/api/admin/crm/ics?id=${esc(l.id)}&amp;token=${encodeURIComponent(TOKEN)}">В календарь</a>` : ''}
+        </div>
+      </div>
+
+      ${dupIds.length ? `<div class="ac-warn">Похоже, этот клиент обращался ещё ${dupIds.length} ${dupIds.length === 1 ? 'раз' : 'раза'} — совпадают телефон или почта. Проверьте, не ведёте ли вы одну сделку дважды.</div>` : ''}
+
+      <div class="ac-next">
+        <div class="ac-next-title">Что дальше</div>
+        <div class="ac-next-action">${esc(spec?.action || 'Определите стадию заявки')}</div>
+        <div class="ac-sub">${esc(spec?.hint || '')}</div>
+      </div>
+
+      ${l.inn ? `<div class="ac-sub">ИНН ${esc(l.inn)}</div>` : ''}
+      ${l.quote_no ? `<div class="ac-sub">Скачано КП № ${esc(l.quote_no)}</div>` : ''}
+      ${l.product_ref ? `<div class="ac-sub" style="margin-top:.8rem">Запрос: ${esc(l.product_ref)}</div>` : ''}
+      ${l.message ? `<div class="ac-quote">${esc(l.message)}</div>` : '<div style="height:.6rem"></div>'}
+
+      <div class="ac-fields">
+        <label>${withHint('Стадия', 'status')}<select data-f="status">${STAGES.map((x) =>
+          `<option value="${x.id}"${x.id === s ? ' selected' : ''}>${esc(x.label)}</option>`).join('')}</select></label>
+        <label>${withHint('Ответственный', 'owner')}<input data-f="owner" value="${esc(l.owner || '')}" placeholder="Кто ведёт" /></label>
+        <label>${withHint('Сумма, ₽', 'amount')}<input data-f="amount" inputmode="decimal" value="${l.amount ?? ''}" placeholder="0" /></label>
+        <label>${withHint('Вернуться', 'next_action_at')}<input data-f="next_action_at" type="date" value="${l.next_action_at ? String(l.next_action_at).slice(0, 10) : ''}" /></label>
+        <label class="wide ac-reason" ${s === 'lost' ? '' : 'hidden'}>${withHint('Причина отказа', 'lost_reason')}<select data-f="lost_reason">${
+          REASONS.map((r) => `<option value="${r.id}"${r.id === (l.lost_reason || '') ? ' selected' : ''}>${esc(r.label)}</option>`).join('')
+        }</select></label>
+        <label class="wide">${withHint('Внутренняя заметка', 'note')}<textarea data-f="note" placeholder="Служебная пометка по заявке">${esc(l.note || '')}</textarea></label>
+      </div>
+      <div class="ac-actions">
+        <button class="btn btn-primary" data-save>Сохранить</button>
+        ${(() => { const nx = nextStage(s); return nx ? `<button class="ac-open" data-advance="${esc(nx.id)}">${esc(nx.label)} →</button>` : ''; })()}
+        <button class="ac-danger" data-delete>Удалить</button>
+        <span class="ac-ok" data-saved hidden>Сохранено</span>
+      </div>
+
+      <div class="ac-section-title">Письмо клиенту</div>
+      <div class="ac-compose">
+        <div class="ac-compose-row">
+          ${TEMPLATES.map((x) => `<button class="ac-open${spec?.template === x.id ? ' suggest' : ''}" data-tpl="${esc(x.id)}" title="${esc(x.hint)}">${esc(x.label)}</button>`).join('')}
+        </div>
+        <input data-mail-subject placeholder="Тема письма" value="" />
+        <textarea data-mail-text placeholder="Выберите шаблон выше — текст подставится с содержанием заявки, потом поправьте под клиента"></textarea>
+        <div class="ac-compose-row">
+          <button class="btn btn-primary" data-send ${l.email ? '' : 'disabled'}>Отправить на ${esc(l.email || '—')}</button>
+        </div>
+      </div>
+
+      <div class="ac-section-title">Записать в историю</div>
+      <div class="ac-compose">
+        <textarea data-note-text placeholder="Что обсудили, о чём договорились"></textarea>
+        <div class="ac-compose-row">
+          <button class="ac-open" data-log="call">Звонок</button>
+          <button class="ac-open" data-log="note">Заметка</button>
+        </div>
+      </div>
+
+      <div class="ac-section-title">История (${ev.length})</div>
+      <div class="ac-history">
+        ${ev.length ? ev.map((e) => `<div class="ac-event ${esc(e.kind)}">
+          <time>${esc(dtFull(e.created_at))} · ${esc(KINDS[e.kind] || e.kind)}</time>
+          ${e.subject ? `<div class="who">${esc(e.subject)}</div>` : ''}
+          <p>${esc(e.text)}</p>
+          ${e.author ? `<div class="who">${esc(e.author)}</div>` : ''}
+        </div>`).join('') : '<span class="ac-sub">Пока ничего не записано.</span>'}
+      </div>`;
+  }
+
+  function openLead(id: string) {
+    const l = LEADS.find((x) => String(x.id) === String(id));
+    if (!l) return;
+    OPEN_ID = String(id);
+    renderDetail(l);
+    overlay.hidden = false;
+    document.documentElement.classList.add('admin-console-open');
+    // Запись в историю: аппаратная кнопка «назад» и свайп-назад в Safari
+    // закрывают карточку, а не уводят с сайта. На телефоне это главный жест.
+    history.pushState({ crm: 'lead', id: OPEN_ID }, '', '#lead-' + OPEN_ID);
+  }
+
+  function hidePanel() {
+    overlay.hidden = true;
+    OPEN_ID = null;
+    document.documentElement.classList.remove('admin-console-open');
+  }
+
+  function closePanel() {
+    // Возврат через историю, чтобы состояние страницы и адрес не разъезжались.
+    if (history.state && history.state.crm === 'lead') history.back();
+    else hidePanel();
+  }
+
+  window.addEventListener('popstate', () => {
+    if (!moveWrap.hidden) { moveWrap.hidden = true; MOVE_ID = null; return; }
+    if (!overlay.hidden) hidePanel();
+  });
+
+  async function load(keepOpen = false) {
+    TOKEN = tokenInput.value.trim();
+    ME = meInput.value.trim() || DEFAULT_ME;
+    localStorage.setItem('bz_admin_token', TOKEN);
+    localStorage.setItem('bz_admin_me', ME);
+    setMsg('Загружаю…');
+    try {
+      const data = await api('GET');
+      LEADS = data.leads || [];
+      EVENTS = data.events || {};
+      DUPES = findDuplicates(LEADS);
+      const exp = document.querySelector('[data-export]') as HTMLAnchorElement | null;
+      if (exp) exp.href = `/api/admin/crm/export?token=${encodeURIComponent(TOKEN)}`;
+      renderStats(data.summary);
+      applyView();
+      if (keepOpen && OPEN_ID) {
+        const l = LEADS.find((x) => String(x.id) === OPEN_ID);
+        if (l) renderDetail(l); else closePanel();
+      }
+      setMsg('');
+    } catch (e: any) {
+      setMsg(e.message, true);
+      statsBox.hidden = true; toolbar.hidden = true; tableWrap.hidden = true;
+    }
+  }
+
+  ($('[data-load]') as HTMLElement).addEventListener('click', () => load());
+  ($('[data-close]') as HTMLElement).addEventListener('click', closePanel);
+  overlay.addEventListener('click', (e) => { if (e.target === overlay) closePanel(); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !overlay.hidden) closePanel(); });
+
+  ($('[data-filters]') as HTMLElement).addEventListener('click', (e) => {
+    const chip = (e.target as HTMLElement).closest('[data-filter]') as HTMLElement | null;
+    if (!chip) return;
+    FILTER = chip.dataset.filter || 'work';
+    document.querySelectorAll('.ac-chip').forEach((c) => c.classList.toggle('is-on', c === chip));
+    applyView();
+  });
+
+  searchInput.addEventListener('input', () => { QUERY = searchInput.value.trim().toLowerCase(); applyView(); });
+
+  document.querySelectorAll('.ac-view').forEach((b) => b.addEventListener('click', () => {
+    VIEW = (b as HTMLElement).dataset.view || 'list';
+    localStorage.setItem('bz_admin_view', VIEW);
+    applyView();
+  }));
+
+  board.addEventListener('click', (e) => {
+    const moveBtn = (e.target as HTMLElement).closest('[data-move-to]') as HTMLElement | null;
+    if (moveBtn) {
+      e.stopPropagation();
+      openMove(moveBtn.dataset.lead as string, moveBtn.dataset.moveTo as string);
+      return;
+    }
+    const card = (e.target as HTMLElement).closest('.ac-card') as HTMLElement | null;
+    if (card) openLead(card.dataset.id as string);
+  });
+
+  rows.addEventListener('click', (e) => {
+    const tr = (e.target as HTMLElement).closest('tr[data-id]') as HTMLElement | null;
+    if (!tr) return;
+    if ((e.target as HTMLElement).closest('a')) return; // звонок и почта — не открытие
+    openLead(tr.dataset.id as string);
+  });
+
+  detail.addEventListener('change', (e) => {
+    const sel = e.target as HTMLSelectElement;
+    if (sel.dataset.f !== 'status') return;
+    const reason = detail.querySelector('.ac-reason') as HTMLElement;
+    if (reason) reason.hidden = sel.value !== 'lost';
+  });
+
+  detail.addEventListener('click', async (e) => {
+    const target = e.target as HTMLElement;
+    const lead = LEADS.find((x) => String(x.id) === OPEN_ID);
+    if (!lead) return;
+
+    if (target.closest('[data-save]')) {
+      const payload: Record<string, unknown> = { id: OPEN_ID, prev_status: lead.status || 'new' };
+      detail.querySelectorAll('[data-f]').forEach((el) => {
+        const f = (el as HTMLElement).dataset.f as string;
+        const v = (el as HTMLInputElement).value.trim();
+        payload[f] = f === 'amount' ? (v === '' ? null : Number(v)) : v;
+      });
+      try {
+        await api('PATCH', payload);
+        const flag = detail.querySelector('[data-saved]') as HTMLElement;
+        if (flag) { flag.hidden = false; setTimeout(() => { flag.hidden = true; }, 1800); }
+        await load(true);
+      } catch (err: any) { setMsg(err.message, true); }
+      return;
+    }
+
+    if (target.closest('[data-delete]')) {
+      const who = lead.name || lead.company || 'заявку';
+      if (!confirm(`Удалить ${who} безвозвратно? История по ней тоже пропадёт.`)) return;
+      try {
+        await api('DELETE', { id: OPEN_ID });
+        closePanel();
+        await load();
+      } catch (err: any) { setMsg(err.message, true); }
+      return;
+    }
+
+    if (target.closest('[data-send]')) {
+      const subject = (detail.querySelector('[data-mail-subject]') as HTMLInputElement).value.trim();
+      const text = (detail.querySelector('[data-mail-text]') as HTMLTextAreaElement).value.trim();
+      if (!text) { setMsg('Письмо пустое — нечего отправлять.', true); return; }
+      const btn = target.closest('[data-send]') as HTMLButtonElement;
+      btn.disabled = true;
+      try {
+        await api('POST', { id: OPEN_ID, kind: 'email', to: lead.email, subject, text, author: ME });
+        setMsg('Письмо отправлено.');
+        await load(true);
+      } catch (err: any) { setMsg(err.message, true); btn.disabled = false; }
+      return;
+    }
+
+    const adv = target.closest('[data-advance]') as HTMLElement | null;
+    if (adv) { openMove(OPEN_ID as string, adv.dataset.advance as string); return; }
+
+    const tpl = target.closest('[data-tpl]') as HTMLElement | null;
+    if (tpl) {
+      try {
+        const res = await fetch('/api/admin/crm/templates', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'x-admin-token': TOKEN },
+          body: JSON.stringify({ id: OPEN_ID, template: tpl.dataset.tpl, manager: ME }),
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || `HTTP ${res.status}`);
+        (detail.querySelector('[data-mail-subject]') as HTMLInputElement).value = data.subject;
+        (detail.querySelector('[data-mail-text]') as HTMLTextAreaElement).value = data.body;
+        setMsg('Шаблон подставлен — проверьте текст перед отправкой.');
+      } catch (err: any) { setMsg(err.message, true); }
+      return;
+    }
+
+    const logBtn = target.closest('[data-log]') as HTMLElement | null;
+    if (logBtn) {
+      const box = detail.querySelector('[data-note-text]') as HTMLTextAreaElement;
+      const text = box.value.trim();
+      if (!text) { setMsg('Пустая запись — нечего сохранять.', true); return; }
+      try {
+        await api('POST', { id: OPEN_ID, kind: logBtn.dataset.log, text, author: ME });
+        box.value = '';
+        await load(true);
+      } catch (err: any) { setMsg(err.message, true); }
+    }
+  });
+
+  /**
+   * Перевод сделки на следующую стадию.
+   *
+   * Движение по цепочке — это и есть работа менеджера, поэтому оно требует
+   * ответа на один вопрос: что сделано. Без записи стадия меняется молча, и
+   * через неделю по карточке не понять, почему сделка там, где она есть.
+   */
+  function openMove(id: string, toStage: string) {
+    const l = LEADS.find((x) => String(x.id) === String(id));
+    const spec = specOf(toStage);
+    if (!l || !spec) return;
+    MOVE_ID = String(id);
+    PENDING_STAGE = toStage;
+
+    // Чего не хватает для перехода — спрашиваем здесь же, а не отказом после.
+    const needAmount = ['proposal', 'invoiced', 'won'].includes(toStage) && !l.amount;
+    const needOwner = toStage !== 'spam' && !l.owner;
+
+    moveBody.innerHTML = `
+      <h3>${esc(l.name || 'Заявка')} → ${esc(spec.label)}</h3>
+      <div class="ac-sub">${esc(spec.hint)}</div>
+      <div class="ac-next" style="margin-top:.8rem">
+        <div class="ac-next-title">Что делаем на новой стадии</div>
+        <div class="ac-next-action">${esc(spec.action)}</div>
+      </div>
+      <div class="ac-fields" style="margin-top:.9rem">
+        ${needOwner ? `<label class="wide">${withHint('Ответственный', 'owner')}<input data-mv="owner" value="${esc(ME)}" placeholder="Кто ведёт" /></label>` : ''}
+        ${needAmount ? `<label class="wide">${withHint('Сумма, ₽', 'amount')}<input data-mv="amount" inputmode="decimal" placeholder="0" /></label>` : ''}
+        <label class="wide">Что сделали<textarea data-mv="done" placeholder="Например: созвонились, уточнили состав, отправили расчёт"></textarea></label>
+        <label class="wide">${withHint('Вернуться', 'next_action_at')}<input data-mv="next" type="date" value="${l.next_action_at ? String(l.next_action_at).slice(0, 10) : ''}" /></label>
+      </div>
+      <p class="ac-blocked" data-mv-error hidden></p>
+      <div class="ac-modal-actions">
+        <button class="ac-open" data-mv-cancel>Отмена</button>
+        <button class="btn btn-primary" data-mv-ok>Перевести</button>
+      </div>`;
+    moveWrap.hidden = false;
+    document.documentElement.classList.add('admin-console-open');
+    history.pushState({ crm: 'move', id: MOVE_ID }, '', '#move-' + MOVE_ID);
+  }
+
+  function closeMove() {
+    if (history.state && history.state.crm === 'move') history.back();
+    else { moveWrap.hidden = true; MOVE_ID = null; }
+  }
+
+  moveWrap.addEventListener('click', (e) => { if (e.target === moveWrap) closeMove(); });
+
+  moveBody.addEventListener('click', async (e) => {
+    const target = e.target as HTMLElement;
+    if (target.closest('[data-mv-cancel]')) { closeMove(); return; }
+    if (!target.closest('[data-mv-ok]')) return;
+
+    const lead = LEADS.find((x) => String(x.id) === MOVE_ID);
+    if (!lead) return;
+    const val = (k: string) => {
+      const el = moveBody.querySelector(`[data-mv="${k}"]`) as HTMLInputElement | null;
+      return el ? el.value.trim() : '';
+    };
+    const done = val('done');
+    const err = moveBody.querySelector('[data-mv-error]') as HTMLElement;
+    if (!done) {
+      err.textContent = 'Напишите, что сделали — эта запись останется в истории сделки.';
+      err.hidden = false;
+      return;
+    }
+
+    const stage = (moveBody.querySelector('h3') as HTMLElement).textContent || '';
+    const toStage = PENDING_STAGE;
+    const payload: Record<string, unknown> = {
+      id: MOVE_ID, prev_status: lead.status || 'new', status: toStage,
+      owner: val('owner') || lead.owner || ME,
+      amount: val('amount') ? Number(val('amount')) : (lead.amount ?? null),
+      next_action_at: val('next') || lead.next_action_at || '',
+      note: lead.note || '',
+      lost_reason: lead.lost_reason || '',
+    };
+    const btn = target.closest('[data-mv-ok]') as HTMLButtonElement;
+    btn.disabled = true;
+    try {
+      await api('PATCH', payload);
+      await api('POST', { id: MOVE_ID, kind: 'note', text: done, author: ME });
+      closeMove();
+      await load(true);
+      setMsg(`Переведено: ${stage}`);
+    } catch (e2: any) {
+      err.textContent = e2.message;
+      err.hidden = false;
+      btn.disabled = false;
+    }
+  });
+
+  /**
+   * Перенос ранее скачанных КП в воронку. Сначала сухой прогон: показываем,
+   * что будет сделано, и только после подтверждения применяем.
+   */
+  ($('[data-import-quotes]') as HTMLElement).addEventListener('click', async () => {
+    const call = async (apply: boolean) => {
+      const res = await fetch('/api/admin/crm/import-quotes', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'x-admin-token': TOKEN },
+        body: JSON.stringify({ apply }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || `HTTP ${res.status}`);
+      return data;
+    };
+    try {
+      setMsg('Смотрю скачанные КП…');
+      const dry = await call(false);
+      const s = dry.summary;
+      if (!s.planned) { setMsg(`Все скачанные КП уже в воронке (проверено ${dry.quotes_total}).`); return; }
+      const sample = (dry.planned || []).slice(0, 5)
+        .map((x: any) => `${x.quote_no} · ${x.company || 'без названия'} · ${x.action}`).join('\n');
+      if (!confirm(`Найдено ${s.planned} КП вне воронки из ${dry.quotes_total}.\n\n${sample}${s.planned > 5 ? '\n…' : ''}\n\nПеренести?`)) {
+        setMsg('Перенос отменён.');
+        return;
+      }
+      const done = await call(true);
+      setMsg(`Перенесено: новых заявок ${done.summary.created}, событий к существующим ${done.summary.attached}.`);
+      await load();
+    } catch (e: any) { setMsg(e.message, true); }
+  });
+
+  // Подсказки: наведение даёт title, тап на телефоне — всплывающее пояснение.
+  document.addEventListener('click', (e) => {
+    const q = (e.target as HTMLElement).closest('[data-hint]') as HTMLElement | null;
+    document.querySelectorAll('.ac-tip').forEach((n) => n.remove());
+    if (!q) return;
+    e.preventDefault();
+    const tip = document.createElement('div');
+    tip.className = 'ac-tip';
+    tip.textContent = q.dataset.hint || '';
+    q.parentElement?.appendChild(tip);
+  });
+
+  if (TOKEN) load();
+</script>

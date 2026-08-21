@@ -1,0 +1,70 @@
+# Синхронизация целей сайта с кабинетами Яндекс.Метрики и GA4.
+#
+# Цель, которую шлёт сайт, но которой нет в кабинете, летит в пустоту: вызов
+# счётчик принимает, а в отчёте её нет — и ноль по ней читается как
+# «обращений не было». Так была потеряна конверсионная статистика (ANL-001).
+#
+# Единственный источник списка — реестр в src/lib/analytics.ts. Вторая копия
+# на стороне скрипта разошлась бы с кодом при первой правке.
+#
+# По умолчанию сухой прогон: показывает, чего не хватает, ничего не меняя.
+# Ничего не удаляет — снятая по ошибке цель обнуляет историю.
+name: seo-goals-sync
+
+on:
+  workflow_dispatch:
+    inputs:
+      apply:
+        description: "false — только показать, чего не хватает; true — завести"
+        required: true
+        default: "false"
+        type: choice
+        options: ["false", "true"]
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install deps
+        run: pip install --quiet google-auth
+
+      - name: Sync goals
+        id: run
+        continue-on-error: true
+        env:
+          YANDEX_METRIKA_TOKEN: ${{ secrets.YANDEX_METRIKA_TOKEN }}
+          YANDEX_METRIKA_COUNTER_ID: ${{ secrets.YANDEX_METRIKA_COUNTER_ID }}
+          GSC_SERVICE_ACCOUNT_JSON: ${{ secrets.GSC_SERVICE_ACCOUNT_JSON }}
+          GA4_PROPERTY_ID: ${{ secrets.GA4_PROPERTY_ID }}
+        run: |
+          set -o pipefail
+          python3 scripts/seo/goals_sync.py \
+            ${{ inputs.apply == 'true' && '--apply' || '' }} 2>&1 | tee /tmp/goals.txt
+
+      - name: Post to issue
+        if: always()
+        uses: actions/github-script@v7
+        env:
+          MODE: ${{ inputs.apply }}
+        with:
+          script: |
+            const fs = require('fs');
+            let out = '(нет вывода)';
+            try { out = fs.readFileSync('/tmp/goals.txt', 'utf8').slice(0, 55000); } catch {}
+            const mode = process.env.MODE === 'true' ? 'заведение' : 'сухой прогон';
+            await github.rest.issues.createComment({
+              owner: context.repo.owner, repo: context.repo.repo, issue_number: 22,
+              body: `### seo-goals-sync (${mode})\n\n\`\`\`\n${out}\n\`\`\``,
+            });
+
+      - name: Fail if goals could not be checked
+        if: steps.run.outcome == 'failure'
+        run: |
+          echo "::error::Цели не проверены — см. комментарий в issue #22."
+          exit 1

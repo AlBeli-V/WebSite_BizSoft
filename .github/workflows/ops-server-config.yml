@@ -1,0 +1,157 @@
+# Обновление серверных файлов, которые деплой НЕ трогает, и снятие диагностики.
+#
+# /opt/bizsoft/docker-compose.override.yml и /opt/bizsoft/deploy.sh лежат вне
+# astro-src, поэтому rsync из deploy.yml их не обновляет — версии из deploy/
+# нужно класть на сервер отдельно. Без этого PUBLIC_* не доходят до сборки
+# Astro (цели Метрики работают только за счёт фолбэка в коде).
+#
+# Заодно снимает то, что можно узнать только с сервера: заданы ли PUBLIC_*
+# в astro.env, скачивал ли кто-нибудь удалённые прайс-файлы, и актуальный
+# конфиг nginx. Результат — в журнал-issue #22.
+name: ops-server-config
+on:
+  workflow_dispatch:
+    inputs:
+      apply:
+        description: 'true — заменить файлы на сервере, false — только диагностика'
+        required: true
+        default: 'false'
+      rebuild:
+        description: 'true — после замены запустить ./deploy.sh (пересборка образа)'
+        required: false
+        default: 'false'
+      metrika_id:
+        description: 'PUBLIC_METRIKA_ID — проставить в astro.env, если отсутствует'
+        required: false
+        default: '110206070'
+      ga_id:
+        description: 'PUBLIC_GA_ID — проставить в astro.env, если отсутствует'
+        required: false
+        default: 'G-V9BK2D1431'
+permissions:
+  contents: read
+  issues: write
+jobs:
+  config:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Copy deploy files to server
+        if: inputs.apply == 'true'
+        uses: appleboy/scp-action@v1
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          source: 'deploy/docker-compose.override.yml,deploy/deploy.sh'
+          target: /tmp/bizsoft-deploy
+          strip_components: 1
+
+      - name: Apply and diagnose
+        id: run
+        uses: appleboy/ssh-action@v1
+        env:
+          P_APPLY: ${{ inputs.apply }}
+          P_REBUILD: ${{ inputs.rebuild }}
+          P_METRIKA: ${{ inputs.metrika_id }}
+          P_GA: ${{ inputs.ga_id }}
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          envs: P_APPLY,P_REBUILD,P_METRIKA,P_GA
+          command_timeout: 20m
+          capture_stdout: true
+          script: |
+            set -e
+            cd /opt/bizsoft
+            STAMP=$(date +%Y%m%d-%H%M%S)
+
+            echo "== 1. Серверные файлы деплоя =="
+            for f in docker-compose.override.yml deploy.sh; do
+              NEW=/tmp/bizsoft-deploy/$f
+              if [ ! -f "$NEW" ]; then echo "  $f: новой версии нет (apply=false)"; continue; fi
+              if cmp -s "$NEW" "./$f"; then
+                echo "  $f: уже совпадает с версией из репозитория"
+              else
+                echo "  $f: отличается, заменяю (бэкап $f.bak-$STAMP)"
+                cp -p "./$f" "./$f.bak-$STAMP" 2>/dev/null || true
+                cp "$NEW" "./$f"
+                [ "$f" = deploy.sh ] && chmod +x ./deploy.sh
+              fi
+            done
+            echo "  --- build args в override:"
+            grep -nA3 'args:' ./docker-compose.override.yml || echo "  (секции args нет)"
+            echo "  --- подстановка astro.env в deploy.sh:"
+            grep -n 'astro.env' ./deploy.sh || echo "  (подстановки нет)"
+
+            echo
+            echo "== 2. PUBLIC_* в astro.env =="
+            # Переменная нужна на СБОРКЕ: пустая строка в astro.env так же
+            # бесполезна, как её отсутствие, поэтому проверяем непустоту.
+            ensure_var() {
+              k=$1; want=$2
+              v=$(sed -n "s/^$k=//p" ./astro.env 2>/dev/null | tr -d '"\r' | head -1)
+              if [ -n "$v" ]; then echo "  $k=$v"; return; fi
+              if [ "$P_APPLY" != "true" ] || [ -z "$want" ]; then echo "  $k — НЕ ЗАДАН"; return; fi
+              cp -p ./astro.env "./astro.env.bak-$STAMP" 2>/dev/null || true
+              sed -i "/^$k=/d" ./astro.env
+              printf '%s=%s\n' "$k" "$want" >> ./astro.env
+              echo "  $k — не был задан, проставлен: $want"
+            }
+            ensure_var PUBLIC_METRIKA_ID "$P_METRIKA"
+            ensure_var PUBLIC_GA_ID "$P_GA"
+
+            echo
+            echo "== 4. Обращения к удалённым прайс-файлам в логах nginx =="
+            FILES='block1-design-zagruzka|block2-games-zagruzka|block3-video-zagruzka|flagship-openai-figma-zagruzka'
+            HITS=$(zgrep -hE "$FILES" /var/log/nginx/access.log* 2>/dev/null || true)
+            if [ -z "$HITS" ]; then
+              echo "  обращений не найдено ни в одном логе"
+            else
+              echo "  всего строк: $(echo "$HITS" | wc -l)"
+              echo "  --- по коду ответа и файлу:"
+              echo "$HITS" | awk '{for(i=1;i<=NF;i++) if($i ~ /zagruzka/) f=$i; print $9, f}' | sort | uniq -c | sort -rn | head -20
+              echo "  --- уникальных IP: $(echo "$HITS" | awk '{print $1}' | sort -u | wc -l)"
+              echo "  --- успешные скачивания (код 200):"
+              echo "$HITS" | awk '$9==200' | head -20 || echo "  (нет)"
+            fi
+            echo "  --- глубина логов:"
+            ls -la /var/log/nginx/access.log* 2>/dev/null | head -12 || echo "  (логи недоступны)"
+
+            echo
+            echo "== 5. Конфиг nginx с прода =="
+            CONF=$(ls /etc/nginx/sites-enabled/* 2>/dev/null | head -1)
+            echo "  файл: ${CONF:-не найден}"
+            echo '--- NGINX-CONF-BEGIN ---'
+            [ -n "$CONF" ] && cat "$CONF" || echo "(нет доступа)"
+            echo '--- NGINX-CONF-END ---'
+
+            if [ "$P_APPLY" = "true" ] && [ "$P_REBUILD" = "true" ]; then
+              echo
+              echo "== Пересборка (deploy.sh) =="
+              ./deploy.sh 2>&1 | tail -25
+            fi
+            rm -rf /tmp/bizsoft-deploy
+
+      - name: Save output
+        if: always()
+        run: |
+          cat > /tmp/ops-server-config.txt <<'OPS_EOF'
+          ${{ steps.run.outputs.stdout }}
+          OPS_EOF
+
+      - name: Post to issue
+        if: always()
+        uses: actions/github-script@v7
+        env:
+          APPLY: ${{ inputs.apply }}
+          REBUILD: ${{ inputs.rebuild }}
+        with:
+          script: |
+            const out = require('fs').readFileSync('/tmp/ops-server-config.txt', 'utf8').slice(0, 58000);
+            await github.rest.issues.createComment({
+              owner: context.repo.owner, repo: context.repo.repo, issue_number: 22,
+              body: `### ops-server-config (apply=${process.env.APPLY}, rebuild=${process.env.REBUILD})\n\n\`\`\`\n${out}\n\`\`\``,
+            });

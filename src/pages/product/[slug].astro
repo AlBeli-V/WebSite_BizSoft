@@ -1,4 +1,5 @@
 ---
+import { getCollection } from 'astro:content';
 export const prerender = false;
 
 import BaseLayout from '../../layouts/BaseLayout.astro';
@@ -9,6 +10,7 @@ import QuestionForm from '../../components/QuestionForm.astro';
 import CTASection from '../../components/CTASection.astro';
 import JsonLd from '../../components/JsonLd.astro';
 import { getProductBySlug, findCanonicalProductSlug, getProductsBySlugs, galleryImages , getCurrencyRate } from '../../lib/directus';
+import { isSourceUnavailable, serviceUnavailable } from '../../lib/http';
 import { productSchema } from '../../lib/seo';
 import { effectivePrice, formatRub } from '../../lib/pricing';
 import { ORIGIN_LABEL, LICENSE_LABEL, listValues } from '../../lib/types';
@@ -23,7 +25,10 @@ let product = null;
 try {
   product = await getProductBySlug(slug!);
 } catch (e) {
+  // Сбой БД — это не «товара нет». Отдать 404 значит попросить робота
+  // выкинуть живую страницу из индекса; отдаём 503, см. lib/http.ts.
   console.error('product page error', e);
+  if (isSourceUnavailable(e)) return serviceUnavailable();
 }
 if (!product) {
   // 301 со старого slug на актуальный, если задан в old_slugs
@@ -32,6 +37,7 @@ if (!product) {
     if (canonical) return Astro.redirect(`/product/${canonical}`, 301);
   } catch (e) {
     console.error('product redirect lookup', e);
+    if (isSourceUnavailable(e)) return serviceUnavailable();
   }
   return new Response(null, { status: 404, statusText: 'Not Found' });
 }
@@ -68,6 +74,19 @@ try {
 
 // Перелинковка AI-карточки (сравнения / статьи / категория) — только для AI-вендоров.
 const aiLinks = product.vendor ? getAiInterlinks(product.vendor) : null;
+
+// Обратная перелинковка «карточка → статья»: берём статьи, которые сами
+// ссылаются на этот товар через relatedProducts, — связь описывается один раз
+// во frontmatter статьи и работает для любого вендора, не только AI.
+let blogLinks: { id: string; title: string }[] = [];
+try {
+  const posts = await getCollection('blog', ({ data }) => !data.draft && !data.noindex);
+  blogLinks = posts
+    .filter((p) => (p.data.relatedProducts || []).includes(product.slug))
+    .map((p) => ({ id: p.id, title: p.data.title }));
+} catch (e) {
+  console.error('blog interlinks', e);
+}
 ---
 <BaseLayout
   title={product.meta_title || product.name}
@@ -196,6 +215,17 @@ const aiLinks = product.vendor ? getAiInterlinks(product.vendor) : null;
           </div>
         )}
 
+        {blogLinks.length > 0 && (
+          <div class="block">
+            <h2>Полезные статьи</h2>
+            <ul class="blog-links">
+              {blogLinks.map((b) => (
+                <li><a href={`/blog/${b.id}`}>{b.title}</a></li>
+              ))}
+            </ul>
+          </div>
+        )}
+
         {aiLinks && (
           <div class="block ai-interlinks">
             <div class="il-col">
@@ -227,7 +257,12 @@ const aiLinks = product.vendor ? getAiInterlinks(product.vendor) : null;
               {vat > 0 && (
                 <details class="vat-hint">
                   <summary>в т.ч. НДС {vat}% ⓘ</summary>
-                  <span>Поставщик применяет УСН: НДС {vat}% уже включён в цену и отдельной строкой указывается в счёте и КП.</span>
+                  <span>
+                    Налог включён в цену, сверху не добавляется. В счёте, КП и
+                    закрывающих документах выделен отдельной строкой.
+                    {' '}Принимается к вычету, если вы на общей системе.
+                    {' '}<a href="/blog/zakryvayushchie-dokumenty-na-po">Подробнее о документах</a>
+                  </span>
                 </details>
               )}
             </p>
@@ -323,6 +358,11 @@ const aiLinks = product.vendor ? getAiInterlinks(product.vendor) : null;
   .block { margin-top: 2.2rem; }
   .block h2 { font-size: 1.4rem; margin-bottom: 0.9rem; }
   .collapsible.clamped { display: -webkit-box; -webkit-line-clamp: 8; line-clamp: 8; -webkit-box-orient: vertical; overflow: hidden; }
+  /* Описание в Directus хранится абзацами через перевод строки — сохраняем разбивку,
+     иначе текст склеивается в сплошную простыню. */
+  .collapsible p { white-space: pre-line; }
+  .blog-links { margin: 0; padding-left: 1.1rem; display: flex; flex-direction: column; gap: 0.4rem; }
+  .blog-links a { color: var(--color-accent); font-weight: 600; }
   .readmore { margin-top: 0.6rem; background: none; border: none; color: var(--color-accent); font-weight: 600; cursor: pointer; padding: 0; font-size: 0.92rem; }
   .features { list-style: none; padding: 0; display: grid; gap: 0.5rem; }
   .features li { padding-left: 1.6rem; position: relative; color: var(--color-text); }
@@ -380,6 +420,7 @@ const aiLinks = product.vendor ? getAiInterlinks(product.vendor) : null;
 </style>
 
 <script>
+  import { trackGoal } from '@/lib/analytics';
   import { addToCart } from '../../lib/cart-client';
   import { formatRub } from '../../lib/pricing';
 
@@ -417,11 +458,16 @@ const aiLinks = product.vendor ? getAiInterlinks(product.vendor) : null;
   qtyInput?.addEventListener('input', refreshTotal);
   refreshTotal();
 
+  // Просмотр карточки: знаменатель для добавлений в подборку. Без него
+  // «добавили 3 раза» не говорит ничего — 3 из 5 и 3 из 500 разные вещи.
+  trackGoal('view_product', {
+    sku: addBtn?.dataset.sku || '',
+    slug: addBtn?.dataset.slug || location.pathname,
+  });
+
   addBtn?.addEventListener('click', () => {
     addToCart({ sku: addBtn.dataset.sku!, slug: addBtn.dataset.slug!, name: addBtn.dataset.name!, price: unit }, curQty());
-    const w = window as unknown as { ym?: (...a: unknown[]) => void };
-    const id = (import.meta as { env: Record<string, string> }).env.PUBLIC_METRIKA_ID;
-    if (typeof w.ym === 'function' && id) w.ym(Number(id), 'reachGoal', 'add_to_cart');
+    trackGoal('add_to_cart', { sku: addBtn.dataset.sku || '' });
     const def = addBtn.querySelector('.lbl-def') as HTMLElement;
     const add = addBtn.querySelector('.lbl-add') as HTMLElement;
     def.hidden = true; add.hidden = false;

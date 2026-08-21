@@ -1,0 +1,30 @@
+---
+/** Вкладки админ-кабинета. Один набор на обеих страницах — чтобы переход
+ *  между заявками и ценами не требовал возврата в адресную строку. */
+interface Props { active: 'leads' | 'prices' }
+const { active } = Astro.props;
+const tabs = [
+  { id: 'leads', href: '/admin', label: 'Заявки' },
+  { id: 'prices', href: '/admin/prices', label: 'Цены' },
+];
+---
+<nav class="admin-tabs" aria-label="Разделы админ-кабинета">
+  {tabs.map((t) => (
+    <a href={t.href} class:list={['admin-tab', { 'is-active': t.id === active }]}
+       aria-current={t.id === active ? 'page' : undefined}>{t.label}</a>
+  ))}
+</nav>
+
+<style>
+  .admin-tabs {
+    display: flex; gap: 0.25rem; margin-bottom: 1.5rem;
+    border-bottom: 1px solid var(--color-border); overflow-x: auto;
+  }
+  .admin-tab {
+    padding: 0.7rem 1.1rem; font-size: 0.95rem; font-weight: 600; white-space: nowrap;
+    color: var(--color-text-dim); text-decoration: none;
+    border-bottom: 2px solid transparent; margin-bottom: -1px;
+  }
+  .admin-tab:hover { color: var(--color-text); }
+  .admin-tab.is-active { color: var(--color-accent); border-bottom-color: var(--color-accent); }
+</style>
