@@ -1,0 +1,398 @@
+{
+ "report_date": "2026-08-19",
+ "collected_at": "2026-08-19T23:45:41+00:00",
+ "region": "Россия",
+ "unit": "показы в поиске Яндекса",
+ "window": "последние 30 дней",
+ "match_type": "broad",
+ "requests_made": 90,
+ "coverage": "90/554",
+ "complete": false,
+ "clusters_planned": 53,
+ "clusters_measured": 15,
+ "top_commercial": [
+  {
+   "cluster": "adobe",
+   "page": "/vendors/adobe",
+   "commercial_impressions": 23544,
+   "seed_impressions": 364548
+  },
+  {
+   "cluster": "оплата-зарубежных-сервисов",
+   "page": null,
+   "commercial_impressions": 17727,
+   "seed_impressions": 11541
+  },
+  {
+   "cluster": "unity",
+   "page": "/vendors/unity",
+   "commercial_impressions": 5692,
+   "seed_impressions": 196433
+  },
+  {
+   "cluster": "procreate",
+   "page": "/vendors/procreate",
+   "commercial_impressions": 1940,
+   "seed_impressions": 25375
+  },
+  {
+   "cluster": "blackmagic",
+   "page": "/vendors/blackmagic",
+   "commercial_impressions": 1354,
+   "seed_impressions": 51434
+  },
+  {
+   "cluster": "midjourney",
+   "page": "/vendors/midjourney",
+   "commercial_impressions": 1124,
+   "seed_impressions": 51871
+  },
+  {
+   "cluster": "canva",
+   "page": "/vendors/canva",
+   "commercial_impressions": 1096,
+   "seed_impressions": 119076
+  },
+  {
+   "cluster": "coreldraw",
+   "page": "/vendors/coreldraw",
+   "commercial_impressions": 1006,
+   "seed_impressions": 58752
+  },
+  {
+   "cluster": "heygen",
+   "page": "/vendors/heygen",
+   "commercial_impressions": 670,
+   "seed_impressions": 12441
+  },
+  {
+   "cluster": "elevenlabs",
+   "page": "/vendors/elevenlabs",
+   "commercial_impressions": 434,
+   "seed_impressions": 30257
+  }
+ ],
+ "gaps": {
+  "adobe": [
+   {
+    "phrase": "adobe купить",
+    "impressions": 3887
+   },
+   {
+    "phrase": "adobe подписка",
+    "impressions": 1979
+   },
+   {
+    "phrase": "лицензия adobe",
+    "impressions": 1403
+   },
+   {
+    "phrase": "adobe pro купить",
+    "impressions": 811
+   },
+   {
+    "phrase": "adobe photoshop купить",
+    "impressions": 683
+   },
+   {
+    "phrase": "adobe acrobat купить",
+    "impressions": 574
+   },
+   {
+    "phrase": "купить подписку adobe",
+    "impressions": 509
+   },
+   {
+    "phrase": "adobe cloud купить",
+    "impressions": 491
+   },
+   {
+    "phrase": "adobe creative купить",
+    "impressions": 487
+   },
+   {
+    "phrase": "adobe premiere купить",
+    "impressions": 471
+   }
+  ],
+  "unity": [
+   {
+    "phrase": "unity сцена",
+    "impressions": 725
+   },
+   {
+    "phrase": "assassin unity купить",
+    "impressions": 631
+   },
+   {
+    "phrase": "assassins creed unity купить",
+    "impressions": 620
+   },
+   {
+    "phrase": "assassin s unity купить",
+    "impressions": 310
+   },
+   {
+    "phrase": "assassin s creed unity купить",
+    "impressions": 309
+   },
+   {
+    "phrase": "unity лицензия",
+    "impressions": 301
+   },
+   {
+    "phrase": "unity купить ключ",
+    "impressions": 117
+   },
+   {
+    "phrase": "assassins creed unity купить ключ",
+    "impressions": 109
+   },
+   {
+    "phrase": "unity подписки",
+    "impressions": 89
+   },
+   {
+    "phrase": "assassins creed unity купить стим",
+    "impressions": 73
+   }
+  ],
+  "procreate": [
+   {
+    "phrase": "купить procreate",
+    "impressions": 823
+   },
+   {
+    "phrase": "купить procreate на ipad",
+    "impressions": 153
+   },
+   {
+    "phrase": "как купить procreate на айпад",
+    "impressions": 126
+   },
+   {
+    "phrase": "как купить procreate на айпад в россии",
+    "impressions": 101
+   },
+   {
+    "phrase": "как оплатить procreate",
+    "impressions": 85
+   },
+   {
+    "phrase": "procreate подписка",
+    "impressions": 42
+   },
+   {
+    "phrase": "procreate стоимость",
+    "impressions": 40
+   },
+   {
+    "phrase": "как оплатить procreate из россии",
+    "impressions": 38
+   },
+   {
+    "phrase": "можно ли купить procreate",
+    "impressions": 35
+   }
+  ],
+  "blackmagic": [
+   {
+    "phrase": "davinci resolve купить",
+    "impressions": 531
+   },
+   {
+    "phrase": "davinci resolve studio купить",
+    "impressions": 252
+   },
+   {
+    "phrase": "davinci resolve лицензия",
+    "impressions": 120
+   },
+   {
+    "phrase": "davinci resolve license",
+    "impressions": 58
+   },
+   {
+    "phrase": "davinci resolve ключ купить",
+    "impressions": 57
+   },
+   {
+    "phrase": "davinci resolve 21 купить",
+    "impressions": 49
+   },
+   {
+    "phrase": "davinci resolve studio лицензия",
+    "impressions": 48
+   },
+   {
+    "phrase": "davinci resolve купить лицензию",
+    "impressions": 47
+   },
+   {
+    "phrase": "davinci resolve studio 21 купить",
+    "impressions": 39
+   },
+   {
+    "phrase": "davinci resolve купить в россии",
+    "impressions": 38
+   }
+  ],
+  "midjourney": [
+   {
+    "phrase": "midjourney подписка",
+    "impressions": 380
+   },
+   {
+    "phrase": "midjourney купить",
+    "impressions": 165
+   },
+   {
+    "phrase": "midjourney купить подписку",
+    "impressions": 96
+   },
+   {
+    "phrase": "как оплатить midjourney",
+    "impressions": 90
+   },
+   {
+    "phrase": "midjourney оплата",
+    "impressions": 45
+   },
+   {
+    "phrase": "как оплатить midjourney из россии",
+    "impressions": 44
+   },
+   {
+    "phrase": "midjourney тарифы",
+    "impressions": 41
+   },
+   {
+    "phrase": "midjourney оплатить подписку",
+    "impressions": 40
+   },
+   {
+    "phrase": "midjourney стоимость",
+    "impressions": 34
+   },
+   {
+    "phrase": "midjourney нейросеть подписка",
+    "impressions": 32
+   }
+  ],
+  "canva": [
+   {
+    "phrase": "canva подписка",
+    "impressions": 337
+   },
+   {
+    "phrase": "купить canva",
+    "impressions": 204
+   },
+   {
+    "phrase": "как оплатить canva",
+    "impressions": 95
+   },
+   {
+    "phrase": "canva купить подписку",
+    "impressions": 78
+   },
+   {
+    "phrase": "canva pro подписка",
+    "impressions": 68
+   },
+   {
+    "phrase": "canva pro купить",
+    "impressions": 55
+   },
+   {
+    "phrase": "canva оплата",
+    "impressions": 34
+   },
+   {
+    "phrase": "canva тарифы",
+    "impressions": 34
+   }
+  ],
+  "coreldraw": [
+   {
+    "phrase": "coreldraw купить",
+    "impressions": 371
+   },
+   {
+    "phrase": "coreldraw лицензия",
+    "impressions": 206
+   },
+   {
+    "phrase": "coreldraw лицензия купить",
+    "impressions": 65
+   },
+   {
+    "phrase": "coreldraw graphics купить",
+    "impressions": 44
+   },
+   {
+    "phrase": "coreldraw купить ключ",
+    "impressions": 42
+   },
+   {
+    "phrase": "coreldraw 2026 купить",
+    "impressions": 41
+   },
+   {
+    "phrase": "coreldraw suite купить",
+    "impressions": 41
+   },
+   {
+    "phrase": "coreldraw graphics suite купить",
+    "impressions": 40
+   },
+   {
+    "phrase": "coreldraw подписка",
+    "impressions": 33
+   }
+  ],
+  "heygen": [
+   {
+    "phrase": "heygen подписка",
+    "impressions": 180
+   },
+   {
+    "phrase": "heygen оплатить",
+    "impressions": 124
+   },
+   {
+    "phrase": "как оплатить heygen из россии",
+    "impressions": 35
+   }
+  ],
+  "elevenlabs": [
+   {
+    "phrase": "подписка elevenlabs",
+    "impressions": 148
+   },
+   {
+    "phrase": "купить elevenlabs",
+    "impressions": 131
+   },
+   {
+    "phrase": "elevenlabs подписка купить",
+    "impressions": 67
+   },
+   {
+    "phrase": "elevenlabs тарифы",
+    "impressions": 32
+   }
+  ],
+  "artlist": [
+   {
+    "phrase": "artlist подписка",
+    "impressions": 47
+   },
+   {
+    "phrase": "artlist купить",
+    "impressions": 39
+   }
+  ]
+ },
+ "discovery": []
+}

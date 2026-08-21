@@ -1,0 +1,26 @@
+{
+ "date": "2026-08-20",
+ "phrases": [
+  "adobe",
+  "wondershare",
+  "marmoset toolbag",
+  "оплата зарубежных сервисов"
+ ],
+ "depths": [
+  100,
+  500,
+  1000,
+  2000
+ ],
+ "stopped": "quota_exceeded",
+ "measurements": [
+  {
+   "phrase": "adobe",
+   "depth": 100,
+   "status": "quota_exceeded",
+   "latency_sec": 0.979
+  }
+ ],
+ "summary": [],
+ "spent_rub": 0.2
+}

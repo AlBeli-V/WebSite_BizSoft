@@ -37,7 +37,7 @@ jobs:
         env:
           APPLY: ${{ inputs.apply }}
         run: |
-          pnpm install --frozen-lockfile=false
+          pnpm install --frozen-lockfile
           mkdir -p out
           node scripts/build-vendor-cards.mjs scripts/ai-catalog-cards.json out/ai-cards.xlsx
           node -e "
