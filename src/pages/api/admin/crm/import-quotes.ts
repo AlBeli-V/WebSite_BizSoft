@@ -47,11 +47,14 @@ export const POST: APIRoute = async ({ request }) => {
   }
 
   const planned: { quote_no: string; company: string; total: number; action: string }[] = [];
-  let created = 0; let attached = 0; let skipped = 0;
+  let created = 0; let attached = 0; let skipped = 0; let noNumber = 0;
 
   for (const q of quotes) {
     const quoteNo = String(q.quote_no || '').trim();
-    if (!quoteNo || knownQuoteNo.has(quoteNo)) { skipped += 1; continue; }
+    // «Уже в воронке» и «без номера» — разные причины пропуска. Слитый счётчик
+    // читается как «всё на месте» и в случае, когда КП просто нечем сопоставить.
+    if (!quoteNo) { noNumber += 1; continue; }
+    if (knownQuoteNo.has(quoteNo)) { skipped += 1; continue; }
 
     const payload = {
       quoteNo,
@@ -97,6 +100,7 @@ export const POST: APIRoute = async ({ request }) => {
     dry_run: !apply,
     quotes_total: quotes.length,
     planned: planned.slice(0, 100),
-    summary: { planned: planned.length, skipped, created, attached },
+    summary: { planned: planned.length, skipped, skipped_no_number: noNumber,
+               created, attached },
   });
 };

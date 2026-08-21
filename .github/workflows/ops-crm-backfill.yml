@@ -72,6 +72,8 @@ jobs:
             s = d["summary"]
             print(f"КП в базе: {d['quotes_total']}")
             print(f"уже в воронке (пропущено): {s['skipped']}")
+            if s.get("skipped_no_number"):
+                print(f"без номера, сопоставить нечем: {s['skipped_no_number']} — разобрать вручную")
             print(f"к переносу: {s['planned']}")
             if d["dry_run"]:
                 print("сухой прогон — ничего не изменено")

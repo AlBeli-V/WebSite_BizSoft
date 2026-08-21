@@ -64,3 +64,35 @@ describe('заявка из КП', () => {
     expect(leadFromQuote({ ...quote, phone: undefined }).phone).toBe('');
   });
 });
+
+/**
+ * Причины пропуска при переносе истории.
+ *
+ * «Уже в воронке» и «без номера» — разные вещи. Слитый счётчик читается как
+ * «всё на месте» и тогда, когда КП просто нечем сопоставить, а это как раз
+ * тот случай, когда канал остаётся невидимым.
+ */
+describe('перенос истории: причины пропуска различимы', () => {
+  const classify = (quotes: { quote_no?: string }[], known: Set<string>) => {
+    let skipped = 0; let noNumber = 0; let planned = 0;
+    for (const q of quotes) {
+      const no = String(q.quote_no || '').trim();
+      if (!no) { noNumber += 1; continue; }
+      if (known.has(no)) { skipped += 1; continue; }
+      planned += 1;
+    }
+    return { skipped, skipped_no_number: noNumber, planned };
+  };
+
+  it('КП без номера не выдаётся за уже перенесённое', () => {
+    const r = classify([{ quote_no: 'KP-1' }, { quote_no: '' }, {}], new Set(['KP-1']));
+    expect(r.skipped).toBe(1);
+    expect(r.skipped_no_number).toBe(2);
+    expect(r.planned).toBe(0);
+  });
+
+  it('новое КП попадает в план переноса', () => {
+    const r = classify([{ quote_no: 'KP-1' }, { quote_no: 'KP-2' }], new Set(['KP-1']));
+    expect(r).toEqual({ skipped: 1, skipped_no_number: 0, planned: 1 });
+  });
+});
