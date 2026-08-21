@@ -51,7 +51,9 @@ function draw(doc: PDFKit.PDFDocument, p: Primitive): void {
   if (p.kind === 'image') {
     // Логотип читается с диска один раз и кэшируется: страниц может быть
     // несколько, а файл один и тот же.
-    doc.image(logoBuffer(p.file), p.x, p.y, { fit: [p.w, p.h], align: 'left' });
+    // align не указываем: для изображений pdfkit принимает только 'center'
+    // и 'right', а выравнивание по левому краю и так подразумевается.
+    doc.image(logoBuffer(p.file), p.x, p.y, { fit: [p.w, p.h] });
     return;
   }
   if (p.kind === 'bullet') {
