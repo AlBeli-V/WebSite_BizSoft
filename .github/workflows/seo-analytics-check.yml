@@ -1,0 +1,47 @@
+# Приёмка измерения после заведения целей (21.08.2026).
+#
+# Проверка живёт воркфлоу, а не поручением сессии: письмо должно уйти даже
+# тогда, когда никакая сессия не запущена. Расписание — 04:05 UTC = 07:05 МСК,
+# сразу после ежедневного сбора данных в 02:40 UTC.
+#
+# Письмо шлётся только первую неделю после границы измерения: дальше цели
+# работают штатно и ежедневное подтверждение превращается в шум. Границу берём
+# из реестра пределов, а не из константы в коде — там она уже записана.
+name: seo-analytics-check
+
+on:
+  schedule:
+    - cron: "5 4 * * *"        # 07:05 МСК
+  workflow_dispatch:
+    inputs:
+      force_mail:
+        description: "Отправить письмо, даже если неделя после границы прошла"
+        required: false
+        default: "false"
+        type: choice
+        options: ["false", "true"]
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install deps
+        run: pip install --quiet requests
+
+      - name: Check goals and mail the result
+        env:
+          YANDEX_METRIKA_TOKEN: ${{ secrets.YANDEX_METRIKA_TOKEN }}
+          YANDEX_METRIKA_COUNTER_ID: ${{ secrets.YANDEX_METRIKA_COUNTER_ID }}
+          SMTP_HOST: mail.hosting.reg.ru
+          SMTP_PORT: "465"
+          SMTP_USER: hello@biz-soft.pro
+          SMTP_PASS: ${{ secrets.SMTP_PASS }}
+          MAIL_TO: avbelyaev@biz-soft.pro
+          FORCE_MAIL: ${{ inputs.force_mail }}
+        run: python3 scripts/seo/goals_health.py
