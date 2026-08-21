@@ -332,6 +332,32 @@ export async function getProductsBySlugs(slugs: string[]): Promise<Product[]> {
 }
 
 /** Все товары для инструментов цен (любой статус) — требует токен. */
+/**
+ * Поля, которых достаточно для переоценки по курсу ЦБ.
+ *
+ * Полная выборка тянет описания, тексты SEO, характеристики и вопросы —
+ * килобайты на позицию. На шести тысячах товаров это десятки мегабайт
+ * впустую: пересчёт смотрит только на себестоимость, коэффициент и текущую
+ * цену, а пишет одно поле.
+ */
+const REPRICE_FIELDS = [
+  // vendor и category.slug нужны не для расчёта, а для выбора области
+  // переоценки: без них переоценка «по вендору» тихо не нашла бы ни одного
+  // товара и отчиталась бы нулём изменений.
+  'id', 'sku', 'name', 'vendor', 'origin', 'status',
+  'price', 'base_price_usd', 'base_price_eur',
+  'peg_currency', 'peg_to_usd', 'markup_coeff', 'price_locked',
+  'category.slug',
+].join(',');
+
+/** Товары в объёме, достаточном для пересчёта цен. */
+export async function getProductsForReprice(): Promise<Product[]> {
+  return dx<Product[]>('/items/products', {
+    auth: true,
+    params: { fields: REPRICE_FIELDS, sort: 'id', limit: -1 },
+  });
+}
+
 export async function getAllProductsAdmin(): Promise<Product[]> {
   return dx<Product[]>('/items/products', {
     auth: true,

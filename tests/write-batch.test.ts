@@ -1,4 +1,6 @@
 import { describe, it, expect } from 'vitest';
+import { readFileSync } from 'node:fs';
+import { resolve } from 'node:path';
 import { chunk, WRITE_BATCH } from '../src/lib/directus';
 
 /**
@@ -33,5 +35,22 @@ describe('разбиение на пачки', () => {
   it('размер пачки разумный: не по одному и не всё разом', () => {
     expect(WRITE_BATCH).toBeGreaterThan(10);
     expect(WRITE_BATCH).toBeLessThanOrEqual(500);
+  });
+});
+
+describe('поля для переоценки', () => {
+  it('в выборке есть всё, на что смотрит выбор области и расчёт', async () => {
+    const src = readFileSync(resolve(__dirname, '../src/lib/directus.ts'), 'utf8');
+    const block = src.slice(src.indexOf('const REPRICE_FIELDS'), src.indexOf('/** Товары в объёме'));
+    // Поля выбора области: без них переоценка «по вендору» или «по категории»
+    // тихо не найдёт ни одного товара.
+    for (const field of ['vendor', 'category.slug', 'origin']) {
+      expect(block, `нет поля ${field}`).toContain(`'${field}'`);
+    }
+    // Поля расчёта: себестоимость, привязка, коэффициент, текущая цена, замок.
+    for (const field of ['id', 'sku', 'price', 'base_price_usd', 'base_price_eur',
+      'peg_currency', 'peg_to_usd', 'markup_coeff', 'price_locked']) {
+      expect(block, `нет поля ${field}`).toContain(`'${field}'`);
+    }
   });
 });

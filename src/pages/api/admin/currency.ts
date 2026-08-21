@@ -1,7 +1,7 @@
 export const prerender = false;
 
 import type { APIRoute } from 'astro';
-import { getCurrencyRate, upsertCurrencyRate, getAllProductsAdmin, patchProductsBatch } from '../../../lib/directus';
+import { getCurrencyRate, upsertCurrencyRate, getProductsForReprice, patchProductsBatch } from '../../../lib/directus';
 import { fetchCbrRates } from '../../../lib/currency';
 import { computePegRub, type RoundingRule, type Rates } from '../../../lib/pricing';
 import { checkAdmin, unauthorized } from '../../../lib/admin-auth';
@@ -106,7 +106,7 @@ export const POST: APIRoute = async ({ request }) => {
       });
       let recalc = null;
       if (prev?.auto_recalc) {
-        const products = await getAllProductsAdmin();
+        const products = await getProductsForReprice();
         const rates: Rates = { usd: rate.usd_rate ?? null, eur: rate.eur_rate ?? null };
         const preview = buildReprice(products, rates, { type: 'all' }, null, false); // не трогаем зафиксированные
         const res = await applyReprice(products, preview, false);
@@ -138,7 +138,7 @@ export const POST: APIRoute = async ({ request }) => {
       const scope: Scope = body.scope || { type: 'all' };
       const coeff = body.coeff != null && body.coeff > 0 ? body.coeff : null;
       const includeLocked = !!body.includeLocked;
-      const products = await getAllProductsAdmin();
+      const products = await getProductsForReprice();
       const preview = buildReprice(products, rates, scope, coeff, includeLocked);
       if (action === 'reprice-preview') {
         return new Response(JSON.stringify({ preview, count: preview.length, rates, skippedLocked: products.filter((p) => p.peg_to_usd && inScope(p, scope) && p.price_locked && !includeLocked).length }), { status: 200, headers: { 'Content-Type': 'application/json' } });
