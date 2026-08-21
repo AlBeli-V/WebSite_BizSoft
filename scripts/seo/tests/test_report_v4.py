@@ -176,6 +176,45 @@ class TestExperimentControl(unittest.TestCase):
         self.assertEqual(v, "observing")
 
 
+class TestExpansionGuard(unittest.TestCase):
+    """Уже заведённого вендора нельзя предлагать завести."""
+
+    @classmethod
+    def setUpClass(cls):
+        cls.r = load("report_v4")
+
+    def test_catalogue_vendors_are_dropped(self):
+        # состояние исследования отстало от каталога — так ушло письмо 21.08
+        stale = {"available": True, "expansion": {
+            "items": [{"brand": "suno"}, {"brand": "cloudflare"}, {"brand": "wordpress"}],
+            "manual_check": ["capcut", "principle", "nordvpn", "leonardo ai"]}}
+        out = self.r._drop_vendors_already_on_site(stale)
+        brands = [i["brand"] for i in out["expansion"]["items"]]
+        self.assertEqual(brands, ["wordpress"])
+        self.assertEqual(out["expansion"]["manual_check"], ["nordvpn"])
+
+    def test_untouched_when_nothing_to_drop(self):
+        block = {"available": True, "expansion": {
+            "items": [{"brand": "wordpress"}], "manual_check": ["nordvpn"]}}
+        self.assertIs(self.r._drop_vendors_already_on_site(block), block)
+
+    def test_says_so_when_all_candidates_are_covered(self):
+        block = {"available": True, "expansion": {
+            "items": [{"brand": "suno"}], "manual_check": ["capcut"]}}
+        out = self.r._drop_vendors_already_on_site(block)
+        self.assertEqual(out["expansion"]["items"], [])
+        self.assertIn("уже заведены", out["expansion"]["summary"])
+
+    def test_partial_word_does_not_match(self):
+        """«box» на сайте не должен вычёркивать «dropbox-подобные» бренды целиком."""
+        words = self.r._site_vendor_words()
+        self.assertIn("box", words)
+        block = {"available": True, "expansion": {
+            "items": [{"brand": "boxcryptor"}], "manual_check": []}}
+        out = self.r._drop_vendors_already_on_site(block)
+        self.assertEqual([i["brand"] for i in out["expansion"]["items"]], ["boxcryptor"])
+
+
 class TestEmailV4(unittest.TestCase):
     """Письмо: объём, первый экран, структура и правила подачи."""
 

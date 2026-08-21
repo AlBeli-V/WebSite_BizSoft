@@ -987,8 +987,56 @@ def load_demand() -> dict:
     if not DEMAND_STATE.exists():
         return {"available": False, "reason": "исследование спроса ещё не выполнялось"}
     state = json.loads(DEMAND_STATE.read_text(encoding="utf-8"))
-    return state.get("executive_block") or {"available": False,
-                                            "reason": "нет сводки исследования"}
+    block = state.get("executive_block") or {"available": False,
+                                             "reason": "нет сводки исследования"}
+    return _drop_vendors_already_on_site(block)
+
+
+def _site_vendor_words() -> set[str]:
+    """Имена вендоров каталога целыми словами — из src/data/vendors.ts."""
+    p = pathlib.Path("src/data/vendors.ts")
+    if not p.exists():
+        return set()
+    text = p.read_text(encoding="utf-8")
+    words: set[str] = set()
+    for slug, name in re.findall(r"\{\s*slug:\s*'([^']+)',\s*vendor:\s*'([^']+)'", text):
+        words.add(slug.replace("-", " ").lower())
+        words.add(name.lower())
+    return words
+
+
+def _drop_vendors_already_on_site(block: dict) -> dict:
+    """Не предлагать к заведению вендора, который уже на сайте.
+
+    Рекомендации приходят из состояния исследования, а оно обновляется своим
+    прогоном. 21.08 письмо ушло с предложением завести Suno и Cloudflare —
+    обе карточки к тому моменту уже стояли на сайте, прогон исследования
+    закрыл их через полминуты после сборки письма. Поэтому список сверяется
+    с каталогом в момент сборки, а не только в момент исследования.
+    """
+    exp = (block or {}).get("expansion")
+    if not exp:
+        return block
+    on_site = _site_vendor_words()
+    if not on_site:
+        return block
+
+    def known(brand: str) -> bool:
+        b = " ".join(re.findall(r"[a-zа-яё0-9]+", (brand or "").lower()))
+        return bool(b) and any(b == w or b in w.split() for w in on_site)
+
+    items = [i for i in (exp.get("items") or []) if not known(i.get("brand", ""))]
+    manual = [m for m in (exp.get("manual_check") or []) if not known(m)]
+    dropped = (len(exp.get("items") or []) - len(items)
+               + len(exp.get("manual_check") or []) - len(manual))
+    if not dropped:
+        return block
+    exp = dict(exp, items=items, manual_check=manual)
+    if not items and not manual:
+        exp["summary"] = ("Новых вендоров с подтверждённым спросом вне каталога "
+                          "сейчас нет: все кандидаты уже заведены.")
+    block = dict(block, expansion=exp)
+    return block
 
 
 def load_site_check(date: str) -> dict | None:

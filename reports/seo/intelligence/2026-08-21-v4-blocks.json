@@ -169,31 +169,19 @@
        "share_of_total_delta": 0.19047619047619047
       },
       {
-       "entity": "/",
-       "vendor": null,
-       "current": 10,
-       "previous": 8,
+       "entity": "/vendors/openai",
+       "vendor": "openai",
+       "current": 6,
+       "previous": 4,
        "delta": 2,
-       "clicks_delta": 1,
-       "position_delta": -17.38,
+       "clicks_delta": 0,
+       "position_delta": -2.67,
        "state": "changed",
-       "confidence": "low",
+       "confidence": "very_low",
        "share_of_total_delta": 0.09523809523809523
       }
      ],
      "detractors": [
-      {
-       "entity": "/product/prfrc-p4-cloud",
-       "vendor": null,
-       "current": 3,
-       "previous": 5,
-       "delta": -2,
-       "clicks_delta": 0,
-       "position_delta": 3.6,
-       "state": "changed",
-       "confidence": "very_low",
-       "share_of_total_delta": 0.09523809523809523
-      },
       {
        "entity": "/product/spine-essential",
        "vendor": null,
@@ -202,6 +190,18 @@
        "delta": -2,
        "clicks_delta": 0,
        "position_delta": -1.5,
+       "state": "changed",
+       "confidence": "very_low",
+       "share_of_total_delta": 0.09523809523809523
+      },
+      {
+       "entity": "/product/prfrc-p4-cloud",
+       "vendor": null,
+       "current": 3,
+       "previous": 5,
+       "delta": -2,
+       "clicks_delta": 0,
+       "position_delta": 3.6,
        "state": "changed",
        "confidence": "very_low",
        "share_of_total_delta": 0.09523809523809523
@@ -221,25 +221,13 @@
        "share_of_total_delta": 0.19047619047619047
       },
       {
-       "entity": "/",
-       "vendor": null,
-       "current": 10,
-       "previous": 8,
+       "entity": "/vendors/openai",
+       "vendor": "openai",
+       "current": 6,
+       "previous": 4,
        "delta": 2,
-       "clicks_delta": 1,
-       "position_delta": -17.38,
-       "state": "changed",
-       "confidence": "low",
-       "share_of_total_delta": 0.09523809523809523
-      },
-      {
-       "entity": "/product/prfrc-p4-cloud",
-       "vendor": null,
-       "current": 3,
-       "previous": 5,
-       "delta": -2,
        "clicks_delta": 0,
-       "position_delta": 3.6,
+       "position_delta": -2.67,
        "state": "changed",
        "confidence": "very_low",
        "share_of_total_delta": 0.09523809523809523
@@ -252,6 +240,18 @@
        "delta": -2,
        "clicks_delta": 0,
        "position_delta": -1.5,
+       "state": "changed",
+       "confidence": "very_low",
+       "share_of_total_delta": 0.09523809523809523
+      },
+      {
+       "entity": "/product/prfrc-p4-cloud",
+       "vendor": null,
+       "current": 3,
+       "previous": 5,
+       "delta": -2,
+       "clicks_delta": 0,
+       "position_delta": 3.6,
        "state": "changed",
        "confidence": "very_low",
        "share_of_total_delta": 0.09523809523809523
@@ -278,7 +278,7 @@
        "share_of_total_delta": 0.2857142857142857
       },
       {
-       "entity": "viz flowics price",
+       "entity": "dehancer prices",
        "vendor": null,
        "current": 1,
        "previous": 0,
@@ -330,7 +330,7 @@
        "share_of_total_delta": 0.2857142857142857
       },
       {
-       "entity": "viz flowics price",
+       "entity": "dehancer prices",
        "vendor": null,
        "current": 1,
        "previous": 0,
@@ -397,7 +397,7 @@
        "share_of_total_delta": 0.028070175438596492
       },
       {
-       "entity": "купить подписку на клип студио пейнт",
+       "entity": "runway ai тарифы",
        "vendor": null,
        "current": 7,
        "previous": 0,
@@ -435,12 +435,12 @@
        "share_of_total_delta": 0.014035087719298246
       },
       {
-       "entity": "heygen creator/pro",
+       "entity": "оплата иностранных сервисов с предоставлением документов для бизнеса",
        "vendor": null,
        "current": 0,
        "previous": 3,
        "delta": -3,
-       "clicks_delta": 0,
+       "clicks_delta": -1,
        "position_delta": null,
        "state": "lost",
        "confidence": "very_low",
@@ -461,7 +461,7 @@
        "share_of_total_delta": 0.028070175438596492
       },
       {
-       "entity": "купить подписку на клип студио пейнт",
+       "entity": "runway ai тарифы",
        "vendor": null,
        "current": 7,
        "previous": 0,
@@ -497,12 +497,12 @@
        "share_of_total_delta": 0.014035087719298246
       },
       {
-       "entity": "heygen creator/pro",
+       "entity": "оплата иностранных сервисов с предоставлением документов для бизнеса",
        "vendor": null,
        "current": 0,
        "previous": 3,
        "delta": -3,
-       "clicks_delta": 0,
+       "clicks_delta": -1,
        "position_delta": null,
        "state": "lost",
        "confidence": "very_low",
@@ -528,25 +528,13 @@
    "share_of_total_delta": 0.19047619047619047
   },
   {
-   "entity": "/",
-   "vendor": null,
-   "current": 10,
-   "previous": 8,
+   "entity": "/vendors/openai",
+   "vendor": "openai",
+   "current": 6,
+   "previous": 4,
    "delta": 2,
-   "clicks_delta": 1,
-   "position_delta": -17.38,
-   "state": "changed",
-   "confidence": "low",
-   "share_of_total_delta": 0.09523809523809523
-  },
-  {
-   "entity": "/product/prfrc-p4-cloud",
-   "vendor": null,
-   "current": 3,
-   "previous": 5,
-   "delta": -2,
    "clicks_delta": 0,
-   "position_delta": 3.6,
+   "position_delta": -2.67,
    "state": "changed",
    "confidence": "very_low",
    "share_of_total_delta": 0.09523809523809523
@@ -562,15 +550,27 @@
    "state": "changed",
    "confidence": "very_low",
    "share_of_total_delta": 0.09523809523809523
+  },
+  {
+   "entity": "/product/prfrc-p4-cloud",
+   "vendor": null,
+   "current": 3,
+   "previous": 5,
+   "delta": -2,
+   "clicks_delta": 0,
+   "position_delta": 3.6,
+   "state": "changed",
+   "confidence": "very_low",
+   "share_of_total_delta": 0.09523809523809523
   }
  ],
- "driver_summary": "Показы выросли на страницах: /vendors/blackmagic (+4), / (+2).",
+ "driver_summary": "Показы выросли на страницах: /vendors/blackmagic (+4), /vendors/openai (+2).",
  "driver_blocks": [
   {
    "engine": "Google",
    "window": "накопленное окно 26 дней, сдвинуто на сутки",
    "available": true,
-   "text": "Изменение +13 по страницам. Прибавили: /vendors/blackmagic, /. Потеряли: /product/prfrc-p4-cloud, /product/spine-essential.",
+   "text": "Изменение +13 по страницам. Прибавили: /vendors/blackmagic, /vendors/openai. Потеряли: /product/spine-essential, /product/prfrc-p4-cloud.",
    "rows": [
     {
      "entity": "/vendors/blackmagic",
@@ -581,20 +581,12 @@
      "position_delta": 2.81
     },
     {
-     "entity": "/",
+     "entity": "/vendors/openai",
      "delta": "+2",
      "share": "10%",
      "state": "",
      "positive": true,
-     "position_delta": -17.38
-    },
-    {
-     "entity": "/product/prfrc-p4-cloud",
-     "delta": "−2",
-     "share": "10%",
-     "state": "",
-     "positive": false,
-     "position_delta": 3.6
+     "position_delta": -2.67
     },
     {
      "entity": "/product/spine-essential",
@@ -603,6 +595,14 @@
      "state": "",
      "positive": false,
      "position_delta": -1.5
+    },
+    {
+     "entity": "/product/prfrc-p4-cloud",
+     "delta": "−2",
+     "share": "10%",
+     "state": "",
+     "positive": false,
+     "position_delta": 3.6
     }
    ],
    "counted": 14
@@ -611,7 +611,7 @@
    "engine": "Яндекс",
    "window": "выборка топ-100 запросов, окно 2026-08-07–2026-08-19",
    "available": true,
-   "text": "Изменение +107 по запросам. Прибавили: рекрафт тарифы, купить подписку на клип студио пейнт. Потеряли: heygen тарифы, хейген купить, heygen creator/pro.",
+   "text": "Изменение +107 по запросам. Прибавили: рекрафт тарифы, runway ai тарифы. Потеряли: heygen тарифы, хейген купить, оплата иностранных сервисов с предоставлением документов для бизнеса.",
    "rows": [
     {
      "entity": "рекрафт тарифы",
@@ -622,7 +622,7 @@
      "position_delta": 0.59
     },
     {
-     "entity": "купить подписку на клип студио пейнт",
+     "entity": "runway ai тарифы",
      "delta": "+7",
      "share": "2%",
      "state": "новая",
@@ -646,7 +646,7 @@
      "position_delta": 0.43
     },
     {
-     "entity": "heygen creator/pro",
+     "entity": "оплата иностранных сервисов с предоставлением документов для бизнеса",
      "delta": "−3",
      "share": "1%",
      "state": "выпала",
@@ -883,37 +883,34 @@
   "title": "Спрос и направления развития",
   "expansion": {
    "title": "Каких вендоров добавить",
-   "summary": "Проверили спрос на 43 зарубежных разработчиков вне каталога: у 16 он подтверждён, суммарно 29 631 запросов в месяц. Из них: 3 с оплатой картой можно заводить сразу, 6 требуют ручной проверки оплаты, 1 — с именем-обычным словом, спрос сверить вручную.",
+   "summary": "Проверили спрос на 34 зарубежных разработчиков вне каталога: у 9 он подтверждён, суммарно 18 388 запросов в месяц. Из них: 3 с оплатой картой можно заводить сразу, 2 требуют ручной проверки оплаты.",
    "items": [
     {
-     "brand": "suno",
-     "demand": 3744,
-     "kind": "AI-сервис",
-     "payment": "card",
-     "recommendation": "рекомендуем добавить",
-     "effort": "одна карточка вендора",
-     "url": "/vendors/suno",
-     "confidence": "высокая",
-     "confidence_note": null
-    },
-    {
-     "brand": "cloudflare",
-     "demand": 349,
+     "brand": "wordpress",
+     "demand": 299,
      "kind": "классический",
      "payment": "card",
      "recommendation": "рекомендуем добавить",
      "effort": "одна карточка вендора",
-     "url": "/vendors/cloudflare",
+     "url": "/vendors/wordpress",
+     "confidence": "высокая",
+     "confidence_note": null
+    },
+    {
+     "brand": "slack",
+     "demand": 123,
+     "kind": "классический",
+     "payment": "card",
+     "recommendation": "рекомендуем добавить",
+     "effort": "одна карточка вендора",
+     "url": "/vendors/slack",
      "confidence": "высокая",
      "confidence_note": null
     }
    ],
    "manual_check": [
-    "capcut",
-    "principle",
     "nordvpn",
-    "ansys",
-    "leonardo ai"
+    "ansys"
    ],
    "note": "Российские вендоры исключены: их лицензии продаются напрямую, услуга оплаты из-за рубежа к ним неприменима."
   },
