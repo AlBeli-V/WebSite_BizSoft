@@ -463,11 +463,28 @@ async function seed() {
   console.log('✓ seed done');
 }
 
+/**
+ * Режим «только схема»: добавить недостающие коллекции и поля, ничего больше.
+ *
+ * Полный прогон делает две вещи сверх схемы — пересоздаёт токен служебной
+ * учётки и досыпает демо-каталог. 20.08.2026 на проде это уже стоило простоя:
+ * сайт остался со старым токеном, каталог опустел, карточки начали отдавать
+ * 404. Для добавления новых полей ни то, ни другое не нужно, а риск
+ * несоразмерен: --schema-only исключает оба шага и потому не требует
+ * последующего ops-directus-token-sync.
+ */
+const SCHEMA_ONLY = process.argv.includes('--schema-only');
+
 async function main() {
   if (!ADMIN_EMAIL || !ADMIN_PASSWORD) throw new Error('Нет ADMIN_EMAIL/ADMIN_PASSWORD');
   console.log('Directus:', DIRECTUS_URL);
+  if (SCHEMA_ONLY) console.log('Режим: только схема — токен не трогаем, демо-данные не досыпаем');
   await login();
   await buildSchema();
+  if (SCHEMA_ONLY) {
+    console.log('\n✅ СХЕМА ПРИМЕНЕНА (без пересоздания токена и без демо-данных)');
+    return;
+  }
   await ensureServiceAccess();
   await ensurePublicRead();
   await seed();
