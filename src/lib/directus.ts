@@ -286,6 +286,39 @@ export async function getProductsBySkus(skus: string[]): Promise<Product[]> {
   });
 }
 
+/**
+ * Позиции конфигуратора ManageEngine: и опубликованные карточки, и скрытые.
+ *
+ * Скрытые позиции живут в базе со статусом draft — у них есть артикул и
+ * рублёвая цена, которую пересчитывает ежедневная переоценка, но нет ни
+ * страницы, ни места в каталоге и в sitemap. Конфигуратору и расчёту КП они
+ * нужны, иначе спецификацию нечем оценить.
+ *
+ * Фильтр по префиксу артикула — не украшение: без него любой черновик в
+ * базе, включая неготовые карточки других вендоров, стало бы можно
+ * подставить в корзину по угаданному sku.
+ */
+const ZOHO_SKU_PREFIX = /^(ME-|MANAGEENGINE-)/;
+
+export function isZohoConfiguratorSku(sku: string): boolean {
+  return ZOHO_SKU_PREFIX.test(sku);
+}
+
+export async function getZohoPositionsBySkus(skus: string[]): Promise<Product[]> {
+  const allowed = skus.filter(isZohoConfiguratorSku);
+  if (allowed.length === 0) return [];
+  return dx<Product[]>('/items/products', {
+    params: {
+      fields: PRODUCT_FIELDS,
+      filter: JSON.stringify({
+        sku: { _in: allowed },
+        status: { _in: ['published', 'draft'] },
+      }),
+      limit: -1,
+    },
+  });
+}
+
 /** Опубликованные товары по списку slug (для блоков «связанные товары»). */
 export async function getProductsBySlugs(slugs: string[]): Promise<Product[]> {
   if (!slugs.length) return [];

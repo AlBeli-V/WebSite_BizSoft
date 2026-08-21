@@ -12,7 +12,7 @@
 import { readFileSync, writeFileSync, existsSync, readdirSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, resolve } from 'node:path';
-import { makeSku, usedSkus } from './lib/zoho-model.mjs';
+import { buildPositions } from './lib/zoho-model.mjs';
 
 const __dir = dirname(fileURLToPath(import.meta.url));
 const ROOT = resolve(__dir, '..');
@@ -56,6 +56,15 @@ const copyBySource = new Map(groupCopy.groups.map((g) => [g.source, g]));
 const missingCopy = taxonomy.groups.map((g) => g.group).filter((g) => !copyBySource.has(g));
 if (missingCopy.length) throw new Error(`нет русского названия для групп: ${missingCopy.join('; ')}`);
 
+// Артикулы берём из общей модели, а не считаем заново: makeSku разводит
+// совпадения счётчиком, и второй независимый прогон дал бы другие хвосты —
+// витрина ссылалась бы на артикулы, которых нет в каталоге.
+const positionIndex = new Map();
+for (const pos of buildPositions(manifest)) {
+  if (pos.isAms) continue;
+  positionIndex.set(`${pos.familySlug}|${pos.offerSlug}|${pos.variantName}`, pos);
+}
+
 let withPrice = 0;
 let withoutPrice = 0;
 
@@ -92,7 +101,8 @@ const groups = taxonomy.groups.map((tg) => {
           licenseModel: o.license_model,
           kind: o.kind,
           variants: o.variants.map((v) => {
-            const sku = makeSku(m.family_slug, o, v);
+            const pos = positionIndex.get(`${m.family_slug}|${o.offer_slug}|${v.variant_name}`);
+            const sku = pos?.sku ?? '';
             return {
               name: v.variant_name,
               metric: v.metric,
@@ -101,8 +111,13 @@ const groups = taxonomy.groups.map((tg) => {
               maintenance: v.maintenance,
               sku,
               slug: sku.toLowerCase(),
+              // Вечная лицензия и её сопровождение продаются только парой:
+              // здесь артикул парного контракта, если вендор его публикует.
+              amsSku: pos?.amsSku ?? null,
+              // Карточка со страницей или скрытая позиция конфигуратора.
+              role: pos?.role ?? 'hidden',
             };
-          }),
+          }).filter((v) => v.sku),
         })),
       })),
     };
@@ -135,6 +150,10 @@ export interface ZohoVariant {
   sku: string;
   /** Адрес карточки: /product/<slug>. */
   slug: string;
+  /** Артикул парного контракта сопровождения (только у вечных лицензий). */
+  amsSku: string | null;
+  /** card — есть страница и место в поиске; hidden — только конфигуратор. */
+  role: 'card' | 'hidden';
 }
 
 export interface ZohoOffer {
@@ -214,4 +233,4 @@ const fams = groups.reduce((s, g) => s + g.families.length, 0);
 console.log(`✓ zoho-hierarchy.ts: ${groups.length} групп, ${fams} семейств`);
 console.log(`  с прайсом: ${withPrice}, без прайса (расчёт под запрос): ${withoutPrice}`);
 console.log(`  правил совместимости: ${rules.length}`);
-console.log(`  артикулов позиций: ${usedSkus.size}`);
+console.log(`  артикулов позиций: ${positionIndex.size}`);

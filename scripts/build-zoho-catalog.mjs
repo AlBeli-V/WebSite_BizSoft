@@ -8,16 +8,26 @@
 //   scripts/catalog/zoho.json          — пакет для ops-import-vendors
 //   data/catalog/zoho-rollback.json    — те же артикулы со снятием с витрины
 //
-// Карточка собирается только для семейства, у которого есть редакторский
-// текст. Позиция без описания на витрину не выходит: у сайта уже 160 страниц
-// исключено из Яндекса как малополезные, и добивать это шаблонными
-// заглушками нельзя.
+// В каталог попадают ВСЕ позиции прайса, но по-разному:
+//
+//   status: published — карточка с SEO-текстом, страницей и местом в поиске;
+//   status: draft     — позиция с ценой, но без страницы: живёт только в
+//                       конфигураторе и в КП.
+//
+// Черновик не отдаётся ни каталогом, ни sitemap, а /product/<slug> для него
+// возвращает 404 — все запросы к базе на витрине фильтруют по published.
+// Цену черновику пересчитывает та же ежедневная переоценка по курсу ЦБ:
+// getAllProductsAdmin статус не фильтрует.
+//
+// Карточкой позиция становится только при наличии редакторского текста
+// семейства: у сайта 160 страниц исключено из Яндекса как малополезные, и
+// добивать это шаблонными заглушками нельзя.
 //
 // Запуск: node scripts/build-zoho-catalog.mjs [дата]
 import { readFileSync, writeFileSync, mkdirSync, readdirSync, existsSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, resolve } from 'node:path';
-import { pickCards } from './lib/zoho-model.mjs';
+import { buildPositions } from './lib/zoho-model.mjs';
 
 const __dir = dirname(fileURLToPath(import.meta.url));
 const ROOT = resolve(__dir, '..');
@@ -62,18 +72,70 @@ function volumeRu(card, fam) {
 /** Заглавная буква в начале предложения. */
 const cap = (text) => (text ? text[0].toUpperCase() + text.slice(1) : text);
 
-const cards = pickCards(manifest);
+/**
+ * Скрытая позиция: цена в базе есть, страницы нет.
+ *
+ * Тексты у неё служебные и короткие — их никто не читает: позиция не
+ * индексируется и показывается только в конфигураторе и в спецификации КП.
+ * Название при этом должно быть человеческим: именно оно уйдёт в КП
+ * покупателю.
+ */
+function hiddenProduct(pos, fam) {
+  const nameRu = fam?.nameRu || pos.familyName;
+  const editionRu = pos.edition ? ` ${pos.edition}` : '';
+  const modelRu = pos.licenseModel === 'perpetual' ? 'вечная лицензия' : 'годовая подписка';
+  const name = pos.isAms
+    ? `ManageEngine ${nameRu}${editionRu} — сопровождение вендора на год, ${pos.variantName}`
+    : `ManageEngine ${nameRu}${editionRu}, ${pos.variantName}${pos.licenseModel === 'perpetual' ? ', вечная лицензия' : ''}`;
+  const short = pos.isAms
+    ? 'Годовое сопровождение вендора: обновления и техподдержка к вечной лицензии того же объёма.'
+    : `${nameRu}${editionRu}: ${modelRu}, объём по прайсу вендора — ${pos.variantName}.`;
+  return {
+    sku: pos.sku,
+    slug: pos.sku.toLowerCase(),
+    name,
+    official_name: `ManageEngine ${pos.familyName}${pos.edition ? ` ${pos.edition} Edition` : ''}, ${pos.variantName}`
+      + (pos.isAms ? ' (Annual Maintenance & Support)' : pos.licenseModel === 'perpetual' ? ' (Perpetual License)' : ''),
+    category: 'system',
+    license_type: 'org',
+    short_description: short,
+    description: short,
+    keywords: '',
+    features: [],
+    base_price_usd: pos.amountUsd,
+    billing: pos.isAms ? 'за год сопровождения' : `за пакет: ${pos.variantName}`,
+    min_quantity: 1,
+    price_confidence: 'vendor-page',
+    source_url: pos.sourceUrl,
+    checkout_url: pos.sourceUrl,
+    checked_at: (pos.sourceCheckedAt || '').slice(0, 10) || day,
+    notes: `Позиция конфигуратора, страницы не имеет. Цена снята ${day} `
+      + `(снимок ${pos.sourceSnapshotId}): «${pos.offerName}», строка «${pos.variantName}»`
+      + (pos.isAms ? ', столбец сопровождения (AMS).' : '.'),
+    // Скрытая позиция: в каталоге, поиске и sitemap не показывается.
+    status: 'draft',
+    markup_coeff: null,
+    sort: null,
+  };
+}
+
+const positions = buildPositions(manifest);
 const products = [];
 const skipped = [];
 
-for (const card of cards) {
+for (const card of positions) {
   const fam = copy.families[card.familySlug];
-  if (!fam) { skipped.push(`${card.familyName} (нет текста семейства)`); continue; }
-  const editionNote = card.edition ? fam.editions?.[card.edition] : fam.editions?.['—'];
-  if (card.edition && !editionNote) {
-    skipped.push(`${card.familyName} ${card.edition} (нет текста редакции)`);
-    continue;
+  const editionNote = card.edition ? fam?.editions?.[card.edition] : fam?.editions?.['—'];
+
+  // Роль позиции: страница с текстом или скрытая строка конфигуратора.
+  // Позиция без редакторского текста семейства карточкой стать не может —
+  // она уходит в скрытые, а не выпадает из каталога совсем.
+  const isCard = card.role === 'card' && fam && (!card.edition || editionNote);
+  if (card.role === 'card' && !isCard) {
+    skipped.push(`${card.familyName}${card.edition ? ' ' + card.edition : ''} (нет текста — уходит в скрытые)`);
   }
+  if (!fam) { products.push(hiddenProduct(card, null)); continue; }
+  if (!isCard) { products.push(hiddenProduct(card, fam)); continue; }
 
   const volume = volumeRu(card, fam);
   const model = card.licenseModel || 'unspecified';

@@ -58,64 +58,111 @@ export function makeSku(familySlug, offer, variant) {
   return sku;
 }
 
+/** Сумма сопровождения из столбца AMS: «US$297» → 297, «Included» → null. */
+export function amsAmount(text) {
+  const m = String(text || '').trim().match(/^(?:US\$|\$)\s?([\d][\d,]*)(?:\.(\d{2}))?$/);
+  if (!m) return null;
+  const value = Number(m[1].replace(/,/g, '') + (m[2] ? '.' + m[2] : ''));
+  return Number.isFinite(value) && value > 0 ? value : null;
+}
+
 /**
- * Какие позиции выносим карточками в каталог, а какие оставляем расчётом.
+ * Позиции, которые выносим карточками в каталог: они получают страницу,
+ * SEO-текст и место в поиске.
  *
- * Берём входную позицию каждой редакции: именно с неё начинают, и по ней
- * ищут в поиске («ServiceDesk Plus Standard»). Остальные объёмы, дополнения
- * и работы вендора карточками не заводим — их собирает конфигуратор и
- * считает КП.
- *
- * Причина не только в трудоёмкости. У сайта сейчас 160 страниц исключено из
- * Яндекса как малополезные: одинаковые описания карточек. Девять сотен
- * позиций прайса, отличающихся одним числом, повторили бы эту историю в
- * большем масштабе.
+ * Берём входную позицию каждой редакции — с неё начинают, и по ней ищут
+ * («ServiceDesk Plus Standard»). Остальные объёмы страниц не получают: они
+ * живут в конфигураторе и попадают в КП. Причина не в трудоёмкости — у сайта
+ * 160 страниц исключено из Яндекса как малополезные из-за одинаковых
+ * описаний, и три с половиной тысячи страниц, отличающихся одним числом,
+ * повторили бы это в большем масштабе.
  */
-export function pickCards(manifest) {
-  const cards = [];
+function isCardVariant(offer, variant, entry) {
+  return offer.kind === 'base' && variant === entry;
+}
+
+/** Строки прайса, которые не являются самостоятельной лицензией. */
+const EXTRA = /^additional\b|add[- ]?ons?\b|\bmigration\b|\btraining\b|\bonboarding\b|\bimplementation\b|multi[- ]?language pack|failover|pack license|gateway|\bsummary server\b/i;
+
+/**
+ * Все позиции раздела: и те, что станут карточками, и те, что живут только в
+ * конфигураторе. У каждой — артикул, цена источника и роль.
+ *
+ * Вечная лицензия и её сопровождение (AMS) продаются вендором только парой:
+ * в прайсе у такой строки два денежных столбца — цена лицензии и цена
+ * сопровождения на тот же объём. Поэтому вечная позиция порождает две:
+ * саму лицензию и контракт сопровождения со своим артикулом. У подписки
+ * сопровождение входит в цену, и пары не возникает.
+ */
+export function buildPositions(manifest) {
+  const positions = [];
+
   for (const family of manifest.families) {
-    // Обучение и сертификация — работы вендора, а не лицензии. У них
-    // отдельная страница магазина, и таблицы там не подписаны как «Training»,
-    // поэтому отсекаем по имени семейства.
+    // Обучение и сертификация — работы вендора, а не лицензии.
     if (/^(training|certification|onboarding)/i.test(family.family_name)) continue;
+
     for (const dp of family.deployment_products) {
       for (const offer of dp.offers) {
-        if (offer.kind !== 'base') continue;
-        // Внутри таблицы базовой лицензии вендор держит и строки-надстройки:
-        // «Additional 100 IT Assets», «One-time Server & Data Migration»,
-        // «Governance, Risk and Compliance add-on». Они дешевле любой
-        // лицензии, и «самая дешёвая строка» без этого фильтра дала бы
-        // карточку «ServiceDesk Plus Professional» с ценой дополнительных
-        // активов.
-        // «Secure Gateway Server» и подобные — инфраструктурные компоненты
-        // внутри той же таблицы: покупаются в дополнение к лицензии, а не
-        // вместо неё.
-        const EXTRA = /^additional\b|add[- ]?ons?\b|\bmigration\b|\btraining\b|\bonboarding\b|\bimplementation\b|multi[- ]?language pack|failover|pack license|gateway|\bsummary server\b/i;
         const priced = offer.variants.filter(
-          (v) => v.price_status === 'listed' && v.amount_usd > 0 && !EXTRA.test(v.variant_name));
-        if (!priced.length) continue;
-        // Входная позиция редакции — самая дешёвая из опубликованных лицензий.
-        const entry = priced.reduce((a, b) => (b.amount_usd < a.amount_usd ? b : a));
-        cards.push({
-          sku: makeSku(family.family_slug, offer, entry),
-          familySlug: family.family_slug,
-          familyName: family.family_name,
-          offerSlug: offer.offer_slug,
-          offerName: offer.offer_name,
-          edition: offer.edition,
-          deployment: dp.deployment,
-          licenseModel: dp.license_model,
-          variantName: entry.variant_name,
-          metric: entry.metric,
-          amountUsd: entry.amount_usd,
-          maintenance: entry.maintenance,
-          otherVolumes: priced.filter((v) => v !== entry).map((v) => v.variant_name),
-          sourceUrl: family.source_url,
-          sourceSnapshotId: offer.source_snapshot_id || family.source_snapshot_id,
-          sourceCheckedAt: family.source_checked_at,
-        });
+          (v) => v.price_status === 'listed' && v.amount_usd > 0);
+        // Входная позиция редакции — самая дешёвая настоящая лицензия.
+        const licences = priced.filter((v) => !EXTRA.test(v.variant_name));
+        const entry = offer.kind === 'base' && licences.length
+          ? licences.reduce((a, b) => (b.amount_usd < a.amount_usd ? b : a))
+          : null;
+
+        for (const variant of priced) {
+          const sku = makeSku(family.family_slug, offer, variant);
+          const base = {
+            sku,
+            familySlug: family.family_slug,
+            familyName: family.family_name,
+            offerSlug: offer.offer_slug,
+            offerName: offer.offer_name,
+            edition: offer.edition,
+            kind: offer.kind,
+            deployment: dp.deployment,
+            licenseModel: dp.license_model,
+            variantName: variant.variant_name,
+            metric: variant.metric,
+            amountUsd: variant.amount_usd,
+            sourceUrl: family.source_url,
+            sourceSnapshotId: offer.source_snapshot_id || family.source_snapshot_id,
+            sourceCheckedAt: family.source_checked_at,
+          };
+
+          const ams = dp.license_model === 'perpetual' ? amsAmount(variant.maintenance) : null;
+          positions.push({
+            ...base,
+            role: isCardVariant(offer, variant, entry) ? 'card' : 'hidden',
+            otherVolumes: entry
+              ? licences.filter((v) => v !== entry).map((v) => v.variant_name)
+              : [],
+            // Артикул парного контракта сопровождения, если он есть.
+            amsSku: ams ? `${sku}-AMS` : null,
+          });
+
+          if (ams) {
+            positions.push({
+              ...base,
+              sku: `${sku}-AMS`,
+              role: 'hidden',
+              isAms: true,
+              // Сопровождение всегда идёт к своей лицензии и отдельно не продаётся.
+              pairOf: sku,
+              amountUsd: ams,
+              otherVolumes: [],
+              amsSku: null,
+            });
+          }
+        }
       }
     }
   }
-  return cards;
+  return positions;
+}
+
+/** Только карточные позиции — для сборки пакета каталога и витрины. */
+export function pickCards(manifest) {
+  return buildPositions(manifest).filter((p) => p.role === 'card');
 }

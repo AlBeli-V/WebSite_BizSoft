@@ -23,7 +23,7 @@ import ProductIcon from '../../../../components/ProductIcon.astro';
 import ZohoConfigurator from '../../../../components/ZohoConfigurator.astro';
 import { zohoGroup, zohoFamily, ZOHO_RULES } from '../../../../data/zoho-hierarchy';
 import { ZOHO_HUB_ENABLED } from '../../../../lib/zoho-hub';
-import { getProductsBySkus } from '../../../../lib/directus';
+import { getZohoPositionsBySkus } from '../../../../lib/directus';
 import { effectivePrice, formatRub } from '../../../../lib/pricing';
 import { site } from '../../../../config/site';
 import { breadcrumbSchema } from '../../../../lib/seo';
@@ -36,18 +36,29 @@ const group = groupSlug ? zohoGroup(groupSlug) : undefined;
 const family = groupSlug && familySlug ? zohoFamily(groupSlug, familySlug) : undefined;
 if (!group || !family) return new Response(null, { status: 404 });
 
-// Какие позиции семейства уже заведены в каталог — по ним показываем цену и
-// кнопку в корзину, по остальным предлагаем расчёт.
-const allSkus = family.deployments.flatMap((d) => d.offers.flatMap((o) => o.variants.map((v) => v.sku)));
+// Цены берём из базы по всем позициям семейства, включая скрытые: у них
+// страницы нет, но цена есть и пересчитывается ежедневной переоценкой.
+// Карточка отличается не наличием цены, а наличием собственной страницы.
+const allSkus = family.deployments.flatMap((d) => d.offers.flatMap(
+  (o) => o.variants.flatMap((v) => [v.sku, ...(v.amsSku ? [v.amsSku] : [])])));
 let live: Product[] = [];
 if (allSkus.length) {
   try {
-    live = await getProductsBySkus(allSkus);
+    live = await getZohoPositionsBySkus(allSkus);
   } catch (e) {
     console.error(`zoho family products error (${family.slug})`, e);
   }
 }
 const bySku = new Map(live.map((p) => [p.sku, p]));
+// Ссылка на карточку ведёт только туда, где карточка есть.
+const pageBySku = new Map(live.filter((p) => p.status === 'published').map((p) => [p.sku, p]));
+
+// Рублёвые цены для конфигуратора: он показывает сумму спецификации.
+const priceBySku: Record<string, number> = {};
+for (const p of live) {
+  const eff = effectivePrice(p).price;
+  if (eff > 0) priceBySku[p.sku] = eff;
+}
 
 const DEPLOYMENT_LABEL: Record<string, string> = {
   saas: 'облачная поставка',
@@ -86,7 +97,7 @@ const deployments = family.deployments.map((d) => {
 });
 
 const rules = ZOHO_RULES.filter((r) => r.appliesTo.familySlug === family.slug);
-const liveCount = live.length;
+const liveCount = pageBySku.size;
 const variantCount = allSkus.length;
 
 const fullName = `ManageEngine ${family.name}`;
@@ -146,7 +157,7 @@ const ld = [
     </header>
 
     {family.priced && (
-      <ZohoConfigurator family={family} rules={rules} liveSkus={[...bySku.keys()]} />
+      <ZohoConfigurator family={family} rules={rules} prices={priceBySku} />
     )}
 
     {deployments.map((d) => (
@@ -178,8 +189,8 @@ const ld = [
                               {priced ? formatRub(eff!.price) : <span class="f-req">по расчёту</span>}
                             </td>
                             <td class="f-go">
-                              {p
-                                ? <a href={`/product/${p.slug}`}>Карточка</a>
+                              {pageBySku.has(v.sku)
+                                ? <a href={`/product/${pageBySku.get(v.sku)!.slug}`}>Карточка</a>
                                 : <button class="f-link" data-open-question data-product={`${fullName} — ${v.name}`}>Запросить</button>}
                             </td>
                           </tr>

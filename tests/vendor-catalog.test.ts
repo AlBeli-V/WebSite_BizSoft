@@ -83,11 +83,19 @@ describe('пакеты scripts/catalog', () => {
       for (const p of pkg.products) {
         expect(p.sku).toBe(String(p.slug).toUpperCase());
         expect(ALLOWED_CATEGORIES, `категория ${p.category} (${p.slug})`).toContain(p.category);
-        for (const f of ['name', 'short_description', 'description', 'keywords', 'billing']) {
+        expect(['published', 'draft']).toContain(p.status);
+        // Скрытая позиция конфигуратора страницы не имеет и в поиск не идёт:
+        // ключевые слова и список возможностей ей не нужны. Название, краткое
+        // описание и подпись к цене нужны — они уходят в КП покупателю.
+        const fields = p.status === 'published'
+          ? ['name', 'short_description', 'description', 'keywords', 'billing']
+          : ['name', 'short_description', 'billing'];
+        for (const f of fields) {
           expect(String(p[f] || '').length, `${p.slug}.${f} пуст`).toBeGreaterThan(3);
         }
-        expect(Array.isArray(p.features) && p.features.length >= 3, `${p.slug}.features`).toBe(true);
-        expect(['published', 'draft']).toContain(p.status);
+        if (p.status === 'published') {
+          expect(Array.isArray(p.features) && p.features.length >= 3, `${p.slug}.features`).toBe(true);
+        }
       }
     }
   });
@@ -126,7 +134,14 @@ describe('пакеты scripts/catalog', () => {
       for (const p of pkg.products) {
         if (p.base_price_usd != null) {
           expect(p.base_price_usd).toBeGreaterThan(0);
-          expect(p.status).toBe('published');
+          // Цена без страницы допустима только у скрытых позиций
+          // конфигуратора: они лежат в базе черновиками, цену им считает та же
+          // ежедневная переоценка, а в поиск и каталог они не попадают.
+          if (p.status !== 'published') {
+            expect(p.status, `${p.slug}: цена у позиции со статусом ${p.status}`).toBe('draft');
+            expect(String(p.notes || ''), `${p.slug}: скрытая позиция без пометки`)
+              .toContain('конфигуратора');
+          }
         }
       }
     }
