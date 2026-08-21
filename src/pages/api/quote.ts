@@ -9,6 +9,7 @@ import { generateQuotePdf, buildQuoteNo, formatDateRu, addDays, type QuoteData }
 import { generateQuoteJpg } from '../../lib/jpg-quote';
 import { generateQuoteDocx } from '../../lib/docx-quote';
 import { site, seller } from '../../config/site';
+import { verifyCompany } from '../../lib/inn';
 import type { QuoteItem } from '../../lib/types';
 
 interface CartLine { sku: string; qty: number }
@@ -149,10 +150,17 @@ export const POST: APIRoute = async ({ request }) => {
     consent: true,
   }).catch((e) => console.error('createQuote failed', e));
 
+  // Достоверность заявки: сходятся ли название и ИНН. Менеджеру это нужно
+  // до звонка, а не после выставленного счёта. Проверка не блокирует выдачу
+  // КП — она информирует: ошибка в цифре и умысел выглядят одинаково, и
+  // решать, что это было, человеку, а не форме.
+  const innCheck = await verifyCompany(data.buyerInn, data.buyerCompany);
+
   // Заявка в воронку. Скачивание КП — самый тёплый контакт на сайте: назвали
   // организацию, ИНН, телефон и собрали корзину. Раньше это оседало в quotes и
   // в почте менеджера, а в воронке канал не существовал.
   recordQuoteLead({
+    innCheck: innCheck.verdict,
     quoteNo,
     buyerCompany: data.buyerCompany,
     buyerInn: data.buyerInn,
@@ -175,18 +183,31 @@ export const POST: APIRoute = async ({ request }) => {
     `Коммерческое предложение № ${quoteNo} во вложении.`,
     `Сумма: ${total.toLocaleString('ru-RU')} ₽. Действует до ${data.validUntil}.`,
     '',
-    'Оплата по счёту, договор и закрывающие документы через ЭДО.',
+    'Форма поставки — в электронном виде. Оплата: 100% аванс по счёту.',
+    'Закрывающие: УПД с выделенным НДС 5% (или акт со счётом-фактурой).',
     `${seller.shortName} · ${seller.phone} · ${site.url}`,
   ].join('\n');
 
-  sendMail({
-    from: salesFrom,
-    to: data.email,
-    replyTo: managerEmail,
-    subject: `Коммерческое предложение № ${quoteNo} — BIZSoft`,
-    text: clientText,
-    attachments: [clientAttachment],
-  }).catch((e) => console.error('quote client mail failed', e));
+  // Письмо клиенту отправляем до ответа и ждём результата: экран говорит
+  // «отправлено», и это должно быть правдой. Сбой SMTP при отправке в фоне
+  // оставлял человека с подтверждением и без письма.
+  try {
+    await sendMail({
+      from: salesFrom,
+      to: data.email,
+      replyTo: managerEmail,
+      subject: `Коммерческое предложение № ${quoteNo} — BIZSoft`,
+      text: clientText,
+      attachments: [clientAttachment],
+    });
+  } catch (e) {
+    console.error('quote client mail failed', e);
+    return new Response(JSON.stringify({
+      error: 'Предложение сформировано, но письмо не ушло. '
+        + 'Позвоните нам — отправим вручную.',
+      quote_no: quoteNo,
+    }), { status: 502, headers: { 'Content-Type': 'application/json' } });
+  }
 
   // 2. Менеджеру — копия КП с данными заказчика из формы
   const managerText = [
@@ -194,7 +215,7 @@ export const POST: APIRoute = async ({ request }) => {
     '',
     'Данные заказчика из формы:',
     `Организация: ${data.buyerCompany}`,
-    `ИНН: ${data.buyerInn}`,
+    `ИНН: ${data.buyerInn} — ${innCheck.verdict}`,
     `Контактное лицо: ${data.contactName}`,
     `E-mail: ${data.email}`,
     `Телефон: ${data.phone}`,
@@ -213,7 +234,8 @@ export const POST: APIRoute = async ({ request }) => {
       from: salesFrom,
       to: managerEmail,
       replyTo: data.email,
-      subject: `Отправлено КП № ${quoteNo} — ${data.buyerCompany}`,
+      subject: (innCheck.valid && innCheck.nameMatch !== 'mismatch' ? '' : '⚠ ')
+        + `Отправлено КП № ${quoteNo} — ${data.buyerCompany}`,
       text: managerText,
       attachments: [
         { filename: `KP_${quoteNo}.docx`, content: docx,
@@ -223,12 +245,15 @@ export const POST: APIRoute = async ({ request }) => {
     }))
     .catch((e) => console.error('quote manager mail failed', e));
 
-  return new Response(new Uint8Array(jpg), {
+  // Ответ — подтверждение, а не файл. Документ уходит письмом; отдавать его
+  // же в ответ значило показать человеку страницу «сохранить и напечатать»
+  // вместо ответа на вопрос «отправили или нет».
+  return new Response(JSON.stringify({
+    ok: true,
+    quote_no: quoteNo,
+    sent_to: data.email,
+  }), {
     status: 200,
-    headers: {
-      'Content-Type': 'image/jpeg',
-      'Content-Disposition': `attachment; filename="${clientFile}"`,
-      'X-Quote-No': quoteNo,
-    },
+    headers: { 'Content-Type': 'application/json', 'X-Quote-No': quoteNo },
   });
 };

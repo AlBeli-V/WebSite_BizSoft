@@ -231,9 +231,18 @@ describe('форматы КП', () => {
 describe('форматы по получателям', () => {
   const api = readFileSync(resolve(__dirname, '../src/pages/api/quote.ts'), 'utf8');
 
-  it('клиенту со страницы отдаётся JPEG, а не PDF', () => {
-    expect(api).toMatch(/'Content-Type': 'image\/jpeg'/);
-    expect(api).not.toMatch(/'Content-Type': 'application\/pdf'/);
+  it('в ответ уходит подтверждение, а не файл', () => {
+    // Файл в ответе открывался просмотрщиком как страница «сохранить и
+    // напечатать»: человек видел документ вместо ответа на вопрос,
+    // отправили ему что-нибудь или нет.
+    expect(api).toMatch(/'Content-Type': 'application\/json'/);
+    expect(api).not.toMatch(/'Content-Type': 'image\/jpeg'[\s\S]{0,120}Content-Disposition/);
+    expect(api).toContain('sent_to');
+  });
+
+  it('письмо клиенту отправляется до ответа, а не в фоне', () => {
+    // Иначе экран говорит «отправлено» при упавшем SMTP.
+    expect(api).toMatch(/await sendMail\(\{[\s\S]{0,200}to: data\.email/);
   });
 
   it('в письме клиенту вложена картинка', () => {
