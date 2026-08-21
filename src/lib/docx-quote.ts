@@ -17,7 +17,7 @@ import {
 } from 'docx';
 import { seller, site } from '../config/site';
 import { formatRub } from './pricing';
-import { bankLines, WATERMARK, type QuoteData } from './quote-layout';
+import { WATERMARK, type QuoteData } from './quote-layout';
 
 const GREY = '6B7280';
 const DARK = '14161A';
@@ -138,12 +138,10 @@ export async function generateQuoteDocx(data: QuoteData): Promise<Buffer> {
     line('НДС не облагается (применяется специальный налоговый режим).',
          { size: 8, color: GREY, align: AlignmentType.RIGHT }),
     watermarkBand(mark),
-    line('Реквизиты для оплаты по счёту', { bold: true, size: 11 }),
-    ...bankLines().map((t) => line(t, { size: 9, color: '374151' })),
     ...Array.from({ length: Math.max(0, bands - 2) }, () => watermarkBand(mark)),
     line(`${seller.shortName} · ${site.url} · ${seller.phone}`,
          { size: 8, color: GREY, align: AlignmentType.CENTER }),
-    line('Работаем по договору, оплата по счёту, закрывающие документы через ЭДО.',
+    line('Форма поставки — в электронном виде. Оплата: 100% аванс.',
          { size: 8, color: GREY, align: AlignmentType.CENTER }),
   ];
 

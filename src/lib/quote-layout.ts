@@ -229,12 +229,12 @@ export function buildQuoteLayout(data: QuoteData, measure: Measure): Page[] {
     yL += 11;
   }
 
-  // Формулировки строк — распоряжение руководителя: дата именно скачивания,
-  // и поле исходящего номера присутствует всегда, даже незаполненным.
+  // Исходящий номер — это и есть номер КП: держать два разных номера на
+  // одном документе значит однажды сослаться на не тот. Распоряжение
+  // руководителя 21.08.2026.
   let yR = 92;
   for (const l of [
-    `№ ${data.quoteNo}`,
-    `Исх. № ${data.outgoingNo || '__________'}`,
+    `Исх. № ${data.outgoingNo || data.quoteNo}`,
     `Дата скачивания: ${data.date}`,
     `Действует до ${data.validUntil}`,
   ]) {
@@ -279,9 +279,12 @@ export function buildQuoteLayout(data: QuoteData, measure: Measure): Page[] {
   // Ширины подобраны под реальные строки, а не на глаз: «5 750 000 ₽» при
   // 9 pt занимает около 64 pt. В прежних 46 сумма наезжала на соседнюю
   // колонку, а в 62 обрезалась о правое поле.
+  // Артикул стоит перед наименованием: по нему позиция сверяется со счётом
+  // и заказом у вендора, а название читается уже вторым.
   const cols = {
-    n: left, name: left + 26,
-    sku: right - 266, skuW: 86,
+    n: left, nW: 20,
+    sku: left + 24, skuW: 96,
+    name: left + 126,
     qty: right - 176, qtyW: 34,
     price: right - 140, priceW: 66,
     sum: right - 68, sumW: 68,
@@ -289,8 +292,8 @@ export function buildQuoteLayout(data: QuoteData, measure: Measure): Page[] {
   const header = () => {
     put({ kind: 'rect', x: left, y, w: width, h: 24, fill: COLOR.head });
     text('№', cols.n + 4, y + 8, { bold: true, color: COLOR.dark });
-    text('Наименование', cols.name, y + 8, { bold: true, color: COLOR.dark });
     text('Артикул', cols.sku, y + 8, { bold: true, color: COLOR.dark, width: cols.skuW });
+    text('Наименование', cols.name, y + 8, { bold: true, color: COLOR.dark });
     text('Кол.', cols.qty, y + 8, { bold: true, color: COLOR.dark, width: cols.qtyW, align: 'right' });
     text('Цена, ₽', cols.price, y + 8, { bold: true, color: COLOR.dark, width: cols.priceW, align: 'right' });
     text('Сумма, ₽', cols.sum, y + 8, { bold: true, color: COLOR.dark, width: cols.sumW, align: 'right' });
@@ -298,7 +301,7 @@ export function buildQuoteLayout(data: QuoteData, measure: Measure): Page[] {
   };
   header();
 
-  const nameW = cols.sku - cols.name - 8;
+  const nameW = cols.qty - cols.name - 10;
   data.items.forEach((it, i) => {
     const nameLines = wrap(it.name, 9, nameW, measure);
     const rowH = Math.max(20, nameLines.length * LINE + 8);
@@ -307,9 +310,9 @@ export function buildQuoteLayout(data: QuoteData, measure: Measure): Page[] {
       y = 56;
       header();
     }
-    text(String(i + 1), cols.n + 4, y + 5, { width: 20 });
-    nameLines.forEach((part, k) => text(part, cols.name, y + 5 + k * LINE));
+    text(String(i + 1), cols.n + 4, y + 5, { width: cols.nW });
     text(it.sku, cols.sku, y + 5, { size: 8.5, width: cols.skuW });
+    nameLines.forEach((part, k) => text(part, cols.name, y + 5 + k * LINE));
     text(String(it.qty), cols.qty, y + 5, { width: cols.qtyW, align: 'right' });
     text(formatRub(it.price), cols.price, y + 5, { width: cols.priceW, align: 'right' });
     text(formatRub(it.sum), cols.sum, y + 5, { width: cols.sumW, align: 'right' });
@@ -334,9 +337,9 @@ export function buildQuoteLayout(data: QuoteData, measure: Measure): Page[] {
   y += 14;
   for (const c of [
     `Срок действия предложения: до ${data.validUntil}.`,
-    'Оформление: договор, счёт, закрывающие документы через ЭДО.',
-    'Оплата: безналичный расчёт в рублях по счёту.',
-    'Срок предоставления доступа: 1–3 рабочих дня с даты поступления оплаты.',
+    'Форма поставки: в электронном виде.',
+    'Условия оплаты: 100% аванс, безналичный расчёт в рублях по счёту.',
+    'Срок поставки: по согласованию сторон в зависимости от типа ПО, от 1 дня.',
   ]) {
     put({ kind: 'bullet', x: left + 3, y: y + 4, size: 3, color: COLOR.accent });
     y = para(c, left + 14, y, width - 14, { size: 9 }) + 2;
@@ -354,9 +357,10 @@ export function buildQuoteLayout(data: QuoteData, measure: Measure): Page[] {
   // Считаем место под весь хвост сразу: разрывать подпись и банковские
   // реквизиты между страницами нельзя, а переносить их целиком при живом
   // запасе на первой — значит отдать читателю полупустой второй лист.
-  const bank = bankLines();
-  const bankRows = Math.ceil(bank.length / 2);
-  const TAIL_H = 18 + 15 + 33 + 14 + 16 + bankRows * 11;
+  // Банковские реквизиты из КП убраны распоряжением руководителя: документ
+  // предварительный, платёжные данные выставляются счётом, а лишние
+  // реквизиты в гуляющем по почте документе — ненужный риск.
+  const TAIL_H = 18 + 15 + 33;
   if (y + TAIL_H > PAGE.height - 66) { newPage(); y = 56; }
   text('С уважением,', left, y, { size: 9.5, color: COLOR.body });
   y += 18;
@@ -371,18 +375,6 @@ export function buildQuoteLayout(data: QuoteData, measure: Measure): Page[] {
     y += 11;
   }
 
-  // ── Реквизиты для оплаты ───────────────────────────────────────────────
-  y += 14;
-  text('Реквизиты для оплаты по счёту', left, y, { bold: true, size: 10, color: COLOR.dark });
-  y += 16;
-  // Две колонки: шесть строк подряд занимали место, из-за которого хвост
-  // не помещался на первой странице.
-  bank.forEach((l, i) => text(
-    l,
-    i < bankRows ? left : left + width / 2,
-    y + (i % bankRows) * 11,
-    { size: 8.5 }));
-
   // ── Колонтитул ─────────────────────────────────────────────────────────
   const footY = PAGE.height - 46;
   put({ kind: 'line', x1: left, y1: footY - 8, x2: right, y2: footY - 8,
@@ -394,17 +386,6 @@ export function buildQuoteLayout(data: QuoteData, measure: Measure): Page[] {
 
   pages.push({ items });
   return pages;
-}
-
-export function bankLines(): string[] {
-  return [
-    `Получатель: ${seller.legalName}`,
-    `ИНН ${seller.inn}`,
-    `Банк: ${seller.bank.bankName}`,
-    `Р/с ${seller.bank.account}`,
-    `К/с ${seller.bank.corrAccount}`,
-    `БИК ${seller.bank.bik}`,
-  ];
 }
 
 /** Номер КП вида BZ-YYYYMMDD-XXXX. */

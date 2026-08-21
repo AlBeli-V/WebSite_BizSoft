@@ -86,15 +86,40 @@ describe('раскладка КП', () => {
     expect(texts.some((t) => t.includes('Дата скачивания: 21.08.2026'))).toBe(true);
   });
 
-  it('поле исходящего номера есть и пустое', () => {
-    expect(texts.some((t) => t.startsWith('Исх. №') && t.includes('_'))).toBe(true);
+  it('исходящий номер — это номер КП, а не отдельное пустое поле', () => {
+    // Два разных номера на одном документе рано или поздно приводят к
+    // ссылке не на тот. Распоряжение руководителя 21.08.2026.
+    expect(texts).toContain(`Исх. № ${data.quoteNo}`);
+    expect(texts.some((t) => t.includes('Исх. № ____'))).toBe(false);
   });
 
-  it('заполненный исходящий номер подставляется вместо прочерка', () => {
+  it('заданный вручную исходящий номер перекрывает номер КП', () => {
     const p = buildQuoteLayout({ ...data, outgoingNo: '17/2026' }, pdfMeasure());
     const tt = p.flatMap((x) => x.items.filter((i) => i.kind === 'text').map((i: any) => i.text));
     expect(tt).toContain('Исх. № 17/2026');
-    expect(tt.some((t: string) => t.includes('Исх. № ____'))).toBe(false);
+  });
+
+  it('условия поставки — по распоряжению, без ЭДО и договора', () => {
+    const all = texts.join(' ');
+    expect(all).toContain('Форма поставки: в электронном виде.');
+    expect(all).toContain('100% аванс');
+    expect(all).toContain('по согласованию сторон');
+    expect(all).not.toMatch(/ЭДО|закрывающие документы/);
+    expect(all).not.toMatch(/1–3 рабочих дня/);
+  });
+
+  it('банковских реквизитов в предложении нет', () => {
+    // Документ предварительный и гуляет по почте: платёжные данные
+    // выставляются счётом, здесь они лишний риск.
+    const all = texts.join(' ');
+    expect(all).not.toMatch(/Р\/с|К\/с|БИК|Реквизиты для оплаты/);
+  });
+
+  it('артикул стоит перед наименованием', () => {
+    const head = texts.indexOf('Артикул');
+    const nameIdx = texts.indexOf('Наименование');
+    expect(head).toBeGreaterThan(-1);
+    expect(head).toBeLessThan(nameIdx);
   });
 });
 
