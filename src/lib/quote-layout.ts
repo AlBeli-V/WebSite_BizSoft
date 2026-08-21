@@ -11,7 +11,7 @@
  */
 import { seller, site } from '../config/site';
 import { formatRub } from './pricing';
-import { moneyFmt, totalWithVatWords, vatIncluded } from './rub-words';
+import { amountPhrase, moneyFmt, singleVatRate, vatOfItems } from './rub-words';
 import { salutation } from './salutation';
 import type { QuoteItem } from './types';
 
@@ -334,16 +334,24 @@ export function buildQuoteLayout(data: QuoteData, measure: Measure): Page[] {
   // Цены в таблице указаны с НДС, поэтому итог называется «в т.ч.», а налог
   // выделяется отдельной строкой: покупателю нужно видеть сумму вычета, а не
   // выводить её самому.
+  //
+  // Ставка берётся у позиций, а не одна на документ: она задаётся у товара.
+  // Если ставки разные, единой в заголовке не пишем — там стояла бы ставка,
+  // по которой посчитана только часть суммы.
+  const vat = vatOfItems(data.items, VAT_PERCENT);
+  const rate = singleVatRate(data.items, VAT_PERCENT);
+  const rateLabel = rate === null ? '' : ` ${rate}%`;
   y += 8;
   // Копейки здесь обязательны: formatRub округляет до рубля, и строка НДС
   // разошлась бы с суммой прописью — а её сверяют до копейки.
-  text(`ИТОГО в т.ч. НДС ${VAT_PERCENT}%: ${moneyFmt(data.total)} ₽`, left, y,
+  text(`ИТОГО в т.ч. НДС${rateLabel}: ${moneyFmt(data.total)} ₽`, left, y,
        { bold: true, size: 12, color: COLOR.dark, width, align: 'right' });
   y += 16;
-  text(`НДС ${VAT_PERCENT}%: ${moneyFmt(vatIncluded(data.total, VAT_PERCENT))} ₽`, left, y,
+  text(`НДС${rateLabel}: ${moneyFmt(vat)} ₽`, left, y,
        { bold: true, size: 10, color: COLOR.dark, width, align: 'right' });
   y += 16;
-  y = para(`Стоимость предложения: ${totalWithVatWords(data.total, VAT_PERCENT)}`,
+  y = para(`Стоимость предложения: ${amountPhrase(data.total)}, в т.ч. НДС`
+           + `${rateLabel} ${amountPhrase(vat)}.`,
            left, y, width, { size: 9 });
 
   // ── Условия ────────────────────────────────────────────────────────────

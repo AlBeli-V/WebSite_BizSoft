@@ -145,6 +145,44 @@ describe('раскладка КП', () => {
     expect(all).toMatch(/в т\.ч\. НДС 5% .*копе[ейк]/);
   });
 
+  it('позиция без НДС не облагается налогом за компанию остальных', () => {
+    // Одна ставка на весь документ добавила бы к налогу пять процентов
+    // стоимости позиции, которая налогом не облагается.
+    const mixed = buildQuoteLayout({
+      ...data,
+      items: [
+        { sku: 'A', name: 'С налогом', qty: 1, price: 105000, sum: 105000, vat_percent: 5 },
+        { sku: 'B', name: 'Без налога', qty: 1, price: 100000, sum: 100000, vat_percent: 0 },
+      ],
+      total: 205000,
+    }, pdfMeasure());
+    const tt = mixed.flatMap((p) => p.items.filter((i) => i.kind === 'text').map((i: any) => i.text));
+    const vatRow = tt.find((t: string) => /^НДС/.test(t))!;
+    // 105 000 × 5 / 105 = 5 000. Общая ставка дала бы 9 761,90.
+    expect(vatRow.replace(/\u00A0/g, ' ')).toContain('5 000,00');
+  });
+
+  it('при разных ставках единая ставка в заголовке не пишется', () => {
+    const mixed = buildQuoteLayout({
+      ...data,
+      items: [
+        { sku: 'A', name: 'Пять', qty: 1, price: 100, sum: 100, vat_percent: 5 },
+        { sku: 'B', name: 'Двадцать', qty: 1, price: 100, sum: 100, vat_percent: 20 },
+      ],
+      total: 200,
+    }, pdfMeasure());
+    const tt = mixed.flatMap((p) => p.items.filter((i) => i.kind === 'text').map((i: any) => i.text));
+    const total = tt.find((t: string) => t.startsWith('ИТОГО'))!;
+    // Иначе в заголовке стояла бы ставка, по которой посчитана часть суммы.
+    expect(total).toContain('в т.ч. НДС:');
+    expect(total).not.toMatch(/НДС 5%|НДС 20%/);
+  });
+
+  it('без указанной ставки берётся ставка по умолчанию', () => {
+    const tt = texts.join(' ');
+    expect(tt).toContain('НДС 5%');
+  });
+
   it('банковских реквизитов в предложении нет', () => {
     // Документ предварительный и гуляет по почте: платёжные данные
     // выставляются счётом, здесь они лишний риск.

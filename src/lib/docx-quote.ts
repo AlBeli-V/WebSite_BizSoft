@@ -17,7 +17,7 @@ import {
 } from 'docx';
 import { seller, site } from '../config/site';
 import { formatRub } from './pricing';
-import { moneyFmt, totalWithVatWords, vatIncluded } from './rub-words';
+import { amountPhrase, moneyFmt, singleVatRate, vatOfItems } from './rub-words';
 import { VAT_PERCENT, WATERMARK, type QuoteData } from './quote-layout';
 
 const GREY = '6B7280';
@@ -62,6 +62,9 @@ function watermarkBand(mark: string): Paragraph {
 
 export async function generateQuoteDocx(data: QuoteData): Promise<Buffer> {
   const mark = `BIZSoft · ${data.quoteNo}`;
+  const vat = vatOfItems(data.items, VAT_PERCENT);
+  const rate = singleVatRate(data.items, VAT_PERCENT);
+  const rateLabel = rate === null ? '' : ` ${rate}%`;
   const bands = WATERMARK.rows;
 
   const head = [
@@ -136,14 +139,14 @@ export async function generateQuoteDocx(data: QuoteData): Promise<Buffer> {
   const tail = [
     new Paragraph({ spacing: { before: 200 }, alignment: AlignmentType.RIGHT,
       children: [new TextRun({
-        text: `ИТОГО в т.ч. НДС ${VAT_PERCENT}%: ${moneyFmt(data.total)} ₽`,
+        text: `ИТОГО в т.ч. НДС${rateLabel}: ${moneyFmt(data.total)} ₽`,
         bold: true, size: 24, color: DARK, font: 'Calibri' })] }),
     new Paragraph({ spacing: { after: 120 }, alignment: AlignmentType.RIGHT,
       children: [new TextRun({
-        text: `НДС ${VAT_PERCENT}%: ${moneyFmt(vatIncluded(data.total, VAT_PERCENT))} ₽`,
+        text: `НДС${rateLabel}: ${moneyFmt(vat)} ₽`,
         bold: true, size: 20, color: DARK, font: 'Calibri' })] }),
-    line(`Стоимость предложения: ${totalWithVatWords(data.total, VAT_PERCENT)}`,
-         { size: 9, color: '374151' }),
+    line(`Стоимость предложения: ${amountPhrase(data.total)}, в т.ч. НДС`
+         + `${rateLabel} ${amountPhrase(vat)}.`, { size: 9, color: '374151' }),
     watermarkBand(mark),
     ...Array.from({ length: Math.max(0, bands - 2) }, () => watermarkBand(mark)),
     line(`${seller.shortName} · ${site.url} · ${seller.phone}`,

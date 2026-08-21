@@ -96,7 +96,8 @@ export const POST: APIRoute = async ({ request }) => {
     const p = bySku.get(line.sku);
     if (!p) continue;
     const price = effectivePrice(p).price;
-    items.push({ sku: p.sku, name: p.name, qty: line.qty, price, sum: price * line.qty });
+    items.push({ sku: p.sku, name: p.name, qty: line.qty, price,
+                 sum: price * line.qty, vat_percent: p.vat_percent });
   }
   if (items.length === 0) return new Response(JSON.stringify({ error: 'позиции не найдены' }), { status: 422 });
 
