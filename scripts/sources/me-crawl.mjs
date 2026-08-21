@@ -60,18 +60,19 @@ async function snapshot(page, url, dir, tab = null) {
  * находим сами переключатели по тексту — вслепую кликать по странице
  * магазина нельзя.
  */
-const TAB_LABELS = [
-  'Annual Subscription', 'Perpetual', 'Subscription',
-  'On-Premise', 'On-Premises', 'Cloud',
-];
+// На страницах магазина переключатель подписан ровно («Perpetual»), а на
+// прайсах сайта продукта — фразой («see for On-Premises»). Поэтому не список
+// строк, а выражение: иначе половина вечных лицензий остаётся неснятой.
+const TAB_PATTERN = String.raw`^(see\s+(for\s+)?)?(annual\s+subscription|subscription|perpetual|on-?premises?|cloud|saas)$`;
 
 async function findTabs(page) {
-  return page.evaluate((labels) => {
+  return page.evaluate((pattern) => {
+    const re = new RegExp(pattern, 'i');
     const out = [];
     const nodes = document.querySelectorAll('a,button,li,span,label,div[role="tab"]');
     for (const el of nodes) {
       const text = (el.textContent || '').replace(/\s+/g, ' ').trim();
-      if (!labels.includes(text)) continue;
+      if (!re.test(text)) continue;
       // Переключатель — короткий кликабельный элемент, а не абзац с тем же словом.
       if (el.children.length > 1) continue;
       const box = el.getBoundingClientRect();
@@ -80,7 +81,7 @@ async function findTabs(page) {
       out.push({ text, tag: el.tagName.toLowerCase() });
     }
     return out;
-  }, TAB_LABELS);
+  }, TAB_PATTERN);
 }
 
 /** Кликнуть по вкладке с заданным текстом. Возвращает true, если получилось. */
