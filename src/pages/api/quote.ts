@@ -8,7 +8,8 @@ import { sendMail, managerEmail, salesFrom } from '../../lib/mailer';
 import { generateQuotePdf, buildQuoteNo, formatDateRu, addDays, type QuoteData } from '../../lib/pdf-quote';
 import { generateQuoteJpg } from '../../lib/jpg-quote';
 import { generateQuoteDocx } from '../../lib/docx-quote';
-import { site, seller } from '../../config/site';
+import { site, seller, taxation } from '../../config/site';
+import { salutation } from '../../lib/salutation';
 import { verifyCompany } from '../../lib/inn';
 import type { QuoteItem } from '../../lib/types';
 
@@ -187,10 +188,13 @@ export const POST: APIRoute = async ({ request }) => {
 
   // 1. Клиенту — КП во вложении, отправитель hello@biz-soft.pro
   const clientText = [
-    `Здравствуйте${data.contactName ? ', ' + data.contactName : ''}!`,
+    // Обращение по имени, а не по всему полю: «Здравствуйте, Ласточкина
+    // Светлана Олеговна» звучит как вызов к доске.
+    salutation(data.contactName),
     '',
     `Коммерческое предложение № ${quoteNo} во вложении.`,
-    `Сумма: ${total.toLocaleString('ru-RU')} ₽. Действует до ${data.validUntil}.`,
+    `Сумма: ${total.toLocaleString('ru-RU')} ₽, в т.ч. НДС ${taxation.vatPercent}%. `
+      + `Действует до ${data.validUntil}.`,
     '',
     'Форма поставки — в электронном виде. Оплата: 100% аванс по счёту.',
     'Закрывающие: УПД с выделенным НДС 5% (или акт со счётом-фактурой).',
