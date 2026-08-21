@@ -150,6 +150,7 @@ const { source = 'question' } = Astro.props as { source?: string };
       } catch (err) {
         status.textContent = err instanceof Error && err.message ? err.message : 'Не удалось отправить. Позвоните нам или попробуйте позже.';
         status.className = 'qf-status err';
+        trackGoal('lead_error', { source: 'question', reason: err instanceof Error ? err.message.slice(0, 100) : 'unknown' });
       } finally {
         submit.disabled = false;
       }

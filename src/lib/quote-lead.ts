@@ -8,6 +8,7 @@
  * Модуль живёт на стороне сайта, а не в src/crm: фиксация контакта — дело
  * сайта, работа с ним — дело CRM. Граница между ними не нарушается.
  */
+import { defaultLeadOwner } from '../config/site';
 
 export interface QuoteLineForLead { sku: string; name: string; qty: number; sum: number }
 
@@ -21,6 +22,14 @@ export interface QuoteForLead {
   items: QuoteLineForLead[];
   total: number;
   validUntil?: string;
+  /**
+   * Итог проверки ИНН: сходится ли он с названием организации.
+   *
+   * Попадает в текст заявки, потому что менеджеру это нужно видеть в самой
+   * карточке, а не искать в почте: расхождение имени и номера — первое,
+   * о чём спрашивают в звонке.
+   */
+  innCheck?: string;
 }
 
 const rub = (n: number) => `${n.toLocaleString('ru-RU')} ₽`;
@@ -35,7 +44,7 @@ export function summarizeItems(items: QuoteLineForLead[]): string {
 /** Полный состав корзины — его менеджер видит в карточке. */
 export function describeQuote(q: QuoteForLead): string {
   const lines = [
-    `Клиент скачал коммерческое предложение № ${q.quoteNo}.`,
+    `Клиенту отправлено коммерческое предложение № ${q.quoteNo}.`,
     '',
     'Состав корзины:',
     ...q.items.map((i) => `— ${i.name} (${i.sku}) × ${i.qty} = ${rub(i.sum)}`),
@@ -43,6 +52,9 @@ export function describeQuote(q: QuoteForLead): string {
     `Итого: ${rub(q.total)}.`,
   ];
   if (q.validUntil) lines.push(`Предложение действует до ${q.validUntil}.`);
+  // Достоверность заявки — в самой карточке: расхождение имени и номера
+  // первое, о чём спрашивают в звонке, и искать это в почте неудобно.
+  if (q.innCheck) lines.push('', `Проверка ИНН: ${q.innCheck}`);
   return lines.join('\n');
 }
 
@@ -66,6 +78,9 @@ export function leadFromQuote(q: QuoteForLead): Record<string, unknown> {
     consent: true,
     source: 'quote',
     status: 'new',
+    // Ответственный проставляется сразу: заявка без владельца ничья, и о ней
+    // забывают. Распоряжение руководителя 21.08.2026 — всегда Беляев Алексей.
+    owner: defaultLeadOwner,
     // Сумма известна из корзины: менеджер сразу видит вес сделки в списке.
     amount: q.total,
     quote_no: q.quoteNo,

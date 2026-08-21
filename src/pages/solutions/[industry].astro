@@ -89,6 +89,13 @@ const solutionVendors = solution
   </div>
   <CTASection />
 </BaseLayout>
+
+<script>
+  // Страницы назначения ПО — вход в каталог не через бренд, а через задачу.
+  // Отдельная цель показывает, работает ли этот путь вообще.
+  import { trackGoal } from '@/lib/analytics';
+  trackGoal('view_solution', { page_url: location.pathname });
+</script>
 )}
 
 <style>

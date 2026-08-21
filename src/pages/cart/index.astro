@@ -27,7 +27,7 @@ try {
   }).filter((pr) => pr.items.length >= 2);
 } catch { /* без пресетов страница работает как раньше */ }
 ---
-<BaseLayout title="Избранное" description="Избранное BIZSoft: соберите подписки и получите коммерческое предложение в PDF." noindex={true}>
+<BaseLayout title="Избранное" description="Избранное BIZSoft: соберите подписки и получите коммерческое предложение с реквизитами." noindex={true}>
   <div class="container-page section">
     <Breadcrumbs items={[{ name: 'Избранное', url: '/cart' }]} />
     <h1 class="h1-spec">Избранное: редактирование спецификации для подготовки КП</h1>
@@ -100,7 +100,7 @@ try {
     <form class="kp-form" data-kp-form>
       <button type="button" class="kp-close" data-kp-close aria-label="Закрыть">✕</button>
       <h2>Получить КП</h2>
-      <p class="kp-hint">Сформируем PDF с реквизитами и составом заказа, отправим на e-mail и дадим скачать.</p>
+      <p class="kp-hint">Подготовим коммерческое предложение с составом заказа и реквизитами и отправим на указанную почту.</p>
       <label>Организация:<input name="buyer_company" required /></label>
       <div class="kp-row">
         <label>ИНН:<input name="buyer_inn" required inputmode="numeric" /></label>
@@ -114,7 +114,7 @@ try {
         <input type="checkbox" name="consent" required />
         <span>Согласен на обработку персональных данных согласно <a href="/privacy" target="_blank" rel="noopener noreferrer">политике</a>.</span>
       </label>
-      <button type="submit" class="btn btn-primary kp-submit">Сформировать КП (PDF)</button>
+      <button type="submit" class="btn btn-primary kp-submit">Отправить КП на почту</button>
       <p class="kp-status" data-kp-status role="status" aria-live="polite"></p>
     </form>
   </dialog>
@@ -204,6 +204,10 @@ try {
 <script>
   import { trackGoal } from '@/lib/analytics';
   import { readCart, setQty, removeFromCart, cartTotal, clearCart, addToCart } from '../../lib/cart-client';
+
+  // Открыли подборку. Знаменатель для формы КП: видно, сколько дошло до
+  // корзины и сколько из них вообще начало заполнять форму.
+  trackGoal('view_cart', { items: readCart().length, total: cartTotal() });
   import { formatRub } from '../../lib/pricing';
   import { moneyFmt, vatIncluded, totalWithVatWords } from '../../lib/rub-words';
   import { maskAllPhones } from '../../lib/phone-mask';
@@ -254,7 +258,10 @@ try {
         <td class="c-del"><button class="ci-remove" data-remove aria-label="Удалить позицию" title="Удалить">✕</button></td>`;
       tr.querySelector('[data-inc]')!.addEventListener('click', () => { setQty(it.sku, it.qty + 1); render(); });
       tr.querySelector('[data-dec]')!.addEventListener('click', () => { setQty(it.sku, it.qty - 1); render(); });
-      tr.querySelector('[data-remove]')!.addEventListener('click', () => { removeFromCart(it.sku); render(); });
+      tr.querySelector('[data-remove]')!.addEventListener('click', () => {
+        trackGoal('remove_from_cart', { sku: it.sku });
+        removeFromCart(it.sku); render();
+      });
       tr.querySelector('[data-qty]')!.addEventListener('change', (e) => {
         const v = Math.max(1, Math.floor(Number((e.target as HTMLInputElement).value) || 1));
         setQty(it.sku, v); render();
@@ -324,6 +331,9 @@ try {
   document.querySelector('[data-open-kp]')?.addEventListener('click', () => {
     if (readCart().length === 0) return;
     status.textContent = ''; status.className = 'kp-status';
+    // Форма открыта, но ещё не отправлена. Разрыв между этой целью и
+    // quote_pdf показывает, сколько людей упирается в саму форму.
+    trackGoal('begin_checkout', { items: readCart().length, total: cartTotal() });
     dialog.showModal();
   });
   document.querySelector('[data-kp-close]')?.addEventListener('click', () => dialog.close());
@@ -333,7 +343,7 @@ try {
     e.preventDefault();
     const submit = form.querySelector('.kp-submit') as HTMLButtonElement;
     submit.disabled = true;
-    status.textContent = 'Формируем PDF…'; status.className = 'kp-status';
+    status.textContent = 'Формируем и отправляем…'; status.className = 'kp-status';
     try {
       const fd = Object.fromEntries(new FormData(form).entries());
       const items = readCart().map((i) => ({ sku: i.sku, qty: i.qty }));
@@ -347,17 +357,23 @@ try {
         try { const j = await res.json(); if (j?.error) msg = j.error; } catch { /* not json */ }
         throw new Error(msg);
       }
-      const blob = await res.blob();
-      const quoteNo = res.headers.get('X-Quote-No') || 'KP';
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url; a.download = `${quoteNo}.pdf`; document.body.appendChild(a); a.click(); a.remove();
-      URL.revokeObjectURL(url);
-      status.textContent = 'Готово! PDF скачан и отправлен на e-mail.'; status.className = 'kp-status ok';
+      // Документ не скачивается и не открывается в браузере: он уходит письмом.
+      // Раньше ответ отдавался файлом, и просмотрщик показывал его страницей
+      // «сохранить и напечатать» — человек видел документ вместо
+      // подтверждения и не понимал, отправили ему что-нибудь или нет.
+      const out = await res.json();
+      const quoteNo = out?.quote_no || res.headers.get('X-Quote-No') || 'KP';
+      const to = out?.sent_to ? ` на ${out.sent_to}` : '';
+      status.innerHTML = `<b>Готово.</b> Коммерческое предложение № ${quoteNo} `
+        + `отправлено${to}. Если письма нет через пару минут — проверьте «Спам».`;
+      status.className = 'kp-status ok';
       trackGoal('quote_pdf', { quote_no: quoteNo });
     } catch (err) {
       status.textContent = err instanceof Error && err.message ? err.message : 'Не удалось сформировать КП. Попробуйте позже или позвоните нам.';
       status.className = 'kp-status err';
+      // Без этой цели сбой неотличим от того, что клиент передумал: в отчёте
+      // и то и другое выглядит как незавершённое оформление.
+      trackGoal('quote_error', { reason: err instanceof Error ? err.message.slice(0, 100) : 'unknown' });
     } finally {
       submit.disabled = false;
     }
