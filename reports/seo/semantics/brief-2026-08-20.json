@@ -1,0 +1,840 @@
+{
+ "report_date": "2026-08-20",
+ "collected_at": "2026-08-20T04:09:07+00:00",
+ "region": "Россия",
+ "unit": "показы в поиске Яндекса",
+ "window": "последние 30 дней",
+ "match_type": "broad",
+ "requests_made": 90,
+ "coverage": "360/554",
+ "complete": false,
+ "clusters_planned": 53,
+ "clusters_measured": 53,
+ "top_commercial": [
+  {
+   "cluster": "adobe",
+   "page": "/vendors/adobe",
+   "commercial_impressions": 23544,
+   "seed_impressions": 364548
+  },
+  {
+   "cluster": "оплата-зарубежных-сервисов",
+   "page": null,
+   "commercial_impressions": 17727,
+   "seed_impressions": 11541
+  },
+  {
+   "cluster": "autodesk",
+   "page": "/vendors/autodesk",
+   "commercial_impressions": 7682,
+   "seed_impressions": 55053
+  },
+  {
+   "cluster": "unity",
+   "page": "/vendors/unity",
+   "commercial_impressions": 5692,
+   "seed_impressions": 196433
+  },
+  {
+   "cluster": "runway",
+   "page": "/vendors/runway",
+   "commercial_impressions": 2468,
+   "seed_impressions": 61154
+  },
+  {
+   "cluster": "rive",
+   "page": "/vendors/rive",
+   "commercial_impressions": 2350,
+   "seed_impressions": 19374
+  },
+  {
+   "cluster": "spine",
+   "page": "/vendors/spine",
+   "commercial_impressions": 2047,
+   "seed_impressions": 25979
+  },
+  {
+   "cluster": "procreate",
+   "page": "/vendors/procreate",
+   "commercial_impressions": 1940,
+   "seed_impressions": 25375
+  },
+  {
+   "cluster": "blackmagic",
+   "page": "/vendors/blackmagic",
+   "commercial_impressions": 1354,
+   "seed_impressions": 51434
+  },
+  {
+   "cluster": "midjourney",
+   "page": "/vendors/midjourney",
+   "commercial_impressions": 1124,
+   "seed_impressions": 51871
+  }
+ ],
+ "gaps": {
+  "adobe": [
+   {
+    "phrase": "adobe купить",
+    "impressions": 3887
+   },
+   {
+    "phrase": "adobe подписка",
+    "impressions": 1979
+   },
+   {
+    "phrase": "лицензия adobe",
+    "impressions": 1403
+   },
+   {
+    "phrase": "adobe pro купить",
+    "impressions": 811
+   },
+   {
+    "phrase": "adobe photoshop купить",
+    "impressions": 683
+   },
+   {
+    "phrase": "adobe acrobat купить",
+    "impressions": 574
+   },
+   {
+    "phrase": "купить подписку adobe",
+    "impressions": 509
+   },
+   {
+    "phrase": "adobe cloud купить",
+    "impressions": 491
+   },
+   {
+    "phrase": "adobe creative купить",
+    "impressions": 487
+   },
+   {
+    "phrase": "adobe premiere купить",
+    "impressions": 471
+   }
+  ],
+  "autodesk": [
+   {
+    "phrase": "autodesk license",
+    "impressions": 1800
+   },
+   {
+    "phrase": "лицензия autodesk",
+    "impressions": 1015
+   },
+   {
+    "phrase": "autodesk license download",
+    "impressions": 383
+   },
+   {
+    "phrase": "autodesk купить",
+    "impressions": 349
+   },
+   {
+    "phrase": "autodesk license manager",
+    "impressions": 332
+   },
+   {
+    "phrase": "autodesk network license",
+    "impressions": 330
+   },
+   {
+    "phrase": "autodesk license скачать",
+    "impressions": 320
+   },
+   {
+    "phrase": "autodesk network license manager",
+    "impressions": 300
+   },
+   {
+    "phrase": "autodesk недействительная лицензия",
+    "impressions": 238
+   },
+   {
+    "phrase": "autodesk обнаружена лицензия",
+    "impressions": 229
+   }
+  ],
+  "unity": [
+   {
+    "phrase": "unity сцена",
+    "impressions": 725
+   },
+   {
+    "phrase": "assassin unity купить",
+    "impressions": 631
+   },
+   {
+    "phrase": "assassins creed unity купить",
+    "impressions": 620
+   },
+   {
+    "phrase": "assassin s unity купить",
+    "impressions": 310
+   },
+   {
+    "phrase": "assassin s creed unity купить",
+    "impressions": 309
+   },
+   {
+    "phrase": "unity лицензия",
+    "impressions": 301
+   },
+   {
+    "phrase": "unity купить ключ",
+    "impressions": 117
+   },
+   {
+    "phrase": "assassins creed unity купить ключ",
+    "impressions": 109
+   },
+   {
+    "phrase": "unity подписки",
+    "impressions": 89
+   },
+   {
+    "phrase": "assassins creed unity купить стим",
+    "impressions": 73
+   }
+  ],
+  "runway": [
+   {
+    "phrase": "runway купить",
+    "impressions": 951
+   },
+   {
+    "phrase": "runway подписка",
+    "impressions": 192
+   },
+   {
+    "phrase": "runway красноярск купить",
+    "impressions": 123
+   },
+   {
+    "phrase": "купить квартиру runway",
+    "impressions": 98
+   },
+   {
+    "phrase": "runway красноярск купить квартиру",
+    "impressions": 87
+   },
+   {
+    "phrase": "runway купить подписку",
+    "impressions": 76
+   },
+   {
+    "phrase": "yamaguchi runway купить",
+    "impressions": 57
+   },
+   {
+    "phrase": "купить yamaguchi runway x",
+    "impressions": 55
+   },
+   {
+    "phrase": "runway октан корректор купить",
+    "impressions": 54
+   },
+   {
+    "phrase": "журнал runway купить",
+    "impressions": 39
+   }
+  ],
+  "rive": [
+   {
+    "phrase": "rive купить",
+    "impressions": 675
+   },
+   {
+    "phrase": "riven купить",
+    "impressions": 675
+   },
+   {
+    "phrase": "la rive купить",
+    "impressions": 408
+   },
+   {
+    "phrase": "rive gauche купить",
+    "impressions": 75
+   },
+   {
+    "phrase": "la rive цена",
+    "impressions": 63
+   },
+   {
+    "phrase": "купить воду la rive",
+    "impressions": 57
+   },
+   {
+    "phrase": "rive туалетная вода купить",
+    "impressions": 46
+   },
+   {
+    "phrase": "купить туалетную воду la rive",
+    "impressions": 46
+   },
+   {
+    "phrase": "la rive game for men купить",
+    "impressions": 44
+   }
+  ],
+  "spine": [
+   {
+    "phrase": "spine купить",
+    "impressions": 749
+   },
+   {
+    "phrase": "spine кроссовки купить",
+    "impressions": 153
+   },
+   {
+    "phrase": "купить ботинки spine",
+    "impressions": 126
+   },
+   {
+    "phrase": "spine цена",
+    "impressions": 99
+   },
+   {
+    "phrase": "купить лыжные ботинки spine",
+    "impressions": 94
+   },
+   {
+    "phrase": "yoga spine купить",
+    "impressions": 84
+   },
+   {
+    "phrase": "spine skate купить",
+    "impressions": 40
+   },
+   {
+    "phrase": "spine concept купить",
+    "impressions": 36
+   },
+   {
+    "phrase": "spine corsa купить",
+    "impressions": 32
+   },
+   {
+    "phrase": "spine pro купить",
+    "impressions": 30
+   }
+  ],
+  "procreate": [
+   {
+    "phrase": "купить procreate",
+    "impressions": 823
+   },
+   {
+    "phrase": "купить procreate на ipad",
+    "impressions": 153
+   },
+   {
+    "phrase": "как купить procreate на айпад",
+    "impressions": 126
+   },
+   {
+    "phrase": "как купить procreate на айпад в россии",
+    "impressions": 101
+   },
+   {
+    "phrase": "как оплатить procreate",
+    "impressions": 85
+   },
+   {
+    "phrase": "procreate подписка",
+    "impressions": 42
+   },
+   {
+    "phrase": "procreate стоимость",
+    "impressions": 40
+   },
+   {
+    "phrase": "как оплатить procreate из россии",
+    "impressions": 38
+   },
+   {
+    "phrase": "можно ли купить procreate",
+    "impressions": 35
+   }
+  ],
+  "blackmagic": [
+   {
+    "phrase": "davinci resolve купить",
+    "impressions": 531
+   },
+   {
+    "phrase": "davinci resolve studio купить",
+    "impressions": 252
+   },
+   {
+    "phrase": "davinci resolve лицензия",
+    "impressions": 120
+   },
+   {
+    "phrase": "davinci resolve license",
+    "impressions": 58
+   },
+   {
+    "phrase": "davinci resolve ключ купить",
+    "impressions": 57
+   },
+   {
+    "phrase": "davinci resolve 21 купить",
+    "impressions": 49
+   },
+   {
+    "phrase": "davinci resolve studio лицензия",
+    "impressions": 48
+   },
+   {
+    "phrase": "davinci resolve купить лицензию",
+    "impressions": 47
+   },
+   {
+    "phrase": "davinci resolve studio 21 купить",
+    "impressions": 39
+   },
+   {
+    "phrase": "davinci resolve купить в россии",
+    "impressions": 38
+   }
+  ],
+  "midjourney": [
+   {
+    "phrase": "midjourney подписка",
+    "impressions": 380
+   },
+   {
+    "phrase": "midjourney купить",
+    "impressions": 165
+   },
+   {
+    "phrase": "midjourney купить подписку",
+    "impressions": 96
+   },
+   {
+    "phrase": "как оплатить midjourney",
+    "impressions": 90
+   },
+   {
+    "phrase": "midjourney оплата",
+    "impressions": 45
+   },
+   {
+    "phrase": "как оплатить midjourney из россии",
+    "impressions": 44
+   },
+   {
+    "phrase": "midjourney тарифы",
+    "impressions": 41
+   },
+   {
+    "phrase": "midjourney оплатить подписку",
+    "impressions": 40
+   },
+   {
+    "phrase": "midjourney стоимость",
+    "impressions": 34
+   },
+   {
+    "phrase": "midjourney нейросеть подписка",
+    "impressions": 32
+   }
+  ],
+  "canva": [
+   {
+    "phrase": "canva подписка",
+    "impressions": 337
+   },
+   {
+    "phrase": "купить canva",
+    "impressions": 204
+   },
+   {
+    "phrase": "как оплатить canva",
+    "impressions": 95
+   },
+   {
+    "phrase": "canva купить подписку",
+    "impressions": 78
+   },
+   {
+    "phrase": "canva pro подписка",
+    "impressions": 68
+   },
+   {
+    "phrase": "canva pro купить",
+    "impressions": 55
+   },
+   {
+    "phrase": "canva оплата",
+    "impressions": 34
+   },
+   {
+    "phrase": "canva тарифы",
+    "impressions": 34
+   }
+  ],
+  "coreldraw": [
+   {
+    "phrase": "coreldraw купить",
+    "impressions": 371
+   },
+   {
+    "phrase": "coreldraw лицензия",
+    "impressions": 206
+   },
+   {
+    "phrase": "coreldraw лицензия купить",
+    "impressions": 65
+   },
+   {
+    "phrase": "coreldraw graphics купить",
+    "impressions": 44
+   },
+   {
+    "phrase": "coreldraw купить ключ",
+    "impressions": 42
+   },
+   {
+    "phrase": "coreldraw 2026 купить",
+    "impressions": 41
+   },
+   {
+    "phrase": "coreldraw suite купить",
+    "impressions": 41
+   },
+   {
+    "phrase": "coreldraw graphics suite купить",
+    "impressions": 40
+   },
+   {
+    "phrase": "coreldraw подписка",
+    "impressions": 33
+   }
+  ],
+  "sketch": [
+   {
+    "phrase": "sketches купить",
+    "impressions": 454
+   },
+   {
+    "phrase": "sketch аппарат купить",
+    "impressions": 126
+   },
+   {
+    "phrase": "etch a sketch купить",
+    "impressions": 87
+   },
+   {
+    "phrase": "sketch массаж купить",
+    "impressions": 71
+   },
+   {
+    "phrase": "sketch аппарат для массажа купить",
+    "impressions": 50
+   },
+   {
+    "phrase": "etch a sketch волшебный экран купить",
+    "impressions": 33
+   }
+  ],
+  "clip-studio-paint": [
+   {
+    "phrase": "clip studio paint купить",
+    "impressions": 417
+   },
+   {
+    "phrase": "подписка clip studio paint",
+    "impressions": 121
+   },
+   {
+    "phrase": "clip studio paint лицензия",
+    "impressions": 93
+   },
+   {
+    "phrase": "clip studio paint ex купить",
+    "impressions": 58
+   },
+   {
+    "phrase": "купить подписку clip studio paint",
+    "impressions": 54
+   },
+   {
+    "phrase": "оплатить clip studio paint",
+    "impressions": 51
+   },
+   {
+    "phrase": "clip studio paint купить лицензию",
+    "impressions": 40
+   }
+  ],
+  "wondershare": [
+   {
+    "phrase": "wondershare подписка",
+    "impressions": 239
+   },
+   {
+    "phrase": "wondershare купить",
+    "impressions": 148
+   },
+   {
+    "phrase": "wondershare ключи лицензионные",
+    "impressions": 73
+   },
+   {
+    "phrase": "wondershare ключ активации лицензионный",
+    "impressions": 72
+   },
+   {
+    "phrase": "лицензия wondershare",
+    "impressions": 52
+   },
+   {
+    "phrase": "wondershare filmora купить",
+    "impressions": 49
+   },
+   {
+    "phrase": "ключ wondershare recoverit активации лицензионный",
+    "impressions": 42
+   },
+   {
+    "phrase": "wondershare recoverit ключ активации лицензионный бесплатно",
+    "impressions": 40
+   },
+   {
+    "phrase": "wondershare filmora подписка",
+    "impressions": 39
+   },
+   {
+    "phrase": "как отменить подписку wondershare",
+    "impressions": 32
+   }
+  ],
+  "foundry": [
+   {
+    "phrase": "foundry купить",
+    "impressions": 380
+   },
+   {
+    "phrase": "foundry vtt купить",
+    "impressions": 226
+   },
+   {
+    "phrase": "foundry купить в россии",
+    "impressions": 69
+   },
+   {
+    "phrase": "foundry vtt купить в россии",
+    "impressions": 67
+   }
+  ],
+  "avid": [
+   {
+    "phrase": "avid купить",
+    "impressions": 411
+   },
+   {
+    "phrase": "avid bb7 купить",
+    "impressions": 67
+   },
+   {
+    "phrase": "avid pro tools купить",
+    "impressions": 52
+   },
+   {
+    "phrase": "avid цена",
+    "impressions": 45
+   },
+   {
+    "phrase": "avid carp купить",
+    "impressions": 44
+   },
+   {
+    "phrase": "st croix avid купить",
+    "impressions": 44
+   }
+  ],
+  "heygen": [
+   {
+    "phrase": "heygen подписка",
+    "impressions": 180
+   },
+   {
+    "phrase": "heygen оплатить",
+    "impressions": 124
+   },
+   {
+    "phrase": "как оплатить heygen из россии",
+    "impressions": 35
+   }
+  ],
+  "miro": [
+   {
+    "phrase": "miro подписка",
+    "impressions": 67
+   },
+   {
+    "phrase": "miro цены",
+    "impressions": 57
+   },
+   {
+    "phrase": "elena miro купить",
+    "impressions": 42
+   }
+  ],
+  "elevenlabs": [
+   {
+    "phrase": "подписка elevenlabs",
+    "impressions": 148
+   },
+   {
+    "phrase": "купить elevenlabs",
+    "impressions": 131
+   },
+   {
+    "phrase": "elevenlabs подписка купить",
+    "impressions": 67
+   },
+   {
+    "phrase": "elevenlabs тарифы",
+    "impressions": 32
+   }
+  ],
+  "native-instruments": [
+   {
+    "phrase": "купить native instruments",
+    "impressions": 143
+   },
+   {
+    "phrase": "native instruments mk3 купить",
+    "impressions": 62
+   },
+   {
+    "phrase": "купить native instruments traktor",
+    "impressions": 43
+   },
+   {
+    "phrase": "native instruments maschine mk3 купить",
+    "impressions": 31
+   }
+  ],
+  "maxon": [
+   {
+    "phrase": "maxon купить",
+    "impressions": 159
+   },
+   {
+    "phrase": "maxon sd 9 купить",
+    "impressions": 81
+   }
+  ],
+  "freepik": [
+   {
+    "phrase": "подписка freepik",
+    "impressions": 77
+   },
+   {
+    "phrase": "freepik купить",
+    "impressions": 73
+   },
+   {
+    "phrase": "оплатить freepik",
+    "impressions": 40
+   },
+   {
+    "phrase": "бесплатные безлицензионные картинки freepik",
+    "impressions": 37
+   },
+   {
+    "phrase": "freepik купить подписку",
+    "impressions": 33
+   },
+   {
+    "phrase": "лицензии freepik",
+    "impressions": 30
+   }
+  ],
+  "shutterstock": [
+   {
+    "phrase": "shutterstock лицензия",
+    "impressions": 92
+   },
+   {
+    "phrase": "купить shutterstock",
+    "impressions": 73
+   },
+   {
+    "phrase": "shutterstock подписка",
+    "impressions": 30
+   }
+  ],
+  "unreal-engine": [
+   {
+    "phrase": "unreal engine сцена",
+    "impressions": 143
+   },
+   {
+    "phrase": "unreal engine купить",
+    "impressions": 64
+   }
+  ],
+  "recraft": [
+   {
+    "phrase": "recraft подписка",
+    "impressions": 66
+   },
+   {
+    "phrase": "recraft купить",
+    "impressions": 63
+   },
+   {
+    "phrase": "recraft купить подписку",
+    "impressions": 34
+   },
+   {
+    "phrase": "подписка recraft ai",
+    "impressions": 30
+   }
+  ],
+  "envato": [
+   {
+    "phrase": "подписка envato",
+    "impressions": 54
+   },
+   {
+    "phrase": "envato купить",
+    "impressions": 44
+   }
+  ],
+  "epidemic-sound": [
+   {
+    "phrase": "epidemic sound купить",
+    "impressions": 57
+   },
+   {
+    "phrase": "epidemic sound купить подписку",
+    "impressions": 48
+   }
+  ],
+  "artlist": [
+   {
+    "phrase": "artlist подписка",
+    "impressions": 47
+   },
+   {
+    "phrase": "artlist купить",
+    "impressions": 39
+   }
+  ],
+  "monotype": [
+   {
+    "phrase": "monotype лицензия",
+    "impressions": 44
+   }
+  ]
+ },
+ "discovery": []
+}

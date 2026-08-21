@@ -1,0 +1,1224 @@
+{
+ "date": "2026-08-21",
+ "generated_at": "2026-08-21T03:22:37+00:00",
+ "measured_at": "2026-08-21",
+ "universe": {
+  "phrases": 16501,
+  "commercial_phrases": 2039,
+  "clusters": 150,
+  "total_commercial_demand": 490638,
+  "total_demand": 34240140,
+  "with_page": 14675,
+  "cost_rub": 4.7435
+ },
+ "coverage": {
+  "available": true,
+  "total_commercial_demand": 490638,
+  "levels": {
+   "page": 0.773,
+   "indexed": 0.0646,
+   "top10": 0.0087,
+   "clicks": 0.0001,
+   "conversion_measured": 0.0,
+   "qualified_leads": null
+  },
+  "note": "Доли считаются по сумме частотностей коммерческих фраз кластера. Уровень «обращения» появится после подключения CRM."
+ },
+ "coverage_by_category": {
+  "AI-сервисы": {
+   "demand": 266515,
+   "covered": 263024,
+   "top10": 1031,
+   "clicks": 0,
+   "page_coverage": 0.987,
+   "top10_coverage": 0.004,
+   "click_coverage": 0.0
+  },
+  "не определено": {
+   "demand": 98522,
+   "covered": 2835,
+   "top10": 0,
+   "clicks": 0,
+   "page_coverage": 0.029,
+   "top10_coverage": 0.0,
+   "click_coverage": 0.0
+  },
+  "Офисное ПО": {
+   "demand": 62045,
+   "covered": 55439,
+   "top10": 0,
+   "clicks": 0,
+   "page_coverage": 0.894,
+   "top10_coverage": 0.0,
+   "click_coverage": 0.0
+  },
+  "Дизайн и графика": {
+   "demand": 38949,
+   "covered": 38949,
+   "top10": 2438,
+   "clicks": 26,
+   "page_coverage": 1.0,
+   "top10_coverage": 0.063,
+   "click_coverage": 0.001
+  },
+  "Системное ПО": {
+   "demand": 7767,
+   "covered": 7658,
+   "top10": 0,
+   "clicks": 0,
+   "page_coverage": 0.986,
+   "top10_coverage": 0.0,
+   "click_coverage": 0.0
+  },
+  "Средства разработки": {
+   "demand": 7185,
+   "covered": 4049,
+   "top10": 0,
+   "clicks": 0,
+   "page_coverage": 0.564,
+   "top10_coverage": 0.0,
+   "click_coverage": 0.0
+  },
+  "Инженерное ПО (CAD/CAE)": {
+   "demand": 3028,
+   "covered": 2413,
+   "top10": 0,
+   "clicks": 0,
+   "page_coverage": 0.797,
+   "top10_coverage": 0.0,
+   "click_coverage": 0.0
+  },
+  "Звук, видео и медиа": {
+   "demand": 2829,
+   "covered": 2829,
+   "top10": 0,
+   "clicks": 0,
+   "page_coverage": 1.0,
+   "top10_coverage": 0.0,
+   "click_coverage": 0.0
+  },
+  "Доски и совместная работа": {
+   "demand": 1677,
+   "covered": 1381,
+   "top10": 780,
+   "clicks": 0,
+   "page_coverage": 0.823,
+   "top10_coverage": 0.465,
+   "click_coverage": 0.0
+  },
+  "Разработка": {
+   "demand": 1493,
+   "covered": 73,
+   "top10": 0,
+   "clicks": 0,
+   "page_coverage": 0.049,
+   "top10_coverage": 0.0,
+   "click_coverage": 0.0
+  },
+  "Архитектура и BIM": {
+   "demand": 387,
+   "covered": 387,
+   "top10": 0,
+   "clicks": 0,
+   "page_coverage": 1.0,
+   "top10_coverage": 0.0,
+   "click_coverage": 0.0
+  },
+  "Антивирусы и безопасность": {
+   "demand": 241,
+   "covered": 241,
+   "top10": 0,
+   "clicks": 0,
+   "page_coverage": 1.0,
+   "top10_coverage": 0.0,
+   "click_coverage": 0.0
+  }
+ },
+ "tiers": {
+  "A": 30,
+  "B": 44,
+  "C": 73
+ },
+ "gaps_by_class": {
+  "GAP-A": 12,
+  "GAP-B": 22,
+  "GAP-C": 3,
+  "GAP-D": 2,
+  "GAP-F": 1,
+  "GAP-G": 17,
+  "GAP-H": 17
+ },
+ "uncovered_top": [
+  {
+   "cluster": "claude купить",
+   "demand": 26106,
+   "gap": "GAP-G",
+   "action": "ранняя возможность",
+   "top_phrase": "claude купить"
+  },
+  {
+   "cluster": "оплата зарубежных сервисов",
+   "demand": 15947,
+   "gap": "GAP-G",
+   "action": "ранняя возможность",
+   "top_phrase": "оплата зарубежных сервисов"
+  },
+  {
+   "cluster": "spotify купить",
+   "demand": 15075,
+   "gap": "GAP-G",
+   "action": "ранняя возможность",
+   "top_phrase": "spotify купить"
+  },
+  {
+   "cluster": "gemini купить",
+   "demand": 13596,
+   "gap": "GAP-G",
+   "action": "ранняя возможность",
+   "top_phrase": "gemini купить"
+  },
+  {
+   "cluster": "microsoft 365 купить",
+   "demand": 6606,
+   "gap": "GAP-A",
+   "action": "новая посадочная страница или материал",
+   "top_phrase": "microsoft 365 купить"
+  },
+  {
+   "cluster": "chatgpt plus купить",
+   "demand": 4851,
+   "gap": "GAP-G",
+   "action": "ранняя возможность",
+   "top_phrase": "купить chatgpt plus"
+  },
+  {
+   "cluster": "suno купить",
+   "demand": 3744,
+   "gap": "GAP-A",
+   "action": "новая посадочная страница или материал",
+   "top_phrase": "suno купить"
+  },
+  {
+   "cluster": "perplexity купить",
+   "demand": 3491,
+   "gap": "GAP-G",
+   "action": "ранняя возможность",
+   "top_phrase": "perplexity купить"
+  },
+  {
+   "cluster": "box купить",
+   "demand": 3285,
+   "gap": "GAP-A",
+   "action": "новая посадочная страница или материал",
+   "top_phrase": "pro box купить"
+  },
+  {
+   "cluster": "capcut купить",
+   "demand": 2875,
+   "gap": "GAP-G",
+   "action": "ранняя возможность",
+   "top_phrase": "capcut купить"
+  }
+ ],
+ "opportunities": [
+  {
+   "cluster": "google",
+   "vendor": "Google",
+   "category": "AI-сервисы",
+   "gap": "GAP-B",
+   "gap_title": "Страница есть, не индексируется",
+   "recommended_action": "техническое SEO",
+   "commercial_demand": 252950,
+   "commercial_phrases": 271,
+   "url": "/vendors/google",
+   "page_exists": true,
+   "indexed": false,
+   "best_position": null,
+   "impressions": 0,
+   "clicks": 0,
+   "ctr": null,
+   "trend": "stable",
+   "top_phrases": [
+    {
+     "phrase": "google pixel купить",
+     "frequency": 31598
+    },
+    {
+     "phrase": "google pro купить",
+     "frequency": 14242
+    },
+    {
+     "phrase": "google pixel pro купить",
+     "frequency": 13209
+    },
+    {
+     "phrase": "google не работает",
+     "frequency": 13018
+    },
+    {
+     "phrase": "купить google 10",
+     "frequency": 10390
+    }
+   ],
+   "subclusters": {
+    "покупка": 239756,
+    "прочее": 13018,
+    "цены и тарифы": 176
+   },
+   "opportunity_score": 0.3825,
+   "components": {
+    "normalized_demand": 1.0,
+    "commercial_intent": 1.0,
+    "coverage_gap": 0.85,
+    "trend_factor": 1.0,
+    "confidence": 0.9,
+    "estimated_effort": 2.0
+   },
+   "confidence_note": "достаточная: кластер измерен несколькими фразами"
+  },
+  {
+   "cluster": "claude купить",
+   "vendor": null,
+   "category": null,
+   "gap": "GAP-G",
+   "gap_title": "Спрос растёт",
+   "recommended_action": "ранняя возможность",
+   "commercial_demand": 26106,
+   "commercial_phrases": 144,
+   "url": null,
+   "page_exists": false,
+   "indexed": false,
+   "best_position": null,
+   "impressions": 0,
+   "clicks": 0,
+   "ctr": null,
+   "trend": "growing",
+   "top_phrases": [
+    {
+     "phrase": "claude купить",
+     "frequency": 9944
+    },
+    {
+     "phrase": "claude купить подписку",
+     "frequency": 4435
+    },
+    {
+     "phrase": "claude pro купить",
+     "frequency": 1107
+    },
+    {
+     "phrase": "claude code купить",
+     "frequency": 1101
+    },
+    {
+     "phrase": "купить аккаунт claude",
+     "frequency": 883
+    }
+   ],
+   "subclusters": {
+    "покупка": 26096,
+    "цены и тарифы": 10
+   },
+   "opportunity_score": 0.03019,
+   "components": {
+    "normalized_demand": 0.1032,
+    "commercial_intent": 1.0,
+    "coverage_gap": 1.0,
+    "trend_factor": 1.3,
+    "confidence": 0.9,
+    "estimated_effort": 4.0
+   },
+   "confidence_note": "достаточная: кластер измерен несколькими фразами"
+  },
+  {
+   "cluster": "adobe",
+   "vendor": "Adobe",
+   "category": "Дизайн и графика",
+   "gap": "GAP-F",
+   "gap_title": "Спрос большой, органика будет долгой",
+   "recommended_action": "исследование платного канала",
+   "commercial_demand": 23322,
+   "commercial_phrases": 209,
+   "url": "/vendors/adobe",
+   "page_exists": true,
+   "indexed": true,
+   "best_position": null,
+   "impressions": 0,
+   "clicks": 0,
+   "ctr": null,
+   "trend": "stable",
+   "top_phrases": [
+    {
+     "phrase": "adobe купить",
+     "frequency": 3887
+    },
+    {
+     "phrase": "adobe подписка",
+     "frequency": 1979
+    },
+    {
+     "phrase": "лицензия adobe",
+     "frequency": 1403
+    },
+    {
+     "phrase": "adobe pro купить",
+     "frequency": 811
+    },
+    {
+     "phrase": "adobe photoshop купить",
+     "frequency": 683
+    }
+   ],
+   "subclusters": {
+    "покупка": 13227,
+    "подписка и продление": 5120,
+    "цены и тарифы": 4679,
+    "оплата": 296
+   },
+   "opportunity_score": 0.02213,
+   "components": {
+    "normalized_demand": 0.0922,
+    "commercial_intent": 1.0,
+    "coverage_gap": 0.8,
+    "trend_factor": 1.0,
+    "confidence": 0.9,
+    "estimated_effort": 3.0
+   },
+   "confidence_note": "достаточная: кластер измерен несколькими фразами"
+  },
+  {
+   "cluster": "оплата зарубежных сервисов",
+   "vendor": null,
+   "category": null,
+   "gap": "GAP-G",
+   "gap_title": "Спрос растёт",
+   "recommended_action": "ранняя возможность",
+   "commercial_demand": 15947,
+   "commercial_phrases": 58,
+   "url": null,
+   "page_exists": false,
+   "indexed": false,
+   "best_position": null,
+   "impressions": 0,
+   "clicks": 0,
+   "ctr": null,
+   "trend": "growing",
+   "top_phrases": [
+    {
+     "phrase": "оплата зарубежных сервисов",
+     "frequency": 11541
+    },
+    {
+     "phrase": "оплата зарубежных сервисов из россии",
+     "frequency": 1081
+    },
+    {
+     "phrase": "оплата подписок зарубежных сервисов",
+     "frequency": 474
+    },
+    {
+     "phrase": "озон оплата зарубежных сервисов",
+     "frequency": 469
+    },
+    {
+     "phrase": "оплата зарубежных сервисов бесплатно",
+     "frequency": 357
+    }
+   ],
+   "subclusters": {
+    "оплата": 15947
+   },
+   "opportunity_score": 0.01843,
+   "components": {
+    "normalized_demand": 0.063,
+    "commercial_intent": 1.0,
+    "coverage_gap": 1.0,
+    "trend_factor": 1.3,
+    "confidence": 0.9,
+    "estimated_effort": 4.0
+   },
+   "confidence_note": "достаточная: кластер измерен несколькими фразами"
+  },
+  {
+   "cluster": "spotify купить",
+   "vendor": null,
+   "category": null,
+   "gap": "GAP-G",
+   "gap_title": "Спрос растёт",
+   "recommended_action": "ранняя возможность",
+   "commercial_demand": 15075,
+   "commercial_phrases": 50,
+   "url": null,
+   "page_exists": false,
+   "indexed": false,
+   "best_position": null,
+   "impressions": 0,
+   "clicks": 0,
+   "ctr": null,
+   "trend": "growing",
+   "top_phrases": [
+    {
+     "phrase": "spotify купить",
+     "frequency": 5395
+    },
+    {
+     "phrase": "купить аккаунт spotify",
+     "frequency": 1882
+    },
+    {
+     "phrase": "spotify купить подписку",
+     "frequency": 1609
+    },
+    {
+     "phrase": "spotify аккаунт купить мир",
+     "frequency": 1543
+    },
+    {
+     "phrase": "spotify аккаунт купить мир танков",
+     "frequency": 1543
+    }
+   ],
+   "subclusters": {
+    "покупка": 15075
+   },
+   "opportunity_score": 0.01743,
+   "components": {
+    "normalized_demand": 0.0596,
+    "commercial_intent": 1.0,
+    "coverage_gap": 1.0,
+    "trend_factor": 1.3,
+    "confidence": 0.9,
+    "estimated_effort": 4.0
+   },
+   "confidence_note": "достаточная: кластер измерен несколькими фразами"
+  }
+ ],
+ "vendor_expansion": {
+  "available": true,
+  "reason": null,
+  "candidates_total": 95,
+  "candidates_measured": 34,
+  "recommended": [
+   {
+    "brand": "wordpress",
+    "kind": "classic",
+    "payment": {
+     "verdict": "card",
+     "note": "найдены признаки самостоятельной оплаты картой",
+     "url": "https://wordpress.com/pricing",
+     "checked_at": "2026-08-20"
+    },
+    "recommendation": "рекомендуем добавить",
+    "recommendation_why": "оплата картой на сайте вендора — сделка выполнима сразу",
+    "total_demand": 299,
+    "commercial_demand": 299,
+    "commercial_phrases": 7,
+    "top_phrases": [
+     {
+      "phrase": "wordpress купить",
+      "frequency": 170
+     },
+     {
+      "phrase": "купить шаблоны wordpress",
+      "frequency": 51
+     },
+     {
+      "phrase": "купить тему wordpress",
+      "frequency": 24
+     },
+     {
+      "phrase": "купить сайт на wordpress",
+      "frequency": 20
+     },
+     {
+      "phrase": "купить шаблон сайта wordpress",
+      "frequency": 17
+     }
+    ],
+    "trend": "declining",
+    "effort": 1.0,
+    "effort_note": "одна карточка вендора",
+    "demand_confidence": "высокая",
+    "demand_confidence_note": null,
+    "priority_score": 299.0,
+    "seo": {
+     "url": "/vendors/wordpress",
+     "title": "Оплата Wordpress для юридических лиц из России — счёт, договор, ЭДО | BIZSoft",
+     "description": "Оплатим подписку Wordpress на вашу компанию в рублях по счёту. Договор, закрывающие документы через ЭДО, доступ за 1–3 дня.",
+     "h1": "Wordpress для юридических лиц",
+     "faq_topics": [
+      "Как купить Wordpress на юрлицо — по счёту и договору?",
+      "Какие закрывающие документы вы предоставляете?",
+      "Как быстро появится доступ к Wordpress после оплаты?",
+      "В какой валюте оплата и как считается цена?"
+     ],
+     "target_phrases": [
+      "wordpress купить",
+      "купить шаблоны wordpress",
+      "купить тему wordpress",
+      "купить сайт на wordpress",
+      "купить шаблон сайта wordpress",
+      "купить готовый wordpress",
+      "tutor lms wordpress купить"
+     ],
+     "needed_subclusters": [
+      "покупка"
+     ],
+     "internal_links": [
+      "/catalog",
+      "/blog/kak-kupit-zarubezhnoe-po-dlya-yurlica"
+     ]
+    },
+    "measured_at": "2026-08-20"
+   },
+   {
+    "brand": "slack",
+    "kind": "classic",
+    "payment": {
+     "verdict": "card",
+     "note": "найдены признаки самостоятельной оплаты картой",
+     "url": "https://slack.com/pricing",
+     "checked_at": "2026-08-20"
+    },
+    "recommendation": "рекомендуем добавить",
+    "recommendation_why": "оплата картой на сайте вендора — сделка выполнима сразу",
+    "total_demand": 187,
+    "commercial_demand": 123,
+    "commercial_phrases": 3,
+    "top_phrases": [
+     {
+      "phrase": "slacker купить",
+      "frequency": 73
+     },
+     {
+      "phrase": "slack core 920r купить",
+      "frequency": 34
+     },
+     {
+      "phrase": "slack core 920r электросамокат купить",
+      "frequency": 16
+     }
+    ],
+    "trend": "growing",
+    "effort": 1.0,
+    "effort_note": "одна карточка вендора",
+    "demand_confidence": "высокая",
+    "demand_confidence_note": null,
+    "priority_score": 123.0,
+    "seo": {
+     "url": "/vendors/slack",
+     "title": "Оплата Slack для юридических лиц из России — счёт, договор, ЭДО | BIZSoft",
+     "description": "Оплатим подписку Slack на вашу компанию в рублях по счёту. Договор, закрывающие документы через ЭДО, доступ за 1–3 дня.",
+     "h1": "Slack для юридических лиц",
+     "faq_topics": [
+      "Как купить Slack на юрлицо — по счёту и договору?",
+      "Какие закрывающие документы вы предоставляете?",
+      "Как быстро появится доступ к Slack после оплаты?",
+      "В какой валюте оплата и как считается цена?"
+     ],
+     "target_phrases": [
+      "slacker купить",
+      "slack core 920r купить",
+      "slack core 920r электросамокат купить"
+     ],
+     "needed_subclusters": [
+      "покупка"
+     ],
+     "internal_links": [
+      "/catalog",
+      "/blog/kak-kupit-zarubezhnoe-po-dlya-yurlica"
+     ]
+    },
+    "measured_at": "2026-08-21"
+   },
+   {
+    "brand": "spotify",
+    "kind": "classic",
+    "payment": {
+     "verdict": "likely_card",
+     "note": "есть цены и кнопки покупки, платёжная система не опознана",
+     "url": "https://www.spotify.com/premium/",
+     "checked_at": "2026-08-20"
+    },
+    "recommendation": "рекомендуем добавить с проверкой",
+    "recommendation_why": "цены и покупка на сайте есть, платёжная система не опознана — подтвердить при первой сделке",
+    "total_demand": 15075,
+    "commercial_demand": 15075,
+    "commercial_phrases": 50,
+    "top_phrases": [
+     {
+      "phrase": "spotify купить",
+      "frequency": 5395
+     },
+     {
+      "phrase": "купить аккаунт spotify",
+      "frequency": 1882
+     },
+     {
+      "phrase": "spotify купить подписку",
+      "frequency": 1609
+     },
+     {
+      "phrase": "spotify аккаунт купить мир",
+      "frequency": 1543
+     },
+     {
+      "phrase": "spotify аккаунт купить мир танков",
+      "frequency": 1543
+     }
+    ],
+    "trend": "growing",
+    "effort": 1.0,
+    "effort_note": "одна карточка вендора",
+    "demand_confidence": "высокая",
+    "demand_confidence_note": null,
+    "priority_score": 15075.0,
+    "seo": {
+     "url": "/vendors/spotify",
+     "title": "Оплата Spotify для юридических лиц из России — счёт, договор, ЭДО | BIZSoft",
+     "description": "Оплатим подписку Spotify на вашу компанию в рублях по счёту. Договор, закрывающие документы через ЭДО, доступ за 1–3 дня.",
+     "h1": "Spotify для юридических лиц",
+     "faq_topics": [
+      "Как купить Spotify на юрлицо — по счёту и договору?",
+      "Какие закрывающие документы вы предоставляете?",
+      "Как быстро появится доступ к Spotify после оплаты?",
+      "В какой валюте оплата и как считается цена?"
+     ],
+     "target_phrases": [
+      "spotify купить",
+      "купить аккаунт spotify",
+      "spotify купить подписку",
+      "spotify аккаунт купить мир",
+      "spotify аккаунт купить мир танков",
+      "spotify premium купить",
+      "купить spotify россия",
+      "spotify подписка купить в россии"
+     ],
+     "needed_subclusters": [
+      "покупка"
+     ],
+     "internal_links": [
+      "/catalog",
+      "/blog/kak-kupit-zarubezhnoe-po-dlya-yurlica"
+     ]
+    },
+    "measured_at": "2026-08-20"
+   },
+   {
+    "brand": "youtube premium",
+    "kind": "classic",
+    "payment": {
+     "verdict": "likely_card",
+     "note": "есть цены и кнопки покупки, платёжная система не опознана",
+     "url": "https://www.youtube.com/premium",
+     "checked_at": "2026-08-20"
+    },
+    "recommendation": "рекомендуем добавить с проверкой",
+    "recommendation_why": "цены и покупка на сайте есть, платёжная система не опознана — подтвердить при первой сделке",
+    "total_demand": 1164,
+    "commercial_demand": 1164,
+    "commercial_phrases": 14,
+    "top_phrases": [
+     {
+      "phrase": "купить youtube premium",
+      "frequency": 806
+     },
+     {
+      "phrase": "купить подписку youtube premium",
+      "frequency": 132
+     },
+     {
+      "phrase": "youtube premium купить в россии",
+      "frequency": 63
+     },
+     {
+      "phrase": "купить youtube music premium",
+      "frequency": 50
+     },
+     {
+      "phrase": "youtube premium купить в россии 2026",
+      "frequency": 21
+     }
+    ],
+    "trend": "growing",
+    "effort": 1.0,
+    "effort_note": "одна карточка вендора",
+    "demand_confidence": "высокая",
+    "demand_confidence_note": null,
+    "priority_score": 1164.0,
+    "seo": {
+     "url": "/vendors/youtube-premium",
+     "title": "Оплата Youtube Premium для юридических лиц из России — счёт, договор, ЭДО | BIZSoft",
+     "description": "Оплатим подписку Youtube Premium на вашу компанию в рублях по счёту. Договор, закрывающие документы через ЭДО, доступ за 1–3 дня.",
+     "h1": "Youtube Premium для юридических лиц",
+     "faq_topics": [
+      "Как купить Youtube Premium на юрлицо — по счёту и договору?",
+      "Какие закрывающие документы вы предоставляете?",
+      "Как быстро появится доступ к Youtube Premium после оплаты?",
+      "В какой валюте оплата и как считается цена?"
+     ],
+     "target_phrases": [
+      "купить youtube premium",
+      "купить подписку youtube premium",
+      "youtube premium купить в россии",
+      "купить youtube music premium",
+      "youtube premium купить в россии 2026",
+      "купить аккаунт youtube premium",
+      "youtube premium турция купить",
+      "как купить подписку youtube premium в россии"
+     ],
+     "needed_subclusters": [
+      "покупка"
+     ],
+     "internal_links": [
+      "/catalog",
+      "/blog/kak-kupit-zarubezhnoe-po-dlya-yurlica"
+     ]
+    },
+    "measured_at": "2026-08-20"
+   },
+   {
+    "brand": "aws",
+    "kind": "classic",
+    "payment": {
+     "verdict": "likely_card",
+     "note": "есть цены и кнопки покупки, платёжная система не опознана",
+     "url": "https://aws.com/pricing",
+     "checked_at": "2026-08-20"
+    },
+    "recommendation": "рекомендуем добавить с проверкой",
+    "recommendation_why": "цены и покупка на сайте есть, платёжная система не опознана — подтвердить при первой сделке",
+    "total_demand": 1820,
+    "commercial_demand": 1133,
+    "commercial_phrases": 22,
+    "top_phrases": [
+     {
+      "phrase": "aws присадка купить",
+      "frequency": 254
+     },
+     {
+      "phrase": "купить aws присадок",
+      "frequency": 254
+     },
+     {
+      "phrase": "whirlpool aws купить",
+      "frequency": 106
+     },
+     {
+      "phrase": "aws для двигателя купить",
+      "frequency": 86
+     },
+     {
+      "phrase": "aws присадка купить официальный",
+      "frequency": 81
+     }
+    ],
+    "trend": "stable",
+    "effort": 1.0,
+    "effort_note": "одна карточка вендора",
+    "demand_confidence": "высокая",
+    "demand_confidence_note": null,
+    "priority_score": 1133.0,
+    "seo": {
+     "url": "/vendors/aws",
+     "title": "Оплата Aws для юридических лиц из России — счёт, договор, ЭДО | BIZSoft",
+     "description": "Оплатим подписку Aws на вашу компанию в рублях по счёту. Договор, закрывающие документы через ЭДО, доступ за 1–3 дня.",
+     "h1": "Aws для юридических лиц",
+     "faq_topics": [
+      "Как купить Aws на юрлицо — по счёту и договору?",
+      "Какие закрывающие документы вы предоставляете?",
+      "Как быстро появится доступ к Aws после оплаты?",
+      "В какой валюте оплата и как считается цена?"
+     ],
+     "target_phrases": [
+      "aws присадка купить",
+      "купить aws присадок",
+      "whirlpool aws купить",
+      "aws для двигателя купить",
+      "aws присадка купить официальный",
+      "aws присадка купить официальный сайт",
+      "h2pro aws купить",
+      "aws nt 10 купить"
+     ],
+     "needed_subclusters": [
+      "покупка"
+     ],
+     "internal_links": [
+      "/catalog",
+      "/blog/kak-kupit-zarubezhnoe-po-dlya-yurlica"
+     ]
+    },
+    "measured_at": "2026-08-21"
+   },
+   {
+    "brand": "deepl",
+    "kind": "ai",
+    "payment": {
+     "verdict": "likely_card",
+     "note": "есть цены и кнопки покупки, платёжная система не опознана",
+     "url": "https://www.deepl.com/pro",
+     "checked_at": "2026-08-20"
+    },
+    "recommendation": "рекомендуем добавить с проверкой",
+    "recommendation_why": "цены и покупка на сайте есть, платёжная система не опознана — подтвердить при первой сделке",
+    "total_demand": 184,
+    "commercial_demand": 184,
+    "commercial_phrases": 6,
+    "top_phrases": [
+     {
+      "phrase": "deepl купить",
+      "frequency": 111
+     },
+     {
+      "phrase": "deepl купить подписку",
+      "frequency": 26
+     },
+     {
+      "phrase": "deepl pro купить",
+      "frequency": 18
+     },
+     {
+      "phrase": "deepl аккаунт купить",
+      "frequency": 11
+     },
+     {
+      "phrase": "deepl translate купить",
+      "frequency": 10
+     }
+    ],
+    "trend": "stable",
+    "effort": 1.0,
+    "effort_note": "одна карточка вендора",
+    "demand_confidence": "высокая",
+    "demand_confidence_note": null,
+    "priority_score": 184.0,
+    "seo": {
+     "url": "/vendors/deepl",
+     "title": "Оплата Deepl для юридических лиц из России — счёт, договор, ЭДО | BIZSoft",
+     "description": "Оплатим подписку Deepl на вашу компанию в рублях по счёту. Договор, закрывающие документы через ЭДО, доступ за 1–3 дня.",
+     "h1": "Deepl для юридических лиц",
+     "faq_topics": [
+      "Как купить Deepl на юрлицо — по счёту и договору?",
+      "Какие закрывающие документы вы предоставляете?",
+      "Как быстро появится доступ к Deepl после оплаты?",
+      "В какой валюте оплата и как считается цена?"
+     ],
+     "target_phrases": [
+      "deepl купить",
+      "deepl купить подписку",
+      "deepl pro купить",
+      "deepl аккаунт купить",
+      "deepl translate купить",
+      "deepl api купить"
+     ],
+     "needed_subclusters": [
+      "покупка"
+     ],
+     "internal_links": [
+      "/catalog",
+      "/blog/kak-kupit-zarubezhnoe-po-dlya-yurlica"
+     ]
+    },
+    "measured_at": "2026-08-20"
+   },
+   {
+    "brand": "windsurf",
+    "kind": "ai",
+    "payment": {
+     "verdict": "likely_card",
+     "note": "есть цены и кнопки покупки, платёжная система не опознана",
+     "url": "https://windsurf.com/plans",
+     "checked_at": "2026-08-20"
+    },
+    "recommendation": "рекомендуем добавить с проверкой",
+    "recommendation_why": "цены и покупка на сайте есть, платёжная система не опознана — подтвердить при первой сделке",
+    "total_demand": 114,
+    "commercial_demand": 114,
+    "commercial_phrases": 5,
+    "top_phrases": [
+     {
+      "phrase": "windsurf купить",
+      "frequency": 68
+     },
+     {
+      "phrase": "windsurf купить подписку",
+      "frequency": 19
+     },
+     {
+      "phrase": "red paddle windsurf купить",
+      "frequency": 11
+     },
+     {
+      "phrase": "купить аккаунт windsurf",
+      "frequency": 9
+     },
+     {
+      "phrase": "windsurf pro купить",
+      "frequency": 7
+     }
+    ],
+    "trend": "growing",
+    "effort": 1.0,
+    "effort_note": "одна карточка вендора",
+    "demand_confidence": "высокая",
+    "demand_confidence_note": null,
+    "priority_score": 114.0,
+    "seo": {
+     "url": "/vendors/windsurf",
+     "title": "Оплата Windsurf для юридических лиц из России — счёт, договор, ЭДО | BIZSoft",
+     "description": "Оплатим подписку Windsurf на вашу компанию в рублях по счёту. Договор, закрывающие документы через ЭДО, доступ за 1–3 дня.",
+     "h1": "Windsurf для юридических лиц",
+     "faq_topics": [
+      "Как купить Windsurf на юрлицо — по счёту и договору?",
+      "Какие закрывающие документы вы предоставляете?",
+      "Как быстро появится доступ к Windsurf после оплаты?",
+      "В какой валюте оплата и как считается цена?"
+     ],
+     "target_phrases": [
+      "windsurf купить",
+      "windsurf купить подписку",
+      "red paddle windsurf купить",
+      "купить аккаунт windsurf",
+      "windsurf pro купить"
+     ],
+     "needed_subclusters": [
+      "покупка"
+     ],
+     "internal_links": [
+      "/catalog",
+      "/blog/kak-kupit-zarubezhnoe-po-dlya-yurlica"
+     ]
+    },
+    "measured_at": "2026-08-20"
+   },
+   {
+    "brand": "nordvpn",
+    "kind": "classic",
+    "payment": {
+     "verdict": "unknown",
+     "note": "признаков оплаты на странице не найдено",
+     "url": "https://nordvpn.ai/pricing",
+     "checked_at": "2026-08-20"
+    },
+    "recommendation": "проверить вручную",
+    "recommendation_why": "признаков оплаты на странице тарифов не найдено",
+    "total_demand": 167,
+    "commercial_demand": 167,
+    "commercial_phrases": 4,
+    "top_phrases": [
+     {
+      "phrase": "nordvpn купить",
+      "frequency": 121
+     },
+     {
+      "phrase": "nordvpn подписка купить",
+      "frequency": 24
+     },
+     {
+      "phrase": "nordvpn для роутера купить аккаунт",
+      "frequency": 13
+     },
+     {
+      "phrase": "nordvpn купить в россии",
+      "frequency": 9
+     }
+    ],
+    "trend": "stable",
+    "effort": 1.0,
+    "effort_note": "одна карточка вендора",
+    "demand_confidence": "высокая",
+    "demand_confidence_note": null,
+    "priority_score": 167.0,
+    "seo": {
+     "url": "/vendors/nordvpn",
+     "title": "Оплата Nordvpn для юридических лиц из России — счёт, договор, ЭДО | BIZSoft",
+     "description": "Оплатим подписку Nordvpn на вашу компанию в рублях по счёту. Договор, закрывающие документы через ЭДО, доступ за 1–3 дня.",
+     "h1": "Nordvpn для юридических лиц",
+     "faq_topics": [
+      "Как купить Nordvpn на юрлицо — по счёту и договору?",
+      "Какие закрывающие документы вы предоставляете?",
+      "Как быстро появится доступ к Nordvpn после оплаты?",
+      "В какой валюте оплата и как считается цена?"
+     ],
+     "target_phrases": [
+      "nordvpn купить",
+      "nordvpn подписка купить",
+      "nordvpn для роутера купить аккаунт",
+      "nordvpn купить в россии"
+     ],
+     "needed_subclusters": [
+      "покупка"
+     ],
+     "internal_links": [
+      "/catalog",
+      "/blog/kak-kupit-zarubezhnoe-po-dlya-yurlica"
+     ]
+    },
+    "measured_at": "2026-08-20"
+   },
+   {
+    "brand": "ansys",
+    "kind": "classic",
+    "payment": {
+     "verdict": "unknown",
+     "note": "признаков оплаты на странице не найдено",
+     "url": "https://www.ansys.com/products",
+     "checked_at": "2026-08-20"
+    },
+    "recommendation": "проверить вручную",
+    "recommendation_why": "признаков оплаты на странице тарифов не найдено",
+    "total_demand": 129,
+    "commercial_demand": 129,
+    "commercial_phrases": 5,
+    "top_phrases": [
+     {
+      "phrase": "ansys купить",
+      "frequency": 79
+     },
+     {
+      "phrase": "лицензия ansys купить",
+      "frequency": 18
+     },
+     {
+      "phrase": "anycubic ansys 010310 купить",
+      "frequency": 17
+     },
+     {
+      "phrase": "ansys 010310 anycubic kobra 3 max купить",
+      "frequency": 10
+     },
+     {
+      "phrase": "какой ноутбук купить для работы в ansys",
+      "frequency": 5
+     }
+    ],
+    "trend": "declining",
+    "effort": 1.0,
+    "effort_note": "одна карточка вендора",
+    "demand_confidence": "высокая",
+    "demand_confidence_note": null,
+    "priority_score": 129.0,
+    "seo": {
+     "url": "/vendors/ansys",
+     "title": "Оплата Ansys для юридических лиц из России — счёт, договор, ЭДО | BIZSoft",
+     "description": "Оплатим подписку Ansys на вашу компанию в рублях по счёту. Договор, закрывающие документы через ЭДО, доступ за 1–3 дня.",
+     "h1": "Ansys для юридических лиц",
+     "faq_topics": [
+      "Как купить Ansys на юрлицо — по счёту и договору?",
+      "Какие закрывающие документы вы предоставляете?",
+      "Как быстро появится доступ к Ansys после оплаты?",
+      "В какой валюте оплата и как считается цена?"
+     ],
+     "target_phrases": [
+      "ansys купить",
+      "лицензия ansys купить",
+      "anycubic ansys 010310 купить",
+      "ansys 010310 anycubic kobra 3 max купить",
+      "какой ноутбук купить для работы в ansys"
+     ],
+     "needed_subclusters": [
+      "покупка",
+      "цены и тарифы"
+     ],
+     "internal_links": [
+      "/catalog",
+      "/blog/kak-kupit-zarubezhnoe-po-dlya-yurlica"
+     ]
+    },
+    "measured_at": "2026-08-20"
+   }
+  ],
+  "recommended_total": 9,
+  "combined_demand": 18388,
+  "by_payment": {
+   "card": 2,
+   "likely_card": 5,
+   "unknown": 2
+  },
+  "by_kind": {
+   "ai": 2,
+   "classic": 7
+  },
+  "low_confidence": [],
+  "needs_manual_check": [
+   "nordvpn",
+   "ansys"
+  ],
+  "note": "Российские вендоры исключены: их лицензии продаются напрямую, услуга оплаты из-за рубежа к ним неприменима."
+ },
+ "efficiency": {
+  "calls_total": 893,
+  "calls_paid": 385,
+  "cost_month_rub": 8.9,
+  "cost_today_rub": 1.13,
+  "remaining_budget_rub": 5491.1,
+  "forecast_month_end_rub": 13.14,
+  "state": "open",
+  "cache_hit_rate": 0.5689,
+  "duplicate_rate": 0.2875,
+  "unique_phrases": 10001,
+  "new_commercial_phrases": 2363,
+  "new_clusters": 105,
+  "cost_per_1000_unique_phrases_rub": 0.89,
+  "cost_per_1000_commercial_phrases_rub": 3.766,
+  "cost_per_new_cluster_rub": 0.0848,
+  "empty_response_rate": 0.2822
+ },
+ "quota": {
+  "requests_per_hour": 500,
+  "target": 500,
+  "budget_is_binding": true,
+  "max_possible_spend_rub": 8280.0
+ },
+ "executive_block": {
+  "available": true,
+  "title": "Спрос и направления развития",
+  "expansion": {
+   "title": "Каких вендоров добавить",
+   "summary": "Проверили спрос на 34 зарубежных разработчиков вне каталога: у 9 он подтверждён, суммарно 18 388 запросов в месяц. Из них: 3 с оплатой картой можно заводить сразу, 2 требуют ручной проверки оплаты.",
+   "items": [
+    {
+     "brand": "wordpress",
+     "demand": 299,
+     "kind": "классический",
+     "payment": "card",
+     "recommendation": "рекомендуем добавить",
+     "effort": "одна карточка вендора",
+     "url": "/vendors/wordpress",
+     "confidence": "высокая",
+     "confidence_note": null
+    },
+    {
+     "brand": "slack",
+     "demand": 123,
+     "kind": "классический",
+     "payment": "card",
+     "recommendation": "рекомендуем добавить",
+     "effort": "одна карточка вендора",
+     "url": "/vendors/slack",
+     "confidence": "высокая",
+     "confidence_note": null
+    }
+   ],
+   "manual_check": [
+    "nordvpn",
+    "ansys"
+   ],
+   "note": "Российские вендоры исключены: их лицензии продаются напрямую, услуга оплаты из-за рубежа к ним неприменима."
+  },
+  "summary": "Мы видим 490 638 покупательских запросов в месяц по 150 направлениям каталога. Своя страница есть под 77% этого спроса, в поиске находится 6%, на первой странице — 1%. Без страницы остаётся 95 576 запросов в месяц — это направления, где спрос есть, а нас в выдаче нет.",
+  "coverage": {
+   "page": 0.773,
+   "indexed": 0.0646,
+   "top10": 0.0087
+  },
+  "lead_opportunity": {
+   "cluster": "google",
+   "demand": 252950,
+   "action": "техническое SEO",
+   "why": "Страница есть, не индексируется",
+   "confidence": "достаточная: кластер измерен несколькими фразами"
+  },
+  "measured_at": "2026-08-21"
+ }
+}
