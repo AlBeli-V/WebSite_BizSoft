@@ -1,23 +1,23 @@
 {
  "date": "2026-08-21",
- "generated_at": "2026-08-21T05:50:36+00:00",
+ "generated_at": "2026-08-21T07:13:36+00:00",
  "measured_at": "2026-08-21",
  "universe": {
-  "phrases": 16501,
-  "commercial_phrases": 2039,
-  "clusters": 134,
-  "total_commercial_demand": 490638,
-  "total_demand": 34240140,
-  "with_page": 15817,
-  "cost_rub": 4.7435
+  "phrases": 17301,
+  "commercial_phrases": 2063,
+  "clusters": 139,
+  "total_commercial_demand": 491739,
+  "total_demand": 34348955,
+  "with_page": 16617,
+  "cost_rub": 4.8837
  },
  "coverage": {
   "available": true,
-  "total_commercial_demand": 490638,
+  "total_commercial_demand": 491739,
   "levels": {
-   "page": 0.9282,
-   "indexed": 0.0815,
-   "top10": 0.0087,
+   "page": 0.9284,
+   "indexed": 0.0814,
+   "top10": 0.0086,
    "clicks": 0.0001,
    "conversion_measured": 0.0,
    "qualified_leads": null
@@ -62,8 +62,8 @@
    "click_coverage": 0.001
   },
   "Системное ПО": {
-   "demand": 7767,
-   "covered": 7767,
+   "demand": 8174,
+   "covered": 8174,
    "top10": 0,
    "clicks": 0,
    "page_coverage": 1.0,
@@ -97,22 +97,22 @@
    "top10_coverage": 0.0,
    "click_coverage": 0.0
   },
-  "Доски и совместная работа": {
-   "demand": 1677,
-   "covered": 1677,
-   "top10": 780,
-   "clicks": 0,
-   "page_coverage": 1.0,
-   "top10_coverage": 0.465,
-   "click_coverage": 0.0
-  },
   "Разработка": {
-   "demand": 1493,
-   "covered": 1493,
+   "demand": 2131,
+   "covered": 2131,
    "top10": 0,
    "clicks": 0,
    "page_coverage": 1.0,
    "top10_coverage": 0.0,
+   "click_coverage": 0.0
+  },
+  "Доски и совместная работа": {
+   "demand": 1733,
+   "covered": 1733,
+   "top10": 780,
+   "clicks": 0,
+   "page_coverage": 1.0,
+   "top10_coverage": 0.45,
    "click_coverage": 0.0
   },
   "Архитектура и BIM": {
@@ -135,13 +135,13 @@
   }
  },
  "tiers": {
-  "A": 35,
-  "B": 25,
-  "C": 60
+  "A": 36,
+  "B": 26,
+  "C": 63
  },
  "gaps_by_class": {
   "GAP-A": 3,
-  "GAP-B": 31,
+  "GAP-B": 33,
   "GAP-C": 3,
   "GAP-D": 2,
   "GAP-F": 2,
@@ -1012,22 +1012,22 @@
   "note": "Российские вендоры исключены: их лицензии продаются напрямую, услуга оплаты из-за рубежа к ним неприменима."
  },
  "efficiency": {
-  "calls_total": 893,
-  "calls_paid": 385,
-  "cost_month_rub": 8.9,
-  "cost_today_rub": 1.13,
-  "remaining_budget_rub": 5491.1,
-  "forecast_month_end_rub": 13.14,
+  "calls_total": 963,
+  "calls_paid": 393,
+  "cost_month_rub": 9.06,
+  "cost_today_rub": 1.29,
+  "remaining_budget_rub": 5490.94,
+  "forecast_month_end_rub": 13.37,
   "state": "open",
-  "cache_hit_rate": 0.5689,
-  "duplicate_rate": 0.2875,
-  "unique_phrases": 10001,
-  "new_commercial_phrases": 2363,
-  "new_clusters": 105,
-  "cost_per_1000_unique_phrases_rub": 0.89,
-  "cost_per_1000_commercial_phrases_rub": 3.766,
-  "cost_per_new_cluster_rub": 0.0848,
-  "empty_response_rate": 0.2822
+  "cache_hit_rate": 0.5919,
+  "duplicate_rate": 0.2721,
+  "unique_phrases": 10801,
+  "new_commercial_phrases": 2387,
+  "new_clusters": 110,
+  "cost_per_1000_unique_phrases_rub": 0.839,
+  "cost_per_1000_commercial_phrases_rub": 3.796,
+  "cost_per_new_cluster_rub": 0.0824,
+  "empty_response_rate": 0.2887
  },
  "quota": {
   "requests_per_hour": 500,
@@ -1071,11 +1071,11 @@
    ],
    "note": "Российские вендоры исключены: их лицензии продаются напрямую, услуга оплаты из-за рубежа к ним неприменима."
   },
-  "summary": "Мы видим 490 638 покупательских запросов в месяц по 134 направлениям каталога. Своя страница есть под 93% этого спроса, в поиске находится 8%, на первой странице — 1%. Без страницы остаётся 18 096 запросов в месяц — это направления, где спрос есть, а нас в выдаче нет.",
+  "summary": "Мы видим 491 739 покупательских запросов в месяц по 139 направлениям каталога. Своя страница есть под 93% этого спроса, в поиске находится 8%, на первой странице — 1%. Без страницы остаётся 18 096 запросов в месяц — это направления, где спрос есть, а нас в выдаче нет.",
   "coverage": {
-   "page": 0.9282,
-   "indexed": 0.0815,
-   "top10": 0.0087
+   "page": 0.9284,
+   "indexed": 0.0814,
+   "top10": 0.0086
   },
   "lead_opportunity": {
    "cluster": "google",
