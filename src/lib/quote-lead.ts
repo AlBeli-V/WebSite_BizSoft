@@ -8,6 +8,7 @@
  * Модуль живёт на стороне сайта, а не в src/crm: фиксация контакта — дело
  * сайта, работа с ним — дело CRM. Граница между ними не нарушается.
  */
+import { defaultLeadOwner } from '../config/site';
 
 export interface QuoteLineForLead { sku: string; name: string; qty: number; sum: number }
 
@@ -66,6 +67,9 @@ export function leadFromQuote(q: QuoteForLead): Record<string, unknown> {
     consent: true,
     source: 'quote',
     status: 'new',
+    // Ответственный проставляется сразу: заявка без владельца ничья, и о ней
+    // забывают. Распоряжение руководителя 21.08.2026 — всегда Беляев Алексей.
+    owner: defaultLeadOwner,
     // Сумма известна из корзины: менеджер сразу видит вес сделки в списке.
     amount: q.total,
     quote_no: q.quoteNo,

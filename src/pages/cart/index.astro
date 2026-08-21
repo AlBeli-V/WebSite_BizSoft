@@ -27,7 +27,7 @@ try {
   }).filter((pr) => pr.items.length >= 2);
 } catch { /* без пресетов страница работает как раньше */ }
 ---
-<BaseLayout title="Избранное" description="Избранное BIZSoft: соберите подписки и получите коммерческое предложение в PDF." noindex={true}>
+<BaseLayout title="Избранное" description="Избранное BIZSoft: соберите подписки и получите коммерческое предложение с реквизитами." noindex={true}>
   <div class="container-page section">
     <Breadcrumbs items={[{ name: 'Избранное', url: '/cart' }]} />
     <h1 class="h1-spec">Избранное: редактирование спецификации для подготовки КП</h1>
@@ -100,7 +100,7 @@ try {
     <form class="kp-form" data-kp-form>
       <button type="button" class="kp-close" data-kp-close aria-label="Закрыть">✕</button>
       <h2>Получить КП</h2>
-      <p class="kp-hint">Сформируем PDF с реквизитами и составом заказа, отправим на e-mail и дадим скачать.</p>
+      <p class="kp-hint">Сформируем коммерческое предложение с реквизитами и составом заказа, отправим на e-mail и дадим скачать.</p>
       <label>Организация:<input name="buyer_company" required /></label>
       <div class="kp-row">
         <label>ИНН:<input name="buyer_inn" required inputmode="numeric" /></label>
@@ -114,7 +114,7 @@ try {
         <input type="checkbox" name="consent" required />
         <span>Согласен на обработку персональных данных согласно <a href="/privacy" target="_blank" rel="noopener noreferrer">политике</a>.</span>
       </label>
-      <button type="submit" class="btn btn-primary kp-submit">Сформировать КП (PDF)</button>
+      <button type="submit" class="btn btn-primary kp-submit">Сформировать КП</button>
       <p class="kp-status" data-kp-status role="status" aria-live="polite"></p>
     </form>
   </dialog>
@@ -333,7 +333,7 @@ try {
     e.preventDefault();
     const submit = form.querySelector('.kp-submit') as HTMLButtonElement;
     submit.disabled = true;
-    status.textContent = 'Формируем PDF…'; status.className = 'kp-status';
+    status.textContent = 'Формируем предложение…'; status.className = 'kp-status';
     try {
       const fd = Object.fromEntries(new FormData(form).entries());
       const items = readCart().map((i) => ({ sku: i.sku, qty: i.qty }));
@@ -351,9 +351,9 @@ try {
       const quoteNo = res.headers.get('X-Quote-No') || 'KP';
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
-      a.href = url; a.download = `${quoteNo}.pdf`; document.body.appendChild(a); a.click(); a.remove();
+      a.href = url; a.download = `${quoteNo}.jpg`; document.body.appendChild(a); a.click(); a.remove();
       URL.revokeObjectURL(url);
-      status.textContent = 'Готово! PDF скачан и отправлен на e-mail.'; status.className = 'kp-status ok';
+      status.textContent = 'Готово! Предложение скачано и отправлено на e-mail.'; status.className = 'kp-status ok';
       trackGoal('quote_pdf', { quote_no: quoteNo });
     } catch (err) {
       status.textContent = err instanceof Error && err.message ? err.message : 'Не удалось сформировать КП. Попробуйте позже или позвоните нам.';

@@ -6,6 +6,8 @@ import { leadFromQuote, describeQuote } from '../../lib/quote-lead';
 import { effectivePrice } from '../../lib/pricing';
 import { sendMail, managerEmail, salesFrom } from '../../lib/mailer';
 import { generateQuotePdf, buildQuoteNo, formatDateRu, addDays, type QuoteData } from '../../lib/pdf-quote';
+import { generateQuoteJpg } from '../../lib/jpg-quote';
+import { generateQuoteDocx } from '../../lib/docx-quote';
 import { site, seller } from '../../config/site';
 import type { QuoteItem } from '../../lib/types';
 
@@ -117,15 +119,23 @@ export const POST: APIRoute = async ({ request }) => {
     total,
   };
 
+  // Три формата одного документа, каждый своему получателю:
+  //   JPG  — клиенту (скачивание со страницы и вложение в его письмо);
+  //   PDF  — руководителю, чтобы отправить клиенту лично;
+  //   DOCX — руководителю, чтобы поправить перед отправкой.
+  // Редактируемый PDF с реквизитами, гуляющий по почте клиента, — риск:
+  // сумму в нём меняют в любом просмотрщике и предъявляют как наш документ.
   let pdf: Buffer;
+  let jpg: Buffer;
   try {
     pdf = await generateQuotePdf(data);
+    jpg = generateQuoteJpg(data);
   } catch (e) {
-    console.error('quote: pdf gen failed', e);
-    return new Response(JSON.stringify({ error: 'не удалось сформировать PDF' }), { status: 500 });
+    console.error('quote: gen failed', e);
+    return new Response(JSON.stringify({ error: 'не удалось сформировать документ' }), { status: 500 });
   }
 
-  // Сохранение в Directus (не блокируем выдачу PDF при сбое)
+  // Сохранение в Directus (не блокируем выдачу документа при сбое)
   createQuote({
     quote_no: quoteNo,
     buyer_company: data.buyerCompany,
@@ -154,8 +164,8 @@ export const POST: APIRoute = async ({ request }) => {
   }).catch((e) => console.error('quote lead failed', e));
 
   // ── Письма ──
-  const filename = `KP_${quoteNo}.pdf`;
-  const attachment = { filename, content: pdf, contentType: 'application/pdf' };
+  const clientFile = `KP_${quoteNo}.jpg`;
+  const clientAttachment = { filename: clientFile, content: jpg, contentType: 'image/jpeg' };
 
   // 1. Клиенту — КП во вложении, отправитель hello@biz-soft.pro
   const clientText = [
@@ -174,7 +184,7 @@ export const POST: APIRoute = async ({ request }) => {
     replyTo: managerEmail,
     subject: `Коммерческое предложение № ${quoteNo} — BIZSoft`,
     text: clientText,
-    attachments: [attachment],
+    attachments: [clientAttachment],
   }).catch((e) => console.error('quote client mail failed', e));
 
   // 2. Менеджеру — копия КП с данными заказчика из формы
@@ -194,20 +204,29 @@ export const POST: APIRoute = async ({ request }) => {
     `Итого: ${total.toLocaleString('ru-RU')} ₽. Действует до ${data.validUntil}.`,
   ].join('\n');
 
-  sendMail({
-    from: salesFrom,
-    to: managerEmail,
-    replyTo: data.email,
-    subject: `Отправлено КП № ${quoteNo} — ${data.buyerCompany}`,
-    text: managerText,
-    attachments: [attachment],
-  }).catch((e) => console.error('quote manager mail failed', e));
+  // Руководителю уходит рабочий комплект: Word — поправить, PDF — отправить.
+  // Документ собирается уже после ответа клиенту, поэтому его сбой не мешает
+  // выдать КП: письмо себе важно, но не важнее скачивания.
+  generateQuoteDocx(data)
+    .then((docx) => sendMail({
+      from: salesFrom,
+      to: managerEmail,
+      replyTo: data.email,
+      subject: `Отправлено КП № ${quoteNo} — ${data.buyerCompany}`,
+      text: managerText,
+      attachments: [
+        { filename: `KP_${quoteNo}.docx`, content: docx,
+          contentType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' },
+        { filename: `KP_${quoteNo}.pdf`, content: pdf, contentType: 'application/pdf' },
+      ],
+    }))
+    .catch((e) => console.error('quote manager mail failed', e));
 
-  return new Response(new Uint8Array(pdf), {
+  return new Response(new Uint8Array(jpg), {
     status: 200,
     headers: {
-      'Content-Type': 'application/pdf',
-      'Content-Disposition': `attachment; filename="${filename}"`,
+      'Content-Type': 'image/jpeg',
+      'Content-Disposition': `attachment; filename="${clientFile}"`,
       'X-Quote-No': quoteNo,
     },
   });

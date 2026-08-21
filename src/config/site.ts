@@ -31,6 +31,16 @@ export interface SellerDetails {
   bank: BankDetails;
 }
 
+/**
+ * Ответственный за заявки по умолчанию.
+ *
+ * Распоряжение руководителя 21.08.2026: ответственный всегда Беляев Алексей.
+ * Живёт в общем конфиге, а не в модуле CRM: заявку заводит и сайт (форма,
+ * скачивание КП), а витрине импортировать из src/crm запрещено — границу
+ * между CRM и сайтом стережёт tests/crm-isolation.test.ts.
+ */
+export const defaultLeadOwner = 'Беляев Алексей';
+
 export const seller: SellerDetails = {
   brand: 'BIZSoft',
   legalName: 'Индивидуальный предприниматель Беляев Алексей Васильевич',
