@@ -25,6 +25,7 @@ const { sku, slug, name, vendor = '', price, compact = false, label = 'В изб
 </button>
 
 <script>
+  import { trackGoal } from '@/lib/analytics';
   import { addToCart } from '../lib/cart-client';
 
   document.querySelectorAll('[data-add-to-cart]').forEach((el) => {
@@ -39,12 +40,7 @@ const { sku, slug, name, vendor = '', price, compact = false, label = 'В изб
         vendor: btn.dataset.vendor || '',
         price: Number(btn.dataset.price || 0),
       });
-      // Цель Метрики
-      const w = window as unknown as { ym?: (...a: unknown[]) => void };
-      if (typeof w.ym === 'function') {
-        const id = (import.meta as { env: Record<string, string> }).env.PUBLIC_METRIKA_ID;
-        if (id) w.ym(Number(id), 'reachGoal', 'add_to_cart');
-      }
+      trackGoal('add_to_cart', { sku: btn.dataset.sku || '' });
       const def = btn.querySelector('.label-default') as HTMLElement;
       const added = btn.querySelector('.label-added') as HTMLElement;
       def.hidden = true;

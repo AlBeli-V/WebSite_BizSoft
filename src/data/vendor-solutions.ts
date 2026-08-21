@@ -70,7 +70,7 @@ export const VENDOR_SOLUTIONS: Record<string, string[]> = {
   browserstack: ['it-companies', 'po-dlya-yurlic-po-schetu', 'inostrannoe-po-po-dogovoru'],
   n8n: ['it-companies', 'ai-servisy-dlya-biznesa', 'po-dlya-yurlic-po-schetu'],
   teamviewer: ['it-companies', 'po-dlya-yurlic-po-schetu', 'inostrannoe-po-po-dogovoru'],
-  manageengine: ['it-companies', 'po-dlya-yurlic-po-schetu', 'inostrannoe-po-po-dogovoru'],
+  zoho: ['it-companies', 'po-dlya-yurlic-po-schetu', 'inostrannoe-po-po-dogovoru'],
 };
 
 /** Обратная карта: какие вендоры показывать плитками на странице решения. */

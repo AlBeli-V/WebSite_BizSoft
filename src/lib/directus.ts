@@ -29,6 +29,15 @@ export class DirectusError extends Error {
   }
 }
 
+/**
+ * Потолок ожидания ответа Directus. Без него зависший (а не упавший) Directus
+ * держит SSR-запрос открытым бесконечно: соединения Node копятся, и сайт
+ * перестаёт отвечать целиком, хотя сам процесс жив. Значение щедрое —
+ * выборки идут с limit: -1 и на холодной БД занимают секунды.
+ * Настраивается через DIRECTUS_TIMEOUT_MS.
+ */
+const DIRECTUS_TIMEOUT_MS = Number(process.env.DIRECTUS_TIMEOUT_MS ?? 10_000);
+
 async function dx<T>(path: string, opts: FetchOpts = {}): Promise<T> {
   const url = new URL(DIRECTUS_URL + path);
   if (opts.params) {
@@ -43,11 +52,23 @@ async function dx<T>(path: string, opts: FetchOpts = {}): Promise<T> {
   const headers: Record<string, string> = { 'Content-Type': 'application/json' };
   if (DIRECTUS_TOKEN) headers.Authorization = `Bearer ${DIRECTUS_TOKEN}`;
 
-  const res = await fetch(url, {
-    method: opts.method || 'GET',
-    headers,
-    body: opts.body !== undefined ? JSON.stringify(opts.body) : undefined,
-  });
+  let res: Response;
+  try {
+    res = await fetch(url, {
+      method: opts.method || 'GET',
+      headers,
+      body: opts.body !== undefined ? JSON.stringify(opts.body) : undefined,
+      signal: DIRECTUS_TIMEOUT_MS > 0 ? AbortSignal.timeout(DIRECTUS_TIMEOUT_MS) : undefined,
+    });
+  } catch (e) {
+    // Обрыв и таймаут приводим к тому же типу, что и ошибки Directus, чтобы
+    // вызывающий код различал «нет данных» и «источник недоступен» одинаково.
+    const timedOut = e instanceof Error && (e.name === 'TimeoutError' || e.name === 'AbortError');
+    throw new DirectusError(
+      `Directus ${path}: ${timedOut ? `нет ответа за ${DIRECTUS_TIMEOUT_MS} мс` : (e as Error).message}`,
+      504,
+    );
+  }
 
   if (!res.ok) {
     let detail = res.statusText;
@@ -265,6 +286,39 @@ export async function getProductsBySkus(skus: string[]): Promise<Product[]> {
   });
 }
 
+/**
+ * Позиции конфигуратора ManageEngine: и опубликованные карточки, и скрытые.
+ *
+ * Скрытые позиции живут в базе со статусом draft — у них есть артикул и
+ * рублёвая цена, которую пересчитывает ежедневная переоценка, но нет ни
+ * страницы, ни места в каталоге и в sitemap. Конфигуратору и расчёту КП они
+ * нужны, иначе спецификацию нечем оценить.
+ *
+ * Фильтр по префиксу артикула — не украшение: без него любой черновик в
+ * базе, включая неготовые карточки других вендоров, стало бы можно
+ * подставить в корзину по угаданному sku.
+ */
+const ZOHO_SKU_PREFIX = /^(ME-|MANAGEENGINE-)/;
+
+export function isZohoConfiguratorSku(sku: string): boolean {
+  return ZOHO_SKU_PREFIX.test(sku);
+}
+
+export async function getZohoPositionsBySkus(skus: string[]): Promise<Product[]> {
+  const allowed = skus.filter(isZohoConfiguratorSku);
+  if (allowed.length === 0) return [];
+  return dx<Product[]>('/items/products', {
+    params: {
+      fields: PRODUCT_FIELDS,
+      filter: JSON.stringify({
+        sku: { _in: allowed },
+        status: { _in: ['published', 'draft'] },
+      }),
+      limit: -1,
+    },
+  });
+}
+
 /** Опубликованные товары по списку slug (для блоков «связанные товары»). */
 export async function getProductsBySlugs(slugs: string[]): Promise<Product[]> {
   if (!slugs.length) return [];
@@ -278,6 +332,32 @@ export async function getProductsBySlugs(slugs: string[]): Promise<Product[]> {
 }
 
 /** Все товары для инструментов цен (любой статус) — требует токен. */
+/**
+ * Поля, которых достаточно для переоценки по курсу ЦБ.
+ *
+ * Полная выборка тянет описания, тексты SEO, характеристики и вопросы —
+ * килобайты на позицию. На шести тысячах товаров это десятки мегабайт
+ * впустую: пересчёт смотрит только на себестоимость, коэффициент и текущую
+ * цену, а пишет одно поле.
+ */
+const REPRICE_FIELDS = [
+  // vendor и category.slug нужны не для расчёта, а для выбора области
+  // переоценки: без них переоценка «по вендору» тихо не нашла бы ни одного
+  // товара и отчиталась бы нулём изменений.
+  'id', 'sku', 'name', 'vendor', 'origin', 'status',
+  'price', 'base_price_usd', 'base_price_eur',
+  'peg_currency', 'peg_to_usd', 'markup_coeff', 'price_locked',
+  'category.slug',
+].join(',');
+
+/** Товары в объёме, достаточном для пересчёта цен. */
+export async function getProductsForReprice(): Promise<Product[]> {
+  return dx<Product[]>('/items/products', {
+    auth: true,
+    params: { fields: REPRICE_FIELDS, sort: 'id', limit: -1 },
+  });
+}
+
 export async function getAllProductsAdmin(): Promise<Product[]> {
   return dx<Product[]>('/items/products', {
     auth: true,
@@ -285,8 +365,87 @@ export async function getAllProductsAdmin(): Promise<Product[]> {
   });
 }
 
+export interface Lead {
+  id: string | number;
+  created_at?: string;
+  updated_at?: string;
+  name?: string;
+  company?: string;
+  email?: string;
+  phone?: string;
+  message?: string;
+  product_ref?: string;
+  source?: string;
+  inn?: string;
+  quote_no?: string;
+  status?: string;
+  owner?: string;
+  amount?: number | null;
+  qualified_at?: string | null;
+  closed_at?: string | null;
+  lost_reason?: string | null;
+  next_action_at?: string | null;
+  note?: string | null;
+}
+
 export async function createLead(payload: Record<string, unknown>): Promise<void> {
   await dx('/items/leads', { auth: true, method: 'POST', body: payload });
+}
+
+/** Заявки для админ-страницы воронки: свежие сверху. */
+export async function getLeads(limit = 200): Promise<Lead[]> {
+  return dx<Lead[]>('/items/leads', {
+    auth: true,
+    params: { limit, sort: '-created_at' },
+  });
+}
+
+export async function patchLead(id: string | number, payload: Record<string, unknown>): Promise<void> {
+  await dx(`/items/leads/${id}`, { auth: true, method: 'PATCH', body: payload });
+}
+
+export async function deleteLead(id: string | number): Promise<void> {
+  await dx(`/items/leads/${id}`, { auth: true, method: 'DELETE' });
+}
+
+export interface LeadEvent {
+  id: string | number;
+  created_at?: string;
+  lead?: number;
+  kind?: string;
+  author?: string;
+  subject?: string;
+  text?: string;
+}
+
+/** История работы по всем заявкам: письма, звонки, заметки, смены стадии. */
+export async function getLeadEvents(limit = 1000): Promise<LeadEvent[]> {
+  return dx<LeadEvent[]>('/items/lead_events', {
+    auth: true,
+    params: { limit, sort: '-created_at' },
+  });
+}
+
+export async function createLeadEvent(payload: Record<string, unknown>): Promise<void> {
+  await dx('/items/lead_events', { auth: true, method: 'POST', body: payload });
+}
+
+export interface Quote {
+  id: string | number;
+  created_at?: string;
+  quote_no?: string;
+  buyer_company?: string;
+  buyer_inn?: string;
+  contact_name?: string;
+  email?: string;
+  phone?: string;
+  items?: { sku: string; name: string; qty: number; sum: number }[];
+  total?: number;
+}
+
+/** Скачанные коммерческие предложения — источник фактической истории обращений. */
+export async function getQuotes(limit = 500): Promise<Quote[]> {
+  return dx<Quote[]>('/items/quotes', { auth: true, params: { limit, sort: '-created_at' } });
 }
 
 export async function createQuote(payload: Record<string, unknown>): Promise<void> {
@@ -299,6 +458,77 @@ export async function patchProduct(id: string | number, payload: Record<string, 
 
 export async function createProduct(payload: Record<string, unknown>): Promise<{ id: string | number }> {
   return dx<{ id: string | number }>('/items/products', { auth: true, method: 'POST', body: payload });
+}
+
+/**
+ * Пакетная запись товаров.
+ *
+ * Раньше и импорт, и ежедневная переоценка писали по одному запросу на
+ * позицию. Пока в каталоге была тысяча товаров, это укладывалось; с
+ * позициями конфигуратора ManageEngine их около шести тысяч, и
+ * последовательный цикл перестаёт помещаться в отведённое время.
+ *
+ * Directus принимает массив в теле: POST создаёт все объекты разом, PATCH
+ * обновляет их по первичному ключу внутри каждого объекта. Одна сотня
+ * позиций уходит одним запросом вместо ста.
+ *
+ * Размер пакета — компромисс: слишком крупный упирается в лимит тела
+ * запроса и в таймаут самого Directus, слишком мелкий не даёт выигрыша.
+ */
+export const WRITE_BATCH = 100;
+
+export function chunk<T>(items: T[], size: number): T[][] {
+  const out: T[][] = [];
+  for (let i = 0; i < items.length; i += size) out.push(items.slice(i, i + size));
+  return out;
+}
+
+export interface BatchResult { ok: number; failed: { key: string; error: string }[] }
+
+/**
+ * Создать товары пачками. При ошибке пачки повторяем её по одному, чтобы
+ * из-за единственной плохой строки не потерять остальные девяносто девять.
+ */
+export async function createProductsBatch(
+  payloads: Record<string, unknown>[],
+  keyOf: (p: Record<string, unknown>) => string,
+): Promise<BatchResult> {
+  const result: BatchResult = { ok: 0, failed: [] };
+  for (const part of chunk(payloads, WRITE_BATCH)) {
+    try {
+      await dx('/items/products', { auth: true, method: 'POST', body: part });
+      result.ok += part.length;
+    } catch (e) {
+      for (const one of part) {
+        try { await createProduct(one); result.ok += 1; }
+        catch (inner) { result.failed.push({ key: keyOf(one), error: String(inner) }); }
+      }
+    }
+  }
+  return result;
+}
+
+/** Обновить товары пачками. Каждый объект обязан нести свой id. */
+export async function patchProductsBatch(
+  items: { id: string | number; payload: Record<string, unknown>; key: string }[],
+): Promise<BatchResult> {
+  const result: BatchResult = { ok: 0, failed: [] };
+  for (const part of chunk(items, WRITE_BATCH)) {
+    try {
+      await dx('/items/products', {
+        auth: true,
+        method: 'PATCH',
+        body: part.map((i) => ({ id: i.id, ...i.payload })),
+      });
+      result.ok += part.length;
+    } catch (e) {
+      for (const one of part) {
+        try { await patchProduct(one.id, one.payload); result.ok += 1; }
+        catch (inner) { result.failed.push({ key: one.key, error: String(inner) }); }
+      }
+    }
+  }
+  return result;
 }
 
 /** Текущий курс/настройки валюты (singleton-подобная коллекция). */

@@ -53,12 +53,24 @@ const { source = 'pricing', title = 'Запросить расчёт', submitLab
 </style>
 
 <script>
+  import { trackGoal } from '@/lib/analytics';
   import { maskAllPhones } from '../lib/phone-mask';
   maskAllPhones();
 
   document.querySelectorAll('[data-lead-form]').forEach((el) => {
     const form = el as HTMLFormElement;
     const status = form.querySelector('[data-status]') as HTMLElement;
+
+    // Начало заполнения — один раз на форму. Разрыв между form_start и
+    // lead_sent показывает, сколько людей упирается в саму форму: без него
+    // брошенная форма и непосещённая страница выглядят одинаково.
+    let started = false;
+    form.addEventListener('input', () => {
+      if (started) return;
+      started = true;
+      trackGoal('form_start', { source: form.dataset.source || 'site' });
+    }, { passive: true });
+
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
       const submit = form.querySelector('.lf-submit') as HTMLButtonElement;
@@ -80,11 +92,12 @@ const { source = 'pricing', title = 'Запросить расчёт', submitLab
         status.className = 'lf-status ok';
         status.innerHTML = '<b>Заявка получена.</b> Ответим в рабочее время. Пока ждёте — посмотрите <a href="/documents">образцы документов</a> или <a href="/how-we-work">как проходит поставка</a>.';
         form.reset();
-        const w = window as unknown as { ym?: (...a: unknown[]) => void };
-        const id = (import.meta as { env: Record<string, string> }).env.PUBLIC_METRIKA_ID;
-        if (typeof w.ym === 'function' && id) w.ym(Number(id), 'reachGoal', 'lead_sent');
+        trackGoal('lead_sent', { source: form.dataset.source || 'site' });
       } catch (err) {
         status.textContent = err instanceof Error && err.message ? err.message : 'Не удалось отправить. Позвоните нам или попробуйте позже.'; status.className = 'lf-status err';
+        // Сбой отправки — не то же самое, что передумал: без отдельной цели
+        // техническая потеря заявки списывается на поведение клиента.
+        trackGoal('lead_error', { source: form.dataset.source || 'site', reason: err instanceof Error ? err.message.slice(0, 100) : 'unknown' });
       } finally {
         submit.disabled = false;
       }

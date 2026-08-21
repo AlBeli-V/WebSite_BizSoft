@@ -1,0 +1,115 @@
+{
+  "schema_version": "1.0.0",
+  "currency": "RUB",
+  "pricing": [
+    {
+      "method": "getTop",
+      "api_path": "/topRequests",
+      "price_per_1000": 20,
+      "currency": "RUB",
+      "effective_date": "2026-08-01"
+    },
+    {
+      "method": "getDynamics",
+      "api_path": "/dynamics",
+      "price_per_1000": 20,
+      "currency": "RUB",
+      "effective_date": "2026-08-01"
+    },
+    {
+      "method": "getRegionsDistribution",
+      "api_path": "/regions",
+      "price_per_1000": 50,
+      "currency": "RUB",
+      "effective_date": "2026-08-01"
+    },
+    {
+      "method": "getRegionsTree",
+      "api_path": "/getRegionsTree",
+      "price_per_1000": 0,
+      "currency": "RUB",
+      "effective_date": "2026-08-01"
+    }
+  ],
+  "quota": {
+    "requests_per_second": 10,
+    "requests_per_hour": 500,
+    "requests_per_hour_target": 500,
+    "confirmed_at": "2026-08-20",
+    "source": "ответ службы поддержки Яндекса 20.08.2026: квота search-api.wordstatRequestsPerHour.rate повышена до 500",
+    "note": "Целевая квота получена. При 500 в час ограничением становится бюджет, а не время: полный цикл укладывается в один часовой слот.",
+    "increase_request": {
+      "status": "удовлетворена 20.08.2026",
+      "decided_at": "2026-08-20",
+      "file": "reports/seo/wordstat/yandex-quota-increase-request.md"
+    },
+    "run_cap": 500,
+    "reserved_slots_per_hour": 50,
+    "reserve_note": "Резерв 50 слотов — та же десятая часть окна, что и раньше: под срочную проверку решения вне очереди исследования.",
+    "previous_limits": [
+      {
+        "requests_per_hour": 100,
+        "until": "2026-08-20"
+      }
+    ]
+  },
+  "budget": {
+    "monthly_hard_cap_rub": 5500,
+    "monthly_soft_stop_rub": 5000,
+    "safety_reserve_rub": 500,
+    "pilot_cap_rub": 500,
+    "daily_cap_rub": 400,
+    "working_share": 0.8,
+    "control_reserve_rub": 1100,
+    "working_cap_rub": 4400,
+    "policy": "Решение руководителя 20.08.2026: делать полный цикл исследования сразу, не растягивая на месяц, и держать меньшую часть бюджета в резерве. Рабочая часть — 4 400 ₽ (80 %), резерв контроля — 1 100 ₽ (20 %). При квоте 500 в час максимально возможный расход за месяц — 8 280 ₽, то есть ограничением стал бюджет, а не время; потолок 5 500 ₽ теперь действительно связывающий и проверяется контроллером перед каждым вызовом."
+  },
+  "envelopes": {
+    "discovery_gettop": 0.7,
+    "dynamics": 0.2,
+    "regions": 0.1,
+    "note": "Ориентиры распределения, а не план обязательных расходов. Неизрасходованная доля не осваивается ради освоения."
+  },
+  "collection": {
+    "num_phrases": 300,
+    "region_id": "225",
+    "region_name": "Россия",
+    "devices": "DEVICE_ALL",
+    "match_type": "broad",
+    "cache_ttl_days": 30,
+    "dynamics_ttl_days": 30,
+    "regions_ttl_days": 90
+  },
+  "thresholds": {
+    "min_frequency": 30,
+    "empty_seed_streak_stop": 3,
+    "duplicate_rate_stop": 0.85,
+    "min_information_gain": 0.15,
+    "max_expansion_depth": 2,
+    "max_calls_per_vendor": 12,
+    "max_calls_per_cluster": 8
+  },
+  "tiers": {
+    "A": {
+      "max_items": 300,
+      "dynamics_every_days": 7,
+      "regions_every_days": 90
+    },
+    "B": {
+      "max_items": 3000,
+      "dynamics_every_days": 30,
+      "regions_every_days": null
+    },
+    "C": {
+      "max_items": null,
+      "dynamics_every_days": null,
+      "regions_every_days": null
+    }
+  },
+  "experiment": {
+    "mode": "полный цикл ежедневно",
+    "slots_per_day": 24,
+    "decided_at": "2026-08-20",
+    "note": "Полный цикл запускается раз в сутки и идёт до конца задач, дожидаясь часовых окон. Около 210 вызовов, 4,20 ₽, 2,1 часа. Почасовые прогоны остаются как добор: если цикл прервался, следующий продолжит с того же места."
+  }
+}

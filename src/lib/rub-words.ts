@@ -68,7 +68,8 @@ function capitalize(s: string): string {
   return s.charAt(0).toUpperCase() + s.slice(1);
 }
 
-function amountPhrase(n: number): string {
+/** «18 000 000,00 (Восемнадцать миллионов) рублей 00 копеек» — как в образце КП. */
+export function amountPhrase(n: number): string {
   const rub = Math.trunc(n);
   const kop = Math.round((n - rub) * 100);
   const kopStr = String(kop).padStart(2, '0');
@@ -79,6 +80,35 @@ function amountPhrase(n: number): string {
 export function totalWithVatWords(total: number, vatPercent = 5): string {
   const vat = Math.round((total * vatPercent / (100 + vatPercent)) * 100) / 100;
   return `${amountPhrase(total)}, в т.ч. НДС ${vatPercent}% ${amountPhrase(vat)}.`;
+}
+
+/**
+ * Сумма НДС «в т.ч.» по позициям с их собственными ставками.
+ *
+ * Считаем по каждой позиции и складываем, а не берём одну ставку на весь
+ * документ: у товаров ставка своя, и позиция без НДС в общем расчёте
+ * добавила бы к налогу пять процентов от своей стоимости — то есть налог
+ * с того, что им не облагается.
+ */
+export function vatOfItems(
+  items: { sum: number; vat_percent?: number | null }[],
+  fallback = 5,
+): number {
+  const total = items.reduce((acc, i) => {
+    const rate = i.vat_percent ?? fallback;
+    if (!rate) return acc;
+    return acc + (i.sum * rate) / (100 + rate);
+  }, 0);
+  return Math.round(total * 100) / 100;
+}
+
+/** Единая ставка документа, если она у всех позиций одна. Иначе null. */
+export function singleVatRate(
+  items: { vat_percent?: number | null }[],
+  fallback = 5,
+): number | null {
+  const rates = new Set(items.map((i) => i.vat_percent ?? fallback));
+  return rates.size === 1 ? [...rates][0] : null;
 }
 
 /** Сумма НДС «в т.ч.» по ставке (по умолчанию 5%). */

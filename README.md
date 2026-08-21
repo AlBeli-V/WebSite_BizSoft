@@ -88,3 +88,7 @@ pnpm build && pnpm start   # или pnpm dev
 ## Деплой
 
 См. `deploy/` и раздел в истории. Кратко: Astro упакован в Docker и добавлен в `/opt/bizsoft` как сервис `astro` (сеть `bizsoft_default`, порт `127.0.0.1:3000`), nginx проксирует `biz-soft.pro` → этот сервис по HTTPS. Пересборка: `bash /opt/bizsoft/deploy.sh`.
+
+## SEO/Growth-аналитика — BIZSoft Search & Growth Intelligence
+
+Ежедневная автоматическая система маркетинговой аналитики (позиции Google/Яндекс, поведение, конверсии, отчёт-письмо руководителю в 9:00). Живёт в ветке `claude/biz-soft-rating-tracking-5rf03g`: регламент и вся логика — `reports/seo/README.md`, восстановление расписания — `reports/seo/TRIGGER.md`. Управление и доработки — через сессию Claude Code «BIZSoft Growth Intelligence» (любой новый агент подключается, прочитав указанные файлы).

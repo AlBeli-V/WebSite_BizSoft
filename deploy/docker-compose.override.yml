@@ -5,6 +5,13 @@ services:
   astro:
     build:
       context: ./astro-src
+      # PUBLIC_* нужны именно на сборке: Astro вшивает их в клиентский бандл.
+      # env_file ниже действует только в рантайме и на бандл не влияет.
+      # Значения берутся из окружения хоста или из ./astro.env, подставленного
+      # через `set -a; . ./astro.env; set +a` перед docker compose build.
+      args:
+        PUBLIC_METRIKA_ID: ${PUBLIC_METRIKA_ID:-}
+        PUBLIC_GA_ID: ${PUBLIC_GA_ID:-}
     image: bizsoft-astro:latest
     restart: unless-stopped
     env_file:

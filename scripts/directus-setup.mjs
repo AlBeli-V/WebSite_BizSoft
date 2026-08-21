@@ -198,6 +198,79 @@ async function buildSchema() {
   await ensureField('leads', 'product_ref', { type: 'string', meta: { interface: 'input' } });
   await ensureField('leads', 'consent', { type: 'boolean', meta: { interface: 'boolean' }, schema: { default_value: false } });
   await ensureField('leads', 'source', { type: 'string', meta: { interface: 'input' } });
+  // Реквизиты и номер КП: заявка из скачивания предложения приходит уже с ними.
+  await ensureField('leads', 'inn', { type: 'string', meta: { interface: 'input', width: 'half', note: 'ИНН организации, если клиент его указал.' } });
+  await ensureField('leads', 'quote_no', { type: 'string', meta: { interface: 'input', width: 'half', note: 'Номер скачанного коммерческого предложения.' } });
+
+  // ── воронка продаж (добавлено 20.08.2026) ──
+  // До этого заявка хранила только контакт: по ней нельзя было сказать, чем
+  // дело кончилось. Уровни «обращение → сделка → выручка» в отчётах оставались
+  // пустыми не потому, что продаж не было, а потому, что их негде было отметить.
+  await ensureField('leads', 'status', {
+    type: 'string',
+    meta: {
+      interface: 'select-dropdown', width: 'half',
+      note: 'Стадия воронки. Меняется менеджером по мере работы с заявкой.',
+      options: { choices: [
+        { text: 'Новая', value: 'new' },
+        { text: 'В работе', value: 'in_progress' },
+        { text: 'Квалифицирована', value: 'qualified' },
+        { text: 'Отправлено КП', value: 'proposal' },
+        { text: 'Выставлен счёт', value: 'invoiced' },
+        { text: 'Оплачено', value: 'won' },
+        { text: 'Отказ', value: 'lost' },
+        { text: 'Мусор', value: 'spam' },
+      ] },
+    },
+    schema: { default_value: 'new' },
+  });
+  await ensureField('leads', 'owner', { type: 'string', meta: { interface: 'input', width: 'half', note: 'Ответственный менеджер.' } });
+  await ensureField('leads', 'amount', { type: 'float', meta: { interface: 'input', width: 'half', note: 'Сумма сделки в рублях. Заполняется при выставлении счёта.' } });
+  await ensureField('leads', 'qualified_at', { type: 'timestamp', meta: { interface: 'datetime', width: 'half', note: 'Когда стало ясно, что это реальный покупатель.' } });
+  await ensureField('leads', 'closed_at', { type: 'timestamp', meta: { interface: 'datetime', width: 'half', note: 'Дата оплаты или отказа.' } });
+  await ensureField('leads', 'lost_reason', {
+    type: 'string',
+    meta: {
+      interface: 'select-dropdown', width: 'half',
+      note: 'Заполняется только при отказе — по нему видно, где теряем сделки.',
+      options: { choices: [
+        { text: 'Цена', value: 'price' },
+        { text: 'Сроки', value: 'timing' },
+        { text: 'Не смогли поставить', value: 'no_supply' },
+        { text: 'Выбрали другого поставщика', value: 'competitor' },
+        { text: 'Не вышли на связь', value: 'no_contact' },
+        { text: 'Не наш профиль', value: 'not_our_case' },
+      ] },
+    },
+  });
+  await ensureField('leads', 'next_action_at', { type: 'timestamp', meta: { interface: 'datetime', width: 'half', note: 'Когда вернуться к заявке.' } });
+  await ensureField('leads', 'note', { type: 'text', meta: { interface: 'input-multiline', note: 'Внутренний комментарий менеджера. Клиенту не показывается.' } });
+  await ensureField('leads', 'updated_at', { type: 'timestamp', meta: { interface: 'datetime', special: ['date-updated'], readonly: true, width: 'half' } });
+
+  // ── lead_events: история работы с заявкой ──
+  // Отдельная коллекция, а не поле в заявке: событий много, они не переписывают
+  // друг друга, и по ним считается срок ответа. Хранить их списком в JSON —
+  // значит потерять возможность отобрать «все письма за неделю» одним запросом.
+  await ensureCollection('lead_events', { icon: 'history' });
+  await ensureField('lead_events', 'created_at', { type: 'timestamp', meta: { interface: 'datetime', special: ['date-created'], readonly: true, width: 'half' } });
+  await ensureField('lead_events', 'lead', { type: 'integer', meta: { interface: 'input', width: 'half', note: 'Заявка, к которой относится событие.' } });
+  await ensureField('lead_events', 'kind', {
+    type: 'string',
+    meta: {
+      interface: 'select-dropdown', width: 'half',
+      options: { choices: [
+        { text: 'Заметка', value: 'note' },
+        { text: 'Письмо', value: 'email' },
+        { text: 'Звонок', value: 'call' },
+        { text: 'Смена стадии', value: 'stage' },
+      ] },
+    },
+    schema: { default_value: 'note' },
+  });
+  await ensureField('lead_events', 'author', { type: 'string', meta: { interface: 'input', width: 'half' } });
+  await ensureField('lead_events', 'subject', { type: 'string', meta: { interface: 'input' } });
+  await ensureField('lead_events', 'text', { type: 'text', meta: { interface: 'input-multiline' } });
+  await ensureRelation('lead_events', 'lead', 'leads', 'CASCADE');
 
   // ── quotes ──
   await ensureCollection('quotes', { icon: 'request_quote' });
@@ -228,7 +301,11 @@ async function buildSchema() {
 const APP_PERMS = [
   ['categories', 'read'],
   ['products', 'read'], ['products', 'update'],
-  ['leads', 'create'],
+  // Чтение и правка лидов нужны админ-странице /admin/leads: воронка ведётся
+  // с телефона через сайт, а не через админку Directus (она наружу не смотрит).
+  // delete нужен для удаления мусорных заявок из корзины админ-кабинета.
+  ['leads', 'create'], ['leads', 'read'], ['leads', 'update'], ['leads', 'delete'],
+  ['lead_events', 'create'], ['lead_events', 'read'], ['lead_events', 'delete'],
   ['quotes', 'create'], ['quotes', 'read'],
   ['currency_rate', 'read'], ['currency_rate', 'create'], ['currency_rate', 'update'],
   ['directus_files', 'read'],
