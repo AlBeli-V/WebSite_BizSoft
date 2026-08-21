@@ -7,6 +7,7 @@
  *
  *   STAGE=discovery node scripts/sources/me-crawl.mjs   — карта магазина
  *   STAGE=details   node scripts/sources/me-crawl.mjs   — страницы продуктов
+ *   STAGE=pricing   node scripts/sources/me-crawl.mjs   — прайсы на сайте продукта
  *
  * Окно волны задаётся OFFSET и LIMIT; details.json дополняется, а не
  * перезаписывается, поэтому волны можно гнать по очереди.
@@ -218,6 +219,78 @@ async function details(page) {
   say(`снято страниц: ${rows.filter((r) => !r.error).length}, с ошибкой: ${rows.filter((r) => r.error).length}`);
 }
 
+/**
+ * Этап 3: прайсы на сайте продукта.
+ *
+ * Часть продуктов вендор продаёт не только через магазин: у ServiceDesk Plus,
+ * SupportCenter Plus и AssetExplorer в магазине нет вкладки вечной лицензии,
+ * а сама вечная лицензия продаётся со страницы прайса на www.manageengine.com.
+ * Ссылки на такие страницы стоят в HTML самих страниц магазина — отсюда их и
+ * берём, а не составляем список руками.
+ */
+async function pricing(page) {
+  const file = `${OUT}/details.json`;
+  if (!existsSync(file)) {
+    say(`нет ${file} — сначала пройдите этап details`);
+    return;
+  }
+  const { rows } = JSON.parse(readFileSync(file, 'utf8'));
+
+  // Собираем адреса прайсов из сохранённых снимков страниц магазина.
+  const found = new Set();
+  for (const row of rows) {
+    const ids = [row.source_snapshot_id, ...(row.tabs || []).map((t) => t.source_snapshot_id)];
+    for (const id of ids.filter(Boolean)) {
+      const html = `${OUT}/details/${id}.html`;
+      if (!existsSync(html)) continue;
+      const text = readFileSync(html, 'utf8');
+      for (const m of text.matchAll(/https:\/\/www\.manageengine\.com\/[a-z0-9/._-]*pricing[a-z0-9._-]*\.html/g)) {
+        found.add(m[0]);
+      }
+    }
+  }
+  const targets = [...found].sort().slice(OFFSET, OFFSET + LIMIT);
+  say(`страниц прайса найдено: ${found.size}, к обходу: ${targets.length} (окно ${OFFSET}–${OFFSET + targets.length})`);
+
+  const prev = existsSync(`${OUT}/pricing.json`)
+    ? JSON.parse(readFileSync(`${OUT}/pricing.json`, 'utf8')).rows || []
+    : [];
+  const out = prev.filter((r) => !targets.includes(r.url));
+
+  for (const [i, url] of targets.entries()) {
+    try {
+      await open(page, url);
+      const meta = await snapshot(page, url, `${OUT}/pricing`);
+      const data = await page.evaluate(() => ({
+        title: document.title,
+        money: (document.body?.innerText || '').match(/(?:US\$|\$)\s?[0-9][0-9,.]*/g)?.length || 0,
+      }));
+      const tabs = [];
+      for (const t of await findTabs(page)) {
+        if (!(await clickTab(page, t.text))) continue;
+        const tabMeta = await snapshot(page, url, `${OUT}/pricing`, t.text);
+        const tabData = await page.evaluate(() => ({
+          money: (document.body?.innerText || '').match(/(?:US\$|\$)\s?[0-9][0-9,.]*/g)?.length || 0,
+        }));
+        if (tabData.money) tabs.push({ ...tabMeta, ...tabData });
+        await sleep(PAUSE_MS);
+      }
+      out.push({ url, ...meta, ...data, tabs });
+      say(`${i + 1}/${targets.length} ${url}`);
+      say(`    сумм: ${data.money}, вкладок: ${tabs.length ? tabs.map((t) => t.tab).join(', ') : '—'}`);
+    } catch (e) {
+      say(`${i + 1}/${targets.length} ${url} → ошибка: ${e.message}`);
+      out.push({ url, error: e.message });
+    }
+    await sleep(PAUSE_MS);
+  }
+
+  writeFileSync(`${OUT}/pricing.json`, JSON.stringify(
+    { collected_at: new Date().toISOString(), count: out.length, rows: out }, null, 1));
+  say('');
+  say(`снято страниц прайса: ${out.filter((r) => !r.error).length}, с ошибкой: ${out.filter((r) => r.error).length}`);
+}
+
 const browser = await chromium.launch();
 const page = await browser.newPage({
   userAgent: 'Mozilla/5.0 (compatible; BIZSoft-catalog-bot; +https://biz-soft.pro)',
@@ -226,6 +299,7 @@ const page = await browser.newPage({
 try {
   if (STAGE === 'discovery') await discovery(page);
   else if (STAGE === 'details') await details(page);
+  else if (STAGE === 'pricing') await pricing(page);
   else say(`неизвестный этап: ${STAGE}`);
 } finally {
   await browser.close();
