@@ -339,6 +339,18 @@ def run_checks(snap: dict, prev: dict | None = None) -> dict:
     # пустое. Данные для сверки уже лежали в снимке — сверки не было.
     declared = snap.get("declared_goals") or []
     levels = snap.get("goal_levels") or {}
+    # Цели могли быть заведены позже, чем собран список целей счётчика. Тогда
+    # снимок честно показывает состояние на момент сбора, а вывод «цели не
+    # заведены» на его основании уже неверен: это утверждение о настоящем,
+    # сделанное по вчерашним данным. Различаем два случая по дате закрытия
+    # записи в реестре пределов.
+    goals_fixed_on = next(
+        (lim.get("resolved_on") for lim in load_measurement_limits()
+         if lim.get("metric") == "metrika.goal_events" and lim.get("resolved_on")),
+        None)
+    goals_collected = (an.get("metrika", {}).get("source") or {}).get("collected_at") or ""
+    goals_data_is_stale = bool(goals_fixed_on and goals_collected
+                               and goals_collected[:10] <= goals_fixed_on)
     # Сверяются только конверсии (key=true в реестре src/lib/analytics.ts).
     # Сигналы намерения и просмотры живут в GA4: требовать для них цель Метрики
     # значит утопить список конверсий в просмотрах, после чего им перестают
@@ -349,6 +361,15 @@ def run_checks(snap: dict, prev: dict | None = None) -> dict:
         missing = [n for n in declared
                    if levels.get(n, "engagement") in required and n not in configured]
         declared = [n for n in declared if levels.get(n, "engagement") in required]
+        if missing and goals_data_is_stale:
+            add("info", "GOALS_CONFIGURED_AFTER_COLLECTION",
+                "Цели заведены позже, чем собран список счётчика",
+                f"Цели заведены {goals_fixed_on}, а список целей счётчика собран "
+                f"{goals_collected[:10]}. В снимке их ещё нет — это отставание "
+                f"выгрузки, а не отсутствие целей.",
+                "Утверждение «цели не заведены» не публикуется. Первые сопоставимые "
+                "данные по конверсиям — со следующего сбора.")
+            missing = []
         if missing:
             add("critical", "GOAL_NOT_CONFIGURED",
                 "Сайт отправляет цели, которых нет в счётчике",

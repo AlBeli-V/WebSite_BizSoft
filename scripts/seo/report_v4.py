@@ -118,6 +118,14 @@ def kpi_cards(snap: dict, prev: dict | None, dq: dict) -> list[dict]:
     configured = {g_["name"] for g_ in
                   ((snap.get("analytics") or {}).get("metrika") or {}).get("goals_configured") or []}
     goals_missing = len([n for n in declared if n not in configured])
+    # Цели могли быть заведены уже после того, как собран список счётчика.
+    # Тогда в снимке их ещё нет, но утверждать «целей нет» — значит говорить о
+    # настоящем по вчерашним данным. Проверка качества это различает; отчёт
+    # обязан повторять её вывод, а не считать заново по сырым полям.
+    goals_lagging = any(f["code"] == "GOALS_CONFIGURED_AFTER_COLLECTION"
+                        for f in dq.get("findings", []))
+    if goals_lagging:
+        goals_missing = 0
     g, gt = snap["google"], snap["google"]["totals"]
     m = snap["analytics"]["metrika"]
     sample = dq.get("sample_ctr") or {}
@@ -223,7 +231,12 @@ def kpi_cards(snap: dict, prev: dict | None, dq: dict) -> list[dict]:
             # достижим. Остаётся отсутствие целей в счётчике, и починка нужна
             # именно там — текст, называющий закрытую причину, отправлял работу
             # не по адресу.
-            "interpretation": (f"Это автоцели Метрики, а не подтверждённые обращения. "
+            "interpretation": ("Это автоцели Метрики, а не подтверждённые обращения. "
+                               "Конверсионные цели заведены в счётчике только что, "
+                               "и в этот замер они ещё не попали: первые сопоставимые "
+                               "числа появятся со следующего сбора."
+                               if goals_lagging else
+                               f"Это автоцели Метрики, а не подтверждённые обращения. "
                                f"Сайт отправляет {goals_missing} "
                                f"{plural(goals_missing, 'цель', 'цели', 'целей')}, "
                                f"которых нет в счётчике, поэтому счётчик их "
