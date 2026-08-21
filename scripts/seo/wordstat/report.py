@@ -113,21 +113,23 @@ def executive_block(state: dict) -> dict:
         ready = [r for r in exp["recommended"]
                  if r["payment"]["verdict"] in ("card", "likely_card")][:3]
         manual = exp.get("needs_manual_check") or []
+        # Письмо ограничено по объёму, поэтому сводка держится в двух фразах:
+        # сколько подтверждено и сколько из них готово к заведению. Разбор по
+        # ручной проверке и сомнительным названиям — в веб-отчёте.
+        weak = exp.get("low_confidence") or []
         summary = (
             f"Проверили спрос на {exp['candidates_measured']} зарубежных "
-            f"разработчиков вне каталога. У {exp['recommended_total']} "
-            f"покупательский спрос подтверждён — суммарно "
-            f"{spaced(exp['combined_demand'])} запросов в месяц.")
+            f"разработчиков вне каталога: у {exp['recommended_total']} он подтверждён, "
+            f"суммарно {spaced(exp['combined_demand'])} запросов в месяц.")
+        tail = []
         if ready:
-            summary += (f" У {len(ready)} из них на сайте есть оплата картой — "
-                        "их можно заводить сразу.")
+            tail.append(f"{len(ready)} с оплатой картой можно заводить сразу")
         if manual:
-            summary += (f" Ещё {len(manual)} требуют ручной проверки: спрос есть, "
-                        "способ оплаты автоматически определить не удалось.")
-        weak = exp.get("low_confidence") or []
+            tail.append(f"{len(manual)} требуют ручной проверки оплаты")
         if weak:
-            summary += (f" По {len(weak)} названиям цифру спроса нельзя брать на "
-                        "веру: имя бренда совпадает с обычным английским словом.")
+            tail.append(f"{len(weak)} — с именем-обычным словом, спрос сверить вручную")
+        if tail:
+            summary += " Из них: " + ", ".join(tail) + "."
         expansion = {
             "title": "Каких вендоров добавить",
             "summary": summary,
@@ -138,7 +140,7 @@ def executive_block(state: dict) -> dict:
                        "effort": r["effort_note"], "url": r["seo"]["url"],
                        "confidence": r.get("demand_confidence"),
                        "confidence_note": r.get("demand_confidence_note")}
-                      for r in (ready or exp["recommended"][:3])],
+                      for r in (ready or exp["recommended"])[:2]],
             "manual_check": manual[:5],
             "note": exp["note"],
         }

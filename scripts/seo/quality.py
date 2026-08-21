@@ -47,6 +47,23 @@ def overlap_days(a_start, a_end, b_start, b_end):
     return max(0, (earliest_end - latest_start).days + 1)
 
 
+LIMITS_PATH = pathlib.Path("reports/seo/measurement-limits.json")
+
+
+def load_measurement_limits() -> list:
+    """Реестр объявленных пределов измерения.
+
+    Лежит данными, а не в коде: закрыть запись после починки счётчика должно
+    быть правкой одного поля, а не выкладкой.
+    """
+    if not LIMITS_PATH.exists():
+        return []
+    try:
+        return json.loads(LIMITS_PATH.read_text(encoding="utf-8")).get("limits", [])
+    except (ValueError, OSError):
+        return []
+
+
 def run_checks(snap: dict) -> dict:
     findings: list[dict] = []
 
@@ -107,16 +124,29 @@ def run_checks(snap: dict) -> dict:
                 "Показатели поиска и аналитики не складываются в одну воронку без оговорки.")
 
     # 5. Изменение разметки конверсий внутри периода
-    ga4 = an.get("ga4", {})
-    if ga4.get("available") and ga4.get("key_events_marked_at"):
-        s = ga4["source"]
-        if s["current_period_start"] <= ga4["key_events_marked_at"] <= s["current_period_end"]:
+    # Разметка GA4 объявлена в реестре пределов (ANL-002) — проверка ниже, в 5б.
+    # Держать её ещё и здесь значило бы иметь два источника правды об одном факте.
+
+    # 5б. Объявленные пределы измерения
+    #
+    # Ноль по неизмеряемому показателю — не результат, а отсутствие замера.
+    # Разница принципиальная: «обращений не было» требует объяснения и действий,
+    # «не измерялось» требует починки счётчика.
+    ga4_src = an.get("ga4", {}).get("source") or {}
+    start = ga4_src.get("current_period_start") or ""
+    end = ga4_src.get("current_period_end") or snap.get("report_date", "")
+    for lim in load_measurement_limits():
+        resolved = lim.get("resolved_on")
+        if not resolved:
+            add("warning", "MEASUREMENT_GAP",
+                lim["title"],
+                f"{lim['detail']} Источник: {lim['evidence']}.",
+                lim["rule"])
+        elif start and start <= resolved <= end:
             add("warning", "MEASUREMENT_CHANGE",
-                "Разметка ключевых событий GA4 изменена внутри периода",
-                f"key events размечены {ga4['key_events_marked_at']}, окно "
-                f"{s['current_period_start']}–{s['current_period_end']}.",
-                "Прямое сравнение конверсий GA4 по периодам запрещено; "
-                f"текущее значение key events = {ga4['organic_key_events']} не означает отсутствие обращений.")
+                f"{lim['title']}: методика изменилась внутри периода",
+                f"{lim['detail']} Изменение вступило в силу {resolved}, окно {start}–{end}.",
+                lim["rule"])
 
     # 6. Пересборы внутри дня
     for rev in an.get("intra_day_revisions", []):

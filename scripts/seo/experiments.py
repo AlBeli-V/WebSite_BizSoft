@@ -90,7 +90,9 @@ def build(snap: dict, date: str, site_check: dict | None = None) -> list[dict]:
         v, why = verdict_for(days, imp, live, len(pages))
         out.append({
             "id": e["id"],
-            "ticket": "SEO-EXP-001",
+            # Тикет берём из реестра: три разных эксперимента с одним номером
+            # в письме неразличимы.
+            "ticket": e.get("ticket", "SEO-EXP-001"),
             "hypothesis": e.get("hypothesis", ""),
             "treatment": "; ".join(e.get("changes", [])),
             "combined_treatment": True,

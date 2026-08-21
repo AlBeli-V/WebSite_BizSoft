@@ -164,6 +164,7 @@ def kpi_cards(snap: dict, prev: dict | None, dq: dict) -> list[dict]:
     ]
 
     events = m.get("organic_goal_events")
+    gap = any(f.get("code") == "MEASUREMENT_GAP" for f in (dq.get("findings") or []))
     crm = snap.get("crm") or {}
     if crm.get("connected"):
         cards.append({"key": "commercial", "label": "Коммерческий сигнал",
@@ -182,8 +183,16 @@ def kpi_cards(snap: dict, prev: dict | None, dq: dict) -> list[dict]:
                       f"{ru_date(m['source']['current_period_end'])}",
             "source": "Яндекс.Метрика, весь сайт",
             "confidence": f"низкая: {counted(events, 'событие', 'события', 'событий')}",
-            "interpretation": "Это срабатывания форм на сайте, а не подтверждённые "
-                              "обращения: CRM не подключена.",
+            # Ноль по вырезанной цели — не «обращений не было», а «не измерялось».
+            # Смешивать эти два утверждения нельзя: первое требует объяснения
+            # и действий, второе — починки счётчика.
+            "interpretation": ("Это автоцели Метрики, а не подтверждённые обращения. "
+                               "Три конверсионные цели (форма, корзина, скачивание КП) "
+                               "не измеряются: вызовы вырезаны из сборки. Ноль по ним "
+                               "означает отсутствие замера, а не отсутствие обращений."
+                               if gap else
+                               "Это срабатывания форм на сайте, а не подтверждённые "
+                               "обращения: CRM не подключена."),
             "muted": True, "sparkline": None,
             "sample_ctr": f"{sample.get('label')} {pct(sample.get('value'), 2)}"
                           if sample else None})
@@ -406,11 +415,12 @@ def _measurement_summary(dq: dict) -> str:
     rows = {r["metric"]: r for r in dq.get("measurement_map", [])}
     imp = rows.get("impressions", {})
     visits = rows.get("visits", {})
+    # Вывод про «одно определение визита» уже сделан блоком здоровья данных —
+    # здесь только состав каждого источника и корректные пары для сравнения.
     return (f"Показы и переходы Яндекса относятся к {imp.get('scope', 'выборке запросов')}, "
             f"визиты Метрики — к {visits.get('scope', 'всему сайту')} и ко всем поисковым "
-            f"системам сразу. Приводить их к одному определению визита было бы ошибкой: "
-            f"мы бы получили одно число вместо двух разных фактов. Корректно сопоставлять "
-            f"показы с переходами одной выборки, а визиты Метрики — с сессиями GA4.")
+            f"системам сразу. Сопоставлять корректно показы с переходами одной выборки, "
+            f"а визиты Метрики — с сессиями GA4.")
 
 
 def _sources_line(snap: dict) -> str:
@@ -604,7 +614,26 @@ def html_email(b: dict, charts: dict, cid_mode: bool) -> str:
             f"Причина изменения пока не определена.</div>"))
 
     # G. Контроль экспериментов
-    for e in b["experiments"]:
+    #
+    # Подробно раскрывается один — самый продвинутый по накопленной выдержке.
+    # Остальные идут строкой: три полных блока с графиком на каждый раздували
+    # письмо, вставляли пять изображений вместо трёх и шесть раз повторяли одну
+    # и ту же оговорку «рано для вывода». Читателю от этого не яснее.
+    exps_sorted = sorted(b["experiments"], key=lambda e: -e.get("days_elapsed", 0))
+    if exps_sorted:
+        e = exps_sorted[0]
+        others = exps_sorted[1:]
+        extra = ""
+        if others:
+            lines = "".join(
+                f"<div style=\"font-size:14.5px;padding-top:{SP['xs']}px;line-height:1.5;\">"
+                f"<b>{o['ticket']}</b> — {counted(o['days_elapsed'], 'день', 'дня', 'дней')} "
+                f"из {o['minimum_exposure']}, проверка {ru_date(o['next_review'])}.</div>"
+                for o in others)
+            extra = (f"<div style=\"padding-top:{SP['m']}px;border-top:1px solid {T['border']};"
+                     f"margin-top:{SP['m']}px;\">"
+                     f"<div data-meta=\"1\" style=\"font-size:12.5px;color:{T['text_secondary']};\">"
+                     f"Ещё в работе, выводы по расписанию</div>{lines}</div>")
         rows.append(_section(
             "Контроль эксперимента",
             f"<table role=\"presentation\" width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" "
@@ -614,21 +643,16 @@ def html_email(b: dict, charts: dict, cid_mode: bool) -> str:
             f"заголовки и блок вопросов на {e['pages_total']} карточках</div>"
             f"<div style=\"font-size:14.5px;padding-top:{SP['s']}px;line-height:1.55;\">"
             f"<b>Проверяем:</b> {e['hypothesis_plain']}</div>"
-            f"<div style=\"font-size:14.5px;padding-top:{SP['xs']}px;line-height:1.55;\">"
-            f"<b>Что изменили:</b> {e['treatment_plain']} {e['combined_note']}</div>"
             f"<div style=\"font-size:15px;padding-top:{SP['m']}px;line-height:1.65;\">"
-            f"Запуск {ru_date(e['start'])}, прошло {counted(e['days_elapsed'], 'день', 'дня', 'дней')}. "
-            f"Минимум для вывода: {e['minimum_exposure']}.<br>"
+            f"Запуск {ru_date(e['start'])}, прошло {counted(e['days_elapsed'], 'день', 'дня', 'дней')} "
+            f"при минимуме {e['minimum_exposure']}.<br>"
             f"Новый вариант на сайте: {num(e['pages_live_with_treatment'])} из "
             f"{e['pages_total']} страниц, проверено напрямую.<br>"
-            f"Обновление сниппета в выдаче: {e['search_snippet_refresh']} — "
-            f"{e['search_snippet_refresh_note']}<br>"
-            f"Накоплено: {e['current_result']} — достоверность {e['confidence_plain']}.<br>"
-            f"Целевой показатель: {e['metric_plain']}<br>"
+            f"Обновление сниппета в выдаче: {e['search_snippet_refresh']}.<br>"
             f"Вывод: <b>{VERDICT_LABEL[e['verdict']]}</b> — {e['verdict_reason']}. "
             f"Следующая проверка {ru_date(e['next_review'])}.</div>"
             f"<div style=\"padding-top:{SP['m']}px;\">{_img(charts, 'experiment', cid_mode)}</div>"
-            f"</td></tr></table>"))
+            f"{extra}</td></tr></table>"))
 
     # H. Автономное исполнение — фиксированный layout: содержимое переносится,
     # а не распирает письмо. Статус и результат уходят в подпись под задачей,
@@ -838,7 +862,11 @@ def plain_text(b: dict) -> str:
     for r in b["driver_rows"]:
         L.append(f"  {r['entity']}: {signed(r['delta'])} "
                  f"({round(r['share_of_total_delta'] * 100)}% изменения)")
-    for e in b["experiments"]:
+    # Текстовая версия повторяет вёрстку письма: подробно один эксперимент,
+    # остальные — строкой. Иначе plain text расходится с HTML по составу.
+    exps_txt = sorted(b["experiments"], key=lambda x: -x.get("days_elapsed", 0))
+    if exps_txt:
+        e = exps_txt[0]
         L += ["", "КОНТРОЛЬ ЭКСПЕРИМЕНТА",
               f"- {e['ticket']}: {e['pages_total']} карточек, новый вариант на сайте "
               f"{num(e['pages_live_with_treatment'])}, обновление сниппета в выдаче: "
@@ -846,6 +874,9 @@ def plain_text(b: dict) -> str:
               f"  {e['current_result']}",
               f"  вывод: {VERDICT_LABEL[e['verdict']]} — {e['verdict_reason']}",
               f"  {e['combined_note']}"]
+        for o in exps_txt[1:]:
+            L.append(f"- {o['ticket']}: {counted(o['days_elapsed'], 'день', 'дня', 'дней')} "
+                     f"из {o['minimum_exposure']}, проверка {ru_date(o['next_review'])}")
     if b["board"]:
         L += ["", "СИСТЕМА УЖЕ ДЕЛАЕТ"]
         for r in b["board"]:
