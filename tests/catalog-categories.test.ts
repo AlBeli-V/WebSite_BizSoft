@@ -17,8 +17,10 @@ const plan = JSON.parse(
   readFileSync(resolve(ROOT, 'data/catalog/categories.json'), 'utf8'),
 ) as {
   create: { slug: string; name: string; sort: number }[];
+  merge: Record<string, string>;
   intro: Record<string, string>;
 };
+const segmentPage = readFileSync(resolve(ROOT, 'src/pages/catalog/[segment].astro'), 'utf8');
 const icons = readFileSync(resolve(ROOT, 'src/components/CategoryIcon.astro'), 'utf8');
 const iconSlugs = new Set(
   (icons.match(/const BY_SLUG[^}]+}/)![0].match(/^\s{2}([a-z-]+):/gm) || [])
@@ -64,6 +66,25 @@ describe('план разделов каталога', () => {
   it('у каждого раздела своя иконка — иначе плитки неразличимы', () => {
     for (const slug of Object.keys(plan.intro)) {
       expect(iconSlugs, `нет иконки для раздела ${slug}`).toContain(slug);
+    }
+  });
+});
+
+describe('слитые дубли разделов', () => {
+  it('дубль переезжает в существующий раздел и сам целью слияния не является', () => {
+    for (const [dup, canon] of Object.entries(plan.merge)) {
+      expect(Object.keys(plan.intro), `цель слияния ${canon} без текста`).toContain(canon);
+      expect(plan.merge[canon], `${canon} и цель, и дубль одновременно`).toBeUndefined();
+      expect(plan.intro[dup], `у дубля ${dup} остался текст раздела`).toBeUndefined();
+    }
+  });
+
+  it('со слитого адреса стоит 301 — иначе проиндексированная страница отдаст 404', () => {
+    // Раздел уходит в archived, а getCategoryBySlug берёт только published:
+    // без редиректа /catalog/<дубль> сразу превратился бы в 404.
+    for (const [dup, canon] of Object.entries(plan.merge)) {
+      const line = new RegExp(`['"]?${dup}['"]?:\\s*['"]${canon}['"]`);
+      expect(segmentPage, `нет редиректа ${dup} → ${canon}`).toMatch(line);
     }
   });
 });
