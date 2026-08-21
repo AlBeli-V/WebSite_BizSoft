@@ -11,6 +11,7 @@ import { generateQuoteDocx } from '../../lib/docx-quote';
 import { site, seller, taxation } from '../../config/site';
 import { salutation } from '../../lib/salutation';
 import { verifyCompany } from '../../lib/inn';
+import { findParty, cardLines } from '../../lib/dadata';
 import type { QuoteItem } from '../../lib/types';
 
 interface CartLine { sku: string; qty: number }
@@ -165,6 +166,11 @@ export const POST: APIRoute = async ({ request }) => {
   // КП — она информирует: ошибка в цифре и умысел выглядят одинаково, и
   // решать, что это было, человеку, а не форме.
   const innCheck = await verifyCompany(data.buyerInn, data.buyerCompany);
+  // Карточка организации из ЕГРЮЛ — менеджеру до звонка. Заявка от
+  // ликвидированной компании и от действующей выглядят в форме одинаково,
+  // а разговор с ними разный. Справочник молчит — заявка уходит как есть:
+  // это дополнение к обращению, а не условие его приёма.
+  const party = innCheck.valid ? await findParty(data.buyerInn).catch(() => null) : null;
 
   // Заявка в воронку. Скачивание КП — самый тёплый контакт на сайте: назвали
   // организацию, ИНН, телефон и собрали корзину. Раньше это оседало в quotes и
@@ -233,6 +239,9 @@ export const POST: APIRoute = async ({ request }) => {
     `E-mail: ${data.email}`,
     `Телефон: ${data.phone}`,
     '',
+    ...(party ? ['По данным ЕГРЮЛ:', ...cardLines(party),
+                 ...(party.active ? [] : ['⚠ Организация не действует — уточнить до счёта.']),
+                 ''] : []),
     'Состав заказа:',
     ...items.map((i) => `— ${i.name} (${i.sku}) × ${i.qty} = ${i.sum.toLocaleString('ru-RU')} ₽`),
     '',
@@ -247,7 +256,8 @@ export const POST: APIRoute = async ({ request }) => {
       from: salesFrom,
       to: managerEmail,
       replyTo: data.email,
-      subject: (innCheck.valid && innCheck.nameMatch !== 'mismatch' ? '' : '⚠ ')
+      subject: (innCheck.valid && innCheck.nameMatch !== 'mismatch'
+                && (party === null || party.active) ? '' : '⚠ ')
         + `Отправлено КП № ${quoteNo} — ${data.buyerCompany}`,
       text: managerText,
       attachments: [
