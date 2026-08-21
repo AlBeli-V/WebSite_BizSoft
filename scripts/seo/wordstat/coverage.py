@@ -14,11 +14,15 @@
 
 from __future__ import annotations
 
+import datetime as dt
 import json
 import pathlib
 import sys
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
+
+import audience                    # noqa: E402
+import playbook                    # noqa: E402
 import normalize as N  # noqa: E402
 
 TOP_POSITION = 10.0
@@ -83,12 +87,27 @@ def enrich_universe(uni, snapshot: dict, vendor_urls: dict[str, str]) -> int:
 
 
 def clusters_of(uni) -> dict[str, dict]:
-    """Свернуть фразы в кластеры: спрос кластера — сумма частотностей его фраз."""
+    """Свернуть фразы в кластеры: спрос кластера — сумма частотностей его фраз.
+
+    Имя кластера приводится к вендору каталога, если такой есть. Часть фраз
+    приходит под именем seed-запроса — «docker купить» вместо «docker», — и
+    без приведения один и тот же вендор распадался на два кластера: один со
+    страницей, другой без. Второй попадал в непокрытый спрос, хотя страница
+    существует.
+    """
+    index = getattr(uni, "vendors", None) or {}
+
+    def canonical(name: str) -> str:
+        if not name or name in index.values():
+            return name
+        brand = audience.brand_of(name)
+        return index.get(brand, name)
+
     out: dict[str, dict] = {}
     for row in uni.rows.values():
         if row.get("in_scope") is False:
             continue        # чужой интент в спрос BIZSoft не входит
-        cluster = row.get("cluster") or "без кластера"
+        cluster = canonical(row.get("cluster") or "") or "без кластера"
         c = out.setdefault(cluster, {
             "cluster": cluster, "phrases": 0, "commercial_phrases": 0,
             "demand": 0, "commercial_demand": 0, "url": None, "page_exists": False,
@@ -239,16 +258,23 @@ def classify_gap(c: dict, trend: str, conversion_clusters: set[str]) -> str:
 
 
 def gap_analysis(uni, clusters: dict[str, dict],
-                 conversion_clusters: set[str]) -> list[dict]:
+                 conversion_clusters: set[str], today: str | None = None) -> list[dict]:
+    today = today or dt.date.today().isoformat()
     out = []
     for c in clusters.values():
         if c["commercial_demand"] < MIN_CLUSTER_DEMAND:
+            continue
+        # Направление, по которому решение принято, или сервис для частных
+        # лиц в список «что делать» не попадает. Раньше руководитель видел
+        # там Spotify и ChatGPT Plus, которые сам же отклонил накануне.
+        skip = audience.skip_reason(c["cluster"])
+        if skip:
             continue
         top = c["top_phrases"][0]["phrase"] if c["top_phrases"] else c["cluster"]
         trend = uni.trend(top)["direction"]
         gap = classify_gap(c, trend, conversion_clusters)
         title, action = GAP_ACTIONS[gap]
-        out.append({
+        row = {
             "cluster": c["cluster"], "vendor": c["vendor"], "category": c["category"],
             "gap": gap, "gap_title": title, "recommended_action": action,
             "commercial_demand": c["commercial_demand"],
@@ -259,6 +285,11 @@ def gap_analysis(uni, clusters: dict[str, dict],
             "top_phrases": c["top_phrases"][:5],
             "subclusters": dict(sorted(c["subclusters"].items(),
                                        key=lambda kv: -kv[1])[:4]),
-        })
+        }
+        # Ярлык класса называет тип задачи, но не задачу. Практический шаг,
+        # готовый промт и измеримый признак завершения собираются здесь же:
+        # без них список разрывов не превращается в работу.
+        row.update(playbook.build(row, today))
+        out.append(row)
     out.sort(key=lambda g: -g["commercial_demand"])
     return out

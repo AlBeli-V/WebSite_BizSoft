@@ -231,7 +231,7 @@ FOREIGN_BRANDS = (
 # «google pixel купить» — 31 598 показов/мес, и это телефон, а не лицензия.
 DEVICE_LINES = (
     "pixel", "fitbit", "galaxy", "iphone", "ipad", "macbook", "airpods",
-    "watch se", "nest hub", "chromecast", "shield tv",
+    "watch se", "nest hub", "chromecast", "shield tv", "buds", "наушник",
 )
 
 # Бренды с собственной линейкой техники: только у них «pro» и «xl» рядом с

@@ -120,6 +120,25 @@ check('форма заявки: пустой POST отклоняется с 422'
   const r = await req('/api/lead', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: '{}' });
   return { ok: r.status === 422, got: String(r.status) };
 });
+// Документ КП собирается только в собранном приложении: пути к логотипу и
+// шрифтам в dist другие, чем в исходниках. Юнит-тесты этого не видят — они
+// работают с src, — и дефект уехал на прод, где КП не уходило вовсе.
+// Отправка письма в смоуке заведомо не удастся (SMTP не настроен) и даёт
+// 502; ошибка сборки документа даёт 500 и именно её мы здесь ловим.
+check('КП: документ собирается в собранном приложении', async () => {
+  const r = await req('/api/quote', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      buyer_company: 'ООО «Смоук»', buyer_inn: '7707083893',
+      contact_name: 'Смоуков Иван', email: 'smoke@example.com',
+      phone: '+7 900 000-00-00', consent: true,
+      items: [{ sku: 'INT-AI-CHATGPT', qty: 1 }],
+    }),
+  });
+  const broken = r.status === 500 && r.body.includes('сформировать документ');
+  return { ok: !broken, got: `${r.status} ${r.body.slice(0, 120)}` };
+});
 
 // ── БД недоступна ────────────────────────────────────────────────────────
 check('[БД упала] карточка товара отдаёт 503, а не 404', async () => {

@@ -24,6 +24,8 @@ import sys
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
 
+import audience                    # noqa: E402
+
 import discovery as D  # noqa: E402
 import normalize as N  # noqa: E402
 
@@ -138,6 +140,12 @@ def pending(vendors: list[dict], universe) -> list[dict]:
         brand = item["brand"] if isinstance(item, dict) else item
         if is_russian(brand, russian) or already_in_catalogue(brand, vendors, product_of):
             continue
+        # Решение руководителя и аудитория сервиса. Возвращать в отчёт то, по
+        # чему решение принято, значит заставлять принимать его заново каждый
+        # день; предлагать юрлицам сервис для частных лиц — мерить спрос по
+        # аудитории, которой мы не продаём.
+        if audience.skip_reason(brand):
+            continue
         phrase = template.format(brand=brand)
         out.append({"brand": brand, "phrase": phrase,
                     "kind": item.get("kind") if isinstance(item, dict) else None,
@@ -198,6 +206,12 @@ def build(universe, vendors: list[dict], limit: int = 10) -> dict:
         brand = item["brand"] if isinstance(item, dict) else item
         kind = item.get("kind") if isinstance(item, dict) else None
         if is_russian(brand, russian) or already_in_catalogue(brand, vendors, product_of):
+            continue
+        # Решение руководителя и аудитория сервиса. Возвращать в отчёт то,
+        # по чему решение принято, значит заставлять принимать его заново
+        # каждый день; предлагать юрлицам сервис для частных лиц — мерить
+        # спрос по аудитории, которой мы не продаём.
+        if audience.skip_reason(brand):
             continue
         seed = template.format(brand=brand)
         related = [r for r in universe.rows.values()

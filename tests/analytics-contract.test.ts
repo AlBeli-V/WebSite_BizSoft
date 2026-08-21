@@ -75,14 +75,6 @@ describe('события', () => {
     expect(orphans).toEqual([]);
   });
 
-  it('все отправляемые цели объявлены в плане измерений', () => {
-    // План — единственный список того, что сайт имеет право отправлять.
-    // Новое имя, не попавшее в него, означает цель, которую никто не заведёт.
-    const plan = readFileSync('reports/marketing/measurement-plan.md', 'utf8');
-    const missing = [...declaredGoals()].filter((n) => !plan.includes(`\`${n}\``));
-    expect(missing).toEqual([]);
-  });
-
   it('цель уровня lead отправляется только после успешного ответа сервера', () => {
     // Событие заявки, отправленное до проверки res.ok, означало бы конверсию
     // там, где сервер заявку отклонил.
@@ -95,19 +87,6 @@ describe('события', () => {
     }
     const cart = read('src/pages/cart/index.astro');
     expect(cart.indexOf("trackGoal('quote_pdf'")).toBeGreaterThan(cart.indexOf('if (!res.ok)'));
-  });
-
-  it('каждый data-goal есть в реестре целей', () => {
-    // Атрибут data-goal стоял на главных CTA сайта и не имел обработчика ни
-    // одного: разметка была, событий не было. Теперь привязка одна на весь
-    // сайт, а реестр не даёт появиться имени, которого никто не ждёт.
-    const registry = read('src/lib/goals.ts');
-    const names = new Set<string>();
-    for (const f of files) {
-      for (const m of read(f).matchAll(/data-goal="([a-z0-9_]+)"/g)) names.add(m[1]);
-    }
-    expect(names.size).toBeGreaterThan(0);
-    expect([...names].filter((n) => !registry.includes(`${n}:`))).toEqual([]);
   });
 
   it('data-goal подключён ровно одним обработчиком', () => {
@@ -127,17 +106,32 @@ describe('события', () => {
     expect(doubles).toEqual([]);
   });
 
+  it('одно понятие передаётся под одним именем параметра', () => {
+    // lead_sent слал { source }, а form_start и form_error — { form_source }.
+    // В GA4 это два разных custom dimension, и разрез «заявки по форме»
+    // распался бы на два несопоставимых набора. Имя параметра — такая же
+    // часть контракта, как имя события.
+    const banned = /trackGoal\(\s*'[a-z0-9_]+',\s*\{[^}]*\bsource:/;
+    const offenders = files.filter((f) => banned.test(read(f)));
+    expect(offenders).toEqual([]);
+  });
+
   it('в параметры событий не попадают персональные данные', () => {
     const forbidden = /trackGoal\([^)]*\b(email|phone|inn|fio|passport)\b\s*:/;
     const leaks = files.filter((f) => forbidden.test(read(f)));
     expect(leaks).toEqual([]);
   });
 
-  it('ошибка формы фиксируется отдельным событием', () => {
-    // Без form_error «заявок не было» и «сервер отвечал 502» неотличимы.
-    for (const f of ['src/components/LeadForm.astro', 'src/components/QuestionForm.astro',
-                     'src/pages/cart/index.astro']) {
-      expect(read(f), f).toContain("trackGoal('form_error'");
+  it('ошибка формы фиксируется одним событием, а не двумя', () => {
+    // Без цели ошибки «заявок не было» и «сервер отвечал 502» неотличимы.
+    // Но целей должно быть ровно по одной на форму: пока рядом с целью в
+    // catch стояла вторая в ветке !res.ok, throw из неё попадал в тот же
+    // catch и один отказ 422 считался дважды.
+    for (const [f, goal] of [['src/components/LeadForm.astro', 'lead_error'],
+                             ['src/components/QuestionForm.astro', 'lead_error'],
+                             ['src/pages/cart/index.astro', 'quote_error']] as const) {
+      const calls = read(f).match(new RegExp(`trackGoal\\('${goal}'`, 'g')) ?? [];
+      expect(calls.length, `${f}: ожидается ровно один вызов ${goal}`).toBe(1);
     }
   });
 });

@@ -34,8 +34,8 @@ STATE_OUT = OUT / "intelligence-state.json"
 
 def build_state(date: str) -> dict:
     cfg = config.load()
-    uni = universe_mod.Universe()
     vendors = D.site_vendors()
+    uni = universe_mod.Universe(vendors=D.vendor_index(vendors))
     snap_path = SNAP_DIR / f"{date}.json"
     if not snap_path.exists():
         candidates = sorted(SNAP_DIR.glob("*.json"))
@@ -47,7 +47,7 @@ def build_state(date: str) -> dict:
     clusters = cov_mod.clusters_of(uni)
     tiers = tiers_mod.assign(clusters, cfg)
     coverage = cov_mod.demand_coverage(clusters, conversion_clusters=set())
-    gaps = cov_mod.gap_analysis(uni, clusters, conversion_clusters=set())
+    gaps = cov_mod.gap_analysis(uni, clusters, conversion_clusters=set(), today=date)
     top = opp_mod.rank(gaps, 5)
     bud = budget_mod.BudgetController(cfg, today=date)
 

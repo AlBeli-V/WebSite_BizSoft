@@ -62,21 +62,22 @@ const { source = 'pricing', title = 'Запросить расчёт', submitLab
     const form = el as HTMLFormElement;
     const status = form.querySelector('[data-status]') as HTMLElement;
 
-    // Начало заполнения — отдельное событие. Без него нельзя отличить «форму
-    // не увидели» от «начали заполнять и бросили»: у этих двух причин разные
-    // способы починки.
+    // Начало заполнения — один раз на форму. Разрыв между form_start и
+    // lead_sent показывает, сколько людей упирается в саму форму: без него
+    // брошенная форма и непосещённая страница выглядят одинаково.
     let started = false;
     form.addEventListener('input', () => {
       if (started) return;
       started = true;
       trackGoal('form_start', { form_source: form.dataset.source || 'site' });
-    }, { once: false });
+    }, { passive: true });
 
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
       const submit = form.querySelector('.lf-submit') as HTMLButtonElement;
       submit.disabled = true;
       status.textContent = 'Отправляем…'; status.className = 'lf-status';
+      let httpStatus = 0;
       try {
         const data = Object.fromEntries(new FormData(form).entries());
         const attribution = await attributionPayload();
@@ -88,18 +89,27 @@ const { source = 'pricing', title = 'Запросить расчёт', submitLab
         if (!res.ok) {
           let msg = 'Не удалось отправить. Проверьте поля и попробуйте снова.';
           try { const j = await res.json(); if (j?.error) msg = j.error; } catch { /* not json */ }
-          // Ошибку фиксируем до того, как бросим: иначе «заявок не было» и
-          // «сервер отвечал 502» выглядят в отчёте одинаково.
-          trackGoal('form_error', { form_source: form.dataset.source || 'site', http_status: res.status });
+          httpStatus = res.status;
           throw new Error(msg);
         }
         form.querySelectorAll('label, .lf-grid, .vc-cap, .vc-chips, [data-chips], .lf-submit, .lf-consent, .lf-alt').forEach((n) => n.remove());
         status.className = 'lf-status ok';
         status.innerHTML = '<b>Заявка получена.</b> Ответим в рабочее время. Пока ждёте — посмотрите <a href="/documents">образцы документов</a> или <a href="/how-we-work">как проходит поставка</a>.';
         form.reset();
-        trackGoal('lead_sent', { source: form.dataset.source || 'site' });
+        trackGoal('lead_sent', { form_source: form.dataset.source || 'site' });
       } catch (err) {
         status.textContent = err instanceof Error && err.message ? err.message : 'Не удалось отправить. Позвоните нам или попробуйте позже.'; status.className = 'lf-status err';
+        // Сбой отправки — не то же самое, что передумал: без отдельной цели
+        // техническая потеря заявки списывается на поведение клиента.
+        //
+        // Событие одно на все виды сбоя и отправляется только здесь. Пока
+        // рядом стояла вторая цель в ветке !res.ok, throw из неё попадал в
+        // этот же catch и один отказ 422 считался дважды.
+        trackGoal('lead_error', {
+          form_source: form.dataset.source || 'site',
+          http_status: httpStatus,
+          reason: err instanceof Error ? err.message.slice(0, 100) : 'unknown',
+        });
       } finally {
         submit.disabled = false;
       }

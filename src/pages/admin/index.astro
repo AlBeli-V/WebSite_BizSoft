@@ -390,7 +390,11 @@ const CRM = {
   };
 
   let TOKEN = localStorage.getItem('bz_admin_token') || '';
-  let ME = localStorage.getItem('bz_admin_me') || '';
+  // Ответственный по умолчанию — распоряжение руководителя 21.08.2026.
+  // Пустое поле означало, что заявку надо подписывать руками при каждом
+  // переводе по стадиям, и половина заявок оставалась ничьей.
+  const DEFAULT_ME = 'Беляев Алексей';
+  let ME = localStorage.getItem('bz_admin_me') || DEFAULT_ME;
   let LEADS: any[] = [];
   let EVENTS: Record<string, any[]> = {};
   let FILTER = 'work';
@@ -667,7 +671,7 @@ const CRM = {
 
   async function load(keepOpen = false) {
     TOKEN = tokenInput.value.trim();
-    ME = meInput.value.trim();
+    ME = meInput.value.trim() || DEFAULT_ME;
     localStorage.setItem('bz_admin_token', TOKEN);
     localStorage.setItem('bz_admin_me', ME);
     setMsg('Загружаю…');

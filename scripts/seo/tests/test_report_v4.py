@@ -209,6 +209,14 @@ class TestMeasurementLimits(unittest.TestCase):
         self.assertIsNone(anl["resolved_on"])
         self.assertIn(("MEASUREMENT_GAP", "ANL-001"), self._findings([anl]))
 
+    def test_open_limits_carry_closing_instructions(self):
+        """Что делать в день закрытия — рядом с записью, а не в памяти сессии."""
+        for lim in self.q.load_measurement_limits():
+            if lim.get("resolved_on"):
+                continue
+            self.assertTrue(lim.get("on_resolve"),
+                            f"{lim['id']}: нет инструкции на день закрытия")
+
     def test_planned_limit_is_silent(self):
         planned = {"id": "X", "status": "planned", "resolved_on": None}
         self.assertEqual(self._findings([planned]), [])

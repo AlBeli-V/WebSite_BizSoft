@@ -496,7 +496,7 @@ const cards = jb.map((p) => {
 <script>
   import { trackGoal } from '@/lib/analytics';
   // Аналитические события (Метрика + GA4)
-  trackGoal('view_jetbrains_landing', { page_url: location.pathname });
+  trackGoal('view_vendor_landing', { vendor: 'jetbrains', page_url: location.pathname });
   document.querySelectorAll('[data-ev]').forEach((el) => {
     el.addEventListener('click', () => trackGoal((el as HTMLElement).dataset.ev!, { block_name: 'jetbrains' }));
   });

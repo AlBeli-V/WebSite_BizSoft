@@ -1,22 +1,22 @@
 {
  "date": "2026-08-21",
- "generated_at": "2026-08-21T09:42:58+00:00",
+ "generated_at": "2026-08-21T13:27:50+00:00",
  "measured_at": "2026-08-21",
  "universe": {
-  "phrases": 16501,
-  "commercial_phrases": 1754,
-  "clusters": 150,
-  "total_commercial_demand": 246435,
-  "total_demand": 34240140,
-  "with_page": 14675,
-  "cost_rub": 4.7435
+  "phrases": 17301,
+  "commercial_phrases": 1776,
+  "clusters": 139,
+  "total_commercial_demand": 247069,
+  "total_demand": 34348955,
+  "with_page": 16617,
+  "cost_rub": 4.8837
  },
  "coverage": {
   "available": true,
-  "total_commercial_demand": 246435,
+  "total_commercial_demand": 247069,
   "levels": {
-   "page": 0.5489,
-   "indexed": 0.1319,
+   "page": 0.8578,
+   "indexed": 0.157,
    "top10": 0.0204,
    "clicks": 0.0001,
    "conversion_measured": null,
@@ -29,16 +29,15 @@
   "total": 52116,
   "phrases": 18,
   "by_cluster": {
-   "box купить": 30187,
-   "zoom купить": 8049,
+   "box": 30187,
+   "zoom": 10813,
    "bubble купить": 5732,
-   "zoom": 2764,
    "glide купить": 1580,
    "unity": 1336,
    "spine": 848,
    "rive": 675,
    "linear купить": 489,
-   "sentry купить": 164,
+   "sentry": 164,
    "intercom купить": 108,
    "google": 100,
    "replit купить": 84
@@ -46,57 +45,57 @@
   "reason": "голая фраза омонимичного бренда: принадлежность вендору не доказана и не опровергнута"
  },
  "coverage_by_category": {
-  "не определено": {
-   "demand": 96224,
-   "covered": 2835,
+  "Офисное ПО": {
+   "demand": 62372,
+   "covered": 62372,
    "top10": 0,
    "clicks": 0,
-   "page_coverage": 0.029,
+   "page_coverage": 1.0,
    "top10_coverage": 0.0,
    "click_coverage": 0.0
   },
-  "Офисное ПО": {
-   "demand": 62045,
-   "covered": 55439,
+  "AI-сервисы": {
+   "demand": 59963,
+   "covered": 59963,
+   "top10": 2117,
+   "clicks": 0,
+   "page_coverage": 1.0,
+   "top10_coverage": 0.035,
+   "click_coverage": 0.0
+  },
+  "не определено": {
+   "demand": 56051,
+   "covered": 20906,
    "top10": 0,
    "clicks": 0,
-   "page_coverage": 0.894,
+   "page_coverage": 0.373,
    "top10_coverage": 0.0,
    "click_coverage": 0.0
   },
   "Дизайн и графика": {
-   "demand": 38674,
-   "covered": 38674,
+   "demand": 38175,
+   "covered": 38175,
    "top10": 2140,
    "clicks": 26,
    "page_coverage": 1.0,
-   "top10_coverage": 0.055,
+   "top10_coverage": 0.056,
    "click_coverage": 0.001
-  },
-  "AI-сервисы": {
-   "demand": 20584,
-   "covered": 17093,
-   "top10": 2117,
-   "clicks": 0,
-   "page_coverage": 0.83,
-   "top10_coverage": 0.103,
-   "click_coverage": 0.0
   },
   "Средства разработки": {
    "demand": 10821,
-   "covered": 5859,
+   "covered": 10821,
    "top10": 0,
    "clicks": 0,
-   "page_coverage": 0.541,
+   "page_coverage": 1.0,
    "top10_coverage": 0.0,
    "click_coverage": 0.0
   },
   "Системное ПО": {
-   "demand": 6399,
-   "covered": 6290,
+   "demand": 6806,
+   "covered": 6806,
    "top10": 0,
    "clicks": 0,
-   "page_coverage": 0.983,
+   "page_coverage": 1.0,
    "top10_coverage": 0.0,
    "click_coverage": 0.0
   },
@@ -111,34 +110,34 @@
   },
   "Инженерное ПО (CAD/CAE)": {
    "demand": 3028,
-   "covered": 2413,
+   "covered": 3028,
    "top10": 0,
    "clicks": 0,
-   "page_coverage": 0.797,
+   "page_coverage": 1.0,
    "top10_coverage": 0.0,
    "click_coverage": 0.0
   },
   "Доски и совместная работа": {
-   "demand": 2703,
-   "covered": 2135,
+   "demand": 2759,
+   "covered": 2759,
    "top10": 780,
    "clicks": 0,
-   "page_coverage": 0.79,
-   "top10_coverage": 0.289,
+   "page_coverage": 1.0,
+   "top10_coverage": 0.283,
    "click_coverage": 0.0
   },
   "Разработка": {
-   "demand": 1493,
-   "covered": 73,
+   "demand": 2131,
+   "covered": 2131,
    "top10": 0,
    "clicks": 0,
-   "page_coverage": 0.049,
+   "page_coverage": 1.0,
    "top10_coverage": 0.0,
    "click_coverage": 0.0
   },
   "Архитектура и BIM": {
-   "demand": 387,
-   "covered": 387,
+   "demand": 886,
+   "covered": 886,
    "top10": 0,
    "clicks": 0,
    "page_coverage": 1.0,
@@ -156,27 +155,20 @@
   }
  },
  "tiers": {
-  "A": 34,
-  "B": 42,
-  "C": 71
+  "A": 38,
+  "B": 26,
+  "C": 61
  },
  "gaps_by_class": {
-  "GAP-A": 12,
-  "GAP-B": 24,
+  "GAP-A": 3,
+  "GAP-B": 35,
   "GAP-C": 3,
   "GAP-D": 3,
-  "GAP-F": 1,
-  "GAP-G": 17,
-  "GAP-H": 16
+  "GAP-F": 2,
+  "GAP-G": 3,
+  "GAP-H": 13
  },
  "uncovered_top": [
-  {
-   "cluster": "claude купить",
-   "demand": 26106,
-   "gap": "GAP-G",
-   "action": "ранняя возможность",
-   "top_phrase": "claude купить"
-  },
   {
    "cluster": "оплата зарубежных сервисов",
    "demand": 15947,
@@ -185,74 +177,67 @@
    "top_phrase": "оплата зарубежных сервисов"
   },
   {
-   "cluster": "spotify купить",
-   "demand": 15075,
-   "gap": "GAP-G",
-   "action": "ранняя возможность",
-   "top_phrase": "spotify купить"
-  },
-  {
-   "cluster": "gemini купить",
-   "demand": 13582,
-   "gap": "GAP-G",
-   "action": "ранняя возможность",
-   "top_phrase": "gemini купить"
-  },
-  {
-   "cluster": "microsoft 365 купить",
-   "demand": 6606,
+   "cluster": "aws купить",
+   "demand": 1133,
    "gap": "GAP-A",
    "action": "новая посадочная страница или материал",
-   "top_phrase": "microsoft 365 купить"
+   "top_phrase": "aws присадка купить"
   },
   {
-   "cluster": "chatgpt plus купить",
-   "demand": 4851,
-   "gap": "GAP-G",
-   "action": "ранняя возможность",
-   "top_phrase": "купить chatgpt plus"
+   "cluster": "wordpress купить",
+   "demand": 299,
+   "gap": "GAP-H",
+   "action": "снизить приоритет, наблюдать",
+   "top_phrase": "wordpress купить"
   },
   {
-   "cluster": "suno купить",
-   "demand": 3744,
+   "cluster": "deepl купить",
+   "demand": 184,
    "gap": "GAP-A",
    "action": "новая посадочная страница или материал",
-   "top_phrase": "suno купить"
+   "top_phrase": "deepl купить"
   },
   {
-   "cluster": "cursor купить",
-   "demand": 3521,
-   "gap": "GAP-G",
-   "action": "ранняя возможность",
-   "top_phrase": "купить cursor"
-  },
-  {
-   "cluster": "perplexity купить",
-   "demand": 3491,
-   "gap": "GAP-G",
-   "action": "ранняя возможность",
-   "top_phrase": "perplexity купить"
-  },
-  {
-   "cluster": "box купить",
-   "demand": 3070,
+   "cluster": "nordvpn купить",
+   "demand": 167,
    "gap": "GAP-A",
    "action": "новая посадочная страница или материал",
-   "top_phrase": "pro box купить"
+   "top_phrase": "nordvpn купить"
+  },
+  {
+   "cluster": "ansys купить",
+   "demand": 129,
+   "gap": "GAP-H",
+   "action": "снизить приоритет, наблюдать",
+   "top_phrase": "ansys купить"
+  },
+  {
+   "cluster": "slack купить",
+   "demand": 123,
+   "gap": "GAP-G",
+   "action": "ранняя возможность",
+   "top_phrase": "slacker купить"
+  },
+  {
+   "cluster": "windsurf купить",
+   "demand": 114,
+   "gap": "GAP-G",
+   "action": "ранняя возможность",
+   "top_phrase": "windsurf купить"
   }
  ],
  "opportunities": [
   {
-   "cluster": "claude купить",
-   "vendor": null,
-   "category": null,
-   "gap": "GAP-G",
-   "gap_title": "Спрос растёт",
-   "recommended_action": "ранняя возможность",
-   "commercial_demand": 26106,
-   "commercial_phrases": 144,
-   "url": null,
-   "page_exists": false,
+   "cluster": "anthropic",
+   "vendor": "Anthropic",
+   "category": "AI-сервисы",
+   "gap": "GAP-B",
+   "gap_title": "Страница есть, не индексируется",
+   "recommended_action": "техническое SEO",
+   "commercial_demand": 27231,
+   "commercial_phrases": 160,
+   "url": "/vendors/anthropic",
+   "page_exists": true,
    "indexed": false,
    "best_position": null,
    "impressions": 0,
@@ -282,17 +267,80 @@
     }
    ],
    "subclusters": {
-    "покупка": 26096,
-    "цены и тарифы": 10
+    "покупка": 26305,
+    "цены и тарифы": 369,
+    "подписка и продление": 258,
+    "прочее": 229
    },
-   "opportunity_score": 0.13774,
+   "step": "Разобраться, почему /vendors/anthropic не индексируется",
+   "prompt": "Страница /vendors/anthropic существует, но не в индексе. Проверь через ops-* workflow: код ответа, robots.txt, meta robots, canonical, наличие в sitemap.xml, статус в Яндекс.Вебмастере. Найди причину, устрани и запроси переобход через ops-yandex-recrawl. Контрольная дата 2026-08-31.",
+   "success": "страница в индексе к 2026-08-31",
+   "check_on": "2026-08-31",
+   "opportunity_score": 0.2171,
    "components": {
-    "normalized_demand": 0.4709,
+    "normalized_demand": 0.4366,
     "commercial_intent": 1.0,
-    "coverage_gap": 1.0,
+    "coverage_gap": 0.85,
     "trend_factor": 1.3,
     "confidence": 0.9,
-    "estimated_effort": 4.0
+    "estimated_effort": 2.0
+   },
+   "confidence_note": "достаточная: кластер измерен несколькими фразами"
+  },
+  {
+   "cluster": "google",
+   "vendor": "Google",
+   "category": "AI-сервисы",
+   "gap": "GAP-B",
+   "gap_title": "Страница есть, не индексируется",
+   "recommended_action": "техническое SEO",
+   "commercial_demand": 19390,
+   "commercial_phrases": 132,
+   "url": "/vendors/google",
+   "page_exists": true,
+   "indexed": false,
+   "best_position": null,
+   "impressions": 0,
+   "clicks": 0,
+   "ctr": null,
+   "trend": "growing",
+   "top_phrases": [
+    {
+     "phrase": "gemini купить",
+     "frequency": 5300
+    },
+    {
+     "phrase": "купить аккаунт google",
+     "frequency": 2084
+    },
+    {
+     "phrase": "gemini pro купить",
+     "frequency": 1442
+    },
+    {
+     "phrase": "купить подписку gemini",
+     "frequency": 1336
+    },
+    {
+     "phrase": "google ai купить",
+     "frequency": 1035
+    }
+   ],
+   "subclusters": {
+    "покупка": 19390
+   },
+   "step": "Разобраться, почему /vendors/google не индексируется",
+   "prompt": "Страница /vendors/google существует, но не в индексе. Проверь через ops-* workflow: код ответа, robots.txt, meta robots, canonical, наличие в sitemap.xml, статус в Яндекс.Вебмастере. Найди причину, устрани и запроси переобход через ops-yandex-recrawl. Контрольная дата 2026-08-31.",
+   "success": "страница в индексе к 2026-08-31",
+   "check_on": "2026-08-31",
+   "opportunity_score": 0.1546,
+   "components": {
+    "normalized_demand": 0.3109,
+    "commercial_intent": 1.0,
+    "coverage_gap": 0.85,
+    "trend_factor": 1.3,
+    "confidence": 0.9,
+    "estimated_effort": 2.0
    },
    "confidence_note": "достаточная: кластер измерен несколькими фразами"
   },
@@ -341,9 +389,13 @@
     "цены и тарифы": 4679,
     "оплата": 296
    },
-   "opportunity_score": 0.10097,
+   "step": "Оценить платный канал по «adobe купить» — 23 322 запросов в месяц, органика будет долгой",
+   "prompt": "По «adobe купить» спрос 23 322 запросов в месяц, органика займёт месяцы. Подготовь расчёт платного канала: оценка ставки, прогноз стоимости обращения, месячный бюджет. Только расчёт — запуск рекламы и бюджет решает руководитель, рекламные кабинеты не трогать.",
+   "success": "расчёт на столе у руководителя, решение о запуске за ним",
+   "check_on": "2026-09-20",
+   "opportunity_score": 0.08974,
    "components": {
-    "normalized_demand": 0.4207,
+    "normalized_demand": 0.3739,
     "commercial_intent": 1.0,
     "coverage_gap": 0.8,
     "trend_factor": 1.0,
@@ -394,9 +446,13 @@
    "subclusters": {
     "оплата": 15947
    },
-   "opportunity_score": 0.08412,
+   "step": "Завести страницу под «оплата зарубежных сервисов» — 15 947 запросов в месяц; сейчас своей страницы нет",
+   "prompt": "Создай посадочную страницу под кластер «оплата зарубежных сервисов». Ведущая фраза — «оплата зарубежных сервисов», измеренный покупательский спрос 15 947 запросов в месяц. Проверь по src/data/vendors.ts, что вендора действительно нет в каталоге, и по reports/seo/wordstat/decisions.json — что решение по нему не принято. Прежде чем заводить: подтверди, что вендор принимает оплату картой или через наш зарубежный счёт, иначе спрос в сделку не превратится. Сделай карточку вендора, перелинкуй с разделом назначения ПО, добавь в sitemap и запроси переобход через ops-yandex-recrawl. Заведи эксперимент в reports/seo/intelligence/seo-experiments.json с собственной датой старта и контрольной датой 2026-09-11.",
+   "success": "страница в индексе Яндекса и показы по «оплата зарубежных сервисов» больше нуля к 2026-09-11",
+   "check_on": "2026-09-11",
+   "opportunity_score": 0.07479,
    "components": {
-    "normalized_demand": 0.2876,
+    "normalized_demand": 0.2557,
     "commercial_intent": 1.0,
     "coverage_gap": 1.0,
     "trend_factor": 1.3,
@@ -406,16 +462,16 @@
    "confidence_note": "достаточная: кластер измерен несколькими фразами"
   },
   {
-   "cluster": "spotify купить",
-   "vendor": null,
-   "category": null,
-   "gap": "GAP-G",
-   "gap_title": "Спрос растёт",
-   "recommended_action": "ранняя возможность",
-   "commercial_demand": 15075,
-   "commercial_phrases": 50,
-   "url": null,
-   "page_exists": false,
+   "cluster": "cursor",
+   "vendor": "Cursor",
+   "category": "Средства разработки",
+   "gap": "GAP-B",
+   "gap_title": "Страница есть, не индексируется",
+   "recommended_action": "техническое SEO",
+   "commercial_demand": 8374,
+   "commercial_phrases": 24,
+   "url": "/vendors/cursor",
+   "page_exists": true,
    "indexed": false,
    "best_position": null,
    "impressions": 0,
@@ -424,90 +480,44 @@
    "trend": "growing",
    "top_phrases": [
     {
-     "phrase": "spotify купить",
-     "frequency": 5395
+     "phrase": "cursor подписка",
+     "frequency": 1949
     },
     {
-     "phrase": "купить аккаунт spotify",
-     "frequency": 1882
+     "phrase": "купить cursor",
+     "frequency": 1719
     },
     {
-     "phrase": "spotify купить подписку",
-     "frequency": 1609
+     "phrase": "оплатить cursor",
+     "frequency": 669
     },
     {
-     "phrase": "spotify аккаунт купить мир",
-     "frequency": 1543
+     "phrase": "cursor в россии",
+     "frequency": 617
     },
     {
-     "phrase": "spotify аккаунт купить мир танков",
-     "frequency": 1543
+     "phrase": "cursor купить подписку",
+     "frequency": 498
     }
    ],
    "subclusters": {
-    "покупка": 15075
+    "покупка": 3521,
+    "подписка и продление": 2584,
+    "оплата": 1045,
+    "прочее": 798
    },
-   "opportunity_score": 0.07953,
+   "step": "Разобраться, почему /vendors/cursor не индексируется",
+   "prompt": "Страница /vendors/cursor существует, но не в индексе. Проверь через ops-* workflow: код ответа, robots.txt, meta robots, canonical, наличие в sitemap.xml, статус в Яндекс.Вебмастере. Найди причину, устрани и запроси переобход через ops-yandex-recrawl. Контрольная дата 2026-08-31.",
+   "success": "страница в индексе к 2026-08-31",
+   "check_on": "2026-08-31",
+   "opportunity_score": 0.06678,
    "components": {
-    "normalized_demand": 0.2719,
+    "normalized_demand": 0.1343,
     "commercial_intent": 1.0,
-    "coverage_gap": 1.0,
+    "coverage_gap": 0.85,
     "trend_factor": 1.3,
     "confidence": 0.9,
-    "estimated_effort": 4.0
-   },
-   "confidence_note": "достаточная: кластер измерен несколькими фразами"
-  },
-  {
-   "cluster": "gemini купить",
-   "vendor": null,
-   "category": null,
-   "gap": "GAP-G",
-   "gap_title": "Спрос растёт",
-   "recommended_action": "ранняя возможность",
-   "commercial_demand": 13582,
-   "commercial_phrases": 115,
-   "url": null,
-   "page_exists": false,
-   "indexed": false,
-   "best_position": null,
-   "impressions": 0,
-   "clicks": 0,
-   "ctr": null,
-   "trend": "growing",
-   "top_phrases": [
-    {
-     "phrase": "gemini купить",
-     "frequency": 5300
-    },
-    {
-     "phrase": "gemini pro купить",
-     "frequency": 1442
-    },
-    {
-     "phrase": "купить подписку gemini",
-     "frequency": 1336
-    },
-    {
-     "phrase": "gemini ai купить",
-     "frequency": 342
-    },
-    {
-     "phrase": "gemini google купить",
-     "frequency": 290
-    }
-   ],
-   "subclusters": {
-    "покупка": 13582
-   },
-   "opportunity_score": 0.07166,
-   "components": {
-    "normalized_demand": 0.245,
-    "commercial_intent": 1.0,
-    "coverage_gap": 1.0,
-    "trend_factor": 1.3,
-    "confidence": 0.9,
-    "estimated_effort": 4.0
+    "estimated_effort": 2.0
    },
    "confidence_note": "достаточная: кластер измерен несколькими фразами"
   }
@@ -515,8 +525,8 @@
  "vendor_expansion": {
   "available": true,
   "reason": null,
-  "candidates_total": 95,
-  "candidates_measured": 34,
+  "candidates_total": 93,
+  "candidates_measured": 32,
   "recommended": [
    {
     "brand": "wordpress",
@@ -649,152 +659,6 @@
      ]
     },
     "measured_at": "2026-08-21"
-   },
-   {
-    "brand": "spotify",
-    "kind": "classic",
-    "payment": {
-     "verdict": "likely_card",
-     "note": "есть цены и кнопки покупки, платёжная система не опознана",
-     "url": "https://www.spotify.com/premium/",
-     "checked_at": "2026-08-20"
-    },
-    "recommendation": "рекомендуем добавить с проверкой",
-    "recommendation_why": "цены и покупка на сайте есть, платёжная система не опознана — подтвердить при первой сделке",
-    "total_demand": 15075,
-    "commercial_demand": 15075,
-    "commercial_phrases": 50,
-    "top_phrases": [
-     {
-      "phrase": "spotify купить",
-      "frequency": 5395
-     },
-     {
-      "phrase": "купить аккаунт spotify",
-      "frequency": 1882
-     },
-     {
-      "phrase": "spotify купить подписку",
-      "frequency": 1609
-     },
-     {
-      "phrase": "spotify аккаунт купить мир",
-      "frequency": 1543
-     },
-     {
-      "phrase": "spotify аккаунт купить мир танков",
-      "frequency": 1543
-     }
-    ],
-    "trend": "growing",
-    "effort": 1.0,
-    "effort_note": "одна карточка вендора",
-    "demand_confidence": "высокая",
-    "demand_confidence_note": null,
-    "priority_score": 15075.0,
-    "seo": {
-     "url": "/vendors/spotify",
-     "title": "Оплата Spotify для юридических лиц из России — счёт, договор, ЭДО | BIZSoft",
-     "description": "Оплатим подписку Spotify на вашу компанию в рублях по счёту. Договор, закрывающие документы через ЭДО, доступ за 1–3 дня.",
-     "h1": "Spotify для юридических лиц",
-     "faq_topics": [
-      "Как купить Spotify на юрлицо — по счёту и договору?",
-      "Какие закрывающие документы вы предоставляете?",
-      "Как быстро появится доступ к Spotify после оплаты?",
-      "В какой валюте оплата и как считается цена?"
-     ],
-     "target_phrases": [
-      "spotify купить",
-      "купить аккаунт spotify",
-      "spotify купить подписку",
-      "spotify аккаунт купить мир",
-      "spotify аккаунт купить мир танков",
-      "spotify premium купить",
-      "купить spotify россия",
-      "spotify подписка купить в россии"
-     ],
-     "needed_subclusters": [
-      "покупка"
-     ],
-     "internal_links": [
-      "/catalog",
-      "/blog/kak-kupit-zarubezhnoe-po-dlya-yurlica"
-     ]
-    },
-    "measured_at": "2026-08-20"
-   },
-   {
-    "brand": "youtube premium",
-    "kind": "classic",
-    "payment": {
-     "verdict": "likely_card",
-     "note": "есть цены и кнопки покупки, платёжная система не опознана",
-     "url": "https://www.youtube.com/premium",
-     "checked_at": "2026-08-20"
-    },
-    "recommendation": "рекомендуем добавить с проверкой",
-    "recommendation_why": "цены и покупка на сайте есть, платёжная система не опознана — подтвердить при первой сделке",
-    "total_demand": 1164,
-    "commercial_demand": 1164,
-    "commercial_phrases": 14,
-    "top_phrases": [
-     {
-      "phrase": "купить youtube premium",
-      "frequency": 806
-     },
-     {
-      "phrase": "купить подписку youtube premium",
-      "frequency": 132
-     },
-     {
-      "phrase": "youtube premium купить в россии",
-      "frequency": 63
-     },
-     {
-      "phrase": "купить youtube music premium",
-      "frequency": 50
-     },
-     {
-      "phrase": "youtube premium купить в россии 2026",
-      "frequency": 21
-     }
-    ],
-    "trend": "growing",
-    "effort": 1.0,
-    "effort_note": "одна карточка вендора",
-    "demand_confidence": "высокая",
-    "demand_confidence_note": null,
-    "priority_score": 1164.0,
-    "seo": {
-     "url": "/vendors/youtube-premium",
-     "title": "Оплата Youtube Premium для юридических лиц из России — счёт, договор, ЭДО | BIZSoft",
-     "description": "Оплатим подписку Youtube Premium на вашу компанию в рублях по счёту. Договор, закрывающие документы через ЭДО, доступ за 1–3 дня.",
-     "h1": "Youtube Premium для юридических лиц",
-     "faq_topics": [
-      "Как купить Youtube Premium на юрлицо — по счёту и договору?",
-      "Какие закрывающие документы вы предоставляете?",
-      "Как быстро появится доступ к Youtube Premium после оплаты?",
-      "В какой валюте оплата и как считается цена?"
-     ],
-     "target_phrases": [
-      "купить youtube premium",
-      "купить подписку youtube premium",
-      "youtube premium купить в россии",
-      "купить youtube music premium",
-      "youtube premium купить в россии 2026",
-      "купить аккаунт youtube premium",
-      "youtube premium турция купить",
-      "как купить подписку youtube premium в россии"
-     ],
-     "needed_subclusters": [
-      "покупка"
-     ],
-     "internal_links": [
-      "/catalog",
-      "/blog/kak-kupit-zarubezhnoe-po-dlya-yurlica"
-     ]
-    },
-    "measured_at": "2026-08-20"
    },
    {
     "brand": "aws",
@@ -1147,16 +1011,16 @@
     "measured_at": "2026-08-20"
    }
   ],
-  "recommended_total": 9,
-  "combined_demand": 18388,
+  "recommended_total": 7,
+  "combined_demand": 2149,
   "by_payment": {
    "card": 2,
-   "likely_card": 5,
+   "likely_card": 3,
    "unknown": 2
   },
   "by_kind": {
    "ai": 2,
-   "classic": 7
+   "classic": 5
   },
   "low_confidence": [],
   "needs_manual_check": [
@@ -1166,22 +1030,22 @@
   "note": "Российские вендоры исключены: их лицензии продаются напрямую, услуга оплаты из-за рубежа к ним неприменима."
  },
  "efficiency": {
-  "calls_total": 893,
-  "calls_paid": 385,
-  "cost_month_rub": 8.9,
-  "cost_today_rub": 1.13,
-  "remaining_budget_rub": 5491.1,
-  "forecast_month_end_rub": 13.14,
+  "calls_total": 963,
+  "calls_paid": 393,
+  "cost_month_rub": 9.06,
+  "cost_today_rub": 1.29,
+  "remaining_budget_rub": 5490.94,
+  "forecast_month_end_rub": 13.37,
   "state": "open",
-  "cache_hit_rate": 0.5689,
-  "duplicate_rate": 0.2875,
-  "unique_phrases": 10001,
-  "new_commercial_phrases": 2363,
-  "new_clusters": 105,
-  "cost_per_1000_unique_phrases_rub": 0.89,
-  "cost_per_1000_commercial_phrases_rub": 3.766,
-  "cost_per_new_cluster_rub": 0.0848,
-  "empty_response_rate": 0.2822
+  "cache_hit_rate": 0.5919,
+  "duplicate_rate": 0.2721,
+  "unique_phrases": 10801,
+  "new_commercial_phrases": 2387,
+  "new_clusters": 110,
+  "cost_per_1000_unique_phrases_rub": 0.839,
+  "cost_per_1000_commercial_phrases_rub": 3.796,
+  "cost_per_new_cluster_rub": 0.0824,
+  "empty_response_rate": 0.2887
  },
  "quota": {
   "requests_per_hour": 500,
@@ -1194,7 +1058,7 @@
   "title": "Спрос и направления развития",
   "expansion": {
    "title": "Каких вендоров добавить",
-   "summary": "Проверили спрос на 34 зарубежных разработчиков вне каталога: у 9 он подтверждён, суммарно 18 388 запросов в месяц. Из них: 3 с оплатой картой можно заводить сразу, 2 требуют ручной проверки оплаты.",
+   "summary": "Проверили спрос на 32 зарубежных разработчиков вне каталога: у 7 он подтверждён, суммарно 2 149 запросов в месяц. Из них: 3 с оплатой картой можно заводить сразу, 2 требуют ручной проверки оплаты.",
    "items": [
     {
      "brand": "wordpress",
@@ -1225,17 +1089,17 @@
    ],
    "note": "Российские вендоры исключены: их лицензии продаются напрямую, услуга оплаты из-за рубежа к ним неприменима."
   },
-  "summary": "Мы видим 246 435 покупательских запросов в месяц по 150 направлениям каталога. Своя страница есть под 55% этого спроса, в поиске находится 13%, на первой странице — 2%. Без страницы остаётся 95 993 запросов в месяц — это направления, где спрос есть, а нас в выдаче нет. Ещё 52 116 запросов в месяц не отнесены ни к нам, ни к чужому товару: это голые фразы омонимичных брендов (box купить — 30 187, zoom купить — 8 049, bubble купить — 5 732). В спрос и в решения об ассортименте они не входят.",
+  "summary": "Мы видим 247 069 покупательских запросов в месяц по 139 направлениям каталога. Своя страница есть под 86% этого спроса, в поиске находится 16%, на первой странице — 2%. Без страницы остаётся 18 096 запросов в месяц — это направления, где спрос есть, а нас в выдаче нет. Ещё 52 116 запросов в месяц не отнесены ни к нам, ни к чужому товару: это голые фразы омонимичных брендов (box — 30 187, zoom — 10 813, bubble купить — 5 732). В спрос и в решения об ассортименте они не входят.",
   "coverage": {
-   "page": 0.5489,
-   "indexed": 0.1319,
+   "page": 0.8578,
+   "indexed": 0.157,
    "top10": 0.0204
   },
   "lead_opportunity": {
-   "cluster": "claude купить",
-   "demand": 26106,
-   "action": "ранняя возможность",
-   "why": "Спрос растёт",
+   "cluster": "anthropic",
+   "demand": 27231,
+   "action": "техническое SEO",
+   "why": "Страница есть, не индексируется",
    "confidence": "достаточная: кластер измерен несколькими фразами"
   },
   "measured_at": "2026-08-21"

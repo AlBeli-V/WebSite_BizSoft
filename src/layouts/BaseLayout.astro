@@ -127,5 +127,10 @@ const { title, description, canonical, ogImage, noindex, type, keywords } = Astr
       reveal();
       document.addEventListener('astro:after-swap', reveal);
     </script>
+      <script>
+      // Клики по телефону, почте и мессенджерам — одним обработчиком на сайт.
+      import { initContactGoals } from '../lib/contact-goals';
+      initContactGoals();
+    </script>
   </body>
 </html>

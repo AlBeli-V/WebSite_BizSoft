@@ -138,6 +138,7 @@ const { source = 'question' } = Astro.props as { source?: string };
       submit.disabled = true;
       status.textContent = 'Отправляем…';
       status.className = 'qf-status';
+      let httpStatus = 0;
       try {
         const data = Object.fromEntries(new FormData(form).entries());
         const attribution = await attributionPayload();
@@ -149,17 +150,25 @@ const { source = 'question' } = Astro.props as { source?: string };
         if (!res.ok) {
           let msg = 'Не удалось отправить. Проверьте поля и попробуйте снова.';
           try { const j = await res.json(); if (j?.error) msg = j.error; } catch { /* not json */ }
-          trackGoal('form_error', { form_source: 'question', http_status: res.status });
+          httpStatus = res.status;
           throw new Error(msg);
         }
         status.textContent = 'Готово! Мы свяжемся с вами в ближайшее время.';
         status.className = 'qf-status ok';
         form.reset();
-        trackGoal('lead_sent', { source: 'question' });
+        trackGoal('lead_sent', { form_source: 'question' });
         setTimeout(() => dialog.close(), 1800);
       } catch (err) {
         status.textContent = err instanceof Error && err.message ? err.message : 'Не удалось отправить. Позвоните нам или попробуйте позже.';
         status.className = 'qf-status err';
+        // Событие одно на все виды сбоя и отправляется только здесь. Пока
+        // рядом стояла вторая цель в ветке !res.ok, throw из неё попадал в
+        // этот же catch и один отказ 422 считался дважды.
+        trackGoal('lead_error', {
+          form_source: 'question',
+          http_status: httpStatus,
+          reason: err instanceof Error ? err.message.slice(0, 100) : 'unknown',
+        });
       } finally {
         submit.disabled = false;
       }

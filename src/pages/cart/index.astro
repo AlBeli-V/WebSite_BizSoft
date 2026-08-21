@@ -27,7 +27,7 @@ try {
   }).filter((pr) => pr.items.length >= 2);
 } catch { /* без пресетов страница работает как раньше */ }
 ---
-<BaseLayout title="Избранное" description="Избранное BIZSoft: соберите подписки и получите коммерческое предложение в PDF." noindex={true}>
+<BaseLayout title="Избранное" description="Избранное BIZSoft: соберите подписки и получите коммерческое предложение с реквизитами." noindex={true}>
   <div class="container-page section">
     <Breadcrumbs items={[{ name: 'Избранное', url: '/cart' }]} />
     <h1 class="h1-spec">Избранное: редактирование спецификации для подготовки КП</h1>
@@ -100,10 +100,18 @@ try {
     <form class="kp-form" data-kp-form>
       <button type="button" class="kp-close" data-kp-close aria-label="Закрыть">✕</button>
       <h2>Получить КП</h2>
-      <p class="kp-hint">Сформируем PDF с реквизитами и составом заказа, отправим на e-mail и дадим скачать.</p>
-      <label>Организация:<input name="buyer_company" required /></label>
+      <p class="kp-hint">Подготовим коммерческое предложение с составом заказа и реквизитами и отправим на указанную почту.</p>
+      <label class="kp-suggest">
+        Организация или ИНН:
+        <input name="buyer_company" required autocomplete="organization"
+               placeholder="Начните вводить название или ИНН"
+               role="combobox" aria-expanded="false" aria-autocomplete="list"
+               aria-controls="kp-suggest-list" data-company />
+        <ul class="kp-list" id="kp-suggest-list" role="listbox" hidden data-suggest></ul>
+      </label>
+      <p class="kp-found" data-found hidden></p>
       <div class="kp-row">
-        <label>ИНН:<input name="buyer_inn" required inputmode="numeric" /></label>
+        <label>ИНН:<input name="buyer_inn" required inputmode="numeric" data-inn /></label>
         <label>ФИО:<input name="contact_name" required autocomplete="name" /></label>
       </div>
       <div class="kp-row">
@@ -114,7 +122,7 @@ try {
         <input type="checkbox" name="consent" required />
         <span>Согласен на обработку персональных данных согласно <a href="/privacy" target="_blank" rel="noopener noreferrer">политике</a>.</span>
       </label>
-      <button type="submit" class="btn btn-primary kp-submit">Сформировать КП (PDF)</button>
+      <button type="submit" class="btn btn-primary kp-submit">Отправить КП на почту</button>
       <p class="kp-status" data-kp-status role="status" aria-live="polite"></p>
     </form>
   </dialog>
@@ -153,6 +161,31 @@ try {
   .kp-form { padding: 2rem; display: flex; flex-direction: column; gap: 0.9rem; position: relative; }
   .kp-form h2 { font-size: 1.5rem; }
   .kp-hint { color: var(--color-text-muted); font-size: 0.9rem; margin-top: -0.4rem; }
+
+  /* Подсказки по организациям. Список лежит поверх формы, поэтому у поля
+     собственный контекст позиционирования. */
+  .kp-suggest { position: relative; }
+  .kp-list {
+    position: absolute; z-index: 5; left: 0; right: 0; top: 100%;
+    margin: 0.2rem 0 0; padding: 0.25rem; list-style: none;
+    background: var(--color-bg-elevated); border: 1px solid var(--color-border-strong);
+    border-radius: 10px; box-shadow: 0 10px 28px rgb(0 0 0 / 18%);
+    max-height: 17rem; overflow-y: auto;
+  }
+  .kp-list li {
+    padding: 0.5rem 0.6rem; border-radius: 7px; cursor: pointer; line-height: 1.35;
+  }
+  .kp-list li:hover, .kp-list li[aria-selected='true'] { background: var(--color-bg-subtle); }
+  .kp-list b { display: block; font-size: 0.95rem; }
+  .kp-list span { display: block; font-size: 0.82rem; color: var(--color-text-muted); }
+  /* Подставленные реквизиты видны и остаются доступными для правки: человек
+     должен узнать свою организацию, а не поверить на слово. */
+  .kp-found {
+    margin: -0.2rem 0 0; padding: 0.5rem 0.65rem; font-size: 0.85rem; line-height: 1.45;
+    background: var(--color-bg-subtle); border-left: 3px solid var(--color-accent);
+    border-radius: 0 8px 8px 0; color: var(--color-text-muted);
+  }
+  .kp-found b { color: var(--color-text); }
   .kp-close { position: absolute; top: 1rem; right: 1rem; background: none; border: none; color: var(--color-text-muted); font-size: 1.1rem; cursor: pointer; }
   .kp-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.9rem; }
   .kp-form label { display: flex; flex-direction: column; gap: 0.35rem; font-size: 0.86rem; color: var(--color-text-muted); }
@@ -205,6 +238,10 @@ try {
   import { trackGoal } from '@/lib/analytics';
   import { attributionPayload } from '@/lib/attribution';
   import { readCart, setQty, removeFromCart, cartTotal, clearCart, addToCart } from '../../lib/cart-client';
+
+  // Открыли подборку. Знаменатель для формы КП: видно, сколько дошло до
+  // корзины и сколько из них вообще начало заполнять форму.
+  trackGoal('view_cart', { items: readCart().length, total: cartTotal() });
   import { formatRub } from '../../lib/pricing';
   import { moneyFmt, vatIncluded, totalWithVatWords } from '../../lib/rub-words';
   import { maskAllPhones } from '../../lib/phone-mask';
@@ -255,7 +292,10 @@ try {
         <td class="c-del"><button class="ci-remove" data-remove aria-label="Удалить позицию" title="Удалить">✕</button></td>`;
       tr.querySelector('[data-inc]')!.addEventListener('click', () => { setQty(it.sku, it.qty + 1); render(); });
       tr.querySelector('[data-dec]')!.addEventListener('click', () => { setQty(it.sku, it.qty - 1); render(); });
-      tr.querySelector('[data-remove]')!.addEventListener('click', () => { removeFromCart(it.sku); render(); });
+      tr.querySelector('[data-remove]')!.addEventListener('click', () => {
+        trackGoal('remove_from_cart', { sku: it.sku });
+        removeFromCart(it.sku); render();
+      });
       tr.querySelector('[data-qty]')!.addEventListener('change', (e) => {
         const v = Math.max(1, Math.floor(Number((e.target as HTMLInputElement).value) || 1));
         setQty(it.sku, v); render();
@@ -321,10 +361,117 @@ try {
   // Диалог КП
   const dialog = document.querySelector('[data-kp-dialog]') as HTMLDialogElement;
   const form = document.querySelector('[data-kp-form]') as HTMLFormElement;
+  // ── Подсказки по организациям ────────────────────────────────────────
+  // Заказчик вводит название или ИНН и выбирает свою организацию: остальные
+  // реквизиты подставляются. Ошибиться в десятизначном номере проще, чем не
+  // ошибиться, а исправлять пришлось бы уже в счёте.
+  //
+  // Подставленное показываем отдельной строкой и оставляем поля открытыми
+  // для правки: человек должен узнать свою организацию, а не поверить на
+  // слово. Филиал, недавнее переименование, работа под другим названием —
+  // всё это справочник знает хуже, чем сам заказчик.
+  const companyInput = form.querySelector('[data-company]') as HTMLInputElement;
+  const innInput = form.querySelector('[data-inn]') as HTMLInputElement;
+  const listEl = form.querySelector('[data-suggest]') as HTMLElement;
+  const foundEl = form.querySelector('[data-found]') as HTMLElement;
+
+  type Item = { name: string; fullName: string; inn: string; kpp: string;
+                address: string; manager: string };
+  let items: Item[] = [];
+  let active = -1;
+  let seq = 0;
+
+  const closeList = () => {
+    listEl.hidden = true;
+    listEl.innerHTML = '';
+    companyInput.setAttribute('aria-expanded', 'false');
+    items = []; active = -1;
+  };
+
+  const showFound = (it: Item) => {
+    const parts = [`<b>${it.fullName || it.name}</b>`];
+    if (it.inn) parts.push(`ИНН ${it.inn}${it.kpp ? ` · КПП ${it.kpp}` : ''}`);
+    if (it.address) parts.push(it.address);
+    if (it.manager) parts.push(it.manager);
+    parts.push('Проверьте и при необходимости поправьте поля.');
+    foundEl.innerHTML = parts.join('<br>');
+    foundEl.hidden = false;
+  };
+
+  const choose = (i: number) => {
+    const it = items[i];
+    if (!it) return;
+    companyInput.value = it.name || it.fullName;
+    if (it.inn) innInput.value = it.inn;
+    showFound(it);
+    closeList();
+    // Факт автозаполнения, а не сам ИНН: идентификатор юрлица в параметрах
+    // события — это передача реквизита клиента во внешнюю аналитику.
+    trackGoal('company_autofill', { filled: true });
+  };
+
+  const renderSuggest = () => {
+    if (!items.length) { closeList(); return; }
+    listEl.innerHTML = items.map((it, i) => {
+      const sub = [it.inn && `ИНН ${it.inn}`, it.address].filter(Boolean).join(' · ');
+      return `<li role="option" data-i="${i}" aria-selected="${i === active}">`
+        + `<b>${it.name}</b><span>${sub}</span></li>`;
+    }).join('');
+    listEl.hidden = false;
+    companyInput.setAttribute('aria-expanded', 'true');
+  };
+
+  let timer: ReturnType<typeof setTimeout> | undefined;
+  companyInput?.addEventListener('input', () => {
+    foundEl.hidden = true;
+    const q = companyInput.value.trim();
+    clearTimeout(timer);
+    if (q.length < 3) { closeList(); return; }
+    // Пауза после ввода: запрос на каждую букву съедает суточный лимит,
+    // общий у всех видов подсказок.
+    timer = setTimeout(async () => {
+      const mine = ++seq;
+      try {
+        const r = await fetch(`/api/suggest/party?q=${encodeURIComponent(q)}`);
+        const d = await r.json();
+        // Ответ на устаревший запрос игнорируем: иначе медленный ответ на
+        // «ром» перезатрёт быстрый на «ромашка».
+        if (mine !== seq) return;
+        items = d.items || [];
+        active = -1;
+        renderSuggest();
+      } catch { closeList(); }
+    }, 250);
+  });
+
+  companyInput?.addEventListener('keydown', (e) => {
+    if (listEl.hidden || !items.length) return;
+    if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+      e.preventDefault();
+      active = (active + (e.key === 'ArrowDown' ? 1 : items.length - 1)) % items.length;
+      renderSuggest();
+    } else if (e.key === 'Enter' && active >= 0) {
+      e.preventDefault();
+      choose(active);
+    } else if (e.key === 'Escape') {
+      closeList();
+    }
+  });
+
+  listEl?.addEventListener('mousedown', (e) => {
+    // mousedown, а не click: blur успевает закрыть список до клика.
+    const li = (e.target as HTMLElement).closest('li');
+    if (li) { e.preventDefault(); choose(Number(li.dataset.i)); }
+  });
+  companyInput?.addEventListener('blur', () => setTimeout(closeList, 120));
+
   const status = document.querySelector('[data-kp-status]') as HTMLElement;
   document.querySelector('[data-open-kp]')?.addEventListener('click', () => {
     if (readCart().length === 0) return;
     status.textContent = ''; status.className = 'kp-status';
+    // Форма открыта, но ещё не отправлена. Разрыв между этой целью и
+    // quote_pdf показывает, сколько людей упирается в саму форму.
+    trackGoal('begin_checkout', { items: readCart().length, total: cartTotal() });
     dialog.showModal();
   });
   document.querySelector('[data-kp-close]')?.addEventListener('click', () => dialog.close());
@@ -334,7 +481,8 @@ try {
     e.preventDefault();
     const submit = form.querySelector('.kp-submit') as HTMLButtonElement;
     submit.disabled = true;
-    status.textContent = 'Формируем PDF…'; status.className = 'kp-status';
+    let httpStatus = 0;
+    status.textContent = 'Формируем и отправляем…'; status.className = 'kp-status';
     try {
       const fd = Object.fromEntries(new FormData(form).entries());
       const items = readCart().map((i) => ({ sku: i.sku, qty: i.qty }));
@@ -347,20 +495,30 @@ try {
       if (!res.ok) {
         let msg = 'Не удалось сформировать КП. Проверьте поля и попробуйте снова.';
         try { const j = await res.json(); if (j?.error) msg = j.error; } catch { /* not json */ }
-        trackGoal('form_error', { form_source: 'quote', http_status: res.status });
+        httpStatus = res.status;
         throw new Error(msg);
       }
-      const blob = await res.blob();
-      const quoteNo = res.headers.get('X-Quote-No') || 'KP';
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url; a.download = `${quoteNo}.pdf`; document.body.appendChild(a); a.click(); a.remove();
-      URL.revokeObjectURL(url);
-      status.textContent = 'Готово! PDF скачан и отправлен на e-mail.'; status.className = 'kp-status ok';
-      trackGoal('quote_pdf', { quote_no: quoteNo });
+      // Документ не скачивается и не открывается в браузере: он уходит письмом.
+      // Раньше ответ отдавался файлом, и просмотрщик показывал его страницей
+      // «сохранить и напечатать» — человек видел документ вместо
+      // подтверждения и не понимал, отправили ему что-нибудь или нет.
+      const out = await res.json();
+      const quoteNo = out?.quote_no || res.headers.get('X-Quote-No') || 'KP';
+      const to = out?.sent_to ? ` на ${out.sent_to}` : '';
+      status.innerHTML = `<b>Готово.</b> Коммерческое предложение № ${quoteNo} `
+        + `отправлено${to}. Если письма нет через пару минут — проверьте «Спам».`;
+      status.className = 'kp-status ok';
+      trackGoal('quote_pdf', { form_source: 'quote', quote_no: quoteNo });
     } catch (err) {
       status.textContent = err instanceof Error && err.message ? err.message : 'Не удалось сформировать КП. Попробуйте позже или позвоните нам.';
       status.className = 'kp-status err';
+      // Без этой цели сбой неотличим от того, что клиент передумал: в отчёте
+      // и то и другое выглядит как незавершённое оформление.
+      trackGoal('quote_error', {
+        form_source: 'quote',
+        http_status: httpStatus,
+        reason: err instanceof Error ? err.message.slice(0, 100) : 'unknown',
+      });
     } finally {
       submit.disabled = false;
     }

@@ -49,42 +49,56 @@ GOAL_CALL = re.compile(r"trackGoal\(\s*['\"]([a-z0-9_]+)['\"]")
 GOAL_ATTR = re.compile(r"data-ev(?:-view)?=\"([a-z0-9_]+)\"")
 
 
-GOALS_REGISTRY = pathlib.Path("src/lib/goals.ts")
-GOAL_LEVEL = re.compile(r"^\s{2}([a-z0-9_]+):\s*'(\w+)',", re.M)
+GOALS_REGISTRY = pathlib.Path("src/lib/analytics.ts")
+GOAL_SPEC = re.compile(r"^\s{2}([a-z0-9_]+):\s*\{\s*ga4:\s*'[^']*',\s*key:\s*(true|false)", re.M)
 
 
 def goal_levels() -> dict[str, str]:
-    """Уровень каждой цели из реестра src/lib/goals.ts.
+    """Уровень каждой цели из реестра src/lib/analytics.ts.
 
-    Реестр — единственный источник ответа на вопрос, обязана ли цель быть
-    заведена в Метрике. Уровень engagement живёт в GA4 и в параметрах визита;
-    требовать для него цель Метрики значит превратить список целей в свалку,
-    которой перестают пользоваться.
+    Реестр один на весь проект: из него же goals_sync заводит цели в кабинетах.
+    Второй список уровней рядом означал бы два ответа на вопрос, обязана ли
+    цель быть заведена, — ровно та ошибка, которую этот аудит и разбирает.
+
+    Флаг key в реестре отвечает на тот же вопрос: конверсия обязана иметь цель
+    в Метрике, сигнал намерения — нет.
     """
     if not GOALS_REGISTRY.exists():
         return {}
-    return dict(GOAL_LEVEL.findall(GOALS_REGISTRY.read_text(encoding="utf-8")))
+    return {name: ("lead" if key == "true" else "engagement")
+            for name, key in GOAL_SPEC.findall(GOALS_REGISTRY.read_text(encoding="utf-8"))}
 
 
 def declared_goals() -> list[str]:
     """Имена целей, которые фактически отправляет сайт.
 
+    Ищутся строковые литералы, а не только аргумент сразу после trackGoal(:
+    часть целей выбирается тернарником, часть приходит из таблицы соответствий
+    (клики по телефону, почте и в мессенджеры — src/lib/contact-goals.ts).
+    Сканер, знающий лишь одну форму вызова, объявил бы половину конверсий
+    неотправляемыми и тем самым спрятал бы находку, ради которой он написан.
+
     Снимок уже носил список целей, заведённых в счётчике. Не хватало второй
     половины сверки — того, что счётчику отправляют. Обе половины лежат рядом,
     и их расхождение проверяется одной строкой: см. GOAL_NOT_CONFIGURED.
     """
-    names: set[str] = set()
-    if not SRC_DIR.exists():
+    known = set(goal_levels())
+    if not known or not SRC_DIR.exists():
         return []
+    found: set[str] = set()
     for path in SRC_DIR.rglob("*"):
         if path.suffix not in (".astro", ".ts") or not path.is_file():
             continue
+        if path.name == "analytics.ts":
+            continue        # сам реестр не является местом вызова
         try:
             text = path.read_text(encoding="utf-8")
         except OSError:
             continue
-        names |= set(GOAL_CALL.findall(text)) | set(GOAL_ATTR.findall(text))
-    return sorted(names)
+        for name in known:
+            if f"'{name}'" in text or f'"{name}"' in text:
+                found.add(name)
+    return sorted(found)
 
 
 def days_inclusive(a: str, b: str) -> int:

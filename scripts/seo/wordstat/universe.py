@@ -41,8 +41,10 @@ def blank(phrase: str) -> dict:
 
 
 class Universe:
-    def __init__(self, path: pathlib.Path | None = None):
+    def __init__(self, path: pathlib.Path | None = None,
+                 vendors: dict[str, str] | None = None):
         self.path = path or UNIVERSE_PATH
+        self.vendors = vendors or {}
         self.rows: dict[str, dict] = {}
         self._load()
 
@@ -69,6 +71,17 @@ class Universe:
                 row["informational_intent_score"] = informational
                 row["in_scope"] = (N.in_scope(row["phrase"])
                                    and row["attribution"] == "confident")
+                # Привязка к вендору пересчитывается по той же причине.
+                # Индекс пополняется именами продуктов — «claude» ведёт на
+                # anthropic, «gemini» на google, — и без пересчёта накопленная
+                # база остаётся с прежней привязкой: кластер «claude купить»
+                # числился без страницы, хотя страница есть с самого начала,
+                # и отчёт предлагал завести уже заведённое.
+                if self.vendors:
+                    recomputed = N.cluster_of(row["phrase"], self.vendors,
+                                              row.get("source_seed"))
+                    if recomputed:
+                        row["cluster"] = recomputed
                 self.rows[row["morph_key"]] = row
 
     def __len__(self) -> int:

@@ -339,10 +339,11 @@ def run_checks(snap: dict, prev: dict | None = None) -> dict:
     # пустое. Данные для сверки уже лежали в снимке — сверки не было.
     declared = snap.get("declared_goals") or []
     levels = snap.get("goal_levels") or {}
-    # Сверяются только уровни, для которых цель в Метрике обязательна.
-    # Уровень engagement живёт в GA4: требовать для него цель значит утопить
-    # список конверсий в просмотрах.
-    required = {"lead", "micro", "intent"}
+    # Сверяются только конверсии (key=true в реестре src/lib/analytics.ts).
+    # Сигналы намерения и просмотры живут в GA4: требовать для них цель Метрики
+    # значит утопить список конверсий в просмотрах, после чего им перестают
+    # пользоваться.
+    required = {"lead"}
     if declared and an.get("metrika", {}).get("available"):
         configured = {g_["name"] for g_ in an["metrika"].get("goals_configured") or []}
         missing = [n for n in declared
