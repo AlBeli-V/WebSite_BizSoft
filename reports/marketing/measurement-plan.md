@@ -85,6 +85,9 @@
 | Event | Trigger | М | G | Параметры | Уровень |
 |---|---|---|---|---|---|
 | `view_vendor_landing` | загрузка лендинга вендора | параметр визита | G ✓ | `vendor` | engagement |
+| `view_jetbrains_landing`, `view_zoom_landing`, `view_figma_landing`, `view_openai_landing` | загрузка bespoke-лендинга | параметр визита | G ✓ | `vendor` | engagement |
+| `click_plugins_catalog`, `click_pick_licenses` | CTA каталога плагинов JetBrains | — | G ✓ | `vendor` | engagement |
+| `click_compare_app` | таблица сравнения попала во вьюпорт | — | G ✓ | `vendor` | engagement |
 | `view_category` | открытие `/catalog/*` | — | G ✓ | `category` | engagement |
 | `use_filter` | применение фильтра каталога | — | G ✓ | `filter_name`, `filter_value` | engagement |
 | `click_product_card` | клик по карточке товара в листинге | — | G ✓ | `sku`, `list_name`, `position` | engagement |

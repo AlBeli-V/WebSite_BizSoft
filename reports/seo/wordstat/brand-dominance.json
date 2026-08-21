@@ -1,0 +1,271 @@
+{
+ "note": "Доля софтверных показов в пространстве имени омонимичного бренда. brand_dominant=true разрешает засчитать голую фразу «<бренд> купить» этому бренду. false означает не «спроса нет», а «принадлежность фразы не определена»: такой спрос считается отдельно и в решения об ассортименте не входит.",
+ "thresholds": {
+  "min_share": 0.7,
+  "min_software_impressions": 200
+ },
+ "measured_from": "reports/seo/wordstat/semantic-universe.jsonl",
+ "dominant": [
+  "avid",
+  "cursor",
+  "foundry",
+  "framer",
+  "notion",
+  "runway",
+  "sketch"
+ ],
+ "brands": {
+  "arc": {
+   "phrases": 2,
+   "software_impressions": 0,
+   "alien_impressions": 0,
+   "dominance": null,
+   "brand_dominant": false
+  },
+  "avid": {
+   "phrases": 310,
+   "software_impressions": 1531,
+   "alien_impressions": 451,
+   "dominance": 0.7725,
+   "brand_dominant": true
+  },
+  "bolt": {
+   "phrases": 0,
+   "software_impressions": 0,
+   "alien_impressions": 0,
+   "dominance": null,
+   "brand_dominant": false
+  },
+  "box": {
+   "phrases": 298,
+   "software_impressions": 3070,
+   "alien_impressions": 24351,
+   "dominance": 0.112,
+   "brand_dominant": false
+  },
+  "bubble": {
+   "phrases": 171,
+   "software_impressions": 25,
+   "alien_impressions": 1057,
+   "dominance": 0.0231,
+   "brand_dominant": false
+  },
+  "canvas": {
+   "phrases": 4,
+   "software_impressions": 0,
+   "alien_impressions": 0,
+   "dominance": null,
+   "brand_dominant": false
+  },
+  "craft": {
+   "phrases": 1,
+   "software_impressions": 0,
+   "alien_impressions": 0,
+   "dominance": null,
+   "brand_dominant": false
+  },
+  "cursor": {
+   "phrases": 297,
+   "software_impressions": 21957,
+   "alien_impressions": 0,
+   "dominance": 1.0,
+   "brand_dominant": true
+  },
+  "flux": {
+   "phrases": 2,
+   "software_impressions": 0,
+   "alien_impressions": 0,
+   "dominance": null,
+   "brand_dominant": false
+  },
+  "foundry": {
+   "phrases": 299,
+   "software_impressions": 213,
+   "alien_impressions": 29,
+   "dominance": 0.8802,
+   "brand_dominant": true
+  },
+  "frame": {
+   "phrases": 0,
+   "software_impressions": 0,
+   "alien_impressions": 0,
+   "dominance": null,
+   "brand_dominant": false
+  },
+  "framer": {
+   "phrases": 76,
+   "software_impressions": 778,
+   "alien_impressions": 0,
+   "dominance": 1.0,
+   "brand_dominant": true
+  },
+  "gamma": {
+   "phrases": 0,
+   "software_impressions": 0,
+   "alien_impressions": 0,
+   "dominance": null,
+   "brand_dominant": false
+  },
+  "glide": {
+   "phrases": 63,
+   "software_impressions": 8,
+   "alien_impressions": 1273,
+   "dominance": 0.0062,
+   "brand_dominant": false
+  },
+  "google": {
+   "phrases": 637,
+   "software_impressions": 1089417,
+   "alien_impressions": 1287968,
+   "dominance": 0.4582,
+   "brand_dominant": false
+  },
+  "intercom": {
+   "phrases": 5,
+   "software_impressions": 0,
+   "alien_impressions": 0,
+   "dominance": null,
+   "brand_dominant": false
+  },
+  "linear": {
+   "phrases": 15,
+   "software_impressions": 7,
+   "alien_impressions": 57,
+   "dominance": 0.1094,
+   "brand_dominant": false
+  },
+  "loom": {
+   "phrases": 0,
+   "software_impressions": 0,
+   "alien_impressions": 0,
+   "dominance": null,
+   "brand_dominant": false
+  },
+  "luma": {
+   "phrases": 2,
+   "software_impressions": 8,
+   "alien_impressions": 0,
+   "dominance": 1.0,
+   "brand_dominant": false
+  },
+  "notion": {
+   "phrases": 300,
+   "software_impressions": 6680,
+   "alien_impressions": 58,
+   "dominance": 0.9914,
+   "brand_dominant": true
+  },
+  "origin": {
+   "phrases": 1,
+   "software_impressions": 0,
+   "alien_impressions": 0,
+   "dominance": null,
+   "brand_dominant": false
+  },
+  "photon": {
+   "phrases": 3,
+   "software_impressions": 0,
+   "alien_impressions": 0,
+   "dominance": null,
+   "brand_dominant": false
+  },
+  "pitch": {
+   "phrases": 0,
+   "software_impressions": 0,
+   "alien_impressions": 0,
+   "dominance": null,
+   "brand_dominant": false
+  },
+  "replit": {
+   "phrases": 2,
+   "software_impressions": 43,
+   "alien_impressions": 0,
+   "dominance": 1.0,
+   "brand_dominant": false
+  },
+  "retool": {
+   "phrases": 0,
+   "software_impressions": 0,
+   "alien_impressions": 0,
+   "dominance": null,
+   "brand_dominant": false
+  },
+  "rive": {
+   "phrases": 249,
+   "software_impressions": 50,
+   "alien_impressions": 13441,
+   "dominance": 0.0037,
+   "brand_dominant": false
+  },
+  "runway": {
+   "phrases": 350,
+   "software_impressions": 8086,
+   "alien_impressions": 608,
+   "dominance": 0.9301,
+   "brand_dominant": true
+  },
+  "sentry": {
+   "phrases": 5,
+   "software_impressions": 8,
+   "alien_impressions": 45,
+   "dominance": 0.1509,
+   "brand_dominant": false
+  },
+  "sketch": {
+   "phrases": 270,
+   "software_impressions": 10750,
+   "alien_impressions": 121,
+   "dominance": 0.9889,
+   "brand_dominant": true
+  },
+  "softr": {
+   "phrases": 0,
+   "software_impressions": 0,
+   "alien_impressions": 0,
+   "dominance": null,
+   "brand_dominant": false
+  },
+  "spark": {
+   "phrases": 0,
+   "software_impressions": 0,
+   "alien_impressions": 0,
+   "dominance": null,
+   "brand_dominant": false
+  },
+  "spine": {
+   "phrases": 298,
+   "software_impressions": 5625,
+   "alien_impressions": 15771,
+   "dominance": 0.2629,
+   "brand_dominant": false
+  },
+  "unity": {
+   "phrases": 349,
+   "software_impressions": 10616,
+   "alien_impressions": 51879,
+   "dominance": 0.1699,
+   "brand_dominant": false
+  },
+  "vector": {
+   "phrases": 8,
+   "software_impressions": 14,
+   "alien_impressions": 0,
+   "dominance": 1.0,
+   "brand_dominant": false
+  },
+  "wave": {
+   "phrases": 2,
+   "software_impressions": 0,
+   "alien_impressions": 7,
+   "dominance": 0.0,
+   "brand_dominant": false
+  },
+  "zoom": {
+   "phrases": 598,
+   "software_impressions": 4568,
+   "alien_impressions": 119964,
+   "dominance": 0.0367,
+   "brand_dominant": false
+  }
+ }
+}

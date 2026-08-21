@@ -84,6 +84,11 @@ const { title, description, canonical, ogImage, noindex, type, keywords } = Astr
     </style>
 
     <script>
+      // Источник визита фиксируется до любых действий пользователя: заявка,
+      // отправленная через минуту, должна знать, откуда человек пришёл.
+      import { captureVisit } from '@/lib/attribution';
+      captureVisit();
+
       // Плавное появление секций (уважает prefers-reduced-motion через CSS)
       const reveal = () => {
         const els = document.querySelectorAll('.reveal:not(.is-visible)');

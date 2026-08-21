@@ -15,11 +15,15 @@ from __future__ import annotations
 import datetime as dt
 import json
 import pathlib
+import re
 import subprocess
 import sys
 
 SCHEMA_VERSION = "2.1.0"
-TIMEZONE = "Asia/Bishkek (UTC+6)"
+# Часовой пояс отчётности — московский: так требует правило проекта, и так же
+# отдают данные GA4 (metadata.timeZone = Europe/Moscow) и Метрика. Прежнее
+# значение Asia/Bishkek не совпадало ни с тем, ни с другим.
+TIMEZONE = "Europe/Moscow (UTC+3)"
 DATA_DIR = pathlib.Path("reports/seo/data")
 OUT_DIR = pathlib.Path("reports/seo/intelligence/snapshots")
 
@@ -38,6 +42,32 @@ COMMERCIAL_MARKERS = (
     "продл", "заказ", "счет", "счёт", "buy", "price", "license", "pricing",
 )
 INFO_MARKERS = ("как ", "что ", "почему ", "можно ли", "нужн", "how ", "what ")
+
+
+SRC_DIR = pathlib.Path("src")
+GOAL_CALL = re.compile(r"trackGoal\(\s*['\"]([a-z0-9_]+)['\"]")
+GOAL_ATTR = re.compile(r"data-ev(?:-view)?=\"([a-z0-9_]+)\"")
+
+
+def declared_goals() -> list[str]:
+    """Имена целей, которые фактически отправляет сайт.
+
+    Снимок уже носил список целей, заведённых в счётчике. Не хватало второй
+    половины сверки — того, что счётчику отправляют. Обе половины лежат рядом,
+    и их расхождение проверяется одной строкой: см. GOAL_NOT_CONFIGURED.
+    """
+    names: set[str] = set()
+    if not SRC_DIR.exists():
+        return []
+    for path in SRC_DIR.rglob("*"):
+        if path.suffix not in (".astro", ".ts") or not path.is_file():
+            continue
+        try:
+            text = path.read_text(encoding="utf-8")
+        except OSError:
+            continue
+        names |= set(GOAL_CALL.findall(text)) | set(GOAL_ATTR.findall(text))
+    return sorted(names)
 
 
 def days_inclusive(a: str, b: str) -> int:
@@ -179,7 +209,8 @@ def build_yandex(raw: dict | None, prev: dict | None, date: str) -> dict:
         "source": source_meta(
             "yandex_webmaster", raw.get("date"), p_to, p_from, p_to,
             prev_pq.get("date_from"), prev_pq.get("date_to"),
-            {"scope": "top-100 запросов по показам (API popular queries)",
+            {"scope": (f"{pq.get('fetched', len(entities))} из {pq.get('count', '?')} "
+                       "запросов (API popular queries, постраничный забор)"),
              "region": "не задан в запросе", "device": "все"},
             "ok",
             "Клики/показы относятся к выборке топ-100 запросов, а не ко всему сайту."),
@@ -192,7 +223,11 @@ def build_yandex(raw: dict | None, prev: dict | None, date: str) -> dict:
             "queries_position_le_10": len(in_top10),
             "queries_position_le_3": len([e for e in entities if e["average_position"] is not None
                                           and e["average_position"] <= 3.0]),
-            "scope_note": "выборка топ-100 запросов, не весь сайт",
+            "queries_available": pq.get("count"),
+            "queries_fetched": pq.get("fetched", len(entities)),
+            "scope_note": ("все запросы хоста" if pq.get("count") and
+                           pq.get("fetched", 0) >= pq["count"]
+                           else "выборка запросов, не весь сайт"),
         },
         "indexation": {
             "total_known_urls": (summary.get("searchable_pages_count") or 0)
@@ -209,15 +244,52 @@ def build_yandex(raw: dict | None, prev: dict | None, date: str) -> dict:
     }
 
 
+def calendar_series(rows: list[dict]) -> list[dict]:
+    """Дневной ряд по календарю, а не по порядку строк ответа.
+
+    Прежде неделя бралась срезом `daily[-7:]` по индексам строк. Это работало
+    ровно до первого пропуска: GSC не возвращает дни без показов, а порядок
+    строк определяется сортировкой по метрике, а не по дате. Как только у сайта
+    появятся клики или день без показов, «последние семь строк» перестанут быть
+    последними семью днями — и недельное сравнение сместится молча.
+
+    Пропущенные даты добавляются нулями с признаком `measured: false`: ноль
+    показов здесь именно измерен источником, но отличать его от строки с
+    данными полезно при разборе.
+    """
+    if not rows:
+        return []
+    by_date = {r["keys"][0]: r for r in rows}
+    start = dt.date.fromisoformat(min(by_date))
+    end = dt.date.fromisoformat(max(by_date))
+    out = []
+    for i in range((end - start).days + 1):
+        day = (start + dt.timedelta(days=i)).isoformat()
+        r = by_date.get(day)
+        out.append({
+            "date": day,
+            "impressions": r["impressions"] if r else 0,
+            "clicks": r["clicks"] if r else 0,
+            "position": round(r.get("position", 0), 2) if r else None,
+            "measured": r is not None,
+        })
+    return out
+
+
 def build_google(raw: dict | None, prev: dict | None) -> dict:
     if not raw or raw.get("error"):
         return {"available": False, "error": (raw or {}).get("error", "нет данных"),
                 "source": source_meta("google_search_console", None, None, None, None,
                                       None, None, {}, "unavailable")}
     a = raw.get("analytics", {})
+    # Разрез вернул ошибку вместо данных — источник недоступен, а не пуст.
+    if all("error" in v for v in a.values() if isinstance(v, dict)) and a:
+        return {"available": False,
+                "error": next(v["error"] for v in a.values() if "error" in v),
+                "source": source_meta("google_search_console", None, None, None, None,
+                                      None, None, {}, "unavailable")}
     rows = a.get("date", {}).get("rows", [])
-    daily = [{"date": r["keys"][0], "impressions": r["impressions"], "clicks": r["clicks"],
-              "position": round(r.get("position", 0), 2)} for r in rows]
+    daily = calendar_series(rows)
     latest = daily[-1]["date"] if daily else None
     last7, prev7 = daily[-7:], daily[-14:-7]
     entities = []
@@ -321,12 +393,26 @@ def build_analytics(metrika: dict | None, ga4: dict | None, date: str) -> dict:
               for r in ga4.get("channels", {}).get("rows", [])}
         org = ch.get("Organic Search", ["0", "0", "0"])
         w = ga4.get("window", {})
+        # Свои визиты, которые GA4 засчитал в органический поиск. Считаются из
+        # сырого среза источников, а не предполагаются.
+        internal_names = ("metrika.yandex.ru", "webmaster.yandex.ru",
+                          "direct.yandex.ru", "alice.yandex.ru")
+        hits = [r for r in ga4.get("organic_sources", {}).get("rows", [])
+                if r["dimensionValues"][0]["value"] in internal_names]
+        internal = {
+            "sources": [r["dimensionValues"][0]["value"] for r in hits],
+            "sessions": sum(int(r["metricValues"][0]["value"]) for r in hits),
+            "key_events": sum(float(r["metricValues"][1]["value"]) for r in hits),
+        } if hits else None
+        src_tz = ((ga4.get("channels") or {}).get("metadata") or {}).get("timeZone")
         lp = [{"entity_id": r["dimensionValues"][0]["value"],
                "sessions": int(r["metricValues"][0]["value"]),
                "key_events": int(r["metricValues"][1]["value"])}
               for r in ga4.get("organic_landing_pages", {}).get("rows", [])]
         out["ga4"] = {
             "available": True,
+            "internal_in_organic": internal,
+            "source_timezone": src_tz,
             "source": source_meta("ga4", ga4.get("date"), w.get("to"), w.get("from"),
                                   w.get("to"), None, None,
                                   {"property": ga4.get("property")}, "ok",
@@ -437,7 +523,8 @@ def build_experiments() -> list[dict]:
 
 
 def main() -> int:
-    date = sys.argv[1] if len(sys.argv) > 1 else dt.date.today().isoformat()
+    date = sys.argv[1] if len(sys.argv) > 1 else dt.datetime.now(
+        dt.timezone(dt.timedelta(hours=3))).date().isoformat()
     prev_date = (dt.date.fromisoformat(date) - dt.timedelta(days=1)).isoformat()
     OUT_DIR.mkdir(parents=True, exist_ok=True)
     snap = {
@@ -445,6 +532,7 @@ def main() -> int:
         "report_date": date,
         "generated_at": dt.datetime.now(dt.timezone.utc).isoformat(timespec="seconds"),
         "reporting_timezone": TIMEZONE,
+        "declared_goals": declared_goals(),
         "thresholds": THRESHOLDS,
         "yandex": build_yandex(load("yandex", date), load("yandex", prev_date), date),
         "google": build_google(load("gsc", date), load("gsc", prev_date)),

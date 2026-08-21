@@ -112,21 +112,37 @@ def kpi_cards(snap: dict, prev: dict | None, dq: dict) -> list[dict]:
     m = snap["analytics"]["metrika"]
     sample = dq.get("sample_ctr") or {}
 
-    imp_delta = yt["impressions"] - yp["impressions"] if yp else None
+    rules = dq.get("publication_rules") or {}
+    # Абсолютная разница показов публикуется только тогда, когда её есть с чем
+    # сравнивать. При разной длине окна и пересобранной выборке два числа
+    # складываются из разных слагаемых, и их разность не описывает видимость:
+    # на 20.08 → 21.08 окна были 12 и 13 дней, а состав выборки сменился на
+    # четверть — заявленный прирост в 107 показов объяснялся этим целиком.
+    show_delta = rules.get("allow_absolute_delta", True)
+    imp_delta = (yt["impressions"] - yp["impressions"]) if (yp and show_delta) else None
     top_delta = (yt["queries_position_le_10"] - yp["queries_position_le_10"]) if yp else None
     daily = [d["impressions"] for d in (g.get("daily") or [])][-14:]
+    days = snap["yandex"]["source"].get("current_period_days")
+    per_day = round(yt["impressions"] / days) if days else None
+    delta_note = (None if show_delta else
+                  "разница с прошлым замером не публикуется: окна разной длины "
+                  "или выборка пересобрана — сравнивать нечего с чем")
 
     cards = [
         {"key": "yandex", "label": "Видимость в Яндексе",
          "value": num(yt["impressions"]), "unit": "показов",
-         "delta": signed(imp_delta), "delta_dir": _dir(imp_delta),
+         "delta": signed(imp_delta) if imp_delta is not None else None,
+         "delta_dir": _dir(imp_delta) if imp_delta is not None else None,
          "relative": None,
-         "relative_note": "относительный процент не публикуется: окна источника пересекаются",
+         "relative_note": delta_note or
+                          "относительный процент не публикуется: окна источника пересекаются",
          "period": f"{ru_date(snap['yandex']['source']['current_period_start'])}–"
                    f"{ru_date(snap['yandex']['source']['current_period_end'])}",
          "source": "Яндекс.Вебмастер, выборка топ-100 запросов",
          "confidence": "достаточная",
-         "interpretation": f"На первой странице {yt['queries_position_le_10']} из "
+         "interpretation": (f"В среднем {num(per_day)} показов в день за {days} дн. "
+                            if per_day else "") +
+                           f"На первой странице {yt['queries_position_le_10']} из "
                            f"{yt['queries_tracked']} запросов выборки, "
                            f"{signed(top_delta)} к вчера. "
                            f"CTR выборки {pct(sample.get('value'), 2)} — "
@@ -461,7 +477,10 @@ def _pill(p: dict) -> str:
 
 
 def _kpi_cell(k: dict, charts: dict, cid_mode: bool) -> str:
-    dir_colour = {"up": T["positive"], "down": T["danger"], "flat": T["muted"]}[k["delta_dir"]]
+    # delta_dir отсутствует, когда дельта не публикуется: окна разной длины или
+    # выборка пересобрана. Это не «нет изменения», а «сравнивать нечего с чем».
+    dir_colour = {"up": T["positive"], "down": T["danger"], "flat": T["muted"],
+                  None: T["muted"]}[k.get("delta_dir")]
     tone = T["muted"] if k["muted"] else T["text_primary"]
     delta = (f"<span style=\"font-size:14px;color:{dir_colour};font-weight:600;\">"
              f"{k['delta']}</span>" if k["delta"] else "")

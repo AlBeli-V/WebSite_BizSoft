@@ -32,7 +32,7 @@ FIELDS = (
     "page_exists", "indexed_yandex", "indexed_google", "yandex_position",
     "google_position", "yandex_impressions", "google_impressions", "clicks", "ctr",
     "conversion_evidence", "priority_score", "confidence", "in_scope",
-    "monthly_dynamics",
+    "attribution", "monthly_dynamics",
 )
 
 
@@ -56,9 +56,10 @@ class Universe:
                 # появления фильтра омонимов, иначе остались бы засчитанными.
                 # Пересчёт при загрузке дешевле повторного сбора и не даёт базе
                 # разъехаться со свежими правилами.
+                row["attribution"] = N.attribution_of(row["phrase"],
+                                                      row.get("source_seed"))
                 row["in_scope"] = (N.in_scope(row["phrase"])
-                                   and N.relevant_to_seed(row["phrase"],
-                                                          row.get("source_seed")))
+                                   and row["attribution"] == "confident")
                 self.rows[row["morph_key"]] = row
 
     def __len__(self) -> int:
@@ -90,6 +91,7 @@ class Universe:
         commercial, informational = N.intent_scores(phrase)
         row.update({
             "cluster": row["cluster"] or N.cluster_of(phrase, vendors, source_seed),
+            "attribution": N.attribution_of(phrase, source_seed),
             "in_scope": N.in_scope(phrase) and N.relevant_to_seed(phrase, source_seed),
             "subcluster": N.subcluster_of(phrase),
             "intent": N.classify_intent(phrase),

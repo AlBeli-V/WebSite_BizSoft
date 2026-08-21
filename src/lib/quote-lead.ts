@@ -12,6 +12,7 @@
 export interface QuoteLineForLead { sku: string; name: string; qty: number; sum: number }
 
 export interface QuoteForLead {
+  attribution?: AttributionFields;
   quoteNo: string;
   buyerCompany: string;
   buyerInn: string;
@@ -24,6 +25,72 @@ export interface QuoteForLead {
 }
 
 const rub = (n: number) => `${n.toLocaleString('ru-RU')} ₽`;
+
+/**
+ * Поля источника, попадающие в запись заявки.
+ *
+ * Тип перечислен явно, а не сведён к Record<string, string>: заявка собирается
+ * spread-ом, и при безымянном типе поля теряют имена — их нельзя ни прочитать
+ * в письме менеджеру, ни проверить компилятором.
+ */
+export interface AttributionFields {
+  utm_source: string;
+  utm_medium: string;
+  utm_campaign: string;
+  utm_content: string;
+  utm_term: string;
+  yclid: string;
+  gclid: string;
+  first_touch_source: string;
+  first_touch_ts: string;
+  last_touch_source: string;
+  landing_path: string;
+  ym_client_id: string;
+  ga_client_id: string;
+}
+
+/** Одно поле касания: строка разумной длины или пусто. */
+function touchField(v: unknown): string {
+  return typeof v === 'string' ? v.slice(0, 200) : '';
+}
+
+/**
+ * Источник обращения из тела запроса — общий разбор для заявок и КП.
+ *
+ * Живёт здесь, а не в каждом обработчике: канал заявки обязан определяться
+ * одинаково независимо от того, пришла она из формы или из скачивания КП.
+ * Иначе два канала с одним именем окажутся посчитаны по-разному.
+ */
+export function attributionFields(body: Record<string, unknown>): AttributionFields {
+  const a = (body.attribution ?? {}) as Record<string, unknown>;
+  const first = (a.first ?? {}) as Record<string, unknown>;
+  const last = (a.last ?? {}) as Record<string, unknown>;
+  const channel = (t: Record<string, unknown>): string => {
+    const src = touchField(t.utm_source);
+    const med = touchField(t.utm_medium);
+    if (src) return med ? `${src} / ${med}` : src;
+    if (t.yclid) return 'yandex / cpc';
+    if (t.gclid) return 'google / cpc';
+    const ref = touchField(t.referrer);
+    if (ref) { try { return `${new URL(ref).hostname} / referral`; } catch { return 'referral'; } }
+    return '';
+  };
+  return {
+    utm_source: touchField(last.utm_source),
+    utm_medium: touchField(last.utm_medium),
+    utm_campaign: touchField(last.utm_campaign),
+    utm_content: touchField(last.utm_content),
+    utm_term: touchField(last.utm_term),
+    yclid: touchField(last.yclid),
+    gclid: touchField(last.gclid),
+    first_touch_source: channel(first),
+    first_touch_ts: touchField(first.ts),
+    last_touch_source: channel(last),
+    landing_path: touchField(first.landing_path) || touchField(last.landing_path),
+    ym_client_id: touchField(a.ym_client_id),
+    ga_client_id: touchField(a.ga_client_id),
+  };
+}
 
 /** Короткая строка состава для колонки «Запрос» в списке заявок. */
 export function summarizeItems(items: QuoteLineForLead[]): string {
@@ -64,7 +131,9 @@ export function leadFromQuote(q: QuoteForLead): Record<string, unknown> {
     message: describeQuote(q),
     product_ref: summarizeItems(q.items),
     consent: true,
+    form_source: 'quote',
     source: 'quote',
+    ...(q.attribution || {}),
     status: 'new',
     // Сумма известна из корзины: менеджер сразу видит вес сделки в списке.
     amount: q.total,

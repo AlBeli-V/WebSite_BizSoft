@@ -92,6 +92,7 @@ const { source = 'question' } = Astro.props as { source?: string };
 
 <script>
   import { trackGoal } from '@/lib/analytics';
+  import { attributionPayload } from '@/lib/attribution';
   import { maskAllPhones } from '../lib/phone-mask';
   maskAllPhones();
 
@@ -124,6 +125,13 @@ const { source = 'question' } = Astro.props as { source?: string };
     dialog.querySelector('[data-close]')?.addEventListener('click', () => dialog.close());
     dialog.addEventListener('click', (e) => { if (e.target === dialog) dialog.close(); });
 
+    let started = false;
+    form.addEventListener('input', () => {
+      if (started) return;
+      started = true;
+      trackGoal('form_start', { form_source: 'question' });
+    });
+
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
       const submit = form.querySelector('.qf-submit') as HTMLButtonElement;
@@ -132,14 +140,16 @@ const { source = 'question' } = Astro.props as { source?: string };
       status.className = 'qf-status';
       try {
         const data = Object.fromEntries(new FormData(form).entries());
+        const attribution = await attributionPayload();
         const res = await fetch('/api/lead', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ ...data, consent: (form.elements.namedItem('consent') as HTMLInputElement).checked }),
+          body: JSON.stringify({ ...data, attribution, consent: (form.elements.namedItem('consent') as HTMLInputElement).checked }),
         });
         if (!res.ok) {
           let msg = 'Не удалось отправить. Проверьте поля и попробуйте снова.';
           try { const j = await res.json(); if (j?.error) msg = j.error; } catch { /* not json */ }
+          trackGoal('form_error', { form_source: 'question', http_status: res.status });
           throw new Error(msg);
         }
         status.textContent = 'Готово! Мы свяжемся с вами в ближайшее время.';

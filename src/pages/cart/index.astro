@@ -203,6 +203,7 @@ try {
 
 <script>
   import { trackGoal } from '@/lib/analytics';
+  import { attributionPayload } from '@/lib/attribution';
   import { readCart, setQty, removeFromCart, cartTotal, clearCart, addToCart } from '../../lib/cart-client';
   import { formatRub } from '../../lib/pricing';
   import { moneyFmt, vatIncluded, totalWithVatWords } from '../../lib/rub-words';
@@ -337,14 +338,16 @@ try {
     try {
       const fd = Object.fromEntries(new FormData(form).entries());
       const items = readCart().map((i) => ({ sku: i.sku, qty: i.qty }));
+      const attribution = await attributionPayload();
       const res = await fetch('/api/quote', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...fd, consent: (form.elements.namedItem('consent') as HTMLInputElement).checked, items }),
+        body: JSON.stringify({ ...fd, attribution, consent: (form.elements.namedItem('consent') as HTMLInputElement).checked, items }),
       });
       if (!res.ok) {
         let msg = 'Не удалось сформировать КП. Проверьте поля и попробуйте снова.';
         try { const j = await res.json(); if (j?.error) msg = j.error; } catch { /* not json */ }
+        trackGoal('form_error', { form_source: 'quote', http_status: res.status });
         throw new Error(msg);
       }
       const blob = await res.blob();

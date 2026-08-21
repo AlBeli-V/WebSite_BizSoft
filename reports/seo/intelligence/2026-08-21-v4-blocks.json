@@ -11,8 +11,8 @@
   },
   {
    "label": "ДАННЫЕ",
-   "state": "limited",
-   "text": "ограничено"
+   "state": "degraded",
+   "text": "сбой"
   },
   {
    "label": "ОТ ВАС",
@@ -29,14 +29,14 @@
    "label": "Видимость в Яндексе",
    "value": "967",
    "unit": "показов",
-   "delta": "+107",
-   "delta_dir": "up",
+   "delta": null,
+   "delta_dir": null,
    "relative": null,
-   "relative_note": "относительный процент не публикуется: окна источника пересекаются",
+   "relative_note": "разница с прошлым замером не публикуется: окна разной длины или выборка пересобрана — сравнивать нечего с чем",
    "period": "07.08–19.08",
    "source": "Яндекс.Вебмастер, выборка топ-100 запросов",
    "confidence": "достаточная",
-   "interpretation": "На первой странице 79 из 100 запросов выборки, −3 к вчера. CTR выборки 0,52% — только выборка топ-100 запросов, не CTR всего сайта.",
+   "interpretation": "В среднем 74 показов в день за 13 дн. На первой странице 79 из 100 запросов выборки, −3 к вчера. CTR выборки 0,52% — только выборка топ-100 запросов, не CTR всего сайта.",
    "muted": false,
    "sparkline": null
   },
@@ -169,31 +169,19 @@
        "share_of_total_delta": 0.19047619047619047
       },
       {
-       "entity": "/vendors/openai",
-       "vendor": "openai",
-       "current": 6,
-       "previous": 4,
+       "entity": "/",
+       "vendor": null,
+       "current": 10,
+       "previous": 8,
        "delta": 2,
-       "clicks_delta": 0,
-       "position_delta": -2.67,
+       "clicks_delta": 1,
+       "position_delta": -17.38,
        "state": "changed",
-       "confidence": "very_low",
+       "confidence": "low",
        "share_of_total_delta": 0.09523809523809523
       }
      ],
      "detractors": [
-      {
-       "entity": "/product/spine-essential",
-       "vendor": null,
-       "current": 2,
-       "previous": 4,
-       "delta": -2,
-       "clicks_delta": 0,
-       "position_delta": -1.5,
-       "state": "changed",
-       "confidence": "very_low",
-       "share_of_total_delta": 0.09523809523809523
-      },
       {
        "entity": "/product/prfrc-p4-cloud",
        "vendor": null,
@@ -202,6 +190,18 @@
        "delta": -2,
        "clicks_delta": 0,
        "position_delta": 3.6,
+       "state": "changed",
+       "confidence": "very_low",
+       "share_of_total_delta": 0.09523809523809523
+      },
+      {
+       "entity": "/product/spine-essential",
+       "vendor": null,
+       "current": 2,
+       "previous": 4,
+       "delta": -2,
+       "clicks_delta": 0,
+       "position_delta": -1.5,
        "state": "changed",
        "confidence": "very_low",
        "share_of_total_delta": 0.09523809523809523
@@ -221,13 +221,25 @@
        "share_of_total_delta": 0.19047619047619047
       },
       {
-       "entity": "/vendors/openai",
-       "vendor": "openai",
-       "current": 6,
-       "previous": 4,
+       "entity": "/",
+       "vendor": null,
+       "current": 10,
+       "previous": 8,
        "delta": 2,
+       "clicks_delta": 1,
+       "position_delta": -17.38,
+       "state": "changed",
+       "confidence": "low",
+       "share_of_total_delta": 0.09523809523809523
+      },
+      {
+       "entity": "/product/prfrc-p4-cloud",
+       "vendor": null,
+       "current": 3,
+       "previous": 5,
+       "delta": -2,
        "clicks_delta": 0,
-       "position_delta": -2.67,
+       "position_delta": 3.6,
        "state": "changed",
        "confidence": "very_low",
        "share_of_total_delta": 0.09523809523809523
@@ -243,27 +255,17 @@
        "state": "changed",
        "confidence": "very_low",
        "share_of_total_delta": 0.09523809523809523
-      },
-      {
-       "entity": "/product/prfrc-p4-cloud",
-       "vendor": null,
-       "current": 3,
-       "previous": 5,
-       "delta": -2,
-       "clicks_delta": 0,
-       "position_delta": 3.6,
-       "state": "changed",
-       "confidence": "very_low",
-       "share_of_total_delta": 0.09523809523809523
       }
      ],
-     "counted": 14
+     "counted": 14,
+     "min_delta": 3,
+     "dropped_from_sample": []
     },
     "queries": {
      "available": true,
      "reason": null,
      "total_delta": 1,
-     "net_delta_of_shown": 0,
+     "net_delta_of_shown": 1,
      "drivers": [
       {
        "entity": "bizsoft",
@@ -302,18 +304,6 @@
        "state": "changed",
        "confidence": "very_low",
        "share_of_total_delta": 0.2857142857142857
-      },
-      {
-       "entity": "bizmo",
-       "vendor": null,
-       "current": 0,
-       "previous": 1,
-       "delta": -1,
-       "clicks_delta": 0,
-       "position_delta": null,
-       "state": "lost",
-       "confidence": "very_low",
-       "share_of_total_delta": 0.14285714285714285
       }
      ],
      "all": [
@@ -352,21 +342,13 @@
        "state": "changed",
        "confidence": "very_low",
        "share_of_total_delta": 0.2857142857142857
-      },
-      {
-       "entity": "bizmo",
-       "vendor": null,
-       "current": 0,
-       "previous": 1,
-       "delta": -1,
-       "clicks_delta": 0,
-       "position_delta": null,
-       "state": "lost",
-       "confidence": "very_low",
-       "share_of_total_delta": 0.14285714285714285
       }
      ],
-     "counted": 5
+     "counted": 5,
+     "min_delta": 3,
+     "dropped_from_sample": [
+      "bizmo"
+     ]
     }
    },
    {
@@ -382,33 +364,8 @@
      "available": true,
      "reason": null,
      "total_delta": 107,
-     "net_delta_of_shown": -13,
-     "drivers": [
-      {
-       "entity": "рекрафт тарифы",
-       "vendor": null,
-       "current": 25,
-       "previous": 17,
-       "delta": 8,
-       "clicks_delta": 0,
-       "position_delta": 0.59,
-       "state": "changed",
-       "confidence": "low",
-       "share_of_total_delta": 0.028070175438596492
-      },
-      {
-       "entity": "runway ai тарифы",
-       "vendor": null,
-       "current": 7,
-       "previous": 0,
-       "delta": 7,
-       "clicks_delta": 0,
-       "position_delta": null,
-       "state": "new",
-       "confidence": "very_low",
-       "share_of_total_delta": 0.02456140350877193
-      }
-     ],
+     "net_delta_of_shown": -21,
+     "drivers": [],
      "detractors": [
       {
        "entity": "heygen тарифы",
@@ -421,57 +378,9 @@
        "state": "changed",
        "confidence": "sufficient",
        "share_of_total_delta": 0.07368421052631578
-      },
-      {
-       "entity": "хейген купить",
-       "vendor": null,
-       "current": 20,
-       "previous": 24,
-       "delta": -4,
-       "clicks_delta": 0,
-       "position_delta": 0.43,
-       "state": "changed",
-       "confidence": "low",
-       "share_of_total_delta": 0.014035087719298246
-      },
-      {
-       "entity": "оплата иностранных сервисов с предоставлением документов для бизнеса",
-       "vendor": null,
-       "current": 0,
-       "previous": 3,
-       "delta": -3,
-       "clicks_delta": -1,
-       "position_delta": null,
-       "state": "lost",
-       "confidence": "very_low",
-       "share_of_total_delta": 0.010526315789473684
       }
      ],
      "all": [
-      {
-       "entity": "рекрафт тарифы",
-       "vendor": null,
-       "current": 25,
-       "previous": 17,
-       "delta": 8,
-       "clicks_delta": 0,
-       "position_delta": 0.59,
-       "state": "changed",
-       "confidence": "low",
-       "share_of_total_delta": 0.028070175438596492
-      },
-      {
-       "entity": "runway ai тарифы",
-       "vendor": null,
-       "current": 7,
-       "previous": 0,
-       "delta": 7,
-       "clicks_delta": 0,
-       "position_delta": null,
-       "state": "new",
-       "confidence": "very_low",
-       "share_of_total_delta": 0.02456140350877193
-      },
       {
        "entity": "heygen тарифы",
        "vendor": null,
@@ -483,33 +392,38 @@
        "state": "changed",
        "confidence": "sufficient",
        "share_of_total_delta": 0.07368421052631578
-      },
-      {
-       "entity": "хейген купить",
-       "vendor": null,
-       "current": 20,
-       "previous": 24,
-       "delta": -4,
-       "clicks_delta": 0,
-       "position_delta": 0.43,
-       "state": "changed",
-       "confidence": "low",
-       "share_of_total_delta": 0.014035087719298246
-      },
-      {
-       "entity": "оплата иностранных сервисов с предоставлением документов для бизнеса",
-       "vendor": null,
-       "current": 0,
-       "previous": 3,
-       "delta": -3,
-       "clicks_delta": -1,
-       "position_delta": null,
-       "state": "lost",
-       "confidence": "very_low",
-       "share_of_total_delta": 0.010526315789473684
       }
      ],
-     "counted": 96
+     "counted": 96,
+     "min_delta": 39,
+     "dropped_from_sample": [
+      "heygen creator/pro",
+      "procreate купить в россии",
+      "оплата иностранных сервисов с предоставлением документов для бизнеса",
+      "character creator 5 купить",
+      "figma (full seat)",
+      "gaea indie скачать",
+      "hey gen pro",
+      "heygen creator годовой тариф",
+      "mookai фаундри",
+      "recraft купить на месяц www.klerk.ru",
+      "runway нейросеть купить",
+      "runway стандарт и про",
+      "speedtree купить",
+      "spine 2d программа купить в россии",
+      "unity тариф pro стоимость",
+      "видеоредактор filmore ландыши сколько стоит бессрочная лицензия в рублях",
+      "как оплатить sketch из россии",
+      "какими документами закрывается программное обеспечение",
+      "купить canva business",
+      "купить figma юридическим лицом",
+      "купить foundry",
+      "купить houdini",
+      "купить подписку эпедемик саундс в рф",
+      "лицензия marmoset toolbag 5 studio",
+      "сколько стоит клип студио в рублях",
+      "сколько стоит подписка на клип студио пейнт в рублях"
+     ]
     }
    }
   ]
@@ -528,13 +442,25 @@
    "share_of_total_delta": 0.19047619047619047
   },
   {
-   "entity": "/vendors/openai",
-   "vendor": "openai",
-   "current": 6,
-   "previous": 4,
+   "entity": "/",
+   "vendor": null,
+   "current": 10,
+   "previous": 8,
    "delta": 2,
+   "clicks_delta": 1,
+   "position_delta": -17.38,
+   "state": "changed",
+   "confidence": "low",
+   "share_of_total_delta": 0.09523809523809523
+  },
+  {
+   "entity": "/product/prfrc-p4-cloud",
+   "vendor": null,
+   "current": 3,
+   "previous": 5,
+   "delta": -2,
    "clicks_delta": 0,
-   "position_delta": -2.67,
+   "position_delta": 3.6,
    "state": "changed",
    "confidence": "very_low",
    "share_of_total_delta": 0.09523809523809523
@@ -550,27 +476,15 @@
    "state": "changed",
    "confidence": "very_low",
    "share_of_total_delta": 0.09523809523809523
-  },
-  {
-   "entity": "/product/prfrc-p4-cloud",
-   "vendor": null,
-   "current": 3,
-   "previous": 5,
-   "delta": -2,
-   "clicks_delta": 0,
-   "position_delta": 3.6,
-   "state": "changed",
-   "confidence": "very_low",
-   "share_of_total_delta": 0.09523809523809523
   }
  ],
- "driver_summary": "Показы выросли на страницах: /vendors/blackmagic (+4), /vendors/openai (+2).",
+ "driver_summary": "Показы выросли на страницах: /vendors/blackmagic (+4), / (+2).",
  "driver_blocks": [
   {
    "engine": "Google",
    "window": "накопленное окно 26 дней, сдвинуто на сутки",
    "available": true,
-   "text": "Изменение +13 по страницам. Прибавили: /vendors/blackmagic, /vendors/openai. Потеряли: /product/spine-essential, /product/prfrc-p4-cloud.",
+   "text": "Изменение +13 по страницам. Прибавили: /vendors/blackmagic, /. Потеряли: /product/prfrc-p4-cloud, /product/spine-essential.",
    "rows": [
     {
      "entity": "/vendors/blackmagic",
@@ -581,20 +495,12 @@
      "position_delta": 2.81
     },
     {
-     "entity": "/vendors/openai",
+     "entity": "/",
      "delta": "+2",
      "share": "10%",
      "state": "",
      "positive": true,
-     "position_delta": -2.67
-    },
-    {
-     "entity": "/product/spine-essential",
-     "delta": "−2",
-     "share": "10%",
-     "state": "",
-     "positive": false,
-     "position_delta": -1.5
+     "position_delta": -17.38
     },
     {
      "entity": "/product/prfrc-p4-cloud",
@@ -603,6 +509,14 @@
      "state": "",
      "positive": false,
      "position_delta": 3.6
+    },
+    {
+     "entity": "/product/spine-essential",
+     "delta": "−2",
+     "share": "10%",
+     "state": "",
+     "positive": false,
+     "position_delta": -1.5
     }
    ],
    "counted": 14
@@ -611,24 +525,8 @@
    "engine": "Яндекс",
    "window": "выборка топ-100 запросов, окно 2026-08-07–2026-08-19",
    "available": true,
-   "text": "Изменение +107 по запросам. Прибавили: рекрафт тарифы, runway ai тарифы. Потеряли: heygen тарифы, хейген купить, оплата иностранных сервисов с предоставлением документов для бизнеса.",
+   "text": "Изменение +107 по запросам. Потеряли: heygen тарифы. Растущих адресов выше порога значимости нет.",
    "rows": [
-    {
-     "entity": "рекрафт тарифы",
-     "delta": "+8",
-     "share": "3%",
-     "state": "",
-     "positive": true,
-     "position_delta": 0.59
-    },
-    {
-     "entity": "runway ai тарифы",
-     "delta": "+7",
-     "share": "2%",
-     "state": "новая",
-     "positive": true,
-     "position_delta": null
-    },
     {
      "entity": "heygen тарифы",
      "delta": "−21",
@@ -636,22 +534,6 @@
      "state": "",
      "positive": false,
      "position_delta": 0.22
-    },
-    {
-     "entity": "хейген купить",
-     "delta": "−4",
-     "share": "1%",
-     "state": "",
-     "positive": false,
-     "position_delta": 0.43
-    },
-    {
-     "entity": "оплата иностранных сервисов с предоставлением документов для бизнеса",
-     "delta": "−3",
-     "share": "1%",
-     "state": "выпала",
-     "positive": false,
-     "position_delta": null
     }
    ],
    "counted": 96
@@ -873,10 +755,10 @@
   "market_demand_used": false
  },
  "health": {
-  "status": "limited",
-  "reason": "охваты источников различаются",
-  "colour": "warning",
-  "detail": "Поиск Яндекса отдаёт выборку запросов, аналитика — весь сайт. Источники исправны, но их числа описывают разные множества и напрямую не сравниваются."
+  "status": "degraded",
+  "reason": "источник отдаёт некорректные данные",
+  "colour": "danger",
+  "detail": "Часть показателей отчёта не опирается на свежие данные."
  },
  "demand": {
   "available": true,

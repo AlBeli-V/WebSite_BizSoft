@@ -17,7 +17,11 @@ import re
 
 VENDOR_PATH = re.compile(r"^/vendors/([a-z0-9-]+)")
 MIN_SHARE = 0.05          # вклад меньше 5 % в отдельный драйвер не выносим
-MIN_ABS = 2               # и меньше двух показов тоже
+MIN_ABS = 3               # и меньше трёх показов тоже
+# Порог считается ещё и от базы: при недельной базе Google в 38 показов
+# разница в два показа неотличима от пуассоновского шума, и называть её
+# драйвером — это выдавать шум за причину.
+MIN_SHARE_OF_BASE = 0.05
 
 
 def vendor_of(entity_id: str, vendors: set[str]) -> str | None:
@@ -33,6 +37,11 @@ def vendor_of(entity_id: str, vendors: set[str]) -> str | None:
 
 def index(rows: list[dict]) -> dict[str, dict]:
     return {r["entity_id"]: r for r in rows or []}
+
+
+def threshold(base: int) -> int:
+    """Минимальная дельта, которую имеет смысл называть драйвером."""
+    return max(MIN_ABS, round(base * MIN_SHARE_OF_BASE))
 
 
 def decompose(cur_rows, prev_rows, vendors, metric="impressions", limit=5):
@@ -61,7 +70,11 @@ def decompose(cur_rows, prev_rows, vendors, metric="impressions", limit=5):
             "position_delta": (round((c or {}).get("average_position") - (p or {}).get("average_position"), 2)
                                if c and p and c.get("average_position") is not None
                                and p.get("average_position") is not None else None),
-            "state": "new" if p is None else ("lost" if c is None else "changed"),
+            # Сущность, выбывшая из выборки, не упала до нуля — она перестала
+            # измеряться. Для Яндекса это обычное дело: выборка пересобирается
+            # каждый сбор, и «потеря» страницы чаще означает смену состава
+            # списка, а не потерю показов.
+            "state": "new" if p is None else ("dropped_from_sample" if c is None else "changed"),
             "confidence": (c or p or {}).get("confidence", "unknown"),
         })
 
@@ -79,8 +92,11 @@ def decompose(cur_rows, prev_rows, vendors, metric="impressions", limit=5):
     # Рост и снижение отбираются раздельно: иначе при общем падении в верхних
     # строках по модулю не остаётся ни одного драйвера роста, и блок «драйверы
     # и детракторы» показывает только одну сторону изменения.
+    base = sum(i["current"] for i in items) or 1
+    floor = threshold(base)
     significant = [i for i in items
-                   if abs(i["delta"]) >= MIN_ABS or i["share_of_total_delta"] >= MIN_SHARE]
+                   if i["state"] != "dropped_from_sample"
+                   and (abs(i["delta"]) >= floor or i["share_of_total_delta"] >= MIN_SHARE)]
     half = max(1, limit // 2)
     gains = [i for i in significant if i["delta"] > 0][:half]
     losses = [i for i in significant if i["delta"] < 0][:limit - len(gains)]
@@ -94,6 +110,9 @@ def decompose(cur_rows, prev_rows, vendors, metric="impressions", limit=5):
         "detractors": losses,
         "all": shown,
         "counted": len(items),
+        "min_delta": floor,
+        "dropped_from_sample": [i["entity"] for i in items
+                                if i["state"] == "dropped_from_sample"],
     }
 
 

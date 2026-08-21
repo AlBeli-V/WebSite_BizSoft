@@ -1,8 +1,36 @@
 {
  "schema_version": "2.1.0",
  "report_date": "2026-08-21",
- "generated_at": "2026-08-21T03:07:00+00:00",
- "reporting_timezone": "Asia/Bishkek (UTC+6)",
+ "generated_at": "2026-08-21T09:29:09+00:00",
+ "reporting_timezone": "Europe/Moscow (UTC+3)",
+ "declared_goals": [
+  "add_to_cart",
+  "click_buy_org",
+  "click_choose_plan",
+  "click_clarify_price",
+  "click_compare_app",
+  "click_get_quote",
+  "click_pick_licenses",
+  "click_plugins_catalog",
+  "click_product_card",
+  "click_related_link",
+  "click_renew",
+  "click_request_invoice",
+  "contact_click",
+  "expand_plugins_category",
+  "form_error",
+  "form_start",
+  "lead_sent",
+  "open_comparison_table",
+  "quiz_complete",
+  "quiz_step",
+  "quote_pdf",
+  "view_figma_landing",
+  "view_jetbrains_landing",
+  "view_openai_landing",
+  "view_vendor_landing",
+  "view_zoom_landing"
+ ],
  "thresholds": {
   "low_impressions": 50,
   "low_visits": 20,
@@ -23,7 +51,7 @@
    "comparison_period_end": "2026-08-17",
    "comparison_period_days": 12,
    "filters": {
-    "scope": "top-100 запросов по показам (API popular queries)",
+    "scope": "100 из 506 запросов (API popular queries, постраничный забор)",
     "region": "не задан в запросе",
     "device": "все"
    },
@@ -1339,7 +1367,9 @@
    "queries_tracked": 100,
    "queries_position_le_10": 79,
    "queries_position_le_3": 4,
-   "scope_note": "выборка топ-100 запросов, не весь сайт"
+   "queries_available": 506,
+   "queries_fetched": 100,
+   "scope_note": "выборка запросов, не весь сайт"
   },
   "indexation": {
    "total_known_urls": 201,
@@ -1376,157 +1406,183 @@
     "date": "2026-07-24",
     "impressions": 10,
     "clicks": 0,
-    "position": 34.5
+    "position": 34.5,
+    "measured": true
    },
    {
     "date": "2026-07-25",
     "impressions": 6,
     "clicks": 0,
-    "position": 52.5
+    "position": 52.5,
+    "measured": true
    },
    {
     "date": "2026-07-26",
     "impressions": 3,
     "clicks": 0,
-    "position": 42.33
+    "position": 42.33,
+    "measured": true
    },
    {
     "date": "2026-07-27",
     "impressions": 2,
     "clicks": 0,
-    "position": 42.5
+    "position": 42.5,
+    "measured": true
    },
    {
     "date": "2026-07-28",
     "impressions": 7,
     "clicks": 0,
-    "position": 25.29
+    "position": 25.29,
+    "measured": true
    },
    {
     "date": "2026-07-29",
     "impressions": 2,
     "clicks": 0,
-    "position": 42.5
+    "position": 42.5,
+    "measured": true
    },
    {
     "date": "2026-07-30",
     "impressions": 3,
     "clicks": 0,
-    "position": 43.33
+    "position": 43.33,
+    "measured": true
    },
    {
     "date": "2026-07-31",
     "impressions": 4,
     "clicks": 0,
-    "position": 46.5
+    "position": 46.5,
+    "measured": true
    },
    {
     "date": "2026-08-01",
     "impressions": 5,
     "clicks": 0,
-    "position": 39.6
+    "position": 39.6,
+    "measured": true
    },
    {
     "date": "2026-08-02",
     "impressions": 7,
     "clicks": 0,
-    "position": 46.86
+    "position": 46.86,
+    "measured": true
    },
    {
     "date": "2026-08-03",
     "impressions": 6,
     "clicks": 0,
-    "position": 43.17
+    "position": 43.17,
+    "measured": true
    },
    {
     "date": "2026-08-04",
     "impressions": 2,
     "clicks": 0,
-    "position": 46.5
+    "position": 46.5,
+    "measured": true
    },
    {
     "date": "2026-08-05",
     "impressions": 6,
     "clicks": 0,
-    "position": 26.17
+    "position": 26.17,
+    "measured": true
    },
    {
     "date": "2026-08-06",
     "impressions": 3,
     "clicks": 0,
-    "position": 45
+    "position": 45,
+    "measured": true
    },
    {
     "date": "2026-08-07",
     "impressions": 2,
     "clicks": 0,
-    "position": 40
+    "position": 40,
+    "measured": true
    },
    {
     "date": "2026-08-08",
     "impressions": 0,
     "clicks": 0,
-    "position": 0
+    "position": 0,
+    "measured": true
    },
    {
     "date": "2026-08-09",
     "impressions": 3,
     "clicks": 0,
-    "position": 40.67
+    "position": 40.67,
+    "measured": true
    },
    {
     "date": "2026-08-10",
     "impressions": 3,
     "clicks": 0,
-    "position": 45.33
+    "position": 45.33,
+    "measured": true
    },
    {
     "date": "2026-08-11",
     "impressions": 2,
     "clicks": 0,
-    "position": 41.5
+    "position": 41.5,
+    "measured": true
    },
    {
     "date": "2026-08-12",
     "impressions": 1,
     "clicks": 0,
-    "position": 55
+    "position": 55,
+    "measured": true
    },
    {
     "date": "2026-08-13",
     "impressions": 3,
     "clicks": 0,
-    "position": 37
+    "position": 37,
+    "measured": true
    },
    {
     "date": "2026-08-14",
     "impressions": 3,
     "clicks": 0,
-    "position": 53.67
+    "position": 53.67,
+    "measured": true
    },
    {
     "date": "2026-08-15",
     "impressions": 3,
     "clicks": 0,
-    "position": 56
+    "position": 56,
+    "measured": true
    },
    {
     "date": "2026-08-16",
     "impressions": 8,
     "clicks": 0,
-    "position": 61.75
+    "position": 61.75,
+    "measured": true
    },
    {
     "date": "2026-08-17",
     "impressions": 11,
     "clicks": 0,
-    "position": 49.09
+    "position": 49.09,
+    "measured": true
    },
    {
     "date": "2026-08-18",
     "impressions": 9,
     "clicks": 1,
-    "position": 32.22
+    "position": 32.22,
+    "measured": true
    }
   ],
   "entities": [
@@ -2499,6 +2555,15 @@
   },
   "ga4": {
    "available": true,
+   "internal_in_organic": {
+    "sources": [
+     "metrika.yandex.ru",
+     "alice.yandex.ru"
+    ],
+    "sessions": 6,
+    "key_events": 2.0
+   },
+   "source_timezone": "Europe/Moscow",
    "source": {
     "source_name": "ga4",
     "collected_at": "2026-08-21",
