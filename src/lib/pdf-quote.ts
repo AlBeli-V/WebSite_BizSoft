@@ -11,7 +11,9 @@
  */
 import PDFDocument from 'pdfkit';
 import { createRequire } from 'node:module';
-import { readFileSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
+import { dirname, join } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { buildQuoteLayout, PAGE, type QuoteData, type Measure, type Primitive } from './quote-layout';
 
 export type { QuoteData };
@@ -24,12 +26,52 @@ export function fontPath(file: string): string {
 const FONT_REGULAR = readFileSync(fontPath('DejaVuSans.ttf'));
 const FONT_BOLD = readFileSync(fontPath('DejaVuSans-Bold.ttf'));
 
+/**
+ * Путь к файлу из public/ — и в исходниках, и в собранном приложении.
+ *
+ * Прежний расчёт «два уровня вверх от модуля» верен только для src/lib.
+ * В рантайм-образ копируется один каталог dist, исходников и public/ там
+ * нет вовсе, а сам модуль оказывается в dist/server/pages/api — два уровня
+ * вверх дают dist/, где никакого public/ не лежит. Логотип в проде не
+ * читался, генерация падала, и КП не уходило: сервер отвечал «не удалось
+ * сформировать документ».
+ *
+ * Поэтому путь ищется, а не вычисляется: от каталога модуля и от рабочего
+ * каталога вверх по дереву, в каждом — три места, где файл реально бывает.
+ * Так работают и запуск из исходников, и тесты, и контейнер, независимо от
+ * глубины, на которую сборщик уложил чанк.
+ */
+export function resolveAsset(file: string): string {
+  // Внутри dist/client файлы лежат без префикса public/: Astro копирует
+  // содержимое каталога, а не сам каталог.
+  const rel = file.replace(/^public\//, '');
+  const starts = [fileURLToPath(new URL('.', import.meta.url)), process.cwd()];
+  const tried: string[] = [];
+  for (const start of starts) {
+    let dir = start;
+    for (let up = 0; up < 8; up += 1) {
+      for (const candidate of [
+        join(dir, file),                    // корень проекта
+        join(dir, 'dist', 'client', rel),   // рядом с собранным приложением
+        join(dir, 'client', rel),           // изнутри dist
+      ]) {
+        if (existsSync(candidate)) return candidate;
+        tried.push(candidate);
+      }
+      const parent = dirname(dir);
+      if (parent === dir) break;
+      dir = parent;
+    }
+  }
+  throw new Error(`файл ${file} не найден; проверены пути: ${tried.join(', ')}`);
+}
+
 const logoCache = new Map<string, Buffer>();
 /** Файл логотипа с диска. Кэш: страниц бывает несколько, файл один. */
 export function logoBuffer(file: string): Buffer {
   let buf = logoCache.get(file);
   if (!buf) {
-    buf = readFileSync(new URL(`../../${file}`, import.meta.url));
+    buf = readFileSync(resolveAsset(file));
     logoCache.set(file, buf);
   }
   return buf;

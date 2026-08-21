@@ -6,13 +6,14 @@
  * двух форматов.
  */
 import { describe, expect, it } from 'vitest';
-import { buildQuoteLayout, watermarks, WATERMARK } from '../src/lib/quote-layout';
-import { generateQuotePdf, pdfMeasure } from '../src/lib/pdf-quote';
+import { buildQuoteLayout, watermarks, WATERMARK, LOGO_FILE } from '../src/lib/quote-layout';
+import { generateQuotePdf, pdfMeasure, resolveAsset } from '../src/lib/pdf-quote';
 import { generateQuoteJpg, quotePageSvg } from '../src/lib/jpg-quote';
 import { leadFromQuote } from '../src/lib/quote-lead';
 import { defaultLeadOwner } from '../src/config/site';
-import { readFileSync } from 'node:fs';
-import { resolve } from 'node:path';
+import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import { join, resolve } from 'node:path';
+import { tmpdir } from 'node:os';
 
 const data = {
   quoteNo: 'BZ-20260821-0042',
@@ -272,5 +273,37 @@ describe('ответственный за заявку', () => {
   it('проставляется и в заявке из формы сайта', () => {
     const src = readFileSync(resolve(__dirname, '../src/pages/api/lead.ts'), 'utf8');
     expect(src).toContain('owner: defaultLeadOwner');
+  });
+});
+
+describe('логотип находится и в собранном приложении', () => {
+  // В рантайм-образ копируется только dist: исходников и public/ там нет,
+  // а сам модуль лежит в dist/server/pages/api. Прежний расчёт «два уровня
+  // вверх» давал dist/public — файла по этому пути не существует, чтение
+  // падало, и КП не уходило вовсе: сервер отвечал 500.
+  it('берётся из dist/client, когда public/ рядом нет', () => {
+    const root = mkdtempSync(join(tmpdir(), 'quote-asset-'));
+    const dir = join(root, 'dist', 'client', 'brand');
+    mkdirSync(dir, { recursive: true });
+    writeFileSync(join(dir, 'sample-mark.png'), 'PNG');
+
+    const cwd = process.cwd();
+    try {
+      process.chdir(root);
+      expect(resolveAsset('public/brand/sample-mark.png'))
+        .toBe(join(dir, 'sample-mark.png'));
+    } finally {
+      process.chdir(cwd);
+      rmSync(root, { recursive: true, force: true });
+    }
+  });
+
+  it('берётся из public/, когда работаем из исходников', () => {
+    expect(resolveAsset(LOGO_FILE)).toContain(join('public', 'brand'));
+  });
+
+  it('о ненайденном файле сообщает с перечнем проверенных путей', () => {
+    expect(() => resolveAsset('public/brand/нет-такого.png'))
+      .toThrow(/проверены пути/);
   });
 });
