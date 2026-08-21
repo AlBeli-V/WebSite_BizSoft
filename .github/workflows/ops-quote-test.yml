@@ -36,6 +36,9 @@ on:
         required: false
         default: ''
 permissions:
+  # contents: read обязателен: явный блок permissions отменяет умолчания
+  # целиком, и без него actions/checkout не может клонировать репозиторий.
+  contents: read
   issues: write
 jobs:
   quote:
