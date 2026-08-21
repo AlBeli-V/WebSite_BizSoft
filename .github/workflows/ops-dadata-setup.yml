@@ -1,0 +1,100 @@
+# Подключение справочника ЕГРЮЛ (DaData) для проверки ИНН в заявках.
+#
+# Токен читается из секрета репозитория, а не из параметров запуска: параметры
+# workflow_dispatch видны в интерфейсе Actions всем, у кого есть доступ к
+# репозиторию, и остаются там навсегда.
+#
+# Что делает: дописывает DADATA_TOKEN в /opt/bizsoft/astro.env, перезапускает
+# приложение и делает контрольный запрос по известному ИНН — чтобы убедиться,
+# что ключ принят, а не просто записан.
+#
+# Значение токена в журнал не попадает: печатаются только длина и результат
+# проверки.
+name: ops-dadata-setup
+
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "check — только проверить ключ; apply — записать на сервер и проверить"
+        required: true
+        default: "check"
+        type: choice
+        options: [check, apply]
+
+permissions:
+  issues: write
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Verify key works
+        id: verify
+        env:
+          DADATA_TOKEN: ${{ secrets.DADATA_TOKEN }}
+        run: |
+          set -o pipefail
+          if [ -z "$DADATA_TOKEN" ]; then
+            echo "Секрет DADATA_TOKEN не задан в репозитории." | tee /tmp/dadata.txt
+            echo "Добавьте его: Settings -> Secrets and variables -> Actions -> New secret." | tee -a /tmp/dadata.txt
+            exit 1
+          fi
+          echo "Ключ задан, длина ${#DADATA_TOKEN} символов." | tee /tmp/dadata.txt
+          CODE=$(curl -sS --max-time 20 -o /tmp/dadata.json -w '%{http_code}' \
+            -X POST 'https://suggestions.dadata.ru/suggestions/api/4_1/rs/findById/party' \
+            -H 'Content-Type: application/json' -H 'Accept: application/json' \
+            -H "Authorization: Token $DADATA_TOKEN" \
+            -d '{"query":"7707083893","count":1}' || echo 000)
+          echo "Контрольный запрос: HTTP $CODE" | tee -a /tmp/dadata.txt
+          python3 - <<'PY' | tee -a /tmp/dadata.txt
+          import json
+          try:
+              d = json.load(open('/tmp/dadata.json', encoding='utf-8'))
+          except Exception as e:
+              print('ответ не разобран:', e); raise SystemExit(1)
+          s = (d.get('suggestions') or [])
+          if not s:
+              print('справочник ответил пусто — ключ не принят или лимит исчерпан')
+              raise SystemExit(1)
+          print('найдено по ИНН 7707083893:', s[0].get('value'))
+          print('ключ работает')
+          PY
+
+      - name: Write token to server
+        if: inputs.mode == 'apply'
+        uses: appleboy/ssh-action@v1
+        env:
+          P_TOKEN: ${{ secrets.DADATA_TOKEN }}
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          envs: P_TOKEN
+          command_timeout: 10m
+          script: |
+            set -e
+            ENV_FILE=/opt/bizsoft/astro.env
+            cp "$ENV_FILE" "$ENV_FILE.bak.$(date +%s)"
+            # Старое значение убираем, чтобы не плодить дубли строк.
+            sed -i '/^DADATA_TOKEN=/d' "$ENV_FILE"
+            printf 'DADATA_TOKEN=%s\n' "$P_TOKEN" >> "$ENV_FILE"
+            echo "записано, строк с DADATA_TOKEN: $(grep -c '^DADATA_TOKEN=' "$ENV_FILE")"
+            cd /opt/bizsoft && docker compose up -d --force-recreate astro
+            sleep 6
+            docker compose ps astro
+
+      - name: Post to issue
+        if: always()
+        uses: actions/github-script@v7
+        env:
+          MODE: ${{ inputs.mode }}
+        with:
+          script: |
+            const fs = require('fs');
+            let out = '(нет вывода)';
+            try { out = fs.readFileSync('/tmp/dadata.txt', 'utf8').slice(0, 20000); } catch {}
+            await github.rest.issues.createComment({
+              owner: context.repo.owner, repo: context.repo.repo, issue_number: 22,
+              body: `### ops-dadata-setup (${process.env.MODE})\n\n\`\`\`\n${out}\n\`\`\``,
+            });
