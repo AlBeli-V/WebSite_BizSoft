@@ -38,25 +38,25 @@ Daily Search, Demand & Experiment Control
 
 *накопленное окно 26 дней, сдвинуто на сутки*
 
-Изменение +13 по страницам. Прибавили: /vendors/blackmagic, /. Потеряли: /product/prfrc-p4-cloud, /product/spine-essential.
+Изменение +13 по страницам. Прибавили: /vendors/blackmagic, /vendors/openai. Потеряли: /product/spine-essential, /product/prfrc-p4-cloud.
 
 | Изменение | Адрес | Доля | Состояние |
 |---|---|---|---|
 | +4 | /vendors/blackmagic | 19% | — |
-| +2 | / | 10% | — |
-| −2 | /product/prfrc-p4-cloud | 10% | — |
+| +2 | /vendors/openai | 10% | — |
 | −2 | /product/spine-essential | 10% | — |
+| −2 | /product/prfrc-p4-cloud | 10% | — |
 
 ### Яндекс
 
 *выборка топ-100 запросов, окно 2026-08-07–2026-08-19*
 
-Изменение +107 по запросам. Прибавили: рекрафт тарифы, runway ai тарифы. Потеряли: heygen тарифы, хейген купить, procreate купить в россии.
+Изменение +107 по запросам. Прибавили: рекрафт тарифы, купить подписку на клип студио пейнт. Потеряли: heygen тарифы, хейген купить, procreate купить в россии.
 
 | Изменение | Адрес | Доля | Состояние |
 |---|---|---|---|
 | +8 | рекрафт тарифы | 3% | — |
-| +7 | runway ai тарифы | 2% | новая |
+| +7 | купить подписку на клип студио пейнт | 2% | новая |
 | −21 | heygen тарифы | 7% | — |
 | −4 | хейген купить | 1% | — |
 | −3 | procreate купить в россии | 1% | выпала |
@@ -134,7 +134,7 @@ Daily Search, Demand & Experiment Control
 | [Наблюдение за изменением карточек вендоров](https://github.com/AlBeli-V/WebSite_BizSoft/pull/57) | SEO Lead | наблюдение | наблюдение | 26.08 | PR 57 |
 | [Рекламный тест](https://github.com/AlBeli-V/WebSite_BizSoft/blob/claude/biz-soft-rating-tracking-5rf03g/reports/seo/tasks/PPC-RES-001-forecast.md) | PPC Lead | заблокировано | остановлено правилом | без срока | тикет |
 | [Три конверсионные цели не измеряются](https://github.com/AlBeli-V/WebSite_BizSoft/blob/claude/biz-soft-rating-tracking-5rf03g/TECHNICAL_AUDIT_REPORT.md (находка P1)) | Data Auditor | заблокировано | ждёт починки счётчика | 27.08 | reports/seo/measurement-limits.json |
-| [Воронка заявок и захват скачиваний КП](https://github.com/AlBeli-V/WebSite_BizSoft/blob/claude/biz-soft-rating-tracking-5rf03g/src/crm/README.md) | Data Auditor | на сайте | выложено | 22.08 | /admin — кабинет заявок |
+| [Воронка заявок и захват скачиваний КП](https://github.com/AlBeli-V/WebSite_BizSoft/blob/claude/biz-soft-rating-tracking-5rf03g/src/crm/README.md) | Data Auditor | на сайте | выложено | 22.08 | /admin — кабинет заявок; ops-crm-backfill |
 
 ## Радар возможностей
 

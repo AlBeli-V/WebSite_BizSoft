@@ -183,18 +183,6 @@
      ],
      "detractors": [
       {
-       "entity": "/product/spine-essential",
-       "vendor": null,
-       "current": 2,
-       "previous": 4,
-       "delta": -2,
-       "clicks_delta": 0,
-       "position_delta": -1.5,
-       "state": "changed",
-       "confidence": "very_low",
-       "share_of_total_delta": 0.09523809523809523
-      },
-      {
        "entity": "/product/prfrc-p4-cloud",
        "vendor": null,
        "current": 3,
@@ -202,6 +190,18 @@
        "delta": -2,
        "clicks_delta": 0,
        "position_delta": 3.6,
+       "state": "changed",
+       "confidence": "very_low",
+       "share_of_total_delta": 0.09523809523809523
+      },
+      {
+       "entity": "/product/spine-essential",
+       "vendor": null,
+       "current": 2,
+       "previous": 4,
+       "delta": -2,
+       "clicks_delta": 0,
+       "position_delta": -1.5,
        "state": "changed",
        "confidence": "very_low",
        "share_of_total_delta": 0.09523809523809523
@@ -233,18 +233,6 @@
        "share_of_total_delta": 0.09523809523809523
       },
       {
-       "entity": "/product/spine-essential",
-       "vendor": null,
-       "current": 2,
-       "previous": 4,
-       "delta": -2,
-       "clicks_delta": 0,
-       "position_delta": -1.5,
-       "state": "changed",
-       "confidence": "very_low",
-       "share_of_total_delta": 0.09523809523809523
-      },
-      {
        "entity": "/product/prfrc-p4-cloud",
        "vendor": null,
        "current": 3,
@@ -252,6 +240,18 @@
        "delta": -2,
        "clicks_delta": 0,
        "position_delta": 3.6,
+       "state": "changed",
+       "confidence": "very_low",
+       "share_of_total_delta": 0.09523809523809523
+      },
+      {
+       "entity": "/product/spine-essential",
+       "vendor": null,
+       "current": 2,
+       "previous": 4,
+       "delta": -2,
+       "clicks_delta": 0,
+       "position_delta": -1.5,
        "state": "changed",
        "confidence": "very_low",
        "share_of_total_delta": 0.09523809523809523
@@ -397,7 +397,7 @@
        "share_of_total_delta": 0.028070175438596492
       },
       {
-       "entity": "runway ai тарифы",
+       "entity": "купить подписку на клип студио пейнт",
        "vendor": null,
        "current": 7,
        "previous": 0,
@@ -461,7 +461,7 @@
        "share_of_total_delta": 0.028070175438596492
       },
       {
-       "entity": "runway ai тарифы",
+       "entity": "купить подписку на клип студио пейнт",
        "vendor": null,
        "current": 7,
        "previous": 0,
@@ -540,18 +540,6 @@
    "share_of_total_delta": 0.09523809523809523
   },
   {
-   "entity": "/product/spine-essential",
-   "vendor": null,
-   "current": 2,
-   "previous": 4,
-   "delta": -2,
-   "clicks_delta": 0,
-   "position_delta": -1.5,
-   "state": "changed",
-   "confidence": "very_low",
-   "share_of_total_delta": 0.09523809523809523
-  },
-  {
    "entity": "/product/prfrc-p4-cloud",
    "vendor": null,
    "current": 3,
@@ -559,6 +547,18 @@
    "delta": -2,
    "clicks_delta": 0,
    "position_delta": 3.6,
+   "state": "changed",
+   "confidence": "very_low",
+   "share_of_total_delta": 0.09523809523809523
+  },
+  {
+   "entity": "/product/spine-essential",
+   "vendor": null,
+   "current": 2,
+   "previous": 4,
+   "delta": -2,
+   "clicks_delta": 0,
+   "position_delta": -1.5,
    "state": "changed",
    "confidence": "very_low",
    "share_of_total_delta": 0.09523809523809523
@@ -570,7 +570,7 @@
    "engine": "Google",
    "window": "накопленное окно 26 дней, сдвинуто на сутки",
    "available": true,
-   "text": "Изменение +13 по страницам. Прибавили: /vendors/blackmagic, /. Потеряли: /product/spine-essential, /product/prfrc-p4-cloud.",
+   "text": "Изменение +13 по страницам. Прибавили: /vendors/blackmagic, /. Потеряли: /product/prfrc-p4-cloud, /product/spine-essential.",
    "rows": [
     {
      "entity": "/vendors/blackmagic",
@@ -589,20 +589,20 @@
      "position_delta": -17.38
     },
     {
-     "entity": "/product/spine-essential",
-     "delta": "−2",
-     "share": "10%",
-     "state": "",
-     "positive": false,
-     "position_delta": -1.5
-    },
-    {
      "entity": "/product/prfrc-p4-cloud",
      "delta": "−2",
      "share": "10%",
      "state": "",
      "positive": false,
      "position_delta": 3.6
+    },
+    {
+     "entity": "/product/spine-essential",
+     "delta": "−2",
+     "share": "10%",
+     "state": "",
+     "positive": false,
+     "position_delta": -1.5
     }
    ],
    "counted": 14
@@ -611,7 +611,7 @@
    "engine": "Яндекс",
    "window": "выборка топ-100 запросов, окно 2026-08-07–2026-08-19",
    "available": true,
-   "text": "Изменение +107 по запросам. Прибавили: рекрафт тарифы, runway ai тарифы. Потеряли: heygen тарифы, хейген купить, heygen creator/pro.",
+   "text": "Изменение +107 по запросам. Прибавили: рекрафт тарифы, купить подписку на клип студио пейнт. Потеряли: heygen тарифы, хейген купить, heygen creator/pro.",
    "rows": [
     {
      "entity": "рекрафт тарифы",
@@ -622,7 +622,7 @@
      "position_delta": 0.59
     },
     {
-     "entity": "runway ai тарифы",
+     "entity": "купить подписку на клип студио пейнт",
      "delta": "+7",
      "share": "2%",
      "state": "новая",
@@ -819,7 +819,7 @@
    "status": "выложено",
    "zone": "GREEN",
    "due": "22.08",
-   "artifact": "/admin — кабинет заявок",
+   "artifact": "/admin — кабинет заявок; ops-crm-backfill",
    "artifact_url": "https://github.com/AlBeli-V/WebSite_BizSoft/blob/claude/biz-soft-rating-tracking-5rf03g/src/crm/README.md",
    "pr": null,
    "ci": "тесты 127 зелёных",

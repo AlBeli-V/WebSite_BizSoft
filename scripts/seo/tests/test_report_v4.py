@@ -161,6 +161,12 @@ class TestExperimentControl(unittest.TestCase):
         self.assertTrue(self.rows[0]["combined_treatment"])
         self.assertIn("не разделяются", self.rows[0]["combined_note"])
 
+    def test_tickets_are_distinct_per_experiment(self):
+        """Три эксперимента под одним номером в письме неразличимы."""
+        tickets = [r["ticket"] for r in self.rows]
+        self.assertEqual(len(tickets), len(set(tickets)))
+        self.assertTrue(all(t for t in tickets))
+
     def test_verdict_needs_minimum_days(self):
         v, _ = self.e.verdict_for(days=3, impressions=9000, live=5, total=5)
         self.assertEqual(v, "too_early")
