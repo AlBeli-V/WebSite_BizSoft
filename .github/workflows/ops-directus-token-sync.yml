@@ -1,0 +1,86 @@
+# Синхронизация служебного токена Directus в окружение сайта.
+#
+# scripts/directus-setup.mjs при каждом запуске пересоздаёт токен служебной
+# учётки и кладёт его в /tmp/bz/token. Если после этого не обновить
+# DIRECTUS_TOKEN в /opt/bizsoft/astro.env, сайт теряет доступ к базе: каталог
+# пустеет, карточки товаров отдают 404. Этот воркфлоу переносит свежий токен
+# в окружение и перезапускает приложение.
+#
+# Запускать сразу после ops-directus-schema.
+
+name: ops-directus-token-sync
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Sync token and restart app
+        id: run
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          capture_stdout: true
+          command_timeout: 10m
+          script: |
+            set -e
+            TOKEN_FILE=/tmp/bz/token
+            ENV_FILE=/opt/bizsoft/astro.env
+            if [ ! -s "$TOKEN_FILE" ]; then
+              echo "::error::нет файла с токеном $TOKEN_FILE — сначала запустите ops-directus-schema"
+              exit 1
+            fi
+            NEW=$(tr -d '"\r\n' < "$TOKEN_FILE")
+            if [ ${#NEW} -lt 20 ]; then
+              echo "::error::токен подозрительно короткий (${#NEW} символов), ничего не меняю"
+              exit 1
+            fi
+            OLD=$(sed -n 's/^DIRECTUS_TOKEN=//p' "$ENV_FILE" | tr -d '"\r')
+            if [ "$OLD" = "$NEW" ]; then
+              echo "токен в окружении уже совпадает — правка не нужна"
+            else
+              cp "$ENV_FILE" "${ENV_FILE}.bak.$(date -u +%Y%m%d%H%M%S)"
+              if grep -q '^DIRECTUS_TOKEN=' "$ENV_FILE"; then
+                sed -i "s|^DIRECTUS_TOKEN=.*|DIRECTUS_TOKEN=${NEW}|" "$ENV_FILE"
+              else
+                echo "DIRECTUS_TOKEN=${NEW}" >> "$ENV_FILE"
+              fi
+              echo "DIRECTUS_TOKEN обновлён (было ${#OLD} символов, стало ${#NEW})"
+            fi
+
+            echo "== перезапуск приложения =="
+            cd /opt/bizsoft && docker compose up -d --force-recreate astro
+            sleep 8
+
+            echo "== проверка =="
+            for i in 1 2 3 4 5 6; do
+              CODE=$(curl -s -o /dev/null -w '%{http_code}' --max-time 20 http://127.0.0.1:3000/product/anthropic-team || echo 000)
+              echo "попытка $i: /product/anthropic-team -> $CODE"
+              [ "$CODE" = "200" ] && break
+              sleep 5
+            done
+            CAT=$(curl -s --max-time 20 http://127.0.0.1:3000/catalog | grep -c 'data-goal' || true)
+            echo "маркеров каталога на /catalog: $CAT"
+
+      - name: Post results to journal (issue #22)
+        if: always()
+        uses: actions/github-script@v7
+        env:
+          OUT: ${{ steps.run.outputs.stdout }}
+        with:
+          script: |
+            const out = (process.env.OUT || '(нет вывода)').slice(0, 60000);
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: 22,
+              body: `### ops-directus-token-sync · ${new Date().toISOString()}\n\n\`\`\`\n${out}\n\`\`\``,
+            });

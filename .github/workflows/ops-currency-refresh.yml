@@ -1,0 +1,66 @@
+# Ежедневная переоценка каталога по курсу ЦБ.
+# 1) action=refresh — подтянуть курс USD/EUR с cbr.ru в Directus;
+# 2) action=reprice-apply (scope all) — пересчитать все привязанные к валюте
+#    товары (peg_to_usd) по формуле себестоимость × курс × коэффициент;
+#    зафиксированные вручную (price_locked) не трогаются.
+# Выполняется на сервере: админ-API слушает 127.0.0.1:3000, токен —
+# ADMIN_TOOLS_TOKEN из /opt/bizsoft/astro.env. Результат — в журнал issue #22.
+
+name: ops-currency-refresh
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '10 4 * * *' # ежедневно 07:10 МСК
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  reprice:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Refresh CBR rate and reprice pegged products
+        id: run
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          capture_stdout: true
+          script: |
+            set -e
+            TOKEN=$(sed -n 's/^ADMIN_TOOLS_TOKEN=//p' /opt/bizsoft/astro.env | tr -d '"\r')
+            if [ -z "$TOKEN" ]; then echo "ADMIN_TOOLS_TOKEN не найден в astro.env"; exit 0; fi
+            # Таймаут 60 секунд был рассчитан на каталог в тысячу позиций.
+            # После партии ManageEngine их около шести тысяч, и запрос,
+            # не уложившись, обрывался бы на середине: часть цен обновлена,
+            # часть нет, и в журнале «ошибка сети» вместо внятной причины.
+            api() {
+              curl -sS --max-time 600 -X POST http://127.0.0.1:3000/api/admin/currency \
+                -H "Content-Type: application/json" -H "x-admin-token: $TOKEN" -d "$1"
+            }
+            echo "== refresh курса ЦБ =="
+            api '{"action":"refresh"}' | head -c 1500; echo
+            echo "== переоценка привязанных товаров =="
+            # Замеряем длительность: это единственное место, где видно, во что
+            # обходится ночная переоценка выросшего каталога. Без замера
+            # «успевает или нет» остаётся догадкой до первого сбоя.
+            START=$(date +%s)
+            api '{"action":"reprice-apply","scope":{"type":"all"}}' | head -c 1500; echo
+            echo "== длительность переоценки: $(( $(date +%s) - START )) с =="
+            echo "   (было рассчитано на ~1100 позиций, стало ~5900)"
+
+      - name: Post results to journal (issue #22)
+        if: always()
+        uses: actions/github-script@v7
+        env:
+          OUT: ${{ steps.run.outputs.stdout }}
+        with:
+          script: |
+            const out = (process.env.OUT || '(нет вывода)').slice(0, 60000);
+            await github.rest.issues.createComment({
+              owner: context.repo.owner, repo: context.repo.repo, issue_number: 22,
+              body: '### ops-currency-refresh · ' + new Date().toISOString() + '\n```\n' + out + '\n```',
+            });

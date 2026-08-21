@@ -1,0 +1,382 @@
+---
+/**
+ * Конфигуратор спецификации ManageEngine.
+ *
+ * Собирает набор позиций одного семейства и проверяет его по правилам
+ * совместимости, выведенным из прайса вендора (scripts/sources/me-rules.mjs).
+ * Правила декларативные, три вида:
+ *
+ *   requires — позиция работает только с определённой редакцией или продуктом;
+ *   extends  — позиция увеличивает объём уже выбранной лицензии;
+ *   excludes — две позиции взаимоисключающие.
+ *
+ * У каждого правила есть причина, и покупатель её видит: «нельзя» без
+ * объяснения выглядит как поломка сайта.
+ *
+ * Цены — рублёвые, из базы: там лежат все позиции раздела, и карточки, и
+ * скрытые. Долларовых сумм вендора на витрине нет и быть не должно.
+ *
+ * Вечная лицензия и годовое сопровождение продаются вендором только парой:
+ * при добавлении лицензии сопровождение встаёт в спецификацию само и
+ * отдельно не удаляется.
+ */
+import type { ZohoFamily, ZohoRule } from '../data/zoho-hierarchy';
+
+interface Props {
+  family: ZohoFamily;
+  rules: ZohoRule[];
+  /** Рублёвые цены позиций семейства по артикулу. */
+  prices: Record<string, number>;
+}
+const { family, rules, prices } = Astro.props;
+
+// Данные для клиентского скрипта: плоский список позиций и правила.
+const items = family.deployments.flatMap((d) => d.offers.flatMap((o) => o.variants.map((v) => ({
+  sku: v.sku,
+  name: v.name,
+  offerSlug: o.slug,
+  offerName: o.name,
+  edition: o.edition,
+  kind: o.kind,
+  deployment: d.deployment,
+  licenseModel: d.licenseModel,
+  amsSku: v.amsSku,
+}))));
+
+// Контракты сопровождения в списке выбора не показываем: они добавляются
+// вместе со своей лицензией и сами по себе не продаются.
+const amsNames: Record<string, string> = {};
+for (const item of items) {
+  if (item.amsSku) amsNames[item.amsSku] = `Сопровождение вендора на год — ${item.name}`;
+}
+
+const payload = {
+  familySlug: family.slug,
+  familyName: family.name,
+  items,
+  rules,
+  prices,
+  amsNames,
+};
+
+// Поставок может быть несколько: подписка и вечная лицензия — разные наборы.
+const deployLabels = family.deployments.map((d) => {
+  const place = d.deployment === 'saas' ? 'облако' : d.deployment === 'on_prem' ? 'свои серверы' : null;
+  const model = d.licenseModel === 'perpetual' ? 'вечная лицензия'
+    : d.licenseModel === 'subscription' ? 'подписка' : null;
+  // Набор без базовых лицензий — это дополнения; в списке поставок он должен
+  // называться так, иначе рядом окажутся «облако» и «облако, подписка».
+  const onlyExtras = d.offers.every((o) => o.kind !== 'base');
+  return {
+    key: `${d.deployment}|${d.licenseModel ?? 'unspecified'}`,
+    label: model ? [place, model].filter(Boolean).join(', ')
+      : onlyExtras ? 'дополнения к продукту' : (place || 'прайс вендора'),
+  };
+});
+---
+<section class="cfg" data-zoho-configurator>
+  <h2>Собрать спецификацию</h2>
+  <p class="cfg-lead">
+    Выберите базовую лицензию и нужные дополнения. Конфигуратор проверит набор
+    по правилам вендора и объяснит, если позиция не сочетается с выбранной.
+    Итог отправим расчётом в КП — стоимость считаем под ваш объём.
+  </p>
+
+  <div class="cfg-grid">
+    <div class="cfg-picker">
+      <label class="cfg-field">
+        <span>Поставка</span>
+        <select data-cfg-deployment>
+          {deployLabels.map((d) => <option value={d.key}>{d.label}</option>)}
+        </select>
+      </label>
+
+      <label class="cfg-field">
+        <span>Позиция</span>
+        <select data-cfg-item></select>
+      </label>
+
+      <button type="button" class="btn btn-primary cfg-add" data-cfg-add>Добавить в спецификацию</button>
+      <p class="cfg-hint" data-cfg-hint hidden></p>
+    </div>
+
+    <div class="cfg-spec">
+      <h3>Спецификация</h3>
+      <ul class="cfg-list" data-cfg-list>
+        <li class="cfg-empty">Пока пусто — выберите базовую лицензию.</li>
+      </ul>
+      <div class="cfg-foot">
+        <button type="button" class="btn btn-ghost" data-cfg-reset>Очистить</button>
+        <button type="button" class="btn btn-primary" data-cfg-request data-open-question disabled>Запросить КП по спецификации</button>
+      </div>
+    </div>
+  </div>
+
+  <script type="application/json" data-cfg-data set:html={JSON.stringify(payload)} />
+</section>
+
+<script>
+  // Конфигуратор целиком клиентский: он ничего не отправляет сам, а собирает
+  // текст спецификации и передаёт его в существующую форму вопроса.
+  interface CfgItem {
+    sku: string; name: string; offerSlug: string; offerName: string;
+    edition: string | null; kind: string; deployment: string; licenseModel: string | null;
+    amsSku: string | null;
+  }
+  interface CfgRule {
+    id: string;
+    appliesTo: { offerSlug?: string; familySlug?: string; variantPattern?: string };
+    requires?: { edition?: string; familySlug?: string; offerSlug?: string };
+    excludes?: { offerSlug?: string };
+    extends?: { edition?: string; offerSlug?: string; familySlug?: string };
+    reason: string;
+  }
+
+  for (const root of document.querySelectorAll<HTMLElement>('[data-zoho-configurator]')) {
+    const raw = root.querySelector<HTMLScriptElement>('[data-cfg-data]')?.textContent;
+    if (!raw) continue;
+    const data = JSON.parse(raw) as {
+      familySlug: string; familyName: string; items: CfgItem[];
+      rules: CfgRule[]; prices: Record<string, number>; amsNames: Record<string, string>;
+    };
+
+    const rub = new Intl.NumberFormat('ru-RU', {
+      style: 'currency', currency: 'RUB', maximumFractionDigits: 0,
+    });
+
+    const deploySel = root.querySelector<HTMLSelectElement>('[data-cfg-deployment]')!;
+    const itemSel = root.querySelector<HTMLSelectElement>('[data-cfg-item]')!;
+    const addBtn = root.querySelector<HTMLButtonElement>('[data-cfg-add]')!;
+    const hint = root.querySelector<HTMLElement>('[data-cfg-hint]')!;
+    const list = root.querySelector<HTMLElement>('[data-cfg-list]')!;
+    const resetBtn = root.querySelector<HTMLButtonElement>('[data-cfg-reset]')!;
+    const requestBtn = root.querySelector<HTMLButtonElement>('[data-cfg-request]')!;
+
+    const bySku = new Map(data.items.map((i) => [i.sku, i]));
+    const chosen: string[] = [];
+
+    const deployKey = (i: CfgItem) => `${i.deployment}|${i.licenseModel ?? 'unspecified'}`;
+
+    function fillItems() {
+      const key = deploySel.value;
+      const pool = data.items.filter((i) => deployKey(i) === key);
+      // Внутри поставки порядок тот же, что на странице: сначала лицензии.
+      const order = { base: 0, addon: 1, service: 2 } as Record<string, number>;
+      pool.sort((a, b) => (order[a.kind] ?? 3) - (order[b.kind] ?? 3));
+      itemSel.innerHTML = '';
+      let currentOffer = '';
+      let optgroup: HTMLOptGroupElement | null = null;
+      for (const i of pool) {
+        if (i.offerName !== currentOffer) {
+          currentOffer = i.offerName;
+          optgroup = document.createElement('optgroup');
+          optgroup.label = currentOffer;
+          itemSel.appendChild(optgroup);
+        }
+        const opt = document.createElement('option');
+        opt.value = i.sku;
+        opt.textContent = i.name;
+        optgroup!.appendChild(opt);
+      }
+    }
+
+    /** Правила, применимые к позиции. */
+    function rulesFor(item: CfgItem): CfgRule[] {
+      return data.rules.filter((r) => {
+        if (r.appliesTo.offerSlug && r.appliesTo.offerSlug !== item.offerSlug) return false;
+        if (r.appliesTo.variantPattern && !new RegExp(r.appliesTo.variantPattern).test(item.name)) return false;
+        return true;
+      });
+    }
+
+    /** Что мешает добавить позицию. Пустая строка — ничего. */
+    function blockedReason(sku: string): string {
+      const item = bySku.get(sku);
+      // Контракт сопровождения в список выбора не попадает: он появляется
+      // только вместе со своей лицензией, и правил к нему не применяем.
+      if (!item) return '';
+      if (chosen.includes(sku)) return 'позиция уже в спецификации';
+      const picked = chosen.map((s) => bySku.get(s)!).filter(Boolean);
+
+      for (const rule of rulesFor(item)) {
+        if (rule.excludes?.offerSlug && picked.some((p) => p.offerSlug === rule.excludes!.offerSlug)) {
+          return rule.reason;
+        }
+        const need = rule.requires || rule.extends;
+        if (!need) continue;
+        const ok = picked.some((p) => {
+          if (need.offerSlug && p.offerSlug !== need.offerSlug) return false;
+          if (need.edition && p.edition !== need.edition) return false;
+          if (!need.offerSlug && !need.edition && p.kind !== 'base') return false;
+          return true;
+        });
+        if (!ok) return rule.reason;
+      }
+      return '';
+    }
+
+    /**
+     * Убрать позиции, которые держались на уже удалённой. Иначе в
+     * спецификации осталось бы дополнение без своей лицензии.
+     * Цепочка может быть длиннее одного звена, поэтому проходов несколько —
+     * до тех пор, пока набор не перестанет меняться.
+     */
+    function prune() {
+      let changed = true;
+      while (changed) {
+        changed = false;
+        for (const sku of [...chosen]) {
+          const at = chosen.indexOf(sku);
+          chosen.splice(at, 1);
+          if (blockedReason(sku)) { changed = true; continue; }
+          chosen.splice(at, 0, sku);
+        }
+      }
+    }
+
+    function render() {
+      list.innerHTML = '';
+      if (!chosen.length) {
+        const li = document.createElement('li');
+        li.className = 'cfg-empty';
+        li.textContent = 'Пока пусто — выберите базовую лицензию.';
+        list.appendChild(li);
+        requestBtn.disabled = true;
+        return;
+      }
+      let total = 0;
+      let complete = true;
+      for (const sku of chosen) {
+        const item = bySku.get(sku);
+        const isAms = !item;
+        const price = data.prices[sku];
+        if (price) total += price; else complete = false;
+
+        const li = document.createElement('li');
+        li.innerHTML = `
+          <div class="cfg-row">
+            <div>
+              <strong></strong>
+              <span class="cfg-sub"></span>
+            </div>
+            <div class="cfg-side">
+              <span class="cfg-price"></span>
+              <button type="button" class="cfg-del" aria-label="Убрать позицию">×</button>
+            </div>
+          </div>`;
+        li.querySelector('strong')!.textContent =
+          isAms ? (data.amsNames[sku] || 'Сопровождение вендора на год') : item!.name;
+        li.querySelector('.cfg-sub')!.textContent = isAms
+          ? 'Продаётся только вместе с вечной лицензией'
+          : item!.offerName;
+        li.querySelector('.cfg-price')!.textContent = price ? rub.format(price) : 'по расчёту';
+
+        const del = li.querySelector('.cfg-del') as HTMLButtonElement;
+        if (isAms) {
+          // Сопровождение снимается только вместе со своей лицензией:
+          // вендор их порознь не поставляет.
+          del.disabled = true;
+          del.title = 'Убирается вместе с лицензией';
+        } else {
+          del.addEventListener('click', () => {
+            chosen.splice(chosen.indexOf(sku), 1);
+            // Парное сопровождение уходит следом.
+            if (item!.amsSku) {
+              const at = chosen.indexOf(item!.amsSku);
+              if (at >= 0) chosen.splice(at, 1);
+            }
+            prune();
+            render();
+          });
+        }
+        list.appendChild(li);
+      }
+
+      const foot = document.createElement('li');
+      foot.className = 'cfg-total';
+      foot.textContent = complete
+        ? `Итого: ${rub.format(total)}`
+        : `Итого: ${rub.format(total)} + позиции по расчёту`;
+      list.appendChild(foot);
+
+      requestBtn.disabled = false;
+      // Текст спецификации кладём в сам атрибут кнопки: форму вопроса
+      // открывает её штатный обработчик, который читает data-product в
+      // момент клика.
+      requestBtn.dataset.product = specText();
+    }
+
+    /** Спецификация одной строкой — так её показывает форма вопроса. */
+    function specText(): string {
+      const parts = chosen.map((s) => {
+        const i = bySku.get(s);
+        return i ? `${i.name} (${i.offerName})` : (data.amsNames[s] || s);
+      });
+      return `ManageEngine ${data.familyName} — спецификация: ${parts.join('; ')}`;
+    }
+
+    function showHint(text: string) {
+      hint.textContent = text;
+      hint.hidden = !text;
+    }
+
+    deploySel.addEventListener('change', () => { fillItems(); showHint(''); });
+    itemSel.addEventListener('change', () => {
+      const reason = blockedReason(itemSel.value);
+      showHint(reason ? `Нельзя добавить: ${reason}` : '');
+      addBtn.disabled = Boolean(reason);
+    });
+
+    addBtn.addEventListener('click', () => {
+      const sku = itemSel.value;
+      const reason = blockedReason(sku);
+      if (reason) { showHint(`Нельзя добавить: ${reason}`); return; }
+      chosen.push(sku);
+      // Вечная лицензия без годового сопровождения вендором не продаётся —
+      // ставим пару сразу, чтобы спецификация была поставляемой.
+      const ams = bySku.get(sku)?.amsSku;
+      if (ams && !chosen.includes(ams)) {
+        chosen.push(ams);
+        showHint('К вечной лицензии добавлено обязательное сопровождение вендора на год.');
+      } else {
+        showHint('');
+      }
+      render();
+    });
+
+    resetBtn.addEventListener('click', () => { chosen.length = 0; showHint(''); render(); });
+
+    fillItems();
+    itemSel.dispatchEvent(new Event('change'));
+    render();
+  }
+</script>
+
+<style>
+  .cfg { background: var(--color-bg-card); border: 1px solid var(--color-border); border-radius: var(--radius); padding: 1.3rem 1.4rem; margin: 0 0 2.4rem; }
+  .cfg h2 { font-size: 1.2rem; margin-bottom: 0.5rem; }
+  .cfg-lead { color: var(--color-text-muted); font-size: 0.9rem; margin: 0 0 1.2rem; max-width: 68ch; line-height: 1.55; }
+  .cfg-grid { display: grid; grid-template-columns: minmax(240px, 1fr) minmax(260px, 1.2fr); gap: 1.5rem; }
+  @media (max-width: 720px) { .cfg-grid { grid-template-columns: 1fr; } }
+  .cfg-field { display: block; margin-bottom: 0.9rem; }
+  .cfg-field span { display: block; font-size: 0.8rem; color: var(--color-text-dim); margin-bottom: 0.3rem; }
+  .cfg-field select { width: 100%; padding: 0.5rem 0.6rem; border: 1px solid var(--color-border); border-radius: 8px; background: var(--color-bg); color: inherit; font: inherit; }
+  .cfg-add { width: 100%; }
+  .cfg-hint { margin: 0.7rem 0 0; font-size: 0.85rem; color: var(--color-warning, #c2410c); line-height: 1.45; }
+  .cfg-spec h3 { font-size: 0.95rem; margin-bottom: 0.7rem; }
+  .cfg-list { list-style: none; padding: 0; margin: 0 0 1rem; display: flex; flex-direction: column; gap: 0.5rem; }
+  /* Строки спецификации создаёт скрипт, и атрибут области видимости Astro на
+     них не попадает — обычные правила к ним не применились бы. Поэтому от
+     разметочного родителя `.cfg-list` спускаемся глобальными селекторами. */
+  .cfg-list :global(.cfg-empty) { color: var(--color-text-dim); font-size: 0.87rem; }
+  .cfg-list :global(.cfg-row) { display: flex; align-items: flex-start; justify-content: space-between; gap: 0.6rem; padding: 0.55rem 0.7rem; border: 1px solid var(--color-border); border-radius: 8px; }
+  .cfg-list :global(.cfg-row strong) { display: block; font-size: 0.9rem; }
+  .cfg-list :global(.cfg-sub) { display: block; color: var(--color-text-dim); font-size: 0.78rem; margin-top: 0.15rem; }
+  .cfg-list :global(.cfg-side) { display: flex; align-items: center; gap: 0.5rem; flex: none; }
+  .cfg-list :global(.cfg-price) { font-weight: 600; font-size: 0.88rem; white-space: nowrap; }
+  .cfg-list :global(.cfg-total) { text-align: right; font-weight: 700; padding-top: 0.3rem; }
+  .cfg-list :global(.cfg-del[disabled]) { opacity: 0.35; cursor: not-allowed; }
+  .cfg-list :global(.cfg-del) { background: none; border: none; color: var(--color-text-dim); font-size: 1.3rem; line-height: 1; cursor: pointer; padding: 0 0.2rem; flex: none; }
+  .cfg-list :global(.cfg-del:hover) { color: var(--color-text); }
+  .cfg-foot { display: flex; gap: 0.6rem; flex-wrap: wrap; }
+</style>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" width="512" height="512" role="img" aria-labelledby="jetbrains-technical-debt-accountant-color-title jetbrains-technical-debt-accountant-color-desc" data-icon-id="jetbrains-technical-debt-accountant" data-variant="color">
+  <title id="jetbrains-technical-debt-accountant-color-title">Technical Debt Accountant — color icon</title>
+  <desc id="jetbrains-technical-debt-accountant-color-desc">Normalized color product icon used by 2 catalog card(s).</desc>
+  <metadata>
+  <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/">
+    <rdf:Description rdf:about="">
+      <dc:title>Technical Debt Accountant — color</dc:title>
+      <dc:description>Normalized catalog product icon; assigned to 2 product card(s); 512×512 transparent canvas; 12.5% safe area.</dc:description>
+      <dc:creator>Jakub Jirák</dc:creator>
+      <dc:source>https://downloads.marketplace.jetbrains.com/files/30202/1074625/icon/default.svg</dc:source>
+      <dc:date>2026-08-18</dc:date>
+      <dc:rights>Publisher-provided Marketplace icon; copyright and trademark rights remain with the plugin publisher.</dc:rights>
+      <dc:identifier>jetbrains-technical-debt-accountant__color</dc:identifier>
+    </rdf:Description>
+  </rdf:RDF>
+</metadata>
+  <svg x="65" y="65" width="382" height="382" viewBox="0 0 40 40" preserveAspectRatio="xMidYMid meet"><defs xmlns="http://www.w3.org/2000/svg">
+    <linearGradient id="body" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#4CAF50"/>
+      <stop offset="1" stop-color="#2E7D32"/>
+    </linearGradient>
+  </defs>
+  <!-- Ledger card -->
+  <rect xmlns="http://www.w3.org/2000/svg" x="6" y="4" width="28" height="32" rx="5" fill="url(#body)" stroke="#1B5E20" stroke-width="1"/>
+  <!-- Screen / report area -->
+  <rect xmlns="http://www.w3.org/2000/svg" x="10" y="8" width="20" height="13" rx="2" fill="#E8F5E9"/>
+  <!-- Dollar mark -->
+  <text xmlns="http://www.w3.org/2000/svg" x="20" y="18.5" text-anchor="middle" font-family="Arial,sans-serif" font-size="12" font-weight="bold" fill="#2E7D32">$</text>
+  <!-- Debt accent dot -->
+  <circle xmlns="http://www.w3.org/2000/svg" cx="26.5" cy="11.5" r="1.6" fill="#FF8F00"/>
+  <!-- Keypad / tally rows -->
+  <rect xmlns="http://www.w3.org/2000/svg" x="10" y="25" width="9" height="3" rx="1" fill="#A5D6A7"/>
+  <rect xmlns="http://www.w3.org/2000/svg" x="21" y="25" width="9" height="3" rx="1" fill="#A5D6A7"/>
+  <rect xmlns="http://www.w3.org/2000/svg" x="10" y="30" width="9" height="3" rx="1" fill="#A5D6A7"/>
+  <rect xmlns="http://www.w3.org/2000/svg" x="21" y="30" width="9" height="3" rx="1" fill="#FFB74D"/>
+</svg>
+</svg>

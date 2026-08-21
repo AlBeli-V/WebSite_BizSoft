@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" width="512" height="512" role="img" aria-labelledby="jetbrains-pr-snapview-color-title jetbrains-pr-snapview-color-desc" data-icon-id="jetbrains-pr-snapview" data-variant="color">
+  <title id="jetbrains-pr-snapview-color-title">PR-SnapView — color icon</title>
+  <desc id="jetbrains-pr-snapview-color-desc">Normalized color product icon used by 2 catalog card(s).</desc>
+  <metadata>
+  <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/">
+    <rdf:Description rdf:about="">
+      <dc:title>PR-SnapView — color</dc:title>
+      <dc:description>Normalized catalog product icon; assigned to 2 product card(s); 512×512 transparent canvas; 12.5% safe area.</dc:description>
+      <dc:creator>itRunFenix</dc:creator>
+      <dc:source>https://downloads.marketplace.jetbrains.com/files/25326/604773/icon/default.svg</dc:source>
+      <dc:date>2026-08-18</dc:date>
+      <dc:rights>Publisher-provided Marketplace icon; copyright and trademark rights remain with the plugin publisher.</dc:rights>
+      <dc:identifier>jetbrains-pr-snapview__color</dc:identifier>
+    </rdf:Description>
+  </rdf:RDF>
+</metadata>
+  <svg x="65" y="65" width="382" height="382" viewBox="0 0 800 800" preserveAspectRatio="xMidYMid meet"><!-- Korpus aparatu -->
+    <rect xmlns="http://www.w3.org/2000/svg" x="80" y="240" width="640" height="360" rx="60" ry="60" fill="#6a5acd" stroke="#000" stroke-width="12"/>
+
+    <!-- Ekran wizjera -->
+    <rect xmlns="http://www.w3.org/2000/svg" x="100" y="280" width="200" height="100" rx="20" ry="20" fill="#2c3e50" stroke="#000" stroke-width="8"/>
+
+    <!-- Obiektyw aparatu -->
+    <circle xmlns="http://www.w3.org/2000/svg" cx="400" cy="420" r="140" fill="#34495e" stroke="#000" stroke-width="12"/>
+    <circle xmlns="http://www.w3.org/2000/svg" cx="400" cy="420" r="120" fill="#1abc9c"/>
+    <circle xmlns="http://www.w3.org/2000/svg" cx="400" cy="420" r="100" fill="#16a085"/>
+    <circle xmlns="http://www.w3.org/2000/svg" cx="400" cy="420" r="80" fill="url(#grad1)"/>
+
+    <!-- Górna część aparatu (spust migawki + dodatkowe elementy) -->
+    <rect xmlns="http://www.w3.org/2000/svg" x="160" y="160" width="480" height="80" rx="40" ry="40" fill="#6a5acd" stroke="#000" stroke-width="12"/>
+
+    <!-- Przycisk spustu migawki -->
+    <circle xmlns="http://www.w3.org/2000/svg" cx="560" cy="200" r="40" fill="#e67e22" stroke="#000" stroke-width="8"/>
+
+    <!-- Dodatkowy przycisk funkcyjny -->
+    <circle xmlns="http://www.w3.org/2000/svg" cx="320" cy="200" r="24" fill="#ecf0f1" stroke="#000" stroke-width="8"/>
+
+    <!-- Pasek na rękę (po lewej stronie) -->
+    <rect xmlns="http://www.w3.org/2000/svg" x="20" y="360" width="40" height="160" rx="20" ry="20" fill="#34495e" stroke="#000" stroke-width="8"/>
+
+    <!-- Detale na obiektywie -->
+    <circle xmlns="http://www.w3.org/2000/svg" cx="400" cy="420" r="128" fill="none" stroke="#000" stroke-width="8"/>
+    <circle xmlns="http://www.w3.org/2000/svg" cx="400" cy="420" r="72" fill="none" stroke="#000" stroke-width="8"/>
+
+    <!-- Cień na korpusie -->
+    <ellipse xmlns="http://www.w3.org/2000/svg" cx="400" cy="560" rx="320" ry="40" fill="rgba(0, 0, 0, 0.2)"/>
+
+    <!-- Gradient w obiektywie -->
+    <defs xmlns="http://www.w3.org/2000/svg">
+        <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#1abc9c;stop-opacity:1"/>
+            <stop offset="100%" style="stop-color:#16a085;stop-opacity:1"/>
+        </linearGradient>
+    </defs>
+</svg>
+</svg>

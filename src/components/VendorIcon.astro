@@ -1,0 +1,32 @@
+---
+/**
+ * Унифицированная иконка производителя из фирменного пакета (64 бренда).
+ * variant="hover" (по умолчанию): монохром, при наведении на ссылку/карточку/
+ * кнопку — полноцвет (правила .vi в global.css).
+ * variant="color" | "mono": статичная одиночная картинка.
+ * Если иконки в пакете нет — ничего не рендерит (вызывающий даёт фолбэк).
+ */
+import { vendorIcon } from '../data/vendor-icons';
+
+interface Props {
+  slug: string;
+  name?: string;
+  size?: number;
+  variant?: 'hover' | 'color' | 'mono';
+}
+const { slug, name = '', size = 24, variant = 'hover' } = Astro.props;
+const icon = vendorIcon(slug);
+const alt = name ? `Логотип ${name}` : '';
+---
+{icon && (variant === 'hover' ? (
+  <span class="vi" style={`width:${size}px;height:${size}px`}>
+    <img class="vi-mono" src={icon.mono} alt={alt} width={size} height={size} loading="lazy" decoding="async" />
+    <img class="vi-color" src={icon.color} alt="" aria-hidden="true" width={size} height={size} loading="lazy" decoding="async" />
+  </span>
+) : (
+  <img class="vi-static" src={variant === 'color' ? icon.color : icon.mono} alt={alt} width={size} height={size} loading="lazy" decoding="async" />
+))}
+
+<style>
+  .vi-static { object-fit: contain; display: block; }
+</style>

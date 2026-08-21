@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" width="512" height="512" role="img" aria-labelledby="jetbrains-appearance-controls-color-title jetbrains-appearance-controls-color-desc" data-icon-id="jetbrains-appearance-controls" data-variant="color">
+  <title id="jetbrains-appearance-controls-color-title">Appearance Controls — color icon</title>
+  <desc id="jetbrains-appearance-controls-color-desc">Normalized color product icon used by 2 catalog card(s).</desc>
+  <metadata>
+  <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/">
+    <rdf:Description rdf:about="">
+      <dc:title>Appearance Controls — color</dc:title>
+      <dc:description>Normalized catalog product icon; assigned to 2 product card(s); 512×512 transparent canvas; 12.5% safe area.</dc:description>
+      <dc:creator>Code</dc:creator>
+      <dc:source>https://downloads.marketplace.jetbrains.com/files/29515/1045364/icon/default.svg</dc:source>
+      <dc:date>2026-08-18</dc:date>
+      <dc:rights>Publisher-provided Marketplace icon; copyright and trademark rights remain with the plugin publisher.</dc:rights>
+      <dc:identifier>jetbrains-appearance-controls__color</dc:identifier>
+    </rdf:Description>
+  </rdf:RDF>
+</metadata>
+  <svg x="65" y="65" width="382" height="382" viewBox="0 0 512 512" preserveAspectRatio="xMidYMid meet"><defs xmlns="http://www.w3.org/2000/svg">
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0B1020"/>
+      <stop offset="0.55" stop-color="#141A33"/>
+      <stop offset="1" stop-color="#060812"/>
+    </linearGradient>
+
+    <radialGradient id="vignette" cx="50%" cy="40%" r="75%">
+      <stop offset="0" stop-color="#000" stop-opacity="0"/>
+      <stop offset="1" stop-color="#000" stop-opacity="0.45"/>
+    </radialGradient>
+
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#7C3AED"/>
+      <stop offset="0.5" stop-color="#22D3EE"/>
+      <stop offset="1" stop-color="#A3FF6F"/>
+    </linearGradient>
+
+    <linearGradient id="metal" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#EEF2FF"/>
+      <stop offset="0.5" stop-color="#C7D2FE"/>
+      <stop offset="1" stop-color="#93A4C7"/>
+    </linearGradient>
+
+    <linearGradient id="glass" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#22D3EE" stop-opacity="0.95"/>
+      <stop offset="1" stop-color="#7C3AED" stop-opacity="0.9"/>
+    </linearGradient>
+
+    <linearGradient id="flame" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#A3FF6F"/>
+      <stop offset="0.4" stop-color="#22D3EE"/>
+      <stop offset="1" stop-color="#7C3AED"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect xmlns="http://www.w3.org/2000/svg" x="24" y="24" width="464" height="464" rx="96" fill="url(#bg)"/>
+  <rect xmlns="http://www.w3.org/2000/svg" x="24" y="24" width="464" height="464" rx="96" fill="url(#vignette)"/>
+
+  <!-- Rocket / Jet (no clipPath, no filters) -->
+  <g xmlns="http://www.w3.org/2000/svg" transform="translate(256 256) rotate(45) scale(1.1)">
+    <!-- simple shadow substitute -->
+    <g opacity="0.18" transform="translate(10 14)">
+      <path d="M0 -140                C-34 -108 -48 -64 -48 -10                C-48 34 -36 70 -22 94                L22 94                C36 70 48 34 48 -10                C48 -64 34 -108 0 -140 Z" fill="#000"/>
+      <path d="M-48 40 L-98 68 L-64 92 L-34 74 Z" fill="#000"/>
+      <path d="M48 40 L98 68 L64 92 L34 74 Z" fill="#000"/>
+      <path d="M0 154                C-18 132 -20 112 -10 96                C-2 82 -6 64 -22 46                C-6 54 4 54 22 46                C6 64 2 82 10 96                C20 112 18 132 0 154 Z" fill="#000"/>
+    </g>
+
+    <!-- flame -->
+    <path d="M0 154              C-18 132 -20 112 -10 96              C-2 82 -6 64 -22 46              C-6 54 4 54 22 46              C6 64 2 82 10 96              C20 112 18 132 0 154 Z" fill="url(#flame)" opacity="0.95"/>
+
+    <!-- nozzle ring -->
+    <ellipse cx="0" cy="84" rx="26" ry="10" fill="#0B1020" opacity="0.55"/>
+    <ellipse cx="0" cy="80" rx="30" ry="12" fill="url(#accent)" opacity="0.75"/>
+
+    <!-- body -->
+    <path d="M0 -140              C-34 -108 -48 -64 -48 -10              C-48 34 -36 70 -22 94              L22 94              C36 70 48 34 48 -10              C48 -64 34 -108 0 -140 Z" fill="url(#metal)"/>
+
+    <!-- body highlight -->
+    <path d="M-18 -118              C-34 -90 -38 -54 -38 -10              C-38 26 -30 58 -18 82              L-6 82              C-18 54 -20 24 -20 -10              C-20 -54 -12 -88 2 -114              C-4 -114 -10 -116 -18 -118 Z" fill="#FFFFFF" opacity="0.35"/>
+
+    <!-- outline -->
+    <path d="M0 -140              C-34 -108 -48 -64 -48 -10              C-48 34 -36 70 -22 94              L22 94              C36 70 48 34 48 -10              C48 -64 34 -108 0 -140 Z" fill="none" stroke="#050712" stroke-opacity="0.45" stroke-width="3"/>
+
+    <!-- window -->
+    <ellipse cx="0" cy="-48" rx="18" ry="22" fill="url(#glass)" stroke="#050712" stroke-opacity="0.45" stroke-width="3"/>
+    <ellipse cx="-6" cy="-56" rx="6" ry="8" fill="#ffffff" opacity="0.35"/>
+
+    <!-- fins -->
+    <path d="M-48 40 L-98 68 L-64 92 L-34 74 Z" fill="url(#accent)" opacity="0.95"/>
+    <path d="M48 40 L98 68 L64 92 L34 74 Z" fill="url(#accent)" opacity="0.95"/>
+
+    <!-- center seam -->
+    <path d="M0 -126 L0 94" stroke="#1F2A44" stroke-opacity="0.35" stroke-width="2"/>
+  </g>
+
+  <!-- Outer subtle border -->
+  <rect xmlns="http://www.w3.org/2000/svg" x="24" y="24" width="464" height="464" rx="96" fill="none" stroke="#2B3553" stroke-width="2" opacity="0.7"/>
+</svg>
+</svg>

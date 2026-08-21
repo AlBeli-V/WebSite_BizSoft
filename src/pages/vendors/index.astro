@@ -10,6 +10,8 @@ import QuestionForm from '../../components/QuestionForm.astro';
 import JsonLd from '../../components/JsonLd.astro';
 import { getVendors } from '../../lib/directus';
 import { logoFile } from '../../data/logos';
+import { vendorIcon } from '../../data/vendor-icons';
+import VendorIcon from '../../components/VendorIcon.astro';
 import { VENDORS } from '../../data/vendors';
 import { vendorLandings, site } from '../../config/site';
 import { breadcrumbSchema } from '../../lib/seo';
@@ -64,6 +66,7 @@ const items = rows.map((r) => {
     letter,
     top: TOP.has(slug),
     href: `/vendors/${slug}`,
+    pack: Boolean(vendorIcon(slug)),
     logo: dual?.main ?? logoFile(slug),
     prevLogo: dual?.prev ?? null,
   };
@@ -81,7 +84,7 @@ const ld = [
   {
     '@context': 'https://schema.org',
     '@type': 'CollectionPage',
-    name: 'Производители ПО и SaaS — каталог BizSoft',
+    name: 'Производители ПО и SaaS — каталог BIZSoft',
     url: `${site.url}/vendors`,
     mainEntity: {
       '@type': 'ItemList',
@@ -91,7 +94,7 @@ const ld = [
 ];
 ---
 <BaseLayout
-  title="Каталог (ПО) программного обеспечения и web-сервисов — производители | BizSoft"
+  title="Каталог (ПО) программного обеспечения и web-сервисов — производители | BIZSoft"
   description="Каталог зарубежного ПО и web-сервисов для российских компаний: бессрочные лицензии, годовые подписки, API-ключи и токены пополнения балансов. OpenAI, Anthropic, Adobe, Figma, JetBrains, Microsoft и другие — по договору и счёту."
 >
   <JsonLd schema={ld} />
@@ -121,7 +124,9 @@ const ld = [
       <div class="v-grid" data-vendor-grid>
         {items.map((v) => (
           <a href={v.href} class="card card-hover v-card" data-letter={v.letter} data-top={v.top ? '1' : undefined} aria-label={`${v.name}${v.prevName ? ` (ранее ${v.prevName})` : ''} — купить для юрлица`}>
-            {v.logo ? (
+            {v.pack ? (
+              <VendorIcon slug={v.slug} name={v.name} size={56} />
+            ) : v.logo ? (
               <img src={v.logo} alt={`Логотип ${v.name} — ПО ${v.name} для юрлица`} width="56" height="56" loading="lazy" decoding="async" class="v-logo" />
             ) : (
               <span class="v-letter" aria-hidden="true">{v.name.charAt(0).toUpperCase()}</span>

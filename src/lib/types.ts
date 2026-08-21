@@ -120,6 +120,14 @@ export interface QuoteItem {
   qty: number;
   price: number; // цена за единицу (с учётом акции)
   sum: number; // qty * price
+  /**
+   * Ставка НДС позиции, %. Налог включён в цену.
+   *
+   * Хранится у позиции, а не одной константой на документ: ставка задаётся
+   * у товара, и предложение из позиций с разными ставками иначе посчиталось
+   * бы по одной — с ошибкой ровно на разницу ставок.
+   */
+  vat_percent?: number | null;
 }
 
 export interface Quote {
@@ -155,6 +163,8 @@ export interface CartItem {
   sku: string;
   slug: string;
   name: string;
+  /** Производитель — колонка КП-таблицы избранного (у старых записей может отсутствовать). */
+  vendor?: string;
   price: number; // эффективная цена на момент добавления
   qty: number;
 }

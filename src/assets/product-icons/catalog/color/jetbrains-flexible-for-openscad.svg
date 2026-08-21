@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" width="512" height="512" role="img" aria-labelledby="jetbrains-flexible-for-openscad-color-title jetbrains-flexible-for-openscad-color-desc" data-icon-id="jetbrains-flexible-for-openscad" data-variant="color">
+  <title id="jetbrains-flexible-for-openscad-color-title">Flexible For OpenSCAD — color icon</title>
+  <desc id="jetbrains-flexible-for-openscad-color-desc">Normalized color product icon used by 1 catalog card(s).</desc>
+  <metadata>
+  <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/">
+    <rdf:Description rdf:about="">
+      <dc:title>Flexible For OpenSCAD — color</dc:title>
+      <dc:description>Normalized catalog product icon; assigned to 1 product card(s); 512×512 transparent canvas; 12.5% safe area.</dc:description>
+      <dc:creator>Ilscipio GmbH</dc:creator>
+      <dc:source>https://downloads.marketplace.jetbrains.com/files/32015/1088522/icon/default.svg</dc:source>
+      <dc:date>2026-08-18</dc:date>
+      <dc:rights>Publisher-provided Marketplace icon; copyright and trademark rights remain with the plugin publisher.</dc:rights>
+      <dc:identifier>jetbrains-flexible-for-openscad__color</dc:identifier>
+    </rdf:Description>
+  </rdf:RDF>
+</metadata>
+  <svg x="65" y="65" width="382" height="382" viewBox="0 0 167 167" preserveAspectRatio="xMidYMid meet"><!-- Background rounded square (teal, same family as flexible-arduino) -->
+  <rect xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="5" y="5" width="157" height="157" rx="30" ry="30" style="fill:#00979D;"/>
+  <!-- 3D cube wireframe in white (OpenSCAD icon theme) -->
+  <!-- Front face -->
+  <rect xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="42" y="65" width="60" height="60" style="fill:none;stroke:#ffffff;stroke-width:10;"/>
+  <!-- Back face (offset) -->
+  <rect xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="65" y="42" width="60" height="60" style="fill:none;stroke:#ffffff;stroke-width:10;"/>
+  <!-- Connecting edges: top-left, top-right, bottom-right -->
+  <line xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x1="42" y1="65" x2="65" y2="42" style="stroke:#ffffff;stroke-width:10;"/>
+  <line xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x1="102" y1="65" x2="125" y2="42" style="stroke:#ffffff;stroke-width:10;"/>
+  <line xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x1="102" y1="125" x2="125" y2="102" style="stroke:#ffffff;stroke-width:10;"/>
+</svg>
+</svg>

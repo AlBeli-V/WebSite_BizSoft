@@ -2,7 +2,7 @@
 
 /*
   ─────────────────────────────────────────────────────────────
-  ДИЗАЙН-ТОКЕНЫ BizSoft — единственный источник правды.
+  ДИЗАЙН-ТОКЕНЫ BIZSoft — единственный источник правды.
   Глобальная смена цвета/шрифта/отступов = правка только здесь.
   Светлая воздушная эстетика в духе Apple: белый фон, много воздуха,
   мягкие тени, сдержанная типографика. Один тёплый акцент — оранжевый.
@@ -16,8 +16,10 @@
   --color-border: #e8e8ed;
   --color-border-strong: #d2d2d7;
   --color-text: #1d1d1f;
-  --color-text-muted: #565660;
-  --color-text-dim: #66666e;
+  /* Контраст вторичного текста: затемнены по замечанию владельца —
+     серые описания в карточках и блоках читались плохо (особенно на Raleway 400) */
+  --color-text-muted: #3f3f46;
+  --color-text-dim: #52525b;
   --color-accent: #f2591d;
   --color-accent-hover: #d64a12;
   --color-accent-dim: #b8420f;
@@ -25,10 +27,10 @@
   --color-success: #1a8f4c;
   --color-danger: #d92d20;
 
-  /* Типографика — сначала системный шрифт Apple, затем self-hosted Inter.
-     'Inter-fallback' — Arial с метриками Inter (size-adjust): пока woff2 грузится,
-     текст рендерится в тех же габаритах → своп шрифта не сдвигает макет (CLS 0). */
-  --font-sans: 'Raleway', 'Inter-fallback', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  /* Типографика — фирменный self-hosted Raleway, дальше системные.
+     'Raleway-fallback' — Arial, подогнанный size-adjust'ом под метрики Raleway:
+     пока woff2 грузится, текст рендерится в тех же габаритах → своп без сдвига. */
+  --font-sans: 'Raleway', 'Raleway-fallback', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
   --font-display: 'Prosto One', 'Raleway', -apple-system, system-ui, sans-serif;
 
   /* Скругления — крупнее и мягче */
@@ -46,14 +48,14 @@
 }
 
 @layer base {
-  /* Метрический фолбэк для Inter: Arial, подогнанный size-adjust'ом под метрики
-   Inter — своп веб-шрифта происходит без сдвига макета (защита CLS). */
+  /* Метрический фолбэк для Raleway: Arial, подогнанный size-adjust'ом под
+   метрики Raleway — своп веб-шрифта происходит без сдвига макета (защита CLS). */
 @font-face {
-  font-family: 'Inter-fallback';
+  font-family: 'Raleway-fallback';
   src: local('Arial');
-  size-adjust: 107%;
-  ascent-override: 90.44%;
-  descent-override: 22.52%;
+  size-adjust: 104%;
+  ascent-override: 90.5%;
+  descent-override: 23.5%;
   line-gap-override: 0%;
 }
 
@@ -194,6 +196,31 @@
     font-size: 0.78rem;
     font-weight: 600;
     color: var(--color-accent);
+  }
+
+  /* Иконки производителей (.vi — VendorIcon.astro): монохром по умолчанию,
+     полноцвет при наведении на саму иконку или её ссылку/карточку/кнопку */
+  .vi { position: relative; display: inline-flex; flex-shrink: 0; }
+  /* Оба слоя (mono и color) — абсолютные внутри фиксированного .vi:
+     размер задаёт inline-стиль .vi, слои гарантированно совпадают и не
+     подрезаются глобальными правилами img (height:auto, зум с дробным DPR). */
+  .vi img { display: block; position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; }
+  .vi .vi-color { opacity: 0; transition: opacity 0.15s ease; }
+  /* grayscale страхует растровые «mono»-файлы пакета, где вшит цветной оригинал */
+  .vi .vi-mono { transition: opacity 0.15s ease; filter: grayscale(1); }
+  .vi:hover .vi-color,
+  a:hover .vi .vi-color,
+  button:hover .vi .vi-color,
+  .card:hover .vi .vi-color,
+  .card-hover:hover .vi .vi-color {
+    opacity: 1;
+  }
+  .vi:hover .vi-mono,
+  a:hover .vi .vi-mono,
+  button:hover .vi .vi-mono,
+  .card:hover .vi .vi-mono,
+  .card-hover:hover .vi .vi-mono {
+    opacity: 0;
   }
 
   /* Плавное появление секций (Intersection Observer добавляет .is-visible) */

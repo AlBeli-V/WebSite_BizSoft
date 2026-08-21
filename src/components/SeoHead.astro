@@ -24,9 +24,10 @@ const {
 } = Astro.props;
 
 // Бренд в title ровно один раз: если он уже есть (например, точечные
-// SEO-титулы «… | BIZSoft»), суффикс не добавляем.
+// SEO-титулы «… | BIZSoft»), суффикс не добавляем. Сравнение без учёта
+// регистра — иные написания бренда тоже считаются совпадением.
 const fullTitle = title
-  ? (title.includes(site.name) ? title : `${title} — ${site.name}`)
+  ? (title.toLowerCase().includes(site.name.toLowerCase()) ? title : `${title} — ${site.name}`)
   : `${site.name} — ${site.tagline}`;
 // Единый canonical без завершающего слеша (кроме главной).
 const canonicalUrl = buildCanonical(canonical || Astro.url.pathname);

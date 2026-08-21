@@ -1,10 +1,13 @@
 ---
 /**
- * Брендовый логотип вендора: официальный SVG-глиф (simple-icons) по slug,
- * либо буквенный знак-фолбэк, если логотипа нет в наборе.
+ * Брендовый логотип вендора. Приоритет: унифицированная иконка из фирменного
+ * пакета (монохром → полноцвет при наведении), затем официальный SVG-глиф
+ * (simple-icons), затем буквенный знак-фолбэк.
  * Декоративный (aria-hidden) — название вендора выводится рядом текстом.
  */
 import { brandLogo, hasFileLogo, logoFile } from '../data/logos';
+import { vendorIcon } from '../data/vendor-icons';
+import VendorIcon from './VendorIcon.astro';
 
 interface Props {
   slug: string;
@@ -12,12 +15,15 @@ interface Props {
   size?: number;
 }
 const { slug, name, size = 24 } = Astro.props;
-const fileLogo = hasFileLogo(slug);
-const logo = fileLogo ? undefined : brandLogo(slug);
-const genFile = !fileLogo && !logo ? logoFile(slug) : undefined;
+const packIcon = vendorIcon(slug);
+const fileLogo = !packIcon && hasFileLogo(slug);
+const logo = packIcon || fileLogo ? undefined : brandLogo(slug);
+const genFile = !packIcon && !fileLogo && !logo ? logoFile(slug) : undefined;
 const letter = (name || '?').trim().charAt(0).toUpperCase();
 ---
-{fileLogo ? (
+{packIcon ? (
+  <VendorIcon slug={slug} size={size} />
+) : fileLogo ? (
   <img class="vlogo vlogo-img" src={`/brand-logos/${slug}.svg`} alt="" width={size} height={size} loading="lazy" decoding="async" aria-hidden="true" />
 ) : logo ? (
   <svg class="vlogo" viewBox="0 0 24 24" width={size} height={size} fill="currentColor" aria-hidden="true" focusable="false" role="presentation"><path d={logo.path} /></svg>

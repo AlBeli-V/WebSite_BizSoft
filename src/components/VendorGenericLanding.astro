@@ -12,10 +12,14 @@ import CTASection from './CTASection.astro';
 import QuestionForm from './QuestionForm.astro';
 import JsonLd from './JsonLd.astro';
 import { getProducts } from '../lib/directus';
+import { effectivePrice } from '../lib/pricing';
 import { logoFile } from '../data/logos';
+import { vendorIcon } from '../data/vendor-icons';
+import VendorIcon from './VendorIcon.astro';
 import { vendorLegal } from '../lib/catalog';
 import { site } from '../config/site';
 import { breadcrumbSchema } from '../lib/seo';
+import type { Product } from '../lib/types';
 
 interface Props {
   /** Имя вендора как в Directus (может содержать «Новое (прежнее)»). */
@@ -27,15 +31,18 @@ const { vendor, slug } = Astro.props;
 const renamed = vendor.match(/^(.+?)\s*\((.+)\)$/);
 const name = renamed ? renamed[1] : vendor;
 const prevName = renamed ? renamed[2] : null;
-const logo = slug === 'freepik' ? '/brand-logos/magnific-logo.svg' : logoFile(slug);
+const packIcon = vendorIcon(slug);
+const logo = packIcon ? null : (slug === 'freepik' ? '/brand-logos/magnific-logo.svg' : logoFile(slug));
 const legal = vendorLegal(vendor);
 
-let products = [];
+let products: Product[] = [];
 try {
   products = await getProducts({ vendor });
 } catch (e) {
   console.error('vendor landing products error', e);
 }
+// «Цена по запросу» — всегда в конце списка
+products.sort((a, b) => Number(!(effectivePrice(a).price > 0)) - Number(!(effectivePrice(b).price > 0)));
 
 const plural = (n: number) => (n % 10 === 1 && n % 100 !== 11 ? 'позиция' : [2, 3, 4].includes(n % 10) && ![12, 13, 14].includes(n % 100) ? 'позиции' : 'позиций');
 
@@ -44,7 +51,7 @@ const summary = `BIZSoft оформляет ${name}${prevName ? ` (ранее ${
 const faq = [
   { q: `Как купить ${name} на юридическое лицо?`, a: `Выберите тариф ${name} из списка ниже или запросите КП. Мы заключаем договор, выставляем счёт в рублях; после оплаты предоставляем доступ и передаём закрывающие документы через ЭДО.` },
   { q: `Можно ли оплатить ${name} без зарубежной карты?`, a: `Да. Оплату вендору берём на себя: где принимается карта — оплачиваем сами, где нужна оплата с зарубежного счёта — закупаем через счёт нашей зарубежной компании. Вы платите в рублях по договору.` },
-  { q: `Какие документы вы предоставляете?`, a: `Договор, счёт, акт и закрывающие документы через ЭДО — полный комплект для бухгалтерии российского юрлица.` },
+  { q: `Какие документы вы предоставляете?`, a: `Договор, счёт и УПД с выделенным НДС 5% (или акт со счётом-фактурой) — через ЭДО. Полный комплект для бухгалтерии российского юрлица.` },
   { q: `Сколько занимает оформление ${name}?`, a: `КП и счёт готовим в течение 1 рабочего дня. Доступ передаём сразу после зачисления оплаты — обычно 1–3 рабочих дня на весь цикл.` },
 ];
 
@@ -75,7 +82,11 @@ const ld = [
   <header class="hero-cols v-hero">
     <div>
       <div class="v-brand">
-        {logo && <img src={logo} alt={`Логотип ${name} — ПО ${name} для юрлица`} width="44" height="44" loading="eager" />}
+        {packIcon ? (
+          <VendorIcon slug={slug} name={name} size={44} />
+        ) : (
+          logo && <img src={logo} alt={`Логотип ${name} — ПО ${name} для юрлица`} width="44" height="44" loading="eager" />
+        )}
         <span>{name}{prevName && <em> (ранее {prevName})</em>}</span>
         {legal !== vendor && <small>{legal}</small>}
       </div>

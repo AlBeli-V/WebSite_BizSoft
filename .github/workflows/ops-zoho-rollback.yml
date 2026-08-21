@@ -1,0 +1,117 @@
+# Откат карточек Zoho ManageEngine с витрины.
+#
+# Витрину раздела можно погасить одной переменной (PUBLIC_ZOHO_HUB=0) или
+# откатить коммитом. С карточками так не выйдет: они живут в Directus, и git
+# их не вернёт. Этот воркфлоу и есть недостающий рычаг.
+#
+# Что делает: берёт data/catalog/zoho-rollback.json — список артикулов,
+# заведённых импортом, — и переводит их в archived через тот же штатный
+# /api/admin/import. Товар не удаляется: статус можно вернуть повторным
+# импортом основного пакета, ничего не теряется.
+#
+# Чего НЕ делает: не трогает две позиции ServiceDesk Plus, опубликованные до
+# этой работы (MANAGEENGINE-SERVICEDESK-STANDARD-10 и -PROFESSIONAL-5). Они
+# были на витрине раньше и должны остаться после отката.
+name: ops-zoho-rollback
+
+on:
+  workflow_dispatch:
+    inputs:
+      apply:
+        description: "true — снять с витрины; false — показать, что будет снято"
+        required: true
+        default: "false"
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  rollback:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build rollback xlsx
+        run: |
+          set -e
+          test -f data/catalog/zoho-rollback.json
+          npm install --no-save xlsx@0.18.5
+          # Пакет отката кладём в scripts/catalog под отдельным именем только
+          # на время сборки: постоянный файл там подхватывался бы обычным
+          # импортом и снимал бы карточки при каждом выкате каталога.
+          cp data/catalog/zoho-rollback.json scripts/catalog/zoho-rollback.json
+          node scripts/import-vendors.mjs --emit /tmp/rollback.xlsx zoho-rollback
+          rm scripts/catalog/zoho-rollback.json
+          ls -la /tmp/rollback.xlsx
+
+      - name: Copy xlsx to server
+        uses: appleboy/scp-action@v1
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          source: /tmp/rollback.xlsx
+          target: /tmp/
+          strip_components: 1
+
+      - name: Archive on server
+        id: run
+        uses: appleboy/ssh-action@v1
+        env:
+          APPLY: ${{ inputs.apply }}
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          envs: APPLY
+          capture_stdout: true
+          script: |
+            set -e
+            TOKEN=$(sed -n 's/^ADMIN_TOOLS_TOKEN=//p' /opt/bizsoft/astro.env | tr -d '"\r')
+            if [ -z "$TOKEN" ]; then echo "ADMIN_TOOLS_TOKEN не найден в astro.env"; exit 1; fi
+            export TOKEN
+            python3 - <<'PY'
+            import base64, json, os, urllib.request
+            tok = os.environ['TOKEN']
+            apply = os.environ.get('APPLY', 'false') == 'true'
+            def post(path, body):
+                r = urllib.request.Request('http://127.0.0.1:3000' + path,
+                    data=json.dumps(body).encode(), method='POST')
+                r.add_header('Content-Type', 'application/json')
+                r.add_header('x-admin-token', tok)
+                with urllib.request.urlopen(r, timeout=300) as resp:
+                    return json.loads(resp.read() or b'{}')
+            xlsx = base64.b64encode(open('/tmp/rollback.xlsx', 'rb').read()).decode()
+            data = post('/api/admin/import', {'format': 'xlsx', 'xlsxBase64': xlsx, 'apply': apply})
+            if data.get('dryRun'):
+                s = data['summary']
+                print(f"DRY-RUN: строк={s['rows']} обновится={s['update']} создастся={s['create']} ошибок={s['errors']}")
+                if s['create']:
+                    print("ВНИМАНИЕ: часть артикулов в базе не найдена — их импорт создал бы заново.")
+                for i in data['items'][:200]:
+                    if i.get('errors'):
+                        print(f"  ОШИБКА {i['sku']}: {'; '.join(i['errors'])}")
+            elif data.get('applied'):
+                print(f"СНЯТО С ВИТРИНЫ: обновлено={data['updated']} создано={data['created']} ошибок={len(data['failed'])}")
+                for f in data['failed']:
+                    print(f"  FAIL {f['sku']}: {f['error']}")
+            else:
+                print('ответ:', json.dumps(data, ensure_ascii=False)[:1500])
+            os.remove('/tmp/rollback.xlsx')
+            PY
+
+      - name: Post results to journal (issue #22)
+        if: always()
+        uses: actions/github-script@v7
+        env:
+          OUT: ${{ steps.run.outputs.stdout }}
+          APPLY: ${{ inputs.apply }}
+        with:
+          script: |
+            const out = (process.env.OUT || '(нет вывода)').slice(0, 60000);
+            await github.rest.issues.createComment({
+              owner: context.repo.owner, repo: context.repo.repo, issue_number: 22,
+              body: '### ops-zoho-rollback (apply=' + process.env.APPLY + ') · '
+                + new Date().toISOString() + '\n```\n' + out + '\n```',
+            });

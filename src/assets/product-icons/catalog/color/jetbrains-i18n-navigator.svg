@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" width="512" height="512" role="img" aria-labelledby="jetbrains-i18n-navigator-color-title jetbrains-i18n-navigator-color-desc" data-icon-id="jetbrains-i18n-navigator" data-variant="color">
+  <title id="jetbrains-i18n-navigator-color-title">I18n Navigator — color icon</title>
+  <desc id="jetbrains-i18n-navigator-color-desc">Normalized color product icon used by 2 catalog card(s).</desc>
+  <metadata>
+  <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/">
+    <rdf:Description rdf:about="">
+      <dc:title>I18n Navigator — color</dc:title>
+      <dc:description>Normalized catalog product icon; assigned to 2 product card(s); 512×512 transparent canvas; 12.5% safe area.</dc:description>
+      <dc:creator>Vladislav Ogorodnik</dc:creator>
+      <dc:source>https://downloads.marketplace.jetbrains.com/files/31084/1007951/icon/default.svg</dc:source>
+      <dc:date>2026-08-18</dc:date>
+      <dc:rights>Publisher-provided Marketplace icon; copyright and trademark rights remain with the plugin publisher.</dc:rights>
+      <dc:identifier>jetbrains-i18n-navigator__color</dc:identifier>
+    </rdf:Description>
+  </rdf:RDF>
+</metadata>
+  <svg x="65" y="65" width="382" height="382" viewBox="0 0 49.442 49.442" preserveAspectRatio="xMidYMid meet"><defs xmlns="http://www.w3.org/2000/svg">
+        <linearGradient id="globeGradient" x1="10.9" y1="10.2" x2="38.4" y2="38.6" gradientUnits="userSpaceOnUse">
+            <stop offset="0" stop-color="#62E2FF"/>
+            <stop offset="0.52" stop-color="#2E8BFF"/>
+            <stop offset="1" stop-color="#1C4DD8"/>
+        </linearGradient>
+        <linearGradient id="topArrowGradient" x1="15.2" y1="0" x2="46.4" y2="14.8" gradientUnits="userSpaceOnUse">
+            <stop offset="0" stop-color="#77F3A2"/>
+            <stop offset="1" stop-color="#18B77A"/>
+        </linearGradient>
+        <linearGradient id="rightArrowGradient" x1="18.5" y1="28.3" x2="48.1" y2="49.4" gradientUnits="userSpaceOnUse">
+            <stop offset="0" stop-color="#FFD86B"/>
+            <stop offset="1" stop-color="#FF8A3D"/>
+        </linearGradient>
+        <linearGradient id="leftArrowGradient" x1="2" y1="7.3" x2="14.2" y2="40.9" gradientUnits="userSpaceOnUse">
+            <stop offset="0" stop-color="#FF7FA5"/>
+            <stop offset="1" stop-color="#D94B93"/>
+        </linearGradient>
+        <linearGradient id="badgeGradient" x1="13.4" y1="18.1" x2="36.1" y2="28.1" gradientUnits="userSpaceOnUse">
+            <stop offset="0" stop-color="#18263F"/>
+            <stop offset="1" stop-color="#243E69"/>
+        </linearGradient>
+        <filter id="badgeShadow" x="10" y="15" width="29.5" height="16" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+            <feDropShadow dx="0" dy="1.3" stdDeviation="1.1" flood-color="#09111F" flood-opacity="0.38"/>
+        </filter>
+    </defs>
+
+    <path xmlns="http://www.w3.org/2000/svg" d="M25.639 38.596C25.643 38.596 25.647 38.594 25.652 38.594C25.659 38.594 25.667 38.596 25.674 38.596C30.3 38.596 34.445 36.489 37.198 33.186C37.45 32.883 37.69 32.568 37.918 32.246C39.651 29.8 40.674 26.815 40.674 23.596C40.674 20.377 39.653 17.394 37.918 14.948C37.69 14.625 37.451 14.31 37.198 14.008C34.444 10.705 30.301 8.598 25.674 8.598C25.666 8.598 25.658 8.598 25.652 8.598C25.647 8.598 25.643 8.598 25.639 8.598C25.621 8.598 25.604 8.6 25.587 8.6C20.995 8.626 16.887 10.728 14.151 14.009C13.898 14.312 13.659 14.626 13.43 14.948C11.697 17.394 10.673 20.377 10.673 23.596C10.673 26.817 11.696 29.8 13.43 32.246C13.659 32.567 13.898 32.884 14.151 33.184C16.887 36.465 20.995 38.567 25.587 38.594C25.604 38.594 25.621 38.596 25.639 38.596ZM26.29 37.311V29.745C28.406 29.798 30.399 30.113 32.165 30.638C30.943 34.34 28.787 36.924 26.29 37.311ZM29.95 36.682C31.349 35.346 32.513 33.381 33.31 31.016C34.391 31.414 35.364 31.897 36.2 32.445C34.567 34.385 32.413 35.873 29.95 36.682ZM36.927 31.506C35.978 30.871 34.877 30.318 33.657 29.863C34.091 28.271 34.368 26.531 34.447 24.698H39.394C39.195 27.221 38.307 29.549 36.927 31.506ZM39.441 23.468H34.471C34.461 21.277 34.167 19.198 33.659 17.325C34.877 16.872 35.976 16.319 36.927 15.685C38.483 17.894 39.414 20.573 39.441 23.468ZM36.202 14.744C35.365 15.294 34.39 15.776 33.307 16.176C32.51 13.811 31.348 11.844 29.949 10.508C32.413 11.316 34.569 12.804 36.202 14.744ZM26.29 9.879C28.787 10.266 30.937 12.853 32.161 16.556C30.396 17.078 28.405 17.396 26.29 17.446V9.879ZM25.059 9.87V17.445C22.917 17.394 20.902 17.071 19.121 16.537C20.357 12.809 22.534 10.216 25.059 9.87ZM21.289 10.546C19.91 11.875 18.766 13.819 17.976 16.153C16.918 15.757 15.966 15.281 15.145 14.744C16.754 12.832 18.871 11.361 21.289 10.546ZM14.423 15.685C15.355 16.308 16.433 16.853 17.625 17.301C17.11 19.181 16.815 21.266 16.805 23.468H11.909C11.935 20.573 12.867 17.893 14.423 15.685ZM11.953 24.699H16.829C16.909 26.542 17.187 28.291 17.625 29.888C16.432 30.337 15.354 30.882 14.423 31.505C13.043 29.549 12.155 27.221 11.953 24.699ZM15.149 32.444C15.969 31.907 16.92 31.431 17.975 31.037C18.764 33.372 19.911 35.314 21.289 36.644C18.871 35.829 16.759 34.355 15.149 32.444ZM25.059 37.32C22.535 36.974 20.354 34.382 19.119 30.654C20.899 30.119 22.917 29.797 25.059 29.744V37.32ZM18.774 29.498C18.385 28.021 18.136 26.405 18.061 24.698L18.037 23.468C18.047 21.401 18.316 19.448 18.779 17.694C20.674 18.273 22.802 18.624 25.059 18.678H26.29C28.519 18.623 30.625 18.282 32.503 17.713C32.963 19.463 33.231 21.409 33.241 23.468L33.217 24.698C33.142 26.396 32.894 28.008 32.509 29.476C30.629 28.908 28.523 28.564 26.29 28.511H25.059C22.799 28.567 20.669 28.917 18.774 29.498Z" fill="url(#globeGradient)"/>
+
+    <path xmlns="http://www.w3.org/2000/svg" d="M25.323 2.811C31.713 2.811 37.418 5.78 41.147 10.403L38.699 12.133L46.403 14.763L45.602 7.258L43.445 8.781C39.202 3.437 32.66 0 25.323 0C21.71 0 18.288 0.834 15.238 2.316L16.136 5.012C18.898 3.608 22.018 2.811 25.323 2.811Z" fill="url(#topArrowGradient)"/>
+    <path xmlns="http://www.w3.org/2000/svg" d="M45.499 28.365C44.792 31.383 43.391 34.282 41.261 36.806C37.14 41.692 31.194 44.138 25.254 44.009L25.512 41.021L18.534 45.214L24.786 49.442L25.014 46.81C31.832 47.011 38.68 44.226 43.41 38.62C45.74 35.857 47.307 32.705 48.141 29.417L45.499 28.365Z" fill="url(#rightArrowGradient)"/>
+    <path xmlns="http://www.w3.org/2000/svg" d="M5.632 31.42C3.205 25.51 3.784 19.105 6.646 13.898L9.175 15.508L8.682 7.381L2.044 10.971L4.273 12.389C0.942 18.342 0.246 25.702 3.033 32.488C4.404 35.833 6.475 38.679 9.005 40.939L11.158 39.083C8.809 37.062 6.886 34.477 5.632 31.42Z" fill="url(#leftArrowGradient)"/>
+
+    <g xmlns="http://www.w3.org/2000/svg" filter="url(#badgeShadow)">
+        <rect x="12.4" y="17.45" width="24.7" height="11.5" rx="5.75" fill="url(#badgeGradient)"/>
+        <rect x="12.95" y="18" width="23.6" height="10.4" rx="5.2" stroke="#8BD7FF" stroke-opacity="0.35" stroke-width="1.1"/>
+    </g>
+    <text xmlns="http://www.w3.org/2000/svg" x="24.75" y="23.2" text-anchor="middle" dominant-baseline="middle" fill="#F8FBFF" font-family="Arial, Helvetica, sans-serif" font-size="7.8" font-weight="700" letter-spacing="0.2">I18n</text>
+</svg>
+</svg>

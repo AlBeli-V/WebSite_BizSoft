@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" width="512" height="512" role="img" aria-labelledby="jetbrains-visual-github-actions-color-title jetbrains-visual-github-actions-color-desc" data-icon-id="jetbrains-visual-github-actions" data-variant="color">
+  <title id="jetbrains-visual-github-actions-color-title">Visual GitHub Actions — color icon</title>
+  <desc id="jetbrains-visual-github-actions-color-desc">Normalized color product icon used by 2 catalog card(s).</desc>
+  <metadata>
+  <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/">
+    <rdf:Description rdf:about="">
+      <dc:title>Visual GitHub Actions — color</dc:title>
+      <dc:description>Normalized catalog product icon; assigned to 2 product card(s); 512×512 transparent canvas; 12.5% safe area.</dc:description>
+      <dc:creator>meanmail.dev</dc:creator>
+      <dc:source>https://downloads.marketplace.jetbrains.com/files/31472/1056997/icon/default.svg</dc:source>
+      <dc:date>2026-08-18</dc:date>
+      <dc:rights>Publisher-provided Marketplace icon; copyright and trademark rights remain with the plugin publisher.</dc:rights>
+      <dc:identifier>jetbrains-visual-github-actions__color</dc:identifier>
+    </rdf:Description>
+  </rdf:RDF>
+</metadata>
+  <svg x="65" y="65" width="382" height="382" viewBox="0 0 40 40" preserveAspectRatio="xMidYMid meet"><!-- Edges (connections between nodes) -->
+  <path xmlns="http://www.w3.org/2000/svg" d="M12 11 Q20 11 22 20" fill="none" stroke="#7B8A9E" stroke-width="1.5" stroke-linecap="round"/>
+  <path xmlns="http://www.w3.org/2000/svg" d="M12 29 Q20 29 22 20" fill="none" stroke="#7B8A9E" stroke-width="1.5" stroke-linecap="round"/>
+  <path xmlns="http://www.w3.org/2000/svg" d="M26 20 Q30 20 32 14" fill="none" stroke="#7B8A9E" stroke-width="1.5" stroke-linecap="round"/>
+  <path xmlns="http://www.w3.org/2000/svg" d="M26 20 Q30 20 32 26" fill="none" stroke="#7B8A9E" stroke-width="1.5" stroke-linecap="round"/>
+
+  <!-- Trigger node (left top) -->
+  <rect xmlns="http://www.w3.org/2000/svg" x="4" y="7" width="8" height="8" rx="2" fill="#5A7EA8" stroke="#3D6290" stroke-width="0.8"/>
+
+  <!-- Trigger node (left bottom) -->
+  <rect xmlns="http://www.w3.org/2000/svg" x="4" y="25" width="8" height="8" rx="2" fill="#5A7EA8" stroke="#3D6290" stroke-width="0.8"/>
+
+  <!-- Central job node (larger) -->
+  <rect xmlns="http://www.w3.org/2000/svg" x="18" y="14" width="12" height="12" rx="3" fill="#3D8B5F" stroke="#2D6B47" stroke-width="0.8"/>
+  <!-- Play symbol inside central node -->
+  <polygon xmlns="http://www.w3.org/2000/svg" points="22,17.5 22,22.5 26.5,20" fill="white" opacity="0.9"/>
+
+  <!-- Output node (right top) -->
+  <rect xmlns="http://www.w3.org/2000/svg" x="30" y="10" width="7" height="7" rx="2" fill="#8B6BB5" stroke="#6B4D95" stroke-width="0.8"/>
+
+  <!-- Output node (right bottom) -->
+  <rect xmlns="http://www.w3.org/2000/svg" x="30" y="23" width="7" height="7" rx="2" fill="#8B6BB5" stroke="#6B4D95" stroke-width="0.8"/>
+</svg>
+</svg>

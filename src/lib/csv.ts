@@ -161,7 +161,7 @@ export function diffCsvImport(rows: CsvRow[], products: Product[]): CsvImportRes
       } else {
         if (raw === '') continue;
       }
-      const beforeVal = (p as Record<string, unknown>)[field];
+      const beforeVal = (p as unknown as Record<string, unknown>)[field];
       const beforeStr = beforeVal == null ? '' : String(beforeVal);
       const afterStr = String(after);
       if (beforeStr !== afterStr) {

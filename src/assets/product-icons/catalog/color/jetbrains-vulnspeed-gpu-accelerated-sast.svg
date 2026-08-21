@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" width="512" height="512" role="img" aria-labelledby="jetbrains-vulnspeed-gpu-accelerated-sast-color-title jetbrains-vulnspeed-gpu-accelerated-sast-color-desc" data-icon-id="jetbrains-vulnspeed-gpu-accelerated-sast" data-variant="color">
+  <title id="jetbrains-vulnspeed-gpu-accelerated-sast-color-title">VulnSpeed - GPU-Accelerated SAST — color icon</title>
+  <desc id="jetbrains-vulnspeed-gpu-accelerated-sast-color-desc">Normalized color product icon used by 2 catalog card(s).</desc>
+  <metadata>
+  <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/">
+    <rdf:Description rdf:about="">
+      <dc:title>VulnSpeed - GPU-Accelerated SAST — color</dc:title>
+      <dc:description>Normalized catalog product icon; assigned to 2 product card(s); 512×512 transparent canvas; 12.5% safe area.</dc:description>
+      <dc:creator>Jakub Jirák</dc:creator>
+      <dc:source>https://downloads.marketplace.jetbrains.com/files/29001/1083800/icon/default.svg</dc:source>
+      <dc:date>2026-08-18</dc:date>
+      <dc:rights>Publisher-provided Marketplace icon; copyright and trademark rights remain with the plugin publisher.</dc:rights>
+      <dc:identifier>jetbrains-vulnspeed-gpu-accelerated-sast__color</dc:identifier>
+    </rdf:Description>
+  </rdf:RDF>
+</metadata>
+  <svg x="65" y="65" width="382" height="382" viewBox="0 0 240 240" preserveAspectRatio="xMidYMid meet"><rect xmlns="http://www.w3.org/2000/svg" width="240" height="240" rx="48" fill="url(#bg)"/>
+  <circle xmlns="http://www.w3.org/2000/svg" cx="176" cy="68" r="64" fill="url(#accentGlow)" opacity="0.35"/>
+  <path xmlns="http://www.w3.org/2000/svg" d="M32 170C32 138 54 112 85 106L190 84C202 82 212 70 212 56C212 40 200 28 184 28C166 28 152 40 148 58L126 156C119 188 92 212 60 212H48C38 212 32 198 32 190V170Z" fill="url(#accentSweep)" opacity="0.35"/>
+  <path xmlns="http://www.w3.org/2000/svg" d="M120 48L182 72V122C182 156 154 194 120 208C86 194 58 156 58 122V72L120 48Z" fill="url(#shield)"/>
+  <path xmlns="http://www.w3.org/2000/svg" d="M120 68L160 84V120C160 142 146 168 120 180C94 168 80 142 80 120V84L120 68Z" fill="url(#shieldHighlight)"/>
+  <g xmlns="http://www.w3.org/2000/svg" stroke-linecap="round" stroke-linejoin="round" stroke-width="6">
+    <path d="M120 98V162" stroke="#E6FFF8"/>
+    <path d="M94 132H146" stroke="#E6FFF8"/>
+    <path d="M88 116H68" stroke="#3CF6FF"/>
+    <path d="M92 150H60" stroke="#3CF6FF"/>
+    <path d="M152 116H172" stroke="#3CF6FF"/>
+    <path d="M148 150H180" stroke="#3CF6FF"/>
+  </g>
+  <g xmlns="http://www.w3.org/2000/svg" fill="#061425" stroke-width="3" stroke="#3CF6FF">
+    <circle cx="68" cy="116" r="7"/>
+    <circle cx="60" cy="150" r="7"/>
+    <circle cx="172" cy="116" r="7"/>
+    <circle cx="180" cy="150" r="7"/>
+  </g>
+  <g xmlns="http://www.w3.org/2000/svg" stroke="#7BFFB3" stroke-width="5" stroke-linecap="round">
+    <path d="M120 84V70"/>
+    <path d="M120 190V176"/>
+  </g>
+  <defs xmlns="http://www.w3.org/2000/svg">
+    <linearGradient id="bg" x1="16" y1="16" x2="224" y2="224" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#050B1E"/>
+      <stop offset="1" stop-color="#0A2A45"/>
+    </linearGradient>
+    <radialGradient id="accentGlow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(176 68) rotate(90) scale(64)">
+      <stop stop-color="#2CF5FF"/>
+      <stop offset="1" stop-color="#0A2740" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="accentSweep" x1="52" y1="92" x2="212" y2="212" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#00E6FF"/>
+      <stop offset="1" stop-color="#0A2240" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="shield" x1="70" y1="60" x2="170" y2="204" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#33FFC0"/>
+      <stop offset="1" stop-color="#0096FF"/>
+    </linearGradient>
+    <linearGradient id="shieldHighlight" x1="92" y1="84" x2="150" y2="176" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#D8FFF4" stop-opacity="0.9"/>
+      <stop offset="1" stop-color="#52E4FF" stop-opacity="0.1"/>
+    </linearGradient>
+  </defs>
+</svg>
+</svg>

@@ -12,6 +12,8 @@ import { getProducts, getCategoryBySlug } from '../../../lib/directus';
 import { itemListSchema, breadcrumbSchema } from '../../../lib/seo';
 import { getAiSubcategory } from '../../../data/ai-hub';
 import { comparisons } from '../../../data/comparisons';
+import { effectivePrice } from '../../../lib/pricing';
+import type { Product } from '../../../lib/types';
 
 const { sub } = Astro.params;
 const meta = getAiSubcategory(sub!);
@@ -26,10 +28,12 @@ const crumbs = [
 
 // Пытаемся получить наполненную категорию из Directus. Пока её нет — «в подготовке».
 let pageCategory = null;
-let products = [];
+let products: Product[] = [];
 try {
   pageCategory = await getCategoryBySlug(meta.categorySlug);
   if (pageCategory) products = await getProducts({ categorySlug: meta.categorySlug });
+  // «Цена по запросу» — всегда в конце списка
+  products.sort((a, b) => Number(!(effectivePrice(a).price > 0)) - Number(!(effectivePrice(b).price > 0)));
 } catch (e) {
   console.error('ai sub catalog error', e);
 }
@@ -39,7 +43,7 @@ const ready = Boolean(pageCategory) && products.length > 0;
 const relatedCompare = comparisons.filter((c) => c.category.slug === `ai/${meta.sub}`).slice(0, 4);
 
 const faq = [
-  { q: `Как купить ${meta.name.toLowerCase()} для юрлица?`, a: 'Оставьте заявку или добавьте позиции в корзину и нажмите «Получить КП». Заключаем договор, выставляем счёт в рублях, после оплаты предоставляем доступ и передаём закрывающие через ЭДО.' },
+  { q: `Как купить ${meta.name.toLowerCase()} для юрлица?`, a: 'Оставьте заявку или добавьте позиции в избранное и нажмите «Получить КП». Заключаем договор, выставляем счёт в рублях, после оплаты предоставляем доступ и передаём закрывающие через ЭДО.' },
   { q: 'Цена указана за год?', a: 'Да, для корпоративных AI-подписок мы ориентируемся на годовые тарифы. Рублёвая цена считается от годовой цены вендора по курсу ЦБ РФ на дату счёта; итог фиксируется в счёте.' },
 ];
 ---

@@ -1,0 +1,67 @@
+---
+/**
+ * «Дополнительно подобрать:» — чипы топ-вендоров с иконками (как в меню
+ * «Производители → Топ-запросы»). Клик дописывает вендора в textarea формы.
+ */
+import { logoFile } from '../data/logos';
+import { vendorIcon } from '../data/vendor-icons';
+import VendorIcon from './VendorIcon.astro';
+
+const TOP: { slug: string; name: string }[] = [
+  { slug: 'openai', name: 'OpenAI' },
+  { slug: 'anthropic', name: 'Anthropic' },
+  { slug: 'adobe', name: 'Adobe' },
+  { slug: 'figma', name: 'Figma' },
+  { slug: 'jetbrains', name: 'JetBrains' },
+  { slug: 'microsoft', name: 'Microsoft' },
+  { slug: 'github', name: 'GitHub' },
+  { slug: 'cursor', name: 'Cursor' },
+];
+const chips = TOP.map((t) => ({ ...t, pack: Boolean(vendorIcon(t.slug)), logo: logoFile(t.slug) }));
+---
+<p class="vc-cap">Дополнительно подобрать:</p>
+<div class="vc-chips" data-chips aria-label="Дополнительно подобрать">
+  {chips.map((c) => (
+    <button type="button" class="vc-chip">
+      {c.pack ? (
+        <VendorIcon slug={c.slug} size={16} />
+      ) : (
+        c.logo && <img src={c.logo} alt="" width="16" height="16" loading="lazy" />
+      )}
+      {c.name}
+    </button>
+  ))}
+</div>
+
+<style>
+  .vc-cap { margin: 0; font-weight: 600; font-size: 0.9rem; color: var(--color-text); }
+  .vc-chips { display: flex; flex-wrap: wrap; gap: 0.45rem; }
+  .vc-chip {
+    display: inline-flex; align-items: center; gap: 0.4rem;
+    border: 1px solid var(--color-border-strong); background: var(--color-bg-card);
+    border-radius: 999px; padding: 0.35rem 0.8rem;
+    font: inherit; font-size: 0.86rem; font-weight: 600; cursor: pointer;
+    color: var(--color-text-muted); transition: all 0.15s ease;
+  }
+  .vc-chip img { width: 16px; height: 16px; object-fit: contain; border-radius: 3px; }
+  .vc-chip:hover { border-color: var(--color-accent); color: var(--color-accent); }
+  .vc-chip.active { background: var(--color-accent); border-color: var(--color-accent); color: #fff; }
+</style>
+
+<script>
+  document.querySelectorAll('[data-chips]').forEach((wrap) => {
+    if ((wrap as HTMLElement).dataset.bound) return;
+    (wrap as HTMLElement).dataset.bound = '1';
+    const form = wrap.closest('form');
+    const ta = form?.querySelector('textarea');
+    wrap.querySelectorAll('.vc-chip').forEach((chip) => {
+      chip.addEventListener('click', () => {
+        chip.classList.toggle('active');
+        if (!ta) return;
+        const t = (chip.textContent || '').trim();
+        if (chip.classList.contains('active')) ta.value = ta.value ? `${ta.value}, ${t}` : t;
+        else ta.value = ta.value.split(', ').filter((x) => x !== t).join(', ');
+      });
+    });
+  });
+</script>

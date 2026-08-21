@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" width="512" height="512" role="img" aria-labelledby="jetbrains-json-log-viewer-color-title jetbrains-json-log-viewer-color-desc" data-icon-id="jetbrains-json-log-viewer" data-variant="color">
+  <title id="jetbrains-json-log-viewer-color-title">Json Log Viewer — color icon</title>
+  <desc id="jetbrains-json-log-viewer-color-desc">Normalized color product icon used by 2 catalog card(s).</desc>
+  <metadata>
+  <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/">
+    <rdf:Description rdf:about="">
+      <dc:title>Json Log Viewer — color</dc:title>
+      <dc:description>Normalized catalog product icon; assigned to 2 product card(s); 512×512 transparent canvas; 12.5% safe area.</dc:description>
+      <dc:creator>InceptionApp</dc:creator>
+      <dc:source>https://downloads.marketplace.jetbrains.com/files/28145/1077848/icon/default.svg</dc:source>
+      <dc:date>2026-08-18</dc:date>
+      <dc:rights>Publisher-provided Marketplace icon; copyright and trademark rights remain with the plugin publisher.</dc:rights>
+      <dc:identifier>jetbrains-json-log-viewer__color</dc:identifier>
+    </rdf:Description>
+  </rdf:RDF>
+</metadata>
+  <svg x="65" y="65" width="382" height="382" viewBox="0 0 80 80" preserveAspectRatio="xMidYMid meet"><!-- Arka Plan -->
+    <rect xmlns="http://www.w3.org/2000/svg" x="10" y="10" width="60" height="60" rx="10" fill="url(#paint0_linear)"/>
+
+    <path xmlns="http://www.w3.org/2000/svg" d="M20 25H60" stroke="white" stroke-width="3" stroke-linecap="round"/>
+    <path xmlns="http://www.w3.org/2000/svg" d="M25 30H55" stroke="white" stroke-width="3" stroke-linecap="round"/>
+    <circle xmlns="http://www.w3.org/2000/svg" cx="40" cy="50" r="10" stroke="white" stroke-width="3" fill="none"/>
+    <path xmlns="http://www.w3.org/2000/svg" d="M35 50H45" stroke="white" stroke-width="3" stroke-linecap="round"/>
+
+    <circle xmlns="http://www.w3.org/2000/svg" cx="30" cy="50" r="3" fill="#3BEA62"/>
+    <circle xmlns="http://www.w3.org/2000/svg" cx="50" cy="50" r="3" fill="#FF5733"/>
+
+    <defs xmlns="http://www.w3.org/2000/svg">
+        <linearGradient id="paint0_linear" x1="10" y1="10" x2="70" y2="70" gradientUnits="userSpaceOnUse">
+            <stop offset="0" stop-color="#3C99CC"/>
+            <stop offset="1" stop-color="#6B57FF"/>
+        </linearGradient>
+    </defs>
+</svg>
+</svg>

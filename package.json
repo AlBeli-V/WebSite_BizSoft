@@ -14,6 +14,9 @@
     "typecheck": "astro check",
     "test": "vitest run",
     "test:watch": "vitest",
+    "smoke": "node scripts/ci/smoke.mjs",
+    "check:artifacts": "node scripts/ci/check-artifacts.mjs",
+    "verify": "pnpm test && pnpm typecheck && pnpm build && pnpm check:artifacts && pnpm smoke",
     "directus:schema": "node scripts/directus-setup.mjs",
     "ai:cards": "node scripts/build-vendor-cards.mjs scripts/ai-catalog-cards.json out/ai-cards.xlsx",
     "ai:import": "node scripts/import-cards.mjs out/ai-cards.xlsx"
@@ -21,22 +24,25 @@
   "dependencies": {
     "@astrojs/node": "^9.1.3",
     "@astrojs/sitemap": "^3.2.1",
-    "@fontsource/inter": "^5.3.0",
     "@fontsource/prosto-one": "^5.3.0",
     "@fontsource/raleway": "^5.3.0",
     "@resvg/resvg-js": "^2.6.2",
     "@tailwindcss/vite": "^4.0.6",
     "astro": "^5.3.0",
     "dejavu-fonts-ttf": "^2.37.3",
+    "docx": "^9.7.1",
+    "jpeg-js": "^0.4.4",
     "nodemailer": "^6.10.0",
     "pdfkit": "^0.16.0",
     "tailwindcss": "^4.0.6",
     "xlsx": "0.18.5"
   },
   "devDependencies": {
+    "@astrojs/check": "^0.9.10",
     "@types/node": "^22.13.4",
     "@types/nodemailer": "^6.4.17",
     "@types/pdfkit": "^0.13.9",
+    "playwright": "^1.62.1",
     "simple-icons": "^16.25.0",
     "typescript": "^5.7.3",
     "vitest": "^3.0.5"

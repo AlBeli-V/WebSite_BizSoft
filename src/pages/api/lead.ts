@@ -1,6 +1,7 @@
 export const prerender = false;
 
 import type { APIRoute } from 'astro';
+import { defaultLeadOwner } from '../../config/site';
 import { createLead } from '../../lib/directus';
 import { sendMail, managerEmail } from '../../lib/mailer';
 
@@ -22,6 +23,7 @@ export const POST: APIRoute = async ({ request }) => {
   }
 
   // Все поля формы обязательны
+  if (!filled(body.name)) return new Response(JSON.stringify({ error: 'Укажите ФИО' }), { status: 422 });
   if (!filled(body.company)) return new Response(JSON.stringify({ error: 'Укажите компанию' }), { status: 422 });
   if (!isEmail(body.email)) return new Response(JSON.stringify({ error: 'Укажите корректный e-mail' }), { status: 422 });
   if (!filled(body.phone)) return new Response(JSON.stringify({ error: 'Укажите телефон' }), { status: 422 });
@@ -39,6 +41,12 @@ export const POST: APIRoute = async ({ request }) => {
     product_ref: String(body.product_ref || '').slice(0, 300),
     consent: true,
     source: String(body.source || 'site').slice(0, 60),
+    // Стадия воронки с первой секунды: заявка без статуса не попадает ни в один
+    // фильтр воронки и теряется из виду, хотя формально сохранена.
+    status: 'new',
+    // Ответственный по умолчанию — распоряжение руководителя 21.08.2026.
+    // Заявка без владельца ничья, и о ней забывают.
+    owner: defaultLeadOwner,
   };
 
   try {
@@ -52,7 +60,7 @@ export const POST: APIRoute = async ({ request }) => {
   sendMail({
     to: managerEmail,
     replyTo: payload.email,
-    subject: `Новая заявка с сайта BizSoft${payload.product_ref ? ': ' + payload.product_ref : ''}`,
+    subject: `Новая заявка с сайта BIZSoft${payload.product_ref ? ': ' + payload.product_ref : ''}`,
     text: [
       `Источник: ${payload.source}`,
       payload.product_ref && `Товар: ${payload.product_ref}`,

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" width="512" height="512" role="img" aria-labelledby="jetbrains-django-command-runner-color-title jetbrains-django-command-runner-color-desc" data-icon-id="jetbrains-django-command-runner" data-variant="color">
+  <title id="jetbrains-django-command-runner-color-title">Django command runner — color icon</title>
+  <desc id="jetbrains-django-command-runner-color-desc">Normalized color product icon used by 1 catalog card(s).</desc>
+  <metadata>
+  <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/">
+    <rdf:Description rdf:about="">
+      <dc:title>Django command runner — color</dc:title>
+      <dc:description>Normalized catalog product icon; assigned to 1 product card(s); 512×512 transparent canvas; 12.5% safe area.</dc:description>
+      <dc:creator>meanmail.dev</dc:creator>
+      <dc:source>https://downloads.marketplace.jetbrains.com/files/13834/912520/icon/default.svg</dc:source>
+      <dc:date>2026-08-18</dc:date>
+      <dc:rights>Publisher-provided Marketplace icon; copyright and trademark rights remain with the plugin publisher.</dc:rights>
+      <dc:identifier>jetbrains-django-command-runner__color</dc:identifier>
+    </rdf:Description>
+  </rdf:RDF>
+</metadata>
+  <svg x="65" y="65" width="382" height="382" viewBox="0 0 40 40" preserveAspectRatio="xMidYMid meet"><!-- Modern Django icon with terminal integration -->
+    <defs xmlns="http://www.w3.org/2000/svg">
+        <linearGradient id="djangoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#0C4B33;stop-opacity:1"/>
+            <stop offset="100%" style="stop-color:#092E20;stop-opacity:1"/>
+        </linearGradient>
+    </defs>
+
+    <!-- Background with gradient -->
+    <rect xmlns="http://www.w3.org/2000/svg" x="4" y="4" width="32" height="32" rx="8" ry="8" fill="url(#djangoGradient)"/>
+
+    <!-- Django logo - simplified and modern (larger and centered) -->
+    <path xmlns="http://www.w3.org/2000/svg" d="M12,10 L12,23 L18,23 C22,23 25,20 25,16.5 C25,13 22,10 18,10 Z" fill="white" stroke="none"/>
+    <path xmlns="http://www.w3.org/2000/svg" d="M14,12 L18,12 C20.5,12 23,13.5 23,16.5 C23,19.5 20.5,21 18,21 L14,21 Z" fill="url(#djangoGradient)" stroke="none"/>
+
+    <!-- Command prompt symbol -->
+    <path xmlns="http://www.w3.org/2000/svg" d="M13,28 L15,30 L13,32" fill="none" stroke="white" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+    <line xmlns="http://www.w3.org/2000/svg" x1="17" y1="31" x2="21" y2="31" stroke="white" stroke-width="1.2" stroke-linecap="round"/>
+</svg>
+</svg>

@@ -1,35 +1,54 @@
 import { describe, expect, it } from 'vitest';
-import { SEO_EXPERIMENTS, SEO_EXPERIMENT_LINKS, mergeExperimentFaq } from '../src/data/seo-experiments';
+import { SEO_EXPERIMENTS, SEO_EXPERIMENT_LINKS } from '../src/data/seo-experiments';
 
-const SLUGS = ['canva', 'depositphotos', 'coreldraw', 'heygen', 'marmoset'];
+// Два эксперимента живут в одном файле, но считаются раздельно: даты старта
+// разные, и смешивать их метрики нельзя.
+const EXP_1 = ['canva', 'depositphotos', 'coreldraw', 'heygen', 'marmoset'];
+const EXP_2 = ['adobe', 'autodesk', 'procreate', 'blackmagic', 'midjourney', 'clip-studio-paint'];
+const SLUGS = [...EXP_1, ...EXP_2];
 
-describe('SEO-эксперимент P0-1', () => {
-  it('ровно 5 целевых страниц — контрольная группа не затронута', () => {
+describe('SEO-эксперименты на vendor-страницах', () => {
+  it('обе группы на месте, пересечений нет — иначе метрики смешаются', () => {
     expect(Object.keys(SEO_EXPERIMENTS).sort()).toEqual([...SLUGS].sort());
     expect(SEO_EXPERIMENT_LINKS.map((l) => l.slug).sort()).toEqual([...SLUGS].sort());
+    expect(EXP_1.filter((s) => EXP_2.includes(s))).toEqual([]);
   });
 
-  it('бренд в title ровно один раз, description ≤ 165 символов', () => {
+  it('контрольная группа не затронута: правок ровно 11 из 66 страниц', () => {
+    expect(Object.keys(SEO_EXPERIMENTS)).toHaveLength(11);
+  });
+
+  it('бренд в title ровно один раз, до 65 символов без учёта «| BIZSoft»', () => {
     for (const s of SLUGS) {
-      const { title, description } = SEO_EXPERIMENTS[s];
+      const { title } = SEO_EXPERIMENTS[s];
       expect(title.split('BIZSoft').length - 1).toBe(1);
-      expect(description.length).toBeLessThanOrEqual(165);
+      const core = title.replace(/\s*\|\s*BIZSoft\s*$/, '');
+      expect(core.length).toBeLessThanOrEqual(65);
     }
   });
 
-  it('merge заменяет близкий вопрос и не создаёт дубль', () => {
-    const base = [
-      { q: 'Можно ли оплатить Canva по счёту в рублях, без зарубежной карты?', a: 'Да.' },
-      { q: 'Другой вопрос про Canva?', a: 'Ответ.' },
-    ];
-    const out = mergeExperimentFaq(base, 'canva', 'Canva');
-    expect(out[0].q).toBe(SEO_EXPERIMENTS.canva.faq.q);
-    expect(out).toHaveLength(2);
-    expect(out.filter((f) => /оплатить canva/i.test(f.q))).toHaveLength(1);
+  it('description по формуле и ≤160 символов', () => {
+    for (const s of SLUGS) {
+      const { description } = SEO_EXPERIMENTS[s];
+      expect(description.length).toBeLessThanOrEqual(160);
+      expect(description).toMatch(/^Оплатим подписку .+ в рублях по счёту\./);
+      expect(description).toContain('ЭДО');
+      expect(description).toContain('1–3 дня');
+    }
   });
 
-  it('merge не трогает FAQ контрольной группы', () => {
-    const base = [{ q: 'Вопрос про Figma?', a: 'Ответ.' }];
-    expect(mergeExperimentFaq(base, 'figma', 'Figma')).toEqual(base);
+  it('FAQ-блок «Как купить … на юрлицо»: 3–4 вопроса с нужными темами', () => {
+    for (const s of SLUGS) {
+      const { faqTitle, faq } = SEO_EXPERIMENTS[s];
+      expect(faqTitle).toMatch(/^Как купить .+ на юрлицо$/);
+      expect(faq.length).toBeGreaterThanOrEqual(3);
+      expect(faq.length).toBeLessThanOrEqual(4);
+      const all = faq.map((f) => `${f.q} ${f.a}`).join(' ');
+      expect(all).toMatch(/сч[её]т/i);
+      expect(all).toMatch(/договор/i);
+      expect(all).toMatch(/ЭДО/);
+      expect(all).toMatch(/1–3/);
+      expect(all).toMatch(/курсу ЦБ/);
+    }
   });
 });

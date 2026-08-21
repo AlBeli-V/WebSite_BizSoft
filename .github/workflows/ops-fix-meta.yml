@@ -1,0 +1,216 @@
+# Починка мета-тегов товарных карточек в прод-Directus по правилам.
+# Тексты не выдумываются: title собирается из названия товара, description —
+# из существующего short_description; правится только то, что сломано.
+#   meta_title       — пусто / старое написание «BizSoft» / длиннее 60
+#   meta_description — пусто / обрыв фразы «…» / длиннее 160
+# apply=false — план (было/стало) без записи. Журнал — issue #22.
+name: ops-fix-meta
+on:
+  workflow_dispatch:
+    inputs:
+      apply:
+        description: 'true — записать в Directus, false — только план'
+        required: true
+        default: 'false'
+      only:
+        description: 'Ограничить слагами через запятую (пусто — весь каталог)'
+        required: false
+permissions:
+  issues: write
+jobs:
+  fix:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fix meta tags
+        id: run
+        uses: appleboy/ssh-action@v1
+        env:
+          P_APPLY: ${{ inputs.apply }}
+          P_ONLY: ${{ inputs.only }}
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          envs: P_APPLY,P_ONLY
+          capture_stdout: true
+          script: |
+            set -e
+            cd /opt/bizsoft
+            ADMIN_EMAIL=$(docker compose exec -T directus printenv ADMIN_EMAIL | tr -d '\r')
+            ADMIN_PASSWORD=$(docker compose exec -T directus printenv ADMIN_PASSWORD | tr -d '\r')
+            export ADMIN_EMAIL ADMIN_PASSWORD
+            python3 - <<'PYEOF'
+            import json, os, re, urllib.parse, urllib.request
+            base = 'http://127.0.0.1:8055'
+            BRAND = 'BIZSoft'
+            TAIL = ' Оплата по счёту, закрывающие через ЭДО.'
+            TAIL_SHORT = ' Оплата по счёту, ЭДО.'
+            TITLE_MAX, DESC_MAX = 60, 160
+
+            def req(method, path, data=None, token=None):
+                r = urllib.request.Request(base + path, method=method,
+                    data=json.dumps(data).encode() if data is not None else None,
+                    headers={'Content-Type': 'application/json',
+                             **({'Authorization': f'Bearer {token}'} if token else {})})
+                return json.load(urllib.request.urlopen(r))
+
+            # служебные слова, на которых нельзя обрывать фразу
+            STOP = {'с', 'в', 'на', 'и', 'для', 'по', 'из', 'к', 'у', 'о', 'от', 'до', 'за',
+                    'при', 'над', 'под', 'а', 'но', 'или', 'что', 'как', 'же', 'то', 'из-за'}
+
+            def trim_words(text, limit):
+                """Обрезка по границе слова без многоточия внутри фразы."""
+                if len(text) <= limit:
+                    return text
+                cut = text[:limit]
+                sp = cut.rfind(' ')
+                return (cut[:sp] if sp > limit * 0.6 else cut).rstrip(' ,;:-—')
+
+            def tidy(body):
+                """Снимаем висящий хвост: предлог, союз, одинокое число, обрывок слова."""
+                while True:
+                    words = body.split()
+                    if len(words) < 2:
+                        return body
+                    w = words[-1].strip('.,;:—-()«»').lower()
+                    if w in STOP or w.isdigit() or len(w) <= 1:
+                        body = ' '.join(words[:-1])
+                        continue
+                    return body
+
+            def build_title(name, cur):
+                t = (cur or '').replace('BizSoft', BRAND).strip()
+                if not t:
+                    t = f'{name} — купить для юрлица | {BRAND}'
+                if len(t) <= TITLE_MAX:
+                    return t
+                # длинный заголовок укорачиваем целыми смысловыми кусками,
+                # а не обрезкой посередине скобки
+                short = re.sub(r'\s*\([^)]*\)', '', name).strip()
+                for cand in (f'{short} — купить для юрлица | {BRAND}',
+                             f'{name} | {BRAND}',
+                             f'{short} | {BRAND}'):
+                    if len(cand) <= TITLE_MAX:
+                        return cand
+                room = TITLE_MAX - len(f' | {BRAND}')
+                return f'{tidy(trim_words(short, room))} | {BRAND}'
+
+            def build_desc(short, cur):
+                cur = (cur or '').strip()
+                if cur and '…' not in cur and len(cur) <= DESC_MAX:
+                    return cur                        # хорошее описание не трогаем
+                lead = (short or '').strip()
+                if not lead:
+                    return cur
+                for tail in (TAIL, TAIL_SHORT, ''):
+                    room = DESC_MAX - len(tail)
+                    body = lead if len(lead) <= room else trim_words(lead, room)
+                    if len(lead) > room:
+                        # заканчиваем последним завершённым предложением,
+                        # иначе — последним элементом перечисления
+                        dot = body.rfind('.')
+                        if dot > room * 0.5:
+                            body = body[:dot]
+                        else:
+                            comma = body.rfind(',')
+                            if comma > room * 0.5:
+                                body = body[:comma]
+                        # не оставляем разорванную скобку «(Photoshop, ... и др.»
+                        if body.count('(') > body.count(')'):
+                            body = body[:body.rfind('(')]
+                        body = tidy(body)
+                    body = body.rstrip(' .,;:-—') + '.'
+                    if len(body) + len(tail) <= DESC_MAX:
+                        return (body + tail).strip()
+                return trim_words(lead, DESC_MAX).rstrip(' .,;:-—') + '.'
+
+            TEXT_FIELDS = ('short_description', 'description', 'seo_text',
+                           'for_whom', 'features', 'use_cases', 'faq')
+
+            def fix_brand(v):
+                """Написание бренда внутри строк, списков и объектов."""
+                if isinstance(v, str):
+                    return v.replace('BizSoft', BRAND)
+                if isinstance(v, list):
+                    return [fix_brand(i) for i in v]
+                if isinstance(v, dict):
+                    return {k: fix_brand(i) for k, i in v.items()}
+                return v
+
+            def noindex(sku):
+                s = (sku or '').upper()
+                return s.startswith('JB-PLG-') or (s.startswith('JB-') and s.endswith('-IND'))
+
+            apply = os.environ.get('P_APPLY', 'false').lower() == 'true'
+            only = [s.strip() for s in os.environ.get('P_ONLY', '').split(',') if s.strip()]
+            auth = req('POST', '/auth/login', {'email': os.environ['ADMIN_EMAIL'], 'password': os.environ['ADMIN_PASSWORD']})
+            tok = auth['data']['access_token']
+            flt = {'status': {'_eq': 'published'}}
+            if only:
+                flt['slug'] = {'_in': only}
+            url = ('/items/products?limit=-1&sort[]=vendor&sort[]=name'
+                   '&fields=id,slug,name,sku,meta_title,meta_description,' + ','.join(TEXT_FIELDS)
+                   + f'&filter={urllib.parse.quote(json.dumps(flt))}')
+            rows = [r for r in req('GET', url, token=tok)['data'] if not noindex(r.get('sku'))]
+            print(f'карточек к проверке: {len(rows)} | режим: '
+                  f"{'ПРИМЕНЕНО' if apply else 'план (без записи)'}\n")
+            stats = {'title': 0, 'desc': 0}
+            changed = 0
+            for r in rows:
+                patch = {}
+                # единое написание бренда во всех текстовых полях карточки,
+                # включая списки (features, use_cases, faq)
+                for f in TEXT_FIELDS:
+                    cur = r.get(f)
+                    fixed = fix_brand(cur)
+                    if fixed != cur:
+                        patch[f] = fixed
+                nt = build_title(r['name'], r.get('meta_title'))
+                if nt != (r.get('meta_title') or ''):
+                    patch['meta_title'] = nt
+                nd = build_desc(r.get('short_description'), r.get('meta_description'))
+                if nd and nd != (r.get('meta_description') or ''):
+                    patch['meta_description'] = nd
+                if not patch:
+                    continue
+                changed += 1
+                print(f"[{r['slug']}]")
+                for f in ('meta_title', 'meta_description') + TEXT_FIELDS:
+                    if f in patch:
+                        if f in TEXT_FIELDS:
+                            stats['brand'] = stats.get('brand', 0) + 1
+                            print(f'  {f}: написание бренда приведено к {BRAND}')
+                            continue
+                        stats['title' if f == 'meta_title' else 'desc'] += 1
+                        print(f"  {f} было ({len(r.get(f) or '')}): {r.get(f) or '—'}")
+                        print(f"  {f} стало ({len(patch[f])}): {patch[f]}")
+                if apply:
+                    req('PATCH', f"/items/products/{r['id']}", patch, token=tok)
+            print(f"\nизменено карточек: {changed} | meta_title: {stats['title']}, "
+                  f"meta_description: {stats['desc']}, бренд в текстах: {stats.get('brand', 0)}")
+            PYEOF
+      - name: Save to file
+        run: |
+          cat > /tmp/ops-fixmeta.txt <<'OPS_FIXMETA_EOF'
+          ${{ steps.run.outputs.stdout }}
+          OPS_FIXMETA_EOF
+      - name: Post to issue
+        uses: actions/github-script@v7
+        env:
+          APPLY: ${{ inputs.apply }}
+        with:
+          script: |
+            const lines = require('fs').readFileSync('/tmp/ops-fixmeta.txt', 'utf8').split('\n');
+            const parts = []; let cur = '';
+            for (const l of lines) {
+              if (cur.length + l.length > 55000) { parts.push(cur); cur = ''; }
+              cur += l + '\n';
+            }
+            if (cur) parts.push(cur);
+            const tail = parts.length > 3 ? parts.slice(-1) : parts;   // длинный план — только итог
+            for (let i = 0; i < tail.length; i++) {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner, repo: context.repo.repo, issue_number: 22,
+                body: `### ops-fix-meta (apply=${process.env.APPLY}) (${i + 1}/${tail.length}, всего частей ${parts.length})\n\n\`\`\`\n${tail[i]}\`\`\``,
+              });
+            }

@@ -1,0 +1,54 @@
+# Ежедневный сбор SEO-данных из Google Search Console и Яндекс.Вебмастера
+# в reports/seo/data/ ветки мониторинга (утренний отчёт читает эти файлы).
+# Расписание: 02:40 UTC (08:40 Бишкек) — до формирования отчёта в 09:03.
+# Секреты: GSC_SERVICE_ACCOUNT_JSON, YANDEX_WEBMASTER_TOKEN.
+
+name: seo-data-collect
+
+on:
+  schedule:
+    - cron: "40 2 * * *"
+  workflow_dispatch:
+  push:
+    branches:
+      - claude/biz-soft-rating-tracking-5rf03g
+    paths:
+      - ".github/workflows/seo-data-collect.yml"
+      - "scripts/seo/collect.py"
+
+permissions:
+  contents: write
+
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: claude/biz-soft-rating-tracking-5rf03g
+
+      - name: Install deps
+        run: pip install --quiet requests google-auth
+
+      - name: Collect GSC + Yandex data
+        env:
+          GSC_SERVICE_ACCOUNT_JSON: ${{ secrets.GSC_SERVICE_ACCOUNT_JSON }}
+          YANDEX_WEBMASTER_TOKEN: ${{ secrets.YANDEX_WEBMASTER_TOKEN }}
+          YANDEX_METRIKA_TOKEN: ${{ secrets.YANDEX_METRIKA_TOKEN }}
+          YANDEX_METRIKA_COUNTER_ID: ${{ secrets.YANDEX_METRIKA_COUNTER_ID }}
+          GA4_PROPERTY_ID: ${{ secrets.GA4_PROPERTY_ID }}
+        run: python3 scripts/seo/collect.py
+
+      - name: Commit data
+        if: always()
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add reports/seo/data
+          if git diff --cached --quiet; then
+            echo "Нет новых данных для коммита"
+          else
+            git commit -m "SEO-данные GSC/Яндекс за $(date -u +%F)"
+            git pull --rebase origin claude/biz-soft-rating-tracking-5rf03g
+            git push origin claude/biz-soft-rating-tracking-5rf03g
+          fi
