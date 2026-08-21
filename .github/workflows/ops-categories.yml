@@ -1,0 +1,164 @@
+# Категории каталога («Назначение ПО») в прод-Directus.
+#
+# Делает две вещи, которые в админке пришлось бы делать руками по одной:
+#   1) заводит недостающие разделы каталога;
+#   2) проставляет им intro — текст, который покупатель видит на плитке
+#      раздела и подзаголовком на странице раздела.
+#
+# Источник — `data/catalog/categories.json` в репозитории: тексты правятся
+# ревью в коде, а не вслепую в базе.
+#
+# apply=false (по умолчанию) — только отчёт: что в базе сейчас, сколько где
+# товаров, что изменится. Ничего не пишет. Результат — в журнал issue #22.
+name: ops-categories
+
+on:
+  workflow_dispatch:
+    inputs:
+      apply:
+        description: "true — применить; false — только отчёт"
+        required: true
+        default: "false"
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  categories:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Copy plan to server
+        uses: appleboy/scp-action@v1
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          source: data/catalog/categories.json
+          target: /tmp/bz-categories/
+          strip_components: 2
+
+      - name: Report / apply
+        id: run
+        uses: appleboy/ssh-action@v1
+        env:
+          APPLY: ${{ inputs.apply }}
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          envs: APPLY
+          capture_stdout: true
+          command_timeout: 10m
+          script: |
+            set -e
+            TOKEN=$(sed -n 's/^DIRECTUS_TOKEN=//p' /opt/bizsoft/astro.env | tr -d '"\r')
+            if [ -z "$TOKEN" ]; then echo "DIRECTUS_TOKEN не найден"; exit 1; fi
+            export TOKEN
+            python3 - <<'PY'
+            import json, os, urllib.request
+
+            token = os.environ['TOKEN']
+            apply = os.environ.get('APPLY', 'false') == 'true'
+            BASE = 'http://127.0.0.1:8055'
+
+            def call(method, path, body=None):
+                data = json.dumps(body).encode() if body is not None else None
+                req = urllib.request.Request(BASE + path, data=data, method=method)
+                req.add_header('Authorization', f'Bearer {token}')
+                if data:
+                    req.add_header('Content-Type', 'application/json')
+                with urllib.request.urlopen(req, timeout=180) as r:
+                    raw = r.read()
+                return json.loads(raw)['data'] if raw else None
+
+            plan = json.load(open('/tmp/bz-categories/categories.json'))
+            intros = plan.get('intro', {})
+            creates = plan.get('create', [])
+
+            cats = call('GET', '/items/categories?limit=-1'
+                        '&fields=id,slug,name,sort,status,intro&sort=sort,name')
+            by_slug = {c['slug']: c for c in cats}
+
+            products = call('GET', '/items/products?limit=-1'
+                            '&fields=status,vendor,category.slug')
+            counts = {}
+            for p in products:
+                cat = p.get('category') or {}
+                slug = cat.get('slug') or '(без категории)'
+                row = counts.setdefault(slug, {'published': 0, 'draft': 0,
+                                               'archived': 0, 'vendors': {}})
+                row[p['status']] = row.get(p['status'], 0) + 1
+                v = (p.get('vendor') or '—').strip()
+                row['vendors'][v] = row['vendors'].get(v, 0) + 1
+
+            print('РАЗДЕЛЫ КАТАЛОГА')
+            print(f"{'слаг':24} {'опубл':>6} {'скрыт':>6} {'intro':>6}  название / вендоры")
+            for c in cats:
+                s = c['slug']
+                n = counts.get(s, {})
+                intro = (c.get('intro') or '').strip()
+                top = sorted(n.get('vendors', {}).items(), key=lambda x: -x[1])[:5]
+                print(f"{s:24} {n.get('published', 0):>6} {n.get('draft', 0):>6} "
+                      f"{len(intro):>6}  {c['name']} · "
+                      + ', '.join(f'{v} {k}' for v, k in top))
+            orphan = counts.get('(без категории)')
+            if orphan:
+                print(f"\nбез категории: опубл {orphan['published']}, скрыт {orphan['draft']}")
+
+            print('\nЧТО ИЗМЕНИТСЯ')
+            todo_create = [c for c in creates if c['slug'] not in by_slug]
+            for c in todo_create:
+                print(f"  + создать раздел {c['slug']} «{c['name']}» (sort={c.get('sort')})")
+            todo_intro = []
+            for slug, text in intros.items():
+                cur = by_slug.get(slug)
+                if cur is None:
+                    if slug not in {c['slug'] for c in creates}:
+                        print(f"  ! в плане есть {slug}, а в базе такого раздела нет")
+                    continue
+                if (cur.get('intro') or '').strip() != text.strip():
+                    todo_intro.append((slug, cur))
+                    was = (cur.get('intro') or '').strip() or '(пусто)'
+                    print(f"  ~ {slug}: было «{was[:60]}» → станет «{text[:60]}…»")
+            missing = [c['slug'] for c in cats if c['slug'] not in intros]
+            if missing:
+                print(f"  ? без текста в плане: {', '.join(missing)}")
+
+            if not apply:
+                print('\nОТЧЁТ. Ничего не записано (apply=false).')
+                raise SystemExit(0)
+
+            for c in todo_create:
+                created = call('POST', '/items/categories', {
+                    'slug': c['slug'], 'name': c['name'], 'status': 'published',
+                    'sort': c.get('sort'), 'intro': intros.get(c['slug'], ''),
+                })
+                by_slug[c['slug']] = created
+                print(f"создан раздел {c['slug']} (id={created['id']})")
+
+            patched = 0
+            for slug, cur in todo_intro:
+                if slug in {c['slug'] for c in todo_create}:
+                    continue  # intro уже проставлен при создании
+                call('PATCH', f"/items/categories/{cur['id']}", {'intro': intros[slug]})
+                patched += 1
+            print(f"\nПРИМЕНЕНО: создано разделов {len(todo_create)}, "
+                  f"обновлено описаний {patched}")
+            PY
+
+      - name: Post results to journal (issue #22)
+        if: always()
+        uses: actions/github-script@v7
+        env:
+          OUT: ${{ steps.run.outputs.stdout }}
+          APPLY: ${{ inputs.apply }}
+        with:
+          script: |
+            const out = (process.env.OUT || '(нет вывода)').slice(0, 60000);
+            await github.rest.issues.createComment({
+              owner: context.repo.owner, repo: context.repo.repo, issue_number: 22,
+              body: `### ops-categories · apply=${process.env.APPLY}\n\n\`\`\`\n${out}\n\`\`\``,
+            });
