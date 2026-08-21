@@ -1,7 +1,9 @@
 # Ежедневный сбор SEO-данных из Google Search Console и Яндекс.Вебмастера
 # в reports/seo/data/ ветки мониторинга (утренний отчёт читает эти файлы).
-# Расписание: 02:40 UTC (08:40 Бишкек) — до формирования отчёта в 09:03.
-# Секреты: GSC_SERVICE_ACCOUNT_JSON, YANDEX_WEBMASTER_TOKEN.
+# Расписание: 02:40 UTC = 05:40 МСК — до формирования отчёта.
+# Время в cron задаётся в UTC; московское указано рядом (правило проекта).
+# Секреты: GSC_SERVICE_ACCOUNT_JSON, YANDEX_WEBMASTER_TOKEN,
+# YANDEX_METRIKA_TOKEN, YANDEX_METRIKA_COUNTER_ID, GA4_PROPERTY_ID.
 
 name: seo-data-collect
 

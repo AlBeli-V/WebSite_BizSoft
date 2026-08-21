@@ -84,6 +84,26 @@ const { title, description, canonical, ogImage, noindex, type, keywords } = Astr
     </style>
 
     <script>
+      // Источник визита фиксируется до любых действий пользователя: заявка,
+      // отправленная через минуту, должна знать, откуда человек пришёл.
+      import { captureVisit } from '@/lib/attribution';
+      captureVisit();
+
+      // Клики по CTA с атрибутом data-goal.
+      //
+      // Атрибут стоял на главных кнопках сайта — «Получить КП» в шапке, герой
+      // главной, каталог, страницы сравнения — и выглядел как разметка целей,
+      // но слушателя не имел ни одного: ни один клик никуда не уходил.
+      // Привязка живёт в макете, а не в каждом компоненте: иначе следующая
+      // кнопка снова окажется размеченной и неподключённой.
+      import { trackGoal } from '@/lib/analytics';
+      document.addEventListener('click', (e) => {
+        const el = (e.target as HTMLElement)?.closest?.('[data-goal]') as HTMLElement | null;
+        if (!el) return;
+        const name = el.dataset.goal;
+        if (name) trackGoal(name, { page_url: location.pathname });
+      });
+
       // Плавное появление секций (уважает prefers-reduced-motion через CSS)
       const reveal = () => {
         const els = document.querySelectorAll('.reveal:not(.is-visible)');

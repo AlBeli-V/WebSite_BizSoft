@@ -236,6 +236,7 @@ try {
 
 <script>
   import { trackGoal } from '@/lib/analytics';
+  import { attributionPayload } from '@/lib/attribution';
   import { readCart, setQty, removeFromCart, cartTotal, clearCart, addToCart } from '../../lib/cart-client';
 
   // Открыли подборку. Знаменатель для формы КП: видно, сколько дошло до
@@ -404,7 +405,9 @@ try {
     if (it.inn) innInput.value = it.inn;
     showFound(it);
     closeList();
-    trackGoal('company_autofill', { inn: it.inn });
+    // Факт автозаполнения, а не сам ИНН: идентификатор юрлица в параметрах
+    // события — это передача реквизита клиента во внешнюю аналитику.
+    trackGoal('company_autofill', { filled: true });
   };
 
   const renderSuggest = () => {
@@ -478,18 +481,21 @@ try {
     e.preventDefault();
     const submit = form.querySelector('.kp-submit') as HTMLButtonElement;
     submit.disabled = true;
+    let httpStatus = 0;
     status.textContent = 'Формируем и отправляем…'; status.className = 'kp-status';
     try {
       const fd = Object.fromEntries(new FormData(form).entries());
       const items = readCart().map((i) => ({ sku: i.sku, qty: i.qty }));
+      const attribution = await attributionPayload();
       const res = await fetch('/api/quote', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...fd, consent: (form.elements.namedItem('consent') as HTMLInputElement).checked, items }),
+        body: JSON.stringify({ ...fd, attribution, consent: (form.elements.namedItem('consent') as HTMLInputElement).checked, items }),
       });
       if (!res.ok) {
         let msg = 'Не удалось сформировать КП. Проверьте поля и попробуйте снова.';
         try { const j = await res.json(); if (j?.error) msg = j.error; } catch { /* not json */ }
+        httpStatus = res.status;
         throw new Error(msg);
       }
       // Документ не скачивается и не открывается в браузере: он уходит письмом.
@@ -502,13 +508,17 @@ try {
       status.innerHTML = `<b>Готово.</b> Коммерческое предложение № ${quoteNo} `
         + `отправлено${to}. Если письма нет через пару минут — проверьте «Спам».`;
       status.className = 'kp-status ok';
-      trackGoal('quote_pdf', { quote_no: quoteNo });
+      trackGoal('quote_pdf', { form_source: 'quote', quote_no: quoteNo });
     } catch (err) {
       status.textContent = err instanceof Error && err.message ? err.message : 'Не удалось сформировать КП. Попробуйте позже или позвоните нам.';
       status.className = 'kp-status err';
       // Без этой цели сбой неотличим от того, что клиент передумал: в отчёте
       // и то и другое выглядит как незавершённое оформление.
-      trackGoal('quote_error', { reason: err instanceof Error ? err.message.slice(0, 100) : 'unknown' });
+      trackGoal('quote_error', {
+        form_source: 'quote',
+        http_status: httpStatus,
+        reason: err instanceof Error ? err.message.slice(0, 100) : 'unknown',
+      });
     } finally {
       submit.disabled = false;
     }
