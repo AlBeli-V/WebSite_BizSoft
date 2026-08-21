@@ -34,7 +34,12 @@ const STOP_LIST = ['sap', 'oracle', 'vmware', 'broadcom', 'veeam', 'citrix', 'ci
 
 const ALLOWED_CATEGORIES = ['system', 'security', 'development', 'collaboration',
   'architecture', 'vcs', 'office', 'design', 'ai', 'media', 'pm', 'monitoring',
-  'database', 'engineering'];
+  'database', 'engineering',
+  // Заведены 21.08.2026 под партию ManageEngine: четыре тысячи позиций про
+  // учётные записи, службу поддержки и парк рабочих мест не помещаются ни в
+  // один из прежних разделов. Создаёт их воркфлоу ops-categories по
+  // data/catalog/categories.json.
+  'iam', 'helpdesk', 'endpoint'];
 
 describe('VENDORS', () => {
   it('слаги уникальны', () => {

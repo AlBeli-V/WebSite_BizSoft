@@ -47,6 +47,107 @@ const manifest = JSON.parse(readFileSync(resolve(SRC, day, 'manifest.json'), 'ut
 const copy = JSON.parse(readFileSync(resolve(__dir, 'content/zoho-cards.json'), 'utf8'));
 const existing = JSON.parse(readFileSync(OUT_PKG, 'utf8'));
 
+/**
+ * Раздел каталога («Назначение ПО») для каждого семейства вендора.
+ *
+ * Вся партия ManageEngine изначально ушла в «Системное ПО и ОС» — четыре с
+ * лишним тысячи позиций в одном разделе, из которых семь восьмых к системным
+ * утилитам отношения не имеют. Раздел покупатель выбирает по задаче, поэтому
+ * семейства разложены по назначению, а не по вендору.
+ *
+ * Основание разбиения — витрина магазина вендора (taxonomy.json, десять
+ * функциональных групп). Группы сведены к разделам каталога так:
+ *
+ *   Identity and access management        → iam
+ *   IT service management / Help desk     → helpdesk
+ *   Endpoint management and security      → endpoint
+ *   IT operations management (мониторинг) → monitoring
+ *   Security information and event mgmt   → security
+ *   IT analytics                          → monitoring («Мониторинг и аналитика»)
+ *   Low-code application development      → development
+ *
+ * Издания для сервис-провайдеров (…-msp) идут в раздел своего базового
+ * продукта: назначение у них то же, отличается модель поставки.
+ *
+ * Карта заполняется вручную и сверяется с манифестом: новое семейство после
+ * следующего обхода магазина остановит сборку, а не утечёт молча в «прочее».
+ */
+const CATEGORY_BY_FAMILY = {
+  // Учётные записи и доступ
+  'admanager-plus': 'iam',
+  'adaudit-plus': 'iam',
+  'exchange-reporter-plus': 'iam',
+  'm365-manager-plus': 'iam',
+  'pam360': 'iam',
+  'password-manager-pro': 'iam',
+  'access-manager-plus': 'iam',
+  'key-manager-plus': 'iam',
+  'admanager-plus-msp': 'iam',
+  'pam360-msp': 'iam',
+  'password-manager-pro-msp': 'iam',
+  // Сервис-деск и поддержка
+  'servicedesk-plus': 'helpdesk',
+  'servicedesk-plus-multi-language': 'helpdesk',
+  'servicedesk-plus-msp': 'helpdesk',
+  'supportcenter-plus': 'helpdesk',
+  'assetexplorer': 'helpdesk',
+  // Рабочие места и устройства
+  'endpoint-central': 'endpoint',
+  'endpoint-central-msp': 'endpoint',
+  'patch-manager-plus': 'endpoint',
+  'patch-connect-plus': 'endpoint',
+  'mobile-device-manager-plus': 'endpoint',
+  'mobile-device-manager-plus-msp': 'endpoint',
+  'remote-access-plus': 'endpoint',
+  'os-deployer': 'endpoint',
+  'vulnerability-manager-plus': 'endpoint',
+  'application-control-plus': 'endpoint',
+  'device-control-plus': 'endpoint',
+  'browser-security-plus': 'endpoint',
+  'endpoint-dlp-plus': 'endpoint',
+  'ransomware-protection-plus': 'endpoint',
+  'malware-protection-plus': 'endpoint',
+  'rmm-central': 'endpoint',
+  // Мониторинг и аналитика
+  'opmanager': 'monitoring',
+  'opmanager-nexus': 'monitoring',
+  'opmanager-msp': 'monitoring',
+  'applications-manager': 'monitoring',
+  'netflow-analyzer': 'monitoring',
+  'network-configuration-manager': 'monitoring',
+  'firewall-analyzer': 'monitoring',
+  'oputils': 'monitoring',
+  'ddi-central': 'monitoring',
+  'analytics-plus': 'monitoring',
+  // Антивирусы и безопасность: разбор событий и защита данных
+  'sharepoint-manager-plus': 'security',
+  'm365-security-plus': 'security',
+  'cloud-security-plus': 'security',
+  'datasecurity-plus': 'security',
+  'fileanalysis': 'security',
+  // Средства разработки
+  'appcreator': 'development',
+  // Обучение и сертификация вендора: цен в магазине нет, позиций отсюда не
+  // возникает. Раздел каталога им не назначен сознательно — это не ПО.
+  // Если вендор опубликует цены, сборка остановится и раздел выберет человек.
+  'training': null,
+  'certification': null,
+};
+
+/** Раздел каталога для семейства; неизвестное семейство останавливает сборку. */
+function categoryFor(familySlug) {
+  if (!(familySlug in CATEGORY_BY_FAMILY)) {
+    throw new Error(`семейство «${familySlug}» не отнесено ни к одному разделу каталога: `
+      + 'добавьте его в CATEGORY_BY_FAMILY в scripts/build-zoho-catalog.mjs');
+  }
+  const cat = CATEGORY_BY_FAMILY[familySlug];
+  if (!cat) {
+    throw new Error(`у семейства «${familySlug}» появились позиции с ценой, `
+      + 'а раздел каталога ему не назначен — выберите раздел вручную');
+  }
+  return cat;
+}
+
 /** Русское название модели лицензии для подписи к цене. */
 const MODEL_NOTE = {
   subscription: 'в год',
@@ -96,7 +197,7 @@ function hiddenProduct(pos, fam) {
     name,
     official_name: `ManageEngine ${pos.familyName}${pos.edition ? ` ${pos.edition} Edition` : ''}, ${pos.variantName}`
       + (pos.isAms ? ' (Annual Maintenance & Support)' : pos.licenseModel === 'perpetual' ? ' (Perpetual License)' : ''),
-    category: 'system',
+    category: categoryFor(pos.familySlug),
     license_type: 'org',
     short_description: short,
     description: short,
@@ -176,7 +277,7 @@ for (const card of positions) {
     slug: card.sku.toLowerCase(),
     name,
     official_name: officialName,
-    category: 'system',
+    category: categoryFor(card.familySlug),
     license_type: 'org',
     short_description: shortDescription,
     description,
