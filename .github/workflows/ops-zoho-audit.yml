@@ -91,8 +91,18 @@ jobs:
             no_price = [r for r in rows if not r.get('price')]
 
             # Вечная лицензия без своего сопровождения: пара разорвана.
+            #
+            # Разовые работы вендора — перенос данных, установка, обучение —
+            # стоят в тех же таблицах вечной лицензии, но лицензией не
+            # являются и сопровождения не имеют. Без этого исключения сверка
+            # ругалась бы каждый день на десять позиций, и её перестали бы
+            # читать ровно тогда, когда она сообщит о настоящей поломке.
+            ONE_TIME = ('ONE-TIME', 'MIGRATION', 'TRAINING', 'INSTALLATION',
+                        'SETUP', 'ONBOARDING', 'IMPLEMENTATION')
             broken = [r['sku'] for r in rows
-                      if r['sku'].endswith('-PERP') and f"{r['sku']}-AMS" not in by_sku]
+                      if r['sku'].endswith('-PERP')
+                      and f"{r['sku']}-AMS" not in by_sku
+                      and not any(w in r['sku'] for w in ONE_TIME)]
 
             print(f"позиций ManageEngine в базе: {len(rows)} (в пакете {expect['total']})")
             print(f"опубликовано: {len(published)} (в пакете {expect['published']})")
