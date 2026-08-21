@@ -112,8 +112,14 @@ def try_merge(branch: str, apply: bool) -> tuple[str, str]:
 
 
 def verify() -> tuple[bool, str]:
-    """Проверка собранного состояния: типы и тесты."""
-    for name, cmd in (("проверка типов", ["pnpm", "check"]),
+    """Проверка собранного состояния: типы и тесты.
+
+    Команда именно typecheck: `pnpm check` в этом проекте не существует, и
+    первый же рабочий прогон отбраковал все четыре ветки с «Command "check"
+    not found». Отказ выглядел как сломанный код веток, хотя сломан был
+    сам проверяющий.
+    """
+    for name, cmd in (("проверка типов", ["pnpm", "typecheck"]),
                       ("тесты", ["pnpm", "test"])):
         r = subprocess.run(cmd, capture_output=True, text=True, timeout=900)
         if r.returncode != 0:

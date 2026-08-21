@@ -128,3 +128,27 @@ class TestOnRealRepo(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main(verbosity=1)
+
+
+class VerifyCommands(unittest.TestCase):
+    """Проверяющий обязан звать команды, которые в проекте есть.
+
+    Первый рабочий прогон отбраковал все четыре ветки с «Command "check"
+    not found»: verify() звал несуществующий `pnpm check`. Со стороны это
+    выглядело как сломанный код в ветках, хотя сломан был сам проверяющий,
+    и ни одна ветка не была выровнена.
+    """
+
+    def test_all_verify_commands_exist_in_package_json(self):
+        import inspect
+        import json
+        import re
+
+        with open(ROOT / 'package.json', encoding='utf-8') as f:
+            scripts = json.load(f)['scripts']
+
+        source = inspect.getsource(sync.verify)
+        called = re.findall(r'\["pnpm",\s*"([a-z:-]+)"\]', source)
+        self.assertTrue(called, 'не нашли ни одной команды в verify()')
+        for name in called:
+            self.assertIn(name, scripts, f'pnpm {name} в package.json нет')
