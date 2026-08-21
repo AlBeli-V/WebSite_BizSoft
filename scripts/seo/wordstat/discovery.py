@@ -56,6 +56,7 @@ PRODUCT_NAMES = {
 
 
 SITE_CONFIG_TS = pathlib.Path("src/config/site.ts")
+CANDIDATES_TS = pathlib.Path("reports/seo/wordstat/vendor-candidates.json")
 
 
 def bespoke_landings() -> list[dict]:
@@ -99,9 +100,46 @@ def site_vendors() -> list[dict]:
     return out
 
 
+def product_of() -> dict[str, str]:
+    """Продукт → имя вендора каталога. Единый источник — конфиг кандидатов.
+
+    Карта была только у проверки каталога, а связывание семантики со
+    страницами о ней не знало. Из-за этого «claude купить», «gemini купить»
+    и «microsoft 365 купить» попадали в непокрытый спрос: страницы вендоров
+    существуют, но называются anthropic, google и microsoft, а кластер ищет
+    страницу по имени продукта. Руководитель видел в отчёте предложение
+    завести то, что заведено давно.
+    """
+    if not CANDIDATES_TS.exists():
+        return {}
+    try:
+        data = json.loads(CANDIDATES_TS.read_text(encoding="utf-8"))
+    except (ValueError, OSError):
+        return {}
+    return {k.lower(): str(v).lower() for k, v in (data.get("product_of") or {}).items()}
+
+
 def vendor_index(vendors: list[dict]) -> dict[str, str]:
-    """Якорь → кластер: по нему фраза относится к вендору."""
-    return {v["anchor"]: v["slug"] for v in vendors}
+    """Якорь → кластер: по нему фраза относится к вендору.
+
+    Кроме собственного имени вендора в индекс попадают имена его продуктов:
+    покупатель ищет «claude», а страница называется /vendors/anthropic.
+    """
+    index = {v["anchor"]: v["slug"] for v in vendors}
+    by_name = {}
+    for v in vendors:
+        by_name[v["vendor"].lower()] = v["slug"]
+        by_name[v["slug"].replace("-", " ").lower()] = v["slug"]
+    for product, vendor in product_of().items():
+        slug = by_name.get(vendor)
+        if slug and product not in index:
+            index[product] = slug
+    return index
+
+
+def vendor_urls(vendors: list[dict]) -> dict[str, str]:
+    """Кластер → адрес страницы на сайте."""
+    return {v["slug"]: v["url"] for v in vendors}
 
 
 class PatternStats:

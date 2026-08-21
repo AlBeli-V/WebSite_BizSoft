@@ -59,8 +59,8 @@ def latest_snapshot(date: str) -> dict:
 
 def prepare(date: str, cfg: dict):
     """Собрать текущую картину: база, кластеры, уровни, разрывы, план задач."""
-    uni = universe_mod.Universe()
     vendors = D.site_vendors()
+    uni = universe_mod.Universe(vendors=D.vendor_index(vendors))
     snap = latest_snapshot(date)
     if snap:
         cov_mod.enrich_universe(uni, snap, {v["slug"]: v["url"] for v in vendors})
