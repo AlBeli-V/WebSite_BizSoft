@@ -59,11 +59,15 @@ jobs:
           : > /tmp/quote.txt
           SKU="$IN_SKU"
           if [ -z "$SKU" ]; then
-            URL=$(curl -sS --max-time 30 "$SITE/sitemap.xml" \
-              | grep -oE "https://biz-soft\.pro/product/[a-z0-9-]+" | head -1)
+            # Ответы кладём в файлы, а первую строку выбираем sed-ом.
+            # `curl | grep | head -1` роняет шаг: head закрывает поток после
+            # первой строки, grep и curl получают SIGPIPE, и pipefail считает
+            # весь конвейер неуспешным. sed дочитывает ввод до конца.
+            curl -sS --max-time 30 -o /tmp/sitemap.xml "$SITE/sitemap.xml"
+            URL=$(grep -oE "https://biz-soft\.pro/product/[a-z0-9-]+" /tmp/sitemap.xml | sed -n '1p')
             echo "Товар для проверки: $URL" | tee -a /tmp/quote.txt
-            SKU=$(curl -sS --max-time 30 "$URL" \
-              | grep -oE 'data-sku="[^"]+"' | head -1 | cut -d'"' -f2)
+            curl -sS --max-time 30 -o /tmp/product.html "$URL"
+            SKU=$(grep -oE 'data-sku="[^"]+"' /tmp/product.html | sed -n '1p' | cut -d'"' -f2)
           fi
           if [ -z "$SKU" ]; then
             echo "не удалось определить артикул — проверка не выполнена" | tee -a /tmp/quote.txt
