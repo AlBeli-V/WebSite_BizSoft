@@ -1,5 +1,16 @@
 /**
- * SEO-эксперимент «snippets-5-vendors» (P0-1, обновлён 19.08.2026):
+ * Два SEO-эксперимента на vendor-страницах.
+ *
+ * «snippets-5-vendors» (19.08.2026): Canva, Depositphotos, CorelDRAW, HeyGen,
+ * Marmoset. Метрика снимается 26.08 и 02.09.
+ *
+ * «snippets-6-demand» (20.08.2026): Adobe, Autodesk, Procreate, Blackmagic,
+ * Midjourney, Clip Studio Paint — отобраны по измеренному коммерческому спросу
+ * Вордстата, у всех шести ноль фраз в топ-10 Яндекса при заметной частотности.
+ * Эксперименты разведены по датам старта и считаются раздельно; остальные
+ * vendor-страницы остаются контрольной группой.
+ *
+ * Исходная запись эксперимента P0-1 (обновлён 19.08.2026):
  * точечные title/description и FAQ-блок «Как купить {Vendor} на юрлицо»
  * для 5 vendor-страниц. Остальные страницы — контрольная группа, не трогаем.
  *
@@ -70,6 +81,51 @@ export const SEO_EXPERIMENTS: Record<string, SeoExperiment> = {
     faqTitle: 'Как купить Marmoset Toolbag на юрлицо',
     faq: faqFor('Marmoset Toolbag'),
   },
+
+  // ─── snippets-6-demand, старт 20.08.2026 ───
+  // Отобраны по измеренному спросу Вордстата; в скобках — целевая фраза с частотностью.
+  adobe: {
+    // «adobe купить» — 3 887 запросов в месяц, кластер 23 322
+    title: 'Оплата Adobe для юрлиц из России — счёт, договор, ЭДО | BIZSoft',
+    description: desc('Adobe Creative Cloud'),
+    faqTitle: 'Как купить Adobe на юрлицо',
+    faq: faqFor('Adobe'),
+  },
+  autodesk: {
+    // «autodesk license» — 1 800 запросов в месяц, кластер 7 391
+    title: 'Лицензии Autodesk для юрлиц из России — счёт и договор | BIZSoft',
+    description: desc('Autodesk'),
+    faqTitle: 'Как купить Autodesk на юрлицо',
+    faq: faqFor('Autodesk'),
+  },
+  procreate: {
+    // «купить procreate» — 823 запроса в месяц, кластер 2 412
+    title: 'Procreate для компании — покупка по счёту и договору | BIZSoft',
+    description: desc('Procreate'),
+    faqTitle: 'Как купить Procreate на юрлицо',
+    faq: faqFor('Procreate'),
+  },
+  blackmagic: {
+    // «davinci resolve купить» — 531 запрос в месяц, кластер 1 354
+    title: 'DaVinci Resolve Studio — лицензия на юрлицо по счёту | BIZSoft',
+    description: desc('DaVinci Resolve Studio'),
+    faqTitle: 'Как купить DaVinci Resolve на юрлицо',
+    faq: faqFor('DaVinci Resolve'),
+  },
+  midjourney: {
+    // «midjourney подписка» — 380 запросов в месяц, кластер 1 233
+    title: 'Подписка Midjourney для юрлиц — счёт, договор, ЭДО | BIZSoft',
+    description: desc('Midjourney'),
+    faqTitle: 'Как купить Midjourney на юрлицо',
+    faq: faqFor('Midjourney'),
+  },
+  'clip-studio-paint': {
+    // «clip studio paint купить» — 417 запросов в месяц, кластер 985
+    title: 'Clip Studio Paint для студии — счёт и договор | BIZSoft',
+    description: desc('Clip Studio Paint'),
+    faqTitle: 'Как купить Clip Studio Paint на юрлицо',
+    faq: faqFor('Clip Studio Paint'),
+  },
 };
 
 /** Анкоры внутренней перелинковки эксперимента (для / и /catalog). */
@@ -79,4 +135,10 @@ export const SEO_EXPERIMENT_LINKS: { slug: string; anchor: string }[] = [
   { slug: 'coreldraw', anchor: 'CorelDRAW — лицензии для компаний' },
   { slug: 'heygen', anchor: 'HeyGen — тарифы для компаний' },
   { slug: 'marmoset', anchor: 'Marmoset Toolbag — лицензии для команд' },
+  { slug: 'adobe', anchor: 'Adobe Creative Cloud — оплата на юрлицо' },
+  { slug: 'autodesk', anchor: 'Autodesk — лицензии для компаний' },
+  { slug: 'procreate', anchor: 'Procreate — покупка по счёту' },
+  { slug: 'blackmagic', anchor: 'DaVinci Resolve Studio — лицензия для студии' },
+  { slug: 'midjourney', anchor: 'Midjourney — подписка для юрлиц' },
+  { slug: 'clip-studio-paint', anchor: 'Clip Studio Paint — лицензии для студии' },
 ];

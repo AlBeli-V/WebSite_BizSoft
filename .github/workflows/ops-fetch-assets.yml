@@ -1,0 +1,113 @@
+# Приём файлов в репозиторий по ссылке, минуя загрузку через чат.
+# Runner скачивает архив (прямая ссылка, Яндекс.Диск или Google Drive),
+# распаковывает и коммитит содержимое в указанную ветку.
+# Нужен, когда вложение не проходит через интерфейс: аплоад падает,
+# а веб-загрузка в приватный репозиторий требует авторизации.
+name: ops-fetch-assets
+on:
+  workflow_dispatch:
+    inputs:
+      url:
+        description: 'Ссылка на архив (прямая, Яндекс.Диск или Google Drive)'
+        required: true
+      dest:
+        description: 'Куда распаковать в репозитории'
+        required: true
+        default: 'assets/incoming'
+      branch:
+        description: 'Ветка назначения'
+        required: true
+        default: 'claude/assets-incoming'
+permissions:
+  contents: write
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Download and unpack
+        env:
+          SRC_URL: ${{ inputs.url }}
+          DEST: ${{ inputs.dest }}
+        run: |
+          set -e
+          python3 - <<'PYEOF'
+          import json, os, re, urllib.parse, urllib.request
+          url = os.environ['SRC_URL'].strip()
+          # Яндекс.Диск: публичная ссылка → прямая через API
+          if 'disk.yandex' in url or 'yadi.sk' in url:
+              api = ('https://cloud-api.yandex.net/v1/disk/public/resources/download?public_key='
+                     + urllib.parse.quote(url, safe=''))
+              with urllib.request.urlopen(api, timeout=60) as r:
+                  url = json.load(r)['href']
+              print('Яндекс.Диск: получена прямая ссылка')
+          # Google Drive: файл по id
+          m = re.search(r'drive\.google\.com/(?:file/d/|open\?id=)([\w-]+)', url)
+          if m:
+              url = f'https://drive.google.com/uc?export=download&id={m.group(1)}'
+              print('Google Drive: ссылка преобразована в прямую')
+          # OneDrive / SharePoint: короткая ссылка отдаёт HTML-страницу
+          # предпросмотра. Пробуем несколько способов получить сам файл и
+          # печатаем результат каждого — так видно, публичная ли ссылка.
+          candidates = [url]
+          if any(h in url for h in ('1drv.ms', 'onedrive.live.com', 'sharepoint.com')):
+              import base64
+              token = base64.urlsafe_b64encode(url.encode()).decode().rstrip('=')
+              candidates = [
+                  f'https://api.onedrive.com/v1.0/shares/u!{token}/root/content',
+                  f'https://graph.microsoft.com/v1.0/shares/u!{token}/driveItem/content',
+                  url + ('&' if '?' in url else '?') + 'download=1',
+                  url,
+              ]
+
+          UA = ('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 '
+                '(KHTML, like Gecko) Chrome/120.0 Safari/537.36')
+          size = 0
+          for i, cand in enumerate(candidates, 1):
+              short = cand[:80] + ('…' if len(cand) > 80 else '')
+              try:
+                  req = urllib.request.Request(cand, headers={'User-Agent': UA})
+                  with urllib.request.urlopen(req, timeout=180) as r:
+                      ctype = (r.headers.get('Content-Type') or '').lower()
+                      if 'text/html' in ctype:
+                          print(f'{i}. {short} → HTML-страница, не файл')
+                          continue
+                      with open('/tmp/asset.bin', 'wb') as f:
+                          while chunk := r.read(1 << 20):
+                              f.write(chunk); size += len(chunk)
+                      print(f'{i}. {short} → OK, {ctype}, {size} байт')
+                      break
+              except Exception as e:
+                  code = getattr(e, 'code', '')
+                  print(f'{i}. {short} → ошибка {code} {e.__class__.__name__}')
+          if not size:
+              print('НЕ УДАЛОСЬ СКАЧАТЬ: ни один способ не отдал файл.')
+              print('Скорее всего, доступ по ссылке ограничен — нужен режим')
+              print('«Все, у кого есть ссылка» без входа в учётную запись.')
+              raise SystemExit(1)
+          PYEOF
+          file /tmp/asset.bin
+          mkdir -p "$DEST"
+          if file /tmp/asset.bin | grep -qi zip; then
+            unzip -o -q /tmp/asset.bin -d "$DEST"
+          else
+            echo "не ZIP — кладу файл как есть"; cp /tmp/asset.bin "$DEST/asset.bin"
+          fi
+          echo "== распаковано =="
+          find "$DEST" -type f | head -40
+          echo "== всего файлов: $(find "$DEST" -type f | wc -l) =="
+      - name: Commit to branch
+        env:
+          DEST: ${{ inputs.dest }}
+          TARGET: ${{ inputs.branch }}
+        run: |
+          set -e
+          git config user.name 'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+          git checkout -B "$TARGET"
+          git add -A "$DEST"
+          git commit -m "assets: приём файлов по ссылке в $DEST" || { echo 'нечего коммитить'; exit 0; }
+          git push -u origin "$TARGET" --force
+          echo "запушено в ветку $TARGET"

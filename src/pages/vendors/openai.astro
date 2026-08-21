@@ -22,11 +22,18 @@ import type { Product } from '../../lib/types';
 
 let all: Product[] = [];
 try { all = await getProducts({ vendor: 'OpenAI' }); } catch (e) { console.error('openai landing', e); }
-const items = all.filter((p) => p.sku.startsWith('OPENAI-')).sort((a, b) => OPENAI_ORDER.indexOf(a.sku) - OPENAI_ORDER.indexOf(b.sku));
+// Без фильтра по префиксу sku: у части товаров «интеграционные» sku
+// (ChatGPT Business = INT-AI-CHATGPT). Порядок — по OPENAI_ORDER (slug или sku),
+// не перечисленные в нём товары — в конец списка.
+const orderKey = (p: Product) => {
+  const i = OPENAI_ORDER.findIndex((k) => k === p.slug || k === p.sku);
+  return i === -1 ? OPENAI_ORDER.length : i;
+};
+const items = all.slice().sort((a, b) => orderKey(a) - orderKey(b));
 
 const cards = items.map((p) => {
   const eff = effectivePrice(p);
-  const meta = OPENAI_CARD_META[p.sku];
+  const meta = OPENAI_CARD_META[p.slug] ?? OPENAI_CARD_META[p.sku];
   return { name: p.name, slug: p.slug, sku: p.sku, price: eff.price, priceText: formatRub(eff.price), note: p.price_note || '', byRequest: !(eff.price > 0), meta, features: meta?.features?.slice(0, 5) || [] };
 });
 const priced = items.filter((p) => effectivePrice(p).price > 0);
@@ -215,12 +222,7 @@ const ld = [
 </style>
 
 <script>
-  function track(name: string, params: Record<string, unknown> = {}) {
-    const w = window as unknown as { ym?: (...a: unknown[]) => void; gtag?: (...a: unknown[]) => void };
-    const id = (import.meta as { env: Record<string, string> }).env.PUBLIC_METRIKA_ID || '110206070';
-    if (typeof w.ym === 'function' && id) w.ym(Number(id), 'reachGoal', name, params);
-    if (typeof w.gtag === 'function') w.gtag('event', name, params);
-  }
-  track('view_openai_landing', { page_url: location.pathname });
-  document.querySelectorAll('[data-ev]').forEach((el) => el.addEventListener('click', () => track((el as HTMLElement).dataset.ev!, { block_name: 'openai' })));
+  import { trackGoal } from '@/lib/analytics';
+  trackGoal('view_vendor_landing', { vendor: 'openai', page_url: location.pathname });
+  document.querySelectorAll('[data-ev]').forEach((el) => el.addEventListener('click', () => trackGoal((el as HTMLElement).dataset.ev!, { block_name: 'openai' })));
 </script>

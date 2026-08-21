@@ -1,0 +1,126 @@
+# Wordstat Intelligence: обнаружение коммерческого спроса и приоритеты развития.
+# Яндекс недоступен из среды мониторинга — сеть работает через раннер GitHub Actions.
+#
+# Ограничение сервиса — 100 запросов в час на облако, поэтому прогон берёт ровно
+# один часовой слот и продолжает с того места на следующем часу. Расход и причина
+# каждого вызова пишутся в журнал бюджета.
+#
+# Режимы: dry-run (без вызовов), pilot (потолок 500 ₽), daily (суточный прогон).
+
+name: seo-wordstat
+
+on:
+  schedule:
+    # Полный цикл раз в сутки: около 340 вызовов, 0,7 часа при квоте 500 в час.
+    - cron: "20 1 * * *"
+    # Добор четыре раза в сутки: продолжает цикл, если тот прервался, и
+    # обновляет отчёт. Почасовым он был при квоте 100 в час, когда цикл не
+    # помещался в одно окно; теперь помещается, и частые прогоны дают только
+    # конфликты в машинных файлах.
+    - cron: "25 */6 * * *"
+  push:
+    branches:
+      - claude/biz-soft-rating-tracking-5rf03g
+    paths:
+      - ".github/workflows/seo-wordstat.yml"
+      - "scripts/seo/wordstat/**"
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "Режим прогона"
+        required: true
+        default: "daily"
+        type: choice
+        options: [dry-run, full, pilot, daily, benchmark, payments, probe-dynamics]
+      max_calls:
+        description: "Потолок вызовов за прогон"
+        required: false
+        default: "70"
+
+permissions:
+  contents: write
+
+# Часовая квота одна на облако, а прогонов может быть несколько: ночной полный
+# цикл идёт часами, а почасовой добор стартует каждые 60 минут. Без очереди они
+# делят одно окно, ловят 429 и оба тормозят. Группа сериализует всё, что тратит
+# квоту; проверка оплаты сети Wordstat не трогает и идёт параллельно.
+concurrency:
+  group: seo-wordstat-${{ (github.event_name == 'push'
+         || inputs.mode == 'payments' || inputs.mode == 'dry-run')
+         && 'offline' || 'api' }}
+  cancel-in-progress: false
+
+jobs:
+  research:
+    runs-on: ubuntu-latest
+    timeout-minutes: 330
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: claude/biz-soft-rating-tracking-5rf03g
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install deps
+        run: pip install --quiet requests
+
+      - name: Run research
+        env:
+          WORDSTAT_API_KEY: ${{ secrets.WORDSTAT_API_KEY }}
+          # Пуш кода проверяет план, но не тратит квоту: платный прогон запускается
+          # только по расписанию или явным выбором режима. Иначе каждая правка
+          # исходников отнимала бы часовой слот у запланированного исследования.
+          # Ночной запуск — полный цикл, остальные часы — добор.
+          MODE: ${{ inputs.mode
+                 || (github.event_name == 'push' && 'dry-run')
+                 || (github.event.schedule == '20 1 * * *' && 'full')
+                 || 'daily' }}
+          MAX_CALLS: ${{ inputs.max_calls || '70' }}
+        run: |
+          if [ -z "$WORDSTAT_API_KEY" ]; then
+            echo "::error::Секрет WORDSTAT_API_KEY не задан — исследование пропущено."
+            exit 1
+          fi
+          python3 scripts/seo/wordstat/run.py --dry-run
+          case "$MODE" in
+            dry-run) echo "Только план, вызовы не выполнялись." ;;
+            pilot)   python3 scripts/seo/wordstat/run.py --pilot --max-calls "$MAX_CALLS" ;;
+            daily)   python3 scripts/seo/wordstat/run.py --daily --max-calls "$MAX_CALLS" ;;
+            full)    python3 scripts/seo/wordstat/run.py --full --max-hours 4
+                     python3 scripts/seo/wordstat/payment_check.py --limit 200 ;;
+            benchmark) python3 scripts/seo/wordstat/benchmark.py ;;
+            payments)  python3 scripts/seo/wordstat/payment_check.py --limit 200 ;;
+            probe-dynamics) python3 scripts/seo/wordstat/probe_dynamics.py ;;
+          esac
+          python3 scripts/seo/wordstat/report.py || true
+
+      - name: Commit results
+        run: |
+          git config user.name "Claude"
+          git config user.email "noreply@anthropic.com"
+          git add reports/seo/wordstat/
+          if git diff --cached --quiet; then
+            echo "Изменений нет"
+            exit 0
+          fi
+          git commit -m "Wordstat Intelligence: прогон $(date -u +%F' '%H:%M)"
+          # Артефакты прогона — машинные файлы: журнал бюджета, состояние лимитера,
+          # база семантики. При параллельной работе они конфликтуют, и разрешать
+          # такой конфликт вручную нечего: свежий результат прогона всегда полнее.
+          BRANCH=claude/biz-soft-rating-tracking-5rf03g
+          for attempt in 1 2 3; do
+            git fetch origin "$BRANCH"
+            if git rebase -X theirs "origin/$BRANCH"; then
+              if git push origin "HEAD:$BRANCH"; then
+                echo "Опубликовано с попытки $attempt"
+                exit 0
+              fi
+            else
+              git rebase --abort || true
+            fi
+            sleep $((attempt * 5))
+          done
+          echo "::error::Не удалось опубликовать результат прогона за три попытки."
+          exit 1

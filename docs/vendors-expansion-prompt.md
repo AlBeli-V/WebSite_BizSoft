@@ -162,9 +162,22 @@ Project Professional 2022» (была 2021), «Microsoft Project Professional 20
 ## 6. STOP-LIST (не создавать)
 
 SAP, Oracle, VMware/Broadcom, Veeam, Citrix, Cisco, Salesforce, IBM,
-SOLIDWORKS, Archicad, Red Hat, Canonical, MathWorks, MongoDB, Elastic,
-TeamViewer, Atlassian, ESET — и enterprise/quote-only тарифы оставленных
-брендов.
+Archicad, Red Hat, Canonical, MathWorks, MongoDB, Elastic, ESET — и
+enterprise/quote-only тарифы оставленных брендов.
+
+**Исключение от 20.08.2026: SOLIDWORKS.** Выведен из стоп-листа решением
+руководителя — прайс вендора получен, заведены восемь тарифов линеек
+SOLIDWORKS Design и xDesign (`scripts/catalog/solidworks.json`). Основание:
+измеренный спрос Вордстата 615 запросов в месяц по кластеру, оплата картой
+на сайте вендора подтверждена автоматической проверкой.
+
+**Исключение от 20.08.2026: Atlassian и TeamViewer.** Выведены из стоп-листа
+решением руководителя вместе с партией из восьми сервисов. Основание: у обоих
+подтверждены self-service checkout и оплата банковской картой, тарифы и цены
+сняты со страниц вендоров воркфлоу `ops-price-scan` (рендер Chrome, 20.08.2026),
+разбор — `reports/vendors/new-services-2026-08-20.md`. Quote-only тарифы обоих
+вендоров (Atlassian Enterprise и Guard, TeamViewer Tensor) остаются
+исключёнными.
 
 ## 7. Данные SKU — реальная схема
 

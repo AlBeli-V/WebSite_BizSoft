@@ -6,6 +6,8 @@ import CTASection from '../../components/CTASection.astro';
 import ScaffoldPage from '../../components/ScaffoldPage.astro';
 import { solutions } from '../../data/solutions';
 import { plannedSolutions } from '../../data/scaffold';
+import { vendorsForSolution } from '../../data/vendor-solutions';
+import { VENDORS } from '../../data/vendors';
 
 export function getStaticPaths() {
   return [
@@ -18,6 +20,16 @@ import type { Solution } from '../../data/solutions';
 type Planned = (typeof plannedSolutions)[number];
 // solution=null только на planned-страницах — шаблон обходит его через {planned ? …}
 const { solution, planned } = Astro.props as { solution: Solution; planned: Planned | null };
+
+// Плитки производителей, закрывающих эту задачу. Обратная сторона ссылки
+// со страницы вендора: посетитель раздела назначения ПО видит, чем именно
+// задача закрывается, и уходит на карточку, а не в общий каталог.
+const solutionVendors = solution
+  ? vendorsForSolution(solution.slug)
+      .map((slug) => VENDORS.find((v) => v.slug === slug))
+      .filter((v): v is (typeof VENDORS)[number] => Boolean(v))
+      .slice(0, 8)
+  : [];
 ---
 {planned ? (
   <ScaffoldPage
@@ -59,10 +71,31 @@ const { solution, planned } = Astro.props as { solution: Solution; planned: Plan
       </div>
     </section>
 
+    {solutionVendors.length > 0 && (
+      <section class="related">
+        <h2>Производители под эту задачу</h2>
+        <div class="vend-grid">
+          {solutionVendors.map((v) => (
+            <a href={`/vendors/${v.slug}`} class="card card-hover vend">
+              <b>{v.title || v.vendor}</b>
+              <span class="muted">{v.tagline}</span>
+            </a>
+          ))}
+        </div>
+      </section>
+    )}
+
     <FAQ items={solution.faq} />
   </div>
   <CTASection />
 </BaseLayout>
+
+<script>
+  // Страницы назначения ПО — вход в каталог не через бренд, а через задачу.
+  // Отдельная цель показывает, работает ли этот путь вообще.
+  import { trackGoal } from '@/lib/analytics';
+  trackGoal('view_solution', { page_url: location.pathname });
+</script>
 )}
 
 <style>
@@ -83,4 +116,8 @@ const { solution, planned } = Astro.props as { solution: Solution; planned: Plan
   .rel-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; }
   .rel { padding: 1.2rem 1.4rem; font-weight: 600; color: var(--color-accent); }
   @media (max-width: 720px) { .cols { grid-template-columns: 1fr; } }
+  .vend-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; }
+  .vend { display: flex; flex-direction: column; gap: 0.35rem; padding: 1.1rem; }
+  .vend b { font-size: 1.02rem; }
+  .vend .muted { font-size: 0.88rem; line-height: 1.45; }
 </style>

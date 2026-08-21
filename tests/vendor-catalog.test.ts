@@ -23,13 +23,23 @@ const packages = allPackages
   .filter(({ pkg }) => !pkg.removed)
   .map(({ slug, pkg }) => ({ slug, pkg: { ...pkg, products: pkg.products.filter((p: { archive?: boolean }) => !p.archive) } }));
 
+// Из стоп-листа выведены решением руководителя 20.08.2026: SOLIDWORKS (прайс
+// вендора получен, восемь тарифов заведены), Atlassian и TeamViewer
+// (self-service checkout и оплата картой подтверждены, тарифы сняты со страниц
+// вендоров). Остальные позиции стоп-листа (docs/vendors-expansion-prompt.md,
+// раздел 6) остаются в силе.
 const STOP_LIST = ['sap', 'oracle', 'vmware', 'broadcom', 'veeam', 'citrix', 'cisco',
-  'salesforce', 'ibm', 'solidworks', 'archicad', 'red hat', 'redhat', 'canonical',
-  'mathworks', 'mongodb', 'elastic', 'teamviewer', 'atlassian', 'eset'];
+  'salesforce', 'ibm', 'archicad', 'red hat', 'redhat', 'canonical',
+  'mathworks', 'mongodb', 'elastic', 'eset'];
 
 const ALLOWED_CATEGORIES = ['system', 'security', 'development', 'collaboration',
   'architecture', 'vcs', 'office', 'design', 'ai', 'media', 'pm', 'monitoring',
-  'database', 'engineering'];
+  'database', 'engineering',
+  // Заведены 21.08.2026 под партию ManageEngine: четыре тысячи позиций про
+  // учётные записи, службу поддержки и парк рабочих мест не помещаются ни в
+  // один из прежних разделов. Создаёт их воркфлоу ops-categories по
+  // data/catalog/categories.json.
+  'iam', 'helpdesk', 'endpoint'];
 
 describe('VENDORS', () => {
   it('слаги уникальны', () => {
@@ -60,24 +70,64 @@ describe('пакеты scripts/catalog', () => {
     expect(packages.length).toBeGreaterThanOrEqual(9);
   });
 
+  it('цена из веб-исследования помечена честно, а не выдана за прайс поставщика', () => {
+    // Сайты части вендоров из среды недоступны: цена собрана по обзорам.
+    // Такая карточка обязана нести пометку и оговорку в notes — иначе через
+    // месяц никто не вспомнит, что число нужно подтвердить на checkout.
+    for (const { pkg } of packages) {
+      for (const p of pkg.products) {
+        if (p.price_confidence !== 'search-estimate') continue;
+        expect(String(p.notes || '').length, `${p.slug}.notes без пояснения происхождения цены`)
+          .toBeGreaterThan(40);
+      }
+    }
+  });
+
   it('обязательные поля SKU заполнены, sku = slug в верхнем регистре', () => {
     for (const { pkg } of packages) {
       for (const p of pkg.products) {
         expect(p.sku).toBe(String(p.slug).toUpperCase());
         expect(ALLOWED_CATEGORIES, `категория ${p.category} (${p.slug})`).toContain(p.category);
-        for (const f of ['name', 'short_description', 'description', 'keywords', 'billing']) {
+        expect(['published', 'draft']).toContain(p.status);
+        // Скрытая позиция конфигуратора страницы не имеет и в поиск не идёт:
+        // ключевые слова и список возможностей ей не нужны. Название, краткое
+        // описание и подпись к цене нужны — они уходят в КП покупателю.
+        const fields = p.status === 'published'
+          ? ['name', 'short_description', 'description', 'keywords', 'billing']
+          : ['name', 'short_description', 'billing'];
+        for (const f of fields) {
           expect(String(p[f] || '').length, `${p.slug}.${f} пуст`).toBeGreaterThan(3);
         }
-        expect(Array.isArray(p.features) && p.features.length >= 3, `${p.slug}.features`).toBe(true);
-        expect(['published', 'draft']).toContain(p.status);
+        if (p.status === 'published') {
+          expect(Array.isArray(p.features) && p.features.length >= 3, `${p.slug}.features`).toBe(true);
+        }
       }
     }
   });
 
   it('слаги товаров уникальны, enterprise/quote-only тарифы не заведены', () => {
-    const all = packages.flatMap(({ pkg }) => pkg.products.map((p: { slug: string; name: string }) => p));
+    const all = packages.flatMap(({ pkg }) =>
+      pkg.products.map((p: { slug: string; name: string; base_price_usd?: number | null }) => p));
     expect(new Set(all.map((p) => p.slug)).size).toBe(all.length);
-    for (const p of all) expect(p.name.toLowerCase(), `enterprise-тариф ${p.slug}`).not.toContain('enterprise');
+    // Запрет на enterprise-тарифы существует потому, что у большинства
+    // вендоров «Enterprise» означает «цены нет, обращайтесь в отдел продаж».
+    // У ManageEngine это не так: магазин вендора публикует цены редакций
+    // Enterprise и продаёт их тем же самообслуживаемым checkout'ом, а у
+    // PAM360 редакция Enterprise вообще единственная. Исключение узкое —
+    // только карточки, у которых есть подтверждённая снимком цена; позиции
+    // «по запросу» пайплайн Zoho в каталог не заводит вовсе.
+    // Подтверждено владельцем 21.08.2026: «Энтерпрайз он у этого вендора
+    // покупается как и остальные и доступен, его будем добавлять».
+    const fromZohoPipeline = (slug: string) =>
+      slug.startsWith('me-') || slug.startsWith('manageengine-');
+    for (const p of all) {
+      if (fromZohoPipeline(p.slug)) {
+        // Условие послабления: цена карточки взята со страницы вендора.
+        expect(p.base_price_usd, `${p.slug}: позиция без цены источника`).toBeGreaterThan(0);
+        continue;
+      }
+      expect(p.name.toLowerCase(), `enterprise-тариф ${p.slug}`).not.toContain('enterprise');
+    }
     // docker-business разрешён с 19.08.2026: поставка подтверждена поставщиком
     for (const bad of ['gitlab-ultimate', 'gitlab-dedicated', 'slack-enterprise']) {
       expect(all.map((p) => p.slug), `${bad} под запретом`).not.toContain(bad);
@@ -89,7 +139,14 @@ describe('пакеты scripts/catalog', () => {
       for (const p of pkg.products) {
         if (p.base_price_usd != null) {
           expect(p.base_price_usd).toBeGreaterThan(0);
-          expect(p.status).toBe('published');
+          // Цена без страницы допустима только у скрытых позиций
+          // конфигуратора: они лежат в базе черновиками, цену им считает та же
+          // ежедневная переоценка, а в поиск и каталог они не попадают.
+          if (p.status !== 'published') {
+            expect(p.status, `${p.slug}: цена у позиции со статусом ${p.status}`).toBe('draft');
+            expect(String(p.notes || ''), `${p.slug}: скрытая позиция без пометки`)
+              .toContain('конфигуратора');
+          }
         }
       }
     }

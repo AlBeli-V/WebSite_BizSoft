@@ -1,0 +1,91 @@
+# Выравнивание веток по main раз в час.
+#
+# Ветки расходятся с main молча, и цена расхождения растёт незаметно: одна
+# ветка сегодня отставала на 149 коммитов, другая — на 55, и слияние такой
+# ветки чуть не снесло 53 тысячи строк чужой работы. Конфликт, пойманный
+# через час, — три строки; тот же конфликт через неделю — полдня разбора.
+#
+# Механика односторонняя: main вливается в ветки, но не наоборот.
+# Автоматически отправлять работу из веток в main нельзя — туда попадёт
+# непроверенное. Держать ветки на свежем основании безопасно и как раз
+# предотвращает конфликты, пока они маленькие.
+#
+# Отправляется только то, что собирается: слияние без конфликтов ещё не
+# означает рабочее состояние. Ветка, которая не проходит проверку типов или
+# тесты, остаётся как была, а в отчёт идёт причина.
+name: git-sync-branches
+
+on:
+  schedule:
+    # 09:15 МСК и далее каждый час (в UTC на три часа меньше).
+    - cron: "15 * * * *"
+  workflow_dispatch:
+    inputs:
+      apply:
+        description: "false — только показать; true — выполнить слияния"
+        required: true
+        default: "true"
+        type: choice
+        options: ["true", "false"]
+      delete_merged:
+        description: "Удалять ветки, содержимое которых уже в main"
+        required: true
+        default: "false"
+        type: choice
+        options: ["false", "true"]
+
+permissions:
+  contents: write
+  issues: write
+
+concurrency:
+  # Два прогона одновременно будут толкаться за одни и те же ветки.
+  group: git-sync-branches
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: pnpm/action-setup@v4
+        with: { version: 9.15.9 }
+      - uses: actions/setup-node@v4
+        with: { node-version: 22, cache: pnpm }
+      - run: pnpm install --frozen-lockfile
+
+      - name: Sync
+        id: sync
+        run: |
+          set -o pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          python3 scripts/git/sync_branches.py \
+            ${{ (inputs.apply == 'false') && ' ' || '--apply' }} \
+            ${{ (inputs.delete_merged == 'true') && '--delete-merged' || ' ' }} \
+            2>&1 | tee /tmp/sync.txt
+
+      - name: Post to issue
+        # Отчёт только когда есть о чём: ежечасное «всё в порядке» в журнале
+        # приучает его пролистывать, и настоящая находка теряется среди них.
+        if: always()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            let out = '(нет вывода)';
+            try { out = fs.readFileSync('/tmp/sync.txt', 'utf8'); } catch {}
+            const idle = /Выровнено по main: 0[\s\S]*Конфликты, нужен человек: 0/.test(out)
+              && !/не собираются|── Ошибки/.test(out);
+            if (idle) {
+              core.info('Изменений нет — комментарий не создаётся.');
+              return;
+            }
+            await github.rest.issues.createComment({
+              owner: context.repo.owner, repo: context.repo.repo, issue_number: 22,
+              body: `### git-sync-branches\n\n\`\`\`\n${out.slice(0, 55000)}\n\`\`\``,
+            });

@@ -201,8 +201,11 @@
   /* Иконки производителей (.vi — VendorIcon.astro): монохром по умолчанию,
      полноцвет при наведении на саму иконку или её ссылку/карточку/кнопку */
   .vi { position: relative; display: inline-flex; flex-shrink: 0; }
-  .vi img { display: block; width: 100%; height: 100%; object-fit: contain; }
-  .vi .vi-color { position: absolute; inset: 0; opacity: 0; transition: opacity 0.15s ease; }
+  /* Оба слоя (mono и color) — абсолютные внутри фиксированного .vi:
+     размер задаёт inline-стиль .vi, слои гарантированно совпадают и не
+     подрезаются глобальными правилами img (height:auto, зум с дробным DPR). */
+  .vi img { display: block; position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; }
+  .vi .vi-color { opacity: 0; transition: opacity 0.15s ease; }
   /* grayscale страхует растровые «mono»-файлы пакета, где вшит цветной оригинал */
   .vi .vi-mono { transition: opacity 0.15s ease; filter: grayscale(1); }
   .vi:hover .vi-color,

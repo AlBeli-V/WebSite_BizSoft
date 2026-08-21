@@ -1,0 +1,111 @@
+# Публикация уникализированных текстов карточек в прод-Directus.
+# Источник — файл data/seo/product-descriptions.json из репозитория: он
+# попадает на сервер штатным деплоем, поэтому тексты проходят ревью в PR,
+# а воркфлоу лишь переносит согласованное в БД.
+# apply=false — показать план (было/стало) без записи. Журнал — issue #22.
+name: ops-apply-descriptions
+on:
+  workflow_dispatch:
+    inputs:
+      apply:
+        description: 'true — записать в Directus, false — только план'
+        required: true
+        default: 'false'
+      only:
+        description: 'Ограничить слагами через запятую (пусто — все из файла)'
+        required: false
+permissions:
+  issues: write
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Apply descriptions
+        id: run
+        uses: appleboy/ssh-action@v1
+        env:
+          P_APPLY: ${{ inputs.apply }}
+          P_ONLY: ${{ inputs.only }}
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          envs: P_APPLY,P_ONLY
+          capture_stdout: true
+          script: |
+            set -e
+            cd /opt/bizsoft
+            ADMIN_EMAIL=$(docker compose exec -T directus printenv ADMIN_EMAIL | tr -d '\r')
+            ADMIN_PASSWORD=$(docker compose exec -T directus printenv ADMIN_PASSWORD | tr -d '\r')
+            export ADMIN_EMAIL ADMIN_PASSWORD
+            python3 - <<'PYEOF'
+            import datetime, json, os, urllib.request
+            SRC = '/opt/bizsoft/astro-src/data/seo/product-descriptions.json'
+            base = 'http://127.0.0.1:8055'
+            def req(method, path, data=None, token=None):
+                r = urllib.request.Request(base + path, method=method,
+                    data=json.dumps(data).encode() if data is not None else None,
+                    headers={'Content-Type': 'application/json',
+                             **({'Authorization': f'Bearer {token}'} if token else {})})
+                return json.load(urllib.request.urlopen(r))
+            if not os.path.exists(SRC):
+                print('файл не найден:', SRC); print('деплой ещё не разложил тексты на сервер'); raise SystemExit(1)
+            mtime = datetime.datetime.utcfromtimestamp(os.path.getmtime(SRC)).isoformat()
+            payload = json.load(open(SRC, encoding='utf-8'))
+            texts = payload.get('products', payload)
+            print(f'источник: {SRC} (обновлён {mtime} UTC), позиций в файле: {len(texts)}')
+            only = [s.strip() for s in os.environ.get('P_ONLY', '').split(',') if s.strip()]
+            if only:
+                texts = {k: v for k, v in texts.items() if k in only}
+                print('ограничение по слагам:', len(texts))
+            apply = os.environ.get('P_APPLY', 'false').lower() == 'true'
+            auth = req('POST', '/auth/login', {'email': os.environ['ADMIN_EMAIL'], 'password': os.environ['ADMIN_PASSWORD']})
+            tok = auth['data']['access_token']
+            fields = ('short_description', 'description', 'meta_title', 'meta_description')
+            changed = skipped = missing = 0
+            for slug in sorted(texts):
+                new = texts[slug]
+                rows = req('GET', f'/items/products?filter[slug][_eq]={slug}'
+                           f'&fields=id,slug,name,{",".join(fields)}', token=tok)['data']
+                if not rows:
+                    print(f'[{slug}] НЕ НАЙДЕН в каталоге'); missing += 1; continue
+                cur = rows[0]
+                patch = {f: new[f] for f in fields if f in new and (cur.get(f) or '') != new[f]}
+                if not patch:
+                    skipped += 1; continue
+                print(f"[{slug}] {cur['name']}")
+                for f, v in patch.items():
+                    было = (cur.get(f) or '—')
+                    print(f'  {f}: было {len(было)} симв. → стало {len(v)} симв.')
+                    print(f'    было:  {было[:160]}')
+                    print(f'    стало: {v[:160]}')
+                if apply:
+                    req('PATCH', f"/items/products/{cur['id']}", patch, token=tok)
+                changed += 1
+            print(f'\nизменено: {changed}, без изменений: {skipped}, не найдено: {missing} | '
+                  f"режим: {'ПРИМЕНЕНО' if apply else 'план (без записи)'}")
+            PYEOF
+      - name: Save to file
+        run: |
+          cat > /tmp/ops-apply.txt <<'OPS_APPLY_EOF'
+          ${{ steps.run.outputs.stdout }}
+          OPS_APPLY_EOF
+      - name: Post to issue
+        uses: actions/github-script@v7
+        env:
+          APPLY: ${{ inputs.apply }}
+        with:
+          script: |
+            const lines = require('fs').readFileSync('/tmp/ops-apply.txt', 'utf8').split('\n');
+            const parts = []; let cur = '';
+            for (const l of lines) {
+              if (cur.length + l.length > 55000) { parts.push(cur); cur = ''; }
+              cur += l + '\n';
+            }
+            if (cur) parts.push(cur);
+            for (let i = 0; i < parts.length; i++) {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner, repo: context.repo.repo, issue_number: 22,
+                body: `### ops-apply-descriptions (apply=${process.env.APPLY}) (${i + 1}/${parts.length})\n\n\`\`\`\n${parts[i]}\`\`\``,
+              });
+            }

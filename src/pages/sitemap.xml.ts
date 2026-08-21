@@ -4,6 +4,7 @@ import type { APIRoute } from 'astro';
 import { getCollection } from 'astro:content';
 import { getCategories, getProducts, getVendors } from '../lib/directus';
 import { canonicalUrl } from '../lib/seo';
+import { isSourceUnavailable, serviceUnavailable } from '../lib/http';
 import { productNoindex } from '../lib/catalog';
 import { solutions } from '../data/solutions';
 import { comparisons } from '../data/comparisons';
@@ -54,6 +55,9 @@ export const GET: APIRoute = async () => {
     entries.push(urlEntry(`/vendors/${v.slug}`, 0.8, 'weekly'));
   }
   // Типовые лендинги для остальных вендоров каталога (живой список из БД).
+  // Сбой любого обращения к БД делает карту неполной. Отдавать её с кодом 200
+  // опаснее, чем не отдавать вовсе: поисковик воспримет исчезнувшие URL как
+  // снятые с публикации и начнёт выводить их из индекса. Поэтому 503.
   try {
     for (const r of await getVendors()) {
       const s = vendorSlug(r.vendor);
@@ -63,6 +67,7 @@ export const GET: APIRoute = async () => {
     }
   } catch (e) {
     console.error('sitemap vendors', e);
+    if (isSourceUnavailable(e)) return serviceUnavailable();
   }
 
   // Блог — только опубликованные (не draft), lastmod из updated/date.
@@ -73,7 +78,10 @@ export const GET: APIRoute = async () => {
       entries.push(urlEntry(`/blog/${p.id}`, 0.6, 'monthly', lastmod));
     }
   } catch (e) {
+    // Блог собирается из локальных файлов: сбой здесь означает поломку сборки,
+    // а не временную недоступность источника — карта всё равно неполна.
     console.error('sitemap blog', e);
+    return serviceUnavailable();
   }
 
   // Каталог из БД — только опубликованные; товары с noindex исключаем.
@@ -93,6 +101,7 @@ export const GET: APIRoute = async () => {
     }
   } catch (e) {
     console.error('sitemap catalog', e);
+    if (isSourceUnavailable(e)) return serviceUnavailable();
   }
 
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
