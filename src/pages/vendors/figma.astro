@@ -209,12 +209,7 @@ const ld = [
 </style>
 
 <script>
-  function track(name: string, params: Record<string, unknown> = {}) {
-    const w = window as unknown as { ym?: (...a: unknown[]) => void; gtag?: (...a: unknown[]) => void };
-    const id = (import.meta as { env: Record<string, string> }).env.PUBLIC_METRIKA_ID || '110206070';
-    if (typeof w.ym === 'function' && id) w.ym(Number(id), 'reachGoal', name, params);
-    if (typeof w.gtag === 'function') w.gtag('event', name, params);
-  }
-  track('view_figma_landing', { page_url: location.pathname });
-  document.querySelectorAll('[data-ev]').forEach((el) => el.addEventListener('click', () => track((el as HTMLElement).dataset.ev!, { block_name: 'figma' })));
+  import { trackGoal } from '@/lib/analytics';
+  trackGoal('view_figma_landing', { page_url: location.pathname });
+  document.querySelectorAll('[data-ev]').forEach((el) => el.addEventListener('click', () => trackGoal((el as HTMLElement).dataset.ev!, { block_name: 'figma' })));
 </script>

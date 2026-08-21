@@ -50,11 +50,27 @@ export const VENDOR_SOLUTIONS: Record<string, string[]> = {
   blackmagic: ['design-studios', 'inostrannoe-po-po-dogovoru'],
   avid: ['design-studios', 'inostrannoe-po-po-dogovoru'],
 
+  // Партия 20.08.2026
+  suno: ['ai-dlya-marketinga', 'ai-servisy-dlya-biznesa', 'marketing-agencies'],
+  'kling-ai': ['ai-dlya-marketinga', 'ai-servisy-dlya-biznesa', 'design-studios'],
+  'leonardo-ai': ['ai-dlya-dizainerov', 'design-studios', 'ai-servisy-dlya-biznesa'],
+  capcut: ['ai-dlya-marketinga', 'marketing-agencies', 'inostrannoe-po-po-dogovoru'],
+  cloudflare: ['it-companies', 'po-dlya-yurlic-po-schetu', 'inostrannoe-po-po-dogovoru'],
+  principle: ['design-studios', 'it-companies', 'inostrannoe-po-po-dogovoru'],
+  box: ['po-dlya-yurlic-po-schetu', 'it-companies', 'inostrannoe-po-po-dogovoru'],
+
   // Разработка
   unity: ['it-companies', 'inostrannoe-po-po-dogovoru'],
   'unreal-engine': ['it-companies', 'inostrannoe-po-po-dogovoru'],
   gitlab: ['it-companies', 'ai-dlya-razrabotchikov'],
   docker: ['it-companies', 'po-dlya-yurlic-po-schetu'],
+  atlassian: ['it-companies', 'po-dlya-yurlic-po-schetu', 'inostrannoe-po-po-dogovoru'],
+  postman: ['it-companies', 'ai-dlya-razrabotchikov', 'inostrannoe-po-po-dogovoru'],
+  sentry: ['it-companies', 'ai-dlya-razrabotchikov', 'po-dlya-yurlic-po-schetu'],
+  browserstack: ['it-companies', 'po-dlya-yurlic-po-schetu', 'inostrannoe-po-po-dogovoru'],
+  n8n: ['it-companies', 'ai-servisy-dlya-biznesa', 'po-dlya-yurlic-po-schetu'],
+  teamviewer: ['it-companies', 'po-dlya-yurlic-po-schetu', 'inostrannoe-po-po-dogovoru'],
+  zoho: ['it-companies', 'po-dlya-yurlic-po-schetu', 'inostrannoe-po-po-dogovoru'],
 };
 
 /** Обратная карта: какие вендоры показывать плитками на странице решения. */

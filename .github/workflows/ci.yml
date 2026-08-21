@@ -1,0 +1,47 @@
+# Проверки качества на каждый push и pull request.
+#
+# Задача — ловить поломку до деплоя. deploy.yml запускает свой набор перед
+# выкладкой, но срабатывает только на push в main, то есть уже поздно.
+#
+# Блокирующий состав наращивается по мере устранения находок аудита:
+# на этом шаге — тесты и проверка типов (проходят), смоук и проверки
+# артефакта пока в режиме отчёта (--baseline).
+name: ci
+
+on:
+  push:
+    branches-ignore: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install
+        run: pnpm install --frozen-lockfile
+
+      - name: Unit-тесты
+        run: pnpm test
+
+      - name: Проверка типов
+        run: pnpm typecheck
+
+      - name: Сборка
+        run: pnpm build
+
+      - name: Проверки артефакта
+        run: pnpm check:artifacts --baseline
+
+      - name: Смоук против стаба Directus
+        run: pnpm smoke --baseline

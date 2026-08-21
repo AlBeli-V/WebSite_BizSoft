@@ -32,7 +32,8 @@ describe('перелинковка вендор ↔ решение', () => {
   });
 
   it('новые вендоры спросового блока перелинкованы', () => {
-    for (const slug of ['anthropic', 'google', 'perplexity', 'cursor', 'github', 'notion', 'solidworks']) {
+    for (const slug of ['anthropic', 'google', 'perplexity', 'cursor', 'github', 'notion', 'solidworks',
+                        'suno', 'kling-ai', 'leonardo-ai', 'capcut', 'cloudflare', 'principle', 'box']) {
       expect(VENDOR_SOLUTIONS[slug], `${slug} без перелинковки`).toBeTruthy();
     }
   });

@@ -10,6 +10,7 @@ import QuestionForm from '../../components/QuestionForm.astro';
 import CTASection from '../../components/CTASection.astro';
 import JsonLd from '../../components/JsonLd.astro';
 import { getProductBySlug, findCanonicalProductSlug, getProductsBySlugs, galleryImages , getCurrencyRate } from '../../lib/directus';
+import { isSourceUnavailable, serviceUnavailable } from '../../lib/http';
 import { productSchema } from '../../lib/seo';
 import { effectivePrice, formatRub } from '../../lib/pricing';
 import { ORIGIN_LABEL, LICENSE_LABEL, listValues } from '../../lib/types';
@@ -24,7 +25,10 @@ let product = null;
 try {
   product = await getProductBySlug(slug!);
 } catch (e) {
+  // Сбой БД — это не «товара нет». Отдать 404 значит попросить робота
+  // выкинуть живую страницу из индекса; отдаём 503, см. lib/http.ts.
   console.error('product page error', e);
+  if (isSourceUnavailable(e)) return serviceUnavailable();
 }
 if (!product) {
   // 301 со старого slug на актуальный, если задан в old_slugs
@@ -33,6 +37,7 @@ if (!product) {
     if (canonical) return Astro.redirect(`/product/${canonical}`, 301);
   } catch (e) {
     console.error('product redirect lookup', e);
+    if (isSourceUnavailable(e)) return serviceUnavailable();
   }
   return new Response(null, { status: 404, statusText: 'Not Found' });
 }
@@ -410,6 +415,7 @@ try {
 </style>
 
 <script>
+  import { trackGoal } from '@/lib/analytics';
   import { addToCart } from '../../lib/cart-client';
   import { formatRub } from '../../lib/pricing';
 
@@ -449,9 +455,7 @@ try {
 
   addBtn?.addEventListener('click', () => {
     addToCart({ sku: addBtn.dataset.sku!, slug: addBtn.dataset.slug!, name: addBtn.dataset.name!, price: unit }, curQty());
-    const w = window as unknown as { ym?: (...a: unknown[]) => void };
-    const id = (import.meta as { env: Record<string, string> }).env.PUBLIC_METRIKA_ID;
-    if (typeof w.ym === 'function' && id) w.ym(Number(id), 'reachGoal', 'add_to_cart');
+    trackGoal('add_to_cart', { sku: addBtn.dataset.sku || '' });
     const def = addBtn.querySelector('.lbl-def') as HTMLElement;
     const add = addBtn.querySelector('.lbl-add') as HTMLElement;
     def.hidden = true; add.hidden = false;

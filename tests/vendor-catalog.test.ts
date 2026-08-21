@@ -23,12 +23,14 @@ const packages = allPackages
   .filter(({ pkg }) => !pkg.removed)
   .map(({ slug, pkg }) => ({ slug, pkg: { ...pkg, products: pkg.products.filter((p: { archive?: boolean }) => !p.archive) } }));
 
-// SOLIDWORKS исключён из стоп-листа 20.08.2026 решением руководителя: прайс
-// вендора получен, восемь тарифов заведены. Остальные позиции стоп-листа
-// (docs/vendors-expansion-prompt.md, раздел 6) остаются в силе.
+// Из стоп-листа выведены решением руководителя 20.08.2026: SOLIDWORKS (прайс
+// вендора получен, восемь тарифов заведены), Atlassian и TeamViewer
+// (self-service checkout и оплата картой подтверждены, тарифы сняты со страниц
+// вендоров). Остальные позиции стоп-листа (docs/vendors-expansion-prompt.md,
+// раздел 6) остаются в силе.
 const STOP_LIST = ['sap', 'oracle', 'vmware', 'broadcom', 'veeam', 'citrix', 'cisco',
   'salesforce', 'ibm', 'archicad', 'red hat', 'redhat', 'canonical',
-  'mathworks', 'mongodb', 'elastic', 'teamviewer', 'atlassian', 'eset'];
+  'mathworks', 'mongodb', 'elastic', 'eset'];
 
 const ALLOWED_CATEGORIES = ['system', 'security', 'development', 'collaboration',
   'architecture', 'vcs', 'office', 'design', 'ai', 'media', 'pm', 'monitoring',
@@ -61,6 +63,19 @@ describe('VENDORS', () => {
 describe('пакеты scripts/catalog', () => {
   it('партия загружена', () => {
     expect(packages.length).toBeGreaterThanOrEqual(9);
+  });
+
+  it('цена из веб-исследования помечена честно, а не выдана за прайс поставщика', () => {
+    // Сайты части вендоров из среды недоступны: цена собрана по обзорам.
+    // Такая карточка обязана нести пометку и оговорку в notes — иначе через
+    // месяц никто не вспомнит, что число нужно подтвердить на checkout.
+    for (const { pkg } of packages) {
+      for (const p of pkg.products) {
+        if (p.price_confidence !== 'search-estimate') continue;
+        expect(String(p.notes || '').length, `${p.slug}.notes без пояснения происхождения цены`)
+          .toBeGreaterThan(40);
+      }
+    }
   });
 
   it('обязательные поля SKU заполнены, sku = slug в верхнем регистре', () => {
