@@ -78,19 +78,35 @@ jobs:
             if data.get('dryRun'):
                 s = data['summary']
                 print(f"DRY-RUN: rows={s['rows']} create={s['create']} update={s['update']} errors={s['errors']}")
-                for i in data['items']:
+                for i in data['items'][:200]:
                     if i.get('errors'):
                         print(f"  ОШИБКА {i['sku']}: {'; '.join(i['errors'])}")
-                print("ЦЕНЫ (create):")
-                for i in data['items']:
-                    if i['mode'] == 'create':
-                        price = i['payload'].get('price')
-                        st = i['payload'].get('status')
-                        print(f"  {i['sku']}  →  {str(price) + ' RUB' if price else '(по запросу)'}  [{st}]")
+                # Партия ManageEngine это тысячи строк. Печатать их все нельзя:
+                # вывод уходит в переменную окружения следующего шага, а у неё
+                # лимит ядра 128 КБ — шаг падал с «Argument list too long».
+                # Да и простыню из четырёх тысяч строк никто читать не станет.
+                creates = [i for i in data['items'] if i['mode'] == 'create']
+                by_status = {}
+                for i in creates:
+                    st = i['payload'].get('status')
+                    by_status[st] = by_status.get(st, 0) + 1
+                no_price = [i for i in creates if not i['payload'].get('price')]
+                print(f"СОЗДАНИЕ: {len(creates)}; по статусам: "
+                      + ', '.join(f'{k}={v}' for k, v in sorted(by_status.items())))
+                print(f"  без рублёвой цены: {len(no_price)}"
+                      + (': ' + ', '.join(i['sku'] for i in no_price[:10]) if no_price else ''))
+                SHOW = 30
+                print(f"ЦЕНЫ (первые {min(SHOW, len(creates))} из {len(creates)}):")
+                for i in creates[:SHOW]:
+                    price = i['payload'].get('price')
+                    st = i['payload'].get('status')
+                    print(f"  {i['sku']}  →  {str(price) + ' RUB' if price else '(по запросу)'}  [{st}]")
             elif data.get('applied'):
                 print(f"APPLIED: created={data['created']} updated={data['updated']} failed={len(data['failed'])}")
-                for f in data['failed']:
+                for f in data['failed'][:50]:
                     print(f"  FAIL {f['sku']}: {f['error']}")
+                if len(data['failed']) > 50:
+                    print(f"  … и ещё {len(data['failed']) - 50} с ошибкой")
             else:
                 print('ответ:', json.dumps(data, ensure_ascii=False)[:1500])
             os.remove('/tmp/cards.xlsx')

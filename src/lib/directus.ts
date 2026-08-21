@@ -286,6 +286,39 @@ export async function getProductsBySkus(skus: string[]): Promise<Product[]> {
   });
 }
 
+/**
+ * Позиции конфигуратора ManageEngine: и опубликованные карточки, и скрытые.
+ *
+ * Скрытые позиции живут в базе со статусом draft — у них есть артикул и
+ * рублёвая цена, которую пересчитывает ежедневная переоценка, но нет ни
+ * страницы, ни места в каталоге и в sitemap. Конфигуратору и расчёту КП они
+ * нужны, иначе спецификацию нечем оценить.
+ *
+ * Фильтр по префиксу артикула — не украшение: без него любой черновик в
+ * базе, включая неготовые карточки других вендоров, стало бы можно
+ * подставить в корзину по угаданному sku.
+ */
+const ZOHO_SKU_PREFIX = /^(ME-|MANAGEENGINE-)/;
+
+export function isZohoConfiguratorSku(sku: string): boolean {
+  return ZOHO_SKU_PREFIX.test(sku);
+}
+
+export async function getZohoPositionsBySkus(skus: string[]): Promise<Product[]> {
+  const allowed = skus.filter(isZohoConfiguratorSku);
+  if (allowed.length === 0) return [];
+  return dx<Product[]>('/items/products', {
+    params: {
+      fields: PRODUCT_FIELDS,
+      filter: JSON.stringify({
+        sku: { _in: allowed },
+        status: { _in: ['published', 'draft'] },
+      }),
+      limit: -1,
+    },
+  });
+}
+
 /** Опубликованные товары по списку slug (для блоков «связанные товары»). */
 export async function getProductsBySlugs(slugs: string[]): Promise<Product[]> {
   if (!slugs.length) return [];
@@ -299,6 +332,32 @@ export async function getProductsBySlugs(slugs: string[]): Promise<Product[]> {
 }
 
 /** Все товары для инструментов цен (любой статус) — требует токен. */
+/**
+ * Поля, которых достаточно для переоценки по курсу ЦБ.
+ *
+ * Полная выборка тянет описания, тексты SEO, характеристики и вопросы —
+ * килобайты на позицию. На шести тысячах товаров это десятки мегабайт
+ * впустую: пересчёт смотрит только на себестоимость, коэффициент и текущую
+ * цену, а пишет одно поле.
+ */
+const REPRICE_FIELDS = [
+  // vendor и category.slug нужны не для расчёта, а для выбора области
+  // переоценки: без них переоценка «по вендору» тихо не нашла бы ни одного
+  // товара и отчиталась бы нулём изменений.
+  'id', 'sku', 'name', 'vendor', 'origin', 'status',
+  'price', 'base_price_usd', 'base_price_eur',
+  'peg_currency', 'peg_to_usd', 'markup_coeff', 'price_locked',
+  'category.slug',
+].join(',');
+
+/** Товары в объёме, достаточном для пересчёта цен. */
+export async function getProductsForReprice(): Promise<Product[]> {
+  return dx<Product[]>('/items/products', {
+    auth: true,
+    params: { fields: REPRICE_FIELDS, sort: 'id', limit: -1 },
+  });
+}
+
 export async function getAllProductsAdmin(): Promise<Product[]> {
   return dx<Product[]>('/items/products', {
     auth: true,
@@ -399,6 +458,77 @@ export async function patchProduct(id: string | number, payload: Record<string, 
 
 export async function createProduct(payload: Record<string, unknown>): Promise<{ id: string | number }> {
   return dx<{ id: string | number }>('/items/products', { auth: true, method: 'POST', body: payload });
+}
+
+/**
+ * Пакетная запись товаров.
+ *
+ * Раньше и импорт, и ежедневная переоценка писали по одному запросу на
+ * позицию. Пока в каталоге была тысяча товаров, это укладывалось; с
+ * позициями конфигуратора ManageEngine их около шести тысяч, и
+ * последовательный цикл перестаёт помещаться в отведённое время.
+ *
+ * Directus принимает массив в теле: POST создаёт все объекты разом, PATCH
+ * обновляет их по первичному ключу внутри каждого объекта. Одна сотня
+ * позиций уходит одним запросом вместо ста.
+ *
+ * Размер пакета — компромисс: слишком крупный упирается в лимит тела
+ * запроса и в таймаут самого Directus, слишком мелкий не даёт выигрыша.
+ */
+export const WRITE_BATCH = 100;
+
+export function chunk<T>(items: T[], size: number): T[][] {
+  const out: T[][] = [];
+  for (let i = 0; i < items.length; i += size) out.push(items.slice(i, i + size));
+  return out;
+}
+
+export interface BatchResult { ok: number; failed: { key: string; error: string }[] }
+
+/**
+ * Создать товары пачками. При ошибке пачки повторяем её по одному, чтобы
+ * из-за единственной плохой строки не потерять остальные девяносто девять.
+ */
+export async function createProductsBatch(
+  payloads: Record<string, unknown>[],
+  keyOf: (p: Record<string, unknown>) => string,
+): Promise<BatchResult> {
+  const result: BatchResult = { ok: 0, failed: [] };
+  for (const part of chunk(payloads, WRITE_BATCH)) {
+    try {
+      await dx('/items/products', { auth: true, method: 'POST', body: part });
+      result.ok += part.length;
+    } catch (e) {
+      for (const one of part) {
+        try { await createProduct(one); result.ok += 1; }
+        catch (inner) { result.failed.push({ key: keyOf(one), error: String(inner) }); }
+      }
+    }
+  }
+  return result;
+}
+
+/** Обновить товары пачками. Каждый объект обязан нести свой id. */
+export async function patchProductsBatch(
+  items: { id: string | number; payload: Record<string, unknown>; key: string }[],
+): Promise<BatchResult> {
+  const result: BatchResult = { ok: 0, failed: [] };
+  for (const part of chunk(items, WRITE_BATCH)) {
+    try {
+      await dx('/items/products', {
+        auth: true,
+        method: 'PATCH',
+        body: part.map((i) => ({ id: i.id, ...i.payload })),
+      });
+      result.ok += part.length;
+    } catch (e) {
+      for (const one of part) {
+        try { await patchProduct(one.id, one.payload); result.ok += 1; }
+        catch (inner) { result.failed.push({ key: one.key, error: String(inner) }); }
+      }
+    }
+  }
+  return result;
 }
 
 /** Текущий курс/настройки валюты (singleton-подобная коллекция). */

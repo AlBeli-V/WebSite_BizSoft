@@ -1,7 +1,7 @@
 export const prerender = false;
 
 import type { APIRoute } from 'astro';
-import { getProductsBySkus, createQuote, createLead, getLeads, createLeadEvent } from '../../lib/directus';
+import { getProductsBySkus, getZohoPositionsBySkus, createQuote, createLead, getLeads, createLeadEvent } from '../../lib/directus';
 import { leadFromQuote, describeQuote } from '../../lib/quote-lead';
 import { effectivePrice } from '../../lib/pricing';
 import { sendMail, managerEmail, salesFrom } from '../../lib/mailer';
@@ -85,7 +85,16 @@ export const POST: APIRoute = async ({ request }) => {
   // Пересчёт по авторитетным ценам из БД (с учётом акции на момент запроса)
   let products;
   try {
-    products = await getProductsBySkus(lines.map((l) => l.sku));
+    const skus = lines.map((l) => l.sku);
+    // Позиции конфигуратора ManageEngine страниц не имеют и лежат в базе
+    // черновиками. В КП они нужны: спецификацию, собранную конфигуратором,
+    // иначе нечем оценить.
+    const [published, hidden] = await Promise.all([
+      getProductsBySkus(skus),
+      getZohoPositionsBySkus(skus),
+    ]);
+    const seen = new Set(published.map((p) => p.sku));
+    products = [...published, ...hidden.filter((p) => !seen.has(p.sku))];
   } catch (e) {
     console.error('quote: getProductsBySkus failed', e);
     return new Response(JSON.stringify({ error: 'не удалось получить цены' }), { status: 502 });
