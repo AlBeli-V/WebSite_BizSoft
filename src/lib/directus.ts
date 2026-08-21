@@ -434,6 +434,77 @@ export async function createProduct(payload: Record<string, unknown>): Promise<{
   return dx<{ id: string | number }>('/items/products', { auth: true, method: 'POST', body: payload });
 }
 
+/**
+ * Пакетная запись товаров.
+ *
+ * Раньше и импорт, и ежедневная переоценка писали по одному запросу на
+ * позицию. Пока в каталоге была тысяча товаров, это укладывалось; с
+ * позициями конфигуратора ManageEngine их около шести тысяч, и
+ * последовательный цикл перестаёт помещаться в отведённое время.
+ *
+ * Directus принимает массив в теле: POST создаёт все объекты разом, PATCH
+ * обновляет их по первичному ключу внутри каждого объекта. Одна сотня
+ * позиций уходит одним запросом вместо ста.
+ *
+ * Размер пакета — компромисс: слишком крупный упирается в лимит тела
+ * запроса и в таймаут самого Directus, слишком мелкий не даёт выигрыша.
+ */
+export const WRITE_BATCH = 100;
+
+export function chunk<T>(items: T[], size: number): T[][] {
+  const out: T[][] = [];
+  for (let i = 0; i < items.length; i += size) out.push(items.slice(i, i + size));
+  return out;
+}
+
+export interface BatchResult { ok: number; failed: { key: string; error: string }[] }
+
+/**
+ * Создать товары пачками. При ошибке пачки повторяем её по одному, чтобы
+ * из-за единственной плохой строки не потерять остальные девяносто девять.
+ */
+export async function createProductsBatch(
+  payloads: Record<string, unknown>[],
+  keyOf: (p: Record<string, unknown>) => string,
+): Promise<BatchResult> {
+  const result: BatchResult = { ok: 0, failed: [] };
+  for (const part of chunk(payloads, WRITE_BATCH)) {
+    try {
+      await dx('/items/products', { auth: true, method: 'POST', body: part });
+      result.ok += part.length;
+    } catch (e) {
+      for (const one of part) {
+        try { await createProduct(one); result.ok += 1; }
+        catch (inner) { result.failed.push({ key: keyOf(one), error: String(inner) }); }
+      }
+    }
+  }
+  return result;
+}
+
+/** Обновить товары пачками. Каждый объект обязан нести свой id. */
+export async function patchProductsBatch(
+  items: { id: string | number; payload: Record<string, unknown>; key: string }[],
+): Promise<BatchResult> {
+  const result: BatchResult = { ok: 0, failed: [] };
+  for (const part of chunk(items, WRITE_BATCH)) {
+    try {
+      await dx('/items/products', {
+        auth: true,
+        method: 'PATCH',
+        body: part.map((i) => ({ id: i.id, ...i.payload })),
+      });
+      result.ok += part.length;
+    } catch (e) {
+      for (const one of part) {
+        try { await patchProduct(one.id, one.payload); result.ok += 1; }
+        catch (inner) { result.failed.push({ key: one.key, error: String(inner) }); }
+      }
+    }
+  }
+  return result;
+}
+
 /** Текущий курс/настройки валюты (singleton-подобная коллекция). */
 export async function getCurrencyRate(): Promise<CurrencyRate | null> {
   const data = await dx<CurrencyRate[]>('/items/currency_rate', {

@@ -2,7 +2,7 @@ export const prerender = false;
 
 import type { APIRoute } from 'astro';
 import * as XLSX from 'xlsx';
-import { getAllProductsAdmin, getCategories, getCurrencyRate, createProduct, patchProduct } from '../../../lib/directus';
+import { getAllProductsAdmin, getCategories, getCurrencyRate, createProductsBatch, patchProductsBatch } from '../../../lib/directus';
 import { checkAdmin, unauthorized } from '../../../lib/admin-auth';
 import { buildPlan, canonRow, type RawRow } from '../../../lib/bulk-import';
 import { parseCsv } from '../../../lib/csv';
@@ -63,21 +63,32 @@ export const POST: APIRoute = async ({ request }) => {
     return new Response(JSON.stringify({ dryRun: true, ...plan }), { status: 200, headers: { 'Content-Type': 'application/json' } });
   }
 
-  // 4) применение
+  // 4) применение — пачками. Партия ManageEngine это тысячи позиций, и запрос
+  // на каждую в отведённое время не укладывается. При сбое пачки она
+  // повторяется по одной позиции, чтобы одна плохая строка не уносила с собой
+  // остальные девяносто девять.
   const idBySku = new Map(products.map((p) => [p.sku, p.id]));
-  let created = 0, updated = 0;
   const failed: { sku: string; error: string }[] = [];
+
+  const toCreate = plan.items.filter((i) => i.mode === 'create');
+  const toUpdate: { id: string | number; payload: Record<string, unknown>; key: string }[] = [];
   for (const item of plan.items) {
-    try {
-      if (item.mode === 'create') { await createProduct(item.payload); created++; }
-      else if (item.mode === 'update') {
-        const id = idBySku.get(item.sku);
-        if (id == null) { failed.push({ sku: item.sku, error: 'не найден id' }); continue; }
-        await patchProduct(id, item.payload); updated++;
-      }
-    } catch (e) {
-      failed.push({ sku: item.sku, error: (e as Error).message.slice(0, 160) });
-    }
+    if (item.mode !== 'update') continue;
+    const id = idBySku.get(item.sku);
+    if (id == null) { failed.push({ sku: item.sku, error: 'не найден id' }); continue; }
+    toUpdate.push({ id, payload: item.payload, key: item.sku });
+  }
+
+  const skuByPayload = new Map(toCreate.map((i) => [i.payload, i.sku]));
+  const createRes = await createProductsBatch(
+    toCreate.map((i) => i.payload),
+    (payload) => skuByPayload.get(payload) || String(payload.sku || ''),
+  );
+  const updateRes = await patchProductsBatch(toUpdate);
+  const created = createRes.ok;
+  const updated = updateRes.ok;
+  for (const f of [...createRes.failed, ...updateRes.failed]) {
+    failed.push({ sku: f.key, error: f.error.slice(0, 160) });
   }
   console.log(`[ADMIN][import] created=${created} updated=${updated} failed=${failed.length} skipped=${plan.items.filter(i=>i.mode==='skip'&&!i.errors.length).length}`);
   return new Response(JSON.stringify({ applied: true, created, updated, failed, summary: plan.summary }), {
