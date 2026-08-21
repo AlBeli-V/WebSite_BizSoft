@@ -1,8 +1,10 @@
 # Категории каталога («Назначение ПО») в прод-Directus.
 #
-# Делает две вещи, которые в админке пришлось бы делать руками по одной:
+# Делает три вещи, которые в админке пришлось бы делать руками по одной:
 #   1) заводит недостающие разделы каталога;
-#   2) проставляет им intro — текст, который покупатель видит на плитке
+#   2) сливает дубли разделов: товары переезжают в основной раздел, дубль
+#      уходит с витрины (в archived, не удаляется);
+#   3) проставляет разделам intro — текст, который покупатель видит на плитке
 #      раздела и подзаголовком на странице раздела.
 #
 # Источник — `data/catalog/categories.json` в репозитории: тексты правятся
@@ -54,36 +56,76 @@ jobs:
           command_timeout: 10m
           script: |
             set -e
-            TOKEN=$(sed -n 's/^DIRECTUS_TOKEN=//p' /opt/bizsoft/astro.env | tr -d '"\r')
-            if [ -z "$TOKEN" ]; then echo "DIRECTUS_TOKEN не найден"; exit 1; fi
-            export TOKEN
             python3 - <<'PY'
             import json, os, urllib.request
 
-            token = os.environ['TOKEN']
             apply = os.environ.get('APPLY', 'false') == 'true'
             BASE = 'http://127.0.0.1:8055'
 
-            def call(method, path, body=None):
+            def read_env(path):
+                """Значения из env-файла: split по первому '=', без shell."""
+                out = {}
+                try:
+                    with open(path, encoding='utf-8', errors='replace') as f:
+                        for line in f:
+                            line = line.strip()
+                            if not line or line.startswith('#') or '=' not in line:
+                                continue
+                            k, v = line.split('=', 1)
+                            out[k.strip()] = v.strip().strip('"').strip("'")
+                except OSError:
+                    pass
+                return out
+
+            env = {}
+            for path in ('/opt/bizsoft/.env', '/opt/bizsoft/astro.env'):
+                for k, v in read_env(path).items():
+                    env.setdefault(k, v)
+
+            def call(method, path, body=None, token=None):
                 data = json.dumps(body).encode() if body is not None else None
                 req = urllib.request.Request(BASE + path, data=data, method=method)
-                req.add_header('Authorization', f'Bearer {token}')
+                if token:
+                    req.add_header('Authorization', f'Bearer {token}')
                 if data:
                     req.add_header('Content-Type', 'application/json')
                 with urllib.request.urlopen(req, timeout=180) as r:
                     raw = r.read()
                 return json.loads(raw)['data'] if raw else None
 
+            read_token = env.get('DIRECTUS_TOKEN')
+            if not read_token:
+                raise SystemExit('DIRECTUS_TOKEN не найден')
+
+            # Токен сайта умеет читать, но не писать: первый прогон получил на
+            # создании раздела HTTP 403. Расширять права служебной роли ради
+            # разовой операции незачем — на запись логинимся администратором,
+            # тем же способом, что и ops-directus-schema.
+            write_token = None
+            email = env.get('ADMIN_EMAIL') or env.get('DIRECTUS_ADMIN_EMAIL')
+            password = env.get('ADMIN_PASSWORD') or env.get('DIRECTUS_ADMIN_PASSWORD')
+            if email and password:
+                try:
+                    write_token = call('POST', '/auth/login',
+                                       {'email': email, 'password': password})['access_token']
+                    print('вход администратором: успешно')
+                except Exception as e:  # noqa: BLE001 — причина нужна в журнале
+                    print(f'вход администратором не удался: {type(e).__name__}')
+            else:
+                print('ADMIN_EMAIL/ADMIN_PASSWORD не найдены в /opt/bizsoft/.env')
+
             plan = json.load(open('/tmp/bz-categories/categories.json'))
             intros = plan.get('intro', {})
             creates = plan.get('create', [])
+            merges = plan.get('merge', {})
 
             cats = call('GET', '/items/categories?limit=-1'
-                        '&fields=id,slug,name,sort,status,intro&sort=sort,name')
+                        '&fields=id,slug,name,sort,status,intro&sort=sort,name',
+                        token=read_token)
             by_slug = {c['slug']: c for c in cats}
 
             products = call('GET', '/items/products?limit=-1'
-                            '&fields=status,vendor,category.slug')
+                            '&fields=id,status,vendor,category.slug', token=read_token)
             counts = {}
             for p in products:
                 cat = p.get('category') or {}
@@ -112,6 +154,22 @@ jobs:
             todo_create = [c for c in creates if c['slug'] not in by_slug]
             for c in todo_create:
                 print(f"  + создать раздел {c['slug']} «{c['name']}» (sort={c.get('sort')})")
+
+            # Слияние дублей: товары переезжают в основной раздел, дубль уходит
+            # с витрины. Раздел не удаляем, адрес отдаёт 301 — не 404.
+            todo_merge = []
+            for dup, canon in merges.items():
+                if dup not in by_slug:
+                    continue
+                if canon not in by_slug:
+                    print(f"  ! слияние {dup} → {canon}: основного раздела нет")
+                    continue
+                moving = [p for p in products
+                          if (p.get('category') or {}).get('slug') == dup]
+                todo_merge.append((dup, canon, moving))
+                print(f"  → слить {dup} в {canon}: переедет товаров {len(moving)}, "
+                      f"дубль уходит в archived")
+
             todo_intro = []
             for slug, text in intros.items():
                 cur = by_slug.get(slug)
@@ -123,29 +181,46 @@ jobs:
                     todo_intro.append((slug, cur))
                     was = (cur.get('intro') or '').strip() or '(пусто)'
                     print(f"  ~ {slug}: было «{was[:60]}» → станет «{text[:60]}…»")
-            missing = [c['slug'] for c in cats if c['slug'] not in intros]
+            missing = [c['slug'] for c in cats
+                       if c['slug'] not in intros and c['slug'] not in merges]
             if missing:
                 print(f"  ? без текста в плане: {', '.join(missing)}")
 
             if not apply:
                 print('\nОТЧЁТ. Ничего не записано (apply=false).')
                 raise SystemExit(0)
+            if not write_token:
+                raise SystemExit('\nЗАПИСЬ НЕВОЗМОЖНА: нет админского доступа к Directus.')
 
             for c in todo_create:
                 created = call('POST', '/items/categories', {
                     'slug': c['slug'], 'name': c['name'], 'status': 'published',
                     'sort': c.get('sort'), 'intro': intros.get(c['slug'], ''),
-                })
+                }, token=write_token)
                 by_slug[c['slug']] = created
                 print(f"создан раздел {c['slug']} (id={created['id']})")
 
+            moved = 0
+            for dup, canon, moving in todo_merge:
+                canon_id = by_slug[canon]['id']
+                for p in moving:
+                    call('PATCH', f"/items/products/{p['id']}",
+                         {'category': canon_id}, token=write_token)
+                    moved += 1
+                call('PATCH', f"/items/categories/{by_slug[dup]['id']}",
+                     {'status': 'archived'}, token=write_token)
+                print(f"слито {dup} → {canon}: перенесено {len(moving)}")
+
+            created_slugs = {c['slug'] for c in todo_create}
             patched = 0
             for slug, cur in todo_intro:
-                if slug in {c['slug'] for c in todo_create}:
+                if slug in created_slugs:
                     continue  # intro уже проставлен при создании
-                call('PATCH', f"/items/categories/{cur['id']}", {'intro': intros[slug]})
+                call('PATCH', f"/items/categories/{cur['id']}",
+                     {'intro': intros[slug]}, token=write_token)
                 patched += 1
             print(f"\nПРИМЕНЕНО: создано разделов {len(todo_create)}, "
+                  f"слито дублей {len(todo_merge)} (товаров перенесено {moved}), "
                   f"обновлено описаний {patched}")
             PY
 
