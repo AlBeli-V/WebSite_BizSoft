@@ -176,6 +176,52 @@ class TestExperimentControl(unittest.TestCase):
         self.assertEqual(v, "observing")
 
 
+class TestMeasurementLimits(unittest.TestCase):
+    """Реестр пределов измерения: активный предупреждает, объявленный молчит."""
+
+    @classmethod
+    def setUpClass(cls):
+        cls.q = load("quality")
+
+    def _findings(self, limits, start="2026-08-07", end="2026-08-21"):
+        """Тот же разбор записей, что в run_checks, но без снимка целиком."""
+        out = []
+        for lim in limits:
+            resolved = lim.get("resolved_on")
+            if lim.get("status") == "planned" and not resolved:
+                continue
+            if not resolved:
+                out.append(("MEASUREMENT_GAP", lim["id"]))
+            elif start <= resolved <= end:
+                out.append(("MEASUREMENT_CHANGE", lim["id"]))
+        return out
+
+    def test_registry_is_readable(self):
+        limits = self.q.load_measurement_limits()
+        self.assertTrue(limits)
+        for lim in limits:
+            for field in ("id", "title", "detail", "evidence", "rule"):
+                self.assertTrue(lim.get(field), f"{lim.get('id')}: пусто поле {field}")
+
+    def test_anl_001_is_an_open_gap(self):
+        """Починка целей Метрики не выложена — дату закрытия ставить нельзя."""
+        anl = next(l for l in self.q.load_measurement_limits() if l["id"] == "ANL-001")
+        self.assertIsNone(anl["resolved_on"])
+        self.assertIn(("MEASUREMENT_GAP", "ANL-001"), self._findings([anl]))
+
+    def test_planned_limit_is_silent(self):
+        planned = {"id": "X", "status": "planned", "resolved_on": None}
+        self.assertEqual(self._findings([planned]), [])
+
+    def test_planned_limit_speaks_once_dated(self):
+        happened = {"id": "X", "status": "planned", "resolved_on": "2026-08-10"}
+        self.assertEqual(self._findings([happened]), [("MEASUREMENT_CHANGE", "X")])
+
+    def test_resolved_outside_window_is_not_a_finding(self):
+        old = {"id": "X", "resolved_on": "2026-07-01"}
+        self.assertEqual(self._findings([old]), [])
+
+
 class TestExpansionGuard(unittest.TestCase):
     """Уже заведённого вендора нельзя предлагать завести."""
 

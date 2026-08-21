@@ -137,6 +137,10 @@ def run_checks(snap: dict) -> dict:
     end = ga4_src.get("current_period_end") or snap.get("report_date", "")
     for lim in load_measurement_limits():
         resolved = lim.get("resolved_on")
+        # Запись, объявленная заранее, молчит до своей даты: предупреждать о том,
+        # что ещё не сделано, значит приучать читателя пропускать этот раздел.
+        if lim.get("status") == "planned" and not resolved:
+            continue
         if not resolved:
             add("warning", "MEASUREMENT_GAP",
                 lim["title"],
