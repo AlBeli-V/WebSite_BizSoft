@@ -27,7 +27,7 @@ const d = post.data;
 const pageUrl = canonicalUrl(`/blog/${post.id}`);
 
 // связанные товары/решения
-let relatedProducts = [];
+let relatedProducts: Awaited<ReturnType<typeof getProductsBySlugs>> = [];
 try {
   if (d.relatedProducts.length) relatedProducts = await getProductsBySlugs(d.relatedProducts);
 } catch (e) {
@@ -35,7 +35,7 @@ try {
 }
 const relatedSolutions = d.relatedSolutions
   .map((slug) => solutions.find((s) => s.slug === slug))
-  .filter(Boolean);
+  .filter((s): s is NonNullable<typeof s> => Boolean(s));
 
 const articleSchema = {
   '@context': 'https://schema.org',

@@ -7,6 +7,8 @@
 import Breadcrumbs from './Breadcrumbs.astro';
 import FAQ from './FAQ.astro';
 import LeadForm from './LeadForm.astro';
+import { VENDOR_SOLUTIONS } from '../data/vendor-solutions';
+import { solutions } from '../data/solutions';
 import QuestionForm from './QuestionForm.astro';
 import VendorLogo from './VendorLogo.astro';
 import JsonLd from './JsonLd.astro';
@@ -91,6 +93,12 @@ const ld = [
   faqSchema(faq),
   breadcrumbSchema([{ name: 'Главная', url: '/' }, ...crumbs]),
 ];
+
+// Раздел назначения ПО: какие решения под задачу отвечают на вопрос
+// «как оформить это на компанию». Вендоров без записи блок не рендерит.
+const solutionLinks = (VENDOR_SOLUTIONS[entry.slug] || [])
+  .map((s) => solutions.find((x) => x.slug === s))
+  .filter((x): x is (typeof solutions)[number] => Boolean(x));
 ---
 <JsonLd schema={ld} />
 <div class="container-page section" style={`--vc:${entry.brandColor}`}>
@@ -185,6 +193,22 @@ const ld = [
     <section class="block">
       <h2>Сценарии использования</h2>
       <div class="cells">{content.scenarios!.map((s) => (<div class="card cell"><h3>{s.title}</h3><p>{s.text}</p></div>))}</div>
+    </section>
+  )}
+
+  <!-- Решения под задачу -->
+  {solutionLinks.length > 0 && (
+    <section class="block" id="solutions">
+      <h2>{title} под задачу бизнеса</h2>
+      <div class="prose-bizsoft"><p>Как оформить {title} на организацию и что получит бухгалтерия — в разделе решений:</p></div>
+      <div class="sol-tiles">
+        {solutionLinks.map((s) => (
+          <a href={`/solutions/${s.slug}`} class="card card-hover sol-tile">
+            <b>{s.title}</b>
+            <span class="muted">{s.metaDescription}</span>
+          </a>
+        ))}
+      </div>
     </section>
   )}
 
@@ -298,17 +322,16 @@ const ld = [
   .cells { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1rem; }
   .cell { padding: 1.3rem; } .cell h3 { font-size: 1.05rem; margin-bottom: 0.4rem; } .cell p { color: var(--color-text-muted); font-size: 0.9rem; }
   @media (max-width: 880px) { .final-grid { grid-template-columns: 1fr; } }
+  .sol-tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; margin-top: 1rem; }
+  .sol-tile { display: flex; flex-direction: column; gap: 0.35rem; padding: 1rem; }
+  .sol-tile b { font-size: 1rem; }
+  .sol-tile .muted { font-size: 0.9rem; line-height: 1.45; }
 </style>
 
 <script>
-  function track(name: string, params: Record<string, unknown> = {}) {
-    const w = window as unknown as { ym?: (...a: unknown[]) => void; gtag?: (...a: unknown[]) => void };
-    const id = (import.meta as { env: Record<string, string> }).env.PUBLIC_METRIKA_ID || '110206070';
-    if (typeof w.ym === 'function' && id) w.ym(Number(id), 'reachGoal', name, params);
-    if (typeof w.gtag === 'function') w.gtag('event', name, params);
-  }
-  track('view_vendor_landing', { page_url: location.pathname });
+  import { trackGoal } from '@/lib/analytics';
+  trackGoal('view_vendor_landing', { page_url: location.pathname });
   document.querySelectorAll('[data-ev]').forEach((el) => {
-    el.addEventListener('click', () => track((el as HTMLElement).dataset.ev!, { page_url: location.pathname }));
+    el.addEventListener('click', () => trackGoal((el as HTMLElement).dataset.ev!, { page_url: location.pathname }));
   });
 </script>

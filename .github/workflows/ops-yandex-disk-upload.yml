@@ -1,0 +1,50 @@
+# Выкладка файла из репозитория в папку Яндекс.Диска.
+# Нужен, потому что у сессии ассистента нет egress к API Диска: скачивание идёт
+# через ops-fetch-assets, а запись — отсюда. Сначала пробуется анонимная
+# загрузка в публичную папку (если владелец включил приём файлов по ссылке),
+# затем — загрузка по токену YANDEX_DISK_OAUTH, если секрет задан.
+# Результат — комментарий в журнал-issue #22.
+name: ops-yandex-disk-upload
+on:
+  workflow_dispatch:
+    inputs:
+      file:
+        description: 'Путь к файлу в репозитории'
+        required: true
+        default: 'exports/BIZSoft-партия-2026-08-20.xlsx'
+      public_url:
+        description: 'Ссылка на публичную папку Яндекс.Диска'
+        required: false
+        default: 'https://disk.yandex.ru/d/VL9LaDSkVgHEOg'
+      disk_path:
+        description: 'Путь на Диске для загрузки по токену'
+        required: false
+        default: '/'
+permissions:
+  contents: read
+  issues: write
+jobs:
+  upload:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Upload
+        id: run
+        continue-on-error: true
+        env:
+          FILE_PATH: ${{ inputs.file }}
+          PUBLIC_URL: ${{ inputs.public_url }}
+          DISK_PATH: ${{ inputs.disk_path }}
+          YANDEX_DISK_OAUTH: ${{ secrets.YANDEX_DISK_OAUTH }}
+        run: python3 scripts/ops/yandex-disk-upload.py 2>&1 | tee /tmp/ya-upload.txt
+      - name: Post to issue
+        uses: actions/github-script@v7
+        env:
+          RESULT: ${{ steps.run.outcome }}
+        with:
+          script: |
+            const out = require('fs').readFileSync('/tmp/ya-upload.txt', 'utf8').slice(0, 55000);
+            await github.rest.issues.createComment({
+              owner: context.repo.owner, repo: context.repo.repo, issue_number: 22,
+              body: `### ops-yandex-disk-upload (${process.env.RESULT})\n\n\`\`\`\n${out}\n\`\`\``,
+            });

@@ -1,6 +1,7 @@
 /**
  * Редакторский контент bespoke-лендинга Figma (/vendors/figma).
- * Цены и slug берутся ЖИВЫМИ из Directus по sku FIGMA-*; здесь — обвязка:
+ * Цены и slug берутся ЖИВЫМИ из Directus по вендору Figma (ключи меты —
+ * slug или sku товара); здесь — обвязка:
  * пояснение по типам мест, сравнение планов, сценарии, FAQ.
  */
 
@@ -30,6 +31,8 @@ export const FIGMA_CARD_META: Record<string, FigmaCardMeta> = {
   'FIGMA-ORG-FULL': { badge: 'Organization', forWhom: 'Дизайн-команды организации', features: ['Всё из Professional', 'Общие библиотеки между командами', 'Централизованное администрирование', 'Только годовая оплата'] },
   'FIGMA-ORG-DEV': { badge: 'Organization', forWhom: 'Разработчики организации', features: ['Dev Mode и хендофф', 'Централизованное управление доступом', 'Аналитика использования', 'Только годовая оплата'] },
   'FIGMA-ORG-COLLAB': { badge: 'Organization', forWhom: 'Стейкхолдеры организации', features: ['Просмотр и комментирование', 'FigJam', 'Контроль доступа', 'Только годовая оплата'] },
+  // Готовый годовой пакет плана Organization (в Directus — sku INT-DESIGN-FIGMA, ключ по slug).
+  'int-design-figma': { badge: 'Organization', forWhom: 'Годовой пакет на организацию', features: ['Full-места для дизайн-команды', 'Общие библиотеки между командами', 'Централизованное администрирование', 'Оформление и оплата одним счётом'] },
   'FIGMA-ENT-FULL': { badge: 'Enterprise', forWhom: 'Крупные дизайн-организации', features: ['Всё из Organization', 'Несколько воркспейсов', 'SSO и расширенная безопасность', 'Максимальные AI-кредиты'] },
   'FIGMA-ENT-DEV': { badge: 'Enterprise', forWhom: 'Разработчики Enterprise', features: ['Dev Mode и хендофф', 'SSO и безопасность', 'Централизованное администрирование', 'Только годовая оплата'] },
   'FIGMA-ENT-COLLAB': { badge: 'Enterprise', forWhom: 'Стейкхолдеры Enterprise', features: ['Просмотр и комментирование', 'FigJam', 'SSO и контроль доступа', 'Только годовая оплата'] },
@@ -38,17 +41,15 @@ export const FIGMA_CARD_META: Record<string, FigmaCardMeta> = {
 /** Порядок карточек. */
 export const FIGMA_ORDER = [
   'FIGMA-PROF-FULL', 'FIGMA-PROF-DEV', 'FIGMA-PROF-COLLAB',
-  'FIGMA-ORG-FULL', 'FIGMA-ORG-DEV', 'FIGMA-ORG-COLLAB',
+  'FIGMA-ORG-FULL', 'FIGMA-ORG-DEV', 'FIGMA-ORG-COLLAB', 'int-design-figma',
   'FIGMA-ENT-FULL', 'FIGMA-ENT-DEV', 'FIGMA-ENT-COLLAB',
 ];
 
-/** Сравнение планов (цена за Full seat/мес, годовая оплата). */
+/** Сравнение планов (возможности; рублёвые цены мест — в плитках выше). */
 export const FIGMA_COMPARISON = {
   cols: ['Professional', 'Organization', 'Enterprise'],
   rows: [
-    { label: 'Full seat (дизайн)', values: ['$16', '$55', '$90'] },
-    { label: 'Dev seat (разработка)', values: ['$12', '$25', '$35'] },
-    { label: 'Collab seat (просмотр)', values: ['$3', '$5', '$5'] },
+    { label: 'Типы мест', values: ['Full / Dev / Collab', 'Full / Dev / Collab', 'Full / Dev / Collab'] },
     { label: 'Библиотеки между командами', values: ['—', 'да', 'да'] },
     { label: 'SSO', values: ['—', '—', 'да'] },
     { label: 'Несколько воркспейсов', values: ['—', '—', 'да'] },

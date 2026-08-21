@@ -25,6 +25,7 @@ import { site, seller } from '../config/site';
 import { POPULAR_VENDORS } from '../data/popular';
 import { getProducts } from '../lib/directus';
 import { effectivePrice, formatRub } from '../lib/pricing';
+import type { Product } from '../lib/types';
 
 // Узнаваемые бренды для логопанели. Ссылки — на готовые лендинги.
 type Brand = { name: string; slug: string; color: string; blurb: string };
@@ -48,13 +49,13 @@ function textOn(hex: string): string {
 }
 
 // ── Живые данные каталога: цифры доверия, плитки категорий, товары с ценами ──
-let all = [];
+let all: Product[] = [];
 try {
   all = await getProducts();
 } catch (e) {
   console.error('home products error', e);
 }
-const catSlug = (p) => (typeof p.category === 'object' && p.category ? p.category.slug : '');
+const catSlug = (p: Product) => (typeof p.category === 'object' && p.category ? p.category.slug : '');
 const productCount = all.length;
 const vendorCount = new Set(all.map((p) => p.vendor).filter(Boolean)).size;
 // округляем вниз до десятка — «380+»
@@ -72,7 +73,7 @@ const tiles = [
 // Кураторский список бестселлеров (slug'и подтверждены в БД).
 const POPULAR_SLUGS = ['chatgpt-business', 'anthropic-team', 'ghcopilot-business', 'cursor-business', 'mscopilot-m365', 'gemini-workspace-standard', 'mj-standard', 'recraft-advanced'];
 const bySlug = new Map(all.map((p) => [p.slug, p]));
-const popular = POPULAR_SLUGS.map((s) => bySlug.get(s)).filter(Boolean);
+const popular = POPULAR_SLUGS.map((s) => bySlug.get(s)).filter((p): p is Product => Boolean(p));
 // Hero-карточки: первые 4 бестселлера с известной ценой.
 const heroCards = popular.filter((p) => effectivePrice(p).price > 0).slice(0, 4);
 const VENDOR_COLOR: Record<string, string> = {
@@ -186,7 +187,7 @@ const servicesItemList = {
                   {productIcons(p.slug).length > 0 ? (
                     <span class="mini-logo has-ico"><ProductIcon slug={p.slug} name={p.name} size={30} /></span>
                   ) : vendorIcon(vendorSlug(p.vendor || '')) ? (
-                    <span class="mini-logo has-ico"><VendorIcon slug={vendorSlug(p.vendor || '')} name={p.vendor} size={30} /></span>
+                    <span class="mini-logo has-ico"><VendorIcon slug={vendorSlug(p.vendor || '')} name={p.vendor || ''} size={30} /></span>
                   ) : (
                     <span class="mini-logo" style={`--bc:${color}; --tc:${textOn(color.startsWith('#') ? color : '#f2591d')}`}>{(p.vendor || p.name).slice(0, 1)}</span>
                   )}

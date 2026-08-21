@@ -1,0 +1,73 @@
+# Выгрузка текстового контента товарных карточек из прод-Directus
+# (short_description, description, meta_title, meta_description) — чтобы
+# видеть исходный текст перед уникализацией описаний под требования поиска.
+# Вход slugs — список слагов через запятую. Результат — в журнал-issue #22.
+name: ops-export-content
+on:
+  workflow_dispatch:
+    inputs:
+      slugs:
+        description: 'Слаги товаров через запятую'
+        required: true
+permissions:
+  issues: write
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Export content from Directus
+        id: run
+        uses: appleboy/ssh-action@v1
+        env:
+          P_SLUGS: ${{ inputs.slugs }}
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          envs: P_SLUGS
+          capture_stdout: true
+          script: |
+            set -e
+            TOKEN=$(sed -n 's/^DIRECTUS_TOKEN=//p' /opt/bizsoft/astro.env | tr -d '"\r')
+            export TOKEN
+            python3 - <<'PYEOF'
+            import json, os, urllib.parse, urllib.request
+            token = os.environ['TOKEN']
+            slugs = [s.strip() for s in os.environ['P_SLUGS'].split(',') if s.strip()]
+            fields = 'slug,name,vendor,price,short_description,description,meta_title,meta_description'
+            flt = urllib.parse.quote(json.dumps({'slug': {'_in': slugs}}))
+            url = f'http://localhost:8055/items/products?fields={fields}&limit=-1&filter={flt}'
+            req = urllib.request.Request(url, headers={'Authorization': f'Bearer {token}'})
+            rows = {r['slug']: r for r in json.load(urllib.request.urlopen(req))['data']}
+            for s in slugs:
+                r = rows.get(s)
+                if not r:
+                    print(f'### {s}\n  НЕ НАЙДЕН\n'); continue
+                print(f"### {s} — {r['name']} [{r.get('vendor')}] {r.get('price')} руб")
+                for f in ('short_description', 'description', 'meta_title', 'meta_description'):
+                    v = (r.get(f) or '').strip()
+                    print(f'  {f} ({len(v)} симв.): {v or "—"}')
+                print()
+            PYEOF
+      - name: Save to file
+        run: |
+          cat > /tmp/ops-content.txt <<'OPS_CONTENT_EOF'
+          ${{ steps.run.outputs.stdout }}
+          OPS_CONTENT_EOF
+      - name: Post to issue
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const lines = require('fs').readFileSync('/tmp/ops-content.txt', 'utf8').split('\n');
+            const parts = []; let cur = '';
+            for (const l of lines) {
+              if (cur.length + l.length > 55000) { parts.push(cur); cur = ''; }
+              cur += l + '\n';
+            }
+            if (cur) parts.push(cur);
+            for (let i = 0; i < parts.length; i++) {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner, repo: context.repo.repo, issue_number: 22,
+                body: `### ops-export-content (${i + 1}/${parts.length})\n\n\`\`\`\n${parts[i]}\`\`\``,
+              });
+            }

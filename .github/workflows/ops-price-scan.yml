@@ -1,0 +1,79 @@
+# Снятие тарифов с сайтов вендоров headless-Chrome'ом на раннере.
+# Зачем: у сессии Claude нет egress к сайтам вендоров, а ops-probe берёт
+# только статический HTML — у Atlassian, TeamViewer, n8n, BrowserStack и
+# ManageEngine цены рисует клиентский JS, и в curl их не видно.
+# Chrome --dump-dom отдаёт DOM после рендера; из него вырезается текст и
+# показываются строки с денежными суммами и словами тарифных планов.
+# Результат — комментарий в журнал-issue #22 (по одному на URL).
+name: ops-price-scan
+on:
+  workflow_dispatch:
+    inputs:
+      urls:
+        description: 'URL страниц через запятую'
+        required: true
+        default: 'https://www.atlassian.com/software/jira/pricing'
+      keywords:
+        description: 'Доп. слова для фильтра строк (через |)'
+        required: false
+        default: 'per user|per month|billed|annual|Standard|Premium|Free'
+permissions:
+  issues: write
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Render and extract
+        env:
+          URLS: ${{ inputs.urls }}
+          KEYWORDS: ${{ inputs.keywords }}
+        run: |
+          mkdir -p out
+          i=0
+          IFS=','
+          for u in $URLS; do
+            u="$(echo "$u" | xargs)"
+            [ -z "$u" ] && continue
+            i=$((i+1))
+            echo "== $u"
+            google-chrome --headless=new --no-sandbox --disable-gpu \
+              --virtual-time-budget=25000 --window-size=1440,3000 \
+              --dump-dom "$u" > "out/raw-$i.html" 2>/dev/null || true
+            python3 - "$u" "out/raw-$i.html" "out/txt-$i.txt" <<'PY'
+          import html, re, sys
+          url, src, dst = sys.argv[1], sys.argv[2], sys.argv[3]
+          doc = open(src, encoding='utf-8', errors='replace').read()
+          doc = re.sub(r'(?is)<(script|style|svg|noscript)[^>]*>.*?</\1>', ' ', doc)
+          doc = re.sub(r'(?s)<[^>]+>', '\n', doc)
+          doc = html.unescape(doc)
+          lines = [re.sub(r'\s+', ' ', ln).strip() for ln in doc.split('\n')]
+          out, prev = [], ''
+          for ln in lines:
+              if not ln or ln == prev:
+                  continue
+              prev = ln
+              out.append(ln)
+          open(dst, 'w', encoding='utf-8').write('\n'.join(out))
+          print(f'{url}: строк текста {len(out)}')
+          PY
+            {
+              echo "URL: $u"
+              echo "--- строки с суммами и тарифными словами ---"
+              grep -nE "[\$€£][0-9]|[0-9]+[.,]?[0-9]* ?(USD|EUR|руб)|${KEYWORDS}" "out/txt-$i.txt" \
+                | head -120 || echo "(нет совпадений)"
+            } > "out/report-$i.txt"
+            echo "$u" > "out/url-$i.txt"
+          done
+      - name: Post to issue
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const files = fs.readdirSync('out').filter((f) => f.startsWith('report-')).sort();
+            for (const f of files) {
+              const body = fs.readFileSync(`out/${f}`, 'utf8').slice(0, 55000);
+              await github.rest.issues.createComment({
+                owner: context.repo.owner, repo: context.repo.repo, issue_number: 22,
+                body: `### ops-price-scan\n\n\`\`\`\n${body}\n\`\`\``,
+              });
+            }

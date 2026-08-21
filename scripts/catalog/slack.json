@@ -1,0 +1,41 @@
+{
+  "vendor_entry": {
+    "slug": "slack",
+    "vendor": "Slack",
+    "legalName": "Slack Technologies, LLC (Salesforce)",
+    "brandColor": "#4A154B",
+    "site": "https://slack.com",
+    "catSeg": "vcs",
+    "catLabel": "ВКС и коммуникации",
+    "domain": "it",
+    "tagline": "Корпоративный мессенджер для командной работы: тарифы Pro и Business+ с полной историей сообщений и интеграциями.",
+    "about": "Slack — платформа деловых коммуникаций: каналы по проектам и отделам, аудио- и видеозвонки (huddles), обмен файлами и тысячи интеграций с рабочими сервисами. Платные тарифы нужны компаниям, которым важны полная история переписки, неограниченные интеграции, групповые звонки и корпоративные функции безопасности."
+  },
+  "products": [
+    {
+      "sku": "SLACK-PRO",
+      "slug": "slack-pro",
+      "name": "Slack Pro",
+      "archive": true
+    },
+    {
+      "sku": "SLACK-BUSINESS-PLUS",
+      "slug": "slack-business-plus",
+      "name": "Slack Business+",
+      "archive": true
+    }
+  ],
+  "rejected": [
+    {
+      "name": "Slack Enterprise+ (Enterprise Grid)",
+      "reason": "Старший корпоративный тариф для крупных организаций — только через отдел продаж, публичной цены для самостоятельной покупки нет (quote-only).",
+      "source_url": "https://slack.com/enterprise"
+    },
+    {
+      "name": "Slack Free",
+      "reason": "Бесплатный план с ограничениями (история 90 дней, 10 интеграций) — не является товаром.",
+      "source_url": "https://slack.com/pricing"
+    }
+  ],
+  "removed": true
+}

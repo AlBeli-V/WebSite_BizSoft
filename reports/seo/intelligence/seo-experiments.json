@@ -1,25 +1,80 @@
 {
-  "experiments": [
-    {
-      "id": "snippets-5-vendors",
-      "start": "2026-08-19",
-      "status": "running",
-      "pages": [
-        "/vendors/canva",
-        "/vendors/depositphotos",
-        "/vendors/coreldraw",
-        "/vendors/heygen",
-        "/vendors/marmoset"
-      ],
-      "changes": [
-        "title по формуле «Оплата {Vendor} для юр(идических )лиц из России — счёт, договор, ЭДО | BIZSoft» (HeyGen и Marmoset — свои формулы); ядро ≤65 символов",
-        "description: «Оплатим подписку {Vendor} на вашу компанию в рублях по счёту. Договор, закрывающие документы через ЭДО, доступ за 1–3 дня.» (≤160)",
-        "FAQ-блок «Как купить {Vendor} на юрлицо» — 4 вопроса (счёт и договор, ЭДО, сроки 1–3 дня, рубли по курсу ЦБ) с FAQPage-разметкой"
-      ],
-      "hypothesis": "Коммерческие сниппеты с явным интентом «оплата на юрлицо, счёт, договор, ЭДО» и FAQ-разметка поднимут кликабельность страниц в выдаче Яндекса по транзакционным запросам кластеров.",
-      "success_metric": "CTR кластеров Canva/Depositphotos/CorelDRAW/HeyGen/Marmoset в Яндекс.Вебмастере ≥2% через 7 дней (26.08.2026), ≥3% через 14 дней (02.09.2026)",
-      "control_group": "остальные vendor-страницы без изменений",
-      "source": "src/data/seo-experiments.ts (рендер: src/pages/vendors/[slug].astro → VendorLanding)"
-    }
-  ]
+ "experiments": [
+  {
+   "id": "snippets-5-vendors",
+   "ticket": "SEO-EXP-001",
+   "start": "2026-08-19",
+   "status": "running",
+   "pages": [
+    "/vendors/canva",
+    "/vendors/depositphotos",
+    "/vendors/coreldraw",
+    "/vendors/heygen",
+    "/vendors/marmoset"
+   ],
+   "changes": [
+    "title по формуле «Оплата {Vendor} для юр(идических )лиц из России — счёт, договор, ЭДО | BIZSoft» (HeyGen и Marmoset — свои формулы); ядро ≤65 символов",
+    "description: «Оплатим подписку {Vendor} на вашу компанию в рублях по счёту. Договор, закрывающие документы через ЭДО, доступ за 1–3 дня.» (≤160)",
+    "FAQ-блок «Как купить {Vendor} на юрлицо» — 4 вопроса (счёт и договор, ЭДО, сроки 1–3 дня, рубли по курсу ЦБ) с FAQPage-разметкой"
+   ],
+   "hypothesis": "Коммерческие сниппеты с явным интентом «оплата на юрлицо, счёт, договор, ЭДО» и FAQ-разметка поднимут кликабельность страниц в выдаче Яндекса по транзакционным запросам кластеров.",
+   "success_metric": "CTR кластеров Canva/Depositphotos/CorelDRAW/HeyGen/Marmoset в Яндекс.Вебмастере ≥2% через 7 дней (26.08.2026), ≥3% через 14 дней (02.09.2026)",
+   "control_group": "остальные vendor-страницы без изменений",
+   "source": "src/data/seo-experiments.ts (рендер: src/pages/vendors/[slug].astro → VendorLanding)"
+  },
+  {
+   "id": "cluster-depositphotos",
+   "ticket": "CONTENT-001",
+   "start": "2026-08-19",
+   "status": "running",
+   "pages": [
+    "/blog/kak-oplatit-depositphotos-dlya-yurlica",
+    "/vendors/depositphotos",
+    "/product/deposit-unl-year",
+    "/product/deposit-unl-month",
+    "/product/deposit-pack-100"
+   ],
+   "baseline": {
+    "period": "14 дней до 19.08.2026",
+    "impressions_cluster": 273,
+    "positions": "3–9",
+    "note": "Depositphotos — лидер спроса среди кластеров вендоров по данным Яндекс.Вебмастера"
+   },
+   "changes": [
+    "статья src/content/blog/kak-oplatit-depositphotos-dlya-yurlica.md: прямой ответ в первых двух предложениях, H2/H3, таблица сравнения тарифов (пакет 100 изображений, Unlimited месяц, Unlimited год), FAQ-блок из 6 вопросов с FAQPage-разметкой",
+    "частотные формулировки кластера в заголовках и тексте: «для юридических лиц», «в рублях», «по счёту», «пакет»",
+    "перелинковка статья → /vendors/depositphotos, /catalog, /documents и три карточки товаров",
+    "обратная перелинковка карточка → статья: product/[slug].astro выводит статьи, которые ссылаются на товар через relatedProducts (раньше блок статей был только у AI-вендоров)"
+   ],
+   "hypothesis": "Информационная статья под транзакционный интент «оплатить Depositphotos для юрлица» перехватывает запросы, по которым карточки и лендинг стоят на позициях 3–9, и передаёт им ссылочный вес через взаимную перелинковку — это поднимает показы всего кластера и выводит статью в топ-10.",
+   "success_metric": "рост показов кластера Depositphotos относительно базовых 273 показов за 14 дней и вход статьи /blog/kak-oplatit-depositphotos-dlya-yurlica в топ-10 Яндекса за 14 дней (контроль 02.09.2026)",
+   "control_group": "кластеры Canva, CorelDRAW, HeyGen, Marmoset — без статей блога",
+   "source": "src/content/blog/kak-oplatit-depositphotos-dlya-yurlica.md; обратные ссылки — src/pages/product/[slug].astro"
+  },
+  {
+   "id": "snippets-6-demand",
+   "ticket": "SEO-EXP-002",
+   "start": "2026-08-20",
+   "status": "running",
+   "pages": [
+    "/vendors/adobe",
+    "/vendors/autodesk",
+    "/vendors/procreate",
+    "/vendors/blackmagic",
+    "/vendors/midjourney",
+    "/vendors/clip-studio-paint"
+   ],
+   "changes": [
+    "title по формуле раздела, ядро ≤65 символов, бренд в title ровно один раз",
+    "description: «Оплатим подписку {Vendor} на вашу компанию в рублях по счёту. Договор, закрывающие документы через ЭДО, доступ за 1–3 дня.» (≤160)",
+    "FAQ-блок «Как купить {Vendor} на юрлицо» — 4 вопроса (счёт и договор, ЭДО, сроки 1–3 дня, рубли по курсу ЦБ) с FAQPage-разметкой",
+    "блок «{Vendor} под задачу бизнеса» со ссылками на раздел решений (/solutions)"
+   ],
+   "selection": "Отобраны по измеренному коммерческому спросу Вордстата на 20.08.2026: у всех шести кластеров ноль фраз в топ-10 Яндекса при заметной частотности. Целевые фразы: adobe купить — 3 887, autodesk license — 1 800, купить procreate — 823, davinci resolve купить — 531, clip studio paint купить — 417, midjourney подписка — 380.",
+   "hypothesis": "Коммерческие сниппеты с явным интентом «оплата на юрлицо, счёт, договор, ЭДО», FAQ-разметка и внутренние ссылки на раздел назначения ПО поднимут кликабельность и позиции по транзакционным запросам кластеров с подтверждённым спросом.",
+   "success_metric": "Появление фраз кластера в топ-10 Яндекс.Вебмастера и CTR ≥2% через 14 дней (03.09.2026), ≥3% через 30 дней (19.09.2026)",
+   "control_group": "остальные vendor-страницы без изменений; эксперимент snippets-5-vendors считается отдельно, пересечений нет",
+   "source": "src/data/seo-experiments.ts (рендер: src/pages/vendors/[slug].astro → VendorLanding)"
+  }
+ ]
 }

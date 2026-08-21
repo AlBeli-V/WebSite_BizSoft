@@ -1,0 +1,254 @@
+---
+export const prerender = false;
+
+/**
+ * Семейство продуктов ManageEngine: /vendors/zoho/<группа>/<семейство>.
+ *
+ * Показывает поставки семейства (подписка/вечная лицензия, облако/установка),
+ * редакции внутри каждой поставки и объёмы. Собрать спецификацию помогает
+ * конфигуратор: он знает правила совместимости и не даст выбрать то, чего
+ * вендор не поставит.
+ *
+ * Цена показывается только у позиций, заведённых в каталог: рублёвая цена
+ * пересчитывается по курсу ЦБ и хранится в Directus. Для остальных позиций
+ * прайс вендора известен, но цену на витрине не показываем — считаем под
+ * объём и отдаём в КП.
+ */
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../../../components/Breadcrumbs.astro';
+import CTASection from '../../../../components/CTASection.astro';
+import QuestionForm from '../../../../components/QuestionForm.astro';
+import JsonLd from '../../../../components/JsonLd.astro';
+import ProductIcon from '../../../../components/ProductIcon.astro';
+import ZohoConfigurator from '../../../../components/ZohoConfigurator.astro';
+import { zohoGroup, zohoFamily, ZOHO_RULES } from '../../../../data/zoho-hierarchy';
+import { ZOHO_HUB_ENABLED } from '../../../../lib/zoho-hub';
+import { getZohoPositionsBySkus } from '../../../../lib/directus';
+import { effectivePrice, formatRub } from '../../../../lib/pricing';
+import { site } from '../../../../config/site';
+import { breadcrumbSchema } from '../../../../lib/seo';
+import type { Product } from '../../../../lib/types';
+
+if (!ZOHO_HUB_ENABLED) return Astro.redirect('/vendors/zoho', 302);
+
+const { group: groupSlug, family: familySlug } = Astro.params;
+const group = groupSlug ? zohoGroup(groupSlug) : undefined;
+const family = groupSlug && familySlug ? zohoFamily(groupSlug, familySlug) : undefined;
+if (!group || !family) return new Response(null, { status: 404 });
+
+// Цены берём из базы по всем позициям семейства, включая скрытые: у них
+// страницы нет, но цена есть и пересчитывается ежедневной переоценкой.
+// Карточка отличается не наличием цены, а наличием собственной страницы.
+const allSkus = family.deployments.flatMap((d) => d.offers.flatMap(
+  (o) => o.variants.flatMap((v) => [v.sku, ...(v.amsSku ? [v.amsSku] : [])])));
+let live: Product[] = [];
+if (allSkus.length) {
+  try {
+    live = await getZohoPositionsBySkus(allSkus);
+  } catch (e) {
+    console.error(`zoho family products error (${family.slug})`, e);
+  }
+}
+const bySku = new Map(live.map((p) => [p.sku, p]));
+// Ссылка на карточку ведёт только туда, где карточка есть.
+const pageBySku = new Map(live.filter((p) => p.status === 'published').map((p) => [p.sku, p]));
+
+// Рублёвые цены для конфигуратора: он показывает сумму спецификации.
+const priceBySku: Record<string, number> = {};
+for (const p of live) {
+  const eff = effectivePrice(p).price;
+  if (eff > 0) priceBySku[p.sku] = eff;
+}
+
+const DEPLOYMENT_LABEL: Record<string, string> = {
+  saas: 'облачная поставка',
+  on_prem: 'установка на свои серверы',
+  unspecified: 'поставка по прайсу вендора',
+};
+const MODEL_LABEL: Record<string, string> = {
+  subscription: 'годовая подписка',
+  perpetual: 'вечная лицензия',
+  unspecified: '',
+};
+const KIND_LABEL: Record<string, string> = {
+  base: 'Базовые лицензии',
+  addon: 'Дополнения',
+  service: 'Работы вендора',
+};
+
+const deployments = family.deployments.map((d) => {
+  // Поставка без указанной вендором модели лицензии — это, как правило,
+  // набор дополнений к продукту, а не самостоятельная поставка. Называть её
+  // «поставка по прайсу вендора» рядом с «облачная поставка, годовая
+  // подписка» — сбивать покупателя с толку.
+  const onlyExtras = d.offers.every((o) => o.kind !== 'base');
+  const parts = d.licenseModel
+    ? [DEPLOYMENT_LABEL[d.deployment], MODEL_LABEL[d.licenseModel]].filter(Boolean)
+    : [onlyExtras ? 'Дополнения к продукту' : DEPLOYMENT_LABEL[d.deployment]];
+  return {
+    ...d,
+    label: parts.join(', '),
+    // Внутри поставки предложения идут в порядке «сначала лицензии, потом
+    // дополнения, в конце работы»: покупатель собирает спецификацию сверху вниз.
+    groups: (['base', 'addon', 'service'] as const)
+      .map((kind) => ({ kind, label: KIND_LABEL[kind], offers: d.offers.filter((o) => o.kind === kind) }))
+      .filter((g) => g.offers.length > 0),
+  };
+});
+
+const rules = ZOHO_RULES.filter((r) => r.appliesTo.familySlug === family.slug);
+const liveCount = pageBySku.size;
+const variantCount = allSkus.length;
+
+const fullName = `ManageEngine ${family.name}`;
+const title = `${fullName} — купить для юрлица, редакции и цены`;
+const description = `${fullName}: ${family.tagline}. Редакции, объёмы и дополнения производителя Zoho. Договор, счёт в рублях, закрывающие документы через ЭДО.`;
+
+const crumbs = [
+  { name: 'Каталог', url: '/catalog' },
+  { name: 'Производители', url: '/vendors' },
+  { name: 'Zoho', url: '/vendors/zoho' },
+  { name: group.name, url: `/vendors/zoho/${group.slug}` },
+  { name: family.name, url: `/vendors/zoho/${group.slug}/${family.slug}` },
+];
+const ld = [
+  breadcrumbSchema(crumbs),
+  {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name: title,
+    url: `${site.url}/vendors/zoho/${group.slug}/${family.slug}`,
+    about: { '@type': 'Brand', name: 'ManageEngine' },
+    mainEntity: {
+      '@type': 'ItemList',
+      itemListElement: live.slice(0, 30).map((p, i) => ({
+        '@type': 'ListItem', position: i + 1, name: p.name, url: `${site.url}/product/${p.slug}`,
+      })),
+    },
+  },
+];
+---
+<BaseLayout title={title} description={description} type="website" canonical={`/vendors/zoho/${group.slug}/${family.slug}`}>
+  <JsonLd schema={ld} />
+  <div class="container-page section">
+    <Breadcrumbs items={crumbs} />
+
+    <header class="f-head">
+      <div class="f-brand">
+        <ProductIcon slug="manageengine-servicedesk-standard-10" name="ManageEngine" size={40} variant="color" />
+        <span>ManageEngine</span>
+        <small>линейка Zoho Corporation</small>
+      </div>
+      <h1>{fullName} для юридических лиц</h1>
+      <p class="lead">{family.tagline}</p>
+      {family.priced ? (
+        <p class="f-meta">
+          Поставок у вендора: {deployments.length}. Позиций прайса: {variantCount}{liveCount > 0 ? `, из них в каталоге с ценой: ${liveCount}` : ''}.
+        </p>
+      ) : (
+        <p class="f-meta">
+          Публичного прайса у вендора для этого продукта нет — считаем под ваш объём и отдаём в КП.
+        </p>
+      )}
+      <div class="f-actions">
+        <button class="btn btn-primary" data-open-question data-product={fullName}>Запросить расчёт и КП</button>
+        <a href={`/vendors/zoho/${group.slug}`} class="btn btn-ghost">{group.name}</a>
+      </div>
+    </header>
+
+    {family.priced && (
+      <ZohoConfigurator family={family} rules={rules} prices={priceBySku} />
+    )}
+
+    {deployments.map((d) => (
+      <section class="f-deploy">
+        <h2>{d.label || 'Прайс вендора'}</h2>
+        {d.groups.map((g) => (
+          <div class="f-kind">
+            <h3>{g.label}</h3>
+            {g.offers.map((offer) => (
+              <div class="f-offer">
+                <h4>
+                  {offer.name}
+                  {offer.edition && <span class="f-edition">редакция {offer.edition}</span>}
+                </h4>
+                <div class="f-table-wrap">
+                  <table class="f-table">
+                    <thead>
+                      <tr><th>Позиция</th><th>Цена</th><th></th></tr>
+                    </thead>
+                    <tbody>
+                      {offer.variants.map((v) => {
+                        const p = bySku.get(v.sku);
+                        const eff = p ? effectivePrice(p) : null;
+                        const priced = Boolean(eff && eff.price > 0);
+                        return (
+                          <tr>
+                            <td>{v.name}</td>
+                            <td class="f-price">
+                              {priced ? formatRub(eff!.price) : <span class="f-req">по расчёту</span>}
+                            </td>
+                            <td class="f-go">
+                              {pageBySku.has(v.sku)
+                                ? <a href={`/product/${pageBySku.get(v.sku)!.slug}`}>Карточка</a>
+                                : <button class="f-link" data-open-question data-product={`${fullName} — ${v.name}`}>Запросить</button>}
+                            </td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            ))}
+          </div>
+        ))}
+      </section>
+    ))}
+
+    <p class="f-source">
+      Состав редакций и объёмов сверен со страницей продукта в магазине вендора
+      <a href={family.sourceUrl} rel="nofollow noopener" target="_blank">{family.sourceUrl.replace(/^https:\/\//, '').split('?')[0]}</a>
+      {family.sourceCheckedAt && <> — снято {family.sourceCheckedAt.slice(0, 10)}</>}.
+      Стоимость на витрине указана в рублях и пересчитывается по курсу ЦБ ежедневно.
+    </p>
+  </div>
+  <CTASection
+    title={`Нужен ${fullName} на компанию?`}
+    text="Назовите объём — число специалистов, устройств, контроллеров домена. Соберём спецификацию с нужными дополнениями и подготовим КП."
+    primaryLabel="Обсудить задачу"
+    primaryHref="/contacts/"
+    secondaryLabel="Вся линейка ManageEngine"
+    secondaryHref="/vendors/zoho"
+  />
+  <QuestionForm source={`zoho-family-${family.slug}`} />
+</BaseLayout>
+
+<style>
+  .section { padding: 2rem 0 1rem; }
+  .f-head { margin: 1rem 0 2rem; max-width: 70ch; }
+  .f-brand { display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.9rem; flex-wrap: wrap; }
+  .f-brand span { font-weight: 700; }
+  .f-brand small { color: var(--color-text-dim); font-size: 0.82rem; }
+  h1 { font-size: clamp(1.6rem, 3.4vw, 2.3rem); margin-bottom: 0.7rem; }
+  .lead { color: var(--color-text-muted); font-size: 1.02rem; }
+  .f-meta { color: var(--color-text-dim); font-size: 0.88rem; margin: 0.8rem 0 1.2rem; }
+  .f-meta em { font-style: normal; }
+  .f-actions { display: flex; gap: 0.8rem; flex-wrap: wrap; }
+  .f-deploy { margin-bottom: 2.4rem; }
+  .f-deploy > h2 { font-size: clamp(1.2rem, 2.4vw, 1.55rem); margin-bottom: 1rem; }
+  .f-kind { margin-bottom: 1.6rem; }
+  .f-kind h3 { font-size: 1rem; color: var(--color-text-muted); font-weight: 600; margin-bottom: 0.8rem; }
+  .f-offer { margin-bottom: 1.4rem; }
+  .f-offer h4 { font-size: 0.95rem; margin-bottom: 0.5rem; display: flex; align-items: baseline; gap: 0.6rem; flex-wrap: wrap; }
+  .f-edition { color: var(--color-text-dim); font-size: 0.8rem; font-weight: 400; }
+  .f-table-wrap { overflow-x: auto; }
+  .f-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; min-width: 420px; }
+  .f-table th { text-align: left; font-weight: 600; font-size: 0.8rem; color: var(--color-text-dim); padding: 0.4rem 0.6rem; border-bottom: 1px solid var(--color-border); }
+  .f-table td { padding: 0.5rem 0.6rem; border-bottom: 1px solid var(--color-border); vertical-align: top; }
+  .f-price { white-space: nowrap; font-weight: 600; }
+  .f-req { font-weight: 400; color: var(--color-text-dim); }
+  .f-go { text-align: right; white-space: nowrap; }
+  .f-link { background: none; border: none; padding: 0; color: var(--color-accent); cursor: pointer; font: inherit; }
+  .f-source { color: var(--color-text-dim); font-size: 0.85rem; margin: 0 0 2rem; }
+</style>

@@ -1,0 +1,155 @@
+# Сверка раздела Zoho ManageEngine с тем, что задумано.
+#
+# Позиций в базе около пяти тысяч, и почти все — скрытые: у них есть цена, но
+# нет страницы. Опубликовать такую позицию можно одним щелчком в админке, и
+# тогда в поиск уйдёт страница без текста — ровно то, из-за чего у сайта уже
+# 160 страниц числятся малополезными.
+#
+# Тесты стерегут пакет в репозитории, но не ручную правку в Directus. Этот
+# воркфлоу смотрит на боевую базу и сравнивает факт с пакетом:
+#
+#   1. сколько позиций ManageEngine опубликовано и совпадает ли это с пакетом;
+#   2. нет ли опубликованных контрактов сопровождения (их публиковать нельзя);
+#   3. не осталась ли вечная лицензия без парного сопровождения;
+#   4. у всех ли позиций посчитана рублёвая цена.
+#
+# Запускается по расписанию после ночной переоценки и вручную. Результат —
+# комментарий в журнал-issue #22.
+name: ops-zoho-audit
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '40 4 * * *' # ежедневно 07:40 МСК, через полчаса после переоценки
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Expected counts from package
+        id: expect
+        run: |
+          set -e
+          python3 - <<'PY' >> "$GITHUB_OUTPUT"
+          import json
+          pkg = json.load(open('scripts/catalog/zoho.json'))
+          products = pkg['products']
+          published = [p for p in products if p['status'] == 'published']
+          ams = [p for p in products if p['sku'].endswith('-AMS')]
+          print(f"total={len(products)}")
+          print(f"published={len(published)}")
+          print(f"ams={len(ams)}")
+          PY
+
+      - name: Audit production
+        id: run
+        uses: appleboy/ssh-action@v1
+        env:
+          EXPECT_TOTAL: ${{ steps.expect.outputs.total }}
+          EXPECT_PUBLISHED: ${{ steps.expect.outputs.published }}
+          EXPECT_AMS: ${{ steps.expect.outputs.ams }}
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          envs: EXPECT_TOTAL,EXPECT_PUBLISHED,EXPECT_AMS
+          capture_stdout: true
+          script: |
+            set -e
+            TOKEN=$(sed -n 's/^DIRECTUS_TOKEN=//p' /opt/bizsoft/astro.env | tr -d '"\r')
+            if [ -z "$TOKEN" ]; then echo "DIRECTUS_TOKEN не найден"; exit 1; fi
+            export TOKEN
+            python3 - <<'PY'
+            import json, os, urllib.request
+
+            token = os.environ['TOKEN']
+            expect = {k: int(os.environ.get(f'EXPECT_{k.upper()}') or 0)
+                      for k in ('total', 'published', 'ams')}
+
+            def get(url):
+                req = urllib.request.Request(url)
+                req.add_header('Authorization', f'Bearer {token}')
+                with urllib.request.urlopen(req, timeout=120) as r:
+                    return json.loads(r.read())['data']
+
+            rows = get('http://127.0.0.1:8055/items/products'
+                       '?fields=sku,slug,status,price,base_price_usd'
+                       '&filter[_or][0][sku][_starts_with]=ME-'
+                       '&filter[_or][1][sku][_starts_with]=MANAGEENGINE-'
+                       '&limit=-1')
+
+            by_sku = {r['sku']: r for r in rows}
+            published = [r for r in rows if r['status'] == 'published']
+            ams = [r for r in rows if r['sku'].endswith('-AMS')]
+            ams_published = [r for r in ams if r['status'] == 'published']
+            no_price = [r for r in rows if not r.get('price')]
+
+            # Вечная лицензия без своего сопровождения: пара разорвана.
+            #
+            # Разовые работы вендора — перенос данных, установка, обучение —
+            # стоят в тех же таблицах вечной лицензии, но лицензией не
+            # являются и сопровождения не имеют. Без этого исключения сверка
+            # ругалась бы каждый день на десять позиций, и её перестали бы
+            # читать ровно тогда, когда она сообщит о настоящей поломке.
+            ONE_TIME = ('ONE-TIME', 'MIGRATION', 'TRAINING', 'INSTALLATION',
+                        'SETUP', 'ONBOARDING', 'IMPLEMENTATION')
+            broken = [r['sku'] for r in rows
+                      if r['sku'].endswith('-PERP')
+                      and f"{r['sku']}-AMS" not in by_sku
+                      and not any(w in r['sku'] for w in ONE_TIME)]
+
+            print(f"позиций ManageEngine в базе: {len(rows)} (в пакете {expect['total']})")
+            print(f"опубликовано: {len(published)} (в пакете {expect['published']})")
+            print(f"контрактов сопровождения: {len(ams)} (в пакете {expect['ams']})")
+            print()
+
+            problems = []
+            if len(published) != expect['published']:
+                problems.append(
+                    f"опубликовано {len(published)}, а должно {expect['published']}")
+            if ams_published:
+                problems.append(
+                    f"опубликованы контракты сопровождения ({len(ams_published)}): "
+                    + ', '.join(r['sku'] for r in ams_published[:5]))
+            if broken:
+                problems.append(
+                    f"вечных лицензий без пары: {len(broken)} — "
+                    + ', '.join(broken[:5]))
+            if no_price:
+                problems.append(
+                    f"без рублёвой цены: {len(no_price)} — "
+                    + ', '.join(r['sku'] for r in no_price[:5]))
+
+            if problems:
+                print('РАСХОЖДЕНИЯ:')
+                for p in problems:
+                    print(f'  - {p}')
+            else:
+                print('Расхождений нет.')
+            PY
+
+      - name: Post results to journal (issue #22)
+        if: always()
+        uses: actions/github-script@v7
+        env:
+          OUT: ${{ steps.run.outputs.stdout }}
+        with:
+          script: |
+            const out = (process.env.OUT || '(нет вывода)').slice(0, 50000);
+            // Молчим, когда всё в порядке: ежедневный комментарий «расхождений
+            // нет» быстро превращает журнал в шум, который перестают читать.
+            if (out.includes('Расхождений нет.')) {
+              core.info('расхождений нет, комментарий не публикуем');
+              return;
+            }
+            await github.rest.issues.createComment({
+              owner: context.repo.owner, repo: context.repo.repo, issue_number: 22,
+              body: '### ops-zoho-audit · ' + new Date().toISOString()
+                + '\n```\n' + out + '\n```',
+            });

@@ -1,0 +1,95 @@
+# Обход официального магазина ManageEngine (store.manageengine.com).
+#
+# Зачем воркфлоу, а не запуск из сессии: у сессии ассистента нет egress к
+# сайтам вендоров, а страницы магазина рисует JavaScript — статический curl
+# отдаёт пустой каркас. Раннер GitHub имеет полный доступ и Playwright.
+#
+# Этап discovery: с главной страницы магазина собираются все ссылки на
+# продукты и функциональные разделы. Этап details: по каждой продуктовой
+# ссылке снимаются редакции, модели лицензирования, диапазоны, цены и SKU.
+#
+# Снимки складываются в data/sources/manageengine/<дата>/ и коммитятся в
+# ветку, чтобы у каждого значения был воспроизводимый источник.
+name: ops-me-crawl
+on:
+  workflow_dispatch:
+    inputs:
+      stage:
+        description: 'discovery — карта магазина; details — страницы продуктов; pricing — прайсы на сайте продукта'
+        required: true
+        default: 'discovery'
+      limit:
+        description: 'Максимум страниц продуктов на этап details'
+        required: false
+        default: '25'
+      offset:
+        description: 'Смещение окна волны в списке ссылок (details)'
+        required: false
+        default: '0'
+      day:
+        description: 'Каталог снимков ГГГГ-ММ-ДД (пусто — сегодняшняя дата раннера)'
+        required: false
+        default: ''
+      branch:
+        description: 'Ветка для коммита снимков'
+        required: true
+        default: 'claude/me-sources'
+permissions:
+  contents: write
+  issues: write
+jobs:
+  crawl:
+    runs-on: ubuntu-latest
+    timeout-minutes: 55
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install Playwright
+        run: |
+          npm install --no-save playwright@1.49.1
+          npx playwright install --with-deps chromium
+
+      - name: Crawl
+        env:
+          STAGE: ${{ inputs.stage }}
+          LIMIT: ${{ inputs.limit }}
+          OFFSET: ${{ inputs.offset }}
+          DAY: ${{ inputs.day }}
+        run: node scripts/sources/me-crawl.mjs
+
+      - name: Commit snapshots
+        env:
+          TARGET: ${{ inputs.branch }}
+        run: |
+          set -e
+          git config user.name 'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+          git fetch origin "$TARGET" || true
+          git checkout -B "$TARGET" "origin/$TARGET" 2>/dev/null || git checkout -B "$TARGET"
+          git add -A data/sources/manageengine
+          git commit -m "me-crawl: снимки магазина ManageEngine (${{ inputs.stage }}, окно ${{ inputs.offset }}+${{ inputs.limit }})" || {
+            echo 'нечего коммитить'; exit 0; }
+          git push -u origin "$TARGET" --force
+          echo "снимки в ветке $TARGET"
+
+      - name: Post summary to issue
+        if: always()
+        uses: actions/github-script@v7
+        env:
+          STAGE: ${{ inputs.stage }}
+        with:
+          script: |
+            const fs = require('fs');
+            let out = '(сводка не сформирована)';
+            try { out = fs.readFileSync('/tmp/me-crawl-summary.txt', 'utf8').slice(0, 55000); }
+            catch (e) { out = 'сводки нет: ' + e.message; }
+            await github.rest.issues.createComment({
+              owner: context.repo.owner, repo: context.repo.repo, issue_number: 22,
+              body: `### ops-me-crawl (${process.env.STAGE})\n\n\`\`\`\n${out}\n\`\`\``,
+            });

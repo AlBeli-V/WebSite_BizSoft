@@ -1,8 +1,11 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import AdminTabs from '../../components/AdminTabs.astro';
+
 ---
 <BaseLayout title="Инструменты цен (админ)" description="Служебная страница" noindex={true}>
   <div class="container-page section admin">
+    <AdminTabs active="prices" />
     <h1>Инструменты цен</h1>
 
     <div class="token-bar card">
