@@ -1,6 +1,6 @@
 {
  "date": "2026-08-21",
- "generated_at": "2026-08-21T03:12:40+00:00",
+ "generated_at": "2026-08-21T03:22:37+00:00",
  "measured_at": "2026-08-21",
  "universe": {
   "phrases": 16501,
@@ -496,152 +496,9 @@
  "vendor_expansion": {
   "available": true,
   "reason": null,
-  "candidates_total": 106,
-  "candidates_measured": 43,
+  "candidates_total": 95,
+  "candidates_measured": 34,
   "recommended": [
-   {
-    "brand": "suno",
-    "kind": "ai",
-    "payment": {
-     "verdict": "card",
-     "note": "найдены признаки самостоятельной оплаты картой",
-     "url": "https://suno.com/pricing",
-     "checked_at": "2026-08-20"
-    },
-    "recommendation": "рекомендуем добавить",
-    "recommendation_why": "оплата картой на сайте вендора — сделка выполнима сразу",
-    "total_demand": 3764,
-    "commercial_demand": 3744,
-    "commercial_phrases": 25,
-    "top_phrases": [
-     {
-      "phrase": "suno купить",
-      "frequency": 1549
-     },
-     {
-      "phrase": "suno купить подписку",
-      "frequency": 984
-     },
-     {
-      "phrase": "suno ai купить",
-      "frequency": 264
-     },
-     {
-      "phrase": "suno ai купить подписку",
-      "frequency": 201
-     },
-     {
-      "phrase": "suno купить в россии",
-      "frequency": 163
-     }
-    ],
-    "trend": "stable",
-    "effort": 1.0,
-    "effort_note": "одна карточка вендора",
-    "demand_confidence": "высокая",
-    "demand_confidence_note": null,
-    "priority_score": 3744.0,
-    "seo": {
-     "url": "/vendors/suno",
-     "title": "Оплата Suno для юридических лиц из России — счёт, договор, ЭДО | BIZSoft",
-     "description": "Оплатим подписку Suno на вашу компанию в рублях по счёту. Договор, закрывающие документы через ЭДО, доступ за 1–3 дня.",
-     "h1": "Suno для юридических лиц",
-     "faq_topics": [
-      "Как купить Suno на юрлицо — по счёту и договору?",
-      "Какие закрывающие документы вы предоставляете?",
-      "Как быстро появится доступ к Suno после оплаты?",
-      "В какой валюте оплата и как считается цена?"
-     ],
-     "target_phrases": [
-      "suno купить",
-      "suno купить подписку",
-      "suno ai купить",
-      "suno ai купить подписку",
-      "suno купить в россии",
-      "купить suno pro",
-      "как купить подписку suno в россии",
-      "suno premier купить"
-     ],
-     "needed_subclusters": [
-      "покупка"
-     ],
-     "internal_links": [
-      "/catalog",
-      "/blog/kak-kupit-zarubezhnoe-po-dlya-yurlica"
-     ]
-    },
-    "measured_at": "2026-08-20"
-   },
-   {
-    "brand": "cloudflare",
-    "kind": "classic",
-    "payment": {
-     "verdict": "card",
-     "note": "найдены признаки самостоятельной оплаты картой",
-     "url": "https://www.cloudflare.com/plans/",
-     "checked_at": "2026-08-20"
-    },
-    "recommendation": "рекомендуем добавить",
-    "recommendation_why": "оплата картой на сайте вендора — сделка выполнима сразу",
-    "total_demand": 349,
-    "commercial_demand": 349,
-    "commercial_phrases": 5,
-    "top_phrases": [
-     {
-      "phrase": "cloudflare купить",
-      "frequency": 204
-     },
-     {
-      "phrase": "купить домен cloudflare",
-      "frequency": 115
-     },
-     {
-      "phrase": "cloudflare warp купить",
-      "frequency": 13
-     },
-     {
-      "phrase": "купить аккаунты cloudflare",
-      "frequency": 10
-     },
-     {
-      "phrase": "cloudflare warp ключ купить",
-      "frequency": 7
-     }
-    ],
-    "trend": "growing",
-    "effort": 1.0,
-    "effort_note": "одна карточка вендора",
-    "demand_confidence": "высокая",
-    "demand_confidence_note": null,
-    "priority_score": 349.0,
-    "seo": {
-     "url": "/vendors/cloudflare",
-     "title": "Оплата Cloudflare для юридических лиц из России — счёт, договор, ЭДО | BIZSoft",
-     "description": "Оплатим подписку Cloudflare на вашу компанию в рублях по счёту. Договор, закрывающие документы через ЭДО, доступ за 1–3 дня.",
-     "h1": "Cloudflare для юридических лиц",
-     "faq_topics": [
-      "Как купить Cloudflare на юрлицо — по счёту и договору?",
-      "Какие закрывающие документы вы предоставляете?",
-      "Как быстро появится доступ к Cloudflare после оплаты?",
-      "В какой валюте оплата и как считается цена?"
-     ],
-     "target_phrases": [
-      "cloudflare купить",
-      "купить домен cloudflare",
-      "cloudflare warp купить",
-      "купить аккаунты cloudflare",
-      "cloudflare warp ключ купить"
-     ],
-     "needed_subclusters": [
-      "покупка"
-     ],
-     "internal_links": [
-      "/catalog",
-      "/blog/kak-kupit-zarubezhnoe-po-dlya-yurlica"
-     ]
-    },
-    "measured_at": "2026-08-20"
-   },
    {
     "brand": "wordpress",
     "kind": "classic",
@@ -994,78 +851,6 @@
     "measured_at": "2026-08-21"
    },
    {
-    "brand": "kling ai",
-    "kind": "ai",
-    "payment": {
-     "verdict": "likely_card",
-     "note": "есть цены и кнопки покупки, платёжная система не опознана",
-     "url": "https://klingai.com/pricing",
-     "checked_at": "2026-08-20"
-    },
-    "recommendation": "рекомендуем добавить с проверкой",
-    "recommendation_why": "цены и покупка на сайте есть, платёжная система не опознана — подтвердить при первой сделке",
-    "total_demand": 616,
-    "commercial_demand": 616,
-    "commercial_phrases": 7,
-    "top_phrases": [
-     {
-      "phrase": "kling ai купить",
-      "frequency": 342
-     },
-     {
-      "phrase": "kling ai купить подписку",
-      "frequency": 207
-     },
-     {
-      "phrase": "kling ai купить кредиты",
-      "frequency": 19
-     },
-     {
-      "phrase": "kling ai нейросеть купить",
-      "frequency": 16
-     },
-     {
-      "phrase": "kling ai купить аккаунт",
-      "frequency": 15
-     }
-    ],
-    "trend": "growing",
-    "effort": 1.0,
-    "effort_note": "одна карточка вендора",
-    "demand_confidence": "высокая",
-    "demand_confidence_note": null,
-    "priority_score": 616.0,
-    "seo": {
-     "url": "/vendors/kling-ai",
-     "title": "Оплата Kling Ai для юридических лиц из России — счёт, договор, ЭДО | BIZSoft",
-     "description": "Оплатим подписку Kling Ai на вашу компанию в рублях по счёту. Договор, закрывающие документы через ЭДО, доступ за 1–3 дня.",
-     "h1": "Kling Ai для юридических лиц",
-     "faq_topics": [
-      "Как купить Kling Ai на юрлицо — по счёту и договору?",
-      "Какие закрывающие документы вы предоставляете?",
-      "Как быстро появится доступ к Kling Ai после оплаты?",
-      "В какой валюте оплата и как считается цена?"
-     ],
-     "target_phrases": [
-      "kling ai купить",
-      "kling ai купить подписку",
-      "kling ai купить кредиты",
-      "kling ai нейросеть купить",
-      "kling ai купить аккаунт",
-      "kling ai нейросеть купить подписку",
-      "купить kling ai pro"
-     ],
-     "needed_subclusters": [
-      "покупка"
-     ],
-     "internal_links": [
-      "/catalog",
-      "/blog/kak-kupit-zarubezhnoe-po-dlya-yurlica"
-     ]
-    },
-    "measured_at": "2026-08-20"
-   },
-   {
     "brand": "deepl",
     "kind": "ai",
     "payment": {
@@ -1205,30 +990,159 @@
      ]
     },
     "measured_at": "2026-08-20"
+   },
+   {
+    "brand": "nordvpn",
+    "kind": "classic",
+    "payment": {
+     "verdict": "unknown",
+     "note": "признаков оплаты на странице не найдено",
+     "url": "https://nordvpn.ai/pricing",
+     "checked_at": "2026-08-20"
+    },
+    "recommendation": "проверить вручную",
+    "recommendation_why": "признаков оплаты на странице тарифов не найдено",
+    "total_demand": 167,
+    "commercial_demand": 167,
+    "commercial_phrases": 4,
+    "top_phrases": [
+     {
+      "phrase": "nordvpn купить",
+      "frequency": 121
+     },
+     {
+      "phrase": "nordvpn подписка купить",
+      "frequency": 24
+     },
+     {
+      "phrase": "nordvpn для роутера купить аккаунт",
+      "frequency": 13
+     },
+     {
+      "phrase": "nordvpn купить в россии",
+      "frequency": 9
+     }
+    ],
+    "trend": "stable",
+    "effort": 1.0,
+    "effort_note": "одна карточка вендора",
+    "demand_confidence": "высокая",
+    "demand_confidence_note": null,
+    "priority_score": 167.0,
+    "seo": {
+     "url": "/vendors/nordvpn",
+     "title": "Оплата Nordvpn для юридических лиц из России — счёт, договор, ЭДО | BIZSoft",
+     "description": "Оплатим подписку Nordvpn на вашу компанию в рублях по счёту. Договор, закрывающие документы через ЭДО, доступ за 1–3 дня.",
+     "h1": "Nordvpn для юридических лиц",
+     "faq_topics": [
+      "Как купить Nordvpn на юрлицо — по счёту и договору?",
+      "Какие закрывающие документы вы предоставляете?",
+      "Как быстро появится доступ к Nordvpn после оплаты?",
+      "В какой валюте оплата и как считается цена?"
+     ],
+     "target_phrases": [
+      "nordvpn купить",
+      "nordvpn подписка купить",
+      "nordvpn для роутера купить аккаунт",
+      "nordvpn купить в россии"
+     ],
+     "needed_subclusters": [
+      "покупка"
+     ],
+     "internal_links": [
+      "/catalog",
+      "/blog/kak-kupit-zarubezhnoe-po-dlya-yurlica"
+     ]
+    },
+    "measured_at": "2026-08-20"
+   },
+   {
+    "brand": "ansys",
+    "kind": "classic",
+    "payment": {
+     "verdict": "unknown",
+     "note": "признаков оплаты на странице не найдено",
+     "url": "https://www.ansys.com/products",
+     "checked_at": "2026-08-20"
+    },
+    "recommendation": "проверить вручную",
+    "recommendation_why": "признаков оплаты на странице тарифов не найдено",
+    "total_demand": 129,
+    "commercial_demand": 129,
+    "commercial_phrases": 5,
+    "top_phrases": [
+     {
+      "phrase": "ansys купить",
+      "frequency": 79
+     },
+     {
+      "phrase": "лицензия ansys купить",
+      "frequency": 18
+     },
+     {
+      "phrase": "anycubic ansys 010310 купить",
+      "frequency": 17
+     },
+     {
+      "phrase": "ansys 010310 anycubic kobra 3 max купить",
+      "frequency": 10
+     },
+     {
+      "phrase": "какой ноутбук купить для работы в ansys",
+      "frequency": 5
+     }
+    ],
+    "trend": "declining",
+    "effort": 1.0,
+    "effort_note": "одна карточка вендора",
+    "demand_confidence": "высокая",
+    "demand_confidence_note": null,
+    "priority_score": 129.0,
+    "seo": {
+     "url": "/vendors/ansys",
+     "title": "Оплата Ansys для юридических лиц из России — счёт, договор, ЭДО | BIZSoft",
+     "description": "Оплатим подписку Ansys на вашу компанию в рублях по счёту. Договор, закрывающие документы через ЭДО, доступ за 1–3 дня.",
+     "h1": "Ansys для юридических лиц",
+     "faq_topics": [
+      "Как купить Ansys на юрлицо — по счёту и договору?",
+      "Какие закрывающие документы вы предоставляете?",
+      "Как быстро появится доступ к Ansys после оплаты?",
+      "В какой валюте оплата и как считается цена?"
+     ],
+     "target_phrases": [
+      "ansys купить",
+      "лицензия ansys купить",
+      "anycubic ansys 010310 купить",
+      "ansys 010310 anycubic kobra 3 max купить",
+      "какой ноутбук купить для работы в ansys"
+     ],
+     "needed_subclusters": [
+      "покупка",
+      "цены и тарифы"
+     ],
+     "internal_links": [
+      "/catalog",
+      "/blog/kak-kupit-zarubezhnoe-po-dlya-yurlica"
+     ]
+    },
+    "measured_at": "2026-08-20"
    }
   ],
-  "recommended_total": 16,
-  "combined_demand": 29631,
+  "recommended_total": 9,
+  "combined_demand": 18388,
   "by_payment": {
-   "card": 4,
-   "likely_card": 6,
-   "unknown": 3,
-   "unreachable": 3
+   "card": 2,
+   "likely_card": 5,
+   "unknown": 2
   },
   "by_kind": {
-   "ai": 5,
-   "classic": 11
+   "ai": 2,
+   "classic": 7
   },
-  "low_confidence": [
-   "box"
-  ],
+  "low_confidence": [],
   "needs_manual_check": [
-   "capcut",
-   "principle",
    "nordvpn",
-   "ansys",
-   "leonardo ai",
-   "box"
+   "ansys"
   ],
   "note": "Российские вендоры исключены: их лицензии продаются напрямую, услуга оплаты из-за рубежа к ним неприменима."
  },
@@ -1261,37 +1175,34 @@
   "title": "Спрос и направления развития",
   "expansion": {
    "title": "Каких вендоров добавить",
-   "summary": "Проверили спрос на 43 зарубежных разработчиков вне каталога: у 16 он подтверждён, суммарно 29 631 запросов в месяц. Из них: 3 с оплатой картой можно заводить сразу, 6 требуют ручной проверки оплаты, 1 — с именем-обычным словом, спрос сверить вручную.",
+   "summary": "Проверили спрос на 34 зарубежных разработчиков вне каталога: у 9 он подтверждён, суммарно 18 388 запросов в месяц. Из них: 3 с оплатой картой можно заводить сразу, 2 требуют ручной проверки оплаты.",
    "items": [
     {
-     "brand": "suno",
-     "demand": 3744,
-     "kind": "AI-сервис",
-     "payment": "card",
-     "recommendation": "рекомендуем добавить",
-     "effort": "одна карточка вендора",
-     "url": "/vendors/suno",
-     "confidence": "высокая",
-     "confidence_note": null
-    },
-    {
-     "brand": "cloudflare",
-     "demand": 349,
+     "brand": "wordpress",
+     "demand": 299,
      "kind": "классический",
      "payment": "card",
      "recommendation": "рекомендуем добавить",
      "effort": "одна карточка вендора",
-     "url": "/vendors/cloudflare",
+     "url": "/vendors/wordpress",
+     "confidence": "высокая",
+     "confidence_note": null
+    },
+    {
+     "brand": "slack",
+     "demand": 123,
+     "kind": "классический",
+     "payment": "card",
+     "recommendation": "рекомендуем добавить",
+     "effort": "одна карточка вендора",
+     "url": "/vendors/slack",
      "confidence": "высокая",
      "confidence_note": null
     }
    ],
    "manual_check": [
-    "capcut",
-    "principle",
     "nordvpn",
-    "ansys",
-    "leonardo ai"
+    "ansys"
    ],
    "note": "Российские вендоры исключены: их лицензии продаются напрямую, услуга оплаты из-за рубежа к ним неприменима."
   },

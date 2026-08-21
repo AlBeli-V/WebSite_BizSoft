@@ -14,19 +14,19 @@
 
 | Метод | Вызовов | Стоимость |
 |---|---|---|
-| getTop | 205 | 4.10 ₽ |
+| getTop | 292 | 5.84 ₽ |
 | getDynamics | 74 | 1.48 ₽ |
 | getRegionsDistribution | 30 | 1.50 ₽ |
-| **Итого** | **309** | **7.08 ₽** |
+| **Итого** | **396** | **8.82 ₽** |
 
 ## Бюджет и квота
 
 - месячный потолок: 5500 ₽
-- план расходует: 0.1% потолка
+- план расходует: 0.2% потолка
 - максимум, который вообще можно потратить при действующей квоте: 8280 ₽
 - бюджет является ограничением: да
-- время прохода при 100 запросах в час: 0.6 ч
-- при 500 запросах в час: 0.6 ч
+- время прохода при 100 запросах в час: 0.8 ч
+- при 500 запросах в час: 0.8 ч
 
 План не предполагает освоения всего бюджета: цель — полезная информация на вызов, а не расход рублей.
 
@@ -34,33 +34,33 @@
 
 | № | Метод | Фраза | Причина | Ожидаемый прирост | Ранг |
 |---|---|---|---|---|---|
-| 1 | getTop | slack купить | vendor_expansion | 0.6 | 16.8 |
-| 2 | getTop | atlassian купить | vendor_expansion | 0.6 | 16.8 |
-| 3 | getTop | monday.com купить | vendor_expansion | 0.6 | 16.8 |
-| 4 | getTop | clickup купить | vendor_expansion | 0.6 | 16.8 |
-| 5 | getTop | trello купить | vendor_expansion | 0.6 | 16.8 |
-| 6 | getTop | airtable купить | vendor_expansion | 0.6 | 16.8 |
-| 7 | getTop | smartsheet купить | vendor_expansion | 0.6 | 16.8 |
-| 8 | getTop | basecamp купить | vendor_expansion | 0.6 | 16.8 |
-| 9 | getTop | hubspot купить | vendor_expansion | 0.6 | 16.8 |
-| 10 | getTop | salesforce купить | vendor_expansion | 0.6 | 16.8 |
-| 11 | getTop | pipedrive купить | vendor_expansion | 0.6 | 16.8 |
-| 12 | getTop | zoho купить | vendor_expansion | 0.6 | 16.8 |
-| 13 | getTop | freshdesk купить | vendor_expansion | 0.6 | 16.8 |
-| 14 | getTop | zendesk купить | vendor_expansion | 0.6 | 16.8 |
-| 15 | getTop | mailchimp купить | vendor_expansion | 0.6 | 16.8 |
-| 16 | getTop | sendgrid купить | vendor_expansion | 0.6 | 16.8 |
-| 17 | getTop | twilio купить | vendor_expansion | 0.6 | 16.8 |
-| 18 | getTop | brevo купить | vendor_expansion | 0.6 | 16.8 |
-| 19 | getTop | klaviyo купить | vendor_expansion | 0.6 | 16.8 |
-| 20 | getTop | camtasia купить | vendor_expansion | 0.6 | 16.8 |
-| 21 | getTop | semrush купить | vendor_expansion | 0.6 | 16.8 |
-| 22 | getTop | serpstat купить | vendor_expansion | 0.6 | 16.8 |
-| 23 | getTop | moz купить | vendor_expansion | 0.6 | 16.8 |
-| 24 | getTop | pika labs купить | vendor_expansion | 0.6 | 16.8 |
-| 25 | getTop | webflow купить | vendor_expansion | 0.6 | 16.8 |
-| 26 | getTop | squarespace купить | vendor_expansion | 0.6 | 16.8 |
-| 27 | getTop | softr купить | vendor_expansion | 0.6 | 16.8 |
-| 28 | getTop | retool купить | vendor_expansion | 0.6 | 16.8 |
-| 29 | getTop | datadog купить | vendor_expansion | 0.6 | 16.8 |
-| 30 | getTop | new relic купить | vendor_expansion | 0.6 | 16.8 |
+| 1 | getTop | suno | discovery | 1.0 | 24.0 |
+| 2 | getTop | kling ai | discovery | 1.0 | 24.0 |
+| 3 | getTop | leonardo ai | discovery | 1.0 | 24.0 |
+| 4 | getTop | capcut | discovery | 1.0 | 24.0 |
+| 5 | getTop | cloudflare | discovery | 1.0 | 24.0 |
+| 6 | getTop | principle | discovery | 1.0 | 24.0 |
+| 7 | getTop | box | discovery | 1.0 | 24.0 |
+| 8 | getTop | atlassian | discovery | 1.0 | 24.0 |
+| 9 | getTop | postman | discovery | 1.0 | 24.0 |
+| 10 | getTop | teamviewer | discovery | 1.0 | 24.0 |
+| 11 | getTop | browserstack | discovery | 1.0 | 24.0 |
+| 12 | getTop | zoho | discovery | 1.0 | 24.0 |
+| 13 | getTop | sentry | discovery | 1.0 | 24.0 |
+| 14 | getTop | n8n | discovery | 1.0 | 24.0 |
+| 15 | getTop | suno купить | discovery | 0.788 | 18.912 |
+| 16 | getTop | kling ai купить | discovery | 0.788 | 18.912 |
+| 17 | getTop | leonardo ai купить | discovery | 0.788 | 18.912 |
+| 18 | getTop | capcut купить | discovery | 0.788 | 18.912 |
+| 19 | getTop | cloudflare купить | discovery | 0.788 | 18.912 |
+| 20 | getTop | principle купить | discovery | 0.788 | 18.912 |
+| 21 | getTop | box купить | discovery | 0.788 | 18.912 |
+| 22 | getTop | atlassian купить | discovery | 0.788 | 18.912 |
+| 23 | getTop | postman купить | discovery | 0.788 | 18.912 |
+| 24 | getTop | teamviewer купить | discovery | 0.788 | 18.912 |
+| 25 | getTop | browserstack купить | discovery | 0.788 | 18.912 |
+| 26 | getTop | zoho купить | discovery | 0.788 | 18.912 |
+| 27 | getTop | sentry купить | discovery | 0.788 | 18.912 |
+| 28 | getTop | n8n купить | discovery | 0.788 | 18.912 |
+| 29 | getTop | slack купить | vendor_expansion | 0.6 | 16.8 |
+| 30 | getTop | monday.com купить | vendor_expansion | 0.6 | 16.8 |
