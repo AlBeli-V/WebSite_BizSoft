@@ -11,7 +11,15 @@
  */
 import { seller, site } from '../config/site';
 import { formatRub } from './pricing';
+import { amountPhrase } from './rub-words';
+import { salutation } from './salutation';
 import type { QuoteItem } from './types';
+
+/** Логотип в шапке. Путь от корня проекта — файл читает драйвер формата. */
+export const LOGO_FILE = 'public/brand/bizsoft-logo-lockup.png';
+
+/** Подписант коммерческого предложения. */
+export const signer = { name: 'Беляев Алексей', role: 'директор по развитию бизнеса' };
 
 export interface QuoteData {
   quoteNo: string;
@@ -29,6 +37,11 @@ export interface QuoteData {
   outgoingNo?: string;
 }
 
+/** Оговорка о статусе документа — по распоряжению руководителя 21.08.2026. */
+export const PRELIMINARY_NOTE =
+  'Настоящий документ является предварительной бюджетной оценкой и требует '
+  + 'проверки и коррекции сотрудником.';
+
 export type Align = 'left' | 'right' | 'center';
 
 export type Primitive =
@@ -37,6 +50,8 @@ export type Primitive =
   | { kind: 'rect'; x: number; y: number; w: number; h: number; fill: string }
   | { kind: 'line'; x1: number; y1: number; x2: number; y2: number;
       color: string; lineWidth: number }
+  | { kind: 'image'; x: number; y: number; w: number; h: number; file: string }
+  | { kind: 'bullet'; x: number; y: number; size: number; color: string }
   | { kind: 'watermark'; x: number; y: number; text: string; sub?: string;
       size: number; subSize: number; w: number; h: number; radius: number;
       stroke: number; dash: number[]; color: string; opacity: number; angle: number };
@@ -74,6 +89,8 @@ export const PAGE = { width: 595.28, height: 841.89, margin: 48 };
 export const COLOR = {
   accent: '#FF763C', dark: '#14161A', muted: '#6B7280',
   body: '#374151', rule: '#E5E7EB', head: '#F3F4F6',
+  /** Подложка оговорки о статусе документа. */
+  noteBg: '#FFF4EF',
   /** Штамп: фирменный оранжевый, как оттиск на образце. */
   stamp: '#FF763C',
 };
@@ -160,7 +177,11 @@ function partyLines(data: QuoteData) {
 }
 
 /**
- * Полная раскладка КП по страницам.
+ * Полная раскладка КП по страницам — по образцу руководителя от 25.06.2026.
+ *
+ * Порядок частей повторяет деловое письмо: логотип и заголовок, реквизиты
+ * сторон, обращение по имени, суть предложения, таблица, сумма прописью,
+ * условия, оговорка о статусе документа, подпись.
  *
  * Водяные знаки кладутся первыми на каждой странице: драйверы рисуют
  * примитивы по порядку, поэтому знак оказывается под текстом, а не поверх.
@@ -171,73 +192,109 @@ export function buildQuoteLayout(data: QuoteData, measure: Measure): Page[] {
   const width = right - left;
   const mark = 'BIZSoft';
   const markSub = data.quoteNo;
+  const LINE = 12;
 
   const pages: Page[] = [];
   let items: Primitive[] = [...watermarks(mark, markSub)];
   const newPage = () => { pages.push({ items }); items = [...watermarks(mark, markSub)]; };
 
-  // ── Шапка ──
-  items.push({ kind: 'text', x: left, y: 48, text: 'BIZ', bold: true, size: 22, color: COLOR.dark });
-  items.push({ kind: 'text', x: left + 44, y: 48, text: 'Soft', bold: true, size: 22, color: COLOR.accent });
-  items.push({ kind: 'text', x: left, y: 74, text: site.tagline, size: 9, color: COLOR.muted });
+  const put = (p: Primitive) => { items.push(p); };
+  const text = (t: string, x: number, y: number, o: Partial<Extract<Primitive, { kind: 'text' }>> = {}) =>
+    put({ kind: 'text', x, y, text: t, size: 9, color: COLOR.body, ...o } as Primitive);
 
-  items.push({ kind: 'text', x: left, y: 48, text: 'Коммерческое предложение',
-               bold: true, size: 16, color: COLOR.dark, width, align: 'right' });
+  /** Абзац с переносом. Возвращает Y под последней строкой. */
+  const para = (t: string, x: number, y: number, w: number,
+                o: { size?: number; bold?: boolean; color?: string; align?: Align } = {}) => {
+    const size = o.size ?? 9.5;
+    let cur = y;
+    for (const part of wrap(t, size, w, measure, o.bold)) {
+      text(part, x, cur, { size, bold: o.bold, color: o.color || COLOR.body,
+                           width: o.align ? w : undefined, align: o.align });
+      cur += size * 1.45;
+    }
+    return cur;
+  };
 
-  // Исходящий номер — поле есть всегда, значение проставляется вручную.
-  // Пустая линия вместо пропуска: документ без места под номер нечем
-  // зарегистрировать, а подписанный задним числом номер спорен.
-  const headRight = [
+  // ── Шапка: логотип слева, заголовок справа ─────────────────────────────
+  put({ kind: 'image', x: left, y: 40, w: 132, h: 44, file: LOGO_FILE });
+  text('КОММЕРЧЕСКОЕ ПРЕДЛОЖЕНИЕ', left, 52,
+       { bold: true, size: 14, color: COLOR.dark, width, align: 'right' });
+  text('предварительная бюджетная оценка', left, 70,
+       { size: 8, color: COLOR.muted, width, align: 'right' });
+
+  // ── Контакты продавца слева, номера и даты справа ──────────────────────
+  let yL = 92;
+  for (const l of [seller.address, `Тел.: ${seller.phone}`, `E-mail: ${seller.email}`]) {
+    text(l, left, yL, { size: 8.5, color: COLOR.muted });
+    yL += 11;
+  }
+
+  // Формулировки строк — распоряжение руководителя: дата именно скачивания,
+  // и поле исходящего номера присутствует всегда, даже незаполненным.
+  let yR = 92;
+  for (const l of [
     `№ ${data.quoteNo}`,
     `Исх. № ${data.outgoingNo || '__________'}`,
     `Дата скачивания: ${data.date}`,
     `Действует до ${data.validUntil}`,
-  ];
-  headRight.forEach((t, i) => items.push({
-    kind: 'text', x: left, y: 72 + i * 12, text: t,
-    size: 9, color: COLOR.muted, width, align: 'right',
-  }));
+  ]) {
+    text(l, left, yR, { size: 8.5, color: COLOR.muted, width, align: 'right' });
+    yR += 11;
+  }
 
-  items.push({ kind: 'line', x1: left, y1: 124, x2: right, y2: 124, color: COLOR.rule, lineWidth: 1 });
-
-  // ── Продавец / Покупатель ──
-  let y = 140;
-  items.push({ kind: 'text', x: left, y, text: 'Продавец', bold: true, size: 10, color: COLOR.dark });
-  items.push({ kind: 'text', x: left + width / 2 + 10, y, text: 'Покупатель', bold: true, size: 10, color: COLOR.dark });
+  let y = Math.max(yL, yR) + 6;
+  put({ kind: 'line', x1: left, y1: y, x2: right, y2: y, color: COLOR.rule, lineWidth: 1 });
   y += 16;
 
-  const colW = width / 2 - 10;
-  const { seller: sLines, buyer: bLines } = partyLines(data);
-  const LINE = 12;
-  let yL = y; let yR = y;
-  for (const l of sLines) {
-    for (const part of wrap(l, 9, colW, measure)) {
-      items.push({ kind: 'text', x: left, y: yL, text: part, size: 9, color: COLOR.body });
-      yL += LINE;
+  // ── Кому ───────────────────────────────────────────────────────────────
+  text('Кому:', left, y, { bold: true, size: 10, color: COLOR.dark });
+  y += 14;
+  for (const l of [
+    data.buyerCompany || '—',
+    data.buyerInn ? `ИНН ${data.buyerInn}` : '',
+    data.contactName || '',
+    data.email || '',
+    data.phone ? `Тел.: ${data.phone}` : '',
+  ].filter(Boolean)) {
+    for (const part of wrap(l, 9, width * 0.6, measure)) {
+      text(part, left, y);
+      y += 11;
     }
   }
-  for (const l of bLines) {
-    for (const part of wrap(l, 9, colW, measure)) {
-      items.push({ kind: 'text', x: left + width / 2 + 10, y: yR, text: part, size: 9, color: COLOR.body });
-      yR += LINE;
-    }
-  }
-  y = Math.max(yL, yR) + 14;
 
-  // ── Таблица позиций ──
+  // ── Обращение и суть предложения ───────────────────────────────────────
+  y += 8;
+  text(salutation(data.contactName), left, y,
+       { bold: true, size: 11, color: COLOR.dark, width, align: 'center' });
+  y += 18;
+
+  const company = data.buyerCompany
+    ? `в интересах ${data.buyerCompany}`
+    : 'в интересах вашей организации';
+  y = para(`Направляем вам предварительное коммерческое предложение ${company} `
+           + 'на поставку лицензий на программное обеспечение:', left, y, width);
+  y += 8;
+
+  // ── Таблица позиций ────────────────────────────────────────────────────
+  // Ширины подобраны под реальные строки, а не на глаз: «5 750 000 ₽» при
+  // 9 pt занимает около 64 pt. В прежних 46 сумма наезжала на соседнюю
+  // колонку, а в 62 обрезалась о правое поле.
   const cols = {
-    n: left, name: left + 26, sku: left + width - 230,
-    qty: left + width - 150, price: left + width - 110, sum: left + width - 60,
+    n: left, name: left + 26,
+    sku: right - 266, skuW: 86,
+    qty: right - 176, qtyW: 34,
+    price: right - 140, priceW: 66,
+    sum: right - 68, sumW: 68,
   };
   const header = () => {
-    items.push({ kind: 'rect', x: left, y, w: width, h: 22, fill: COLOR.head });
-    items.push({ kind: 'text', x: cols.n + 4, y: y + 7, text: '№', bold: true, size: 9, color: COLOR.dark });
-    items.push({ kind: 'text', x: cols.name, y: y + 7, text: 'Наименование', bold: true, size: 9, color: COLOR.dark });
-    items.push({ kind: 'text', x: cols.sku, y: y + 7, text: 'Артикул', bold: true, size: 9, color: COLOR.dark, width: 76 });
-    items.push({ kind: 'text', x: cols.qty, y: y + 7, text: 'Кол-во', bold: true, size: 9, color: COLOR.dark, width: 38, align: 'right' });
-    items.push({ kind: 'text', x: cols.price, y: y + 7, text: 'Цена', bold: true, size: 9, color: COLOR.dark, width: 46, align: 'right' });
-    items.push({ kind: 'text', x: cols.sum, y: y + 7, text: 'Сумма', bold: true, size: 9, color: COLOR.dark, width: 56, align: 'right' });
-    y += 22;
+    put({ kind: 'rect', x: left, y, w: width, h: 24, fill: COLOR.head });
+    text('№', cols.n + 4, y + 8, { bold: true, color: COLOR.dark });
+    text('Наименование', cols.name, y + 8, { bold: true, color: COLOR.dark });
+    text('Артикул', cols.sku, y + 8, { bold: true, color: COLOR.dark, width: cols.skuW });
+    text('Кол.', cols.qty, y + 8, { bold: true, color: COLOR.dark, width: cols.qtyW, align: 'right' });
+    text('Цена, ₽', cols.price, y + 8, { bold: true, color: COLOR.dark, width: cols.priceW, align: 'right' });
+    text('Сумма, ₽', cols.sum, y + 8, { bold: true, color: COLOR.dark, width: cols.sumW, align: 'right' });
+    y += 24;
   };
   header();
 
@@ -245,43 +302,95 @@ export function buildQuoteLayout(data: QuoteData, measure: Measure): Page[] {
   data.items.forEach((it, i) => {
     const nameLines = wrap(it.name, 9, nameW, measure);
     const rowH = Math.max(20, nameLines.length * LINE + 8);
-    if (y + rowH > PAGE.height - 120) {
+    if (y + rowH > PAGE.height - 110) {
       newPage();
-      y = 48;
+      y = 56;
       header();
     }
-    items.push({ kind: 'text', x: cols.n + 4, y: y + 4, text: String(i + 1), size: 9, color: COLOR.body, width: 20 });
-    nameLines.forEach((part, k) => items.push({
-      kind: 'text', x: cols.name, y: y + 4 + k * LINE, text: part, size: 9, color: COLOR.body,
-    }));
-    items.push({ kind: 'text', x: cols.sku, y: y + 4, text: it.sku, size: 9, color: COLOR.body, width: 76 });
-    items.push({ kind: 'text', x: cols.qty, y: y + 4, text: String(it.qty), size: 9, color: COLOR.body, width: 38, align: 'right' });
-    items.push({ kind: 'text', x: cols.price, y: y + 4, text: formatRub(it.price), size: 9, color: COLOR.body, width: 46, align: 'right' });
-    items.push({ kind: 'text', x: cols.sum, y: y + 4, text: formatRub(it.sum), size: 9, color: COLOR.body, width: 56, align: 'right' });
-    items.push({ kind: 'line', x1: left, y1: y + rowH, x2: right, y2: y + rowH, color: COLOR.rule, lineWidth: 0.5 });
+    text(String(i + 1), cols.n + 4, y + 5, { width: 20 });
+    nameLines.forEach((part, k) => text(part, cols.name, y + 5 + k * LINE));
+    text(it.sku, cols.sku, y + 5, { size: 8.5, width: cols.skuW });
+    text(String(it.qty), cols.qty, y + 5, { width: cols.qtyW, align: 'right' });
+    text(formatRub(it.price), cols.price, y + 5, { width: cols.priceW, align: 'right' });
+    text(formatRub(it.sum), cols.sum, y + 5, { width: cols.sumW, align: 'right' });
+    put({ kind: 'line', x1: left, y1: y + rowH, x2: right, y2: y + rowH,
+          color: COLOR.rule, lineWidth: 0.5 });
     y += rowH;
   });
 
-  // ── Итог ──
+  // ── Итог и сумма прописью ──────────────────────────────────────────────
+  y += 8;
+  text(`Итого: ${formatRub(data.total)}`, left, y,
+       { bold: true, size: 12, color: COLOR.dark, width, align: 'right' });
+  y += 14;
+  y = para('Стоимость предложения указана в российских рублях и составляет '
+           + `${amountPhrase(data.total)}. `
+           + 'НДС не облагается: применяется специальный налоговый режим.',
+           left, y, width, { size: 9 });
+
+  // ── Условия ────────────────────────────────────────────────────────────
   y += 10;
-  items.push({ kind: 'text', x: left, y, text: `Итого: ${formatRub(data.total)}`,
-               bold: true, size: 12, color: COLOR.dark, width, align: 'right' });
-  items.push({ kind: 'text', x: left, y: y + 18, width, align: 'right', size: 8, color: COLOR.muted,
-               text: 'НДС не облагается (применяется специальный налоговый режим).' });
+  text('Условия поставки', left, y, { bold: true, size: 10, color: COLOR.dark });
+  y += 14;
+  for (const c of [
+    `Срок действия предложения: до ${data.validUntil}.`,
+    'Оформление: договор, счёт, закрывающие документы через ЭДО.',
+    'Оплата: безналичный расчёт в рублях по счёту.',
+    'Срок предоставления доступа: 1–3 рабочих дня с даты поступления оплаты.',
+  ]) {
+    put({ kind: 'bullet', x: left + 3, y: y + 4, size: 3, color: COLOR.accent });
+    y = para(c, left + 14, y, width - 14, { size: 9 }) + 2;
+  }
 
-  // ── Реквизиты для оплаты ──
-  y += 44;
-  items.push({ kind: 'text', x: left, y, text: 'Реквизиты для оплаты по счёту', bold: true, size: 10, color: COLOR.dark });
+  // ── Оговорка о статусе документа ───────────────────────────────────────
+  y += 6;
+  const noteH = wrap(PRELIMINARY_NOTE, 9, width - 24, measure).length * 13 + 18;
+  put({ kind: 'rect', x: left, y, w: width, h: noteH, fill: COLOR.noteBg });
+  put({ kind: 'rect', x: left, y, w: 3, h: noteH, fill: COLOR.accent });
+  para(PRELIMINARY_NOTE, left + 14, y + 9, width - 24, { size: 9, color: COLOR.dark });
+  y += noteH + 14;
+
+  // ── Подпись и реквизиты ────────────────────────────────────────────────
+  // Считаем место под весь хвост сразу: разрывать подпись и банковские
+  // реквизиты между страницами нельзя, а переносить их целиком при живом
+  // запасе на первой — значит отдать читателю полупустой второй лист.
+  const bank = bankLines();
+  const bankRows = Math.ceil(bank.length / 2);
+  const TAIL_H = 18 + 15 + 33 + 14 + 16 + bankRows * 11;
+  if (y + TAIL_H > PAGE.height - 66) { newPage(); y = 56; }
+  text('С уважением,', left, y, { size: 9.5, color: COLOR.body });
+  y += 18;
+  text(`${signer.name}, ${signer.role}`, left, y, { bold: true, size: 10, color: COLOR.dark });
+  y += 15;
+  for (const l of [
+    seller.address,
+    `Тел.: ${seller.phone}`,
+    `E-mail: ${seller.email} · ${site.url.replace(/^https?:\/\//, '')}`,
+  ]) {
+    text(l, left, y, { size: 8.5, color: COLOR.muted });
+    y += 11;
+  }
+
+  // ── Реквизиты для оплаты ───────────────────────────────────────────────
+  y += 14;
+  text('Реквизиты для оплаты по счёту', left, y, { bold: true, size: 10, color: COLOR.dark });
   y += 16;
-  bankLines().forEach((l, i) => items.push({
-    kind: 'text', x: left, y: y + i * 12, text: l, size: 9, color: COLOR.body,
-  }));
+  // Две колонки: шесть строк подряд занимали место, из-за которого хвост
+  // не помещался на первой странице.
+  bank.forEach((l, i) => text(
+    l,
+    i < bankRows ? left : left + width / 2,
+    y + (i % bankRows) * 11,
+    { size: 8.5 }));
 
-  // ── Подвал ──
-  items.push({ kind: 'text', x: left, y: PAGE.height - 82, width, align: 'center', size: 8, color: COLOR.muted,
-               text: `${seller.shortName} · ${site.url} · ${seller.phone}` });
-  items.push({ kind: 'text', x: left, y: PAGE.height - 70, width, align: 'center', size: 8, color: COLOR.muted,
-               text: 'Работаем по договору, оплата по счёту, закрывающие документы через ЭДО.' });
+  // ── Колонтитул ─────────────────────────────────────────────────────────
+  const footY = PAGE.height - 46;
+  put({ kind: 'line', x1: left, y1: footY - 8, x2: right, y2: footY - 8,
+        color: COLOR.rule, lineWidth: 0.5 });
+  text(`${seller.legalName} · ИНН ${seller.inn} · ОГРНИП ${seller.ogrnip}`,
+       left, footY, { size: 7, color: COLOR.muted, width, align: 'center' });
+  text(`Юридический адрес: ${seller.address} · ${seller.phone} · ${seller.email}`,
+       left, footY + 10, { size: 7, color: COLOR.muted, width, align: 'center' });
 
   pages.push({ items });
   return pages;

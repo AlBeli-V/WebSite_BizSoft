@@ -14,7 +14,7 @@
 import jpeg from 'jpeg-js';
 import { Resvg } from '@resvg/resvg-js';
 import { buildQuoteLayout, PAGE, type QuoteData, type Primitive } from './quote-layout';
-import { pdfMeasure, fontPath } from './pdf-quote';
+import { pdfMeasure, fontPath, logoBuffer } from './pdf-quote';
 
 /** Плотность растра: 2× к типографским точкам — читается на экране и в печати. */
 export const SCALE = 2;
@@ -36,6 +36,17 @@ const ANCHOR = { left: 'start', right: 'end', center: 'middle' } as const;
 const ASCENT = 0.8;
 
 function svgOf(p: Primitive): string {
+  if (p.kind === 'image') {
+    // Растр встраивается data-URI: resvg не ходит по файловой системе за
+    // внешними ссылками, а отдельный слой картинки поверх SVG рассыпал бы
+    // единый порядок отрисовки.
+    const b64 = logoBuffer(p.file).toString('base64');
+    return `<image x="${p.x}" y="${p.y}" width="${p.w}" height="${p.h}" `
+      + `preserveAspectRatio="xMinYMid meet" href="data:image/png;base64,${b64}"/>`;
+  }
+  if (p.kind === 'bullet') {
+    return `<circle cx="${p.x}" cy="${p.y}" r="${p.size}" fill="${p.color}"/>`;
+  }
   if (p.kind === 'rect') {
     return `<rect x="${p.x}" y="${p.y}" width="${p.w}" height="${p.h}" fill="${p.fill}"/>`;
   }

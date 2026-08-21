@@ -68,7 +68,8 @@ function capitalize(s: string): string {
   return s.charAt(0).toUpperCase() + s.slice(1);
 }
 
-function amountPhrase(n: number): string {
+/** «18 000 000,00 (Восемнадцать миллионов) рублей 00 копеек» — как в образце КП. */
+export function amountPhrase(n: number): string {
   const rub = Math.trunc(n);
   const kop = Math.round((n - rub) * 100);
   const kopStr = String(kop).padStart(2, '0');

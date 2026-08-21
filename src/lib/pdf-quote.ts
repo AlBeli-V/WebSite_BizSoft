@@ -24,6 +24,17 @@ export function fontPath(file: string): string {
 const FONT_REGULAR = readFileSync(fontPath('DejaVuSans.ttf'));
 const FONT_BOLD = readFileSync(fontPath('DejaVuSans-Bold.ttf'));
 
+const logoCache = new Map<string, Buffer>();
+/** Файл логотипа с диска. Кэш: страниц бывает несколько, файл один. */
+export function logoBuffer(file: string): Buffer {
+  let buf = logoCache.get(file);
+  if (!buf) {
+    buf = readFileSync(new URL(`../../${file}`, import.meta.url));
+    logoCache.set(file, buf);
+  }
+  return buf;
+}
+
 /** Измеритель на pdfkit: оба формата считают раскладку им, поэтому не расходятся. */
 export function pdfMeasure(): Measure {
   const probe = new PDFDocument({ size: 'A4', margin: PAGE.margin });
@@ -37,6 +48,16 @@ export function pdfMeasure(): Measure {
 }
 
 function draw(doc: PDFKit.PDFDocument, p: Primitive): void {
+  if (p.kind === 'image') {
+    // Логотип читается с диска один раз и кэшируется: страниц может быть
+    // несколько, а файл один и тот же.
+    doc.image(logoBuffer(p.file), p.x, p.y, { fit: [p.w, p.h], align: 'left' });
+    return;
+  }
+  if (p.kind === 'bullet') {
+    doc.circle(p.x, p.y, p.size).fill(p.color);
+    return;
+  }
   if (p.kind === 'rect') {
     doc.rect(p.x, p.y, p.w, p.h).fill(p.fill);
     return;
@@ -73,15 +94,25 @@ function draw(doc: PDFKit.PDFDocument, p: Primitive): void {
     return;
   }
   doc.font(p.bold ? 'b' : 'r').fontSize(p.size).fillColor(p.color);
+  // lineBreak: false обязателен и при заданной ширине. Раскладка уже разбила
+  // текст на строки и знает координату каждой; если оставить перенос на
+  // pdfkit, он у нижнего поля молча заводит новую страницу — так колонтитул
+  // порождал два пустых листа, которых нет ни в раскладке, ни в JPG.
   doc.text(p.text, p.x, p.y,
-    p.width ? { width: p.width, align: p.align || 'left' } : { lineBreak: false });
+    p.width ? { width: p.width, align: p.align || 'left', lineBreak: false }
+            : { lineBreak: false });
 }
 
 export function generateQuotePdf(data: QuoteData): Promise<Buffer> {
   return new Promise((resolve, reject) => {
     try {
       const pages = buildQuoteLayout(data, pdfMeasure());
-      const doc = new PDFDocument({ size: 'A4', margin: PAGE.margin, autoFirstPage: false });
+      // Поля документа обнулены намеренно: раскладка позиционирует каждый
+      // примитив абсолютно и сама решает, где кончается страница. С полями
+      // pdfkit считает нижнюю границу своей и заводит продолжение страницы
+      // всякий раз, когда текст оказывается ниже неё, — колонтитул порождал
+      // два пустых листа, которых нет ни в раскладке, ни в JPG.
+      const doc = new PDFDocument({ size: 'A4', margin: 0, autoFirstPage: false });
       doc.registerFont('r', FONT_REGULAR);
       doc.registerFont('b', FONT_BOLD);
 
@@ -91,7 +122,7 @@ export function generateQuotePdf(data: QuoteData): Promise<Buffer> {
       doc.on('error', reject);
 
       for (const page of pages) {
-        doc.addPage({ size: 'A4', margin: PAGE.margin });
+        doc.addPage({ size: 'A4', margin: 0 });
         for (const p of page.items) draw(doc, p);
       }
       doc.end();
