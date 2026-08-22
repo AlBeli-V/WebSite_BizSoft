@@ -20,30 +20,6 @@
   "checked_at": "2026-08-20",
   "kind": "classic"
  },
- "atlassian": {
-  "verdict": "card",
-  "note": "найдены признаки самостоятельной оплаты картой",
-  "card_markers": [
-   "american express",
-   "credit card",
-   "mastercard",
-   "visa"
-  ],
-  "buy_markers": [
-   "buy now",
-   "get started",
-   "purchase",
-   "start free trial"
-  ],
-  "sales_markers": [
-   "contact sales"
-  ],
-  "has_prices": true,
-  "url": "https://www.atlassian.com/software/jira/pricing",
-  "http_status": 200,
-  "checked_at": "2026-08-20",
-  "kind": "classic"
- },
  "jira": {
   "verdict": "card",
   "note": "найдены признаки самостоятельной оплаты картой",
@@ -667,37 +643,6 @@
   "checked_at": "2026-08-20",
   "kind": "ai"
  },
- "kling ai": {
-  "verdict": "likely_card",
-  "note": "есть цены и кнопки покупки, платёжная система не опознана",
-  "card_markers": [],
-  "buy_markers": [
-   "purchase"
-  ],
-  "sales_markers": [],
-  "has_prices": true,
-  "url": "https://klingai.com/pricing",
-  "http_status": 200,
-  "checked_at": "2026-08-20",
-  "kind": "ai"
- },
- "suno": {
-  "verdict": "card",
-  "note": "найдены признаки самостоятельной оплаты картой",
-  "card_markers": [
-   "js.stripe.com",
-   "stripe"
-  ],
-  "buy_markers": [
-   "purchase"
-  ],
-  "sales_markers": [],
-  "has_prices": true,
-  "url": "https://suno.com/pricing",
-  "http_status": 200,
-  "checked_at": "2026-08-20",
-  "kind": "ai"
- },
  "udio": {
   "verdict": "card",
   "note": "найдены признаки самостоятельной оплаты картой",
@@ -937,26 +882,6 @@
   "checked_at": "2026-08-20",
   "kind": "classic"
  },
- "postman": {
-  "verdict": "card",
-  "note": "найдены признаки самостоятельной оплаты картой",
-  "card_markers": [
-   "paddle"
-  ],
-  "buy_markers": [
-   "buy now",
-   "get started",
-   "purchase"
-  ],
-  "sales_markers": [
-   "contact sales"
-  ],
-  "has_prices": true,
-  "url": "https://postman.com/pricing",
-  "http_status": 200,
-  "checked_at": "2026-08-20",
-  "kind": "classic"
- },
  "datadog": {
   "verdict": "card",
   "note": "найдены признаки самостоятельной оплаты картой",
@@ -975,25 +900,6 @@
   ],
   "has_prices": true,
   "url": "https://www.datadoghq.com/pricing/",
-  "http_status": 200,
-  "checked_at": "2026-08-20",
-  "kind": "classic"
- },
- "sentry": {
-  "verdict": "card",
-  "note": "найдены признаки самостоятельной оплаты картой",
-  "card_markers": [
-   "credit card"
-  ],
-  "buy_markers": [
-   "get started"
-  ],
-  "sales_markers": [
-   "contact sales",
-   "get a demo"
-  ],
-  "has_prices": true,
-  "url": "https://sentry.io/pricing/",
   "http_status": 200,
   "checked_at": "2026-08-20",
   "kind": "classic"
@@ -1043,26 +949,6 @@
   "sales_markers": [],
   "has_prices": true,
   "url": "https://aws.com/pricing",
-  "http_status": 200,
-  "checked_at": "2026-08-20",
-  "kind": "classic"
- },
- "cloudflare": {
-  "verdict": "card",
-  "note": "найдены признаки самостоятельной оплаты картой",
-  "card_markers": [
-   "credit card",
-   "stripe",
-   "visa"
-  ],
-  "buy_markers": [
-   "get started"
-  ],
-  "sales_markers": [
-   "contact sales"
-  ],
-  "has_prices": true,
-  "url": "https://www.cloudflare.com/plans/",
   "http_status": 200,
   "checked_at": "2026-08-20",
   "kind": "classic"
@@ -1587,20 +1473,6 @@
   "checked_at": "2026-08-20",
   "kind": "classic"
  },
- "zoho": {
-  "verdict": "likely_card",
-  "note": "есть цены и кнопки покупки, платёжная система не опознана",
-  "card_markers": [],
-  "buy_markers": [
-   "get started"
-  ],
-  "sales_markers": [],
-  "has_prices": true,
-  "url": "https://www.zoho.com/pricing.html",
-  "http_status": 200,
-  "checked_at": "2026-08-20",
-  "kind": "classic"
- },
  "brevo": {
   "verdict": "card",
   "note": "найдены признаки самостоятельной оплаты картой",
@@ -1619,18 +1491,6 @@
   "has_prices": true,
   "url": "https://www.brevo.com/pricing/",
   "http_status": 200,
-  "checked_at": "2026-08-20",
-  "kind": "classic"
- },
- "capcut": {
-  "verdict": "unreachable",
-  "note": "страница тарифов не открылась",
-  "url": "https://www.capcut.com/pricing",
-  "http_status": null,
-  "card_markers": [],
-  "buy_markers": [],
-  "sales_markers": [],
-  "has_prices": false,
   "checked_at": "2026-08-20",
   "kind": "classic"
  },
@@ -1691,18 +1551,6 @@
   "checked_at": "2026-08-20",
   "kind": "ai"
  },
- "leonardo ai": {
-  "verdict": "unknown",
-  "note": "признаков оплаты на странице не найдено",
-  "card_markers": [],
-  "buy_markers": [],
-  "sales_markers": [],
-  "has_prices": false,
-  "url": "https://www.leonardoai.com/pricing",
-  "http_status": 200,
-  "checked_at": "2026-08-20",
-  "kind": "ai"
- },
  "ideogram": {
   "verdict": "unknown",
   "note": "признаков оплаты на странице не найдено",
@@ -1748,18 +1596,6 @@
   "has_prices": true,
   "url": "https://bubble.com/pricing",
   "http_status": 200,
-  "checked_at": "2026-08-20",
-  "kind": "classic"
- },
- "box": {
-  "verdict": "unreachable",
-  "note": "страница тарифов не открылась",
-  "url": "https://www.box.com/pricing",
-  "http_status": null,
-  "card_markers": [],
-  "buy_markers": [],
-  "sales_markers": [],
-  "has_prices": false,
   "checked_at": "2026-08-20",
   "kind": "classic"
  },
@@ -2032,18 +1868,6 @@
   "has_prices": true,
   "url": "https://www.protopie.io/pricing",
   "http_status": 200,
-  "checked_at": "2026-08-20",
-  "kind": "classic"
- },
- "principle": {
-  "verdict": "unreachable",
-  "note": "страница тарифов не открылась",
-  "url": "https://www.principle.com/pricing",
-  "http_status": null,
-  "card_markers": [],
-  "buy_markers": [],
-  "sales_markers": [],
-  "has_prices": false,
   "checked_at": "2026-08-20",
   "kind": "classic"
  },
