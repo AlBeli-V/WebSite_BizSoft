@@ -1,193 +1,313 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""Сбор SEO-данных biz-soft.pro из API Яндекс.Вебмастера v4.
+"""Сбор SEO-данных biz-soft.pro из Google Search Console и API Яндекс.Вебмастера.
 
-Запуск (токен в переменной окружения YANDEX_OAUTH):
-
-    YANDEX_OAUTH=... python3 scripts/seo/collect.py --yandex
-        → data/yandex-<YYYY-MM-DD>.json
-
-Флаг --stdout-b64 вместо записи файла печатает gzip+base64 JSON между
-маркерами ---YJSON-BEGIN--- / ---YJSON-END--- — транспорт результата через
-stdout SSH-шага воркфлоу seo-data-collect (из облачной сессии ассистента
-нет egress к api.webmaster.yandex.net, а токен хранится только на сервере).
-
-Ключ excluded_samples в результате — выборки страниц, исключённых из поиска:
-прямого эндпоинта «excluded» в v4 нет, поэтому причины исключения берём из
-событий поиска (search-urls/events/samples, event=REMOVED_FROM_SEARCH), а
-эндпоинт search-urls/samples пробуем дополнительно и ошибку лишь фиксируем.
+Запускается воркфлоу seo-data-collect (GitHub Actions): секреты
+GSC_SERVICE_ACCOUNT_JSON и YANDEX_WEBMASTER_TOKEN приходят через env.
+Пишет reports/seo/data/gsc-<дата>.json и yandex-<дата>.json.
+Ошибки каждого источника фиксируются в его JSON, не валя весь сбор.
 """
 
-import argparse
-import base64
 import datetime as dt
-import gzip
 import json
 import os
+import pathlib
 import sys
-import urllib.error
 import urllib.parse
-import urllib.request
+from zoneinfo import ZoneInfo
 
-API = "https://api.webmaster.yandex.net/v4"
-HOST_MATCH = "biz-soft.pro"
-PAGE_LIMIT = 100     # максимум samples на один запрос API
-MAX_SAMPLES = 3000   # потолок постраничной выгрузки на эндпоинт
+import requests
 
+SITE = 'biz-soft.pro'
+OUT_DIR = pathlib.Path('reports/seo/data')
 
-def api_get(token, path, params=None):
-    url = API + path
-    if params:
-        url += "?" + urllib.parse.urlencode(params)
-    req = urllib.request.Request(url, method="GET")
-    req.add_header("Authorization", "OAuth " + token)
-    try:
-        with urllib.request.urlopen(req, timeout=60) as resp:
-            return resp.status, json.loads(resp.read() or b"{}")
-    except urllib.error.HTTPError as e:
-        try:
-            body = json.loads(e.read() or b"{}")
-        except Exception:
-            body = {}
-        return e.code, body
-    except urllib.error.URLError as e:
-        return 0, {"error_message": str(e)}
+# Дата сбора — московская, а не по часовому поясу раннера.
+#
+# Раннер GitHub Actions живёт в UTC, GA4 и Метрика отдают данные в
+# Europe/Moscow, а правило проекта требует Москву. Пока сбор идёт в 05:40 МСК,
+# UTC и МСК дают одну дату и расхождение не видно. При ручном прогоне после
+# 21:00 МСК имя файла ушло бы на сутки назад от содержимого, и сравнение
+# периодов сломалось бы молча.
+MSK = ZoneInfo('Europe/Moscow')
 
 
-def fetch_paged(token, path, params=None, max_items=MAX_SAMPLES):
-    """Постраничная выгрузка samples-эндпоинтов (offset/limit, count в ответе)."""
-    out = {"endpoint": path, "count": None, "samples": []}
-    offset = 0
-    while True:
-        q = dict(params or {})
-        q.update({"offset": offset, "limit": PAGE_LIMIT})
-        status, data = api_get(token, path, q)
-        if status != 200:
-            out["error"] = {"http_status": status, "body": data}
-            break
-        batch = data.get("samples") or []
-        if out["count"] is None:
-            out["count"] = data.get("count")
-        out["samples"].extend(batch)
-        offset += len(batch)
-        if (not batch or offset >= max_items
-                or (out["count"] is not None and offset >= out["count"])):
-            break
-    out["fetched"] = len(out["samples"])
-    return out
+def today() -> dt.date:
+    return dt.datetime.now(MSK).date()
 
 
-def collect_yandex(token):
-    """Сводка индексации и выборки исключённых из поиска страниц."""
-    result = {
-        "source": "yandex.webmaster.v4",
-        "collected_at": dt.datetime.now(dt.timezone.utc).isoformat(timespec="seconds"),
-    }
+TODAY = today().isoformat()
 
-    status, user = api_get(token, "/user")
-    if status != 200:
-        result["error"] = {"step": "user", "http_status": status, "body": user}
+# Счётчики, которые обязан использовать сборщик. Значения публичны — они
+# в HTML каждой страницы, — поэтому лежат в коде, а не в секретах: так их
+# можно сверить, а расхождение поймать (см. verify_ids).
+EXPECTED_METRIKA_COUNTER = '110206070'
+EXPECTED_GA_MEASUREMENT_ID = 'G-V9BK2D1431'
+
+# Вебмастер отдаёт запросы страницами. 100 — предел страницы у API,
+# 2000 — потолок на случай, если хост внезапно отдаст десятки тысяч строк:
+# сбор не должен превращаться в бесконечный обход.
+PAGE_LIMIT = 100
+MAX_QUERIES = 2000
+
+# Источники, которые GA4 считает органическим поиском, а мы — своими визитами
+# и не-поиском. Интерфейсы Яндекса — это переходы сотрудников; Алиса — не
+# поисковая выдача.
+INTERNAL_SOURCES = ('metrika.yandex.ru', 'webmaster.yandex.ru',
+                    'direct.yandex.ru', 'alice.yandex.ru')
+
+
+def collect_gsc() -> dict:
+    from google.auth.transport.requests import Request
+    from google.oauth2 import service_account
+
+    info = json.loads(os.environ['GSC_SERVICE_ACCOUNT_JSON'])
+    creds = service_account.Credentials.from_service_account_info(
+        info, scopes=['https://www.googleapis.com/auth/webmasters.readonly'])
+    creds.refresh(Request())
+    headers = {'Authorization': f'Bearer {creds.token}'}
+
+    sites_resp = requests.get(
+        'https://www.googleapis.com/webmasters/v3/sites', headers=headers, timeout=30)
+    if not sites_resp.ok:
+        return {'date': TODAY,
+                'error': f'/sites HTTP {sites_resp.status_code}: {sites_resp.text[:300]}'}
+    sites = sites_resp.json()
+    entries = [s for s in sites.get('siteEntry', []) if SITE in s['siteUrl']]
+    result = {'date': TODAY, 'sites': sites.get('siteEntry', []), 'analytics': {}}
+    if not entries:
+        result['error'] = f'{SITE} не найден среди ресурсов сервисного аккаунта'
         return result
-    uid = user["user_id"]
 
-    status, hosts = api_get(token, f"/user/{uid}/hosts")
-    host_id = next(
-        (h["host_id"] for h in hosts.get("hosts", [])
-         if HOST_MATCH in h["host_id"] and h["host_id"].startswith("https")),
-        None,
-    )
-    result["host_id"] = host_id
-    if not host_id:
-        result["error"] = {
-            "step": "hosts", "http_status": status,
-            "available": [h.get("host_id") for h in hosts.get("hosts", [])],
+    site_url = urllib.parse.quote(entries[0]['siteUrl'], safe='')
+    end = today()
+    start = end - dt.timedelta(days=28)
+    for dims in (['date'], ['query'], ['page']):
+        body = {
+            'startDate': start.isoformat(),
+            'endDate': end.isoformat(),
+            'dimensions': dims,
+            'rowLimit': 100,
         }
-        return result
-    base = f"/user/{uid}/hosts/{host_id}"
-
-    status, summary = api_get(token, base + "/summary")
-    result["summary"] = summary if status == 200 else {"error": {"http_status": status, "body": summary}}
-
-    events = fetch_paged(token, base + "/search-urls/events/samples")
-    legacy = fetch_paged(token, base + "/search-urls/samples", max_items=PAGE_LIMIT)
-    removed = [s for s in events["samples"] if s.get("event") == "REMOVED_FROM_SEARCH"]
-    result["excluded_samples"] = {
-        "removed_from_search": removed,
-        "removed_fetched": len(removed),
-        "events_raw": events,
-        "search_urls_samples_raw": legacy,
-    }
-
-    # Контекст для классификации: что сейчас в поиске и что видел робот.
-    result["in_search_samples"] = fetch_paged(token, base + "/search-urls/in-search/samples", max_items=1000)
-    result["indexing_samples"] = fetch_paged(token, base + "/indexing/samples")
+        r = requests.post(
+            f'https://www.googleapis.com/webmasters/v3/sites/{site_url}/searchAnalytics/query',
+            headers=headers, json=body, timeout=30)
+        # Без этой проверки тело ошибки Google сохранялось как данные. Ключа
+        # `rows` в нём нет, поэтому дальше по конвейеру получалось 0 показов —
+        # и сбой доступа читался как обвал поискового трафика.
+        result['analytics'][dims[0]] = r.json() if r.ok else {
+            'error': f'HTTP {r.status_code}: {r.text[:400]}'}
+    errors = [v['error'] for v in result['analytics'].values() if 'error' in v]
+    if len(errors) == len(result['analytics']):
+        result['error'] = 'все разрезы Search Analytics вернули ошибку: ' + errors[0]
     return result
 
 
-def _reason(sample):
-    return sample.get("excluded_url_status") or sample.get("reason") or "UNKNOWN"
+def collect_yandex() -> dict:
+    headers = {'Authorization': f"OAuth {os.environ['YANDEX_WEBMASTER_TOKEN']}"}
+    base = 'https://api.webmaster.yandex.net/v4/user'
+    result = {'date': TODAY}
+
+    user_resp = requests.get(base, headers=headers, timeout=30)
+    user_data = user_resp.json()
+    if 'user_id' not in user_data:
+        result['error'] = (
+            f'API /user не вернул user_id (HTTP {user_resp.status_code}): '
+            f'{json.dumps(user_data, ensure_ascii=False)[:500]}'
+        )
+        return result
+    uid = user_data['user_id']
+    hosts = requests.get(f'{base}/{uid}/hosts', headers=headers, timeout=30).json()
+    result['hosts'] = hosts.get('hosts', [])
+    match = [h for h in result['hosts'] if SITE in h['host_id']]
+    if not match:
+        result['error'] = f'{SITE} не найден в Вебмастере этого аккаунта (или не подтверждён)'
+        return result
+
+    host_id = match[0]['host_id']
+    result['host_id'] = host_id
+    result['summary'] = requests.get(
+        f'{base}/{uid}/hosts/{host_id}/summary', headers=headers, timeout=30).json()
+
+    date_to = today()
+    date_from = date_to - dt.timedelta(days=14)
+    params = {
+        'order_by': 'TOTAL_SHOWS',
+        'query_indicator': ['TOTAL_SHOWS', 'TOTAL_CLICKS', 'AVG_SHOW_POSITION', 'AVG_CLICK_POSITION'],
+        'date_from': date_from.isoformat(),
+        'date_to': date_to.isoformat(),
+        'limit': PAGE_LIMIT,
+    }
+    url = f'{base}/{uid}/hosts/{host_id}/search-queries/popular/'
+
+    # Постраничный забор вместо первых ста строк.
+    #
+    # Прежде бралась одна страница из 100 запросов при `count` в 506. Отбор шёл
+    # по TOTAL_SHOWS, поэтому выборка была смещена в сторону высокочастотных
+    # запросов и систематически теряла длинный хвост — а именно там у B2B-сайта
+    # живут конверсионные запросы вида «оплата X для юрлиц». Это же объясняло
+    # восьмикратный разрыв между кликами Вебмастера и органическими визитами
+    # Метрики.
+    queries, page, meta = [], None, {}
+    for offset in range(0, MAX_QUERIES, PAGE_LIMIT):
+        r = requests.get(url, headers=headers,
+                         params={**params, 'offset': offset}, timeout=30)
+        if not r.ok:
+            meta = meta or {'error': f'HTTP {r.status_code}: {r.text[:300]}'}
+            break
+        page = r.json()
+        chunk = page.get('queries') or []
+        meta = meta or {k: v for k, v in page.items() if k != 'queries'}
+        queries.extend(chunk)
+        if len(chunk) < PAGE_LIMIT or len(queries) >= (page.get('count') or 0):
+            break
+
+    result['popular_queries'] = {**meta, 'queries': queries,
+                                 'fetched': len(queries),
+                                 'count': (page or {}).get('count', len(queries))}
+    return result
 
 
-def print_summary(data):
-    print("== Яндекс.Вебмастер: сводка сбора ==")
-    if data.get("error"):
-        print("ошибка:", json.dumps(data["error"], ensure_ascii=False))
-        return
-    print("host:", data.get("host_id"))
-    summary = data.get("summary") or {}
-    for key in ("searchable_pages_count", "excluded_pages_count", "sqi", "site_problems"):
-        if key in summary:
-            print(f"{key}: {json.dumps(summary[key], ensure_ascii=False)}")
-    ex = data.get("excluded_samples") or {}
-    removed = ex.get("removed_from_search") or []
-    total = (ex.get("events_raw") or {}).get("count")
-    print(f"событий поиска выгружено: {(ex.get('events_raw') or {}).get('fetched')} из {total}")
-    print(f"из них исключений (REMOVED_FROM_SEARCH): {len(removed)}")
-    reasons = {}
-    for s in removed:
-        reasons[_reason(s)] = reasons.get(_reason(s), 0) + 1
-    for name, n in sorted(reasons.items(), key=lambda kv: -kv[1]):
-        print(f"  {name}: {n}")
-    idx = data.get("indexing_samples") or {}
-    print(f"indexing/samples: {idx.get('fetched')} из {idx.get('count')}")
-    ins = data.get("in_search_samples") or {}
-    print(f"in-search/samples: {ins.get('fetched')} из {ins.get('count')}")
+def collect_metrika() -> dict:
+    """Яндекс.Метрика: источники трафика, органика по ПС и посадочным, цели.
+    Токен — YANDEX_METRIKA_TOKEN (scope metrika:read), счётчик — YANDEX_METRIKA_COUNTER_ID."""
+    token = os.environ['YANDEX_METRIKA_TOKEN']
+    counter = os.environ['YANDEX_METRIKA_COUNTER_ID'].strip()
+    # Счётчик сборщика обязан совпадать со счётчиком, который стоит на сайте.
+    # Иначе отчёт соберётся из чужих данных и будет выглядеть правдоподобно.
+    if counter != EXPECTED_METRIKA_COUNTER:
+        return {'date': TODAY,
+                'error': (f'счётчик сборщика {counter} не совпадает со счётчиком сайта '
+                          f'{EXPECTED_METRIKA_COUNTER} (src/lib/analytics.ts)')}
+    headers = {'Authorization': f'OAuth {token}'}
+    stat = 'https://api-metrika.yandex.net/stat/v1/data'
+    date_to = today() - dt.timedelta(days=1)
+    date_from = date_to - dt.timedelta(days=13)
+    base = {'ids': counter, 'date1': date_from.isoformat(), 'date2': date_to.isoformat(),
+            'accuracy': 'full', 'limit': 100}
+    result = {'date': TODAY, 'counter': counter,
+              'window': {'from': date_from.isoformat(), 'to': date_to.isoformat()}}
+
+    goals_resp = requests.get(
+        f'https://api-metrika.yandex.net/management/v1/counter/{counter}/goals',
+        headers=headers, timeout=30)
+    result['goals'] = goals_resp.json().get('goals', []) if goals_resp.ok else {
+        'error': f'HTTP {goals_resp.status_code}: {goals_resp.text[:300]}'}
+
+    queries = {
+        'traffic_sources': {
+            'dimensions': 'ym:s:lastTrafficSource',
+            'metrics': 'ym:s:visits,ym:s:users,ym:s:bounceRate,ym:s:pageDepth,ym:s:sumGoalReachesAny',
+        },
+        'organic_by_engine': {
+            'dimensions': 'ym:s:lastSearchEngineRoot',
+            'metrics': 'ym:s:visits,ym:s:users,ym:s:bounceRate,ym:s:sumGoalReachesAny',
+            'filters': "ym:s:lastTrafficSource=='organic'",
+        },
+        'organic_landing_pages': {
+            'dimensions': 'ym:s:startURLPath',
+            'metrics': 'ym:s:visits,ym:s:bounceRate,ym:s:sumGoalReachesAny',
+            'filters': "ym:s:lastTrafficSource=='organic'",
+        },
+    }
+    for key, params in queries.items():
+        r = requests.get(stat, headers=headers, params={**base, **params}, timeout=30)
+        result[key] = r.json() if r.ok else {'error': f'HTTP {r.status_code}: {r.text[:300]}'}
+    return result
 
 
-def main(argv=None):
-    ap = argparse.ArgumentParser(description="Сбор SEO-данных biz-soft.pro")
-    ap.add_argument("--yandex", action="store_true", help="собрать данные Яндекс.Вебмастера")
-    ap.add_argument("--stdout-b64", action="store_true",
-                    help="печать gzip+base64 JSON в stdout вместо записи файла")
-    ap.add_argument("--out-dir", default="data", help="каталог для data/yandex-<дата>.json")
-    args = ap.parse_args(argv)
-    if not args.yandex:
-        ap.error("укажите --yandex (других коллекторов пока нет)")
+def collect_ga4() -> dict:
+    """GA4 Data API: каналы, органические посадочные, источники. Авторизация —
+    тот же сервисный аккаунт, что и GSC; property — секрет GA4_PROPERTY_ID."""
+    from google.auth.transport.requests import Request
+    from google.oauth2 import service_account
 
-    token = os.environ.get("YANDEX_OAUTH", "").strip()
-    if not token:
-        print("ошибка: переменная окружения YANDEX_OAUTH не задана", file=sys.stderr)
-        return 2
+    info = json.loads(os.environ['GSC_SERVICE_ACCOUNT_JSON'])
+    creds = service_account.Credentials.from_service_account_info(
+        info, scopes=['https://www.googleapis.com/auth/analytics.readonly'])
+    creds.refresh(Request())
+    headers = {'Authorization': f'Bearer {creds.token}'}
+    prop = os.environ['GA4_PROPERTY_ID'].strip()
+    url = f'https://analyticsdata.googleapis.com/v1beta/properties/{prop}:runReport'
+    date_to = today() - dt.timedelta(days=1)
+    date_from = date_to - dt.timedelta(days=13)
+    dates = [{'startDate': date_from.isoformat(), 'endDate': date_to.isoformat()}]
+    result = {'date': TODAY, 'property': prop,
+              'window': {'from': date_from.isoformat(), 'to': date_to.isoformat()}}
 
-    data = collect_yandex(token)
-    print_summary(data)
+    organic_filter = {'filter': {'fieldName': 'sessionDefaultChannelGroup',
+                                 'stringFilter': {'value': 'Organic Search'}}}
 
-    if args.stdout_b64:
-        payload = base64.b64encode(
-            gzip.compress(json.dumps(data, ensure_ascii=False).encode())
-        ).decode()
-        print("---YJSON-BEGIN---")
-        for i in range(0, len(payload), 200):
-            print(payload[i:i + 200])
-        print("---YJSON-END---")
-    else:
-        os.makedirs(args.out_dir, exist_ok=True)
-        path = os.path.join(args.out_dir, f"yandex-{dt.date.today().isoformat()}.json")
-        with open(path, "w", encoding="utf-8") as f:
-            json.dump(data, f, ensure_ascii=False, indent=2)
-        print("записано:", path)
-    return 0
+    # GA4 относит к поисковым системам любой домен *.yandex.*, включая интерфейс
+    # Метрики и Вебмастера. Переход «посмотреть сайт» из Вебвизора становился
+    # органической сессией: на замере 21.08.2026 источник metrika.yandex.ru дал
+    # 5 сессий и оба зафиксированных key events — то есть сто процентов
+    # «конверсий органики» были визитами владельца сайта.
+    organic_clean = {'andGroup': {'expressions': [
+        organic_filter,
+        {'notExpression': {'filter': {
+            'fieldName': 'sessionSource',
+            'inListFilter': {'values': list(INTERNAL_SOURCES)}}}},
+    ]}}
+    reports = {
+        'channels': {
+            'dateRanges': dates,
+            'dimensions': [{'name': 'sessionDefaultChannelGroup'}],
+            'metrics': [{'name': 'sessions'}, {'name': 'totalUsers'}, {'name': 'keyEvents'}],
+        },
+        'organic_sources': {
+            'dateRanges': dates,
+            'dimensions': [{'name': 'sessionSource'}],
+            'metrics': [{'name': 'sessions'}, {'name': 'keyEvents'}],
+            'dimensionFilter': organic_filter,
+        },
+        'organic_landing_pages': {
+            'dateRanges': dates,
+            'dimensions': [{'name': 'landingPage'}],
+            'metrics': [{'name': 'sessions'}, {'name': 'keyEvents'}],
+            'dimensionFilter': organic_clean,
+            'limit': 50,
+        },
+        # Тот же срез без очистки. Нужен именно для сравнения: разница между
+        # ним и organic_landing_pages показывает объём собственных визитов,
+        # и проверка INTERNAL_TRAFFIC_IN_ORGANIC опирается на неё, а не на
+        # предположение.
+        'organic_landing_pages_raw': {
+            'dateRanges': dates,
+            'dimensions': [{'name': 'landingPage'}],
+            'metrics': [{'name': 'sessions'}, {'name': 'keyEvents'}],
+            'dimensionFilter': organic_filter,
+            'limit': 50,
+        },
+    }
+    for key, body in reports.items():
+        r = requests.post(url, headers=headers, json=body, timeout=30)
+        result[key] = r.json() if r.ok else {'error': f'HTTP {r.status_code}: {r.text[:400]}'}
+    return result
 
 
-if __name__ == "__main__":
+def main() -> int:
+    OUT_DIR.mkdir(parents=True, exist_ok=True)
+    ok = True
+    for name, fn, secret in (
+        ('gsc', collect_gsc, 'GSC_SERVICE_ACCOUNT_JSON'),
+        ('yandex', collect_yandex, 'YANDEX_WEBMASTER_TOKEN'),
+        ('metrika', collect_metrika, 'YANDEX_METRIKA_TOKEN'),
+        ('ga4', collect_ga4, 'GA4_PROPERTY_ID'),
+    ):
+        if not os.environ.get(secret):
+            data = {'date': TODAY, 'error': f'секрет {secret} не задан'}
+            ok = False
+        else:
+            try:
+                data = fn()
+            except Exception as e:  # noqa: BLE001 — фиксируем любую ошибку источника в JSON
+                data = {'date': TODAY, 'error': f'{type(e).__name__}: {e}'}
+                ok = False
+        path = OUT_DIR / f'{name}-{TODAY}.json'
+        path.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding='utf-8')
+        status = 'ошибка: ' + data['error'] if 'error' in data else 'ок'
+        print(f'{name}: {status} -> {path}')
+    return 0 if ok else 1
+
+
+if __name__ == '__main__':
     sys.exit(main())

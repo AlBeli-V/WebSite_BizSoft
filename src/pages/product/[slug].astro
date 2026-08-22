@@ -257,7 +257,12 @@ try {
               {vat > 0 && (
                 <details class="vat-hint">
                   <summary>в т.ч. НДС {vat}% ⓘ</summary>
-                  <span>Поставщик применяет УСН: НДС {vat}% уже включён в цену и отдельной строкой указывается в счёте и КП.</span>
+                  <span>
+                    Налог включён в цену, сверху не добавляется. В счёте, КП и
+                    закрывающих документах выделен отдельной строкой.
+                    {' '}Принимается к вычету, если вы на общей системе.
+                    {' '}<a href="/blog/zakryvayushchie-dokumenty-na-po">Подробнее о документах</a>
+                  </span>
                 </details>
               )}
             </p>
@@ -452,6 +457,13 @@ try {
   document.querySelector('[data-dec]')?.addEventListener('click', () => { if (qtyInput) { qtyInput.value = String(Math.max(1, curQty() - 1)); refreshTotal(); } });
   qtyInput?.addEventListener('input', refreshTotal);
   refreshTotal();
+
+  // Просмотр карточки: знаменатель для добавлений в подборку. Без него
+  // «добавили 3 раза» не говорит ничего — 3 из 5 и 3 из 500 разные вещи.
+  trackGoal('view_product', {
+    sku: addBtn?.dataset.sku || '',
+    slug: addBtn?.dataset.slug || location.pathname,
+  });
 
   addBtn?.addEventListener('click', () => {
     addToCart({ sku: addBtn.dataset.sku!, slug: addBtn.dataset.slug!, name: addBtn.dataset.name!, price: unit }, curQty());

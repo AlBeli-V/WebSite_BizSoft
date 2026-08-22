@@ -1,0 +1,420 @@
+{
+  "collected_at": "2026-08-20T21:36:51.207Z",
+  "source_url": "https://store.manageengine.com/",
+  "source_snapshot_id": "28253fba2d47",
+  "groups": [
+    {
+      "group": "Identity and access management",
+      "products": [
+        {
+          "name": "ADManager Plus",
+          "tagline": "Active Directory, Microsoft 365, and Exchange management and reporting",
+          "subgroup": "Active Directory management",
+          "url": "https://store.manageengine.com/ad-manager/?MEstore"
+        },
+        {
+          "name": "ADAudit Plus",
+          "tagline": "Hybrid AD, cloud, and file auditing; security; and compliance",
+          "subgroup": "Active Directory management",
+          "url": "https://store.manageengine.com/active-directory-audit/?MEstore&SIEM"
+        },
+        {
+          "name": "ADSelfService Plus",
+          "tagline": "Identity security with adaptive MFA, SSPR, and SSO",
+          "subgroup": "Active Directory management",
+          "url": "https://store.manageengine.com/self-service-password/?MEstore"
+        },
+        {
+          "name": "Exchange Reporter Plus",
+          "tagline": "Reporting, auditing, and monitoring for hybrid Exchange and Skype",
+          "subgroup": "Active Directory management",
+          "url": "https://store.manageengine.com/exchange-reports/?MEstore"
+        },
+        {
+          "name": "RecoveryManager Plus",
+          "tagline": "Active Directory, Microsoft 365, and Exchange backup and recovery",
+          "subgroup": "Active Directory management",
+          "url": "https://store.manageengine.com/ad-recovery-manager/?MEstore"
+        },
+        {
+          "name": "AD360",
+          "tagline": "Workforce identity and access management for hybrid ecosystems",
+          "subgroup": "Identity governance and administration",
+          "url": "https://store.manageengine.com/active-directory-360/?MEstore"
+        },
+        {
+          "name": "M365 Manager Plus",
+          "tagline": "Microsoft 365 management, reporting, and auditing",
+          "subgroup": "Identity governance and administration",
+          "url": "https://store.manageengine.com/microsoft-365-management-reporting/?MEstore"
+        },
+        {
+          "name": "PAM360",
+          "tagline": "Unified privileged access management platform for modern enterprises",
+          "subgroup": "Privileged access management",
+          "url": "https://store.manageengine.com/privileged-access-management/?MEstore"
+        },
+        {
+          "name": "Password Manager Pro",
+          "tagline": "Enterprise password management",
+          "subgroup": "Privileged access management",
+          "url": "https://store.manageengine.com/passwordmanagerpro/?MEstore"
+        },
+        {
+          "name": "Access Manager Plus",
+          "tagline": "Secure remote access and privileged session management",
+          "subgroup": "Privileged access management",
+          "url": "https://store.manageengine.com/privileged-session-management/?MEstore"
+        },
+        {
+          "name": "Key Manager Plus",
+          "tagline": "Certificate life cycle management for public and private SSL/TLS certificates",
+          "subgroup": "Privileged access management",
+          "url": "https://store.manageengine.com/key-manager/?MEstore"
+        }
+      ]
+    },
+    {
+      "group": "Unified service management",
+      "products": [
+        {
+          "name": "ServiceDesk Plus",
+          "tagline": "AI-driven unified service management platform",
+          "subgroup": "Enterprise and IT service management",
+          "url": "https://store.manageengine.com/service-desk/?MEstore"
+        },
+        {
+          "name": "ServiceDesk Plus – Multi Language",
+          "tagline": "AI-driven unified service management platform",
+          "subgroup": "Enterprise and IT service management",
+          "url": "https://store.manageengine.com/service-desk/multi-language-store.html?MEstore"
+        },
+        {
+          "name": "SupportCenter Plus",
+          "tagline": "Customer support with built-in billing for businesses",
+          "subgroup": "Customer service management",
+          "url": "https://store.manageengine.com/support-center/?MEstore"
+        },
+        {
+          "name": "AssetExplorer",
+          "tagline": "IT asset management with an integrated CMDB",
+          "subgroup": "IT asset management",
+          "url": "https://store.manageengine.com/asset-explorer/?MEstore"
+        }
+      ]
+    },
+    {
+      "group": "Unified endpoint management and security",
+      "products": [
+        {
+          "name": "Endpoint Central",
+          "tagline": "Integrated endpoint management and protection platform",
+          "subgroup": "Endpoint management and protection platform (UEM and EPP)",
+          "url": "https://store.manageengine.com/desktop-central/?MEstore&cat=UEMS"
+        },
+        {
+          "name": "Patch Manager Plus",
+          "tagline": "Automated patching across multiple OSs and 850+ third party apps",
+          "subgroup": "Endpoint management",
+          "url": "https://store.manageengine.com/patch-management/?MEstore&cat=UEMS"
+        },
+        {
+          "name": "Patch Connect Plus",
+          "tagline": "Simplified third-party patch deployment via ConfigMgr and Intune",
+          "subgroup": "Endpoint management",
+          "url": "https://store.manageengine.com/sccm-third-party-patch-management/?MEstore"
+        },
+        {
+          "name": "Mobile Device Manager Plus",
+          "tagline": "Seamless mobile device management from onboarding to retirement",
+          "subgroup": "Endpoint management",
+          "url": "https://store.manageengine.com/mobile-device-manager/?MEstore&cat=UEMS"
+        },
+        {
+          "name": "Remote Access Plus",
+          "tagline": "Remote troubleshooting with integrated chat, voice, and video",
+          "subgroup": "Endpoint management",
+          "url": "https://store.manageengine.com/remote-desktop-management/?MEstore&cat=UEMS"
+        },
+        {
+          "name": "OS Deployer",
+          "tagline": "Automated OS image creation and seamless role-based deployment",
+          "subgroup": "Endpoint management",
+          "url": "https://store.manageengine.com/os-deployer/?MEstore"
+        },
+        {
+          "name": "Vulnerability Manager Plus",
+          "tagline": "Prioritization-focused enterprise vulnerability management",
+          "subgroup": "Endpoint security",
+          "url": "https://store.manageengine.com/vulnerability-management/?MEstore"
+        },
+        {
+          "name": "Application Control Plus",
+          "tagline": "Software discovery and endpoint privilege management",
+          "subgroup": "Endpoint security",
+          "url": "https://store.manageengine.com/application-control/?MEstore"
+        },
+        {
+          "name": "Device Control Plus",
+          "tagline": "Data theft prevention with strict peripheral device control",
+          "subgroup": "Endpoint security",
+          "url": "https://store.manageengine.com/device-control/?MEstore"
+        },
+        {
+          "name": "Browser Security Plus",
+          "tagline": "Browser security with isolation, lockdown, and activity tracking",
+          "subgroup": "Endpoint security",
+          "url": "https://store.manageengine.com/secure-browser/?MEstore"
+        },
+        {
+          "name": "Endpoint DLP Plus",
+          "tagline": "Sensitive data protection and compliance for endpoint devices",
+          "subgroup": "Endpoint security",
+          "url": "https://store.manageengine.com/endpoint-dlp/?MEstore"
+        },
+        {
+          "name": "Ransomware Protection Plus",
+          "tagline": "Real-time ransomware mitigation and file recovery for business continuity",
+          "subgroup": "Endpoint security",
+          "url": "https://store.manageengine.com/ransomware-protection/?MEstore"
+        },
+        {
+          "name": "Malware Protection Plus",
+          "tagline": "Next-gen antivirus software for threat detection and breach prevention",
+          "subgroup": "Endpoint security",
+          "url": "https://store.manageengine.com/malware-protection/?MEstore"
+        },
+        {
+          "name": "Endpoint Central EDR",
+          "tagline": "Unified endpoint security software for AI threat handling and automated remediation",
+          "subgroup": "Endpoint security",
+          "url": "https://store.manageengine.com/desktop-central/?MEstore"
+        }
+      ]
+    },
+    {
+      "group": "IT operations management and observability",
+      "products": [
+        {
+          "name": "OpManager Nexus",
+          "tagline": "Full-stack IT operations management and observability platform",
+          "subgroup": "Full-stack observability and digital experience monitoring",
+          "url": "https://store.manageengine.com/it-operations-management/?MEstore"
+        },
+        {
+          "name": "Applications Manager",
+          "tagline": "Application, database, infrastructure and digital experience monitoring",
+          "subgroup": "Full-stack observability and digital experience monitoring",
+          "url": "https://store.manageengine.com/applications_manager/?MEstore"
+        },
+        {
+          "name": "OpManager",
+          "tagline": "Network performance monitoring",
+          "subgroup": "Network and server performance monitoring",
+          "url": "https://store.manageengine.com/opmanager/?MEstore"
+        },
+        {
+          "name": "OpManager Enterprise",
+          "tagline": "Unified network, server, and application management",
+          "subgroup": "Network and server performance monitoring",
+          "url": "https://store.manageengine.com/opmanager/subscription.html?MEstore"
+        },
+        {
+          "name": "NetFlow Analyzer",
+          "tagline": "Bandwidth monitoring and traffic analysis",
+          "subgroup": "Network and server performance monitoring",
+          "url": "https://store.manageengine.com/netflow/?MEstore"
+        },
+        {
+          "name": "Network Configuration Manager",
+          "tagline": "Network change and configuration management",
+          "subgroup": "Network and server performance monitoring",
+          "url": "https://store.manageengine.com/network-configuration-manager/?MEstore"
+        },
+        {
+          "name": "Firewall Analyzer",
+          "tagline": "Firewall rule, configuration, and log management",
+          "subgroup": "Network and server performance monitoring",
+          "url": "https://store.manageengine.com/firewall/?MEstore&SIEM"
+        },
+        {
+          "name": "OpUtils",
+          "tagline": "IP address and switch port management",
+          "subgroup": "Network and server performance monitoring",
+          "url": "https://store.manageengine.com/oputils/?MEstore"
+        },
+        {
+          "name": "DDI Central",
+          "tagline": "Unified DNS, DHCP, and IP address management",
+          "subgroup": "DNS and DHCP",
+          "url": "https://store.manageengine.com/dns-dhcp-ipam/?MEstore"
+        }
+      ]
+    },
+    {
+      "group": "Security information and event management",
+      "products": [
+        {
+          "name": "Log360",
+          "tagline": "Unified SIEM solution with integrated DLP and CASB capabilities.",
+          "subgroup": "SIEM",
+          "url": "https://store.manageengine.com/log-management/?MEstore"
+        },
+        {
+          "name": "EventLog Analyzer",
+          "tagline": "Comprehensive log and IT compliance management",
+          "subgroup": "Log and compliance management",
+          "url": "https://store.manageengine.com/eventlog/?MEstore"
+        },
+        {
+          "name": "SharePoint Manager Plus",
+          "tagline": "SharePoint reporting and auditing",
+          "subgroup": "Security auditing",
+          "url": "https://store.manageengine.com/sharepoint-management-reporting/?MEstore"
+        },
+        {
+          "name": "M365 Security Plus",
+          "tagline": "Microsoft 365 security",
+          "subgroup": "Security auditing",
+          "url": "https://store.manageengine.com/microsoft-365-security-protection/?MEstore"
+        },
+        {
+          "name": "Cloud Security Plus",
+          "tagline": "Cloud security monitoring and analytics",
+          "subgroup": "Security auditing",
+          "url": "https://store.manageengine.com/cloud-security/?MEstore"
+        },
+        {
+          "name": "DataSecurity Plus",
+          "tagline": "File auditing, data leak prevention, and data risk assessment",
+          "subgroup": "Security auditing",
+          "url": "https://store.manageengine.com/data-security/?MEstore"
+        },
+        {
+          "name": "FileAnalysis",
+          "tagline": "File security and storage analysis",
+          "subgroup": "Security auditing",
+          "url": "https://store.manageengine.com/file-analysis/?MEstore"
+        }
+      ]
+    },
+    {
+      "group": "Advanced IT analytics",
+      "products": [
+        {
+          "name": "Analytics Plus",
+          "tagline": "AI-powered unified analytics platform to correlate all IT data",
+          "subgroup": "IT analytics",
+          "url": "https://store.manageengine.com/analytics-plus/?MEstore"
+        }
+      ]
+    },
+    {
+      "group": "Low-code app development",
+      "products": [
+        {
+          "name": "AppCreator",
+          "tagline": "Advanced low-code platform for building powerful applications",
+          "subgroup": "Custom solution builder",
+          "url": "https://store.manageengine.com/appcreator/?MEstore"
+        }
+      ]
+    },
+    {
+      "group": "Cloud solutions for enterprise IT",
+      "products": []
+    },
+    {
+      "group": "IT management for MSPs",
+      "products": [
+        {
+          "name": "RMM Central",
+          "tagline": "Unified network monitoring and endpoint management for MSPs",
+          "subgroup": null,
+          "url": "https://store.manageengine.com/remote-monitoring-management/?MEstore"
+        },
+        {
+          "name": "ServiceDesk Plus MSP",
+          "tagline": "Enterprise-grade PSA and ITSM platform for MSPs",
+          "subgroup": null,
+          "url": "https://store.manageengine.com/service-desk-msp/?MEstore"
+        },
+        {
+          "name": "PAM360",
+          "tagline": "Privileged access management, built for modern MSPs",
+          "subgroup": null,
+          "url": "https://store.manageengine.com/privileged-access-management/msp.html?MEstore"
+        },
+        {
+          "name": "Password Manager Pro",
+          "tagline": "Centralized, multi-tenant, enterprise password management",
+          "subgroup": null,
+          "url": "https://store.manageengine.com/passwordmanagerpro-msp/?MEstore"
+        },
+        {
+          "name": "Endpoint Central MSP",
+          "tagline": "MSP Endpoint Management and Security",
+          "subgroup": null,
+          "url": "https://store.manageengine.com/desktop-management-msp/?MEstore"
+        },
+        {
+          "name": "ADManager Plus MSP",
+          "tagline": "Identity management and access governance for AD and Microsoft 365",
+          "subgroup": null,
+          "url": "https://store.manageengine.com/active-directory-manager-msp/?MEstore"
+        },
+        {
+          "name": "Mobile Device Manager Plus MSP",
+          "tagline": "Comprehensive mobile device management",
+          "subgroup": null,
+          "url": "https://store.manageengine.com/mobile-device-management-msp/?MEstore"
+        },
+        {
+          "name": "OpManager MSP",
+          "tagline": "Multi-tenant network monitoring, simplified for managed service providers",
+          "subgroup": null,
+          "url": "https://store.manageengine.com/network-monitoring-msp/?MEstore"
+        },
+        {
+          "name": "Log360 MSSP",
+          "tagline": "Unified SIEM solution for MSSPs",
+          "subgroup": null,
+          "url": "https://store.manageengine.com/siem-mssp/?MEstore"
+        }
+      ]
+    },
+    {
+      "group": "Services",
+      "products": [
+        {
+          "name": "Training",
+          "tagline": "",
+          "subgroup": null,
+          "url": "https://store.manageengine.com/training.html?MEstore"
+        },
+        {
+          "name": "Certification",
+          "tagline": "",
+          "subgroup": null,
+          "url": "https://store.manageengine.com/certified-professional.html?MEstore"
+        },
+        {
+          "name": "HelpDesk onboarding / Migration",
+          "tagline": "",
+          "subgroup": null,
+          "url": "https://store.manageengine.com/helpdesk-onboarding.html?MEstore"
+        },
+        {
+          "name": "180M program",
+          "tagline": "",
+          "subgroup": null,
+          "url": "https://store.manageengine.com/180m-program.html?MEstore"
+        }
+      ]
+    }
+  ],
+  "unmatched": [
+    "Store",
+    "Store"
+  ]
+}

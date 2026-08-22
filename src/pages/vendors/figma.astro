@@ -210,6 +210,6 @@ const ld = [
 
 <script>
   import { trackGoal } from '@/lib/analytics';
-  trackGoal('view_figma_landing', { page_url: location.pathname });
+  trackGoal('view_vendor_landing', { vendor: 'figma', page_url: location.pathname });
   document.querySelectorAll('[data-ev]').forEach((el) => el.addEventListener('click', () => trackGoal((el as HTMLElement).dataset.ev!, { block_name: 'figma' })));
 </script>

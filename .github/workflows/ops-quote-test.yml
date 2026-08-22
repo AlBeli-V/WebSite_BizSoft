@@ -1,0 +1,103 @@
+# Приёмка пути «Отправить КП на почту» на живом сайте.
+#
+# Из сессии нет egress к biz-soft.pro, а проверять надо именно прод: ошибка
+# «вместо отправки открылась страница для печати» была видна только там.
+# Зонд ops-probe умеет лишь GET, поэтому отправка КП проверяется отдельно.
+#
+# Побочный эффект намеренный: уходят оба письма (клиенту — JPG, менеджеру —
+# Word + PDF) и заводится заявка. Название организации по умолчанию содержит
+# пометку, чтобы тестовую заявку было видно в списке.
+name: ops-quote-test
+on:
+  workflow_dispatch:
+    inputs:
+      email:
+        description: 'Куда отправить КП (адрес «клиента»)'
+        required: true
+        default: 'Rasul.Alimov@silentsend.kg'
+      company:
+        description: 'Организация — как её вписал бы заказчик'
+        required: true
+        default: 'ПАО Сбербанк'
+      inn:
+        description: 'ИНН заказчика'
+        required: true
+        default: '7707083893'
+      contact:
+        description: 'Контактное лицо'
+        required: true
+        default: 'Проверкин Иван Сергеевич'
+      phone:
+        description: 'Телефон'
+        required: true
+        default: '+7 900 000-00-00'
+      sku:
+        description: 'Артикул позиции; пусто — взять первый товар из sitemap'
+        required: false
+        default: ''
+permissions:
+  # contents: read обязателен: явный блок permissions отменяет умолчания
+  # целиком, и без него actions/checkout не может клонировать репозиторий.
+  contents: read
+  issues: write
+jobs:
+  quote:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Send quote request
+        env:
+          IN_EMAIL: ${{ inputs.email }}
+          IN_COMPANY: ${{ inputs.company }}
+          IN_INN: ${{ inputs.inn }}
+          IN_CONTACT: ${{ inputs.contact }}
+          IN_PHONE: ${{ inputs.phone }}
+          IN_SKU: ${{ inputs.sku }}
+        run: |
+          set -o pipefail
+          SITE=https://biz-soft.pro
+          : > /tmp/quote.txt
+          SKU="$IN_SKU"
+          if [ -z "$SKU" ]; then
+            # Ответы кладём в файлы, а первую строку выбираем sed-ом.
+            # `curl | grep | head -1` роняет шаг: head закрывает поток после
+            # первой строки, grep и curl получают SIGPIPE, и pipefail считает
+            # весь конвейер неуспешным. sed дочитывает ввод до конца.
+            curl -sS --max-time 30 -o /tmp/sitemap.xml "$SITE/sitemap.xml"
+            URL=$(grep -oE "https://biz-soft\.pro/product/[a-z0-9-]+" /tmp/sitemap.xml | sed -n '1p')
+            echo "Товар для проверки: $URL" | tee -a /tmp/quote.txt
+            curl -sS --max-time 30 -o /tmp/product.html "$URL"
+            SKU=$(grep -oE 'data-sku="[^"]+"' /tmp/product.html | sed -n '1p' | cut -d'"' -f2)
+          fi
+          if [ -z "$SKU" ]; then
+            echo "не удалось определить артикул — проверка не выполнена" | tee -a /tmp/quote.txt
+            exit 1
+          fi
+          echo "Артикул: $SKU" | tee -a /tmp/quote.txt
+
+          # Тело собираем python-ом: значения приходят от человека и могут
+          # содержать кавычки, а ручная склейка JSON на них ломается.
+          SKU="$SKU" python3 scripts/ops/quote_test_body.py > /tmp/body.json
+
+          CODE=$(curl -sS --max-time 90 -o /tmp/resp.json -w '%{http_code}' \
+            -X POST "$SITE/api/quote" \
+            -H 'Content-Type: application/json' \
+            --data-binary @/tmp/body.json || echo 000)
+          echo "POST /api/quote → HTTP $CODE" | tee -a /tmp/quote.txt
+          head -c 800 /tmp/resp.json | tee -a /tmp/quote.txt
+          echo | tee -a /tmp/quote.txt
+          # Успех — только JSON с ok:true. HTML в ответе означает возврат
+          # старого поведения (страница «сохранить и напечатать»).
+          python3 scripts/ops/quote_test_check.py /tmp/resp.json | tee -a /tmp/quote.txt
+      - name: Post to issue
+        if: always()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            let out = '(нет вывода)';
+            try { out = fs.readFileSync('/tmp/quote.txt', 'utf8').slice(0, 20000); } catch {}
+            await github.rest.issues.createComment({
+              owner: context.repo.owner, repo: context.repo.repo, issue_number: 22,
+              body: `### ops-quote-test\n\n\`\`\`\n${out}\n\`\`\``,
+            });

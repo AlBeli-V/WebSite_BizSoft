@@ -26,6 +26,20 @@ if (segment === 'domestic' || segment === 'foreign') {
   return Astro.redirect('/catalog', 301);
 }
 
+// Разделы-дубли, слитые в основные: у каждого было по одному-два товара при
+// соседнем разделе того же назначения. Товары переехали, сам раздел снят с
+// витрины — без редиректа его адрес отдавал бы 404 уже проиндексированной
+// странице. Список тот же, что в `merge` из data/catalog/categories.json.
+const MERGED: Record<string, string> = {
+  'graphics-design': 'design',
+  'ai-services': 'ai',
+  communications: 'vcs',
+  'developer-tools': 'development',
+};
+if (segment && MERGED[segment]) {
+  return Astro.redirect(`/catalog/${MERGED[segment]}`, 301);
+}
+
 // Плоские slug AI-подкатегорий Directus (ai-text и т.п.) канонизируем на вложенные
 // URL (/catalog/ai/text), чтобы не плодить дубли одной выдачи.
 const flatAiSub = aiSubcategories.find((s) => s.categorySlug === segment);
@@ -212,7 +226,7 @@ if (isAi) {
       <div class="results">
         <div class="results-head">
           <span>Найдено: <b>{filtered.length}</b></span>
-          <a href="/catalog/" class="switch-link">← Весь каталог</a>
+          <a href="/catalog" class="switch-link">← Весь каталог</a>
         </div>
         {filtered.length > 0 ? (
           <div class="product-grid">

@@ -54,36 +54,62 @@ const { source = 'pricing', title = 'Запросить расчёт', submitLab
 
 <script>
   import { trackGoal } from '@/lib/analytics';
+  import { attributionPayload } from '@/lib/attribution';
   import { maskAllPhones } from '../lib/phone-mask';
   maskAllPhones();
 
   document.querySelectorAll('[data-lead-form]').forEach((el) => {
     const form = el as HTMLFormElement;
     const status = form.querySelector('[data-status]') as HTMLElement;
+
+    // Начало заполнения — один раз на форму. Разрыв между form_start и
+    // lead_sent показывает, сколько людей упирается в саму форму: без него
+    // брошенная форма и непосещённая страница выглядят одинаково.
+    let started = false;
+    form.addEventListener('input', () => {
+      if (started) return;
+      started = true;
+      trackGoal('form_start', { form_source: form.dataset.source || 'site' });
+    }, { passive: true });
+
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
       const submit = form.querySelector('.lf-submit') as HTMLButtonElement;
       submit.disabled = true;
       status.textContent = 'Отправляем…'; status.className = 'lf-status';
+      let httpStatus = 0;
       try {
         const data = Object.fromEntries(new FormData(form).entries());
+        const attribution = await attributionPayload();
         const res = await fetch('/api/lead', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ ...data, source: form.dataset.source, consent: (form.elements.namedItem('consent') as HTMLInputElement).checked }),
+          body: JSON.stringify({ ...data, source: form.dataset.source, attribution, consent: (form.elements.namedItem('consent') as HTMLInputElement).checked }),
         });
         if (!res.ok) {
           let msg = 'Не удалось отправить. Проверьте поля и попробуйте снова.';
           try { const j = await res.json(); if (j?.error) msg = j.error; } catch { /* not json */ }
+          httpStatus = res.status;
           throw new Error(msg);
         }
         form.querySelectorAll('label, .lf-grid, .vc-cap, .vc-chips, [data-chips], .lf-submit, .lf-consent, .lf-alt').forEach((n) => n.remove());
         status.className = 'lf-status ok';
         status.innerHTML = '<b>Заявка получена.</b> Ответим в рабочее время. Пока ждёте — посмотрите <a href="/documents">образцы документов</a> или <a href="/how-we-work">как проходит поставка</a>.';
         form.reset();
-        trackGoal('lead_sent', { source: form.dataset.source || 'site' });
+        trackGoal('lead_sent', { form_source: form.dataset.source || 'site' });
       } catch (err) {
         status.textContent = err instanceof Error && err.message ? err.message : 'Не удалось отправить. Позвоните нам или попробуйте позже.'; status.className = 'lf-status err';
+        // Сбой отправки — не то же самое, что передумал: без отдельной цели
+        // техническая потеря заявки списывается на поведение клиента.
+        //
+        // Событие одно на все виды сбоя и отправляется только здесь. Пока
+        // рядом стояла вторая цель в ветке !res.ok, throw из неё попадал в
+        // этот же catch и один отказ 422 считался дважды.
+        trackGoal('lead_error', {
+          form_source: form.dataset.source || 'site',
+          http_status: httpStatus,
+          reason: err instanceof Error ? err.message.slice(0, 100) : 'unknown',
+        });
       } finally {
         submit.disabled = false;
       }

@@ -223,6 +223,6 @@ const ld = [
 
 <script>
   import { trackGoal } from '@/lib/analytics';
-  trackGoal('view_openai_landing', { page_url: location.pathname });
+  trackGoal('view_vendor_landing', { vendor: 'openai', page_url: location.pathname });
   document.querySelectorAll('[data-ev]').forEach((el) => el.addEventListener('click', () => trackGoal((el as HTMLElement).dataset.ev!, { block_name: 'openai' })));
 </script>

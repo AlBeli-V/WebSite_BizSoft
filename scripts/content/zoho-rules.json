@@ -1,0 +1,3304 @@
+{
+  "generated_from": "data/sources/manageengine/2026-08-20",
+  "source_collected_at": "2026-08-20T22:31:10.761Z",
+  "rules": [
+    {
+      "id": "admanager-plus-admanager-plus-standard-edition-annual-subscription-additional-extends",
+      "appliesTo": {
+        "offerSlug": "admanager-plus-standard-edition-annual-subscription",
+        "familySlug": "admanager-plus",
+        "variantPattern": "^Additional\\s"
+      },
+      "extends": {
+        "offerSlug": "admanager-plus-standard-edition-annual-subscription",
+        "familySlug": "admanager-plus"
+      },
+      "reason": "Позиция увеличивает объём уже выбранной лицензии и отдельно не поставляется"
+    },
+    {
+      "id": "admanager-plus-admanager-plus-professional-edition-annual-subscription-additional-extends",
+      "appliesTo": {
+        "offerSlug": "admanager-plus-professional-edition-annual-subscription",
+        "familySlug": "admanager-plus",
+        "variantPattern": "^Additional\\s"
+      },
+      "extends": {
+        "offerSlug": "admanager-plus-professional-edition-annual-subscription",
+        "familySlug": "admanager-plus"
+      },
+      "reason": "Позиция увеличивает объём уже выбранной лицензии и отдельно не поставляется"
+    },
+    {
+      "id": "admanager-plus-admanager-plus-backup-and-recovery-add-on-requires-base",
+      "appliesTo": {
+        "offerSlug": "admanager-plus-backup-and-recovery-add-on",
+        "familySlug": "admanager-plus"
+      },
+      "requires": {
+        "familySlug": "admanager-plus"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "admanager-plus-admanager-plus-standard-edition-perpetual-additional-extends",
+      "appliesTo": {
+        "offerSlug": "admanager-plus-standard-edition-perpetual",
+        "familySlug": "admanager-plus",
+        "variantPattern": "^Additional\\s"
+      },
+      "extends": {
+        "offerSlug": "admanager-plus-standard-edition-perpetual",
+        "familySlug": "admanager-plus"
+      },
+      "reason": "Позиция увеличивает объём уже выбранной лицензии и отдельно не поставляется"
+    },
+    {
+      "id": "admanager-plus-admanager-plus-professional-edition-perpetual-additional-extends",
+      "appliesTo": {
+        "offerSlug": "admanager-plus-professional-edition-perpetual",
+        "familySlug": "admanager-plus",
+        "variantPattern": "^Additional\\s"
+      },
+      "extends": {
+        "offerSlug": "admanager-plus-professional-edition-perpetual",
+        "familySlug": "admanager-plus"
+      },
+      "reason": "Позиция увеличивает объём уже выбранной лицензии и отдельно не поставляется"
+    },
+    {
+      "id": "admanager-plus-admanager-plus-backup-and-recovery-add-on-perpetual-requires-base",
+      "appliesTo": {
+        "offerSlug": "admanager-plus-backup-and-recovery-add-on-perpetual",
+        "familySlug": "admanager-plus"
+      },
+      "requires": {
+        "familySlug": "admanager-plus"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "adaudit-plus-adaudit-plus-add-ons-annual-subscription-requires-base",
+      "appliesTo": {
+        "offerSlug": "adaudit-plus-add-ons-annual-subscription",
+        "familySlug": "adaudit-plus"
+      },
+      "requires": {
+        "familySlug": "adaudit-plus"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "adaudit-plus-adaudit-plus-add-ons-perpetual-requires-base",
+      "appliesTo": {
+        "offerSlug": "adaudit-plus-add-ons-perpetual",
+        "familySlug": "adaudit-plus"
+      },
+      "requires": {
+        "familySlug": "adaudit-plus"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "m365-manager-plus-m365-manager-plus-exchange-online-backup-add-on-requires-base",
+      "appliesTo": {
+        "offerSlug": "m365-manager-plus-exchange-online-backup-add-on",
+        "familySlug": "m365-manager-plus"
+      },
+      "requires": {
+        "familySlug": "m365-manager-plus"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "m365-manager-plus-m365-manager-plus-exchange-online-backup-add-on-perpetual-requires-base",
+      "appliesTo": {
+        "offerSlug": "m365-manager-plus-exchange-online-backup-add-on-perpetual",
+        "familySlug": "m365-manager-plus"
+      },
+      "requires": {
+        "familySlug": "m365-manager-plus"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "password-manager-pro-password-manager-pro-add-ons-requires-base",
+      "appliesTo": {
+        "offerSlug": "password-manager-pro-add-ons",
+        "familySlug": "password-manager-pro"
+      },
+      "requires": {
+        "familySlug": "password-manager-pro"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "password-manager-pro-password-manager-pro-add-ons-perpetual-requires-base",
+      "appliesTo": {
+        "offerSlug": "password-manager-pro-add-ons-perpetual",
+        "familySlug": "password-manager-pro"
+      },
+      "requires": {
+        "familySlug": "password-manager-pro"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "servicedesk-plus-servicedesk-plus-professional-edition-annual-subscription-additional-extends",
+      "appliesTo": {
+        "offerSlug": "servicedesk-plus-professional-edition-annual-subscription",
+        "familySlug": "servicedesk-plus",
+        "variantPattern": "^Additional\\s"
+      },
+      "extends": {
+        "offerSlug": "servicedesk-plus-professional-edition-annual-subscription",
+        "familySlug": "servicedesk-plus"
+      },
+      "reason": "Позиция увеличивает объём уже выбранной лицензии и отдельно не поставляется"
+    },
+    {
+      "id": "servicedesk-plus-add-on-for-professional-edition-annual-subscription-requires-professional",
+      "appliesTo": {
+        "offerSlug": "add-on-for-professional-edition-annual-subscription",
+        "familySlug": "servicedesk-plus"
+      },
+      "requires": {
+        "edition": "Professional",
+        "familySlug": "servicedesk-plus",
+        "offerSlug": "servicedesk-plus-professional-edition-annual-subscription"
+      },
+      "reason": "Вендор продаёт это дополнение только к редакции Professional — так названа таблица прайса"
+    },
+    {
+      "id": "servicedesk-plus-servicedesk-plus-enterprise-edition-annual-subscription-additional-extends",
+      "appliesTo": {
+        "offerSlug": "servicedesk-plus-enterprise-edition-annual-subscription",
+        "familySlug": "servicedesk-plus",
+        "variantPattern": "^Additional\\s"
+      },
+      "extends": {
+        "offerSlug": "servicedesk-plus-enterprise-edition-annual-subscription",
+        "familySlug": "servicedesk-plus"
+      },
+      "reason": "Позиция увеличивает объём уже выбранной лицензии и отдельно не поставляется"
+    },
+    {
+      "id": "servicedesk-plus-servicedesk-plus-uem-remote-access-plus-add-on-annual-subscription-requires-base",
+      "appliesTo": {
+        "offerSlug": "servicedesk-plus-uem-remote-access-plus-add-on-annual-subscription",
+        "familySlug": "servicedesk-plus"
+      },
+      "requires": {
+        "familySlug": "servicedesk-plus"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "servicedesk-plus-servicedesk-plus-uem-remote-access-plus-add-on-annual-subscription-additional-extends",
+      "appliesTo": {
+        "offerSlug": "servicedesk-plus-uem-remote-access-plus-add-on-annual-subscription",
+        "familySlug": "servicedesk-plus",
+        "variantPattern": "^Additional\\s"
+      },
+      "extends": {
+        "offerSlug": "servicedesk-plus-uem-remote-access-plus-add-on-annual-subscription",
+        "familySlug": "servicedesk-plus"
+      },
+      "reason": "Позиция увеличивает объём уже выбранной лицензии и отдельно не поставляется"
+    },
+    {
+      "id": "servicedesk-plus-servicedesk-plus-active-directory-management-add-on-annual-subscription-requires-base",
+      "appliesTo": {
+        "offerSlug": "servicedesk-plus-active-directory-management-add-on-annual-subscription",
+        "familySlug": "servicedesk-plus"
+      },
+      "requires": {
+        "familySlug": "servicedesk-plus"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "servicedesk-plus-analytics-plus-on-premise-add-on-for-servicedesk-plus-requires-base",
+      "appliesTo": {
+        "offerSlug": "analytics-plus-on-premise-add-on-for-servicedesk-plus",
+        "familySlug": "servicedesk-plus"
+      },
+      "requires": {
+        "familySlug": "servicedesk-plus"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "servicedesk-plus-analytics-plus-on-premise-add-on-for-servicedesk-plus-additional-extends",
+      "appliesTo": {
+        "offerSlug": "analytics-plus-on-premise-add-on-for-servicedesk-plus",
+        "familySlug": "servicedesk-plus",
+        "variantPattern": "^Additional\\s"
+      },
+      "extends": {
+        "offerSlug": "analytics-plus-on-premise-add-on-for-servicedesk-plus",
+        "familySlug": "servicedesk-plus"
+      },
+      "reason": "Позиция увеличивает объём уже выбранной лицензии и отдельно не поставляется"
+    },
+    {
+      "id": "servicedesk-plus-analytics-plus-cloud-add-on-for-servicedesk-plus-requires-base",
+      "appliesTo": {
+        "offerSlug": "analytics-plus-cloud-add-on-for-servicedesk-plus",
+        "familySlug": "servicedesk-plus"
+      },
+      "requires": {
+        "familySlug": "servicedesk-plus"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "servicedesk-plus-analytics-plus-cloud-add-on-for-servicedesk-plus-additional-extends",
+      "appliesTo": {
+        "offerSlug": "analytics-plus-cloud-add-on-for-servicedesk-plus",
+        "familySlug": "servicedesk-plus",
+        "variantPattern": "^Additional\\s"
+      },
+      "extends": {
+        "offerSlug": "analytics-plus-cloud-add-on-for-servicedesk-plus",
+        "familySlug": "servicedesk-plus"
+      },
+      "reason": "Позиция увеличивает объём уже выбранной лицензии и отдельно не поставляется"
+    },
+    {
+      "id": "servicedesk-plus-analytics-plus-on-premise-add-on-for-servicedesk-plus-excludes-analytics-plus-cloud-add-on-for-servicedesk-plus",
+      "appliesTo": {
+        "offerSlug": "analytics-plus-on-premise-add-on-for-servicedesk-plus",
+        "familySlug": "servicedesk-plus"
+      },
+      "excludes": {
+        "offerSlug": "analytics-plus-cloud-add-on-for-servicedesk-plus"
+      },
+      "reason": "Одно и то же дополнение в облачной и коробочной поставке — берут что-то одно"
+    },
+    {
+      "id": "servicedesk-plus-analytics-plus-cloud-add-on-for-servicedesk-plus-excludes-analytics-plus-on-premise-add-on-for-servicedesk-plus",
+      "appliesTo": {
+        "offerSlug": "analytics-plus-cloud-add-on-for-servicedesk-plus",
+        "familySlug": "servicedesk-plus"
+      },
+      "excludes": {
+        "offerSlug": "analytics-plus-on-premise-add-on-for-servicedesk-plus"
+      },
+      "reason": "Одно и то же дополнение в облачной и коробочной поставке — берут что-то одно"
+    },
+    {
+      "id": "servicedesk-plus-multi-language-servicedesk-plus-professional-edition-multi-language-annual-subscription-additional-extends",
+      "appliesTo": {
+        "offerSlug": "servicedesk-plus-professional-edition-multi-language-annual-subscription",
+        "familySlug": "servicedesk-plus-multi-language",
+        "variantPattern": "^Additional\\s"
+      },
+      "extends": {
+        "offerSlug": "servicedesk-plus-professional-edition-multi-language-annual-subscription",
+        "familySlug": "servicedesk-plus-multi-language"
+      },
+      "reason": "Позиция увеличивает объём уже выбранной лицензии и отдельно не поставляется"
+    },
+    {
+      "id": "servicedesk-plus-multi-language-add-on-for-professional-edition-multi-language-annual-subscription-requires-professional",
+      "appliesTo": {
+        "offerSlug": "add-on-for-professional-edition-multi-language-annual-subscription",
+        "familySlug": "servicedesk-plus-multi-language"
+      },
+      "requires": {
+        "edition": "Professional",
+        "familySlug": "servicedesk-plus-multi-language",
+        "offerSlug": "servicedesk-plus-professional-edition-multi-language-annual-subscription"
+      },
+      "reason": "Вендор продаёт это дополнение только к редакции Professional — так названа таблица прайса"
+    },
+    {
+      "id": "servicedesk-plus-multi-language-servicedesk-plus-enterprise-edition-multi-language-annual-subscription-additional-extends",
+      "appliesTo": {
+        "offerSlug": "servicedesk-plus-enterprise-edition-multi-language-annual-subscription",
+        "familySlug": "servicedesk-plus-multi-language",
+        "variantPattern": "^Additional\\s"
+      },
+      "extends": {
+        "offerSlug": "servicedesk-plus-enterprise-edition-multi-language-annual-subscription",
+        "familySlug": "servicedesk-plus-multi-language"
+      },
+      "reason": "Позиция увеличивает объём уже выбранной лицензии и отдельно не поставляется"
+    },
+    {
+      "id": "servicedesk-plus-multi-language-servicedesk-plus-active-directory-management-add-on-annual-subscription-requires-base",
+      "appliesTo": {
+        "offerSlug": "servicedesk-plus-active-directory-management-add-on-annual-subscription",
+        "familySlug": "servicedesk-plus-multi-language"
+      },
+      "requires": {
+        "familySlug": "servicedesk-plus-multi-language"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "servicedesk-plus-multi-language-analytics-plus-on-premise-add-on-for-servicedesk-plus-requires-base",
+      "appliesTo": {
+        "offerSlug": "analytics-plus-on-premise-add-on-for-servicedesk-plus",
+        "familySlug": "servicedesk-plus-multi-language"
+      },
+      "requires": {
+        "familySlug": "servicedesk-plus-multi-language"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "servicedesk-plus-multi-language-analytics-plus-on-premise-add-on-for-servicedesk-plus-additional-extends",
+      "appliesTo": {
+        "offerSlug": "analytics-plus-on-premise-add-on-for-servicedesk-plus",
+        "familySlug": "servicedesk-plus-multi-language",
+        "variantPattern": "^Additional\\s"
+      },
+      "extends": {
+        "offerSlug": "analytics-plus-on-premise-add-on-for-servicedesk-plus",
+        "familySlug": "servicedesk-plus-multi-language"
+      },
+      "reason": "Позиция увеличивает объём уже выбранной лицензии и отдельно не поставляется"
+    },
+    {
+      "id": "servicedesk-plus-multi-language-analytics-plus-cloud-add-on-for-servicedesk-plus-requires-base",
+      "appliesTo": {
+        "offerSlug": "analytics-plus-cloud-add-on-for-servicedesk-plus",
+        "familySlug": "servicedesk-plus-multi-language"
+      },
+      "requires": {
+        "familySlug": "servicedesk-plus-multi-language"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "servicedesk-plus-multi-language-analytics-plus-cloud-add-on-for-servicedesk-plus-additional-extends",
+      "appliesTo": {
+        "offerSlug": "analytics-plus-cloud-add-on-for-servicedesk-plus",
+        "familySlug": "servicedesk-plus-multi-language",
+        "variantPattern": "^Additional\\s"
+      },
+      "extends": {
+        "offerSlug": "analytics-plus-cloud-add-on-for-servicedesk-plus",
+        "familySlug": "servicedesk-plus-multi-language"
+      },
+      "reason": "Позиция увеличивает объём уже выбранной лицензии и отдельно не поставляется"
+    },
+    {
+      "id": "servicedesk-plus-multi-language-analytics-plus-on-premise-add-on-for-servicedesk-plus-excludes-analytics-plus-cloud-add-on-for-servicedesk-plus",
+      "appliesTo": {
+        "offerSlug": "analytics-plus-on-premise-add-on-for-servicedesk-plus",
+        "familySlug": "servicedesk-plus-multi-language"
+      },
+      "excludes": {
+        "offerSlug": "analytics-plus-cloud-add-on-for-servicedesk-plus"
+      },
+      "reason": "Одно и то же дополнение в облачной и коробочной поставке — берут что-то одно"
+    },
+    {
+      "id": "servicedesk-plus-multi-language-analytics-plus-cloud-add-on-for-servicedesk-plus-excludes-analytics-plus-on-premise-add-on-for-servicedesk-plus",
+      "appliesTo": {
+        "offerSlug": "analytics-plus-cloud-add-on-for-servicedesk-plus",
+        "familySlug": "servicedesk-plus-multi-language"
+      },
+      "excludes": {
+        "offerSlug": "analytics-plus-on-premise-add-on-for-servicedesk-plus"
+      },
+      "reason": "Одно и то же дополнение в облачной и коробочной поставке — берут что-то одно"
+    },
+    {
+      "id": "supportcenter-plus-supportcenter-plus-addons-subscription-model-requires-base",
+      "appliesTo": {
+        "offerSlug": "supportcenter-plus-addons-subscription-model",
+        "familySlug": "supportcenter-plus"
+      },
+      "requires": {
+        "familySlug": "supportcenter-plus"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "supportcenter-plus-supportcenter-plus-multi-language-addons-subscription-model-requires-base",
+      "appliesTo": {
+        "offerSlug": "supportcenter-plus-multi-language-addons-subscription-model",
+        "familySlug": "supportcenter-plus"
+      },
+      "requires": {
+        "familySlug": "supportcenter-plus"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "supportcenter-plus-supportcenter-plus-analytics-plus-on-premise-add-on-subscription-model-requires-base",
+      "appliesTo": {
+        "offerSlug": "supportcenter-plus-analytics-plus-on-premise-add-on-subscription-model",
+        "familySlug": "supportcenter-plus"
+      },
+      "requires": {
+        "familySlug": "supportcenter-plus"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "supportcenter-plus-supportcenter-plus-analytics-plus-on-premise-add-on-subscription-model-additional-extends",
+      "appliesTo": {
+        "offerSlug": "supportcenter-plus-analytics-plus-on-premise-add-on-subscription-model",
+        "familySlug": "supportcenter-plus",
+        "variantPattern": "^Additional\\s"
+      },
+      "extends": {
+        "offerSlug": "supportcenter-plus-analytics-plus-on-premise-add-on-subscription-model",
+        "familySlug": "supportcenter-plus"
+      },
+      "reason": "Позиция увеличивает объём уже выбранной лицензии и отдельно не поставляется"
+    },
+    {
+      "id": "supportcenter-plus-supportcenter-plus-analytics-plus-cloud-addon-subscription-model-requires-base",
+      "appliesTo": {
+        "offerSlug": "supportcenter-plus-analytics-plus-cloud-addon-subscription-model",
+        "familySlug": "supportcenter-plus"
+      },
+      "requires": {
+        "familySlug": "supportcenter-plus"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "supportcenter-plus-supportcenter-plus-analytics-plus-cloud-addon-subscription-model-additional-extends",
+      "appliesTo": {
+        "offerSlug": "supportcenter-plus-analytics-plus-cloud-addon-subscription-model",
+        "familySlug": "supportcenter-plus",
+        "variantPattern": "^Additional\\s"
+      },
+      "extends": {
+        "offerSlug": "supportcenter-plus-analytics-plus-cloud-addon-subscription-model",
+        "familySlug": "supportcenter-plus"
+      },
+      "reason": "Позиция увеличивает объём уже выбранной лицензии и отдельно не поставляется"
+    },
+    {
+      "id": "supportcenter-plus-supportcenter-plus-remote-support-add-on-subscription-model-requires-base",
+      "appliesTo": {
+        "offerSlug": "supportcenter-plus-remote-support-add-on-subscription-model",
+        "familySlug": "supportcenter-plus"
+      },
+      "requires": {
+        "familySlug": "supportcenter-plus"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "assetexplorer-assetexplorer-subscription-model-additional-extends",
+      "appliesTo": {
+        "offerSlug": "assetexplorer-subscription-model",
+        "familySlug": "assetexplorer",
+        "variantPattern": "^Additional\\s"
+      },
+      "extends": {
+        "offerSlug": "assetexplorer-subscription-model",
+        "familySlug": "assetexplorer"
+      },
+      "reason": "Позиция увеличивает объём уже выбранной лицензии и отдельно не поставляется"
+    },
+    {
+      "id": "assetexplorer-assetexplorer-uem-remote-access-plus-add-ons-subscription-model-requires-base",
+      "appliesTo": {
+        "offerSlug": "assetexplorer-uem-remote-access-plus-add-ons-subscription-model",
+        "familySlug": "assetexplorer"
+      },
+      "requires": {
+        "familySlug": "assetexplorer"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "assetexplorer-assetexplorer-uem-remote-access-plus-add-ons-subscription-model-additional-extends",
+      "appliesTo": {
+        "offerSlug": "assetexplorer-uem-remote-access-plus-add-ons-subscription-model",
+        "familySlug": "assetexplorer",
+        "variantPattern": "^Additional\\s"
+      },
+      "extends": {
+        "offerSlug": "assetexplorer-uem-remote-access-plus-add-ons-subscription-model",
+        "familySlug": "assetexplorer"
+      },
+      "reason": "Позиция увеличивает объём уже выбранной лицензии и отдельно не поставляется"
+    },
+    {
+      "id": "endpoint-central-endpoint-central-malware-protection-add-on-requires-base",
+      "appliesTo": {
+        "offerSlug": "endpoint-central-malware-protection-add-on",
+        "familySlug": "endpoint-central"
+      },
+      "requires": {
+        "familySlug": "endpoint-central"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "endpoint-central-endpoint-central-ransomware-protection-add-on-requires-base",
+      "appliesTo": {
+        "offerSlug": "endpoint-central-ransomware-protection-add-on",
+        "familySlug": "endpoint-central"
+      },
+      "requires": {
+        "familySlug": "endpoint-central"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "endpoint-central-endpoint-central-os-deployment-add-on-requires-base",
+      "appliesTo": {
+        "offerSlug": "endpoint-central-os-deployment-add-on",
+        "familySlug": "endpoint-central"
+      },
+      "requires": {
+        "familySlug": "endpoint-central"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "endpoint-central-endpoint-central-dex-add-on-requires-base",
+      "appliesTo": {
+        "offerSlug": "endpoint-central-dex-add-on",
+        "familySlug": "endpoint-central"
+      },
+      "requires": {
+        "familySlug": "endpoint-central"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "endpoint-central-endpoint-central-secure-private-access-add-on-requires-base",
+      "appliesTo": {
+        "offerSlug": "endpoint-central-secure-private-access-add-on",
+        "familySlug": "endpoint-central"
+      },
+      "requires": {
+        "familySlug": "endpoint-central"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "endpoint-central-endpoint-central-additional-users-requires-base",
+      "appliesTo": {
+        "offerSlug": "endpoint-central-additional-users",
+        "familySlug": "endpoint-central"
+      },
+      "requires": {
+        "familySlug": "endpoint-central"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "endpoint-central-endpoint-central-additional-users-additional-extends",
+      "appliesTo": {
+        "offerSlug": "endpoint-central-additional-users",
+        "familySlug": "endpoint-central",
+        "variantPattern": "^Additional\\s"
+      },
+      "extends": {
+        "offerSlug": "endpoint-central-additional-users",
+        "familySlug": "endpoint-central"
+      },
+      "reason": "Позиция увеличивает объём уже выбранной лицензии и отдельно не поставляется"
+    },
+    {
+      "id": "endpoint-central-endpoint-central-multi-language-pack-requires-base",
+      "appliesTo": {
+        "offerSlug": "endpoint-central-multi-language-pack",
+        "familySlug": "endpoint-central"
+      },
+      "requires": {
+        "familySlug": "endpoint-central"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "endpoint-central-endpoint-central-failover-service-requires-base",
+      "appliesTo": {
+        "offerSlug": "endpoint-central-failover-service",
+        "familySlug": "endpoint-central"
+      },
+      "requires": {
+        "familySlug": "endpoint-central"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "endpoint-central-endpoint-central-malware-protection-add-on-perpetual-requires-base",
+      "appliesTo": {
+        "offerSlug": "endpoint-central-malware-protection-add-on-perpetual",
+        "familySlug": "endpoint-central"
+      },
+      "requires": {
+        "familySlug": "endpoint-central"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "endpoint-central-endpoint-central-ransomware-protection-add-on-perpetual-requires-base",
+      "appliesTo": {
+        "offerSlug": "endpoint-central-ransomware-protection-add-on-perpetual",
+        "familySlug": "endpoint-central"
+      },
+      "requires": {
+        "familySlug": "endpoint-central"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "endpoint-central-endpoint-central-os-deployment-add-on-perpetual-requires-base",
+      "appliesTo": {
+        "offerSlug": "endpoint-central-os-deployment-add-on-perpetual",
+        "familySlug": "endpoint-central"
+      },
+      "requires": {
+        "familySlug": "endpoint-central"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "endpoint-central-endpoint-central-dex-add-on-perpetual-requires-base",
+      "appliesTo": {
+        "offerSlug": "endpoint-central-dex-add-on-perpetual",
+        "familySlug": "endpoint-central"
+      },
+      "requires": {
+        "familySlug": "endpoint-central"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "endpoint-central-endpoint-central-secure-private-access-add-on-perpetual-requires-base",
+      "appliesTo": {
+        "offerSlug": "endpoint-central-secure-private-access-add-on-perpetual",
+        "familySlug": "endpoint-central"
+      },
+      "requires": {
+        "familySlug": "endpoint-central"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "endpoint-central-endpoint-central-additional-users-perpetual-requires-base",
+      "appliesTo": {
+        "offerSlug": "endpoint-central-additional-users-perpetual",
+        "familySlug": "endpoint-central"
+      },
+      "requires": {
+        "familySlug": "endpoint-central"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "endpoint-central-endpoint-central-additional-users-perpetual-additional-extends",
+      "appliesTo": {
+        "offerSlug": "endpoint-central-additional-users-perpetual",
+        "familySlug": "endpoint-central",
+        "variantPattern": "^Additional\\s"
+      },
+      "extends": {
+        "offerSlug": "endpoint-central-additional-users-perpetual",
+        "familySlug": "endpoint-central"
+      },
+      "reason": "Позиция увеличивает объём уже выбранной лицензии и отдельно не поставляется"
+    },
+    {
+      "id": "endpoint-central-endpoint-central-multi-language-pack-perpetual-requires-base",
+      "appliesTo": {
+        "offerSlug": "endpoint-central-multi-language-pack-perpetual",
+        "familySlug": "endpoint-central"
+      },
+      "requires": {
+        "familySlug": "endpoint-central"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "endpoint-central-endpoint-central-failover-service-perpetual-requires-base",
+      "appliesTo": {
+        "offerSlug": "endpoint-central-failover-service-perpetual",
+        "familySlug": "endpoint-central"
+      },
+      "requires": {
+        "familySlug": "endpoint-central"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "patch-manager-plus-patch-manager-plus-additional-users-requires-base",
+      "appliesTo": {
+        "offerSlug": "patch-manager-plus-additional-users",
+        "familySlug": "patch-manager-plus"
+      },
+      "requires": {
+        "familySlug": "patch-manager-plus"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "patch-manager-plus-patch-manager-plus-additional-users-additional-extends",
+      "appliesTo": {
+        "offerSlug": "patch-manager-plus-additional-users",
+        "familySlug": "patch-manager-plus",
+        "variantPattern": "^Additional\\s"
+      },
+      "extends": {
+        "offerSlug": "patch-manager-plus-additional-users",
+        "familySlug": "patch-manager-plus"
+      },
+      "reason": "Позиция увеличивает объём уже выбранной лицензии и отдельно не поставляется"
+    },
+    {
+      "id": "patch-manager-plus-patch-manager-plus-remote-access-plus-add-on-requires-base",
+      "appliesTo": {
+        "offerSlug": "patch-manager-plus-remote-access-plus-add-on",
+        "familySlug": "patch-manager-plus"
+      },
+      "requires": {
+        "familySlug": "patch-manager-plus"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "patch-manager-plus-patch-manager-plus-failover-server-add-ons-requires-base",
+      "appliesTo": {
+        "offerSlug": "patch-manager-plus-failover-server-add-ons",
+        "familySlug": "patch-manager-plus"
+      },
+      "requires": {
+        "familySlug": "patch-manager-plus"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "patch-manager-plus-patch-manager-plus-multi-language-pack-requires-base",
+      "appliesTo": {
+        "offerSlug": "patch-manager-plus-multi-language-pack",
+        "familySlug": "patch-manager-plus"
+      },
+      "requires": {
+        "familySlug": "patch-manager-plus"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "patch-manager-plus-patch-manager-plus-additional-users-perpetual-requires-base",
+      "appliesTo": {
+        "offerSlug": "patch-manager-plus-additional-users-perpetual",
+        "familySlug": "patch-manager-plus"
+      },
+      "requires": {
+        "familySlug": "patch-manager-plus"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "patch-manager-plus-patch-manager-plus-additional-users-perpetual-additional-extends",
+      "appliesTo": {
+        "offerSlug": "patch-manager-plus-additional-users-perpetual",
+        "familySlug": "patch-manager-plus",
+        "variantPattern": "^Additional\\s"
+      },
+      "extends": {
+        "offerSlug": "patch-manager-plus-additional-users-perpetual",
+        "familySlug": "patch-manager-plus"
+      },
+      "reason": "Позиция увеличивает объём уже выбранной лицензии и отдельно не поставляется"
+    },
+    {
+      "id": "patch-manager-plus-patch-manager-plus-remote-access-plus-add-ons-perpetual-requires-base",
+      "appliesTo": {
+        "offerSlug": "patch-manager-plus-remote-access-plus-add-ons-perpetual",
+        "familySlug": "patch-manager-plus"
+      },
+      "requires": {
+        "familySlug": "patch-manager-plus"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "patch-manager-plus-patch-manager-plus-failover-server-add-ons-perpetual-requires-base",
+      "appliesTo": {
+        "offerSlug": "patch-manager-plus-failover-server-add-ons-perpetual",
+        "familySlug": "patch-manager-plus"
+      },
+      "requires": {
+        "familySlug": "patch-manager-plus"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "patch-manager-plus-patch-manager-plus-multi-language-pack-perpetual-requires-base",
+      "appliesTo": {
+        "offerSlug": "patch-manager-plus-multi-language-pack-perpetual",
+        "familySlug": "patch-manager-plus"
+      },
+      "requires": {
+        "familySlug": "patch-manager-plus"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "mobile-device-manager-plus-mobile-device-manager-plus-additional-users-requires-base",
+      "appliesTo": {
+        "offerSlug": "mobile-device-manager-plus-additional-users",
+        "familySlug": "mobile-device-manager-plus"
+      },
+      "requires": {
+        "familySlug": "mobile-device-manager-plus"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "mobile-device-manager-plus-mobile-device-manager-plus-additional-users-additional-extends",
+      "appliesTo": {
+        "offerSlug": "mobile-device-manager-plus-additional-users",
+        "familySlug": "mobile-device-manager-plus",
+        "variantPattern": "^Additional\\s"
+      },
+      "extends": {
+        "offerSlug": "mobile-device-manager-plus-additional-users",
+        "familySlug": "mobile-device-manager-plus"
+      },
+      "reason": "Позиция увеличивает объём уже выбранной лицензии и отдельно не поставляется"
+    },
+    {
+      "id": "mobile-device-manager-plus-mobile-device-manager-plus-failover-server-add-ons-requires-base",
+      "appliesTo": {
+        "offerSlug": "mobile-device-manager-plus-failover-server-add-ons",
+        "familySlug": "mobile-device-manager-plus"
+      },
+      "requires": {
+        "familySlug": "mobile-device-manager-plus"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "mobile-device-manager-plus-mobile-device-manager-plus-multi-language-pack-requires-base",
+      "appliesTo": {
+        "offerSlug": "mobile-device-manager-plus-multi-language-pack",
+        "familySlug": "mobile-device-manager-plus"
+      },
+      "requires": {
+        "familySlug": "mobile-device-manager-plus"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "mobile-device-manager-plus-mobile-device-manager-plus-additional-users-perpetual-requires-base",
+      "appliesTo": {
+        "offerSlug": "mobile-device-manager-plus-additional-users-perpetual",
+        "familySlug": "mobile-device-manager-plus"
+      },
+      "requires": {
+        "familySlug": "mobile-device-manager-plus"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "mobile-device-manager-plus-mobile-device-manager-plus-additional-users-perpetual-additional-extends",
+      "appliesTo": {
+        "offerSlug": "mobile-device-manager-plus-additional-users-perpetual",
+        "familySlug": "mobile-device-manager-plus",
+        "variantPattern": "^Additional\\s"
+      },
+      "extends": {
+        "offerSlug": "mobile-device-manager-plus-additional-users-perpetual",
+        "familySlug": "mobile-device-manager-plus"
+      },
+      "reason": "Позиция увеличивает объём уже выбранной лицензии и отдельно не поставляется"
+    },
+    {
+      "id": "mobile-device-manager-plus-mobile-device-manager-plus-failover-server-add-ons-perpetual-requires-base",
+      "appliesTo": {
+        "offerSlug": "mobile-device-manager-plus-failover-server-add-ons-perpetual",
+        "familySlug": "mobile-device-manager-plus"
+      },
+      "requires": {
+        "familySlug": "mobile-device-manager-plus"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "mobile-device-manager-plus-mobile-device-manager-plus-multi-language-pack-perpetual-requires-base",
+      "appliesTo": {
+        "offerSlug": "mobile-device-manager-plus-multi-language-pack-perpetual",
+        "familySlug": "mobile-device-manager-plus"
+      },
+      "requires": {
+        "familySlug": "mobile-device-manager-plus"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "remote-access-plus-remote-access-plus-additional-users-requires-base",
+      "appliesTo": {
+        "offerSlug": "remote-access-plus-additional-users",
+        "familySlug": "remote-access-plus"
+      },
+      "requires": {
+        "familySlug": "remote-access-plus"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "remote-access-plus-remote-access-plus-additional-users-additional-extends",
+      "appliesTo": {
+        "offerSlug": "remote-access-plus-additional-users",
+        "familySlug": "remote-access-plus",
+        "variantPattern": "^Additional\\s"
+      },
+      "extends": {
+        "offerSlug": "remote-access-plus-additional-users",
+        "familySlug": "remote-access-plus"
+      },
+      "reason": "Позиция увеличивает объём уже выбранной лицензии и отдельно не поставляется"
+    },
+    {
+      "id": "remote-access-plus-remote-access-plus-failover-service-requires-base",
+      "appliesTo": {
+        "offerSlug": "remote-access-plus-failover-service",
+        "familySlug": "remote-access-plus"
+      },
+      "requires": {
+        "familySlug": "remote-access-plus"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "remote-access-plus-remote-access-plus-multi-language-pack-requires-base",
+      "appliesTo": {
+        "offerSlug": "remote-access-plus-multi-language-pack",
+        "familySlug": "remote-access-plus"
+      },
+      "requires": {
+        "familySlug": "remote-access-plus"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "remote-access-plus-remote-access-plus-additional-users-perpetual-requires-base",
+      "appliesTo": {
+        "offerSlug": "remote-access-plus-additional-users-perpetual",
+        "familySlug": "remote-access-plus"
+      },
+      "requires": {
+        "familySlug": "remote-access-plus"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "remote-access-plus-remote-access-plus-additional-users-perpetual-additional-extends",
+      "appliesTo": {
+        "offerSlug": "remote-access-plus-additional-users-perpetual",
+        "familySlug": "remote-access-plus",
+        "variantPattern": "^Additional\\s"
+      },
+      "extends": {
+        "offerSlug": "remote-access-plus-additional-users-perpetual",
+        "familySlug": "remote-access-plus"
+      },
+      "reason": "Позиция увеличивает объём уже выбранной лицензии и отдельно не поставляется"
+    },
+    {
+      "id": "remote-access-plus-remote-access-plus-failover-service-perpetual-requires-base",
+      "appliesTo": {
+        "offerSlug": "remote-access-plus-failover-service-perpetual",
+        "familySlug": "remote-access-plus"
+      },
+      "requires": {
+        "familySlug": "remote-access-plus"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "remote-access-plus-remote-access-plus-multi-language-pack-perpetual-requires-base",
+      "appliesTo": {
+        "offerSlug": "remote-access-plus-multi-language-pack-perpetual",
+        "familySlug": "remote-access-plus"
+      },
+      "requires": {
+        "familySlug": "remote-access-plus"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "os-deployer-os-deployer-additional-users-requires-base",
+      "appliesTo": {
+        "offerSlug": "os-deployer-additional-users",
+        "familySlug": "os-deployer"
+      },
+      "requires": {
+        "familySlug": "os-deployer"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "os-deployer-os-deployer-multi-language-pack-requires-base",
+      "appliesTo": {
+        "offerSlug": "os-deployer-multi-language-pack",
+        "familySlug": "os-deployer"
+      },
+      "requires": {
+        "familySlug": "os-deployer"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "os-deployer-os-deployer-additional-users-perpetual-requires-base",
+      "appliesTo": {
+        "offerSlug": "os-deployer-additional-users-perpetual",
+        "familySlug": "os-deployer"
+      },
+      "requires": {
+        "familySlug": "os-deployer"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "os-deployer-os-deployer-multi-language-pack-perpetual-requires-base",
+      "appliesTo": {
+        "offerSlug": "os-deployer-multi-language-pack-perpetual",
+        "familySlug": "os-deployer"
+      },
+      "requires": {
+        "familySlug": "os-deployer"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "vulnerability-manager-plus-vulnerability-manager-plus-additional-users-requires-base",
+      "appliesTo": {
+        "offerSlug": "vulnerability-manager-plus-additional-users",
+        "familySlug": "vulnerability-manager-plus"
+      },
+      "requires": {
+        "familySlug": "vulnerability-manager-plus"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "vulnerability-manager-plus-vulnerability-manager-plus-additional-users-additional-extends",
+      "appliesTo": {
+        "offerSlug": "vulnerability-manager-plus-additional-users",
+        "familySlug": "vulnerability-manager-plus",
+        "variantPattern": "^Additional\\s"
+      },
+      "extends": {
+        "offerSlug": "vulnerability-manager-plus-additional-users",
+        "familySlug": "vulnerability-manager-plus"
+      },
+      "reason": "Позиция увеличивает объём уже выбранной лицензии и отдельно не поставляется"
+    },
+    {
+      "id": "vulnerability-manager-plus-vulnerability-manager-plus-failover-service-requires-base",
+      "appliesTo": {
+        "offerSlug": "vulnerability-manager-plus-failover-service",
+        "familySlug": "vulnerability-manager-plus"
+      },
+      "requires": {
+        "familySlug": "vulnerability-manager-plus"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "vulnerability-manager-plus-vulnerability-manager-plus-multi-language-pack-requires-base",
+      "appliesTo": {
+        "offerSlug": "vulnerability-manager-plus-multi-language-pack",
+        "familySlug": "vulnerability-manager-plus"
+      },
+      "requires": {
+        "familySlug": "vulnerability-manager-plus"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "vulnerability-manager-plus-vulnerability-manager-plus-additional-users-perpetual-requires-base",
+      "appliesTo": {
+        "offerSlug": "vulnerability-manager-plus-additional-users-perpetual",
+        "familySlug": "vulnerability-manager-plus"
+      },
+      "requires": {
+        "familySlug": "vulnerability-manager-plus"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "vulnerability-manager-plus-vulnerability-manager-plus-additional-users-perpetual-additional-extends",
+      "appliesTo": {
+        "offerSlug": "vulnerability-manager-plus-additional-users-perpetual",
+        "familySlug": "vulnerability-manager-plus",
+        "variantPattern": "^Additional\\s"
+      },
+      "extends": {
+        "offerSlug": "vulnerability-manager-plus-additional-users-perpetual",
+        "familySlug": "vulnerability-manager-plus"
+      },
+      "reason": "Позиция увеличивает объём уже выбранной лицензии и отдельно не поставляется"
+    },
+    {
+      "id": "vulnerability-manager-plus-vulnerability-manager-plus-failover-service-perpetual-requires-base",
+      "appliesTo": {
+        "offerSlug": "vulnerability-manager-plus-failover-service-perpetual",
+        "familySlug": "vulnerability-manager-plus"
+      },
+      "requires": {
+        "familySlug": "vulnerability-manager-plus"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "vulnerability-manager-plus-vulnerability-manager-plus-multi-language-pack-perpetual-requires-base",
+      "appliesTo": {
+        "offerSlug": "vulnerability-manager-plus-multi-language-pack-perpetual",
+        "familySlug": "vulnerability-manager-plus"
+      },
+      "requires": {
+        "familySlug": "vulnerability-manager-plus"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "application-control-plus-application-control-plus-additional-users-requires-base",
+      "appliesTo": {
+        "offerSlug": "application-control-plus-additional-users",
+        "familySlug": "application-control-plus"
+      },
+      "requires": {
+        "familySlug": "application-control-plus"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "application-control-plus-application-control-plus-additional-users-additional-extends",
+      "appliesTo": {
+        "offerSlug": "application-control-plus-additional-users",
+        "familySlug": "application-control-plus",
+        "variantPattern": "^Additional\\s"
+      },
+      "extends": {
+        "offerSlug": "application-control-plus-additional-users",
+        "familySlug": "application-control-plus"
+      },
+      "reason": "Позиция увеличивает объём уже выбранной лицензии и отдельно не поставляется"
+    },
+    {
+      "id": "application-control-plus-application-control-plus-failover-service-requires-base",
+      "appliesTo": {
+        "offerSlug": "application-control-plus-failover-service",
+        "familySlug": "application-control-plus"
+      },
+      "requires": {
+        "familySlug": "application-control-plus"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "application-control-plus-application-control-plus-multi-language-pack-requires-base",
+      "appliesTo": {
+        "offerSlug": "application-control-plus-multi-language-pack",
+        "familySlug": "application-control-plus"
+      },
+      "requires": {
+        "familySlug": "application-control-plus"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "application-control-plus-application-control-plus-additional-users-perpetual-requires-base",
+      "appliesTo": {
+        "offerSlug": "application-control-plus-additional-users-perpetual",
+        "familySlug": "application-control-plus"
+      },
+      "requires": {
+        "familySlug": "application-control-plus"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "application-control-plus-application-control-plus-additional-users-perpetual-additional-extends",
+      "appliesTo": {
+        "offerSlug": "application-control-plus-additional-users-perpetual",
+        "familySlug": "application-control-plus",
+        "variantPattern": "^Additional\\s"
+      },
+      "extends": {
+        "offerSlug": "application-control-plus-additional-users-perpetual",
+        "familySlug": "application-control-plus"
+      },
+      "reason": "Позиция увеличивает объём уже выбранной лицензии и отдельно не поставляется"
+    },
+    {
+      "id": "application-control-plus-application-control-plus-failover-service-perpetual-requires-base",
+      "appliesTo": {
+        "offerSlug": "application-control-plus-failover-service-perpetual",
+        "familySlug": "application-control-plus"
+      },
+      "requires": {
+        "familySlug": "application-control-plus"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "application-control-plus-application-control-plus-multi-language-pack-perpetual-requires-base",
+      "appliesTo": {
+        "offerSlug": "application-control-plus-multi-language-pack-perpetual",
+        "familySlug": "application-control-plus"
+      },
+      "requires": {
+        "familySlug": "application-control-plus"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "device-control-plus-device-control-plus-additional-users-requires-base",
+      "appliesTo": {
+        "offerSlug": "device-control-plus-additional-users",
+        "familySlug": "device-control-plus"
+      },
+      "requires": {
+        "familySlug": "device-control-plus"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "device-control-plus-device-control-plus-additional-users-additional-extends",
+      "appliesTo": {
+        "offerSlug": "device-control-plus-additional-users",
+        "familySlug": "device-control-plus",
+        "variantPattern": "^Additional\\s"
+      },
+      "extends": {
+        "offerSlug": "device-control-plus-additional-users",
+        "familySlug": "device-control-plus"
+      },
+      "reason": "Позиция увеличивает объём уже выбранной лицензии и отдельно не поставляется"
+    },
+    {
+      "id": "device-control-plus-device-control-plus-failover-service-requires-base",
+      "appliesTo": {
+        "offerSlug": "device-control-plus-failover-service",
+        "familySlug": "device-control-plus"
+      },
+      "requires": {
+        "familySlug": "device-control-plus"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "device-control-plus-device-control-plus-multi-language-pack-requires-base",
+      "appliesTo": {
+        "offerSlug": "device-control-plus-multi-language-pack",
+        "familySlug": "device-control-plus"
+      },
+      "requires": {
+        "familySlug": "device-control-plus"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "device-control-plus-device-control-plus-additional-users-perpetual-requires-base",
+      "appliesTo": {
+        "offerSlug": "device-control-plus-additional-users-perpetual",
+        "familySlug": "device-control-plus"
+      },
+      "requires": {
+        "familySlug": "device-control-plus"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "device-control-plus-device-control-plus-additional-users-perpetual-additional-extends",
+      "appliesTo": {
+        "offerSlug": "device-control-plus-additional-users-perpetual",
+        "familySlug": "device-control-plus",
+        "variantPattern": "^Additional\\s"
+      },
+      "extends": {
+        "offerSlug": "device-control-plus-additional-users-perpetual",
+        "familySlug": "device-control-plus"
+      },
+      "reason": "Позиция увеличивает объём уже выбранной лицензии и отдельно не поставляется"
+    },
+    {
+      "id": "device-control-plus-device-control-plus-failover-service-perpetual-requires-base",
+      "appliesTo": {
+        "offerSlug": "device-control-plus-failover-service-perpetual",
+        "familySlug": "device-control-plus"
+      },
+      "requires": {
+        "familySlug": "device-control-plus"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "device-control-plus-device-control-plus-multi-language-pack-perpetual-requires-base",
+      "appliesTo": {
+        "offerSlug": "device-control-plus-multi-language-pack-perpetual",
+        "familySlug": "device-control-plus"
+      },
+      "requires": {
+        "familySlug": "device-control-plus"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "browser-security-plus-browser-security-plus-additional-users-requires-base",
+      "appliesTo": {
+        "offerSlug": "browser-security-plus-additional-users",
+        "familySlug": "browser-security-plus"
+      },
+      "requires": {
+        "familySlug": "browser-security-plus"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "browser-security-plus-browser-security-plus-additional-users-additional-extends",
+      "appliesTo": {
+        "offerSlug": "browser-security-plus-additional-users",
+        "familySlug": "browser-security-plus",
+        "variantPattern": "^Additional\\s"
+      },
+      "extends": {
+        "offerSlug": "browser-security-plus-additional-users",
+        "familySlug": "browser-security-plus"
+      },
+      "reason": "Позиция увеличивает объём уже выбранной лицензии и отдельно не поставляется"
+    },
+    {
+      "id": "browser-security-plus-browser-security-plus-multi-language-pack-license-requires-base",
+      "appliesTo": {
+        "offerSlug": "browser-security-plus-multi-language-pack-license",
+        "familySlug": "browser-security-plus"
+      },
+      "requires": {
+        "familySlug": "browser-security-plus"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "browser-security-plus-browser-security-plus-failover-service-requires-base",
+      "appliesTo": {
+        "offerSlug": "browser-security-plus-failover-service",
+        "familySlug": "browser-security-plus"
+      },
+      "requires": {
+        "familySlug": "browser-security-plus"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "browser-security-plus-browser-security-plus-additional-users-perpetual-requires-base",
+      "appliesTo": {
+        "offerSlug": "browser-security-plus-additional-users-perpetual",
+        "familySlug": "browser-security-plus"
+      },
+      "requires": {
+        "familySlug": "browser-security-plus"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "browser-security-plus-browser-security-plus-additional-users-perpetual-additional-extends",
+      "appliesTo": {
+        "offerSlug": "browser-security-plus-additional-users-perpetual",
+        "familySlug": "browser-security-plus",
+        "variantPattern": "^Additional\\s"
+      },
+      "extends": {
+        "offerSlug": "browser-security-plus-additional-users-perpetual",
+        "familySlug": "browser-security-plus"
+      },
+      "reason": "Позиция увеличивает объём уже выбранной лицензии и отдельно не поставляется"
+    },
+    {
+      "id": "browser-security-plus-browser-security-plus-multi-language-pack-license-perpetual-requires-base",
+      "appliesTo": {
+        "offerSlug": "browser-security-plus-multi-language-pack-license-perpetual",
+        "familySlug": "browser-security-plus"
+      },
+      "requires": {
+        "familySlug": "browser-security-plus"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "browser-security-plus-browser-security-plus-failover-service-perpetual-requires-base",
+      "appliesTo": {
+        "offerSlug": "browser-security-plus-failover-service-perpetual",
+        "familySlug": "browser-security-plus"
+      },
+      "requires": {
+        "familySlug": "browser-security-plus"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "endpoint-dlp-plus-endpoint-dlp-plus-additional-users-requires-base",
+      "appliesTo": {
+        "offerSlug": "endpoint-dlp-plus-additional-users",
+        "familySlug": "endpoint-dlp-plus"
+      },
+      "requires": {
+        "familySlug": "endpoint-dlp-plus"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "endpoint-dlp-plus-endpoint-dlp-plus-additional-users-additional-extends",
+      "appliesTo": {
+        "offerSlug": "endpoint-dlp-plus-additional-users",
+        "familySlug": "endpoint-dlp-plus",
+        "variantPattern": "^Additional\\s"
+      },
+      "extends": {
+        "offerSlug": "endpoint-dlp-plus-additional-users",
+        "familySlug": "endpoint-dlp-plus"
+      },
+      "reason": "Позиция увеличивает объём уже выбранной лицензии и отдельно не поставляется"
+    },
+    {
+      "id": "endpoint-dlp-plus-endpoint-dlp-plus-failover-service-requires-base",
+      "appliesTo": {
+        "offerSlug": "endpoint-dlp-plus-failover-service",
+        "familySlug": "endpoint-dlp-plus"
+      },
+      "requires": {
+        "familySlug": "endpoint-dlp-plus"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "endpoint-dlp-plus-endpoint-dlp-plus-multi-language-pack-license-requires-base",
+      "appliesTo": {
+        "offerSlug": "endpoint-dlp-plus-multi-language-pack-license",
+        "familySlug": "endpoint-dlp-plus"
+      },
+      "requires": {
+        "familySlug": "endpoint-dlp-plus"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "endpoint-dlp-plus-endpoint-dlp-plus-additional-users-perpetual-requires-base",
+      "appliesTo": {
+        "offerSlug": "endpoint-dlp-plus-additional-users-perpetual",
+        "familySlug": "endpoint-dlp-plus"
+      },
+      "requires": {
+        "familySlug": "endpoint-dlp-plus"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "endpoint-dlp-plus-endpoint-dlp-plus-additional-users-perpetual-additional-extends",
+      "appliesTo": {
+        "offerSlug": "endpoint-dlp-plus-additional-users-perpetual",
+        "familySlug": "endpoint-dlp-plus",
+        "variantPattern": "^Additional\\s"
+      },
+      "extends": {
+        "offerSlug": "endpoint-dlp-plus-additional-users-perpetual",
+        "familySlug": "endpoint-dlp-plus"
+      },
+      "reason": "Позиция увеличивает объём уже выбранной лицензии и отдельно не поставляется"
+    },
+    {
+      "id": "endpoint-dlp-plus-endpoint-dlp-plus-failover-service-perpetual-requires-base",
+      "appliesTo": {
+        "offerSlug": "endpoint-dlp-plus-failover-service-perpetual",
+        "familySlug": "endpoint-dlp-plus"
+      },
+      "requires": {
+        "familySlug": "endpoint-dlp-plus"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "endpoint-dlp-plus-endpoint-dlp-plus-multi-language-pack-license-perpetual-requires-base",
+      "appliesTo": {
+        "offerSlug": "endpoint-dlp-plus-multi-language-pack-license-perpetual",
+        "familySlug": "endpoint-dlp-plus"
+      },
+      "requires": {
+        "familySlug": "endpoint-dlp-plus"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "ransomware-protection-plus-ransomware-protection-plus-additional-technicians-requires-base",
+      "appliesTo": {
+        "offerSlug": "ransomware-protection-plus-additional-technicians",
+        "familySlug": "ransomware-protection-plus"
+      },
+      "requires": {
+        "familySlug": "ransomware-protection-plus"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "ransomware-protection-plus-ransomware-protection-plus-failover-service-requires-base",
+      "appliesTo": {
+        "offerSlug": "ransomware-protection-plus-failover-service",
+        "familySlug": "ransomware-protection-plus"
+      },
+      "requires": {
+        "familySlug": "ransomware-protection-plus"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "ransomware-protection-plus-ransomware-protection-plus-multi-language-pack-requires-base",
+      "appliesTo": {
+        "offerSlug": "ransomware-protection-plus-multi-language-pack",
+        "familySlug": "ransomware-protection-plus"
+      },
+      "requires": {
+        "familySlug": "ransomware-protection-plus"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "ransomware-protection-plus-ransomware-protection-plus-additional-technicians-perpetual-requires-base",
+      "appliesTo": {
+        "offerSlug": "ransomware-protection-plus-additional-technicians-perpetual",
+        "familySlug": "ransomware-protection-plus"
+      },
+      "requires": {
+        "familySlug": "ransomware-protection-plus"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "ransomware-protection-plus-ransomware-protection-plus-failover-service-perpetual-requires-base",
+      "appliesTo": {
+        "offerSlug": "ransomware-protection-plus-failover-service-perpetual",
+        "familySlug": "ransomware-protection-plus"
+      },
+      "requires": {
+        "familySlug": "ransomware-protection-plus"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "ransomware-protection-plus-ransomware-protection-plus-multi-language-pack-perpetual-requires-base",
+      "appliesTo": {
+        "offerSlug": "ransomware-protection-plus-multi-language-pack-perpetual",
+        "familySlug": "ransomware-protection-plus"
+      },
+      "requires": {
+        "familySlug": "ransomware-protection-plus"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "malware-protection-plus-malware-protection-plus-additional-technicians-requires-base",
+      "appliesTo": {
+        "offerSlug": "malware-protection-plus-additional-technicians",
+        "familySlug": "malware-protection-plus"
+      },
+      "requires": {
+        "familySlug": "malware-protection-plus"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "malware-protection-plus-malware-protection-plus-failover-service-requires-base",
+      "appliesTo": {
+        "offerSlug": "malware-protection-plus-failover-service",
+        "familySlug": "malware-protection-plus"
+      },
+      "requires": {
+        "familySlug": "malware-protection-plus"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "malware-protection-plus-malware-protection-plus-multi-language-pack-requires-base",
+      "appliesTo": {
+        "offerSlug": "malware-protection-plus-multi-language-pack",
+        "familySlug": "malware-protection-plus"
+      },
+      "requires": {
+        "familySlug": "malware-protection-plus"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "malware-protection-plus-malware-protection-plus-additional-technicians-perpetual-requires-base",
+      "appliesTo": {
+        "offerSlug": "malware-protection-plus-additional-technicians-perpetual",
+        "familySlug": "malware-protection-plus"
+      },
+      "requires": {
+        "familySlug": "malware-protection-plus"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "malware-protection-plus-malware-protection-plus-failover-service-perpetual-requires-base",
+      "appliesTo": {
+        "offerSlug": "malware-protection-plus-failover-service-perpetual",
+        "familySlug": "malware-protection-plus"
+      },
+      "requires": {
+        "familySlug": "malware-protection-plus"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "malware-protection-plus-malware-protection-plus-multi-language-pack-perpetual-requires-base",
+      "appliesTo": {
+        "offerSlug": "malware-protection-plus-multi-language-pack-perpetual",
+        "familySlug": "malware-protection-plus"
+      },
+      "requires": {
+        "familySlug": "malware-protection-plus"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "opmanager-nexus-opmanager-nexus-add-ons-requires-base",
+      "appliesTo": {
+        "offerSlug": "opmanager-nexus-add-ons",
+        "familySlug": "opmanager-nexus"
+      },
+      "requires": {
+        "familySlug": "opmanager-nexus"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "opmanager-nexus-opmanager-nexus-additional-user-pack-requires-base",
+      "appliesTo": {
+        "offerSlug": "opmanager-nexus-additional-user-pack",
+        "familySlug": "opmanager-nexus"
+      },
+      "requires": {
+        "familySlug": "opmanager-nexus"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "opmanager-nexus-lite-device-add-on-uptime-wan-access-points-network-paths-requires-base",
+      "appliesTo": {
+        "offerSlug": "lite-device-add-on-uptime-wan-access-points-network-paths",
+        "familySlug": "opmanager-nexus"
+      },
+      "requires": {
+        "familySlug": "opmanager-nexus"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "opmanager-nexus-opmanager-nexus-apm-plugin-applogs-monitoring-add-on-requires-base",
+      "appliesTo": {
+        "offerSlug": "opmanager-nexus-apm-plugin-applogs-monitoring-add-on",
+        "familySlug": "opmanager-nexus"
+      },
+      "requires": {
+        "familySlug": "opmanager-nexus"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "opmanager-nexus-opmanager-nexus-apm-plugin-real-user-monitor-rum-add-on-requires-base",
+      "appliesTo": {
+        "offerSlug": "opmanager-nexus-apm-plugin-real-user-monitor-rum-add-on",
+        "familySlug": "opmanager-nexus"
+      },
+      "requires": {
+        "familySlug": "opmanager-nexus"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "opmanager-nexus-opmanager-nexus-additional-firewall-requires-base",
+      "appliesTo": {
+        "offerSlug": "opmanager-nexus-additional-firewall",
+        "familySlug": "opmanager-nexus"
+      },
+      "requires": {
+        "familySlug": "opmanager-nexus"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "opmanager-nexus-opmanager-nexus-ipam-spm-management-add-on-requires-base",
+      "appliesTo": {
+        "offerSlug": "opmanager-nexus-ipam-spm-management-add-on",
+        "familySlug": "opmanager-nexus"
+      },
+      "requires": {
+        "familySlug": "opmanager-nexus"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "opmanager-nexus-opmanager-nexus-add-ons-perpetual-requires-base",
+      "appliesTo": {
+        "offerSlug": "opmanager-nexus-add-ons-perpetual",
+        "familySlug": "opmanager-nexus"
+      },
+      "requires": {
+        "familySlug": "opmanager-nexus"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "opmanager-nexus-opmanager-nexus-additional-user-pack-perpetual-requires-base",
+      "appliesTo": {
+        "offerSlug": "opmanager-nexus-additional-user-pack-perpetual",
+        "familySlug": "opmanager-nexus"
+      },
+      "requires": {
+        "familySlug": "opmanager-nexus"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "opmanager-nexus-lite-device-add-on-uptime-wan-access-points-network-paths-perpetual-requires-base",
+      "appliesTo": {
+        "offerSlug": "lite-device-add-on-uptime-wan-access-points-network-paths-perpetual",
+        "familySlug": "opmanager-nexus"
+      },
+      "requires": {
+        "familySlug": "opmanager-nexus"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "opmanager-nexus-opmanager-nexus-apm-plugin-applogs-monitoring-add-on-perpetual-requires-base",
+      "appliesTo": {
+        "offerSlug": "opmanager-nexus-apm-plugin-applogs-monitoring-add-on-perpetual",
+        "familySlug": "opmanager-nexus"
+      },
+      "requires": {
+        "familySlug": "opmanager-nexus"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "opmanager-nexus-opmanager-nexus-apm-plugin-real-user-monitor-rum-add-on-perpetual-requires-base",
+      "appliesTo": {
+        "offerSlug": "opmanager-nexus-apm-plugin-real-user-monitor-rum-add-on-perpetual",
+        "familySlug": "opmanager-nexus"
+      },
+      "requires": {
+        "familySlug": "opmanager-nexus"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "opmanager-nexus-opmanager-nexus-additional-firewall-perpetual-requires-base",
+      "appliesTo": {
+        "offerSlug": "opmanager-nexus-additional-firewall-perpetual",
+        "familySlug": "opmanager-nexus"
+      },
+      "requires": {
+        "familySlug": "opmanager-nexus"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "opmanager-nexus-opmanager-nexus-ipam-spm-management-add-on-perpetual-requires-base",
+      "appliesTo": {
+        "offerSlug": "opmanager-nexus-ipam-spm-management-add-on-perpetual",
+        "familySlug": "opmanager-nexus"
+      },
+      "requires": {
+        "familySlug": "opmanager-nexus"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "applications-manager-applogs-monitoring-add-on-professional-edition-requires-base",
+      "appliesTo": {
+        "offerSlug": "applogs-monitoring-add-on-professional-edition",
+        "familySlug": "applications-manager"
+      },
+      "requires": {
+        "familySlug": "applications-manager"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "applications-manager-applogs-monitoring-add-on-enterprise-edition-requires-base",
+      "appliesTo": {
+        "offerSlug": "applogs-monitoring-add-on-enterprise-edition",
+        "familySlug": "applications-manager"
+      },
+      "requires": {
+        "familySlug": "applications-manager"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "applications-manager-applications-manager-real-user-monitor-rum-add-on-requires-base",
+      "appliesTo": {
+        "offerSlug": "applications-manager-real-user-monitor-rum-add-on",
+        "familySlug": "applications-manager"
+      },
+      "requires": {
+        "familySlug": "applications-manager"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "applications-manager-applications-manager-additional-user-pack-requires-base",
+      "appliesTo": {
+        "offerSlug": "applications-manager-additional-user-pack",
+        "familySlug": "applications-manager"
+      },
+      "requires": {
+        "familySlug": "applications-manager"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "applications-manager-applogs-monitoring-add-on-professional-edition-perpetual-requires-base",
+      "appliesTo": {
+        "offerSlug": "applogs-monitoring-add-on-professional-edition-perpetual",
+        "familySlug": "applications-manager"
+      },
+      "requires": {
+        "familySlug": "applications-manager"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "applications-manager-applogs-monitoring-add-on-enterprise-edition-perpetual-requires-base",
+      "appliesTo": {
+        "offerSlug": "applogs-monitoring-add-on-enterprise-edition-perpetual",
+        "familySlug": "applications-manager"
+      },
+      "requires": {
+        "familySlug": "applications-manager"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "applications-manager-applications-manager-real-user-monitor-rum-add-on-perpetual-requires-base",
+      "appliesTo": {
+        "offerSlug": "applications-manager-real-user-monitor-rum-add-on-perpetual",
+        "familySlug": "applications-manager"
+      },
+      "requires": {
+        "familySlug": "applications-manager"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "applications-manager-applications-manager-additional-user-pack-perpetual-requires-base",
+      "appliesTo": {
+        "offerSlug": "applications-manager-additional-user-pack-perpetual",
+        "familySlug": "applications-manager"
+      },
+      "requires": {
+        "familySlug": "applications-manager"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "opmanager-opmanager-add-ons-requires-base",
+      "appliesTo": {
+        "offerSlug": "opmanager-add-ons",
+        "familySlug": "opmanager"
+      },
+      "requires": {
+        "familySlug": "opmanager"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "opmanager-lite-device-add-on-uptime-wan-access-points-network-paths-urls-requires-base",
+      "appliesTo": {
+        "offerSlug": "lite-device-add-on-uptime-wan-access-points-network-paths-urls",
+        "familySlug": "opmanager"
+      },
+      "requires": {
+        "familySlug": "opmanager"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "opmanager-opmanager-additional-user-pack-requires-base",
+      "appliesTo": {
+        "offerSlug": "opmanager-additional-user-pack",
+        "familySlug": "opmanager"
+      },
+      "requires": {
+        "familySlug": "opmanager"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "opmanager-nfa-add-on-for-opmanager-requires-base",
+      "appliesTo": {
+        "offerSlug": "nfa-add-on-for-opmanager",
+        "familySlug": "opmanager"
+      },
+      "requires": {
+        "familySlug": "opmanager"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "opmanager-ncm-add-on-for-opmanager-requires-base",
+      "appliesTo": {
+        "offerSlug": "ncm-add-on-for-opmanager",
+        "familySlug": "opmanager"
+      },
+      "requires": {
+        "familySlug": "opmanager"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "opmanager-firewall-add-on-for-opmanager-requires-base",
+      "appliesTo": {
+        "offerSlug": "firewall-add-on-for-opmanager",
+        "familySlug": "opmanager"
+      },
+      "requires": {
+        "familySlug": "opmanager"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "opmanager-opmanager-ipam-spm-professional-add-on-requires-base",
+      "appliesTo": {
+        "offerSlug": "opmanager-ipam-spm-professional-add-on",
+        "familySlug": "opmanager"
+      },
+      "requires": {
+        "familySlug": "opmanager"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "opmanager-opmanager-ipam-spm-management-add-on-requires-base",
+      "appliesTo": {
+        "offerSlug": "opmanager-ipam-spm-management-add-on",
+        "familySlug": "opmanager"
+      },
+      "requires": {
+        "familySlug": "opmanager"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "opmanager-storage-monitoring-add-on-for-opmanager-requires-base",
+      "appliesTo": {
+        "offerSlug": "storage-monitoring-add-on-for-opmanager",
+        "familySlug": "opmanager"
+      },
+      "requires": {
+        "familySlug": "opmanager"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "opmanager-apm-plugin-applogs-monitoring-add-on-requires-base",
+      "appliesTo": {
+        "offerSlug": "apm-plugin-applogs-monitoring-add-on",
+        "familySlug": "opmanager"
+      },
+      "requires": {
+        "familySlug": "opmanager"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "opmanager-apm-plugin-real-user-monitor-rum-add-on-requires-base",
+      "appliesTo": {
+        "offerSlug": "apm-plugin-real-user-monitor-rum-add-on",
+        "familySlug": "opmanager"
+      },
+      "requires": {
+        "familySlug": "opmanager"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "opmanager-opmanager-add-ons-perpetual-requires-base",
+      "appliesTo": {
+        "offerSlug": "opmanager-add-ons-perpetual",
+        "familySlug": "opmanager"
+      },
+      "requires": {
+        "familySlug": "opmanager"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "opmanager-lite-device-add-on-uptime-wan-access-points-network-paths-urls-perpetual-requires-base",
+      "appliesTo": {
+        "offerSlug": "lite-device-add-on-uptime-wan-access-points-network-paths-urls-perpetual",
+        "familySlug": "opmanager"
+      },
+      "requires": {
+        "familySlug": "opmanager"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "opmanager-opmanager-additional-user-pack-perpetual-requires-base",
+      "appliesTo": {
+        "offerSlug": "opmanager-additional-user-pack-perpetual",
+        "familySlug": "opmanager"
+      },
+      "requires": {
+        "familySlug": "opmanager"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "opmanager-nfa-add-on-for-opmanager-perpetual-requires-base",
+      "appliesTo": {
+        "offerSlug": "nfa-add-on-for-opmanager-perpetual",
+        "familySlug": "opmanager"
+      },
+      "requires": {
+        "familySlug": "opmanager"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "opmanager-ncm-add-on-for-opmanager-perpetual-requires-base",
+      "appliesTo": {
+        "offerSlug": "ncm-add-on-for-opmanager-perpetual",
+        "familySlug": "opmanager"
+      },
+      "requires": {
+        "familySlug": "opmanager"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "opmanager-firewall-add-on-for-opmanager-perpetual-requires-base",
+      "appliesTo": {
+        "offerSlug": "firewall-add-on-for-opmanager-perpetual",
+        "familySlug": "opmanager"
+      },
+      "requires": {
+        "familySlug": "opmanager"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "opmanager-opmanager-ipam-spm-professional-add-on-perpetual-requires-base",
+      "appliesTo": {
+        "offerSlug": "opmanager-ipam-spm-professional-add-on-perpetual",
+        "familySlug": "opmanager"
+      },
+      "requires": {
+        "familySlug": "opmanager"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "opmanager-opmanager-ipam-spm-management-add-on-perpetual-requires-base",
+      "appliesTo": {
+        "offerSlug": "opmanager-ipam-spm-management-add-on-perpetual",
+        "familySlug": "opmanager"
+      },
+      "requires": {
+        "familySlug": "opmanager"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "opmanager-storage-monitoring-add-on-for-opmanager-perpetual-requires-base",
+      "appliesTo": {
+        "offerSlug": "storage-monitoring-add-on-for-opmanager-perpetual",
+        "familySlug": "opmanager"
+      },
+      "requires": {
+        "familySlug": "opmanager"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "opmanager-apm-plugin-applogs-monitoring-add-on-perpetual-requires-base",
+      "appliesTo": {
+        "offerSlug": "apm-plugin-applogs-monitoring-add-on-perpetual",
+        "familySlug": "opmanager"
+      },
+      "requires": {
+        "familySlug": "opmanager"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "opmanager-apm-plugin-real-user-monitor-rum-add-on-perpetual-requires-base",
+      "appliesTo": {
+        "offerSlug": "apm-plugin-real-user-monitor-rum-add-on-perpetual",
+        "familySlug": "opmanager"
+      },
+      "requires": {
+        "familySlug": "opmanager"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "netflow-analyzer-netflow-analyzer-professional-edition-add-ons-requires-base",
+      "appliesTo": {
+        "offerSlug": "netflow-analyzer-professional-edition-add-ons",
+        "familySlug": "netflow-analyzer"
+      },
+      "requires": {
+        "familySlug": "netflow-analyzer"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "netflow-analyzer-netflow-analyzer-enterprise-edition-add-ons-requires-base",
+      "appliesTo": {
+        "offerSlug": "netflow-analyzer-enterprise-edition-add-ons",
+        "familySlug": "netflow-analyzer"
+      },
+      "requires": {
+        "familySlug": "netflow-analyzer"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "netflow-analyzer-netflow-analyzer-additional-user-pack-requires-base",
+      "appliesTo": {
+        "offerSlug": "netflow-analyzer-additional-user-pack",
+        "familySlug": "netflow-analyzer"
+      },
+      "requires": {
+        "familySlug": "netflow-analyzer"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "netflow-analyzer-ncm-add-on-for-netflow-analyzer-requires-base",
+      "appliesTo": {
+        "offerSlug": "ncm-add-on-for-netflow-analyzer",
+        "familySlug": "netflow-analyzer"
+      },
+      "requires": {
+        "familySlug": "netflow-analyzer"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "netflow-analyzer-netflow-analyzer-ipam-spm-professional-add-on-requires-base",
+      "appliesTo": {
+        "offerSlug": "netflow-analyzer-ipam-spm-professional-add-on",
+        "familySlug": "netflow-analyzer"
+      },
+      "requires": {
+        "familySlug": "netflow-analyzer"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "netflow-analyzer-netflow-analyzer-ipam-spm-management-add-on-requires-base",
+      "appliesTo": {
+        "offerSlug": "netflow-analyzer-ipam-spm-management-add-on",
+        "familySlug": "netflow-analyzer"
+      },
+      "requires": {
+        "familySlug": "netflow-analyzer"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "netflow-analyzer-netflow-analyzer-professional-edition-add-ons-perpetual-requires-base",
+      "appliesTo": {
+        "offerSlug": "netflow-analyzer-professional-edition-add-ons-perpetual",
+        "familySlug": "netflow-analyzer"
+      },
+      "requires": {
+        "familySlug": "netflow-analyzer"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "netflow-analyzer-netflow-analyzer-enterprise-edition-add-ons-perpetual-requires-base",
+      "appliesTo": {
+        "offerSlug": "netflow-analyzer-enterprise-edition-add-ons-perpetual",
+        "familySlug": "netflow-analyzer"
+      },
+      "requires": {
+        "familySlug": "netflow-analyzer"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "netflow-analyzer-netflow-analyzer-additional-user-pack-perpetual-requires-base",
+      "appliesTo": {
+        "offerSlug": "netflow-analyzer-additional-user-pack-perpetual",
+        "familySlug": "netflow-analyzer"
+      },
+      "requires": {
+        "familySlug": "netflow-analyzer"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "netflow-analyzer-ncm-add-on-for-netflow-analyzer-perpetual-requires-base",
+      "appliesTo": {
+        "offerSlug": "ncm-add-on-for-netflow-analyzer-perpetual",
+        "familySlug": "netflow-analyzer"
+      },
+      "requires": {
+        "familySlug": "netflow-analyzer"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "netflow-analyzer-netflow-analyzer-ipam-spm-professional-add-on-perpetual-requires-base",
+      "appliesTo": {
+        "offerSlug": "netflow-analyzer-ipam-spm-professional-add-on-perpetual",
+        "familySlug": "netflow-analyzer"
+      },
+      "requires": {
+        "familySlug": "netflow-analyzer"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "netflow-analyzer-netflow-analyzer-ipam-spm-management-add-on-perpetual-requires-base",
+      "appliesTo": {
+        "offerSlug": "netflow-analyzer-ipam-spm-management-add-on-perpetual",
+        "familySlug": "netflow-analyzer"
+      },
+      "requires": {
+        "familySlug": "netflow-analyzer"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "network-configuration-manager-network-configuration-manager-professional-edition-add-ons-requires-base",
+      "appliesTo": {
+        "offerSlug": "network-configuration-manager-professional-edition-add-ons",
+        "familySlug": "network-configuration-manager"
+      },
+      "requires": {
+        "familySlug": "network-configuration-manager"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "network-configuration-manager-network-configuration-manager-enterprise-edition-add-ons-requires-base",
+      "appliesTo": {
+        "offerSlug": "network-configuration-manager-enterprise-edition-add-ons",
+        "familySlug": "network-configuration-manager"
+      },
+      "requires": {
+        "familySlug": "network-configuration-manager"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "network-configuration-manager-network-configuration-manager-additional-user-pack-requires-base",
+      "appliesTo": {
+        "offerSlug": "network-configuration-manager-additional-user-pack",
+        "familySlug": "network-configuration-manager"
+      },
+      "requires": {
+        "familySlug": "network-configuration-manager"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "network-configuration-manager-network-configuration-manager-professional-edition-add-ons-perpetual-requires-base",
+      "appliesTo": {
+        "offerSlug": "network-configuration-manager-professional-edition-add-ons-perpetual",
+        "familySlug": "network-configuration-manager"
+      },
+      "requires": {
+        "familySlug": "network-configuration-manager"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "network-configuration-manager-network-configuration-manager-enterprise-edition-add-ons-perpetual-requires-base",
+      "appliesTo": {
+        "offerSlug": "network-configuration-manager-enterprise-edition-add-ons-perpetual",
+        "familySlug": "network-configuration-manager"
+      },
+      "requires": {
+        "familySlug": "network-configuration-manager"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "network-configuration-manager-network-configuration-manager-additional-user-pack-perpetual-requires-base",
+      "appliesTo": {
+        "offerSlug": "network-configuration-manager-additional-user-pack-perpetual",
+        "familySlug": "network-configuration-manager"
+      },
+      "requires": {
+        "familySlug": "network-configuration-manager"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "firewall-analyzer-firewall-analyzer-add-ons-no-download-required-requires-base",
+      "appliesTo": {
+        "offerSlug": "firewall-analyzer-add-ons-no-download-required",
+        "familySlug": "firewall-analyzer"
+      },
+      "requires": {
+        "familySlug": "firewall-analyzer"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "firewall-analyzer-firewall-analyzer-enterprise-edition-add-ons-no-download-required-requires-base",
+      "appliesTo": {
+        "offerSlug": "firewall-analyzer-enterprise-edition-add-ons-no-download-required",
+        "familySlug": "firewall-analyzer"
+      },
+      "requires": {
+        "familySlug": "firewall-analyzer"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "firewall-analyzer-firewall-analyzer-additional-user-pack-requires-base",
+      "appliesTo": {
+        "offerSlug": "firewall-analyzer-additional-user-pack",
+        "familySlug": "firewall-analyzer"
+      },
+      "requires": {
+        "familySlug": "firewall-analyzer"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "firewall-analyzer-firewall-analyzer-add-ons-no-download-required-perpetual-requires-base",
+      "appliesTo": {
+        "offerSlug": "firewall-analyzer-add-ons-no-download-required-perpetual",
+        "familySlug": "firewall-analyzer"
+      },
+      "requires": {
+        "familySlug": "firewall-analyzer"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "firewall-analyzer-firewall-analyzer-enterprise-edition-add-ons-no-download-required-perpetual-requires-base",
+      "appliesTo": {
+        "offerSlug": "firewall-analyzer-enterprise-edition-add-ons-no-download-required-perpetual",
+        "familySlug": "firewall-analyzer"
+      },
+      "requires": {
+        "familySlug": "firewall-analyzer"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "firewall-analyzer-firewall-analyzer-additional-user-pack-perpetual-requires-base",
+      "appliesTo": {
+        "offerSlug": "firewall-analyzer-additional-user-pack-perpetual",
+        "familySlug": "firewall-analyzer"
+      },
+      "requires": {
+        "familySlug": "firewall-analyzer"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "oputils-oputils-additional-user-pack-requires-base",
+      "appliesTo": {
+        "offerSlug": "oputils-additional-user-pack",
+        "familySlug": "oputils"
+      },
+      "requires": {
+        "familySlug": "oputils"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "oputils-oputils-add-ons-no-download-required-requires-base",
+      "appliesTo": {
+        "offerSlug": "oputils-add-ons-no-download-required",
+        "familySlug": "oputils"
+      },
+      "requires": {
+        "familySlug": "oputils"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "oputils-oputils-additional-user-pack-perpetual-requires-base",
+      "appliesTo": {
+        "offerSlug": "oputils-additional-user-pack-perpetual",
+        "familySlug": "oputils"
+      },
+      "requires": {
+        "familySlug": "oputils"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "oputils-oputils-add-ons-no-download-required-perpetual-requires-base",
+      "appliesTo": {
+        "offerSlug": "oputils-add-ons-no-download-required-perpetual",
+        "familySlug": "oputils"
+      },
+      "requires": {
+        "familySlug": "oputils"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "ddi-central-ddi-central-add-ons-subscription-model-requires-base",
+      "appliesTo": {
+        "offerSlug": "ddi-central-add-ons-subscription-model",
+        "familySlug": "ddi-central"
+      },
+      "requires": {
+        "familySlug": "ddi-central"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "ddi-central-ddi-central-additional-admin-operator-user-pack-subscription-model-requires-base",
+      "appliesTo": {
+        "offerSlug": "ddi-central-additional-admin-operator-user-pack-subscription-model",
+        "familySlug": "ddi-central"
+      },
+      "requires": {
+        "familySlug": "ddi-central"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "ddi-central-ddi-central-additional-subnets-pack-subscription-model-requires-base",
+      "appliesTo": {
+        "offerSlug": "ddi-central-additional-subnets-pack-subscription-model",
+        "familySlug": "ddi-central"
+      },
+      "requires": {
+        "familySlug": "ddi-central"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "ddi-central-ddi-central-additional-zones-pack-subscription-model-requires-base",
+      "appliesTo": {
+        "offerSlug": "ddi-central-additional-zones-pack-subscription-model",
+        "familySlug": "ddi-central"
+      },
+      "requires": {
+        "familySlug": "ddi-central"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "ddi-central-ddi-central-add-ons-perpetual-model-perpetual-requires-base",
+      "appliesTo": {
+        "offerSlug": "ddi-central-add-ons-perpetual-model-perpetual",
+        "familySlug": "ddi-central"
+      },
+      "requires": {
+        "familySlug": "ddi-central"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "ddi-central-ddi-central-additional-admin-operator-user-pack-perpetual-model-perpetual-requires-base",
+      "appliesTo": {
+        "offerSlug": "ddi-central-additional-admin-operator-user-pack-perpetual-model-perpetual",
+        "familySlug": "ddi-central"
+      },
+      "requires": {
+        "familySlug": "ddi-central"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "ddi-central-ddi-central-additional-subnets-pack-perpetual-model-perpetual-requires-base",
+      "appliesTo": {
+        "offerSlug": "ddi-central-additional-subnets-pack-perpetual-model-perpetual",
+        "familySlug": "ddi-central"
+      },
+      "requires": {
+        "familySlug": "ddi-central"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "ddi-central-ddi-central-additional-zones-pack-perpetual-model-perpetual-requires-base",
+      "appliesTo": {
+        "offerSlug": "ddi-central-additional-zones-pack-perpetual-model-perpetual",
+        "familySlug": "ddi-central"
+      },
+      "requires": {
+        "familySlug": "ddi-central"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "m365-security-plus-m365-security-plus-exchange-online-backup-add-on-requires-base",
+      "appliesTo": {
+        "offerSlug": "m365-security-plus-exchange-online-backup-add-on",
+        "familySlug": "m365-security-plus"
+      },
+      "requires": {
+        "familySlug": "m365-security-plus"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "m365-security-plus-m365-security-plus-exchange-online-backup-add-on-perpetual-requires-base",
+      "appliesTo": {
+        "offerSlug": "m365-security-plus-exchange-online-backup-add-on-perpetual",
+        "familySlug": "m365-security-plus"
+      },
+      "requires": {
+        "familySlug": "m365-security-plus"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "cloud-security-plus-cloud-security-plus-subscription-model-additional-data-sources-requires-base",
+      "appliesTo": {
+        "offerSlug": "cloud-security-plus-subscription-model-additional-data-sources",
+        "familySlug": "cloud-security-plus"
+      },
+      "requires": {
+        "familySlug": "cloud-security-plus"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "cloud-security-plus-cloud-security-plus-additional-data-sources-perpetual-requires-base",
+      "appliesTo": {
+        "offerSlug": "cloud-security-plus-additional-data-sources-perpetual",
+        "familySlug": "cloud-security-plus"
+      },
+      "requires": {
+        "familySlug": "cloud-security-plus"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "analytics-plus-analytics-plus-standard-edition-annual-subscription-model-additional-extends",
+      "appliesTo": {
+        "offerSlug": "analytics-plus-standard-edition-annual-subscription-model",
+        "familySlug": "analytics-plus",
+        "variantPattern": "^Additional\\s"
+      },
+      "extends": {
+        "offerSlug": "analytics-plus-standard-edition-annual-subscription-model",
+        "familySlug": "analytics-plus"
+      },
+      "reason": "Позиция увеличивает объём уже выбранной лицензии и отдельно не поставляется"
+    },
+    {
+      "id": "analytics-plus-analytics-plus-professional-edition-annual-subscription-model-additional-extends",
+      "appliesTo": {
+        "offerSlug": "analytics-plus-professional-edition-annual-subscription-model",
+        "familySlug": "analytics-plus",
+        "variantPattern": "^Additional\\s"
+      },
+      "extends": {
+        "offerSlug": "analytics-plus-professional-edition-annual-subscription-model",
+        "familySlug": "analytics-plus"
+      },
+      "reason": "Позиция увеличивает объём уже выбранной лицензии и отдельно не поставляется"
+    },
+    {
+      "id": "analytics-plus-analytics-plus-standard-edition-perpetual-model-perpetual-additional-extends",
+      "appliesTo": {
+        "offerSlug": "analytics-plus-standard-edition-perpetual-model-perpetual",
+        "familySlug": "analytics-plus",
+        "variantPattern": "^Additional\\s"
+      },
+      "extends": {
+        "offerSlug": "analytics-plus-standard-edition-perpetual-model-perpetual",
+        "familySlug": "analytics-plus"
+      },
+      "reason": "Позиция увеличивает объём уже выбранной лицензии и отдельно не поставляется"
+    },
+    {
+      "id": "analytics-plus-analytics-plus-professional-edition-perpetual-model-perpetual-additional-extends",
+      "appliesTo": {
+        "offerSlug": "analytics-plus-professional-edition-perpetual-model-perpetual",
+        "familySlug": "analytics-plus",
+        "variantPattern": "^Additional\\s"
+      },
+      "extends": {
+        "offerSlug": "analytics-plus-professional-edition-perpetual-model-perpetual",
+        "familySlug": "analytics-plus"
+      },
+      "reason": "Позиция увеличивает объём уже выбранной лицензии и отдельно не поставляется"
+    },
+    {
+      "id": "appcreator-manageengine-appcreator-user-add-on-requires-base",
+      "appliesTo": {
+        "offerSlug": "manageengine-appcreator-user-add-on",
+        "familySlug": "appcreator"
+      },
+      "requires": {
+        "familySlug": "appcreator"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "appcreator-manageengine-appcreator-user-add-on-additional-extends",
+      "appliesTo": {
+        "offerSlug": "manageengine-appcreator-user-add-on",
+        "familySlug": "appcreator",
+        "variantPattern": "^Additional\\s"
+      },
+      "extends": {
+        "offerSlug": "manageengine-appcreator-user-add-on",
+        "familySlug": "appcreator"
+      },
+      "reason": "Позиция увеличивает объём уже выбранной лицензии и отдельно не поставляется"
+    },
+    {
+      "id": "appcreator-manageengine-appcreator-external-user-add-on-requires-base",
+      "appliesTo": {
+        "offerSlug": "manageengine-appcreator-external-user-add-on",
+        "familySlug": "appcreator"
+      },
+      "requires": {
+        "familySlug": "appcreator"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "appcreator-manageengine-appcreator-developer-add-on-requires-base",
+      "appliesTo": {
+        "offerSlug": "manageengine-appcreator-developer-add-on",
+        "familySlug": "appcreator"
+      },
+      "requires": {
+        "familySlug": "appcreator"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "appcreator-manageengine-appcreator-developer-add-on-additional-extends",
+      "appliesTo": {
+        "offerSlug": "manageengine-appcreator-developer-add-on",
+        "familySlug": "appcreator",
+        "variantPattern": "^Additional\\s"
+      },
+      "extends": {
+        "offerSlug": "manageengine-appcreator-developer-add-on",
+        "familySlug": "appcreator"
+      },
+      "reason": "Позиция увеличивает объём уже выбранной лицензии и отдельно не поставляется"
+    },
+    {
+      "id": "appcreator-manageengine-appcreator-failover-service-requires-base",
+      "appliesTo": {
+        "offerSlug": "manageengine-appcreator-failover-service",
+        "familySlug": "appcreator"
+      },
+      "requires": {
+        "familySlug": "appcreator"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "rmm-central-rmm-central-additional-users-requires-base",
+      "appliesTo": {
+        "offerSlug": "rmm-central-additional-users",
+        "familySlug": "rmm-central"
+      },
+      "requires": {
+        "familySlug": "rmm-central"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "rmm-central-rmm-central-additional-users-additional-extends",
+      "appliesTo": {
+        "offerSlug": "rmm-central-additional-users",
+        "familySlug": "rmm-central",
+        "variantPattern": "^Additional\\s"
+      },
+      "extends": {
+        "offerSlug": "rmm-central-additional-users",
+        "familySlug": "rmm-central"
+      },
+      "reason": "Позиция увеличивает объём уже выбранной лицензии и отдельно не поставляется"
+    },
+    {
+      "id": "rmm-central-rmm-central-multi-language-pack-requires-base",
+      "appliesTo": {
+        "offerSlug": "rmm-central-multi-language-pack",
+        "familySlug": "rmm-central"
+      },
+      "requires": {
+        "familySlug": "rmm-central"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "rmm-central-rmm-central-additional-users-perpetual-requires-base",
+      "appliesTo": {
+        "offerSlug": "rmm-central-additional-users-perpetual",
+        "familySlug": "rmm-central"
+      },
+      "requires": {
+        "familySlug": "rmm-central"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "rmm-central-rmm-central-additional-users-perpetual-additional-extends",
+      "appliesTo": {
+        "offerSlug": "rmm-central-additional-users-perpetual",
+        "familySlug": "rmm-central",
+        "variantPattern": "^Additional\\s"
+      },
+      "extends": {
+        "offerSlug": "rmm-central-additional-users-perpetual",
+        "familySlug": "rmm-central"
+      },
+      "reason": "Позиция увеличивает объём уже выбранной лицензии и отдельно не поставляется"
+    },
+    {
+      "id": "rmm-central-rmm-central-multi-language-pack-perpetual-requires-base",
+      "appliesTo": {
+        "offerSlug": "rmm-central-multi-language-pack-perpetual",
+        "familySlug": "rmm-central"
+      },
+      "requires": {
+        "familySlug": "rmm-central"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "servicedesk-plus-msp-servicedesk-plus-msp-professional-edition-subscription-model-additional-extends",
+      "appliesTo": {
+        "offerSlug": "servicedesk-plus-msp-professional-edition-subscription-model",
+        "familySlug": "servicedesk-plus-msp",
+        "variantPattern": "^Additional\\s"
+      },
+      "extends": {
+        "offerSlug": "servicedesk-plus-msp-professional-edition-subscription-model",
+        "familySlug": "servicedesk-plus-msp"
+      },
+      "reason": "Позиция увеличивает объём уже выбранной лицензии и отдельно не поставляется"
+    },
+    {
+      "id": "servicedesk-plus-msp-add-ons-for-professional-edition-subscription-model-requires-base",
+      "appliesTo": {
+        "offerSlug": "add-ons-for-professional-edition-subscription-model",
+        "familySlug": "servicedesk-plus-msp"
+      },
+      "requires": {
+        "familySlug": "servicedesk-plus-msp"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "servicedesk-plus-msp-servicedesk-plus-msp-enterprise-edition-subscription-model-additional-extends",
+      "appliesTo": {
+        "offerSlug": "servicedesk-plus-msp-enterprise-edition-subscription-model",
+        "familySlug": "servicedesk-plus-msp",
+        "variantPattern": "^Additional\\s"
+      },
+      "extends": {
+        "offerSlug": "servicedesk-plus-msp-enterprise-edition-subscription-model",
+        "familySlug": "servicedesk-plus-msp"
+      },
+      "reason": "Позиция увеличивает объём уже выбранной лицензии и отдельно не поставляется"
+    },
+    {
+      "id": "servicedesk-plus-msp-servicedesk-plus-msp-professional-edition-multi-language-subscription-model-additional-extends",
+      "appliesTo": {
+        "offerSlug": "servicedesk-plus-msp-professional-edition-multi-language-subscription-model",
+        "familySlug": "servicedesk-plus-msp",
+        "variantPattern": "^Additional\\s"
+      },
+      "extends": {
+        "offerSlug": "servicedesk-plus-msp-professional-edition-multi-language-subscription-model",
+        "familySlug": "servicedesk-plus-msp"
+      },
+      "reason": "Позиция увеличивает объём уже выбранной лицензии и отдельно не поставляется"
+    },
+    {
+      "id": "servicedesk-plus-msp-add-ons-for-professional-edition-multi-language-subscription-model-requires-base",
+      "appliesTo": {
+        "offerSlug": "add-ons-for-professional-edition-multi-language-subscription-model",
+        "familySlug": "servicedesk-plus-msp"
+      },
+      "requires": {
+        "familySlug": "servicedesk-plus-msp"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "servicedesk-plus-msp-servicedesk-plus-msp-enterprise-edition-multi-language-subscription-model-additional-extends",
+      "appliesTo": {
+        "offerSlug": "servicedesk-plus-msp-enterprise-edition-multi-language-subscription-model",
+        "familySlug": "servicedesk-plus-msp",
+        "variantPattern": "^Additional\\s"
+      },
+      "extends": {
+        "offerSlug": "servicedesk-plus-msp-enterprise-edition-multi-language-subscription-model",
+        "familySlug": "servicedesk-plus-msp"
+      },
+      "reason": "Позиция увеличивает объём уже выбранной лицензии и отдельно не поставляется"
+    },
+    {
+      "id": "servicedesk-plus-msp-servicedesk-plus-msp-remote-support-add-on-requires-base",
+      "appliesTo": {
+        "offerSlug": "servicedesk-plus-msp-remote-support-add-on",
+        "familySlug": "servicedesk-plus-msp"
+      },
+      "requires": {
+        "familySlug": "servicedesk-plus-msp"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "servicedesk-plus-msp-analytics-plus-on-premise-add-on-for-servicedesk-plus-msp-requires-base",
+      "appliesTo": {
+        "offerSlug": "analytics-plus-on-premise-add-on-for-servicedesk-plus-msp",
+        "familySlug": "servicedesk-plus-msp"
+      },
+      "requires": {
+        "familySlug": "servicedesk-plus-msp"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "servicedesk-plus-msp-analytics-plus-on-premise-add-on-for-servicedesk-plus-msp-additional-extends",
+      "appliesTo": {
+        "offerSlug": "analytics-plus-on-premise-add-on-for-servicedesk-plus-msp",
+        "familySlug": "servicedesk-plus-msp",
+        "variantPattern": "^Additional\\s"
+      },
+      "extends": {
+        "offerSlug": "analytics-plus-on-premise-add-on-for-servicedesk-plus-msp",
+        "familySlug": "servicedesk-plus-msp"
+      },
+      "reason": "Позиция увеличивает объём уже выбранной лицензии и отдельно не поставляется"
+    },
+    {
+      "id": "servicedesk-plus-msp-analytics-plus-cloud-add-on-for-servicedesk-plus-msp-requires-base",
+      "appliesTo": {
+        "offerSlug": "analytics-plus-cloud-add-on-for-servicedesk-plus-msp",
+        "familySlug": "servicedesk-plus-msp"
+      },
+      "requires": {
+        "familySlug": "servicedesk-plus-msp"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "servicedesk-plus-msp-analytics-plus-cloud-add-on-for-servicedesk-plus-msp-additional-extends",
+      "appliesTo": {
+        "offerSlug": "analytics-plus-cloud-add-on-for-servicedesk-plus-msp",
+        "familySlug": "servicedesk-plus-msp",
+        "variantPattern": "^Additional\\s"
+      },
+      "extends": {
+        "offerSlug": "analytics-plus-cloud-add-on-for-servicedesk-plus-msp",
+        "familySlug": "servicedesk-plus-msp"
+      },
+      "reason": "Позиция увеличивает объём уже выбранной лицензии и отдельно не поставляется"
+    },
+    {
+      "id": "servicedesk-plus-msp-analytics-plus-on-premise-add-on-for-servicedesk-plus-msp-excludes-analytics-plus-cloud-add-on-for-servicedesk-plus-msp",
+      "appliesTo": {
+        "offerSlug": "analytics-plus-on-premise-add-on-for-servicedesk-plus-msp",
+        "familySlug": "servicedesk-plus-msp"
+      },
+      "excludes": {
+        "offerSlug": "analytics-plus-cloud-add-on-for-servicedesk-plus-msp"
+      },
+      "reason": "Одно и то же дополнение в облачной и коробочной поставке — берут что-то одно"
+    },
+    {
+      "id": "servicedesk-plus-msp-analytics-plus-cloud-add-on-for-servicedesk-plus-msp-excludes-analytics-plus-on-premise-add-on-for-servicedesk-plus-msp",
+      "appliesTo": {
+        "offerSlug": "analytics-plus-cloud-add-on-for-servicedesk-plus-msp",
+        "familySlug": "servicedesk-plus-msp"
+      },
+      "excludes": {
+        "offerSlug": "analytics-plus-on-premise-add-on-for-servicedesk-plus-msp"
+      },
+      "reason": "Одно и то же дополнение в облачной и коробочной поставке — берут что-то одно"
+    },
+    {
+      "id": "password-manager-pro-msp-password-manager-pro-msp-add-ons-requires-base",
+      "appliesTo": {
+        "offerSlug": "password-manager-pro-msp-add-ons",
+        "familySlug": "password-manager-pro-msp"
+      },
+      "requires": {
+        "familySlug": "password-manager-pro-msp"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "password-manager-pro-msp-password-manager-pro-msp-add-ons-perpetual-requires-base",
+      "appliesTo": {
+        "offerSlug": "password-manager-pro-msp-add-ons-perpetual",
+        "familySlug": "password-manager-pro-msp"
+      },
+      "requires": {
+        "familySlug": "password-manager-pro-msp"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "endpoint-central-msp-endpoint-central-msp-additional-technicians-annual-subscription-requires-base",
+      "appliesTo": {
+        "offerSlug": "endpoint-central-msp-additional-technicians-annual-subscription",
+        "familySlug": "endpoint-central-msp"
+      },
+      "requires": {
+        "familySlug": "endpoint-central-msp"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "endpoint-central-msp-endpoint-central-msp-additional-technicians-annual-subscription-additional-extends",
+      "appliesTo": {
+        "offerSlug": "endpoint-central-msp-additional-technicians-annual-subscription",
+        "familySlug": "endpoint-central-msp",
+        "variantPattern": "^Additional\\s"
+      },
+      "extends": {
+        "offerSlug": "endpoint-central-msp-additional-technicians-annual-subscription",
+        "familySlug": "endpoint-central-msp"
+      },
+      "reason": "Позиция увеличивает объём уже выбранной лицензии и отдельно не поставляется"
+    },
+    {
+      "id": "endpoint-central-msp-endpoint-central-msp-add-ons-requires-base",
+      "appliesTo": {
+        "offerSlug": "endpoint-central-msp-add-ons",
+        "familySlug": "endpoint-central-msp"
+      },
+      "requires": {
+        "familySlug": "endpoint-central-msp"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "endpoint-central-msp-endpoint-central-msp-browser-security-add-on-requires-base",
+      "appliesTo": {
+        "offerSlug": "endpoint-central-msp-browser-security-add-on",
+        "familySlug": "endpoint-central-msp"
+      },
+      "requires": {
+        "familySlug": "endpoint-central-msp"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "endpoint-central-msp-endpoint-central-msp-vulnerability-management-add-on-requires-base",
+      "appliesTo": {
+        "offerSlug": "endpoint-central-msp-vulnerability-management-add-on",
+        "familySlug": "endpoint-central-msp"
+      },
+      "requires": {
+        "familySlug": "endpoint-central-msp"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "endpoint-central-msp-endpoint-central-msp-application-control-add-on-requires-base",
+      "appliesTo": {
+        "offerSlug": "endpoint-central-msp-application-control-add-on",
+        "familySlug": "endpoint-central-msp"
+      },
+      "requires": {
+        "familySlug": "endpoint-central-msp"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "endpoint-central-msp-endpoint-central-msp-bitlocker-add-on-requires-base",
+      "appliesTo": {
+        "offerSlug": "endpoint-central-msp-bitlocker-add-on",
+        "familySlug": "endpoint-central-msp"
+      },
+      "requires": {
+        "familySlug": "endpoint-central-msp"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "endpoint-central-msp-endpoint-central-msp-ransomware-protection-add-on-requires-base",
+      "appliesTo": {
+        "offerSlug": "endpoint-central-msp-ransomware-protection-add-on",
+        "familySlug": "endpoint-central-msp"
+      },
+      "requires": {
+        "familySlug": "endpoint-central-msp"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "endpoint-central-msp-endpoint-central-msp-malware-protection-add-on-requires-base",
+      "appliesTo": {
+        "offerSlug": "endpoint-central-msp-malware-protection-add-on",
+        "familySlug": "endpoint-central-msp"
+      },
+      "requires": {
+        "familySlug": "endpoint-central-msp"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "mobile-device-manager-plus-msp-mobile-device-manager-plus-msp-additional-users-requires-base",
+      "appliesTo": {
+        "offerSlug": "mobile-device-manager-plus-msp-additional-users",
+        "familySlug": "mobile-device-manager-plus-msp"
+      },
+      "requires": {
+        "familySlug": "mobile-device-manager-plus-msp"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "mobile-device-manager-plus-msp-mobile-device-manager-plus-msp-additional-users-additional-extends",
+      "appliesTo": {
+        "offerSlug": "mobile-device-manager-plus-msp-additional-users",
+        "familySlug": "mobile-device-manager-plus-msp",
+        "variantPattern": "^Additional\\s"
+      },
+      "extends": {
+        "offerSlug": "mobile-device-manager-plus-msp-additional-users",
+        "familySlug": "mobile-device-manager-plus-msp"
+      },
+      "reason": "Позиция увеличивает объём уже выбранной лицензии и отдельно не поставляется"
+    },
+    {
+      "id": "mobile-device-manager-plus-msp-mobile-device-manager-plus-msp-failover-server-add-ons-requires-base",
+      "appliesTo": {
+        "offerSlug": "mobile-device-manager-plus-msp-failover-server-add-ons",
+        "familySlug": "mobile-device-manager-plus-msp"
+      },
+      "requires": {
+        "familySlug": "mobile-device-manager-plus-msp"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "mobile-device-manager-plus-msp-mobile-device-manager-plus-msp-multi-language-pack-requires-base",
+      "appliesTo": {
+        "offerSlug": "mobile-device-manager-plus-msp-multi-language-pack",
+        "familySlug": "mobile-device-manager-plus-msp"
+      },
+      "requires": {
+        "familySlug": "mobile-device-manager-plus-msp"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "mobile-device-manager-plus-msp-mobile-device-manager-plus-msp-additional-users-perpetual-requires-base",
+      "appliesTo": {
+        "offerSlug": "mobile-device-manager-plus-msp-additional-users-perpetual",
+        "familySlug": "mobile-device-manager-plus-msp"
+      },
+      "requires": {
+        "familySlug": "mobile-device-manager-plus-msp"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "mobile-device-manager-plus-msp-mobile-device-manager-plus-msp-additional-users-perpetual-additional-extends",
+      "appliesTo": {
+        "offerSlug": "mobile-device-manager-plus-msp-additional-users-perpetual",
+        "familySlug": "mobile-device-manager-plus-msp",
+        "variantPattern": "^Additional\\s"
+      },
+      "extends": {
+        "offerSlug": "mobile-device-manager-plus-msp-additional-users-perpetual",
+        "familySlug": "mobile-device-manager-plus-msp"
+      },
+      "reason": "Позиция увеличивает объём уже выбранной лицензии и отдельно не поставляется"
+    },
+    {
+      "id": "mobile-device-manager-plus-msp-mobile-device-manager-plus-msp-failover-server-add-ons-perpetual-requires-base",
+      "appliesTo": {
+        "offerSlug": "mobile-device-manager-plus-msp-failover-server-add-ons-perpetual",
+        "familySlug": "mobile-device-manager-plus-msp"
+      },
+      "requires": {
+        "familySlug": "mobile-device-manager-plus-msp"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "mobile-device-manager-plus-msp-mobile-device-manager-plus-msp-multi-language-pack-perpetual-requires-base",
+      "appliesTo": {
+        "offerSlug": "mobile-device-manager-plus-msp-multi-language-pack-perpetual",
+        "familySlug": "mobile-device-manager-plus-msp"
+      },
+      "requires": {
+        "familySlug": "mobile-device-manager-plus-msp"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "opmanager-msp-opmanager-msp-add-ons-requires-base",
+      "appliesTo": {
+        "offerSlug": "opmanager-msp-add-ons",
+        "familySlug": "opmanager-msp"
+      },
+      "requires": {
+        "familySlug": "opmanager-msp"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "opmanager-msp-lite-device-add-on-uptime-wan-access-points-network-paths-urls-requires-base",
+      "appliesTo": {
+        "offerSlug": "lite-device-add-on-uptime-wan-access-points-network-paths-urls",
+        "familySlug": "opmanager-msp"
+      },
+      "requires": {
+        "familySlug": "opmanager-msp"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "opmanager-msp-opmanager-msp-additional-user-pack-requires-base",
+      "appliesTo": {
+        "offerSlug": "opmanager-msp-additional-user-pack",
+        "familySlug": "opmanager-msp"
+      },
+      "requires": {
+        "familySlug": "opmanager-msp"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "opmanager-msp-opmanager-msp-nfa-add-on-requires-base",
+      "appliesTo": {
+        "offerSlug": "opmanager-msp-nfa-add-on",
+        "familySlug": "opmanager-msp"
+      },
+      "requires": {
+        "familySlug": "opmanager-msp"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "opmanager-msp-opmanager-msp-ncm-add-on-requires-base",
+      "appliesTo": {
+        "offerSlug": "opmanager-msp-ncm-add-on",
+        "familySlug": "opmanager-msp"
+      },
+      "requires": {
+        "familySlug": "opmanager-msp"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "opmanager-msp-opmanager-msp-ipam-spm-add-on-requires-base",
+      "appliesTo": {
+        "offerSlug": "opmanager-msp-ipam-spm-add-on",
+        "familySlug": "opmanager-msp"
+      },
+      "requires": {
+        "familySlug": "opmanager-msp"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "opmanager-msp-opmanager-msp-storage-monitoring-add-on-requires-base",
+      "appliesTo": {
+        "offerSlug": "opmanager-msp-storage-monitoring-add-on",
+        "familySlug": "opmanager-msp"
+      },
+      "requires": {
+        "familySlug": "opmanager-msp"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "opmanager-msp-opmanager-msp-add-ons-perpetual-requires-base",
+      "appliesTo": {
+        "offerSlug": "opmanager-msp-add-ons-perpetual",
+        "familySlug": "opmanager-msp"
+      },
+      "requires": {
+        "familySlug": "opmanager-msp"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "opmanager-msp-lite-device-add-on-uptime-wan-access-points-network-paths-urls-perpetual-requires-base",
+      "appliesTo": {
+        "offerSlug": "lite-device-add-on-uptime-wan-access-points-network-paths-urls-perpetual",
+        "familySlug": "opmanager-msp"
+      },
+      "requires": {
+        "familySlug": "opmanager-msp"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "opmanager-msp-opmanager-msp-additional-user-pack-perpetual-requires-base",
+      "appliesTo": {
+        "offerSlug": "opmanager-msp-additional-user-pack-perpetual",
+        "familySlug": "opmanager-msp"
+      },
+      "requires": {
+        "familySlug": "opmanager-msp"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "opmanager-msp-opmanager-msp-nfa-add-on-perpetual-requires-base",
+      "appliesTo": {
+        "offerSlug": "opmanager-msp-nfa-add-on-perpetual",
+        "familySlug": "opmanager-msp"
+      },
+      "requires": {
+        "familySlug": "opmanager-msp"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "opmanager-msp-opmanager-msp-ncm-add-on-perpetual-requires-base",
+      "appliesTo": {
+        "offerSlug": "opmanager-msp-ncm-add-on-perpetual",
+        "familySlug": "opmanager-msp"
+      },
+      "requires": {
+        "familySlug": "opmanager-msp"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "opmanager-msp-opmanager-msp-ipam-spm-add-on-perpetual-requires-base",
+      "appliesTo": {
+        "offerSlug": "opmanager-msp-ipam-spm-add-on-perpetual",
+        "familySlug": "opmanager-msp"
+      },
+      "requires": {
+        "familySlug": "opmanager-msp"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    },
+    {
+      "id": "opmanager-msp-opmanager-msp-storage-monitoring-add-on-perpetual-requires-base",
+      "appliesTo": {
+        "offerSlug": "opmanager-msp-storage-monitoring-add-on-perpetual",
+        "familySlug": "opmanager-msp"
+      },
+      "requires": {
+        "familySlug": "opmanager-msp"
+      },
+      "reason": "Дополнение продаётся только вместе с базовой лицензией того же продукта"
+    }
+  ]
+}

@@ -19,6 +19,7 @@ import { site } from '../../config/site';
 import { POPULAR_VENDORS } from '../../data/popular';
 import { SEO_EXPERIMENT_LINKS } from '../../data/seo-experiments';
 import { effectivePrice } from '../../lib/pricing';
+import { isSourceUnavailable, serviceUnavailable } from '../../lib/http';
 import type { Product, Category } from '../../lib/types';
 
 let categories: Category[] = [];
@@ -27,7 +28,12 @@ try {
   categories = await getCategories();
   products = await getProducts();
 } catch (e) {
+  // Пустой каталог с кодом 200 опаснее отказа: поисковик видит живую страницу
+  // без товаров и выводит из индекса всё, что на ней было. Карточка товара и
+  // sitemap уже отдают 503 — каталог оставался единственным местом, где сбой
+  // базы выглядел как «товары закончились».
   console.error('catalog index error', e);
+  if (isSourceUnavailable(e)) return serviceUnavailable();
 }
 
 // Поиск из шапки: /catalog?q=… — режим результатов вместо маркетинговой страницы.
@@ -110,7 +116,7 @@ const ld = [
     <Breadcrumbs items={[{ name: 'Каталог', url: '/catalog' }]} />
 
     {q && (
-      <section class="search-res">
+      <section class="search-res" data-search-q={q} data-search-found={String(searchResults.length)}>
         <h1>Поиск: «{q}»</h1>
         <p class="sr-meta">Найдено: <b>{searchResults.length}</b> · <a href="/catalog">Весь каталог →</a></p>
         {searchResults.length > 0 ? (
@@ -213,12 +219,27 @@ const ld = [
     title="Не нашли нужный сервис?"
     text="Опишите задачу — подберём способ закупки, посчитаем стоимость и подготовим КП."
     primaryLabel="Обсудить задачу"
-    primaryHref="/contacts/"
+    primaryHref="/contacts"
     secondaryLabel="Все производители"
-    secondaryHref="/vendors/"
+    secondaryHref="/vendors"
   />
   <QuestionForm source="catalog" />
 </BaseLayout>
+
+<script>
+  // Поиск по каталогу — единственное место, где посетитель прямо называет,
+  // что ему нужно. Пустая выдача дороже любого замера частотности: это спрос,
+  // который дошёл до нас и ушёл ни с чем. Цель ставится на странице
+  // результатов, а не на отправке формы, — тогда учитываются и переходы по
+  // готовой ссылке с запросом.
+  import { trackGoal } from '@/lib/analytics';
+  const res = document.querySelector('[data-search-q]') as HTMLElement | null;
+  if (res) {
+    const term = res.dataset.searchQ || '';
+    const found = Number(res.dataset.searchFound || '0');
+    trackGoal(found > 0 ? 'search_used' : 'search_no_results', { search_term: term, results: found });
+  }
+</script>
 
 <style>
   .section { padding-top: 2rem; }

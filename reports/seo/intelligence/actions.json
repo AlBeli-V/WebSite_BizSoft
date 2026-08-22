@@ -1,0 +1,186 @@
+{
+ "schema_version": "4.0.0",
+ "roles": {
+  "data_auditor": {
+   "title": "Data Auditor",
+   "mode": "агент"
+  },
+  "seo_lead": {
+   "title": "SEO Lead",
+   "mode": "агент"
+  },
+  "ppc_lead": {
+   "title": "PPC Lead",
+   "mode": "агент"
+  }
+ },
+ "zones": {
+  "GREEN": "агент выполняет автономно, решение не требуется",
+  "YELLOW": "агент выполняет, руководителя информируем",
+  "RED": "требуется решение руководителя: бюджет, юридические обязательства, цены, домены, необратимые изменения"
+ },
+ "actions": [
+  {
+   "id": "DATA-001",
+   "title": "Сверка источников измерения",
+   "plain": "Методика измерений переписана: пять сущностей вместо ложного сведения к одному определению визита",
+   "zone": "GREEN",
+   "owner_role": "data_auditor",
+   "status": "done",
+   "status_label": "выполнено",
+   "due": "2026-08-22",
+   "ticket": "reports/seo/tasks/DATA-001-analytics-reconciliation.md",
+   "outcome": "Итог: числа источников больше не сравниваются между собой вслепую, а статус данных показывает, что именно ограничивает выводы.",
+   "stage": "accepted",
+   "status_changed_at": "2026-08-20",
+   "artifact": "карта измерений",
+   "ci": null,
+   "qa": null,
+   "deploy": null,
+   "rollback": null
+  },
+  {
+   "id": "SEO-EXP-001",
+   "title": "Наблюдение за изменением карточек вендоров",
+   "plain": "Заголовки и блок вопросов внедрены одной правкой 19.08 — наблюдаем как одно изменение",
+   "zone": "GREEN",
+   "owner_role": "seo_lead",
+   "status": "observing",
+   "status_label": "наблюдение",
+   "due": "2026-08-26",
+   "combined_deployment": true,
+   "ticket": "reports/seo/tasks/SEO-EXP-001-vendor-metadata.md",
+   "outcome": "Итог: узнаем, дошли ли новые описания до выдачи и как это сказалось на переходах.",
+   "demand_clusters": [
+    "canva",
+    "depositphotos",
+    "coreldraw",
+    "heygen",
+    "marmoset"
+   ],
+   "stage": "observing",
+   "status_changed_at": "2026-08-20",
+   "artifact": "PR 57",
+   "pr": 57,
+   "ci": "passed",
+   "qa": "passed",
+   "deploy": "на сайте",
+   "rollback": "доступен: revert PR 57"
+  },
+  {
+   "id": "PPC-RES-001",
+   "title": "Рекламный тест",
+   "plain": "Не запускается: нет источника рыночного объёма и не завершена сверка измерения",
+   "zone": "RED",
+   "owner_role": "ppc_lead",
+   "status": "blocked_by_policy",
+   "status_label": "остановлено правилом",
+   "due": null,
+   "ticket": "reports/seo/tasks/PPC-RES-001-forecast.md",
+   "outcome": "Вернёмся к задаче после сверки измерения и подключения источника рыночного объёма.",
+   "demand_clusters": [
+    "heygen",
+    "depositphotos",
+    "coreldraw"
+   ],
+   "stage": "blocked",
+   "status_changed_at": "2026-08-19",
+   "artifact": "тикет",
+   "ci": null,
+   "qa": null,
+   "deploy": null,
+   "rollback": null
+  },
+  {
+   "id": "ANL-001",
+   "title": "Конверсионные цели не заведены в счётчике",
+   "plain": "Сайт отправляет 26 имён целей, в счётчике заведено 4 автоцели — пересечение пустое, счётчик отбрасывает каждый вызов. Вторая причина, вырезание вызовов минификатором, устранена: фолбэк идентификатора в src/lib/analytics.ts делает код достижимым. Ноль по этим целям — отсутствие замера, а не отсутствие обращений.",
+   "zone": "RED",
+   "owner_role": "data_auditor",
+   "status": "blocked",
+   "status_label": "ждёт заведения целей в интерфейсах",
+   "due": "2026-08-27",
+   "ticket": "reports/seo/tasks/ANL-004-metrika-goals.md",
+   "outcome": "До заведения целей рост по ним — восстановление измерения, а не эффект работ. Дата заведения становится границей сравнения.",
+   "stage": "blocked",
+   "status_changed_at": "2026-08-21",
+   "artifact": "reports/seo/measurement-limits.json",
+   "ci": null,
+   "qa": null,
+   "deploy": null,
+   "rollback": null
+  },
+  {
+   "id": "CRM-001",
+   "title": "Воронка заявок и захват скачиваний КП",
+   "plain": "Заявки получили стадии, ответственного и сумму; скачивание КП попадает в воронку с составом корзины. Историю прошлых скачиваний переносит workflow, руками ничего нажимать не нужно.",
+   "zone": "GREEN",
+   "owner_role": "data_auditor",
+   "status": "done",
+   "status_label": "выложено",
+   "due": "2026-08-22",
+   "ticket": "src/crm/README.md",
+   "outcome": "Уровень «обращения» перестал быть пустым: писать заявки стало куда.",
+   "stage": "deployed",
+   "status_changed_at": "2026-08-21",
+   "artifact": "/admin — кабинет заявок; ops-crm-backfill",
+   "ci": "тесты 127 зелёных",
+   "qa": null,
+   "deploy": "bc26ad6",
+   "rollback": null
+  },
+  {
+   "id": "SEO-EXP-002",
+   "title": "Сниппеты шести карточек с измеренным спросом",
+   "plain": "Шесть карточек с измеренным спросом получили коммерческие заголовки и блок вопросов.",
+   "zone": "GREEN",
+   "owner_role": "seo_lead",
+   "status": "in_progress",
+   "status_label": "наблюдаем",
+   "due": "2026-09-03",
+   "ticket": "reports/seo/intelligence/seo-experiments.json (snippets-6-demand)",
+   "outcome": "Проверяем, поднимут ли коммерческие сниппеты кликабельность на кластерах с подтверждённой частотностью.",
+   "stage": "observing",
+   "status_changed_at": "2026-08-20",
+   "artifact": "6 карточек производителей",
+   "ci": null,
+   "qa": null,
+   "deploy": "05a0aeb",
+   "rollback": null
+  },
+  {
+   "id": "ANL-003",
+   "title": "Источник обращения теперь измеряется",
+   "plain": "Появился модуль атрибуции: первое и последнее касание, utm-метки, автометки Директа и Ads, ClientID обоих счётчиков. Все три формы передают источник в заявку, в Directus заведены поля.",
+   "zone": "GREEN",
+   "owner_role": "data_auditor",
+   "status": "deployed",
+   "status_label": "выложено",
+   "due": "2026-08-22",
+   "ticket": "reports/marketing/analytics-audit.md (MKT-004)",
+   "outcome": "Связь «заявка ↔ канал» стала вычислимой; рекламный тест разблокирован наполовину.",
+   "stage": "deployed",
+   "status_changed_at": "2026-08-21",
+   "artifact": "src/lib/attribution.ts",
+   "ci": null,
+   "qa": null,
+   "deploy": null,
+   "rollback": null
+  }
+ ],
+ "notes": {
+  "demand_clusters": "Кластеры рыночного спроса, которыми обосновано действие. Генератор берёт из них фразу и частотность для строки «Зачем» в письме. Источник — market_demand в снимке; если замера нет, строка не выводится.",
+  "stages": "Стадия исполнения задачи. Для задач с изменением сайта показываются PR, статусы CI и QA, факт выката и наличие отката. В письмо попадают только задачи, сменившие статус сегодня, заблокированные или с контрольной датой в ближайшие 7 дней."
+ },
+ "stages": [
+  "proposed",
+  "approved",
+  "implemented",
+  "tested",
+  "deployed",
+  "observing",
+  "accepted",
+  "rejected",
+  "blocked"
+ ]
+}
