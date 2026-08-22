@@ -47,6 +47,31 @@ def overlap_days(a_start, a_end, b_start, b_end):
     return max(0, (earliest_end - latest_start).days + 1)
 
 
+def sample_churn(cur: dict, prev: dict | None) -> dict | None:
+    """Насколько сменился состав выборки запросов между снимками.
+
+    Вебмастер отбирает запросы по числу показов, поэтому список пересобирается
+    от сбора к сбору. На 20.08 → 21.08 сменилось 26 запросов из 100: вошедшие
+    принесли 92 показа, выбывшие унесли 55. Треть заявленного прироста в 107
+    показов создала сама пересборка списка.
+    """
+    if not prev or not cur.get("available") or not prev.get("available"):
+        return None
+    cur_map = {e["entity_id"]: (e.get("impressions") or 0) for e in cur.get("entities") or []}
+    prev_map = {e["entity_id"]: (e.get("impressions") or 0) for e in prev.get("entities") or []}
+    if not cur_map or not prev_map:
+        return None
+    entered, left = set(cur_map) - set(prev_map), set(prev_map) - set(cur_map)
+    changed = max(len(entered), len(left))
+    return {
+        "changed": changed,
+        "previous": len(prev_map),
+        "share": changed / len(prev_map),
+        "gained": sum(cur_map[q] for q in entered),
+        "lost": sum(prev_map[q] for q in left),
+    }
+
+
 LIMITS_PATH = pathlib.Path("reports/seo/measurement-limits.json")
 
 
@@ -64,8 +89,9 @@ def load_measurement_limits() -> list:
         return []
 
 
-def run_checks(snap: dict) -> dict:
+def run_checks(snap: dict, prev: dict | None = None) -> dict:
     findings: list[dict] = []
+    prev_yandex = (prev or {}).get("yandex")
 
     def add(level, code, title, detail, effect=None):
         findings.append({"level": level, "code": code, "title": title,
@@ -85,12 +111,51 @@ def run_checks(snap: dict) -> dict:
                 f"({s['current_period_days']} дн.) пересекается с предыдущим на {ov} дн.",
                 "Изменение показов день к дню не является сравнением независимых периодов; "
                 "относительные проценты не публикуются.")
+        # 1б. Длина окон сравнения
+        #
+        # Пересечение окон проверялось и раньше, а вот равенство их длины — нет,
+        # хотя оба значения уже лежат в source_meta. Между 20.08 и 21.08 окна
+        # были 12 и 13 дней: лишние сутки давали около 74 показов при заявленном
+        # приросте 107. Абсолютная дельта — ровно то, что портит эта разница,
+        # поэтому проверка критическая.
+        cur_days, cmp_days = s.get("current_period_days"), s.get("comparison_period_days")
+        if cur_days and cmp_days and cur_days != cmp_days:
+            add("critical", "WINDOW_LENGTH_MISMATCH",
+                "Окна сравнения разной длины",
+                f"Текущее окно {cur_days} дн., предыдущее {cmp_days} дн. "
+                f"Задержка источника плавает, длина окна вслед за ней.",
+                "Абсолютная разница показов не публикуется: она включает вклад "
+                "лишних суток. Публикуется среднее за день с указанием длины окна.")
+
+        # 1в. Смена состава выборки
+        #
+        # Вебмастер отбирает запросы по TOTAL_SHOWS, поэтому между сборами
+        # список пересобирается. Сумма по разным множествам — не изменение
+        # видимости, а другой набор слагаемых.
+        churn = sample_churn(yx, prev_yandex)
+        if churn and churn["share"] > 0.10:
+            add("critical", "SAMPLE_CHURN",
+                "Состав выборки запросов изменился",
+                f"Сменилось {churn['changed']} из {churn['previous']} запросов "
+                f"({churn['share']:.0%}). Вошедшие принесли {churn['gained']} показов, "
+                f"выбывшие унесли {churn['lost']}.",
+                "Разница сумм по двум разным множествам запросов не является "
+                "изменением видимости и не публикуется как дельта.")
+
         # 2. Scope выборки
         add("warning", "YANDEX_SAMPLE_SCOPE",
-            "Метрики Яндекса рассчитаны по выборке топ-100 запросов",
+            f"Метрики Яндекса рассчитаны по выборке {yx['totals'].get('queries_fetched')} "
+            f"из {yx['totals'].get('queries_available')} запросов",
             f"Показы {yx['totals']['impressions']} и клики {yx['totals']['clicks']} — "
-            "сумма по 100 запросам из API popular queries, не по всему сайту.",
+            f"сумма по {yx['totals'].get('queries_fetched')} запросам из API popular "
+            f"queries, не по всему сайту.",
             "CTR Яндекса нельзя называть CTR сайта.")
+        if (yx["totals"].get("queries_available") or 0) > (yx["totals"].get("queries_fetched") or 0):
+            add("warning", "SAMPLE_TRUNCATED",
+                "Источник отдал не все запросы",
+                f"Доступно {yx['totals']['queries_available']}, забрано "
+                f"{yx['totals']['queries_fetched']}.",
+                "Длинный хвост запросов в показателях не учтён.")
 
     # 3. Кросс-источниковая сверка: клики поиска против визитов/сессий
     if yx.get("available") and an.get("metrika", {}).get("available"):
@@ -254,6 +319,89 @@ def run_checks(snap: dict) -> dict:
             "Доля голоса не рассчитывается; спрос используется как обоснование действий, "
             "а не как наш показатель.")
 
+    # 13. Ошибка источника, выданная за ноль
+    #
+    # Разница между «показов не было» и «сбор не прошёл» принципиальна: первое
+    # требует объяснения, второе — починки доступа. Прежде тело ошибки Google
+    # сохранялось как данные, ключа rows в нём не было, и дальше получался
+    # честный на вид ноль показов.
+    if g.get("available") and g["totals"]["impressions_window"] == 0 \
+            and not (g.get("daily") or []):
+        add("critical", "API_ERROR_AS_ZERO",
+            "Источник доступен, но не отдал ни одной строки",
+            "Google Search Console: ответ без ошибки и без данных.",
+            "Ноль показов не публикуется как результат: это отсутствие замера.")
+
+    # 14. Цели, которые сайт шлёт, но которых нет в счётчике
+    #
+    # Самая дешёвая из всех проверок и самая дорогая из всех находок: сайт
+    # отправляет 23 имени целей, в счётчике заведено 4 автоцели, пересечение
+    # пустое. Данные для сверки уже лежали в снимке — сверки не было.
+    declared = snap.get("declared_goals") or []
+    levels = snap.get("goal_levels") or {}
+    # Цели могли быть заведены позже, чем собран список целей счётчика. Тогда
+    # снимок честно показывает состояние на момент сбора, а вывод «цели не
+    # заведены» на его основании уже неверен: это утверждение о настоящем,
+    # сделанное по вчерашним данным. Различаем два случая по дате закрытия
+    # записи в реестре пределов.
+    goals_fixed_on = next(
+        (lim.get("resolved_on") for lim in load_measurement_limits()
+         if lim.get("metric") == "metrika.goal_events" and lim.get("resolved_on")),
+        None)
+    goals_collected = (an.get("metrika", {}).get("source") or {}).get("collected_at") or ""
+    goals_data_is_stale = bool(goals_fixed_on and goals_collected
+                               and goals_collected[:10] <= goals_fixed_on)
+    # Сверяются только конверсии (key=true в реестре src/lib/analytics.ts).
+    # Сигналы намерения и просмотры живут в GA4: требовать для них цель Метрики
+    # значит утопить список конверсий в просмотрах, после чего им перестают
+    # пользоваться.
+    required = {"lead"}
+    if declared and an.get("metrika", {}).get("available"):
+        configured = {g_["name"] for g_ in an["metrika"].get("goals_configured") or []}
+        missing = [n for n in declared
+                   if levels.get(n, "engagement") in required and n not in configured]
+        declared = [n for n in declared if levels.get(n, "engagement") in required]
+        if missing and goals_data_is_stale:
+            add("info", "GOALS_CONFIGURED_AFTER_COLLECTION",
+                "Цели заведены позже, чем собран список счётчика",
+                f"Цели заведены {goals_fixed_on}, а список целей счётчика собран "
+                f"{goals_collected[:10]}. В снимке их ещё нет — это отставание "
+                f"выгрузки, а не отсутствие целей.",
+                "Утверждение «цели не заведены» не публикуется. Первые сопоставимые "
+                "данные по конверсиям — со следующего сбора.")
+            missing = []
+        if missing:
+            add("critical", "GOAL_NOT_CONFIGURED",
+                "Сайт отправляет цели, которых нет в счётчике",
+                f"Не заведено {len(missing)} из {len(declared)}: "
+                f"{', '.join(sorted(missing)[:6])}"
+                f"{' и ещё ' + str(len(missing) - 6) if len(missing) > 6 else ''}. "
+                "Вызов reachGoal по незаведённой цели счётчик отбрасывает.",
+                "Ноль по этим целям означает «не измерялось». Конверсия сайта "
+                "и конверсия канала не публикуются.")
+
+    # 15. Собственные визиты в органике
+    m_block = an.get("metrika", {})
+    ga_block = an.get("ga4", {})
+    internal = ga_block.get("internal_in_organic") if ga_block.get("available") else None
+    if internal:
+        add("warning", "INTERNAL_TRAFFIC_IN_ORGANIC",
+            "В органике GA4 есть собственные визиты",
+            f"Источники {', '.join(internal['sources'])}: {internal['sessions']} сессий, "
+            f"{internal['key_events']} ключевых событий. GA4 относит домены Яндекса "
+            "к поисковым системам, включая интерфейс Метрики.",
+            "Конверсия органического канала не публикуется до очистки источника.")
+
+    # 16. Часовой пояс
+    tz = snap.get("reporting_timezone") or ""
+    src_tz = ga_block.get("source_timezone")
+    if src_tz and src_tz.split()[0] not in tz:
+        add("warning", "TIMEZONE_MISMATCH",
+            "Часовой пояс отчёта не совпадает с поясом источника",
+            f"Отчёт: {tz}; GA4 отдаёт данные в {src_tz}.",
+            "Границы суток источника и отчёта расходятся; «сегодня» означает "
+            "разное в разных числах.")
+
     levels = [f["level"] for f in findings]
     status = "critical" if "critical" in levels else ("warning" if "warning" in levels else "ok")
     health = measurement.data_health(snap, findings)
@@ -276,6 +424,16 @@ def run_checks(snap: dict) -> dict:
                 (snap.get("market_demand") or {}).get("available")),
             "allow_assortment_decisions": bool(
                 (snap.get("market_demand") or {}).get("complete")),
+            # Абсолютная дельта запрещается ровно тем, что её портит: разной
+            # длиной окна и пересборкой выборки.
+            "allow_absolute_delta": not any(
+                f["code"] in ("WINDOW_LENGTH_MISMATCH", "SAMPLE_CHURN")
+                for f in findings),
+            "allow_channel_conversion_claims": not any(
+                f["code"] in ("INTERNAL_TRAFFIC_IN_ORGANIC", "GOAL_NOT_CONFIGURED")
+                for f in findings),
+            "allow_conversion_wording": not any(
+                f["code"] == "GOAL_NOT_CONFIGURED" for f in findings),
         },
     }
 
@@ -287,7 +445,10 @@ def main() -> int:
         print(f"нет snapshot {snap_path}", file=sys.stderr)
         return 1
     snap = json.loads(snap_path.read_text(encoding="utf-8"))
-    report = run_checks(snap)
+    prev_date = (dt.date.fromisoformat(date) - dt.timedelta(days=1)).isoformat()
+    prev_path = SNAP_DIR / f"{prev_date}.json"
+    prev = json.loads(prev_path.read_text(encoding="utf-8")) if prev_path.exists() else None
+    report = run_checks(snap, prev)
     OUT_DIR.mkdir(parents=True, exist_ok=True)
     out = OUT_DIR / f"{date}.json"
     out.write_text(json.dumps(report, ensure_ascii=False, indent=1), encoding="utf-8")

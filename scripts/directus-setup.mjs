@@ -224,6 +224,31 @@ async function buildSchema() {
     },
     schema: { default_value: 'new' },
   });
+  // ── Источник обращения ──
+  //
+  // До появления этих полей связать заявку с каналом было невозможно ни в одну
+  // сторону: в аналитике нет события заявки, в CRM нет источника визита. Поле
+  // source при этом хранит идентификатор формы, а не канал, и в письме
+  // менеджеру строка «Источник: pricing» читалась как источник перехода —
+  // поэтому форма и канал теперь лежат в разных полях.
+  await ensureField('leads', 'form_source', { type: 'string', meta: { interface: 'input', width: 'half', note: 'Какая форма сайта приняла заявку: pricing, question, quote.' } });
+  await ensureField('leads', 'last_touch_source', { type: 'string', meta: { interface: 'input', width: 'half', note: 'Канал последнего касания: что привело к заявке сейчас.' } });
+  await ensureField('leads', 'first_touch_source', { type: 'string', meta: { interface: 'input', width: 'half', note: 'Канал первого касания: откуда клиент узнал о нас. Не перезаписывается 90 дней.' } });
+  await ensureField('leads', 'first_touch_ts', { type: 'string', meta: { interface: 'input', width: 'half', note: 'Когда состоялось первое касание.' } });
+  await ensureField('leads', 'landing_path', { type: 'string', meta: { interface: 'input', note: 'Страница входа на сайт.' } });
+  await ensureField('leads', 'utm_source', { type: 'string', meta: { interface: 'input', width: 'half' } });
+  await ensureField('leads', 'utm_medium', { type: 'string', meta: { interface: 'input', width: 'half' } });
+  await ensureField('leads', 'utm_campaign', { type: 'string', meta: { interface: 'input', width: 'half' } });
+  await ensureField('leads', 'utm_content', { type: 'string', meta: { interface: 'input', width: 'half' } });
+  await ensureField('leads', 'utm_term', { type: 'string', meta: { interface: 'input', width: 'half' } });
+  await ensureField('leads', 'yclid', { type: 'string', meta: { interface: 'input', width: 'half', note: 'Автометка Яндекс.Директа.' } });
+  await ensureField('leads', 'gclid', { type: 'string', meta: { interface: 'input', width: 'half', note: 'Автометка Google Ads.' } });
+  // Идентификаторы посетителя в счётчиках — ключ к обратной сверке
+  // «заявка в CRM ↔ визит в аналитике». Без них сквозная аналитика невозможна
+  // в принципе: связать две системы больше нечем.
+  await ensureField('leads', 'ym_client_id', { type: 'string', meta: { interface: 'input', width: 'half', note: 'ClientID Яндекс.Метрики.' } });
+  await ensureField('leads', 'ga_client_id', { type: 'string', meta: { interface: 'input', width: 'half', note: 'client_id GA4.' } });
+
   await ensureField('leads', 'owner', { type: 'string', meta: { interface: 'input', width: 'half', note: 'Ответственный менеджер.' } });
   await ensureField('leads', 'amount', { type: 'float', meta: { interface: 'input', width: 'half', note: 'Сумма сделки в рублях. Заполняется при выставлении счёта.' } });
   await ensureField('leads', 'qualified_at', { type: 'timestamp', meta: { interface: 'datetime', width: 'half', note: 'Когда стало ясно, что это реальный покупатель.' } });
@@ -438,11 +463,28 @@ async function seed() {
   console.log('✓ seed done');
 }
 
+/**
+ * Режим «только схема»: добавить недостающие коллекции и поля, ничего больше.
+ *
+ * Полный прогон делает две вещи сверх схемы — пересоздаёт токен служебной
+ * учётки и досыпает демо-каталог. 20.08.2026 на проде это уже стоило простоя:
+ * сайт остался со старым токеном, каталог опустел, карточки начали отдавать
+ * 404. Для добавления новых полей ни то, ни другое не нужно, а риск
+ * несоразмерен: --schema-only исключает оба шага и потому не требует
+ * последующего ops-directus-token-sync.
+ */
+const SCHEMA_ONLY = process.argv.includes('--schema-only');
+
 async function main() {
   if (!ADMIN_EMAIL || !ADMIN_PASSWORD) throw new Error('Нет ADMIN_EMAIL/ADMIN_PASSWORD');
   console.log('Directus:', DIRECTUS_URL);
+  if (SCHEMA_ONLY) console.log('Режим: только схема — токен не трогаем, демо-данные не досыпаем');
   await login();
   await buildSchema();
+  if (SCHEMA_ONLY) {
+    console.log('\n✅ СХЕМА ПРИМЕНЕНА (без пересоздания токена и без демо-данных)');
+    return;
+  }
   await ensureServiceAccess();
   await ensurePublicRead();
   await seed();

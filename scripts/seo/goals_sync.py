@@ -91,11 +91,16 @@ def metrika_sync(goals: dict[str, dict], apply: bool) -> list[str] | None:
     print(f'Метрика: заведено целей — {len(data.get("goals", []))}, '
           f'из них по событиям — {len(existing)}')
 
-    created = []
+    # Список того, чего не хватает, набирается по состоянию ДО записи. В режиме
+    # переноса его нельзя выдавать за итог: цели, только что успешно
+    # заведённые, попали бы в строку «не хватает» и отчёт сообщил бы о
+    # провале там, где всё получилось. Поэтому итогом режима переноса
+    # становится список неудач, а не список исходных пропусков.
+    missing, failed = [], []
     for name, spec in goals.items():
         if name in existing:
             continue
-        created.append(name)
+        missing.append(name)
         if not apply:
             continue
         # Тип JavaScript-события: сайт шлёт reachGoal с этим именем.
@@ -106,9 +111,12 @@ def metrika_sync(goals: dict[str, dict], apply: bool) -> list[str] | None:
             'conditions': [{'type': 'exact', 'url': name}],
         }}
         code, resp = request(base, headers=h, method='POST', body=payload)
-        mark = 'ok' if code in (200, 201) else f'ОШИБКА {code} {resp.get("error", "")[:200]}'
+        ok = code in (200, 201)
+        if not ok:
+            failed.append(name)
+        mark = 'ok' if ok else f'ОШИБКА {code} {resp.get("error", "")[:200]}'
         print(f'  + {name} — {mark}')
-    return created
+    return failed if apply else missing
 
 
 # ── Google Analytics 4 ──────────────────────────────────────────────────────
@@ -147,18 +155,21 @@ def ga4_sync(goals: dict[str, dict], apply: bool) -> list[str] | None:
     # generate_lead приходит и от формы, и от скачивания КП — различаем их
     # параметром bz_goal, а ключевым помечается само событие один раз.
     want = sorted({spec['ga4'] for spec in goals.values() if spec['key']})
-    created = []
+    missing, failed = [], []
     for event in want:
         if event in existing:
             continue
-        created.append(event)
+        missing.append(event)
         if not apply:
             continue
         code, resp = request(base, headers=h, method='POST',
                              body={'eventName': event, 'countingMethod': 'ONCE_PER_SESSION'})
-        mark = 'ok' if code in (200, 201) else f'ОШИБКА {code} {resp.get("error", "")[:200]}'
+        ok = code in (200, 201)
+        if not ok:
+            failed.append(event)
+        mark = 'ok' if ok else f'ОШИБКА {code} {resp.get("error", "")[:200]}'
         print(f'  + {event} — {mark}')
-    return created
+    return failed if apply else missing
 
 
 def main() -> int:
@@ -175,12 +186,14 @@ def main() -> int:
     print()
     g = ga4_sync(goals, args.apply)
 
-    def verdict(missing: list[str] | None) -> str:
-        if missing is None:
+    def verdict(rest: list[str] | None) -> str:
+        if rest is None:
             return 'не проверено — нет доступа'
-        if not missing:
+        if not rest:
             return 'всё заведено'
-        return f'не хватает {len(missing)}: ' + ', '.join(missing)
+        if args.apply:
+            return f'не удалось завести {len(rest)}: ' + ', '.join(rest)
+        return f'не хватает {len(rest)}: ' + ', '.join(rest)
 
     print('\nИтог:')
     print(f'  Метрика — {verdict(m)}')

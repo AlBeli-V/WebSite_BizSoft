@@ -32,7 +32,7 @@ FIELDS = (
     "page_exists", "indexed_yandex", "indexed_google", "yandex_position",
     "google_position", "yandex_impressions", "google_impressions", "clicks", "ctr",
     "conversion_evidence", "priority_score", "confidence", "in_scope",
-    "monthly_dynamics",
+    "attribution", "monthly_dynamics",
 )
 
 
@@ -58,9 +58,19 @@ class Universe:
                 # появления фильтра омонимов, иначе остались бы засчитанными.
                 # Пересчёт при загрузке дешевле повторного сбора и не даёт базе
                 # разъехаться со свежими правилами.
+                #
+                # Интент пересчитывается вместе с охватом. Пересчитывать одно и
+                # оставлять другое — значит держать в одной строке правила
+                # разных версий: фраза с новым охватом и старым интентом даёт
+                # число, которое не воспроизводится ни одним набором правил.
+                commercial, informational = N.intent_scores(row["phrase"])
+                row["attribution"] = N.attribution_of(row["phrase"],
+                                                      row.get("source_seed"))
+                row["intent"] = N.classify_intent(row["phrase"])
+                row["commercial_intent_score"] = commercial
+                row["informational_intent_score"] = informational
                 row["in_scope"] = (N.in_scope(row["phrase"])
-                                   and N.relevant_to_seed(row["phrase"],
-                                                          row.get("source_seed")))
+                                   and row["attribution"] == "confident")
                 # Привязка к вендору пересчитывается по той же причине.
                 # Индекс пополняется именами продуктов — «claude» ведёт на
                 # anthropic, «gemini» на google, — и без пересчёта накопленная
@@ -103,6 +113,7 @@ class Universe:
         commercial, informational = N.intent_scores(phrase)
         row.update({
             "cluster": row["cluster"] or N.cluster_of(phrase, vendors, source_seed),
+            "attribution": N.attribution_of(phrase, source_seed),
             "in_scope": N.in_scope(phrase) and N.relevant_to_seed(phrase, source_seed),
             "subcluster": N.subcluster_of(phrase),
             "intent": N.classify_intent(phrase),
