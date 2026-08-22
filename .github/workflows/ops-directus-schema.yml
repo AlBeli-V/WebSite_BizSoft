@@ -16,6 +16,13 @@ name: ops-directus-schema
 
 on:
   workflow_dispatch:
+    inputs:
+      mode:
+        description: "schema-only — только добавить поля (безопасно); full — полный прогон с пересозданием токена и демо-данными"
+        required: true
+        default: "schema-only"
+        type: choice
+        options: ["schema-only", "full"]
 
 permissions:
   contents: read
@@ -26,6 +33,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
+      - name: Выбрать режим
+        id: mode
+        run: |
+          if [ "${{ inputs.mode }}" = "full" ]; then
+            echo "SETUP_ARGS=" >> "$GITHUB_ENV"
+            echo "Режим: полный прогон — токен будет пересоздан, демо-данные досыпаны."
+          else
+            echo "SETUP_ARGS=--schema-only" >> "$GITHUB_ENV"
+            echo "Режим: только схема — токен не трогаем, демо-данные не досыпаем."
+          fi
 
       - name: Copy setup script to server
         uses: appleboy/scp-action@v1
@@ -46,6 +64,7 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           capture_stdout: true
           command_timeout: 10m
+          envs: SETUP_ARGS
           script: |
             set -e
             mkdir -p /tmp/bz
@@ -55,11 +74,12 @@ jobs:
               -v /opt/bizsoft/.env:/env:ro \
               -v /tmp/bz:/out \
               -v /tmp/directus-setup.mjs:/setup.mjs:ro \
-              node:22-alpine node /setup.mjs
+              node:22-alpine node /setup.mjs ${SETUP_ARGS}
 
       - name: Warn about token reset
+        if: inputs.mode == 'full'
         run: |
-          echo "::warning::Токен служебной учётки пересоздан. Запустите ops-directus-token-sync, иначе сайт потеряет доступ к базе."
+          echo "::warning::Полный прогон пересоздал токен служебной учётки. Запустите ops-directus-token-sync, иначе сайт потеряет доступ к базе и карточки начнут отдавать 404."
 
       - name: Post results to journal (issue #22)
         if: always()

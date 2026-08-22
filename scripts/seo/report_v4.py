@@ -55,6 +55,10 @@ FONT = ("-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',"
         "Arial,sans-serif")
 FIRST_SCREEN_MARKER = "<!--first-screen-end-->"
 
+# База, ниже которой относительное изменение не публикуется. Совпадает с
+# порогом low_base в quality.delta: одно определение малой базы на всю систему.
+LOW_BASE = 30
+
 PILL_COLOUR = {
     "positive": T["positive"], "mixed": T["warning"], "negative": T["danger"],
     "stable": T["info"], "verified": T["positive"], "limited": T["warning"],
@@ -108,25 +112,55 @@ def kpi_cards(snap: dict, prev: dict | None, dq: dict) -> list[dict]:
     """Четыре показателя руководителя. Отсутствие CRM — приглушённое состояние."""
     yt = snap["yandex"]["totals"]
     yp = (prev or {}).get("yandex", {}).get("totals", {})
+    # Сколько целей сайт шлёт мимо счётчика — берём из проверки качества,
+    # а не вписываем числом в текст.
+    declared = snap.get("declared_goals") or []
+    configured = {g_["name"] for g_ in
+                  ((snap.get("analytics") or {}).get("metrika") or {}).get("goals_configured") or []}
+    goals_missing = len([n for n in declared if n not in configured])
+    # Цели могли быть заведены уже после того, как собран список счётчика.
+    # Тогда в снимке их ещё нет, но утверждать «целей нет» — значит говорить о
+    # настоящем по вчерашним данным. Проверка качества это различает; отчёт
+    # обязан повторять её вывод, а не считать заново по сырым полям.
+    goals_lagging = any(f["code"] == "GOALS_CONFIGURED_AFTER_COLLECTION"
+                        for f in dq.get("findings", []))
+    if goals_lagging:
+        goals_missing = 0
     g, gt = snap["google"], snap["google"]["totals"]
     m = snap["analytics"]["metrika"]
     sample = dq.get("sample_ctr") or {}
 
-    imp_delta = yt["impressions"] - yp["impressions"] if yp else None
+    rules = dq.get("publication_rules") or {}
+    # Абсолютная разница показов публикуется только тогда, когда её есть с чем
+    # сравнивать. При разной длине окна и пересобранной выборке два числа
+    # складываются из разных слагаемых, и их разность не описывает видимость:
+    # на 20.08 → 21.08 окна были 12 и 13 дней, а состав выборки сменился на
+    # четверть — заявленный прирост в 107 показов объяснялся этим целиком.
+    show_delta = rules.get("allow_absolute_delta", True)
+    imp_delta = (yt["impressions"] - yp["impressions"]) if (yp and show_delta) else None
     top_delta = (yt["queries_position_le_10"] - yp["queries_position_le_10"]) if yp else None
     daily = [d["impressions"] for d in (g.get("daily") or [])][-14:]
+    days = snap["yandex"]["source"].get("current_period_days")
+    per_day = round(yt["impressions"] / days) if days else None
+    delta_note = (None if show_delta else
+                  "разница с прошлым замером не публикуется: окна разной длины "
+                  "или выборка пересобрана — сравнивать нечего с чем")
 
     cards = [
         {"key": "yandex", "label": "Видимость в Яндексе",
          "value": num(yt["impressions"]), "unit": "показов",
-         "delta": signed(imp_delta), "delta_dir": _dir(imp_delta),
+         "delta": signed(imp_delta) if imp_delta is not None else None,
+         "delta_dir": _dir(imp_delta) if imp_delta is not None else None,
          "relative": None,
-         "relative_note": "относительный процент не публикуется: окна источника пересекаются",
+         "relative_note": delta_note or
+                          "относительный процент не публикуется: окна источника пересекаются",
          "period": f"{ru_date(snap['yandex']['source']['current_period_start'])}–"
                    f"{ru_date(snap['yandex']['source']['current_period_end'])}",
          "source": "Яндекс.Вебмастер, выборка топ-100 запросов",
          "confidence": "достаточная",
-         "interpretation": f"На первой странице {yt['queries_position_le_10']} из "
+         "interpretation": (f"В среднем {num(per_day)} показов в день за {days} дн. "
+                            if per_day else "") +
+                           f"На первой странице {yt['queries_position_le_10']} из "
                            f"{yt['queries_tracked']} запросов выборки, "
                            f"{signed(top_delta)} к вчера. "
                            f"CTR выборки {pct(sample.get('value'), 2)} — "
@@ -136,8 +170,12 @@ def kpi_cards(snap: dict, prev: dict | None, dq: dict) -> list[dict]:
          "value": num(gt["impressions_last7"]), "unit": "показов за неделю",
          "delta": signed(gt["impressions_last7"] - gt["impressions_prev7"]),
          "delta_dir": _dir(gt["impressions_last7"] - gt["impressions_prev7"]),
-         "relative": signed_pct((gt["impressions_last7"] - gt["impressions_prev7"])
-                                / gt["impressions_prev7"]) if gt["impressions_prev7"] else None,
+         # Процент при малой базе — это шум, поданный как результат. Рост с 19
+         # до 38 показов даёт «+100,0 %», хотя при пуассоновском разбросе
+         # такая разница ожидаема. Абсолютные числа остаются, процент — нет.
+         "relative": (signed_pct((gt["impressions_last7"] - gt["impressions_prev7"])
+                                 / gt["impressions_prev7"])
+                      if gt["impressions_prev7"] >= LOW_BASE else None),
          "relative_note": "низкая база: десятки показов",
          "period": f"{ru_date(gt['last7_start'])}–{ru_date(gt['last7_end'])} "
                    f"против {ru_date(gt['prev7_start'])}–{ru_date(gt['prev7_end'])}",
@@ -183,13 +221,27 @@ def kpi_cards(snap: dict, prev: dict | None, dq: dict) -> list[dict]:
                       f"{ru_date(m['source']['current_period_end'])}",
             "source": "Яндекс.Метрика, весь сайт",
             "confidence": f"низкая: {counted(events, 'событие', 'события', 'событий')}",
-            # Ноль по вырезанной цели — не «обращений не было», а «не измерялось».
-            # Смешивать эти два утверждения нельзя: первое требует объяснения
-            # и действий, второе — починки счётчика.
+            # Ноль по незаведённой цели — не «обращений не было», а «не
+            # измерялось». Смешивать эти два утверждения нельзя: первое требует
+            # объяснения и действий, второе — заведения целей в счётчике.
+            #
+            # Причина называется та, что действует сейчас. Прежняя формулировка
+            # «вызовы вырезаны из сборки» описывала уже устранённый дефект: в
+            # src/lib/analytics.ts стоит непустой фолбэк идентификатора, и код
+            # достижим. Остаётся отсутствие целей в счётчике, и починка нужна
+            # именно там — текст, называющий закрытую причину, отправлял работу
+            # не по адресу.
             "interpretation": ("Это автоцели Метрики, а не подтверждённые обращения. "
-                               "Три конверсионные цели (форма, корзина, скачивание КП) "
-                               "не измеряются: вызовы вырезаны из сборки. Ноль по ним "
-                               "означает отсутствие замера, а не отсутствие обращений."
+                               "Конверсионные цели заведены в счётчике только что, "
+                               "и в этот замер они ещё не попали: первые сопоставимые "
+                               "числа появятся со следующего сбора."
+                               if goals_lagging else
+                               f"Это автоцели Метрики, а не подтверждённые обращения. "
+                               f"Сайт отправляет {goals_missing} "
+                               f"{plural(goals_missing, 'цель', 'цели', 'целей')}, "
+                               f"которых нет в счётчике, поэтому счётчик их "
+                               f"отбрасывает. Ноль по ним означает отсутствие "
+                               f"замера, а не отсутствие обращений."
                                if gap else
                                "Это срабатывания форм на сайте, а не подтверждённые "
                                "обращения: CRM не подключена."),
@@ -461,7 +513,10 @@ def _pill(p: dict) -> str:
 
 
 def _kpi_cell(k: dict, charts: dict, cid_mode: bool) -> str:
-    dir_colour = {"up": T["positive"], "down": T["danger"], "flat": T["muted"]}[k["delta_dir"]]
+    # delta_dir отсутствует, когда дельта не публикуется: окна разной длины или
+    # выборка пересобрана. Это не «нет изменения», а «сравнивать нечего с чем».
+    dir_colour = {"up": T["positive"], "down": T["danger"], "flat": T["muted"],
+                  None: T["muted"]}[k.get("delta_dir")]
     tone = T["muted"] if k["muted"] else T["text_primary"]
     delta = (f"<span style=\"font-size:14px;color:{dir_colour};font-weight:600;\">"
              f"{k['delta']}</span>" if k["delta"] else "")
