@@ -13,12 +13,46 @@ import os
 import pathlib
 import sys
 import urllib.parse
+from zoneinfo import ZoneInfo
 
 import requests
 
 SITE = 'biz-soft.pro'
 OUT_DIR = pathlib.Path('reports/seo/data')
-TODAY = dt.date.today().isoformat()
+
+# Дата сбора — московская, а не по часовому поясу раннера.
+#
+# Раннер GitHub Actions живёт в UTC, GA4 и Метрика отдают данные в
+# Europe/Moscow, а правило проекта требует Москву. Пока сбор идёт в 05:40 МСК,
+# UTC и МСК дают одну дату и расхождение не видно. При ручном прогоне после
+# 21:00 МСК имя файла ушло бы на сутки назад от содержимого, и сравнение
+# периодов сломалось бы молча.
+MSK = ZoneInfo('Europe/Moscow')
+
+
+def today() -> dt.date:
+    return dt.datetime.now(MSK).date()
+
+
+TODAY = today().isoformat()
+
+# Счётчики, которые обязан использовать сборщик. Значения публичны — они
+# в HTML каждой страницы, — поэтому лежат в коде, а не в секретах: так их
+# можно сверить, а расхождение поймать (см. verify_ids).
+EXPECTED_METRIKA_COUNTER = '110206070'
+EXPECTED_GA_MEASUREMENT_ID = 'G-V9BK2D1431'
+
+# Вебмастер отдаёт запросы страницами. 100 — предел страницы у API,
+# 2000 — потолок на случай, если хост внезапно отдаст десятки тысяч строк:
+# сбор не должен превращаться в бесконечный обход.
+PAGE_LIMIT = 100
+MAX_QUERIES = 2000
+
+# Источники, которые GA4 считает органическим поиском, а мы — своими визитами
+# и не-поиском. Интерфейсы Яндекса — это переходы сотрудников; Алиса — не
+# поисковая выдача.
+INTERNAL_SOURCES = ('metrika.yandex.ru', 'webmaster.yandex.ru',
+                    'direct.yandex.ru', 'alice.yandex.ru')
 
 
 def collect_gsc() -> dict:
@@ -31,8 +65,12 @@ def collect_gsc() -> dict:
     creds.refresh(Request())
     headers = {'Authorization': f'Bearer {creds.token}'}
 
-    sites = requests.get(
-        'https://www.googleapis.com/webmasters/v3/sites', headers=headers, timeout=30).json()
+    sites_resp = requests.get(
+        'https://www.googleapis.com/webmasters/v3/sites', headers=headers, timeout=30)
+    if not sites_resp.ok:
+        return {'date': TODAY,
+                'error': f'/sites HTTP {sites_resp.status_code}: {sites_resp.text[:300]}'}
+    sites = sites_resp.json()
     entries = [s for s in sites.get('siteEntry', []) if SITE in s['siteUrl']]
     result = {'date': TODAY, 'sites': sites.get('siteEntry', []), 'analytics': {}}
     if not entries:
@@ -40,7 +78,7 @@ def collect_gsc() -> dict:
         return result
 
     site_url = urllib.parse.quote(entries[0]['siteUrl'], safe='')
-    end = dt.date.today()
+    end = today()
     start = end - dt.timedelta(days=28)
     for dims in (['date'], ['query'], ['page']):
         body = {
@@ -52,7 +90,14 @@ def collect_gsc() -> dict:
         r = requests.post(
             f'https://www.googleapis.com/webmasters/v3/sites/{site_url}/searchAnalytics/query',
             headers=headers, json=body, timeout=30)
-        result['analytics'][dims[0]] = r.json()
+        # Без этой проверки тело ошибки Google сохранялось как данные. Ключа
+        # `rows` в нём нет, поэтому дальше по конвейеру получалось 0 показов —
+        # и сбой доступа читался как обвал поискового трафика.
+        result['analytics'][dims[0]] = r.json() if r.ok else {
+            'error': f'HTTP {r.status_code}: {r.text[:400]}'}
+    errors = [v['error'] for v in result['analytics'].values() if 'error' in v]
+    if len(errors) == len(result['analytics']):
+        result['error'] = 'все разрезы Search Analytics вернули ошибку: ' + errors[0]
     return result
 
 
@@ -82,18 +127,42 @@ def collect_yandex() -> dict:
     result['summary'] = requests.get(
         f'{base}/{uid}/hosts/{host_id}/summary', headers=headers, timeout=30).json()
 
-    date_to = dt.date.today()
+    date_to = today()
     date_from = date_to - dt.timedelta(days=14)
     params = {
         'order_by': 'TOTAL_SHOWS',
         'query_indicator': ['TOTAL_SHOWS', 'TOTAL_CLICKS', 'AVG_SHOW_POSITION', 'AVG_CLICK_POSITION'],
         'date_from': date_from.isoformat(),
         'date_to': date_to.isoformat(),
-        'limit': 100,
+        'limit': PAGE_LIMIT,
     }
-    result['popular_queries'] = requests.get(
-        f'{base}/{uid}/hosts/{host_id}/search-queries/popular/',
-        headers=headers, params=params, timeout=30).json()
+    url = f'{base}/{uid}/hosts/{host_id}/search-queries/popular/'
+
+    # Постраничный забор вместо первых ста строк.
+    #
+    # Прежде бралась одна страница из 100 запросов при `count` в 506. Отбор шёл
+    # по TOTAL_SHOWS, поэтому выборка была смещена в сторону высокочастотных
+    # запросов и систематически теряла длинный хвост — а именно там у B2B-сайта
+    # живут конверсионные запросы вида «оплата X для юрлиц». Это же объясняло
+    # восьмикратный разрыв между кликами Вебмастера и органическими визитами
+    # Метрики.
+    queries, page, meta = [], None, {}
+    for offset in range(0, MAX_QUERIES, PAGE_LIMIT):
+        r = requests.get(url, headers=headers,
+                         params={**params, 'offset': offset}, timeout=30)
+        if not r.ok:
+            meta = meta or {'error': f'HTTP {r.status_code}: {r.text[:300]}'}
+            break
+        page = r.json()
+        chunk = page.get('queries') or []
+        meta = meta or {k: v for k, v in page.items() if k != 'queries'}
+        queries.extend(chunk)
+        if len(chunk) < PAGE_LIMIT or len(queries) >= (page.get('count') or 0):
+            break
+
+    result['popular_queries'] = {**meta, 'queries': queries,
+                                 'fetched': len(queries),
+                                 'count': (page or {}).get('count', len(queries))}
     return result
 
 
@@ -102,9 +171,15 @@ def collect_metrika() -> dict:
     Токен — YANDEX_METRIKA_TOKEN (scope metrika:read), счётчик — YANDEX_METRIKA_COUNTER_ID."""
     token = os.environ['YANDEX_METRIKA_TOKEN']
     counter = os.environ['YANDEX_METRIKA_COUNTER_ID'].strip()
+    # Счётчик сборщика обязан совпадать со счётчиком, который стоит на сайте.
+    # Иначе отчёт соберётся из чужих данных и будет выглядеть правдоподобно.
+    if counter != EXPECTED_METRIKA_COUNTER:
+        return {'date': TODAY,
+                'error': (f'счётчик сборщика {counter} не совпадает со счётчиком сайта '
+                          f'{EXPECTED_METRIKA_COUNTER} (src/lib/analytics.ts)')}
     headers = {'Authorization': f'OAuth {token}'}
     stat = 'https://api-metrika.yandex.net/stat/v1/data'
-    date_to = dt.date.today() - dt.timedelta(days=1)
+    date_to = today() - dt.timedelta(days=1)
     date_from = date_to - dt.timedelta(days=13)
     base = {'ids': counter, 'date1': date_from.isoformat(), 'date2': date_to.isoformat(),
             'accuracy': 'full', 'limit': 100}
@@ -152,7 +227,7 @@ def collect_ga4() -> dict:
     headers = {'Authorization': f'Bearer {creds.token}'}
     prop = os.environ['GA4_PROPERTY_ID'].strip()
     url = f'https://analyticsdata.googleapis.com/v1beta/properties/{prop}:runReport'
-    date_to = dt.date.today() - dt.timedelta(days=1)
+    date_to = today() - dt.timedelta(days=1)
     date_from = date_to - dt.timedelta(days=13)
     dates = [{'startDate': date_from.isoformat(), 'endDate': date_to.isoformat()}]
     result = {'date': TODAY, 'property': prop,
@@ -160,6 +235,18 @@ def collect_ga4() -> dict:
 
     organic_filter = {'filter': {'fieldName': 'sessionDefaultChannelGroup',
                                  'stringFilter': {'value': 'Organic Search'}}}
+
+    # GA4 относит к поисковым системам любой домен *.yandex.*, включая интерфейс
+    # Метрики и Вебмастера. Переход «посмотреть сайт» из Вебвизора становился
+    # органической сессией: на замере 21.08.2026 источник metrika.yandex.ru дал
+    # 5 сессий и оба зафиксированных key events — то есть сто процентов
+    # «конверсий органики» были визитами владельца сайта.
+    organic_clean = {'andGroup': {'expressions': [
+        organic_filter,
+        {'notExpression': {'filter': {
+            'fieldName': 'sessionSource',
+            'inListFilter': {'values': list(INTERNAL_SOURCES)}}}},
+    ]}}
     reports = {
         'channels': {
             'dateRanges': dates,
@@ -173,6 +260,17 @@ def collect_ga4() -> dict:
             'dimensionFilter': organic_filter,
         },
         'organic_landing_pages': {
+            'dateRanges': dates,
+            'dimensions': [{'name': 'landingPage'}],
+            'metrics': [{'name': 'sessions'}, {'name': 'keyEvents'}],
+            'dimensionFilter': organic_clean,
+            'limit': 50,
+        },
+        # Тот же срез без очистки. Нужен именно для сравнения: разница между
+        # ним и organic_landing_pages показывает объём собственных визитов,
+        # и проверка INTERNAL_TRAFFIC_IN_ORGANIC опирается на неё, а не на
+        # предположение.
+        'organic_landing_pages_raw': {
             'dateRanges': dates,
             'dimensions': [{'name': 'landingPage'}],
             'metrics': [{'name': 'sessions'}, {'name': 'keyEvents'}],

@@ -21,6 +21,9 @@ const STATIC_ROUTES: { path: string; priority: number; changefreq: string }[] = 
   { path: '/documents', priority: 0.6, changefreq: 'monthly' },
   { path: '/blog', priority: 0.7, changefreq: 'weekly' },
   { path: '/solutions', priority: 0.6, changefreq: 'monthly' },
+  // Раздел «Производители» — точка входа во все лендинги вендоров. Её не было
+  // в карте вовсе, хотя она собирает внутренние ссылки на весь раздел.
+  { path: '/vendors', priority: 0.8, changefreq: 'weekly' },
   { path: '/vendors/zoom', priority: 0.9, changefreq: 'weekly' },
   { path: '/vendors/jetbrains', priority: 0.9, changefreq: 'weekly' },
   { path: '/vendors/openai', priority: 0.9, changefreq: 'weekly' },
@@ -31,6 +34,17 @@ const STATIC_ROUTES: { path: string; priority: number; changefreq: string }[] = 
   { path: '/faq', priority: 0.6, changefreq: 'monthly' },
   { path: '/privacy', priority: 0.3, changefreq: 'yearly' },
 ];
+
+/** Убрать повторяющиеся <loc>: дубль в карте — ошибка разметки, а не мелочь. */
+function dedupeByLoc(entries: string[]): string[] {
+  const seen = new Set<string>();
+  return entries.filter((e) => {
+    const loc = e.match(/<loc>([^<]+)<\/loc>/)?.[1];
+    if (!loc || seen.has(loc)) return false;
+    seen.add(loc);
+    return true;
+  });
+}
 
 function urlEntry(path: string, priority: number, changefreq: string, lastmod?: string): string {
   const loc = canonicalUrl(path); // единый формат без завершающего слеша (кроме /)
@@ -49,7 +63,15 @@ export const GET: APIRoute = async () => {
   for (const c of comparisons) entries.push(urlEntry(`/compare/${c.slug}`, 0.7, 'monthly'));
 
   // Шаблонные посадочные производителей (креативные индустрии).
-  const vendorSeen = new Set<string>();
+  //
+  // Множество заполняется slug'ами bespoke-лендингов из STATIC_ROUTES: они уже
+  // добавлены выше. Прежде оно начиналось пустым, и вендор из базы с тем же
+  // именем давал второй <loc> — figma, jetbrains и openai попадали в карту
+  // дважды. Дубль в sitemap поисковик считает ошибкой разметки карты.
+  const vendorSeen = new Set<string>(
+    STATIC_ROUTES.map((r) => r.path).filter((p) => p.startsWith('/vendors/'))
+      .map((p) => p.slice('/vendors/'.length)),
+  );
   for (const v of VENDORS) {
     vendorSeen.add(v.slug);
     entries.push(urlEntry(`/vendors/${v.slug}`, 0.8, 'weekly'));
@@ -106,7 +128,7 @@ export const GET: APIRoute = async () => {
 
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${entries.join('\n')}
+${dedupeByLoc(entries).join('\n')}
 </urlset>`;
 
   return new Response(xml, {

@@ -2,7 +2,7 @@ export const prerender = false;
 
 import type { APIRoute } from 'astro';
 import { getProductsBySkus, getZohoPositionsBySkus, createQuote, createLead, getLeads, createLeadEvent } from '../../lib/directus';
-import { leadFromQuote, describeQuote } from '../../lib/quote-lead';
+import { leadFromQuote, describeQuote, attributionFields } from '../../lib/quote-lead';
 import { effectivePrice } from '../../lib/pricing';
 import { sendMail, managerEmail, salesFrom } from '../../lib/mailer';
 import { generateQuotePdf, buildQuoteNo, formatDateRu, addDays, type QuoteData } from '../../lib/pdf-quote';
@@ -186,6 +186,7 @@ export const POST: APIRoute = async ({ request }) => {
     items,
     total,
     validUntil: data.validUntil,
+    attribution: attributionFields(body),
   }).catch((e) => console.error('quote lead failed', e));
 
   // ── Письма ──
