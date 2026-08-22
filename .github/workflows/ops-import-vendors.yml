@@ -25,6 +25,12 @@ jobs:
   import:
     runs-on: ubuntu-latest
     steps:
+      - name: Guard - only default branch
+        run: |
+          if [ "${{ github.ref_name }}" != "main" ]; then
+            echo "Запуск разрешён только с ветки main. Текущий ref: ${{ github.ref_name }}"
+            exit 1
+          fi
       - uses: actions/checkout@v4
 
       - name: Build xlsx from catalog packages
