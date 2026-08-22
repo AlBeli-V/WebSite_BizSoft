@@ -143,6 +143,36 @@ def clusters_of(uni) -> dict[str, dict]:
     return out
 
 
+def unattributed_demand(uni) -> dict:
+    """Спрос, принадлежность которого не определена.
+
+    Это не «спроса нет» и не «спрос есть»: голая фраза омонимичного бренда
+    («zoom купить», «box купить») делится между вендором и посторонним товаром,
+    и данными Вордстата их не разделить. В коммерческий спрос такие фразы не
+    входят, иначе приоритеты уводит чужой товар. Но и молча выбрасывать их
+    нельзя: тогда вендор с собственным лендингом становится невидим. Поэтому
+    величина считается отдельно и показывается рядом — как объявленный предел
+    измерения, а не как ноль.
+    """
+    rows = [r for r in uni.rows.values() if r.get("attribution") == "ambiguous"]
+    by_cluster: dict[str, int] = {}
+    for r in rows:
+        freq = r.get("wordstat_frequency") or 0
+        if r.get("intent") != "commercial" or not freq:
+            continue
+        key = r.get("cluster") or "без кластера"
+        by_cluster[key] = by_cluster.get(key, 0) + freq
+    total = sum(by_cluster.values())
+    return {
+        "available": bool(total),
+        "total": total,
+        "phrases": len([r for r in rows if r.get("intent") == "commercial"]),
+        "by_cluster": dict(sorted(by_cluster.items(), key=lambda kv: -kv[1])),
+        "reason": ("голая фраза омонимичного бренда: принадлежность вендору "
+                   "не доказана и не опровергнута"),
+    }
+
+
 def demand_coverage(clusters: dict[str, dict], conversion_clusters: set[str]) -> dict:
     """Шесть уровней покрытия спроса, каждый считается по частотности."""
     total = sum(c["commercial_demand"] for c in clusters.values())
@@ -162,7 +192,13 @@ def demand_coverage(clusters: dict[str, dict], conversion_clusters: set[str]) ->
             "top10": share(lambda c: c["best_position"] is not None
                            and c["best_position"] <= TOP_POSITION),
             "clicks": share(lambda c: c["clicks"] > 0),
-            "conversion_measured": share(lambda c: c["cluster"] in conversion_clusters),
+            # Ноль здесь означал бы «спрос покрыт страницами, но не
+            # конвертируется». Пока цели не заведены в счётчике, верное
+            # утверждение другое: конверсия по этим кластерам не измерялась.
+            # Соседний уровень qualified_leads уже стоит как None — уровни с
+            # одинаковым статусом обязаны выглядеть одинаково.
+            "conversion_measured": (share(lambda c: c["cluster"] in conversion_clusters)
+                                    if conversion_clusters else None),
             "qualified_leads": None,
         },
         "note": "Доли считаются по сумме частотностей коммерческих фраз кластера. "

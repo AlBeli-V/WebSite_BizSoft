@@ -4,6 +4,7 @@ import type { APIRoute } from 'astro';
 import { defaultLeadOwner } from '../../config/site';
 import { createLead } from '../../lib/directus';
 import { sendMail, managerEmail } from '../../lib/mailer';
+import { attributionFields } from '../../lib/quote-lead';
 
 function isEmail(v: unknown): v is string {
   return typeof v === 'string' && /.+@.+\..+/.test(v);
@@ -40,7 +41,12 @@ export const POST: APIRoute = async ({ request }) => {
     message: String(body.message || '').slice(0, 4000),
     product_ref: String(body.product_ref || '').slice(0, 300),
     consent: true,
+    // Идентификатор формы, а не канал трафика. Прежде поле называлось просто
+    // `source`, и в письме менеджеру строка «Источник: pricing» читалась как
+    // источник перехода. Канал теперь лежит отдельно, в last_touch_source.
+    form_source: String(body.source || 'site').slice(0, 60),
     source: String(body.source || 'site').slice(0, 60),
+    ...attributionFields(body),
     // Стадия воронки с первой секунды: заявка без статуса не попадает ни в один
     // фильтр воронки и теряется из виду, хотя формально сохранена.
     status: 'new',
@@ -62,7 +68,11 @@ export const POST: APIRoute = async ({ request }) => {
     replyTo: payload.email,
     subject: `Новая заявка с сайта BIZSoft${payload.product_ref ? ': ' + payload.product_ref : ''}`,
     text: [
-      `Источник: ${payload.source}`,
+      `Форма: ${payload.form_source}`,
+      `Канал: ${payload.last_touch_source || 'не определён'}`,
+      payload.first_touch_source && payload.first_touch_source !== payload.last_touch_source
+        && `Первое касание: ${payload.first_touch_source}`,
+      payload.utm_campaign && `Кампания: ${payload.utm_campaign}`,
       payload.product_ref && `Товар: ${payload.product_ref}`,
       `Имя: ${payload.name || '—'}`,
       `Компания: ${payload.company || '—'}`,

@@ -1,39 +1,50 @@
 {
  "date": "2026-08-21",
- "generated_at": "2026-08-21T07:13:36+00:00",
+ "generated_at": "2026-08-21T13:27:50+00:00",
  "measured_at": "2026-08-21",
  "universe": {
   "phrases": 17301,
-  "commercial_phrases": 2063,
+  "commercial_phrases": 1776,
   "clusters": 139,
-  "total_commercial_demand": 491739,
+  "total_commercial_demand": 247069,
   "total_demand": 34348955,
   "with_page": 16617,
   "cost_rub": 4.8837
  },
  "coverage": {
   "available": true,
-  "total_commercial_demand": 491739,
+  "total_commercial_demand": 247069,
   "levels": {
-   "page": 0.9284,
-   "indexed": 0.0814,
-   "top10": 0.0086,
+   "page": 0.8578,
+   "indexed": 0.157,
+   "top10": 0.0204,
    "clicks": 0.0001,
-   "conversion_measured": 0.0,
+   "conversion_measured": null,
    "qualified_leads": null
   },
   "note": "Доли считаются по сумме частотностей коммерческих фраз кластера. Уровень «обращения» появится после подключения CRM."
  },
- "coverage_by_category": {
-  "AI-сервисы": {
-   "demand": 306375,
-   "covered": 306375,
-   "top10": 1031,
-   "clicks": 0,
-   "page_coverage": 1.0,
-   "top10_coverage": 0.003,
-   "click_coverage": 0.0
+ "unattributed_demand": {
+  "available": true,
+  "total": 52116,
+  "phrases": 18,
+  "by_cluster": {
+   "box": 30187,
+   "zoom": 10813,
+   "bubble купить": 5732,
+   "glide купить": 1580,
+   "unity": 1336,
+   "spine": 848,
+   "rive": 675,
+   "linear купить": 489,
+   "sentry": 164,
+   "intercom купить": 108,
+   "google": 100,
+   "replit купить": 84
   },
+  "reason": "голая фраза омонимичного бренда: принадлежность вендору не доказана и не опровергнута"
+ },
+ "coverage_by_category": {
   "Офисное ПО": {
    "demand": 62372,
    "covered": 62372,
@@ -43,36 +54,54 @@
    "top10_coverage": 0.0,
    "click_coverage": 0.0
   },
+  "AI-сервисы": {
+   "demand": 59963,
+   "covered": 59963,
+   "top10": 2117,
+   "clicks": 0,
+   "page_coverage": 1.0,
+   "top10_coverage": 0.035,
+   "click_coverage": 0.0
+  },
   "не определено": {
-   "demand": 58335,
-   "covered": 23121,
+   "demand": 56051,
+   "covered": 20906,
    "top10": 0,
    "clicks": 0,
-   "page_coverage": 0.396,
+   "page_coverage": 0.373,
    "top10_coverage": 0.0,
    "click_coverage": 0.0
   },
   "Дизайн и графика": {
-   "demand": 38450,
-   "covered": 38450,
-   "top10": 2438,
+   "demand": 38175,
+   "covered": 38175,
+   "top10": 2140,
    "clicks": 26,
    "page_coverage": 1.0,
-   "top10_coverage": 0.063,
+   "top10_coverage": 0.056,
    "click_coverage": 0.001
   },
-  "Системное ПО": {
-   "demand": 8174,
-   "covered": 8174,
+  "Средства разработки": {
+   "demand": 10821,
+   "covered": 10821,
    "top10": 0,
    "clicks": 0,
    "page_coverage": 1.0,
    "top10_coverage": 0.0,
    "click_coverage": 0.0
   },
-  "Средства разработки": {
-   "demand": 7185,
-   "covered": 7185,
+  "Системное ПО": {
+   "demand": 6806,
+   "covered": 6806,
+   "top10": 0,
+   "clicks": 0,
+   "page_coverage": 1.0,
+   "top10_coverage": 0.0,
+   "click_coverage": 0.0
+  },
+  "Звук, видео и медиа": {
+   "demand": 3836,
+   "covered": 3836,
    "top10": 0,
    "clicks": 0,
    "page_coverage": 1.0,
@@ -88,13 +117,13 @@
    "top10_coverage": 0.0,
    "click_coverage": 0.0
   },
-  "Звук, видео и медиа": {
-   "demand": 2829,
-   "covered": 2829,
-   "top10": 0,
+  "Доски и совместная работа": {
+   "demand": 2759,
+   "covered": 2759,
+   "top10": 780,
    "clicks": 0,
    "page_coverage": 1.0,
-   "top10_coverage": 0.0,
+   "top10_coverage": 0.283,
    "click_coverage": 0.0
   },
   "Разработка": {
@@ -104,15 +133,6 @@
    "clicks": 0,
    "page_coverage": 1.0,
    "top10_coverage": 0.0,
-   "click_coverage": 0.0
-  },
-  "Доски и совместная работа": {
-   "demand": 1733,
-   "covered": 1733,
-   "top10": 780,
-   "clicks": 0,
-   "page_coverage": 1.0,
-   "top10_coverage": 0.45,
    "click_coverage": 0.0
   },
   "Архитектура и BIM": {
@@ -135,18 +155,18 @@
   }
  },
  "tiers": {
-  "A": 36,
+  "A": 38,
   "B": 26,
-  "C": 63
+  "C": 61
  },
  "gaps_by_class": {
   "GAP-A": 3,
-  "GAP-B": 33,
+  "GAP-B": 35,
   "GAP-C": 3,
-  "GAP-D": 2,
+  "GAP-D": 3,
   "GAP-F": 2,
   "GAP-G": 3,
-  "GAP-H": 14
+  "GAP-H": 13
  },
  "uncovered_top": [
   {
@@ -208,65 +228,6 @@
  ],
  "opportunities": [
   {
-   "cluster": "google",
-   "vendor": "Google",
-   "category": "AI-сервисы",
-   "gap": "GAP-B",
-   "gap_title": "Страница есть, не индексируется",
-   "recommended_action": "техническое SEO",
-   "commercial_demand": 266704,
-   "commercial_phrases": 391,
-   "url": "/vendors/google",
-   "page_exists": true,
-   "indexed": false,
-   "best_position": null,
-   "impressions": 0,
-   "clicks": 0,
-   "ctr": null,
-   "trend": "stable",
-   "top_phrases": [
-    {
-     "phrase": "google pixel купить",
-     "frequency": 31598
-    },
-    {
-     "phrase": "google pro купить",
-     "frequency": 14242
-    },
-    {
-     "phrase": "google pixel pro купить",
-     "frequency": 13209
-    },
-    {
-     "phrase": "google не работает",
-     "frequency": 13018
-    },
-    {
-     "phrase": "купить google 10",
-     "frequency": 10390
-    }
-   ],
-   "subclusters": {
-    "покупка": 253510,
-    "прочее": 13018,
-    "цены и тарифы": 176
-   },
-   "step": "Разобраться, почему /vendors/google не индексируется",
-   "prompt": "Страница /vendors/google существует, но не в индексе. Проверь через ops-* workflow: код ответа, robots.txt, meta robots, canonical, наличие в sitemap.xml, статус в Яндекс.Вебмастере. Найди причину, устрани и запроси переобход через ops-yandex-recrawl. Контрольная дата 2026-08-31.",
-   "success": "страница в индексе к 2026-08-31",
-   "check_on": "2026-08-31",
-   "opportunity_score": 0.3825,
-   "components": {
-    "normalized_demand": 1.0,
-    "commercial_intent": 1.0,
-    "coverage_gap": 0.85,
-    "trend_factor": 1.0,
-    "confidence": 0.9,
-    "estimated_effort": 2.0
-   },
-   "confidence_note": "достаточная: кластер измерен несколькими фразами"
-  },
-  {
    "cluster": "anthropic",
    "vendor": "Anthropic",
    "category": "AI-сервисы",
@@ -315,9 +276,66 @@
    "prompt": "Страница /vendors/anthropic существует, но не в индексе. Проверь через ops-* workflow: код ответа, robots.txt, meta robots, canonical, наличие в sitemap.xml, статус в Яндекс.Вебмастере. Найди причину, устрани и запроси переобход через ops-yandex-recrawl. Контрольная дата 2026-08-31.",
    "success": "страница в индексе к 2026-08-31",
    "check_on": "2026-08-31",
-   "opportunity_score": 0.05077,
+   "opportunity_score": 0.2171,
    "components": {
-    "normalized_demand": 0.1021,
+    "normalized_demand": 0.4366,
+    "commercial_intent": 1.0,
+    "coverage_gap": 0.85,
+    "trend_factor": 1.3,
+    "confidence": 0.9,
+    "estimated_effort": 2.0
+   },
+   "confidence_note": "достаточная: кластер измерен несколькими фразами"
+  },
+  {
+   "cluster": "google",
+   "vendor": "Google",
+   "category": "AI-сервисы",
+   "gap": "GAP-B",
+   "gap_title": "Страница есть, не индексируется",
+   "recommended_action": "техническое SEO",
+   "commercial_demand": 19390,
+   "commercial_phrases": 132,
+   "url": "/vendors/google",
+   "page_exists": true,
+   "indexed": false,
+   "best_position": null,
+   "impressions": 0,
+   "clicks": 0,
+   "ctr": null,
+   "trend": "growing",
+   "top_phrases": [
+    {
+     "phrase": "gemini купить",
+     "frequency": 5300
+    },
+    {
+     "phrase": "купить аккаунт google",
+     "frequency": 2084
+    },
+    {
+     "phrase": "gemini pro купить",
+     "frequency": 1442
+    },
+    {
+     "phrase": "купить подписку gemini",
+     "frequency": 1336
+    },
+    {
+     "phrase": "google ai купить",
+     "frequency": 1035
+    }
+   ],
+   "subclusters": {
+    "покупка": 19390
+   },
+   "step": "Разобраться, почему /vendors/google не индексируется",
+   "prompt": "Страница /vendors/google существует, но не в индексе. Проверь через ops-* workflow: код ответа, robots.txt, meta robots, canonical, наличие в sitemap.xml, статус в Яндекс.Вебмастере. Найди причину, устрани и запроси переобход через ops-yandex-recrawl. Контрольная дата 2026-08-31.",
+   "success": "страница в индексе к 2026-08-31",
+   "check_on": "2026-08-31",
+   "opportunity_score": 0.1546,
+   "components": {
+    "normalized_demand": 0.3109,
     "commercial_intent": 1.0,
     "coverage_gap": 0.85,
     "trend_factor": 1.3,
@@ -375,9 +393,9 @@
    "prompt": "По «adobe купить» спрос 23 322 запросов в месяц, органика займёт месяцы. Подготовь расчёт платного канала: оценка ставки, прогноз стоимости обращения, месячный бюджет. Только расчёт — запуск рекламы и бюджет решает руководитель, рекламные кабинеты не трогать.",
    "success": "расчёт на столе у руководителя, решение о запуске за ним",
    "check_on": "2026-09-20",
-   "opportunity_score": 0.02098,
+   "opportunity_score": 0.08974,
    "components": {
-    "normalized_demand": 0.0874,
+    "normalized_demand": 0.3739,
     "commercial_intent": 1.0,
     "coverage_gap": 0.8,
     "trend_factor": 1.0,
@@ -432,9 +450,9 @@
    "prompt": "Создай посадочную страницу под кластер «оплата зарубежных сервисов». Ведущая фраза — «оплата зарубежных сервисов», измеренный покупательский спрос 15 947 запросов в месяц. Проверь по src/data/vendors.ts, что вендора действительно нет в каталоге, и по reports/seo/wordstat/decisions.json — что решение по нему не принято. Прежде чем заводить: подтверди, что вендор принимает оплату картой или через наш зарубежный счёт, иначе спрос в сделку не превратится. Сделай карточку вендора, перелинкуй с разделом назначения ПО, добавь в sitemap и запроси переобход через ops-yandex-recrawl. Заведи эксперимент в reports/seo/intelligence/seo-experiments.json с собственной датой старта и контрольной датой 2026-09-11.",
    "success": "страница в индексе Яндекса и показы по «оплата зарубежных сервисов» больше нуля к 2026-09-11",
    "check_on": "2026-09-11",
-   "opportunity_score": 0.01749,
+   "opportunity_score": 0.07479,
    "components": {
-    "normalized_demand": 0.0598,
+    "normalized_demand": 0.2557,
     "commercial_intent": 1.0,
     "coverage_gap": 1.0,
     "trend_factor": 1.3,
@@ -444,15 +462,15 @@
    "confidence_note": "достаточная: кластер измерен несколькими фразами"
   },
   {
-   "cluster": "autodesk",
-   "vendor": "Autodesk",
-   "category": "Дизайн и графика",
+   "cluster": "cursor",
+   "vendor": "Cursor",
+   "category": "Средства разработки",
    "gap": "GAP-B",
    "gap_title": "Страница есть, не индексируется",
    "recommended_action": "техническое SEO",
-   "commercial_demand": 7397,
-   "commercial_phrases": 63,
-   "url": "/vendors/autodesk",
+   "commercial_demand": 8374,
+   "commercial_phrases": 24,
+   "url": "/vendors/cursor",
    "page_exists": true,
    "indexed": false,
    "best_position": null,
@@ -462,39 +480,39 @@
    "trend": "growing",
    "top_phrases": [
     {
-     "phrase": "autodesk license",
-     "frequency": 1800
+     "phrase": "cursor подписка",
+     "frequency": 1949
     },
     {
-     "phrase": "лицензия autodesk",
-     "frequency": 1015
+     "phrase": "купить cursor",
+     "frequency": 1719
     },
     {
-     "phrase": "autodesk купить",
-     "frequency": 349
+     "phrase": "оплатить cursor",
+     "frequency": 669
     },
     {
-     "phrase": "autodesk license manager",
-     "frequency": 332
+     "phrase": "cursor в россии",
+     "frequency": 617
     },
     {
-     "phrase": "autodesk network license",
-     "frequency": 330
+     "phrase": "cursor купить подписку",
+     "frequency": 498
     }
    ],
    "subclusters": {
-    "цены и тарифы": 3450,
-    "прочее": 3232,
-    "покупка": 652,
-    "подписка и продление": 63
+    "покупка": 3521,
+    "подписка и продление": 2584,
+    "оплата": 1045,
+    "прочее": 798
    },
-   "step": "Разобраться, почему /vendors/autodesk не индексируется",
-   "prompt": "Страница /vendors/autodesk существует, но не в индексе. Проверь через ops-* workflow: код ответа, robots.txt, meta robots, canonical, наличие в sitemap.xml, статус в Яндекс.Вебмастере. Найди причину, устрани и запроси переобход через ops-yandex-recrawl. Контрольная дата 2026-08-31.",
+   "step": "Разобраться, почему /vendors/cursor не индексируется",
+   "prompt": "Страница /vendors/cursor существует, но не в индексе. Проверь через ops-* workflow: код ответа, robots.txt, meta robots, canonical, наличие в sitemap.xml, статус в Яндекс.Вебмастере. Найди причину, устрани и запроси переобход через ops-yandex-recrawl. Контрольная дата 2026-08-31.",
    "success": "страница в индексе к 2026-08-31",
    "check_on": "2026-08-31",
-   "opportunity_score": 0.01377,
+   "opportunity_score": 0.06678,
    "components": {
-    "normalized_demand": 0.0277,
+    "normalized_demand": 0.1343,
     "commercial_intent": 1.0,
     "coverage_gap": 0.85,
     "trend_factor": 1.3,
@@ -1071,15 +1089,15 @@
    ],
    "note": "Российские вендоры исключены: их лицензии продаются напрямую, услуга оплаты из-за рубежа к ним неприменима."
   },
-  "summary": "Мы видим 491 739 покупательских запросов в месяц по 139 направлениям каталога. Своя страница есть под 93% этого спроса, в поиске находится 8%, на первой странице — 1%. Без страницы остаётся 18 096 запросов в месяц — это направления, где спрос есть, а нас в выдаче нет.",
+  "summary": "Мы видим 247 069 покупательских запросов в месяц по 139 направлениям каталога. Своя страница есть под 86% этого спроса, в поиске находится 16%, на первой странице — 2%. Без страницы остаётся 18 096 запросов в месяц — это направления, где спрос есть, а нас в выдаче нет. Ещё 52 116 запросов в месяц не отнесены ни к нам, ни к чужому товару: это голые фразы омонимичных брендов (box — 30 187, zoom — 10 813, bubble купить — 5 732). В спрос и в решения об ассортименте они не входят.",
   "coverage": {
-   "page": 0.9284,
-   "indexed": 0.0814,
-   "top10": 0.0086
+   "page": 0.8578,
+   "indexed": 0.157,
+   "top10": 0.0204
   },
   "lead_opportunity": {
-   "cluster": "google",
-   "demand": 266704,
+   "cluster": "anthropic",
+   "demand": 27231,
    "action": "техническое SEO",
    "why": "Страница есть, не индексируется",
    "confidence": "достаточная: кластер измерен несколькими фразами"
