@@ -203,11 +203,32 @@ class TestMeasurementLimits(unittest.TestCase):
             for field in ("id", "title", "detail", "evidence", "rule"):
                 self.assertTrue(lim.get(field), f"{lim.get('id')}: пусто поле {field}")
 
-    def test_anl_001_is_an_open_gap(self):
-        """Починка целей Метрики не выложена — дату закрытия ставить нельзя."""
+    def test_anl_001_state_matches_its_consequences(self):
+        """Состояние записи о целях и её последствия обязаны совпадать.
+
+        Прежняя версия теста требовала, чтобы запись оставалась открытой:
+        на момент написания цели не были заведены. Такой тест живёт ровно до
+        дня починки, а потом падает именно тогда, когда всё стало хорошо, —
+        и его посылку приходится вспоминать заново. Проверяем не состояние,
+        а то, что состояние и его следствия не разъехались.
+
+        Открыта — обязана давать MEASUREMENT_GAP и нести инструкцию на день
+        закрытия. Закрыта — обязана нести дату границы в правиле, иначе
+        сравнение конверсий через неё никто не запретит.
+        """
         anl = next(l for l in self.q.load_measurement_limits() if l["id"] == "ANL-001")
-        self.assertIsNone(anl["resolved_on"])
-        self.assertIn(("MEASUREMENT_GAP", "ANL-001"), self._findings([anl]))
+        if anl["resolved_on"] is None:
+            self.assertIn(("MEASUREMENT_GAP", "ANL-001"), self._findings([anl]))
+            self.assertTrue(anl.get("on_resolve"))
+        else:
+            # Правило пишется для человека и потому датируется по-русски,
+            # а поле — в ISO. Годится любая из двух записей одной даты.
+            y, m, d = anl["resolved_on"].split("-")
+            self.assertTrue(
+                anl["resolved_on"] in anl["rule"] or f"{d}.{m}.{y}" in anl["rule"],
+                "закрытая запись обязана называть дату границы в правиле")
+            self.assertRegex(anl["evidence"], r"\d{4}-\d{2}-\d{2}|\d{2}\.\d{2}\.\d{4}",
+                             "закрытие обязано опираться на датированное доказательство")
 
     def test_open_limits_carry_closing_instructions(self):
         """Что делать в день закрытия — рядом с записью, а не в памяти сессии."""
