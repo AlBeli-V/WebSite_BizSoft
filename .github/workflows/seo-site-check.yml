@@ -25,16 +25,63 @@ jobs:
         with:
           ref: claude/biz-soft-rating-tracking-5rf03g
 
-      - name: Fetch homepage and grep analytics tags
+      - name: Verify live analytics tags
+        # Проверка счётчиков прода была и раньше, но её результат уходил в лог
+        # шага и терялся: ничего не сохранялось и ничто не падало. Это
+        # единственное место, где видно, что реально отдаёт прод, — поломка
+        # тега иначе обнаруживается только по исчезновению трафика в отчётах,
+        # то есть через несколько дней.
         run: |
-          curl -sSL --max-time 30 https://biz-soft.pro/ -o home.html
-          echo "== HTTP размер: $(wc -c < home.html) байт =="
-          echo "== GA4 (gtag) =="
-          grep -o 'gtag/js?id=[A-Z0-9-]*' home.html | sort -u || echo "gtag НЕ найден"
-          echo "== Яндекс.Метрика =="
-          grep -o 'metrika/tag.js?id=[0-9]*' home.html | sort -u || echo "метрика НЕ найдена"
-          echo "== title =="
-          grep -o '<title>[^<]*</title>' home.html | head -1
+          python3 - <<'PY'
+          import json, pathlib, re, subprocess, sys, datetime as dt
+
+          EXPECTED_METRIKA = {"110206070"}
+          EXPECTED_GA = {"G-V9BK2D1431"}
+
+          html = subprocess.run(
+              ["curl", "-sSL", "--max-time", "30", "https://biz-soft.pro/"],
+              capture_output=True, text=True).stdout
+          # Идентификатор Метрики склеивается в рантайме: в разметке стоит
+          # 'tag.js?id=' + metrikaId, а значение объявлено переменной выше.
+          # Проверка только по URL находила пустоту и молча сообщала, что
+          # счётчика нет, — на всех прогонах до 21.08.2026.
+          metrika = set(re.findall(r"metrika/tag\.js\?id=(\d+)", html))
+          metrika |= set(re.findall(r"metrikaId\s*=\s*[\"'](\d+)[\"']", html))
+          metrika |= set(re.findall(r"ym\(\s*(?:Number\()?\s*(\d{6,})", html))
+          ga = set(re.findall(r"gtag/js\?id=([A-Z0-9-]+)", html))
+          ga |= set(re.findall(r"gaId\s*=\s*[\"'](G-[A-Z0-9]+)[\"']", html))
+          loaders = len(re.findall(r"metrika/tag\.js", html))
+          title = (re.search(r"<title>([^<]*)</title>", html) or [None, ""])[1]
+
+          problems = []
+          if metrika != EXPECTED_METRIKA:
+              problems.append(f"Метрика: на проде {sorted(metrika) or 'нет'}, "
+                              f"ожидается {sorted(EXPECTED_METRIKA)}")
+          if ga != EXPECTED_GA:
+              problems.append(f"GA4: на проде {sorted(ga) or 'нет'}, "
+                              f"ожидается {sorted(EXPECTED_GA)}")
+          if loaders > 1:
+              problems.append(f"Метрика подключена {loaders} раза")
+
+          out = {
+              "checked_at": dt.datetime.now(dt.timezone.utc).isoformat(timespec="seconds"),
+              "html_bytes": len(html),
+              "title": title,
+              "metrika_ids": sorted(metrika),
+              "metrika_loaders": loaders,
+              "ga_ids": sorted(ga),
+              "expected": {"metrika": sorted(EXPECTED_METRIKA), "ga": sorted(EXPECTED_GA)},
+              "ok": not problems,
+              "problems": problems,
+          }
+          path = pathlib.Path("reports/seo/intelligence/tags-check.json")
+          path.parent.mkdir(parents=True, exist_ok=True)
+          path.write_text(json.dumps(out, ensure_ascii=False, indent=1), encoding="utf-8")
+          print(json.dumps(out, ensure_ascii=False, indent=1))
+          if problems:
+              print("::error::" + "; ".join(problems))
+              sys.exit(1)
+          PY
 
       - name: Check experiment pages and store exposure
         run: |
@@ -78,7 +125,7 @@ jobs:
         run: |
           git config user.name "Claude"
           git config user.email "noreply@anthropic.com"
-          git add reports/seo/intelligence/site-check-*.json
+          git add reports/seo/intelligence/site-check-*.json reports/seo/intelligence/tags-check.json
           if git diff --cached --quiet; then
             echo "Изменений нет"
           else
