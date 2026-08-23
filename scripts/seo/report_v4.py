@@ -366,9 +366,11 @@ def web_url(date: str) -> tuple[str, bool]:
     письма не открывается — на этом ссылка и ломалась.
     """
     if PUBLIC_REPORT_BASE_URL:
-        # Слэш в конце обязателен: nginx отдаёт index.html каталога только по
-        # адресу со слэшем, без него будет 404.
-        return f"{PUBLIC_REPORT_BASE_URL}/daily/{date}/", True
+        # Прямо на index.html, а не на каталог: на проде действует общесайтовый
+        # URL-стандарт «301 со слэша на без-слэша», и адрес каталога зацикливается
+        # между этим редиректом и nginx-овым «каталог → слэш». Явный файл не
+        # редиректится вовсе.
+        return f"{PUBLIC_REPORT_BASE_URL}/daily/{date}/index.html", True
     md = pathlib.Path(f"reports/seo/public/daily/{date}/README.md")
     if md.exists():
         return f"{REPO}/blob/{BRANCH}/reports/seo/public/daily/{date}/README.md", True
