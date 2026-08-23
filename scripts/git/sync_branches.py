@@ -107,7 +107,15 @@ def try_merge(branch: str, apply: bool) -> tuple[str, str]:
     try:
         git("push", "origin", f"HEAD:refs/heads/{branch}")
     except RuntimeError as e:
-        return "error", str(e)[:200]
+        msg = str(e)
+        # GITHUB_TOKEN в Actions в принципе не может отправлять правки
+        # .github/workflows/** — GitHub отклоняет такой push у любого
+        # App-токена. Это не поломка механизма, а работа для человека
+        # (влить main в ветку локально), поэтому — в конфликты, не в ошибки:
+        # иначе прогон краснеет каждый час, пока жива хоть одна такая ветка.
+        if "refusing to allow a GitHub App" in msg or "workflows` permission" in msg:
+            return "conflict", "правки .github/workflows — токен Actions отправить не может, нужен человек"
+        return "error", msg[:200]
     return "merged", "проверено и отправлено"
 
 
