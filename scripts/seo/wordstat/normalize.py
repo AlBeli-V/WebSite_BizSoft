@@ -13,6 +13,8 @@
 
 from __future__ import annotations
 
+import json
+import pathlib
 import re
 import unicodedata
 
@@ -44,8 +46,17 @@ INFORMATIONAL = {
 BRAND = ("bizsoft", "биз софт", "бизсофт", "biz-soft", "биз-софт")
 
 # Проблемно-ориентированные формулировки: человек описывает ситуацию, а не товар.
-PROBLEM = ("не работает", "заблокирова", "не принимает", "отказ", "санкц",
-           "из россии", "в россии", "перестал", "не проходит", "не оплачива")
+#
+# Разведены на две группы. Первая сама по себе означает «не могу заплатить
+# зарубежному сервису» — это наш клиент. Вторая описывает поломку вообще и
+# коммерческого намерения не несёт: «google не работает» (13 018 показов на
+# замере 21.08.2026) попадало в коммерческий спрос только из-за неё.
+PROBLEM_COMMERCIAL = ("заблокирова", "не принимает", "отказ", "санкц",
+                      "из россии", "в россии", "не проходит", "не оплачива",
+                      "не работает оплата", "не могу оплатить")
+PROBLEM_NEUTRAL = ("не работает", "перестал", "не открывается", "не запускается",
+                   "не грузится", "ошибка")
+PROBLEM = PROBLEM_COMMERCIAL + PROBLEM_NEUTRAL
 
 
 def normalize(phrase: str) -> str:
@@ -79,8 +90,13 @@ def intent_scores(phrase: str) -> tuple[float, float]:
     low = normalize(phrase)
     commercial = max((v for k, v in COMMERCIAL.items() if k in low), default=0.0)
     informational = max((v for k, v in INFORMATIONAL.items() if k in low), default=0.0)
-    if any(p in low for p in PROBLEM):
+    if any(p in low for p in PROBLEM_COMMERCIAL):
         commercial = max(commercial, 0.6)
+    elif any(p in low for p in PROBLEM_NEUTRAL):
+        # «не работает» само по себе — жалоба, а не покупка. Коммерческим запрос
+        # становится, только если рядом есть признак оплаты или доступа из РФ,
+        # и тогда сработала бы ветка выше.
+        informational = max(informational, 0.6)
     return round(commercial, 3), round(informational, 3)
 
 
@@ -148,6 +164,12 @@ OUT_OF_SCOPE = (
 # приоритетов. Для этих брендов недостаточно, что фраза содержит имя: нужен
 # признак софта или подписки, иначе фраза не засчитывается.
 AMBIGUOUS_BRANDS = {
+    # «google» — не столько омонимичный бренд, сколько зонтик над телефонами,
+    # картами, Play и поиском. На замере 21.08.2026 кластер давал 252 950 из
+    # 490 638 показов «коммерческого спроса», и 175 387 внутри него — покупка
+    # смартфонов Pixel. Товар BIZSoft здесь — Workspace и подписки, а не
+    # техника, поэтому имени бренда для попадания в спрос недостаточно.
+    "google",
     "box", "linear", "cursor", "zoom", "framer", "notion", "arc", "bolt",
     "craft", "loom", "origin", "pitch", "frame", "gamma", "runway", "flux",
     "luma", "canvas", "sketch", "unity", "spark", "wave", "vector",
@@ -161,12 +183,62 @@ AMBIGUOUS_BRANDS = {
 }
 
 # Признаки того, что запрос всё-таки про программу или подписку.
-SOFTWARE_MARKERS = (
-    "подписк", "лицензи", "тариф", "аккаунт", "план", "ключ", "активаци",
-    "продлen", "продлени", "pro", "premium", "plus", "business", "enterprise",
-    "team", "cloud", "облак", "ai", "api", "app", "софт", "программ",
-    "для юридических", "юрлиц", "юр лиц", "корпоратив", "организаци",
+#
+# Маркеры разведены по способу сопоставления, и это не косметика. Прежде весь
+# список сравнивался подстрокой, поэтому «ai» находилось внутри «air» — и
+# кроссовки Nike Air Zoom попадали в спрос BIZSoft, тогда как «zoom купить»
+# (7 960 показов/мес) из него выбрасывалось. На замере 21.08.2026 таких фраз
+# было 102 суммарной частотностью 19 868/мес: «google air купить»,
+# «google fitbit air купить», «nike air zoom купить», а также носители
+# подстроки — hyundai, chair, hair, paint, gmail.
+#
+# Короткие маркеры сравниваются по целому слову: внутри другого слова они
+# ничего не значат. Длинные — подстрокой, ради словоформ («подписку»,
+# «лицензии»), где ложное срабатывание практически невозможно.
+SOFTWARE_MARKERS_WORD = (
+    "pro", "plus", "premium", "business", "enterprise", "team", "cloud",
+    "ai", "api", "app", "план", "ключ", "тариф", "тарифы", "аккаунт",
+    "seat", "seats", "workspace", "suite", "saas",
 )
+SOFTWARE_MARKERS_SUB = (
+    "подписк", "лицензи", "активаци", "продлени", "продлить", "облак",
+    "софт", "программ", "для юридических", "юрлиц", "юр лиц", "корпоратив",
+    "организаци", "рабочих мест",
+)
+SOFTWARE_MARKERS = SOFTWARE_MARKERS_WORD + SOFTWARE_MARKERS_SUB
+
+# Слова, которые допустимы рядом с именем омонимичного бренда: они описывают
+# сделку, а не другой товар. Фраза «бренд + только эти слова» относится к
+# бренду по построению — постороннему товару в ней просто нет места.
+DEAL_WORDS = {
+    "купить", "покупка", "покупку", "заказать", "заказ", "приобрести",
+    "цена", "цены", "цену", "стоимость", "прайс", "оплата", "оплатить",
+    "продлить", "продление", "лицензия", "лицензию", "подписка", "подписку",
+    "тариф", "тарифы", "счет", "счёт", "договор", "безнал",
+    "россия", "россии", "рф", "москва", "юрлицо", "юрлица", "компании",
+    "официально", "официальный", "сайт", "стоит", "сколько",
+}
+
+# Имена посторонних брендов, встречающиеся рядом с омонимичными: их присутствие
+# однозначно выводит фразу из области BIZSoft независимо от прочих признаков.
+FOREIGN_BRANDS = (
+    "nike", "adidas", "puma", "reebok", "asics", "newbalance", "new balance",
+    "harley", "davidson", "hyundai", "honda", "xiaomi", "samsung", "huawei",
+    "la rive", "pegasus", "vapormax", "zoomx",
+)
+
+# Линейки устройств: BIZSoft не продаёт технику ни при каких условиях.
+# «google pixel купить» — 31 598 показов/мес, и это телефон, а не лицензия.
+DEVICE_LINES = (
+    "pixel", "fitbit", "galaxy", "iphone", "ipad", "macbook", "airpods",
+    "watch se", "nest hub", "chromecast", "shield tv", "buds", "наушник",
+)
+
+# Бренды с собственной линейкой техники: только у них «pro» и «xl» рядом с
+# именем означают модель устройства. У Zoom и Notion «pro» — это тариф,
+# поэтому правило моделей к ним не применяется.
+HARDWARE_BRANDS = {"google", "samsung", "xiaomi", "huawei", "apple", "honor"}
+DEVICE_SUFFIXES = {"pro", "max", "xl", "air", "mini", "ultra", "se", "fold", "flip"}
 
 
 # Служебные слова шаблонов seed-фраз: их отбрасывают, чтобы найти имя бренда.
@@ -177,11 +249,48 @@ SEED_TEMPLATE_WORDS = {
 }
 
 
+def has_software_marker(phrase: str) -> bool:
+    """Есть ли в фразе признак программы или подписки.
+
+    Короткие маркеры ищутся по целому слову, длинные — подстрокой. Разделение
+    существует ради единственного случая, который стоил дороже всех: «ai»
+    внутри «air».
+    """
+    low = normalize(phrase)
+    words = set(_phrase_words(phrase))
+    if words & set(SOFTWARE_MARKERS_WORD):
+        return True
+    return any(m in low for m in SOFTWARE_MARKERS_SUB)
+
+
+def looks_like_device_model(phrase: str, brand_words: list[str]) -> bool:
+    """Похожа ли фраза на название модели устройства, а не на лицензию.
+
+    Применяется только к брендам с собственной линейкой техники: у остальных
+    «pro» и «plus» — это тарифы, а не телефоны. Для Google разница
+    принципиальна: «google workspace business» — наш товар, «google 10 pro» —
+    смартфон, и различает их только эта проверка.
+    """
+    if not brand_words or brand_words[0] not in HARDWARE_BRANDS:
+        return False
+    rest = [w for w in _phrase_words(phrase)
+            if w not in brand_words and w not in DEAL_WORDS and w not in STOPWORDS]
+    if not rest:
+        return False
+    return all(w in DEVICE_SUFFIXES or w.isdigit() for w in rest)
+
+
 def relevant_to_seed(phrase: str, seed: str | None) -> bool:
     """Относится ли фраза к тому вендору, ради которого делался запрос.
 
     Правило применяется только к брендам-омонимам. Для остальных имя бренда
     в запросе — достаточная привязка.
+
+    Прежняя версия требовала одного: признака софта. Этого мало в обе стороны.
+    «nike air zoom купить» признак имело (через «ai» в «air») и попадало в
+    спрос; «zoom купить» признака не имело и из спроса выпадало, хотя Zoom —
+    вендор с отдельным лендингом на сайте. Поэтому проверок теперь четыре, и
+    они идут от самой надёжной к самой мягкой.
     """
     if not seed:
         return True
@@ -192,8 +301,79 @@ def relevant_to_seed(phrase: str, seed: str | None) -> bool:
     brand = " ".join(words)
     if brand not in AMBIGUOUS_BRANDS:
         return True
+
+    return brand_attribution(phrase, words) == "confident"
+
+
+# Замер доминирования омонимичных брендов: данные, а не код.
+# Файл создаёт scripts/seo/wordstat/brand_dominance.py.
+_DOMINANCE_PATH = pathlib.Path("reports/seo/wordstat/brand-dominance.json")
+_DOMINANT_CACHE: set[str] | None = None
+
+
+def brand_dominant() -> set[str]:
+    """Бренды, которым голую фразу «<бренд> купить» засчитывать можно.
+
+    При отсутствии замера множество пустое: без доказательства принадлежности
+    фраза не засчитывается никому. Строгость по умолчанию здесь дешевле
+    ошибки — завышенный спрос уводит приоритеты, заниженный лишь оставляет
+    вендора в списке неатрибутированных, где его видно.
+    """
+    global _DOMINANT_CACHE
+    if _DOMINANT_CACHE is None:
+        try:
+            data = json.loads(_DOMINANCE_PATH.read_text(encoding="utf-8"))
+            _DOMINANT_CACHE = set(data.get("dominant") or [])
+        except (OSError, ValueError):
+            _DOMINANT_CACHE = set()
+    return _DOMINANT_CACHE
+
+
+def brand_attribution(phrase: str, brand_words: list[str]) -> str:
+    """confident | ambiguous | foreign — кому принадлежит фраза омонима.
+
+    Три состояния вместо двух появились потому, что двух не хватает. «zoom
+    купить» — это не «наш запрос» и не «чужой запрос»: 7 960 показов в месяц
+    делят между собой видеосвязь и кроссовки Nike Air Zoom, и разделить их
+    данными Вордстата нельзя. Записать такую фразу в спрос — завысить его;
+    выбросить — потерять головной запрос вендора с собственным лендингом.
+    Поэтому она остаётся в универсуме со статусом ambiguous: в коммерческий
+    спрос не входит, в решения об ассортименте не входит, но видна в отчёте
+    отдельной строкой.
+    """
     low = normalize(phrase)
-    return any(m in low for m in SOFTWARE_MARKERS)
+    # 1. Чужой бренд рядом — решает однозначно и раньше всех прочих признаков.
+    if any(b in low for b in FOREIGN_BRANDS):
+        return "foreign"
+    # 2. Линейка техники: лицензий там нет по определению.
+    if any(d in low for d in DEVICE_LINES):
+        return "foreign"
+    # 3. Название модели устройства («google 10 pro») у брендов с техникой.
+    if looks_like_device_model(phrase, brand_words):
+        return "foreign"
+    # 4. Признак софта или подписки — принадлежность доказана.
+    if has_software_marker(phrase):
+        return "confident"
+    # 5. Бренд — главное слово фразы: кроме имени в ней только слова о сделке.
+    rest = [w for w in _phrase_words(phrase)
+            if w not in brand_words and w not in DEAL_WORDS and w not in STOPWORDS]
+    if rest:
+        return "foreign"
+    # Голая фраза бренда. Засчитываем только измеренно доминирующим именам.
+    return "confident" if (brand_words and brand_words[0] in brand_dominant()) else "ambiguous"
+
+
+def attribution_of(phrase: str, seed: str | None) -> str:
+    """Статус принадлежности фразы: confident | ambiguous | foreign.
+
+    Для неомонимичных брендов имя в запросе — достаточная привязка.
+    """
+    if not seed:
+        return "confident"
+    words = [w for w in _phrase_words(seed) if w not in SEED_TEMPLATE_WORDS]
+    if " ".join(words) not in AMBIGUOUS_BRANDS:
+        return "confident"
+    return brand_attribution(phrase, words)
 
 
 # Физические товары и игры: у брендов ПО есть тёзки в обуви, парфюмерии и
@@ -218,6 +398,12 @@ def in_scope(phrase: str) -> bool:
     if "карт" in low and any(k in low for k in ("оплат", "виртуальн", "выпуст", "банк")):
         return False
     if any(k in low for k in PHYSICAL_GOODS):
+        return False
+    # Линейка техники выводит фразу из области независимо от бренда: BIZSoft
+    # не продаёт устройства ни под каким именем.
+    if any(k in low for k in DEVICE_LINES):
+        return False
+    if any(b in low for b in FOREIGN_BRANDS):
         return False
     return not any(k in low for k in OUT_OF_SCOPE)
 

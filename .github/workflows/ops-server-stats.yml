@@ -6,11 +6,6 @@ name: ops-server-stats
 
 on:
   workflow_dispatch:
-  # workflow_dispatch недоступен для веток вне default, поэтому дополнительно
-  # запускаемся по пушу изменения самого файла на рабочей ветке диагностики.
-  push:
-    branches: ['claude/beget-logs-load-analysis-ovbvbc']
-    paths: ['.github/workflows/ops-server-stats.yml']
 
 permissions:
   contents: read
@@ -20,6 +15,12 @@ jobs:
   stats:
     runs-on: ubuntu-latest
     steps:
+      - name: Guard - only default branch
+        run: |
+          if [ "${{ github.ref_name }}" != "main" ]; then
+            echo "Запуск разрешён только с ветки main. Текущий ref: ${{ github.ref_name }}"
+            exit 1
+          fi
       - name: Collect server stats over SSH
         id: probe
         uses: appleboy/ssh-action@v1

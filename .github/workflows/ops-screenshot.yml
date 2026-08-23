@@ -29,6 +29,13 @@ jobs:
           DSF: ${{ inputs.dsf }}
         run: |
           W="${WIN%x*}"; H="${WIN#*x}"
+          # Chrome исполняет JS, поэтому снимок страницы — это полноценный
+          # визит: page_view в обеих системах и автоцель просмотра лендинга.
+          # При дневном трафике около семи визитов один служебный снимок даёт
+          # заметную долю. Домены счётчиков блокируются на уровне резолвера,
+          # чтобы скриншот не попадал в отчёты.
+          echo "127.0.0.1 mc.yandex.ru" | sudo tee -a /etc/hosts >/dev/null
+          echo "127.0.0.1 www.googletagmanager.com" | sudo tee -a /etc/hosts >/dev/null
           google-chrome --headless=new --no-sandbox --disable-gpu \
             --window-size="$W,$H" --force-device-scale-factor="$DSF" \
             --virtual-time-budget=15000 --hide-scrollbars \
