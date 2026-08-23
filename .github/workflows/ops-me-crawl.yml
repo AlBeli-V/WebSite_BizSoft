@@ -68,6 +68,12 @@ jobs:
           TARGET: ${{ inputs.branch }}
         run: |
           set -e
+          # Ветка назначения приходит из поля ввода, а main не защищена
+          # тарифом: force-push сюда перезаписал бы историю всего проекта.
+          if [ "$TARGET" = "main" ]; then
+            echo "Запись в main из этого workflow запрещена — укажите рабочую ветку."
+            exit 1
+          fi
           git config user.name 'github-actions[bot]'
           git config user.email 'github-actions[bot]@users.noreply.github.com'
           git fetch origin "$TARGET" || true
@@ -75,7 +81,7 @@ jobs:
           git add -A data/sources/manageengine
           git commit -m "me-crawl: снимки магазина ManageEngine (${{ inputs.stage }}, окно ${{ inputs.offset }}+${{ inputs.limit }})" || {
             echo 'нечего коммитить'; exit 0; }
-          git push -u origin "$TARGET" --force
+          git push -u origin "$TARGET" --force-with-lease
           echo "снимки в ветке $TARGET"
 
       - name: Post summary to issue
