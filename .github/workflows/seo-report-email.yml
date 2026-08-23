@@ -1,5 +1,5 @@
 # Отправка ежедневного письма BIZSoft Growth Intelligence (V4) на почту
-# после пуша в ветку мониторинга. Отправитель — ящик hello@biz-soft.pro
+# после пуша отчёта в ветку-хранилище seo-data. Отправитель — ящик hello@biz-soft.pro
 # (SMTP reg.ru, 465/SSL), пароль — repo-секрет SMTP_PASS (тот же, что в ops-mail).
 # Ручной запуск: workflow_dispatch (шлёт последний по дате отчёт).
 
@@ -8,7 +8,7 @@ name: seo-report-email
 on:
   push:
     branches:
-      - claude/biz-soft-rating-tracking-5rf03g
+      - seo-data
     paths:
       - "reports/seo/intelligence/*-v4-email.html"
       - "reports/seo/intelligence/*-executive-email.html"
@@ -18,13 +18,37 @@ on:
       - ".github/workflows/seo-report-email.yml"
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   send:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: seo-data
+
+      # Одно письмо на одну дату отчёта. Повторный push тех же файлов (гонка
+      # прогонов, ручной перезапуск) без этой защиты отправлял то же письмо
+      # ещё раз. Ручной workflow_dispatch маркер игнорирует — явная
+      # переотправка остаётся возможной.
+      - name: Skip if already mailed
+        id: guard
+        run: |
+          latest=$(ls reports/seo/intelligence/*-v4-email.html 2>/dev/null | sort | tail -1)
+          date=$(basename "$latest" | sed 's/-v4-email.html//')
+          mailed=$(cat reports/seo/intelligence/last-mailed.txt 2>/dev/null || echo "")
+          echo "date=$date" >> "$GITHUB_OUTPUT"
+          if [ "${{ github.event_name }}" = "push" ] && [ -n "$date" ] && [ "$date" = "$mailed" ]; then
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+            echo "Письмо за $date уже отправлялось — пропуск."
+          else
+            echo "skip=false" >> "$GITHUB_OUTPUT"
+          fi
 
       - name: Send latest SEO report
+        if: steps.guard.outputs.skip != 'true'
         env:
           SMTP_HOST: mail.hosting.reg.ru
           SMTP_PORT: "465"
@@ -107,3 +131,18 @@ jobs:
                   sm.send_message(msg)
           print(f'Отчёт {path} отправлен на {os.environ["MAIL_TO"]}')
           PY
+
+      - name: Record mailed date
+        if: steps.guard.outputs.skip != 'true' && steps.guard.outputs.date != ''
+        run: |
+          git config user.name "Claude"
+          git config user.email "noreply@anthropic.com"
+          echo "${{ steps.guard.outputs.date }}" > reports/seo/intelligence/last-mailed.txt
+          git add reports/seo/intelligence/last-mailed.txt
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "Письмо за ${{ steps.guard.outputs.date }} отправлено"
+          for i in 1 2 3; do
+            git pull --rebase origin seo-data && git push origin HEAD:seo-data && exit 0
+            sleep $((i * 5))
+          done
+          echo "::warning::Маркер отправки не записан — возможна переотправка при следующем пуше."
