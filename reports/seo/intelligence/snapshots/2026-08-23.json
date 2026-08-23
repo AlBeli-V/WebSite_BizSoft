@@ -1,0 +1,3720 @@
+{
+ "schema_version": "2.1.0",
+ "report_date": "2026-08-23",
+ "generated_at": "2026-08-23T14:05:20+00:00",
+ "reporting_timezone": "Europe/Moscow (UTC+3)",
+ "declared_goals": [
+  "add_to_cart",
+  "begin_checkout",
+  "click_email",
+  "click_messenger",
+  "click_phone",
+  "company_autofill",
+  "form_start",
+  "lead_error",
+  "lead_sent",
+  "quote_error",
+  "quote_pdf",
+  "remove_from_cart",
+  "search_no_results",
+  "search_used",
+  "view_cart",
+  "view_product",
+  "view_solution",
+  "view_vendor_landing"
+ ],
+ "goal_levels": {
+  "lead_sent": "lead",
+  "quote_pdf": "lead",
+  "click_phone": "lead",
+  "click_email": "lead",
+  "click_messenger": "lead",
+  "add_to_cart": "engagement",
+  "remove_from_cart": "engagement",
+  "view_cart": "engagement",
+  "begin_checkout": "engagement",
+  "form_start": "engagement",
+  "company_autofill": "engagement",
+  "view_product": "engagement",
+  "view_vendor_landing": "engagement",
+  "view_solution": "engagement",
+  "search_used": "engagement",
+  "search_no_results": "engagement",
+  "lead_error": "engagement",
+  "quote_error": "engagement"
+ },
+ "thresholds": {
+  "low_impressions": 50,
+  "low_visits": 20,
+  "low_conversions": 5,
+  "top_position": 10.0,
+  "reconciliation_ratio": 2.0
+ },
+ "yandex": {
+  "available": true,
+  "source": {
+   "source_name": "yandex_webmaster",
+   "collected_at": "2026-08-23",
+   "latest_event_date": "2026-08-21",
+   "current_period_start": "2026-08-09",
+   "current_period_end": "2026-08-21",
+   "current_period_days": 13,
+   "comparison_period_start": "2026-08-08",
+   "comparison_period_end": "2026-08-20",
+   "comparison_period_days": 13,
+   "filters": {
+    "scope": "100 из 711 запросов (API popular queries, постраничный забор)",
+    "region": "не задан в запросе",
+    "device": "все"
+   },
+   "status": "ok",
+   "notes": "Клики/показы относятся к выборке топ-100 запросов, а не ко всему сайту."
+  },
+  "entities": [
+   {
+    "search_engine": "yandex",
+    "entity_type": "query",
+    "entity_id": "оплата пакета depositphotos в россии",
+    "impressions": 37,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 4.86,
+    "branded": false,
+    "intent": "commercial",
+    "sample_size": 37,
+    "confidence": "low"
+   },
+   {
+    "search_engine": "yandex",
+    "entity_type": "query",
+    "entity_id": "оплата depositphotos для юридических лиц из россии",
+    "impressions": 37,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 2.92,
+    "branded": false,
+    "intent": "commercial",
+    "sample_size": 37,
+    "confidence": "low"
+   },
+   {
+    "search_engine": "yandex",
+    "entity_type": "query",
+    "entity_id": "оплата coreldraw по счету из россии",
+    "impressions": 33,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 5.64,
+    "branded": false,
+    "intent": "commercial",
+    "sample_size": 33,
+    "confidence": "low"
+   },
+   {
+    "search_engine": "yandex",
+    "entity_type": "query",
+    "entity_id": "оплата coreldraw для юридических лиц из россии",
+    "impressions": 32,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 4.31,
+    "branded": false,
+    "intent": "commercial",
+    "sample_size": 32,
+    "confidence": "low"
+   },
+   {
+    "search_engine": "yandex",
+    "entity_type": "query",
+    "entity_id": "оплата canva для юридических лиц из россии",
+    "impressions": 31,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 2.68,
+    "branded": false,
+    "intent": "commercial",
+    "sample_size": 31,
+    "confidence": "low"
+   },
+   {
+    "search_engine": "yandex",
+    "entity_type": "query",
+    "entity_id": "как оплатить тариф depositphotos из россии",
+    "impressions": 29,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 9.0,
+    "branded": false,
+    "intent": "commercial",
+    "sample_size": 29,
+    "confidence": "low"
+   },
+   {
+    "search_engine": "yandex",
+    "entity_type": "query",
+    "entity_id": "marmoset toolbag 5",
+    "impressions": 28,
+    "clicks": 1,
+    "ctr": 0.03571428571428571,
+    "average_position": 9.68,
+    "branded": false,
+    "intent": "unknown",
+    "sample_size": 28,
+    "confidence": "low"
+   },
+   {
+    "search_engine": "yandex",
+    "entity_type": "query",
+    "entity_id": "рекрафт тарифы",
+    "impressions": 28,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 6.96,
+    "branded": false,
+    "intent": "commercial",
+    "sample_size": 28,
+    "confidence": "low"
+   },
+   {
+    "search_engine": "yandex",
+    "entity_type": "query",
+    "entity_id": "как оплатить depositphotos в рублях",
+    "impressions": 27,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 6.81,
+    "branded": false,
+    "intent": "commercial",
+    "sample_size": 27,
+    "confidence": "low"
+   },
+   {
+    "search_engine": "yandex",
+    "entity_type": "query",
+    "entity_id": "дешево оплатить depositphotos из россии",
+    "impressions": 24,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 10.42,
+    "branded": false,
+    "intent": "commercial",
+    "sample_size": 24,
+    "confidence": "low"
+   },
+   {
+    "search_engine": "yandex",
+    "entity_type": "query",
+    "entity_id": "heygen купить",
+    "impressions": 24,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 10.96,
+    "branded": false,
+    "intent": "commercial",
+    "sample_size": 24,
+    "confidence": "low"
+   },
+   {
+    "search_engine": "yandex",
+    "entity_type": "query",
+    "entity_id": "тарифы recraft",
+    "impressions": 24,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 8.0,
+    "branded": false,
+    "intent": "commercial",
+    "sample_size": 24,
+    "confidence": "low"
+   },
+   {
+    "search_engine": "yandex",
+    "entity_type": "query",
+    "entity_id": "недорого оплатить подписку depositphotos",
+    "impressions": 23,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 5.78,
+    "branded": false,
+    "intent": "commercial",
+    "sample_size": 23,
+    "confidence": "low"
+   },
+   {
+    "search_engine": "yandex",
+    "entity_type": "query",
+    "entity_id": "как купить recraft без зарубежной карты",
+    "impressions": 21,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 6.43,
+    "branded": false,
+    "intent": "commercial",
+    "sample_size": 21,
+    "confidence": "low"
+   },
+   {
+    "search_engine": "yandex",
+    "entity_type": "query",
+    "entity_id": "как оплатить пакет depositphotos из россии",
+    "impressions": 21,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 8.57,
+    "branded": false,
+    "intent": "commercial",
+    "sample_size": 21,
+    "confidence": "low"
+   },
+   {
+    "search_engine": "yandex",
+    "entity_type": "query",
+    "entity_id": "оплатить подписку depositphotos в россии",
+    "impressions": 20,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 9.05,
+    "branded": false,
+    "intent": "commercial",
+    "sample_size": 20,
+    "confidence": "low"
+   },
+   {
+    "search_engine": "yandex",
+    "entity_type": "query",
+    "entity_id": "recraft годовая подписка",
+    "impressions": 20,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 8.8,
+    "branded": false,
+    "intent": "commercial",
+    "sample_size": 20,
+    "confidence": "low"
+   },
+   {
+    "search_engine": "yandex",
+    "entity_type": "query",
+    "entity_id": "runway тарифы",
+    "impressions": 20,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 8.1,
+    "branded": false,
+    "intent": "commercial",
+    "sample_size": 20,
+    "confidence": "low"
+   },
+   {
+    "search_engine": "yandex",
+    "entity_type": "query",
+    "entity_id": "оплата depositphotos по счету из россии",
+    "impressions": 20,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 9.1,
+    "branded": false,
+    "intent": "commercial",
+    "sample_size": 20,
+    "confidence": "low"
+   },
+   {
+    "search_engine": "yandex",
+    "entity_type": "query",
+    "entity_id": "как оплатить тариф coreldraw из россии",
+    "impressions": 18,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 10.0,
+    "branded": false,
+    "intent": "commercial",
+    "sample_size": 18,
+    "confidence": "low"
+   },
+   {
+    "search_engine": "yandex",
+    "entity_type": "query",
+    "entity_id": "как оплатить depositphotos в россии",
+    "impressions": 17,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 8.29,
+    "branded": false,
+    "intent": "commercial",
+    "sample_size": 17,
+    "confidence": "low"
+   },
+   {
+    "search_engine": "yandex",
+    "entity_type": "query",
+    "entity_id": "heygen тарифы",
+    "impressions": 16,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 7.69,
+    "branded": false,
+    "intent": "commercial",
+    "sample_size": 16,
+    "confidence": "low"
+   },
+   {
+    "search_engine": "yandex",
+    "entity_type": "query",
+    "entity_id": "оплата depositphotos в рублях",
+    "impressions": 15,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 6.07,
+    "branded": false,
+    "intent": "commercial",
+    "sample_size": 15,
+    "confidence": "low"
+   },
+   {
+    "search_engine": "yandex",
+    "entity_type": "query",
+    "entity_id": "купить recraft www.klerk.ru",
+    "impressions": 15,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 6.33,
+    "branded": false,
+    "intent": "commercial",
+    "sample_size": 15,
+    "confidence": "low"
+   },
+   {
+    "search_engine": "yandex",
+    "entity_type": "query",
+    "entity_id": "recraft тарифы",
+    "impressions": 14,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 8.07,
+    "branded": false,
+    "intent": "commercial",
+    "sample_size": 14,
+    "confidence": "low"
+   },
+   {
+    "search_engine": "yandex",
+    "entity_type": "query",
+    "entity_id": "купить кредиты хейген",
+    "impressions": 14,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 6.43,
+    "branded": false,
+    "intent": "commercial",
+    "sample_size": 14,
+    "confidence": "low"
+   },
+   {
+    "search_engine": "yandex",
+    "entity_type": "query",
+    "entity_id": "хейген купить",
+    "impressions": 12,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 11.08,
+    "branded": false,
+    "intent": "commercial",
+    "sample_size": 12,
+    "confidence": "low"
+   },
+   {
+    "search_engine": "yandex",
+    "entity_type": "query",
+    "entity_id": "depositphotos как оплатить в россии",
+    "impressions": 12,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 8.25,
+    "branded": false,
+    "intent": "commercial",
+    "sample_size": 12,
+    "confidence": "low"
+   },
+   {
+    "search_engine": "yandex",
+    "entity_type": "query",
+    "entity_id": "оплата depositphotos из россии",
+    "impressions": 12,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 8.42,
+    "branded": false,
+    "intent": "commercial",
+    "sample_size": 12,
+    "confidence": "low"
+   },
+   {
+    "search_engine": "yandex",
+    "entity_type": "query",
+    "entity_id": "купить recraft pro www.klerk.ru",
+    "impressions": 12,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 6.0,
+    "branded": false,
+    "intent": "commercial",
+    "sample_size": 12,
+    "confidence": "low"
+   },
+   {
+    "search_engine": "yandex",
+    "entity_type": "query",
+    "entity_id": "купить cursor",
+    "impressions": 11,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 7.91,
+    "branded": false,
+    "intent": "commercial",
+    "sample_size": 11,
+    "confidence": "low"
+   },
+   {
+    "search_engine": "yandex",
+    "entity_type": "query",
+    "entity_id": "оплата sketch из россии",
+    "impressions": 11,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 9.55,
+    "branded": false,
+    "intent": "commercial",
+    "sample_size": 11,
+    "confidence": "low"
+   },
+   {
+    "search_engine": "yandex",
+    "entity_type": "query",
+    "entity_id": "оплата подписки depositphotos из россии",
+    "impressions": 11,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 9.55,
+    "branded": false,
+    "intent": "commercial",
+    "sample_size": 11,
+    "confidence": "low"
+   },
+   {
+    "search_engine": "yandex",
+    "entity_type": "query",
+    "entity_id": "купить кредиты heygen",
+    "impressions": 11,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 8.73,
+    "branded": false,
+    "intent": "commercial",
+    "sample_size": 11,
+    "confidence": "low"
+   },
+   {
+    "search_engine": "yandex",
+    "entity_type": "query",
+    "entity_id": "runway ai тарифы",
+    "impressions": 10,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 8.6,
+    "branded": false,
+    "intent": "commercial",
+    "sample_size": 10,
+    "confidence": "low"
+   },
+   {
+    "search_engine": "yandex",
+    "entity_type": "query",
+    "entity_id": "gitlab оплатить",
+    "impressions": 10,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 7.6,
+    "branded": false,
+    "intent": "commercial",
+    "sample_size": 10,
+    "confidence": "low"
+   },
+   {
+    "search_engine": "yandex",
+    "entity_type": "query",
+    "entity_id": "marmoset toolbag 5 купить",
+    "impressions": 10,
+    "clicks": 1,
+    "ctr": 0.1,
+    "average_position": 8.3,
+    "branded": false,
+    "intent": "commercial",
+    "sample_size": 10,
+    "confidence": "low"
+   },
+   {
+    "search_engine": "yandex",
+    "entity_type": "query",
+    "entity_id": "купить хейген",
+    "impressions": 9,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 10.78,
+    "branded": false,
+    "intent": "commercial",
+    "sample_size": 9,
+    "confidence": "very_low"
+   },
+   {
+    "search_engine": "yandex",
+    "entity_type": "query",
+    "entity_id": "claude team купить",
+    "impressions": 9,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 6.89,
+    "branded": false,
+    "intent": "commercial",
+    "sample_size": 9,
+    "confidence": "very_low"
+   },
+   {
+    "search_engine": "yandex",
+    "entity_type": "query",
+    "entity_id": "runway ai цена companies.rbc.ru",
+    "impressions": 9,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 7.89,
+    "branded": false,
+    "intent": "commercial",
+    "sample_size": 9,
+    "confidence": "very_low"
+   },
+   {
+    "search_engine": "yandex",
+    "entity_type": "query",
+    "entity_id": "как сейчас оплатить depositphotos из россии",
+    "impressions": 9,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 7.33,
+    "branded": false,
+    "intent": "commercial",
+    "sample_size": 9,
+    "confidence": "very_low"
+   },
+   {
+    "search_engine": "yandex",
+    "entity_type": "query",
+    "entity_id": "купить фаундри",
+    "impressions": 8,
+    "clicks": 1,
+    "ctr": 0.125,
+    "average_position": 9.12,
+    "branded": false,
+    "intent": "commercial",
+    "sample_size": 8,
+    "confidence": "very_low"
+   },
+   {
+    "search_engine": "yandex",
+    "entity_type": "query",
+    "entity_id": "фаундри купить",
+    "impressions": 8,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 9.5,
+    "branded": false,
+    "intent": "commercial",
+    "sample_size": 8,
+    "confidence": "very_low"
+   },
+   {
+    "search_engine": "yandex",
+    "entity_type": "query",
+    "entity_id": "как заплатить за depositphotos из россии",
+    "impressions": 8,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 9.25,
+    "branded": false,
+    "intent": "informational",
+    "sample_size": 8,
+    "confidence": "very_low"
+   },
+   {
+    "search_engine": "yandex",
+    "entity_type": "query",
+    "entity_id": "runway тарифы companies.rbc.ru",
+    "impressions": 8,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 7.25,
+    "branded": false,
+    "intent": "commercial",
+    "sample_size": 8,
+    "confidence": "very_low"
+   },
+   {
+    "search_engine": "yandex",
+    "entity_type": "query",
+    "entity_id": "depositphotos оплата из россии",
+    "impressions": 8,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 9.0,
+    "branded": false,
+    "intent": "commercial",
+    "sample_size": 8,
+    "confidence": "very_low"
+   },
+   {
+    "search_engine": "yandex",
+    "entity_type": "query",
+    "entity_id": "оплатить depositphotos через сервис посредник",
+    "impressions": 7,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 9.29,
+    "branded": false,
+    "intent": "commercial",
+    "sample_size": 7,
+    "confidence": "very_low"
+   },
+   {
+    "search_engine": "yandex",
+    "entity_type": "query",
+    "entity_id": "runway цена companies.rbc.ru",
+    "impressions": 7,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 6.86,
+    "branded": false,
+    "intent": "commercial",
+    "sample_size": 7,
+    "confidence": "very_low"
+   },
+   {
+    "search_engine": "yandex",
+    "entity_type": "query",
+    "entity_id": "notion biz",
+    "impressions": 7,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 6.0,
+    "branded": false,
+    "intent": "unknown",
+    "sample_size": 7,
+    "confidence": "very_low"
+   },
+   {
+    "search_engine": "yandex",
+    "entity_type": "query",
+    "entity_id": "фаундри договор",
+    "impressions": 7,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 1.86,
+    "branded": false,
+    "intent": "unknown",
+    "sample_size": 7,
+    "confidence": "very_low"
+   },
+   {
+    "search_engine": "yandex",
+    "entity_type": "query",
+    "entity_id": "оплатить depositphotos из россии",
+    "impressions": 7,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 8.0,
+    "branded": false,
+    "intent": "commercial",
+    "sample_size": 7,
+    "confidence": "very_low"
+   },
+   {
+    "search_engine": "yandex",
+    "entity_type": "query",
+    "entity_id": "купить подписку на клип студио пейнт",
+    "impressions": 7,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 11.57,
+    "branded": false,
+    "intent": "commercial",
+    "sample_size": 7,
+    "confidence": "very_low"
+   },
+   {
+    "search_engine": "yandex",
+    "entity_type": "query",
+    "entity_id": "как продлить подписку depositphotos из россии",
+    "impressions": 7,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 9.0,
+    "branded": false,
+    "intent": "commercial",
+    "sample_size": 7,
+    "confidence": "very_low"
+   },
+   {
+    "search_engine": "yandex",
+    "entity_type": "query",
+    "entity_id": "купить подписку github copilot business",
+    "impressions": 7,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 7.43,
+    "branded": false,
+    "intent": "commercial",
+    "sample_size": 7,
+    "confidence": "very_low"
+   },
+   {
+    "search_engine": "yandex",
+    "entity_type": "query",
+    "entity_id": "spine 2d купить",
+    "impressions": 7,
+    "clicks": 1,
+    "ctr": 0.14285714285714285,
+    "average_position": 8.57,
+    "branded": false,
+    "intent": "commercial",
+    "sample_size": 7,
+    "confidence": "very_low"
+   },
+   {
+    "search_engine": "yandex",
+    "entity_type": "query",
+    "entity_id": "runway стоимость",
+    "impressions": 7,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 8.43,
+    "branded": false,
+    "intent": "commercial",
+    "sample_size": 7,
+    "confidence": "very_low"
+   },
+   {
+    "search_engine": "yandex",
+    "entity_type": "query",
+    "entity_id": "оплата depositphotos через посредника",
+    "impressions": 6,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 10.5,
+    "branded": false,
+    "intent": "commercial",
+    "sample_size": 6,
+    "confidence": "very_low"
+   },
+   {
+    "search_engine": "yandex",
+    "entity_type": "query",
+    "entity_id": "character creator 5 купить",
+    "impressions": 6,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 7.5,
+    "branded": false,
+    "intent": "commercial",
+    "sample_size": 6,
+    "confidence": "very_low"
+   },
+   {
+    "search_engine": "yandex",
+    "entity_type": "query",
+    "entity_id": "купить recraft в россии www.klerk.ru",
+    "impressions": 6,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 11.17,
+    "branded": false,
+    "intent": "commercial",
+    "sample_size": 6,
+    "confidence": "very_low"
+   },
+   {
+    "search_engine": "yandex",
+    "entity_type": "query",
+    "entity_id": "оплата dropbox business в россии",
+    "impressions": 6,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 5.83,
+    "branded": false,
+    "intent": "commercial",
+    "sample_size": 6,
+    "confidence": "very_low"
+   },
+   {
+    "search_engine": "yandex",
+    "entity_type": "query",
+    "entity_id": "оплата depositphotos российской картой",
+    "impressions": 6,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 8.83,
+    "branded": false,
+    "intent": "commercial",
+    "sample_size": 6,
+    "confidence": "very_low"
+   },
+   {
+    "search_engine": "yandex",
+    "entity_type": "query",
+    "entity_id": "runway ai тарифы companies.rbc.ru",
+    "impressions": 6,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 9.5,
+    "branded": false,
+    "intent": "commercial",
+    "sample_size": 6,
+    "confidence": "very_low"
+   },
+   {
+    "search_engine": "yandex",
+    "entity_type": "query",
+    "entity_id": "сервисы оплаты depositphotos из россии",
+    "impressions": 6,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 9.5,
+    "branded": false,
+    "intent": "commercial",
+    "sample_size": 6,
+    "confidence": "very_low"
+   },
+   {
+    "search_engine": "yandex",
+    "entity_type": "query",
+    "entity_id": "оплата dropbox для юридических лиц из россии",
+    "impressions": 6,
+    "clicks": 1,
+    "ctr": 0.16666666666666666,
+    "average_position": 4.67,
+    "branded": false,
+    "intent": "commercial",
+    "sample_size": 6,
+    "confidence": "very_low"
+   },
+   {
+    "search_engine": "yandex",
+    "entity_type": "query",
+    "entity_id": "github copilot business купить",
+    "impressions": 5,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 3.2,
+    "branded": false,
+    "intent": "commercial",
+    "sample_size": 5,
+    "confidence": "very_low"
+   },
+   {
+    "search_engine": "yandex",
+    "entity_type": "query",
+    "entity_id": "как купить runway в россии companies.rbc.ru",
+    "impressions": 5,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 9.0,
+    "branded": false,
+    "intent": "commercial",
+    "sample_size": 5,
+    "confidence": "very_low"
+   },
+   {
+    "search_engine": "yandex",
+    "entity_type": "query",
+    "entity_id": "оплата box для юридических лиц из россии",
+    "impressions": 5,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 3.4,
+    "branded": false,
+    "intent": "commercial",
+    "sample_size": 5,
+    "confidence": "very_low"
+   },
+   {
+    "search_engine": "yandex",
+    "entity_type": "query",
+    "entity_id": "работает ли оплата depositphotos в россии 2026",
+    "impressions": 5,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 11.6,
+    "branded": false,
+    "intent": "commercial",
+    "sample_size": 5,
+    "confidence": "very_low"
+   },
+   {
+    "search_engine": "yandex",
+    "entity_type": "query",
+    "entity_id": "rizomuv rs или vs разница",
+    "impressions": 5,
+    "clicks": 1,
+    "ctr": 0.2,
+    "average_position": 5.4,
+    "branded": false,
+    "intent": "unknown",
+    "sample_size": 5,
+    "confidence": "very_low"
+   },
+   {
+    "search_engine": "yandex",
+    "entity_type": "query",
+    "entity_id": "сколько стоит runway",
+    "impressions": 5,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 9.2,
+    "branded": false,
+    "intent": "unknown",
+    "sample_size": 5,
+    "confidence": "very_low"
+   },
+   {
+    "search_engine": "yandex",
+    "entity_type": "query",
+    "entity_id": "купить кредиты runway",
+    "impressions": 5,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 7.0,
+    "branded": false,
+    "intent": "commercial",
+    "sample_size": 5,
+    "confidence": "very_low"
+   },
+   {
+    "search_engine": "yandex",
+    "entity_type": "query",
+    "entity_id": "procreate цена",
+    "impressions": 5,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 9.6,
+    "branded": false,
+    "intent": "commercial",
+    "sample_size": 5,
+    "confidence": "very_low"
+   },
+   {
+    "search_engine": "yandex",
+    "entity_type": "query",
+    "entity_id": "как оплатить депозитфотос из россии",
+    "impressions": 5,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 8.2,
+    "branded": false,
+    "intent": "commercial",
+    "sample_size": 5,
+    "confidence": "very_low"
+   },
+   {
+    "search_engine": "yandex",
+    "entity_type": "query",
+    "entity_id": "runway цена",
+    "impressions": 5,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 9.0,
+    "branded": false,
+    "intent": "commercial",
+    "sample_size": 5,
+    "confidence": "very_low"
+   },
+   {
+    "search_engine": "yandex",
+    "entity_type": "query",
+    "entity_id": "можно ли оплатить depositphotos российской картой",
+    "impressions": 5,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 9.0,
+    "branded": false,
+    "intent": "commercial",
+    "sample_size": 5,
+    "confidence": "very_low"
+   },
+   {
+    "search_engine": "yandex",
+    "entity_type": "query",
+    "entity_id": "купить аккаунт heygen",
+    "impressions": 5,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 11.6,
+    "branded": false,
+    "intent": "commercial",
+    "sample_size": 5,
+    "confidence": "very_low"
+   },
+   {
+    "search_engine": "yandex",
+    "entity_type": "query",
+    "entity_id": "суно премьер купить sostav.ru/blogs/287160/102824",
+    "impressions": 5,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 12.0,
+    "branded": false,
+    "intent": "commercial",
+    "sample_size": 5,
+    "confidence": "very_low"
+   },
+   {
+    "search_engine": "yandex",
+    "entity_type": "query",
+    "entity_id": "оплата confluence в рублях",
+    "impressions": 5,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 5.4,
+    "branded": false,
+    "intent": "commercial",
+    "sample_size": 5,
+    "confidence": "very_low"
+   },
+   {
+    "search_engine": "yandex",
+    "entity_type": "query",
+    "entity_id": "пошаговая инструкция оплата depositphotos из россии",
+    "impressions": 5,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 8.2,
+    "branded": false,
+    "intent": "commercial",
+    "sample_size": 5,
+    "confidence": "very_low"
+   },
+   {
+    "search_engine": "yandex",
+    "entity_type": "query",
+    "entity_id": "как оплатить box облако из россии",
+    "impressions": 5,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 5.6,
+    "branded": false,
+    "intent": "commercial",
+    "sample_size": 5,
+    "confidence": "very_low"
+   },
+   {
+    "search_engine": "yandex",
+    "entity_type": "query",
+    "entity_id": "как оплатить тариф box из россии",
+    "impressions": 4,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 9.25,
+    "branded": false,
+    "intent": "commercial",
+    "sample_size": 4,
+    "confidence": "very_low"
+   },
+   {
+    "search_engine": "yandex",
+    "entity_type": "query",
+    "entity_id": "recraft ai тарифы www.klerk.ru",
+    "impressions": 4,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 9.0,
+    "branded": false,
+    "intent": "commercial",
+    "sample_size": 4,
+    "confidence": "very_low"
+   },
+   {
+    "search_engine": "yandex",
+    "entity_type": "query",
+    "entity_id": "сколько стоит подписка в клип студио",
+    "impressions": 4,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 9.75,
+    "branded": false,
+    "intent": "commercial",
+    "sample_size": 4,
+    "confidence": "very_low"
+   },
+   {
+    "search_engine": "yandex",
+    "entity_type": "query",
+    "entity_id": "топаз подписка",
+    "impressions": 4,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 6.5,
+    "branded": false,
+    "intent": "commercial",
+    "sample_size": 4,
+    "confidence": "very_low"
+   },
+   {
+    "search_engine": "yandex",
+    "entity_type": "query",
+    "entity_id": "runway для компьютера companies.rbc.ru",
+    "impressions": 4,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 8.0,
+    "branded": false,
+    "intent": "unknown",
+    "sample_size": 4,
+    "confidence": "very_low"
+   },
+   {
+    "search_engine": "yandex",
+    "entity_type": "query",
+    "entity_id": "оплатить depositphotos без иностранной карты",
+    "impressions": 4,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 10.5,
+    "branded": false,
+    "intent": "commercial",
+    "sample_size": 4,
+    "confidence": "very_low"
+   },
+   {
+    "search_engine": "yandex",
+    "entity_type": "query",
+    "entity_id": "купить recraft через посредника www.klerk.ru",
+    "impressions": 4,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 8.5,
+    "branded": false,
+    "intent": "commercial",
+    "sample_size": 4,
+    "confidence": "very_low"
+   },
+   {
+    "search_engine": "yandex",
+    "entity_type": "query",
+    "entity_id": "cloudflare купить",
+    "impressions": 4,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 7.5,
+    "branded": false,
+    "intent": "commercial",
+    "sample_size": 4,
+    "confidence": "very_low"
+   },
+   {
+    "search_engine": "yandex",
+    "entity_type": "query",
+    "entity_id": "runway standard",
+    "impressions": 4,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 4.0,
+    "branded": false,
+    "intent": "unknown",
+    "sample_size": 4,
+    "confidence": "very_low"
+   },
+   {
+    "search_engine": "yandex",
+    "entity_type": "query",
+    "entity_id": "как оплатить box business из россии",
+    "impressions": 4,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 4.5,
+    "branded": false,
+    "intent": "commercial",
+    "sample_size": 4,
+    "confidence": "very_low"
+   },
+   {
+    "search_engine": "yandex",
+    "entity_type": "query",
+    "entity_id": "depositphotos не проходит оплата российской картой",
+    "impressions": 4,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 8.0,
+    "branded": false,
+    "intent": "commercial",
+    "sample_size": 4,
+    "confidence": "very_low"
+   },
+   {
+    "search_engine": "yandex",
+    "entity_type": "query",
+    "entity_id": "dropbox купить подписку",
+    "impressions": 4,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 5.5,
+    "branded": false,
+    "intent": "commercial",
+    "sample_size": 4,
+    "confidence": "very_low"
+   },
+   {
+    "search_engine": "yandex",
+    "entity_type": "query",
+    "entity_id": "прокриэйт цена",
+    "impressions": 4,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 13.5,
+    "branded": false,
+    "intent": "commercial",
+    "sample_size": 4,
+    "confidence": "very_low"
+   },
+   {
+    "search_engine": "yandex",
+    "entity_type": "query",
+    "entity_id": "оплата confluence по счету из россии",
+    "impressions": 4,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 8.25,
+    "branded": false,
+    "intent": "commercial",
+    "sample_size": 4,
+    "confidence": "very_low"
+   },
+   {
+    "search_engine": "yandex",
+    "entity_type": "query",
+    "entity_id": "оплата confluence premium из россии",
+    "impressions": 4,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 6.5,
+    "branded": false,
+    "intent": "commercial",
+    "sample_size": 4,
+    "confidence": "very_low"
+   },
+   {
+    "search_engine": "yandex",
+    "entity_type": "query",
+    "entity_id": "как оплатить depositphotos из россии 2026",
+    "impressions": 4,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 11.25,
+    "branded": false,
+    "intent": "commercial",
+    "sample_size": 4,
+    "confidence": "very_low"
+   },
+   {
+    "search_engine": "yandex",
+    "entity_type": "query",
+    "entity_id": "как оплатить depositphotos без зарубежной карты",
+    "impressions": 4,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 10.0,
+    "branded": false,
+    "intent": "commercial",
+    "sample_size": 4,
+    "confidence": "very_low"
+   },
+   {
+    "search_engine": "yandex",
+    "entity_type": "query",
+    "entity_id": "как оплатить подписку depositphotos из россии",
+    "impressions": 4,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 11.25,
+    "branded": false,
+    "intent": "commercial",
+    "sample_size": 4,
+    "confidence": "very_low"
+   },
+   {
+    "search_engine": "yandex",
+    "entity_type": "query",
+    "entity_id": "оплата depositphotos из россии 2026",
+    "impressions": 4,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 7.75,
+    "branded": false,
+    "intent": "commercial",
+    "sample_size": 4,
+    "confidence": "very_low"
+   },
+   {
+    "search_engine": "yandex",
+    "entity_type": "query",
+    "entity_id": "купить клинг из россии",
+    "impressions": 4,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 9.25,
+    "branded": false,
+    "intent": "commercial",
+    "sample_size": 4,
+    "confidence": "very_low"
+   }
+  ],
+  "totals": {
+   "impressions": 1084,
+   "clicks": 6,
+   "ctr": 0.005535055350553505,
+   "queries_tracked": 100,
+   "queries_position_le_10": 86,
+   "queries_position_le_3": 3,
+   "queries_available": 711,
+   "queries_fetched": 100,
+   "scope_note": "выборка запросов, не весь сайт"
+  },
+  "indexation": {
+   "total_known_urls": 227,
+   "indexed_urls": 191,
+   "excluded_urls": 36,
+   "excluded_by_reason": null,
+   "commercial_excluded_urls": null,
+   "unclassified_excluded_urls": 36,
+   "sqi": 0,
+   "site_problems": {}
+  }
+ },
+ "google": {
+  "available": true,
+  "source": {
+   "source_name": "google_search_console",
+   "collected_at": "2026-08-23",
+   "latest_event_date": "2026-08-20",
+   "current_period_start": "2026-07-26",
+   "current_period_end": "2026-08-20",
+   "current_period_days": 26,
+   "comparison_period_start": "2026-08-07",
+   "comparison_period_end": "2026-08-13",
+   "comparison_period_days": 7,
+   "filters": {
+    "property": "sc-domain:biz-soft.pro",
+    "search_type": "web"
+   },
+   "status": "ok",
+   "notes": "Данные GSC отстают на 2–3 дня; последняя доступная дата события — 2026-08-20"
+  },
+  "daily": [
+   {
+    "date": "2026-07-26",
+    "impressions": 3,
+    "clicks": 0,
+    "position": 42.33,
+    "measured": true
+   },
+   {
+    "date": "2026-07-27",
+    "impressions": 2,
+    "clicks": 0,
+    "position": 42.5,
+    "measured": true
+   },
+   {
+    "date": "2026-07-28",
+    "impressions": 7,
+    "clicks": 0,
+    "position": 25.29,
+    "measured": true
+   },
+   {
+    "date": "2026-07-29",
+    "impressions": 2,
+    "clicks": 0,
+    "position": 42.5,
+    "measured": true
+   },
+   {
+    "date": "2026-07-30",
+    "impressions": 3,
+    "clicks": 0,
+    "position": 43.33,
+    "measured": true
+   },
+   {
+    "date": "2026-07-31",
+    "impressions": 4,
+    "clicks": 0,
+    "position": 46.5,
+    "measured": true
+   },
+   {
+    "date": "2026-08-01",
+    "impressions": 5,
+    "clicks": 0,
+    "position": 39.6,
+    "measured": true
+   },
+   {
+    "date": "2026-08-02",
+    "impressions": 7,
+    "clicks": 0,
+    "position": 46.86,
+    "measured": true
+   },
+   {
+    "date": "2026-08-03",
+    "impressions": 6,
+    "clicks": 0,
+    "position": 43.17,
+    "measured": true
+   },
+   {
+    "date": "2026-08-04",
+    "impressions": 2,
+    "clicks": 0,
+    "position": 46.5,
+    "measured": true
+   },
+   {
+    "date": "2026-08-05",
+    "impressions": 6,
+    "clicks": 0,
+    "position": 26.17,
+    "measured": true
+   },
+   {
+    "date": "2026-08-06",
+    "impressions": 3,
+    "clicks": 0,
+    "position": 45,
+    "measured": true
+   },
+   {
+    "date": "2026-08-07",
+    "impressions": 2,
+    "clicks": 0,
+    "position": 40,
+    "measured": true
+   },
+   {
+    "date": "2026-08-08",
+    "impressions": 0,
+    "clicks": 0,
+    "position": 0,
+    "measured": true
+   },
+   {
+    "date": "2026-08-09",
+    "impressions": 3,
+    "clicks": 0,
+    "position": 40.67,
+    "measured": true
+   },
+   {
+    "date": "2026-08-10",
+    "impressions": 3,
+    "clicks": 0,
+    "position": 45.33,
+    "measured": true
+   },
+   {
+    "date": "2026-08-11",
+    "impressions": 2,
+    "clicks": 0,
+    "position": 41.5,
+    "measured": true
+   },
+   {
+    "date": "2026-08-12",
+    "impressions": 1,
+    "clicks": 0,
+    "position": 55,
+    "measured": true
+   },
+   {
+    "date": "2026-08-13",
+    "impressions": 3,
+    "clicks": 0,
+    "position": 37,
+    "measured": true
+   },
+   {
+    "date": "2026-08-14",
+    "impressions": 3,
+    "clicks": 0,
+    "position": 53.67,
+    "measured": true
+   },
+   {
+    "date": "2026-08-15",
+    "impressions": 3,
+    "clicks": 0,
+    "position": 56,
+    "measured": true
+   },
+   {
+    "date": "2026-08-16",
+    "impressions": 8,
+    "clicks": 0,
+    "position": 61.75,
+    "measured": true
+   },
+   {
+    "date": "2026-08-17",
+    "impressions": 11,
+    "clicks": 0,
+    "position": 49.09,
+    "measured": true
+   },
+   {
+    "date": "2026-08-18",
+    "impressions": 9,
+    "clicks": 1,
+    "position": 32.22,
+    "measured": true
+   },
+   {
+    "date": "2026-08-19",
+    "impressions": 3,
+    "clicks": 0,
+    "position": 66,
+    "measured": true
+   },
+   {
+    "date": "2026-08-20",
+    "impressions": 8,
+    "clicks": 0,
+    "position": 57.5,
+    "measured": true
+   }
+  ],
+  "entities": [
+   {
+    "search_engine": "google",
+    "entity_type": "query",
+    "entity_id": "bizsoft",
+    "impressions": 4,
+    "clicks": 1,
+    "ctr": 0.25,
+    "average_position": 20.5,
+    "branded": true,
+    "intent": "navigational",
+    "sample_size": 4,
+    "confidence": "very_low"
+   },
+   {
+    "search_engine": "google",
+    "entity_type": "query",
+    "entity_id": "acrobat studio for enterprise",
+    "impressions": 1,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 49,
+    "branded": false,
+    "intent": "unknown",
+    "sample_size": 1,
+    "confidence": "very_low"
+   },
+   {
+    "search_engine": "google",
+    "entity_type": "query",
+    "entity_id": "bizmore erp",
+    "impressions": 1,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 65,
+    "branded": false,
+    "intent": "unknown",
+    "sample_size": 1,
+    "confidence": "very_low"
+   },
+   {
+    "search_engine": "google",
+    "entity_type": "query",
+    "entity_id": "bizsoft solution",
+    "impressions": 1,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 59,
+    "branded": true,
+    "intent": "navigational",
+    "sample_size": 1,
+    "confidence": "very_low"
+   },
+   {
+    "search_engine": "google",
+    "entity_type": "query",
+    "entity_id": "commercial zoom platform",
+    "impressions": 1,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 31,
+    "branded": false,
+    "intent": "unknown",
+    "sample_size": 1,
+    "confidence": "very_low"
+   },
+   {
+    "search_engine": "google",
+    "entity_type": "query",
+    "entity_id": "company zoom account",
+    "impressions": 1,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 38,
+    "branded": false,
+    "intent": "unknown",
+    "sample_size": 1,
+    "confidence": "very_low"
+   },
+   {
+    "search_engine": "google",
+    "entity_type": "query",
+    "entity_id": "concurrent meeting plus",
+    "impressions": 1,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 35,
+    "branded": false,
+    "intent": "unknown",
+    "sample_size": 1,
+    "confidence": "very_low"
+   },
+   {
+    "search_engine": "google",
+    "entity_type": "query",
+    "entity_id": "csp commercial",
+    "impressions": 1,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 69,
+    "branded": false,
+    "intent": "unknown",
+    "sample_size": 1,
+    "confidence": "very_low"
+   },
+   {
+    "search_engine": "google",
+    "entity_type": "query",
+    "entity_id": "davinci resolve studio купить",
+    "impressions": 1,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 51,
+    "branded": false,
+    "intent": "commercial",
+    "sample_size": 1,
+    "confidence": "very_low"
+   },
+   {
+    "search_engine": "google",
+    "entity_type": "query",
+    "entity_id": "davinci resolve купить",
+    "impressions": 6,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 46,
+    "branded": false,
+    "intent": "commercial",
+    "sample_size": 6,
+    "confidence": "very_low"
+   },
+   {
+    "search_engine": "google",
+    "entity_type": "query",
+    "entity_id": "davinci resolve цена",
+    "impressions": 2,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 54,
+    "branded": false,
+    "intent": "commercial",
+    "sample_size": 2,
+    "confidence": "very_low"
+   },
+   {
+    "search_engine": "google",
+    "entity_type": "query",
+    "entity_id": "dehancer prices",
+    "impressions": 1,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 65,
+    "branded": false,
+    "intent": "commercial",
+    "sample_size": 1,
+    "confidence": "very_low"
+   },
+   {
+    "search_engine": "google",
+    "entity_type": "query",
+    "entity_id": "how much does blackmagic cloud cost",
+    "impressions": 1,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 65,
+    "branded": false,
+    "intent": "informational",
+    "sample_size": 1,
+    "confidence": "very_low"
+   },
+   {
+    "search_engine": "google",
+    "entity_type": "query",
+    "entity_id": "jetbrains ai купить",
+    "impressions": 6,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 32.5,
+    "branded": false,
+    "intent": "commercial",
+    "sample_size": 6,
+    "confidence": "very_low"
+   },
+   {
+    "search_engine": "google",
+    "entity_type": "query",
+    "entity_id": "jetbrains rider купить",
+    "impressions": 3,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 39.67,
+    "branded": false,
+    "intent": "commercial",
+    "sample_size": 3,
+    "confidence": "very_low"
+   },
+   {
+    "search_engine": "google",
+    "entity_type": "query",
+    "entity_id": "rustrover pricing",
+    "impressions": 1,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 43,
+    "branded": false,
+    "intent": "commercial",
+    "sample_size": 1,
+    "confidence": "very_low"
+   },
+   {
+    "search_engine": "google",
+    "entity_type": "query",
+    "entity_id": "viz flowics price",
+    "impressions": 1,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 66,
+    "branded": false,
+    "intent": "commercial",
+    "sample_size": 1,
+    "confidence": "very_low"
+   },
+   {
+    "search_engine": "google",
+    "entity_type": "query",
+    "entity_id": "zoom builder",
+    "impressions": 1,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 45,
+    "branded": false,
+    "intent": "unknown",
+    "sample_size": 1,
+    "confidence": "very_low"
+   },
+   {
+    "search_engine": "google",
+    "entity_type": "query",
+    "entity_id": "zoom by",
+    "impressions": 2,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 47,
+    "branded": false,
+    "intent": "unknown",
+    "sample_size": 2,
+    "confidence": "very_low"
+   },
+   {
+    "search_engine": "google",
+    "entity_type": "query",
+    "entity_id": "zoom dla firm",
+    "impressions": 1,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 50,
+    "branded": false,
+    "intent": "unknown",
+    "sample_size": 1,
+    "confidence": "very_low"
+   },
+   {
+    "search_engine": "google",
+    "entity_type": "query",
+    "entity_id": "zoom for business",
+    "impressions": 1,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 43,
+    "branded": false,
+    "intent": "unknown",
+    "sample_size": 1,
+    "confidence": "very_low"
+   },
+   {
+    "search_engine": "google",
+    "entity_type": "query",
+    "entity_id": "zoom for organizations",
+    "impressions": 1,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 44,
+    "branded": false,
+    "intent": "unknown",
+    "sample_size": 1,
+    "confidence": "very_low"
+   },
+   {
+    "search_engine": "google",
+    "entity_type": "query",
+    "entity_id": "zoom pacotes",
+    "impressions": 1,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 52,
+    "branded": false,
+    "intent": "unknown",
+    "sample_size": 1,
+    "confidence": "very_low"
+   },
+   {
+    "search_engine": "google",
+    "entity_type": "query",
+    "entity_id": "zoom pakete",
+    "impressions": 1,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 48,
+    "branded": false,
+    "intent": "unknown",
+    "sample_size": 1,
+    "confidence": "very_low"
+   },
+   {
+    "search_engine": "google",
+    "entity_type": "query",
+    "entity_id": "zoom product suite",
+    "impressions": 1,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 57,
+    "branded": false,
+    "intent": "unknown",
+    "sample_size": 1,
+    "confidence": "very_low"
+   },
+   {
+    "search_engine": "google",
+    "entity_type": "query",
+    "entity_id": "zoom workplace pro maximum participants",
+    "impressions": 1,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 42,
+    "branded": false,
+    "intent": "unknown",
+    "sample_size": 1,
+    "confidence": "very_low"
+   }
+  ],
+  "pages": [
+   {
+    "search_engine": "google",
+    "entity_type": "page",
+    "entity_id": "/",
+    "impressions": 15,
+    "clicks": 1,
+    "ctr": 0.06666666666666667,
+    "average_position": 45.33,
+    "sample_size": 15,
+    "confidence": "low"
+   },
+   {
+    "search_engine": "google",
+    "entity_type": "page",
+    "entity_id": "/about",
+    "impressions": 3,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 7.33,
+    "sample_size": 3,
+    "confidence": "very_low"
+   },
+   {
+    "search_engine": "google",
+    "entity_type": "page",
+    "entity_id": "/blog",
+    "impressions": 2,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 10,
+    "sample_size": 2,
+    "confidence": "very_low"
+   },
+   {
+    "search_engine": "google",
+    "entity_type": "page",
+    "entity_id": "/cases",
+    "impressions": 2,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 6.5,
+    "sample_size": 2,
+    "confidence": "very_low"
+   },
+   {
+    "search_engine": "google",
+    "entity_type": "page",
+    "entity_id": "/catalog",
+    "impressions": 2,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 2,
+    "sample_size": 2,
+    "confidence": "very_low"
+   },
+   {
+    "search_engine": "google",
+    "entity_type": "page",
+    "entity_id": "/catalog/ai",
+    "impressions": 1,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 3,
+    "sample_size": 1,
+    "confidence": "very_low"
+   },
+   {
+    "search_engine": "google",
+    "entity_type": "page",
+    "entity_id": "/contacts",
+    "impressions": 2,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 8.5,
+    "sample_size": 2,
+    "confidence": "very_low"
+   },
+   {
+    "search_engine": "google",
+    "entity_type": "page",
+    "entity_id": "/documents",
+    "impressions": 2,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 3,
+    "sample_size": 2,
+    "confidence": "very_low"
+   },
+   {
+    "search_engine": "google",
+    "entity_type": "page",
+    "entity_id": "/faq",
+    "impressions": 2,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 6,
+    "sample_size": 2,
+    "confidence": "very_low"
+   },
+   {
+    "search_engine": "google",
+    "entity_type": "page",
+    "entity_id": "/pricing",
+    "impressions": 2,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 8.5,
+    "sample_size": 2,
+    "confidence": "very_low"
+   },
+   {
+    "search_engine": "google",
+    "entity_type": "page",
+    "entity_id": "/privacy",
+    "impressions": 2,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 4,
+    "sample_size": 2,
+    "confidence": "very_low"
+   },
+   {
+    "search_engine": "google",
+    "entity_type": "page",
+    "entity_id": "/product/adobe-acro-studio",
+    "impressions": 3,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 35.67,
+    "sample_size": 3,
+    "confidence": "very_low"
+   },
+   {
+    "search_engine": "google",
+    "entity_type": "page",
+    "entity_id": "/product/adobe-substance-team",
+    "impressions": 2,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 87.5,
+    "sample_size": 2,
+    "confidence": "very_low"
+   },
+   {
+    "search_engine": "google",
+    "entity_type": "page",
+    "entity_id": "/product/csp-pro-perp",
+    "impressions": 1,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 69,
+    "sample_size": 1,
+    "confidence": "very_low"
+   },
+   {
+    "search_engine": "google",
+    "entity_type": "page",
+    "entity_id": "/product/csp-pro-sub",
+    "impressions": 1,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 46,
+    "sample_size": 1,
+    "confidence": "very_low"
+   },
+   {
+    "search_engine": "google",
+    "entity_type": "page",
+    "entity_id": "/product/heygen-pro",
+    "impressions": 1,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 9,
+    "sample_size": 1,
+    "confidence": "very_low"
+   },
+   {
+    "search_engine": "google",
+    "entity_type": "page",
+    "entity_id": "/product/jb-rider-org",
+    "impressions": 1,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 43,
+    "sample_size": 1,
+    "confidence": "very_low"
+   },
+   {
+    "search_engine": "google",
+    "entity_type": "page",
+    "entity_id": "/product/openai-business",
+    "impressions": 3,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 4.33,
+    "sample_size": 3,
+    "confidence": "very_low"
+   },
+   {
+    "search_engine": "google",
+    "entity_type": "page",
+    "entity_id": "/product/rlsn-suite365",
+    "impressions": 1,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 40,
+    "sample_size": 1,
+    "confidence": "very_low"
+   },
+   {
+    "search_engine": "google",
+    "entity_type": "page",
+    "entity_id": "/product/ru-sys-astra",
+    "impressions": 1,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 30,
+    "sample_size": 1,
+    "confidence": "very_low"
+   },
+   {
+    "search_engine": "google",
+    "entity_type": "page",
+    "entity_id": "/product/runway-pro",
+    "impressions": 1,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 8,
+    "sample_size": 1,
+    "confidence": "very_low"
+   },
+   {
+    "search_engine": "google",
+    "entity_type": "page",
+    "entity_id": "/vendors/adobe",
+    "impressions": 5,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 41.4,
+    "sample_size": 5,
+    "confidence": "very_low"
+   },
+   {
+    "search_engine": "google",
+    "entity_type": "page",
+    "entity_id": "/vendors/blackmagic",
+    "impressions": 18,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 55.56,
+    "sample_size": 18,
+    "confidence": "low"
+   },
+   {
+    "search_engine": "google",
+    "entity_type": "page",
+    "entity_id": "/vendors/boris-fx",
+    "impressions": 1,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 42,
+    "sample_size": 1,
+    "confidence": "very_low"
+   },
+   {
+    "search_engine": "google",
+    "entity_type": "page",
+    "entity_id": "/vendors/elevenlabs",
+    "impressions": 1,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 9,
+    "sample_size": 1,
+    "confidence": "very_low"
+   },
+   {
+    "search_engine": "google",
+    "entity_type": "page",
+    "entity_id": "/vendors/jetbrains",
+    "impressions": 12,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 41.42,
+    "sample_size": 12,
+    "confidence": "low"
+   },
+   {
+    "search_engine": "google",
+    "entity_type": "page",
+    "entity_id": "/vendors/openai",
+    "impressions": 6,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 14.83,
+    "sample_size": 6,
+    "confidence": "very_low"
+   },
+   {
+    "search_engine": "google",
+    "entity_type": "page",
+    "entity_id": "/vendors/photon",
+    "impressions": 2,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 9,
+    "sample_size": 2,
+    "confidence": "very_low"
+   },
+   {
+    "search_engine": "google",
+    "entity_type": "page",
+    "entity_id": "/vendors/zoom",
+    "impressions": 38,
+    "clicks": 0,
+    "ctr": 0.0,
+    "average_position": 47.39,
+    "sample_size": 38,
+    "confidence": "low"
+   }
+  ],
+  "totals": {
+   "impressions_window": 109,
+   "clicks_window": 1,
+   "window_days": 26,
+   "impressions_last7": 45,
+   "impressions_prev7": 14,
+   "last7_start": "2026-08-14",
+   "last7_end": "2026-08-20",
+   "prev7_start": "2026-08-07",
+   "prev7_end": "2026-08-13",
+   "queries_tracked": 26,
+   "queries_position_le_10": 0,
+   "pages_position_le_10": 15
+  }
+ },
+ "analytics": {
+  "metrika": {
+   "available": true,
+   "source": {
+    "source_name": "yandex_metrika",
+    "collected_at": "2026-08-23",
+    "latest_event_date": "2026-08-22",
+    "current_period_start": "2026-08-09",
+    "current_period_end": "2026-08-22",
+    "current_period_days": 14,
+    "comparison_period_start": null,
+    "comparison_period_end": null,
+    "comparison_period_days": null,
+    "filters": {
+     "counter": "110206070",
+     "accuracy": "full"
+    },
+    "status": "ok",
+    "notes": null
+   },
+   "metric_name": "visits (ym:s:visits)",
+   "visits_total": 105.0,
+   "users_total": 86.0,
+   "goal_events_total": 9.0,
+   "organic_visits": 39.0,
+   "organic_goal_events": 5.0,
+   "unique_goal_users": null,
+   "qualified_leads": null,
+   "deals": null,
+   "revenue": null,
+   "goals_configured": [
+    {
+     "id": 574981210,
+     "name": "Автоцель: поиск по сайту",
+     "type": "search",
+     "events": [
+      "q,text,query,search"
+     ]
+    },
+    {
+     "id": 584800925,
+     "name": "Автоцель: заполнил контактные данные",
+     "type": "contact_data",
+     "events": []
+    },
+    {
+     "id": 584800926,
+     "name": "Автоцель: отправил контактные данные",
+     "type": "contact_data_sent",
+     "events": []
+    },
+    {
+     "id": 584800927,
+     "name": "Автоцель: отправка формы",
+     "type": "form",
+     "events": []
+    },
+    {
+     "id": 600411326,
+     "name": "Автоцель: переход в мессенджер",
+     "type": "messenger",
+     "events": [
+      "all_messengers"
+     ]
+    },
+    {
+     "id": 600455503,
+     "name": "Отправлена заявка с формы",
+     "type": "action",
+     "events": [
+      "lead_sent"
+     ]
+    },
+    {
+     "id": 600455504,
+     "name": "Скачано коммерческое предложение — назвали организацию и ИНН",
+     "type": "action",
+     "events": [
+      "quote_pdf"
+     ]
+    },
+    {
+     "id": 600455505,
+     "name": "Клик по телефону",
+     "type": "action",
+     "events": [
+      "click_phone"
+     ]
+    },
+    {
+     "id": 600455506,
+     "name": "Клик по адресу почты",
+     "type": "action",
+     "events": [
+      "click_email"
+     ]
+    },
+    {
+     "id": 600455507,
+     "name": "Переход в мессенджер",
+     "type": "action",
+     "events": [
+      "click_messenger"
+     ]
+    },
+    {
+     "id": 600455508,
+     "name": "Товар добавлен в подборку",
+     "type": "action",
+     "events": [
+      "add_to_cart"
+     ]
+    },
+    {
+     "id": 600455509,
+     "name": "Товар убран из подборки",
+     "type": "action",
+     "events": [
+      "remove_from_cart"
+     ]
+    },
+    {
+     "id": 600455511,
+     "name": "Открыта подборка",
+     "type": "action",
+     "events": [
+      "view_cart"
+     ]
+    },
+    {
+     "id": 600455528,
+     "name": "Начато заполнение формы КП",
+     "type": "action",
+     "events": [
+      "begin_checkout"
+     ]
+    },
+    {
+     "id": 600455529,
+     "name": "Начато заполнение формы заявки",
+     "type": "action",
+     "events": [
+      "form_start"
+     ]
+    },
+    {
+     "id": 600455546,
+     "name": "Организация выбрана из справочника, реквизиты подставлены",
+     "type": "action",
+     "events": [
+      "company_autofill"
+     ]
+    },
+    {
+     "id": 600455547,
+     "name": "Открыта карточка товара",
+     "type": "action",
+     "events": [
+      "view_product"
+     ]
+    },
+    {
+     "id": 600455548,
+     "name": "Открыт лендинг производителя",
+     "type": "action",
+     "events": [
+      "view_vendor_landing"
+     ]
+    },
+    {
+     "id": 600455549,
+     "name": "Открыта страница назначения ПО",
+     "type": "action",
+     "events": [
+      "view_solution"
+     ]
+    },
+    {
+     "id": 600455550,
+     "name": "Воспользовались поиском по каталогу",
+     "type": "action",
+     "events": [
+      "search_used"
+     ]
+    },
+    {
+     "id": 600455551,
+     "name": "Поиск не дал результатов — спрос есть, товара нет",
+     "type": "action",
+     "events": [
+      "search_no_results"
+     ]
+    },
+    {
+     "id": 600455552,
+     "name": "Заявка не отправилась из-за ошибки",
+     "type": "action",
+     "events": [
+      "lead_error"
+     ]
+    },
+    {
+     "id": 600455553,
+     "name": "КП не сформировалось из-за ошибки",
+     "type": "action",
+     "events": [
+      "quote_error"
+     ]
+    }
+   ],
+   "organic_landing_pages": [
+    {
+     "entity_id": "/product/mrmst-tb5-studio",
+     "visits": 9.0,
+     "bounce_rate": 33.33333333,
+     "goal_events": 0.0
+    },
+    {
+     "entity_id": "/blog/kak-kupit-zarubezhnoe-po-dlya-yurlica",
+     "visits": 4.0,
+     "bounce_rate": 0.0,
+     "goal_events": 3.0
+    },
+    {
+     "entity_id": "/vendors/vegas",
+     "visits": 4.0,
+     "bounce_rate": 25.0,
+     "goal_events": 0.0
+    },
+    {
+     "entity_id": "/vendors/spine",
+     "visits": 3.0,
+     "bounce_rate": 33.33333333,
+     "goal_events": 0.0
+    },
+    {
+     "entity_id": "/product/rlsn-cc5",
+     "visits": 2.0,
+     "bounce_rate": 100.0,
+     "goal_events": 0.0
+    },
+    {
+     "entity_id": "/product/sketchup-go",
+     "visits": 2.0,
+     "bounce_rate": 100.0,
+     "goal_events": 0.0
+    },
+    {
+     "entity_id": "/vendors/autodesk",
+     "visits": 2.0,
+     "bounce_rate": 0.0,
+     "goal_events": 2.0
+    },
+    {
+     "entity_id": "/vendors/houdini",
+     "visits": 2.0,
+     "bounce_rate": 0.0,
+     "goal_events": 0.0
+    },
+    {
+     "entity_id": "/blog/zakryvayushchie-dokumenty-na-po",
+     "visits": 1.0,
+     "bounce_rate": 0.0,
+     "goal_events": 0.0
+    },
+    {
+     "entity_id": "/product/anthropic-team",
+     "visits": 1.0,
+     "bounce_rate": 0.0,
+     "goal_events": 0.0
+    },
+    {
+     "entity_id": "/product/gaea-indie",
+     "visits": 1.0,
+     "bounce_rate": 0.0,
+     "goal_events": 0.0
+    },
+    {
+     "entity_id": "/product/spine-essential",
+     "visits": 1.0,
+     "bounce_rate": 100.0,
+     "goal_events": 0.0
+    },
+    {
+     "entity_id": "/product/zoom-wp-pro",
+     "visits": 1.0,
+     "bounce_rate": 100.0,
+     "goal_events": 0.0
+    },
+    {
+     "entity_id": "/vendors/coreldraw",
+     "visits": 1.0,
+     "bounce_rate": 0.0,
+     "goal_events": 0.0
+    },
+    {
+     "entity_id": "/vendors/cursor",
+     "visits": 1.0,
+     "bounce_rate": 0.0,
+     "goal_events": 0.0
+    },
+    {
+     "entity_id": "/vendors/gaea",
+     "visits": 1.0,
+     "bounce_rate": 100.0,
+     "goal_events": 0.0
+    },
+    {
+     "entity_id": "/vendors/heygen",
+     "visits": 1.0,
+     "bounce_rate": 0.0,
+     "goal_events": 0.0
+    },
+    {
+     "entity_id": "/vendors/maxon",
+     "visits": 1.0,
+     "bounce_rate": 0.0,
+     "goal_events": 0.0
+    },
+    {
+     "entity_id": "/vendors/openai",
+     "visits": 1.0,
+     "bounce_rate": 0.0,
+     "goal_events": 0.0
+    }
+   ],
+   "channels": {
+    "Direct traffic": 53.0,
+    "Search engine traffic": 39.0,
+    "Internal traffic": 11.0,
+    "Link traffic": 2.0
+   }
+  },
+  "ga4": {
+   "available": true,
+   "internal_in_organic": {
+    "sources": [
+     "metrika.yandex.ru",
+     "alice.yandex.ru"
+    ],
+    "sessions": 7,
+    "key_events": 2.0
+   },
+   "source_timezone": "Europe/Moscow",
+   "source": {
+    "source_name": "ga4",
+    "collected_at": "2026-08-23",
+    "latest_event_date": "2026-08-22",
+    "current_period_start": "2026-08-09",
+    "current_period_end": "2026-08-22",
+    "current_period_days": 14,
+    "comparison_period_start": null,
+    "comparison_period_end": null,
+    "comparison_period_days": null,
+    "filters": {
+     "property": "543500233"
+    },
+    "status": "ok",
+    "notes": "key events размечены 2026-08-18 — сравнение конверсий внутри периода некорректно"
+   },
+   "metric_name": "sessions (GA4)",
+   "sessions_total": 105,
+   "organic_sessions": 48,
+   "organic_users": 33,
+   "organic_key_events": 2,
+   "key_events_marked_at": "2026-08-18",
+   "channels": {
+    "Direct": 48,
+    "Organic Search": 48,
+    "Referral": 6,
+    "Unassigned": 3
+   },
+   "organic_sources": {
+    "yandex.ru": 36,
+    "metrika.yandex.ru": 6,
+    "yandex.kz": 3,
+    "alice.yandex.ru": 1,
+    "bing": 1,
+    "yandex": 1
+   },
+   "organic_landing_pages": [
+    {
+     "entity_id": "/product/mrmst-tb5-studio",
+     "sessions": 8,
+     "key_events": 0
+    },
+    {
+     "entity_id": "(not set)",
+     "sessions": 4,
+     "key_events": 0
+    },
+    {
+     "entity_id": "/vendors/vegas",
+     "sessions": 4,
+     "key_events": 0
+    },
+    {
+     "entity_id": "/",
+     "sessions": 3,
+     "key_events": 0
+    },
+    {
+     "entity_id": "/blog/kak-kupit-zarubezhnoe-po-dlya-yurlica",
+     "sessions": 3,
+     "key_events": 0
+    },
+    {
+     "entity_id": "/product/rlsn-cc5",
+     "sessions": 2,
+     "key_events": 0
+    },
+    {
+     "entity_id": "/product/sketchup-go",
+     "sessions": 2,
+     "key_events": 0
+    },
+    {
+     "entity_id": "/product/spine-essential",
+     "sessions": 2,
+     "key_events": 0
+    },
+    {
+     "entity_id": "/vendors",
+     "sessions": 2,
+     "key_events": 0
+    },
+    {
+     "entity_id": "/vendors/autodesk",
+     "sessions": 2,
+     "key_events": 0
+    },
+    {
+     "entity_id": "/vendors/houdini",
+     "sessions": 2,
+     "key_events": 0
+    },
+    {
+     "entity_id": "/vendors/maxon",
+     "sessions": 2,
+     "key_events": 0
+    },
+    {
+     "entity_id": "/vendors/openai",
+     "sessions": 2,
+     "key_events": 0
+    },
+    {
+     "entity_id": "",
+     "sessions": 1,
+     "key_events": 0
+    },
+    {
+     "entity_id": "/contacts",
+     "sessions": 1,
+     "key_events": 0
+    },
+    {
+     "entity_id": "/product/anthropic-team",
+     "sessions": 1,
+     "key_events": 0
+    },
+    {
+     "entity_id": "/product/zoom-wp-pro",
+     "sessions": 1,
+     "key_events": 0
+    },
+    {
+     "entity_id": "/vendors/anthropic",
+     "sessions": 1,
+     "key_events": 2
+    },
+    {
+     "entity_id": "/vendors/coreldraw",
+     "sessions": 1,
+     "key_events": 0
+    },
+    {
+     "entity_id": "/vendors/cursor",
+     "sessions": 1,
+     "key_events": 0
+    },
+    {
+     "entity_id": "/vendors/gaea",
+     "sessions": 1,
+     "key_events": 0
+    },
+    {
+     "entity_id": "/vendors/heygen",
+     "sessions": 1,
+     "key_events": 0
+    },
+    {
+     "entity_id": "/vendors/spine",
+     "sessions": 1,
+     "key_events": 0
+    }
+   ]
+  },
+  "intra_day_revisions": []
+ },
+ "experiments": [
+  {
+   "id": "snippets-5-vendors",
+   "title": "snippets-5-vendors",
+   "hypothesis": "Коммерческие сниппеты с явным интентом «оплата на юрлицо, счёт, договор, ЭДО» и FAQ-разметка поднимут кликабельность страниц в выдаче Яндекса по транзакционным запросам кластеров.",
+   "treatment_urls": [
+    "/vendors/canva",
+    "/vendors/depositphotos",
+    "/vendors/coreldraw",
+    "/vendors/heygen",
+    "/vendors/marmoset"
+   ],
+   "control_urls": "остальные vendor-страницы без изменений",
+   "deployment_date": "2026-08-19",
+   "measurement_start_date": null,
+   "status": "running",
+   "primary_metric": "CTR кластеров Canva/Depositphotos/CorelDRAW/HeyGen/Marmoset в Яндекс.Вебмастере ≥2% через 7 дней (26.08.2026), ≥3% через 14 дней (02.09.2026)",
+   "guardrail_metrics": [
+    "impressions",
+    "average_position",
+    "organic_sessions"
+   ],
+   "minimum_exposure": "не задан — требуется определить до объявления результата",
+   "review_date": null,
+   "owner": null,
+   "result": null,
+   "source": "src/data/seo-experiments.ts (рендер: src/pages/vendors/[slug].astro → VendorLanding)"
+  },
+  {
+   "id": "cluster-depositphotos",
+   "title": "cluster-depositphotos",
+   "hypothesis": "Информационная статья под транзакционный интент «оплатить Depositphotos для юрлица» перехватывает запросы, по которым карточки и лендинг стоят на позициях 3–9, и передаёт им ссылочный вес через взаимную перелинковку — это поднимает показы всего кластера и выводит статью в топ-10.",
+   "treatment_urls": [
+    "/blog/kak-oplatit-depositphotos-dlya-yurlica",
+    "/vendors/depositphotos",
+    "/product/deposit-unl-year",
+    "/product/deposit-unl-month",
+    "/product/deposit-pack-100"
+   ],
+   "control_urls": "кластеры Canva, CorelDRAW, HeyGen, Marmoset — без статей блога",
+   "deployment_date": "2026-08-19",
+   "measurement_start_date": null,
+   "status": "running",
+   "primary_metric": "рост показов кластера Depositphotos относительно базовых 273 показов за 14 дней и вход статьи /blog/kak-oplatit-depositphotos-dlya-yurlica в топ-10 Яндекса за 14 дней (контроль 02.09.2026)",
+   "guardrail_metrics": [
+    "impressions",
+    "average_position",
+    "organic_sessions"
+   ],
+   "minimum_exposure": "не задан — требуется определить до объявления результата",
+   "review_date": null,
+   "owner": null,
+   "result": null,
+   "source": "src/content/blog/kak-oplatit-depositphotos-dlya-yurlica.md; обратные ссылки — src/pages/product/[slug].astro"
+  },
+  {
+   "id": "snippets-6-demand",
+   "title": "snippets-6-demand",
+   "hypothesis": "Коммерческие сниппеты с явным интентом «оплата на юрлицо, счёт, договор, ЭДО», FAQ-разметка и внутренние ссылки на раздел назначения ПО поднимут кликабельность и позиции по транзакционным запросам кластеров с подтверждённым спросом.",
+   "treatment_urls": [
+    "/vendors/adobe",
+    "/vendors/autodesk",
+    "/vendors/procreate",
+    "/vendors/blackmagic",
+    "/vendors/midjourney",
+    "/vendors/clip-studio-paint"
+   ],
+   "control_urls": "остальные vendor-страницы без изменений; эксперимент snippets-5-vendors считается отдельно, пересечений нет",
+   "deployment_date": "2026-08-20",
+   "measurement_start_date": null,
+   "status": "running",
+   "primary_metric": "Появление фраз кластера в топ-10 Яндекс.Вебмастера и CTR ≥2% через 14 дней (03.09.2026), ≥3% через 30 дней (19.09.2026)",
+   "guardrail_metrics": [
+    "impressions",
+    "average_position",
+    "organic_sessions"
+   ],
+   "minimum_exposure": "не задан — требуется определить до объявления результата",
+   "review_date": null,
+   "owner": null,
+   "result": null,
+   "source": "src/data/seo-experiments.ts (рендер: src/pages/vendors/[slug].astro → VendorLanding)"
+  }
+ ],
+ "market_demand": {
+  "available": true,
+  "source": {
+   "source_name": "yandex_wordstat",
+   "measured_at": "2026-08-20",
+   "age_days": 3,
+   "region": "Россия",
+   "unit": "показы в поиске Яндекса",
+   "window": "последние 30 дней",
+   "match_type": "broad",
+   "refresh": "помесячно"
+  },
+  "coverage": "360/554",
+  "complete": false,
+  "stale": false,
+  "clusters_measured": 53,
+  "clusters_planned": 53,
+  "top_commercial": [
+   {
+    "cluster": "adobe",
+    "page": "/vendors/adobe",
+    "commercial_impressions": 23544,
+    "seed_impressions": 364548
+   },
+   {
+    "cluster": "оплата-зарубежных-сервисов",
+    "page": null,
+    "commercial_impressions": 17727,
+    "seed_impressions": 11541
+   },
+   {
+    "cluster": "autodesk",
+    "page": "/vendors/autodesk",
+    "commercial_impressions": 7682,
+    "seed_impressions": 55053
+   },
+   {
+    "cluster": "unity",
+    "page": "/vendors/unity",
+    "commercial_impressions": 5692,
+    "seed_impressions": 196433
+   },
+   {
+    "cluster": "runway",
+    "page": "/vendors/runway",
+    "commercial_impressions": 2468,
+    "seed_impressions": 61154
+   },
+   {
+    "cluster": "rive",
+    "page": "/vendors/rive",
+    "commercial_impressions": 2350,
+    "seed_impressions": 19374
+   },
+   {
+    "cluster": "spine",
+    "page": "/vendors/spine",
+    "commercial_impressions": 2047,
+    "seed_impressions": 25979
+   },
+   {
+    "cluster": "procreate",
+    "page": "/vendors/procreate",
+    "commercial_impressions": 1940,
+    "seed_impressions": 25375
+   },
+   {
+    "cluster": "blackmagic",
+    "page": "/vendors/blackmagic",
+    "commercial_impressions": 1354,
+    "seed_impressions": 51434
+   },
+   {
+    "cluster": "midjourney",
+    "page": "/vendors/midjourney",
+    "commercial_impressions": 1124,
+    "seed_impressions": 51871
+   }
+  ],
+  "gap_cards": 29,
+  "gap_phrases": 176,
+  "gaps": {
+   "adobe": [
+    {
+     "phrase": "adobe купить",
+     "impressions": 3887
+    },
+    {
+     "phrase": "adobe подписка",
+     "impressions": 1979
+    },
+    {
+     "phrase": "лицензия adobe",
+     "impressions": 1403
+    },
+    {
+     "phrase": "adobe pro купить",
+     "impressions": 811
+    },
+    {
+     "phrase": "adobe photoshop купить",
+     "impressions": 683
+    },
+    {
+     "phrase": "adobe acrobat купить",
+     "impressions": 574
+    },
+    {
+     "phrase": "купить подписку adobe",
+     "impressions": 509
+    },
+    {
+     "phrase": "adobe cloud купить",
+     "impressions": 491
+    },
+    {
+     "phrase": "adobe creative купить",
+     "impressions": 487
+    },
+    {
+     "phrase": "adobe premiere купить",
+     "impressions": 471
+    }
+   ],
+   "autodesk": [
+    {
+     "phrase": "autodesk license",
+     "impressions": 1800
+    },
+    {
+     "phrase": "лицензия autodesk",
+     "impressions": 1015
+    },
+    {
+     "phrase": "autodesk license download",
+     "impressions": 383
+    },
+    {
+     "phrase": "autodesk купить",
+     "impressions": 349
+    },
+    {
+     "phrase": "autodesk license manager",
+     "impressions": 332
+    },
+    {
+     "phrase": "autodesk network license",
+     "impressions": 330
+    },
+    {
+     "phrase": "autodesk license скачать",
+     "impressions": 320
+    },
+    {
+     "phrase": "autodesk network license manager",
+     "impressions": 300
+    },
+    {
+     "phrase": "autodesk недействительная лицензия",
+     "impressions": 238
+    },
+    {
+     "phrase": "autodesk обнаружена лицензия",
+     "impressions": 229
+    }
+   ],
+   "unity": [
+    {
+     "phrase": "unity сцена",
+     "impressions": 725
+    },
+    {
+     "phrase": "assassin unity купить",
+     "impressions": 631
+    },
+    {
+     "phrase": "assassins creed unity купить",
+     "impressions": 620
+    },
+    {
+     "phrase": "assassin s unity купить",
+     "impressions": 310
+    },
+    {
+     "phrase": "assassin s creed unity купить",
+     "impressions": 309
+    },
+    {
+     "phrase": "unity лицензия",
+     "impressions": 301
+    },
+    {
+     "phrase": "unity купить ключ",
+     "impressions": 117
+    },
+    {
+     "phrase": "assassins creed unity купить ключ",
+     "impressions": 109
+    },
+    {
+     "phrase": "unity подписки",
+     "impressions": 89
+    },
+    {
+     "phrase": "assassins creed unity купить стим",
+     "impressions": 73
+    }
+   ],
+   "runway": [
+    {
+     "phrase": "runway купить",
+     "impressions": 951
+    },
+    {
+     "phrase": "runway подписка",
+     "impressions": 192
+    },
+    {
+     "phrase": "runway красноярск купить",
+     "impressions": 123
+    },
+    {
+     "phrase": "купить квартиру runway",
+     "impressions": 98
+    },
+    {
+     "phrase": "runway красноярск купить квартиру",
+     "impressions": 87
+    },
+    {
+     "phrase": "runway купить подписку",
+     "impressions": 76
+    },
+    {
+     "phrase": "yamaguchi runway купить",
+     "impressions": 57
+    },
+    {
+     "phrase": "купить yamaguchi runway x",
+     "impressions": 55
+    },
+    {
+     "phrase": "runway октан корректор купить",
+     "impressions": 54
+    },
+    {
+     "phrase": "журнал runway купить",
+     "impressions": 39
+    }
+   ],
+   "rive": [
+    {
+     "phrase": "rive купить",
+     "impressions": 675
+    },
+    {
+     "phrase": "riven купить",
+     "impressions": 675
+    },
+    {
+     "phrase": "la rive купить",
+     "impressions": 408
+    },
+    {
+     "phrase": "rive gauche купить",
+     "impressions": 75
+    },
+    {
+     "phrase": "la rive цена",
+     "impressions": 63
+    },
+    {
+     "phrase": "купить воду la rive",
+     "impressions": 57
+    },
+    {
+     "phrase": "rive туалетная вода купить",
+     "impressions": 46
+    },
+    {
+     "phrase": "купить туалетную воду la rive",
+     "impressions": 46
+    },
+    {
+     "phrase": "la rive game for men купить",
+     "impressions": 44
+    }
+   ],
+   "spine": [
+    {
+     "phrase": "spine купить",
+     "impressions": 749
+    },
+    {
+     "phrase": "spine кроссовки купить",
+     "impressions": 153
+    },
+    {
+     "phrase": "купить ботинки spine",
+     "impressions": 126
+    },
+    {
+     "phrase": "spine цена",
+     "impressions": 99
+    },
+    {
+     "phrase": "купить лыжные ботинки spine",
+     "impressions": 94
+    },
+    {
+     "phrase": "yoga spine купить",
+     "impressions": 84
+    },
+    {
+     "phrase": "spine skate купить",
+     "impressions": 40
+    },
+    {
+     "phrase": "spine concept купить",
+     "impressions": 36
+    },
+    {
+     "phrase": "spine corsa купить",
+     "impressions": 32
+    },
+    {
+     "phrase": "spine pro купить",
+     "impressions": 30
+    }
+   ],
+   "procreate": [
+    {
+     "phrase": "купить procreate",
+     "impressions": 823
+    },
+    {
+     "phrase": "купить procreate на ipad",
+     "impressions": 153
+    },
+    {
+     "phrase": "как купить procreate на айпад",
+     "impressions": 126
+    },
+    {
+     "phrase": "как купить procreate на айпад в россии",
+     "impressions": 101
+    },
+    {
+     "phrase": "как оплатить procreate",
+     "impressions": 85
+    },
+    {
+     "phrase": "procreate подписка",
+     "impressions": 42
+    },
+    {
+     "phrase": "procreate стоимость",
+     "impressions": 40
+    },
+    {
+     "phrase": "как оплатить procreate из россии",
+     "impressions": 38
+    },
+    {
+     "phrase": "можно ли купить procreate",
+     "impressions": 35
+    }
+   ],
+   "blackmagic": [
+    {
+     "phrase": "davinci resolve купить",
+     "impressions": 531
+    },
+    {
+     "phrase": "davinci resolve studio купить",
+     "impressions": 252
+    },
+    {
+     "phrase": "davinci resolve лицензия",
+     "impressions": 120
+    },
+    {
+     "phrase": "davinci resolve license",
+     "impressions": 58
+    },
+    {
+     "phrase": "davinci resolve ключ купить",
+     "impressions": 57
+    },
+    {
+     "phrase": "davinci resolve 21 купить",
+     "impressions": 49
+    },
+    {
+     "phrase": "davinci resolve studio лицензия",
+     "impressions": 48
+    },
+    {
+     "phrase": "davinci resolve купить лицензию",
+     "impressions": 47
+    },
+    {
+     "phrase": "davinci resolve studio 21 купить",
+     "impressions": 39
+    },
+    {
+     "phrase": "davinci resolve купить в россии",
+     "impressions": 38
+    }
+   ],
+   "midjourney": [
+    {
+     "phrase": "midjourney подписка",
+     "impressions": 380
+    },
+    {
+     "phrase": "midjourney купить",
+     "impressions": 165
+    },
+    {
+     "phrase": "midjourney купить подписку",
+     "impressions": 96
+    },
+    {
+     "phrase": "как оплатить midjourney",
+     "impressions": 90
+    },
+    {
+     "phrase": "midjourney оплата",
+     "impressions": 45
+    },
+    {
+     "phrase": "как оплатить midjourney из россии",
+     "impressions": 44
+    },
+    {
+     "phrase": "midjourney тарифы",
+     "impressions": 41
+    },
+    {
+     "phrase": "midjourney оплатить подписку",
+     "impressions": 40
+    },
+    {
+     "phrase": "midjourney стоимость",
+     "impressions": 34
+    },
+    {
+     "phrase": "midjourney нейросеть подписка",
+     "impressions": 32
+    }
+   ],
+   "canva": [
+    {
+     "phrase": "canva подписка",
+     "impressions": 337
+    },
+    {
+     "phrase": "купить canva",
+     "impressions": 204
+    },
+    {
+     "phrase": "как оплатить canva",
+     "impressions": 95
+    },
+    {
+     "phrase": "canva купить подписку",
+     "impressions": 78
+    },
+    {
+     "phrase": "canva pro подписка",
+     "impressions": 68
+    },
+    {
+     "phrase": "canva pro купить",
+     "impressions": 55
+    },
+    {
+     "phrase": "canva оплата",
+     "impressions": 34
+    },
+    {
+     "phrase": "canva тарифы",
+     "impressions": 34
+    }
+   ],
+   "coreldraw": [
+    {
+     "phrase": "coreldraw купить",
+     "impressions": 371
+    },
+    {
+     "phrase": "coreldraw лицензия",
+     "impressions": 206
+    },
+    {
+     "phrase": "coreldraw лицензия купить",
+     "impressions": 65
+    },
+    {
+     "phrase": "coreldraw graphics купить",
+     "impressions": 44
+    },
+    {
+     "phrase": "coreldraw купить ключ",
+     "impressions": 42
+    },
+    {
+     "phrase": "coreldraw 2026 купить",
+     "impressions": 41
+    },
+    {
+     "phrase": "coreldraw suite купить",
+     "impressions": 41
+    },
+    {
+     "phrase": "coreldraw graphics suite купить",
+     "impressions": 40
+    },
+    {
+     "phrase": "coreldraw подписка",
+     "impressions": 33
+    }
+   ],
+   "sketch": [
+    {
+     "phrase": "sketches купить",
+     "impressions": 454
+    },
+    {
+     "phrase": "sketch аппарат купить",
+     "impressions": 126
+    },
+    {
+     "phrase": "etch a sketch купить",
+     "impressions": 87
+    },
+    {
+     "phrase": "sketch массаж купить",
+     "impressions": 71
+    },
+    {
+     "phrase": "sketch аппарат для массажа купить",
+     "impressions": 50
+    },
+    {
+     "phrase": "etch a sketch волшебный экран купить",
+     "impressions": 33
+    }
+   ],
+   "clip-studio-paint": [
+    {
+     "phrase": "clip studio paint купить",
+     "impressions": 417
+    },
+    {
+     "phrase": "подписка clip studio paint",
+     "impressions": 121
+    },
+    {
+     "phrase": "clip studio paint лицензия",
+     "impressions": 93
+    },
+    {
+     "phrase": "clip studio paint ex купить",
+     "impressions": 58
+    },
+    {
+     "phrase": "купить подписку clip studio paint",
+     "impressions": 54
+    },
+    {
+     "phrase": "оплатить clip studio paint",
+     "impressions": 51
+    },
+    {
+     "phrase": "clip studio paint купить лицензию",
+     "impressions": 40
+    }
+   ],
+   "wondershare": [
+    {
+     "phrase": "wondershare подписка",
+     "impressions": 239
+    },
+    {
+     "phrase": "wondershare купить",
+     "impressions": 148
+    },
+    {
+     "phrase": "wondershare ключи лицензионные",
+     "impressions": 73
+    },
+    {
+     "phrase": "wondershare ключ активации лицензионный",
+     "impressions": 72
+    },
+    {
+     "phrase": "лицензия wondershare",
+     "impressions": 52
+    },
+    {
+     "phrase": "wondershare filmora купить",
+     "impressions": 49
+    },
+    {
+     "phrase": "ключ wondershare recoverit активации лицензионный",
+     "impressions": 42
+    },
+    {
+     "phrase": "wondershare recoverit ключ активации лицензионный бесплатно",
+     "impressions": 40
+    },
+    {
+     "phrase": "wondershare filmora подписка",
+     "impressions": 39
+    },
+    {
+     "phrase": "как отменить подписку wondershare",
+     "impressions": 32
+    }
+   ],
+   "foundry": [
+    {
+     "phrase": "foundry купить",
+     "impressions": 380
+    },
+    {
+     "phrase": "foundry vtt купить",
+     "impressions": 226
+    },
+    {
+     "phrase": "foundry купить в россии",
+     "impressions": 69
+    },
+    {
+     "phrase": "foundry vtt купить в россии",
+     "impressions": 67
+    }
+   ],
+   "avid": [
+    {
+     "phrase": "avid купить",
+     "impressions": 411
+    },
+    {
+     "phrase": "avid bb7 купить",
+     "impressions": 67
+    },
+    {
+     "phrase": "avid pro tools купить",
+     "impressions": 52
+    },
+    {
+     "phrase": "avid цена",
+     "impressions": 45
+    },
+    {
+     "phrase": "avid carp купить",
+     "impressions": 44
+    },
+    {
+     "phrase": "st croix avid купить",
+     "impressions": 44
+    }
+   ],
+   "heygen": [
+    {
+     "phrase": "heygen подписка",
+     "impressions": 180
+    },
+    {
+     "phrase": "heygen оплатить",
+     "impressions": 124
+    },
+    {
+     "phrase": "как оплатить heygen из россии",
+     "impressions": 35
+    }
+   ],
+   "miro": [
+    {
+     "phrase": "miro подписка",
+     "impressions": 67
+    },
+    {
+     "phrase": "miro цены",
+     "impressions": 57
+    },
+    {
+     "phrase": "elena miro купить",
+     "impressions": 42
+    }
+   ],
+   "elevenlabs": [
+    {
+     "phrase": "подписка elevenlabs",
+     "impressions": 148
+    },
+    {
+     "phrase": "купить elevenlabs",
+     "impressions": 131
+    },
+    {
+     "phrase": "elevenlabs подписка купить",
+     "impressions": 67
+    },
+    {
+     "phrase": "elevenlabs тарифы",
+     "impressions": 32
+    }
+   ],
+   "native-instruments": [
+    {
+     "phrase": "купить native instruments",
+     "impressions": 143
+    },
+    {
+     "phrase": "native instruments mk3 купить",
+     "impressions": 62
+    },
+    {
+     "phrase": "купить native instruments traktor",
+     "impressions": 43
+    },
+    {
+     "phrase": "native instruments maschine mk3 купить",
+     "impressions": 31
+    }
+   ],
+   "maxon": [
+    {
+     "phrase": "maxon купить",
+     "impressions": 159
+    },
+    {
+     "phrase": "maxon sd 9 купить",
+     "impressions": 81
+    }
+   ],
+   "freepik": [
+    {
+     "phrase": "подписка freepik",
+     "impressions": 77
+    },
+    {
+     "phrase": "freepik купить",
+     "impressions": 73
+    },
+    {
+     "phrase": "оплатить freepik",
+     "impressions": 40
+    },
+    {
+     "phrase": "бесплатные безлицензионные картинки freepik",
+     "impressions": 37
+    },
+    {
+     "phrase": "freepik купить подписку",
+     "impressions": 33
+    },
+    {
+     "phrase": "лицензии freepik",
+     "impressions": 30
+    }
+   ],
+   "shutterstock": [
+    {
+     "phrase": "shutterstock лицензия",
+     "impressions": 92
+    },
+    {
+     "phrase": "купить shutterstock",
+     "impressions": 73
+    },
+    {
+     "phrase": "shutterstock подписка",
+     "impressions": 30
+    }
+   ],
+   "unreal-engine": [
+    {
+     "phrase": "unreal engine сцена",
+     "impressions": 143
+    },
+    {
+     "phrase": "unreal engine купить",
+     "impressions": 64
+    }
+   ],
+   "recraft": [
+    {
+     "phrase": "recraft подписка",
+     "impressions": 66
+    },
+    {
+     "phrase": "recraft купить",
+     "impressions": 63
+    },
+    {
+     "phrase": "recraft купить подписку",
+     "impressions": 34
+    },
+    {
+     "phrase": "подписка recraft ai",
+     "impressions": 30
+    }
+   ],
+   "envato": [
+    {
+     "phrase": "подписка envato",
+     "impressions": 54
+    },
+    {
+     "phrase": "envato купить",
+     "impressions": 44
+    }
+   ],
+   "epidemic-sound": [
+    {
+     "phrase": "epidemic sound купить",
+     "impressions": 57
+    },
+    {
+     "phrase": "epidemic sound купить подписку",
+     "impressions": 48
+    }
+   ],
+   "artlist": [
+    {
+     "phrase": "artlist подписка",
+     "impressions": 47
+    },
+    {
+     "phrase": "artlist купить",
+     "impressions": 39
+    }
+   ],
+   "monotype": [
+    {
+     "phrase": "monotype лицензия",
+     "impressions": 44
+    }
+   ]
+  },
+  "discovery": [],
+  "comparable_to_visibility": false
+ },
+ "data_revisions": [],
+ "crm": {
+  "connected": false,
+  "qualified_leads": null,
+  "deals": null,
+  "revenue": null,
+  "note": "CRM не подключена — квалифицированные лиды, сделки и выручка недоступны"
+ },
+ "ctr_model": {
+  "approved": false,
+  "note": "утверждённая CTR-кривая по позициям отсутствует; расчёт «потерянных кликов» не выполняется"
+ }
+}
