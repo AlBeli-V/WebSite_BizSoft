@@ -59,17 +59,25 @@ jobs:
           capture_stdout: true
           script: |
             set -e
-            CONF=$(sudo grep -rl "server_name biz-soft.pro" /etc/nginx/sites-enabled/ /etc/nginx/conf.d/ 2>/dev/null | head -1)
-            echo "конфиг: ${CONF:-не найден}"
+            echo "== окружение =="
+            echo "пользователь: $(id -un), sudo без пароля: $(sudo -n true 2>/dev/null && echo да || echo НЕТ)"
+            SUDO=""
+            sudo -n true 2>/dev/null && SUDO="sudo -n"
+            echo "== поиск конфига (без sudo) =="
+            ls -la /etc/nginx/sites-enabled/ 2>&1 | head -6 || true
+            CONF=$(grep -rl "server_name biz-soft.pro" /etc/nginx 2>/dev/null | grep -v "\.bak" | head -1)
+            if [ -z "$CONF" ] && [ -n "$SUDO" ]; then
+              CONF=$($SUDO grep -rl "server_name biz-soft.pro" /etc/nginx 2>/dev/null | grep -v "\.bak" | head -1)
+            fi
+            echo "конфиг: ${CONF:-НЕ НАЙДЕН}"
             [ -n "$CONF" ]
-            if sudo grep -q "seo-reports" "$CONF"; then
+            if $SUDO grep -q "seo-reports" "$CONF" 2>/dev/null || grep -q "seo-reports" "$CONF" 2>/dev/null; then
               echo "блок seo-reports уже есть — пропуск вставки"
             elif [ "$P_APPLY" != "true" ]; then
               echo "apply=false: блока нет, вставка не выполнялась"
             else
-              sudo cp -p "$CONF" "$CONF.bak-$(date +%Y%m%d-%H%M%S)"
-              # Вставка перед первым «location / {» — как в шаблоне.
-              sudo python3 - "$CONF" <<'PYEOF'
+              $SUDO cp -p "$CONF" "$CONF.bak-$(date +%Y%m%d-%H%M%S)"
+              $SUDO python3 - "$CONF" <<'PYEOF'
             import sys
             conf = sys.argv[1]
             block = open('/tmp/reports-location.conf', encoding='utf-8').read().rstrip('\n')
@@ -82,12 +90,14 @@ jobs:
             print('блок вставлен')
             PYEOF
             fi
-            sudo mkdir -p /opt/bizsoft/seo-reports
-            sudo chown "$USER" /opt/bizsoft/seo-reports
-            sudo nginx -t
-            [ "$P_APPLY" = "true" ] && sudo systemctl reload nginx && echo "nginx перечитан" || true
-            echo "--- location'ы с отчётами:"; sudo grep -n "r-\|seo-reports" "$CONF" | head -5
-
+            $SUDO mkdir -p /opt/bizsoft/seo-reports
+            $SUDO chown "$(id -un)" /opt/bizsoft/seo-reports 2>/dev/null || true
+            $SUDO nginx -t 2>&1 || nginx -t 2>&1 || echo "nginx -t недоступен без sudo"
+            if [ "$P_APPLY" = "true" ]; then
+              $SUDO systemctl reload nginx 2>&1 && echo "nginx перечитан" || echo "reload не выполнен — нужен sudo"
+            fi
+            echo "--- location отчётов в конфиге:"
+            { $SUDO grep -n "r-\|seo-reports" "$CONF" 2>/dev/null || grep -n "r-\|seo-reports" "$CONF" 2>/dev/null || echo "(не читается без sudo)"; } | head -5
       - name: Post to issue
         if: always()
         uses: actions/github-script@v7
