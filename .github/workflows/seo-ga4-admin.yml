@@ -9,7 +9,7 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - claude/biz-soft-rating-tracking-5rf03g
+      - main
     paths:
       - ".github/workflows/seo-ga4-admin.yml"
 
