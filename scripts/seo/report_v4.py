@@ -35,7 +35,7 @@ from textfmt import (counted, num, plural, pct, ru_date,  # noqa: E402
 
 BASE = pathlib.Path("reports/seo/intelligence")
 REPO = "https://github.com/AlBeli-V/WebSite_BizSoft"
-BRANCH = "claude/biz-soft-rating-tracking-5rf03g"
+BRANCH = "seo-data"
 BLOB = f"{REPO}/blob/{BRANCH}"
 PUBLIC_REPORT_BASE_URL = os.environ.get("PUBLIC_REPORT_BASE_URL", "").rstrip("/")
 # Адрес опубликованной страницы отчёта. Файл проще переменной окружения: его видно

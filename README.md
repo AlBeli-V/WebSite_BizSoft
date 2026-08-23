@@ -91,4 +91,4 @@ pnpm build && pnpm start   # или pnpm dev
 
 ## SEO/Growth-аналитика — BIZSoft Search & Growth Intelligence
 
-Ежедневная автоматическая система маркетинговой аналитики (позиции Google/Яндекс, поведение, конверсии, отчёт-письмо руководителю в 9:00). Живёт в ветке `claude/biz-soft-rating-tracking-5rf03g`: регламент и вся логика — `reports/seo/README.md`, восстановление расписания — `reports/seo/TRIGGER.md`. Управление и доработки — через сессию Claude Code «BIZSoft Growth Intelligence» (любой новый агент подключается, прочитав указанные файлы).
+Ежедневная автоматическая система маркетинговой аналитики (позиции Google/Яндекс, поведение, конверсии, отчёт-письмо руководителю в 9:00 МСК). Код и регламент — в `main` (`scripts/seo/`, `reports/seo/README.md`, восстановление расписания — `reports/seo/TRIGGER.md`), машинные данные — в отдельной ветке-хранилище `seo-data`; обмен — `scripts/seo/data_sync.sh`. Управление и доработки — через сессию Claude Code «BIZSoft Growth Intelligence» (любой новый агент подключается, прочитав указанные файлы).

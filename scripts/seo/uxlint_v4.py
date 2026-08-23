@@ -200,7 +200,7 @@ def run(date: str) -> dict:
     else:
         # Имя ветки содержит слэш, поэтому отрезается целиком, а не по первому
         # разделителю: иначе путь к файлу получается смещённым.
-        branch = "claude/biz-soft-rating-tracking-5rf03g/"
+        branch = "seo-data/"
         rest = ""
         for marker in ("/blob/", "/tree/"):
             if marker in web:
