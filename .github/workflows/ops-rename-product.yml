@@ -17,6 +17,12 @@ jobs:
   rename:
     runs-on: ubuntu-latest
     steps:
+      - name: Guard - only default branch
+        run: |
+          if [ "${{ github.ref_name }}" != "main" ]; then
+            echo "Запуск разрешён только с ветки main. Текущий ref: ${{ github.ref_name }}"
+            exit 1
+          fi
       - name: Rename in Directus
         id: run
         uses: appleboy/ssh-action@v1
