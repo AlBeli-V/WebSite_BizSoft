@@ -35,12 +35,15 @@ from textfmt import (counted, num, plural, pct, ru_date,  # noqa: E402
 
 BASE = pathlib.Path("reports/seo/intelligence")
 REPO = "https://github.com/AlBeli-V/WebSite_BizSoft"
-BRANCH = "claude/biz-soft-rating-tracking-5rf03g"
+BRANCH = "seo-data"
 BLOB = f"{REPO}/blob/{BRANCH}"
-PUBLIC_REPORT_BASE_URL = os.environ.get("PUBLIC_REPORT_BASE_URL", "").rstrip("/")
-# Адрес опубликованной страницы отчёта. Файл проще переменной окружения: его видно
-# в репозитории и он переживает пересоздание среды.
+# Адрес опубликованной страницы отчёта. Файл проще переменной окружения: он
+# лежит в данных (ветка seo-data), виден в репозитории и переживает
+# пересоздание среды; переменная окружения его переопределяет.
 REPORT_URL_FILE = pathlib.Path("reports/seo/public/report-url.txt")
+PUBLIC_REPORT_BASE_URL = os.environ.get("PUBLIC_REPORT_BASE_URL", "").rstrip("/")
+if not PUBLIC_REPORT_BASE_URL and REPORT_URL_FILE.exists():
+    PUBLIC_REPORT_BASE_URL = REPORT_URL_FILE.read_text(encoding="utf-8").strip().rstrip("/")
 DEMAND_STATE = pathlib.Path("reports/seo/wordstat/intelligence-state.json")
 
 # ── Design tokens ───────────────────────────────────────────────────────────
@@ -363,7 +366,11 @@ def web_url(date: str) -> tuple[str, bool]:
     письма не открывается — на этом ссылка и ломалась.
     """
     if PUBLIC_REPORT_BASE_URL:
-        return f"{PUBLIC_REPORT_BASE_URL}/daily/{date}", True
+        # Прямо на index.html, а не на каталог: на проде действует общесайтовый
+        # URL-стандарт «301 со слэша на без-слэша», и адрес каталога зацикливается
+        # между этим редиректом и nginx-овым «каталог → слэш». Явный файл не
+        # редиректится вовсе.
+        return f"{PUBLIC_REPORT_BASE_URL}/daily/{date}/index.html", True
     md = pathlib.Path(f"reports/seo/public/daily/{date}/README.md")
     if md.exists():
         return f"{REPO}/blob/{BRANCH}/reports/seo/public/daily/{date}/README.md", True

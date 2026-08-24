@@ -104,10 +104,17 @@ jobs:
           TARGET: ${{ inputs.branch }}
         run: |
           set -e
+          # Ветка назначения приходит из поля ввода, а main не защищена
+          # тарифом: force-push сюда перезаписал бы историю всего проекта.
+          if [ "$TARGET" = "main" ]; then
+            echo "Запись в main из этого workflow запрещена — укажите рабочую ветку."
+            exit 1
+          fi
           git config user.name 'github-actions[bot]'
           git config user.email 'github-actions[bot]@users.noreply.github.com'
+          git fetch origin "$TARGET" || true
           git checkout -B "$TARGET"
           git add -A "$DEST"
           git commit -m "assets: приём файлов по ссылке в $DEST" || { echo 'нечего коммитить'; exit 0; }
-          git push -u origin "$TARGET" --force
+          git push -u origin "$TARGET" --force-with-lease
           echo "запушено в ветку $TARGET"

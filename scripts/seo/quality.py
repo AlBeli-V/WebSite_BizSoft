@@ -357,7 +357,13 @@ def run_checks(snap: dict, prev: dict | None = None) -> dict:
     # пользоваться.
     required = {"lead"}
     if declared and an.get("metrika", {}).get("available"):
-        configured = {g_["name"] for g_ in an["metrika"].get("goals_configured") or []}
+        # Цель считается заведённой, если наш ключ совпал с именем цели ИЛИ с
+        # идентификатором события в её условиях: заведённые через API цели
+        # называются по-русски, а ключ (lead_sent) лежит в conditions[].url.
+        configured = set()
+        for g_ in an["metrika"].get("goals_configured") or []:
+            configured.add(g_["name"])
+            configured.update(g_.get("events") or [])
         missing = [n for n in declared
                    if levels.get(n, "engagement") in required and n not in configured]
         declared = [n for n in declared if levels.get(n, "engagement") in required]
