@@ -5,6 +5,8 @@ import { defaultLeadOwner } from '../../config/site';
 import { createLead } from '../../lib/directus';
 import { sendMail, managerEmail } from '../../lib/mailer';
 import { attributionFields } from '../../lib/quote-lead';
+import { guardSubmission, guardResponse, countSubmission } from '../../lib/form-guard';
+import { clientIp } from '../../lib/client-ip';
 
 function isEmail(v: unknown): v is string {
   return typeof v === 'string' && /.+@.+\..+/.test(v);
@@ -23,6 +25,13 @@ export const POST: APIRoute = async ({ request }) => {
     return new Response(JSON.stringify({ error: 'bad json' }), { status: 400 });
   }
 
+  // Защита публичных форм (SEC-RL-001): приманка, отсечка по времени и
+  // пороги по адресу. Стоит до валидации — отклонённое обращение не должно
+  // стоить нам ни запроса в базу, ни письма.
+  const ip = clientIp(request);
+  const verdict = await guardSubmission({ body, ip });
+  if (!verdict.ok) return guardResponse(verdict);
+
   // Все поля формы обязательны
   if (!filled(body.name)) return new Response(JSON.stringify({ error: 'Укажите ФИО' }), { status: 422 });
   if (!filled(body.company)) return new Response(JSON.stringify({ error: 'Укажите компанию' }), { status: 422 });
@@ -32,6 +41,11 @@ export const POST: APIRoute = async ({ request }) => {
   if (body.consent !== true) {
     return new Response(JSON.stringify({ error: 'Нужно согласие на обработку персональных данных' }), { status: 422 });
   }
+
+  // Поля разобраны — это заявка, а не опечатка. Только теперь она тратит
+  // порог адреса: иначе три промаха мимо формата телефона закрыли бы форму
+  // человеку до конца часа.
+  await countSubmission(ip);
 
   const payload = {
     name: String(body.name || '').slice(0, 200),
