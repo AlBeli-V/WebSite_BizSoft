@@ -548,6 +548,55 @@ export async function upsertCurrencyRate(payload: Partial<CurrencyRate>): Promis
   return dx<CurrencyRate>('/items/currency_rate', { auth: true, method: 'POST', body: payload });
 }
 
+// ── app_kv: общее хранилище счётчиков и кэша ──
+// Счётчик лимита, лежащий в памяти процесса, считает каждый инстанс свой:
+// при двух контейнерах порог удваивается, при рестарте обнуляется. Общая
+// таблица в той же базе, что и заявки, лишена обоих недостатков и не тянет
+// в проект ещё одну зависимость (Redis) ради трёх ключей.
+
+export interface KvRecord {
+  key: string;
+  value: unknown;
+  /** ISO-время, после которого запись считается отсутствующей. */
+  expires_at: string;
+}
+
+/**
+ * Запись по ключу или null, если её нет. Просроченную не возвращаем.
+ *
+ * Выборка списком с фильтром, а не обращение к /items/app_kv/<key>: на
+ * отсутствующую запись Directus отвечает тем же 403, что и на отсутствие
+ * прав или коллекции, и «счёт нулевой» становится неотличимо от «считать
+ * нечем». Для лимита это разные вещи: первое означает «пропускай», второе —
+ * «защита не работает». Список отвечает пустым массивом на первое и ошибкой
+ * на второе, поэтому ошибку отсюда мы пробрасываем, а не гасим.
+ */
+export async function kvGet(key: string): Promise<KvRecord | null> {
+  const rows = await dx<KvRecord[]>('/items/app_kv', {
+    auth: true,
+    params: { 'filter[key][_eq]': key, limit: 1 },
+  });
+  const rec = rows?.[0];
+  if (!rec) return null;
+  if (rec.expires_at && Date.parse(rec.expires_at) <= Date.now()) return null;
+  return rec;
+}
+
+/** Создать или перезаписать запись. Ключ — первичный, поэтому upsert по нему. */
+export async function kvPut(rec: KvRecord): Promise<void> {
+  try {
+    await dx(`/items/app_kv/${encodeURIComponent(rec.key)}`, {
+      auth: true, method: 'PATCH', body: { value: rec.value, expires_at: rec.expires_at },
+    });
+  } catch (e) {
+    if (e instanceof DirectusError && (e.status === 403 || e.status === 404)) {
+      await dx('/items/app_kv', { auth: true, method: 'POST', body: rec });
+      return;
+    }
+    throw e;
+  }
+}
+
 /** URL ассета медиатеки Directus по id файла. */
 export function assetUrl(fileId: string, params?: Record<string, string | number>): string {
   const u = new URL(`${DIRECTUS_URL}/assets/${fileId}`);
