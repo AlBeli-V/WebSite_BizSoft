@@ -110,3 +110,16 @@ pnpm ai:import -- --apply  # применить
 | `curl https://biz-soft.pro` не 200 | сервис `astro` не запущен / nginx | `docker compose ps`, `docker compose up -d astro`, `nginx -t && systemctl reload nginx` |
 | Сайт есть, но каталог пустой | нет связи с Directus | проверить сервис `directus`, `DIRECTUS_URL=http://directus:8055` на проде |
 | Локально каталог пустой | нет тоннеля/токена | открыть SSH-тоннель, задать `DIRECTUS_URL=http://127.0.0.1:8055`, `DIRECTUS_TOKEN` |
+
+## 9. Резервные копии и восстановление
+
+Копии снимает workflow `ops-backup` (ежедневно 03:30 МСК, запуск вручную — только
+с ветки main): дамп PostgreSQL, медиатека Directus, `astro.env` и compose-файлы →
+архив в `/opt/bizsoft/backups` (хранятся 7 последних) и его шифрованная копия на
+Яндекс.Диске. Каждый прогон проверяет дамп накатом во временный контейнер Postgres;
+отчёт — комментарием в issue #22.
+
+Полная процедура восстановления — [`DR-RUNBOOK.md`](./DR-RUNBOOK.md): потеря сервера,
+повреждение базы, точечный возврат удалённых записей, RPO/RTO и регламент проверок.
+Нужные секреты репозитория: `BACKUP_PASSPHRASE` (шифрование архива) и
+`YANDEX_DISK_OAUTH` (выгрузка вне сервера).

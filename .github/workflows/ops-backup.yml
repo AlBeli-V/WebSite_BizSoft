@@ -1,0 +1,371 @@
+# Резервное копирование прода и проверка пригодности копии к восстановлению.
+#
+# Зачем. До 24.08.2026 у проекта не было ни одной резервной копии: код лежит в
+# git, а база Directus (товары, вендоры, заявки), файлы медиатеки и секреты
+# /opt/bizsoft/astro.env существовали на сервере в единственном экземпляре.
+# Потеря диска означала потерю каталога без возможности восстановления.
+#
+# Что делает. Снимает согласованный по времени срез трёх активов — дамп
+# PostgreSQL (pg_dump -Fc), медиатеку Directus, конфигурацию и секреты, —
+# складывает в один архив в /opt/bizsoft/backups, затем ПРОВЕРЯЕТ его:
+# поднимает временный контейнер Postgres, восстанавливает в него дамп и
+# считает строки. Непроверенная копия резервной копией не считается.
+#
+# Куда уезжает. Копия на том же диске, что и прод, спасает от порчи данных, но
+# не от потери сервера. Поэтому архив шифруется (openssl AES-256, пароль из
+# секрета BACKUP_PASSPHRASE) и выкладывается на Яндекс.Диск по токену
+# YANDEX_DISK_OAUTH. Без пароля выгрузка не делается: архив содержит секреты и
+# персональные данные из заявок, класть его наружу открытым нельзя.
+#
+# Восстановление отсюда НЕ запускается — оно описано в docs/DR-RUNBOOK.md и
+# выполняется руками. Автоматический накат дампа на живую базу — это кнопка
+# «стереть прод», её в репозитории быть не должно.
+#
+# Результат каждого запуска — комментарий в журнал-issue #22.
+name: ops-backup
+
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "check — только осмотр без записи; backup — снять копию"
+        required: true
+        default: "check"
+        type: choice
+        options: ["check", "backup"]
+      verify:
+        description: "Проверять копию восстановлением во временный Postgres"
+        required: false
+        default: "true"
+        type: choice
+        options: ["true", "false"]
+      offsite:
+        description: "Выгружать зашифрованную копию на Яндекс.Диск"
+        required: false
+        default: "true"
+        type: choice
+        options: ["true", "false"]
+      keep:
+        description: "Сколько последних копий хранить на сервере"
+        required: false
+        default: "7"
+  schedule:
+    # 00:30 UTC = 03:30 МСК, ежедневно (ночь, трафика почти нет).
+    - cron: "30 0 * * *"
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  backup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Guard - only default branch
+        run: |
+          if [ "${{ github.ref_name }}" != "main" ]; then
+            echo "Запуск разрешён только с ветки main. Текущий ref: ${{ github.ref_name }}"
+            exit 1
+          fi
+
+      - name: Backup over SSH
+        id: run
+        continue-on-error: true
+        uses: appleboy/ssh-action@v1
+        env:
+          # inputs пусты при запуске по расписанию — тогда берутся значения
+          # ночного прогона: полная копия с проверкой и выгрузкой.
+          P_MODE: ${{ inputs.mode || 'backup' }}
+          P_VERIFY: ${{ inputs.verify || 'true' }}
+          P_OFFSITE: ${{ inputs.offsite || 'true' }}
+          P_KEEP: ${{ inputs.keep || '7' }}
+          P_PASS: ${{ secrets.BACKUP_PASSPHRASE }}
+          P_YD: ${{ secrets.YANDEX_DISK_OAUTH }}
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          envs: P_MODE,P_VERIFY,P_OFFSITE,P_KEEP,P_PASS,P_YD
+          capture_stdout: true
+          command_timeout: 30m
+          script: |
+            set -uo pipefail
+            BASE=/opt/bizsoft
+            DEST=$BASE/backups
+            STAMP=$(date -u +%Y%m%d-%H%M)
+            FAIL=0
+
+            echo "════ ОКРУЖЕНИЕ ════"
+            echo "пользователь: $(id -un)  дата (UTC): $(date -u +%FT%TZ)"
+            docker info >/dev/null 2>&1 || { echo "✗ docker недоступен — без него копию снять нечем"; exit 1; }
+
+            DB_C=$(docker ps --format '{{.Names}}' | grep -Ei 'db|postgres' | head -1)
+            DIR_C=$(docker ps --format '{{.Names}}' | grep -Ei 'directus' | head -1)
+            echo "контейнер БД:       ${DB_C:-НЕ НАЙДЕН}"
+            echo "контейнер Directus: ${DIR_C:-НЕ НАЙДЕН}"
+            [ -n "$DB_C" ] || { echo "✗ контейнер PostgreSQL не найден"; exit 1; }
+
+            DB_IMAGE=$(docker inspect -f '{{.Config.Image}}' "$DB_C" 2>/dev/null)
+            ENVDUMP=$(docker inspect -f '{{range .Config.Env}}{{println .}}{{end}}' "$DB_C" 2>/dev/null)
+            DB_USER=$(echo "$ENVDUMP" | sed -n 's/^POSTGRES_USER=//p' | head -1)
+            DB_NAME=$(echo "$ENVDUMP" | sed -n 's/^POSTGRES_DB=//p' | head -1)
+            DB_USER=${DB_USER:-postgres}
+            DB_NAME=${DB_NAME:-$DB_USER}
+            echo "образ БД: $DB_IMAGE   база: $DB_NAME   роль: $DB_USER"
+
+            FREE_MB=$(df -Pm "$BASE" | awk 'NR==2{print $4}')
+            echo "свободно на диске: ${FREE_MB} МБ"
+            DB_SIZE=$(docker exec "$DB_C" psql -U "$DB_USER" -d "$DB_NAME" -tAc \
+              "select pg_size_pretty(pg_database_size('$DB_NAME'))" 2>/dev/null | tr -d ' ')
+            echo "размер базы: ${DB_SIZE:-неизвестен}"
+            if [ -n "$DIR_C" ]; then
+              UP_SIZE=$(docker exec "$DIR_C" sh -c 'du -sh /directus/uploads 2>/dev/null | cut -f1' 2>/dev/null)
+              echo "медиатека Directus: ${UP_SIZE:-размер не определён}"
+            fi
+            echo "секрет BACKUP_PASSPHRASE: $([ -n "${P_PASS:-}" ] && echo задан || echo НЕ ЗАДАН)"
+            echo "секрет YANDEX_DISK_OAUTH: $([ -n "${P_YD:-}" ] && echo задан || echo НЕ ЗАДАН)"
+            echo "openssl: $(command -v openssl >/dev/null 2>&1 && openssl version || echo НЕТ)"
+
+            echo
+            echo "════ УЖЕ СНЯТЫЕ КОПИИ ════"
+            if [ -d "$DEST" ]; then
+              ls -lh "$DEST" 2>/dev/null | tail -n +2 || echo "  (пусто)"
+              echo "  занято копиями: $(du -sh "$DEST" 2>/dev/null | cut -f1)"
+            else
+              echo "  каталога $DEST ещё нет — копий не было ни разу"
+            fi
+
+            if [ "$P_MODE" != "backup" ]; then
+              echo
+              echo "mode=check: ничего не записывалось."
+              exit 0
+            fi
+
+            # Дамп + медиатека + конфиг занимают примерно столько же, сколько
+            # исходники. 2 ГБ — запас, при котором нечем заполнить диск.
+            if [ "${FREE_MB:-0}" -lt 2048 ]; then
+              echo "✗ на диске меньше 2 ГБ свободного места — копия не снимается"
+              exit 1
+            fi
+
+            echo
+            echo "════ СНЯТИЕ КОПИИ $STAMP ════"
+            mkdir -p "$DEST" && chmod 700 "$DEST"
+            WORK=$(mktemp -d)
+            # Дамп и конфиг содержат секреты и персональные данные заявок:
+            # каталог не должен быть читаем никем, кроме владельца.
+            chmod 700 "$WORK"
+            trap 'rm -rf "$WORK"' EXIT
+
+            echo "── 1/4 дамп PostgreSQL ──"
+            # -Fc: сжатый формат, восстанавливается pg_restore выборочно, по
+            # одной таблице; -Z6 — компромисс размера и времени.
+            if docker exec "$DB_C" pg_dump -U "$DB_USER" -d "$DB_NAME" -Fc -Z6 > "$WORK/db.dump" 2>"$WORK/db.err"; then
+              echo "  ok: $(du -h "$WORK/db.dump" | cut -f1)"
+            else
+              echo "  ✗ pg_dump упал:"; sed 's/^/    /' "$WORK/db.err"; FAIL=1
+            fi
+            # Пустой или обрезанный дамп молча складывать нельзя — это худший
+            # вид «копии»: файл есть, восстановить нечего.
+            if [ ! -s "$WORK/db.dump" ] || [ "$(stat -c%s "$WORK/db.dump")" -lt 10000 ]; then
+              echo "  ✗ дамп подозрительно мал — считаем снятие неудачным"; FAIL=1
+            fi
+            # Дальше идти нельзя: архив без годного дампа занял бы место в
+            # ротации и через семь неудачных ночей вытеснил бы все рабочие
+            # копии. Лучше остановиться и оставить прошлые копии нетронутыми.
+            if [ "$FAIL" != "0" ]; then
+              echo "✗ дамп не снят — архив не собирается, ротация не выполняется"
+              exit 1
+            fi
+
+            echo "── 2/4 медиатека Directus ──"
+            if [ -n "$DIR_C" ]; then
+              # docker cp не требует ни tar, ни du внутри образа — работает
+              # с любым Directus, даже distroless.
+              if docker cp "$DIR_C:/directus/uploads" "$WORK/uploads" >/dev/null 2>&1; then
+                tar czf "$WORK/uploads.tgz" -C "$WORK" uploads 2>/dev/null
+                rm -rf "$WORK/uploads"
+                echo "  ok: $(du -h "$WORK/uploads.tgz" | cut -f1)"
+              else
+                echo "  ⚠ каталог /directus/uploads не скопировался (нет файлов или другой путь)"
+              fi
+            else
+              echo "  ⚠ контейнер Directus не найден — медиатека пропущена"
+            fi
+
+            echo "── 3/4 конфигурация и секреты ──"
+            CFG="$WORK/config"
+            mkdir -p "$CFG"
+            for f in astro.env docker-compose.yml docker-compose.override.yml deploy.sh; do
+              [ -f "$BASE/$f" ] && cp -a "$BASE/$f" "$CFG/" 2>/dev/null
+            done
+            NGINX_CONF=$(grep -rl "server_name biz-soft.pro" /etc/nginx 2>/dev/null | grep -v '\.bak' | head -1)
+            [ -n "$NGINX_CONF" ] && cp -a "$NGINX_CONF" "$CFG/nginx-biz-soft.conf" 2>/dev/null
+            crontab -l > "$CFG/crontab.txt" 2>/dev/null || true
+            docker compose -f "$BASE/docker-compose.yml" images > "$CFG/images.txt" 2>/dev/null || \
+              docker ps --format '{{.Names}} {{.Image}}' > "$CFG/images.txt" 2>/dev/null
+            tar czf "$WORK/config.tgz" -C "$WORK" config 2>/dev/null
+            rm -rf "$CFG"
+            echo "  ok: $(du -h "$WORK/config.tgz" | cut -f1) ($(tar tzf "$WORK/config.tgz" | wc -l) файлов)"
+
+            echo "── 4/4 сборка архива ──"
+            {
+              echo "снято (UTC): $(date -u +%FT%TZ)"
+              echo "сервер: $(hostname)"
+              echo "образ БД: $DB_IMAGE"
+              echo "база: $DB_NAME, роль: $DB_USER"
+              echo "версия PostgreSQL: $(docker exec "$DB_C" psql -U "$DB_USER" -d "$DB_NAME" -tAc 'show server_version' 2>/dev/null)"
+              echo "размер базы: ${DB_SIZE:-?}"
+              echo "содержимое: db.dump (pg_dump -Fc), uploads.tgz (медиатека), config.tgz (конфиг + astro.env)"
+              echo "восстановление: docs/DR-RUNBOOK.md"
+            } > "$WORK/MANIFEST.txt"
+            ARCHIVE="$DEST/bizsoft-$STAMP.tar.gz"
+            tar czf "$ARCHIVE" -C "$WORK" . 2>/dev/null && chmod 600 "$ARCHIVE"
+            if [ ! -s "$ARCHIVE" ]; then
+              echo "  ✗ архив не собрался"; FAIL=1
+            fi
+            sha256sum "$ARCHIVE" | awk '{print $1}' > "$ARCHIVE.sha256"
+            echo "  архив: $ARCHIVE ($(du -h "$ARCHIVE" | cut -f1))"
+            echo "  sha256: $(cat "$ARCHIVE.sha256")"
+
+            if [ "$P_VERIFY" = "true" ] && [ -s "$WORK/db.dump" ]; then
+              echo
+              echo "════ ПРОВЕРКА ВОССТАНОВЛЕНИЯ ════"
+              # Разворачиваем дамп в отдельный контейнер той же версии.
+              # Прод при этом не трогается вообще: у временного контейнера
+              # свой том, своя сеть по умолчанию, порты наружу не открыты.
+              T=bizsoft-restore-check
+              docker rm -f "$T" >/dev/null 2>&1
+              if docker run -d --name "$T" -e POSTGRES_PASSWORD=verify \
+                   -e POSTGRES_DB=verify "$DB_IMAGE" >/dev/null 2>&1; then
+                READY=0
+                for i in $(seq 1 30); do
+                  docker exec "$T" pg_isready -U postgres -q 2>/dev/null && { READY=1; break; }
+                  sleep 2
+                done
+                if [ "$READY" = "1" ]; then
+                  docker cp "$WORK/db.dump" "$T:/tmp/db.dump" >/dev/null 2>&1
+                  # --no-owner/--no-privileges: роли прода во временной базе
+                  # не существует, без этих флагов restore ругается на каждый
+                  # объект. На сам накат в проде это не влияет — там роль есть.
+                  docker exec "$T" pg_restore -U postgres -d verify --no-owner --no-privileges \
+                    /tmp/db.dump > /tmp/restore.log 2>&1
+                  RC=$?
+                  docker exec "$T" psql -U postgres -d verify -c 'ANALYZE' >/dev/null 2>&1
+                  TABLES=$(docker exec "$T" psql -U postgres -d verify -tAc \
+                    "select count(*) from information_schema.tables where table_schema='public'" 2>/dev/null | tr -d ' ')
+                  echo "код возврата pg_restore: $RC (0 — без замечаний)"
+                  echo "таблиц восстановлено: ${TABLES:-0}"
+                  echo "── строки в крупнейших таблицах ──"
+                  docker exec "$T" psql -U postgres -d verify -c \
+                    "select relname as таблица, n_live_tup as строк from pg_stat_user_tables order by n_live_tup desc limit 12" 2>/dev/null
+                  if [ "${TABLES:-0}" -lt 5 ]; then
+                    echo "✗ восстановление дало меньше 5 таблиц — копия негодная"; FAIL=1
+                  else
+                    echo "✓ копия восстанавливается"
+                  fi
+                  [ "$RC" -ne 0 ] && { echo "── замечания pg_restore (последние 15) ──"; tail -15 /tmp/restore.log; }
+                else
+                  echo "✗ временный Postgres не поднялся за 60 с — проверить копию не удалось"; FAIL=1
+                fi
+                docker rm -f "$T" >/dev/null 2>&1
+              else
+                echo "✗ не удалось запустить временный контейнер $DB_IMAGE"; FAIL=1
+              fi
+            elif [ "$P_VERIFY" = "true" ]; then
+              echo; echo "проверка восстановления пропущена: дампа нет"
+            fi
+
+            if [ "$P_OFFSITE" = "true" ]; then
+              echo
+              echo "════ ВЫГРУЗКА ВНЕ СЕРВЕРА ════"
+              if [ -z "${P_PASS:-}" ]; then
+                echo "⚠ BACKUP_PASSPHRASE не задан — выгрузка отменена."
+                echo "  Архив содержит astro.env и заявки клиентов; наружу открытым не уходит."
+              elif [ -z "${P_YD:-}" ]; then
+                echo "⚠ YANDEX_DISK_OAUTH не задан — выгружать некуда, копия осталась только на сервере."
+              else
+                ENC="$ARCHIVE.enc"
+                # -pbkdf2: без него openssl использует устаревший вывод ключа
+                # из пароля; расшифровка — командой из docs/DR-RUNBOOK.md.
+                if BP="$P_PASS" openssl enc -aes-256-cbc -salt -pbkdf2 -iter 200000 \
+                     -in "$ARCHIVE" -out "$ENC" -pass env:BP 2>/dev/null; then
+                  echo "зашифровано: $(du -h "$ENC" | cut -f1)"
+                  REMOTE="/bizsoft-backups/$(basename "$ENC")"
+                  API=https://cloud-api.yandex.net/v1/disk/resources
+                  curl -s -X PUT -H "Authorization: OAuth $P_YD" \
+                    "$API?path=%2Fbizsoft-backups" -o /dev/null
+                  HREF=$(curl -s -H "Authorization: OAuth $P_YD" \
+                    "$API/upload?path=$(printf %s "$REMOTE" | sed 's#/#%2F#g')&overwrite=true" \
+                    | grep -o '"href":"[^"]*"' | sed 's/"href":"//;s/"$//;s#\\/#/#g')
+                  if [ -n "$HREF" ]; then
+                    CODE=$(curl -s -o /dev/null -w '%{http_code}' -T "$ENC" "$HREF")
+                    if [ "$CODE" -ge 200 ] && [ "$CODE" -lt 300 ]; then
+                      echo "✓ выгружено на Яндекс.Диск: $REMOTE (HTTP $CODE)"
+                    else
+                      echo "✗ заливка вернула HTTP $CODE"; FAIL=1
+                    fi
+                  else
+                    echo "✗ Диск не выдал ссылку для заливки (проверить токен и его права)"; FAIL=1
+                  fi
+                  rm -f "$ENC"
+                else
+                  echo "✗ шифрование не удалось — наружу ничего не отправлено"; FAIL=1
+                fi
+              fi
+            fi
+
+            echo
+            # Поле keep — свободный ввод; нечисловое значение уронило бы
+            # арифметику и оставило копии без ротации.
+            case "$P_KEEP" in ''|*[!0-9]*|0) echo "keep=$P_KEEP не число — берём 7"; P_KEEP=7;; esac
+            echo "════ РОТАЦИЯ (храним $P_KEEP последних) ════"
+            if [ "$FAIL" != "0" ]; then
+              echo "  прогон с ошибками — старые копии не удаляем"
+              echo
+              echo "✗ ИТОГ: в ходе копирования были ошибки — см. выше"
+              exit 1
+            fi
+            OLD=$(ls -1t "$DEST"/bizsoft-*.tar.gz 2>/dev/null | tail -n +$((P_KEEP + 1)))
+            if [ -n "$OLD" ]; then
+              echo "$OLD" | while read -r f; do echo "  удаляем $(basename "$f")"; rm -f "$f" "$f.sha256"; done
+            else
+              echo "  удалять нечего"
+            fi
+            echo "осталось копий: $(ls -1 "$DEST"/bizsoft-*.tar.gz 2>/dev/null | wc -l), занято: $(du -sh "$DEST" 2>/dev/null | cut -f1)"
+            echo "свободно на диске: $(df -Pm "$BASE" | awk 'NR==2{print $4}') МБ"
+
+            echo
+            if [ "$FAIL" = "0" ]; then
+              echo "✓ ИТОГ: копия снята и проверена"
+            else
+              echo "✗ ИТОГ: в ходе копирования были ошибки — см. выше"
+            fi
+            exit "$FAIL"
+
+      - name: Post results to journal (issue #22)
+        if: always()
+        uses: actions/github-script@v7
+        env:
+          OUT: ${{ steps.run.outputs.stdout }}
+          RESULT: ${{ steps.run.outcome }}
+          MODE: ${{ inputs.mode || 'backup' }}
+        with:
+          script: |
+            const out = (process.env.OUT || '(нет вывода)').slice(0, 60000);
+            const mark = process.env.RESULT === 'success' ? '✓' : '✗';
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: 22,
+              body: `### ops-backup (${process.env.MODE}) ${mark} · ` +
+                new Date().toISOString() + '\n```\n' + out + '\n```',
+            });
+
+      - name: Fail the run if backup failed
+        # Шаг копирования помечен continue-on-error, чтобы отчёт в журнал
+        # попадал и при поломке. Красный статус прогона возвращаем здесь.
+        if: steps.run.outcome != 'success'
+        run: |
+          echo "Копирование завершилось с ошибкой — подробности в issue #22"
+          exit 1
