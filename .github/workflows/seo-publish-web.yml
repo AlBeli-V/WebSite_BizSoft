@@ -1,0 +1,46 @@
+# КОПИЯ ИЗ MAIN. Push-триггер срабатывает только если файл workflow есть
+# в самой пушенной ветке, поэтому в ветке-хранилище seo-data лежит копия.
+# Источник истины — .github/workflows/ в main: правки вносить там и
+# копировать сюда тем же коммитом (см. reports/seo/README.md).
+# Выкладка веб-отчётов Growth Intelligence на сервер.
+#
+# Источник — reports/seo/public/ ветки-хранилища seo-data, приёмник —
+# /opt/bizsoft/seo-reports/ (отдаётся nginx по непубличному пути, см.
+# deploy/nginx-biz-soft.conf.template и ops-nginx-reports). Запускается
+# на каждый push веб-отчёта в seo-data — страница у руководителя всегда
+# свежая без ручных шагов.
+name: seo-publish-web
+on:
+  push:
+    branches:
+      - seo-data
+    paths:
+      - "reports/seo/public/**"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: seo-data
+
+      - name: Rsync public reports to server
+        env:
+          SSH_KEY: ${{ secrets.SSH_KEY }}
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          SSH_USER: ${{ secrets.SSH_USER }}
+        run: |
+          set -euo pipefail
+          install -m 700 -d ~/.ssh
+          printf '%s\n' "$SSH_KEY" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          ssh-keyscan -H "$SSH_HOST" >> ~/.ssh/known_hosts 2>/dev/null
+          # --delete: устаревшие дневные страницы уходят вместе с источником,
+          # каталог-приёмник не копит мусор годами.
+          rsync -rlgoDzc --delete \
+            -e "ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=yes" \
+            reports/seo/public/ "$SSH_USER@$SSH_HOST:/opt/bizsoft/seo-reports/"
+          echo "выложено: $(find reports/seo/public -type f | wc -l) файлов"
