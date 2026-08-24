@@ -165,10 +165,15 @@ def run(date: str) -> dict:
         f"запрещённые формулировки: {bad_measure or 'нет'}")
 
     health = dq["data_health"]["status"]
-    scope_only = any(f["code"] == "SCOPE_MISMATCH" for f in dq["findings"])
+    # Красным здоровье может быть только из-за настоящей поломки (источник не
+    # собрался или critical-находка), а не из-за расхождения охватов — за него
+    # data_health даёт limited. Прежняя формулировка падала при любом
+    # соседстве SCOPE_MISMATCH с degraded, даже когда degraded вызван другой,
+    # законной причиной (например, пересборкой выборки запросов).
+    scope_caused = "охват" in (dq["data_health"].get("reason") or "")
     add("no_critical_for_scope_mismatch",
-        not (scope_only and health == "degraded"),
-        f"здоровье данных: {health} при расхождении охватов")
+        not (scope_caused and health == "degraded"),
+        f"здоровье данных: {health}, причина: {dq['data_health'].get('reason')}")
     add("red_only_for_real_failure", dq["data_health"]["colour"] != "danger" or health == "degraded",
         f"цвет блока: {dq['data_health']['colour']}")
 
@@ -195,7 +200,7 @@ def run(date: str) -> dict:
     else:
         # Имя ветки содержит слэш, поэтому отрезается целиком, а не по первому
         # разделителю: иначе путь к файлу получается смещённым.
-        branch = "claude/biz-soft-rating-tracking-5rf03g/"
+        branch = "seo-data/"
         rest = ""
         for marker in ("/blob/", "/tree/"):
             if marker in web:
