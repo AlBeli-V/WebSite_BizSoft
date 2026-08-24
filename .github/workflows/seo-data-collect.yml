@@ -1,5 +1,7 @@
 # Ежедневный сбор SEO-данных из Google Search Console и Яндекс.Вебмастера
-# в reports/seo/data/ ветки мониторинга (утренний отчёт читает эти файлы).
+# в reports/seo/data/ ветки-хранилища seo-data (утренний отчёт читает эти
+# файлы). Код исполняется из main, данные живут отдельно — обмен через
+# scripts/seo/data_sync.sh.
 # Расписание: 02:40 UTC = 05:40 МСК — до формирования отчёта.
 # Время в cron задаётся в UTC; московское указано рядом (правило проекта).
 # Секреты: GSC_SERVICE_ACCOUNT_JSON, YANDEX_WEBMASTER_TOKEN,
@@ -13,7 +15,7 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - claude/biz-soft-rating-tracking-5rf03g
+      - main
     paths:
       - ".github/workflows/seo-data-collect.yml"
       - "scripts/seo/collect.py"
@@ -26,8 +28,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-        with:
-          ref: claude/biz-soft-rating-tracking-5rf03g
+
+      # Данные накатываются до прогона: push отправляет каталоги данных
+      # целиком, и без предварительного pull он затёр бы хранилище
+      # устаревшими копиями из main.
+      - name: Pull data branch
+        run: bash scripts/seo/data_sync.sh pull
 
       - name: Install deps
         run: pip install --quiet requests google-auth
@@ -41,16 +47,6 @@ jobs:
           GA4_PROPERTY_ID: ${{ secrets.GA4_PROPERTY_ID }}
         run: python3 scripts/seo/collect.py
 
-      - name: Commit data
+      - name: Push data
         if: always()
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add reports/seo/data
-          if git diff --cached --quiet; then
-            echo "Нет новых данных для коммита"
-          else
-            git commit -m "SEO-данные GSC/Яндекс за $(date -u +%F)"
-            git pull --rebase origin claude/biz-soft-rating-tracking-5rf03g
-            git push origin claude/biz-soft-rating-tracking-5rf03g
-          fi
+        run: bash scripts/seo/data_sync.sh push "SEO-данные GSC/Яндекс за $(date -u +%F)"

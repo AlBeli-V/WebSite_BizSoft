@@ -15,10 +15,6 @@ on:
         description: "true — применить (обновить deploy.sh + prune); false — только диагностика"
         required: true
         default: "false"
-  # dispatch вне main недоступен — на рабочей ветке применяем по пушу файла.
-  push:
-    branches: ['claude/beget-logs-load-analysis-ovbvbc']
-    paths: ['.github/workflows/ops-apply-cleanup.yml']
 
 permissions:
   contents: read

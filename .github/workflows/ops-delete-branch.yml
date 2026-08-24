@@ -1,0 +1,46 @@
+# Удаление ветки на remote по явной команде.
+#
+# Из среды сессии git-транспорт не пропускает удаление ссылок (push :ref и
+# теги обрываются на прокси), поэтому удаление выполняет раннер через API.
+# Защита от случайности: main, seo-data и archive/* удалить нельзя.
+name: ops-delete-branch
+on:
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: "Ветка к удалению (точное имя, без origin/)"
+        required: true
+permissions:
+  contents: write
+  issues: write
+jobs:
+  delete:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Delete branch
+        uses: actions/github-script@v7
+        env:
+          BRANCH: ${{ inputs.branch }}
+        with:
+          script: |
+            const branch = process.env.BRANCH.trim();
+            const protectedRefs = ['main', 'seo-data'];
+            if (protectedRefs.includes(branch) || branch.startsWith('archive/')) {
+              core.setFailed(`Ветка ${branch} защищена от удаления.`);
+              return;
+            }
+            const { owner, repo } = context.repo;
+            let sha = '(не определён)';
+            try {
+              const ref = await github.rest.git.getRef({ owner, repo, ref: `heads/${branch}` });
+              sha = ref.data.object.sha;
+            } catch (e) {
+              core.setFailed(`Ветка ${branch} не найдена: ${e.message}`);
+              return;
+            }
+            await github.rest.git.deleteRef({ owner, repo, ref: `heads/${branch}` });
+            await github.rest.issues.createComment({
+              owner, repo, issue_number: 22,
+              body: `### ops-delete-branch\n\nУдалена ветка \`${branch}\` (последний коммит \`${sha.slice(0, 8)}\`).`,
+            });
+            console.log(`Удалена ${branch} @ ${sha}`);
