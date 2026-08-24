@@ -394,8 +394,16 @@ def build_analytics(metrika: dict | None, ga4: dict | None, date: str) -> dict:
             "organic_visits": org[0], "organic_goal_events": org[4],
             "unique_goal_users": None,
             "qualified_leads": None, "deals": None, "revenue": None,
-            "goals_configured": [{"id": g["id"], "name": g["name"], "type": g["type"]}
-                                 for g in metrika.get("goals", [])],
+            # Кроме имени сохраняется идентификатор события из условий цели:
+            # цели, заведённые 21.08.2026 через API, называются по-русски
+            # («Отправлена заявка с формы»), а наш ключ (lead_sent) лежит в
+            # conditions[].url. Сверка только по имени объявляла их
+            # незаведёнными — ложный critical в каждом отчёте.
+            "goals_configured": [
+                {"id": g["id"], "name": g["name"], "type": g["type"],
+                 "events": sorted({c.get("url") for c in (g.get("conditions") or [])
+                                   if isinstance(c, dict) and c.get("url")})}
+                for g in metrika.get("goals", [])],
             "organic_landing_pages": lp,
             "channels": {k: v[0] for k, v in ts.items()},
         }

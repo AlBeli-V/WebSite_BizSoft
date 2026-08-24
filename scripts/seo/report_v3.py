@@ -27,7 +27,7 @@ from quality import delta  # noqa: E402
 
 BASE = pathlib.Path("reports/seo/intelligence")
 REPO = "https://github.com/AlBeli-V/WebSite_BizSoft"
-BRANCH = "claude/biz-soft-rating-tracking-5rf03g"
+BRANCH = "seo-data"
 BLOB = f"{REPO}/blob/{BRANCH}"
 
 INK, MUTED, LINE = "#1d1d1f", "#5c5c66", "#e3e3e8"

@@ -31,6 +31,16 @@ server {
         add_header Cache-Control "public, immutable";
     }
 
+    # Веб-отчёты Growth Intelligence (seo-reports). Путь непубличный —
+    # случайный токен вместо угадываемого имени; ссылок с сайта на него нет,
+    # X-Robots-Tag закрывает от индексации даже при утечке адреса.
+    location /r-80c199c035852825/ {
+        alias /opt/bizsoft/seo-reports/;
+        index index.html;
+        add_header X-Robots-Tag "noindex, nofollow" always;
+        add_header Cache-Control "private, max-age=300";
+    }
+
     location / {
         proxy_pass http://127.0.0.1:3000;
         proxy_http_version 1.1;

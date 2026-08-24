@@ -1,0 +1,150 @@
+# Разовая настройка отдачи веб-отчётов Growth Intelligence.
+#
+# Добавляет в живой nginx-конфиг location из deploy/nginx-biz-soft.conf.template
+# (блок seo-reports), создаёт каталог /opt/bizsoft/seo-reports и перечитывает
+# nginx. Идемпотентно: повторный запуск ничего не дублирует — блок ищется по
+# маркеру. Выкладку самих файлов делает seo-publish-web.
+#
+# Права: у деплой-пользователя нет беспарольного sudo (диагностика 23.08).
+# Правка конфига и reload выполняются разово под root через одноразовый
+# docker-контейнер (--rm, chroot /host): пользователь состоит в группе docker,
+# sudoers не меняется, после выхода контейнера повышенных прав не остаётся.
+name: ops-nginx-reports
+on:
+  workflow_dispatch:
+    inputs:
+      apply:
+        description: "false — только показать состояние; true — применить"
+        required: true
+        default: "false"
+        type: choice
+        options: ["false", "true"]
+permissions:
+  contents: read
+  issues: write
+jobs:
+  nginx:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Guard - only default branch
+        run: |
+          if [ "${{ github.ref_name }}" != "main" ]; then
+            echo "Запуск разрешён только с ветки main. Текущий ref: ${{ github.ref_name }}"
+            exit 1
+          fi
+      - uses: actions/checkout@v4
+
+      - name: Extract location block from template
+        run: |
+          awk '/# Веб-отчёты Growth Intelligence/,/^    }$/' deploy/nginx-biz-soft.conf.template > /tmp/reports-location.conf
+          echo "--- блок из шаблона:"; cat /tmp/reports-location.conf
+          test -s /tmp/reports-location.conf
+
+      - name: Copy block to server
+        uses: appleboy/scp-action@v1
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          source: /tmp/reports-location.conf
+          target: /tmp
+          strip_components: 1
+
+      - name: Apply on server
+        id: run
+        uses: appleboy/ssh-action@v1
+        env:
+          P_APPLY: ${{ inputs.apply }}
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          envs: P_APPLY
+          command_timeout: 10m
+          capture_stdout: true
+          script: |
+            set -e
+            echo "== окружение =="
+            SUDO=""
+            sudo -n true 2>/dev/null && SUDO="sudo -n"
+            DOCKER=НЕТ
+            docker info >/dev/null 2>&1 && DOCKER=да
+            echo "пользователь: $(id -un), sudo без пароля: $([ -n "$SUDO" ] && echo да || echo НЕТ), docker: $DOCKER"
+            echo "== поиск конфига =="
+            CONF=$(grep -rl "server_name biz-soft.pro" /etc/nginx 2>/dev/null | grep -v "\.bak" | head -1)
+            if [ -z "$CONF" ] && [ -n "$SUDO" ]; then
+              CONF=$($SUDO grep -rl "server_name biz-soft.pro" /etc/nginx 2>/dev/null | grep -v "\.bak" | head -1)
+            fi
+            echo "конфиг: ${CONF:-НЕ НАЙДЕН}"
+            [ -n "$CONF" ]
+            if grep -q "seo-reports" "$CONF" 2>/dev/null; then
+              echo "блок seo-reports уже в конфиге"
+            else
+              echo "блока seo-reports в конфиге нет"
+            fi
+            mkdir -p /opt/bizsoft/seo-reports
+            if [ "$P_APPLY" != "true" ]; then
+              echo "apply=false: изменений не делалось"
+              exit 0
+            fi
+            # Скрипт, который должен исполниться под root. Идемпотентен: при
+            # повторном запуске ничего не вставляет, только nginx -t и reload.
+            cat > /tmp/seo-nginx-apply.sh <<'ROOTEOF'
+            #!/bin/bash
+            set -e
+            conf=$(grep -rl "server_name biz-soft.pro" /etc/nginx | grep -v '\.bak' | head -1)
+            python3 - "$conf" <<'PYEOF'
+            import sys, shutil
+            conf = sys.argv[1]
+            block = open('/tmp/reports-location.conf', encoding='utf-8').read().rstrip('\n')
+            text = open(conf, encoding='utf-8').read()
+            if 'seo-reports' in text:
+                print('блок уже есть — файл не меняю')
+            else:
+                shutil.copy2(conf, conf + '.bak-seo-reports')
+                marker = '    location / {'
+                assert marker in text, 'маркер "location / {" не найден'
+                open(conf, 'w', encoding='utf-8').write(text.replace(marker, block + '\n\n' + marker, 1))
+                print('блок вставлен, копия: ' + conf + '.bak-seo-reports')
+            PYEOF
+            nginx -t
+            systemctl reload nginx 2>/dev/null && echo 'nginx перечитан (systemctl)' || { nginx -s reload && echo 'nginx перечитан (nginx -s reload)'; }
+            grep -n "r-\|seo-reports" "$conf" | head -6
+            ROOTEOF
+            chmod +x /tmp/seo-nginx-apply.sh
+            if [ -n "$SUDO" ]; then
+              $SUDO /tmp/seo-nginx-apply.sh
+            elif [ "$DOCKER" = "да" ]; then
+              echo "sudo нет — разовое выполнение под root в одноразовом контейнере (--rm)"
+              docker run --rm --pid=host -v /:/host alpine:3 chroot /host /bin/bash /tmp/seo-nginx-apply.sh
+            else
+              echo "ни sudo, ни docker — применить нечем"
+              exit 1
+            fi
+            rm -f /tmp/seo-nginx-apply.sh /tmp/reports-location.conf
+            echo "временные файлы удалены; sudoers не менялся, контейнер удалён — повышенных прав не осталось"
+
+      # Проверка снаружи: адрес отвечает 200 и закрыт от индексации.
+      - name: Probe report URL
+        if: inputs.apply == 'true'
+        run: |
+          URL="https://biz-soft.pro/r-80c199c035852825/latest.html"
+          echo "--- $URL"
+          curl -sS -o /dev/null -D - --max-time 20 "$URL"
+          CODE=$(curl -sS -o /dev/null -w '%{http_code}' --max-time 20 "$URL")
+          echo "итоговый код: $CODE"
+          [ "$CODE" = "200" ]
+
+      - name: Post to issue
+        if: always()
+        uses: actions/github-script@v7
+        env:
+          OUT: ${{ steps.run.outputs.stdout }}
+          MODE: ${{ inputs.apply }}
+        with:
+          script: |
+            await github.rest.issues.createComment({
+              owner: context.repo.owner, repo: context.repo.repo, issue_number: 22,
+              body: '### ops-nginx-reports (apply=' + process.env.MODE + ')\n\n```\n'
+                + (process.env.OUT || '(нет вывода)').slice(0, 20000) + '\n```',
+            });
