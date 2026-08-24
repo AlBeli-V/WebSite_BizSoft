@@ -89,6 +89,10 @@ pnpm build && pnpm start   # или pnpm dev
 
 См. `deploy/` и раздел в истории. Кратко: Astro упакован в Docker и добавлен в `/opt/bizsoft` как сервис `astro` (сеть `bizsoft_default`, порт `127.0.0.1:3000`), nginx проксирует `biz-soft.pro` → этот сервис по HTTPS. Пересборка: `bash /opt/bizsoft/deploy.sh`.
 
+## Резервные копии и аварийное восстановление
+
+Копия базы Directus, медиатеки и секретов прода — workflow `ops-backup`: архив в `/opt/bizsoft/backups` (7 суточных, 4 недельных, 6 месячных) плюс шифрованная копия в Google Drive, папка `BizSoft-Backups`; каждая копия проверяется пробным восстановлением. Ночное расписание пока выключено — копия снимается вручную с ветки `main` (`mode=backup`). Процедура подъёма сайта после аварии — `docs/DR-RUNBOOK.md`, аудит готовности — `reports/ops/dr-readiness-2026-08-24.md`.
+
 ## SEO/Growth-аналитика — BIZSoft Search & Growth Intelligence
 
 Ежедневная автоматическая система маркетинговой аналитики (позиции Google/Яндекс, поведение, конверсии, отчёт-письмо руководителю в 9:00 МСК). Код и регламент — в `main` (`scripts/seo/`, `reports/seo/README.md`, восстановление расписания — `reports/seo/TRIGGER.md`), машинные данные — в отдельной ветке-хранилище `seo-data`; обмен — `scripts/seo/data_sync.sh`. Управление и доработки — через сессию Claude Code «BIZSoft Growth Intelligence» (любой новый агент подключается, прочитав указанные файлы).

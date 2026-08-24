@@ -1,0 +1,534 @@
+# Резервное копирование прода и проверка пригодности копии к восстановлению.
+#
+# Зачем. До 24.08.2026 у проекта не было ни одной резервной копии: код лежит в
+# git, а база Directus (товары, вендоры, заявки), файлы медиатеки и секреты
+# /opt/bizsoft/astro.env существовали на сервере в единственном экземпляре.
+# Потеря диска означала потерю каталога без возможности восстановления.
+#
+# Что делает. Снимает согласованный по времени срез трёх активов — дамп
+# PostgreSQL (pg_dump -Fc), медиатеку Directus, конфигурацию и секреты, —
+# складывает в один архив в /opt/bizsoft/backups, затем ПРОВЕРЯЕТ его:
+# поднимает временный контейнер Postgres, восстанавливает в него дамп и
+# считает строки. Непроверенная копия резервной копией не считается.
+#
+# Куда уезжает. Копия на том же диске, что и прод, спасает от порчи данных, но
+# не от потери сервера. Поэтому архив шифруется (openssl AES-256, пароль из
+# секрета BACKUP_PASSPHRASE) и выкладывается в Google Drive, в каталог
+# BizSoft-Backups, через rclone с конфигом из секрета GDRIVE_RCLONE_CONF.
+# Не задан любой из двух секретов — копия остаётся только на сервере, и такой
+# прогон считается неуспешным: незашифрованным наружу архив с astro.env и
+# заявками клиентов не уходит, а копия, лежащая рядом с продом, не защищает
+# от потери диска. При этом ротация в неуспешном прогоне ничего не удаляет —
+# уже снятые копии остаются нетронутыми.
+#
+# Восстановление отсюда НЕ запускается — оно описано в docs/DR-RUNBOOK.md и
+# выполняется руками. Автоматический накат дампа на живую базу — это кнопка
+# «стереть прод», её в репозитории быть не должно.
+#
+# Результат каждого запуска — комментарий в журнал-issue #22.
+name: ops-backup
+
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "check — только осмотр без записи; backup — снять копию"
+        required: true
+        default: "check"
+        type: choice
+        options: ["check", "backup"]
+      verify:
+        description: "Проверять копию восстановлением во временный Postgres"
+        required: false
+        default: "true"
+        type: choice
+        options: ["true", "false"]
+      offsite:
+        description: "Выгружать зашифрованную копию в Google Drive"
+        required: false
+        default: "true"
+        type: choice
+        options: ["true", "false"]
+      retention:
+        description: "Сколько копий хранить: суток/недель/месяцев"
+        required: false
+        default: "7/4/6"
+
+  # Расписание намеренно выключено. Включать его следует только после того,
+  # как вручную и успешно прошли два прогона подряд: сначала mode=check
+  # (видно контейнеры, место на диске, оба секрета заданы, Google Drive
+  # отвечает), затем mode=backup (копия снята, проверена восстановлением и
+  # выгружена). Пока этого не было, ночной автозапуск бесполезен: он либо
+  # молча не работает, либо каждую ночь падает.
+  #
+  # Как включить: снять комментарий с двух строк ниже и слить в main. Запуск
+  # по расписанию идёт в режиме backup (см. P_MODE), поля ввода при этом
+  # пусты, поэтому берутся значения по умолчанию: с проверкой и выгрузкой.
+  #
+  # schedule:
+  #   # 00:30 UTC = 03:30 МСК, ежедневно (ночь, трафика почти нет).
+  #   - cron: "30 0 * * *"
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  backup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Guard - only default branch
+        run: |
+          if [ "${{ github.ref_name }}" != "main" ]; then
+            echo "Запуск разрешён только с ветки main. Текущий ref: ${{ github.ref_name }}"
+            exit 1
+          fi
+
+      - name: Prepare rclone config
+        id: gd
+        env:
+          RAW: ${{ secrets.GDRIVE_RCLONE_CONF }}
+        run: |
+          # Конфиг rclone многострочный, а ssh-action передаёт переменные
+          # окружения одной строкой — поэтому кодируем в base64 здесь.
+          # add-mask прячет результат из логов: в нём лежит токен Google.
+          if [ -n "${RAW:-}" ]; then
+            B64=$(printf %s "$RAW" | base64 -w0)
+            echo "::add-mask::$B64"
+            echo "b64=$B64" >> "$GITHUB_OUTPUT"
+          else
+            echo "b64=" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Backup over SSH
+        id: run
+        continue-on-error: true
+        uses: appleboy/ssh-action@v1
+        env:
+          # Ручной запуск без явного выбора — только осмотр: случайно нажатая
+          # кнопка не должна писать на прод. Полную копию снимает либо явный
+          # mode=backup, либо ночное расписание, когда его включат.
+          P_MODE: ${{ inputs.mode || (github.event_name == 'schedule' && 'backup' || 'check') }}
+          P_VERIFY: ${{ inputs.verify || 'true' }}
+          P_OFFSITE: ${{ inputs.offsite || 'true' }}
+          P_RET: ${{ inputs.retention || '7/4/6' }}
+          P_PASS: ${{ secrets.BACKUP_PASSPHRASE }}
+          P_GD: ${{ steps.gd.outputs.b64 }}
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          envs: P_MODE,P_VERIFY,P_OFFSITE,P_RET,P_PASS,P_GD
+          capture_stdout: true
+          command_timeout: 30m
+          script: |
+            set -uo pipefail
+            BASE=/opt/bizsoft
+            DEST=$BASE/backups
+            GDIR=BizSoft-Backups
+            STAMP=$(date -u +%Y%m%d-%H%M)
+            FAIL=0
+
+            echo "════ ОКРУЖЕНИЕ ════"
+            echo "пользователь: $(id -un)  дата (UTC): $(date -u +%FT%TZ)"
+            echo "режим: $P_MODE"
+            docker info >/dev/null 2>&1 || { echo "✗ docker недоступен — без него копию снять нечем"; exit 1; }
+
+            DB_C=$(docker ps --format '{{.Names}}' | grep -Ei 'db|postgres' | head -1)
+            DIR_C=$(docker ps --format '{{.Names}}' | grep -Ei 'directus' | head -1)
+            echo "контейнер БД:       ${DB_C:-НЕ НАЙДЕН}"
+            echo "контейнер Directus: ${DIR_C:-НЕ НАЙДЕН}"
+            [ -n "$DB_C" ] || { echo "✗ контейнер PostgreSQL не найден"; exit 1; }
+
+            DB_IMAGE=$(docker inspect -f '{{.Config.Image}}' "$DB_C" 2>/dev/null)
+            ENVDUMP=$(docker inspect -f '{{range .Config.Env}}{{println .}}{{end}}' "$DB_C" 2>/dev/null)
+            DB_USER=$(echo "$ENVDUMP" | sed -n 's/^POSTGRES_USER=//p' | head -1)
+            DB_NAME=$(echo "$ENVDUMP" | sed -n 's/^POSTGRES_DB=//p' | head -1)
+            DB_USER=${DB_USER:-postgres}
+            DB_NAME=${DB_NAME:-$DB_USER}
+            echo "образ БД: $DB_IMAGE   база: $DB_NAME   роль: $DB_USER"
+
+            FREE_MB=$(df -Pm "$BASE" | awk 'NR==2{print $4}')
+            echo "свободно на диске: ${FREE_MB} МБ"
+            DB_SIZE=$(docker exec "$DB_C" psql -U "$DB_USER" -d "$DB_NAME" -tAc \
+              "select pg_size_pretty(pg_database_size('$DB_NAME'))" 2>/dev/null | tr -d ' ')
+            echo "размер базы: ${DB_SIZE:-неизвестен}"
+            if [ -n "$DIR_C" ]; then
+              UP_SIZE=$(docker exec "$DIR_C" sh -c 'du -sh /directus/uploads 2>/dev/null | cut -f1' 2>/dev/null)
+              echo "медиатека Directus: ${UP_SIZE:-размер не определён}"
+            fi
+            echo "секрет BACKUP_PASSPHRASE: $([ -n "${P_PASS:-}" ] && echo задан || echo "НЕ ЗАДАН — выгрузки не будет")"
+            echo "секрет GDRIVE_RCLONE_CONF: $([ -n "${P_GD:-}" ] && echo задан || echo "НЕ ЗАДАН — выгрузки не будет")"
+            echo "openssl: $(command -v openssl >/dev/null 2>&1 && openssl version || echo НЕТ)"
+
+            # Рабочий каталог нужен и в check (сюда пишется конфиг rclone для
+            # проверки доступа к Диску), поэтому создаём его до ветвления.
+            # Внутри — дамп с секретами и токен Google: чужим не читать.
+            WORK=$(mktemp -d)
+            chmod 700 "$WORK"
+            trap 'rm -rf "$WORK"' EXIT
+
+            # Выгрузкой занимается rclone. На хосте его может не быть — тогда
+            # берём официальный образ: docker на сервере есть по определению,
+            # ставить пакеты на прод ради копии не требуется.
+            RUN=""
+            if command -v rclone >/dev/null 2>&1; then
+              RUN=native
+              echo "rclone: $(rclone version 2>/dev/null | head -1) (на хосте)"
+            elif docker image inspect rclone/rclone >/dev/null 2>&1; then
+              RUN=docker
+              echo "rclone: на хосте нет, но образ rclone/rclone уже скачан — используем его"
+            else
+              RUN=pull
+              echo "rclone: на хосте нет и образ не скачан — при снятии копии образ rclone/rclone будет загружен"
+            fi
+
+            # Конфиг лежит в отдельном подкаталоге: rclone обновляет токен
+            # доступа и пересохраняет файл целиком, а подменить примонтированный
+            # одиночный файл из контейнера нельзя — только каталог.
+            RCDIR="$WORK/rc"
+            mkdir -p "$RCDIR" && chmod 700 "$RCDIR"
+            rc() {
+              if [ "$RUN" = native ]; then
+                RCLONE_CONFIG="$RCDIR/rclone.conf" rclone "$@"
+              else
+                # Каталог копий монтируем, только если он уже есть: иначе
+                # docker создал бы его от root, а check не должен писать.
+                MNT=""
+                [ -d "$DEST" ] && MNT="-v $DEST:/data:ro"
+                docker run --rm -v "$RCDIR:/config/rclone" $MNT rclone/rclone "$@"
+              fi
+            }
+
+            # Разбор конфига: имя удалённого хранилища берём из первой секции
+            # [имя] — заводить его в отдельном секрете значило бы держать два
+            # согласованных значения там, где хватает одного.
+            GD_READY=0
+            if [ -n "${P_GD:-}" ]; then
+              echo "$P_GD" | base64 -d > "$RCDIR/rclone.conf" 2>/dev/null
+              chmod 600 "$RCDIR/rclone.conf"
+              GD_REMOTE=$(sed -n 's/^\[\(.*\)\]$/\1/p' "$RCDIR/rclone.conf" | head -1)
+              if [ -z "$GD_REMOTE" ]; then
+                echo "✗ в GDRIVE_RCLONE_CONF нет ни одной секции [имя] — это не конфиг rclone"
+              else
+                echo "удалённое хранилище rclone: $GD_REMOTE  →  каталог $GDIR"
+                GD_READY=1
+              fi
+            fi
+
+            echo
+            echo "════ ДОСТУП К GOOGLE DRIVE ════"
+            if [ "$GD_READY" != "1" ]; then
+              echo "  проверять нечего: конфиг не задан или испорчен"
+            elif [ "$RUN" = pull ]; then
+              echo "  rclone на хосте нет, образ не скачан — проверка пропущена,"
+              echo "  чтобы режим check ничего не записывал на сервер."
+            else
+              # Только чтение: список каталога и остаток места. Ничего не
+              # создаём — режим check обязан быть безвредным.
+              if GD_ABOUT=$(rc about "$GD_REMOTE:" 2>&1); then
+                echo "$GD_ABOUT" | sed 's/^/  /'
+                CNT=$(rc lsf "$GD_REMOTE:$GDIR" 2>/dev/null | wc -l)
+                echo "  копий в каталоге $GDIR: $CNT"
+                [ "$CNT" -gt 0 ] && rc lsf --format tsp "$GD_REMOTE:$GDIR" 2>/dev/null | sort -r | head -10 | sed 's/^/    /'
+              else
+                echo "✗ Google Drive не отвечает или токен недействителен:"
+                echo "$GD_ABOUT" | tail -5 | sed 's/^/    /'
+                FAIL=1
+              fi
+            fi
+
+            echo
+            echo "════ УЖЕ СНЯТЫЕ КОПИИ НА СЕРВЕРЕ ════"
+            if [ -d "$DEST" ]; then
+              ls -lh "$DEST" 2>/dev/null | tail -n +2 || echo "  (пусто)"
+              echo "  занято копиями: $(du -sh "$DEST" 2>/dev/null | cut -f1)"
+            else
+              echo "  каталога $DEST ещё нет — копий не было ни разу"
+            fi
+
+            if [ "$P_MODE" != "backup" ]; then
+              echo
+              if [ "$FAIL" = "0" ]; then
+                echo "mode=check: ничего не записывалось, всё перечисленное выше в порядке."
+              else
+                echo "mode=check: ничего не записывалось, но есть замечания — см. ✗ выше."
+              fi
+              exit "$FAIL"
+            fi
+
+            # Дамп + медиатека + конфиг занимают примерно столько же, сколько
+            # исходники. 2 ГБ — запас, при котором нечем заполнить диск.
+            if [ "${FREE_MB:-0}" -lt 2048 ]; then
+              echo "✗ на диске меньше 2 ГБ свободного места — копия не снимается"
+              exit 1
+            fi
+
+            echo
+            echo "════ СНЯТИЕ КОПИИ $STAMP ════"
+            mkdir -p "$DEST" && chmod 700 "$DEST"
+
+            echo "── 1/4 дамп PostgreSQL ──"
+            # -Fc: сжатый формат, восстанавливается pg_restore выборочно, по
+            # одной таблице; -Z6 — компромисс размера и времени.
+            if docker exec "$DB_C" pg_dump -U "$DB_USER" -d "$DB_NAME" -Fc -Z6 > "$WORK/db.dump" 2>"$WORK/db.err"; then
+              echo "  ok: $(du -h "$WORK/db.dump" | cut -f1)"
+            else
+              echo "  ✗ pg_dump упал:"; sed 's/^/    /' "$WORK/db.err"; FAIL=1
+            fi
+            # Пустой или обрезанный дамп молча складывать нельзя — это худший
+            # вид «копии»: файл есть, восстановить нечего.
+            if [ ! -s "$WORK/db.dump" ] || [ "$(stat -c%s "$WORK/db.dump")" -lt 10000 ]; then
+              echo "  ✗ дамп подозрительно мал — считаем снятие неудачным"; FAIL=1
+            fi
+            # Дальше идти нельзя: архив без годного дампа занял бы место в
+            # ротации и через несколько неудачных ночей вытеснил бы все
+            # рабочие копии. Лучше остановиться и оставить прошлые нетронутыми.
+            if [ "$FAIL" != "0" ]; then
+              echo "✗ дамп не снят — архив не собирается, ротация не выполняется"
+              exit 1
+            fi
+
+            echo "── 2/4 медиатека Directus ──"
+            if [ -n "$DIR_C" ]; then
+              # docker cp не требует ни tar, ни du внутри образа — работает
+              # с любым Directus, даже distroless.
+              if docker cp "$DIR_C:/directus/uploads" "$WORK/uploads" >/dev/null 2>&1; then
+                tar czf "$WORK/uploads.tgz" -C "$WORK" uploads 2>/dev/null
+                rm -rf "$WORK/uploads"
+                echo "  ok: $(du -h "$WORK/uploads.tgz" | cut -f1)"
+              else
+                echo "  ⚠ каталог /directus/uploads не скопировался (нет файлов или другой путь)"
+              fi
+            else
+              echo "  ⚠ контейнер Directus не найден — медиатека пропущена"
+            fi
+
+            echo "── 3/4 конфигурация и секреты ──"
+            CFG="$WORK/config"
+            mkdir -p "$CFG"
+            for f in astro.env docker-compose.yml docker-compose.override.yml deploy.sh; do
+              [ -f "$BASE/$f" ] && cp -a "$BASE/$f" "$CFG/" 2>/dev/null
+            done
+            NGINX_CONF=$(grep -rl "server_name biz-soft.pro" /etc/nginx 2>/dev/null | grep -v '\.bak' | head -1)
+            [ -n "$NGINX_CONF" ] && cp -a "$NGINX_CONF" "$CFG/nginx-biz-soft.conf" 2>/dev/null
+            crontab -l > "$CFG/crontab.txt" 2>/dev/null || true
+            docker compose -f "$BASE/docker-compose.yml" images > "$CFG/images.txt" 2>/dev/null || \
+              docker ps --format '{{.Names}} {{.Image}}' > "$CFG/images.txt" 2>/dev/null
+            tar czf "$WORK/config.tgz" -C "$WORK" config 2>/dev/null
+            rm -rf "$CFG"
+            echo "  ok: $(du -h "$WORK/config.tgz" | cut -f1) ($(tar tzf "$WORK/config.tgz" | wc -l) файлов)"
+
+            echo "── 4/4 сборка архива ──"
+            {
+              echo "снято (UTC): $(date -u +%FT%TZ)"
+              echo "сервер: $(hostname)"
+              echo "образ БД: $DB_IMAGE"
+              echo "база: $DB_NAME, роль: $DB_USER"
+              echo "версия PostgreSQL: $(docker exec "$DB_C" psql -U "$DB_USER" -d "$DB_NAME" -tAc 'show server_version' 2>/dev/null)"
+              echo "размер базы: ${DB_SIZE:-?}"
+              echo "содержимое: db.dump (pg_dump -Fc), uploads.tgz (медиатека), config.tgz (конфиг + astro.env)"
+              echo "восстановление: docs/DR-RUNBOOK.md"
+            } > "$WORK/MANIFEST.txt"
+            ARCHIVE="$DEST/bizsoft-$STAMP.tar.gz"
+            # Конфиг rclone лежит в том же рабочем каталоге, но в архив ему
+            # нельзя: это ключ от хранилища копий, а не часть копии.
+            tar czf "$ARCHIVE" -C "$WORK" --exclude=./rc . 2>/dev/null && chmod 600 "$ARCHIVE"
+            if [ ! -s "$ARCHIVE" ]; then
+              echo "  ✗ архив не собрался"; FAIL=1
+            fi
+            sha256sum "$ARCHIVE" | awk '{print $1}' > "$ARCHIVE.sha256"
+            echo "  архив: $ARCHIVE ($(du -h "$ARCHIVE" | cut -f1))"
+            echo "  sha256: $(cat "$ARCHIVE.sha256")"
+
+            if [ "$P_VERIFY" = "true" ] && [ -s "$WORK/db.dump" ]; then
+              echo
+              echo "════ ПРОВЕРКА ВОССТАНОВЛЕНИЯ ════"
+              # Разворачиваем дамп в отдельный контейнер той же версии.
+              # Прод при этом не трогается вообще: у временного контейнера
+              # свой том, своя сеть по умолчанию, порты наружу не открыты.
+              T=bizsoft-restore-check
+              docker rm -f "$T" >/dev/null 2>&1
+              if docker run -d --name "$T" -e POSTGRES_PASSWORD=verify \
+                   -e POSTGRES_DB=verify "$DB_IMAGE" >/dev/null 2>&1; then
+                READY=0
+                for i in $(seq 1 30); do
+                  docker exec "$T" pg_isready -U postgres -q 2>/dev/null && { READY=1; break; }
+                  sleep 2
+                done
+                if [ "$READY" = "1" ]; then
+                  docker cp "$WORK/db.dump" "$T:/tmp/db.dump" >/dev/null 2>&1
+                  # --no-owner/--no-privileges: роли прода во временной базе
+                  # не существует, без этих флагов restore ругается на каждый
+                  # объект. На сам накат в проде это не влияет — там роль есть.
+                  docker exec "$T" pg_restore -U postgres -d verify --no-owner --no-privileges \
+                    /tmp/db.dump > /tmp/restore.log 2>&1
+                  RC=$?
+                  docker exec "$T" psql -U postgres -d verify -c 'ANALYZE' >/dev/null 2>&1
+                  TABLES=$(docker exec "$T" psql -U postgres -d verify -tAc \
+                    "select count(*) from information_schema.tables where table_schema='public'" 2>/dev/null | tr -d ' ')
+                  echo "код возврата pg_restore: $RC (0 — без замечаний)"
+                  echo "таблиц восстановлено: ${TABLES:-0}"
+                  echo "── строки в крупнейших таблицах ──"
+                  docker exec "$T" psql -U postgres -d verify -c \
+                    "select relname as таблица, n_live_tup as строк from pg_stat_user_tables order by n_live_tup desc limit 12" 2>/dev/null
+                  if [ "${TABLES:-0}" -lt 5 ]; then
+                    echo "✗ восстановление дало меньше 5 таблиц — копия негодная"; FAIL=1
+                  else
+                    echo "✓ копия восстанавливается"
+                  fi
+                  [ "$RC" -ne 0 ] && { echo "── замечания pg_restore (последние 15) ──"; tail -15 /tmp/restore.log; }
+                else
+                  echo "✗ временный Postgres не поднялся за 60 с — проверить копию не удалось"; FAIL=1
+                fi
+                docker rm -f "$T" >/dev/null 2>&1
+              else
+                echo "✗ не удалось запустить временный контейнер $DB_IMAGE"; FAIL=1
+              fi
+            elif [ "$P_VERIFY" = "true" ]; then
+              echo; echo "проверка восстановления пропущена: дампа нет"
+            fi
+
+            if [ "$P_OFFSITE" != "true" ]; then
+              echo
+              echo "выгрузка вне сервера отключена (offsite=false) — копия осталась только на сервере"
+            else
+              echo
+              echo "════ ВЫГРУЗКА ВНЕ СЕРВЕРА (Google Drive) ════"
+              if [ "$FAIL" != "0" ]; then
+                echo "⚠ выше уже были ошибки — наружу отправляется только заведомо годная копия"
+              elif [ -z "${P_PASS:-}" ]; then
+                echo "✗ BACKUP_PASSPHRASE не задан — шифровать нечем, наружу ничего не отправлено."
+                echo "  Архив содержит astro.env и заявки клиентов; открытым он не уходит."
+                echo "  Копия осталась только на сервере — потерю диска она не переживёт."
+                FAIL=1
+              elif [ "$GD_READY" != "1" ]; then
+                echo "✗ GDRIVE_RCLONE_CONF не задан или испорчен — выгружать некуда."
+                echo "  Копия осталась только на сервере — потерю диска она не переживёт."
+                FAIL=1
+              else
+                if [ "$RUN" = pull ]; then
+                  echo "rclone на хосте нет — загружаем образ rclone/rclone…"
+                  if docker pull -q rclone/rclone >/dev/null 2>&1; then
+                    RUN=docker
+                  else
+                    echo "✗ образ rclone/rclone не скачался — выгрузить копию нечем"; FAIL=1
+                  fi
+                fi
+              fi
+              if [ "$FAIL" = "0" ] && [ "$GD_READY" = "1" ] && [ -n "${P_PASS:-}" ]; then
+                ENC="$ARCHIVE.enc"
+                # -pbkdf2: без него openssl использует устаревший вывод ключа
+                # из пароля; расшифровка — командой из docs/DR-RUNBOOK.md.
+                if BP="$P_PASS" openssl enc -aes-256-cbc -salt -pbkdf2 -iter 200000 \
+                     -in "$ARCHIVE" -out "$ENC" -pass env:BP 2>/dev/null; then
+                  echo "зашифровано: $(du -h "$ENC" | cut -f1)"
+                  # В контейнере каталог копий примонтирован как /data.
+                  if [ "$RUN" = native ]; then SRC="$ENC"; else SRC="/data/$(basename "$ENC")"; fi
+                  if OUT=$(rc copy --stats-one-line "$SRC" "$GD_REMOTE:$GDIR" 2>&1); then
+                    [ -n "$OUT" ] && echo "$OUT" | tail -3 | sed 's/^/  /'
+                    # Коду возврата верим не на слово: спрашиваем у Диска,
+                    # лежит ли файл там на самом деле.
+                    if rc lsf "$GD_REMOTE:$GDIR" 2>/dev/null | grep -qF "$(basename "$ENC")"; then
+                      echo "✓ выгружено в Google Drive: $GDIR/$(basename "$ENC")"
+                      echo "  копий в каталоге теперь: $(rc lsf "$GD_REMOTE:$GDIR" 2>/dev/null | wc -l)"
+                      echo "  в Google Drive копии не ротируются — за местом там следить вручную"
+                    else
+                      echo "✗ после заливки файла в каталоге $GDIR не видно"; FAIL=1
+                    fi
+                  else
+                    echo "✗ rclone не смог залить файл:"; echo "$OUT" | tail -5 | sed 's/^/    /'; FAIL=1
+                  fi
+                  # Шифрованная копия нужна только для передачи: на сервере
+                  # остаётся обычный архив, дублировать его незачем.
+                  rm -f "$ENC"
+                else
+                  echo "✗ шифрование не удалось — наружу ничего не отправлено"; FAIL=1
+                fi
+              fi
+            fi
+
+            echo
+            # Ретенция задаётся как «суток/недель/месяцев». Значение приходит
+            # из поля свободного ввода: мусор молча превращаем в 7/4/6, иначе
+            # арифметика ниже осталась бы без ротации вовсе.
+            KEEP_D=$(echo "$P_RET" | cut -d/ -f1)
+            KEEP_W=$(echo "$P_RET" | cut -d/ -f2)
+            KEEP_M=$(echo "$P_RET" | cut -d/ -f3)
+            case "${KEEP_D:-}" in ''|*[!0-9]*) KEEP_D=7;; esac
+            case "${KEEP_W:-}" in ''|*[!0-9]*) KEEP_W=4;; esac
+            case "${KEEP_M:-}" in ''|*[!0-9]*) KEEP_M=6;; esac
+            echo "════ РОТАЦИЯ (храним $KEEP_D суточных, $KEEP_W недельных, $KEEP_M месячных) ════"
+            if [ "$FAIL" != "0" ]; then
+              echo "  прогон с ошибками — ни одна копия не удаляется"
+              echo "  осталось копий: $(ls -1 "$DEST"/bizsoft-*.tar.gz 2>/dev/null | wc -l), занято: $(du -sh "$DEST" 2>/dev/null | cut -f1)"
+              echo
+              echo "✗ ИТОГ: в ходе копирования были ошибки — см. выше"
+              exit 1
+            fi
+            # Схема «дед-отец-сын»: идём от самой свежей копии к самой старой
+            # и раздаём три набора слотов — суточные, недельные, месячные.
+            # Копия остаётся, если заняла хотя бы один слот. Так недельные и
+            # месячные точки переживают ежедневную ротацию, и глубина хранения
+            # растёт без роста числа файлов.
+            D_SEEN=""; W_SEEN=""; M_SEEN=""
+            for f in $(ls -1 "$DEST"/bizsoft-*.tar.gz 2>/dev/null | sort -r); do
+              S=$(basename "$f" .tar.gz); S=${S#bizsoft-}
+              DAY=${S%%-*}
+              MON=$(echo "$DAY" | cut -c1-6)
+              ISO=$(echo "$DAY" | sed -E 's/(....)(..)(..)/\1-\2-\3/')
+              WK=$(date -u -d "$ISO" +%G-%V 2>/dev/null || echo "$DAY")
+              WHY=""
+              case " $D_SEEN " in *" $DAY "*) ;; *)
+                if [ "$(echo $D_SEEN | wc -w)" -lt "$KEEP_D" ]; then D_SEEN="$D_SEEN $DAY"; WHY="сутки"; fi ;;
+              esac
+              case " $W_SEEN " in *" $WK "*) ;; *)
+                if [ "$(echo $W_SEEN | wc -w)" -lt "$KEEP_W" ]; then W_SEEN="$W_SEEN $WK"; WHY="${WHY:+$WHY, }неделя $WK"; fi ;;
+              esac
+              case " $M_SEEN " in *" $MON "*) ;; *)
+                if [ "$(echo $M_SEEN | wc -w)" -lt "$KEEP_M" ]; then M_SEEN="$M_SEEN $MON"; WHY="${WHY:+$WHY, }месяц $MON"; fi ;;
+              esac
+              if [ -n "$WHY" ]; then
+                echo "  оставляем $(basename "$f") — $WHY"
+              else
+                echo "  удаляем   $(basename "$f")"
+                rm -f "$f" "$f.sha256"
+              fi
+            done
+            echo "осталось копий: $(ls -1 "$DEST"/bizsoft-*.tar.gz 2>/dev/null | wc -l), занято: $(du -sh "$DEST" 2>/dev/null | cut -f1)"
+            echo "свободно на диске: $(df -Pm "$BASE" | awk 'NR==2{print $4}') МБ"
+
+            echo
+            if [ "$FAIL" = "0" ]; then
+              echo "✓ ИТОГ: копия снята, проверена и выгружена"
+            else
+              echo "✗ ИТОГ: в ходе копирования были ошибки — см. выше"
+            fi
+            exit "$FAIL"
+
+      - name: Post results to journal (issue #22)
+        if: always()
+        uses: actions/github-script@v7
+        env:
+          OUT: ${{ steps.run.outputs.stdout }}
+          RESULT: ${{ steps.run.outcome }}
+          MODE: ${{ inputs.mode || (github.event_name == 'schedule' && 'backup' || 'check') }}
+        with:
+          script: |
+            const out = (process.env.OUT || '(нет вывода)').slice(0, 60000);
+            const mark = process.env.RESULT === 'success' ? '✓' : '✗';
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: 22,
+              body: `### ops-backup (${process.env.MODE}) ${mark} · ` +
+                new Date().toISOString() + '\n```\n' + out + '\n```',
+            });
+
+      - name: Fail the run if backup failed
+        # Шаг копирования помечен continue-on-error, чтобы отчёт в журнал
+        # попадал и при поломке. Красный статус прогона возвращаем здесь.
+        if: steps.run.outcome != 'success'
+        run: |
+          echo "Копирование завершилось с ошибкой — подробности в issue #22"
+          exit 1
