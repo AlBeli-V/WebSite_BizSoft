@@ -21,6 +21,18 @@ const NOW = Date.parse('2026-08-24T09:00:00Z');
 const human = { name: 'Пётр', [OPENED_AT_FIELD]: NOW - 60_000 };
 
 /**
+ * Хранилище, которое не отвечает: ровно так ведёт себя Directus без коллекции
+ * app_kv или при недоступной базе — значения нет, и признак доступности снят.
+ */
+const brokenStore = (): SharedStore & { healthy: boolean } => ({
+  healthy: false,
+  available() { return this.healthy; },
+  async get() { return null; },
+  async set() {},
+  async incr() { return null; },
+});
+
+/**
  * Полный путь обращения через эндпоинт: сначала проверка, и только принятая
  * заявка тратит порог адреса. Порядок здесь тот же, что в src/pages/api.
  */
@@ -137,16 +149,38 @@ describe('пороги по адресу', () => {
     expect(await send(human, '192.0.2.55', store)).toEqual({ ok: true });
   });
 
-  it('недоступное хранилище не превращается в отказ клиенту', async () => {
-    // Сбой нашей базы не повод терять заявку: первый рубеж (nginx) на месте.
-    const broken: SharedStore = {
-      get: async () => null,
-      set: async () => {},
-      incr: async () => null,
-    };
-    for (let i = 0; i < 20; i++) {
+  it('сбой хранилища не выключает пороги молча — считает запасной счёт', async () => {
+    // Прежде недоступность базы снимала оба порога целиком, и заметить это
+    // было можно только по счёту от справочника. Теперь счёт продолжается
+    // в памяти процесса: потолок мягче настоящего, но он есть.
+    const broken = brokenStore();
+    for (let i = 0; i < HOURLY_LIMIT; i++) {
       expect(await send(human, '203.0.113.200', broken)).toEqual({ ok: true });
     }
+    expect(await send(human, '203.0.113.200', broken))
+      .toEqual({ ok: false, kind: 'rate_limited', scope: 'hour' });
+  });
+
+  it('сбой хранилища не отбивает первую же заявку', async () => {
+    // Запасной счёт не должен превращаться в «база упала — форма не работает».
+    expect(await send(human, '203.0.113.201', brokenStore())).toEqual({ ok: true });
+  });
+
+  it('запасной счёт живёт по тем же окнам: через час приём открыт', async () => {
+    const broken = brokenStore();
+    for (let i = 0; i <= HOURLY_LIMIT; i++) await send(human, '203.0.113.202', broken);
+    const later = NOW + 60 * 60 * 1000;
+    expect(await send({ ...human, [OPENED_AT_FIELD]: later - 60_000 }, '203.0.113.202', broken, later))
+      .toEqual({ ok: true });
+  });
+
+  it('вернувшееся хранилище снова ведёт общий счёт', async () => {
+    // Запасные записи после восстановления сбрасываются: держать два счёта
+    // одновременно значило бы наказывать за чужой сбой ещё час.
+    const flaky = brokenStore();
+    for (let i = 0; i <= HOURLY_LIMIT; i++) await send(human, '203.0.113.203', flaky);
+    flaky.healthy = true;
+    expect(await send(human, '203.0.113.203', flaky)).toEqual({ ok: true });
   });
 
   it('неопределённый адрес не повод отказывать', async () => {

@@ -93,6 +93,7 @@ describe('кэш по ИНН', () => {
   it('сбой хранилища не ломает справочник — просто нет экономии', async () => {
     const spy = stubDadata();
     const broken = {
+      available: () => false,
       get: async () => null,
       set: async () => { throw new Error('база недоступна'); },
       incr: async () => null,

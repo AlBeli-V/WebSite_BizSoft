@@ -561,19 +561,25 @@ export interface KvRecord {
   expires_at: string;
 }
 
-/** Запись по ключу или null, если её нет. Просроченную не возвращаем. */
+/**
+ * Запись по ключу или null, если её нет. Просроченную не возвращаем.
+ *
+ * Выборка списком с фильтром, а не обращение к /items/app_kv/<key>: на
+ * отсутствующую запись Directus отвечает тем же 403, что и на отсутствие
+ * прав или коллекции, и «счёт нулевой» становится неотличимо от «считать
+ * нечем». Для лимита это разные вещи: первое означает «пропускай», второе —
+ * «защита не работает». Список отвечает пустым массивом на первое и ошибкой
+ * на второе, поэтому ошибку отсюда мы пробрасываем, а не гасим.
+ */
 export async function kvGet(key: string): Promise<KvRecord | null> {
-  try {
-    const rec = await dx<KvRecord>(`/items/app_kv/${encodeURIComponent(key)}`, { auth: true });
-    if (!rec) return null;
-    if (rec.expires_at && Date.parse(rec.expires_at) <= Date.now()) return null;
-    return rec;
-  } catch (e) {
-    // 403/404 у Directus означают «нет такой записи» (для непривилегированной
-    // роли отсутствие и запрет неразличимы). Остальное — настоящий сбой.
-    if (e instanceof DirectusError && (e.status === 403 || e.status === 404)) return null;
-    throw e;
-  }
+  const rows = await dx<KvRecord[]>('/items/app_kv', {
+    auth: true,
+    params: { 'filter[key][_eq]': key, limit: 1 },
+  });
+  const rec = rows?.[0];
+  if (!rec) return null;
+  if (rec.expires_at && Date.parse(rec.expires_at) <= Date.now()) return null;
+  return rec;
 }
 
 /** Создать или перезаписать запись. Ключ — первичный, поэтому upsert по нему. */

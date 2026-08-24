@@ -93,6 +93,82 @@ export interface GuardInput {
   now?: number;
 }
 
+/**
+ * Запасной счёт в памяти процесса — на время недоступности общего хранилища.
+ *
+ * В нормальной работе счётчик обязан быть общим: у процесса свой отдельный
+ * счёт означает, что при двух контейнерах порог удваивается. Но выбор в
+ * момент сбоя стоит не между «точно» и «неточно», а между «неточно» и
+ * «никак»: без запасного счёта отсутствие коллекции app_kv или падение базы
+ * молча превращают защиту форм в её отсутствие, и об этом никто не узнает,
+ * пока не придёт счёт от справочника.
+ *
+ * Пороги те же. Потолок при этом получается мягче настоящего ровно во
+ * столько раз, сколько запущено инстансов (сейчас один) — но это потолок,
+ * а не его отсутствие. Записи живут до конца своего окна и не переживают
+ * рестарт: восстановившееся хранилище сразу возвращает точный счёт.
+ */
+const fallbackCounters = new Map<string, { count: number; expires: number }>();
+
+function fallbackPrune(now: number): void {
+  for (const [key, rec] of fallbackCounters) {
+    if (rec.expires <= now) fallbackCounters.delete(key);
+  }
+}
+
+function fallbackRead(key: string, now: number): number {
+  const rec = fallbackCounters.get(key);
+  return rec && rec.expires > now ? rec.count : 0;
+}
+
+function fallbackIncr(key: string, ttlSec: number, now: number): void {
+  const rec = fallbackCounters.get(key);
+  if (rec && rec.expires > now) rec.count += 1;
+  else fallbackCounters.set(key, { count: 1, expires: now + ttlSec * 1000 });
+  // Ключей немного (два на адрес в окне), но при переборе адресов карта
+  // растёт — подчищаем просроченное, а не ждём рестарта.
+  if (fallbackCounters.size > 5000) fallbackPrune(now);
+}
+
+/**
+ * Переход в запасной режим и обратно — в лог, явно и разборчиво.
+ *
+ * Без этого недоступность хранилища видна только по строкам «shared-store
+ * … failed», которые читаются как единичная ошибка записи, а не как
+ * «пороги форм сейчас держатся на запасном счёте». Повтор — не чаще раза в
+ * минуту: при сбое сообщение иначе идёт на каждую заявку и топит лог.
+ */
+const DEGRADED_LOG_EVERY_MS = 60_000;
+let degradedSince = 0;
+let degradedLoggedAt = 0;
+
+function noteDegraded(now: number): void {
+  if (!degradedSince) {
+    degradedSince = now;
+    degradedLoggedAt = now;
+    console.error(
+      'form-guard: общее хранилище лимитов недоступно (коллекция app_kv или '
+      + 'сама база). Пороги форм держатся на запасном счёте в памяти процесса; '
+      + 'при нескольких инстансах фактический потолок выше настроенного.',
+    );
+    return;
+  }
+  if (now - degradedLoggedAt < DEGRADED_LOG_EVERY_MS) return;
+  degradedLoggedAt = now;
+  console.error(
+    `form-guard: хранилище лимитов недоступно уже ${Math.round((now - degradedSince) / 60000)} мин, `
+    + 'счёт по-прежнему запасной.',
+  );
+}
+
+function noteRecovered(): void {
+  if (!degradedSince) return;
+  degradedSince = 0;
+  degradedLoggedAt = 0;
+  fallbackCounters.clear();
+  console.log('form-guard: хранилище лимитов снова доступно, счёт снова общий.');
+}
+
 /** Ключи окон учёта для адреса. */
 function keysFor(ip: string, now: number): { hour: string; day: string } {
   const id = ipKey(ip);
@@ -153,14 +229,21 @@ export async function guardSubmission(input: GuardInput): Promise<GuardVerdict> 
   if (!ip) return { ok: true };
 
   const keys = keysFor(ip, now);
-  // Сбой хранилища читается как «счёта нет»: порог применить не к чему,
-  // пропускаем и полагаемся на nginx. Отказ живому человеку из-за сбоя
-  // нашей базы — худший из возможных исходов.
   const read = (key: string) => store.get<number>(key).catch(() => null);
-  const [hourly, daily] = await Promise.all([read(keys.hour), read(keys.day)]);
+  const [sharedHour, sharedDay] = await Promise.all([read(keys.hour), read(keys.day)]);
 
-  if (Number(daily ?? 0) >= DAILY_LIMIT) return { ok: false, kind: 'rate_limited', scope: 'day' };
-  if (Number(hourly ?? 0) >= HOURLY_LIMIT) return { ok: false, kind: 'rate_limited', scope: 'hour' };
+  // Хранилище не ответило — считаем по запасному счёту и говорим об этом в
+  // лог. Прежде здесь стоял простой пропуск: недоступность базы бесшумно
+  // снимала оба порога, и заметить это было можно только по расходу
+  // справочника.
+  const degraded = !store.available();
+  if (degraded) noteDegraded(now); else noteRecovered();
+
+  const hourly = degraded ? fallbackRead(keys.hour, now) : Number(sharedHour ?? 0);
+  const daily = degraded ? fallbackRead(keys.day, now) : Number(sharedDay ?? 0);
+
+  if (daily >= DAILY_LIMIT) return { ok: false, kind: 'rate_limited', scope: 'day' };
+  if (hourly >= HOURLY_LIMIT) return { ok: false, kind: 'rate_limited', scope: 'hour' };
 
   return { ok: true };
 }
@@ -177,11 +260,18 @@ export async function countSubmission(
 ): Promise<void> {
   if (!ip) return;
   const store = opts.store ?? sharedStore();
-  const keys = keysFor(ip, opts.now ?? Date.now());
+  const now = opts.now ?? Date.now();
+  const keys = keysFor(ip, now);
   await Promise.all([
     store.incr(keys.hour, HOUR_SEC).catch(() => null),
     store.incr(keys.day, DAY_SEC).catch(() => null),
   ]);
+  // Не записалось в общее — записываем в запасное, иначе в запасном счёте
+  // окажется ноль ровно тогда, когда он единственный.
+  if (!store.available()) {
+    fallbackIncr(keys.hour, HOUR_SEC, now);
+    fallbackIncr(keys.day, DAY_SEC, now);
+  }
 }
 
 const CALL_US = `Если нужно срочно — позвоните: ${seller.phone}.`;
