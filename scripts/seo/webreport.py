@@ -374,7 +374,9 @@ def build_html(b: dict, snap: dict, dq: dict, date: str) -> str:
 
     cards = ""
     for k in b["kpis"]:
-        dcls = {"up": "up", "down": "down", "flat": ""}[k["delta_dir"]]
+        # delta_dir бывает None, когда у показателя нет дельты вовсе
+        # (источник не обновился) — это не то же самое, что flat.
+        dcls = {"up": "up", "down": "down"}.get(k.get("delta_dir") or "", "")
         delta = (f"<span class='delta {dcls}'>{k['delta']}</span>"
                  if k["delta"] else "")
         rel = f"<span class='unit'> {k['relative']}</span>" if k.get("relative") else ""

@@ -10,7 +10,7 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - claude/biz-soft-rating-tracking-5rf03g
+      - main
     paths:
       - ".github/workflows/seo-site-check.yml"
 
@@ -22,8 +22,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-        with:
-          ref: claude/biz-soft-rating-tracking-5rf03g
+
+      - name: Pull data branch
+        run: bash scripts/seo/data_sync.sh pull
 
       - name: Verify live analytics tags
         # Проверка счётчиков прода была и раньше, но её результат уходил в лог
@@ -121,15 +122,6 @@ jobs:
           print(f"сохранено: {path}")
           PY
 
-      - name: Commit result
-        run: |
-          git config user.name "Claude"
-          git config user.email "noreply@anthropic.com"
-          git add reports/seo/intelligence/site-check-*.json reports/seo/intelligence/tags-check.json
-          if git diff --cached --quiet; then
-            echo "Изменений нет"
-          else
-            git commit -m "Проверка живых страниц эксперимента ($(date -u +%F))"
-            git pull --rebase origin claude/biz-soft-rating-tracking-5rf03g
-            git push origin HEAD:claude/biz-soft-rating-tracking-5rf03g
-          fi
+      - name: Push result
+        if: always()
+        run: bash scripts/seo/data_sync.sh push "Проверка живых страниц эксперимента ($(date -u +%F))"
