@@ -67,3 +67,64 @@ sudo usermod -aG adm deploy
 Применять нужно выборочно: добавить в прод-конфиг четыре блокировки сканеров
 и заголовки веб-сокетов, а в шаблон — редирект слеша. Заголовки безопасности
 и лимиты на `/api/` из Phase 2 добавляются туда же, после этой синхронизации.
+
+## SEC-RL-001: пороги обращений к публичным формам — ТРЕБУЕТСЯ ROOT
+
+Рубеж 1 — nginx. Правки в двух файлах репозитория:
+
+- `deploy/nginx-rate-limit.conf` — новый файл с зонами учёта. Зоны
+  объявляются в http-контексте, внутри `server{}` nginx их не примет.
+- `deploy/nginx-biz-soft.conf.template` — применение зон к трём адресам
+  (`/api/suggest/party`, `/api/lead`, `/api/quote`) и ответ 429 в JSON.
+  Заголовки проксирования подняты на уровень `server{}`: `proxy_set_header`
+  наследуется только целым набором, и location со своим заголовком потерял
+  бы остальные.
+
+Порядок применения на сервере (под root; прод-конфиг накатывать шаблоном
+целиком по-прежнему нельзя — снесёт строки Certbot):
+
+```bash
+sudo -i
+# 1. Зоны учёта — отдельным файлом в http-контекст.
+cp /opt/bizsoft/astro-src/deploy/nginx-rate-limit.conf \
+   /etc/nginx/conf.d/bizsoft-rate-limit.conf
+
+# 2. Перенести в /etc/nginx/sites-available/biz-soft.pro из шаблона:
+#    - блок proxy_set_header на уровень server{} (и убрать
+#      proxy_set_header Host из location /_astro/, иначе он потеряет
+#      остальные заголовки);
+#    - три location = /api/… с limit_req;
+#    - error_page 429 = @rate_limited и сам location @rate_limited.
+nano /etc/nginx/sites-available/biz-soft.pro
+
+# 3. Проверка и применение без разрыва соединений.
+nginx -t && systemctl reload nginx
+```
+
+Проверка после применения (с любой машины):
+
+```bash
+# Подсказки: 30 запросов подряд — часть должна вернуть 429.
+for i in $(seq 1 30); do
+  curl -s -o /dev/null -w "%{http_code} " "https://biz-soft.pro/api/suggest/party?q=ромашка"
+done; echo
+
+# Формы: тело заведомо неполное, важен только код ответа.
+for i in $(seq 1 10); do
+  curl -s -o /dev/null -w "%{http_code} " -X POST https://biz-soft.pro/api/lead \
+    -H 'Content-Type: application/json' -d '{}'
+done; echo
+```
+
+Срабатывания видно в логе: `grep limiting /var/log/nginx/error.log`.
+
+Рубеж 2 — приложение. Отдельного действия на сервере не требует, но нужна
+одна разовая миграция схемы: коллекция `app_kv` (счётчики порогов и кэш
+справочника). Она добавлена в идемпотентный `scripts/directus-setup.mjs` —
+запускать так же, как при первичной настройке (см. шапку файла). Без неё
+сайт работает, но пороги не применяются: приложение считает хранилище
+недоступным и пропускает обращения, полагаясь на рубеж nginx.
+
+Уборка просроченных ключей `app_kv` — по мере необходимости; записи мелкие
+(один ключ на адрес в час и в сутки, один на ИНН), и место они занимают
+на порядки меньше, чем `leads`.

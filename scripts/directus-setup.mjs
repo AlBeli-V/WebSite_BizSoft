@@ -319,6 +319,33 @@ async function buildSchema() {
   await ensureField('currency_rate', 'auto_recalc', { type: 'boolean', meta: { interface: 'boolean' }, schema: { default_value: false } });
   await ensureField('currency_rate', 'updated_at', { type: 'timestamp', meta: { interface: 'datetime', special: ['date-updated'], readonly: true } });
 
+  // ── app_kv: общее хранилище счётчиков и кэша ──
+  // Пороги на публичных формах (SEC-RL-001) и кэш справочника организаций.
+  // Счётчик в памяти процесса при двух инстансах считает вдвое больше, чем
+  // должен, и обнуляется рестартом — поэтому состояние живёт в базе.
+  // Ключ — строковый первичный: upsert идёт прямо по нему, без поиска.
+  if (!existingCollections.has('app_kv')) {
+    await api('POST', '/collections', {
+      collection: 'app_kv',
+      schema: { name: 'app_kv' },
+      meta: { icon: 'key', note: 'Счётчики лимитов и кэш. Служебная таблица, руками не правится.', hidden: true },
+      fields: [
+        {
+          field: 'key',
+          type: 'string',
+          meta: { interface: 'input', readonly: true },
+          schema: { is_primary_key: true, has_auto_increment: false, is_nullable: false, max_length: 190 },
+        },
+      ],
+    });
+    existingCollections.add('app_kv');
+    console.log('✓ collection app_kv created');
+  } else {
+    console.log('= collection app_kv exists');
+  }
+  await ensureField('app_kv', 'value', { type: 'json', meta: { interface: 'input-code', options: { language: 'json' }, readonly: true } });
+  await ensureField('app_kv', 'expires_at', { type: 'timestamp', meta: { interface: 'datetime', readonly: true, note: 'После этого момента запись считается отсутствующей' } });
+
   console.log('✓ schema ready');
 }
 
@@ -333,6 +360,9 @@ const APP_PERMS = [
   ['lead_events', 'create'], ['lead_events', 'read'], ['lead_events', 'delete'],
   ['quotes', 'create'], ['quotes', 'read'],
   ['currency_rate', 'read'], ['currency_rate', 'create'], ['currency_rate', 'update'],
+  // Счётчики лимитов и кэш справочника: сайт читает, создаёт и обновляет
+  // записи сам; delete — для уборки просроченных ключей.
+  ['app_kv', 'create'], ['app_kv', 'read'], ['app_kv', 'update'], ['app_kv', 'delete'],
   ['directus_files', 'read'],
 ];
 
