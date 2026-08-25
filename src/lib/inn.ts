@@ -14,6 +14,9 @@
  * будто проверили.
  */
 
+import { partyByInn } from './dadata';
+import { sharedStore, type SharedStore } from './shared-store';
+
 const WEIGHTS_10 = [2, 4, 10, 3, 5, 9, 4, 6, 8];
 const WEIGHTS_11 = [7, 2, 4, 10, 3, 5, 9, 4, 6, 8];
 const WEIGHTS_12 = [3, 7, 2, 4, 10, 3, 5, 9, 4, 6, 8];
@@ -105,6 +108,7 @@ export async function verifyCompany(
   inn: string,
   company: string,
   token = process.env.DADATA_TOKEN || '',
+  store: SharedStore = sharedStore(),
 ): Promise<CompanyCheck> {
   const base = checkInn(inn);
   const stated = normalizeCompany(company);
@@ -120,22 +124,10 @@ export async function verifyCompany(
   }
 
   try {
-    const res = await fetch(
-      'https://suggestions.dadata.ru/suggestions/api/4_1/rs/findById/party',
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Accept: 'application/json',
-          Authorization: `Token ${token}`,
-        },
-        body: JSON.stringify({ query: base.value, count: 1 }),
-        signal: AbortSignal.timeout(5000),
-      },
-    );
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    const data = await res.json() as { suggestions?: { value?: string }[] };
-    const found = data.suggestions?.[0]?.value;
+    // Тот же кэшированный вызов, которым письмо менеджеру берёт карточку
+    // организации. Раньше здесь стоял собственный fetch, и один запрос КП
+    // спрашивал справочник об одном ИНН дважды — по разу за каждый вызов.
+    const found = (await partyByInn(base.value, token, store))?.value;
     if (!found) {
       return {
         ...base, nameMatch: 'mismatch',

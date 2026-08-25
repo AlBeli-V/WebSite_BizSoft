@@ -3,6 +3,7 @@
 // data-open-question (и опц. data-product / data-sku для предзаполнения).
 // Отправляет JSON на /api/lead → коллекция leads.
 import ContactDirect from './ContactDirect.astro';
+import FormGuardFields from './FormGuardFields.astro';
 const { source = 'question' } = Astro.props as { source?: string };
 ---
 <dialog class="qf-dialog" data-question-dialog aria-label="Задать вопрос">
@@ -34,6 +35,7 @@ const { source = 'question' } = Astro.props as { source?: string };
 
     <input type="hidden" name="product_ref" data-product-ref />
     <input type="hidden" name="source" value={source} />
+    <FormGuardFields />
 
     <label class="qf-consent">
       <input type="checkbox" name="consent" required />
