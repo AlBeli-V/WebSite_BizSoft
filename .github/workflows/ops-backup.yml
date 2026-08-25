@@ -18,6 +18,10 @@
 # или без конфига rclone выгрузка не делается: архив содержит секреты и
 # персональные данные из заявок, класть его наружу открытым нельзя.
 #
+# Ротация действует только на сервере: там диск конечный. В облаке скрипт не
+# удаляет ничего и не умеет — команд удаления в нём нет. Это защита от того,
+# кто получил доступ к серверу: стереть прод и следом все копии не выйдет.
+#
 # Рядом с архивами в облаке лежит README-RESTORE.md — открытая копия
 # docs/DR-RUNBOOK.md. Инструкция по расшифровке, запертая внутри шифрованного
 # архива, бесполезна ровно тогда, когда нужна.
@@ -62,12 +66,6 @@ on:
         description: "Ежемесячных копий хранить"
         required: false
         default: "6"
-      rotate_cloud:
-        description: "Применять ротацию и к файлам в Google Drive"
-        required: false
-        default: "true"
-        type: choice
-        options: ["true", "false"]
   # РАСПИСАНИЕ ОТКЛЮЧЕНО НАМЕРЕННО.
   # Включать только после того, как вручную прошли успешно: сначала прогон
   # mode=check, затем mode=backup с выгрузкой в Google Drive и учебным
@@ -117,7 +115,6 @@ jobs:
           P_KEEP_D: ${{ inputs.keep_daily || '7' }}
           P_KEEP_W: ${{ inputs.keep_weekly || '4' }}
           P_KEEP_M: ${{ inputs.keep_monthly || '6' }}
-          P_ROT_CLOUD: ${{ inputs.rotate_cloud || 'true' }}
           P_PASS: ${{ secrets.BACKUP_PASSPHRASE }}
           P_RCLONE: ${{ secrets.GDRIVE_RCLONE_CONF }}
           P_RUNBOOK: ${{ steps.runbook.outputs.b64 }}
@@ -125,7 +122,7 @@ jobs:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
-          envs: P_MODE,P_VERIFY,P_OFFSITE,P_KEEP_D,P_KEEP_W,P_KEEP_M,P_ROT_CLOUD,P_PASS,P_RCLONE,P_RUNBOOK
+          envs: P_MODE,P_VERIFY,P_OFFSITE,P_KEEP_D,P_KEEP_W,P_KEEP_M,P_PASS,P_RCLONE,P_RUNBOOK
           capture_stdout: true
           command_timeout: 40m
           script: |
@@ -438,7 +435,7 @@ jobs:
             case "$P_KEEP_D" in ''|*[!0-9]*|0) echo "keep_daily=$P_KEEP_D не число — берём 7"; P_KEEP_D=7;; esac
             case "$P_KEEP_W" in ''|*[!0-9]*) echo "keep_weekly=$P_KEEP_W не число — берём 4"; P_KEEP_W=4;; esac
             case "$P_KEEP_M" in ''|*[!0-9]*) echo "keep_monthly=$P_KEEP_M не число — берём 6"; P_KEEP_M=6;; esac
-            echo "════ РОТАЦИЯ (${P_KEEP_D} ежедневных + ${P_KEEP_W} еженедельных + ${P_KEEP_M} ежемесячных) ════"
+            echo "════ РОТАЦИЯ НА СЕРВЕРЕ (${P_KEEP_D} ежедневных + ${P_KEEP_W} еженедельных + ${P_KEEP_M} ежемесячных) ════"
             if [ "$FAIL" != "0" ]; then
               echo "  прогон с ошибками — ничего не удаляем, старые копии остаются на месте"
               echo
@@ -489,25 +486,16 @@ jobs:
             echo "осталось копий: $(ls -1 "$DEST"/bizsoft-*.tar.gz 2>/dev/null | wc -l), занято: $(du -sh "$DEST" 2>/dev/null | cut -f1)"
             echo "свободно на диске: $(df -Pm "$BASE" | awk 'NR==2{print $4}') МБ"
 
-            if [ "$P_ROT_CLOUD" = "true" ] && [ -n "$RC" ]; then
-              echo "── в Google Drive ──"
-              CLOUD_ALL=$(rclone --config "$RC" lsf "$REMOTE:$GDIR" 2>/dev/null | sed 's#/$##' \
-                          | grep -E '^bizsoft-[0-9]{8}-[0-9]{4}\.tar\.gz\.enc$' | sort -r)
-              CLOUD_KEEP=$(printf '%s\n' "$CLOUD_ALL" | sed 's/\.enc$//' | keepset | sed 's/$/.enc/')
-              if [ -z "$CLOUD_ALL" ]; then
-                echo "  файлов не найдено"
-              else
-                printf '%s\n' "$CLOUD_ALL" | while read -r f; do
-                  [ -n "$f" ] || continue
-                  if printf '%s\n' "$CLOUD_KEEP" | grep -qx "$f"; then
-                    echo "  оставляем $f"
-                  else
-                    echo "  удаляем   $f"
-                    rclone --config "$RC" deletefile "$REMOTE:$GDIR/$f" 2>&1 | mask
-                  fi
-                done
-              fi
-              echo "  в облаке сейчас: $(rclone --config "$RC" lsf "$REMOTE:$GDIR" 2>/dev/null | grep -c 'tar.gz.enc') архивов"
+            # В облаке ничего не удаляется — намеренно. Место на Диске не
+            # ограничено, а скрипт, у которого нет ни одной команды удаления в
+            # облаке, защищает копии от того, кто получил доступ к серверу:
+            # стереть прод и следом стереть все копии одной командой не выйдет.
+            # Чистка Google Drive — ручная операция, раз в несколько месяцев.
+            if [ -n "$RC" ]; then
+              echo "── в Google Drive (ротация не применяется, только показ) ──"
+              rclone --config "$RC" lsl "$REMOTE:$GDIR" 2>&1 | mask | tail -20
+              echo "  архивов в облаке: $(rclone --config "$RC" lsf "$REMOTE:$GDIR" 2>/dev/null | grep -c 'tar.gz.enc')"
+              echo "  занято в облаке: $(rclone --config "$RC" size "$REMOTE:$GDIR" 2>/dev/null | tail -1)"
             fi
 
             echo
