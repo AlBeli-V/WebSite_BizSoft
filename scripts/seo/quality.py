@@ -99,6 +99,27 @@ def run_checks(snap: dict, prev: dict | None = None) -> dict:
 
     yx, g, an = snap["yandex"], snap["google"], snap["analytics"]
 
+    # 0. Недоступные источники: письмо обязано назвать источник, причину и период
+    #
+    # «Выгрузки нет» (missing) и «источник вернул ошибку» (error) — разные
+    # состояния: первое чинится в конвейере сбора, второе — в доступах и API.
+    # Оба отличаются от «источник не обновился», при котором данные есть, но
+    # latest_event_date не сдвинулась, — то состояние письмо помечает само.
+    for label, blk in (("Яндекс.Вебмастер", yx), ("Google Search Console", g),
+                       ("Яндекс.Метрика", an.get("metrika") or {}),
+                       ("GA4", an.get("ga4") or {})):
+        if blk.get("available"):
+            continue
+        src = blk.get("source") or {}
+        period = (f"{src['current_period_start']}–{src['current_period_end']}"
+                  if src.get("current_period_start") else "период неизвестен")
+        missing = src.get("status") == "missing"
+        add("critical", "SOURCE_UNAVAILABLE",
+            f"{label}: {'выгрузки нет' if missing else 'источник вернул ошибку'}",
+            f"{blk.get('error') or 'нет данных'} ({period}).",
+            "Показатели источника публикуются как «нет данных», а не ноль; "
+            "дельты и сравнения по нему не публикуются.")
+
     # 1. Скользящее окно Яндекса: сравнение периодов пересекается
     if yx.get("available"):
         s = yx["source"]
@@ -330,6 +351,21 @@ def run_checks(snap: dict, prev: dict | None = None) -> dict:
         add("critical", "API_ERROR_AS_ZERO",
             "Источник доступен, но не отдал ни одной строки",
             "Google Search Console: ответ без ошибки и без данных.",
+            "Ноль показов не публикуется как результат: это отсутствие замера.")
+    # Тот же принцип для GA4 и Вебмастера: частичную ошибку среза закрывает
+    # snapshot (источник становится недоступным), а здесь ловится «пустой
+    # успех» — ответ без ошибки и без единой строки.
+    ga_blk = an.get("ga4") or {}
+    if ga_blk.get("available") and not (ga_blk.get("channels") or {}):
+        add("critical", "API_ERROR_AS_ZERO",
+            "Источник доступен, но не отдал ни одной строки",
+            "GA4: ответ без ошибки и без строк по каналам.",
+            "Ноль сессий не публикуется как результат: это отсутствие замера.")
+    if yx.get("available") and not (yx.get("entities") or []) \
+            and (yx["totals"].get("queries_available") or 0) > 0:
+        add("critical", "API_ERROR_AS_ZERO",
+            "Источник доступен, но не отдал ни одной строки",
+            "Яндекс.Вебмастер: запросы заявлены источником, но не получены.",
             "Ноль показов не публикуется как результат: это отсутствие замера.")
 
     # 14. Цели, которые сайт шлёт, но которых нет в счётчике
