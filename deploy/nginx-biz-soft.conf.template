@@ -4,6 +4,7 @@
 # HTTPS-сертификат и редирект http→https остаются как настроил certbot.
 
 # gzip — в http-блоке (nginx.conf), здесь только проксирование.
+# Зоны limit_req_zone — тоже в http-блоке: см. deploy/nginx-rate-limit.conf.
 server {
     server_name biz-soft.pro www.biz-soft.pro;
 
@@ -11,6 +12,18 @@ server {
     # listen 443 ssl http2;
     # ssl_certificate /etc/letsencrypt/live/biz-soft.pro/fullchain.pem;
     # ssl_certificate_key /etc/letsencrypt/live/biz-soft.pro/privkey.pem;
+
+    # Заголовки проксирования — на уровне server{}, чтобы их наследовали все
+    # location. Важно: proxy_set_header наследуется только целым набором —
+    # location, объявивший хотя бы один свой заголовок, теряет все эти.
+    proxy_http_version 1.1;
+    proxy_set_header Host $host;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header X-Forwarded-Proto $scheme;
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection "upgrade";
+    proxy_read_timeout 60s;
 
     # ── Отсечение сканерного шума (≈39% запросов — 404 от ботов-сканеров) ──
     # return 444: nginx рвёт соединение без ответа, запрос не доходит до SSR
@@ -23,10 +36,49 @@ server {
     location ~* /\.(git|svn|hg|aws|ssh|DS_Store) { return 444; }
     location ~* /(phpmyadmin|adminer|SDK/webLanguage) { return 444; }
 
+    # ── Рубеж 1: пороги обращений к публичным формам (SEC-RL-001) ──
+    # Зоны объявлены в deploy/nginx-rate-limit.conf. Точные (=) location'ы
+    # проверяются раньше префиксного location / и перекрывают его.
+
+    # Подсказки по организациям: платный вызов справочника на каждый ввод
+    # от трёх символов. 20 в минуту с адреса, всплеск до 10 — живой набор
+    # с паузой 250 мс укладывается в это с запасом.
+    location = /api/suggest/party {
+        limit_req zone=bz_suggest burst=10 nodelay;
+        proxy_pass http://127.0.0.1:3000;
+    }
+
+    # Заявка и запрос КП — самые дорогие обращения на сайте: справочник
+    # организаций, три документа и письмо с вложением. nginx срезает шторм,
+    # ровный порог «5 в час» и «30 в сутки» считает приложение
+    # (src/lib/form-guard.ts): limit_req умеет только r/s и r/m.
+    location = /api/lead {
+        limit_req zone=bz_forms burst=5 nodelay;
+        proxy_pass http://127.0.0.1:3000;
+    }
+
+    location = /api/quote {
+        limit_req zone=bz_forms burst=5 nodelay;
+        proxy_pass http://127.0.0.1:3000;
+    }
+
+    # Ответ nginx на превышение. Форма на сайте читает JSON и показывает
+    # текст из поля error; страница ошибки nginx по умолчанию — HTML, и
+    # человек за корпоративным NAT увидел бы вместо объяснения глухое
+    # «Не удалось отправить».
+    # proxy_intercept_errors выключен (умолчание), поэтому 429, который
+    # вернуло само приложение, сюда не попадает и доходит до браузера как
+    # есть — со своим, более подробным текстом.
+    error_page 429 = @rate_limited;
+    location @rate_limited {
+        default_type "application/json; charset=utf-8";
+        add_header Retry-After 60 always;
+        return 429 '{"error":"С вашего адреса пришло слишком много обращений подряд. Подождите минуту и попробуйте снова — или позвоните нам, мы примем заявку голосом."}';
+    }
+
     # Статика Astro (хешированные ассеты) — длинный кэш.
     location /_astro/ {
         proxy_pass http://127.0.0.1:3000;
-        proxy_set_header Host $host;
         expires 1y;
         add_header Cache-Control "public, immutable";
     }
@@ -43,13 +95,5 @@ server {
 
     location / {
         proxy_pass http://127.0.0.1:3000;
-        proxy_http_version 1.1;
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto $scheme;
-        proxy_set_header Upgrade $http_upgrade;
-        proxy_set_header Connection "upgrade";
-        proxy_read_timeout 60s;
     }
 }
