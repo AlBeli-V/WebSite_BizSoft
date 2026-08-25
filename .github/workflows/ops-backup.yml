@@ -18,6 +18,9 @@
 # или без конфига rclone выгрузка не делается: архив содержит секреты и
 # персональные данные из заявок, класть его наружу открытым нельзя.
 #
+# rclone ищется не только в PATH: при неинтерактивном SSH ~/.bashrc не читается,
+# и установленный без root бинарник (~/bin/rclone) из PATH выпадает.
+#
 # Ротация действует только на сервере: там диск конечный. В облаке скрипт не
 # удаляет ничего и не умеет — команд удаления в нём нет. Это защита от того,
 # кто получил доступ к серверу: стереть прод и следом все копии не выйдет.
@@ -163,14 +166,53 @@ jobs:
             echo "секрет BACKUP_PASSPHRASE:  $([ -n "${P_PASS:-}" ] && echo задан || echo НЕ ЗАДАН)"
             echo "секрет GDRIVE_RCLONE_CONF: $([ -n "${P_RCLONE:-}" ] && echo задан || echo НЕ ЗАДАН)"
             echo "openssl: $(command -v openssl >/dev/null 2>&1 && openssl version || echo НЕТ)"
-            echo "rclone:  $(command -v rclone >/dev/null 2>&1 && rclone version | head -1 || echo НЕ УСТАНОВЛЕН)"
+            # rclone ищем не только в PATH: при неинтерактивном SSH ~/.bashrc и
+            # ~/.profile не читаются, поэтому ~/bin из PATH выпадает, и бинарник,
+            # установленный без прав root, «пропадает». Сначала PATH, затем
+            # известные каталоги пользовательской установки.
+            RCLONE_BIN=$(command -v rclone 2>/dev/null)
+            if [ -z "$RCLONE_BIN" ]; then
+              for c in "$HOME/bin/rclone" /home/deploy/bin/rclone "$HOME/rclone/rclone" \
+                       /usr/local/bin/rclone /usr/bin/rclone /opt/rclone/rclone; do
+                if [ -x "$c" ]; then RCLONE_BIN="$c"; break; fi
+              done
+            fi
+            if [ -n "$RCLONE_BIN" ]; then
+              echo "rclone: $RCLONE_BIN"
+              "$RCLONE_BIN" version 2>&1 | sed 's/^/  /'
+            else
+              echo "rclone: НЕ НАЙДЕН (искали в PATH, ~/bin, /home/deploy/bin, /usr/local/bin, /usr/bin, /opt/rclone)"
+            fi
+
+            echo
+            echo "════ ПРАВА ПОЛЬЗОВАТЕЛЯ ════"
+            # Без этих трёх прав ночная копия не снимется вообще, а по логу
+            # это выглядело бы как «что-то не заладилось». Проверяем явно.
+            echo "группы: $(id -nG)"
+            if docker ps >/dev/null 2>&1; then
+              echo "docker ps без sudo: ✓"
+            else
+              echo "docker ps без sudo: ✗ — пользователь не в группе docker"
+            fi
+            if docker exec "$DB_C" true >/dev/null 2>&1; then
+              echo "docker exec в $DB_C: ✓"
+            else
+              echo "docker exec в $DB_C: ✗ — дамп снять не получится"
+            fi
+            CPPROBE=$(mktemp)
+            if docker cp "$DB_C:/etc/hostname" "$CPPROBE" >/dev/null 2>&1 && [ -s "$CPPROBE" ]; then
+              echo "docker cp из контейнера: ✓"
+            else
+              echo "docker cp из контейнера: ✗ — медиатеку Directus не забрать"
+            fi
+            rm -f "$CPPROBE"
 
             # ── конфиг rclone: пишем во временный файл, в логи не печатаем ──
             # Конфиг содержит refresh-токен Google — он сам по себе секрет:
             # кто им владеет, тот читает и пишет весь Диск.
             RC=""
             RCDIR=""
-            if [ -n "${P_RCLONE:-}" ] && command -v rclone >/dev/null 2>&1; then
+            if [ -n "${P_RCLONE:-}" ] && [ -n "$RCLONE_BIN" ]; then
               RCDIR=$(mktemp -d)
               chmod 700 "$RCDIR"
               RC="$RCDIR/rclone.conf"
@@ -201,7 +243,7 @@ jobs:
             fi
             echo "── копии в Google Drive ($GDIR) ──"
             if [ -n "$RC" ]; then
-              rclone --config "$RC" lsl "$REMOTE:$GDIR" 2>&1 | mask | head -30
+              "$RCLONE_BIN" --config "$RC" lsl "$REMOTE:$GDIR" 2>&1 | mask | head -30
             else
               echo "  проверить нечем: нет rclone или секрета GDRIVE_RCLONE_CONF"
             fi
@@ -375,8 +417,8 @@ jobs:
                 echo "  Архив содержит astro.env и заявки клиентов; открытым он не выгружается."
                 echo "  Копия осталась только на сервере — прогон считается неуспешным."
                 FAIL=1
-              elif ! command -v rclone >/dev/null 2>&1; then
-                echo "✗ rclone на сервере не установлен — выгружать нечем (см. docs/DR-RUNBOOK.md §3)."
+              elif [ -z "$RCLONE_BIN" ]; then
+                echo "✗ rclone на сервере не найден — выгружать нечем (см. docs/DR-RUNBOOK.md §3)."
                 echo "  Копия осталась только на сервере — прогон считается неуспешным."
                 FAIL=1
               elif [ -z "$RC" ]; then
@@ -392,17 +434,17 @@ jobs:
                   echo "зашифровано: $(du -h "$ENC" | cut -f1)"
                   LOCAL_SUM=$(sha256sum "$ENC" | awk '{print $1}')
                   NAME=$(basename "$ENC")
-                  rclone --config "$RC" mkdir "$REMOTE:$GDIR" 2>&1 | mask
-                  if rclone --config "$RC" copyto "$ENC" "$REMOTE:$GDIR/$NAME" \
+                  "$RCLONE_BIN" --config "$RC" mkdir "$REMOTE:$GDIR" 2>&1 | mask
+                  if "$RCLONE_BIN" --config "$RC" copyto "$ENC" "$REMOTE:$GDIR/$NAME" \
                        --retries 3 --low-level-retries 10 2>&1 | mask; then
                     # Сверка обязательна: «залилось без ошибки» и «в облаке
                     # лежит тот же файл» — разные утверждения.
-                    REMOTE_SUM=$(rclone --config "$RC" hashsum sha256 "$REMOTE:$GDIR/$NAME" 2>/dev/null | awk '{print $1}' | head -1)
+                    REMOTE_SUM=$("$RCLONE_BIN" --config "$RC" hashsum sha256 "$REMOTE:$GDIR/$NAME" 2>/dev/null | awk '{print $1}' | head -1)
                     SRC=api
                     if [ "${#REMOTE_SUM}" -ne 64 ]; then
                       # Drive не отдал sha256 — считаем сами по скачанному
                       # потоку. Медленнее, зато заодно проверяет читаемость.
-                      REMOTE_SUM=$(rclone --config "$RC" cat "$REMOTE:$GDIR/$NAME" 2>/dev/null | sha256sum | awk '{print $1}')
+                      REMOTE_SUM=$("$RCLONE_BIN" --config "$RC" cat "$REMOTE:$GDIR/$NAME" 2>/dev/null | sha256sum | awk '{print $1}')
                       SRC=поток
                     fi
                     echo "sha256 локально: $LOCAL_SUM"
@@ -412,7 +454,7 @@ jobs:
                       # Открытый runbook рядом с архивами — тот, ради кого
                       # вся выгрузка и делается: без него архив нечем открыть.
                       if [ -f "$DEST/README-RESTORE.md" ]; then
-                        rclone --config "$RC" copyto "$DEST/README-RESTORE.md" \
+                        "$RCLONE_BIN" --config "$RC" copyto "$DEST/README-RESTORE.md" \
                           "$REMOTE:$GDIR/README-RESTORE.md" 2>&1 | mask \
                           && echo "✓ README-RESTORE.md выложен рядом с архивами"
                       fi
@@ -493,9 +535,9 @@ jobs:
             # Чистка Google Drive — ручная операция, раз в несколько месяцев.
             if [ -n "$RC" ]; then
               echo "── в Google Drive (ротация не применяется, только показ) ──"
-              rclone --config "$RC" lsl "$REMOTE:$GDIR" 2>&1 | mask | tail -20
-              echo "  архивов в облаке: $(rclone --config "$RC" lsf "$REMOTE:$GDIR" 2>/dev/null | grep -c 'tar.gz.enc')"
-              echo "  занято в облаке: $(rclone --config "$RC" size "$REMOTE:$GDIR" 2>/dev/null | tail -1)"
+              "$RCLONE_BIN" --config "$RC" lsl "$REMOTE:$GDIR" 2>&1 | mask | tail -20
+              echo "  архивов в облаке: $("$RCLONE_BIN" --config "$RC" lsf "$REMOTE:$GDIR" 2>/dev/null | grep -c 'tar.gz.enc')"
+              echo "  занято в облаке: $("$RCLONE_BIN" --config "$RC" size "$REMOTE:$GDIR" 2>/dev/null | tail -1)"
             fi
 
             echo
