@@ -13,6 +13,8 @@ import { salutation } from '../../lib/salutation';
 import { verifyCompany } from '../../lib/inn';
 import { findParty, cardLines } from '../../lib/dadata';
 import type { QuoteItem } from '../../lib/types';
+import { guardSubmission, guardResponse, countSubmission } from '../../lib/form-guard';
+import { clientIp } from '../../lib/client-ip';
 
 interface CartLine { sku: string; qty: number }
 
@@ -66,6 +68,13 @@ export const POST: APIRoute = async ({ request }) => {
     return new Response(JSON.stringify({ error: 'bad json' }), { status: 400 });
   }
 
+  // Защита публичных форм (SEC-RL-001). Здесь она дороже всего окупается:
+  // за этой строкой — справочник организаций, три документа и письмо с
+  // вложением на указанный в форме адрес от имени hello@biz-soft.pro.
+  const ip = clientIp(request);
+  const verdict = await guardSubmission({ body, ip });
+  if (!verdict.ok) return guardResponse(verdict);
+
   // Все поля формы КП обязательны
   const company = body.buyer_company ?? body.company;
   const inn = body.buyer_inn ?? body.inn;
@@ -83,6 +92,10 @@ export const POST: APIRoute = async ({ request }) => {
     .map((i) => ({ sku: i.sku, qty: Math.min(9999, Math.max(1, Math.floor(Number(i.qty)))) }));
 
   if (lines.length === 0) return new Response(JSON.stringify({ error: 'список избранного пуст' }), { status: 422 });
+
+  // Форма разобрана, дальше начинается дорогая часть: справочник, документы,
+  // письмо. Порог тратит эта заявка, а не отвергнутая валидацией попытка.
+  await countSubmission(ip);
 
   // Пересчёт по авторитетным ценам из БД (с учётом акции на момент запроса)
   let products;

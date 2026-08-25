@@ -16,6 +16,8 @@
  * незаметно снимается, а утёкший ключ расходует наш суточный лимит.
  */
 
+import { sharedStore, type SharedStore } from './shared-store';
+
 const SUGGEST_URL = 'https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/party';
 const FIND_URL = 'https://suggestions.dadata.ru/suggestions/api/4_1/rs/findById/party';
 
@@ -121,15 +123,58 @@ export async function suggestParty(
   return parties.map(toCard);
 }
 
+/**
+ * Сколько живёт закэшированный ответ по ИНН.
+ *
+ * Реквизиты организации меняются раз в годы, а платим мы за каждый запрос.
+ * Сутки — компромисс: перевыпуск КП в тот же день не стоит ничего, а
+ * смена названия или статуса доедет до нас не позже следующего утра.
+ */
+const PARTY_TTL_SEC = Number(process.env.DADATA_CACHE_TTL_SEC ?? 24 * 60 * 60);
+
+/** Кэшируем и «не найдено» — иначе перебор несуществующих ИНН платный. */
+interface CachedParty { party: Party | null }
+
+/**
+ * Организация по ИНН — с кэшем в общем хранилище.
+ *
+ * Один запрос КП дважды спрашивал справочник об одном и том же ИНН: сверка
+ * названия (verifyCompany) и карточка для письма (findParty) ходили каждая
+ * своим fetch. Теперь обе идут сюда, и повторное обращение — хоть в том же
+ * запросе, хоть завтра с другого инстанса — денег не стоит.
+ *
+ * Сбой хранилища не мешает: кэш промахивается, справочник отвечает как
+ * раньше.
+ */
+export async function partyByInn(
+  inn: string,
+  token = process.env.DADATA_TOKEN || '',
+  store: SharedStore = sharedStore(),
+): Promise<Party | null> {
+  const q = String(inn || '').replace(/[\s-]/g, '');
+  if (!token || !q) return null;
+
+  const key = `dadata-party-${q}`;
+  // Кэш — оптимизация, а не условие работы: его сбой не должен превращаться
+  // в отказ справочника, поэтому обе операции хранилища подстрахованы.
+  const hit = await store.get<CachedParty>(key).catch(() => null);
+  if (hit && typeof hit === 'object' && 'party' in hit) return hit.party;
+
+  const parties = await ask(FIND_URL, { query: q, count: 1 }, token);
+  const party = parties.length ? parties[0] : null;
+  // Ошибку справочника не кэшируем: она уже улетела исключением выше.
+  await store.set(key, { party } satisfies CachedParty, PARTY_TTL_SEC).catch(() => {});
+  return party;
+}
+
 /** Организация по ИНН или ОГРН. Статус возвращается любой — он и нужен. */
 export async function findParty(
   inn: string,
   token = process.env.DADATA_TOKEN || '',
+  store: SharedStore = sharedStore(),
 ): Promise<PartyCard | null> {
-  const q = String(inn || '').replace(/[\s-]/g, '');
-  if (!token || !q) return null;
-  const parties = await ask(FIND_URL, { query: q, count: 1 }, token);
-  return parties.length ? toCard(parties[0]) : null;
+  const party = await partyByInn(inn, token, store);
+  return party ? toCard(party) : null;
 }
 
 /** Карточка организации для письма менеджеру. */
