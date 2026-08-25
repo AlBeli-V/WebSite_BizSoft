@@ -2,6 +2,7 @@
 // Инлайн-форма подбора (vendor-лендинги, /pricing и др.). Постит на /api/lead.
 // Все поля обязательные; телефон — с маской +7; чипы топ-вендоров с иконками.
 import VendorChips from './VendorChips.astro';
+import FormGuardFields from './FormGuardFields.astro';
 import ContactDirect from './ContactDirect.astro';
 
 interface Props {
@@ -22,6 +23,7 @@ const { source = 'pricing', title = 'Запросить расчёт', submitLab
   </div>
   <label>Что нужно подобрать?<textarea name="message" rows="3" required placeholder="Сервисы, количество пользователей, сроки…"></textarea></label>
   <VendorChips />
+  <FormGuardFields />
   <label class="lf-consent">
     <input type="checkbox" name="consent" required />
     <span>Согласен на обработку персональных данных согласно <a href="/privacy" target="_blank" rel="noopener noreferrer">политике</a>.</span>
