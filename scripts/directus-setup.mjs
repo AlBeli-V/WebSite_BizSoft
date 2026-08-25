@@ -319,6 +319,33 @@ async function buildSchema() {
   await ensureField('currency_rate', 'auto_recalc', { type: 'boolean', meta: { interface: 'boolean' }, schema: { default_value: false } });
   await ensureField('currency_rate', 'updated_at', { type: 'timestamp', meta: { interface: 'datetime', special: ['date-updated'], readonly: true } });
 
+  // ── app_kv: общее хранилище счётчиков и кэша ──
+  // Пороги на публичных формах (SEC-RL-001) и кэш справочника организаций.
+  // Счётчик в памяти процесса при двух инстансах считает вдвое больше, чем
+  // должен, и обнуляется рестартом — поэтому состояние живёт в базе.
+  // Ключ — строковый первичный: upsert идёт прямо по нему, без поиска.
+  if (!existingCollections.has('app_kv')) {
+    await api('POST', '/collections', {
+      collection: 'app_kv',
+      schema: { name: 'app_kv' },
+      meta: { icon: 'key', note: 'Счётчики лимитов и кэш. Служебная таблица, руками не правится.', hidden: true },
+      fields: [
+        {
+          field: 'key',
+          type: 'string',
+          meta: { interface: 'input', readonly: true },
+          schema: { is_primary_key: true, has_auto_increment: false, is_nullable: false, max_length: 190 },
+        },
+      ],
+    });
+    existingCollections.add('app_kv');
+    console.log('✓ collection app_kv created');
+  } else {
+    console.log('= collection app_kv exists');
+  }
+  await ensureField('app_kv', 'value', { type: 'json', meta: { interface: 'input-code', options: { language: 'json' }, readonly: true } });
+  await ensureField('app_kv', 'expires_at', { type: 'timestamp', meta: { interface: 'datetime', readonly: true, note: 'После этого момента запись считается отсутствующей' } });
+
   console.log('✓ schema ready');
 }
 
@@ -333,12 +360,29 @@ const APP_PERMS = [
   ['lead_events', 'create'], ['lead_events', 'read'], ['lead_events', 'delete'],
   ['quotes', 'create'], ['quotes', 'read'],
   ['currency_rate', 'read'], ['currency_rate', 'create'], ['currency_rate', 'update'],
+  // Счётчики лимитов и кэш справочника: сайт читает, создаёт и обновляет
+  // записи сам; delete — для уборки просроченных ключей.
+  ['app_kv', 'create'], ['app_kv', 'read'], ['app_kv', 'update'], ['app_kv', 'delete'],
   ['directus_files', 'read'],
 ];
 
-async function ensureServiceAccess() {
+/**
+ * Роль, политика и права сервисного доступа сайта.
+ *
+ * Отделено от выдачи токена намеренно. Права — единственное, что нужно
+ * приложению для работы с новой коллекцией, и они ничего не ломают:
+ * существующие не трогаются, недостающие досыпаются. Сброс токена и
+ * демо-каталог, наоборот, ломают прод, если после них не синхронизировать
+ * окружение, — поэтому они остались в ensureServiceAccess и в режим
+ * «только схема» не попадают.
+ *
+ * Без этого шага новая коллекция появлялась, а сайт получал на неё 403:
+ * политика сервисной роли создана с app_access и admin_access = false,
+ * то есть без явного разрешения доступа нет. Ровно так и вышло бы с
+ * app_kv — пороги форм молча остались бы невключёнными.
+ */
+async function ensureServicePermissions() {
   // роль
-  const roles = await api('GET', '/roles', undefined);
   let role = (await api('GET', '/roles?filter[name][_eq]=Site Service&limit=1')) || [];
   let roleId = role[0]?.id;
   if (!roleId) {
@@ -374,6 +418,16 @@ async function ensureServiceAccess() {
     }
   }
   console.log('✓ service permissions ensured');
+  return { roleId, policyId };
+}
+
+/**
+ * Полный сервисный доступ: права плюс статический токен служебной учётки.
+ * Токен пересоздаётся при каждом вызове, поэтому следом обязателен
+ * ops-directus-token-sync — иначе сайт остаётся со старым токеном.
+ */
+async function ensureServiceAccess() {
+  const { roleId } = await ensureServicePermissions();
 
   // сервисный пользователь со статическим токеном
   let users = await api('GET', '/users?filter[email][_eq]=service@biz-soft.pro&limit=1');
@@ -464,14 +518,18 @@ async function seed() {
 }
 
 /**
- * Режим «только схема»: добавить недостающие коллекции и поля, ничего больше.
+ * Режим «только схема»: коллекции, поля и права на них — и ничего больше.
  *
- * Полный прогон делает две вещи сверх схемы — пересоздаёт токен служебной
+ * Полный прогон делает две вещи сверх этого — пересоздаёт токен служебной
  * учётки и досыпает демо-каталог. 20.08.2026 на проде это уже стоило простоя:
  * сайт остался со старым токеном, каталог опустел, карточки начали отдавать
  * 404. Для добавления новых полей ни то, ни другое не нужно, а риск
  * несоразмерен: --schema-only исключает оба шага и потому не требует
  * последующего ops-directus-token-sync.
+ *
+ * Права при этом выдаются всегда. Коллекция без прав для приложения всё
+ * равно что её нет — оно получает 403, — а выдача прав, в отличие от сброса
+ * токена, ничего не ломает и повторного запуска не требует.
  */
 const SCHEMA_ONLY = process.argv.includes('--schema-only');
 
@@ -482,7 +540,8 @@ async function main() {
   await login();
   await buildSchema();
   if (SCHEMA_ONLY) {
-    console.log('\n✅ СХЕМА ПРИМЕНЕНА (без пересоздания токена и без демо-данных)');
+    await ensureServicePermissions();
+    console.log('\n✅ СХЕМА И ПРАВА ПРИМЕНЕНЫ (без пересоздания токена и без демо-данных)');
     return;
   }
   await ensureServiceAccess();

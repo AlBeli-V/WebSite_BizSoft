@@ -1,6 +1,7 @@
 # Точечная правка полей одной товарной позиции в прод-Directus по слагу.
-# Патчатся только переданные поля (name / short_description / price_note).
-# Пример: slug=chatgpt-business, price_note="за пользователя в год, минимум 2 пользователя".
+# Патчатся только переданные поля (name / short_description / price_note /
+# license_type). Пример: slug=chatgpt-business, price_note="за пользователя
+# в год, минимум 2 пользователя"; license_type=individual.
 # Результат (было/стало по каждому полю) — комментарий в журнал-issue #22.
 name: ops-patch-product
 on:
@@ -17,6 +18,9 @@ on:
         required: false
       price_note:
         description: 'Новая приписка к цене (пусто — не менять)'
+        required: false
+      license_type:
+        description: 'Тип лицензии: org | individual | student (пусто — не менять)'
         required: false
 permissions:
   issues: write
@@ -38,11 +42,12 @@ jobs:
           P_NAME: ${{ inputs.name }}
           P_SHORT: ${{ inputs.short_description }}
           P_NOTE: ${{ inputs.price_note }}
+          P_LICENSE: ${{ inputs.license_type }}
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
-          envs: P_SLUG,P_NAME,P_SHORT,P_NOTE
+          envs: P_SLUG,P_NAME,P_SHORT,P_NOTE,P_LICENSE
           capture_stdout: true
           script: |
             set -e
@@ -64,11 +69,15 @@ jobs:
             slug = os.environ['P_SLUG']
             fields = {'name': os.environ.get('P_NAME', ''),
                       'short_description': os.environ.get('P_SHORT', ''),
-                      'price_note': os.environ.get('P_NOTE', '')}
+                      'price_note': os.environ.get('P_NOTE', ''),
+                      'license_type': os.environ.get('P_LICENSE', '')}
             payload = {k: v for k, v in fields.items() if v}
             if not payload:
                 print('не передано ни одного поля для правки'); raise SystemExit(1)
-            items = req('GET', f'/items/products?filter[slug][_eq]={slug}&fields=id,slug,name,short_description,price_note', token=tok)['data']
+            lic = payload.get('license_type')
+            if lic and lic not in ('org', 'individual', 'student'):
+                print(f'недопустимый license_type: {lic} (ожидается org | individual | student)'); raise SystemExit(1)
+            items = req('GET', f'/items/products?filter[slug][_eq]={slug}&fields=id,slug,name,short_description,price_note,license_type', token=tok)['data']
             if not items:
                 print(f'товар со слагом {slug} не найден'); raise SystemExit(1)
             it = items[0]
