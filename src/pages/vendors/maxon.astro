@@ -360,9 +360,12 @@ const collectionLd = collectionPageSchema({ name: 'Maxon для бизнеса',
   .links .link-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 0.6rem; }
   .links a { color: var(--color-accent); font-size: 0.92rem; padding: 0.5rem 0; }
   @media (max-width: 880px) { .final-grid { grid-template-columns: 1fr; } }
-  /* Значок продукта слева от названия в плитке */
+  /* Значок продукта слева от названия в плитке. Заголовок в карточке
+     резервирует две строки (min-height у .mcard h3) — при однострочном
+     названии текст прижимался к верху резерва и уезжал вверх относительно
+     значка; в строке со значком резерв высоты не нужен. */
   .pih { display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.4rem; }
-  .pih h3 { margin-bottom: 0; }
+  .pih h3 { margin-bottom: 0; min-height: 0; }
 </style>
 
 <script>
