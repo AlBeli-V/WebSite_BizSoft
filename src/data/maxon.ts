@@ -158,15 +158,15 @@ export const MAXON_COMPARISON = {
 export const MAXON_DECISION: { scenario: string; product: string; slug: string | null; note: string }[] = [
   { scenario: 'Один моушн-дизайнер, нужен весь стек Maxon', product: 'Maxon One 1Y (Individuals)', slug: 'maxon-one',
     note: 'Полный пакет дешевле двух-трёх продуктов по отдельности' },
-  { scenario: 'Студия из нескольких 3D-специалистов, состав меняется', product: 'Maxon One 1Yr (Teams)', slug: 'maxon-one-teams',
+  { scenario: 'Студия из нескольких 3D-специалистов, состав меняется', product: 'Maxon One 1Y (Teams)', slug: 'maxon-one-teams',
     note: 'Места принадлежат компании и переназначаются между сотрудниками' },
   { scenario: 'Нужен только Cinema 4D одному специалисту', product: 'Cinema 4D 1Y (Individuals)', slug: 'maxon-c4d',
     note: 'Redshift для Cinema 4D уже включён в подписку' },
-  { scenario: 'Отдел видео: эффекты и цветокоррекция в After Effects / Premiere', product: 'Red Giant 1Yr (Teams)', slug: 'maxon-redgiant-teams',
+  { scenario: 'Отдел видео: эффекты и цветокоррекция в After Effects / Premiere', product: 'Red Giant 1Y (Teams)', slug: 'maxon-redgiant-teams',
     note: 'Trapcode, Magic Bullet, VFX и Universe на управляемых местах' },
-  { scenario: 'Рендер в Maya / Houdini / Blender на несколько рабочих станций', product: 'Redshift 1Yr (Teams)', slug: 'maxon-redshift-teams',
+  { scenario: 'Рендер в Maya / Houdini / Blender на несколько рабочих станций', product: 'Redshift 1Y (Teams)', slug: 'maxon-redshift-teams',
     note: 'GPU-рендер закупается на компанию, места передаются' },
-  { scenario: 'Монтажёру нужны только переходы и эффекты', product: 'Universe 1Yr (Individuals)', slug: 'maxon-universe',
+  { scenario: 'Монтажёру нужны только переходы и эффекты', product: 'Universe 1Y (Individuals)', slug: 'maxon-universe',
     note: 'Самая доступная позиция Maxon; командной версии нет — для команд Universe входит в Red Giant (Teams)' },
 ];
 
@@ -203,7 +203,7 @@ export const MAXON_FAQ: { q: string; a: string }[] = [
   },
   {
     q: 'Почему у Universe нет командного плана?',
-    a: 'Производитель продаёт Universe отдельной подпиской только в индивидуальном плане. Командам, которым нужны эффекты Universe на управляемых местах, подходит Red Giant 1Yr (Teams) — Universe входит в набор Red Giant.',
+    a: 'Производитель продаёт Universe отдельной подпиской только в индивидуальном плане. Командам, которым нужны эффекты Universe на управляемых местах, подходит Red Giant 1Y (Teams) — Universe входит в набор Red Giant.',
   },
   {
     q: 'Как считается цена в рублях?',
