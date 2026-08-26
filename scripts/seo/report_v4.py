@@ -27,6 +27,7 @@ sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
 
 import charts_v4                      # noqa: E402
 import drivers as drivers_mod         # noqa: E402
+import invariants as invariants_mod   # noqa: E402
 import experiments as exp_mod         # noqa: E402
 import opportunity as opp_mod         # noqa: E402
 import report_v2                      # noqa: E402
@@ -1298,9 +1299,17 @@ def main() -> int:
     (BASE / f"{date}-v4-blocks.json").write_text(
         json.dumps(b, ensure_ascii=False, indent=1, default=str), encoding="utf-8")
 
+    # Инварианты боевого письма — те же правила, что в сценарных тестах.
+    # Нарушение не блокирует отправку (лучше письмо с зафиксированным
+    # нарушением, чем молчание), но остаётся в <дата>-invariants.json.
+    inv = invariants_mod.write_report(date, snap, dq, b, preview_html)
+    inv_status = ("ок" if inv["passed"]
+                  else "НАРУШЕНЫ: " + "; ".join(inv["violations"]))
+
     print(f"V4: видимых слов {visible_words(preview_html)}, "
           f"первый экран {first_screen_words(preview_html)}, "
-          f"текстовая версия {words(text)}, изображений {len(charts)}")
+          f"текстовая версия {words(text)}, изображений {len(charts)}, "
+          f"инварианты: {inv_status}")
     return 0
 
 
