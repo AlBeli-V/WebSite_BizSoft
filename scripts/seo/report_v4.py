@@ -173,6 +173,26 @@ def _no_data_card(key: str, label: str, unit: str, block: dict, source_label: st
             "muted": True, "sparkline": None}
 
 
+
+def _daily_windows(dq_or_snap: dict, source: str) -> dict | None:
+    """Полные окна источника из дневной витрины снимка, иначе None."""
+    blk = (dq_or_snap.get("daily") or {}).get(source) or {}
+    return blk if blk.get("complete") else None
+
+
+def _daily_card_common(win: dict) -> dict:
+    """Общие поля карточки, считанные из окна витрины."""
+    cur, prev = win["current"], win["previous"]
+    delta = win.get("delta")
+    return {
+        "value_num": cur["sum"],
+        "delta_num": delta,
+        "period": f"{ru_date(cur['from'])}–{ru_date(cur['to'])}",
+        "period_vs": f"против {ru_date(prev['from'])}–{ru_date(prev['to'])}",
+        "prev_num": prev["sum"],
+    }
+
+
 def kpi_cards(snap: dict, prev: dict | None, dq: dict) -> list[dict]:
     """Четыре показателя руководителя. Отсутствие CRM — приглушённое состояние."""
     y_block, g_block = snap["yandex"], snap["google"]
@@ -188,7 +208,42 @@ def kpi_cards(snap: dict, prev: dict | None, dq: dict) -> list[dict]:
     stale_set = stale_sources(dq)
     cards = []
 
-    if y_block.get("available"):
+    y_daily = _daily_windows(snap, "yandex") if rules.get("kpi_from_daily") else None
+    if y_daily:
+        # Показы всего сайта из дневной витрины: окна равной длины встык,
+        # дельта — сравнение независимых периодов. Выборка запросов остаётся
+        # только вспомогательной строкой о первой странице.
+        w = _daily_card_common(y_daily["windows"]["impressions"])
+        imp = int(w["value_num"])
+        delta = int(w["delta_num"]) if w["delta_num"] is not None else None
+        clicks_cur = y_daily["windows"]["clicks"]["current"]["sum"]
+        # CTR по всему сайту: показы и клики витрины — один охват, отношение
+        # корректно без оговорки про выборку.
+        site_ctr = (clicks_cur / imp) if imp else None
+        yt = y_block.get("totals") or {}
+        top10_note = (f"На первой странице {yt.get('queries_position_le_10')} из "
+                      f"{yt.get('queries_tracked')} запросов выборки. "
+                      if y_block.get("available") else "")
+        cards.append(
+            {"key": "yandex", "label": "Видимость в Яндексе",
+             "value": num(imp), "unit": "показов за неделю",
+             "delta": signed(delta) if delta is not None else None,
+             "delta_dir": _dir(delta) if delta is not None else None,
+             "relative": (signed_pct(delta / w["prev_num"])
+                          if delta is not None and w["prev_num"] >= LOW_BASE else None),
+             "relative_note": ("низкая база прошлой недели"
+                               if delta is not None and w["prev_num"] < LOW_BASE else None),
+             "period": w["period"],
+             "source": "Яндекс.Вебмастер, весь сайт, дневные ряды",
+             "confidence": ("достаточная"
+                            if imp >= snap["thresholds"]["low_impressions"]
+                            else "низкая, малые числа"),
+             "interpretation": (top10_note
+                                + (f"CTR {pct(site_ctr, 2)} по всему сайту."
+                                   if site_ctr is not None else "")),
+             "muted": False,
+             "sparkline": y_daily["windows"]["impressions"].get("tail")})
+    elif y_block.get("available"):
         yt = y_block["totals"]
         yp = (prev or {}).get("yandex", {}).get("totals", {})
         imp_delta = (yt["impressions"] - yp["impressions"]) if (yp and show_delta) else None
@@ -228,7 +283,37 @@ def kpi_cards(snap: dict, prev: dict | None, dq: dict) -> list[dict]:
         cards.append(_no_data_card("yandex", "Видимость в Яндексе", "показов",
                                    y_block, "Яндекс.Вебмастер, выборка топ-100 запросов"))
 
-    if g_block.get("available"):
+    g_daily = _daily_windows(snap, "gsc") if rules.get("kpi_from_daily") else None
+    if g_daily:
+        w = _daily_card_common(g_daily["windows"]["impressions"])
+        imp = int(w["value_num"])
+        delta = int(w["delta_num"]) if w["delta_num"] is not None else None
+        clicks_cur = int(g_daily["windows"]["clicks"]["current"]["sum"])
+        interpretation = (f"Переходы из Google за окно: {num(clicks_cur)}."
+                          if clicks_cur else "Переходов из Google пока нет.")
+        cards.append(
+            {"key": "google", "label": "Видимость в Google",
+             "value": num(imp), "unit": "показов за неделю",
+             "delta": signed(delta) if delta is not None else None,
+             "delta_dir": _dir(delta) if delta is not None else None,
+             "relative": (signed_pct(delta / w["prev_num"])
+                          if delta is not None and w["prev_num"] >= LOW_BASE else None),
+             "relative_note": "низкая база: десятки показов"
+                              if delta is not None and w["prev_num"] < LOW_BASE else None,
+             "period": w["period"],
+             "source": "Google Search Console, весь сайт, дневные ряды",
+             "confidence": ("данные не обновились с прошлого отчёта"
+                            if "google" in stale_set else
+                            "низкая, малые числа"
+                            if imp < snap["thresholds"]["low_impressions"]
+                            else "достаточная"),
+             "interpretation": interpretation,
+             "muted": False,
+             "sparkline": g_daily["windows"]["impressions"].get("tail"),
+             "slope": {"prev_label": "пред. неделя", "prev": int(w["prev_num"]),
+                       "cur_label": "эта неделя", "cur": imp,
+                       "label": "Показы Google за неделю"}})
+    elif g_block.get("available"):
         gt = g_block["totals"]
         daily = [d["impressions"] for d in (g_block.get("daily") or [])][-14:]
         # Сравнение недель публикуется только при двух полных окнах: у молодой
@@ -279,7 +364,29 @@ def kpi_cards(snap: dict, prev: dict | None, dq: dict) -> list[dict]:
         cards.append(_no_data_card("google", "Видимость в Google", "показов за неделю",
                                    g_block, "Google Search Console, весь сайт"))
 
-    if m.get("available"):
+    m_daily = _daily_windows(snap, "metrika") if rules.get("kpi_from_daily") else None
+    if m_daily:
+        w = _daily_card_common(m_daily["windows"]["visits_organic"])
+        visits = int(w["value_num"])
+        delta = int(w["delta_num"]) if w["delta_num"] is not None else None
+        cards.append(
+            {"key": "traffic", "label": "Органический трафик",
+             "value": num(visits), "unit": "визитов за неделю",
+             "delta": signed(delta) if delta is not None else None,
+             "delta_dir": _dir(delta) if delta is not None else "flat",
+             "relative": None,
+             "relative_note": None,
+             "period": w["period"],
+             "source": "Яндекс.Метрика, весь сайт, дневные ряды",
+             "confidence": ("данные не обновились с прошлого отчёта"
+                            if "metrika" in stale_set else
+                            "достаточная"
+                            if visits >= snap["thresholds"]["low_visits"]
+                            else "низкая, малые числа"),
+             "interpretation": "Визиты из поиска: весь сайт, все поисковые системы.",
+             "muted": False,
+             "sparkline": m_daily["windows"]["visits_organic"].get("tail")})
+    elif m.get("available"):
         cards.append(
             {"key": "traffic", "label": "Органический трафик",
              "value": num(m.get("organic_visits")), "unit": "визитов",
@@ -964,7 +1071,7 @@ def html_email(b: dict, charts: dict, cid_mode: bool) -> str:
         if vr.get("ppc"):
             lines = "; ".join(
                 f"«{c['query']}» ({num(c['shows'])} показов, позиция {c['position']})"
-                for c in vr["ppc"][:2])
+                for c in vr["ppc"][:1])
             ppc_html = (f"<div style=\"font-size:14.5px;padding-top:{SP['s']}px;"
                         f"line-height:1.55;\"><b>Проверить платным трафиком:</b> "
                         f"{lines} — конверсионность запросов не измерена.</div>")
@@ -1162,7 +1269,7 @@ def plain_text(b: dict) -> str:
             if it["google"]["impressions"]:
                 line += f", {num(it['google']['impressions'])} в Google"
             L.append(line)
-        for c in (vr.get("ppc") or [])[:2]:
+        for c in (vr.get("ppc") or [])[:1]:
             L.append(f"  проверить платным трафиком: «{c['query']}» "
                      f"({num(c['shows'])} показов, позиция {c['position']})")
         L.append(f"  {vr.get('note', '')}")

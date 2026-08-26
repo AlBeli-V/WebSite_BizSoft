@@ -38,13 +38,27 @@ def run(date: str) -> dict:
     add("kpi_fully_attributed", not incomplete,
         f"показателей без источника, периода или достоверности: {incomplete or 'нет'}")
 
-    # 2. Значения показателей совпадают со снимком.
-    yt = snap["yandex"]["totals"]
-    gt = snap["google"]["totals"]
-    expect = {
-        "Видимость в Яндексе": str(yt["impressions"]),
-        "Видимость в Google": str(gt["impressions_last7"]),
-    }
+    # 2. Значения показателей совпадают со снимком. При KPI из дневной
+    # витрины эталон — суммы её окон; иначе — агрегатные totals источника.
+    rules = dq.get("publication_rules") or {}
+
+    def daily_cur(src, metric):
+        w = (((snap.get("daily") or {}).get(src) or {}).get("windows") or {}).get(metric) or {}
+        s = (w.get("current") or {}).get("sum")
+        return str(int(s)) if s is not None else None
+
+    yt = snap["yandex"].get("totals") or {}
+    gt = snap["google"].get("totals") or {}
+    if rules.get("kpi_from_daily"):
+        expect = {
+            "Видимость в Яндексе": daily_cur("yandex", "impressions") or str(yt.get("impressions")),
+            "Видимость в Google": daily_cur("gsc", "impressions") or str(gt.get("impressions_last7")),
+        }
+    else:
+        expect = {
+            "Видимость в Яндексе": str(yt.get("impressions")),
+            "Видимость в Google": str(gt.get("impressions_last7")),
+        }
     mismatched = [k["label"] for k in blocks["kpis"]
                   if k["label"] in expect
                   and expect[k["label"]] != k["value"].replace(" ", "").replace(" ", "")]

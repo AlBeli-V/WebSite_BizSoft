@@ -154,6 +154,32 @@ def run_checks(snap: dict, prev: dict | None = None) -> dict:
                 "не является новым наблюдением и не подаётся как новость.",
                 source=key)
 
+    # 0в. Дневная факт-витрина: полнота окон KPI.
+    #
+    # Окна равной длины строит отчёт из дневных рядов; дыра в окне — это
+    # настоящий сбой (день не собрался и не был дозаполнен), а не особенность
+    # источника. Отсутствие витрины — деградация до старого агрегатного пути.
+    daily = snap.get("daily") or {}
+    daily_labels = {"yandex": "Яндекс.Вебмастер", "gsc": "Google Search Console",
+                    "metrika": "Яндекс.Метрика", "ga4": "GA4"}
+    for key, label in daily_labels.items():
+        blk = daily.get(key) or {}
+        if not blk.get("available"):
+            add("warning", "DAILY_MISSING",
+                f"{label}: дневная витрина не заполнена",
+                blk.get("error") or "рядов по дням нет.",
+                "KPI по источнику считается по агрегатному пути со скользящими "
+                "окнами; дельты публикуются только при сопоставимых окнах.",
+                source=key)
+        elif not blk.get("complete"):
+            add("critical", "DAILY_GAP",
+                f"{label}: пропуски в окнах дневной витрины",
+                "Нет значений за: " + ", ".join(blk.get("missing_dates") or []) + ".",
+                "Дельта по неполному окну не публикуется: пропущенный день — "
+                "несобранные данные, а не измеренный ноль.", source=key)
+    # KPI Яндекса считается из витрины, когда оба окна полны.
+    yx_daily_ok = bool((daily.get("yandex") or {}).get("complete"))
+
     # 1. Скользящее окно Яндекса: сравнение периодов пересекается
     if yx.get("available"):
         s = yx["source"]
@@ -175,7 +201,11 @@ def run_checks(snap: dict, prev: dict | None = None) -> dict:
         # поэтому проверка критическая.
         cur_days, cmp_days = s.get("current_period_days"), s.get("comparison_period_days")
         if cur_days and cmp_days and cur_days != cmp_days:
-            add("critical", "WINDOW_LENGTH_MISMATCH",
+            # При полной дневной витрине KPI и дельты считаются по окнам
+            # равной длины, и плавающее окно агрегата задевает только
+            # выборку запросов в блоке возможностей — это предупреждение,
+            # а не сбой.
+            add("warning" if yx_daily_ok else "critical", "WINDOW_LENGTH_MISMATCH",
                 "Окна сравнения разной длины",
                 f"Текущее окно {cur_days} дн., предыдущее {cmp_days} дн. "
                 f"Задержка источника плавает, длина окна вслед за ней.",
@@ -189,7 +219,10 @@ def run_checks(snap: dict, prev: dict | None = None) -> dict:
         # видимости, а другой набор слагаемых.
         churn = sample_churn(yx, prev_yandex)
         if churn and churn["share"] > 0.10:
-            add("critical", "SAMPLE_CHURN",
+            # Смена состава выборки больше не трогает KPI: показы всего сайта
+            # идут из дневной витрины. Предупреждение остаётся для блока
+            # возможностей, который по-прежнему опирается на выборку.
+            add("warning" if yx_daily_ok else "critical", "SAMPLE_CHURN",
                 "Состав выборки запросов изменился",
                 f"Сменилось {churn['changed']} из {churn['previous']} запросов "
                 f"({churn['share']:.0%}). Вошедшие принесли {churn['gained']} показов, "
@@ -530,9 +563,11 @@ def run_checks(snap: dict, prev: dict | None = None) -> dict:
                 (snap.get("market_demand") or {}).get("complete")),
             # Абсолютная дельта запрещается ровно тем, что её портит: разной
             # длиной окна и пересборкой выборки.
-            "allow_absolute_delta": not any(
+            "allow_absolute_delta": yx_daily_ok or not any(
                 f["code"] in ("WINDOW_LENGTH_MISMATCH", "SAMPLE_CHURN")
                 for f in findings),
+            # KPI письма считается из дневной витрины (окна равной длины).
+            "kpi_from_daily": yx_daily_ok,
             "allow_channel_conversion_claims": not any(
                 f["code"] in ("INTERNAL_TRAFFIC_IN_ORGANIC", "GOAL_NOT_CONFIGURED")
                 for f in findings),
