@@ -125,17 +125,38 @@ def search_status(snap: dict, prev: dict | None) -> str:
     return "mixed"
 
 
+# Канонические статусы источника → причина для читателя (см. методичку).
+STATUS_REASON = {"missing": "выгрузки нет",
+                 "empty": "источник ответил без данных",
+                 "malformed": "формат выгрузки не распознан"}
+STATUS_SHORT = {"missing": "выгрузки нет",
+                "empty": "ответ без данных",
+                "malformed": "формат не распознан"}
+
+
+def stale_sources(dq: dict) -> set:
+    """Источники, не обновившиеся с прошлого отчёта, — вывод проверки качества.
+
+    Письмо повторяет вывод слоя качества, а не вычисляет заново по сырым
+    полям; для старых файлов data-quality без блока derived — по находкам.
+    """
+    derived = dq.get("derived") or {}
+    if "stale_sources" in derived:
+        return set(derived["stale_sources"])
+    return {f.get("source") for f in (dq.get("findings") or [])
+            if f.get("code") == "SOURCE_NOT_UPDATED" and f.get("source")}
+
+
 def _no_data_card(key: str, label: str, unit: str, block: dict, source_label: str) -> dict:
     """Карточка источника, не отдавшего данные: «нет данных» вместо нуля.
 
-    Причина называется явно и различает «выгрузки нет» и «источник вернул
-    ошибку»; период берётся из source, когда он известен даже при сбое.
-    Дельты и сравнения не публикуются: сравнивать с отсутствующим замером
-    нечего, а дельта от нуля была бы выдумкой.
+    Причина называется по каноническому статусу источника; период берётся из
+    source, когда он известен даже при сбое. Дельты и сравнения не
+    публикуются: сравнивать с отсутствующим замером нечего, а дельта от нуля
+    была бы выдумкой.
     """
     src = block.get("source") or {}
-    missing = src.get("status") == "missing"
-    reason = "выгрузки нет" if missing else "источник вернул ошибку"
+    reason = STATUS_REASON.get(src.get("status"), "источник вернул ошибку")
     period = (f"{ru_date(src.get('current_period_start'))}–"
               f"{ru_date(src.get('current_period_end'))}"
               if src.get("current_period_start") else "период неизвестен")
@@ -162,10 +183,7 @@ def kpi_cards(snap: dict, prev: dict | None, dq: dict) -> list[dict]:
     # на 20.08 → 21.08 окна были 12 и 13 дней, а состав выборки сменился на
     # четверть — заявленный прирост в 107 показов объяснялся этим целиком.
     show_delta = rules.get("allow_absolute_delta", True)
-    # «Источник не обновился» — вывод проверки качества (SOURCE_NOT_UPDATED),
-    # письмо его повторяет, а не вычисляет заново по сырым полям.
-    stale_set = {f.get("source") for f in (dq.get("findings") or [])
-                 if f.get("code") == "SOURCE_NOT_UPDATED"}
+    stale_set = stale_sources(dq)
     cards = []
 
     if y_block.get("available"):
@@ -245,7 +263,7 @@ def kpi_cards(snap: dict, prev: dict | None, dq: dict) -> list[dict]:
                        f"против {ru_date(gt['prev7_start'])}–{ru_date(gt['prev7_end'])}",
              "source": "Google Search Console, весь сайт",
              "confidence": ("данные не обновились с прошлого отчёта"
-                            if source_stale(snap, prev, "google") else
+                            if "google" in stale_set else
                             "низкая, малые числа"
                             if gt["impressions_last7"] < snap["thresholds"]["low_impressions"]
                             else "достаточная"),
@@ -295,17 +313,21 @@ def kpi_cards(snap: dict, prev: dict | None, dq: dict) -> list[dict]:
         cards.append(_no_data_card("commercial", "Коммерческий сигнал", "целевых событий",
                                    m, "Яндекс.Метрика, весь сайт"))
     else:
-        # Сколько целей сайт шлёт мимо счётчика — берём из проверки качества,
-        # а не вписываем числом в текст.
+        # Сколько целей сайт шлёт мимо счётчика и не отстала ли выгрузка целей —
+        # готовые выводы проверки качества (derived): она сверяет ключи и по
+        # именам, и по идентификаторам событий в условиях целей. Пересчёт здесь
+        # по одним именам давал бы другой ответ на тот же вопрос. Фолбэк — для
+        # файлов data-quality старой схемы, без блока derived.
+        derived = dq.get("derived") or {}
         declared = snap.get("declared_goals") or []
-        configured = {g_["name"] for g_ in m.get("goals_configured") or []}
-        goals_missing = len([n for n in declared if n not in configured])
-        # Цели могли быть заведены уже после того, как собран список счётчика.
-        # Тогда в снимке их ещё нет, но утверждать «целей нет» — значит говорить о
-        # настоящем по вчерашним данным. Проверка качества это различает; отчёт
-        # обязан повторять её вывод, а не считать заново по сырым полям.
-        goals_lagging = any(f["code"] == "GOALS_CONFIGURED_AFTER_COLLECTION"
-                            for f in dq.get("findings", []))
+        goals_lagging = derived.get(
+            "goals_lagging",
+            any(f["code"] == "GOALS_CONFIGURED_AFTER_COLLECTION"
+                for f in dq.get("findings", [])))
+        goals_missing = derived.get("goals_missing")
+        if goals_missing is None:
+            configured = {g_["name"] for g_ in m.get("goals_configured") or []}
+            goals_missing = len([n for n in declared if n not in configured])
         if goals_lagging:
             goals_missing = 0
         cards.append({
@@ -378,7 +400,7 @@ def delta_text(d: int | None) -> str:
     return "без изменений" if d == 0 else signed(d)
 
 
-def signals(snap: dict, prev: dict | None) -> list[dict]:
+def signals(snap: dict, prev: dict | None, dq: dict) -> list[dict]:
     """Три сигнала дня: положительный, нейтральный, отрицательный.
 
     Сигнал — это сравнение двух замеров, поэтому строится только по источникам,
@@ -391,7 +413,7 @@ def signals(snap: dict, prev: dict | None) -> list[dict]:
     if snap["google"].get("available") and prev["google"].get("available"):
         gt = snap["google"]["totals"]
         full_weeks = (gt.get("last7_days", 7) == 7 and gt.get("prev7_days", 7) == 7)
-        stale = source_stale(snap, prev, "google")
+        stale = "google" in stale_sources(dq)
         # Тон и текст выводятся из знака изменения, а не задаются константой:
         # зашитое «positive / стали показываться чаще» выдавало бы падение за
         # рост. Сбой источника (unavailable) сюда не доходит — сигнал строится
@@ -528,7 +550,7 @@ def assemble(snap, prev, dq, actions_cfg, site_check):
     health = dq["data_health"]
     st = search_status(snap, prev)
     kpis = kpi_cards(snap, prev, dq)
-    sig = signals(snap, prev)
+    sig = signals(snap, prev, dq)
     dec = drivers_mod.build(snap, prev)
     exps = exp_mod.build(snap, date, site_check)
     board = execution_board(actions_cfg, date)
@@ -630,7 +652,7 @@ def _sources_line(snap: dict) -> str:
         if block.get("available"):
             return f"{label} по {ru_date(src.get('latest_event_date'))}"
         # «Сбой сбора» ≠ «не обновился»: здесь данных за день нет вовсе.
-        return f"{label}: {'выгрузки нет' if src.get('status') == 'missing' else 'сбой сбора'}"
+        return f"{label}: {STATUS_SHORT.get(src.get('status'), 'сбой сбора')}"
 
     md = snap.get("market_demand") or {}
     demand = (f"спрос {ru_date(md['source']['measured_at'])}" if md.get("available")

@@ -62,7 +62,32 @@ CTR — два знака после запятой в процентах; ср�
 `YANDEX_SAMPLE_SCOPE`, `SOURCE_RECONCILIATION` (critical), `PERIOD_MISMATCH`, `MEASUREMENT_CHANGE`,
 `INTRA_DAY_REVISION`, `BASELINE_REVISED`, `LOW_CONVERSION_SAMPLE`, `GOAL_UNIQUENESS_UNKNOWN`,
 `SCOPE_QUERY_VS_PAGE`, `LOW_IMPRESSION_BASE_GOOGLE`, `NO_CTR_MODEL`, `NO_CRM`,
-`INDEXATION_UNCLASSIFIED`.
+`INDEXATION_UNCLASSIFIED`, `SOURCE_UNAVAILABLE` (critical), `SOURCE_NOT_UPDATED`,
+`API_ERROR_AS_ZERO` (critical).
+
+Находки, относящиеся к конкретному источнику, несут машиночитаемое поле
+`source` (`yandex|google|metrika|ga4`); блок `derived` содержит готовые выводы
+для письма (`stale_sources`, `goals_missing`, `goals_lagging`) — presentation-слой
+их отображает, а не вычисляет заново.
+
+## Состояния источника (с 2026-08-26)
+
+Каждый источник снимка находится ровно в одном состоянии, и состояния не
+превращаются друг в друга дальше по конвейеру:
+
+| Состояние | Где фиксируется | Значение |
+|---|---|---|
+| измеренное значение | `available: true` | число публикуется; ноль — это измеренный ноль |
+| `missing` | `source.status` | выгрузки нет: сбор не запускался или файл не доехал |
+| `error` | `source.status` | источник (или его срез) вернул ошибку; тело ошибки не сохраняется как данные |
+| `empty` | `source.status` | формально успешный ответ без единой строки — «пустой успех», не ноль |
+| `malformed` | `source.status` | формат выгрузки не соответствует ожиданиям (страховка `build_safe`) |
+| не обновился | находка `SOURCE_NOT_UPDATED` | данные валидны, но `latest_event_date` не сдвинулась: не новое наблюдение |
+
+Правила: `None` — «нет данных», не ноль; при любом недоступном состоянии
+показатели публикуются как «нет данных», дельты и сравнения не считаются;
+«предыдущий снимок» для проверок качества и письма берётся одной функцией
+`snapshot.prev_snapshot`.
 
 ## Статусы вместо общего балла
 

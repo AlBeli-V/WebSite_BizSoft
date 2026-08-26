@@ -322,6 +322,58 @@ class TestEmptySuccessAndMalformed(Pipeline):
         self.assertIn("формат выгрузки", block["error"])
 
 
+class TestCanonicalStatuses(Pipeline):
+    """empty и malformed — отдельные состояния с собственной формулировкой."""
+
+    def test_empty_success_status_and_wording(self):
+        g = {"date": DATE, "analytics": {"date": {"rows": []},
+                                         "query": {"rows": []}, "page": {"rows": []}}}
+        snap = self.make_snap(yandex=raw("yandex"), gsc=g,
+                              metrika=raw("metrika"), ga4=raw("ga4"))
+        self.assertEqual(snap["google"]["source"]["status"], "empty")
+        dq, b, _, _ = self.build_email(snap)
+        self.assertEqual(self.google_card(b)["confidence"],
+                         "источник ответил без данных")
+        f = next(f_ for f_ in dq["findings"] if f_["code"] == "SOURCE_UNAVAILABLE"
+                 and f_["source"] == "google")
+        self.assertIn("ответил без данных", f["title"])
+
+    def test_malformed_status_and_wording(self):
+        m = {"date": DATE, "counter": "110206070",
+             "window": {"from": "2026-08-11", "to": "2026-08-24"},
+             "goals": [],
+             "traffic_sources": {"data": [{"неожиданная": "структура"}],
+                                 "totals": [1, 1, 0, 0, 0]},
+             "organic_by_engine": {"data": []},
+             "organic_landing_pages": {"data": []}}
+        snap = self.make_snap(yandex=raw("yandex"), gsc=raw("gsc"),
+                              metrika=m, ga4=raw("ga4"))
+        self.assertEqual(snap["analytics"]["metrika"]["source"]["status"], "malformed")
+        _, b, _, _ = self.build_email(snap)
+        self.assertIn("Метрика: формат не распознан", b["sources_line"])
+
+
+class TestDerivedBlock(Pipeline):
+    """Готовые выводы quality: письмо отображает, а не пересчитывает."""
+
+    def test_stale_sources_listed_in_derived(self):
+        same = gsc_synth(week_pattern(10, 20))
+        snap, prev = self.snap_pair(same, gsc_synth(week_pattern(10, 20)))
+        dq, b, _, _ = self.build_email(snap, prev)
+        self.assertIn("google", dq["derived"]["stale_sources"])
+        self.assertIn("не обновились", self.google_card(b)["confidence"])
+
+    def test_goals_fields_present(self):
+        snap = self.make_snap(yandex=raw("yandex"), gsc=raw("gsc"),
+                              metrika=raw("metrika"), ga4=raw("ga4"))
+        dq = self.q.run_checks(snap, None)
+        self.assertIn("goals_missing", dq["derived"])
+        self.assertIn("goals_lagging", dq["derived"])
+        # declared_goals в тестовом снимке пуст — сверка не выполнялась.
+        self.assertIsNone(dq["derived"]["goals_missing"])
+        self.assertFalse(dq["derived"]["goals_lagging"])
+
+
 class TestOrganicByEngine(Pipeline):
     """Разбивка органики по поисковым системам подключена к сверке."""
 

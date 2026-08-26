@@ -17,6 +17,7 @@ import sys
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
 import measurement  # noqa: E402
+import snapshot as snapshot_mod  # noqa: E402
 
 SNAP_DIR = pathlib.Path("reports/seo/intelligence/snapshots")
 OUT_DIR = pathlib.Path("reports/seo/intelligence/data-quality")
@@ -119,9 +120,12 @@ def run_checks(snap: dict, prev: dict | None = None) -> dict:
         src = blk.get("source") or {}
         period = (f"{src['current_period_start']}–{src['current_period_end']}"
                   if src.get("current_period_start") else "период неизвестен")
-        missing = src.get("status") == "missing"
+        reason = {"missing": "выгрузки нет",
+                  "empty": "источник ответил без данных",
+                  "malformed": "формат выгрузки не распознан"}.get(
+            src.get("status"), "источник вернул ошибку")
         add("critical", "SOURCE_UNAVAILABLE",
-            f"{label}: {'выгрузки нет' if missing else 'источник вернул ошибку'}",
+            f"{label}: {reason}",
             f"{blk.get('error') or 'нет данных'} ({period}).",
             "Показатели источника публикуются как «нет данных», а не ноль; "
             "дельты и сравнения по нему не публикуются.", source=key)
@@ -435,6 +439,7 @@ def run_checks(snap: dict, prev: dict | None = None) -> dict:
     # значит утопить список конверсий в просмотрах, после чего им перестают
     # пользоваться.
     required = {"lead"}
+    goals_missing_out, goals_lagging_out = None, False
     if declared and an.get("metrika", {}).get("available"):
         # Цель считается заведённой, если наш ключ совпал с именем цели ИЛИ с
         # идентификатором события в её условиях: заведённые через API цели
@@ -455,6 +460,7 @@ def run_checks(snap: dict, prev: dict | None = None) -> dict:
                 "Утверждение «цели не заведены» не публикуется. Первые сопоставимые "
                 "данные по конверсиям — со следующего сбора.", source="metrika")
             missing = []
+            goals_lagging_out = True
         if missing:
             add("critical", "GOAL_NOT_CONFIGURED",
                 "Сайт отправляет цели, которых нет в счётчике",
@@ -464,6 +470,7 @@ def run_checks(snap: dict, prev: dict | None = None) -> dict:
                 "Вызов reachGoal по незаведённой цели счётчик отбрасывает.",
                 "Ноль по этим целям означает «не измерялось». Конверсия сайта "
                 "и конверсия канала не публикуются.", source="metrika")
+        goals_missing_out = len(missing)
 
     # 15. Собственные визиты в органике
     m_block = an.get("metrika", {})
@@ -492,8 +499,19 @@ def run_checks(snap: dict, prev: dict | None = None) -> dict:
     status = "critical" if "critical" in levels else ("warning" if "warning" in levels else "ok")
     health = measurement.data_health(snap, findings)
     return {
-        "schema_version": "3.0.0",
+        "schema_version": "3.1.0",
         "data_health": health,
+        # Готовые выводы для письма: presentation-слой их отображает, а не
+        # вычисляет заново по сырым полям снимка — иначе два слоя дают два
+        # разных ответа на один вопрос (см. GOAL_NOT_CONFIGURED: сверка по
+        # именам и событиям против сверки только по именам).
+        "derived": {
+            "stale_sources": sorted({f["source"] for f in findings
+                                     if f["code"] == "SOURCE_NOT_UPDATED"
+                                     and f.get("source")}),
+            "goals_missing": goals_missing_out,
+            "goals_lagging": goals_lagging_out,
+        },
         "measurement_map": measurement.build_map(snap),
         "sample_ctr": measurement.sample_ctr(snap),
         "report_date": snap["report_date"],
@@ -531,9 +549,10 @@ def main() -> int:
         print(f"нет snapshot {snap_path}", file=sys.stderr)
         return 1
     snap = json.loads(snap_path.read_text(encoding="utf-8"))
-    prev_date = (dt.date.fromisoformat(date) - dt.timedelta(days=1)).isoformat()
-    prev_path = SNAP_DIR / f"{prev_date}.json"
-    prev = json.loads(prev_path.read_text(encoding="utf-8")) if prev_path.exists() else None
+    # «Вчера» берётся той же функцией, что у письма: иначе проверки качества и
+    # отчёт видели бы разные предыдущие снимки, и вывод «не обновился» одного
+    # слоя не совпадал бы с дельтами другого.
+    prev = snapshot_mod.prev_snapshot(date)
     report = run_checks(snap, prev)
     OUT_DIR.mkdir(parents=True, exist_ok=True)
     out = OUT_DIR / f"{date}.json"
