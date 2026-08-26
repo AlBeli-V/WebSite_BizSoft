@@ -67,25 +67,52 @@ def build_map(snap: dict) -> list[dict]:
     yx_src = yx.get("source") if yx_ok else None
     yx_tot = yx.get("totals") or {}
 
+    # С дневной витриной показы и клики Яндекса — весь сайт: KPI единого
+    # охвата с аналитикой. Выборка запросов остаётся инструментом раздела
+    # возможностей и в карту KPI не входит.
+    yx_daily = (snap.get("daily") or {}).get("yandex") or {}
+    yx_from_daily = bool(yx_daily.get("complete"))
+    if yx_from_daily:
+        w = yx_daily["windows"]
+        cur = w["impressions"]["current"]
+        yx_scope = SCOPE_SITEWIDE
+        yx_period = f"{cur['from']}–{cur['to']}"
+        yx_coverage = "все запросы хоста, ряды по дням (дневная витрина)"
+        yx_imp, yx_clk = cur["sum"], w["clicks"]["current"]["sum"]
+        imp_note = ("Показы всего сайта по дням; окно равной длины строит отчёт. "
+                    "С показами Google не складываются: разные поисковые системы.")
+        clk_note = ("Все переходы из выдачи Яндекса; сопоставимы с визитами "
+                    "Метрики по порядку величины, но визит и клик — разные "
+                    "события и напрямую не равны.")
+    else:
+        yx_scope = SCOPE_SAMPLE_QUERIES
+        yx_period = period_of(yx_src)
+        yx_coverage = f"{yx_tot.get('queries_tracked')} запросов выборки"
+        yx_imp, yx_clk = yx_tot.get("impressions"), yx_tot.get("clicks")
+        imp_note = ("Показы и клики измерены на одной выборке запросов, поэтому их "
+                    "отношение корректно как CTR выборки. С визитами и сессиями "
+                    "охват не совпадает.")
+        clk_note = ("Клики этой выборки — часть всех переходов из Яндекса, а не все "
+                    "переходы. Сравнение с визитами всего сайта означало бы "
+                    "сравнение части с целым.")
+
     rows = [
         _entry(
             "Яндекс.Вебмастер", "impressions", "показ сайта в выдаче",
-            SCOPE_SAMPLE_QUERIES, period_of(yx_src),
+            yx_scope, yx_period,
             "поиск Яндекса, регион не разделён",
-            f"{yx_tot.get('queries_tracked')} запросов выборки",
+            yx_coverage,
             ["Яндекс.Вебмастер · clicks"],
-            "Показы и клики измерены на одной выборке запросов, поэтому их отношение "
-            "корректно как CTR выборки. С визитами и сессиями охват не совпадает.",
-            yx_tot.get("impressions"), "ok" if yx_ok else "unavailable"),
+            imp_note,
+            yx_imp, "ok" if yx_ok or yx_from_daily else "unavailable"),
         _entry(
             "Яндекс.Вебмастер", "clicks", "переход из выдачи",
-            SCOPE_SAMPLE_QUERIES, period_of(yx_src),
-            "поиск Яндекса, те же запросы",
-            f"{yx_tot.get('queries_tracked')} запросов выборки",
+            yx_scope, yx_period,
+            "поиск Яндекса" + ("" if yx_from_daily else ", те же запросы"),
+            yx_coverage,
             ["Яндекс.Вебмастер · impressions"],
-            "Клики этой выборки — часть всех переходов из Яндекса, а не все переходы. "
-            "Сравнение с визитами всего сайта означало бы сравнение части с целым.",
-            yx_tot.get("clicks"), "ok" if yx_ok else "unavailable"),
+            clk_note,
+            yx_clk, "ok" if yx_ok or yx_from_daily else "unavailable"),
         _entry(
             "Google Search Console", "impressions", "показ страницы в выдаче",
             SCOPE_SITEWIDE, period_of(g.get("source")),
@@ -146,10 +173,13 @@ def sample_ctr(snap: dict) -> dict | None:
 def scopes_comparable(snap: dict) -> bool:
     """Сопоставлены ли охваты поиска и аналитики.
 
-    Пока Вебмастер отдаёт выборку запросов, а Метрика — весь сайт, охваты
-    различаются по построению. Признак снимается, когда источник поиска начнёт
-    отдавать данные по всему сайту либо аналитика — по тем же запросам.
+    С дневной витриной показы и клики Яндекса считаются по всему сайту —
+    KPI всех источников описывают один охват, и признак выполняется. Без
+    витрины действует прежняя логика: выборка запросов и весь сайт
+    несопоставимы по построению.
     """
+    if ((snap.get("daily") or {}).get("yandex") or {}).get("complete"):
+        return True
     yx = snap.get("yandex") or {}
     scope_note = (yx.get("totals") or {}).get("scope_note") or ""
     return "выборка" not in scope_note
@@ -166,10 +196,15 @@ def data_health(snap: dict, findings: list[dict]) -> dict:
     }
     missing = [k for k, v in sources.items() if not v]
     if broken or missing:
+        # «Сбой» называет конкретную причину: какой сбор не прошёл или какая
+        # критическая находка сработала. Прежняя формулировка «источник отдаёт
+        # некорректные данные» винила исправный источник в методических
+        # расхождениях окон и читалась как поломка на ровном месте.
+        titles = "; ".join(sorted({f.get("title") or f.get("code") or "" for f in broken}))
         return {
             "status": "degraded",
             "reason": ("сбор источника не прошёл: " + ", ".join(missing)) if missing
-                      else "источник отдаёт некорректные данные",
+                      else f"критические находки качества: {titles}",
             "colour": "danger",
             "detail": "Показатели недоступных источников публикуются как "
                       "«нет данных», а не ноль; дельты и сравнения по ним не "
@@ -179,15 +214,18 @@ def data_health(snap: dict, findings: list[dict]) -> dict:
     if not scopes_comparable(snap):
         return {
             "status": "limited",
-            "reason": "охваты источников различаются",
+            "reason": "охваты источников различаются — ограничение методики, не сбой",
             "colour": "warning",
             "detail": "Поиск Яндекса отдаёт выборку запросов, аналитика — весь сайт. "
-                      "Источники исправны, но их числа описывают разные множества "
-                      "и напрямую не сравниваются.",
+                      "Источники исправны; каждый показатель письма подписан своим "
+                      "охватом, а напрямую сравниваются только числа одного охвата.",
         }
     return {
         "status": "verified",
-        "reason": "охваты и периоды сопоставлены",
+        "reason": "охваты сопоставлены: KPI считаются по всему сайту",
         "colour": "positive",
-        "detail": "Показатели источников описывают одно множество страниц и запросов.",
+        "detail": "Показы и клики Яндекса, показы Google, визиты Метрики и сессии "
+                  "GA4 считаются по всему сайту за окна равной длины. Выборка "
+                  "запросов используется только в разделе возможностей и на KPI "
+                  "не влияет.",
     }

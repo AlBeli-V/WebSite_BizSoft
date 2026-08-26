@@ -19,7 +19,9 @@ import re
 import subprocess
 import sys
 
-SCHEMA_VERSION = "2.1.0"
+import daily_windows
+
+SCHEMA_VERSION = "2.2.0"
 # Часовой пояс отчётности — московский: так требует правило проекта, и так же
 # отдают данные GA4 (metadata.timeZone = Europe/Moscow) и Метрика. Прежнее
 # значение Asia/Bishkek не совпадало ни с тем, ни с другим.
@@ -769,6 +771,11 @@ def main() -> int:
         "google": build_safe("google_search_console", build_google,
                              load("gsc", date), load("gsc", prev_date)),
         "analytics": build_analytics_safe(load("metrika", date), load("ga4", date), date),
+        # Дневная факт-витрина: окна равной длины с фиксированным лагом,
+        # построенные отчётом, а не источником. KPI и дельты письма считаются
+        # отсюда; агрегатные блоки выше остаются для сущностей (запросы,
+        # страницы), где дневные ряды не ведутся.
+        "daily": daily_windows.build(date),
         "experiments": build_experiments(),
         "market_demand": build_market_demand(date),
         "data_revisions": data_revisions_safe(date, prev_date),
