@@ -224,11 +224,12 @@ export const LOGOS: Record<string, BrandLogo> = {
 };
 
 /** Слаги, для которых есть официальный файл public/brand-logos/<slug>.svg. */
-export const FILE_LOGOS: string[] = ["magnific"];
+export const FILE_LOGOS: string[] = ["magnific","vegas"];
 
 /** Сгенерированные цветные SVG-файлы брендов (SEO-имена <slug>-logo.svg). */
 export const LOGO_FILE: Record<string, string> = {
   "magnific": "/brand-logos/magnific-logo.svg",
+  "vegas": "/brand-logos/vegas-logo.svg",
   "jetbrains": "/brand-logos/jetbrains-logo.svg",
   "zoom": "/brand-logos/zoom-logo.svg",
   "figma": "/brand-logos/figma-logo.svg",
@@ -302,7 +303,6 @@ export const LOGO_FILE: Record<string, string> = {
   "foundry": "/brand-logos/foundry-logo.svg",
   "boris-fx": "/brand-logos/boris-fx-logo.svg",
   "topaz-labs": "/brand-logos/topaz-labs-logo.svg",
-  "vegas": "/brand-logos/vegas-logo.svg",
   "telestream": "/brand-logos/telestream-logo.svg",
   "native-instruments": "/brand-logos/native-instruments-logo.svg",
   "epidemic-sound": "/brand-logos/epidemic-sound-logo.svg",
