@@ -321,6 +321,22 @@ class TestEmptySuccessAndMalformed(Pipeline):
         self.assertIn("формат выгрузки", block["error"])
 
 
+class TestStaleMetrikaVisible(Pipeline):
+    """«Метрика не обновилась» видна в карточке, а не только в data-quality."""
+
+    def test_metrika_not_updated_reaches_the_card(self):
+        snap = self.make_snap(yandex=raw("yandex"), gsc=raw("gsc"),
+                              metrika=raw("metrika"), ga4=raw("ga4"))
+        prev = self.make_snap(yandex=raw("yandex"), gsc=raw("gsc"),
+                              metrika=raw("metrika"), ga4=raw("ga4"))
+        dq, b, _, _ = self.build_email(snap, prev)
+        self.assertTrue(any(f["code"] == "SOURCE_NOT_UPDATED"
+                            and f.get("source") == "metrika"
+                            for f in dq["findings"]))
+        card = next(k for k in b["kpis"] if k["key"] == "traffic")
+        self.assertIn("не обновились", card["confidence"])
+
+
 class TestFailureScenarios(Pipeline):
     """Сценарии C–I: письмо собирается при любом составе сбоев."""
 
@@ -350,6 +366,8 @@ class TestFailureScenarios(Pipeline):
         f = next(f_ for f_ in dq["findings"] if f_["code"] == "SOURCE_UNAVAILABLE"
                  and "Вебмастер" in f_["title"])
         self.assertIn("2026-08-11–2026-08-25", f["detail"])
+        # Находка несёт машиночитаемый ключ источника, а не только заголовок.
+        self.assertEqual(f["source"], "yandex")
 
     def test_h_two_sources_down_at_once(self):
         m = raw("metrika")
