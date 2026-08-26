@@ -31,6 +31,7 @@ import invariants as invariants_mod   # noqa: E402
 import experiments as exp_mod         # noqa: E402
 import opportunity as opp_mod         # noqa: E402
 import snapshot as snapshot_mod       # noqa: E402
+import vendor_radar as vendor_radar_mod  # noqa: E402
 from textfmt import (counted, num, plural, pct, ru_date,  # noqa: E402
                      ru_date_full, signed, signed_pct)
 
@@ -589,6 +590,7 @@ def assemble(snap, prev, dq, actions_cfg, site_check):
         "experiments": exps,
         "board": board,
         "opportunities": opps,
+        "vendor_radar": vendor_radar_mod.build(snap),
         "health": health,
         "demand": load_demand(),
         "measurement_summary": _measurement_summary(dq),
@@ -941,6 +943,34 @@ def html_email(b: dict, charts: dict, cid_mode: bool) -> str:
             for o in b["opportunities"]["items"])
         rows.append(_section("Где ближе всего рост", items))
 
+    # I-a. Интерес к вендорам в поиске — перенос Vendor Radar из intelligence
+    # поверх снимка. Компактно: топ-3 вендора и до двух PPC-кандидатов; движки
+    # раздельно, «спросом» показы не называются (спрос — блок Вордстата ниже).
+    vr = b.get("vendor_radar") or {}
+    if vr.get("available"):
+        v_rows = "".join(
+            f"<div style=\"padding:{SP['xs']}px 0;font-size:14.5px;line-height:1.5;\">"
+            f"<b>{it['vendor']}</b> — "
+            f"{num(it['yandex']['impressions'])} "
+            f"{plural(it['yandex']['impressions'], 'показ', 'показа', 'показов')} "
+            f"в Яндексе"
+            + (f" (лучшая позиция {it['yandex']['best_position']})"
+               if it['yandex']['best_position'] is not None else "")
+            + (f", {num(it['google']['impressions'])} в Google"
+               if it['google']['impressions'] else "")
+            + "</div>"
+            for it in vr["items"][:3])
+        ppc_html = ""
+        if vr.get("ppc"):
+            lines = "; ".join(
+                f"«{c['query']}» ({num(c['shows'])} показов, позиция {c['position']})"
+                for c in vr["ppc"][:2])
+            ppc_html = (f"<div style=\"font-size:14.5px;padding-top:{SP['s']}px;"
+                        f"line-height:1.55;\"><b>Проверить платным трафиком:</b> "
+                        f"{lines} — конверсионность запросов не измерена.</div>")
+        rows.append(_section("Интерес к вендорам в поиске",
+                             v_rows + ppc_html, vr.get("note", "")))
+
     # I-б. Спрос и направления развития — результат регулярного исследования рынка.
     dm = b.get("demand") or {}
     if dm.get("available"):
@@ -1123,6 +1153,19 @@ def plain_text(b: dict) -> str:
             L.append(f"  потенциал: {o['potential']}")
             L.append(f"  что делаем: {o['recommended_action']} "
                      f"(решение к {ru_date(o['decision_date'])})")
+    vr = b.get("vendor_radar") or {}
+    if vr.get("available"):
+        L += ["", "ИНТЕРЕС К ВЕНДОРАМ В ПОИСКЕ"]
+        for it in vr["items"][:3]:
+            line = (f"- {it['vendor']}: {num(it['yandex']['impressions'])} показов "
+                    f"в Яндексе")
+            if it["google"]["impressions"]:
+                line += f", {num(it['google']['impressions'])} в Google"
+            L.append(line)
+        for c in (vr.get("ppc") or [])[:2]:
+            L.append(f"  проверить платным трафиком: «{c['query']}» "
+                     f"({num(c['shows'])} показов, позиция {c['position']})")
+        L.append(f"  {vr.get('note', '')}")
     dm = b.get("demand") or {}
     if dm.get("available"):
         cov = dm["coverage"]
