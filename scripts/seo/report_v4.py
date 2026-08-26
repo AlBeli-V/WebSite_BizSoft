@@ -162,6 +162,10 @@ def kpi_cards(snap: dict, prev: dict | None, dq: dict) -> list[dict]:
     # на 20.08 → 21.08 окна были 12 и 13 дней, а состав выборки сменился на
     # четверть — заявленный прирост в 107 показов объяснялся этим целиком.
     show_delta = rules.get("allow_absolute_delta", True)
+    # «Источник не обновился» — вывод проверки качества (SOURCE_NOT_UPDATED),
+    # письмо его повторяет, а не вычисляет заново по сырым полям.
+    stale_set = {f.get("source") for f in (dq.get("findings") or [])
+                 if f.get("code") == "SOURCE_NOT_UPDATED"}
     cards = []
 
     if y_block.get("available"):
@@ -264,7 +268,9 @@ def kpi_cards(snap: dict, prev: dict | None, dq: dict) -> list[dict]:
              "period": f"{ru_date(m['source']['current_period_start'])}–"
                        f"{ru_date(m['source']['current_period_end'])}",
              "source": "Яндекс.Метрика, весь сайт",
-             "confidence": ("достаточная"
+             "confidence": ("данные не обновились с прошлого отчёта"
+                            if "metrika" in stale_set else
+                            "достаточная"
                             if (m.get("organic_visits") or 0) >= snap["thresholds"]["low_visits"]
                             else "низкая, малые числа"),
              "interpretation": "Люди, пришедшие на сайт из поиска: весь сайт, "

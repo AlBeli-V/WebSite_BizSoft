@@ -93,9 +93,14 @@ def run_checks(snap: dict, prev: dict | None = None) -> dict:
     findings: list[dict] = []
     prev_yandex = (prev or {}).get("yandex")
 
-    def add(level, code, title, detail, effect=None):
+    def add(level, code, title, detail, effect=None, source=None):
+        # source — машиночитаемый ключ источника (yandex|google|metrika|ga4):
+        # письмо сопоставляет находку с карточкой по нему, а не по подстроке
+        # русского заголовка. Поле необязательное: старые файлы data-quality
+        # без него читаются как прежде.
         findings.append({"level": level, "code": code, "title": title,
-                         "detail": detail, "effect_on_report": effect})
+                         "detail": detail, "effect_on_report": effect,
+                         "source": source})
 
     yx, g, an = snap["yandex"], snap["google"], snap["analytics"]
 
@@ -105,9 +110,10 @@ def run_checks(snap: dict, prev: dict | None = None) -> dict:
     # состояния: первое чинится в конвейере сбора, второе — в доступах и API.
     # Оба отличаются от «источник не обновился», при котором данные есть, но
     # latest_event_date не сдвинулась, — то состояние письмо помечает само.
-    for label, blk in (("Яндекс.Вебмастер", yx), ("Google Search Console", g),
-                       ("Яндекс.Метрика", an.get("metrika") or {}),
-                       ("GA4", an.get("ga4") or {})):
+    for key, label, blk in (("yandex", "Яндекс.Вебмастер", yx),
+                            ("google", "Google Search Console", g),
+                            ("metrika", "Яндекс.Метрика", an.get("metrika") or {}),
+                            ("ga4", "GA4", an.get("ga4") or {})):
         if blk.get("available"):
             continue
         src = blk.get("source") or {}
@@ -118,7 +124,7 @@ def run_checks(snap: dict, prev: dict | None = None) -> dict:
             f"{label}: {'выгрузки нет' if missing else 'источник вернул ошибку'}",
             f"{blk.get('error') or 'нет данных'} ({period}).",
             "Показатели источника публикуются как «нет данных», а не ноль; "
-            "дельты и сравнения по нему не публикуются.")
+            "дельты и сравнения по нему не публикуются.", source=key)
 
     # 0б. Источник доступен, но не обновился: latest_event_date не сдвинулась.
     #
@@ -126,11 +132,12 @@ def run_checks(snap: dict, prev: dict | None = None) -> dict:
     # данные есть и они валидны, но повторяют предыдущий сбор. Их изменение
     # публиковать как новость нельзя — это одно наблюдение, поданное дважды.
     prev_an = (prev or {}).get("analytics") or {}
-    for label, cur_b, prev_b in (
-            ("Яндекс.Вебмастер", yx, (prev or {}).get("yandex") or {}),
-            ("Google Search Console", g, (prev or {}).get("google") or {}),
-            ("Яндекс.Метрика", an.get("metrika") or {}, prev_an.get("metrika") or {}),
-            ("GA4", an.get("ga4") or {}, prev_an.get("ga4") or {})):
+    for key, label, cur_b, prev_b in (
+            ("yandex", "Яндекс.Вебмастер", yx, (prev or {}).get("yandex") or {}),
+            ("google", "Google Search Console", g, (prev or {}).get("google") or {}),
+            ("metrika", "Яндекс.Метрика", an.get("metrika") or {},
+             prev_an.get("metrika") or {}),
+            ("ga4", "GA4", an.get("ga4") or {}, prev_an.get("ga4") or {})):
         if not (cur_b.get("available") and prev_b.get("available")):
             continue
         cur_last = (cur_b.get("source") or {}).get("latest_event_date")
@@ -140,7 +147,8 @@ def run_checks(snap: dict, prev: dict | None = None) -> dict:
                 f"{label}: данные не обновились",
                 f"Последняя дата события прежняя — {cur_last}.",
                 "Значения повторяют предыдущий сбор; их совпадение с вчерашними "
-                "не является новым наблюдением и не подаётся как новость.")
+                "не является новым наблюдением и не подаётся как новость.",
+                source=key)
 
     # 1. Скользящее окно Яндекса: сравнение периодов пересекается
     if yx.get("available"):
@@ -373,7 +381,8 @@ def run_checks(snap: dict, prev: dict | None = None) -> dict:
         add("critical", "API_ERROR_AS_ZERO",
             "Источник доступен, но не отдал ни одной строки",
             "Google Search Console: ответ без ошибки и без данных.",
-            "Ноль показов не публикуется как результат: это отсутствие замера.")
+            "Ноль показов не публикуется как результат: это отсутствие замера.",
+            source="google")
     # Тот же принцип для GA4 и Вебмастера: частичную ошибку среза закрывает
     # snapshot (источник становится недоступным), а здесь ловится «пустой
     # успех» — ответ без ошибки и без единой строки.
@@ -382,13 +391,15 @@ def run_checks(snap: dict, prev: dict | None = None) -> dict:
         add("critical", "API_ERROR_AS_ZERO",
             "Источник доступен, но не отдал ни одной строки",
             "GA4: ответ без ошибки и без строк по каналам.",
-            "Ноль сессий не публикуется как результат: это отсутствие замера.")
+            "Ноль сессий не публикуется как результат: это отсутствие замера.",
+            source="ga4")
     if yx.get("available") and not (yx.get("entities") or []) \
             and (yx["totals"].get("queries_available") or 0) > 0:
         add("critical", "API_ERROR_AS_ZERO",
             "Источник доступен, но не отдал ни одной строки",
             "Яндекс.Вебмастер: запросы заявлены источником, но не получены.",
-            "Ноль показов не публикуется как результат: это отсутствие замера.")
+            "Ноль показов не публикуется как результат: это отсутствие замера.",
+            source="yandex")
 
     # 14. Цели, которые сайт шлёт, но которых нет в счётчике
     #
@@ -432,7 +443,7 @@ def run_checks(snap: dict, prev: dict | None = None) -> dict:
                 f"{goals_collected[:10]}. В снимке их ещё нет — это отставание "
                 f"выгрузки, а не отсутствие целей.",
                 "Утверждение «цели не заведены» не публикуется. Первые сопоставимые "
-                "данные по конверсиям — со следующего сбора.")
+                "данные по конверсиям — со следующего сбора.", source="metrika")
             missing = []
         if missing:
             add("critical", "GOAL_NOT_CONFIGURED",
@@ -442,7 +453,7 @@ def run_checks(snap: dict, prev: dict | None = None) -> dict:
                 f"{' и ещё ' + str(len(missing) - 6) if len(missing) > 6 else ''}. "
                 "Вызов reachGoal по незаведённой цели счётчик отбрасывает.",
                 "Ноль по этим целям означает «не измерялось». Конверсия сайта "
-                "и конверсия канала не публикуются.")
+                "и конверсия канала не публикуются.", source="metrika")
 
     # 15. Собственные визиты в органике
     m_block = an.get("metrika", {})
@@ -454,7 +465,8 @@ def run_checks(snap: dict, prev: dict | None = None) -> dict:
             f"Источники {', '.join(internal['sources'])}: {internal['sessions']} сессий, "
             f"{internal['key_events']} ключевых событий. GA4 относит домены Яндекса "
             "к поисковым системам, включая интерфейс Метрики.",
-            "Конверсия органического канала не публикуется до очистки источника.")
+            "Конверсия органического канала не публикуется до очистки источника.",
+            source="ga4")
 
     # 16. Часовой пояс
     tz = snap.get("reporting_timezone") or ""
