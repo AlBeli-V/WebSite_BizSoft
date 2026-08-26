@@ -299,6 +299,7 @@ class TestEmptySuccessAndMalformed(Pipeline):
              "goals": [],
              "traffic_sources": {"data": [{"неожиданная": "структура"}],
                                  "totals": [1, 1, 0, 0, 0]},
+             "organic_by_engine": {"data": []},
              "organic_landing_pages": {"data": []}}
         snap = self.make_snap(yandex=raw("yandex"), gsc=raw("gsc"),
                               metrika=m, ga4=raw("ga4"))
@@ -319,6 +320,34 @@ class TestEmptySuccessAndMalformed(Pipeline):
         block = self.s.build_safe("google_search_console", self.s.build_google, g, None)
         self.assertFalse(block["available"])
         self.assertIn("формат выгрузки", block["error"])
+
+
+class TestOrganicByEngine(Pipeline):
+    """Разбивка органики по поисковым системам подключена к сверке."""
+
+    def test_engine_split_lands_in_snapshot(self):
+        snap = self.make_snap(yandex=raw("yandex"), gsc=raw("gsc"),
+                              metrika=raw("metrika"), ga4=raw("ga4"))
+        engines = snap["analytics"]["metrika"]["organic_by_engine"]
+        self.assertEqual(engines, {"Yandex": 36.0})
+
+    def test_slice_error_makes_source_unavailable(self):
+        m = raw("metrika")
+        m["organic_by_engine"] = {"error": "HTTP 500: boom"}
+        an = self.s.build_analytics_safe(m, None, DATE)
+        self.assertFalse(an["metrika"]["available"])
+        self.assertIn("organic_by_engine", an["metrika"]["error"])
+
+    def test_scope_mismatch_names_yandex_visits(self):
+        y = raw("yandex")
+        # Источник отдал не всё: охваты различаются, сверка обязана сработать.
+        y["popular_queries"]["count"] = y["popular_queries"]["fetched"] + 200
+        snap = self.make_snap(yandex=y, gsc=raw("gsc"),
+                              metrika=raw("metrika"), ga4=raw("ga4"))
+        dq = self.q.run_checks(snap, None)
+        f = next(f_ for f_ in dq["findings"] if f_["code"] == "SCOPE_MISMATCH")
+        self.assertIn("из них из Яндекса — 36", f["detail"])
+        self.assertIn("визиты из Яндекса", f["effect_on_report"])
 
 
 class TestStaleMetrikaVisible(Pipeline):

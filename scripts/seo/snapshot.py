@@ -432,7 +432,7 @@ def metrika_partial_error(raw: dict) -> str | None:
     лез в metrika['traffic_sources']['data'] без проверки, получал KeyError —
     и в день частичного сбоя не собиралось ничего: ни снимок, ни письмо.
     """
-    for key in ("traffic_sources", "organic_landing_pages"):
+    for key in ("traffic_sources", "organic_by_engine", "organic_landing_pages"):
         blk = raw.get(key)
         if not isinstance(blk, dict) or "data" not in blk:
             err = (blk.get("error") if isinstance(blk, dict) else None) or "срез отсутствует"
@@ -511,6 +511,12 @@ def build_analytics(metrika: dict | None, ga4: dict | None, date: str) -> dict:
                 for g in metrika.get("goals", [])],
             "organic_landing_pages": lp,
             "channels": {k: v[0] for k, v in ts.items()},
+            # Органика в разбивке по поисковым системам (ym:s:lastSearchEngineRoot):
+            # единственные данные, которыми клики Вебмастера сверяются с визитами
+            # именно из Яндекса, а не со всей органикой сайта, включая Google.
+            "organic_by_engine": {
+                r["dimensions"][0]["name"]: r["metrics"][0]
+                for r in metrika["organic_by_engine"]["data"]},
         }
         # Учёт пересборов внутри дня (несколько сборов => несколько значений)
         path = DATA_DIR / f"metrika-{date}.json"
