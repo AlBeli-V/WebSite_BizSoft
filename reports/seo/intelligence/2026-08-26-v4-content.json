@@ -40,7 +40,7 @@
   {
    "check": "health_matches_findings",
    "ok": true,
-   "detail": "статус degraded, критических находок 1"
+   "detail": "статус verified, критических находок 0"
   },
   {
    "check": "conditional_rendering",
