@@ -1,0 +1,135 @@
+# Перевод «месячных» цен готовых тарифов на годовые в прод-Directus.
+# Мы продаём только готовые (годовые) тарифы, а у части товаров себестоимость
+# заведена за месяц — витрина показывала цену в 12 раз ниже реальной.
+# Для перечисленных sku: себестоимость (base_price_usd / base_price_eur)
+# умножается на множитель (по умолчанию 12), рублёвая цена пересчитывается по
+# витринной формуле себестоимость × курс ЦБ × коэффициент (markup_coeff,
+# по умолчанию 1.85) с округлением до рубля; у товаров без валютной привязки
+# умножается сама рублёвая цена. promo_price, если задан, умножается тоже.
+# Приписка к цене (price_note) заменяется на переданную.
+# apply=false — план (было/стало) без записи. Результат — в журнал-issue #22.
+name: ops-annual-reprice
+on:
+  workflow_dispatch:
+    inputs:
+      skus:
+        description: 'Артикулы (sku) через запятую'
+        required: true
+      multiplier:
+        description: 'Множитель цены (месяц → год = 12)'
+        required: true
+        default: '12'
+      price_note:
+        description: 'Новая приписка к цене'
+        required: true
+        default: 'за 1 место в год'
+      apply:
+        description: 'true — записать в Directus, false — только план'
+        required: true
+        default: 'false'
+permissions:
+  issues: write
+jobs:
+  reprice:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Guard - only default branch
+        run: |
+          if [ "${{ github.ref_name }}" != "main" ]; then
+            echo "Запуск разрешён только с ветки main. Текущий ref: ${{ github.ref_name }}"
+            exit 1
+          fi
+      - name: Reprice in Directus
+        id: run
+        uses: appleboy/ssh-action@v1
+        env:
+          P_SKUS: ${{ inputs.skus }}
+          P_MULT: ${{ inputs.multiplier }}
+          P_NOTE: ${{ inputs.price_note }}
+          P_APPLY: ${{ inputs.apply }}
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          envs: P_SKUS,P_MULT,P_NOTE,P_APPLY
+          capture_stdout: true
+          script: |
+            set -e
+            cd /opt/bizsoft
+            ADMIN_EMAIL=$(docker compose exec -T directus printenv ADMIN_EMAIL | tr -d '\r')
+            ADMIN_PASSWORD=$(docker compose exec -T directus printenv ADMIN_PASSWORD | tr -d '\r')
+            export ADMIN_EMAIL ADMIN_PASSWORD
+            python3 - <<'PYEOF'
+            import json, os, urllib.parse, urllib.request
+            base = 'http://127.0.0.1:8055'
+            def req(method, path, data=None, token=None):
+                r = urllib.request.Request(base + path, method=method,
+                    data=json.dumps(data).encode() if data is not None else None,
+                    headers={'Content-Type': 'application/json',
+                             **({'Authorization': f'Bearer {token}'} if token else {})})
+                return json.load(urllib.request.urlopen(r))
+            auth = req('POST', '/auth/login', {'email': os.environ['ADMIN_EMAIL'], 'password': os.environ['ADMIN_PASSWORD']})
+            tok = auth['data']['access_token']
+
+            mult = float(os.environ['P_MULT'])
+            note = os.environ['P_NOTE'].strip()
+            apply = os.environ.get('P_APPLY', 'false') == 'true'
+            skus = [s.strip() for s in os.environ['P_SKUS'].split(',') if s.strip()]
+            if mult <= 0: print('множитель должен быть > 0'); raise SystemExit(1)
+            if not skus: print('не передано ни одного sku'); raise SystemExit(1)
+
+            rate_rows = req('GET', '/items/currency_rate?limit=1', token=tok)['data']
+            rate = rate_rows[0] if rate_rows else {}
+            usd, eur = rate.get('usd_rate'), rate.get('eur_rate')
+            print(f"курс ЦБ: USD={usd} EUR={eur} дата={rate.get('rate_date')}")
+
+            def round1(v):  # как roundPrice('to1') на витрине
+                return int(v + 0.5)
+
+            flt = urllib.parse.quote(json.dumps({'sku': {'_in': skus}}))
+            fields = 'id,sku,name,price,price_note,promo_price,peg_to_usd,peg_currency,base_price_usd,base_price_eur,markup_coeff,price_locked'
+            items = req('GET', f'/items/products?filter={flt}&fields={fields}&limit=-1', token=tok)['data']
+            found = {i['sku'] for i in items}
+            for s in skus:
+                if s not in found: print(f'НЕ НАЙДЕН: {s}')
+
+            DEFAULT_COEFF = 1.85
+            for it in items:
+                payload = {'price_note': note}
+                coeff = it.get('markup_coeff') or DEFAULT_COEFF
+                cur = 'EUR' if it.get('peg_currency') == 'EUR' else 'USD'
+                bfield = 'base_price_eur' if cur == 'EUR' else 'base_price_usd'
+                bval, r = it.get(bfield), (eur if cur == 'EUR' else usd)
+                if it.get('peg_to_usd') and bval and bval > 0 and r and r > 0:
+                    new_base = round(bval * mult, 2)
+                    payload[bfield] = new_base
+                    payload['price'] = round1(new_base * r * coeff)
+                    how = f'{bfield} {bval} -> {new_base}, цена = {new_base} x {r} x {coeff}'
+                else:
+                    payload['price'] = round1((it.get('price') or 0) * mult)
+                    how = f'рублёвая цена x {mult}'
+                if it.get('promo_price') and it['promo_price'] > 0:
+                    payload['promo_price'] = round1(it['promo_price'] * mult)
+                lock = ' [price_locked]' if it.get('price_locked') else ''
+                print(f"[{it['sku']}] {it['name']}{lock}")
+                print(f"  {how}")
+                print(f"  price      было: {it.get('price')}  стало: {payload['price']}")
+                if 'promo_price' in payload:
+                    print(f"  promo      было: {it.get('promo_price')}  стало: {payload['promo_price']}")
+                print(f"  price_note было: {it.get('price_note') or '—'}  стало: {note}")
+                if apply:
+                    req('PATCH', f"/items/products/{it['id']}", payload, token=tok)
+                    print('  ЗАПИСАНО')
+            print('APPLIED' if apply else 'DRY-RUN: запись не выполнялась (apply=false)')
+            PYEOF
+      - name: Post to issue
+        uses: actions/github-script@v7
+        env:
+          RESULT: ${{ steps.run.outputs.stdout }}
+          P_INPUTS: 'skus=${{ inputs.skus }}; multiplier=${{ inputs.multiplier }}; note=${{ inputs.price_note }}; apply=${{ inputs.apply }}'
+        with:
+          script: |
+            await github.rest.issues.createComment({
+              owner: context.repo.owner, repo: context.repo.repo, issue_number: 22,
+              body: '### ops-annual-reprice\n\n`' + process.env.P_INPUTS + '`\n\n```\n' + process.env.RESULT + '\n```',
+            });

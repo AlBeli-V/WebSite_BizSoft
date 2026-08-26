@@ -28,6 +28,7 @@ const STATIC_ROUTES: { path: string; priority: number; changefreq: string }[] = 
   { path: '/vendors/jetbrains', priority: 0.9, changefreq: 'weekly' },
   { path: '/vendors/openai', priority: 0.9, changefreq: 'weekly' },
   { path: '/vendors/figma', priority: 0.9, changefreq: 'weekly' },
+  { path: '/vendors/maxon', priority: 0.9, changefreq: 'weekly' },
   { path: '/about', priority: 0.5, changefreq: 'yearly' },
   { path: '/cases', priority: 0.5, changefreq: 'monthly' },
   { path: '/contacts', priority: 0.6, changefreq: 'yearly' },

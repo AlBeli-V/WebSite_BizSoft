@@ -1,0 +1,118 @@
+# Аудит ценообразования каталога в прод-Directus (только чтение).
+# Для каждого товара выгружаются все поля, из которых складывается цена:
+# price, price_note, base_price_usd/eur, peg_currency, peg_to_usd,
+# markup_coeff, price_locked, promo_price — и выполняется сверка:
+#   FORMULA-OK   — цена сходится с «себестоимость × курс ЦБ × коэффициент»
+#   FORMULA-DIFF — цена с формулой не сходится (правлена вручную или
+#                  рассинхрон с курсом; в скобках расчётное значение)
+#   MANUAL       — валютной привязки нет, цена задана вручную в рублях
+#   NO-PRICE     — цены нет («по запросу»)
+# Дополнительно строка помечается MONTHLY?, если приписка к цене похожа
+# на месячную («/мес», «в месяц») — кандидаты на перевод в годовой тариф.
+# Вход vendors — ограничить вендорами через запятую (пусто — весь каталог).
+# Результат — комментарии в журнал-issue #22.
+name: ops-price-audit
+on:
+  workflow_dispatch:
+    inputs:
+      vendors:
+        description: 'Вендоры через запятую (пусто — весь каталог)'
+        required: false
+        default: ''
+permissions:
+  issues: write
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Guard - only default branch
+        run: |
+          if [ "${{ github.ref_name }}" != "main" ]; then
+            echo "Запуск разрешён только с ветки main. Текущий ref: ${{ github.ref_name }}"
+            exit 1
+          fi
+      - name: Audit prices in Directus
+        id: run
+        uses: appleboy/ssh-action@v1
+        env:
+          P_VENDORS: ${{ inputs.vendors }}
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          envs: P_VENDORS
+          capture_stdout: true
+          script: |
+            set -e
+            TOKEN=$(sed -n 's/^DIRECTUS_TOKEN=//p' /opt/bizsoft/astro.env | tr -d '"\r')
+            export TOKEN
+            python3 - <<'PYEOF'
+            import json, os, re, urllib.parse, urllib.request
+            base = 'http://localhost:8055'
+            tok = os.environ['TOKEN']
+            def get(path):
+                r = urllib.request.Request(base + path, headers={'Authorization': f'Bearer {tok}'})
+                return json.load(urllib.request.urlopen(r))['data']
+
+            rate_rows = get('/items/currency_rate?limit=1')
+            rate = rate_rows[0] if rate_rows else {}
+            usd, eur = rate.get('usd_rate'), rate.get('eur_rate')
+            print(f"курс ЦБ: USD={usd} EUR={eur} дата={rate.get('rate_date')}")
+
+            vendors = [v.strip() for v in os.environ.get('P_VENDORS', '').split(',') if v.strip()]
+            flt = {'status': {'_eq': 'published'}}
+            if vendors:
+                flt = {'_and': [flt, {'vendor': {'_in': vendors}}]}
+            q = urllib.parse.quote(json.dumps(flt))
+            fields = ('vendor,sku,slug,name,price,price_note,promo_price,peg_to_usd,'
+                      'peg_currency,base_price_usd,base_price_eur,markup_coeff,price_locked')
+            rows = get(f'/items/products?filter={q}&fields={fields}&limit=-1&sort[]=vendor&sort[]=name')
+            print(f'TOTAL={len(rows)}')
+
+            monthly = re.compile(r'/\s*мес|в месяц|за месяц|/mo\b', re.I)
+            DEFAULT_COEFF = 1.85
+            for p in rows:
+                price = p.get('price') or 0
+                coeff = p.get('markup_coeff') or DEFAULT_COEFF
+                cur = 'EUR' if p.get('peg_currency') == 'EUR' else 'USD'
+                b = p.get('base_price_eur') if cur == 'EUR' else p.get('base_price_usd')
+                r = eur if cur == 'EUR' else usd
+                if not price:
+                    verdict = 'NO-PRICE'
+                elif p.get('peg_to_usd') and b and b > 0 and r and r > 0:
+                    calc = int(b * r * coeff + 0.5)
+                    verdict = 'FORMULA-OK' if abs(calc - price) <= 1 else f'FORMULA-DIFF (по формуле {calc})'
+                else:
+                    verdict = 'MANUAL'
+                marks = []
+                if monthly.search(p.get('price_note') or ''): marks.append('MONTHLY?')
+                if p.get('price_locked'): marks.append('LOCKED')
+                peg = f"peg={cur} base={b} coeff={coeff}" if p.get('peg_to_usd') else 'peg=нет'
+                print(f"{p.get('vendor') or '—'} | {p['sku']} | price={price or 'req'}"
+                      f" | note={p.get('price_note') or '—'} | {peg}"
+                      f" | {verdict}{(' | ' + ' '.join(marks)) if marks else ''}")
+            PYEOF
+      # Вывод может превышать лимит env-переменной процесса — передаём файлом.
+      - name: Save result to file
+        run: |
+          cat > /tmp/ops-price-audit.txt <<'OPS_AUDIT_EOF'
+          ${{ steps.run.outputs.stdout }}
+          OPS_AUDIT_EOF
+      - name: Post to issue
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const lines = require('fs').readFileSync('/tmp/ops-price-audit.txt', 'utf8').split('\n');
+            const parts = [];
+            let cur = '';
+            for (const l of lines) {
+              if (cur.length + l.length > 55000) { parts.push(cur); cur = ''; }
+              cur += l + '\n';
+            }
+            if (cur) parts.push(cur);
+            for (let i = 0; i < parts.length; i++) {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner, repo: context.repo.repo, issue_number: 22,
+                body: `### ops-price-audit (${i + 1}/${parts.length})\n\n\`\`\`\n${parts[i]}\`\`\``,
+              });
+            }
