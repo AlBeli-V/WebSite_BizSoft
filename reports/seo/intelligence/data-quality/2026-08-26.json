@@ -1,0 +1,237 @@
+{
+ "schema_version": "3.1.0",
+ "data_health": {
+  "status": "degraded",
+  "reason": "источник отдаёт некорректные данные",
+  "colour": "danger",
+  "detail": "Показатели недоступных источников публикуются как «нет данных», а не ноль; дельты и сравнения по ним не считаются. Остальные блоки письма собраны из доступных источников."
+ },
+ "derived": {
+  "stale_sources": [
+   "yandex"
+  ],
+  "goals_missing": null,
+  "goals_lagging": false
+ },
+ "measurement_map": [
+  {
+   "source": "Яндекс.Вебмастер",
+   "metric": "impressions",
+   "entity": "показ сайта в выдаче",
+   "scope": "выборка топ-100 запросов",
+   "period": "2026-08-12–2026-08-23",
+   "filters": "поиск Яндекса, регион не разделён",
+   "coverage": "750 запросов выборки",
+   "comparable_with": [
+    "Яндекс.Вебмастер · clicks"
+   ],
+   "difference_explanation": "Показы и клики измерены на одной выборке запросов, поэтому их отношение корректно как CTR выборки. С визитами и сессиями охват не совпадает.",
+   "value": 2179,
+   "status": "ok"
+  },
+  {
+   "source": "Яндекс.Вебмастер",
+   "metric": "clicks",
+   "entity": "переход из выдачи",
+   "scope": "выборка топ-100 запросов",
+   "period": "2026-08-12–2026-08-23",
+   "filters": "поиск Яндекса, те же запросы",
+   "coverage": "750 запросов выборки",
+   "comparable_with": [
+    "Яндекс.Вебмастер · impressions"
+   ],
+   "difference_explanation": "Клики этой выборки — часть всех переходов из Яндекса, а не все переходы. Сравнение с визитами всего сайта означало бы сравнение части с целым.",
+   "value": 29,
+   "status": "ok"
+  },
+  {
+   "source": "Google Search Console",
+   "metric": "impressions",
+   "entity": "показ страницы в выдаче",
+   "scope": "весь сайт",
+   "period": "2026-07-29–2026-08-23",
+   "filters": "web-поиск, ресурс sc-domain",
+   "coverage": "все страницы ресурса",
+   "comparable_with": [],
+   "difference_explanation": "Отдельная поисковая система: с числами Яндекса не складывается и не сравнивается.",
+   "value": 103,
+   "status": "ok"
+  },
+  {
+   "source": "Яндекс.Метрика",
+   "metric": "visits",
+   "entity": "визит из органического поиска",
+   "scope": "весь сайт",
+   "period": "2026-08-12–2026-08-25",
+   "filters": "источник трафика: органический",
+   "coverage": "все страницы сайта, все поисковые системы",
+   "comparable_with": [
+    "GA4 · sessions"
+   ],
+   "difference_explanation": "Визит объединяет действия пользователя с таймаутом 30 минут; охват — весь сайт и все поисковики, включая Google.",
+   "value": 40.0,
+   "status": "ok"
+  },
+  {
+   "source": "GA4",
+   "metric": "sessions",
+   "entity": "сессия из органического поиска",
+   "scope": "весь сайт",
+   "period": "2026-08-12–2026-08-25",
+   "filters": "канал: Organic Search",
+   "coverage": "все страницы сайта, все поисковые системы",
+   "comparable_with": [
+    "Яндекс.Метрика · visits"
+   ],
+   "difference_explanation": "Модель сессии GA4 отличается от модели визита Метрики (граница суток, источник, таймаут), поэтому небольшое расхождение — норма, а не ошибка.",
+   "value": 56,
+   "status": "ok"
+  },
+  {
+   "source": "CRM",
+   "metric": "leads",
+   "entity": "обращение",
+   "scope": "нет источника",
+   "period": "нет данных",
+   "filters": "—",
+   "coverage": "нет данных",
+   "comparable_with": [],
+   "difference_explanation": "Источник не подключён: связь визитов с обращениями и выручкой не измеряется.",
+   "value": null,
+   "status": "unavailable"
+  }
+ ],
+ "sample_ctr": {
+  "value": 0.01330885727397889,
+  "impressions": 2179,
+  "clicks": 29,
+  "scope": "выборка топ-100 запросов",
+  "label": "CTR выборки",
+  "caveat": "только выборка топ-100 запросов, не CTR всего сайта"
+ },
+ "report_date": "2026-08-26",
+ "generated_at": "2026-08-26T05:13:44+00:00",
+ "status": "critical",
+ "counts": {
+  "critical": 1,
+  "warning": 9,
+  "info": 3
+ },
+ "findings": [
+  {
+   "level": "info",
+   "code": "SOURCE_NOT_UPDATED",
+   "title": "Яндекс.Вебмастер: данные не обновились",
+   "detail": "Последняя дата события прежняя — 2026-08-23.",
+   "effect_on_report": "Значения повторяют предыдущий сбор; их совпадение с вчерашними не является новым наблюдением и не подаётся как новость.",
+   "source": "yandex"
+  },
+  {
+   "level": "warning",
+   "code": "ROLLING_WINDOW_OVERLAP",
+   "title": "Периоды Яндекс.Вебмастера пересекаются",
+   "detail": "Текущее окно 2026-08-12–2026-08-23 (12 дн.) пересекается с предыдущим на 12 дн.",
+   "effect_on_report": "Изменение показов день к дню не является сравнением независимых периодов; относительные проценты не публикуются.",
+   "source": null
+  },
+  {
+   "level": "critical",
+   "code": "WINDOW_LENGTH_MISMATCH",
+   "title": "Окна сравнения разной длины",
+   "detail": "Текущее окно 12 дн., предыдущее 13 дн. Задержка источника плавает, длина окна вслед за ней.",
+   "effect_on_report": "Абсолютная разница показов не публикуется: она включает вклад лишних суток. Публикуется среднее за день с указанием длины окна.",
+   "source": null
+  },
+  {
+   "level": "warning",
+   "code": "YANDEX_SAMPLE_SCOPE",
+   "title": "Метрики Яндекса рассчитаны по выборке 750 из 750 запросов",
+   "detail": "Показы 2179 и клики 29 — сумма по 750 запросам из API popular queries, не по всему сайту.",
+   "effect_on_report": "CTR Яндекса нельзя называть CTR сайта.",
+   "source": null
+  },
+  {
+   "level": "warning",
+   "code": "PERIOD_MISMATCH",
+   "title": "Окна источников не совпадают",
+   "detail": "Вебмастер до 2026-08-23, Метрика до 2026-08-25.",
+   "effect_on_report": "Показатели поиска и аналитики не складываются в одну воронку без оговорки.",
+   "source": null
+  },
+  {
+   "level": "warning",
+   "code": "GOAL_UNIQUENESS_UNKNOWN",
+   "title": "Уникальность целевых обращений не подтверждена",
+   "detail": "Собираются goal events (ym:s:sumGoalReachesAny) без дедупликации по посетителю.",
+   "effect_on_report": "Формулировка «заявка/лид» запрещена; используется «целевое событие».",
+   "source": null
+  },
+  {
+   "level": "info",
+   "code": "SCOPE_QUERY_VS_PAGE",
+   "title": "Разные scope: запросы и страницы считаются отдельно",
+   "detail": "Запросов со средней позицией ≤10: 0; страниц со средней позицией ≤10: 14. Средняя позиция страницы и средняя позиция запроса — разные сущности.",
+   "effect_on_report": "В отчёте показатели по запросам и по страницам не смешиваются.",
+   "source": null
+  },
+  {
+   "level": "warning",
+   "code": "LOW_IMPRESSION_BASE_GOOGLE",
+   "title": "Малая абсолютная база показов Google",
+   "detail": "103 показов за 26 дн.",
+   "effect_on_report": "Относительные изменения сопровождаются абсолютными и маркером низкой базы.",
+   "source": null
+  },
+  {
+   "level": "warning",
+   "code": "NO_CTR_MODEL",
+   "title": "Утверждённая CTR-модель отсутствует",
+   "detail": "Нет документированной кривой CTR по позициям для наших поисковиков и устройств.",
+   "effect_on_report": "Расчёт «ожидаемого CTR» и «потерянных кликов» не публикуется.",
+   "source": null
+  },
+  {
+   "level": "warning",
+   "code": "NO_CRM",
+   "title": "CRM не подключена",
+   "detail": "Квалифицированные лиды, сделки и выручка не измеряются.",
+   "effect_on_report": "Бизнес-результат в отчёте помечается «нет данных», цели Метрики его не заменяют.",
+   "source": null
+  },
+  {
+   "level": "warning",
+   "code": "INDEXATION_UNCLASSIFIED",
+   "title": "Исключённые страницы не классифицированы",
+   "detail": "Исключено 50 URL; причины и коммерческая значимость неизвестны.",
+   "effect_on_report": "Нельзя утверждать, что все исключения — проблема (тикет INDEX-001).",
+   "source": null
+  },
+  {
+   "level": "info",
+   "code": "MARKET_DEMAND_ABSENT",
+   "title": "Рыночный спрос не измерен",
+   "detail": "замер рыночного спроса ещё не собран",
+   "effect_on_report": "Формулировки о рыночном спросе и о товарах с подтверждённым спросом в отчёт не попадают.",
+   "source": null
+  },
+  {
+   "level": "warning",
+   "code": "INTERNAL_TRAFFIC_IN_ORGANIC",
+   "title": "В органике GA4 есть собственные визиты",
+   "detail": "Источники metrika.yandex.ru, alice.yandex.ru: 11 сессий, 5.0 ключевых событий. GA4 относит домены Яндекса к поисковым системам, включая интерфейс Метрики.",
+   "effect_on_report": "Конверсия органического канала не публикуется до очистки источника.",
+   "source": "ga4"
+  }
+ ],
+ "publication_rules": {
+  "allow_green_overall_status": false,
+  "allow_sitewide_ctr_claims": true,
+  "allow_expected_ctr_claims": false,
+  "allow_lead_wording": false,
+  "allow_market_demand_wording": false,
+  "allow_assortment_decisions": false,
+  "allow_absolute_delta": false,
+  "allow_channel_conversion_claims": false,
+  "allow_conversion_wording": true
+ }
+}
