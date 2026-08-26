@@ -79,7 +79,7 @@ class TestDrivers(unittest.TestCase):
         cls.d = load("drivers")
         cls.snap = json.loads((ROOT / f"reports/seo/intelligence/snapshots/{DATE}.json")
                               .read_text(encoding="utf-8"))
-        cls.prev = load("report_v2").prev_snapshot(DATE)
+        cls.prev = load("snapshot").prev_snapshot(DATE)
 
     def test_pages_are_named(self):
         res = self.d.build(self.snap, self.prev)
