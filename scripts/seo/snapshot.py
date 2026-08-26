@@ -201,12 +201,40 @@ def source_meta(name, collected_at, latest_event, p_start, p_end, cmp_start, cmp
     }
 
 
+def source_unavailable(name: str, raw: dict | None, error: str | None = None,
+                       p_start: str | None = None, p_end: str | None = None,
+                       filters: dict | None = None) -> dict:
+    """Блок источника, не отдавшего данные.
+
+    Статус различает два разных состояния: «выгрузки нет» (missing — сбор не
+    запускался или файл не доехал) и «источник вернул ошибку» (error — сбор
+    прошёл, но API ответил отказом). Оба отличаются от третьего состояния,
+    «источник не обновился», при котором данные есть, но latest_event_date не
+    сдвинулась, — его письмо распознаёт само по source_meta. Смешивать эти
+    состояния нельзя: чинятся они в разных местах.
+    """
+    status = "missing" if raw is None else "error"
+    msg = error or (raw or {}).get("error") or "выгрузка отсутствует"
+    return {"available": False, "error": msg,
+            "source": source_meta(name, (raw or {}).get("date"), None,
+                                  p_start, p_end, None, None, filters or {}, status)}
+
+
 def build_yandex(raw: dict | None, prev: dict | None, date: str) -> dict:
     if not raw or raw.get("error"):
-        return {"available": False, "error": (raw or {}).get("error", "нет данных"),
-                "source": source_meta("yandex_webmaster", None, None, None, None, None, None,
-                                      {}, "unavailable")}
-    pq = raw.get("popular_queries", {})
+        return source_unavailable("yandex_webmaster", raw)
+    pq = raw.get("popular_queries") or {}
+    # Частичная ошибка: сборщик кладёт {'error': ...} вместо среза. Прежде такой
+    # срез давал пустой список запросов, и в письмо уходил честный на вид ноль
+    # показов при available: true. Ошибка любого читаемого среза означает
+    # «данных нет», а не «данные нулевые».
+    partial = next((f"срез {k}: {v['error']}"
+                    for k, v in (("popular_queries", pq),
+                                 ("summary", raw.get("summary") or {}))
+                    if isinstance(v, dict) and v.get("error")), None)
+    if partial:
+        return source_unavailable("yandex_webmaster", raw, partial,
+                                  pq.get("date_from"), pq.get("date_to"))
     p_from, p_to = pq.get("date_from"), pq.get("date_to")
     prev_pq = (prev or {}).get("popular_queries", {})
     entities = []
@@ -309,16 +337,17 @@ def calendar_series(rows: list[dict]) -> list[dict]:
 
 def build_google(raw: dict | None, prev: dict | None) -> dict:
     if not raw or raw.get("error"):
-        return {"available": False, "error": (raw or {}).get("error", "нет данных"),
-                "source": source_meta("google_search_console", None, None, None, None,
-                                      None, None, {}, "unavailable")}
+        return source_unavailable("google_search_console", raw)
     a = raw.get("analytics", {})
-    # Разрез вернул ошибку вместо данных — источник недоступен, а не пуст.
-    if all("error" in v for v in a.values() if isinstance(v, dict)) and a:
-        return {"available": False,
-                "error": next(v["error"] for v in a.values() if "error" in v),
-                "source": source_meta("google_search_console", None, None, None, None,
-                                      None, None, {}, "unavailable")}
+    # Срез вернул ошибку вместо данных — источник недоступен, а не пуст.
+    # Прежде источник закрывался, только когда ошибку вернули ВСЕ срезы; сбой
+    # одного превращался в ноль: пустой date — в нулевую неделю, пустой
+    # query — в «0 запросов» без единого предупреждения.
+    failed = next((f"срез {k}: {v['error']}" for k, v in a.items()
+                   if isinstance(v, dict) and "error" in v), None)
+    if failed or not a:
+        return source_unavailable("google_search_console", raw,
+                                  failed or "ответ без блока analytics")
     rows = a.get("date", {}).get("rows", [])
     daily = calendar_series(rows)
     latest = daily[-1]["date"] if daily else None
@@ -373,9 +402,49 @@ def build_google(raw: dict | None, prev: dict | None) -> dict:
     }
 
 
+def metrika_partial_error(raw: dict) -> str | None:
+    """Ошибка любого читаемого среза Метрики.
+
+    Сборщик при HTTP-ошибке кладёт {'error': ...} вместо среза. Прежде разбор
+    лез в metrika['traffic_sources']['data'] без проверки, получал KeyError —
+    и в день частичного сбоя не собиралось ничего: ни снимок, ни письмо.
+    """
+    for key in ("traffic_sources", "organic_landing_pages"):
+        blk = raw.get(key)
+        if not isinstance(blk, dict) or "data" not in blk:
+            err = (blk.get("error") if isinstance(blk, dict) else None) or "срез отсутствует"
+            return f"срез {key}: {err}"
+    goals = raw.get("goals")
+    if isinstance(goals, dict):     # при ошибке вместо списка целей лежит {'error': ...}
+        return f"срез goals: {goals.get('error', 'срез отсутствует')}"
+    return None
+
+
+def ga4_partial_error(raw: dict) -> str | None:
+    """Ошибка любого читаемого среза GA4.
+
+    Прежде срез-ошибка проходил через .get('rows', []) как пустой список, и в
+    письмо уходили sessions = 0 и organic = 0 при available: true — ошибка
+    источника, выданная за измеренный ноль (REP-001).
+    """
+    for key in ("channels", "organic_sources", "organic_landing_pages"):
+        blk = raw.get(key)
+        if not isinstance(blk, dict) or blk.get("error"):
+            err = (blk.get("error") if isinstance(blk, dict) else None) or "срез отсутствует"
+            return f"срез {key}: {err}"
+    return None
+
+
 def build_analytics(metrika: dict | None, ga4: dict | None, date: str) -> dict:
     out = {"metrika": {"available": False}, "ga4": {"available": False}, "intra_day_revisions": []}
-    if metrika and not metrika.get("error"):
+    m_err = (metrika_partial_error(metrika)
+             if metrika and not metrika.get("error") else None)
+    if not metrika or metrika.get("error") or m_err:
+        w = (metrika or {}).get("window") or {}
+        out["metrika"] = source_unavailable(
+            "yandex_metrika", metrika, m_err, w.get("from"), w.get("to"),
+            {"counter": (metrika or {}).get("counter")})
+    else:
         ts = {r["dimensions"][0]["name"]: r["metrics"] for r in metrika["traffic_sources"]["data"]}
         tot = metrika["traffic_sources"].get("totals") or [None] * 5
         org = ts.get("Search engine traffic", [None] * 5)
@@ -427,7 +496,13 @@ def build_analytics(metrika: dict | None, ga4: dict | None, date: str) -> dict:
                 "canonical": float(tot[0]) if tot[0] is not None else None,
                 "reason": "источник пересобирался в течение дня; каноническим считается последний сбор",
             })
-    if ga4 and not ga4.get("error"):
+    g_err = ga4_partial_error(ga4) if ga4 and not ga4.get("error") else None
+    if not ga4 or ga4.get("error") or g_err:
+        w = (ga4 or {}).get("window") or {}
+        out["ga4"] = source_unavailable(
+            "ga4", ga4, g_err, w.get("from"), w.get("to"),
+            {"property": (ga4 or {}).get("property")})
+    else:
         ch = {r["dimensionValues"][0]["value"]: [x["value"] for x in r["metricValues"]]
               for r in ga4.get("channels", {}).get("rows", [])}
         org = ch.get("Organic Search", ["0", "0", "0"])
