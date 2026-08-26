@@ -55,6 +55,29 @@ INTERNAL_SOURCES = ('metrika.yandex.ru', 'webmaster.yandex.ru',
                     'direct.yandex.ru', 'alice.yandex.ru')
 
 
+def api_json(url, *, headers=None, params=None, body=None, timeout=30):
+    """Единый разбор ответа API: сеть, HTTP-статус, JSON.
+
+    Возвращает (данные, None) либо (None, «строка ошибки»). Строка кладётся в
+    поле error того же вида, что у остальных сборщиков, — её понимают
+    snapshot.py (источник → «нет данных») и quality.py (SOURCE_UNAVAILABLE).
+    Различаются: сетевая ошибка/таймаут, не-2xx статус, ответ не-JSON.
+    Тело ошибки никогда не сохраняется как данные.
+    """
+    try:
+        r = (requests.post(url, headers=headers, json=body, timeout=timeout)
+             if body is not None else
+             requests.get(url, headers=headers, params=params, timeout=timeout))
+    except requests.RequestException as e:
+        return None, f'{type(e).__name__}: {e}'
+    if not r.ok:
+        return None, f'HTTP {r.status_code}: {r.text[:300]}'
+    try:
+        return r.json(), None
+    except ValueError as e:
+        return None, f'ответ не является JSON ({e}): {r.text[:200]}'
+
+
 def collect_gsc() -> dict:
     from google.auth.transport.requests import Request
     from google.oauth2 import service_account
@@ -65,12 +88,10 @@ def collect_gsc() -> dict:
     creds.refresh(Request())
     headers = {'Authorization': f'Bearer {creds.token}'}
 
-    sites_resp = requests.get(
-        'https://www.googleapis.com/webmasters/v3/sites', headers=headers, timeout=30)
-    if not sites_resp.ok:
-        return {'date': TODAY,
-                'error': f'/sites HTTP {sites_resp.status_code}: {sites_resp.text[:300]}'}
-    sites = sites_resp.json()
+    sites, err = api_json('https://www.googleapis.com/webmasters/v3/sites',
+                          headers=headers)
+    if err:
+        return {'date': TODAY, 'error': f'/sites: {err}'}
     entries = [s for s in sites.get('siteEntry', []) if SITE in s['siteUrl']]
     result = {'date': TODAY, 'sites': sites.get('siteEntry', []), 'analytics': {}}
     if not entries:
@@ -87,14 +108,13 @@ def collect_gsc() -> dict:
             'dimensions': dims,
             'rowLimit': 100,
         }
-        r = requests.post(
-            f'https://www.googleapis.com/webmasters/v3/sites/{site_url}/searchAnalytics/query',
-            headers=headers, json=body, timeout=30)
         # Без этой проверки тело ошибки Google сохранялось как данные. Ключа
         # `rows` в нём нет, поэтому дальше по конвейеру получалось 0 показов —
         # и сбой доступа читался как обвал поискового трафика.
-        result['analytics'][dims[0]] = r.json() if r.ok else {
-            'error': f'HTTP {r.status_code}: {r.text[:400]}'}
+        data, err = api_json(
+            f'https://www.googleapis.com/webmasters/v3/sites/{site_url}/searchAnalytics/query',
+            headers=headers, body=body)
+        result['analytics'][dims[0]] = {'error': err} if err else data
     errors = [v['error'] for v in result['analytics'].values() if 'error' in v]
     if len(errors) == len(result['analytics']):
         result['error'] = 'все разрезы Search Analytics вернули ошибку: ' + errors[0]
@@ -104,31 +124,43 @@ def collect_gsc() -> dict:
 def collect_yandex() -> dict:
     headers = {'Authorization': f"OAuth {os.environ['YANDEX_WEBMASTER_TOKEN']}"}
     base = 'https://api.webmaster.yandex.net/v4/user'
-    result = {'date': TODAY}
+    date_to = today()
+    date_from = date_to - dt.timedelta(days=14)
+    # Запрошенное окно фиксируется до первого запроса: при сбое письмо обязано
+    # назвать период, за который данных нет, а из тела ошибки он не извлекается.
+    result = {'date': TODAY,
+              'window': {'from': date_from.isoformat(), 'to': date_to.isoformat()}}
 
-    user_resp = requests.get(base, headers=headers, timeout=30)
-    user_data = user_resp.json()
-    if 'user_id' not in user_data:
-        result['error'] = (
-            f'API /user не вернул user_id (HTTP {user_resp.status_code}): '
-            f'{json.dumps(user_data, ensure_ascii=False)[:500]}'
-        )
+    user_data, err = api_json(base, headers=headers)
+    if err or 'user_id' not in (user_data or {}):
+        result['error'] = ('/user: ' + err) if err else (
+            'API /user не вернул user_id: '
+            + json.dumps(user_data, ensure_ascii=False)[:500])
         return result
     uid = user_data['user_id']
-    hosts = requests.get(f'{base}/{uid}/hosts', headers=headers, timeout=30).json()
+
+    hosts, err = api_json(f'{base}/{uid}/hosts', headers=headers)
+    if err:
+        result['error'] = f'/hosts: {err}'
+        return result
     result['hosts'] = hosts.get('hosts', [])
-    match = [h for h in result['hosts'] if SITE in h['host_id']]
+    match = [h for h in result['hosts'] if SITE in h.get('host_id', '')]
     if not match:
         result['error'] = f'{SITE} не найден в Вебмастере этого аккаунта (или не подтверждён)'
         return result
 
     host_id = match[0]['host_id']
     result['host_id'] = host_id
-    result['summary'] = requests.get(
-        f'{base}/{uid}/hosts/{host_id}/summary', headers=headers, timeout=30).json()
+    # Прежде summary читался без проверки статуса и формата ответа: тело
+    # HTTP-ошибки сохранялось как данные, дальше по конвейеру оно не имело
+    # ключа error и не распознавалось как сбой — поля индексации молча
+    # превращались в «нет данных» без называния причины.
+    summary, err = api_json(f'{base}/{uid}/hosts/{host_id}/summary', headers=headers)
+    if err is None and isinstance(summary, dict) and summary.get('error_message'):
+        # API умеет возвращать ошибку в теле формально успешного ответа.
+        err = f"API вернул ошибку в теле ответа: {summary['error_message']}"
+    result['summary'] = {'error': err} if err else summary
 
-    date_to = today()
-    date_from = date_to - dt.timedelta(days=14)
     params = {
         'order_by': 'TOTAL_SHOWS',
         'query_indicator': ['TOTAL_SHOWS', 'TOTAL_CLICKS', 'AVG_SHOW_POSITION', 'AVG_CLICK_POSITION'],
@@ -148,12 +180,11 @@ def collect_yandex() -> dict:
     # Метрики.
     queries, page, meta = [], None, {}
     for offset in range(0, MAX_QUERIES, PAGE_LIMIT):
-        r = requests.get(url, headers=headers,
-                         params={**params, 'offset': offset}, timeout=30)
-        if not r.ok:
-            meta = meta or {'error': f'HTTP {r.status_code}: {r.text[:300]}'}
+        data, err = api_json(url, headers=headers, params={**params, 'offset': offset})
+        if err:
+            meta = meta or {'error': err}
             break
-        page = r.json()
+        page = data
         chunk = page.get('queries') or []
         meta = meta or {k: v for k, v in page.items() if k != 'queries'}
         queries.extend(chunk)
@@ -186,11 +217,10 @@ def collect_metrika() -> dict:
     result = {'date': TODAY, 'counter': counter,
               'window': {'from': date_from.isoformat(), 'to': date_to.isoformat()}}
 
-    goals_resp = requests.get(
+    goals_data, err = api_json(
         f'https://api-metrika.yandex.net/management/v1/counter/{counter}/goals',
-        headers=headers, timeout=30)
-    result['goals'] = goals_resp.json().get('goals', []) if goals_resp.ok else {
-        'error': f'HTTP {goals_resp.status_code}: {goals_resp.text[:300]}'}
+        headers=headers)
+    result['goals'] = {'error': err} if err else goals_data.get('goals', [])
 
     queries = {
         'traffic_sources': {
@@ -209,8 +239,8 @@ def collect_metrika() -> dict:
         },
     }
     for key, params in queries.items():
-        r = requests.get(stat, headers=headers, params={**base, **params}, timeout=30)
-        result[key] = r.json() if r.ok else {'error': f'HTTP {r.status_code}: {r.text[:300]}'}
+        data, err = api_json(stat, headers=headers, params={**base, **params})
+        result[key] = {'error': err} if err else data
     return result
 
 
@@ -279,8 +309,8 @@ def collect_ga4() -> dict:
         },
     }
     for key, body in reports.items():
-        r = requests.post(url, headers=headers, json=body, timeout=30)
-        result[key] = r.json() if r.ok else {'error': f'HTTP {r.status_code}: {r.text[:400]}'}
+        data, err = api_json(url, headers=headers, body=body)
+        result[key] = {'error': err} if err else data
     return result
 
 
