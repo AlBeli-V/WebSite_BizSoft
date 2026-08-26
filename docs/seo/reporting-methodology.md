@@ -62,7 +62,32 @@ CTR — два знака после запятой в процентах; ср�
 `YANDEX_SAMPLE_SCOPE`, `SOURCE_RECONCILIATION` (critical), `PERIOD_MISMATCH`, `MEASUREMENT_CHANGE`,
 `INTRA_DAY_REVISION`, `BASELINE_REVISED`, `LOW_CONVERSION_SAMPLE`, `GOAL_UNIQUENESS_UNKNOWN`,
 `SCOPE_QUERY_VS_PAGE`, `LOW_IMPRESSION_BASE_GOOGLE`, `NO_CTR_MODEL`, `NO_CRM`,
-`INDEXATION_UNCLASSIFIED`.
+`INDEXATION_UNCLASSIFIED`, `SOURCE_UNAVAILABLE` (critical), `SOURCE_NOT_UPDATED`,
+`API_ERROR_AS_ZERO` (critical).
+
+Находки, относящиеся к конкретному источнику, несут машиночитаемое поле
+`source` (`yandex|google|metrika|ga4`); блок `derived` содержит готовые выводы
+для письма (`stale_sources`, `goals_missing`, `goals_lagging`) — presentation-слой
+их отображает, а не вычисляет заново.
+
+## Состояния источника (с 2026-08-26)
+
+Каждый источник снимка находится ровно в одном состоянии, и состояния не
+превращаются друг в друга дальше по конвейеру:
+
+| Состояние | Где фиксируется | Значение |
+|---|---|---|
+| измеренное значение | `available: true` | число публикуется; ноль — это измеренный ноль |
+| `missing` | `source.status` | выгрузки нет: сбор не запускался или файл не доехал |
+| `error` | `source.status` | источник (или его срез) вернул ошибку; тело ошибки не сохраняется как данные |
+| `empty` | `source.status` | формально успешный ответ без единой строки — «пустой успех», не ноль |
+| `malformed` | `source.status` | формат выгрузки не соответствует ожиданиям (страховка `build_safe`) |
+| не обновился | находка `SOURCE_NOT_UPDATED` | данные валидны, но `latest_event_date` не сдвинулась: не новое наблюдение |
+
+Правила: `None` — «нет данных», не ноль; при любом недоступном состоянии
+показатели публикуются как «нет данных», дельты и сравнения не считаются;
+«предыдущий снимок» для проверок качества и письма берётся одной функцией
+`snapshot.prev_snapshot`.
 
 ## Статусы вместо общего балла
 
@@ -109,7 +134,14 @@ python3 scripts/seo/report_v2.py <дата>
 python3 -m unittest discover -s scripts/seo/tests
 ```
 
-## Executive email V3 (с 2026-08-19)
+## Executive email V3 (2026-08-19 … 2026-08-21, архив)
+
+> Поколение V3 выведено из эксплуатации 26.08.2026: письма V3 не генерируются
+> с 21.08, код (`report_v2.py`, `report_v3.py`, `charts.py`, `charts_png.py`,
+> `uxlint.py`) удалён, фолбэк отправки на старые письма заменён уведомлением
+> о сбое сборки (см. `.github/workflows/seo-report-email.yml`). Действующее
+> поколение — V4: `report_v4.py` + `uxlint_v4.py` + `invariants.py`.
+> Правила подачи из этого раздела перенесены в V4 и остаются в силе.
 
 ### Структура и объём
 Письмо — управленческий продукт, а не выгрузка. Порядок блоков фиксирован:
@@ -159,15 +191,29 @@ rollback, stop-condition, key events) в теле письма запрещен�
 абсолютные ссылки вместо локальных путей, запрещённые термины, противоречие нулевой дельты,
 запрет воронки до сверки, запрет раздельной оценки совместного внедрения, автоназначение владельцев.
 
-### Конвейер V3
+### Конвейер (действующий, V4)
 ```
 python3 scripts/seo/snapshot.py <дата>
 python3 scripts/seo/quality.py <дата>
-python3 scripts/seo/report_v3.py <дата>     # PNG-графики, письмо, приложение, EML, текст
-python3 scripts/seo/uxlint.py <дата>
-node scripts/seo/render.mjs <манифест>       # скриншоты 375 и 680 px
-python3 -m unittest discover -s scripts/seo/tests
+python3 scripts/seo/report_v4.py <дата>     # графики, письмо, EML, текст + инварианты
+python3 scripts/seo/uxlint_v4.py <дата>
+python3 scripts/seo/invariants.py <дата>    # отдельный прогон при разборе нарушений
+python3 -m unittest discover -s scripts/seo/tests -t scripts/seo/tests
 ```
+
+## Интерес к вендорам в поиске (с 2026-08-26)
+
+Блок письма из `scripts/seo/vendor_radar.py` (перенос Vendor Radar упразднённого
+`intelligence.py` поверх канонического снимка). Правила:
+
+- показы наших страниц по запросам с упоминанием вендора — **интерес аудитории
+  в нашей выдаче, не рыночный спрос**; спрос измеряет только Вордстат;
+- показы Яндекса и Google не складываются — движки публикуются раздельно;
+- список вендоров — каталог сайта (`src/data/vendors.ts`), совпадение по границе
+  слова; порог значимости — 8 показов на движок;
+- кандидаты «проверить платным трафиком»: коммерческий небрендовый запрос,
+  ≥15 показов, средняя позиция 3,5–20; прогнозы ставок и конверсии не
+  выдумываются — публикуется только измеренный поисковый сигнал.
 
 ## Рыночный спрос: Вордстат (с 2026-08-19)
 

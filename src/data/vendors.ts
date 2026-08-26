@@ -152,7 +152,7 @@ export const VENDORS: VendorEntry[] = [
   { slug: 'wondershare', vendor: 'Wondershare', title: 'Wondershare Filmora', legalName: 'Wondershare Technology Group Co., Ltd.', brandColor: '#46A0FA', site: 'https://filmora.wondershare.com', catSeg: 'media', catLabel: 'Звук, видео и медиа', domain: 'video',
     tagline: 'Filmora — видеоредактор: годовые, бессрочные и командные лицензии.',
     about: 'Wondershare Filmora — доступный видеоредактор с ИИ-инструментами, эффектами и кросс-платформенными лицензиями для авторов, SMM и небольших студий.' },
-  { slug: 'vegas', vendor: 'MAGIX Vegas', title: 'VEGAS Pro', legalName: 'MAGIX Software GmbH', brandColor: '#E5231B', site: 'https://www.vegascreativesoftware.com', catSeg: 'media', catLabel: 'Звук, видео и медиа', domain: 'video',
+  { slug: 'vegas', vendor: 'MAGIX Vegas', title: 'VEGAS Pro', legalName: 'MAGIX Software GmbH', brandColor: '#258ee5', site: 'https://www.vegascreativesoftware.com', catSeg: 'media', catLabel: 'Звук, видео и медиа', domain: 'video',
     tagline: 'VEGAS Pro: редакции Edit, Post и Suite, подписка и бессрочно.',
     about: 'VEGAS Pro (MAGIX) — профессиональный видеоредактор с монтажом 4K/HDR, цветокоррекцией и инструментами постпродакшена.' },
   { slug: 'telestream', vendor: 'Telestream', legalName: 'Telestream, LLC', brandColor: '#00A0DF', site: 'https://www.telestream.net', catSeg: 'media', catLabel: 'Звук, видео и медиа', domain: 'video',
