@@ -27,16 +27,6 @@
       ]
     },
     {
-      "vendor": "Maxon", "prefix": "MAXON", "category": "design",
-      "products": [
-        { "key": "ONE", "name": "Maxon One", "license_type": "individual", "base_price": 1265, "currency": "USD", "vat_included": false, "billing_note_ru": "за место в год", "price_on_request": false, "short_desc_ru": "Полный набор Maxon: Cinema 4D, Redshift, ZBrush, Red Giant, Universe, Forger.", "features_ru": ["Cinema 4D для 3D-моделирования и анимации", "Рендер Redshift GPU", "Скульптинг ZBrush", "Red Giant для VFX и моушн-графики"] },
-        { "key": "C4D", "name": "Maxon Cinema 4D", "license_type": "individual", "base_price": 839, "currency": "USD", "vat_included": false, "billing_note_ru": "за место в год", "price_on_request": false, "short_desc_ru": "3D-моделирование, анимация и симуляция; Redshift для C4D включён.", "features_ru": ["Профессиональное 3D-моделирование", "Анимация и симуляция", "Встроенный рендер Redshift", "Обширная библиотека ресурсов"] },
-        { "key": "ZBRUSH", "name": "Maxon ZBrush", "license_type": "individual", "base_price": 399, "currency": "USD", "vat_included": false, "billing_note_ru": "за место в год", "price_on_request": false, "short_desc_ru": "Индустриальный стандарт цифрового скульптинга, покраски и текстурирования.", "features_ru": ["Цифровой скульптинг высокого разрешения", "Покраска и текстурирование", "Кисти и динамическая топология", "Экспорт в игровые пайплайны"] },
-        { "key": "REDSHIFT", "name": "Maxon Redshift", "license_type": "individual", "base_price": 289, "currency": "USD", "vat_included": false, "billing_note_ru": "за место в год", "price_on_request": false, "short_desc_ru": "Полностью GPU-ускоренный рендерер для быстрого продакшена.", "features_ru": ["GPU-ускоренный рендеринг", "Поддержка Cinema 4D, Maya, Houdini", "Быстрый вывод продакшн-качества", "Гибкое управление материалами"] },
-        { "key": "REDGIANT", "name": "Maxon Red Giant Complete", "license_type": "individual", "base_price": 639, "currency": "USD", "vat_included": false, "billing_note_ru": "за место в год", "price_on_request": false, "short_desc_ru": "Профессиональный набор для VFX, моушн-графики и постпродакшена видео.", "features_ru": ["Инструменты VFX и композитинга", "Моушн-графика и анимация", "Цветокоррекция и эффекты", "Плагины для After Effects и Premiere Pro"] }
-      ]
-    },
-    {
       "vendor": "SideFX Houdini", "prefix": "HOU", "category": "design",
       "products": [
         { "key": "CORE", "name": "Houdini Core (годовая)", "license_type": "org", "base_price": 1995, "currency": "USD", "vat_included": false, "billing_note_ru": "за место в год", "price_on_request": false, "short_desc_ru": "Ядро Houdini для 3D-анимации, моделирования и рендеринга без продвинутой динамики.", "features_ru": ["Процедурное моделирование и анимация", "Композитинг и редактирование движения", "Рендеринг Karma/Mantra", "Node-locked лицензия"] },

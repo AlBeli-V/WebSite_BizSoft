@@ -19,7 +19,9 @@ import re
 import subprocess
 import sys
 
-SCHEMA_VERSION = "2.1.0"
+import daily_windows
+
+SCHEMA_VERSION = "2.2.0"
 # Часовой пояс отчётности — московский: так требует правило проекта, и так же
 # отдают данные GA4 (metadata.timeZone = Europe/Moscow) и Метрика. Прежнее
 # значение Asia/Bishkek не совпадало ни с тем, ни с другим.
@@ -201,12 +203,46 @@ def source_meta(name, collected_at, latest_event, p_start, p_end, cmp_start, cmp
     }
 
 
+def source_unavailable(name: str, raw: dict | None, error: str | None = None,
+                       p_start: str | None = None, p_end: str | None = None,
+                       filters: dict | None = None, status: str | None = None) -> dict:
+    """Блок источника, не отдавшего данные.
+
+    Канонические статусы (см. docs/seo/reporting-methodology.md):
+      missing   — выгрузки нет (сбор не запускался или файл не доехал);
+      error     — источник вернул ошибку (включая ошибку отдельного среза);
+      empty     — формально успешный ответ без единой строки данных;
+      malformed — формат выгрузки не соответствует ожиданиям.
+    Все четыре отличаются от пятого состояния, «источник не обновился», при
+    котором данные есть, но latest_event_date не сдвинулась, — его фиксирует
+    проверка качества SOURCE_NOT_UPDATED. Смешивать состояния нельзя: чинятся
+    они в разных местах.
+    """
+    status = status or ("missing" if raw is None else "error")
+    msg = error or (raw or {}).get("error") or "выгрузка отсутствует"
+    return {"available": False, "error": msg,
+            "source": source_meta(name, (raw or {}).get("date"), None,
+                                  p_start, p_end, None, None, filters or {}, status)}
+
+
 def build_yandex(raw: dict | None, prev: dict | None, date: str) -> dict:
+    w = (raw or {}).get("window") or {}
     if not raw or raw.get("error"):
-        return {"available": False, "error": (raw or {}).get("error", "нет данных"),
-                "source": source_meta("yandex_webmaster", None, None, None, None, None, None,
-                                      {}, "unavailable")}
-    pq = raw.get("popular_queries", {})
+        return source_unavailable("yandex_webmaster", raw, None,
+                                  w.get("from"), w.get("to"))
+    pq = raw.get("popular_queries") or {}
+    # Частичная ошибка: сборщик кладёт {'error': ...} вместо среза. Прежде такой
+    # срез давал пустой список запросов, и в письмо уходил честный на вид ноль
+    # показов при available: true. Ошибка любого читаемого среза означает
+    # «данных нет», а не «данные нулевые».
+    partial = next((f"срез {k}: {v['error']}"
+                    for k, v in (("popular_queries", pq),
+                                 ("summary", raw.get("summary") or {}))
+                    if isinstance(v, dict) and v.get("error")), None)
+    if partial:
+        return source_unavailable("yandex_webmaster", raw, partial,
+                                  pq.get("date_from") or w.get("from"),
+                                  pq.get("date_to") or w.get("to"))
     p_from, p_to = pq.get("date_from"), pq.get("date_to")
     prev_pq = (prev or {}).get("popular_queries", {})
     entities = []
@@ -229,6 +265,15 @@ def build_yandex(raw: dict | None, prev: dict | None, date: str) -> dict:
             "sample_size": int(shows) if shows is not None else None,
             "confidence": confidence(int(shows) if shows is not None else None),
         })
+    # «Пустой успех»: источник заявил count запросов, но не отдал ни одного.
+    # Нулевая сумма по пустому списку читалась бы как измеренный ноль показов.
+    # count == 0 при этом остаётся честным нулём: у хоста нет запросов.
+    if not entities and (pq.get("count") or 0) > 0:
+        return source_unavailable(
+            "yandex_webmaster", raw,
+            f"запросы заявлены источником (count={pq.get('count')}), но не получены",
+            pq.get("date_from") or w.get("from"), pq.get("date_to") or w.get("to"),
+            status="empty")
     impressions = sum(e["impressions"] or 0 for e in entities)
     clicks = sum(e["clicks"] or 0 for e in entities)
     in_top10 = [e for e in entities if e["average_position"] is not None
@@ -309,17 +354,25 @@ def calendar_series(rows: list[dict]) -> list[dict]:
 
 def build_google(raw: dict | None, prev: dict | None) -> dict:
     if not raw or raw.get("error"):
-        return {"available": False, "error": (raw or {}).get("error", "нет данных"),
-                "source": source_meta("google_search_console", None, None, None, None,
-                                      None, None, {}, "unavailable")}
+        return source_unavailable("google_search_console", raw)
     a = raw.get("analytics", {})
-    # Разрез вернул ошибку вместо данных — источник недоступен, а не пуст.
-    if all("error" in v for v in a.values() if isinstance(v, dict)) and a:
-        return {"available": False,
-                "error": next(v["error"] for v in a.values() if "error" in v),
-                "source": source_meta("google_search_console", None, None, None, None,
-                                      None, None, {}, "unavailable")}
+    # Срез вернул ошибку вместо данных — источник недоступен, а не пуст.
+    # Прежде источник закрывался, только когда ошибку вернули ВСЕ срезы; сбой
+    # одного превращался в ноль: пустой date — в нулевую неделю, пустой
+    # query — в «0 запросов» без единого предупреждения.
+    failed = next((f"срез {k}: {v['error']}" for k, v in a.items()
+                   if isinstance(v, dict) and "error" in v), None)
+    if failed or not a:
+        return source_unavailable("google_search_console", raw,
+                                  failed or "ответ без блока analytics")
     rows = a.get("date", {}).get("rows", [])
+    # «Пустой успех»: 200 без единой строки за 28 дней. Методика (проверка
+    # API_ERROR_AS_ZERO) трактует такой ноль как отсутствие замера, а не как
+    # измеренный ноль, — snapshot закрывает его до публикации нулей в письме.
+    if not rows:
+        return source_unavailable("google_search_console", raw,
+                                  "ответ без ошибки и без строк за период",
+                                  status="empty")
     daily = calendar_series(rows)
     latest = daily[-1]["date"] if daily else None
     last7, prev7 = daily[-7:], daily[-14:-7]
@@ -362,6 +415,12 @@ def build_google(raw: dict | None, prev: dict | None) -> dict:
             "window_days": len(daily),
             "impressions_last7": sum(d["impressions"] for d in last7),
             "impressions_prev7": sum(d["impressions"] for d in prev7),
+            # Длины окон: при молодой или отстающей выгрузке daily короче 14
+            # дней, и «предыдущая неделя» — не неделя. Сравнение окон разной
+            # длины не публикуется — по той же причине, что и у Яндекса
+            # (WINDOW_LENGTH_MISMATCH).
+            "last7_days": len(last7),
+            "prev7_days": len(prev7),
             "last7_start": last7[0]["date"] if last7 else None,
             "last7_end": last7[-1]["date"] if last7 else None,
             "prev7_start": prev7[0]["date"] if prev7 else None,
@@ -373,12 +432,65 @@ def build_google(raw: dict | None, prev: dict | None) -> dict:
     }
 
 
+def metrika_partial_error(raw: dict) -> str | None:
+    """Ошибка любого читаемого среза Метрики.
+
+    Сборщик при HTTP-ошибке кладёт {'error': ...} вместо среза. Прежде разбор
+    лез в metrika['traffic_sources']['data'] без проверки, получал KeyError —
+    и в день частичного сбоя не собиралось ничего: ни снимок, ни письмо.
+    """
+    for key in ("traffic_sources", "organic_by_engine", "organic_landing_pages"):
+        blk = raw.get(key)
+        if not isinstance(blk, dict) or "data" not in blk:
+            err = (blk.get("error") if isinstance(blk, dict) else None) or "срез отсутствует"
+            return f"срез {key}: {err}"
+    goals = raw.get("goals")
+    if isinstance(goals, dict):     # при ошибке вместо списка целей лежит {'error': ...}
+        return f"срез goals: {goals.get('error', 'срез отсутствует')}"
+    # «Пустой успех»: итог заявляет визиты, а строк по источникам нет — из
+    # такого среза органика посчиталась бы нулём при ненулевом трафике.
+    ts_blk = raw["traffic_sources"]
+    if not ts_blk.get("data") and ((ts_blk.get("totals") or [0])[0] or 0) > 0:
+        return "срез traffic_sources: строки отсутствуют при ненулевом итоге визитов"
+    return None
+
+
+def ga4_partial_error(raw: dict) -> str | None:
+    """Ошибка любого читаемого среза GA4.
+
+    Прежде срез-ошибка проходил через .get('rows', []) как пустой список, и в
+    письмо уходили sessions = 0 и organic = 0 при available: true — ошибка
+    источника, выданная за измеренный ноль (REP-001).
+    """
+    for key in ("channels", "organic_sources", "organic_landing_pages"):
+        blk = raw.get(key)
+        if not isinstance(blk, dict) or blk.get("error"):
+            err = (blk.get("error") if isinstance(blk, dict) else None) or "срез отсутствует"
+            return f"срез {key}: {err}"
+    # «Пустой успех» среза каналов: без единой строки сумма сессий стала бы
+    # нулём при available: true. Пустые organic-срезы при этом допустимы:
+    # отсутствие органических сессий — измеримый ноль.
+    if not (raw.get("channels") or {}).get("rows"):
+        return "срез channels: ответ без ошибки и без строк"
+    return None
+
+
 def build_analytics(metrika: dict | None, ga4: dict | None, date: str) -> dict:
     out = {"metrika": {"available": False}, "ga4": {"available": False}, "intra_day_revisions": []}
-    if metrika and not metrika.get("error"):
+    m_err = (metrika_partial_error(metrika)
+             if metrika and not metrika.get("error") else None)
+    if not metrika or metrika.get("error") or m_err:
+        w = (metrika or {}).get("window") or {}
+        out["metrika"] = source_unavailable(
+            "yandex_metrika", metrika, m_err, w.get("from"), w.get("to"),
+            {"counter": (metrika or {}).get("counter")})
+    else:
         ts = {r["dimensions"][0]["name"]: r["metrics"] for r in metrika["traffic_sources"]["data"]}
         tot = metrika["traffic_sources"].get("totals") or [None] * 5
-        org = ts.get("Search engine traffic", [None] * 5)
+        # Отсутствие строки органики в успешном срезе — измеренный ноль, а не
+        # «нет данных»: Метрика не отдаёт строки по источникам без визитов.
+        # None здесь показал бы «нет данных» при доказанном источником нуле.
+        org = ts.get("Search engine traffic", [0, 0, 0, 0, 0])
         lp = [{"entity_id": r["dimensions"][0]["name"], "visits": r["metrics"][0],
                "bounce_rate": r["metrics"][1], "goal_events": r["metrics"][2]}
               for r in metrika["organic_landing_pages"]["data"]]
@@ -406,6 +518,12 @@ def build_analytics(metrika: dict | None, ga4: dict | None, date: str) -> dict:
                 for g in metrika.get("goals", [])],
             "organic_landing_pages": lp,
             "channels": {k: v[0] for k, v in ts.items()},
+            # Органика в разбивке по поисковым системам (ym:s:lastSearchEngineRoot):
+            # единственные данные, которыми клики Вебмастера сверяются с визитами
+            # именно из Яндекса, а не со всей органикой сайта, включая Google.
+            "organic_by_engine": {
+                r["dimensions"][0]["name"]: r["metrics"][0]
+                for r in metrika["organic_by_engine"]["data"]},
         }
         # Учёт пересборов внутри дня (несколько сборов => несколько значений)
         path = DATA_DIR / f"metrika-{date}.json"
@@ -427,7 +545,13 @@ def build_analytics(metrika: dict | None, ga4: dict | None, date: str) -> dict:
                 "canonical": float(tot[0]) if tot[0] is not None else None,
                 "reason": "источник пересобирался в течение дня; каноническим считается последний сбор",
             })
-    if ga4 and not ga4.get("error"):
+    g_err = ga4_partial_error(ga4) if ga4 and not ga4.get("error") else None
+    if not ga4 or ga4.get("error") or g_err:
+        w = (ga4 or {}).get("window") or {}
+        out["ga4"] = source_unavailable(
+            "ga4", ga4, g_err, w.get("from"), w.get("to"),
+            {"property": (ga4 or {}).get("property")})
+    else:
         ch = {r["dimensionValues"][0]["value"]: [x["value"] for x in r["metricValues"]]
               for r in ga4.get("channels", {}).get("rows", [])}
         org = ch.get("Organic Search", ["0", "0", "0"])
@@ -469,6 +593,37 @@ def build_analytics(metrika: dict | None, ga4: dict | None, date: str) -> dict:
             "organic_landing_pages": lp,
         }
     return out
+
+
+def build_safe(name: str, build, raw: dict | None, *args) -> dict:
+    """MALFORMED-страховка: неожиданный формат выгрузки — «нет данных», а не
+    падение всей сборки. Известные формы ошибок разобраны выше по коду; здесь
+    ловится то, чего разбор не предвидел (сменившаяся схема ответа, обрезанный
+    файл), — иначе один изменившийся источник снова лишал бы дня письма."""
+    try:
+        return build(raw, *args)
+    except Exception as e:  # noqa: BLE001 — любой сбой разбора = недоступный источник
+        return source_unavailable(
+            name, raw if isinstance(raw, dict) else None,
+            f"формат выгрузки не соответствует ожиданиям: {type(e).__name__}: {e}",
+            status="malformed")
+
+
+def build_analytics_safe(metrika: dict | None, ga4: dict | None, date: str) -> dict:
+    """Та же страховка для составного блока аналитики."""
+    try:
+        return build_analytics(metrika, ga4, date)
+    except Exception as e:  # noqa: BLE001
+        reason = f"формат выгрузки не соответствует ожиданиям: {type(e).__name__}: {e}"
+        return {
+            "metrika": source_unavailable(
+                "yandex_metrika", metrika if isinstance(metrika, dict) else None, reason,
+                status="malformed"),
+            "ga4": source_unavailable(
+                "ga4", ga4 if isinstance(ga4, dict) else None, reason,
+                status="malformed"),
+            "intra_day_revisions": [],
+        }
 
 
 SEMANTICS_DIR = pathlib.Path("reports/seo/semantics")
@@ -561,6 +716,43 @@ def build_experiments() -> list[dict]:
     return out
 
 
+def data_revisions_safe(date: str, prev_date: str) -> list[dict]:
+    """Учёт пересборов — вспомогательный блок: его сбой не должен валить снимок."""
+    try:
+        return [r for r in [
+            revisions_for("yandex", date, lambda d: d.get("summary", {}).get("searchable_pages_count"),
+                          "yandex.indexed_urls"),
+            revisions_for("yandex", prev_date, lambda d: d.get("summary", {}).get("searchable_pages_count"),
+                          "yandex.indexed_urls (базовая линия предыдущего дня)"),
+        ] if r]
+    except Exception:  # noqa: BLE001
+        return []
+
+
+def prev_snapshot(date: str) -> dict | None:
+    """Предыдущий snapshot: из файла, иначе собирается из сырых выгрузок за вчера.
+
+    Единственная точка получения «вчера» для всего конвейера: и проверки
+    качества, и письмо обязаны видеть один и тот же предыдущий снимок — иначе
+    выводы «не обновился» и дельты считались бы от разных данных.
+    """
+    prev_date = (dt.date.fromisoformat(date) - dt.timedelta(days=1)).isoformat()
+    p = OUT_DIR / f"{prev_date}.json"
+    if p.exists():
+        return json.loads(p.read_text(encoding="utf-8"))
+    yx_raw = load("yandex", prev_date)
+    g_raw = load("gsc", prev_date)
+    if not yx_raw and not g_raw:
+        return None
+    return {
+        "report_date": prev_date,
+        "yandex": build_safe("yandex_webmaster", build_yandex, yx_raw, None, prev_date),
+        "google": build_safe("google_search_console", build_google, g_raw, None),
+        "analytics": build_analytics_safe(load("metrika", prev_date),
+                                          load("ga4", prev_date), prev_date),
+    }
+
+
 def main() -> int:
     date = sys.argv[1] if len(sys.argv) > 1 else dt.datetime.now(
         dt.timezone(dt.timedelta(hours=3))).date().isoformat()
@@ -574,17 +766,19 @@ def main() -> int:
         "declared_goals": declared_goals(),
         "goal_levels": goal_levels(),
         "thresholds": THRESHOLDS,
-        "yandex": build_yandex(load("yandex", date), load("yandex", prev_date), date),
-        "google": build_google(load("gsc", date), load("gsc", prev_date)),
-        "analytics": build_analytics(load("metrika", date), load("ga4", date), date),
+        "yandex": build_safe("yandex_webmaster", build_yandex,
+                             load("yandex", date), load("yandex", prev_date), date),
+        "google": build_safe("google_search_console", build_google,
+                             load("gsc", date), load("gsc", prev_date)),
+        "analytics": build_analytics_safe(load("metrika", date), load("ga4", date), date),
+        # Дневная факт-витрина: окна равной длины с фиксированным лагом,
+        # построенные отчётом, а не источником. KPI и дельты письма считаются
+        # отсюда; агрегатные блоки выше остаются для сущностей (запросы,
+        # страницы), где дневные ряды не ведутся.
+        "daily": daily_windows.build(date),
         "experiments": build_experiments(),
         "market_demand": build_market_demand(date),
-        "data_revisions": [r for r in [
-            revisions_for("yandex", date, lambda d: d.get("summary", {}).get("searchable_pages_count"),
-                          "yandex.indexed_urls"),
-            revisions_for("yandex", prev_date, lambda d: d.get("summary", {}).get("searchable_pages_count"),
-                          "yandex.indexed_urls (базовая линия предыдущего дня)"),
-        ] if r],
+        "data_revisions": data_revisions_safe(date, prev_date),
         "crm": {"connected": False, "qualified_leads": None, "deals": None, "revenue": None,
                 "note": "CRM не подключена — квалифицированные лиды, сделки и выручка недоступны"},
         "ctr_model": {"approved": False,

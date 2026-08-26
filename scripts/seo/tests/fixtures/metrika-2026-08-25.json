@@ -1,0 +1,938 @@
+{
+  "date": "2026-08-25",
+  "counter": "110206070",
+  "window": {
+    "from": "2026-08-11",
+    "to": "2026-08-24"
+  },
+  "goals": [
+    {
+      "id": 574981210,
+      "name": "Автоцель: поиск по сайту",
+      "type": "search",
+      "default_price": 0.0,
+      "is_retargeting": 0,
+      "goal_source": "auto",
+      "is_favorite": 0,
+      "status": "Active",
+      "labels": [],
+      "conditions": [
+        {
+          "type": "search",
+          "url": "q,text,query,search"
+        }
+      ]
+    },
+    {
+      "id": 584800925,
+      "name": "Автоцель: заполнил контактные данные",
+      "type": "contact_data",
+      "default_price": 0.0,
+      "is_retargeting": 0,
+      "goal_source": "auto",
+      "is_favorite": 0,
+      "status": "Active",
+      "labels": []
+    },
+    {
+      "id": 584800926,
+      "name": "Автоцель: отправил контактные данные",
+      "type": "contact_data_sent",
+      "default_price": 0.0,
+      "is_retargeting": 0,
+      "goal_source": "auto",
+      "is_favorite": 0,
+      "status": "Active",
+      "labels": []
+    },
+    {
+      "id": 584800927,
+      "name": "Автоцель: отправка формы",
+      "type": "form",
+      "default_price": 0.0,
+      "is_retargeting": 0,
+      "goal_source": "auto",
+      "is_favorite": 0,
+      "status": "Active",
+      "labels": [],
+      "conditions": [],
+      "price_locations": []
+    },
+    {
+      "id": 600411326,
+      "name": "Автоцель: переход в мессенджер",
+      "type": "messenger",
+      "default_price": 0.0,
+      "is_retargeting": 0,
+      "goal_source": "auto",
+      "is_favorite": 0,
+      "status": "Active",
+      "labels": [],
+      "conditions": [
+        {
+          "type": "messenger",
+          "url": "all_messengers"
+        }
+      ]
+    },
+    {
+      "id": 600455503,
+      "name": "Отправлена заявка с формы",
+      "type": "action",
+      "default_price": 0.0,
+      "is_retargeting": 0,
+      "goal_source": "user",
+      "is_favorite": 0,
+      "status": "Active",
+      "labels": [],
+      "conditions": [
+        {
+          "type": "exact",
+          "url": "lead_sent"
+        }
+      ]
+    },
+    {
+      "id": 600455504,
+      "name": "Скачано коммерческое предложение — назвали организацию и ИНН",
+      "type": "action",
+      "default_price": 0.0,
+      "is_retargeting": 0,
+      "goal_source": "user",
+      "is_favorite": 0,
+      "status": "Active",
+      "labels": [],
+      "conditions": [
+        {
+          "type": "exact",
+          "url": "quote_pdf"
+        }
+      ]
+    },
+    {
+      "id": 600455505,
+      "name": "Клик по телефону",
+      "type": "action",
+      "default_price": 0.0,
+      "is_retargeting": 0,
+      "goal_source": "user",
+      "is_favorite": 0,
+      "status": "Active",
+      "labels": [],
+      "conditions": [
+        {
+          "type": "exact",
+          "url": "click_phone"
+        }
+      ]
+    },
+    {
+      "id": 600455506,
+      "name": "Клик по адресу почты",
+      "type": "action",
+      "default_price": 0.0,
+      "is_retargeting": 0,
+      "goal_source": "user",
+      "is_favorite": 0,
+      "status": "Active",
+      "labels": [],
+      "conditions": [
+        {
+          "type": "exact",
+          "url": "click_email"
+        }
+      ]
+    },
+    {
+      "id": 600455507,
+      "name": "Переход в мессенджер",
+      "type": "action",
+      "default_price": 0.0,
+      "is_retargeting": 0,
+      "goal_source": "user",
+      "is_favorite": 0,
+      "status": "Active",
+      "labels": [],
+      "conditions": [
+        {
+          "type": "exact",
+          "url": "click_messenger"
+        }
+      ]
+    },
+    {
+      "id": 600455508,
+      "name": "Товар добавлен в подборку",
+      "type": "action",
+      "default_price": 0.0,
+      "is_retargeting": 0,
+      "goal_source": "user",
+      "is_favorite": 0,
+      "status": "Active",
+      "labels": [],
+      "conditions": [
+        {
+          "type": "exact",
+          "url": "add_to_cart"
+        }
+      ]
+    },
+    {
+      "id": 600455509,
+      "name": "Товар убран из подборки",
+      "type": "action",
+      "default_price": 0.0,
+      "is_retargeting": 0,
+      "goal_source": "user",
+      "is_favorite": 0,
+      "status": "Active",
+      "labels": [],
+      "conditions": [
+        {
+          "type": "exact",
+          "url": "remove_from_cart"
+        }
+      ]
+    },
+    {
+      "id": 600455511,
+      "name": "Открыта подборка",
+      "type": "action",
+      "default_price": 0.0,
+      "is_retargeting": 0,
+      "goal_source": "user",
+      "is_favorite": 0,
+      "status": "Active",
+      "labels": [],
+      "conditions": [
+        {
+          "type": "exact",
+          "url": "view_cart"
+        }
+      ]
+    },
+    {
+      "id": 600455528,
+      "name": "Начато заполнение формы КП",
+      "type": "action",
+      "default_price": 0.0,
+      "is_retargeting": 0,
+      "goal_source": "user",
+      "is_favorite": 0,
+      "status": "Active",
+      "labels": [],
+      "conditions": [
+        {
+          "type": "exact",
+          "url": "begin_checkout"
+        }
+      ]
+    },
+    {
+      "id": 600455529,
+      "name": "Начато заполнение формы заявки",
+      "type": "action",
+      "default_price": 0.0,
+      "is_retargeting": 0,
+      "goal_source": "user",
+      "is_favorite": 0,
+      "status": "Active",
+      "labels": [],
+      "conditions": [
+        {
+          "type": "exact",
+          "url": "form_start"
+        }
+      ]
+    },
+    {
+      "id": 600455546,
+      "name": "Организация выбрана из справочника, реквизиты подставлены",
+      "type": "action",
+      "default_price": 0.0,
+      "is_retargeting": 0,
+      "goal_source": "user",
+      "is_favorite": 0,
+      "status": "Active",
+      "labels": [],
+      "conditions": [
+        {
+          "type": "exact",
+          "url": "company_autofill"
+        }
+      ]
+    },
+    {
+      "id": 600455547,
+      "name": "Открыта карточка товара",
+      "type": "action",
+      "default_price": 0.0,
+      "is_retargeting": 0,
+      "goal_source": "user",
+      "is_favorite": 0,
+      "status": "Active",
+      "labels": [],
+      "conditions": [
+        {
+          "type": "exact",
+          "url": "view_product"
+        }
+      ]
+    },
+    {
+      "id": 600455548,
+      "name": "Открыт лендинг производителя",
+      "type": "action",
+      "default_price": 0.0,
+      "is_retargeting": 0,
+      "goal_source": "user",
+      "is_favorite": 0,
+      "status": "Active",
+      "labels": [],
+      "conditions": [
+        {
+          "type": "exact",
+          "url": "view_vendor_landing"
+        }
+      ]
+    },
+    {
+      "id": 600455549,
+      "name": "Открыта страница назначения ПО",
+      "type": "action",
+      "default_price": 0.0,
+      "is_retargeting": 0,
+      "goal_source": "user",
+      "is_favorite": 0,
+      "status": "Active",
+      "labels": [],
+      "conditions": [
+        {
+          "type": "exact",
+          "url": "view_solution"
+        }
+      ]
+    },
+    {
+      "id": 600455550,
+      "name": "Воспользовались поиском по каталогу",
+      "type": "action",
+      "default_price": 0.0,
+      "is_retargeting": 0,
+      "goal_source": "user",
+      "is_favorite": 0,
+      "status": "Active",
+      "labels": [],
+      "conditions": [
+        {
+          "type": "exact",
+          "url": "search_used"
+        }
+      ]
+    },
+    {
+      "id": 600455551,
+      "name": "Поиск не дал результатов — спрос есть, товара нет",
+      "type": "action",
+      "default_price": 0.0,
+      "is_retargeting": 0,
+      "goal_source": "user",
+      "is_favorite": 0,
+      "status": "Active",
+      "labels": [],
+      "conditions": [
+        {
+          "type": "exact",
+          "url": "search_no_results"
+        }
+      ]
+    },
+    {
+      "id": 600455552,
+      "name": "Заявка не отправилась из-за ошибки",
+      "type": "action",
+      "default_price": 0.0,
+      "is_retargeting": 0,
+      "goal_source": "user",
+      "is_favorite": 0,
+      "status": "Active",
+      "labels": [],
+      "conditions": [
+        {
+          "type": "exact",
+          "url": "lead_error"
+        }
+      ]
+    },
+    {
+      "id": 600455553,
+      "name": "КП не сформировалось из-за ошибки",
+      "type": "action",
+      "default_price": 0.0,
+      "is_retargeting": 0,
+      "goal_source": "user",
+      "is_favorite": 0,
+      "status": "Active",
+      "labels": [],
+      "conditions": [
+        {
+          "type": "exact",
+          "url": "quote_error"
+        }
+      ]
+    }
+  ],
+  "traffic_sources": {
+    "query": {
+      "ids": [
+        110206070
+      ],
+      "dimensions": [
+        "ym:s:lastTrafficSource"
+      ],
+      "metrics": [
+        "ym:s:visits",
+        "ym:s:users",
+        "ym:s:bounceRate",
+        "ym:s:pageDepth",
+        "ym:s:sumGoalReachesAny"
+      ],
+      "sort": [
+        "-ym:s:visits"
+      ],
+      "date1": "2026-08-11",
+      "date2": "2026-08-24",
+      "limit": 100,
+      "offset": 1,
+      "group": "Week",
+      "benchmarks_version": "1786924800000",
+      "benchmarks_sub_industry": "false",
+      "auto_group_size": "1",
+      "exp_bucket_size": "100",
+      "attr_name": "",
+      "funnel_window": "",
+      "benchmarks_quantile": "50",
+      "time_interval": "1SECOND",
+      "intervals": "1",
+      "quantile": "50",
+      "offline_window": "21",
+      "attribution": "CROSS_DEVICE_LAST_SIGNIFICANT",
+      "currency": "RUB",
+      "benchmarks_attribution": "Automatic",
+      "adfox_event_id": "0",
+      "funnel_pattern": ""
+    },
+    "data": [
+      {
+        "dimensions": [
+          {
+            "icon_id": "0",
+            "icon_type": "traffic-source",
+            "name": "Direct traffic",
+            "id": "direct"
+          }
+        ],
+        "metrics": [
+          54.0,
+          49.0,
+          59.25925926,
+          1.55555556,
+          5.0
+        ]
+      },
+      {
+        "dimensions": [
+          {
+            "icon_id": "2",
+            "icon_type": "traffic-source",
+            "name": "Search engine traffic",
+            "id": "organic"
+          }
+        ],
+        "metrics": [
+          36.0,
+          32.0,
+          27.77777778,
+          1.36111111,
+          9.0
+        ]
+      },
+      {
+        "dimensions": [
+          {
+            "icon_id": "-1",
+            "icon_type": "traffic-source",
+            "name": "Internal traffic",
+            "id": "internal"
+          }
+        ],
+        "metrics": [
+          14.0,
+          10.0,
+          28.57142857,
+          3.42857143,
+          0.0
+        ]
+      },
+      {
+        "dimensions": [
+          {
+            "icon_id": "1",
+            "icon_type": "traffic-source",
+            "name": "Link traffic",
+            "id": "referral"
+          }
+        ],
+        "metrics": [
+          3.0,
+          3.0,
+          0.0,
+          1.66666667,
+          2.0
+        ]
+      },
+      {
+        "dimensions": [
+          {
+            "icon_id": "10",
+            "icon_type": "traffic-source",
+            "name": "Messenger traffic",
+            "id": "messenger"
+          }
+        ],
+        "metrics": [
+          1.0,
+          1.0,
+          0.0,
+          2.0,
+          0.0
+        ]
+      }
+    ],
+    "total_rows": 5,
+    "total_rows_rounded": false,
+    "sampled": false,
+    "contains_sensitive_data": false,
+    "sample_share": 1.0,
+    "sample_size": 108,
+    "sample_space": 108,
+    "data_lag": 0,
+    "totals": [
+      108.0,
+      89.0,
+      42.59259259,
+      1.74074074,
+      16.0
+    ],
+    "min": [
+      1.0,
+      1.0,
+      0.0,
+      1.36111111,
+      0.0
+    ],
+    "max": [
+      54.0,
+      49.0,
+      59.25925926,
+      3.42857143,
+      9.0
+    ]
+  },
+  "organic_by_engine": {
+    "query": {
+      "ids": [
+        110206070
+      ],
+      "dimensions": [
+        "ym:s:lastSearchEngineRoot"
+      ],
+      "metrics": [
+        "ym:s:visits",
+        "ym:s:users",
+        "ym:s:bounceRate",
+        "ym:s:sumGoalReachesAny"
+      ],
+      "sort": [
+        "-ym:s:visits"
+      ],
+      "date1": "2026-08-11",
+      "date2": "2026-08-24",
+      "filters": "ym:s:lastTrafficSource=='organic'",
+      "limit": 100,
+      "offset": 1,
+      "group": "Week",
+      "benchmarks_version": "1786924800000",
+      "benchmarks_sub_industry": "false",
+      "auto_group_size": "1",
+      "exp_bucket_size": "100",
+      "attr_name": "",
+      "funnel_window": "",
+      "benchmarks_quantile": "50",
+      "time_interval": "1SECOND",
+      "intervals": "1",
+      "quantile": "50",
+      "offline_window": "21",
+      "attribution": "CROSS_DEVICE_LAST_SIGNIFICANT",
+      "currency": "RUB",
+      "benchmarks_attribution": "Automatic",
+      "adfox_event_id": "0",
+      "funnel_pattern": ""
+    },
+    "data": [
+      {
+        "dimensions": [
+          {
+            "name": "Yandex",
+            "id": "yandex",
+            "favicon": "www.yandex.ru"
+          }
+        ],
+        "metrics": [
+          36.0,
+          32.0,
+          27.77777778,
+          9.0
+        ]
+      }
+    ],
+    "total_rows": 1,
+    "total_rows_rounded": false,
+    "sampled": false,
+    "contains_sensitive_data": false,
+    "sample_share": 1.0,
+    "sample_size": 108,
+    "sample_space": 108,
+    "data_lag": 0,
+    "totals": [
+      36.0,
+      32.0,
+      27.77777778,
+      9.0
+    ],
+    "min": [
+      36.0,
+      32.0,
+      27.77777778,
+      9.0
+    ],
+    "max": [
+      36.0,
+      32.0,
+      27.77777778,
+      9.0
+    ]
+  },
+  "organic_landing_pages": {
+    "query": {
+      "ids": [
+        110206070
+      ],
+      "dimensions": [
+        "ym:s:startURLPath"
+      ],
+      "metrics": [
+        "ym:s:visits",
+        "ym:s:bounceRate",
+        "ym:s:sumGoalReachesAny"
+      ],
+      "sort": [
+        "-ym:s:visits"
+      ],
+      "date1": "2026-08-11",
+      "date2": "2026-08-24",
+      "filters": "ym:s:lastTrafficSource=='organic'",
+      "limit": 100,
+      "offset": 1,
+      "group": "Week",
+      "benchmarks_version": "1786924800000",
+      "benchmarks_sub_industry": "false",
+      "auto_group_size": "1",
+      "exp_bucket_size": "100",
+      "attr_name": "",
+      "funnel_window": "",
+      "benchmarks_quantile": "50",
+      "time_interval": "1SECOND",
+      "intervals": "1",
+      "quantile": "50",
+      "offline_window": "21",
+      "attribution": "CROSS_DEVICE_LAST_SIGNIFICANT",
+      "currency": "RUB",
+      "benchmarks_attribution": "Automatic",
+      "adfox_event_id": "0",
+      "funnel_pattern": ""
+    },
+    "data": [
+      {
+        "dimensions": [
+          {
+            "name": "/product/mrmst-tb5-studio",
+            "favicon": "biz-soft.pro"
+          }
+        ],
+        "metrics": [
+          7.0,
+          14.28571429,
+          0.0
+        ]
+      },
+      {
+        "dimensions": [
+          {
+            "name": "/blog/kak-kupit-zarubezhnoe-po-dlya-yurlica",
+            "favicon": "biz-soft.pro"
+          }
+        ],
+        "metrics": [
+          3.0,
+          0.0,
+          3.0
+        ]
+      },
+      {
+        "dimensions": [
+          {
+            "name": "/vendors/spine",
+            "favicon": "biz-soft.pro"
+          }
+        ],
+        "metrics": [
+          3.0,
+          33.33333333,
+          0.0
+        ]
+      },
+      {
+        "dimensions": [
+          {
+            "name": "/vendors/vegas",
+            "favicon": "biz-soft.pro"
+          }
+        ],
+        "metrics": [
+          3.0,
+          33.33333333,
+          0.0
+        ]
+      },
+      {
+        "dimensions": [
+          {
+            "name": "/product/anthropic-team",
+            "favicon": "biz-soft.pro"
+          }
+        ],
+        "metrics": [
+          2.0,
+          0.0,
+          1.0
+        ]
+      },
+      {
+        "dimensions": [
+          {
+            "name": "/product/sketchup-go",
+            "favicon": "biz-soft.pro"
+          }
+        ],
+        "metrics": [
+          2.0,
+          100.0,
+          0.0
+        ]
+      },
+      {
+        "dimensions": [
+          {
+            "name": "/vendors/autodesk",
+            "favicon": "biz-soft.pro"
+          }
+        ],
+        "metrics": [
+          2.0,
+          0.0,
+          2.0
+        ]
+      },
+      {
+        "dimensions": [
+          {
+            "name": "/vendors/gaea",
+            "favicon": "biz-soft.pro"
+          }
+        ],
+        "metrics": [
+          2.0,
+          100.0,
+          1.0
+        ]
+      },
+      {
+        "dimensions": [
+          {
+            "name": "/vendors/maxon",
+            "favicon": "biz-soft.pro"
+          }
+        ],
+        "metrics": [
+          2.0,
+          0.0,
+          1.0
+        ]
+      },
+      {
+        "dimensions": [
+          {
+            "name": "/product/gaea-indie",
+            "favicon": "biz-soft.pro"
+          }
+        ],
+        "metrics": [
+          1.0,
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "dimensions": [
+          {
+            "name": "/product/rlsn-cc5",
+            "favicon": "biz-soft.pro"
+          }
+        ],
+        "metrics": [
+          1.0,
+          100.0,
+          0.0
+        ]
+      },
+      {
+        "dimensions": [
+          {
+            "name": "/product/spine-essential",
+            "favicon": "biz-soft.pro"
+          }
+        ],
+        "metrics": [
+          1.0,
+          100.0,
+          0.0
+        ]
+      },
+      {
+        "dimensions": [
+          {
+            "name": "/product/unity-pro",
+            "favicon": "biz-soft.pro"
+          }
+        ],
+        "metrics": [
+          1.0,
+          0.0,
+          1.0
+        ]
+      },
+      {
+        "dimensions": [
+          {
+            "name": "/product/zoom-wp-pro",
+            "favicon": "biz-soft.pro"
+          }
+        ],
+        "metrics": [
+          1.0,
+          100.0,
+          0.0
+        ]
+      },
+      {
+        "dimensions": [
+          {
+            "name": "/vendors/coreldraw",
+            "favicon": "biz-soft.pro"
+          }
+        ],
+        "metrics": [
+          1.0,
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "dimensions": [
+          {
+            "name": "/vendors/cursor",
+            "favicon": "biz-soft.pro"
+          }
+        ],
+        "metrics": [
+          1.0,
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "dimensions": [
+          {
+            "name": "/vendors/heygen",
+            "favicon": "biz-soft.pro"
+          }
+        ],
+        "metrics": [
+          1.0,
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "dimensions": [
+          {
+            "name": "/vendors/houdini",
+            "favicon": "biz-soft.pro"
+          }
+        ],
+        "metrics": [
+          1.0,
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "dimensions": [
+          {
+            "name": "/vendors/openai",
+            "favicon": "biz-soft.pro"
+          }
+        ],
+        "metrics": [
+          1.0,
+          0.0,
+          0.0
+        ]
+      }
+    ],
+    "total_rows": 19,
+    "total_rows_rounded": false,
+    "sampled": false,
+    "contains_sensitive_data": false,
+    "sample_share": 1.0,
+    "sample_size": 108,
+    "sample_space": 108,
+    "data_lag": 0,
+    "totals": [
+      36.0,
+      27.77777778,
+      9.0
+    ],
+    "min": [
+      1.0,
+      0.0,
+      0.0
+    ],
+    "max": [
+      7.0,
+      100.0,
+      3.0
+    ]
+  }
+}
