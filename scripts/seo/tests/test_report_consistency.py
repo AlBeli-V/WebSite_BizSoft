@@ -20,7 +20,6 @@ ROOT = pathlib.Path(__file__).resolve().parents[3]
 FIX = pathlib.Path(__file__).resolve().parent / "fixtures"
 sys.path.insert(0, str(ROOT / "scripts" / "seo"))
 DATE = "2026-08-25"
-MINUS = "−"    # знак минуса из textfmt.signed
 ACTIONS = {"roles": {}, "actions": []}
 
 
@@ -61,6 +60,7 @@ class Pipeline(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.s, cls.q, cls.r = load("snapshot"), load("quality"), load("report_v4")
+        cls.inv = load("invariants")
 
     def make_snap(self, yandex=None, gsc=None, metrika=None, ga4=None):
         s = self.s
@@ -85,28 +85,10 @@ class Pipeline(unittest.TestCase):
         b = self.r.assemble(snap, prev, dq, ACTIONS, None)
         html = self.r.html_email(b, {}, cid_mode=False)
         text = self.r.plain_text(b)
-        self.assertEqual(self.invariant_errors(snap, b, html), [])
+        # Единственное определение инвариантов — scripts/seo/invariants.py:
+        # те же правила гоняются и по боевому письму последним шагом сборки.
+        self.assertEqual(self.inv.check(snap, dq, b, html), [])
         return dq, b, html, text
-
-    def invariant_errors(self, snap, b, html) -> list[str]:
-        errs = []
-        for k in b["kpis"]:
-            if k["value"] == "нет данных" and (k["delta"] is not None
-                                               or k.get("relative") is not None):
-                errs.append(f"{k['key']}: дельта или процент при «нет данных»")
-        for s_ in b["signals"]:
-            if s_["delta"].startswith("+") and s_["tone"] == "negative":
-                errs.append(f"{s_['metric']}: положительная дельта с тоном negative")
-            if s_["delta"].startswith(MINUS) and s_["tone"] == "positive":
-                errs.append(f"{s_['metric']}: отрицательная дельта с тоном positive")
-        sources = [snap["yandex"], snap["google"],
-                   snap["analytics"]["metrika"], snap["analytics"]["ga4"]]
-        states = {p["label"]: p["state"] for p in b["pills"]}
-        if any(not x.get("available") for x in sources) and states["ДАННЫЕ"] != "degraded":
-            errs.append("недоступный источник, а здоровье данных не degraded")
-        if "по-прежнему" in html:
-            errs.append("недоказуемое «по-прежнему» в письме")
-        return errs
 
     def snap_pair(self, gsc_cur, gsc_prev):
         """Текущий и предыдущий снимки: Google свой в каждом, остальное — фикстуры."""
