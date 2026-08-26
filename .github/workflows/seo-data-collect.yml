@@ -19,6 +19,7 @@ on:
     paths:
       - ".github/workflows/seo-data-collect.yml"
       - "scripts/seo/collect.py"
+      - "scripts/seo/collect_daily.py"
 
 permissions:
   contents: write
@@ -46,6 +47,19 @@ jobs:
           YANDEX_METRIKA_COUNTER_ID: ${{ secrets.YANDEX_METRIKA_COUNTER_ID }}
           GA4_PROPERTY_ID: ${{ secrets.GA4_PROPERTY_ID }}
         run: python3 scripts/seo/collect.py
+
+      # Дневная факт-витрина (reports/seo/data/daily/): ряды «дата → значение»
+      # без скользящих окон. Первый прогон забирает историю с июня, дальше —
+      # только хвост. Сбой шага виден в статусе прогона, но данные агрегатного
+      # пути уже записаны и уйдут в хранилище (push стоит if: always()).
+      - name: Collect daily series
+        env:
+          GSC_SERVICE_ACCOUNT_JSON: ${{ secrets.GSC_SERVICE_ACCOUNT_JSON }}
+          YANDEX_WEBMASTER_TOKEN: ${{ secrets.YANDEX_WEBMASTER_TOKEN }}
+          YANDEX_METRIKA_TOKEN: ${{ secrets.YANDEX_METRIKA_TOKEN }}
+          YANDEX_METRIKA_COUNTER_ID: ${{ secrets.YANDEX_METRIKA_COUNTER_ID }}
+          GA4_PROPERTY_ID: ${{ secrets.GA4_PROPERTY_ID }}
+        run: python3 scripts/seo/collect_daily.py
 
       - name: Push data
         if: always()
