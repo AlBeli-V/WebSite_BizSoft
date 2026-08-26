@@ -221,8 +221,10 @@ def source_unavailable(name: str, raw: dict | None, error: str | None = None,
 
 
 def build_yandex(raw: dict | None, prev: dict | None, date: str) -> dict:
+    w = (raw or {}).get("window") or {}
     if not raw or raw.get("error"):
-        return source_unavailable("yandex_webmaster", raw)
+        return source_unavailable("yandex_webmaster", raw, None,
+                                  w.get("from"), w.get("to"))
     pq = raw.get("popular_queries") or {}
     # Частичная ошибка: сборщик кладёт {'error': ...} вместо среза. Прежде такой
     # срез давал пустой список запросов, и в письмо уходил честный на вид ноль
@@ -234,7 +236,8 @@ def build_yandex(raw: dict | None, prev: dict | None, date: str) -> dict:
                     if isinstance(v, dict) and v.get("error")), None)
     if partial:
         return source_unavailable("yandex_webmaster", raw, partial,
-                                  pq.get("date_from"), pq.get("date_to"))
+                                  pq.get("date_from") or w.get("from"),
+                                  pq.get("date_to") or w.get("to"))
     p_from, p_to = pq.get("date_from"), pq.get("date_to")
     prev_pq = (prev or {}).get("popular_queries", {})
     entities = []
@@ -257,6 +260,14 @@ def build_yandex(raw: dict | None, prev: dict | None, date: str) -> dict:
             "sample_size": int(shows) if shows is not None else None,
             "confidence": confidence(int(shows) if shows is not None else None),
         })
+    # «Пустой успех»: источник заявил count запросов, но не отдал ни одного.
+    # Нулевая сумма по пустому списку читалась бы как измеренный ноль показов.
+    # count == 0 при этом остаётся честным нулём: у хоста нет запросов.
+    if not entities and (pq.get("count") or 0) > 0:
+        return source_unavailable(
+            "yandex_webmaster", raw,
+            f"запросы заявлены источником (count={pq.get('count')}), но не получены",
+            pq.get("date_from") or w.get("from"), pq.get("date_to") or w.get("to"))
     impressions = sum(e["impressions"] or 0 for e in entities)
     clicks = sum(e["clicks"] or 0 for e in entities)
     in_top10 = [e for e in entities if e["average_position"] is not None
@@ -349,6 +360,12 @@ def build_google(raw: dict | None, prev: dict | None) -> dict:
         return source_unavailable("google_search_console", raw,
                                   failed or "ответ без блока analytics")
     rows = a.get("date", {}).get("rows", [])
+    # «Пустой успех»: 200 без единой строки за 28 дней. Методика (проверка
+    # API_ERROR_AS_ZERO) трактует такой ноль как отсутствие замера, а не как
+    # измеренный ноль, — snapshot закрывает его до публикации нулей в письме.
+    if not rows:
+        return source_unavailable("google_search_console", raw,
+                                  "ответ без ошибки и без строк за период")
     daily = calendar_series(rows)
     latest = daily[-1]["date"] if daily else None
     last7, prev7 = daily[-7:], daily[-14:-7]
@@ -391,6 +408,12 @@ def build_google(raw: dict | None, prev: dict | None) -> dict:
             "window_days": len(daily),
             "impressions_last7": sum(d["impressions"] for d in last7),
             "impressions_prev7": sum(d["impressions"] for d in prev7),
+            # Длины окон: при молодой или отстающей выгрузке daily короче 14
+            # дней, и «предыдущая неделя» — не неделя. Сравнение окон разной
+            # длины не публикуется — по той же причине, что и у Яндекса
+            # (WINDOW_LENGTH_MISMATCH).
+            "last7_days": len(last7),
+            "prev7_days": len(prev7),
             "last7_start": last7[0]["date"] if last7 else None,
             "last7_end": last7[-1]["date"] if last7 else None,
             "prev7_start": prev7[0]["date"] if prev7 else None,
@@ -417,6 +440,11 @@ def metrika_partial_error(raw: dict) -> str | None:
     goals = raw.get("goals")
     if isinstance(goals, dict):     # при ошибке вместо списка целей лежит {'error': ...}
         return f"срез goals: {goals.get('error', 'срез отсутствует')}"
+    # «Пустой успех»: итог заявляет визиты, а строк по источникам нет — из
+    # такого среза органика посчиталась бы нулём при ненулевом трафике.
+    ts_blk = raw["traffic_sources"]
+    if not ts_blk.get("data") and ((ts_blk.get("totals") or [0])[0] or 0) > 0:
+        return "срез traffic_sources: строки отсутствуют при ненулевом итоге визитов"
     return None
 
 
@@ -432,6 +460,11 @@ def ga4_partial_error(raw: dict) -> str | None:
         if not isinstance(blk, dict) or blk.get("error"):
             err = (blk.get("error") if isinstance(blk, dict) else None) or "срез отсутствует"
             return f"срез {key}: {err}"
+    # «Пустой успех» среза каналов: без единой строки сумма сессий стала бы
+    # нулём при available: true. Пустые organic-срезы при этом допустимы:
+    # отсутствие органических сессий — измеримый ноль.
+    if not (raw.get("channels") or {}).get("rows"):
+        return "срез channels: ответ без ошибки и без строк"
     return None
 
 
@@ -447,7 +480,10 @@ def build_analytics(metrika: dict | None, ga4: dict | None, date: str) -> dict:
     else:
         ts = {r["dimensions"][0]["name"]: r["metrics"] for r in metrika["traffic_sources"]["data"]}
         tot = metrika["traffic_sources"].get("totals") or [None] * 5
-        org = ts.get("Search engine traffic", [None] * 5)
+        # Отсутствие строки органики в успешном срезе — измеренный ноль, а не
+        # «нет данных»: Метрика не отдаёт строки по источникам без визитов.
+        # None здесь показал бы «нет данных» при доказанном источником нуле.
+        org = ts.get("Search engine traffic", [0, 0, 0, 0, 0])
         lp = [{"entity_id": r["dimensions"][0]["name"], "visits": r["metrics"][0],
                "bounce_rate": r["metrics"][1], "goal_events": r["metrics"][2]}
               for r in metrika["organic_landing_pages"]["data"]]
@@ -546,6 +582,34 @@ def build_analytics(metrika: dict | None, ga4: dict | None, date: str) -> dict:
     return out
 
 
+def build_safe(name: str, build, raw: dict | None, *args) -> dict:
+    """MALFORMED-страховка: неожиданный формат выгрузки — «нет данных», а не
+    падение всей сборки. Известные формы ошибок разобраны выше по коду; здесь
+    ловится то, чего разбор не предвидел (сменившаяся схема ответа, обрезанный
+    файл), — иначе один изменившийся источник снова лишал бы дня письма."""
+    try:
+        return build(raw, *args)
+    except Exception as e:  # noqa: BLE001 — любой сбой разбора = недоступный источник
+        return source_unavailable(
+            name, raw if isinstance(raw, dict) else None,
+            f"формат выгрузки не соответствует ожиданиям: {type(e).__name__}: {e}")
+
+
+def build_analytics_safe(metrika: dict | None, ga4: dict | None, date: str) -> dict:
+    """Та же страховка для составного блока аналитики."""
+    try:
+        return build_analytics(metrika, ga4, date)
+    except Exception as e:  # noqa: BLE001
+        reason = f"формат выгрузки не соответствует ожиданиям: {type(e).__name__}: {e}"
+        return {
+            "metrika": source_unavailable(
+                "yandex_metrika", metrika if isinstance(metrika, dict) else None, reason),
+            "ga4": source_unavailable(
+                "ga4", ga4 if isinstance(ga4, dict) else None, reason),
+            "intra_day_revisions": [],
+        }
+
+
 SEMANTICS_DIR = pathlib.Path("reports/seo/semantics")
 DEMAND_STALE_DAYS = 45      # старше — замер считается устаревшим
 
@@ -636,6 +700,19 @@ def build_experiments() -> list[dict]:
     return out
 
 
+def data_revisions_safe(date: str, prev_date: str) -> list[dict]:
+    """Учёт пересборов — вспомогательный блок: его сбой не должен валить снимок."""
+    try:
+        return [r for r in [
+            revisions_for("yandex", date, lambda d: d.get("summary", {}).get("searchable_pages_count"),
+                          "yandex.indexed_urls"),
+            revisions_for("yandex", prev_date, lambda d: d.get("summary", {}).get("searchable_pages_count"),
+                          "yandex.indexed_urls (базовая линия предыдущего дня)"),
+        ] if r]
+    except Exception:  # noqa: BLE001
+        return []
+
+
 def main() -> int:
     date = sys.argv[1] if len(sys.argv) > 1 else dt.datetime.now(
         dt.timezone(dt.timedelta(hours=3))).date().isoformat()
@@ -649,17 +726,14 @@ def main() -> int:
         "declared_goals": declared_goals(),
         "goal_levels": goal_levels(),
         "thresholds": THRESHOLDS,
-        "yandex": build_yandex(load("yandex", date), load("yandex", prev_date), date),
-        "google": build_google(load("gsc", date), load("gsc", prev_date)),
-        "analytics": build_analytics(load("metrika", date), load("ga4", date), date),
+        "yandex": build_safe("yandex_webmaster", build_yandex,
+                             load("yandex", date), load("yandex", prev_date), date),
+        "google": build_safe("google_search_console", build_google,
+                             load("gsc", date), load("gsc", prev_date)),
+        "analytics": build_analytics_safe(load("metrika", date), load("ga4", date), date),
         "experiments": build_experiments(),
         "market_demand": build_market_demand(date),
-        "data_revisions": [r for r in [
-            revisions_for("yandex", date, lambda d: d.get("summary", {}).get("searchable_pages_count"),
-                          "yandex.indexed_urls"),
-            revisions_for("yandex", prev_date, lambda d: d.get("summary", {}).get("searchable_pages_count"),
-                          "yandex.indexed_urls (базовая линия предыдущего дня)"),
-        ] if r],
+        "data_revisions": data_revisions_safe(date, prev_date),
         "crm": {"connected": False, "qualified_leads": None, "deals": None, "revenue": None,
                 "note": "CRM не подключена — квалифицированные лиды, сделки и выручка недоступны"},
         "ctr_model": {"approved": False,

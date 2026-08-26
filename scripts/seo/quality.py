@@ -120,6 +120,28 @@ def run_checks(snap: dict, prev: dict | None = None) -> dict:
             "Показатели источника публикуются как «нет данных», а не ноль; "
             "дельты и сравнения по нему не публикуются.")
 
+    # 0б. Источник доступен, но не обновился: latest_event_date не сдвинулась.
+    #
+    # Третье состояние из триады «нет выгрузки / ошибка / не обновился»:
+    # данные есть и они валидны, но повторяют предыдущий сбор. Их изменение
+    # публиковать как новость нельзя — это одно наблюдение, поданное дважды.
+    prev_an = (prev or {}).get("analytics") or {}
+    for label, cur_b, prev_b in (
+            ("Яндекс.Вебмастер", yx, (prev or {}).get("yandex") or {}),
+            ("Google Search Console", g, (prev or {}).get("google") or {}),
+            ("Яндекс.Метрика", an.get("metrika") or {}, prev_an.get("metrika") or {}),
+            ("GA4", an.get("ga4") or {}, prev_an.get("ga4") or {})):
+        if not (cur_b.get("available") and prev_b.get("available")):
+            continue
+        cur_last = (cur_b.get("source") or {}).get("latest_event_date")
+        prev_last = (prev_b.get("source") or {}).get("latest_event_date")
+        if cur_last and cur_last == prev_last:
+            add("info", "SOURCE_NOT_UPDATED",
+                f"{label}: данные не обновились",
+                f"Последняя дата события прежняя — {cur_last}.",
+                "Значения повторяют предыдущий сбор; их совпадение с вчерашними "
+                "не является новым наблюдением и не подаётся как новость.")
+
     # 1. Скользящее окно Яндекса: сравнение периодов пересекается
     if yx.get("available"):
         s = yx["source"]

@@ -95,6 +95,11 @@ def words(*parts: str) -> int:
 
 def search_status(snap: dict, prev: dict | None) -> str:
     """positive | mixed | negative | stable | unknown — по знакам изменений доступных систем."""
+    # Без единого доступного источника поиска статус неизвестен независимо от
+    # наличия предыдущего снимка: «без изменений» утверждало бы измерение,
+    # которого не было.
+    if not (snap["yandex"].get("available") or snap["google"].get("available")):
+        return "unknown"
     if not prev:
         return "stable"
     signs = []
@@ -180,12 +185,18 @@ def kpi_cards(snap: dict, prev: dict | None, dq: dict) -> list[dict]:
              "period": f"{ru_date(y_block['source']['current_period_start'])}–"
                        f"{ru_date(y_block['source']['current_period_end'])}",
              "source": "Яндекс.Вебмастер, выборка топ-100 запросов",
-             "confidence": "достаточная",
+             # Достоверность — из порога методики, а не константой.
+             "confidence": ("достаточная"
+                            if (yt["impressions"] or 0) >= snap["thresholds"]["low_impressions"]
+                            else "низкая, малые числа"),
              "interpretation": (f"В среднем {num(per_day)} показов в день за {days} дн. "
                                 if per_day else "") +
                                f"На первой странице {yt['queries_position_le_10']} из "
-                               f"{yt['queries_tracked']} запросов выборки, "
-                               f"{signed(top_delta)} к вчера. "
+                               f"{yt['queries_tracked']} запросов выборки" +
+                               # Без предыдущего замера фраза «к вчера» не имеет
+                               # правой части — сравнение просто не называется.
+                               (f", {signed(top_delta)} к вчера. "
+                                if top_delta is not None else ". ") +
                                f"CTR выборки {pct(sample.get('value'), 2)} — "
                                f"{sample.get('caveat', '')}.",
              "muted": False, "sparkline": None})
@@ -196,29 +207,50 @@ def kpi_cards(snap: dict, prev: dict | None, dq: dict) -> list[dict]:
     if g_block.get("available"):
         gt = g_block["totals"]
         daily = [d["impressions"] for d in (g_block.get("daily") or [])][-14:]
+        # Сравнение недель публикуется только при двух полных окнах: у молодой
+        # или отстающей выгрузки «предыдущая неделя» короче семи дней, и
+        # разность окон разной длины — не изменение видимости (тот же принцип,
+        # что WINDOW_LENGTH_MISMATCH у Яндекса). Старые снимки без полей
+        # длины считаются полными.
+        full_weeks = (gt.get("last7_days", 7) == 7 and gt.get("prev7_days", 7) == 7)
+        d7 = (gt["impressions_last7"] - gt["impressions_prev7"]) if full_weeks else None
+        # Утверждение о переходах выводится из измеренных кликов, а не
+        # константой: зашитое «переходов нет» становится ложью в первый же
+        # день с кликом. «Пока нет» — только при доказанном источником нуле.
+        clicks_window = gt.get("clicks_window")
+        interpretation = (f"Переходы из Google за окно: {num(clicks_window)}."
+                          if clicks_window else
+                          "Переходов из Google пока нет." if clicks_window == 0 else
+                          "Число переходов из Google в этой выгрузке не измерено.")
         cards.append(
             {"key": "google", "label": "Видимость в Google",
              "value": num(gt["impressions_last7"]), "unit": "показов за неделю",
-             "delta": signed(gt["impressions_last7"] - gt["impressions_prev7"]),
-             "delta_dir": _dir(gt["impressions_last7"] - gt["impressions_prev7"]),
+             "delta": signed(d7) if d7 is not None else None,
+             "delta_dir": _dir(d7) if d7 is not None else None,
              # Процент при малой базе — это шум, поданный как результат. Рост с 19
              # до 38 показов даёт «+100,0 %», хотя при пуассоновском разбросе
              # такая разница ожидаема. Абсолютные числа остаются, процент — нет.
-             "relative": (signed_pct((gt["impressions_last7"] - gt["impressions_prev7"])
-                                     / gt["impressions_prev7"])
-                          if gt["impressions_prev7"] >= LOW_BASE else None),
-             "relative_note": "низкая база: десятки показов",
+             "relative": (signed_pct(d7 / gt["impressions_prev7"])
+                          if d7 is not None and gt["impressions_prev7"] >= LOW_BASE
+                          else None),
+             "relative_note": ("низкая база: десятки показов" if full_weeks else
+                               f"окна сравнения неполные "
+                               f"({gt.get('last7_days')} и {gt.get('prev7_days')} дн.) — "
+                               f"дельта не публикуется"),
              "period": f"{ru_date(gt['last7_start'])}–{ru_date(gt['last7_end'])} "
                        f"против {ru_date(gt['prev7_start'])}–{ru_date(gt['prev7_end'])}",
              "source": "Google Search Console, весь сайт",
              "confidence": ("данные не обновились с прошлого отчёта"
-                            if source_stale(snap, prev, "google") else "низкая, малые числа"),
-             "interpretation": "Переходов из Google по-прежнему нет.",
+                            if source_stale(snap, prev, "google") else
+                            "низкая, малые числа"
+                            if gt["impressions_last7"] < snap["thresholds"]["low_impressions"]
+                            else "достаточная"),
+             "interpretation": interpretation,
              "muted": False,
              "sparkline": daily if len(daily) > 2 else None,
-             "slope": {"prev_label": "пред. неделя", "prev": gt["impressions_prev7"],
-                       "cur_label": "эта неделя", "cur": gt["impressions_last7"],
-                       "label": "Показы Google за неделю"}})
+             **({"slope": {"prev_label": "пред. неделя", "prev": gt["impressions_prev7"],
+                           "cur_label": "эта неделя", "cur": gt["impressions_last7"],
+                           "label": "Показы Google за неделю"}} if full_weeks else {})})
     else:
         cards.append(_no_data_card("google", "Видимость в Google", "показов за неделю",
                                    g_block, "Google Search Console, весь сайт"))
@@ -232,7 +264,9 @@ def kpi_cards(snap: dict, prev: dict | None, dq: dict) -> list[dict]:
              "period": f"{ru_date(m['source']['current_period_start'])}–"
                        f"{ru_date(m['source']['current_period_end'])}",
              "source": "Яндекс.Метрика, весь сайт",
-             "confidence": "достаточная",
+             "confidence": ("достаточная"
+                            if (m.get("organic_visits") or 0) >= snap["thresholds"]["low_visits"]
+                            else "низкая, малые числа"),
              "interpretation": "Люди, пришедшие на сайт из поиска: весь сайт, "
                                "все поисковые системы.",
              "muted": False, "sparkline": None})
@@ -350,30 +384,61 @@ def signals(snap: dict, prev: dict | None) -> list[dict]:
     out = []
     if snap["google"].get("available") and prev["google"].get("available"):
         gt = snap["google"]["totals"]
-        d = gt["impressions_last7"] - gt["impressions_prev7"]
+        full_weeks = (gt.get("last7_days", 7) == 7 and gt.get("prev7_days", 7) == 7)
         stale = source_stale(snap, prev, "google")
+        # Тон и текст выводятся из знака изменения, а не задаются константой:
+        # зашитое «positive / стали показываться чаще» выдавало бы падение за
+        # рост. Сбой источника (unavailable) сюда не доходит — сигнал строится
+        # только по источникам, доступным в обоих снимках.
+        if stale:
+            d, tone = None, "neutral"
+            meaning = (f"Google не отдал новых данных: последний день выгрузки прежний — "
+                       f"{ru_date(snap['google']['source']['latest_event_date'])}. "
+                       "Значение повторяет вчерашнее и новым наблюдением не является.")
+        elif not full_weeks:
+            d, tone = None, "neutral"
+            meaning = (f"Окна сравнения неполные ({gt.get('last7_days')} и "
+                       f"{gt.get('prev7_days')} дн.) — изменение не публикуется.")
+        else:
+            d = gt["impressions_last7"] - gt["impressions_prev7"]
+            tone = "positive" if d > 0 else ("negative" if d < 0 else "neutral")
+            if gt["impressions_prev7"] == 0 and gt["impressions_last7"] > 0:
+                # Переход с нулевой базы: не «рост на ∞%», а появление показов.
+                meaning = "Появились показы в Google: на прошлой неделе их не было."
+            elif d > 0:
+                meaning = "Страницы сайта стали показываться чаще."
+            elif d < 0:
+                meaning = "Страницы сайта стали показываться реже."
+            else:
+                meaning = "Число показов за неделю не изменилось."
         out.append({
-            "tone": "neutral" if stale else "positive",
+            "tone": tone,
             "metric": "Показы в Google за неделю",
             "current": num(gt["impressions_last7"]), "previous": num(gt["impressions_prev7"]),
             "delta": delta_text(d),
             "confidence": ("данные не обновились с прошлого отчёта" if stale
-                           else "низкая, база в десятки показов"),
-            "meaning": (f"Google не отдал новых данных: последний день выгрузки прежний — "
-                        f"{ru_date(snap['google']['source']['latest_event_date'])}. "
-                        "Значение повторяет вчерашнее и новым наблюдением не является."
-                        if stale else
-                        "Страницы сайта стали показываться чаще; переходов это пока не дало.")})
+                           else "низкая, база в десятки показов"
+                           if gt["impressions_prev7"] < LOW_BASE else "достаточная"),
+            "meaning": meaning})
 
     if snap["yandex"].get("available") and prev["yandex"].get("available"):
         yt, yp = snap["yandex"]["totals"], prev["yandex"]["totals"]
         idx = snap["yandex"]["indexation"]["indexed_urls"]
         pidx = prev["yandex"]["indexation"]["indexed_urls"]
+        # Индексация в одном из сборов может быть не измерена (None):
+        # разность не считается, а текст не утверждает «не изменился».
+        d_idx = (idx - pidx) if idx is not None and pidx is not None else None
         out.append({
-            "tone": "neutral", "metric": "Страницы в поиске Яндекса",
-            "current": num(idx), "previous": num(pidx), "delta": delta_text(idx - pidx),
-            "confidence": "достаточная",
-            "meaning": "Объём проиндексированного сайта не изменился."})
+            "tone": ("neutral" if not d_idx else
+                     "positive" if d_idx > 0 else "negative"),
+            "metric": "Страницы в поиске Яндекса",
+            "current": num(idx), "previous": num(pidx), "delta": delta_text(d_idx),
+            "confidence": "достаточная" if d_idx is not None else "нет данных для сравнения",
+            "meaning": ("Число страниц в поиске в одном из сборов не измерено — "
+                        "сравнение не публикуется." if d_idx is None else
+                        "Объём проиндексированного сайта не изменился." if d_idx == 0 else
+                        "В поиске стало больше страниц сайта." if d_idx > 0 else
+                        "Часть страниц выпала из поиска Яндекса.")})
 
         td = yt["queries_position_le_10"] - yp["queries_position_le_10"]
         out.append({
@@ -382,8 +447,13 @@ def signals(snap: dict, prev: dict | None) -> list[dict]:
             "current": num(yt["queries_position_le_10"]),
             "previous": num(yp["queries_position_le_10"]), "delta": delta_text(td),
             "confidence": "достаточная",
-            "meaning": "Яндекс в целом стабилен, внутри выборки есть умеренное снижение."
-                       if td < 0 else "Внутри выборки прибавилось запросов на первой странице."})
+            # Про «Яндекс в целом» этот сигнал ничего не доказывает — говорим
+            # только о том, что измерено: составе выборки на первой странице.
+            "meaning": ("Внутри выборки стало меньше запросов на первой странице."
+                        if td < 0 else
+                        "Внутри выборки прибавилось запросов на первой странице."
+                        if td > 0 else
+                        "Число запросов выборки на первой странице не изменилось.")})
     return out[:3]
 
 
