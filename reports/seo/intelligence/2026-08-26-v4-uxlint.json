@@ -1,22 +1,22 @@
 {
  "date": "2026-08-26",
- "passed": true,
+ "passed": false,
  "counts": {
   "total": 26,
-  "failed": 0
+  "failed": 1
  },
- "visible_words": 996,
- "first_screen_words": 164,
+ "visible_words": 1012,
+ "first_screen_words": 180,
  "checks": [
   {
    "check": "visible_words",
-   "ok": true,
-   "detail": "996 слов при пределе 1000"
+   "ok": false,
+   "detail": "1012 слов при пределе 1000"
   },
   {
    "check": "first_screen_words",
    "ok": true,
-   "detail": "164 слов на первом экране при пределе 250"
+   "detail": "180 слов на первом экране при пределе 250"
   },
   {
    "check": "kpi_limit",
@@ -81,7 +81,7 @@
   {
    "check": "no_duplicate_fact",
    "ok": true,
-   "detail": "повторы: {'оговорка про охват': 0, 'отсутствие CRM': 2, 'низкая база Google': 2, 'рано для вывода': 0}; сверх лимита: нет"
+   "detail": "повторы: {'оговорка про охват': 0, 'отсутствие CRM': 1, 'низкая база Google': 2, 'рано для вывода': 0}; сверх лимита: нет"
   },
   {
    "check": "no_unsupported_causal",
