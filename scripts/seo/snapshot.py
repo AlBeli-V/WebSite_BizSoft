@@ -203,17 +203,20 @@ def source_meta(name, collected_at, latest_event, p_start, p_end, cmp_start, cmp
 
 def source_unavailable(name: str, raw: dict | None, error: str | None = None,
                        p_start: str | None = None, p_end: str | None = None,
-                       filters: dict | None = None) -> dict:
+                       filters: dict | None = None, status: str | None = None) -> dict:
     """Блок источника, не отдавшего данные.
 
-    Статус различает два разных состояния: «выгрузки нет» (missing — сбор не
-    запускался или файл не доехал) и «источник вернул ошибку» (error — сбор
-    прошёл, но API ответил отказом). Оба отличаются от третьего состояния,
-    «источник не обновился», при котором данные есть, но latest_event_date не
-    сдвинулась, — его письмо распознаёт само по source_meta. Смешивать эти
-    состояния нельзя: чинятся они в разных местах.
+    Канонические статусы (см. docs/seo/reporting-methodology.md):
+      missing   — выгрузки нет (сбор не запускался или файл не доехал);
+      error     — источник вернул ошибку (включая ошибку отдельного среза);
+      empty     — формально успешный ответ без единой строки данных;
+      malformed — формат выгрузки не соответствует ожиданиям.
+    Все четыре отличаются от пятого состояния, «источник не обновился», при
+    котором данные есть, но latest_event_date не сдвинулась, — его фиксирует
+    проверка качества SOURCE_NOT_UPDATED. Смешивать состояния нельзя: чинятся
+    они в разных местах.
     """
-    status = "missing" if raw is None else "error"
+    status = status or ("missing" if raw is None else "error")
     msg = error or (raw or {}).get("error") or "выгрузка отсутствует"
     return {"available": False, "error": msg,
             "source": source_meta(name, (raw or {}).get("date"), None,
@@ -267,7 +270,8 @@ def build_yandex(raw: dict | None, prev: dict | None, date: str) -> dict:
         return source_unavailable(
             "yandex_webmaster", raw,
             f"запросы заявлены источником (count={pq.get('count')}), но не получены",
-            pq.get("date_from") or w.get("from"), pq.get("date_to") or w.get("to"))
+            pq.get("date_from") or w.get("from"), pq.get("date_to") or w.get("to"),
+            status="empty")
     impressions = sum(e["impressions"] or 0 for e in entities)
     clicks = sum(e["clicks"] or 0 for e in entities)
     in_top10 = [e for e in entities if e["average_position"] is not None
@@ -365,7 +369,8 @@ def build_google(raw: dict | None, prev: dict | None) -> dict:
     # измеренный ноль, — snapshot закрывает его до публикации нулей в письме.
     if not rows:
         return source_unavailable("google_search_console", raw,
-                                  "ответ без ошибки и без строк за период")
+                                  "ответ без ошибки и без строк за период",
+                                  status="empty")
     daily = calendar_series(rows)
     latest = daily[-1]["date"] if daily else None
     last7, prev7 = daily[-7:], daily[-14:-7]
@@ -598,7 +603,8 @@ def build_safe(name: str, build, raw: dict | None, *args) -> dict:
     except Exception as e:  # noqa: BLE001 — любой сбой разбора = недоступный источник
         return source_unavailable(
             name, raw if isinstance(raw, dict) else None,
-            f"формат выгрузки не соответствует ожиданиям: {type(e).__name__}: {e}")
+            f"формат выгрузки не соответствует ожиданиям: {type(e).__name__}: {e}",
+            status="malformed")
 
 
 def build_analytics_safe(metrika: dict | None, ga4: dict | None, date: str) -> dict:
@@ -609,9 +615,11 @@ def build_analytics_safe(metrika: dict | None, ga4: dict | None, date: str) -> d
         reason = f"формат выгрузки не соответствует ожиданиям: {type(e).__name__}: {e}"
         return {
             "metrika": source_unavailable(
-                "yandex_metrika", metrika if isinstance(metrika, dict) else None, reason),
+                "yandex_metrika", metrika if isinstance(metrika, dict) else None, reason,
+                status="malformed"),
             "ga4": source_unavailable(
-                "ga4", ga4 if isinstance(ga4, dict) else None, reason),
+                "ga4", ga4 if isinstance(ga4, dict) else None, reason,
+                status="malformed"),
             "intra_day_revisions": [],
         }
 
@@ -717,6 +725,30 @@ def data_revisions_safe(date: str, prev_date: str) -> list[dict]:
         ] if r]
     except Exception:  # noqa: BLE001
         return []
+
+
+def prev_snapshot(date: str) -> dict | None:
+    """Предыдущий snapshot: из файла, иначе собирается из сырых выгрузок за вчера.
+
+    Единственная точка получения «вчера» для всего конвейера: и проверки
+    качества, и письмо обязаны видеть один и тот же предыдущий снимок — иначе
+    выводы «не обновился» и дельты считались бы от разных данных.
+    """
+    prev_date = (dt.date.fromisoformat(date) - dt.timedelta(days=1)).isoformat()
+    p = OUT_DIR / f"{prev_date}.json"
+    if p.exists():
+        return json.loads(p.read_text(encoding="utf-8"))
+    yx_raw = load("yandex", prev_date)
+    g_raw = load("gsc", prev_date)
+    if not yx_raw and not g_raw:
+        return None
+    return {
+        "report_date": prev_date,
+        "yandex": build_safe("yandex_webmaster", build_yandex, yx_raw, None, prev_date),
+        "google": build_safe("google_search_console", build_google, g_raw, None),
+        "analytics": build_analytics_safe(load("metrika", prev_date),
+                                          load("ga4", prev_date), prev_date),
+    }
 
 
 def main() -> int:

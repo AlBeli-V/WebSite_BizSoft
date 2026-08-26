@@ -51,22 +51,10 @@ def rel(d):
 
 
 def prev_snapshot(date: str) -> dict | None:
-    """Предыдущий snapshot: из файла, иначе собирается из сырых выгрузок за вчера."""
-    prev_date = (dt.date.fromisoformat(date) - dt.timedelta(days=1)).isoformat()
-    p = BASE / "snapshots" / f"{prev_date}.json"
-    if p.exists():
-        return json.loads(p.read_text(encoding="utf-8"))
-    yx_raw = snap_mod.load("yandex", prev_date)
-    g_raw = snap_mod.load("gsc", prev_date)
-    if not yx_raw and not g_raw:
-        return None
-    return {
-        "report_date": prev_date,
-        "yandex": snap_mod.build_yandex(yx_raw, None, prev_date),
-        "google": snap_mod.build_google(g_raw, None),
-        "analytics": snap_mod.build_analytics(snap_mod.load("metrika", prev_date),
-                                              snap_mod.load("ga4", prev_date), prev_date),
-    }
+    """Предыдущий snapshot. Логика переехала в snapshot.prev_snapshot —
+    единственную точку получения «вчера» для всего конвейера; здесь остаётся
+    обёртка ради существующих вызовов."""
+    return snap_mod.prev_snapshot(date)
 
 
 def compute_statuses(snap, prev, dq):
