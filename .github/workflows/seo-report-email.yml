@@ -1,11 +1,12 @@
-# КОПИЯ ИЗ MAIN. Push-триггер срабатывает только если файл workflow есть
-# в самой пушенной ветке, поэтому в ветке-хранилище seo-data лежит копия.
-# Источник истины — .github/workflows/ в main: правки вносить там и
-# копировать сюда тем же коммитом (см. reports/seo/README.md).
 # Отправка ежедневного письма BIZSoft Growth Intelligence (V4) на почту
 # после пуша отчёта в ветку-хранилище seo-data. Отправитель — ящик hello@biz-soft.pro
 # (SMTP reg.ru, 465/SSL), пароль — repo-секрет SMTP_PASS (тот же, что в ops-mail).
 # Ручной запуск: workflow_dispatch (шлёт последний по дате отчёт).
+#
+# Фолбэка на письма прежних поколений (v3/v2) больше нет: они не генерируются
+# с 19.08.2026, и их отправка выдавала бы недельной давности данные за свежие.
+# Вместо этого сторожевой запуск по расписанию: если к контрольному времени
+# письма за сегодня нет — уходит короткое уведомление о сбое сборки.
 
 name: seo-report-email
 
@@ -15,11 +16,11 @@ on:
       - seo-data
     paths:
       - "reports/seo/intelligence/*-v4-email.html"
-      - "reports/seo/intelligence/*-executive-email.html"
-      - "reports/seo/intelligence/*-executive.html"
-      - "reports/seo/2*.md"
-      - "reports/seo/2*.html"
       - ".github/workflows/seo-report-email.yml"
+  schedule:
+    # 07:00 UTC = 10:00 МСК — контроль: письмо за сегодня должно быть уже
+    # отправлено (сбор в 05:40 МСК, сборка письма — утренним конвейером).
+    - cron: "0 7 * * *"
   workflow_dispatch:
 
 permissions:
@@ -33,32 +34,53 @@ jobs:
         with:
           ref: seo-data
 
-      # Одно письмо на одну дату отчёта. Повторный push тех же файлов (гонка
-      # прогонов, ручной перезапуск) без этой защиты отправлял то же письмо
-      # ещё раз. Ручной workflow_dispatch маркер игнорирует — явная
-      # переотправка остаётся возможной.
-      - name: Skip if already mailed
+      # Режим запуска: send | notice | skip.
+      #
+      # Одно письмо на одну дату отчёта: повторный push тех же файлов (гонка
+      # прогонов, ручной перезапуск) без маркера last-mailed отправлял то же
+      # письмо ещё раз. Ручной workflow_dispatch маркер игнорирует — явная
+      # переотправка остаётся возможной. Уведомление о сбое тоже одно на дату
+      # (маркер last-notice): сторожевой запуск раз в сутки.
+      - name: Choose mode
         id: guard
         run: |
+          today=$(TZ=Europe/Moscow date +%F)
           latest=$(ls reports/seo/intelligence/*-v4-email.html 2>/dev/null | sort | tail -1)
-          date=$(basename "$latest" | sed 's/-v4-email.html//')
+          date=$(basename "$latest" 2>/dev/null | sed 's/-v4-email.html//')
           mailed=$(cat reports/seo/intelligence/last-mailed.txt 2>/dev/null || echo "")
+          noticed=$(cat reports/seo/intelligence/last-notice.txt 2>/dev/null || echo "")
           echo "date=$date" >> "$GITHUB_OUTPUT"
-          if [ "${{ github.event_name }}" = "push" ] && [ -n "$date" ] && [ "$date" = "$mailed" ]; then
-            echo "skip=true" >> "$GITHUB_OUTPUT"
-            echo "Письмо за $date уже отправлялось — пропуск."
-          else
-            echo "skip=false" >> "$GITHUB_OUTPUT"
-          fi
+          echo "today=$today" >> "$GITHUB_OUTPUT"
+          mode=send
+          case "${{ github.event_name }}" in
+            push)
+              [ -n "$date" ] && [ "$date" = "$mailed" ] && mode=skip
+              ;;
+            schedule)
+              if [ "$date" = "$today" ]; then
+                # Письмо за сегодня собрано; если уже и отправлено — тихий выход.
+                [ "$mailed" = "$today" ] && mode=skip
+              else
+                # Письма за сегодня нет к контрольному времени — сбой сборки.
+                mode=notice
+                [ "$noticed" = "$today" ] && mode=skip
+              fi
+              ;;
+          esac
+          [ -z "$date" ] && [ "$mode" = "send" ] && mode=notice
+          echo "mode=$mode" >> "$GITHUB_OUTPUT"
+          echo "Режим: $mode (отчёт: ${date:-нет}, сегодня: $today)"
 
-      - name: Send latest SEO report
-        if: steps.guard.outputs.skip != 'true'
+      - name: Send report or failure notice
+        if: steps.guard.outputs.mode != 'skip'
         env:
           SMTP_HOST: mail.hosting.reg.ru
           SMTP_PORT: "465"
           SMTP_USER: hello@biz-soft.pro
           SMTP_PASS: ${{ secrets.SMTP_PASS }}
           MAIL_TO: avbelyaev@biz-soft.pro
+          MODE: ${{ steps.guard.outputs.mode }}
+          TODAY: ${{ steps.guard.outputs.today }}
         run: |
           if [ -z "$SMTP_PASS" ]; then
             echo "::error::Repo-секрет SMTP_PASS не задан (Settings → Secrets and variables → Actions) — письмо не отправлено."
@@ -69,31 +91,25 @@ jobs:
           from email.message import EmailMessage
           from email.utils import formatdate, make_msgid
 
-          # V4: письмо «Executive Command Center» с PNG-вложениями (CID).
-          # Фолбэк — прежние форматы отчёта, если V4 почему-то не собрался.
+          mode = os.environ['MODE']
+          today = os.environ['TODAY']
           v4 = sorted(glob.glob('reports/seo/intelligence/*-v4-email.html'))
-          v3 = sorted(glob.glob('reports/seo/intelligence/*-executive-email.html'))
-          v2 = sorted(glob.glob('reports/seo/intelligence/*-executive.html'))
-          old = sorted(glob.glob('reports/seo/2*.html'))
-          if not (v4 or v3 or v2 or old):
-              raise SystemExit('Нет файлов отчётов')
 
           msg = EmailMessage()
           msg['From'] = f'BIZSoft SEO-мониторинг <{os.environ["SMTP_USER"]}>'
           msg['To'] = os.environ['MAIL_TO']
           msg['Date'] = formatdate(localtime=True)
 
-          if v4 or v3:
-              newest = v4[-1] if v4 else v3[-1]
-              suffix = '-v4-email.html' if v4 else '-executive-email.html'
-              txt_suffix = '-v4.txt' if v4 else '-executive.txt'
-              subject_prefix = 'BIZSoft Growth Intelligence' if v4 else 'BIZSoft Search Performance'
-              path = newest
-              date = os.path.basename(path).replace(suffix, '')
+          if mode == 'send':
+              # V4: письмо «Executive Command Center» с PNG-вложениями (CID).
+              if not v4:
+                  raise SystemExit('Нет файлов отчётов V4')
+              path = v4[-1]
+              date = os.path.basename(path).replace('-v4-email.html', '')
               html = pathlib.Path(path).read_text(encoding='utf-8')
               plain = pathlib.Path(
-                  f'reports/seo/intelligence/{date}{txt_suffix}').read_text(encoding='utf-8')
-              msg['Subject'] = f'{subject_prefix} — {date}'
+                  f'reports/seo/intelligence/{date}-v4.txt').read_text(encoding='utf-8')
+              msg['Subject'] = f'BIZSoft Growth Intelligence — {date}'
               msg.set_content(plain)
               # подменяем cid:chart-* на реальные Content-ID и прикрепляем PNG
               charts = {}
@@ -110,17 +126,22 @@ jobs:
                   part.add_related(pathlib.Path(png).read_bytes(), 'image', 'png',
                                    cid=real, filename=os.path.basename(png),
                                    disposition='inline')
-              print(f'{"V4" if v4 else "V3"}: {path}, вложений {len(charts)}')
+              print(f'V4: {path}, вложений {len(charts)}')
           else:
-              path = v2[-1] if v2 else old[-1]
-              date = os.path.basename(path).replace('-executive.html', '').rsplit('.', 1)[0]
-              md = (f'reports/seo/intelligence/{date}-executive.md' if v2 else f'reports/seo/{date}.md')
-              plain = (pathlib.Path(md).read_text(encoding='utf-8') if os.path.exists(md)
-                       else f'Отчёт biz-soft.pro за {date}.')
-              msg['Subject'] = f'BIZSoft Search Performance — {date}'
-              msg.set_content(plain)
-              msg.add_alternative(pathlib.Path(path).read_text(encoding='utf-8'), subtype='html')
-              print(f'Фолбэк: {path}')
+              # Сбой сборки: честное уведомление вместо устаревшего письма.
+              # Старый отчёт под видом свежего — худший из возможных фолбэков.
+              last = (os.path.basename(v4[-1]).replace('-v4-email.html', '')
+                      if v4 else 'нет ни одного')
+              msg['Subject'] = f'BIZSoft Growth Intelligence — сбой сборки за {today}'
+              msg.set_content(
+                  f'Отчёт за {today} не собрался к контрольному времени (10:00 МСК).\n'
+                  f'Последнее успешное письмо — за {last}.\n\n'
+                  'Показатели дня не потеряны: сырые выгрузки лежат в ветке seo-data,\n'
+                  'отчёт можно собрать задним числом после починки конвейера.\n\n'
+                  'Что смотреть: журнал операций — issue #22\n'
+                  '(https://github.com/AlBeli-V/WebSite_BizSoft/issues/22),\n'
+                  'прогоны — https://github.com/AlBeli-V/WebSite_BizSoft/actions.')
+              print(f'Уведомление о сбое за {today} (последний отчёт: {last})')
 
           host, port = os.environ['SMTP_HOST'], int(os.environ['SMTP_PORT'])
           try:
@@ -133,20 +154,27 @@ jobs:
                   sm.starttls(context=ssl.create_default_context())
                   sm.login(os.environ['SMTP_USER'], os.environ['SMTP_PASS'])
                   sm.send_message(msg)
-          print(f'Отчёт {path} отправлен на {os.environ["MAIL_TO"]}')
+          print(f'Письмо отправлено на {os.environ["MAIL_TO"]}')
           PY
 
-      - name: Record mailed date
-        if: steps.guard.outputs.skip != 'true' && steps.guard.outputs.date != ''
+      - name: Record marker
+        if: steps.guard.outputs.mode != 'skip'
         run: |
           git config user.name "Claude"
           git config user.email "noreply@anthropic.com"
-          echo "${{ steps.guard.outputs.date }}" > reports/seo/intelligence/last-mailed.txt
-          git add reports/seo/intelligence/last-mailed.txt
+          if [ "${{ steps.guard.outputs.mode }}" = "send" ]; then
+            echo "${{ steps.guard.outputs.date }}" > reports/seo/intelligence/last-mailed.txt
+            git add reports/seo/intelligence/last-mailed.txt
+            note="Письмо за ${{ steps.guard.outputs.date }} отправлено"
+          else
+            echo "${{ steps.guard.outputs.today }}" > reports/seo/intelligence/last-notice.txt
+            git add reports/seo/intelligence/last-notice.txt
+            note="Уведомление о сбое за ${{ steps.guard.outputs.today }} отправлено"
+          fi
           if git diff --cached --quiet; then exit 0; fi
-          git commit -m "Письмо за ${{ steps.guard.outputs.date }} отправлено"
+          git commit -m "$note"
           for i in 1 2 3; do
             git pull --rebase origin seo-data && git push origin HEAD:seo-data && exit 0
             sleep $((i * 5))
           done
-          echo "::warning::Маркер отправки не записан — возможна переотправка при следующем пуше."
+          echo "::warning::Маркер отправки не записан — возможна повторная отправка при следующем запуске."
