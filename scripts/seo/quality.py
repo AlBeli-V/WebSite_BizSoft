@@ -217,18 +217,28 @@ def run_checks(snap: dict, prev: dict | None = None) -> dict:
         # множества. Их отношение — не «расхождение источников», а разница охвата,
         # поэтому это ограничение (limited), а не поломка (degraded).
         if clicks is not None and visits and not measurement.scopes_comparable(snap):
+            # Разбивка органики по поисковым системам сужает сверку: клики
+            # Вебмастера корректно ставить рядом с визитами именно из Яндекса,
+            # а не со всей органикой сайта, куда входит и Google.
+            by_engine = an["metrika"].get("organic_by_engine") or {}
+            ya_visits = by_engine.get("Yandex")
+            engine_note = (f"из них из Яндекса — {ya_visits:.0f}; "
+                           if ya_visits is not None else "")
             add("warning", "SCOPE_MISMATCH",
                 "Охваты поиска и аналитики различаются",
                 f"Яндекс.Вебмастер: {clicks} кликов по выборке "
                 f"{yx['totals']['queries_tracked']} запросов "
                 f"({yx['source']['current_period_start']}–{yx['source']['current_period_end']}); "
-                f"Метрика: {visits:.0f} органических визитов всего сайта; "
+                f"Метрика: {visits:.0f} органических визитов всего сайта, "
+                f"{engine_note}"
                 f"GA4: {sessions} органических сессий "
                 f"({an['metrika']['source']['current_period_start']}–"
                 f"{an['metrika']['source']['current_period_end']}).",
-                "Клики выборки и визиты сайта не сравниваются между собой. CTR "
-                "публикуется как CTR выборки с указанием охвата; вывод о кликабельности "
-                "всего сайта не делается.")
+                "Клики выборки и визиты сайта не сравниваются между собой: "
+                "сопоставимая пара — клики выборки Вебмастера и органические "
+                "визиты из Яндекса, и даже она различается охватом (выборка "
+                "против всего сайта). CTR публикуется как CTR выборки; вывод "
+                "о кликабельности всего сайта не делается.")
 
     # 4. Разные окна аналитики и поиска
     if an.get("metrika", {}).get("available") and yx.get("available"):
