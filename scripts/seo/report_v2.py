@@ -182,7 +182,9 @@ def changes_block(snap, prev):
                           f"({snap['thresholds']['low_impressions']} показов), периоды равны по 7 дней",
             "interpretation": "ИНТЕРПРЕТАЦИЯ: охват расширился, но кликов нет; на такой базе вывод предварительный.",
         })
-    if yx.get("available") and prev and prev["yandex"].get("available"):
+    if (yx.get("available") and prev and prev["yandex"].get("available")
+            and yx["indexation"]["indexed_urls"] is not None
+            and prev["yandex"]["indexation"]["indexed_urls"] is not None):
         d = delta(yx["indexation"]["indexed_urls"], prev["yandex"]["indexation"]["indexed_urls"])
         out.append({
             "title": "Страницы в поиске Яндекса",
@@ -190,7 +192,12 @@ def changes_block(snap, prev):
             "previous": f"{prev['yandex']['indexation']['indexed_urls']} URL (предыдущий сбор)",
             "absolute": f"{d['absolute']:+d}", "relative": rel(d),
             "confidence": "достаточная: значение агрегатное, не выборочное",
-            "interpretation": "ФАКТ: число проиндексированных URL выросло; причина в текущем сборе не измеряется.",
+            # Направление — из знака дельты: зашитое «выросло» становилось
+            # ложью в первый же день снижения.
+            "interpretation": ("ФАКТ: число проиндексированных URL "
+                               + ("выросло" if d["absolute"] > 0 else
+                                  "снизилось" if d["absolute"] < 0 else "не изменилось")
+                               + "; причина в текущем сборе не измеряется."),
         })
         d2 = delta(yx["totals"]["queries_position_le_10"], prev["yandex"]["totals"]["queries_position_le_10"])
         out.append({
