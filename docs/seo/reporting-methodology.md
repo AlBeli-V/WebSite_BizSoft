@@ -134,7 +134,14 @@ python3 scripts/seo/report_v2.py <дата>
 python3 -m unittest discover -s scripts/seo/tests
 ```
 
-## Executive email V3 (с 2026-08-19)
+## Executive email V3 (2026-08-19 … 2026-08-21, архив)
+
+> Поколение V3 выведено из эксплуатации 26.08.2026: письма V3 не генерируются
+> с 21.08, код (`report_v2.py`, `report_v3.py`, `charts.py`, `charts_png.py`,
+> `uxlint.py`) удалён, фолбэк отправки на старые письма заменён уведомлением
+> о сбое сборки (см. `.github/workflows/seo-report-email.yml`). Действующее
+> поколение — V4: `report_v4.py` + `uxlint_v4.py` + `invariants.py`.
+> Правила подачи из этого раздела перенесены в V4 и остаются в силе.
 
 ### Структура и объём
 Письмо — управленческий продукт, а не выгрузка. Порядок блоков фиксирован:
@@ -184,14 +191,14 @@ rollback, stop-condition, key events) в теле письма запрещен�
 абсолютные ссылки вместо локальных путей, запрещённые термины, противоречие нулевой дельты,
 запрет воронки до сверки, запрет раздельной оценки совместного внедрения, автоназначение владельцев.
 
-### Конвейер V3
+### Конвейер (действующий, V4)
 ```
 python3 scripts/seo/snapshot.py <дата>
 python3 scripts/seo/quality.py <дата>
-python3 scripts/seo/report_v3.py <дата>     # PNG-графики, письмо, приложение, EML, текст
-python3 scripts/seo/uxlint.py <дата>
-node scripts/seo/render.mjs <манифест>       # скриншоты 375 и 680 px
-python3 -m unittest discover -s scripts/seo/tests
+python3 scripts/seo/report_v4.py <дата>     # графики, письмо, EML, текст + инварианты
+python3 scripts/seo/uxlint_v4.py <дата>
+python3 scripts/seo/invariants.py <дата>    # отдельный прогон при разборе нарушений
+python3 -m unittest discover -s scripts/seo/tests -t scripts/seo/tests
 ```
 
 ## Рыночный спрос: Вордстат (с 2026-08-19)

@@ -30,7 +30,7 @@ import drivers as drivers_mod         # noqa: E402
 import invariants as invariants_mod   # noqa: E402
 import experiments as exp_mod         # noqa: E402
 import opportunity as opp_mod         # noqa: E402
-import report_v2                      # noqa: E402
+import snapshot as snapshot_mod       # noqa: E402
 from textfmt import (counted, num, plural, pct, ru_date,  # noqa: E402
                      ru_date_full, signed, signed_pct)
 
@@ -1280,7 +1280,7 @@ def load_site_check(date: str) -> dict | None:
 def main() -> int:
     date = sys.argv[1] if len(sys.argv) > 1 else dt.date.today().isoformat()
     snap = json.loads((BASE / "snapshots" / f"{date}.json").read_text(encoding="utf-8"))
-    prev = report_v2.prev_snapshot(date)
+    prev = snapshot_mod.prev_snapshot(date)
     dq = json.loads((BASE / "data-quality" / f"{date}.json").read_text(encoding="utf-8"))
     actions_cfg = json.loads((BASE / "actions.json").read_text(encoding="utf-8"))
 

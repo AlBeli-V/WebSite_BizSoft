@@ -24,7 +24,7 @@ import sys
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
 
-import report_v2  # noqa: E402
+import snapshot as snapshot_mod  # noqa: E402
 from report_v4 import (BLOB, BRANCH, PILL_LABEL, REPO, VERDICT_LABEL,  # noqa: E402
                        assemble, load_site_check)
 from textfmt import num, pct, ru_date, ru_date_full, signed  # noqa: E402
@@ -630,7 +630,7 @@ def build_markdown(b: dict, snap: dict, dq: dict, date: str) -> str:
 def main() -> int:
     date = sys.argv[1] if len(sys.argv) > 1 else dt.date.today().isoformat()
     snap = json.loads((BASE / "snapshots" / f"{date}.json").read_text(encoding="utf-8"))
-    prev = report_v2.prev_snapshot(date)
+    prev = snapshot_mod.prev_snapshot(date)
     dq = json.loads((BASE / "data-quality" / f"{date}.json").read_text(encoding="utf-8"))
     actions_cfg = json.loads((BASE / "actions.json").read_text(encoding="utf-8"))
     b = assemble(snap, prev, dq, actions_cfg, load_site_check(date))
