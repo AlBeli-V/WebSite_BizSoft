@@ -7,67 +7,17 @@
 «источник → нет данных», а quality.py — как SOURCE_UNAVAILABLE.
 """
 
-import importlib.util
-import json
 import os
 import pathlib
 import sys
 import unittest
 from unittest import mock
 
-ROOT = pathlib.Path(__file__).resolve().parents[3]
-sys.path.insert(0, str(ROOT / "scripts" / "seo"))
+sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
+import mocks  # noqa: E402
+from mocks import FakeRequests, FakeResponse  # noqa: E402
+
 DATE = "2026-08-25"
-
-
-def load(name):
-    spec = importlib.util.spec_from_file_location(name, ROOT / "scripts" / "seo" / f"{name}.py")
-    mod = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(mod)
-    return mod
-
-
-class FakeResponse:
-    def __init__(self, status=200, payload=None, text=None):
-        self.status_code = status
-        self._payload = payload
-        self.text = text if text is not None else json.dumps(payload or {}, ensure_ascii=False)
-
-    @property
-    def ok(self):
-        return 200 <= self.status_code < 300
-
-    def json(self):
-        if self._payload is None:
-            raise ValueError("not a json")
-        return self._payload
-
-
-class FakeRequests:
-    """Маршрутизация по подстроке URL; первый совпавший ключ выигрывает."""
-
-    class RequestException(Exception):
-        pass
-
-    class Timeout(RequestException):
-        pass
-
-    def __init__(self, routes: dict):
-        self.routes = routes
-
-    def _resolve(self, url):
-        for key, resp in self.routes.items():
-            if key in url:
-                if isinstance(resp, Exception):
-                    raise resp
-                return resp
-        raise AssertionError(f"нет маршрута для {url}")
-
-    def get(self, url, **kw):
-        return self._resolve(url)
-
-    def post(self, url, **kw):
-        return self._resolve(url)
 
 
 def routes(**overrides):
@@ -94,9 +44,11 @@ def routes(**overrides):
 class TestCollectYandex(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        os.environ.setdefault("YANDEX_WEBMASTER_TOKEN", "test-token")
-        cls.c = load("collect")
-        cls.s = load("snapshot")
+        env = mock.patch.dict(os.environ, {"YANDEX_WEBMASTER_TOKEN": "test-token"})
+        env.start()
+        cls.addClassCleanup(env.stop)
+        cls.c = mocks.load("collect")
+        cls.s = mocks.load("snapshot")
 
     def collect(self, **overrides):
         with mock.patch.object(self.c, "requests", FakeRequests(routes(**overrides))):

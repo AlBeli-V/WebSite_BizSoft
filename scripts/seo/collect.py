@@ -88,12 +88,10 @@ def collect_gsc() -> dict:
     creds.refresh(Request())
     headers = {'Authorization': f'Bearer {creds.token}'}
 
-    sites_resp = requests.get(
-        'https://www.googleapis.com/webmasters/v3/sites', headers=headers, timeout=30)
-    if not sites_resp.ok:
-        return {'date': TODAY,
-                'error': f'/sites HTTP {sites_resp.status_code}: {sites_resp.text[:300]}'}
-    sites = sites_resp.json()
+    sites, err = api_json('https://www.googleapis.com/webmasters/v3/sites',
+                          headers=headers)
+    if err:
+        return {'date': TODAY, 'error': f'/sites: {err}'}
     entries = [s for s in sites.get('siteEntry', []) if SITE in s['siteUrl']]
     result = {'date': TODAY, 'sites': sites.get('siteEntry', []), 'analytics': {}}
     if not entries:
@@ -110,14 +108,13 @@ def collect_gsc() -> dict:
             'dimensions': dims,
             'rowLimit': 100,
         }
-        r = requests.post(
-            f'https://www.googleapis.com/webmasters/v3/sites/{site_url}/searchAnalytics/query',
-            headers=headers, json=body, timeout=30)
         # Без этой проверки тело ошибки Google сохранялось как данные. Ключа
         # `rows` в нём нет, поэтому дальше по конвейеру получалось 0 показов —
         # и сбой доступа читался как обвал поискового трафика.
-        result['analytics'][dims[0]] = r.json() if r.ok else {
-            'error': f'HTTP {r.status_code}: {r.text[:400]}'}
+        data, err = api_json(
+            f'https://www.googleapis.com/webmasters/v3/sites/{site_url}/searchAnalytics/query',
+            headers=headers, body=body)
+        result['analytics'][dims[0]] = {'error': err} if err else data
     errors = [v['error'] for v in result['analytics'].values() if 'error' in v]
     if len(errors) == len(result['analytics']):
         result['error'] = 'все разрезы Search Analytics вернули ошибку: ' + errors[0]
@@ -220,11 +217,10 @@ def collect_metrika() -> dict:
     result = {'date': TODAY, 'counter': counter,
               'window': {'from': date_from.isoformat(), 'to': date_to.isoformat()}}
 
-    goals_resp = requests.get(
+    goals_data, err = api_json(
         f'https://api-metrika.yandex.net/management/v1/counter/{counter}/goals',
-        headers=headers, timeout=30)
-    result['goals'] = goals_resp.json().get('goals', []) if goals_resp.ok else {
-        'error': f'HTTP {goals_resp.status_code}: {goals_resp.text[:300]}'}
+        headers=headers)
+    result['goals'] = {'error': err} if err else goals_data.get('goals', [])
 
     queries = {
         'traffic_sources': {
@@ -243,8 +239,8 @@ def collect_metrika() -> dict:
         },
     }
     for key, params in queries.items():
-        r = requests.get(stat, headers=headers, params={**base, **params}, timeout=30)
-        result[key] = r.json() if r.ok else {'error': f'HTTP {r.status_code}: {r.text[:300]}'}
+        data, err = api_json(stat, headers=headers, params={**base, **params})
+        result[key] = {'error': err} if err else data
     return result
 
 
@@ -313,8 +309,8 @@ def collect_ga4() -> dict:
         },
     }
     for key, body in reports.items():
-        r = requests.post(url, headers=headers, json=body, timeout=30)
-        result[key] = r.json() if r.ok else {'error': f'HTTP {r.status_code}: {r.text[:400]}'}
+        data, err = api_json(url, headers=headers, body=body)
+        result[key] = {'error': err} if err else data
     return result
 
 
