@@ -64,3 +64,42 @@ jobs:
       - name: Push data
         if: always()
         run: bash scripts/seo/data_sync.sh push "SEO-данные GSC/Яндекс за $(date -u +%F)"
+
+      # Копии почтового и публикационного workflow обязаны совпадать с main:
+      # push-события seo-data исполняют именно копию, и отставшая копия делает
+      # фиксы в main недействующими (так жил дефект guard из #169). Сверка и
+      # обновление — ежедневно, здесь, потому что этот прогон и так держит
+      # обе ветки под рукой.
+      - name: Sync workflow copies to seo-data
+        if: always()
+        run: |
+          set -e
+          tmp=$(mktemp -d)
+          git fetch origin seo-data
+          git worktree add --detach "$tmp" origin/seo-data
+          changed=""
+          for f in seo-report-email.yml seo-publish-web.yml; do
+            src=".github/workflows/$f"
+            dst="$tmp/.github/workflows/$f"
+            mkdir -p "$tmp/.github/workflows"
+            note="# КОПИЯ ИЗ MAIN. Push-триггер срабатывает только если файл workflow есть\n# в самой пушенной ветке, поэтому в ветке-хранилище seo-data лежит копия.\n# Обновляется автоматически шагом Sync workflow copies в seo-data-collect.\n"
+            printf "%b" "$note" > "$dst.new"
+            cat "$src" >> "$dst.new"
+            if ! cmp -s "$dst.new" "$dst"; then
+              mv "$dst.new" "$dst"
+              changed="$changed $f"
+            else
+              rm "$dst.new"
+            fi
+          done
+          if [ -n "$changed" ]; then
+            git -C "$tmp" config user.name "Claude"
+            git -C "$tmp" config user.email "noreply@anthropic.com"
+            git -C "$tmp" add .github/workflows
+            git -C "$tmp" commit -m "Синхронизация копий workflow с main:$changed"
+            git -C "$tmp" push origin HEAD:seo-data || echo "::warning::копии workflow не синхронизированы (гонка push) — повтор завтра"
+            echo "обновлено:$changed"
+          else
+            echo "копии совпадают с main"
+          fi
+          git worktree remove --force "$tmp"
