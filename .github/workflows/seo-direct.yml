@@ -24,6 +24,7 @@ on:
       - '.github/workflows/seo-direct.yml'
       - 'scripts/seo/direct/**'
 permissions:
+  contents: read
   issues: write
 concurrency:
   group: seo-direct
