@@ -1,50 +1,37 @@
-# Резервное копирование прода и проверка пригодности копии к восстановлению.
+# Управление резервным копированием biz-soft.pro.
 #
-# Зачем. До 24.08.2026 у проекта не было ни одной резервной копии: код лежит в
-# git, а база Directus (товары, вендоры, заявки), файлы медиатеки и секреты
-# /opt/bizsoft/astro.env существовали на сервере в единственном экземпляре.
-# Потеря диска означала потерю каталога без возможности восстановления.
+# Саму копию снимает сервер: /opt/bizsoft/backup.sh, запускаемый ночным cron
+# сервера. Этот workflow — пульт к нему: ставит и обновляет скрипт, заводит
+# расписание, показывает состояние и позволяет снять копию вне очереди.
 #
-# Что делает. Снимает согласованный по времени срез трёх активов — дамп
-# PostgreSQL (pg_dump -Fc), медиатеку Directus, конфигурацию и секреты, —
-# складывает в один архив в /opt/bizsoft/backups, затем ПРОВЕРЯЕТ его:
-# поднимает временный контейнер Postgres, восстанавливает в него дамп и
-# считает строки. Непроверенная копия резервной копией не считается.
+# Почему не schedule этого workflow. 27.08.2026 планировщик GitHub не выдал
+# ни одного запуска по расписанию за шесть часов: ежечасный workflow
+# репозитория пропустил пять слотов подряд, ночная копия не снялась, RPO в
+# 24 часа оказался нарушен. События schedule в Actions не гарантированы —
+# при нагрузке их откладывают, а «круглые» слоты выбрасывают первыми.
+# Резервное копирование не может зависеть от очереди без обязательств,
+# поэтому расписание живёт в cron самого сервера.
 #
-# Куда уезжает. Копия на том же диске, что и прод, спасает от порчи данных, но
-# не от потери сервера. Поэтому архив шифруется (openssl AES-256, пароль из
-# секрета BACKUP_PASSPHRASE) и выкладывается в Google Drive через rclone
-# (конфиг — секрет GDRIVE_RCLONE_CONF, каталог BizSoft-Backups). Без пароля
-# или без конфига rclone выгрузка не делается: архив содержит секреты и
-# персональные данные из заявок, класть его наружу открытым нельзя.
+# Режимы:
+#   check     — осмотр без записи: контейнеры, место, секреты, доступ к
+#               Google Drive, наличие строки в crontab, итог прошлой ночи;
+#   backup    — снять копию вне очереди (ночная снимается сама);
+#   install   — залить скрипт, настройки, конфиг rclone и поставить cron;
+#   uninstall — снять строку из crontab (файлы и копии остаются на месте).
 #
-# rclone ищется не только в PATH: при неинтерактивном SSH ~/.bashrc не читается,
-# и установленный без root бинарник (~/bin/rclone) из PATH выпадает.
-#
-# Ротация действует только на сервере: там диск конечный. В облаке скрипт не
-# удаляет ничего и не умеет — команд удаления в нём нет. Это защита от того,
-# кто получил доступ к серверу: стереть прод и следом все копии не выйдет.
-#
-# Рядом с архивами в облаке лежит README-RESTORE.md — открытая копия
-# docs/DR-RUNBOOK.md. Инструкция по расшифровке, запертая внутри шифрованного
-# архива, бесполезна ровно тогда, когда нужна.
-#
-# Восстановление отсюда НЕ запускается — оно описано в docs/DR-RUNBOOK.md и
-# выполняется руками. Автоматический накат дампа на живую базу — это кнопка
-# «стереть прод», её в репозитории быть не должно.
-#
-# Результат каждого запуска — комментарий в журнал-issue #22.
+# Любой режим сначала обновляет /opt/bizsoft/backup.sh из репозитория:
+# ручной прогон и ночной исполняют один и тот же код.
 name: ops-backup
 
 on:
   workflow_dispatch:
     inputs:
       mode:
-        description: "check — только осмотр без записи; backup — снять копию"
+        description: "check — осмотр; backup — снять копию; install — поставить/обновить; uninstall — снять расписание"
         required: true
         default: "check"
         type: choice
-        options: ["check", "backup"]
+        options: ["check", "backup", "install", "uninstall"]
       verify:
         description: "Проверять копию восстановлением во временный Postgres"
         required: false
@@ -57,28 +44,28 @@ on:
         default: "true"
         type: choice
         options: ["true", "false"]
+      mail:
+        description: "Письмо по итогу прогона (ночные шлют always из настроек сервера)"
+        required: false
+        default: "error"
+        type: choice
+        options: ["error", "always", "never"]
+      mail_to:
+        description: "Кому слать отчёты о ночных копиях (записывается при install)"
+        required: false
+        default: "avbelyaev@biz-soft.pro"
       keep_daily:
-        description: "Ежедневных копий хранить"
+        description: "Сколько ежедневных копий хранить"
         required: false
         default: "7"
       keep_weekly:
-        description: "Еженедельных копий хранить"
+        description: "Сколько еженедельных копий хранить"
         required: false
         default: "4"
       keep_monthly:
-        description: "Ежемесячных копий хранить"
+        description: "Сколько ежемесячных копий хранить"
         required: false
         default: "6"
-  # Включено 26.08.2026 по решению руководителя, после успешных ручных
-  # прогонов check и backup (копия снята, проверена восстановлением во
-  # временный Postgres и выгружена в Google Drive со сверкой sha256).
-  # Учебное восстановление из облачной копии на чистой машине ещё не
-  # проводилось — оно остаётся квартальным регламентом из §9 DR-RUNBOOK.
-  # Ночной прогон идёт в режиме backup: поля ввода при запуске по
-  # расписанию пусты, режим берётся из github.event_name (см. P_MODE).
-  schedule:
-    # 00:30 UTC = 03:30 МСК, ежедневно (ночь, трафика почти нет).
-    - cron: "30 0 * * *"
 
 permissions:
   contents: read
@@ -97,21 +84,18 @@ jobs:
 
       - uses: actions/checkout@v4
 
-      # Открытую инструкцию по восстановлению кладём рядом с архивами — и на
-      # сервере, и в облаке. Передаём base64, чтобы кириллица и переносы строк
-      # доехали через SSH без искажений.
-      - name: Prepare runbook for shipping
-        id: runbook
+      # Скрипт и открытая инструкция едут на сервер в base64: так кириллица
+      # и переносы строк переживают путь через ssh-action без искажений.
+      - name: Prepare payload
+        id: payload
         run: |
-          echo "b64=$(base64 -w0 docs/DR-RUNBOOK.md)" >> "$GITHUB_OUTPUT"
+          echo "script=$(base64 -w0 scripts/ops/backup.sh)" >> "$GITHUB_OUTPUT"
+          echo "runbook=$(base64 -w0 docs/DR-RUNBOOK.md)" >> "$GITHUB_OUTPUT"
 
       # Секрет принимаем в любом виде — и как base64, и как обычный текст
-      # rclone.conf, скопированный из файла: разбираться, в каком виде его
-      # положили, должна машина, а не человек в момент замены токена. Здесь
-      # же снимаются CR: конфиг, сохранённый в Windows, приезжает строками
-      # вида "[gdrive]\r", и разбор секций на сервере такую строку не видит.
-      # На сервер значение всегда уходит в base64: многострочное не пережило
-      # бы путь «GitHub → ssh-action → окружение shell».
+      # rclone.conf: разбираться, в каком виде его положили, должна машина,
+      # а не человек в момент замены токена. Здесь же снимаются CR, из-за
+      # которых строка "[gdrive]\r" не считалась секцией.
       - name: Normalize rclone config
         id: rcconf
         env:
@@ -122,9 +106,6 @@ jobs:
             echo "b64=" >> "$GITHUB_OUTPUT"
             exit 0
           fi
-          # CR снимаем сразу после раскодирования, до проверки: иначе
-          # base64, снятый с конфига в Windows, не опознаётся как base64 —
-          # строка "[gdrive]\r" не совпадает с образцом "[имя]".
           DEC=$(printf '%s' "$RAW" | tr -d '\r\n ' | base64 -d 2>/dev/null | tr -d '\r' || true)
           if printf '%s' "$DEC" | grep -q '^\[.*\]$'; then
             SRC="$DEC"; echo "секрет распознан как base64"
@@ -141,487 +122,132 @@ jobs:
           echo "::add-mask::$B64"
           echo "b64=$B64" >> "$GITHUB_OUTPUT"
 
-      - name: Backup over SSH
+      - name: Run over SSH
         id: run
         continue-on-error: true
         uses: appleboy/ssh-action@v1
         env:
-          # inputs пусты при запуске по расписанию — тогда это ночной прогон:
-          # полная копия с проверкой и выгрузкой. При ручном запуске режим по
-          # умолчанию — check, чтобы «просто нажал кнопку» ничего не записывал.
-          P_MODE: ${{ inputs.mode || (github.event_name == 'schedule' && 'backup' || 'check') }}
+          P_MODE: ${{ inputs.mode }}
           P_VERIFY: ${{ inputs.verify || 'true' }}
           P_OFFSITE: ${{ inputs.offsite || 'true' }}
+          P_MAIL: ${{ inputs.mail || 'error' }}
+          P_MAIL_TO: ${{ inputs.mail_to || 'avbelyaev@biz-soft.pro' }}
           P_KEEP_D: ${{ inputs.keep_daily || '7' }}
           P_KEEP_W: ${{ inputs.keep_weekly || '4' }}
           P_KEEP_M: ${{ inputs.keep_monthly || '6' }}
           P_PASS: ${{ secrets.BACKUP_PASSPHRASE }}
           P_RCLONE: ${{ steps.rcconf.outputs.b64 }}
-          P_RUNBOOK: ${{ steps.runbook.outputs.b64 }}
+          P_SCRIPT: ${{ steps.payload.outputs.script }}
+          P_RUNBOOK: ${{ steps.payload.outputs.runbook }}
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
-          envs: P_MODE,P_VERIFY,P_OFFSITE,P_KEEP_D,P_KEEP_W,P_KEEP_M,P_PASS,P_RCLONE,P_RUNBOOK
+          envs: P_MODE,P_VERIFY,P_OFFSITE,P_MAIL,P_MAIL_TO,P_KEEP_D,P_KEEP_W,P_KEEP_M,P_PASS,P_RCLONE,P_SCRIPT,P_RUNBOOK
           capture_stdout: true
           command_timeout: 40m
           script: |
             set -uo pipefail
             BASE=/opt/bizsoft
-            DEST=$BASE/backups
-            GDIR=BizSoft-Backups
-            STAMP=$(date -u +%Y%m%d-%H%M)
-            FAIL=0
-            # FAIL — про снятие копии, WARN — про находки осмотра. Разделены
-            # затем, чтобы код возврата check стал честным, а логика backup
-            # осталась ровно прежней.
-            WARN=0
+            mkdir -p "$BASE"
 
-            echo "════ ОКРУЖЕНИЕ ════"
-            echo "пользователь: $(id -un)  дата (UTC): $(date -u +%FT%TZ)"
-            docker info >/dev/null 2>&1 || { echo "✗ docker недоступен — без него копию снять нечем"; exit 1; }
-
-            DB_C=$(docker ps --format '{{.Names}}' | grep -Ei 'db|postgres' | head -1)
-            DIR_C=$(docker ps --format '{{.Names}}' | grep -Ei 'directus' | head -1)
-            echo "контейнер БД:       ${DB_C:-НЕ НАЙДЕН}"
-            echo "контейнер Directus: ${DIR_C:-НЕ НАЙДЕН}"
-            [ -n "$DB_C" ] || { echo "✗ контейнер PostgreSQL не найден"; exit 1; }
-
-            DB_IMAGE=$(docker inspect -f '{{.Config.Image}}' "$DB_C" 2>/dev/null)
-            ENVDUMP=$(docker inspect -f '{{range .Config.Env}}{{println .}}{{end}}' "$DB_C" 2>/dev/null)
-            DB_USER=$(echo "$ENVDUMP" | sed -n 's/^POSTGRES_USER=//p' | head -1)
-            DB_NAME=$(echo "$ENVDUMP" | sed -n 's/^POSTGRES_DB=//p' | head -1)
-            DB_USER=${DB_USER:-postgres}
-            DB_NAME=${DB_NAME:-$DB_USER}
-            echo "образ БД: $DB_IMAGE   база: $DB_NAME   роль: $DB_USER"
-
-            FREE_MB=$(df -Pm "$BASE" | awk 'NR==2{print $4}')
-            echo "свободно на диске: ${FREE_MB} МБ"
-            DB_SIZE=$(docker exec "$DB_C" psql -U "$DB_USER" -d "$DB_NAME" -tAc \
-              "select pg_size_pretty(pg_database_size('$DB_NAME'))" 2>/dev/null | tr -d ' ')
-            echo "размер базы: ${DB_SIZE:-неизвестен}"
-            if [ -n "$DIR_C" ]; then
-              UP_SIZE=$(docker exec "$DIR_C" sh -c 'du -sh /directus/uploads 2>/dev/null | cut -f1' 2>/dev/null)
-              echo "медиатека Directus: ${UP_SIZE:-размер не определён}"
+            # ── доставка кода ──────────────────────────────────────────
+            # Скрипт обновляется при любом режиме: расхождение между тем,
+            # что лежит в репозитории, и тем, что исполняет ночной cron, —
+            # источник ошибок, которые обнаруживаются в момент аварии.
+            printf '%s' "$P_SCRIPT" | base64 -d > "$BASE/backup.sh.new" 2>/dev/null
+            if [ ! -s "$BASE/backup.sh.new" ]; then
+              echo "✗ backup.sh не доехал — на сервере ничего не меняем"; rm -f "$BASE/backup.sh.new"; exit 1
             fi
-            echo "секрет BACKUP_PASSPHRASE:  $([ -n "${P_PASS:-}" ] && echo задан || echo НЕ ЗАДАН)"
-            echo "секрет GDRIVE_RCLONE_CONF: $([ -n "${P_RCLONE:-}" ] && echo задан || echo НЕ ЗАДАН)"
-            # Без любого из двух копия останется на одном диске с продом —
-            # то есть не переживёт ровно ту аварию, ради которой снимается.
-            if [ "$P_OFFSITE" = "true" ]; then
-              [ -n "${P_PASS:-}" ] || WARN=1
-              [ -n "${P_RCLONE:-}" ] || WARN=1
+            # Битый скрипт не должен заменить рабочий: проверяем синтаксис
+            # до подмены, иначе ночная копия сломается молча.
+            if ! bash -n "$BASE/backup.sh.new" 2>/dev/null; then
+              echo "✗ доехавший backup.sh не проходит проверку синтаксиса — оставляем прежний"
+              rm -f "$BASE/backup.sh.new"; exit 1
             fi
-            echo "openssl: $(command -v openssl >/dev/null 2>&1 && openssl version || echo НЕТ)"
-            # rclone ищем не только в PATH: при неинтерактивном SSH ~/.bashrc и
-            # ~/.profile не читаются, поэтому ~/bin из PATH выпадает, и бинарник,
-            # установленный без прав root, «пропадает». Сначала PATH, затем
-            # известные каталоги пользовательской установки.
-            RCLONE_BIN=$(command -v rclone 2>/dev/null)
-            if [ -z "$RCLONE_BIN" ]; then
-              for c in "$HOME/bin/rclone" /home/deploy/bin/rclone "$HOME/rclone/rclone" \
-                       /usr/local/bin/rclone /usr/bin/rclone /opt/rclone/rclone; do
-                if [ -x "$c" ]; then RCLONE_BIN="$c"; break; fi
-              done
-            fi
-            if [ -n "$RCLONE_BIN" ]; then
-              echo "rclone: $RCLONE_BIN"
-              "$RCLONE_BIN" version 2>&1 | sed 's/^/  /'
-            else
-              echo "rclone: НЕ НАЙДЕН (искали в PATH, ~/bin, /home/deploy/bin, /usr/local/bin, /usr/bin, /opt/rclone)"
-              if [ "$P_OFFSITE" = "true" ]; then WARN=1; fi
-            fi
-
+            mv "$BASE/backup.sh.new" "$BASE/backup.sh" && chmod 700 "$BASE/backup.sh"
+            printf '%s' "$P_RUNBOOK" | base64 -d > "$BASE/README-RESTORE.md" 2>/dev/null
+            echo "backup.sh: $(wc -l < "$BASE/backup.sh") строк; README-RESTORE.md: $(wc -c < "$BASE/README-RESTORE.md") байт"
             echo
-            echo "════ ПРАВА ПОЛЬЗОВАТЕЛЯ ════"
-            # Без этих трёх прав ночная копия не снимется вообще, а по логу
-            # это выглядело бы как «что-то не заладилось». Проверяем явно.
-            echo "группы: $(id -nG)"
-            if docker ps >/dev/null 2>&1; then
-              echo "docker ps без sudo: ✓"
-            else
-              echo "docker ps без sudo: ✗ — пользователь не в группе docker"; WARN=1
-            fi
-            if docker exec "$DB_C" true >/dev/null 2>&1; then
-              echo "docker exec в $DB_C: ✓"
-            else
-              echo "docker exec в $DB_C: ✗ — дамп снять не получится"; WARN=1
-            fi
-            CPPROBE=$(mktemp)
-            if docker cp "$DB_C:/etc/hostname" "$CPPROBE" >/dev/null 2>&1 && [ -s "$CPPROBE" ]; then
-              echo "docker cp из контейнера: ✓"
-            else
-              echo "docker cp из контейнера: ✗ — медиатеку Directus не забрать"; WARN=1
-            fi
-            rm -f "$CPPROBE"
 
-            # ── конфиг rclone: пишем во временный файл, в логи не печатаем ──
-            # Конфиг содержит refresh-токен Google — он сам по себе секрет:
-            # кто им владеет, тот читает и пишет весь Диск.
-            RC=""
-            RCDIR=""
-            if [ -n "${P_RCLONE:-}" ] && [ -n "$RCLONE_BIN" ]; then
-              RCDIR=$(mktemp -d)
-              chmod 700 "$RCDIR"
-              RC="$RCDIR/rclone.conf"
-              # Значение приходит в base64 из шага Normalize rclone config;
-              # tr снимает CR на случай запуска со старым, ещё не пересобранным
-              # секретом — иначе строка "[gdrive]\r" не считается секцией.
-              if ! printf '%s' "$P_RCLONE" | base64 -d 2>/dev/null | tr -d '\r' > "$RC" || [ ! -s "$RC" ]; then
-                printf '%s' "$P_RCLONE" | tr -d '\r' > "$RC"
-              fi
-              chmod 600 "$RC"
-              REMOTE=$(sed -n 's/^\[\(.*\)\]$/\1/p' "$RC" | head -1)
-              if [ -z "$REMOTE" ]; then
-                echo "✗ в GDRIVE_RCLONE_CONF не нашлось ни одной секции [remote] — конфиг битый"
-                echo "  (в раскодированном виде $(wc -l < "$RC") строк, $(wc -c < "$RC") байт;"
-                echo "   содержимое не печатаем — там refresh-токен Google)"
-                rm -rf "$RCDIR"; RC=""; WARN=1
-              else
-                echo "remote rclone: $REMOTE"
-              fi
-            fi
-            # Любой вывод rclone проходит через маску: даже маловероятная утечка
-            # токена в тексте ошибки не должна попасть в лог прогона и в issue.
-            mask() { sed -E 's/(ya29\.|1\/\/)[A-Za-z0-9._-]+/***/g; s/("(access|refresh)_token":")[^"]*/\1***/g'; }
-            trap 'rm -rf "$RCDIR" 2>/dev/null' EXIT
-
-            echo
-            echo "════ УЖЕ СНЯТЫЕ КОПИИ ════"
-            if [ -d "$DEST" ]; then
-              ls -lh "$DEST" 2>/dev/null | tail -n +2 || echo "  (пусто)"
-              echo "  занято копиями: $(du -sh "$DEST" 2>/dev/null | cut -f1)"
-            else
-              echo "  каталога $DEST ещё нет — копий не было ни разу"
-            fi
-            echo "── копии в Google Drive ($GDIR) ──"
-            if [ -n "$RC" ]; then
-              # Вывод забираем в переменную: в конвейере с head код возврата
-              # rclone терялся, и недоступный Диск выглядел как пустая папка.
-              GD_OUT=$("$RCLONE_BIN" --config "$RC" lsl "$REMOTE:$GDIR" 2>&1); GD_RC=$?
-              if [ -n "$GD_OUT" ]; then printf '%s\n' "$GD_OUT" | mask | head -30; fi
-              if [ "$GD_RC" -ne 0 ]; then
-                case "$GD_OUT" in
-                  *"directory not found"*|*"not found"*)
-                    echo "  каталога $GDIR ещё нет — его создаст первая выгрузка" ;;
-                  *)
-                    echo "✗ Google Drive не ответил (код $GD_RC) — выгрузка сейчас не сработала бы"
-                    WARN=1 ;;
-                esac
-              elif [ -z "$GD_OUT" ]; then
-                echo "  каталог пуст"
-              fi
-            else
-              echo "  проверить нечем: нет rclone или секрета GDRIVE_RCLONE_CONF"
-              if [ "$P_OFFSITE" = "true" ]; then WARN=1; fi
-            fi
-
-            if [ "$P_MODE" != "backup" ]; then
-              echo
-              # Осмотр, нашедший поломку, обязан быть красным: зелёная галочка
-              # у прогона, который написал «✗ конфиг битый», — это то же самое,
-              # что копия, о которой узнают в момент аварии.
-              if [ "$WARN" = "0" ]; then
-                echo "mode=check: ничего не записывалось, замечаний нет."
-                exit 0
-              fi
-              echo "mode=check: ничего не записывалось; есть замечания — см. ✗ выше."
-              exit 1
-            fi
-
-            # Дамп + медиатека + конфиг занимают примерно столько же, сколько
-            # исходники. 2 ГБ — запас, при котором нечем заполнить диск.
-            if [ "${FREE_MB:-0}" -lt 2048 ]; then
-              echo "✗ на диске меньше 2 ГБ свободного места — копия не снимается"
-              exit 1
-            fi
-
-            echo
-            echo "════ СНЯТИЕ КОПИИ $STAMP ════"
-            mkdir -p "$DEST" && chmod 700 "$DEST"
-            WORK=$(mktemp -d)
-            # Дамп и конфиг содержат секреты и персональные данные заявок:
-            # каталог не должен быть читаем никем, кроме владельца.
-            chmod 700 "$WORK"
-            trap 'rm -rf "$WORK" "$RCDIR" 2>/dev/null' EXIT
-
-            echo "── 1/4 дамп PostgreSQL ──"
-            # -Fc: сжатый формат, восстанавливается pg_restore выборочно, по
-            # одной таблице; -Z6 — компромисс размера и времени.
-            if docker exec "$DB_C" pg_dump -U "$DB_USER" -d "$DB_NAME" -Fc -Z6 > "$WORK/db.dump" 2>"$WORK/db.err"; then
-              echo "  ok: $(du -h "$WORK/db.dump" | cut -f1)"
-            else
-              echo "  ✗ pg_dump упал:"; sed 's/^/    /' "$WORK/db.err"; FAIL=1
-            fi
-            # Пустой или обрезанный дамп молча складывать нельзя — это худший
-            # вид «копии»: файл есть, восстановить нечего.
-            if [ ! -s "$WORK/db.dump" ] || [ "$(stat -c%s "$WORK/db.dump")" -lt 10000 ]; then
-              echo "  ✗ дамп подозрительно мал — считаем снятие неудачным"; FAIL=1
-            fi
-            # Дальше идти нельзя: архив без годного дампа занял бы место в
-            # ротации и через семь неудачных ночей вытеснил бы все рабочие
-            # копии. Лучше остановиться и оставить прошлые копии нетронутыми.
-            if [ "$FAIL" != "0" ]; then
-              echo "✗ дамп не снят — архив не собирается, ротация не выполняется"
-              exit 1
-            fi
-
-            echo "── 2/4 медиатека Directus ──"
-            if [ -n "$DIR_C" ]; then
-              # docker cp не требует ни tar, ни du внутри образа — работает
-              # с любым Directus, даже distroless.
-              if docker cp "$DIR_C:/directus/uploads" "$WORK/uploads" >/dev/null 2>&1; then
-                tar czf "$WORK/uploads.tgz" -C "$WORK" uploads 2>/dev/null
-                rm -rf "$WORK/uploads"
-                echo "  ok: $(du -h "$WORK/uploads.tgz" | cut -f1)"
-              else
-                echo "  ⚠ каталог /directus/uploads не скопировался (нет файлов или другой путь)"
-              fi
-            else
-              echo "  ⚠ контейнер Directus не найден — медиатека пропущена"
-            fi
-
-            echo "── 3/4 конфигурация и секреты ──"
-            CFG="$WORK/config"
-            mkdir -p "$CFG"
-            for f in astro.env docker-compose.yml docker-compose.override.yml deploy.sh; do
-              if [ -f "$BASE/$f" ]; then
-                cp -a "$BASE/$f" "$CFG/" 2>/dev/null && echo "  + $f"
-              else
-                echo "  ⚠ $BASE/$f не найден"
-              fi
-            done
-            # docker-compose.yml сервера в репозитории отсутствует. Без него
-            # стек не из чего поднимать, поэтому его пропажа — не предупреждение,
-            # а ошибка прогона.
-            if [ ! -f "$CFG/docker-compose.yml" ]; then
-              echo "  ✗ docker-compose.yml сервера не попал в архив — копия неполная"; FAIL=1
-            fi
-            if [ ! -f "$CFG/astro.env" ]; then
-              echo "  ✗ astro.env не попал в архив — копия неполная"; FAIL=1
-            fi
-            NGINX_CONF=$(grep -rl "server_name biz-soft.pro" /etc/nginx 2>/dev/null | grep -v '\.bak' | head -1)
-            [ -n "$NGINX_CONF" ] && cp -a "$NGINX_CONF" "$CFG/nginx-biz-soft.conf" 2>/dev/null
-            crontab -l > "$CFG/crontab.txt" 2>/dev/null || true
-            docker compose -f "$BASE/docker-compose.yml" images > "$CFG/images.txt" 2>/dev/null || \
-              docker ps --format '{{.Names}} {{.Image}}' > "$CFG/images.txt" 2>/dev/null
-            tar czf "$WORK/config.tgz" -C "$WORK" config 2>/dev/null
-            rm -rf "$CFG"
-            echo "  ok: $(du -h "$WORK/config.tgz" | cut -f1) ($(tar tzf "$WORK/config.tgz" | wc -l) файлов)"
-
-            echo "── 4/4 сборка архива ──"
-            {
-              echo "снято (UTC): $(date -u +%FT%TZ)"
-              echo "сервер: $(hostname)"
-              echo "образ БД: $DB_IMAGE"
-              echo "база: $DB_NAME, роль: $DB_USER"
-              echo "версия PostgreSQL: $(docker exec "$DB_C" psql -U "$DB_USER" -d "$DB_NAME" -tAc 'show server_version' 2>/dev/null)"
-              echo "размер базы: ${DB_SIZE:-?}"
-              echo "содержимое: db.dump (pg_dump -Fc), uploads.tgz (медиатека), config.tgz (конфиг + astro.env)"
-              echo "восстановление: README-RESTORE.md рядом с архивом (копия docs/DR-RUNBOOK.md)"
-            } > "$WORK/MANIFEST.txt"
-            ARCHIVE="$DEST/bizsoft-$STAMP.tar.gz"
-            tar czf "$ARCHIVE" -C "$WORK" . 2>/dev/null && chmod 600 "$ARCHIVE"
-            if [ ! -s "$ARCHIVE" ]; then
-              echo "  ✗ архив не собрался"; FAIL=1
-            fi
-            sha256sum "$ARCHIVE" | awk '{print $1}' > "$ARCHIVE.sha256"
-            echo "  архив: $ARCHIVE ($(du -h "$ARCHIVE" | cut -f1))"
-            echo "  sha256: $(cat "$ARCHIVE.sha256")"
-
-            # Открытая инструкция кладётся и на сервер, и (ниже) в облако.
-            if [ -n "${P_RUNBOOK:-}" ]; then
-              printf '%s' "$P_RUNBOOK" | base64 -d > "$DEST/README-RESTORE.md" 2>/dev/null \
-                && echo "  README-RESTORE.md обновлён ($(wc -c < "$DEST/README-RESTORE.md") байт)" \
-                || echo "  ⚠ README-RESTORE.md записать не удалось"
-            fi
-
-            if [ "$P_VERIFY" = "true" ] && [ -s "$WORK/db.dump" ]; then
-              echo
-              echo "════ ПРОВЕРКА ВОССТАНОВЛЕНИЯ ════"
-              # Разворачиваем дамп в отдельный контейнер той же версии.
-              # Прод при этом не трогается вообще: у временного контейнера
-              # свой том, своя сеть по умолчанию, порты наружу не открыты.
-              T=bizsoft-restore-check
-              docker rm -f "$T" >/dev/null 2>&1
-              if docker run -d --name "$T" -e POSTGRES_PASSWORD=verify \
-                   -e POSTGRES_DB=verify "$DB_IMAGE" >/dev/null 2>&1; then
-                READY=0
-                for i in $(seq 1 30); do
-                  docker exec "$T" pg_isready -U postgres -q 2>/dev/null && { READY=1; break; }
-                  sleep 2
-                done
-                if [ "$READY" = "1" ]; then
-                  docker cp "$WORK/db.dump" "$T:/tmp/db.dump" >/dev/null 2>&1
-                  # --no-owner/--no-privileges: роли прода во временной базе
-                  # не существует, без этих флагов restore ругается на каждый
-                  # объект. На сам накат в проде это не влияет — там роль есть.
-                  docker exec "$T" pg_restore -U postgres -d verify --no-owner --no-privileges \
-                    /tmp/db.dump > /tmp/restore.log 2>&1
-                  RC_CODE=$?
-                  docker exec "$T" psql -U postgres -d verify -c 'ANALYZE' >/dev/null 2>&1
-                  TABLES=$(docker exec "$T" psql -U postgres -d verify -tAc \
-                    "select count(*) from information_schema.tables where table_schema='public'" 2>/dev/null | tr -d ' ')
-                  echo "код возврата pg_restore: $RC_CODE (0 — без замечаний)"
-                  echo "таблиц восстановлено: ${TABLES:-0}"
-                  echo "── строки в крупнейших таблицах ──"
-                  docker exec "$T" psql -U postgres -d verify -c \
-                    "select relname as таблица, n_live_tup as строк from pg_stat_user_tables order by n_live_tup desc limit 12" 2>/dev/null
-                  if [ "${TABLES:-0}" -lt 5 ]; then
-                    echo "✗ восстановление дало меньше 5 таблиц — копия негодная"; FAIL=1
-                  else
-                    echo "✓ копия восстанавливается"
-                  fi
-                  [ "$RC_CODE" -ne 0 ] && { echo "── замечания pg_restore (последние 15) ──"; tail -15 /tmp/restore.log; }
-                else
-                  echo "✗ временный Postgres не поднялся за 60 с — проверить копию не удалось"; FAIL=1
-                fi
-                docker rm -f "$T" >/dev/null 2>&1
-              else
-                echo "✗ не удалось запустить временный контейнер $DB_IMAGE"; FAIL=1
-              fi
-            elif [ "$P_VERIFY" = "true" ]; then
-              echo; echo "проверка восстановления пропущена: дампа нет"
-            fi
-
-            if [ "$P_OFFSITE" = "true" ]; then
-              echo
-              echo "════ ВЫГРУЗКА В GOOGLE DRIVE ════"
-              if [ -z "${P_PASS:-}" ]; then
-                echo "✗ BACKUP_PASSPHRASE не задан — шифровать нечем, наружу ничего не уходит."
-                echo "  Архив содержит astro.env и заявки клиентов; открытым он не выгружается."
-                echo "  Копия осталась только на сервере — прогон считается неуспешным."
-                FAIL=1
-              elif [ -z "$RCLONE_BIN" ]; then
-                echo "✗ rclone на сервере не найден — выгружать нечем (см. docs/DR-RUNBOOK.md §3)."
-                echo "  Копия осталась только на сервере — прогон считается неуспешным."
-                FAIL=1
-              elif [ -z "$RC" ]; then
-                echo "✗ секрет GDRIVE_RCLONE_CONF не задан или битый — выгружать некуда."
-                echo "  Копия осталась только на сервере — прогон считается неуспешным."
-                FAIL=1
-              else
-                ENC="$ARCHIVE.enc"
-                # -pbkdf2: без него openssl использует устаревший вывод ключа
-                # из пароля; расшифровка — командой из README-RESTORE.md.
-                if BP="$P_PASS" openssl enc -aes-256-cbc -salt -pbkdf2 -iter 200000 \
-                     -in "$ARCHIVE" -out "$ENC" -pass env:BP 2>/dev/null; then
-                  echo "зашифровано: $(du -h "$ENC" | cut -f1)"
-                  LOCAL_SUM=$(sha256sum "$ENC" | awk '{print $1}')
-                  NAME=$(basename "$ENC")
-                  "$RCLONE_BIN" --config "$RC" mkdir "$REMOTE:$GDIR" 2>&1 | mask
-                  if "$RCLONE_BIN" --config "$RC" copyto "$ENC" "$REMOTE:$GDIR/$NAME" \
-                       --retries 3 --low-level-retries 10 2>&1 | mask; then
-                    # Сверка обязательна: «залилось без ошибки» и «в облаке
-                    # лежит тот же файл» — разные утверждения.
-                    REMOTE_SUM=$("$RCLONE_BIN" --config "$RC" hashsum sha256 "$REMOTE:$GDIR/$NAME" 2>/dev/null | awk '{print $1}' | head -1)
-                    SRC=api
-                    if [ "${#REMOTE_SUM}" -ne 64 ]; then
-                      # Drive не отдал sha256 — считаем сами по скачанному
-                      # потоку. Медленнее, зато заодно проверяет читаемость.
-                      REMOTE_SUM=$("$RCLONE_BIN" --config "$RC" cat "$REMOTE:$GDIR/$NAME" 2>/dev/null | sha256sum | awk '{print $1}')
-                      SRC=поток
-                    fi
-                    echo "sha256 локально: $LOCAL_SUM"
-                    echo "sha256 в облаке: ${REMOTE_SUM:-НЕ ПОЛУЧЕН} (источник: $SRC)"
-                    if [ -n "$REMOTE_SUM" ] && [ "$REMOTE_SUM" = "$LOCAL_SUM" ]; then
-                      echo "✓ выгружено и сверено: $GDIR/$NAME"
-                      # Открытый runbook рядом с архивами — тот, ради кого
-                      # вся выгрузка и делается: без него архив нечем открыть.
-                      if [ -f "$DEST/README-RESTORE.md" ]; then
-                        "$RCLONE_BIN" --config "$RC" copyto "$DEST/README-RESTORE.md" \
-                          "$REMOTE:$GDIR/README-RESTORE.md" 2>&1 | mask \
-                          && echo "✓ README-RESTORE.md выложен рядом с архивами"
-                      fi
-                    else
-                      echo "✗ контрольные суммы не совпали — файл в облаке считаем негодным"; FAIL=1
-                    fi
-                  else
-                    echo "✗ rclone не смог выгрузить архив"; FAIL=1
-                  fi
-                  rm -f "$ENC"
-                else
-                  echo "✗ шифрование не удалось — наружу ничего не отправлено"; FAIL=1
-                fi
-              fi
-            fi
-
-            echo
-            # Поля keep_* — свободный ввод; нечисловое значение уронило бы
-            # арифметику и оставило копии без ротации.
-            case "$P_KEEP_D" in ''|*[!0-9]*|0) echo "keep_daily=$P_KEEP_D не число — берём 7"; P_KEEP_D=7;; esac
-            case "$P_KEEP_W" in ''|*[!0-9]*) echo "keep_weekly=$P_KEEP_W не число — берём 4"; P_KEEP_W=4;; esac
-            case "$P_KEEP_M" in ''|*[!0-9]*) echo "keep_monthly=$P_KEEP_M не число — берём 6"; P_KEEP_M=6;; esac
-            echo "════ РОТАЦИЯ НА СЕРВЕРЕ (${P_KEEP_D} ежедневных + ${P_KEEP_W} еженедельных + ${P_KEEP_M} ежемесячных) ════"
-            if [ "$FAIL" != "0" ]; then
-              echo "  прогон с ошибками — ничего не удаляем, старые копии остаются на месте"
-              echo
-              echo "✗ ИТОГ: в ходе копирования были ошибки — см. выше"
-              exit 1
-            fi
-
-            # Правило хранения: последние N ежедневных, плюс по одной самой
-            # свежей копии за каждую из W последних недель и M последних
-            # месяцев. Копия недельной давности переживает неделю ежедневных,
-            # копия трёхмесячной давности — переживает всё: порчу данных
-            # замечают не в тот же день.
-            keepset() {
-              # stdin: имена файлов (basename), по одному в строке
-              # stdout: имена, которые нужно СОХРАНИТЬ
-              sort -r | awk -v kd="$P_KEEP_D" -v kw="$P_KEEP_W" -v km="$P_KEEP_M" '
+            case "$P_MODE" in
+              install)
+                echo "════ УСТАНОВКА ════"
+                umask 077
+                # Настройки ночного прогона. Пароль нужен здесь же: без него
+                # cron не сможет зашифровать архив перед выгрузкой.
                 {
-                  name = $0
-                  if (match(name, /[0-9]{8}-[0-9]{4}/) == 0) { print name; next }  # чужое имя не трогаем
-                  d = substr(name, RSTART, 8)
-                  mo = substr(d, 1, 6)
-                  keep = 0
-                  if (++n <= kd) keep = 1                                  # ежедневные
-                  # неделя: номер дня от эпохи, делённый нацело на 7, —
-                  # календарь для этого не нужен, важна только группировка
-                  y = substr(d,1,4)+0; m = substr(d,5,2)+0; dd = substr(d,7,2)+0
-                  a = int((14-m)/12); yy = y + 4800 - a; mm = m + 12*a - 3
-                  jdn = dd + int((153*mm+2)/5) + 365*yy + int(yy/4) - int(yy/100) + int(yy/400) - 32045
-                  wk = int(jdn/7)
-                  if (!(wk in seenw) && cw < kw) { seenw[wk]=1; cw++; keep = 1 }
-                  if (!(mo in seenm) && cm < km) { seenm[mo]=1; cm++; keep = 1 }
-                  if (keep) print name
-                }'
-            }
+                  echo "# Настройки резервного копирования biz-soft.pro."
+                  echo "# Создан workflow ops-backup (режим install), правки руками перетрутся."
+                  echo "# Пароль продублирован в менеджере паролей руководителя и в секрете"
+                  echo "# GitHub BACKUP_PASSPHRASE — при смене менять во всех трёх местах."
+                  echo "BACKUP_PASSPHRASE=$P_PASS"
+                  echo "MAIL_TO=$P_MAIL_TO"
+                  echo "MAIL_ON=always"
+                  echo "VERIFY=$P_VERIFY"
+                  echo "OFFSITE=$P_OFFSITE"
+                  echo "KEEP_D=$P_KEEP_D"
+                  echo "KEEP_W=$P_KEEP_W"
+                  echo "KEEP_M=$P_KEEP_M"
+                } > "$BASE/backup.env"
+                chmod 600 "$BASE/backup.env"
+                echo "backup.env записан (пароль: $([ -n "$P_PASS" ] && echo задан || echo НЕ ЗАДАН), отчёты: $P_MAIL_TO)"
 
-            LOCAL_ALL=$(ls -1 "$DEST" 2>/dev/null | grep -E '^bizsoft-[0-9]{8}-[0-9]{4}\.tar\.gz$' | sort -r)
-            LOCAL_KEEP=$(printf '%s\n' "$LOCAL_ALL" | keepset)
-            echo "── на сервере ──"
-            printf '%s\n' "$LOCAL_ALL" | while read -r f; do
-              [ -n "$f" ] || continue
-              if printf '%s\n' "$LOCAL_KEEP" | grep -qx "$f"; then
-                echo "  оставляем $f"
-              else
-                echo "  удаляем   $f"
-                rm -f "$DEST/$f" "$DEST/$f.sha256"
-              fi
-            done
-            echo "осталось копий: $(ls -1 "$DEST"/bizsoft-*.tar.gz 2>/dev/null | wc -l), занято: $(du -sh "$DEST" 2>/dev/null | cut -f1)"
-            echo "свободно на диске: $(df -Pm "$BASE" | awk 'NR==2{print $4}') МБ"
+                if [ -n "${P_RCLONE:-}" ]; then
+                  printf '%s' "$P_RCLONE" | base64 -d 2>/dev/null | tr -d '\r' > "$BASE/rclone.conf"
+                  chmod 600 "$BASE/rclone.conf"
+                  RN=$(sed -n 's/^\[\(.*\)\]$/\1/p' "$BASE/rclone.conf" | head -1)
+                  echo "rclone.conf записан, хранилище: ${RN:-НЕ РАСПОЗНАНО}"
+                else
+                  echo "⚠ секрет GDRIVE_RCLONE_CONF пуст — конфиг rclone не записан, выгрузки не будет"
+                fi
 
-            # В облаке ничего не удаляется — намеренно. Место на Диске не
-            # ограничено, а скрипт, у которого нет ни одной команды удаления в
-            # облаке, защищает копии от того, кто получил доступ к серверу:
-            # стереть прод и следом стереть все копии одной командой не выйдет.
-            # Чистка Google Drive — ручная операция, раз в несколько месяцев.
-            if [ -n "$RC" ]; then
-              echo "── в Google Drive (ротация не применяется, только показ) ──"
-              "$RCLONE_BIN" --config "$RC" lsl "$REMOTE:$GDIR" 2>&1 | mask | tail -20
-              echo "  архивов в облаке: $("$RCLONE_BIN" --config "$RC" lsf "$REMOTE:$GDIR" 2>/dev/null | grep -c 'tar.gz.enc')"
-              echo "  занято в облаке: $("$RCLONE_BIN" --config "$RC" size "$REMOTE:$GDIR" 2>/dev/null | tail -1)"
-            fi
+                # Время в crontab — локальное для сервера. Вычисляем его из
+                # 00:30 UTC, чтобы прогон шёл в 03:30 МСК независимо от того,
+                # в каком поясе живёт машина.
+                CRON_HM=$(date -d '2026-06-15 00:30 UTC' +'%M %H')
+                TMPC=$(mktemp)
+                crontab -l 2>/dev/null | sed '/bizsoft-backup >>>/,/bizsoft-backup <<</d' > "$TMPC"
+                {
+                  echo '# >>> bizsoft-backup >>>'
+                  echo '# Ночная резервная копия biz-soft.pro (03:30 МСК). Ставится и'
+                  echo '# снимается только через workflow ops-backup (install/uninstall).'
+                  echo "$CRON_HM * * * $BASE/backup.sh backup >/dev/null 2>&1"
+                  echo '# <<< bizsoft-backup <<<'
+                } >> "$TMPC"
+                if crontab "$TMPC"; then
+                  rm -f "$TMPC"
+                  echo "расписание установлено (время сервера $(date +%Z%z)):"
+                  crontab -l | sed -n '/bizsoft-backup >>>/,/bizsoft-backup <<</p' | sed 's/^/  /'
+                else
+                  rm -f "$TMPC"; echo "✗ crontab не принял расписание"; exit 1
+                fi
+                echo
+                echo "════ ПРОВЕРОЧНЫЙ ОСМОТР ════"
+                MODE=check VERIFY="$P_VERIFY" OFFSITE="$P_OFFSITE" \
+                  BACKUP_PASSPHRASE="$P_PASS" MAIL_ON=never \
+                  "$BASE/backup.sh" check
+                ;;
 
-            echo
-            if [ "$FAIL" = "0" ]; then
-              echo "✓ ИТОГ: копия снята, проверена и выгружена"
-            else
-              echo "✗ ИТОГ: в ходе копирования были ошибки — см. выше"
-            fi
-            exit "$FAIL"
+              uninstall)
+                echo "════ СНЯТИЕ РАСПИСАНИЯ ════"
+                TMPC=$(mktemp)
+                crontab -l 2>/dev/null | sed '/bizsoft-backup >>>/,/bizsoft-backup <<</d' > "$TMPC"
+                crontab "$TMPC" && rm -f "$TMPC"
+                echo "строка из crontab удалена; скрипт, настройки и снятые копии остались на месте"
+                echo "ночных копий больше не будет — снимать вручную режимом backup"
+                ;;
+
+              *)
+                # Значения из окружения перекрывают файл настроек: ручной
+                # прогон должен слушаться полей ввода, а не ночных настроек.
+                MODE="$P_MODE" VERIFY="$P_VERIFY" OFFSITE="$P_OFFSITE" \
+                  KEEP_D="$P_KEEP_D" KEEP_W="$P_KEEP_W" KEEP_M="$P_KEEP_M" \
+                  BACKUP_PASSPHRASE="$P_PASS" RCLONE_CONF_B64="$P_RCLONE" \
+                  MAIL_ON="$P_MAIL" MAIL_TO="$P_MAIL_TO" \
+                  "$BASE/backup.sh" "$P_MODE"
+                ;;
+            esac
 
       - name: Post results to journal (issue #22)
         if: always()
@@ -629,7 +255,7 @@ jobs:
         env:
           OUT: ${{ steps.run.outputs.stdout }}
           RESULT: ${{ steps.run.outcome }}
-          MODE: ${{ inputs.mode || (github.event_name == 'schedule' && 'backup' || 'check') }}
+          MODE: ${{ inputs.mode }}
         with:
           script: |
             const out = (process.env.OUT || '(нет вывода)').slice(0, 60000);
@@ -642,10 +268,10 @@ jobs:
                 new Date().toISOString() + '\n```\n' + out + '\n```',
             });
 
-      - name: Fail the run if backup failed
-        # Шаг копирования помечен continue-on-error, чтобы отчёт в журнал
-        # попадал и при поломке. Красный статус прогона возвращаем здесь.
+      - name: Fail the run if it failed
+        # Шаг по SSH помечен continue-on-error, чтобы отчёт в журнал попадал
+        # и при поломке. Красный статус прогона возвращаем здесь.
         if: steps.run.outcome != 'success'
         run: |
-          echo "Копирование завершилось с ошибкой — подробности в issue #22"
+          echo "Прогон завершился с ошибкой — подробности в issue #22"
           exit 1
