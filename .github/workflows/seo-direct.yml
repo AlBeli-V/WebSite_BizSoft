@@ -64,4 +64,5 @@ jobs:
                     '\n\n```\n' + out.slice(0, 55000) + '\n```',
             });
       - name: Статус
-        run: grep -qF "Итог: доступ подтверждён" /tmp/direct-check.txt
+        run: |
+          grep -qF "Итог: доступ подтверждён" /tmp/direct-check.txt
