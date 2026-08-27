@@ -1,0 +1,67 @@
+# Yandex Direct API — этап 1: только чтение.
+# Режим check — диагностика подключения к кабинету: секреты, авторизация,
+# доступ к списку кампаний, остаток баллов. Ничего в кабинете не меняет
+# (в клиенте разрешён единственный метод get), поэтому Guard main не нужен.
+# Сеть к Яндексу есть только у раннера — из сессии Claude egress закрыт;
+# результат публикуется комментарием в журнал-issue #22.
+name: seo-direct
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: 'Режим (пока только check — диагностика подключения)'
+        required: true
+        default: 'check'
+        type: choice
+        options:
+          - check
+      sandbox:
+        description: 'Проверять только песочницу (api-sandbox)'
+        type: boolean
+        default: false
+  push:
+    paths:
+      - '.github/workflows/seo-direct.yml'
+      - 'scripts/seo/direct/**'
+permissions:
+  issues: write
+concurrency:
+  group: seo-direct
+  cancel-in-progress: false
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Зависимости
+        run: python3 -m pip install --quiet requests
+      - name: Проверка подключения (READ ONLY)
+        env:
+          YANDEX_DIRECT_TOKEN: ${{ secrets.YANDEX_DIRECT_TOKEN }}
+          DIRECT_OAUTH_TOKEN: ${{ secrets.DIRECT_OAUTH_TOKEN }}
+          YANDEX_DIRECT_CLIENT_LOGIN: ${{ secrets.YANDEX_DIRECT_CLIENT_LOGIN }}
+          DIRECT_SANDBOX: ${{ inputs.sandbox == true && '1' || '' }}
+        # без pipefail: комментарий в issue публикуется всегда, статус решает шаг «Статус»
+        run: python3 scripts/seo/direct/run.py --check 2>&1 | tee /tmp/direct-check.txt
+      - name: Публикация в журнал (issue 22)
+        if: always()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            let out = '';
+            try { out = fs.readFileSync('/tmp/direct-check.txt', 'utf8'); }
+            catch (e) { out = 'вывод недоступен: ' + e.message; }
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: 22,
+              body: '### seo-direct · check · ' + new Date().toISOString() +
+                    '\n\n```\n' + out.slice(0, 55000) + '\n```',
+            });
+      - name: Статус
+        run: grep -qF "Итог: доступ подтверждён" /tmp/direct-check.txt
