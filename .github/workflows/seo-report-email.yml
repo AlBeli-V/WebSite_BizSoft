@@ -1,3 +1,7 @@
+# КОПИЯ ИЗ MAIN. Push-триггер срабатывает только если файл workflow есть
+# в самой пушенной ветке, поэтому в ветке-хранилище seo-data лежит копия.
+# Синхронизируется сессией при data_sync push (GITHUB_TOKEN воркфлоу не
+# имеет права писать workflow-файлы — шаг в Actions только сверяет).
 # Отправка ежедневного письма BIZSoft Growth Intelligence (V4) на почту
 # после пуша отчёта в ветку-хранилище seo-data. Отправитель — ящик hello@biz-soft.pro
 # (SMTP reg.ru, 465/SSL), пароль — repo-секрет SMTP_PASS (тот же, что в ops-mail).
@@ -22,6 +26,11 @@ on:
     # отправлено (сбор в 05:40 МСК, сборка письма — утренним конвейером).
     - cron: "0 7 * * *"
   workflow_dispatch:
+    inputs:
+      subject_prefix:
+        description: 'Префикс темы (например «ТЕСТ — »); при непустом префиксе маркер отправки не пишется — тестовый прогон не блокирует штатную доставку'
+        required: false
+        default: ''
 
 permissions:
   contents: write
@@ -54,7 +63,12 @@ jobs:
           mode=send
           case "${{ github.event_name }}" in
             push)
-              [ -n "$date" ] && [ "$date" = "$mailed" ] && mode=skip
+              # Отправка только когда отчёт НОВЕЕ последнего отправленного.
+              # Прежнее условие «дата ≠ маркер» 26.08 переотправило письмо
+              # двухдневной давности: свежий файл был удержан линтом, датой
+              # последнего файла оказалось 24.08 при маркере 26.08 (#169).
+              # ISO-даты сравниваются строково корректно.
+              { [ -z "$date" ] || [ ! "$date" \> "$mailed" ]; } && mode=skip
               ;;
             schedule)
               if [ "$date" = "$today" ]; then
@@ -81,6 +95,7 @@ jobs:
           MAIL_TO: avbelyaev@biz-soft.pro
           MODE: ${{ steps.guard.outputs.mode }}
           TODAY: ${{ steps.guard.outputs.today }}
+          SUBJECT_PREFIX: ${{ inputs.subject_prefix || '' }}
         run: |
           if [ -z "$SMTP_PASS" ]; then
             echo "::error::Repo-секрет SMTP_PASS не задан (Settings → Secrets and variables → Actions) — письмо не отправлено."
@@ -93,6 +108,7 @@ jobs:
 
           mode = os.environ['MODE']
           today = os.environ['TODAY']
+          prefix = os.environ.get('SUBJECT_PREFIX', '')
           v4 = sorted(glob.glob('reports/seo/intelligence/*-v4-email.html'))
 
           msg = EmailMessage()
@@ -109,7 +125,7 @@ jobs:
               html = pathlib.Path(path).read_text(encoding='utf-8')
               plain = pathlib.Path(
                   f'reports/seo/intelligence/{date}-v4.txt').read_text(encoding='utf-8')
-              msg['Subject'] = f'BIZSoft Growth Intelligence — {date}'
+              msg['Subject'] = f'{prefix}BIZSoft Growth Intelligence — {date}'
               msg.set_content(plain)
               # подменяем cid:chart-* на реальные Content-ID и прикрепляем PNG
               charts = {}
@@ -132,7 +148,7 @@ jobs:
               # Старый отчёт под видом свежего — худший из возможных фолбэков.
               last = (os.path.basename(v4[-1]).replace('-v4-email.html', '')
                       if v4 else 'нет ни одного')
-              msg['Subject'] = f'BIZSoft Growth Intelligence — сбой сборки за {today}'
+              msg['Subject'] = f'{prefix}BIZSoft Growth Intelligence — сбой сборки за {today}'
               msg.set_content(
                   f'Отчёт за {today} не собрался к контрольному времени (10:00 МСК).\n'
                   f'Последнее успешное письмо — за {last}.\n\n'
@@ -158,7 +174,9 @@ jobs:
           PY
 
       - name: Record marker
-        if: steps.guard.outputs.mode != 'skip'
+        # Тестовая отправка (с префиксом темы) маркер не пишет: она не должна
+        # блокировать штатную доставку письма за ту же дату.
+        if: steps.guard.outputs.mode != 'skip' && (inputs.subject_prefix || '') == ''
         run: |
           git config user.name "Claude"
           git config user.email "noreply@anthropic.com"
