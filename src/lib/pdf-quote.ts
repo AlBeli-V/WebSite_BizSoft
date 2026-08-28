@@ -122,15 +122,19 @@ function draw(doc: PDFKit.PDFDocument, p: Primitive): void {
       .lineWidth(p.stroke).strokeColor(p.color).dash(p.dash[0], { space: p.dash[1] }).stroke();
     doc.undash();
 
-    const hasSub = Boolean(p.sub);
+    // Три строки оттиска: статус, марка, мелко номер. Каждая центрируется
+    // отдельно — строки разной длины, общий сдвиг перекосил бы штамп.
     doc.font('b').fontSize(p.size).fillColor(p.color);
-    const tw = doc.widthOfString(p.text);
-    const ty = hasSub ? p.y - p.size * 0.75 : p.y - p.size / 2;
-    doc.text(p.text, p.x - tw / 2, ty, { lineBreak: false });
-    if (hasSub) {
+    const l1w = doc.widthOfString(p.text);
+    doc.text(p.text, p.x - l1w / 2, p.y - p.size * 1.9, { lineBreak: false });
+    if (p.text2) {
+      const l2w = doc.widthOfString(p.text2);
+      doc.text(p.text2, p.x - l2w / 2, p.y - p.size * 0.55, { lineBreak: false });
+    }
+    if (p.sub) {
       doc.font('r').fontSize(p.subSize);
-      const sw = doc.widthOfString(p.sub!);
-      doc.text(p.sub!, p.x - sw / 2, p.y + p.size * 0.35, { lineBreak: false });
+      const sw = doc.widthOfString(p.sub);
+      doc.text(p.sub, p.x - sw / 2, p.y + p.size * 0.95, { lineBreak: false });
     }
 
     doc.restore();
