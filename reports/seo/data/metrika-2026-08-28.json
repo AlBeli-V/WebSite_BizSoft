@@ -380,6 +380,18 @@
           "url": "quote_error"
         }
       ]
+    },
+    {
+      "id": 603134154,
+      "name": "Автоцель: клик по email",
+      "type": "email",
+      "default_price": 0.0,
+      "is_retargeting": 0,
+      "goal_source": "auto",
+      "is_favorite": 0,
+      "status": "Active",
+      "labels": [],
+      "conditions": []
     }
   ],
   "traffic_sources": {
