@@ -12,11 +12,11 @@ on:
   workflow_dispatch:
     inputs:
       mode:
-        description: "dry-run — только показать; apply — создать кампанию"
+        description: "dry-run — показать; apply — создать; tune — счётчик/разметка/мониторинг/StartDate; audit — сверка состояния"
         required: true
         default: "dry-run"
         type: choice
-        options: ["dry-run", "apply"]
+        options: ["dry-run", "apply", "tune", "audit"]
 permissions:
   contents: read
   issues: write

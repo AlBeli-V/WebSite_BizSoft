@@ -172,9 +172,91 @@ def build_ads(spec: dict, group_ids: list[int]) -> dict:
     return {"Ads": ads}
 
 
+def find_campaign(token: str, name: str) -> int | None:
+    existing = call("campaigns", "get",
+                    {"SelectionCriteria": {}, "FieldNames": ["Id", "Name", "State"]}, token)
+    for c in existing.get("Campaigns") or []:
+        if c["Name"] == name:
+            return c["Id"]
+    return None
+
+
+def mode_tune(spec: dict, token: str) -> None:
+    """Привязка счётчика Метрики, разметка yclid, мониторинг сайта, StartDate."""
+    name = spec["campaign"]["name"]
+    camp_id = find_campaign(token, name)
+    if camp_id is None:
+        raise SystemExit(f"кампания «{name}» не найдена — сначала apply")
+    counter = spec["campaign"]["metrika_counter_id"]
+    payload = {"Campaigns": [{
+        "Id": camp_id,
+        "StartDate": spec["campaign"]["start_date"],
+        "TextCampaign": {
+            "CounterIds": {"Items": [counter]},
+            "Settings": [
+                {"Option": "ADD_METRICA_TAG", "Value": "YES"},
+                {"Option": "ENABLE_SITE_MONITORING", "Value": "YES"},
+            ],
+        },
+    }]}
+    check_add_results("Campaigns.update", call("campaigns", "update", payload, token),
+                      key="UpdateResults")
+    print(f"кампания {camp_id} обновлена: счётчик Метрики {counter}, разметка yclid "
+          f"включена, мониторинг сайта включён, StartDate {spec['campaign']['start_date']}")
+
+
+def mode_audit(spec: dict, token: str) -> None:
+    """Сверка фактического состояния кампании со спецификацией (только чтение)."""
+    name = spec["campaign"]["name"]
+    camp_id = find_campaign(token, name)
+    if camp_id is None:
+        raise SystemExit(f"кампания «{name}» не найдена")
+    camp = call("campaigns", "get", {
+        "SelectionCriteria": {"Ids": [camp_id]},
+        "FieldNames": ["Id", "Name", "State", "Status", "StatusPayment", "StartDate"],
+        "TextCampaignFieldNames": ["CounterIds", "Settings"],
+    }, token)["Campaigns"][0]
+    print(f"кампания {camp['Id']} «{camp['Name']}»")
+    print(f"  State={camp['State']} Status={camp['Status']} "
+          f"StatusPayment={camp.get('StatusPayment')} StartDate={camp['StartDate']}")
+    tc = camp.get("TextCampaign") or {}
+    print(f"  счётчики Метрики: {(tc.get('CounterIds') or {}).get('Items')}")
+    on = [s["Option"] for s in tc.get("Settings", []) if s.get("Value") == "YES"]
+    print(f"  включённые настройки: {', '.join(sorted(on)) or 'нет'}")
+
+    groups = call("adgroups", "get", {
+        "SelectionCriteria": {"CampaignIds": [camp_id]},
+        "FieldNames": ["Id", "Name", "Status"],
+    }, token).get("AdGroups", [])
+    for g in groups:
+        print(f"  группа {g['Id']} «{g['Name']}»: {g['Status']}")
+
+    ads = call("ads", "get", {
+        "SelectionCriteria": {"CampaignIds": [camp_id]},
+        "FieldNames": ["Id", "AdGroupId", "State", "Status", "StatusClarification"],
+    }, token).get("Ads", [])
+    from collections import Counter
+    print(f"  объявлений: {len(ads)}; статусы: "
+          + ", ".join(f"{k}={v}" for k, v in Counter(a["Status"] for a in ads).items())
+          + "; состояния: "
+          + ", ".join(f"{k}={v}" for k, v in Counter(a["State"] for a in ads).items()))
+    for a in ads:
+        note = (a.get("StatusClarification") or "").strip()
+        if a["Status"] == "REJECTED" and note:
+            print(f"    ОТКЛОНЕНО {a['Id']}: {note[:200]}")
+
+    kws = call("keywords", "get", {
+        "SelectionCriteria": {"CampaignIds": [camp_id]},
+        "FieldNames": ["Id", "Status"],
+    }, token).get("Keywords", [])
+    print(f"  фраз: {len(kws)}; статусы: "
+          + ", ".join(f"{k}={v}" for k, v in Counter(k_['Status'] for k_ in kws).items()))
+
+
 def main() -> None:
-    if len(sys.argv) != 3 or sys.argv[2] not in ("dry-run", "apply"):
-        raise SystemExit("использование: direct_apply.py <spec.json> <dry-run|apply>")
+    modes = ("dry-run", "apply", "tune", "audit")
+    if len(sys.argv) != 3 or sys.argv[2] not in modes:
+        raise SystemExit(f"использование: direct_apply.py <spec.json> <{'|'.join(modes)}>")
     spec = json.load(open(sys.argv[1], encoding="utf-8"))
     mode = sys.argv[2]
     token = os.environ.get("DIRECT_TOKEN", "")
@@ -184,6 +266,13 @@ def main() -> None:
     who = call("clients", "get", {"FieldNames": ["Login", "Currency"]}, token)
     info = (who.get("Clients") or [{}])[0]
     print(f"кабинет: {info.get('Login')} ({info.get('Currency')})")
+
+    if mode == "tune":
+        mode_tune(spec, token)
+        return
+    if mode == "audit":
+        mode_audit(spec, token)
+        return
 
     existing = call("campaigns", "get",
                     {"SelectionCriteria": {}, "FieldNames": ["Id", "Name", "State"]}, token)
