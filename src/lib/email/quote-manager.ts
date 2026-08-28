@@ -92,6 +92,13 @@ export function buildManagerQuoteEmail(input: ManagerQuoteEmailInput): RenderedE
         + (eco.complete ? '' : note(
           `Нет закупочных цен по позициям: ${eco.missingPurchase.map(escapeHtml).join(', ')} — `
           + 'прибыль посчитана без них и завышена. Подробности в Excel-вложении.', 'warn'))
+        + (eco.suspectMonthly.length ? note(
+          `<b>Проверить закупку:</b> у ${eco.suspectMonthly.map(escapeHtml).join(', ')} `
+          + 'соотношение продажи к закупке похоже на МЕСЯЧНУЮ закупочную цену при годовой '
+          + 'продаже — прибыль завышена, сверить с годовым прайсом вендора.', 'warn') : '')
+        + (eco.aboveSale.length ? note(
+          `<b>Закупка дороже продажи:</b> ${eco.aboveSale.map(escapeHtml).join(', ')} — `
+          + 'проверить период и валюту закупочной цены.', 'warn') : '')
       : note('Экономику посчитать не удалось (нет курса ЦБ) — см. закупочные цены вручную.', 'warn'))
     + note('<b>Вложения.</b> Word — рабочий исходник без штампов (клиенту не пересылать), '
       + 'PDF — точная копия отправленного клиенту документа, '
@@ -122,6 +129,10 @@ export function buildManagerQuoteEmail(input: ManagerQuoteEmailInput): RenderedE
       `Закупка: ${eco.purchaseRub > 0 ? rub(eco.purchaseRub) : 'нет данных'}`,
       `Ожидаемая прибыль: ${rub(eco.profit)} (${eco.profitPercent.toLocaleString('ru-RU')}%)`,
       ...(eco.complete ? [] : [`⚠ Без закупочных цен: ${eco.missingPurchase.join(', ')} — прибыль завышена.`]),
+      ...(eco.suspectMonthly.length
+        ? [`⚠ Похоже на месячную закупку при годовой продаже: ${eco.suspectMonthly.join(', ')} — сверить с прайсом вендора.`] : []),
+      ...(eco.aboveSale.length
+        ? [`⚠ Закупка дороже продажи: ${eco.aboveSale.join(', ')}.`] : []),
     ] : []),
     '',
     'Вложения: Word — рабочий (без штампов), PDF — копия клиентского,',

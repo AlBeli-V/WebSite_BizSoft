@@ -81,6 +81,42 @@ describe('неполные данные закупки', () => {
     expect(eco.purchaseRub).toBe(2 * 500 * 92);
   });
 
+  it('правдоподобное соотношение продажи и закупки помечается ok', () => {
+    const eco = buildQuoteEconomics(items, [product('A', { base_price_usd: 700 })], fx);
+    expect(eco.lines[0].flag).toBe('ok');
+    expect(eco.suspectMonthly).toEqual([]);
+    expect(eco.aboveSale).toEqual([]);
+  });
+
+  it('продажа в 6+ раз дороже закупки — подозрение на месячную закупку', () => {
+    // Поручение руководителя 28.08.2026: ошибка «закупка за месяц при годовой
+    // продаже» уже случалась. $100 × 85 = 8 500 ₽ закупки при продаже 105 000 ₽
+    // честной наценкой (~1.85) не объясняется, а месячной ценой — ровно.
+    const eco = buildQuoteEconomics(
+      [{ sku: 'M', name: 'Месячная закупка', qty: 1, price: 105000, sum: 105000 }],
+      [product('M', { base_price_usd: 100 })], fx);
+    expect(eco.lines[0].flag).toBe('suspect_monthly');
+    expect(eco.suspectMonthly).toEqual(['M']);
+  });
+
+  it('закупка дороже продажи — отдельный флаг', () => {
+    const eco = buildQuoteEconomics(
+      [{ sku: 'X', name: 'Перепутан период', qty: 1, price: 10000, sum: 10000 }],
+      [product('X', { base_price_usd: 700 })], fx);
+    expect(eco.lines[0].flag).toBe('above_sale');
+    expect(eco.aboveSale).toEqual(['X']);
+  });
+
+  it('закупочная цена старше 90 дней помечается устаревшей', () => {
+    const eco = buildQuoteEconomics(items,
+      [product('A', { base_price_usd: 700, purchase_updated_at: '2026-01-01T00:00:00Z' })], fx);
+    expect(eco.stalePurchase).toEqual(['A']);
+    expect(eco.lines[0].purchaseUpdatedAt).toBe('2026-01-01T00:00:00Z');
+    const fresh = buildQuoteEconomics(items,
+      [product('A', { base_price_usd: 700, purchase_updated_at: new Date().toISOString() })], fx);
+    expect(fresh.stalePurchase).toEqual([]);
+  });
+
   it('без курса ЦБ позиция попадает в «нет данных», а не в ноль', () => {
     const eco = buildQuoteEconomics(items,
       [product('A', { base_price_usd: 700 })], { usd: null, eur: null, date: null });
