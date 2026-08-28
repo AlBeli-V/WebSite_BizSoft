@@ -54,6 +54,7 @@ export function generateQuoteEconomicsXlsx(
     s('Продажа ед., ₽', true), s('Продажа сумма, ₽', true),
     s('Валюта закупки', true), s('Закупка ед., вал.', true), s('Закупка сумма, вал.', true),
     s('Закупка, ₽', true), s('Валовая маржа, ₽', true), s('Маржа, %', true),
+    s('Проверка закупки', true),
   ]);
 
   const firstItem = rows.length + 1; // 1-based номер первой строки позиций
@@ -72,6 +73,15 @@ export function generateQuoteEconomicsXlsx(
       hasRub ? f(`I${r}*${rateCell}`) : null,
       hasRub ? f(`F${r}-J${r}`) : null,
       hasRub ? f(`IF(F${r}=0,0,K${r}/F${r})`, '0.0%') : null,
+      // Итог санити-проверки: ошибка «закупка за месяц при годовой продаже»
+      // уже случалась, и молча она выглядит как фантастическая маржа.
+      l.flag === 'suspect_monthly'
+        ? s('⚠ похоже, закупка за МЕСЯЦ при годовой продаже — сверить с прайсом вендора', true)
+        : l.flag === 'above_sale'
+          ? s('⚠ закупка ДОРОЖЕ продажи — перепутан период или курс', true)
+          : l.purchaseUpdatedAt
+            ? s(`цена закупки от ${l.purchaseUpdatedAt.slice(0, 10)}`)
+            : (hasRub ? s('дата актуализации не заполнена') : null),
     ]);
   });
   const lastItem = firstItem + eco.lines.length - 1;
@@ -100,6 +110,16 @@ export function generateQuoteEconomicsXlsx(
     push([s(`⚠ Нет закупочных цен по позициям: ${eco.missingPurchase.join(', ')}. `
       + 'Закупка и прибыль посчитаны без них — итог завышен.', true)]);
   }
+  if (eco.suspectMonthly.length) {
+    push([s(`⚠ Подозрение на МЕСЯЧНУЮ закупку при годовой продаже: ${eco.suspectMonthly.join(', ')}. `
+      + 'Прибыль этих позиций завышена ≈ в 12 раз — сверить закупку с годовым прайсом вендора.', true)]);
+  }
+  if (eco.aboveSale.length) {
+    push([s(`⚠ Закупка дороже продажи: ${eco.aboveSale.join(', ')} — проверить период и валюту закупки.`, true)]);
+  }
+  if (eco.stalePurchase.length) {
+    push([s(`Закупочные цены старше ${cfg.purchaseStaleDays} дней: ${eco.stalePurchase.join(', ')} — стоит актуализировать.`)]);
+  }
   push([s('Закупка в валюте: '
     + [eco.purchaseByCurrency.USD ? `$${eco.purchaseByCurrency.USD.toLocaleString('ru-RU')}` : '',
        eco.purchaseByCurrency.EUR ? `€${eco.purchaseByCurrency.EUR.toLocaleString('ru-RU')}` : '']
@@ -111,11 +131,11 @@ export function generateQuoteEconomicsXlsx(
   rows.forEach((row, ri) => row.forEach((c, ci) => {
     if (c) ws[XLSX.utils.encode_cell({ r: ri, c: ci })] = c;
   }));
-  ws['!ref'] = XLSX.utils.encode_range({ s: { r: 0, c: 0 }, e: { r: rows.length - 1, c: 11 } });
+  ws['!ref'] = XLSX.utils.encode_range({ s: { r: 0, c: 0 }, e: { r: rows.length - 1, c: 12 } });
   ws['!cols'] = [
     { wch: 4 }, { wch: 18 }, { wch: 44 }, { wch: 8 },
     { wch: 14 }, { wch: 16 }, { wch: 12 }, { wch: 14 }, { wch: 16 },
-    { wch: 14 }, { wch: 16 }, { wch: 10 },
+    { wch: 14 }, { wch: 16 }, { wch: 10 }, { wch: 40 },
   ];
 
   const wb = XLSX.utils.book_new();

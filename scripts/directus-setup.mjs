@@ -175,6 +175,16 @@ async function buildSchema() {
   await ensureField('products', 'currency', { type: 'string', meta: { interface: 'input' }, schema: { default_value: 'RUB' } });
   await ensureField('products', 'base_price_usd', { type: 'float', meta: { interface: 'input', note: 'Базовая цена в USD (для привязки к курсу)' } });
   await ensureField('products', 'peg_to_usd', { type: 'boolean', meta: { interface: 'boolean' }, schema: { default_value: false } });
+  // Закупка: поля появились на проде разными путями — здесь они закреплены,
+  // чтобы новая база собиралась целиком (ensureField пропускает существующие).
+  await ensureField('products', 'base_price_eur', { type: 'float', meta: { interface: 'input', note: 'Закупочная себестоимость в EUR (с сайта производителя)' } });
+  await ensureField('products', 'peg_currency', { type: 'string', meta: { interface: 'select-dropdown', options: { choices: [{ text: 'USD', value: 'USD' }, { text: 'EUR', value: 'EUR' }] }, note: 'Валюта закупки' } });
+  await ensureField('products', 'markup_coeff', { type: 'float', meta: { interface: 'input', note: 'Коэффициент наценки: цена = себестоимость × курс × коэф. База 1.85' } });
+  // Свежесть закупочной цены — решение руководителя 28.08.2026: менеджер
+  // должен видеть, сегодняшняя это цена или трёхмесячной давности, и откуда
+  // она взята. Экономика КП помечает устаревшие цены по этой дате.
+  await ensureField('products', 'purchase_updated_at', { type: 'timestamp', meta: { interface: 'datetime', width: 'half', note: 'Когда закупочная цена сверялась с сайтом производителя.' } });
+  await ensureField('products', 'purchase_source', { type: 'string', meta: { interface: 'input', width: 'half', note: 'Откуда взята закупочная цена: страница прайса вендора.' } });
   await ensureField('products', 'markup_percent', { type: 'float', meta: { interface: 'input', note: 'Наценка, %' }, schema: { default_value: 0 } });
   await ensureField('products', 'promo_price', { type: 'float', meta: { interface: 'input', note: 'Акционная цена, ₽' } });
   await ensureField('products', 'promo_label', { type: 'string', meta: { interface: 'input' } });
@@ -251,6 +261,12 @@ async function buildSchema() {
 
   await ensureField('leads', 'owner', { type: 'string', meta: { interface: 'input', width: 'half', note: 'Ответственный менеджер.' } });
   await ensureField('leads', 'amount', { type: 'float', meta: { interface: 'input', width: 'half', note: 'Сумма сделки в рублях. Заполняется при выставлении счёта.' } });
+  // Экономика сделки из КП (P1, решение руководителя 28.08.2026): воронка
+  // отвечает не только «сколько выручки в работе», но и «сколько прибыли».
+  await ensureField('leads', 'quote_cost_rub', { type: 'float', meta: { interface: 'input', width: 'half', note: 'Закупка по КП, ₽ (по курсу ЦБ на дату КП).' } });
+  await ensureField('leads', 'quote_margin_rub', { type: 'float', meta: { interface: 'input', width: 'half', note: 'Расчётная прибыль по КП, ₽ (после НДС, налога и валютных расходов).' } });
+  await ensureField('leads', 'quote_margin_pct', { type: 'float', meta: { interface: 'input', width: 'half', note: 'Прибыль по КП, % от выручки.' } });
+  await ensureField('leads', 'quote_fx_rate', { type: 'float', meta: { interface: 'input', width: 'half', note: 'Курс ЦБ USD, зафиксированный при расчёте КП.' } });
   await ensureField('leads', 'qualified_at', { type: 'timestamp', meta: { interface: 'datetime', width: 'half', note: 'Когда стало ясно, что это реальный покупатель.' } });
   await ensureField('leads', 'closed_at', { type: 'timestamp', meta: { interface: 'datetime', width: 'half', note: 'Дата оплаты или отказа.' } });
   await ensureField('leads', 'lost_reason', {

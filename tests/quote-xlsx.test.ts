@@ -72,6 +72,19 @@ describe('Excel экономики сделки', () => {
     expect(texts.some((t) => t.includes('28.08.2026'))).toBe(true);
   });
 
+  it('подозрение на месячную закупку видно и в строке, и в предупреждении', () => {
+    const suspect = buildQuoteEconomics(
+      [{ sku: 'M', name: 'Месячная', qty: 1, price: 105000, sum: 105000 }],
+      [product('M', { base_price_usd: 100 })], fx);
+    const buf = generateQuoteEconomicsXlsx('BZ-1', '28.08.2026', suspect);
+    const wb = XLSX.read(buf, { type: 'buffer', cellFormula: true, sheetStubs: true });
+    const ws2 = wb.Sheets[wb.SheetNames[0]];
+    const t = Object.entries(ws2).filter(([k]) => !k.startsWith('!'))
+      .map(([, c]) => String((c as XLSX.CellObject).v ?? '')).join(' | ');
+    expect(t).toContain('закупка за МЕСЯЦ');
+    expect(t).toContain('Подозрение на МЕСЯЧНУЮ закупку');
+  });
+
   it('блок экономики содержит прибыль и валовую маржу', () => {
     expect(texts.some((t) => t.includes('ПРИБЫЛЬ по сделке'))).toBe(true);
     expect(texts.some((t) => t.includes('Валовая маржа'))).toBe(true);

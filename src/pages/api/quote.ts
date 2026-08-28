@@ -2,7 +2,7 @@ export const prerender = false;
 
 import type { APIRoute } from 'astro';
 import { getProductsBySkus, getZohoPositionsBySkus, createQuote, createLead, getLeads, createLeadEvent } from '../../lib/directus';
-import { leadFromQuote, describeQuote, attributionFields } from '../../lib/quote-lead';
+import { leadFromQuote, describeQuote, attributionFields, LEAD_ECONOMICS_FIELDS } from '../../lib/quote-lead';
 import { effectivePrice } from '../../lib/pricing';
 import { sendMail, managerEmail, salesFrom } from '../../lib/mailer';
 import { generateQuotePdf, buildQuoteNo, formatDateRu, addDays, type QuoteData } from '../../lib/pdf-quote';
@@ -61,7 +61,22 @@ async function recordQuoteLead(q: Parameters<typeof leadFromQuote>[0]): Promise<
     });
     return;
   }
-  await createLead(leadFromQuote(q));
+  const record = leadFromQuote(q);
+  try {
+    await createLead(record);
+  } catch (e) {
+    // До прогона ops-directus-schema на проде полей экономики в leads нет,
+    // и Directus отвергает запись целиком. Контакт важнее маржи в карточке:
+    // повторяем без экономики, а не теряем заявку.
+    const stripped = { ...record };
+    let hadEconomics = false;
+    for (const f of LEAD_ECONOMICS_FIELDS) {
+      if (f in stripped) { delete stripped[f]; hadEconomics = true; }
+    }
+    if (!hadEconomics) throw e;
+    console.warn('lead: поля экономики не приняты, повтор без них', e);
+    await createLead(stripped);
+  }
 }
 
 export const POST: APIRoute = async ({ request }) => {
@@ -189,10 +204,17 @@ export const POST: APIRoute = async ({ request }) => {
   // это дополнение к обращению, а не условие его приёма.
   const party = innCheck.valid ? await findParty(data.buyerInn).catch(() => null) : null;
 
+  // Экономика сделки: считается один раз и уходит и в заявку CRM, и в
+  // письмо руководителю. Обещание, а не ожидание: курс ЦБ — внешний сервис,
+  // его сбой или медленный ответ не должны задерживать письмо клиенту.
+  const ecoPromise: Promise<QuoteEconomics | null> = fetchCbrRates()
+    .then((rates) => buildQuoteEconomics(items, products, rates))
+    .catch((e) => { console.error('quote economics failed', e); return null; });
+
   // Заявка в воронку. Скачивание КП — самый тёплый контакт на сайте: назвали
   // организацию, ИНН, телефон и собрали корзину. Раньше это оседало в quotes и
   // в почте менеджера, а в воронке канал не существовал.
-  recordQuoteLead({
+  ecoPromise.then((eco) => recordQuoteLead({
     innCheck: innCheck.verdict,
     quoteNo,
     buyerCompany: data.buyerCompany,
@@ -204,7 +226,14 @@ export const POST: APIRoute = async ({ request }) => {
     total,
     validUntil: data.validUntil,
     attribution: attributionFields(body),
-  }).catch((e) => console.error('quote lead failed', e));
+    economics: eco ? {
+      costRub: eco.purchaseRub > 0 ? eco.purchaseRub : null,
+      marginRub: eco.profit,
+      marginPct: eco.profitPercent,
+      fxRate: eco.fx.usd,
+      incomplete: !eco.complete,
+    } : undefined,
+  })).catch((e) => console.error('quote lead failed', e));
 
   // ── Письма ──
   const clientFile = `KP_${quoteNo}.jpg`;
@@ -244,15 +273,9 @@ export const POST: APIRoute = async ({ request }) => {
   // прибыль). Всё собирается уже после ответа клиенту, поэтому сбой любого
   // шага не мешает выдать КП: письмо себе важно, но не важнее скачивания.
   //
-  // Экономика: закупка из полей товара по курсу ЦБ на сейчас. Курс —
-  // внешний сервис: его сбой оставляет письмо без блока экономики,
-  // а не задерживает и не роняет отправку.
-  let eco: QuoteEconomics | null = null;
-  try {
-    eco = buildQuoteEconomics(items, products, await fetchCbrRates());
-  } catch (e) {
-    console.error('quote economics failed', e);
-  }
+  // Экономика уже считается с момента приёма заявки (ecoPromise); здесь
+  // только дожидаемся результата — письмо клиенту к этому моменту ушло.
+  const eco = await ecoPromise;
 
   const managerMail = buildManagerQuoteEmail({
     data,

@@ -44,6 +44,16 @@ export interface EconomicsLine {
   grossMargin: number | null;
   /** Валовая маржа, % от продажи позиции. */
   grossMarginPercent: number | null;
+  /** Дата актуализации закупочной цены у товара; null — не заполнена. */
+  purchaseUpdatedAt: string | null;
+  /**
+   * Итог санити-проверки закупки:
+   * - suspect_monthly — продажа/закупка выше порога: похоже, в карточке
+   *   закупка за месяц при годовой продаже (поручение 28.08.2026);
+   * - above_sale — закупка дороже продажи: перепутан период или курс;
+   * - ok — соотношение правдоподобно; null — закупки нет, проверять нечего.
+   */
+  flag: 'ok' | 'suspect_monthly' | 'above_sale' | null;
 }
 
 export interface QuoteEconomics {
@@ -70,6 +80,12 @@ export interface QuoteEconomics {
   profitPercent: number;
   /** Артикулы без закупочной цены: итоги по ним неполные. */
   missingPurchase: string[];
+  /** Артикулы с подозрением на месячную закупку при годовой продаже. */
+  suspectMonthly: string[];
+  /** Артикулы, где закупка дороже продажи. */
+  aboveSale: string[];
+  /** Артикулы с закупочной ценой старше cfg.purchaseStaleDays дней. */
+  stalePurchase: string[];
   /** true, когда закупка посчитана по всем позициям. */
   complete: boolean;
 }
@@ -95,28 +111,48 @@ export function buildQuoteEconomics(
 ): QuoteEconomics {
   const bySku = new Map(products.map((p) => [p.sku, p]));
   const missingPurchase: string[] = [];
+  const suspectMonthly: string[] = [];
+  const aboveSale: string[] = [];
+  const stalePurchase: string[] = [];
   const purchaseByCurrency = { USD: 0, EUR: 0 };
   let purchaseRub = 0;
+  const staleBefore = Date.now() - cfg.purchaseStaleDays * 24 * 60 * 60 * 1000;
 
   const lines: EconomicsLine[] = items.map((it) => {
-    const buy = purchaseOf(bySku.get(it.sku));
+    const p = bySku.get(it.sku);
+    const buy = purchaseOf(p);
+    const updatedAt = (p as { purchase_updated_at?: string | null } | undefined)?.purchase_updated_at ?? null;
     const rate = buy ? (buy.currency === 'EUR' ? fx.eur : fx.usd) : null;
     if (!buy || !rate) {
       missingPurchase.push(it.sku);
       return { sku: it.sku, name: it.name, qty: it.qty, price: it.price, sum: it.sum,
                purchaseCurrency: buy?.currency ?? null, purchaseUnit: buy?.unit ?? null,
                purchaseSum: buy ? r2(buy.unit * it.qty) : null,
-               purchaseRub: null, grossMargin: null, grossMarginPercent: null };
+               purchaseRub: null, grossMargin: null, grossMarginPercent: null,
+               purchaseUpdatedAt: updatedAt, flag: null };
     }
     const purchaseSum = r2(buy.unit * it.qty);
     const rub = r2(purchaseSum * rate);
     purchaseByCurrency[buy.currency] += purchaseSum;
     purchaseRub += rub;
     const gross = r2(it.sum - rub);
+    // Санити-проверка периодичности (поручение руководителя 28.08.2026):
+    // ошибка «закупка за месяц, продажа за год» уже случалась, и молча она
+    // выглядит как фантастическая маржа. Сверяем соотношение по единице.
+    let flag: EconomicsLine['flag'] = 'ok';
+    if (rub > it.sum && it.sum > 0) {
+      flag = 'above_sale';
+      aboveSale.push(it.sku);
+    } else if (it.sum > 0 && rub > 0 && it.sum / rub >= cfg.monthlySuspectRatio) {
+      flag = 'suspect_monthly';
+      suspectMonthly.push(it.sku);
+    }
+    if (updatedAt && new Date(updatedAt).getTime() < staleBefore) stalePurchase.push(it.sku);
     return { sku: it.sku, name: it.name, qty: it.qty, price: it.price, sum: it.sum,
              purchaseCurrency: buy.currency, purchaseUnit: buy.unit, purchaseSum,
              purchaseRub: rub, grossMargin: gross,
-             grossMarginPercent: it.sum > 0 ? r2((gross / it.sum) * 100) : null };
+             grossMarginPercent: it.sum > 0 ? r2((gross / it.sum) * 100) : null,
+             purchaseUpdatedAt: updatedAt, flag };
   });
 
   const revenue = items.reduce((s, i) => s + i.sum, 0);
@@ -135,7 +171,7 @@ export function buildQuoteEconomics(
     purchaseByCurrency: { USD: r2(purchaseByCurrency.USD), EUR: r2(purchaseByCurrency.EUR) },
     fxReserve, grossMargin, profit,
     profitPercent: revenue > 0 ? r2((profit / revenue) * 100) : 0,
-    missingPurchase,
+    missingPurchase, suspectMonthly, aboveSale, stalePurchase,
     complete: missingPurchase.length === 0,
   };
 }
