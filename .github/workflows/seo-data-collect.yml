@@ -70,36 +70,30 @@ jobs:
       # фиксы в main недействующими (так жил дефект guard из #169). Сверка и
       # обновление — ежедневно, здесь, потому что этот прогон и так держит
       # обе ветки под рукой.
-      - name: Sync workflow copies to seo-data
+      # Только сверка: пуш workflow-файлов из Actions невозможен в принципе —
+      # GITHUB_TOKEN не имеет права workflows (проверено 28.08: remote
+      # rejected). Актуальность копий поддерживает сессия при data_sync push;
+      # этот шаг лишь поднимает предупреждение, если копия отстала.
+      - name: Check workflow copies in seo-data
         if: always()
         run: |
           set -e
-          tmp=$(mktemp -d)
           git fetch origin seo-data
-          git worktree add --detach "$tmp" origin/seo-data
-          changed=""
+          stale=""
           for f in seo-report-email.yml seo-publish-web.yml; do
             src=".github/workflows/$f"
-            dst="$tmp/.github/workflows/$f"
-            mkdir -p "$tmp/.github/workflows"
-            note="# КОПИЯ ИЗ MAIN. Push-триггер срабатывает только если файл workflow есть\n# в самой пушенной ветке, поэтому в ветке-хранилище seo-data лежит копия.\n# Обновляется автоматически шагом Sync workflow copies в seo-data-collect.\n"
-            printf "%b" "$note" > "$dst.new"
-            cat "$src" >> "$dst.new"
-            if ! cmp -s "$dst.new" "$dst"; then
-              mv "$dst.new" "$dst"
-              changed="$changed $f"
-            else
-              rm "$dst.new"
+            if ! git cat-file -e "origin/seo-data:$src" 2>/dev/null; then
+              stale="$stale $f(нет)"
+              continue
+            fi
+            # Первые 4 строки копии — примечание «КОПИЯ ИЗ MAIN», дальше —
+            # байт в байт содержимое файла из main.
+            if ! cmp -s <(git show "origin/seo-data:$src" | tail -n +5) "$src"; then
+              stale="$stale $f"
             fi
           done
-          if [ -n "$changed" ]; then
-            git -C "$tmp" config user.name "Claude"
-            git -C "$tmp" config user.email "noreply@anthropic.com"
-            git -C "$tmp" add .github/workflows
-            git -C "$tmp" commit -m "Синхронизация копий workflow с main:$changed"
-            git -C "$tmp" push origin HEAD:seo-data || echo "::warning::копии workflow не синхронизированы (гонка push) — повтор завтра"
-            echo "обновлено:$changed"
+          if [ -n "$stale" ]; then
+            echo "::warning::копии workflow в seo-data отстали от main:$stale — обновит сессия при ближайшем data_sync push (Actions пушить workflow-файлы не может)"
           else
             echo "копии совпадают с main"
           fi
-          git worktree remove --force "$tmp"
