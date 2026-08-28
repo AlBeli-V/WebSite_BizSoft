@@ -184,24 +184,76 @@ export function watermarks(quoteNo?: string): Primitive[] {
   return out;
 }
 
-/** Строки реквизитов продавца и покупателя. */
-function partyLines(data: QuoteData) {
-  return {
-    seller: [
-      seller.legalName,
-      seller.address,
-      `ИНН ${seller.inn}, ОГРНИП ${seller.ogrnip}`,
-      `Тел.: ${seller.phone}`,
-      `E-mail: ${seller.email}`,
-    ],
-    buyer: [
-      data.buyerCompany || '—',
-      data.buyerInn ? `ИНН ${data.buyerInn}` : '',
-      data.contactName ? `Контакт: ${data.contactName}` : '',
-      data.email ? `E-mail: ${data.email}` : '',
-      data.phone ? `Тел.: ${data.phone}` : '',
-    ].filter(Boolean),
-  };
+/**
+ * Общее содержимое КП для всех форматов.
+ *
+ * Word-версия верстается другой библиотекой и не может рисовать по
+ * координатам макета, но обязана совпадать с ним по содержанию. Поэтому
+ * каждый текстовый блок существует один раз — здесь, — а форматы только
+ * раскладывают его; расхождение содержимого становится невозможным по
+ * построению, и это закрепляет tests/quote-docx.test.ts.
+ */
+
+/** Контактные строки продавца в шапке и подписи. */
+export function sellerContactLines(): string[] {
+  return [seller.address, `Тел.: ${seller.phone}`, `E-mail: ${seller.email}`];
+}
+
+/** Контакты в блоке подписи (те же, плюс адрес сайта). */
+export function signatureContactLines(): string[] {
+  return [
+    seller.address,
+    `Тел.: ${seller.phone}`,
+    `E-mail: ${seller.email} · ${site.url.replace(/^https?:\/\//, '')}`,
+  ];
+}
+
+/** Служебные строки: исходящий номер, дата, срок действия. */
+export function headMetaLines(data: QuoteData): string[] {
+  // Исходящий номер — это и есть номер КП: держать два разных номера на
+  // одном документе значит однажды сослаться на не тот. Распоряжение
+  // руководителя 21.08.2026.
+  return [
+    `Исх. № ${data.outgoingNo || data.quoteNo}`,
+    `Дата скачивания: ${data.date}`,
+    `Действует до ${data.validUntil}`,
+  ];
+}
+
+/** Блок «Кому»: реквизиты покупателя из формы. */
+export function buyerLines(data: QuoteData): string[] {
+  return [
+    data.buyerCompany || '—',
+    data.buyerInn ? `ИНН ${data.buyerInn}` : '',
+    data.contactName || '',
+    data.email || '',
+    data.phone ? `Тел.: ${data.phone}` : '',
+  ].filter(Boolean);
+}
+
+/** Вводная фраза под обращением. */
+export function quoteIntro(buyerCompany: string): string {
+  const company = buyerCompany ? `в интересах ${buyerCompany}` : 'в интересах вашей организации';
+  return `Направляем вам предварительное коммерческое предложение ${company} `
+    + 'на поставку лицензий на программное обеспечение:';
+}
+
+/** Условия поставки — список под таблицей. */
+export function quoteConditions(validUntil: string): string[] {
+  return [
+    `Срок действия предложения: до ${validUntil}.`,
+    'Форма поставки: в электронном виде.',
+    'Условия оплаты: 100% аванс, безналичный расчёт в рублях по счёту.',
+    'Срок поставки: по согласованию сторон в зависимости от типа ПО, от 1 дня.',
+  ];
+}
+
+/** Две строки колонтитула с реквизитами продавца. */
+export function footerLines(): [string, string] {
+  return [
+    `${seller.legalName} · ИНН ${seller.inn} · ОГРНИП ${seller.ogrnip}`,
+    `Юридический адрес: ${seller.address} · ${seller.phone} · ${seller.email}`,
+  ];
 }
 
 /**
@@ -250,20 +302,13 @@ export function buildQuoteLayout(data: QuoteData, measure: Measure): Page[] {
 
   // ── Контакты продавца слева, номера и даты справа ──────────────────────
   let yL = 92;
-  for (const l of [seller.address, `Тел.: ${seller.phone}`, `E-mail: ${seller.email}`]) {
+  for (const l of sellerContactLines()) {
     text(l, left, yL, { size: 8.5, color: COLOR.muted });
     yL += 11;
   }
 
-  // Исходящий номер — это и есть номер КП: держать два разных номера на
-  // одном документе значит однажды сослаться на не тот. Распоряжение
-  // руководителя 21.08.2026.
   let yR = 92;
-  for (const l of [
-    `Исх. № ${data.outgoingNo || data.quoteNo}`,
-    `Дата скачивания: ${data.date}`,
-    `Действует до ${data.validUntil}`,
-  ]) {
+  for (const l of headMetaLines(data)) {
     text(l, left, yR, { size: 8.5, color: COLOR.muted, width, align: 'right' });
     yR += 11;
   }
@@ -275,13 +320,7 @@ export function buildQuoteLayout(data: QuoteData, measure: Measure): Page[] {
   // ── Кому ───────────────────────────────────────────────────────────────
   text('Кому:', left, y, { bold: true, size: 10, color: COLOR.dark });
   y += 14;
-  for (const l of [
-    data.buyerCompany || '—',
-    data.buyerInn ? `ИНН ${data.buyerInn}` : '',
-    data.contactName || '',
-    data.email || '',
-    data.phone ? `Тел.: ${data.phone}` : '',
-  ].filter(Boolean)) {
+  for (const l of buyerLines(data)) {
     for (const part of wrap(l, 9, width * 0.6, measure)) {
       text(part, left, y);
       y += 11;
@@ -294,11 +333,7 @@ export function buildQuoteLayout(data: QuoteData, measure: Measure): Page[] {
        { bold: true, size: 11, color: COLOR.dark, width, align: 'center' });
   y += 18;
 
-  const company = data.buyerCompany
-    ? `в интересах ${data.buyerCompany}`
-    : 'в интересах вашей организации';
-  y = para(`Направляем вам предварительное коммерческое предложение ${company} `
-           + 'на поставку лицензий на программное обеспечение:', left, y, width);
+  y = para(quoteIntro(data.buyerCompany), left, y, width);
   y += 8;
 
   // ── Таблица позиций ────────────────────────────────────────────────────
@@ -375,12 +410,7 @@ export function buildQuoteLayout(data: QuoteData, measure: Measure): Page[] {
   y += 10;
   text('Условия поставки', left, y, { bold: true, size: 10, color: COLOR.dark });
   y += 14;
-  for (const c of [
-    `Срок действия предложения: до ${data.validUntil}.`,
-    'Форма поставки: в электронном виде.',
-    'Условия оплаты: 100% аванс, безналичный расчёт в рублях по счёту.',
-    'Срок поставки: по согласованию сторон в зависимости от типа ПО, от 1 дня.',
-  ]) {
+  for (const c of quoteConditions(data.validUntil)) {
     put({ kind: 'bullet', x: left + 3, y: y + 4, size: 3, color: COLOR.accent });
     y = para(c, left + 14, y, width - 14, { size: 9 }) + 2;
   }
@@ -406,11 +436,7 @@ export function buildQuoteLayout(data: QuoteData, measure: Measure): Page[] {
   y += 18;
   text(`${signer.name}, ${signer.role}`, left, y, { bold: true, size: 10, color: COLOR.dark });
   y += 15;
-  for (const l of [
-    seller.address,
-    `Тел.: ${seller.phone}`,
-    `E-mail: ${seller.email} · ${site.url.replace(/^https?:\/\//, '')}`,
-  ]) {
+  for (const l of signatureContactLines()) {
     text(l, left, y, { size: 8.5, color: COLOR.muted });
     y += 11;
   }
@@ -419,10 +445,9 @@ export function buildQuoteLayout(data: QuoteData, measure: Measure): Page[] {
   const footY = PAGE.height - 46;
   put({ kind: 'line', x1: left, y1: footY - 8, x2: right, y2: footY - 8,
         color: COLOR.rule, lineWidth: 0.5 });
-  text(`${seller.legalName} · ИНН ${seller.inn} · ОГРНИП ${seller.ogrnip}`,
-       left, footY, { size: 7, color: COLOR.muted, width, align: 'center' });
-  text(`Юридический адрес: ${seller.address} · ${seller.phone} · ${seller.email}`,
-       left, footY + 10, { size: 7, color: COLOR.muted, width, align: 'center' });
+  const [foot1, foot2] = footerLines();
+  text(foot1, left, footY, { size: 7, color: COLOR.muted, width, align: 'center' });
+  text(foot2, left, footY + 10, { size: 7, color: COLOR.muted, width, align: 'center' });
 
   pages.push({ items });
   return pages;
