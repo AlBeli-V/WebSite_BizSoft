@@ -8,10 +8,14 @@ import { sendMail, managerEmail, salesFrom } from '../../lib/mailer';
 import { generateQuotePdf, buildQuoteNo, formatDateRu, addDays, type QuoteData } from '../../lib/pdf-quote';
 import { generateQuoteJpg } from '../../lib/jpg-quote';
 import { generateQuoteDocx } from '../../lib/docx-quote';
-import { site, seller, taxation } from '../../config/site';
-import { salutation } from '../../lib/salutation';
+import { site } from '../../config/site';
 import { verifyCompany } from '../../lib/inn';
 import { findParty, cardLines } from '../../lib/dadata';
+import { buildCustomerQuoteEmail } from '../../lib/email/quote-customer';
+import { buildManagerQuoteEmail } from '../../lib/email/quote-manager';
+import { buildQuoteEconomics, type QuoteEconomics } from '../../lib/quote-economics';
+import { generateQuoteEconomicsXlsx, economicsFileName } from '../../lib/xlsx-quote';
+import { fetchCbrRates } from '../../lib/currency';
 import type { QuoteItem } from '../../lib/types';
 import { guardSubmission, guardResponse, countSubmission } from '../../lib/form-guard';
 import { clientIp } from '../../lib/client-ip';
@@ -206,20 +210,11 @@ export const POST: APIRoute = async ({ request }) => {
   const clientFile = `KP_${quoteNo}.jpg`;
   const clientAttachment = { filename: clientFile, content: jpg, contentType: 'image/jpeg' };
 
-  // 1. Клиенту — КП во вложении, отправитель hello@biz-soft.pro
-  const clientText = [
-    // Обращение по имени, а не по всему полю: «Здравствуйте, Ласточкина
-    // Светлана Олеговна» звучит как вызов к доске.
-    salutation(data.contactName),
-    '',
-    `Коммерческое предложение № ${quoteNo} во вложении.`,
-    `Сумма: ${total.toLocaleString('ru-RU')} ₽, в т.ч. НДС ${taxation.vatPercent}%. `
-      + `Действует до ${data.validUntil}.`,
-    '',
-    'Форма поставки — в электронном виде. Оплата: 100% аванс по счёту.',
-    'Закрывающие: УПД с выделенным НДС 5% (или акт со счётом-фактурой).',
-    `${seller.shortName} · ${seller.phone} · ${site.url}`,
-  ].join('\n');
+  // 1. Клиенту — КП во вложении, отправитель hello@biz-soft.pro.
+  // HTML с text-fallback собирает шаблон (src/lib/email): фирменная шапка,
+  // карточка предложения, оговорка о предварительном характере, приглашение
+  // ответить на письмо — Reply-To ведёт к менеджеру.
+  const clientMail = buildCustomerQuoteEmail(data);
 
   // Письмо клиенту отправляем до ответа и ждём результата: экран говорит
   // «отправлено», и это должно быть правдой. Сбой SMTP при отправке в фоне
@@ -229,8 +224,9 @@ export const POST: APIRoute = async ({ request }) => {
       from: salesFrom,
       to: data.email,
       replyTo: managerEmail,
-      subject: `Коммерческое предложение № ${quoteNo} — BIZSoft`,
-      text: clientText,
+      subject: clientMail.subject,
+      text: clientMail.text,
+      html: clientMail.html,
       attachments: [clientAttachment],
     });
   } catch (e) {
@@ -242,42 +238,49 @@ export const POST: APIRoute = async ({ request }) => {
     }), { status: 502, headers: { 'Content-Type': 'application/json' } });
   }
 
-  // 2. Менеджеру — копия КП с данными заказчика из формы
-  const managerText = [
-    `Клиент запросил отправку КП № ${quoteNo} себе на почту.`,
-    '',
-    'Данные заказчика из формы:',
-    `Организация: ${data.buyerCompany}`,
-    `ИНН: ${data.buyerInn} — ${innCheck.verdict}`,
-    `Контактное лицо: ${data.contactName}`,
-    `E-mail: ${data.email}`,
-    `Телефон: ${data.phone}`,
-    '',
-    ...(party ? ['По данным ЕГРЮЛ:', ...cardLines(party),
-                 ...(party.active ? [] : ['⚠ Организация не действует — уточнить до счёта.']),
-                 ''] : []),
-    'Состав заказа:',
-    ...items.map((i) => `— ${i.name} (${i.sku}) × ${i.qty} = ${i.sum.toLocaleString('ru-RU')} ₽`),
-    '',
-    `Итого: ${total.toLocaleString('ru-RU')} ₽. Действует до ${data.validUntil}.`,
-  ].join('\n');
+  // 2. Менеджеру — карточка сделки и рабочий комплект: Word — поправить
+  // (без штампов, клиенту не пересылается), PDF — слепок клиентского
+  // документа, Excel — внутренняя экономика сделки (закупка, налоги,
+  // прибыль). Всё собирается уже после ответа клиенту, поэтому сбой любого
+  // шага не мешает выдать КП: письмо себе важно, но не важнее скачивания.
+  //
+  // Экономика: закупка из полей товара по курсу ЦБ на сейчас. Курс —
+  // внешний сервис: его сбой оставляет письмо без блока экономики,
+  // а не задерживает и не роняет отправку.
+  let eco: QuoteEconomics | null = null;
+  try {
+    eco = buildQuoteEconomics(items, products, await fetchCbrRates());
+  } catch (e) {
+    console.error('quote economics failed', e);
+  }
 
-  // Руководителю уходит рабочий комплект: Word — поправить, PDF — отправить.
-  // Документ собирается уже после ответа клиенту, поэтому его сбой не мешает
-  // выдать КП: письмо себе важно, но не важнее скачивания.
+  const managerMail = buildManagerQuoteEmail({
+    data,
+    innCheck,
+    partyCard: party ? cardLines(party) : [],
+    partyActive: party ? party.active : null,
+    eco,
+  });
+
   generateQuoteDocx(data)
     .then((docx) => sendMail({
       from: salesFrom,
       to: managerEmail,
       replyTo: data.email,
-      subject: (innCheck.valid && innCheck.nameMatch !== 'mismatch'
-                && (party === null || party.active) ? '' : '⚠ ')
-        + `Отправлено КП № ${quoteNo} — ${data.buyerCompany}`,
-      text: managerText,
+      subject: managerMail.subject,
+      text: managerMail.text,
+      html: managerMail.html,
       attachments: [
         { filename: `KP_${quoteNo}.docx`, content: docx,
           contentType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' },
         { filename: `KP_${quoteNo}.pdf`, content: pdf, contentType: 'application/pdf' },
+        // Внутренний файл: письмо предупреждает удалить его из вложений
+        // при ответе клиенту (Reply-To этого письма — адрес клиента).
+        ...(eco ? [{
+          filename: economicsFileName(quoteNo),
+          content: generateQuoteEconomicsXlsx(quoteNo, data.date, eco),
+          contentType: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        }] : []),
       ],
     }))
     .catch((e) => console.error('quote manager mail failed', e));
