@@ -46,10 +46,21 @@ export interface QuoteData {
  */
 export const VAT_PERCENT = 5;
 
-/** Оговорка о статусе документа — по распоряжению руководителя 21.08.2026. */
+/**
+ * Оговорка о статусе документа — распоряжение руководителя 28.08.2026
+ * (заменяет формулировку от 21.08.2026 «требует проверки и коррекции
+ * сотрудником»: она говорила клиенту, что документ может быть неверным).
+ *
+ * «Не является публичной офертой» — обязательная часть: документ с ценами
+ * и сроком действия без этой фразы рискует быть прочитан как оферта.
+ */
 export const PRELIMINARY_NOTE =
-  'Настоящий документ является предварительной бюджетной оценкой и требует '
-  + 'проверки и коррекции сотрудником.';
+  'Предложение носит предварительный характер и не является публичной '
+  + 'офертой. Окончательная стоимость, скидки за объём и индивидуальные '
+  + 'условия оплаты и поставки согласовываются сторонами в ходе переговоров.';
+
+/** Подзаголовок под названием документа в шапке. */
+export const HEAD_SUBTITLE = 'предварительное предложение · не является публичной офертой';
 
 export type Align = 'left' | 'right' | 'center';
 
@@ -61,9 +72,10 @@ export type Primitive =
       color: string; lineWidth: number }
   | { kind: 'image'; x: number; y: number; w: number; h: number; file: string }
   | { kind: 'bullet'; x: number; y: number; size: number; color: string }
-  | { kind: 'watermark'; x: number; y: number; text: string; sub?: string;
-      size: number; subSize: number; w: number; h: number; radius: number;
-      stroke: number; dash: number[]; color: string; opacity: number; angle: number };
+  | { kind: 'watermark'; x: number; y: number; text: string; text2?: string;
+      sub?: string; size: number; subSize: number; w: number; h: number;
+      radius: number; stroke: number; dash: number[]; color: string;
+      opacity: number; angle: number };
 
 export interface Page { items: Primitive[] }
 
@@ -100,26 +112,26 @@ export const COLOR = {
   body: '#374151', rule: '#E5E7EB', head: '#F3F4F6',
   /** Подложка оговорки о статусе документа. */
   noteBg: '#FFF4EF',
-  /** Штамп: фирменный оранжевый, как оттиск на образце. */
-  stamp: '#FF763C',
+  /** Штамп: красный — решение руководителя 28.08.2026 (было: фирменный оранжевый). */
+  stamp: '#C81E1E',
 };
 
 /**
- * Водяные знаки: сетка 3×4 = 12 штук на каждой странице.
+ * Водяные знаки: сетка 2×3 = 6 штампов на каждой странице.
  *
- * Требование руководителя — не менее девяти равномерно по телу страницы.
- * Три колонки на четыре ряда дают двенадцать и ложатся на A4 ровно: страница
- * выше, чем шире, и сетка 3×3 оставила бы разрежённые поля сверху и снизу.
+ * Решение руководителя 28.08.2026 (заменяет прежние 12 в сетке 3×4):
+ * двенадцать создавали визуальный шум, шесть достаточно, чтобы страницу
+ * нельзя было присвоить, и документ остаётся деловым на вид.
  * Знак идёт под содержимым и с низкой непрозрачностью — он должен мешать
  * присвоить документ, а не читать его.
  */
 export const WATERMARK = {
-  cols: 3, rows: 4,
+  cols: 2, rows: 3,
   /** Заметен, но не спорит с текстом: читаемость документа важнее приметности знака. */
-  opacity: 0.17,
-  size: 17, subSize: 7.5,
-  w: 148, h: 52, radius: 8, stroke: 2.4,
-  angle: -30,
+  opacity: 0.15,
+  size: 12.5, subSize: 7,
+  w: 180, h: 66, radius: 8, stroke: 1.6,
+  angle: -18,
   /**
    * Рваная обводка вместо сплошной.
    *
@@ -131,13 +143,19 @@ export const WATERMARK = {
 };
 
 /**
- * Штамп: рамка со скруглёнными углами и надпись внутри — как на образце.
+ * Строки штампа — решение руководителя 28.08.2026.
  *
- * Внутри не «DRAFT», а марка продавца и номер КП. Документ действующий:
- * пометка «черновик» на живом предложении обесценила бы его в глазах
- * получателя, а задача знака — не дать присвоить документ, а не отменить его.
+ * Статус документа читается прямо из знака: «ПРЕДВАРИТЕЛЬНОЕ КП» / «BIZSoft»,
+ * мелкой строкой номер. Номер в штампе оставлен сознательно: он мешает
+ * переиспользовать страницы одного предложения в другом. Пометки «черновик»
+ * по-прежнему нет — документ действующий, знак сообщает статус, а не
+ * отменяет предложение.
  */
-export function watermarks(text: string, sub?: string): Primitive[] {
+export const STAMP_LINE_1 = 'ПРЕДВАРИТЕЛЬНОЕ КП';
+export const STAMP_LINE_2 = 'BIZSoft';
+
+/** Штамп: красная рамка со скруглёнными углами и три строки внутри. */
+export function watermarks(quoteNo?: string): Primitive[] {
   const out: Primitive[] = [];
   const stepX = PAGE.width / WATERMARK.cols;
   const stepY = PAGE.height / WATERMARK.rows;
@@ -147,8 +165,9 @@ export function watermarks(text: string, sub?: string): Primitive[] {
         kind: 'watermark',
         x: stepX * (c + 0.5),
         y: stepY * (r + 0.5),
-        text,
-        sub,
+        text: STAMP_LINE_1,
+        text2: STAMP_LINE_2,
+        sub: quoteNo,
         size: WATERMARK.size,
         subSize: WATERMARK.subSize,
         w: WATERMARK.w,
@@ -199,13 +218,11 @@ export function buildQuoteLayout(data: QuoteData, measure: Measure): Page[] {
   const left = PAGE.margin;
   const right = PAGE.width - PAGE.margin;
   const width = right - left;
-  const mark = 'BIZSoft';
-  const markSub = data.quoteNo;
   const LINE = 12;
 
   const pages: Page[] = [];
-  let items: Primitive[] = [...watermarks(mark, markSub)];
-  const newPage = () => { pages.push({ items }); items = [...watermarks(mark, markSub)]; };
+  let items: Primitive[] = [...watermarks(data.quoteNo)];
+  const newPage = () => { pages.push({ items }); items = [...watermarks(data.quoteNo)]; };
 
   const put = (p: Primitive) => { items.push(p); };
   const text = (t: string, x: number, y: number, o: Partial<Extract<Primitive, { kind: 'text' }>> = {}) =>
@@ -228,7 +245,7 @@ export function buildQuoteLayout(data: QuoteData, measure: Measure): Page[] {
   put({ kind: 'image', x: left, y: 40, w: 132, h: 44, file: LOGO_FILE });
   text('КОММЕРЧЕСКОЕ ПРЕДЛОЖЕНИЕ', left, 52,
        { bold: true, size: 14, color: COLOR.dark, width, align: 'right' });
-  text('предварительная бюджетная оценка', left, 70,
+  text(HEAD_SUBTITLE, left, 70,
        { size: 8, color: COLOR.muted, width, align: 'right' });
 
   // ── Контакты продавца слева, номера и даты справа ──────────────────────
