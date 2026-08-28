@@ -29,9 +29,25 @@ export const EMAIL_COLOR = {
   noteBg: '#FFF4EF',
   ok: '#166534',
   warn: '#B42318',
+  /** Бордовый — критические предупреждения в тексте письма (решение 28.08). */
+  maroon: '#7E1428',
 } as const;
 
-const F = "font-family:Arial,Helvetica,sans-serif;";
+// Брендовый шрифт сайта — Raleway. Почтовые клиенты с поддержкой @font-face
+// (Apple Mail, iOS, часть остальных) возьмут его из блока в emailShell;
+// Gmail и Outlook веб-шрифты не грузят и упадут на системный из стека.
+const F = "font-family:'Raleway','Segoe UI',Roboto,Helvetica,Arial,sans-serif;";
+
+/**
+ * @font-face на файлы с нашего домена (public/fonts/). Это не «внешний
+ * ресурс» в смысле трекинга: без него письмо полностью читаемо, клиенты без
+ * поддержки просто не сделают запрос.
+ */
+const FONT_FACES = ['400', '700'].map((w) =>
+  ['cyrillic', 'latin'].map((subset) =>
+    `@font-face{font-family:'Raleway';font-style:normal;font-weight:${w};`
+    + `src:url(${site.url}/fonts/raleway-${subset}-${w}-normal.woff2) format('woff2');`
+    + `font-display:swap;}`).join('')).join('');
 
 /** Строка «ключ — значение» для карточки-таблицы. */
 export function kvRow(key: string, value: string, bold = false): string {
@@ -72,7 +88,8 @@ export function heading(text: string): string {
  */
 export function emailShell(bodyHtml: string, preheader = ''): string {
   return `<!DOCTYPE html><html lang="ru"><head><meta charset="utf-8">`
-    + `<meta name="viewport" content="width=device-width,initial-scale=1"></head>`
+    + `<meta name="viewport" content="width=device-width,initial-scale=1">`
+    + `<style>${FONT_FACES}</style></head>`
     + `<body style="margin:0;padding:0;background:${EMAIL_COLOR.bg};">`
     + (preheader
       ? `<div style="display:none;max-height:0;overflow:hidden;">${escapeHtml(preheader)}</div>`

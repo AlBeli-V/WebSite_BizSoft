@@ -66,9 +66,16 @@ describe('письмо руководителю', () => {
   const fx = { usd: 85, eur: 92, date: '28.08.2026' };
   const eco = buildQuoteEconomics(data.items, [product('A', { base_price_usd: 700 })], fx);
 
+const party = {
+  name: 'ООО «Ромашка»', fullName: 'ОБЩЕСТВО С ОГРАНИЧЕННОЙ ОТВЕТСТВЕННОСТЬЮ «Ромашка»',
+  inn: '7701234567', kpp: '770101001', ogrn: '1027700000000',
+  address: '119021, г Москва, ул Тестовая, д 1', manager: '',
+  status: 'действующая', active: true, registeredOn: '01.01.2010', okved: '62.01',
+};
+
   const ok = buildManagerQuoteEmail({
     data, innCheck: { valid: true, verdict: 'ИНН корректен', nameMatch: 'match' },
-    partyCard: ['ООО «Ромашка»'], partyActive: true, eco,
+    party, eco,
   });
 
   it('чистая заявка — без ⚠ в теме', () => {
@@ -81,14 +88,59 @@ describe('письмо руководителю', () => {
       { valid: false, verdict: 'не сошлась', nameMatch: 'not_checked' },
       { valid: true, verdict: 'ок', nameMatch: 'mismatch' },
     ]) {
-      const m = buildManagerQuoteEmail({ data, innCheck: bad, partyCard: [], partyActive: null, eco });
+      const m = buildManagerQuoteEmail({ data, innCheck: bad, party: null, eco });
       expect(m.subject.startsWith('⚠ ')).toBe(true);
     }
     const dead = buildManagerQuoteEmail({
       data, innCheck: { valid: true, verdict: 'ок', nameMatch: 'match' },
-      partyCard: [], partyActive: false, eco,
+      party: { ...party, active: false, status: 'ликвидирована' }, eco,
     });
     expect(dead.subject.startsWith('⚠ ')).toBe(true);
+  });
+
+
+  it('шапка — «Запрос КП на продукты …» с суммой', () => {
+    expect(ok.html).toContain('Запрос КП на продукты');
+    expect(ok.text).toContain('Запрос КП на продукты');
+  });
+
+  it('чистая заявка — без предупреждений и без светофора в теле', () => {
+    expect(ok.html).not.toContain('ВНИМАНИЕ');
+  });
+
+  it('несовпадение названия: одно бордовое предупреждение, оба названия с цветами', () => {
+    const m = buildManagerQuoteEmail({
+      data, innCheck: { valid: true, verdict: 'название не сходится', nameMatch: 'mismatch' },
+      party, eco,
+    });
+    expect(m.html).toContain('ИНН не соответствует декларируемому названию компании');
+    expect(m.html).toContain('(по ИНН)');
+    expect(m.html).toContain('(указано клиентом)');
+    expect(m.text).toContain('Компания (по ИНН): ООО «Ромашка»');
+  });
+
+  it('карточка: юрадрес, сайт по домену почты, наценка и прибыль', () => {
+    expect(ok.html).toContain('ул Тестовая');
+    expect(ok.html).toContain('example.ru');
+    expect(ok.html).toContain('Наценка');
+    expect(ok.html).toContain('Сумма до торга');
+    expect(ok.text).toContain('Наценка:');
+  });
+
+  it('состав заказа — таблицей с ценой за единицу и итогом', () => {
+    expect(ok.html).toContain('Кол-во');
+    expect(ok.html).toContain('Итого');
+    expect(ok.text).toContain('105\u00A0000');
+  });
+
+  it('развёрнутый ЕГРЮЛ ужат до серой сноски', () => {
+    expect(ok.html).toContain('ЕГРЮЛ:');
+    expect(ok.html).not.toContain('Основной вид деятельности');
+  });
+
+  it('письма набраны брендовым шрифтом Raleway со стеком фолбэков', () => {
+    expect(ok.html).toContain("'Raleway'");
+    expect(ok.html).toContain('@font-face');
   });
 
   it('экономика в карточке: закупка и прибыль', () => {
@@ -105,7 +157,7 @@ describe('письмо руководителю', () => {
   it('без курса ЦБ письмо честно говорит, что экономики нет', () => {
     const m = buildManagerQuoteEmail({
       data, innCheck: { valid: true, verdict: 'ок', nameMatch: 'match' },
-      partyCard: [], partyActive: null, eco: null,
+      party: null, eco: null,
     });
     expect(m.html).toContain('Экономику посчитать не удалось');
   });
@@ -116,7 +168,7 @@ describe('письмо руководителю', () => {
       [product('A', { base_price_usd: 700 }), product('B')], fx);
     const m = buildManagerQuoteEmail({
       data, innCheck: { valid: true, verdict: 'ок', nameMatch: 'match' },
-      partyCard: [], partyActive: null, eco: partial,
+      party: null, eco: partial,
     });
     expect(m.html).toContain('прибыль посчитана без них');
     expect(m.text).toContain('прибыль завышена');

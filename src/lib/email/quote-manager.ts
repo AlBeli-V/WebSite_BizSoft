@@ -1,8 +1,12 @@
 /**
  * Служебное письмо руководителю о новом КП — карточка sales-возможности.
  *
- * Сверху то, что нужно для решения «звонить сейчас или нет»: сумма,
- * организация, светофор проверок, экономика сделки. Детали — ниже.
+ * Состав и порядок блоков — решение руководителя 28.08.2026 (разбор
+ * тестового прогона): шапка «Запрос КП на продукты …», предупреждения
+ * только при реальной проблеме (бордовым), карточка реквизитов с названием
+ * по ЕГРЮЛ против названия из формы, юрадресом, сайтом по домену почты,
+ * наценкой и прибылью; состав заказа — таблицей как в КП; развёрнутая
+ * карточка ЕГРЮЛ — серой сноской.
  *
  * Вложения собирает обработчик: Word (рабочий исходник без штампов),
  * PDF (слепок клиентского документа со штампами) и Excel экономики —
@@ -11,6 +15,7 @@
  */
 import { economics as cfg, taxation } from '../../config/site';
 import type { QuoteData } from '../quote-layout';
+import type { PartyCard } from '../dadata';
 import { usdReference, type QuoteEconomics } from '../quote-economics';
 import {
   card, EMAIL_COLOR, emailShell, escapeHtml, heading, kvRow, note, paragraph,
@@ -20,29 +25,106 @@ import type { RenderedEmail } from './quote-customer';
 export interface ManagerQuoteEmailInput {
   data: QuoteData;
   innCheck: { valid: boolean; verdict: string; nameMatch?: string };
-  /** Строки карточки ЕГРЮЛ (cardLines) — пусто, если справочник молчал. */
-  partyCard: string[];
-  /** null — организация не проверялась; false — не действует. */
-  partyActive: boolean | null;
+  /** Карточка организации по ИНН (ЕГРЮЛ/ДаДата); null — справочник молчал. */
+  party: PartyCard | null;
   /** null — экономику посчитать не удалось (нет курса). */
   eco: QuoteEconomics | null;
 }
 
 // Неразрывный пробел перед ₽: обычный позволяет почтовику оторвать знак
 // валюты от числа на границе строки.
-const rub = (n: number) => `${n.toLocaleString('ru-RU', { maximumFractionDigits: 0 })} ₽`;
+const rub = (n: number) => `${n.toLocaleString('ru-RU', { maximumFractionDigits: 0 })} ₽`;
+const pct = (n: number) => `${n.toLocaleString('ru-RU', { maximumFractionDigits: 1 })}%`;
 
-function light(ok: boolean | null, okText: string, warnText: string, unknownText = ''): string {
-  if (ok === null) return `<span style="color:${EMAIL_COLOR.muted};">◻ ${unknownText}</span>`;
-  return ok
-    ? `<span style="color:${EMAIL_COLOR.ok};">✓ ${okText}</span>`
-    : `<span style="color:${EMAIL_COLOR.warn};">⚠ ${warnText}</span>`;
+/**
+ * Почтовые домены, по которым сайт компании не угадать: ящик личный.
+ * Для корпоративного домена сайт почти всегда живёт на нём же.
+ */
+const FREE_MAIL = new Set([
+  'mail.ru', 'bk.ru', 'list.ru', 'inbox.ru', 'internet.ru', 'xmail.ru',
+  'yandex.ru', 'ya.ru', 'yandex.com', 'gmail.com', 'googlemail.com',
+  'icloud.com', 'me.com', 'outlook.com', 'hotmail.com', 'live.com',
+  'rambler.ru', 'vk.com', 'proton.me', 'protonmail.com', 'yahoo.com',
+]);
+
+/** Догадка о сайте клиента по домену корпоративной почты. */
+export function siteFromEmail(email: string): { url: string | null; label: string } {
+  const domain = email.split('@')[1]?.trim().toLowerCase() || '';
+  if (!domain) return { url: null, label: '—' };
+  if (FREE_MAIL.has(domain)) return { url: null, label: `— (почта на публичном домене ${domain})` };
+  return { url: `https://${domain}`, label: domain };
 }
 
+const F = "font-family:'Raleway','Segoe UI',Roboto,Helvetica,Arial,sans-serif;";
+const th = (text: string, right = false): string =>
+  `<td ${right ? 'align="right" ' : ''}style="${F}font-size:11px;text-transform:uppercase;`
+  + `letter-spacing:.04em;color:${EMAIL_COLOR.muted};padding:0 8px 6px 0;`
+  + `border-bottom:1px solid ${EMAIL_COLOR.rule};">${text}</td>`;
+const td = (text: string, right = false, bold = false): string =>
+  `<td ${right ? 'align="right" ' : ''}style="${F}font-size:13px;color:${EMAIL_COLOR.dark};`
+  + `padding:6px 8px 6px 0;${bold ? 'font-weight:bold;' : ''}white-space:${right ? 'nowrap' : 'normal'};">${text}</td>`;
+
 export function buildManagerQuoteEmail(input: ManagerQuoteEmailInput): RenderedEmail {
-  const { data, innCheck, partyCard, partyActive, eco } = input;
-  const trouble = !(innCheck.valid && innCheck.nameMatch !== 'mismatch' && partyActive !== false);
+  const { data, innCheck, party, eco } = input;
+  const mismatch = innCheck.nameMatch === 'mismatch';
+  const trouble = !(innCheck.valid && !mismatch && (party === null || party.active));
   const subject = `${trouble ? '⚠ ' : ''}Отправлено КП № ${data.quoteNo} — ${data.buyerCompany}`;
+
+  // ── Предупреждения: только при реальной проблеме, одно на строку, бордовым.
+  const warnings: string[] = [];
+  if (!innCheck.valid) warnings.push('ВНИМАНИЕ: ИНН не проходит проверку контрольной суммы — сверить реквизиты до счёта');
+  else if (mismatch) warnings.push('ВНИМАНИЕ: ИНН не соответствует декларируемому названию компании');
+  if (party && !party.active) warnings.push('ВНИМАНИЕ: организация не действует по ЕГРЮЛ — уточнить до счёта');
+  const warnHtml = warnings.map((w) =>
+    paragraph(`<b style="color:${EMAIL_COLOR.maroon};">⚠ ${escapeHtml(w)}</b>`)).join('');
+
+  // ── Компания: краткое имя по ИНН против введённого клиентом.
+  // Совпали — одно название жирным чёрным; разошлись — реестровое
+  // тёмно-зелёным, клиентское красным, оба подписаны.
+  const companyHtml = mismatch && party?.name
+    ? `<b style="color:${EMAIL_COLOR.ok};">${escapeHtml(party.name)}</b>`
+      + ` <span style="color:${EMAIL_COLOR.muted};">(по ИНН)</span><br>`
+      + `<b style="color:${EMAIL_COLOR.warn};">${escapeHtml(data.buyerCompany)}</b>`
+      + ` <span style="color:${EMAIL_COLOR.muted};">(указано клиентом)</span>`
+    : `<b>${escapeHtml(party?.name || data.buyerCompany)}</b>`;
+
+  const siteGuess = siteFromEmail(data.email);
+  const siteHtml = siteGuess.url
+    ? `<a href="${siteGuess.url}" style="color:${EMAIL_COLOR.accent};text-decoration:none;">${escapeHtml(siteGuess.label)}</a>`
+      + ` <span style="color:${EMAIL_COLOR.muted};">(по домену почты)</span>`
+    : escapeHtml(siteGuess.label);
+
+  const markup = eco && eco.purchaseRub > 0
+    ? { rubV: eco.grossMargin, pctV: (eco.grossMargin / eco.purchaseRub) * 100 }
+    : null;
+
+  const names = data.items.map((i) => i.name);
+  const shownNames = names.slice(0, 3).join(', ') + (names.length > 3 ? ` и ещё ${names.length - 3}` : '');
+
+  // ── Состав заказа: таблица как в КП — цена за единицу, количество, сумма.
+  const itemsTable =
+    `<table role="presentation" cellpadding="0" cellspacing="0" width="100%">`
+    + `<tr>${th('Наименование')}${th('Цена', true)}${th('Кол-во', true)}${th('Сумма', true)}</tr>`
+    + data.items.map((i) =>
+      `<tr>${td(`${escapeHtml(i.name)} <span style="color:${EMAIL_COLOR.muted};">(${escapeHtml(i.sku)})</span>`)}`
+      + `${td(rub(i.price), true)}${td(String(i.qty), true)}${td(rub(i.sum), true)}</tr>`).join('')
+    + `<tr><td colspan="3" style="${F}font-size:13px;color:${EMAIL_COLOR.dark};font-weight:bold;`
+    + `padding:8px 8px 2px 0;border-top:1px solid ${EMAIL_COLOR.rule};">Итого</td>`
+    + `<td align="right" style="${F}font-size:13px;color:${EMAIL_COLOR.dark};font-weight:bold;`
+    + `padding:8px 0 2px;border-top:1px solid ${EMAIL_COLOR.rule};white-space:nowrap;">${rub(data.total)}</td></tr>`
+    + `</table>`;
+
+  // ── Развёрнутый ЕГРЮЛ — серой сноской одной строкой.
+  const egrulNote = party
+    ? paragraph('ЕГРЮЛ: ' + [
+        party.fullName,
+        `ИНН/КПП ${party.inn}${party.kpp ? ` / ${party.kpp}` : ''}`,
+        party.ogrn ? `ОГРН ${party.ogrn}` : '',
+        party.address,
+        `статус: ${party.status}${party.registeredOn ? `, в реестре с ${party.registeredOn}` : ''}`,
+        party.okved ? `ОКВЭД ${party.okved}` : '',
+      ].filter(Boolean).map(escapeHtml).join(' · '), { small: true, muted: true })
+    : '';
 
   const ecoRows = eco ? [
     kvRow('Выручка по КП', rub(eco.revenue), true),
@@ -53,39 +135,29 @@ export function buildManagerQuoteEmail(input: ManagerQuoteEmailInput): RenderedE
     kvRow(`НДС ${taxation.vatPercent}% + ${cfg.taxLabel.toLowerCase()} ${cfg.taxPercent}% + `
       + `${cfg.fxReserveLabel.toLowerCase()} ${cfg.fxReservePercent}%`,
       rub(eco.vat + eco.tax + eco.fxReserve)),
-    kvRow('Ожидаемая прибыль', `${rub(eco.profit)} · ${eco.profitPercent.toLocaleString('ru-RU')}%`, true),
+    kvRow('Ожидаемая прибыль', `${rub(eco.profit)} · ${pct(eco.profitPercent)}`, true),
   ].join('') : '';
 
   const html = emailShell(
-    heading(`Новое КП — ${rub(data.total)}`)
-    + paragraph(`<b>${escapeHtml(data.buyerCompany)}</b> · клиент запросил отправку `
-      + `КП № ${escapeHtml(data.quoteNo)} себе на почту.`)
-    + paragraph(
-      // Вердикт проверки уже начинается со слова «ИНН» — префикс не нужен.
-      light(innCheck.valid && innCheck.nameMatch !== 'mismatch',
-        escapeHtml(innCheck.verdict), escapeHtml(innCheck.verdict))
-      + '<br>'
-      + light(partyActive, 'Организация действует (ЕГРЮЛ)',
-        'Организация не действует — уточнить до счёта', 'ЕГРЮЛ не проверялся'))
+    heading(`Запрос КП — ${rub(data.total)}`)
+    + paragraph(`Запрос КП на продукты: <b>${escapeHtml(shownNames)}</b>. `
+      + `Сумма — <b>${rub(data.total)}</b>. КП № ${escapeHtml(data.quoteNo)} отправлено клиенту на почту.`)
+    + warnHtml
     + card(
       `<table role="presentation" cellpadding="0" cellspacing="0">`
+      + kvRow('Компания', companyHtml)
+      + kvRow('Адрес (юрид.)', escapeHtml(party?.address || '—'))
+      + kvRow('Сайт', siteHtml)
       + kvRow('Контакт', escapeHtml(data.contactName), true)
-      + kvRow('E-mail', escapeHtml(data.email))
       + kvRow('Телефон', escapeHtml(data.phone || '—'))
-      + kvRow('ИНН', escapeHtml(data.buyerInn))
-      + kvRow('Действует до', escapeHtml(data.validUntil))
+      + kvRow('Почта', escapeHtml(data.email))
+      + kvRow('Дата', `получено ${escapeHtml(data.date)} · действует до ${escapeHtml(data.validUntil)}`)
+      + kvRow('Сумма до торга', rub(data.total), true)
+      + kvRow('Наценка', markup ? `${rub(markup.rubV)} · ${pct(markup.pctV)}` : '—')
+      + kvRow('Прибыль', eco ? `${rub(eco.profit)} · ${pct(eco.profitPercent)}` : '—')
       + `</table>`)
-    + (partyCard.length
-      ? paragraph(`По данным ЕГРЮЛ:<br>${partyCard.map(escapeHtml).join('<br>')}`, { small: true, muted: true })
-      : '')
     + heading('Состав заказа')
-    + card(
-      `<table role="presentation" cellpadding="0" cellspacing="0" width="100%">`
-      + data.items.map((i) =>
-        `<tr><td style="font-family:Arial,Helvetica,sans-serif;font-size:13px;color:${EMAIL_COLOR.body};padding:4px 8px 4px 0;">`
-        + `${escapeHtml(i.name)} <span style="color:${EMAIL_COLOR.muted};">(${escapeHtml(i.sku)})</span> × ${i.qty}</td>`
-        + `<td align="right" style="font-family:Arial,Helvetica,sans-serif;font-size:13px;color:${EMAIL_COLOR.dark};padding:4px 0;white-space:nowrap;">${rub(i.sum)}</td></tr>`).join('')
-      + `</table>`)
+    + card(itemsTable)
     + (eco
       ? heading('Экономика сделки')
         + card(`<table role="presentation" cellpadding="0" cellspacing="0">${ecoRows}</table>`)
@@ -100,6 +172,7 @@ export function buildManagerQuoteEmail(input: ManagerQuoteEmailInput): RenderedE
           `<b>Закупка дороже продажи:</b> ${eco.aboveSale.map(escapeHtml).join(', ')} — `
           + 'проверить период и валюту закупочной цены.', 'warn') : '')
       : note('Экономику посчитать не удалось (нет курса ЦБ) — см. закупочные цены вручную.', 'warn'))
+    + egrulNote
     + note('<b>Вложения.</b> Word — рабочий исходник без штампов (клиенту не пересылать), '
       + 'PDF — точная копия отправленного клиенту документа, '
       + 'Excel — <b>внутренняя экономика сделки: при ответе клиенту удалить из вложений</b>.'),
@@ -107,33 +180,47 @@ export function buildManagerQuoteEmail(input: ManagerQuoteEmailInput): RenderedE
   );
 
   const text = [
-    `Клиент запросил отправку КП № ${data.quoteNo} себе на почту.`,
+    `Запрос КП на продукты: ${shownNames}. Сумма — ${data.total.toLocaleString('ru-RU')} ₽.`,
+    `КП № ${data.quoteNo} отправлено клиенту на почту.`,
+    ...warnings.map((w) => `⚠ ${w}`),
     '',
-    'Данные заказчика из формы:',
-    `Организация: ${data.buyerCompany}`,
+    'Реквизиты:',
+    ...(mismatch && party?.name
+      ? [`Компания (по ИНН): ${party.name}`, `Компания (указано клиентом): ${data.buyerCompany}`]
+      : [`Компания: ${party?.name || data.buyerCompany}`]),
     `ИНН: ${data.buyerInn} — ${innCheck.verdict}`,
-    `Контактное лицо: ${data.contactName}`,
-    `E-mail: ${data.email}`,
+    `Адрес (юрид.): ${party?.address || '—'}`,
+    `Сайт: ${siteGuess.url || siteGuess.label}`,
+    `Контакт: ${data.contactName}`,
     `Телефон: ${data.phone}`,
+    `Почта: ${data.email}`,
+    `Дата: получено ${data.date}, действует до ${data.validUntil}`,
+    `Сумма до торга: ${data.total.toLocaleString('ru-RU')} ₽`,
+    `Наценка: ${markup ? `${markup.rubV.toLocaleString('ru-RU')} ₽ (${pct(markup.pctV)})` : '—'}`,
+    `Прибыль: ${eco ? `${eco.profit.toLocaleString('ru-RU')} ₽ (${pct(eco.profitPercent)})` : '—'}`,
     '',
-    ...(partyCard.length ? ['По данным ЕГРЮЛ:', ...partyCard,
-      ...(partyActive === false ? ['⚠ Организация не действует — уточнить до счёта.'] : []),
-      ''] : []),
     'Состав заказа:',
-    ...data.items.map((i) => `— ${i.name} (${i.sku}) × ${i.qty} = ${i.sum.toLocaleString('ru-RU')} ₽`),
-    '',
-    `Итого: ${data.total.toLocaleString('ru-RU')} ₽. Действует до ${data.validUntil}.`,
+    ...data.items.map((i) =>
+      `— ${i.name} (${i.sku}): ${i.price.toLocaleString('ru-RU')} ₽ × ${i.qty} = ${i.sum.toLocaleString('ru-RU')} ₽`),
+    `Итого: ${data.total.toLocaleString('ru-RU')} ₽.`,
     ...(eco ? [
       '',
       'Экономика сделки:',
       `Закупка: ${eco.purchaseRub > 0 ? rub(eco.purchaseRub) : 'нет данных'}`,
-      `Ожидаемая прибыль: ${rub(eco.profit)} (${eco.profitPercent.toLocaleString('ru-RU')}%)`,
+      `Ожидаемая прибыль: ${rub(eco.profit)} (${pct(eco.profitPercent)})`,
       ...(eco.complete ? [] : [`⚠ Без закупочных цен: ${eco.missingPurchase.join(', ')} — прибыль завышена.`]),
       ...(eco.suspectMonthly.length
         ? [`⚠ Похоже на месячную закупку при годовой продаже: ${eco.suspectMonthly.join(', ')} — сверить с прайсом вендора.`] : []),
       ...(eco.aboveSale.length
         ? [`⚠ Закупка дороже продажи: ${eco.aboveSale.join(', ')}.`] : []),
-    ] : []),
+    ] : ['', 'Экономику посчитать не удалось (нет курса ЦБ) — см. закупочные цены вручную.']),
+    ...(party ? ['', 'ЕГРЮЛ: ' + [
+      party.fullName,
+      `ИНН/КПП ${party.inn}${party.kpp ? ` / ${party.kpp}` : ''}`,
+      party.ogrn ? `ОГРН ${party.ogrn}` : '',
+      party.address,
+      `статус: ${party.status}`,
+    ].filter(Boolean).join(' · ')] : []),
     '',
     'Вложения: Word — рабочий (без штампов), PDF — копия клиентского,',
     'Excel — ВНУТРЕННЯЯ экономика: при ответе клиенту удалить из вложений.',
