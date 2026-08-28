@@ -69,12 +69,15 @@ def check_add_results(label: str, result: dict, key: str = "AddResults") -> list
     return ids
 
 
-def schedule_business_hours() -> list[list[int]]:
-    """Пн–пт 9:00–19:00 (слоты 9..18), сб–вс — показов нет."""
+def schedule_business_hours() -> list[str]:
+    """Пн–пт 9:00–19:00 (слоты 9..18), сб–вс — показов нет.
+
+    API ждёт каждый день строкой «день,ч0,...,ч23» (ошибка 8000 при массиве).
+    """
     items = []
     for day in range(1, 8):
         on = [100 if (day <= 5 and 9 <= h <= 18) else 0 for h in range(24)]
-        items.append([day] + on)
+        items.append(",".join(str(v) for v in [day] + on))
     return items
 
 
