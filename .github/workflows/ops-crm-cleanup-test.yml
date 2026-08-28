@@ -30,13 +30,25 @@ jobs:
           capture_stdout: true
           script: |
             set -e
-            TOKEN=$(sed -n 's/^DIRECTUS_TOKEN=//p' /opt/bizsoft/astro.env | tr -d '"\r')
-            python3 - "$TOKEN" <<'PYEOF'
-            import json, sys, urllib.parse, urllib.request
+            cd /opt/bizsoft
+            # У сервисного токена нет права удаления — входим админом, как в
+            # ops-magnific: учётные данные лежат в env directus-контейнера.
+            ADMIN_EMAIL=$(docker compose exec -T directus printenv ADMIN_EMAIL | tr -d '\r')
+            ADMIN_PASSWORD=$(docker compose exec -T directus printenv ADMIN_PASSWORD | tr -d '\r')
+            export ADMIN_EMAIL ADMIN_PASSWORD
+            python3 - <<'PYEOF'
+            import json, os, urllib.parse, urllib.request
 
-            token = sys.argv[1]
             base = 'http://localhost:8055'
             MARK = 'прогон форм'
+
+            login = urllib.request.Request(base + '/auth/login', method='POST',
+                headers={'Content-Type': 'application/json'},
+                data=json.dumps({'email': os.environ['ADMIN_EMAIL'],
+                                 'password': os.environ['ADMIN_PASSWORD']}).encode())
+            with urllib.request.urlopen(login) as resp:
+                token = json.load(resp)['data']['access_token']
+            print('auth: admin login ok')
 
             def req(method, path, body=None):
                 r = urllib.request.Request(base + path, method=method,
