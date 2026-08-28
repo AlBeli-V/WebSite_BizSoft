@@ -1,0 +1,1263 @@
+{
+ "date": "2026-08-28",
+ "date_h": "28.08.2026",
+ "title": "BIZSoft Growth Intelligence",
+ "subtitle": "Daily Search, Demand &amp; Experiment Control",
+ "pills": [
+  {
+   "label": "ПОИСК",
+   "state": "mixed",
+   "text": "смешанная"
+  },
+  {
+   "label": "ДАННЫЕ",
+   "state": "verified",
+   "text": "сверено"
+  },
+  {
+   "label": "ОТ ВАС",
+   "state": "none",
+   "text": "не требуется"
+  }
+ ],
+ "sources_line": "Яндекс по 25.08 · Google по 25.08 · Метрика по 27.08 · спрос 20.08",
+ "user_action": "Решений от вас сегодня не требуется.",
+ "user_action_required": false,
+ "kpis": [
+  {
+   "key": "yandex",
+   "label": "Видимость в Яндексе",
+   "value": "2 091",
+   "unit": "показов за неделю",
+   "delta": "+1349",
+   "delta_dir": "up",
+   "relative": "+181,8%",
+   "relative_note": null,
+   "period": "19.08–25.08",
+   "source": "Яндекс.Вебмастер, весь сайт, дневные ряды",
+   "confidence": "достаточная",
+   "interpretation": "На первой странице 639 из 819 запросов выборки. CTR 0,81% по всему сайту.",
+   "muted": false,
+   "sparkline": [
+    125.0,
+    120.0,
+    113.0,
+    80.0,
+    94.0,
+    74.0,
+    136.0,
+    191.0,
+    380.0,
+    271.0,
+    271.0,
+    324.0,
+    313.0,
+    341.0
+   ]
+  },
+  {
+   "key": "google",
+   "label": "Видимость в Google",
+   "value": "26",
+   "unit": "показов за неделю",
+   "delta": "−12",
+   "delta_dir": "down",
+   "relative": "−31,6%",
+   "relative_note": null,
+   "period": "19.08–25.08",
+   "source": "Google Search Console, весь сайт, дневные ряды",
+   "confidence": "низкая, малые числа",
+   "interpretation": "Переходы из Google за окно: 1.",
+   "muted": false,
+   "sparkline": [
+    1,
+    3,
+    3,
+    3,
+    8,
+    11,
+    9,
+    3,
+    8,
+    2,
+    0,
+    4,
+    2,
+    7
+   ],
+   "slope": {
+    "prev_label": "пред. неделя",
+    "prev": 38,
+    "cur_label": "эта неделя",
+    "cur": 26,
+    "label": "Показы Google за неделю"
+   }
+  },
+  {
+   "key": "traffic",
+   "label": "Органический трафик",
+   "value": "17",
+   "unit": "визитов за неделю",
+   "delta": "−9",
+   "delta_dir": "down",
+   "relative": null,
+   "relative_note": null,
+   "period": "21.08–27.08",
+   "source": "Яндекс.Метрика, весь сайт, дневные ряды",
+   "confidence": "низкая, малые числа",
+   "interpretation": "Визиты из поиска: весь сайт, все поисковые системы.",
+   "muted": false,
+   "sparkline": [
+    5.0,
+    4.0,
+    1.0,
+    3.0,
+    5.0,
+    3.0,
+    5.0,
+    2.0,
+    1.0,
+    1.0,
+    3.0,
+    5.0,
+    2.0,
+    3.0
+   ]
+  },
+  {
+   "key": "commercial",
+   "label": "Коммерческий сигнал",
+   "value": "44",
+   "unit": "целевых событий",
+   "delta": null,
+   "delta_dir": "flat",
+   "relative": null,
+   "relative_note": "",
+   "period": "14.08–27.08",
+   "source": "Яндекс.Метрика, весь сайт",
+   "confidence": "низкая: 44 события",
+   "interpretation": "Это автоцели Метрики, а не подтверждённые обращения. Сайт отправляет 0 целей, которых нет в счётчике, поэтому счётчик их отбрасывает. Ноль по ним означает отсутствие замера, а не отсутствие обращений.",
+   "muted": true,
+   "sparkline": null,
+   "sample_ctr": "CTR выборки 1,16%"
+  }
+ ],
+ "signals": [
+  {
+   "tone": "negative",
+   "metric": "Показы в Google за неделю",
+   "current": "26",
+   "previous": "38",
+   "delta": "−12",
+   "confidence": "достаточная",
+   "meaning": "Страницы сайта стали показываться реже."
+  },
+  {
+   "tone": "positive",
+   "metric": "Страницы в поиске Яндекса",
+   "current": "478",
+   "previous": "467",
+   "delta": "+11",
+   "confidence": "достаточная",
+   "meaning": "В поиске стало больше страниц сайта."
+  },
+  {
+   "tone": "positive",
+   "metric": "Запросы выборки на первой странице",
+   "current": "639",
+   "previous": "571",
+   "delta": "+68",
+   "confidence": "достаточная",
+   "meaning": "Внутри выборки прибавилось запросов на первой странице."
+  }
+ ],
+ "drivers": {
+  "available": true,
+  "reason": null,
+  "blocks": [
+   {
+    "engine": "google",
+    "engine_label": "Google",
+    "metric_label": "показы",
+    "window_label": "накопленное окно 26 дней, сдвинуто на сутки",
+    "pages": {
+     "available": true,
+     "reason": null,
+     "total_delta": 9,
+     "net_delta_of_shown": 4,
+     "drivers": [
+      {
+       "entity": "/product/prfrc-p4-cloud",
+       "vendor": null,
+       "current": 4,
+       "previous": 0,
+       "delta": 4,
+       "clicks_delta": 0,
+       "position_delta": null,
+       "state": "new",
+       "confidence": "very_low",
+       "share_of_total_delta": 0.3076923076923077
+      },
+      {
+       "entity": "/vendors/jetbrains",
+       "vendor": "jetbrains",
+       "current": 13,
+       "previous": 11,
+       "delta": 2,
+       "clicks_delta": 0,
+       "position_delta": -3.59,
+       "state": "changed",
+       "confidence": "low",
+       "share_of_total_delta": 0.15384615384615385
+      }
+     ],
+     "detractors": [
+      {
+       "entity": "/vendors/zoom",
+       "vendor": "zoom",
+       "current": 29,
+       "previous": 31,
+       "delta": -2,
+       "clicks_delta": 0,
+       "position_delta": 0.61,
+       "state": "changed",
+       "confidence": "low",
+       "share_of_total_delta": 0.15384615384615385
+      }
+     ],
+     "all": [
+      {
+       "entity": "/product/prfrc-p4-cloud",
+       "vendor": null,
+       "current": 4,
+       "previous": 0,
+       "delta": 4,
+       "clicks_delta": 0,
+       "position_delta": null,
+       "state": "new",
+       "confidence": "very_low",
+       "share_of_total_delta": 0.3076923076923077
+      },
+      {
+       "entity": "/vendors/jetbrains",
+       "vendor": "jetbrains",
+       "current": 13,
+       "previous": 11,
+       "delta": 2,
+       "clicks_delta": 0,
+       "position_delta": -3.59,
+       "state": "changed",
+       "confidence": "low",
+       "share_of_total_delta": 0.15384615384615385
+      },
+      {
+       "entity": "/vendors/zoom",
+       "vendor": "zoom",
+       "current": 29,
+       "previous": 31,
+       "delta": -2,
+       "clicks_delta": 0,
+       "position_delta": 0.61,
+       "state": "changed",
+       "confidence": "low",
+       "share_of_total_delta": 0.15384615384615385
+      }
+     ],
+     "counted": 8,
+     "min_delta": 4,
+     "dropped_from_sample": []
+    },
+    "queries": {
+     "available": false,
+     "reason": "изменения слишком дробные, чтобы назвать драйвер",
+     "total_delta": 3,
+     "net_delta_of_shown": 0,
+     "drivers": [],
+     "detractors": [],
+     "all": [],
+     "counted": 4,
+     "min_delta": 3,
+     "dropped_from_sample": []
+    }
+   },
+   {
+    "engine": "yandex",
+    "engine_label": "Яндекс",
+    "metric_label": "показы",
+    "window_label": "выборка топ-100 запросов, окно 2026-08-14–2026-08-25",
+    "pages": {
+     "available": false,
+     "reason": "источник не отдаёт разбивку по страницам"
+    },
+    "queries": {
+     "available": false,
+     "reason": "изменения слишком дробные, чтобы назвать драйвер",
+     "total_delta": 534,
+     "net_delta_of_shown": 0,
+     "drivers": [],
+     "detractors": [],
+     "all": [],
+     "counted": 302,
+     "min_delta": 74,
+     "dropped_from_sample": [
+      "gaea indie скачать",
+      "heygen creator годовой тариф",
+      "закрывающие документы для российской компании от иностранного юр лица при подписках на электронные услуги",
+      "купить recraft pro",
+      "лицензия как закрывающий документ что это",
+      "оплата sketch для россиян",
+      "adobe бизнес pro и люди",
+      "elevenlabs enterprise цены",
+      "heygen creator/pro",
+      "license nuke",
+      "maxon ecosystem",
+      "maxon что это заодно",
+      "professional full seat",
+      "recraft ai тарифы www.klerk.ru",
+      "recraft купить на год www.klerk.ru",
+      "recraft купить на месяц www.klerk.ru",
+      "recraft тарифы www.klerk.ru",
+      "rizomuv rs или vs для архивиза",
+      "speedtree купить",
+      "spine 2d buy",
+      "unity продукт лицензия",
+      "vegas pro 365",
+      "где можно купить marmoset toolbag из россии",
+      "как оформить ип с деятельность помощь в оплате зарубежных сервисов",
+      "какие закрывающие документы на услуги",
+      "купить recraft через посредника www.klerk.ru",
+      "лицензщая gaea",
+      "моноинд",
+      "отличаются ли гуддини fx и гуддини core",
+      "про версия юнити цена",
+      "рекрафт тарифы www.klerk.ru",
+      "скачать marmoset toolbag 5",
+      "сколько стоит гудини",
+      "стоимость лицензионной cinema 4d + redshift",
+      "стоимость подписки шаттерсток для юр лиц",
+      "тарифы epidemic sound",
+      "тарифы recraft www.klerk.ru",
+      "хейген тарифа"
+     ]
+    }
+   }
+  ]
+ },
+ "driver_rows": [
+  {
+   "entity": "/product/prfrc-p4-cloud",
+   "vendor": null,
+   "current": 4,
+   "previous": 0,
+   "delta": 4,
+   "clicks_delta": 0,
+   "position_delta": null,
+   "state": "new",
+   "confidence": "very_low",
+   "share_of_total_delta": 0.3076923076923077
+  },
+  {
+   "entity": "/vendors/jetbrains",
+   "vendor": "jetbrains",
+   "current": 13,
+   "previous": 11,
+   "delta": 2,
+   "clicks_delta": 0,
+   "position_delta": -3.59,
+   "state": "changed",
+   "confidence": "low",
+   "share_of_total_delta": 0.15384615384615385
+  },
+  {
+   "entity": "/vendors/zoom",
+   "vendor": "zoom",
+   "current": 29,
+   "previous": 31,
+   "delta": -2,
+   "clicks_delta": 0,
+   "position_delta": 0.61,
+   "state": "changed",
+   "confidence": "low",
+   "share_of_total_delta": 0.15384615384615385
+  }
+ ],
+ "driver_summary": "Показы выросли на страницах: /product/prfrc-p4-cloud (+4), /vendors/jetbrains (+2).",
+ "driver_blocks": [
+  {
+   "engine": "Google",
+   "window": "накопленное окно 26 дней, сдвинуто на сутки",
+   "available": true,
+   "text": "Изменение +9 по страницам. Прибавили: /product/prfrc-p4-cloud, /vendors/jetbrains. Потеряли: /vendors/zoom.",
+   "rows": [
+    {
+     "entity": "/product/prfrc-p4-cloud",
+     "delta": "+4",
+     "share": "31%",
+     "state": "новая",
+     "positive": true,
+     "position_delta": null
+    },
+    {
+     "entity": "/vendors/jetbrains",
+     "delta": "+2",
+     "share": "15%",
+     "state": "",
+     "positive": true,
+     "position_delta": -3.59
+    },
+    {
+     "entity": "/vendors/zoom",
+     "delta": "−2",
+     "share": "15%",
+     "state": "",
+     "positive": false,
+     "position_delta": 0.61
+    }
+   ],
+   "counted": 8
+  },
+  {
+   "engine": "Яндекс",
+   "window": "выборка топ-100 запросов, окно 2026-08-14–2026-08-25",
+   "available": false,
+   "text": "Причина изменения пока не определена: разложить его на имеющихся данных нельзя.",
+   "rows": []
+  }
+ ],
+ "experiments": [
+  {
+   "id": "snippets-5-vendors",
+   "ticket": "SEO-EXP-001",
+   "hypothesis": "Коммерческие сниппеты с явным интентом «оплата на юрлицо, счёт, договор, ЭДО» и FAQ-разметка поднимут кликабельность страниц в выдаче Яндекса по транзакционным запросам кластеров.",
+   "treatment": "title по формуле «Оплата {Vendor} для юр(идических )лиц из России — счёт, договор, ЭДО | BIZSoft» (HeyGen и Marmoset — свои формулы); ядро ≤65 символов; description: «Оплатим подписку {Vendor} на вашу компанию в рублях по счёту. Договор, закрывающие документы через ЭДО, доступ за 1–3 дня.» (≤160); FAQ-блок «Как купить {Vendor} на юрлицо» — 4 вопроса (счёт и договор, ЭДО, сроки 1–3 дня, рубли по курсу ЦБ) с FAQPage-разметкой",
+   "combined_treatment": true,
+   "combined_note": "Метаданные и FAQ внедрены одной правкой на одних и тех же страницах, поэтому их вклады не разделяются.",
+   "start": "2026-08-19",
+   "days_elapsed": 9,
+   "minimum_exposure": "7 дн. и 500 показов",
+   "pages_total": 5,
+   "pages_live_with_treatment": null,
+   "new_variant_detected_on_site": null,
+   "search_snippet_refresh": "нет данных",
+   "search_snippet_refresh_note": "Выкат на сайте проверен напрямую. Обновил ли Яндекс сниппет в выдаче, по нашему сайту установить нельзя — это будет видно по данным Вебмастера через несколько дней после переобхода.",
+   "impressions_since_deploy": 670,
+   "impressions_estimated": true,
+   "clicks_since_deploy": 5,
+   "primary_metric": "CTR кластеров Canva/Depositphotos/CorelDRAW/HeyGen/Marmoset в Яндекс.Вебмастере ≥2% через 7 дней (26.08.2026), ≥3% через 14 дней (02.09.2026)",
+   "current_result": "5 переходов на 670 показов по запросам кластеров",
+   "confidence": "sufficient",
+   "next_review": "2026-08-26",
+   "verdict": "observing",
+   "verdict_reason": "экспозиция набрана, ждём контрольную дату",
+   "hypothesis_plain": "понятнее ли описание страницы в выдаче для того, кто покупает на компанию, и чаще ли по ней переходят",
+   "treatment_plain": "переписали заголовок и описание страницы под покупку по счёту и добавили блок ответов на частые вопросы.",
+   "metric_plain": "переходы из выдачи Яндекса по запросам этих пяти карточек; первая контрольная точка — 26.08, вторая — 02.09",
+   "confidence_plain": "достаточная по объёму показов"
+  },
+  {
+   "id": "cluster-depositphotos",
+   "ticket": "CONTENT-001",
+   "hypothesis": "Информационная статья под транзакционный интент «оплатить Depositphotos для юрлица» перехватывает запросы, по которым карточки и лендинг стоят на позициях 3–9, и передаёт им ссылочный вес через взаимную перелинковку — это поднимает показы всего кластера и выводит статью в топ-10.",
+   "treatment": "статья src/content/blog/kak-oplatit-depositphotos-dlya-yurlica.md: прямой ответ в первых двух предложениях, H2/H3, таблица сравнения тарифов (пакет 100 изображений, Unlimited месяц, Unlimited год), FAQ-блок из 6 вопросов с FAQPage-разметкой; частотные формулировки кластера в заголовках и тексте: «для юридических лиц», «в рублях», «по счёту», «пакет»; перелинковка статья → /vendors/depositphotos, /catalog, /documents и три карточки товаров; обратная перелинковка карточка → статья: product/[slug].astro выводит статьи, которые ссылаются на товар через relatedProducts (раньше блок статей был только у AI-вендоров)",
+   "combined_treatment": true,
+   "combined_note": "Метаданные и FAQ внедрены одной правкой на одних и тех же страницах, поэтому их вклады не разделяются.",
+   "start": "2026-08-19",
+   "days_elapsed": 9,
+   "minimum_exposure": "7 дн. и 500 показов",
+   "pages_total": 5,
+   "pages_live_with_treatment": null,
+   "new_variant_detected_on_site": null,
+   "search_snippet_refresh": "нет данных",
+   "search_snippet_refresh_note": "Выкат на сайте проверен напрямую. Обновил ли Яндекс сниппет в выдаче, по нашему сайту установить нельзя — это будет видно по данным Вебмастера через несколько дней после переобхода.",
+   "impressions_since_deploy": 478,
+   "impressions_estimated": true,
+   "clicks_since_deploy": 0,
+   "primary_metric": "рост показов кластера Depositphotos относительно базовых 273 показов за 14 дней и вход статьи /blog/kak-oplatit-depositphotos-dlya-yurlica в топ-10 Яндекса за 14 дней (контроль 02.09.2026)",
+   "current_result": "0 переходов на 478 показов по запросам кластеров",
+   "confidence": "low",
+   "next_review": "2026-08-26",
+   "verdict": "observing",
+   "verdict_reason": "накоплено 478 показов из 500 минимальных для вывода",
+   "hypothesis_plain": "понятнее ли описание страницы в выдаче для того, кто покупает на компанию, и чаще ли по ней переходят",
+   "treatment_plain": "переписали заголовок и описание страницы под покупку по счёту и добавили блок ответов на частые вопросы.",
+   "metric_plain": "переходы из выдачи Яндекса по запросам этих пяти карточек; первая контрольная точка — 26.08, вторая — 02.09",
+   "confidence_plain": "низкая: выборка мала"
+  },
+  {
+   "id": "snippets-6-demand",
+   "ticket": "SEO-EXP-002",
+   "hypothesis": "Коммерческие сниппеты с явным интентом «оплата на юрлицо, счёт, договор, ЭДО», FAQ-разметка и внутренние ссылки на раздел назначения ПО поднимут кликабельность и позиции по транзакционным запросам кластеров с подтверждённым спросом.",
+   "treatment": "title по формуле раздела, ядро ≤65 символов, бренд в title ровно один раз; description: «Оплатим подписку {Vendor} на вашу компанию в рублях по счёту. Договор, закрывающие документы через ЭДО, доступ за 1–3 дня.» (≤160); FAQ-блок «Как купить {Vendor} на юрлицо» — 4 вопроса (счёт и договор, ЭДО, сроки 1–3 дня, рубли по курсу ЦБ) с FAQPage-разметкой; блок «{Vendor} под задачу бизнеса» со ссылками на раздел решений (/solutions)",
+   "combined_treatment": true,
+   "combined_note": "Метаданные и FAQ внедрены одной правкой на одних и тех же страницах, поэтому их вклады не разделяются.",
+   "start": "2026-08-20",
+   "days_elapsed": 8,
+   "minimum_exposure": "7 дн. и 500 показов",
+   "pages_total": 6,
+   "pages_live_with_treatment": null,
+   "new_variant_detected_on_site": null,
+   "search_snippet_refresh": "нет данных",
+   "search_snippet_refresh_note": "Выкат на сайте проверен напрямую. Обновил ли Яндекс сниппет в выдаче, по нашему сайту установить нельзя — это будет видно по данным Вебмастера через несколько дней после переобхода.",
+   "impressions_since_deploy": 16,
+   "impressions_estimated": true,
+   "clicks_since_deploy": 0,
+   "primary_metric": "Появление фраз кластера в топ-10 Яндекс.Вебмастера и CTR ≥2% через 14 дней (03.09.2026), ≥3% через 30 дней (19.09.2026)",
+   "current_result": "0 переходов на 16 показов по запросам кластеров",
+   "confidence": "low",
+   "next_review": "2026-08-26",
+   "verdict": "observing",
+   "verdict_reason": "накоплено 16 показов из 500 минимальных для вывода",
+   "hypothesis_plain": "понятнее ли описание страницы в выдаче для того, кто покупает на компанию, и чаще ли по ней переходят",
+   "treatment_plain": "переписали заголовок и описание страницы под покупку по счёту и добавили блок ответов на частые вопросы.",
+   "metric_plain": "переходы из выдачи Яндекса по запросам этих пяти карточек; первая контрольная точка — 26.08, вторая — 02.09",
+   "confidence_plain": "низкая: выборка мала"
+  }
+ ],
+ "board": [
+  {
+   "id": "PPC-RES-001",
+   "task": "Рекламный тест",
+   "owner": "PPC Lead",
+   "stage": "заблокировано",
+   "status": "остановлено правилом",
+   "zone": "RED",
+   "due": "без срока",
+   "artifact": "тикет",
+   "artifact_url": "https://github.com/AlBeli-V/WebSite_BizSoft/blob/seo-data/reports/seo/tasks/PPC-RES-001-forecast.md",
+   "pr": null,
+   "ci": null,
+   "qa": null,
+   "deploy": null,
+   "rollback": null
+  },
+  {
+   "id": "SEO-EXP-002",
+   "task": "Сниппеты шести карточек с измеренным спросом",
+   "owner": "SEO Lead",
+   "stage": "наблюдение",
+   "status": "наблюдаем",
+   "zone": "GREEN",
+   "due": "03.09",
+   "artifact": "6 карточек производителей",
+   "artifact_url": "https://github.com/AlBeli-V/WebSite_BizSoft/blob/seo-data/reports/seo/intelligence/seo-experiments.json (snippets-6-demand)",
+   "pr": null,
+   "ci": null,
+   "qa": null,
+   "deploy": "05a0aeb",
+   "rollback": null
+  }
+ ],
+ "opportunities": {
+  "available": true,
+  "reason": null,
+  "items": [
+   {
+    "cluster": "claude team купить",
+    "engine": "yandex",
+    "evidence": "32 показов по запросу за период, средняя позиция 7.44 — в первой десятке, но без переходов",
+    "evidence_kind": "our_impressions",
+    "potential": "переходы при том же объёме показов — платить за них не нужно",
+    "confidence": "low",
+    "recommended_action": "переписать заголовок и описание страницы под запрос",
+    "effort": 1,
+    "score": 0.54,
+    "decision_date": "2026-08-26"
+   },
+   {
+    "cluster": "оплата depositphotos для юридических лиц из россии",
+    "engine": "yandex",
+    "evidence": "32 показов по запросу за период, средняя позиция 2.84 — в первой десятке, но без переходов",
+    "evidence_kind": "our_impressions",
+    "potential": "переходы при том же объёме показов — платить за них не нужно",
+    "confidence": "low",
+    "recommended_action": "переписать заголовок и описание страницы под запрос",
+    "effort": 1,
+    "score": 0.54,
+    "decision_date": "2026-08-26"
+   },
+   {
+    "cluster": "оплата motion array юридическим лицом",
+    "engine": "yandex",
+    "evidence": "31 показов по запросу за период, средняя позиция 3.26 — в первой десятке, но без переходов",
+    "evidence_kind": "our_impressions",
+    "potential": "переходы при том же объёме показов — платить за них не нужно",
+    "confidence": "low",
+    "recommended_action": "переписать заголовок и описание страницы под запрос",
+    "effort": 1,
+    "score": 0.5231,
+    "decision_date": "2026-08-26"
+   }
+  ],
+  "considered": 270,
+  "market_demand_used": false
+ },
+ "vendor_radar": {
+  "available": true,
+  "reason": null,
+  "items": [
+   {
+    "vendor": "Depositphotos",
+    "yandex": {
+     "impressions": 478,
+     "clicks": 0,
+     "queries": 54,
+     "best_position": 2.8
+    },
+    "google": {
+     "impressions": 0,
+     "clicks": 0,
+     "queries": 0,
+     "best_position": null
+    }
+   },
+   {
+    "vendor": "Recraft",
+    "yandex": {
+     "impressions": 97,
+     "clicks": 0,
+     "queries": 10,
+     "best_position": 6.2
+    },
+    "google": {
+     "impressions": 0,
+     "clicks": 0,
+     "queries": 0,
+     "best_position": null
+    }
+   },
+   {
+    "vendor": "Runway",
+    "yandex": {
+     "impressions": 97,
+     "clicks": 0,
+     "queries": 24,
+     "best_position": 6.0
+    },
+    "google": {
+     "impressions": 0,
+     "clicks": 0,
+     "queries": 0,
+     "best_position": null
+    }
+   },
+   {
+    "vendor": "CorelDRAW",
+    "yandex": {
+     "impressions": 94,
+     "clicks": 0,
+     "queries": 12,
+     "best_position": 5.0
+    },
+    "google": {
+     "impressions": 0,
+     "clicks": 0,
+     "queries": 0,
+     "best_position": null
+    }
+   },
+   {
+    "vendor": "Perplexity",
+    "yandex": {
+     "impressions": 71,
+     "clicks": 0,
+     "queries": 14,
+     "best_position": 3.0
+    },
+    "google": {
+     "impressions": 0,
+     "clicks": 0,
+     "queries": 0,
+     "best_position": null
+    }
+   },
+   {
+    "vendor": "GitHub",
+    "yandex": {
+     "impressions": 62,
+     "clicks": 0,
+     "queries": 8,
+     "best_position": 4.0
+    },
+    "google": {
+     "impressions": 0,
+     "clicks": 0,
+     "queries": 0,
+     "best_position": null
+    }
+   },
+   {
+    "vendor": "Postman",
+    "yandex": {
+     "impressions": 62,
+     "clicks": 0,
+     "queries": 14,
+     "best_position": 3.8
+    },
+    "google": {
+     "impressions": 0,
+     "clicks": 0,
+     "queries": 0,
+     "best_position": null
+    }
+   },
+   {
+    "vendor": "Notion",
+    "yandex": {
+     "impressions": 51,
+     "clicks": 0,
+     "queries": 10,
+     "best_position": 2.0
+    },
+    "google": {
+     "impressions": 0,
+     "clicks": 0,
+     "queries": 0,
+     "best_position": null
+    }
+   },
+   {
+    "vendor": "Envato",
+    "yandex": {
+     "impressions": 50,
+     "clicks": 0,
+     "queries": 11,
+     "best_position": 1.0
+    },
+    "google": {
+     "impressions": 0,
+     "clicks": 0,
+     "queries": 0,
+     "best_position": null
+    }
+   },
+   {
+    "vendor": "Box",
+    "yandex": {
+     "impressions": 49,
+     "clicks": 0,
+     "queries": 8,
+     "best_position": 3.2
+    },
+    "google": {
+     "impressions": 0,
+     "clicks": 0,
+     "queries": 0,
+     "best_position": null
+    }
+   },
+   {
+    "vendor": "Dropbox",
+    "yandex": {
+     "impressions": 46,
+     "clicks": 1,
+     "queries": 12,
+     "best_position": 4.0
+    },
+    "google": {
+     "impressions": 0,
+     "clicks": 0,
+     "queries": 0,
+     "best_position": null
+    }
+   },
+   {
+    "vendor": "Framer",
+    "yandex": {
+     "impressions": 46,
+     "clicks": 0,
+     "queries": 8,
+     "best_position": 5.4
+    },
+    "google": {
+     "impressions": 0,
+     "clicks": 0,
+     "queries": 0,
+     "best_position": null
+    }
+   },
+   {
+    "vendor": "Motion Array",
+    "yandex": {
+     "impressions": 39,
+     "clicks": 0,
+     "queries": 3,
+     "best_position": 3.3
+    },
+    "google": {
+     "impressions": 0,
+     "clicks": 0,
+     "queries": 0,
+     "best_position": null
+    }
+   },
+   {
+    "vendor": "Canva",
+    "yandex": {
+     "impressions": 38,
+     "clicks": 0,
+     "queries": 7,
+     "best_position": 2.0
+    },
+    "google": {
+     "impressions": 0,
+     "clicks": 0,
+     "queries": 0,
+     "best_position": null
+    }
+   },
+   {
+    "vendor": "GitLab",
+    "yandex": {
+     "impressions": 36,
+     "clicks": 0,
+     "queries": 16,
+     "best_position": 3.0
+    },
+    "google": {
+     "impressions": 0,
+     "clicks": 0,
+     "queries": 0,
+     "best_position": null
+    }
+   },
+   {
+    "vendor": "Spine",
+    "yandex": {
+     "impressions": 32,
+     "clicks": 3,
+     "queries": 24,
+     "best_position": 3.0
+    },
+    "google": {
+     "impressions": 0,
+     "clicks": 0,
+     "queries": 0,
+     "best_position": null
+    }
+   },
+   {
+    "vendor": "Unity",
+    "yandex": {
+     "impressions": 32,
+     "clicks": 1,
+     "queries": 26,
+     "best_position": 3.0
+    },
+    "google": {
+     "impressions": 0,
+     "clicks": 0,
+     "queries": 0,
+     "best_position": null
+    }
+   },
+   {
+    "vendor": "HeyGen",
+    "yandex": {
+     "impressions": 30,
+     "clicks": 1,
+     "queries": 9,
+     "best_position": 1.0
+    },
+    "google": {
+     "impressions": 0,
+     "clicks": 0,
+     "queries": 0,
+     "best_position": null
+    }
+   },
+   {
+    "vendor": "Artlist",
+    "yandex": {
+     "impressions": 29,
+     "clicks": 0,
+     "queries": 9,
+     "best_position": 2.0
+    },
+    "google": {
+     "impressions": 0,
+     "clicks": 0,
+     "queries": 0,
+     "best_position": null
+    }
+   },
+   {
+    "vendor": "Atlassian",
+    "yandex": {
+     "impressions": 29,
+     "clicks": 0,
+     "queries": 8,
+     "best_position": 2.0
+    },
+    "google": {
+     "impressions": 0,
+     "clicks": 0,
+     "queries": 0,
+     "best_position": null
+    }
+   },
+   {
+    "vendor": "Cloudflare",
+    "yandex": {
+     "impressions": 29,
+     "clicks": 0,
+     "queries": 13,
+     "best_position": 4.0
+    },
+    "google": {
+     "impressions": 0,
+     "clicks": 0,
+     "queries": 0,
+     "best_position": null
+    }
+   },
+   {
+    "vendor": "Marmoset",
+    "yandex": {
+     "impressions": 29,
+     "clicks": 4,
+     "queries": 12,
+     "best_position": 1.0
+    },
+    "google": {
+     "impressions": 0,
+     "clicks": 0,
+     "queries": 0,
+     "best_position": null
+    }
+   },
+   {
+    "vendor": "Cursor",
+    "yandex": {
+     "impressions": 22,
+     "clicks": 1,
+     "queries": 6,
+     "best_position": 6.0
+    },
+    "google": {
+     "impressions": 0,
+     "clicks": 0,
+     "queries": 0,
+     "best_position": null
+    }
+   },
+   {
+    "vendor": "Foundry",
+    "yandex": {
+     "impressions": 22,
+     "clicks": 0,
+     "queries": 12,
+     "best_position": 3.0
+    },
+    "google": {
+     "impressions": 0,
+     "clicks": 0,
+     "queries": 0,
+     "best_position": null
+    }
+   },
+   {
+    "vendor": "Anthropic",
+    "yandex": {
+     "impressions": 21,
+     "clicks": 0,
+     "queries": 7,
+     "best_position": 4.0
+    },
+    "google": {
+     "impressions": 0,
+     "clicks": 0,
+     "queries": 0,
+     "best_position": null
+    }
+   },
+   {
+    "vendor": "Leonardo AI",
+    "yandex": {
+     "impressions": 21,
+     "clicks": 0,
+     "queries": 4,
+     "best_position": 3.0
+    },
+    "google": {
+     "impressions": 0,
+     "clicks": 0,
+     "queries": 0,
+     "best_position": null
+    }
+   },
+   {
+    "vendor": "Maxon",
+    "yandex": {
+     "impressions": 17,
+     "clicks": 1,
+     "queries": 13,
+     "best_position": 3.0
+    },
+    "google": {
+     "impressions": 0,
+     "clicks": 0,
+     "queries": 0,
+     "best_position": null
+    }
+   },
+   {
+    "vendor": "Descript",
+    "yandex": {
+     "impressions": 15,
+     "clicks": 0,
+     "queries": 1,
+     "best_position": 3.3
+    },
+    "google": {
+     "impressions": 0,
+     "clicks": 0,
+     "queries": 0,
+     "best_position": null
+    }
+   },
+   {
+    "vendor": "SideFX Houdini",
+    "yandex": {
+     "impressions": 15,
+     "clicks": 0,
+     "queries": 11,
+     "best_position": 3.0
+    },
+    "google": {
+     "impressions": 0,
+     "clicks": 0,
+     "queries": 0,
+     "best_position": null
+    }
+   },
+   {
+    "vendor": "RizomUV",
+    "yandex": {
+     "impressions": 14,
+     "clicks": 1,
+     "queries": 9,
+     "best_position": 2.0
+    },
+    "google": {
+     "impressions": 0,
+     "clicks": 0,
+     "queries": 0,
+     "best_position": null
+    }
+   },
+   {
+    "vendor": "n8n",
+    "yandex": {
+     "impressions": 10,
+     "clicks": 0,
+     "queries": 1,
+     "best_position": 8.4
+    },
+    "google": {
+     "impressions": 0,
+     "clicks": 0,
+     "queries": 0,
+     "best_position": null
+    }
+   },
+   {
+    "vendor": "AnyDesk",
+    "yandex": {
+     "impressions": 9,
+     "clicks": 0,
+     "queries": 8,
+     "best_position": 3.0
+    },
+    "google": {
+     "impressions": 0,
+     "clicks": 0,
+     "queries": 0,
+     "best_position": null
+    }
+   },
+   {
+    "vendor": "ElevenLabs",
+    "yandex": {
+     "impressions": 9,
+     "clicks": 0,
+     "queries": 5,
+     "best_position": 2.5
+    },
+    "google": {
+     "impressions": 0,
+     "clicks": 0,
+     "queries": 0,
+     "best_position": null
+    }
+   },
+   {
+    "vendor": "Kling AI",
+    "yandex": {
+     "impressions": 9,
+     "clicks": 0,
+     "queries": 4,
+     "best_position": 2.0
+    },
+    "google": {
+     "impressions": 0,
+     "clicks": 0,
+     "queries": 0,
+     "best_position": null
+    }
+   },
+   {
+    "vendor": "Audiokinetic",
+    "yandex": {
+     "impressions": 8,
+     "clicks": 0,
+     "queries": 5,
+     "best_position": 1.0
+    },
+    "google": {
+     "impressions": 0,
+     "clicks": 0,
+     "queries": 0,
+     "best_position": null
+    }
+   },
+   {
+    "vendor": "QuadSpinner Gaea",
+    "yandex": {
+     "impressions": 8,
+     "clicks": 2,
+     "queries": 7,
+     "best_position": 2.0
+    },
+    "google": {
+     "impressions": 0,
+     "clicks": 0,
+     "queries": 0,
+     "best_position": null
+    }
+   },
+   {
+    "vendor": "SketchUp",
+    "yandex": {
+     "impressions": 8,
+     "clicks": 2,
+     "queries": 7,
+     "best_position": 1.0
+    },
+    "google": {
+     "impressions": 0,
+     "clicks": 0,
+     "queries": 0,
+     "best_position": null
+    }
+   }
+  ],
+  "ppc": [
+   {
+    "query": "claude team купить",
+    "vendor": null,
+    "shows": 32,
+    "position": 7.4,
+    "business_question": "приводит ли интент «claude team купить» платёжеспособных B2B-клиентов"
+   },
+   {
+    "query": "оплата coreldraw по счету из россии",
+    "vendor": "CorelDRAW",
+    "shows": 29,
+    "position": 5.9,
+    "business_question": "приводит ли интент «оплата coreldraw по счету из россии» платёжеспособных B2B-клиентов"
+   },
+   {
+    "query": "оплата пакета depositphotos в россии",
+    "vendor": "Depositphotos",
+    "shows": 26,
+    "position": 5.5,
+    "business_question": "приводит ли интент «оплата пакета depositphotos в россии» платёжеспособных B2B-клиентов"
+   },
+   {
+    "query": "рекрафт тарифы",
+    "vendor": null,
+    "shows": 23,
+    "position": 7.0,
+    "business_question": "приводит ли интент «рекрафт тарифы» платёжеспособных B2B-клиентов"
+   }
+  ],
+  "note": "Интерес в нашей выдаче, не рыночный спрос (его измеряет Вордстат)."
+ },
+ "health": {
+  "status": "verified",
+  "reason": "охваты сопоставлены: KPI считаются по всему сайту",
+  "colour": "positive",
+  "detail": "Показы и клики Яндекса, показы Google, визиты Метрики и сессии GA4 считаются по всему сайту за окна равной длины. Выборка запросов используется только в разделе возможностей и на KPI не влияет."
+ },
+ "demand": {
+  "available": true,
+  "title": "Спрос и направления развития",
+  "expansion": {
+   "title": "Каких вендоров добавить",
+   "summary": "Проверили спрос на 32 зарубежных разработчиков вне каталога: у 7 он подтверждён, суммарно 2 149 запросов в месяц. Из них: 3 с оплатой картой можно заводить сразу, 2 требуют ручной проверки оплаты.",
+   "items": [
+    {
+     "brand": "wordpress",
+     "demand": 299,
+     "kind": "классический",
+     "payment": "card",
+     "recommendation": "рекомендуем добавить",
+     "effort": "одна карточка вендора",
+     "url": "/vendors/wordpress",
+     "confidence": "высокая",
+     "confidence_note": null
+    },
+    {
+     "brand": "slack",
+     "demand": 123,
+     "kind": "классический",
+     "payment": "card",
+     "recommendation": "рекомендуем добавить",
+     "effort": "одна карточка вендора",
+     "url": "/vendors/slack",
+     "confidence": "высокая",
+     "confidence_note": null
+    }
+   ],
+   "manual_check": [
+    "nordvpn",
+    "ansys"
+   ],
+   "note": "Российские вендоры исключены: их лицензии продаются напрямую, услуга оплаты из-за рубежа к ним неприменима."
+  },
+  "summary": "Мы видим 262 981 покупательских запросов в месяц по 140 направлениям каталога. Своя страница есть под 87% этого спроса, в поиске находится 66%, на первой странице — 24%. Без страницы остаётся 18 096 запросов в месяц — это направления, где спрос есть, а нас в выдаче нет. Ещё 52 137 запросов в месяц не отнесены ни к нам, ни к чужому товару: это голые фразы омонимичных брендов (box — 30 187, zoom — 10 813, bubble купить — 5 732). В спрос и в решения об ассортименте они не входят.",
+  "coverage": {
+   "page": 0.8664,
+   "indexed": 0.6573,
+   "top10": 0.2382
+  },
+  "lead_opportunity": {
+   "cluster": "anthropic",
+   "demand": 27231,
+   "action": "эксперимент со сниппетом",
+   "why": "Позиция хорошая, показы есть, переходов мало",
+   "confidence": "достаточная: кластер измерен несколькими фразами"
+  },
+  "measured_at": "2026-08-27"
+ },
+ "measurement_summary": "Показы и переходы Яндекса относятся к весь сайт, визиты Метрики — к весь сайт и ко всем поисковым системам сразу. Сопоставлять корректно показы с переходами одной выборки, а визиты Метрики — с сессиями GA4.",
+ "checkpoints": [
+  {
+   "date": "26.08",
+   "what": "SEO-EXP-001: первый замер кликабельности изменённых страниц"
+  },
+  {
+   "date": "26.08",
+   "what": "CONTENT-001: первый замер кликабельности изменённых страниц"
+  },
+  {
+   "date": "26.08",
+   "what": "SEO-EXP-002: первый замер кликабельности изменённых страниц"
+  }
+ ],
+ "links": {
+  "web": "https://biz-soft.pro/r-80c199c035852825/daily/2026-08-28/index.html",
+  "web_public": true,
+  "tasks": "https://github.com/AlBeli-V/WebSite_BizSoft/tree/seo-data/reports/seo/tasks"
+ }
+}
