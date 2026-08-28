@@ -10,7 +10,7 @@ import { generateQuoteJpg } from '../../lib/jpg-quote';
 import { generateQuoteDocx } from '../../lib/docx-quote';
 import { site } from '../../config/site';
 import { verifyCompany } from '../../lib/inn';
-import { findParty, cardLines } from '../../lib/dadata';
+import { findParty } from '../../lib/dadata';
 import { buildCustomerQuoteEmail } from '../../lib/email/quote-customer';
 import { buildManagerQuoteEmail } from '../../lib/email/quote-manager';
 import { buildQuoteEconomics, type QuoteEconomics } from '../../lib/quote-economics';
@@ -280,8 +280,7 @@ export const POST: APIRoute = async ({ request }) => {
   const managerMail = buildManagerQuoteEmail({
     data,
     innCheck,
-    partyCard: party ? cardLines(party) : [],
-    partyActive: party ? party.active : null,
+    party,
     eco,
   });
 
