@@ -1,30 +1,43 @@
 {
-  "schema_version": "1.0.0",
-  "spec_version": "v2",
+  "schema_version": "1.1.0",
+  "spec_version": "v3",
   "date": "2026-08-28",
-  "status": "awaiting_owner_launch",
+  "status": "launch_ordered_by_owner",
   "provenance": {
     "demand": "Wordstat API, регион 225 (Россия), частотность за 30 дней, сбор 2026-08-20..27, база semantic-universe.jsonl",
     "catalog": "выгрузка Directus 2026-08-28 (ops-export-products, issue #22)",
-    "audit": "внешний эксперт по контекстной рекламе, замечания учтены 2026-08-28 (перечень — §10 документа «Директ-тест BIZSoft» v2)"
+    "audit": "внешний эксперт, замечания учтены в v2; v3 — поручение владельца 28.08: бюджет 5000 ₽/нед, жёсткий B2B-фильтр, показы пн–пт 9:00–19:00 МСК, запуск в пятницу со стартом показов в понедельник"
   },
   "campaign": {
     "name": "bs-test-2026-09",
-    "goal": "измерение: какая связка «поисковый интент → оффер → посадочная» показывает признаки B2B-покупателя",
+    "goal": "измерение: какая связка «поисковый интент → оффер → посадочная» показывает признаки покупателя, действующего в интересах юрлица; физлица отсекаются до клика",
     "network": "search_only",
     "geo": "Россия (225)",
-    "schedule": "круглосуточно",
+    "start_date": "2026-08-31",
+    "schedule": "пн–пт 9:00–19:00 МСК; сб, вс и праздники — показов нет; рабочие субботы не включаются",
     "strategy": {
       "type": "максимум кликов",
-      "weekly_limit_rub_net": 1000,
-      "note": "конверсионные стратегии — только в раунде 3, при бюджете ~10x целевой стоимости обращения в неделю"
+      "weekly_limit_rub_net": 4098,
+      "note": "5000 ₽/нед пополнения − НДС 22% = 4098 ₽/нед на открутку; конверсионные стратегии — только в раунде 3"
     },
     "budget": {
-      "topup_rub_gross": 5000,
+      "weekly_topup_rub_gross": 5000,
       "vat_rate": 0.22,
-      "net_rub": 4098,
-      "note": "НДС 22% для РФ с 01.01.2026"
+      "weekly_net_rub": 4098
     },
+    "bid_modifiers": {
+      "mobile_pct": 50,
+      "age_under_18_off": true,
+      "note": "мобильные −50% (B2B-решения в рабочее окно принимаются преимущественно с десктопа), возраст до 18 — показы выключены"
+    },
+    "negative_keywords": [
+      "бесплатно", "бесплатный", "бесплатная", "скачать", "торрент", "взлом",
+      "кряк", "промокод", "купон", "зеркало", "телеграм", "бот", "аккаунт",
+      "аккаунты", "студент", "студенту", "школьник", "себя", "личный",
+      "личная", "триал", "пробный", "пробная", "халява", "vpn", "картой",
+      "реферал", "подарок"
+    ],
+    "negative_note": "общекампанийный блок физлицо-маркеров — поручение владельца: ищем только действующих в интересах организаций; из-за минуса «аккаунт» фразы «купить аккаунт …» из v2 удалены",
     "utm_template": "utm_source=yandex&utm_medium=cpc&utm_campaign=bs-test-2026-09&utm_content={group}&utm_term={keyword}",
     "metrics": {
       "primary": ["заявка отправлена", "запрос КП с контактами"],
@@ -38,7 +51,6 @@
       "id": "k1-claude",
       "title": "Claude — подписки для компаний",
       "share": 0.45,
-      "budget_rub_gross": 2250,
       "max_bid_rub": 60,
       "landing": "https://biz-soft.pro/vendors/anthropic",
       "products": [
@@ -47,34 +59,30 @@
       ],
       "stop_rule": "40+ кликов без secondary — пауза самых дорогих фраз; 60+ кликов без secondary — пауза группы",
       "keywords": [
-        {"keyword": "\"claude купить\"", "operators": "кавычки", "reason": "частотная 2-словная; кавычки запрещают неизмеренные хвосты (бесплатно/скачать)", "expected_intent": "покупка подписки Claude, смешанный B2C/B2B", "wordstat_frequency": 9944},
-        {"keyword": "\"claude купить подписку\"", "operators": "кавычки", "reason": "частотная; хвосты отрезаны кавычками", "expected_intent": "покупка подписки", "wordstat_frequency": 4435},
-        {"keyword": "\"claude pro купить\"", "operators": "кавычки", "reason": "частотная тарифная", "expected_intent": "покупка тарифа Pro (личный) — на посадочной переориентация на Team", "wordstat_frequency": 1107},
-        {"keyword": "\"купить аккаунт claude\"", "operators": "кавычки", "reason": "частотная; риск серого интента принят сознательно, первый кандидат на минусацию", "expected_intent": "рабочий доступ; часть аудитории не знает про легальное оформление", "wordstat_frequency": 883},
+        {"keyword": "\"claude купить\"", "operators": "кавычки", "reason": "частотная 2-словная; кавычки запрещают неизмеренные хвосты", "expected_intent": "покупка подписки Claude; юрлица отбираются объявлением и рабочим окном", "wordstat_frequency": 9944},
+        {"keyword": "\"claude купить подписку\"", "operators": "кавычки", "reason": "частотная", "expected_intent": "покупка подписки", "wordstat_frequency": 4435},
+        {"keyword": "\"claude pro купить\"", "operators": "кавычки", "reason": "частотная тарифная", "expected_intent": "тариф Pro — на посадочной переориентация на Team", "wordstat_frequency": 1107},
         {"keyword": "\"claude ai купить\"", "operators": "кавычки", "reason": "частотная", "expected_intent": "покупка подписки", "wordstat_frequency": 827},
-        {"keyword": "\"claude max купить\"", "operators": "кавычки", "reason": "частотная тарифная", "expected_intent": "покупка тарифа Max", "wordstat_frequency": 780},
-        {"keyword": "\"claude pro купить подписку\"", "operators": "кавычки", "reason": "частотная", "expected_intent": "покупка тарифа Pro", "wordstat_frequency": 639},
+        {"keyword": "\"claude max купить\"", "operators": "кавычки", "reason": "частотная тарифная", "expected_intent": "тариф Max", "wordstat_frequency": 780},
+        {"keyword": "\"claude pro купить подписку\"", "operators": "кавычки", "reason": "частотная", "expected_intent": "тариф Pro", "wordstat_frequency": 639},
         {"keyword": "\"claude ai купить подписку\"", "operators": "кавычки", "reason": "частотная", "expected_intent": "покупка подписки", "wordstat_frequency": 583},
-        {"keyword": "\"claude api купить\"", "operators": "кавычки", "reason": "частотная; API-спрос ближе к B2B", "expected_intent": "API-доступ для компании/разработчика", "wordstat_frequency": 282},
-        {"keyword": "claude team купить", "operators": "нет", "reason": "низкочастотная (<150) — широкий охват собирает хвост, мусор режут минусы и отчёт по запросам", "expected_intent": "прямой B2B-интент на наш основной товар", "wordstat_frequency": 63},
-        {"keyword": "купить подписку claude team", "operators": "нет", "reason": "низкочастотная — широкий охват", "expected_intent": "прямой B2B-интент", "wordstat_frequency": 22}
+        {"keyword": "\"claude api купить\"", "operators": "кавычки", "reason": "API-спрос ближе к B2B", "expected_intent": "API-доступ для компании", "wordstat_frequency": 282},
+        {"keyword": "claude team купить", "operators": "нет", "reason": "низкочастотная — широкий охват, мусор режут минусы", "expected_intent": "прямой B2B-интент на основной товар", "wordstat_frequency": 63},
+        {"keyword": "купить подписку claude team", "operators": "нет", "reason": "низкочастотная", "expected_intent": "прямой B2B-интент", "wordstat_frequency": 22},
+        {"keyword": "claude +для бизнеса купить", "operators": "+для", "reason": "B2B-гипотеза по поручению v3; предлог несёт смысл", "expected_intent": "прямой B2B", "wordstat_frequency": null},
+        {"keyword": "claude enterprise купить", "operators": "нет", "reason": "B2B-гипотеза v3", "expected_intent": "корпоративный тариф", "wordstat_frequency": null},
+        {"keyword": "корпоративная подписка claude", "operators": "нет", "reason": "B2B-гипотеза v3", "expected_intent": "прямой B2B", "wordstat_frequency": null}
       ],
-      "minus_words": ["бесплатно", "бесплатный", "скачать", "торрент", "взлом", "кряк", "промокод", "зеркало", "телеграм", "бот"],
+      "minus_words": ["курс", "обучение", "нейросеть"],
       "ads": [
-        {"title1": "Подписка Claude для компании — оплата по счёту", "title2": "С НДС и документами", "text": "Claude Team от 39 195 ₽/год. Договор, счёт для юрлица, закрывающие документы."},
-        {"title1": "Claude для бизнеса — официальное оформление", "title2": "Счёт, НДС, договор", "text": "Оформим подписку Anthropic на юрлицо. Team и Enterprise. Консультация бесплатно."}
-      ],
-      "sitelinks": [
-        {"text": "Claude Team", "url": "/product/anthropic-team"},
-        {"text": "Team Premium", "url": "/product/anthropic-team-premium"},
-        {"text": "Каталог AI", "url": "/catalog/ai"}
+        {"title1": "Claude для компании — счёт, НДС, договор", "title2": "Только для юрлиц", "text": "Claude Team от 39 195 ₽/год на организацию. Личные подписки не оформляем."},
+        {"title1": "Подписка Claude на юрлицо — оформим официально", "title2": "Счёт, НДС, закрывающие", "text": "Team и Enterprise для организаций. Договор и документы. Физлицам не оформляем."}
       ]
     },
     {
       "id": "k2-claude-code",
       "title": "Claude Code — для команд разработки",
       "share": 0.20,
-      "budget_rub_gross": 1000,
       "max_bid_rub": 60,
       "landing": "https://biz-soft.pro/vendors/anthropic",
       "products": [
@@ -82,25 +90,23 @@
       ],
       "stop_rule": "25+ кликов без secondary — пауза группы",
       "keywords": [
-        {"keyword": "\"claude code купить\"", "operators": "кавычки", "reason": "частотная 3-словная; хвосты отрезаны", "expected_intent": "покупка доступа к Claude Code — разработчики", "wordstat_frequency": 1101},
-        {"keyword": "claude code купить аккаунт", "operators": "нет", "reason": "низкочастотная — широкий охват", "expected_intent": "рабочий доступ", "wordstat_frequency": 105},
+        {"keyword": "\"claude code купить\"", "operators": "кавычки", "reason": "частотная 3-словная", "expected_intent": "покупка доступа — разработчики", "wordstat_frequency": 1101},
         {"keyword": "claude code pro купить", "operators": "нет", "reason": "низкочастотная", "expected_intent": "тарифный интент", "wordstat_frequency": 70},
         {"keyword": "claude code max купить", "operators": "нет", "reason": "низкочастотная", "expected_intent": "тарифный интент", "wordstat_frequency": 68},
-        {"keyword": "как купить подписку +на claude code", "operators": "+на", "reason": "предлог несёт смысл — принудительный учёт стоп-слова", "expected_intent": "инструкционно-покупательский, тёплый", "wordstat_frequency": 46},
+        {"keyword": "как купить подписку +на claude code", "operators": "+на", "reason": "предлог несёт смысл", "expected_intent": "тёплый инструкционно-покупательский", "wordstat_frequency": 46},
         {"keyword": "claude code api купить", "operators": "нет", "reason": "низкочастотная", "expected_intent": "API для команды", "wordstat_frequency": 34},
-        {"keyword": "купить токены claude code", "operators": "нет", "reason": "низкочастотная", "expected_intent": "оплата использования", "wordstat_frequency": 20}
+        {"keyword": "claude code +для команды", "operators": "+для", "reason": "B2B-гипотеза v3", "expected_intent": "прямой B2B", "wordstat_frequency": null}
       ],
-      "minus_words": ["бесплатно", "скачать", "установить", "инструкция", "туториал", "course", "курс"],
+      "minus_words": ["установить", "инструкция", "туториал", "course", "курс", "обучение"],
       "ads": [
-        {"title1": "Claude Code для команды — оформление на юрлицо", "title2": "Оплата по счёту, НДС", "text": "Подписки Claude с Claude Code для разработчиков. Счёт, договор, закрывающие."},
-        {"title1": "Claude Code в России — легально для компании", "title2": "Team от 39 195 ₽/год", "text": "Официальная подписка Anthropic для юрлиц. Документы для бухгалтерии. Поможем выбрать тариф."}
+        {"title1": "Claude Code для команды — только юрлицам", "title2": "Счёт, НДС, договор", "text": "Claude Code в подписках Anthropic для компаний. Счёт, НДС, закрывающие."},
+        {"title1": "Claude Code для отдела разработки — по счёту", "title2": "Оформление на организацию", "text": "Подписка Claude Team с Claude Code. Только юрлицам. Поможем выбрать тариф."}
       ]
     },
     {
       "id": "k3-midjourney",
       "title": "Midjourney — контрольная корзина",
       "share": 0.20,
-      "budget_rub_gross": 1000,
       "max_bid_rub": 40,
       "landing": "https://biz-soft.pro/vendors/midjourney",
       "products": [
@@ -112,59 +118,53 @@
       "keywords": [
         {"keyword": "\"midjourney подписка\"", "operators": "кавычки", "reason": "частотная 2-словная", "expected_intent": "оформление подписки", "wordstat_frequency": 380},
         {"keyword": "\"midjourney купить\"", "operators": "кавычки", "reason": "частотная", "expected_intent": "покупка", "wordstat_frequency": 165},
-        {"keyword": "midjourney +в россии", "operators": "+в", "reason": "предлог несёт смысл (оплата из РФ)", "expected_intent": "как оплатить из России — наш оффер ровно об этом", "wordstat_frequency": 132},
+        {"keyword": "midjourney +в россии", "operators": "+в", "reason": "оплата из РФ — наш оффер об этом", "expected_intent": "проблема оплаты из России", "wordstat_frequency": 132},
         {"keyword": "\"midjourney купить подписку\"", "operators": "кавычки", "reason": "частотная", "expected_intent": "покупка подписки", "wordstat_frequency": 96},
-        {"keyword": "как оплатить midjourney", "operators": "нет", "reason": "низкочастотная — широкий охват", "expected_intent": "проблема оплаты", "wordstat_frequency": 90},
+        {"keyword": "как оплатить midjourney", "operators": "нет", "reason": "низкочастотная", "expected_intent": "проблема оплаты", "wordstat_frequency": 90},
         {"keyword": "midjourney оплата", "operators": "нет", "reason": "низкочастотная", "expected_intent": "проблема оплаты", "wordstat_frequency": 45},
-        {"keyword": "midjourney оплатить подписку", "operators": "нет", "reason": "низкочастотная", "expected_intent": "оплата подписки", "wordstat_frequency": 40},
-        {"keyword": "midjourney тарифы", "operators": "нет", "reason": "низкочастотная; тарифный интент близок к покупке", "expected_intent": "выбор тарифа", "wordstat_frequency": 41}
+        {"keyword": "midjourney тарифы", "operators": "нет", "reason": "тарифный интент близок к покупке", "expected_intent": "выбор тарифа", "wordstat_frequency": 41},
+        {"keyword": "midjourney +для компании", "operators": "+для", "reason": "B2B-гипотеза v3", "expected_intent": "прямой B2B", "wordstat_frequency": null}
       ],
-      "minus_words": ["бесплатно", "бесплатный", "скачать", "промт", "промпт", "prompt", "аналог"],
+      "minus_words": ["промт", "промпт", "prompt", "аналог", "нейросеть"],
       "ads": [
-        {"title1": "Подписка Midjourney из России — от 4 899 ₽", "title2": "Оплата по счёту", "text": "Standard, Pro и Mega. Оформление на компанию, счёт, закрывающие документы."},
-        {"title1": "Midjourney для компании — легальная оплата", "title2": "Тарифы и цены в рублях", "text": "Поможем оплатить Midjourney из России: юрлицам — счёт и НДС. Три тарифа на выбор."}
+        {"title1": "Midjourney для компании — оплата по счёту", "title2": "Только юрлицам, с НДС", "text": "Подписка Midjourney на организацию: счёт, НДС, закрывающие документы."},
+        {"title1": "Midjourney на юрлицо — легально из России", "title2": "Счёт и закрывающие", "text": "Standard, Pro, Mega для компаний. Физлицам не оформляем. Оплата по счёту."}
       ]
     },
     {
       "id": "k4-chatgpt-business",
       "title": "ChatGPT Business — гипотеза с фильтром до клика",
       "share": 0.15,
-      "budget_rub_gross": 750,
       "max_bid_rub": 80,
       "landing": "https://biz-soft.pro/vendors/openai",
       "products": [
         {"slug": "chatgpt-business", "name": "ChatGPT Business", "price_rub": 57245}
       ],
-      "hypothesis_flag": "спрос измерен по «chatgpt plus» (личная подписка); оффер — корпоративный. Интент расходится; объявление фильтрует до клика. Низкий CTR — ожидаемая работа фильтра.",
+      "hypothesis_flag": "спрос измерен по «chatgpt plus» (личная подписка); объявление и рабочее окно фильтруют физлиц до клика; низкий CTR — работа фильтра",
       "stop_rule": "12+ кликов без secondary — пауза группы без второго шанса в этом раунде",
       "keywords": [
-        {"keyword": "\"купить chatgpt plus\"", "operators": "кавычки", "reason": "частотная; хвосты отрезаны", "expected_intent": "личная подписка; B2B-меньшинство отбирается объявлением", "wordstat_frequency": 2245},
+        {"keyword": "\"купить chatgpt plus\"", "operators": "кавычки", "reason": "частотная", "expected_intent": "личная подписка; B2B-меньшинство отбирается объявлением", "wordstat_frequency": 2245},
         {"keyword": "\"купить подписку chatgpt plus\"", "operators": "кавычки", "reason": "частотная", "expected_intent": "личная подписка; фильтр объявлением", "wordstat_frequency": 1549},
         {"keyword": "chatgpt plus купить +в россии", "operators": "+в", "reason": "предлог несёт смысл", "expected_intent": "проблема оплаты из РФ", "wordstat_frequency": 429},
-        {"keyword": "купить аккаунт chatgpt plus", "operators": "нет", "reason": "низкочастотная; риск серого интента принят, кандидат на минусацию", "expected_intent": "рабочий доступ", "wordstat_frequency": 137},
-        {"keyword": "chatgpt business купить", "operators": "нет", "reason": "гипотеза: измеренного спроса нет (<10), охват на вырост", "expected_intent": "прямой B2B", "wordstat_frequency": null},
+        {"keyword": "chatgpt business купить", "operators": "нет", "reason": "прямой B2B, измеренного спроса нет (<10)", "expected_intent": "прямой B2B", "wordstat_frequency": null},
         {"keyword": "chatgpt team купить", "operators": "нет", "reason": "гипотеза (<10)", "expected_intent": "прямой B2B", "wordstat_frequency": null},
-        {"keyword": "chatgpt +для бизнеса купить", "operators": "+для", "reason": "гипотеза (<10); предлог несёт смысл", "expected_intent": "прямой B2B", "wordstat_frequency": null}
+        {"keyword": "chatgpt +для бизнеса купить", "operators": "+для", "reason": "гипотеза (<10)", "expected_intent": "прямой B2B", "wordstat_frequency": null}
       ],
-      "minus_words": ["бесплатно", "бесплатный", "скачать", "зеркало", "телеграм", "бот"],
+      "minus_words": ["приложение", "андроид", "iphone", "айфон"],
       "ads": [
-        {"title1": "ChatGPT для компании — от 2 рабочих мест", "title2": "Для юрлиц: счёт, договор, НДС", "text": "Корпоративный доступ ChatGPT Business. Личные подписки не оформляем.", "note": "намеренно фильтрующее — единственный вариант"}
-      ],
-      "sitelinks": [
-        {"text": "ChatGPT Business", "url": "/product/chatgpt-business"},
-        {"text": "Enterprise", "url": "/product/openai-enterprise"}
+        {"title1": "ChatGPT для компании — от 2 рабочих мест", "title2": "Для юрлиц: счёт, договор, НДС", "text": "Корпоративный доступ ChatGPT Business. Личные подписки не оформляем."}
       ]
     }
   ],
   "round2_candidates": [
-    {"basket": "Adobe", "reason": "спрос 23 544/мес неоднороден (Photoshop/Acrobat/Premiere/CC — разные рынки); нужна отдельная кампания с собственным бюджетом"},
+    {"basket": "Adobe", "reason": "спрос 23 544/мес неоднороден; отдельная кампания с собственным бюджетом"},
     {"basket": "Cursor", "reason": "8 991 запр./мес; Cursor Business 62 712 ₽ в каталоге"},
     {"basket": "Zoom", "reason": "«zoom купить» 7 960/мес; карточки в каталоге"}
   ],
   "access_model": {
-    "think_auto": "чтение кампаний/статистики/запросов/расходов через API (после одобрения заявки), Метрика, Wordstat, расчёт рекомендаций",
-    "propose_no_launch": "спецификации изменений (этот файл); черновики в кабинете — только когда владелец разрешит API-запись",
-    "execute_owner_only": "запуск, бюджеты, повышение ставок, отключение групп, география",
+    "think_auto": "чтение кампаний/статистики/запросов/расходов, Метрика, Wordstat, расчёт рекомендаций",
+    "propose_no_launch": "спецификации изменений (этот файл)",
+    "execute_owner_confirmed": "создание и запуск кампании bs-test-2026-09 РАЗРЕШЕНЫ прямым поручением владельца 28.08.2026 («добавляй кампании в кабинет директ и запускай»); изменения бюджета/ставок/групп после запуска — по-прежнему через подтверждение",
     "forbidden_always": "удаление кампаний, платёжные настройки, смена счётчика Метрики, удаление целей, общий бюджет аккаунта"
   }
 }
