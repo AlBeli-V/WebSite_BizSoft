@@ -28,7 +28,9 @@ export interface ManagerQuoteEmailInput {
   eco: QuoteEconomics | null;
 }
 
-const rub = (n: number) => `${n.toLocaleString('ru-RU', { maximumFractionDigits: 0 })} ₽`;
+// Неразрывный пробел перед ₽: обычный позволяет почтовику оторвать знак
+// валюты от числа на границе строки.
+const rub = (n: number) => `${n.toLocaleString('ru-RU', { maximumFractionDigits: 0 })} ₽`;
 
 function light(ok: boolean | null, okText: string, warnText: string, unknownText = ''): string {
   if (ok === null) return `<span style="color:${EMAIL_COLOR.muted};">◻ ${unknownText}</span>`;
@@ -59,8 +61,9 @@ export function buildManagerQuoteEmail(input: ManagerQuoteEmailInput): RenderedE
     + paragraph(`<b>${escapeHtml(data.buyerCompany)}</b> · клиент запросил отправку `
       + `КП № ${escapeHtml(data.quoteNo)} себе на почту.`)
     + paragraph(
+      // Вердикт проверки уже начинается со слова «ИНН» — префикс не нужен.
       light(innCheck.valid && innCheck.nameMatch !== 'mismatch',
-        `ИНН: ${escapeHtml(innCheck.verdict)}`, `ИНН: ${escapeHtml(innCheck.verdict)}`)
+        escapeHtml(innCheck.verdict), escapeHtml(innCheck.verdict))
       + '<br>'
       + light(partyActive, 'Организация действует (ЕГРЮЛ)',
         'Организация не действует — уточнить до счёта', 'ЕГРЮЛ не проверялся'))
