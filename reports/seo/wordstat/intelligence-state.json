@@ -1,6 +1,6 @@
 {
  "date": "2026-08-28",
- "generated_at": "2026-08-28T11:32:35+00:00",
+ "generated_at": "2026-08-28T12:52:23+00:00",
  "measured_at": "2026-08-28",
  "universe": {
   "phrases": 19440,
@@ -882,7 +882,7 @@
      "verdict": "unknown",
      "note": "признаков оплаты на странице не найдено",
      "url": "https://nordvpn.ai/pricing",
-     "checked_at": "2026-08-24"
+     "checked_at": "2026-08-28"
     },
     "recommendation": "проверить вручную",
     "recommendation_why": "признаков оплаты на странице тарифов не найдено",
@@ -947,7 +947,7 @@
      "verdict": "unknown",
      "note": "признаков оплаты на странице не найдено",
      "url": "https://www.ansys.com/products",
-     "checked_at": "2026-08-24"
+     "checked_at": "2026-08-28"
     },
     "recommendation": "проверить вручную",
     "recommendation_why": "признаков оплаты на странице тарифов не найдено",
@@ -1031,14 +1031,14 @@
   "note": "Российские вендоры исключены: их лицензии продаются напрямую, услуга оплаты из-за рубежа к ним неприменима."
  },
  "efficiency": {
-  "calls_total": 3789,
+  "calls_total": 3952,
   "calls_paid": 425,
   "cost_month_rub": 10.12,
   "cost_today_rub": 0.0,
   "remaining_budget_rub": 5489.88,
   "forecast_month_end_rub": 11.2,
   "state": "open",
-  "cache_hit_rate": 0.8878,
+  "cache_hit_rate": 0.8925,
   "duplicate_rate": 0.3728,
   "unique_phrases": 12940,
   "new_commercial_phrases": 2432,
@@ -1046,7 +1046,7 @@
   "cost_per_1000_unique_phrases_rub": 0.782,
   "cost_per_1000_commercial_phrases_rub": 4.161,
   "cost_per_new_cluster_rub": 0.0912,
-  "empty_response_rate": 0.3584
+  "empty_response_rate": 0.3545
  },
  "quota": {
   "requests_per_hour": 500,
