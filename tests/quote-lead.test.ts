@@ -5,6 +5,40 @@
  * корзину. Проверяем, что в воронку попадает всё, что он о себе сообщил.
  */
 import { describe, expect, it } from 'vitest';
+import { leadFromQuote as leadFromQuoteEco } from '../src/lib/quote-lead';
+
+describe('экономика сделки в заявке (P1, 28.08.2026)', () => {
+  const base = {
+    quoteNo: 'BZ-1', buyerCompany: 'ООО', buyerInn: '1', contactName: 'И',
+    email: 'a@b.ru', phone: '', items: [], total: 100000,
+  };
+
+  it('поля экономики попадают в запись, когда расчёт удался', () => {
+    const rec = leadFromQuoteEco({
+      ...base,
+      economics: { costRub: 59500, marginRub: 27200, marginPct: 27.2, fxRate: 85, incomplete: false },
+    });
+    expect(rec.quote_cost_rub).toBe(59500);
+    expect(rec.quote_margin_rub).toBe(27200);
+    expect(rec.quote_margin_pct).toBe(27.2);
+    expect(rec.quote_fx_rate).toBe(85);
+  });
+
+  it('без экономики запись не содержит её полей — Directus без схемы отверг бы заявку', () => {
+    const rec = leadFromQuoteEco(base);
+    expect('quote_cost_rub' in rec).toBe(false);
+    expect('quote_margin_rub' in rec).toBe(false);
+  });
+
+  it('прибыль видна в тексте карточки, неполная закупка оговаривается', () => {
+    const rec = leadFromQuoteEco({
+      ...base,
+      economics: { costRub: null, marginRub: 27200, marginPct: 27.2, fxRate: 85, incomplete: true },
+    });
+    expect(String(rec.message)).toContain('Расчётная прибыль');
+    expect(String(rec.message)).toContain('прибыль завышена');
+  });
+});
 import { leadFromQuote, describeQuote, summarizeItems } from '../src/lib/quote-lead';
 
 const quote = {

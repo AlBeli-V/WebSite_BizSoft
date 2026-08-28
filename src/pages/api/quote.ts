@@ -2,16 +2,20 @@ export const prerender = false;
 
 import type { APIRoute } from 'astro';
 import { getProductsBySkus, getZohoPositionsBySkus, createQuote, createLead, getLeads, createLeadEvent } from '../../lib/directus';
-import { leadFromQuote, describeQuote, attributionFields } from '../../lib/quote-lead';
+import { leadFromQuote, describeQuote, attributionFields, LEAD_ECONOMICS_FIELDS } from '../../lib/quote-lead';
 import { effectivePrice } from '../../lib/pricing';
 import { sendMail, managerEmail, salesFrom } from '../../lib/mailer';
 import { generateQuotePdf, buildQuoteNo, formatDateRu, addDays, type QuoteData } from '../../lib/pdf-quote';
 import { generateQuoteJpg } from '../../lib/jpg-quote';
 import { generateQuoteDocx } from '../../lib/docx-quote';
-import { site, seller, taxation } from '../../config/site';
-import { salutation } from '../../lib/salutation';
+import { site } from '../../config/site';
 import { verifyCompany } from '../../lib/inn';
-import { findParty, cardLines } from '../../lib/dadata';
+import { findParty } from '../../lib/dadata';
+import { buildCustomerQuoteEmail } from '../../lib/email/quote-customer';
+import { buildManagerQuoteEmail } from '../../lib/email/quote-manager';
+import { buildQuoteEconomics, type QuoteEconomics } from '../../lib/quote-economics';
+import { generateQuoteEconomicsXlsx, economicsFileName } from '../../lib/xlsx-quote';
+import { fetchCbrRates } from '../../lib/currency';
 import type { QuoteItem } from '../../lib/types';
 import { guardSubmission, guardResponse, countSubmission } from '../../lib/form-guard';
 import { clientIp } from '../../lib/client-ip';
@@ -57,7 +61,22 @@ async function recordQuoteLead(q: Parameters<typeof leadFromQuote>[0]): Promise<
     });
     return;
   }
-  await createLead(leadFromQuote(q));
+  const record = leadFromQuote(q);
+  try {
+    await createLead(record);
+  } catch (e) {
+    // До прогона ops-directus-schema на проде полей экономики в leads нет,
+    // и Directus отвергает запись целиком. Контакт важнее маржи в карточке:
+    // повторяем без экономики, а не теряем заявку.
+    const stripped = { ...record };
+    let hadEconomics = false;
+    for (const f of LEAD_ECONOMICS_FIELDS) {
+      if (f in stripped) { delete stripped[f]; hadEconomics = true; }
+    }
+    if (!hadEconomics) throw e;
+    console.warn('lead: поля экономики не приняты, повтор без них', e);
+    await createLead(stripped);
+  }
 }
 
 export const POST: APIRoute = async ({ request }) => {
@@ -185,10 +204,17 @@ export const POST: APIRoute = async ({ request }) => {
   // это дополнение к обращению, а не условие его приёма.
   const party = innCheck.valid ? await findParty(data.buyerInn).catch(() => null) : null;
 
+  // Экономика сделки: считается один раз и уходит и в заявку CRM, и в
+  // письмо руководителю. Обещание, а не ожидание: курс ЦБ — внешний сервис,
+  // его сбой или медленный ответ не должны задерживать письмо клиенту.
+  const ecoPromise: Promise<QuoteEconomics | null> = fetchCbrRates()
+    .then((rates) => buildQuoteEconomics(items, products, rates))
+    .catch((e) => { console.error('quote economics failed', e); return null; });
+
   // Заявка в воронку. Скачивание КП — самый тёплый контакт на сайте: назвали
   // организацию, ИНН, телефон и собрали корзину. Раньше это оседало в quotes и
   // в почте менеджера, а в воронке канал не существовал.
-  recordQuoteLead({
+  ecoPromise.then((eco) => recordQuoteLead({
     innCheck: innCheck.verdict,
     quoteNo,
     buyerCompany: data.buyerCompany,
@@ -200,26 +226,24 @@ export const POST: APIRoute = async ({ request }) => {
     total,
     validUntil: data.validUntil,
     attribution: attributionFields(body),
-  }).catch((e) => console.error('quote lead failed', e));
+    economics: eco ? {
+      costRub: eco.purchaseRub > 0 ? eco.purchaseRub : null,
+      marginRub: eco.profit,
+      marginPct: eco.profitPercent,
+      fxRate: eco.fx.usd,
+      incomplete: !eco.complete,
+    } : undefined,
+  })).catch((e) => console.error('quote lead failed', e));
 
   // ── Письма ──
   const clientFile = `KP_${quoteNo}.jpg`;
   const clientAttachment = { filename: clientFile, content: jpg, contentType: 'image/jpeg' };
 
-  // 1. Клиенту — КП во вложении, отправитель hello@biz-soft.pro
-  const clientText = [
-    // Обращение по имени, а не по всему полю: «Здравствуйте, Ласточкина
-    // Светлана Олеговна» звучит как вызов к доске.
-    salutation(data.contactName),
-    '',
-    `Коммерческое предложение № ${quoteNo} во вложении.`,
-    `Сумма: ${total.toLocaleString('ru-RU')} ₽, в т.ч. НДС ${taxation.vatPercent}%. `
-      + `Действует до ${data.validUntil}.`,
-    '',
-    'Форма поставки — в электронном виде. Оплата: 100% аванс по счёту.',
-    'Закрывающие: УПД с выделенным НДС 5% (или акт со счётом-фактурой).',
-    `${seller.shortName} · ${seller.phone} · ${site.url}`,
-  ].join('\n');
+  // 1. Клиенту — КП во вложении, отправитель hello@biz-soft.pro.
+  // HTML с text-fallback собирает шаблон (src/lib/email): фирменная шапка,
+  // карточка предложения, оговорка о предварительном характере, приглашение
+  // ответить на письмо — Reply-To ведёт к менеджеру.
+  const clientMail = buildCustomerQuoteEmail(data);
 
   // Письмо клиенту отправляем до ответа и ждём результата: экран говорит
   // «отправлено», и это должно быть правдой. Сбой SMTP при отправке в фоне
@@ -229,8 +253,9 @@ export const POST: APIRoute = async ({ request }) => {
       from: salesFrom,
       to: data.email,
       replyTo: managerEmail,
-      subject: `Коммерческое предложение № ${quoteNo} — BIZSoft`,
-      text: clientText,
+      subject: clientMail.subject,
+      text: clientMail.text,
+      html: clientMail.html,
       attachments: [clientAttachment],
     });
   } catch (e) {
@@ -242,42 +267,42 @@ export const POST: APIRoute = async ({ request }) => {
     }), { status: 502, headers: { 'Content-Type': 'application/json' } });
   }
 
-  // 2. Менеджеру — копия КП с данными заказчика из формы
-  const managerText = [
-    `Клиент запросил отправку КП № ${quoteNo} себе на почту.`,
-    '',
-    'Данные заказчика из формы:',
-    `Организация: ${data.buyerCompany}`,
-    `ИНН: ${data.buyerInn} — ${innCheck.verdict}`,
-    `Контактное лицо: ${data.contactName}`,
-    `E-mail: ${data.email}`,
-    `Телефон: ${data.phone}`,
-    '',
-    ...(party ? ['По данным ЕГРЮЛ:', ...cardLines(party),
-                 ...(party.active ? [] : ['⚠ Организация не действует — уточнить до счёта.']),
-                 ''] : []),
-    'Состав заказа:',
-    ...items.map((i) => `— ${i.name} (${i.sku}) × ${i.qty} = ${i.sum.toLocaleString('ru-RU')} ₽`),
-    '',
-    `Итого: ${total.toLocaleString('ru-RU')} ₽. Действует до ${data.validUntil}.`,
-  ].join('\n');
+  // 2. Менеджеру — карточка сделки и рабочий комплект: Word — поправить
+  // (без штампов, клиенту не пересылается), PDF — слепок клиентского
+  // документа, Excel — внутренняя экономика сделки (закупка, налоги,
+  // прибыль). Всё собирается уже после ответа клиенту, поэтому сбой любого
+  // шага не мешает выдать КП: письмо себе важно, но не важнее скачивания.
+  //
+  // Экономика уже считается с момента приёма заявки (ecoPromise); здесь
+  // только дожидаемся результата — письмо клиенту к этому моменту ушло.
+  const eco = await ecoPromise;
 
-  // Руководителю уходит рабочий комплект: Word — поправить, PDF — отправить.
-  // Документ собирается уже после ответа клиенту, поэтому его сбой не мешает
-  // выдать КП: письмо себе важно, но не важнее скачивания.
+  const managerMail = buildManagerQuoteEmail({
+    data,
+    innCheck,
+    party,
+    eco,
+  });
+
   generateQuoteDocx(data)
     .then((docx) => sendMail({
       from: salesFrom,
       to: managerEmail,
       replyTo: data.email,
-      subject: (innCheck.valid && innCheck.nameMatch !== 'mismatch'
-                && (party === null || party.active) ? '' : '⚠ ')
-        + `Отправлено КП № ${quoteNo} — ${data.buyerCompany}`,
-      text: managerText,
+      subject: managerMail.subject,
+      text: managerMail.text,
+      html: managerMail.html,
       attachments: [
         { filename: `KP_${quoteNo}.docx`, content: docx,
           contentType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' },
         { filename: `KP_${quoteNo}.pdf`, content: pdf, contentType: 'application/pdf' },
+        // Внутренний файл: письмо предупреждает удалить его из вложений
+        // при ответе клиенту (Reply-To этого письма — адрес клиента).
+        ...(eco ? [{
+          filename: economicsFileName(quoteNo),
+          content: generateQuoteEconomicsXlsx(quoteNo, data.date, eco),
+          contentType: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        }] : []),
       ],
     }))
     .catch((e) => console.error('quote manager mail failed', e));
