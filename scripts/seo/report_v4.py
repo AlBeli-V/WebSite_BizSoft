@@ -8,7 +8,8 @@
   F Драйверы и детракторы · G Контроль экспериментов · H Автономное исполнение ·
   I Радар возможностей · J Здоровье данных и риски · K Контрольные точки · L Ссылки
 
-Объём 800–1000 видимых слов, первый экран — не более 250.
+Объём 800–1100 видимых слов, первый экран — не более 250
+(потолок поднят 29.08.2026 под секции «Реклама» и «Перспективные идеи»).
 Числа берутся только из снимка и аналитических модулей; в текст не вписываются.
 
 Запуск: python3 scripts/seo/report_v4.py [YYYY-MM-DD]
@@ -25,6 +26,7 @@ import sys
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
 
+import ads_block                      # noqa: E402
 import charts_v4                      # noqa: E402
 import drivers as drivers_mod         # noqa: E402
 import invariants as invariants_mod   # noqa: E402
@@ -701,6 +703,7 @@ def assemble(snap, prev, dq, actions_cfg, site_check):
         "vendor_radar": vendor_radar_mod.build(snap),
         "health": health,
         "demand": load_demand(),
+        "ads": ads_block.build(date),
         "growth_ideas": load_growth_ideas(),
         "measurement_summary": _measurement_summary(dq),
         "checkpoints": _checkpoints(exps, actions_cfg),
@@ -926,6 +929,38 @@ def html_email(b: dict, charts: dict, cid_mode: bool) -> str:
             f"padding-top:2px;\">достоверность: {s['confidence']}</div></div>"
             for s in b["signals"])
         rows.append(_section("Сигналы дня", sig))
+
+    # E-б. Реклама (Директ) — Direct Control Report, этап A. Маркер всегда
+    # со словом-причиной; направления без 10 кликов — серые «мало данных».
+    ads = b.get("ads") or {}
+    if ads.get("available"):
+        tone_c = {"grey": T["muted"], "ok": T["positive"],
+                  "warn": T["warning"], "bad": T["danger"]}
+        ad_rows = "".join(
+            f"<div style=\"padding:{SP['s']}px 0;border-bottom:1px solid {T['border']};"
+            f"font-size:14.5px;line-height:1.5;\">"
+            f"<span style=\"display:inline-block;width:8px;height:8px;border-radius:50%;"
+            f"background:{tone_c[r['verdict']['tone']]};margin-right:{SP['s']}px;\"></span>"
+            f"<b>{r['label']}</b> — {r['spend_day']:.0f} ₽, "
+            f"{counted(r['clicks_day'], 'клик', 'клика', 'кликов')}"
+            + (f", CPC {r['cpc']:.0f} ₽" if r["cpc"] else "")
+            + f" · <span style=\"color:{tone_c[r['verdict']['tone']]};\">"
+              f"{r['verdict']['label']}</span></div>"
+            for r in ads["rows"])
+        dec_html = "".join(
+            f"<div style=\"font-size:14.5px;padding-top:{SP['s']}px;line-height:1.55;"
+            f"color:{tone_c[d['tone']]};\"><b>Требует решения:</b> "
+            f"<span style=\"color:{T['text_primary']};\">{d['text']}</span></div>"
+            for d in ads["decisions"][:3])
+        rows.append(_section(
+            "Реклама — Яндекс.Директ",
+            f"<div style=\"font-size:15px;line-height:1.6;\">"
+            f"{ads['campaign']}, за {ru_date(ads['as_of'])}: "
+            f"{ads['day_spend']:.0f} ₽ за день, с запуска "
+            f"{ads['week']['spent']:.0f} из {num(ads['week']['limit'])} ₽ "
+            f"недельного лимита.</div>"
+            f"<div style=\"padding-top:{SP['s']}px;\">{ad_rows}</div>{dec_html}",
+            ads.get("note", "")))
 
     # F. Драйверы и детракторы
     parts = []
@@ -1239,6 +1274,24 @@ def plain_text(b: dict) -> str:
         for s in b["signals"]:
             L.append(f"- {s['metric']}: {s['previous']} -> {s['current']} ({s['delta']}). "
                      f"{s['meaning']}")
+    ads = b.get("ads") or {}
+    if ads.get("available"):
+        L += ["", "РЕКЛАМА — ЯНДЕКС.ДИРЕКТ",
+              f"Кампания {ads['campaign']}, данные за {ru_date(ads['as_of'])}: "
+              f"за день {ads['day_spend']:.0f} р., с запуска "
+              f"{ads['week']['spent']:.0f} из {num(ads['week']['limit'])} р. "
+              f"недельного лимита."]
+        tone_word = {"grey": "[серый]", "ok": "[зелёный]",
+                     "warn": "[жёлтый]", "bad": "[красный]"}
+        for r in ads["rows"]:
+            cpc = f", CPC {r['cpc']:.0f} р." if r["cpc"] else ""
+            L.append(f"- {r['label']}: {r['spend_day']:.0f} р., "
+                     f"{counted(r['clicks_day'], 'клик', 'клика', 'кликов')} за день{cpc} "
+                     f"{tone_word[r['verdict']['tone']]} {r['verdict']['label']}")
+        for d in ads["decisions"][:3]:
+            L.append(f"  ТРЕБУЕТ РЕШЕНИЯ: {d['text']}")
+        if ads.get("note"):
+            L.append(f"  {ads['note']}")
     L += ["", "ЧТО ДАЛО ИЗМЕНЕНИЕ", b["driver_summary"]]
     for r in b["driver_rows"]:
         L.append(f"  {r['entity']}: {signed(r['delta'])} "
