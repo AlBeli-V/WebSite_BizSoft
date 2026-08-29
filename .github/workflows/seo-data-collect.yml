@@ -64,3 +64,36 @@ jobs:
       - name: Push data
         if: always()
         run: bash scripts/seo/data_sync.sh push "SEO-данные GSC/Яндекс за $(date -u +%F)"
+
+      # Копии почтового и публикационного workflow обязаны совпадать с main:
+      # push-события seo-data исполняют именно копию, и отставшая копия делает
+      # фиксы в main недействующими (так жил дефект guard из #169). Сверка и
+      # обновление — ежедневно, здесь, потому что этот прогон и так держит
+      # обе ветки под рукой.
+      # Только сверка: пуш workflow-файлов из Actions невозможен в принципе —
+      # GITHUB_TOKEN не имеет права workflows (проверено 28.08: remote
+      # rejected). Актуальность копий поддерживает сессия при data_sync push;
+      # этот шаг лишь поднимает предупреждение, если копия отстала.
+      - name: Check workflow copies in seo-data
+        if: always()
+        run: |
+          set -e
+          git fetch origin seo-data
+          stale=""
+          for f in seo-report-email.yml seo-publish-web.yml; do
+            src=".github/workflows/$f"
+            if ! git cat-file -e "origin/seo-data:$src" 2>/dev/null; then
+              stale="$stale $f(нет)"
+              continue
+            fi
+            # Первые 4 строки копии — примечание «КОПИЯ ИЗ MAIN», дальше —
+            # байт в байт содержимое файла из main.
+            if ! cmp -s <(git show "origin/seo-data:$src" | tail -n +5) "$src"; then
+              stale="$stale $f"
+            fi
+          done
+          if [ -n "$stale" ]; then
+            echo "::warning::копии workflow в seo-data отстали от main:$stale — обновит сессия при ближайшем data_sync push (Actions пушить workflow-файлы не может)"
+          else
+            echo "копии совпадают с main"
+          fi
