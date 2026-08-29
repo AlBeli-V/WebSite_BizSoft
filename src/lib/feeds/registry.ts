@@ -27,6 +27,20 @@ export function envMaxOffers(envName: string): number {
   return Number.isFinite(raw) && raw > 0 ? Math.floor(raw) : 0;
 }
 
+/**
+ * Открыт ли фид наружу. Решение руководителя 29.08.2026: фиды готовы, но
+ * НЕ раздаются никому, пока руководитель не даст команду на открытие.
+ *
+ * По умолчанию (переменная не задана) все фиды закрыты и отдают 404.
+ * Открытие — на проде, без пересборки кода:
+ *   YANDEX_FEEDS_ENABLED=all                     — открыть все;
+ *   YANDEX_FEEDS_ENABLED=yandex-products,...     — открыть перечисленные.
+ */
+export function feedEnabled(specId: string, env: string | undefined = process.env.YANDEX_FEEDS_ENABLED): boolean {
+  const ids = (env || '').toLowerCase().split(',').map((s) => s.trim()).filter(Boolean);
+  return ids.includes('all') || ids.includes(specId);
+}
+
 function buildYandexYml(products: Product[], opts: { now?: Date }): string {
   const now = opts.now ?? new Date();
   return buildYml(products.map((p) => toFeedOffer(p, site.url, now)), SHOP, now);

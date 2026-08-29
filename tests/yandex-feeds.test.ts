@@ -6,7 +6,7 @@ import { describe, it, expect, afterEach } from 'vitest';
 import type { Product } from '../src/lib/types';
 import { feedEligible, rankProducts, selectFeedProducts, offerDescription, plainText } from '../src/lib/feeds/select';
 import { buildYml, toFeedOffer, YML_DESCRIPTION_LIMIT } from '../src/lib/feeds/yml';
-import { FEEDS, renderFeed, envMaxOffers } from '../src/lib/feeds/registry';
+import { FEEDS, renderFeed, envMaxOffers, feedEnabled } from '../src/lib/feeds/registry';
 
 const NOW = new Date('2026-08-29T12:00:00Z');
 
@@ -189,5 +189,18 @@ describe('реестр фидов', () => {
 
   it('неизвестный фид — явная ошибка', () => {
     expect(() => renderFeed('nope', [], NOW)).toThrow('Неизвестный фид');
+  });
+});
+
+describe('рубильник фидов (решение руководителя 29.08.2026)', () => {
+  it('по умолчанию все фиды закрыты', () => {
+    for (const id of Object.keys(FEEDS)) expect(feedEnabled(id, undefined)).toBe(false);
+    expect(feedEnabled('yandex-products', '')).toBe(false);
+  });
+
+  it('all открывает все, список — только перечисленные', () => {
+    expect(feedEnabled('yandex-market', 'all')).toBe(true);
+    expect(feedEnabled('yandex-products', 'yandex-products, yandex-business')).toBe(true);
+    expect(feedEnabled('yandex-market', 'yandex-products, yandex-business')).toBe(false);
   });
 });

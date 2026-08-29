@@ -8,9 +8,18 @@
  */
 import { getProducts } from '../directus';
 import { isSourceUnavailable, serviceUnavailable } from '../http';
-import { renderFeed } from './registry';
+import { renderFeed, feedEnabled } from './registry';
 
 export async function feedResponse(specId: string): Promise<Response> {
+  // Фиды закрыты, пока руководитель не скомандует открыть (см. feedEnabled).
+  // 404, а не 403: наружу фид «не существует». Заголовок X-Feed-Status
+  // позволяет ночной проверке отличить «закрыт по решению» от поломки маршрута.
+  if (!feedEnabled(specId)) {
+    return new Response('Фид не опубликован.', {
+      status: 404,
+      headers: { 'Content-Type': 'text/plain; charset=utf-8', 'X-Feed-Status': 'disabled', 'Cache-Control': 'no-store' },
+    });
+  }
   let body: string;
   let contentType: string;
   try {
