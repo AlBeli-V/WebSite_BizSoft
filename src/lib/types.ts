@@ -70,6 +70,10 @@ export interface Product {
   peg_to_usd?: boolean | null; // привязка к курсу включена
   /** Коэффициент наценки: цена = себестоимость × курс × коэф. База 1.85. */
   markup_coeff?: number | null;
+  /** Когда закупочная цена сверялась с сайтом производителя в последний раз. */
+  purchase_updated_at?: string | null;
+  /** Откуда взята закупочная цена (страница прайса вендора и т.п.). */
+  purchase_source?: string | null;
   /** Цена зафиксирована вручную — массовые переоценки её не меняют. */
   price_locked?: boolean | null;
   markup_percent?: number | null; // устаревшее, не используется в новой логике
