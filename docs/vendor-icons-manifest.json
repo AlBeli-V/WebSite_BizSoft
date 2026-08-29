@@ -1264,5 +1264,60 @@
   "source_kind": "Официальный глиф бренда Steinberg (simple-icons), вектор",
   "quality": "vector-original-palette",
   "note": "Hex #C90827; слаг сайта cubase."
+ },
+ {
+  "index": 91,
+  "vendor": "Capture One",
+  "slug": "capture-one",
+  "official_domain": "captureone.com",
+  "catalog_url": "https://biz-soft.pro/vendors/capture-one",
+  "added": "2026-08-29",
+  "source_kind": "Пакет ассетов от руководителя (официальный растровый референс, встроен в SVG без трейсинга)",
+  "quality": "raster-embedded-original-palette",
+  "note": "Компактный знак «1»; полноценного вендорского wordmark в пакете не было — знак временно служит и вендорской иконкой. Заменить официальным wordmark при появлении."
+ },
+ {
+  "index": 92,
+  "vendor": "Image-Line",
+  "slug": "image-line",
+  "official_domain": "image-line.com",
+  "catalog_url": "https://biz-soft.pro/vendors/fl-studio",
+  "added": "2026-08-29",
+  "source_kind": "Пакет ассетов от руководителя (официальный растровый референс, встроен в SVG без трейсинга)",
+  "quality": "raster-embedded-original-palette",
+  "note": "Лого-локап Image-Line (куб IL + wordmark). Слаг сайта fl-studio → ALIAS fl-studio→image-line в vendor-icons.ts."
+ },
+ {
+  "index": 93,
+  "vendor": "iZotope",
+  "slug": "izotope",
+  "official_domain": "izotope.com",
+  "catalog_url": "https://biz-soft.pro/vendors/izotope",
+  "added": "2026-08-29",
+  "source_kind": "Пакет ассетов от руководителя (официальный растровый референс, встроен в SVG без трейсинга)",
+  "quality": "raster-embedded-original-palette",
+  "note": "Полный локап iZotope (орбита + wordmark)."
+ },
+ {
+  "index": 94,
+  "vendor": "Lumion",
+  "slug": "lumion",
+  "official_domain": "lumion.com",
+  "catalog_url": "https://biz-soft.pro/vendors/lumion",
+  "added": "2026-08-29",
+  "source_kind": "Пакет ассетов от руководителя (официальный растровый референс, встроен в SVG без трейсинга)",
+  "quality": "raster-embedded-original-palette",
+  "note": "Полный локап Lumion (лист + wordmark)."
+ },
+ {
+  "index": 95,
+  "vendor": "RARLAB",
+  "slug": "rarlab",
+  "official_domain": "win-rar.com",
+  "catalog_url": "https://biz-soft.pro/vendors/winrar",
+  "added": "2026-08-29",
+  "source_kind": "Пакет ассетов от руководителя (официальный растровый референс, встроен в SVG без трейсинга)",
+  "quality": "raster-embedded-original-palette",
+  "note": "Wordmark RARLAB. Слаг сайта winrar → ALIAS winrar→rarlab в vendor-icons.ts."
  }
 ]

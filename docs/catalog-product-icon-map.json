@@ -12307,5 +12307,135 @@
     "svg_color": "svg/color/zoom__color.svg",
     "svg_mono": "svg/mono/zoom__mono.svg",
     "png_pattern": "png/{color|mono}/{size}/zoom__{color|mono}__{size}.png"
+  },
+  {
+    "catalog_index": 1146,
+    "vendor": "Capture One",
+    "product": "Capture One Pro (годовая подписка)",
+    "lookup_key": "capture one::capture one pro (годовая подписка)",
+    "icon_id": "capture-one",
+    "mapping_reason": "product-or-family-icon",
+    "svg_color": "src/assets/product-icons/catalog/color/capture-one.svg",
+    "svg_mono": "src/assets/product-icons/catalog/mono/capture-one.svg"
+  },
+  {
+    "catalog_index": 1147,
+    "vendor": "Image-Line",
+    "product": "FL Studio Producer Edition",
+    "lookup_key": "image-line::fl studio producer edition",
+    "icon_id": "fl-studio",
+    "mapping_reason": "product-or-family-icon",
+    "svg_color": "src/assets/product-icons/catalog/color/fl-studio.svg",
+    "svg_mono": "src/assets/product-icons/catalog/mono/fl-studio.svg"
+  },
+  {
+    "catalog_index": 1148,
+    "vendor": "Image-Line",
+    "product": "FL Studio Fruity Edition",
+    "lookup_key": "image-line::fl studio fruity edition",
+    "icon_id": "fl-studio",
+    "mapping_reason": "product-or-family-icon",
+    "svg_color": "src/assets/product-icons/catalog/color/fl-studio.svg",
+    "svg_mono": "src/assets/product-icons/catalog/mono/fl-studio.svg"
+  },
+  {
+    "catalog_index": 1149,
+    "vendor": "Image-Line",
+    "product": "FL Studio Signature Bundle",
+    "lookup_key": "image-line::fl studio signature bundle",
+    "icon_id": "fl-studio",
+    "mapping_reason": "product-or-family-icon",
+    "svg_color": "src/assets/product-icons/catalog/color/fl-studio.svg",
+    "svg_mono": "src/assets/product-icons/catalog/mono/fl-studio.svg"
+  },
+  {
+    "catalog_index": 1150,
+    "vendor": "Image-Line",
+    "product": "FL Studio All Plugins Edition",
+    "lookup_key": "image-line::fl studio all plugins edition",
+    "icon_id": "fl-studio",
+    "mapping_reason": "product-or-family-icon",
+    "svg_color": "src/assets/product-icons/catalog/color/fl-studio.svg",
+    "svg_mono": "src/assets/product-icons/catalog/mono/fl-studio.svg"
+  },
+  {
+    "catalog_index": 1151,
+    "vendor": "iZotope",
+    "product": "iZotope Ozone 12 Standard",
+    "lookup_key": "izotope::izotope ozone 12 standard",
+    "icon_id": "izotope-mark",
+    "mapping_reason": "vendor-family-fallback",
+    "svg_color": "src/assets/product-icons/catalog/color/izotope-mark.svg",
+    "svg_mono": "src/assets/product-icons/catalog/mono/izotope-mark.svg"
+  },
+  {
+    "catalog_index": 1152,
+    "vendor": "iZotope",
+    "product": "iZotope Ozone 12 Advanced",
+    "lookup_key": "izotope::izotope ozone 12 advanced",
+    "icon_id": "izotope-mark",
+    "mapping_reason": "vendor-family-fallback",
+    "svg_color": "src/assets/product-icons/catalog/color/izotope-mark.svg",
+    "svg_mono": "src/assets/product-icons/catalog/mono/izotope-mark.svg"
+  },
+  {
+    "catalog_index": 1153,
+    "vendor": "iZotope",
+    "product": "iZotope RX 12 Standard",
+    "lookup_key": "izotope::izotope rx 12 standard",
+    "icon_id": "izotope-mark",
+    "mapping_reason": "vendor-family-fallback",
+    "svg_color": "src/assets/product-icons/catalog/color/izotope-mark.svg",
+    "svg_mono": "src/assets/product-icons/catalog/mono/izotope-mark.svg"
+  },
+  {
+    "catalog_index": 1154,
+    "vendor": "iZotope",
+    "product": "iZotope Neutron 5",
+    "lookup_key": "izotope::izotope neutron 5",
+    "icon_id": "izotope-mark",
+    "mapping_reason": "vendor-family-fallback",
+    "svg_color": "src/assets/product-icons/catalog/color/izotope-mark.svg",
+    "svg_mono": "src/assets/product-icons/catalog/mono/izotope-mark.svg"
+  },
+  {
+    "catalog_index": 1155,
+    "vendor": "Lumion",
+    "product": "Lumion View",
+    "lookup_key": "lumion::lumion view",
+    "icon_id": "lumion",
+    "mapping_reason": "product-or-family-icon",
+    "svg_color": "src/assets/product-icons/catalog/color/lumion.svg",
+    "svg_mono": "src/assets/product-icons/catalog/mono/lumion.svg"
+  },
+  {
+    "catalog_index": 1156,
+    "vendor": "Lumion",
+    "product": "Lumion Pro",
+    "lookup_key": "lumion::lumion pro",
+    "icon_id": "lumion",
+    "mapping_reason": "product-or-family-icon",
+    "svg_color": "src/assets/product-icons/catalog/color/lumion.svg",
+    "svg_mono": "src/assets/product-icons/catalog/mono/lumion.svg"
+  },
+  {
+    "catalog_index": 1157,
+    "vendor": "Lumion",
+    "product": "Lumion Pro Floating",
+    "lookup_key": "lumion::lumion pro floating",
+    "icon_id": "lumion",
+    "mapping_reason": "product-or-family-icon",
+    "svg_color": "src/assets/product-icons/catalog/color/lumion.svg",
+    "svg_mono": "src/assets/product-icons/catalog/mono/lumion.svg"
+  },
+  {
+    "catalog_index": 1158,
+    "vendor": "RARLAB",
+    "product": "WinRAR (корпоративная лицензия)",
+    "lookup_key": "rarlab::winrar (корпоративная лицензия)",
+    "icon_id": "winrar",
+    "mapping_reason": "product-or-family-icon",
+    "svg_color": "src/assets/product-icons/catalog/color/winrar.svg",
+    "svg_mono": "src/assets/product-icons/catalog/mono/winrar.svg"
   }
 ]
