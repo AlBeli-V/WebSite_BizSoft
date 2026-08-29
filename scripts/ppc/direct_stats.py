@@ -78,6 +78,74 @@ def report(token: str, name: str, definition: dict) -> str | None:
     return None
 
 
+# Классификация поисковых запросов по коммерческому интенту (аудит
+# direct-audit-2026-08-29.md): A — целевой B2B, B — коммерческий без
+# B2B-маркера, C — информационный/навигационный, D — нерелевантный.
+B2B_MARKERS = ("юрлиц", "юридическ", "компани", "организаци", "бизнес",
+               "корпоратив", "team", "business", "enterprise", "счет",
+               "счёт", "ндс", "договор", "команд")
+COMMERCE_MARKERS = ("купить", "оплат", "подписк", "цена", "стоимость",
+                    "тариф", "лицензи", "продлен", "приобрес")
+IRRELEVANT_MARKERS = ("логотип", "картин", "изображен", "самокат",
+                      "присадк", "ходатайств", "сметчик", "ваканси",
+                      "зарплат", "резюме")
+
+
+def classify_query(q: str) -> str:
+    ql = q.lower()
+    if any(m in ql for m in IRRELEVANT_MARKERS):
+        return "D"
+    commerce = any(m in ql for m in COMMERCE_MARKERS)
+    b2b = any(m in ql for m in B2B_MARKERS)
+    if commerce and b2b:
+        return "A"
+    if commerce:
+        return "B"
+    return "C"
+
+
+def print_query_classes(tsv: str | None) -> None:
+    """Сводка расхода по классам интента из отчёта по поисковым запросам."""
+    if not tsv or not tsv.strip():
+        return
+    lines = tsv.rstrip("\n").split("\n")
+    header = lines[0].split("\t")
+    try:
+        i_q = header.index("Query")
+        i_imp = header.index("Impressions")
+        i_cl = header.index("Clicks")
+        i_cost = header.index("Cost")
+    except ValueError:
+        return
+    agg = {c: [0, 0, 0.0] for c in "ABCD"}
+    worst: list[tuple[float, str, str]] = []
+    for ln in lines[1:]:
+        parts = ln.split("\t")
+        if len(parts) <= max(i_q, i_imp, i_cl, i_cost) or parts[i_q] == "Total rows:":
+            continue
+        try:
+            imp, cl, cost = int(parts[i_imp]), int(parts[i_cl]), float(parts[i_cost])
+        except ValueError:
+            continue
+        cls = classify_query(parts[i_q])
+        agg[cls][0] += imp
+        agg[cls][1] += cl
+        agg[cls][2] += cost
+        if cls in "CD" and cost > 0:
+            worst.append((cost, cls, parts[i_q]))
+    total_cost = sum(v[2] for v in agg.values())
+    print("\n== Классы интента (A целевой B2B / B коммерческий / C информационный / D нерелевантный) ==")
+    for c in "ABCD":
+        imp, cl, cost = agg[c]
+        share = (cost / total_cost * 100) if total_cost else 0.0
+        print(f"  {c}: показы {imp}, клики {cl}, расход {cost:.2f} ₽ ({share:.0f}%)")
+    leak = agg["C"][2] + agg["D"][2]
+    print(f"  Утечка C+D: {leak:.2f} ₽" +
+          (f" ({leak / total_cost * 100:.0f}% расхода)" if total_cost else ""))
+    for cost, cls, q in sorted(worst, reverse=True)[:10]:
+        print(f"    {cls} {cost:.2f} ₽ — «{q}»")
+
+
 def print_tsv(title: str, tsv: str | None) -> None:
     print(f"\n== {title} ==")
     if not tsv or not tsv.strip():
@@ -196,6 +264,7 @@ def main() -> None:
         "Format": "TSV", "IncludeVAT": "YES",
     })
     print_tsv("Отчёт по поисковым запросам", tsv)
+    print_query_classes(tsv)
 
     tsv = report(token, "device", {
         "SelectionCriteria": sel,
