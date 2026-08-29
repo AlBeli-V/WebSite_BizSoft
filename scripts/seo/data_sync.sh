@@ -47,6 +47,27 @@ case "$cmd" in
       cp -a "$d" "$tmp/$d"
     done
 
+    # Копии workflow в seo-data (push-триггер исполняет файл из пушенной
+    # ветки). Обновлять их может только сессия: GITHUB_TOKEN воркфлоу не
+    # имеет права писать workflow-файлы, поэтому под Actions шаг пропускается
+    # (иначе устаревшая копия валила бы весь пуш данных), а отставание там
+    # ловит шаг-детектор в seo-data-collect.
+    if [ "${GITHUB_ACTIONS:-}" != "true" ]; then
+      for f in seo-report-email.yml seo-publish-web.yml; do
+        src=".github/workflows/$f"
+        [ -f "$src" ] || continue
+        mkdir -p "$tmp/.github/workflows"
+        {
+          printf '%s\n' \
+            '# КОПИЯ ИЗ MAIN. Push-триггер срабатывает только если файл workflow есть' \
+            '# в самой пушенной ветке, поэтому в ветке-хранилище seo-data лежит копия.' \
+            '# Синхронизируется сессией при data_sync push (GITHUB_TOKEN воркфлоу не' \
+            '# имеет права писать workflow-файлы — шаг в Actions только сверяет).'
+          cat "$src"
+        } > "$tmp/.github/workflows/$f"
+      done
+    fi
+
     cd "$tmp"
     git add -A
     if git diff --cached --quiet; then

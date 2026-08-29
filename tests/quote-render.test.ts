@@ -34,10 +34,11 @@ const data = {
 describe('раскладка КП', () => {
   const pages = buildQuoteLayout(data, pdfMeasure());
 
-  it('водяных знаков не меньше девяти на каждой странице', () => {
+  it('штампов шесть на каждой странице — сетка 2×3, решение 28.08.2026', () => {
     for (const p of pages) {
       const marks = p.items.filter((i) => i.kind === 'watermark');
-      expect(marks.length).toBeGreaterThanOrEqual(9);
+      expect(marks.length).toBe(WATERMARK.cols * WATERMARK.rows);
+      expect(marks.length).toBe(6);
     }
   });
 
@@ -50,7 +51,7 @@ describe('раскладка КП', () => {
   });
 
   it('это штамп с рамкой, а не просто надпись', () => {
-    const [m] = watermarks('BIZSoft', 'BZ-1') as any[];
+    const [m] = watermarks('BZ-1') as any[];
     expect(m.w).toBeGreaterThan(0);
     expect(m.h).toBeGreaterThan(0);
     expect(m.radius).toBeGreaterThan(0);
@@ -59,13 +60,20 @@ describe('раскладка КП', () => {
     expect(m.angle).not.toBe(0);
   });
 
-  it('в оттиске марка и номер, а не пометка «черновик»', () => {
+  it('в оттиске статус, марка и номер, а не пометка «черновик»', () => {
     // Документ действующий: «черновик» на живом предложении обесценил бы
     // его в глазах получателя, а знак должен мешать присвоить, а не отменять.
-    const [m] = watermarks('BIZSoft', 'BZ-20260821-0042') as any[];
-    expect(m.text).toBe('BIZSoft');
+    const [m] = watermarks('BZ-20260821-0042') as any[];
+    expect(m.text).toBe('ПРЕДВАРИТЕЛЬНОЕ КП');
+    expect(m.text2).toBe('BIZSoft');
     expect(m.sub).toBe('BZ-20260821-0042');
-    expect(/draft|черновик|копия/i.test(`${m.text} ${m.sub}`)).toBe(false);
+    expect(/draft|черновик|копия/i.test(`${m.text} ${m.text2} ${m.sub}`)).toBe(false);
+  });
+
+  it('штамп красный, тонкая рамка — решение 28.08.2026', () => {
+    const [m] = watermarks('BZ-1') as any[];
+    expect(m.color).toBe('#C81E1E');
+    expect(m.stroke).toBeLessThan(2);
   });
 
   it('рамка попадает в оба формата одинаково', () => {
@@ -182,6 +190,18 @@ describe('раскладка КП', () => {
   it('без указанной ставки берётся ставка по умолчанию', () => {
     const tt = texts.join(' ');
     expect(tt).toContain('НДС 5%');
+  });
+
+  it('оговорка — предварительный характер и «не оферта», без «проверки сотрудником»', () => {
+    // Распоряжение 28.08.2026: прежняя формулировка «требует проверки и
+    // коррекции сотрудником» говорила клиенту, что документ может быть
+    // неверным. Новая — коммерческая: предварительный характер, скидки за
+    // объём и условия — предмет переговоров; и это не публичная оферта.
+    const all = texts.join(' ');
+    expect(all).toContain('носит предварительный характер');
+    expect(all).toContain('не является публичной офертой');
+    expect(all).toContain('скидки за объём');
+    expect(all).not.toMatch(/проверки и коррекции сотрудником|бюджетной оценкой/);
   });
 
   it('банковских реквизитов в предложении нет', () => {

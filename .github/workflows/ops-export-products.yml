@@ -29,17 +29,49 @@ jobs:
             python3 - "$TOKEN" <<'PYEOF'
             import json, sys, urllib.request
             token = sys.argv[1]
-            url = ("http://localhost:8055/items/products"
-                   "?fields=vendor,name,slug,sku,price&limit=-1"
-                   "&filter[status][_eq]=published&sort[]=vendor&sort[]=name")
-            req = urllib.request.Request(url, headers={"Authorization": f"Bearer {token}"})
-            rows = json.load(urllib.request.urlopen(req))["data"]
+            # Поля закупки запрашиваются отдельным запросом с откатом: до
+            # прогона ops-directus-schema колонок purchase_* в базе нет, и
+            # Directus отвергает весь запрос с ними.
+            base = "vendor,name,slug,sku,price,base_price_usd,base_price_eur,peg_currency,markup_coeff"
+            def fetch(fields):
+                url = ("http://localhost:8055/items/products"
+                       f"?fields={fields}&limit=-1"
+                       "&filter[status][_eq]=published&sort[]=vendor&sort[]=name")
+                req = urllib.request.Request(url, headers={"Authorization": f"Bearer {token}"})
+                return json.load(urllib.request.urlopen(req))["data"]
+            try:
+                rows = fetch(base + ",purchase_updated_at")
+            except Exception:
+                rows = fetch(base)
             print(f"TOTAL={len(rows)}")
+            # Курс не нужен: подозрение на месячную закупку видно уже по
+            # соотношению продажа₽ / (закупка_вал × 80): честная годовая
+            # наценка даёт ~1.5-2.5, месячная закупка — за 10.
+            no_buy, suspects = [], []
             for i, r in enumerate(rows, 1):
                 v = (r.get("vendor") or "—").strip()
                 price = r.get("price")
                 price = "req" if price in (None, "", 0) else price
-                print(f"{i}. {v} — {r['name']} [slug: {r['slug']}] [sku: {r.get('sku') or '—'}] [price: {price}]")
+                buy = r.get("base_price_eur") if (r.get("peg_currency") == "EUR") else r.get("base_price_usd")
+                buy = buy or r.get("base_price_usd") or r.get("base_price_eur")
+                cur = "EUR" if (r.get("peg_currency") == "EUR" or (not r.get("base_price_usd") and r.get("base_price_eur"))) else "USD"
+                upd = (r.get("purchase_updated_at") or "")[:10]
+                note = ""
+                if not buy:
+                    note = "ЗАКУПКИ НЕТ"
+                    no_buy.append(r.get("sku") or r["slug"])
+                elif isinstance(price, (int, float)) and buy and price / (buy * 80) >= 6:
+                    note = "ПОХОЖЕ НА МЕСЯЧНУЮ ЗАКУПКУ"
+                    suspects.append(r.get("sku") or r["slug"])
+                buy_s = f"{buy} {cur}" if buy else "—"
+                print(f"{i}. {v} — {r['name']} [sku: {r.get('sku') or '—'}] "
+                      f"[price: {price}] [закупка: {buy_s}]"
+                      + (f" [от {upd}]" if upd else "") + (f"  ⚠ {note}" if note else ""))
+            print()
+            print(f"Без закупочной цены: {len(no_buy)}")
+            for s in no_buy: print(f"  - {s}")
+            print(f"Подозрение на месячную закупку при годовой продаже: {len(suspects)}")
+            for s in suspects: print(f"  - {s}")
             PYEOF
       # Вывод больше лимита env-переменной процесса (Argument list too long) —
       # передаём через файл: интерполяция ${{ }} в run-шаге пишется в файл скрипта.
