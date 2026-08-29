@@ -9,7 +9,7 @@ import CTASection from '../../../components/CTASection.astro';
 import QuestionForm from '../../../components/QuestionForm.astro';
 import JsonLd from '../../../components/JsonLd.astro';
 import { getProducts, getCategoryBySlug } from '../../../lib/directus';
-import { itemListSchema, breadcrumbSchema } from '../../../lib/seo';
+import { itemListSchema } from '../../../lib/seo';
 import { getAiSubcategory } from '../../../data/ai-hub';
 import { comparisons } from '../../../data/comparisons';
 import { effectivePrice } from '../../../lib/pricing';
@@ -53,8 +53,8 @@ const faq = [
   canonical={path}
   noindex={!ready}
 >
-  {ready && pageCategory && <JsonLd schema={itemListSchema(pageCategory, products)} />}
-  <JsonLd schema={breadcrumbSchema(crumbs)} />
+  {/* BreadcrumbList выводит компонент Breadcrumbs — дубль убран. */}
+  {ready && pageCategory && <JsonLd schema={itemListSchema(pageCategory, products, path)} />}
   <div class="container-page section">
     <Breadcrumbs items={[{ name: 'AI-сервисы', url: '/catalog/ai' }, { name: meta.name, url: path }]} />
     <header class="head">
