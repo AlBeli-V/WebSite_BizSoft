@@ -157,9 +157,14 @@ describe('реестр фидов', () => {
     delete process.env.YANDEX_PRODUCTS_FEED_MAX;
   });
 
-  it('оба яндекс-фида объявлены с путями и env-лимитами', () => {
+  it('все яндекс-фиды объявлены с путями и env-лимитами', () => {
     expect(FEEDS['yandex-products'].path).toBe('/yandex-products.yml');
     expect(FEEDS['yandex-business'].path).toBe('/yandex-business.xml');
+    expect(FEEDS['yandex-direct'].path).toBe('/yandex-direct.yml');
+    expect(FEEDS['yandex-market'].path).toBe('/yandex-market.yml');
+    // у каждого фида свой env-лимит — лимиты сервисов включаются независимо
+    const envs = Object.values(FEEDS).map((f) => f.maxOffersEnv);
+    expect(new Set(envs).size).toBe(envs.length);
   });
 
   it('renderFeed уважает лимит из переменной окружения', () => {

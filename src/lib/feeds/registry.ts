@@ -51,6 +51,32 @@ export const FEEDS: Record<string, FeedSpec> = {
     maxOffersEnv: 'YANDEX_BUSINESS_FEED_MAX',
     build: buildYandexYml,
   },
+  /**
+   * Яндекс Директ («Библиотека» → «Фиды»): товарные кампании и смарт-баннеры.
+   * Упрощённый YML-фид Директа обязывает categoryId, name, url, price,
+   * picture — всё это выдаёт общий сериализатор.
+   */
+  'yandex-direct': {
+    id: 'yandex-direct',
+    service: 'Яндекс Директ',
+    path: '/yandex-direct.yml',
+    contentType: 'application/xml; charset=utf-8',
+    maxOffersEnv: 'YANDEX_DIRECT_FEED_MAX',
+    build: buildYandexYml,
+  },
+  /**
+   * Яндекс Маркет (кабинет partner.market.yandex.ru): выгрузка ассортимента
+   * тем же YML. Сам выход на Маркет — отдельное бизнес-решение (модель DBS
+   * для цифровых товаров, комиссии, обработка заказов) — см. docs/yandex-feeds.md.
+   */
+  'yandex-market': {
+    id: 'yandex-market',
+    service: 'Яндекс Маркет',
+    path: '/yandex-market.yml',
+    contentType: 'application/xml; charset=utf-8',
+    maxOffersEnv: 'YANDEX_MARKET_FEED_MAX',
+    build: buildYandexYml,
+  },
 };
 
 /** Собрать документ фида из выборки каталога по спецификации из реестра. */
