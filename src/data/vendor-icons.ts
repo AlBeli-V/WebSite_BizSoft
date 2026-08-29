@@ -25,6 +25,8 @@ const ALIAS: Record<string, string> = {
   vegas: 'magix-vegas',
   gaea: 'quadspinner-gaea',
   wwise: 'audiokinetic',
+  'fl-studio': 'image-line',
+  winrar: 'rarlab',
 };
 
 export interface VendorIconPair { color: string; mono: string }
