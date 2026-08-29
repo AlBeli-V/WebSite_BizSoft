@@ -41,6 +41,8 @@ function product(over) {
     old_slugs: over.old_slugs ?? [], related_products: '', related_solutions: '',
     price_from: false, category: over.category ?? CATEGORIES[0],
     image: null, images: [],
+    // Переопределения сверх базовых полей (promo_* для проверок разметки и т.п.)
+    ...over,
   };
 }
 
@@ -50,6 +52,9 @@ const PRODUCTS = [
   product({ id: 103, name: 'Плагин скрытый', sku: 'JB-PLG-HIDDEN', vendor: 'JetBrains', slug: 'plagin-skrytyj' }),
   product({ id: 104, name: 'Товар noindex', sku: 'NOIDX-1', vendor: 'OpenAI', slug: 'tovar-noindex', noindex: true }),
   product({ id: 105, name: 'Черновик', sku: 'DRAFT-1', vendor: 'OpenAI', slug: 'chernovik', status: 'draft' }),
+  // Сценарии структурированных данных: «цена по запросу» и активная акция.
+  product({ id: 106, name: 'Товар по запросу', sku: 'REQ-1', vendor: 'OpenAI', slug: 'tovar-po-zaprosu', price: 0 }),
+  product({ id: 107, name: 'Товар с акцией', sku: 'PROMO-1', vendor: 'OpenAI', slug: 'tovar-s-akciej', price: 2000, promo_price: 1500, promo_label: 'Акция', promo_start: null, promo_end: '2099-12-31' }),
 ];
 
 const CURRENCY = [{ id: 1, usd_rate: 90, eur_rate: 100, mode: 'auto', source: 'cbr.ru', auto_recalc: false, rate_date: '2026-08-01', updated_at: '2026-08-01T00:00:00Z' }];

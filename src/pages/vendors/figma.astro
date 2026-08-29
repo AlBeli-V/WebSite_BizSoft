@@ -13,7 +13,7 @@ import QuestionForm from '../../components/QuestionForm.astro';
 import JsonLd from '../../components/JsonLd.astro';
 import { getProducts } from '../../lib/directus';
 import { effectivePrice, formatRub } from '../../lib/pricing';
-import { collectionPageSchema, faqSchema, breadcrumbSchema } from '../../lib/seo';
+import { collectionPageSchema } from '../../lib/seo';
 import {
   FIGMA_VENDOR, FIGMA_SUMMARY, FIGMA_SEATS, FIGMA_ORDER, FIGMA_CARD_META,
   FIGMA_COMPARISON, FIGMA_DECISION, FIGMA_SCENARIOS, FIGMA_FAQ,
@@ -44,10 +44,9 @@ const title = 'Купить Figma для юрлица — Professional, Organiza
 const description = 'Figma для бизнеса по модели посадочных мест: Full, Dev и Collab на планах Professional, Organization и Enterprise. Оформление на юрлицо по договору и счёту, оплата в рублях.';
 const pageUrl = '/vendors/figma';
 const crumbs = [{ name: 'Каталог', url: '/catalog' }, { name: 'Дизайн и графика', url: '/catalog/design' }, { name: 'Figma', url: pageUrl }];
+// FAQPage и BreadcrumbList не дублируем: их выводят компоненты FAQ и Breadcrumbs.
 const ld = [
   collectionPageSchema({ name: 'Figma для бизнеса', description, url: pageUrl, items: cards.map((c) => ({ name: c.name, slug: c.slug })) }),
-  faqSchema(FIGMA_FAQ),
-  breadcrumbSchema([{ name: 'Главная', url: '/' }, ...crumbs]),
 ];
 ---
 <BaseLayout title={title} description={description} type="website" canonical={pageUrl}>

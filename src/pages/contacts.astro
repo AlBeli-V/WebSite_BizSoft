@@ -5,7 +5,7 @@ import Breadcrumbs from '../components/Breadcrumbs.astro';
 import LeadForm from '../components/LeadForm.astro';
 import JsonLd from '../components/JsonLd.astro';
 import { localBusinessSchema } from '../lib/seo';
-import { seller } from '../config/site';
+import { seller, workingHours } from '../config/site';
 ---
 <BaseLayout title="Контакты" description="Контакты BIZSoft (ИП Беляев А.В.): телефон, e-mail, адрес и форма обратной связи. Работаем с юрлицами по договору и счёту.">
   <JsonLd schema={localBusinessSchema()} />
@@ -24,6 +24,7 @@ import { seller } from '../config/site';
         <div class="row"><span>Телефон</span><a href={`tel:${seller.phoneHref}`}>{seller.phone}</a></div>
         <div class="row"><span>E-mail</span><a href={`mailto:${seller.email}`}>{seller.email}</a></div>
         <div class="row"><span>Почта для заявок и КП</span><a href={`mailto:${seller.salesEmail}`}>{seller.salesEmail}</a></div>
+        <div class="row"><span>Режим работы</span><span>{workingHours.label}</span></div>
         <div class="row"><span>Адрес</span><span>{seller.address}</span></div>
         <div class="row"><span>Продавец</span><span>{seller.shortName}</span></div>
         <div class="row"><span>ИНН</span><span>{seller.inn}</span></div>

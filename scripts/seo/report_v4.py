@@ -8,7 +8,8 @@
   F Драйверы и детракторы · G Контроль экспериментов · H Автономное исполнение ·
   I Радар возможностей · J Здоровье данных и риски · K Контрольные точки · L Ссылки
 
-Объём 800–1000 видимых слов, первый экран — не более 250.
+Объём 800–1100 видимых слов, первый экран — не более 250
+(потолок поднят 29.08.2026 под секции «Реклама» и «Перспективные идеи»).
 Числа берутся только из снимка и аналитических модулей; в текст не вписываются.
 
 Запуск: python3 scripts/seo/report_v4.py [YYYY-MM-DD]
@@ -25,6 +26,7 @@ import sys
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
 
+import ads_block                      # noqa: E402
 import charts_v4                      # noqa: E402
 import drivers as drivers_mod         # noqa: E402
 import invariants as invariants_mod   # noqa: E402
@@ -47,6 +49,7 @@ PUBLIC_REPORT_BASE_URL = os.environ.get("PUBLIC_REPORT_BASE_URL", "").rstrip("/"
 if not PUBLIC_REPORT_BASE_URL and REPORT_URL_FILE.exists():
     PUBLIC_REPORT_BASE_URL = REPORT_URL_FILE.read_text(encoding="utf-8").strip().rstrip("/")
 DEMAND_STATE = pathlib.Path("reports/seo/wordstat/intelligence-state.json")
+GROWTH_IDEAS = pathlib.Path("reports/seo/intelligence/growth-ideas.json")
 
 # ── Design tokens ───────────────────────────────────────────────────────────
 T = {
@@ -700,6 +703,8 @@ def assemble(snap, prev, dq, actions_cfg, site_check):
         "vendor_radar": vendor_radar_mod.build(snap),
         "health": health,
         "demand": load_demand(),
+        "ads": ads_block.build(date),
+        "growth_ideas": load_growth_ideas(),
         "measurement_summary": _measurement_summary(dq),
         "checkpoints": _checkpoints(exps, actions_cfg),
         "links": {"web": url, "web_public": public,
@@ -925,6 +930,38 @@ def html_email(b: dict, charts: dict, cid_mode: bool) -> str:
             for s in b["signals"])
         rows.append(_section("Сигналы дня", sig))
 
+    # E-б. Реклама (Директ) — Direct Control Report, этап A. Маркер всегда
+    # со словом-причиной; направления без 10 кликов — серые «мало данных».
+    ads = b.get("ads") or {}
+    if ads.get("available"):
+        tone_c = {"grey": T["muted"], "ok": T["positive"],
+                  "warn": T["warning"], "bad": T["danger"]}
+        ad_rows = "".join(
+            f"<div style=\"padding:{SP['s']}px 0;border-bottom:1px solid {T['border']};"
+            f"font-size:14.5px;line-height:1.5;\">"
+            f"<span style=\"display:inline-block;width:8px;height:8px;border-radius:50%;"
+            f"background:{tone_c[r['verdict']['tone']]};margin-right:{SP['s']}px;\"></span>"
+            f"<b>{r['label']}</b> — {r['spend_day']:.0f} ₽, "
+            f"{counted(r['clicks_day'], 'клик', 'клика', 'кликов')}"
+            + (f", CPC {r['cpc']:.0f} ₽" if r["cpc"] else "")
+            + f" · <span style=\"color:{tone_c[r['verdict']['tone']]};\">"
+              f"{r['verdict']['label']}</span></div>"
+            for r in ads["rows"])
+        dec_html = "".join(
+            f"<div style=\"font-size:14.5px;padding-top:{SP['s']}px;line-height:1.55;"
+            f"color:{tone_c[d['tone']]};\"><b>Требует решения:</b> "
+            f"<span style=\"color:{T['text_primary']};\">{d['text']}</span></div>"
+            for d in ads["decisions"][:3])
+        rows.append(_section(
+            "Реклама — Яндекс.Директ",
+            f"<div style=\"font-size:15px;line-height:1.6;\">"
+            f"{ads['campaign']}, за {ru_date(ads['as_of'])}: "
+            f"{ads['day_spend']:.0f} ₽ за день, с запуска "
+            f"{ads['week']['spent']:.0f} из {num(ads['week']['limit'])} ₽ "
+            f"недельного лимита.</div>"
+            f"<div style=\"padding-top:{SP['s']}px;\">{ad_rows}</div>{dec_html}",
+            ads.get("note", "")))
+
     # F. Драйверы и детракторы
     parts = []
     for db in b["driver_blocks"]:
@@ -1108,6 +1145,17 @@ def html_email(b: dict, charts: dict, cid_mode: bool) -> str:
             f"Замер спроса от {ru_date(dm.get('measured_at'))}, "
             f"обновляется по расписанию исследования"))
 
+    # I-в. Перспективные идеи бесплатного продвижения — только свежие (status=new),
+    # компактно; полная копилка со статусами живёт в веб-отчёте.
+    gi = b.get("growth_ideas") or {}
+    if gi.get("fresh"):
+        idea_rows = "".join(
+            f"<div style=\"padding:{SP['xs']}px 0;font-size:14.5px;line-height:1.55;\">"
+            f"<b>{it['title']}</b> — {it['why']}</div>"
+            for it in gi["fresh"])
+        rows.append(_section("Перспективные идеи продвижения", idea_rows,
+                             "бесплатные каналы; полный список и статусы — в веб-отчёте"))
+
     # I-в. Расширение каталога: кого добавить. Спрос без возможности оплатить
     # сделкой не становится, поэтому способ оплаты стоит рядом с цифрой спроса.
     exp = dm.get("expansion") if dm.get("available") else None
@@ -1226,6 +1274,24 @@ def plain_text(b: dict) -> str:
         for s in b["signals"]:
             L.append(f"- {s['metric']}: {s['previous']} -> {s['current']} ({s['delta']}). "
                      f"{s['meaning']}")
+    ads = b.get("ads") or {}
+    if ads.get("available"):
+        L += ["", "РЕКЛАМА — ЯНДЕКС.ДИРЕКТ",
+              f"Кампания {ads['campaign']}, данные за {ru_date(ads['as_of'])}: "
+              f"за день {ads['day_spend']:.0f} р., с запуска "
+              f"{ads['week']['spent']:.0f} из {num(ads['week']['limit'])} р. "
+              f"недельного лимита."]
+        tone_word = {"grey": "[серый]", "ok": "[зелёный]",
+                     "warn": "[жёлтый]", "bad": "[красный]"}
+        for r in ads["rows"]:
+            cpc = f", CPC {r['cpc']:.0f} р." if r["cpc"] else ""
+            L.append(f"- {r['label']}: {r['spend_day']:.0f} р., "
+                     f"{counted(r['clicks_day'], 'клик', 'клика', 'кликов')} за день{cpc} "
+                     f"{tone_word[r['verdict']['tone']]} {r['verdict']['label']}")
+        for d in ads["decisions"][:3]:
+            L.append(f"  ТРЕБУЕТ РЕШЕНИЯ: {d['text']}")
+        if ads.get("note"):
+            L.append(f"  {ads['note']}")
     L += ["", "ЧТО ДАЛО ИЗМЕНЕНИЕ", b["driver_summary"]]
     for r in b["driver_rows"]:
         L.append(f"  {r['entity']}: {signed(r['delta'])} "
@@ -1295,6 +1361,11 @@ def plain_text(b: dict) -> str:
                          f"— {it['recommendation']}")
             if exp.get("manual_check"):
                 L.append("Проверить вручную: " + ", ".join(exp["manual_check"]) + ".")
+    gi = b.get("growth_ideas") or {}
+    if gi.get("fresh"):
+        L += ["", "ПЕРСПЕКТИВНЫЕ ИДЕИ ПРОДВИЖЕНИЯ"]
+        for it in gi["fresh"]:
+            L.append(f"- {it['title']} — {it['why']}")
     h = b["health"]
     L += ["", "ЗДОРОВЬЕ ДАННЫХ",
           f"{PILL_LABEL[h['status']].capitalize()}: {h['reason']}. {h['detail']}",
@@ -1371,6 +1442,23 @@ def load_demand() -> dict:
     block = state.get("executive_block") or {"available": False,
                                              "reason": "нет сводки исследования"}
     return _drop_vendors_already_on_site(block)
+
+
+def load_growth_ideas() -> dict:
+    """Перспективные идеи бесплатного продвижения и расширения.
+
+    Раздел заведён решением руководителя 29.08.2026 после лида из
+    Бизнес-каталога Яндекса. Копилка живёт в growth-ideas.json (seo-data):
+    в письме показываются только свежие идеи (status=new, до двух), полный
+    список со статусами — в веб-отчёте. Идея, принятая или отклонённая
+    руководителем, меняет статус и из письма уходит.
+    """
+    if not GROWTH_IDEAS.exists():
+        return {"available": False, "items": [], "fresh": []}
+    data = json.loads(GROWTH_IDEAS.read_text(encoding="utf-8"))
+    items = data.get("items", [])
+    fresh = [i for i in items if i.get("status") == "new"][:2]
+    return {"available": bool(items), "items": items, "fresh": fresh}
 
 
 def _site_vendor_words() -> set[str]:

@@ -587,7 +587,8 @@
   "source_license_note": "Motion Array trademark/copyright applies; cross-check against current brand guidelines",
   "svg_color": "svg/color/motion-array__color.svg",
   "svg_mono": "svg/mono/motion-array__mono.svg",
-  "png_pattern": "png/{color|mono}/{size}/motion-array__{color|mono}__{size}.png"
+  "png_pattern": "png/{color|mono}/{size}/motion-array__{color|mono}__{size}.png",
+  "note": "Аудит качества 29.08.2026: wordmark заменён знаком «ma» (фавикон 180px); catalog-дубль снят, карточки — вендорский фолбэк."
  },
  {
   "index": 40,
@@ -692,7 +693,8 @@
   "source_license_note": "Official website asset; vendor trademark/copyright applies",
   "svg_color": "svg/color/procreate__color.svg",
   "svg_mono": "svg/mono/procreate__mono.svg",
-  "png_pattern": "png/{color|mono}/{size}/procreate__{color|mono}__{size}.png"
+  "png_pattern": "png/{color|mono}/{size}/procreate__{color|mono}__{size}.png",
+  "note": "Аудит качества 29.08.2026: растр 152px заменён фавиконом 192px."
  },
  {
   "index": 47,
@@ -769,7 +771,8 @@
   "source_license_note": "Official brand asset; use subject to RizomUV writing and branding guidelines",
   "svg_color": "svg/color/rizomuv__color.svg",
   "svg_mono": "svg/mono/rizomuv__mono.svg",
-  "png_pattern": "png/{color|mono}/{size}/rizomuv__{color|mono}__{size}.png"
+  "png_pattern": "png/{color|mono}/{size}/rizomuv__{color|mono}__{size}.png",
+  "note": "Аудит качества 29.08.2026: mono был цветным — пересобран в настоящий монохром (grayscale+autocontrast)."
  },
  {
   "index": 52,
@@ -987,12 +990,12 @@
   "slug": "sketchup",
   "official_domain": "sketchup.com",
   "catalog_url": "https://biz-soft.pro/vendors/sketchup",
-  "source_kind": "Пакет владельца сайта (растр официального логотипа, встроен data URI)",
+  "source_kind": "Официальный глиф бренда (simple-icons), вектор",
   "source_format": "svg",
-  "quality": "raster-embedded",
+  "quality": "vector-original-palette",
   "source_license_note": "Товарный знак Trimble Inc.; использование по брендовым правилам правообладателя.",
   "recomposed": "2026-08-20",
-  "note": "Пересобрана 20.08.2026: из горизонтального локапа вырезана графическая марка и вписана в квадрат. Словесная часть убрана — в плитке значок рендерится в 56 px, надпись внутри него нечитаема, а имя вендора витрина печатает текстом под значком."
+  "note": "Пересобрана 20.08.2026: из горизонтального локапа вырезана графическая марка и вписана в квадрат. Словесная часть убрана — в плитке значок рендерится в 56 px, надпись внутри него нечитаема, а имя вендора витрина печатает текстом под значком. Аудит качества 29.08.2026: растровый знак 72x78 заменён вектором simple-icons (hex #005F9E)."
  },
  {
   "index": 67,
@@ -1152,5 +1155,205 @@
   "quality": "raster-embedded",
   "note": "Исправленная версия партии от 20.08.2026: настоящий фирменный знак вместо буквенной марки. Из растра удалён посторонний значок поиска по картинке, впечатанный в исходник в левом нижнем углу, и оставшиеся от него крапины.",
   "fixed": "2026-08-20"
+ },
+ {
+  "index": 81,
+  "vendor": "Slack",
+  "slug": "slack",
+  "official_domain": "slack.com",
+  "catalog_url": "https://biz-soft.pro/vendors/slack",
+  "added": "2026-08-29",
+  "source_url": "https://upload.wikimedia.org/wikipedia/commons/d/d5/Slack_icon_2019.svg",
+  "source_kind": "Официальный знак Slack (2019), вектор с Wikimedia Commons",
+  "quality": "vector-original-palette",
+  "source_license_note": "Товарный знак принадлежит Slack Technologies (Salesforce); использование — номинативное, для обозначения товаров вендора. CDN вендора (a.slack-edge.com) отдаёт 403 из среды исполнения, из simple-icons марка удалена правообладателем.",
+  "note": "Вендор возвращён на витрину 29.08.2026. Монохром — та же геометрия в #1d1d1f."
+ },
+ {
+  "index": 82,
+  "vendor": "WordPress.com",
+  "slug": "wordpress",
+  "official_domain": "wordpress.com",
+  "catalog_url": "https://biz-soft.pro/vendors/wordpress",
+  "added": "2026-08-29",
+  "source_kind": "Официальный глиф бренда (simple-icons), вектор",
+  "quality": "vector-original-palette",
+  "note": "Пара монохром/цвет собрана из фирменного глифа WordPress (W в круге), hex #21759B. Тот же глиф ушёл в канал brand-logos автогенерацией build-logos.mjs."
+ },
+ {
+  "index": 83,
+  "vendor": "xAI",
+  "slug": "grok",
+  "official_domain": "x.ai",
+  "catalog_url": "https://biz-soft.pro/vendors/grok",
+  "added": "2026-08-29",
+  "source_kind": "Официальный глиф Grok/xAI (коллекция LobeHub Icons), вектор",
+  "quality": "vector-original-palette",
+  "note": "Монохромный фирменный глиф Grok; цвет #0F0F0F."
+ },
+ {
+  "index": 84,
+  "vendor": "Moonshot AI",
+  "slug": "kimi",
+  "official_domain": "kimi.com",
+  "catalog_url": "https://biz-soft.pro/vendors/kimi",
+  "added": "2026-08-29",
+  "source_kind": "Официальный глиф Kimi (коллекция LobeHub Icons), вектор",
+  "quality": "vector-original-palette",
+  "note": "Цветная версия #1783FF из коллекции; монохром #1d1d1f."
+ },
+ {
+  "index": 85,
+  "vendor": "OpenRouter",
+  "slug": "openrouter",
+  "official_domain": "openrouter.ai",
+  "catalog_url": "https://biz-soft.pro/vendors/openrouter",
+  "added": "2026-08-29",
+  "source_kind": "Официальный глиф бренда (LobeHub Icons/simple-icons), вектор",
+  "quality": "vector-original-palette",
+  "note": "Фирменный знак монохромный; цветовой вариант — фирменный тёмный #1C1C1E."
+ },
+ {
+  "index": 86,
+  "vendor": "Krea",
+  "slug": "krea",
+  "official_domain": "krea.ai",
+  "catalog_url": "https://biz-soft.pro/vendors/krea",
+  "added": "2026-08-29",
+  "source_kind": "Официальный глиф бренда (коллекция LobeHub Icons), вектор",
+  "quality": "vector-original-palette",
+  "note": "Монохромный фирменный глиф; цвет #141414."
+ },
+ {
+  "index": 87,
+  "vendor": "Lovable",
+  "slug": "lovable",
+  "official_domain": "lovable.dev",
+  "catalog_url": "https://biz-soft.pro/vendors/lovable",
+  "added": "2026-08-29",
+  "source_kind": "Официальный глиф бренда (коллекция LobeHub Icons), вектор",
+  "quality": "vector-original-palette",
+  "note": "Цветная версия с фирменным градиентом (defs сохранены)."
+ },
+ {
+  "index": 88,
+  "vendor": "DeepL",
+  "slug": "deepl",
+  "official_domain": "deepl.com",
+  "catalog_url": "https://biz-soft.pro/vendors/deepl",
+  "added": "2026-08-29",
+  "source_kind": "Официальный глиф бренда (simple-icons), вектор",
+  "quality": "vector-original-palette",
+  "note": "Hex #0F2B46; тот же глиф в brand-logos автогенерацией build-logos.mjs."
+ },
+ {
+  "index": 89,
+  "vendor": "Windsurf",
+  "slug": "windsurf",
+  "official_domain": "windsurf.com",
+  "catalog_url": "https://biz-soft.pro/vendors/windsurf",
+  "added": "2026-08-29",
+  "source_kind": "Официальный глиф бренда (simple-icons), вектор",
+  "quality": "vector-original-palette",
+  "note": "Hex #0B100F."
+ },
+ {
+  "index": 90,
+  "vendor": "Steinberg",
+  "slug": "cubase",
+  "official_domain": "steinberg.net",
+  "catalog_url": "https://biz-soft.pro/vendors/cubase",
+  "added": "2026-08-29",
+  "source_kind": "Официальный глиф бренда Steinberg (simple-icons), вектор",
+  "quality": "vector-original-palette",
+  "note": "Hex #C90827; слаг сайта cubase."
+ },
+ {
+  "index": 91,
+  "vendor": "Capture One",
+  "slug": "capture-one",
+  "official_domain": "captureone.com",
+  "catalog_url": "https://biz-soft.pro/vendors/capture-one",
+  "added": "2026-08-29",
+  "source_kind": "Пакет ассетов от руководителя (официальный растровый референс, встроен в SVG без трейсинга)",
+  "quality": "raster-embedded-original-palette",
+  "note": "Компактный знак «1»; полноценного вендорского wordmark в пакете не было — знак временно служит и вендорской иконкой. Заменить официальным wordmark при появлении. Аудит качества 29.08.2026: mono пересобран (grayscale+autocontrast). Растр 191px — заменить при появлении более крупного официального знака."
+ },
+ {
+  "index": 92,
+  "vendor": "Image-Line",
+  "slug": "image-line",
+  "official_domain": "image-line.com",
+  "catalog_url": "https://biz-soft.pro/vendors/fl-studio",
+  "added": "2026-08-29",
+  "source_kind": "Пакет ассетов от руководителя (официальный растровый референс, встроен в SVG без трейсинга)",
+  "quality": "raster-embedded-original-palette",
+  "note": "Лого-локап Image-Line (куб IL + wordmark). Слаг сайта fl-studio → ALIAS fl-studio→image-line в vendor-icons.ts. Аудит качества 29.08.2026: wordmark убран — куб IL вырезан из официального локапа, без трейсинга."
+ },
+ {
+  "index": 93,
+  "vendor": "iZotope",
+  "slug": "izotope",
+  "official_domain": "izotope.com",
+  "catalog_url": "https://biz-soft.pro/vendors/izotope",
+  "added": "2026-08-29",
+  "source_kind": "Пакет ассетов от руководителя (официальный растровый референс, встроен в SVG без трейсинга)",
+  "quality": "raster-embedded-original-palette",
+  "note": "Полный локап iZotope (орбита + wordmark). Аудит качества 29.08.2026: вместо wordmark-локапа установлен символ-орбита (общий знак с catalog izotope-mark)."
+ },
+ {
+  "index": 94,
+  "vendor": "Lumion",
+  "slug": "lumion",
+  "official_domain": "lumion.com",
+  "catalog_url": "https://biz-soft.pro/vendors/lumion",
+  "added": "2026-08-29",
+  "source_kind": "Пакет ассетов от руководителя (официальный растровый референс, встроен в SVG без трейсинга)",
+  "quality": "raster-embedded-original-palette",
+  "note": "Полный локап Lumion (лист + wordmark). Аудит качества 29.08.2026: вместо локапа с текстом установлен символ-лист (общий знак с catalog lumion)."
+ },
+ {
+  "index": 95,
+  "vendor": "RARLAB",
+  "slug": "rarlab",
+  "official_domain": "win-rar.com",
+  "catalog_url": "https://biz-soft.pro/vendors/winrar",
+  "added": "2026-08-29",
+  "source_kind": "Пакет ассетов от руководителя (официальный растровый референс, встроен в SVG без трейсинга)",
+  "quality": "raster-embedded-original-palette",
+  "note": "Wordmark RARLAB. Слаг сайта winrar → ALIAS winrar→rarlab в vendor-icons.ts. Аудит качества 29.08.2026: нечитаемый wordmark RARLAB заменён знаком WinRAR (книги, общий с catalog winrar); вендор на витрине называется WinRAR."
+ },
+ {
+  "index": 96,
+  "vendor": "Ableton",
+  "slug": "ableton",
+  "official_domain": "ableton.com",
+  "catalog_url": "https://biz-soft.pro/vendors/ableton",
+  "added": "2026-08-29",
+  "source_kind": "Официальный фавикон сайта правообладателя (gstatic faviconV2), растр в SVG",
+  "quality": "raster-embedded-original-palette",
+  "note": "Аудит качества 29.08.2026: первая иконка вендора (был буквенный фолбэк)."
+ },
+ {
+  "index": 97,
+  "vendor": "Higgsfield",
+  "slug": "higgsfield",
+  "official_domain": "higgsfield.ai",
+  "catalog_url": "https://biz-soft.pro/vendors/higgsfield",
+  "added": "2026-08-29",
+  "source_kind": "Официальный фавикон сайта правообладателя (gstatic faviconV2), растр в SVG",
+  "quality": "raster-embedded-original-palette",
+  "note": "Аудит качества 29.08.2026: первая иконка вендора (был буквенный фолбэк)."
+ },
+ {
+  "index": 98,
+  "vendor": "think-cell",
+  "slug": "think-cell",
+  "official_domain": "think-cell.com",
+  "catalog_url": "https://biz-soft.pro/vendors/think-cell",
+  "added": "2026-08-29",
+  "source_kind": "Официальный фавикон сайта правообладателя (gstatic faviconV2), растр в SVG",
+  "quality": "raster-embedded-original-palette",
+  "note": "Аудит качества 29.08.2026: первая иконка вендора (был буквенный фолбэк)."
  }
 ]

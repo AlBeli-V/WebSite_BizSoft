@@ -98,11 +98,7 @@ const ld = [
       '@type': 'ListItem', position: i + 1, name: c.name, url: `${site.url}/catalog/${c.slug}`,
     })),
   },
-  {
-    '@context': 'https://schema.org',
-    '@type': 'FAQPage',
-    mainEntity: faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
-  },
+  // FAQPage не дублируем: разметку выводит компонент FAQ рядом с видимым блоком.
 ];
 ---
 <BaseLayout

@@ -98,5 +98,9 @@ export function productNoindex(sku?: string | null): boolean {
   const s = (sku || '').toUpperCase();
   if (s.startsWith('JB-PLG-')) return true;               // 867 плагинов Marketplace
   if (s.startsWith('JB-') && s.endsWith('-IND')) return true; // личные лицензии JetBrains
+  // Карточки продления (у вендора цена продления выше первого года): живут на
+  // витрине и в КП, но в поиск не идут — иначе конкурируют со страницей
+  // первой покупки того же тарифа (решение руководителя 29.08.2026).
+  if (s.endsWith('-RENEWAL')) return true;
   return false;
 }

@@ -26,7 +26,6 @@ import { ZOHO_HUB_ENABLED } from '../../../../lib/zoho-hub';
 import { getZohoPositionsBySkus } from '../../../../lib/directus';
 import { effectivePrice, formatRub } from '../../../../lib/pricing';
 import { site } from '../../../../config/site';
-import { breadcrumbSchema } from '../../../../lib/seo';
 import type { Product } from '../../../../lib/types';
 
 if (!ZOHO_HUB_ENABLED) return Astro.redirect('/vendors/zoho', 302);
@@ -111,8 +110,8 @@ const crumbs = [
   { name: group.name, url: `/vendors/zoho/${group.slug}` },
   { name: family.name, url: `/vendors/zoho/${group.slug}/${family.slug}` },
 ];
+// BreadcrumbList не дублируем: его выводит компонент Breadcrumbs.
 const ld = [
-  breadcrumbSchema(crumbs),
   {
     '@context': 'https://schema.org',
     '@type': 'CollectionPage',

@@ -140,6 +140,88 @@ check('КП: документ собирается в собранном при�
   return { ok: !broken, got: `${r.status} ${r.body.slice(0, 120)}` };
 });
 
+// ── Структурированные данные (Schema.org) ────────────────────────────────
+// Единый слой разметки: JSON-LD + microdata карточки строятся из тех же
+// данных, что и витрина. Смоук ловит расхождение «разметка ↔ страница»
+// и дубли типов (BreadcrumbList/FAQPage должны выводиться ровно один раз).
+/** Все JSON-LD-узлы страницы плоским списком (или null при битом JSON). */
+function ldNodes(html) {
+  const nodes = [];
+  for (const m of html.matchAll(/<script type="application\/ld\+json">(.*?)<\/script>/gs)) {
+    try {
+      const parsed = JSON.parse(m[1]);
+      nodes.push(...(Array.isArray(parsed) ? parsed : [parsed]));
+    } catch { return null; }
+  }
+  return nodes;
+}
+const ofType = (nodes, type) => nodes.filter((n) => n['@type'] === type || (Array.isArray(n['@type']) && n['@type'].includes(type)));
+
+check('разметка: карточка товара — валидный JSON-LD, ровно один Product и один BreadcrumbList', async () => {
+  const r = await req('/product/chatgpt-business');
+  const nodes = ldNodes(r.body);
+  if (!nodes) return { ok: false, got: 'битый JSON-LD' };
+  const p = ofType(nodes, 'Product').length;
+  const b = ofType(nodes, 'BreadcrumbList').length;
+  return { ok: p === 1 && b === 1, got: `Product: ${p}, BreadcrumbList: ${b}` };
+});
+check('разметка: цена и URL в JSON-LD совпадают с витриной и canonical', async () => {
+  const r = await req('/product/chatgpt-business');
+  const nodes = ldNodes(r.body) || [];
+  const offer = ofType(nodes, 'Product')[0]?.offers;
+  const domPrice = r.body.match(/data-price="([0-9.]+)"/)?.[1];
+  const canonical = r.body.match(/<link rel="canonical" href="([^"]+)"/)?.[1];
+  const ok = offer && String(offer.price) === '1000' && domPrice === '1000'
+    && offer.priceCurrency === 'RUB' && offer.url === canonical;
+  return { ok: Boolean(ok), got: `ld=${offer?.price} dom=${domPrice} url=${offer?.url} canonical=${canonical}` };
+});
+check('разметка: microdata карточки согласована с JSON-LD', async () => {
+  const r = await req('/product/chatgpt-business');
+  const nodes = ldNodes(r.body) || [];
+  const offer = ofType(nodes, 'Product')[0]?.offers;
+  const hasScope = r.body.includes('itemtype="https://schema.org/Product"');
+  const mdPrice = r.body.match(/itemprop="price" content="([0-9.]+)"/)?.[1];
+  const mdCur = r.body.match(/itemprop="priceCurrency" content="([A-Z]+)"/)?.[1];
+  const ok = hasScope && offer && mdPrice === String(offer.price) && mdCur === offer.priceCurrency;
+  return { ok: Boolean(ok), got: `scope=${hasScope} md=${mdPrice} ${mdCur} ld=${offer?.price} ${offer?.priceCurrency}` };
+});
+check('разметка: «цена по запросу» — без Product и в JSON-LD, и в microdata', async () => {
+  const r = await req('/product/tovar-po-zaprosu');
+  const nodes = ldNodes(r.body) || [];
+  const p = ofType(nodes, 'Product').length;
+  const md = r.body.includes('itemtype="https://schema.org/Product"');
+  const visible = r.body.includes('Цена по запросу');
+  return { ok: r.status === 200 && p === 0 && !md && visible, got: `${r.status}, Product ld=${p} md=${md}, виден «по запросу»=${visible}` };
+});
+check('разметка: у акции в Offer промо-цена и priceValidUntil', async () => {
+  const r = await req('/product/tovar-s-akciej');
+  const nodes = ldNodes(r.body) || [];
+  const offer = ofType(nodes, 'Product')[0]?.offers;
+  return { ok: Boolean(offer && String(offer.price) === '1500' && offer.priceValidUntil === '2099-12-31'), got: `price=${offer?.price} until=${offer?.priceValidUntil}` };
+});
+check('разметка: вендорный лендинг без дублей BreadcrumbList/FAQPage', async () => {
+  const r = await req('/vendors/adobe');
+  const nodes = ldNodes(r.body);
+  if (!nodes) return { ok: false, got: 'битый JSON-LD' };
+  const b = ofType(nodes, 'BreadcrumbList').length;
+  const f = ofType(nodes, 'FAQPage').length;
+  return { ok: b === 1 && f === 1, got: `BreadcrumbList: ${b}, FAQPage: ${f}` };
+});
+check('разметка: каталог без дублей FAQPage', async () => {
+  const r = await req('/catalog');
+  const nodes = ldNodes(r.body);
+  if (!nodes) return { ok: false, got: 'битый JSON-LD' };
+  const f = ofType(nodes, 'FAQPage').length;
+  return { ok: f === 1, got: `FAQPage: ${f}` };
+});
+check('разметка: организация — один @id на всех узлах Organization', async () => {
+  const r = await req('/');
+  const nodes = ldNodes(r.body) || [];
+  const orgs = ofType(nodes, 'Organization');
+  const ids = [...new Set(orgs.map((o) => o['@id']))];
+  return { ok: orgs.length > 0 && ids.length === 1 && ids[0] === 'https://biz-soft.pro/#organization', got: `узлов: ${orgs.length}, @id: ${ids.join(' | ')}` };
+});
+
 // ── БД недоступна ────────────────────────────────────────────────────────
 check('[БД упала] карточка товара отдаёт 503, а не 404', async () => {
   await setMode('fail');

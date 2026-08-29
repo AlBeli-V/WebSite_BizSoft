@@ -1,0 +1,113 @@
+{
+  "vendor_entry": {
+    "slug": "cubase",
+    "vendor": "Steinberg",
+    "title": "Steinberg Cubase",
+    "legalName": "Steinberg Media Technologies GmbH",
+    "brandColor": "#C90827",
+    "site": "https://www.steinberg.net",
+    "catSeg": "media",
+    "catLabel": "Звук, видео и медиа",
+    "domain": "video",
+    "tagline": "Cubase от Steinberg: классическая DAW для записи, аранжировки и сведения — редакции Elements, Artist и Pro.",
+    "about": "Cubase — цифровая звуковая станция Steinberg, стандарт студийной записи и аранжировки: MIDI-редакция, работа с аудио, сведение и обширный набор виртуальных инструментов. Бессрочные лицензии в трёх редакциях: Elements для начала работы, Artist для продюсеров, Pro со всеми инструментами постпродакшна. Используется студиями звукозаписи, композиторами и медиапродакшном."
+  },
+  "products": [
+    {
+      "sku": "CUBASE-ELEMENTS",
+      "slug": "cubase-elements",
+      "name": "Cubase Elements 15",
+      "official_name": "Cubase Elements 15 (бессрочная лицензия)",
+      "category": "media",
+      "license_type": "individual",
+      "short_description": "Стартовая редакция Cubase: запись, MIDI-аранжировка и сведение с базовым набором инструментов и эффектов.",
+      "description": "Cubase Elements 15 — младшая редакция классической DAW Steinberg: до 48 аудио- и 64 MIDI-дорожек, фирменный аудиодвижок, базовые инструменты и эффекты.\n\nТипичный сценарий: рабочее место для записи и черновой аранжировки, учебный класс, домашняя студия сотрудника. Проекты открываются в старших редакциях — рост без потери наработок.\n\nЧем отличается от соседних редакций: Artist снимает большинство ограничений на дорожки и добавляет инструменты; Pro даёт полный микшер с каналом-стрипом, VariAudio, оркестровые библиотеки и инструменты постпродакшна.\n\nЛицензия бессрочная, активация через Steinberg Licensing на компьютерах пользователя.\n\nКому подходит: учебным центрам и студиям, которым нужен легальный Cubase начального уровня.\n\nОформим покупку на вашу компанию: договор, счёт в рублях, закрывающие документы через ЭДО, ключ за 1–3 рабочих дня.",
+      "keywords": "cubase купить, cubase elements купить, кубейс лицензия, cubase цена, steinberg cubase",
+      "features": [
+        "Бессрочная лицензия, активация Steinberg Licensing",
+        "До 48 аудио- и 64 MIDI-дорожек",
+        "Базовые инструменты и эффекты Steinberg",
+        "Совместимость проектов со старшими редакциями"
+      ],
+      "base_price_usd": 99.99,
+      "billing": "бессрочная лицензия на 1 пользователя",
+      "min_quantity": 1,
+      "price_confidence": "vendor-page",
+      "source_url": "https://www.steinberg.net/cubase/compare-editions/",
+      "checkout_url": "https://www.steinberg.net/cubase/compare-editions/",
+      "checked_at": "2026-08-29",
+      "notes": "Цена снята со страницы сравнения редакций вендора 29.08.2026 (ops-price-scan, рендер Chrome): Elements 15 — $99.99.",
+      "status": "published",
+      "markup_coeff": null,
+      "sort": null
+    },
+    {
+      "sku": "CUBASE-ARTIST",
+      "slug": "cubase-artist",
+      "name": "Cubase Artist 15",
+      "official_name": "Cubase Artist 15 (бессрочная лицензия)",
+      "category": "media",
+      "license_type": "individual",
+      "short_description": "Средняя редакция Cubase для продюсеров: расширенный набор инструментов, эффектов и почти без ограничений на дорожки.",
+      "description": "Cubase Artist 15 — редакция для продюсеров и аранжировщиков: расширенный набор виртуальных инструментов и эффектов, работа с аккордами и почти полный функционал редакции Pro без специализированных студийных модулей.\n\nТипичный сценарий: основная станция композитора или аранжировщика, которому не нужны инструменты большого постпродакшна — запись, MIDI-аранжировка, сведение.\n\nЧем отличается от соседних редакций: по сравнению с Elements — больше дорожек, инструментов и эффектов; Pro сверху добавляет полный канал-стрип, VariAudio для правки вокала, поддержку объёмного звука и логические редакторы.\n\nЛицензия бессрочная, активация через Steinberg Licensing на компьютерах пользователя.\n\nКому подходит: продюсерам, композиторам и небольшим студиям.\n\nОформим покупку на вашу компанию: договор, счёт в рублях, закрывающие документы через ЭДО, ключ за 1–3 рабочих дня.",
+      "keywords": "cubase artist купить, cubase artist 15, кубейс артист цена, steinberg artist лицензия",
+      "features": [
+        "Бессрочная лицензия, активация Steinberg Licensing",
+        "Расширенный набор инструментов и эффектов",
+        "Работа с аккордами и продвинутая MIDI-редакция",
+        "Совместимость проектов с редакцией Pro"
+      ],
+      "base_price_usd": 329,
+      "billing": "бессрочная лицензия на 1 пользователя",
+      "min_quantity": 1,
+      "price_confidence": "vendor-page",
+      "source_url": "https://www.steinberg.net/cubase/compare-editions/",
+      "checkout_url": "https://www.steinberg.net/cubase/compare-editions/",
+      "checked_at": "2026-08-29",
+      "notes": "Цена снята со страницы сравнения редакций вендора 29.08.2026 (ops-price-scan, рендер Chrome): Artist 15 — $329.00.",
+      "status": "published",
+      "markup_coeff": null,
+      "sort": null
+    },
+    {
+      "sku": "CUBASE-PRO",
+      "slug": "cubase-pro",
+      "name": "Cubase Pro 15",
+      "official_name": "Cubase Pro 15 (бессрочная лицензия)",
+      "category": "media",
+      "license_type": "individual",
+      "short_description": "Старшая редакция Cubase: полный студийный набор — VariAudio, объёмный звук, логические редакторы и все инструменты.",
+      "description": "Cubase Pro 15 — полная редакция DAW Steinberg: неограниченные дорожки, полный микшер с каналом-стрипом, VariAudio для интонационной правки вокала, поддержка объёмного звука, логические редакторы и весь набор инструментов и библиотек.\n\nТипичный сценарий: главная станция студии звукозаписи или композитора кино и игр — от записи оркестра до финального сведения.\n\nЧем отличается от соседних редакций: всё, что есть в Artist, плюс профессиональные студийные модули — Control Room для мониторинга, экспорт стемов, углублённая работа с видео и объёмным звуком.\n\nЛицензия бессрочная, активация через Steinberg Licensing на компьютерах пользователя.\n\nКому подходит: студиям звукозаписи, композиторам медиа и постпродакшн-студиям.\n\nОформим покупку на вашу компанию: договор, счёт в рублях, закрывающие документы через ЭДО, ключ за 1–3 рабочих дня.",
+      "keywords": "cubase pro купить, cubase pro 15 цена, кубейс про лицензия, steinberg cubase pro",
+      "features": [
+        "Бессрочная лицензия, активация Steinberg Licensing",
+        "Неограниченные дорожки и полный микшер",
+        "VariAudio, Control Room, объёмный звук",
+        "Весь набор инструментов и библиотек Steinberg"
+      ],
+      "base_price_usd": 579.99,
+      "billing": "бессрочная лицензия на 1 пользователя",
+      "min_quantity": 1,
+      "price_confidence": "vendor-page",
+      "source_url": "https://www.steinberg.net/cubase/compare-editions/",
+      "checkout_url": "https://www.steinberg.net/cubase/compare-editions/",
+      "checked_at": "2026-08-29",
+      "notes": "Цена снята со страницы сравнения редакций вендора 29.08.2026 (ops-price-scan, рендер Chrome): Pro 15 — $579.99.",
+      "status": "published",
+      "markup_coeff": null,
+      "sort": null
+    }
+  ],
+  "rejected": [
+    {
+      "name": "Cubase iC Pro, Starter Pack и аппаратные комплекты (UR22mkII Recording Pack)",
+      "reason": "Мобильное приложение-пульт и комплекты с оборудованием — вне модели поставки лицензий BIZSoft.",
+      "source_url": "https://www.steinberg.net/cubase/"
+    },
+    {
+      "name": "Апгрейды и кроссгрейды Cubase",
+      "reason": "Цена апгрейда зависит от имеющейся у клиента лицензии — оформляется по запросу, фиксированного SKU нет.",
+      "source_url": "https://www.steinberg.net/cubase/compare-editions/"
+    }
+  ]
+}

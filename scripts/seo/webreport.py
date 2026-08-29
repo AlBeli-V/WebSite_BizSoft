@@ -36,6 +36,83 @@ OUT = pathlib.Path("reports/seo/public/daily")
 DEMAND_STATE = pathlib.Path("reports/seo/wordstat/intelligence-state.json")
 
 
+IDEA_STATUS = {"new": ("новая", "positive"), "watch": ("наблюдаем", "warning"),
+               "accepted": ("принята", "positive"), "done": ("сделано", "positive"),
+               "dropped": ("отклонена", "danger")}
+
+
+def _ideas_section(gi: dict) -> str:
+    """Копилка идей бесплатного продвижения: полный список со статусами.
+
+    В письме показываются только свежие идеи; здесь — все, с обоснованием,
+    доказательством и датой. Статусы меняет руководитель (через сессию),
+    история решений остаётся в файле.
+    """
+    if not gi.get("items"):
+        return "<p class='muted'>Идей в копилке пока нет.</p>"
+    rows = []
+    for it in gi["items"]:
+        label, cls = IDEA_STATUS.get(it.get("status", "new"), ("новая", "positive"))
+        rows.append([f"<span class='chip {cls}'>{label}</span>",
+                     f"<b>{it['title']}</b>", it.get("why", "—"),
+                     it.get("evidence", "—"), it.get("added", "—")])
+    return table(["Статус", "Идея", "Почему перспективно", "Доказательство", "Добавлена"], rows)
+
+
+DIRECT_STATS = pathlib.Path("reports/seo/ppc/direct-stats.json")
+
+ADS_TONE = {"grey": ("мало данных", "muted"), "ok": ("норма", "positive"),
+            "warn": ("внимание", "warning"), "bad": ("проблема", "danger")}
+
+
+def _ads_section(ads: dict) -> str:
+    """Полный рекламный раздел: направления, все поисковые запросы, решения.
+
+    Письмо показывает выжимку с маркерами; здесь — вся картина, включая
+    каждый реальный поисковый запрос с расходом. Мусорные запросы помечены:
+    это кандидаты в минус-слова, вносятся только после подтверждения
+    руководителя (этап B — классификация и внесение через API).
+    """
+    if not ads.get("available"):
+        return ("<p class='muted'>Выгрузки Директа ещё нет: блок появится после "
+                "первого сбора статистики кампании.</p>")
+    head = (f"<p class='lede'>Кампания <b>{ads['campaign']}</b>, данные за "
+            f"{ru_date(ads['as_of'])}: за день {ads['day_spend']:.0f} ₽, "
+            f"с запуска {ads['week']['spent']:.0f} из {num(ads['week']['limit'])} ₽ "
+            f"недельного лимита. {ads.get('note', '')}</p>")
+    rows = []
+    for r in ads["rows"]:
+        label, cls = ADS_TONE[r["verdict"]["tone"]]
+        rows.append([f"<span class='chip {cls}'>{label}</span>",
+                     f"<b>{r['label']}</b>",
+                     f"{r['spend_day']:.0f} ₽", str(r["clicks_day"]),
+                     f"{r['cpc']:.0f} ₽" if r["cpc"] else "—",
+                     f"{r['spend_total']:.0f} ₽", str(r["clicks_total"]),
+                     r["verdict"]["label"]])
+    directions = table(["Оценка", "Направление", "Расход/день", "Клики/день",
+                        "CPC", "Расход всего", "Клики всего", "Вердикт"], rows)
+    decisions = "".join(
+        f"<p><span class='chip {ADS_TONE[d['tone']][1]}'>требует решения</span> "
+        f"{d['text']}</p>" for d in ads["decisions"])
+
+    queries_html = "<p class='muted'>Запросов пока нет.</p>"
+    if DIRECT_STATS.exists():
+        stats = json.loads(DIRECT_STATS.read_text(encoding="utf-8"))
+        junk_set = set(ads.get("junk", {}).get("queries", []))
+        qrows = []
+        for q in sorted(stats.get("queries", []),
+                        key=lambda x: (-x["Cost"], -x["Clicks"], -x["Impressions"])):
+            mark = ("<span class='chip danger'>минус-кандидат</span>"
+                    if q["Query"] in junk_set else "")
+            qrows.append([q["Date"], q["AdGroupName"], q["Query"],
+                          str(q["Impressions"]), str(q["Clicks"]),
+                          f"{q['Cost']:.2f} ₽", mark])
+        queries_html = table(["Дата", "Группа", "Поисковый запрос", "Показы",
+                              "Клики", "Расход", ""], qrows)
+    return (f"{head}{directions}{decisions}"
+            f"<h3>Реальные поисковые запросы</h3>{queries_html}")
+
+
 def _demand_section() -> str:
     """Покрытие спроса и разрывы: полные таблицы живут здесь, не в письме."""
     if not DEMAND_STATE.exists():
@@ -342,6 +419,8 @@ def build_html(b: dict, snap: dict, dq: dict, date: str) -> str:
     }
     .chip.critical{background:var(--danger);color:#fff}
     .chip.warning{color:var(--warning);background:var(--warning-bg)}
+    .chip.positive{color:var(--positive)}
+    .chip.danger{color:var(--danger)}
     .callout{
       background:var(--warning-bg); border-left:3px solid var(--warning);
       border-radius:0 10px 10px 0; padding:16px 18px; margin:0 0 16px;
@@ -409,6 +488,8 @@ def build_html(b: dict, snap: dict, dq: dict, date: str) -> str:
         b["health"]["colour"]]
 
     demand = _demand_section()
+    ideas = _ideas_section(b.get("growth_ideas") or {})
+    ads = _ads_section(b.get("ads") or {})
 
     return f"""<!doctype html><html lang="ru"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -438,6 +519,8 @@ def build_html(b: dict, snap: dict, dq: dict, date: str) -> str:
   </tr></thead><tbody>{signals}</tbody></table></div>
 </section>
 
+<section><h2>Реклама — Яндекс.Директ</h2>{ads}</section>
+
 <section><h2>Что дало изменение</h2>{drivers}</section>
 
 <section><h2>Контроль экспериментов</h2>{exps}</section>
@@ -447,6 +530,8 @@ def build_html(b: dict, snap: dict, dq: dict, date: str) -> str:
 <section><h2>Радар возможностей</h2>{opp}</section>
 
 <section><h2>Спрос и покрытие рынка</h2>{demand}</section>
+
+<section><h2>Перспективные идеи бесплатного продвижения</h2>{ideas}</section>
 
 <section><h2>Графики</h2>{charts or "<p class='muted'>Графиков нет.</p>"}</section>
 
