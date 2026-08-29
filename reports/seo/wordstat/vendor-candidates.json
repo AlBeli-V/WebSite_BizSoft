@@ -805,6 +805,196 @@
       "brand": "convertkit",
       "kind": "classic",
       "pricing_url": "https://kit.com/pricing"
+    },
+    {
+      "brand": "grok",
+      "kind": "ai",
+      "pricing_url": null
+    },
+    {
+      "brand": "kimi",
+      "kind": "ai",
+      "pricing_url": null
+    },
+    {
+      "brand": "openrouter",
+      "kind": "ai",
+      "pricing_url": "https://openrouter.ai/credits"
+    },
+    {
+      "brand": "higgsfield",
+      "kind": "ai",
+      "pricing_url": "https://higgsfield.ai/pricing"
+    },
+    {
+      "brand": "krea",
+      "kind": "ai",
+      "pricing_url": "https://www.krea.ai/pricing"
+    },
+    {
+      "brand": "pixso",
+      "kind": "classic",
+      "pricing_url": "https://pixso.net/pricing/"
+    },
+    {
+      "brand": "readymag",
+      "kind": "classic",
+      "pricing_url": "https://readymag.com/pricing/"
+    },
+    {
+      "brand": "stripo",
+      "kind": "classic",
+      "pricing_url": "https://stripo.email/pricing/"
+    },
+    {
+      "brand": "ganttpro",
+      "kind": "classic",
+      "pricing_url": "https://ganttpro.com/pricing/"
+    },
+    {
+      "brand": "testrail",
+      "kind": "classic",
+      "pricing_url": "https://www.testrail.com/pricing/"
+    },
+    {
+      "brand": "devexpress",
+      "kind": "classic",
+      "pricing_url": "https://www.devexpress.com/buy/"
+    },
+    {
+      "brand": "altova",
+      "kind": "classic",
+      "pricing_url": "https://shop.altova.com/"
+    },
+    {
+      "brand": "think-cell",
+      "kind": "classic",
+      "pricing_url": "https://www.think-cell.com/en/pricing"
+    },
+    {
+      "brand": "enscape",
+      "kind": "classic",
+      "pricing_url": "https://www.chaos.com/enscape/pricing"
+    },
+    {
+      "brand": "cubase",
+      "kind": "classic",
+      "pricing_url": "https://www.steinberg.net/cubase/compare-editions/"
+    },
+    {
+      "brand": "izotope",
+      "kind": "classic",
+      "pricing_url": "https://www.izotope.com/en/shop.html"
+    },
+    {
+      "brand": "winrar",
+      "kind": "classic",
+      "pricing_url": "https://www.win-rar.com/rarshop.html"
+    },
+    {
+      "brand": "lovable",
+      "kind": "ai",
+      "pricing_url": "https://lovable.dev/pricing"
+    },
+    {
+      "brand": "bolt.new",
+      "kind": "ai",
+      "pricing_url": "https://bolt.new/pricing"
+    },
+    {
+      "brand": "devin ai",
+      "kind": "ai",
+      "pricing_url": "https://devin.ai/pricing"
+    },
+    {
+      "brand": "manus ai",
+      "kind": "ai",
+      "pricing_url": null
+    },
+    {
+      "brand": "mistral ai",
+      "kind": "ai",
+      "pricing_url": "https://mistral.ai/pricing"
+    },
+    {
+      "brand": "hailuo",
+      "kind": "ai",
+      "pricing_url": null
+    },
+    {
+      "brand": "zapier",
+      "kind": "classic",
+      "pricing_url": "https://zapier.com/pricing"
+    },
+    {
+      "brand": "make.com",
+      "kind": "classic",
+      "pricing_url": "https://www.make.com/en/pricing"
+    },
+    {
+      "brand": "tldv",
+      "kind": "ai",
+      "pricing_url": "https://tldv.io/pricing/"
+    },
+    {
+      "brand": "lumion",
+      "kind": "classic",
+      "pricing_url": "https://lumion.com/buy"
+    },
+    {
+      "brand": "d5 render",
+      "kind": "classic",
+      "pricing_url": "https://www.d5render.com/pricing"
+    },
+    {
+      "brand": "vectorworks",
+      "kind": "classic",
+      "pricing_url": null
+    },
+    {
+      "brand": "ableton",
+      "kind": "classic",
+      "pricing_url": "https://www.ableton.com/en/shop/live/"
+    },
+    {
+      "brand": "fl studio",
+      "kind": "classic",
+      "pricing_url": "https://www.image-line.com/fl-studio/purchase/"
+    },
+    {
+      "brand": "capture one",
+      "kind": "classic",
+      "pricing_url": "https://www.captureone.com/en/store"
+    },
+    {
+      "brand": "luminar neo",
+      "kind": "classic",
+      "pricing_url": "https://skylum.com/luminar-pricing"
+    },
+    {
+      "brand": "toon boom",
+      "kind": "classic",
+      "pricing_url": "https://www.toonboom.com/pricing"
+    },
+    {
+      "brand": "sublime text",
+      "kind": "classic",
+      "pricing_url": "https://www.sublimehq.com/store/text"
+    },
+    {
+      "brand": "navicat",
+      "kind": "classic",
+      "pricing_url": "https://www.navicat.com/en/store/navicat-premium"
+    },
+    {
+      "brand": "setapp",
+      "kind": "classic",
+      "pricing_url": "https://setapp.com/pricing"
+    },
+    {
+      "brand": "vimeo",
+      "kind": "classic",
+      "pricing_url": "https://vimeo.com/upgrade"
     }
   ],
   "payment_check": {
@@ -843,6 +1033,16 @@
     "jetbrains rider": "JetBrains",
     "claude": "Anthropic",
     "gemini": "Google",
-    "copilot": "GitHub"
+    "copilot": "GitHub",
+    "grok": "xAI",
+    "kimi": "Moonshot AI",
+    "enscape": "Chaos",
+    "cubase": "Steinberg",
+    "winrar": "RARLAB",
+    "bolt.new": "StackBlitz",
+    "devin ai": "Cognition",
+    "hailuo": "MiniMax",
+    "fl studio": "Image-Line",
+    "luminar neo": "Skylum"
   }
 }
