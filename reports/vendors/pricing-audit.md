@@ -166,3 +166,28 @@
 | SENTRY-BUSINESS | Sentry | Sentry Business (годовая оплата) | publish | 960.0 | за организацию в год при годовой схеме оплаты | vendor-page (ops-price-scan) | https://sentry.io/pricing/ | 2026-08-20 |
 | N8N-STARTER | n8n | n8n Cloud Starter (годовая оплата) | publish | 240.0 | за рабочее пространство в год при годовой схеме оплаты | vendor-page (ops-price-scan) | https://n8n.io/pricing/ | 2026-08-20 |
 | N8N-PRO | n8n | n8n Cloud Pro (годовая оплата) | publish | 600.0 | за рабочее пространство в год при годовой схеме оплаты | vendor-page (ops-price-scan) | https://n8n.io/pricing/ | 2026-08-20 |
+
+## Партия 29.08.2026: возврат Slack и заведение WordPress.com
+
+Распоряжение руководителя 29.08.2026 по данным спроса Вордстата (проверка
+32 зарубежных разработчиков вне каталога: Slack — 123 запроса/мес,
+WordPress — 299 запросов/мес). Slack снимался с витрины 19.08.2026 —
+архивные строки выше остаются как история; карточки SLACK-PRO и
+SLACK-BUSINESS-PLUS перезаведены по свежим ценам. Оплата картой у обоих
+вендоров подтверждена: Slack — FAQ страницы тарифов («You can use a credit
+card to pay for any plan»), WordPress.com — самообслуживаемый checkout.
+
+| SKU | Вендор | Официальное имя | Реш. | База USD | Метрика | Подтверждение | Источник | Проверено |
+|---|---|---|---|---|---|---|---|---|
+| SLACK-PRO | Slack | Slack Pro (годовая оплата) | publish | 87.0 | за 1 пользователя в год при годовой схеме оплаты | vendor-page (ops-price-scan) | https://slack.com/pricing | 2026-08-29 |
+| SLACK-BUSINESS-PLUS | Slack | Slack Business+ (годовая оплата) | publish | 180.0 | за 1 пользователя в год при годовой схеме оплаты | vendor-page (ops-price-scan) | https://slack.com/pricing | 2026-08-29 |
+| WORDPRESS-BUSINESS | WordPress.com | WordPress.com Business (годовая оплата) | publish | 300.0 | за 1 сайт в год при годовой схеме оплаты | vendor-page (ops-price-scan) | https://wordpress.com/pricing/ | 2026-08-29 |
+| WORDPRESS-COMMERCE | WordPress.com | WordPress.com Commerce (годовая оплата) | publish | 540.0 | за 1 сайт в год при годовой схеме оплаты | vendor-page (ops-price-scan) | https://wordpress.com/pricing/ | 2026-08-29 |
+
+Оговорки по WordPress.com: $25 и $45 в месяц — цена первого года при
+оплате за 12 месяцев; продление у вендора дороже (Business $28–30/мес в
+двух рендерах, Commerce $57/мес). База взята по цене первого года,
+штатный коэффициент 1.85 разницу продления покрывает; оговорка «продление
+дороже, учтено в цене» внесена в описания карточек. Промо Slack «50% off
+for 3 months» действует только на помесячную оплату и в расчёте не
+участвует.
