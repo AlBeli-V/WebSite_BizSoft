@@ -4675,28 +4675,6 @@
     "png_pattern": "png/{color|mono}/{size}/jetbrains-google-apps-script-support__{color|mono}__{size}.png"
   },
   {
-    "catalog_index": 452,
-    "vendor": "JetBrains",
-    "product": "JetBrains Gorm",
-    "lookup_key": "jetbrains::jetbrains gorm",
-    "icon_id": "jetbrains-gorm",
-    "mapping_reason": "product-or-family-icon",
-    "svg_color": "svg/color/jetbrains-gorm__color.svg",
-    "svg_mono": "svg/mono/jetbrains-gorm__mono.svg",
-    "png_pattern": "png/{color|mono}/{size}/jetbrains-gorm__{color|mono}__{size}.png"
-  },
-  {
-    "catalog_index": 453,
-    "vendor": "JetBrains",
-    "product": "JetBrains Gorm (личная)",
-    "lookup_key": "jetbrains::jetbrains gorm (личная)",
-    "icon_id": "jetbrains-gorm",
-    "mapping_reason": "product-or-family-icon",
-    "svg_color": "svg/color/jetbrains-gorm__color.svg",
-    "svg_mono": "svg/mono/jetbrains-gorm__mono.svg",
-    "png_pattern": "png/{color|mono}/{size}/jetbrains-gorm__{color|mono}__{size}.png"
-  },
-  {
     "catalog_index": 454,
     "vendor": "JetBrains",
     "product": "JetBrains Gradle With Me Pro(GPVP)",
@@ -11306,28 +11284,6 @@
     "svg_color": "svg/color/monotype__color.svg",
     "svg_mono": "svg/mono/monotype__mono.svg",
     "png_pattern": "png/{color|mono}/{size}/monotype__{color|mono}__{size}.png"
-  },
-  {
-    "catalog_index": 1055,
-    "vendor": "Motion Array",
-    "product": "Motion Array Everything (Team)",
-    "lookup_key": "motion array::motion array everything (team)",
-    "icon_id": "motion-array",
-    "mapping_reason": "vendor-family-fallback",
-    "svg_color": "svg/color/motion-array__color.svg",
-    "svg_mono": "svg/mono/motion-array__mono.svg",
-    "png_pattern": "png/{color|mono}/{size}/motion-array__{color|mono}__{size}.png"
-  },
-  {
-    "catalog_index": 1056,
-    "vendor": "Motion Array",
-    "product": "Motion Array Everything (индивидуальный)",
-    "lookup_key": "motion array::motion array everything (индивидуальный)",
-    "icon_id": "motion-array",
-    "mapping_reason": "vendor-family-fallback",
-    "svg_color": "svg/color/motion-array__color.svg",
-    "svg_mono": "svg/mono/motion-array__mono.svg",
-    "png_pattern": "png/{color|mono}/{size}/motion-array__{color|mono}__{size}.png"
   },
   {
     "catalog_index": 1057,
