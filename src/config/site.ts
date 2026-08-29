@@ -64,6 +64,22 @@ export const seller: SellerDetails = {
   },
 };
 
+/**
+ * Режим работы (решение руководителя 29.08.2026: Пн–Пт 10:00–19:00 МСК).
+ * Единый источник для /contacts и разметки LocalBusiness — чек-лист
+ * товарных сервисов Яндекса требует явного графика на сайте.
+ */
+export const workingHours = {
+  label: 'Пн–Пт 10:00–19:00 (МСК)',
+  /** schema.org OpeningHoursSpecification */
+  schema: {
+    '@type': 'OpeningHoursSpecification',
+    dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+    opens: '10:00',
+    closes: '19:00',
+  },
+} as const;
+
 export const site = {
   name: 'BIZSoft',
   domain: 'biz-soft.pro',
