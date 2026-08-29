@@ -181,13 +181,19 @@ card to pay for any plan»), WordPress.com — самообслуживаемы�
 |---|---|---|---|---|---|---|---|---|
 | SLACK-PRO | Slack | Slack Pro (годовая оплата) | publish | 87.0 | за 1 пользователя в год при годовой схеме оплаты | vendor-page (ops-price-scan) | https://slack.com/pricing | 2026-08-29 |
 | SLACK-BUSINESS-PLUS | Slack | Slack Business+ (годовая оплата) | publish | 180.0 | за 1 пользователя в год при годовой схеме оплаты | vendor-page (ops-price-scan) | https://slack.com/pricing | 2026-08-29 |
-| WORDPRESS-BUSINESS | WordPress.com | WordPress.com Business (годовая оплата) | publish | 300.0 | за 1 сайт в год при годовой схеме оплаты | vendor-page (ops-price-scan) | https://wordpress.com/pricing/ | 2026-08-29 |
-| WORDPRESS-COMMERCE | WordPress.com | WordPress.com Commerce (годовая оплата) | publish | 540.0 | за 1 сайт в год при годовой схеме оплаты | vendor-page (ops-price-scan) | https://wordpress.com/pricing/ | 2026-08-29 |
+| WORDPRESS-BUSINESS | WordPress.com | WordPress.com Business (первый год, годовая оплата) | publish | 300.0 | за 1 сайт, первый год подписки | vendor-page (ops-price-scan) | https://wordpress.com/pricing/ | 2026-08-29 |
+| WORDPRESS-BUSINESS-RENEWAL | WordPress.com | WordPress.com Business (продление со второго года) | publish, noindex | 360.0 | за 1 сайт в год, продление действующей подписки | vendor-page (ops-price-scan) | https://wordpress.com/pricing/ | 2026-08-29 |
+| WORDPRESS-COMMERCE | WordPress.com | WordPress.com Commerce (первый год, годовая оплата) | publish | 540.0 | за 1 сайт, первый год подписки | vendor-page (ops-price-scan) | https://wordpress.com/pricing/ | 2026-08-29 |
+| WORDPRESS-COMMERCE-RENEWAL | WordPress.com | WordPress.com Commerce (продление со второго года) | publish, noindex | 684.0 | за 1 сайт в год, продление действующей подписки | vendor-page (ops-price-scan) | https://wordpress.com/pricing/ | 2026-08-29 |
 
-Оговорки по WordPress.com: $25 и $45 в месяц — цена первого года при
-оплате за 12 месяцев; продление у вендора дороже (Business $28–30/мес в
-двух рендерах, Commerce $57/мес). База взята по цене первого года,
-штатный коэффициент 1.85 разницу продления покрывает; оговорка «продление
-дороже, учтено в цене» внесена в описания карточек. Промо Slack «50% off
+Оговорки по WordPress.com: у вендора цена продления выше цены первого
+года, поэтому по решению руководителя от 29.08.2026 каждый тариф заведён
+двумя карточками — «первая покупка» ($25/$45 в месяц при оплате за
+12 месяцев) и «продление» («Auto-renews at $30/$57 per month. Billed every
+12 months»). Цена продления Business подтверждена контрольным прогоном
+ops-price-scan 29.08.2026: три рендера дали $30, значение $28 из первого
+прогона больше не встречается. Карточки продления под noindex (суффикс
+-RENEWAL в productNoindex): живут на витрине и в КП, в sitemap и поиск не
+идут — не конкурируют со страницами первой покупки. Промо Slack «50% off
 for 3 months» действует только на помесячную оплату и в расчёте не
 участвует.
