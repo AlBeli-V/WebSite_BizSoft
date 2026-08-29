@@ -2,7 +2,7 @@
  * Построители JSON-LD разметки. Чистые функции, возвращают объекты,
  * которые сериализуются в <script type="application/ld+json">.
  */
-import { site, seller } from '../config/site';
+import { site, seller, workingHours } from '../config/site';
 import { effectivePrice } from './pricing';
 import type { Product, Category } from './types';
 
@@ -79,6 +79,7 @@ export function localBusinessSchema() {
     telephone: seller.phone,
     email: seller.email,
     priceRange: '₽₽',
+    openingHoursSpecification: workingHours.schema,
     address: {
       '@type': 'PostalAddress',
       streetAddress: 'Каширское шоссе 80К1, 378',
@@ -154,7 +155,10 @@ export function productSchema(p: Product, opts?: { images?: string[] }) {
     // Цена известна — обычное предложение.
     schema.offers = {
       '@type': 'Offer',
-      url: `${site.url}/product/${p.slug}/`,
+      // Без завершающего слеша: canonical карточки и фиды используют форму
+      // /product/<slug>, и Offer.url обязан совпадать с ними, иначе робот
+      // видит два разных URL одного предложения.
+      url: `${site.url}/product/${p.slug}`,
       priceCurrency: currency,
       price: eff.price,
       availability: 'https://schema.org/InStock',
@@ -166,7 +170,7 @@ export function productSchema(p: Product, opts?: { images?: string[] }) {
     // Цена по запросу — предложение без конкретной цены.
     schema.offers = {
       '@type': 'Offer',
-      url: `${site.url}/product/${p.slug}/`,
+      url: `${site.url}/product/${p.slug}`,
       priceCurrency: currency,
       availability: 'https://schema.org/InStock',
       seller: { '@id': ORG_ID },
@@ -187,7 +191,7 @@ export function itemListSchema(category: Category, products: Product[]) {
       itemListElement: products.map((p, i) => ({
         '@type': 'ListItem',
         position: i + 1,
-        url: `${site.url}/product/${p.slug}/`,
+        url: `${site.url}/product/${p.slug}`,
         name: p.name,
       })),
     },
