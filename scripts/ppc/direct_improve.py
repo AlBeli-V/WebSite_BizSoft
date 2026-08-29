@@ -29,6 +29,10 @@ import urllib.error
 import urllib.request
 
 API = "https://api.direct.yandex.com/json/v5/"
+# Категории автотаргетинга доступны только в расширенной версии API v501:
+# базовый v5 отвечает «неизвестный параметр AutotargetingCategories»
+# (ошибка 8000, прогон 29.08).
+API_V501 = "https://api.direct.yandex.com/json/v501/"
 CAMPAIGN_NAME = "bs-test-2026-09"
 
 # Минус-слова v3 (28 слов, поручение владельца 28.08) — сохраняются.
@@ -98,10 +102,10 @@ NEW_PHRASES = {
 }
 
 
-def call(service: str, method: str, params: dict, token: str) -> dict:
+def call(service: str, method: str, params: dict, token: str, base: str = API) -> dict:
     body = json.dumps({"method": method, "params": params}).encode("utf-8")
     req = urllib.request.Request(
-        API + service,
+        base + service,
         data=body,
         headers={
             "Authorization": f"Bearer {token}",
@@ -191,7 +195,7 @@ def main() -> None:
     if mode == "apply" and restrict_gids:
         res = call("adgroups", "update",
                    {"AdGroups": [{"Id": gid, "AutotargetingCategories": exact_only}
-                                 for gid in restrict_gids]}, token)
+                                 for gid in restrict_gids]}, token, base=API_V501)
         print_results("adgroups.update", res, "UpdateResults")
 
     # 2. Минус-слова кампании — объединение v3 + добавка, без дублей.
@@ -243,7 +247,7 @@ def main() -> None:
             "adgroups", "get",
             {"SelectionCriteria": {"CampaignIds": [cid]},
              "FieldNames": ["Id", "Name", "AutotargetingCategories"]},
-            token,
+            token, base=API_V501,
         ).get("AdGroups", [])
         camp2 = call("campaigns", "get",
                      {"SelectionCriteria": {"Ids": [cid]},
