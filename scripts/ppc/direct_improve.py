@@ -2,17 +2,20 @@
 """Оздоровление кампании bs-test-2026-09 по итогам первого дня открутки.
 
 Решение владельца 29.08.2026 по аудиту (direct-audit-2026-08-29.md):
-автотаргетинг — частично: оставить только в группе Claude Code как
-discovery-эксперимент (лучший CPC 26 ₽ и самые целевые запросы дня),
-в остальных трёх группах приостановить. Минус-список расширить по фактам
-поисковых запросов дня 28.08; фразы расшить широкими дублями. «cloud»
-сознательно НЕ минусуется: «cloud code» — вероятная опечатка
-«claude code» (аудит, раздел P0).
+автотаргетинг — частично: полный (discovery) только в группе Claude Code,
+в остальных трёх группах максимально ограничить. Прямая приостановка
+невозможна — API отвечает ошибкой 8305 «Автотаргетинг не может быть
+остановлен» (на поиске он обязателен), поэтому ограничение делается
+категориями: в трёх группах остаются только «целевые запросы» (EXACT),
+альтернативные/конкурентные/широкие/сопутствующие выключаются.
+Минус-список расширен по фактам поисковых запросов дня 28.08; фразы
+расшиты широкими дублями. «cloud» сознательно НЕ минусуется:
+«cloud code» — вероятная опечатка «claude code» (аудит, раздел P0).
 
 Режимы:
   dry-run — напечатать план изменений, в API только чтение;
-  apply   — применить: suspend автотаргетингов вне Claude Code, замена
-            минус-списка кампании, добавление широких фраз.
+  apply   — применить: категории автотаргетинга вне Claude Code → только
+            EXACT, замена минус-списка кампании, добавление широких фраз.
 
 Деньги, платёжные настройки, чужие кампании — не трогает.
 """
@@ -168,21 +171,28 @@ def main() -> None:
     keep_gid = gid_by_name.get(KEEP_AUTOTARGETING_GROUP)
     if keep_gid is None:
         raise SystemExit(f"группа для автотаргетинга не найдена: {KEEP_AUTOTARGETING_GROUP}")
-    auto = [k for k in kws
-            if k["Keyword"] == "---autotargeting"
-            and k.get("State") != "SUSPENDED"
-            and k["AdGroupId"] != keep_gid]
     existing_phrases = {(k["AdGroupId"], k["Keyword"]) for k in kws}
+    restrict_gids = [g["Id"] for g in groups if g["Id"] != keep_gid]
 
-    # 1. Автотаргетинг: приостановить всюду, кроме discovery-группы.
+    # 1. Автотаргетинг: прямой suspend API запрещает (ошибка 8305),
+    # поэтому вне discovery-группы остаются только «целевые запросы».
     gname_by_id = {v: k for k, v in gid_by_name.items()}
-    print(f"\n== 1. Автотаргетинг: остаётся в «{KEEP_AUTOTARGETING_GROUP}», к приостановке {len(auto)} ==")
-    for k in auto:
-        print(f"  - id {k['Id']} группа «{gname_by_id.get(k['AdGroupId'], k['AdGroupId'])}» ({k.get('State')}/{k.get('Status')})")
-    if mode == "apply" and auto:
-        res = call("keywords", "suspend",
-                   {"SelectionCriteria": {"Ids": [k["Id"] for k in auto]}}, token)
-        print_results("suspend", res, "SuspendResults")
+    exact_only = [
+        {"Category": "EXACT", "Value": "YES"},
+        {"Category": "ALTERNATIVE", "Value": "NO"},
+        {"Category": "COMPETITOR", "Value": "NO"},
+        {"Category": "BROADER", "Value": "NO"},
+        {"Category": "ACCESSORY", "Value": "NO"},
+    ]
+    print(f"\n== 1. Автотаргетинг: полный остаётся в «{KEEP_AUTOTARGETING_GROUP}», "
+          f"в {len(restrict_gids)} группах — только категория «целевые запросы» ==")
+    for gid in restrict_gids:
+        print(f"  - группа «{gname_by_id.get(gid, gid)}» → EXACT=YES, остальные NO")
+    if mode == "apply" and restrict_gids:
+        res = call("adgroups", "update",
+                   {"AdGroups": [{"Id": gid, "AutotargetingCategories": exact_only}
+                                 for gid in restrict_gids]}, token)
+        print_results("adgroups.update", res, "UpdateResults")
 
     # 2. Минус-слова кампании — объединение v3 + добавка, без дублей.
     merged, seen = [], set()
@@ -228,16 +238,22 @@ def main() -> None:
              "FieldNames": ["Id", "Keyword", "AdGroupId", "State", "Status"]},
             token,
         ).get("Keywords", [])
-        n_auto_on = sum(1 for k in kws2 if k["Keyword"] == "---autotargeting" and k.get("State") != "SUSPENDED")
         n_active = sum(1 for k in kws2 if k["Keyword"] != "---autotargeting" and k.get("State") != "SUSPENDED")
-        keep_state = next((k.get("State") for k in kws2
-                           if k["Keyword"] == "---autotargeting" and k["AdGroupId"] == keep_gid), "?")
+        groups2 = call(
+            "adgroups", "get",
+            {"SelectionCriteria": {"CampaignIds": [cid]},
+             "FieldNames": ["Id", "Name", "AutotargetingCategories"]},
+            token,
+        ).get("AdGroups", [])
         camp2 = call("campaigns", "get",
                      {"SelectionCriteria": {"Ids": [cid]},
                       "FieldNames": ["Id", "NegativeKeywords"]}, token)["Campaigns"][0]
         n_neg = len((camp2.get("NegativeKeywords") or {}).get("Items") or [])
         print("\n== Итог сверки ==")
-        print(f"  автотаргетингов активных: {n_auto_on} (ожидание 1 — discovery в Claude Code, state={keep_state})")
+        for g in groups2:
+            cats = ", ".join(f"{c['Category']}={c['Value']}"
+                             for c in g.get("AutotargetingCategories") or [])
+            print(f"  «{g['Name']}»: {cats or 'категории не отдаются'}")
         print(f"  фраз активных: {n_active}")
         print(f"  минус-слов кампании: {n_neg}")
 
