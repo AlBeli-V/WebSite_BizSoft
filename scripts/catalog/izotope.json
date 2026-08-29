@@ -1,0 +1,140 @@
+{
+  "vendor_entry": {
+    "slug": "izotope",
+    "vendor": "iZotope",
+    "legalName": "iZotope, Inc. (Native Instruments Group)",
+    "brandColor": "#009DDC",
+    "site": "https://www.izotope.com",
+    "catSeg": "media",
+    "catLabel": "Звук, видео и медиа",
+    "domain": "video",
+    "tagline": "AI-обработка звука iZotope: мастеринг Ozone, реставрация RX и сведение Neutron для студий и подкастов.",
+    "about": "iZotope — разработчик интеллектуальных инструментов обработки звука: Ozone для мастеринга, RX для реставрации и очистки записей, Neutron для сведения. Фирменные ассистенты анализируют материал и предлагают настройки, ускоряя рутинную работу инженера. Плагины покупаются бессрочно и работают в любой DAW; применяются студиями, подкастерами и видеопродакшном."
+  },
+  "products": [
+    {
+      "sku": "IZOTOPE-OZONE-STANDARD",
+      "slug": "izotope-ozone-standard",
+      "name": "iZotope Ozone 12 Standard",
+      "official_name": "Ozone 12 Standard (бессрочная лицензия)",
+      "category": "media",
+      "license_type": "individual",
+      "short_description": "AI-мастеринг Ozone: ассистент анализирует трек и выстраивает цепочку обработки; бессрочная лицензия.",
+      "description": "Ozone 12 Standard — система мастеринга с AI-ассистентом: анализ трека, эквализация, динамика, стерео и лимитер в одной цепочке.\n\nТипичный сценарий: студия или продюсер доводит треки до релизной громкости и тонального баланса без передачи на внешний мастеринг.\n\nЧем отличается от Advanced: в Standard модули работают внутри общей цепочки; Advanced открывает каждый модуль отдельным плагином и добавляет расширенные инструменты.\n\nЛицензия бессрочная, работает в любой DAW (VST/AU/AAX).\n\nОформим покупку на вашу компанию: договор, счёт в рублях, закрывающие документы через ЭДО, доступ за 1–3 рабочих дня.",
+      "keywords": "izotope ozone купить, ozone 12 купить, айзотоп озон цена, мастеринг плагин",
+      "features": [
+        "Бессрочная лицензия, любые DAW (VST/AU/AAX)",
+        "AI-ассистент мастеринга",
+        "ЭQ, динамика, стерео, лимитер в одной цепочке",
+        "Активация через iZotope Product Portal"
+      ],
+      "base_price_usd": 219,
+      "billing": "бессрочная лицензия на 1 пользователя",
+      "min_quantity": 1,
+      "price_confidence": "vendor-page",
+      "source_url": "https://www.izotope.com/en/shop.html",
+      "checkout_url": "https://www.izotope.com/en/shop.html",
+      "checked_at": "2026-08-29",
+      "notes": "Цена снята из магазина вендора 29.08.2026 (ops-price-scan, числовой прогон): связка «название → цена» взята по смежным строкам дампа (issue #22).",
+      "status": "published",
+      "markup_coeff": null,
+      "sort": null
+    },
+    {
+      "sku": "IZOTOPE-OZONE-ADVANCED",
+      "slug": "izotope-ozone-advanced",
+      "name": "iZotope Ozone 12 Advanced",
+      "official_name": "Ozone 12 Advanced (бессрочная лицензия)",
+      "category": "media",
+      "license_type": "individual",
+      "short_description": "Полный мастеринг-люкс Ozone: все модули отдельными плагинами и расширенные инструменты.",
+      "description": "Ozone 12 Advanced — старшая комплектация системы мастеринга: все модули доступны отдельными плагинами, добавлены расширенные инструменты обработки и точной настройки.\n\nТипичный сценарий: мастеринг-инженер строит собственные цепочки из модулей Ozone и интегрирует их в шаблоны студии.\n\nЛицензия бессрочная, работает в любой DAW (VST/AU/AAX).\n\nОформим покупку на вашу компанию: договор, счёт в рублях, закрывающие документы через ЭДО, доступ за 1–3 рабочих дня.",
+      "keywords": "ozone advanced купить, izotope ozone 12 advanced, озон адвансед цена",
+      "features": [
+        "Бессрочная лицензия, любые DAW (VST/AU/AAX)",
+        "Все модули отдельными плагинами",
+        "Расширенные инструменты мастеринга",
+        "Активация через iZotope Product Portal"
+      ],
+      "base_price_usd": 499,
+      "billing": "бессрочная лицензия на 1 пользователя",
+      "min_quantity": 1,
+      "price_confidence": "vendor-page",
+      "source_url": "https://www.izotope.com/en/shop.html",
+      "checkout_url": "https://www.izotope.com/en/shop.html",
+      "checked_at": "2026-08-29",
+      "notes": "Цена снята из магазина вендора 29.08.2026 (ops-price-scan, числовой прогон): связка «название → цена» взята по смежным строкам дампа (issue #22).",
+      "status": "published",
+      "markup_coeff": null,
+      "sort": null
+    },
+    {
+      "sku": "IZOTOPE-RX-STANDARD",
+      "slug": "izotope-rx-standard",
+      "name": "iZotope RX 12 Standard",
+      "official_name": "RX 12 Standard (бессрочная лицензия)",
+      "category": "media",
+      "license_type": "individual",
+      "short_description": "Реставрация звука RX: удаление шума, гула, кликов и реверберации из записей — стандарт постпродакшна.",
+      "description": "RX 12 Standard — индустриальный стандарт реставрации звука: удаление шума, фона, кликов, гула и лишней реверберации, спектральный редактор для точечной правки записи.\n\nТипичный сценарий: постпродакшн чистит диалоги и интервью, подкаст-студия спасает запись с шумной локации, видеопродакшн готовит звук к публикации.\n\nЛицензия бессрочная, работает как standalone-редактор и плагин в любой DAW.\n\nОформим покупку на вашу компанию: договор, счёт в рублях, закрывающие документы через ЭДО, доступ за 1–3 рабочих дня.",
+      "keywords": "izotope rx купить, rx 12 купить, реставрация звука программа, удаление шума из записи",
+      "features": [
+        "Бессрочная лицензия, standalone + плагины",
+        "Спектральный редактор записи",
+        "Удаление шума, гула, кликов, реверберации",
+        "Активация через iZotope Product Portal"
+      ],
+      "base_price_usd": 399,
+      "billing": "бессрочная лицензия на 1 пользователя",
+      "min_quantity": 1,
+      "price_confidence": "vendor-page",
+      "source_url": "https://www.izotope.com/en/shop.html",
+      "checkout_url": "https://www.izotope.com/en/shop.html",
+      "checked_at": "2026-08-29",
+      "notes": "Цена снята из магазина вендора 29.08.2026 (ops-price-scan, числовой прогон): связка «название → цена» взята по смежным строкам дампа (issue #22).",
+      "status": "published",
+      "markup_coeff": null,
+      "sort": null
+    },
+    {
+      "sku": "IZOTOPE-NEUTRON",
+      "slug": "izotope-neutron",
+      "name": "iZotope Neutron 5",
+      "official_name": "Neutron 5 (бессрочная лицензия)",
+      "category": "media",
+      "license_type": "individual",
+      "short_description": "AI-сведение Neutron: ассистент анализирует микс и настраивает обработку каналов.",
+      "description": "Neutron 5 — система сведения с AI-ассистентом: анализ каналов, эквализация, компрессия, транзиенты и автоматический баланс микса.\n\nТипичный сценарий: студия ускоряет рутинную часть сведения — ассистент даёт стартовую цепочку, инженер доводит вручную.\n\nЛицензия бессрочная, работает в любой DAW (VST/AU/AAX).\n\nОформим покупку на вашу компанию: договор, счёт в рублях, закрывающие документы через ЭДО, доступ за 1–3 рабочих дня.",
+      "keywords": "izotope neutron купить, neutron 5 цена, плагин сведения",
+      "features": [
+        "Бессрочная лицензия, любые DAW (VST/AU/AAX)",
+        "AI-ассистент сведения",
+        "ЭQ, компрессия, транзиенты, баланс",
+        "Активация через iZotope Product Portal"
+      ],
+      "base_price_usd": 299,
+      "billing": "бессрочная лицензия на 1 пользователя",
+      "min_quantity": 1,
+      "price_confidence": "vendor-page",
+      "source_url": "https://www.izotope.com/en/shop.html",
+      "checkout_url": "https://www.izotope.com/en/shop.html",
+      "checked_at": "2026-08-29",
+      "notes": "Цена снята из магазина вендора 29.08.2026 (ops-price-scan, числовой прогон): связка «название → цена» взята по смежным строкам дампа (issue #22).",
+      "status": "published",
+      "markup_coeff": null,
+      "sort": null
+    }
+  ],
+  "rejected": [
+    {
+      "name": "RX 12 Advanced, Music Production Suite, бандлы",
+      "reason": "Цена в дампе магазина не связалась с названием однозначно — заведём после ручной проверки или по запросу клиента.",
+      "source_url": "https://www.izotope.com/en/shop.html"
+    },
+    {
+      "name": "RX 12 Elements, Ozone 12 Elements",
+      "reason": "Начальные редакции для любителей — вне фокуса B2B-каталога первой волны.",
+      "source_url": "https://www.izotope.com/en/shop.html"
+    }
+  ]
+}
