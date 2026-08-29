@@ -284,6 +284,26 @@
   .card-hover:hover .vi .vi-mono {
     opacity: 0;
   }
+  /* Тач-устройства (телефоны/планшеты): ховера нет, его заменяют два
+     механизма — класс .vi-lit, который скрипт BaseLayout ставит плиткам
+     в центральной полосе экрана (средние 30%) при прокрутке, и нажатие
+     на саму плитку (:active). Десктоп не затрагивается. */
+  @media (hover: none) {
+    .vi-lit .vi .vi-color,
+    a:active .vi .vi-color,
+    button:active .vi .vi-color,
+    .card:active .vi .vi-color,
+    .card-hover:active .vi .vi-color {
+      opacity: 1;
+    }
+    .vi-lit .vi .vi-mono,
+    a:active .vi .vi-mono,
+    button:active .vi .vi-mono,
+    .card:active .vi .vi-mono,
+    .card-hover:active .vi .vi-mono {
+      opacity: 0;
+    }
+  }
 
   /* Плавное появление секций (Intersection Observer добавляет .is-visible) */
   .reveal {
