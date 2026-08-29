@@ -31,6 +31,33 @@ export interface QuoteForLead {
    * о чём спрашивают в звонке.
    */
   innCheck?: string;
+  /** Экономика сделки из расчёта КП — когда её удалось посчитать. */
+  economics?: LeadEconomics;
+}
+
+/**
+ * Экономика сделки в заявке (P1, решение руководителя 28.08.2026).
+ *
+ * Поля перечислены отдельной константой не для красоты: до применения схемы
+ * на проде Directus отвергает запись с незнакомыми полями целиком, и заявка
+ * терялась бы. По этому списку обработчик повторяет запись без экономики —
+ * контакт важнее, чем маржа в карточке.
+ */
+export const LEAD_ECONOMICS_FIELDS = [
+  'quote_cost_rub', 'quote_margin_rub', 'quote_margin_pct', 'quote_fx_rate',
+] as const;
+
+export interface LeadEconomics {
+  /** Закупка по КП, ₽; null — данных не хватило. */
+  costRub: number | null;
+  /** Расчётная прибыль, ₽. */
+  marginRub: number;
+  /** Прибыль, % от выручки. */
+  marginPct: number;
+  /** Курс ЦБ USD на момент расчёта. */
+  fxRate: number | null;
+  /** true — закупка посчитана не по всем позициям, прибыль завышена. */
+  incomplete: boolean;
 }
 
 const rub = (n: number) => `${n.toLocaleString('ru-RU')} ₽`;
@@ -122,6 +149,12 @@ export function describeQuote(q: QuoteForLead): string {
   // Достоверность заявки — в самой карточке: расхождение имени и номера
   // первое, о чём спрашивают в звонке, и искать это в почте неудобно.
   if (q.innCheck) lines.push('', `Проверка ИНН: ${q.innCheck}`);
+  // Экономика — тоже в карточке: менеджер решает «звонить сейчас или нет»
+  // по прибыли сделки, а не только по обороту.
+  if (q.economics) {
+    lines.push('', `Расчётная прибыль: ${rub(q.economics.marginRub)} (${q.economics.marginPct}% от выручки)`
+      + (q.economics.incomplete ? ' — закупка посчитана не по всем позициям, прибыль завышена.' : '.'));
+  }
   return lines.join('\n');
 }
 
@@ -153,5 +186,11 @@ export function leadFromQuote(q: QuoteForLead): Record<string, unknown> {
     // Сумма известна из корзины: менеджер сразу видит вес сделки в списке.
     amount: q.total,
     quote_no: q.quoteNo,
+    ...(q.economics ? {
+      quote_cost_rub: q.economics.costRub,
+      quote_margin_rub: q.economics.marginRub,
+      quote_margin_pct: q.economics.marginPct,
+      quote_fx_rate: q.economics.fxRate,
+    } : {}),
   };
 }
