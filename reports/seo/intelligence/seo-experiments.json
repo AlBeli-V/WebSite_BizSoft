@@ -75,6 +75,31 @@
    "success_metric": "Появление фраз кластера в топ-10 Яндекс.Вебмастера и CTR ≥2% через 14 дней (03.09.2026), ≥3% через 30 дней (19.09.2026)",
    "control_group": "остальные vendor-страницы без изменений; эксперимент snippets-5-vendors считается отдельно, пересечений нет",
    "source": "src/data/seo-experiments.ts (рендер: src/pages/vendors/[slug].astro → VendorLanding)"
+  },
+  {
+   "id": "snippet-anthropic-demand",
+   "ticket": "SEO-EXP-003",
+   "start": "2026-08-29",
+   "status": "running",
+   "pages": [
+    "/vendors/anthropic"
+   ],
+   "baseline": {
+    "period": "замер Вордстата и Вебмастера 29.08.2026",
+    "cluster_demand": 27231,
+    "top_phrase": "claude купить — 9944 показов/мес",
+    "avg_position": 7.44,
+    "ctr": "≈0 (показы без кликов, GAP-D)"
+   },
+   "changes": [
+    "title: «Купить Claude для компании — Team и Enterprise на юрлицо | BIZSoft» — прямое вхождение ключа кластера вместо общего описания",
+    "description по штатной формуле «Оплатим подписку Claude…» (≤160)",
+    "FAQ-блок «Как купить Claude на юрлицо» с FAQPage-разметкой"
+   ],
+   "hypothesis": "Кластер «claude купить» уже в топ-10 (позиция 7,4) при нулевом CTR: сниппет с транзакционным интентом и вхождением ключа поднимет кликабельность без изменения контента страницы.",
+   "success_metric": "CTR кластера anthropic в Вебмастере ≥1% через 7 дней (05.09.2026), ≥2% через 14 дней (12.09.2026); позиция не хуже 8",
+   "control_group": "остальные vendor-страницы без изменений; эксперименты EXP-001/EXP-002 считаются раздельно",
+   "source": "src/data/seo-experiments.ts (рендер: src/pages/vendors/[slug].astro → VendorLanding)"
   }
  ]
 }
