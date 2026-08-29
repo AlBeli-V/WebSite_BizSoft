@@ -47,6 +47,7 @@ PUBLIC_REPORT_BASE_URL = os.environ.get("PUBLIC_REPORT_BASE_URL", "").rstrip("/"
 if not PUBLIC_REPORT_BASE_URL and REPORT_URL_FILE.exists():
     PUBLIC_REPORT_BASE_URL = REPORT_URL_FILE.read_text(encoding="utf-8").strip().rstrip("/")
 DEMAND_STATE = pathlib.Path("reports/seo/wordstat/intelligence-state.json")
+GROWTH_IDEAS = pathlib.Path("reports/seo/intelligence/growth-ideas.json")
 
 # ── Design tokens ───────────────────────────────────────────────────────────
 T = {
@@ -700,6 +701,7 @@ def assemble(snap, prev, dq, actions_cfg, site_check):
         "vendor_radar": vendor_radar_mod.build(snap),
         "health": health,
         "demand": load_demand(),
+        "growth_ideas": load_growth_ideas(),
         "measurement_summary": _measurement_summary(dq),
         "checkpoints": _checkpoints(exps, actions_cfg),
         "links": {"web": url, "web_public": public,
@@ -1108,6 +1110,17 @@ def html_email(b: dict, charts: dict, cid_mode: bool) -> str:
             f"Замер спроса от {ru_date(dm.get('measured_at'))}, "
             f"обновляется по расписанию исследования"))
 
+    # I-в. Перспективные идеи бесплатного продвижения — только свежие (status=new),
+    # компактно; полная копилка со статусами живёт в веб-отчёте.
+    gi = b.get("growth_ideas") or {}
+    if gi.get("fresh"):
+        idea_rows = "".join(
+            f"<div style=\"padding:{SP['xs']}px 0;font-size:14.5px;line-height:1.55;\">"
+            f"<b>{it['title']}</b> — {it['why']}</div>"
+            for it in gi["fresh"])
+        rows.append(_section("Перспективные идеи продвижения", idea_rows,
+                             "бесплатные каналы; полный список и статусы — в веб-отчёте"))
+
     # I-в. Расширение каталога: кого добавить. Спрос без возможности оплатить
     # сделкой не становится, поэтому способ оплаты стоит рядом с цифрой спроса.
     exp = dm.get("expansion") if dm.get("available") else None
@@ -1295,6 +1308,11 @@ def plain_text(b: dict) -> str:
                          f"— {it['recommendation']}")
             if exp.get("manual_check"):
                 L.append("Проверить вручную: " + ", ".join(exp["manual_check"]) + ".")
+    gi = b.get("growth_ideas") or {}
+    if gi.get("fresh"):
+        L += ["", "ПЕРСПЕКТИВНЫЕ ИДЕИ ПРОДВИЖЕНИЯ"]
+        for it in gi["fresh"]:
+            L.append(f"- {it['title']} — {it['why']}")
     h = b["health"]
     L += ["", "ЗДОРОВЬЕ ДАННЫХ",
           f"{PILL_LABEL[h['status']].capitalize()}: {h['reason']}. {h['detail']}",
@@ -1371,6 +1389,23 @@ def load_demand() -> dict:
     block = state.get("executive_block") or {"available": False,
                                              "reason": "нет сводки исследования"}
     return _drop_vendors_already_on_site(block)
+
+
+def load_growth_ideas() -> dict:
+    """Перспективные идеи бесплатного продвижения и расширения.
+
+    Раздел заведён решением руководителя 29.08.2026 после лида из
+    Бизнес-каталога Яндекса. Копилка живёт в growth-ideas.json (seo-data):
+    в письме показываются только свежие идеи (status=new, до двух), полный
+    список со статусами — в веб-отчёте. Идея, принятая или отклонённая
+    руководителем, меняет статус и из письма уходит.
+    """
+    if not GROWTH_IDEAS.exists():
+        return {"available": False, "items": [], "fresh": []}
+    data = json.loads(GROWTH_IDEAS.read_text(encoding="utf-8"))
+    items = data.get("items", [])
+    fresh = [i for i in items if i.get("status") == "new"][:2]
+    return {"available": bool(items), "items": items, "fresh": fresh}
 
 
 def _site_vendor_words() -> set[str]:

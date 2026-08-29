@@ -36,6 +36,29 @@ OUT = pathlib.Path("reports/seo/public/daily")
 DEMAND_STATE = pathlib.Path("reports/seo/wordstat/intelligence-state.json")
 
 
+IDEA_STATUS = {"new": ("новая", "positive"), "watch": ("наблюдаем", "warning"),
+               "accepted": ("принята", "positive"), "done": ("сделано", "positive"),
+               "dropped": ("отклонена", "danger")}
+
+
+def _ideas_section(gi: dict) -> str:
+    """Копилка идей бесплатного продвижения: полный список со статусами.
+
+    В письме показываются только свежие идеи; здесь — все, с обоснованием,
+    доказательством и датой. Статусы меняет руководитель (через сессию),
+    история решений остаётся в файле.
+    """
+    if not gi.get("items"):
+        return "<p class='muted'>Идей в копилке пока нет.</p>"
+    rows = []
+    for it in gi["items"]:
+        label, cls = IDEA_STATUS.get(it.get("status", "new"), ("новая", "positive"))
+        rows.append([f"<span class='chip {cls}'>{label}</span>",
+                     f"<b>{it['title']}</b>", it.get("why", "—"),
+                     it.get("evidence", "—"), it.get("added", "—")])
+    return table(["Статус", "Идея", "Почему перспективно", "Доказательство", "Добавлена"], rows)
+
+
 def _demand_section() -> str:
     """Покрытие спроса и разрывы: полные таблицы живут здесь, не в письме."""
     if not DEMAND_STATE.exists():
@@ -409,6 +432,7 @@ def build_html(b: dict, snap: dict, dq: dict, date: str) -> str:
         b["health"]["colour"]]
 
     demand = _demand_section()
+    ideas = _ideas_section(b.get("growth_ideas") or {})
 
     return f"""<!doctype html><html lang="ru"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -447,6 +471,8 @@ def build_html(b: dict, snap: dict, dq: dict, date: str) -> str:
 <section><h2>Радар возможностей</h2>{opp}</section>
 
 <section><h2>Спрос и покрытие рынка</h2>{demand}</section>
+
+<section><h2>Перспективные идеи бесплатного продвижения</h2>{ideas}</section>
 
 <section><h2>Графики</h2>{charts or "<p class='muted'>Графиков нет.</p>"}</section>
 
