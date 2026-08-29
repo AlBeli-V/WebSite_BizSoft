@@ -45,6 +45,15 @@ const MAP: Record<string, VendorInterlink> = {
   Grammarly: { compare: [cmp('grammarly-vs-jasper', 'Grammarly vs Jasper'), cmp('chatgpt-vs-claude', 'ChatGPT vs Claude')], articles: [ART.oformit, ART.security], sub: 'marketing' },
   Jasper: { compare: [cmp('grammarly-vs-jasper', 'Grammarly vs Jasper'), cmp('chatgpt-vs-claude', 'ChatGPT vs Claude')], articles: [ART.oformit, ART.entVsTeam], sub: 'marketing' },
   Gamma: { compare: [cmp('gamma-vs-canva', 'Gamma vs Canva'), cmp('notion-vs-chatgpt', 'Notion vs ChatGPT')], articles: [ART.oformit, ART.security], sub: 'office' },
+  // Партия 1а этапа 1 (29.08.2026)
+  xAI: { compare: [cmp('chatgpt-vs-grok', 'ChatGPT vs Grok'), cmp('chatgpt-vs-claude', 'ChatGPT vs Claude')], articles: [ART.oformit, ART.security], sub: 'text' },
+  'Moonshot AI': { compare: [cmp('kimi-vs-chatgpt', 'Kimi vs ChatGPT'), cmp('chatgpt-vs-grok', 'ChatGPT vs Grok')], articles: [ART.oformit, ART.entVsTeam], sub: 'text' },
+  OpenRouter: { compare: [cmp('chatgpt-vs-claude', 'ChatGPT vs Claude'), cmp('claude-vs-gemini', 'Claude vs Gemini')], articles: [ART.devAssistant, ART.security], sub: 'text' },
+  Higgsfield: { compare: [cmp('runway-vs-heygen', 'Runway vs HeyGen'), cmp('midjourney-vs-firefly', 'Midjourney vs Firefly')], articles: [ART.oformit, ART.security], sub: 'video' },
+  Krea: { compare: [cmp('midjourney-vs-recraft', 'Midjourney vs Recraft'), cmp('midjourney-vs-firefly', 'Midjourney vs Firefly')], articles: [ART.oformit, ART.security], sub: 'image' },
+  Lovable: { compare: [cmp('cursor-vs-windsurf', 'Cursor vs Windsurf'), cmp('cursor-vs-copilot', 'Cursor vs GitHub Copilot')], articles: [ART.devAssistant, ART.oformit], sub: 'code' },
+  DeepL: { compare: [cmp('chatgpt-vs-claude', 'ChatGPT vs Claude'), cmp('notion-vs-chatgpt', 'Notion vs ChatGPT')], articles: [ART.oformit, ART.security], sub: 'text' },
+  Windsurf: { compare: [cmp('cursor-vs-windsurf', 'Cursor vs Windsurf'), cmp('cursor-vs-copilot', 'Cursor vs GitHub Copilot')], articles: [ART.devAssistant, ART.security], sub: 'code' },
 };
 
 export interface AiInterlinks {
