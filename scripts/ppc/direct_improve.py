@@ -29,10 +29,6 @@ import urllib.error
 import urllib.request
 
 API = "https://api.direct.yandex.com/json/v5/"
-# Категории автотаргетинга доступны только в расширенной версии API v501:
-# базовый v5 отвечает «неизвестный параметр AutotargetingCategories»
-# (ошибка 8000, прогон 29.08).
-API_V501 = "https://api.direct.yandex.com/json/v501/"
 CAMPAIGN_NAME = "bs-test-2026-09"
 
 # Минус-слова v3 (28 слов, поручение владельца 28.08) — сохраняются.
@@ -176,10 +172,11 @@ def main() -> None:
     if keep_gid is None:
         raise SystemExit(f"группа для автотаргетинга не найдена: {KEEP_AUTOTARGETING_GROUP}")
     existing_phrases = {(k["AdGroupId"], k["Keyword"]) for k in kws}
-    restrict_gids = [g["Id"] for g in groups if g["Id"] != keep_gid]
 
-    # 1. Автотаргетинг: прямой suspend API запрещает (ошибка 8305),
-    # поэтому вне discovery-группы остаются только «целевые запросы».
+    # 1. Автотаргетинг: полное отключение на поиске API запрещает
+    # (ошибка 8305), категории задаются на самом условии ---autotargeting
+    # через keywords.update: вне discovery-группы остаются только
+    # «целевые запросы» (EXACT).
     gname_by_id = {v: k for k, v in gid_by_name.items()}
     exact_only = [
         {"Category": "EXACT", "Value": "YES"},
@@ -188,15 +185,17 @@ def main() -> None:
         {"Category": "BROADER", "Value": "NO"},
         {"Category": "ACCESSORY", "Value": "NO"},
     ]
+    restrict_autos = [k for k in kws
+                      if k["Keyword"] == "---autotargeting" and k["AdGroupId"] != keep_gid]
     print(f"\n== 1. Автотаргетинг: полный остаётся в «{KEEP_AUTOTARGETING_GROUP}», "
-          f"в {len(restrict_gids)} группах — только категория «целевые запросы» ==")
-    for gid in restrict_gids:
-        print(f"  - группа «{gname_by_id.get(gid, gid)}» → EXACT=YES, остальные NO")
-    if mode == "apply" and restrict_gids:
-        res = call("adgroups", "update",
-                   {"AdGroups": [{"Id": gid, "AutotargetingCategories": exact_only}
-                                 for gid in restrict_gids]}, token, base=API_V501)
-        print_results("adgroups.update", res, "UpdateResults")
+          f"в {len(restrict_autos)} группах — только категория «целевые запросы» ==")
+    for k in restrict_autos:
+        print(f"  - id {k['Id']} группа «{gname_by_id.get(k['AdGroupId'], k['AdGroupId'])}» → EXACT=YES, остальные NO")
+    if mode == "apply" and restrict_autos:
+        res = call("keywords", "update",
+                   {"Keywords": [{"Id": k["Id"], "AutotargetingCategories": exact_only}
+                                 for k in restrict_autos]}, token)
+        print_results("keywords.update", res, "UpdateResults")
 
     # 2. Минус-слова кампании — объединение v3 + добавка, без дублей.
     merged, seen = [], set()
@@ -236,28 +235,37 @@ def main() -> None:
 
     # 4. Контрольное чтение после применения.
     if mode == "apply":
-        kws2 = call(
-            "keywords", "get",
-            {"SelectionCriteria": {"CampaignIds": [cid]},
-             "FieldNames": ["Id", "Keyword", "AdGroupId", "State", "Status"]},
-            token,
-        ).get("Keywords", [])
+        try:
+            kws2 = call(
+                "keywords", "get",
+                {"SelectionCriteria": {"CampaignIds": [cid]},
+                 "FieldNames": ["Id", "Keyword", "AdGroupId", "State",
+                                "AutotargetingCategories"]},
+                token,
+            ).get("Keywords", [])
+            with_cats = True
+        except SystemExit as e:
+            print(f"  (категории в keywords.get не читаются: {e})")
+            kws2 = call(
+                "keywords", "get",
+                {"SelectionCriteria": {"CampaignIds": [cid]},
+                 "FieldNames": ["Id", "Keyword", "AdGroupId", "State"]},
+                token,
+            ).get("Keywords", [])
+            with_cats = False
         n_active = sum(1 for k in kws2 if k["Keyword"] != "---autotargeting" and k.get("State") != "SUSPENDED")
-        groups2 = call(
-            "adgroups", "get",
-            {"SelectionCriteria": {"CampaignIds": [cid]},
-             "FieldNames": ["Id", "Name", "AutotargetingCategories"]},
-            token, base=API_V501,
-        ).get("AdGroups", [])
         camp2 = call("campaigns", "get",
                      {"SelectionCriteria": {"Ids": [cid]},
                       "FieldNames": ["Id", "NegativeKeywords"]}, token)["Campaigns"][0]
         n_neg = len((camp2.get("NegativeKeywords") or {}).get("Items") or [])
         print("\n== Итог сверки ==")
-        for g in groups2:
-            cats = ", ".join(f"{c['Category']}={c['Value']}"
-                             for c in g.get("AutotargetingCategories") or [])
-            print(f"  «{g['Name']}»: {cats or 'категории не отдаются'}")
+        if with_cats:
+            for k in kws2:
+                if k["Keyword"] == "---autotargeting":
+                    cats = ", ".join(f"{c['Category']}={c['Value']}"
+                                     for c in k.get("AutotargetingCategories") or [])
+                    print(f"  автотаргетинг «{gname_by_id.get(k['AdGroupId'], k['AdGroupId'])}»: "
+                          f"{cats or 'категории не отдаются'}")
         print(f"  фраз активных: {n_active}")
         print(f"  минус-слов кампании: {n_neg}")
 
