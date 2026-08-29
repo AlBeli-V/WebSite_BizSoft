@@ -262,8 +262,10 @@ def main() -> None:
         if with_cats:
             for k in kws2:
                 if k["Keyword"] == "---autotargeting":
-                    cats = ", ".join(f"{c['Category']}={c['Value']}"
-                                     for c in k.get("AutotargetingCategories") or [])
+                    raw = k.get("AutotargetingCategories") or []
+                    cats = ", ".join(
+                        f"{c['Category']}={c['Value']}" if isinstance(c, dict) else str(c)
+                        for c in raw)
                     print(f"  автотаргетинг «{gname_by_id.get(k['AdGroupId'], k['AdGroupId'])}»: "
                           f"{cats or 'категории не отдаются'}")
         print(f"  фраз активных: {n_active}")
