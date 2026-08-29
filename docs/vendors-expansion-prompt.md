@@ -240,7 +240,30 @@ billing address, подмену страны, поддержку без entitlem
 
 Уникальные title/description/H1/canonical/OG (штатно из полей карточки),
 breadcrumbs, Product/Offer/FAQ JSON-LD только с реальными данными; карточки
-без цены не должны заявлять InStock/цену в разметке. Прогнать
+без цены не должны заявлять InStock/цену в разметке.
+
+**Микроразметка Schema.org — обязательная часть приёмки** (правила и
+архитектура: `docs/seo/structured-data-audit.md` и
+`docs/seo/structured-data-implementation.md`):
+
+- ничего не размечать руками в шаблонах — Product/Offer (JSON-LD +
+  microdata карточки), BreadcrumbList, FAQPage, CollectionPage выводятся
+  штатными построителями `src/lib/seo.ts` и компонентами
+  `Breadcrumbs`/`FAQ`/`JsonLd`; новый вендор/товар получает разметку
+  автоматически из Directus;
+- один тип — один раз на страницу: BreadcrumbList выводит ТОЛЬКО компонент
+  `Breadcrumbs`, FAQPage — ТОЛЬКО компонент `FAQ`; не добавлять их в
+  ld-массивы страниц повторно;
+- «цена по запросу» (`price <= 0`) — товарной разметки нет вовсе
+  (`productSchema` возвращает null); запрещено подставлять 0/1/условную
+  цену ради валидатора;
+- цена в разметке всегда из `effectivePrice()` — того же источника, что
+  у витрины; имя/sku/валюта — из Directus без ручных копий;
+- после добавления страниц прогнать `pnpm verify` (смоук проверяет
+  согласованность JSON-LD ↔ microdata ↔ видимая цена) и для новых
+  индексируемых URL — переобход (см. регулярное правило в CLAUDE.md).
+
+Прогнать
 `pnpm test`, `pnpm build` (+ typecheck/lint, если настроены). Добавить в
 `tests/` (vitest, чистая логика): уникальность слагов в VENDORS, отсутствие
 stop-list вендоров в VENDORS, валидность `scripts/content/*.json` по схеме

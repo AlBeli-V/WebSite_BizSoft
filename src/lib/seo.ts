@@ -2,12 +2,17 @@
  * Построители JSON-LD разметки. Чистые функции, возвращают объекты,
  * которые сериализуются в <script type="application/ld+json">.
  */
-import { site, seller, workingHours } from '../config/site';
+import { site, seller, sellerAddress, workingHours } from '../config/site';
 import { effectivePrice } from './pricing';
 import type { Product, Category } from './types';
 
-const ORG_ID = `${site.url}/#organization`;
+export const ORG_ID = `${site.url}/#organization`;
 const WEBSITE_ID = `${site.url}/#website`;
+
+/** Единый почтовый адрес организации (тот же, что видим на /contacts). */
+function postalAddress() {
+  return { '@type': 'PostalAddress', ...sellerAddress };
+}
 
 /**
  * Единый канонический URL: https://biz-soft.pro + путь без завершающего слеша,
@@ -46,17 +51,12 @@ export function organizationSchema() {
     name: seller.brand,
     legalName: seller.legalName,
     url: site.url,
+    logo: `${site.url}/brand/bizsoft-logo-lockup.png`,
     email: seller.email,
     telephone: seller.phone,
     taxID: seller.inn,
     description: site.description,
-    address: {
-      '@type': 'PostalAddress',
-      streetAddress: 'Каширское шоссе 80К1, 378',
-      addressLocality: 'Москва',
-      postalCode: '115569',
-      addressCountry: 'RU',
-    },
+    address: postalAddress(),
     contactPoint: {
       '@type': 'ContactPoint',
       telephone: seller.phone,
@@ -68,11 +68,17 @@ export function organizationSchema() {
   };
 }
 
+/**
+ * Локальный «профиль» той же организации: тот же @id, что у Organization
+ * из BaseLayout, — узлы сливаются в одну сущность, а не плодят вторую
+ * копию BIZSoft. Добавляет только поля, которых нет у базового узла
+ * (график работы, ценовой диапазон, картинку).
+ */
 export function localBusinessSchema() {
   return {
     '@context': 'https://schema.org',
-    '@type': 'LocalBusiness',
-    '@id': `${site.url}/#localbusiness`,
+    '@type': ['Organization', 'LocalBusiness'],
+    '@id': ORG_ID,
     name: seller.brand,
     image: `${site.url}/og-default.png`,
     url: site.url,
@@ -80,13 +86,7 @@ export function localBusinessSchema() {
     email: seller.email,
     priceRange: '₽₽',
     openingHoursSpecification: workingHours.schema,
-    address: {
-      '@type': 'PostalAddress',
-      streetAddress: 'Каширское шоссе 80К1, 378',
-      addressLocality: 'Москва',
-      postalCode: '115569',
-      addressCountry: 'RU',
-    },
+    address: postalAddress(),
   };
 }
 
@@ -134,58 +134,60 @@ function offerLogistics(currency: string) {
   };
 }
 
-export function productSchema(p: Product, opts?: { images?: string[] }) {
+/**
+ * Product + Offer карточки товара.
+ *
+ * «Цена по запросу» (price <= 0) возвращает null — страница выходит без
+ * товарной разметки: и Яндекс, и Google требуют у Offer цену, а Offer без
+ * price (как было раньше) Google считает invalid item. Подставлять 0 или
+ * условную цену запрещено — разметка обязана совпадать с видимой страницей.
+ */
+export function productSchema(p: Product, opts?: { images?: string[] }): Record<string, unknown> | null {
   const eff = effectivePrice(p);
+  if (eff.price <= 0) return null;
   const cat = typeof p.category === 'object' && p.category ? p.category : null;
   const currency = p.currency || 'RUB';
+  // Без завершающего слеша: canonical карточки и фиды используют форму
+  // /product/<slug>, и Offer.url обязан совпадать с ними, иначе робот
+  // видит два разных URL одного предложения.
+  const url = `${site.url}/product/${p.slug}`;
   // image — обязательное поле Product. Берём галерею товара; если её нет,
-  // подставляем брендовое изображение по умолчанию, чтобы поле всегда присутствовало.
+  // подставляем брендовое изображение по умолчанию (то же, что в og:image),
+  // чтобы поле всегда присутствовало.
   const images = opts?.images?.length ? opts.images : [`${site.url}/og-default.png`];
-  const schema: Record<string, unknown> = {
+  return {
     '@context': 'https://schema.org',
     '@type': 'Product',
+    '@id': `${url}#product`,
+    url,
     name: p.name,
     sku: p.sku,
     image: images,
     description: p.short_description || p.meta_description || p.name,
-    brand: { '@type': 'Brand', name: p.vendor || seller.brand },
+    // brand — только реальный производитель; BIZSoft — продавец, не бренд.
+    ...(p.vendor ? { brand: { '@type': 'Brand', name: p.vendor } } : {}),
     ...(cat ? { category: cat.name } : {}),
-  };
-  if (eff.price > 0) {
-    // Цена известна — обычное предложение.
-    schema.offers = {
+    offers: {
       '@type': 'Offer',
-      // Без завершающего слеша: canonical карточки и фиды используют форму
-      // /product/<slug>, и Offer.url обязан совпадать с ними, иначе робот
-      // видит два разных URL одного предложения.
-      url: `${site.url}/product/${p.slug}`,
+      url,
       priceCurrency: currency,
       price: eff.price,
       availability: 'https://schema.org/InStock',
       seller: { '@id': ORG_ID },
       ...offerLogistics(currency),
       ...(eff.isPromo && p.promo_end ? { priceValidUntil: p.promo_end } : {}),
-    };
-  } else {
-    // Цена по запросу — предложение без конкретной цены.
-    schema.offers = {
-      '@type': 'Offer',
-      url: `${site.url}/product/${p.slug}`,
-      priceCurrency: currency,
-      availability: 'https://schema.org/InStock',
-      seller: { '@id': ORG_ID },
-      ...offerLogistics(currency),
-    };
-  }
-  return schema;
+    },
+  };
 }
 
-export function itemListSchema(category: Category, products: Product[]) {
+export function itemListSchema(category: Category, products: Product[], pagePath?: string) {
   return {
     '@context': 'https://schema.org',
     '@type': 'CollectionPage',
     name: category.meta_title || category.name,
     description: category.meta_description || category.seo_text || '',
+    ...(pagePath ? { url: canonicalUrl(pagePath) } : {}),
+    isPartOf: { '@id': WEBSITE_ID },
     mainEntity: {
       '@type': 'ItemList',
       itemListElement: products.map((p, i) => ({

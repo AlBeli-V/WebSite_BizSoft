@@ -5,8 +5,8 @@ import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import FAQ from '../../components/FAQ.astro';
 import CTASection from '../../components/CTASection.astro';
 import JsonLd from '../../components/JsonLd.astro';
-import { site, seller } from '../../config/site';
-import { canonicalUrl } from '../../lib/seo';
+import { site } from '../../config/site';
+import { canonicalUrl, ORG_ID } from '../../lib/seo';
 import { getProductsBySlugs } from '../../lib/directus';
 import { solutions } from '../../data/solutions';
 
@@ -45,7 +45,8 @@ const articleSchema = {
   datePublished: d.date.toISOString(),
   dateModified: (d.updated || d.date).toISOString(),
   author: { '@type': 'Organization', name: d.author, url: site.url },
-  publisher: { '@type': 'Organization', name: seller.brand, url: site.url },
+  // Издатель — единый узел организации из BaseLayout, связь по @id.
+  publisher: { '@id': ORG_ID },
   mainEntityOfPage: pageUrl,
   ...(d.reviewedBy ? { reviewedBy: { '@type': 'Person', name: d.reviewedBy } } : {}),
 };
