@@ -169,6 +169,32 @@ const PRODUCT_FIELDS = [
   'images.directus_files_id.title',
 ].join(',');
 
+/**
+ * Поля закупки, добавленные схемой 28.08.2026 (purchase_updated_at,
+ * purchase_source). Запрашиваются отдельным списком с откатом: Directus
+ * отвечает 400 на ВЕСЬ запрос, если хоть одно поле из fields не существует,
+ * и до прогона ops-directus-schema на проде каталог и КП падали бы целиком
+ * из-за не доехавшей миграции. Каталог важнее свежести даты закупки.
+ */
+const PRODUCT_FIELDS_PURCHASE = `${PRODUCT_FIELDS},purchase_updated_at,purchase_source`;
+let purchaseFieldsMissing = false;
+
+async function productsQuery(params: Record<string, unknown>): Promise<Product[]> {
+  if (!purchaseFieldsMissing) {
+    try {
+      return await dx<Product[]>('/items/products', {
+        params: { ...params, fields: PRODUCT_FIELDS_PURCHASE },
+      });
+    } catch (e) {
+      // Запоминаем до перезапуска процесса: после применения схемы поля
+      // появятся, и новый деплой снова начнёт их запрашивать.
+      purchaseFieldsMissing = true;
+      console.warn('products: поля закупки недоступны, запрос без них', e);
+    }
+  }
+  return dx<Product[]>('/items/products', { params: { ...params, fields: PRODUCT_FIELDS } });
+}
+
 export interface ProductFilter {
   origin?: 'domestic' | 'foreign';
   categorySlug?: string;
@@ -277,12 +303,10 @@ export async function getProductBySlug(slug: string): Promise<Product | null> {
 /** Товары по списку sku (для пересчёта корзины на сервере при генерации КП). */
 export async function getProductsBySkus(skus: string[]): Promise<Product[]> {
   if (skus.length === 0) return [];
-  return dx<Product[]>('/items/products', {
-    params: {
-      fields: PRODUCT_FIELDS,
-      filter: JSON.stringify({ sku: { _in: skus }, status: { _eq: 'published' } }),
-      limit: -1,
-    },
+  // С полями закупки: выборку по артикулам использует расчёт экономики КП.
+  return productsQuery({
+    filter: JSON.stringify({ sku: { _in: skus }, status: { _eq: 'published' } }),
+    limit: -1,
   });
 }
 
@@ -307,15 +331,12 @@ export function isZohoConfiguratorSku(sku: string): boolean {
 export async function getZohoPositionsBySkus(skus: string[]): Promise<Product[]> {
   const allowed = skus.filter(isZohoConfiguratorSku);
   if (allowed.length === 0) return [];
-  return dx<Product[]>('/items/products', {
-    params: {
-      fields: PRODUCT_FIELDS,
-      filter: JSON.stringify({
-        sku: { _in: allowed },
-        status: { _in: ['published', 'draft'] },
-      }),
-      limit: -1,
-    },
+  return productsQuery({
+    filter: JSON.stringify({
+      sku: { _in: allowed },
+      status: { _in: ['published', 'draft'] },
+    }),
+    limit: -1,
   });
 }
 
