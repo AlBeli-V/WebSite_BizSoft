@@ -1,24 +1,24 @@
 {
  "date": "2026-08-29",
- "generated_at": "2026-08-29T07:11:58+00:00",
+ "generated_at": "2026-08-29T07:54:37+00:00",
  "measured_at": "2026-08-29",
  "universe": {
-  "phrases": 19965,
-  "commercial_phrases": 2049,
-  "clusters": 168,
-  "total_commercial_demand": 283429,
-  "total_demand": 36474132,
-  "with_page": 19045,
-  "cost_rub": 5.5844
+  "phrases": 23047,
+  "commercial_phrases": 2145,
+  "clusters": 171,
+  "total_commercial_demand": 287788,
+  "total_demand": 37032206,
+  "with_page": 22347,
+  "cost_rub": 5.9249
  },
  "coverage": {
   "available": true,
-  "total_commercial_demand": 283429,
+  "total_commercial_demand": 287788,
   "levels": {
-   "page": 0.8051,
-   "indexed": 0.6135,
-   "top10": 0.2252,
-   "clicks": 0.0054,
+   "page": 0.8783,
+   "indexed": 0.6042,
+   "top10": 0.2218,
+   "clicks": 0.0053,
    "conversion_measured": null,
    "qualified_leads": null
   },
@@ -46,62 +46,62 @@
  },
  "coverage_by_category": {
   "AI-сервисы": {
-   "demand": 73366,
-   "covered": 73366,
+   "demand": 84342,
+   "covered": 84342,
    "top10": 40113,
    "clicks": 664,
    "page_coverage": 1.0,
-   "top10_coverage": 0.547,
-   "click_coverage": 0.009
-  },
-  "не определено": {
-   "demand": 68175,
-   "covered": 12931,
-   "top10": 0,
-   "clicks": 0,
-   "page_coverage": 0.19,
-   "top10_coverage": 0.0,
-   "click_coverage": 0.0
+   "top10_coverage": 0.476,
+   "click_coverage": 0.008
   },
   "Офисное ПО": {
-   "demand": 62372,
-   "covered": 62372,
+   "demand": 62533,
+   "covered": 62533,
    "top10": 0,
    "clicks": 0,
    "page_coverage": 1.0,
+   "top10_coverage": 0.0,
+   "click_coverage": 0.0
+  },
+  "не определено": {
+   "demand": 53119,
+   "covered": 18096,
+   "top10": 0,
+   "clicks": 0,
+   "page_coverage": 0.341,
    "top10_coverage": 0.0,
    "click_coverage": 0.0
   },
   "Дизайн и графика": {
-   "demand": 38469,
-   "covered": 38469,
+   "demand": 38883,
+   "covered": 38883,
    "top10": 5551,
    "clicks": 0,
    "page_coverage": 1.0,
-   "top10_coverage": 0.144,
+   "top10_coverage": 0.143,
    "click_coverage": 0.0
   },
   "Звук, видео и медиа": {
-   "demand": 10939,
-   "covered": 10939,
+   "demand": 17264,
+   "covered": 17264,
    "top10": 599,
    "clicks": 0,
    "page_coverage": 1.0,
-   "top10_coverage": 0.055,
+   "top10_coverage": 0.035,
    "click_coverage": 0.0
   },
   "Средства разработки": {
-   "demand": 10821,
-   "covered": 10821,
+   "demand": 10957,
+   "covered": 10957,
    "top10": 10678,
    "clicks": 863,
    "page_coverage": 1.0,
-   "top10_coverage": 0.987,
-   "click_coverage": 0.08
+   "top10_coverage": 0.975,
+   "click_coverage": 0.079
   },
   "Системное ПО": {
-   "demand": 6806,
-   "covered": 6806,
+   "demand": 7167,
+   "covered": 7167,
    "top10": 0,
    "clicks": 0,
    "page_coverage": 1.0,
@@ -145,8 +145,8 @@
    "click_coverage": 0.0
   },
   "Архитектура и BIM": {
-   "demand": 886,
-   "covered": 886,
+   "demand": 1928,
+   "covered": 1928,
    "top10": 0,
    "clicks": 0,
    "page_coverage": 1.0,
@@ -164,19 +164,19 @@
   }
  },
  "tiers": {
-  "A": 41,
-  "B": 39,
-  "C": 72
+  "A": 48,
+  "B": 32,
+  "C": 73
  },
  "gaps_by_class": {
-  "GAP-A": 19,
-  "GAP-B": 21,
+  "GAP-A": 2,
+  "GAP-B": 33,
   "GAP-C": 3,
   "GAP-D": 11,
   "GAP-E": 2,
   "GAP-F": 3,
-  "GAP-G": 2,
-  "GAP-H": 17
+  "GAP-G": 1,
+  "GAP-H": 23
  },
  "uncovered_top": [
   {
@@ -187,34 +187,6 @@
    "top_phrase": "оплата зарубежных сервисов"
   },
   {
-   "cluster": "grok купить",
-   "demand": 6087,
-   "gap": "GAP-A",
-   "action": "новая посадочная страница или материал",
-   "top_phrase": "купить grok"
-  },
-  {
-   "cluster": "kimi купить",
-   "demand": 5165,
-   "gap": "GAP-A",
-   "action": "новая посадочная страница или материал",
-   "top_phrase": "купить kimi"
-  },
-  {
-   "cluster": "fl studio купить",
-   "demand": 2495,
-   "gap": "GAP-A",
-   "action": "новая посадочная страница или материал",
-   "top_phrase": "fl studio купить"
-  },
-  {
-   "cluster": "ableton купить",
-   "demand": 2111,
-   "gap": "GAP-A",
-   "action": "новая посадочная страница или материал",
-   "top_phrase": "ableton купить"
-  },
-  {
    "cluster": "aws купить",
    "demand": 1133,
    "gap": "GAP-A",
@@ -222,32 +194,32 @@
    "top_phrase": "aws присадка купить"
   },
   {
-   "cluster": "lumion купить",
-   "demand": 1023,
-   "gap": "GAP-A",
-   "action": "новая посадочная страница или материал",
-   "top_phrase": "lumion купить"
+   "cluster": "wordpress купить",
+   "demand": 299,
+   "gap": "GAP-H",
+   "action": "снизить приоритет, наблюдать",
+   "top_phrase": "wordpress купить"
   },
   {
-   "cluster": "cubase купить",
-   "demand": 662,
+   "cluster": "nordvpn купить",
+   "demand": 167,
    "gap": "GAP-A",
    "action": "новая посадочная страница или материал",
-   "top_phrase": "cubase купить"
+   "top_phrase": "nordvpn купить"
   },
   {
-   "cluster": "higgsfield купить",
-   "demand": 584,
-   "gap": "GAP-A",
-   "action": "новая посадочная страница или материал",
-   "top_phrase": "купить higgsfield"
+   "cluster": "ansys купить",
+   "demand": 129,
+   "gap": "GAP-H",
+   "action": "снизить приоритет, наблюдать",
+   "top_phrase": "ansys купить"
   },
   {
-   "cluster": "krea купить",
-   "demand": 369,
-   "gap": "GAP-A",
-   "action": "новая посадочная страница или материал",
-   "top_phrase": "krea купить"
+   "cluster": "hailuo купить",
+   "demand": 103,
+   "gap": "GAP-H",
+   "action": "снизить приоритет, наблюдать",
+   "top_phrase": "hailuo купить"
   }
  ],
  "opportunities": [
@@ -549,449 +521,9 @@
  "vendor_expansion": {
   "available": true,
   "reason": null,
-  "candidates_total": 129,
-  "candidates_measured": 55,
+  "candidates_total": 112,
+  "candidates_measured": 39,
   "recommended": [
-   {
-    "brand": "grok",
-    "kind": "ai",
-    "payment": {
-     "verdict": "card",
-     "note": "найдены признаки самостоятельной оплаты картой",
-     "url": "https://www.grok.com/plans",
-     "checked_at": "2026-08-29"
-    },
-    "recommendation": "рекомендуем добавить",
-    "recommendation_why": "оплата картой на сайте вендора — сделка выполнима сразу",
-    "total_demand": 6087,
-    "commercial_demand": 6087,
-    "commercial_phrases": 32,
-    "top_phrases": [
-     {
-      "phrase": "купить grok",
-      "frequency": 2828
-     },
-     {
-      "phrase": "купить подписку grok",
-      "frequency": 1377
-     },
-     {
-      "phrase": "super grok купить",
-      "frequency": 634
-     },
-     {
-      "phrase": "grok аккаунт купить",
-      "frequency": 234
-     },
-     {
-      "phrase": "купить подписку super grok",
-      "frequency": 170
-     }
-    ],
-    "trend": "unknown",
-    "effort": 1.0,
-    "effort_note": "одна карточка вендора",
-    "demand_confidence": "высокая",
-    "demand_confidence_note": null,
-    "priority_score": 6087.0,
-    "seo": {
-     "url": "/vendors/grok",
-     "title": "Оплата Grok для юридических лиц из России — счёт, договор, ЭДО | BIZSoft",
-     "description": "Оплатим подписку Grok на вашу компанию в рублях по счёту. Договор, закрывающие документы через ЭДО, доступ за 1–3 дня.",
-     "h1": "Grok для юридических лиц",
-     "faq_topics": [
-      "Как купить Grok на юрлицо — по счёту и договору?",
-      "Какие закрывающие документы вы предоставляете?",
-      "Как быстро появится доступ к Grok после оплаты?",
-      "В какой валюте оплата и как считается цена?"
-     ],
-     "target_phrases": [
-      "купить grok",
-      "купить подписку grok",
-      "super grok купить",
-      "grok аккаунт купить",
-      "купить подписку super grok",
-      "grok heavy купить",
-      "grok ai купить",
-      "купить grok в россии"
-     ],
-     "needed_subclusters": [
-      "покупка"
-     ],
-     "internal_links": [
-      "/catalog",
-      "/blog/kak-kupit-zarubezhnoe-po-dlya-yurlica"
-     ]
-    },
-    "measured_at": "2026-08-29"
-   },
-   {
-    "brand": "fl studio",
-    "kind": "classic",
-    "payment": {
-     "verdict": "card",
-     "note": "найдены признаки самостоятельной оплаты картой",
-     "url": "https://www.flstudio.com/pricing",
-     "checked_at": "2026-08-29"
-    },
-    "recommendation": "рекомендуем добавить",
-    "recommendation_why": "оплата картой на сайте вендора — сделка выполнима сразу",
-    "total_demand": 2495,
-    "commercial_demand": 2495,
-    "commercial_phrases": 30,
-    "top_phrases": [
-     {
-      "phrase": "fl studio купить",
-      "frequency": 1464
-     },
-     {
-      "phrase": "fl studio купить лицензию",
-      "frequency": 195
-     },
-     {
-      "phrase": "купить fl studio в россии",
-      "frequency": 95
-     },
-     {
-      "phrase": "купить ключ fl studio",
-      "frequency": 81
-     },
-     {
-      "phrase": "fl studio 25 купить",
-      "frequency": 60
-     }
-    ],
-    "trend": "unknown",
-    "effort": 1.0,
-    "effort_note": "одна карточка вендора",
-    "demand_confidence": "высокая",
-    "demand_confidence_note": null,
-    "priority_score": 2495.0,
-    "seo": {
-     "url": "/vendors/fl-studio",
-     "title": "Оплата Fl Studio для юридических лиц из России — счёт, договор, ЭДО | BIZSoft",
-     "description": "Оплатим подписку Fl Studio на вашу компанию в рублях по счёту. Договор, закрывающие документы через ЭДО, доступ за 1–3 дня.",
-     "h1": "Fl Studio для юридических лиц",
-     "faq_topics": [
-      "Как купить Fl Studio на юрлицо — по счёту и договору?",
-      "Какие закрывающие документы вы предоставляете?",
-      "Как быстро появится доступ к Fl Studio после оплаты?",
-      "В какой валюте оплата и как считается цена?"
-     ],
-     "target_phrases": [
-      "fl studio купить",
-      "fl studio купить лицензию",
-      "купить fl studio в россии",
-      "купить ключ fl studio",
-      "fl studio 25 купить",
-      "купить fl studio 26",
-      "где купить fl studio",
-      "fl studio mobile купить"
-     ],
-     "needed_subclusters": [
-      "покупка",
-      "цены и тарифы"
-     ],
-     "internal_links": [
-      "/catalog",
-      "/blog/kak-kupit-zarubezhnoe-po-dlya-yurlica"
-     ]
-    },
-    "measured_at": "2026-08-29"
-   },
-   {
-    "brand": "lumion",
-    "kind": "classic",
-    "payment": {
-     "verdict": "card",
-     "note": "найдены признаки самостоятельной оплаты картой",
-     "url": "https://lumion.com/buy",
-     "checked_at": "2026-08-29"
-    },
-    "recommendation": "рекомендуем добавить",
-    "recommendation_why": "оплата картой на сайте вендора — сделка выполнима сразу",
-    "total_demand": 1023,
-    "commercial_demand": 1023,
-    "commercial_phrases": 24,
-    "top_phrases": [
-     {
-      "phrase": "lumion купить",
-      "frequency": 461
-     },
-     {
-      "phrase": "купить люстру lumion",
-      "frequency": 194
-     },
-     {
-      "phrase": "потолочная люстра lumion купить",
-      "frequency": 70
-     },
-     {
-      "phrase": "бра lumion купить",
-      "frequency": 69
-     },
-     {
-      "phrase": "lumion светильники купить",
-      "frequency": 50
-     }
-    ],
-    "trend": "unknown",
-    "effort": 1.0,
-    "effort_note": "одна карточка вендора",
-    "demand_confidence": "высокая",
-    "demand_confidence_note": null,
-    "priority_score": 1023.0,
-    "seo": {
-     "url": "/vendors/lumion",
-     "title": "Оплата Lumion для юридических лиц из России — счёт, договор, ЭДО | BIZSoft",
-     "description": "Оплатим подписку Lumion на вашу компанию в рублях по счёту. Договор, закрывающие документы через ЭДО, доступ за 1–3 дня.",
-     "h1": "Lumion для юридических лиц",
-     "faq_topics": [
-      "Как купить Lumion на юрлицо — по счёту и договору?",
-      "Какие закрывающие документы вы предоставляете?",
-      "Как быстро появится доступ к Lumion после оплаты?",
-      "В какой валюте оплата и как считается цена?"
-     ],
-     "target_phrases": [
-      "lumion купить",
-      "купить люстру lumion",
-      "потолочная люстра lumion купить",
-      "бра lumion купить",
-      "lumion светильники купить",
-      "бра lumion orla купить",
-      "люстра lumion natalina купить",
-      "люстра lumion gloriya 8272 5c купить"
-     ],
-     "needed_subclusters": [
-      "покупка",
-      "цены и тарифы"
-     ],
-     "internal_links": [
-      "/catalog",
-      "/blog/kak-kupit-zarubezhnoe-po-dlya-yurlica"
-     ]
-    },
-    "measured_at": "2026-08-29"
-   },
-   {
-    "brand": "krea",
-    "kind": "ai",
-    "payment": {
-     "verdict": "card",
-     "note": "найдены признаки самостоятельной оплаты картой",
-     "url": "https://www.krea.ai/pricing",
-     "checked_at": "2026-08-29"
-    },
-    "recommendation": "рекомендуем добавить",
-    "recommendation_why": "оплата картой на сайте вендора — сделка выполнима сразу",
-    "total_demand": 369,
-    "commercial_demand": 369,
-    "commercial_phrases": 10,
-    "top_phrases": [
-     {
-      "phrase": "krea купить",
-      "frequency": 149
-     },
-     {
-      "phrase": "krea купить подписку",
-      "frequency": 52
-     },
-     {
-      "phrase": "krea ai купить",
-      "frequency": 48
-     },
-     {
-      "phrase": "купить подписку krea ai",
-      "frequency": 36
-     },
-     {
-      "phrase": "krea керамогранит купить в челябинске",
-      "frequency": 34
-     }
-    ],
-    "trend": "unknown",
-    "effort": 1.0,
-    "effort_note": "одна карточка вендора",
-    "demand_confidence": "высокая",
-    "demand_confidence_note": null,
-    "priority_score": 369.0,
-    "seo": {
-     "url": "/vendors/krea",
-     "title": "Оплата Krea для юридических лиц из России — счёт, договор, ЭДО | BIZSoft",
-     "description": "Оплатим подписку Krea на вашу компанию в рублях по счёту. Договор, закрывающие документы через ЭДО, доступ за 1–3 дня.",
-     "h1": "Krea для юридических лиц",
-     "faq_topics": [
-      "Как купить Krea на юрлицо — по счёту и договору?",
-      "Какие закрывающие документы вы предоставляете?",
-      "Как быстро появится доступ к Krea после оплаты?",
-      "В какой валюте оплата и как считается цена?"
-     ],
-     "target_phrases": [
-      "krea купить",
-      "krea купить подписку",
-      "krea ai купить",
-      "купить подписку krea ai",
-      "krea керамогранит купить в челябинске",
-      "krea керамогранит узбекистан купить в челябинске",
-      "necta krea купить",
-      "necta krea touch купить"
-     ],
-     "needed_subclusters": [
-      "покупка"
-     ],
-     "internal_links": [
-      "/catalog",
-      "/blog/kak-kupit-zarubezhnoe-po-dlya-yurlica"
-     ]
-    },
-    "measured_at": "2026-08-29"
-   },
-   {
-    "brand": "izotope",
-    "kind": "classic",
-    "payment": {
-     "verdict": "card",
-     "note": "найдены признаки самостоятельной оплаты картой",
-     "url": "https://www.izotope.com/en/shop.html",
-     "checked_at": "2026-08-29"
-    },
-    "recommendation": "рекомендуем добавить",
-    "recommendation_why": "оплата картой на сайте вендора — сделка выполнима сразу",
-    "total_demand": 161,
-    "commercial_demand": 161,
-    "commercial_phrases": 7,
-    "top_phrases": [
-     {
-      "phrase": "izotope купить",
-      "frequency": 69
-     },
-     {
-      "phrase": "izotope rx купить",
-      "frequency": 31
-     },
-     {
-      "phrase": "izotope ozone купить",
-      "frequency": 21
-     },
-     {
-      "phrase": "izotope ozone 12 купить",
-      "frequency": 16
-     },
-     {
-      "phrase": "izotope rx 12 купить",
-      "frequency": 11
-     }
-    ],
-    "trend": "unknown",
-    "effort": 1.0,
-    "effort_note": "одна карточка вендора",
-    "demand_confidence": "высокая",
-    "demand_confidence_note": null,
-    "priority_score": 161.0,
-    "seo": {
-     "url": "/vendors/izotope",
-     "title": "Оплата Izotope для юридических лиц из России — счёт, договор, ЭДО | BIZSoft",
-     "description": "Оплатим подписку Izotope на вашу компанию в рублях по счёту. Договор, закрывающие документы через ЭДО, доступ за 1–3 дня.",
-     "h1": "Izotope для юридических лиц",
-     "faq_topics": [
-      "Как купить Izotope на юрлицо — по счёту и договору?",
-      "Какие закрывающие документы вы предоставляете?",
-      "Как быстро появится доступ к Izotope после оплаты?",
-      "В какой валюте оплата и как считается цена?"
-     ],
-     "target_phrases": [
-      "izotope купить",
-      "izotope rx купить",
-      "izotope ozone купить",
-      "izotope ozone 12 купить",
-      "izotope rx 12 купить",
-      "izotope rx 11 audio editor купить",
-      "izotope ozone 12 advanced купить"
-     ],
-     "needed_subclusters": [
-      "покупка"
-     ],
-     "internal_links": [
-      "/catalog",
-      "/blog/kak-kupit-zarubezhnoe-po-dlya-yurlica"
-     ]
-    },
-    "measured_at": "2026-08-29"
-   },
-   {
-    "brand": "ableton",
-    "kind": "classic",
-    "payment": {
-     "verdict": "likely_card",
-     "note": "есть цены и кнопки покупки, платёжная система не опознана",
-     "url": "https://www.ableton.com/en/shop/live/",
-     "checked_at": "2026-08-29"
-    },
-    "recommendation": "рекомендуем добавить с проверкой",
-    "recommendation_why": "цены и покупка на сайте есть, платёжная система не опознана — подтвердить при первой сделке",
-    "total_demand": 2111,
-    "commercial_demand": 2111,
-    "commercial_phrases": 29,
-    "top_phrases": [
-     {
-      "phrase": "ableton купить",
-      "frequency": 616
-     },
-     {
-      "phrase": "ableton live купить",
-      "frequency": 342
-     },
-     {
-      "phrase": "ableton 12 купить",
-      "frequency": 218
-     },
-     {
-      "phrase": "ableton live 12 купить",
-      "frequency": 169
-     },
-     {
-      "phrase": "ableton suite купить",
-      "frequency": 126
-     }
-    ],
-    "trend": "unknown",
-    "effort": 1.0,
-    "effort_note": "одна карточка вендора",
-    "demand_confidence": "высокая",
-    "demand_confidence_note": null,
-    "priority_score": 2111.0,
-    "seo": {
-     "url": "/vendors/ableton",
-     "title": "Оплата Ableton для юридических лиц из России — счёт, договор, ЭДО | BIZSoft",
-     "description": "Оплатим подписку Ableton на вашу компанию в рублях по счёту. Договор, закрывающие документы через ЭДО, доступ за 1–3 дня.",
-     "h1": "Ableton для юридических лиц",
-     "faq_topics": [
-      "Как купить Ableton на юрлицо — по счёту и договору?",
-      "Какие закрывающие документы вы предоставляете?",
-      "Как быстро появится доступ к Ableton после оплаты?",
-      "В какой валюте оплата и как считается цена?"
-     ],
-     "target_phrases": [
-      "ableton купить",
-      "ableton live купить",
-      "ableton 12 купить",
-      "ableton live 12 купить",
-      "ableton suite купить",
-      "ableton 12 suite купить",
-      "ableton live suite купить",
-      "ableton live 12 suite купить"
-     ],
-     "needed_subclusters": [
-      "покупка",
-      "цены и тарифы"
-     ],
-     "internal_links": [
-      "/catalog",
-      "/blog/kak-kupit-zarubezhnoe-po-dlya-yurlica"
-     ]
-    },
-    "measured_at": "2026-08-29"
-   },
    {
     "brand": "aws",
     "kind": "classic",
@@ -1066,109 +598,35 @@
     "measured_at": "2026-08-29"
    },
    {
-    "brand": "lovable",
-    "kind": "ai",
+    "brand": "nordvpn",
+    "kind": "classic",
     "payment": {
-     "verdict": "likely_card",
-     "note": "есть цены и кнопки покупки, платёжная система не опознана",
-     "url": "https://lovable.dev/pricing",
-     "checked_at": "2026-08-29"
+     "verdict": "unknown",
+     "note": "признаков оплаты на странице не найдено",
+     "url": "https://nordvpn.ai/pricing",
+     "checked_at": "2026-08-28"
     },
-    "recommendation": "рекомендуем добавить с проверкой",
-    "recommendation_why": "цены и покупка на сайте есть, платёжная система не опознана — подтвердить при первой сделке",
-    "total_demand": 213,
-    "commercial_demand": 213,
-    "commercial_phrases": 5,
+    "recommendation": "проверить вручную",
+    "recommendation_why": "признаков оплаты на странице тарифов не найдено",
+    "total_demand": 167,
+    "commercial_demand": 167,
+    "commercial_phrases": 4,
     "top_phrases": [
      {
-      "phrase": "lovable купить",
-      "frequency": 142
+      "phrase": "nordvpn купить",
+      "frequency": 121
      },
      {
-      "phrase": "lovable купить подписку",
-      "frequency": 25
+      "phrase": "nordvpn подписка купить",
+      "frequency": 24
      },
      {
-      "phrase": "lovable купить аккаунт",
-      "frequency": 22
+      "phrase": "nordvpn для роутера купить аккаунт",
+      "frequency": 13
      },
      {
-      "phrase": "lovable pro купить",
-      "frequency": 16
-     },
-     {
-      "phrase": "lovable ai купить подписку",
-      "frequency": 8
-     }
-    ],
-    "trend": "unknown",
-    "effort": 1.0,
-    "effort_note": "одна карточка вендора",
-    "demand_confidence": "высокая",
-    "demand_confidence_note": null,
-    "priority_score": 213.0,
-    "seo": {
-     "url": "/vendors/lovable",
-     "title": "Оплата Lovable для юридических лиц из России — счёт, договор, ЭДО | BIZSoft",
-     "description": "Оплатим подписку Lovable на вашу компанию в рублях по счёту. Договор, закрывающие документы через ЭДО, доступ за 1–3 дня.",
-     "h1": "Lovable для юридических лиц",
-     "faq_topics": [
-      "Как купить Lovable на юрлицо — по счёту и договору?",
-      "Какие закрывающие документы вы предоставляете?",
-      "Как быстро появится доступ к Lovable после оплаты?",
-      "В какой валюте оплата и как считается цена?"
-     ],
-     "target_phrases": [
-      "lovable купить",
-      "lovable купить подписку",
-      "lovable купить аккаунт",
-      "lovable pro купить",
-      "lovable ai купить подписку"
-     ],
-     "needed_subclusters": [
-      "покупка"
-     ],
-     "internal_links": [
-      "/catalog",
-      "/blog/kak-kupit-zarubezhnoe-po-dlya-yurlica"
-     ]
-    },
-    "measured_at": "2026-08-29"
-   },
-   {
-    "brand": "deepl",
-    "kind": "ai",
-    "payment": {
-     "verdict": "likely_card",
-     "note": "есть цены и кнопки покупки, платёжная система не опознана",
-     "url": "https://www.deepl.com/pro",
-     "checked_at": "2026-08-20"
-    },
-    "recommendation": "рекомендуем добавить с проверкой",
-    "recommendation_why": "цены и покупка на сайте есть, платёжная система не опознана — подтвердить при первой сделке",
-    "total_demand": 184,
-    "commercial_demand": 184,
-    "commercial_phrases": 6,
-    "top_phrases": [
-     {
-      "phrase": "deepl купить",
-      "frequency": 111
-     },
-     {
-      "phrase": "deepl купить подписку",
-      "frequency": 26
-     },
-     {
-      "phrase": "deepl pro купить",
-      "frequency": 18
-     },
-     {
-      "phrase": "deepl аккаунт купить",
-      "frequency": 11
-     },
-     {
-      "phrase": "deepl translate купить",
-      "frequency": 10
+      "phrase": "nordvpn купить в россии",
+      "frequency": 9
      }
     ],
     "trend": "stable",
@@ -1176,25 +634,23 @@
     "effort_note": "одна карточка вендора",
     "demand_confidence": "высокая",
     "demand_confidence_note": null,
-    "priority_score": 184.0,
+    "priority_score": 167.0,
     "seo": {
-     "url": "/vendors/deepl",
-     "title": "Оплата Deepl для юридических лиц из России — счёт, договор, ЭДО | BIZSoft",
-     "description": "Оплатим подписку Deepl на вашу компанию в рублях по счёту. Договор, закрывающие документы через ЭДО, доступ за 1–3 дня.",
-     "h1": "Deepl для юридических лиц",
+     "url": "/vendors/nordvpn",
+     "title": "Оплата Nordvpn для юридических лиц из России — счёт, договор, ЭДО | BIZSoft",
+     "description": "Оплатим подписку Nordvpn на вашу компанию в рублях по счёту. Договор, закрывающие документы через ЭДО, доступ за 1–3 дня.",
+     "h1": "Nordvpn для юридических лиц",
      "faq_topics": [
-      "Как купить Deepl на юрлицо — по счёту и договору?",
+      "Как купить Nordvpn на юрлицо — по счёту и договору?",
       "Какие закрывающие документы вы предоставляете?",
-      "Как быстро появится доступ к Deepl после оплаты?",
+      "Как быстро появится доступ к Nordvpn после оплаты?",
       "В какой валюте оплата и как считается цена?"
      ],
      "target_phrases": [
-      "deepl купить",
-      "deepl купить подписку",
-      "deepl pro купить",
-      "deepl аккаунт купить",
-      "deepl translate купить",
-      "deepl api купить"
+      "nordvpn купить",
+      "nordvpn подписка купить",
+      "nordvpn для роутера купить аккаунт",
+      "nordvpn купить в россии"
      ],
      "needed_subclusters": [
       "покупка"
@@ -1207,64 +663,130 @@
     "measured_at": "2026-08-20"
    },
    {
-    "brand": "capture one",
+    "brand": "ansys",
     "kind": "classic",
     "payment": {
-     "verdict": "likely_card",
-     "note": "есть цены и кнопки покупки, платёжная система не опознана",
-     "url": "https://www.captureone.com/en/store",
-     "checked_at": "2026-08-29"
+     "verdict": "unknown",
+     "note": "признаков оплаты на странице не найдено",
+     "url": "https://www.ansys.com/products",
+     "checked_at": "2026-08-28"
     },
-    "recommendation": "рекомендуем добавить с проверкой",
-    "recommendation_why": "цены и покупка на сайте есть, платёжная система не опознана — подтвердить при первой сделке",
-    "total_demand": 182,
-    "commercial_demand": 182,
+    "recommendation": "проверить вручную",
+    "recommendation_why": "признаков оплаты на странице тарифов не найдено",
+    "total_demand": 129,
+    "commercial_demand": 129,
     "commercial_phrases": 5,
     "top_phrases": [
      {
-      "phrase": "capture one купить",
-      "frequency": 127
+      "phrase": "ansys купить",
+      "frequency": 79
      },
      {
-      "phrase": "capture one pro купить",
+      "phrase": "лицензия ansys купить",
+      "frequency": 18
+     },
+     {
+      "phrase": "anycubic ansys 010310 купить",
       "frequency": 17
      },
      {
-      "phrase": "купить capture one в россии",
-      "frequency": 15
+      "phrase": "ansys 010310 anycubic kobra 3 max купить",
+      "frequency": 10
      },
      {
-      "phrase": "купить подписку capture one",
-      "frequency": 14
-     },
-     {
-      "phrase": "capture one 2026 купить",
-      "frequency": 9
+      "phrase": "какой ноутбук купить для работы в ansys",
+      "frequency": 5
      }
     ],
-    "trend": "unknown",
+    "trend": "declining",
     "effort": 1.0,
     "effort_note": "одна карточка вендора",
     "demand_confidence": "высокая",
     "demand_confidence_note": null,
-    "priority_score": 182.0,
+    "priority_score": 129.0,
     "seo": {
-     "url": "/vendors/capture-one",
-     "title": "Оплата Capture One для юридических лиц из России — счёт, договор, ЭДО | BIZSoft",
-     "description": "Оплатим подписку Capture One на вашу компанию в рублях по счёту. Договор, закрывающие документы через ЭДО, доступ за 1–3 дня.",
-     "h1": "Capture One для юридических лиц",
+     "url": "/vendors/ansys",
+     "title": "Оплата Ansys для юридических лиц из России — счёт, договор, ЭДО | BIZSoft",
+     "description": "Оплатим подписку Ansys на вашу компанию в рублях по счёту. Договор, закрывающие документы через ЭДО, доступ за 1–3 дня.",
+     "h1": "Ansys для юридических лиц",
      "faq_topics": [
-      "Как купить Capture One на юрлицо — по счёту и договору?",
+      "Как купить Ansys на юрлицо — по счёту и договору?",
       "Какие закрывающие документы вы предоставляете?",
-      "Как быстро появится доступ к Capture One после оплаты?",
+      "Как быстро появится доступ к Ansys после оплаты?",
       "В какой валюте оплата и как считается цена?"
      ],
      "target_phrases": [
-      "capture one купить",
-      "capture one pro купить",
-      "купить capture one в россии",
-      "купить подписку capture one",
-      "capture one 2026 купить"
+      "ansys купить",
+      "лицензия ansys купить",
+      "anycubic ansys 010310 купить",
+      "ansys 010310 anycubic kobra 3 max купить",
+      "какой ноутбук купить для работы в ansys"
+     ],
+     "needed_subclusters": [
+      "покупка",
+      "цены и тарифы"
+     ],
+     "internal_links": [
+      "/catalog",
+      "/blog/kak-kupit-zarubezhnoe-po-dlya-yurlica"
+     ]
+    },
+    "measured_at": "2026-08-20"
+   },
+   {
+    "brand": "hailuo",
+    "kind": "ai",
+    "payment": {
+     "verdict": "unknown",
+     "note": "признаков оплаты на странице не найдено",
+     "url": "https://www.hailuo.com/pricing",
+     "checked_at": "2026-08-29"
+    },
+    "recommendation": "проверить вручную",
+    "recommendation_why": "признаков оплаты на странице тарифов не найдено",
+    "total_demand": 103,
+    "commercial_demand": 103,
+    "commercial_phrases": 4,
+    "top_phrases": [
+     {
+      "phrase": "hailuo купить",
+      "frequency": 34
+     },
+     {
+      "phrase": "купить подписку hailuo",
+      "frequency": 24
+     },
+     {
+      "phrase": "hailuo ai купить",
+      "frequency": 23
+     },
+     {
+      "phrase": "hailuo ai купить подписку",
+      "frequency": 22
+     }
+    ],
+    "trend": "declining",
+    "effort": 1.0,
+    "effort_note": "одна карточка вендора",
+    "demand_confidence": "высокая",
+    "demand_confidence_note": null,
+    "priority_score": 103.0,
+    "seo": {
+     "url": "/vendors/hailuo",
+     "title": "Оплата Hailuo для юридических лиц из России — счёт, договор, ЭДО | BIZSoft",
+     "description": "Оплатим подписку Hailuo на вашу компанию в рублях по счёту. Договор, закрывающие документы через ЭДО, доступ за 1–3 дня.",
+     "h1": "Hailuo для юридических лиц",
+     "faq_topics": [
+      "Как купить Hailuo на юрлицо — по счёту и договору?",
+      "Какие закрывающие документы вы предоставляете?",
+      "Как быстро появится доступ к Hailuo после оплаты?",
+      "В какой валюте оплата и как считается цена?"
+     ],
+     "target_phrases": [
+      "hailuo купить",
+      "купить подписку hailuo",
+      "hailuo ai купить",
+      "hailuo ai купить подписку"
      ],
      "needed_subclusters": [
       "покупка"
@@ -1277,49 +799,41 @@
     "measured_at": "2026-08-29"
    }
   ],
-  "recommended_total": 21,
-  "combined_demand": 21753,
+  "recommended_total": 4,
+  "combined_demand": 1532,
   "by_payment": {
-   "card": 5,
-   "likely_card": 7,
-   "unknown": 7,
-   "unreachable": 2
+   "likely_card": 1,
+   "unknown": 3
   },
   "by_kind": {
-   "ai": 9,
-   "classic": 12
+   "ai": 1,
+   "classic": 3
   },
   "low_confidence": [],
   "needs_manual_check": [
-   "kimi",
-   "cubase",
-   "higgsfield",
-   "winrar",
-   "openrouter",
    "nordvpn",
-   "toon boom",
    "ansys",
    "hailuo"
   ],
   "note": "Российские вендоры исключены: их лицензии продаются напрямую, услуга оплаты из-за рубежа к ним неприменима."
  },
  "efficiency": {
-  "calls_total": 4287,
-  "calls_paid": 471,
-  "cost_month_rub": 11.04,
-  "cost_today_rub": 0.92,
-  "remaining_budget_rub": 5488.96,
-  "forecast_month_end_rub": 11.8,
+  "calls_total": 4490,
+  "calls_paid": 511,
+  "cost_month_rub": 12.05,
+  "cost_today_rub": 1.93,
+  "remaining_budget_rub": 5487.95,
+  "forecast_month_end_rub": 12.88,
   "state": "open",
-  "cache_hit_rate": 0.8901,
-  "duplicate_rate": 0.3636,
-  "unique_phrases": 13465,
-  "new_commercial_phrases": 2667,
-  "new_clusters": 138,
-  "cost_per_1000_unique_phrases_rub": 0.82,
-  "cost_per_1000_commercial_phrases_rub": 4.139,
-  "cost_per_new_cluster_rub": 0.08,
-  "empty_response_rate": 0.3536
+  "cache_hit_rate": 0.8862,
+  "duplicate_rate": 0.3673,
+  "unique_phrases": 16547,
+  "new_commercial_phrases": 2763,
+  "new_clusters": 141,
+  "cost_per_1000_unique_phrases_rub": 0.728,
+  "cost_per_1000_commercial_phrases_rub": 4.361,
+  "cost_per_new_cluster_rub": 0.0855,
+  "empty_response_rate": 0.349
  },
  "quota": {
   "requests_per_hour": 500,
@@ -1332,45 +846,32 @@
   "title": "Спрос и направления развития",
   "expansion": {
    "title": "Каких вендоров добавить",
-   "summary": "Проверили спрос на 55 зарубежных разработчиков вне каталога: у 21 он подтверждён, суммарно 21 753 запросов в месяц. Из них: 3 с оплатой картой можно заводить сразу, 9 требуют ручной проверки оплаты.",
+   "summary": "Проверили спрос на 39 зарубежных разработчиков вне каталога: у 4 он подтверждён, суммарно 1 532 запросов в месяц. Из них: 1 с оплатой картой можно заводить сразу, 3 требуют ручной проверки оплаты.",
    "items": [
     {
-     "brand": "grok",
-     "demand": 6087,
-     "kind": "AI-сервис",
-     "payment": "card",
-     "recommendation": "рекомендуем добавить",
-     "effort": "одна карточка вендора",
-     "url": "/vendors/grok",
-     "confidence": "высокая",
-     "confidence_note": null
-    },
-    {
-     "brand": "fl studio",
-     "demand": 2495,
+     "brand": "aws",
+     "demand": 1133,
      "kind": "классический",
-     "payment": "card",
-     "recommendation": "рекомендуем добавить",
+     "payment": "likely_card",
+     "recommendation": "рекомендуем добавить с проверкой",
      "effort": "одна карточка вендора",
-     "url": "/vendors/fl-studio",
+     "url": "/vendors/aws",
      "confidence": "высокая",
      "confidence_note": null
     }
    ],
    "manual_check": [
-    "kimi",
-    "cubase",
-    "higgsfield",
-    "winrar",
-    "openrouter"
+    "nordvpn",
+    "ansys",
+    "hailuo"
    ],
    "note": "Российские вендоры исключены: их лицензии продаются напрямую, услуга оплаты из-за рубежа к ним неприменима."
   },
-  "summary": "Мы видим 283 429 покупательских запросов в месяц по 168 направлениям каталога. Своя страница есть под 81% этого спроса, в поиске находится 61%, на первой странице — 23%. Без страницы остаётся 35 576 запросов в месяц — это направления, где спрос есть, а нас в выдаче нет. Ещё 52 137 запросов в месяц не отнесены ни к нам, ни к чужому товару: это голые фразы омонимичных брендов (box — 30 187, zoom — 10 813, bubble купить — 5 732). В спрос и в решения об ассортименте они не входят.",
+  "summary": "Мы видим 287 788 покупательских запросов в месяц по 171 направлениям каталога. Своя страница есть под 88% этого спроса, в поиске находится 60%, на первой странице — 22%. Без страницы остаётся 17 778 запросов в месяц — это направления, где спрос есть, а нас в выдаче нет. Ещё 52 137 запросов в месяц не отнесены ни к нам, ни к чужому товару: это голые фразы омонимичных брендов (box — 30 187, zoom — 10 813, bubble купить — 5 732). В спрос и в решения об ассортименте они не входят.",
   "coverage": {
-   "page": 0.8051,
-   "indexed": 0.6135,
-   "top10": 0.2252
+   "page": 0.8783,
+   "indexed": 0.6042,
+   "top10": 0.2218
   },
   "lead_opportunity": {
    "cluster": "anthropic",
