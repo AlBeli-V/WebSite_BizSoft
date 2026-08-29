@@ -1,15 +1,18 @@
 #!/usr/bin/env python3
 """Оздоровление кампании bs-test-2026-09 по итогам первого дня открутки.
 
-Поручение владельца 29.08.2026: убрать автотаргетинг, добавить минус-слова,
-расшить фразовую семантику. Разбор дня 28.08 (issue #22, ops-direct-stats):
-фразы дали 3 показа и 0 кликов, все 18 кликов и 591 ₽ принёс автотаргетинг,
-из них ~половина — запросы без покупательского B2B-интента.
+Решение владельца 29.08.2026 по аудиту (direct-audit-2026-08-29.md):
+автотаргетинг — частично: оставить только в группе Claude Code как
+discovery-эксперимент (лучший CPC 26 ₽ и самые целевые запросы дня),
+в остальных трёх группах приостановить. Минус-список расширить по фактам
+поисковых запросов дня 28.08; фразы расшить широкими дублями. «cloud»
+сознательно НЕ минусуется: «cloud code» — вероятная опечатка
+«claude code» (аудит, раздел P0).
 
 Режимы:
   dry-run — напечатать план изменений, в API только чтение;
-  apply   — применить: suspend автотаргетингов, замена минус-списка
-            кампании, добавление широких фраз.
+  apply   — применить: suspend автотаргетингов вне Claude Code, замена
+            минус-списка кампании, добавление широких фраз.
 
 Деньги, платёжные настройки, чужие кампании — не трогает.
 """
@@ -38,8 +41,8 @@ NEGATIVES_V3 = [
 # информационным хвостам, которые оживут при широком соответствии фраз.
 # «как» НЕ минусуется: «как купить/оплатить X» — целевой интент.
 NEGATIVES_NEW = [
-    # факты дня 28.08
-    "что", "это", "free", "дешево", "дешевый", "дешевле", "cloud",
+    # факты дня 28.08 («cloud» не минусуется — вероятная опечатка claude)
+    "что", "это", "free", "дешево", "дешевый", "дешевле",
     "сметчик", "сметчиков", "ходатайство", "логотип", "логотипа",
     "логотипы", "картинка", "картинки", "картинку", "изображение",
     "изображения", "яндекс", "системные", "требования", "попробовать",
@@ -53,7 +56,12 @@ NEGATIVES_NEW = [
     "github", "плагин", "плагины", "plugin", "расширение", "extension",
     "review", "desktop", "установка", "установить", "настройка",
     "настроить", "windows", "linux", "macos",
+    # трудоустройство
+    "вакансии", "вакансия", "работа", "зарплата", "резюме",
 ]
+
+# Автотаргетинг остаётся только здесь (решение владельца: частичный).
+KEEP_AUTOTARGETING_GROUP = "Claude Code — для команд разработки"
 
 # Широкие фразы взамен молчащих точных: кавычки с НЧ-формулировок сняты,
 # охват вариаций защищают минус-слова выше.
@@ -65,6 +73,9 @@ NEW_PHRASES = {
         "оплатить claude",
         "claude оплата подписки",
         "claude подписка +для компании",
+        # реальные запросы из показов 28.08
+        "claude team тариф",
+        "корпоративный клод",
     ],
     "Claude Code — для команд разработки": [
         "claude code купить",
@@ -154,13 +165,20 @@ def main() -> None:
          "FieldNames": ["Id", "Keyword", "AdGroupId", "State", "Status"]},
         token,
     ).get("Keywords", [])
-    auto = [k for k in kws if k["Keyword"] == "---autotargeting" and k.get("State") != "SUSPENDED"]
+    keep_gid = gid_by_name.get(KEEP_AUTOTARGETING_GROUP)
+    if keep_gid is None:
+        raise SystemExit(f"группа для автотаргетинга не найдена: {KEEP_AUTOTARGETING_GROUP}")
+    auto = [k for k in kws
+            if k["Keyword"] == "---autotargeting"
+            and k.get("State") != "SUSPENDED"
+            and k["AdGroupId"] != keep_gid]
     existing_phrases = {(k["AdGroupId"], k["Keyword"]) for k in kws}
 
-    # 1. Автотаргетинг — приостановить.
-    print(f"\n== 1. Автотаргетинг: к приостановке {len(auto)} ==")
+    # 1. Автотаргетинг: приостановить всюду, кроме discovery-группы.
+    gname_by_id = {v: k for k, v in gid_by_name.items()}
+    print(f"\n== 1. Автотаргетинг: остаётся в «{KEEP_AUTOTARGETING_GROUP}», к приостановке {len(auto)} ==")
     for k in auto:
-        print(f"  - id {k['Id']} группа {k['AdGroupId']} ({k.get('State')}/{k.get('Status')})")
+        print(f"  - id {k['Id']} группа «{gname_by_id.get(k['AdGroupId'], k['AdGroupId'])}» ({k.get('State')}/{k.get('Status')})")
     if mode == "apply" and auto:
         res = call("keywords", "suspend",
                    {"SelectionCriteria": {"Ids": [k["Id"] for k in auto]}}, token)
@@ -212,12 +230,14 @@ def main() -> None:
         ).get("Keywords", [])
         n_auto_on = sum(1 for k in kws2 if k["Keyword"] == "---autotargeting" and k.get("State") != "SUSPENDED")
         n_active = sum(1 for k in kws2 if k["Keyword"] != "---autotargeting" and k.get("State") != "SUSPENDED")
+        keep_state = next((k.get("State") for k in kws2
+                           if k["Keyword"] == "---autotargeting" and k["AdGroupId"] == keep_gid), "?")
         camp2 = call("campaigns", "get",
                      {"SelectionCriteria": {"Ids": [cid]},
                       "FieldNames": ["Id", "NegativeKeywords"]}, token)["Campaigns"][0]
         n_neg = len((camp2.get("NegativeKeywords") or {}).get("Items") or [])
         print("\n== Итог сверки ==")
-        print(f"  автотаргетингов активных: {n_auto_on} (ожидание 0)")
+        print(f"  автотаргетингов активных: {n_auto_on} (ожидание 1 — discovery в Claude Code, state={keep_state})")
         print(f"  фраз активных: {n_active}")
         print(f"  минус-слов кампании: {n_neg}")
 
