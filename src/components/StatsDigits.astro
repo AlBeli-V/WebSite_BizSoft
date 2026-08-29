@@ -26,7 +26,7 @@ const { stats, title = 'Мы в цифрах' } = Astro.props;
       {stats.map((s) => (
         <div class="digit">
           <b>
-            {s.pre && <span class="d-pre">{s.pre}</span>}<span class="d-num" data-count={s.num > 0 ? s.num : undefined}>{s.num > 0 ? s.num : ''}</span>{s.suf && <span class:list={['d-suf', { accent: s.suf === '+' || s.suf === '%' }]}>{s.suf}</span>}
+            {s.pre && <span class="d-pre">{s.pre}</span>}<span class="d-num" data-count={s.num > 0 ? s.num : undefined} style={s.num > 0 ? `min-width:${String(s.num).length}ch` : undefined}>{s.num > 0 ? s.num : ''}</span>{s.suf && <span class:list={['d-suf', { accent: s.suf === '+' || s.suf === '%' }]}>{s.suf}</span>}
           </b>
           <span class="d-label">{s.label}</span>
         </div>
@@ -52,6 +52,10 @@ const { stats, title = 'Мы в цифрах' } = Astro.props;
     font-variant-numeric: tabular-nums;
     white-space: nowrap;
   }
+  /* Ширина числа зарезервирована под итоговое значение (Nch при
+     tabular-nums): набор 0→380 не двигает «+» и соседние колонки —
+     анимация шла ~1.2 с и капала в CLS десятками мелких сдвигов. */
+  .d-num { display: inline-block; }
   .d-suf { font-weight: 700; }
   .d-suf.accent { color: var(--color-accent); }
   .d-suf:not(.accent) { font-size: 0.55em; }

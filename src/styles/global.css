@@ -28,10 +28,12 @@
   --color-danger: #d92d20;
 
   /* Типографика — фирменный self-hosted Raleway, дальше системные.
-     'Raleway-fallback' — Arial, подогнанный size-adjust'ом под метрики Raleway:
-     пока woff2 грузится, текст рендерится в тех же габаритах → своп без сдвига. */
+     'Raleway-fallback' / 'Prosto-One-fallback' — локальный системный шрифт
+     (Arial/Liberation/Roboto), подогнанный size-adjust'ом под метрики
+     веб-шрифта (см. @font-face ниже): пока woff2 грузится, текст рендерится
+     в тех же габаритах → своп без сдвига. */
   --font-sans: 'Raleway', 'Raleway-fallback', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-  --font-display: 'Prosto One', 'Raleway', -apple-system, system-ui, sans-serif;
+  --font-display: 'Prosto One', 'Prosto-One-fallback', -apple-system, system-ui, sans-serif;
 
   /* Скругления — крупнее и мягче */
   --radius-sm: 10px;
@@ -48,14 +50,74 @@
 }
 
 @layer base {
-  /* Метрический фолбэк для Raleway: Arial, подогнанный size-adjust'ом под
-   метрики Raleway — своп веб-шрифта происходит без сдвига макета (защита CLS). */
+  /* Метрические фолбэки: Arial, подогнанный size-adjust'ом под метрики
+   веб-шрифта — своп происходит без сдвига макета (защита CLS).
+
+   Ширина Raleway относительно Arial сильно зависит от начертания
+   (замер canvas.measureText по русско-латинской строке навигации):
+   400 → 102.7%, 500 → 103.7%, 600 → 98.9%, 700 → 100.2%, 800 → 93.7%.
+   Прежний единый size-adjust 104% на весе 600 (навигация шапки) делал
+   фолбэк на ~5% шире реального Raleway: ссылки переносились на вторую
+   строку, после загрузки woff2 шапка сжималась и вся страница прыгала
+   вверх — единственный этот своп давал CLS ≈ 0.51 на десктопе.
+   Поэтому фолбэк объявлен по диапазонам весов со своим size-adjust.
+   Вертикаль (fontkit по woff2): ascent 940, descent 234, при em 1000;
+   overrides = метрика / size-adjust. */
 @font-face {
   font-family: 'Raleway-fallback';
-  src: local('Arial');
-  size-adjust: 104%;
-  ascent-override: 90.5%;
-  descent-override: 23.5%;
+  src: local('Arial'), local('Liberation Sans'), local('Arimo'), local('Helvetica Neue'), local('Roboto');
+  font-weight: 100 449;
+  size-adjust: 102.7%;
+  ascent-override: 91.5%;
+  descent-override: 22.8%;
+  line-gap-override: 0%;
+}
+@font-face {
+  font-family: 'Raleway-fallback';
+  src: local('Arial'), local('Liberation Sans'), local('Arimo'), local('Helvetica Neue'), local('Roboto');
+  font-weight: 450 549;
+  size-adjust: 103.7%;
+  ascent-override: 90.6%;
+  descent-override: 22.6%;
+  line-gap-override: 0%;
+}
+@font-face {
+  font-family: 'Raleway-fallback';
+  src: local('Arial'), local('Liberation Sans'), local('Arimo'), local('Helvetica Neue'), local('Roboto');
+  font-weight: 550 649;
+  size-adjust: 98.9%;
+  ascent-override: 95%;
+  descent-override: 23.7%;
+  line-gap-override: 0%;
+}
+@font-face {
+  font-family: 'Raleway-fallback';
+  src: local('Arial'), local('Liberation Sans'), local('Arimo'), local('Helvetica Neue'), local('Roboto');
+  font-weight: 650 749;
+  size-adjust: 100.2%;
+  ascent-override: 93.8%;
+  descent-override: 23.4%;
+  line-gap-override: 0%;
+}
+@font-face {
+  font-family: 'Raleway-fallback';
+  src: local('Arial'), local('Liberation Sans'), local('Arimo'), local('Helvetica Neue'), local('Roboto');
+  font-weight: 750 950;
+  size-adjust: 93.7%;
+  ascent-override: 100.3%;
+  descent-override: 25%;
+  line-gap-override: 0%;
+}
+/* Фолбэк дисплейного Prosto One (заголовки): Prosto существенно шире
+   Arial (замер 124%). Раньше заголовки падали на Raleway → при досвопе
+   Prosto One менялись переносы строк героя и высота секций «дышала».
+   Метрики woff2: ascent 940, descent 295 при em 1000. */
+@font-face {
+  font-family: 'Prosto-One-fallback';
+  src: local('Arial'), local('Liberation Sans'), local('Arimo'), local('Helvetica Neue'), local('Roboto');
+  size-adjust: 124%;
+  ascent-override: 75.8%;
+  descent-override: 23.8%;
   line-gap-override: 0%;
 }
 
