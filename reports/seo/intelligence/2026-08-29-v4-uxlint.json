@@ -1,0 +1,142 @@
+{
+ "date": "2026-08-29",
+ "passed": true,
+ "counts": {
+  "total": 26,
+  "failed": 0
+ },
+ "visible_words": 1096,
+ "first_screen_words": 172,
+ "checks": [
+  {
+   "check": "visible_words",
+   "ok": true,
+   "detail": "1096 слов при пределе 1100"
+  },
+  {
+   "check": "first_screen_words",
+   "ok": true,
+   "detail": "172 слов на первом экране при пределе 250"
+  },
+  {
+   "check": "kpi_limit",
+   "ok": true,
+   "detail": "показателей: 4"
+  },
+  {
+   "check": "signals_limit",
+   "ok": true,
+   "detail": "сигналов: 3"
+  },
+  {
+   "check": "opportunities_limit",
+   "ok": true,
+   "detail": "возможностей: 3"
+  },
+  {
+   "check": "board_rows_limit",
+   "ok": true,
+   "detail": "строк журнала: 2"
+  },
+  {
+   "check": "charts_limit",
+   "ok": true,
+   "detail": "изображений: 2"
+  },
+  {
+   "check": "chart_height",
+   "ok": true,
+   "detail": "высоты изображений: [70, 50] при пределе 220px"
+  },
+  {
+   "check": "no_half_width_cards_on_mobile",
+   "ok": true,
+   "detail": "карточек в 50%: 0; правило одной колонки в media query: False"
+  },
+  {
+   "check": "has_media_queries",
+   "ok": true,
+   "detail": "media query для мобильной ширины найден"
+  },
+  {
+   "check": "outlook_fallback",
+   "ok": true,
+   "detail": "условный блок для Outlook присутствует"
+  },
+  {
+   "check": "font_sizes",
+   "ok": true,
+   "detail": "меньше 14.0px вне метаданных: []; метаданные меньше 12.5px: []"
+  },
+  {
+   "check": "images_have_alt",
+   "ok": true,
+   "detail": "изображений без alt: 0"
+  },
+  {
+   "check": "no_text_heavy_png",
+   "ok": true,
+   "detail": "подписей длиннее 12 слов: 0 — текст не вынесен в картинку"
+  },
+  {
+   "check": "no_duplicate_fact",
+   "ok": true,
+   "detail": "повторы: {'оговорка про охват': 0, 'отсутствие CRM': 1, 'низкая база Google': 2, 'рано для вывода': 0}; сверх лимита: нет"
+  },
+  {
+   "check": "no_unsupported_causal",
+   "ok": true,
+   "detail": "неподтверждённые причины: нет"
+  },
+  {
+   "check": "google_claim_has_page_evidence",
+   "ok": true,
+   "detail": "утверждение о причине: нет (причина изменения не названа); страниц-драйверов перечислено: 0"
+  },
+  {
+   "check": "no_unified_visit_definition",
+   "ok": true,
+   "detail": "запрещённые формулировки: нет"
+  },
+  {
+   "check": "no_critical_for_scope_mismatch",
+   "ok": true,
+   "detail": "здоровье данных: verified, причина: охваты сопоставлены: KPI считаются по всему сайту"
+  },
+  {
+   "check": "red_only_for_real_failure",
+   "ok": true,
+   "detail": "цвет блока: positive"
+  },
+  {
+   "check": "public_url_or_marked_fallback",
+   "ok": true,
+   "detail": "основная ссылка: https://biz-soft.pro/r-80c199c035852825/daily/2026-08-29/index.html; помечена как техническая: нет"
+  },
+  {
+   "check": "report_link_target_exists",
+   "ok": true,
+   "detail": "внешний адрес опубликованной страницы"
+  },
+  {
+   "check": "no_split_combined_experiment",
+   "ok": true,
+   "detail": "совместных внедрений: 1; раздельная оценка в письме: False"
+  },
+  {
+   "check": "no_horizontal_scroll",
+   "ok": true,
+   "detail": "default@375px→375px; default@680px→680px; gmail-no-style@375px→375px; gmail-no-style@680px→680px"
+  },
+  {
+   "check": "rendered_font_sizes",
+   "ok": true,
+   "detail": "default@375px текст 14px, подписи 12.5px; default@680px текст 14px, подписи 12.5px; gmail-no-style@375px текст 14px, подписи 12.5px; gmail-no-style@680px текст 14px, подписи 12.5px"
+  },
+  {
+   "check": "plain_text_matches",
+   "ok": true,
+   "detail": "решение руководителя присутствует в текстовой версии"
+  }
+ ]
+}
