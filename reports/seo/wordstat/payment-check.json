@@ -1,25 +1,4 @@
 {
- "slack": {
-  "verdict": "card",
-  "note": "найдены признаки самостоятельной оплаты картой",
-  "card_markers": [
-   "credit card",
-   "stripe"
-  ],
-  "buy_markers": [
-   "get started",
-   "purchase"
-  ],
-  "sales_markers": [
-   "contact sales",
-   "talk to sales"
-  ],
-  "has_prices": true,
-  "url": "https://slack.com/pricing",
-  "http_status": 200,
-  "checked_at": "2026-08-20",
-  "kind": "classic"
- },
  "jira": {
   "verdict": "card",
   "note": "найдены признаки самостоятельной оплаты картой",
@@ -769,25 +748,6 @@
   ],
   "has_prices": true,
   "url": "https://www.shopify.com/pricing",
-  "http_status": 200,
-  "checked_at": "2026-08-20",
-  "kind": "classic"
- },
- "wordpress": {
-  "verdict": "card",
-  "note": "найдены признаки самостоятельной оплаты картой",
-  "card_markers": [
-   "credit card",
-   "debit card",
-   "stripe"
-  ],
-  "buy_markers": [
-   "get started",
-   "purchase"
-  ],
-  "sales_markers": [],
-  "has_prices": true,
-  "url": "https://wordpress.com/pricing",
   "http_status": 200,
   "checked_at": "2026-08-20",
   "kind": "classic"
@@ -1908,6 +1868,596 @@
   "url": "https://convertkit.ai/pricing",
   "http_status": 200,
   "checked_at": "2026-08-28",
+  "kind": "classic"
+ },
+ "grok": {
+  "verdict": "card",
+  "note": "найдены признаки самостоятельной оплаты картой",
+  "card_markers": [
+   "stripe"
+  ],
+  "buy_markers": [
+   "get started",
+   "purchase"
+  ],
+  "sales_markers": [],
+  "has_prices": true,
+  "url": "https://www.grok.com/plans",
+  "http_status": 200,
+  "checked_at": "2026-08-29",
+  "kind": "ai"
+ },
+ "kimi": {
+  "verdict": "unknown",
+  "note": "признаков оплаты на странице не найдено",
+  "card_markers": [],
+  "buy_markers": [],
+  "sales_markers": [],
+  "has_prices": true,
+  "url": "https://www.kimi.com/pricing",
+  "http_status": 200,
+  "checked_at": "2026-08-29",
+  "kind": "ai"
+ },
+ "openrouter": {
+  "verdict": "unknown",
+  "note": "признаков оплаты на странице не найдено",
+  "card_markers": [],
+  "buy_markers": [],
+  "sales_markers": [],
+  "has_prices": true,
+  "url": "https://openrouter.ai/credits",
+  "http_status": 200,
+  "checked_at": "2026-08-29",
+  "kind": "ai"
+ },
+ "higgsfield": {
+  "verdict": "unknown",
+  "note": "признаков оплаты на странице не найдено",
+  "card_markers": [],
+  "buy_markers": [],
+  "sales_markers": [],
+  "has_prices": true,
+  "url": "https://higgsfield.ai/pricing",
+  "http_status": 200,
+  "checked_at": "2026-08-29",
+  "kind": "ai"
+ },
+ "krea": {
+  "verdict": "card",
+  "note": "найдены признаки самостоятельной оплаты картой",
+  "card_markers": [
+   "stripe"
+  ],
+  "buy_markers": [
+   "purchase",
+   "select plan"
+  ],
+  "sales_markers": [
+   "contact sales"
+  ],
+  "has_prices": true,
+  "url": "https://www.krea.ai/pricing",
+  "http_status": 200,
+  "checked_at": "2026-08-29",
+  "kind": "ai"
+ },
+ "pixso": {
+  "verdict": "likely_card",
+  "note": "есть цены и кнопки покупки, платёжная система не опознана",
+  "card_markers": [],
+  "buy_markers": [
+   "get started",
+   "purchase"
+  ],
+  "sales_markers": [],
+  "has_prices": true,
+  "url": "https://pixso.net/pricing/",
+  "http_status": 200,
+  "checked_at": "2026-08-29",
+  "kind": "classic"
+ },
+ "readymag": {
+  "verdict": "card",
+  "note": "найдены признаки самостоятельной оплаты картой",
+  "card_markers": [
+   "credit card"
+  ],
+  "buy_markers": [
+   "get started",
+   "purchase"
+  ],
+  "sales_markers": [],
+  "has_prices": true,
+  "url": "https://readymag.com/pricing/",
+  "http_status": 200,
+  "checked_at": "2026-08-29",
+  "kind": "classic"
+ },
+ "stripo": {
+  "verdict": "card",
+  "note": "найдены признаки самостоятельной оплаты картой",
+  "card_markers": [
+   "credit card"
+  ],
+  "buy_markers": [
+   "get started"
+  ],
+  "sales_markers": [
+   "contact sales",
+   "talk to sales"
+  ],
+  "has_prices": true,
+  "url": "https://stripo.email/pricing/",
+  "http_status": 200,
+  "checked_at": "2026-08-29",
+  "kind": "classic"
+ },
+ "ganttpro": {
+  "verdict": "card",
+  "note": "найдены признаки самостоятельной оплаты картой",
+  "card_markers": [
+   "credit card"
+  ],
+  "buy_markers": [
+   "get started",
+   "purchase"
+  ],
+  "sales_markers": [
+   "contact sales"
+  ],
+  "has_prices": true,
+  "url": "https://ganttpro.com/pricing/",
+  "http_status": 200,
+  "checked_at": "2026-08-29",
+  "kind": "classic"
+ },
+ "testrail": {
+  "verdict": "likely_card",
+  "note": "есть цены и кнопки покупки, платёжная система не опознана",
+  "card_markers": [],
+  "buy_markers": [
+   "start free trial"
+  ],
+  "sales_markers": [
+   "contact sales",
+   "talk to sales"
+  ],
+  "has_prices": true,
+  "url": "https://www.testrail.com/pricing/",
+  "http_status": 200,
+  "checked_at": "2026-08-29",
+  "kind": "classic"
+ },
+ "devexpress": {
+  "verdict": "likely_card",
+  "note": "есть цены и кнопки покупки, платёжная система не опознана",
+  "card_markers": [],
+  "buy_markers": [
+   "/checkout",
+   "add to cart",
+   "purchase"
+  ],
+  "sales_markers": [],
+  "has_prices": true,
+  "url": "https://www.devexpress.com/buy/",
+  "http_status": 200,
+  "checked_at": "2026-08-29",
+  "kind": "classic"
+ },
+ "altova": {
+  "verdict": "likely_card",
+  "note": "есть цены и кнопки покупки, платёжная система не опознана",
+  "card_markers": [],
+  "buy_markers": [
+   "purchase"
+  ],
+  "sales_markers": [],
+  "has_prices": true,
+  "url": "https://shop.altova.com/",
+  "http_status": 200,
+  "checked_at": "2026-08-29",
+  "kind": "classic"
+ },
+ "think-cell": {
+  "verdict": "likely_card",
+  "note": "есть цены и кнопки покупки, платёжная система не опознана",
+  "card_markers": [],
+  "buy_markers": [
+   "get started",
+   "purchase",
+   "start free trial"
+  ],
+  "sales_markers": [
+   "book a demo",
+   "contact sales"
+  ],
+  "has_prices": true,
+  "url": "https://www.think-cell.com/en/pricing",
+  "http_status": 200,
+  "checked_at": "2026-08-29",
+  "kind": "classic"
+ },
+ "enscape": {
+  "verdict": "likely_card",
+  "note": "есть цены и кнопки покупки, платёжная система не опознана",
+  "card_markers": [],
+  "buy_markers": [
+   "add to cart",
+   "buy now",
+   "get started",
+   "purchase"
+  ],
+  "sales_markers": [
+   "contact sales"
+  ],
+  "has_prices": true,
+  "url": "https://www.chaos.com/enscape/pricing",
+  "http_status": 200,
+  "checked_at": "2026-08-29",
+  "kind": "classic"
+ },
+ "cubase": {
+  "verdict": "unknown",
+  "note": "признаков оплаты на странице не найдено",
+  "card_markers": [],
+  "buy_markers": [
+   "add to cart",
+   "buy now",
+   "get started",
+   "purchase"
+  ],
+  "sales_markers": [],
+  "has_prices": false,
+  "url": "https://www.steinberg.net/cubase/compare-editions/",
+  "http_status": 200,
+  "checked_at": "2026-08-29",
+  "kind": "classic"
+ },
+ "izotope": {
+  "verdict": "card",
+  "note": "найдены признаки самостоятельной оплаты картой",
+  "card_markers": [
+   "american express",
+   "mastercard",
+   "visa"
+  ],
+  "buy_markers": [
+   "/checkout",
+   "purchase"
+  ],
+  "sales_markers": [],
+  "has_prices": true,
+  "url": "https://www.izotope.com/en/shop.html",
+  "http_status": 200,
+  "checked_at": "2026-08-29",
+  "kind": "classic"
+ },
+ "winrar": {
+  "verdict": "unreachable",
+  "note": "страница тарифов не открылась",
+  "url": "https://www.win-rar.com/rarshop.html",
+  "http_status": null,
+  "card_markers": [],
+  "buy_markers": [],
+  "sales_markers": [],
+  "has_prices": false,
+  "checked_at": "2026-08-29",
+  "kind": "classic"
+ },
+ "lovable": {
+  "verdict": "likely_card",
+  "note": "есть цены и кнопки покупки, платёжная система не опознана",
+  "card_markers": [],
+  "buy_markers": [
+   "/checkout",
+   "get started",
+   "purchase"
+  ],
+  "sales_markers": [],
+  "has_prices": true,
+  "url": "https://lovable.dev/pricing",
+  "http_status": 200,
+  "checked_at": "2026-08-29",
+  "kind": "ai"
+ },
+ "bolt.new": {
+  "verdict": "card",
+  "note": "найдены признаки самостоятельной оплаты картой",
+  "card_markers": [
+   "stripe"
+  ],
+  "buy_markers": [
+   "get started",
+   "purchase"
+  ],
+  "sales_markers": [],
+  "has_prices": true,
+  "url": "https://bolt.new/pricing",
+  "http_status": 200,
+  "checked_at": "2026-08-29",
+  "kind": "ai"
+ },
+ "devin ai": {
+  "verdict": "unreachable",
+  "note": "страница тарифов не открылась",
+  "url": "https://devin.ai/pricing",
+  "http_status": null,
+  "card_markers": [],
+  "buy_markers": [],
+  "sales_markers": [],
+  "has_prices": false,
+  "checked_at": "2026-08-29",
+  "kind": "ai"
+ },
+ "manus ai": {
+  "verdict": "unknown",
+  "note": "признаков оплаты на странице не найдено",
+  "card_markers": [],
+  "buy_markers": [],
+  "sales_markers": [],
+  "has_prices": false,
+  "url": "https://www.manusai.com/pricing",
+  "http_status": 200,
+  "checked_at": "2026-08-29",
+  "kind": "ai"
+ },
+ "mistral ai": {
+  "verdict": "unknown",
+  "note": "признаков оплаты на странице не найдено",
+  "card_markers": [],
+  "buy_markers": [],
+  "sales_markers": [
+   "contact sales"
+  ],
+  "has_prices": true,
+  "url": "https://mistral.ai/pricing",
+  "http_status": 200,
+  "checked_at": "2026-08-29",
+  "kind": "ai"
+ },
+ "hailuo": {
+  "verdict": "unknown",
+  "note": "признаков оплаты на странице не найдено",
+  "card_markers": [
+   "stripe"
+  ],
+  "buy_markers": [],
+  "sales_markers": [],
+  "has_prices": false,
+  "url": "https://www.hailuo.com/pricing",
+  "http_status": 200,
+  "checked_at": "2026-08-29",
+  "kind": "ai"
+ },
+ "zapier": {
+  "verdict": "card",
+  "note": "найдены признаки самостоятельной оплаты картой",
+  "card_markers": [
+   "credit card"
+  ],
+  "buy_markers": [
+   "get started",
+   "purchase"
+  ],
+  "sales_markers": [
+   "book a demo",
+   "contact sales"
+  ],
+  "has_prices": true,
+  "url": "https://zapier.com/pricing",
+  "http_status": 200,
+  "checked_at": "2026-08-29",
+  "kind": "classic"
+ },
+ "make.com": {
+  "verdict": "unknown",
+  "note": "признаков оплаты на странице не найдено",
+  "card_markers": [],
+  "buy_markers": [],
+  "sales_markers": [],
+  "has_prices": true,
+  "url": "https://www.makecom.com/pricing",
+  "http_status": 200,
+  "checked_at": "2026-08-29",
+  "kind": "classic"
+ },
+ "tldv": {
+  "verdict": "unreachable",
+  "note": "страница тарифов не открылась",
+  "url": "https://tldv.io/pricing/",
+  "http_status": null,
+  "card_markers": [],
+  "buy_markers": [],
+  "sales_markers": [],
+  "has_prices": false,
+  "checked_at": "2026-08-29",
+  "kind": "ai"
+ },
+ "lumion": {
+  "verdict": "card",
+  "note": "найдены признаки самостоятельной оплаты картой",
+  "card_markers": [
+   "credit card"
+  ],
+  "buy_markers": [
+   "/checkout",
+   "add to cart",
+   "get started",
+   "purchase"
+  ],
+  "sales_markers": [
+   "contact sales"
+  ],
+  "has_prices": true,
+  "url": "https://lumion.com/buy",
+  "http_status": 200,
+  "checked_at": "2026-08-29",
+  "kind": "classic"
+ },
+ "d5 render": {
+  "verdict": "unknown",
+  "note": "признаков оплаты на странице не найдено",
+  "card_markers": [],
+  "buy_markers": [],
+  "sales_markers": [],
+  "has_prices": false,
+  "url": "https://www.d5render.com/pricing",
+  "http_status": 200,
+  "checked_at": "2026-08-29",
+  "kind": "classic"
+ },
+ "vectorworks": {
+  "verdict": "unknown",
+  "note": "признаков оплаты на странице не найдено",
+  "card_markers": [],
+  "buy_markers": [],
+  "sales_markers": [],
+  "has_prices": true,
+  "url": "https://www.vectorworks.com/pricing",
+  "http_status": 200,
+  "checked_at": "2026-08-29",
+  "kind": "classic"
+ },
+ "ableton": {
+  "verdict": "likely_card",
+  "note": "есть цены и кнопки покупки, платёжная система не опознана",
+  "card_markers": [],
+  "buy_markers": [
+   "add to cart",
+   "buy now",
+   "get started",
+   "purchase"
+  ],
+  "sales_markers": [],
+  "has_prices": true,
+  "url": "https://www.ableton.com/en/shop/live/",
+  "http_status": 200,
+  "checked_at": "2026-08-29",
+  "kind": "classic"
+ },
+ "fl studio": {
+  "verdict": "card",
+  "note": "найдены признаки самостоятельной оплаты картой",
+  "card_markers": [
+   "stripe"
+  ],
+  "buy_markers": [
+   "buy now",
+   "purchase",
+   "upgrade now"
+  ],
+  "sales_markers": [],
+  "has_prices": true,
+  "url": "https://www.flstudio.com/pricing",
+  "http_status": 200,
+  "checked_at": "2026-08-29",
+  "kind": "classic"
+ },
+ "capture one": {
+  "verdict": "likely_card",
+  "note": "есть цены и кнопки покупки, платёжная система не опознана",
+  "card_markers": [],
+  "buy_markers": [
+   "buy now",
+   "get started",
+   "purchase"
+  ],
+  "sales_markers": [],
+  "has_prices": true,
+  "url": "https://www.captureone.com/en/store",
+  "http_status": 200,
+  "checked_at": "2026-08-29",
+  "kind": "classic"
+ },
+ "luminar neo": {
+  "verdict": "unknown",
+  "note": "признаков оплаты на странице не найдено",
+  "card_markers": [],
+  "buy_markers": [],
+  "sales_markers": [],
+  "has_prices": false,
+  "url": "https://www.luminarneo.com/pricing",
+  "http_status": 200,
+  "checked_at": "2026-08-29",
+  "kind": "classic"
+ },
+ "toon boom": {
+  "verdict": "unreachable",
+  "note": "страница тарифов не открылась",
+  "url": "https://www.toonboom.com/pricing",
+  "http_status": null,
+  "card_markers": [],
+  "buy_markers": [],
+  "sales_markers": [],
+  "has_prices": false,
+  "checked_at": "2026-08-29",
+  "kind": "classic"
+ },
+ "sublime text": {
+  "verdict": "card",
+  "note": "найдены признаки самостоятельной оплаты картой",
+  "card_markers": [
+   "js.stripe.com",
+   "pay with card",
+   "stripe"
+  ],
+  "buy_markers": [
+   "purchase"
+  ],
+  "sales_markers": [],
+  "has_prices": true,
+  "url": "https://www.sublimehq.com/store/text",
+  "http_status": 200,
+  "checked_at": "2026-08-29",
+  "kind": "classic"
+ },
+ "navicat": {
+  "verdict": "likely_card",
+  "note": "есть цены и кнопки покупки, платёжная система не опознана",
+  "card_markers": [],
+  "buy_markers": [
+   "buy now",
+   "purchase"
+  ],
+  "sales_markers": [],
+  "has_prices": true,
+  "url": "https://www.navicat.com/en/store/navicat-premium",
+  "http_status": 200,
+  "checked_at": "2026-08-29",
+  "kind": "classic"
+ },
+ "setapp": {
+  "verdict": "card",
+  "note": "найдены признаки самостоятельной оплаты картой",
+  "card_markers": [
+   "credit card"
+  ],
+  "buy_markers": [
+   "buy now",
+   "get started",
+   "purchase",
+   "start free trial"
+  ],
+  "sales_markers": [],
+  "has_prices": true,
+  "url": "https://setapp.com/pricing",
+  "http_status": 200,
+  "checked_at": "2026-08-29",
+  "kind": "classic"
+ },
+ "vimeo": {
+  "verdict": "likely_card",
+  "note": "есть цены и кнопки покупки, платёжная система не опознана",
+  "card_markers": [],
+  "buy_markers": [
+   "purchase"
+  ],
+  "sales_markers": [],
+  "has_prices": true,
+  "url": "https://vimeo.com/upgrade",
+  "http_status": 200,
+  "checked_at": "2026-08-29",
   "kind": "classic"
  }
 }
