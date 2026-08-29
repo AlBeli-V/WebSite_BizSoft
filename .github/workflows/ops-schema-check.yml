@@ -13,6 +13,9 @@ on:
         required: false
         default: ''
 permissions:
+  # contents: read обязателен: без него у GITHUB_TOKEN нет доступа к
+  # приватному репозиторию и actions/checkout падает «Repository not found».
+  contents: read
   issues: write
 jobs:
   check:
