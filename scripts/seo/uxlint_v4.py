@@ -114,9 +114,21 @@ def google_causal_claim(vis: str, blocks: dict) -> tuple[bool, str]:
     Само по себе слово «Google» утверждением не является: оно стоит в шапке
     письма, в названии показателя видимости и в подписи источника каждый день.
     """
-    drivers = blocks.get("drivers") or {}
-    if drivers.get("available") is True:
-        return True, "блок «Что дало изменение» объявил причину определённой"
+    # Утверждение — это то, что письмо НАПИСАЛО, а не что насчитал движок.
+    # Печатаемый текст блока «Что дало изменение» — driver_summary: он либо
+    # объявляет причину («Показы выросли на страницах: …»), либо явно
+    # отказывается («Причина изменения пока не определена»). Оба прежних
+    # структурных признака падали ложно: 25.08 — слово «Google» в шапке,
+    # 27.08 — верхний drivers.available, который означает лишь «расчёт
+    # выполнялся» (письмо вправе быть консервативнее движка и не объявлять
+    # причину, когда найденное объясняет малую долю изменения: детрактор −8
+    # при общей дельте −125).
+    summary = (blocks.get("driver_summary") or "").lower()
+    declined = any(m in summary for m in CAUSE_DECLINED_MARKERS)
+    if summary and not declined:
+        return True, "блок «Что дало изменение» объявил причину"
+    if blocks.get("driver_rows"):
+        return True, "блок «Что дало изменение» перечислил драйверы"
     for phrase in sentences(vis):
         low = phrase.lower()
         if "google" not in low:

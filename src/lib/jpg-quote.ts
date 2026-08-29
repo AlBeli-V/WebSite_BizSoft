@@ -55,20 +55,20 @@ function svgOf(p: Primitive): string {
       + `stroke="${p.color}" stroke-width="${p.lineWidth}"/>`;
   }
   if (p.kind === 'watermark') {
-    const hasSub = Boolean(p.sub);
-    const ty = hasSub ? p.y - p.size * 0.05 : p.y + p.size * 0.35;
-    const sub = hasSub
-      ? `<text x="${p.x}" y="${p.y + p.size * 0.35 + p.subSize * ASCENT}" `
-        + `font-family="DejaVu Sans" font-size="${p.subSize}" fill="${p.color}" `
-        + `text-anchor="middle">${esc(p.sub!)}</text>`
-      : '';
+    // Смещения повторяют PDF-драйвер (верх строки → базовая линия SVG),
+    // иначе оттиск в картинке съезжает относительно PDF.
+    const stampLine = (t: string, top: number, size: number, bold: boolean) =>
+      `<text x="${p.x}" y="${top + size * ASCENT}" font-family="DejaVu Sans" `
+      + `${bold ? 'font-weight="bold" ' : ''}font-size="${size}" fill="${p.color}" `
+      + `text-anchor="middle">${esc(t)}</text>`;
     return `<g transform="rotate(${p.angle} ${p.x} ${p.y})" opacity="${p.opacity}">`
       + `<rect x="${p.x - p.w / 2}" y="${p.y - p.h / 2}" width="${p.w}" height="${p.h}" `
       + `rx="${p.radius}" ry="${p.radius}" fill="none" stroke="${p.color}" `
       + `stroke-width="${p.stroke}" stroke-dasharray="${p.dash.join(' ')}"/>`
-      + `<text x="${p.x}" y="${ty}" font-family="DejaVu Sans" font-weight="bold" `
-      + `font-size="${p.size}" fill="${p.color}" text-anchor="middle">${esc(p.text)}</text>`
-      + sub + `</g>`;
+      + stampLine(p.text, p.y - p.size * 1.9, p.size, true)
+      + (p.text2 ? stampLine(p.text2, p.y - p.size * 0.55, p.size, true) : '')
+      + (p.sub ? stampLine(p.sub, p.y + p.size * 0.95, p.subSize, false) : '')
+      + `</g>`;
   }
   const y = p.y + p.size * ASCENT;
   let x = p.x;
