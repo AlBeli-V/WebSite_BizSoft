@@ -140,6 +140,59 @@ check('КП: документ собирается в собранном при�
   return { ok: !broken, got: `${r.status} ${r.body.slice(0, 120)}` };
 });
 
+// ── WebMCP: read-only API для AI-агентов (/api/agent/*) ──────────────────
+// Слой прогрессивного улучшения: те же данные, что на витрине, тем же
+// effectivePrice. Смоук сверяет цену API с ценой в JSON-LD той же карточки —
+// четвёртый слой (UI ↔ JSON-LD ↔ microdata ↔ WebMCP) не должен разъезжаться.
+check('WebMCP: get_product отдаёт карточку с той же ценой, что витрина', async () => {
+  const r = await req('/api/agent/get_product?slug=chatgpt-business');
+  if (r.status !== 200) return { ok: false, got: `HTTP ${r.status}` };
+  const body = JSON.parse(r.body);
+  const priceOk = body?.ok === true && body?.data?.price === 1000;
+  const urlOk = body?.data?.url === 'https://biz-soft.pro/product/chatgpt-business';
+  return { ok: priceOk && urlOk, got: `price=${body?.data?.price} url=${body?.data?.url}` };
+});
+check('WebMCP: search_products находит товар и даёт ссылку на карточку', async () => {
+  const r = await req('/api/agent/search_products?query=chatgpt');
+  const body = r.status === 200 ? JSON.parse(r.body) : null;
+  const hit = body?.data?.items?.find((i) => i.url?.endsWith('/product/chatgpt-business'));
+  return { ok: Boolean(hit), got: hit ? `найден ${hit.sku}` : `HTTP ${r.status}, не найден` };
+});
+check('WebMCP: мусорный вход отклоняется схемой (400), не 500', async () => {
+  const r = await req('/api/agent/search_products?query=x&limit=abc&hack=1');
+  return { ok: r.status === 400, got: String(r.status) };
+});
+check('WebMCP: неизвестный инструмент — 404', async () => {
+  const r = await req('/api/agent/get_chatgpt');
+  return { ok: r.status === 404, got: String(r.status) };
+});
+check('WebMCP: служебный API не индексируется (X-Robots-Tag)', async () => {
+  const r = await req('/api/agent/list_vendors');
+  const tag = r.headers.get('x-robots-tag') || '';
+  return { ok: tag.includes('noindex'), got: tag || 'заголовка НЕТ' };
+});
+check('WebMCP: /api/agent не попадает в sitemap', async () => {
+  const r = await req('/sitemap.xml');
+  return { ok: !r.body.includes('/api/agent'), got: r.body.includes('/api/agent') ? 'ЕСТЬ (не должно)' : 'нет' };
+});
+check('WebMCP: регистратор инструментов доезжает до браузера', async () => {
+  // Как и цели Метрики: код лежит в модульном чанке — обходим граф импортов.
+  const r = await req('/');
+  const RE = /["'(](?:\/_astro\/|\.\/)([\w.\-]+\.js)["')]/g;
+  const seen = new Set();
+  const queue = [...r.body.matchAll(RE)].map((m) => m[1]);
+  while (queue.length) {
+    const file = queue.shift();
+    if (seen.has(file)) continue;
+    seen.add(file);
+    const chunk = await req(`/_astro/${file}`);
+    if (chunk.status !== 200) continue;
+    if (chunk.body.includes('modelContext')) return { ok: true, got: `чанк ${file}` };
+    for (const m of chunk.body.matchAll(RE)) queue.push(m[1]);
+  }
+  return { ok: false, got: `НЕТ (обойдено чанков: ${seen.size})` };
+});
+
 // ── Структурированные данные (Schema.org) ────────────────────────────────
 // Единый слой разметки: JSON-LD + microdata карточки строятся из тех же
 // данных, что и витрина. Смоук ловит расхождение «разметка ↔ страница»
@@ -234,6 +287,13 @@ check('[БД упала] sitemap отдаёт 503, а не усечённый 20
   const r = await req('/sitemap.xml');
   await setMode('ok');
   return { ok: r.status === 503, got: String(r.status) };
+});
+check('[БД упала] WebMCP API отдаёт 503 с понятной агенту ошибкой', async () => {
+  await setMode('fail');
+  const r = await req('/api/agent/search_products?query=chatgpt');
+  await setMode('ok');
+  const body = (() => { try { return JSON.parse(r.body); } catch { return null; } })();
+  return { ok: r.status === 503 && body?.ok === false && Boolean(body?.error), got: `${r.status} ${r.body.slice(0, 80)}` };
 });
 check('[БД упала] каталог отдаёт 503, а не пустой 200', async () => {
   await setMode('fail');

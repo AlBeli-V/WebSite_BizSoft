@@ -29,7 +29,7 @@ const alt = name ? `Значок ${name}` : '';
           <img class="vi-color" src={icon.color} alt="" aria-hidden="true" width={size} height={size} loading="lazy" decoding="async" />
         </span>
       ) : (
-        <img class="pi-static" src={variant === 'color' ? icon.color : icon.mono} alt={i === 0 ? alt : ''} width={size} height={size} loading="lazy" decoding="async" />
+        <img class:list={['pi-static', { 'pi-static-mono': variant === 'mono' }]} src={variant === 'color' ? icon.color : icon.mono} alt={i === 0 ? alt : ''} width={size} height={size} loading="lazy" decoding="async" />
       )
     ))}
   </span>
@@ -38,4 +38,6 @@ const alt = name ? `Значок ${name}` : '';
 <style>
   .pi-row { display: inline-flex; align-items: center; gap: 0.4rem; flex-shrink: 0; }
   .pi-static { object-fit: contain; display: block; }
+  /* страховка: mono-файл с цветными пикселями не должен показывать цвет */
+  .pi-static-mono { filter: grayscale(1); }
 </style>
