@@ -27,10 +27,14 @@ import sys
 
 BASE = pathlib.Path("reports/seo")
 BALANCE_FILE = BASE / "intelligence" / "cloud-balance.json"
+BILLING_FILE = BASE / "intelligence" / "cloud-billing.json"
+HISTORY_FILE = BASE / "intelligence" / "cloud-balance-history.jsonl"
 OUT_FILE = BASE / "intelligence" / "cloud-budget.json"
 NOTICE_FILE = BASE / "intelligence" / "cloud-budget-notice.txt"
 WORDSTAT_LEDGER_DIR = BASE / "wordstat" / "ledger"
 SERP_LEDGER_DIR = BASE / "data" / "serp" / "ledger"
+
+BILLING_FRESH_DAYS = 2   # старше — факт биллинга устарел, живём на оценке
 
 # Консервативная оценка стоимости SERP-запроса (дневной синхронный тариф,
 # ≈122 000 ₽ / 250 000 запросов, НДС включён) — до сверки с биллингом.
@@ -90,6 +94,53 @@ def load_balance() -> dict | None:
         return None
 
 
+def billing_actual(date_s: str) -> dict | None:
+    """Свежий факт из Billing API (yc_billing.py), иначе None."""
+    if not BILLING_FILE.exists():
+        return None
+    try:
+        data = json.loads(BILLING_FILE.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return None
+    fetched = (data.get("date") or data.get("fetched_at") or "")[:10]
+    try:
+        age = (dt.date.fromisoformat(date_s)
+               - dt.date.fromisoformat(fetched)).days
+    except ValueError:
+        return None
+    return data if 0 <= age <= BILLING_FRESH_DAYS else None
+
+
+def history_daily_rate(date_s: str) -> float | None:
+    """Фактический расход в день — по дельтам остатка из истории биллинга.
+
+    Пополнение выглядит ростом остатка — такая дельта в расход не идёт.
+    Нужны минимум две точки; окно — последние 8 точек (≈неделя).
+    """
+    if not HISTORY_FILE.exists():
+        return None
+    points = []
+    for line in HISTORY_FILE.read_text(encoding="utf-8").splitlines():
+        try:
+            e = json.loads(line)
+            points.append((e["date"], float(e["balance"])))
+        except (ValueError, KeyError, TypeError):
+            continue
+    points = sorted(dict(points).items())[-8:]
+    if len(points) < 2:
+        return None
+    spent = days = 0.0
+    for (d1, b1), (d2, b2) in zip(points, points[1:]):
+        gap = (dt.date.fromisoformat(d2) - dt.date.fromisoformat(d1)).days
+        if gap <= 0:
+            continue
+        delta = b1 - b2
+        if delta > 0:           # рост остатка = пополнение, не расход
+            spent += delta
+            days += gap
+    return round(spent / days, 2) if days > 0 else None
+
+
 def build(date_s: str) -> dict:
     bal = load_balance()
     if not bal or not (bal.get("baseline") or {}).get("date"):
@@ -112,21 +163,40 @@ def build(date_s: str) -> dict:
         TREND_WINDOW_DAYS,
         (dt.date.fromisoformat(date_s) - dt.date.fromisoformat(start)).days + 1)
     daily = week["total_rub"] / observed_days if observed_days > 0 else 0.0
+    source = "estimate"
+    assumptions = ("остаток расчётный: базовая точка минус журналы; "
+                   f"SERP оценён по {SERP_COST_RUB} ₽/запрос "
+                   "(дневной тариф, оценка сверху)")
+
+    # Факт из Billing API главнее оценки: реальный остаток кабинета и
+    # реальный расход по дельтам остатка (поручение 30.08.2026).
+    act = billing_actual(date_s)
+    if act and act.get("balance_rub") is not None:
+        balance = float(act["balance_rub"])
+        source = "billing_api"
+        hist_rate = history_daily_rate(date_s)
+        if hist_rate is not None:
+            daily = hist_rate
+        assumptions = ("остаток фактический (Billing API); расход в день — "
+                       + ("по дельтам остатка кабинета"
+                          if hist_rate is not None else
+                          "по журналам вызовов (история остатка ещё коротка)"))
+
     runway = round(balance / daily, 1) if daily > 0 else None
     needs = balance <= 0 or (runway is not None and runway < RUNWAY_ALERT_DAYS)
     return {
         "available": True,
         "date": date_s,
         "baseline": baseline,
-        "balance_estimate_rub": balance,
+        "balance_source": source,
+        "balance_estimate_rub": round(balance, 2),
         "spent_since_baseline": spent,
         "week_spend_rub": week["total_rub"],
         "daily_rate_rub": round(daily, 2),
         "runway_days": runway,
         "needs_topup": needs,
-        "assumptions": ("остаток расчётный: базовая точка минус журналы; "
-                        f"SERP оценён по {SERP_COST_RUB} ₽/запрос "
-                        "(дневной тариф, оценка сверху)"),
+        "billing_skus": (act or {}).get("skus") or [],
+        "assumptions": assumptions,
     }
 
 
