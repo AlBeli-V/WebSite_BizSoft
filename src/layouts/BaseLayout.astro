@@ -21,6 +21,8 @@ import SeoHead from '../components/SeoHead.astro';
 import Analytics from '../components/Analytics.astro';
 import CookieNotice from '../components/CookieNotice.astro';
 import JsonLd from '../components/JsonLd.astro';
+import WebMCP from '../components/WebMCP.astro';
+import { WEBMCP_ENABLED } from '../webmcp/flag';
 import { organizationSchema, websiteSchema } from '../lib/seo';
 
 interface Props {
@@ -66,6 +68,7 @@ const { title, description, canonical, ogImage, noindex, type, keywords } = Astr
     <Footer />
     <Analytics />
     <CookieNotice />
+    {WEBMCP_ENABLED && <WebMCP />}
 
     <style is:global>
       .skip-link {
@@ -126,6 +129,44 @@ const { title, description, canonical, ogImage, noindex, type, keywords } = Astr
       };
       reveal();
       document.addEventListener('astro:after-swap', reveal);
+
+      // Подсветка иконок на тач-устройствах: плитка с иконкой (.vi) получает
+      // класс vi-lit, пока находится в центральной полосе экрана (средние 30%,
+      // rootMargin -35% сверху и снизу), — цветной слой включается CSS-правилом
+      // в global.css (@media (hover: none)). При уходе вверх/вниз класс
+      // снимается — иконка возвращается в монохром. Ряд плиток входит в полосу
+      // одновременно, поэтому зажигается целиком. На устройствах с ховером
+      // скрипт не запускается — там работает обычный hover.
+      const viLit = () => {
+        if (!window.matchMedia('(hover: none)').matches || !('IntersectionObserver' in window)) return;
+        const io = new IntersectionObserver(
+          (entries) => entries.forEach((e) => e.target.classList.toggle('vi-lit', e.isIntersecting)),
+          { rootMargin: '-35% 0px -35% 0px' },
+        );
+        const seen = new WeakSet<Element>();
+        const watch = (vi: Element) => {
+          const tile = vi.closest('a, button, .card, .card-hover') ?? vi;
+          if (seen.has(tile)) return;
+          seen.add(tile);
+          io.observe(tile);
+        };
+        const scan = (root: Element | Document) => {
+          if (root instanceof Element && root.matches('.vi')) watch(root);
+          root.querySelectorAll('.vi').forEach(watch);
+        };
+        scan(document);
+        // Часть списков (например, витрины из Directus) дорисовывается
+        // клиентскими скриптами — подхватываем добавленные плитки.
+        new MutationObserver((muts) => {
+          for (const m of muts) {
+            m.addedNodes.forEach((n) => {
+              if (n.nodeType === 1) scan(n as Element);
+            });
+          }
+        }).observe(document.body, { childList: true, subtree: true });
+      };
+      viLit();
+      document.addEventListener('astro:after-swap', viLit);
     </script>
       <script>
       // Клики по телефону, почте и мессенджерам — одним обработчиком на сайт.

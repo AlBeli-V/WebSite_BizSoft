@@ -31,7 +31,7 @@ on:
         required: true
         default: "daily"
         type: choice
-        options: [dry-run, full, pilot, daily, benchmark, payments, probe-dynamics]
+        options: [dry-run, full, pilot, daily, benchmark, payments, probe-dynamics, momentum, regions]
       max_calls:
         description: "Потолок вызовов за прогон"
         required: false
@@ -97,8 +97,37 @@ jobs:
             benchmark) python3 scripts/seo/wordstat/benchmark.py ;;
             payments)  python3 scripts/seo/wordstat/payment_check.py --limit 200 ;;
             probe-dynamics) python3 scripts/seo/wordstat/probe_dynamics.py ;;
+            momentum)  python3 scripts/seo/wordstat/momentum.py ;;
+            regions)   python3 scripts/seo/wordstat/region_demand.py ;;
           esac
           python3 scripts/seo/wordstat/report.py || true
+
+      # Momentum спроса (механика №19, «зелёный свет» 30.08.2026): помесячная
+      # динамика коммерческого ядра, еженедельно по понедельникам в ночном
+      # полном прогоне. ~300 фраз × 0,02 ₽ ≈ 6 ₽; кэш TTL динамики гасит
+      # повторы. Сбой не валит основной прогон.
+      - name: Demand momentum (weekly, Mon)
+        if: github.event_name == 'schedule' && github.event.schedule == '20 1 * * *'
+        env:
+          WORDSTAT_API_KEY: ${{ secrets.WORDSTAT_API_KEY }}
+        run: |
+          if [ "$(date -u +%u)" = "1" ]; then
+            python3 scripts/seo/wordstat/momentum.py || true
+          else
+            echo "не понедельник — momentum пропущен"
+          fi
+
+      # Региональная карта спроса: 1-го числа, ≤50 фраз × 0,05 ₽ ≈ 2,5 ₽.
+      - name: Regional demand (monthly, 1st)
+        if: github.event_name == 'schedule' && github.event.schedule == '20 1 * * *'
+        env:
+          WORDSTAT_API_KEY: ${{ secrets.WORDSTAT_API_KEY }}
+        run: |
+          if [ "$(date -u +%d)" = "01" ]; then
+            python3 scripts/seo/wordstat/region_demand.py || true
+          else
+            echo "не первое число — регионы пропущены"
+          fi
 
       - name: Push results
         run: |
