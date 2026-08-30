@@ -2,16 +2,20 @@
 # в reports/seo/data/ ветки-хранилища seo-data (утренний отчёт читает эти
 # файлы). Код исполняется из main, данные живут отдельно — обмен через
 # scripts/seo/data_sync.sh.
-# Расписание: 02:40 UTC = 05:40 МСК — до формирования отчёта.
+# Расписание: 03:07 UTC = 06:07 МСК — до формирования отчёта.
 # Время в cron задаётся в UTC; московское указано рядом (правило проекта).
+# Минута выбрана «некруглой» сознательно: слот 02:40 системно дрейфовал у
+# GitHub на часы (фактические запуски в 13:00+ UTC), письмо уходило по
+# вчерашним данным. Некруглые слоты планировщик задерживает меньше.
 # Секреты: GSC_SERVICE_ACCOUNT_JSON, YANDEX_WEBMASTER_TOKEN,
-# YANDEX_METRIKA_TOKEN, YANDEX_METRIKA_COUNTER_ID, GA4_PROPERTY_ID.
+# YANDEX_METRIKA_TOKEN, YANDEX_METRIKA_COUNTER_ID, GA4_PROPERTY_ID,
+# YANDEX_DIRECT_TOKEN.
 
 name: seo-data-collect
 
 on:
   schedule:
-    - cron: "40 2 * * *"
+    - cron: "7 3 * * *"
   workflow_dispatch:
   push:
     branches:
@@ -60,6 +64,16 @@ jobs:
           YANDEX_METRIKA_COUNTER_ID: ${{ secrets.YANDEX_METRIKA_COUNTER_ID }}
           GA4_PROPERTY_ID: ${{ secrets.GA4_PROPERTY_ID }}
         run: python3 scripts/seo/collect_daily.py
+
+      # Статистика Яндекс.Директа (Direct Control Report, этап A): группы и
+      # реальные поисковые запросы кампании → reports/seo/ppc/direct-stats.json.
+      # Без токена шаг тихо пропускается, сбой выгрузки не стирает прежнюю
+      # витрину — письмо продолжает строиться по последней удачной.
+      - name: Collect Direct stats
+        if: always()
+        env:
+          DIRECT_TOKEN: ${{ secrets.YANDEX_DIRECT_TOKEN }}
+        run: python3 scripts/ppc/direct_report.py
 
       - name: Push data
         if: always()

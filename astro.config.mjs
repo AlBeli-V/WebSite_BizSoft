@@ -21,6 +21,12 @@ export default defineConfig({
     // Сдвиг макета гасится preload критичных woff2 в BaseLayout + метрическим
     // фолбэком Raleway-fallback в global.css.
     plugins: [tailwindcss()],
+    // Иконки вендоров/товаров подключены через ?url в расчёте на хешированные
+    // файлы в /_astro с годовым кэшем, но дефолтный assetsInlineLimit (4 КБ)
+    // вшивал мелкие SVG в HTML как data:URI — главная раздувалась до ~220 КБ
+    // и каждая страница несла одни и те же иконки заново. 0 = всегда файлы:
+    // HTML в разы легче, иконки кэшируются между страницами.
+    build: { assetsInlineLimit: 0 },
     // pdfkit подтягивает шрифты/потоки — оставляем его внешним для Node.
     ssr: { external: ['pdfkit', 'nodemailer', 'xlsx', '@resvg/resvg-js'] },
   },

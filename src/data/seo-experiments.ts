@@ -126,6 +126,15 @@ export const SEO_EXPERIMENTS: Record<string, SeoExperiment> = {
     faqTitle: 'Как купить Clip Studio Paint на юрлицо',
     faq: faqFor('Clip Studio Paint'),
   },
+  // «snippet-anthropic-demand» (29.08.2026): GAP-D по данным замера 29.08 —
+  // кластер «claude купить» 9 944 показов/мес (весь кластер anthropic — 27 231),
+  // позиция 7,44, CTR ≈ 0. Точечный title под запрос вместо общего описания.
+  anthropic: {
+    title: 'Купить Claude для компании — Team и Enterprise на юрлицо | BIZSoft',
+    description: desc('Claude'),
+    faqTitle: 'Как купить Claude на юрлицо',
+    faq: faqFor('Claude'),
+  },
 };
 
 /** Анкоры внутренней перелинковки эксперимента (для / и /catalog). */
@@ -141,4 +150,5 @@ export const SEO_EXPERIMENT_LINKS: { slug: string; anchor: string }[] = [
   { slug: 'blackmagic', anchor: 'DaVinci Resolve Studio — лицензия для студии' },
   { slug: 'midjourney', anchor: 'Midjourney — подписка для юрлиц' },
   { slug: 'clip-studio-paint', anchor: 'Clip Studio Paint — лицензии для студии' },
+  { slug: 'anthropic', anchor: 'Claude — подписка Team для компании' },
 ];

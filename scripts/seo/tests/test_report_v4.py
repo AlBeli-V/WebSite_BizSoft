@@ -259,18 +259,29 @@ class TestExpansionGuard(unittest.TestCase):
         cls.r = load("report_v4")
 
     def test_catalogue_vendors_are_dropped(self):
-        # состояние исследования отстало от каталога — так ушло письмо 21.08
+        # состояние исследования отстало от каталога — так ушло письмо 21.08.
+        # Пример «вендора не с сайта» — basecamp: прежний пример wordpress
+        # заведён в каталог 29.08.2026 и стал вычёркиваться по назначению.
         stale = {"available": True, "expansion": {
-            "items": [{"brand": "suno"}, {"brand": "cloudflare"}, {"brand": "wordpress"}],
+            "items": [{"brand": "suno"}, {"brand": "cloudflare"}, {"brand": "basecamp"}],
             "manual_check": ["capcut", "principle", "nordvpn", "leonardo ai"]}}
         out = self.r._drop_vendors_already_on_site(stale)
         brands = [i["brand"] for i in out["expansion"]["items"]]
-        self.assertEqual(brands, ["wordpress"])
+        self.assertEqual(brands, ["basecamp"])
         self.assertEqual(out["expansion"]["manual_check"], ["nordvpn"])
+
+    def test_fresh_catalogue_vendors_are_dropped_too(self):
+        # Партия 29.08.2026: wordpress и slack заведены — guard обязан
+        # вычёркивать их из рекомендаций к заведению.
+        stale = {"available": True, "expansion": {
+            "items": [{"brand": "wordpress"}, {"brand": "slack"}],
+            "manual_check": []}}
+        out = self.r._drop_vendors_already_on_site(stale)
+        self.assertEqual(out["expansion"]["items"], [])
 
     def test_untouched_when_nothing_to_drop(self):
         block = {"available": True, "expansion": {
-            "items": [{"brand": "wordpress"}], "manual_check": ["nordvpn"]}}
+            "items": [{"brand": "basecamp"}], "manual_check": ["nordvpn"]}}
         self.assertIs(self.r._drop_vendors_already_on_site(block), block)
 
     def test_says_so_when_all_candidates_are_covered(self):
