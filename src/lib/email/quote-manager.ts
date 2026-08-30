@@ -17,8 +17,10 @@ import { economics as cfg, taxation } from '../../config/site';
 import type { QuoteData } from '../quote-layout';
 import type { PartyCard } from '../dadata';
 import { usdReference, type QuoteEconomics } from '../quote-economics';
+import type { AttributionFields } from '../quote-lead';
 import {
-  card, EMAIL_COLOR, emailShell, escapeHtml, heading, kvRow, note, paragraph,
+  attributionLines, attributionRows, card, EMAIL_COLOR, emailShell, escapeHtml,
+  heading, kvRow, note, paragraph,
 } from './layout';
 import type { RenderedEmail } from './quote-customer';
 
@@ -29,6 +31,8 @@ export interface ManagerQuoteEmailInput {
   party: PartyCard | null;
   /** null — экономику посчитать не удалось (нет курса). */
   eco: QuoteEconomics | null;
+  /** Источник перехода (канал → кампания → фраза); опционален для старых вызовов. */
+  attribution?: AttributionFields;
 }
 
 // Неразрывный пробел перед ₽: обычный позволяет почтовику оторвать знак
@@ -65,7 +69,7 @@ const td = (text: string, right = false, bold = false): string =>
   + `padding:6px 8px 6px 0;${bold ? 'font-weight:bold;' : ''}white-space:${right ? 'nowrap' : 'normal'};">${text}</td>`;
 
 export function buildManagerQuoteEmail(input: ManagerQuoteEmailInput): RenderedEmail {
-  const { data, innCheck, party, eco } = input;
+  const { data, innCheck, party, eco, attribution } = input;
   const mismatch = innCheck.nameMatch === 'mismatch';
   const trouble = !(innCheck.valid && !mismatch && (party === null || party.active));
   const subject = `${trouble ? '⚠ ' : ''}Отправлено КП № ${data.quoteNo} — ${data.buyerCompany}`;
@@ -143,6 +147,9 @@ export function buildManagerQuoteEmail(input: ManagerQuoteEmailInput): RenderedE
     + paragraph(`Запрос КП на продукты: <b>${escapeHtml(shownNames)}</b>. `
       + `Сумма — <b>${rub(data.total)}</b>. КП № ${escapeHtml(data.quoteNo)} отправлено клиенту на почту.`)
     + warnHtml
+    + (attribution
+      ? card(`<table role="presentation" cellpadding="0" cellspacing="0">${attributionRows(attribution)}</table>`)
+      : '')
     + card(
       `<table role="presentation" cellpadding="0" cellspacing="0">`
       + kvRow('Компания', companyHtml)
@@ -183,6 +190,7 @@ export function buildManagerQuoteEmail(input: ManagerQuoteEmailInput): RenderedE
     `Запрос КП на продукты: ${shownNames}. Сумма — ${data.total.toLocaleString('ru-RU')} ₽.`,
     `КП № ${data.quoteNo} отправлено клиенту на почту.`,
     ...warnings.map((w) => `⚠ ${w}`),
+    ...(attribution ? ['', 'Источник:', ...attributionLines(attribution)] : []),
     '',
     'Реквизиты:',
     ...(mismatch && party?.name

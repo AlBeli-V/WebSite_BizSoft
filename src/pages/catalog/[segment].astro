@@ -147,7 +147,7 @@ if (isAi) {
   canonical={basePath}
   noindex={hasFilters}
 >
-  {pageCategory && <JsonLd schema={itemListSchema(pageCategory, filtered)} />}
+  {pageCategory && <JsonLd schema={itemListSchema(pageCategory, filtered, basePath)} />}
   <div class="container-page section">
     <Breadcrumbs items={[{ name: 'Каталог', url: '/catalog' }, { name: title, url: basePath }]} />
     <header class="head">
