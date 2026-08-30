@@ -144,6 +144,12 @@ CONTOURS = [
          (BASE / "data").glob("sitemap-2*.json")
          if (BASE / "data").exists() else []),
      "required": False},
+    {"id": "serp", "label": "SERP-срез Яндекса (Search API)",
+     "cadence": "daily", "cadence_label": "ежедневно 01:37 МСК",
+     "last": lambda date: _dates_from_names(
+         (BASE / "data" / "serp").glob("2*-serp.jsonl")
+         if (BASE / "data" / "serp").exists() else []),
+     "required": False},
     {"id": "wordstat", "label": "Разведка спроса (Вордстат)",
      "cadence": "daily", "cadence_label": "ежедневно 04:20 МСК",
      "last": _last_wordstat, "required": True},

@@ -28,6 +28,7 @@ import cannibalization as cannibal_mod  # noqa: E402
 import lifecycle as lifecycle_mod  # noqa: E402
 import mismatch as mismatch_mod  # noqa: E402
 import opportunity as opp_mod    # noqa: E402
+import serp_analysis as serp_mod  # noqa: E402
 import snapshot as snapshot_mod  # noqa: E402
 import zero_impression as zero_mod  # noqa: E402
 from report_v4 import (BLOB, BRANCH, PILL_LABEL, REPO, VERDICT_LABEL,  # noqa: E402
@@ -400,6 +401,47 @@ def _lifecycle_section(lc: dict) -> str:
 STATUS_CHIP = {"new": "новая", "gaining": "растёт", "stable": "стабильна",
                "declining": "снижается"}
 
+SERP_KIND = {"ours": "мы", "competitor": "конкурент",
+             "marketplace": "маркетплейс", "info": "форумы/медиа",
+             "other": "прочие"}
+
+
+def _serp_section(sp: dict) -> str:
+    """SERP Яндекса: наша фактическая позиция, конкуренты, слабые выдачи."""
+    if not sp.get("available"):
+        return f"<p class='muted'>{sp.get('reason', 'Данных нет')}.</p>"
+    head = (f"<p>Срез от {ru_date(sp['as_of'])}: {sp['queries_total']} "
+            f"запросов ядра. Мы в топ-10 по <b>{sp['ours_in_top10']}</b>; "
+            f"слабых выдач (лёгкая точка входа) — <b>{sp['weak_serps']}</b>."
+            + (f" Сравнение с {ru_date(sp['prev_date'])}." if sp.get("prev_date")
+               else " Первый срез — сравнение появится со следующего.")
+            + "</p>")
+    doms = table(["Домен", "Появлений в топ-10", "Кто это"],
+                 [[d["domain"], str(d["hits"]),
+                   SERP_KIND.get(d["kind"], d["kind"])]
+                  for d in sp["top_domains"]])
+    rows = []
+    for i in sp["items"][:25]:
+        moves = ""
+        if i["entered_top10"] or i["left_top10"]:
+            moves = ("вошли: " + ", ".join(i["entered_top10"][:3])
+                     if i["entered_top10"] else "")
+            if i["left_top10"]:
+                moves += ("; " if moves else "") + \
+                         "выпали: " + ", ".join(i["left_top10"][:3])
+        rows.append([
+            f"<b>{i['query']}</b>",
+            str(i["our_position"]) if i["our_position"] else "нет в топ-20",
+            ("<span class='chip warning'>слабая</span>" if i["weak"]
+             else f"{i['weak_share']:.0%}"),
+            ", ".join(d["domain"] for d in i["top3"]),
+            moves or "—"])
+    body = table(["Запрос", "Наша позиция", "Слабость выдачи", "Топ-3",
+                  "Движения в топ-10"], rows)
+    return (head + f"<h3>Кто занимает топ по нашим запросам</h3>{doms}"
+            + f"<h3>По запросам</h3>"
+              f"<p class='muted desc'>{sp.get('note', '')}.</p>" + body)
+
 
 def embed_png(path: pathlib.Path) -> str:
     """PNG внутрь страницы: отчёт открывается по ссылке, а не только из репозитория."""
@@ -677,6 +719,7 @@ def build_html(b: dict, snap: dict, dq: dict, date: str) -> str:
     mm = mismatch_mod.build(date)
     zi = zero_mod.build(date)
     lc = lifecycle_mod.build(date)
+    sp = serp_mod.build(date)
 
     signals_html = (
         f"<div class='scroll'><table><thead><tr>"
@@ -745,6 +788,14 @@ def build_html(b: dict, snap: dict, dq: dict, date: str) -> str:
                  "служебный раздел или главную. Сигнал, что посадочная "
                  "отсутствует или недостаточно релевантна.",
          "html": _mismatch_section(mm)},
+        {"id": "serp", "title": "SERP Яндекса: позиции и конкуренты",
+         "crit": 2 if sp.get("available") else 0,
+         "desc": "Реальная выдача Яндекса по ядру запросов (Search API, "
+                 "Москва): фактическая позиция сайта, кто занимает топ, "
+                 "«слабые» выдачи из маркетплейсов и форумов — лёгкие точки "
+                 "входа, и движения доменов к прошлому срезу — ранний "
+                 "детектор вытеснения.",
+         "html": _serp_section(sp)},
         {"id": "lifecycle", "title": "Жизненный цикл страниц (Google)",
          "crit": 2 if (lc.get("counts") or {}).get("declining")
                  else (1 if lc.get("available") else 0),
@@ -961,6 +1012,17 @@ def build_markdown(b: dict, snap: dict, dq: dict, date: str) -> str:
         for i in mm["items"]:
             L.append(f"| {i['query']} | {num(i['impressions'])} | {i['page']} | "
                      f"{i['page_type']} | {i['recommended_action']} |")
+        L.append("")
+
+    sp = serp_mod.build(date)
+    if sp.get("available"):
+        L += ["## SERP Яндекса: позиции и конкуренты", "",
+              f"Срез {sp['as_of']}: {sp['queries_total']} запросов; мы в "
+              f"топ-10 по {sp['ours_in_top10']}; слабых выдач: "
+              f"{sp['weak_serps']}.", "",
+              "| Домен | Топ-10 появлений | Кто |", "|---|---|---|"]
+        for d in sp["top_domains"][:10]:
+            L.append(f"| {d['domain']} | {d['hits']} | {d['kind']} |")
         L.append("")
 
     lc = lifecycle_mod.build(date)

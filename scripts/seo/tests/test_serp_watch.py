@@ -1,0 +1,196 @@
+#!/usr/bin/env python3
+"""SERP-watch: watchlist из данных, бюджетная дисциплина, анализ архива."""
+
+import json
+import pathlib
+import sys
+import tempfile
+import unittest
+
+sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
+sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1]))
+import mocks  # noqa: E402
+
+DATE = "2026-08-30"
+
+
+def snap(yandex_entities=(), demand=None):
+    return {"yandex": {"available": True, "entities": list(yandex_entities)},
+            "google": {"available": False},
+            "market_demand": demand or {"available": False}}
+
+
+def q(text, imp=10, intent="commercial", branded=False, pos=8.0):
+    return {"entity_type": "query", "entity_id": text, "impressions": imp,
+            "clicks": 0, "average_position": pos, "intent": intent,
+            "branded": branded, "confidence": "sufficient"}
+
+
+class TestWatchlist(unittest.TestCase):
+    def setUp(self):
+        self.wl = mocks.load("serp_watchlist")
+        self.tmp = tempfile.TemporaryDirectory()
+        self.addCleanup(self.tmp.cleanup)
+        base = pathlib.Path(self.tmp.name)
+        (base / "snaps").mkdir()
+        self.wl.SNAP_DIR = base / "snaps"
+        inv = mocks.load("inventory")
+        inv.DATA_DIR = base / "data"
+        (base / "data").mkdir()
+        self.wl.inventory = inv
+        self.base = base
+
+    def write_snap(self, s, date=DATE):
+        (self.wl.SNAP_DIR / f"{date}.json").write_text(
+            json.dumps(s, ensure_ascii=False), encoding="utf-8")
+
+    def test_sources_priority_and_dedup(self):
+        self.write_snap(snap(
+            yandex_entities=[q("купить figma", imp=50),
+                             q("figma цена", imp=20),
+                             q("что такое figma", intent="informational"),
+                             q("bizsoft купить", branded=True)],
+            demand={"available": True,
+                    "top_commercial": [{"phrase": "купить figma"},
+                                       {"phrase": "canva подписка"}],
+                    "gaps": {"c": [{"phrase": "оплатить miro"}]}}))
+        (self.base / "data" / f"sitemap-{DATE}.json").write_text(json.dumps(
+            {"date": DATE, "urls": [{"path": "/alternatives/notion",
+                                     "lastmod": None}]}), encoding="utf-8")
+        out = self.wl.build(DATE)
+        self.assertEqual(out[0], "купить figma")        # Вебмастер, топ показов
+        self.assertEqual(out.count("купить figma"), 1)  # дедуп со спросом
+        self.assertIn("canva подписка", out)
+        self.assertIn("оплатить miro", out)
+        self.assertIn("notion аналоги", out)
+        self.assertNotIn("что такое figma", out)
+        self.assertNotIn("bizsoft купить", out)
+
+    def test_cap(self):
+        self.write_snap(snap(
+            yandex_entities=[q(f"купить продукт {i}") for i in range(200)]))
+        self.assertEqual(len(self.wl.build(DATE, cap=150)), 150)
+
+    def test_empty_without_data(self):
+        self.assertEqual(self.wl.build(DATE), [])
+
+
+class TestBudgetDiscipline(unittest.TestCase):
+    def setUp(self):
+        self.sw = mocks.load("serp_watch")
+        self.tmp = tempfile.TemporaryDirectory()
+        self.addCleanup(self.tmp.cleanup)
+        base = pathlib.Path(self.tmp.name)
+        self.sw.SERP_DIR = base / "serp"
+        self.sw.LEDGER_DIR = base / "serp" / "ledger"
+
+    def test_month_spent_counts_ledger_lines(self):
+        import datetime as dt
+        d = dt.date.fromisoformat(DATE)
+        self.sw.LEDGER_DIR.mkdir(parents=True)
+        self.sw.ledger_path(d).write_text(
+            "\n".join('{"query": "x"}' for _ in range(7)) + "\n",
+            encoding="utf-8")
+        self.assertEqual(self.sw.month_spent(d), 7)
+
+    def test_cap_exhausted_refuses(self):
+        import datetime as dt
+        d = dt.date.fromisoformat(DATE)
+        self.sw.LEDGER_DIR.mkdir(parents=True)
+        self.sw.ledger_path(d).write_text(
+            "\n".join('{"q":1}' for _ in range(self.sw.MONTHLY_CAP)) + "\n",
+            encoding="utf-8")
+        import os
+        from unittest import mock
+        with mock.patch.dict(os.environ, {"WORDSTAT_API_KEY": "k"}):
+            res = self.sw.run(DATE, ["купить figma"])
+        self.assertIn("потолок", res["error"])
+
+    def test_daily_cap_trims_queue(self):
+        import os
+        from unittest import mock
+
+        calls = []
+
+        def fake_fetch(session, key, query):
+            calls.append(query)
+            return {"found": 1, "top": []}
+
+        with mock.patch.dict(os.environ, {"WORDSTAT_API_KEY": "k"}), \
+                mock.patch.object(self.sw, "fetch_serp", fake_fetch), \
+                mock.patch.object(self.sw.time, "sleep", lambda s: None):
+            res = self.sw.run(DATE, [f"q{i}"
+                                     for i in range(self.sw.DAILY_CAP + 30)])
+        self.assertEqual(res["requested"], self.sw.DAILY_CAP)
+        self.assertEqual(res["skipped_over_budget"], 30)
+        self.assertEqual(len(calls), self.sw.DAILY_CAP)
+        # каждый вызов записан в журнал
+        import datetime as dt
+        self.assertEqual(self.sw.month_spent(dt.date.fromisoformat(DATE)),
+                         self.sw.DAILY_CAP)
+
+
+class TestSerpAnalysis(unittest.TestCase):
+    def setUp(self):
+        self.sa = mocks.load("serp_analysis")
+        self.tmp = tempfile.TemporaryDirectory()
+        self.addCleanup(self.tmp.cleanup)
+        self.sa.SERP_DIR = pathlib.Path(self.tmp.name)
+
+    def write_day(self, date, rows):
+        p = self.sa.SERP_DIR / f"{date}-serp.jsonl"
+        p.write_text("\n".join(json.dumps(r, ensure_ascii=False)
+                               for r in rows) + "\n", encoding="utf-8")
+
+    @staticmethod
+    def doc(domain):
+        return {"domain": domain, "url": f"https://{domain}/x", "title": domain}
+
+    def test_positions_weakness_and_competitors(self):
+        top_weak = [self.doc(d) for d in
+                    ("avito.ru", "wildberries.ru", "ozon.ru", "plati.market",
+                     "kupikod.com", "pikabu.ru", "dzen.ru", "ggsel.net",
+                     "market.yandex.ru", "otzovik.com")]
+        top_strong = ([self.doc("syssoft.ru"), self.doc("biz-soft.pro"),
+                       self.doc("softline.ru")]
+                      + [self.doc(f"site{i}.ru") for i in range(7)])
+        self.write_day(DATE, [
+            {"query": "купить heygen", "top": top_weak},
+            {"query": "купить figma", "top": top_strong},
+            {"query": "сбой", "error": "HTTP 500"},
+        ])
+        res = self.sa.build(DATE)
+        self.assertTrue(res["available"])
+        self.assertEqual(res["queries_total"], 2)      # ошибка не считается
+        by_q = {i["query"]: i for i in res["items"]}
+        self.assertEqual(by_q["купить figma"]["our_position"], 2)
+        self.assertTrue(by_q["купить heygen"]["weak"])
+        self.assertFalse(by_q["купить figma"]["weak"])
+        self.assertEqual(res["ours_in_top10"], 1)
+        doms = {d["domain"]: d for d in res["top_domains"]}
+        self.assertEqual(doms["syssoft.ru"]["kind"], "competitor")
+        self.assertNotIn("biz-soft.pro", doms)          # свои не «конкурент»
+        # запрос без нас первым в сортировке не стоит: сортируем по нашей позиции
+        self.assertEqual(res["items"][0]["query"], "купить figma")
+
+    def test_diff_with_previous_snapshot(self):
+        self.write_day("2026-08-29", [
+            {"query": "купить figma",
+             "top": [self.doc("syssoft.ru"), self.doc("old.ru")]}])
+        self.write_day(DATE, [
+            {"query": "купить figma",
+             "top": [self.doc("syssoft.ru"), self.doc("new.ru")]}])
+        res = self.sa.build(DATE)
+        item = res["items"][0]
+        self.assertEqual(item["entered_top10"], ["new.ru"])
+        self.assertEqual(item["left_top10"], ["old.ru"])
+        self.assertEqual(res["prev_date"], "2026-08-29")
+
+    def test_no_archive_is_honest(self):
+        res = self.sa.build(DATE)
+        self.assertFalse(res["available"])
+        self.assertIn("ещё не накоплен", res["reason"])
+
+
+if __name__ == "__main__":
+    unittest.main()
