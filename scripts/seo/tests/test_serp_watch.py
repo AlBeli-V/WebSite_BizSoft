@@ -103,7 +103,8 @@ class TestBudgetDiscipline(unittest.TestCase):
         import os
         from unittest import mock
         with mock.patch.dict(os.environ, {"WORDSTAT_API_KEY": "k"}):
-            res = self.sw.run(DATE, ["купить figma"])
+            res = self.sw.run(DATE, [{"query": "купить figma",
+                                      "region": "213"}])
         self.assertIn("потолок", res["error"])
 
     def test_daily_cap_holds_the_day_not_the_run(self):
@@ -128,16 +129,17 @@ class TestBudgetDiscipline(unittest.TestCase):
 
         seen = []
 
-        def fake_collect(session, key, date, queries, writer):
-            for q in queries:
-                seen.append(q)
-                self.sw.log_call(date, q, "submitted", None)
-                writer({"date": DATE, "query": q, "top": []})
-            return len(queries), 0
+        def fake_collect(session, key, date, tasks, writer):
+            for t in tasks:
+                seen.append(t["query"])
+                self.sw.log_call(date, t["query"], "submitted", None,
+                                 t["region"])
+                writer({"date": DATE, "query": t["query"], "top": []})
+            return len(tasks), 0
 
         with mock.patch.dict(os.environ, {"WORDSTAT_API_KEY": "k"}), \
                 mock.patch.object(self.sw, "collect_deferred", fake_collect):
-            res = self.sw.run(DATE, [f"q{i}"
+            res = self.sw.run(DATE, [{"query": f"q{i}", "region": "213"}
                                      for i in range(self.sw.DAILY_CAP + 30)])
         self.assertEqual(res["requested"], self.sw.DAILY_CAP)
         self.assertEqual(res["skipped_over_budget"], 30)
@@ -178,7 +180,9 @@ class TestDeferredFlow(unittest.TestCase):
                 stack.enter_context(
                     mock.patch.object(self.sw, "POLL_TIMEOUT_S", timeout))
             return self.sw.collect_deferred(
-                None, "k", self.date, ["купить figma", "купить miro"],
+                None, "k", self.date,
+                [{"query": "купить figma", "region": "213"},
+                 {"query": "купить miro", "region": "2"}],
                 self.rows.append)
 
     def test_happy_path(self):
@@ -191,14 +195,15 @@ class TestDeferredFlow(unittest.TestCase):
             return {"found": 10, "top": []}
 
         ok, failed = self.collect(
-            lambda s, k, q: {"op": f"op-{q}"}, fetch)
+            lambda s, k, q, r: {"op": f"op-{q}-{r}"}, fetch)
         self.assertEqual((ok, failed), (2, 0))
         self.assertEqual(len(self.rows), 2)
+        self.assertEqual({r["region"] for r in self.rows}, {"213", "2"})
         self.assertEqual(self.sw.month_spent(self.date), 2)
 
     def test_submit_error_is_logged_and_written(self):
         ok, failed = self.collect(
-            lambda s, k, q: {"error": "HTTP 403: нет прав"},
+            lambda s, k, q, r: {"error": "HTTP 403: нет прав"},
             lambda s, k, op: None)
         self.assertEqual((ok, failed), (0, 2))
         self.assertIn("HTTP 403", self.rows[0]["error"])
@@ -206,7 +211,7 @@ class TestDeferredFlow(unittest.TestCase):
 
     def test_deadline_saves_pending_operations(self):
         ok, failed = self.collect(
-            lambda s, k, q: {"op": f"op-{q}"},
+            lambda s, k, q, r: {"op": f"op-{q}-{r}"},
             lambda s, k, op: None, timeout=0)
         self.assertEqual((ok, failed), (0, 2))
         self.assertTrue(all("не готов к дедлайну" in r["error"]
@@ -215,6 +220,18 @@ class TestDeferredFlow(unittest.TestCase):
             (self.sw.SERP_DIR / f"pending-{DATE}.json").read_text(
                 encoding="utf-8"))
         self.assertEqual(len(pending), 2)
+        self.assertEqual({p["region"] for p in pending}, {"213", "2"})
+
+    def test_build_tasks_full_msk_plus_spb_top(self):
+        core = [f"q{i}" for i in range(self.sw.SPB_TOP + 50)]
+        tasks = self.sw.build_tasks(core)
+        msk = [t for t in tasks if t["region"] == self.sw.REGION_MSK]
+        spb = [t for t in tasks if t["region"] == self.sw.REGION_SPB]
+        self.assertEqual(len(msk), len(core))
+        self.assertEqual(len(spb), self.sw.SPB_TOP)
+        # СПб — в хвосте: усечение бюджетом режет дубль-регион, не ядро
+        self.assertTrue(all(t["region"] == self.sw.REGION_MSK
+                            for t in tasks[:len(core)]))
 
 
 class TestSerpAnalysis(unittest.TestCase):

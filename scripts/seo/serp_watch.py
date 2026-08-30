@@ -43,9 +43,14 @@ LEDGER_DIR = SERP_DIR / "ledger"
 POLL_TIMEOUT_S = 35 * 60
 POLL_INTERVAL_S = 20
 
-MONTHLY_CAP = 5000        # решение руководителя 30.08.2026
-DAILY_CAP = 170           # 150 ядро + запас; держит месяц в потолке
-REGION = "213"            # Москва; выдача Яндекса регионозависима
+# Потолки — решение руководителя 30.08.2026 («зелёный свет» на расширение
+# по фактическому прайсу отложенного ночного тарифа 25,41 ₽/1000):
+# полное коммерческое ядро по Москве + топ ядра по Санкт-Петербургу.
+MONTHLY_CAP = 20000
+DAILY_CAP = 700           # ~500 ядро Мск + 150 СПб + запас на ручные пробы
+REGION_MSK = "213"
+REGION_SPB = "2"
+SPB_TOP = 150             # сколько верхних запросов ядра дублируется по СПб
 TOP_N = 20
 
 MSK = ZoneInfo("Europe/Moscow")
@@ -85,10 +90,11 @@ def day_spent(date: dt.date) -> int:
     return n
 
 
-def log_call(date: dt.date, query: str, status: str, found: int | None):
+def log_call(date: dt.date, query: str, status: str, found: int | None,
+             region: str = REGION_MSK):
     LEDGER_DIR.mkdir(parents=True, exist_ok=True)
     entry = {"at": dt.datetime.now(dt.timezone.utc).isoformat(timespec="seconds"),
-             "query": query, "region": REGION, "status": status,
+             "query": query, "region": region, "status": status,
              "found": found}
     with ledger_path(date).open("a", encoding="utf-8") as f:
         f.write(json.dumps(entry, ensure_ascii=False) + "\n")
@@ -106,11 +112,12 @@ def _parse_raw(raw: str) -> dict:
     return {"found": parsed.get("found"), "top": parsed["docs"][:TOP_N]}
 
 
-def submit_deferred(session, key: str, query: str) -> dict:
+def submit_deferred(session, key: str, query: str,
+                    region: str = REGION_MSK) -> dict:
     """Отправка отложенного запроса → id операции. Тарифицируется отправка;
     опрос операции бесплатен."""
     body = {"query": {"searchType": "SEARCH_TYPE_RU", "queryText": query},
-            "region": REGION}
+            "region": region}
     r = session.post(ASYNC_URL, json=body, timeout=60, headers=_headers(key))
     if not r.ok:
         return {"error": f"HTTP {r.status_code}: {r.text[:300]}"}
@@ -137,40 +144,42 @@ def fetch_operation(session, key: str, op: str) -> dict | None:
 
 
 def collect_deferred(session, key: str, date: dt.date,
-                     queries: list[str], writer) -> tuple[int, int]:
+                     tasks: list[dict], writer) -> tuple[int, int]:
     """Пакет отложенных запросов: отправить все, затем добирать опросом.
 
-    Каждая отправка — строка журнала (платный вызов). Не готовое к дедлайну
-    пишется ошибкой в срез, а id операций сохраняются в pending-файл для
-    ручного разбора.
+    Задание — {"query", "region"}: одно ядро снимается по нескольким
+    регионам. Каждая отправка — строка журнала (платный вызов). Не готовое
+    к дедлайну пишется ошибкой в срез, а id операций — в pending-файл.
     """
-    pending: dict[str, str] = {}
+    pending: dict[tuple[str, str], str] = {}
     ok = failed = 0
-    for q in queries:
+    for t in tasks:
+        q, region = t["query"], t.get("region", REGION_MSK)
         try:
-            res = submit_deferred(session, key, q)
+            res = submit_deferred(session, key, q, region)
         except Exception as e:  # noqa: BLE001
             res = {"error": f"{type(e).__name__}: {e}"}
-        log_call(date, q, "submitted" if "op" in res else "submit-error", None)
+        log_call(date, q, "submitted" if "op" in res else "submit-error",
+                 None, region)
         if "op" in res:
-            pending[q] = res["op"]
+            pending[(q, region)] = res["op"]
         else:
             failed += 1
-            writer({"date": date.isoformat(), "query": q, "region": REGION,
+            writer({"date": date.isoformat(), "query": q, "region": region,
                     "error": res["error"]})
         time.sleep(0.15)
 
     deadline = time.monotonic() + POLL_TIMEOUT_S
     while pending and time.monotonic() < deadline:
-        for q, op in list(pending.items()):
+        for (q, region), op in list(pending.items()):
             try:
                 res = fetch_operation(session, key, op)
             except Exception as e:  # noqa: BLE001
                 res = {"error": f"{type(e).__name__}: {e}"}
             if res is None:
                 continue
-            del pending[q]
-            row = {"date": date.isoformat(), "query": q, "region": REGION,
+            del pending[(q, region)]
+            row = {"date": date.isoformat(), "query": q, "region": region,
                    **res}
             writer(row)
             ok += "error" not in res
@@ -180,16 +189,18 @@ def collect_deferred(session, key: str, date: dt.date,
 
     if pending:
         pfile = SERP_DIR / f"pending-{date.isoformat()}.json"
-        pfile.write_text(json.dumps(pending, ensure_ascii=False, indent=1),
-                         encoding="utf-8")
-        for q, op in pending.items():
+        pfile.write_text(json.dumps(
+            [{"query": q, "region": r, "op": op}
+             for (q, r), op in pending.items()],
+            ensure_ascii=False, indent=1), encoding="utf-8")
+        for (q, region), op in pending.items():
             failed += 1
-            writer({"date": date.isoformat(), "query": q, "region": REGION,
+            writer({"date": date.isoformat(), "query": q, "region": region,
                     "error": f"результат не готов к дедлайну (operation {op})"})
     return ok, failed
 
 
-def run(date_s: str, queries: list[str]) -> dict:
+def run(date_s: str, tasks: list[dict]) -> dict:
     import requests
 
     key = os.environ.get("WORDSTAT_API_KEY", "").strip()
@@ -206,8 +217,8 @@ def run(date_s: str, queries: list[str]) -> dict:
                   f"дневной потолок {DAILY_CAP} запросов исчерпан "
                   f"({today} за сегодня)")
         return {"error": reason, "spent_month": spent, "spent_today": today}
-    todo = queries[:budget]
-    skipped = len(queries) - len(todo)
+    todo = tasks[:budget]
+    skipped = len(tasks) - len(todo)
 
     SERP_DIR.mkdir(parents=True, exist_ok=True)
     out_path = SERP_DIR / f"{date_s}-serp.jsonl"
@@ -223,15 +234,25 @@ def run(date_s: str, queries: list[str]) -> dict:
             "out": str(out_path)}
 
 
+def build_tasks(core: list[str]) -> list[dict]:
+    """Задания среза: всё ядро по Москве + верх ядра по Санкт-Петербургу.
+
+    СПб идёт после всего московского списка: при усечении бюджетом
+    страдает дубль-регион, а не основное покрытие.
+    """
+    return ([{"query": q, "region": REGION_MSK} for q in core]
+            + [{"query": q, "region": REGION_SPB} for q in core[:SPB_TOP]])
+
+
 def main() -> int:
     date_s = sys.argv[1] if len(sys.argv) > 1 else dt.datetime.now(
         MSK).date().isoformat()
     import serp_watchlist
-    queries = serp_watchlist.build(date_s)
-    if not queries:
+    core = serp_watchlist.build(date_s)
+    if not core:
         print("watchlist пуст — собирать нечего")
         return 1
-    res = run(date_s, queries)
+    res = run(date_s, build_tasks(core))
     print(json.dumps(res, ensure_ascii=False, indent=1))
     return 1 if res.get("error") or res.get("failed") == res.get("requested") \
         else 0
