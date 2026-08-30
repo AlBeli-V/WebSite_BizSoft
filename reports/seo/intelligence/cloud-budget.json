@@ -6,8 +6,8 @@
   "balance_rub": 10000,
   "note": "пополнение руководителя 30.08.2026 («Пополнил баланс Яндекс Клауд на 10000 руб»); принято как расчётная базовая точка — прежний остаток в неё не входит (оценка снизу)"
  },
- "balance_source": "estimate",
- "balance_estimate_rub": 9840.63,
+ "balance_source": "billing_api",
+ "balance_estimate_rub": 15500.0,
  "spent_since_baseline": {
   "wordstat_rub": 12.37,
   "serp_requests": 300,
@@ -16,8 +16,33 @@
  },
  "week_spend_rub": 159.37,
  "daily_rate_rub": 159.37,
- "runway_days": 61.7,
+ "runway_days": 97.3,
  "needs_topup": false,
- "billing_skus": [],
- "assumptions": "остаток расчётный: базовая точка минус журналы; SERP оценён по 0.49 ₽/запрос (дневной тариф, оценка сверху)"
+ "billing_skus": [
+  {
+   "id": "dn24qutnizoky4bea4cu",
+   "name": "Retrieving data from the Wordstat API (GetDynamics)",
+   "unit": "1k*request",
+   "price_rub": 20.0
+  },
+  {
+   "id": "dn2bf3ayqprrlpirj7es",
+   "name": "Retrieving data from the Wordstat API (GetRegionsDistribution)",
+   "unit": "1k*request",
+   "price_rub": 50.0
+  },
+  {
+   "id": "dn2iwfpcocjyvohg6v2t",
+   "name": "Retrieving data from the Wordstat API (GetRegionsTree)",
+   "unit": "1k*request",
+   "price_rub": 0.0
+  },
+  {
+   "id": "dn2jigahawk2h4jvhi4s",
+   "name": "Retrieving data from the Wordstat API (GetTop)",
+   "unit": "1k*request",
+   "price_rub": 20.0
+  }
+ ],
+ "assumptions": "остаток фактический (Billing API); расход в день — по журналам вызовов (история остатка ещё коротка)"
 }

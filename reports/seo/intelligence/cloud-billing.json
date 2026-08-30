@@ -1,0 +1,34 @@
+{
+ "fetched_at": "2026-08-30T07:54:10+00:00",
+ "date": "2026-08-30",
+ "account_id": "dn2wankgmou5ygwbjvgl",
+ "account_name": "account-558",
+ "currency": "RUB",
+ "balance_rub": 15500.0,
+ "skus": [
+  {
+   "id": "dn24qutnizoky4bea4cu",
+   "name": "Retrieving data from the Wordstat API (GetDynamics)",
+   "unit": "1k*request",
+   "price_rub": 20.0
+  },
+  {
+   "id": "dn2bf3ayqprrlpirj7es",
+   "name": "Retrieving data from the Wordstat API (GetRegionsDistribution)",
+   "unit": "1k*request",
+   "price_rub": 50.0
+  },
+  {
+   "id": "dn2iwfpcocjyvohg6v2t",
+   "name": "Retrieving data from the Wordstat API (GetRegionsTree)",
+   "unit": "1k*request",
+   "price_rub": 0.0
+  },
+  {
+   "id": "dn2jigahawk2h4jvhi4s",
+   "name": "Retrieving data from the Wordstat API (GetTop)",
+   "unit": "1k*request",
+   "price_rub": 20.0
+  }
+ ]
+}
