@@ -21,6 +21,8 @@ import SeoHead from '../components/SeoHead.astro';
 import Analytics from '../components/Analytics.astro';
 import CookieNotice from '../components/CookieNotice.astro';
 import JsonLd from '../components/JsonLd.astro';
+import WebMCP from '../components/WebMCP.astro';
+import { WEBMCP_ENABLED } from '../webmcp/flag';
 import { organizationSchema, websiteSchema } from '../lib/seo';
 
 interface Props {
@@ -66,6 +68,7 @@ const { title, description, canonical, ogImage, noindex, type, keywords } = Astr
     <Footer />
     <Analytics />
     <CookieNotice />
+    {WEBMCP_ENABLED && <WebMCP />}
 
     <style is:global>
       .skip-link {
