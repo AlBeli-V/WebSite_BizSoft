@@ -8,6 +8,8 @@ import sys
 import unittest
 
 ROOT = pathlib.Path(__file__).resolve().parents[3]
+# Реальный срез 19.08 переехал из копий main в фикстуры (30.08.2026).
+FIXROOT = pathlib.Path(__file__).resolve().parent / "fixtures"
 sys.path.insert(0, str(ROOT / "scripts" / "seo"))
 DATE = "2026-08-19"
 
@@ -25,9 +27,9 @@ class TestMeasurementMap(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.m = load("measurement")
-        cls.snap = json.loads((ROOT / f"reports/seo/intelligence/snapshots/{DATE}.json")
+        cls.snap = json.loads((FIXROOT / f"reports/seo/intelligence/snapshots/{DATE}.json")
                               .read_text(encoding="utf-8"))
-        cls.dq = json.loads((ROOT / f"reports/seo/intelligence/data-quality/{DATE}.json")
+        cls.dq = json.loads((FIXROOT / f"reports/seo/intelligence/data-quality/{DATE}.json")
                             .read_text(encoding="utf-8"))
 
     def test_five_entities_are_distinct(self):
@@ -77,9 +79,12 @@ class TestDrivers(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.d = load("drivers")
-        cls.snap = json.loads((ROOT / f"reports/seo/intelligence/snapshots/{DATE}.json")
+        cls.snap = json.loads((FIXROOT / f"reports/seo/intelligence/snapshots/{DATE}.json")
                               .read_text(encoding="utf-8"))
-        cls.prev = load("snapshot").prev_snapshot(DATE)
+        snap_mod = load("snapshot")
+        # Данные из фикстур: копии machine-данных вычищены из main 30.08.2026.
+        snap_mod.OUT_DIR = FIXROOT / "reports/seo/intelligence/snapshots"
+        cls.prev = snap_mod.prev_snapshot(DATE)
 
     def test_pages_are_named(self):
         res = self.d.build(self.snap, self.prev)
@@ -114,7 +119,7 @@ class TestOpportunity(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.o = load("opportunity")
-        cls.snap = json.loads((ROOT / f"reports/seo/intelligence/snapshots/{DATE}.json")
+        cls.snap = json.loads((FIXROOT / f"reports/seo/intelligence/snapshots/{DATE}.json")
                               .read_text(encoding="utf-8"))
 
     def test_limited_to_three(self):
@@ -142,7 +147,9 @@ class TestExperimentControl(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.e = load("experiments")
-        cls.snap = json.loads((ROOT / f"reports/seo/intelligence/snapshots/{DATE}.json")
+        # Данные из фикстур: копии machine-данных вычищены из main 30.08.2026.
+        cls.e.REGISTRY = FIXROOT / "reports/seo/intelligence/seo-experiments.json"
+        cls.snap = json.loads((FIXROOT / f"reports/seo/intelligence/snapshots/{DATE}.json")
                               .read_text(encoding="utf-8"))
         cls.rows = cls.e.build(cls.snap, DATE,
                                {"snippets-5-vendors": {"pages_recrawled": 5,
@@ -307,7 +314,7 @@ class TestEmailV4(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.r = load("report_v4")
-        base = ROOT / "reports/seo/intelligence"
+        base = FIXROOT / "reports/seo/intelligence"
         cls.preview = (base / f"{DATE}-v4.html").read_text(encoding="utf-8")
         cls.text = (base / f"{DATE}-v4.txt").read_text(encoding="utf-8")
         cls.blocks = json.loads((base / f"{DATE}-v4-blocks.json").read_text(encoding="utf-8"))
@@ -356,7 +363,7 @@ class TestEmailV4(unittest.TestCase):
         self.assertLessEqual(self.preview.count("border-radius:12px"), 8)
 
     def test_web_report_exists(self):
-        self.assertTrue((ROOT / f"reports/seo/public/daily/{DATE}/index.html").exists())
+        self.assertTrue((FIXROOT / f"reports/seo/public/daily/{DATE}/index.html").exists())
 
 
 if __name__ == "__main__":

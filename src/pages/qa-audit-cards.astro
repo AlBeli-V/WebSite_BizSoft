@@ -1,0 +1,47 @@
+---
+// Временная страница аудита качества иконок в карточках товара (не коммитить)
+import ProductIcon from '../components/ProductIcon.astro';
+import VendorIcon from '../components/VendorIcon.astro';
+import { productIcons } from '../data/product-icons';
+import '../styles/global.css';
+// подозреваемые по программному скану + все 13 новых привязок + fallback-кейсы
+const productSlugs = [
+  'capture-one-pro',
+  'fl-studio-producer', 'fl-studio-all-plugins',
+  'izotope-ozone-standard', 'izotope-neutron',
+  'lumion-view', 'lumion-pro',
+  'winrar-license',
+  // подозреваемые: мелкий растр
+  'jb-plg-android-antidecompiler-ind', 'jb-plg-ymlhelper-ind', 'jb-plg-gorm-ind', 'jb-plg-firebase-firestore-ind',
+  'solidworks-design-premium',
+  'sketchup-pro', 'sketchup-go',
+  'moarr-everything',
+];
+// фолбэк вендора в карточке (нет продуктовой иконки)
+const vendorFallbacks = ['izotope', 'fl-studio', 'winrar', 'capture-one', 'lumion'];
+const resolved = productSlugs.map((s) => ({ s, n: productIcons(s).length }));
+---
+<html><head><title>Аудит: карточки товара 34px</title></head>
+<body style="font-family:sans-serif;background:#fff;padding:16px;margin:0">
+  <h2 style="margin:4px 0">Карточка товара — ProductIcon 34 (mono | color) и увеличение 68</h2>
+  <table style="border-collapse:collapse;font-size:12px">
+    {resolved.map(({ s, n }) => (
+      <tr style="border-bottom:1px solid #eee">
+        <td style="padding:4px 10px">{s} {n === 0 && <b style="color:#c00">нет иконки → фолбэк</b>}</td>
+        <td style="padding:4px 10px">{n > 0 && <ProductIcon slug={s} name={s} size={34} variant="mono" />}</td>
+        <td style="padding:4px 10px">{n > 0 && <ProductIcon slug={s} name={s} size={34} variant="color" />}</td>
+        <td style="padding:4px 10px">{n > 0 && <ProductIcon slug={s} name={s} size={68} variant="color" />}</td>
+      </tr>
+    ))}
+  </table>
+  <h2 style="margin:12px 0 4px">Фолбэк вендора в карточке — VendorIcon 34</h2>
+  <table style="border-collapse:collapse;font-size:12px">
+    {vendorFallbacks.map((v) => (
+      <tr style="border-bottom:1px solid #eee">
+        <td style="padding:4px 10px">{v}</td>
+        <td style="padding:4px 10px"><VendorIcon slug={v} name={v} size={34} variant="mono" /></td>
+        <td style="padding:4px 10px"><VendorIcon slug={v} name={v} size={34} variant="color" /></td>
+      </tr>
+    ))}
+  </table>
+</body></html>
