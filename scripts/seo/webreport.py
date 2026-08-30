@@ -119,6 +119,62 @@ def _ads_section(ads: dict) -> str:
             f"<h3>Реальные поисковые запросы</h3>{queries_html}")
 
 
+def _evaluation_html(e: dict) -> str:
+    """Полная оценка вердикт-движка эксперимента (задание 30.08.2026).
+
+    Письмо показывает выжимку в контрольную дату; здесь — вся картина каждый
+    день: окна, общие и matched-метрики, статистика, рекомендация и полный
+    список страниц для расширения. Отсутствие оценки не ломает раздел.
+    """
+    ev = e.get("evaluation")
+    if not ev:
+        return ""
+    vl = {"CONFIRMED": ("подтверждён", "positive"),
+          "REJECTED": ("отвергнут: ухудшение", "danger"),
+          "INCONCLUSIVE": ("вывод невозможен", "warning"),
+          "INSUFFICIENT_DATA": ("мало данных", "")}
+    label, cls = vl[ev["verdict"]]
+    rl = {"EXPAND": "расширить", "REVERT": "откатить", "KEEP": "оставить",
+          "EXTEND": "продлить наблюдение", "NEW_TEST": "новый тест"}
+    rows = [["вердикт", f"<span class='chip {cls}'>{label}</span> — {ev['verdict_reason']}"],
+            ["уверенность", {"HIGH": "высокая", "MEDIUM": "средняя",
+                             "LOW": "низкая"}[ev["confidence"]]],
+            ["рекомендация", f"{rl[ev['recommendation']]} — "
+                             f"{ev['recommendation_detail'] or '—'}"]]
+    if ev.get("windows"):
+        w, mm, om = ev["windows"], ev["matched_metrics"], ev["metrics"]
+        stat = ev.get("statistical_result") or {}
+        taint = " (захватывает день внедрения)" if w["experiment"].get("tainted") else ""
+        rows += [
+            ["окно до", f"{w['baseline']['from']} — {w['baseline']['to']}"],
+            ["окно после", f"{w['experiment']['from']} — {w['experiment']['to']}{taint}"],
+            ["кластер (все запросы)",
+             f"до: {om['baseline']['impressions']} показов / {om['baseline']['clicks']} кликов; "
+             f"после: {om['experiment']['impressions']} / {om['experiment']['clicks']}"],
+            ["совпадающие запросы", str(mm["queries"])],
+            ["CTR (matched)",
+             f"{_p(stat.get('baseline_ctr'))} → {_p(stat.get('experiment_ctr'))} "
+             f"(абс. {_p(stat.get('absolute_uplift'))}, "
+             f"отн. {_p(stat.get('relative_uplift'), 0)})"],
+            ["средняя позиция (matched), Δ",
+             "—" if ev["position_delta"] is None else f"{ev['position_delta']:+.2f}"],
+            ["p-value", "—" if stat.get("p_value") is None else f"{stat['p_value']:.4f}"],
+        ]
+    if ev.get("sample_quality"):
+        rows.append(["качество выборки", "; ".join(ev["sample_quality"])])
+    if ev.get("recommended_targets"):
+        rows.append(["страницы для расширения", "<br>".join(ev["recommended_targets"])])
+    if ev.get("requires_owner_decision"):
+        rows.append(["статус", "<b>ТРЕБУЕТСЯ РЕШЕНИЕ ВЛАДЕЛЬЦА</b> — ответ в чате: "
+                               f"KEEP/REVERT/EXPAND/EXTEND {ev['ticket']}"])
+    return ("<h4>Оценка вердикт-движка (данные Яндекса)</h4>"
+            + table(["Параметр", "Значение"], rows))
+
+
+def _p(v, digits=2) -> str:
+    return "—" if v is None else f"{v * 100:.{digits}f}%"
+
+
 def _demand_section() -> str:
     """Покрытие спроса и разрывы: полные таблицы живут здесь, не в письме."""
     if not DEMAND_STATE.exists():
@@ -509,8 +565,9 @@ def build_html(b: dict, snap: dict, dq: dict, date: str) -> str:
                 ["переходов накоплено", num(e["clicks_since_deploy"])],
                 ["целевой показатель", e["primary_metric"]],
                 ["достоверность", e["confidence"]],
-                ["следующая проверка", ru_date_full(e["next_review"])],
-                ["вывод", f"{VERDICT_LABEL[e['verdict']]} — {e['verdict_reason']}"]]))
+                ["следующая проверка", ru_date_full(e["next_review"]) if e.get("next_review") else "вехи пройдены"],
+                ["вывод", f"{VERDICT_LABEL[e['verdict']]} — {e['verdict_reason']}"]])
+            + _evaluation_html(e))
 
     drivers = ""
     for db in b["driver_blocks"]:
