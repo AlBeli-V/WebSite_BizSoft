@@ -14,7 +14,7 @@ import VendorLogo from './VendorLogo.astro';
 import JsonLd from './JsonLd.astro';
 import { getProducts } from '../lib/directus';
 import { effectivePrice, formatRub } from '../lib/pricing';
-import { collectionPageSchema, faqSchema, breadcrumbSchema } from '../lib/seo';
+import { collectionPageSchema } from '../lib/seo';
 import { SEO_EXPERIMENTS } from '../data/seo-experiments';
 import { planType, PLAN_LABEL } from '../lib/plan-type';
 import { productIcons } from '../data/product-icons';
@@ -88,10 +88,9 @@ const hasDecision = !!content.decision && content.decision.length > 0;
 const hasScenarios = !!content.scenarios && content.scenarios.length > 0;
 
 const description = `${title} для юридических лиц: ${entry.tagline} Покупка по договору и счёту, оплата в рублях, закрывающие документы через ЭДО.`;
+// FAQPage выводит компонент FAQ, BreadcrumbList — компонент Breadcrumbs.
 const ld = [
   collectionPageSchema({ name: `${title} для бизнеса`, description, url: pageUrl, items: cards.map((c) => ({ name: c.name, slug: c.slug })) }),
-  faqSchema(faq),
-  breadcrumbSchema([{ name: 'Главная', url: '/' }, ...crumbs]),
 ];
 
 // Раздел назначения ПО: какие решения под задачу отвечают на вопрос
@@ -239,7 +238,7 @@ const solutionLinks = (VENDOR_SOLUTIONS[entry.slug] || [])
   </section>
 
   <!-- FAQ -->
-  <FAQ items={faq} title={faqTitle} schema={false} />
+  <FAQ items={faq} title={faqTitle} />
 
   <!-- Финальный CTA -->
   <section class="block final">

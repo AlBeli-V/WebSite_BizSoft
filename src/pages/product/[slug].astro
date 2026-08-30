@@ -11,7 +11,7 @@ import CTASection from '../../components/CTASection.astro';
 import JsonLd from '../../components/JsonLd.astro';
 import { getProductBySlug, findCanonicalProductSlug, getProductsBySlugs, galleryImages , getCurrencyRate } from '../../lib/directus';
 import { isSourceUnavailable, serviceUnavailable } from '../../lib/http';
-import { productSchema } from '../../lib/seo';
+import { productSchema, canonicalUrl } from '../../lib/seo';
 import { effectivePrice, formatRub } from '../../lib/pricing';
 import { ORIGIN_LABEL, LICENSE_LABEL, listValues } from '../../lib/types';
 import { vendorLegal, productNoindex } from '../../lib/catalog';
@@ -75,6 +75,27 @@ try {
 // Перелинковка AI-карточки (сравнения / статьи / категория) — только для AI-вендоров.
 const aiLinks = product.vendor ? getAiInterlinks(product.vendor) : null;
 
+// Товарная разметка. JSON-LD — для Google и общих потребителей; ниже в
+// шаблоне тот же товар продублирован microdata-слоем для Яндекса (его
+// справка гарантирует обработку товарной разметки только в microdata,
+// и только microdata показывает валидатор Вебмастера). Оба слоя строятся
+// из одних данных (effectivePrice + Directus) — расходиться им не с чего;
+// согласованность закреплена смоук-проверкой. Для «цены по запросу»
+// productSchema возвращает null — товарной разметки нет ни в одном слое.
+const productLd = productSchema(product, { images: gallery.map((g) => g.url) });
+const canonicalProductUrl = canonicalUrl(`/product/${product.slug}`);
+const microImage = gallery.length > 0 ? gallery[0].url : canonicalUrl('/og-default.png');
+// Наборы microdata-атрибутов: у «цены по запросу» пустые — атрибуты не
+// выводятся вовсе, страница остаётся без товарной microdata.
+const mdProduct = !byRequest
+  ? { itemscope: true, itemtype: 'https://schema.org/Product', itemid: `${canonicalProductUrl}#product` }
+  : {};
+const mdName = !byRequest ? { itemprop: 'name' } : {};
+const mdDesc = !byRequest && product.short_description ? { itemprop: 'description' } : {};
+const mdOffer = !byRequest
+  ? { itemprop: 'offers', itemscope: true, itemtype: 'https://schema.org/Offer' }
+  : {};
+
 // Обратная перелинковка «карточка → статья»: берём статьи, которые сами
 // ссылаются на этот товар через relatedProducts, — связь описывается один раз
 // во frontmatter статьи и работает для любого вендора, не только AI.
@@ -96,7 +117,7 @@ try {
   noindex={Boolean(product.noindex) || productNoindex(product.sku)}
   ogImage={`/og/product/${product.slug}.png`}
 >
-  <JsonLd schema={productSchema(product, { images: gallery.map((g) => g.url) })} />
+  {productLd && <JsonLd schema={productLd} />}
   <div class="container-page section">
     <Breadcrumbs
       items={[
@@ -107,8 +128,23 @@ try {
       ]}
     />
 
-    <div class="product-layout">
+    <div class="product-layout" {...mdProduct}>
       <div class="product-main">
+        {!byRequest && (
+          <>
+            <meta itemprop="sku" content={product.sku} />
+            <link itemprop="url" href={canonicalProductUrl} />
+            <link itemprop="image" href={microImage} />
+            {!product.short_description && (
+              <meta itemprop="description" content={product.meta_description || product.name} />
+            )}
+            {product.vendor && (
+              <span hidden itemprop="brand" itemscope itemtype="https://schema.org/Brand">
+                <meta itemprop="name" content={product.vendor} />
+              </span>
+            )}
+          </>
+        )}
         <div class="badges">
           {product.origin && <span class="badge" data-origin={product.origin}>{ORIGIN_LABEL[product.origin]}</span>}
           {product.license_type && <span class="badge badge-muted">{LICENSE_LABEL[product.license_type]}</span>}
@@ -116,11 +152,11 @@ try {
         </div>
         <span class="sku">Артикул: {product.sku}{product.vendor ? ` · Производитель: ${vendorLegal(product.vendor)}` : ''}</span>
         {productIcons(product.slug).length > 0 ? (
-          <h1 class="h1-ico"><ProductIcon slug={product.slug} name={product.name} size={44} variant="color" /> {product.name}</h1>
+          <h1 class="h1-ico" {...mdName}><ProductIcon slug={product.slug} name={product.name} size={44} variant="color" /> {product.name}</h1>
         ) : (
-          <h1>{product.name}</h1>
+          <h1 {...mdName}>{product.name}</h1>
         )}
-        {product.short_description && <p class="lead">{product.short_description}</p>}
+        {product.short_description && <p class="lead" {...mdDesc}>{product.short_description}</p>}
 
         {gallery.length > 0 && (
           <div class="gallery" data-gallery>
@@ -245,7 +281,15 @@ try {
       </div>
 
       <aside class="product-aside">
-        <div class="card buy-card">
+        <div class="card buy-card" {...mdOffer}>
+          {!byRequest && (
+            <>
+              <link itemprop="url" href={canonicalProductUrl} />
+              <meta itemprop="price" content={String(eff.price)} />
+              <meta itemprop="priceCurrency" content={product.currency || 'RUB'} />
+              <link itemprop="availability" href="https://schema.org/InStock" />
+            </>
+          )}
           {byRequest ? (
             <div class="price-req">Цена по запросу</div>
           ) : (

@@ -15,7 +15,8 @@
 set -euo pipefail
 
 BRANCH=seo-data
-DIRS=(reports/seo/data reports/seo/wordstat reports/seo/intelligence reports/seo/public)
+DIRS=(reports/seo/data reports/seo/wordstat reports/seo/intelligence
+      reports/seo/public reports/seo/ppc)
 
 cmd=${1:?использование: data_sync.sh pull | push \"сообщение\"}
 

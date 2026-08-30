@@ -18,7 +18,6 @@ import { vendorIcon } from '../data/vendor-icons';
 import VendorIcon from './VendorIcon.astro';
 import { vendorLegal } from '../lib/catalog';
 import { site } from '../config/site';
-import { breadcrumbSchema } from '../lib/seo';
 import type { Product } from '../lib/types';
 
 interface Props {
@@ -56,8 +55,8 @@ const faq = [
 ];
 
 const crumbs = [{ name: 'Каталог', url: '/catalog' }, { name: 'Производители', url: '/vendors' }, { name, url: `/vendors/${slug}` }];
+// FAQPage выводит компонент FAQ, BreadcrumbList — компонент Breadcrumbs.
 const ld = [
-  breadcrumbSchema(crumbs),
   {
     '@context': 'https://schema.org',
     '@type': 'CollectionPage',
@@ -67,11 +66,6 @@ const ld = [
       '@type': 'ItemList',
       itemListElement: products.slice(0, 30).map((p, i) => ({ '@type': 'ListItem', position: i + 1, name: p.name, url: `${site.url}/product/${p.slug}` })),
     },
-  },
-  {
-    '@context': 'https://schema.org',
-    '@type': 'FAQPage',
-    mainEntity: faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
   },
 ];
 ---
