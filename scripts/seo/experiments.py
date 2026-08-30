@@ -94,7 +94,22 @@ def verdict_for(days: int, impressions: int | None, live: int | None,
     return ("observing", "экспозиция набрана, ждём контрольную дату")
 
 
+def control_dates_for(start: dt.date, explicit: str | None = None) -> list[str]:
+    """Все контрольные даты эксперимента: вехи от старта плюс явная из реестра."""
+    dates = {(start + dt.timedelta(days=n)).isoformat()
+             for n in REVIEW_MILESTONES_DAYS}
+    if explicit:
+        dates.add(explicit)
+    return sorted(dates)
+
+
 def build(snap: dict, date: str, site_check: dict | None = None) -> list[dict]:
+    # Вердикт-движок (задание руководителя 30.08.2026): оценка считается
+    # ежедневно и показывается в веб-отчёте; в письмо расширенный блок и
+    # запрос решения попадают только в контрольную дату. Сбой оценки не
+    # ломает письмо: эксперимент остаётся с прежним наблюдательным вердиктом.
+    import experiment_verdict
+
     today = dt.date.fromisoformat(date)
     out = []
     for e in load_registry():
@@ -158,4 +173,15 @@ def build(snap: dict, date: str, site_check: dict | None = None) -> list[dict]:
             "confidence_plain": ("низкая: выборка мала" if (imp or 0) < MIN_EXPOSURE_IMPRESSIONS
                                  else "достаточная по объёму показов"),
         })
+        rec = out[-1]
+        rec["control_date_today"] = date in control_dates_for(
+            start, e.get("next_review"))
+        try:
+            rec["evaluation"] = experiment_verdict.evaluate(e, date)
+            if rec["control_date_today"]:
+                experiment_verdict.save_history(rec["evaluation"])
+        except Exception as err:  # noqa: BLE001 — оценка не должна ронять письмо
+            rec["evaluation"] = None
+            print(f"experiments: оценка {e['id']} не выполнена: {err}",
+                  file=sys.stderr)
     return out

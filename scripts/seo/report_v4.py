@@ -672,6 +672,10 @@ def assemble(snap, prev, dq, actions_cfg, site_check):
     opps = opp_mod.build(snap, "2026-08-26")
     red = [a for a in actions_cfg["actions"] if a["zone"] == "RED"
            and a.get("status") == "awaiting_decision"]
+    # Вердикт эксперимента в контрольную дату (задание 30.08.2026): если движок
+    # просит решение владельца, это поднимается в «От вас» наравне с RED.
+    exp_decisions = [e for e in exps if e.get("control_date_today")
+                     and (e.get("evaluation") or {}).get("requires_owner_decision")]
     url, public = web_url(date)
 
     google_block = next((b for b in dec["blocks"] if b["engine"] == "google"), None)
@@ -686,13 +690,16 @@ def assemble(snap, prev, dq, actions_cfg, site_check):
             {"label": "ПОИСК", "state": st, "text": PILL_LABEL[st]},
             {"label": "ДАННЫЕ", "state": health["status"],
              "text": PILL_LABEL[health["status"]]},
-            {"label": "ОТ ВАС", "state": "required" if red else "none",
-             "text": PILL_LABEL["required" if red else "none"]},
+            {"label": "ОТ ВАС",
+             "state": "required" if (red or exp_decisions) else "none",
+             "text": PILL_LABEL["required" if (red or exp_decisions) else "none"]},
         ],
         "sources_line": _sources_line(snap),
-        "user_action": (red[0]["title"] if red else
-                        "Решений от вас сегодня не требуется."),
-        "user_action_required": bool(red),
+        "user_action": (
+            red[0]["title"] if red else
+            _experiment_decision_line(exp_decisions[0]) if exp_decisions else
+            "Решений от вас сегодня не требуется."),
+        "user_action_required": bool(red or exp_decisions),
         "kpis": kpis,
         "signals": sig,
         "drivers": dec,
@@ -778,6 +785,102 @@ def _sources_line(snap: dict) -> str:
               else "спрос не измерен")
     return (f"{one('Яндекс', snap['yandex'])} · {one('Google', snap['google'])} · "
             f"{one('Метрика', snap['analytics']['metrika'])} · {demand}")
+
+
+# Метки вердикт-движка экспериментов (задание руководителя 30.08.2026).
+EXP_VERDICT_LABEL = {
+    "CONFIRMED": "ПОДТВЕРЖДЁН", "REJECTED": "ОТВЕРГНУТ: ухудшение",
+    "INCONCLUSIVE": "вывод невозможен", "INSUFFICIENT_DATA": "мало данных",
+}
+EXP_VERDICT_TONE = {
+    "CONFIRMED": "positive", "REJECTED": "danger",
+    "INCONCLUSIVE": "warning", "INSUFFICIENT_DATA": "muted",
+}
+EXP_REC_LABEL = {
+    "EXPAND": "расширить", "REVERT": "откатить", "KEEP": "оставить",
+    "EXTEND": "продлить наблюдение", "NEW_TEST": "новый тест",
+}
+EXP_CONF_LABEL = {"HIGH": "высокая", "MEDIUM": "средняя", "LOW": "низкая"}
+
+
+def _experiment_decision_line(e: dict) -> str:
+    ev = e["evaluation"]
+    return (f"{e['ticket']}: вердикт {EXP_VERDICT_LABEL[ev['verdict']]}, "
+            f"рекомендация — {EXP_REC_LABEL[ev['recommendation']]}. "
+            f"Ответьте в чате: {ev['recommendation']} {e['ticket']} "
+            f"(или KEEP/REVERT/EXPAND/EXTEND {e['ticket']}).")
+
+
+def _pctf(v, digits=1) -> str:
+    return "—" if v is None else f"{v * 100:.{digits}f}%"
+
+
+def _verdict_line(e: dict) -> str:
+    """Короткая строка вердикта для «остальных» экспериментов контрольной даты."""
+    ev = e["evaluation"]
+    tail = ""
+    if ev["requires_owner_decision"]:
+        tail = " Требуется ваше решение — подробности в веб-отчёте."
+    return (f"вердикт <b>{EXP_VERDICT_LABEL[ev['verdict']]}</b> "
+            f"({ev['verdict_reason']}); рекомендация — "
+            f"{EXP_REC_LABEL[ev['recommendation']]}.{tail}")
+
+
+def _verdict_panel(e: dict) -> str:
+    """Панель вердикта в контрольную дату (задание 30.08.2026, §11).
+
+    Показывается только когда сегодня контрольная точка эксперимента и
+    оценка выполнена; в остальные дни блок эксперимента прежний.
+    """
+    if not (e.get("control_date_today") and e.get("evaluation")):
+        return ""
+    ev = e["evaluation"]
+    colour = {"positive": T["positive"], "danger": T["danger"],
+              "warning": T["warning"], "muted": T["muted"]}[
+        EXP_VERDICT_TONE[ev["verdict"]]]
+    lines = [f"<div style=\"font-size:15px;font-weight:700;color:{colour};\">"
+             f"Вердикт контрольной точки: {EXP_VERDICT_LABEL[ev['verdict']]}"
+             f" · уверенность {EXP_CONF_LABEL[ev['confidence']]}</div>",
+             f"<div style=\"font-size:14.5px;padding-top:{SP['xs']}px;"
+             f"line-height:1.55;\">{ev['verdict_reason']}.</div>"]
+    if ev.get("windows"):
+        w = ev["windows"]
+        mm = ev["matched_metrics"]
+        stat = ev["statistical_result"] or {}
+        taint = " (окно захватывает день внедрения)" if w["experiment"].get("tainted") else ""
+        pos_s = "—" if ev["position_delta"] is None else f"{ev['position_delta']:+.1f}"
+        p_val = stat.get("p_value")
+        p_s = "—" if p_val is None else f"{p_val:.3f}"
+        lines.append(
+            f"<div data-meta=\"1\" style=\"font-size:12.5px;color:{T['text_secondary']};"
+            f"padding-top:{SP['s']}px;line-height:1.5;\">"
+            f"До: {ru_date(w['baseline']['from'])}–{ru_date(w['baseline']['to'])}, "
+            f"{num(mm['baseline']['impressions'])} показов, CTR "
+            f"{_pctf(mm['baseline']['ctr'])} · После: "
+            f"{ru_date(w['experiment']['from'])}–{ru_date(w['experiment']['to'])}{taint}, "
+            f"{num(mm['experiment']['impressions'])} показов, CTR "
+            f"{_pctf(mm['experiment']['ctr'])} · совпадающих запросов {mm['queries']} · "
+            f"позиция {pos_s} · p={p_s}</div>")
+    rec = [f"<div style=\"font-size:14.5px;padding-top:{SP['s']}px;line-height:1.55;\">"
+           f"<b>Рекомендация: {EXP_REC_LABEL[ev['recommendation']]}.</b> "
+           f"{ev['recommendation_detail']}.</div>"]
+    if ev.get("recommended_targets"):
+        head = ", ".join(ev["recommended_targets"][:3])
+        more = len(ev["recommended_targets"]) - 3
+        rec.append(f"<div data-meta=\"1\" style=\"font-size:12.5px;"
+                   f"color:{T['text_secondary']};padding-top:2px;\">"
+                   f"Первые страницы: {head}"
+                   + (f" и ещё {more} — полный список в веб-отчёте" if more > 0 else "")
+                   + "</div>")
+    if ev["requires_owner_decision"]:
+        rec.append(f"<div style=\"font-size:14.5px;padding-top:{SP['s']}px;"
+                   f"font-weight:700;color:{T['brand']};\">"
+                   f"ТРЕБУЕТСЯ ВАШЕ РЕШЕНИЕ — ответьте в чате: "
+                   f"{ev['recommendation']} {e['ticket']} "
+                   f"(или KEEP/REVERT/EXPAND/EXTEND {e['ticket']}).</div>")
+    return (f"<div style=\"margin-top:{SP['m']}px;padding:{SP['m']}px;"
+            f"background:{T['background']};border-left:3px solid {colour};"
+            f"border-radius:0 10px 10px 0;\">{''.join(lines + rec)}</div>")
 
 
 def _checkpoints(exps, actions_cfg) -> list[dict]:
@@ -1006,7 +1109,11 @@ def html_email(b: dict, charts: dict, cid_mode: bool) -> str:
     # Остальные идут строкой: три полных блока с графиком на каждый раздували
     # письмо, вставляли пять изображений вместо трёх и шесть раз повторяли одну
     # и ту же оговорку «рано для вывода». Читателю от этого не яснее.
-    exps_sorted = sorted(b["experiments"], key=lambda e: -e.get("days_elapsed", 0))
+    # В контрольную дату вперёд выходит эксперимент с вердиктом (задание
+    # 30.08.2026); в обычные дни — самый выдержанный, как прежде.
+    exps_sorted = sorted(b["experiments"],
+                         key=lambda e: (not e.get("control_date_today"),
+                                        -e.get("days_elapsed", 0)))
     if exps_sorted:
         e = exps_sorted[0]
         others = exps_sorted[1:]
@@ -1014,13 +1121,18 @@ def html_email(b: dict, charts: dict, cid_mode: bool) -> str:
         if others:
             lines = "".join(
                 f"<div style=\"font-size:14.5px;padding-top:{SP['xs']}px;line-height:1.5;\">"
-                f"<b>{o['ticket']}</b> — {counted(o['days_elapsed'], 'день', 'дня', 'дней')} "
-                f"из {o['minimum_exposure']}, проверка {ru_date(o['next_review'])}.</div>"
+                f"<b>{o['ticket']}</b> — "
+                + (_verdict_line(o) if o.get("control_date_today")
+                   and o.get("evaluation") else
+                   f"{counted(o['days_elapsed'], 'день', 'дня', 'дней')} "
+                   f"из {o['minimum_exposure']}, проверка {ru_date(o['next_review'])}.")
+                + "</div>"
                 for o in others)
             extra = (f"<div style=\"padding-top:{SP['m']}px;border-top:1px solid {T['border']};"
                      f"margin-top:{SP['m']}px;\">"
                      f"<div data-meta=\"1\" style=\"font-size:12.5px;color:{T['text_secondary']};\">"
                      f"Ещё в работе, выводы по расписанию</div>{lines}</div>")
+        extra = _verdict_panel(e) + extra
         rows.append(_section(
             "Контроль эксперимента",
             f"<table role=\"presentation\" width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" "
@@ -1317,7 +1429,9 @@ def plain_text(b: dict) -> str:
                  f"({round(r['share_of_total_delta'] * 100)}% изменения)")
     # Текстовая версия повторяет вёрстку письма: подробно один эксперимент,
     # остальные — строкой. Иначе plain text расходится с HTML по составу.
-    exps_txt = sorted(b["experiments"], key=lambda x: -x.get("days_elapsed", 0))
+    exps_txt = sorted(b["experiments"],
+                      key=lambda x: (not x.get("control_date_today"),
+                                     -x.get("days_elapsed", 0)))
     if exps_txt:
         e = exps_txt[0]
         L += ["", "КОНТРОЛЬ ЭКСПЕРИМЕНТА",
@@ -1327,9 +1441,26 @@ def plain_text(b: dict) -> str:
               f"  {e['current_result']}",
               f"  вывод: {VERDICT_LABEL[e['verdict']]} — {e['verdict_reason']}",
               f"  {e['combined_note']}"]
+        if e.get("control_date_today") and e.get("evaluation"):
+            ev = e["evaluation"]
+            L.append(f"  ВЕРДИКТ КОНТРОЛЬНОЙ ТОЧКИ: {EXP_VERDICT_LABEL[ev['verdict']]} "
+                     f"(уверенность {EXP_CONF_LABEL[ev['confidence']]}) — "
+                     f"{ev['verdict_reason']}")
+            L.append(f"  рекомендация: {EXP_REC_LABEL[ev['recommendation']]} — "
+                     f"{ev['recommendation_detail']}")
+            if ev["requires_owner_decision"]:
+                L.append(f"  ТРЕБУЕТСЯ ВАШЕ РЕШЕНИЕ: ответьте "
+                         f"{ev['recommendation']} {e['ticket']} "
+                         f"(или KEEP/REVERT/EXPAND/EXTEND {e['ticket']})")
         for o in exps_txt[1:]:
-            L.append(f"- {o['ticket']}: {counted(o['days_elapsed'], 'день', 'дня', 'дней')} "
-                     f"из {o['minimum_exposure']}, проверка {ru_date(o['next_review'])}")
+            if o.get("control_date_today") and o.get("evaluation"):
+                ov = o["evaluation"]
+                L.append(f"- {o['ticket']}: вердикт {EXP_VERDICT_LABEL[ov['verdict']]} — "
+                         f"{ov['verdict_reason']}; рекомендация "
+                         f"{EXP_REC_LABEL[ov['recommendation']]}")
+            else:
+                L.append(f"- {o['ticket']}: {counted(o['days_elapsed'], 'день', 'дня', 'дней')} "
+                         f"из {o['minimum_exposure']}, проверка {ru_date(o['next_review'])}")
     if b["board"]:
         L += ["", "СИСТЕМА УЖЕ ДЕЛАЕТ"]
         for r in b["board"]:
