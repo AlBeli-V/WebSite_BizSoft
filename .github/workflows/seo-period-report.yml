@@ -1,0 +1,158 @@
+# Периодные отчёты Growth Intelligence: неделя / месяц / год.
+# Поручение руководителя 30.08.2026. Ежедневное письмо (seo-report-email)
+# не затрагивается — периодные письма идут отдельным контуром.
+#
+# Расписание (UTC; московское рядом — правило проекта):
+#   суббота 05:00 UTC = 08:00 МСК  — еженедельный за прошлую сб–пт;
+#   1-го числа 05:00 UTC = 08:00 МСК — ежемесячный за прошлый месяц;
+#   1 января 06:00 UTC = 09:00 МСК — годовой (первый — 01.01.2028 за 2027:
+#   система должна отработать полный календарный год; guard в скрипте).
+# Ручной запуск: workflow_dispatch с mode и датой отправки (переотправка).
+# Повторная отправка по расписанию блокируется маркером
+# reports/seo/intelligence/last-period-mailed.json (dispatch маркер игнорирует).
+
+name: seo-period-report
+
+on:
+  schedule:
+    - cron: "0 5 * * 6"   # 08:00 МСК суббота — weekly
+    - cron: "0 5 1 * *"   # 08:00 МСК 1-го числа — monthly
+    - cron: "0 6 1 1 *"   # 09:00 МСК 1 января — yearly
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "weekly | monthly | yearly"
+        required: true
+        default: "weekly"
+      send_date:
+        description: "Дата отправки YYYY-MM-DD (пусто = сегодня)"
+        required: false
+        default: ""
+
+permissions:
+  contents: write
+
+jobs:
+  report:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Pull data branch
+        run: bash scripts/seo/data_sync.sh pull
+
+      # Режим из события: dispatch задаёт явно; schedule определяется датой —
+      # 1 января приоритетнее месячного, 1-е число приоритетнее недельного
+      # (если совпали, каждый cron всё равно приходит отдельным запуском).
+      - name: Resolve mode
+        id: mode
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            mode="${{ inputs.mode }}"
+            send="${{ inputs.send_date }}"
+          else
+            today=$(date -u +%F)
+            dom=$(date -u +%d); dow=$(date -u +%u)
+            if [ "$(date -u +%m-%d)" = "01-01" ]; then mode=yearly
+            elif [ "$dom" = "01" ]; then mode=monthly
+            elif [ "$dow" = "6" ]; then mode=weekly
+            else echo "не расписной день для периодных отчётов"; mode=skip; fi
+            send="$today"
+          fi
+          [ -n "$send" ] || send=$(date -u +%F)
+          echo "mode=$mode" >> "$GITHUB_OUTPUT"
+          echo "send=$send" >> "$GITHUB_OUTPUT"
+          echo "Режим: $mode, дата отправки: $send"
+
+      - name: Build report
+        if: steps.mode.outputs.mode != 'skip'
+        id: build
+        run: |
+          python3 scripts/seo/period_report.py "${{ steps.mode.outputs.mode }}" \
+            "${{ steps.mode.outputs.send }}"
+          meta="reports/seo/intelligence/period/latest-${{ steps.mode.outputs.mode }}.json"
+          if [ ! -f "$meta" ]; then
+            # yearly до первого полного года: сборка пропущена скриптом.
+            echo "built=no" >> "$GITHUB_OUTPUT"; exit 0
+          fi
+          echo "built=yes" >> "$GITHUB_OUTPUT"
+          python3 - "$meta" <<'PY' >> "$GITHUB_OUTPUT"
+          import json, sys
+          m = json.load(open(sys.argv[1]))
+          print(f"subject={m['subject']}")
+          print(f"html=reports/seo/intelligence/period/{m['html']}")
+          print(f"txt=reports/seo/intelligence/period/{m['txt']}")
+          print(f"period={m['from']}_{m['to']}")
+          PY
+
+      # Одно письмо на период: schedule не переотправляет уже отправленный
+      # период; ручной dispatch — осознанная переотправка, маркер игнорирует.
+      - name: Guard - already mailed
+        if: steps.build.outputs.built == 'yes'
+        id: guard
+        run: |
+          key="${{ steps.mode.outputs.mode }}"
+          period="${{ steps.build.outputs.period }}"
+          mailed=$(python3 -c "
+          import json,pathlib
+          p=pathlib.Path('reports/seo/intelligence/last-period-mailed.json')
+          d=json.loads(p.read_text()) if p.exists() else {}
+          print(d.get('$key',''))" )
+          if [ "${{ github.event_name }}" = "schedule" ] && [ "$mailed" = "$period" ]; then
+            echo "send=no" >> "$GITHUB_OUTPUT"
+            echo "период $period уже отправлен — пропуск"
+          else
+            echo "send=yes" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Send mail
+        if: steps.build.outputs.built == 'yes' && steps.guard.outputs.send == 'yes'
+        env:
+          SMTP_HOST: mail.hosting.reg.ru
+          SMTP_PORT: "465"
+          SMTP_USER: hello@biz-soft.pro
+          SMTP_PASS: ${{ secrets.SMTP_PASS }}
+          MAIL_TO: avbelyaev@biz-soft.pro
+          SUBJECT: ${{ steps.build.outputs.subject }}
+          HTML: ${{ steps.build.outputs.html }}
+          TXT: ${{ steps.build.outputs.txt }}
+        run: |
+          if [ -z "$SMTP_PASS" ]; then
+            echo "::error::Repo-секрет SMTP_PASS не задан — письмо не отправлено."
+            exit 1
+          fi
+          python3 - <<'PY'
+          import os, smtplib, ssl
+          from email.message import EmailMessage
+          from email.utils import formatdate
+          msg = EmailMessage()
+          msg["From"] = f'BIZSoft Growth Intelligence <{os.environ["SMTP_USER"]}>'
+          msg["To"] = os.environ["MAIL_TO"]
+          msg["Subject"] = os.environ["SUBJECT"]
+          msg["Date"] = formatdate(localtime=True)
+          msg.set_content(open(os.environ["TXT"], encoding="utf-8").read())
+          msg.add_alternative(open(os.environ["HTML"], encoding="utf-8").read(),
+                              subtype="html")
+          ctx = ssl.create_default_context()
+          with smtplib.SMTP_SSL(os.environ["SMTP_HOST"],
+                                int(os.environ["SMTP_PORT"]), context=ctx) as s:
+              s.login(os.environ["SMTP_USER"], os.environ["SMTP_PASS"])
+              s.send_message(msg)
+          print("Письмо отправлено:", os.environ["SUBJECT"])
+          PY
+          python3 - <<'PY'
+          import json, pathlib
+          p = pathlib.Path('reports/seo/intelligence/last-period-mailed.json')
+          d = json.loads(p.read_text()) if p.exists() else {}
+          d["${{ steps.mode.outputs.mode }}"] = "${{ steps.build.outputs.period }}"
+          p.write_text(json.dumps(d, ensure_ascii=False, indent=1))
+          PY
+
+      # Артефакты (письмо, веб-версия, маркер) — в хранилище; push веб-версии
+      # запускает публикацию на прод (seo-publish-web синхронизирует public/
+      # целиком).
+      - name: Push data
+        if: steps.build.outputs.built == 'yes'
+        run: |
+          bash scripts/seo/data_sync.sh push \
+            "Периодный отчёт: ${{ steps.mode.outputs.mode }} ${{ steps.build.outputs.period }}"

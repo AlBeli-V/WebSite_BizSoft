@@ -6,13 +6,19 @@
  * INTEGRATION ZONE», слоган «Единая точка доступа к ПО и AI-сервисам»
  * растянут во всю ширину лок-апа снизу (крупный и читаемый).
  *
- * Файл: src/assets/brand/bizsoft-logo-lockup.png (1024×339, 4× плотность
- * для ширины шапки 256px). Идёт через ассет-пайплайн (?url) — хешированный
- * URL в /_astro с годовым immutable-кэшем. Копия остаётся в
- * public/brand/ для внешних ссылок.
+ * Два файла под плотность экрана (srcset): bizsoft-logo-lockup-256.webp
+ * (1×, 19 КБ) для обычных экранов и bizsoft-logo-lockup-512.webp (2×, 32 КБ)
+ * для retina — иначе PageSpeed справедливо ругался, что обычный экран
+ * тянет вдвое больший файл («Improve image delivery», аудит 30.08.2026).
+ * 1× получен даунскейлом ровно 2:1 из 2×-файла (canvas Chromium, q=1.0):
+ * визуальная дельта с lossless ≤1/255 — мыльности нет, retina-файл
+ * не перекодировался вовсе. Мастер-PNG 1024×339 остаётся рядом для
+ * схем/PDF и public/brand/. Оба файла идут через ассет-пайплайн (?url) —
+ * хешированные URL в /_astro с годовым immutable-кэшем.
  * Масштабирование только пропорциональное: CSS width + height:auto.
  */
-import lockupUrl from '../assets/brand/bizsoft-logo-lockup.png?url';
+import lockup1x from '../assets/brand/bizsoft-logo-lockup-256.webp?url';
+import lockup2x from '../assets/brand/bizsoft-logo-lockup-512.webp?url';
 
 interface Props {
   /** header — в шапке (занимает обе строки); footer — компактнее. */
@@ -22,9 +28,10 @@ const { variant = 'header' } = Astro.props;
 ---
 <img
   class:list={['bizsoft-logo', variant]}
-  src={lockupUrl}
-  width="1024"
-  height="339"
+  src={lockup1x}
+  srcset={`${lockup1x} 1x, ${lockup2x} 2x`}
+  width="256"
+  height="85"
   alt="BIZSoft — Business Integration Zone. Единая точка доступа к ПО и AI-сервисам"
 />
 
