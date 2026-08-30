@@ -1,0 +1,80 @@
+# Аварийная очистка диска прод-сервера, когда деплой падает с
+# «no space left on device» (29.08.2026: ~15 деплоев за день забили диск
+# docker-кэшем так, что даже scp не мог записать файл — поэтому здесь
+# ТОЛЬКО ssh-скрипт, без copy-шагов, в отличие от ops-apply-cleanup).
+#
+# Чистит только заведомо восстановимое: build-кэш Docker, «висячие» образы
+# (untagged слои старых сборок bizsoft-astro), устаревшие бэкапы astro.env.
+# Контейнеры, тома и данные БД не трогает. Результат — в issue #22.
+
+name: ops-disk-cleanup
+
+on:
+  workflow_dispatch:
+    inputs:
+      apply:
+        description: "true — почистить; false — только диагностика (df, docker system df)"
+        required: true
+        default: "false"
+
+permissions:
+  issues: write
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Guard - only default branch
+        run: |
+          if [ "${{ github.ref_name }}" != "main" ]; then
+            echo "Запуск разрешён только с ветки main. Текущий ref: ${{ github.ref_name }}"
+            exit 1
+          fi
+
+      - name: Clean disk over SSH
+        id: run
+        uses: appleboy/ssh-action@v1
+        env:
+          P_APPLY: ${{ inputs.apply }}
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          envs: P_APPLY
+          command_timeout: 15m
+          capture_stdout: true
+          script: |
+            echo "── Диск ДО ──"
+            df -h / | tail -1
+            echo "── docker system df ДО ──"
+            docker system df || true
+            if [ "$P_APPLY" = "true" ]; then
+              echo
+              echo "── Очистка build-кэша ──"
+              docker builder prune -af 2>&1 | tail -3
+              echo "── Висячие образы ──"
+              docker image prune -f 2>&1 | tail -3
+              echo "── Старые бэкапы astro.env (оставляем 3 свежих) ──"
+              ls -1t /opt/bizsoft/astro.env.bak-* 2>/dev/null | tail -n +4 | xargs -r rm -v
+              echo
+              echo "── Диск ПОСЛЕ ──"
+              df -h / | tail -1
+              echo "── docker system df ПОСЛЕ ──"
+              docker system df || true
+            else
+              echo "(диагностика: apply=false, ничего не менялось)"
+            fi
+
+      - name: Post to issue
+        if: always()
+        uses: actions/github-script@v7
+        env:
+          OUT: ${{ steps.run.outputs.stdout }}
+          APPLY: ${{ inputs.apply }}
+        with:
+          script: |
+            const out = (process.env.OUT || '(нет вывода)').slice(0, 60000);
+            await github.rest.issues.createComment({
+              owner: context.repo.owner, repo: context.repo.repo, issue_number: 22,
+              body: '### ops-disk-cleanup (apply=' + process.env.APPLY + ') · ' + new Date().toISOString() + '\n\n```\n' + out + '\n```',
+            });

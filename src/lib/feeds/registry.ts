@@ -14,6 +14,7 @@ import { site, seller } from '../../config/site';
 import type { Product } from '../types';
 import { selectFeedProducts } from './select';
 import { buildYml, toFeedOffer } from './yml';
+import { buildDgisYml } from './dgis';
 import type { FeedSpec } from './types';
 import vendorDemand from '../../data/vendor-demand.json';
 
@@ -90,6 +91,22 @@ export const FEEDS: Record<string, FeedSpec> = {
     contentType: 'application/xml; charset=utf-8',
     maxOffersEnv: 'YANDEX_MARKET_FEED_MAX',
     build: buildYandexYml,
+  },
+  /**
+   * 2ГИС («Товары и цены» карточки компании): YML по ссылке, автозабор
+   * раз в сутки. Особые требования площадки — в dgis.ts (id без дефисов,
+   * картинка без цены и надписей, описание без URL).
+   */
+  '2gis': {
+    id: '2gis',
+    service: '2ГИС',
+    path: '/2gis-products.yml',
+    contentType: 'application/xml; charset=utf-8',
+    maxOffersEnv: 'TWOGIS_FEED_MAX',
+    build: (products, opts) => {
+      const now = opts.now ?? new Date();
+      return buildDgisYml(products, site.url, SHOP, now);
+    },
   },
 };
 

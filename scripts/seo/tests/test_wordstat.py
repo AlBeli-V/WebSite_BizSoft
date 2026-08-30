@@ -9,6 +9,8 @@ import tempfile
 import unittest
 
 ROOT = pathlib.Path(__file__).resolve().parents[3]
+# Данные из фикстур: копии machine-данных вычищены из main 30.08.2026.
+FIXWS = pathlib.Path(__file__).resolve().parent / "fixtures/reports/seo/wordstat"
 WS = ROOT / "scripts" / "seo" / "wordstat"
 sys.path.insert(0, str(WS))
 
@@ -25,6 +27,7 @@ class TestConfig(unittest.TestCase):
 
     def setUp(self):
         self.c = load("config")
+        self.c.CONFIG_PATH = FIXWS / "config.json"
         self.cfg = self.c.load()
 
     def test_prices_match_tariff(self):
@@ -55,6 +58,7 @@ class TestBudget(unittest.TestCase):
     def setUp(self):
         self.b = load("budget")
         self.c = load("config")
+        self.c.CONFIG_PATH = FIXWS / "config.json"
         self.cfg = self.c.load()
         self.tmp = pathlib.Path(tempfile.mkdtemp())
         self.b.LEDGER_DIR = self.tmp
@@ -360,6 +364,7 @@ class TestClientCache(unittest.TestCase):
         self.client_mod = load("client")
         self.budget_mod = load("budget")
         self.c = load("config")
+        self.c.CONFIG_PATH = FIXWS / "config.json"
         self.cfg = self.c.load()
         tmp = pathlib.Path(tempfile.mkdtemp())
         self.budget_mod.LEDGER_DIR = tmp
@@ -415,6 +420,7 @@ class TestDiscovery(unittest.TestCase):
         self.D = load("discovery")
         self.U = load("universe")
         self.c = load("config")
+        self.c.CONFIG_PATH = FIXWS / "config.json"
         self.cfg = self.c.load()
         self.uni = self.U.Universe(pathlib.Path(tempfile.mkdtemp()) / "u.jsonl")
         self.stats = self.D.PatternStats(pathlib.Path(tempfile.mkdtemp()) / "s.json")
@@ -763,7 +769,7 @@ class TestIntegration(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        cls.state_path = ROOT / "reports/seo/wordstat/intelligence-state.json"
+        cls.state_path = pathlib.Path(__file__).resolve().parent / "fixtures/reports/seo/wordstat/intelligence-state.json"
         cls.state = (json.loads(cls.state_path.read_text(encoding="utf-8"))
                      if cls.state_path.exists() else None)
 
