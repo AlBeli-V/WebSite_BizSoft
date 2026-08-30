@@ -1,0 +1,146 @@
+---
+/**
+ * Страница «Аналоги X» — слой Alternatives матрицы интентов
+ * (эксперимент PAGES-EXP-001, данные: src/data/alternatives.ts).
+ * Каждая страница существует только под замеренный кластер спроса;
+ * альтернативы — живые внутренние ссылки на каталог BIZSoft.
+ */
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import FAQ from '../../components/FAQ.astro';
+import CTASection from '../../components/CTASection.astro';
+import JsonLd from '../../components/JsonLd.astro';
+import { alternativesPages } from '../../data/alternatives';
+import { faqSchema, breadcrumbSchema, canonicalUrl } from '../../lib/seo';
+
+export function getStaticPaths() {
+  return alternativesPages.map((p) => ({ params: { slug: p.slug }, props: { page: p } }));
+}
+
+const { page } = Astro.props as { page: (typeof alternativesPages)[number] };
+const path = `/alternatives/${page.slug}`;
+const crumbs = [
+  { name: 'Каталог', url: '/catalog' },
+  { name: page.category.name, url: `/catalog/${page.category.slug}` },
+  { name: page.h1, url: path },
+];
+const itemListSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  name: page.h1,
+  itemListElement: page.alternatives.map((a, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    name: a.name,
+    url: canonicalUrl(a.href),
+  })),
+};
+---
+<BaseLayout title={page.metaTitle} description={page.metaDescription} canonical={path}>
+  <JsonLd schema={faqSchema(page.faq)} />
+  <JsonLd schema={breadcrumbSchema(crumbs)} />
+  <JsonLd schema={itemListSchema} />
+  <div class="container-page section">
+    <Breadcrumbs items={[{ name: page.category.name, url: `/catalog/${page.category.slug}` }, { name: page.h1, url: path }]} />
+    <header class="head">
+      <span class="eyebrow">Подбор замены</span>
+      <h1>{page.h1}</h1>
+      <p class="lead">{page.summaryAnswer}</p>
+      <div class="actions">
+        <a href="/pricing" class="btn btn-primary" data-goal="alternatives_calc">Запросить расчёт</a>
+        <a href={`/catalog/${page.category.slug}`} class="btn btn-ghost">{page.category.name} →</a>
+      </div>
+    </header>
+
+    <!-- Карточки альтернатив -->
+    <div class="alts">
+      {page.alternatives.map((a, i) => (
+        <div class="card alt">
+          <div class="alt-num">{i + 1}</div>
+          <h2><a href={a.href}>{a.name}</a></h2>
+          <p class="tagline">{a.tagline}</p>
+          <ul>{a.strengths.map((s) => <li>{s}</li>)}</ul>
+          <p class="differs">Отличие от {page.subject}: {a.differs}</p>
+          <a href={a.href} class="btn btn-ghost btn-sm">Открыть страницу →</a>
+        </div>
+      ))}
+    </div>
+
+    <!-- Сводная таблица -->
+    {page.rows.length > 0 && (
+      <section class="cmp-table-wrap">
+        <h2>Сравнение альтернатив</h2>
+        <div class="table-scroll">
+          <table class="cmp-table">
+            <thead>
+              <tr><th>Параметр</th>{page.alternatives.map((a) => <th>{a.name}</th>)}</tr>
+            </thead>
+            <tbody>
+              {page.rows.map((r) => (
+                <tr><td class="pl">{r.label}</td>{r.values.map((v) => <td>{v}</td>)}</tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </section>
+    )}
+
+    <section class="why">
+      <h2>Почему покупать через BIZSoft</h2>
+      <ul class="why-list">
+        <li>Оформление на российское юрлицо или ИП по договору</li>
+        <li>Оплата в рублях по счёту, по курсу ЦБ РФ на дату счёта</li>
+        <li>Закрывающие документы через ЭДО</li>
+        <li>Подбор тарифа и количества лицензий под задачу</li>
+      </ul>
+    </section>
+
+    <FAQ items={page.faq} title="Частые вопросы" />
+
+    {page.related.length > 0 && (
+      <section class="related">
+        <h2>Смотрите также</h2>
+        <div class="rel-grid">
+          {page.related.map((r) => (
+            <a href={r.href} class="card card-hover rel">{r.label} →</a>
+          ))}
+        </div>
+      </section>
+    )}
+  </div>
+  <CTASection />
+</BaseLayout>
+
+<style>
+  .section { padding-top: 2rem; }
+  .head { max-width: 860px; margin-bottom: 2.2rem; }
+  .eyebrow { color: var(--color-text-dim); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; }
+  h1 { font-size: clamp(1.8rem, 4vw, 2.6rem); margin: 0.6rem 0 1rem; }
+  .lead { color: var(--color-text-muted); font-size: 1.05rem; line-height: 1.6; }
+  .actions { display: flex; gap: 0.8rem; margin-top: 1.4rem; flex-wrap: wrap; }
+  .alts { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.2rem; margin-bottom: 2.4rem; }
+  .alt { padding: 1.5rem; position: relative; }
+  .alt-num { position: absolute; top: 1.2rem; right: 1.3rem; width: 1.9rem; height: 1.9rem; border-radius: 50%; background: var(--color-bg-subtle, rgba(127,127,127,0.12)); color: var(--color-text-dim); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.9rem; }
+  .alt h2 { font-size: 1.35rem; margin-bottom: 0.5rem; padding-right: 2.4rem; }
+  .alt h2 a { color: var(--color-text); }
+  .alt h2 a:hover { color: var(--color-accent); }
+  .tagline { color: var(--color-text-muted); }
+  .alt ul { list-style: none; padding: 0; display: grid; gap: 0.5rem; margin: 0.9rem 0; }
+  .alt li { padding-left: 1.5rem; position: relative; }
+  .alt li::before { content: '✓'; position: absolute; left: 0; color: var(--color-accent); font-weight: 700; }
+  .differs { color: var(--color-text-dim); font-size: 0.92rem; margin-bottom: 1rem; }
+  .cmp-table-wrap { margin-bottom: 2.4rem; }
+  .cmp-table-wrap h2, .why h2, .related h2 { font-size: 1.4rem; margin-bottom: 1rem; }
+  .table-scroll { overflow-x: auto; }
+  .cmp-table { width: 100%; border-collapse: collapse; min-width: 560px; }
+  .cmp-table th, .cmp-table td { text-align: left; padding: 0.8rem 1rem; border-bottom: 1px solid var(--color-border); vertical-align: top; }
+  .cmp-table thead th { color: var(--color-text); font-weight: 700; border-bottom: 2px solid var(--color-border-strong); }
+  .cmp-table td.pl { color: var(--color-text-muted); font-weight: 600; }
+  .why { margin-bottom: 2.4rem; }
+  .why-list { list-style: none; padding: 0; display: grid; gap: 0.6rem; }
+  .why-list li { padding-left: 1.6rem; position: relative; }
+  .why-list li::before { content: '✓'; position: absolute; left: 0; color: var(--color-accent); font-weight: 700; }
+  .related { margin: 2rem 0 1rem; }
+  .rel-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; }
+  .rel { padding: 1.1rem 1.3rem; font-weight: 600; color: var(--color-accent); }
+</style>
