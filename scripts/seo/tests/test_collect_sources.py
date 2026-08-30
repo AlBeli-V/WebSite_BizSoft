@@ -107,9 +107,15 @@ class TestCollectGscGa4(unittest.TestCase):
     def gsc_routes(self, analytics=None):
         rows = {"rows": [{"keys": ["2026-08-20"], "impressions": 3, "clicks": 0,
                           "position": 20.0}]}
+        pair_rows = {"rows": [{"keys": ["запрос", "https://biz-soft.pro/p/",
+                                        "2026-08-20"],
+                               "impressions": 3, "clicks": 0, "position": 12.0}]}
+        # Очередь на один эндпоинт: три разреза письма (date, query, page),
+        # затем пары «запрос × страница × день».
         return {
             "searchAnalytics/query": analytics if analytics is not None else [
-                FakeResponse(200, rows), FakeResponse(200, rows), FakeResponse(200, rows)],
+                FakeResponse(200, rows), FakeResponse(200, rows),
+                FakeResponse(200, rows), FakeResponse(200, pair_rows)],
             "/sites": FakeResponse(200, {"siteEntry": [
                 {"siteUrl": "sc-domain:biz-soft.pro"}]}),
         }
@@ -118,19 +124,53 @@ class TestCollectGscGa4(unittest.TestCase):
         out = self.collect_gsc(self.gsc_routes())
         self.assertNotIn("error", out)
         self.assertIn("rows", out["analytics"]["date"])
+        self.assertEqual(out["pairs"]["fetched"], 1)
+        self.assertEqual(out["pairs"]["dimensions"], ["query", "page", "date"])
 
     def test_gsc_one_slice_error_is_partial(self):
         out = self.collect_gsc(self.gsc_routes(analytics=[
             FakeResponse(200, {"rows": []}),
             FakeResponse(500, text="boom"),
+            FakeResponse(200, {"rows": []}),
             FakeResponse(200, {"rows": []})]))
         self.assertNotIn("error", out)                       # не все срезы упали
         self.assertIn("HTTP 500", out["analytics"]["query"]["error"])
 
     def test_gsc_all_slices_error_is_source_error(self):
-        bad = [FakeResponse(500, text="boom")] * 3
+        bad = [FakeResponse(500, text="boom")] * 4
         out = self.collect_gsc(self.gsc_routes(analytics=bad))
         self.assertIn("все разрезы", out["error"])
+
+    def test_gsc_pairs_paginate_until_short_page(self):
+        """Пары забираются страницами startRow, пока страница полная."""
+        full = {"rows": [{"keys": [f"q{i}", "https://biz-soft.pro/p/",
+                                   "2026-08-20"],
+                          "impressions": 1, "clicks": 0, "position": 15.0}
+                         for i in range(self.c.PAIRS_PAGE_LIMIT)]}
+        tail = {"rows": [{"keys": ["хвост", "https://biz-soft.pro/p/",
+                                   "2026-08-20"],
+                          "impressions": 1, "clicks": 0, "position": 15.0}]}
+        rows = {"rows": [{"keys": ["2026-08-20"], "impressions": 3, "clicks": 0,
+                          "position": 20.0}]}
+        out = self.collect_gsc(self.gsc_routes(analytics=[
+            FakeResponse(200, rows), FakeResponse(200, rows), FakeResponse(200, rows),
+            FakeResponse(200, full), FakeResponse(200, tail)]))
+        self.assertEqual(out["pairs"]["fetched"], self.c.PAIRS_PAGE_LIMIT + 1)
+        self.assertFalse(out["pairs"]["truncated"])
+
+    def test_gsc_pairs_error_does_not_close_source(self):
+        """Сбой вспомогательного сенсора пар не закрывает разрезы письма."""
+        rows = {"rows": [{"keys": ["2026-08-20"], "impressions": 3, "clicks": 0,
+                          "position": 20.0}]}
+        out = self.collect_gsc(self.gsc_routes(analytics=[
+            FakeResponse(200, rows), FakeResponse(200, rows), FakeResponse(200, rows),
+            FakeResponse(500, text="boom")]))
+        self.assertNotIn("error", out)
+        self.assertIn("HTTP 500", out["pairs"]["error"])
+        self.assertEqual(out["pairs"]["rows"], [])
+        # Снимок письма собирается как обычно.
+        snap = self.s.build_safe("google_search_console", self.s.build_google, out, None)
+        self.assertTrue(snap["available"])
 
     def test_gsc_sites_invalid_json(self):
         routes = self.gsc_routes()
