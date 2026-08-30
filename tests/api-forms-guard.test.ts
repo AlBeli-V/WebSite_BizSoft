@@ -33,6 +33,7 @@ const { POST } = await import('../src/pages/api/lead');
 const filled = (extra: Record<string, unknown> = {}) => ({
   name: 'Екатерина Кувшинова',
   company: 'ООО «Ромашка»',
+  inn: '7701234567',
   email: 'k@romashka.ru',
   phone: '+79167898651',
   message: 'Нужен расчёт на 10 мест',

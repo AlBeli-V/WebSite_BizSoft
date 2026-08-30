@@ -282,6 +282,7 @@ export const POST: APIRoute = async ({ request }) => {
     innCheck,
     party,
     eco,
+    attribution: attributionFields(body),
   });
 
   generateQuoteDocx(data)

@@ -18,7 +18,7 @@ import { getCategories, getProducts } from '../../lib/directus';
 import { site } from '../../config/site';
 import { POPULAR_VENDORS } from '../../data/popular';
 import { SEO_EXPERIMENT_LINKS } from '../../data/seo-experiments';
-import { effectivePrice } from '../../lib/pricing';
+import { searchProducts } from '../../lib/product-search';
 import { isSourceUnavailable, serviceUnavailable } from '../../lib/http';
 import type { Product, Category } from '../../lib/types';
 
@@ -37,14 +37,10 @@ try {
 }
 
 // Поиск из шапки: /catalog?q=… — режим результатов вместо маркетинговой страницы.
+// Логика поиска общая с WebMCP-инструментом search_products (lib/product-search):
+// агент и человек обязаны находить одно и то же.
 const q = (Astro.url.searchParams.get('q') || '').trim();
-const ql = q.toLowerCase();
-const searchResults = q
-  ? products
-      .filter((p) => `${p.name} ${p.vendor || ''} ${p.keywords || ''} ${p.sku}`.toLowerCase().includes(ql))
-      // «Цена по запросу» — всегда в конце списка
-      .sort((a, b) => Number(!(effectivePrice(a).price > 0)) - Number(!(effectivePrice(b).price > 0)))
-  : [];
+const searchResults = q ? searchProducts(products, q) : [];
 
 const catCounts: Record<string, number> = {};
 for (const p of products) {
@@ -98,11 +94,7 @@ const ld = [
       '@type': 'ListItem', position: i + 1, name: c.name, url: `${site.url}/catalog/${c.slug}`,
     })),
   },
-  {
-    '@context': 'https://schema.org',
-    '@type': 'FAQPage',
-    mainEntity: faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
-  },
+  // FAQPage не дублируем: разметку выводит компонент FAQ рядом с видимым блоком.
 ];
 ---
 <BaseLayout

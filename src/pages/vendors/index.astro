@@ -14,7 +14,6 @@ import { vendorIcon } from '../../data/vendor-icons';
 import VendorIcon from '../../components/VendorIcon.astro';
 import { VENDORS } from '../../data/vendors';
 import { vendorLandings, site } from '../../config/site';
-import { breadcrumbSchema } from '../../lib/seo';
 
 // ── Слаги и лендинги: VENDORS + bespoke-страницы + AI-вендоры без лендингов ──
 const slugByName = new Map<string, string>();
@@ -79,8 +78,8 @@ const present = new Set(items.map((i) => i.letter));
 const plural = (n: number) => (n % 10 === 1 && n % 100 !== 11 ? 'товар' : [2, 3, 4].includes(n % 10) && ![12, 13, 14].includes(n % 100) ? 'товара' : 'товаров');
 
 const crumbs = [{ name: 'Каталог', url: '/catalog' }, { name: 'Производители', url: '/vendors' }];
+// BreadcrumbList не дублируем: его выводит компонент Breadcrumbs.
 const ld = [
-  breadcrumbSchema(crumbs),
   {
     '@context': 'https://schema.org',
     '@type': 'CollectionPage',

@@ -8,6 +8,7 @@ import { isSourceUnavailable, serviceUnavailable } from '../lib/http';
 import { productNoindex } from '../lib/catalog';
 import { solutions } from '../data/solutions';
 import { comparisons } from '../data/comparisons';
+import { alternativesPages } from '../data/alternatives';
 import { aiSubcategories } from '../data/ai-hub';
 import { VENDORS } from '../data/vendors';
 import { vendorSlug } from '../lib/vendor-links';
@@ -62,6 +63,9 @@ export const GET: APIRoute = async () => {
 
   // Страницы сравнения AI-сервисов (/compare/*).
   for (const c of comparisons) entries.push(urlEntry(`/compare/${c.slug}`, 0.7, 'monthly'));
+
+  // Страницы «Аналоги X» (/alternatives/*) — слой Alternatives, PAGES-EXP-001.
+  for (const a of alternativesPages) entries.push(urlEntry(`/alternatives/${a.slug}`, 0.7, 'monthly'));
 
   // Шаблонные посадочные производителей (креативные индустрии).
   //
