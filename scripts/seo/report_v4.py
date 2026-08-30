@@ -31,6 +31,7 @@ import charts_v4                      # noqa: E402
 import drivers as drivers_mod         # noqa: E402
 import invariants as invariants_mod   # noqa: E402
 import experiments as exp_mod         # noqa: E402
+import loop_health as loop_health_mod  # noqa: E402
 import opportunity as opp_mod         # noqa: E402
 import snapshot as snapshot_mod       # noqa: E402
 import vendor_radar as vendor_radar_mod  # noqa: E402
@@ -50,6 +51,7 @@ if not PUBLIC_REPORT_BASE_URL and REPORT_URL_FILE.exists():
     PUBLIC_REPORT_BASE_URL = REPORT_URL_FILE.read_text(encoding="utf-8").strip().rstrip("/")
 DEMAND_STATE = pathlib.Path("reports/seo/wordstat/intelligence-state.json")
 GROWTH_IDEAS = pathlib.Path("reports/seo/intelligence/growth-ideas.json")
+LOOP_HEALTH = pathlib.Path("reports/seo/intelligence/loop-health.json")
 
 # ── Design tokens ───────────────────────────────────────────────────────────
 T = {
@@ -702,6 +704,7 @@ def assemble(snap, prev, dq, actions_cfg, site_check):
         "opportunities": opps,
         "vendor_radar": vendor_radar_mod.build(snap),
         "health": health,
+        "loop_health": load_loop_health(),
         "demand": load_demand(),
         "ads": ads_block.build(date),
         "growth_ideas": load_growth_ideas(),
@@ -1196,6 +1199,14 @@ def html_email(b: dict, charts: dict, cid_mode: bool) -> str:
     colour = {"positive": T["positive"], "warning": T["warning"],
               "danger": T["danger"]}[h["colour"]]
     bg = {"positive": "#ECFDF3", "warning": "#FFFAEB", "danger": "#FEF3F2"}[h["colour"]]
+    lh_line = loop_health_line(b.get("loop_health") or {})
+    lh_html = ""
+    if lh_line:
+        text_lh, alarm = lh_line
+        lh_html = (f"<div data-meta=\"1\" style=\"font-size:12.5px;"
+                   f"padding-top:{SP['s']}px;line-height:1.45;"
+                   f"color:{T['danger'] if alarm else T['text_secondary']};\">"
+                   f"{text_lh}</div>")
     rows.append(_section(
         "Здоровье данных",
         f"<table role=\"presentation\" width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" "
@@ -1207,6 +1218,7 @@ def html_email(b: dict, charts: dict, cid_mode: bool) -> str:
         f"{h['detail']}</div>"
         f"<div style=\"font-size:14.5px;padding-top:{SP['s']}px;line-height:1.55;"
         f"color:{T['text_primary']};\">{b['measurement_summary']}</div>"
+        f"{lh_html}"
         f"</td></tr></table>"))
 
     # K. Контрольные точки
@@ -1370,6 +1382,9 @@ def plain_text(b: dict) -> str:
     L += ["", "ЗДОРОВЬЕ ДАННЫХ",
           f"{PILL_LABEL[h['status']].capitalize()}: {h['reason']}. {h['detail']}",
           b["measurement_summary"]]
+    lh_line = loop_health_line(b.get("loop_health") or {})
+    if lh_line:
+        L.append(lh_line[0])
     if b["checkpoints"]:
         L += ["", "СЛЕДУЮЩИЕ ПРОВЕРКИ"]
         for c in b["checkpoints"]:
@@ -1508,6 +1523,41 @@ def _drop_vendors_already_on_site(block: dict) -> dict:
     return block
 
 
+def load_loop_health() -> dict:
+    """Реестр исполнения контуров конвейера (пишет loop_health.py).
+
+    Файл может отсутствовать в старых данных — тогда блок молчит, а не
+    сообщает ложное «всё в срок».
+    """
+    if not LOOP_HEALTH.exists():
+        return {"available": False}
+    try:
+        return json.loads(LOOP_HEALTH.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return {"available": False}
+
+
+def loop_health_line(lh: dict) -> tuple[str, bool] | None:
+    """Одна строка о конвейере для блока «Здоровье данных» (текст, тревога).
+
+    Коротко намеренно: подробная таблица контуров живёт в веб-отчёте,
+    письму хватает факта «в срок / просрочено что».
+    """
+    if not lh.get("available"):
+        return None
+    over = [r for r in lh.get("contours", []) if r.get("overdue")]
+    if not over:
+        return (f"Конвейер: {lh.get('ok_count')} из {lh.get('total')} "
+                "контуров отработали в срок.", False)
+    named = "; ".join(
+        f"{r['label']} — последний прогон "
+        f"{ru_date(r['last_run']) if r['last_run'] else 'не найден'}"
+        for r in over[:2])
+    extra = f" и ещё {len(over) - 2}" if len(over) > 2 else ""
+    return (f"Конвейер: просрочено {counted(len(over), 'контур', 'контура', 'контуров')}"
+            f"{extra}: {named}.", True)
+
+
 def load_site_check(date: str) -> dict | None:
     p = BASE / f"site-check-{date}.json"
     if not p.exists():
@@ -1522,6 +1572,10 @@ def main() -> int:
     dq = json.loads((BASE / "data-quality" / f"{date}.json").read_text(encoding="utf-8"))
     actions_cfg = json.loads((BASE / "actions.json").read_text(encoding="utf-8"))
 
+    # Реестр исполнения контуров обновляется здесь, а не отдельным шагом
+    # конвейера: письмо строится ежедневно, и лишний шаг в промпте Routine —
+    # лишняя точка отказа.
+    loop_health_mod.write(date)
     b = assemble(snap, prev, dq, actions_cfg, load_site_check(date))
     charts = charts_v4.build(date, b["kpis"], b["driver_rows"],
                              b["experiments"][0] if b["experiments"] else None)

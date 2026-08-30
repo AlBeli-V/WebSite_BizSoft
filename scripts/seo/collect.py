@@ -48,6 +48,12 @@ EXPECTED_GA_MEASUREMENT_ID = 'G-V9BK2D1431'
 PAGE_LIMIT = 100
 MAX_QUERIES = 2000
 
+# Пары «запрос × страница» GSC — сенсор для детекторов каннибализации и
+# query-page mismatch (этап 0 Growth Engine). Пары объёмнее одиночных разрезов,
+# поэтому свой лимит страницы и свой потолок обхода.
+PAIRS_PAGE_LIMIT = 1000
+PAIRS_MAX_ROWS = 5000
+
 # Источники, которые GA4 считает органическим поиском, а мы — своими визитами
 # и не-поиском. Интерфейсы Яндекса — это переходы сотрудников; Алиса — не
 # поисковая выдача.
@@ -118,7 +124,53 @@ def collect_gsc() -> dict:
     errors = [v['error'] for v in result['analytics'].values() if 'error' in v]
     if len(errors) == len(result['analytics']):
         result['error'] = 'все разрезы Search Analytics вернули ошибку: ' + errors[0]
+
+    # Пары «запрос × страница» лежат отдельным ключом, а не в analytics:
+    # это вспомогательный сенсор, и его сбой не должен закрывать весь источник
+    # (правило «ошибка любого читаемого среза = данных нет» действует для
+    # разрезов письма, а пары письмом не читаются — только детекторами).
+    result['pairs'] = collect_gsc_pairs(site_url, headers,
+                                        start.isoformat(), end.isoformat())
     return result
+
+
+def collect_gsc_pairs(site_url: str, headers: dict,
+                      start: str, end: str) -> dict:
+    """Разрез Search Analytics по паре измерений query+page.
+
+    Пагинация через startRow: GSC отдаёт максимум rowLimit строк за вызов,
+    без обхода страницами выборка обрезалась бы молча — как это уже было с
+    одной страницей популярных запросов Вебмастера.
+    """
+    rows, error = [], None
+    while len(rows) < PAIRS_MAX_ROWS:
+        body = {
+            'startDate': start,
+            'endDate': end,
+            'dimensions': ['query', 'page'],
+            'rowLimit': PAIRS_PAGE_LIMIT,
+            'startRow': len(rows),
+        }
+        data, err = api_json(
+            f'https://www.googleapis.com/webmasters/v3/sites/{site_url}/searchAnalytics/query',
+            headers=headers, body=body)
+        if err:
+            error = err
+            break
+        chunk = data.get('rows') or []
+        rows.extend(chunk)
+        if len(chunk) < PAIRS_PAGE_LIMIT:
+            break
+    out = {'dimensions': ['query', 'page'],
+           'window': {'from': start, 'to': end},
+           'rows': rows, 'fetched': len(rows),
+           'truncated': len(rows) >= PAIRS_MAX_ROWS}
+    if error:
+        # Ошибка после части страниц: собранное не выдаётся за полную выборку.
+        out['error'] = error
+        out['rows'] = []
+        out['fetched'] = 0
+    return out
 
 
 def collect_yandex() -> dict:
