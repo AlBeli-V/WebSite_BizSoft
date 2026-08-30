@@ -162,6 +162,7 @@ describe('реестр фидов', () => {
     expect(FEEDS['yandex-business'].path).toBe('/yandex-business.xml');
     expect(FEEDS['yandex-direct'].path).toBe('/yandex-direct.yml');
     expect(FEEDS['yandex-market'].path).toBe('/yandex-market.yml');
+    expect(FEEDS['2gis'].path).toBe('/2gis-products.yml');
     // у каждого фида свой env-лимит — лимиты сервисов включаются независимо
     const envs = Object.values(FEEDS).map((f) => f.maxOffersEnv);
     expect(new Set(envs).size).toBe(envs.length);
@@ -189,6 +190,47 @@ describe('реестр фидов', () => {
 
   it('неизвестный фид — явная ошибка', () => {
     expect(() => renderFeed('nope', [], NOW)).toThrow('Неизвестный фид');
+  });
+});
+
+describe('фид 2ГИС: особые требования площадки', () => {
+  it('id оффера — цифры/латиница не длиннее 20 (числовой id, фолбэк из sku)', async () => {
+    const { dgisOfferId } = await import('../src/lib/feeds/dgis');
+    expect(dgisOfferId({ id: 482, sku: 'FIGMA-PRO' })).toBe('482');
+    expect(dgisOfferId({ id: 'a1b2-c3d4-e5f6-a1b2-c3d4-e5f6', sku: 'X' })).toBe('a1b2c3d4e5f6a1b2c3d4');
+    expect(dgisOfferId({ id: '---', sku: 'FIGMA-PRO' })).toBe('FIGMAPRO');
+  });
+
+  it('описание очищается от URL', async () => {
+    const { stripUrls } = await import('../src/lib/feeds/dgis');
+    expect(stripUrls('Тариф Pro. Подробнее: https://figma.com/pricing и www.figma.com')).toBe('Тариф Pro. Подробнее: и');
+  });
+
+  it('оффер без oldprice/sales_notes; картинка — чистый знак или отсутствует', async () => {
+    const { toDgisOffer } = await import('../src/lib/feeds/dgis');
+    const withIcon = toDgisOffer(
+      product({ vendor: 'Figma', promo_price: 9000, promo_start: '2026-08-01', promo_end: '2026-09-01' }),
+      'https://biz-soft.pro',
+      NOW,
+    );
+    expect(withIcon.oldPrice).toBeNull();
+    expect(withIcon.salesNotes).toBeUndefined();
+    // знак вендора Figma существует в комплекте — картинка без цены и надписей
+    expect(withIcon.picture).toBe('https://biz-soft.pro/img/product-icon/figma-professional.png');
+    const noIcon = toDgisOffer(
+      product({ id: 2, vendor: 'НеСуществующийВендор', slug: 'no-such-product', sku: 'X-1' }),
+      'https://biz-soft.pro',
+      NOW,
+    );
+    expect(noIcon.picture).toBe('');
+  });
+
+  it('renderIconPng растрирует вложенный SVG в валидный PNG', async () => {
+    const { renderIconPng } = await import('../src/lib/feeds/product-image');
+    const png = renderIconPng('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><circle cx="256" cy="256" r="200" fill="#f24e1e"/></svg>', 200);
+    // сигнатура PNG и непустое тело — вложенный SVG отрендерился
+    expect(png.subarray(0, 4)).toEqual(Buffer.from([0x89, 0x50, 0x4e, 0x47]));
+    expect(png.length).toBeGreaterThan(500);
   });
 });
 

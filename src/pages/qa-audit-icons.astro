@@ -1,0 +1,35 @@
+---
+// Временная страница аудита качества иконок (не коммитить)
+import { VENDORS } from '../data/vendors';
+import { vendorIcon } from '../data/vendor-icons';
+import VendorIcon from '../components/VendorIcon.astro';
+import VendorLogo from '../components/VendorLogo.astro';
+import '../styles/global.css';
+const items = VENDORS.map((v) => ({
+  slug: v.slug,
+  name: v.title || v.vendor,
+  pack: Boolean(vendorIcon(v.slug)),
+})).sort((a, b) => a.name.localeCompare(b.name));
+---
+<html><head><title>Аудит: плитка вендоров 56px</title></head>
+<body style="font-family:sans-serif;background:#fff;padding:16px;margin:0">
+  <h2 style="margin:4px 0">Плитка /vendors — VendorIcon 56 (слева mono=деф., справа color=hover); [нет пака] = буквенный фолбэк</h2>
+  <div style="display:grid;grid-template-columns:repeat(6,1fr);gap:6px">
+    {items.map((v) => (
+      <div style="border:1px solid #ddd;border-radius:8px;padding:6px;text-align:center">
+        {v.pack ? (
+          <span style="display:inline-flex;gap:8px">
+            <VendorIcon slug={v.slug} name={v.name} size={56} variant="mono" />
+            <VendorIcon slug={v.slug} name={v.name} size={56} variant="color" />
+          </span>
+        ) : (
+          <span style="display:inline-flex;gap:8px;align-items:center">
+            <VendorLogo slug={v.slug} name={v.name} size={56} />
+            <em style="font-size:10px;color:#999">нет пака</em>
+          </span>
+        )}
+        <div style="font-size:10px;margin-top:2px;word-break:break-all">{v.name} <span style="color:#aaa">{v.slug}</span></div>
+      </div>
+    ))}
+  </div>
+</body></html>
