@@ -43,7 +43,18 @@ jobs:
           WORDSTAT_API_KEY: ${{ secrets.WORDSTAT_API_KEY }}
         run: python3 scripts/seo/serp_watch.py
 
-      # Контроль баланса Yandex Cloud (поручение 30.08.2026): расчётный
+      # Фактический биллинг (поручение 30.08.2026): остаток, тарифы SKU и
+      # история остатка через Billing API. Без секрета YC_BILLING_SA_KEY шаг
+      # тихо пропускается, и бюджет живёт на расчётной оценке.
+      - name: Fetch Yandex Cloud billing
+        if: always()
+        env:
+          YC_BILLING_SA_KEY: ${{ secrets.YC_BILLING_SA_KEY }}
+        run: |
+          pip install --quiet pyjwt cryptography
+          python3 scripts/seo/yc_billing.py
+
+      # Контроль баланса: факт из Billing API (если доступен) либо расчётный
       # остаток по журналам Wordstat+SERP; при прогнозной нехватке — письмо
       # руководителю с просьбой пополнить (не чаще раза в 3 дня).
       - name: Cloud budget check
