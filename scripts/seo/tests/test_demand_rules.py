@@ -16,6 +16,11 @@ sys.path.insert(0, str(ROOT / "scripts" / "seo" / "wordstat"))
 
 import normalize as N  # noqa: E402
 
+# Данные из фикстур: копии machine-данных вычищены из main 30.08.2026.
+N._DOMINANCE_PATH = (pathlib.Path(__file__).resolve().parent
+                     / "fixtures/reports/seo/wordstat/brand-dominance.json")
+N._DOMINANT_CACHE = None
+
 
 def relevant(phrase: str, seed: str | None) -> bool:
     return N.in_scope(phrase) and N.relevant_to_seed(phrase, seed)
