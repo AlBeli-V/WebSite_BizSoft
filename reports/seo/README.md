@@ -1,8 +1,9 @@
 # BIZSoft Growth Intelligence — Executive Command Center (v4)
 
 Ежедневная система отчётности по поисковой видимости biz-soft.pro. Два уровня:
-**executive email** для руководителя (450–650 видимых слов) и **аналитическое приложение** для маркетинга,
-SEO и разработки. Письмо уходит в 9:00 (Asia/Bishkek, UTC+6) на avbelyaev@biz-soft.pro.
+**executive email** для руководителя и **веб-отчёт** (полные таблицы, разделы
+отсортированы по критичности, оглавление). Письмо уходит в 09:00 МСК (UTC+3,
+правило проекта) на avbelyaev@biz-soft.pro.
 
 Методика: `docs/seo/reporting-methodology.md` · переход с v1: `docs/seo/reporting-v2-migration.md` ·
 аудит прежнего pipeline: `docs/seo/reporting-current-state.md`.
@@ -11,12 +12,12 @@ SEO и разработки. Письмо уходит в 9:00 (Asia/Bishkek, UT
 
 | Шаг | Команда / файл | Результат |
 |---|---|---|
-| 1. Сбор | воркфлоу `seo-data-collect.yml` → `scripts/seo/collect.py` | `reports/seo/data/<источник>-<дата>.json` |
+| 1. Сбор | воркфлоу `seo-data-collect.yml` → `scripts/seo/collect.py` | `reports/seo/data/<источник>-<дата>.json`; в `gsc-*.json` также пары «запрос × страница» (ключ `pairs`) для детекторов каннибализации и mismatch |
 | 2. Канонический snapshot | `python3 scripts/seo/snapshot.py <дата>` | `intelligence/snapshots/<дата>.json` |
 | 3. Качество данных | `python3 scripts/seo/quality.py <дата>` | `intelligence/data-quality/<дата>.json` |
 | 4. Графики | `python3 scripts/seo/charts.py <дата>` | `intelligence/charts/<дата>-*.svg` |
-| 5. Отчёт | `python3 scripts/seo/report_v4.py <дата>` | письмо (`-v4-email.html`), preview, `.txt`, `.eml`, блоки |
-| 5б. Веб-отчёт | `python3 scripts/seo/webreport.py <дата>` | `reports/seo/public/daily/<дата>/index.html` |
+| 5. Отчёт | `python3 scripts/seo/report_v4.py <дата>` | письмо (`-v4-email.html`), preview, `.txt`, `.eml`, блоки; попутно обновляет `intelligence/loop-health.json` (реестр исполнения контуров, `loop_health.py`) |
+| 5б. Веб-отчёт | `python3 scripts/seo/webreport.py <дата>` | `reports/seo/public/daily/<дата>/index.html` — оглавление, разделы по критичности, «Работа конвейера», «Money-запросы (позиции 4–20)» |
 | 6. Проверка в браузере | `node scripts/seo/emailcheck.mjs <html> <json>` | прокрутка и шрифты на 375 и 680 px |
 | 6б. UX lint письма | `python3 scripts/seo/uxlint_v4.py <дата>` | `intelligence/<дата>-v4-uxlint.json` (25 проверок) |
 | 6в. Качество содержания | `python3 scripts/seo/contentcheck.py <дата>` | `intelligence/<дата>-v4-content.json` (10 проверок) |
@@ -25,6 +26,16 @@ SEO и разработки. Письмо уходит в 9:00 (Asia/Bishkek, UT
 | 9. Доставка | `seo-report-email.yml` | письмо с PNG-вложениями (CID) + текстовая версия |
 | 10. Проверка сайта | `seo-site-check.yml` | title и FAQPage на живых страницах экспериментов |
 | 11. Рыночный спрос | `seo-wordstat.yml` → `wordstat/run.py` → `wordstat/report.py` | база семантики, покрытие, разрывы, возможности, блок письма |
+
+## Loop-health: контроль, что конвейер реально работает
+
+`scripts/seo/loop_health.py` (вызывается из `report_v4.py`) сверяет каждый
+контур с его артефактом: сбор данных, пары GSC, Вордстат, снимок, качество,
+письмо, отправка, статистика Директа. Просрочка — красная строка в блоке
+«Здоровье данных» письма и таблица в веб-отчёте («Работа конвейера»).
+Расписаниям Actions система не верит на слово: контур считается отработавшим
+только по датированному артефакту (инцидент 27.08.2026 — планировщик GitHub
+молчал шесть часов).
 
 ## Правила, обязательные к соблюдению
 
