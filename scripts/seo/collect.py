@@ -48,11 +48,13 @@ EXPECTED_GA_MEASUREMENT_ID = 'G-V9BK2D1431'
 PAGE_LIMIT = 100
 MAX_QUERIES = 2000
 
-# Пары «запрос × страница» GSC — сенсор для детекторов каннибализации и
-# query-page mismatch (этап 0 Growth Engine). Пары объёмнее одиночных разрезов,
-# поэтому свой лимит страницы и свой потолок обхода.
+# Пары «запрос × страница × день» GSC — сенсор для детекторов каннибализации
+# и query-page mismatch (этапы 0–1 Growth Engine). День в измерениях нужен
+# каннибализации: смена лидера по запросу видна только в дневном разрезе.
+# Пары объёмнее одиночных разрезов, поэтому свой лимит страницы и свой
+# потолок обхода (день умножает число строк примерно на длину окна).
 PAIRS_PAGE_LIMIT = 1000
-PAIRS_MAX_ROWS = 5000
+PAIRS_MAX_ROWS = 25000
 
 # Источники, которые GA4 считает органическим поиском, а мы — своими визитами
 # и не-поиском. Интерфейсы Яндекса — это переходы сотрудников; Алиса — не
@@ -136,7 +138,7 @@ def collect_gsc() -> dict:
 
 def collect_gsc_pairs(site_url: str, headers: dict,
                       start: str, end: str) -> dict:
-    """Разрез Search Analytics по паре измерений query+page.
+    """Разрез Search Analytics по измерениям query+page+date.
 
     Пагинация через startRow: GSC отдаёт максимум rowLimit строк за вызов,
     без обхода страницами выборка обрезалась бы молча — как это уже было с
@@ -147,7 +149,7 @@ def collect_gsc_pairs(site_url: str, headers: dict,
         body = {
             'startDate': start,
             'endDate': end,
-            'dimensions': ['query', 'page'],
+            'dimensions': ['query', 'page', 'date'],
             'rowLimit': PAIRS_PAGE_LIMIT,
             'startRow': len(rows),
         }
@@ -161,7 +163,7 @@ def collect_gsc_pairs(site_url: str, headers: dict,
         rows.extend(chunk)
         if len(chunk) < PAIRS_PAGE_LIMIT:
             break
-    out = {'dimensions': ['query', 'page'],
+    out = {'dimensions': ['query', 'page', 'date'],
            'window': {'from': start, 'to': end},
            'rows': rows, 'fetched': len(rows),
            'truncated': len(rows) >= PAIRS_MAX_ROWS}

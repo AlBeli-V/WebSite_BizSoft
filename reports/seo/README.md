@@ -12,12 +12,12 @@
 
 | Шаг | Команда / файл | Результат |
 |---|---|---|
-| 1. Сбор | воркфлоу `seo-data-collect.yml` → `scripts/seo/collect.py` | `reports/seo/data/<источник>-<дата>.json`; в `gsc-*.json` также пары «запрос × страница» (ключ `pairs`) для детекторов каннибализации и mismatch |
+| 1. Сбор | воркфлоу `seo-data-collect.yml` → `scripts/seo/collect.py` | `reports/seo/data/<источник>-<дата>.json`; в `gsc-*.json` также пары «запрос × страница × день» (ключ `pairs`) — слой `pairs.py`, детекторы `cannibalization.py` и `mismatch.py` |
 | 2. Канонический snapshot | `python3 scripts/seo/snapshot.py <дата>` | `intelligence/snapshots/<дата>.json` |
 | 3. Качество данных | `python3 scripts/seo/quality.py <дата>` | `intelligence/data-quality/<дата>.json` |
 | 4. Графики | `python3 scripts/seo/charts.py <дата>` | `intelligence/charts/<дата>-*.svg` |
 | 5. Отчёт | `python3 scripts/seo/report_v4.py <дата>` | письмо (`-v4-email.html`), preview, `.txt`, `.eml`, блоки; попутно обновляет `intelligence/loop-health.json` (реестр исполнения контуров, `loop_health.py`) |
-| 5б. Веб-отчёт | `python3 scripts/seo/webreport.py <дата>` | `reports/seo/public/daily/<дата>/index.html` — оглавление, разделы по критичности, «Работа конвейера», «Money-запросы (позиции 4–20)» |
+| 5б. Веб-отчёт | `python3 scripts/seo/webreport.py <дата>` | `reports/seo/public/daily/<дата>/index.html` — оглавление, разделы по критичности, «Работа конвейера», «Money-запросы (позиции 4–20)», «Каннибализация запросов», «Query-page mismatch» |
 | 6. Проверка в браузере | `node scripts/seo/emailcheck.mjs <html> <json>` | прокрутка и шрифты на 375 и 680 px |
 | 6б. UX lint письма | `python3 scripts/seo/uxlint_v4.py <дата>` | `intelligence/<дата>-v4-uxlint.json` (25 проверок) |
 | 6в. Качество содержания | `python3 scripts/seo/contentcheck.py <дата>` | `intelligence/<дата>-v4-content.json` (10 проверок) |
