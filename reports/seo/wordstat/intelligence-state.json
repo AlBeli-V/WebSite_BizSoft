@@ -1,6 +1,6 @@
 {
  "date": "2026-08-30",
- "generated_at": "2026-08-30T05:33:48+00:00",
+ "generated_at": "2026-08-30T06:41:19+00:00",
  "measured_at": "2026-08-30",
  "universe": {
   "phrases": 23047,
@@ -18,7 +18,7 @@
    "page": 0.8783,
    "indexed": 0.6042,
    "top10": 0.2218,
-   "clicks": 0.0053,
+   "clicks": 0.003,
    "conversion_measured": null,
    "qualified_leads": null
   },
@@ -49,10 +49,10 @@
    "demand": 84342,
    "covered": 84342,
    "top10": 40113,
-   "clicks": 664,
+   "clicks": 0,
    "page_coverage": 1.0,
    "top10_coverage": 0.476,
-   "click_coverage": 0.008
+   "click_coverage": 0.0
   },
   "Офисное ПО": {
    "demand": 62533,
@@ -172,8 +172,8 @@
   "GAP-A": 2,
   "GAP-B": 32,
   "GAP-C": 3,
-  "GAP-D": 11,
-  "GAP-E": 2,
+  "GAP-D": 12,
+  "GAP-E": 1,
   "GAP-F": 3,
   "GAP-G": 1,
   "GAP-H": 24
@@ -235,8 +235,8 @@
    "url": "/vendors/anthropic",
    "page_exists": true,
    "indexed": true,
-   "best_position": 7.37,
-   "impressions": 41,
+   "best_position": 7.28,
+   "impressions": 46,
    "clicks": 0,
    "ctr": 0.0,
    "trend": "growing",
@@ -268,8 +268,8 @@
     "подписка и продление": 258,
     "прочее": 229
    },
-   "step": "Переписать сниппет /vendors/anthropic: 41 показов, 0 переходов",
-   "prompt": "У /vendors/anthropic позиция 7.37 по «claude купить» и 41 показов, но всего 0 переходов — люди видят нас в выдаче и не заходят. Перепиши title и description под коммерческий интент: оплата на юрлицо, счёт, договор, ЭДО. Ядро title не длиннее 65 символов, description до 160. Заведи как отдельный эксперимент со своей датой старта, контроль 2026-09-06. Важно: выкат на сайте не равен обновлению сниппета в выдаче — фиксируй их раздельно.",
+   "step": "Переписать сниппет /vendors/anthropic: 46 показов, 0 переходов",
+   "prompt": "У /vendors/anthropic позиция 7.28 по «claude купить» и 46 показов, но всего 0 переходов — люди видят нас в выдаче и не заходят. Перепиши title и description под коммерческий интент: оплата на юрлицо, счёт, договор, ЭДО. Ядро title не длиннее 65 символов, description до 160. Заведи как отдельный эксперимент со своей датой старта, контроль 2026-09-06. Важно: выкат на сайте не равен обновлению сниппета в выдаче — фиксируй их раздельно.",
    "success": "CTR по «claude купить» выше текущего при том же объёме показов к 2026-09-06",
    "check_on": "2026-09-06",
    "opportunity_score": 0.17879,
@@ -818,14 +818,14 @@
   "note": "Российские вендоры исключены: их лицензии продаются напрямую, услуга оплаты из-за рубежа к ним неприменима."
  },
  "efficiency": {
-  "calls_total": 4889,
+  "calls_total": 5077,
   "calls_paid": 521,
   "cost_month_rub": 12.37,
   "cost_today_rub": 0.32,
   "remaining_budget_rub": 5487.63,
   "forecast_month_end_rub": 12.78,
   "state": "open",
-  "cache_hit_rate": 0.8934,
+  "cache_hit_rate": 0.8974,
   "duplicate_rate": 0.3806,
   "unique_phrases": 16547,
   "new_commercial_phrases": 2763,
@@ -833,7 +833,7 @@
   "cost_per_1000_unique_phrases_rub": 0.748,
   "cost_per_1000_commercial_phrases_rub": 4.477,
   "cost_per_new_cluster_rub": 0.0877,
-  "empty_response_rate": 0.3514
+  "empty_response_rate": 0.3484
  },
  "quota": {
   "requests_per_hour": 500,
