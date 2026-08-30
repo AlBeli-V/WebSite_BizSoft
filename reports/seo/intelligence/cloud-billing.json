@@ -1,5 +1,5 @@
 {
- "fetched_at": "2026-08-30T07:54:10+00:00",
+ "fetched_at": "2026-08-30T08:00:23+00:00",
  "date": "2026-08-30",
  "account_id": "dn2wankgmou5ygwbjvgl",
  "account_name": "account-558",
@@ -29,6 +29,30 @@
    "name": "Retrieving data from the Wordstat API (GetTop)",
    "unit": "1k*request",
    "price_rub": 20.0
+  },
+  {
+   "id": "dn2jvijde54vqeic49vd",
+   "name": "Asynchronous audio file recognition, deferred mode",
+   "unit": "second",
+   "price_rub": 0.00254
+  },
+  {
+   "id": "dn2mrng7mplxybehwpa2",
+   "name": "Daytime deferred text requests",
+   "unit": "1k*request",
+   "price_rub": 30.5
+  },
+  {
+   "id": "dn2tziigzjmvmz7jva4n",
+   "name": "Night-time deferred text requests",
+   "unit": "1k*request",
+   "price_rub": 25.41
+  },
+  {
+   "id": "dn2zjs26sd4pppsn2ghm",
+   "name": "Web search tool",
+   "unit": "1k*request",
+   "price_rub": 915.0
   }
  ]
 }
