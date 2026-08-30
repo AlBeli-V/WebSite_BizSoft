@@ -64,6 +64,35 @@ export const seller: SellerDetails = {
   },
 };
 
+/**
+ * Публичный почтовый адрес в структурированном виде — для Schema.org
+ * (PostalAddress). Ровно те же данные, что видимая строка seller.address
+ * на /contacts: номер офиса сайт намеренно не публикует, поэтому его нет
+ * и в разметке.
+ */
+export const sellerAddress = {
+  streetAddress: 'Каширское шоссе 80К1',
+  addressLocality: 'Москва',
+  postalCode: '115569',
+  addressCountry: 'RU',
+} as const;
+
+/**
+ * Режим работы (решение руководителя 29.08.2026: Пн–Пт 10:00–19:00 МСК).
+ * Единый источник для /contacts и разметки LocalBusiness — чек-лист
+ * товарных сервисов Яндекса требует явного графика на сайте.
+ */
+export const workingHours = {
+  label: 'Пн–Пт 10:00–19:00 (МСК)',
+  /** schema.org OpeningHoursSpecification */
+  schema: {
+    '@type': 'OpeningHoursSpecification',
+    dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+    opens: '10:00',
+    closes: '19:00',
+  },
+} as const;
+
 export const site = {
   name: 'BIZSoft',
   domain: 'biz-soft.pro',
