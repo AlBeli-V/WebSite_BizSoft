@@ -138,6 +138,12 @@ CONTOURS = [
     {"id": "gsc-pairs", "label": "Пары запрос×страница (GSC)",
      "cadence": "daily", "cadence_label": "ежедневно, в сборе GSC",
      "last": _last_gsc_pairs, "required": False},
+    {"id": "sitemap", "label": "Инвентарь URL (sitemap)",
+     "cadence": "daily", "cadence_label": "ежедневно, в сборе данных",
+     "last": lambda date: _dates_from_names(
+         (BASE / "data").glob("sitemap-2*.json")
+         if (BASE / "data").exists() else []),
+     "required": False},
     {"id": "wordstat", "label": "Разведка спроса (Вордстат)",
      "cadence": "daily", "cadence_label": "ежедневно 04:20 МСК",
      "last": _last_wordstat, "required": True},

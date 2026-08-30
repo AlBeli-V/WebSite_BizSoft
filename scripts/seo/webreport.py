@@ -25,9 +25,11 @@ import sys
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
 
 import cannibalization as cannibal_mod  # noqa: E402
+import lifecycle as lifecycle_mod  # noqa: E402
 import mismatch as mismatch_mod  # noqa: E402
 import opportunity as opp_mod    # noqa: E402
 import snapshot as snapshot_mod  # noqa: E402
+import zero_impression as zero_mod  # noqa: E402
 from report_v4 import (BLOB, BRANCH, PILL_LABEL, REPO, VERDICT_LABEL,  # noqa: E402
                        assemble, load_site_check)
 from textfmt import num, pct, ru_date, ru_date_full, signed  # noqa: E402
@@ -335,6 +337,70 @@ def _mismatch_section(mm: dict) -> str:
             f"{ru_date(mm.get('as_of'))}.</p>" + body)
 
 
+def _zero_section(zi: dict, snap: dict) -> str:
+    """Инвентарь и страницы без показов + Index Efficiency по системам."""
+    if not zi.get("available"):
+        return f"<p class='muted'>{zi.get('reason', 'Данных нет')}.</p>"
+    idx = (snap.get("yandex") or {}).get("indexation") or {}
+    y_indexed = idx.get("indexed_urls")
+    total = zi["inventory_total"]
+    eff = (
+        f"<p>Инвентарь sitemap: <b>{num(total)}</b> URL (выгрузка "
+        f"{ru_date(zi['as_of'])}). Index Efficiency: "
+        f"Google — <b>{zi['with_impressions']}</b> страниц с показами "
+        f"({zi['coverage_google']:.1%}); Яндекс — "
+        + (f"<b>{num(y_indexed)}</b> страниц в поиске ({y_indexed / total:.1%})"
+           if y_indexed and total else "число страниц в поиске не измерено")
+        + ". Если каталог растёт быстрее этих долей — рост SKU превращается "
+          "в SEO-инфляцию.</p>")
+    types = ", ".join(f"{k}: {v}" for k, v in sorted(
+        zi["by_type"].items(), key=lambda kv: -kv[1]))
+    rows = [[f"<code>{i['path']}</code>",
+             f"<span class='chip'>{i['page_type']}</span>",
+             (f"≥{i['known_days']}" if i["known_days_is_floor"]
+              else str(i["known_days"] if i["known_days"] is not None else "—"))
+             + " дн.",
+             i["verdict"]]
+            for i in zi["items"]]
+    body = table(["Страница", "Тип", "В инвентаре", "Вердикт"], rows)
+    more = ("" if zi["zero_total"] <= len(zi["items"]) else
+            f"<p class='muted'>Показаны {len(zi['items'])} из "
+            f"{zi['zero_total']}; полный разбор — партиями.</p>")
+    return (eff
+            + f"<p class='muted desc'>Без показов: {num(zi['zero_total'])} "
+              f"(по типам — {types}); молодых страниц пропущено: "
+              f"{zi['young_skipped']}. {zi['note']}.</p>"
+            + body + more)
+
+
+def _lifecycle_section(lc: dict) -> str:
+    """Жизненный цикл страниц: new / gaining / stable / declining."""
+    if not lc.get("available"):
+        return f"<p class='muted'>{lc.get('reason', 'Данных нет')}.</p>"
+    if not lc.get("items"):
+        return f"<p class='muted'>{lc.get('reason', 'Находок нет')}.</p>"
+    counts = lc.get("counts") or {}
+    summary = " · ".join(f"{STATUS_CHIP.get(k, k)}: {v}"
+                         for k, v in sorted(counts.items()))
+    chip_cls = {"declining": "danger", "gaining": "positive", "new": "",
+                "stable": ""}
+    rows = [[f"<span class='chip {chip_cls[i['status']]}'>"
+             f"{STATUS_CHIP[i['status']]}</span>",
+             f"<code>{i['page']}</code>",
+             f"<span class='chip'>{i['page_type']}</span>",
+             num(i["total"]), str(i["prev7"]), str(i["last7"]),
+             ru_date(i["first_active"])]
+            for i in lc["items"]]
+    body = table(["Статус", "Страница", "Тип", "Показы за окно",
+                  "Пред. неделя", "Эта неделя", "Первая активность"], rows)
+    return (f"<p class='muted desc'>Страниц с показами: {lc['pages_total']} "
+            f"({summary}). {lc.get('note', '')}.</p>" + body)
+
+
+STATUS_CHIP = {"new": "новая", "gaining": "растёт", "stable": "стабильна",
+               "declining": "снижается"}
+
+
 def embed_png(path: pathlib.Path) -> str:
     """PNG внутрь страницы: отчёт открывается по ссылке, а не только из репозитория."""
     return "data:image/png;base64," + base64.b64encode(path.read_bytes()).decode()
@@ -609,6 +675,8 @@ def build_html(b: dict, snap: dict, dq: dict, date: str) -> str:
     money_html = _money_section(mr)
     cb = cannibal_mod.build(date)
     mm = mismatch_mod.build(date)
+    zi = zero_mod.build(date)
+    lc = lifecycle_mod.build(date)
 
     signals_html = (
         f"<div class='scroll'><table><thead><tr>"
@@ -677,6 +745,21 @@ def build_html(b: dict, snap: dict, dq: dict, date: str) -> str:
                  "служебный раздел или главную. Сигнал, что посадочная "
                  "отсутствует или недостаточно релевантна.",
          "html": _mismatch_section(mm)},
+        {"id": "lifecycle", "title": "Жизненный цикл страниц (Google)",
+         "crit": 2 if (lc.get("counts") or {}).get("declining")
+                 else (1 if lc.get("available") else 0),
+         "desc": "Статус каждой видимой страницы по дневным показам: новая → "
+                 "растёт → стабильна → снижается. «Снижается» — ранний сигнал "
+                 "увядания: страницу обновляют до того, как она выпадет из "
+                 "выдачи, а не после −40% трафика.",
+         "html": _lifecycle_section(lc)},
+        {"id": "zero", "title": "Инвентарь и страницы без показов",
+         "crit": 1 if zi.get("available") else 0,
+         "desc": "Все URL сайта из sitemap против страниц с показами Google: "
+                 "Index Efficiency по системам и список страниц, которые "
+                 "существуют, но поиска не видят. Тексты туда вслепую не "
+                 "генерируются — сначала разбор причины.",
+         "html": _zero_section(zi, snap)},
         {"id": "board", "title": "Журнал исполнения",
          "crit": 2 if any(r["stage"] == "заблокировано" for r in b["board"]) else 1,
          "desc": "Задачи системы со сменой статуса, блокировкой или близким "
@@ -879,6 +962,29 @@ def build_markdown(b: dict, snap: dict, dq: dict, date: str) -> str:
             L.append(f"| {i['query']} | {num(i['impressions'])} | {i['page']} | "
                      f"{i['page_type']} | {i['recommended_action']} |")
         L.append("")
+
+    lc = lifecycle_mod.build(date)
+    if lc.get("available") and lc.get("counts"):
+        parts = " · ".join(f"{k}: {v}" for k, v in sorted(lc["counts"].items()))
+        L += ["## Жизненный цикл страниц (Google)", "",
+              f"Страниц с показами: {lc['pages_total']} ({parts}). "
+              f"{lc.get('note', '')}", ""]
+        declining = [i for i in lc["items"] if i["status"] == "declining"]
+        if declining:
+            L += ["| Страница | Пред. неделя | Эта неделя |", "|---|---|---|"]
+            for i in declining:
+                L.append(f"| {i['page']} | {i['prev7']} | {i['last7']} |")
+            L.append("")
+
+    zi = zero_mod.build(date)
+    if zi.get("available"):
+        types = ", ".join(f"{k}: {v}" for k, v in sorted(
+            zi["by_type"].items(), key=lambda kv: -kv[1]))
+        L += ["## Инвентарь и страницы без показов", "",
+              f"Инвентарь sitemap: {num(zi['inventory_total'])} URL; с показами "
+              f"Google: {zi['with_impressions']} "
+              f"({zi['coverage_google']:.1%}); без показов: "
+              f"{num(zi['zero_total'])} ({types}). {zi['note']}", ""]
 
     lh = b.get("loop_health") or {}
     if lh.get("available"):
