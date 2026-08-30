@@ -7207,5 +7207,19 @@
     "rights_note": "Товарный знак Trimble; глиф из коллекции simple-icons (CC0-1.0, права на знаки у правообладателей). Аудит качества 29.08.2026: заменил четыре wordmark-иконки 512px с нечитаемым текстом.",
     "svg_color": "src/assets/product-icons/catalog/color/sketchup-mark.svg",
     "svg_mono": "src/assets/product-icons/catalog/mono/sketchup-mark.svg"
+  },
+  {
+    "icon_id": "toon-boom-mark",
+    "title": "Toon Boom (stacked wordmark)",
+    "used_by_count": 2,
+    "vendors": "Toon Boom",
+    "sample_products": "Toon Boom Harmony Advanced; Toon Boom Harmony Premium",
+    "source_url": "user-provided bundle toon-boom-icon-pack-2026-08-30",
+    "source_kind": "Normalized vendor mark used as product-family fallback",
+    "source_owner": "Toon Boom Animation Inc.",
+    "source_format": "svg (embedded png)",
+    "rights_note": "Товарный знак принадлежит правообладателю; растровый референс предоставлен руководителем, встроен в SVG без трейсинга. Заменить отдельными знаками Harmony при появлении официальных product-иконок.",
+    "svg_color": "src/assets/product-icons/catalog/color/toon-boom-mark.svg",
+    "svg_mono": "src/assets/product-icons/catalog/mono/toon-boom-mark.svg"
   }
 ]
