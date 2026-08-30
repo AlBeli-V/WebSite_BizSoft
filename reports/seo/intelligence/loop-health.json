@@ -1,0 +1,90 @@
+{
+ "date": "2026-08-30",
+ "generated_at": "2026-08-30T06:16:01+00:00",
+ "contours": [
+  {
+   "id": "collect",
+   "label": "Сбор GSC/Вебмастер/Метрика/GA4",
+   "cadence": "ежедневно 06:07 МСК",
+   "last_run": "2026-08-30",
+   "expected_since": "2026-08-30",
+   "overdue": false,
+   "days_late": 0,
+   "note": null
+  },
+  {
+   "id": "gsc-pairs",
+   "label": "Пары запрос×страница (GSC)",
+   "cadence": "ежедневно, в сборе GSC",
+   "last_run": "2026-08-30",
+   "expected_since": "2026-08-30",
+   "overdue": false,
+   "days_late": 0,
+   "note": null
+  },
+  {
+   "id": "wordstat",
+   "label": "Разведка спроса (Вордстат)",
+   "cadence": "ежедневно 04:20 МСК",
+   "last_run": "2026-08-30",
+   "expected_since": "2026-08-30",
+   "overdue": false,
+   "days_late": 0,
+   "note": null
+  },
+  {
+   "id": "snapshot",
+   "label": "Канонический снимок дня",
+   "cadence": "ежедневно 09:00 МСК",
+   "last_run": "2026-08-30",
+   "expected_since": "2026-08-30",
+   "overdue": false,
+   "days_late": 0,
+   "note": null
+  },
+  {
+   "id": "quality",
+   "label": "Проверки качества данных",
+   "cadence": "ежедневно 09:00 МСК",
+   "last_run": "2026-08-30",
+   "expected_since": "2026-08-30",
+   "overdue": false,
+   "days_late": 0,
+   "note": null
+  },
+  {
+   "id": "report",
+   "label": "Сборка письма V4",
+   "cadence": "ежедневно 09:00 МСК",
+   "last_run": "2026-08-29",
+   "expected_since": "2026-08-29",
+   "overdue": false,
+   "days_late": 0,
+   "note": null
+  },
+  {
+   "id": "email",
+   "label": "Отправка письма руководителю",
+   "cadence": "ежедневно ~09:30 МСК",
+   "last_run": "2026-08-29",
+   "expected_since": "2026-08-29",
+   "overdue": false,
+   "days_late": 0,
+   "note": null
+  },
+  {
+   "id": "direct",
+   "label": "Статистика Яндекс.Директа",
+   "cadence": "будни 07:10 МСК",
+   "last_run": "2026-08-28",
+   "expected_since": "2026-08-27",
+   "overdue": false,
+   "days_late": 0,
+   "note": null
+  }
+ ],
+ "overdue": [],
+ "ok_count": 8,
+ "total": 8,
+ "available": true
+}
