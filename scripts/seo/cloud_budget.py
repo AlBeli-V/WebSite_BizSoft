@@ -37,8 +37,31 @@ SERP_LEDGER_DIR = BASE / "data" / "serp" / "ledger"
 BILLING_FRESH_DAYS = 2   # старше — факт биллинга устарел, живём на оценке
 
 # Консервативная оценка стоимости SERP-запроса (дневной синхронный тариф,
-# ≈122 000 ₽ / 250 000 запросов, НДС включён) — до сверки с биллингом.
+# ≈122 000 ₽ / 250 000 запросов, НДС включён) — фолбэк, когда фактическая
+# цена из прайса биллинга недоступна (см. serp_cost_from_skus).
 SERP_COST_RUB = 0.49
+
+
+def serp_cost_from_skus(skus: list[dict]) -> float | None:
+    """Фактическая цена SERP-запроса из прайса биллинга.
+
+    Берётся минимальная цена среди SKU веб-поиска (сбор идёт ночью, а ночной
+    тариф — самый дешёвый из применимых); Wordstat-SKU исключаются. Единица
+    прайса — за 1000 запросов (unit \"1k*request\") — нормируется к запросу.
+    """
+    best = None
+    for s in skus or []:
+        name = (s.get("name") or "").lower()
+        if "wordstat" in name:
+            continue
+        price = s.get("price_rub")
+        if price is None or price <= 0:
+            continue
+        per_request = (price / 1000.0 if "1k" in (s.get("unit") or "")
+                       else float(price))
+        if best is None or per_request < best:
+            best = per_request
+    return round(best, 4) if best is not None else None
 
 RUNWAY_ALERT_DAYS = 14      # «нехватка через неделю» + лаг на пополнение
 NOTICE_COOLDOWN_DAYS = 3    # не чаще одного письма в три дня
@@ -67,7 +90,8 @@ def _iter_ledger(dir_: pathlib.Path):
                 continue
 
 
-def spend_between(start: str, end: str) -> dict:
+def spend_between(start: str, end: str,
+                  serp_cost: float = SERP_COST_RUB) -> dict:
     """Расход [start; end] по журналам. Записи без даты считаются расходом
     (консервативно), если файл месяца не старше базовой точки."""
     ws = serp_n = 0.0
@@ -81,8 +105,9 @@ def spend_between(start: str, end: str) -> dict:
             serp_n += 1
     return {"wordstat_rub": round(ws, 2),
             "serp_requests": int(serp_n),
-            "serp_rub_estimate": round(serp_n * SERP_COST_RUB, 2),
-            "total_rub": round(ws + serp_n * SERP_COST_RUB, 2)}
+            "serp_cost_rub_each": serp_cost,
+            "serp_rub_estimate": round(serp_n * serp_cost, 2),
+            "total_rub": round(ws + serp_n * serp_cost, 2)}
 
 
 def load_balance() -> dict | None:
@@ -153,12 +178,16 @@ def build(date_s: str) -> dict:
     for t in bal.get("topups") or []:
         if (t.get("date") or "") >= start:
             amount += float(t.get("amount_rub") or 0)
-    spent = spend_between(start, date_s)
+
+    act = billing_actual(date_s)
+    serp_cost = (serp_cost_from_skus((act or {}).get("skus"))
+                 or SERP_COST_RUB)
+    spent = spend_between(start, date_s, serp_cost)
     balance = round(amount - spent["total_rub"], 2)
 
     week_start = (dt.date.fromisoformat(date_s)
                   - dt.timedelta(days=TREND_WINDOW_DAYS - 1)).isoformat()
-    week = spend_between(max(week_start, start), date_s)
+    week = spend_between(max(week_start, start), date_s, serp_cost)
     observed_days = min(
         TREND_WINDOW_DAYS,
         (dt.date.fromisoformat(date_s) - dt.date.fromisoformat(start)).days + 1)
@@ -170,7 +199,6 @@ def build(date_s: str) -> dict:
 
     # Факт из Billing API главнее оценки: реальный остаток кабинета и
     # реальный расход по дельтам остатка (поручение 30.08.2026).
-    act = billing_actual(date_s)
     if act and act.get("balance_rub") is not None:
         balance = float(act["balance_rub"])
         source = "billing_api"
