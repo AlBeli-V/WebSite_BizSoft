@@ -107,10 +107,11 @@ class TestCollectGscGa4(unittest.TestCase):
     def gsc_routes(self, analytics=None):
         rows = {"rows": [{"keys": ["2026-08-20"], "impressions": 3, "clicks": 0,
                           "position": 20.0}]}
-        pair_rows = {"rows": [{"keys": ["запрос", "https://biz-soft.pro/p/"],
+        pair_rows = {"rows": [{"keys": ["запрос", "https://biz-soft.pro/p/",
+                                        "2026-08-20"],
                                "impressions": 3, "clicks": 0, "position": 12.0}]}
         # Очередь на один эндпоинт: три разреза письма (date, query, page),
-        # затем пары «запрос × страница».
+        # затем пары «запрос × страница × день».
         return {
             "searchAnalytics/query": analytics if analytics is not None else [
                 FakeResponse(200, rows), FakeResponse(200, rows),
@@ -124,7 +125,7 @@ class TestCollectGscGa4(unittest.TestCase):
         self.assertNotIn("error", out)
         self.assertIn("rows", out["analytics"]["date"])
         self.assertEqual(out["pairs"]["fetched"], 1)
-        self.assertEqual(out["pairs"]["dimensions"], ["query", "page"])
+        self.assertEqual(out["pairs"]["dimensions"], ["query", "page", "date"])
 
     def test_gsc_one_slice_error_is_partial(self):
         out = self.collect_gsc(self.gsc_routes(analytics=[
@@ -142,10 +143,12 @@ class TestCollectGscGa4(unittest.TestCase):
 
     def test_gsc_pairs_paginate_until_short_page(self):
         """Пары забираются страницами startRow, пока страница полная."""
-        full = {"rows": [{"keys": [f"q{i}", "https://biz-soft.pro/p/"],
+        full = {"rows": [{"keys": [f"q{i}", "https://biz-soft.pro/p/",
+                                   "2026-08-20"],
                           "impressions": 1, "clicks": 0, "position": 15.0}
                          for i in range(self.c.PAIRS_PAGE_LIMIT)]}
-        tail = {"rows": [{"keys": ["хвост", "https://biz-soft.pro/p/"],
+        tail = {"rows": [{"keys": ["хвост", "https://biz-soft.pro/p/",
+                                   "2026-08-20"],
                           "impressions": 1, "clicks": 0, "position": 15.0}]}
         rows = {"rows": [{"keys": ["2026-08-20"], "impressions": 3, "clicks": 0,
                           "position": 20.0}]}

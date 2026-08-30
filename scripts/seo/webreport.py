@@ -24,6 +24,8 @@ import sys
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
 
+import cannibalization as cannibal_mod  # noqa: E402
+import mismatch as mismatch_mod  # noqa: E402
 import opportunity as opp_mod    # noqa: E402
 import snapshot as snapshot_mod  # noqa: E402
 from report_v4 import (BLOB, BRANCH, PILL_LABEL, REPO, VERDICT_LABEL,  # noqa: E402
@@ -289,6 +291,48 @@ def _money_section(mr: dict) -> str:
                   "Зона", "Типовое действие"], rows)
     return (f"<p class='muted desc'>{mr.get('note', '')}. "
             f"Рассмотрено запросов: {mr.get('considered')}.</p>" + body)
+
+
+def _cannibal_section(cb: dict) -> str:
+    """Каннибализация: расщепление запроса между страницами и смены лидера."""
+    if not cb.get("available"):
+        return f"<p class='muted'>{cb.get('reason', 'Данных нет')}.</p>"
+    if not cb.get("items"):
+        return f"<p class='muted'>{cb.get('reason', 'Находок нет')}.</p>"
+    rows = []
+    for i in cb["items"]:
+        pages = "<br>".join(
+            f"{p['page']} — {p['share']:.0%}"
+            + (f", позиция {p['avg_position']}" if p['avg_position'] else "")
+            for p in i["pages"])
+        chip = ("<span class='chip warning'>нестабильно</span>"
+                if i["verdict"] == "unstable"
+                else "<span class='chip'>расщепление</span>")
+        rows.append([chip, f"<b>{i['query']}</b>", num(i["impressions"]),
+                     pages, f"{i['leader_changes']} за {i['days_observed']} дн.",
+                     i["recommended_action"]])
+    body = table(["Вердикт", "Запрос", "Показы", "Страницы и доли",
+                  "Смен лидера", "Предлагаемое действие"], rows)
+    return (f"<p class='muted desc'>{cb.get('note', '')}. Выгрузка от "
+            f"{ru_date(cb.get('as_of'))}.</p>" + body)
+
+
+def _mismatch_section(mm: dict) -> str:
+    """Mismatch: коммерческий запрос, который ведёт не на коммерческую страницу."""
+    if not mm.get("available"):
+        return f"<p class='muted'>{mm.get('reason', 'Данных нет')}.</p>"
+    if not mm.get("items"):
+        return f"<p class='muted'>{mm.get('reason', 'Находок нет')}.</p>"
+    rows = [[f"<b>{i['query']}</b>", num(i["impressions"]),
+             f"{i['page']} <span class='chip'>{i['page_type']}</span>",
+             f"{i['share']:.0%}",
+             str(i["avg_position"] or "—"),
+             i["recommended_action"]]
+            for i in mm["items"]]
+    body = table(["Запрос", "Показы", "Куда ведёт", "Доля", "Позиция",
+                  "Предлагаемое действие"], rows)
+    return (f"<p class='muted desc'>{mm.get('note', '')}. Выгрузка от "
+            f"{ru_date(mm.get('as_of'))}.</p>" + body)
 
 
 def embed_png(path: pathlib.Path) -> str:
@@ -563,6 +607,8 @@ def build_html(b: dict, snap: dict, dq: dict, date: str) -> str:
     loop_html = _loop_section(lh)
     mr = opp_mod.money_radar(snap)
     money_html = _money_section(mr)
+    cb = cannibal_mod.build(date)
+    mm = mismatch_mod.build(date)
 
     signals_html = (
         f"<div class='scroll'><table><thead><tr>"
@@ -616,6 +662,21 @@ def build_html(b: dict, snap: dict, dq: dict, date: str) -> str:
                  "зона роста: страница есть, спрос есть, не хватает позиций "
                  "или сниппета.",
          "html": money_html},
+        {"id": "cannibal", "title": "Каннибализация запросов",
+         "crit": 2 if cb.get("unstable_count") else (1 if cb.get("items") else 0),
+         "desc": "Запросы, показы которых расщеплены между несколькими "
+                 "страницами сайта. Сам факт двух URL — не проблема; проблема "
+                 "— нестабильность, когда выдача перебирает страницы день ото "
+                 "дня. Детектор только наблюдает: canonical и склейка — "
+                 "отдельные решения.",
+         "html": _cannibal_section(cb)},
+        {"id": "mismatch", "title": "Query-page mismatch",
+         "crit": 2 if mm.get("items") else 0,
+         "desc": "Коммерческие запросы («купить», «цена»…), по которым поиск "
+                 "стабильно показывает некоммерческую страницу — статью, "
+                 "служебный раздел или главную. Сигнал, что посадочная "
+                 "отсутствует или недостаточно релевантна.",
+         "html": _mismatch_section(mm)},
         {"id": "board", "title": "Журнал исполнения",
          "crit": 2 if any(r["stage"] == "заблокировано" for r in b["board"]) else 1,
          "desc": "Задачи системы со сменой статуса, блокировкой или близким "
@@ -796,6 +857,27 @@ def build_markdown(b: dict, snap: dict, dq: dict, date: str) -> str:
         for i in mr["items"]:
             L.append(f"| {i['query']} | {i['engine']} | {num(i['impressions'])} | "
                      f"{i['clicks']} | {i['position']} | {i['recommended_action']} |")
+        L.append("")
+
+    cb = cannibal_mod.build(date)
+    if cb.get("available") and cb.get("items"):
+        L += ["## Каннибализация запросов", "",
+              "| Вердикт | Запрос | Показы | Смен лидера | Действие |",
+              "|---|---|---|---|---|"]
+        for i in cb["items"]:
+            L.append(f"| {i['verdict_label']} | {i['query']} | "
+                     f"{num(i['impressions'])} | {i['leader_changes']} | "
+                     f"{i['recommended_action']} |")
+        L.append("")
+
+    mm = mismatch_mod.build(date)
+    if mm.get("available") and mm.get("items"):
+        L += ["## Query-page mismatch", "",
+              "| Запрос | Показы | Куда ведёт | Тип | Действие |",
+              "|---|---|---|---|---|"]
+        for i in mm["items"]:
+            L.append(f"| {i['query']} | {num(i['impressions'])} | {i['page']} | "
+                     f"{i['page_type']} | {i['recommended_action']} |")
         L.append("")
 
     lh = b.get("loop_health") or {}
