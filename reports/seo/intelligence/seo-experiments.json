@@ -100,6 +100,44 @@
    "success_metric": "CTR кластера anthropic в Вебмастере ≥1% через 7 дней (05.09.2026), ≥2% через 14 дней (12.09.2026); позиция не хуже 8",
    "control_group": "остальные vendor-страницы без изменений; эксперименты EXP-001/EXP-002 считаются раздельно",
    "source": "src/data/seo-experiments.ts (рендер: src/pages/vendors/[slug].astro → VendorLanding)"
+  },
+  {
+   "id": "pages-exp-001-alternatives",
+   "ticket": "PAGES-EXP-001",
+   "start": "2026-08-30",
+   "status": "running",
+   "pages": [
+    "/alternatives/anydesk",
+    "/alternatives/notion",
+    "/alternatives/canva",
+    "/alternatives/miro",
+    "/alternatives/cursor",
+    "/alternatives/figma",
+    "/alternatives/openrouter"
+   ],
+   "baseline": {
+    "period": "замер Вордстата 30.08.2026",
+    "clusters": {
+     "anydesk": 2931,
+     "notion": 1249,
+     "canva": 1175,
+     "miro": 620,
+     "cursor": 474,
+     "figma": 363,
+     "openrouter": 329
+    },
+    "total_demand": 7141,
+    "pages_before": "тип страниц не существовал"
+   },
+   "changes": [
+    "Новый тип страниц /alternatives/[slug]: TL;DR, карточки поставляемых альтернатив, сводная таблица, FAQ, ItemList/FAQPage/Breadcrumb JSON-LD",
+    "7 страниц только под замеренные кластеры «аналог/альтернатива/замена X»",
+    "Правило масштабирования: волна 2 — только после метрики волны 1"
+   ],
+   "hypothesis": "Интент «аналоги X» ловит покупателя до выбора продукта: страницы с поставляемыми альтернативами дадут показы и переходы по non-brand кластерам замены и лиды через КП.",
+   "success_metric": "К 13.09.2026: ≥5 из 7 страниц в поиске Яндекса; показы кластеров ≥300/нед суммарно. К 27.09: первые клики. Иначе — правка шаблона до волны 2.",
+   "control_group": "кластеры замены без страниц (suno, n8n, postman, teamviewer и др.)",
+   "source": "src/data/alternatives.ts, src/pages/alternatives/[slug].astro"
   }
  ]
 }
