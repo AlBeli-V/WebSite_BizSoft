@@ -48,6 +48,20 @@ case "$cmd" in
       cp -a "$d" "$tmp/$d"
     done
 
+    # Служебные маркеры почтового workflow пишет только сам workflow (шаг
+    # Record marker). Копия маркера в рабочей копии прогона снята pull-ом и
+    # могла устареть за время прогона: 29.08 такой push откатил last-mailed
+    # на сутки и сторож повторно отправил уже отправленное письмо
+    # (issue #230). Поэтому маркеры всегда остаются версии хранилища;
+    # сознательная правка маркера — прямым коммитом в seo-data мимо
+    # data_sync (как при восстановлении 26.08).
+    for f in reports/seo/intelligence/last-mailed.txt \
+             reports/seo/intelligence/last-notice.txt; do
+      if git cat-file -e "origin/$BRANCH:$f" 2>/dev/null; then
+        git -C "$tmp" checkout -- "$f" 2>/dev/null || true
+      fi
+    done
+
     # Копии workflow в seo-data (push-триггер исполняет файл из пушенной
     # ветки). Обновлять их может только сессия: GITHUB_TOKEN воркфлоу не
     # имеет права писать workflow-файлы, поэтому под Actions шаг пропускается

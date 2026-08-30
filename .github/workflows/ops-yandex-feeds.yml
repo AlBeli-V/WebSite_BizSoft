@@ -48,7 +48,8 @@ jobs:
             for FEED in "Яндекс Товары|https://biz-soft.pro/yandex-products.yml" \
                         "Яндекс Бизнес|https://biz-soft.pro/yandex-business.xml" \
                         "Яндекс Директ|https://biz-soft.pro/yandex-direct.yml" \
-                        "Яндекс Маркет|https://biz-soft.pro/yandex-market.yml"; do
+                        "Яндекс Маркет|https://biz-soft.pro/yandex-market.yml" \
+                        "2ГИС|https://biz-soft.pro/2gis-products.yml"; do
               NAME="${FEED%%|*}"; URL="${FEED##*|}"
               echo "## $NAME — $URL"
               HDRS=$(curl -sSI --max-time 60 "$URL")
