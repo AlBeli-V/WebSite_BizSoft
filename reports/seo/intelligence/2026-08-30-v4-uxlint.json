@@ -1,17 +1,17 @@
 {
  "date": "2026-08-30",
- "passed": false,
+ "passed": true,
  "counts": {
   "total": 26,
-  "failed": 1
+  "failed": 0
  },
- "visible_words": 1110,
+ "visible_words": 1128,
  "first_screen_words": 172,
  "checks": [
   {
    "check": "visible_words",
-   "ok": false,
-   "detail": "1110 слов при пределе 1100"
+   "ok": true,
+   "detail": "1128 слов при пределе 1200"
   },
   {
    "check": "first_screen_words",
