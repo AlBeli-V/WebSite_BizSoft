@@ -1,0 +1,113 @@
+# Ночная проверка товарных фидов Яндекса (Товары, Бизнес, Директ, Маркет).
+#
+# Фиды отдаются сайтом на лету (SSR из Directus, src/lib/feeds/*), поэтому
+# «передача» — это ежедневный контроль, что площадкам есть что забрать.
+# ВАЖНО: по умолчанию фиды ЗАКРЫТЫ (404 + X-Feed-Status: disabled) —
+# решение руководителя 29.08.2026: открывать только по его команде через
+# YANDEX_FEEDS_ENABLED на проде. Закрытый фид — штатное состояние, не ошибка.
+# Проверяется:
+# HTTP 200, корректный Content-Type, валидный XML, свежая дата генерации,
+# ненулевое число офферов. Результат — комментарием в журнал-issue #22.
+#
+# Расписание: 00:30 UTC = 03:30 по Москве (правило проекта: время — МСК).
+# Пуш фида через API Яндекс Товаров не настроен: нужен OAuth-токен кабинета
+# merchants.yandex.ru (секрет YANDEX_MARKET_TOKEN — пока отсутствует);
+# площадки и без него забирают фид по ссылке сами.
+
+name: ops-yandex-feeds
+
+on:
+  schedule:
+    - cron: "30 0 * * *" # 03:30 МСК
+  workflow_dispatch:
+
+permissions:
+  issues: write
+
+jobs:
+  check-feeds:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Guard - only default branch
+        run: |
+          if [ "${{ github.ref_name }}" != "main" ]; then
+            echo "Запуск разрешён только с ветки main. Текущий ref: ${{ github.ref_name }}"
+            exit 1
+          fi
+
+      - name: Install xmllint
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq libxml2-utils
+
+      - name: Check feeds
+        id: check
+        run: |
+          set +e
+          FAIL=0
+          {
+            echo 'result<<FEEDS_EOF'
+            for FEED in "Яндекс Товары|https://biz-soft.pro/yandex-products.yml" \
+                        "Яндекс Бизнес|https://biz-soft.pro/yandex-business.xml" \
+                        "Яндекс Директ|https://biz-soft.pro/yandex-direct.yml" \
+                        "Яндекс Маркет|https://biz-soft.pro/yandex-market.yml" \
+                        "2ГИС|https://biz-soft.pro/2gis-products.yml"; do
+              NAME="${FEED%%|*}"; URL="${FEED##*|}"
+              echo "## $NAME — $URL"
+              HDRS=$(curl -sSI --max-time 60 "$URL")
+              CODE=$(echo "$HDRS" | head -1 | awk '{print $2}')
+              CTYPE=$(echo "$HDRS" | grep -i '^content-type:' | tr -d '\r')
+              echo "HTTP $CODE; $CTYPE"
+              if echo "$HDRS" | grep -qi '^x-feed-status: disabled'; then
+                echo "⏸ фид подготовлен, но ЗАКРЫТ (решение руководителя 29.08.2026)."
+                echo "Открытие: YANDEX_FEEDS_ENABLED на проде — только по команде руководителя."
+                echo; continue
+              fi
+              if [ "$CODE" != "200" ]; then
+                echo "❌ фид недоступен (ожидался 200)"; FAIL=1; echo; continue
+              fi
+              case "$CTYPE" in
+                *application/xml*|*text/xml*|*application/octet-stream*|*application/gzip*|*application/x-gzip*) ;;
+                *) echo "❌ Content-Type вне списка, который принимает Яндекс"; FAIL=1;;
+              esac
+              BODY=/tmp/feed.xml
+              curl -sS --max-time 120 -o "$BODY" "$URL"
+              if xmllint --noout "$BODY" 2>/tmp/xmlerr; then
+                echo "XML: валиден"
+              else
+                echo "❌ XML невалиден:"; head -5 /tmp/xmlerr; FAIL=1; echo; continue
+              fi
+              OFFERS=$(grep -c '<offer ' "$BODY")
+              FEED_DATE=$(grep -o 'yml_catalog date="[^"]*"' "$BODY" | head -1)
+              SIZE=$(wc -c < "$BODY")
+              echo "офферов: $OFFERS; размер: $SIZE байт; $FEED_DATE"
+              if [ "$OFFERS" -eq 0 ]; then
+                echo "❌ фид пуст — площадка снимет все товары"; FAIL=1
+              fi
+              echo "Первые позиции (порядок = спрос Вордстата):"
+              grep -o '<name>[^<]*</name>' "$BODY" | sed 's/<[^>]*>//g' | head -10 | sed 's/^/  - /'
+              echo
+            done
+            if [ "$FAIL" -eq 0 ]; then
+              echo "Итог: ✅ все фиды валидны и готовы к забору площадками."
+            else
+              echo "Итог: ❌ есть проблемы — см. выше."
+            fi
+            echo 'FEEDS_EOF'
+          } >> "$GITHUB_OUTPUT"
+          echo "fail=$FAIL" >> "$GITHUB_OUTPUT"
+
+      - name: Post results to journal (issue #22)
+        if: always()
+        uses: actions/github-script@v7
+        env:
+          OUT: ${{ steps.check.outputs.result }}
+        with:
+          script: |
+            const out = (process.env.OUT || '(нет вывода)').slice(0, 60000);
+            await github.rest.issues.createComment({
+              owner: context.repo.owner, repo: context.repo.repo, issue_number: 22,
+              body: '### ops-yandex-feeds · ' + new Date().toISOString() + '\n\n```\n' + out + '\n```',
+            });
+
+      - name: Fail job on broken feed
+        if: steps.check.outputs.fail == '1'
+        run: exit 1

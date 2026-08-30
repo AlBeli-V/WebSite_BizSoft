@@ -166,3 +166,77 @@
 | SENTRY-BUSINESS | Sentry | Sentry Business (годовая оплата) | publish | 960.0 | за организацию в год при годовой схеме оплаты | vendor-page (ops-price-scan) | https://sentry.io/pricing/ | 2026-08-20 |
 | N8N-STARTER | n8n | n8n Cloud Starter (годовая оплата) | publish | 240.0 | за рабочее пространство в год при годовой схеме оплаты | vendor-page (ops-price-scan) | https://n8n.io/pricing/ | 2026-08-20 |
 | N8N-PRO | n8n | n8n Cloud Pro (годовая оплата) | publish | 600.0 | за рабочее пространство в год при годовой схеме оплаты | vendor-page (ops-price-scan) | https://n8n.io/pricing/ | 2026-08-20 |
+
+## Партия 29.08.2026: возврат Slack и заведение WordPress.com
+
+Распоряжение руководителя 29.08.2026 по данным спроса Вордстата (проверка
+32 зарубежных разработчиков вне каталога: Slack — 123 запроса/мес,
+WordPress — 299 запросов/мес). Slack снимался с витрины 19.08.2026 —
+архивные строки выше остаются как история; карточки SLACK-PRO и
+SLACK-BUSINESS-PLUS перезаведены по свежим ценам. Оплата картой у обоих
+вендоров подтверждена: Slack — FAQ страницы тарифов («You can use a credit
+card to pay for any plan»), WordPress.com — самообслуживаемый checkout.
+
+| SKU | Вендор | Официальное имя | Реш. | База USD | Метрика | Подтверждение | Источник | Проверено |
+|---|---|---|---|---|---|---|---|---|
+| SLACK-PRO | Slack | Slack Pro (годовая оплата) | publish | 87.0 | за 1 пользователя в год при годовой схеме оплаты | vendor-page (ops-price-scan) | https://slack.com/pricing | 2026-08-29 |
+| SLACK-BUSINESS-PLUS | Slack | Slack Business+ (годовая оплата) | publish | 180.0 | за 1 пользователя в год при годовой схеме оплаты | vendor-page (ops-price-scan) | https://slack.com/pricing | 2026-08-29 |
+| WORDPRESS-BUSINESS | WordPress.com | WordPress.com Business (первый год, годовая оплата) | publish | 300.0 | за 1 сайт, первый год подписки | vendor-page (ops-price-scan) | https://wordpress.com/pricing/ | 2026-08-29 |
+| WORDPRESS-BUSINESS-RENEWAL | WordPress.com | WordPress.com Business (продление со второго года) | publish, noindex | 360.0 | за 1 сайт в год, продление действующей подписки | vendor-page (ops-price-scan) | https://wordpress.com/pricing/ | 2026-08-29 |
+| WORDPRESS-COMMERCE | WordPress.com | WordPress.com Commerce (первый год, годовая оплата) | publish | 540.0 | за 1 сайт, первый год подписки | vendor-page (ops-price-scan) | https://wordpress.com/pricing/ | 2026-08-29 |
+| WORDPRESS-COMMERCE-RENEWAL | WordPress.com | WordPress.com Commerce (продление со второго года) | publish, noindex | 684.0 | за 1 сайт в год, продление действующей подписки | vendor-page (ops-price-scan) | https://wordpress.com/pricing/ | 2026-08-29 |
+
+Оговорки по WordPress.com: у вендора цена продления выше цены первого
+года, поэтому по решению руководителя от 29.08.2026 каждый тариф заведён
+двумя карточками — «первая покупка» ($25/$45 в месяц при оплате за
+12 месяцев) и «продление» («Auto-renews at $30/$57 per month. Billed every
+12 months»). Цена продления Business подтверждена контрольным прогоном
+ops-price-scan 29.08.2026: три рендера дали $30, значение $28 из первого
+прогона больше не встречается. Карточки продления под noindex (суффикс
+-RENEWAL в productNoindex): живут на витрине и в КП, в sitemap и поиск не
+идут — не конкурируют со страницами первой покупки. Промо Slack «50% off
+for 3 months» действует только на помесячную оплату и в расчёте не
+участвует.
+
+## Партия этапа 1 (29.08.2026, отмашка руководителя): AI-кластер (1а) и аудио/креатив (1б)
+
+Цены сняты рендером Chrome со страниц вендоров (ops-price-scan, дампы в issue #22) в день заведения. Позиции quote-only публикуются «Цена по запросу»: страницы тарифов вендоров защищены от автоматического снятия либо цена зависит от региона/объёма — прайс подтверждает оператор при первой сделке.
+
+| SKU | Вендор | Официальное имя | Реш. | База USD | Метрика | Подтверждение | Источник | Проверено |
+|---|---|---|---|---|---|---|---|---|
+| XAI-SUPERGROK | xAI | SuperGrok (подписка, годовая схема оплаты) | publish | — | за 1 пользователя в год при годовой схеме оплаты | quote-only: цена в КП | https://grok.com/plans | 2026-08-29 |
+| XAI-SUPERGROK-HEAVY | xAI | SuperGrok Heavy (подписка, годовая схема оплаты) | publish | — | за 1 пользователя в год при годовой схеме оплаты | quote-only: цена в КП | https://grok.com/plans | 2026-08-29 |
+| KIMI-SUBSCRIPTION | Moonshot AI | Kimi Membership (подписка, годовая схема оплаты) | publish | — | за 1 пользователя в год при годовой схеме оплаты | quote-only: цена в КП | https://www.kimi.com/pricing | 2026-08-29 |
+| OPENROUTER-BALANCE | OpenRouter | OpenRouter Credits (пополнение баланса под договор) | publish | — | пополнение баланса на согласованную сумму (разовая услуга) | quote-only: цена в КП | https://openrouter.ai/credits | 2026-08-29 |
+| HIGGSFIELD-PRO | Higgsfield | Higgsfield Pro (подписка, годовая схема оплаты) | publish | — | за 1 пользователя в год при годовой схеме оплаты | quote-only: цена в КП | https://higgsfield.ai/pricing | 2026-08-29 |
+| KREA-PRO | Krea | Krea Pro (подписка, годовая схема оплаты) | publish | — | за 1 пользователя в год при годовой схеме оплаты | quote-only: цена в КП | https://www.krea.ai/pricing | 2026-08-29 |
+| KREA-BUSINESS | Krea | Krea Business (командная подписка) | publish | — | за команду в год при годовой схеме оплаты | quote-only: цена в КП | https://www.krea.ai/pricing | 2026-08-29 |
+| LOVABLE-PRO | Lovable | Lovable Pro (годовая оплата, 2 месяца в подарок) | publish | 250 | за рабочее пространство в год при годовой схеме оплаты (2 месяца в подарок) | vendor-page (ops-price-scan) | https://lovable.dev/pricing | 2026-08-29 |
+| LOVABLE-BUSINESS | Lovable | Lovable Business (годовая оплата, 2 месяца в подарок) | publish | 500 | за рабочее пространство в год при годовой схеме оплаты (2 месяца в подарок) | vendor-page (ops-price-scan) | https://lovable.dev/pricing | 2026-08-29 |
+| DEEPL-STARTER | DeepL | DeepL Pro Starter (годовая оплата) | publish | 104.88 | за 1 пользователя в год при годовой схеме оплаты | vendor-page (ops-price-scan) | https://www.deepl.com/en/pro | 2026-08-29 |
+| DEEPL-ADVANCED | DeepL | DeepL Pro Advanced (годовая оплата) | publish | 344.88 | за 1 пользователя в год при годовой схеме оплаты | vendor-page (ops-price-scan) | https://www.deepl.com/en/pro | 2026-08-29 |
+| DEEPL-BUSINESS | DeepL | DeepL Pro Business (годовая оплата) | publish | 689.88 | за 1 пользователя в год при годовой схеме оплаты | vendor-page (ops-price-scan) | https://www.deepl.com/en/pro | 2026-08-29 |
+| WINDSURF-PRO | Windsurf | Windsurf Pro (подписка, годовая схема оплаты) | publish | — | за 1 пользователя в год при годовой схеме оплаты | quote-only: цена в КП | https://windsurf.com/plans | 2026-08-29 |
+| WINDSURF-TEAMS | Windsurf | Windsurf Teams (подписка, годовая схема оплаты) | publish | — | за 1 пользователя в год при годовой схеме оплаты | quote-only: цена в КП | https://windsurf.com/plans | 2026-08-29 |
+| FL-STUDIO-PRODUCER | Image-Line | FL Studio Producer Edition (бессрочная лицензия, Lifetime Free Updates) | publish | 179 | бессрочная лицензия на 1 пользователя | vendor-page (ops-price-scan) | https://www.image-line.com/fl-studio/compare-editions/ | 2026-08-29 |
+| FL-STUDIO-FRUITY | Image-Line | FL Studio Fruity Edition (бессрочная лицензия, Lifetime Free Updates) | publish | 99 | бессрочная лицензия на 1 пользователя | vendor-page (ops-price-scan) | https://www.image-line.com/fl-studio/compare-editions/ | 2026-08-29 |
+| FL-STUDIO-SIGNATURE | Image-Line | FL Studio Signature Bundle (бессрочная лицензия, Lifetime Free Updates) | publish | 269 | бессрочная лицензия на 1 пользователя | vendor-page (ops-price-scan) | https://www.image-line.com/fl-studio/compare-editions/ | 2026-08-29 |
+| FL-STUDIO-ALL-PLUGINS | Image-Line | FL Studio All Plugins Edition (бессрочная лицензия, Lifetime Free Updates) | publish | 449 | бессрочная лицензия на 1 пользователя | vendor-page (ops-price-scan) | https://www.image-line.com/fl-studio/compare-editions/ | 2026-08-29 |
+| ABLETON-LIVE-INTRO | Ableton | Ableton Live 12 Intro (бессрочная лицензия) | publish | 99 | бессрочная лицензия на 1 пользователя | vendor-page (ops-price-scan) | https://www.ableton.com/en/shop/live/ | 2026-08-29 |
+| ABLETON-LIVE-STANDARD | Ableton | Ableton Live 12 Standard (бессрочная лицензия) | publish | 349 | бессрочная лицензия на 1 пользователя | vendor-page (ops-price-scan) | https://www.ableton.com/en/shop/live/ | 2026-08-29 |
+| ABLETON-LIVE-SUITE | Ableton | Ableton Live 12 Suite (бессрочная лицензия) | publish | 749 | бессрочная лицензия на 1 пользователя | vendor-page (ops-price-scan) | https://www.ableton.com/en/shop/live/ | 2026-08-29 |
+| CUBASE-ELEMENTS | Steinberg | Cubase Elements 15 (бессрочная лицензия) | publish | 99.99 | бессрочная лицензия на 1 пользователя | vendor-page (ops-price-scan) | https://www.steinberg.net/cubase/compare-editions/ | 2026-08-29 |
+| CUBASE-ARTIST | Steinberg | Cubase Artist 15 (бессрочная лицензия) | publish | 329 | бессрочная лицензия на 1 пользователя | vendor-page (ops-price-scan) | https://www.steinberg.net/cubase/compare-editions/ | 2026-08-29 |
+| CUBASE-PRO | Steinberg | Cubase Pro 15 (бессрочная лицензия) | publish | 579.99 | бессрочная лицензия на 1 пользователя | vendor-page (ops-price-scan) | https://www.steinberg.net/cubase/compare-editions/ | 2026-08-29 |
+| IZOTOPE-OZONE-STANDARD | iZotope | Ozone 12 Standard (бессрочная лицензия) | publish | 219 | бессрочная лицензия на 1 пользователя | vendor-page (ops-price-scan) | https://www.izotope.com/en/shop.html | 2026-08-29 |
+| IZOTOPE-OZONE-ADVANCED | iZotope | Ozone 12 Advanced (бессрочная лицензия) | publish | 499 | бессрочная лицензия на 1 пользователя | vendor-page (ops-price-scan) | https://www.izotope.com/en/shop.html | 2026-08-29 |
+| IZOTOPE-RX-STANDARD | iZotope | RX 12 Standard (бессрочная лицензия) | publish | 399 | бессрочная лицензия на 1 пользователя | vendor-page (ops-price-scan) | https://www.izotope.com/en/shop.html | 2026-08-29 |
+| IZOTOPE-NEUTRON | iZotope | Neutron 5 (бессрочная лицензия) | publish | 299 | бессрочная лицензия на 1 пользователя | vendor-page (ops-price-scan) | https://www.izotope.com/en/shop.html | 2026-08-29 |
+| LUMION-VIEW | Lumion | Lumion View (именная лицензия, годовая подписка) | publish | 229 | за 1 именованного пользователя в год при годовой схеме оплаты | vendor-page (ops-price-scan) | https://lumion.com/buy | 2026-08-29 |
+| LUMION-PRO | Lumion | Lumion Pro (именная лицензия, годовая подписка) | publish | 1149 | за 1 именованного пользователя в год при годовой схеме оплаты | vendor-page (ops-price-scan) | https://lumion.com/buy | 2026-08-29 |
+| LUMION-PRO-FLOATING | Lumion | Lumion Pro Floating (плавающая лицензия, годовая подписка) | publish | 1499 | за 1 плавающее место в год при годовой схеме оплаты | vendor-page (ops-price-scan) | https://lumion.com/buy | 2026-08-29 |
+| CAPTURE-ONE-PRO | Capture One | Capture One Pro (all-in-one, годовая подписка) | publish | — | за 1 пользователя в год при годовой схеме оплаты | quote-only: цена в КП | https://www.captureone.com/en/store | 2026-08-29 |
+| TOONBOOM-HARMONY-ADVANCED | Toon Boom | Harmony Advanced (годовая подписка) | publish | 1128 | за 1 пользователя в год при годовой схеме оплаты | vendor-page (ops-price-scan) | https://www.toonboom.com/products/harmony | 2026-08-29 |
+| TOONBOOM-HARMONY-PREMIUM | Toon Boom | Harmony Premium (годовая подписка) | publish | — | за 1 пользователя в год при годовой схеме оплаты | quote-only: цена в КП | https://www.toonboom.com/products/harmony | 2026-08-29 |
+| WINRAR-LICENSE | RARLAB | WinRAR Standard Licence (бессрочная, на число рабочих мест) | publish | — | бессрочная лицензия, за 1 рабочее место (объёмные скидки) | quote-only: цена в КП | https://www.win-rar.com/ | 2026-08-29 |
+| THINK-CELL-SUITE | think-cell | think-cell Suite (годовая лицензия на пользователя) | publish | — | за 1 пользователя в год при годовой схеме оплаты | quote-only: цена в КП | https://www.think-cell.com/en/pricing | 2026-08-29 |
