@@ -106,6 +106,22 @@ class TestBudgetDiscipline(unittest.TestCase):
             res = self.sw.run(DATE, ["купить figma"])
         self.assertIn("потолок", res["error"])
 
+    def test_daily_cap_holds_the_day_not_the_run(self):
+        """Повторный прогон в тот же день не удваивает расход."""
+        import datetime as dt
+        import os
+        from unittest import mock
+        d = dt.date.fromisoformat(DATE)
+        self.sw.LEDGER_DIR.mkdir(parents=True)
+        self.sw.ledger_path(d).write_text(
+            "\n".join(json.dumps({"at": f"{DATE}T01:40:00Z", "query": "x"})
+                      for _ in range(self.sw.DAILY_CAP)) + "\n",
+            encoding="utf-8")
+        with mock.patch.dict(os.environ, {"WORDSTAT_API_KEY": "k"}):
+            res = self.sw.run(DATE, ["купить figma"])
+        self.assertIn("дневной потолок", res["error"])
+        self.assertEqual(res["spent_today"], self.sw.DAILY_CAP)
+
     def test_daily_cap_trims_queue(self):
         import os
         from unittest import mock

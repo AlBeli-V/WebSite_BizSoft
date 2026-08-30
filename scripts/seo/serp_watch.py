@@ -59,6 +59,24 @@ def month_spent(date: dt.date) -> int:
                if line.strip())
 
 
+def day_spent(date: dt.date) -> int:
+    """Запросы, уже израсходованные СЕГОДНЯ (по журналу): дневной потолок
+    обязан держать день, а не отдельный прогон — повторный запуск в тот же
+    день не должен удваивать расход."""
+    p = ledger_path(date)
+    if not p.exists():
+        return 0
+    day = date.isoformat()
+    n = 0
+    for line in p.read_text(encoding="utf-8").splitlines():
+        try:
+            if json.loads(line).get("at", "")[:10] == day:
+                n += 1
+        except ValueError:
+            continue
+    return n
+
+
 def log_call(date: dt.date, query: str, status: str, found: int | None):
     LEDGER_DIR.mkdir(parents=True, exist_ok=True)
     entry = {"at": dt.datetime.now(dt.timezone.utc).isoformat(timespec="seconds"),
@@ -100,10 +118,15 @@ def run(date_s: str, queries: list[str]) -> dict:
         return {"error": "секрет WORDSTAT_API_KEY не задан"}
     date = dt.date.fromisoformat(date_s)
     spent = month_spent(date)
-    budget = min(DAILY_CAP, MONTHLY_CAP - spent)
+    today = day_spent(date)
+    budget = min(DAILY_CAP - today, MONTHLY_CAP - spent)
     if budget <= 0:
-        return {"error": f"месячный потолок {MONTHLY_CAP} запросов исчерпан "
-                         f"({spent} израсходовано)", "spent_month": spent}
+        reason = (f"месячный потолок {MONTHLY_CAP} запросов исчерпан "
+                  f"({spent} израсходовано)"
+                  if MONTHLY_CAP - spent <= 0 else
+                  f"дневной потолок {DAILY_CAP} запросов исчерпан "
+                  f"({today} за сегодня)")
+        return {"error": reason, "spent_month": spent, "spent_today": today}
     todo = queries[:budget]
     skipped = len(queries) - len(todo)
 
