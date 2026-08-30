@@ -24,6 +24,9 @@ import sys
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
 
+import cannibalization as cannibal_mod  # noqa: E402
+import mismatch as mismatch_mod  # noqa: E402
+import opportunity as opp_mod    # noqa: E402
 import snapshot as snapshot_mod  # noqa: E402
 from report_v4 import (BLOB, BRANCH, PILL_LABEL, REPO, VERDICT_LABEL,  # noqa: E402
                        assemble, load_site_check)
@@ -34,6 +37,83 @@ OUT = pathlib.Path("reports/seo/public/daily")
 
 
 DEMAND_STATE = pathlib.Path("reports/seo/wordstat/intelligence-state.json")
+
+
+IDEA_STATUS = {"new": ("новая", "positive"), "watch": ("наблюдаем", "warning"),
+               "accepted": ("принята", "positive"), "done": ("сделано", "positive"),
+               "dropped": ("отклонена", "danger")}
+
+
+def _ideas_section(gi: dict) -> str:
+    """Копилка идей бесплатного продвижения: полный список со статусами.
+
+    В письме показываются только свежие идеи; здесь — все, с обоснованием,
+    доказательством и датой. Статусы меняет руководитель (через сессию),
+    история решений остаётся в файле.
+    """
+    if not gi.get("items"):
+        return "<p class='muted'>Идей в копилке пока нет.</p>"
+    rows = []
+    for it in gi["items"]:
+        label, cls = IDEA_STATUS.get(it.get("status", "new"), ("новая", "positive"))
+        rows.append([f"<span class='chip {cls}'>{label}</span>",
+                     f"<b>{it['title']}</b>", it.get("why", "—"),
+                     it.get("evidence", "—"), it.get("added", "—")])
+    return table(["Статус", "Идея", "Почему перспективно", "Доказательство", "Добавлена"], rows)
+
+
+DIRECT_STATS = pathlib.Path("reports/seo/ppc/direct-stats.json")
+
+ADS_TONE = {"grey": ("мало данных", "muted"), "ok": ("норма", "positive"),
+            "warn": ("внимание", "warning"), "bad": ("проблема", "danger")}
+
+
+def _ads_section(ads: dict) -> str:
+    """Полный рекламный раздел: направления, все поисковые запросы, решения.
+
+    Письмо показывает выжимку с маркерами; здесь — вся картина, включая
+    каждый реальный поисковый запрос с расходом. Мусорные запросы помечены:
+    это кандидаты в минус-слова, вносятся только после подтверждения
+    руководителя (этап B — классификация и внесение через API).
+    """
+    if not ads.get("available"):
+        return ("<p class='muted'>Выгрузки Директа ещё нет: блок появится после "
+                "первого сбора статистики кампании.</p>")
+    head = (f"<p class='lede'>Кампания <b>{ads['campaign']}</b>, данные за "
+            f"{ru_date(ads['as_of'])}: за день {ads['day_spend']:.0f} ₽, "
+            f"с запуска {ads['week']['spent']:.0f} из {num(ads['week']['limit'])} ₽ "
+            f"недельного лимита. {ads.get('note', '')}</p>")
+    rows = []
+    for r in ads["rows"]:
+        label, cls = ADS_TONE[r["verdict"]["tone"]]
+        rows.append([f"<span class='chip {cls}'>{label}</span>",
+                     f"<b>{r['label']}</b>",
+                     f"{r['spend_day']:.0f} ₽", str(r["clicks_day"]),
+                     f"{r['cpc']:.0f} ₽" if r["cpc"] else "—",
+                     f"{r['spend_total']:.0f} ₽", str(r["clicks_total"]),
+                     r["verdict"]["label"]])
+    directions = table(["Оценка", "Направление", "Расход/день", "Клики/день",
+                        "CPC", "Расход всего", "Клики всего", "Вердикт"], rows)
+    decisions = "".join(
+        f"<p><span class='chip {ADS_TONE[d['tone']][1]}'>требует решения</span> "
+        f"{d['text']}</p>" for d in ads["decisions"])
+
+    queries_html = "<p class='muted'>Запросов пока нет.</p>"
+    if DIRECT_STATS.exists():
+        stats = json.loads(DIRECT_STATS.read_text(encoding="utf-8"))
+        junk_set = set(ads.get("junk", {}).get("queries", []))
+        qrows = []
+        for q in sorted(stats.get("queries", []),
+                        key=lambda x: (-x["Cost"], -x["Clicks"], -x["Impressions"])):
+            mark = ("<span class='chip danger'>минус-кандидат</span>"
+                    if q["Query"] in junk_set else "")
+            qrows.append([q["Date"], q["AdGroupName"], q["Query"],
+                          str(q["Impressions"]), str(q["Clicks"]),
+                          f"{q['Cost']:.2f} ₽", mark])
+        queries_html = table(["Дата", "Группа", "Поисковый запрос", "Показы",
+                              "Клики", "Расход", ""], qrows)
+    return (f"{head}{directions}{decisions}"
+            f"<h3>Реальные поисковые запросы</h3>{queries_html}")
 
 
 def _demand_section() -> str:
@@ -149,6 +229,110 @@ def _expansion_section(st: dict) -> str:
             f"{combined} показов в месяц. {exp['note']}</p>"
             + body + note_html
             + (f"<h4>SEO-обвязка для первых трёх</h4>{scaffold}" if scaffold else ""))
+
+
+# ── Критичность разделов и оглавление ───────────────────────────────────────
+#
+# Разделы веб-отчёта сортируются по критичности: сначала то, что требует
+# внимания сегодня, затем рабочие блоки, в конце справочные таблицы.
+# Уровни: 3 — критично (сбой, просрочка, требуется решение), 2 — важно
+# (есть находки или готовые возможности), 1 — рабочее, 0 — справочно.
+
+SEVERITY_LABEL = {3: ("критично", "danger"), 2: ("важно", "warning"),
+                  1: ("", ""), 0: ("справочно", "")}
+
+
+def order_sections(sections: list[dict]) -> list[dict]:
+    """Сортировка по критичности; внутри уровня сохраняется редакционный
+    порядок (sorted устойчива)."""
+    return sorted(sections, key=lambda s: -s["crit"])
+
+
+def _toc(sections: list[dict]) -> str:
+    items = ""
+    for s in sections:
+        label, cls = SEVERITY_LABEL[s["crit"]]
+        chip = f" <span class='chip {cls}'>{label}</span>" if label else ""
+        items += f"<li><a href='#{s['id']}'>{s['title']}</a>{chip}</li>"
+    return (f"<nav class='toc'><h2>Содержание</h2>"
+            f"<p class='muted desc'>Разделы отсортированы по критичности: "
+            f"сверху — требующее внимания сегодня, ниже — рабочие и "
+            f"справочные блоки.</p><ol>{items}</ol></nav>")
+
+
+def _loop_section(lh: dict) -> str:
+    """Работа конвейера: каждый контур подтверждён артефактом с датой."""
+    if not lh.get("available"):
+        return ("<p class='muted'>Реестр исполнения контуров ещё не собран: "
+                "он появляется после первого прогона письма с loop-health.</p>")
+    rows = []
+    for r in lh.get("contours", []):
+        state = ("<span class='chip critical'>просрочен</span>" if r["overdue"]
+                 else "<span class='chip positive'>в срок</span>")
+        late = (f"{r['days_late']} дн." if r.get("days_late") else "—")
+        rows.append([state, f"<b>{r['label']}</b>", r["cadence"],
+                     r["last_run"] or "—", r["expected_since"],
+                     late if r["overdue"] else "—",
+                     r.get("note") or ""])
+    return table(["Статус", "Контур", "Каденция", "Последний прогон",
+                  "Ожидается не старше", "Просрочка", "Примечание"], rows)
+
+
+def _money_section(mr: dict) -> str:
+    """Money-запросы: коммерческий интент в полосе позиций 4–20."""
+    if not mr.get("available"):
+        return f"<p class='muted'>{mr.get('reason', 'Данных нет')}.</p>"
+    rows = [[f"<b>{i['query']}</b>",
+             "Яндекс" if i["engine"] == "yandex" else "Google",
+             num(i["impressions"]), str(i["clicks"]),
+             str(i["position"]), i["zone_label"], i["recommended_action"]]
+            for i in mr["items"]]
+    body = table(["Запрос", "Система", "Показы", "Клики", "Позиция",
+                  "Зона", "Типовое действие"], rows)
+    return (f"<p class='muted desc'>{mr.get('note', '')}. "
+            f"Рассмотрено запросов: {mr.get('considered')}.</p>" + body)
+
+
+def _cannibal_section(cb: dict) -> str:
+    """Каннибализация: расщепление запроса между страницами и смены лидера."""
+    if not cb.get("available"):
+        return f"<p class='muted'>{cb.get('reason', 'Данных нет')}.</p>"
+    if not cb.get("items"):
+        return f"<p class='muted'>{cb.get('reason', 'Находок нет')}.</p>"
+    rows = []
+    for i in cb["items"]:
+        pages = "<br>".join(
+            f"{p['page']} — {p['share']:.0%}"
+            + (f", позиция {p['avg_position']}" if p['avg_position'] else "")
+            for p in i["pages"])
+        chip = ("<span class='chip warning'>нестабильно</span>"
+                if i["verdict"] == "unstable"
+                else "<span class='chip'>расщепление</span>")
+        rows.append([chip, f"<b>{i['query']}</b>", num(i["impressions"]),
+                     pages, f"{i['leader_changes']} за {i['days_observed']} дн.",
+                     i["recommended_action"]])
+    body = table(["Вердикт", "Запрос", "Показы", "Страницы и доли",
+                  "Смен лидера", "Предлагаемое действие"], rows)
+    return (f"<p class='muted desc'>{cb.get('note', '')}. Выгрузка от "
+            f"{ru_date(cb.get('as_of'))}.</p>" + body)
+
+
+def _mismatch_section(mm: dict) -> str:
+    """Mismatch: коммерческий запрос, который ведёт не на коммерческую страницу."""
+    if not mm.get("available"):
+        return f"<p class='muted'>{mm.get('reason', 'Данных нет')}.</p>"
+    if not mm.get("items"):
+        return f"<p class='muted'>{mm.get('reason', 'Находок нет')}.</p>"
+    rows = [[f"<b>{i['query']}</b>", num(i["impressions"]),
+             f"{i['page']} <span class='chip'>{i['page_type']}</span>",
+             f"{i['share']:.0%}",
+             str(i["avg_position"] or "—"),
+             i["recommended_action"]]
+            for i in mm["items"]]
+    body = table(["Запрос", "Показы", "Куда ведёт", "Доля", "Позиция",
+                  "Предлагаемое действие"], rows)
+    return (f"<p class='muted desc'>{mm.get('note', '')}. Выгрузка от "
+            f"{ru_date(mm.get('as_of'))}.</p>" + body)
 
 
 def embed_png(path: pathlib.Path) -> str:
@@ -342,11 +526,18 @@ def build_html(b: dict, snap: dict, dq: dict, date: str) -> str:
     }
     .chip.critical{background:var(--danger);color:#fff}
     .chip.warning{color:var(--warning);background:var(--warning-bg)}
+    .chip.positive{color:var(--positive)}
+    .chip.danger{color:var(--danger)}
     .callout{
       background:var(--warning-bg); border-left:3px solid var(--warning);
       border-radius:0 10px 10px 0; padding:16px 18px; margin:0 0 16px;
     }
     .muted{color:var(--muted)}
+    .desc{font-size:14px;max-width:80ch}
+    nav.toc{padding:26px 0;border-top:1px solid var(--line)}
+    nav.toc ol{margin:8px 0 0;padding-left:22px;columns:2;column-gap:36px}
+    nav.toc li{padding:3px 0;break-inside:avoid;font-size:14.5px}
+    @media (max-width:640px){nav.toc ol{columns:1}}
     figure{margin:0 0 22px}
     img{max-width:100%;height:auto;border:1px solid var(--line);border-radius:10px;
       background:#fff}
@@ -409,6 +600,146 @@ def build_html(b: dict, snap: dict, dq: dict, date: str) -> str:
         b["health"]["colour"]]
 
     demand = _demand_section()
+    ideas = _ideas_section(b.get("growth_ideas") or {})
+    ads_data = b.get("ads") or {}
+    ads = _ads_section(ads_data)
+    lh = b.get("loop_health") or {}
+    loop_html = _loop_section(lh)
+    mr = opp_mod.money_radar(snap)
+    money_html = _money_section(mr)
+    cb = cannibal_mod.build(date)
+    mm = mismatch_mod.build(date)
+
+    signals_html = (
+        f"<div class='scroll'><table><thead><tr>"
+        f"<th>Тон</th><th>Показатель</th><th>Было</th><th>Стало</th><th>Δ</th>"
+        f"<th>Достоверность</th></tr></thead><tbody>{signals}</tbody></table></div>")
+    mmap_html = (
+        f"<div class='callout'><b class='chip {health_cls}'>"
+        f"{PILL_LABEL[b['health']['status']]}</b>"
+        f"<p style='margin:10px 0 0'>{b['health']['detail']}</p></div>"
+        f"<p>{b['measurement_summary']}</p>{mmap}")
+
+    # Критичность каждого раздела — из его содержимого, не константой.
+    dq_levels = {f["level"] for f in dq["findings"]}
+    ads_tones = {d["tone"] for d in ads_data.get("decisions", [])}
+    exp_verdicts = {e["verdict"] for e in b["experiments"]}
+    sections = [
+        {"id": "signals", "title": "Сигналы дня",
+         "crit": 2 if any(s_["tone"] == "negative" for s_ in b["signals"]) else 1,
+         "desc": "Три главных изменения за сутки против предыдущего замера: "
+                 "положительное, нейтральное и отрицательное. Сигнал строится "
+                 "только по источникам, доступным в оба дня.",
+         "html": signals_html},
+        {"id": "loop", "title": "Работа конвейера",
+         "crit": 3 if lh.get("overdue") else 1,
+         "desc": "Подтверждение, что каждый контур системы реально отработал: "
+                 "по артефакту с датой, а не по расписанию. Просроченный контур "
+                 "означает, что часть данных этого отчёта могла устареть.",
+         "html": loop_html},
+        {"id": "ads", "title": "Реклама — Яндекс.Директ",
+         "crit": 3 if "bad" in ads_tones else (2 if ads_tones else 1),
+         "desc": "Состояние платного трафика: расход, клики и вердикты по "
+                 "направлениям, реальные поисковые запросы и кандидаты в "
+                 "минус-слова. Решения по деньгам — только за руководителем.",
+         "html": ads},
+        {"id": "drivers", "title": "Что дало изменение",
+         "crit": 1,
+         "desc": "Разложение суточного изменения на конкретные страницы и "
+                 "запросы. Правило методики: причина либо подтверждена "
+                 "перечисленными адресами, либо не называется вовсе.",
+         "html": drivers},
+        {"id": "experiments", "title": "Контроль экспериментов",
+         "crit": 2 if exp_verdicts & {"positive", "negative"} else 1,
+         "desc": "Каждое изменение сайта живёт как эксперимент: гипотеза, "
+                 "контрольная группа, минимальная экспозиция и вердикт. "
+                 "До набора экспозиции вердикт честно «рано для вывода».",
+         "html": exps},
+        {"id": "money", "title": "Money-запросы (позиции 4–20)",
+         "crit": 2 if mr.get("available") else 0,
+         "desc": "Коммерческие запросы («купить», «цена», «лицензия»…), по "
+                 "которым сайт уже ранжируется, но не в топ-3. Самая дешёвая "
+                 "зона роста: страница есть, спрос есть, не хватает позиций "
+                 "или сниппета.",
+         "html": money_html},
+        {"id": "cannibal", "title": "Каннибализация запросов",
+         "crit": 2 if cb.get("unstable_count") else (1 if cb.get("items") else 0),
+         "desc": "Запросы, показы которых расщеплены между несколькими "
+                 "страницами сайта. Сам факт двух URL — не проблема; проблема "
+                 "— нестабильность, когда выдача перебирает страницы день ото "
+                 "дня. Детектор только наблюдает: canonical и склейка — "
+                 "отдельные решения.",
+         "html": _cannibal_section(cb)},
+        {"id": "mismatch", "title": "Query-page mismatch",
+         "crit": 2 if mm.get("items") else 0,
+         "desc": "Коммерческие запросы («купить», «цена»…), по которым поиск "
+                 "стабильно показывает некоммерческую страницу — статью, "
+                 "служебный раздел или главную. Сигнал, что посадочная "
+                 "отсутствует или недостаточно релевантна.",
+         "html": _mismatch_section(mm)},
+        {"id": "board", "title": "Журнал исполнения",
+         "crit": 2 if any(r["stage"] == "заблокировано" for r in b["board"]) else 1,
+         "desc": "Задачи системы со сменой статуса, блокировкой или близким "
+                 "сроком: кто ведёт, на какой стадии, каким PR подтверждено.",
+         "html": board},
+        {"id": "opportunities", "title": "Радар возможностей",
+         "crit": 2 if b["opportunities"]["available"] else 0,
+         "desc": "Приоритизированные точки роста по формуле «интент × спрос × "
+                 "достоверность × эффект / трудоёмкость». Показы сайта здесь "
+                 "не выдаются за рыночный спрос: источник каждого сигнала "
+                 "назван явно.",
+         "html": opp},
+        {"id": "demand", "title": "Спрос и покрытие рынка",
+         "crit": 1,
+         "desc": "Измеренный покупательский спрос Вордстата, уровни покрытия "
+                 "(страница → индекс → топ-10 → клики), непокрытые кластеры, "
+                 "кандидаты в каталог и экономика исследования.",
+         "html": demand},
+        {"id": "ideas", "title": "Перспективные идеи бесплатного продвижения",
+         "crit": 1 if (b.get("growth_ideas") or {}).get("fresh") else 0,
+         "desc": "Копилка идей с обоснованием и статусами. Статус меняет "
+                 "руководитель; принятые и отклонённые идеи остаются в "
+                 "истории и повторно не предлагаются.",
+         "html": ideas},
+        {"id": "charts", "title": "Графики",
+         "crit": 0,
+         "desc": "Графики письма в полном размере.",
+         "html": charts or "<p class='muted'>Графиков нет.</p>"},
+        {"id": "measurement", "title": "Карта измерений",
+         "crit": 3 if b["health"]["colour"] == "danger"
+                 else (2 if b["health"]["colour"] == "warning" else 1),
+         "desc": "Что именно измеряет каждый источник, за какой период и с "
+                 "чем его корректно сравнивать. Здесь же — текущий статус "
+                 "здоровья данных и его причина.",
+         "html": mmap_html},
+        {"id": "quality", "title": "Качество данных",
+         "crit": 3 if "critical" in dq_levels
+                 else (2 if "warning" in dq_levels else 1),
+         "desc": "Полный список проверок качества данных за день (~35 правил): "
+                 "что обнаружено и как это ограничивает выводы отчёта.",
+         "html": findings},
+        {"id": "yandex-queries", "title": "Запросы Яндекса — выборка топ-100",
+         "crit": 0,
+         "desc": "Полная таблица запросов Вебмастера с показами, кликами, "
+                 "позицией и интентом. Это выборка запросов, не весь сайт.",
+         "html": queries},
+        {"id": "google-pages", "title": "Страницы в Google",
+         "crit": 0,
+         "desc": "Страницы сайта в Google Search Console по показам.",
+         "html": pages},
+        {"id": "google-queries", "title": "Запросы Google",
+         "crit": 0,
+         "desc": "Запросы Google Search Console по показам.",
+         "html": gq},
+    ]
+    ordered = order_sections(sections)
+    body_sections = ""
+    for s in ordered:
+        label, cls = SEVERITY_LABEL[s["crit"]]
+        chip = f" <span class='chip {cls}'>{label}</span>" if label else ""
+        body_sections += (
+            f"<section id=\"{s['id']}\"><h2>{s['title']}{chip}</h2>"
+            f"<p class='muted desc'>{s['desc']}</p>{s['html']}</section>")
 
     return f"""<!doctype html><html lang="ru"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -431,38 +762,9 @@ def build_html(b: dict, snap: dict, dq: dict, date: str) -> str:
   <div class="cards">{cards}</div>
 </section>
 
-<section>
-  <h2>Сигналы дня</h2>
-  <div class="scroll"><table><thead><tr>
-    <th>Тон</th><th>Показатель</th><th>Было</th><th>Стало</th><th>Δ</th><th>Достоверность</th>
-  </tr></thead><tbody>{signals}</tbody></table></div>
-</section>
+{_toc(ordered)}
 
-<section><h2>Что дало изменение</h2>{drivers}</section>
-
-<section><h2>Контроль экспериментов</h2>{exps}</section>
-
-<section><h2>Журнал исполнения</h2>{board}</section>
-
-<section><h2>Радар возможностей</h2>{opp}</section>
-
-<section><h2>Спрос и покрытие рынка</h2>{demand}</section>
-
-<section><h2>Графики</h2>{charts or "<p class='muted'>Графиков нет.</p>"}</section>
-
-<section>
-  <h2>Карта измерений</h2>
-  <div class="callout"><b class="chip {health_cls}">{PILL_LABEL[b['health']['status']]}</b>
-    <p style="margin:10px 0 0">{b['health']['detail']}</p></div>
-  <p>{b['measurement_summary']}</p>
-  {mmap}
-</section>
-
-<section><h2>Качество данных</h2>{findings}</section>
-
-<section><h2>Запросы Яндекса — выборка топ-100</h2>{queries}</section>
-<section><h2>Страницы в Google</h2>{pages}</section>
-<section><h2>Запросы Google</h2>{gq}</section>
+{body_sections}
 
 <footer>
   Методика — <a href="{BLOB}/docs/seo/reporting-methodology.md">reporting-methodology.md</a>.
@@ -545,6 +847,50 @@ def build_markdown(b: dict, snap: dict, dq: dict, date: str) -> str:
         L.append(f"| {o['cluster']} | {o['evidence']} | {o['potential']} | "
                  f"{o['recommended_action']} | {ru_date_full(o['decision_date'])} |")
     L.append("")
+
+    mr = opp_mod.money_radar(snap)
+    if mr.get("available"):
+        L += ["## Money-запросы (позиции 4–20)", "",
+              f"{mr.get('note', '')}.", "",
+              "| Запрос | Система | Показы | Клики | Позиция | Действие |",
+              "|---|---|---|---|---|---|"]
+        for i in mr["items"]:
+            L.append(f"| {i['query']} | {i['engine']} | {num(i['impressions'])} | "
+                     f"{i['clicks']} | {i['position']} | {i['recommended_action']} |")
+        L.append("")
+
+    cb = cannibal_mod.build(date)
+    if cb.get("available") and cb.get("items"):
+        L += ["## Каннибализация запросов", "",
+              "| Вердикт | Запрос | Показы | Смен лидера | Действие |",
+              "|---|---|---|---|---|"]
+        for i in cb["items"]:
+            L.append(f"| {i['verdict_label']} | {i['query']} | "
+                     f"{num(i['impressions'])} | {i['leader_changes']} | "
+                     f"{i['recommended_action']} |")
+        L.append("")
+
+    mm = mismatch_mod.build(date)
+    if mm.get("available") and mm.get("items"):
+        L += ["## Query-page mismatch", "",
+              "| Запрос | Показы | Куда ведёт | Тип | Действие |",
+              "|---|---|---|---|---|"]
+        for i in mm["items"]:
+            L.append(f"| {i['query']} | {num(i['impressions'])} | {i['page']} | "
+                     f"{i['page_type']} | {i['recommended_action']} |")
+        L.append("")
+
+    lh = b.get("loop_health") or {}
+    if lh.get("available"):
+        L += ["## Работа конвейера", "",
+              f"Контуров в срок: {lh.get('ok_count')} из {lh.get('total')}.", "",
+              "| Статус | Контур | Последний прогон | Ожидается не старше |",
+              "|---|---|---|---|"]
+        for r in lh.get("contours", []):
+            L.append(f"| {'ПРОСРОЧЕН' if r['overdue'] else 'в срок'} | "
+                     f"{r['label']} | {r['last_run'] or '—'} | "
+                     f"{r['expected_since']} |")
+        L.append("")
 
     if DEMAND_STATE.exists():
         st = json.loads(DEMAND_STATE.read_text(encoding="utf-8"))

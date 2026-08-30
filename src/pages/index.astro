@@ -228,10 +228,15 @@ const servicesItemList = {
     <p class="logos-cap">Помогаем подключать сервисы, которыми пользуется весь мир</p>
     <Carousel label="Производители, которых мы подключаем" autoplay={2600} slideWidth="clamp(200px, 60vw, 240px)">
       {POPULAR_VENDORS.map((b) => (
-        <a href={`/vendors/${b.slug}`} class="logo-chip" role="listitem" aria-label={`${b.name} — купить для юрлица`}>
-          <span class="logo-badge" style={`--bc:${b.color}; --tc:${textOn(b.color)}`}><VendorLogo slug={b.slug} name={b.name} size={24} /></span>
-          <span class="logo-name">{b.name}</span>
-        </a>
+        <!-- role="listitem" живёт на обёртке, не на <a>: ARIA не допускает
+             listitem у ссылки, роль затирала бы нативную link — скринридер и
+             AI-агент переставали видеть чип как переход (аудит 30.08.2026). -->
+        <div role="listitem">
+          <a href={`/vendors/${b.slug}`} class="logo-chip" aria-label={`${b.name} — купить для юрлица`}>
+            <span class="logo-badge" style={`--bc:${b.color}; --tc:${textOn(b.color)}`}><VendorLogo slug={b.slug} name={b.name} size={24} /></span>
+            <span class="logo-name">{b.name}</span>
+          </a>
+        </div>
       ))}
     </Carousel>
   </section>

@@ -24,9 +24,11 @@ const alt = name ? `Логотип ${name}` : '';
     <img class="vi-color" src={icon.color} alt="" aria-hidden="true" width={size} height={size} loading="lazy" decoding="async" />
   </span>
 ) : (
-  <img class="vi-static" src={variant === 'color' ? icon.color : icon.mono} alt={alt} width={size} height={size} loading="lazy" decoding="async" />
+  <img class:list={['vi-static', { 'vi-static-mono': variant === 'mono' }]} src={variant === 'color' ? icon.color : icon.mono} alt={alt} width={size} height={size} loading="lazy" decoding="async" />
 ))}
 
 <style>
   .vi-static { object-fit: contain; display: block; }
+  /* страховка: mono-файл с цветными пикселями не должен показывать цвет */
+  .vi-static-mono { filter: grayscale(1); }
 </style>

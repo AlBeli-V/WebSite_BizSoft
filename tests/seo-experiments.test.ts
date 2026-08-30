@@ -5,7 +5,9 @@ import { SEO_EXPERIMENTS, SEO_EXPERIMENT_LINKS } from '../src/data/seo-experimen
 // разные, и смешивать их метрики нельзя.
 const EXP_1 = ['canva', 'depositphotos', 'coreldraw', 'heygen', 'marmoset'];
 const EXP_2 = ['adobe', 'autodesk', 'procreate', 'blackmagic', 'midjourney', 'clip-studio-paint'];
-const SLUGS = [...EXP_1, ...EXP_2];
+// «snippet-anthropic-demand» (29.08.2026): GAP-D — показы есть, кликов нет.
+const EXP_3 = ['anthropic'];
+const SLUGS = [...EXP_1, ...EXP_2, ...EXP_3];
 
 describe('SEO-эксперименты на vendor-страницах', () => {
   it('обе группы на месте, пересечений нет — иначе метрики смешаются', () => {
@@ -14,8 +16,8 @@ describe('SEO-эксперименты на vendor-страницах', () => {
     expect(EXP_1.filter((s) => EXP_2.includes(s))).toEqual([]);
   });
 
-  it('контрольная группа не затронута: правок ровно 11 из 66 страниц', () => {
-    expect(Object.keys(SEO_EXPERIMENTS)).toHaveLength(11);
+  it('контрольная группа не затронута: правок ровно 12 vendor-страниц', () => {
+    expect(Object.keys(SEO_EXPERIMENTS)).toHaveLength(12);
   });
 
   it('бренд в title ровно один раз, до 65 символов без учёта «| BIZSoft»', () => {
