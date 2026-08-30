@@ -41,3 +41,13 @@ out/
 # Кэш байткода Python: артефакт запуска скриптов отчётности, в репозитории не нужен.
 __pycache__/
 *.pyc
+
+# Машинные данные конвейера Growth Intelligence живут в orphan-ветке
+# seo-data и накатываются в рабочую копию data_sync-ом; копии в main
+# вычищены 30.08.2026 (контроль недели). Тестовые срезы — в
+# scripts/seo/tests/fixtures.
+reports/seo/data/
+reports/seo/wordstat/
+reports/seo/intelligence/
+reports/seo/public/
+reports/seo/ppc/
