@@ -19,6 +19,11 @@ audience = importlib.import_module('audience')
 playbook = importlib.import_module('playbook')
 discovery = importlib.import_module('discovery')
 
+# Данные из фикстур: копии machine-данных вычищены из main 30.08.2026.
+_FIXWS = pathlib.Path(__file__).resolve().parent / 'fixtures/reports/seo/wordstat'
+audience.DECISIONS_PATH = _FIXWS / 'decisions.json'
+discovery.CANDIDATES_TS = _FIXWS / 'vendor-candidates.json'
+
 
 class TestDecisions(unittest.TestCase):
     """Решение руководителя принимается один раз."""
@@ -89,7 +94,7 @@ class TestCatalogueMapping(unittest.TestCase):
     def test_product_map_is_single_source(self):
         """Карта соответствий одна: вторая копия разошлась бы с первой."""
         self.assertTrue(discovery.product_of())
-        cfg = json.loads((ROOT / 'reports/seo/wordstat/vendor-candidates.json')
+        cfg = json.loads((pathlib.Path(__file__).resolve().parent / 'fixtures/reports/seo/wordstat/vendor-candidates.json')
                          .read_text(encoding='utf-8'))
         self.assertEqual(set(k.lower() for k in cfg['product_of']),
                          set(discovery.product_of()))
