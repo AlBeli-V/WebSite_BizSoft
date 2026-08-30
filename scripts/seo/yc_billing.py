@@ -37,7 +37,13 @@ BASE = pathlib.Path("reports/seo/intelligence")
 OUT_FILE = BASE / "cloud-billing.json"
 HISTORY_FILE = BASE / "cloud-balance-history.jsonl"
 
-SKU_MARKERS = ("search api", "searchapi", "wordstat")
+# Первая выборка 30.08 показала: SKU Wordstat называются «Retrieving data
+# from the Wordstat API (…)», а веб-поиск под «search api» не попал — фильтр
+# расширен под все варианты имён поиска (день/ночь, sync/deferred,
+# генеративный), русские включительно.
+SKU_MARKERS = ("search api", "searchapi", "wordstat", "web search",
+               "search request", "search query", "deferred", "generative",
+               "поиск", "запрос к api")
 
 
 def iam_token(sa_key: dict) -> str:

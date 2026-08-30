@@ -36,9 +36,10 @@ class TestYcBillingParsers(unittest.TestCase):
                  "pricingUnit": "request", "pricingVersions": []},
                 {"id": "2", "name": "Compute Cloud vCPU",
                  "pricingUnit": "core*hour"},
-                {"id": "3", "name": "Search API Wordstat request"}]
+                {"id": "3", "name": "Retrieving data from the Wordstat API (GetTop)"},
+                {"id": "4", "name": "Web search deferred request, night"}]
         out = self.yb.relevant_skus(skus)
-        self.assertEqual([s["id"] for s in out], ["1", "3"])
+        self.assertEqual([s["id"] for s in out], ["1", "3", "4"])
 
     def test_history_append_once_per_date(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -76,6 +77,22 @@ class TestBudgetWithBillingFact(unittest.TestCase):
         self.cb.HISTORY_FILE.write_text(
             "\n".join(json.dumps({"date": d, "balance": b})
                       for d, b in points) + "\n", encoding="utf-8")
+
+    def test_serp_cost_from_skus_normalizes_unit_and_skips_wordstat(self):
+        skus = [
+            {"name": "Retrieving data from the Wordstat API (GetTop)",
+             "unit": "1k*request", "price_rub": 20.0},
+            {"name": "Web search synchronous request, daytime",
+             "unit": "1k*request", "price_rub": 488.0},
+            {"name": "Web search deferred request",
+             "unit": "1k*request", "price_rub": 30.5},
+            {"name": "Free tier", "unit": "1k*request", "price_rub": 0.0},
+        ]
+        self.assertEqual(self.cb.serp_cost_from_skus(skus), 0.0305)
+        self.assertIsNone(self.cb.serp_cost_from_skus([]))
+        self.assertIsNone(self.cb.serp_cost_from_skus(
+            [{"name": "Wordstat GetTop", "unit": "1k*request",
+              "price_rub": 20.0}]))
 
     def test_billing_fact_overrides_estimate(self):
         self.billing(8500.0, skus=[{"name": "Search API", "price_rub": 0.244}])
