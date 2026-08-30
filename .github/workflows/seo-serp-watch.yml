@@ -1,0 +1,57 @@
+# Ежедневный SERP-срез Яндекса по ядру запросов (Yandex Search API v2,
+# веб-поиск, ключ WORDSTAT_API_KEY — тот же сервисный аккаунт, что Wordstat).
+# Решение руководителя 30.08.2026: рабочий сценарий, потолок 5 000
+# запросов/мес (потолок зашит в serp_watch.py и проверяется по журналу).
+# Расписание: 22:37 UTC = 01:37 МСК — ночной тариф веб-поиска
+# (00:00–07:59 МСК); минута «некруглая» — круглые слоты планировщик
+# GitHub системно задерживает (см. seo-data-collect).
+# Ядро запросов строится из данных (serp_watchlist.py): Вебмастер,
+# money-радар, спрос Вордстата, кластеры «Аналоги X».
+name: seo-serp-watch
+
+on:
+  schedule:
+    - cron: "37 22 * * *"
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - ".github/workflows/seo-serp-watch.yml"
+      - "scripts/seo/serp_watch.py"
+      - "scripts/seo/serp_watchlist.py"
+
+permissions:
+  contents: write
+
+jobs:
+  watch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # Данные накатываются до прогона: журнал бюджета и watchlist-источники
+      # живут в seo-data, а push отправляет каталоги целиком.
+      - name: Pull data branch
+        run: bash scripts/seo/data_sync.sh pull
+
+      - name: Install deps
+        run: pip install --quiet requests
+
+      - name: Collect SERP snapshots
+        env:
+          WORDSTAT_API_KEY: ${{ secrets.WORDSTAT_API_KEY }}
+        run: python3 scripts/seo/serp_watch.py
+
+      # Контроль баланса Yandex Cloud (поручение 30.08.2026): расчётный
+      # остаток по журналам Wordstat+SERP; при прогнозной нехватке — письмо
+      # руководителю с просьбой пополнить (не чаще раза в 3 дня).
+      - name: Cloud budget check
+        if: always()
+        env:
+          SMTP_PASS: ${{ secrets.SMTP_PASS }}
+        run: python3 scripts/seo/cloud_budget.py --notify
+
+      - name: Push data
+        if: always()
+        run: bash scripts/seo/data_sync.sh push "SERP-срез за $(date -u +%F)"
