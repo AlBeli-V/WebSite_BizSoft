@@ -24,6 +24,29 @@ REGISTRY = pathlib.Path("reports/seo/intelligence/seo-experiments.json")
 MIN_EXPOSURE_IMPRESSIONS = 500   # ниже — выборка не позволяет судить о кликабельности
 MIN_EXPOSURE_DAYS = 7
 
+# Вехи контрольных точек эксперимента: дни от старта. Прежде дата первой
+# точки была зашита строкой «2026-08-26» и после прохождения продолжала
+# показываться в письме как «следующая» (вопрос руководителя 30.08.2026).
+REVIEW_MILESTONES_DAYS = (7, 14, 28)
+
+
+def next_review_for(start: dt.date, today: dt.date,
+                    explicit: str | None = None) -> str | None:
+    """Ближайшая контрольная точка эксперимента, но только будущая.
+
+    Явная дата из реестра уважается, пока не наступила; прошедшая дата не
+    «следующая проверка» — тогда берётся ближайшая веха от старта (7/14/28
+    дней). Если позади и все вехи, точки нет: эксперимент ждёт вердикта, и
+    его состояние видно в «Контроле эксперимента», а не в списке проверок.
+    """
+    if explicit:
+        d = dt.date.fromisoformat(explicit)
+        if d >= today:
+            return d.isoformat()
+    future = [start + dt.timedelta(days=n) for n in REVIEW_MILESTONES_DAYS
+              if start + dt.timedelta(days=n) >= today]
+    return min(future).isoformat() if future else None
+
 
 def load_registry() -> list[dict]:
     if not REGISTRY.exists():
@@ -118,7 +141,7 @@ def build(snap: dict, date: str, site_check: dict | None = None) -> list[dict]:
                 f"на {counted(imp, 'показ', 'показа', 'показов')} по запросам кластеров"
                 if imp else "экспозиция не измерена"),
             "confidence": "low" if (imp or 0) < MIN_EXPOSURE_IMPRESSIONS else "sufficient",
-            "next_review": e.get("next_review", "2026-08-26"),
+            "next_review": next_review_for(start, today, e.get("next_review")),
             "verdict": v,
             "verdict_reason": why,
             # Человеческие формулировки для письма: руководитель читает их, а не
@@ -127,8 +150,11 @@ def build(snap: dict, date: str, site_check: dict | None = None) -> list[dict]:
                                 "покупает на компанию, и чаще ли по ней переходят",
             "treatment_plain": "переписали заголовок и описание страницы под покупку "
                                "по счёту и добавили блок ответов на частые вопросы.",
-            "metric_plain": "переходы из выдачи Яндекса по запросам этих пяти карточек; "
-                            "первая контрольная точка — 26.08, вторая — 02.09",
+            "metric_plain": (
+                "переходы из выдачи Яндекса по запросам страниц эксперимента; "
+                "контрольные точки — "
+                + " и ".join((start + dt.timedelta(days=n)).strftime("%d.%m")
+                             for n in REVIEW_MILESTONES_DAYS[:2])),
             "confidence_plain": ("низкая: выборка мала" if (imp or 0) < MIN_EXPOSURE_IMPRESSIONS
                                  else "достаточная по объёму показов"),
         })

@@ -783,8 +783,14 @@ def _sources_line(snap: dict) -> str:
 def _checkpoints(exps, actions_cfg) -> list[dict]:
     out = []
     for e in exps:
+        # next_review = None: все вехи эксперимента позади — он ждёт вердикта
+        # (это видно в «Контроле эксперимента»), а «следующей проверки» у него
+        # нет. Прошедшие даты сюда не попадают: их отсекает next_review_for
+        # (вопрос руководителя 30.08 — письмо показывало 26.08 как будущее).
+        if not e.get("next_review"):
+            continue
         out.append({"date": ru_date(e["next_review"]),
-                    "what": f"{e['ticket']}: первый замер кликабельности изменённых страниц"})
+                    "what": f"{e['ticket']}: замер кликабельности изменённых страниц"})
     for a in actions_cfg["actions"]:
         if a.get("due") and a["status"] in ("in_progress", "blocked"):
             out.append({"date": ru_date(a["due"]), "what": f"{a['id']}: {a['title']}"})
