@@ -78,17 +78,25 @@ class TestBudgetWithBillingFact(unittest.TestCase):
             "\n".join(json.dumps({"date": d, "balance": b})
                       for d, b in points) + "\n", encoding="utf-8")
 
-    def test_serp_cost_from_skus_normalizes_unit_and_skips_wordstat(self):
+    def test_serp_cost_from_skus_prefers_night_and_skips_foreign(self):
+        # Реальная выборка прайса 30.08: рядом с текстовым поиском лежат
+        # чужие SKU (аудио за секунду, «Web search tool» за 915 ₽) — они не
+        # должны становиться ценой SERP-запроса.
         skus = [
             {"name": "Retrieving data from the Wordstat API (GetTop)",
              "unit": "1k*request", "price_rub": 20.0},
-            {"name": "Web search synchronous request, daytime",
-             "unit": "1k*request", "price_rub": 488.0},
-            {"name": "Web search deferred request",
+            {"name": "Daytime deferred text requests",
              "unit": "1k*request", "price_rub": 30.5},
-            {"name": "Free tier", "unit": "1k*request", "price_rub": 0.0},
+            {"name": "Night-time deferred text requests",
+             "unit": "1k*request", "price_rub": 25.41},
+            {"name": "Asynchronous audio file recognition, deferred mode",
+             "unit": "second", "price_rub": 0.00254},
+            {"name": "Web search tool", "unit": "1k*request",
+             "price_rub": 915.0},
         ]
-        self.assertEqual(self.cb.serp_cost_from_skus(skus), 0.0305)
+        self.assertEqual(self.cb.serp_cost_from_skus(skus), 0.0254)
+        # без ночного SKU — минимальный из подходящих
+        self.assertEqual(self.cb.serp_cost_from_skus(skus[:2]), 0.0305)
         self.assertIsNone(self.cb.serp_cost_from_skus([]))
         self.assertIsNone(self.cb.serp_cost_from_skus(
             [{"name": "Wordstat GetTop", "unit": "1k*request",
