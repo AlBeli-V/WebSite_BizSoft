@@ -1,0 +1,232 @@
+{
+ "mode": "weekly",
+ "mode_label": "еженедельный",
+ "send_date": "2026-08-29",
+ "from": "2026-08-22",
+ "to": "2026-08-28",
+ "prev_from": "2026-08-15",
+ "prev_to": "2026-08-21",
+ "title_period": "за период 22.08 по 28.08.2026",
+ "subject": "BIZSoft Growth Intelligence — еженедельный за период 22.08 по 28.08.2026",
+ "metrics": {
+  "yandex_impressions": {
+   "label": "Яндекс, показы",
+   "total": 2072.0,
+   "covered_days": 7,
+   "days": 7
+  },
+  "yandex_clicks": {
+   "label": "Яндекс, клики",
+   "total": 10.0,
+   "covered_days": 7,
+   "days": 7
+  },
+  "gsc_impressions": {
+   "label": "Google, показы",
+   "total": 22.0,
+   "covered_days": 6,
+   "days": 7
+  },
+  "gsc_clicks": {
+   "label": "Google, клики",
+   "total": 1.0,
+   "covered_days": 6,
+   "days": 7
+  },
+  "visits_all": {
+   "label": "Визиты сайта, все",
+   "total": 78.0,
+   "covered_days": 7,
+   "days": 7
+  },
+  "visits_organic": {
+   "label": "Визиты, органика",
+   "total": 16.0,
+   "covered_days": 7,
+   "days": 7
+  },
+  "goals_organic": {
+   "label": "Достижения целей (органика)",
+   "total": 46.0,
+   "covered_days": 7,
+   "days": 7
+  },
+  "ga4_sessions": {
+   "label": "GA4, органические сессии",
+   "total": 22.0,
+   "covered_days": 7,
+   "days": 7
+  },
+  "yandex_ctr": {
+   "label": "Яндекс, CTR",
+   "total": 0.004826254826254826,
+   "covered_days": 7,
+   "days": 7,
+   "is_ratio": true
+  },
+  "_extremes": {
+   "yandex_clicks": {
+    "best": {
+     "date": "2026-08-24",
+     "value": 2.0
+    },
+    "worst": {
+     "date": "2026-08-23",
+     "value": 0.0
+    }
+   },
+   "goals": {
+    "best": {
+     "date": "2026-08-25",
+     "value": 27.0
+    },
+    "worst": {
+     "date": "2026-08-22",
+     "value": 1.0
+    }
+   }
+  }
+ },
+ "prev_metrics": {
+  "yandex_impressions": {
+   "label": "Яндекс, показы",
+   "total": 1226.0,
+   "covered_days": 7,
+   "days": 7
+  },
+  "yandex_clicks": {
+   "label": "Яндекс, клики",
+   "total": 23.0,
+   "covered_days": 7,
+   "days": 7
+  },
+  "gsc_impressions": {
+   "label": "Google, показы",
+   "total": 44.0,
+   "covered_days": 7,
+   "days": 7
+  },
+  "gsc_clicks": {
+   "label": "Google, клики",
+   "total": 1.0,
+   "covered_days": 7,
+   "days": 7
+  },
+  "visits_all": {
+   "label": "Визиты сайта, все",
+   "total": 75.0,
+   "covered_days": 7,
+   "days": 7
+  },
+  "visits_organic": {
+   "label": "Визиты, органика",
+   "total": 23.0,
+   "covered_days": 7,
+   "days": 7
+  },
+  "goals_organic": {
+   "label": "Достижения целей (органика)",
+   "total": 4.0,
+   "covered_days": 7,
+   "days": 7
+  },
+  "ga4_sessions": {
+   "label": "GA4, органические сессии",
+   "total": 23.0,
+   "covered_days": 7,
+   "days": 7
+  },
+  "yandex_ctr": {
+   "label": "Яндекс, CTR",
+   "total": 0.018760195758564437,
+   "covered_days": 7,
+   "days": 7,
+   "is_ratio": true
+  },
+  "_extremes": {
+   "yandex_clicks": {
+    "best": {
+     "date": "2026-08-18",
+     "value": 6.0
+    },
+    "worst": {
+     "date": "2026-08-16",
+     "value": 1.0
+    }
+   },
+   "goals": {
+    "best": {
+     "date": "2026-08-18",
+     "value": 3.0
+    },
+    "worst": {
+     "date": "2026-08-15",
+     "value": 0.0
+    }
+   }
+  }
+ },
+ "ads": {
+  "available": true,
+  "campaign": "bs-test-2026-09",
+  "cost": 484.51,
+  "clicks": 18,
+  "impressions": 137,
+  "cpc": 26.91722222222222,
+  "groups": [
+   {
+    "name": "ChatGPT Business",
+    "imp": 56,
+    "clicks": 6,
+    "cost": 203.52,
+    "cpc": 33.92
+   },
+   {
+    "name": "Midjourney",
+    "imp": 18,
+    "clicks": 6,
+    "cost": 151.56,
+    "cpc": 25.26
+   },
+   {
+    "name": "Claude Code",
+    "imp": 62,
+    "clicks": 6,
+    "cost": 129.43,
+    "cpc": 21.57166666666667
+   },
+   {
+    "name": "Claude",
+    "imp": 1,
+    "clicks": 0,
+    "cost": 0.0,
+    "cpc": null
+   }
+  ]
+ },
+ "prev_ads": {
+  "available": false,
+  "reason": "в периоде не было открутки (или данные ещё не собраны)"
+ },
+ "indexation": {
+  "available": true,
+  "start": {
+   "indexed": 191,
+   "known": 227
+  },
+  "end": {
+   "indexed": 478,
+   "known": 525
+  },
+  "start_missing": false
+ },
+ "events": {
+  "experiment_verdicts": [],
+  "ppc_decisions": []
+ },
+ "summary": "За период клики из Яндекса снизились (23 → 10, -57%); достижений целей 46 против 4 прошлым периодом; реклама: 485 ₽ и 18 кликов.",
+ "attention": [
+  "Google, клики: данные за 6 из 7 дней — хвост периода дозреет у источника, цифры уточнятся",
+  "последние ~3 дня периода у Яндекс.Вебмастера и GSC дозревают задним числом — суммы по поиску могут вырасти при уточнении"
+ ]
+}
