@@ -1,0 +1,54 @@
+# Проверка структурированных данных Schema.org на проде.
+#
+# Гоняет scripts/seo/check-structured-data.mjs по списку URL против
+# https://biz-soft.pro с раннера GitHub (у сессии Claude egress к проду
+# закрыт). Read-only: страницы только читаются, прод не меняется.
+# Результат — комментарием в журнал-issue #22.
+name: ops-schema-check
+on:
+  workflow_dispatch:
+    inputs:
+      urls:
+        description: 'Пути через запятую (пусто — контрольная выборка по классам страниц)'
+        required: false
+        default: ''
+permissions:
+  # contents: read обязателен: без него у GITHUB_TOKEN нет доступа к
+  # приватному репозиторию и actions/checkout падает «Repository not found».
+  contents: read
+  issues: write
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Check structured data
+        id: run
+        env:
+          URLS: ${{ inputs.urls }}
+        run: |
+          {
+            echo 'result<<SCHEMA_EOF'
+            if [ -n "$URLS" ]; then
+              node scripts/seo/check-structured-data.mjs --base https://biz-soft.pro --urls "$URLS" || true
+            else
+              # Контрольная выборка: заменяем стабовые слаги на реальные прод-URL.
+              node scripts/seo/check-structured-data.mjs --base https://biz-soft.pro --urls "/,/catalog,/catalog/design,/catalog/ai,/catalog/ai/text,/product/chatgpt-business,/product/anthropic-team,/vendors,/vendors/jetbrains,/vendors/zoom,/vendors/openai,/vendors/figma,/vendors/maxon,/vendors/adobe,/vendors/canva,/vendors/miro,/vendors/zoho,/compare/chatgpt-vs-claude,/compare/cursor-vs-copilot,/blog,/solutions,/faq,/pricing,/how-we-work,/contacts,/about,/cases,/documents" || true
+            fi
+            echo 'SCHEMA_EOF'
+          } >> "$GITHUB_OUTPUT"
+      - name: Post to issue
+        uses: actions/github-script@v7
+        env:
+          RESULT: ${{ steps.run.outputs.result }}
+        with:
+          script: |
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: 22,
+              body: '### ops-schema-check · ' + new Date().toISOString() + '\n\n```\n' + process.env.RESULT + '\n```',
+            });

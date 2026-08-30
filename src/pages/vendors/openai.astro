@@ -13,7 +13,7 @@ import QuestionForm from '../../components/QuestionForm.astro';
 import JsonLd from '../../components/JsonLd.astro';
 import { getProducts } from '../../lib/directus';
 import { effectivePrice, formatRub } from '../../lib/pricing';
-import { collectionPageSchema, faqSchema, breadcrumbSchema } from '../../lib/seo';
+import { collectionPageSchema } from '../../lib/seo';
 import {
   OPENAI_VENDOR, OPENAI_SUMMARY, OPENAI_ORDER, OPENAI_CARD_META,
   OPENAI_COMPARISON, OPENAI_DECISION, OPENAI_SCENARIOS, OPENAI_FAQ,
@@ -44,10 +44,9 @@ const title = 'Купить ChatGPT (OpenAI) для юрлица — Plus, Pro, 
 const description = 'ChatGPT для бизнеса: тарифы Plus, Pro, Business, Enterprise и OpenAI API. Оформление на юрлицо по договору и счёту, оплата в рублях, закрывающие через ЭДО.';
 const pageUrl = '/vendors/openai';
 const crumbs = [{ name: 'Каталог', url: '/catalog' }, { name: 'AI-сервисы', url: '/catalog/ai' }, { name: 'OpenAI (ChatGPT)', url: pageUrl }];
+// FAQPage и BreadcrumbList не дублируем: их выводят компоненты FAQ и Breadcrumbs.
 const ld = [
   collectionPageSchema({ name: 'OpenAI (ChatGPT) для бизнеса', description, url: pageUrl, items: cards.map((c) => ({ name: c.name, slug: c.slug })) }),
-  faqSchema(OPENAI_FAQ),
-  breadcrumbSchema([{ name: 'Главная', url: '/' }, ...crumbs]),
 ];
 ---
 <BaseLayout title={title} description={description} type="website" canonical={pageUrl}>

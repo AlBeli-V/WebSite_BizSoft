@@ -21,7 +21,6 @@ import { ZOHO_GROUPS, ZOHO_SOURCE } from '../data/zoho-hierarchy';
 import { getProducts } from '../lib/directus';
 import { effectivePrice } from '../lib/pricing';
 import { site } from '../config/site';
-import { breadcrumbSchema } from '../lib/seo';
 import type { Product } from '../lib/types';
 
 // Уже опубликованные позиции линейки — они остаются на своих адресах и
@@ -75,8 +74,8 @@ const crumbs = [
   { name: 'Zoho', url: '/vendors/zoho' },
 ];
 
+// FAQPage выводит компонент FAQ, BreadcrumbList — компонент Breadcrumbs.
 const ld = [
-  breadcrumbSchema(crumbs),
   {
     '@context': 'https://schema.org',
     '@type': 'CollectionPage',
@@ -88,11 +87,6 @@ const ld = [
         '@type': 'ListItem', position: i + 1, name: g.name, url: `${site.url}/vendors/zoho/${g.slug}`,
       })),
     },
-  },
-  {
-    '@context': 'https://schema.org',
-    '@type': 'FAQPage',
-    mainEntity: faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
   },
 ];
 ---

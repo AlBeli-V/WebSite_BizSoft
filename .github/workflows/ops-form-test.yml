@@ -33,9 +33,11 @@ jobs:
             MGR=$(sed -n 's/^MANAGER_EMAIL=//p' /opt/bizsoft/astro.env | tr -d '"\r')
             echo "адрес менеджера (получит все письма теста): $MGR"
 
-            echo "== 1. Заявка с сайта (форма как сейчас: без ИНН, клиенту письмо не отправляется) =="
+            echo "== 1. Заявка с сайта (форма v2: реквизиты как у КП, включая ИНН; менеджеру — HTML с источником) =="
             curl -s -X POST http://127.0.0.1:3000/api/lead -H 'Content-Type: application/json' -d "{
               \"name\": \"Тест Заявка с сайта\",
+              \"inn\": \"7736207543\",
+              \"attribution\": {\"last\": {\"utm_source\": \"yandex\", \"utm_medium\": \"cpc\", \"utm_campaign\": \"bs-test-2026-09\", \"utm_content\": \"k1-claude\", \"utm_term\": \"claude купить\", \"landing_path\": \"/vendors/anthropic\"}, \"first\": {\"referrer\": \"https://yandex.ru/search/\", \"landing_path\": \"/vendors/anthropic\", \"ts\": \"2026-08-28T10:00:00Z\"}},
               \"company\": \"ТЕСТ — прогон форм 28.08 (удалить из воронки)\",
               \"email\": \"$MGR\",
               \"phone\": \"+7 (000) 000-00-00\",
@@ -46,9 +48,10 @@ jobs:
             }"
             echo
 
-            echo "== 2. Запрос КП (форма как сейчас: организация, ИНН, корзина; клиент получает письмо с КП-вложением) =="
+            echo "== 2. Запрос КП (запрос КП: письмо менеджеру теперь с блоком источника) =="
             curl -s -X POST http://127.0.0.1:3000/api/quote -H 'Content-Type: application/json' -d "{
               \"buyer_company\": \"ТЕСТ КП — прогон форм 28.08 (удалить)\",
+              \"attribution\": {\"last\": {\"utm_source\": \"yandex\", \"utm_medium\": \"cpc\", \"utm_campaign\": \"bs-test-2026-09\", \"utm_content\": \"k1-claude\", \"utm_term\": \"claude купить\", \"landing_path\": \"/vendors/anthropic\"}, \"first\": {\"referrer\": \"https://yandex.ru/search/\", \"landing_path\": \"/vendors/anthropic\", \"ts\": \"2026-08-28T10:00:00Z\"}},
               \"buyer_inn\": \"7736207543\",
               \"contact_name\": \"Тест КП\",
               \"email\": \"$MGR\",

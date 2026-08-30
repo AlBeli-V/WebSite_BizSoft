@@ -1,0 +1,166 @@
+# Индексирование и валидация разметки через официальные API.
+#
+# Google Search Console (секрет GSC_SERVICE_ACCOUNT_JSON):
+#   1) переотправка sitemap (sitemaps.submit) — штатный программный сигнал
+#      Google на переобход; кнопки «Запросить индексирование» в API нет
+#      (Indexing API принимает только вакансии и трансляции);
+#   2) URL Inspection API по списку URL — вердикт индексирования и блок
+#      richResultsResult (те же проверки, что Rich Results Test, по
+#      последней проиндексированной версии страницы).
+# Яндекс.Вебмастер (секрет YANDEX_WEBMASTER_TOKEN): сводка хоста —
+#   диагностика site_problems (валидатор микроразметки — только ручной
+#   инструмент кабинета, API у него нет).
+# Schema Markup Validator (validator.schema.org, официальный валидатор
+#   Schema.org): счёт ошибок/предупреждений по живым страницам.
+# Результат — комментарием в журнал-issue #22.
+name: ops-index-validate
+on:
+  workflow_dispatch:
+    inputs:
+      urls:
+        description: 'Пути через запятую для инспекции/валидации'
+        required: false
+        default: '/,/catalog,/catalog/ai,/vendors,/vendors/openai,/vendors/jetbrains,/vendors/figma,/vendors/zoom,/vendors/adobe,/vendors/anthropic,/product/chatgpt-business,/product/anthropic-team,/product/ableton-live-suite,/product/cubase-pro,/product/deepl-advanced,/product/lumion-pro,/how-we-work,/pricing,/blog,/compare/chatgpt-vs-claude'
+      submit_sitemap:
+        description: 'Переотправить sitemap в GSC (true/false)'
+        required: false
+        default: 'true'
+permissions:
+  contents: read
+  issues: write
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install deps
+        run: pip install --quiet requests google-auth
+      - name: Google + Yandex + schema.org validator
+        id: run
+        env:
+          GSC_SERVICE_ACCOUNT_JSON: ${{ secrets.GSC_SERVICE_ACCOUNT_JSON }}
+          YANDEX_WEBMASTER_TOKEN: ${{ secrets.YANDEX_WEBMASTER_TOKEN }}
+          URLS: ${{ inputs.urls }}
+          SUBMIT_SITEMAP: ${{ inputs.submit_sitemap }}
+        run: |
+          python3 - <<'PY' > report.txt || true
+          import json, os, time, urllib.parse
+          import requests
+
+          BASE = 'https://biz-soft.pro'
+          paths = [p.strip() for p in os.environ.get('URLS', '').split(',') if p.strip()]
+          urls = [BASE + p for p in paths]
+          out = []
+
+          # ── Google Search Console ──
+          out.append('== Google Search Console ==')
+          try:
+              from google.oauth2 import service_account
+              from google.auth.transport.requests import Request
+              info = json.loads(os.environ['GSC_SERVICE_ACCOUNT_JSON'])
+              creds = service_account.Credentials.from_service_account_info(
+                  info, scopes=['https://www.googleapis.com/auth/webmasters'])
+              creds.refresh(Request())
+              h = {'Authorization': f'Bearer {creds.token}'}
+              sites = requests.get('https://www.googleapis.com/webmasters/v3/sites', headers=h, timeout=30).json()
+              entries = [s['siteUrl'] for s in sites.get('siteEntry', []) if 'biz-soft.pro' in s['siteUrl']]
+              if not entries:
+                  out.append('ресурс biz-soft.pro не найден у сервисного аккаунта')
+              else:
+                  site = entries[0]
+                  out.append(f'ресурс: {site}')
+                  if os.environ.get('SUBMIT_SITEMAP') == 'true':
+                      sm = f'{BASE}/sitemap.xml'
+                      r = requests.put(
+                          f'https://www.googleapis.com/webmasters/v3/sites/{urllib.parse.quote(site, safe="")}/sitemaps/{urllib.parse.quote(sm, safe="")}',
+                          headers=h, timeout=30)
+                      out.append(f'sitemap.submit {sm} → HTTP {r.status_code}')
+                  out.append('-- URL Inspection (вердикт / rich results по последнему обходу) --')
+                  for u in urls:
+                      r = requests.post('https://searchconsole.googleapis.com/v1/urlInspection/index:inspect',
+                                        headers=h, json={'inspectionUrl': u, 'siteUrl': site}, timeout=30)
+                      if r.status_code != 200:
+                          out.append(f'{u} → HTTP {r.status_code} {r.text[:120]}')
+                          continue
+                      res = r.json().get('inspectionResult', {})
+                      idx = res.get('indexStatusResult', {})
+                      rich = res.get('richResultsResult', {})
+                      items = []
+                      for d in rich.get('detectedItems', []):
+                          n_ok = len(d.get('items', []))
+                          issues = sum(len(i.get('issues', [])) for i in d.get('items', []))
+                          items.append(f"{d.get('richResultType')}: {n_ok} шт., проблем {issues}")
+                      out.append(f"{u}")
+                      out.append(f"  индекс: {idx.get('coverageState', '—')} | вердикт: {idx.get('verdict', '—')} | обход: {idx.get('lastCrawlTime', '—')}")
+                      out.append(f"  rich: {res.get('richResultsResult', {}).get('verdict', '—')} | {'; '.join(items) if items else 'типы не обнаружены (в последней проиндексированной версии)'}")
+                      time.sleep(1)
+          except Exception as e:
+              out.append(f'ошибка GSC: {e}')
+
+          # ── Яндекс.Вебмастер: сводка/диагностика хоста ──
+          out.append('')
+          out.append('== Яндекс.Вебмастер: диагностика хоста ==')
+          try:
+              yt = os.environ.get('YANDEX_WEBMASTER_TOKEN', '')
+              if not yt:
+                  out.append('токен не задан')
+              else:
+                  yh = {'Authorization': f'OAuth {yt}'}
+                  uid = requests.get('https://api.webmaster.yandex.net/v4/user/', headers=yh, timeout=30).json()['user_id']
+                  hosts = requests.get(f'https://api.webmaster.yandex.net/v4/user/{uid}/hosts', headers=yh, timeout=30).json()
+                  host = next((x for x in hosts.get('hosts', []) if 'biz-soft.pro' in x.get('host_id', '')), None)
+                  if not host:
+                      out.append('хост biz-soft.pro не найден')
+                  else:
+                      s = requests.get(f"https://api.webmaster.yandex.net/v4/user/{uid}/hosts/{host['host_id']}/summary", headers=yh, timeout=30).json()
+                      probs = s.get('site_problems', {}) or {}
+                      out.append(f"host: {host['host_id']} | СКР (sqi): {s.get('sqi', '—')}")
+                      out.append(f"страниц в поиске: {s.get('searchable_pages_count', '—')} | исключено: {s.get('excluded_pages_count', '—')}")
+                      out.append('проблемы: ' + (', '.join(f'{k}: {v}' for k, v in probs.items()) if probs else 'не зарегистрированы'))
+          except Exception as e:
+              out.append(f'ошибка Вебмастера: {e}')
+
+          # ── Официальный валидатор Schema.org ──
+          out.append('')
+          out.append('== Schema Markup Validator (validator.schema.org) ==')
+          for u in urls[:8]:
+              try:
+                  r = requests.post('https://validator.schema.org/validate',
+                                    data={'url': u}, timeout=60)
+                  body = r.text
+                  body = body[body.index('{'):]
+                  data = json.loads(body)
+                  ents = []
+                  errs = warns = 0
+                  for t in data.get('tripleGroups', []):
+                      for n in t.get('nodes', []):
+                          errs += n.get('numErrors', 0) or sum(1 for p in n.get('properties', []) if p.get('errors'))
+                          warns += n.get('numWarnings', 0) or sum(1 for p in n.get('properties', []) if p.get('warnings'))
+                          if n.get('type'):
+                              ents.append(n['type'] if isinstance(n['type'], str) else ','.join(n['type']))
+                  out.append(f"{u} → типы: {', '.join(sorted(set(ents))) or '—'}; ошибок {data.get('totalNumErrors', errs)}, предупреждений {data.get('totalNumWarnings', warns)}")
+              except Exception as e:
+                  out.append(f'{u} → валидатор недоступен: {e}')
+              time.sleep(1)
+
+          print('\n'.join(out))
+          PY
+          {
+            echo 'result<<IDX_EOF'
+            cat report.txt
+            echo 'IDX_EOF'
+          } >> "$GITHUB_OUTPUT"
+      - name: Post to issue
+        uses: actions/github-script@v7
+        env:
+          RESULT: ${{ steps.run.outputs.result }}
+        with:
+          script: |
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: 22,
+              body: '### ops-index-validate · ' + new Date().toISOString() + '\n\n```\n' + process.env.RESULT + '\n```',
+            });

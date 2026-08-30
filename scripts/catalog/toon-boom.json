@@ -1,0 +1,84 @@
+{
+  "vendor_entry": {
+    "slug": "toon-boom",
+    "vendor": "Toon Boom",
+    "legalName": "Toon Boom Animation Inc.",
+    "brandColor": "#5B2D86",
+    "site": "https://www.toonboom.com",
+    "catSeg": "media",
+    "catLabel": "Звук, видео и медиа",
+    "domain": "video",
+    "tagline": "Toon Boom Harmony: индустриальный стандарт 2D-анимации — от раскадровки до финального продакшна.",
+    "about": "Toon Boom — канадский разработчик ПО для 2D-анимации: Harmony для рисованной и перекладной анимации со скелетным ригом и композитингом, Storyboard Pro для раскадровок. Стандарт анимационных студий: на Harmony сделаны сериалы Netflix, Disney и Cartoon Network. Подписки на пользователя; применяется студиями анимации, геймдевом и рекламным продакшном."
+  },
+  "products": [
+    {
+      "sku": "TOONBOOM-HARMONY-ADVANCED",
+      "slug": "toonboom-harmony-advanced",
+      "name": "Toon Boom Harmony Advanced",
+      "official_name": "Harmony Advanced (годовая подписка)",
+      "category": "media",
+      "license_type": "org",
+      "short_description": "Профессиональная 2D-анимация: рисованная и перекладная техника, скелетный риг и эффекты.",
+      "description": "Toon Boom Harmony Advanced — профессиональная среда 2D-анимации: покадровое рисование, перекладка со скелетным ригом, эффекты и работа с камерой.\n\nТипичный сценарий: анимационная студия или рекламный продакшн ведёт сериалы, ролики и игровые ассеты в общем индустриальном формате.\n\nЧем отличается от Premium: старшая редакция добавляет продвинутый композитинг узлами и 3D-интеграцию — оформим по запросу.\n\nОформим подписку на вашу компанию: договор, счёт в рублях, закрывающие документы через ЭДО, доступ за 1–3 рабочих дня.",
+      "keywords": "toon boom купить, toon boom harmony купить, тун бум анимация, harmony advanced цена, программа для 2d анимации",
+      "features": [
+        "Годовая подписка на 1 пользователя",
+        "Покадровая и перекладная анимация",
+        "Скелетный риг и деформации",
+        "Индустриальный формат обмена сценами"
+      ],
+      "base_price_usd": 1128,
+      "billing": "за 1 пользователя в год при годовой схеме оплаты",
+      "min_quantity": 1,
+      "price_confidence": "vendor-page",
+      "source_url": "https://www.toonboom.com/products/harmony",
+      "checkout_url": "https://www.toonboom.com/products/harmony",
+      "checked_at": "2026-08-29",
+      "notes": "Цена снята со страницы Harmony вендора 29.08.2026 (ops-price-scan): метка «Harmony Advanced» стоит непосредственно перед парой USD 139.00/мес — USD 1,128.00/год; берём годовую. Остальные пары цен на странице остались без однозначных меток — их редакции заводим без цены.",
+      "status": "published",
+      "markup_coeff": null,
+      "sort": null
+    },
+    {
+      "sku": "TOONBOOM-HARMONY-PREMIUM",
+      "slug": "toonboom-harmony-premium",
+      "name": "Toon Boom Harmony Premium",
+      "official_name": "Harmony Premium (годовая подписка)",
+      "category": "media",
+      "license_type": "org",
+      "short_description": "Старшая редакция Harmony: узловой композитинг, продвинутые эффекты и 3D-интеграция для полнометражного продакшна.",
+      "description": "Toon Boom Harmony Premium — максимальная редакция: узловой композитинг, продвинутые эффекты, интеграция 3D-элементов и полный набор инструментов деформации.\n\nТипичный сценарий: студия полнометражной или сериальной анимации со сложным пайплайном.\n\nЦена рассчитывается по запросу: пришлём коммерческое предложение в день обращения.\n\nОформим подписку на вашу компанию: договор, счёт в рублях, закрывающие документы через ЭДО, доступ за 1–3 рабочих дня.",
+      "keywords": "harmony premium купить, toon boom premium цена, тун бум премиум",
+      "features": [
+        "Годовая подписка на 1 пользователя",
+        "Узловой композитинг",
+        "3D-интеграция и продвинутые эффекты",
+        "Полный набор деформаций"
+      ],
+      "base_price_usd": null,
+      "billing": "за 1 пользователя в год при годовой схеме оплаты",
+      "min_quantity": 1,
+      "price_confidence": "quote-only",
+      "source_url": "https://www.toonboom.com/products/harmony",
+      "checkout_url": "https://www.toonboom.com/products/harmony",
+      "checked_at": "2026-08-29",
+      "notes": "На странице вендора пары цен без однозначных меток редакций (дамп в issue #22) — публикуем без цены, расчёт в КП; подтвердить прайс при первой сделке.",
+      "status": "published",
+      "markup_coeff": null,
+      "sort": null
+    }
+  ],
+  "rejected": [
+    {
+      "name": "Harmony Essentials",
+      "reason": "Начальная редакция для любителей; цена на странице без однозначной метки — вне фокуса B2B первой волны.",
+      "source_url": "https://www.toonboom.com/products/harmony"
+    },
+    {
+      "name": "Storyboard Pro, Producer",
+      "reason": "Отдельные продукты линейки — заведём отдельной партией при спросе.",
+      "source_url": "https://www.toonboom.com/"
+    }
+  ]
+}

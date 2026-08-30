@@ -3,9 +3,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import FAQ from '../../components/FAQ.astro';
 import CTASection from '../../components/CTASection.astro';
-import JsonLd from '../../components/JsonLd.astro';
 import { comparisons } from '../../data/comparisons';
-import { faqSchema, breadcrumbSchema } from '../../lib/seo';
 
 export function getStaticPaths() {
   return comparisons.map((c) => ({ params: { slug: c.slug }, props: { cmp: c } }));
@@ -21,8 +19,8 @@ const crumbs = [
 ];
 ---
 <BaseLayout title={cmp.metaTitle} description={cmp.metaDescription} canonical={path}>
-  <JsonLd schema={faqSchema(cmp.faq)} />
-  <JsonLd schema={breadcrumbSchema(crumbs)} />
+  {/* FAQPage и BreadcrumbList выводят компоненты FAQ и Breadcrumbs — здесь
+      дубли (с цепочкой, не совпадавшей с видимой) убраны. */}
   <div class="container-page section">
     <Breadcrumbs items={[{ name: 'AI-сервисы', url: '/catalog/ai' }, { name: cmp.h1, url: path }]} />
     <header class="head">
