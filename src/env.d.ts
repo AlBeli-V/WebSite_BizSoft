@@ -17,6 +17,8 @@ interface ImportMetaEnv {
   readonly MANAGER_EMAIL: string;
   readonly PUBLIC_METRIKA_ID: string;
   readonly PUBLIC_GA_ID: string;
+  /** Рубильник WebMCP-слоя: «0» гасит и скрипт, и /api/agent (см. src/webmcp/flag.ts). */
+  readonly PUBLIC_WEBMCP?: string;
 }
 
 interface ImportMeta {

@@ -28,9 +28,13 @@ const packages = allPackages
 // (self-service checkout и оплата картой подтверждены, тарифы сняты со страниц
 // вендоров). Остальные позиции стоп-листа (docs/vendors-expansion-prompt.md,
 // раздел 6) остаются в силе.
+// Добавлены решением руководителя 29.08.2026: NordVPN и любые VPN-сервисы
+// (реклама VPN в России запрещена — штрафы и ответственность), Ansys (цен на
+// сайте нет, узкоспециализированное инженерное ПО вне формата магазина).
 const STOP_LIST = ['sap', 'oracle', 'vmware', 'broadcom', 'veeam', 'citrix', 'cisco',
   'salesforce', 'ibm', 'archicad', 'red hat', 'redhat', 'canonical',
-  'mathworks', 'mongodb', 'elastic', 'eset'];
+  'mathworks', 'mongodb', 'elastic', 'eset',
+  'nordvpn', 'vpn', 'ansys'];
 
 const ALLOWED_CATEGORIES = ['system', 'security', 'development', 'collaboration',
   'architecture', 'vcs', 'office', 'design', 'ai', 'media', 'pm', 'monitoring',
