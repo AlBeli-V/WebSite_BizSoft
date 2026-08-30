@@ -1,4 +1,23 @@
 {
- "available": false,
- "reason": "базовая точка баланса не задана (intelligence/cloud-balance.json)"
+ "available": true,
+ "date": "2026-08-30",
+ "baseline": {
+  "date": "2026-08-30",
+  "balance_rub": 10000,
+  "note": "пополнение руководителя 30.08.2026 («Пополнил баланс Яндекс Клауд на 10000 руб»); принято как расчётная базовая точка — прежний остаток в неё не входит (оценка снизу)"
+ },
+ "balance_source": "estimate",
+ "balance_estimate_rub": 9840.63,
+ "spent_since_baseline": {
+  "wordstat_rub": 12.37,
+  "serp_requests": 300,
+  "serp_rub_estimate": 147.0,
+  "total_rub": 159.37
+ },
+ "week_spend_rub": 159.37,
+ "daily_rate_rub": 159.37,
+ "runway_days": 61.7,
+ "needs_topup": false,
+ "billing_skus": [],
+ "assumptions": "остаток расчётный: базовая точка минус журналы; SERP оценён по 0.49 ₽/запрос (дневной тариф, оценка сверху)"
 }
