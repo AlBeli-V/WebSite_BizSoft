@@ -43,6 +43,15 @@ jobs:
           WORDSTAT_API_KEY: ${{ secrets.WORDSTAT_API_KEY }}
         run: python3 scripts/seo/serp_watch.py
 
+      # Контроль баланса Yandex Cloud (поручение 30.08.2026): расчётный
+      # остаток по журналам Wordstat+SERP; при прогнозной нехватке — письмо
+      # руководителю с просьбой пополнить (не чаще раза в 3 дня).
+      - name: Cloud budget check
+        if: always()
+        env:
+          SMTP_PASS: ${{ secrets.SMTP_PASS }}
+        run: python3 scripts/seo/cloud_budget.py --notify
+
       - name: Push data
         if: always()
         run: bash scripts/seo/data_sync.sh push "SERP-срез за $(date -u +%F)"

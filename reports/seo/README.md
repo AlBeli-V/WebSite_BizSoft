@@ -27,6 +27,7 @@
 | 10. Проверка сайта | `seo-site-check.yml` | title и FAQPage на живых страницах экспериментов |
 | 11. Рыночный спрос | `seo-wordstat.yml` → `wordstat/run.py` → `wordstat/report.py` | база семантики, покрытие, разрывы, возможности, блок письма |
 | 12. SERP-срез | `seo-serp-watch.yml` (01:37 МСК, ночной тариф) → `serp_watch.py` (ядро — `serp_watchlist.py`) | `data/serp/<дата>-serp.jsonl` + журнал `data/serp/ledger/`; потолок 5 000 запросов/мес (решение руководителя 30.08.2026); анализ — `serp_analysis.py`, раздел веб-отчёта «SERP Яндекса» |
+| 13. Бюджет Cloud | шаг `Cloud budget check` в `seo-serp-watch.yml` → `cloud_budget.py` | `intelligence/cloud-budget.json`: расчётный остаток от базовой точки (`cloud-balance.json`) минус журналы Wordstat+SERP; при прогнозе <14 дней — письмо-запрос пополнения (не чаще раза в 3 дня) |
 
 ## Loop-health: контроль, что конвейер реально работает
 
