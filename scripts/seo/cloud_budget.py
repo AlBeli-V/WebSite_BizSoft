@@ -45,23 +45,32 @@ SERP_COST_RUB = 0.49
 def serp_cost_from_skus(skus: list[dict]) -> float | None:
     """Фактическая цена SERP-запроса из прайса биллинга.
 
-    Берётся минимальная цена среди SKU веб-поиска (сбор идёт ночью, а ночной
-    тариф — самый дешёвый из применимых); Wordstat-SKU исключаются. Единица
-    прайса — за 1000 запросов (unit \"1k*request\") — нормируется к запросу.
+    Урок выборки 30.08: широкий фильтр имён притянул чужой SKU (распознавание
+    аудио, тариф за секунду) — цена запроса стала бессмысленной. Поэтому:
+    только единица «за 1000 запросов», только текстовый поиск (deferred text
+    requests / search), явные исключения (wordstat, audio, recognition,
+    «web search tool» — инструмент для AI-ассистентов по 915 ₽/1000, не наш
+    SERP). Сбор идёт ночным отложенным режимом — при наличии ночного SKU
+    берётся он, иначе минимальный из подходящих.
     """
-    best = None
+    candidates = []
     for s in skus or []:
         name = (s.get("name") or "").lower()
-        if "wordstat" in name:
+        if "1k" not in (s.get("unit") or ""):
+            continue
+        if any(x in name for x in ("wordstat", "audio", "recognition", "tool")):
+            continue
+        if not any(x in name for x in ("text request", "search", "поиск")):
             continue
         price = s.get("price_rub")
         if price is None or price <= 0:
             continue
-        per_request = (price / 1000.0 if "1k" in (s.get("unit") or "")
-                       else float(price))
-        if best is None or per_request < best:
-            best = per_request
-    return round(best, 4) if best is not None else None
+        candidates.append((name, price / 1000.0))
+    if not candidates:
+        return None
+    night = [p for n, p in candidates if "night" in n or "ноч" in n]
+    best = min(night) if night else min(p for _, p in candidates)
+    return round(best, 4)
 
 RUNWAY_ALERT_DAYS = 14      # «нехватка через неделю» + лаг на пополнение
 NOTICE_COOLDOWN_DAYS = 3    # не чаще одного письма в три дня

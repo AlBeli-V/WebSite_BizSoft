@@ -26,7 +26,7 @@
 | 9. Доставка | `seo-report-email.yml` | письмо с PNG-вложениями (CID) + текстовая версия |
 | 10. Проверка сайта | `seo-site-check.yml` | title и FAQPage на живых страницах экспериментов |
 | 11. Рыночный спрос | `seo-wordstat.yml` → `wordstat/run.py` → `wordstat/report.py` | база семантики, покрытие, разрывы, возможности, блок письма |
-| 12. SERP-срез | `seo-serp-watch.yml` (01:37 МСК, ночной тариф) → `serp_watch.py` (ядро — `serp_watchlist.py`) | `data/serp/<дата>-serp.jsonl` + журнал `data/serp/ledger/`; потолок 5 000 запросов/мес (решение руководителя 30.08.2026); анализ — `serp_analysis.py`, раздел веб-отчёта «SERP Яндекса» |
+| 12. SERP-срез | `seo-serp-watch.yml` (01:37 МСК, отложенный ночной режим — 25,41 ₽/1000 по прайсу) → `serp_watch.py` (ядро — `serp_watchlist.py`) | `data/serp/<дата>-serp.jsonl` + журнал `data/serp/ledger/`; потолок 5 000 запросов/мес (решение руководителя 30.08.2026); анализ — `serp_analysis.py`, раздел веб-отчёта «SERP Яндекса» |
 | 13. Бюджет Cloud | шаги `Fetch Yandex Cloud billing` + `Cloud budget check` в `seo-serp-watch.yml` → `yc_billing.py`, `cloud_budget.py` | факт из Billing API (секрет `YC_BILLING_SA_KEY`, роль `billing.accounts.viewer`): остаток, SKU-тарифы, история остатка (`cloud-billing.json`, `cloud-balance-history.jsonl`); без секрета — расчётная оценка от базовой точки минус журналы; при прогнозе <14 дней — письмо-запрос пополнения |
 
 ## Loop-health: контроль, что конвейер реально работает

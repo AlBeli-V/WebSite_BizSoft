@@ -126,24 +126,95 @@ class TestBudgetDiscipline(unittest.TestCase):
         import os
         from unittest import mock
 
-        calls = []
+        seen = []
 
-        def fake_fetch(session, key, query):
-            calls.append(query)
-            return {"found": 1, "top": []}
+        def fake_collect(session, key, date, queries, writer):
+            for q in queries:
+                seen.append(q)
+                self.sw.log_call(date, q, "submitted", None)
+                writer({"date": DATE, "query": q, "top": []})
+            return len(queries), 0
 
         with mock.patch.dict(os.environ, {"WORDSTAT_API_KEY": "k"}), \
-                mock.patch.object(self.sw, "fetch_serp", fake_fetch), \
-                mock.patch.object(self.sw.time, "sleep", lambda s: None):
+                mock.patch.object(self.sw, "collect_deferred", fake_collect):
             res = self.sw.run(DATE, [f"q{i}"
                                      for i in range(self.sw.DAILY_CAP + 30)])
         self.assertEqual(res["requested"], self.sw.DAILY_CAP)
         self.assertEqual(res["skipped_over_budget"], 30)
-        self.assertEqual(len(calls), self.sw.DAILY_CAP)
+        self.assertEqual(res["mode"], "deferred-night")
+        self.assertEqual(len(seen), self.sw.DAILY_CAP)
         # каждый вызов записан в журнал
         import datetime as dt
         self.assertEqual(self.sw.month_spent(dt.date.fromisoformat(DATE)),
                          self.sw.DAILY_CAP)
+
+
+class TestDeferredFlow(unittest.TestCase):
+    """Отложенный режим: отправка пакетом, добор опросом, честный дедлайн."""
+
+    def setUp(self):
+        self.sw = mocks.load("serp_watch")
+        self.tmp = tempfile.TemporaryDirectory()
+        self.addCleanup(self.tmp.cleanup)
+        base = pathlib.Path(self.tmp.name)
+        self.sw.SERP_DIR = base / "serp"
+        self.sw.LEDGER_DIR = base / "serp" / "ledger"
+        self.sw.SERP_DIR.mkdir(parents=True)
+        self.rows = []
+        import datetime as dt
+        self.date = dt.date.fromisoformat(DATE)
+
+    def collect(self, submit, fetch, timeout=None):
+        import contextlib
+        from unittest import mock
+        with contextlib.ExitStack() as stack:
+            stack.enter_context(
+                mock.patch.object(self.sw, "submit_deferred", submit))
+            stack.enter_context(
+                mock.patch.object(self.sw, "fetch_operation", fetch))
+            stack.enter_context(
+                mock.patch.object(self.sw.time, "sleep", lambda s: None))
+            if timeout is not None:
+                stack.enter_context(
+                    mock.patch.object(self.sw, "POLL_TIMEOUT_S", timeout))
+            return self.sw.collect_deferred(
+                None, "k", self.date, ["купить figma", "купить miro"],
+                self.rows.append)
+
+    def test_happy_path(self):
+        polls = {"n": 0}
+
+        def fetch(session, key, op):
+            polls["n"] += 1
+            if polls["n"] < 2:
+                return None          # первая проверка — ещё выполняется
+            return {"found": 10, "top": []}
+
+        ok, failed = self.collect(
+            lambda s, k, q: {"op": f"op-{q}"}, fetch)
+        self.assertEqual((ok, failed), (2, 0))
+        self.assertEqual(len(self.rows), 2)
+        self.assertEqual(self.sw.month_spent(self.date), 2)
+
+    def test_submit_error_is_logged_and_written(self):
+        ok, failed = self.collect(
+            lambda s, k, q: {"error": "HTTP 403: нет прав"},
+            lambda s, k, op: None)
+        self.assertEqual((ok, failed), (0, 2))
+        self.assertIn("HTTP 403", self.rows[0]["error"])
+        self.assertEqual(self.sw.month_spent(self.date), 2)  # submit платный
+
+    def test_deadline_saves_pending_operations(self):
+        ok, failed = self.collect(
+            lambda s, k, q: {"op": f"op-{q}"},
+            lambda s, k, op: None, timeout=0)
+        self.assertEqual((ok, failed), (0, 2))
+        self.assertTrue(all("не готов к дедлайну" in r["error"]
+                            for r in self.rows))
+        pending = json.loads(
+            (self.sw.SERP_DIR / f"pending-{DATE}.json").read_text(
+                encoding="utf-8"))
+        self.assertEqual(len(pending), 2)
 
 
 class TestSerpAnalysis(unittest.TestCase):
