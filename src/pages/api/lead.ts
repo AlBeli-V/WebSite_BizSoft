@@ -5,6 +5,9 @@ import { defaultLeadOwner } from '../../config/site';
 import { createLead } from '../../lib/directus';
 import { sendMail, managerEmail } from '../../lib/mailer';
 import { attributionFields } from '../../lib/quote-lead';
+import { verifyCompany } from '../../lib/inn';
+import { findParty } from '../../lib/dadata';
+import { buildManagerLeadEmail } from '../../lib/email/lead-manager';
 import { guardSubmission, guardResponse, countSubmission } from '../../lib/form-guard';
 import { clientIp } from '../../lib/client-ip';
 
@@ -35,6 +38,10 @@ export const POST: APIRoute = async ({ request }) => {
   // Все поля формы обязательны
   if (!filled(body.name)) return new Response(JSON.stringify({ error: 'Укажите ФИО' }), { status: 422 });
   if (!filled(body.company)) return new Response(JSON.stringify({ error: 'Укажите компанию' }), { status: 422 });
+  // Состав реквизитов формы заявки идентичен форме КП — решение
+  // руководителя 28.08.2026. Контрольная сумма ИНН не блокирует заявку:
+  // вердикт сверки уходит менеджеру в письмо, решает человек.
+  if (!filled(body.inn)) return new Response(JSON.stringify({ error: 'Укажите ИНН' }), { status: 422 });
   if (!isEmail(body.email)) return new Response(JSON.stringify({ error: 'Укажите корректный e-mail' }), { status: 422 });
   if (!filled(body.phone)) return new Response(JSON.stringify({ error: 'Укажите телефон' }), { status: 422 });
   if (!filled(body.message)) return new Response(JSON.stringify({ error: 'Заполните сообщение' }), { status: 422 });
@@ -50,6 +57,7 @@ export const POST: APIRoute = async ({ request }) => {
   const payload = {
     name: String(body.name || '').slice(0, 200),
     company: String(body.company || '').slice(0, 200),
+    inn: String(body.inn || '').replace(/[\s-]/g, '').slice(0, 20),
     email: String(body.email).slice(0, 200),
     phone: String(body.phone || '').slice(0, 50),
     message: String(body.message || '').slice(0, 4000),
@@ -76,25 +84,36 @@ export const POST: APIRoute = async ({ request }) => {
     return new Response(JSON.stringify({ error: 'не удалось сохранить заявку' }), { status: 502 });
   }
 
-  // Уведомление менеджеру на avbelyaev@biz-soft.pro (не блокируем ответ при сбое SMTP)
-  sendMail({
-    to: managerEmail,
-    replyTo: payload.email,
-    subject: `Новая заявка с сайта BIZSoft${payload.product_ref ? ': ' + payload.product_ref : ''}`,
-    text: [
-      `Форма: ${payload.form_source}`,
-      `Канал: ${payload.last_touch_source || 'не определён'}`,
-      payload.first_touch_source && payload.first_touch_source !== payload.last_touch_source
-        && `Первое касание: ${payload.first_touch_source}`,
-      payload.utm_campaign && `Кампания: ${payload.utm_campaign}`,
-      payload.product_ref && `Товар: ${payload.product_ref}`,
-      `Имя: ${payload.name || '—'}`,
-      `Компания: ${payload.company || '—'}`,
-      `E-mail: ${payload.email}`,
-      `Телефон: ${payload.phone || '—'}`,
-      `Сообщение: ${payload.message || '—'}`,
-    ].filter(Boolean).join('\n'),
-  }).catch((e) => console.error('lead mail failed', e));
+  // Уведомление менеджеру: фирменное HTML-письмо с источником перехода,
+  // сверкой ИНН с ЕГРЮЛ и карточкой организации. Собирается в фоне и не
+  // блокирует ответ клиенту: сверка ходит во внешний справочник.
+  (async () => {
+    const innCheck = await verifyCompany(payload.inn, payload.company);
+    const party = innCheck.valid ? await findParty(payload.inn).catch(() => null) : null;
+    const mail = buildManagerLeadEmail({
+      lead: {
+        name: payload.name,
+        company: payload.company,
+        inn: payload.inn,
+        email: payload.email,
+        phone: payload.phone,
+        message: payload.message,
+        product_ref: payload.product_ref,
+        form_source: payload.form_source,
+        date: new Date().toLocaleDateString('ru-RU'),
+      },
+      attribution: attributionFields(body),
+      innCheck,
+      party,
+    });
+    await sendMail({
+      to: managerEmail,
+      replyTo: payload.email,
+      subject: mail.subject,
+      text: mail.text,
+      html: mail.html,
+    });
+  })().catch((e) => console.error('lead mail failed', e));
 
   return new Response(JSON.stringify({ ok: true }), { status: 200, headers: { 'Content-Type': 'application/json' } });
 };

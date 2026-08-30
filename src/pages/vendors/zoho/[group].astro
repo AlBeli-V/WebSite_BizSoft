@@ -13,7 +13,6 @@ import JsonLd from '../../../components/JsonLd.astro';
 import { ZOHO_GROUPS, zohoGroup } from '../../../data/zoho-hierarchy';
 import { ZOHO_HUB_ENABLED } from '../../../lib/zoho-hub';
 import { site } from '../../../config/site';
-import { breadcrumbSchema } from '../../../lib/seo';
 
 // Раздел выключается одной переменной окружения: если новая витрина
 // не понравится, откат не требует правки кода и выката из репозитория.
@@ -41,8 +40,8 @@ const crumbs = [
   { name: 'Zoho', url: '/vendors/zoho' },
   { name: group.name, url: `/vendors/zoho/${group.slug}` },
 ];
+// BreadcrumbList не дублируем: его выводит компонент Breadcrumbs.
 const ld = [
-  breadcrumbSchema(crumbs),
   {
     '@context': 'https://schema.org',
     '@type': 'CollectionPage',

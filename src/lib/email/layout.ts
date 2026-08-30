@@ -11,6 +11,7 @@
  * представления одного содержимого, собираются рядом в одном шаблоне.
  */
 import { seller, site } from '../../config/site';
+import type { AttributionFields } from '../quote-lead';
 
 /** Экранирование пользовательских данных в HTML-письме. */
 export function escapeHtml(v: string): string {
@@ -112,4 +113,33 @@ export function emailShell(bodyHtml: string, preheader = ''): string {
     + `${seller.legalName} · ИНН ${seller.inn} · ОГРНИП ${seller.ogrnip}`
     + `</div></td></tr>`
     + `</table></td></tr></table></body></html>`;
+}
+
+/** Строки источника перехода — общий вид для писем о заявке и о КП. */
+export function attributionRows(a: AttributionFields): string {
+  const rows: string[] = [
+    kvRow('Канал', escapeHtml(a.last_touch_source || 'не определён'), true),
+  ];
+  if (a.utm_campaign) {
+    rows.push(kvRow('Кампания', escapeHtml(a.utm_campaign)
+      + (a.utm_content ? ` <span style="color:${EMAIL_COLOR.muted};">· группа ${escapeHtml(a.utm_content)}</span>` : '')));
+  }
+  if (a.utm_term) rows.push(kvRow('Фраза', escapeHtml(a.utm_term)));
+  if (a.first_touch_source && a.first_touch_source !== a.last_touch_source) {
+    rows.push(kvRow('Первое касание', escapeHtml(a.first_touch_source)));
+  }
+  if (a.landing_path) rows.push(kvRow('Вход на сайт', escapeHtml(a.landing_path)));
+  return rows.join('');
+}
+
+/** Те же строки источника для text-версии. */
+export function attributionLines(a: AttributionFields): string[] {
+  return [
+    `Канал: ${a.last_touch_source || 'не определён'}`,
+    ...(a.utm_campaign ? [`Кампания: ${a.utm_campaign}${a.utm_content ? ` (группа ${a.utm_content})` : ''}`] : []),
+    ...(a.utm_term ? [`Фраза: ${a.utm_term}`] : []),
+    ...(a.first_touch_source && a.first_touch_source !== a.last_touch_source
+      ? [`Первое касание: ${a.first_touch_source}`] : []),
+    ...(a.landing_path ? [`Вход на сайт: ${a.landing_path}`] : []),
+  ];
 }

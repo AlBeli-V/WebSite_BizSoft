@@ -9,7 +9,12 @@ const __dir = dirname(fileURLToPath(import.meta.url));
 const CONTENT_DIR = resolve(__dir, 'content');
 const OUT = resolve(__dir, '../src/data/vendor-content.ts');
 
-const files = readdirSync(CONTENT_DIR).filter((f) => f.endsWith('.json')).sort();
+// zoho-cards/groups/rules — входные данные пайплайна build-zoho-catalog.mjs,
+// а не контент лендинга: их структура не совпадает с VendorContent.
+const PIPELINE_FILES = new Set(['zoho-cards.json', 'zoho-groups.json', 'zoho-rules.json']);
+const files = readdirSync(CONTENT_DIR)
+  .filter((f) => f.endsWith('.json') && !PIPELINE_FILES.has(f))
+  .sort();
 const entries = {};
 for (const f of files) {
   const slug = basename(f, '.json');

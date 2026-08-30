@@ -140,6 +140,141 @@ check('КП: документ собирается в собранном при�
   return { ok: !broken, got: `${r.status} ${r.body.slice(0, 120)}` };
 });
 
+// ── WebMCP: read-only API для AI-агентов (/api/agent/*) ──────────────────
+// Слой прогрессивного улучшения: те же данные, что на витрине, тем же
+// effectivePrice. Смоук сверяет цену API с ценой в JSON-LD той же карточки —
+// четвёртый слой (UI ↔ JSON-LD ↔ microdata ↔ WebMCP) не должен разъезжаться.
+check('WebMCP: get_product отдаёт карточку с той же ценой, что витрина', async () => {
+  const r = await req('/api/agent/get_product?slug=chatgpt-business');
+  if (r.status !== 200) return { ok: false, got: `HTTP ${r.status}` };
+  const body = JSON.parse(r.body);
+  const priceOk = body?.ok === true && body?.data?.price === 1000;
+  const urlOk = body?.data?.url === 'https://biz-soft.pro/product/chatgpt-business';
+  return { ok: priceOk && urlOk, got: `price=${body?.data?.price} url=${body?.data?.url}` };
+});
+check('WebMCP: search_products находит товар и даёт ссылку на карточку', async () => {
+  const r = await req('/api/agent/search_products?query=chatgpt');
+  const body = r.status === 200 ? JSON.parse(r.body) : null;
+  const hit = body?.data?.items?.find((i) => i.url?.endsWith('/product/chatgpt-business'));
+  return { ok: Boolean(hit), got: hit ? `найден ${hit.sku}` : `HTTP ${r.status}, не найден` };
+});
+check('WebMCP: мусорный вход отклоняется схемой (400), не 500', async () => {
+  const r = await req('/api/agent/search_products?query=x&limit=abc&hack=1');
+  return { ok: r.status === 400, got: String(r.status) };
+});
+check('WebMCP: неизвестный инструмент — 404', async () => {
+  const r = await req('/api/agent/get_chatgpt');
+  return { ok: r.status === 404, got: String(r.status) };
+});
+check('WebMCP: служебный API не индексируется (X-Robots-Tag)', async () => {
+  const r = await req('/api/agent/list_vendors');
+  const tag = r.headers.get('x-robots-tag') || '';
+  return { ok: tag.includes('noindex'), got: tag || 'заголовка НЕТ' };
+});
+check('WebMCP: /api/agent не попадает в sitemap', async () => {
+  const r = await req('/sitemap.xml');
+  return { ok: !r.body.includes('/api/agent'), got: r.body.includes('/api/agent') ? 'ЕСТЬ (не должно)' : 'нет' };
+});
+check('WebMCP: регистратор инструментов доезжает до браузера', async () => {
+  // Как и цели Метрики: код лежит в модульном чанке — обходим граф импортов.
+  const r = await req('/');
+  const RE = /["'(](?:\/_astro\/|\.\/)([\w.\-]+\.js)["')]/g;
+  const seen = new Set();
+  const queue = [...r.body.matchAll(RE)].map((m) => m[1]);
+  while (queue.length) {
+    const file = queue.shift();
+    if (seen.has(file)) continue;
+    seen.add(file);
+    const chunk = await req(`/_astro/${file}`);
+    if (chunk.status !== 200) continue;
+    if (chunk.body.includes('modelContext')) return { ok: true, got: `чанк ${file}` };
+    for (const m of chunk.body.matchAll(RE)) queue.push(m[1]);
+  }
+  return { ok: false, got: `НЕТ (обойдено чанков: ${seen.size})` };
+});
+
+// ── Структурированные данные (Schema.org) ────────────────────────────────
+// Единый слой разметки: JSON-LD + microdata карточки строятся из тех же
+// данных, что и витрина. Смоук ловит расхождение «разметка ↔ страница»
+// и дубли типов (BreadcrumbList/FAQPage должны выводиться ровно один раз).
+/** Все JSON-LD-узлы страницы плоским списком (или null при битом JSON). */
+function ldNodes(html) {
+  const nodes = [];
+  for (const m of html.matchAll(/<script type="application\/ld\+json">(.*?)<\/script>/gs)) {
+    try {
+      const parsed = JSON.parse(m[1]);
+      nodes.push(...(Array.isArray(parsed) ? parsed : [parsed]));
+    } catch { return null; }
+  }
+  return nodes;
+}
+const ofType = (nodes, type) => nodes.filter((n) => n['@type'] === type || (Array.isArray(n['@type']) && n['@type'].includes(type)));
+
+check('разметка: карточка товара — валидный JSON-LD, ровно один Product и один BreadcrumbList', async () => {
+  const r = await req('/product/chatgpt-business');
+  const nodes = ldNodes(r.body);
+  if (!nodes) return { ok: false, got: 'битый JSON-LD' };
+  const p = ofType(nodes, 'Product').length;
+  const b = ofType(nodes, 'BreadcrumbList').length;
+  return { ok: p === 1 && b === 1, got: `Product: ${p}, BreadcrumbList: ${b}` };
+});
+check('разметка: цена и URL в JSON-LD совпадают с витриной и canonical', async () => {
+  const r = await req('/product/chatgpt-business');
+  const nodes = ldNodes(r.body) || [];
+  const offer = ofType(nodes, 'Product')[0]?.offers;
+  const domPrice = r.body.match(/data-price="([0-9.]+)"/)?.[1];
+  const canonical = r.body.match(/<link rel="canonical" href="([^"]+)"/)?.[1];
+  const ok = offer && String(offer.price) === '1000' && domPrice === '1000'
+    && offer.priceCurrency === 'RUB' && offer.url === canonical;
+  return { ok: Boolean(ok), got: `ld=${offer?.price} dom=${domPrice} url=${offer?.url} canonical=${canonical}` };
+});
+check('разметка: microdata карточки согласована с JSON-LD', async () => {
+  const r = await req('/product/chatgpt-business');
+  const nodes = ldNodes(r.body) || [];
+  const offer = ofType(nodes, 'Product')[0]?.offers;
+  const hasScope = r.body.includes('itemtype="https://schema.org/Product"');
+  const mdPrice = r.body.match(/itemprop="price" content="([0-9.]+)"/)?.[1];
+  const mdCur = r.body.match(/itemprop="priceCurrency" content="([A-Z]+)"/)?.[1];
+  const ok = hasScope && offer && mdPrice === String(offer.price) && mdCur === offer.priceCurrency;
+  return { ok: Boolean(ok), got: `scope=${hasScope} md=${mdPrice} ${mdCur} ld=${offer?.price} ${offer?.priceCurrency}` };
+});
+check('разметка: «цена по запросу» — без Product и в JSON-LD, и в microdata', async () => {
+  const r = await req('/product/tovar-po-zaprosu');
+  const nodes = ldNodes(r.body) || [];
+  const p = ofType(nodes, 'Product').length;
+  const md = r.body.includes('itemtype="https://schema.org/Product"');
+  const visible = r.body.includes('Цена по запросу');
+  return { ok: r.status === 200 && p === 0 && !md && visible, got: `${r.status}, Product ld=${p} md=${md}, виден «по запросу»=${visible}` };
+});
+check('разметка: у акции в Offer промо-цена и priceValidUntil', async () => {
+  const r = await req('/product/tovar-s-akciej');
+  const nodes = ldNodes(r.body) || [];
+  const offer = ofType(nodes, 'Product')[0]?.offers;
+  return { ok: Boolean(offer && String(offer.price) === '1500' && offer.priceValidUntil === '2099-12-31'), got: `price=${offer?.price} until=${offer?.priceValidUntil}` };
+});
+check('разметка: вендорный лендинг без дублей BreadcrumbList/FAQPage', async () => {
+  const r = await req('/vendors/adobe');
+  const nodes = ldNodes(r.body);
+  if (!nodes) return { ok: false, got: 'битый JSON-LD' };
+  const b = ofType(nodes, 'BreadcrumbList').length;
+  const f = ofType(nodes, 'FAQPage').length;
+  return { ok: b === 1 && f === 1, got: `BreadcrumbList: ${b}, FAQPage: ${f}` };
+});
+check('разметка: каталог без дублей FAQPage', async () => {
+  const r = await req('/catalog');
+  const nodes = ldNodes(r.body);
+  if (!nodes) return { ok: false, got: 'битый JSON-LD' };
+  const f = ofType(nodes, 'FAQPage').length;
+  return { ok: f === 1, got: `FAQPage: ${f}` };
+});
+check('разметка: организация — один @id на всех узлах Organization', async () => {
+  const r = await req('/');
+  const nodes = ldNodes(r.body) || [];
+  const orgs = ofType(nodes, 'Organization');
+  const ids = [...new Set(orgs.map((o) => o['@id']))];
+  return { ok: orgs.length > 0 && ids.length === 1 && ids[0] === 'https://biz-soft.pro/#organization', got: `узлов: ${orgs.length}, @id: ${ids.join(' | ')}` };
+});
+
 // ── БД недоступна ────────────────────────────────────────────────────────
 check('[БД упала] карточка товара отдаёт 503, а не 404', async () => {
   await setMode('fail');
@@ -152,6 +287,13 @@ check('[БД упала] sitemap отдаёт 503, а не усечённый 20
   const r = await req('/sitemap.xml');
   await setMode('ok');
   return { ok: r.status === 503, got: String(r.status) };
+});
+check('[БД упала] WebMCP API отдаёт 503 с понятной агенту ошибкой', async () => {
+  await setMode('fail');
+  const r = await req('/api/agent/search_products?query=chatgpt');
+  await setMode('ok');
+  const body = (() => { try { return JSON.parse(r.body); } catch { return null; } })();
+  return { ok: r.status === 503 && body?.ok === false && Boolean(body?.error), got: `${r.status} ${r.body.slice(0, 80)}` };
 });
 check('[БД упала] каталог отдаёт 503, а не пустой 200', async () => {
   await setMode('fail');
