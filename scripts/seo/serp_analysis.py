@@ -86,20 +86,29 @@ def _our_position(top: list[dict]) -> int | None:
     return None
 
 
-def build(date_s: str) -> dict:
+def build(date_s: str, region: str = "213") -> dict:
+    """Анализ по одному региону: выдача регионозависима, и смешивание
+    Москвы с СПб в одних счётчиках дало бы кашу вместо позиций."""
     data = _load(date_s)
     if not data:
         return {"available": False,
                 "reason": "SERP-архив ещё не накоплен (workflow seo-serp-watch)",
                 "items": []}
+    region_rows = [r for r in data["rows"]
+                   if (r.get("region") or "213") == region]
+    if not region_rows:
+        return {"available": False,
+                "reason": f"по региону {region} срезов ещё нет",
+                "items": []}
     prev = _load(date_s, offset_from=data["date"])
     prev_tops = {r["query"]: {d.get("domain", "").lower().removeprefix("www.")
                               for d in (r.get("top") or [])[:10]}
-                 for r in (prev or {}).get("rows", [])}
+                 for r in (prev or {}).get("rows", [])
+                 if (r.get("region") or "213") == region}
 
     items, domain_hits = [], {}
     ours_in_top10 = weak = 0
-    for r in data["rows"]:
+    for r in region_rows:
         top = r["top"]
         top10 = top[:10]
         pos = _our_position(top)
@@ -136,8 +145,9 @@ def build(date_s: str) -> dict:
     return {
         "available": True,
         "as_of": data["date"],
+        "region": region,
         "prev_date": (prev or {}).get("date"),
-        "queries_total": len(data["rows"]),
+        "queries_total": len(region_rows),
         "ours_in_top10": ours_in_top10,
         "weak_serps": weak,
         "items": items,

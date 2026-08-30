@@ -8,8 +8,9 @@
   C. верх коммерческого спроса Вордстата (top_commercial и фразы разрывов);
   D. кластеры «Аналоги X» — по страницам /alternatives/* из инвентаря.
 
-Потолок — 150 запросов на срез (дневной бюджет serp_watch чуть выше — с
-запасом на ручные пробы).
+Потолок — 500 запросов ядра («зелёный свет» руководителя 30.08.2026 на
+полное коммерческое ядро; дневной бюджет serp_watch выше — ядро идёт ещё
+и по второму региону).
 """
 
 from __future__ import annotations
@@ -26,7 +27,7 @@ import opportunity as opp_mod  # noqa: E402
 
 SNAP_DIR = pathlib.Path("reports/seo/intelligence/snapshots")
 LOOKBACK_DAYS = 7
-CAP = 150
+CAP = 500
 MIN_IMPRESSIONS = 3
 
 
