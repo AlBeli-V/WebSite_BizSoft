@@ -34,6 +34,28 @@ OUR_POSITION_MIN = 4
 OUR_POSITION_MAX = 20
 RIVAL_POSITION_MAX = 10
 
+# Технические домены поисковых систем: это не участники выдачи, а её части.
+# Формализация «значимого участника» — условие должно быть машинно
+# проверяемым, а не пониматься по смыслу.
+SEARCH_ENGINE_DOMAINS = {
+    "yandex.ru", "ya.ru", "yandex.com", "google.com", "google.ru",
+    "webmaster.yandex.ru", "translated.turbopages.org",
+}
+
+
+def is_significant(domain: str, seen: set[str]) -> bool:
+    """Значимый участник выдачи.
+
+    Любой внешний органический результат, кроме: нашего домена, технических
+    доменов поисковой системы и повторов домена, уже встреченного выше в
+    этой же выдаче (второй результат того же сайта не удваивает конкуренцию).
+    """
+    if not domain or domain == OURS:
+        return False
+    if domain in SEARCH_ENGINE_DOMAINS:
+        return False
+    return domain not in seen
+
 
 @dataclass
 class AttackCandidate:
@@ -93,12 +115,14 @@ def build(rows, *, region: str = "213", engine: str = "yandex",
         # официальный сайт вендора и статья, переход мы всё равно теряем.
         business_rival = None
         serp_rival = None
+        seen_domains: set[str] = set()
         for index, item in enumerate(row.top[:RIVAL_POSITION_MAX], start=1):
             if index >= our_pos:
                 break
             domain = serp_source.normalize_domain(item.get("domain", ""))
-            if domain == OURS:
+            if not is_significant(domain, seen_domains):
                 continue
+            seen_domains.add(domain)
             category = classifier.categorize(domain, sample_urls=[item.get("url", "")],
                                              vendor_hosts=vendor_hosts)
             if serp_rival is None:

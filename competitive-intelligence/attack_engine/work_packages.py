@@ -43,8 +43,14 @@ class WorkPackage:
     queries: list[str] = field(default_factory=list)
     attack_ids: list[str] = field(default_factory=list)
     queries_count: int = 0
-    demand_total: int = 0
+    # Абсолютный спрос НЕ суммируется между источниками даже для показа:
+    # 700 запросов рынка в месяц и 670 показов нам за две недели — величины
+    # разной природы, и «1370» вводило бы в заблуждение, даже когда
+    # математика уже разведена.
+    demand_by_source: dict[str, int] = field(default_factory=dict)
+    demand_queries_by_source: dict[str, int] = field(default_factory=dict)
     demand_sources: list[str] = field(default_factory=list)
+    demand_index: float = 0.0
     position_best: int | None = None
     position_worst: int | None = None
     rivals: list[str] = field(default_factory=list)
@@ -138,7 +144,14 @@ def build(attacks: list[dict], config: dict | None = None) -> list[WorkPackage]:
     for url, group in by_url.items():
         kind, subject = _page_kind(url)
         positions = [a["our_position"] for a in group]
-        demand = sum(a.get("demand") or 0 for a in group)
+        by_source: dict[str, int] = {}
+        queries_by_source: dict[str, int] = {}
+        for attack in group:
+            source = attack.get("demand_source", "none")
+            if source == "none" or not attack.get("demand"):
+                continue
+            by_source[source] = by_source.get(source, 0) + attack["demand"]
+            queries_by_source[source] = queries_by_source.get(source, 0) + 1
 
         # Два разных измерения потенциала — их нельзя подменять друг другом.
         #
@@ -201,8 +214,10 @@ def build(attacks: list[dict], config: dict | None = None) -> list[WorkPackage]:
             queries=[a["query"] for a in group],
             attack_ids=[a["attack_id"] for a in group],
             queries_count=len(group),
-            demand_total=demand,
+            demand_by_source=by_source,
+            demand_queries_by_source=queries_by_source,
             demand_sources=sorted(s for s in sources if s != "none"),
+            demand_index=round(potential, 4),
             position_best=min(positions),
             position_worst=max(positions),
             rivals=sorted({a["rival_domain"] for a in group}),
@@ -219,7 +234,8 @@ def build(attacks: list[dict], config: dict | None = None) -> list[WorkPackage]:
 
     # Порядок — по индексу потенциала: он безразмерный и потому сравним
     # между пакетами с разными источниками спроса.
-    packages.sort(key=lambda p: (p.potential_index, p.demand_total), reverse=True)
+    packages.sort(key=lambda p: (p.potential_index,
+                                 sum(p.demand_by_source.values())), reverse=True)
 
     # Метка потенциала — относительная, по месту в текущем наборе: верхняя
     # треть «высокий», средняя «средний», нижняя «низкий». Абсолютные пороги

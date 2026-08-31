@@ -52,14 +52,34 @@ DEMAND_AT_MAX = {
 }
 
 
+# Режим доступности факторов. Оценки из разных режимов между собой
+# несравнимы: при недоступном факторе веса остальных нормализуются, и то же
+# самое число получено по другой формуле. Режим хранится рядом с оценкой,
+# чтобы изменение конфигурации модели нельзя было принять за изменение самой
+# возможности.
+MODE_FULL = "full"
+MODE_DEGRADED = "degraded_no_vulnerability"
+
+
 @dataclass
 class Opportunity:
     score: int
     confidence: str
+    mode: str = MODE_DEGRADED
     breakdown: dict[str, float] = field(default_factory=dict)
     notes: list[str] = field(default_factory=list)
     degraded: bool = True
     missing: list[str] = field(default_factory=list)
+
+    @property
+    def comparable_key(self) -> str:
+        """Ключ сравнимости: режим плюс перечень недоступных факторов.
+
+        Opportunity 82 сегодня и 82 после подключения обхода конкурентов —
+        математически разные числа. Сравнивать их как динамику возможности
+        нельзя; при смене режима начинается новая базовая линия.
+        """
+        return f"{self.mode}|{','.join(sorted(self.missing))}"
 
 
 def proximity_factor(our_position: int | None) -> float:
@@ -143,7 +163,9 @@ def score(*, commercial: float, b2b: float, our_position: int | None,
     # приводится к 100, чтобы отсутствие признака не занижало итог механически.
     available_weight = sum(weights[name] for name in known)
     if available_weight <= 0:
-        return Opportunity(score=0, confidence="LOW", breakdown={},
+        return Opportunity(score=0, confidence="LOW",
+                           mode=MODE_DEGRADED if degraded else MODE_FULL,
+                           breakdown={},
                            notes=["ни один фактор не измерен — оценка невозможна"],
                            degraded=degraded, missing=missing)
     scale = 100 / available_weight
@@ -173,6 +195,7 @@ def score(*, commercial: float, b2b: float, our_position: int | None,
     return Opportunity(
         score=min(100, int(round(sum(parts.values())))),
         confidence=confidence,
+        mode=MODE_DEGRADED if degraded else MODE_FULL,
         breakdown={k: round(v, 1) for k, v in parts.items()},
         notes=notes,
         degraded=degraded,

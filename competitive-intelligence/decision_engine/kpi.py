@@ -40,6 +40,18 @@ SIGNIFICANT_SHARE_PP = 0.5
 WINDOW = 3
 MIN_OBSERVATIONS_FOR_TREND = WINDOW * 2
 
+# Доля мониторингового ядра, ниже которой срез считается непригодным. Без
+# порога 149 валидных запросов из 150 и 20 из 150 одинаково назывались бы
+# «неполными данными», хотя первое — рабочий день, а второе — сбой сбора.
+CRITICAL_COVERAGE_RATIO = 0.80
+
+# Обязательные источники: их отсутствие делает вердикт невозможным.
+# Необязательные (Google, B2B Confidence, уязвимость страниц) снижают
+# достоверность отдельных показателей, но не блокируют остальные выводы —
+# иначе система, у которой Google ещё не запущен, обязана была бы вечно
+# отвечать «недостаточно данных».
+REQUIRED_SOURCES = ("яндекс",)
+
 
 @dataclass
 class Kpi:
@@ -130,6 +142,31 @@ def structural_verdict(kpi: Kpi, field_leader: tuple[str, float] | None = None
         domain, value = field_leader
         base += f"; ведущий конкурент — {domain} с {format_share(value)}"
     return base + "."
+
+
+def coverage_state(snapshot: dict) -> tuple[str, str]:
+    """Состояние покрытия данных: критическое или рабочее.
+
+    Возвращает («ок» | «критическое», пояснение). Критическое означает, что
+    обязательный источник собран настолько плохо, что выводы делать нельзя.
+    Отсутствие необязательных источников критическим не является.
+    """
+    coverage = snapshot.get("покрытие") or {}
+    total = coverage.get("яндекс_запросов_всего") or 0
+    usable = coverage.get("яндекс_запросов_с_данными") or 0
+    if total <= 0:
+        return "критическое", "срез выдачи не собран вовсе"
+    ratio = usable / total
+    if ratio < CRITICAL_COVERAGE_RATIO:
+        return "критическое", (
+            f"собрано {usable} запросов из {total} "
+            f"({100 * ratio:.0f}% при пороге "
+            f"{100 * CRITICAL_COVERAGE_RATIO:.0f}%)")
+    missing = []
+    if coverage.get("google") is None:
+        missing.append("Google не собирается")
+    note = ("; ".join(missing) if missing else "все обязательные источники собраны")
+    return "ок", note
 
 
 def verdict(kpi: Kpi, history: list[float] | None = None) -> tuple[str, str]:

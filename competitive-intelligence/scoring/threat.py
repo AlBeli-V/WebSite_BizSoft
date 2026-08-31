@@ -17,6 +17,15 @@
                  не пересекается;
   Momentum 30  — изменение присутствия между сравнимыми окнами наблюдений.
 
+**Две шкалы вместо одной.** Пока сравнимых измерений меньше шести, динамика
+не считается вовсе, и оценка живёт на шкале 0–70 (присутствие плюс
+превосходство). Полная шкала 0–100 включается только с появлением истории.
+Раньше вес динамики просто не добавлялся, и оценка 32 из достижимых 70
+выглядела как 32 из 100 — при переходе к полному режиму то же самое
+положение конкурента давало бы 62, то есть рост вдвое без единого его
+движения. Режим хранится рядом с числом, и сравнивать оценки через его
+границу запрещено.
+
 Momentum считается по тому же сглаживанию, что и общий фильтр значимости
 (медиана трёх последних измерений против медианы трёх предыдущих). В 1.0.0
 здесь был «рост за сутки» — вторая, несогласованная модель динамики, из-за
@@ -41,12 +50,31 @@ MOMENTUM_SATURATION_PP = 2.0
 WINDOW = 3
 
 
+# Режимы зрелости оценки. Числа из разных режимов между собой несравнимы:
+# у них разные знаменатели, и рост «с 32 до 62» означал бы не усиление
+# конкурента, а появление истории наблюдений. Режим хранится вместе с
+# оценкой, чтобы сравнение через его границу нельзя было сделать по
+# недосмотру.
+MODE_BASE = "base_0_70"      # без истории: присутствие + превосходство
+MODE_FULL = "full_0_100"     # с историей: плюс динамика
+
+MAX_BASE = WEIGHT_PRESENCE + WEIGHT_DOMINANCE   # 70
+MAX_FULL = MAX_BASE + WEIGHT_MOMENTUM           # 100
+
+
 @dataclass
 class Threat:
     score: int
     confidence: str  # HIGH | MEDIUM | LOW
+    mode: str = MODE_BASE
+    scale_max: int = MAX_BASE
     breakdown: dict[str, float] = field(default_factory=dict)
     explanation: str = ""
+
+    @property
+    def comparable_key(self) -> str:
+        """Ключ сравнимости: оценки с разными ключами сопоставлять нельзя."""
+        return self.mode
 
 
 def _clamp(value: float, limit: float) -> float:
@@ -98,22 +126,28 @@ def score(card: dict, *, history: list[float] | None = None,
 
     change = momentum_change(history or [])
     if change is None:
+        # Базовый режим: шкала 0–70, динамика не входит вовсе. Её вес не
+        # добавляется нулём к сотне — иначе оценка выглядела бы низкой не
+        # потому, что конкурент слаб, а потому, что мы мало наблюдали.
         confidence = "LOW"
-        momentum = 0.0
         needed = WINDOW * 2 - len(history or [])
-        explanation = (f"динамика не определена: нужно {WINDOW * 2} сравнимых "
-                       f"измерений, не хватает {max(needed, 0)}; "
-                       f"{dominance_source}")
-    else:
-        momentum = _clamp(WEIGHT_MOMENTUM * change / MOMENTUM_SATURATION_PP,
-                          WEIGHT_MOMENTUM)
-        breakdown["динамика"] = round(momentum, 1)
-        confidence = "MEDIUM"
-        explanation = (f"изменение доли между окнами {change:+.2f} п.п. "
-                       f"(медианы по {WINDOW} измерений); {dominance_source}")
+        explanation = (f"базовый режим (шкала 0–{MAX_BASE}): динамика требует "
+                       f"{WINDOW * 2} сравнимых измерений, не хватает "
+                       f"{max(needed, 0)}; {dominance_source}")
+        total_score = int(round(presence + dominance))
+        return Threat(score=min(MAX_BASE, total_score), confidence=confidence,
+                      mode=MODE_BASE, scale_max=MAX_BASE,
+                      breakdown=breakdown, explanation=explanation)
 
+    momentum = _clamp(WEIGHT_MOMENTUM * change / MOMENTUM_SATURATION_PP,
+                      WEIGHT_MOMENTUM)
+    breakdown["динамика"] = round(momentum, 1)
+    explanation = (f"полный режим (шкала 0–{MAX_FULL}): изменение доли между "
+                   f"окнами {change:+.2f} п.п. (медианы по {WINDOW} измерений); "
+                   f"{dominance_source}")
     total_score = int(round(presence + dominance + momentum))
-    return Threat(score=min(100, total_score), confidence=confidence,
+    return Threat(score=min(MAX_FULL, total_score), confidence="MEDIUM",
+                  mode=MODE_FULL, scale_max=MAX_FULL,
                   breakdown=breakdown, explanation=explanation)
 
 
