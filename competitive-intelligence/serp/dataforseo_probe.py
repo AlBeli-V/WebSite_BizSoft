@@ -1,17 +1,17 @@
 #!/usr/bin/env python3
-"""Проба DataForSEO SERP API: диагностика локаций + один платный запрос Google.
+"""Проба DataForSEO SERP API: диагностика справочника локаций + один платный запрос.
 
-Первая проба (31.08) показала: учётные данные работают, но location_code 2643
-(Россия) отклонён — Google Ads удалил гео-таргетинг России, у DataForSEO её
-может не быть в списке локаций. Эта версия:
-  1) бесплатно проверяет баланс;
-  2) бесплатно запрашивает список локаций России (/serp/google/locations/RU);
-  3) если локации есть — платный запрос с первой из них (или LOCATION_CODE);
-     если нет — платный запрос с русскоязычной выдачей google.ru:
-     language_code=ru + se_domain=google.ru + нейтральная локация (Беларусь,
-     2112) с пометкой, что региональная точность по РФ недоступна.
+История проб (31.08): учётные данные работают, но location_code 2643 (Россия)
+и 2112 (Беларусь) отклонены с 40501 Invalid Field — похоже, у DataForSEO
+недоступны локации РФ/РБ (Google Ads удалил geotarget РФ; провайдер мог убрать
+и РБ). Эта версия честно печатает состояние справочника по странам
+(ru/by/kz/kg/us) со статусами ответов, выбирает первую доступную
+русскоязычную локацию и делает ОДИН платный запрос без se_domain.
 
-Печатает результат в stdout — workflow ci-serp-probe публикует его в issue #22.
+Методическая пометка: Google с 2022 не имеет гео-таргетинга России; для
+реальных пользователей из РФ выдача близка к глобальной русскоязычной,
+поэтому соседняя локация (KZ/KG) + language=ru — приемлемый прокси; выбор
+фиксируется в конфиге CI и указывается в отчётах.
 
 Env:
   DATAFORSEO_LOGIN    — логин API (почта аккаунта DataForSEO)
@@ -27,7 +27,8 @@ import requests
 
 API = "https://api.dataforseo.com/v3"
 OUR_DOMAIN = "biz-soft.pro"
-NEUTRAL_LOCATION = 2112  # Belarus — нейтральное гео для выдачи google.ru на русском
+# Порядок предпочтения стран для русскоязычной выдачи-прокси
+COUNTRY_PREFERENCE = ["ru", "by", "kz", "kg", "us"]
 
 
 def api_get(auth, path):
@@ -61,8 +62,7 @@ def main() -> int:
     forced_loc = os.environ.get("LOCATION_CODE", "").strip()
 
     if not login or not password:
-        print("Секреты DATAFORSEO_LOGIN / DATAFORSEO_PASSWORD не заданы — "
-              "завести в Settings → Secrets and variables → Actions.")
+        print("Секреты DATAFORSEO_LOGIN / DATAFORSEO_PASSWORD не заданы.")
         return 0
     auth = (login, password)
 
@@ -75,32 +75,45 @@ def main() -> int:
         print(f"Ошибка проверки аккаунта: {e}")
         return 0
 
-    # 2. Локации России (бесплатно)
-    ru_locations = []
-    try:
-        data = api_get(auth, "/serp/google/locations/RU")
-        ru_locations = (data["tasks"][0].get("result") or [])
-    except Exception as e:  # noqa: BLE001
-        print(f"Ошибка запроса локаций RU: {e}")
-    print(f"\nЛокаций России в справочнике Google у DataForSEO: {len(ru_locations)}")
-    for loc in ru_locations[:8]:
-        print(f"  {loc.get('location_code')}  {loc.get('location_name')}  ({loc.get('location_type')})")
+    # 2. Справочник локаций по странам (бесплатно), с полными статусами
+    print("\nСправочник локаций Google (/serp/google/locations/<cc>):")
+    available = {}
+    for cc in COUNTRY_PREFERENCE:
+        try:
+            data = api_get(auth, f"/serp/google/locations/{cc}")
+            task = (data.get("tasks") or [{}])[0]
+            result = task.get("result") or []
+            st, msg = task.get("status_code"), task.get("status_message")
+            first = ""
+            if result:
+                available[cc] = result
+                first = f" · первая: {result[0].get('location_code')} {result[0].get('location_name')}"
+            print(f"  {cc}: task_status={st} «{msg}», локаций: {len(result)}{first}")
+        except Exception as e:  # noqa: BLE001
+            print(f"  {cc}: ошибка запроса: {e}")
 
-    # 3. Платный запрос
+    # 3. Выбор локации и один платный запрос (без se_domain)
     body_item = {"keyword": query, "language_code": "ru", "device": "desktop", "depth": 20}
     if forced_loc:
         body_item["location_code"] = int(forced_loc)
         mode = f"принудительный location_code={forced_loc}"
-    elif ru_locations:
-        code = ru_locations[0]["location_code"]
-        body_item["location_code"] = code
-        mode = f"location_code={code} ({ru_locations[0].get('location_name')})"
     else:
-        body_item["location_code"] = NEUTRAL_LOCATION
-        body_item["se_domain"] = "google.ru"
-        mode = ("гео России у Google недоступно (geotarget удалён) → "
-                f"google.ru, language=ru, нейтральная локация {NEUTRAL_LOCATION}; "
-                "региональная точность по РФ в этом режиме отсутствует")
+        chosen = None
+        for cc in COUNTRY_PREFERENCE:
+            if available.get(cc):
+                locs = available[cc]
+                country = next((l for l in locs if l.get("location_type") == "Country"), locs[0])
+                chosen = (cc, country)
+                break
+        if not chosen:
+            print("\nНи одной локации не найдено — платный запрос не выполняется. "
+                  "Похоже, аккаунт не активирован для SERP API; проверить в кабинете DataForSEO.")
+            return 0
+        cc, loc = chosen
+        body_item["location_code"] = loc["location_code"]
+        mode = f"{cc}: {loc['location_code']} {loc.get('location_name')} + language=ru"
+        if cc not in ("ru",):
+            mode += " (прокси-гео: у Google нет таргетинга РФ; фиксируется в конфиге CI)"
     print(f"\nПроба Google SERP: «{query}» · {mode}")
     try:
         r = requests.post(f"{API}/serp/google/organic/live/advanced",
