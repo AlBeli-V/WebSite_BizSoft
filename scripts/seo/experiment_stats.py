@@ -107,6 +107,55 @@ def pick_windows(start: dt.date, today: dt.date) -> dict:
             "experiment_tainted": exp_tainted, "clean_experiment_eta": clean_eta}
 
 
+def interim_comparison(slugs: list[str], start: dt.date, today: dt.date) -> dict | None:
+    """Предварительное сравнение «старый → новый» до появления чистого окна.
+
+    Вопрос руководителя 31.08.2026: письмо обязано показывать, как идёт
+    эксперимент, а не молчать до чистого окна. baseline — как в pick_windows;
+    текущее окно — свежайшая доступная выгрузка, даже если она пересекает
+    период до внедрения. Пересечение окон исключает статистический вывод,
+    поэтому здесь нет p-value, а результат помечается предварительным:
+    он отвечает «как идёт», а не «доказано ли».
+    """
+    windows = pick_windows(start, today)
+    base = windows["baseline"]
+    current = None
+    for date in reversed(_available_dates()):
+        if date > today.isoformat():
+            continue
+        day = _load_day(date)
+        if day and day["from"] and day["to"]:
+            current = day
+            break
+    if not base or not current:
+        return None
+    base_rows = _rows_for_cluster(base["queries"], slugs)
+    cur_rows = _rows_for_cluster(current["queries"], slugs)
+    bm, cm = metrics(base_rows), metrics(cur_rows)
+    w_from = dt.date.fromisoformat(current["from"])
+    w_to = dt.date.fromisoformat(current["to"])
+    window_days = (w_to - w_from).days + 1
+    post_days = max(0, min((w_to - start).days, window_days))
+    caveats = []
+    if len(base["queries"]) < 200:
+        caveats.append(f"базовое окно из усечённой выгрузки "
+                       f"({len(base['queries'])} запросов) — клики занижены")
+    if post_days < window_days:
+        caveats.append(f"текущее окно пересекает период до внедрения: "
+                       f"{post_days} из {window_days} дней — после")
+    rel = None
+    if bm["ctr"] and cm["ctr"] is not None:
+        rel = (cm["ctr"] - bm["ctr"]) / bm["ctr"]
+    return {
+        "preliminary": True,
+        "baseline": {"from": base["from"], "to": base["to"], **bm},
+        "current": {"from": current["from"], "to": current["to"], **cm,
+                    "post_days": post_days, "window_days": window_days},
+        "relative_uplift": rel,
+        "caveats": caveats,
+    }
+
+
 # ── Метрики по набору запросов ──────────────────────────────────────────────
 
 def _rows_for_cluster(queries: list[dict], slugs: list[str]) -> list[dict]:
