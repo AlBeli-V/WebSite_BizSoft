@@ -104,7 +104,7 @@ def impressions_for(snap: dict, keys: dict) -> tuple[int | None, int | None]:
 
 
 def verdict_for(days: int, impressions: int | None, live: int | None,
-                total: int) -> tuple[str, str]:
+                total: int, min_imp: int = MIN_EXPOSURE_IMPRESSIONS) -> tuple[str, str]:
     if live is not None and total and live < total:
         return ("too_early",
                 f"изменение выкачено на {live} из {total} страниц — эффект не может "
@@ -115,9 +115,9 @@ def verdict_for(days: int, impressions: int | None, live: int | None,
                 "ещё не покрывает изменение")
     if impressions is None:
         return ("inconclusive", "экспозиция не измерена")
-    if impressions < MIN_EXPOSURE_IMPRESSIONS:
+    if impressions < min_imp:
         return ("observing",
-                f"накоплено {num(impressions)} показов из {MIN_EXPOSURE_IMPRESSIONS} "
+                f"накоплено {num(impressions)} показов из {min_imp} "
                 "минимальных для вывода")
     return ("observing", "экспозиция набрана, ждём контрольную дату")
 
@@ -159,6 +159,11 @@ def build(snap: dict, date: str, site_check: dict | None = None) -> list[dict]:
         days = (today - start).days
         keys = cluster_keys(e)
         imp, clicks = impressions_for(snap, keys)
+        # Порог экспозиции адаптивен (вопрос руководителя 31.08.2026): окно
+        # источника скользящее, малый кластер настроенные 500 не наберёт
+        # никогда — порог снижается до доли ёмкости, с пометкой в письме.
+        gate, gate_adapted = experiment_stats.effective_gate(
+            imp, MIN_EXPOSURE_IMPRESSIONS)
         checked = checked_all.get(e["id"], {})
         # Проверка живого сайта подтверждает выкат, но не обновление сниппета в
         # выдаче: индекс поисковика по своему же сайту не проверить. Разводим
@@ -191,7 +196,7 @@ def build(snap: dict, date: str, site_check: dict | None = None) -> list[dict]:
         else:
             refresh = ("не измерено: нет успешного SERP-замера за 7 дней"
                        if live else "нет данных")
-        v, why = verdict_for(days, imp, live, len(pages))
+        v, why = verdict_for(days, imp, live, len(pages), gate)
         out.append({
             "id": e["id"],
             # Тикет берём из реестра: три разных эксперимента с одним номером
@@ -213,8 +218,9 @@ def build(snap: dict, date: str, site_check: dict | None = None) -> list[dict]:
             "serp": serp,
             "interim": interim,
             "evaluation_kind": e.get("evaluation_kind", "ctr"),
-            "exposure_min_impressions": MIN_EXPOSURE_IMPRESSIONS,
-            "exposure_ok": (imp or 0) >= MIN_EXPOSURE_IMPRESSIONS,
+            "exposure_min_impressions": gate,
+            "exposure_gate_adapted": gate_adapted,
+            "exposure_ok": (imp or 0) >= gate,
             "impressions_since_deploy": imp,
             "impressions_estimated": True,
             "clicks_since_deploy": clicks,

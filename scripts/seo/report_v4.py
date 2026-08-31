@@ -681,6 +681,45 @@ def assemble(snap, prev, dq, actions_cfg, site_check):
     google_block = next((b for b in dec["blocks"] if b["engine"] == "google"), None)
     driver_rows = (google_block or {}).get("pages", {}).get("all") or []
 
+    demand_block = load_demand()
+    growth_ideas = load_growth_ideas()
+    # Стол решений (замечание руководителя 31.08.2026): «решений не
+    # требуется» в шапке при письме, полном предложений ниже, — дезинформация.
+    # Когда срочного решения нет, шапка агрегирует предложения нижних блоков.
+    desk: list[str] = []
+    exp_props = sorted(
+        (ev2.get("clean_window_eta") or e2["next_review"], e2["ticket"])
+        for e2 in exps
+        for ev2 in [e2.get("evaluation") or {}]
+        if not ev2.get("requires_owner_decision")
+        and (ev2.get("clean_window_eta") or e2.get("next_review")))
+    if exp_props:
+        when, tick = exp_props[0]
+        desk.append(f"эксперименты: ближайшее предложение решения — "
+                    f"{ru_date(when)} ({tick}); варианты и вероятный исход — "
+                    f"в «Контроле эксперимента»")
+    if opps.get("available") and opps.get("items"):
+        cl = ", ".join(o["cluster"] for o in opps["items"][:3])
+        desk.append(f"рост без бюджета: {counted(len(opps['items']), 'кластер', 'кластера', 'кластеров')} "
+                    f"с показами без переходов ({cl}) ждут переписанных "
+                    f"сниппетов — «Где ближе всего рост»")
+    exp_dm = (demand_block or {}).get("expansion") or {}
+    n_ready = len(exp_dm.get("items") or [])
+    n_manual = len(exp_dm.get("manual_check") or [])
+    if n_ready or n_manual:
+        first = (exp_dm.get("items") or [{}])[0].get("brand", "")
+        part = []
+        if n_ready:
+            part.append(f"{counted(n_ready, 'кандидат', 'кандидата', 'кандидатов')} "
+                        f"к добавлению ({first})")
+        if n_manual:
+            part.append(f"{n_manual} — ручная проверка оплаты")
+        desk.append("ассортимент: " + ", ".join(part) +
+                    " — «Каких вендоров добавить»")
+    if growth_ideas.get("fresh"):
+        desk.append(f"продвижение: {growth_ideas['fresh'][0]['title']} — "
+                    f"«Перспективные идеи»")
+
     return {
         "date": date,
         "date_h": ru_date_full(date),
@@ -692,14 +731,18 @@ def assemble(snap, prev, dq, actions_cfg, site_check):
              "text": PILL_LABEL[health["status"]]},
             {"label": "ОТ ВАС",
              "state": "required" if (red or exp_decisions) else "none",
-             "text": PILL_LABEL["required" if (red or exp_decisions) else "none"]},
+             "text": (PILL_LABEL["required"] if (red or exp_decisions) else
+                      counted(len(desk), "предложение", "предложения", "предложений")
+                      if desk else PILL_LABEL["none"])},
         ],
         "sources_line": _sources_line(snap),
         "user_action": (
             red[0]["title"] if red else
             _experiment_decision_line(exp_decisions[0]) if exp_decisions else
+            "Срочных решений нет." if desk else
             "Решений от вас сегодня не требуется."),
         "user_action_required": bool(red or exp_decisions),
+        "owner_desk": desk,
         "kpis": kpis,
         "signals": sig,
         "drivers": dec,
@@ -713,9 +756,9 @@ def assemble(snap, prev, dq, actions_cfg, site_check):
         "vendor_radar": vendor_radar_mod.build(snap),
         "health": health,
         "loop_health": load_loop_health(),
-        "demand": load_demand(),
+        "demand": demand_block,
         "ads": ads_block.build(date),
-        "growth_ideas": load_growth_ideas(),
+        "growth_ideas": growth_ideas,
         "measurement_summary": _measurement_summary(dq),
         "checkpoints": _checkpoints(exps, actions_cfg),
         "links": {"web": url, "web_public": public,
@@ -854,6 +897,8 @@ def _exp_exposure_line(e: dict) -> str:
     thr = e["exposure_min_impressions"]
     state = ("порог пройден" if e.get("exposure_ok")
              else f"до порога ещё {num(thr - imp)}")
+    if e.get("exposure_gate_adapted"):
+        state += ", порог адаптирован под ёмкость кластера"
     return (f"{counted(imp, 'показ', 'показа', 'показов')} из {num(thr)} "
             f"минимальных ({state}) · "
             f"{counted(e.get('clicks_since_deploy'), 'клик', 'клика', 'кликов')} · "
@@ -907,6 +952,52 @@ def _exp_interim_line(e: dict) -> tuple[str, str | None]:
     return line, ("; ".join(i.get("caveats") or []) or None)
 
 
+def _exp_outlook_line(e: dict) -> str:
+    """Когда «наблюдаем» сменится предложением решения, варианты и вероятный.
+
+    Вопрос руководителя 31.08.2026: «вывод не понятен — когда наблюдение
+    станет управленческим предложением, какие варианты возможны и какой
+    оптимален». Дата берётся из движка (чистое окно/веха), вероятный
+    вариант — из предварительных данных, финальный выбор всегда за
+    владельцем на контрольной точке.
+    """
+    ev = e.get("evaluation") or {}
+    kind = e.get("evaluation_kind", "ctr")
+    if ev.get("requires_owner_decision"):
+        return ""  # решение уже запрошено панелью вердикта — прогноз не нужен
+    eta = ev.get("clean_window_eta")
+    when = (f"{ru_date(eta)} (первое чистое окно данных)" if eta
+            else (f"на контрольной точке {ru_date(e['next_review'])}"
+                  if e.get("next_review") else "на ближайшей вехе"))
+    if kind == "launch":
+        crit = "KEEP — держать курс; EXTEND — разбор незашедших страниц"
+        likely = ""
+        m = (ev.get("metrics") or {}).get("launch") or {}
+        if m.get("pages_in_search", 0) >= m.get("need_pages", 99):
+            likely = " по текущему ходу вероятен KEEP;"
+        return (f"Предложение решения — {when}: варианты {crit};{likely} "
+                f"выбор за вами")
+    if kind == "impressions_growth":
+        variants = ("EXPAND — тираж приёма на следующие кластеры; "
+                    "EXTEND — продлить; KEEP — оставить как есть")
+    else:
+        variants = ("EXPAND — тираж формулы на следующие карточки по спросу; "
+                    "KEEP — оставить; REVERT — откат; EXTEND — продлить")
+    likely = ""
+    i = e.get("interim")
+    if i and i.get("relative_uplift") is not None:
+        rel = i["relative_uplift"]
+        if rel >= 0.10:
+            likely = (" по предварительным данным вероятен EXPAND"
+                      " (если рост подтвердится статистически);")
+        elif rel <= -0.10:
+            likely = " по предварительным данным вероятен REVERT или KEEP;"
+        else:
+            likely = " по предварительным данным вероятен EXTEND;"
+    return (f"Предложение решения — {when}: варианты {variants};{likely} "
+            f"выбор за вами")
+
+
 def _exp_status_html(e: dict) -> str:
     """Строки статуса ведущего эксперимента в письме."""
     interim_line, interim_caveat = _exp_interim_line(e)
@@ -918,6 +1009,9 @@ def _exp_status_html(e: dict) -> str:
         ("Вывод", f"<b>{VERDICT_LABEL[e['verdict']]}</b> — {e['verdict_reason']}. "
                   f"Следующая проверка {ru_date(e['next_review'])}", None),
     ]
+    outlook = _exp_outlook_line(e)
+    if outlook:
+        rows.append(("Что дальше", outlook, None))
     out = (f"<div data-meta=\"1\" style=\"font-size:12.5px;"
            f"color:{T['text_secondary']};padding-top:{SP['m']}px;\">"
            f"Запуск {ru_date(e['start'])} · день {e['days_elapsed']} · минимум "
@@ -956,6 +1050,7 @@ def _exp_short_line(o: dict) -> str:
                 if imp is not None else "экспозиция не измерена")
         return f"день {o['days_elapsed']} · {expo} · рост к baseline — {review}"
     expo = (f"{num(imp)} из {num(o['exposure_min_impressions'])} показов"
+            + (" (порог адаптирован)" if o.get("exposure_gate_adapted") else "")
             if imp is not None else "экспозиция не измерена")
     return (f"день {o['days_elapsed']} из {exp_mod.MIN_EXPOSURE_DAYS} · {expo} · "
             f"{review}")
@@ -1147,6 +1242,24 @@ def html_email(b: dict, charts: dict, cid_mode: bool) -> str:
             f"Требуется ваше решение</div>"
             f"<div style=\"font-size:15px;padding-top:{SP['xs']}px;line-height:1.55;\">"
             f"{b['user_action']}</div></td></tr></table></td></tr>")
+    elif b.get("owner_desk"):
+        # Срочного решения нет, но предложения из нижних блоков — на столе:
+        # шапка их агрегирует, а не пишет «не требуется» (замечание 31.08).
+        desk_rows = "".join(
+            f"<div style=\"font-size:14.5px;padding-top:{SP['xs']}px;"
+            f"line-height:1.55;\">• {d}</div>" for d in b["owner_desk"])
+        rows.append(
+            f"<tr><td style=\"padding-top:{SP['l']}px;\">"
+            f"<table role=\"presentation\" width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" "
+            f"style=\"background:{T['surface']};border:1px solid {T['border']};"
+            f"border-radius:12px;\"><tr><td style=\"padding:{SP['l']}px;\">"
+            f"<div style=\"font-size:15px;font-weight:700;\">От вас: срочного нет, "
+            f"на вашем столе {counted(len(b['owner_desk']), 'предложение', 'предложения', 'предложений')}</div>"
+            f"{desk_rows}"
+            f"<div data-meta=\"1\" style=\"font-size:12.5px;color:{T['text_secondary']};"
+            f"padding-top:{SP['s']}px;\">Подробности — в разделах ниже; решения "
+            f"принимаете вы, система без команды ничего не меняет.</div>"
+            f"</td></tr></table></td></tr>")
     else:
         rows.append(
             f"<tr><td style=\"padding-top:{SP['l']}px;font-size:15px;"
@@ -1537,7 +1650,11 @@ def plain_text(b: dict) -> str:
          b["subtitle"].replace("&amp;", "&"),
          " · ".join(f"{p['label']}: {p['text']}" for p in b["pills"]),
          b["sources_line"], "",
-         f"ОТ ВАС: {b['user_action']}", "", "ПОКАЗАТЕЛИ"]
+         f"ОТ ВАС: {b['user_action']}"]
+    if not b["user_action_required"] and b.get("owner_desk"):
+        L += [f"  на вашем столе {counted(len(b['owner_desk']), 'предложение', 'предложения', 'предложений')}:"]
+        L += [f"  - {d}" for d in b["owner_desk"]]
+    L += ["", "ПОКАЗАТЕЛИ"]
     for k in b["kpis"]:
         d = f" ({k['delta']}{' ' + k['relative'] if k.get('relative') else ''})" if k["delta"] else ""
         L.append(f"- {k['label']}: {k['value']} {k['unit']}{d}. {k['interpretation']}")
@@ -1587,8 +1704,11 @@ def plain_text(b: dict) -> str:
         if interim_caveat:
             L.append(f"    оговорки: {interim_caveat}")
         L += [f"  вывод: {VERDICT_LABEL[e['verdict']]} — {e['verdict_reason']}, "
-              f"следующая проверка {ru_date(e['next_review'])}",
-              f"  {e['combined_note']}"]
+              f"следующая проверка {ru_date(e['next_review'])}"]
+        outlook = _exp_outlook_line(e)
+        if outlook:
+            L.append(f"  что дальше: {outlook}")
+        L.append(f"  {e['combined_note']}")
         if e.get("control_date_today") and e.get("evaluation"):
             ev = e["evaluation"]
             L.append(f"  ВЕРДИКТ КОНТРОЛЬНОЙ ТОЧКИ: {EXP_VERDICT_LABEL[ev['verdict']]} "
