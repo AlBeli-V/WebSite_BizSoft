@@ -84,37 +84,46 @@ jobs:
               sys.exit(1)
           PY
 
+      # Страницы берутся из реестра экспериментов: до 31.08 проверялся только
+      # SEO-EXP-001 (захардкоженный список), и остальные эксперименты вечно
+      # значились «выкат не подтверждён» (проверка руководителя 31.08.2026).
+      # Признак внедрённого варианта — по title_marker эксперимента из реестра
+      # (по умолчанию — коммерческий заголовок «оплата/купить»).
       - name: Check experiment pages and store exposure
         run: |
           python3 - <<'PY'
           import datetime as dt, json, pathlib, re, subprocess
 
-          PAGES = ["canva", "depositphotos", "coreldraw", "heygen", "marmoset"]
-          # Признак внедрённого варианта: коммерческий заголовок + FAQPage-разметка.
-          TITLE_MARKER = re.compile(r"(Оплат\w+|купить)", re.I)
-
-          rows, recrawled, snippets = [], 0, 0
-          for slug in PAGES:
-              url = f"https://biz-soft.pro/vendors/{slug}"
-              html = subprocess.run(["curl", "-sSL", "--max-time", "30", url],
-                                    capture_output=True, text=True).stdout
-              title = (re.search(r"<title>([^<]*)</title>", html) or [None, ""])[1]
-              faq = html.count("FAQPage")
-              new_snippet = bool(TITLE_MARKER.search(title)) and faq > 0
-              recrawled += 1 if html else 0
-              snippets += 1 if new_snippet else 0
-              rows.append({"page": f"/vendors/{slug}", "http_ok": bool(html),
-                           "title": title, "faqpage_blocks": faq,
-                           "new_snippet_detected": new_snippet})
-              print(f"/vendors/{slug}: FAQPage={faq} новый заголовок={new_snippet}")
-              print(f"   {title}")
+          reg = json.loads(pathlib.Path(
+              "reports/seo/intelligence/seo-experiments.json").read_text(encoding="utf-8"))
+          experiments = {}
+          for e in reg.get("experiments", []):
+              if e.get("status") not in ("running", "observing"):
+                  continue
+              marker = re.compile(e.get("title_marker") or r"(оплат|купить)", re.I)
+              rows, live, snippets = [], 0, 0
+              for page in e.get("pages") or []:
+                  url = f"https://biz-soft.pro{page}"
+                  html = subprocess.run(["curl", "-sSL", "--max-time", "30", url],
+                                        capture_output=True, text=True).stdout
+                  title = (re.search(r"<title>([^<]*)</title>", html) or [None, ""])[1]
+                  faq = html.count("FAQPage")
+                  new_snippet = bool(marker.search(title))
+                  live += 1 if html else 0
+                  snippets += 1 if new_snippet else 0
+                  rows.append({"page": page, "http_ok": bool(html),
+                               "title": title, "faqpage_blocks": faq,
+                               "new_snippet_detected": new_snippet})
+                  print(f"{page}: FAQPage={faq} новый заголовок={new_snippet}")
+                  print(f"   {title}")
+              experiments[e["id"]] = {
+                  "pages_total": len(rows),
+                  "pages_recrawled": live,
+                  "new_snippets_detected": snippets,
+                  "pages": rows}
 
           out = {"checked_at": dt.datetime.now(dt.timezone.utc).isoformat(timespec="seconds"),
-                 "experiments": {"snippets-5-vendors": {
-                     "pages_total": len(PAGES),
-                     "pages_recrawled": recrawled,
-                     "new_snippets_detected": snippets,
-                     "pages": rows}}}
+                 "experiments": experiments}
           date = dt.date.today().isoformat()
           path = pathlib.Path(f"reports/seo/intelligence/site-check-{date}.json")
           path.parent.mkdir(parents=True, exist_ok=True)
@@ -122,6 +131,11 @@ jobs:
           print(f"сохранено: {path}")
           PY
 
+      # Каталог-владение (этап 3.1): пуш только intelligence, чтобы устаревшая
+      # копия других каталогов не затирала параллельные прогоны.
       - name: Push result
         if: always()
-        run: bash scripts/seo/data_sync.sh push "Проверка живых страниц эксперимента ($(date -u +%F))"
+        run: |
+          bash scripts/seo/data_sync.sh push \
+            "Проверка живых страниц экспериментов ($(date -u +%F))" \
+            "reports/seo/intelligence"

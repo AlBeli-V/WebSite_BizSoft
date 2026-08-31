@@ -99,17 +99,31 @@ class VerdictScenarioTest(unittest.TestCase):
         self.assertEqual(r["verdict"], "INCONCLUSIVE")
         self.assertIn("мало", r["verdict_reason"])
 
-    # 6. Недостаточно данных после внедрения → INSUFFICIENT_DATA + сколько не хватает.
-    def test_06_мало_данных_после_внедрения(self):
+    # 6. Малая ёмкость кластера (оптимизация 31.08.2026): окно скользящее,
+    # 500 такой кластер не наберёт никогда — порог адаптируется, вывод
+    # выносится с пометкой и ограниченной уверенностью, а не вечное
+    # «мало данных».
+    def test_06_малая_ёмкость_порог_адаптируется(self):
         self.base_exp(cluster("canva", 1200, 30, 6.3),
                       cluster("canva", 280, 12, 6.3))
+        r = ver.evaluate(EXP, "2026-09-02")
+        self.assertNotEqual(r["verdict"], "INSUFFICIENT_DATA")
+        self.assertNotEqual(r["verdict"], "REJECTED")
+        self.assertTrue(r["effective_gate"]["adapted"])
+        self.assertIn("адаптирован", " ".join(r["sample_quality"]))
+        self.assertNotEqual(r["confidence"], "HIGH")
+
+    # 6а. Ниже пола адаптации любой вывод — шум: честный INSUFFICIENT_DATA.
+    def test_06а_ниже_пола_insufficient(self):
+        self.base_exp(cluster("canva", 1200, 30, 6.3),
+                      cluster("canva", 80, 3, 6.3))
         r = ver.evaluate(EXP, "2026-09-02")
         self.assertEqual(r["verdict"], "INSUFFICIENT_DATA")
         self.assertIn("не хватает", r["recommendation_detail"])
 
-    # 7. Недостаточно baseline → INSUFFICIENT_DATA.
+    # 7. Недостаточно baseline (ниже пола) → INSUFFICIENT_DATA.
     def test_07_мало_baseline(self):
-        self.base_exp(cluster("canva", 120, 3, 6.3),
+        self.base_exp(cluster("canva", 60, 2, 6.3),
                       cluster("canva", 2500, 100, 6.3))
         r = ver.evaluate(EXP, "2026-09-02")
         self.assertEqual(r["verdict"], "INSUFFICIENT_DATA")
