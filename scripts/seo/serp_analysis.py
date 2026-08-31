@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Разбор SERP-архива: наша позиция, конкуренты, слабые выдачи, изменения.
 
-Читает срезы serp_watch (reports/seo/data/serp/<дата>-serp.jsonl) и отвечает
+Читает срезы serp_watch (reports/seo/serp/<дата>-serp.jsonl) и отвечает
 на управленческие вопросы: где мы стоим в реальной выдаче Яндекса (не по
 усреднённой позиции Вебмастера, а по факту топа), кто занимает топ по нашим
 коммерческим запросам, какие выдачи «слабые» (маркетплейсы и форумы вместо
@@ -15,7 +15,7 @@ import datetime as dt
 import json
 import pathlib
 
-SERP_DIR = pathlib.Path("reports/seo/data/serp")
+SERP_DIR = pathlib.Path("reports/seo/serp")
 LOOKBACK_DAYS = 7
 OUR_DOMAIN = "biz-soft.pro"
 
@@ -34,7 +34,15 @@ FORUMS_INFO = {
 SPECIALIST_COMPETITORS = {
     "softline.ru", "store.softline.ru", "syssoft.ru", "allsoft.ru",
     "softmagazin.ru", "migsoft.ru", "softkey.ru", "1csoft.ru",
-    "digitalsoft.ru", "softorg.ru", "itshop.ru",
+    "digitalsoft.ru", "softorg.ru", "itshop.ru", "ml-soft.ru",
+}
+# Платёжные посредники «оплата зарубежных сервисов из РФ» — главная
+# конкурентная группа по факту первого среза 30.08.2026 (в топ-10 наших
+# запросов чаще софтверных магазинов). Прямые конкуренты BIZSoft по нише.
+PAYMENT_INTERMEDIARIES = {
+    "platipomiru.com", "raketapay.ru", "pipl.io", "finteka.io",
+    "aifory.pro", "kartli.io", "card-open.ru", "remoney.ru",
+    "xn----7sbb6agbixj6ab4j.xn--p1ai", "oplatym.ru", "payservice.pro",
 }
 
 WEAK_SHARE = 0.6      # доля маркетплейсов+форумов в топ-10, с которой выдача «слабая»
@@ -44,6 +52,8 @@ def classify_domain(domain: str) -> str:
     d = (domain or "").lower().removeprefix("www.")
     if d == OUR_DOMAIN:
         return "ours"
+    if d in PAYMENT_INTERMEDIARIES:
+        return "intermediary"
     if d in SPECIALIST_COMPETITORS:
         return "competitor"
     if d in MARKETPLACES:

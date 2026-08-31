@@ -287,6 +287,10 @@ class TestSerpAnalysis(unittest.TestCase):
         self.assertEqual(res["ours_in_top10"], 1)
         doms = {d["domain"]: d for d in res["top_domains"]}
         self.assertEqual(doms["syssoft.ru"]["kind"], "competitor")
+        self.assertEqual(self.sa.classify_domain("platipomiru.com"),
+                         "intermediary")
+        self.assertEqual(self.sa.classify_domain("www.raketapay.ru"),
+                         "intermediary")
         self.assertNotIn("biz-soft.pro", doms)          # свои не «конкурент»
         # запрос без нас первым в сортировке не стоит: сортируем по нашей позиции
         self.assertEqual(res["items"][0]["query"], "купить figma")
