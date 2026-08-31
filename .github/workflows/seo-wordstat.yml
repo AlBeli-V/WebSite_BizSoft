@@ -138,4 +138,4 @@ jobs:
 
       - name: Push results
         run: |
-          bash scripts/seo/data_sync.sh push "Wordstat Intelligence: прогон $(date -u +%F' '%H:%M)"
+          bash scripts/seo/data_sync.sh push "Wordstat Intelligence: прогон $(date -u +%F' '%H:%M)" "reports/seo/wordstat"

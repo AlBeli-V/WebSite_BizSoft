@@ -13,7 +13,7 @@ Wordstat (`WORDSTAT_API_KEY`). Решение руководителя 30.08.202
     возможности Вордстата, кластеры активных экспериментов.
 
 Запуск (workflow seo-serp-watch): python3 scripts/seo/serp_watch.py [дата]
-Выход: reports/seo/data/serp/<дата>-serp.jsonl (строка на запрос: топ-20).
+Выход: reports/seo/serp/<дата>-serp.jsonl (строка на запрос: топ-20).
 """
 
 from __future__ import annotations
@@ -37,7 +37,7 @@ ASYNC_URL = "https://searchapi.api.cloud.yandex.net/v2/web/searchAsync"
 # ConnectionError именно на ошибочном operations.api (отправки при этом
 # были оплачены, результаты потеряны).
 OPERATIONS_URL = "https://operation.api.cloud.yandex.net/operations/"
-SERP_DIR = pathlib.Path("reports/seo/data/serp")
+SERP_DIR = pathlib.Path("reports/seo/serp")
 LEDGER_DIR = SERP_DIR / "ledger"
 
 # Отложенный режим (решение 30.08.2026 по фактическому прайсу): ночной

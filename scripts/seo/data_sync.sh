@@ -7,7 +7,13 @@
 # накатывает данные в рабочую копию и отправляет результаты обратно.
 #
 #   data_sync.sh pull            — данные из origin/seo-data в рабочую копию
-#   data_sync.sh push "<сообщение>" — результаты из рабочей копии в seo-data
+#   data_sync.sh push "<сообщение>" [каталоги] — результаты в seo-data;
+#       третий аргумент (список каталогов через пробел) ограничивает push
+#       каталогами-владениями прогона. Push — полная замена каталога, и
+#       30.08 три одновременно стартовавших workflow затёрли друг другу
+#       свежие файлы: поздний прогон принёс устаревшую копию чужого
+#       каталога. Каждый workflow пушит только своё; без третьего
+#       аргумента (сессия, Routine) — все каталоги, как раньше.
 #
 # push устойчив к гонке с параллельными прогонами (Wordstat пишет в ту же
 # ветку): rebase -X theirs и три попытки, как в прежней схеме. Машинные
@@ -15,8 +21,8 @@
 set -euo pipefail
 
 BRANCH=seo-data
-DIRS=(reports/seo/data reports/seo/wordstat reports/seo/intelligence
-      reports/seo/public reports/seo/ppc)
+DIRS=(reports/seo/data reports/seo/serp reports/seo/wordstat
+      reports/seo/intelligence reports/seo/public reports/seo/ppc)
 
 cmd=${1:?использование: data_sync.sh pull | push \"сообщение\"}
 
@@ -34,6 +40,17 @@ case "$cmd" in
 
   push)
     msg=${2:?push требует сообщение коммита}
+    if [ -n "${3:-}" ]; then
+      # shellcheck disable=SC2206 — третий аргумент и есть список путей
+      scoped=($3)
+      for d in "${scoped[@]}"; do
+        case " ${DIRS[*]} " in
+          *" $d "*) ;;
+          *) echo "каталог вне списка хранилища: $d" >&2; exit 2 ;;
+        esac
+      done
+      DIRS=("${scoped[@]}")
+    fi
     tmp=$(mktemp -d)
     trap 'git worktree remove --force "$tmp" 2>/dev/null || true' EXIT
     git worktree add --quiet --detach "$tmp" "origin/$BRANCH"
