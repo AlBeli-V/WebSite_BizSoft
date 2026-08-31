@@ -120,11 +120,17 @@ def pick_package(packages: list[dict] | None) -> dict | None:
     """
     if not packages:
         return None
-    measured = [p for p in packages if p.get("traffic_upside") is not None]
-    if not measured:
+    # Пакеты без измеренного спроса индекса не имеют: сравнивать их с
+    # остальными по величине нельзя, и главным поручением они не становятся —
+    # по ним сначала измеряется спрос. В очереди они остаются видимыми.
+    scored = [p for p in packages if p.get("potential_index") is not None]
+    if not scored:
         return packages[0]
+    measured = [p for p in scored if p.get("traffic_upside") is not None]
+    if not measured:
+        return scored[0]
     best_measured = max(measured, key=lambda p: p["potential_index"])
-    best_overall = max(packages, key=lambda p: p["potential_index"])
+    best_overall = max(scored, key=lambda p: p["potential_index"])
     if best_overall is best_measured:
         return best_measured
     # Неизмеренный побеждает только с запасом, а не по случайному перевесу
@@ -151,9 +157,10 @@ def build(date: str, snapshot: dict, previous: dict | None,
           attacks: list[dict] | None = None,
           threat_leader=None, stale_notice: str | None = None,
           ranked_rivals=None, packages: list[dict] | None = None,
-          history: list[float] | None = None) -> dict:
+          history: list[float] | None = None,
+          core_note: str = "") -> dict:
     kpi = kpi_mod.build_kpi(snapshot, previous)
-    verdict_mark, verdict_why = kpi_mod.verdict(kpi, history)
+    verdict_mark, verdict_why = kpi_mod.verdict(kpi, history, core_note=core_note)
     signal_delta = kpi_mod.trend_change(history or [])
     if stale_notice:
         # Данные не за сегодня. Показать их можно — они честно датированы, —
@@ -196,6 +203,15 @@ def build(date: str, snapshot: dict, previous: dict | None,
         "предупреждение_о_свежести": stale_notice,
         "сравнение_с": kpi.compared_with,
         "дельта_суточная_пп": kpi.share_delta_pp,
+        "основание_дельты": kpi.delta_basis,
+        "ядро": {
+            "версия": kpi.core_version,
+            "хеш": kpi.core_hash,
+            "запросов": kpi.core_size,
+            "менялось": kpi.core_changed,
+            "сравнимое_подмножество": kpi.comparable_core,
+            "примечания": kpi.notes,
+        },
         "дельта_сигнальная_пп": signal_delta,
         "kpi": {
             "share_yandex": kpi.share_yandex,

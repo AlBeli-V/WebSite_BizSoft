@@ -1,6 +1,7 @@
 """Тесты пакетов работ — единицы поручения вместо списка запросов."""
 import os
 import sys
+import tempfile
 import unittest
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -182,7 +183,9 @@ class TestOurDomainExcluded(unittest.TestCase):
                  {"domain": "biz-soft.pro", "url": "https://biz-soft.pro/f"}])]
         config = visibility.load_config()
         cards = registry.build(rows, config, date="2026-08-30")
-        snapshot = run_discovery.build_snapshot("2026-08-30", cards, rows, config)
+        snapshot = run_discovery.build_snapshot(
+            "2026-08-30", cards, rows, config,
+            query_sets_path=os.path.join(tempfile.mkdtemp(), "qs.json"))
         domains = [d["домен"] for d in snapshot["лидеры"]]
         self.assertNotIn("biz-soft.pro", domains)
 
@@ -194,7 +197,9 @@ class TestOurDomainExcluded(unittest.TestCase):
                  {"domain": "biz-soft.pro", "url": "https://biz-soft.pro/f"}])]
         config = visibility.load_config()
         cards = registry.build(rows, config, date="2026-08-30")
-        snapshot = run_discovery.build_snapshot("2026-08-30", cards, rows, config)
+        snapshot = run_discovery.build_snapshot(
+            "2026-08-30", cards, rows, config,
+            query_sets_path=os.path.join(tempfile.mkdtemp(), "qs.json"))
         # Обе категории A, но наша доля учтена отдельно
         ours = snapshot["наши_показатели"]["доля_видимости"]
         category_a = snapshot["доли_по_категориям"].get("A", 0)

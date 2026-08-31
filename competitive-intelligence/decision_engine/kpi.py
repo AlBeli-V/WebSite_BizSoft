@@ -6,8 +6,20 @@
 
 Вердикт (раздел 23 задания): 🟢 усиливаемся · 🟡 нейтрально-риск ·
 🔴 значимое ухудшение · ⚪ недостаточно данных. Отдельно важно: пока истории
-меньше двух сравнимых дней, вердикт обязан быть ⚪ — не потому что всё плохо,
-а потому что сравнивать не с чем.
+меньше шести сравнимых измерений, вердикт обязан быть ⚪ — не потому что всё
+плохо, а потому что сравнивать не с чем.
+
+**Две доли вместо одной (1.3.0).** Доля считается внутри поля, а поле задаётся
+составом мониторингового ядра. Поэтому в снимке живут два разных числа:
+
+  * **доля в текущем поле** — сколько мы весим сегодня среди сегодняшнего
+    состава запросов. Это то, что показывается как B2B Share;
+  * **сравнимая доля** — та же величина, пересчитанная по пересечению
+    составов сравниваемых дней. Только она годится для динамики.
+
+Пока состав ядра не менялся, оба числа совпадают. Как только ядро
+редактируется, они расходятся, и разница между ними — это ровно тот эффект,
+который иначе выглядел бы как движение конкурентов.
 """
 from __future__ import annotations
 
@@ -16,7 +28,7 @@ import json
 import os
 import statistics
 import sys
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import paths  # noqa: E402
@@ -33,23 +45,23 @@ SIGNIFICANT_SHARE_PP = 0.5
 # Сколько сравнимых измерений нужно, чтобы говорить о динамике. Общий фильтр
 # значимости сравнивает медиану трёх последних измерений с медианой трёх
 # предыдущих — значит раньше шестого валидного среза тренда не существует.
-#
-# В версии 1.0.0 здесь была логическая коллизия, найденная внешним аудитом:
-# методика декларировала сглаживание 3×3, а вердикт менялся уже на втором
-# дне, по разнице двух соседних точек. Теперь правило одно и жёсткое.
 WINDOW = 3
 MIN_OBSERVATIONS_FOR_TREND = WINDOW * 2
 
-# Доля мониторингового ядра, ниже которой срез считается непригодным. Без
-# порога 149 валидных запросов из 150 и 20 из 150 одинаково назывались бы
-# «неполными данными», хотя первое — рабочий день, а второе — сбой сбора.
+# Доля мониторингового ядра, ниже которой срез считается непригодным.
 CRITICAL_COVERAGE_RATIO = 0.80
+# Второй гейт: покрытие, взвешенное по спросу. Можно собрать 90% запросов и
+# потерять при этом самый частотный — по числу запросов это рабочий день, по
+# объёму спроса дыра. Считается отдельно по каждому источнику: складывать
+# частотность Wordstat с показами Вебмастера нельзя даже в знаменателе.
+CRITICAL_WEIGHTED_COVERAGE = 0.80
+
+# Какая часть текущего ядра должна попасть в пересечение, чтобы динамику
+# вообще имело смысл считать. Ниже этого порога сравнимое подмножество
+# описывает уже не то поле, о котором идёт речь в письме.
+MIN_COMPARABLE_CORE_RATIO = 0.70
 
 # Обязательные источники: их отсутствие делает вердикт невозможным.
-# Необязательные (Google, B2B Confidence, уязвимость страниц) снижают
-# достоверность отдельных показателей, но не блокируют остальные выводы —
-# иначе система, у которой Google ещё не запущен, обязана была бы вечно
-# отвечать «недостаточно данных».
 REQUIRED_SOURCES = ("яндекс",)
 
 
@@ -68,6 +80,16 @@ class Kpi:
     compared_with: str | None = None
     coverage_ok: bool = True
     maturity: str = "базовый"
+    # Ядро измерения: версия состава, отпечаток и размер.
+    core_version: str = ""
+    core_hash: str = ""
+    core_size: int | None = None
+    # Сравнимая доля и то, на каком подмножестве она получена.
+    share_comparable: float | None = None
+    comparable_core: int | None = None
+    core_changed: bool = False
+    delta_basis: str = "то же ядро"
+    notes: list[str] = field(default_factory=list)
 
 
 def load_snapshot(date: str, directory: str | None = None) -> dict | None:
@@ -85,10 +107,90 @@ def available_snapshots(directory: str | None = None) -> list[str]:
     return sorted(os.path.basename(f)[: -len("-discovery.json")] for f in files)
 
 
+# --- сравнимость ядра -------------------------------------------------------
+
+def core_hash(snapshot: dict) -> str:
+    """Отпечаток состава ядра снимка. Пусто — снимок старой версии."""
+    return ((snapshot.get("ядро_запросов") or {}).get("хеш")
+            or (snapshot.get("метаданные") or {}).get("ядро_хеш") or "")
+
+
+def query_shares(snapshot: dict) -> dict:
+    """Взвешенная видимость по запросам: {запрос: {«наша», «поле»}}."""
+    return snapshot.get("по_запросам") or {}
+
+
+def share_on(snapshot: dict, queries) -> float | None:
+    """Доля BIZSoft, пересчитанная по заданному подмножеству запросов.
+
+    Возвращает None, если по этому подмножеству нет данных: пустое поле —
+    это NO DATA, а не нулевая видимость.
+    """
+    per_query = query_shares(snapshot)
+    ours = 0.0
+    field_total = 0.0
+    for query in queries:
+        bucket = per_query.get(query)
+        if not bucket:
+            continue
+        ours += bucket.get("наша") or 0.0
+        field_total += bucket.get("поле") or 0.0
+    if field_total <= 0:
+        return None
+    return ours / field_total
+
+
+def comparable_series(snapshots: list[dict]) -> tuple[list[float], dict]:
+    """Ряд сравнимых долей по пересечению составов ядра.
+
+    Все дни ряда приводятся к одному подмножеству запросов — тому, что
+    присутствует во всех сравниваемых снимках. Иначе изменение доли смешивало
+    бы движение конкурентов с редактированием собственного списка запросов.
+
+    Возвращает (ряд, пояснение). Ряд пуст, если сравнимого подмножества нет
+    или оно слишком мало по отношению к текущему ядру.
+    """
+    meta: dict = {"дней": len(snapshots), "причина": ""}
+    usable = [s for s in snapshots if query_shares(s)]
+    if not usable:
+        meta["причина"] = "в снимках нет по-запросной видимости (старый формат)"
+        return [], meta
+
+    sets = [set(query_shares(s)) for s in usable]
+    common = set.intersection(*sets) if sets else set()
+    current = sets[-1]
+    meta.update({
+        "ядро_текущее": len(current),
+        "пересечение": len(common),
+        "доля_пересечения": round(len(common) / len(current), 4) if current else 0.0,
+        "ядро_менялось": any(core_hash(s) != core_hash(usable[-1]) for s in usable),
+    })
+    if not common:
+        meta["причина"] = "пересечение составов ядра пусто"
+        return [], meta
+    if current and len(common) / len(current) < MIN_COMPARABLE_CORE_RATIO:
+        meta["причина"] = (
+            f"пересечение составов ({len(common)} из {len(current)}) меньше "
+            f"порога {100 * MIN_COMPARABLE_CORE_RATIO:.0f}% — сравнимого поля "
+            f"фактически нет")
+        return [], meta
+
+    series = []
+    for snapshot in usable:
+        value = share_on(snapshot, common)
+        if value is None:
+            meta["причина"] = (f"по пересечению нет данных за "
+                              f"{snapshot.get('дата')}")
+            return [], meta
+        series.append(value)
+    return series, meta
+
+
 def build_kpi(snapshot: dict, previous: dict | None = None) -> Kpi:
     """KPI дня. Дельты считаются только при наличии сравнимого прошлого."""
     ours = snapshot.get("наши_показатели") or {}
     coverage = snapshot.get("покрытие") or {}
+    core = snapshot.get("ядро_запросов") or {}
     kpi = Kpi(
         date=snapshot.get("дата", ""),
         share_yandex=ours.get("доля_видимости"),
@@ -98,17 +200,53 @@ def build_kpi(snapshot: dict, previous: dict | None = None) -> Kpi:
         queries=ours.get("запросов_в_поле"),
         maturity=snapshot.get("зрелость_скоринга", "базовый"),
         coverage_ok=bool(coverage.get("яндекс_запросов_с_данными")),
+        core_version=core.get("версия", ""),
+        core_hash=core.get("хеш", ""),
+        core_size=core.get("запросов"),
     )
-    if previous:
-        prev = previous.get("наши_показатели") or {}
-        if kpi.share_yandex is not None and prev.get("доля_видимости") is not None:
-            kpi.share_delta_pp = round(
-                100 * (kpi.share_yandex - prev["доля_видимости"]), 2)
-        if kpi.top3 is not None and prev.get("топ3") is not None:
-            kpi.top3_delta = kpi.top3 - prev["топ3"]
-        if kpi.top10 is not None and prev.get("топ10") is not None:
-            kpi.top10_delta = kpi.top10 - prev["топ10"]
-        kpi.compared_with = previous.get("дата")
+    if not previous:
+        return kpi
+
+    prev = previous.get("наши_показатели") or {}
+    kpi.compared_with = previous.get("дата")
+    kpi.core_changed = bool(core_hash(snapshot) and core_hash(previous)
+                            and core_hash(snapshot) != core_hash(previous))
+
+    if kpi.top3 is not None and prev.get("топ3") is not None:
+        kpi.top3_delta = kpi.top3 - prev["топ3"]
+    if kpi.top10 is not None and prev.get("топ10") is not None:
+        kpi.top10_delta = kpi.top10 - prev["топ10"]
+
+    # Дельта доли: по пересечению составов, если они различаются, и по
+    # текущему полю, если состав тот же. Разные знаменатели дают разные
+    # величины, поэтому основание дельты подписывается явно.
+    common = set(query_shares(snapshot)) & set(query_shares(previous))
+    if common:
+        today = share_on(snapshot, common)
+        before = share_on(previous, common)
+        kpi.share_comparable = today
+        kpi.comparable_core = len(common)
+        if today is not None and before is not None:
+            kpi.share_delta_pp = round(100 * (today - before), 2)
+            kpi.delta_basis = (
+                f"пересечение ядер: {len(common)} запросов"
+                if kpi.core_changed else "то же ядро")
+            if kpi.core_changed:
+                kpi.notes.append(
+                    f"состав ядра менялся ({core_hash(previous)} → "
+                    f"{core_hash(snapshot)}); дельта посчитана по общему "
+                    f"подмножеству из {len(common)} запросов, доля в письме — "
+                    f"по текущему полю")
+        return kpi
+
+    # Старый формат снимка без по-запросной видимости: сравниваем поля целиком
+    # и честно помечаем, что состав ядра при этом не проверялся.
+    if kpi.share_yandex is not None and prev.get("доля_видимости") is not None:
+        kpi.share_delta_pp = round(
+            100 * (kpi.share_yandex - prev["доля_видимости"]), 2)
+        kpi.delta_basis = "поля целиком (по-запросной видимости нет)"
+        kpi.notes.append("сравнимость состава ядра не проверялась: в снимках "
+                         "нет по-запросной видимости")
     return kpi
 
 
@@ -118,6 +256,9 @@ def trend_change(history: list[float]) -> float | None:
     Медиана трёх последних измерений против медианы трёх предыдущих — то же
     сглаживание, что и в остальной системе. Меньше шести измерений — тренда
     нет, возвращается None, а не ноль.
+
+    Ряд обязан быть сравнимым: подаётся результат comparable_series(), а не
+    сырые доли по разным составам ядра.
     """
     if len(history) < MIN_OBSERVATIONS_FOR_TREND:
         return None
@@ -131,8 +272,7 @@ def structural_verdict(kpi: Kpi, field_leader: tuple[str, float] | None = None
     """Структурный вывод: где мы стоим прямо сейчас.
 
     Не требует истории и доступен с первого дня. Отвечает на вопрос «какова
-    расстановка», а не «куда движемся» — это разные утверждения, и смешивать
-    их нельзя.
+    расстановка», а не «куда движемся» — это разные утверждения.
     """
     share = format_share(kpi.share_yandex)
     base = f"BIZSoft занимает {share} взвешенной видимости поля"
@@ -147,9 +287,14 @@ def structural_verdict(kpi: Kpi, field_leader: tuple[str, float] | None = None
 def coverage_state(snapshot: dict) -> tuple[str, str]:
     """Состояние покрытия данных: критическое или рабочее.
 
-    Возвращает («ок» | «критическое», пояснение). Критическое означает, что
-    обязательный источник собран настолько плохо, что выводы делать нельзя.
-    Отсутствие необязательных источников критическим не является.
+    Два гейта, оба обязательные:
+      1. по числу запросов ядра — сколько строк среза пригодны;
+      2. по спросу — какая доля объёма спроса попала в пригодные строки,
+         отдельно по каждому источнику.
+
+    Второй нужен потому, что потерять один запрос с частотностью 20 000 и
+    один с частотностью 5 — это одинаково «минус один запрос» по первому
+    гейту и совершенно разные события по существу.
     """
     coverage = snapshot.get("покрытие") or {}
     total = coverage.get("яндекс_запросов_всего") or 0
@@ -162,6 +307,18 @@ def coverage_state(snapshot: dict) -> tuple[str, str]:
             f"собрано {usable} запросов из {total} "
             f"({100 * ratio:.0f}% при пороге "
             f"{100 * CRITICAL_COVERAGE_RATIO:.0f}%)")
+
+    weighted = coverage.get("взвешенное_покрытие") or {}
+    weak = {source: value for source, value in weighted.items()
+            if value < CRITICAL_WEIGHTED_COVERAGE}
+    if weak:
+        detail = "; ".join(f"{source}: {100 * value:.0f}%"
+                           for source, value in sorted(weak.items()))
+        return "критическое", (
+            f"по числу запросов собрано {100 * ratio:.0f}%, но по объёму "
+            f"спроса — ниже порога {100 * CRITICAL_WEIGHTED_COVERAGE:.0f}% "
+            f"({detail}): потеряны самые весомые запросы")
+
     missing = []
     if coverage.get("google") is None:
         missing.append("Google не собирается")
@@ -169,12 +326,12 @@ def coverage_state(snapshot: dict) -> tuple[str, str]:
     return "ок", note
 
 
-def verdict(kpi: Kpi, history: list[float] | None = None) -> tuple[str, str]:
+def verdict(kpi: Kpi, history: list[float] | None = None,
+            core_note: str = "") -> tuple[str, str]:
     """Динамический вердикт: усиливаемся, слабеем или движения нет.
 
-    Требует шести сравнимых измерений — раньше динамики не существует, и
-    любой вердикт о ней был бы утверждением о шуме. Структурная картина при
-    этом доступна всегда, её даёт structural_verdict().
+    Требует шести сравнимых измерений — раньше динамики не существует.
+    Структурная картина при этом доступна всегда, её даёт structural_verdict().
     """
     if not kpi.coverage_ok:
         return VERDICT_NO_DATA, ("Данные неполные: срез выдачи не собран — "
@@ -183,10 +340,12 @@ def verdict(kpi: Kpi, history: list[float] | None = None) -> tuple[str, str]:
     history = history or []
     if len(history) < MIN_OBSERVATIONS_FOR_TREND:
         need = MIN_OBSERVATIONS_FOR_TREND - len(history)
-        return VERDICT_NO_DATA, (
-            f"Недостаточно данных для оценки динамики: нужно "
-            f"{MIN_OBSERVATIONS_FOR_TREND} сравнимых измерений, "
-            f"не хватает {need}")
+        why = (f"Недостаточно данных для оценки динамики: нужно "
+               f"{MIN_OBSERVATIONS_FOR_TREND} сравнимых измерений, "
+               f"не хватает {need}")
+        if core_note:
+            why += f" ({core_note})"
+        return VERDICT_NO_DATA, why
 
     change = trend_change(history)
     if change is None:

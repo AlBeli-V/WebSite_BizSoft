@@ -13,6 +13,7 @@
 """
 from __future__ import annotations
 
+import hashlib
 import json
 import os
 import sys
@@ -21,14 +22,82 @@ from datetime import datetime, timezone, timedelta
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import paths  # noqa: E402
-from discovery import registry, serp_source  # noqa: E402
+from discovery import demand_source, query_set, registry, serp_source  # noqa: E402
 from scoring import visibility  # noqa: E402
 
 MSK = timezone(timedelta(hours=3))
 OURS = "biz-soft.pro"
+REGION = "213"  # тот же регион, по которому строятся карточки доменов
 
 
-def build_snapshot(date: str, cards: list, rows: list, config: dict) -> dict:
+def config_hash(config: dict) -> str:
+    """Отпечаток конфигурации скоринга.
+
+    Любая правка весов, кривой CTR или точек насыщения меняет отпечаток, и по
+    нему видно, что вчерашние и сегодняшние оценки считались разными
+    моделями. Без этого «изменение оценки» и «изменение модели» неотличимы.
+    """
+    canonical = json.dumps(config, ensure_ascii=False, sort_keys=True)
+    return hashlib.sha256(canonical.encode("utf-8")).hexdigest()[:12]
+
+
+def per_query_visibility(rows, config: dict, region: str = REGION) -> dict:
+    """Взвешенная видимость по каждому запросу: наша и всего поля.
+
+    Хранится в снимке, чтобы долю можно было пересчитать по любому
+    подмножеству запросов — прежде всего по пересечению ядер разных дней.
+    Без этих чисел «сравнимая доля» была бы невычислима задним числом, и
+    единственным способом сравнения оставалось бы полное совпадение состава
+    ядра.
+    """
+    result: dict[str, dict] = {}
+    for row in rows:
+        if not row.has_data or row.region != region:
+            continue
+        key = query_set.normalize(row.query)
+        if not key:
+            continue
+        bucket = result.setdefault(key, {"наша": 0.0, "поле": 0.0})
+        for index, item in enumerate(row.top, start=1):
+            domain = serp_source.normalize_domain(item.get("domain", ""))
+            if not domain:
+                continue
+            value = visibility.query_visibility(index, config)
+            bucket["поле"] += value
+            if domain == OURS:
+                bucket["наша"] += value
+    return {q: {"наша": round(v["наша"], 6), "поле": round(v["поле"], 6)}
+            for q, v in result.items()}
+
+
+def demand_coverage(rows, region: str = REGION) -> tuple[dict, dict]:
+    """Взвешенное покрытие ядра и состав источников спроса.
+
+    Покрытие по числу запросов и покрытие по спросу — разные величины: можно
+    собрать 90% запросов и потерять при этом самый частотный. Второй гейт
+    считается отдельно по каждому источнику спроса: складывать частотность
+    Wordstat с показами Вебмастера нельзя даже в знаменателе покрытия.
+    """
+    total: dict[str, int] = {}
+    collected: dict[str, int] = {}
+    mix: dict[str, int] = {}
+    for row in rows:
+        if row.region != region:
+            continue
+        value, source = demand_source.demand(row.query)
+        mix[source] = mix.get(source, 0) + 1
+        if source == "none" or not value:
+            continue
+        total[source] = total.get(source, 0) + value
+        if row.has_data:
+            collected[source] = collected.get(source, 0) + value
+    weighted = {source: round(collected.get(source, 0) / amount, 4)
+                for source, amount in total.items() if amount > 0}
+    return weighted, mix
+
+
+def build_snapshot(date: str, cards: list, rows: list, config: dict,
+                   query_sets_path: str | None = None) -> dict:
     """Канонический снимок дня: цифры письма берутся только отсюда."""
     # Наш домен исключается из всех конкурентных срезов: он не конкурент сам
     # себе. Раньше biz-soft.pro попадал и в перечень «кто держит выдачу», и в
@@ -46,19 +115,48 @@ def build_snapshot(date: str, cards: list, rows: list, config: dict) -> dict:
     usable = [r for r in rows if r.has_data]
     failed = [r for r in rows if not r.has_data]
 
+    # Состав ядра фиксируется по всем запросам среза, а не по успешно
+    # собранным: ядро — это то, что мы намерены мерить, а сбой сбора отдельного
+    # запроса описывается покрытием. Иначе хеш ядра менялся бы от каждой
+    # сетевой ошибки, и сравнимых дней не осталось бы вовсе.
+    core = query_set.describe([r.query for r in rows], date, query_sets_path)
+    per_query = per_query_visibility(rows, config)
+    weighted_coverage, demand_mix = demand_coverage(rows)
+
     return {
         "дата": date,
         "собран": datetime.now(MSK).isoformat(),
         "версия_модели": config.get("версия"),
         "версия_конфига": config.get("версия"),
         "зрелость_скоринга": "базовый",
-        # Состояние зрелости хранится в снимке, потому что оценки, полученные
-        # в разных режимах, между собой несравнимы. Без этой отметки рост
-        # Threat или Opportunity после подключения нового источника выглядел
-        # бы как изменение конкурентной обстановки.
+        # Блок метаданных: всё, что нужно, чтобы понять, каким инструментом
+        # получены цифры этого дня и с какими другими днями их вообще
+        # допустимо сравнивать. Введён в 1.3.0 по требованию внешнего аудита.
+        "метаданные": {
+            "версия_методики": config.get("версия"),
+            "хеш_конфига": config_hash(config),
+            "ядро_версия": core["версия"],
+            "ядро_хеш": core["хеш"],
+            "запросов_в_ядре": core["запросов"],
+            "покрытие_запросов": (round(len(usable) / len(rows), 4)
+                                  if rows else 0.0),
+            "взвешенное_покрытие": weighted_coverage,
+            "состав_источников_спроса": demand_mix,
+            "opportunity_режим": "degraded",
+            "opportunity_недоступные_факторы": ["vulnerability"],
+            "threat_режим": "base_0_70",
+            "_правило_сравнимости": (
+                "сравнивать значения между датами допустимо только при "
+                "совпадении версии методики, хеша конфига и хеша ядра; при "
+                "различии ядра используется сравнимая доля, считаемая по "
+                "пересечению составов (блок «по_запросам»)"),
+        },
+        # Состав зрелости оставлен отдельным блоком: письмо и отчёт читают
+        # его напрямую, а метаданные адресованы аудиту и хранилищу.
         "состояние_зрелости": {
-            "opportunity_режим": "degraded_no_vulnerability",
-            "threat_режим": "base_no_momentum",
+            "opportunity_режим": "degraded",
+            "opportunity_недоступные_факторы": ["vulnerability"],
+            "threat_режим": "base_0_70",
             "google_собирается": False,
             "b2b_confidence_измеряется": False,
             "_правило_сравнимости": (
@@ -70,11 +168,17 @@ def build_snapshot(date: str, cards: list, rows: list, config: dict) -> dict:
         },
         "_зрелость_пояснение": (
             "Vulnerability недоступен до обхода страниц конкурентов, вес "
-            "перераспределён; Confidence рекомендаций не выше MEDIUM"),
+            "распределён пропорционально; Confidence рекомендаций не выше MEDIUM"),
+        "ядро_запросов": core,
+        # Видимость по запросам — основа сравнимой доли. Наши числа и поле
+        # целиком; по этим двум рядам доля пересчитывается на любом
+        # подмножестве запросов.
+        "по_запросам": per_query,
         "покрытие": {
             "яндекс_запросов_всего": len(rows),
             "яндекс_запросов_с_данными": len(usable),
             "яндекс_ошибок": len(failed),
+            "взвешенное_покрытие": weighted_coverage,
             "google": None,
             "_google_пояснение": "NO DATA: еженедельный сбор Google ещё не запущен",
         },
