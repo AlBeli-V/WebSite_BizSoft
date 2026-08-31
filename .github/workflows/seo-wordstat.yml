@@ -31,7 +31,7 @@ on:
         required: true
         default: "daily"
         type: choice
-        options: [dry-run, full, pilot, daily, benchmark, payments, probe-dynamics]
+        options: [dry-run, full, pilot, daily, benchmark, payments, probe-dynamics, momentum, regions]
       max_calls:
         description: "Потолок вызовов за прогон"
         required: false
@@ -97,9 +97,45 @@ jobs:
             benchmark) python3 scripts/seo/wordstat/benchmark.py ;;
             payments)  python3 scripts/seo/wordstat/payment_check.py --limit 200 ;;
             probe-dynamics) python3 scripts/seo/wordstat/probe_dynamics.py ;;
+            momentum)  python3 scripts/seo/wordstat/momentum.py ;;
+            regions)   python3 scripts/seo/wordstat/region_demand.py ;;
           esac
           python3 scripts/seo/wordstat/report.py || true
 
+      # Momentum спроса (механика №19, «зелёный свет» 30.08.2026): помесячная
+      # динамика коммерческого ядра, еженедельно по понедельникам.
+      # ~300 фраз × 0,02 ₽ ≈ 6 ₽; кэш TTL динамики гасит повторы.
+      # Идемпотентно по файлу дня и в ЛЮБОМ schedule-прогоне: привязка к
+      # конкретному слоту не работает — 31.08 планировщик GitHub ночной слот
+      # просто не запустил, и понедельничный замер пропал бы целиком.
+      - name: Demand momentum (weekly, Mon)
+        if: github.event_name == 'schedule'
+        env:
+          WORDSTAT_API_KEY: ${{ secrets.WORDSTAT_API_KEY }}
+        run: |
+          if [ "$(date -u +%u)" != "1" ]; then
+            echo "не понедельник — momentum пропущен"
+          elif [ -f "reports/seo/wordstat/momentum-$(date -u +%F).json" ]; then
+            echo "momentum за сегодня уже собран"
+          else
+            python3 scripts/seo/wordstat/momentum.py || true
+          fi
+
+      # Региональная карта спроса: 1-го числа, ≤50 фраз × 0,05 ₽ ≈ 2,5 ₽.
+      # Та же идемпотентность по файлу месяца.
+      - name: Regional demand (monthly, 1st)
+        if: github.event_name == 'schedule'
+        env:
+          WORDSTAT_API_KEY: ${{ secrets.WORDSTAT_API_KEY }}
+        run: |
+          if [ "$(date -u +%d)" != "01" ]; then
+            echo "не первое число — регионы пропущены"
+          elif [ -f "reports/seo/wordstat/region-demand-$(date -u +%Y-%m).json" ]; then
+            echo "регионы за месяц уже собраны"
+          else
+            python3 scripts/seo/wordstat/region_demand.py || true
+          fi
+
       - name: Push results
         run: |
-          bash scripts/seo/data_sync.sh push "Wordstat Intelligence: прогон $(date -u +%F' '%H:%M)"
+          bash scripts/seo/data_sync.sh push "Wordstat Intelligence: прогон $(date -u +%F' '%H:%M)" "reports/seo/wordstat"
