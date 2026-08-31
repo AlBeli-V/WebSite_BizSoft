@@ -1,32 +1,41 @@
-"""Business Opportunity Score 0–100 — основной показатель выбора атаки.
+"""Business Opportunity Score 0–100 — основной показатель выбора цели.
 
-Состав из раздела 12 задания:
-  20% Revenue Potential · 15% Commercial Intent · 15% B2B Intent ·
-  15% Ranking Proximity · 10% Search Demand · 10% Competitor Vulnerability ·
-  10% Page Improvement Potential · 5% Strategic Vendor Priority
+Версия 1.1.0 (после внешнего аудита методики, 31.08.2026). Две правки
+математики против 1.0.0, обе — устранение реальных дефектов:
 
-**Режим деградации** (обязателен до Phase 4). Vulnerability требует
-краулинга страниц конкурента, которого ещё нет. Его вес перераспределяется
-на Proximity и Page Improvement — то есть на факторы, которые мы измеряем
-достоверно, — а Confidence принудительно не выше MEDIUM. Так письмо не
-выдаёт неполный расчёт за полный.
+1. **Убран revenue-прокси как отдельный фактор.** В 1.0.0 он считался как
+   спрос × коммерческий интент и получал 20% веса, при этом спрос и
+   коммерческий интент входили в сумму ещё и напрямую. Один и тот же
+   признак давал баллы дважды, и модель скрытно переоценивала
+   высокочастотные запросы. Экономический фактор вернётся, когда появится
+   измеренная выручка из Метрики и GA4, а не её подобие.
 
-Revenue Potential до калибровки по Метрике/GA4 (Phase 5) считается прокси:
-спрос × коммерческий интент. Это честно помечено в breakdown, чтобы никто
-не принял прокси за измеренную выручку.
+2. **Отсутствующий признак больше не заменяется средним значением.**
+   В 1.0.0 неизвестный спрос давал 0,5 — то есть незнание превращалось в
+   «средний спрос», хотя за ним могло стоять и 5 запросов, и 50 000. Это
+   противоречило собственному правилу системы «нет данных не равно нулю»,
+   просто в другую сторону. Теперь работает нормализация по доступным
+   признакам: веса известных факторов масштабируются до 100%, а уверенность
+   понижается на ступень.
+
+Состав факторов до подключения измеренной выручки:
+  коммерческий интент 20% · B2B-интент 20% · близость позиции 20% ·
+  спрос 15% · запас улучшения страницы 15% · приоритет вендора 10%.
 """
 from __future__ import annotations
 
 from dataclasses import dataclass, field
 
+# Веса без экономического фактора: измеренной выручки пока нет, а её
+# подобие через спрос и интент — двойной счёт (аудит 31.08).
 WEIGHTS_FULL = {
-    "revenue": 20, "commercial": 15, "b2b": 15, "proximity": 15,
-    "demand": 10, "vulnerability": 10, "page_improvement": 10, "vendor": 5,
+    "commercial": 20, "b2b": 20, "proximity": 15,
+    "demand": 15, "vulnerability": 15, "page_improvement": 10, "vendor": 5,
 }
-# Деградация: 10 пунктов Vulnerability уходят туда, что мы реально измеряем.
+# Деградация: вес уязвимости уходит на факторы, измеряемые достоверно.
 WEIGHTS_DEGRADED = {
-    "revenue": 20, "commercial": 15, "b2b": 15, "proximity": 21,
-    "demand": 10, "vulnerability": 0, "page_improvement": 14, "vendor": 5,
+    "commercial": 20, "b2b": 20, "proximity": 20,
+    "demand": 15, "vulnerability": 0, "page_improvement": 15, "vendor": 10,
 }
 
 # Позиция, ближе которой считаем, что мы «уже рядом» и дожать легко.
@@ -34,10 +43,9 @@ PROXIMITY_BEST = 4
 # Позиция, дальше которой близость обнуляется: с 20-го места до топ-3 не
 # доходят одной правкой страницы.
 PROXIMITY_WORST = 20
-# Значение спроса, при котором слагаемое набирает максимум. Шкалы источников
-# разные и смешивать их нельзя: частотность Wordstat меряет весь рынок за
-# месяц, показы Вебмастера — только ту его часть, где нас уже видно за две
-# недели. Сотня показов и сотня частотности — совершенно разный спрос.
+# Значение спроса, при котором фактор набирает максимум. Шкалы источников
+# разные и смешивать их нельзя: частотность Wordstat меряет рынок за месяц,
+# показы Вебмастера — только видимую нам часть за две недели.
 DEMAND_AT_MAX = {
     "wordstat": 1000,
     "webmaster": 200,
@@ -51,6 +59,7 @@ class Opportunity:
     breakdown: dict[str, float] = field(default_factory=dict)
     notes: list[str] = field(default_factory=list)
     degraded: bool = True
+    missing: list[str] = field(default_factory=list)
 
 
 def proximity_factor(our_position: int | None) -> float:
@@ -79,16 +88,23 @@ def page_improvement_factor(our_position: int | None, has_page: bool) -> float:
     return 1.0
 
 
-def demand_factor(value: int | None, source: str = "wordstat") -> float:
+def demand_factor(value: int | None, source: str = "wordstat") -> float | None:
     """Спрос с нормировкой по источнику.
 
-    NO DATA даёт нейтральное значение, а не ноль: отсутствие данных о спросе
-    — это незнание, а не отсутствие спроса.
+    Возвращает None при отсутствии данных — не 0,5 и не ноль. Дальше такой
+    фактор исключается из расчёта, а не подменяется средним: незнание не
+    является средним значением.
     """
     if value is None:
-        return 0.5
+        return None
     scale = DEMAND_AT_MAX.get(source, DEMAND_AT_MAX["wordstat"])
     return round(min(1.0, value / scale), 3)
+
+
+def _downgrade(confidence: str) -> str:
+    order = ["HIGH", "MEDIUM", "LOW"]
+    index = order.index(confidence) if confidence in order else 1
+    return order[min(index + 1, len(order) - 1)]
 
 
 def score(*, commercial: float, b2b: float, our_position: int | None,
@@ -96,46 +112,63 @@ def score(*, commercial: float, b2b: float, our_position: int | None,
           demand_source: str = "wordstat",
           vulnerability: float | None = None,
           vendor_priority: float = 0.5) -> Opportunity:
-    """Opportunity одной цели атаки."""
+    """Opportunity одной цели атаки.
+
+    Известные факторы взвешиваются своими весами; веса недоступных факторов
+    не раздаются молча — вместо этого сумма нормализуется по доступным, а
+    уверенность понижается. Так отсутствие признака честно уменьшает
+    надёжность оценки, не искажая её значение.
+    """
     degraded = vulnerability is None
-    weights = WEIGHTS_DEGRADED if degraded else WEIGHTS_FULL
+    weights = dict(WEIGHTS_DEGRADED if degraded else WEIGHTS_FULL)
 
-    prox = proximity_factor(our_position)
-    page = page_improvement_factor(our_position, has_page)
     demand = demand_factor(frequency, demand_source)
-    # Прокси выручки до калибровки по фактическим конверсиям (Phase 5)
-    revenue_proxy = round(demand * commercial, 3)
-
-    parts = {
-        "revenue": weights["revenue"] * revenue_proxy,
-        "commercial": weights["commercial"] * commercial,
-        "b2b": weights["b2b"] * b2b,
-        "proximity": weights["proximity"] * prox,
-        "demand": weights["demand"] * demand,
-        "page_improvement": weights["page_improvement"] * page,
-        "vendor": weights["vendor"] * vendor_priority,
+    factors: dict[str, float | None] = {
+        "commercial": commercial,
+        "b2b": b2b,
+        "proximity": proximity_factor(our_position),
+        "demand": demand,
+        "page_improvement": page_improvement_factor(our_position, has_page),
+        "vendor": vendor_priority,
     }
     if not degraded:
-        parts["vulnerability"] = weights["vulnerability"] * (vulnerability or 0.0)
+        factors["vulnerability"] = vulnerability
+
+    known = {name: value for name, value in factors.items()
+             if value is not None and weights.get(name, 0) > 0}
+    missing = [name for name, value in factors.items()
+               if value is None and weights.get(name, 0) > 0]
+
+    # Нормализация по доступным признакам: сумма весов известных факторов
+    # приводится к 100, чтобы отсутствие признака не занижало итог механически.
+    available_weight = sum(weights[name] for name in known)
+    if available_weight <= 0:
+        return Opportunity(score=0, confidence="LOW", breakdown={},
+                           notes=["ни один фактор не измерен — оценка невозможна"],
+                           degraded=degraded, missing=missing)
+    scale = 100 / available_weight
+
+    parts = {name: weights[name] * scale * value for name, value in known.items()}
 
     notes = []
     if degraded:
-        notes.append("Vulnerability недоступен до Phase 4: вес перераспределён "
-                     "на близость позиции и запас улучшения страницы")
-    if frequency is None:
-        notes.append("спрос по запросу неизвестен — принят нейтральным")
+        notes.append("Vulnerability недоступен до обхода страниц конкурентов: "
+                     "его вес перераспределён на близость позиции, запас "
+                     "улучшения страницы и приоритет вендора")
+    if "demand" in missing:
+        notes.append("спрос по запросу неизвестен — фактор исключён из расчёта, "
+                     "веса остальных нормализованы, уверенность понижена")
     elif demand_source == "webmaster":
-        notes.append(f"спрос оценён по показам Вебмастера ({frequency}), "
-                     "а не по частотности Wordstat")
-    notes.append("Revenue — прокси (спрос × коммерческий интент), "
-                 "не измеренная выручка")
+        notes.append(f"спрос оценён по показам Вебмастера ({frequency}) — это "
+                     "видимая нам часть спроса за две недели, а не рынок за месяц")
+    notes.append("экономический фактор не участвует: измеренной выручки нет, "
+                 "а её оценка через спрос и интент дублировала бы эти факторы")
 
-    # Confidence не может быть выше MEDIUM в режиме деградации — требование
-    # раздела 12 задания. Полное незнание спроса опускает её ещё на ступень.
-    if degraded:
-        confidence = "LOW" if frequency is None else "MEDIUM"
-    else:
-        confidence = "MEDIUM" if frequency is None else "HIGH"
+    # Уверенность: деградация не даёт подняться выше средней, каждое
+    # отсутствующее измерение понижает ещё на ступень.
+    confidence = "MEDIUM" if degraded else "HIGH"
+    for _ in missing:
+        confidence = _downgrade(confidence)
 
     return Opportunity(
         score=min(100, int(round(sum(parts.values())))),
@@ -143,4 +176,5 @@ def score(*, commercial: float, b2b: float, our_position: int | None,
         breakdown={k: round(v, 1) for k, v in parts.items()},
         notes=notes,
         degraded=degraded,
+        missing=missing,
     )

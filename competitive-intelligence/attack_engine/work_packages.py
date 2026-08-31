@@ -18,10 +18,19 @@ from dataclasses import asdict, dataclass, field
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import paths  # noqa: E402,F401
+from scoring import opportunity as opp_mod  # noqa: E402
 from scoring import visibility  # noqa: E402
 
 TARGET_POSITION = 3  # к чему стремимся: попадание в тройку
 EFFORT_BY_SIZE = {1: "S", 3: "S", 6: "M"}  # число запросов → трудоёмкость
+
+# Источник спроса, по которому допустимо считать прирост переходов.
+# Частотность Wordstat описывает объём рынка за месяц — от неё можно перейти
+# к оценке кликов через кривую CTR. Показы Вебмастера меряют другое: сколько
+# раз показали нас за две недели. Умножать их на прирост CTR и называть
+# результат «переходами рынка» нельзя — это разные знаменатели.
+COMPARABLE_DEMAND_SOURCE = "wordstat"
+
 
 
 @dataclass
@@ -35,12 +44,21 @@ class WorkPackage:
     attack_ids: list[str] = field(default_factory=list)
     queries_count: int = 0
     demand_total: int = 0
+    demand_sources: list[str] = field(default_factory=list)
     position_best: int | None = None
     position_worst: int | None = None
     rivals: list[str] = field(default_factory=list)
     opportunity_best: int = 0
     confidence: str = "MEDIUM"
-    uplift_estimate: float = 0.0
+    # Индекс потенциала — безразмерная величина для сравнения пакетов между
+    # собой. Считается всегда, в переходы не переводится.
+    potential_index: float = 0.0
+    potential_label: str = "средний"
+    # Оценка прироста переходов — только там, где весь спрос группы измерен
+    # сопоставимой шкалой (частотность Wordstat). Иначе None: величину,
+    # собранную из разных знаменателей, нельзя называть переходами.
+    traffic_upside: float | None = None
+    upside_note: str = ""
     effort: str = "M"
     action: str = ""
     checklist: list[str] = field(default_factory=list)
@@ -122,14 +140,51 @@ def build(attacks: list[dict], config: dict | None = None) -> list[WorkPackage]:
         positions = [a["our_position"] for a in group]
         demand = sum(a.get("demand") or 0 for a in group)
 
-        # Оценка прироста переходов: сколько добавит выход в ТОП-3 при
-        # неизменном спросе. Считается по каждому запросу отдельно, потому
-        # что позиции разные.
-        uplift = 0.0
+        # Два разных измерения потенциала — их нельзя подменять друг другом.
+        #
+        # potential_index: безразмерная величина для сравнения пакетов между
+        # собой. Спрос входит нормированным по своей шкале, поэтому складывать
+        # запросы с разными источниками здесь корректно.
+        #
+        # traffic_upside: оценка прироста переходов в штуках. Допустима
+        # только когда весь спрос группы измерен сопоставимой шкалой —
+        # частотностью Wordstat. Смешивать её с показами Вебмастера значит
+        # складывать «запросов рынка в месяц» с «показов нам за две недели»,
+        # а потом называть сумму переходами. Внешний аудит справедливо назвал
+        # это главным дефектом версии 1.0.0.
+        potential = 0.0
+        upside = 0.0
+        sources = {a.get("demand_source", "none") for a in group}
+        comparable = sources == {COMPARABLE_DEMAND_SOURCE}
+
         for attack in group:
             current = visibility.ctr_weight(attack["our_position"], config)
             gain = max(0.0, target_weight - current)
-            uplift += gain * (attack.get("demand") or 0)
+            raw = attack.get("demand")
+            source = attack.get("demand_source", "none")
+            normalized = opp_mod.demand_factor(raw, source)
+            potential += gain * (normalized if normalized is not None else 0.0)
+            if comparable and raw:
+                upside += gain * raw
+
+        named = ", ".join(sorted(s for s in sources if s != "none"))
+        if comparable:
+            traffic_upside = round(upside, 1)
+            upside_note = ("оценка по частотности Wordstat: прирост кликов при "
+                           "выходе в ТОП-3 и неизменном спросе")
+        else:
+            traffic_upside = None
+            if not named:
+                upside_note = ("перевод в переходы невозможен: спрос группы "
+                               "не измерен")
+            elif len(sources - {"none"}) > 1:
+                upside_note = (f"перевод в переходы невозможен: спрос группы "
+                               f"измерен разными шкалами ({named}) — складывать "
+                               f"их и называть результат переходами нельзя")
+            else:
+                upside_note = (f"перевод в переходы невозможен: спрос измерен "
+                               f"показами Вебмастера — это видимая нам часть "
+                               f"спроса за две недели, а не объём рынка")
 
         confidences = {a.get("confidence") for a in group}
         confidence = ("LOW" if "LOW" in confidences
@@ -147,21 +202,42 @@ def build(attacks: list[dict], config: dict | None = None) -> list[WorkPackage]:
             attack_ids=[a["attack_id"] for a in group],
             queries_count=len(group),
             demand_total=demand,
+            demand_sources=sorted(s for s in sources if s != "none"),
             position_best=min(positions),
             position_worst=max(positions),
             rivals=sorted({a["rival_domain"] for a in group}),
             opportunity_best=max(a["opportunity"] for a in group),
             confidence=confidence,
-            uplift_estimate=round(uplift, 1),
+            potential_index=round(potential, 4),
+            potential_label="",  # проставляется после сортировки, см. ниже
+            traffic_upside=traffic_upside,
+            upside_note=upside_note,
             effort=effort,
             action=action,
             checklist=checklist,
         ))
 
-    # Порядок — по ожидаемому приросту: сначала то, что даст больше всего.
-    packages.sort(key=lambda p: (p.uplift_estimate, p.demand_total), reverse=True)
-    for number, package in enumerate(packages, start=1):
-        package.package_id = f"WP-{number:02d}"
+    # Порядок — по индексу потенциала: он безразмерный и потому сравним
+    # между пакетами с разными источниками спроса.
+    packages.sort(key=lambda p: (p.potential_index, p.demand_total), reverse=True)
+
+    # Метка потенциала — относительная, по месту в текущем наборе: верхняя
+    # треть «высокий», средняя «средний», нижняя «низкий». Абсолютные пороги
+    # здесь были бы произволом: величина индекса зависит от конфигурации
+    # кривой CTR и от того, каким источником измерен спрос, поэтому
+    # сравнивать её с фиксированным числом нельзя. Относительная шкала
+    # отвечает на тот вопрос, который и задаёт руководитель: с чего начать.
+    count = len(packages)
+    for index, package in enumerate(packages):
+        package.package_id = f"WP-{index + 1:02d}"
+        if package.potential_index <= 0:
+            package.potential_label = "нет потенциала"
+        elif index < max(1, count // 3):
+            package.potential_label = "высокий"
+        elif index < max(2, 2 * count // 3):
+            package.potential_label = "средний"
+        else:
+            package.potential_label = "низкий"
     return packages
 
 

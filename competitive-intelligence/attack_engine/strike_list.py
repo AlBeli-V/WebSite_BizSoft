@@ -5,10 +5,16 @@
   * конкурент из основного рейтинга стоит выше нас в топ-10;
   * запрос коммерческий и по возможности B2B.
 
-Намеренно НЕ кандидаты: запросы, где мы уже в топ-3 (нечего отбирать),
-где над нами только маркетплейсы и информационные площадки (мы не
-конкурируем с ними за сделку) и где нас нет в топ-20 вовсе (одной правкой
-страницы такой разрыв не закрывается — это работа Content Gap, а не атаки).
+Намеренно НЕ кандидаты: запросы, где мы уже в топ-3 (нечего отбирать) и где
+нас нет в топ-20 вовсе (одной правкой страницы такой разрыв не закрывается —
+это работа Content Gap, а не атаки).
+
+Версия 1.1.0 различает два вида конкуренции. Если выше нас стоит компания,
+способная продать тому же покупателю, — на кону сделка. Если только
+официальный сайт вендора, статья или маркетплейс — сделку они не заберут, но
+переход заберут, и это тоже потеря. Раньше такие запросы выпадали из поля
+зрения целиком; теперь они остаются кандидатами с пометкой вида конкуренции,
+а приоритет при равной выгоде отдаётся сделке.
 """
 from __future__ import annotations
 
@@ -40,6 +46,13 @@ class AttackCandidate:
     rival_domain: str
     rival_position: int
     rival_category: str
+    # Тип конкуренции (разделение введено в 1.1.0 по замечанию внешнего
+    # аудита). «Сделка» — выше нас стоит тот, кто способен продать тому же
+    # покупателю. «Клик» — выше только площадки, которые сделку не заберут,
+    # но забирают переход: официальные сайты вендоров, статьи, маркетплейсы.
+    # Второе тоже наша потеря, просто другого рода, и молча выбрасывать её
+    # из поля зрения нельзя.
+    competition_kind: str
     demand: int | None
     demand_source: str
     commercial_intent: float
@@ -74,8 +87,12 @@ def build(rows, *, region: str = "213", engine: str = "yandex",
         if our_pos is None or not (OUR_POSITION_MIN <= our_pos <= OUR_POSITION_MAX):
             continue
 
-        # Ближайший конкурент выше нас, который вообще конкурирует за сделку
-        rival = None
+        # Кто стоит выше нас: отдельно тот, кто заберёт сделку, и отдельно
+        # тот, кто заберёт только клик. В 1.0.0 запрос отбрасывался, если
+        # выше не было ни одного «делового» конкурента — но если над нами
+        # официальный сайт вендора и статья, переход мы всё равно теряем.
+        business_rival = None
+        serp_rival = None
         for index, item in enumerate(row.top[:RIVAL_POSITION_MAX], start=1):
             if index >= our_pos:
                 break
@@ -84,11 +101,14 @@ def build(rows, *, region: str = "213", engine: str = "yandex",
                 continue
             category = classifier.categorize(domain, sample_urls=[item.get("url", "")],
                                              vendor_hosts=vendor_hosts)
-            if classifier.in_main_ranking(category):
-                rival = (domain, index, category)
-                break
+            if serp_rival is None:
+                serp_rival = (domain, index, category)
+            if classifier.in_main_ranking(category) and business_rival is None:
+                business_rival = (domain, index, category)
+        rival = business_rival or serp_rival
         if rival is None:
             continue
+        competition_kind = "сделка" if business_rival else "клик"
 
         commercial = intent_mod.commercial_intent(row.query)
         if commercial <= 0:
@@ -107,13 +127,17 @@ def build(rows, *, region: str = "213", engine: str = "yandex",
             query=row.query, engine=engine, region=region,
             our_position=our_pos, our_url=our_url,
             rival_domain=rival[0], rival_position=rival[1], rival_category=rival[2],
+            competition_kind=competition_kind,
             demand=demand_value, demand_source=demand_kind,
             commercial_intent=commercial, b2b_intent=b2b,
             opportunity=opportunity.score, confidence=opportunity.confidence,
             breakdown=opportunity.breakdown, notes=opportunity.notes,
         ))
 
-    candidates.sort(key=lambda c: (c.opportunity, c.b2b_intent), reverse=True)
+    # Сначала — где на кону сделка, потом где только клик: при равном
+    # Opportunity отобрать покупателя ценнее, чем отобрать посетителя.
+    candidates.sort(key=lambda c: (c.competition_kind == "сделка",
+                                   c.opportunity, c.b2b_intent), reverse=True)
     for number, candidate in enumerate(candidates, start=1):
         candidate.attack_id = f"ATT-{number:03d}"
     return candidates

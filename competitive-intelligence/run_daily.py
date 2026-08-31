@@ -87,12 +87,23 @@ def main(argv: list[str]) -> int:
     previous = kpi_mod.load_snapshot(earlier[-1]) if earlier else None
     print(f"3. Сравнение с: {earlier[-1] if earlier else 'нет сравнимого дня'}")
 
+    # История долей по дням — для динамики Threat и вердикта. Собирается из
+    # сохранённых снимков: сравнимые измерения, а не соседние точки.
+    histories: dict[str, list[float]] = {}
+    our_history: list[float] = []
+    for past_date in kpi_mod.available_snapshots():
+        if past_date > date:
+            continue
+        past = kpi_mod.load_snapshot(past_date) or {}
+        for leader in (past.get("лидеры") or []):
+            histories.setdefault(leader["домен"], []).append(leader.get("доля") or 0.0)
+        share = (past.get("наши_показатели") or {}).get("доля_видимости")
+        if share is not None:
+            our_history.append(share)
+
     rivals = [d for d in (snapshot.get("лидеры") or []) if d["домен"] != OURS]
-    ranked = threat_mod.rank(
-        rivals,
-        previous_cards=[d for d in ((previous or {}).get("лидеры") or [])
-                        if d["домен"] != OURS],
-        queries_total=len(usable))
+    ranked = threat_mod.rank(rivals, histories=histories,
+                             queries_total=len(usable))
     threat_leader = ranked[0] if ranked else None
     if threat_leader:
         print(f"4. Threat-лидер: {threat_leader[0]['домен']} "
@@ -109,14 +120,16 @@ def main(argv: list[str]) -> int:
     with open(os.path.join(paths.PROCESSED_DIR, f"{date}-work-packages.json"),
               "w", encoding="utf-8") as fh:
         json.dump(packages, fh, ensure_ascii=False, indent=2)
-    total_uplift = sum(p["uplift_estimate"] for p in packages)
-    print(f"6. Пакеты работ: {len(packages)}, суммарная оценка "
-          f"+{total_uplift:.0f} переходов при выходе в ТОП-3")
+    countable = [p for p in packages if p["traffic_upside"] is not None]
+    high = sum(1 for p in packages if p["potential_label"] == "высокий")
+    print(f"6. Пакеты работ: {len(packages)}, из них {high} с высоким "
+          f"потенциалом; переходы считаются для {len(countable)} "
+          f"(сопоставимый спрос)")
 
     meta = build_email.build(date, snapshot, previous, attacks=attacks,
                              threat_leader=threat_leader,
                              stale_notice=stale_notice, ranked_rivals=ranked,
-                             packages=packages)
+                             packages=packages, history=our_history)
     kpi_obj = kpi_mod.build_kpi(snapshot, previous)
     os.makedirs(paths.REPORTS_DIR, exist_ok=True)
     base = os.path.join(paths.REPORTS_DIR, f"{date}-email")
@@ -142,7 +155,7 @@ def main(argv: list[str]) -> int:
     from reports import deep_report
     page = deep_report.build(date, snapshot, previous, attacks,
                              [c.__dict__ for c in cards], rows,
-                             packages=packages)
+                             packages=packages, histories=histories)
     os.makedirs(paths.ARCHIVE_DIR, exist_ok=True)
     for target in (os.path.join(paths.ARCHIVE_DIR, f"{date}.html"),
                    os.path.join(paths.REPORTS_DIR, "latest.html")):

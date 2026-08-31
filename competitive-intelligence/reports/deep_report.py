@@ -144,10 +144,10 @@ def _category_table(snapshot: dict) -> str:
             '<th>В рейтинге</th></tr>' + "".join(rows) + "</table></div>")
 
 
-def _leaderboard(cards: list[dict], usable: int, previous: dict | None) -> str:
-    prev_cards = [d for d in ((previous or {}).get("лидеры") or [])]
+def _leaderboard(cards: list[dict], usable: int,
+                 histories: dict[str, list[float]] | None = None) -> str:
     ranked = threat_mod.rank([c for c in cards if c["домен"] != OURS],
-                             previous_cards=prev_cards, queries_total=usable)
+                             histories=histories or {}, queries_total=usable)
     rows = []
     for position, (card, t) in enumerate(ranked, start=1):
         cat = card.get("категория", "?")
@@ -251,7 +251,7 @@ def _packages_block(packages: list[dict]) -> str:
         queries = "".join(f"<li>{esc(q)}</li>" for q in (pkg.get("queries") or []))
         url_short = pkg["url"].replace("https://biz-soft.pro", "")
         blocks.append(f"""
-<details><summary>{esc(pkg['package_id'])} · +{pkg['uplift_estimate']:.0f} переходов ·
+<details><summary>{esc(pkg['package_id'])} · потенциал {esc(pkg['potential_label'])} ·
   {pkg['queries_count']} запросов · трудоёмкость {esc(pkg['effort'])} ·
   {esc(pkg['action'])}</summary>
   <div class="grid2">
@@ -261,10 +261,15 @@ def _packages_block(packages: list[dict]) -> str:
       Выше нас: {esc(", ".join(pkg['rivals']))}.<br>
       Суммарный спрос группы: {pkg['demand_total']}.<br>
       Уверенность оценки: {esc(pkg['confidence'])}.</p>
-      <p class="q"><span class="lbl likely">ОЦЕНКА</span>+{pkg['uplift_estimate']:.0f}
-      переходов — разница между весом текущих позиций и весом ТОП-3 при том же
-      спросе. Это потенциал, а не обещание: он реализуется, только если правка
-      действительно поднимет страницу.</p></div>
+      <p class="q"><span class="lbl likely">ОЦЕНКА</span>Индекс потенциала
+      {pkg['potential_index']:.3f} ({esc(pkg['potential_label'])}) — безразмерная
+      величина для сравнения пакетов между собой: прирост веса позиции,
+      умноженный на нормированный спрос.<br>
+      {("Прирост переходов: ≈ +%.0f. " % pkg['traffic_upside'])
+       if pkg.get('traffic_upside') is not None else ""}{esc(pkg['upside_note'])}<br>
+      Источники спроса группы: {esc(", ".join(pkg.get("demand_sources") or ["нет"]))}.
+      Любая оценка реализуется только если правка действительно поднимет
+      страницу.</p></div>
     <div><h3>Что проверить при приёмке</h3><ul class="q">{checks}</ul></div>
     <div><h3>Какие запросы закрывает</h3><ul class="q">{queries}</ul></div>
   </div>
@@ -274,7 +279,8 @@ def _packages_block(packages: list[dict]) -> str:
 
 def build(date: str, snapshot: dict, previous: dict | None,
           attacks: list[dict], full_cards: list[dict], rows,
-          packages: list[dict] | None = None) -> str:
+          packages: list[dict] | None = None,
+          histories: dict[str, list[float]] | None = None) -> str:
     """Собирает самодостаточный HTML-отчёт."""
     ours = snapshot.get("наши_показатели") or {}
     coverage = snapshot.get("покрытие") or {}
@@ -338,7 +344,7 @@ def build(date: str, snapshot: dict, previous: dict | None,
 видимости, присутствие в ТОП-3 и ТОП-10 плюс динамика, когда есть с чем
 сравнивать. Пока истории меньше двух дней, динамическая часть недоступна,
 и уверенность честно понижена.</p>
-{_leaderboard(leaders, usable, previous)}
+{_leaderboard(leaders, usable, histories)}
 
 <h2 id="l3">3 · Карточки конкурентов</h2>
 <p class="lead">По каждому — на каких запросах он виден и какими страницами
@@ -350,8 +356,8 @@ def build(date: str, snapshot: dict, previous: dict | None,
 <p class="lead">Точки атаки, сведённые в поручения. Единица работы — страница:
 одна доработка закрывает сразу несколько запросов, и именно её можно поручить
 и принять. Порядок — по ожидаемому приросту переходов; суммарная оценка по
-всем пакетам: +{sum(p['uplift_estimate'] for p in (packages or [])):.0f}
-переходов при выходе в ТОП-3.</p>
+пакетам с сопоставимым спросом: +{sum(p['traffic_upside'] or 0 for p in (packages or [])):.0f}
+переходов при выходе в ТОП-3 — там, где спрос измерен сопоставимой шкалой.</p>
 {_packages_block(packages or [])}
 
 <h2 id="l4">5 · Точки атаки — {len(attacks)} кандидатов</h2>
@@ -436,8 +442,16 @@ def main(argv: list[str]) -> int:
     from attack_engine import work_packages
     packages = work_packages.to_dicts(work_packages.build(attacks))
 
+    histories: dict[str, list[float]] = {}
+    for past_date in dates:
+        if past_date > date:
+            continue
+        past = kpi_mod.load_snapshot(past_date) or {}
+        for leader in (past.get("лидеры") or []):
+            histories.setdefault(leader["домен"], []).append(leader.get("доля") or 0.0)
+
     page = build(date, snapshot, previous, attacks, full_cards, rows,
-                 packages=packages)
+                 packages=packages, histories=histories)
     os.makedirs(paths.ARCHIVE_DIR, exist_ok=True)
     archive = os.path.join(paths.ARCHIVE_DIR, f"{date}.html")
     latest = os.path.join(paths.REPORTS_DIR, "latest.html")
