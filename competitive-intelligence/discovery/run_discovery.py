@@ -30,10 +30,16 @@ OURS = "biz-soft.pro"
 
 def build_snapshot(date: str, cards: list, rows: list, config: dict) -> dict:
     """Канонический снимок дня: цифры письма берутся только отсюда."""
-    main = [c for c in cards if c.in_main_ranking]
+    # Наш домен исключается из всех конкурентных срезов: он не конкурент сам
+    # себе. Раньше biz-soft.pro попадал и в перечень «кто держит выдачу», и в
+    # карточки конкурентов, а его доля вливалась в категорию «прямые
+    # B2B-реселлеры» — из-за чего вес конкурентов в этой категории выглядел
+    # больше, чем есть. Наша доля живёт отдельно, в «наши_показатели».
+    rivals = [c for c in cards if c.domain != OURS]
+    main = [c for c in rivals if c.in_main_ranking]
     ours = next((c for c in cards if c.domain == OURS), None)
     by_category: dict[str, float] = {}
-    for card in cards:
+    for card in rivals:
         by_category[card.category] = round(
             by_category.get(card.category, 0.0) + (card.share or 0.0), 6)
 
@@ -63,6 +69,9 @@ def build_snapshot(date: str, cards: list, rows: list, config: dict) -> dict:
             "запросов_в_поле": len(usable),
         } if ours else {"_нет_данных": "домен не найден в срезе"},
         "доли_по_категориям": by_category,
+        "_доли_по_категориям_пояснение": (
+            "доли конкурентов без BIZSoft; наша доля — в «наши_показатели», "
+            "поэтому сумма меньше 100%"),
         "конкурентов_в_основном_рейтинге": len(main),
         "не_классифицировано": sum(1 for c in cards if c.category == "?"),
         "лидеры": [

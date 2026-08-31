@@ -38,13 +38,26 @@ TEXT_LIMIT = 1000
 REPORT_URL = "https://biz-soft.pro/ci-c98370a0ebe87d97/latest.html"
 
 
-def do_next_text(attack: dict | None) -> str:
-    """DO NEXT — одно действие, а не список.
+def do_next_text(attack: dict | None, package: dict | None = None) -> str:
+    """DO NEXT — одно поручение, а не список и не строка про один запрос.
+
+    Формулируется через пакет работ: страница, охват, ожидаемый эффект.
+    Отдельный запрос поручить нельзя — доработка страницы закрывает сразу
+    несколько, и именно это решение принимает руководитель.
 
     Требование раздела 23: Opportunity HIGH при Confidence LOW главным
     действием не делаем. Пока нет ни одного кандидата — честная строка о
     том, что действий нет, а не выдуманное задание.
     """
+    if package:
+        url_short = package["url"].replace("https://biz-soft.pro", "")
+        return (f"Что делать: {package['package_id']} — {package['action']} "
+                f"({url_short}). Закроет {package['queries_count']} запросов "
+                f"со спросом {package['demand_total']}, сейчас позиции "
+                f"{package['position_best']}–{package['position_worst']}; "
+                f"при выходе в ТОП-3 даст примерно "
+                f"+{package['uplift_estimate']:.0f} переходов. "
+                f"Трудоёмкость {package['effort']}.")
     if not attack:
         return ("Что делать: подтверждённых точек атаки нет — "
                 "накапливаем наблюдения.")
@@ -66,7 +79,7 @@ def watch_text(threat_leader: tuple[dict, object] | None) -> str:
 
 
 def visible_text(kpi, verdict_mark, verdict_why, signal, *,
-                 attack=None, threat_leader=None) -> str:
+                 attack=None, threat_leader=None, package=None) -> str:
     """Основная текстовая часть письма — то, что считается против лимита.
 
     Ссылки, подписи и футер в лимит не входят (раздел 23), поэтому здесь
@@ -79,7 +92,7 @@ def visible_text(kpi, verdict_mark, verdict_why, signal, *,
          f"Google {kpi_mod.format_share(kpi.share_google)} · "
          f"ТОП-3 {kpi.top3}/{kpi.queries} · ТОП-10 {kpi.top10}/{kpi.queries}."),
         f"Главный сигнал: {signal.text}",
-        do_next_text(attack),
+        do_next_text(attack, package),
         watch_text(threat_leader),
     ]
     return "\n".join(lines)
@@ -101,7 +114,7 @@ def pick_attack(attacks: list[dict] | None) -> dict | None:
 def build(date: str, snapshot: dict, previous: dict | None,
           attacks: list[dict] | None = None,
           threat_leader=None, stale_notice: str | None = None,
-          ranked_rivals=None) -> dict:
+          ranked_rivals=None, packages: list[dict] | None = None) -> dict:
     kpi = kpi_mod.build_kpi(snapshot, previous)
     verdict_mark, verdict_why = kpi_mod.verdict(kpi)
     if stale_notice:
@@ -113,8 +126,10 @@ def build(date: str, snapshot: dict, previous: dict | None,
         verdict_why = f"Данные неполные: {stale_notice}"
     signal = signal_mod.pick(snapshot, previous)
     attack = pick_attack(attacks)
+    package = (packages or [None])[0]
     text = visible_text(kpi, verdict_mark, verdict_why, signal,
-                        attack=attack, threat_leader=threat_leader)
+                        attack=attack, threat_leader=threat_leader,
+                        package=package)
 
     coverage = snapshot.get("покрытие") or {}
     subject = (f"Конкурентная разведка · "
@@ -133,8 +148,11 @@ def build(date: str, snapshot: dict, previous: dict | None,
         "сигнал_тип": signal.kind,
         "сигнал_хэш": hashlib.sha256(signal.text.encode()).hexdigest()[:16],
         "действие": attack,
-        "действие_хэш": (hashlib.sha256(attack["attack_id"].encode()).hexdigest()[:16]
-                         if attack else None),
+        "пакет_работ": package,
+        "действие_хэш": (
+            hashlib.sha256((package or attack or {}).get(
+                "package_id", (attack or {}).get("attack_id", "")).encode()
+            ).hexdigest()[:16] if (package or attack) else None),
         "кандидатов_в_атаку": len(attacks or []),
         "покрытие": coverage,
         "предупреждение_о_свежести": stale_notice,
@@ -151,13 +169,41 @@ def build(date: str, snapshot: dict, previous: dict | None,
 
 
 def render_txt(meta: dict, *, snapshot: dict | None = None,
-               attacks: list[dict] | None = None, ranked_rivals=None) -> str:
+               attacks: list[dict] | None = None, ranked_rivals=None,
+               packages: list[dict] | None = None) -> str:
     """Текстовая версия — полноценная, а не огрызок для спам-фильтра.
 
     Повторяет оба уровня письма: executive-часть и детализацию. Клиент,
     отключивший HTML, обязан получить те же сведения, а не обрубок.
     """
     parts = [meta["тема"], "", meta["текст"]]
+
+    if packages:
+        parts += ["", "ЧТО ПОРУЧИТЬ (по убыванию ожидаемого эффекта)"]
+        for pkg in packages[:3]:
+            url_short = pkg["url"].replace("https://biz-soft.pro", "")
+            parts.append(
+                f"{pkg['package_id']}. {pkg['action']}\n"
+                f"   Страница: {url_short}\n"
+                f"   Закроет {pkg['queries_count']} запросов, спрос {pkg['demand_total']}, "
+                f"сейчас позиции {pkg['position_best']}–{pkg['position_worst']}, "
+                f"выше нас {', '.join(pkg['rivals'][:2])}\n"
+                f"   При выходе в ТОП-3 даст примерно +{pkg['uplift_estimate']:.0f} "
+                f"переходов · трудоёмкость {pkg['effort']} · уверенность {pkg['confidence']}")
+            for check in (pkg.get("checklist") or [])[:3]:
+                parts.append(f"   - {check}")
+
+        quick = [p for p in packages if p["effort"] == "S"][:3]
+        parts += ["", "ВАРИАНТЫ ДЕЙСТВИЙ (оценка при выходе в ТОП-3, не обещание)"]
+        parts.append(f"- Минимум: {len(quick)} лёгких пакета, "
+                     f"≈ +{sum(p['uplift_estimate'] for p in quick):.0f} переходов — "
+                     "правки текста без новых материалов")
+        parts.append(f"- Оптимум: 3 верхних пакета, "
+                     f"≈ +{sum(p['uplift_estimate'] for p in packages[:3]):.0f} переходов — "
+                     "включая страницы с наибольшим спросом")
+        parts.append(f"- Полный охват: все {len(packages)} пакетов, "
+                     f"≈ +{sum(p['uplift_estimate'] for p in packages):.0f} переходов — "
+                     "имеет смысл растянуть на несколько недель")
 
     if snapshot:
         shares = snapshot.get("доли_по_категориям") or {}
@@ -223,7 +269,8 @@ def _block(title: str, body: str, *, accent: bool = False) -> str:
 
 
 def render_html(meta: dict, *, kpi=None, snapshot: dict | None = None,
-                attacks: list[dict] | None = None, ranked_rivals=None) -> str:
+                attacks: list[dict] | None = None, ranked_rivals=None,
+                packages: list[dict] | None = None) -> str:
     """HTML-версия письма: верхний уровень плюс секции детализации.
 
     Верхний уровень (вердикт, показатели, сигнал, действие, наблюдение)
@@ -251,6 +298,8 @@ def render_html(meta: dict, *, kpi=None, snapshot: dict | None = None,
         detail = (
             '<tr><td style="padding:16px 24px 0;">'
             f'<div style="border-top:1px solid {sections.LINE};"></div></td></tr>'
+            + sections.packages_section(packages or [])
+            + sections.options_section(packages or [])
             + sections.kpi_section(kpi, snapshot)
             + sections.field_section(snapshot)
             + sections.rivals_section(snapshot.get("лидеры") or [],

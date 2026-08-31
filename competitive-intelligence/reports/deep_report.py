@@ -215,7 +215,8 @@ def _attack_details(attacks: list[dict], limit: int = 10) -> str:
 def _competitor_pages(cards: list[dict], full_cards: list[dict], limit: int = 8) -> str:
     by_domain = {c["domain"]: c for c in full_cards}
     blocks = []
-    for card in cards[:limit]:
+    # Наш домен в карточки конкурентов не попадает ни при каких условиях.
+    for card in [c for c in cards if c["домен"] != OURS][:limit]:
         domain = card["домен"]
         full = by_domain.get(domain, {})
         queries = "".join(f"<li>{esc(q)}</li>"
@@ -240,8 +241,40 @@ def _competitor_pages(cards: list[dict], full_cards: list[dict], limit: int = 8)
     return "".join(blocks)
 
 
+def _packages_block(packages: list[dict]) -> str:
+    """План работ: что поручить, что это даст, по каким пунктам принимать."""
+    if not packages:
+        return '<p class="lead">Пакетов работ нет: нет точек атаки.</p>'
+    blocks = []
+    for pkg in packages:
+        checks = "".join(f"<li>{esc(c)}</li>" for c in (pkg.get("checklist") or []))
+        queries = "".join(f"<li>{esc(q)}</li>" for q in (pkg.get("queries") or []))
+        url_short = pkg["url"].replace("https://biz-soft.pro", "")
+        blocks.append(f"""
+<details><summary>{esc(pkg['package_id'])} · +{pkg['uplift_estimate']:.0f} переходов ·
+  {pkg['queries_count']} запросов · трудоёмкость {esc(pkg['effort'])} ·
+  {esc(pkg['action'])}</summary>
+  <div class="grid2">
+    <div><h3>Что и где</h3>
+      <p class="q">Страница: <b>{esc(url_short)}</b> ({esc(pkg['page_kind'])}).<br>
+      Сейчас позиции {pkg['position_best']}–{pkg['position_worst']}.<br>
+      Выше нас: {esc(", ".join(pkg['rivals']))}.<br>
+      Суммарный спрос группы: {pkg['demand_total']}.<br>
+      Уверенность оценки: {esc(pkg['confidence'])}.</p>
+      <p class="q"><span class="lbl likely">ОЦЕНКА</span>+{pkg['uplift_estimate']:.0f}
+      переходов — разница между весом текущих позиций и весом ТОП-3 при том же
+      спросе. Это потенциал, а не обещание: он реализуется, только если правка
+      действительно поднимет страницу.</p></div>
+    <div><h3>Что проверить при приёмке</h3><ul class="q">{checks}</ul></div>
+    <div><h3>Какие запросы закрывает</h3><ul class="q">{queries}</ul></div>
+  </div>
+</details>""")
+    return "".join(blocks)
+
+
 def build(date: str, snapshot: dict, previous: dict | None,
-          attacks: list[dict], full_cards: list[dict], rows) -> str:
+          attacks: list[dict], full_cards: list[dict], rows,
+          packages: list[dict] | None = None) -> str:
     """Собирает самодостаточный HTML-отчёт."""
     ours = snapshot.get("наши_показатели") or {}
     coverage = snapshot.get("покрытие") or {}
@@ -282,8 +315,9 @@ def build(date: str, snapshot: dict, previous: dict | None,
   <a href="#l1">1 · Итоги дня</a>
   <a href="#l2">2 · Конкуренты</a>
   <a href="#l3">3 · Карточки конкурентов</a>
-  <a href="#l4">4 · Точки атаки</a>
-  <a href="#l5">5 · Исходные данные</a>
+  <a href="#plan">4 · План работ</a>
+  <a href="#l4">5 · Точки атаки</a>
+  <a href="#l5">6 · Исходные данные</a>
   <a href="#method">Методика</a>
 </nav>
 
@@ -312,7 +346,15 @@ def build(date: str, snapshot: dict, previous: dict | None,
 чего нет у нас.</p>
 {_competitor_pages(leaders, full_cards)}
 
-<h2 id="l4">4 · Точки атаки — {len(attacks)} кандидатов</h2>
+<h2 id="plan">4 · План работ — {len(packages or [])} пакетов</h2>
+<p class="lead">Точки атаки, сведённые в поручения. Единица работы — страница:
+одна доработка закрывает сразу несколько запросов, и именно её можно поручить
+и принять. Порядок — по ожидаемому приросту переходов; суммарная оценка по
+всем пакетам: +{sum(p['uplift_estimate'] for p in (packages or [])):.0f}
+переходов при выходе в ТОП-3.</p>
+{_packages_block(packages or [])}
+
+<h2 id="l4">5 · Точки атаки — {len(attacks)} кандидатов</h2>
 <p class="lead">Кандидат — запрос, где мы на 4–20 позиции, а выше стоит
 конкурент из основного рейтинга. Где мы уже в ТОП-3, отбирать нечего; где
 выше только маркетплейсы, мы не конкурируем за сделку. Opportunity 0–100
@@ -323,7 +365,7 @@ def build(date: str, snapshot: dict, previous: dict | None,
 <h3>Разбор первых десяти</h3>
 {_attack_details(attacks)}
 
-<h2 id="l5">5 · Исходные данные</h2>
+<h2 id="l5">6 · Исходные данные</h2>
 <p class="lead">Всё выше построено на этих строках выдачи. Каждая — запрос,
 регион и TOP-20 доменов с URL на момент съёма.</p>
 <details><summary>Показать выдачу по первым 20 запросам</summary>
@@ -391,8 +433,11 @@ def main(argv: list[str]) -> int:
     if os.path.exists(strike_path):
         with open(strike_path, encoding="utf-8") as fh:
             attacks = json.load(fh)
+    from attack_engine import work_packages
+    packages = work_packages.to_dicts(work_packages.build(attacks))
 
-    page = build(date, snapshot, previous, attacks, full_cards, rows)
+    page = build(date, snapshot, previous, attacks, full_cards, rows,
+                 packages=packages)
     os.makedirs(paths.ARCHIVE_DIR, exist_ok=True)
     archive = os.path.join(paths.ARCHIVE_DIR, f"{date}.html")
     latest = os.path.join(paths.REPORTS_DIR, "latest.html")
