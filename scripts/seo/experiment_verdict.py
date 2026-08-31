@@ -58,7 +58,23 @@ def evaluate(exp: dict, date: str) -> dict:
         return _evaluate_impressions_growth(exp, date)
     if kind == "launch":
         return _evaluate_launch(exp, date)
+    res = _evaluate_ctr(exp, date)
+    # Объединённая оценка формулы (вопрос руководителя 31.08.2026): малый
+    # кластер участника не наберёт собственный гейт, но эксперименты одной
+    # формулы складываются — статистической мощности группы хватает раньше.
+    # Пул — вспомогательное свидетельство о ФОРМУЛЕ, вердикт участника он
+    # не подменяет.
+    if exp.get("formula_group"):
+        try:
+            res["formula_group_result"] = _formula_group_result(
+                exp["formula_group"], date)
+        except Exception:  # noqa: BLE001 — пул вспомогателен, письмо не ломаем
+            res["formula_group_result"] = None
+        _apply_group_hint(res)
+    return res
 
+
+def _evaluate_ctr(exp: dict, date: str) -> dict:
     cfg = st.CONFIG
     start = dt.date.fromisoformat(exp["start"])
     today = dt.date.fromisoformat(date)
@@ -73,6 +89,7 @@ def evaluate(exp: dict, date: str) -> dict:
         res["recommendation_detail"] = "оценка невозможна для этого эксперимента"
         return res
     if not win["experiment"]:
+        res["clean_window_eta"] = win["clean_experiment_eta"]
         res["verdict_reason"] = (
             "окно источника ещё не очистилось от периода до внедрения; "
             f"чистое окно ожидается к {win['clean_experiment_eta'] or '—'}")
@@ -113,8 +130,29 @@ def evaluate(exp: dict, date: str) -> dict:
                               "queries": len(mb)}
 
     # Гейт экспозиции (§5) — по matched-набору: именно он несёт вывод.
-    need_b = cfg["EXPERIMENT_MIN_BASELINE_IMPRESSIONS"]
-    need_e = cfg["EXPERIMENT_MIN_POST_IMPRESSIONS"]
+    # Гейт адаптивный (вопрос руководителя 31.08.2026): окно источника
+    # скользящее, показы кластера за окно примерно постоянны, и малый кластер
+    # настроенный порог не наберёт никогда — для него порог снижается до доли
+    # ёмкости окна с пометкой и ограничением уверенности.
+    need_b, adapted_b = st.effective_gate(
+        overall_b["impressions"], cfg["EXPERIMENT_MIN_BASELINE_IMPRESSIONS"], cfg)
+    need_e, adapted_e = st.effective_gate(
+        overall_e["impressions"], cfg["EXPERIMENT_MIN_POST_IMPRESSIONS"], cfg)
+    adapted = adapted_b or adapted_e
+    res["effective_gate"] = {"baseline": need_b, "experiment": need_e,
+                             "adapted": adapted}
+    if adapted:
+        mde = st.min_detectable_uplift(
+            matched_b["ctr"] or overall_b["ctr"],
+            max(matched_b["impressions"], 1), max(matched_e["impressions"], 1), cfg)
+        res["sample_quality"].append(
+            "порог экспозиции адаптирован под ёмкость кластера "
+            f"({need_b}/{need_e} вместо "
+            f"{cfg['EXPERIMENT_MIN_BASELINE_IMPRESSIONS']}/"
+            f"{cfg['EXPERIMENT_MIN_POST_IMPRESSIONS']}): окно источника "
+            "скользящее, и больший объём кластер не наберёт"
+            + (f"; надёжно различим только рост CTR от ×{1 + mde:.1f}"
+               if mde is not None else ""))
     if matched_b["impressions"] < need_b or matched_e["impressions"] < need_e:
         lack = []
         if matched_b["impressions"] < need_b:
@@ -136,6 +174,9 @@ def evaluate(exp: dict, date: str) -> dict:
     stat = st.two_proportion_test(
         matched_b["clicks"], matched_b["impressions"],
         matched_e["clicks"], matched_e["impressions"])
+    stat["min_detectable_relative_uplift"] = st.min_detectable_uplift(
+        stat["baseline_ctr"], matched_b["impressions"],
+        matched_e["impressions"], cfg)
     res["statistical_result"] = stat
 
     pos_delta = None
@@ -426,6 +467,12 @@ def _decide(res: dict, stat: dict, pos_delta: float | None, cfg: dict) -> None:
                 f"различие CTR статистически неразличимо "
                 f"(p={p:.3f} при пороге {alpha})" if p is not None else
                 "тест не дал оценки: вырожденная выборка")
+            mde = stat.get("min_detectable_relative_uplift")
+            if (p is not None and rel is not None and mde is not None
+                    and 0 < rel < mde):
+                res["verdict_reason"] += (
+                    f"; наблюдаемый рост {rel * 100:+.0f}% меньше минимально "
+                    f"различимого при этой выборке (от ×{1 + mde:.1f})")
 
     # Confidence (§8): сочетание значимости, объёма, позиции и качества выборки.
     score = 0
@@ -440,6 +487,11 @@ def _decide(res: dict, stat: dict, pos_delta: float | None, cfg: dict) -> None:
     if not res["sample_quality"]:
         score += 1
     res["confidence"] = "HIGH" if score >= 4 else "MEDIUM" if score >= 2 else "LOW"
+    # Адаптированный гейт означает малую выборку по построению: уверенность
+    # выше средней такой вывод носить не может.
+    if any("адаптирован" in s for s in res["sample_quality"]) \
+            and res["confidence"] == "HIGH":
+        res["confidence"] = "MEDIUM"
 
 
 def _recommend(res: dict, exp: dict, stat: dict) -> None:
@@ -471,6 +523,60 @@ def _recommend(res: dict, exp: dict, stat: dict) -> None:
     else:  # INSUFFICIENT_DATA
         res["recommendation"] = "EXTEND"
         res["requires_owner_decision"] = False
+
+
+def _formula_group_result(group: str, date: str) -> dict | None:
+    """Объединённый z-тест формулы по всем её экспериментам.
+
+    Каждый участник вносит свои matched-наборы в СВОИХ окнах (стар — разные);
+    суммируются клики и показы обеих сторон. Возвращается None, пока чистые
+    окна есть меньше чем у двух участников.
+    """
+    import experiments
+    today_s = date
+    members, sb = [], {"clicks": 0, "impressions": 0}
+    se = {"clicks": 0, "impressions": 0}
+    for e in experiments.load_registry():
+        if (e.get("formula_group") != group
+                or e.get("status") not in ("running", "observing")
+                or e.get("evaluation_kind", "ctr") != "ctr"):
+            continue
+        win = st.pick_windows(dt.date.fromisoformat(e["start"]),
+                              dt.date.fromisoformat(today_s))
+        if not win["baseline"] or not win["experiment"]:
+            continue
+        keys = experiments.cluster_keys(e)
+        mb, me = st.matched_sets(
+            st._rows_for_cluster(win["baseline"]["queries"], keys),
+            st._rows_for_cluster(win["experiment"]["queries"], keys))
+        bm, em = st.metrics(mb), st.metrics(me)
+        members.append(e.get("ticket", e["id"]))
+        sb["clicks"] += bm["clicks"]; sb["impressions"] += bm["impressions"]
+        se["clicks"] += em["clicks"]; se["impressions"] += em["impressions"]
+    if len(members) < 2:
+        return None
+    stat = st.two_proportion_test(sb["clicks"], sb["impressions"],
+                                  se["clicks"], se["impressions"])
+    return {"group": group, "members": members,
+            "baseline": sb, "experiment": se, "stat": stat,
+            "note": ("объединённая оценка формулы по кластерам участников; "
+                     "окна у каждого свои, вердикты участников не подменяет")}
+
+
+def _apply_group_hint(res: dict) -> None:
+    """Подсказка в рекомендацию, когда группа отвечает раньше участника."""
+    g = res.get("formula_group_result")
+    if not g or res["verdict"] in ("CONFIRMED", "REJECTED"):
+        return
+    stat = g["stat"]
+    p = stat.get("p_value")
+    rel = stat.get("relative_uplift")
+    if p is not None and p < st.CONFIG["EXPERIMENT_ALPHA"] and (rel or 0) > 0:
+        res["recommendation_detail"] = (res["recommendation_detail"] +
+            f"; объединённая оценка формулы по группе ({', '.join(g['members'])}): "
+            f"рост CTR {_pct(stat['baseline_ctr'])} → {_pct(stat['experiment_ctr'])}"
+            f" при p={p:.3f} — решение о тираже формулы можно принимать на группе"
+        ).lstrip("; ")
 
 
 def _pct(v: float | None, raw: bool = False) -> str:

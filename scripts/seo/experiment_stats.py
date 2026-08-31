@@ -41,7 +41,48 @@ CONFIG = {
     # Сколько дней после старта окно выгрузки считается «загрязнённым», если
     # захватывает сам день внедрения (выкат шёл в течение дня).
     "CLEAN_WINDOW_STARTS_DAYS_AFTER": 1,
+    # Адаптация гейта под малые кластеры (вопрос руководителя 31.08.2026).
+    # Окно Вебмастера скользящее: показы кластера за окно примерно постоянны,
+    # и кластер с ёмкостью ниже гейта не наберёт его НИКОГДА — ждать
+    # бессмысленно. Для таких кластеров гейт снижается до доли ёмкости окна
+    # (не ниже пола), адаптация помечается, уверенность ограничивается, а
+    # минимально различимый эффект (MDE) показывается явно.
+    "EXPERIMENT_MIN_IMPRESSIONS_FLOOR": 100,
+    "EXPERIMENT_ADAPTIVE_GATE_SHARE": 0.7,
+    # Мощность для оценки MDE (какой рост CTR вообще различим при выборке).
+    "EXPERIMENT_MDE_POWER_Z": 0.8416,   # z для мощности 80%
+    "EXPERIMENT_MDE_ALPHA_Z": 1.9600,   # z для двустороннего alpha=0.05
 }
+
+
+def effective_gate(window_capacity: int | None, need: int, cfg: dict | None = None) -> tuple[int, bool]:
+    """Эффективный гейт экспозиции: (порог, адаптирован ли).
+
+    Если ёмкость окна кластера ниже настроенного гейта, ждать набора
+    бессмысленно (окно скользящее) — гейт снижается до доли ёмкости,
+    но не ниже пола: меньше пола любой вывод — шум.
+    """
+    cfg = cfg or CONFIG
+    if window_capacity is None or window_capacity >= need:
+        return need, False
+    adapted = max(cfg["EXPERIMENT_MIN_IMPRESSIONS_FLOOR"],
+                  round(window_capacity * cfg["EXPERIMENT_ADAPTIVE_GATE_SHARE"]))
+    return min(need, adapted), True
+
+
+def min_detectable_uplift(p_base: float | None, n_base: int, n_exp: int,
+                          cfg: dict | None = None) -> float | None:
+    """Минимально различимый относительный рост CTR при данных выборках.
+
+    Нормальное приближение (alpha 0.05 двусторонний, мощность 80%): честный
+    ответ «какой эффект этот эксперимент способен увидеть в принципе».
+    """
+    cfg = cfg or CONFIG
+    if not p_base or not n_base or not n_exp:
+        return None
+    z = cfg["EXPERIMENT_MDE_ALPHA_Z"] + cfg["EXPERIMENT_MDE_POWER_Z"]
+    delta = z * math.sqrt(p_base * (1 - p_base) * (1 / n_base + 1 / n_exp))
+    return delta / p_base
 
 
 # ── Окна из выгрузок Вебмастера ─────────────────────────────────────────────

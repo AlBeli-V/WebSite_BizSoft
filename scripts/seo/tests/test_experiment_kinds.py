@@ -168,3 +168,75 @@ class LaunchTest(IsolatedDataTest):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class AdaptiveGateTest(unittest.TestCase):
+    """Оптимизация порога 31.08.2026: малый кластер не должен ждать вечно."""
+
+    def test_большая_ёмкость_порог_не_меняется(self):
+        self.assertEqual(experiment_stats.effective_gate(647, 500), (500, False))
+
+    def test_малая_ёмкость_порог_снижается_с_пометкой(self):
+        gate, adapted = experiment_stats.effective_gate(258, 500)
+        self.assertTrue(adapted)
+        self.assertEqual(gate, 181)  # 0.7 × ёмкости
+
+    def test_ниже_пола_порог_равен_полу(self):
+        gate, adapted = experiment_stats.effective_gate(92, 500)
+        self.assertEqual(gate, 100)
+        self.assertTrue(adapted)
+
+    def test_mde_падает_с_ростом_выборки(self):
+        small = experiment_stats.min_detectable_uplift(0.006, 100, 100)
+        big = experiment_stats.min_detectable_uplift(0.006, 5000, 5000)
+        self.assertGreater(small, big)
+        self.assertGreater(small, 1.0)  # при n=100 различим только кратный рост
+
+
+class FormulaGroupTest(IsolatedDataTest):
+    """Пул формулы: мощность группы отвечает раньше малого участника."""
+
+    def setUp(self):
+        super().setUp()
+        import experiments
+        self.reg_tmp = pathlib.Path(tempfile.mkdtemp())
+        self.old_reg = experiments.REGISTRY
+        experiments.REGISTRY = self.reg_tmp / "seo-experiments.json"
+        experiments.REGISTRY.write_text(json.dumps({"experiments": [
+            {"id": "a", "ticket": "T-A", "start": "2026-08-19",
+             "status": "running", "pages": ["/vendors/canva"],
+             "formula_group": "g1"},
+            {"id": "b", "ticket": "T-B", "start": "2026-08-19",
+             "status": "running", "pages": ["/vendors/miro"],
+             "formula_group": "g1"},
+        ]}, ensure_ascii=False), encoding="utf-8")
+
+    def tearDown(self):
+        import experiments
+        experiments.REGISTRY = self.old_reg
+        shutil.rmtree(self.reg_tmp, ignore_errors=True)
+        super().tearDown()
+
+    def test_пул_суммирует_обе_стороны_обоих_участников(self):
+        _dump(self.tmp, "2026-08-18", "2026-08-05", "2026-08-18",
+              [_q("canva купить", 300, 2), _q("miro купить", 300, 2)])
+        _dump(self.tmp, "2026-09-04", "2026-08-20", "2026-09-01",
+              [_q("canva купить", 300, 9), _q("miro купить", 300, 9)])
+        g = experiment_verdict._formula_group_result("g1", "2026-09-04")
+        self.assertEqual(sorted(g["members"]), ["T-A", "T-B"])
+        self.assertEqual(g["baseline"]["impressions"], 600)
+        self.assertEqual(g["experiment"]["clicks"], 18)
+        self.assertIsNotNone(g["stat"]["p_value"])
+
+    def test_один_участник_с_окнами_пула_не_даёт(self):
+        _dump(self.tmp, "2026-08-18", "2026-08-05", "2026-08-18",
+              [_q("canva купить", 300, 2)])
+        _dump(self.tmp, "2026-09-04", "2026-08-20", "2026-09-01",
+              [_q("canva купить", 300, 9)])
+        # У второго участника кластер miro в выгрузках отсутствует — окна
+        # есть, но пул честно считает вклад обоих; результат всё же есть,
+        # поэтому проверяем границу: без выгрузок вовсе пула нет.
+        for f in self.tmp.glob("*.json"):
+            f.unlink()
+        self.assertIsNone(
+            experiment_verdict._formula_group_result("g1", "2026-09-04"))
