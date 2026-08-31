@@ -1,6 +1,6 @@
 {
  "date": "2026-08-31",
- "generated_at": "2026-08-31T05:48:25+00:00",
+ "generated_at": "2026-08-31T07:03:05+00:00",
  "measured_at": "2026-08-31",
  "universe": {
   "phrases": 23047,
@@ -16,8 +16,8 @@
   "total_commercial_demand": 287788,
   "levels": {
    "page": 0.8783,
-   "indexed": 0.6042,
-   "top10": 0.2218,
+   "indexed": 0.6152,
+   "top10": 0.1267,
    "clicks": 0.003,
    "conversion_measured": null,
    "qualified_leads": null
@@ -48,10 +48,10 @@
   "AI-сервисы": {
    "demand": 84342,
    "covered": 84342,
-   "top10": 40113,
+   "top10": 13228,
    "clicks": 0,
    "page_coverage": 1.0,
-   "top10_coverage": 0.476,
+   "top10_coverage": 0.157,
    "click_coverage": 0.0
   },
   "Офисное ПО": {
@@ -75,28 +75,28 @@
   "Дизайн и графика": {
    "demand": 38883,
    "covered": 38883,
-   "top10": 5551,
+   "top10": 2888,
    "clicks": 0,
    "page_coverage": 1.0,
-   "top10_coverage": 0.143,
+   "top10_coverage": 0.074,
    "click_coverage": 0.0
   },
   "Звук, видео и медиа": {
    "demand": 17264,
    "covered": 17264,
-   "top10": 599,
+   "top10": 3431,
    "clicks": 0,
    "page_coverage": 1.0,
-   "top10_coverage": 0.035,
+   "top10_coverage": 0.199,
    "click_coverage": 0.0
   },
   "Средства разработки": {
    "demand": 10957,
    "covered": 10957,
-   "top10": 10678,
+   "top10": 10814,
    "clicks": 863,
    "page_coverage": 1.0,
-   "top10_coverage": 0.975,
+   "top10_coverage": 0.987,
    "click_coverage": 0.079
   },
   "Системное ПО": {
@@ -129,10 +129,10 @@
   "Доски и совместная работа": {
    "demand": 2759,
    "covered": 2759,
-   "top10": 780,
+   "top10": 0,
    "clicks": 0,
    "page_coverage": 1.0,
-   "top10_coverage": 0.283,
+   "top10_coverage": 0.0,
    "click_coverage": 0.0
   },
   "Разработка": {
@@ -170,11 +170,11 @@
  },
  "gaps_by_class": {
   "GAP-A": 2,
-  "GAP-B": 32,
-  "GAP-C": 3,
-  "GAP-D": 12,
+  "GAP-B": 28,
+  "GAP-C": 4,
+  "GAP-D": 14,
   "GAP-E": 1,
-  "GAP-F": 3,
+  "GAP-F": 4,
   "GAP-G": 1,
   "GAP-H": 24
  },
@@ -223,66 +223,6 @@
   }
  ],
  "opportunities": [
-  {
-   "cluster": "anthropic",
-   "vendor": "Anthropic",
-   "category": "AI-сервисы",
-   "gap": "GAP-D",
-   "gap_title": "Позиция хорошая, показы есть, переходов мало",
-   "recommended_action": "эксперимент со сниппетом",
-   "commercial_demand": 27231,
-   "commercial_phrases": 160,
-   "url": "/vendors/anthropic",
-   "page_exists": true,
-   "indexed": true,
-   "best_position": 7.28,
-   "impressions": 46,
-   "clicks": 0,
-   "ctr": 0.0,
-   "trend": "growing",
-   "top_phrases": [
-    {
-     "phrase": "claude купить",
-     "frequency": 9944
-    },
-    {
-     "phrase": "claude купить подписку",
-     "frequency": 4435
-    },
-    {
-     "phrase": "claude pro купить",
-     "frequency": 1107
-    },
-    {
-     "phrase": "claude code купить",
-     "frequency": 1101
-    },
-    {
-     "phrase": "купить аккаунт claude",
-     "frequency": 883
-    }
-   ],
-   "subclusters": {
-    "покупка": 26305,
-    "цены и тарифы": 369,
-    "подписка и продление": 258,
-    "прочее": 229
-   },
-   "step": "Переписать сниппет /vendors/anthropic: 46 показов, 0 переходов",
-   "prompt": "У /vendors/anthropic позиция 7.28 по «claude купить» и 46 показов, но всего 0 переходов — люди видят нас в выдаче и не заходят. Перепиши title и description под коммерческий интент: оплата на юрлицо, счёт, договор, ЭДО. Ядро title не длиннее 65 символов, description до 160. Заведи как отдельный эксперимент со своей датой старта, контроль 2026-09-07. Важно: выкат на сайте не равен обновлению сниппета в выдаче — фиксируй их раздельно.",
-   "success": "CTR по «claude купить» выше текущего при том же объёме показов к 2026-09-07",
-   "check_on": "2026-09-07",
-   "opportunity_score": 0.17879,
-   "components": {
-    "normalized_demand": 0.4366,
-    "commercial_intent": 1.0,
-    "coverage_gap": 0.35,
-    "trend_factor": 1.3,
-    "confidence": 0.9,
-    "estimated_effort": 1.0
-   },
-   "confidence_note": "достаточная: кластер измерен несколькими фразами"
-  },
   {
    "cluster": "google",
    "vendor": "Google",
@@ -395,6 +335,66 @@
     "commercial_intent": 1.0,
     "coverage_gap": 0.8,
     "trend_factor": 1.0,
+    "confidence": 0.9,
+    "estimated_effort": 3.0
+   },
+   "confidence_note": "достаточная: кластер измерен несколькими фразами"
+  },
+  {
+   "cluster": "anthropic",
+   "vendor": "Anthropic",
+   "category": "AI-сервисы",
+   "gap": "GAP-F",
+   "gap_title": "Спрос большой, органика будет долгой",
+   "recommended_action": "исследование платного канала",
+   "commercial_demand": 27231,
+   "commercial_phrases": 160,
+   "url": "/vendors/anthropic",
+   "page_exists": true,
+   "indexed": true,
+   "best_position": 11.0,
+   "impressions": 1,
+   "clicks": 0,
+   "ctr": 0.0,
+   "trend": "growing",
+   "top_phrases": [
+    {
+     "phrase": "claude купить",
+     "frequency": 9944
+    },
+    {
+     "phrase": "claude купить подписку",
+     "frequency": 4435
+    },
+    {
+     "phrase": "claude pro купить",
+     "frequency": 1107
+    },
+    {
+     "phrase": "claude code купить",
+     "frequency": 1101
+    },
+    {
+     "phrase": "купить аккаунт claude",
+     "frequency": 883
+    }
+   ],
+   "subclusters": {
+    "покупка": 26305,
+    "цены и тарифы": 369,
+    "подписка и продление": 258,
+    "прочее": 229
+   },
+   "step": "Оценить платный канал по «claude купить» — 27 231 запросов в месяц, органика будет долгой",
+   "prompt": "По «claude купить» спрос 27 231 запросов в месяц, органика займёт месяцы. Подготовь расчёт платного канала: оценка ставки, прогноз стоимости обращения, месячный бюджет. Только расчёт — запуск рекламы и бюджет решает руководитель, рекламные кабинеты не трогать.",
+   "success": "расчёт на столе у руководителя, решение о запуске за ним",
+   "check_on": "2026-09-30",
+   "opportunity_score": 0.08514,
+   "components": {
+    "normalized_demand": 0.4366,
+    "commercial_intent": 1.0,
+    "coverage_gap": 0.5,
+    "trend_factor": 1.3,
     "confidence": 0.9,
     "estimated_effort": 3.0
    },
@@ -818,14 +818,14 @@
   "note": "Российские вендоры исключены: их лицензии продаются напрямую, услуга оплаты из-за рубежа к ним неприменима."
  },
  "efficiency": {
-  "calls_total": 5169,
+  "calls_total": 5357,
   "calls_paid": 521,
   "cost_month_rub": 12.37,
   "cost_today_rub": 0.0,
   "remaining_budget_rub": 5487.63,
   "forecast_month_end_rub": 12.37,
   "state": "open",
-  "cache_hit_rate": 0.8992,
+  "cache_hit_rate": 0.9027,
   "duplicate_rate": 0.3806,
   "unique_phrases": 16547,
   "new_commercial_phrases": 2763,
@@ -833,7 +833,7 @@
   "cost_per_1000_unique_phrases_rub": 0.748,
   "cost_per_1000_commercial_phrases_rub": 4.477,
   "cost_per_new_cluster_rub": 0.0877,
-  "empty_response_rate": 0.3579
+  "empty_response_rate": 0.3549
  },
  "quota": {
   "requests_per_hour": 500,
@@ -867,17 +867,17 @@
    ],
    "note": "Российские вендоры исключены: их лицензии продаются напрямую, услуга оплаты из-за рубежа к ним неприменима."
   },
-  "summary": "Мы видим 287 788 покупательских запросов в месяц по 171 направлениям каталога. Своя страница есть под 88% этого спроса, в поиске находится 60%, на первой странице — 22%. Без страницы остаётся 17 778 запросов в месяц — это направления, где спрос есть, а нас в выдаче нет. Ещё 52 137 запросов в месяц не отнесены ни к нам, ни к чужому товару: это голые фразы омонимичных брендов (box — 30 187, zoom — 10 813, bubble купить — 5 732). В спрос и в решения об ассортименте они не входят.",
+  "summary": "Мы видим 287 788 покупательских запросов в месяц по 171 направлениям каталога. Своя страница есть под 88% этого спроса, в поиске находится 62%, на первой странице — 13%. Без страницы остаётся 17 778 запросов в месяц — это направления, где спрос есть, а нас в выдаче нет. Ещё 52 137 запросов в месяц не отнесены ни к нам, ни к чужому товару: это голые фразы омонимичных брендов (box — 30 187, zoom — 10 813, bubble купить — 5 732). В спрос и в решения об ассортименте они не входят.",
   "coverage": {
    "page": 0.8783,
-   "indexed": 0.6042,
-   "top10": 0.2218
+   "indexed": 0.6152,
+   "top10": 0.1267
   },
   "lead_opportunity": {
-   "cluster": "anthropic",
-   "demand": 27231,
-   "action": "эксперимент со сниппетом",
-   "why": "Позиция хорошая, показы есть, переходов мало",
+   "cluster": "google",
+   "demand": 19390,
+   "action": "техническое SEO",
+   "why": "Страница есть, не индексируется",
    "confidence": "достаточная: кластер измерен несколькими фразами"
   },
   "measured_at": "2026-08-31"
