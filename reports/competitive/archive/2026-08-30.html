@@ -1,0 +1,417 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Конкурентная разведка · 2026-08-30</title>
+<style>
+:root{--ink:#101828;--muted:#667085;--line:#EAECF0;--bg:#F9FAFB;
+      --ok:#12B76A;--bad:#D92D20;--brand:#F4511E;--accent:#175CD3;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);
+     font:15px/1.55 -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Arial,sans-serif;}
+.wrap{max-width:1120px;margin:0 auto;padding:24px 16px 64px;}
+h1{font-size:24px;margin:0 0 6px;letter-spacing:-.01em}
+h2{font-size:19px;margin:36px 0 6px;padding-top:18px;border-top:2px solid var(--line);}
+h3{font-size:15px;margin:22px 0 8px}
+.sub{color:var(--muted);font-size:13px}
+.lead{font-size:15px;color:var(--muted);margin:6px 0 0;max-width:70ch}
+nav{background:#fff;border:1px solid var(--line);border-radius:10px;padding:12px 16px;margin:18px 0}
+nav a{color:var(--accent);text-decoration:none;margin-right:18px;font-size:13px;white-space:nowrap}
+nav a:hover{text-decoration:underline}
+.cards{display:flex;gap:10px;flex-wrap:wrap;margin:16px 0}
+.card{flex:1 1 160px;background:#fff;border:1px solid var(--line);border-radius:10px;padding:14px}
+.card .k{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
+.card .v{font-size:26px;font-weight:700;line-height:1.2;margin-top:2px}
+.card .d{font-size:12px;color:var(--muted);margin-top:2px}
+.scroll{overflow-x:auto;background:#fff;border:1px solid var(--line);border-radius:10px}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;
+   text-align:left;padding:10px;border-bottom:1px solid var(--line);white-space:nowrap;
+   position:sticky;top:0;background:#fff}
+td{padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:#FCFCFD}
+td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
+.us td{background:#FFF7ED!important;font-weight:600}
+.tag{display:inline-block;font-size:11px;padding:2px 8px;border-radius:20px;
+     border:1px solid var(--line);color:var(--muted);white-space:nowrap}
+.tag.H{background:#FEF3F2;color:#B42318;border-color:#FECDCA}
+.tag.A,.tag.B{background:#EFF8FF;color:#175CD3;border-color:#B2DDFF}
+.tag.E,.tag.G,.tag.F{background:#F8F9FC}
+.bar{height:8px;border-radius:4px;background:var(--line);overflow:hidden;min-width:60px}
+.bar i{display:block;height:100%;background:var(--brand)}
+.note{background:#FFFAEB;border:1px solid #FEDF89;border-radius:10px;
+      padding:12px 14px;font-size:13px;color:#93370D;margin:14px 0}
+.ok{background:#ECFDF3;border-color:#A6F4C5;color:#05603A}
+.lbl{display:inline-block;font-size:10px;font-weight:700;letter-spacing:.05em;
+     padding:2px 6px;border-radius:4px;margin-right:6px;vertical-align:1px}
+.fact{background:#ECFDF3;color:#067647}.likely{background:#FFFAEB;color:#B54708}
+.hypo{background:#F4F3FF;color:#5925DC}.act{background:#EFF8FF;color:#175CD3}
+details{background:#fff;border:1px solid var(--line);border-radius:10px;
+        padding:12px 16px;margin:10px 0}
+summary{cursor:pointer;font-weight:600;font-size:14px}
+summary::marker{color:var(--muted)}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:12px}
+.q{font-size:12px;color:var(--muted);word-break:break-word}
+footer{margin-top:48px;padding-top:16px;border-top:1px solid var(--line);
+       font-size:12px;color:var(--muted)}
+a{color:var(--accent)}
+@media(max-width:640px){.wrap{padding:16px 10px 48px}h1{font-size:20px}
+  .card .v{font-size:22px}}
+</style></head>
+<body><div class="wrap">
+
+<h1>Конкурентная разведка BIZSoft</h1>
+<div class="sub">Срез за 2026-08-30 · Яндекс, Москва (регион 213) ·
+  150 запросов · собран 2026-08-31T22:20</div>
+<p class="lead">Отчёт отвечает на пять вопросов: усиливаемся ли мы, кто забирает
+наш спрос, на каких запросах, где конкурент уязвим и что даст наибольший
+эффект. Письмо содержит только вывод — здесь основания.</p>
+
+
+<nav>
+  <a href="#l1">1 · Итоги дня</a>
+  <a href="#l2">2 · Конкуренты</a>
+  <a href="#l3">3 · Карточки конкурентов</a>
+  <a href="#l4">4 · Точки атаки</a>
+  <a href="#l5">5 · Исходные данные</a>
+  <a href="#method">Методика</a>
+</nav>
+
+<h2 id="l1">1 · Итоги дня</h2>
+<div class="cards"><div class="card"><div class="k">B2B Share · Яндекс</div><div class="v">5,4%</div><div class="d">сравнимого дня нет</div></div><div class="card"><div class="k">B2B Share · Google</div><div class="v">NO DATA</div><div class="d">еженедельный сбор ещё не запущен</div></div><div class="card"><div class="k">Запросов в ТОП-3</div><div class="v">28</div><div class="d">из 150</div></div><div class="card"><div class="k">Запросов в ТОП-10</div><div class="v">94</div><div class="d">из 150</div></div><div class="card"><div class="k">Точек атаки</div><div class="v">59</div><div class="d">мы на 4–20, выше конкурент</div></div></div>
+<div class="note">Зрелость расчёта: <b>базовый</b>. Vulnerability (насколько позицию конкурента реально отобрать) требует краулинга страниц конкурентов и появится в Phase 4 — до тех пор его вес перераспределён на измеримые факторы, а уверенность рекомендаций не поднимается выше MEDIUM. Revenue считается прокси (спрос × коммерческий интент), а не измеренной выручкой: калибровка по конверсиям Метрики и GA4 — Phase 5.</div>
+
+<h3>Кто держит коммерческую выдачу</h3>
+<p class="lead">Доля взвешенной видимости: позиция каждого домена умножается на
+вес клика по этой позиции. Категории «B2C и маркетплейсы», «информационные
+площадки» и «официальные сайты вендоров» присутствуют в выдаче и забирают
+клики, но не конкурируют с нами за сделку, поэтому в основной рейтинг не
+входят.</p>
+<div class="scroll"><table><tr><th>Категория</th><th class="num">Доля видимости</th><th></th><th>Кто внутри</th><th>В рейтинге</th></tr><tr><td><span class="tag H">H</span> платёжные посредники</td><td class="num">31,9%</td><td style="width:140px"><div class="bar"><i style="width:100%"></i></div></td><td class="q">raketapay.ru, pipl.io, finteka.io</td><td>да</td></tr><tr><td><span class="tag G">G</span> информационные площадки</td><td class="num">24,2%</td><td style="width:140px"><div class="bar"><i style="width:76%"></i></div></td><td class="q">—</td><td>нет</td></tr><tr><td><span class="tag A">A</span> прямые B2B-реселлеры</td><td class="num">18,2%</td><td style="width:140px"><div class="bar"><i style="width:57%"></i></div></td><td class="q">platipomiru.com, biz-soft.pro, syssoft.ru</td><td>да</td></tr><tr><td><span class="tag ?">?</span> не классифицировано</td><td class="num">13,0%</td><td style="width:140px"><div class="bar"><i style="width:41%"></i></div></td><td class="q">—</td><td>нет</td></tr><tr><td><span class="tag E">E</span> B2C и маркетплейсы</td><td class="num">9,1%</td><td style="width:140px"><div class="bar"><i style="width:29%"></i></div></td><td class="q">—</td><td>нет</td></tr><tr><td><span class="tag F">F</span> официальные сайты вендоров</td><td class="num">3,5%</td><td style="width:140px"><div class="bar"><i style="width:11%"></i></div></td><td class="q">—</td><td>нет</td></tr></table></div>
+
+<h2 id="l2">2 · Конкуренты по уровню угрозы</h2>
+<p class="lead">Threat 0–100 — насколько конкурент опасен сейчас: доля
+видимости, присутствие в ТОП-3 и ТОП-10 плюс динамика, когда есть с чем
+сравнивать. Пока истории меньше двух дней, динамическая часть недоступна,
+и уверенность честно понижена.</p>
+<div class="scroll"><table><tr><th class="num">#</th><th>Домен</th><th>Категория</th><th class="num">Доля</th><th class="num">ТОП-3</th><th class="num">ТОП-10</th><th class="num">Threat</th><th>Уверенность и основание</th></tr><tr><td class="num">1</td><td><b>raketapay.ru</b></td><td><span class="tag H">платёжные посредники</span></td><td class="num">10,0%</td><td class="num">44</td><td class="num">63</td><td class="num"><b>37</b></td><td class="q">LOW · динамика недоступна: нет сравнимого прошлого, оценён только текущий уровень</td></tr><tr><td class="num">2</td><td><b>platipomiru.com</b></td><td><span class="tag A">прямые B2B-реселлеры</span></td><td class="num">6,8%</td><td class="num">36</td><td class="num">68</td><td class="num"><b>27</b></td><td class="q">LOW · динамика недоступна: нет сравнимого прошлого, оценён только текущий уровень</td></tr><tr><td class="num">3</td><td><b>pipl.io</b></td><td><span class="tag H">платёжные посредники</span></td><td class="num">6,0%</td><td class="num">38</td><td class="num">63</td><td class="num"><b>25</b></td><td class="q">LOW · динамика недоступна: нет сравнимого прошлого, оценён только текущий уровень</td></tr><tr><td class="num">4</td><td><b>finteka.io</b></td><td><span class="tag H">платёжные посредники</span></td><td class="num">3,4%</td><td class="num">15</td><td class="num">57</td><td class="num"><b>15</b></td><td class="q">LOW · динамика недоступна: нет сравнимого прошлого, оценён только текущий уровень</td></tr><tr><td class="num">5</td><td><b>card-open.ru</b></td><td><span class="tag H">платёжные посредники</span></td><td class="num">3,1%</td><td class="num">16</td><td class="num">37</td><td class="num"><b>13</b></td><td class="q">LOW · динамика недоступна: нет сравнимого прошлого, оценён только текущий уровень</td></tr><tr><td class="num">6</td><td><b>aifory.pro</b></td><td><span class="tag H">платёжные посредники</span></td><td class="num">2,2%</td><td class="num">5</td><td class="num">50</td><td class="num"><b>10</b></td><td class="q">LOW · динамика недоступна: нет сравнимого прошлого, оценён только текущий уровень</td></tr><tr><td class="num">7</td><td><b>kartli.io</b></td><td><span class="tag H">платёжные посредники</span></td><td class="num">2,1%</td><td class="num">4</td><td class="num">52</td><td class="num"><b>10</b></td><td class="q">LOW · динамика недоступна: нет сравнимого прошлого, оценён только текущий уровень</td></tr><tr><td class="num">8</td><td><b>syssoft.ru</b></td><td><span class="tag A">прямые B2B-реселлеры</span></td><td class="num">2,0%</td><td class="num">13</td><td class="num">28</td><td class="num"><b>9</b></td><td class="q">LOW · динамика недоступна: нет сравнимого прошлого, оценён только текущий уровень</td></tr><tr><td class="num">9</td><td><b>migsoft.ru</b></td><td><span class="tag A">прямые B2B-реселлеры</span></td><td class="num">1,1%</td><td class="num">7</td><td class="num">22</td><td class="num"><b>5</b></td><td class="q">LOW · динамика недоступна: нет сравнимого прошлого, оценён только текущий уровень</td></tr></table></div>
+
+<h2 id="l3">3 · Карточки конкурентов</h2>
+<p class="lead">По каждому — на каких запросах он виден и какими страницами
+ранжируется. Это и есть материал для разбора: что у них на странице такого,
+чего нет у нас.</p>
+
+<details><summary>raketapay.ru — доля 10,0%,
+  ТОП-3 по 44 запросам</summary>
+  <div class="grid2">
+    <div><h3>Кто это</h3>
+      <p class="q">Категория: платёжные посредники.
+      B2B Confidence: — —
+      проверка страниц появится в Phase 4.
+      Лучшая позиция: 1.
+      Появлений в выдаче: 63.</p></div>
+    <div><h3>По каким запросам виден</h3><ul class="q"><li>купить подписку суно премьер</li><li>оплата motion array юридическим лицом</li><li>оплата artlist юридическим лицом</li><li>оплата postman юридическим лицом</li><li>купить perplexity pro юридическим лицом</li></ul></div>
+    <div><h3>Страницы, которыми ранжируется</h3><ul class="q"><li><a href="https://raketapay.ru/kupit/suno-ai" rel="noreferrer nofollow">https://raketapay.ru/kupit/suno-ai</a></li><li><a href="https://raketapay.ru/oplata/motion-array" rel="noreferrer nofollow">https://raketapay.ru/oplata/motion-array</a></li><li><a href="https://raketapay.ru/oplata/artlist" rel="noreferrer nofollow">https://raketapay.ru/oplata/artlist</a></li></ul></div>
+  </div>
+</details>
+<details><summary>platipomiru.com — доля 6,8%,
+  ТОП-3 по 36 запросам</summary>
+  <div class="grid2">
+    <div><h3>Кто это</h3>
+      <p class="q">Категория: прямые B2B-реселлеры.
+      B2B Confidence: — —
+      проверка страниц появится в Phase 4.
+      Лучшая позиция: 1.
+      Появлений в выдаче: 68.</p></div>
+    <div><h3>По каким запросам виден</h3><ul class="q"><li>оплата depositphotos для юридических лиц из россии</li><li>оплата coreldraw для россиян</li><li>оплата пакета depositphotos в россии</li><li>оплата coreldraw по счету из россии</li><li>как оплатить тариф depositphotos из россии</li></ul></div>
+    <div><h3>Страницы, которыми ранжируется</h3><ul class="q"><li><a href="https://platipomiru.com/online-service/depositphotos/" rel="noreferrer nofollow">https://platipomiru.com/online-service/depositphotos/</a></li><li><a href="https://platipomiru.com/online-service/coreldraw/" rel="noreferrer nofollow">https://platipomiru.com/online-service/coreldraw/</a></li><li><a href="https://platipomiru.com/online-service/depositphotos/" rel="noreferrer nofollow">https://platipomiru.com/online-service/depositphotos/</a></li></ul></div>
+  </div>
+</details>
+<details><summary>pipl.io — доля 6,0%,
+  ТОП-3 по 38 запросам</summary>
+  <div class="grid2">
+    <div><h3>Кто это</h3>
+      <p class="q">Категория: платёжные посредники.
+      B2B Confidence: — —
+      проверка страниц появится в Phase 4.
+      Лучшая позиция: 1.
+      Появлений в выдаче: 63.</p></div>
+    <div><h3>По каким запросам виден</h3><ul class="q"><li>оплата artlist юридическим лицом</li><li>оплата depositphotos для юридических лиц из россии</li><li>оплата coreldraw для россиян</li><li>оплата envato юридическим лицом</li><li>оплата пакета depositphotos в россии</li></ul></div>
+    <div><h3>Страницы, которыми ранжируется</h3><ul class="q"><li><a href="https://pipl.io/kak-oplatit/artlist/" rel="noreferrer nofollow">https://pipl.io/kak-oplatit/artlist/</a></li><li><a href="https://pipl.io/kak-oplatit/depositphotos/" rel="noreferrer nofollow">https://pipl.io/kak-oplatit/depositphotos/</a></li><li><a href="https://pipl.io/kak-oplatit/coreldraw/" rel="noreferrer nofollow">https://pipl.io/kak-oplatit/coreldraw/</a></li></ul></div>
+  </div>
+</details>
+<details><summary>biz-soft.pro — доля 5,4%,
+  ТОП-3 по 28 запросам</summary>
+  <div class="grid2">
+    <div><h3>Кто это</h3>
+      <p class="q">Категория: прямые B2B-реселлеры.
+      B2B Confidence: — —
+      проверка страниц появится в Phase 4.
+      Лучшая позиция: 1.
+      Появлений в выдаче: 94.</p></div>
+    <div><h3>По каким запросам виден</h3><ul class="q"><li>оплата motion array юридическим лицом</li><li>оплата artlist юридическим лицом</li><li>claude team купить</li><li>оплата postman юридическим лицом</li><li>купить perplexity pro юридическим лицом</li></ul></div>
+    <div><h3>Страницы, которыми ранжируется</h3><ul class="q"><li><a href="https://biz-soft.pro/vendors/motion-array" rel="noreferrer nofollow">https://biz-soft.pro/vendors/motion-array</a></li><li><a href="https://biz-soft.pro/vendors/artlist" rel="noreferrer nofollow">https://biz-soft.pro/vendors/artlist</a></li><li><a href="https://biz-soft.pro/product/anthropic-team" rel="noreferrer nofollow">https://biz-soft.pro/product/anthropic-team</a></li></ul></div>
+  </div>
+</details>
+<details><summary>finteka.io — доля 3,4%,
+  ТОП-3 по 15 запросам</summary>
+  <div class="grid2">
+    <div><h3>Кто это</h3>
+      <p class="q">Категория: платёжные посредники.
+      B2B Confidence: — —
+      проверка страниц появится в Phase 4.
+      Лучшая позиция: 2.
+      Появлений в выдаче: 57.</p></div>
+    <div><h3>По каким запросам виден</h3><ul class="q"><li>оплата depositphotos для юридических лиц из россии</li><li>оплата coreldraw для россиян</li><li>оплата пакета depositphotos в россии</li><li>оплата coreldraw по счету из россии</li><li>как оплатить тариф depositphotos из россии</li></ul></div>
+    <div><h3>Страницы, которыми ранжируется</h3><ul class="q"><li><a href="https://finteka.io/blog/depositphotos-podpiska-packs-oplata-iz-rossii" rel="noreferrer nofollow">https://finteka.io/blog/depositphotos-podpiska-packs-oplata-iz-rossii</a></li><li><a href="https://finteka.io/services/coreldraw" rel="noreferrer nofollow">https://finteka.io/services/coreldraw</a></li><li><a href="https://finteka.io/services/depositphotos" rel="noreferrer nofollow">https://finteka.io/services/depositphotos</a></li></ul></div>
+  </div>
+</details>
+<details><summary>card-open.ru — доля 3,1%,
+  ТОП-3 по 16 запросам</summary>
+  <div class="grid2">
+    <div><h3>Кто это</h3>
+      <p class="q">Категория: платёжные посредники.
+      B2B Confidence: — —
+      проверка страниц появится в Phase 4.
+      Лучшая позиция: 1.
+      Появлений в выдаче: 37.</p></div>
+    <div><h3>По каким запросам виден</h3><ul class="q"><li>оплата depositphotos для юридических лиц из россии</li><li>как оплатить тариф depositphotos из россии</li><li>оплатить подписку depositphotos в россии</li><li>framer тариф россия</li><li>как оплатить depositphotos в россии</li></ul></div>
+    <div><h3>Страницы, которыми ранжируется</h3><ul class="q"><li><a href="https://card-open.ru/blog/kak-oplatit-shutterstock-depositphotos-freepik-iz-rossii" rel="noreferrer nofollow">https://card-open.ru/blog/kak-oplatit-shutterstock-depositphotos-freepik-iz-rossii</a></li><li><a href="https://card-open.ru/blog/kak-oplatit-shutterstock-depositphotos-freepik-iz-rossii" rel="noreferrer nofollow">https://card-open.ru/blog/kak-oplatit-shutterstock-depositphotos-freepik-iz-rossii</a></li><li><a href="https://card-open.ru/blog/kak-oplatit-shutterstock-depositphotos-freepik-iz-rossii" rel="noreferrer nofollow">https://card-open.ru/blog/kak-oplatit-shutterstock-depositphotos-freepik-iz-rossii</a></li></ul></div>
+  </div>
+</details>
+<details><summary>aifory.pro — доля 2,2%,
+  ТОП-3 по 5 запросам</summary>
+  <div class="grid2">
+    <div><h3>Кто это</h3>
+      <p class="q">Категория: платёжные посредники.
+      B2B Confidence: — —
+      проверка страниц появится в Phase 4.
+      Лучшая позиция: 1.
+      Появлений в выдаче: 50.</p></div>
+    <div><h3>По каким запросам виден</h3><ul class="q"><li>оплата artlist юридическим лицом</li><li>оплата пакета depositphotos в россии</li><li>оплата coreldraw по счету из россии</li><li>как оплатить тариф depositphotos из россии</li><li>как оплатить depositphotos в рублях</li></ul></div>
+    <div><h3>Страницы, которыми ранжируется</h3><ul class="q"><li><a href="https://aifory.pro/payments/online/kak-oplatit/artlist" rel="noreferrer nofollow">https://aifory.pro/payments/online/kak-oplatit/artlist</a></li><li><a href="https://aifory.pro/payments/online/kak-oplatit/depositphotos" rel="noreferrer nofollow">https://aifory.pro/payments/online/kak-oplatit/depositphotos</a></li><li><a href="https://aifory.pro/payments/online/kak-oplatit/coreldraw" rel="noreferrer nofollow">https://aifory.pro/payments/online/kak-oplatit/coreldraw</a></li></ul></div>
+  </div>
+</details>
+<details><summary>kartli.io — доля 2,1%,
+  ТОП-3 по 4 запросам</summary>
+  <div class="grid2">
+    <div><h3>Кто это</h3>
+      <p class="q">Категория: платёжные посредники.
+      B2B Confidence: — —
+      проверка страниц появится в Phase 4.
+      Лучшая позиция: 2.
+      Появлений в выдаче: 52.</p></div>
+    <div><h3>По каким запросам виден</h3><ul class="q"><li>оплата пакета depositphotos в россии</li><li>как оплатить тариф depositphotos из россии</li><li>как получить счет и закрывающие от atlassian</li><li>как оплатить depositphotos в рублях</li><li>оплатить подписку depositphotos в россии</li></ul></div>
+    <div><h3>Страницы, которыми ранжируется</h3><ul class="q"><li><a href="https://kartli.io/oplata/depositphotos/" rel="noreferrer nofollow">https://kartli.io/oplata/depositphotos/</a></li><li><a href="https://kartli.io/oplata/depositphotos/" rel="noreferrer nofollow">https://kartli.io/oplata/depositphotos/</a></li><li><a href="https://kartli.io/oplata/confluence/" rel="noreferrer nofollow">https://kartli.io/oplata/confluence/</a></li></ul></div>
+  </div>
+</details>
+
+<h2 id="l4">4 · Точки атаки — 59 кандидатов</h2>
+<p class="lead">Кандидат — запрос, где мы на 4–20 позиции, а выше стоит
+конкурент из основного рейтинга. Где мы уже в ТОП-3, отбирать нечего; где
+выше только маркетплейсы, мы не конкурируем за сделку. Opportunity 0–100
+взвешивает выручку, интент, близость позиции, спрос и запас улучшения
+страницы.</p>
+<div class="scroll"><table><tr><th>ID</th><th class="num">Opp.</th><th>Увер.</th><th>Запрос</th><th class="num">Наша</th><th>Конкурент</th><th class="num">Спрос</th><th>Источник</th><th class="num">Комм.</th><th class="num">B2B</th></tr><tr><td>ATT-001</td><td class="num"><b>63</b></td><td>MEDIUM</td><td class="q">оплата depositphotos по счету из россии</td><td class="num">4</td><td>platipomiru.com <span class="sub">#2</span></td><td class="num">3</td><td class="q">webmaster</td><td class="num">1.00</td><td class="num">0.70</td></tr><tr><td>ATT-002</td><td class="num"><b>62</b></td><td>MEDIUM</td><td class="q">оплата зарубежного по для юр лица документы</td><td class="num">4</td><td>raketapay.ru <span class="sub">#1</span></td><td class="num">33</td><td class="q">webmaster</td><td class="num">0.70</td><td class="num">0.70</td></tr><tr><td>ATT-003</td><td class="num"><b>62</b></td><td>MEDIUM</td><td class="q">купить perplexity max юридическим лицом</td><td class="num">4</td><td>raketapay.ru <span class="sub">#1</span></td><td class="num">31</td><td class="q">webmaster</td><td class="num">0.70</td><td class="num">0.70</td></tr><tr><td>ATT-004</td><td class="num"><b>61</b></td><td>MEDIUM</td><td class="q">оплата canva для юридических лиц из россии</td><td class="num">4</td><td>pay.osno-va.com <span class="sub">#3</span></td><td class="num">18</td><td class="q">webmaster</td><td class="num">0.70</td><td class="num">0.70</td></tr><tr><td>ATT-005</td><td class="num"><b>60</b></td><td>MEDIUM</td><td class="q">оплата dropbox для юридических лиц из россии</td><td class="num">4</td><td>pipl.io <span class="sub">#2</span></td><td class="num">14</td><td class="q">webmaster</td><td class="num">0.70</td><td class="num">0.70</td></tr><tr><td>ATT-006</td><td class="num"><b>59</b></td><td>MEDIUM</td><td class="q">оплата confluence по счету из россии</td><td class="num">8</td><td>pay.osno-va.com <span class="sub">#2</span></td><td class="num">7</td><td class="q">webmaster</td><td class="num">1.00</td><td class="num">0.70</td></tr><tr><td>ATT-007</td><td class="num"><b>58</b></td><td>MEDIUM</td><td class="q">оплата зарубежных сервисов для юридических лиц документы</td><td class="num">7</td><td>raketapay.ru <span class="sub">#2</span></td><td class="num">32</td><td class="q">webmaster</td><td class="num">0.70</td><td class="num">0.70</td></tr><tr><td>ATT-008</td><td class="num"><b>58</b></td><td>MEDIUM</td><td class="q">купить cursor pro юридическим лицом</td><td class="num">6</td><td>raketapay.ru <span class="sub">#1</span></td><td class="num">17</td><td class="q">webmaster</td><td class="num">0.70</td><td class="num">0.70</td></tr><tr><td>ATT-009</td><td class="num"><b>58</b></td><td>MEDIUM</td><td class="q">оплата иностранной подписки для бизнеса документы</td><td class="num">7</td><td>raketapay.ru <span class="sub">#2</span></td><td class="num">25</td><td class="q">webmaster</td><td class="num">1.00</td><td class="num">0.35</td></tr><tr><td>ATT-010</td><td class="num"><b>57</b></td><td>MEDIUM</td><td class="q">купить подписку github copilot business</td><td class="num">8</td><td>raketapay.ru <span class="sub">#1</span></td><td class="num">29</td><td class="q">webmaster</td><td class="num">1.00</td><td class="num">0.35</td></tr><tr><td>ATT-011</td><td class="num"><b>57</b></td><td>LOW</td><td class="q">unity pro price</td><td class="num">6</td><td>syssoft.ru <span class="sub">#2</span></td><td class="num">—</td><td class="q">none</td><td class="num">0.70</td><td class="num">0.00</td></tr><tr><td>ATT-012</td><td class="num"><b>56</b></td><td>MEDIUM</td><td class="q">тарифные планы anthropic для бизнеса</td><td class="num">4</td><td>raketapay.ru <span class="sub">#1</span></td><td class="num">27</td><td class="q">webmaster</td><td class="num">0.70</td><td class="num">0.35</td></tr><tr><td>ATT-013</td><td class="num"><b>56</b></td><td>MEDIUM</td><td class="q">github business купить</td><td class="num">4</td><td>raketapay.ru <span class="sub">#1</span></td><td class="num">25</td><td class="q">webmaster</td><td class="num">0.70</td><td class="num">0.35</td></tr><tr><td>ATT-014</td><td class="num"><b>55</b></td><td>MEDIUM</td><td class="q">github copilot business купить</td><td class="num">6</td><td>raketapay.ru <span class="sub">#1</span></td><td class="num">35</td><td class="q">webmaster</td><td class="num">0.70</td><td class="num">0.35</td></tr><tr><td>ATT-015</td><td class="num"><b>53</b></td><td>MEDIUM</td><td class="q">claude team plan купить</td><td class="num">7</td><td>raketapay.ru <span class="sub">#1</span></td><td class="num">30</td><td class="q">webmaster</td><td class="num">0.70</td><td class="num">0.35</td></tr><tr><td>ATT-016</td><td class="num"><b>52</b></td><td>MEDIUM</td><td class="q">оплата dropbox business в россии</td><td class="num">6</td><td>pipl.io <span class="sub">#1</span></td><td class="num">12</td><td class="q">webmaster</td><td class="num">0.70</td><td class="num">0.35</td></tr><tr><td>ATT-017</td><td class="num"><b>52</b></td><td>MEDIUM</td><td class="q">gamma business оплата из россии</td><td class="num">6</td><td>inoplata.com <span class="sub">#5</span></td><td class="num">12</td><td class="q">webmaster</td><td class="num">0.70</td><td class="num">0.35</td></tr><tr><td>ATT-018</td><td class="num"><b>51</b></td><td>MEDIUM</td><td class="q">claude team купить</td><td class="num">7</td><td>softmagazin.ru <span class="sub">#4</span></td><td class="num">63</td><td class="q">wordstat</td><td class="num">0.70</td><td class="num">0.35</td></tr><tr><td>ATT-019</td><td class="num"><b>50</b></td><td>MEDIUM</td><td class="q">оплата coreldraw для россиян</td><td class="num">7</td><td>platipomiru.com <span class="sub">#2</span></td><td class="num">46</td><td class="q">webmaster</td><td class="num">0.70</td><td class="num">0.00</td></tr><tr><td>ATT-020</td><td class="num"><b>50</b></td><td>MEDIUM</td><td class="q">framer basic оплата россия</td><td class="num">4</td><td>platipomiru.com <span class="sub">#2</span></td><td class="num">20</td><td class="q">webmaster</td><td class="num">0.70</td><td class="num">0.00</td></tr><tr><td>ATT-021</td><td class="num"><b>48</b></td><td>MEDIUM</td><td class="q">недорого оплатить подписку depositphotos</td><td class="num">9</td><td>platipomiru.com <span class="sub">#2</span></td><td class="num">13</td><td class="q">webmaster</td><td class="num">1.00</td><td class="num">0.00</td></tr><tr><td>ATT-022</td><td class="num"><b>48</b></td><td>MEDIUM</td><td class="q">framer домен оплата рф</td><td class="num">5</td><td>yello-card.com <span class="sub">#3</span></td><td class="num">10</td><td class="q">webmaster</td><td class="num">0.70</td><td class="num">0.00</td></tr><tr><td>ATT-023</td><td class="num"><b>48</b></td><td>MEDIUM</td><td class="q">оплата подписки depositphotos из россии</td><td class="num">8</td><td>platipomiru.com <span class="sub">#1</span></td><td class="num">8</td><td class="q">webmaster</td><td class="num">1.00</td><td class="num">0.00</td></tr><tr><td>ATT-024</td><td class="num"><b>47</b></td><td>MEDIUM</td><td class="q">perplexity enterprise купить</td><td class="num">9</td><td>raketapay.ru <span class="sub">#1</span></td><td class="num">8</td><td class="q">wordstat</td><td class="num">0.70</td><td class="num">0.35</td></tr><tr><td>ATT-025</td><td class="num"><b>47</b></td><td>MEDIUM</td><td class="q">оплатить подписку depositphotos в россии</td><td class="num">10</td><td>pipl.io <span class="sub">#1</span></td><td class="num">17</td><td class="q">webmaster</td><td class="num">1.00</td><td class="num">0.00</td></tr><tr><td>ATT-026</td><td class="num"><b>47</b></td><td>MEDIUM</td><td class="q">runway ai тарифы</td><td class="num">7</td><td>migsoft.ru <span class="sub">#6</span></td><td class="num">22</td><td class="q">webmaster</td><td class="num">0.70</td><td class="num">0.00</td></tr><tr><td>ATT-027</td><td class="num"><b>47</b></td><td>MEDIUM</td><td class="q">купить подписку motion array</td><td class="num">10</td><td>raketapay.ru <span class="sub">#1</span></td><td class="num">18</td><td class="q">webmaster</td><td class="num">1.00</td><td class="num">0.00</td></tr><tr><td>ATT-028</td><td class="num"><b>46</b></td><td>MEDIUM</td><td class="q">как оплатить box business из россии</td><td class="num">7</td><td>platipomiru.com <span class="sub">#1</span></td><td class="num">9</td><td class="q">webmaster</td><td class="num">0.42</td><td class="num">0.35</td></tr><tr><td>ATT-029</td><td class="num"><b>46</b></td><td>MEDIUM</td><td class="q">как купить framer pro в россии</td><td class="num">4</td><td>aifory.pro <span class="sub">#3</span></td><td class="num">22</td><td class="q">webmaster</td><td class="num">0.42</td><td class="num">0.00</td></tr><tr><td>ATT-030</td><td class="num"><b>46</b></td><td>MEDIUM</td><td class="q">оплата depositphotos в рублях</td><td class="num">7</td><td>platipomiru.com <span class="sub">#1</span></td><td class="num">15</td><td class="q">webmaster</td><td class="num">0.70</td><td class="num">0.00</td></tr><tr><td>ATT-031</td><td class="num"><b>46</b></td><td>MEDIUM</td><td class="q">runway тарифы companies.rbc.ru</td><td class="num">6</td><td>raketapay.ru <span class="sub">#5</span></td><td class="num">8</td><td class="q">webmaster</td><td class="num">0.70</td><td class="num">0.00</td></tr><tr><td>ATT-032</td><td class="num"><b>46</b></td><td>MEDIUM</td><td class="q">москва postman оплата подписки</td><td class="num">9</td><td>raketapay.ru <span class="sub">#1</span></td><td class="num">3</td><td class="q">webmaster</td><td class="num">1.00</td><td class="num">0.00</td></tr><tr><td>ATT-033</td><td class="num"><b>45</b></td><td>MEDIUM</td><td class="q">как оплатить dropbox business из россии</td><td class="num">7</td><td>getcard.one <span class="sub">#1</span></td><td class="num">3</td><td class="q">webmaster</td><td class="num">0.42</td><td class="num">0.35</td></tr><tr><td>ATT-034</td><td class="num"><b>45</b></td><td>MEDIUM</td><td class="q">gitlab годовая подписка из россии</td><td class="num">8</td><td>finteka.io <span class="sub">#2</span></td><td class="num">17</td><td class="q">webmaster</td><td class="num">0.70</td><td class="num">0.00</td></tr><tr><td>ATT-035</td><td class="num"><b>45</b></td><td>MEDIUM</td><td class="q">тарифы recraft</td><td class="num">7</td><td>raketapay.ru <span class="sub">#2</span></td><td class="num">11</td><td class="q">webmaster</td><td class="num">0.70</td><td class="num">0.00</td></tr><tr><td>ATT-036</td><td class="num"><b>44</b></td><td>MEDIUM</td><td class="q">оплата depositphotos из россии</td><td class="num">9</td><td>platipomiru.com <span class="sub">#1</span></td><td class="num">21</td><td class="q">webmaster</td><td class="num">0.70</td><td class="num">0.00</td></tr><tr><td>ATT-037</td><td class="num"><b>44</b></td><td>MEDIUM</td><td class="q">как оплатить тариф coreldraw из россии</td><td class="num">7</td><td>pipl.io <span class="sub">#2</span></td><td class="num">10</td><td class="q">webmaster</td><td class="num">0.60</td><td class="num">0.00</td></tr><tr><td>ATT-038</td><td class="num"><b>44</b></td><td>MEDIUM</td><td class="q">recraft тарифы</td><td class="num">8</td><td>raketapay.ru <span class="sub">#2</span></td><td class="num">9</td><td class="q">webmaster</td><td class="num">0.70</td><td class="num">0.00</td></tr><tr><td>ATT-039</td><td class="num"><b>43</b></td><td>MEDIUM</td><td class="q">оплата depositphotos</td><td class="num">9</td><td>platipomiru.com <span class="sub">#1</span></td><td class="num">9</td><td class="q">webmaster</td><td class="num">0.70</td><td class="num">0.00</td></tr><tr><td>ATT-040</td><td class="num"><b>43</b></td><td>MEDIUM</td><td class="q">gitlab оформить подписку россия</td><td class="num">8</td><td>platipomiru.com <span class="sub">#2</span></td><td class="num">5</td><td class="q">webmaster</td><td class="num">0.70</td><td class="num">0.00</td></tr><tr><td>ATT-041</td><td class="num"><b>42</b></td><td>MEDIUM</td><td class="q">как оплатить тариф depositphotos из россии</td><td class="num">9</td><td>card-open.ru <span class="sub">#1</span></td><td class="num">18</td><td class="q">webmaster</td><td class="num">0.60</td><td class="num">0.00</td></tr><tr><td>ATT-042</td><td class="num"><b>42</b></td><td>MEDIUM</td><td class="q">runway тарифы</td><td class="num">9</td><td>migsoft.ru <span class="sub">#2</span></td><td class="num">28</td><td class="q">wordstat</td><td class="num">0.70</td><td class="num">0.00</td></tr><tr><td>ATT-043</td><td class="num"><b>42</b></td><td>MEDIUM</td><td class="q">framer годовая подписка из россии</td><td class="num">9</td><td>yello-card.com <span class="sub">#2</span></td><td class="num">4</td><td class="q">webmaster</td><td class="num">0.70</td><td class="num">0.00</td></tr><tr><td>ATT-044</td><td class="num"><b>41</b></td><td>MEDIUM</td><td class="q">как оплатить пакет depositphotos из россии</td><td class="num">7</td><td>finteka.io <span class="sub">#2</span></td><td class="num">17</td><td class="q">webmaster</td><td class="num">0.42</td><td class="num">0.00</td></tr><tr><td>ATT-045</td><td class="num"><b>41</b></td><td>MEDIUM</td><td class="q">оплатить depositphotos из россии</td><td class="num">10</td><td>platipomiru.com <span class="sub">#1</span></td><td class="num">10</td><td class="q">webmaster</td><td class="num">0.70</td><td class="num">0.00</td></tr><tr><td>ATT-046</td><td class="num"><b>41</b></td><td>MEDIUM</td><td class="q">как оплатить box облако из россии</td><td class="num">7</td><td>pipl.io <span class="sub">#1</span></td><td class="num">9</td><td class="q">webmaster</td><td class="num">0.42</td><td class="num">0.00</td></tr><tr><td>ATT-047</td><td class="num"><b>41</b></td><td>MEDIUM</td><td class="q">купить recraft pro www.klerk.ru</td><td class="num">10</td><td>legasoft.ru <span class="sub">#4</span></td><td class="num">4</td><td class="q">webmaster</td><td class="num">0.70</td><td class="num">0.00</td></tr><tr><td>ATT-048</td><td class="num"><b>41</b></td><td>MEDIUM</td><td class="q">оплата depositphotos из россии 2026</td><td class="num">10</td><td>finteka.io <span class="sub">#2</span></td><td class="num">4</td><td class="q">webmaster</td><td class="num">0.70</td><td class="num">0.00</td></tr><tr><td>ATT-049</td><td class="num"><b>40</b></td><td>MEDIUM</td><td class="q">как сейчас оплатить depositphotos из россии</td><td class="num">8</td><td>platipomiru.com <span class="sub">#2</span></td><td class="num">13</td><td class="q">webmaster</td><td class="num">0.42</td><td class="num">0.00</td></tr><tr><td>ATT-050</td><td class="num"><b>40</b></td><td>MEDIUM</td><td class="q">marmoset toolbag 5 купить</td><td class="num">10</td><td>syssoft.ru <span class="sub">#3</span></td><td class="num">8</td><td class="q">wordstat</td><td class="num">0.70</td><td class="num">0.00</td></tr><tr><td>ATT-051</td><td class="num"><b>40</b></td><td>MEDIUM</td><td class="q">как оплатить coreldraw в рублях</td><td class="num">7</td><td>pipl.io <span class="sub">#2</span></td><td class="num">3</td><td class="q">webmaster</td><td class="num">0.42</td><td class="num">0.00</td></tr><tr><td>ATT-052</td><td class="num"><b>39</b></td><td>MEDIUM</td><td class="q">depositphotos как оплатить в россии</td><td class="num">9</td><td>platipomiru.com <span class="sub">#2</span></td><td class="num">15</td><td class="q">webmaster</td><td class="num">0.42</td><td class="num">0.00</td></tr><tr><td>ATT-053</td><td class="num"><b>39</b></td><td>MEDIUM</td><td class="q">как оплатить подписку depositphotos из россии</td><td class="num">10</td><td>pipl.io <span class="sub">#1</span></td><td class="num">6</td><td class="q">webmaster</td><td class="num">0.60</td><td class="num">0.00</td></tr><tr><td>ATT-054</td><td class="num"><b>38</b></td><td>MEDIUM</td><td class="q">как оплатить депозитфотос из россии</td><td class="num">9</td><td>card-open.ru <span class="sub">#1</span></td><td class="num">13</td><td class="q">webmaster</td><td class="num">0.42</td><td class="num">0.00</td></tr><tr><td>ATT-055</td><td class="num"><b>37</b></td><td>MEDIUM</td><td class="q">как оплатить depositphotos в рублях</td><td class="num">10</td><td>pipl.io <span class="sub">#2</span></td><td class="num">15</td><td class="q">webmaster</td><td class="num">0.42</td><td class="num">0.00</td></tr><tr><td>ATT-056</td><td class="num"><b>37</b></td><td>MEDIUM</td><td class="q">как оплатить depositphotos в россии</td><td class="num">10</td><td>card-open.ru <span class="sub">#1</span></td><td class="num">15</td><td class="q">webmaster</td><td class="num">0.42</td><td class="num">0.00</td></tr><tr><td>ATT-057</td><td class="num"><b>37</b></td><td>MEDIUM</td><td class="q">как купить recraft без зарубежной карты</td><td class="num">10</td><td>aifory.pro <span class="sub">#4</span></td><td class="num">8</td><td class="q">webmaster</td><td class="num">0.42</td><td class="num">0.00</td></tr><tr><td>ATT-058</td><td class="num"><b>37</b></td><td>MEDIUM</td><td class="q">как оплатить depositphotos из россии</td><td class="num">10</td><td>pipl.io <span class="sub">#2</span></td><td class="num">10</td><td class="q">webmaster</td><td class="num">0.42</td><td class="num">0.00</td></tr><tr><td>ATT-059</td><td class="num"><b>37</b></td><td>MEDIUM</td><td class="q">чем оплатить depositphotos из россии</td><td class="num">10</td><td>pipl.io <span class="sub">#2</span></td><td class="num">8</td><td class="q">webmaster</td><td class="num">0.42</td><td class="num">0.00</td></tr></table></div>
+
+<h3>Разбор первых десяти</h3>
+
+<details><summary>ATT-001 · Opportunity 63 ·
+  «оплата depositphotos по счету из россии»</summary>
+  <p><span class="lbl fact">ФАКТ</span>BIZSoft на 4-м месте
+     (https://biz-soft.pro/vendors/depositphotos); выше — platipomiru.com на 2-м.
+     Спрос 3 (webmaster), коммерческий интент
+     1.00, B2B-интент 0.70.</p>
+  <p><span class="lbl fact">РАСЧЁТ</span><span class="q">revenue 0.3 · commercial 15.0 · b2b 10.5 · proximity 21.0 · demand 0.1 · page_improvement 14.0 · vendor 2.5</span></p>
+  <p><span class="lbl likely">ВЕРОЯТНО</span>Конкурент отвечает на тот же
+     коммерческий интент, но глубина B2B-содержания его страницы не проверена —
+     проверка появится с краулингом конкурентов (Phase 4).</p>
+  <p><span class="lbl act">ЧТО СДЕЛАТЬ</span>Усилить нашу страницу под этот
+     запрос: явный блок оплаты по счёту для юрлиц, условия лицензирования,
+     закрывающие документы и ЭДО, FAQ по покупке на компанию.
+     Контроль: 14 / 30 / 60 дней по позиции и кликам Вебмастера.</p>
+  <ul class="q"><li>Vulnerability недоступен до Phase 4: вес перераспределён на близость позиции и запас улучшения страницы</li><li>спрос оценён по показам Вебмастера (3), а не по частотности Wordstat</li><li>Revenue — прокси (спрос × коммерческий интент), не измеренная выручка</li></ul>
+</details>
+<details><summary>ATT-002 · Opportunity 62 ·
+  «оплата зарубежного по для юр лица документы»</summary>
+  <p><span class="lbl fact">ФАКТ</span>BIZSoft на 4-м месте
+     (https://biz-soft.pro/blog/kak-kupit-zarubezhnoe-po-dlya-yurlica); выше — raketapay.ru на 1-м.
+     Спрос 33 (webmaster), коммерческий интент
+     0.70, B2B-интент 0.70.</p>
+  <p><span class="lbl fact">РАСЧЁТ</span><span class="q">revenue 2.3 · commercial 10.5 · b2b 10.5 · proximity 21.0 · demand 1.7 · page_improvement 14.0 · vendor 2.5</span></p>
+  <p><span class="lbl likely">ВЕРОЯТНО</span>Конкурент отвечает на тот же
+     коммерческий интент, но глубина B2B-содержания его страницы не проверена —
+     проверка появится с краулингом конкурентов (Phase 4).</p>
+  <p><span class="lbl act">ЧТО СДЕЛАТЬ</span>Усилить нашу страницу под этот
+     запрос: явный блок оплаты по счёту для юрлиц, условия лицензирования,
+     закрывающие документы и ЭДО, FAQ по покупке на компанию.
+     Контроль: 14 / 30 / 60 дней по позиции и кликам Вебмастера.</p>
+  <ul class="q"><li>Vulnerability недоступен до Phase 4: вес перераспределён на близость позиции и запас улучшения страницы</li><li>спрос оценён по показам Вебмастера (33), а не по частотности Wordstat</li><li>Revenue — прокси (спрос × коммерческий интент), не измеренная выручка</li></ul>
+</details>
+<details><summary>ATT-003 · Opportunity 62 ·
+  «купить perplexity max юридическим лицом»</summary>
+  <p><span class="lbl fact">ФАКТ</span>BIZSoft на 4-м месте
+     (https://biz-soft.pro/product/perplexity-enterprise-max); выше — raketapay.ru на 1-м.
+     Спрос 31 (webmaster), коммерческий интент
+     0.70, B2B-интент 0.70.</p>
+  <p><span class="lbl fact">РАСЧЁТ</span><span class="q">revenue 2.2 · commercial 10.5 · b2b 10.5 · proximity 21.0 · demand 1.6 · page_improvement 14.0 · vendor 2.5</span></p>
+  <p><span class="lbl likely">ВЕРОЯТНО</span>Конкурент отвечает на тот же
+     коммерческий интент, но глубина B2B-содержания его страницы не проверена —
+     проверка появится с краулингом конкурентов (Phase 4).</p>
+  <p><span class="lbl act">ЧТО СДЕЛАТЬ</span>Усилить нашу страницу под этот
+     запрос: явный блок оплаты по счёту для юрлиц, условия лицензирования,
+     закрывающие документы и ЭДО, FAQ по покупке на компанию.
+     Контроль: 14 / 30 / 60 дней по позиции и кликам Вебмастера.</p>
+  <ul class="q"><li>Vulnerability недоступен до Phase 4: вес перераспределён на близость позиции и запас улучшения страницы</li><li>спрос оценён по показам Вебмастера (31), а не по частотности Wordstat</li><li>Revenue — прокси (спрос × коммерческий интент), не измеренная выручка</li></ul>
+</details>
+<details><summary>ATT-004 · Opportunity 61 ·
+  «оплата canva для юридических лиц из россии»</summary>
+  <p><span class="lbl fact">ФАКТ</span>BIZSoft на 4-м месте
+     (https://biz-soft.pro/vendors/canva); выше — pay.osno-va.com на 3-м.
+     Спрос 18 (webmaster), коммерческий интент
+     0.70, B2B-интент 0.70.</p>
+  <p><span class="lbl fact">РАСЧЁТ</span><span class="q">revenue 1.3 · commercial 10.5 · b2b 10.5 · proximity 21.0 · demand 0.9 · page_improvement 14.0 · vendor 2.5</span></p>
+  <p><span class="lbl likely">ВЕРОЯТНО</span>Конкурент отвечает на тот же
+     коммерческий интент, но глубина B2B-содержания его страницы не проверена —
+     проверка появится с краулингом конкурентов (Phase 4).</p>
+  <p><span class="lbl act">ЧТО СДЕЛАТЬ</span>Усилить нашу страницу под этот
+     запрос: явный блок оплаты по счёту для юрлиц, условия лицензирования,
+     закрывающие документы и ЭДО, FAQ по покупке на компанию.
+     Контроль: 14 / 30 / 60 дней по позиции и кликам Вебмастера.</p>
+  <ul class="q"><li>Vulnerability недоступен до Phase 4: вес перераспределён на близость позиции и запас улучшения страницы</li><li>спрос оценён по показам Вебмастера (18), а не по частотности Wordstat</li><li>Revenue — прокси (спрос × коммерческий интент), не измеренная выручка</li></ul>
+</details>
+<details><summary>ATT-005 · Opportunity 60 ·
+  «оплата dropbox для юридических лиц из россии»</summary>
+  <p><span class="lbl fact">ФАКТ</span>BIZSoft на 4-м месте
+     (https://biz-soft.pro/vendors/dropbox); выше — pipl.io на 2-м.
+     Спрос 14 (webmaster), коммерческий интент
+     0.70, B2B-интент 0.70.</p>
+  <p><span class="lbl fact">РАСЧЁТ</span><span class="q">revenue 1.0 · commercial 10.5 · b2b 10.5 · proximity 21.0 · demand 0.7 · page_improvement 14.0 · vendor 2.5</span></p>
+  <p><span class="lbl likely">ВЕРОЯТНО</span>Конкурент отвечает на тот же
+     коммерческий интент, но глубина B2B-содержания его страницы не проверена —
+     проверка появится с краулингом конкурентов (Phase 4).</p>
+  <p><span class="lbl act">ЧТО СДЕЛАТЬ</span>Усилить нашу страницу под этот
+     запрос: явный блок оплаты по счёту для юрлиц, условия лицензирования,
+     закрывающие документы и ЭДО, FAQ по покупке на компанию.
+     Контроль: 14 / 30 / 60 дней по позиции и кликам Вебмастера.</p>
+  <ul class="q"><li>Vulnerability недоступен до Phase 4: вес перераспределён на близость позиции и запас улучшения страницы</li><li>спрос оценён по показам Вебмастера (14), а не по частотности Wordstat</li><li>Revenue — прокси (спрос × коммерческий интент), не измеренная выручка</li></ul>
+</details>
+<details><summary>ATT-006 · Opportunity 59 ·
+  «оплата confluence по счету из россии»</summary>
+  <p><span class="lbl fact">ФАКТ</span>BIZSoft на 8-м месте
+     (https://biz-soft.pro/vendors/atlassian); выше — pay.osno-va.com на 2-м.
+     Спрос 7 (webmaster), коммерческий интент
+     1.00, B2B-интент 0.70.</p>
+  <p><span class="lbl fact">РАСЧЁТ</span><span class="q">revenue 0.7 · commercial 15.0 · b2b 10.5 · proximity 15.8 · demand 0.4 · page_improvement 14.0 · vendor 2.5</span></p>
+  <p><span class="lbl likely">ВЕРОЯТНО</span>Конкурент отвечает на тот же
+     коммерческий интент, но глубина B2B-содержания его страницы не проверена —
+     проверка появится с краулингом конкурентов (Phase 4).</p>
+  <p><span class="lbl act">ЧТО СДЕЛАТЬ</span>Усилить нашу страницу под этот
+     запрос: явный блок оплаты по счёту для юрлиц, условия лицензирования,
+     закрывающие документы и ЭДО, FAQ по покупке на компанию.
+     Контроль: 14 / 30 / 60 дней по позиции и кликам Вебмастера.</p>
+  <ul class="q"><li>Vulnerability недоступен до Phase 4: вес перераспределён на близость позиции и запас улучшения страницы</li><li>спрос оценён по показам Вебмастера (7), а не по частотности Wordstat</li><li>Revenue — прокси (спрос × коммерческий интент), не измеренная выручка</li></ul>
+</details>
+<details><summary>ATT-007 · Opportunity 58 ·
+  «оплата зарубежных сервисов для юридических лиц документы»</summary>
+  <p><span class="lbl fact">ФАКТ</span>BIZSoft на 7-м месте
+     (https://biz-soft.pro/blog/kak-kupit-zarubezhnoe-po-dlya-yurlica); выше — raketapay.ru на 2-м.
+     Спрос 32 (webmaster), коммерческий интент
+     0.70, B2B-интент 0.70.</p>
+  <p><span class="lbl fact">РАСЧЁТ</span><span class="q">revenue 2.2 · commercial 10.5 · b2b 10.5 · proximity 17.1 · demand 1.6 · page_improvement 14.0 · vendor 2.5</span></p>
+  <p><span class="lbl likely">ВЕРОЯТНО</span>Конкурент отвечает на тот же
+     коммерческий интент, но глубина B2B-содержания его страницы не проверена —
+     проверка появится с краулингом конкурентов (Phase 4).</p>
+  <p><span class="lbl act">ЧТО СДЕЛАТЬ</span>Усилить нашу страницу под этот
+     запрос: явный блок оплаты по счёту для юрлиц, условия лицензирования,
+     закрывающие документы и ЭДО, FAQ по покупке на компанию.
+     Контроль: 14 / 30 / 60 дней по позиции и кликам Вебмастера.</p>
+  <ul class="q"><li>Vulnerability недоступен до Phase 4: вес перераспределён на близость позиции и запас улучшения страницы</li><li>спрос оценён по показам Вебмастера (32), а не по частотности Wordstat</li><li>Revenue — прокси (спрос × коммерческий интент), не измеренная выручка</li></ul>
+</details>
+<details><summary>ATT-008 · Opportunity 58 ·
+  «купить cursor pro юридическим лицом»</summary>
+  <p><span class="lbl fact">ФАКТ</span>BIZSoft на 6-м месте
+     (https://biz-soft.pro/vendors/cursor); выше — raketapay.ru на 1-м.
+     Спрос 17 (webmaster), коммерческий интент
+     0.70, B2B-интент 0.70.</p>
+  <p><span class="lbl fact">РАСЧЁТ</span><span class="q">revenue 1.2 · commercial 10.5 · b2b 10.5 · proximity 18.4 · demand 0.9 · page_improvement 14.0 · vendor 2.5</span></p>
+  <p><span class="lbl likely">ВЕРОЯТНО</span>Конкурент отвечает на тот же
+     коммерческий интент, но глубина B2B-содержания его страницы не проверена —
+     проверка появится с краулингом конкурентов (Phase 4).</p>
+  <p><span class="lbl act">ЧТО СДЕЛАТЬ</span>Усилить нашу страницу под этот
+     запрос: явный блок оплаты по счёту для юрлиц, условия лицензирования,
+     закрывающие документы и ЭДО, FAQ по покупке на компанию.
+     Контроль: 14 / 30 / 60 дней по позиции и кликам Вебмастера.</p>
+  <ul class="q"><li>Vulnerability недоступен до Phase 4: вес перераспределён на близость позиции и запас улучшения страницы</li><li>спрос оценён по показам Вебмастера (17), а не по частотности Wordstat</li><li>Revenue — прокси (спрос × коммерческий интент), не измеренная выручка</li></ul>
+</details>
+<details><summary>ATT-009 · Opportunity 58 ·
+  «оплата иностранной подписки для бизнеса документы»</summary>
+  <p><span class="lbl fact">ФАКТ</span>BIZSoft на 7-м месте
+     (https://biz-soft.pro/blog/kak-kupit-zarubezhnoe-po-dlya-yurlica); выше — raketapay.ru на 2-м.
+     Спрос 25 (webmaster), коммерческий интент
+     1.00, B2B-интент 0.35.</p>
+  <p><span class="lbl fact">РАСЧЁТ</span><span class="q">revenue 2.5 · commercial 15.0 · b2b 5.2 · proximity 17.1 · demand 1.2 · page_improvement 14.0 · vendor 2.5</span></p>
+  <p><span class="lbl likely">ВЕРОЯТНО</span>Конкурент отвечает на тот же
+     коммерческий интент, но глубина B2B-содержания его страницы не проверена —
+     проверка появится с краулингом конкурентов (Phase 4).</p>
+  <p><span class="lbl act">ЧТО СДЕЛАТЬ</span>Усилить нашу страницу под этот
+     запрос: явный блок оплаты по счёту для юрлиц, условия лицензирования,
+     закрывающие документы и ЭДО, FAQ по покупке на компанию.
+     Контроль: 14 / 30 / 60 дней по позиции и кликам Вебмастера.</p>
+  <ul class="q"><li>Vulnerability недоступен до Phase 4: вес перераспределён на близость позиции и запас улучшения страницы</li><li>спрос оценён по показам Вебмастера (25), а не по частотности Wordstat</li><li>Revenue — прокси (спрос × коммерческий интент), не измеренная выручка</li></ul>
+</details>
+<details><summary>ATT-010 · Opportunity 57 ·
+  «купить подписку github copilot business»</summary>
+  <p><span class="lbl fact">ФАКТ</span>BIZSoft на 8-м месте
+     (https://biz-soft.pro/product/ghcopilot-business); выше — raketapay.ru на 1-м.
+     Спрос 29 (webmaster), коммерческий интент
+     1.00, B2B-интент 0.35.</p>
+  <p><span class="lbl fact">РАСЧЁТ</span><span class="q">revenue 2.9 · commercial 15.0 · b2b 5.2 · proximity 15.8 · demand 1.4 · page_improvement 14.0 · vendor 2.5</span></p>
+  <p><span class="lbl likely">ВЕРОЯТНО</span>Конкурент отвечает на тот же
+     коммерческий интент, но глубина B2B-содержания его страницы не проверена —
+     проверка появится с краулингом конкурентов (Phase 4).</p>
+  <p><span class="lbl act">ЧТО СДЕЛАТЬ</span>Усилить нашу страницу под этот
+     запрос: явный блок оплаты по счёту для юрлиц, условия лицензирования,
+     закрывающие документы и ЭДО, FAQ по покупке на компанию.
+     Контроль: 14 / 30 / 60 дней по позиции и кликам Вебмастера.</p>
+  <ul class="q"><li>Vulnerability недоступен до Phase 4: вес перераспределён на близость позиции и запас улучшения страницы</li><li>спрос оценён по показам Вебмастера (29), а не по частотности Wordstat</li><li>Revenue — прокси (спрос × коммерческий интент), не измеренная выручка</li></ul>
+</details>
+
+<h2 id="l5">5 · Исходные данные</h2>
+<p class="lead">Всё выше построено на этих строках выдачи. Каждая — запрос,
+регион и TOP-20 доменов с URL на момент съёма.</p>
+<details><summary>Показать выдачу по первым 20 запросам</summary>
+<div class="scroll"><table><tr><th>Запрос</th><th>ТОП-10 доменов</th></tr>
+<tr><td class="q">купить подписку суно премьер</td><td class="q">www.avito.ru, ggsel.net, market.yandex.ru, plati.market, funpay.com, playerok.com, raketapay.ru, suno.com, payment.mts.ru, ez1.gg</td></tr><tr><td class="q">оплата motion array юридическим лицом</td><td class="q">raketapay.ru, <b>biz-soft.pro</b>, vc.ru, oplata.guru, dzen.ru, softmap.ru, sanpay.ru, motionarray.com, pay-saas.ru, vk.ru</td></tr><tr><td class="q">оплата artlist юридическим лицом</td><td class="q">raketapay.ru, <b>biz-soft.pro</b>, www.banki.ru, artlist.io, aifory.pro, www.avito.ru, myexport.exportcenter.ru, getpayall.com, pipl.io, www.naletutv.ru</td></tr><tr><td class="q">claude team купить</td><td class="q">www.avito.ru, ggsel.net, funpay.com, www.softmagazin.ru, www.claude.com, migsoft.ru, <b>biz-soft.pro</b>, companies.rbc.ru, www.klerk.ru, www.robotx.ru</td></tr><tr><td class="q">оплата postman юридическим лицом</td><td class="q">raketapay.ru, nukapay.ru, <b>biz-soft.pro</b>, www.syssoft.ru, plativputi.com, migsoft.ru, aqsi.ru, practicum.yandex.ru, www.postman.com, vc.ru</td></tr><tr><td class="q">купить perplexity pro юридическим лицом</td><td class="q">raketapay.ru, www.syssoft.ru, <b>biz-soft.pro</b>, www.klerk.ru, legasoft.ru, ml-soft.ru, www.perplexity.ai, global-payments.ru, migsoft.ru, www.avito.ru</td></tr><tr><td class="q">оплата depositphotos для юридических лиц из россии</td><td class="q"><b>biz-soft.pro</b>, dzen.ru, platipomiru.com, card-open.ru, finteka.io, prav.io, www.klerk.ru, pipl.io, www.photospress.ru, vc.ru</td></tr><tr><td class="q">github copilot business купить</td><td class="q">raketapay.ru, ggsel.net, dzen.ru, www.avito.ru, legasoft.ru, <b>biz-soft.pro</b>, github.com, vc.ru, avenshop.ru, donatov.net</td></tr><tr><td class="q">купить heygen юридическим лицом</td><td class="q">raketapay.ru, <b>biz-soft.pro</b>, legasoft.ru, migsoft.ru, www.heygen.com, ml-soft.ru, aitunnel.ru, www.avito.ru, ggsel.net, vc.ru</td></tr><tr><td class="q">claude team plan купить</td><td class="q">raketapay.ru, claude.com, funpay.com, ggsel.net, playerok.com, www.softmagazin.ru, <b>biz-soft.pro</b>, migsoft.ru, market.yandex.ru, vc.ru</td></tr><tr><td class="q">оплата coreldraw для россиян</td><td class="q">dzen.ru, platipomiru.com, finteka.io, pipl.io, onskills.ru, dtf.ru, <b>biz-soft.pro</b>, keycheap.ru, windows-office.ru, oplata.guru</td></tr><tr><td class="q">оплата envato юридическим лицом</td><td class="q">raketapay.ru, <b>biz-soft.pro</b>, vc.ru, help.market.envato.com, oplata.guru, myexport.exportcenter.ru, pay-saas.ru, dzen.ru, pipl.io, getcard.one</td></tr><tr><td class="q">оплата зарубежного по для юр лица документы</td><td class="q">raketapay.ru, www.klerk.ru, dolphinpay.ru, <b>biz-soft.pro</b>, corp.pay-saas.ru, glavkniga.ru, marix.cc, vc.ru, www.moedelo.org, www.audit-it.ru</td></tr><tr><td class="q">купить notion ai юридическим лицом</td><td class="q">raketapay.ru, migsoft.ru, <b>biz-soft.pro</b>, ggsel.net, www.syssoft.ru, kupikod.com, www.notion.com, plati.market, pikabu.ru, playerok.com</td></tr><tr><td class="q">оплата иностранной подписки для бизнеса документы</td><td class="q">www.klerk.ru, raketapay.ru, www.sostav.ru, companies.rbc.ru, dolphinpay.ru, vc.ru, <b>biz-soft.pro</b>, glavkniga.ru, msk.t2.ru, www.garant.ru</td></tr><tr><td class="q">оплата canva для юридических лиц из россии</td><td class="q">pikabu.ru, vc.ru, pay.osno-va.com, <b>biz-soft.pro</b>, oplatazabugor.ru, www.klerk.ru, dzen.ru, xn----7sbb6agbixj6ab4j.xn--p1ai, raketapay.ru, oplata.guru</td></tr><tr><td class="q">оплата пакета depositphotos в россии</td><td class="q">dzen.ru, finteka.io, <b>biz-soft.pro</b>, kartli.io, pipl.io, platipomiru.com, aifory.pro, remoney.ru, xn----7sbb6agbixj6ab4j.xn--p1ai, xn--80aayfbgui3ab4i.xn--p1ai</td></tr><tr><td class="q">купить perplexity max юридическим лицом</td><td class="q">raketapay.ru, www.syssoft.ru, www.klerk.ru, <b>biz-soft.pro</b>, ml-soft.ru, legasoft.ru, global-payments.ru, www.softmagazin.ru, softmap.ru, www.avito.ru</td></tr><tr><td class="q">купить envato elements юридическим лицом</td><td class="q">raketapay.ru, <b>biz-soft.pro</b>, migsoft.ru, upee.shop, softmap.ru, elements.envato.com, ggsel.net, www.avito.ru, vc.ru, playerok.com</td></tr><tr><td class="q">оплата coreldraw по счету из россии</td><td class="q">dzen.ru, pipl.io, <b>biz-soft.pro</b>, finteka.io, platipomiru.com, aifory.pro, vc.ru, adobe.datasystem.ru, prodmag.ru, pay-saas.ru</td></tr>
+</table></div></details>
+
+<h2 id="method">Методика и границы</h2>
+<div class="grid2">
+<details><summary>Как считается доля видимости</summary>
+<p class="q">Вес позиции берётся из зафиксированной кривой CTR (1-е место —
+0,28, 10-е — 0,018, вне ТОП-20 — ноль); кривая лежит в конфиге и подлежит
+калибровке по фактическим показам и кликам. Доля домена — его суммарный вес,
+делённый на вес всего поля. Это не доля рынка и не доля трафика, а доля
+взвешенной поисковой видимости внутри контролируемого набора запросов.</p></details>
+<details><summary>Откуда берутся данные</summary>
+<p class="q">Срезы выдачи Яндекса собирает базовый SEO-контур; конкурентная
+разведка читает их только на чтение и повторно не покупает. Спрос — частотность
+Wordstat, а где её нет — показы Яндекс.Вебмастера (источник указан в таблице
+атак, шкалы нормируются раздельно). Google собирается отдельно и еженедельно;
+у Google нет геотаргетинга России, поэтому его данные снимаются через
+прокси-локацию и не сравнимы с яндексовыми как равноточные.</p></details>
+<details><summary>Чего этот отчёт пока не делает</summary>
+<p class="q">Не оценивает уязвимость конкретных страниц конкурентов (нужен
+краулинг — Phase 4), не измеряет выручку по запросам (нужна привязка к
+конверсиям — Phase 5), не отслеживает историю решений и результат внедрений
+(Decision Memory — Phase 5). Отсутствие данных нигде не показывается как
+ноль.</p></details>
+</div>
+
+<footer>
+BIZSoft Competitive Intelligence · отчёт за 2026-08-30 ·
+собран 31.08.2026 22:21 МСК ·
+страница не индексируется и не имеет ссылок с сайта
+</footer>
+</div></body></html>
