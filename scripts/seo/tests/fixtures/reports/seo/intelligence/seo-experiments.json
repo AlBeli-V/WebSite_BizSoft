@@ -20,7 +20,8 @@
    "hypothesis": "Коммерческие сниппеты с явным интентом «оплата на юрлицо, счёт, договор, ЭДО» и FAQ-разметка поднимут кликабельность страниц в выдаче Яндекса по транзакционным запросам кластеров.",
    "success_metric": "CTR кластеров Canva/Depositphotos/CorelDRAW/HeyGen/Marmoset в Яндекс.Вебмастере ≥2% через 7 дней (26.08.2026), ≥3% через 14 дней (02.09.2026)",
    "control_group": "остальные vendor-страницы без изменений",
-   "source": "src/data/seo-experiments.ts (рендер: src/pages/vendors/[slug].astro → VendorLanding)"
+   "source": "src/data/seo-experiments.ts (рендер: src/pages/vendors/[slug].astro → VendorLanding)",
+   "formula_group": "commercial-snippet-2026-08"
   },
   {
    "id": "cluster-depositphotos",
@@ -38,7 +39,8 @@
     "period": "14 дней до 19.08.2026",
     "impressions_cluster": 273,
     "positions": "3–9",
-    "note": "Depositphotos — лидер спроса среди кластеров вендоров по данным Яндекс.Вебмастера"
+    "note": "Depositphotos — лидер спроса среди кластеров вендоров по данным Яндекс.Вебмастера",
+    "days": 14
    },
    "changes": [
     "статья src/content/blog/kak-oplatit-depositphotos-dlya-yurlica.md: прямой ответ в первых двух предложениях, H2/H3, таблица сравнения тарифов (пакет 100 изображений, Unlimited месяц, Unlimited год), FAQ-блок из 6 вопросов с FAQPage-разметкой",
@@ -49,7 +51,14 @@
    "hypothesis": "Информационная статья под транзакционный интент «оплатить Depositphotos для юрлица» перехватывает запросы, по которым карточки и лендинг стоят на позициях 3–9, и передаёт им ссылочный вес через взаимную перелинковку — это поднимает показы всего кластера и выводит статью в топ-10.",
    "success_metric": "рост показов кластера Depositphotos относительно базовых 273 показов за 14 дней и вход статьи /blog/kak-oplatit-depositphotos-dlya-yurlica в топ-10 Яндекса за 14 дней (контроль 02.09.2026)",
    "control_group": "кластеры Canva, CorelDRAW, HeyGen, Marmoset — без статей блога",
-   "source": "src/content/blog/kak-oplatit-depositphotos-dlya-yurlica.md; обратные ссылки — src/pages/product/[slug].astro"
+   "source": "src/content/blog/kak-oplatit-depositphotos-dlya-yurlica.md; обратные ссылки — src/pages/product/[slug].astro",
+   "evaluation_kind": "impressions_growth",
+   "target_page": "/blog/kak-oplatit-depositphotos-dlya-yurlica",
+   "query_markers": [
+    "depositphotos",
+    "депозитфотос",
+    "депозит фото"
+   ]
   },
   {
    "id": "snippets-6-demand",
@@ -74,7 +83,35 @@
    "hypothesis": "Коммерческие сниппеты с явным интентом «оплата на юрлицо, счёт, договор, ЭДО», FAQ-разметка и внутренние ссылки на раздел назначения ПО поднимут кликабельность и позиции по транзакционным запросам кластеров с подтверждённым спросом.",
    "success_metric": "Появление фраз кластера в топ-10 Яндекс.Вебмастера и CTR ≥2% через 14 дней (03.09.2026), ≥3% через 30 дней (19.09.2026)",
    "control_group": "остальные vendor-страницы без изменений; эксперимент snippets-5-vendors считается отдельно, пересечений нет",
-   "source": "src/data/seo-experiments.ts (рендер: src/pages/vendors/[slug].astro → VendorLanding)"
+   "source": "src/data/seo-experiments.ts (рендер: src/pages/vendors/[slug].astro → VendorLanding)",
+   "query_markers": [
+    "adobe",
+    "photoshop",
+    "фотошоп",
+    "lightroom",
+    "лайтрум",
+    "after effects",
+    "premiere pro",
+    "illustrator",
+    "acrobat",
+    "autodesk",
+    "autocad",
+    "автокад",
+    "3ds max",
+    "fusion 360",
+    "maya",
+    "procreate",
+    "прокриейт",
+    "blackmagic",
+    "davinci",
+    "давинчи",
+    "резолв",
+    "midjourney",
+    "миджорни",
+    "clip studio",
+    "клип студио"
+   ],
+   "formula_group": "commercial-snippet-2026-08"
   }
  ]
 }
