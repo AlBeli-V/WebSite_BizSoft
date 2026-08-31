@@ -1,0 +1,62 @@
+# Проба DataForSEO Labs API (контур конкурентной разведки).
+#
+# Решение руководителя 31.08: перед тем как строить discovery конкурентов на
+# Labs, проверить пробой, покрывает ли база русскоязычный Google. Делает
+# 4 недорогих вызова (справочник локаций + ranked_keywords по нашему домену
+# и домену конкурента + competitors_domain) и печатает суммарную стоимость.
+# Read-only, сайт и кабинеты не трогает. Результат — комментарием в issue #22.
+# Ручной запуск — только с main (правило CLAUDE.md).
+name: ci-labs-probe
+on:
+  workflow_dispatch:
+    inputs:
+      rival:
+        description: 'Домен конкурента для проверки глубины следа'
+        required: false
+        default: 'raketapay.ru'
+      location_code:
+        description: 'Принудительный location_code Labs (пусто = автовыбор)'
+        required: false
+        default: ''
+permissions:
+  contents: read
+  issues: write
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Guard - only default branch
+        if: github.ref != 'refs/heads/main'
+        run: |
+          echo "::error::Запуск разрешён только с ветки main (правило проекта)"
+          exit 1
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Probe DataForSEO Labs
+        id: run
+        env:
+          DATAFORSEO_LOGIN: ${{ secrets.DATAFORSEO_LOGIN }}
+          DATAFORSEO_PASSWORD: ${{ secrets.DATAFORSEO_PASSWORD }}
+          RIVAL: ${{ inputs.rival }}
+          LOCATION_CODE: ${{ inputs.location_code }}
+        run: |
+          pip install --quiet requests
+          {
+            echo 'result<<LABS_EOF'
+            python3 competitive-intelligence/serp/labs_probe.py || true
+            echo 'LABS_EOF'
+          } >> "$GITHUB_OUTPUT"
+      - name: Post to issue
+        uses: actions/github-script@v7
+        env:
+          RESULT: ${{ steps.run.outputs.result }}
+        with:
+          script: |
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: 22,
+              body: '### ci-labs-probe (DataForSEO Labs) · ' + new Date().toISOString() + '\n\n```\n' + process.env.RESULT + '\n```',
+            });
