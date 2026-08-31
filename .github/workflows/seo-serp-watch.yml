@@ -1,0 +1,64 @@
+# Ежедневный SERP-срез Яндекса по ядру запросов (Yandex Search API v2,
+# веб-поиск, ключ WORDSTAT_API_KEY — тот же сервисный аккаунт, что Wordstat).
+# Решение руководителя 30.08.2026: рабочий сценарий, потолок 5 000
+# запросов/мес (потолок зашит в serp_watch.py и проверяется по журналу).
+# Расписание: 22:37 UTC = 01:37 МСК — ночной тариф веб-поиска
+# (00:00–07:59 МСК); минута «некруглая» — круглые слоты планировщик
+# GitHub системно задерживает (см. seo-data-collect).
+# Ядро запросов строится из данных (serp_watchlist.py): Вебмастер,
+# money-радар, спрос Вордстата, кластеры «Аналоги X».
+name: seo-serp-watch
+
+# Push-триггера нет сознательно: прогон платный (до 170 запросов веб-поиска),
+# и каждая правка скрипта запускала бы лишний сбор. Только ночной cron и
+# ручной dispatch; дневной потолок дополнительно держит serp_watch.py.
+on:
+  schedule:
+    - cron: "37 22 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  watch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # Данные накатываются до прогона: журнал бюджета и watchlist-источники
+      # живут в seo-data, а push отправляет каталоги целиком.
+      - name: Pull data branch
+        run: bash scripts/seo/data_sync.sh pull
+
+      - name: Install deps
+        run: pip install --quiet requests
+
+      - name: Collect SERP snapshots
+        env:
+          WORDSTAT_API_KEY: ${{ secrets.WORDSTAT_API_KEY }}
+        run: python3 scripts/seo/serp_watch.py
+
+      # Фактический биллинг (поручение 30.08.2026): остаток, тарифы SKU и
+      # история остатка через Billing API. Без секрета YC_BILLING_SA_KEY шаг
+      # тихо пропускается, и бюджет живёт на расчётной оценке.
+      - name: Fetch Yandex Cloud billing
+        if: always()
+        env:
+          YC_BILLING_SA_KEY: ${{ secrets.YC_BILLING_SA_KEY }}
+        run: |
+          pip install --quiet pyjwt cryptography
+          python3 scripts/seo/yc_billing.py
+
+      # Контроль баланса: факт из Billing API (если доступен) либо расчётный
+      # остаток по журналам Wordstat+SERP; при прогнозной нехватке — письмо
+      # руководителю с просьбой пополнить (не чаще раза в 3 дня).
+      - name: Cloud budget check
+        if: always()
+        env:
+          SMTP_PASS: ${{ secrets.SMTP_PASS }}
+        run: python3 scripts/seo/cloud_budget.py --notify
+
+      - name: Push data
+        if: always()
+        run: bash scripts/seo/data_sync.sh push "SERP-срез за $(date -u +%F)" "reports/seo/serp reports/seo/intelligence"
