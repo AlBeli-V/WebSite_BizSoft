@@ -107,7 +107,7 @@ def pick_windows(start: dt.date, today: dt.date) -> dict:
             "experiment_tainted": exp_tainted, "clean_experiment_eta": clean_eta}
 
 
-def interim_comparison(slugs: list[str], start: dt.date, today: dt.date) -> dict | None:
+def interim_comparison(keys, start: dt.date, today: dt.date) -> dict | None:
     """Предварительное сравнение «старый → новый» до появления чистого окна.
 
     Вопрос руководителя 31.08.2026: письмо обязано показывать, как идёт
@@ -129,8 +129,8 @@ def interim_comparison(slugs: list[str], start: dt.date, today: dt.date) -> dict
             break
     if not base or not current:
         return None
-    base_rows = _rows_for_cluster(base["queries"], slugs)
-    cur_rows = _rows_for_cluster(current["queries"], slugs)
+    base_rows = _rows_for_cluster(base["queries"], keys)
+    cur_rows = _rows_for_cluster(current["queries"], keys)
     bm, cm = metrics(base_rows), metrics(cur_rows)
     w_from = dt.date.fromisoformat(current["from"])
     w_to = dt.date.fromisoformat(current["to"])
@@ -158,20 +158,20 @@ def interim_comparison(slugs: list[str], start: dt.date, today: dt.date) -> dict
 
 # ── Метрики по набору запросов ──────────────────────────────────────────────
 
-def _rows_for_cluster(queries: list[dict], slugs: list[str]) -> list[dict]:
-    """Запросы кластера эксперимента: содержат имя вендора страницы.
+def _rows_for_cluster(queries: list[dict], keys) -> list[dict]:
+    """Запросы кластера эксперимента по ключам атрибуции.
 
-    Привязки запрос→страница у Вебмастера нет; используется та же эвристика,
-    что и в экспозиции письма (experiments.impressions_for_pages), поэтому
+    Привязки запрос→страница у Вебмастера нет; ключи строит
+    experiments.cluster_keys (маркеры/исключения/интент из реестра), поэтому
     охваты письма и вердикта совпадают. Это оценка, и она так и подписывается.
+    Список строк (наследие: голые slug) принимается для совместимости.
     """
-    keys = {s.replace("-", " ") for s in slugs} | set(slugs)
-    out = []
-    for q in queries:
-        text = (q.get("query_text") or "").lower()
-        if any(k in text for k in keys):
-            out.append(q)
-    return out
+    if isinstance(keys, (list, tuple, set)):
+        keys = {"any": sorted({s.replace("-", " ") for s in keys} | set(keys)),
+                "exclude": [], "intent_any": []}
+    import experiments
+    return [q for q in queries
+            if experiments.query_matches(q.get("query_text") or "", keys)]
 
 
 def metrics(rows: list[dict]) -> dict:

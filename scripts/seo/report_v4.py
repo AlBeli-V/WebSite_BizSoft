@@ -861,8 +861,29 @@ def _exp_exposure_line(e: dict) -> str:
 
 
 def _exp_interim_line(e: dict) -> tuple[str, str | None]:
-    """Строка «старый → новый» и оговорки к ней (может не быть)."""
+    """Строка «старый → новый» и оговорки к ней (может не быть).
+
+    Формат следует метрике эксперимента: CTR — для сниппет-экспериментов,
+    показы/день — для контентного роста, прогресс запуска — для новых страниц
+    (у них «старого варианта» не существует).
+    """
+    kind = e.get("evaluation_kind", "ctr")
+    ev = e.get("evaluation") or {}
+    if kind == "launch":
+        return (ev.get("summary_line")
+                or "страницы новые — набор данных запуска ещё идёт", None)
     i = e.get("interim")
+    if kind == "impressions_growth" and i:
+        b, c = i["baseline"], i["current"]
+        rel = ""
+        if b.get("impressions"):
+            growth = (c["impressions"] - b["impressions"]) / b["impressions"]
+            rel = f" — предварительно {growth * 100:+.0f}%".replace("-", "−")
+        line = (f"показы кластера {num(b['impressions'])} "
+                f"(окно {ru_date(b['from'])}–{ru_date(b['to'])}, до внедрения) → "
+                f"{num(c['impressions'])} (окно {ru_date(c['from'])}–{ru_date(c['to'])}, "
+                f"{c['post_days']} из {c['window_days']} дней после){rel}")
+        return line, ("; ".join(i.get("caveats") or []) or None)
     if not i:
         eta = ((e.get("evaluation") or {}).get("windows") or {}).get(
             "clean_experiment_eta")
@@ -912,12 +933,30 @@ def _exp_status_html(e: dict) -> str:
 
 
 def _exp_short_line(o: dict) -> str:
-    """Строка «остальных» экспериментов: прогресс цифрами, а не только днями."""
+    """Строка «остальных» экспериментов: прогресс цифрами, а не только днями.
+
+    Прогресс следует метрике эксперимента: порог 500 показов — гейт
+    CTR-оценки; у контентного роста и запуска страниц свои критерии.
+    """
+    kind = o.get("evaluation_kind", "ctr")
     imp = o.get("impressions_since_deploy")
-    expo = (f"{num(imp)} из {num(o['exposure_min_impressions'])} показов"
-            if imp is not None else "экспозиция не измерена")
     review = (f"проверка {ru_date(o['next_review'])}" if o.get("next_review")
               else "вехи пройдены, ждёт вердикта")
+    if kind == "launch":
+        m = ((o.get("evaluation") or {}).get("metrics") or {}).get("launch")
+        if m:
+            expo = (f"в выдаче {m['pages_in_search']} из {m['pages_total']} "
+                    f"страниц · ~{num(m['weekly_impressions'])} показов/нед "
+                    f"из {num(m['need_weekly'])}")
+        else:
+            expo = "набор данных запуска идёт"
+        return f"день {o['days_elapsed']} · {expo} · {review}"
+    if kind == "impressions_growth":
+        expo = (f"{counted(imp, 'показ', 'показа', 'показов')} кластера"
+                if imp is not None else "экспозиция не измерена")
+        return f"день {o['days_elapsed']} · {expo} · рост к baseline — {review}"
+    expo = (f"{num(imp)} из {num(o['exposure_min_impressions'])} показов"
+            if imp is not None else "экспозиция не измерена")
     return (f"день {o['days_elapsed']} из {exp_mod.MIN_EXPOSURE_DAYS} · {expo} · "
             f"{review}")
 
@@ -950,7 +989,12 @@ def _verdict_panel(e: dict) -> str:
              f" · уверенность {EXP_CONF_LABEL[ev['confidence']]}</div>",
              f"<div style=\"font-size:14.5px;padding-top:{SP['xs']}px;"
              f"line-height:1.55;\">{ev['verdict_reason']}.</div>"]
-    if ev.get("windows"):
+    if ev.get("summary_line"):
+        # Не-CTR оценки (рост показов, запуск страниц) несут готовую сводку.
+        lines.append(
+            f"<div data-meta=\"1\" style=\"font-size:12.5px;color:{T['text_secondary']};"
+            f"padding-top:{SP['s']}px;line-height:1.5;\">{ev['summary_line']}</div>")
+    elif ev.get("windows"):
         w = ev["windows"]
         mm = ev["matched_metrics"]
         stat = ev["statistical_result"] or {}
@@ -1550,6 +1594,8 @@ def plain_text(b: dict) -> str:
             L.append(f"  ВЕРДИКТ КОНТРОЛЬНОЙ ТОЧКИ: {EXP_VERDICT_LABEL[ev['verdict']]} "
                      f"(уверенность {EXP_CONF_LABEL[ev['confidence']]}) — "
                      f"{ev['verdict_reason']}")
+            if ev.get("summary_line"):
+                L.append(f"    {ev['summary_line']}")
             L.append(f"  рекомендация: {EXP_REC_LABEL[ev['recommendation']]} — "
                      f"{ev['recommendation_detail']}")
             if ev["requires_owner_decision"]:
