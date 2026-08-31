@@ -33,7 +33,10 @@ from serp_probe import parse_serp  # noqa: E402
 
 URL = "https://searchapi.api.cloud.yandex.net/v2/web/search"
 ASYNC_URL = "https://searchapi.api.cloud.yandex.net/v2/web/searchAsync"
-OPERATIONS_URL = "https://operations.api.cloud.yandex.net/operations/"
+# Хост операций — operation.api, БЕЗ «s»: ночь 31.08 все 502 опроса упали
+# ConnectionError именно на ошибочном operations.api (отправки при этом
+# были оплачены, результаты потеряны).
+OPERATIONS_URL = "https://operation.api.cloud.yandex.net/operations/"
 SERP_DIR = pathlib.Path("reports/seo/data/serp")
 LEDGER_DIR = SERP_DIR / "ledger"
 
@@ -174,8 +177,12 @@ def collect_deferred(session, key: str, date: dt.date,
         for (q, region), op in list(pending.items()):
             try:
                 res = fetch_operation(session, key, op)
-            except Exception as e:  # noqa: BLE001
-                res = {"error": f"{type(e).__name__}: {e}"}
+            except Exception:  # noqa: BLE001
+                # Сетевой сбой опроса — не вердикт по запросу: операция на
+                # стороне сервиса живёт, пробуем до дедлайна. Ночь 31.08
+                # каждый такой сбой финализировал запрос ошибкой — и весь
+                # оплаченный срез был потерян одним неверным хостом.
+                continue
             if res is None:
                 continue
             del pending[(q, region)]
