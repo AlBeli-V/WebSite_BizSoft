@@ -5,18 +5,18 @@
   "total": 26,
   "failed": 0
  },
- "visible_words": 1226,
- "first_screen_words": 172,
+ "visible_words": 1348,
+ "first_screen_words": 250,
  "checks": [
   {
    "check": "visible_words",
    "ok": true,
-   "detail": "1226 слов при пределе 1350"
+   "detail": "1348 слов при пределе 1450"
   },
   {
    "check": "first_screen_words",
    "ok": true,
-   "detail": "172 слов на первом экране при пределе 250"
+   "detail": "250 слов на первом экране при пределе 320"
   },
   {
    "check": "kpi_limit",

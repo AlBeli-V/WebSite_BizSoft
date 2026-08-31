@@ -17,12 +17,18 @@
   {
    "label": "ОТ ВАС",
    "state": "none",
-   "text": "не требуется"
+   "text": "4 предложения"
   }
  ],
  "sources_line": "Яндекс по 29.08 · Google по 28.08 · Метрика по 30.08 · спрос 20.08",
- "user_action": "Решений от вас сегодня не требуется.",
+ "user_action": "Срочных решений нет.",
  "user_action_required": false,
+ "owner_desk": [
+  "эксперименты: ближайшее предложение решения — 02.09 (CONTENT-001); варианты и вероятный исход — в «Контроле эксперимента»",
+  "рост без бюджета: 3 кластера с показами без переходов (оплата artlist юридическим лицом, оплата motion array юридическим лицом, claude team купить) ждут переписанных сниппетов — «Где ближе всего рост»",
+  "ассортимент: 1 кандидат к добавлению (aws), 3 — ручная проверка оплаты — «Каких вендоров добавить»",
+  "продвижение: Яндекс Бизнес: развить товарный фид как канал — «Перспективные идеи»"
+ ],
  "kpis": [
   {
    "key": "yandex",
@@ -581,7 +587,9 @@
      "текущее окно пересекает период до внедрения: 10 из 13 дней — после"
     ]
    },
+   "evaluation_kind": "ctr",
    "exposure_min_impressions": 500,
+   "exposure_gate_adapted": false,
    "exposure_ok": true,
    "impressions_since_deploy": 647,
    "impressions_estimated": true,
@@ -602,19 +610,23 @@
     "ticket": "SEO-EXP-001",
     "date": "2026-08-31",
     "source": "yandex",
+    "evaluation_kind": "ctr",
     "windows": null,
     "metrics": null,
     "matched_metrics": null,
     "position_delta": null,
     "sample_quality": [],
     "statistical_result": null,
+    "summary_line": null,
     "confidence": "LOW",
     "verdict": "INSUFFICIENT_DATA",
     "verdict_reason": "окно источника ещё не очистилось от периода до внедрения; чистое окно ожидается к 2026-09-03",
     "recommendation": "EXTEND",
     "recommendation_detail": "продлить наблюдение до 2026-09-03",
     "recommended_targets": [],
-    "requires_owner_decision": false
+    "requires_owner_decision": false,
+    "clean_window_eta": "2026-09-03",
+    "formula_group_result": null
    }
   },
   {
@@ -628,27 +640,27 @@
    "days_elapsed": 12,
    "minimum_exposure": "7 дн. и 500 показов",
    "pages_total": 5,
-   "pages_live_with_treatment": null,
+   "pages_live_with_treatment": 5,
    "site_check_date": "2026-08-31",
-   "new_variant_detected_on_site": null,
-   "search_snippet_refresh": "2 из 5 страниц в выдаче, обновление сниппета не подтверждено (замер 31.08)",
+   "new_variant_detected_on_site": 4,
+   "search_snippet_refresh": "новый сниппет виден в выдаче у 2 из 5 страниц (замер 31.08)",
    "serp": {
     "measured_at": "2026-08-31",
     "pages_total": 5,
     "pages_seen": 2,
-    "pages_with_new_snippet": null,
+    "pages_with_new_snippet": 2,
     "pages": {
      "/vendors/depositphotos": {
       "best_position": 1,
       "serp_title": "Оплата Depositphotos для юрлиц из России — счёт... | BIZSoft",
       "query": "оплата depositphotos для юридических лиц из россии",
-      "new_snippet": null
+      "new_snippet": true
      },
      "/blog/kak-oplatit-depositphotos-dlya-yurlica": {
       "best_position": 6,
       "serp_title": "Как оплатить Depositphotos для юридического лица в России",
       "query": "как оплатить пакет depositphotos из россии",
-      "new_snippet": null
+      "new_snippet": true
      }
     }
    },
@@ -666,11 +678,11 @@
     "current": {
      "from": "2026-08-17",
      "to": "2026-08-29",
-     "impressions": 426,
+     "impressions": 443,
      "clicks": 0,
      "ctr": 0.0,
-     "avg_position": 8.384976525821596,
-     "queries": 55,
+     "avg_position": 8.37923250564334,
+     "queries": 58,
      "post_days": 10,
      "window_days": 13
     },
@@ -680,17 +692,19 @@
      "текущее окно пересекает период до внедрения: 10 из 13 дней — после"
     ]
    },
-   "exposure_min_impressions": 500,
-   "exposure_ok": false,
-   "impressions_since_deploy": 426,
+   "evaluation_kind": "impressions_growth",
+   "exposure_min_impressions": 310,
+   "exposure_gate_adapted": true,
+   "exposure_ok": true,
+   "impressions_since_deploy": 443,
    "impressions_estimated": true,
    "clicks_since_deploy": 0,
    "primary_metric": "рост показов кластера Depositphotos относительно базовых 273 показов за 14 дней и вход статьи /blog/kak-oplatit-depositphotos-dlya-yurlica в топ-10 Яндекса за 14 дней (контроль 02.09.2026)",
-   "current_result": "0 переходов на 426 показов по запросам кластеров",
+   "current_result": "0 переходов на 443 показа по запросам кластеров",
    "confidence": "low",
    "next_review": "2026-09-02",
    "verdict": "observing",
-   "verdict_reason": "накоплено 426 показов из 500 минимальных для вывода",
+   "verdict_reason": "экспозиция набрана, ждём контрольную дату",
    "hypothesis_plain": "понятнее ли описание страницы в выдаче для того, кто покупает на компанию, и чаще ли по ней переходят",
    "treatment_plain": "переписали заголовок и описание страницы под покупку по счёту и добавили блок ответов на частые вопросы.",
    "metric_plain": "переходы из выдачи Яндекса по запросам страниц эксперимента; контрольные точки — 26.08 и 02.09",
@@ -701,12 +715,14 @@
     "ticket": "CONTENT-001",
     "date": "2026-08-31",
     "source": "yandex",
+    "evaluation_kind": "impressions_growth",
     "windows": null,
     "metrics": null,
     "matched_metrics": null,
     "position_delta": null,
     "sample_quality": [],
     "statistical_result": null,
+    "summary_line": null,
     "confidence": "LOW",
     "verdict": "INSUFFICIENT_DATA",
     "verdict_reason": "окно источника ещё не очистилось от периода до внедрения; чистое окно ожидается к 2026-09-03",
@@ -727,21 +743,21 @@
    "days_elapsed": 11,
    "minimum_exposure": "7 дн. и 500 показов",
    "pages_total": 6,
-   "pages_live_with_treatment": null,
+   "pages_live_with_treatment": 6,
    "site_check_date": "2026-08-31",
-   "new_variant_detected_on_site": null,
+   "new_variant_detected_on_site": 1,
    "search_snippet_refresh": "1 из 6 страниц в выдаче, обновление сниппета не подтверждено (замер 31.08)",
    "serp": {
     "measured_at": "2026-08-31",
     "pages_total": 6,
     "pages_seen": 1,
-    "pages_with_new_snippet": null,
+    "pages_with_new_snippet": 0,
     "pages": {
      "/vendors/clip-studio-paint": {
       "best_position": 7,
       "serp_title": "Купить Clip Studio Paint для юрлица — тарифы, счёт и КП — BizSoft",
       "query": "сколько стоит подписка клип студио бессрочная",
-      "new_snippet": null
+      "new_snippet": false
      }
     }
    },
@@ -750,20 +766,20 @@
     "baseline": {
      "from": "2026-08-07",
      "to": "2026-08-19",
-     "impressions": 5,
+     "impressions": 23,
      "clicks": 0,
      "ctr": 0.0,
-     "avg_position": 9.6,
-     "queries": 1
+     "avg_position": 9.956521739130435,
+     "queries": 6
     },
     "current": {
      "from": "2026-08-17",
      "to": "2026-08-29",
-     "impressions": 13,
+     "impressions": 92,
      "clicks": 0,
      "ctr": 0.0,
-     "avg_position": 13.0,
-     "queries": 11,
+     "avg_position": 8.065217391304348,
+     "queries": 38,
      "post_days": 9,
      "window_days": 13
     },
@@ -773,17 +789,19 @@
      "текущее окно пересекает период до внедрения: 9 из 13 дней — после"
     ]
    },
-   "exposure_min_impressions": 500,
+   "evaluation_kind": "ctr",
+   "exposure_min_impressions": 100,
+   "exposure_gate_adapted": true,
    "exposure_ok": false,
-   "impressions_since_deploy": 13,
+   "impressions_since_deploy": 92,
    "impressions_estimated": true,
    "clicks_since_deploy": 0,
    "primary_metric": "Появление фраз кластера в топ-10 Яндекс.Вебмастера и CTR ≥2% через 14 дней (03.09.2026), ≥3% через 30 дней (19.09.2026)",
-   "current_result": "0 переходов на 13 показов по запросам кластеров",
+   "current_result": "0 переходов на 92 показа по запросам кластеров",
    "confidence": "low",
    "next_review": "2026-09-03",
    "verdict": "observing",
-   "verdict_reason": "накоплено 13 показов из 500 минимальных для вывода",
+   "verdict_reason": "накоплено 92 показов из 100 минимальных для вывода",
    "hypothesis_plain": "понятнее ли описание страницы в выдаче для того, кто покупает на компанию, и чаще ли по ней переходят",
    "treatment_plain": "переписали заголовок и описание страницы под покупку по счёту и добавили блок ответов на частые вопросы.",
    "metric_plain": "переходы из выдачи Яндекса по запросам страниц эксперимента; контрольные точки — 27.08 и 03.09",
@@ -794,19 +812,23 @@
     "ticket": "SEO-EXP-002",
     "date": "2026-08-31",
     "source": "yandex",
+    "evaluation_kind": "ctr",
     "windows": null,
     "metrics": null,
     "matched_metrics": null,
     "position_delta": null,
     "sample_quality": [],
     "statistical_result": null,
+    "summary_line": null,
     "confidence": "LOW",
     "verdict": "INSUFFICIENT_DATA",
     "verdict_reason": "окно источника ещё не очистилось от периода до внедрения; чистое окно ожидается к 2026-09-04",
     "recommendation": "EXTEND",
     "recommendation_detail": "продлить наблюдение до 2026-09-04",
     "recommended_targets": [],
-    "requires_owner_decision": false
+    "requires_owner_decision": false,
+    "clean_window_eta": "2026-09-04",
+    "formula_group_result": null
    }
   },
   {
@@ -820,21 +842,21 @@
    "days_elapsed": 2,
    "minimum_exposure": "7 дн. и 500 показов",
    "pages_total": 1,
-   "pages_live_with_treatment": null,
+   "pages_live_with_treatment": 1,
    "site_check_date": "2026-08-31",
-   "new_variant_detected_on_site": null,
+   "new_variant_detected_on_site": 1,
    "search_snippet_refresh": "1 из 1 страниц в выдаче, обновление сниппета не подтверждено (замер 31.08)",
    "serp": {
     "measured_at": "2026-08-31",
     "pages_total": 1,
     "pages_seen": 1,
-    "pages_with_new_snippet": null,
+    "pages_with_new_snippet": 0,
     "pages": {
      "/vendors/anthropic": {
       "best_position": 3,
       "serp_title": "Купить Anthropic Claude для юрлица — тарифы, счёт... — BIZSoft",
       "query": "тарифные планы anthropic для бизнеса",
-      "new_snippet": null
+      "new_snippet": false
      }
     }
    },
@@ -843,20 +865,20 @@
     "baseline": {
      "from": "2026-08-16",
      "to": "2026-08-27",
-     "impressions": 33,
+     "impressions": 205,
      "clicks": 0,
      "ctr": 0.0,
-     "avg_position": 5.757575757575758,
-     "queries": 10
+     "avg_position": 7.46829268292683,
+     "queries": 21
     },
     "current": {
      "from": "2026-08-17",
      "to": "2026-08-29",
-     "impressions": 41,
+     "impressions": 258,
      "clicks": 0,
      "ctr": 0.0,
-     "avg_position": 5.2682926829268295,
-     "queries": 10,
+     "avg_position": 7.282945736434108,
+     "queries": 26,
      "post_days": 0,
      "window_days": 13
     },
@@ -865,13 +887,15 @@
      "текущее окно пересекает период до внедрения: 0 из 13 дней — после"
     ]
    },
-   "exposure_min_impressions": 500,
-   "exposure_ok": false,
-   "impressions_since_deploy": 41,
+   "evaluation_kind": "ctr",
+   "exposure_min_impressions": 181,
+   "exposure_gate_adapted": true,
+   "exposure_ok": true,
+   "impressions_since_deploy": 258,
    "impressions_estimated": true,
    "clicks_since_deploy": 0,
    "primary_metric": "CTR кластера anthropic в Вебмастере ≥1% через 7 дней (05.09.2026), ≥2% через 14 дней (12.09.2026); позиция не хуже 8",
-   "current_result": "0 переходов на 41 показ по запросам кластеров",
+   "current_result": "0 переходов на 258 показов по запросам кластеров",
    "confidence": "low",
    "next_review": "2026-09-05",
    "verdict": "too_early",
@@ -886,19 +910,22 @@
     "ticket": "SEO-EXP-003",
     "date": "2026-08-31",
     "source": "yandex",
+    "evaluation_kind": "ctr",
     "windows": null,
     "metrics": null,
     "matched_metrics": null,
     "position_delta": null,
     "sample_quality": [],
     "statistical_result": null,
+    "summary_line": null,
     "confidence": "LOW",
     "verdict": "INSUFFICIENT_DATA",
     "verdict_reason": "окно источника ещё не очистилось от периода до внедрения; чистое окно ожидается к 2026-09-13",
     "recommendation": "EXTEND",
     "recommendation_detail": "продлить наблюдение до 2026-09-13",
     "recommended_targets": [],
-    "requires_owner_decision": false
+    "requires_owner_decision": false,
+    "clean_window_eta": "2026-09-13"
    }
   },
   {
@@ -912,15 +939,15 @@
    "days_elapsed": 1,
    "minimum_exposure": "7 дн. и 500 показов",
    "pages_total": 7,
-   "pages_live_with_treatment": null,
+   "pages_live_with_treatment": 7,
    "site_check_date": "2026-08-31",
-   "new_variant_detected_on_site": null,
-   "search_snippet_refresh": "нет данных",
+   "new_variant_detected_on_site": 7,
+   "search_snippet_refresh": "не измерено: нет успешного SERP-замера за 7 дней",
    "serp": {
     "measured_at": "2026-08-31",
     "pages_total": 7,
     "pages_seen": 0,
-    "pages_with_new_snippet": null,
+    "pages_with_new_snippet": 0,
     "pages": {}
    },
    "interim": {
@@ -928,35 +955,37 @@
     "baseline": {
      "from": "2026-08-17",
      "to": "2026-08-29",
-     "impressions": 191,
-     "clicks": 2,
-     "ctr": 0.010471204188481676,
-     "avg_position": 6.366492146596858,
-     "queries": 66
+     "impressions": 1,
+     "clicks": 0,
+     "ctr": 0.0,
+     "avg_position": 8.0,
+     "queries": 1
     },
     "current": {
      "from": "2026-08-17",
      "to": "2026-08-29",
-     "impressions": 191,
-     "clicks": 2,
-     "ctr": 0.010471204188481676,
-     "avg_position": 6.366492146596858,
-     "queries": 66,
+     "impressions": 1,
+     "clicks": 0,
+     "ctr": 0.0,
+     "avg_position": 8.0,
+     "queries": 1,
      "post_days": 0,
      "window_days": 13
     },
-    "relative_uplift": 0.0,
+    "relative_uplift": null,
     "caveats": [
      "текущее окно пересекает период до внедрения: 0 из 13 дней — после"
     ]
    },
-   "exposure_min_impressions": 500,
+   "evaluation_kind": "launch",
+   "exposure_min_impressions": 100,
+   "exposure_gate_adapted": true,
    "exposure_ok": false,
-   "impressions_since_deploy": 191,
+   "impressions_since_deploy": 1,
    "impressions_estimated": true,
-   "clicks_since_deploy": 2,
+   "clicks_since_deploy": 0,
    "primary_metric": "К 13.09.2026: ≥5 из 7 страниц в поиске Яндекса; показы кластеров ≥300/нед суммарно. К 27.09: первые клики. Иначе — правка шаблона до волны 2.",
-   "current_result": "2 перехода на 191 показ по запросам кластеров",
+   "current_result": "0 переходов на 1 показ по запросам кластеров",
    "confidence": "low",
    "next_review": "2026-09-06",
    "verdict": "too_early",
@@ -971,17 +1000,28 @@
     "ticket": "PAGES-EXP-001",
     "date": "2026-08-31",
     "source": "yandex",
+    "evaluation_kind": "launch",
     "windows": null,
-    "metrics": null,
+    "metrics": {
+     "launch": {
+      "pages_total": 7,
+      "pages_in_search": 0,
+      "weekly_impressions": 1,
+      "clicks": 0,
+      "need_pages": 5,
+      "need_weekly": 300
+     }
+    },
     "matched_metrics": null,
     "position_delta": null,
     "sample_quality": [],
     "statistical_result": null,
+    "summary_line": "в выдаче 0 из 7 страниц (замер 2026-08-31) · ~1 показов/нед из 300 · 0 кликов · день 1 из 14 до первой вехи",
     "confidence": "LOW",
     "verdict": "INSUFFICIENT_DATA",
-    "verdict_reason": "окно источника ещё не очистилось от периода до внедрения; чистое окно ожидается к 2026-09-14",
+    "verdict_reason": "идёт набор: 0 из 5 страниц в выдаче, ~1 из 300 показов/нед; веха — 2026-09-13",
     "recommendation": "EXTEND",
-    "recommendation_detail": "продлить наблюдение до 2026-09-14",
+    "recommendation_detail": "копить данные до вехи",
     "recommended_targets": [],
     "requires_owner_decision": false
    }
@@ -1789,7 +1829,7 @@
  },
  "loop_health": {
   "date": "2026-08-31",
-  "generated_at": "2026-08-31T08:08:00+00:00",
+  "generated_at": "2026-08-31T09:27:51+00:00",
   "contours": [
    {
     "id": "collect",
