@@ -27,6 +27,7 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import paths  # noqa: E402
 from decision_engine import kpi as kpi_mod  # noqa: E402
 from decision_engine import signal as signal_mod  # noqa: E402
+from mailer import sections  # noqa: E402
 
 MSK = timezone(timedelta(hours=3))
 TEXT_LIMIT = 1000
@@ -95,7 +96,8 @@ def pick_attack(attacks: list[dict] | None) -> dict | None:
 
 def build(date: str, snapshot: dict, previous: dict | None,
           attacks: list[dict] | None = None,
-          threat_leader=None, stale_notice: str | None = None) -> dict:
+          threat_leader=None, stale_notice: str | None = None,
+          ranked_rivals=None) -> dict:
     kpi = kpi_mod.build_kpi(snapshot, previous)
     verdict_mark, verdict_why = kpi_mod.verdict(kpi)
     if stale_notice:
@@ -144,12 +146,48 @@ def build(date: str, snapshot: dict, previous: dict | None,
     }
 
 
-def render_txt(meta: dict) -> str:
-    """Текстовая версия — полноценная, а не огрызок для спам-фильтра."""
-    return "\n".join([
-        meta["тема"],
-        "",
-        meta["текст"],
+def render_txt(meta: dict, *, snapshot: dict | None = None,
+               attacks: list[dict] | None = None, ranked_rivals=None) -> str:
+    """Текстовая версия — полноценная, а не огрызок для спам-фильтра.
+
+    Повторяет оба уровня письма: executive-часть и детализацию. Клиент,
+    отключивший HTML, обязан получить те же сведения, а не обрубок.
+    """
+    parts = [meta["тема"], "", meta["текст"]]
+
+    if snapshot:
+        shares = snapshot.get("доли_по_категориям") or {}
+        leaders = snapshot.get("лидеры") or []
+        if shares:
+            parts += ["", "КТО ДЕРЖИТ ВЫДАЧУ"]
+            for cat, share in sorted(shares.items(), key=lambda kv: kv[1],
+                                     reverse=True)[:5]:
+                name = _classifier().CATEGORY_NAMES.get(cat, cat)
+                mark = "" if _classifier().in_main_ranking(cat) else " (вне рейтинга)"
+                who = ", ".join(d["домен"] for d in leaders
+                                if d.get("категория") == cat)[:50]
+                parts.append(f"- {name}{mark}: "
+                             f"{kpi_mod.ru_number(100 * share)}%"
+                             + (f" — {who}" if who else ""))
+
+    if ranked_rivals:
+        parts += ["", "КТО ДАВИТ СИЛЬНЕЕ ВСЕГО"]
+        for card, threat in ranked_rivals[:5]:
+            parts.append(
+                f"- {card['домен']}: угроза {threat.score}, доля "
+                f"{kpi_mod.ru_number(100 * (card.get('доля') or 0))}%, "
+                f"ТОП-3 по {card.get('топ3')} запросам")
+
+    if attacks:
+        parts += ["", f"ГДЕ БЛИЖЕ ВСЕГО РОСТ (первые 5 из {len(attacks)})"]
+        for a in attacks[:5]:
+            parts.append(
+                f"- {a['attack_id']} «{a['query']}»: мы №{a['our_position']}, "
+                f"выше {a['rival_domain']} №{a['rival_position']}; "
+                f"выгода {a['opportunity']}, уверенность {a['confidence']}, "
+                f"спрос {a['demand']} ({a['demand_source']})")
+
+    parts += [
         "",
         f"Полная аналитика: {REPORT_URL}",
         "",
@@ -157,7 +195,13 @@ def render_txt(meta: dict) -> str:
         f"источник: Яндекс (Москва), {meta['покрытие'].get('яндекс_запросов_с_данными')} запросов · "
         f"Google: {'NO DATA' if meta['kpi']['share_google'] is None else 'есть'} · "
         "B2C и маркетплейсы вне основного рейтинга · NO DATA не равно нулю.",
-    ])
+    ]
+    return "\n".join(parts)
+
+
+def _classifier():
+    from competitors import classifier
+    return classifier
 
 
 def _block(title: str, body: str, *, accent: bool = False) -> str:
@@ -174,8 +218,16 @@ def _block(title: str, body: str, *, accent: bool = False) -> str:
             f'{escaped}</div></div></td></tr>')
 
 
-def render_html(meta: dict) -> str:
-    """HTML-версия. Инлайн-стили и таблица — требование почтовых клиентов."""
+def render_html(meta: dict, *, kpi=None, snapshot: dict | None = None,
+                attacks: list[dict] | None = None, ranked_rivals=None) -> str:
+    """HTML-версия письма: верхний уровень плюс секции детализации.
+
+    Верхний уровень (вердикт, показатели, сигнал, действие, наблюдение)
+    ограничен 1000 видимыми символами — его и проверяет гейт качества.
+    Секции ниже в лимит не входят: по решению руководителя письмо должно
+    быть детализировано не хуже ежедневного SEO-отчёта, а короткая
+    executive-часть остаётся первым экраном.
+    """
     k = meta["kpi"]
     esc = html.escape
     delta = kpi_mod.format_delta(k["share_delta_pp"], unit=" п.п.")
@@ -187,6 +239,20 @@ def render_html(meta: dict) -> str:
                     else f"{100 * k['share_google']:.1f}%")
     yandex_share = ("NO DATA" if k["share_yandex"] is None
                     else f"{100 * k['share_yandex']:.1f}%")
+
+    # Секции детализации собираются только когда переданы данные: письмо
+    # обязано оставаться отправляемым и в урезанном виде.
+    detail = ""
+    if kpi is not None and snapshot is not None:
+        detail = (
+            '<tr><td style="padding:16px 24px 0;">'
+            f'<div style="border-top:1px solid {sections.LINE};"></div></td></tr>'
+            + sections.kpi_section(kpi, snapshot)
+            + sections.field_section(snapshot)
+            + sections.rivals_section(snapshot.get("лидеры") or [],
+                                      ranked_rivals or [])
+            + sections.attacks_section(attacks or [])
+            + sections.limits_section(snapshot, attacks or []))
 
     def cell(label: str, value: str, note: str) -> str:
         return (
@@ -220,7 +286,8 @@ def render_html(meta: dict) -> str:
 </td></tr>
 {_block('ЧТО ДЕЛАТЬ СЕГОДНЯ', do_next_line.removeprefix('Что делать: '), accent=True)}
 {_block('СЛЕДИМ', watch_line.removeprefix('Следим: '))}
-<tr><td style="padding:18px 24px 20px;" align="center">
+{detail}
+<tr><td style="padding:22px 24px 20px;" align="center">
 <a href="{REPORT_URL}" style="display:inline-block;background:#101828;color:#ffffff;text-decoration:none;font-size:14px;font-weight:600;padding:10px 22px;border-radius:6px;">Открыть полную конкурентную аналитику →</a>
 </td></tr>
 <tr><td style="padding:0 24px 18px;border-top:1px solid #EAECF0;">
