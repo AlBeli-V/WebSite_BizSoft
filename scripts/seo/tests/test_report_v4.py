@@ -149,6 +149,12 @@ class TestExperimentControl(unittest.TestCase):
         cls.e = load("experiments")
         # Данные из фикстур: копии machine-данных вычищены из main 30.08.2026.
         cls.e.REGISTRY = FIXROOT / "reports/seo/intelligence/seo-experiments.json"
+        # SERP-замеры и выгрузки Вебмастера рабочей копии не должны влиять
+        # на фикстурный тест: каталоги перенаправляются в (пустые) фикстуры.
+        import experiment_stats
+        import serp_snippets
+        serp_snippets.SERP_DIR = FIXROOT / "reports/seo/data/serp"
+        experiment_stats.DATA_DIR = FIXROOT / "reports/seo/data"
         cls.snap = json.loads((FIXROOT / f"reports/seo/intelligence/snapshots/{DATE}.json")
                               .read_text(encoding="utf-8"))
         cls.rows = cls.e.build(cls.snap, DATE,
@@ -158,8 +164,8 @@ class TestExperimentControl(unittest.TestCase):
     def test_deployment_is_not_search_refresh(self):
         e = self.rows[0]
         self.assertEqual(e["pages_live_with_treatment"], 5)
-        self.assertEqual(e["search_snippet_refresh"], "не подтверждено")
-        self.assertIn("Вебмастера", e["search_snippet_refresh_note"])
+        # Без SERP-замера выкат не выдаётся за переобход: причина называется.
+        self.assertIn("нет успешного SERP-замера", e["search_snippet_refresh"])
 
     def test_verdict_is_too_early_without_exposure(self):
         self.assertEqual(self.rows[0]["verdict"], "too_early")

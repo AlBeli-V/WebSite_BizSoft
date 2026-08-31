@@ -43,30 +43,44 @@ def evaluate(exp: dict, date: str) -> dict:
 
     Возвращает структуру §17; никогда не бросает исключение из-за отсутствия
     данных — деградирует в INSUFFICIENT_DATA с конкретной причиной.
+
+    Тип оценки задаётся реестром (evaluation_kind, проверка руководителя
+    31.08.2026 — «выводы что делаем» нужны каждому эксперименту, а не только
+    CTR-обеим): "ctr" (по умолчанию) — z-тест кликабельности; "impressions_
+    growth" — рост показов кластера к зафиксированному в реестре baseline
+    (CONTENT-001: у контент-эксперимента цель — показы и вход статьи в
+    топ-10, а не CTR); "launch" — запуск новых страниц (PAGES-EXP-001:
+    baseline-окна не существует по построению — страниц не было, CTR-гейт
+    давал бы INSUFFICIENT_DATA вечно; критерии — из launch_criteria реестра).
     """
+    kind = exp.get("evaluation_kind", "ctr")
+    if kind == "impressions_growth":
+        return _evaluate_impressions_growth(exp, date)
+    if kind == "launch":
+        return _evaluate_launch(exp, date)
+    res = _evaluate_ctr(exp, date)
+    # Объединённая оценка формулы (вопрос руководителя 31.08.2026): малый
+    # кластер участника не наберёт собственный гейт, но эксперименты одной
+    # формулы складываются — статистической мощности группы хватает раньше.
+    # Пул — вспомогательное свидетельство о ФОРМУЛЕ, вердикт участника он
+    # не подменяет.
+    if exp.get("formula_group"):
+        try:
+            res["formula_group_result"] = _formula_group_result(
+                exp["formula_group"], date)
+        except Exception:  # noqa: BLE001 — пул вспомогателен, письмо не ломаем
+            res["formula_group_result"] = None
+        _apply_group_hint(res)
+    return res
+
+
+def _evaluate_ctr(exp: dict, date: str) -> dict:
     cfg = st.CONFIG
     start = dt.date.fromisoformat(exp["start"])
     today = dt.date.fromisoformat(date)
-    slugs = [p.rstrip("/").rsplit("/", 1)[-1] for p in exp.get("pages") or []]
+    keys = _keys(exp)
 
-    res = {
-        "experiment_id": exp["id"],
-        "ticket": exp.get("ticket", ""),
-        "date": date,
-        "source": "yandex",
-        "windows": None,
-        "metrics": None, "matched_metrics": None,
-        "position_delta": None,
-        "sample_quality": [],
-        "statistical_result": None,
-        "confidence": "LOW",
-        "verdict": "INSUFFICIENT_DATA",
-        "verdict_reason": "",
-        "recommendation": "EXTEND",
-        "recommendation_detail": "",
-        "recommended_targets": [],
-        "requires_owner_decision": False,
-    }
+    res = _skeleton(exp, date)
 
     win = st.pick_windows(start, today)
     if not win["baseline"]:
@@ -75,6 +89,7 @@ def evaluate(exp: dict, date: str) -> dict:
         res["recommendation_detail"] = "оценка невозможна для этого эксперимента"
         return res
     if not win["experiment"]:
+        res["clean_window_eta"] = win["clean_experiment_eta"]
         res["verdict_reason"] = (
             "окно источника ещё не очистилось от периода до внедрения; "
             f"чистое окно ожидается к {win['clean_experiment_eta'] or '—'}")
@@ -101,8 +116,8 @@ def evaluate(exp: dict, date: str) -> dict:
             f"baseline из усечённой выгрузки ({len(win['baseline']['queries'])} "
             "запросов) — совпадающий набор занижен")
 
-    base_rows = st._rows_for_cluster(win["baseline"]["queries"], slugs)
-    exp_rows = st._rows_for_cluster(win["experiment"]["queries"], slugs)
+    base_rows = st._rows_for_cluster(win["baseline"]["queries"], keys)
+    exp_rows = st._rows_for_cluster(win["experiment"]["queries"], keys)
     overall_b, overall_e = st.metrics(base_rows), st.metrics(exp_rows)
     res["metrics"] = {"baseline": overall_b, "experiment": overall_e,
                       "days": {
@@ -115,8 +130,29 @@ def evaluate(exp: dict, date: str) -> dict:
                               "queries": len(mb)}
 
     # Гейт экспозиции (§5) — по matched-набору: именно он несёт вывод.
-    need_b = cfg["EXPERIMENT_MIN_BASELINE_IMPRESSIONS"]
-    need_e = cfg["EXPERIMENT_MIN_POST_IMPRESSIONS"]
+    # Гейт адаптивный (вопрос руководителя 31.08.2026): окно источника
+    # скользящее, показы кластера за окно примерно постоянны, и малый кластер
+    # настроенный порог не наберёт никогда — для него порог снижается до доли
+    # ёмкости окна с пометкой и ограничением уверенности.
+    need_b, adapted_b = st.effective_gate(
+        overall_b["impressions"], cfg["EXPERIMENT_MIN_BASELINE_IMPRESSIONS"], cfg)
+    need_e, adapted_e = st.effective_gate(
+        overall_e["impressions"], cfg["EXPERIMENT_MIN_POST_IMPRESSIONS"], cfg)
+    adapted = adapted_b or adapted_e
+    res["effective_gate"] = {"baseline": need_b, "experiment": need_e,
+                             "adapted": adapted}
+    if adapted:
+        mde = st.min_detectable_uplift(
+            matched_b["ctr"] or overall_b["ctr"],
+            max(matched_b["impressions"], 1), max(matched_e["impressions"], 1), cfg)
+        res["sample_quality"].append(
+            "порог экспозиции адаптирован под ёмкость кластера "
+            f"({need_b}/{need_e} вместо "
+            f"{cfg['EXPERIMENT_MIN_BASELINE_IMPRESSIONS']}/"
+            f"{cfg['EXPERIMENT_MIN_POST_IMPRESSIONS']}): окно источника "
+            "скользящее, и больший объём кластер не наберёт"
+            + (f"; надёжно различим только рост CTR от ×{1 + mde:.1f}"
+               if mde is not None else ""))
     if matched_b["impressions"] < need_b or matched_e["impressions"] < need_e:
         lack = []
         if matched_b["impressions"] < need_b:
@@ -138,6 +174,9 @@ def evaluate(exp: dict, date: str) -> dict:
     stat = st.two_proportion_test(
         matched_b["clicks"], matched_b["impressions"],
         matched_e["clicks"], matched_e["impressions"])
+    stat["min_detectable_relative_uplift"] = st.min_detectable_uplift(
+        stat["baseline_ctr"], matched_b["impressions"],
+        matched_e["impressions"], cfg)
     res["statistical_result"] = stat
 
     pos_delta = None
@@ -154,6 +193,233 @@ def evaluate(exp: dict, date: str) -> dict:
 def _days(window: dict) -> int:
     return (dt.date.fromisoformat(window["to"])
             - dt.date.fromisoformat(window["from"])).days + 1
+
+
+def _keys(exp: dict) -> dict:
+    import experiments
+    return experiments.cluster_keys(exp)
+
+
+def _skeleton(exp: dict, date: str) -> dict:
+    """Общий каркас результата §17 для всех типов оценки."""
+    return {
+        "experiment_id": exp["id"],
+        "ticket": exp.get("ticket", ""),
+        "date": date,
+        "source": "yandex",
+        "evaluation_kind": exp.get("evaluation_kind", "ctr"),
+        "windows": None,
+        "metrics": None, "matched_metrics": None,
+        "position_delta": None,
+        "sample_quality": [],
+        "statistical_result": None,
+        "summary_line": None,
+        "confidence": "LOW",
+        "verdict": "INSUFFICIENT_DATA",
+        "verdict_reason": "",
+        "recommendation": "EXTEND",
+        "recommendation_detail": "",
+        "recommended_targets": [],
+        "requires_owner_decision": False,
+    }
+
+
+def _serp_pages(exp: dict, today: dt.date) -> dict | None:
+    """Статус страниц эксперимента в выдаче (без утверждений о новизне)."""
+    import serp_snippets
+    try:
+        return serp_snippets.serp_status(exp.get("pages") or [], {}, today)
+    except Exception:  # noqa: BLE001 — SERP вспомогателен для этих оценок
+        return None
+
+
+def _evaluate_impressions_growth(exp: dict, date: str) -> dict:
+    """Оценка контент-эксперимента: рост показов кластера + вход статьи в топ.
+
+    Метрика CONTENT-001 — не CTR, а рост показов кластера к baseline,
+    зафиксированному в реестре при запуске, и вход статьи в топ-10. У показов
+    нет модели испытаний для z-теста, поэтому критерия значимости здесь нет —
+    это прямо указывается, а падение показов не объявляется REJECTED
+    (сезонность неотличима от эффекта без теста).
+    """
+    cfg = st.CONFIG
+    res = _skeleton(exp, date)
+    start = dt.date.fromisoformat(exp["start"])
+    today = dt.date.fromisoformat(date)
+    base = exp.get("baseline") or {}
+    base_imp = base.get("impressions_cluster")
+    base_days = base.get("days") or 14
+    if not base_imp:
+        res["verdict_reason"] = ("в реестре нет baseline показов кластера — "
+                                 "рост считать не от чего")
+        return res
+
+    win = st.pick_windows(start, today)
+    if not win["experiment"]:
+        res["verdict_reason"] = (
+            "окно источника ещё не очистилось от периода до внедрения; "
+            f"чистое окно ожидается к {win['clean_experiment_eta'] or '—'}")
+        res["recommendation_detail"] = (
+            f"продлить наблюдение до {win['clean_experiment_eta'] or 'следующей вехи'}")
+        return res
+
+    w = win["experiment"]
+    rows = st._rows_for_cluster(w["queries"], _keys(exp))
+    m = st.metrics(rows)
+    cur_days = _days(w)
+    per_day_cur = m["impressions"] / cur_days if cur_days else 0.0
+    per_day_base = base_imp / base_days
+    growth = (per_day_cur - per_day_base) / per_day_base if per_day_base else None
+    res["windows"] = {"experiment": {"from": w["from"], "to": w["to"],
+                                     "file": w["file_date"],
+                                     "tainted": win["experiment_tainted"]}}
+    res["metrics"] = {"experiment": m,
+                      "baseline_registry": {"impressions": base_imp,
+                                            "days": base_days}}
+    if win["experiment_tainted"]:
+        res["sample_quality"].append(
+            "окно захватывает день внедрения — рост слегка занижен")
+
+    target = exp.get("target_page") or (exp.get("pages") or [None])[0]
+    serp = _serp_pages(exp, today)
+    top_note = "статья в замер выдачи не попала"
+    target_pos = None
+    if serp and target and target in serp["pages"]:
+        target_pos = serp["pages"][target]["best_position"]
+        top_note = (f"статья в топ-10: позиция {target_pos} "
+                    f"(замер {serp['measured_at']})" if target_pos <= 10 else
+                    f"статья вне топ-10: позиция {target_pos}")
+    res["summary_line"] = (
+        f"показы кластера {per_day_cur:.0f}/день (окно {w['from']}–{w['to']}) "
+        f"против {per_day_base:.0f}/день baseline ({base_imp} за {base_days} дн.)"
+        + (f" — {growth * 100:+.0f}%" if growth is not None else "")
+        + f" · {top_note} · без критерия значимости (у показов нет модели испытаний)")
+
+    min_uplift = cfg["EXPERIMENT_MIN_RELATIVE_UPLIFT"]
+    if growth is not None and growth >= min_uplift:
+        res["verdict"] = "CONFIRMED"
+        res["verdict_reason"] = (
+            f"показы кластера выросли на {growth * 100:+.0f}% к baseline "
+            f"({per_day_base:.0f} → {per_day_cur:.0f} показов/день)"
+            + (f", статья вошла в топ-10 (позиция {target_pos})"
+               if target_pos and target_pos <= 10 else ""))
+        res["confidence"] = ("HIGH" if growth >= 0.5 and m["impressions"] >= 500
+                             and target_pos and target_pos <= 10 else "MEDIUM")
+        targets = expand_candidates(exclude_pages=exp.get("pages") or [])
+        res["recommendation"] = "EXPAND"
+        res["recommended_targets"] = targets
+        res["recommendation_detail"] = (
+            "перенести приём (статья под транзакционный интент + взаимная "
+            f"перелинковка с карточками) на следующие {len(targets)} кластеров "
+            "по убыванию замеренного спроса")
+        res["requires_owner_decision"] = True
+    elif growth is not None and growth <= -min_uplift:
+        res["verdict"] = "INCONCLUSIVE"
+        res["verdict_reason"] = (
+            f"показы кластера снизились на {growth * 100:.0f}% к baseline — "
+            "без критерия значимости падение неотличимо от сезонного")
+        res["recommendation"] = "EXTEND"
+        res["recommendation_detail"] = ("продлить наблюдение и разобрать причины "
+                                        "(сезонность, смена выдачи, каннибализация "
+                                        "статьёй карточек)")
+    else:
+        res["verdict"] = "INCONCLUSIVE"
+        res["verdict_reason"] = (
+            f"изменение показов ({(growth or 0) * 100:+.0f}%) в пределах "
+            f"бизнес-порога ±{min_uplift * 100:.0f}%"
+            + (f"; статья при этом в топ-10 (позиция {target_pos})"
+               if target_pos and target_pos <= 10 else ""))
+        res["recommendation"] = "EXTEND"
+        res["recommendation_detail"] = "продлить наблюдение до следующей вехи"
+    return res
+
+
+def _evaluate_launch(exp: dict, date: str) -> dict:
+    """Оценка запуска новых страниц: индексация, показы, первые клики.
+
+    У новых страниц baseline-окна не существует по построению, поэтому
+    критерии берутся из launch_criteria реестра (страниц в выдаче, показов
+    в неделю к контрольному дню). Пересечение окна выгрузки с датой старта
+    не загрязняет оценку: до старта показов у этих страниц быть не могло.
+    """
+    res = _skeleton(exp, date)
+    start = dt.date.fromisoformat(exp["start"])
+    today = dt.date.fromisoformat(date)
+    crit = exp.get("launch_criteria") or {}
+    need_pages = crit.get("min_pages_in_search", 5)
+    need_weekly = crit.get("min_weekly_impressions", 300)
+    by_day = crit.get("by_day", 14)
+    clicks_by_day = crit.get("first_clicks_by_day", 28)
+    days = (today - start).days
+    pages_total = len(exp.get("pages") or [])
+
+    serp = _serp_pages(exp, today)
+    in_search = serp["pages_seen"] if serp else 0
+    serp_note = (f"(замер {serp['measured_at']})" if serp
+                 else "(нет успешного SERP-замера за 7 дней)")
+
+    win = st.pick_windows(start, today)
+    w = win["experiment"] or win["baseline"]
+    weekly = clicks = 0
+    if w:
+        # Для запуска годится и пересекающее окно: показы кластера с
+        # интент-фильтром до старта невозможны — страниц не существовало.
+        last = None
+        for d in reversed(st._available_dates()):
+            if d <= date:
+                last = st._load_day(d)
+                if last:
+                    break
+        if last:
+            m = st.metrics(st._rows_for_cluster(last["queries"], _keys(exp)))
+            wd = (dt.date.fromisoformat(last["to"])
+                  - dt.date.fromisoformat(last["from"])).days + 1
+            weekly = round(m["impressions"] / wd * 7) if wd else 0
+            clicks = m["clicks"]
+    res["metrics"] = {"launch": {
+        "pages_total": pages_total, "pages_in_search": in_search,
+        "weekly_impressions": weekly, "clicks": clicks,
+        "need_pages": need_pages, "need_weekly": need_weekly}}
+    res["summary_line"] = (
+        f"в выдаче {in_search} из {pages_total} страниц {serp_note} · "
+        f"~{weekly} показов/нед из {need_weekly} · "
+        f"{clicks} кликов · день {days} из {by_day} до первой вехи")
+
+    if days < by_day:
+        res["verdict_reason"] = (
+            f"идёт набор: {in_search} из {need_pages} страниц в выдаче, "
+            f"~{weekly} из {need_weekly} показов/нед; веха — "
+            f"{(start + dt.timedelta(days=by_day)).isoformat()}")
+        res["recommendation_detail"] = "копить данные до вехи"
+        return res
+
+    met_pages, met_weekly = in_search >= need_pages, weekly >= need_weekly
+    if met_pages and met_weekly:
+        res["verdict"] = "CONFIRMED"
+        res["verdict_reason"] = (
+            f"запуск состоялся: {in_search} из {pages_total} страниц в выдаче, "
+            f"~{weekly} показов/нед (порог {need_weekly})")
+        res["confidence"] = "MEDIUM" if clicks == 0 else "HIGH"
+        res["recommendation"] = "KEEP"
+        res["recommendation_detail"] = (
+            "держать курс до вехи первых кликов "
+            f"({(start + dt.timedelta(days=clicks_by_day)).isoformat()}); после "
+            "первых кликов — решение о расширении набора сравнений")
+    else:
+        missing = []
+        if not met_pages:
+            missing.append(f"в выдаче {in_search} из {need_pages} страниц")
+        if not met_weekly:
+            missing.append(f"~{weekly} из {need_weekly} показов/нед")
+        res["verdict"] = "INCONCLUSIVE"
+        res["verdict_reason"] = "веха не выполнена: " + "; ".join(missing)
+        res["recommendation"] = "EXTEND"
+        res["recommendation_detail"] = (
+            "разобрать отсутствующие страницы (индексация, сниппеты); "
+            "после восстановления Вебмастер-токена — запросить переобход; "
+            "если и следующая веха провалена — решение о судьбе раздела")
+        res["requires_owner_decision"] = days >= clicks_by_day
+    return res
 
 
 def _decide(res: dict, stat: dict, pos_delta: float | None, cfg: dict) -> None:
@@ -201,6 +467,12 @@ def _decide(res: dict, stat: dict, pos_delta: float | None, cfg: dict) -> None:
                 f"различие CTR статистически неразличимо "
                 f"(p={p:.3f} при пороге {alpha})" if p is not None else
                 "тест не дал оценки: вырожденная выборка")
+            mde = stat.get("min_detectable_relative_uplift")
+            if (p is not None and rel is not None and mde is not None
+                    and 0 < rel < mde):
+                res["verdict_reason"] += (
+                    f"; наблюдаемый рост {rel * 100:+.0f}% меньше минимально "
+                    f"различимого при этой выборке (от ×{1 + mde:.1f})")
 
     # Confidence (§8): сочетание значимости, объёма, позиции и качества выборки.
     score = 0
@@ -215,6 +487,11 @@ def _decide(res: dict, stat: dict, pos_delta: float | None, cfg: dict) -> None:
     if not res["sample_quality"]:
         score += 1
     res["confidence"] = "HIGH" if score >= 4 else "MEDIUM" if score >= 2 else "LOW"
+    # Адаптированный гейт означает малую выборку по построению: уверенность
+    # выше средней такой вывод носить не может.
+    if any("адаптирован" in s for s in res["sample_quality"]) \
+            and res["confidence"] == "HIGH":
+        res["confidence"] = "MEDIUM"
 
 
 def _recommend(res: dict, exp: dict, stat: dict) -> None:
@@ -246,6 +523,60 @@ def _recommend(res: dict, exp: dict, stat: dict) -> None:
     else:  # INSUFFICIENT_DATA
         res["recommendation"] = "EXTEND"
         res["requires_owner_decision"] = False
+
+
+def _formula_group_result(group: str, date: str) -> dict | None:
+    """Объединённый z-тест формулы по всем её экспериментам.
+
+    Каждый участник вносит свои matched-наборы в СВОИХ окнах (стар — разные);
+    суммируются клики и показы обеих сторон. Возвращается None, пока чистые
+    окна есть меньше чем у двух участников.
+    """
+    import experiments
+    today_s = date
+    members, sb = [], {"clicks": 0, "impressions": 0}
+    se = {"clicks": 0, "impressions": 0}
+    for e in experiments.load_registry():
+        if (e.get("formula_group") != group
+                or e.get("status") not in ("running", "observing")
+                or e.get("evaluation_kind", "ctr") != "ctr"):
+            continue
+        win = st.pick_windows(dt.date.fromisoformat(e["start"]),
+                              dt.date.fromisoformat(today_s))
+        if not win["baseline"] or not win["experiment"]:
+            continue
+        keys = experiments.cluster_keys(e)
+        mb, me = st.matched_sets(
+            st._rows_for_cluster(win["baseline"]["queries"], keys),
+            st._rows_for_cluster(win["experiment"]["queries"], keys))
+        bm, em = st.metrics(mb), st.metrics(me)
+        members.append(e.get("ticket", e["id"]))
+        sb["clicks"] += bm["clicks"]; sb["impressions"] += bm["impressions"]
+        se["clicks"] += em["clicks"]; se["impressions"] += em["impressions"]
+    if len(members) < 2:
+        return None
+    stat = st.two_proportion_test(sb["clicks"], sb["impressions"],
+                                  se["clicks"], se["impressions"])
+    return {"group": group, "members": members,
+            "baseline": sb, "experiment": se, "stat": stat,
+            "note": ("объединённая оценка формулы по кластерам участников; "
+                     "окна у каждого свои, вердикты участников не подменяет")}
+
+
+def _apply_group_hint(res: dict) -> None:
+    """Подсказка в рекомендацию, когда группа отвечает раньше участника."""
+    g = res.get("formula_group_result")
+    if not g or res["verdict"] in ("CONFIRMED", "REJECTED"):
+        return
+    stat = g["stat"]
+    p = stat.get("p_value")
+    rel = stat.get("relative_uplift")
+    if p is not None and p < st.CONFIG["EXPERIMENT_ALPHA"] and (rel or 0) > 0:
+        res["recommendation_detail"] = (res["recommendation_detail"] +
+            f"; объединённая оценка формулы по группе ({', '.join(g['members'])}): "
+            f"рост CTR {_pct(stat['baseline_ctr'])} → {_pct(stat['experiment_ctr'])}"
+            f" при p={p:.3f} — решение о тираже формулы можно принимать на группе"
+        ).lstrip("; ")
 
 
 def _pct(v: float | None, raw: bool = False) -> str:
