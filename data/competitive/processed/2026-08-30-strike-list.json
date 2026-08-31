@@ -9,25 +9,25 @@
     "rival_domain": "platipomiru.com",
     "rival_position": 2,
     "rival_category": "A",
+    "competition_kind": "сделка",
     "demand": 3,
     "demand_source": "webmaster",
     "commercial_intent": 1.0,
     "b2b_intent": 0.7,
-    "opportunity": 63,
+    "opportunity": 74,
     "confidence": "MEDIUM",
     "breakdown": {
-      "revenue": 0.3,
-      "commercial": 15.0,
-      "b2b": 10.5,
-      "proximity": 21.0,
-      "demand": 0.1,
-      "page_improvement": 14.0,
-      "vendor": 2.5
+      "commercial": 20.0,
+      "b2b": 14.0,
+      "proximity": 20.0,
+      "demand": 0.2,
+      "page_improvement": 15.0,
+      "vendor": 5.0
     },
     "notes": [
-      "Vulnerability недоступен до Phase 4: вес перераспределён на близость позиции и запас улучшения страницы",
-      "спрос оценён по показам Вебмастера (3), а не по частотности Wordstat",
-      "Revenue — прокси (спрос × коммерческий интент), не измеренная выручка"
+      "Vulnerability недоступен до обхода страниц конкурентов: его вес перераспределён на близость позиции, запас улучшения страницы и приоритет вендора",
+      "спрос оценён по показам Вебмастера (3) — это видимая нам часть спроса за две недели, а не рынок за месяц",
+      "экономический фактор не участвует: измеренной выручки нет, а её оценка через спрос и интент дублировала бы эти факторы"
     ]
   },
   {
@@ -40,25 +40,25 @@
     "rival_domain": "raketapay.ru",
     "rival_position": 1,
     "rival_category": "H",
+    "competition_kind": "сделка",
     "demand": 33,
     "demand_source": "webmaster",
     "commercial_intent": 0.7,
     "b2b_intent": 0.7,
-    "opportunity": 62,
+    "opportunity": 70,
     "confidence": "MEDIUM",
     "breakdown": {
-      "revenue": 2.3,
-      "commercial": 10.5,
-      "b2b": 10.5,
-      "proximity": 21.0,
-      "demand": 1.7,
-      "page_improvement": 14.0,
-      "vendor": 2.5
+      "commercial": 14.0,
+      "b2b": 14.0,
+      "proximity": 20.0,
+      "demand": 2.5,
+      "page_improvement": 15.0,
+      "vendor": 5.0
     },
     "notes": [
-      "Vulnerability недоступен до Phase 4: вес перераспределён на близость позиции и запас улучшения страницы",
-      "спрос оценён по показам Вебмастера (33), а не по частотности Wordstat",
-      "Revenue — прокси (спрос × коммерческий интент), не измеренная выручка"
+      "Vulnerability недоступен до обхода страниц конкурентов: его вес перераспределён на близость позиции, запас улучшения страницы и приоритет вендора",
+      "спрос оценён по показам Вебмастера (33) — это видимая нам часть спроса за две недели, а не рынок за месяц",
+      "экономический фактор не участвует: измеренной выручки нет, а её оценка через спрос и интент дублировала бы эти факторы"
     ]
   },
   {
@@ -71,91 +71,29 @@
     "rival_domain": "raketapay.ru",
     "rival_position": 1,
     "rival_category": "H",
+    "competition_kind": "сделка",
     "demand": 31,
     "demand_source": "webmaster",
     "commercial_intent": 0.7,
     "b2b_intent": 0.7,
-    "opportunity": 62,
+    "opportunity": 70,
     "confidence": "MEDIUM",
     "breakdown": {
-      "revenue": 2.2,
-      "commercial": 10.5,
-      "b2b": 10.5,
-      "proximity": 21.0,
-      "demand": 1.6,
-      "page_improvement": 14.0,
-      "vendor": 2.5
+      "commercial": 14.0,
+      "b2b": 14.0,
+      "proximity": 20.0,
+      "demand": 2.3,
+      "page_improvement": 15.0,
+      "vendor": 5.0
     },
     "notes": [
-      "Vulnerability недоступен до Phase 4: вес перераспределён на близость позиции и запас улучшения страницы",
-      "спрос оценён по показам Вебмастера (31), а не по частотности Wordstat",
-      "Revenue — прокси (спрос × коммерческий интент), не измеренная выручка"
+      "Vulnerability недоступен до обхода страниц конкурентов: его вес перераспределён на близость позиции, запас улучшения страницы и приоритет вендора",
+      "спрос оценён по показам Вебмастера (31) — это видимая нам часть спроса за две недели, а не рынок за месяц",
+      "экономический фактор не участвует: измеренной выручки нет, а её оценка через спрос и интент дублировала бы эти факторы"
     ]
   },
   {
     "attack_id": "ATT-004",
-    "query": "оплата canva для юридических лиц из россии",
-    "engine": "yandex",
-    "region": "213",
-    "our_position": 4,
-    "our_url": "https://biz-soft.pro/vendors/canva",
-    "rival_domain": "pay.osno-va.com",
-    "rival_position": 3,
-    "rival_category": "H",
-    "demand": 18,
-    "demand_source": "webmaster",
-    "commercial_intent": 0.7,
-    "b2b_intent": 0.7,
-    "opportunity": 61,
-    "confidence": "MEDIUM",
-    "breakdown": {
-      "revenue": 1.3,
-      "commercial": 10.5,
-      "b2b": 10.5,
-      "proximity": 21.0,
-      "demand": 0.9,
-      "page_improvement": 14.0,
-      "vendor": 2.5
-    },
-    "notes": [
-      "Vulnerability недоступен до Phase 4: вес перераспределён на близость позиции и запас улучшения страницы",
-      "спрос оценён по показам Вебмастера (18), а не по частотности Wordstat",
-      "Revenue — прокси (спрос × коммерческий интент), не измеренная выручка"
-    ]
-  },
-  {
-    "attack_id": "ATT-005",
-    "query": "оплата dropbox для юридических лиц из россии",
-    "engine": "yandex",
-    "region": "213",
-    "our_position": 4,
-    "our_url": "https://biz-soft.pro/vendors/dropbox",
-    "rival_domain": "pipl.io",
-    "rival_position": 2,
-    "rival_category": "H",
-    "demand": 14,
-    "demand_source": "webmaster",
-    "commercial_intent": 0.7,
-    "b2b_intent": 0.7,
-    "opportunity": 60,
-    "confidence": "MEDIUM",
-    "breakdown": {
-      "revenue": 1.0,
-      "commercial": 10.5,
-      "b2b": 10.5,
-      "proximity": 21.0,
-      "demand": 0.7,
-      "page_improvement": 14.0,
-      "vendor": 2.5
-    },
-    "notes": [
-      "Vulnerability недоступен до Phase 4: вес перераспределён на близость позиции и запас улучшения страницы",
-      "спрос оценён по показам Вебмастера (14), а не по частотности Wordstat",
-      "Revenue — прокси (спрос × коммерческий интент), не измеренная выручка"
-    ]
-  },
-  {
-    "attack_id": "ATT-006",
     "query": "оплата confluence по счету из россии",
     "engine": "yandex",
     "region": "213",
@@ -164,25 +102,87 @@
     "rival_domain": "pay.osno-va.com",
     "rival_position": 2,
     "rival_category": "H",
+    "competition_kind": "сделка",
     "demand": 7,
     "demand_source": "webmaster",
     "commercial_intent": 1.0,
     "b2b_intent": 0.7,
-    "opportunity": 59,
+    "opportunity": 70,
     "confidence": "MEDIUM",
     "breakdown": {
-      "revenue": 0.7,
-      "commercial": 15.0,
-      "b2b": 10.5,
-      "proximity": 15.8,
-      "demand": 0.4,
-      "page_improvement": 14.0,
-      "vendor": 2.5
+      "commercial": 20.0,
+      "b2b": 14.0,
+      "proximity": 15.0,
+      "demand": 0.5,
+      "page_improvement": 15.0,
+      "vendor": 5.0
     },
     "notes": [
-      "Vulnerability недоступен до Phase 4: вес перераспределён на близость позиции и запас улучшения страницы",
-      "спрос оценён по показам Вебмастера (7), а не по частотности Wordstat",
-      "Revenue — прокси (спрос × коммерческий интент), не измеренная выручка"
+      "Vulnerability недоступен до обхода страниц конкурентов: его вес перераспределён на близость позиции, запас улучшения страницы и приоритет вендора",
+      "спрос оценён по показам Вебмастера (7) — это видимая нам часть спроса за две недели, а не рынок за месяц",
+      "экономический фактор не участвует: измеренной выручки нет, а её оценка через спрос и интент дублировала бы эти факторы"
+    ]
+  },
+  {
+    "attack_id": "ATT-005",
+    "query": "оплата canva для юридических лиц из россии",
+    "engine": "yandex",
+    "region": "213",
+    "our_position": 4,
+    "our_url": "https://biz-soft.pro/vendors/canva",
+    "rival_domain": "pay.osno-va.com",
+    "rival_position": 3,
+    "rival_category": "H",
+    "competition_kind": "сделка",
+    "demand": 18,
+    "demand_source": "webmaster",
+    "commercial_intent": 0.7,
+    "b2b_intent": 0.7,
+    "opportunity": 69,
+    "confidence": "MEDIUM",
+    "breakdown": {
+      "commercial": 14.0,
+      "b2b": 14.0,
+      "proximity": 20.0,
+      "demand": 1.3,
+      "page_improvement": 15.0,
+      "vendor": 5.0
+    },
+    "notes": [
+      "Vulnerability недоступен до обхода страниц конкурентов: его вес перераспределён на близость позиции, запас улучшения страницы и приоритет вендора",
+      "спрос оценён по показам Вебмастера (18) — это видимая нам часть спроса за две недели, а не рынок за месяц",
+      "экономический фактор не участвует: измеренной выручки нет, а её оценка через спрос и интент дублировала бы эти факторы"
+    ]
+  },
+  {
+    "attack_id": "ATT-006",
+    "query": "оплата dropbox для юридических лиц из россии",
+    "engine": "yandex",
+    "region": "213",
+    "our_position": 4,
+    "our_url": "https://biz-soft.pro/vendors/dropbox",
+    "rival_domain": "pipl.io",
+    "rival_position": 2,
+    "rival_category": "H",
+    "competition_kind": "сделка",
+    "demand": 14,
+    "demand_source": "webmaster",
+    "commercial_intent": 0.7,
+    "b2b_intent": 0.7,
+    "opportunity": 69,
+    "confidence": "MEDIUM",
+    "breakdown": {
+      "commercial": 14.0,
+      "b2b": 14.0,
+      "proximity": 20.0,
+      "demand": 1.1,
+      "page_improvement": 15.0,
+      "vendor": 5.0
+    },
+    "notes": [
+      "Vulnerability недоступен до обхода страниц конкурентов: его вес перераспределён на близость позиции, запас улучшения страницы и приоритет вендора",
+      "спрос оценён по показам Вебмастера (14) — это видимая нам часть спроса за две недели, а не рынок за месяц",
+      "экономический фактор не участвует: измеренной выручки нет, а её оценка через спрос и интент дублировала бы эти факторы"
     ]
   },
   {
@@ -195,25 +195,25 @@
     "rival_domain": "raketapay.ru",
     "rival_position": 2,
     "rival_category": "H",
+    "competition_kind": "сделка",
     "demand": 32,
     "demand_source": "webmaster",
     "commercial_intent": 0.7,
     "b2b_intent": 0.7,
-    "opportunity": 58,
+    "opportunity": 67,
     "confidence": "MEDIUM",
     "breakdown": {
-      "revenue": 2.2,
-      "commercial": 10.5,
-      "b2b": 10.5,
-      "proximity": 17.1,
-      "demand": 1.6,
-      "page_improvement": 14.0,
-      "vendor": 2.5
+      "commercial": 14.0,
+      "b2b": 14.0,
+      "proximity": 16.2,
+      "demand": 2.4,
+      "page_improvement": 15.0,
+      "vendor": 5.0
     },
     "notes": [
-      "Vulnerability недоступен до Phase 4: вес перераспределён на близость позиции и запас улучшения страницы",
-      "спрос оценён по показам Вебмастера (32), а не по частотности Wordstat",
-      "Revenue — прокси (спрос × коммерческий интент), не измеренная выручка"
+      "Vulnerability недоступен до обхода страниц конкурентов: его вес перераспределён на близость позиции, запас улучшения страницы и приоритет вендора",
+      "спрос оценён по показам Вебмастера (32) — это видимая нам часть спроса за две недели, а не рынок за месяц",
+      "экономический фактор не участвует: измеренной выручки нет, а её оценка через спрос и интент дублировала бы эти факторы"
     ]
   },
   {
@@ -226,25 +226,25 @@
     "rival_domain": "raketapay.ru",
     "rival_position": 1,
     "rival_category": "H",
+    "competition_kind": "сделка",
     "demand": 17,
     "demand_source": "webmaster",
     "commercial_intent": 0.7,
     "b2b_intent": 0.7,
-    "opportunity": 58,
+    "opportunity": 67,
     "confidence": "MEDIUM",
     "breakdown": {
-      "revenue": 1.2,
-      "commercial": 10.5,
-      "b2b": 10.5,
-      "proximity": 18.4,
-      "demand": 0.9,
-      "page_improvement": 14.0,
-      "vendor": 2.5
+      "commercial": 14.0,
+      "b2b": 14.0,
+      "proximity": 17.5,
+      "demand": 1.3,
+      "page_improvement": 15.0,
+      "vendor": 5.0
     },
     "notes": [
-      "Vulnerability недоступен до Phase 4: вес перераспределён на близость позиции и запас улучшения страницы",
-      "спрос оценён по показам Вебмастера (17), а не по частотности Wordstat",
-      "Revenue — прокси (спрос × коммерческий интент), не измеренная выручка"
+      "Vulnerability недоступен до обхода страниц конкурентов: его вес перераспределён на близость позиции, запас улучшения страницы и приоритет вендора",
+      "спрос оценён по показам Вебмастера (17) — это видимая нам часть спроса за две недели, а не рынок за месяц",
+      "экономический фактор не участвует: измеренной выручки нет, а её оценка через спрос и интент дублировала бы эти факторы"
     ]
   },
   {
@@ -257,25 +257,25 @@
     "rival_domain": "raketapay.ru",
     "rival_position": 2,
     "rival_category": "H",
+    "competition_kind": "сделка",
     "demand": 25,
     "demand_source": "webmaster",
     "commercial_intent": 1.0,
     "b2b_intent": 0.35,
-    "opportunity": 58,
+    "opportunity": 65,
     "confidence": "MEDIUM",
     "breakdown": {
-      "revenue": 2.5,
-      "commercial": 15.0,
-      "b2b": 5.2,
-      "proximity": 17.1,
-      "demand": 1.2,
-      "page_improvement": 14.0,
-      "vendor": 2.5
+      "commercial": 20.0,
+      "b2b": 7.0,
+      "proximity": 16.2,
+      "demand": 1.9,
+      "page_improvement": 15.0,
+      "vendor": 5.0
     },
     "notes": [
-      "Vulnerability недоступен до Phase 4: вес перераспределён на близость позиции и запас улучшения страницы",
-      "спрос оценён по показам Вебмастера (25), а не по частотности Wordstat",
-      "Revenue — прокси (спрос × коммерческий интент), не измеренная выручка"
+      "Vulnerability недоступен до обхода страниц конкурентов: его вес перераспределён на близость позиции, запас улучшения страницы и приоритет вендора",
+      "спрос оценён по показам Вебмастера (25) — это видимая нам часть спроса за две недели, а не рынок за месяц",
+      "экономический фактор не участвует: измеренной выручки нет, а её оценка через спрос и интент дублировала бы эти факторы"
     ]
   },
   {
@@ -288,60 +288,29 @@
     "rival_domain": "raketapay.ru",
     "rival_position": 1,
     "rival_category": "H",
+    "competition_kind": "сделка",
     "demand": 29,
     "demand_source": "webmaster",
     "commercial_intent": 1.0,
     "b2b_intent": 0.35,
-    "opportunity": 57,
+    "opportunity": 64,
     "confidence": "MEDIUM",
     "breakdown": {
-      "revenue": 2.9,
-      "commercial": 15.0,
-      "b2b": 5.2,
-      "proximity": 15.8,
-      "demand": 1.4,
-      "page_improvement": 14.0,
-      "vendor": 2.5
+      "commercial": 20.0,
+      "b2b": 7.0,
+      "proximity": 15.0,
+      "demand": 2.2,
+      "page_improvement": 15.0,
+      "vendor": 5.0
     },
     "notes": [
-      "Vulnerability недоступен до Phase 4: вес перераспределён на близость позиции и запас улучшения страницы",
-      "спрос оценён по показам Вебмастера (29), а не по частотности Wordstat",
-      "Revenue — прокси (спрос × коммерческий интент), не измеренная выручка"
+      "Vulnerability недоступен до обхода страниц конкурентов: его вес перераспределён на близость позиции, запас улучшения страницы и приоритет вендора",
+      "спрос оценён по показам Вебмастера (29) — это видимая нам часть спроса за две недели, а не рынок за месяц",
+      "экономический фактор не участвует: измеренной выручки нет, а её оценка через спрос и интент дублировала бы эти факторы"
     ]
   },
   {
     "attack_id": "ATT-011",
-    "query": "unity pro price",
-    "engine": "yandex",
-    "region": "213",
-    "our_position": 6,
-    "our_url": "https://biz-soft.pro/vendors/unity",
-    "rival_domain": "syssoft.ru",
-    "rival_position": 2,
-    "rival_category": "A",
-    "demand": null,
-    "demand_source": "none",
-    "commercial_intent": 0.7,
-    "b2b_intent": 0.0,
-    "opportunity": 57,
-    "confidence": "LOW",
-    "breakdown": {
-      "revenue": 7.0,
-      "commercial": 10.5,
-      "b2b": 0.0,
-      "proximity": 18.4,
-      "demand": 5.0,
-      "page_improvement": 14.0,
-      "vendor": 2.5
-    },
-    "notes": [
-      "Vulnerability недоступен до Phase 4: вес перераспределён на близость позиции и запас улучшения страницы",
-      "спрос по запросу неизвестен — принят нейтральным",
-      "Revenue — прокси (спрос × коммерческий интент), не измеренная выручка"
-    ]
-  },
-  {
-    "attack_id": "ATT-012",
     "query": "тарифные планы anthropic для бизнеса",
     "engine": "yandex",
     "region": "213",
@@ -350,29 +319,29 @@
     "rival_domain": "raketapay.ru",
     "rival_position": 1,
     "rival_category": "H",
+    "competition_kind": "сделка",
     "demand": 27,
     "demand_source": "webmaster",
     "commercial_intent": 0.7,
     "b2b_intent": 0.35,
-    "opportunity": 56,
+    "opportunity": 63,
     "confidence": "MEDIUM",
     "breakdown": {
-      "revenue": 1.9,
-      "commercial": 10.5,
-      "b2b": 5.2,
-      "proximity": 21.0,
-      "demand": 1.4,
-      "page_improvement": 14.0,
-      "vendor": 2.5
+      "commercial": 14.0,
+      "b2b": 7.0,
+      "proximity": 20.0,
+      "demand": 2.0,
+      "page_improvement": 15.0,
+      "vendor": 5.0
     },
     "notes": [
-      "Vulnerability недоступен до Phase 4: вес перераспределён на близость позиции и запас улучшения страницы",
-      "спрос оценён по показам Вебмастера (27), а не по частотности Wordstat",
-      "Revenue — прокси (спрос × коммерческий интент), не измеренная выручка"
+      "Vulnerability недоступен до обхода страниц конкурентов: его вес перераспределён на близость позиции, запас улучшения страницы и приоритет вендора",
+      "спрос оценён по показам Вебмастера (27) — это видимая нам часть спроса за две недели, а не рынок за месяц",
+      "экономический фактор не участвует: измеренной выручки нет, а её оценка через спрос и интент дублировала бы эти факторы"
     ]
   },
   {
-    "attack_id": "ATT-013",
+    "attack_id": "ATT-012",
     "query": "github business купить",
     "engine": "yandex",
     "region": "213",
@@ -381,29 +350,29 @@
     "rival_domain": "raketapay.ru",
     "rival_position": 1,
     "rival_category": "H",
+    "competition_kind": "сделка",
     "demand": 25,
     "demand_source": "webmaster",
     "commercial_intent": 0.7,
     "b2b_intent": 0.35,
-    "opportunity": 56,
+    "opportunity": 63,
     "confidence": "MEDIUM",
     "breakdown": {
-      "revenue": 1.7,
-      "commercial": 10.5,
-      "b2b": 5.2,
-      "proximity": 21.0,
-      "demand": 1.2,
-      "page_improvement": 14.0,
-      "vendor": 2.5
+      "commercial": 14.0,
+      "b2b": 7.0,
+      "proximity": 20.0,
+      "demand": 1.9,
+      "page_improvement": 15.0,
+      "vendor": 5.0
     },
     "notes": [
-      "Vulnerability недоступен до Phase 4: вес перераспределён на близость позиции и запас улучшения страницы",
-      "спрос оценён по показам Вебмастера (25), а не по частотности Wordstat",
-      "Revenue — прокси (спрос × коммерческий интент), не измеренная выручка"
+      "Vulnerability недоступен до обхода страниц конкурентов: его вес перераспределён на близость позиции, запас улучшения страницы и приоритет вендора",
+      "спрос оценён по показам Вебмастера (25) — это видимая нам часть спроса за две недели, а не рынок за месяц",
+      "экономический фактор не участвует: измеренной выручки нет, а её оценка через спрос и интент дублировала бы эти факторы"
     ]
   },
   {
-    "attack_id": "ATT-014",
+    "attack_id": "ATT-013",
     "query": "github copilot business купить",
     "engine": "yandex",
     "region": "213",
@@ -412,25 +381,55 @@
     "rival_domain": "raketapay.ru",
     "rival_position": 1,
     "rival_category": "H",
+    "competition_kind": "сделка",
     "demand": 35,
     "demand_source": "webmaster",
     "commercial_intent": 0.7,
     "b2b_intent": 0.35,
-    "opportunity": 55,
+    "opportunity": 61,
     "confidence": "MEDIUM",
     "breakdown": {
-      "revenue": 2.4,
-      "commercial": 10.5,
-      "b2b": 5.2,
-      "proximity": 18.4,
-      "demand": 1.8,
-      "page_improvement": 14.0,
-      "vendor": 2.5
+      "commercial": 14.0,
+      "b2b": 7.0,
+      "proximity": 17.5,
+      "demand": 2.6,
+      "page_improvement": 15.0,
+      "vendor": 5.0
     },
     "notes": [
-      "Vulnerability недоступен до Phase 4: вес перераспределён на близость позиции и запас улучшения страницы",
-      "спрос оценён по показам Вебмастера (35), а не по частотности Wordstat",
-      "Revenue — прокси (спрос × коммерческий интент), не измеренная выручка"
+      "Vulnerability недоступен до обхода страниц конкурентов: его вес перераспределён на близость позиции, запас улучшения страницы и приоритет вендора",
+      "спрос оценён по показам Вебмастера (35) — это видимая нам часть спроса за две недели, а не рынок за месяц",
+      "экономический фактор не участвует: измеренной выручки нет, а её оценка через спрос и интент дублировала бы эти факторы"
+    ]
+  },
+  {
+    "attack_id": "ATT-014",
+    "query": "unity pro price",
+    "engine": "yandex",
+    "region": "213",
+    "our_position": 6,
+    "our_url": "https://biz-soft.pro/vendors/unity",
+    "rival_domain": "syssoft.ru",
+    "rival_position": 2,
+    "rival_category": "A",
+    "competition_kind": "сделка",
+    "demand": null,
+    "demand_source": "none",
+    "commercial_intent": 0.7,
+    "b2b_intent": 0.0,
+    "opportunity": 61,
+    "confidence": "LOW",
+    "breakdown": {
+      "commercial": 16.5,
+      "b2b": 0.0,
+      "proximity": 20.6,
+      "page_improvement": 17.6,
+      "vendor": 5.9
+    },
+    "notes": [
+      "Vulnerability недоступен до обхода страниц конкурентов: его вес перераспределён на близость позиции, запас улучшения страницы и приоритет вендора",
+      "спрос по запросу неизвестен — фактор исключён из расчёта, веса остальных нормализованы, уверенность понижена",
+      "экономический фактор не участвует: измеренной выручки нет, а её оценка через спрос и интент дублировала бы эти факторы"
     ]
   },
   {
@@ -443,25 +442,25 @@
     "rival_domain": "raketapay.ru",
     "rival_position": 1,
     "rival_category": "H",
+    "competition_kind": "сделка",
     "demand": 30,
     "demand_source": "webmaster",
     "commercial_intent": 0.7,
     "b2b_intent": 0.35,
-    "opportunity": 53,
+    "opportunity": 59,
     "confidence": "MEDIUM",
     "breakdown": {
-      "revenue": 2.1,
-      "commercial": 10.5,
-      "b2b": 5.2,
-      "proximity": 17.1,
-      "demand": 1.5,
-      "page_improvement": 14.0,
-      "vendor": 2.5
+      "commercial": 14.0,
+      "b2b": 7.0,
+      "proximity": 16.2,
+      "demand": 2.2,
+      "page_improvement": 15.0,
+      "vendor": 5.0
     },
     "notes": [
-      "Vulnerability недоступен до Phase 4: вес перераспределён на близость позиции и запас улучшения страницы",
-      "спрос оценён по показам Вебмастера (30), а не по частотности Wordstat",
-      "Revenue — прокси (спрос × коммерческий интент), не измеренная выручка"
+      "Vulnerability недоступен до обхода страниц конкурентов: его вес перераспределён на близость позиции, запас улучшения страницы и приоритет вендора",
+      "спрос оценён по показам Вебмастера (30) — это видимая нам часть спроса за две недели, а не рынок за месяц",
+      "экономический фактор не участвует: измеренной выручки нет, а её оценка через спрос и интент дублировала бы эти факторы"
     ]
   },
   {
@@ -474,25 +473,25 @@
     "rival_domain": "pipl.io",
     "rival_position": 1,
     "rival_category": "H",
+    "competition_kind": "сделка",
     "demand": 12,
     "demand_source": "webmaster",
     "commercial_intent": 0.7,
     "b2b_intent": 0.35,
-    "opportunity": 52,
+    "opportunity": 59,
     "confidence": "MEDIUM",
     "breakdown": {
-      "revenue": 0.8,
-      "commercial": 10.5,
-      "b2b": 5.2,
-      "proximity": 18.4,
-      "demand": 0.6,
-      "page_improvement": 14.0,
-      "vendor": 2.5
+      "commercial": 14.0,
+      "b2b": 7.0,
+      "proximity": 17.5,
+      "demand": 0.9,
+      "page_improvement": 15.0,
+      "vendor": 5.0
     },
     "notes": [
-      "Vulnerability недоступен до Phase 4: вес перераспределён на близость позиции и запас улучшения страницы",
-      "спрос оценён по показам Вебмастера (12), а не по частотности Wordstat",
-      "Revenue — прокси (спрос × коммерческий интент), не измеренная выручка"
+      "Vulnerability недоступен до обхода страниц конкурентов: его вес перераспределён на близость позиции, запас улучшения страницы и приоритет вендора",
+      "спрос оценён по показам Вебмастера (12) — это видимая нам часть спроса за две недели, а не рынок за месяц",
+      "экономический фактор не участвует: измеренной выручки нет, а её оценка через спрос и интент дублировала бы эти факторы"
     ]
   },
   {
@@ -505,25 +504,25 @@
     "rival_domain": "inoplata.com",
     "rival_position": 5,
     "rival_category": "H",
+    "competition_kind": "сделка",
     "demand": 12,
     "demand_source": "webmaster",
     "commercial_intent": 0.7,
     "b2b_intent": 0.35,
-    "opportunity": 52,
+    "opportunity": 59,
     "confidence": "MEDIUM",
     "breakdown": {
-      "revenue": 0.8,
-      "commercial": 10.5,
-      "b2b": 5.2,
-      "proximity": 18.4,
-      "demand": 0.6,
-      "page_improvement": 14.0,
-      "vendor": 2.5
+      "commercial": 14.0,
+      "b2b": 7.0,
+      "proximity": 17.5,
+      "demand": 0.9,
+      "page_improvement": 15.0,
+      "vendor": 5.0
     },
     "notes": [
-      "Vulnerability недоступен до Phase 4: вес перераспределён на близость позиции и запас улучшения страницы",
-      "спрос оценён по показам Вебмастера (12), а не по частотности Wordstat",
-      "Revenue — прокси (спрос × коммерческий интент), не измеренная выручка"
+      "Vulnerability недоступен до обхода страниц конкурентов: его вес перераспределён на близость позиции, запас улучшения страницы и приоритет вендора",
+      "спрос оценён по показам Вебмастера (12) — это видимая нам часть спроса за две недели, а не рынок за месяц",
+      "экономический фактор не участвует: измеренной выручки нет, а её оценка через спрос и интент дублировала бы эти факторы"
     ]
   },
   {
@@ -536,59 +535,28 @@
     "rival_domain": "softmagazin.ru",
     "rival_position": 4,
     "rival_category": "A",
+    "competition_kind": "сделка",
     "demand": 63,
     "demand_source": "wordstat",
     "commercial_intent": 0.7,
     "b2b_intent": 0.35,
-    "opportunity": 51,
+    "opportunity": 58,
     "confidence": "MEDIUM",
     "breakdown": {
-      "revenue": 0.9,
-      "commercial": 10.5,
-      "b2b": 5.2,
-      "proximity": 17.1,
-      "demand": 0.6,
-      "page_improvement": 14.0,
-      "vendor": 2.5
+      "commercial": 14.0,
+      "b2b": 7.0,
+      "proximity": 16.2,
+      "demand": 0.9,
+      "page_improvement": 15.0,
+      "vendor": 5.0
     },
     "notes": [
-      "Vulnerability недоступен до Phase 4: вес перераспределён на близость позиции и запас улучшения страницы",
-      "Revenue — прокси (спрос × коммерческий интент), не измеренная выручка"
+      "Vulnerability недоступен до обхода страниц конкурентов: его вес перераспределён на близость позиции, запас улучшения страницы и приоритет вендора",
+      "экономический фактор не участвует: измеренной выручки нет, а её оценка через спрос и интент дублировала бы эти факторы"
     ]
   },
   {
     "attack_id": "ATT-019",
-    "query": "оплата coreldraw для россиян",
-    "engine": "yandex",
-    "region": "213",
-    "our_position": 7,
-    "our_url": "https://biz-soft.pro/vendors/coreldraw",
-    "rival_domain": "platipomiru.com",
-    "rival_position": 2,
-    "rival_category": "A",
-    "demand": 46,
-    "demand_source": "webmaster",
-    "commercial_intent": 0.7,
-    "b2b_intent": 0.0,
-    "opportunity": 50,
-    "confidence": "MEDIUM",
-    "breakdown": {
-      "revenue": 3.2,
-      "commercial": 10.5,
-      "b2b": 0.0,
-      "proximity": 17.1,
-      "demand": 2.3,
-      "page_improvement": 14.0,
-      "vendor": 2.5
-    },
-    "notes": [
-      "Vulnerability недоступен до Phase 4: вес перераспределён на близость позиции и запас улучшения страницы",
-      "спрос оценён по показам Вебмастера (46), а не по частотности Wordstat",
-      "Revenue — прокси (спрос × коммерческий интент), не измеренная выручка"
-    ]
-  },
-  {
-    "attack_id": "ATT-020",
     "query": "framer basic оплата россия",
     "engine": "yandex",
     "region": "213",
@@ -597,91 +565,29 @@
     "rival_domain": "platipomiru.com",
     "rival_position": 2,
     "rival_category": "A",
+    "competition_kind": "сделка",
     "demand": 20,
     "demand_source": "webmaster",
     "commercial_intent": 0.7,
     "b2b_intent": 0.0,
-    "opportunity": 50,
+    "opportunity": 56,
     "confidence": "MEDIUM",
     "breakdown": {
-      "revenue": 1.4,
-      "commercial": 10.5,
+      "commercial": 14.0,
       "b2b": 0.0,
-      "proximity": 21.0,
-      "demand": 1.0,
-      "page_improvement": 14.0,
-      "vendor": 2.5
+      "proximity": 20.0,
+      "demand": 1.5,
+      "page_improvement": 15.0,
+      "vendor": 5.0
     },
     "notes": [
-      "Vulnerability недоступен до Phase 4: вес перераспределён на близость позиции и запас улучшения страницы",
-      "спрос оценён по показам Вебмастера (20), а не по частотности Wordstat",
-      "Revenue — прокси (спрос × коммерческий интент), не измеренная выручка"
+      "Vulnerability недоступен до обхода страниц конкурентов: его вес перераспределён на близость позиции, запас улучшения страницы и приоритет вендора",
+      "спрос оценён по показам Вебмастера (20) — это видимая нам часть спроса за две недели, а не рынок за месяц",
+      "экономический фактор не участвует: измеренной выручки нет, а её оценка через спрос и интент дублировала бы эти факторы"
     ]
   },
   {
-    "attack_id": "ATT-021",
-    "query": "недорого оплатить подписку depositphotos",
-    "engine": "yandex",
-    "region": "213",
-    "our_position": 9,
-    "our_url": "https://biz-soft.pro/vendors/depositphotos",
-    "rival_domain": "platipomiru.com",
-    "rival_position": 2,
-    "rival_category": "A",
-    "demand": 13,
-    "demand_source": "webmaster",
-    "commercial_intent": 1.0,
-    "b2b_intent": 0.0,
-    "opportunity": 48,
-    "confidence": "MEDIUM",
-    "breakdown": {
-      "revenue": 1.3,
-      "commercial": 15.0,
-      "b2b": 0.0,
-      "proximity": 14.4,
-      "demand": 0.7,
-      "page_improvement": 14.0,
-      "vendor": 2.5
-    },
-    "notes": [
-      "Vulnerability недоступен до Phase 4: вес перераспределён на близость позиции и запас улучшения страницы",
-      "спрос оценён по показам Вебмастера (13), а не по частотности Wordstat",
-      "Revenue — прокси (спрос × коммерческий интент), не измеренная выручка"
-    ]
-  },
-  {
-    "attack_id": "ATT-022",
-    "query": "framer домен оплата рф",
-    "engine": "yandex",
-    "region": "213",
-    "our_position": 5,
-    "our_url": "https://biz-soft.pro/vendors/framer",
-    "rival_domain": "yello-card.com",
-    "rival_position": 3,
-    "rival_category": "H",
-    "demand": 10,
-    "demand_source": "webmaster",
-    "commercial_intent": 0.7,
-    "b2b_intent": 0.0,
-    "opportunity": 48,
-    "confidence": "MEDIUM",
-    "breakdown": {
-      "revenue": 0.7,
-      "commercial": 10.5,
-      "b2b": 0.0,
-      "proximity": 19.7,
-      "demand": 0.5,
-      "page_improvement": 14.0,
-      "vendor": 2.5
-    },
-    "notes": [
-      "Vulnerability недоступен до Phase 4: вес перераспределён на близость позиции и запас улучшения страницы",
-      "спрос оценён по показам Вебмастера (10), а не по частотности Wordstat",
-      "Revenue — прокси (спрос × коммерческий интент), не измеренная выручка"
-    ]
-  },
-  {
-    "attack_id": "ATT-023",
+    "attack_id": "ATT-020",
     "query": "оплата подписки depositphotos из россии",
     "engine": "yandex",
     "region": "213",
@@ -690,29 +596,29 @@
     "rival_domain": "platipomiru.com",
     "rival_position": 1,
     "rival_category": "A",
+    "competition_kind": "сделка",
     "demand": 8,
     "demand_source": "webmaster",
     "commercial_intent": 1.0,
     "b2b_intent": 0.0,
-    "opportunity": 48,
+    "opportunity": 56,
     "confidence": "MEDIUM",
     "breakdown": {
-      "revenue": 0.8,
-      "commercial": 15.0,
+      "commercial": 20.0,
       "b2b": 0.0,
-      "proximity": 15.8,
-      "demand": 0.4,
-      "page_improvement": 14.0,
-      "vendor": 2.5
+      "proximity": 15.0,
+      "demand": 0.6,
+      "page_improvement": 15.0,
+      "vendor": 5.0
     },
     "notes": [
-      "Vulnerability недоступен до Phase 4: вес перераспределён на близость позиции и запас улучшения страницы",
-      "спрос оценён по показам Вебмастера (8), а не по частотности Wordstat",
-      "Revenue — прокси (спрос × коммерческий интент), не измеренная выручка"
+      "Vulnerability недоступен до обхода страниц конкурентов: его вес перераспределён на близость позиции, запас улучшения страницы и приоритет вендора",
+      "спрос оценён по показам Вебмастера (8) — это видимая нам часть спроса за две недели, а не рынок за месяц",
+      "экономический фактор не участвует: измеренной выручки нет, а её оценка через спрос и интент дублировала бы эти факторы"
     ]
   },
   {
-    "attack_id": "ATT-024",
+    "attack_id": "ATT-021",
     "query": "perplexity enterprise купить",
     "engine": "yandex",
     "region": "213",
@@ -721,28 +627,90 @@
     "rival_domain": "raketapay.ru",
     "rival_position": 1,
     "rival_category": "H",
+    "competition_kind": "сделка",
     "demand": 8,
     "demand_source": "wordstat",
     "commercial_intent": 0.7,
     "b2b_intent": 0.35,
-    "opportunity": 47,
+    "opportunity": 55,
     "confidence": "MEDIUM",
     "breakdown": {
-      "revenue": 0.1,
-      "commercial": 10.5,
-      "b2b": 5.2,
-      "proximity": 14.4,
+      "commercial": 14.0,
+      "b2b": 7.0,
+      "proximity": 13.8,
       "demand": 0.1,
-      "page_improvement": 14.0,
-      "vendor": 2.5
+      "page_improvement": 15.0,
+      "vendor": 5.0
     },
     "notes": [
-      "Vulnerability недоступен до Phase 4: вес перераспределён на близость позиции и запас улучшения страницы",
-      "Revenue — прокси (спрос × коммерческий интент), не измеренная выручка"
+      "Vulnerability недоступен до обхода страниц конкурентов: его вес перераспределён на близость позиции, запас улучшения страницы и приоритет вендора",
+      "экономический фактор не участвует: измеренной выручки нет, а её оценка через спрос и интент дублировала бы эти факторы"
     ]
   },
   {
-    "attack_id": "ATT-025",
+    "attack_id": "ATT-022",
+    "query": "недорого оплатить подписку depositphotos",
+    "engine": "yandex",
+    "region": "213",
+    "our_position": 9,
+    "our_url": "https://biz-soft.pro/vendors/depositphotos",
+    "rival_domain": "platipomiru.com",
+    "rival_position": 2,
+    "rival_category": "A",
+    "competition_kind": "сделка",
+    "demand": 13,
+    "demand_source": "webmaster",
+    "commercial_intent": 1.0,
+    "b2b_intent": 0.0,
+    "opportunity": 55,
+    "confidence": "MEDIUM",
+    "breakdown": {
+      "commercial": 20.0,
+      "b2b": 0.0,
+      "proximity": 13.8,
+      "demand": 1.0,
+      "page_improvement": 15.0,
+      "vendor": 5.0
+    },
+    "notes": [
+      "Vulnerability недоступен до обхода страниц конкурентов: его вес перераспределён на близость позиции, запас улучшения страницы и приоритет вендора",
+      "спрос оценён по показам Вебмастера (13) — это видимая нам часть спроса за две недели, а не рынок за месяц",
+      "экономический фактор не участвует: измеренной выручки нет, а её оценка через спрос и интент дублировала бы эти факторы"
+    ]
+  },
+  {
+    "attack_id": "ATT-023",
+    "query": "оплата coreldraw для россиян",
+    "engine": "yandex",
+    "region": "213",
+    "our_position": 7,
+    "our_url": "https://biz-soft.pro/vendors/coreldraw",
+    "rival_domain": "platipomiru.com",
+    "rival_position": 2,
+    "rival_category": "A",
+    "competition_kind": "сделка",
+    "demand": 46,
+    "demand_source": "webmaster",
+    "commercial_intent": 0.7,
+    "b2b_intent": 0.0,
+    "opportunity": 54,
+    "confidence": "MEDIUM",
+    "breakdown": {
+      "commercial": 14.0,
+      "b2b": 0.0,
+      "proximity": 16.2,
+      "demand": 3.5,
+      "page_improvement": 15.0,
+      "vendor": 5.0
+    },
+    "notes": [
+      "Vulnerability недоступен до обхода страниц конкурентов: его вес перераспределён на близость позиции, запас улучшения страницы и приоритет вендора",
+      "спрос оценён по показам Вебмастера (46) — это видимая нам часть спроса за две недели, а не рынок за месяц",
+      "экономический фактор не участвует: измеренной выручки нет, а её оценка через спрос и интент дублировала бы эти факторы"
+    ]
+  },
+  {
+    "attack_id": "ATT-024",
     "query": "оплатить подписку depositphotos в россии",
     "engine": "yandex",
     "region": "213",
@@ -751,60 +719,29 @@
     "rival_domain": "pipl.io",
     "rival_position": 1,
     "rival_category": "H",
+    "competition_kind": "сделка",
     "demand": 17,
     "demand_source": "webmaster",
     "commercial_intent": 1.0,
     "b2b_intent": 0.0,
-    "opportunity": 47,
+    "opportunity": 54,
     "confidence": "MEDIUM",
     "breakdown": {
-      "revenue": 1.7,
-      "commercial": 15.0,
+      "commercial": 20.0,
       "b2b": 0.0,
-      "proximity": 13.1,
-      "demand": 0.9,
-      "page_improvement": 14.0,
-      "vendor": 2.5
+      "proximity": 12.5,
+      "demand": 1.3,
+      "page_improvement": 15.0,
+      "vendor": 5.0
     },
     "notes": [
-      "Vulnerability недоступен до Phase 4: вес перераспределён на близость позиции и запас улучшения страницы",
-      "спрос оценён по показам Вебмастера (17), а не по частотности Wordstat",
-      "Revenue — прокси (спрос × коммерческий интент), не измеренная выручка"
+      "Vulnerability недоступен до обхода страниц конкурентов: его вес перераспределён на близость позиции, запас улучшения страницы и приоритет вендора",
+      "спрос оценён по показам Вебмастера (17) — это видимая нам часть спроса за две недели, а не рынок за месяц",
+      "экономический фактор не участвует: измеренной выручки нет, а её оценка через спрос и интент дублировала бы эти факторы"
     ]
   },
   {
-    "attack_id": "ATT-026",
-    "query": "runway ai тарифы",
-    "engine": "yandex",
-    "region": "213",
-    "our_position": 7,
-    "our_url": "https://biz-soft.pro/vendors/runway",
-    "rival_domain": "migsoft.ru",
-    "rival_position": 6,
-    "rival_category": "A",
-    "demand": 22,
-    "demand_source": "webmaster",
-    "commercial_intent": 0.7,
-    "b2b_intent": 0.0,
-    "opportunity": 47,
-    "confidence": "MEDIUM",
-    "breakdown": {
-      "revenue": 1.5,
-      "commercial": 10.5,
-      "b2b": 0.0,
-      "proximity": 17.1,
-      "demand": 1.1,
-      "page_improvement": 14.0,
-      "vendor": 2.5
-    },
-    "notes": [
-      "Vulnerability недоступен до Phase 4: вес перераспределён на близость позиции и запас улучшения страницы",
-      "спрос оценён по показам Вебмастера (22), а не по частотности Wordstat",
-      "Revenue — прокси (спрос × коммерческий интент), не измеренная выручка"
-    ]
-  },
-  {
-    "attack_id": "ATT-027",
+    "attack_id": "ATT-025",
     "query": "купить подписку motion array",
     "engine": "yandex",
     "region": "213",
@@ -813,25 +750,87 @@
     "rival_domain": "raketapay.ru",
     "rival_position": 1,
     "rival_category": "H",
+    "competition_kind": "сделка",
     "demand": 18,
     "demand_source": "webmaster",
     "commercial_intent": 1.0,
     "b2b_intent": 0.0,
-    "opportunity": 47,
+    "opportunity": 54,
     "confidence": "MEDIUM",
     "breakdown": {
-      "revenue": 1.8,
-      "commercial": 15.0,
+      "commercial": 20.0,
       "b2b": 0.0,
-      "proximity": 13.1,
-      "demand": 0.9,
-      "page_improvement": 14.0,
-      "vendor": 2.5
+      "proximity": 12.5,
+      "demand": 1.3,
+      "page_improvement": 15.0,
+      "vendor": 5.0
     },
     "notes": [
-      "Vulnerability недоступен до Phase 4: вес перераспределён на близость позиции и запас улучшения страницы",
-      "спрос оценён по показам Вебмастера (18), а не по частотности Wordstat",
-      "Revenue — прокси (спрос × коммерческий интент), не измеренная выручка"
+      "Vulnerability недоступен до обхода страниц конкурентов: его вес перераспределён на близость позиции, запас улучшения страницы и приоритет вендора",
+      "спрос оценён по показам Вебмастера (18) — это видимая нам часть спроса за две недели, а не рынок за месяц",
+      "экономический фактор не участвует: измеренной выручки нет, а её оценка через спрос и интент дублировала бы эти факторы"
+    ]
+  },
+  {
+    "attack_id": "ATT-026",
+    "query": "framer домен оплата рф",
+    "engine": "yandex",
+    "region": "213",
+    "our_position": 5,
+    "our_url": "https://biz-soft.pro/vendors/framer",
+    "rival_domain": "yello-card.com",
+    "rival_position": 3,
+    "rival_category": "H",
+    "competition_kind": "сделка",
+    "demand": 10,
+    "demand_source": "webmaster",
+    "commercial_intent": 0.7,
+    "b2b_intent": 0.0,
+    "opportunity": 54,
+    "confidence": "MEDIUM",
+    "breakdown": {
+      "commercial": 14.0,
+      "b2b": 0.0,
+      "proximity": 18.8,
+      "demand": 0.8,
+      "page_improvement": 15.0,
+      "vendor": 5.0
+    },
+    "notes": [
+      "Vulnerability недоступен до обхода страниц конкурентов: его вес перераспределён на близость позиции, запас улучшения страницы и приоритет вендора",
+      "спрос оценён по показам Вебмастера (10) — это видимая нам часть спроса за две недели, а не рынок за месяц",
+      "экономический фактор не участвует: измеренной выручки нет, а её оценка через спрос и интент дублировала бы эти факторы"
+    ]
+  },
+  {
+    "attack_id": "ATT-027",
+    "query": "москва postman оплата подписки",
+    "engine": "yandex",
+    "region": "213",
+    "our_position": 9,
+    "our_url": "https://biz-soft.pro/vendors/postman",
+    "rival_domain": "raketapay.ru",
+    "rival_position": 1,
+    "rival_category": "H",
+    "competition_kind": "сделка",
+    "demand": 3,
+    "demand_source": "webmaster",
+    "commercial_intent": 1.0,
+    "b2b_intent": 0.0,
+    "opportunity": 54,
+    "confidence": "MEDIUM",
+    "breakdown": {
+      "commercial": 20.0,
+      "b2b": 0.0,
+      "proximity": 13.8,
+      "demand": 0.2,
+      "page_improvement": 15.0,
+      "vendor": 5.0
+    },
+    "notes": [
+      "Vulnerability недоступен до обхода страниц конкурентов: его вес перераспределён на близость позиции, запас улучшения страницы и приоритет вендора",
+      "спрос оценён по показам Вебмастера (3) — это видимая нам часть спроса за две недели, а не рынок за месяц",
+      "экономический фактор не участвует: измеренной выручки нет, а её оценка через спрос и интент дублировала бы эти факторы"
     ]
   },
   {
@@ -844,87 +843,87 @@
     "rival_domain": "platipomiru.com",
     "rival_position": 1,
     "rival_category": "A",
+    "competition_kind": "сделка",
     "demand": 9,
     "demand_source": "webmaster",
     "commercial_intent": 0.42,
     "b2b_intent": 0.35,
-    "opportunity": 46,
+    "opportunity": 52,
     "confidence": "MEDIUM",
     "breakdown": {
-      "revenue": 0.4,
-      "commercial": 6.3,
-      "b2b": 5.2,
-      "proximity": 17.1,
-      "demand": 0.4,
-      "page_improvement": 14.0,
-      "vendor": 2.5
+      "commercial": 8.4,
+      "b2b": 7.0,
+      "proximity": 16.2,
+      "demand": 0.7,
+      "page_improvement": 15.0,
+      "vendor": 5.0
     },
     "notes": [
-      "Vulnerability недоступен до Phase 4: вес перераспределён на близость позиции и запас улучшения страницы",
-      "спрос оценён по показам Вебмастера (9), а не по частотности Wordstat",
-      "Revenue — прокси (спрос × коммерческий интент), не измеренная выручка"
+      "Vulnerability недоступен до обхода страниц конкурентов: его вес перераспределён на близость позиции, запас улучшения страницы и приоритет вендора",
+      "спрос оценён по показам Вебмастера (9) — это видимая нам часть спроса за две недели, а не рынок за месяц",
+      "экономический фактор не участвует: измеренной выручки нет, а её оценка через спрос и интент дублировала бы эти факторы"
     ]
   },
   {
     "attack_id": "ATT-029",
-    "query": "как купить framer pro в россии",
+    "query": "как оплатить dropbox business из россии",
     "engine": "yandex",
     "region": "213",
-    "our_position": 4,
-    "our_url": "https://biz-soft.pro/vendors/framer",
-    "rival_domain": "aifory.pro",
-    "rival_position": 3,
+    "our_position": 7,
+    "our_url": "https://biz-soft.pro/vendors/dropbox",
+    "rival_domain": "getcard.one",
+    "rival_position": 1,
     "rival_category": "H",
-    "demand": 22,
+    "competition_kind": "сделка",
+    "demand": 3,
     "demand_source": "webmaster",
     "commercial_intent": 0.42,
-    "b2b_intent": 0.0,
-    "opportunity": 46,
+    "b2b_intent": 0.35,
+    "opportunity": 52,
     "confidence": "MEDIUM",
     "breakdown": {
-      "revenue": 0.9,
-      "commercial": 6.3,
-      "b2b": 0.0,
-      "proximity": 21.0,
-      "demand": 1.1,
-      "page_improvement": 14.0,
-      "vendor": 2.5
+      "commercial": 8.4,
+      "b2b": 7.0,
+      "proximity": 16.2,
+      "demand": 0.2,
+      "page_improvement": 15.0,
+      "vendor": 5.0
     },
     "notes": [
-      "Vulnerability недоступен до Phase 4: вес перераспределён на близость позиции и запас улучшения страницы",
-      "спрос оценён по показам Вебмастера (22), а не по частотности Wordstat",
-      "Revenue — прокси (спрос × коммерческий интент), не измеренная выручка"
+      "Vulnerability недоступен до обхода страниц конкурентов: его вес перераспределён на близость позиции, запас улучшения страницы и приоритет вендора",
+      "спрос оценён по показам Вебмастера (3) — это видимая нам часть спроса за две недели, а не рынок за месяц",
+      "экономический фактор не участвует: измеренной выручки нет, а её оценка через спрос и интент дублировала бы эти факторы"
     ]
   },
   {
     "attack_id": "ATT-030",
-    "query": "оплата depositphotos в рублях",
+    "query": "runway ai тарифы",
     "engine": "yandex",
     "region": "213",
     "our_position": 7,
-    "our_url": "https://biz-soft.pro/blog/kak-oplatit-depositphotos-dlya-yurlica",
-    "rival_domain": "platipomiru.com",
-    "rival_position": 1,
+    "our_url": "https://biz-soft.pro/vendors/runway",
+    "rival_domain": "migsoft.ru",
+    "rival_position": 6,
     "rival_category": "A",
-    "demand": 15,
+    "competition_kind": "сделка",
+    "demand": 22,
     "demand_source": "webmaster",
     "commercial_intent": 0.7,
     "b2b_intent": 0.0,
-    "opportunity": 46,
+    "opportunity": 52,
     "confidence": "MEDIUM",
     "breakdown": {
-      "revenue": 1.0,
-      "commercial": 10.5,
+      "commercial": 14.0,
       "b2b": 0.0,
-      "proximity": 17.1,
-      "demand": 0.8,
-      "page_improvement": 14.0,
-      "vendor": 2.5
+      "proximity": 16.2,
+      "demand": 1.6,
+      "page_improvement": 15.0,
+      "vendor": 5.0
     },
     "notes": [
-      "Vulnerability недоступен до Phase 4: вес перераспределён на близость позиции и запас улучшения страницы",
-      "спрос оценён по показам Вебмастера (15), а не по частотности Wordstat",
-      "Revenue — прокси (спрос × коммерческий интент), не измеренная выручка"
+      "Vulnerability недоступен до обхода страниц конкурентов: его вес перераспределён на близость позиции, запас улучшения страницы и приоритет вендора",
+      "спрос оценён по показам Вебмастера (22) — это видимая нам часть спроса за две недели, а не рынок за месяц",
+      "экономический фактор не участвует: измеренной выручки нет, а её оценка через спрос и интент дублировала бы эти факторы"
     ]
   },
   {
@@ -937,122 +936,60 @@
     "rival_domain": "raketapay.ru",
     "rival_position": 5,
     "rival_category": "H",
+    "competition_kind": "сделка",
     "demand": 8,
     "demand_source": "webmaster",
     "commercial_intent": 0.7,
     "b2b_intent": 0.0,
-    "opportunity": 46,
+    "opportunity": 52,
     "confidence": "MEDIUM",
     "breakdown": {
-      "revenue": 0.6,
-      "commercial": 10.5,
+      "commercial": 14.0,
       "b2b": 0.0,
-      "proximity": 18.4,
-      "demand": 0.4,
-      "page_improvement": 14.0,
-      "vendor": 2.5
+      "proximity": 17.5,
+      "demand": 0.6,
+      "page_improvement": 15.0,
+      "vendor": 5.0
     },
     "notes": [
-      "Vulnerability недоступен до Phase 4: вес перераспределён на близость позиции и запас улучшения страницы",
-      "спрос оценён по показам Вебмастера (8), а не по частотности Wordstat",
-      "Revenue — прокси (спрос × коммерческий интент), не измеренная выручка"
+      "Vulnerability недоступен до обхода страниц конкурентов: его вес перераспределён на близость позиции, запас улучшения страницы и приоритет вендора",
+      "спрос оценён по показам Вебмастера (8) — это видимая нам часть спроса за две недели, а не рынок за месяц",
+      "экономический фактор не участвует: измеренной выручки нет, а её оценка через спрос и интент дублировала бы эти факторы"
     ]
   },
   {
     "attack_id": "ATT-032",
-    "query": "москва postman оплата подписки",
+    "query": "оплата depositphotos в рублях",
     "engine": "yandex",
     "region": "213",
-    "our_position": 9,
-    "our_url": "https://biz-soft.pro/vendors/postman",
-    "rival_domain": "raketapay.ru",
+    "our_position": 7,
+    "our_url": "https://biz-soft.pro/blog/kak-oplatit-depositphotos-dlya-yurlica",
+    "rival_domain": "platipomiru.com",
     "rival_position": 1,
-    "rival_category": "H",
-    "demand": 3,
+    "rival_category": "A",
+    "competition_kind": "сделка",
+    "demand": 15,
     "demand_source": "webmaster",
-    "commercial_intent": 1.0,
+    "commercial_intent": 0.7,
     "b2b_intent": 0.0,
-    "opportunity": 46,
+    "opportunity": 51,
     "confidence": "MEDIUM",
     "breakdown": {
-      "revenue": 0.3,
-      "commercial": 15.0,
+      "commercial": 14.0,
       "b2b": 0.0,
-      "proximity": 14.4,
-      "demand": 0.1,
-      "page_improvement": 14.0,
-      "vendor": 2.5
+      "proximity": 16.2,
+      "demand": 1.1,
+      "page_improvement": 15.0,
+      "vendor": 5.0
     },
     "notes": [
-      "Vulnerability недоступен до Phase 4: вес перераспределён на близость позиции и запас улучшения страницы",
-      "спрос оценён по показам Вебмастера (3), а не по частотности Wordstat",
-      "Revenue — прокси (спрос × коммерческий интент), не измеренная выручка"
+      "Vulnerability недоступен до обхода страниц конкурентов: его вес перераспределён на близость позиции, запас улучшения страницы и приоритет вендора",
+      "спрос оценён по показам Вебмастера (15) — это видимая нам часть спроса за две недели, а не рынок за месяц",
+      "экономический фактор не участвует: измеренной выручки нет, а её оценка через спрос и интент дублировала бы эти факторы"
     ]
   },
   {
     "attack_id": "ATT-033",
-    "query": "как оплатить dropbox business из россии",
-    "engine": "yandex",
-    "region": "213",
-    "our_position": 7,
-    "our_url": "https://biz-soft.pro/vendors/dropbox",
-    "rival_domain": "getcard.one",
-    "rival_position": 1,
-    "rival_category": "H",
-    "demand": 3,
-    "demand_source": "webmaster",
-    "commercial_intent": 0.42,
-    "b2b_intent": 0.35,
-    "opportunity": 45,
-    "confidence": "MEDIUM",
-    "breakdown": {
-      "revenue": 0.1,
-      "commercial": 6.3,
-      "b2b": 5.2,
-      "proximity": 17.1,
-      "demand": 0.1,
-      "page_improvement": 14.0,
-      "vendor": 2.5
-    },
-    "notes": [
-      "Vulnerability недоступен до Phase 4: вес перераспределён на близость позиции и запас улучшения страницы",
-      "спрос оценён по показам Вебмастера (3), а не по частотности Wordstat",
-      "Revenue — прокси (спрос × коммерческий интент), не измеренная выручка"
-    ]
-  },
-  {
-    "attack_id": "ATT-034",
-    "query": "gitlab годовая подписка из россии",
-    "engine": "yandex",
-    "region": "213",
-    "our_position": 8,
-    "our_url": "https://biz-soft.pro/vendors/gitlab",
-    "rival_domain": "finteka.io",
-    "rival_position": 2,
-    "rival_category": "H",
-    "demand": 17,
-    "demand_source": "webmaster",
-    "commercial_intent": 0.7,
-    "b2b_intent": 0.0,
-    "opportunity": 45,
-    "confidence": "MEDIUM",
-    "breakdown": {
-      "revenue": 1.2,
-      "commercial": 10.5,
-      "b2b": 0.0,
-      "proximity": 15.8,
-      "demand": 0.9,
-      "page_improvement": 14.0,
-      "vendor": 2.5
-    },
-    "notes": [
-      "Vulnerability недоступен до Phase 4: вес перераспределён на близость позиции и запас улучшения страницы",
-      "спрос оценён по показам Вебмастера (17), а не по частотности Wordstat",
-      "Revenue — прокси (спрос × коммерческий интент), не измеренная выручка"
-    ]
-  },
-  {
-    "attack_id": "ATT-035",
     "query": "тарифы recraft",
     "engine": "yandex",
     "region": "213",
@@ -1061,91 +998,91 @@
     "rival_domain": "raketapay.ru",
     "rival_position": 2,
     "rival_category": "H",
+    "competition_kind": "сделка",
     "demand": 11,
     "demand_source": "webmaster",
     "commercial_intent": 0.7,
     "b2b_intent": 0.0,
-    "opportunity": 45,
+    "opportunity": 51,
     "confidence": "MEDIUM",
     "breakdown": {
-      "revenue": 0.8,
-      "commercial": 10.5,
+      "commercial": 14.0,
       "b2b": 0.0,
-      "proximity": 17.1,
-      "demand": 0.6,
-      "page_improvement": 14.0,
-      "vendor": 2.5
+      "proximity": 16.2,
+      "demand": 0.8,
+      "page_improvement": 15.0,
+      "vendor": 5.0
     },
     "notes": [
-      "Vulnerability недоступен до Phase 4: вес перераспределён на близость позиции и запас улучшения страницы",
-      "спрос оценён по показам Вебмастера (11), а не по частотности Wordstat",
-      "Revenue — прокси (спрос × коммерческий интент), не измеренная выручка"
+      "Vulnerability недоступен до обхода страниц конкурентов: его вес перераспределён на близость позиции, запас улучшения страницы и приоритет вендора",
+      "спрос оценён по показам Вебмастера (11) — это видимая нам часть спроса за две недели, а не рынок за месяц",
+      "экономический фактор не участвует: измеренной выручки нет, а её оценка через спрос и интент дублировала бы эти факторы"
+    ]
+  },
+  {
+    "attack_id": "ATT-034",
+    "query": "как купить framer pro в россии",
+    "engine": "yandex",
+    "region": "213",
+    "our_position": 4,
+    "our_url": "https://biz-soft.pro/vendors/framer",
+    "rival_domain": "aifory.pro",
+    "rival_position": 3,
+    "rival_category": "H",
+    "competition_kind": "сделка",
+    "demand": 22,
+    "demand_source": "webmaster",
+    "commercial_intent": 0.42,
+    "b2b_intent": 0.0,
+    "opportunity": 50,
+    "confidence": "MEDIUM",
+    "breakdown": {
+      "commercial": 8.4,
+      "b2b": 0.0,
+      "proximity": 20.0,
+      "demand": 1.6,
+      "page_improvement": 15.0,
+      "vendor": 5.0
+    },
+    "notes": [
+      "Vulnerability недоступен до обхода страниц конкурентов: его вес перераспределён на близость позиции, запас улучшения страницы и приоритет вендора",
+      "спрос оценён по показам Вебмастера (22) — это видимая нам часть спроса за две недели, а не рынок за месяц",
+      "экономический фактор не участвует: измеренной выручки нет, а её оценка через спрос и интент дублировала бы эти факторы"
+    ]
+  },
+  {
+    "attack_id": "ATT-035",
+    "query": "gitlab годовая подписка из россии",
+    "engine": "yandex",
+    "region": "213",
+    "our_position": 8,
+    "our_url": "https://biz-soft.pro/vendors/gitlab",
+    "rival_domain": "finteka.io",
+    "rival_position": 2,
+    "rival_category": "H",
+    "competition_kind": "сделка",
+    "demand": 17,
+    "demand_source": "webmaster",
+    "commercial_intent": 0.7,
+    "b2b_intent": 0.0,
+    "opportunity": 50,
+    "confidence": "MEDIUM",
+    "breakdown": {
+      "commercial": 14.0,
+      "b2b": 0.0,
+      "proximity": 15.0,
+      "demand": 1.3,
+      "page_improvement": 15.0,
+      "vendor": 5.0
+    },
+    "notes": [
+      "Vulnerability недоступен до обхода страниц конкурентов: его вес перераспределён на близость позиции, запас улучшения страницы и приоритет вендора",
+      "спрос оценён по показам Вебмастера (17) — это видимая нам часть спроса за две недели, а не рынок за месяц",
+      "экономический фактор не участвует: измеренной выручки нет, а её оценка через спрос и интент дублировала бы эти факторы"
     ]
   },
   {
     "attack_id": "ATT-036",
-    "query": "оплата depositphotos из россии",
-    "engine": "yandex",
-    "region": "213",
-    "our_position": 9,
-    "our_url": "https://biz-soft.pro/vendors/depositphotos",
-    "rival_domain": "platipomiru.com",
-    "rival_position": 1,
-    "rival_category": "A",
-    "demand": 21,
-    "demand_source": "webmaster",
-    "commercial_intent": 0.7,
-    "b2b_intent": 0.0,
-    "opportunity": 44,
-    "confidence": "MEDIUM",
-    "breakdown": {
-      "revenue": 1.5,
-      "commercial": 10.5,
-      "b2b": 0.0,
-      "proximity": 14.4,
-      "demand": 1.1,
-      "page_improvement": 14.0,
-      "vendor": 2.5
-    },
-    "notes": [
-      "Vulnerability недоступен до Phase 4: вес перераспределён на близость позиции и запас улучшения страницы",
-      "спрос оценён по показам Вебмастера (21), а не по частотности Wordstat",
-      "Revenue — прокси (спрос × коммерческий интент), не измеренная выручка"
-    ]
-  },
-  {
-    "attack_id": "ATT-037",
-    "query": "как оплатить тариф coreldraw из россии",
-    "engine": "yandex",
-    "region": "213",
-    "our_position": 7,
-    "our_url": "https://biz-soft.pro/vendors/coreldraw",
-    "rival_domain": "pipl.io",
-    "rival_position": 2,
-    "rival_category": "H",
-    "demand": 10,
-    "demand_source": "webmaster",
-    "commercial_intent": 0.6,
-    "b2b_intent": 0.0,
-    "opportunity": 44,
-    "confidence": "MEDIUM",
-    "breakdown": {
-      "revenue": 0.6,
-      "commercial": 9.0,
-      "b2b": 0.0,
-      "proximity": 17.1,
-      "demand": 0.5,
-      "page_improvement": 14.0,
-      "vendor": 2.5
-    },
-    "notes": [
-      "Vulnerability недоступен до Phase 4: вес перераспределён на близость позиции и запас улучшения страницы",
-      "спрос оценён по показам Вебмастера (10), а не по частотности Wordstat",
-      "Revenue — прокси (спрос × коммерческий интент), не измеренная выручка"
-    ]
-  },
-  {
-    "attack_id": "ATT-038",
     "query": "recraft тарифы",
     "engine": "yandex",
     "region": "213",
@@ -1154,30 +1091,30 @@
     "rival_domain": "raketapay.ru",
     "rival_position": 2,
     "rival_category": "H",
+    "competition_kind": "сделка",
     "demand": 9,
     "demand_source": "webmaster",
     "commercial_intent": 0.7,
     "b2b_intent": 0.0,
-    "opportunity": 44,
+    "opportunity": 50,
     "confidence": "MEDIUM",
     "breakdown": {
-      "revenue": 0.6,
-      "commercial": 10.5,
+      "commercial": 14.0,
       "b2b": 0.0,
-      "proximity": 15.8,
-      "demand": 0.4,
-      "page_improvement": 14.0,
-      "vendor": 2.5
+      "proximity": 15.0,
+      "demand": 0.7,
+      "page_improvement": 15.0,
+      "vendor": 5.0
     },
     "notes": [
-      "Vulnerability недоступен до Phase 4: вес перераспределён на близость позиции и запас улучшения страницы",
-      "спрос оценён по показам Вебмастера (9), а не по частотности Wordstat",
-      "Revenue — прокси (спрос × коммерческий интент), не измеренная выручка"
+      "Vulnerability недоступен до обхода страниц конкурентов: его вес перераспределён на близость позиции, запас улучшения страницы и приоритет вендора",
+      "спрос оценён по показам Вебмастера (9) — это видимая нам часть спроса за две недели, а не рынок за месяц",
+      "экономический фактор не участвует: измеренной выручки нет, а её оценка через спрос и интент дублировала бы эти факторы"
     ]
   },
   {
-    "attack_id": "ATT-039",
-    "query": "оплата depositphotos",
+    "attack_id": "ATT-037",
+    "query": "оплата depositphotos из россии",
     "engine": "yandex",
     "region": "213",
     "our_position": 9,
@@ -1185,29 +1122,60 @@
     "rival_domain": "platipomiru.com",
     "rival_position": 1,
     "rival_category": "A",
-    "demand": 9,
+    "competition_kind": "сделка",
+    "demand": 21,
     "demand_source": "webmaster",
     "commercial_intent": 0.7,
     "b2b_intent": 0.0,
-    "opportunity": 43,
+    "opportunity": 49,
     "confidence": "MEDIUM",
     "breakdown": {
-      "revenue": 0.6,
-      "commercial": 10.5,
+      "commercial": 14.0,
       "b2b": 0.0,
-      "proximity": 14.4,
-      "demand": 0.4,
-      "page_improvement": 14.0,
-      "vendor": 2.5
+      "proximity": 13.8,
+      "demand": 1.6,
+      "page_improvement": 15.0,
+      "vendor": 5.0
     },
     "notes": [
-      "Vulnerability недоступен до Phase 4: вес перераспределён на близость позиции и запас улучшения страницы",
-      "спрос оценён по показам Вебмастера (9), а не по частотности Wordstat",
-      "Revenue — прокси (спрос × коммерческий интент), не измеренная выручка"
+      "Vulnerability недоступен до обхода страниц конкурентов: его вес перераспределён на близость позиции, запас улучшения страницы и приоритет вендора",
+      "спрос оценён по показам Вебмастера (21) — это видимая нам часть спроса за две недели, а не рынок за месяц",
+      "экономический фактор не участвует: измеренной выручки нет, а её оценка через спрос и интент дублировала бы эти факторы"
     ]
   },
   {
-    "attack_id": "ATT-040",
+    "attack_id": "ATT-038",
+    "query": "как оплатить тариф coreldraw из россии",
+    "engine": "yandex",
+    "region": "213",
+    "our_position": 7,
+    "our_url": "https://biz-soft.pro/vendors/coreldraw",
+    "rival_domain": "pipl.io",
+    "rival_position": 2,
+    "rival_category": "H",
+    "competition_kind": "сделка",
+    "demand": 10,
+    "demand_source": "webmaster",
+    "commercial_intent": 0.6,
+    "b2b_intent": 0.0,
+    "opportunity": 49,
+    "confidence": "MEDIUM",
+    "breakdown": {
+      "commercial": 12.0,
+      "b2b": 0.0,
+      "proximity": 16.2,
+      "demand": 0.8,
+      "page_improvement": 15.0,
+      "vendor": 5.0
+    },
+    "notes": [
+      "Vulnerability недоступен до обхода страниц конкурентов: его вес перераспределён на близость позиции, запас улучшения страницы и приоритет вендора",
+      "спрос оценён по показам Вебмастера (10) — это видимая нам часть спроса за две недели, а не рынок за месяц",
+      "экономический фактор не участвует: измеренной выручки нет, а её оценка через спрос и интент дублировала бы эти факторы"
+    ]
+  },
+  {
+    "attack_id": "ATT-039",
     "query": "gitlab оформить подписку россия",
     "engine": "yandex",
     "region": "213",
@@ -1216,60 +1184,29 @@
     "rival_domain": "platipomiru.com",
     "rival_position": 2,
     "rival_category": "A",
+    "competition_kind": "сделка",
     "demand": 5,
     "demand_source": "webmaster",
     "commercial_intent": 0.7,
     "b2b_intent": 0.0,
-    "opportunity": 43,
+    "opportunity": 49,
     "confidence": "MEDIUM",
     "breakdown": {
-      "revenue": 0.3,
-      "commercial": 10.5,
+      "commercial": 14.0,
       "b2b": 0.0,
-      "proximity": 15.8,
-      "demand": 0.2,
-      "page_improvement": 14.0,
-      "vendor": 2.5
+      "proximity": 15.0,
+      "demand": 0.4,
+      "page_improvement": 15.0,
+      "vendor": 5.0
     },
     "notes": [
-      "Vulnerability недоступен до Phase 4: вес перераспределён на близость позиции и запас улучшения страницы",
-      "спрос оценён по показам Вебмастера (5), а не по частотности Wordstat",
-      "Revenue — прокси (спрос × коммерческий интент), не измеренная выручка"
+      "Vulnerability недоступен до обхода страниц конкурентов: его вес перераспределён на близость позиции, запас улучшения страницы и приоритет вендора",
+      "спрос оценён по показам Вебмастера (5) — это видимая нам часть спроса за две недели, а не рынок за месяц",
+      "экономический фактор не участвует: измеренной выручки нет, а её оценка через спрос и интент дублировала бы эти факторы"
     ]
   },
   {
-    "attack_id": "ATT-041",
-    "query": "как оплатить тариф depositphotos из россии",
-    "engine": "yandex",
-    "region": "213",
-    "our_position": 9,
-    "our_url": "https://biz-soft.pro/blog/kak-oplatit-depositphotos-dlya-yurlica",
-    "rival_domain": "card-open.ru",
-    "rival_position": 1,
-    "rival_category": "H",
-    "demand": 18,
-    "demand_source": "webmaster",
-    "commercial_intent": 0.6,
-    "b2b_intent": 0.0,
-    "opportunity": 42,
-    "confidence": "MEDIUM",
-    "breakdown": {
-      "revenue": 1.1,
-      "commercial": 9.0,
-      "b2b": 0.0,
-      "proximity": 14.4,
-      "demand": 0.9,
-      "page_improvement": 14.0,
-      "vendor": 2.5
-    },
-    "notes": [
-      "Vulnerability недоступен до Phase 4: вес перераспределён на близость позиции и запас улучшения страницы",
-      "спрос оценён по показам Вебмастера (18), а не по частотности Wordstat",
-      "Revenue — прокси (спрос × коммерческий интент), не измеренная выручка"
-    ]
-  },
-  {
-    "attack_id": "ATT-042",
+    "attack_id": "ATT-040",
     "query": "runway тарифы",
     "engine": "yandex",
     "region": "213",
@@ -1278,28 +1215,59 @@
     "rival_domain": "migsoft.ru",
     "rival_position": 2,
     "rival_category": "A",
+    "competition_kind": "сделка",
     "demand": 28,
     "demand_source": "wordstat",
     "commercial_intent": 0.7,
     "b2b_intent": 0.0,
-    "opportunity": 42,
+    "opportunity": 48,
     "confidence": "MEDIUM",
     "breakdown": {
-      "revenue": 0.4,
-      "commercial": 10.5,
+      "commercial": 14.0,
       "b2b": 0.0,
-      "proximity": 14.4,
-      "demand": 0.3,
-      "page_improvement": 14.0,
-      "vendor": 2.5
+      "proximity": 13.8,
+      "demand": 0.4,
+      "page_improvement": 15.0,
+      "vendor": 5.0
     },
     "notes": [
-      "Vulnerability недоступен до Phase 4: вес перераспределён на близость позиции и запас улучшения страницы",
-      "Revenue — прокси (спрос × коммерческий интент), не измеренная выручка"
+      "Vulnerability недоступен до обхода страниц конкурентов: его вес перераспределён на близость позиции, запас улучшения страницы и приоритет вендора",
+      "экономический фактор не участвует: измеренной выручки нет, а её оценка через спрос и интент дублировала бы эти факторы"
     ]
   },
   {
-    "attack_id": "ATT-043",
+    "attack_id": "ATT-041",
+    "query": "оплата depositphotos",
+    "engine": "yandex",
+    "region": "213",
+    "our_position": 9,
+    "our_url": "https://biz-soft.pro/vendors/depositphotos",
+    "rival_domain": "platipomiru.com",
+    "rival_position": 1,
+    "rival_category": "A",
+    "competition_kind": "сделка",
+    "demand": 9,
+    "demand_source": "webmaster",
+    "commercial_intent": 0.7,
+    "b2b_intent": 0.0,
+    "opportunity": 48,
+    "confidence": "MEDIUM",
+    "breakdown": {
+      "commercial": 14.0,
+      "b2b": 0.0,
+      "proximity": 13.8,
+      "demand": 0.7,
+      "page_improvement": 15.0,
+      "vendor": 5.0
+    },
+    "notes": [
+      "Vulnerability недоступен до обхода страниц конкурентов: его вес перераспределён на близость позиции, запас улучшения страницы и приоритет вендора",
+      "спрос оценён по показам Вебмастера (9) — это видимая нам часть спроса за две недели, а не рынок за месяц",
+      "экономический фактор не участвует: измеренной выручки нет, а её оценка через спрос и интент дублировала бы эти факторы"
+    ]
+  },
+  {
+    "attack_id": "ATT-042",
     "query": "framer годовая подписка из россии",
     "engine": "yandex",
     "region": "213",
@@ -1308,60 +1276,60 @@
     "rival_domain": "yello-card.com",
     "rival_position": 2,
     "rival_category": "H",
+    "competition_kind": "сделка",
     "demand": 4,
     "demand_source": "webmaster",
     "commercial_intent": 0.7,
     "b2b_intent": 0.0,
-    "opportunity": 42,
+    "opportunity": 48,
     "confidence": "MEDIUM",
     "breakdown": {
-      "revenue": 0.3,
-      "commercial": 10.5,
+      "commercial": 14.0,
       "b2b": 0.0,
-      "proximity": 14.4,
-      "demand": 0.2,
-      "page_improvement": 14.0,
-      "vendor": 2.5
+      "proximity": 13.8,
+      "demand": 0.3,
+      "page_improvement": 15.0,
+      "vendor": 5.0
     },
     "notes": [
-      "Vulnerability недоступен до Phase 4: вес перераспределён на близость позиции и запас улучшения страницы",
-      "спрос оценён по показам Вебмастера (4), а не по частотности Wordstat",
-      "Revenue — прокси (спрос × коммерческий интент), не измеренная выручка"
+      "Vulnerability недоступен до обхода страниц конкурентов: его вес перераспределён на близость позиции, запас улучшения страницы и приоритет вендора",
+      "спрос оценён по показам Вебмастера (4) — это видимая нам часть спроса за две недели, а не рынок за месяц",
+      "экономический фактор не участвует: измеренной выручки нет, а её оценка через спрос и интент дублировала бы эти факторы"
+    ]
+  },
+  {
+    "attack_id": "ATT-043",
+    "query": "как оплатить тариф depositphotos из россии",
+    "engine": "yandex",
+    "region": "213",
+    "our_position": 9,
+    "our_url": "https://biz-soft.pro/blog/kak-oplatit-depositphotos-dlya-yurlica",
+    "rival_domain": "card-open.ru",
+    "rival_position": 1,
+    "rival_category": "H",
+    "competition_kind": "сделка",
+    "demand": 18,
+    "demand_source": "webmaster",
+    "commercial_intent": 0.6,
+    "b2b_intent": 0.0,
+    "opportunity": 47,
+    "confidence": "MEDIUM",
+    "breakdown": {
+      "commercial": 12.0,
+      "b2b": 0.0,
+      "proximity": 13.8,
+      "demand": 1.3,
+      "page_improvement": 15.0,
+      "vendor": 5.0
+    },
+    "notes": [
+      "Vulnerability недоступен до обхода страниц конкурентов: его вес перераспределён на близость позиции, запас улучшения страницы и приоритет вендора",
+      "спрос оценён по показам Вебмастера (18) — это видимая нам часть спроса за две недели, а не рынок за месяц",
+      "экономический фактор не участвует: измеренной выручки нет, а её оценка через спрос и интент дублировала бы эти факторы"
     ]
   },
   {
     "attack_id": "ATT-044",
-    "query": "как оплатить пакет depositphotos из россии",
-    "engine": "yandex",
-    "region": "213",
-    "our_position": 7,
-    "our_url": "https://biz-soft.pro/blog/kak-oplatit-depositphotos-dlya-yurlica",
-    "rival_domain": "finteka.io",
-    "rival_position": 2,
-    "rival_category": "H",
-    "demand": 17,
-    "demand_source": "webmaster",
-    "commercial_intent": 0.42,
-    "b2b_intent": 0.0,
-    "opportunity": 41,
-    "confidence": "MEDIUM",
-    "breakdown": {
-      "revenue": 0.7,
-      "commercial": 6.3,
-      "b2b": 0.0,
-      "proximity": 17.1,
-      "demand": 0.9,
-      "page_improvement": 14.0,
-      "vendor": 2.5
-    },
-    "notes": [
-      "Vulnerability недоступен до Phase 4: вес перераспределён на близость позиции и запас улучшения страницы",
-      "спрос оценён по показам Вебмастера (17), а не по частотности Wordstat",
-      "Revenue — прокси (спрос × коммерческий интент), не измеренная выручка"
-    ]
-  },
-  {
-    "attack_id": "ATT-045",
     "query": "оплатить depositphotos из россии",
     "engine": "yandex",
     "region": "213",
@@ -1370,60 +1338,29 @@
     "rival_domain": "platipomiru.com",
     "rival_position": 1,
     "rival_category": "A",
+    "competition_kind": "сделка",
     "demand": 10,
     "demand_source": "webmaster",
     "commercial_intent": 0.7,
     "b2b_intent": 0.0,
-    "opportunity": 41,
+    "opportunity": 47,
     "confidence": "MEDIUM",
     "breakdown": {
-      "revenue": 0.7,
-      "commercial": 10.5,
+      "commercial": 14.0,
       "b2b": 0.0,
-      "proximity": 13.1,
-      "demand": 0.5,
-      "page_improvement": 14.0,
-      "vendor": 2.5
+      "proximity": 12.5,
+      "demand": 0.8,
+      "page_improvement": 15.0,
+      "vendor": 5.0
     },
     "notes": [
-      "Vulnerability недоступен до Phase 4: вес перераспределён на близость позиции и запас улучшения страницы",
-      "спрос оценён по показам Вебмастера (10), а не по частотности Wordstat",
-      "Revenue — прокси (спрос × коммерческий интент), не измеренная выручка"
+      "Vulnerability недоступен до обхода страниц конкурентов: его вес перераспределён на близость позиции, запас улучшения страницы и приоритет вендора",
+      "спрос оценён по показам Вебмастера (10) — это видимая нам часть спроса за две недели, а не рынок за месяц",
+      "экономический фактор не участвует: измеренной выручки нет, а её оценка через спрос и интент дублировала бы эти факторы"
     ]
   },
   {
-    "attack_id": "ATT-046",
-    "query": "как оплатить box облако из россии",
-    "engine": "yandex",
-    "region": "213",
-    "our_position": 7,
-    "our_url": "https://biz-soft.pro/vendors/box",
-    "rival_domain": "pipl.io",
-    "rival_position": 1,
-    "rival_category": "H",
-    "demand": 9,
-    "demand_source": "webmaster",
-    "commercial_intent": 0.42,
-    "b2b_intent": 0.0,
-    "opportunity": 41,
-    "confidence": "MEDIUM",
-    "breakdown": {
-      "revenue": 0.4,
-      "commercial": 6.3,
-      "b2b": 0.0,
-      "proximity": 17.1,
-      "demand": 0.4,
-      "page_improvement": 14.0,
-      "vendor": 2.5
-    },
-    "notes": [
-      "Vulnerability недоступен до Phase 4: вес перераспределён на близость позиции и запас улучшения страницы",
-      "спрос оценён по показам Вебмастера (9), а не по частотности Wordstat",
-      "Revenue — прокси (спрос × коммерческий интент), не измеренная выручка"
-    ]
-  },
-  {
-    "attack_id": "ATT-047",
+    "attack_id": "ATT-045",
     "query": "купить recraft pro www.klerk.ru",
     "engine": "yandex",
     "region": "213",
@@ -1432,91 +1369,29 @@
     "rival_domain": "legasoft.ru",
     "rival_position": 4,
     "rival_category": "A",
+    "competition_kind": "сделка",
     "demand": 4,
     "demand_source": "webmaster",
     "commercial_intent": 0.7,
     "b2b_intent": 0.0,
-    "opportunity": 41,
+    "opportunity": 47,
     "confidence": "MEDIUM",
     "breakdown": {
-      "revenue": 0.3,
-      "commercial": 10.5,
+      "commercial": 14.0,
       "b2b": 0.0,
-      "proximity": 13.1,
-      "demand": 0.2,
-      "page_improvement": 14.0,
-      "vendor": 2.5
+      "proximity": 12.5,
+      "demand": 0.3,
+      "page_improvement": 15.0,
+      "vendor": 5.0
     },
     "notes": [
-      "Vulnerability недоступен до Phase 4: вес перераспределён на близость позиции и запас улучшения страницы",
-      "спрос оценён по показам Вебмастера (4), а не по частотности Wordstat",
-      "Revenue — прокси (спрос × коммерческий интент), не измеренная выручка"
+      "Vulnerability недоступен до обхода страниц конкурентов: его вес перераспределён на близость позиции, запас улучшения страницы и приоритет вендора",
+      "спрос оценён по показам Вебмастера (4) — это видимая нам часть спроса за две недели, а не рынок за месяц",
+      "экономический фактор не участвует: измеренной выручки нет, а её оценка через спрос и интент дублировала бы эти факторы"
     ]
   },
   {
-    "attack_id": "ATT-048",
-    "query": "оплата depositphotos из россии 2026",
-    "engine": "yandex",
-    "region": "213",
-    "our_position": 10,
-    "our_url": "https://biz-soft.pro/vendors/depositphotos",
-    "rival_domain": "finteka.io",
-    "rival_position": 2,
-    "rival_category": "H",
-    "demand": 4,
-    "demand_source": "webmaster",
-    "commercial_intent": 0.7,
-    "b2b_intent": 0.0,
-    "opportunity": 41,
-    "confidence": "MEDIUM",
-    "breakdown": {
-      "revenue": 0.3,
-      "commercial": 10.5,
-      "b2b": 0.0,
-      "proximity": 13.1,
-      "demand": 0.2,
-      "page_improvement": 14.0,
-      "vendor": 2.5
-    },
-    "notes": [
-      "Vulnerability недоступен до Phase 4: вес перераспределён на близость позиции и запас улучшения страницы",
-      "спрос оценён по показам Вебмастера (4), а не по частотности Wordstat",
-      "Revenue — прокси (спрос × коммерческий интент), не измеренная выручка"
-    ]
-  },
-  {
-    "attack_id": "ATT-049",
-    "query": "как сейчас оплатить depositphotos из россии",
-    "engine": "yandex",
-    "region": "213",
-    "our_position": 8,
-    "our_url": "https://biz-soft.pro/vendors/depositphotos",
-    "rival_domain": "platipomiru.com",
-    "rival_position": 2,
-    "rival_category": "A",
-    "demand": 13,
-    "demand_source": "webmaster",
-    "commercial_intent": 0.42,
-    "b2b_intent": 0.0,
-    "opportunity": 40,
-    "confidence": "MEDIUM",
-    "breakdown": {
-      "revenue": 0.5,
-      "commercial": 6.3,
-      "b2b": 0.0,
-      "proximity": 15.8,
-      "demand": 0.7,
-      "page_improvement": 14.0,
-      "vendor": 2.5
-    },
-    "notes": [
-      "Vulnerability недоступен до Phase 4: вес перераспределён на близость позиции и запас улучшения страницы",
-      "спрос оценён по показам Вебмастера (13), а не по частотности Wordstat",
-      "Revenue — прокси (спрос × коммерческий интент), не измеренная выручка"
-    ]
-  },
-  {
-    "attack_id": "ATT-050",
+    "attack_id": "ATT-046",
     "query": "marmoset toolbag 5 купить",
     "engine": "yandex",
     "region": "213",
@@ -1525,24 +1400,148 @@
     "rival_domain": "syssoft.ru",
     "rival_position": 3,
     "rival_category": "A",
+    "competition_kind": "сделка",
     "demand": 8,
     "demand_source": "wordstat",
     "commercial_intent": 0.7,
     "b2b_intent": 0.0,
-    "opportunity": 40,
+    "opportunity": 47,
     "confidence": "MEDIUM",
     "breakdown": {
-      "revenue": 0.1,
-      "commercial": 10.5,
+      "commercial": 14.0,
       "b2b": 0.0,
-      "proximity": 13.1,
+      "proximity": 12.5,
       "demand": 0.1,
-      "page_improvement": 14.0,
-      "vendor": 2.5
+      "page_improvement": 15.0,
+      "vendor": 5.0
     },
     "notes": [
-      "Vulnerability недоступен до Phase 4: вес перераспределён на близость позиции и запас улучшения страницы",
-      "Revenue — прокси (спрос × коммерческий интент), не измеренная выручка"
+      "Vulnerability недоступен до обхода страниц конкурентов: его вес перераспределён на близость позиции, запас улучшения страницы и приоритет вендора",
+      "экономический фактор не участвует: измеренной выручки нет, а её оценка через спрос и интент дублировала бы эти факторы"
+    ]
+  },
+  {
+    "attack_id": "ATT-047",
+    "query": "оплата depositphotos из россии 2026",
+    "engine": "yandex",
+    "region": "213",
+    "our_position": 10,
+    "our_url": "https://biz-soft.pro/vendors/depositphotos",
+    "rival_domain": "finteka.io",
+    "rival_position": 2,
+    "rival_category": "H",
+    "competition_kind": "сделка",
+    "demand": 4,
+    "demand_source": "webmaster",
+    "commercial_intent": 0.7,
+    "b2b_intent": 0.0,
+    "opportunity": 47,
+    "confidence": "MEDIUM",
+    "breakdown": {
+      "commercial": 14.0,
+      "b2b": 0.0,
+      "proximity": 12.5,
+      "demand": 0.3,
+      "page_improvement": 15.0,
+      "vendor": 5.0
+    },
+    "notes": [
+      "Vulnerability недоступен до обхода страниц конкурентов: его вес перераспределён на близость позиции, запас улучшения страницы и приоритет вендора",
+      "спрос оценён по показам Вебмастера (4) — это видимая нам часть спроса за две недели, а не рынок за месяц",
+      "экономический фактор не участвует: измеренной выручки нет, а её оценка через спрос и интент дублировала бы эти факторы"
+    ]
+  },
+  {
+    "attack_id": "ATT-048",
+    "query": "как оплатить пакет depositphotos из россии",
+    "engine": "yandex",
+    "region": "213",
+    "our_position": 7,
+    "our_url": "https://biz-soft.pro/blog/kak-oplatit-depositphotos-dlya-yurlica",
+    "rival_domain": "finteka.io",
+    "rival_position": 2,
+    "rival_category": "H",
+    "competition_kind": "сделка",
+    "demand": 17,
+    "demand_source": "webmaster",
+    "commercial_intent": 0.42,
+    "b2b_intent": 0.0,
+    "opportunity": 46,
+    "confidence": "MEDIUM",
+    "breakdown": {
+      "commercial": 8.4,
+      "b2b": 0.0,
+      "proximity": 16.2,
+      "demand": 1.3,
+      "page_improvement": 15.0,
+      "vendor": 5.0
+    },
+    "notes": [
+      "Vulnerability недоступен до обхода страниц конкурентов: его вес перераспределён на близость позиции, запас улучшения страницы и приоритет вендора",
+      "спрос оценён по показам Вебмастера (17) — это видимая нам часть спроса за две недели, а не рынок за месяц",
+      "экономический фактор не участвует: измеренной выручки нет, а её оценка через спрос и интент дублировала бы эти факторы"
+    ]
+  },
+  {
+    "attack_id": "ATT-049",
+    "query": "как оплатить box облако из россии",
+    "engine": "yandex",
+    "region": "213",
+    "our_position": 7,
+    "our_url": "https://biz-soft.pro/vendors/box",
+    "rival_domain": "pipl.io",
+    "rival_position": 1,
+    "rival_category": "H",
+    "competition_kind": "сделка",
+    "demand": 9,
+    "demand_source": "webmaster",
+    "commercial_intent": 0.42,
+    "b2b_intent": 0.0,
+    "opportunity": 45,
+    "confidence": "MEDIUM",
+    "breakdown": {
+      "commercial": 8.4,
+      "b2b": 0.0,
+      "proximity": 16.2,
+      "demand": 0.7,
+      "page_improvement": 15.0,
+      "vendor": 5.0
+    },
+    "notes": [
+      "Vulnerability недоступен до обхода страниц конкурентов: его вес перераспределён на близость позиции, запас улучшения страницы и приоритет вендора",
+      "спрос оценён по показам Вебмастера (9) — это видимая нам часть спроса за две недели, а не рынок за месяц",
+      "экономический фактор не участвует: измеренной выручки нет, а её оценка через спрос и интент дублировала бы эти факторы"
+    ]
+  },
+  {
+    "attack_id": "ATT-050",
+    "query": "как оплатить подписку depositphotos из россии",
+    "engine": "yandex",
+    "region": "213",
+    "our_position": 10,
+    "our_url": "https://biz-soft.pro/blog/kak-oplatit-depositphotos-dlya-yurlica",
+    "rival_domain": "pipl.io",
+    "rival_position": 1,
+    "rival_category": "H",
+    "competition_kind": "сделка",
+    "demand": 6,
+    "demand_source": "webmaster",
+    "commercial_intent": 0.6,
+    "b2b_intent": 0.0,
+    "opportunity": 45,
+    "confidence": "MEDIUM",
+    "breakdown": {
+      "commercial": 12.0,
+      "b2b": 0.0,
+      "proximity": 12.5,
+      "demand": 0.4,
+      "page_improvement": 15.0,
+      "vendor": 5.0
+    },
+    "notes": [
+      "Vulnerability недоступен до обхода страниц конкурентов: его вес перераспределён на близость позиции, запас улучшения страницы и приоритет вендора",
+      "спрос оценён по показам Вебмастера (6) — это видимая нам часть спроса за две недели, а не рынок за месяц",
+      "экономический фактор не участвует: измеренной выручки нет, а её оценка через спрос и интент дублировала бы эти факторы"
     ]
   },
   {
@@ -1555,29 +1554,60 @@
     "rival_domain": "pipl.io",
     "rival_position": 2,
     "rival_category": "H",
+    "competition_kind": "сделка",
     "demand": 3,
     "demand_source": "webmaster",
     "commercial_intent": 0.42,
     "b2b_intent": 0.0,
-    "opportunity": 40,
+    "opportunity": 45,
     "confidence": "MEDIUM",
     "breakdown": {
-      "revenue": 0.1,
-      "commercial": 6.3,
+      "commercial": 8.4,
       "b2b": 0.0,
-      "proximity": 17.1,
-      "demand": 0.1,
-      "page_improvement": 14.0,
-      "vendor": 2.5
+      "proximity": 16.2,
+      "demand": 0.2,
+      "page_improvement": 15.0,
+      "vendor": 5.0
     },
     "notes": [
-      "Vulnerability недоступен до Phase 4: вес перераспределён на близость позиции и запас улучшения страницы",
-      "спрос оценён по показам Вебмастера (3), а не по частотности Wordstat",
-      "Revenue — прокси (спрос × коммерческий интент), не измеренная выручка"
+      "Vulnerability недоступен до обхода страниц конкурентов: его вес перераспределён на близость позиции, запас улучшения страницы и приоритет вендора",
+      "спрос оценён по показам Вебмастера (3) — это видимая нам часть спроса за две недели, а не рынок за месяц",
+      "экономический фактор не участвует: измеренной выручки нет, а её оценка через спрос и интент дублировала бы эти факторы"
     ]
   },
   {
     "attack_id": "ATT-052",
+    "query": "как сейчас оплатить depositphotos из россии",
+    "engine": "yandex",
+    "region": "213",
+    "our_position": 8,
+    "our_url": "https://biz-soft.pro/vendors/depositphotos",
+    "rival_domain": "platipomiru.com",
+    "rival_position": 2,
+    "rival_category": "A",
+    "competition_kind": "сделка",
+    "demand": 13,
+    "demand_source": "webmaster",
+    "commercial_intent": 0.42,
+    "b2b_intent": 0.0,
+    "opportunity": 44,
+    "confidence": "MEDIUM",
+    "breakdown": {
+      "commercial": 8.4,
+      "b2b": 0.0,
+      "proximity": 15.0,
+      "demand": 1.0,
+      "page_improvement": 15.0,
+      "vendor": 5.0
+    },
+    "notes": [
+      "Vulnerability недоступен до обхода страниц конкурентов: его вес перераспределён на близость позиции, запас улучшения страницы и приоритет вендора",
+      "спрос оценён по показам Вебмастера (13) — это видимая нам часть спроса за две недели, а не рынок за месяц",
+      "экономический фактор не участвует: измеренной выручки нет, а её оценка через спрос и интент дублировала бы эти факторы"
+    ]
+  },
+  {
+    "attack_id": "ATT-053",
     "query": "depositphotos как оплатить в россии",
     "engine": "yandex",
     "region": "213",
@@ -1586,56 +1616,25 @@
     "rival_domain": "platipomiru.com",
     "rival_position": 2,
     "rival_category": "A",
+    "competition_kind": "сделка",
     "demand": 15,
     "demand_source": "webmaster",
     "commercial_intent": 0.42,
     "b2b_intent": 0.0,
-    "opportunity": 39,
+    "opportunity": 43,
     "confidence": "MEDIUM",
     "breakdown": {
-      "revenue": 0.6,
-      "commercial": 6.3,
+      "commercial": 8.4,
       "b2b": 0.0,
-      "proximity": 14.4,
-      "demand": 0.8,
-      "page_improvement": 14.0,
-      "vendor": 2.5
+      "proximity": 13.8,
+      "demand": 1.1,
+      "page_improvement": 15.0,
+      "vendor": 5.0
     },
     "notes": [
-      "Vulnerability недоступен до Phase 4: вес перераспределён на близость позиции и запас улучшения страницы",
-      "спрос оценён по показам Вебмастера (15), а не по частотности Wordstat",
-      "Revenue — прокси (спрос × коммерческий интент), не измеренная выручка"
-    ]
-  },
-  {
-    "attack_id": "ATT-053",
-    "query": "как оплатить подписку depositphotos из россии",
-    "engine": "yandex",
-    "region": "213",
-    "our_position": 10,
-    "our_url": "https://biz-soft.pro/blog/kak-oplatit-depositphotos-dlya-yurlica",
-    "rival_domain": "pipl.io",
-    "rival_position": 1,
-    "rival_category": "H",
-    "demand": 6,
-    "demand_source": "webmaster",
-    "commercial_intent": 0.6,
-    "b2b_intent": 0.0,
-    "opportunity": 39,
-    "confidence": "MEDIUM",
-    "breakdown": {
-      "revenue": 0.4,
-      "commercial": 9.0,
-      "b2b": 0.0,
-      "proximity": 13.1,
-      "demand": 0.3,
-      "page_improvement": 14.0,
-      "vendor": 2.5
-    },
-    "notes": [
-      "Vulnerability недоступен до Phase 4: вес перераспределён на близость позиции и запас улучшения страницы",
-      "спрос оценён по показам Вебмастера (6), а не по частотности Wordstat",
-      "Revenue — прокси (спрос × коммерческий интент), не измеренная выручка"
+      "Vulnerability недоступен до обхода страниц конкурентов: его вес перераспределён на близость позиции, запас улучшения страницы и приоритет вендора",
+      "спрос оценён по показам Вебмастера (15) — это видимая нам часть спроса за две недели, а не рынок за месяц",
+      "экономический фактор не участвует: измеренной выручки нет, а её оценка через спрос и интент дублировала бы эти факторы"
     ]
   },
   {
@@ -1648,25 +1647,25 @@
     "rival_domain": "card-open.ru",
     "rival_position": 1,
     "rival_category": "H",
+    "competition_kind": "сделка",
     "demand": 13,
     "demand_source": "webmaster",
     "commercial_intent": 0.42,
     "b2b_intent": 0.0,
-    "opportunity": 38,
+    "opportunity": 43,
     "confidence": "MEDIUM",
     "breakdown": {
-      "revenue": 0.5,
-      "commercial": 6.3,
+      "commercial": 8.4,
       "b2b": 0.0,
-      "proximity": 14.4,
-      "demand": 0.7,
-      "page_improvement": 14.0,
-      "vendor": 2.5
+      "proximity": 13.8,
+      "demand": 1.0,
+      "page_improvement": 15.0,
+      "vendor": 5.0
     },
     "notes": [
-      "Vulnerability недоступен до Phase 4: вес перераспределён на близость позиции и запас улучшения страницы",
-      "спрос оценён по показам Вебмастера (13), а не по частотности Wordstat",
-      "Revenue — прокси (спрос × коммерческий интент), не измеренная выручка"
+      "Vulnerability недоступен до обхода страниц конкурентов: его вес перераспределён на близость позиции, запас улучшения страницы и приоритет вендора",
+      "спрос оценён по показам Вебмастера (13) — это видимая нам часть спроса за две недели, а не рынок за месяц",
+      "экономический фактор не участвует: измеренной выручки нет, а её оценка через спрос и интент дублировала бы эти факторы"
     ]
   },
   {
@@ -1679,25 +1678,25 @@
     "rival_domain": "pipl.io",
     "rival_position": 2,
     "rival_category": "H",
+    "competition_kind": "сделка",
     "demand": 15,
     "demand_source": "webmaster",
     "commercial_intent": 0.42,
     "b2b_intent": 0.0,
-    "opportunity": 37,
+    "opportunity": 42,
     "confidence": "MEDIUM",
     "breakdown": {
-      "revenue": 0.6,
-      "commercial": 6.3,
+      "commercial": 8.4,
       "b2b": 0.0,
-      "proximity": 13.1,
-      "demand": 0.8,
-      "page_improvement": 14.0,
-      "vendor": 2.5
+      "proximity": 12.5,
+      "demand": 1.1,
+      "page_improvement": 15.0,
+      "vendor": 5.0
     },
     "notes": [
-      "Vulnerability недоступен до Phase 4: вес перераспределён на близость позиции и запас улучшения страницы",
-      "спрос оценён по показам Вебмастера (15), а не по частотности Wordstat",
-      "Revenue — прокси (спрос × коммерческий интент), не измеренная выручка"
+      "Vulnerability недоступен до обхода страниц конкурентов: его вес перераспределён на близость позиции, запас улучшения страницы и приоритет вендора",
+      "спрос оценён по показам Вебмастера (15) — это видимая нам часть спроса за две недели, а не рынок за месяц",
+      "экономический фактор не участвует: измеренной выручки нет, а её оценка через спрос и интент дублировала бы эти факторы"
     ]
   },
   {
@@ -1710,25 +1709,25 @@
     "rival_domain": "card-open.ru",
     "rival_position": 1,
     "rival_category": "H",
+    "competition_kind": "сделка",
     "demand": 15,
     "demand_source": "webmaster",
     "commercial_intent": 0.42,
     "b2b_intent": 0.0,
-    "opportunity": 37,
+    "opportunity": 42,
     "confidence": "MEDIUM",
     "breakdown": {
-      "revenue": 0.6,
-      "commercial": 6.3,
+      "commercial": 8.4,
       "b2b": 0.0,
-      "proximity": 13.1,
-      "demand": 0.8,
-      "page_improvement": 14.0,
-      "vendor": 2.5
+      "proximity": 12.5,
+      "demand": 1.1,
+      "page_improvement": 15.0,
+      "vendor": 5.0
     },
     "notes": [
-      "Vulnerability недоступен до Phase 4: вес перераспределён на близость позиции и запас улучшения страницы",
-      "спрос оценён по показам Вебмастера (15), а не по частотности Wordstat",
-      "Revenue — прокси (спрос × коммерческий интент), не измеренная выручка"
+      "Vulnerability недоступен до обхода страниц конкурентов: его вес перераспределён на близость позиции, запас улучшения страницы и приоритет вендора",
+      "спрос оценён по показам Вебмастера (15) — это видимая нам часть спроса за две недели, а не рынок за месяц",
+      "экономический фактор не участвует: измеренной выручки нет, а её оценка через спрос и интент дублировала бы эти факторы"
     ]
   },
   {
@@ -1741,25 +1740,25 @@
     "rival_domain": "aifory.pro",
     "rival_position": 4,
     "rival_category": "H",
+    "competition_kind": "сделка",
     "demand": 8,
     "demand_source": "webmaster",
     "commercial_intent": 0.42,
     "b2b_intent": 0.0,
-    "opportunity": 37,
+    "opportunity": 42,
     "confidence": "MEDIUM",
     "breakdown": {
-      "revenue": 0.3,
-      "commercial": 6.3,
+      "commercial": 8.4,
       "b2b": 0.0,
-      "proximity": 13.1,
-      "demand": 0.4,
-      "page_improvement": 14.0,
-      "vendor": 2.5
+      "proximity": 12.5,
+      "demand": 0.6,
+      "page_improvement": 15.0,
+      "vendor": 5.0
     },
     "notes": [
-      "Vulnerability недоступен до Phase 4: вес перераспределён на близость позиции и запас улучшения страницы",
-      "спрос оценён по показам Вебмастера (8), а не по частотности Wordstat",
-      "Revenue — прокси (спрос × коммерческий интент), не измеренная выручка"
+      "Vulnerability недоступен до обхода страниц конкурентов: его вес перераспределён на близость позиции, запас улучшения страницы и приоритет вендора",
+      "спрос оценён по показам Вебмастера (8) — это видимая нам часть спроса за две недели, а не рынок за месяц",
+      "экономический фактор не участвует: измеренной выручки нет, а её оценка через спрос и интент дублировала бы эти факторы"
     ]
   },
   {
@@ -1772,25 +1771,25 @@
     "rival_domain": "pipl.io",
     "rival_position": 2,
     "rival_category": "H",
+    "competition_kind": "сделка",
     "demand": 10,
     "demand_source": "webmaster",
     "commercial_intent": 0.42,
     "b2b_intent": 0.0,
-    "opportunity": 37,
+    "opportunity": 42,
     "confidence": "MEDIUM",
     "breakdown": {
-      "revenue": 0.4,
-      "commercial": 6.3,
+      "commercial": 8.4,
       "b2b": 0.0,
-      "proximity": 13.1,
-      "demand": 0.5,
-      "page_improvement": 14.0,
-      "vendor": 2.5
+      "proximity": 12.5,
+      "demand": 0.8,
+      "page_improvement": 15.0,
+      "vendor": 5.0
     },
     "notes": [
-      "Vulnerability недоступен до Phase 4: вес перераспределён на близость позиции и запас улучшения страницы",
-      "спрос оценён по показам Вебмастера (10), а не по частотности Wordstat",
-      "Revenue — прокси (спрос × коммерческий интент), не измеренная выручка"
+      "Vulnerability недоступен до обхода страниц конкурентов: его вес перераспределён на близость позиции, запас улучшения страницы и приоритет вендора",
+      "спрос оценён по показам Вебмастера (10) — это видимая нам часть спроса за две недели, а не рынок за месяц",
+      "экономический фактор не участвует: измеренной выручки нет, а её оценка через спрос и интент дублировала бы эти факторы"
     ]
   },
   {
@@ -1803,25 +1802,242 @@
     "rival_domain": "pipl.io",
     "rival_position": 2,
     "rival_category": "H",
+    "competition_kind": "сделка",
     "demand": 8,
     "demand_source": "webmaster",
     "commercial_intent": 0.42,
     "b2b_intent": 0.0,
-    "opportunity": 37,
+    "opportunity": 42,
     "confidence": "MEDIUM",
     "breakdown": {
-      "revenue": 0.3,
-      "commercial": 6.3,
+      "commercial": 8.4,
       "b2b": 0.0,
-      "proximity": 13.1,
-      "demand": 0.4,
-      "page_improvement": 14.0,
-      "vendor": 2.5
+      "proximity": 12.5,
+      "demand": 0.6,
+      "page_improvement": 15.0,
+      "vendor": 5.0
     },
     "notes": [
-      "Vulnerability недоступен до Phase 4: вес перераспределён на близость позиции и запас улучшения страницы",
-      "спрос оценён по показам Вебмастера (8), а не по частотности Wordstat",
-      "Revenue — прокси (спрос × коммерческий интент), не измеренная выручка"
+      "Vulnerability недоступен до обхода страниц конкурентов: его вес перераспределён на близость позиции, запас улучшения страницы и приоритет вендора",
+      "спрос оценён по показам Вебмастера (8) — это видимая нам часть спроса за две недели, а не рынок за месяц",
+      "экономический фактор не участвует: измеренной выручки нет, а её оценка через спрос и интент дублировала бы эти факторы"
+    ]
+  },
+  {
+    "attack_id": "ATT-060",
+    "query": "framer тариф россия",
+    "engine": "yandex",
+    "region": "213",
+    "our_position": 4,
+    "our_url": "https://biz-soft.pro/vendors/framer",
+    "rival_domain": "dzen.ru",
+    "rival_position": 1,
+    "rival_category": "G",
+    "competition_kind": "клик",
+    "demand": 22,
+    "demand_source": "webmaster",
+    "commercial_intent": 0.7,
+    "b2b_intent": 0.0,
+    "opportunity": 56,
+    "confidence": "MEDIUM",
+    "breakdown": {
+      "commercial": 14.0,
+      "b2b": 0.0,
+      "proximity": 20.0,
+      "demand": 1.6,
+      "page_improvement": 15.0,
+      "vendor": 5.0
+    },
+    "notes": [
+      "Vulnerability недоступен до обхода страниц конкурентов: его вес перераспределён на близость позиции, запас улучшения страницы и приоритет вендора",
+      "спрос оценён по показам Вебмастера (22) — это видимая нам часть спроса за две недели, а не рынок за месяц",
+      "экономический фактор не участвует: измеренной выручки нет, а её оценка через спрос и интент дублировала бы эти факторы"
+    ]
+  },
+  {
+    "attack_id": "ATT-061",
+    "query": "рекрафт тарифы",
+    "engine": "yandex",
+    "region": "213",
+    "our_position": 4,
+    "our_url": "https://biz-soft.pro/vendors/recraft",
+    "rival_domain": "recraft.ai",
+    "rival_position": 1,
+    "rival_category": "F",
+    "competition_kind": "клик",
+    "demand": 15,
+    "demand_source": "webmaster",
+    "commercial_intent": 0.7,
+    "b2b_intent": 0.0,
+    "opportunity": 55,
+    "confidence": "MEDIUM",
+    "breakdown": {
+      "commercial": 14.0,
+      "b2b": 0.0,
+      "proximity": 20.0,
+      "demand": 1.1,
+      "page_improvement": 15.0,
+      "vendor": 5.0
+    },
+    "notes": [
+      "Vulnerability недоступен до обхода страниц конкурентов: его вес перераспределён на близость позиции, запас улучшения страницы и приоритет вендора",
+      "спрос оценён по показам Вебмастера (15) — это видимая нам часть спроса за две недели, а не рынок за месяц",
+      "экономический фактор не участвует: измеренной выручки нет, а её оценка через спрос и интент дублировала бы эти факторы"
+    ]
+  },
+  {
+    "attack_id": "ATT-062",
+    "query": "купить подписку на клип студио пейнт",
+    "engine": "yandex",
+    "region": "213",
+    "our_position": 9,
+    "our_url": "https://biz-soft.pro/vendors/clip-studio-paint",
+    "rival_domain": "ggsel.net",
+    "rival_position": 1,
+    "rival_category": "E",
+    "competition_kind": "клик",
+    "demand": 7,
+    "demand_source": "webmaster",
+    "commercial_intent": 1.0,
+    "b2b_intent": 0.0,
+    "opportunity": 54,
+    "confidence": "MEDIUM",
+    "breakdown": {
+      "commercial": 20.0,
+      "b2b": 0.0,
+      "proximity": 13.8,
+      "demand": 0.5,
+      "page_improvement": 15.0,
+      "vendor": 5.0
+    },
+    "notes": [
+      "Vulnerability недоступен до обхода страниц конкурентов: его вес перераспределён на близость позиции, запас улучшения страницы и приоритет вендора",
+      "спрос оценён по показам Вебмастера (7) — это видимая нам часть спроса за две недели, а не рынок за месяц",
+      "экономический фактор не участвует: измеренной выручки нет, а её оценка через спрос и интент дублировала бы эти факторы"
+    ]
+  },
+  {
+    "attack_id": "ATT-063",
+    "query": "купить фаундри",
+    "engine": "yandex",
+    "region": "213",
+    "our_position": 4,
+    "our_url": "https://biz-soft.pro/vendors/foundry",
+    "rival_domain": "foundryvtt.com",
+    "rival_position": 1,
+    "rival_category": "?",
+    "competition_kind": "клик",
+    "demand": 3,
+    "demand_source": "webmaster",
+    "commercial_intent": 0.7,
+    "b2b_intent": 0.0,
+    "opportunity": 54,
+    "confidence": "MEDIUM",
+    "breakdown": {
+      "commercial": 14.0,
+      "b2b": 0.0,
+      "proximity": 20.0,
+      "demand": 0.2,
+      "page_improvement": 15.0,
+      "vendor": 5.0
+    },
+    "notes": [
+      "Vulnerability недоступен до обхода страниц конкурентов: его вес перераспределён на близость позиции, запас улучшения страницы и приоритет вендора",
+      "спрос оценён по показам Вебмастера (3) — это видимая нам часть спроса за две недели, а не рынок за месяц",
+      "экономический фактор не участвует: измеренной выручки нет, а её оценка через спрос и интент дублировала бы эти факторы"
+    ]
+  },
+  {
+    "attack_id": "ATT-064",
+    "query": "фаундри купить",
+    "engine": "yandex",
+    "region": "213",
+    "our_position": 4,
+    "our_url": "https://biz-soft.pro/vendors/foundry",
+    "rival_domain": "foundryvtt.com",
+    "rival_position": 1,
+    "rival_category": "?",
+    "competition_kind": "клик",
+    "demand": 5,
+    "demand_source": "webmaster",
+    "commercial_intent": 0.7,
+    "b2b_intent": 0.0,
+    "opportunity": 54,
+    "confidence": "MEDIUM",
+    "breakdown": {
+      "commercial": 14.0,
+      "b2b": 0.0,
+      "proximity": 20.0,
+      "demand": 0.4,
+      "page_improvement": 15.0,
+      "vendor": 5.0
+    },
+    "notes": [
+      "Vulnerability недоступен до обхода страниц конкурентов: его вес перераспределён на близость позиции, запас улучшения страницы и приоритет вендора",
+      "спрос оценён по показам Вебмастера (5) — это видимая нам часть спроса за две недели, а не рынок за месяц",
+      "экономический фактор не участвует: измеренной выручки нет, а её оценка через спрос и интент дублировала бы эти факторы"
+    ]
+  },
+  {
+    "attack_id": "ATT-065",
+    "query": "character creator 5 купить",
+    "engine": "yandex",
+    "region": "213",
+    "our_position": 5,
+    "our_url": "https://biz-soft.pro/vendors/reallusion",
+    "rival_domain": "market.yandex.ru",
+    "rival_position": 1,
+    "rival_category": "E",
+    "competition_kind": "клик",
+    "demand": 9,
+    "demand_source": "webmaster",
+    "commercial_intent": 0.7,
+    "b2b_intent": 0.0,
+    "opportunity": 53,
+    "confidence": "MEDIUM",
+    "breakdown": {
+      "commercial": 14.0,
+      "b2b": 0.0,
+      "proximity": 18.8,
+      "demand": 0.7,
+      "page_improvement": 15.0,
+      "vendor": 5.0
+    },
+    "notes": [
+      "Vulnerability недоступен до обхода страниц конкурентов: его вес перераспределён на близость позиции, запас улучшения страницы и приоритет вендора",
+      "спрос оценён по показам Вебмастера (9) — это видимая нам часть спроса за две недели, а не рынок за месяц",
+      "экономический фактор не участвует: измеренной выручки нет, а её оценка через спрос и интент дублировала бы эти факторы"
+    ]
+  },
+  {
+    "attack_id": "ATT-066",
+    "query": "runway ai цена companies.rbc.ru",
+    "engine": "yandex",
+    "region": "213",
+    "our_position": 8,
+    "our_url": "https://biz-soft.pro/vendors/runway",
+    "rival_domain": "companies.rbc.ru",
+    "rival_position": 1,
+    "rival_category": "G",
+    "competition_kind": "клик",
+    "demand": 10,
+    "demand_source": "webmaster",
+    "commercial_intent": 0.7,
+    "b2b_intent": 0.0,
+    "opportunity": 50,
+    "confidence": "MEDIUM",
+    "breakdown": {
+      "commercial": 14.0,
+      "b2b": 0.0,
+      "proximity": 15.0,
+      "demand": 0.8,
+      "page_improvement": 15.0,
+      "vendor": 5.0
+    },
+    "notes": [
+      "Vulnerability недоступен до обхода страниц конкурентов: его вес перераспределён на близость позиции, запас улучшения страницы и приоритет вендора",
+      "спрос оценён по показам Вебмастера (10) — это видимая нам часть спроса за две недели, а не рынок за месяц",
+      "экономический фактор не участвует: измеренной выручки нет, а её оценка через спрос и интент дублировала бы эти факторы"
     ]
   }
 ]

@@ -9,8 +9,8 @@
       "оплата depositphotos в рублях",
       "как оплатить тариф depositphotos из россии",
       "как оплатить пакет depositphotos из россии",
-      "depositphotos как оплатить в россии",
       "как оплатить подписку depositphotos из россии",
+      "depositphotos как оплатить в россии",
       "как оплатить депозитфотос из россии",
       "как оплатить depositphotos в рублях",
       "как оплатить depositphotos в россии",
@@ -18,11 +18,11 @@
       "чем оплатить depositphotos из россии"
     ],
     "attack_ids": [
-      "ATT-025",
-      "ATT-030",
-      "ATT-041",
-      "ATT-044",
-      "ATT-052",
+      "ATT-024",
+      "ATT-032",
+      "ATT-043",
+      "ATT-048",
+      "ATT-050",
       "ATT-053",
       "ATT-054",
       "ATT-055",
@@ -32,6 +32,9 @@
     ],
     "queries_count": 11,
     "demand_total": 149,
+    "demand_sources": [
+      "webmaster"
+    ],
     "position_best": 7,
     "position_worst": 10,
     "rivals": [
@@ -40,9 +43,12 @@
       "pipl.io",
       "platipomiru.com"
     ],
-    "opportunity_best": 47,
+    "opportunity_best": 54,
     "confidence": "MEDIUM",
-    "uplift_estimate": 11.7,
+    "potential_index": 0.0587,
+    "potential_label": "высокий",
+    "traffic_upside": null,
+    "upside_note": "перевод в переходы невозможен: спрос измерен показами Вебмастера — это видимая нам часть спроса за две недели, а не объём рынка",
     "effort": "L",
     "action": "Статья «kak-oplatit-depositphotos-dlya-yurlica»: добавить коммерческий блок — сейчас она отвечает на вопрос, но не ведёт к покупке",
     "checklist": [
@@ -53,46 +59,13 @@
   },
   {
     "package_id": "WP-02",
-    "url": "https://biz-soft.pro/product/anthropic-team",
-    "page_kind": "product",
-    "subject": "anthropic-team",
-    "queries": [
-      "claude team plan купить",
-      "claude team купить"
-    ],
-    "attack_ids": [
-      "ATT-015",
-      "ATT-018"
-    ],
-    "queries_count": 2,
-    "demand_total": 93,
-    "position_best": 7,
-    "position_worst": 7,
-    "rivals": [
-      "raketapay.ru",
-      "softmagazin.ru"
-    ],
-    "opportunity_best": 53,
-    "confidence": "MEDIUM",
-    "uplift_estimate": 6.5,
-    "effort": "S",
-    "action": "Карточка anthropic-team: довести условия для юрлиц до уровня конкурентов из выдачи",
-    "checklist": [
-      "Блок «Оплата по счёту для юридических лиц»: договор, счёт, НДС, закрывающие документы, ЭДО — на первом экране, не в подвале",
-      "FAQ из вопросов покупателя-юрлица: как оплатить с расчётного счёта, какие документы придут, сроки поставки лицензии",
-      "Явное указание, что позиция продаётся организациям, а не физлицам",
-      "Условия продления и добавления пользователей"
-    ]
-  },
-  {
-    "package_id": "WP-03",
     "url": "https://biz-soft.pro/vendors/depositphotos",
     "page_kind": "vendor",
     "subject": "depositphotos",
     "queries": [
       "оплата depositphotos по счету из россии",
-      "недорого оплатить подписку depositphotos",
       "оплата подписки depositphotos из россии",
+      "недорого оплатить подписку depositphotos",
       "оплата depositphotos из россии",
       "оплата depositphotos",
       "оплатить depositphotos из россии",
@@ -101,25 +74,31 @@
     ],
     "attack_ids": [
       "ATT-001",
-      "ATT-021",
-      "ATT-023",
-      "ATT-036",
-      "ATT-039",
-      "ATT-045",
-      "ATT-048",
-      "ATT-049"
+      "ATT-020",
+      "ATT-022",
+      "ATT-037",
+      "ATT-041",
+      "ATT-044",
+      "ATT-047",
+      "ATT-052"
     ],
     "queries_count": 8,
     "demand_total": 81,
+    "demand_sources": [
+      "webmaster"
+    ],
     "position_best": 4,
     "position_worst": 10,
     "rivals": [
       "finteka.io",
       "platipomiru.com"
     ],
-    "opportunity_best": 63,
+    "opportunity_best": 74,
     "confidence": "MEDIUM",
-    "uplift_estimate": 6.3,
+    "potential_index": 0.0313,
+    "potential_label": "высокий",
+    "traffic_upside": null,
+    "upside_note": "перевод в переходы невозможен: спрос измерен показами Вебмастера — это видимая нам часть спроса за две недели, а не объём рынка",
     "effort": "L",
     "action": "Страница вендора depositphotos: развернуть условия покупки юридическим лицом и лицензирование",
     "checklist": [
@@ -128,6 +107,46 @@
       "Таблица тарифов с указанием, что доступно для команд и компаний",
       "Ссылки с карточек товаров этого вендора на страницу вендора",
       "Проверить, что формулировки покрывают запросы вида «оплата depositphotos по счету из россии»"
+    ]
+  },
+  {
+    "package_id": "WP-03",
+    "url": "https://biz-soft.pro/product/ghcopilot-business",
+    "page_kind": "product",
+    "subject": "ghcopilot-business",
+    "queries": [
+      "купить подписку github copilot business",
+      "github business купить",
+      "github copilot business купить"
+    ],
+    "attack_ids": [
+      "ATT-010",
+      "ATT-012",
+      "ATT-013"
+    ],
+    "queries_count": 3,
+    "demand_total": 89,
+    "demand_sources": [
+      "webmaster"
+    ],
+    "position_best": 4,
+    "position_worst": 8,
+    "rivals": [
+      "raketapay.ru"
+    ],
+    "opportunity_best": 64,
+    "confidence": "MEDIUM",
+    "potential_index": 0.0251,
+    "potential_label": "высокий",
+    "traffic_upside": null,
+    "upside_note": "перевод в переходы невозможен: спрос измерен показами Вебмастера — это видимая нам часть спроса за две недели, а не объём рынка",
+    "effort": "S",
+    "action": "Карточка ghcopilot-business: довести условия для юрлиц до уровня конкурентов из выдачи",
+    "checklist": [
+      "Блок «Оплата по счёту для юридических лиц»: договор, счёт, НДС, закрывающие документы, ЭДО — на первом экране, не в подвале",
+      "FAQ из вопросов покупателя-юрлица: как оплатить с расчётного счёта, какие документы придут, сроки поставки лицензии",
+      "Явное указание, что позиция продаётся организациям, а не физлицам",
+      "Условия продления и добавления пользователей"
     ]
   },
   {
@@ -147,14 +166,20 @@
     ],
     "queries_count": 3,
     "demand_total": 90,
+    "demand_sources": [
+      "webmaster"
+    ],
     "position_best": 4,
     "position_worst": 7,
     "rivals": [
       "raketapay.ru"
     ],
-    "opportunity_best": 62,
+    "opportunity_best": 70,
     "confidence": "MEDIUM",
-    "uplift_estimate": 5.0,
+    "potential_index": 0.0249,
+    "potential_label": "высокий",
+    "traffic_upside": null,
+    "upside_note": "перевод в переходы невозможен: спрос измерен показами Вебмастера — это видимая нам часть спроса за две недели, а не объём рынка",
     "effort": "S",
     "action": "Статья «kak-kupit-zarubezhnoe-po-dlya-yurlica»: добавить коммерческий блок — сейчас она отвечает на вопрос, но не ведёт к покупке",
     "checklist": [
@@ -166,36 +191,43 @@
   },
   {
     "package_id": "WP-05",
-    "url": "https://biz-soft.pro/product/ghcopilot-business",
-    "page_kind": "product",
-    "subject": "ghcopilot-business",
+    "url": "https://biz-soft.pro/vendors/coreldraw",
+    "page_kind": "vendor",
+    "subject": "coreldraw",
     "queries": [
-      "купить подписку github copilot business",
-      "github business купить",
-      "github copilot business купить"
+      "оплата coreldraw для россиян",
+      "как оплатить тариф coreldraw из россии",
+      "как оплатить coreldraw в рублях"
     ],
     "attack_ids": [
-      "ATT-010",
-      "ATT-013",
-      "ATT-014"
+      "ATT-023",
+      "ATT-038",
+      "ATT-051"
     ],
     "queries_count": 3,
-    "demand_total": 89,
-    "position_best": 4,
-    "position_worst": 8,
-    "rivals": [
-      "raketapay.ru"
+    "demand_total": 59,
+    "demand_sources": [
+      "webmaster"
     ],
-    "opportunity_best": 57,
+    "position_best": 7,
+    "position_worst": 7,
+    "rivals": [
+      "pipl.io",
+      "platipomiru.com"
+    ],
+    "opportunity_best": 54,
     "confidence": "MEDIUM",
-    "uplift_estimate": 5.0,
+    "potential_index": 0.0207,
+    "potential_label": "высокий",
+    "traffic_upside": null,
+    "upside_note": "перевод в переходы невозможен: спрос измерен показами Вебмастера — это видимая нам часть спроса за две недели, а не объём рынка",
     "effort": "S",
-    "action": "Карточка ghcopilot-business: довести условия для юрлиц до уровня конкурентов из выдачи",
+    "action": "Страница вендора coreldraw: развернуть условия покупки юридическим лицом и лицензирование",
     "checklist": [
       "Блок «Оплата по счёту для юридических лиц»: договор, счёт, НДС, закрывающие документы, ЭДО — на первом экране, не в подвале",
       "FAQ из вопросов покупателя-юрлица: как оплатить с расчётного счёта, какие документы придут, сроки поставки лицензии",
-      "Явное указание, что позиция продаётся организациям, а не физлицам",
-      "Условия продления и добавления пользователей"
+      "Таблица тарифов с указанием, что доступно для команд и компаний",
+      "Ссылки с карточек товаров этого вендора на страницу вендора"
     ]
   },
   {
@@ -206,25 +238,35 @@
     "queries": [
       "runway ai тарифы",
       "runway тарифы companies.rbc.ru",
-      "runway тарифы"
+      "runway тарифы",
+      "runway ai цена companies.rbc.ru"
     ],
     "attack_ids": [
-      "ATT-026",
+      "ATT-030",
       "ATT-031",
-      "ATT-042"
+      "ATT-040",
+      "ATT-066"
     ],
-    "queries_count": 3,
-    "demand_total": 58,
+    "queries_count": 4,
+    "demand_total": 68,
+    "demand_sources": [
+      "webmaster",
+      "wordstat"
+    ],
     "position_best": 6,
     "position_worst": 9,
     "rivals": [
+      "companies.rbc.ru",
       "migsoft.ru",
       "raketapay.ru"
     ],
-    "opportunity_best": 47,
+    "opportunity_best": 52,
     "confidence": "MEDIUM",
-    "uplift_estimate": 4.3,
-    "effort": "S",
+    "potential_index": 0.0161,
+    "potential_label": "высокий",
+    "traffic_upside": null,
+    "upside_note": "перевод в переходы невозможен: спрос группы измерен разными шкалами (webmaster, wordstat) — складывать их и называть результат переходами нельзя",
+    "effort": "M",
     "action": "Страница вендора runway: развернуть условия покупки юридическим лицом и лицензирование",
     "checklist": [
       "Блок «Оплата по счёту для юридических лиц»: договор, счёт, НДС, закрывающие документы, ЭДО — на первом экране, не в подвале",
@@ -235,37 +277,42 @@
   },
   {
     "package_id": "WP-07",
-    "url": "https://biz-soft.pro/vendors/coreldraw",
-    "page_kind": "vendor",
-    "subject": "coreldraw",
+    "url": "https://biz-soft.pro/product/anthropic-team",
+    "page_kind": "product",
+    "subject": "anthropic-team",
     "queries": [
-      "оплата coreldraw для россиян",
-      "как оплатить тариф coreldraw из россии",
-      "как оплатить coreldraw в рублях"
+      "claude team plan купить",
+      "claude team купить"
     ],
     "attack_ids": [
-      "ATT-019",
-      "ATT-037",
-      "ATT-051"
+      "ATT-015",
+      "ATT-018"
     ],
-    "queries_count": 3,
-    "demand_total": 59,
+    "queries_count": 2,
+    "demand_total": 93,
+    "demand_sources": [
+      "webmaster",
+      "wordstat"
+    ],
     "position_best": 7,
     "position_worst": 7,
     "rivals": [
-      "pipl.io",
-      "platipomiru.com"
+      "raketapay.ru",
+      "softmagazin.ru"
     ],
-    "opportunity_best": 50,
+    "opportunity_best": 59,
     "confidence": "MEDIUM",
-    "uplift_estimate": 4.1,
+    "potential_index": 0.0149,
+    "potential_label": "высокий",
+    "traffic_upside": null,
+    "upside_note": "перевод в переходы невозможен: спрос группы измерен разными шкалами (webmaster, wordstat) — складывать их и называть результат переходами нельзя",
     "effort": "S",
-    "action": "Страница вендора coreldraw: развернуть условия покупки юридическим лицом и лицензирование",
+    "action": "Карточка anthropic-team: довести условия для юрлиц до уровня конкурентов из выдачи",
     "checklist": [
       "Блок «Оплата по счёту для юридических лиц»: договор, счёт, НДС, закрывающие документы, ЭДО — на первом экране, не в подвале",
       "FAQ из вопросов покупателя-юрлица: как оплатить с расчётного счёта, какие документы придут, сроки поставки лицензии",
-      "Таблица тарифов с указанием, что доступно для команд и компаний",
-      "Ссылки с карточек товаров этого вендора на страницу вендора"
+      "Явное указание, что позиция продаётся организациям, а не физлицам",
+      "Условия продления и добавления пользователей"
     ]
   },
   {
@@ -277,26 +324,35 @@
       "тарифы recraft",
       "recraft тарифы",
       "купить recraft pro www.klerk.ru",
-      "как купить recraft без зарубежной карты"
+      "как купить recraft без зарубежной карты",
+      "рекрафт тарифы"
     ],
     "attack_ids": [
-      "ATT-035",
-      "ATT-038",
-      "ATT-047",
-      "ATT-057"
+      "ATT-033",
+      "ATT-036",
+      "ATT-045",
+      "ATT-057",
+      "ATT-061"
     ],
-    "queries_count": 4,
-    "demand_total": 32,
-    "position_best": 7,
+    "queries_count": 5,
+    "demand_total": 47,
+    "demand_sources": [
+      "webmaster"
+    ],
+    "position_best": 4,
     "position_worst": 10,
     "rivals": [
       "aifory.pro",
       "legasoft.ru",
-      "raketapay.ru"
+      "raketapay.ru",
+      "recraft.ai"
     ],
-    "opportunity_best": 45,
+    "opportunity_best": 55,
     "confidence": "MEDIUM",
-    "uplift_estimate": 2.4,
+    "potential_index": 0.0144,
+    "potential_label": "высокий",
+    "traffic_upside": null,
+    "upside_note": "перевод в переходы невозможен: спрос измерен показами Вебмастера — это видимая нам часть спроса за две недели, а не объём рынка",
     "effort": "M",
     "action": "Страница вендора recraft: развернуть условия покупки юридическим лицом и лицензирование",
     "checklist": [
@@ -315,26 +371,35 @@
       "framer basic оплата россия",
       "framer домен оплата рф",
       "как купить framer pro в россии",
-      "framer годовая подписка из россии"
+      "framer годовая подписка из россии",
+      "framer тариф россия"
     ],
     "attack_ids": [
-      "ATT-020",
-      "ATT-022",
-      "ATT-029",
-      "ATT-043"
+      "ATT-019",
+      "ATT-026",
+      "ATT-034",
+      "ATT-042",
+      "ATT-060"
     ],
-    "queries_count": 4,
-    "demand_total": 56,
+    "queries_count": 5,
+    "demand_total": 78,
+    "demand_sources": [
+      "webmaster"
+    ],
     "position_best": 4,
     "position_worst": 9,
     "rivals": [
       "aifory.pro",
+      "dzen.ru",
       "platipomiru.com",
       "yello-card.com"
     ],
-    "opportunity_best": 50,
+    "opportunity_best": 56,
     "confidence": "MEDIUM",
-    "uplift_estimate": 2.1,
+    "potential_index": 0.0137,
+    "potential_label": "средний",
+    "traffic_upside": null,
+    "upside_note": "перевод в переходы невозможен: спрос измерен показами Вебмастера — это видимая нам часть спроса за две недели, а не объём рынка",
     "effort": "M",
     "action": "Страница вендора framer: развернуть условия покупки юридическим лицом и лицензирование",
     "checklist": [
@@ -354,20 +419,26 @@
       "gitlab оформить подписку россия"
     ],
     "attack_ids": [
-      "ATT-034",
-      "ATT-040"
+      "ATT-035",
+      "ATT-039"
     ],
     "queries_count": 2,
     "demand_total": 22,
+    "demand_sources": [
+      "webmaster"
+    ],
     "position_best": 8,
     "position_worst": 8,
     "rivals": [
       "finteka.io",
       "platipomiru.com"
     ],
-    "opportunity_best": 45,
+    "opportunity_best": 50,
     "confidence": "MEDIUM",
-    "uplift_estimate": 1.7,
+    "potential_index": 0.0083,
+    "potential_label": "средний",
+    "traffic_upside": null,
+    "upside_note": "перевод в переходы невозможен: спрос измерен показами Вебмастера — это видимая нам часть спроса за две недели, а не объём рынка",
     "effort": "S",
     "action": "Страница вендора gitlab: развернуть условия покупки юридическим лицом и лицензирование",
     "checklist": [
@@ -386,18 +457,24 @@
       "купить подписку motion array"
     ],
     "attack_ids": [
-      "ATT-027"
+      "ATT-025"
     ],
     "queries_count": 1,
     "demand_total": 18,
+    "demand_sources": [
+      "webmaster"
+    ],
     "position_best": 10,
     "position_worst": 10,
     "rivals": [
       "raketapay.ru"
     ],
-    "opportunity_best": 47,
+    "opportunity_best": 54,
     "confidence": "MEDIUM",
-    "uplift_estimate": 1.5,
+    "potential_index": 0.0074,
+    "potential_label": "средний",
+    "traffic_upside": null,
+    "upside_note": "перевод в переходы невозможен: спрос измерен показами Вебмастера — это видимая нам часть спроса за две недели, а не объём рынка",
     "effort": "S",
     "action": "Страница вендора motion-array: развернуть условия покупки юридическим лицом и лицензирование",
     "checklist": [
@@ -418,21 +495,27 @@
       "как оплатить dropbox business из россии"
     ],
     "attack_ids": [
-      "ATT-005",
+      "ATT-006",
       "ATT-016",
-      "ATT-033"
+      "ATT-029"
     ],
     "queries_count": 3,
     "demand_total": 29,
+    "demand_sources": [
+      "webmaster"
+    ],
     "position_best": 4,
     "position_worst": 7,
     "rivals": [
       "getcard.one",
       "pipl.io"
     ],
-    "opportunity_best": 60,
+    "opportunity_best": 69,
     "confidence": "MEDIUM",
-    "uplift_estimate": 1.4,
+    "potential_index": 0.0068,
+    "potential_label": "средний",
+    "traffic_upside": null,
+    "upside_note": "перевод в переходы невозможен: спрос измерен показами Вебмастера — это видимая нам часть спроса за две недели, а не объём рынка",
     "effort": "S",
     "action": "Страница вендора dropbox: развернуть условия покупки юридическим лицом и лицензирование",
     "checklist": [
@@ -454,19 +537,25 @@
     ],
     "attack_ids": [
       "ATT-028",
-      "ATT-046"
+      "ATT-049"
     ],
     "queries_count": 2,
     "demand_total": 18,
+    "demand_sources": [
+      "webmaster"
+    ],
     "position_best": 7,
     "position_worst": 7,
     "rivals": [
       "pipl.io",
       "platipomiru.com"
     ],
-    "opportunity_best": 46,
+    "opportunity_best": 52,
     "confidence": "MEDIUM",
-    "uplift_estimate": 1.3,
+    "potential_index": 0.0063,
+    "potential_label": "средний",
+    "traffic_upside": null,
+    "upside_note": "перевод в переходы невозможен: спрос измерен показами Вебмастера — это видимая нам часть спроса за две недели, а не объём рынка",
     "effort": "S",
     "action": "Страница вендора box: развернуть условия покупки юридическим лицом и лицензирование",
     "checklist": [
@@ -489,14 +578,20 @@
     ],
     "queries_count": 1,
     "demand_total": 17,
+    "demand_sources": [
+      "webmaster"
+    ],
     "position_best": 6,
     "position_worst": 6,
     "rivals": [
       "raketapay.ru"
     ],
-    "opportunity_best": 58,
+    "opportunity_best": 67,
     "confidence": "MEDIUM",
-    "uplift_estimate": 1.0,
+    "potential_index": 0.0051,
+    "potential_label": "средний",
+    "traffic_upside": null,
+    "upside_note": "перевод в переходы невозможен: спрос измерен показами Вебмастера — это видимая нам часть спроса за две недели, а не объём рынка",
     "effort": "S",
     "action": "Страница вендора cursor: развернуть условия покупки юридическим лицом и лицензирование",
     "checklist": [
@@ -520,14 +615,20 @@
     ],
     "queries_count": 1,
     "demand_total": 31,
+    "demand_sources": [
+      "webmaster"
+    ],
     "position_best": 4,
     "position_worst": 4,
     "rivals": [
       "raketapay.ru"
     ],
-    "opportunity_best": 62,
+    "opportunity_best": 70,
     "confidence": "MEDIUM",
-    "uplift_estimate": 0.9,
+    "potential_index": 0.0046,
+    "potential_label": "средний",
+    "traffic_upside": null,
+    "upside_note": "перевод в переходы невозможен: спрос измерен показами Вебмастера — это видимая нам часть спроса за две недели, а не объём рынка",
     "effort": "S",
     "action": "Карточка perplexity-enterprise-max: довести условия для юрлиц до уровня конкурентов из выдачи",
     "checklist": [
@@ -547,18 +648,24 @@
       "тарифные планы anthropic для бизнеса"
     ],
     "attack_ids": [
-      "ATT-012"
+      "ATT-011"
     ],
     "queries_count": 1,
     "demand_total": 27,
+    "demand_sources": [
+      "webmaster"
+    ],
     "position_best": 4,
     "position_worst": 4,
     "rivals": [
       "raketapay.ru"
     ],
-    "opportunity_best": 56,
+    "opportunity_best": 63,
     "confidence": "MEDIUM",
-    "uplift_estimate": 0.8,
+    "potential_index": 0.004,
+    "potential_label": "средний",
+    "traffic_upside": null,
+    "upside_note": "перевод в переходы невозможен: спрос измерен показами Вебмастера — это видимая нам часть спроса за две недели, а не объём рынка",
     "effort": "S",
     "action": "Страница вендора anthropic: развернуть условия покупки юридическим лицом и лицензирование",
     "checklist": [
@@ -581,14 +688,20 @@
     ],
     "queries_count": 1,
     "demand_total": 12,
+    "demand_sources": [
+      "webmaster"
+    ],
     "position_best": 6,
     "position_worst": 6,
     "rivals": [
       "inoplata.com"
     ],
-    "opportunity_best": 52,
+    "opportunity_best": 59,
     "confidence": "MEDIUM",
-    "uplift_estimate": 0.7,
+    "potential_index": 0.0036,
+    "potential_label": "средний",
+    "traffic_upside": null,
+    "upside_note": "перевод в переходы невозможен: спрос измерен показами Вебмастера — это видимая нам часть спроса за две недели, а не объём рынка",
     "effort": "S",
     "action": "Карточка gamma-business: довести условия для юрлиц до уровня конкурентов из выдачи",
     "checklist": [
@@ -600,27 +713,33 @@
   },
   {
     "package_id": "WP-18",
-    "url": "https://biz-soft.pro/vendors/marmoset",
+    "url": "https://biz-soft.pro/vendors/clip-studio-paint",
     "page_kind": "vendor",
-    "subject": "marmoset",
+    "subject": "clip-studio-paint",
     "queries": [
-      "marmoset toolbag 5 купить"
+      "купить подписку на клип студио пейнт"
     ],
     "attack_ids": [
-      "ATT-050"
+      "ATT-062"
     ],
     "queries_count": 1,
-    "demand_total": 8,
-    "position_best": 10,
-    "position_worst": 10,
-    "rivals": [
-      "syssoft.ru"
+    "demand_total": 7,
+    "demand_sources": [
+      "webmaster"
     ],
-    "opportunity_best": 40,
+    "position_best": 9,
+    "position_worst": 9,
+    "rivals": [
+      "ggsel.net"
+    ],
+    "opportunity_best": 54,
     "confidence": "MEDIUM",
-    "uplift_estimate": 0.7,
+    "potential_index": 0.0028,
+    "potential_label": "низкий",
+    "traffic_upside": null,
+    "upside_note": "перевод в переходы невозможен: спрос измерен показами Вебмастера — это видимая нам часть спроса за две недели, а не объём рынка",
     "effort": "S",
-    "action": "Страница вендора marmoset: развернуть условия покупки юридическим лицом и лицензирование",
+    "action": "Страница вендора clip-studio-paint: развернуть условия покупки юридическим лицом и лицензирование",
     "checklist": [
       "Блок «Оплата по счёту для юридических лиц»: договор, счёт, НДС, закрывающие документы, ЭДО — на первом экране, не в подвале",
       "FAQ из вопросов покупателя-юрлица: как оплатить с расчётного счёта, какие документы придут, сроки поставки лицензии",
@@ -630,36 +749,6 @@
   },
   {
     "package_id": "WP-19",
-    "url": "https://biz-soft.pro/vendors/perplexity",
-    "page_kind": "vendor",
-    "subject": "perplexity",
-    "queries": [
-      "perplexity enterprise купить"
-    ],
-    "attack_ids": [
-      "ATT-024"
-    ],
-    "queries_count": 1,
-    "demand_total": 8,
-    "position_best": 9,
-    "position_worst": 9,
-    "rivals": [
-      "raketapay.ru"
-    ],
-    "opportunity_best": 47,
-    "confidence": "MEDIUM",
-    "uplift_estimate": 0.6,
-    "effort": "S",
-    "action": "Страница вендора perplexity: развернуть условия покупки юридическим лицом и лицензирование",
-    "checklist": [
-      "Блок «Оплата по счёту для юридических лиц»: договор, счёт, НДС, закрывающие документы, ЭДО — на первом экране, не в подвале",
-      "FAQ из вопросов покупателя-юрлица: как оплатить с расчётного счёта, какие документы придут, сроки поставки лицензии",
-      "Таблица тарифов с указанием, что доступно для команд и компаний",
-      "Ссылки с карточек товаров этого вендора на страницу вендора"
-    ]
-  },
-  {
-    "package_id": "WP-20",
     "url": "https://biz-soft.pro/vendors/canva",
     "page_kind": "vendor",
     "subject": "canva",
@@ -667,18 +756,24 @@
       "оплата canva для юридических лиц из россии"
     ],
     "attack_ids": [
-      "ATT-004"
+      "ATT-005"
     ],
     "queries_count": 1,
     "demand_total": 18,
+    "demand_sources": [
+      "webmaster"
+    ],
     "position_best": 4,
     "position_worst": 4,
     "rivals": [
       "pay.osno-va.com"
     ],
-    "opportunity_best": 61,
+    "opportunity_best": 69,
     "confidence": "MEDIUM",
-    "uplift_estimate": 0.5,
+    "potential_index": 0.0027,
+    "potential_label": "низкий",
+    "traffic_upside": null,
+    "upside_note": "перевод в переходы невозможен: спрос измерен показами Вебмастера — это видимая нам часть спроса за две недели, а не объём рынка",
     "effort": "S",
     "action": "Страница вендора canva: развернуть условия покупки юридическим лицом и лицензирование",
     "checklist": [
@@ -690,7 +785,7 @@
     ]
   },
   {
-    "package_id": "WP-21",
+    "package_id": "WP-20",
     "url": "https://biz-soft.pro/vendors/atlassian",
     "page_kind": "vendor",
     "subject": "atlassian",
@@ -698,18 +793,24 @@
       "оплата confluence по счету из россии"
     ],
     "attack_ids": [
-      "ATT-006"
+      "ATT-004"
     ],
     "queries_count": 1,
     "demand_total": 7,
+    "demand_sources": [
+      "webmaster"
+    ],
     "position_best": 8,
     "position_worst": 8,
     "rivals": [
       "pay.osno-va.com"
     ],
-    "opportunity_best": 59,
+    "opportunity_best": 70,
     "confidence": "MEDIUM",
-    "uplift_estimate": 0.5,
+    "potential_index": 0.0026,
+    "potential_label": "низкий",
+    "traffic_upside": null,
+    "upside_note": "перевод в переходы невозможен: спрос измерен показами Вебмастера — это видимая нам часть спроса за две недели, а не объём рынка",
     "effort": "S",
     "action": "Страница вендора atlassian: развернуть условия покупки юридическим лицом и лицензирование",
     "checklist": [
@@ -721,7 +822,81 @@
     ]
   },
   {
+    "package_id": "WP-21",
+    "url": "https://biz-soft.pro/vendors/reallusion",
+    "page_kind": "vendor",
+    "subject": "reallusion",
+    "queries": [
+      "character creator 5 купить"
+    ],
+    "attack_ids": [
+      "ATT-065"
+    ],
+    "queries_count": 1,
+    "demand_total": 9,
+    "demand_sources": [
+      "webmaster"
+    ],
+    "position_best": 5,
+    "position_worst": 5,
+    "rivals": [
+      "market.yandex.ru"
+    ],
+    "opportunity_best": 53,
+    "confidence": "MEDIUM",
+    "potential_index": 0.0022,
+    "potential_label": "низкий",
+    "traffic_upside": null,
+    "upside_note": "перевод в переходы невозможен: спрос измерен показами Вебмастера — это видимая нам часть спроса за две недели, а не объём рынка",
+    "effort": "S",
+    "action": "Страница вендора reallusion: развернуть условия покупки юридическим лицом и лицензирование",
+    "checklist": [
+      "Блок «Оплата по счёту для юридических лиц»: договор, счёт, НДС, закрывающие документы, ЭДО — на первом экране, не в подвале",
+      "FAQ из вопросов покупателя-юрлица: как оплатить с расчётного счёта, какие документы придут, сроки поставки лицензии",
+      "Таблица тарифов с указанием, что доступно для команд и компаний",
+      "Ссылки с карточек товаров этого вендора на страницу вендора"
+    ]
+  },
+  {
     "package_id": "WP-22",
+    "url": "https://biz-soft.pro/vendors/foundry",
+    "page_kind": "vendor",
+    "subject": "foundry",
+    "queries": [
+      "купить фаундри",
+      "фаундри купить"
+    ],
+    "attack_ids": [
+      "ATT-063",
+      "ATT-064"
+    ],
+    "queries_count": 2,
+    "demand_total": 8,
+    "demand_sources": [
+      "webmaster"
+    ],
+    "position_best": 4,
+    "position_worst": 4,
+    "rivals": [
+      "foundryvtt.com"
+    ],
+    "opportunity_best": 54,
+    "confidence": "MEDIUM",
+    "potential_index": 0.0012,
+    "potential_label": "низкий",
+    "traffic_upside": null,
+    "upside_note": "перевод в переходы невозможен: спрос измерен показами Вебмастера — это видимая нам часть спроса за две недели, а не объём рынка",
+    "effort": "S",
+    "action": "Страница вендора foundry: развернуть условия покупки юридическим лицом и лицензирование",
+    "checklist": [
+      "Блок «Оплата по счёту для юридических лиц»: договор, счёт, НДС, закрывающие документы, ЭДО — на первом экране, не в подвале",
+      "FAQ из вопросов покупателя-юрлица: как оплатить с расчётного счёта, какие документы придут, сроки поставки лицензии",
+      "Таблица тарифов с указанием, что доступно для команд и компаний",
+      "Ссылки с карточек товаров этого вендора на страницу вендора"
+    ]
+  },
+  {
+    "package_id": "WP-23",
     "url": "https://biz-soft.pro/vendors/postman",
     "page_kind": "vendor",
     "subject": "postman",
@@ -729,18 +904,24 @@
       "москва postman оплата подписки"
     ],
     "attack_ids": [
-      "ATT-032"
+      "ATT-027"
     ],
     "queries_count": 1,
     "demand_total": 3,
+    "demand_sources": [
+      "webmaster"
+    ],
     "position_best": 9,
     "position_worst": 9,
     "rivals": [
       "raketapay.ru"
     ],
-    "opportunity_best": 46,
+    "opportunity_best": 54,
     "confidence": "MEDIUM",
-    "uplift_estimate": 0.2,
+    "potential_index": 0.0012,
+    "potential_label": "низкий",
+    "traffic_upside": null,
+    "upside_note": "перевод в переходы невозможен: спрос измерен показами Вебмастера — это видимая нам часть спроса за две недели, а не объём рынка",
     "effort": "S",
     "action": "Страница вендора postman: развернуть условия покупки юридическим лицом и лицензирование",
     "checklist": [
@@ -751,7 +932,79 @@
     ]
   },
   {
-    "package_id": "WP-23",
+    "package_id": "WP-24",
+    "url": "https://biz-soft.pro/vendors/marmoset",
+    "page_kind": "vendor",
+    "subject": "marmoset",
+    "queries": [
+      "marmoset toolbag 5 купить"
+    ],
+    "attack_ids": [
+      "ATT-046"
+    ],
+    "queries_count": 1,
+    "demand_total": 8,
+    "demand_sources": [
+      "wordstat"
+    ],
+    "position_best": 10,
+    "position_worst": 10,
+    "rivals": [
+      "syssoft.ru"
+    ],
+    "opportunity_best": 47,
+    "confidence": "MEDIUM",
+    "potential_index": 0.0007,
+    "potential_label": "низкий",
+    "traffic_upside": 0.7,
+    "upside_note": "оценка по частотности Wordstat: прирост кликов при выходе в ТОП-3 и неизменном спросе",
+    "effort": "S",
+    "action": "Страница вендора marmoset: развернуть условия покупки юридическим лицом и лицензирование",
+    "checklist": [
+      "Блок «Оплата по счёту для юридических лиц»: договор, счёт, НДС, закрывающие документы, ЭДО — на первом экране, не в подвале",
+      "FAQ из вопросов покупателя-юрлица: как оплатить с расчётного счёта, какие документы придут, сроки поставки лицензии",
+      "Таблица тарифов с указанием, что доступно для команд и компаний",
+      "Ссылки с карточек товаров этого вендора на страницу вендора"
+    ]
+  },
+  {
+    "package_id": "WP-25",
+    "url": "https://biz-soft.pro/vendors/perplexity",
+    "page_kind": "vendor",
+    "subject": "perplexity",
+    "queries": [
+      "perplexity enterprise купить"
+    ],
+    "attack_ids": [
+      "ATT-021"
+    ],
+    "queries_count": 1,
+    "demand_total": 8,
+    "demand_sources": [
+      "wordstat"
+    ],
+    "position_best": 9,
+    "position_worst": 9,
+    "rivals": [
+      "raketapay.ru"
+    ],
+    "opportunity_best": 55,
+    "confidence": "MEDIUM",
+    "potential_index": 0.0006,
+    "potential_label": "низкий",
+    "traffic_upside": 0.6,
+    "upside_note": "оценка по частотности Wordstat: прирост кликов при выходе в ТОП-3 и неизменном спросе",
+    "effort": "S",
+    "action": "Страница вендора perplexity: развернуть условия покупки юридическим лицом и лицензирование",
+    "checklist": [
+      "Блок «Оплата по счёту для юридических лиц»: договор, счёт, НДС, закрывающие документы, ЭДО — на первом экране, не в подвале",
+      "FAQ из вопросов покупателя-юрлица: как оплатить с расчётного счёта, какие документы придут, сроки поставки лицензии",
+      "Таблица тарифов с указанием, что доступно для команд и компаний",
+      "Ссылки с карточек товаров этого вендора на страницу вендора"
+    ]
+  },
+  {
+    "package_id": "WP-26",
     "url": "https://biz-soft.pro/vendors/unity",
     "page_kind": "vendor",
     "subject": "unity",
@@ -759,18 +1012,22 @@
       "unity pro price"
     ],
     "attack_ids": [
-      "ATT-011"
+      "ATT-014"
     ],
     "queries_count": 1,
     "demand_total": 0,
+    "demand_sources": [],
     "position_best": 6,
     "position_worst": 6,
     "rivals": [
       "syssoft.ru"
     ],
-    "opportunity_best": 57,
+    "opportunity_best": 61,
     "confidence": "LOW",
-    "uplift_estimate": 0.0,
+    "potential_index": 0.0,
+    "potential_label": "нет потенциала",
+    "traffic_upside": null,
+    "upside_note": "перевод в переходы невозможен: спрос группы не измерен",
     "effort": "S",
     "action": "Страница вендора unity: развернуть условия покупки юридическим лицом и лицензирование",
     "checklist": [
