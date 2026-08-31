@@ -17,7 +17,9 @@ import unittest
 
 ROOT = pathlib.Path(__file__).resolve().parents[3]
 FIXTURES = pathlib.Path(__file__).resolve().parent / "fixtures"
-REPORTS = ROOT / "reports/seo/intelligence"
+# Копии данных вычищены из main (контроль недели 30.08): реальный срез
+# 19.08 живёт в фикстурах, зеркалируя структуру reports/seo.
+REPORTS = FIXTURES / "reports/seo/intelligence"
 
 
 def load(name):
