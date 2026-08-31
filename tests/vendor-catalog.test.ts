@@ -43,7 +43,13 @@ const ALLOWED_CATEGORIES = ['system', 'security', 'development', 'collaboration'
   // учётные записи, службу поддержки и парк рабочих мест не помещаются ни в
   // один из прежних разделов. Создаёт их воркфлоу ops-categories по
   // data/catalog/categories.json.
-  'iam', 'helpdesk', 'endpoint'];
+  'iam', 'helpdesk', 'endpoint',
+  // AI-подкатегории хаба /catalog/ai (заведены миграцией ai-catalog-migrate):
+  // профильный AI-товар лежит в подкатегории, а не в родительском ai — иначе
+  // его нет в выдаче /catalog/ai/<sub>. Родительский ai остаётся для позиций
+  // вне подкатегорий (например, API-доступ к моделям).
+  'ai-text', 'ai-code', 'ai-image', 'ai-video', 'ai-audio', 'ai-office',
+  'ai-marketing', 'ai-enterprise'];
 
 describe('VENDORS', () => {
   it('слаги уникальны', () => {
