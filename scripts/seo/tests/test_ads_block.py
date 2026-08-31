@@ -104,6 +104,27 @@ class AdsBlockTest(unittest.TestCase):
         self.assertAlmostEqual(b['week']['spent'], 150.5)
         self.assertEqual(b['week']['limit'], 4098)
 
+    def test_новые_группы_cursor_и_adobe_видны_как_направления(self):
+        groups = [_g('2026-08-28', 'Cursor — редактор для команд разработки',
+                     20, 3, 90.0),
+                  _g('2026-08-28', 'Adobe — подписки для юрлиц', 15, 2, 60.0)]
+        b = self._build(_stats(groups=groups))
+        keys = {r['key'] for r in b['rows'] if r['clicks_total']}
+        self.assertIn('k5', keys)
+        self.assertIn('k6', keys)
+
+    def test_группа_вне_списка_не_теряется_из_пейсинга(self):
+        # Кабинет ушёл вперёд списка GROUPS (инцидент #217): расход чужой
+        # группы обязан войти в неделю и показаться строкой «прочие».
+        groups = [_g('2026-08-28', 'Claude — подписки', 10, 2, 100.0),
+                  _g('2026-08-28', 'Runway — новая группа', 30, 4, 200.0)]
+        b = self._build(_stats(groups=groups))
+        self.assertAlmostEqual(b['week']['spent'], 300.0)
+        other = [r for r in b['rows'] if r['key'] == 'other']
+        self.assertEqual(len(other), 1)
+        self.assertIn('Runway', other[0]['label'])
+        self.assertEqual(other[0]['verdict']['tone'], 'warn')
+
 
 class ParseTsvTest(unittest.TestCase):
     FIELDS = ["Date", "AdGroupName", "Query", "Impressions", "Clicks", "Cost"]
