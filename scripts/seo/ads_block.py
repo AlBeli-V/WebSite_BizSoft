@@ -32,6 +32,13 @@ GROUPS = [
      "stop_clicks": 25, "cpa_limit": 600},
     {"key": "k4", "label": "ChatGPT Business", "match": "ChatGPT",
      "stop_clicks": 12, "cpa_limit": 2500},
+    # Расширение #210 (29.08): пороги предложены по аналогии — Cursor как
+    # Claude Code (B2B-dev, сопоставимая подписка), Adobe консервативнее
+    # (маржа ниже AI-подписок); уточняются решением руководителя.
+    {"key": "k5", "label": "Cursor", "match": "Cursor",
+     "stop_clicks": 25, "cpa_limit": 3000},
+    {"key": "k6", "label": "Adobe", "match": "Adobe",
+     "stop_clicks": 20, "cpa_limit": 1500},
 ]
 
 # Маркеры нерелевантного интента в реальном поисковом запросе. Запрос,
@@ -64,19 +71,24 @@ def build(date: str) -> dict:
     data = json.loads(STATS.read_text(encoding="utf-8"))
     yesterday = (_campaign_day(date) - dt.timedelta(days=1)).isoformat()
 
+    # Пейсинг — по ВСЕМ строкам витрины, а не по перечисленным направлениям:
+    # расширение кампании (новая группа в кабинете) не должно молча занижать
+    # недельный расход письма (инцидент #217, группы Cursor/Adobe из #210).
+    total_spend_day = sum(r["Cost"] for r in data["groups"]
+                          if r["Date"] == yesterday)
+    total_spend_all = sum(r["Cost"] for r in data["groups"])
+
     rows = []
-    total_spend_day = 0.0
-    total_spend_all = 0.0
+    matched_names: set[str] = set()
     for g in GROUPS:
         day = [r for r in data["groups"]
                if g["match"] in r["AdGroupName"] and r["Date"] == yesterday]
         alltime = [r for r in data["groups"] if g["match"] in r["AdGroupName"]]
+        matched_names.update(r["AdGroupName"] for r in alltime)
         spend_day = sum(r["Cost"] for r in day)
         clicks_day = sum(r["Clicks"] for r in day)
         clicks_all = sum(r["Clicks"] for r in alltime)
         spend_all = sum(r["Cost"] for r in alltime)
-        total_spend_day += spend_day
-        total_spend_all += spend_all
         cpc = spend_day / clicks_day if clicks_day else None
 
         if clicks_all < GREY_MIN_CLICKS:
@@ -92,6 +104,24 @@ def build(date: str) -> dict:
                      "spend_day": spend_day, "clicks_day": clicks_day,
                      "clicks_total": clicks_all, "spend_total": spend_all,
                      "cpc": cpc, "verdict": verdict})
+
+    # Строки витрины, не попавшие ни под одно направление, — сигнал, что
+    # кабинет ушёл вперёд списка GROUPS. Показываем их суммой и жёлтым
+    # вердиктом, а не теряем: контроль не должен слепнуть от расширения.
+    other = [r for r in data["groups"] if r["AdGroupName"] not in matched_names]
+    if other:
+        o_day = [r for r in other if r["Date"] == yesterday]
+        spend_day = sum(r["Cost"] for r in o_day)
+        clicks_day = sum(r["Clicks"] for r in o_day)
+        clicks_all = sum(r["Clicks"] for r in other)
+        names = sorted({r["AdGroupName"].split(" — ")[0] for r in other})
+        rows.append({"key": "other", "label": "Прочие группы (" + ", ".join(names) + ")",
+                     "spend_day": spend_day, "clicks_day": clicks_day,
+                     "clicks_total": clicks_all,
+                     "spend_total": sum(r["Cost"] for r in other),
+                     "cpc": spend_day / clicks_day if clicks_day else None,
+                     "verdict": {"tone": "warn",
+                                 "label": "группа вне списка направлений — добавить в контроль"}})
 
     junk = [q for q in data["queries"] if _is_junk(q["Query"])]
     junk_cost = sum(q["Cost"] for q in junk)

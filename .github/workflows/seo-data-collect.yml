@@ -24,6 +24,7 @@ on:
       - ".github/workflows/seo-data-collect.yml"
       - "scripts/seo/collect.py"
       - "scripts/seo/collect_daily.py"
+      - "scripts/seo/sitemap_inventory.py"
 
 permissions:
   contents: write
@@ -75,9 +76,16 @@ jobs:
           DIRECT_TOKEN: ${{ secrets.YANDEX_DIRECT_TOKEN }}
         run: python3 scripts/ppc/direct_report.py
 
+      # Инвентарь URL из живого sitemap прода (секретов не требует: sitemap
+      # публичный; у сессии egress к проду закрыт, у раннера — открыт).
+      # Основа zero-impression отчёта и реестра first-seen (Indexation SLA).
+      - name: Collect sitemap inventory
+        if: always()
+        run: python3 scripts/seo/sitemap_inventory.py
+
       - name: Push data
         if: always()
-        run: bash scripts/seo/data_sync.sh push "SEO-данные GSC/Яндекс за $(date -u +%F)"
+        run: bash scripts/seo/data_sync.sh push "SEO-данные GSC/Яндекс за $(date -u +%F)" "reports/seo/data reports/seo/ppc"
 
       # Копии почтового и публикационного workflow обязаны совпадать с main:
       # push-события seo-data исполняют именно копию, и отставшая копия делает
