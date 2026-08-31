@@ -33,7 +33,35 @@ TEXT_LIMIT = 1000
 REPORT_URL = "https://biz-soft.pro/ci-<токен>/latest/"
 
 
-def visible_text(kpi, verdict_mark, verdict_why, signal) -> str:
+def do_next_text(attack: dict | None) -> str:
+    """DO NEXT — одно действие, а не список.
+
+    Требование раздела 23: Opportunity HIGH при Confidence LOW главным
+    действием не делаем. Пока нет ни одного кандидата — честная строка о
+    том, что действий нет, а не выдуманное задание.
+    """
+    if not attack:
+        return ("Что делать: подтверждённых точек атаки нет — "
+                "накапливаем наблюдения.")
+    return (f"Что делать: {attack['attack_id']} «{attack['query']}» — "
+            f"мы на {attack['our_position']}-м месте, выше "
+            f"{attack['rival_domain']} на {attack['rival_position']}-м. "
+            f"Opportunity {attack['opportunity']}, "
+            f"уверенность {attack['confidence']}.")
+
+
+def watch_text(threat_leader: tuple[dict, object] | None) -> str:
+    """WATCH — одна угроза, а не перечень конкурентов."""
+    if not threat_leader:
+        return "Следим: угроз выше порога не зафиксировано."
+    card, threat = threat_leader
+    return (f"Следим: {card['домен']} — Threat {threat.score}, "
+            f"топ-3 по {card['топ3']} запросам, доля "
+            f"{kpi_mod.ru_number(100 * card['доля'])}%.")
+
+
+def visible_text(kpi, verdict_mark, verdict_why, signal, *,
+                 attack=None, threat_leader=None) -> str:
     """Основная текстовая часть письма — то, что считается против лимита.
 
     Ссылки, подписи и футер в лимит не входят (раздел 23), поэтому здесь
@@ -46,15 +74,34 @@ def visible_text(kpi, verdict_mark, verdict_why, signal) -> str:
          f"Google {kpi_mod.format_share(kpi.share_google)} · "
          f"ТОП-3 {kpi.top3}/{kpi.queries} · ТОП-10 {kpi.top10}/{kpi.queries}."),
         f"Главный сигнал: {signal.text}",
+        do_next_text(attack),
+        watch_text(threat_leader),
     ]
     return "\n".join(lines)
 
 
-def build(date: str, snapshot: dict, previous: dict | None) -> dict:
+def pick_attack(attacks: list[dict] | None) -> dict | None:
+    """Лучшая точка атаки для DO NEXT.
+
+    Максимальный Opportunity при приемлемой уверенности: высокая
+    возможность с уверенностью LOW главным действием не становится
+    (раздел 23 задания).
+    """
+    usable = [a for a in (attacks or []) if a.get("confidence") in ("HIGH", "MEDIUM")]
+    if not usable:
+        return None
+    return max(usable, key=lambda a: a["opportunity"])
+
+
+def build(date: str, snapshot: dict, previous: dict | None,
+          attacks: list[dict] | None = None,
+          threat_leader=None) -> dict:
     kpi = kpi_mod.build_kpi(snapshot, previous)
     verdict_mark, verdict_why = kpi_mod.verdict(kpi)
     signal = signal_mod.pick(snapshot, previous)
-    text = visible_text(kpi, verdict_mark, verdict_why, signal)
+    attack = pick_attack(attacks)
+    text = visible_text(kpi, verdict_mark, verdict_why, signal,
+                        attack=attack, threat_leader=threat_leader)
 
     coverage = snapshot.get("покрытие") or {}
     subject = (f"Конкурентная разведка · "
@@ -72,6 +119,10 @@ def build(date: str, snapshot: dict, previous: dict | None) -> dict:
         "зрелость_скоринга": kpi.maturity,
         "сигнал_тип": signal.kind,
         "сигнал_хэш": hashlib.sha256(signal.text.encode()).hexdigest()[:16],
+        "действие": attack,
+        "действие_хэш": (hashlib.sha256(attack["attack_id"].encode()).hexdigest()[:16]
+                         if attack else None),
+        "кандидатов_в_атаку": len(attacks or []),
         "покрытие": coverage,
         "сравнение_с": kpi.compared_with,
         "kpi": {
@@ -101,12 +152,29 @@ def render_txt(meta: dict) -> str:
     ])
 
 
+def _block(title: str, body: str, *, accent: bool = False) -> str:
+    """Секция письма. Пустая строка не рисуется вовсе — лучше короче."""
+    if not body:
+        return ""
+    escaped = html.escape(body)
+    frame = ('padding:10px 12px;background:#FFF4EF;border-left:3px solid #F4511E;'
+             'border-radius:4px;') if accent else ""
+    return (f'<tr><td style="padding:12px 24px 0;"><div style="{frame}">'
+            f'<div style="font-size:11px;color:#667085;letter-spacing:.06em;'
+            f'font-weight:700;">{html.escape(title)}</div>'
+            f'<div style="font-size:14px;line-height:1.45;padding-top:4px;">'
+            f'{escaped}</div></div></td></tr>')
+
+
 def render_html(meta: dict) -> str:
     """HTML-версия. Инлайн-стили и таблица — требование почтовых клиентов."""
     k = meta["kpi"]
     esc = html.escape
     delta = kpi_mod.format_delta(k["share_delta_pp"], unit=" п.п.")
-    verdict_line, kpi_line, signal_line = meta["текст"].split("\n")
+    lines = meta["текст"].split("\n")
+    verdict_line, _kpi_line, signal_line = lines[0], lines[1], lines[2]
+    do_next_line = lines[3] if len(lines) > 3 else ""
+    watch_line = lines[4] if len(lines) > 4 else ""
     google_share = ("NO DATA" if k["share_google"] is None
                     else f"{100 * k['share_google']:.1f}%")
     yandex_share = ("NO DATA" if k["share_yandex"] is None
@@ -142,6 +210,8 @@ def render_html(meta: dict) -> str:
 <div style="font-size:11px;color:#667085;letter-spacing:.06em;font-weight:700;">ГЛАВНЫЙ СИГНАЛ</div>
 <div style="font-size:14px;line-height:1.45;padding-top:4px;">{esc(signal_line.removeprefix('Главный сигнал: '))}</div>
 </td></tr>
+{_block('ЧТО ДЕЛАТЬ СЕГОДНЯ', do_next_line.removeprefix('Что делать: '), accent=True)}
+{_block('СЛЕДИМ', watch_line.removeprefix('Следим: '))}
 <tr><td style="padding:18px 24px 20px;" align="center">
 <a href="{REPORT_URL}" style="display:inline-block;background:#101828;color:#ffffff;text-decoration:none;font-size:14px;font-weight:600;padding:10px 22px;border-radius:6px;">Открыть полную конкурентную аналитику →</a>
 </td></tr>

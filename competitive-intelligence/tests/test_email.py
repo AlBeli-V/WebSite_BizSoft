@@ -153,5 +153,68 @@ class TestBuildEmail(unittest.TestCase):
         self.assertIn("NO DATA", txt)
 
 
+class TestDoNextAndWatch(unittest.TestCase):
+    """DO NEXT и WATCH — блоки полного формата письма (Phase 2)."""
+
+    def attack(self, **kw):
+        base = {"attack_id": "ATT-001", "query": "купить figma юрлицу",
+                "our_position": 5, "rival_domain": "raketapay.ru",
+                "rival_position": 1, "opportunity": 72, "confidence": "MEDIUM"}
+        base.update(kw)
+        return base
+
+    def test_нет_кандидатов_честная_строка(self):
+        """Пустота лучше выдуманного задания."""
+        text = build_email.do_next_text(None)
+        self.assertIn("подтверждённых точек атаки нет", text)
+
+    def test_действие_названо_конкретно(self):
+        text = build_email.do_next_text(self.attack())
+        self.assertIn("ATT-001", text)
+        self.assertIn("raketapay.ru", text)
+        self.assertIn("72", text)
+
+    def test_низкая_уверенность_не_становится_действием(self):
+        """Opportunity HIGH при Confidence LOW главным действием не делаем."""
+        chosen = build_email.pick_attack([self.attack(opportunity=95,
+                                                      confidence="LOW")])
+        self.assertIsNone(chosen)
+
+    def test_выбирается_максимальный_opportunity(self):
+        chosen = build_email.pick_attack([
+            self.attack(attack_id="ATT-001", opportunity=60),
+            self.attack(attack_id="ATT-002", opportunity=80),
+        ])
+        self.assertEqual(chosen["attack_id"], "ATT-002")
+
+    def test_watch_без_угроз(self):
+        self.assertIn("не зафиксировано", build_email.watch_text(None))
+
+    def test_watch_называет_домен_и_threat(self):
+        from scoring import threat as threat_mod
+        card = {"домен": "raketapay.ru", "доля": 0.0998, "топ3": 44, "топ10": 63}
+        t = threat_mod.score(card, queries_total=150)
+        text = build_email.watch_text((card, t))
+        self.assertIn("raketapay.ru", text)
+        self.assertIn("10,0%", text)
+
+    def test_полное_письмо_содержит_все_пять_блоков(self):
+        meta = build_email.build("2026-08-30", snapshot(), None,
+                                 attacks=[self.attack()])
+        text = meta["текст"]
+        self.assertIn("Главный сигнал:", text)
+        self.assertIn("Что делать:", text)
+        self.assertIn("Следим:", text)
+        self.assertTrue(meta["лимит_соблюдён"])
+
+    def test_хэш_действия_для_анти_повтора(self):
+        """Тот же DO NEXT второй день подряд должен опознаваться."""
+        a = build_email.build("2026-08-30", snapshot(), None,
+                              attacks=[self.attack()])
+        b = build_email.build("2026-08-31", snapshot(date="2026-08-31"), None,
+                              attacks=[self.attack()])
+        self.assertEqual(a["действие_хэш"], b["действие_хэш"])
+
+
 if __name__ == "__main__":
     unittest.main()
