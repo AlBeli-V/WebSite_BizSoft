@@ -1,0 +1,187 @@
+# Переразложение товаров по разделам каталога в прод-Directus.
+#
+# Источник — data/catalog/recategorize.json в репозитории: «артикул → слаг
+# целевого раздела», правится ревью в коде, а не вслепую в админке. Товар,
+# уже лежащий в целевом разделе, — no-op.
+#
+# apply=false (по умолчанию) — только отчёт «было → станет», ничего не пишет.
+# Результат — комментарием в журнал issue #22.
+name: ops-recategorize
+
+on:
+  workflow_dispatch:
+    inputs:
+      apply:
+        description: "true — применить; false — только отчёт"
+        required: true
+        default: "false"
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  recategorize:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Guard - only default branch
+        run: |
+          if [ "${{ github.ref_name }}" != "main" ]; then
+            echo "Запуск разрешён только с ветки main. Текущий ref: ${{ github.ref_name }}"
+            exit 1
+          fi
+      - uses: actions/checkout@v4
+
+      - name: Copy plan to server
+        uses: appleboy/scp-action@v1
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          source: data/catalog/recategorize.json
+          target: /tmp/bz-recategorize/
+          strip_components: 2
+
+      - name: Report / apply
+        id: run
+        uses: appleboy/ssh-action@v1
+        env:
+          APPLY: ${{ inputs.apply }}
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          envs: APPLY
+          capture_stdout: true
+          command_timeout: 10m
+          script: |
+            set -e
+            python3 - <<'PY'
+            import json, os, urllib.parse, urllib.request
+
+            apply = os.environ.get('APPLY', 'false') == 'true'
+            BASE = 'http://127.0.0.1:8055'
+
+            def read_env(path):
+                """Значения из env-файла: split по первому '=', без shell."""
+                out = {}
+                try:
+                    with open(path, encoding='utf-8', errors='replace') as f:
+                        for line in f:
+                            line = line.strip()
+                            if not line or line.startswith('#') or '=' not in line:
+                                continue
+                            k, v = line.split('=', 1)
+                            out[k.strip()] = v.strip().strip('"').strip("'")
+                except OSError:
+                    pass
+                return out
+
+            env = {}
+            for path in ('/opt/bizsoft/.env', '/opt/bizsoft/astro.env'):
+                for k, v in read_env(path).items():
+                    env.setdefault(k, v)
+
+            def call(method, path, body=None, token=None):
+                data = json.dumps(body).encode() if body is not None else None
+                req = urllib.request.Request(BASE + path, data=data, method=method)
+                if token:
+                    req.add_header('Authorization', f'Bearer {token}')
+                if data:
+                    req.add_header('Content-Type', 'application/json')
+                with urllib.request.urlopen(req, timeout=180) as r:
+                    raw = r.read()
+                return json.loads(raw)['data'] if raw else None
+
+            read_token = env.get('DIRECTUS_TOKEN')
+            if not read_token:
+                raise SystemExit('DIRECTUS_TOKEN не найден')
+
+            # Токен сайта умеет читать каталог, но не писать (ops-categories
+            # получил 403 на первой же записи) — на запись логинимся
+            # администратором, как ops-directus-schema.
+            write_token = None
+            email = env.get('ADMIN_EMAIL') or env.get('DIRECTUS_ADMIN_EMAIL')
+            password = env.get('ADMIN_PASSWORD') or env.get('DIRECTUS_ADMIN_PASSWORD')
+            if email and password:
+                try:
+                    write_token = call('POST', '/auth/login',
+                                       {'email': email, 'password': password})['access_token']
+                    print('вход администратором: успешно')
+                except Exception as e:  # noqa: BLE001 — причина нужна в журнале
+                    print(f'вход администратором не удался: {type(e).__name__}')
+            else:
+                print('ADMIN_EMAIL/ADMIN_PASSWORD не найдены в /opt/bizsoft/.env')
+
+            plan = json.load(open('/tmp/bz-recategorize/recategorize.json'))
+            moves = plan.get('moves', {})
+
+            cats = call('GET', '/items/categories?limit=-1&fields=id,slug,status',
+                        token=read_token)
+            cat_by_slug = {c['slug']: c for c in cats}
+
+            # Товары берём по артикулу независимо от статуса: скрытая карточка
+            # тоже должна лежать в правильном разделе к моменту публикации.
+            flt = urllib.parse.quote(json.dumps({'sku': {'_in': list(moves)}}))
+            products = call('GET', '/items/products?limit=-1'
+                            f'&fields=id,sku,vendor,name,status,category.slug&filter={flt}',
+                            token=read_token)
+            by_sku = {p['sku']: p for p in products}
+
+            todo, noop, problems = [], [], []
+            for sku, target in moves.items():
+                p = by_sku.get(sku)
+                if p is None:
+                    problems.append(f'! {sku}: товара с таким артикулом нет')
+                    continue
+                cat = cat_by_slug.get(target)
+                if cat is None:
+                    problems.append(f'! {sku}: целевого раздела {target} нет в базе')
+                    continue
+                if cat.get('status') != 'published':
+                    problems.append(f'! {sku}: раздел {target} не опубликован ({cat.get("status")})')
+                    continue
+                was = (p.get('category') or {}).get('slug') or '(без категории)'
+                if was == target:
+                    noop.append(sku)
+                    continue
+                todo.append((p, was, target, cat['id']))
+
+            print(f'\nПЛАН: позиций {len(moves)}, переехать {len(todo)}, '
+                  f'уже на месте {len(noop)}, проблем {len(problems)}')
+            for line in problems:
+                print(line)
+            if noop:
+                print('уже на месте: ' + ', '.join(sorted(noop)))
+            print()
+            for p, was, target, _ in todo:
+                print(f"  {p['sku']:34} {p.get('vendor') or '—':14} "
+                      f"{(p.get('name') or '')[:44]:44} {was} → {target}")
+
+            if not apply:
+                print('\nОТЧЁТ. Ничего не записано (apply=false).')
+                raise SystemExit(0)
+            if not write_token:
+                raise SystemExit('\nЗАПИСЬ НЕВОЗМОЖНА: нет админского доступа к Directus.')
+
+            moved = 0
+            for p, was, target, cat_id in todo:
+                call('PATCH', f"/items/products/{p['id']}",
+                     {'category': cat_id}, token=write_token)
+                moved += 1
+            print(f'\nПРИМЕНЕНО: перенесено товаров {moved}.')
+            PY
+
+      - name: Post results to journal (issue #22)
+        if: always()
+        uses: actions/github-script@v7
+        env:
+          OUT: ${{ steps.run.outputs.stdout }}
+          APPLY: ${{ inputs.apply }}
+        with:
+          script: |
+            const out = (process.env.OUT || '(нет вывода)').slice(0, 60000);
+            await github.rest.issues.createComment({
+              owner: context.repo.owner, repo: context.repo.repo, issue_number: 22,
+              body: `### ops-recategorize · apply=${process.env.APPLY}\n\n\`\`\`\n${out}\n\`\`\``,
+            });
