@@ -104,22 +104,33 @@ def main(argv: list[str]) -> int:
         json.dump(attacks, fh, ensure_ascii=False, indent=2)
     print(f"5. Strike List: {len(attacks)} кандидатов в атаку")
 
+    from attack_engine import work_packages
+    packages = work_packages.to_dicts(work_packages.build(attacks, config))
+    with open(os.path.join(paths.PROCESSED_DIR, f"{date}-work-packages.json"),
+              "w", encoding="utf-8") as fh:
+        json.dump(packages, fh, ensure_ascii=False, indent=2)
+    total_uplift = sum(p["uplift_estimate"] for p in packages)
+    print(f"6. Пакеты работ: {len(packages)}, суммарная оценка "
+          f"+{total_uplift:.0f} переходов при выходе в ТОП-3")
+
     meta = build_email.build(date, snapshot, previous, attacks=attacks,
                              threat_leader=threat_leader,
-                             stale_notice=stale_notice, ranked_rivals=ranked)
+                             stale_notice=stale_notice, ranked_rivals=ranked,
+                             packages=packages)
     kpi_obj = kpi_mod.build_kpi(snapshot, previous)
     os.makedirs(paths.REPORTS_DIR, exist_ok=True)
     base = os.path.join(paths.REPORTS_DIR, f"{date}-email")
     with open(f"{base}.txt", "w", encoding="utf-8") as fh:
         fh.write(build_email.render_txt(meta, snapshot=snapshot, attacks=attacks,
-                                        ranked_rivals=ranked))
+                                        ranked_rivals=ranked, packages=packages))
     with open(f"{base}.html", "w", encoding="utf-8") as fh:
         fh.write(build_email.render_html(meta, kpi=kpi_obj, snapshot=snapshot,
-                                         attacks=attacks, ranked_rivals=ranked))
+                                         attacks=attacks, ranked_rivals=ranked,
+                                         packages=packages))
     with open(f"{base}.json", "w", encoding="utf-8") as fh:
         json.dump(meta, fh, ensure_ascii=False, indent=2)
 
-    print(f"6. Письмо: {meta['видимых_символов']} символов из "
+    print(f"7. Письмо: {meta['видимых_символов']} символов из "
           f"{build_email.TEXT_LIMIT}, вердикт {meta['вердикт']}")
     if not meta["лимит_соблюдён"]:
         print("   ЛИМИТ ПРЕВЫШЕН — гейт качества не пропустит письмо")
@@ -130,13 +141,14 @@ def main(argv: list[str]) -> int:
     # письмом, а это хуже отсутствующей ссылки.
     from reports import deep_report
     page = deep_report.build(date, snapshot, previous, attacks,
-                             [c.__dict__ for c in cards], rows)
+                             [c.__dict__ for c in cards], rows,
+                             packages=packages)
     os.makedirs(paths.ARCHIVE_DIR, exist_ok=True)
     for target in (os.path.join(paths.ARCHIVE_DIR, f"{date}.html"),
                    os.path.join(paths.REPORTS_DIR, "latest.html")):
         with open(target, "w", encoding="utf-8") as fh:
             fh.write(page)
-    print(f"7. Deep report: {len(page.encode()) / 1024:.0f} КБ "
+    print(f"8. Deep report: {len(page.encode()) / 1024:.0f} КБ "
           f"(архив + latest.html)")
     print(f"   Файлы письма: {base}.{{html,txt,json}}")
     return 0

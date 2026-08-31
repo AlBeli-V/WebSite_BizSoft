@@ -165,6 +165,91 @@ def attacks_section(attacks: list[dict], limit: int = 5) -> str:
             + _table("".join(rows), head))
 
 
+def packages_section(packages: list[dict], limit: int = 3) -> str:
+    """Что поручить — пакеты работ вместо списка запросов.
+
+    Руководителю нужна не витрина запросов, а поручение: какую страницу
+    доработать, сколько запросов это закроет, что даст и сколько стоит.
+    Поэтому каждая строка — законченная единица работы.
+    """
+    if not packages:
+        return ""
+    blocks = []
+    for pkg in packages[:limit]:
+        checks = "".join(
+            f'<li style="margin:2px 0;">{esc(c)}</li>'
+            for c in (pkg.get("checklist") or [])[:3])
+        queries = ", ".join(f"«{q}»" for q in (pkg.get("queries") or [])[:3])
+        more = (f" и ещё {pkg['queries_count'] - 3}"
+                if pkg["queries_count"] > 3 else "")
+        url_short = pkg["url"].replace("https://biz-soft.pro", "")
+        blocks.append(f"""
+<tr><td style="padding:10px 24px 0;">
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0"
+         style="border:1px solid {LINE};border-radius:8px;">
+  <tr><td style="padding:12px 14px;">
+    <div style="font-size:13px;font-weight:700;color:{INK};line-height:1.4;">
+      {esc(pkg["package_id"])} · {esc(pkg["action"])}</div>
+    <div style="font-size:12px;color:{MUTED};padding-top:5px;line-height:1.5;">
+      Страница: <span style="color:{INK};">{esc(url_short)}</span><br>
+      Закроет запросов: <b style="color:{INK};">{pkg["queries_count"]}</b> ·
+      спрос <b style="color:{INK};">{pkg["demand_total"]}</b> ·
+      сейчас позиции {pkg["position_best"]}–{pkg["position_worst"]} ·
+      выше нас {esc(", ".join(pkg["rivals"][:2]))}<br>
+      Даст при выходе в ТОП-3: <b style="color:{BRAND};">
+      ≈ +{pkg["uplift_estimate"]:.0f} переходов</b> за тот же период ·
+      трудоёмкость {esc(pkg["effort"])} · уверенность {esc(pkg["confidence"])}
+    </div>
+    <div style="font-size:12px;color:{MUTED};padding-top:6px;">Что проверить:</div>
+    <ul style="font-size:12px;color:{MUTED};margin:2px 0 0;padding-left:18px;
+               line-height:1.45;">{checks}</ul>
+    <div style="font-size:11px;color:{MUTED};padding-top:6px;">
+      Запросы: {esc(queries)}{esc(more)}</div>
+  </td></tr></table>
+</td></tr>""")
+    return (_heading("Что поручить", "пакеты работ по убыванию ожидаемого эффекта")
+            + "".join(blocks))
+
+
+def options_section(packages: list[dict]) -> str:
+    """Варианты действий — чтобы решение принималось из альтернатив.
+
+    Одно «сделайте это» не даёт руководителю выбора. Три сценария с ценой и
+    отдачей позволяют выбрать темп, а не только согласиться.
+    """
+    if not packages:
+        return ""
+    quick = [p for p in packages if p["effort"] == "S"][:3]
+    total_quick = sum(p["uplift_estimate"] for p in quick)
+    top3 = packages[:3]
+    total_top3 = sum(p["uplift_estimate"] for p in top3)
+    all_uplift = sum(p["uplift_estimate"] for p in packages)
+
+    options = [
+        ("Минимум",
+         f"{len(quick)} лёгких пакета" if quick else "нет лёгких пакетов",
+         f"≈ +{total_quick:.0f} переходов",
+         "правки текста на существующих страницах, без новых материалов"),
+        ("Оптимум",
+         f"{len(top3)} верхних пакета",
+         f"≈ +{total_top3:.0f} переходов",
+         "включает страницы с наибольшим спросом; часть требует переработки"),
+        ("Полный охват",
+         f"все {len(packages)} пакетов",
+         f"≈ +{all_uplift:.0f} переходов",
+         "весь список целей; имеет смысл растянуть на несколько недель"),
+    ]
+    rows = "".join(
+        f'<tr>{_td(esc(name), bold=True)}{_td(esc(scope))}'
+        f'{_td(esc(effect), align="right", color=BRAND, bold=True)}'
+        f'{_td(esc(note), color=MUTED, small=True)}</tr>'
+        for name, scope, effect, note in options)
+    head = (f'<tr>{_th("Вариант")}{_th("Объём")}{_th("Отдача", "right")}'
+            f'{_th("Чем отличается")}</tr>')
+    return (_heading("Варианты действий", "оценка по кривой CTR при выходе в ТОП-3, не обещание")
+            + _table(rows, head))
+
+
 def limits_section(snapshot: dict, attacks: list[dict]) -> str:
     """Границы данных: что система пока не знает. Честность важнее полноты."""
     coverage = snapshot.get("покрытие") or {}
