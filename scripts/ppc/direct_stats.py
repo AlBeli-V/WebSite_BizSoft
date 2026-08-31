@@ -287,6 +287,20 @@ def metrika_sections() -> None:
     except RuntimeError as e:
         print(f"  (посадочные не прочитаны: {e})")
 
+    # Эксперимент «быстрые ссылки»: их входы помечены utm_content=sl-*.
+    print("\n== Метрика: визиты по utm_content (sl-* — быстрые ссылки) ==")
+    try:
+        data = metrika_stat(counter, token, dimensions="ym:s:UTMContent",
+                            metrics=behaviour, filters=flt,
+                            sort="-ym:s:visits", limit=20)
+        for row in data.get("data") or []:
+            name = row["dimensions"][0].get("name") or "(без метки)"
+            v, br, pd, dur = row["metrics"]
+            print(f"  {int(v):>3} виз. | отказы {br:.0f}% | глубина {pd:.2f} | "
+                  f"{dur:.0f} с — {name}")
+    except RuntimeError as e:
+        print(f"  (utm_content не прочитан: {e})")
+
 
 def print_tsv(title: str, tsv: str | None) -> None:
     print(f"\n== {title} ==")
@@ -425,6 +439,17 @@ def main() -> None:
         "Format": "TSV", "IncludeVAT": "YES",
     })
     print_tsv("Отчёт по площадкам", tsv)
+
+    # Измерение эксперимента «быстрые ссылки»: клики по элементам
+    # объявления (sitelink1..8 против title и остальных).
+    tsv = report(token, "click-type", {
+        "SelectionCriteria": sel,
+        "FieldNames": ["ClickType", "Impressions", "Clicks", "Ctr", "AvgCpc", "Cost"],
+        "ReportName": f"bs-clicktype-{int(time.time())}",
+        "ReportType": "CUSTOM_REPORT", "DateRangeType": "ALL_TIME",
+        "Format": "TSV", "IncludeVAT": "YES",
+    })
+    print_tsv("Отчёт по элементам объявления (ClickType)", tsv)
 
     try:
         metrika_sections()
