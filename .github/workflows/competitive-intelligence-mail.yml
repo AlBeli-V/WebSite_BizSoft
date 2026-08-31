@@ -1,0 +1,200 @@
+# Ежедневное письмо конкурентной разведки (10:00 МСК).
+#
+# ОТДЕЛЬНЫЙ контур: это не триггер существующего SEO-письма и не его копия.
+# Данные берутся из ветки competitive-data, тема и структура — свои
+# (раздел 23 задания), маркер анти-дублей — свой.
+#
+# Логика режимов повторяет проверенный seo-report-email вместе с его
+# выученными уроками: одно письмо на одну дату; push отправляет только отчёт
+# НОВЕЕ последнего отправленного (иначе повторный пуш переотправляет старое);
+# сторожевой запуск шлёт честное уведомление о сбое вместо устаревшего
+# письма — старый отчёт под видом свежего худший из возможных фолбэков.
+name: competitive-intelligence-mail
+
+on:
+  push:
+    branches:
+      - competitive-data
+    paths:
+      - "reports/competitive/*-email.html"
+      - ".github/workflows/competitive-intelligence-mail.yml"
+  schedule:
+    # 07:40 UTC = 10:40 МСК — контроль: письмо за сегодня должно быть уже
+    # отправлено. Запас в 80 минут от Routine (09:20 МСК) взят не с потолка:
+    # расписания Actions и Routine дрейфуют — 31.08 базовый Routine с
+    # расписанием 09:00 отработал в 09:26. Сторож, срабатывающий раньше, чем
+    # закончился прогон, прислал бы ложное уведомление о сбое, и доверие к
+    # уведомлениям исчезло бы за неделю.
+    - cron: "40 7 * * *"
+  workflow_dispatch:
+    inputs:
+      subject_prefix:
+        description: 'Префикс темы (например «ТЕСТ — »); при непустом префиксе маркер не пишется и тестовый прогон не блокирует штатную доставку'
+        required: false
+        default: ''
+
+permissions:
+  contents: write
+
+jobs:
+  send:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: competitive-data
+
+      - name: Choose mode
+        id: guard
+        run: |
+          today=$(TZ=Europe/Moscow date +%F)
+          latest=$(ls reports/competitive/*-email.html 2>/dev/null | sort | tail -1)
+          date=$(basename "$latest" 2>/dev/null | sed 's/-email.html//')
+          mailed=$(cat reports/competitive/last-mailed.txt 2>/dev/null || echo "")
+          noticed=$(cat reports/competitive/last-notice.txt 2>/dev/null || echo "")
+          echo "date=$date" >> "$GITHUB_OUTPUT"
+          echo "today=$today" >> "$GITHUB_OUTPUT"
+          mode=send
+          case "${{ github.event_name }}" in
+            push)
+              # ISO-даты сравниваются строково корректно.
+              { [ -z "$date" ] || [ ! "$date" \> "$mailed" ]; } && mode=skip
+              ;;
+            schedule)
+              if [ "$date" = "$today" ]; then
+                [ "$mailed" = "$today" ] && mode=skip
+              else
+                mode=notice
+                [ "$noticed" = "$today" ] && mode=skip
+              fi
+              ;;
+          esac
+          [ -z "$date" ] && [ "$mode" = "send" ] && mode=notice
+          echo "mode=$mode" >> "$GITHUB_OUTPUT"
+          echo "Режим: $mode (письмо: ${date:-нет}, сегодня: $today)"
+
+      - name: Quality gate
+        # Гейты качества перед отправкой (раздел 24 задания). Письмо, не
+        # прошедшее проверку, не уходит вовсе: лучше уведомление о сбое, чем
+        # письмо с превышенным лимитом или без главного сигнала.
+        if: steps.guard.outputs.mode == 'send'
+        env:
+          DATE: ${{ steps.guard.outputs.date }}
+        run: |
+          python3 - <<'PY'
+          import json, os, pathlib, sys
+          date = os.environ['DATE']
+          meta = json.loads(pathlib.Path(
+              f'reports/competitive/{date}-email.json').read_text(encoding='utf-8'))
+          problems = []
+          if not meta.get('лимит_соблюдён'):
+              problems.append(f"текст {meta['видимых_символов']} символов "
+                              f"при лимите {meta['лимит_символов']}")
+          if meta['текст'].count('Главный сигнал:') != 1:
+              problems.append('главный сигнал не ровно один')
+          if not meta.get('вердикт'):
+              problems.append('вердикт не проставлен')
+          for name in (f'{date}-email.html', f'{date}-email.txt'):
+              if not os.path.exists(f'reports/competitive/{name}'):
+                  problems.append(f'нет файла {name}')
+          if problems:
+              print('::error::Гейт качества не пройден: ' + '; '.join(problems))
+              sys.exit(1)
+          print(f"Гейт пройден: {meta['видимых_символов']} символов, "
+                f"вердикт {meta['вердикт']}, зрелость {meta['зрелость_скоринга']}")
+          PY
+
+      - name: Send letter or failure notice
+        if: steps.guard.outputs.mode != 'skip'
+        env:
+          SMTP_HOST: mail.hosting.reg.ru
+          SMTP_PORT: "465"
+          SMTP_USER: hello@biz-soft.pro
+          SMTP_PASS: ${{ secrets.SMTP_PASS }}
+          MAIL_TO: avbelyaev@biz-soft.pro
+          MODE: ${{ steps.guard.outputs.mode }}
+          TODAY: ${{ steps.guard.outputs.today }}
+          DATE: ${{ steps.guard.outputs.date }}
+          SUBJECT_PREFIX: ${{ inputs.subject_prefix || '' }}
+        run: |
+          if [ -z "$SMTP_PASS" ]; then
+            echo "::error::Repo-секрет SMTP_PASS не задан — письмо не отправлено."
+            exit 1
+          fi
+          python3 - <<'PY'
+          import json, os, pathlib, smtplib, ssl
+          from email.message import EmailMessage
+          from email.utils import formatdate
+
+          mode, today = os.environ['MODE'], os.environ['TODAY']
+          date, prefix = os.environ['DATE'], os.environ.get('SUBJECT_PREFIX', '')
+
+          msg = EmailMessage()
+          msg['From'] = f'BIZSoft Конкурентная разведка <{os.environ["SMTP_USER"]}>'
+          msg['To'] = os.environ['MAIL_TO']
+          msg['Date'] = formatdate(localtime=True)
+
+          if mode == 'send':
+              meta = json.loads(pathlib.Path(
+                  f'reports/competitive/{date}-email.json').read_text(encoding='utf-8'))
+              msg['Subject'] = prefix + meta['тема']
+              msg.set_content(pathlib.Path(
+                  f'reports/competitive/{date}-email.txt').read_text(encoding='utf-8'))
+              msg.add_alternative(pathlib.Path(
+                  f'reports/competitive/{date}-email.html').read_text(encoding='utf-8'),
+                  subtype='html')
+              print(f"Письмо за {date}: {meta['видимых_символов']} символов, "
+                    f"вердикт {meta['вердикт']}")
+          else:
+              msg['Subject'] = (f'{prefix}Конкурентная разведка — '
+                                f'сбор за {today} не выполнен')
+              msg.set_content(
+                  f'Письмо конкурентной разведки за {today} не собралось к '
+                  'контрольному времени (10:00 МСК).\n\n'
+                  f'Последнее собранное письмо — за {date or "нет ни одного"}.\n\n'
+                  'Данные не потеряны: срезы выдачи лежат в ветке competitive-data,\n'
+                  'письмо можно собрать задним числом после починки прогона.\n\n'
+                  'Что смотреть: журнал операций — issue #22\n'
+                  '(https://github.com/AlBeli-V/WebSite_BizSoft/issues/22),\n'
+                  'прогоны — https://github.com/AlBeli-V/WebSite_BizSoft/actions.')
+              print(f'Уведомление о сбое за {today}')
+
+          host, port = os.environ['SMTP_HOST'], int(os.environ['SMTP_PORT'])
+          try:
+              with smtplib.SMTP_SSL(host, port,
+                                    context=ssl.create_default_context(),
+                                    timeout=60) as sm:
+                  sm.login(os.environ['SMTP_USER'], os.environ['SMTP_PASS'])
+                  sm.send_message(msg)
+          except (smtplib.SMTPException, OSError) as e:
+              print(f'465/SSL не сработал ({e}), пробую 587/STARTTLS')
+              with smtplib.SMTP(host, 587, timeout=60) as sm:
+                  sm.starttls(context=ssl.create_default_context())
+                  sm.login(os.environ['SMTP_USER'], os.environ['SMTP_PASS'])
+                  sm.send_message(msg)
+          print(f'Отправлено на {os.environ["MAIL_TO"]}')
+          PY
+
+      - name: Record marker
+        # Тестовая отправка (с префиксом темы) маркер не пишет: она не должна
+        # блокировать штатную доставку письма за ту же дату.
+        if: steps.guard.outputs.mode != 'skip' && (inputs.subject_prefix || '') == ''
+        env:
+          MODE: ${{ steps.guard.outputs.mode }}
+          DATE: ${{ steps.guard.outputs.date }}
+          TODAY: ${{ steps.guard.outputs.today }}
+        run: |
+          if [ "$MODE" = "send" ]; then
+            echo "$DATE" > reports/competitive/last-mailed.txt
+          else
+            echo "$TODAY" > reports/competitive/last-notice.txt
+          fi
+          git config user.name "Claude"
+          git config user.email "noreply@anthropic.com"
+          git add reports/competitive/last-mailed.txt reports/competitive/last-notice.txt 2>/dev/null || true
+          git diff --cached --quiet || git commit -q -m "Маркер отправки письма конкурентной разведки"
+          for attempt in 1 2 3; do
+            git push origin HEAD:competitive-data && break
+            git pull --rebase -X ours origin competitive-data || true
+            sleep $((attempt * 5))
+          done

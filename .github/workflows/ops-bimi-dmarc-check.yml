@@ -1,0 +1,97 @@
+# Еженедельная проверка BIMI и DMARC: DNS-записи зоны + доступность логотипа.
+# Заведено по команде руководителя 31.08.2026 — отслеживать исчезновение
+# логотипа и ошибки DNS. Результат — комментарий в журнал-issue #22;
+# при любой ❌ запуск завершается ошибкой (придёт уведомление GitHub).
+name: ops-bimi-dmarc-check
+on:
+  schedule:
+    - cron: '0 7 * * 1'  # 10:00 МСК (UTC+3), понедельник
+  workflow_dispatch: {}
+permissions:
+  issues: write
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Guard - only default branch
+        run: |
+          if [ "${{ github.ref_name }}" != "main" ]; then
+            echo "Запуск разрешён только с ветки main. Текущий ref: ${{ github.ref_name }}"
+            exit 1
+          fi
+      - name: Check DNS and logo
+        id: check
+        run: |
+          set +e
+          DOMAIN=biz-soft.pro
+          LOGO_URL="https://biz-soft.pro/bimi/logo.svg"
+          REPORT=$(mktemp); FAIL=0
+          ok()  { echo "✅ $1" >> "$REPORT"; }
+          bad() { echo "❌ $1" >> "$REPORT"; FAIL=1; }
+
+          NSLIST=$(dig +short NS "$DOMAIN" | sed 's/\.$//')
+          [ -n "$NSLIST" ] || { bad "не удалось получить NS зоны $DOMAIN"; NSLIST=""; }
+
+          # DMARC: на каждом авторитетном NS ровно одна запись с боевой политикой.
+          for ns in $NSLIST; do
+            TXT=$(dig +short TXT "_dmarc.$DOMAIN" "@$ns" | grep -c 'v=DMARC1')
+            REC=$(dig +short TXT "_dmarc.$DOMAIN" "@$ns" | tr -d '"')
+            if [ "$TXT" -eq 1 ]; then
+              case "$REC" in
+                *p=quarantine*|*p=reject*) ok "DMARC @$ns: $REC" ;;
+                *p=none*) bad "DMARC @$ns: политика ослаблена до p=none — $REC" ;;
+                *) bad "DMARC @$ns: нет тега p= — $REC" ;;
+              esac
+            elif [ "$TXT" -eq 0 ]; then
+              bad "DMARC @$ns: запись _dmarc.$DOMAIN не найдена"
+            else
+              bad "DMARC @$ns: записей v=DMARC1 больше одной ($TXT) — почтовики игнорируют политику"
+            fi
+          done
+
+          # BIMI: ровно одна запись, указывающая на логотип.
+          for ns in $NSLIST; do
+            CNT=$(dig +short TXT "default._bimi.$DOMAIN" "@$ns" | grep -c 'v=BIMI1')
+            REC=$(dig +short TXT "default._bimi.$DOMAIN" "@$ns" | tr -d '"')
+            if [ "$CNT" -eq 1 ] && echo "$REC" | grep -q "l=$LOGO_URL"; then
+              ok "BIMI @$ns: $REC"
+            elif [ "$CNT" -eq 0 ]; then
+              bad "BIMI @$ns: запись default._bimi.$DOMAIN не найдена"
+            else
+              bad "BIMI @$ns: неожиданное содержимое — $REC"
+            fi
+          done
+
+          # Логотип: отдаётся, это SVG, профиль Tiny PS не потерян.
+          CODE=$(curl -sS -o /tmp/logo.svg -w '%{http_code}' --max-time 30 "$LOGO_URL")
+          CTYPE=$(curl -sSI --max-time 30 "$LOGO_URL" | tr -d '\r' | sed -n 's/^[Cc]ontent-[Tt]ype: //p')
+          if [ "$CODE" = "200" ]; then ok "логотип: HTTP 200 ($LOGO_URL)"; else bad "логотип: HTTP $CODE ($LOGO_URL)"; fi
+          case "$CTYPE" in *svg*) ok "логотип: Content-Type $CTYPE" ;; *) bad "логотип: Content-Type «$CTYPE», ожидался image/svg+xml" ;; esac
+          grep -q 'baseProfile="tiny-ps"' /tmp/logo.svg && ok 'логотип: baseProfile="tiny-ps" на месте' \
+            || bad 'логотип: в файле нет baseProfile="tiny-ps"'
+          grep -q 'viewBox="0 0 512 512"' /tmp/logo.svg && ok 'логотип: viewBox 0 0 512 512' \
+            || bad 'логотип: viewBox изменился'
+
+          {
+            echo 'result<<CHECK_EOF'
+            cat "$REPORT"
+            echo 'CHECK_EOF'
+          } >> "$GITHUB_OUTPUT"
+          echo "fail=$FAIL" >> "$GITHUB_OUTPUT"
+          cat "$REPORT"
+      - name: Post to issue
+        if: always()
+        uses: actions/github-script@v7
+        env:
+          OUT: ${{ steps.check.outputs.result }}
+        with:
+          script: |
+            await github.rest.issues.createComment({
+              owner: context.repo.owner, repo: context.repo.repo, issue_number: 22,
+              body: '### ops-bimi-dmarc-check (еженедельно, пн 10:00 МСК)\n\n' + (process.env.OUT || '(нет вывода)'),
+            });
+      - name: Fail on problems
+        if: steps.check.outputs.fail == '1'
+        run: |
+          echo "Обнаружены проблемы BIMI/DMARC — см. отчёт в issue #22"
+          exit 1
