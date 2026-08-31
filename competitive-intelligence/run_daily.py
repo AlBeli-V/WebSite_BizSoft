@@ -124,7 +124,21 @@ def main(argv: list[str]) -> int:
     if not meta["лимит_соблюдён"]:
         print("   ЛИМИТ ПРЕВЫШЕН — гейт качества не пропустит письмо")
         return 1
-    print(f"   Файлы: {base}.{{html,txt,json}}")
+
+    # Deep report — то, на что ведёт кнопка письма. Собирается тем же
+    # прогоном: иначе ссылка показывала бы вчерашнюю аналитику под сегодняшним
+    # письмом, а это хуже отсутствующей ссылки.
+    from reports import deep_report
+    page = deep_report.build(date, snapshot, previous, attacks,
+                             [c.__dict__ for c in cards], rows)
+    os.makedirs(paths.ARCHIVE_DIR, exist_ok=True)
+    for target in (os.path.join(paths.ARCHIVE_DIR, f"{date}.html"),
+                   os.path.join(paths.REPORTS_DIR, "latest.html")):
+        with open(target, "w", encoding="utf-8") as fh:
+            fh.write(page)
+    print(f"7. Deep report: {len(page.encode()) / 1024:.0f} КБ "
+          f"(архив + latest.html)")
+    print(f"   Файлы письма: {base}.{{html,txt,json}}")
     return 0
 
 
