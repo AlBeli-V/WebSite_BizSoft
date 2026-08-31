@@ -85,7 +85,7 @@ jobs:
 
       - name: Push data
         if: always()
-        run: bash scripts/seo/data_sync.sh push "SEO-данные GSC/Яндекс за $(date -u +%F)"
+        run: bash scripts/seo/data_sync.sh push "SEO-данные GSC/Яндекс за $(date -u +%F)" "reports/seo/data reports/seo/ppc"
 
       # Копии почтового и публикационного workflow обязаны совпадать с main:
       # push-события seo-data исполняют именно копию, и отставшая копия делает
