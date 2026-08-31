@@ -229,6 +229,7 @@ def packages_section(packages: list[dict], limit: int = 3) -> str:
       сейчас позиции {pkg["position_best"]}–{pkg["position_worst"]} ·
       выше нас {esc(", ".join(pkg["rivals"][:2]))}<br>
       Потенциал: <b style="color:{BRAND};">{esc(pkg["potential_label"])}</b>{upside} ·
+      спрос измерен по {esc(pkg.get("demand_coverage", "0/0"))} запросам ·
       трудоёмкость {esc(pkg["effort"])} · уверенность {esc(pkg["confidence"])}
     </div>
     <div style="font-size:12px;color:{MUTED};padding-top:6px;">Что проверить:</div>
