@@ -46,8 +46,29 @@ def main(argv: list[str]) -> int:
     rows = serp_source.read_snapshot(date)
     usable = [r for r in rows if r.has_data]
     print(f"1. Покрытие: {len(usable)} запросов с данными из {len(rows)}")
-    if not usable:
-        print("   Данных нет — письмо не собирается, уйдёт уведомление о сбое")
+
+    # Свежий срез может оказаться пустым: сбор базового контура падает целиком
+    # (например, сеть раннера не разрешила имя API — так было 31.08.2026, все
+    # 502 запроса вернули ошибку). Требование раздела 24 задания: письмо в
+    # такой день всё равно уходит, но с вердиктом «недостаточно данных» и без
+    # сильных выводов. Молчание хуже: руководитель не отличит сбой от тишины.
+    stale_notice = None
+    if not usable and len(argv) <= 1:
+        fallback = next((d for d in reversed(dates) if d != date
+                         and any(r.has_data for r in serp_source.read_snapshot(d))),
+                        None)
+        if fallback is None:
+            print("   Пригодных срезов нет вообще — письмо не собирается")
+            return 1
+        stale_notice = (f"свежий сбор за {date} не удался "
+                        f"({len(rows)} запросов с ошибкой), "
+                        f"показаны данные за {fallback}")
+        print(f"   Сбор за {date} пуст — откат на последний пригодный срез {fallback}")
+        date = fallback
+        rows = serp_source.read_snapshot(date)
+        usable = [r for r in rows if r.has_data]
+    elif not usable:
+        print("   Данных нет — письмо не собирается")
         return 1
 
     config = visibility.load_config()
@@ -84,7 +105,8 @@ def main(argv: list[str]) -> int:
     print(f"5. Strike List: {len(attacks)} кандидатов в атаку")
 
     meta = build_email.build(date, snapshot, previous, attacks=attacks,
-                             threat_leader=threat_leader)
+                             threat_leader=threat_leader,
+                             stale_notice=stale_notice)
     os.makedirs(paths.REPORTS_DIR, exist_ok=True)
     base = os.path.join(paths.REPORTS_DIR, f"{date}-email")
     with open(f"{base}.txt", "w", encoding="utf-8") as fh:

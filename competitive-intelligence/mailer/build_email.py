@@ -95,9 +95,16 @@ def pick_attack(attacks: list[dict] | None) -> dict | None:
 
 def build(date: str, snapshot: dict, previous: dict | None,
           attacks: list[dict] | None = None,
-          threat_leader=None) -> dict:
+          threat_leader=None, stale_notice: str | None = None) -> dict:
     kpi = kpi_mod.build_kpi(snapshot, previous)
     verdict_mark, verdict_why = kpi_mod.verdict(kpi)
+    if stale_notice:
+        # Данные не за сегодня. Показать их можно — они честно датированы, —
+        # но вердикт обязан стать «недостаточно данных»: выводы о динамике по
+        # вчерашнему срезу были бы выводами о вчерашнем дне, поданными как
+        # сегодняшние.
+        verdict_mark = kpi_mod.VERDICT_NO_DATA
+        verdict_why = f"Данные неполные: {stale_notice}"
     signal = signal_mod.pick(snapshot, previous)
     attack = pick_attack(attacks)
     text = visible_text(kpi, verdict_mark, verdict_why, signal,
@@ -124,6 +131,7 @@ def build(date: str, snapshot: dict, previous: dict | None,
                          if attack else None),
         "кандидатов_в_атаку": len(attacks or []),
         "покрытие": coverage,
+        "предупреждение_о_свежести": stale_notice,
         "сравнение_с": kpi.compared_with,
         "kpi": {
             "share_yandex": kpi.share_yandex,
