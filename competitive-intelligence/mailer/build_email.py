@@ -56,8 +56,8 @@ def do_next_text(attack: dict | None, package: dict | None = None) -> str:
                   if package.get("traffic_upside") is not None
                   else f"потенциал {package['potential_label']}")
         return (f"Что делать: {package['package_id']} — {package['action']} "
-                f"({url_short}). Закроет {package['queries_count']} запросов "
-                f"со спросом {package['demand_total']}, сейчас позиции "
+                f"({url_short}). Закроет {package['queries_count']} запросов, "
+                f"{sections.format_demand(package)}, сейчас позиции "
                 f"{package['position_best']}–{package['position_worst']}; "
                 f"{upside}. Трудоёмкость {package['effort']}.")
     if not attack:
@@ -229,8 +229,9 @@ def render_txt(meta: dict, *, snapshot: dict | None = None,
             parts.append(
                 f"{pkg['package_id']}. {pkg['action']}\n"
                 f"   Страница: {url_short}\n"
-                f"   Закроет {pkg['queries_count']} запросов, спрос {pkg['demand_total']}, "
-                f"сейчас позиции {pkg['position_best']}–{pkg['position_worst']}, "
+                f"   Закроет {pkg['queries_count']} запросов, "
+                f"{sections.format_demand(pkg)}\n"
+                f"   Сейчас позиции {pkg['position_best']}–{pkg['position_worst']}, "
                 f"выше нас {', '.join(pkg['rivals'][:2])}\n"
                 f"   {upside} · трудоёмкость {pkg['effort']} · "
                 f"уверенность {pkg['confidence']}")

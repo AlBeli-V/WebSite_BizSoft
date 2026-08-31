@@ -259,7 +259,9 @@ def _packages_block(packages: list[dict]) -> str:
       <p class="q">Страница: <b>{esc(url_short)}</b> ({esc(pkg['page_kind'])}).<br>
       Сейчас позиции {pkg['position_best']}–{pkg['position_worst']}.<br>
       Выше нас: {esc(", ".join(pkg['rivals']))}.<br>
-      Суммарный спрос группы: {pkg['demand_total']}.<br>
+      Спрос по источникам (не суммируется — величины разной природы):
+      {esc("; ".join(f"{v} {k} по {pkg.get('demand_queries_by_source', {}).get(k, 0)} запр."
+                     for k, v in (pkg.get('demand_by_source') or {}).items()) or "не измерен")}.<br>
       Уверенность оценки: {esc(pkg['confidence'])}.</p>
       <p class="q"><span class="lbl likely">ОЦЕНКА</span>Индекс потенциала
       {pkg['potential_index']:.3f} ({esc(pkg['potential_label'])}) — безразмерная

@@ -323,5 +323,46 @@ class TestPackageChoice(unittest.TestCase):
         self.assertIsNone(build_email.pick_package(None))
 
 
+class TestCoverageClassification(unittest.TestCase):
+    """Критический недостаток данных отделён от некритического.
+
+    Замечание третьей рецензии: при формулировке «неполные данные → вердикт
+    недостаточно данных» система с незапущенным Google обязана была бы вечно
+    отвечать «недостаточно данных», а 149 валидных запросов из 150 и 20 из
+    150 назывались бы одинаково.
+    """
+
+    def test_полное_покрытие_рабочее(self):
+        state, note = kpi_mod.coverage_state(snapshot(coverage=150))
+        self.assertEqual(state, "ок")
+
+    def test_отсутствие_google_не_критично(self):
+        """Необязательный источник снижает достоверность, но не блокирует."""
+        state, note = kpi_mod.coverage_state(snapshot(coverage=150))
+        self.assertEqual(state, "ок")
+        self.assertIn("Google", note)
+
+    def test_потеря_большей_части_ядра_критична(self):
+        state, note = kpi_mod.coverage_state(snapshot(coverage=20))
+        self.assertEqual(state, "критическое")
+        self.assertIn("20", note)
+
+    def test_почти_полное_покрытие_рабочее(self):
+        """149 из 150 — рабочий день, а не сбой."""
+        state, _ = kpi_mod.coverage_state(snapshot(coverage=149))
+        self.assertEqual(state, "ок")
+
+    def test_пустой_срез_критичен(self):
+        state, note = kpi_mod.coverage_state(snapshot(coverage=0))
+        self.assertEqual(state, "критическое")
+
+    def test_порог_на_границе(self):
+        """80% — граница: ровно на пороге данные ещё рабочие."""
+        state, _ = kpi_mod.coverage_state(snapshot(coverage=120))
+        self.assertEqual(state, "ок")
+        state, _ = kpi_mod.coverage_state(snapshot(coverage=119))
+        self.assertEqual(state, "критическое")
+
+
 if __name__ == "__main__":
     unittest.main()
