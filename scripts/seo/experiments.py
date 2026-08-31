@@ -18,7 +18,7 @@ import pathlib
 import sys
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
-from textfmt import counted, num  # noqa: E402
+from textfmt import counted, num, ru_date  # noqa: E402
 
 REGISTRY = pathlib.Path("reports/seo/intelligence/seo-experiments.json")
 MIN_EXPOSURE_IMPRESSIONS = 500   # ниже — выборка не позволяет судить о кликабельности
@@ -108,7 +108,18 @@ def build(snap: dict, date: str, site_check: dict | None = None) -> list[dict]:
     # ежедневно и показывается в веб-отчёте; в письмо расширенный блок и
     # запрос решения попадают только в контрольную дату. Сбой оценки не
     # ломает письмо: эксперимент остаётся с прежним наблюдательным вердиктом.
+    import experiment_stats
     import experiment_verdict
+    import serp_snippets
+
+    # site_check: либо новый формат {"experiments": {...}, "date": "..."}
+    # (load_site_check с fallback на свежайший файл), либо прежний плоский
+    # словарь по id эксперимента — тесты и старые вызовы передают его.
+    sc = site_check or {}
+    if "experiments" in sc:
+        checked_all, checked_date = sc["experiments"] or {}, sc.get("date")
+    else:
+        checked_all, checked_date = sc, None
 
     today = dt.date.fromisoformat(date)
     out = []
@@ -119,12 +130,39 @@ def build(snap: dict, date: str, site_check: dict | None = None) -> list[dict]:
         start = dt.date.fromisoformat(e["start"])
         days = (today - start).days
         imp, clicks = impressions_for_pages(snap, pages)
-        checked = (site_check or {}).get(e["id"], {})
+        checked = checked_all.get(e["id"], {})
         # Проверка живого сайта подтверждает выкат, но не обновление сниппета в
         # выдаче: индекс поисковика по своему же сайту не проверить. Разводим
         # эти сущности, чтобы не выдавать выкат за переобход.
         live = checked.get("pages_recrawled")
         snippets = checked.get("new_snippets_detected")
+        # Обновление сниппета в выдаче измеряется своим же SERP-замером:
+        # заголовок в топе сверяется с живым заголовком страницы (31.08.2026
+        # выяснилось, что письмо писало «нет данных», хотя данные были).
+        live_titles = {p["page"]: p.get("title") or ""
+                       for p in checked.get("pages", []) if p.get("page")}
+        slugs = [p.rsplit("/", 1)[-1] for p in pages]
+        try:
+            serp = serp_snippets.serp_status(pages, live_titles, today)
+        except Exception as exc:  # noqa: BLE001 - сбой SERP не ломает письмо
+            print(f"serp_status({e['id']}): {exc}", file=sys.stderr)
+            serp = None
+        try:
+            interim = experiment_stats.interim_comparison(slugs, start, today)
+        except Exception as exc:  # noqa: BLE001 - сбой сравнения не ломает письмо
+            print(f"interim_comparison({e['id']}): {exc}", file=sys.stderr)
+            interim = None
+        if serp and serp.get("pages_with_new_snippet"):
+            refresh = (f"новый сниппет виден в выдаче у "
+                       f"{serp['pages_with_new_snippet']} из {len(pages)} страниц "
+                       f"(замер {ru_date(serp['measured_at'])})")
+        elif serp and serp.get("pages_seen"):
+            refresh = (f"{serp['pages_seen']} из {len(pages)} страниц в выдаче, "
+                       f"обновление сниппета не подтверждено "
+                       f"(замер {ru_date(serp['measured_at'])})")
+        else:
+            refresh = ("не измерено: нет успешного SERP-замера за 7 дней"
+                       if live else "нет данных")
         v, why = verdict_for(days, imp, live, len(pages))
         out.append({
             "id": e["id"],
@@ -141,12 +179,13 @@ def build(snap: dict, date: str, site_check: dict | None = None) -> list[dict]:
             "minimum_exposure": f"{MIN_EXPOSURE_DAYS} дн. и {MIN_EXPOSURE_IMPRESSIONS} показов",
             "pages_total": len(pages),
             "pages_live_with_treatment": live,
+            "site_check_date": checked_date,
             "new_variant_detected_on_site": snippets,
-            "search_snippet_refresh": ("не подтверждено" if live else "нет данных"),
-            "search_snippet_refresh_note":
-                "Выкат на сайте проверен напрямую. Обновил ли Яндекс сниппет в выдаче, "
-                "по нашему сайту установить нельзя — это будет видно по данным "
-                "Вебмастера через несколько дней после переобхода.",
+            "search_snippet_refresh": refresh,
+            "serp": serp,
+            "interim": interim,
+            "exposure_min_impressions": MIN_EXPOSURE_IMPRESSIONS,
+            "exposure_ok": (imp or 0) >= MIN_EXPOSURE_IMPRESSIONS,
             "impressions_since_deploy": imp,
             "impressions_estimated": True,
             "clicks_since_deploy": clicks,

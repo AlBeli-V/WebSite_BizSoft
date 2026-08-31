@@ -815,6 +815,113 @@ def _pctf(v, digits=1) -> str:
     return "—" if v is None else f"{v * 100:.{digits}f}%"
 
 
+# ── Контроль эксперимента: строки статуса ───────────────────────────────────
+# Форма переделана по разбору руководителя 31.08.2026 («2 балла из 10»):
+# каждая строка отвечает на один его вопрос — выкачен ли новый вариант,
+# виден ли он в выдаче, сколько показов набрано из порога, как идёт старый
+# против нового. «Нет данных» без причины и следующего шага не допускается.
+
+def _exp_implementation_line(e: dict) -> str:
+    live = e.get("pages_live_with_treatment")
+    if live is None:
+        return ("выкат не подтверждён: проверка живых страниц не выполнялась "
+                "последние 3 дня")
+    when = (f"проверка сайта {ru_date(e['site_check_date'])}"
+            if e.get("site_check_date") else "проверено напрямую")
+    return f"{num(live)} из {e['pages_total']} страниц отдают новый вариант ({when})"
+
+
+def _exp_serp_line(e: dict) -> str:
+    s = e.get("serp")
+    line = e["search_snippet_refresh"]
+    if s and s.get("pages"):
+        posn = sorted(v["best_position"] for v in s["pages"].values())
+        line += (f", позиции {posn[0]}–{posn[-1]}" if posn[0] != posn[-1]
+                 else f", позиция {posn[0]}")
+    if s and s.get("pages_with_new_snippet"):
+        line += (" — Яндекс переобошёл страницы сам, принудительный переобход "
+                 "не понадобился")
+    else:
+        line += ("; принудительный переобход не запрашивался — инструмент ждёт "
+                 "токена с правами Вебмастера")
+    return line
+
+
+def _exp_exposure_line(e: dict) -> str:
+    imp = e.get("impressions_since_deploy")
+    if imp is None:
+        return "экспозиция не измерена: в выборке Вебмастера нет запросов кластера"
+    thr = e["exposure_min_impressions"]
+    state = ("порог пройден" if e.get("exposure_ok")
+             else f"до порога ещё {num(thr - imp)}")
+    return (f"{counted(imp, 'показ', 'показа', 'показов')} из {num(thr)} "
+            f"минимальных ({state}) · "
+            f"{counted(e.get('clicks_since_deploy'), 'клик', 'клика', 'кликов')} · "
+            f"день {e['days_elapsed']} из {exp_mod.MIN_EXPOSURE_DAYS} минимальных")
+
+
+def _exp_interim_line(e: dict) -> tuple[str, str | None]:
+    """Строка «старый → новый» и оговорки к ней (может не быть)."""
+    i = e.get("interim")
+    if not i:
+        eta = ((e.get("evaluation") or {}).get("windows") or {}).get(
+            "clean_experiment_eta")
+        return ("сравнение появится после первой выгрузки Вебмастера с окном "
+                "после внедрения"
+                + (f" (ожидается к {ru_date(eta)})" if eta else ""), None)
+    b, c = i["baseline"], i["current"]
+    mult = ""
+    if i.get("relative_uplift") is not None:
+        mult = (" — предварительно ×"
+                + f"{1 + i['relative_uplift']:.1f}".replace(".", ","))
+    posline = ""
+    if b.get("avg_position") and c.get("avg_position"):
+        posline = ("; позиция "
+                   + f"{b['avg_position']:.1f} → {c['avg_position']:.1f}"
+                   .replace(".", ","))
+    line = (f"CTR {pct(b['ctr'], 2)} (окно {ru_date(b['from'])}–{ru_date(b['to'])}, "
+            f"до внедрения) → {pct(c['ctr'], 2)} "
+            f"(окно {ru_date(c['from'])}–{ru_date(c['to'])}, "
+            f"{c['post_days']} из {c['window_days']} дней после){mult}{posline}")
+    return line, ("; ".join(i.get("caveats") or []) or None)
+
+
+def _exp_status_html(e: dict) -> str:
+    """Строки статуса ведущего эксперимента в письме."""
+    interim_line, interim_caveat = _exp_interim_line(e)
+    rows = [
+        ("Внедрение", _exp_implementation_line(e), None),
+        ("Выдача Яндекса", _exp_serp_line(e), None),
+        ("Экспозиция", _exp_exposure_line(e), None),
+        ("Старый → новый", interim_line, interim_caveat),
+        ("Вывод", f"<b>{VERDICT_LABEL[e['verdict']]}</b> — {e['verdict_reason']}. "
+                  f"Следующая проверка {ru_date(e['next_review'])}", None),
+    ]
+    out = (f"<div data-meta=\"1\" style=\"font-size:12.5px;"
+           f"color:{T['text_secondary']};padding-top:{SP['m']}px;\">"
+           f"Запуск {ru_date(e['start'])} · день {e['days_elapsed']} · минимум "
+           f"для вывода {e['minimum_exposure']}</div>")
+    for label, text, caveat in rows:
+        out += (f"<div style=\"font-size:14.5px;padding-top:{SP['s']}px;"
+                f"line-height:1.55;\"><b>{label}:</b> {text}.</div>")
+        if caveat:
+            out += (f"<div data-meta=\"1\" style=\"font-size:12.5px;"
+                    f"color:{T['text_secondary']};line-height:1.45;\">"
+                    f"оговорки: {caveat}</div>")
+    return out
+
+
+def _exp_short_line(o: dict) -> str:
+    """Строка «остальных» экспериментов: прогресс цифрами, а не только днями."""
+    imp = o.get("impressions_since_deploy")
+    expo = (f"{num(imp)} из {num(o['exposure_min_impressions'])} показов"
+            if imp is not None else "экспозиция не измерена")
+    review = (f"проверка {ru_date(o['next_review'])}" if o.get("next_review")
+              else "вехи пройдены, ждёт вердикта")
+    return (f"день {o['days_elapsed']} из {exp_mod.MIN_EXPOSURE_DAYS} · {expo} · "
+            f"{review}")
+
+
 def _verdict_line(e: dict) -> str:
     """Короткая строка вердикта для «остальных» экспериментов контрольной даты."""
     ev = e["evaluation"]
@@ -1123,9 +1230,7 @@ def html_email(b: dict, charts: dict, cid_mode: bool) -> str:
                 f"<div style=\"font-size:14.5px;padding-top:{SP['xs']}px;line-height:1.5;\">"
                 f"<b>{o['ticket']}</b> — "
                 + (_verdict_line(o) if o.get("control_date_today")
-                   and o.get("evaluation") else
-                   f"{counted(o['days_elapsed'], 'день', 'дня', 'дней')} "
-                   f"из {o['minimum_exposure']}, проверка {ru_date(o['next_review'])}.")
+                   and o.get("evaluation") else _exp_short_line(o))
                 + "</div>"
                 for o in others)
             extra = (f"<div style=\"padding-top:{SP['m']}px;border-top:1px solid {T['border']};"
@@ -1142,14 +1247,7 @@ def html_email(b: dict, charts: dict, cid_mode: bool) -> str:
             f"заголовки и блок вопросов на {e['pages_total']} карточках</div>"
             f"<div style=\"font-size:14.5px;padding-top:{SP['s']}px;line-height:1.55;\">"
             f"<b>Проверяем:</b> {e['hypothesis_plain']}</div>"
-            f"<div style=\"font-size:15px;padding-top:{SP['m']}px;line-height:1.65;\">"
-            f"Запуск {ru_date(e['start'])}, прошло {counted(e['days_elapsed'], 'день', 'дня', 'дней')} "
-            f"при минимуме {e['minimum_exposure']}.<br>"
-            f"Новый вариант на сайте: {num(e['pages_live_with_treatment'])} из "
-            f"{e['pages_total']} страниц, проверено напрямую.<br>"
-            f"Обновление сниппета в выдаче: {e['search_snippet_refresh']}.<br>"
-            f"Вывод: <b>{VERDICT_LABEL[e['verdict']]}</b> — {e['verdict_reason']}. "
-            f"Следующая проверка {ru_date(e['next_review'])}.</div>"
+            + _exp_status_html(e) +
             f"<div style=\"padding-top:{SP['m']}px;\">{_img(charts, 'experiment', cid_mode)}</div>"
             f"{extra}</td></tr></table>"))
 
@@ -1434,12 +1532,18 @@ def plain_text(b: dict) -> str:
                                      -x.get("days_elapsed", 0)))
     if exps_txt:
         e = exps_txt[0]
+        interim_line, interim_caveat = _exp_interim_line(e)
         L += ["", "КОНТРОЛЬ ЭКСПЕРИМЕНТА",
-              f"- {e['ticket']}: {e['pages_total']} карточек, новый вариант на сайте "
-              f"{num(e['pages_live_with_treatment'])}, обновление сниппета в выдаче: "
-              f"{e['search_snippet_refresh']}",
-              f"  {e['current_result']}",
-              f"  вывод: {VERDICT_LABEL[e['verdict']]} — {e['verdict_reason']}",
+              f"- {e['ticket']}: запуск {ru_date(e['start'])}, день "
+              f"{e['days_elapsed']}, минимум для вывода {e['minimum_exposure']}",
+              f"  внедрение: {_exp_implementation_line(e)}",
+              f"  выдача Яндекса: {_exp_serp_line(e)}",
+              f"  экспозиция: {_exp_exposure_line(e)}",
+              f"  старый -> новый: {interim_line}"]
+        if interim_caveat:
+            L.append(f"    оговорки: {interim_caveat}")
+        L += [f"  вывод: {VERDICT_LABEL[e['verdict']]} — {e['verdict_reason']}, "
+              f"следующая проверка {ru_date(e['next_review'])}",
               f"  {e['combined_note']}"]
         if e.get("control_date_today") and e.get("evaluation"):
             ev = e["evaluation"]
@@ -1459,8 +1563,7 @@ def plain_text(b: dict) -> str:
                          f"{ov['verdict_reason']}; рекомендация "
                          f"{EXP_REC_LABEL[ov['recommendation']]}")
             else:
-                L.append(f"- {o['ticket']}: {counted(o['days_elapsed'], 'день', 'дня', 'дней')} "
-                         f"из {o['minimum_exposure']}, проверка {ru_date(o['next_review'])}")
+                L.append(f"- {o['ticket']}: {_exp_short_line(o)}")
     if b["board"]:
         L += ["", "СИСТЕМА УЖЕ ДЕЛАЕТ"]
         for r in b["board"]:
@@ -1697,10 +1800,21 @@ def loop_health_line(lh: dict) -> tuple[str, bool] | None:
 
 
 def load_site_check(date: str) -> dict | None:
-    p = BASE / f"site-check-{date}.json"
-    if not p.exists():
-        return None
-    return json.loads(p.read_text(encoding="utf-8")).get("experiments")
+    """Свежайшая проверка живых страниц, не обязательно сегодняшняя.
+
+    31.08.2026 сегодняшний файл затёрла гонка параллельных пушей в seo-data,
+    и письмо написало «нет данных», хотя проверка прошла за минуты до сборки.
+    Устойчивость: берём файл за дату письма, а без него — свежайший не старше
+    трёх дней; его дата возвращается и показывается в письме честно.
+    """
+    for back in range(4):
+        d = (dt.date.fromisoformat(date) - dt.timedelta(days=back)).isoformat()
+        p = BASE / f"site-check-{d}.json"
+        if p.exists():
+            return {"experiments":
+                    json.loads(p.read_text(encoding="utf-8")).get("experiments"),
+                    "date": d}
+    return None
 
 
 def main() -> int:
