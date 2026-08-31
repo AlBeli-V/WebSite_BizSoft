@@ -209,6 +209,20 @@ class TestDeferredFlow(unittest.TestCase):
         self.assertIn("HTTP 403", self.rows[0]["error"])
         self.assertEqual(self.sw.month_spent(self.date), 2)  # submit платный
 
+    def test_poll_network_error_does_not_finalize(self):
+        """Сетевой сбой опроса — не вердикт: запрос остаётся pending до
+        дедлайна (урок ночи 31.08: неверный хост похоронил весь срез)."""
+        def broken_fetch(session, key, op):
+            raise ConnectionError("нет маршрута")
+
+        ok, failed = self.collect(
+            lambda s, k, q, r: {"op": f"op-{q}"}, broken_fetch, timeout=0)
+        self.assertEqual((ok, failed), (0, 2))
+        # финализировано дедлайном (pending-файл есть), а не сетевой ошибкой
+        self.assertTrue(all("не готов к дедлайну" in r["error"]
+                            for r in self.rows))
+        self.assertTrue((self.sw.SERP_DIR / f"pending-{DATE}.json").exists())
+
     def test_deadline_saves_pending_operations(self):
         ok, failed = self.collect(
             lambda s, k, q, r: {"op": f"op-{q}-{r}"},
