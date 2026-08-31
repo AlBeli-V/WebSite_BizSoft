@@ -216,5 +216,43 @@ class TestDoNextAndWatch(unittest.TestCase):
         self.assertEqual(a["действие_хэш"], b["действие_хэш"])
 
 
+class TestStaleData(unittest.TestCase):
+    """Поведение в день, когда свежий сбор не удался.
+
+    Реальный случай 31.08.2026: сбор базового контура вернул ошибку по всем
+    502 запросам. Требование раздела 24 задания — письмо в такой день всё
+    равно уходит, но с вердиктом «недостаточно данных».
+    """
+
+    def test_вердикт_становится_серым(self):
+        meta = build_email.build("2026-08-30", snapshot(share=0.09),
+                                 snapshot(share=0.05),
+                                 stale_notice="свежий сбор за 2026-08-31 не удался")
+        # Даже при росте доли на 4 п.п. вердикт не «усиливаемся»
+        self.assertEqual(meta["вердикт"], kpi_mod.VERDICT_NO_DATA)
+
+    def test_причина_названа_в_письме(self):
+        meta = build_email.build("2026-08-30", snapshot(), None,
+                                 stale_notice="свежий сбор за 2026-08-31 не удался")
+        self.assertIn("2026-08-31", meta["текст"])
+        self.assertIn("не удался", meta["текст"])
+
+    def test_предупреждение_в_метаданных(self):
+        meta = build_email.build("2026-08-30", snapshot(), None,
+                                 stale_notice="сбор не удался")
+        self.assertEqual(meta["предупреждение_о_свежести"], "сбор не удался")
+
+    def test_обычный_день_без_предупреждения(self):
+        meta = build_email.build("2026-08-30", snapshot(), None)
+        self.assertIsNone(meta["предупреждение_о_свежести"])
+
+    def test_лимит_соблюдён_и_с_предупреждением(self):
+        meta = build_email.build("2026-08-30", snapshot(), None,
+                                 stale_notice="свежий сбор за 2026-08-31 не удался "
+                                              "(502 запросов с ошибкой), "
+                                              "показаны данные за 2026-08-30")
+        self.assertTrue(meta["лимит_соблюдён"])
+
+
 if __name__ == "__main__":
     unittest.main()
