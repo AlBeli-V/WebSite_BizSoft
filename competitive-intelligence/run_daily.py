@@ -106,13 +106,16 @@ def main(argv: list[str]) -> int:
 
     meta = build_email.build(date, snapshot, previous, attacks=attacks,
                              threat_leader=threat_leader,
-                             stale_notice=stale_notice)
+                             stale_notice=stale_notice, ranked_rivals=ranked)
+    kpi_obj = kpi_mod.build_kpi(snapshot, previous)
     os.makedirs(paths.REPORTS_DIR, exist_ok=True)
     base = os.path.join(paths.REPORTS_DIR, f"{date}-email")
     with open(f"{base}.txt", "w", encoding="utf-8") as fh:
-        fh.write(build_email.render_txt(meta))
+        fh.write(build_email.render_txt(meta, snapshot=snapshot, attacks=attacks,
+                                        ranked_rivals=ranked))
     with open(f"{base}.html", "w", encoding="utf-8") as fh:
-        fh.write(build_email.render_html(meta))
+        fh.write(build_email.render_html(meta, kpi=kpi_obj, snapshot=snapshot,
+                                         attacks=attacks, ranked_rivals=ranked))
     with open(f"{base}.json", "w", encoding="utf-8") as fh:
         json.dump(meta, fh, ensure_ascii=False, indent=2)
 
