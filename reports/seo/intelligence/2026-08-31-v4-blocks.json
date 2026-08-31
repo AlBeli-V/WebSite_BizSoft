@@ -517,10 +517,72 @@
    "days_elapsed": 12,
    "minimum_exposure": "7 дн. и 500 показов",
    "pages_total": 5,
-   "pages_live_with_treatment": null,
-   "new_variant_detected_on_site": null,
-   "search_snippet_refresh": "нет данных",
-   "search_snippet_refresh_note": "Выкат на сайте проверен напрямую. Обновил ли Яндекс сниппет в выдаче, по нашему сайту установить нельзя — это будет видно по данным Вебмастера через несколько дней после переобхода.",
+   "pages_live_with_treatment": 5,
+   "site_check_date": "2026-08-31",
+   "new_variant_detected_on_site": 5,
+   "search_snippet_refresh": "новый сниппет виден в выдаче у 4 из 5 страниц (замер 31.08)",
+   "serp": {
+    "measured_at": "2026-08-31",
+    "pages_total": 5,
+    "pages_seen": 4,
+    "pages_with_new_snippet": 4,
+    "pages": {
+     "/vendors/coreldraw": {
+      "best_position": 2,
+      "serp_title": "Оплата CorelDRAW для юрлиц из России — счёт... | BIZSoft",
+      "query": "оплата coreldraw по счету из россии",
+      "new_snippet": true
+     },
+     "/vendors/depositphotos": {
+      "best_position": 1,
+      "serp_title": "Оплата Depositphotos для юрлиц из России — счёт... | BIZSoft",
+      "query": "оплата depositphotos для юридических лиц из россии",
+      "new_snippet": true
+     },
+     "/vendors/canva": {
+      "best_position": 1,
+      "serp_title": "Оплата Canva для юридических лиц из России — счёт... | BIZSoft",
+      "query": "оплата canva для юридических лиц из россии",
+      "new_snippet": true
+     },
+     "/vendors/marmoset": {
+      "best_position": 2,
+      "serp_title": "Marmoset Toolbag 5 — купить лицензию на компанию | BIZSoft",
+      "query": "marmoset toolbag 5 купить лицензию",
+      "new_snippet": true
+     }
+    }
+   },
+   "interim": {
+    "preliminary": true,
+    "baseline": {
+     "from": "2026-08-06",
+     "to": "2026-08-17",
+     "impressions": 532,
+     "clicks": 2,
+     "ctr": 0.0037593984962406013,
+     "avg_position": 7.197368421052632,
+     "queries": 33
+    },
+    "current": {
+     "from": "2026-08-17",
+     "to": "2026-08-29",
+     "impressions": 647,
+     "clicks": 4,
+     "ctr": 0.0061823802163833074,
+     "avg_position": 7.8995363214837715,
+     "queries": 104,
+     "post_days": 10,
+     "window_days": 13
+    },
+    "relative_uplift": 0.6445131375579599,
+    "caveats": [
+     "базовое окно из усечённой выгрузки (100 запросов) — клики занижены",
+     "текущее окно пересекает период до внедрения: 10 из 13 дней — после"
+    ]
+   },
+   "exposure_min_impressions": 500,
+   "exposure_ok": true,
    "impressions_since_deploy": 647,
    "impressions_estimated": true,
    "clicks_since_deploy": 4,
@@ -567,9 +629,59 @@
    "minimum_exposure": "7 дн. и 500 показов",
    "pages_total": 5,
    "pages_live_with_treatment": null,
+   "site_check_date": "2026-08-31",
    "new_variant_detected_on_site": null,
-   "search_snippet_refresh": "нет данных",
-   "search_snippet_refresh_note": "Выкат на сайте проверен напрямую. Обновил ли Яндекс сниппет в выдаче, по нашему сайту установить нельзя — это будет видно по данным Вебмастера через несколько дней после переобхода.",
+   "search_snippet_refresh": "2 из 5 страниц в выдаче, обновление сниппета не подтверждено (замер 31.08)",
+   "serp": {
+    "measured_at": "2026-08-31",
+    "pages_total": 5,
+    "pages_seen": 2,
+    "pages_with_new_snippet": null,
+    "pages": {
+     "/vendors/depositphotos": {
+      "best_position": 1,
+      "serp_title": "Оплата Depositphotos для юрлиц из России — счёт... | BIZSoft",
+      "query": "оплата depositphotos для юридических лиц из россии",
+      "new_snippet": null
+     },
+     "/blog/kak-oplatit-depositphotos-dlya-yurlica": {
+      "best_position": 6,
+      "serp_title": "Как оплатить Depositphotos для юридического лица в России",
+      "query": "как оплатить пакет depositphotos из россии",
+      "new_snippet": null
+     }
+    }
+   },
+   "interim": {
+    "preliminary": true,
+    "baseline": {
+     "from": "2026-08-06",
+     "to": "2026-08-17",
+     "impressions": 253,
+     "clicks": 0,
+     "ctr": 0.0,
+     "avg_position": 7.276679841897233,
+     "queries": 15
+    },
+    "current": {
+     "from": "2026-08-17",
+     "to": "2026-08-29",
+     "impressions": 426,
+     "clicks": 0,
+     "ctr": 0.0,
+     "avg_position": 8.384976525821596,
+     "queries": 55,
+     "post_days": 10,
+     "window_days": 13
+    },
+    "relative_uplift": null,
+    "caveats": [
+     "базовое окно из усечённой выгрузки (100 запросов) — клики занижены",
+     "текущее окно пересекает период до внедрения: 10 из 13 дней — после"
+    ]
+   },
+   "exposure_min_impressions": 500,
+   "exposure_ok": false,
    "impressions_since_deploy": 426,
    "impressions_estimated": true,
    "clicks_since_deploy": 0,
@@ -616,9 +728,53 @@
    "minimum_exposure": "7 дн. и 500 показов",
    "pages_total": 6,
    "pages_live_with_treatment": null,
+   "site_check_date": "2026-08-31",
    "new_variant_detected_on_site": null,
-   "search_snippet_refresh": "нет данных",
-   "search_snippet_refresh_note": "Выкат на сайте проверен напрямую. Обновил ли Яндекс сниппет в выдаче, по нашему сайту установить нельзя — это будет видно по данным Вебмастера через несколько дней после переобхода.",
+   "search_snippet_refresh": "1 из 6 страниц в выдаче, обновление сниппета не подтверждено (замер 31.08)",
+   "serp": {
+    "measured_at": "2026-08-31",
+    "pages_total": 6,
+    "pages_seen": 1,
+    "pages_with_new_snippet": null,
+    "pages": {
+     "/vendors/clip-studio-paint": {
+      "best_position": 7,
+      "serp_title": "Купить Clip Studio Paint для юрлица — тарифы, счёт и КП — BizSoft",
+      "query": "сколько стоит подписка клип студио бессрочная",
+      "new_snippet": null
+     }
+    }
+   },
+   "interim": {
+    "preliminary": true,
+    "baseline": {
+     "from": "2026-08-07",
+     "to": "2026-08-19",
+     "impressions": 5,
+     "clicks": 0,
+     "ctr": 0.0,
+     "avg_position": 9.6,
+     "queries": 1
+    },
+    "current": {
+     "from": "2026-08-17",
+     "to": "2026-08-29",
+     "impressions": 13,
+     "clicks": 0,
+     "ctr": 0.0,
+     "avg_position": 13.0,
+     "queries": 11,
+     "post_days": 9,
+     "window_days": 13
+    },
+    "relative_uplift": null,
+    "caveats": [
+     "базовое окно из усечённой выгрузки (100 запросов) — клики занижены",
+     "текущее окно пересекает период до внедрения: 9 из 13 дней — после"
+    ]
+   },
+   "exposure_min_impressions": 500,
+   "exposure_ok": false,
    "impressions_since_deploy": 13,
    "impressions_estimated": true,
    "clicks_since_deploy": 0,
@@ -665,9 +821,52 @@
    "minimum_exposure": "7 дн. и 500 показов",
    "pages_total": 1,
    "pages_live_with_treatment": null,
+   "site_check_date": "2026-08-31",
    "new_variant_detected_on_site": null,
-   "search_snippet_refresh": "нет данных",
-   "search_snippet_refresh_note": "Выкат на сайте проверен напрямую. Обновил ли Яндекс сниппет в выдаче, по нашему сайту установить нельзя — это будет видно по данным Вебмастера через несколько дней после переобхода.",
+   "search_snippet_refresh": "1 из 1 страниц в выдаче, обновление сниппета не подтверждено (замер 31.08)",
+   "serp": {
+    "measured_at": "2026-08-31",
+    "pages_total": 1,
+    "pages_seen": 1,
+    "pages_with_new_snippet": null,
+    "pages": {
+     "/vendors/anthropic": {
+      "best_position": 3,
+      "serp_title": "Купить Anthropic Claude для юрлица — тарифы, счёт... — BIZSoft",
+      "query": "тарифные планы anthropic для бизнеса",
+      "new_snippet": null
+     }
+    }
+   },
+   "interim": {
+    "preliminary": true,
+    "baseline": {
+     "from": "2026-08-16",
+     "to": "2026-08-27",
+     "impressions": 33,
+     "clicks": 0,
+     "ctr": 0.0,
+     "avg_position": 5.757575757575758,
+     "queries": 10
+    },
+    "current": {
+     "from": "2026-08-17",
+     "to": "2026-08-29",
+     "impressions": 41,
+     "clicks": 0,
+     "ctr": 0.0,
+     "avg_position": 5.2682926829268295,
+     "queries": 10,
+     "post_days": 0,
+     "window_days": 13
+    },
+    "relative_uplift": null,
+    "caveats": [
+     "текущее окно пересекает период до внедрения: 0 из 13 дней — после"
+    ]
+   },
+   "exposure_min_impressions": 500,
+   "exposure_ok": false,
    "impressions_since_deploy": 41,
    "impressions_estimated": true,
    "clicks_since_deploy": 0,
@@ -714,9 +913,45 @@
    "minimum_exposure": "7 дн. и 500 показов",
    "pages_total": 7,
    "pages_live_with_treatment": null,
+   "site_check_date": "2026-08-31",
    "new_variant_detected_on_site": null,
    "search_snippet_refresh": "нет данных",
-   "search_snippet_refresh_note": "Выкат на сайте проверен напрямую. Обновил ли Яндекс сниппет в выдаче, по нашему сайту установить нельзя — это будет видно по данным Вебмастера через несколько дней после переобхода.",
+   "serp": {
+    "measured_at": "2026-08-31",
+    "pages_total": 7,
+    "pages_seen": 0,
+    "pages_with_new_snippet": null,
+    "pages": {}
+   },
+   "interim": {
+    "preliminary": true,
+    "baseline": {
+     "from": "2026-08-17",
+     "to": "2026-08-29",
+     "impressions": 191,
+     "clicks": 2,
+     "ctr": 0.010471204188481676,
+     "avg_position": 6.366492146596858,
+     "queries": 66
+    },
+    "current": {
+     "from": "2026-08-17",
+     "to": "2026-08-29",
+     "impressions": 191,
+     "clicks": 2,
+     "ctr": 0.010471204188481676,
+     "avg_position": 6.366492146596858,
+     "queries": 66,
+     "post_days": 0,
+     "window_days": 13
+    },
+    "relative_uplift": 0.0,
+    "caveats": [
+     "текущее окно пересекает период до внедрения: 0 из 13 дней — после"
+    ]
+   },
+   "exposure_min_impressions": 500,
+   "exposure_ok": false,
    "impressions_since_deploy": 191,
    "impressions_estimated": true,
    "clicks_since_deploy": 2,
@@ -1554,7 +1789,7 @@
  },
  "loop_health": {
   "date": "2026-08-31",
-  "generated_at": "2026-08-31T06:35:42+00:00",
+  "generated_at": "2026-08-31T08:08:00+00:00",
   "contours": [
    {
     "id": "collect",
@@ -1640,7 +1875,7 @@
     "id": "email",
     "label": "Отправка письма руководителю",
     "cadence": "ежедневно ~09:30 МСК",
-    "last_run": "2026-08-30",
+    "last_run": "2026-08-31",
     "expected_since": "2026-08-30",
     "overdue": false,
     "days_late": 0,
@@ -1655,11 +1890,21 @@
     "overdue": false,
     "days_late": 0,
     "note": null
+   },
+   {
+    "id": "serp",
+    "label": "SERP-срез Яндекса",
+    "cadence": "ежедневно 01:37 МСК",
+    "last_run": "2026-08-31",
+    "expected_since": "2026-08-31",
+    "overdue": false,
+    "days_late": 0,
+    "note": null
    }
   ],
   "overdue": [],
-  "ok_count": 10,
-  "total": 10,
+  "ok_count": 11,
+  "total": 11,
   "available": true
  },
  "demand": {
@@ -1688,17 +1933,17 @@
    ],
    "note": "Российские вендоры исключены: их лицензии продаются напрямую, услуга оплаты из-за рубежа к ним неприменима."
   },
-  "summary": "Мы видим 287 788 покупательских запросов в месяц по 171 направлениям каталога. Своя страница есть под 88% этого спроса, в поиске находится 60%, на первой странице — 22%. Без страницы остаётся 17 778 запросов в месяц — это направления, где спрос есть, а нас в выдаче нет. Ещё 52 137 запросов в месяц не отнесены ни к нам, ни к чужому товару: это голые фразы омонимичных брендов (box — 30 187, zoom — 10 813, bubble купить — 5 732). В спрос и в решения об ассортименте они не входят.",
+  "summary": "Мы видим 287 788 покупательских запросов в месяц по 171 направлениям каталога. Своя страница есть под 88% этого спроса, в поиске находится 62%, на первой странице — 13%. Без страницы остаётся 17 778 запросов в месяц — это направления, где спрос есть, а нас в выдаче нет. Ещё 52 137 запросов в месяц не отнесены ни к нам, ни к чужому товару: это голые фразы омонимичных брендов (box — 30 187, zoom — 10 813, bubble купить — 5 732). В спрос и в решения об ассортименте они не входят.",
   "coverage": {
    "page": 0.8783,
-   "indexed": 0.6042,
-   "top10": 0.2218
+   "indexed": 0.6152,
+   "top10": 0.1267
   },
   "lead_opportunity": {
-   "cluster": "anthropic",
-   "demand": 27231,
-   "action": "эксперимент со сниппетом",
-   "why": "Позиция хорошая, показы есть, переходов мало",
+   "cluster": "google",
+   "demand": 19390,
+   "action": "техническое SEO",
+   "why": "Страница есть, не индексируется",
    "confidence": "достаточная: кластер измерен несколькими фразами"
   },
   "measured_at": "2026-08-31"
@@ -1708,7 +1953,7 @@
   "as_of": "2026-08-30",
   "campaign": "bs-test-2026-09",
   "week": {
-   "spent": 502.75,
+   "spent": 562.91,
    "limit": 4098
   },
   "day_spend": 0,
@@ -1731,12 +1976,12 @@
     "label": "Claude Code",
     "spend_day": 0,
     "clicks_day": 0,
-    "clicks_total": 8,
-    "spend_total": 136.84,
+    "clicks_total": 17,
+    "spend_total": 184.99,
     "cpc": null,
     "verdict": {
-     "tone": "grey",
-     "label": "мало данных (8 кл.)"
+     "tone": "ok",
+     "label": "идёт набор статистики"
     }
    },
    {
@@ -1783,12 +2028,12 @@
     "label": "Adobe",
     "spend_day": 0,
     "clicks_day": 0,
-    "clicks_total": 0,
-    "spend_total": 0.0,
+    "clicks_total": 1,
+    "spend_total": 12.01,
     "cpc": null,
     "verdict": {
      "tone": "grey",
-     "label": "мало данных (0 кл.)"
+     "label": "мало данных (1 кл.)"
     }
    }
   ],
