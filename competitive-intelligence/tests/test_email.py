@@ -39,34 +39,60 @@ def snapshot(*, share=0.054, top3=28, top10=94, queries=150, leaders=None,
 
 
 class TestVerdict(unittest.TestCase):
-    def test_без_прошлого_всегда_недостаточно_данных(self):
-        """На второй день наблюдений объявлять рост нельзя."""
+    """Версия 1.1.0: динамический вердикт требует шести сравнимых измерений.
+
+    В 1.0.0 была коллизия, найденная внешним аудитом: методика декларировала
+    сглаживание медианами 3×3, а вердикт менялся уже на втором дне по
+    разнице двух соседних точек.
+    """
+
+    def test_без_истории_недостаточно_данных(self):
         k = kpi_mod.build_kpi(snapshot())
-        mark, why = kpi_mod.verdict(k)
+        mark, why = kpi_mod.verdict(k, [])
         self.assertEqual(mark, kpi_mod.VERDICT_NO_DATA)
-        self.assertIn("сравнивать", why)
+        self.assertIn("динамики", why)
+
+    def test_пяти_измерений_недостаточно(self):
+        """Пять точек — окно 3×3 не собирается, тренда не существует."""
+        k = kpi_mod.build_kpi(snapshot())
+        mark, why = kpi_mod.verdict(k, [0.05] * 5)
+        self.assertEqual(mark, kpi_mod.VERDICT_NO_DATA)
+        self.assertIn("не хватает 1", why)
 
     def test_нет_покрытия_даёт_серый_вердикт(self):
         k = kpi_mod.build_kpi(snapshot(coverage=0))
-        mark, _ = kpi_mod.verdict(k)
+        mark, _ = kpi_mod.verdict(k, [0.05] * 6)
         self.assertEqual(mark, kpi_mod.VERDICT_NO_DATA)
 
-    def test_значимый_рост(self):
-        k = kpi_mod.build_kpi(snapshot(share=0.070), snapshot(share=0.054))
-        mark, why = kpi_mod.verdict(k)
+    def test_значимый_рост_по_окнам(self):
+        k = kpi_mod.build_kpi(snapshot())
+        mark, why = kpi_mod.verdict(k, [0.05, 0.05, 0.05, 0.07, 0.07, 0.07])
         self.assertEqual(mark, kpi_mod.VERDICT_GROWTH)
         self.assertIn("выросла", why)
 
-    def test_значимое_падение(self):
-        k = kpi_mod.build_kpi(snapshot(share=0.040), snapshot(share=0.054))
-        mark, _ = kpi_mod.verdict(k)
+    def test_значимое_падение_по_окнам(self):
+        k = kpi_mod.build_kpi(snapshot())
+        mark, _ = kpi_mod.verdict(k, [0.07, 0.07, 0.07, 0.05, 0.05, 0.05])
         self.assertEqual(mark, kpi_mod.VERDICT_DECLINE)
 
     def test_шум_не_становится_сигналом(self):
-        """Движение меньше порога — нейтрально, а не «рост»."""
-        k = kpi_mod.build_kpi(snapshot(share=0.0562), snapshot(share=0.054))
-        mark, _ = kpi_mod.verdict(k)
+        k = kpi_mod.build_kpi(snapshot())
+        mark, _ = kpi_mod.verdict(k, [0.054, 0.054, 0.054, 0.056, 0.056, 0.056])
         self.assertEqual(mark, kpi_mod.VERDICT_NEUTRAL)
+
+    def test_выброс_сглаживается_медианой(self):
+        """Один аномальный день не должен переворачивать вердикт."""
+        k = kpi_mod.build_kpi(snapshot())
+        ровно, _ = kpi_mod.verdict(k, [0.05, 0.05, 0.05, 0.052, 0.052, 0.052])
+        с_выбросом, _ = kpi_mod.verdict(k, [0.05, 0.05, 0.05, 0.052, 0.40, 0.052])
+        self.assertEqual(ровно, с_выбросом)
+
+    def test_структурный_вердикт_доступен_сразу(self):
+        """Расстановка сил — не тренд, её можно называть с первого дня."""
+        k = kpi_mod.build_kpi(snapshot())
+        text = kpi_mod.structural_verdict(k, ("raketapay.ru", 0.0998))
+        self.assertIn("5,4%", text)
+        self.assertIn("raketapay.ru", text)
 
     def test_дельты_считаются(self):
         k = kpi_mod.build_kpi(snapshot(top3=28, top10=94),
@@ -227,7 +253,8 @@ class TestStaleData(unittest.TestCase):
     def test_вердикт_становится_серым(self):
         meta = build_email.build("2026-08-30", snapshot(share=0.09),
                                  snapshot(share=0.05),
-                                 stale_notice="свежий сбор за 2026-08-31 не удался")
+                                 stale_notice="свежий сбор за 2026-08-31 не удался",
+                                 history=[0.05] * 3 + [0.09] * 3)
         # Даже при росте доли на 4 п.п. вердикт не «усиливаемся»
         self.assertEqual(meta["вердикт"], kpi_mod.VERDICT_NO_DATA)
 

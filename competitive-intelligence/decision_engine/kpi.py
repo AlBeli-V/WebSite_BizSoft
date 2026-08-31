@@ -14,6 +14,7 @@ from __future__ import annotations
 import glob
 import json
 import os
+import statistics
 import sys
 from dataclasses import dataclass
 
@@ -26,8 +27,18 @@ VERDICT_DECLINE = "🔴"
 VERDICT_NO_DATA = "⚪"
 
 # Порог значимости изменения доли видимости в процентных пунктах. Меньшее
-# движение — шум одного дня, а не сигнал (раздел 9 задания).
+# движение — шум, а не сигнал (раздел 9 задания).
 SIGNIFICANT_SHARE_PP = 0.5
+
+# Сколько сравнимых измерений нужно, чтобы говорить о динамике. Общий фильтр
+# значимости сравнивает медиану трёх последних измерений с медианой трёх
+# предыдущих — значит раньше шестого валидного среза тренда не существует.
+#
+# В версии 1.0.0 здесь была логическая коллизия, найденная внешним аудитом:
+# методика декларировала сглаживание 3×3, а вердикт менялся уже на втором
+# дне, по разнице двух соседних точек. Теперь правило одно и жёсткое.
+WINDOW = 3
+MIN_OBSERVATIONS_FOR_TREND = WINDOW * 2
 
 
 @dataclass
@@ -89,26 +100,68 @@ def build_kpi(snapshot: dict, previous: dict | None = None) -> Kpi:
     return kpi
 
 
-def verdict(kpi: Kpi) -> tuple[str, str]:
-    """Вердикт дня и строка-объяснение к нему.
+def trend_change(history: list[float]) -> float | None:
+    """Изменение доли между сравнимыми окнами, в процентных пунктах.
 
-    Осторожность здесь важнее выразительности: система, которая на второй
-    день наблюдений объявляет «усиливаемся», обесценивает собственный сигнал.
+    Медиана трёх последних измерений против медианы трёх предыдущих — то же
+    сглаживание, что и в остальной системе. Меньше шести измерений — тренда
+    нет, возвращается None, а не ноль.
+    """
+    if len(history) < MIN_OBSERVATIONS_FOR_TREND:
+        return None
+    recent = statistics.median(history[-WINDOW:])
+    earlier = statistics.median(history[-MIN_OBSERVATIONS_FOR_TREND:-WINDOW])
+    return round(100 * (recent - earlier), 3)
+
+
+def structural_verdict(kpi: Kpi, field_leader: tuple[str, float] | None = None
+                       ) -> str:
+    """Структурный вывод: где мы стоим прямо сейчас.
+
+    Не требует истории и доступен с первого дня. Отвечает на вопрос «какова
+    расстановка», а не «куда движемся» — это разные утверждения, и смешивать
+    их нельзя.
+    """
+    share = format_share(kpi.share_yandex)
+    base = f"BIZSoft занимает {share} взвешенной видимости поля"
+    if kpi.top3 is not None and kpi.queries:
+        base += f", в ТОП-3 по {kpi.top3} запросам из {kpi.queries}"
+    if field_leader:
+        domain, value = field_leader
+        base += f"; ведущий конкурент — {domain} с {format_share(value)}"
+    return base + "."
+
+
+def verdict(kpi: Kpi, history: list[float] | None = None) -> tuple[str, str]:
+    """Динамический вердикт: усиливаемся, слабеем или движения нет.
+
+    Требует шести сравнимых измерений — раньше динамики не существует, и
+    любой вердикт о ней был бы утверждением о шуме. Структурная картина при
+    этом доступна всегда, её даёт structural_verdict().
     """
     if not kpi.coverage_ok:
         return VERDICT_NO_DATA, ("Данные неполные: срез выдачи не собран — "
                                  "выводы по такому дню не делаем")
-    if kpi.share_delta_pp is None:
-        return VERDICT_NO_DATA, ("Недостаточно данных: базовая линия зафиксирована, "
-                                 "сравнивать пока не с чем")
-    if kpi.share_delta_pp >= SIGNIFICANT_SHARE_PP:
-        return VERDICT_GROWTH, (f"Доля видимости выросла на "
-                                f"{kpi.share_delta_pp:+.2f} п.п.")
-    if kpi.share_delta_pp <= -SIGNIFICANT_SHARE_PP:
-        return VERDICT_DECLINE, (f"Доля видимости упала на "
-                                 f"{kpi.share_delta_pp:+.2f} п.п.")
-    return VERDICT_NEUTRAL, (f"Доля видимости почти не изменилась "
-                             f"({kpi.share_delta_pp:+.2f} п.п.)")
+
+    history = history or []
+    if len(history) < MIN_OBSERVATIONS_FOR_TREND:
+        need = MIN_OBSERVATIONS_FOR_TREND - len(history)
+        return VERDICT_NO_DATA, (
+            f"Недостаточно данных для оценки динамики: нужно "
+            f"{MIN_OBSERVATIONS_FOR_TREND} сравнимых измерений, "
+            f"не хватает {need}")
+
+    change = trend_change(history)
+    if change is None:
+        return VERDICT_NO_DATA, "Динамика не определена"
+    if change >= SIGNIFICANT_SHARE_PP:
+        return VERDICT_GROWTH, (f"Доля видимости выросла на {change:+.2f} п.п. "
+                                f"между сравнимыми окнами")
+    if change <= -SIGNIFICANT_SHARE_PP:
+        return VERDICT_DECLINE, (f"Доля видимости упала на {change:+.2f} п.п. "
+                                 f"между сравнимыми окнами")
+    return VERDICT_NEUTRAL, (f"Доля видимости устойчива "
+                             f"({change:+.2f} п.п. между окнами)")
 
 
 def ru_number(value: float, digits: int = 1) -> str:

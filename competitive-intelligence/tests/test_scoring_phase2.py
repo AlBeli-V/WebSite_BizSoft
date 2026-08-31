@@ -47,6 +47,8 @@ class TestIntent(unittest.TestCase):
 
 
 class TestThreat(unittest.TestCase):
+    """Версия 1.1.0: три ортогональных компонента вместо тройного учёта позиций."""
+
     def card(self, **kw):
         base = {"домен": "x.ru", "доля": 0.10, "топ3": 40, "топ10": 60}
         base.update(kw)
@@ -57,23 +59,54 @@ class TestThreat(unittest.TestCase):
         вел = threat.score(self.card(доля=0.12), queries_total=150).score
         self.assertGreater(вел, мал)
 
-    def test_без_истории_confidence_low(self):
-        """Неполный расчёт не выдаётся за полный."""
-        t = threat.score(self.card(), queries_total=150)
-        self.assertEqual(t.confidence, "LOW")
-        self.assertNotIn("рост_доли", t.breakdown)
-        self.assertIn("динамика недоступна", t.explanation)
+    def test_позиции_не_учитываются_трижды(self):
+        """Дефект 1.0.0: доля, ТОП-3 и ТОП-10 давали баллы за одно и то же.
 
-    def test_с_историей_учитывается_рост(self):
-        t = threat.score(self.card(доля=0.13), previous=self.card(доля=0.10),
-                         queries_total=150)
+        Теперь компонентов два (присутствие и превосходство над нами), и
+        отдельного слагаемого за ТОП-10 нет.
+        """
+        t = threat.score(self.card(), queries_total=150)
+        self.assertIn("присутствие", t.breakdown)
+        self.assertIn("превосходство_над_нами", t.breakdown)
+        self.assertNotIn("присутствие_топ10", t.breakdown)
+
+    def test_без_шести_измерений_динамики_нет(self):
+        """Динамика требует того же окна, что и общий фильтр значимости."""
+        t = threat.score(self.card(), history=[0.05] * 5, queries_total=150)
+        self.assertEqual(t.confidence, "LOW")
+        self.assertNotIn("динамика", t.breakdown)
+        self.assertIn("не определена", t.explanation)
+
+    def test_с_шестью_измерениями_динамика_считается(self):
+        history = [0.05, 0.05, 0.05, 0.09, 0.09, 0.09]
+        t = threat.score(self.card(доля=0.09), history=history, queries_total=150)
         self.assertEqual(t.confidence, "MEDIUM")
-        self.assertIn("рост_доли", t.breakdown)
-        self.assertGreater(t.breakdown["рост_доли"], 0)
+        self.assertIn("динамика", t.breakdown)
+        self.assertGreater(t.breakdown["динамика"], 0)
+
+    def test_динамика_сглажена_медианой(self):
+        """Одиночный выброс не должен раздувать угрозу."""
+        ровно = [0.05] * 3 + [0.06] * 3
+        с_выбросом = [0.05] * 3 + [0.06, 0.30, 0.06]
+        a = threat.score(self.card(), history=ровно, queries_total=150)
+        b = threat.score(self.card(), history=с_выбросом, queries_total=150)
+        self.assertEqual(a.breakdown["динамика"], b.breakdown["динамика"])
+
+    def test_превосходство_считается_по_запросам_выше_нас(self):
+        свой = threat.score(self.card(), queries_total=150, above_us=100)
+        чужой = threat.score(self.card(), queries_total=150, above_us=10)
+        self.assertGreater(свой.breakdown["превосходство_над_нами"],
+                           чужой.breakdown["превосходство_над_нами"])
+
+    def test_приближение_помечается(self):
+        """Если счётчик «выше нас» не передан, это указывается явно."""
+        t = threat.score(self.card(), queries_total=150)
+        self.assertIn("приближение", t.explanation)
 
     def test_потолок_сто(self):
         t = threat.score(self.card(доля=0.9, топ3=150, топ10=150),
-                         previous=self.card(доля=0.0), queries_total=150)
+                         history=[0.0] * 3 + [0.9] * 3,
+                         queries_total=150, above_us=150)
         self.assertLessEqual(t.score, 100)
 
     def test_ранжирование_по_убыванию(self):
@@ -114,8 +147,27 @@ class TestOpportunity(unittest.TestCase):
         по_частотности = opportunity.demand_factor(100, "wordstat")
         self.assertGreater(по_показам, по_частотности)
 
-    def test_неизвестный_спрос_нейтрален(self):
-        self.assertEqual(opportunity.demand_factor(None), 0.5)
+    def test_неизвестный_спрос_не_подменяется_средним(self):
+        """Дефект 1.0.0: незнание превращалось в 0,5 — то есть в «средний
+        спрос», хотя за ним могло стоять и 5 запросов, и 50 000."""
+        self.assertIsNone(opportunity.demand_factor(None))
+
+    def test_отсутствие_признака_нормализует_веса_и_снижает_уверенность(self):
+        со_спросом = opportunity.score(commercial=1.0, b2b=1.0, our_position=5,
+                                       has_page=True, frequency=500)
+        без_спроса = opportunity.score(commercial=1.0, b2b=1.0, our_position=5,
+                                       has_page=True, frequency=None)
+        self.assertIn("demand", без_спроса.missing)
+        self.assertEqual(без_спроса.confidence, "LOW")
+        self.assertEqual(со_спросом.confidence, "MEDIUM")
+
+    def test_нет_двойного_счёта_спроса_и_интента(self):
+        """Дефект 1.0.0: revenue считался как спрос × интент и входил
+        отдельным фактором, из-за чего оба признака учитывались дважды."""
+        o = opportunity.score(commercial=1.0, b2b=1.0, our_position=5,
+                              has_page=True, frequency=500)
+        self.assertNotIn("revenue", o.breakdown)
+        self.assertIn("экономический фактор не участвует", " ".join(o.notes))
 
     def test_страница_в_топ3_почти_нечего_улучшать(self):
         верх = opportunity.page_improvement_factor(2, True)
@@ -157,15 +209,51 @@ class TestStrikeList(unittest.TestCase):
         ])]
         self.assertEqual(strike_list.build(rows, vendor_hosts=self.hosts), [])
 
-    def test_только_маркетплейсы_выше_не_кандидат(self):
-        """С B2C мы не конкурируем за сделку."""
+    def test_маркетплейсы_выше_это_конкуренция_за_клик(self):
+        """Версия 1.1.0: раньше такой запрос выпадал из поля зрения целиком.
+
+        Сделку маркетплейс у нас не заберёт, а переход заберёт — и это тоже
+        потеря. Теперь запрос остаётся кандидатом с пометкой вида конкуренции.
+        """
         rows = [row("купить figma юрлицу", [
             {"domain": "ozon.ru", "url": "https://ozon.ru/x"},
             {"domain": "dzen.ru", "url": "https://dzen.ru/a"},
             {"domain": "avito.ru", "url": "https://avito.ru/x"},
             {"domain": "biz-soft.pro", "url": "https://biz-soft.pro/f"},
         ])]
-        self.assertEqual(strike_list.build(rows, vendor_hosts=self.hosts), [])
+        cands = strike_list.build(rows, vendor_hosts=self.hosts)
+        self.assertEqual(len(cands), 1)
+        self.assertEqual(cands[0].competition_kind, "клик")
+
+    def test_деловой_конкурент_важнее_площадки_за_клик(self):
+        """Если выше есть и площадка, и продавец, — на кону сделка."""
+        rows = [row("купить figma юрлицу", [
+            {"domain": "dzen.ru", "url": "https://dzen.ru/a"},
+            {"domain": "raketapay.ru", "url": "https://raketapay.ru/f"},
+            {"domain": "x.ru", "url": "https://x.ru"},
+            {"domain": "biz-soft.pro", "url": "https://biz-soft.pro/f"},
+        ])]
+        cand = strike_list.build(rows, vendor_hosts=self.hosts)[0]
+        self.assertEqual(cand.competition_kind, "сделка")
+        self.assertEqual(cand.rival_domain, "raketapay.ru")
+
+    def test_сделка_приоритетнее_клика_при_сортировке(self):
+        rows = [
+            row("оплата canva юрлицом по счёту", [
+                {"domain": "ozon.ru", "url": "https://ozon.ru/x"},
+                {"domain": "dzen.ru", "url": "https://dzen.ru/a"},
+                {"domain": "avito.ru", "url": "https://avito.ru/x"},
+                {"domain": "biz-soft.pro", "url": "https://biz-soft.pro/c"},
+            ]),
+            row("figma тариф", [
+                {"domain": "raketapay.ru", "url": "https://raketapay.ru/f"},
+                {"domain": "dzen.ru", "url": "https://dzen.ru/a"},
+                {"domain": "x.ru", "url": "https://x.ru"},
+                {"domain": "biz-soft.pro", "url": "https://biz-soft.pro/f"},
+            ]),
+        ]
+        cands = strike_list.build(rows, vendor_hosts=self.hosts)
+        self.assertEqual(cands[0].competition_kind, "сделка")
 
     def test_брендовый_запрос_исключён(self):
         rows = [row("bizsoft купить figma", [

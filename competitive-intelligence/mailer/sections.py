@@ -176,6 +176,8 @@ def packages_section(packages: list[dict], limit: int = 3) -> str:
         return ""
     blocks = []
     for pkg in packages[:limit]:
+        upside = (f' · при выходе в ТОП-3 ≈ +{pkg["traffic_upside"]:.0f} переходов'
+                  if pkg.get("traffic_upside") is not None else "")
         checks = "".join(
             f'<li style="margin:2px 0;">{esc(c)}</li>'
             for c in (pkg.get("checklist") or [])[:3])
@@ -196,8 +198,7 @@ def packages_section(packages: list[dict], limit: int = 3) -> str:
       спрос <b style="color:{INK};">{pkg["demand_total"]}</b> ·
       сейчас позиции {pkg["position_best"]}–{pkg["position_worst"]} ·
       выше нас {esc(", ".join(pkg["rivals"][:2]))}<br>
-      Даст при выходе в ТОП-3: <b style="color:{BRAND};">
-      ≈ +{pkg["uplift_estimate"]:.0f} переходов</b> за тот же период ·
+      Потенциал: <b style="color:{BRAND};">{esc(pkg["potential_label"])}</b>{upside} ·
       трудоёмкость {esc(pkg["effort"])} · уверенность {esc(pkg["confidence"])}
     </div>
     <div style="font-size:12px;color:{MUTED};padding-top:6px;">Что проверить:</div>
@@ -219,24 +220,35 @@ def options_section(packages: list[dict]) -> str:
     """
     if not packages:
         return ""
+    def effect(group: list[dict]) -> str:
+        """Отдача варианта. Переходы называются только там, где весь спрос
+        измерен сопоставимой шкалой; иначе — охват и доля высокого
+        потенциала, без перевода в клики."""
+        countable = [p for p in group if p.get("traffic_upside") is not None]
+        high = sum(1 for p in group if p.get("potential_label") == "высокий")
+        if countable and len(countable) == len(group):
+            return f"≈ +{sum(p['traffic_upside'] for p in countable):.0f} переходов"
+        base = f"{len(group)} страниц, из них {high} с высоким потенциалом"
+        if countable:
+            return (base + f"; переходы считаются для {len(countable)}: "
+                    f"≈ +{sum(p['traffic_upside'] for p in countable):.0f}")
+        return base
+
     quick = [p for p in packages if p["effort"] == "S"][:3]
-    total_quick = sum(p["uplift_estimate"] for p in quick)
     top3 = packages[:3]
-    total_top3 = sum(p["uplift_estimate"] for p in top3)
-    all_uplift = sum(p["uplift_estimate"] for p in packages)
 
     options = [
         ("Минимум",
          f"{len(quick)} лёгких пакета" if quick else "нет лёгких пакетов",
-         f"≈ +{total_quick:.0f} переходов",
+         effect(quick),
          "правки текста на существующих страницах, без новых материалов"),
         ("Оптимум",
          f"{len(top3)} верхних пакета",
-         f"≈ +{total_top3:.0f} переходов",
-         "включает страницы с наибольшим спросом; часть требует переработки"),
+         effect(top3),
+         "включает страницы с наибольшим потенциалом; часть требует переработки"),
         ("Полный охват",
          f"все {len(packages)} пакетов",
-         f"≈ +{all_uplift:.0f} переходов",
+         effect(packages),
          "весь список целей; имеет смысл растянуть на несколько недель"),
     ]
     rows = "".join(
@@ -246,7 +258,7 @@ def options_section(packages: list[dict]) -> str:
         for name, scope, effect, note in options)
     head = (f'<tr>{_th("Вариант")}{_th("Объём")}{_th("Отдача", "right")}'
             f'{_th("Чем отличается")}</tr>')
-    return (_heading("Варианты действий", "оценка по кривой CTR при выходе в ТОП-3, не обещание")
+    return (_heading("Варианты действий", "потенциал, а не обещание: переходы называются только при сопоставимом спросе")
             + _table(rows, head))
 
 

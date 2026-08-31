@@ -51,13 +51,15 @@ def do_next_text(attack: dict | None, package: dict | None = None) -> str:
     """
     if package:
         url_short = package["url"].replace("https://biz-soft.pro", "")
+        upside = (f"при выходе в ТОП-3 даст примерно "
+                  f"+{package['traffic_upside']:.0f} переходов"
+                  if package.get("traffic_upside") is not None
+                  else f"потенциал {package['potential_label']}")
         return (f"Что делать: {package['package_id']} — {package['action']} "
                 f"({url_short}). Закроет {package['queries_count']} запросов "
                 f"со спросом {package['demand_total']}, сейчас позиции "
                 f"{package['position_best']}–{package['position_worst']}; "
-                f"при выходе в ТОП-3 даст примерно "
-                f"+{package['uplift_estimate']:.0f} переходов. "
-                f"Трудоёмкость {package['effort']}.")
+                f"{upside}. Трудоёмкость {package['effort']}.")
     if not attack:
         return ("Что делать: подтверждённых точек атаки нет — "
                 "накапливаем наблюдения.")
@@ -114,9 +116,10 @@ def pick_attack(attacks: list[dict] | None) -> dict | None:
 def build(date: str, snapshot: dict, previous: dict | None,
           attacks: list[dict] | None = None,
           threat_leader=None, stale_notice: str | None = None,
-          ranked_rivals=None, packages: list[dict] | None = None) -> dict:
+          ranked_rivals=None, packages: list[dict] | None = None,
+          history: list[float] | None = None) -> dict:
     kpi = kpi_mod.build_kpi(snapshot, previous)
-    verdict_mark, verdict_why = kpi_mod.verdict(kpi)
+    verdict_mark, verdict_why = kpi_mod.verdict(kpi, history)
     if stale_notice:
         # Данные не за сегодня. Показать их можно — они честно датированы, —
         # но вердикт обязан стать «недостаточно данных»: выводы о динамике по
@@ -182,28 +185,38 @@ def render_txt(meta: dict, *, snapshot: dict | None = None,
         parts += ["", "ЧТО ПОРУЧИТЬ (по убыванию ожидаемого эффекта)"]
         for pkg in packages[:3]:
             url_short = pkg["url"].replace("https://biz-soft.pro", "")
+            upside = (f"при выходе в ТОП-3 ≈ +{pkg['traffic_upside']:.0f} переходов"
+                      if pkg.get("traffic_upside") is not None
+                      else f"потенциал {pkg['potential_label']} "
+                           f"({pkg['upside_note']})")
             parts.append(
                 f"{pkg['package_id']}. {pkg['action']}\n"
                 f"   Страница: {url_short}\n"
                 f"   Закроет {pkg['queries_count']} запросов, спрос {pkg['demand_total']}, "
                 f"сейчас позиции {pkg['position_best']}–{pkg['position_worst']}, "
                 f"выше нас {', '.join(pkg['rivals'][:2])}\n"
-                f"   При выходе в ТОП-3 даст примерно +{pkg['uplift_estimate']:.0f} "
-                f"переходов · трудоёмкость {pkg['effort']} · уверенность {pkg['confidence']}")
+                f"   {upside} · трудоёмкость {pkg['effort']} · "
+                f"уверенность {pkg['confidence']}")
             for check in (pkg.get("checklist") or [])[:3]:
                 parts.append(f"   - {check}")
 
         quick = [p for p in packages if p["effort"] == "S"][:3]
-        parts += ["", "ВАРИАНТЫ ДЕЙСТВИЙ (оценка при выходе в ТОП-3, не обещание)"]
-        parts.append(f"- Минимум: {len(quick)} лёгких пакета, "
-                     f"≈ +{sum(p['uplift_estimate'] for p in quick):.0f} переходов — "
+
+        def effect(group):
+            countable = [p for p in group if p.get("traffic_upside") is not None]
+            high = sum(1 for p in group if p.get("potential_label") == "высокий")
+            if countable and len(countable) == len(group):
+                return f"≈ +{sum(p['traffic_upside'] for p in countable):.0f} переходов"
+            return f"{len(group)} страниц, из них {high} с высоким потенциалом"
+
+        parts += ["", "ВАРИАНТЫ ДЕЙСТВИЙ (потенциал, не обещание; переходы — "
+                      "только при сопоставимом спросе)"]
+        parts.append(f"- Минимум: {len(quick)} лёгких пакета — {effect(quick)}, "
                      "правки текста без новых материалов")
-        parts.append(f"- Оптимум: 3 верхних пакета, "
-                     f"≈ +{sum(p['uplift_estimate'] for p in packages[:3]):.0f} переходов — "
-                     "включая страницы с наибольшим спросом")
-        parts.append(f"- Полный охват: все {len(packages)} пакетов, "
-                     f"≈ +{sum(p['uplift_estimate'] for p in packages):.0f} переходов — "
-                     "имеет смысл растянуть на несколько недель")
+        parts.append(f"- Оптимум: 3 верхних пакета — {effect(packages[:3])}, "
+                     "страницы с наибольшим потенциалом")
+        parts.append(f"- Полный охват: все {len(packages)} пакетов — "
+                     f"{effect(packages)}, имеет смысл растянуть на недели")
 
     if snapshot:
         shares = snapshot.get("доли_по_категориям") or {}

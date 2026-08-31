@@ -170,16 +170,32 @@ def b2b_confidence(page_text: str, config: dict, *,
                    evidence_urls: list[str] | None = None) -> B2BVerdict:
     """B2B Confidence Score 0–100 по тексту страниц конкурента.
 
-    Сумма весов сработавших сигналов, обрезанная сверху до 100. Веса живут в
-    конфиге, а не в коде: порог входа в основной пул — предмет калибровки на
-    ручной проверке ≥30 доменов (приёмка Phase 1).
+    Версия 1.1.0: сигналы нормируются по четырём группам с лимитом 25 баллов
+    каждая. В 1.0.0 веса просто складывались (в сумме 128 с обрезкой до 100),
+    и близкие признаки — счёт, безнал, реквизиты — быстро давали максимум:
+    страница с несколькими похожими формулировками выглядела готовой к B2B
+    сильнее, чем есть. Группировка отражает, что готовность к оплате,
+    документальная готовность, лицензирование и процесс продажи — разные
+    измерения, и сильная одна не заменяет остальные.
     """
-    weights = config["b2b_классификатор"]["сигналы"]
+    section = config["b2b_классификатор"]
+    weights = section["сигналы"]
+    groups = section.get("группы") or {}
     text = (page_text or "").lower()
     hit = [name for name, needles in B2B_SIGNALS.items()
            if any(n in text for n in needles) and name in weights]
-    score = min(100, sum(weights[name] for name in hit))
-    return B2BVerdict(confidence=score, signals=sorted(hit),
+
+    if not groups:
+        # Совместимость со старой конфигурацией без групп.
+        return B2BVerdict(confidence=min(100, sum(weights[n] for n in hit)),
+                          signals=sorted(hit),
+                          evidence_urls=list(evidence_urls or []))
+
+    score = 0
+    for group in groups.values():
+        inside = [n for n in hit if n in group["сигналы"]]
+        score += min(group["лимит"], sum(weights[n] for n in inside))
+    return B2BVerdict(confidence=min(100, score), signals=sorted(hit),
                       evidence_urls=list(evidence_urls or []))
 
 

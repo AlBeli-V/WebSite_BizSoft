@@ -11,11 +11,12 @@ from scoring import visibility  # noqa: E402
 
 
 def attack(query, url, position, *, demand=100, rival="raketapay.ru",
-           opportunity=60, confidence="MEDIUM", attack_id="ATT-001"):
+           opportunity=60, confidence="MEDIUM", attack_id="ATT-001",
+           demand_source="wordstat"):
     return {"attack_id": attack_id, "query": query, "our_url": url,
             "our_position": position, "demand": demand, "rival_domain": rival,
             "rival_position": 1, "opportunity": opportunity,
-            "confidence": confidence}
+            "confidence": confidence, "demand_source": demand_source}
 
 
 class TestGrouping(unittest.TestCase):
@@ -41,7 +42,7 @@ class TestGrouping(unittest.TestCase):
         self.assertEqual(pkg.position_best, 4)
         self.assertEqual(pkg.position_worst, 9)
 
-    def test_нумерация_по_убыванию_эффекта(self):
+    def test_нумерация_по_убыванию_потенциала(self):
         attacks = [
             attack("малый", "https://biz-soft.pro/vendors/small", 5, demand=10),
             attack("большой", "https://biz-soft.pro/vendors/big", 5, demand=900),
@@ -49,27 +50,78 @@ class TestGrouping(unittest.TestCase):
         packages = work_packages.build(attacks)
         self.assertEqual(packages[0].package_id, "WP-01")
         self.assertIn("big", packages[0].url)
-        self.assertGreater(packages[0].uplift_estimate, packages[1].uplift_estimate)
+        self.assertGreater(packages[0].potential_index, packages[1].potential_index)
 
 
-class TestUplift(unittest.TestCase):
+class TestPotential(unittest.TestCase):
+    """Версия 1.1.0: индекс потенциала и оценка переходов — разные величины.
+
+    Дефект 1.0.0, найденный внешним аудитом: прирост переходов считался по
+    спросу из разных источников. Частотность Wordstat (рынок за месяц) и
+    показы Вебмастера (видимая нам часть за две недели) складывались в одну
+    сумму, которая называлась переходами.
+    """
+
     def setUp(self):
         self.config = visibility.load_config()
 
     def test_чем_ниже_позиция_тем_больше_потенциал(self):
         низко = work_packages.build([attack("q", "https://biz-soft.pro/a", 10)])[0]
         высоко = work_packages.build([attack("q", "https://biz-soft.pro/a", 4)])[0]
-        self.assertGreater(низко.uplift_estimate, высоко.uplift_estimate)
+        self.assertGreater(низко.potential_index, высоко.potential_index)
 
     def test_позиция_в_топ3_не_даёт_прироста(self):
         """Мы уже в тройке — расти в рамках этой цели некуда."""
         pkg = work_packages.build([attack("q", "https://biz-soft.pro/a", 2)])[0]
-        self.assertEqual(pkg.uplift_estimate, 0.0)
+        self.assertEqual(pkg.potential_index, 0.0)
+        self.assertEqual(pkg.potential_label, "нет потенциала")
 
-    def test_прирост_растёт_со_спросом(self):
+    def test_потенциал_растёт_со_спросом(self):
         мало = work_packages.build([attack("q", "https://biz-soft.pro/a", 8, demand=10)])[0]
         много = work_packages.build([attack("q", "https://biz-soft.pro/a", 8, demand=500)])[0]
-        self.assertGreater(много.uplift_estimate, мало.uplift_estimate)
+        self.assertGreater(много.potential_index, мало.potential_index)
+
+    def test_переходы_считаются_только_по_wordstat(self):
+        по_рынку = work_packages.build([
+            attack("q", "https://biz-soft.pro/a", 8, demand_source="wordstat")])[0]
+        по_показам = work_packages.build([
+            attack("q", "https://biz-soft.pro/a", 8, demand_source="webmaster")])[0]
+        self.assertIsNotNone(по_рынку.traffic_upside)
+        self.assertIsNone(по_показам.traffic_upside)
+        self.assertIn("Вебмастера", по_показам.upside_note)
+
+    def test_смешанные_шкалы_не_переводятся_в_переходы(self):
+        """Главный дефект 1.0.0: разные знаменатели складывались в одну сумму."""
+        pkg = work_packages.build([
+            attack("q1", "https://biz-soft.pro/a", 8, demand_source="wordstat",
+                   attack_id="ATT-001"),
+            attack("q2", "https://biz-soft.pro/a", 9, demand_source="webmaster",
+                   attack_id="ATT-002"),
+        ])[0]
+        self.assertIsNone(pkg.traffic_upside)
+        self.assertIn("разными шкалами", pkg.upside_note)
+        self.assertEqual(sorted(pkg.demand_sources), ["webmaster", "wordstat"])
+
+    def test_индекс_потенциала_считается_всегда(self):
+        """Сравнивать пакеты между собой можно и при разных источниках."""
+        pkg = work_packages.build([
+            attack("q1", "https://biz-soft.pro/a", 8, demand_source="wordstat",
+                   attack_id="ATT-001"),
+            attack("q2", "https://biz-soft.pro/a", 9, demand_source="webmaster",
+                   attack_id="ATT-002"),
+        ])[0]
+        self.assertGreater(pkg.potential_index, 0)
+
+    def test_метка_потенциала_относительная(self):
+        """Абсолютные пороги были бы произволом: величина индекса зависит от
+        конфигурации кривой и источника спроса."""
+        attacks = [attack(f"q{i}", f"https://biz-soft.pro/p{i}", 5,
+                          demand=1000 - i * 100, attack_id=f"ATT-{i}")
+                   for i in range(9)]
+        packages = work_packages.build(attacks)
+        labels = [p.potential_label for p in packages]
+        self.assertIn("высокий", labels)
+        self.assertIn("низкий", labels)
 
 
 class TestAction(unittest.TestCase):
