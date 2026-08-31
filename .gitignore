@@ -47,7 +47,14 @@ __pycache__/
 # вычищены 30.08.2026 (контроль недели). Тестовые срезы — в
 # scripts/seo/tests/fixtures.
 reports/seo/data/
+reports/seo/serp/
 reports/seo/wordstat/
 reports/seo/intelligence/
 reports/seo/public/
 reports/seo/ppc/
+
+# Машинные данные контура конкурентной разведки живут в orphan-ветке
+# competitive-data и накатываются data_sync_ci.sh. Тестовые срезы —
+# в competitive-intelligence/tests/fixtures.
+data/competitive/
+reports/competitive/

@@ -61,7 +61,19 @@ class TestMomentum(unittest.TestCase):
         self.assertIn("yoy_ratio", acc)
         self.assertEqual(acc["yoy_ratio"], 2.3)   # (200+260)/2 к (100+100)/2
 
-    def test_parse_dynamics_both_shapes(self):
+    def test_parse_dynamics_real_shape(self):
+        """Фактический ответ getDynamics (кэш 31.08.2026): ключ results,
+        count — строка, месяц без показов приходит без поля count вовсе."""
+        rows = self.m.parse_dynamics({"results": [
+            {"date": "2026-05-01T00:00:00Z"},
+            {"date": "2026-06-01T00:00:00Z", "count": "5", "share": 4.8e-08},
+            {"date": "2026-07-01T00:00:00Z", "count": "120"},
+        ]})
+        self.assertEqual(rows, [{"month": "2026-05", "value": 0},
+                                {"month": "2026-06", "value": 5},
+                                {"month": "2026-07", "value": 120}])
+
+    def test_parse_dynamics_legacy_shapes(self):
         rows = self.m.parse_dynamics(
             {"dynamics": [{"date": "2026-07-01T00:00:00Z", "value": "120"}]})
         self.assertEqual(rows, [{"month": "2026-07", "value": 120}])
@@ -76,7 +88,25 @@ class TestRegionDemand(unittest.TestCase):
     def setUpClass(cls):
         cls.r = load("region_demand")
 
-    def test_parse_regions_sorts_and_limits(self):
+    def test_parse_regions_real_shape(self):
+        """Фактический ответ getRegionsDistribution (кэш 21.08.2026):
+        ключ results, регион — id геобазы строкой, имени нет."""
+        data = {"results": [
+            {"region": "2", "count": "126", "share": 2.4e-05,
+             "affinityIndex": 142.27},
+            {"region": "1", "count": "580", "share": 2.8e-05,
+             "affinityIndex": 165.16},
+            {"region": "77777", "count": "10", "share": 1.0e-06},
+        ]}
+        rows = self.r.parse_regions(data)
+        self.assertEqual(rows[0]["name"], "Москва и область")
+        self.assertEqual(rows[0]["count"], 580)
+        self.assertEqual(rows[1]["name"], "Санкт-Петербург")
+        # неизвестный регион остаётся честным id, а не выдуманным именем
+        self.assertEqual(rows[2]["name"], "77777")
+        self.assertEqual(self.r.parse_regions({}), [])
+
+    def test_parse_regions_legacy_shape(self):
         data = {"regions": [
             {"regionId": 2, "regionName": "Санкт-Петербург", "count": 50},
             {"regionId": 213, "regionName": "Москва", "count": 300},
@@ -84,7 +114,6 @@ class TestRegionDemand(unittest.TestCase):
         rows = self.r.parse_regions(data)
         self.assertEqual(rows[0]["name"], "Москва")
         self.assertEqual(rows[0]["count"], 300)
-        self.assertEqual(self.r.parse_regions({}), [])
 
 
 if __name__ == "__main__":

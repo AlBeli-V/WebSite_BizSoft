@@ -1,0 +1,61 @@
+# Выкладка deep report конкурентной разведки на сервер.
+#
+# Источник — reports/competitive/ ветки-хранилища competitive-data, приёмник —
+# /opt/bizsoft/ci-reports/ (отдаётся nginx по непубличному пути
+# /ci-<токен>/, см. deploy/nginx-biz-soft.conf.template). Запускается на
+# каждый push отчёта — кнопка в письме всегда ведёт на свежий документ.
+#
+# Каталог отдельный от seo-reports намеренно: это чувствительнее обычной
+# SEO-аналитики — карточки конкурентов, точки атаки, оценки уязвимости.
+name: ci-publish-report
+on:
+  push:
+    branches:
+      - competitive-data
+    paths:
+      - "reports/competitive/**"
+      - ".github/workflows/ci-publish-report.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: competitive-data
+
+      - name: Rsync competitive reports to server
+        env:
+          SSH_KEY: ${{ secrets.SSH_KEY }}
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          SSH_USER: ${{ secrets.SSH_USER }}
+        run: |
+          set -euo pipefail
+          if [ -z "${SSH_KEY:-}" ]; then
+            echo "::error::Секрет SSH_KEY не задан — отчёт не выложен."
+            exit 1
+          fi
+          install -m 700 -d ~/.ssh
+          printf '%s\n' "$SSH_KEY" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          ssh-keyscan -H "$SSH_HOST" >> ~/.ssh/known_hosts 2>/dev/null
+
+          # Каталог создаётся при первом запуске: иначе rsync упадёт на
+          # отсутствующем приёмнике, и первая же выкладка сорвалась бы.
+          ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=yes \
+            "$SSH_USER@$SSH_HOST" 'mkdir -p /opt/bizsoft/ci-reports'
+
+          # Письма и их метаданные на сервер не выкладываются: на странице им
+          # делать нечего, а *-email.json содержит служебные хэши.
+          # --delete не используется: архив отчётов по датам обязан
+          # оставаться неизменяемым (раздел 25 задания), даже если файл
+          # исчез из ветки.
+          rsync -rlgoDzc \
+            --include='latest.html' \
+            --include='archive/' --include='archive/*.html' \
+            --exclude='*' \
+            -e "ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=yes" \
+            reports/competitive/ "$SSH_USER@$SSH_HOST:/opt/bizsoft/ci-reports/"
+          echo "выложено: $(ls reports/competitive/archive/*.html 2>/dev/null | wc -l) отчётов в архиве"
