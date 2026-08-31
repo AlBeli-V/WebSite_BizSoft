@@ -66,12 +66,19 @@ def acceleration(series: list[dict]) -> dict:
 
 
 def parse_dynamics(data: dict) -> list[dict]:
-    """Ряд из ответа /dynamics; форма ответа терпит оба известных варианта."""
-    points = (data or {}).get("dynamics") or (data or {}).get("points") or []
+    """Ряд из ответа getDynamics.
+
+    Фактическая форма (кэш 31.08.2026): {"results": [{"date": ...,
+    "count": "5", "share": ...}]}; count — строка, у месяцев без показов
+    поле отсутствует вовсе (это честный ноль, а не пропуск). Прежние
+    ключи dynamics/points оставлены запасными.
+    """
+    points = ((data or {}).get("results") or (data or {}).get("dynamics")
+              or (data or {}).get("points") or [])
     out = []
     for p in points:
         when = (p.get("date") or p.get("period") or p.get("from") or "")[:10]
-        value = p.get("value") if p.get("value") is not None else p.get("count")
+        value = p.get("count") if p.get("count") is not None else p.get("value")
         if when:
             out.append({"month": when[:7], "value": int(value or 0)})
     return out

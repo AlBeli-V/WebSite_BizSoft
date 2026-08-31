@@ -1,6 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { readFileSync, readdirSync } from 'node:fs';
 import { resolve } from 'node:path';
+import { aiSubcategories } from '../src/data/ai-hub';
 
 /**
  * Разделы каталога («Назначение ПО»): плитки на /catalog.
@@ -91,11 +92,14 @@ describe('слитые дубли разделов', () => {
 
 describe('товары и разделы', () => {
   it('каждый товар лежит в разделе, у которого есть название и текст', () => {
+    // AI-подкатегории — не плитки /catalog, их тексты живут в src/data/ai-hub.ts
+    // и в Directus (заведены миграцией ai-catalog-migrate), поэтому товар в
+    // ai-* — тоже валидная привязка.
+    const known = [...Object.keys(plan.intro), ...aiSubcategories.map((s) => s.categorySlug)];
     for (const { file, pkg } of packages) {
       for (const p of pkg.products) {
         if (!p.category) continue; // стабы отката несут только артикул
-        expect(Object.keys(plan.intro), `${file}/${p.sku}: раздел ${p.category}`)
-          .toContain(p.category);
+        expect(known, `${file}/${p.sku}: раздел ${p.category}`).toContain(p.category);
       }
     }
   });
@@ -107,6 +111,27 @@ describe('товары и разделы', () => {
     // Системными утилитами эти продукты не являются: раздел «system» для них
     // и был исходной ошибкой.
     expect(used).not.toContain('system');
+  });
+
+  it('план переразложения ведёт в существующие разделы и не расходится с пакетами', () => {
+    // ops-recategorize правит живую базу, а ops-import-vendors при следующем
+    // прогоне перезапишет категорию значением из пакета. Разошлись — перенос
+    // молча откатится, поэтому пакетная позиция плана обязана нести ту же
+    // категорию и в scripts/catalog/*.json.
+    const replan = JSON.parse(
+      readFileSync(resolve(ROOT, 'data/catalog/recategorize.json'), 'utf8'),
+    ) as { moves: Record<string, string> };
+    const known = [...Object.keys(plan.intro), ...aiSubcategories.map((s) => s.categorySlug)];
+    const packaged = new Map<string, string>();
+    for (const { pkg } of packages) {
+      for (const p of pkg.products) if (p.category) packaged.set(p.sku, p.category);
+    }
+    for (const [sku, target] of Object.entries(replan.moves)) {
+      expect(known, `${sku}: целевой раздел ${target}`).toContain(target);
+      if (packaged.has(sku)) {
+        expect(packaged.get(sku), `${sku}: пакет и план разошлись`).toBe(target);
+      }
+    }
   });
 
   it('сопровождение лежит в том же разделе, что и его вечная лицензия', () => {

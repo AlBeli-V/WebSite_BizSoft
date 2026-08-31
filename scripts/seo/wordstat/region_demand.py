@@ -32,14 +32,32 @@ PHRASES_CAP = 50
 TOP_REGIONS = 15
 
 
+# Имена по геобазе Яндекса даём только для регионов, в которых уверены;
+# остальные честно остаются числовым id (ответ API имён не содержит).
+REGION_NAMES = {
+    "225": "Россия", "1": "Москва и область", "213": "Москва",
+    "2": "Санкт-Петербург", "10174": "Санкт-Петербург и область",
+}
+
+
 def parse_regions(data: dict) -> list[dict]:
-    rows = (data or {}).get("regions") or []
+    """Строки из ответа getRegionsDistribution.
+
+    Фактическая форма (кэш 21.08.2026): {"results": [{"region": "1",
+    "count": "580", "share": ..., "affinityIndex": ...}]}; region — id
+    геобазы строкой, имени нет, count — строка. Прежний ключ regions
+    оставлен запасным.
+    """
+    rows = (data or {}).get("results") or (data or {}).get("regions") or []
     out = []
     for r in rows:
-        out.append({"region_id": r.get("regionId") or r.get("region_id"),
-                    "name": r.get("regionName") or r.get("name"),
+        rid = (r.get("region") or r.get("regionId") or r.get("region_id"))
+        out.append({"region_id": rid,
+                    "name": (r.get("regionName") or r.get("name")
+                             or REGION_NAMES.get(str(rid)) or str(rid)),
                     "count": int(r.get("count") or r.get("value") or 0),
-                    "share": r.get("share") or r.get("percent")})
+                    "share": r.get("share") or r.get("percent"),
+                    "affinity": r.get("affinityIndex")})
     out.sort(key=lambda x: -x["count"])
     return out[:TOP_REGIONS]
 
