@@ -1,8 +1,8 @@
 {
  "schema_version": "1.0.0",
- "collected_at": "2026-08-30T09:07:41+00:00",
+ "collected_at": "2026-08-31T06:33:03+00:00",
  "date_from": "2026-08-28",
- "date_to": "2026-08-30",
+ "date_to": "2026-08-31",
  "groups": [
   {
    "Date": "2026-08-28",
@@ -39,6 +39,60 @@
    "Impressions": 56,
    "Clicks": 6,
    "Cost": 203.52
+  },
+  {
+   "Date": "2026-08-31",
+   "CampaignId": "713927850",
+   "AdGroupId": "5793418349",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Impressions": 4,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "CampaignId": "713927850",
+   "AdGroupId": "5793418350",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Impressions": 27,
+   "Clicks": 2,
+   "Cost": 7.41
+  },
+  {
+   "Date": "2026-08-31",
+   "CampaignId": "713927850",
+   "AdGroupId": "5793418351",
+   "AdGroupName": "Midjourney — контрольная корзина",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "CampaignId": "713927850",
+   "AdGroupId": "5793418352",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Impressions": 5,
+   "Clicks": 1,
+   "Cost": 10.83
+  },
+  {
+   "Date": "2026-08-31",
+   "CampaignId": "713927850",
+   "AdGroupId": "5793785058",
+   "AdGroupName": "Cursor — редактор для команд разработки",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "CampaignId": "713927850",
+   "AdGroupId": "5793785067",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
   }
  ],
  "queries": [
@@ -575,6 +629,206 @@
    "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
    "Query": "яндекс gpt для бизнеса",
    "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "как оплатить claude в россии 2026",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "как оплатить claude через apple pay",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "как оплатить подписку claude в россии",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "купить подписку claude",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "claude code",
+   "Impressions": 16,
+   "Clicks": 2,
+   "Cost": 7.41
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "claude code в россии",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "claude code важные дополнения",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "claude code как использовать в россии",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "claude code кто разработчик",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "claude coder",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "cloud code",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "как оплатить claude code из россии",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "модели claude code",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "применить claude design к saas",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "тарифные планы claude code",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Midjourney — контрольная корзина",
+   "Query": "midjourney com как оплатить подписку",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "chatgpt как оплатить подписку из россии",
+   "Impressions": 1,
+   "Clicks": 1,
+   "Cost": 10.83
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "как оплатить chatgpt",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "как оплатить chatgpt из россии 2026",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "мтс оплатить chatgpt",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "оплатить chatgpt из россии",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Cursor — редактор для команд разработки",
+   "Query": "как оплатить cursor из россии",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Cursor — редактор для команд разработки",
+   "Query": "купить подписку на cursor",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "где хранится лицензия adobe acrobat 2017",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "как купить подписку lr adobe",
+   "Impressions": 1,
    "Clicks": 0,
    "Cost": 0.0
   }
