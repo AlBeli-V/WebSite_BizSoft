@@ -31,10 +31,16 @@
       "ATT-059"
     ],
     "queries_count": 11,
-    "demand_total": 149,
+    "demand_by_source": {
+      "webmaster": 149
+    },
+    "demand_queries_by_source": {
+      "webmaster": 11
+    },
     "demand_sources": [
       "webmaster"
     ],
+    "demand_index": 0.0587,
     "position_best": 7,
     "position_worst": 10,
     "rivals": [
@@ -83,10 +89,16 @@
       "ATT-052"
     ],
     "queries_count": 8,
-    "demand_total": 81,
+    "demand_by_source": {
+      "webmaster": 81
+    },
+    "demand_queries_by_source": {
+      "webmaster": 8
+    },
     "demand_sources": [
       "webmaster"
     ],
+    "demand_index": 0.0313,
     "position_best": 4,
     "position_worst": 10,
     "rivals": [
@@ -125,10 +137,16 @@
       "ATT-013"
     ],
     "queries_count": 3,
-    "demand_total": 89,
+    "demand_by_source": {
+      "webmaster": 89
+    },
+    "demand_queries_by_source": {
+      "webmaster": 3
+    },
     "demand_sources": [
       "webmaster"
     ],
+    "demand_index": 0.0251,
     "position_best": 4,
     "position_worst": 8,
     "rivals": [
@@ -165,10 +183,16 @@
       "ATT-009"
     ],
     "queries_count": 3,
-    "demand_total": 90,
+    "demand_by_source": {
+      "webmaster": 90
+    },
+    "demand_queries_by_source": {
+      "webmaster": 3
+    },
     "demand_sources": [
       "webmaster"
     ],
+    "demand_index": 0.0249,
     "position_best": 4,
     "position_worst": 7,
     "rivals": [
@@ -205,10 +229,16 @@
       "ATT-051"
     ],
     "queries_count": 3,
-    "demand_total": 59,
+    "demand_by_source": {
+      "webmaster": 59
+    },
+    "demand_queries_by_source": {
+      "webmaster": 3
+    },
     "demand_sources": [
       "webmaster"
     ],
+    "demand_index": 0.0207,
     "position_best": 7,
     "position_worst": 7,
     "rivals": [
@@ -248,11 +278,19 @@
       "ATT-066"
     ],
     "queries_count": 4,
-    "demand_total": 68,
+    "demand_by_source": {
+      "webmaster": 40,
+      "wordstat": 28
+    },
+    "demand_queries_by_source": {
+      "webmaster": 3,
+      "wordstat": 1
+    },
     "demand_sources": [
       "webmaster",
       "wordstat"
     ],
+    "demand_index": 0.0161,
     "position_best": 6,
     "position_worst": 9,
     "rivals": [
@@ -289,11 +327,19 @@
       "ATT-018"
     ],
     "queries_count": 2,
-    "demand_total": 93,
+    "demand_by_source": {
+      "webmaster": 30,
+      "wordstat": 63
+    },
+    "demand_queries_by_source": {
+      "webmaster": 1,
+      "wordstat": 1
+    },
     "demand_sources": [
       "webmaster",
       "wordstat"
     ],
+    "demand_index": 0.0149,
     "position_best": 7,
     "position_worst": 7,
     "rivals": [
@@ -335,10 +381,16 @@
       "ATT-061"
     ],
     "queries_count": 5,
-    "demand_total": 47,
+    "demand_by_source": {
+      "webmaster": 47
+    },
+    "demand_queries_by_source": {
+      "webmaster": 5
+    },
     "demand_sources": [
       "webmaster"
     ],
+    "demand_index": 0.0144,
     "position_best": 4,
     "position_worst": 10,
     "rivals": [
@@ -382,10 +434,16 @@
       "ATT-060"
     ],
     "queries_count": 5,
-    "demand_total": 78,
+    "demand_by_source": {
+      "webmaster": 78
+    },
+    "demand_queries_by_source": {
+      "webmaster": 5
+    },
     "demand_sources": [
       "webmaster"
     ],
+    "demand_index": 0.0137,
     "position_best": 4,
     "position_worst": 9,
     "rivals": [
@@ -423,10 +481,16 @@
       "ATT-039"
     ],
     "queries_count": 2,
-    "demand_total": 22,
+    "demand_by_source": {
+      "webmaster": 22
+    },
+    "demand_queries_by_source": {
+      "webmaster": 2
+    },
     "demand_sources": [
       "webmaster"
     ],
+    "demand_index": 0.0083,
     "position_best": 8,
     "position_worst": 8,
     "rivals": [
@@ -460,10 +524,16 @@
       "ATT-025"
     ],
     "queries_count": 1,
-    "demand_total": 18,
+    "demand_by_source": {
+      "webmaster": 18
+    },
+    "demand_queries_by_source": {
+      "webmaster": 1
+    },
     "demand_sources": [
       "webmaster"
     ],
+    "demand_index": 0.0074,
     "position_best": 10,
     "position_worst": 10,
     "rivals": [
@@ -500,10 +570,16 @@
       "ATT-029"
     ],
     "queries_count": 3,
-    "demand_total": 29,
+    "demand_by_source": {
+      "webmaster": 29
+    },
+    "demand_queries_by_source": {
+      "webmaster": 3
+    },
     "demand_sources": [
       "webmaster"
     ],
+    "demand_index": 0.0068,
     "position_best": 4,
     "position_worst": 7,
     "rivals": [
@@ -540,10 +616,16 @@
       "ATT-049"
     ],
     "queries_count": 2,
-    "demand_total": 18,
+    "demand_by_source": {
+      "webmaster": 18
+    },
+    "demand_queries_by_source": {
+      "webmaster": 2
+    },
     "demand_sources": [
       "webmaster"
     ],
+    "demand_index": 0.0063,
     "position_best": 7,
     "position_worst": 7,
     "rivals": [
@@ -577,10 +659,16 @@
       "ATT-008"
     ],
     "queries_count": 1,
-    "demand_total": 17,
+    "demand_by_source": {
+      "webmaster": 17
+    },
+    "demand_queries_by_source": {
+      "webmaster": 1
+    },
     "demand_sources": [
       "webmaster"
     ],
+    "demand_index": 0.0051,
     "position_best": 6,
     "position_worst": 6,
     "rivals": [
@@ -614,10 +702,16 @@
       "ATT-003"
     ],
     "queries_count": 1,
-    "demand_total": 31,
+    "demand_by_source": {
+      "webmaster": 31
+    },
+    "demand_queries_by_source": {
+      "webmaster": 1
+    },
     "demand_sources": [
       "webmaster"
     ],
+    "demand_index": 0.0046,
     "position_best": 4,
     "position_worst": 4,
     "rivals": [
@@ -651,10 +745,16 @@
       "ATT-011"
     ],
     "queries_count": 1,
-    "demand_total": 27,
+    "demand_by_source": {
+      "webmaster": 27
+    },
+    "demand_queries_by_source": {
+      "webmaster": 1
+    },
     "demand_sources": [
       "webmaster"
     ],
+    "demand_index": 0.004,
     "position_best": 4,
     "position_worst": 4,
     "rivals": [
@@ -687,10 +787,16 @@
       "ATT-017"
     ],
     "queries_count": 1,
-    "demand_total": 12,
+    "demand_by_source": {
+      "webmaster": 12
+    },
+    "demand_queries_by_source": {
+      "webmaster": 1
+    },
     "demand_sources": [
       "webmaster"
     ],
+    "demand_index": 0.0036,
     "position_best": 6,
     "position_worst": 6,
     "rivals": [
@@ -723,10 +829,16 @@
       "ATT-062"
     ],
     "queries_count": 1,
-    "demand_total": 7,
+    "demand_by_source": {
+      "webmaster": 7
+    },
+    "demand_queries_by_source": {
+      "webmaster": 1
+    },
     "demand_sources": [
       "webmaster"
     ],
+    "demand_index": 0.0028,
     "position_best": 9,
     "position_worst": 9,
     "rivals": [
@@ -759,10 +871,16 @@
       "ATT-005"
     ],
     "queries_count": 1,
-    "demand_total": 18,
+    "demand_by_source": {
+      "webmaster": 18
+    },
+    "demand_queries_by_source": {
+      "webmaster": 1
+    },
     "demand_sources": [
       "webmaster"
     ],
+    "demand_index": 0.0027,
     "position_best": 4,
     "position_worst": 4,
     "rivals": [
@@ -796,10 +914,16 @@
       "ATT-004"
     ],
     "queries_count": 1,
-    "demand_total": 7,
+    "demand_by_source": {
+      "webmaster": 7
+    },
+    "demand_queries_by_source": {
+      "webmaster": 1
+    },
     "demand_sources": [
       "webmaster"
     ],
+    "demand_index": 0.0026,
     "position_best": 8,
     "position_worst": 8,
     "rivals": [
@@ -833,10 +957,16 @@
       "ATT-065"
     ],
     "queries_count": 1,
-    "demand_total": 9,
+    "demand_by_source": {
+      "webmaster": 9
+    },
+    "demand_queries_by_source": {
+      "webmaster": 1
+    },
     "demand_sources": [
       "webmaster"
     ],
+    "demand_index": 0.0022,
     "position_best": 5,
     "position_worst": 5,
     "rivals": [
@@ -871,10 +1001,16 @@
       "ATT-064"
     ],
     "queries_count": 2,
-    "demand_total": 8,
+    "demand_by_source": {
+      "webmaster": 8
+    },
+    "demand_queries_by_source": {
+      "webmaster": 2
+    },
     "demand_sources": [
       "webmaster"
     ],
+    "demand_index": 0.0012,
     "position_best": 4,
     "position_worst": 4,
     "rivals": [
@@ -907,10 +1043,16 @@
       "ATT-027"
     ],
     "queries_count": 1,
-    "demand_total": 3,
+    "demand_by_source": {
+      "webmaster": 3
+    },
+    "demand_queries_by_source": {
+      "webmaster": 1
+    },
     "demand_sources": [
       "webmaster"
     ],
+    "demand_index": 0.0012,
     "position_best": 9,
     "position_worst": 9,
     "rivals": [
@@ -943,10 +1085,16 @@
       "ATT-046"
     ],
     "queries_count": 1,
-    "demand_total": 8,
+    "demand_by_source": {
+      "wordstat": 8
+    },
+    "demand_queries_by_source": {
+      "wordstat": 1
+    },
     "demand_sources": [
       "wordstat"
     ],
+    "demand_index": 0.0007,
     "position_best": 10,
     "position_worst": 10,
     "rivals": [
@@ -979,10 +1127,16 @@
       "ATT-021"
     ],
     "queries_count": 1,
-    "demand_total": 8,
+    "demand_by_source": {
+      "wordstat": 8
+    },
+    "demand_queries_by_source": {
+      "wordstat": 1
+    },
     "demand_sources": [
       "wordstat"
     ],
+    "demand_index": 0.0006,
     "position_best": 9,
     "position_worst": 9,
     "rivals": [
@@ -1015,8 +1169,10 @@
       "ATT-014"
     ],
     "queries_count": 1,
-    "demand_total": 0,
+    "demand_by_source": {},
+    "demand_queries_by_source": {},
     "demand_sources": [],
+    "demand_index": 0.0,
     "position_best": 6,
     "position_worst": 6,
     "rivals": [
