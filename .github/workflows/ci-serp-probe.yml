@@ -14,9 +14,9 @@ on:
         required: false
         default: 'купить figma'
       location_code:
-        description: 'Гео Google: 2643 = Россия, 1011969 = Москва'
+        description: 'Принудительный location_code Google (пусто = автоопределение по справочнику RU)'
         required: false
-        default: '2643'
+        default: ''
 permissions:
   contents: read
   issues: write
