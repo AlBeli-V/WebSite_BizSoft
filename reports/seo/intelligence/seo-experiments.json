@@ -20,7 +20,8 @@
    "hypothesis": "Коммерческие сниппеты с явным интентом «оплата на юрлицо, счёт, договор, ЭДО» и FAQ-разметка поднимут кликабельность страниц в выдаче Яндекса по транзакционным запросам кластеров.",
    "success_metric": "CTR кластеров Canva/Depositphotos/CorelDRAW/HeyGen/Marmoset в Яндекс.Вебмастере ≥2% через 7 дней (26.08.2026), ≥3% через 14 дней (02.09.2026)",
    "control_group": "остальные vendor-страницы без изменений",
-   "source": "src/data/seo-experiments.ts (рендер: src/pages/vendors/[slug].astro → VendorLanding)"
+   "source": "src/data/seo-experiments.ts (рендер: src/pages/vendors/[slug].astro → VendorLanding)",
+   "formula_group": "commercial-snippet-2026-08"
   },
   {
    "id": "cluster-depositphotos",
@@ -109,7 +110,8 @@
     "миджорни",
     "clip studio",
     "клип студио"
-   ]
+   ],
+   "formula_group": "commercial-snippet-2026-08"
   },
   {
    "id": "snippet-anthropic-demand",
