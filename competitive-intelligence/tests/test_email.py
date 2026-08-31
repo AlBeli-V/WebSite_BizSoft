@@ -281,5 +281,47 @@ class TestStaleData(unittest.TestCase):
         self.assertTrue(meta["лимит_соблюдён"])
 
 
+class TestPackageChoice(unittest.TestCase):
+    """Выбор главного поручения не должен предпочитать неизученные цели.
+
+    Замечание второй внешней рецензии: при нормализации весов пакет с
+    отсутствующим спросом получает фору — неудобный фактор просто исчезает
+    из расчёта.
+    """
+
+    def package(self, pid, potential, upside=None):
+        return {"package_id": pid, "potential_index": potential,
+                "traffic_upside": upside, "url": "https://biz-soft.pro/a",
+                "action": "тест", "queries_count": 1, "demand_total": 10,
+                "position_best": 5, "position_worst": 5, "effort": "S",
+                "potential_label": "высокий"}
+
+    def test_при_сопоставимом_потенциале_выбирается_измеренный(self):
+        chosen = build_email.pick_package([
+            self.package("WP-01", 0.11),                # спрос не измерен
+            self.package("WP-02", 0.10, upside=12.0),   # спрос измерен
+        ])
+        self.assertEqual(chosen["package_id"], "WP-02")
+
+    def test_явно_больший_потенциал_побеждает(self):
+        """Запрет не абсолютный: заметно лучшая цель выигрывает."""
+        chosen = build_email.pick_package([
+            self.package("WP-01", 0.50),
+            self.package("WP-02", 0.10, upside=12.0),
+        ])
+        self.assertEqual(chosen["package_id"], "WP-01")
+
+    def test_без_измеренных_берётся_лучший(self):
+        chosen = build_email.pick_package([
+            self.package("WP-01", 0.20),
+            self.package("WP-02", 0.10),
+        ])
+        self.assertEqual(chosen["package_id"], "WP-01")
+
+    def test_пустой_список(self):
+        self.assertIsNone(build_email.pick_package([]))
+        self.assertIsNone(build_email.pick_package(None))
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -137,9 +137,10 @@ def main(argv: list[str]) -> int:
         fh.write(build_email.render_txt(meta, snapshot=snapshot, attacks=attacks,
                                         ranked_rivals=ranked, packages=packages))
     with open(f"{base}.html", "w", encoding="utf-8") as fh:
-        fh.write(build_email.render_html(meta, kpi=kpi_obj, snapshot=snapshot,
-                                         attacks=attacks, ranked_rivals=ranked,
-                                         packages=packages))
+        fh.write(build_email.render_html(
+            meta, kpi=kpi_obj, snapshot=snapshot, attacks=attacks,
+            ranked_rivals=ranked, packages=packages,
+            signal_delta=meta.get("дельта_сигнальная_пп")))
     with open(f"{base}.json", "w", encoding="utf-8") as fh:
         json.dump(meta, fh, ensure_ascii=False, indent=2)
 

@@ -81,7 +81,8 @@ def watch_text(threat_leader: tuple[dict, object] | None) -> str:
 
 
 def visible_text(kpi, verdict_mark, verdict_why, signal, *,
-                 attack=None, threat_leader=None, package=None) -> str:
+                 attack=None, threat_leader=None, package=None,
+                 signal_delta: float | None = None) -> str:
     """Основная текстовая часть письма — то, что считается против лимита.
 
     Ссылки, подписи и футер в лимит не входят (раздел 23), поэтому здесь
@@ -90,7 +91,8 @@ def visible_text(kpi, verdict_mark, verdict_why, signal, *,
     lines = [
         f"{verdict_mark} {verdict_why}.",
         (f"B2B Share Яндекс {kpi_mod.format_share(kpi.share_yandex)} "
-         f"(Δ7д {kpi_mod.format_delta(kpi.share_delta_pp, unit=' п.п.')}) · "
+         f"(за сутки {kpi_mod.format_delta(kpi.share_delta_pp, unit=' п.п.')}, "
+         f"сигнальная {kpi_mod.format_delta(signal_delta, unit=' п.п.')}) · "
          f"Google {kpi_mod.format_share(kpi.share_google)} · "
          f"ТОП-3 {kpi.top3}/{kpi.queries} · ТОП-10 {kpi.top10}/{kpi.queries}."),
         f"Главный сигнал: {signal.text}",
@@ -98,6 +100,38 @@ def visible_text(kpi, verdict_mark, verdict_why, signal, *,
         watch_text(threat_leader),
     ]
     return "\n".join(lines)
+
+
+# Насколько потенциал пакета с неизмеренным спросом должен превосходить
+# измеренный, чтобы всё-таки стать главным поручением. Нормализация весов
+# при отсутствии фактора даёт такому пакету фору: неудобный признак просто
+# исчезает из расчёта. Порог возвращает предпочтение измеренной возможности,
+# не запрещая неизмеренную совсем.
+UNMEASURED_DEMAND_MARGIN = 1.25
+
+
+def pick_package(packages: list[dict] | None) -> dict | None:
+    """Пакет для главного поручения.
+
+    При сопоставимом потенциале предпочтение отдаётся пакету с измеренным
+    спросом. Иначе система систематически выбирала бы цели, о которых знает
+    меньше всего: у них отсутствующий фактор исключается из расчёта, и
+    остальные веса нормализуются вверх.
+    """
+    if not packages:
+        return None
+    measured = [p for p in packages if p.get("traffic_upside") is not None]
+    if not measured:
+        return packages[0]
+    best_measured = max(measured, key=lambda p: p["potential_index"])
+    best_overall = max(packages, key=lambda p: p["potential_index"])
+    if best_overall is best_measured:
+        return best_measured
+    # Неизмеренный побеждает только с запасом, а не по случайному перевесу
+    if (best_overall["potential_index"]
+            > best_measured["potential_index"] * UNMEASURED_DEMAND_MARGIN):
+        return best_overall
+    return best_measured
 
 
 def pick_attack(attacks: list[dict] | None) -> dict | None:
@@ -120,6 +154,7 @@ def build(date: str, snapshot: dict, previous: dict | None,
           history: list[float] | None = None) -> dict:
     kpi = kpi_mod.build_kpi(snapshot, previous)
     verdict_mark, verdict_why = kpi_mod.verdict(kpi, history)
+    signal_delta = kpi_mod.trend_change(history or [])
     if stale_notice:
         # Данные не за сегодня. Показать их можно — они честно датированы, —
         # но вердикт обязан стать «недостаточно данных»: выводы о динамике по
@@ -129,10 +164,10 @@ def build(date: str, snapshot: dict, previous: dict | None,
         verdict_why = f"Данные неполные: {stale_notice}"
     signal = signal_mod.pick(snapshot, previous)
     attack = pick_attack(attacks)
-    package = (packages or [None])[0]
+    package = pick_package(packages)
     text = visible_text(kpi, verdict_mark, verdict_why, signal,
                         attack=attack, threat_leader=threat_leader,
-                        package=package)
+                        package=package, signal_delta=signal_delta)
 
     coverage = snapshot.get("покрытие") or {}
     subject = (f"Конкурентная разведка · "
@@ -160,6 +195,8 @@ def build(date: str, snapshot: dict, previous: dict | None,
         "покрытие": coverage,
         "предупреждение_о_свежести": stale_notice,
         "сравнение_с": kpi.compared_with,
+        "дельта_суточная_пп": kpi.share_delta_pp,
+        "дельта_сигнальная_пп": signal_delta,
         "kpi": {
             "share_yandex": kpi.share_yandex,
             "share_google": kpi.share_google,
@@ -283,7 +320,8 @@ def _block(title: str, body: str, *, accent: bool = False) -> str:
 
 def render_html(meta: dict, *, kpi=None, snapshot: dict | None = None,
                 attacks: list[dict] | None = None, ranked_rivals=None,
-                packages: list[dict] | None = None) -> str:
+                packages: list[dict] | None = None,
+                signal_delta: float | None = None) -> str:
     """HTML-версия письма: верхний уровень плюс секции детализации.
 
     Верхний уровень (вердикт, показатели, сигнал, действие, наблюдение)
@@ -313,7 +351,7 @@ def render_html(meta: dict, *, kpi=None, snapshot: dict | None = None,
             f'<div style="border-top:1px solid {sections.LINE};"></div></td></tr>'
             + sections.packages_section(packages or [])
             + sections.options_section(packages or [])
-            + sections.kpi_section(kpi, snapshot)
+            + sections.kpi_section(kpi, snapshot, signal_delta)
             + sections.field_section(snapshot)
             + sections.rivals_section(snapshot.get("лидеры") or [],
                                       ranked_rivals or [])

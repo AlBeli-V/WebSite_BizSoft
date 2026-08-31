@@ -71,13 +71,22 @@ def _td(text: str, *, align: str = "left", bold: bool = False,
             f'font-variant-numeric:tabular-nums;">{text}</td>')
 
 
-def kpi_section(kpi, snapshot: dict) -> str:
-    """Показатели с источником и оценкой достоверности — как в SEO-письме."""
+def kpi_section(kpi, snapshot: dict, signal_delta: float | None = None) -> str:
+    """Показатели с источником и оценкой достоверности — как в SEO-письме.
+
+    Две дельты различаются намеренно (замечание внешнего аудита): суточная
+    справочна, а вердикт и главный сигнал строятся на сглаженной. Без этого
+    возникал бы вопрос, почему при заметном движении за сутки вердикт
+    остаётся нейтральным.
+    """
     coverage = snapshot.get("покрытие") or {}
     usable = coverage.get("яндекс_запросов_с_данными")
+    delta_text = kpi_mod.format_delta(kpi.share_delta_pp, unit=" п.п.")
+    if signal_delta is not None:
+        delta_text += f" · сигнальная {kpi_mod.format_delta(signal_delta, unit=' п.п.')}"
     rows = [
         ("Доля видимости в Яндексе", kpi_mod.format_share(kpi.share_yandex),
-         kpi_mod.format_delta(kpi.share_delta_pp, unit=" п.п."),
+         delta_text,
          f"Яндекс, Москва, {usable} запросов"),
         ("Запросов в ТОП-3", f"{kpi.top3} из {kpi.queries}",
          kpi_mod.format_delta(kpi.top3_delta), "срез выдачи"),
