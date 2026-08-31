@@ -31,7 +31,11 @@ from mailer import sections  # noqa: E402
 
 MSK = timezone(timedelta(hours=3))
 TEXT_LIMIT = 1000
-REPORT_URL = "https://biz-soft.pro/ci-<токен>/latest/"
+# Непубличный путь: угадать нельзя, ссылок с сайта нет, отдаётся с
+# X-Robots-Tag noindex. Basic auth не заводится по решению руководителя от
+# 31.08 — риск принят; при подозрении на утечку меняется токен пути в
+# deploy/nginx-biz-soft.conf.template и здесь.
+REPORT_URL = "https://biz-soft.pro/ci-c98370a0ebe87d97/latest.html"
 
 
 def do_next_text(attack: dict | None) -> str:
