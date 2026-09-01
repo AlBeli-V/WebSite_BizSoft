@@ -1,8 +1,8 @@
 {
  "schema_version": "1.0.0",
- "collected_at": "2026-08-31T09:35:53+00:00",
+ "collected_at": "2026-09-01T03:37:32+00:00",
  "date_from": "2026-08-28",
- "date_to": "2026-08-31",
+ "date_to": "2026-09-01",
  "groups": [
   {
    "Date": "2026-08-28",
@@ -45,25 +45,25 @@
    "CampaignId": "713927850",
    "AdGroupId": "5793418349",
    "AdGroupName": "Claude — подписки для компаний",
-   "Impressions": 49,
-   "Clicks": 2,
-   "Cost": 24.66
+   "Impressions": 134,
+   "Clicks": 7,
+   "Cost": 74.95
   },
   {
    "Date": "2026-08-31",
    "CampaignId": "713927850",
    "AdGroupId": "5793418350",
    "AdGroupName": "Claude Code — для команд разработки",
-   "Impressions": 311,
-   "Clicks": 31,
-   "Cost": 205.77
+   "Impressions": 804,
+   "Clicks": 69,
+   "Cost": 502.8
   },
   {
    "Date": "2026-08-31",
    "CampaignId": "713927850",
    "AdGroupId": "5793418351",
    "AdGroupName": "Midjourney — контрольная корзина",
-   "Impressions": 1,
+   "Impressions": 4,
    "Clicks": 0,
    "Cost": 0.0
   },
@@ -72,27 +72,27 @@
    "CampaignId": "713927850",
    "AdGroupId": "5793418352",
    "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
-   "Impressions": 73,
-   "Clicks": 6,
-   "Cost": 118.11
+   "Impressions": 422,
+   "Clicks": 25,
+   "Cost": 327.76
   },
   {
    "Date": "2026-08-31",
    "CampaignId": "713927850",
    "AdGroupId": "5793785058",
    "AdGroupName": "Cursor — редактор для команд разработки",
-   "Impressions": 13,
-   "Clicks": 1,
-   "Cost": 31.4
+   "Impressions": 21,
+   "Clicks": 2,
+   "Cost": 36.09
   },
   {
    "Date": "2026-08-31",
    "CampaignId": "713927850",
    "AdGroupId": "5793785067",
    "AdGroupName": "Adobe — подписки для юрлиц",
-   "Impressions": 42,
-   "Clicks": 3,
-   "Cost": 26.13
+   "Impressions": 160,
+   "Clicks": 9,
+   "Cost": 72.51
   }
  ],
  "queries": [
@@ -635,7 +635,351 @@
   {
    "Date": "2026-08-31",
    "AdGroupName": "Claude — подписки для компаний",
+   "Query": "anthropic claude цена",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "claude 5x сколько стоит",
+   "Impressions": 1,
+   "Clicks": 1,
+   "Cost": 8.17
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "claude ai купить",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "claude api sonnet 5 купить",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "claude code купить",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "claude max 20x купить",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "claude max купить подписку",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "claude mythos купить",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "claude prices",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "claude pro купить подписку",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "claude team price",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "claude как оплатить",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "claude как оплатить в россии",
+   "Impressions": 1,
+   "Clicks": 1,
+   "Cost": 8.76
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "claude как оплатить подписку",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "claude купить",
+   "Impressions": 3,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "claude купить подписку",
+   "Impressions": 3,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "claude купить подписку в россии",
+   "Impressions": 7,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "claude оплатить беларуси",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "claude оплатить из россии",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "claude оплатить подписку",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "claude подписка",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "claude с подпиской max цена",
+   "Impressions": 1,
+   "Clicks": 1,
+   "Cost": 17.42
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "claude стоимость подписки",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "claude тарифы для бизнеса",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "ggsel оплатить claude",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "kyc claude купить",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "mts купить подписку claude",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "ozon оплата claude",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "как выбрать и оплатить максимальный тип подписки claude",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "как использовать виртуальный номер для оплаты claude",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "как купить подписку claude",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "как купить подписку на claude по organization id",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "как оплатит claude",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "как оплатить claude",
+   "Impressions": 4,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "как оплатить claude ai из россии",
+   "Impressions": 4,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "как оплатить claude ai из россии bisnes tax id",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "как оплатить claude ai из россии в 2026",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "как оплатить claude code из россии",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "как оплатить claude pro в россии",
+   "Impressions": 2,
+   "Clicks": 1,
+   "Cost": 12.25
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "как оплатить claude pro из россии",
+   "Impressions": 2,
+   "Clicks": 1,
+   "Cost": 15.89
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "как оплатить claude в россии",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude — подписки для компаний",
    "Query": "как оплатить claude в россии 2026",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "как оплатить claude из россии",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "как оплатить claude из рф",
    "Impressions": 1,
    "Clicks": 0,
    "Cost": 0.0
@@ -651,6 +995,54 @@
   {
    "Date": "2026-08-31",
    "AdGroupName": "Claude — подписки для компаний",
+   "Query": "как оплатить ии клод без налога",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "как оплатить клод",
+   "Impressions": 5,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "как оплатить клод в россии",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "как оплатить клод из россии",
+   "Impressions": 6,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "как оплатить клод из рф",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "как оплатить подписку claude",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude — подписки для компаний",
    "Query": "как оплатить подписку claude в россии",
    "Impressions": 1,
    "Clicks": 0,
@@ -659,8 +1051,264 @@
   {
    "Date": "2026-08-31",
    "AdGroupName": "Claude — подписки для компаний",
-   "Query": "купить подписку claude",
+   "Query": "как оплатить подписку claude из россии",
+   "Impressions": 3,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "как оформить подписку на claude в россии",
    "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "как пользовать оплатить клауд",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "как работать с клод в россии",
+   "Impressions": 3,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "купить claude",
+   "Impressions": 3,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "купить claude api в рф",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "купить claude гпт",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "купить подписку claude",
+   "Impressions": 8,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "купить подписку claude ai",
+   "Impressions": 1,
+   "Clicks": 1,
+   "Cost": 5.4
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "купить подписку claude code",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "купить подписку claude max",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "купить подписку claude в россии",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "купить подписку на клод",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "купить подписку на клод на год",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "мтс оплатить claude",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "оплата claud",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "оплата claude",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "оплата claude ai из россии мтс",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "оплати claude",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "оплатить claude",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "оплатить claude из россии",
+   "Impressions": 4,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "оплатить claude через vk",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "оплатить claude через мтс",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "подписка claude",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "пополнить баланс claude",
+   "Impressions": 1,
+   "Clicks": 1,
+   "Cost": 7.04
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "сколько стоит месяц claude ai",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "сколько стоит подписка на claude",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "1с и claude",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "claud code",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "claudcode",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "claudcode ru",
+   "Impressions": 2,
+   "Clicks": 1,
+   "Cost": 4.8
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "claude api pricing",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "claude cod",
+   "Impressions": 3,
    "Clicks": 0,
    "Cost": 0.0
   },
@@ -668,17 +1316,169 @@
    "Date": "2026-08-31",
    "AdGroupName": "Claude Code — для команд разработки",
    "Query": "claude code",
-   "Impressions": 16,
+   "Impressions": 490,
+   "Clicks": 32,
+   "Cost": 235.06
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "claude code acc pro buy",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "claude code agent",
+   "Impressions": 5,
    "Clicks": 2,
-   "Cost": 7.41
+   "Cost": 13.21
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "claude code app",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "claude code best practice",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "claude code business",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "claude code download",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "claude code enterprise",
+   "Impressions": 1,
+   "Clicks": 1,
+   "Cost": 5.53
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "claude code logo",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "claude code max 5x",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "claude code max 5x купить",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "claude code opus",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "claude code pro купить",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "claude code russia available",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "claude code setup",
+   "Impressions": 6,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "claude code skills",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "claude code tilda mcp",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "claude code wb",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "claude code web",
+   "Impressions": 1,
+   "Clicks": 1,
+   "Cost": 7.58
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "claude code агент",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
   },
   {
    "Date": "2026-08-31",
    "AdGroupName": "Claude Code — для команд разработки",
    "Query": "claude code в россии",
-   "Impressions": 1,
-   "Clicks": 0,
-   "Cost": 0.0
+   "Impressions": 6,
+   "Clicks": 2,
+   "Cost": 12.48
   },
   {
    "Date": "2026-08-31",
@@ -691,10 +1491,42 @@
   {
    "Date": "2026-08-31",
    "AdGroupName": "Claude Code — для команд разработки",
-   "Query": "claude code как использовать в россии",
+   "Query": "claude code для предпринимателей а горный aiacademy г шевченко humans with ai",
    "Impressions": 1,
    "Clicks": 0,
    "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "claude code для предпринимателей а горный aiacademy г шевченко humanswith ai",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "claude code для продактов 2026",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "claude code из россии",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "claude code как использовать в россии",
+   "Impressions": 4,
+   "Clicks": 1,
+   "Cost": 2.77
   },
   {
    "Date": "2026-08-31",
@@ -707,6 +1539,166 @@
   {
    "Date": "2026-08-31",
    "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "claude code купить",
+   "Impressions": 5,
+   "Clicks": 1,
+   "Cost": 20.7
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "claude code купить подписку pro",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "claude code на практике",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "claude code на русском",
+   "Impressions": 2,
+   "Clicks": 1,
+   "Cost": 8.22
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "claude code на сколько хорош в вайбкодинге",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "claude code на сколько хорошо пишет создает программы приложения",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "claude code нейросеть официальный сайт",
+   "Impressions": 4,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "claude code онлайн",
+   "Impressions": 1,
+   "Clicks": 1,
+   "Cost": 2.15
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "claude code официальный сайт",
+   "Impressions": 4,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "claude code подписка",
+   "Impressions": 9,
+   "Clicks": 1,
+   "Cost": 9.18
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "claude code подписка купить",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "claude code подписка через gift",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "claude code покупка в россии",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "claude code россия",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "claude code рф",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "claude code с mcp",
+   "Impressions": 3,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "claude code с кастомными моделями",
+   "Impressions": 1,
+   "Clicks": 1,
+   "Cost": 4.97
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "claude code стоимость подписки",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "claude code тариф",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "claude code цена",
+   "Impressions": 1,
+   "Clicks": 1,
+   "Cost": 10.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
    "Query": "claude coder",
    "Impressions": 1,
    "Clicks": 0,
@@ -715,7 +1707,383 @@
   {
    "Date": "2026-08-31",
    "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "claude corporative account",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "claude cowork агенты",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "claude design",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "claude for legal",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "claude prices",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "claude pricing",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "claude pro",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "claude pro купить",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "claude pro купить подписку",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "claude pro тарифы",
+   "Impressions": 1,
+   "Clicks": 1,
+   "Cost": 5.61
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "claude pro цены",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "claude sdk",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "claude team",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "claude team купить",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "claude подписки",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "claude стоимость",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "claude тариф",
+   "Impressions": 1,
+   "Clicks": 1,
+   "Cost": 5.25
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "claude тарифы",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "claude тарифы для бизнеса",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "claude цена",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "claudecode",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
    "Query": "cloud code",
+   "Impressions": 72,
+   "Clicks": 9,
+   "Cost": 73.6
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "cloud code ii",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "cloud code online",
+   "Impressions": 1,
+   "Clicks": 1,
+   "Cost": 7.14
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "cloud code подписка",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "cloudbot и claude code",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "cloudbot и claude code интеграция",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "cloude pro",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "code claude",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "code cloud",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "copilot enterprise подписка купить",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "download claude code",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "glm claude code",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "https docs claude com claude code",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "ljcneg r claude regbnm",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "opus 5 claude code",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "sdc code claude buy",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "автоматизация claude code автоматическое общение между сессиями и автоматический effort",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "агенты claude code",
+   "Impressions": 1,
+   "Clicks": 1,
+   "Cost": 6.74
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "агрегатор для cloude в россии",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "глубокое погружение claude code",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "графовые базы для claude code",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "запускать claude code из россии и за 15 минут собирать сайт с нуля",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "ии claude code",
+   "Impressions": 4,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "как зарегистрироваться в claude code из россии",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "как использовать claude code в россии",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "как купить подписку на claude code",
+   "Impressions": 2,
+   "Clicks": 1,
+   "Cost": 1.6
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "как оплатить claude ai из россии по сбп",
    "Impressions": 1,
    "Clicks": 0,
    "Cost": 0.0
@@ -724,6 +2092,14 @@
    "Date": "2026-08-31",
    "AdGroupName": "Claude Code — для команд разработки",
    "Query": "как оплатить claude code из россии",
+   "Impressions": 4,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "как оплатить claude pro из россии",
    "Impressions": 1,
    "Clicks": 0,
    "Cost": 0.0
@@ -731,7 +2107,327 @@
   {
    "Date": "2026-08-31",
    "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "как оплатить claude в россии 2026",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "как оплатить claude через ozon",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "как получить доступ к claude code",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "как пользоваться claude code",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "как пользоваться claude codei",
+   "Impressions": 2,
+   "Clicks": 1,
+   "Cost": 4.98
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "как узнать когда заканчивается подписка claude ai pro",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "кейсы использования claude code",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "клауд код подписка варианты",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "клауд код тарифы",
+   "Impressions": 3,
+   "Clicks": 2,
+   "Cost": 10.6
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "клауд кодинг",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "клауд про",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "клауде про подписка",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "клод аи купить",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "клод код нейросеть купить",
+   "Impressions": 2,
+   "Clicks": 1,
+   "Cost": 18.31
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "клод код сколько стоит",
+   "Impressions": 1,
+   "Clicks": 1,
+   "Cost": 1.47
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "команды claude code",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "консоль claude",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "корпоративный клод",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "купить claude al claude code max api claude opus 4.8 1m claude code",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "купить claude code",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "купить claude pro",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "купить cloud code",
+   "Impressions": 4,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "купить лицензию на claude",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "купить подписку claude",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "купить подписку claude code pro",
+   "Impressions": 4,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
    "Query": "модели claude code",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "насколько надежны корпоративные ключи на claude",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "новое в claude code",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "оплата claude",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "оплата claude code",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "оплата claude code из россии",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "платформа claudecode",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "платформы агрегаторы для доступа к моделям claude",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "подписка claude",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "подписка claude code",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "подписка claude code max",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "подписка claude code opus",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "подписка клауде",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "подписка на claude подарить",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "подписки claude",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "подписки на claude code купить",
    "Impressions": 1,
    "Clicks": 0,
    "Cost": 0.0
@@ -747,7 +2443,103 @@
   {
    "Date": "2026-08-31",
    "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "сколько стоит claude",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "сколько стоит claude code",
+   "Impressions": 1,
+   "Clicks": 1,
+   "Cost": 4.05
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "сколько стоит подписка claude",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "сколько стоит подписка claude code",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "сколько стоит подписка claude code хорошая",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "сколько стоит подписка clauder",
+   "Impressions": 1,
+   "Clicks": 1,
+   "Cost": 7.65
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "стоимость claude в год",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
    "Query": "тарифные планы claude code",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "тарифный план claude",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "тарифы claude",
+   "Impressions": 5,
+   "Clicks": 2,
+   "Cost": 19.16
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "тарифы claude max 20",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "управление claude code с мобильного",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "учетная запись claude купить",
    "Impressions": 1,
    "Clicks": 0,
    "Cost": 0.0
@@ -762,17 +2554,641 @@
   },
   {
    "Date": "2026-08-31",
+   "AdGroupName": "Midjourney — контрольная корзина",
+   "Query": "midjourney reg ru",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Midjourney — контрольная корзина",
+   "Query": "midjourney подписка",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Midjourney — контрольная корзина",
+   "Query": "мтс оплата midjourney",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "999cdk купить chatgpt",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "chat gpt business тарифы",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "chat gpt go купить подписку",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "chat gpt plus цена с ндс",
+   "Impressions": 1,
+   "Clicks": 1,
+   "Cost": 15.19
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "chat gpt terra стоимость",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "chat gpt купить подписку",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "chat gpt оплата",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "chat gpt оплатить подписку",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "chatgppt тарифы",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "chatgpt 5.6 plus купить подписку",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "chatgpt ads",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "chatgpt business",
+   "Impressions": 6,
+   "Clicks": 1,
+   "Cost": 12.72
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "chatgpt business standart подписка",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "chatgpt business subscription annual standard",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "chatgpt com тарифы оплата plus",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "chatgpt plus buy",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "chatgpt plus team enterprise с advanced data analysis",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "chatgpt plus как оплатить подписку россия",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "chatgpt plus купить подписку",
+   "Impressions": 3,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "chatgpt plus оплата через apple pay",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "chatgpt plus тариф",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "chatgpt pro купить подписку",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "chatgpt бизнес 1 месяц быстрая доставка 24 7 безопасный доступ вход не требуется",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "chatgpt как оплатить",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "chatgpt как оплатить в долларах",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
    "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
    "Query": "chatgpt как оплатить подписку из россии",
-   "Impressions": 1,
+   "Impressions": 3,
    "Clicks": 1,
    "Cost": 10.83
   },
   {
    "Date": "2026-08-31",
    "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
-   "Query": "как оплатить chatgpt",
+   "Query": "chatgpt купить",
    "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "chatgpt купить подписку",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "chatgpt оплата",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "chatgpt оплата через токен",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "chatgpt оплатить",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "chatgpt продлить подписку через токен",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "gpt business купить",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "gpt chat платная версия хорошая",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "gpt plus купить подписку",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "gpt купить на год",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "gpt оплатить подписку",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "gpt подписка купить",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "mts oplata gpt",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "mts payment ru chatgpt",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "mts оплата chatgpt",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "rfr jgkfnbnm xfn ugn",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "zarub как оплатить chatgpt",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "адрес для финляндии оплаты чата гпт",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "адрес финляндии оплаты чата гпт",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "варианты оплаты чат гпт в россии",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "где оплатить подписку chatgpt недорого",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "гпт чат подписка за месяц",
+   "Impressions": 3,
+   "Clicks": 1,
+   "Cost": 6.31
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "джипиди корп",
+   "Impressions": 3,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "джипити чат стоимость",
+   "Impressions": 1,
+   "Clicks": 1,
+   "Cost": 3.11
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "диктофон plaud note ai с chatgpt искусственным интеллектом 5 2 сколько стоит подписка",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "доступ к платному гпт чату",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "доступ к платному гпт чату на год",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "как gpt оплатить из россии",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "как активировать ваучер для chatgpt в россии после покупки",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "как выгодно купить подписку себе и другу на gpt",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "как из россии оплатить chatgpt plus",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "как из россии оплатить чат гпт",
+   "Impressions": 1,
+   "Clicks": 1,
+   "Cost": 25.03
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "как изменить валюту оплаты чата gpt",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "как купить доступ на чат джипити",
+   "Impressions": 3,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "как купить платную подписку в чат gpt в россии",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "как купить подписку chatgpt plus в россии",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "как купить подписку в чат gpt через втб",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "как купить подписку на чат гпт в россии в обход санкциям",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "как купить подписку чат гпт в россии",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "как купить тариф чата гпт",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "как купить чат gpt с возможностью создания консультантов",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "как купить чат гпт",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "как оплатить chat gpt",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "как оплатить chat gpt plus в россии",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "как оплатить chat gpt plus в россии 2026",
+   "Impressions": 3,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "как оплатить chat gpt в россии 2026",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "как оплатить chatgpt",
+   "Impressions": 10,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "как оплатить chatgpt plus",
+   "Impressions": 3,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "как оплатить chatgpt в долларах",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "как оплатить chatgpt в рф",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "как оплатить chatgpt из россии",
+   "Impressions": 6,
    "Clicks": 0,
    "Cost": 0.0
   },
@@ -780,7 +3196,639 @@
    "Date": "2026-08-31",
    "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
    "Query": "как оплатить chatgpt из россии 2026",
+   "Impressions": 4,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "как оплатить chatgpt из россии в 2026",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "как оплатить chatgpt из россии с помощью ozon август 2026",
    "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "как оплатить codex из россии обходим блокировки и получаем доступ к chatgpt plus",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "как оплатить gpt chat из россии",
+   "Impressions": 4,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "как оплатить gpt chat тинькофф",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "как оплатить gpt plus из россии",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "как оплатить gpt чат в россии",
+   "Impressions": 3,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "как оплатить в озон банке чат джипити",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "как оплатить гпт",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "как оплатить гпт в россии",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "как оплатить гпт чат",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "как оплатить гпт чат в россии",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "как оплатить джипити чат из россии",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "как оплатить жпт чат через озон",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "как оплатить подписку в чате джипити в россии",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "как оплатить подписку гпт через мтс",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "как оплатить подписку джипити",
+   "Impressions": 3,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "как оплатить подписку на чат gpt из россии",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "как оплатить подписку чат gpt в россии",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "как оплатить чат gpt",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "как оплатить чат gpt 5 в россии",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "как оплатить чат gpt в россии",
+   "Impressions": 17,
+   "Clicks": 1,
+   "Cost": 8.79
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "как оплатить чат gpt в россии 2026",
+   "Impressions": 5,
+   "Clicks": 1,
+   "Cost": 11.53
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "как оплатить чат gpt в россии август 2026",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "как оплатить чат gpt в россии с apple",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "как оплатить чат gpt в россии через apple pay",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "как оплатить чат gpt в россии через озон банк",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "как оплатить чат gpt из россии",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "как оплатить чат gpt через токен",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "как оплатить чат гпт",
+   "Impressions": 3,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "как оплатить чат гпт в россии",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "как оплатить чат гпт через сервис онлайн оплат",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "как оплатить чат джипити в россии",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "как оплатить чат джипити из россии",
+   "Impressions": 5,
+   "Clicks": 1,
+   "Cost": 16.54
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "как оплатить чат джпт из россии",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "как оплатить чат дпт в россии",
+   "Impressions": 1,
+   "Clicks": 1,
+   "Cost": 11.37
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "как оплатить чат жпт из россии",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "как оплатить чатгпт из россии",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "как оплачивать chat gpt",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "как оплачивать chat gpt из россии",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "как оплачивать chatgpt из россии",
+   "Impressions": 3,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "как оплачивать подписку gpt card club",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "как оплачивать чат gpt из россии",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "как оформить оплатить чат gpt go в россии август 2026",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "как оформить оплатить чат gpt в россии август 2026",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "как оформить подписку на чат gpt из россии",
+   "Impressions": 3,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "как оформить подписку на чат гпт в россии",
+   "Impressions": 2,
+   "Clicks": 1,
+   "Cost": 5.23
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "как оформить подписку на чат гпт в рф",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "как поменять оплату с евро на доллары на сайте чат gpt",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "как пополнить gpt долларами",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "как правильно оформить подписку на чат гпт в рф",
+   "Impressions": 2,
+   "Clicks": 1,
+   "Cost": 7.04
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "как продлить чат gpt",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "как сделать платную подписку на чат gpt",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "корпоративная подписка на chatgpt в россии",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "купить chat gpt тариф pro",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "купить chatgpt",
+   "Impressions": 3,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "купить chatgpt plus",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "купить chatgpt plus на месяц",
+   "Impressions": 1,
+   "Clicks": 1,
+   "Cost": 9.34
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "купить chatgpt pro",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "купить доступ в чат gpt",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "купить доступ к chat gpt",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "купить доступ чат gpt",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "купить подписку chatgpt",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "купить подписку gpt plus",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "купить подписку джпт",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "купить подписку на chatgpt",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "купить подписку на gpt чат",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "купить подписку чат gpt plus",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "купить подписку чат гпт",
+   "Impressions": 4,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "купить симкарту для чатгпт",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "купить чат джпт",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "купить чат чпт",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "мтс гпт оплата gpt",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "мтс купить чат gpt",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "мтс оплата chat gpt",
+   "Impressions": 4,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "мтс оплата chatgpt",
+   "Impressions": 8,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "мтс оплата гпт",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "мтс оплата чат гпт",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "мтс оплата чата gpt",
+   "Impressions": 2,
    "Clicks": 0,
    "Cost": 0.0
   },
@@ -788,6 +3836,14 @@
    "Date": "2026-08-31",
    "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
    "Query": "мтс оплатить chatgpt",
+   "Impressions": 3,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "нейросети купить подписку на chatgpt go",
    "Impressions": 1,
    "Clicks": 0,
    "Cost": 0.0
@@ -795,7 +3851,935 @@
   {
    "Date": "2026-08-31",
    "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "озон пополнить чат гпт",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "оплата chatgpt",
+   "Impressions": 3,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "оплата chatgpt plus из россии",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "оплата chatgpt из россии",
+   "Impressions": 3,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "оплата gpt через мтс",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "оплата гпт мтс",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "оплата гпт через ваучер",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "оплата подписки chat gpt",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "оплата подписки chat gpt через apple pay",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "оплата подписки чат gpt",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "оплата чат gpt из россии",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "оплата чат gpt из россии тбанк",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "оплата чат jpt",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "оплата чат гпт",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "оплата чат гпт из россии",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "оплата чат джипити",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "оплата чат джипити го",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "оплата чата gpt через мтс",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "оплата чата гпт",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "оплатить chat gpt plus",
+   "Impressions": 2,
+   "Clicks": 1,
+   "Cost": 17.97
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "оплатить chatgpt",
+   "Impressions": 7,
+   "Clicks": 1,
+   "Cost": 18.49
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "оплатить chatgpt mts",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "оплатить chatgpt plus из россии",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
    "Query": "оплатить chatgpt из россии",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "оплатить chatgpt через мтс",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "оплатить gpt",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "оплатить gpt plus из россии",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "оплатить подписку chat gpt plus",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "оплатить подписку gpt pro",
+   "Impressions": 2,
+   "Clicks": 1,
+   "Cost": 18.61
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "оплатить продление chatgpt",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "оплатить рподление chatgpt",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "оплатить чат gpt pro",
+   "Impressions": 1,
+   "Clicks": 1,
+   "Cost": 14.53
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "оплатить чат gpt из россии",
+   "Impressions": 3,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "оплатить чат gpt из россии форум",
+   "Impressions": 1,
+   "Clicks": 1,
+   "Cost": 15.84
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "оплатить чат gpt через мтс",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "оплатить чат гтр",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "оплачивать чат гпт",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "открытие счета в тенге в сбербанке для оплаты чата gpt из россии",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "оформить чат gpt корпоративный",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "оформить чат gpt оплата юр лицом",
+   "Impressions": 1,
+   "Clicks": 1,
+   "Cost": 38.65
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "плати по миру chat gpt",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "плати по миру как оплатить chatgpt",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "платить чат gpt",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "платные планы чата гпт",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "подключение chat gpt business рф",
+   "Impressions": 1,
+   "Clicks": 1,
+   "Cost": 12.38
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "подписка chat gpt plus купить",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "подписка chatgpt plus купить",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "подписка chatgpt цена",
+   "Impressions": 1,
+   "Clicks": 1,
+   "Cost": 12.03
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "подписка gpt чат сколько стоит",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "подписка на чат гпт плати ру",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "подписка на чат гпт сколько стоит",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "продление подписки chat gpt через токен",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "продление подписки chatgpt plus",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "серверная chat gpt",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "сервис оплаты chat gpt",
+   "Impressions": 1,
+   "Clicks": 1,
+   "Cost": 1.6
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "сервисы помогающие оплатить чат джипити в россии",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "сколько провисит подписка go если ее не оплачивать chat gpt",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "сколько сейчас стоит gpt chat тариф plus",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "сколько стоит chat gpt",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "сколько стоит джипити чат",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "сколько стоит месяц в чате gpt",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "сколько стоит подписка chat gpt",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "сколько стоит подписка chat gpt plus",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "сколько стоит подписка gpt chat",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "сколько стоит подписка на чат gpt",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "сколько стоит подписка на чат гпт",
+   "Impressions": 3,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "сколько стоит подписка на чат джипити",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "сколько стоит подписка про в чат jpt",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "сколько стоит подписка чата gpt",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "сколько стоит продлить подписку на чат джипити",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "сколько стоит чат gpt",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "сколько стоит чат gpt в месяц",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "сколько стоит чат гпт в евро",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "способы оплатить chatgpt в россии",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "способы оплаты за chat gpt из россии",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "способы оплаты чатгпт в ря",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "стоимость модели chatgpt pro в год",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "тарифы бизнес chatgpt",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "цена chat gpt в месяц",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "цена chatgpt",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "цена месячной подписки chatgpt",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "цена подписки gpt chat",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "цена подписки на чат gpt",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "цена чат джипити",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "чат gpt 5 для юр лица",
+   "Impressions": 1,
+   "Clicks": 1,
+   "Cost": 11.52
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "чат gpt зарегистрироваться и оплатить подписку",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "чат gpt купить",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "чат gpt купить подписку",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "чат gpt оплатить подписку",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "чат gpt платная версия сколько стоит",
+   "Impressions": 1,
+   "Clicks": 1,
+   "Cost": 9.97
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "чат gpt подписка сколько стоит",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "чат gpt цена подписки",
+   "Impressions": 1,
+   "Clicks": 1,
+   "Cost": 13.12
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "чат гпт цена подписки",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "чат джипити как купить из россии в обход санкций",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "чат джипити как оплатить доступ из россии",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "чат джипити купить",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "чат джипити купить подписку",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "чат джипити сколько стоит подписка",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "чат джипити через оплату мтс",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "чат джпити плюс оплатить",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "чат жпт про купить",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "чатгпт апи покупка",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "чатгпт апи покупка токенов",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
+   "Query": "чатгпт купить",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Cursor — редактор для команд разработки",
+   "Query": "cursor ai купить подписку",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Cursor — редактор для команд разработки",
+   "Query": "cursor ai подписка",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Cursor — редактор для команд разработки",
+   "Query": "cursor grok bot подписка",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Cursor — редактор для команд разработки",
+   "Query": "cursor pricing",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Cursor — редактор для команд разработки",
+   "Query": "cursor варианты подписок",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Cursor — редактор для команд разработки",
+   "Query": "cursor ии как купить",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Cursor — редактор для команд разработки",
+   "Query": "cursor купить в россии",
+   "Impressions": 1,
+   "Clicks": 1,
+   "Cost": 4.68
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Cursor — редактор для команд разработки",
+   "Query": "cursor оплачивать без налога",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Cursor — редактор для команд разработки",
+   "Query": "cursor подписка",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Cursor — редактор для команд разработки",
+   "Query": "cursor подписка payholder",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Cursor — редактор для команд разработки",
+   "Query": "cursor стоимость подписок",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Cursor — редактор для команд разработки",
+   "Query": "где больше подписка 20 долларов claude или cursor",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Cursor — редактор для команд разработки",
+   "Query": "как оплатить cursor",
    "Impressions": 1,
    "Clicks": 0,
    "Cost": 0.0
@@ -811,7 +4795,503 @@
   {
    "Date": "2026-08-31",
    "AdGroupName": "Cursor — редактор для команд разработки",
+   "Query": "как оплатить подписку на cursor ai из беларуси",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Cursor — редактор для команд разработки",
    "Query": "купить подписку на cursor",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Cursor — редактор для команд разработки",
+   "Query": "оплата cursor из россии",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Cursor — редактор для команд разработки",
+   "Query": "оплатить cursor",
+   "Impressions": 1,
+   "Clicks": 1,
+   "Cost": 31.4
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Cursor — редактор для команд разработки",
+   "Query": "оплатить cursor mts",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Cursor — редактор для команд разработки",
+   "Query": "сколько стоит подписка на cursor",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "adobe acrobat 2026 купить",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "adobe acrobat dc купить",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "adobe acrobat pro 2024 бессрочная лицензия",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "adobe acrobat x pro как перенести лицензию на другой пк",
+   "Impressions": 4,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "adobe acrobat ввести ключ",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "adobe acrobat висит на получение подписки",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "adobe acrobat купить",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "adobe acrobat не удается проверить статус вашей подписки",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "adobe acrobat не удается проверить статус вашей подписки ошибка 10000",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "adobe acrobat отключить проверку лицензии",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "adobe acrobat срок вашей подписки истек",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "adobe after effects купить",
+   "Impressions": 3,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "adobe after effects цена",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "adobe creative cloud pro купить",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "adobe creative cloud pro подписка на 12 месяцев",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "adobe creative cloud подписка купить из россии",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "adobe firefly подписка",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "adobe flash player 32 npapi лицензия",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "adobe indesign",
+   "Impressions": 3,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "adobe lightroom photoshop стоимость подписки на год",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "adobe lightroom купить",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "adobe photoshop cs6 extended серийный ключ",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "adobe photoshop mac os купить",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "adobe photoshop mac подписка через селлера",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "adobe photoshop сколько стоит подписка",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "adobe photoshop убрать проверку лицензии",
+   "Impressions": 3,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "adobe photoshop цена",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "adobe photoshop цена оригинал",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "adobe premiere",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "adobe premiere не удалось проверить статус вашей подписки",
+   "Impressions": 3,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "adobe programs купить",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "adobe reader ключ",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "adobe substance 3d painter купить",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "adobe как оплатить подписку",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "adobe как оплатить подписку из другой страны",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "adobe купить",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "adobe оплатить подписку",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "adobe ошибка лицензии",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "adobe подписка",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "adobe сколько стоит годовая подписка",
+   "Impressions": 1,
+   "Clicks": 1,
+   "Cost": 8.5
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "adobe стоимость",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "creative cloud купить подписку",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "persona как купить подписку фотошопа",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "photoshop купить",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "sombrero adobe orange купить",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "we cant verify your subscription status adobe",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "адоб акробат версия активированный",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "адоб креатив клауд",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "адоб креатив клауд купить",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "адобе акробат купить лицензию",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "адобе креатив клауд",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "акробат стоимость",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "активатор adobe photoshop",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "активатор adobe photoshop 2026",
+   "Impressions": 1,
+   "Clicks": 1,
+   "Cost": 5.31
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "астрал логистика",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "возможно ли лицензионно приобрести ранние версии фотошоп",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "входил ли в подписку креатив клауд акробат",
    "Impressions": 1,
    "Clicks": 0,
    "Cost": 0.0
@@ -827,7 +5307,527 @@
   {
    "Date": "2026-08-31",
    "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "годовая лицензия на adobe цена",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "дата документа подтверждающего оплату лицензии adobe stock для претензии",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "есть ключ который добавляется в c program files adobe acrobat dc acrobat acrobat exe и программа перестает запрашивать подписку",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "как в россии купить пакет программ адобе",
+   "Impressions": 1,
+   "Clicks": 1,
+   "Cost": 7.42
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "как купить официальную подписку adobe creative cloud в россии",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Adobe — подписки для юрлиц",
    "Query": "как купить подписку lr adobe",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "как купить подписку лайтрум в россии на айфон",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "как оплатить adobe из россии",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "как оплатить adobe из рф",
+   "Impressions": 3,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "как оплатить лайтрум на макбук в россии",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "как оплатить подписку на фотошоп в россии",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "как отключить план в adobe если больше не могу его оплачивать",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "как проверить статус лицензии adobe acrobat reader на компьютере",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "ключ adobe купить",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "ключ для adobe acrobat pro",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "ключ для адоб фотошоп cs5",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "ключ для адобе акробат",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "ключ на адоб премьер",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "ключи adobe acrobat x",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "ключи активации adobe acrobat",
+   "Impressions": 2,
+   "Clicks": 1,
+   "Cost": 11.55
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "кончился ключ от adobe",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "купить adobe acrobat pro",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "купить adobe photoshop",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "купить adobe photoshop стим",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "купить adobe premiere pro 2023",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "купить premiere pro 2026",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "купить адоб премьер",
+   "Impressions": 1,
+   "Clicks": 1,
+   "Cost": 12.01
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "купить адоб фотошоп в росси",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "купить ключ adobe photography plan",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "купить ключ для лайтрум",
+   "Impressions": 1,
+   "Clicks": 1,
+   "Cost": 5.37
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "купить ключи acrobat",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "купить пакет adobe",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "купить паттерн на adobe",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "купить подписку adobe",
+   "Impressions": 3,
+   "Clicks": 1,
+   "Cost": 6.97
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "купить подписку adobe creative",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "купить подписку на adobe creative cloud",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "купить фотошоп бессрочная лицензия для дома",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "купить фотошоп цена официальный сайт",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "лицензионная аудио программа adobe audition",
+   "Impressions": 1,
+   "Clicks": 1,
+   "Cost": 6.62
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "лицензионный фотошоп цена",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "лицензия адобе акробат",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "лицензия фотошоп слетела",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "не удалось выполнить запрос срок действия лицензии adobe acrobat истек или лицензия не активирована",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "оплата лайтрум как оплатить в россии",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "оплата подписки adobe podcast",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "подписка adobe",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "подписка adobe lightroom classic индия",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "подписка adobe купить",
+   "Impressions": 3,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "подписка adobe купить 12 месяцев",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "привзяка adobe id к корпоративной подписке",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "расценки за эпд в калуга астрал",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "серийный ключ для adobe master collection cs5.5",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "сколько стоит adobe premiere pro",
+   "Impressions": 2,
+   "Clicks": 1,
+   "Cost": 8.75
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "сколько стоит лицензированный фотошоп россия",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "сколько стоит подписка adobe",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "сколько стоит подписка на адоб премьер про",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "сколько стоит подписка на лайтрум",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "стоимость creative cloud pro",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "стоимость подписки adobe lightroom и premiere pro в месяц и год",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "стоимость подписки на adobe lightroom в рублях",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "стоимость подписки на adobe lightroom для компьютера в рублях",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "фотошоп ключ",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "фотошоп купить",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "фотошоп подписка",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "фотошоп подписка на год",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-08-31",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "фотошоп стоимость лицензии для физических лиц",
    "Impressions": 1,
    "Clicks": 0,
    "Cost": 0.0
