@@ -32,7 +32,7 @@ HISTORY_FILE = BASE / "intelligence" / "cloud-balance-history.jsonl"
 OUT_FILE = BASE / "intelligence" / "cloud-budget.json"
 NOTICE_FILE = BASE / "intelligence" / "cloud-budget-notice.txt"
 WORDSTAT_LEDGER_DIR = BASE / "wordstat" / "ledger"
-SERP_LEDGER_DIR = BASE / "data" / "serp" / "ledger"
+SERP_LEDGER_DIR = BASE / "serp" / "ledger"
 
 BILLING_FRESH_DAYS = 2   # старше — факт биллинга устарел, живём на оценке
 

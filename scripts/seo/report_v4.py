@@ -464,24 +464,46 @@ def kpi_cards(snap: dict, prev: dict | None, dq: dict) -> list[dict]:
             # достижим. Остаётся отсутствие целей в счётчике, и починка нужна
             # именно там — текст, называющий закрытую причину, отправлял работу
             # не по адресу.
-            "interpretation": ("Это автоцели Метрики, а не подтверждённые обращения. "
-                               "Конверсионные цели заведены в счётчике только что, "
-                               "и в этот замер они ещё не попали: первые сопоставимые "
-                               "числа появятся со следующего сбора."
-                               if goals_lagging else
-                               f"Это автоцели Метрики, а не подтверждённые обращения. "
-                               f"Сайт отправляет {goals_missing} "
-                               f"{plural(goals_missing, 'цель', 'цели', 'целей')}, "
-                               f"которых нет в счётчике, поэтому счётчик их "
-                               f"отбрасывает. Ноль по ним означает отсутствие "
-                               f"замера, а не отсутствие обращений."
-                               if gap else
-                               "Это срабатывания форм на сайте, а не подтверждённые "
-                               "обращения: CRM не подключена."),
+            "interpretation": _commercial_interpretation(m, goals_lagging,
+                                                         goals_missing),
             "muted": True, "sparkline": None,
             "sample_ctr": f"{sample.get('label')} {pct(sample.get('value'), 2)}"
                           if sample else None})
     return cards[:4]
+
+
+def _commercial_interpretation(m: dict, goals_lagging: bool,
+                               goals_missing: int) -> str:
+    """Трактовка «Коммерческого сигнала» (вопрос руководителя 01.09.2026).
+
+    Прежний текст выбирался по флагу MEASUREMENT_GAP любого рода и при
+    goals_missing=0 печатал бессмыслицу «сайт отправляет 0 целей … счётчик
+    их отбрасывает». Теперь: причина называется только когда она есть, а
+    при наличии разбивки по целям показывается состав — без него сумма
+    нечитаема (клик по телефону и автоцель «поиск по сайту» в одной цифре).
+    """
+    base = "Действия посетителей из поиска по целям Метрики"
+    tail = ("; это не подтверждённые обращения — подтверждение появится "
+            "после связки с заявками (этап B)")
+    if goals_lagging:
+        return (f"{base}. Конверсионные цели заведены в счётчике только что "
+                f"и в этот замер ещё не попали: первые сопоставимые числа — "
+                f"со следующего сбора{tail}.")
+    if goals_missing:
+        return (f"{base}. Сайт отправляет "
+                f"{counted(goals_missing, 'цель', 'цели', 'целей')}, которых "
+                f"нет в счётчике, — по ним ноль означает отсутствие замера, "
+                f"а не отсутствие обращений{tail}.")
+    bd = m.get("goal_breakdown")
+    if bd:
+        top = "; ".join(f"{r['name'].lower().replace('автоцель: ', '')} — "
+                        f"{num(r['events'])}" for r in bd[:3])
+        more = len(bd) - 3
+        return (f"{base}. Состав: {top}"
+                + (f" и ещё {more}" if more > 0 else "") + tail + ".")
+    return (f"{base}: сумма по всем целям вперемешку — от клика по телефону "
+            f"до автоцели «поиск по сайту»; разбивка появится со следующего "
+            f"сбора данных{tail}.")
 
 
 def _dir(delta) -> str:
@@ -681,6 +703,46 @@ def assemble(snap, prev, dq, actions_cfg, site_check):
     google_block = next((b for b in dec["blocks"] if b["engine"] == "google"), None)
     driver_rows = (google_block or {}).get("pages", {}).get("all") or []
 
+    demand_block = load_demand()
+    growth_ideas = load_growth_ideas()
+    mgmt = _management_actions(exps, opps, demand_block, growth_ideas)
+    # Стол решений (замечание руководителя 31.08.2026): «решений не
+    # требуется» в шапке при письме, полном предложений ниже, — дезинформация.
+    # Когда срочного решения нет, шапка агрегирует предложения нижних блоков.
+    desk: list[str] = []
+    exp_props = sorted(
+        (ev2.get("clean_window_eta") or e2["next_review"], e2["ticket"])
+        for e2 in exps
+        for ev2 in [e2.get("evaluation") or {}]
+        if not ev2.get("requires_owner_decision")
+        and (ev2.get("clean_window_eta") or e2.get("next_review")))
+    if exp_props:
+        when, tick = exp_props[0]
+        desk.append(f"эксперименты: ближайшее предложение решения — "
+                    f"{ru_date(when)} ({tick}); варианты и вероятный исход — "
+                    f"в «Контроле эксперимента»")
+    if opps.get("available") and opps.get("items"):
+        cl = ", ".join(o["cluster"] for o in opps["items"][:3])
+        desk.append(f"рост без бюджета: {counted(len(opps['items']), 'кластер', 'кластера', 'кластеров')} "
+                    f"с показами без переходов ({cl}) ждут переписанных "
+                    f"сниппетов — «Где ближе всего рост»")
+    exp_dm = (demand_block or {}).get("expansion") or {}
+    n_ready = len(exp_dm.get("items") or [])
+    n_manual = len(exp_dm.get("manual_check") or [])
+    if n_ready or n_manual:
+        first = (exp_dm.get("items") or [{}])[0].get("brand", "")
+        part = []
+        if n_ready:
+            part.append(f"{counted(n_ready, 'кандидат', 'кандидата', 'кандидатов')} "
+                        f"к добавлению ({first})")
+        if n_manual:
+            part.append(f"{n_manual} — ручная проверка оплаты")
+        desk.append("ассортимент: " + ", ".join(part) +
+                    " — «Каких вендоров добавить»")
+    if growth_ideas.get("fresh"):
+        desk.append(f"продвижение: {growth_ideas['fresh'][0]['title']} — "
+                    f"«Перспективные идеи»")
+
     return {
         "date": date,
         "date_h": ru_date_full(date),
@@ -692,14 +754,19 @@ def assemble(snap, prev, dq, actions_cfg, site_check):
              "text": PILL_LABEL[health["status"]]},
             {"label": "ОТ ВАС",
              "state": "required" if (red or exp_decisions) else "none",
-             "text": PILL_LABEL["required" if (red or exp_decisions) else "none"]},
+             "text": (PILL_LABEL["required"] if (red or exp_decisions) else
+                      counted(len(desk), "предложение", "предложения", "предложений")
+                      if desk else PILL_LABEL["none"])},
         ],
         "sources_line": _sources_line(snap),
         "user_action": (
             red[0]["title"] if red else
             _experiment_decision_line(exp_decisions[0]) if exp_decisions else
+            "Срочных решений нет." if desk else
             "Решений от вас сегодня не требуется."),
         "user_action_required": bool(red or exp_decisions),
+        "owner_desk": desk,
+        "management_actions": mgmt,
         "kpis": kpis,
         "signals": sig,
         "drivers": dec,
@@ -713,9 +780,11 @@ def assemble(snap, prev, dq, actions_cfg, site_check):
         "vendor_radar": vendor_radar_mod.build(snap),
         "health": health,
         "loop_health": load_loop_health(),
-        "demand": load_demand(),
-        "ads": ads_block.build(date),
-        "growth_ideas": load_growth_ideas(),
+        "demand": demand_block,
+        "ads": ads_block.build(
+            date, (snap.get("analytics") or {}).get("metrika", {})
+            .get("direct_attribution")),
+        "growth_ideas": growth_ideas,
         "measurement_summary": _measurement_summary(dq),
         "checkpoints": _checkpoints(exps, actions_cfg),
         "links": {"web": url, "web_public": public,
@@ -815,6 +884,321 @@ def _pctf(v, digits=1) -> str:
     return "—" if v is None else f"{v * 100:.{digits}f}%"
 
 
+# ── Контроль эксперимента: строки статуса ───────────────────────────────────
+# Форма переделана по разбору руководителя 31.08.2026 («2 балла из 10»):
+# каждая строка отвечает на один его вопрос — выкачен ли новый вариант,
+# виден ли он в выдаче, сколько показов набрано из порога, как идёт старый
+# против нового. «Нет данных» без причины и следующего шага не допускается.
+
+def _exp_implementation_line(e: dict) -> str:
+    live = e.get("pages_live_with_treatment")
+    if live is None:
+        return ("выкат не подтверждён: проверка живых страниц не выполнялась "
+                "последние 3 дня")
+    when = (f"проверка сайта {ru_date(e['site_check_date'])}"
+            if e.get("site_check_date") else "проверено напрямую")
+    return f"{num(live)} из {e['pages_total']} страниц отдают новый вариант ({when})"
+
+
+def _exp_serp_line(e: dict) -> str:
+    s = e.get("serp")
+    line = e["search_snippet_refresh"]
+    if s and s.get("pages"):
+        posn = sorted(v["best_position"] for v in s["pages"].values())
+        line += (f", позиции {posn[0]}–{posn[-1]}" if posn[0] != posn[-1]
+                 else f", позиция {posn[0]}")
+    if s and s.get("pages_with_new_snippet"):
+        line += (" — Яндекс переобошёл страницы сам, принудительный переобход "
+                 "не понадобился")
+    else:
+        line += ("; принудительный переобход не запрашивался — инструмент ждёт "
+                 "токена с правами Вебмастера")
+    return line
+
+
+def _exp_exposure_line(e: dict) -> str:
+    imp = e.get("impressions_since_deploy")
+    if imp is None:
+        return "экспозиция не измерена: в выборке Вебмастера нет запросов кластера"
+    thr = e["exposure_min_impressions"]
+    state = ("порог пройден" if e.get("exposure_ok")
+             else f"до порога ещё {num(thr - imp)}")
+    if e.get("exposure_gate_adapted"):
+        state += ", порог адаптирован под ёмкость кластера"
+    return (f"{counted(imp, 'показ', 'показа', 'показов')} из {num(thr)} "
+            f"минимальных ({state}) · "
+            f"{counted(e.get('clicks_since_deploy'), 'клик', 'клика', 'кликов')} · "
+            f"день {e['days_elapsed']} из {exp_mod.MIN_EXPOSURE_DAYS} минимальных")
+
+
+def _exp_interim_line(e: dict) -> tuple[str, str | None]:
+    """Строка «старый → новый» и оговорки к ней (может не быть).
+
+    Формат следует метрике эксперимента: CTR — для сниппет-экспериментов,
+    показы/день — для контентного роста, прогресс запуска — для новых страниц
+    (у них «старого варианта» не существует).
+    """
+    kind = e.get("evaluation_kind", "ctr")
+    ev = e.get("evaluation") or {}
+    if kind == "launch":
+        return (ev.get("summary_line")
+                or "страницы новые — набор данных запуска ещё идёт", None)
+    i = e.get("interim")
+    if kind == "impressions_growth" and i:
+        b, c = i["baseline"], i["current"]
+        rel = ""
+        if b.get("impressions"):
+            growth = (c["impressions"] - b["impressions"]) / b["impressions"]
+            rel = f" — предварительно {growth * 100:+.0f}%".replace("-", "−")
+        line = (f"показы кластера {num(b['impressions'])} "
+                f"(окно {ru_date(b['from'])}–{ru_date(b['to'])}, до внедрения) → "
+                f"{num(c['impressions'])} (окно {ru_date(c['from'])}–{ru_date(c['to'])}, "
+                f"{c['post_days']} из {c['window_days']} дней после){rel}")
+        return line, ("; ".join(i.get("caveats") or []) or None)
+    if not i:
+        eta = ((e.get("evaluation") or {}).get("windows") or {}).get(
+            "clean_experiment_eta")
+        return ("сравнение появится после первой выгрузки Вебмастера с окном "
+                "после внедрения"
+                + (f" (ожидается к {ru_date(eta)})" if eta else ""), None)
+    b, c = i["baseline"], i["current"]
+    mult = ""
+    if i.get("relative_uplift") is not None:
+        mult = (" — предварительно ×"
+                + f"{1 + i['relative_uplift']:.1f}".replace(".", ","))
+    posline = ""
+    if b.get("avg_position") and c.get("avg_position"):
+        posline = ("; позиция "
+                   + f"{b['avg_position']:.1f} → {c['avg_position']:.1f}"
+                   .replace(".", ","))
+    line = (f"CTR {pct(b['ctr'], 2)} (окно {ru_date(b['from'])}–{ru_date(b['to'])}, "
+            f"до внедрения) → {pct(c['ctr'], 2)} "
+            f"(окно {ru_date(c['from'])}–{ru_date(c['to'])}, "
+            f"{c['post_days']} из {c['window_days']} дней после){mult}{posline}")
+    return line, ("; ".join(i.get("caveats") or []) or None)
+
+
+def _management_actions(exps: list, opps: dict, demand_block: dict,
+                        growth_ideas: dict) -> list[dict]:
+    """Раздел «Управленческие воздействия» (поручение руководителя 01.09.2026).
+
+    Каждое предложение «стола решений» разворачивается в постановку задачи:
+    что сделать, почему (доказательство данными), шаги, критерий приёмки и
+    что требуется от руководителя. Система без его команды ничего не меняет.
+    """
+    out = []
+
+    # 1. Решения по экспериментам на ближайшей контрольной точке.
+    props = sorted(
+        ((ev.get("clean_window_eta") or e["next_review"], e)
+         for e in exps for ev in [e.get("evaluation") or {}]
+         if ev.get("clean_window_eta") or e.get("next_review")),
+        key=lambda x: x[0])
+    if props:
+        when, e = props[0]
+        interim = e.get("interim") or {}
+        rel = interim.get("relative_uplift")
+        prelim = (f"предварительно ×{1 + rel:.1f}".replace(".", ",")
+                  if rel is not None else "предварительных данных мало")
+        out.append({
+            "task": f"Принять решение по эксперименту {e['ticket']}",
+            "why": (f"контрольная точка {ru_date(when)}; {prelim} по CTR кластера "
+                    f"({num(e.get('impressions_since_deploy'))} показов)"),
+            "steps": ("прочитать панель вердикта в письме контрольной даты "
+                      "(вердикт, уверенность, p-value, рекомендация с целевыми "
+                      "страницами) и ответить в чате командой"),
+            "acceptance": "решение зафиксировано в журнале решений экспериментов",
+            "from_you": (f"одна команда {ru_date(when)}: EXPAND / KEEP / REVERT / "
+                         f"EXTEND {e['ticket']}"),
+        })
+
+    # 2. Рост без бюджета: сниппеты под запросы с показами без переходов.
+    items = (opps.get("items") or []) if opps.get("available") else []
+    if items:
+        exp_slugs = {p.rstrip("/").rsplit("/", 1)[-1]
+                     for e in exps for p in _registry_pages(e)}
+        qlist = []
+        held = []
+        for o in items:
+            cl = o["cluster"]
+            if any(s in cl for s in exp_slugs):
+                held.append(cl)
+            else:
+                qlist.append(cl)
+        steps = ("для каждого запроса: переписать title целевой страницы под "
+                 "запросную формулу (≤65 символов, штатный слой src/lib/seo.ts), "
+                 "description ≤160 с оффером «счёт, договор, ЭДО», добавить "
+                 "вопрос в FAQ-блок; изменения — отдельным PR с частотностью "
+                 "по каждой правке, мерж ваш")
+        why = "; ".join(f"«{o['cluster']}» — {o['evidence']}" for o in items[:3])
+        note = (f"; запросы страниц активных экспериментов ({', '.join(held)}) — "
+                f"после вердикта, чтобы не смазать оценку" if held else "")
+        out.append({
+            "task": (f"Переписать сниппеты под "
+                     f"{counted(len(items), 'запрос', 'запроса', 'запросов')} "
+                     f"с показами без переходов"),
+            "why": why + note,
+            "steps": steps,
+            "acceptance": ("по каждому запросу появились переходы (CTR > 0) в "
+                           "течение 14 дней при позиции не хуже исходной ±1"),
+            "from_you": "команда «делай сниппеты» — подготовлю PR в тот же день",
+        })
+
+    # 3. Ассортимент: кандидаты в каталог (отклонённые руководителем скрыты).
+    exp_dm = (demand_block or {}).get("expansion") or {}
+    ready = exp_dm.get("items") or []
+    manual = exp_dm.get("manual_check") or []
+    if ready or manual:
+        parts_why, parts_steps, parts_from = [], [], []
+        if ready:
+            first = ready[0]
+            parts_why.append(
+                f"{first.get('brand')} — {num(first.get('commercial_demand'))} "
+                f"коммерческих запросов/мес, {first.get('recommendation_why', '')}")
+            parts_steps.append("по готовым: завести карточку штатным конвейером "
+                               "(Directus, иконки, микроразметка, sitemap)")
+            parts_from.append("решение «заводим <бренд>»")
+        if manual:
+            parts_why.append(f"у {len(manual)} кандидатов "
+                             f"({', '.join(manual)}) спрос подтверждён, "
+                             "но платёжная схема не опознана автоматически")
+            parts_steps.append("по ручным: проверить оплату на сайтах "
+                               "кандидатов и вернуть вердикт в исследование")
+            parts_from.append("решение по каждому после проверки")
+        out.append({
+            "task": "Расширение линейки: решить судьбу кандидатов с замеренным спросом",
+            "why": "; ".join(parts_why),
+            "steps": "; ".join(parts_steps) + "; параллельно исследование "
+                     "продолжает замерять остальных кандидатов вне каталога",
+            "acceptance": "каждый кандидат получает статус: заведён / отклонён "
+                          "(отклонённые больше не предлагаются)",
+            "from_you": "; ".join(parts_from),
+        })
+
+    # 4. Продвижение: свежие идеи копилки.
+    for it in (growth_ideas.get("fresh") or [])[:1]:
+        out.append({
+            "task": it["title"],
+            "why": it["why"],
+            "steps": it.get("steps", "конкретные шаги — в карточке идеи в "
+                                     "веб-отчёте"),
+            "acceptance": it.get("acceptance", "идея переведена в задачу со "
+                                               "сроком или отклонена"),
+            "from_you": it.get("from_you", "решение: развиваем / отклоняем"),
+        })
+    return out
+
+
+def _registry_pages(e: dict) -> list[str]:
+    """Страницы эксперимента из собранного словаря письма (по реестру)."""
+    reg = {x["id"]: x for x in exp_mod.load_registry()}
+    return (reg.get(e.get("id")) or {}).get("pages") or []
+
+
+def _exp_outlook_line(e: dict) -> str:
+    """Когда «наблюдаем» сменится предложением решения, варианты и вероятный.
+
+    Вопрос руководителя 31.08.2026: «вывод не понятен — когда наблюдение
+    станет управленческим предложением, какие варианты возможны и какой
+    оптимален». Дата берётся из движка (чистое окно/веха), вероятный
+    вариант — из предварительных данных, финальный выбор всегда за
+    владельцем на контрольной точке.
+    """
+    ev = e.get("evaluation") or {}
+    kind = e.get("evaluation_kind", "ctr")
+    if ev.get("requires_owner_decision"):
+        return ""  # решение уже запрошено панелью вердикта — прогноз не нужен
+    eta = ev.get("clean_window_eta")
+    when = (f"{ru_date(eta)} (первое чистое окно данных)" if eta
+            else (f"на контрольной точке {ru_date(e['next_review'])}"
+                  if e.get("next_review") else "на ближайшей вехе"))
+    if kind == "launch":
+        crit = "KEEP — держать курс; EXTEND — разбор незашедших страниц"
+        likely = ""
+        m = (ev.get("metrics") or {}).get("launch") or {}
+        if m.get("pages_in_search", 0) >= m.get("need_pages", 99):
+            likely = " по текущему ходу вероятен KEEP;"
+        return (f"Предложение решения — {when}: варианты {crit};{likely} "
+                f"выбор за вами")
+    if kind == "impressions_growth":
+        variants = ("EXPAND — тираж приёма на следующие кластеры; "
+                    "EXTEND — продлить; KEEP — оставить как есть")
+    else:
+        variants = ("EXPAND — тираж формулы на следующие карточки по спросу; "
+                    "KEEP — оставить; REVERT — откат; EXTEND — продлить")
+    likely = ""
+    i = e.get("interim")
+    if i and i.get("relative_uplift") is not None:
+        rel = i["relative_uplift"]
+        if rel >= 0.10:
+            likely = (" по предварительным данным вероятен EXPAND"
+                      " (если рост подтвердится статистически);")
+        elif rel <= -0.10:
+            likely = " по предварительным данным вероятен REVERT или KEEP;"
+        else:
+            likely = " по предварительным данным вероятен EXTEND;"
+    return (f"Предложение решения — {when}: варианты {variants};{likely} "
+            f"выбор за вами")
+
+
+def _exp_status_html(e: dict) -> str:
+    """Строки статуса ведущего эксперимента в письме."""
+    interim_line, interim_caveat = _exp_interim_line(e)
+    rows = [
+        ("Внедрение", _exp_implementation_line(e), None),
+        ("Выдача Яндекса", _exp_serp_line(e), None),
+        ("Экспозиция", _exp_exposure_line(e), None),
+        ("Старый → новый", interim_line, interim_caveat),
+        ("Вывод", f"<b>{VERDICT_LABEL[e['verdict']]}</b> — {e['verdict_reason']}. "
+                  f"Следующая проверка {ru_date(e['next_review'])}", None),
+    ]
+    outlook = _exp_outlook_line(e)
+    if outlook:
+        rows.append(("Что дальше", outlook, None))
+    out = (f"<div data-meta=\"1\" style=\"font-size:12.5px;"
+           f"color:{T['text_secondary']};padding-top:{SP['m']}px;\">"
+           f"Запуск {ru_date(e['start'])} · день {e['days_elapsed']} · минимум "
+           f"для вывода {e['minimum_exposure']}</div>")
+    for label, text, caveat in rows:
+        out += (f"<div style=\"font-size:14.5px;padding-top:{SP['s']}px;"
+                f"line-height:1.55;\"><b>{label}:</b> {text}.</div>")
+        if caveat:
+            out += (f"<div data-meta=\"1\" style=\"font-size:12.5px;"
+                    f"color:{T['text_secondary']};line-height:1.45;\">"
+                    f"оговорки: {caveat}</div>")
+    return out
+
+
+def _exp_short_line(o: dict) -> str:
+    """Строка «остальных» экспериментов: прогресс цифрами, а не только днями.
+
+    Прогресс следует метрике эксперимента: порог 500 показов — гейт
+    CTR-оценки; у контентного роста и запуска страниц свои критерии.
+    """
+    kind = o.get("evaluation_kind", "ctr")
+    imp = o.get("impressions_since_deploy")
+    review = (f"проверка {ru_date(o['next_review'])}" if o.get("next_review")
+              else "вехи пройдены, ждёт вердикта")
+    if kind == "launch":
+        m = ((o.get("evaluation") or {}).get("metrics") or {}).get("launch")
+        if m:
+            expo = (f"в выдаче {m['pages_in_search']} из {m['pages_total']} "
+                    f"страниц · ~{num(m['weekly_impressions'])} показов/нед "
+                    f"из {num(m['need_weekly'])}")
+        else:
+            expo = "набор данных запуска идёт"
+        return f"день {o['days_elapsed']} · {expo} · {review}"
+    if kind == "impressions_growth":
+        expo = (f"{counted(imp, 'показ', 'показа', 'показов')} кластера"
+                if imp is not None else "экспозиция не измерена")
+        return f"день {o['days_elapsed']} · {expo} · рост к baseline — {review}"
+    expo = (f"{num(imp)} из {num(o['exposure_min_impressions'])} показов"
+            + (" (порог адаптирован)" if o.get("exposure_gate_adapted") else "")
+            if imp is not None else "экспозиция не измерена")
+    return (f"день {o['days_elapsed']} из {exp_mod.MIN_EXPOSURE_DAYS} · {expo} · "
+            f"{review}")
+
+
 def _verdict_line(e: dict) -> str:
     """Короткая строка вердикта для «остальных» экспериментов контрольной даты."""
     ev = e["evaluation"]
@@ -843,7 +1227,12 @@ def _verdict_panel(e: dict) -> str:
              f" · уверенность {EXP_CONF_LABEL[ev['confidence']]}</div>",
              f"<div style=\"font-size:14.5px;padding-top:{SP['xs']}px;"
              f"line-height:1.55;\">{ev['verdict_reason']}.</div>"]
-    if ev.get("windows"):
+    if ev.get("summary_line"):
+        # Не-CTR оценки (рост показов, запуск страниц) несут готовую сводку.
+        lines.append(
+            f"<div data-meta=\"1\" style=\"font-size:12.5px;color:{T['text_secondary']};"
+            f"padding-top:{SP['s']}px;line-height:1.5;\">{ev['summary_line']}</div>")
+    elif ev.get("windows"):
         w = ev["windows"]
         mm = ev["matched_metrics"]
         stat = ev["statistical_result"] or {}
@@ -996,6 +1385,25 @@ def html_email(b: dict, charts: dict, cid_mode: bool) -> str:
             f"Требуется ваше решение</div>"
             f"<div style=\"font-size:15px;padding-top:{SP['xs']}px;line-height:1.55;\">"
             f"{b['user_action']}</div></td></tr></table></td></tr>")
+    elif b.get("owner_desk"):
+        # Срочного решения нет, но предложения из нижних блоков — на столе:
+        # шапка их агрегирует, а не пишет «не требуется» (замечание 31.08).
+        desk_rows = "".join(
+            f"<div style=\"font-size:14.5px;padding-top:{SP['xs']}px;"
+            f"line-height:1.55;\">• {d}</div>" for d in b["owner_desk"])
+        rows.append(
+            f"<tr><td style=\"padding-top:{SP['l']}px;\">"
+            f"<table role=\"presentation\" width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" "
+            f"style=\"background:{T['surface']};border:1px solid {T['border']};"
+            f"border-radius:12px;\"><tr><td style=\"padding:{SP['l']}px;\">"
+            f"<div style=\"font-size:15px;font-weight:700;\">От вас: срочного нет, "
+            f"на вашем столе {counted(len(b['owner_desk']), 'предложение', 'предложения', 'предложений')}</div>"
+            f"{desk_rows}"
+            f"<div data-meta=\"1\" style=\"font-size:12.5px;color:{T['text_secondary']};"
+            f"padding-top:{SP['s']}px;\">Развёрнутые постановки задач — в разделе "
+            f"«Управленческие воздействия» внизу письма; решения принимаете вы, "
+            f"система без команды ничего не меняет.</div>"
+            f"</td></tr></table></td></tr>")
     else:
         rows.append(
             f"<tr><td style=\"padding-top:{SP['l']}px;font-size:15px;"
@@ -1057,6 +1465,9 @@ def html_email(b: dict, charts: dict, cid_mode: bool) -> str:
             f"<b>{r['label']}</b> — {r['spend_day']:.0f} ₽, "
             f"{counted(r['clicks_day'], 'клик', 'клика', 'кликов')}"
             + (f", CPC {r['cpc']:.0f} ₽" if r["cpc"] else "")
+            + (f", заявок {r['leads']}" + (f" · CPA {r['cpa']:.0f} ₽" if r.get("cpa") else "")
+               + (f", контактов {r['contacts']}" if r.get("contacts") else "")
+               if r.get("leads") is not None else "")
             + f" · <span style=\"color:{tone_c[r['verdict']['tone']]};\">"
               f"{r['verdict']['label']}</span></div>"
             for r in ads["rows"])
@@ -1123,9 +1534,7 @@ def html_email(b: dict, charts: dict, cid_mode: bool) -> str:
                 f"<div style=\"font-size:14.5px;padding-top:{SP['xs']}px;line-height:1.5;\">"
                 f"<b>{o['ticket']}</b> — "
                 + (_verdict_line(o) if o.get("control_date_today")
-                   and o.get("evaluation") else
-                   f"{counted(o['days_elapsed'], 'день', 'дня', 'дней')} "
-                   f"из {o['minimum_exposure']}, проверка {ru_date(o['next_review'])}.")
+                   and o.get("evaluation") else _exp_short_line(o))
                 + "</div>"
                 for o in others)
             extra = (f"<div style=\"padding-top:{SP['m']}px;border-top:1px solid {T['border']};"
@@ -1142,14 +1551,7 @@ def html_email(b: dict, charts: dict, cid_mode: bool) -> str:
             f"заголовки и блок вопросов на {e['pages_total']} карточках</div>"
             f"<div style=\"font-size:14.5px;padding-top:{SP['s']}px;line-height:1.55;\">"
             f"<b>Проверяем:</b> {e['hypothesis_plain']}</div>"
-            f"<div style=\"font-size:15px;padding-top:{SP['m']}px;line-height:1.65;\">"
-            f"Запуск {ru_date(e['start'])}, прошло {counted(e['days_elapsed'], 'день', 'дня', 'дней')} "
-            f"при минимуме {e['minimum_exposure']}.<br>"
-            f"Новый вариант на сайте: {num(e['pages_live_with_treatment'])} из "
-            f"{e['pages_total']} страниц, проверено напрямую.<br>"
-            f"Обновление сниппета в выдаче: {e['search_snippet_refresh']}.<br>"
-            f"Вывод: <b>{VERDICT_LABEL[e['verdict']]}</b> — {e['verdict_reason']}. "
-            f"Следующая проверка {ru_date(e['next_review'])}.</div>"
+            + _exp_status_html(e) +
             f"<div style=\"padding-top:{SP['m']}px;\">{_img(charts, 'experiment', cid_mode)}</div>"
             f"{extra}</td></tr></table>"))
 
@@ -1313,6 +1715,29 @@ def html_email(b: dict, charts: dict, cid_mode: bool) -> str:
             f"{cards}{manual}",
             exp.get("note")))
 
+    # I-г. Управленческие воздействия (поручение руководителя 01.09.2026):
+    # каждое предложение «стола решений» — развёрнутой постановкой задачи.
+    if b.get("management_actions"):
+        cards_ma = ""
+        for i, m in enumerate(b["management_actions"], 1):
+            cards_ma += (
+                f"<div style=\"padding:{SP['m']}px 0;"
+                f"border-bottom:1px solid {T['border']};\">"
+                f"<div style=\"font-size:15px;font-weight:600;line-height:1.45;\">"
+                f"{i}. {m['task']}</div>"
+                f"<div style=\"font-size:14.5px;padding-top:{SP['xs']}px;"
+                f"line-height:1.55;\"><b>Зачем:</b> {m['why']}.</div>"
+                f"<div style=\"font-size:14.5px;padding-top:{SP['xs']}px;"
+                f"line-height:1.55;\"><b>Что делаем:</b> {m['steps']}.</div>"
+                f"<div data-meta=\"1\" style=\"font-size:12.5px;"
+                f"color:{T['text_secondary']};padding-top:{SP['xs']}px;"
+                f"line-height:1.5;\">Приёмка: {m['acceptance']}. "
+                f"От вас: {m['from_you']}.</div></div>")
+        rows.append(_section(
+            "Управленческие воздействия", cards_ma,
+            "постановки задач по предложениям из шапки; система без вашей "
+            "команды ничего не меняет"))
+
     # J. Здоровье данных
     h = b["health"]
     colour = {"positive": T["positive"], "warning": T["warning"],
@@ -1395,7 +1820,11 @@ def plain_text(b: dict) -> str:
          b["subtitle"].replace("&amp;", "&"),
          " · ".join(f"{p['label']}: {p['text']}" for p in b["pills"]),
          b["sources_line"], "",
-         f"ОТ ВАС: {b['user_action']}", "", "ПОКАЗАТЕЛИ"]
+         f"ОТ ВАС: {b['user_action']}"]
+    if not b["user_action_required"] and b.get("owner_desk"):
+        L += [f"  на вашем столе {counted(len(b['owner_desk']), 'предложение', 'предложения', 'предложений')}:"]
+        L += [f"  - {d}" for d in b["owner_desk"]]
+    L += ["", "ПОКАЗАТЕЛИ"]
     for k in b["kpis"]:
         d = f" ({k['delta']}{' ' + k['relative'] if k.get('relative') else ''})" if k["delta"] else ""
         L.append(f"- {k['label']}: {k['value']} {k['unit']}{d}. {k['interpretation']}")
@@ -1416,6 +1845,12 @@ def plain_text(b: dict) -> str:
                      "warn": "[жёлтый]", "bad": "[красный]"}
         for r in ads["rows"]:
             cpc = f", CPC {r['cpc']:.0f} р." if r["cpc"] else ""
+            if r.get("leads") is not None:
+                cpc += f", заявок {r['leads']}"
+                if r.get("cpa"):
+                    cpc += f" (CPA {r['cpa']:.0f} р.)"
+                if r.get("contacts"):
+                    cpc += f", контактов {r['contacts']}"
             L.append(f"- {r['label']}: {r['spend_day']:.0f} р., "
                      f"{counted(r['clicks_day'], 'клик', 'клика', 'кликов')} за день{cpc} "
                      f"{tone_word[r['verdict']['tone']]} {r['verdict']['label']}")
@@ -1434,18 +1869,29 @@ def plain_text(b: dict) -> str:
                                      -x.get("days_elapsed", 0)))
     if exps_txt:
         e = exps_txt[0]
+        interim_line, interim_caveat = _exp_interim_line(e)
         L += ["", "КОНТРОЛЬ ЭКСПЕРИМЕНТА",
-              f"- {e['ticket']}: {e['pages_total']} карточек, новый вариант на сайте "
-              f"{num(e['pages_live_with_treatment'])}, обновление сниппета в выдаче: "
-              f"{e['search_snippet_refresh']}",
-              f"  {e['current_result']}",
-              f"  вывод: {VERDICT_LABEL[e['verdict']]} — {e['verdict_reason']}",
-              f"  {e['combined_note']}"]
+              f"- {e['ticket']}: запуск {ru_date(e['start'])}, день "
+              f"{e['days_elapsed']}, минимум для вывода {e['minimum_exposure']}",
+              f"  внедрение: {_exp_implementation_line(e)}",
+              f"  выдача Яндекса: {_exp_serp_line(e)}",
+              f"  экспозиция: {_exp_exposure_line(e)}",
+              f"  старый -> новый: {interim_line}"]
+        if interim_caveat:
+            L.append(f"    оговорки: {interim_caveat}")
+        L += [f"  вывод: {VERDICT_LABEL[e['verdict']]} — {e['verdict_reason']}, "
+              f"следующая проверка {ru_date(e['next_review'])}"]
+        outlook = _exp_outlook_line(e)
+        if outlook:
+            L.append(f"  что дальше: {outlook}")
+        L.append(f"  {e['combined_note']}")
         if e.get("control_date_today") and e.get("evaluation"):
             ev = e["evaluation"]
             L.append(f"  ВЕРДИКТ КОНТРОЛЬНОЙ ТОЧКИ: {EXP_VERDICT_LABEL[ev['verdict']]} "
                      f"(уверенность {EXP_CONF_LABEL[ev['confidence']]}) — "
                      f"{ev['verdict_reason']}")
+            if ev.get("summary_line"):
+                L.append(f"    {ev['summary_line']}")
             L.append(f"  рекомендация: {EXP_REC_LABEL[ev['recommendation']]} — "
                      f"{ev['recommendation_detail']}")
             if ev["requires_owner_decision"]:
@@ -1459,8 +1905,7 @@ def plain_text(b: dict) -> str:
                          f"{ov['verdict_reason']}; рекомендация "
                          f"{EXP_REC_LABEL[ov['recommendation']]}")
             else:
-                L.append(f"- {o['ticket']}: {counted(o['days_elapsed'], 'день', 'дня', 'дней')} "
-                         f"из {o['minimum_exposure']}, проверка {ru_date(o['next_review'])}")
+                L.append(f"- {o['ticket']}: {_exp_short_line(o)}")
     if b["board"]:
         L += ["", "СИСТЕМА УЖЕ ДЕЛАЕТ"]
         for r in b["board"]:
@@ -1517,6 +1962,14 @@ def plain_text(b: dict) -> str:
         for it in gi["fresh"]:
             L.append(f"- {it['title']} — {it['why']}")
     h = b["health"]
+    if b.get("management_actions"):
+        L += ["", "УПРАВЛЕНЧЕСКИЕ ВОЗДЕЙСТВИЯ"]
+        for i, m in enumerate(b["management_actions"], 1):
+            L += [f"{i}. {m['task']}",
+                  f"   зачем: {m['why']}",
+                  f"   что делаем: {m['steps']}",
+                  f"   приёмка: {m['acceptance']}",
+                  f"   от вас: {m['from_you']}"]
     L += ["", "ЗДОРОВЬЕ ДАННЫХ",
           f"{PILL_LABEL[h['status']].capitalize()}: {h['reason']}. {h['detail']}",
           b["measurement_summary"]]
@@ -1627,6 +2080,21 @@ def _site_vendor_words() -> set[str]:
     return words
 
 
+VENDOR_DECISIONS = BASE / "vendor-decisions.json"
+
+
+def rejected_vendor_brands() -> set[str]:
+    """Кандидаты в каталог, отклонённые руководителем (нормализованные имена)."""
+    if not VENDOR_DECISIONS.exists():
+        return set()
+    try:
+        d = json.loads(VENDOR_DECISIONS.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return set()
+    return {" ".join(re.findall(r"[a-zа-яё0-9]+", b.lower()))
+            for b in (d.get("rejected") or {})}
+
+
 def _drop_vendors_already_on_site(block: dict) -> dict:
     """Не предлагать к заведению вендора, который уже на сайте.
 
@@ -1642,10 +2110,14 @@ def _drop_vendors_already_on_site(block: dict) -> dict:
     on_site = _site_vendor_words()
     if not on_site:
         return block
+    # Бренды, отклонённые руководителем, не предлагаются повторно
+    # (01.09.2026: «aws не добавляем и из предложений на будущее исключаем»).
+    rejected = rejected_vendor_brands()
 
     def known(brand: str) -> bool:
         b = " ".join(re.findall(r"[a-zа-яё0-9]+", (brand or "").lower()))
-        return bool(b) and any(b == w or b in w.split() for w in on_site)
+        return (bool(b) and any(b == w or b in w.split() for w in on_site)
+                or b in rejected)
 
     items = [i for i in (exp.get("items") or []) if not known(i.get("brand", ""))]
     manual = [m for m in (exp.get("manual_check") or []) if not known(m)]
@@ -1697,10 +2169,21 @@ def loop_health_line(lh: dict) -> tuple[str, bool] | None:
 
 
 def load_site_check(date: str) -> dict | None:
-    p = BASE / f"site-check-{date}.json"
-    if not p.exists():
-        return None
-    return json.loads(p.read_text(encoding="utf-8")).get("experiments")
+    """Свежайшая проверка живых страниц, не обязательно сегодняшняя.
+
+    31.08.2026 сегодняшний файл затёрла гонка параллельных пушей в seo-data,
+    и письмо написало «нет данных», хотя проверка прошла за минуты до сборки.
+    Устойчивость: берём файл за дату письма, а без него — свежайший не старше
+    трёх дней; его дата возвращается и показывается в письме честно.
+    """
+    for back in range(4):
+        d = (dt.date.fromisoformat(date) - dt.timedelta(days=back)).isoformat()
+        p = BASE / f"site-check-{d}.json"
+        if p.exists():
+            return {"experiments":
+                    json.loads(p.read_text(encoding="utf-8")).get("experiments"),
+                    "date": d}
+    return None
 
 
 def main() -> int:

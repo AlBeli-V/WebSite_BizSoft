@@ -61,4 +61,4 @@ jobs:
 
       - name: Push data
         if: always()
-        run: bash scripts/seo/data_sync.sh push "SERP-срез за $(date -u +%F)"
+        run: bash scripts/seo/data_sync.sh push "SERP-срез за $(date -u +%F)" "reports/seo/serp reports/seo/intelligence"

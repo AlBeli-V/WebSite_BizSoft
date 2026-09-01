@@ -28,25 +28,73 @@ import client as client_mod    # noqa: E402
 import config as config_mod    # noqa: E402
 
 OUT_DIR = pathlib.Path("reports/seo/wordstat")
+UNIVERSE = OUT_DIR / "semantic-universe.jsonl"
 PHRASES_CAP = 50
 TOP_REGIONS = 15
+# Ниже этой месячной частотности региональное распределение не существует:
+# замер 01.09.2026 дал 43 из 50 ответов below_threshold — длинные хвосты
+# из ядра тратят вызовы впустую. Отбираем частотные фразы, хвосты — добор.
+MIN_FREQUENCY = 100
+
+
+def _frequency_map() -> dict[str, int]:
+    freq: dict[str, int] = {}
+    if not UNIVERSE.exists():
+        return freq
+    for line in UNIVERSE.read_text(encoding="utf-8").splitlines():
+        try:
+            row = json.loads(line)
+        except ValueError:
+            continue
+        f = row.get("wordstat_frequency")
+        if isinstance(f, (int, float)) and f > 0:
+            freq[row.get("phrase", "").lower()] = int(f)
+    return freq
+
+
+def pick_phrases(core: list[str], cap: int = PHRASES_CAP) -> list[str]:
+    """Частотные фразы ядра вперёд; хвосты — только если частотных мало."""
+    freq = _frequency_map()
+    frequent = [p for p in core if freq.get(p.lower(), 0) >= MIN_FREQUENCY]
+    frequent.sort(key=lambda p: -freq.get(p.lower(), 0))
+    rest = [p for p in core if p not in frequent]
+    return (frequent + rest)[:cap]
+
+
+# Имена по геобазе Яндекса даём только для регионов, в которых уверены;
+# остальные честно остаются числовым id (ответ API имён не содержит).
+REGION_NAMES = {
+    "225": "Россия", "1": "Москва и область", "213": "Москва",
+    "2": "Санкт-Петербург", "10174": "Санкт-Петербург и область",
+}
 
 
 def parse_regions(data: dict) -> list[dict]:
-    rows = (data or {}).get("regions") or []
+    """Строки из ответа getRegionsDistribution.
+
+    Фактическая форма (кэш 21.08.2026): {"results": [{"region": "1",
+    "count": "580", "share": ..., "affinityIndex": ...}]}; region — id
+    геобазы строкой, имени нет, count — строка. Прежний ключ regions
+    оставлен запасным.
+    """
+    rows = (data or {}).get("results") or (data or {}).get("regions") or []
     out = []
     for r in rows:
-        out.append({"region_id": r.get("regionId") or r.get("region_id"),
-                    "name": r.get("regionName") or r.get("name"),
+        rid = (r.get("region") or r.get("regionId") or r.get("region_id"))
+        out.append({"region_id": rid,
+                    "name": (r.get("regionName") or r.get("name")
+                             or REGION_NAMES.get(str(rid)) or str(rid)),
                     "count": int(r.get("count") or r.get("value") or 0),
-                    "share": r.get("share") or r.get("percent")})
+                    "share": r.get("share") or r.get("percent"),
+                    "affinity": r.get("affinityIndex")})
     out.sort(key=lambda x: -x["count"])
     return out[:TOP_REGIONS]
 
 
 def run(date_s: str) -> dict:
     import serp_watchlist
-    phrases = serp_watchlist.build(date_s, cap=PHRASES_CAP)
+    core = serp_watchlist.build(date_s, cap=PHRASES_CAP * 6)
+    phrases = pick_phrases(core)
     if not phrases:
         return {"available": False, "reason": "ядро фраз пусто"}
     cfg = config_mod.load()
