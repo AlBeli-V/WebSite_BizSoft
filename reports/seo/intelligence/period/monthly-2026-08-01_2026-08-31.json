@@ -11,44 +11,44 @@
  "metrics": {
   "yandex_impressions": {
    "label": "Яндекс, показы",
-   "total": 4703.0,
-   "covered_days": 30,
+   "total": 5438.0,
+   "covered_days": 31,
    "days": 31
   },
   "yandex_clicks": {
    "label": "Яндекс, клики",
    "total": 54.0,
-   "covered_days": 30,
+   "covered_days": 31,
    "days": 31
   },
   "gsc_impressions": {
    "label": "Google, показы",
-   "total": 112.0,
-   "covered_days": 27,
+   "total": 128.0,
+   "covered_days": 29,
    "days": 31
   },
   "gsc_clicks": {
    "label": "Google, клики",
    "total": 2.0,
-   "covered_days": 27,
+   "covered_days": 29,
    "days": 31
   },
   "visits_all": {
    "label": "Визиты сайта, все",
-   "total": 226.0,
-   "covered_days": 29,
+   "total": 329.0,
+   "covered_days": 30,
    "days": 31
   },
   "visits_organic": {
    "label": "Визиты, органика",
-   "total": 69.0,
-   "covered_days": 25,
+   "total": 70.0,
+   "covered_days": 26,
    "days": 31
   },
   "goals_organic": {
    "label": "Достижения целей (органика)",
    "total": 53.0,
-   "covered_days": 25,
+   "covered_days": 26,
    "days": 31
   },
   "ga4_sessions": {
@@ -59,8 +59,8 @@
   },
   "yandex_ctr": {
    "label": "Яндекс, CTR",
-   "total": 0.011482032745056348,
-   "covered_days": 30,
+   "total": 0.009930121368150056,
+   "covered_days": 31,
    "days": 31,
    "is_ratio": true
   },
@@ -169,38 +169,52 @@
  "ads": {
   "available": true,
   "campaign": "bs-test-2026-09",
-  "cost": 484.51,
-  "clicks": 18,
-  "impressions": 137,
-  "cpc": 26.91722222222222,
+  "cost": 1498.62,
+  "clicks": 130,
+  "impressions": 1682,
+  "cpc": 11.527846153846154,
   "groups": [
    {
+    "name": "Claude Code",
+    "imp": 866,
+    "clicks": 75,
+    "cost": 632.23,
+    "cpc": 8.429733333333333
+   },
+   {
     "name": "ChatGPT Business",
-    "imp": 56,
-    "clicks": 6,
-    "cost": 203.52,
-    "cpc": 33.92
+    "imp": 478,
+    "clicks": 31,
+    "cost": 531.28,
+    "cpc": 17.13806451612903
    },
    {
     "name": "Midjourney",
-    "imp": 18,
+    "imp": 22,
     "clicks": 6,
     "cost": 151.56,
     "cpc": 25.26
    },
    {
-    "name": "Claude Code",
-    "imp": 62,
-    "clicks": 6,
-    "cost": 129.43,
-    "cpc": 21.57166666666667
+    "name": "Claude",
+    "imp": 135,
+    "clicks": 7,
+    "cost": 74.95,
+    "cpc": 10.707142857142857
    },
    {
-    "name": "Claude",
-    "imp": 1,
-    "clicks": 0,
-    "cost": 0.0,
-    "cpc": null
+    "name": "Adobe",
+    "imp": 160,
+    "clicks": 9,
+    "cost": 72.51,
+    "cpc": 8.056666666666667
+   },
+   {
+    "name": "Cursor",
+    "imp": 21,
+    "clicks": 2,
+    "cost": 36.09,
+    "cpc": 18.045
    }
   ]
  },
@@ -215,8 +229,8 @@
    "known": null
   },
   "end": {
-   "indexed": 467,
-   "known": 512
+   "indexed": 464,
+   "known": 511
   },
   "start_missing": true
  },
@@ -224,10 +238,10 @@
   "experiment_verdicts": [],
   "ppc_decisions": []
  },
- "summary": "За период клики из Яндекса выросли (21 → 54, +157%); достижений целей 53 против 2 прошлым периодом; реклама: 485 ₽ и 18 кликов.",
+ "summary": "За период клики из Яндекса выросли (21 → 54, +157%); достижений целей 53 против 2 прошлым периодом; реклама: 1499 ₽ и 130 кликов.",
  "attention": [
-  "Яндекс, клики: данные за 30 из 31 дней — хвост периода дозреет у источника, цифры уточнятся",
-  "Google, клики: данные за 27 из 31 дней — хвост периода дозреет у источника, цифры уточнятся",
-  "Визиты сайта, все: данные за 29 из 31 дней — хвост периода дозреет у источника, цифры уточнятся"
+  "Google, клики: данные за 29 из 31 дней — хвост периода дозреет у источника, цифры уточнятся",
+  "Визиты сайта, все: данные за 30 из 31 дней — хвост периода дозреет у источника, цифры уточнятся",
+  "последние ~3 дня периода у Яндекс.Вебмастера и GSC дозревают задним числом — суммы по поиску могут вырасти при уточнении"
  ]
 }
