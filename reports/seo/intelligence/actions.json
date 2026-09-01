@@ -77,7 +77,7 @@
    "status_label": "наблюдение",
    "due": null,
    "ticket": "reports/seo/tasks/PPC-RES-001-forecast.md",
-   "outcome": "Итог: пятница запуска — 137 показов, 18 кликов, 485 р.; выходные без показов (расписание пн-пт). Пн 31.08 — первый полный день всех шести направлений, включая новые Cursor и Adobe. С запуска потрачено 503 из 4 098 р. недельного лимита; решения по ставкам и минус-словам — после накопления кликов.",
+   "outcome": "Итог: первый полный день всех шести направлений (пн 31.08) — 1 545 показов, 112 кликов, 1 014 р., средний CPC 9 р. Лидер — Claude Code (69 кликов, CPC 7 р.), ChatGPT Business 25 кликов. С запуска 1 507 из 4 098 р. недельного лимита. Дальше: оценка вовлечения кликов и связка с заявками (этап B).",
    "demand_clusters": [
     "claude",
     "claude code",
@@ -85,7 +85,7 @@
     "chatgpt"
    ],
    "stage": "observing",
-   "status_changed_at": "2026-08-31",
+   "status_changed_at": "2026-09-01",
    "artifact": "reports/seo/ppc/round1-spec.json",
    "ci": "https://github.com/AlBeli-V/WebSite_BizSoft/pull/190",
    "qa": null,

@@ -1,13 +1,13 @@
 {
- "date": "2026-08-31",
- "generated_at": "2026-08-31T09:27:51+00:00",
+ "date": "2026-09-01",
+ "generated_at": "2026-09-01T06:28:46+00:00",
  "contours": [
   {
    "id": "collect",
    "label": "Сбор GSC/Вебмастер/Метрика/GA4",
    "cadence": "ежедневно 06:07 МСК",
-   "last_run": "2026-08-31",
-   "expected_since": "2026-08-31",
+   "last_run": "2026-09-01",
+   "expected_since": "2026-09-01",
    "overdue": false,
    "days_late": 0,
    "note": null
@@ -16,8 +16,8 @@
    "id": "gsc-pairs",
    "label": "Пары запрос×страница (GSC)",
    "cadence": "ежедневно, в сборе GSC",
-   "last_run": "2026-08-31",
-   "expected_since": "2026-08-31",
+   "last_run": "2026-09-01",
+   "expected_since": "2026-09-01",
    "overdue": false,
    "days_late": 0,
    "note": null
@@ -26,8 +26,8 @@
    "id": "sitemap",
    "label": "Инвентарь URL (sitemap)",
    "cadence": "ежедневно, в сборе данных",
-   "last_run": "2026-08-31",
-   "expected_since": "2026-08-31",
+   "last_run": "2026-09-01",
+   "expected_since": "2026-09-01",
    "overdue": false,
    "days_late": 0,
    "note": null
@@ -37,17 +37,17 @@
    "label": "SERP-срез Яндекса (Search API)",
    "cadence": "ежедневно 01:37 МСК",
    "last_run": "2026-08-31",
-   "expected_since": "2026-08-31",
-   "overdue": false,
-   "days_late": 0,
+   "expected_since": "2026-09-01",
+   "overdue": true,
+   "days_late": 1,
    "note": null
   },
   {
    "id": "wordstat",
    "label": "Разведка спроса (Вордстат)",
    "cadence": "ежедневно 04:20 МСК",
-   "last_run": "2026-08-31",
-   "expected_since": "2026-08-31",
+   "last_run": "2026-09-01",
+   "expected_since": "2026-09-01",
    "overdue": false,
    "days_late": 0,
    "note": null
@@ -56,8 +56,8 @@
    "id": "snapshot",
    "label": "Канонический снимок дня",
    "cadence": "ежедневно 09:00 МСК",
-   "last_run": "2026-08-31",
-   "expected_since": "2026-08-31",
+   "last_run": "2026-09-01",
+   "expected_since": "2026-09-01",
    "overdue": false,
    "days_late": 0,
    "note": null
@@ -66,8 +66,8 @@
    "id": "quality",
    "label": "Проверки качества данных",
    "cadence": "ежедневно 09:00 МСК",
-   "last_run": "2026-08-31",
-   "expected_since": "2026-08-31",
+   "last_run": "2026-09-01",
+   "expected_since": "2026-09-01",
    "overdue": false,
    "days_late": 0,
    "note": null
@@ -76,8 +76,8 @@
    "id": "report",
    "label": "Сборка письма V4",
    "cadence": "ежедневно 09:00 МСК",
-   "last_run": "2026-08-31",
-   "expected_since": "2026-08-30",
+   "last_run": "2026-09-01",
+   "expected_since": "2026-08-31",
    "overdue": false,
    "days_late": 0,
    "note": null
@@ -87,7 +87,7 @@
    "label": "Отправка письма руководителю",
    "cadence": "ежедневно ~09:30 МСК",
    "last_run": "2026-08-31",
-   "expected_since": "2026-08-30",
+   "expected_since": "2026-08-31",
    "overdue": false,
    "days_late": 0,
    "note": null
@@ -96,8 +96,8 @@
    "id": "direct",
    "label": "Статистика Яндекс.Директа",
    "cadence": "будни 07:10 МСК",
-   "last_run": "2026-08-31",
-   "expected_since": "2026-08-30",
+   "last_run": "2026-09-01",
+   "expected_since": "2026-08-31",
    "overdue": false,
    "days_late": 0,
    "note": null
@@ -106,15 +106,17 @@
    "id": "serp",
    "label": "SERP-срез Яндекса",
    "cadence": "ежедневно 01:37 МСК",
-   "last_run": "2026-08-31",
-   "expected_since": "2026-08-31",
+   "last_run": "2026-09-01",
+   "expected_since": "2026-09-01",
    "overdue": false,
    "days_late": 0,
    "note": null
   }
  ],
- "overdue": [],
- "ok_count": 11,
+ "overdue": [
+  "serp"
+ ],
+ "ok_count": 10,
  "total": 11,
  "available": true
 }
