@@ -75,7 +75,7 @@ class TestThreat(unittest.TestCase):
         t = threat.score(self.card(), history=[0.05] * 5, queries_total=150)
         self.assertEqual(t.confidence, "LOW")
         self.assertNotIn("динамика", t.breakdown)
-        self.assertIn("не определена", t.explanation)
+        self.assertIn("динамика требует", t.explanation)
 
     def test_с_шестью_измерениями_динамика_считается(self):
         history = [0.05, 0.05, 0.05, 0.09, 0.09, 0.09]
@@ -305,6 +305,76 @@ class TestStrikeList(unittest.TestCase):
         self.assertEqual(len(cands), 2)
         self.assertGreaterEqual(cands[0].opportunity, cands[1].opportunity)
         self.assertEqual(cands[0].attack_id, "ATT-001")
+
+
+class TestMaturityModes(unittest.TestCase):
+    """Оценки из разных режимов зрелости несравнимы между собой.
+
+    Замечание третьей рецензии: без разделения шкал одно и то же положение
+    конкурента давало 32 «из 70» и 62 «из 100» — руководитель увидел бы
+    удвоение угрозы при неизменной доле.
+    """
+
+    def card(self):
+        return {"домен": "x.ru", "доля": 0.08, "топ3": 40, "топ10": 60}
+
+    def test_базовый_режим_ограничен_семьюдесятью(self):
+        t = threat.score({"домен": "x.ru", "доля": 0.9, "топ3": 150,
+                          "топ10": 150}, queries_total=150, above_us=150)
+        self.assertEqual(t.mode, threat.MODE_BASE)
+        self.assertEqual(t.scale_max, 70)
+        self.assertLessEqual(t.score, 70)
+
+    def test_полный_режим_до_ста(self):
+        t = threat.score(self.card(), history=[0.05] * 3 + [0.08] * 3,
+                         queries_total=150, above_us=40)
+        self.assertEqual(t.mode, threat.MODE_FULL)
+        self.assertEqual(t.scale_max, 100)
+
+    def test_режимы_помечены_как_несравнимые(self):
+        base = threat.score(self.card(), queries_total=150, above_us=40)
+        full = threat.score(self.card(), history=[0.05] * 3 + [0.08] * 3,
+                            queries_total=150, above_us=40)
+        self.assertNotEqual(base.comparable_key, full.comparable_key)
+
+    def test_шкала_указана_в_объяснении(self):
+        base = threat.score(self.card(), queries_total=150)
+        self.assertIn("0–70", base.explanation)
+
+    def test_opportunity_режим_в_оценке(self):
+        degraded = opportunity.score(commercial=1.0, b2b=1.0, our_position=5,
+                                     has_page=True, frequency=500)
+        full = opportunity.score(commercial=1.0, b2b=1.0, our_position=5,
+                                 has_page=True, frequency=500, vulnerability=0.5)
+        self.assertEqual(degraded.mode, opportunity.MODE_DEGRADED)
+        self.assertEqual(full.mode, opportunity.MODE_FULL)
+        self.assertNotEqual(degraded.comparable_key, full.comparable_key)
+
+    def test_отсутствующие_факторы_входят_в_ключ_сравнимости(self):
+        со_спросом = opportunity.score(commercial=1.0, b2b=1.0, our_position=5,
+                                       has_page=True, frequency=500)
+        без_спроса = opportunity.score(commercial=1.0, b2b=1.0, our_position=5,
+                                       has_page=True, frequency=None)
+        self.assertNotEqual(со_спросом.comparable_key, без_спроса.comparable_key)
+
+
+class TestSignificantParticipant(unittest.TestCase):
+    """Значимый участник выдачи — машинно проверяемое условие."""
+
+    def test_технические_домены_поисковика_не_участники(self):
+        self.assertFalse(strike_list.is_significant("yandex.ru", set()))
+        self.assertFalse(strike_list.is_significant("ya.ru", set()))
+
+    def test_наш_домен_не_участник(self):
+        self.assertFalse(strike_list.is_significant("biz-soft.pro", set()))
+
+    def test_повтор_домена_не_удваивает_конкуренцию(self):
+        seen = {"raketapay.ru"}
+        self.assertFalse(strike_list.is_significant("raketapay.ru", seen))
+        self.assertTrue(strike_list.is_significant("pipl.io", seen))
+
+    def test_обычный_домен_значим(self):
+        self.assertTrue(strike_list.is_significant("syssoft.ru", set()))
 
 
 if __name__ == "__main__":

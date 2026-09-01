@@ -117,6 +117,20 @@ def run(date: str) -> dict:
     zeros = [k["label"] for k in blocks["kpis"] if k["value"] == "0" and k["muted"]]
     add("no_zero_for_missing", not zeros, f"нулей вместо «нет данных»: {zeros or 'нет'}")
 
+    # 11. Заявки: у каждой назван канал и основание, а число совпадает со
+    # снимком. Основание — не украшение: «поиск Google по Метрике» и
+    # «google.com по метке браузера» — утверждения разной силы, и письмо,
+    # потерявшее эту разницу, выдаёт догадку за измерение.
+    lb = blocks.get("leads") or {}
+    if lb.get("available"):
+        nameless = [it["company"] for it in lb["items"]
+                    if not (it.get("channel") and it.get("channel_basis"))]
+        add("leads_channel_basis_named", not nameless,
+            f"заявок без канала или основания: {nameless or 'нет'}")
+        crm_count = (snap.get("crm") or {}).get("qualified_leads")
+        add("leads_count_matches_snapshot", crm_count == lb["count"],
+            f"в снимке {crm_count}, в письме {lb['count']}")
+
     ok = all(f["ok"] for f in findings)
     return {"date": date, "passed": ok, "checks": findings,
             "counts": {"total": len(findings),

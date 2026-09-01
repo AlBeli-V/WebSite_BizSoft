@@ -35,6 +35,30 @@ export function getAiSubcategory(sub: string): AiSubcategory | undefined {
 }
 
 /**
+ * Кросс-коллекция «Корпоративные AI» (/catalog/ai/enterprise).
+ *
+ * У товара в Directus одна категория, и enterprise-тарифы живут в своих
+ * тематических подкатегориях (ai-text, ai-code, ai-office) — иначе они
+ * пропали бы из профильной выдачи. Страницу «Корпоративные AI» наполняет
+ * этот явный список слагов (замысел — docs/ai-catalog-redesign.md,
+ * «кросс-коллекция»): порядок списка задаёт порядок карточек, отсутствующий
+ * в базе слаг просто не выводится. Реализовано 30.08.2026 по решению
+ * руководителя; до этого страница отдавала «в подготовке» с noindex.
+ */
+export const aiEnterpriseSlugs: string[] = [
+  'openai-enterprise',
+  'anthropic-enterprise',
+  'mscopilot-m365',
+  'gemini-workspace-enterprise',
+  'ghcopilot-enterprise',
+  'cursor-enterprise',
+  'perplexity-enterprise-pro',
+  'perplexity-enterprise-max',
+  'notion-enterprise',
+  'grammarly-enterprise',
+];
+
+/**
  * Витрина популярных мировых AI-сервисов в порядке приоритета (Этап 2).
  * href ведёт на карточку товара (slug = sku.toLowerCase()) или на подкатегорию,
  * если карточка ещё не импортирована. Используется на будущей полной странице-хабе.
