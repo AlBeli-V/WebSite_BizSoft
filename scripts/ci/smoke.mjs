@@ -81,6 +81,46 @@ check('sitemap: нет повторяющихся <loc>', async () => {
   const dup = locs.filter((l, i) => locs.indexOf(l) !== i);
   return { ok: dup.length === 0, got: dup.length ? `дубли: ${[...new Set(dup)].join(', ')}` : 'нет' };
 });
+check('уникальные <title> у страниц из sitemap', async () => {
+  // Одинаковые title на разных URL Яндекс считает дублями и снимает
+  // страницы с индексации. Title карточки — это meta_title из Directus
+  // (src/pages/product/[slug].astro), так что проверяем итоговую разметку.
+  const r = await req('/sitemap.xml');
+  const paths = [...r.body.matchAll(/<loc>([^<]+)<\/loc>/g)]
+    .map((m) => new URL(m[1]).pathname);
+  const byTitle = new Map();
+  for (const p of paths) {
+    const page = await req(p);
+    const t = (page.body.match(/<title>([^<]*)<\/title>/) || [, ''])[1].trim();
+    if (!t) continue;
+    byTitle.set(t, [...(byTitle.get(t) || []), p]);
+  }
+  const dup = [...byTitle.entries()].filter(([, ps]) => ps.length > 1);
+  return {
+    ok: dup.length === 0,
+    got: dup.length
+      ? dup.map(([t, ps]) => `«${t}» — ${ps.join(', ')}`).join('; ')
+      : `нет (${byTitle.size} страниц)`,
+  };
+});
+check('мета карточки из Directus доезжает до разметки', async () => {
+  // Заголовок и описание страницы товара берутся из meta_title/meta_description
+  // Directus; если связь порвётся, страница начнёт отдавать название товара и
+  // общее описание сайта — то есть один и тот же текст на сотнях карточек.
+  const r = await req('/product/tovar-s-metoj');
+  const title = (r.body.match(/<title>([^<]*)<\/title>/) || [, ''])[1];
+  const desc = (r.body.match(/<meta name="description" content="([^"]*)"/) || [, ''])[1];
+  const ok = title === 'Свой заголовок карточки | BIZSoft' && desc.startsWith('Своё описание карточки');
+  return { ok, got: `title «${title}», description «${desc.slice(0, 40)}…»` };
+});
+check('бренд в title не задваивается', async () => {
+  // meta_title из Directus уже содержит «| BIZSoft» — SeoHead не должен
+  // дописывать бренд второй раз.
+  const r = await req('/product/tovar-s-metoj');
+  const title = (r.body.match(/<title>([^<]*)<\/title>/) || [, ''])[1];
+  const hits = (title.match(/BIZSoft/gi) || []).length;
+  return { ok: hits === 1, got: `вхождений бренда: ${hits}` };
+});
 check('sitemap: /vendors присутствует', async () => {
   const r = await req('/sitemap.xml');
   return { ok: /<loc>[^<]*\/vendors<\/loc>/.test(r.body), got: /<loc>[^<]*\/vendors<\/loc>/.test(r.body) ? 'есть' : 'НЕТ' };
