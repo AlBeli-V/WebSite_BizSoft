@@ -247,9 +247,25 @@ PAY_LABEL = {"card": "есть", "likely_card": "вероятно",
              "unreachable": "сайт не открылся", "not_checked": "не проверялась"}
 
 
+def _filter_rejected(exp: dict) -> dict:
+    """Кандидаты, отклонённые руководителем, не показываются повторно (01.09)."""
+    from report_v4 import rejected_vendor_brands
+    import re as _re
+    rej = rejected_vendor_brands()
+    if not exp or not rej:
+        return exp
+
+    def norm(b):
+        return " ".join(_re.findall(r"[a-zа-яё0-9]+", (b or "").lower()))
+    out = dict(exp)
+    out["items"] = [i for i in (exp.get("items") or []) if norm(i.get("brand")) not in rej]
+    out["manual_check"] = [m for m in (exp.get("manual_check") or []) if norm(m) not in rej]
+    return out
+
+
 def _expansion_section(st: dict) -> str:
     """Каких вендоров добавить: спрос, оплата, трудоёмкость, готовая обвязка."""
-    exp = st.get("vendor_expansion") or {}
+    exp = _filter_rejected(st.get("vendor_expansion") or {})
     if not exp.get("available"):
         reason = exp.get("reason") or "данных пока нет"
         return (f"<h3>Каких вендоров добавить</h3>"
@@ -1142,7 +1158,7 @@ def build_markdown(b: dict, snap: dict, dq: dict, date: str) -> str:
                 L.append(f"| {u['cluster']} | {num(u['demand'])} | "
                          f"{u['gap']} | {u['action']} |")
             L.append("")
-            exp = st.get("vendor_expansion") or {}
+            exp = _filter_rejected(st.get("vendor_expansion") or {})
             L += ["### Каких вендоров добавить", ""]
             if not exp.get("available"):
                 L += [(exp.get("reason") or "данных пока нет").capitalize() + ".", ""]

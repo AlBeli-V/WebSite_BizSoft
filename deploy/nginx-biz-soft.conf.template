@@ -93,6 +93,18 @@ server {
         add_header Cache-Control "private, max-age=300";
     }
 
+    # Отчёты конкурентной разведки. Отдельный путь и отдельный каталог: это
+    # чувствительнее SEO-отчётов — карточки конкурентов, точки атаки, оценки
+    # уязвимости. Защита та же (непубличный токен + noindex): решение
+    # руководителя 31.08 — basic auth не заводить, риск принят, при подозрении
+    # на утечку меняется токен пути.
+    location /ci-c98370a0ebe87d97/ {
+        alias /opt/bizsoft/ci-reports/;
+        index latest.html;
+        add_header X-Robots-Tag "noindex, nofollow" always;
+        add_header Cache-Control "private, max-age=300";
+    }
+
     location / {
         proxy_pass http://127.0.0.1:3000;
     }
