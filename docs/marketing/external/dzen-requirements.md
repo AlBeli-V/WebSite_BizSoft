@@ -282,4 +282,7 @@
 восстановлению не подлежит.
 
 Правила выбора целевых страниц, анкоров и меток — раздел 3 программы
-`docs/seo/external-links-program.md`.
+`docs/seo/external-links-program.md`. Как мы пишем и где копим навык —
+`.claude/skills/bizsoft-content/SKILL.md` и
+`docs/marketing/content-library/README.md`. Перед ревью прогонять
+`node scripts/marketing/lint-content.mjs <файл>`.

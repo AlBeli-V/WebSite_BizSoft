@@ -1,0 +1,28 @@
+# Контентный объект: оплата софта картами сотрудников
+slug: karta-sotrudnika
+title: Карта сотрудника как способ оплаты софта
+question: Во сколько компании обходятся подписки, оформленные на сотрудников
+methodology: Совокупная стоимость корпоративной подписки (5 компонентов)
+status: на ревью
+
+keywords:
+  - оплата софта картой сотрудника
+  - компенсация расходов сотруднику на подписку
+  - подписки на зарубежное ПО для компании
+  - совокупная стоимость подписки
+  - инвентаризация подписок
+
+link_targets:
+  - /blog/kak-kupit-zarubezhnoe-po-dlya-yurlica
+
+versions:
+  master: docs/marketing/external/dzen/01-karta-sotrudnika.md   # пока совпадает с версией для Дзена
+  dzen: docs/marketing/external/dzen/01-karta-sotrudnika.md
+  tenchat: docs/marketing/external/week1/04-tenchat-karta-sotrudnika.md
+  site: null   # кандидат: статья блога через 1–2 месяца после публикации
+
+published: []   # заполняется после публикации, дублируется в data/marketing/publications.json
+
+open_data:
+  # Место под собственные данные BIZSoft — самая ценная часть материала.
+  inventory_stats: нет   # сколько неиспользуемых лицензий находится при инвентаризациях
