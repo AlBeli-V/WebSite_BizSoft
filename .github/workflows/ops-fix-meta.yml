@@ -88,9 +88,27 @@ jobs:
             # «ManageEngine DataSecurity Plus Professional, | BIZSoft».
             CUT_MARK = re.compile(r'[,;:\-–—(]\s*\|\s*' + re.escape(BRAND) + r'\s*$')
 
+            def is_cut(t, name):
+                """Заголовок — обрезок названия, а не самостоятельная формулировка.
+
+                Снимаем бренд и хвост «— купить для юрлица»: если остаток
+                оказался строгим началом названия товара, значит его отрезали
+                по словам и различитель линейки потерян
+                («ManageEngine Mobile Device Manager Plus MSP» вместо
+                «…MSP Professional, Single User License with 50 Mobile Devices»).
+                Написанные руками заголовки началом названия не являются и под
+                это правило не попадают.
+                """
+                if not t or not t.rstrip().endswith(f'| {BRAND}'):
+                    return False
+                body = t.rsplit('|', 1)[0].strip()
+                body = re.sub(r'\s*—\s*купить для юрлица$', '', body).strip()
+                body = body.rstrip(' ,;:—–-')
+                return bool(body) and name.startswith(body) and body != name.strip()
+
             def build_title(name, cur):
                 t = (cur or '').replace('BizSoft', BRAND).strip()
-                if CUT_MARK.search(t):
+                if CUT_MARK.search(t) or is_cut(t, name):
                     t = ''          # обрезанный огрызок пересобираем с нуля
                 if not t:
                     t = f'{name} — купить для юрлица | {BRAND}'
