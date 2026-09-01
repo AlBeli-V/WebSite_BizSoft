@@ -270,22 +270,31 @@ def metrika_sections() -> None:
     if not shown:
         print("  (запросы недоступны)")
 
+    # Страница входа берётся по пути (startURLPathFull): по полному URL
+    # каждая utm-метка давала бы свою строку и одна посадочная занимала
+    # весь список.
     print("\n== Метрика: поведение по посадочным ==")
-    try:
-        data = metrika_stat(counter, token, dimensions="ym:s:startURL",
-                            metrics=behaviour, filters=flt,
-                            sort="-ym:s:visits", limit=15)
+    shown = False
+    for dim in ("ym:s:startURLPathFull", "ym:s:startURL"):
+        try:
+            data = metrika_stat(counter, token, dimensions=dim,
+                                metrics=behaviour, filters=flt,
+                                sort="-ym:s:visits", limit=20)
+        except RuntimeError as e:
+            print(f"  ({dim} не принят: {e})")
+            continue
         for row in data.get("data") or []:
-            url = row["dimensions"][0].get("name") or "?"
-            url = url.split("?")[0]
+            url = (row["dimensions"][0].get("name") or "?").split("?")[0]
             for prefix in ("https://biz-soft.pro", "http://biz-soft.pro"):
                 if url.startswith(prefix):
                     url = url[len(prefix):] or "/"
             v, br, pd, dur = row["metrics"]
             print(f"  {int(v):>3} виз. | отказы {br:.0f}% | глубина {pd:.2f} | "
                   f"{dur:.0f} с — {url}")
-    except RuntimeError as e:
-        print(f"  (посадочные не прочитаны: {e})")
+        shown = True
+        break
+    if not shown:
+        print("  (посадочные недоступны)")
 
     # Эксперимент «быстрые ссылки»: их входы помечены utm_content=sl-*.
     print("\n== Метрика: визиты по utm_content (sl-* — быстрые ссылки) ==")
@@ -441,10 +450,12 @@ def main() -> None:
     print_tsv("Отчёт по площадкам", tsv)
 
     # Измерение эксперимента «быстрые ссылки»: клики по элементам
-    # объявления (sitelink1..8 против title и остальных).
+    # объявления (sitelink1..8 против title и остальных). Показы, CTR и
+    # позиции с ClickType несовместимы (ошибка 4000) — их здесь нет:
+    # у элемента объявления нет собственного показа, только клик.
     tsv = report(token, "click-type", {
         "SelectionCriteria": sel,
-        "FieldNames": ["ClickType", "Impressions", "Clicks", "Ctr", "AvgCpc", "Cost"],
+        "FieldNames": ["ClickType", "Clicks", "AvgCpc", "Cost"],
         "ReportName": f"bs-clicktype-{int(time.time())}",
         "ReportType": "CUSTOM_REPORT", "DateRangeType": "ALL_TIME",
         "Format": "TSV", "IncludeVAT": "YES",
