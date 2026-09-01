@@ -101,12 +101,42 @@
     },
     "parallels-desktop-standard-sub": {
       "meta_title": "Parallels Desktop Standard подписка — купить | BIZSoft"
+    },
+    "me-admanager-plus-msp-500-domain-users": {
+      "meta_title": "ADManager Plus MSP, 500 доменных пользователей | BIZSoft"
+    },
+    "me-admanager-plus-msp-active-directory-backup-an-250-user-objects": {
+      "meta_title": "ADManager Plus MSP, AD Backup на 250 объектов | BIZSoft"
+    },
+    "me-admanager-plus-msp-helpdesk-technicians-1-helpdesk-technicians": {
+      "meta_title": "ADManager Plus MSP, 1 техник поддержки | BIZSoft"
+    },
+    "me-admanager-plus-msp-500-domain-users-perp": {
+      "meta_title": "ADManager Plus MSP, 500 польз., вечная лицензия | BIZSoft"
+    },
+    "me-admanager-plus-msp-active-directory-backup-an-250-user-objects-perp": {
+      "meta_title": "ADManager Plus MSP, AD Backup 250, вечная лицензия | BIZSoft"
+    },
+    "me-admanager-plus-msp-helpdesk-technicians-1-helpdesk-technicians-perp": {
+      "meta_title": "ADManager Plus MSP, 1 техник, вечная лицензия | BIZSoft"
+    },
+    "me-datasecurity-plus-professional-data-risk-assessment-2-tb": {
+      "meta_title": "DataSecurity Plus, Data Risk Assessment, 2 ТБ | BIZSoft"
+    },
+    "me-datasecurity-plus-professional-fileanalysis-2-tb": {
+      "meta_title": "DataSecurity Plus, File Analysis, 2 ТБ | BIZSoft"
+    },
+    "me-datasecurity-plus-professional-data-risk-assessment-2-tb-perp": {
+      "meta_title": "DataSecurity Plus, Risk Assessment 2 ТБ, вечная | BIZSoft"
+    },
+    "me-datasecurity-plus-professional-fileanalysis-2-tb-perp": {
+      "meta_title": "DataSecurity Plus, File Analysis, 2 ТБ, вечная | BIZSoft"
     }
   },
   "_meta": {
     "purpose": "Уникализация описаний карточек тарифов для возврата страниц из-под фильтра МПК Яндекса",
     "source_report": "reports/seo/excluded-pages-analysis.md",
-    "batch": "Adobe + Zoom (партия 1); Depositphotos Unlimited — развод одинаковых meta_title (партия 2); Bitdefender и Parallels Desktop — развод дублей по находке ops-content-audit 01.09.2026 (партия 3)",
+    "batch": "Adobe + Zoom (партия 1); Depositphotos Unlimited — развод одинаковых meta_title (партия 2); Bitdefender и Parallels Desktop — развод дублей по находке ops-content-audit 01.09.2026 (партия 3); ManageEngine ADManager Plus MSP и DataSecurity Plus — заголовки по модулю и объёму (партия 4)",
     "applied_by": ".github/workflows/ops-apply-descriptions.yml"
   }
 }
