@@ -1,6 +1,7 @@
-# Аудит текстового контента карточек в прод-Directus: полнота описаний и
+# Аудит текстового контента карточек в прод-Directus: полнота описаний,
 # качество мета-тегов (пустые, обрывы «…», неверное написание бренда,
-# длина title/description). Только чтение. Результат — в журнал-issue #22.
+# длина title/description) и дубли meta_title/meta_description между
+# карточками. Только чтение. Результат — в журнал-issue #22.
 name: ops-content-audit
 on:
   workflow_dispatch:
@@ -77,6 +78,24 @@ jobs:
                     print(f"   - {r['slug']}")
                 if len(hits) > 6:
                     print(f'   … ещё {len(hits) - 6}')
+            # Одинаковые title/description на разных карточках Яндекс считает
+            # дублями и снимает страницы с индексации: title карточки — это
+            # meta_title (см. src/pages/product/[slug].astro), поэтому дубли
+            # ищем именно по нему, а не по названию товара.
+            print('\n== Дубли мета-тегов (только по индексируемым) ==')
+            for f in ('meta_title', 'meta_description'):
+                seen = {}
+                for r in idx:
+                    v = g(r, f)
+                    if v:
+                        seen.setdefault(v, []).append(r['slug'])
+                dups = {v: sl for v, sl in seen.items() if len(sl) > 1}
+                print(f'{f}: групп дублей {len(dups)}')
+                for v, sl in sorted(dups.items(), key=lambda kv: -len(kv[1]))[:10]:
+                    print(f'   - «{v[:70]}» — {len(sl)} шт.: {", ".join(sorted(sl))}')
+                if len(dups) > 10:
+                    print(f'   … ещё {len(dups) - 10} групп')
+
             lens = sorted(len(g(r, 'description')) for r in idx)
             if lens:
                 mid = lens[len(lens) // 2]
