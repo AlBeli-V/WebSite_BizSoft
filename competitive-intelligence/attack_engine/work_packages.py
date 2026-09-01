@@ -8,6 +8,23 @@
 Оценка эффекта считается по той же кривой CTR, что и видимость: разница
 между весом текущей позиции и весом целевой, умноженная на спрос. Это
 оценка потенциала при выходе в ТОП-3, а не обещание — так и подписано.
+
+**Индекс потенциала считается не всегда (правка 1.3.0).** До этой версии
+запрос с неизмеренным спросом входил в сумму с нулевым весом, то есть
+молча приравнивался к запросу без спроса. Это то же самое «нет данных = 0»,
+которое система запрещает себе в остальных местах: пакет из пяти запросов,
+где спрос известен по двум, получал индекс как будто три запроса никому не
+нужны, и в очереди поручений опускался ниже, чем заслуживает.
+
+Теперь правило явное:
+
+  * индекс считается по тем запросам пакета, где спрос измерен;
+  * рядом с индексом хранится покрытие спроса («3 из 5»), и оно попадает
+    в отчёт: индекс, посчитанный по двум запросам из пяти, — это оценка
+    по двум запросам, а не по пакету;
+  * если спрос не измерен ни по одному запросу, индекс не считается вовсе
+    (None, метка «не оценён»), пакет уходит в конец очереди и остаётся
+    видимым как задача на доизмерение спроса, а не как задача без ценности.
 """
 from __future__ import annotations
 
@@ -43,17 +60,30 @@ class WorkPackage:
     queries: list[str] = field(default_factory=list)
     attack_ids: list[str] = field(default_factory=list)
     queries_count: int = 0
-    demand_total: int = 0
+    # Абсолютный спрос НЕ суммируется между источниками даже для показа:
+    # 700 запросов рынка в месяц и 670 показов нам за две недели — величины
+    # разной природы, и «1370» вводило бы в заблуждение, даже когда
+    # математика уже разведена.
+    demand_by_source: dict[str, int] = field(default_factory=dict)
+    demand_queries_by_source: dict[str, int] = field(default_factory=dict)
     demand_sources: list[str] = field(default_factory=list)
+    # Сколько запросов пакета имеют измеренный спрос: индекс потенциала
+    # считается только по ним, и знать это соотношение обязательно.
+    demand_measured_queries: int = 0
+    demand_coverage: str = "0/0"
+    demand_coverage_ratio: float = 0.0
+    demand_index: float | None = None
     position_best: int | None = None
     position_worst: int | None = None
     rivals: list[str] = field(default_factory=list)
     opportunity_best: int = 0
     confidence: str = "MEDIUM"
     # Индекс потенциала — безразмерная величина для сравнения пакетов между
-    # собой. Считается всегда, в переходы не переводится.
-    potential_index: float = 0.0
+    # собой; в переходы не переводится. None означает «спрос не измерен ни по
+    # одному запросу», а не «потенциала нет».
+    potential_index: float | None = None
     potential_label: str = "средний"
+    potential_note: str = ""
     # Оценка прироста переходов — только там, где весь спрос группы измерен
     # сопоставимой шкалой (частотность Wordstat). Иначе None: величину,
     # собранную из разных знаменателей, нельзя называть переходами.
@@ -138,22 +168,30 @@ def build(attacks: list[dict], config: dict | None = None) -> list[WorkPackage]:
     for url, group in by_url.items():
         kind, subject = _page_kind(url)
         positions = [a["our_position"] for a in group]
-        demand = sum(a.get("demand") or 0 for a in group)
+        by_source: dict[str, int] = {}
+        queries_by_source: dict[str, int] = {}
+        for attack in group:
+            source = attack.get("demand_source", "none")
+            if source == "none" or not attack.get("demand"):
+                continue
+            by_source[source] = by_source.get(source, 0) + attack["demand"]
+            queries_by_source[source] = queries_by_source.get(source, 0) + 1
 
         # Два разных измерения потенциала — их нельзя подменять друг другом.
         #
         # potential_index: безразмерная величина для сравнения пакетов между
         # собой. Спрос входит нормированным по своей шкале, поэтому складывать
-        # запросы с разными источниками здесь корректно.
+        # запросы с разными источниками здесь корректно. Считается только по
+        # запросам с измеренным спросом; покрытие хранится рядом.
         #
         # traffic_upside: оценка прироста переходов в штуках. Допустима
         # только когда весь спрос группы измерен сопоставимой шкалой —
         # частотностью Wordstat. Смешивать её с показами Вебмастера значит
         # складывать «запросов рынка в месяц» с «показов нам за две недели»,
-        # а потом называть сумму переходами. Внешний аудит справедливо назвал
-        # это главным дефектом версии 1.0.0.
+        # а потом называть сумму переходами.
         potential = 0.0
         upside = 0.0
+        measured = 0
         sources = {a.get("demand_source", "none") for a in group}
         comparable = sources == {COMPARABLE_DEMAND_SOURCE}
 
@@ -163,9 +201,26 @@ def build(attacks: list[dict], config: dict | None = None) -> list[WorkPackage]:
             raw = attack.get("demand")
             source = attack.get("demand_source", "none")
             normalized = opp_mod.demand_factor(raw, source)
-            potential += gain * (normalized if normalized is not None else 0.0)
+            if normalized is None:
+                continue  # спрос не измерен — запрос не участвует в индексе
+            measured += 1
+            potential += gain * normalized
             if comparable and raw:
                 upside += gain * raw
+
+        coverage_ratio = measured / len(group) if group else 0.0
+        if measured == 0:
+            potential_index = None
+            potential_note = ("индекс не считается: спрос не измерен ни по "
+                              "одному запросу пакета — сначала нужна оценка "
+                              "спроса, а не работа со страницей")
+        else:
+            potential_index = round(potential, 4)
+            potential_note = (
+                f"индекс посчитан по {measured} запросам из {len(group)} — "
+                f"по остальным спрос не измерен и они в индекс не входят"
+                if measured < len(group)
+                else f"спрос измерен по всем {len(group)} запросам пакета")
 
         named = ", ".join(sorted(s for s in sources if s != "none"))
         if comparable:
@@ -201,15 +256,21 @@ def build(attacks: list[dict], config: dict | None = None) -> list[WorkPackage]:
             queries=[a["query"] for a in group],
             attack_ids=[a["attack_id"] for a in group],
             queries_count=len(group),
-            demand_total=demand,
+            demand_by_source=by_source,
+            demand_queries_by_source=queries_by_source,
             demand_sources=sorted(s for s in sources if s != "none"),
+            demand_measured_queries=measured,
+            demand_coverage=f"{measured}/{len(group)}",
+            demand_coverage_ratio=round(coverage_ratio, 3),
+            demand_index=potential_index,
             position_best=min(positions),
             position_worst=max(positions),
             rivals=sorted({a["rival_domain"] for a in group}),
             opportunity_best=max(a["opportunity"] for a in group),
             confidence=confidence,
-            potential_index=round(potential, 4),
+            potential_index=potential_index,
             potential_label="",  # проставляется после сортировки, см. ниже
+            potential_note=potential_note,
             traffic_upside=traffic_upside,
             upside_note=upside_note,
             effort=effort,
@@ -218,8 +279,12 @@ def build(attacks: list[dict], config: dict | None = None) -> list[WorkPackage]:
         ))
 
     # Порядок — по индексу потенциала: он безразмерный и потому сравним
-    # между пакетами с разными источниками спроса.
-    packages.sort(key=lambda p: (p.potential_index, p.demand_total), reverse=True)
+    # между пакетами с разными источниками спроса. Пакеты без измеренного
+    # спроса индекса не имеют и уходят в конец: их нельзя ни сравнить с
+    # остальными, ни выбросить — по ним сначала нужно измерить спрос.
+    packages.sort(key=lambda p: (p.potential_index is not None,
+                                 p.potential_index or 0.0,
+                                 sum(p.demand_by_source.values())), reverse=True)
 
     # Метка потенциала — относительная, по месту в текущем наборе: верхняя
     # треть «высокий», средняя «средний», нижняя «низкий». Абсолютные пороги
@@ -227,10 +292,13 @@ def build(attacks: list[dict], config: dict | None = None) -> list[WorkPackage]:
     # кривой CTR и от того, каким источником измерен спрос, поэтому
     # сравнивать её с фиксированным числом нельзя. Относительная шкала
     # отвечает на тот вопрос, который и задаёт руководитель: с чего начать.
-    count = len(packages)
+    scored = [p for p in packages if p.potential_index is not None]
+    count = len(scored)
     for index, package in enumerate(packages):
         package.package_id = f"WP-{index + 1:02d}"
-        if package.potential_index <= 0:
+        if package.potential_index is None:
+            package.potential_label = "не оценён"
+        elif package.potential_index <= 0:
             package.potential_label = "нет потенциала"
         elif index < max(1, count // 3):
             package.potential_label = "высокий"
