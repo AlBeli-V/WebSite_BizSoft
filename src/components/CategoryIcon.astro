@@ -50,6 +50,16 @@ const BY_SLUG: Record<string, Icon> = {
   helpdesk: 'helpdesk',
   endpoint: 'endpoint',
   web: 'web',
+  // AI-подкатегории: на /catalog их плитки рисуются по полному слагу (ai-*),
+  // на /catalog/ai — по короткому sub (text, code, …) через подбор по словам.
+  'ai-text': 'ai',
+  'ai-code': 'dev',
+  'ai-image': 'design',
+  'ai-video': 'media',
+  'ai-audio': 'media',
+  'ai-office': 'office',
+  'ai-marketing': 'comm',
+  'ai-enterprise': 'ai',
 };
 
 function pick(): Icon {
