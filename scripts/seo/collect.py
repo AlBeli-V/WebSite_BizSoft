@@ -321,7 +321,47 @@ def collect_metrika() -> dict:
             reaches[str(gid)] = val
     else:
         result['organic_goal_reaches'] = reaches
+
+    # Этап B Direct Control Report (решение руководителя 01.09.2026): связка
+    # рекламного трафика с целями — визиты и достижения ключевых целей в
+    # разрезе групп Директа. Имя дименсии группы отличается между версиями
+    # справочника Метрики, поэтому кандидаты пробуются по очереди; последний
+    # фолбэк — кампания целиком (общий CPA без разбивки).
+    key_goal_ids = {}
+    if isinstance(result['goals'], list):
+        for g in result['goals']:
+            for c in (g.get('conditions') or []):
+                url = c.get('url') if isinstance(c, dict) else None
+                if url in KEY_GOAL_EVENTS:
+                    key_goal_ids[url] = g['id']
+            if g.get('type') == 'messenger':
+                key_goal_ids.setdefault('click_messenger', g['id'])
+    metrics = ['ym:s:visits', 'ym:s:sumGoalReachesAny'] + [
+        f'ym:s:goal{gid}reaches' for gid in key_goal_ids.values()]
+    for dim in ('ym:s:lastDirectBannerGroup', 'ym:s:lastDirectClickBanner',
+                'ym:s:lastDirectClickOrder'):
+        data, err = api_json(stat, headers=headers, params={
+            **base, 'dimensions': dim, 'metrics': ','.join(metrics),
+            'filters': "ym:s:lastTrafficSource=='ad'"})
+        if not err:
+            result['direct_attribution'] = {
+                'dimension': dim,
+                'goal_keys': list(key_goal_ids),
+                'rows': [{'name': (r['dimensions'][0] or {}).get('name'),
+                          'visits': r['metrics'][0],
+                          'goal_reaches_any': r['metrics'][1],
+                          'leads': {k: r['metrics'][2 + i]
+                                    for i, k in enumerate(key_goal_ids)}}
+                         for r in data.get('data', [])]}
+            break
+    else:
+        result['direct_attribution'] = {'error': err}
     return result
+
+
+# Ключевые цели для связки с Директом: жёсткие конверсии и контакты из
+# реестра src/lib/analytics.ts (key: true). Мессенджер добирается автоцелью.
+KEY_GOAL_EVENTS = ('lead_sent', 'quote_pdf', 'click_phone', 'click_email')
 
 
 def collect_ga4() -> dict:

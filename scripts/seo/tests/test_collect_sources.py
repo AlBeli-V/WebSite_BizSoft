@@ -49,6 +49,10 @@ class TestCollectMetrika(unittest.TestCase):
                 FakeResponse(200, stat_rows("Яндекс")),
                 FakeResponse(200, {"data": [], "totals": [0, 0, 0]}),
                 FakeResponse(200, {"data": [], "totals": [7]}),
+                # direct_attribution (этап B): первая дименсия-кандидат отвечает.
+                FakeResponse(200, {"data": [
+                    {"dimensions": [{"name": "Claude Code — для команд разработки"}],
+                     "metrics": [10, 4, 1, 0]}]}),
             ],
         }
 
@@ -73,7 +77,8 @@ class TestCollectMetrika(unittest.TestCase):
         out = self.collect(stat=[FakeRequests.Timeout("timed out"),
                                  FakeResponse(200, stat_rows("Яндекс")),
                                  FakeResponse(200, {"data": [], "totals": [0, 0, 0]}),
-                                 FakeResponse(200, {"data": [], "totals": [7]})])
+                                 FakeResponse(200, {"data": [], "totals": [7]}),
+                                 FakeResponse(200, {"data": []})])
         self.assertIn("Timeout", out["traffic_sources"]["error"])
         an = self.s.build_analytics_safe(out, None, DATE)
         self.assertFalse(an["metrika"]["available"])
@@ -83,12 +88,19 @@ class TestCollectMetrika(unittest.TestCase):
         out = self.collect(stat=[FakeResponse(200, None, text="<html>"),
                                  FakeResponse(200, stat_rows("Яндекс")),
                                  FakeResponse(200, {"data": [], "totals": [0, 0, 0]}),
-                                 FakeResponse(200, {"data": [], "totals": [7]})])
+                                 FakeResponse(200, {"data": [], "totals": [7]}),
+                                 FakeResponse(200, {"data": []})])
         self.assertIn("не является JSON", out["traffic_sources"]["error"])
 
     def test_разбивка_целей_собирается_по_достижениям(self):
         out = self.collect()
         self.assertEqual(out["organic_goal_reaches"], {"1": 7})
+
+    def test_связка_директа_пишется_с_дименсией_и_строками(self):
+        out = self.collect()
+        att = out["direct_attribution"]
+        self.assertEqual(att["dimension"], "ym:s:lastDirectBannerGroup")
+        self.assertEqual(att["rows"][0]["visits"], 10)
 
 
 class TestCollectGscGa4(unittest.TestCase):
