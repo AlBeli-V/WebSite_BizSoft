@@ -84,8 +84,14 @@ jobs:
                         continue
                     return body
 
+            # След обрезки: перед брендом осталась висящая пунктуация —
+            # «ManageEngine DataSecurity Plus Professional, | BIZSoft».
+            CUT_MARK = re.compile(r'[,;:\-–—(]\s*\|\s*' + re.escape(BRAND) + r'\s*$')
+
             def build_title(name, cur):
                 t = (cur or '').replace('BizSoft', BRAND).strip()
+                if CUT_MARK.search(t):
+                    t = ''          # обрезанный огрызок пересобираем с нуля
                 if not t:
                     t = f'{name} — купить для юрлица | {BRAND}'
                 if len(t) <= TITLE_MAX:
@@ -98,8 +104,15 @@ jobs:
                              f'{short} | {BRAND}'):
                     if len(cand) <= TITLE_MAX:
                         return cand
-                room = TITLE_MAX - len(f' | {BRAND}')
-                return f'{tidy(trim_words(short, room))} | {BRAND}'
+                # Обрезать название по словам нельзя: у линеек вроде
+                # «ManageEngine DataSecurity Plus Professional, Data Leak
+                # Prevention, 100 Workstations» под нож идёт именно различитель,
+                # и соседние карточки получают один заголовок-огрызок
+                # («…Professional, | BIZSoft»). Прогон 01.09.2026 так создал
+                # 75 групп дублей там, где их не было. Поэтому поле остаётся
+                # пустым: заголовком станет полное название товара — длинное,
+                # но различимое. Уже записанный огрызок затирается.
+                return '' if not t or t.rstrip().endswith(f'| {BRAND}') else t
 
             def build_desc(short, cur):
                 cur = (cur or '').strip()
@@ -162,6 +175,13 @@ jobs:
                   f"{'ПРИМЕНЕНО' if apply else 'план (без записи)'}\n")
             stats = {'title': 0, 'desc': 0}
             changed = 0
+            # какие описания уже заняты в каталоге: и чтобы не плодить дубли,
+            # и чтобы видеть коллизии внутри самого прогона
+            taken_desc = {}
+            for r in rows:
+                d = (r.get('meta_description') or '').strip()
+                if d:
+                    taken_desc.setdefault(d, r['slug'])
             for r in rows:
                 patch = {}
                 # единое написание бренда во всех текстовых полях карточки,
@@ -175,8 +195,17 @@ jobs:
                 if nt != (r.get('meta_title') or ''):
                     patch['meta_title'] = nt
                 nd = build_desc(r.get('short_description'), r.get('meta_description'))
+                # short_description у линейки часто общий на все объёмы и
+                # редакции — тогда описание получают одинаковое. Разводим
+                # названием товара: оно уже несёт различитель.
+                if nd and taken_desc.get(nd, r['slug']) != r['slug']:
+                    marked = build_desc(f"{r['name']}. {(r.get('short_description') or '').strip()}", '')
+                    if marked and taken_desc.get(marked, r['slug']) == r['slug']:
+                        nd = marked
                 if nd and nd != (r.get('meta_description') or ''):
                     patch['meta_description'] = nd
+                if nd:
+                    taken_desc[nd] = r['slug']
                 if not patch:
                     continue
                 changed += 1
