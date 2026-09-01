@@ -20,6 +20,9 @@ const GENERALIZATIONS = [
   'обычно это', 'всем известно', 'ни для кого не секрет',
 ];
 
+/** Мягкие обобщения — предупреждение: иногда уместны, но чаще заменяемы (урок 19). */
+const SOFT_GENERALIZATIONS = ['обычно', 'зачастую', 'практически всегда', 'в среднем по рынку'];
+
 /** Абсолюты — правило 2 журнала ревью. */
 const ABSOLUTES = [
   'невозможно', 'не может заплатить', 'платёж не пройдёт', 'не примет',
@@ -90,6 +93,8 @@ function lint(file) {
   if (g.length) errors.push(`обобщения без источника: ${g.join(', ')}`);
   const a = findAll(text, ABSOLUTES);
   if (a.length) errors.push(`абсолюты (смягчить): ${a.join(', ')}`);
+  const sg = findAll(text, SOFT_GENERALIZATIONS);
+  if (sg.length) warnings.push(`мягкие обобщения — проверить, нужны ли: ${sg.join(', ')}`);
   const p = findAll(text, PROMO);
   if (p.length) errors.push(`рекламные обороты: ${p.join(', ')}`);
   // Кликбейт важен в карточке: заголовок и начало текста, а не весь материал.
