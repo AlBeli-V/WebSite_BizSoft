@@ -5,11 +5,17 @@
 Собирает и печатает:
   1. Состояние кампании, групп, объявлений и фраз (get-методы v5).
   2. Отчёты Reports API: по дням, по условиям показа (фразы/автотаргетинг),
-     по поисковым запросам, по площадкам/устройствам.
+     по поисковым запросам с классификацией интента и кандидатами в фразы,
+     по площадкам/устройствам.
+  3. Разделы Метрики по визитам кампании (поручение владельца 31.08, пункт
+     P1 аудита): конверсии в разбивке по целям счётчика, поведение визитов
+     (отказы/глубина/время) по поисковым запросам и по посадочным.
 
 Поля, зависящие от привязки Метрики (конверсии, отказы), запрашиваются
 второй попыткой: если API их не отдаёт, отчёт печатается без них,
-а не падает целиком.
+а не падает целиком. Разделы Метрики требуют YANDEX_METRIKA_TOKEN и
+YANDEX_METRIKA_COUNTER_ID; без них (или при ошибке API) печатается причина,
+основной сбор Директа не прерывается.
 """
 
 from __future__ import annotations
@@ -19,10 +25,13 @@ import os
 import sys
 import time
 import urllib.error
+import urllib.parse
 import urllib.request
 
 API = "https://api.direct.yandex.com/json/v5/"
+METRIKA_API = "https://api-metrika.yandex.net/"
 CAMPAIGN_NAME = "bs-test-2026-09"
+CAMPAIGN_START = "2026-08-28"  # StartDate кампании — окно выборок Метрики
 
 
 def call(service: str, method: str, params: dict, token: str) -> dict:
@@ -117,8 +126,13 @@ def print_query_classes(tsv: str | None) -> None:
         i_cost = header.index("Cost")
     except ValueError:
         return
+    try:
+        i_type = header.index("CriterionType")
+    except ValueError:
+        i_type = None
     agg = {c: [0, 0, 0.0] for c in "ABCD"}
     worst: list[tuple[float, str, str]] = []
+    candidates: list[tuple[float, int, str]] = []
     for ln in lines[1:]:
         parts = ln.split("\t")
         if len(parts) <= max(i_q, i_imp, i_cl, i_cost) or parts[i_q] == "Total rows:":
@@ -133,6 +147,11 @@ def print_query_classes(tsv: str | None) -> None:
         agg[cls][2] += cost
         if cls in "CD" and cost > 0:
             worst.append((cost, cls, parts[i_q]))
+        # Механизм P3 «запрос → ключ»: коммерческие запросы, пришедшие через
+        # автотаргетинг и получившие клики, — кандидаты на перенос в фразы.
+        if (cls in "AB" and cl > 0 and i_type is not None
+                and len(parts) > i_type and parts[i_type] == "AUTOTARGETING"):
+            candidates.append((cost, cl, parts[i_q]))
     total_cost = sum(v[2] for v in agg.values())
     print("\n== Классы интента (A целевой B2B / B коммерческий / C информационный / D нерелевантный) ==")
     for c in "ABCD":
@@ -144,6 +163,152 @@ def print_query_classes(tsv: str | None) -> None:
           (f" ({leak / total_cost * 100:.0f}% расхода)" if total_cost else ""))
     for cost, cls, q in sorted(worst, reverse=True)[:10]:
         print(f"    {cls} {cost:.2f} ₽ — «{q}»")
+    if candidates:
+        print("  Кандидаты в фразы (A/B-запросы автотаргетинга с кликами):")
+        for cost, cl, q in sorted(candidates, reverse=True)[:10]:
+            print(f"    {cost:.2f} ₽, кликов {cl} — «{q}»")
+
+
+def metrika_get(path: str, params: dict, token: str) -> dict:
+    url = METRIKA_API + path
+    if params:
+        url += "?" + urllib.parse.urlencode(params)
+    req = urllib.request.Request(url, headers={"Authorization": f"OAuth {token}"})
+    try:
+        with urllib.request.urlopen(req, timeout=60) as resp:
+            return json.loads(resp.read().decode("utf-8"))
+    except urllib.error.HTTPError as e:
+        raise RuntimeError(
+            f"Метрика HTTP {e.code} на {path}: {e.read().decode('utf-8')[:300]}")
+
+
+def metrika_stat(counter: str, token: str, **params) -> dict:
+    base = {"ids": counter, "date1": CAMPAIGN_START, "date2": "today",
+            "accuracy": "full"}
+    base.update(params)
+    return metrika_get("stat/v1/data", base, token)
+
+
+def metrika_sections() -> None:
+    """Конверсии по целям и поведение визитов кампании (данные Метрики).
+
+    Визиты кампании отбираются фильтром по utm_campaign, при нуле — по
+    атрибуции Директа (счётчик привязан к кампании). Разделы вспомогательные:
+    любая ошибка печатается и не прерывает основной сбор Директа.
+    """
+    token = os.environ.get("YANDEX_METRIKA_TOKEN", "")
+    counter = os.environ.get("YANDEX_METRIKA_COUNTER_ID", "")
+    print("\n== Метрика: визиты кампании (с 28.08) ==")
+    if not token or not counter:
+        print("(YANDEX_METRIKA_TOKEN/YANDEX_METRIKA_COUNTER_ID не заданы — разделы пропущены)")
+        return
+
+    flt = None
+    for cand in (f"ym:s:UTMCampaign=='{CAMPAIGN_NAME}'",
+                 f"ym:s:lastDirectClickOrder=='{CAMPAIGN_NAME}'"):
+        try:
+            data = metrika_stat(counter, token, metrics="ym:s:visits", filters=cand)
+        except RuntimeError as e:
+            print(f"  (фильтр не принят: {e})")
+            continue
+        visits = int((data.get("totals") or [0])[0])
+        if visits:
+            flt = cand
+            print(f"  визитов: {visits} (фильтр {cand.split('==')[0]})")
+            break
+    if flt is None:
+        print("  визиты кампании не найдены ни по UTM, ни по атрибуции — разделы Метрики пропущены")
+        return
+
+    try:
+        goals = metrika_get(f"management/v1/counter/{counter}/goals",
+                            {}, token).get("goals", [])
+    except RuntimeError as e:
+        print(f"  (список целей не прочитан: {e})")
+        goals = []
+
+    if goals:
+        print("\n== Метрика: конверсии кампании по целям ==")
+        reached: list[tuple[int, str]] = []
+        for i in range(0, len(goals), 18):
+            chunk = goals[i:i + 18]
+            metrics = ",".join(f"ym:s:goal{g['id']}reaches" for g in chunk)
+            try:
+                data = metrika_stat(counter, token, metrics=metrics, filters=flt)
+            except RuntimeError as e:
+                print(f"  (пакет целей не прочитан: {e})")
+                continue
+            for g, total in zip(chunk, data.get("totals") or []):
+                if total:
+                    reached.append((int(total), g.get("name", g["id"])))
+        if reached:
+            for total, name in sorted(reached, reverse=True):
+                print(f"  {name}: {total}")
+        else:
+            print("  достижений целей с кампании нет (0 по всем целям)")
+
+    behaviour = ("ym:s:visits,ym:s:bounceRate,ym:s:pageDepth,"
+                 "ym:s:avgVisitDurationSeconds")
+
+    print("\n== Метрика: поведение по поисковым запросам ==")
+    shown = False
+    for dim in ("ym:s:lastDirectSearchPhrase", "ym:s:lastDirectPhraseOrCond"):
+        try:
+            data = metrika_stat(counter, token, dimensions=dim,
+                                metrics=behaviour, filters=flt,
+                                sort="-ym:s:visits", limit=40)
+        except RuntimeError as e:
+            print(f"  ({dim} не принят: {e})")
+            continue
+        for row in data.get("data") or []:
+            name = (row["dimensions"][0].get("name") or "(не определено)")
+            v, br, pd, dur = row["metrics"]
+            print(f"  {int(v):>3} виз. | отказы {br:.0f}% | глубина {pd:.2f} | "
+                  f"{dur:.0f} с — «{name}»")
+        shown = True
+        break
+    if not shown:
+        print("  (запросы недоступны)")
+
+    # Страница входа берётся по пути (startURLPathFull): по полному URL
+    # каждая utm-метка давала бы свою строку и одна посадочная занимала
+    # весь список.
+    print("\n== Метрика: поведение по посадочным ==")
+    shown = False
+    for dim in ("ym:s:startURLPathFull", "ym:s:startURL"):
+        try:
+            data = metrika_stat(counter, token, dimensions=dim,
+                                metrics=behaviour, filters=flt,
+                                sort="-ym:s:visits", limit=20)
+        except RuntimeError as e:
+            print(f"  ({dim} не принят: {e})")
+            continue
+        for row in data.get("data") or []:
+            url = (row["dimensions"][0].get("name") or "?").split("?")[0]
+            for prefix in ("https://biz-soft.pro", "http://biz-soft.pro"):
+                if url.startswith(prefix):
+                    url = url[len(prefix):] or "/"
+            v, br, pd, dur = row["metrics"]
+            print(f"  {int(v):>3} виз. | отказы {br:.0f}% | глубина {pd:.2f} | "
+                  f"{dur:.0f} с — {url}")
+        shown = True
+        break
+    if not shown:
+        print("  (посадочные недоступны)")
+
+    # Эксперимент «быстрые ссылки»: их входы помечены utm_content=sl-*.
+    print("\n== Метрика: визиты по utm_content (sl-* — быстрые ссылки) ==")
+    try:
+        data = metrika_stat(counter, token, dimensions="ym:s:UTMContent",
+                            metrics=behaviour, filters=flt,
+                            sort="-ym:s:visits", limit=20)
+        for row in data.get("data") or []:
+            name = row["dimensions"][0].get("name") or "(без метки)"
+            v, br, pd, dur = row["metrics"]
+            print(f"  {int(v):>3} виз. | отказы {br:.0f}% | глубина {pd:.2f} | "
+                  f"{dur:.0f} с — {name}")
+    except RuntimeError as e:
+        print(f"  (utm_content не прочитан: {e})")
 
 
 def print_tsv(title: str, tsv: str | None) -> None:
@@ -283,6 +448,24 @@ def main() -> None:
         "Format": "TSV", "IncludeVAT": "YES",
     })
     print_tsv("Отчёт по площадкам", tsv)
+
+    # Измерение эксперимента «быстрые ссылки»: клики по элементам
+    # объявления (sitelink1..8 против title и остальных). Показы, CTR и
+    # позиции с ClickType несовместимы (ошибка 4000) — их здесь нет:
+    # у элемента объявления нет собственного показа, только клик.
+    tsv = report(token, "click-type", {
+        "SelectionCriteria": sel,
+        "FieldNames": ["ClickType", "Clicks", "AvgCpc", "Cost"],
+        "ReportName": f"bs-clicktype-{int(time.time())}",
+        "ReportType": "CUSTOM_REPORT", "DateRangeType": "ALL_TIME",
+        "Format": "TSV", "IncludeVAT": "YES",
+    })
+    print_tsv("Отчёт по элементам объявления (ClickType)", tsv)
+
+    try:
+        metrika_sections()
+    except Exception as e:  # раздел вспомогательный, сбор Директа важнее
+        print(f"\n(разделы Метрики упали: {e})")
 
 
 if __name__ == "__main__":

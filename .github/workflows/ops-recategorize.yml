@@ -2,7 +2,8 @@
 #
 # Источник — data/catalog/recategorize.json в репозитории: «артикул → слаг
 # целевого раздела», правится ревью в коде, а не вслепую в админке. Товар,
-# уже лежащий в целевом разделе, — no-op.
+# уже лежащий в целевом разделе, — no-op. Блок unpublish снимает позиции с
+# витрины (status → draft), не удаляя их: обратимо сменой статуса в админке.
 #
 # apply=false (по умолчанию) — только отчёт «было → станет», ничего не пишет.
 # Результат — комментарием в журнал issue #22.
@@ -115,6 +116,7 @@ jobs:
 
             plan = json.load(open('/tmp/bz-recategorize/recategorize.json'))
             moves = plan.get('moves', {})
+            unpublish = plan.get('unpublish', [])
 
             cats = call('GET', '/items/categories?limit=-1&fields=id,slug,status',
                         token=read_token)
@@ -122,7 +124,7 @@ jobs:
 
             # Товары берём по артикулу независимо от статуса: скрытая карточка
             # тоже должна лежать в правильном разделе к моменту публикации.
-            flt = urllib.parse.quote(json.dumps({'sku': {'_in': list(moves)}}))
+            flt = urllib.parse.quote(json.dumps({'sku': {'_in': list(moves) + unpublish}}))
             products = call('GET', '/items/products?limit=-1'
                             f'&fields=id,sku,vendor,name,status,category.slug&filter={flt}',
                             token=read_token)
@@ -147,8 +149,19 @@ jobs:
                     continue
                 todo.append((p, was, target, cat['id']))
 
-            print(f'\nПЛАН: позиций {len(moves)}, переехать {len(todo)}, '
-                  f'уже на месте {len(noop)}, проблем {len(problems)}')
+            todo_hide = []
+            for sku in unpublish:
+                p = by_sku.get(sku)
+                if p is None:
+                    problems.append(f'! {sku}: товара для снятия с витрины нет')
+                elif p.get('status') != 'published':
+                    noop.append(sku)
+                else:
+                    todo_hide.append(p)
+
+            print(f'\nПЛАН: позиций {len(moves) + len(unpublish)}, переехать {len(todo)}, '
+                  f'снять с витрины {len(todo_hide)}, уже на месте {len(noop)}, '
+                  f'проблем {len(problems)}')
             for line in problems:
                 print(line)
             if noop:
@@ -157,6 +170,9 @@ jobs:
             for p, was, target, _ in todo:
                 print(f"  {p['sku']:34} {p.get('vendor') or '—':14} "
                       f"{(p.get('name') or '')[:44]:44} {was} → {target}")
+            for p in todo_hide:
+                print(f"  {p['sku']:34} {p.get('vendor') or '—':14} "
+                      f"{(p.get('name') or '')[:44]:44} published → draft")
 
             if not apply:
                 print('\nОТЧЁТ. Ничего не записано (apply=false).')
@@ -169,7 +185,12 @@ jobs:
                 call('PATCH', f"/items/products/{p['id']}",
                      {'category': cat_id}, token=write_token)
                 moved += 1
-            print(f'\nПРИМЕНЕНО: перенесено товаров {moved}.')
+            hidden = 0
+            for p in todo_hide:
+                call('PATCH', f"/items/products/{p['id']}",
+                     {'status': 'draft'}, token=write_token)
+                hidden += 1
+            print(f'\nПРИМЕНЕНО: перенесено товаров {moved}, снято с витрины {hidden}.')
             PY
 
       - name: Post results to journal (issue #22)

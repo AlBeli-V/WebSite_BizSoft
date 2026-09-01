@@ -59,9 +59,22 @@ export const VENDOR_SOLUTIONS: Record<string, string[]> = {
   principle: ['design-studios', 'it-companies', 'inostrannoe-po-po-dogovoru'],
   box: ['po-dlya-yurlic-po-schetu', 'it-companies', 'inostrannoe-po-po-dogovoru'],
 
-  // Разработка
-  unity: ['it-companies', 'inostrannoe-po-po-dogovoru'],
-  'unreal-engine': ['it-companies', 'inostrannoe-po-po-dogovoru'],
+  // Разработка игр (решение заведено 30.08.2026): первые восемь плиток
+  // страницы решения — порядок объявления здесь, движки и звук вперёд.
+  unity: ['po-dlya-razrabotki-igr', 'it-companies', 'inostrannoe-po-po-dogovoru'],
+  'unreal-engine': ['po-dlya-razrabotki-igr', 'it-companies', 'inostrannoe-po-po-dogovoru'],
+  houdini: ['po-dlya-razrabotki-igr', 'design-studios'],
+  wwise: ['po-dlya-razrabotki-igr', 'inostrannoe-po-po-dogovoru'],
+  fmod: ['po-dlya-razrabotki-igr', 'inostrannoe-po-po-dogovoru'],
+  photon: ['po-dlya-razrabotki-igr', 'it-companies'],
+  perforce: ['po-dlya-razrabotki-igr', 'it-companies'],
+  marmoset: ['po-dlya-razrabotki-igr', 'design-studios'],
+  speedtree: ['po-dlya-razrabotki-igr', 'design-studios'],
+  gaea: ['po-dlya-razrabotki-igr', 'design-studios'],
+  spine: ['po-dlya-razrabotki-igr', 'design-studios'],
+  rizomuv: ['po-dlya-razrabotki-igr', 'design-studios'],
+  'marvelous-designer': ['po-dlya-razrabotki-igr', 'design-studios'],
+  reallusion: ['po-dlya-razrabotki-igr', 'design-studios'],
   gitlab: ['it-companies', 'ai-dlya-razrabotchikov'],
   docker: ['it-companies', 'po-dlya-yurlic-po-schetu'],
   atlassian: ['it-companies', 'po-dlya-yurlic-po-schetu', 'inostrannoe-po-po-dogovoru'],
