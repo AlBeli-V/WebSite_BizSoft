@@ -73,10 +73,17 @@ jobs:
             }
             # JB-плагины и личные лицензии не индексируются — считаем отдельно
             def noindex(r):
+                # Тот же набор правил, что в productNoindex() (src/lib/catalog.ts):
+                # плагины Marketplace, личные лицензии JetBrains и карточки
+                # продления. Без -RENEWAL аудит считал продления индексируемыми
+                # и показывал их как дубли первой покупки, хотя в поиск они
+                # не идут вовсе.
                 s = (r.get('sku') or '').upper()
-                return s.startswith('JB-PLG-') or (s.startswith('JB-') and s.endswith('-IND'))
+                return (s.startswith('JB-PLG-')
+                        or (s.startswith('JB-') and s.endswith('-IND'))
+                        or s.endswith('-RENEWAL'))
             idx = [r for r in rows if not noindex(r)]
-            print(f'из них индексируемых (без JB-PLG-* и *-IND): {len(idx)}\n')
+            print(f'из них индексируемых (без JB-PLG-*, *-IND и *-RENEWAL): {len(idx)}\n')
             print('== Проблемы (только по индексируемым) ==')
             for name, test in groups.items():
                 hits = [r for r in idx if test(r)]
