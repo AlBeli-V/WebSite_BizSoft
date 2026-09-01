@@ -74,7 +74,8 @@ def load_impressions(branch: str = SEO_BRANCH) -> dict[str, int]:
     """
     try:
         listing = subprocess.run(
-            ["git", "ls-tree", "--name-only", f"origin/{branch}", f"{WEBMASTER_GLOB}/"],
+            ["git", "ls-tree", "--full-tree", "--name-only",
+             f"origin/{branch}", f"{WEBMASTER_GLOB}/"],
             capture_output=True, text=True, check=True).stdout
     except subprocess.CalledProcessError:
         return {}

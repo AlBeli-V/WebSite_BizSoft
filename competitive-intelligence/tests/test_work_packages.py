@@ -1,6 +1,7 @@
 """Тесты пакетов работ — единицы поручения вместо списка запросов."""
 import os
 import sys
+import tempfile
 import unittest
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -31,7 +32,9 @@ class TestGrouping(unittest.TestCase):
         self.assertEqual(len(packages), 2)
         figma = next(p for p in packages if "figma" in p.url)
         self.assertEqual(figma.queries_count, 2)
-        self.assertEqual(figma.demand_total, 200)
+        # Спрос хранится по источникам и не суммируется между ними
+        self.assertEqual(figma.demand_by_source, {"wordstat": 200})
+        self.assertEqual(figma.demand_queries_by_source, {"wordstat": 2})
 
     def test_позиции_сводятся_в_диапазон(self):
         attacks = [
@@ -180,7 +183,9 @@ class TestOurDomainExcluded(unittest.TestCase):
                  {"domain": "biz-soft.pro", "url": "https://biz-soft.pro/f"}])]
         config = visibility.load_config()
         cards = registry.build(rows, config, date="2026-08-30")
-        snapshot = run_discovery.build_snapshot("2026-08-30", cards, rows, config)
+        snapshot = run_discovery.build_snapshot(
+            "2026-08-30", cards, rows, config,
+            query_sets_path=os.path.join(tempfile.mkdtemp(), "qs.json"))
         domains = [d["домен"] for d in snapshot["лидеры"]]
         self.assertNotIn("biz-soft.pro", domains)
 
@@ -192,11 +197,48 @@ class TestOurDomainExcluded(unittest.TestCase):
                  {"domain": "biz-soft.pro", "url": "https://biz-soft.pro/f"}])]
         config = visibility.load_config()
         cards = registry.build(rows, config, date="2026-08-30")
-        snapshot = run_discovery.build_snapshot("2026-08-30", cards, rows, config)
+        snapshot = run_discovery.build_snapshot(
+            "2026-08-30", cards, rows, config,
+            query_sets_path=os.path.join(tempfile.mkdtemp(), "qs.json"))
         # Обе категории A, но наша доля учтена отдельно
         ours = snapshot["наши_показатели"]["доля_видимости"]
         category_a = snapshot["доли_по_категориям"].get("A", 0)
         self.assertAlmostEqual(category_a + ours, 1.0, places=5)
+
+
+class TestDemandPresentation(unittest.TestCase):
+    """Абсолютный спрос не суммируется между источниками даже для показа.
+
+    Замечание третьей рецензии: «суммарный спрос 1370» из 700 запросов рынка
+    и 670 показов нам визуально складывает несовместимые величины, даже когда
+    математика уже разведена.
+    """
+
+    def test_источники_хранятся_раздельно(self):
+        pkg = work_packages.build([
+            attack("q1", "https://biz-soft.pro/a", 8, demand=700,
+                   demand_source="wordstat", attack_id="ATT-001"),
+            attack("q2", "https://biz-soft.pro/a", 9, demand=670,
+                   demand_source="webmaster", attack_id="ATT-002"),
+        ])[0]
+        self.assertEqual(pkg.demand_by_source,
+                         {"wordstat": 700, "webmaster": 670})
+        self.assertEqual(pkg.demand_queries_by_source,
+                         {"wordstat": 1, "webmaster": 1})
+
+    def test_в_письме_источник_назван(self):
+        from mailer import sections
+        text = sections.format_demand({
+            "demand_by_source": {"wordstat": 700, "webmaster": 670},
+            "demand_queries_by_source": {"wordstat": 1, "webmaster": 1},
+        })
+        self.assertIn("Wordstat", text)
+        self.assertIn("Вебмастера", text)
+        self.assertNotIn("1370", text)
+
+    def test_неизмеренный_спрос_назван_словами(self):
+        from mailer import sections
+        self.assertEqual(sections.format_demand({}), "спрос не измерен")
 
 
 if __name__ == "__main__":
