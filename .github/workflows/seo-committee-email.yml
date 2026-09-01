@@ -1,0 +1,165 @@
+# Отправка еженедельного письма «BIZSoft Growth Committee» (пн ~09:30 МСК)
+# после пуша собранного письма в ветку-хранилище seo-data. Сборка — Routine
+# «Growth Committee» (пн 09:10 МСК): она запускает scripts/seo/committee.py
+# и пушит intelligence/<дата>-committee-email.html; этот workflow только
+# отправляет. SMTP и получатель — как у ежедневного письма (seo-report-email).
+#
+# Сторож: по понедельникам в 07:30 UTC (10:30 МСК) проверка «письмо этой
+# недели ушло»; если нет — короткое уведомление о сбое сборки (одно на дату).
+
+name: seo-committee-email
+
+on:
+  push:
+    branches:
+      - seo-data
+    paths:
+      - "reports/seo/intelligence/*-committee-email.html"
+      - ".github/workflows/seo-committee-email.yml"
+  schedule:
+    - cron: "30 7 * * 1"
+  workflow_dispatch:
+    inputs:
+      subject_prefix:
+        description: 'Префикс темы (например «ТЕСТ — »); при непустом префиксе маркер отправки не пишется'
+        required: false
+        default: ''
+
+permissions:
+  contents: write
+
+jobs:
+  send:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: seo-data
+
+      # Режим: send | notice | skip. Одно письмо на дату сборки (маркер
+      # last-committee-mailed.txt); ручной dispatch маркер игнорирует.
+      - name: Choose mode
+        id: guard
+        run: |
+          today=$(TZ=Europe/Moscow date +%F)
+          latest=$(ls reports/seo/intelligence/*-committee-email.html 2>/dev/null | sort | tail -1)
+          date=$(basename "$latest" 2>/dev/null | sed 's/-committee-email.html//')
+          mailed=$(cat reports/seo/intelligence/last-committee-mailed.txt 2>/dev/null || echo "")
+          noticed=$(cat reports/seo/intelligence/last-committee-notice.txt 2>/dev/null || echo "")
+          echo "date=$date" >> "$GITHUB_OUTPUT"
+          echo "today=$today" >> "$GITHUB_OUTPUT"
+          mode=send
+          case "${{ github.event_name }}" in
+            push)
+              { [ -z "$date" ] || [ ! "$date" \> "$mailed" ]; } && mode=skip
+              ;;
+            schedule)
+              if [ "$date" = "$today" ]; then
+                [ "$mailed" = "$today" ] && mode=skip
+              else
+                mode=notice
+                [ "$noticed" = "$today" ] && mode=skip
+              fi
+              ;;
+          esac
+          [ -z "$date" ] && [ "$mode" = "send" ] && mode=notice
+          echo "mode=$mode" >> "$GITHUB_OUTPUT"
+          echo "Режим: $mode (письмо: ${date:-нет}, сегодня: $today)"
+
+      - name: Send committee letter or failure notice
+        if: steps.guard.outputs.mode != 'skip'
+        env:
+          SMTP_HOST: mail.hosting.reg.ru
+          SMTP_PORT: "465"
+          SMTP_USER: hello@biz-soft.pro
+          SMTP_PASS: ${{ secrets.SMTP_PASS }}
+          MAIL_TO: avbelyaev@biz-soft.pro
+          MODE: ${{ steps.guard.outputs.mode }}
+          TODAY: ${{ steps.guard.outputs.today }}
+          SUBJECT_PREFIX: ${{ inputs.subject_prefix || '' }}
+        run: |
+          if [ -z "$SMTP_PASS" ]; then
+            echo "::error::Repo-секрет SMTP_PASS не задан — письмо не отправлено."
+            exit 1
+          fi
+          python3 - <<'PY'
+          import glob, os, smtplib, ssl, pathlib
+          from email.message import EmailMessage
+          from email.utils import formatdate
+
+          mode = os.environ['MODE']
+          today = os.environ['TODAY']
+          prefix = os.environ.get('SUBJECT_PREFIX', '')
+          files = sorted(glob.glob(
+              'reports/seo/intelligence/*-committee-email.html'))
+
+          msg = EmailMessage()
+          msg['From'] = f'BIZSoft SEO-мониторинг <{os.environ["SMTP_USER"]}>'
+          msg['To'] = os.environ['MAIL_TO']
+          msg['Date'] = formatdate(localtime=True)
+
+          if mode == 'send':
+              if not files:
+                  raise SystemExit('Нет собранных писем комитета')
+              path = files[-1]
+              date = os.path.basename(path).replace('-committee-email.html', '')
+              html = pathlib.Path(path).read_text(encoding='utf-8')
+              plain = pathlib.Path(
+                  f'reports/seo/intelligence/{date}-committee.txt'
+              ).read_text(encoding='utf-8')
+              msg['Subject'] = f'{prefix}BIZSoft Growth Committee — {date}'
+              msg.set_content(plain)
+              msg.add_alternative(html, subtype='html')
+              print(f'Committee: {path}')
+          else:
+              last = (os.path.basename(files[-1]).replace(
+                  '-committee-email.html', '') if files else 'нет ни одного')
+              msg['Subject'] = (f'{prefix}BIZSoft Growth Committee — сбой '
+                                f'сборки за {today}')
+              msg.set_content(
+                  f'Еженедельное письмо комитета за {today} не собралось к '
+                  'контрольному времени (10:30 МСК).\n'
+                  f'Последнее успешное — за {last}.\n\n'
+                  'Что смотреть: журнал операций — issue #22, прогоны — '
+                  'https://github.com/AlBeli-V/WebSite_BizSoft/actions.')
+              print(f'Уведомление о сбое за {today}')
+
+          host, port = os.environ['SMTP_HOST'], int(os.environ['SMTP_PORT'])
+          try:
+              with smtplib.SMTP_SSL(host, port,
+                                    context=ssl.create_default_context(),
+                                    timeout=60) as sm:
+                  sm.login(os.environ['SMTP_USER'], os.environ['SMTP_PASS'])
+                  sm.send_message(msg)
+          except (smtplib.SMTPException, OSError) as e:
+              print(f'465/SSL не сработал ({e}), пробую 587/STARTTLS')
+              with smtplib.SMTP(host, 587, timeout=60) as sm:
+                  sm.starttls(context=ssl.create_default_context())
+                  sm.login(os.environ['SMTP_USER'], os.environ['SMTP_PASS'])
+                  sm.send_message(msg)
+          print('Отправлено:', msg['Subject'])
+          PY
+
+      - name: Record marker
+        # Тестовая отправка (с префиксом темы) маркер не пишет: она не должна
+        # блокировать штатную доставку письма за ту же дату.
+        if: steps.guard.outputs.mode != 'skip' && (inputs.subject_prefix || '') == ''
+        run: |
+          git config user.name "Claude"
+          git config user.email "noreply@anthropic.com"
+          if [ "${{ steps.guard.outputs.mode }}" = "send" ]; then
+            echo "${{ steps.guard.outputs.date }}" > reports/seo/intelligence/last-committee-mailed.txt
+            git add reports/seo/intelligence/last-committee-mailed.txt
+            note="Письмо комитета за ${{ steps.guard.outputs.date }} отправлено"
+          else
+            echo "${{ steps.guard.outputs.today }}" > reports/seo/intelligence/last-committee-notice.txt
+            git add reports/seo/intelligence/last-committee-notice.txt
+            note="Уведомление о сбое комитета за ${{ steps.guard.outputs.today }} отправлено"
+          fi
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "$note"
+          for i in 1 2 3; do
+            git pull --rebase origin seo-data && git push origin HEAD:seo-data && exit 0
+            sleep $((i * 5))
+          done
+          echo "::warning::Маркер отправки не записан — возможна повторная отправка при следующем запуске."

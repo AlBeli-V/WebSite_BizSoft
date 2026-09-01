@@ -8,9 +8,9 @@ import FAQ from '../../../components/FAQ.astro';
 import CTASection from '../../../components/CTASection.astro';
 import QuestionForm from '../../../components/QuestionForm.astro';
 import JsonLd from '../../../components/JsonLd.astro';
-import { getProducts, getCategoryBySlug } from '../../../lib/directus';
+import { getProducts, getCategoryBySlug, getProductsBySlugs } from '../../../lib/directus';
 import { itemListSchema } from '../../../lib/seo';
-import { getAiSubcategory } from '../../../data/ai-hub';
+import { getAiSubcategory, aiEnterpriseSlugs } from '../../../data/ai-hub';
 import { comparisons } from '../../../data/comparisons';
 import { effectivePrice } from '../../../lib/pricing';
 import type { Product } from '../../../lib/types';
@@ -32,8 +32,22 @@ let products: Product[] = [];
 try {
   pageCategory = await getCategoryBySlug(meta.categorySlug);
   if (pageCategory) products = await getProducts({ categorySlug: meta.categorySlug });
-  // «Цена по запросу» — всегда в конце списка
-  products.sort((a, b) => Number(!(effectivePrice(a).price > 0)) - Number(!(effectivePrice(b).price > 0)));
+  if (meta.sub === 'enterprise') {
+    // «Корпоративные AI» — кросс-коллекция: у товара одна категория, и
+    // enterprise-тарифы живут в тематических подкатегориях (ai-text, ai-code,
+    // ai-office). Сюда они попадают по явному списку из ai-hub.ts, его порядок
+    // задаёт порядок карточек; прямые привязки к ai-enterprise — следом.
+    const cross = await getProductsBySlugs(aiEnterpriseSlugs);
+    const bySlug = new Map(cross.map((p) => [p.slug, p]));
+    const ordered = aiEnterpriseSlugs
+      .map((s) => bySlug.get(s))
+      .filter((p): p is Product => Boolean(p));
+    const crossSlugs = new Set(ordered.map((p) => p.slug));
+    products = [...ordered, ...products.filter((p) => !crossSlugs.has(p.slug))];
+  } else {
+    // «Цена по запросу» — всегда в конце списка
+    products.sort((a, b) => Number(!(effectivePrice(a).price > 0)) - Number(!(effectivePrice(b).price > 0)));
+  }
 } catch (e) {
   console.error('ai sub catalog error', e);
 }

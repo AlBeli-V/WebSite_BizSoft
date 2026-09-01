@@ -80,6 +80,19 @@ jobs:
           grep -qE '^Ran [1-9][0-9]* tests' /tmp/py-tests.log \
             || { echo 'Тестов не найдено — проверка ничего не значит'; exit 1; }
 
+      - name: Тесты конкурентной разведки
+        # Отдельный контур со своим кодом и своими данными, поэтому и прогон
+        # отдельный: падение его тестов не должно выглядеть как поломка
+        # базового SEO-конвейера. Проверка «Ran N tests» — по той же причине,
+        # что и выше: пустой discover выходит с кодом 0.
+        run: |
+          set -o pipefail
+          python3 -m unittest discover -s competitive-intelligence/tests \
+            -t competitive-intelligence/tests -p 'test_*.py' 2>&1 \
+            | tee /tmp/ci-tests.log
+          grep -qE '^Ran [1-9][0-9]* tests' /tmp/ci-tests.log \
+            || { echo 'Тестов не найдено — проверка ничего не значит'; exit 1; }
+
       - name: Проверка типов
         run: pnpm typecheck
 
