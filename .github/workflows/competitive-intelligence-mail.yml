@@ -9,6 +9,12 @@
 # НОВЕЕ последнего отправленного (иначе повторный пуш переотправляет старое);
 # сторожевой запуск шлёт честное уведомление о сбое вместо устаревшего
 # письма — старый отчёт под видом свежего худший из возможных фолбэков.
+# ВАЖНО: копия этого файла обязана лежать в ветке competitive-data.
+# GitHub берёт определение workflow из той ветки, в которую пришёл push, а не
+# из main. Пока копии в ветке данных не было, push отчёта не запускал отправку
+# ни разу — письмо могло уйти только ручным запуском (01.09.2026). Меняя этот
+# файл, тем же содержимым обнови копию в competitive-data, иначе push-триггер
+# будет работать по устаревшей логике. Так же устроен seo-report-email.yml.
 name: competitive-intelligence-mail
 
 on:
@@ -184,17 +190,35 @@ jobs:
           DATE: ${{ steps.guard.outputs.date }}
           TODAY: ${{ steps.guard.outputs.today }}
         run: |
+          # Ставится в индекс ровно тот файл, который только что записан.
+          # Раньше здесь было `git add last-mailed.txt last-notice.txt`: если
+          # второго файла ещё не существует, git add отвергает весь вызов и не
+          # ставит в индекс НИЧЕГО. Коммита не возникало, push сообщал
+          # «Everything up-to-date», шаг завершался успехом — а маркер не
+          # сохранялся. Защита от повторной отправки не работала ни разу:
+          # 01.09.2026 руководитель получил два одинаковых письма подряд.
           if [ "$MODE" = "send" ]; then
             echo "$DATE" > reports/competitive/last-mailed.txt
+            marker=reports/competitive/last-mailed.txt
+            note="Письмо за $DATE отправлено"
           else
             echo "$TODAY" > reports/competitive/last-notice.txt
+            marker=reports/competitive/last-notice.txt
+            note="Уведомление о сбое за $TODAY отправлено"
           fi
           git config user.name "Claude"
           git config user.email "noreply@anthropic.com"
-          git add reports/competitive/last-mailed.txt reports/competitive/last-notice.txt 2>/dev/null || true
-          git diff --cached --quiet || git commit -q -m "Маркер отправки письма конкурентной разведки"
+          git add "$marker"
+          git diff --cached --quiet || git commit -q -m "$note"
           for attempt in 1 2 3; do
-            git push origin HEAD:competitive-data && break
+            if git push origin HEAD:competitive-data; then
+              echo "Маркер сохранён: $marker"
+              exit 0
+            fi
             git pull --rebase -X ours origin competitive-data || true
             sleep $((attempt * 5))
           done
+          # Молчаливая потеря маркера означает, что следующий push отправит то
+          # же письмо ещё раз. Это ошибка, а не мелочь: шаг обязан упасть.
+          echo "::error::Маркер $marker не сохранён за три попытки — следующая отправка будет дублем"
+          exit 1
