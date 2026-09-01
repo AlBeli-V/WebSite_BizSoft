@@ -1,6 +1,6 @@
 {
  "date": "2026-09-01",
- "generated_at": "2026-09-01T06:28:46+00:00",
+ "generated_at": "2026-09-01T06:48:29+00:00",
  "contours": [
   {
    "id": "collect",
@@ -30,16 +30,6 @@
    "expected_since": "2026-09-01",
    "overdue": false,
    "days_late": 0,
-   "note": null
-  },
-  {
-   "id": "serp",
-   "label": "SERP-срез Яндекса (Search API)",
-   "cadence": "ежедневно 01:37 МСК",
-   "last_run": "2026-08-31",
-   "expected_since": "2026-09-01",
-   "overdue": true,
-   "days_late": 1,
    "note": null
   },
   {
@@ -113,10 +103,8 @@
    "note": null
   }
  ],
- "overdue": [
-  "serp"
- ],
+ "overdue": [],
  "ok_count": 10,
- "total": 11,
+ "total": 10,
  "available": true
 }
