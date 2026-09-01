@@ -23,9 +23,10 @@ const plan = JSON.parse(
 };
 const segmentPage = readFileSync(resolve(ROOT, 'src/pages/catalog/[segment].astro'), 'utf8');
 const icons = readFileSync(resolve(ROOT, 'src/components/CategoryIcon.astro'), 'utf8');
+// Ключ с дефисом записан в кавычках ('ai-text': …) — регексп понимает оба вида.
 const iconSlugs = new Set(
-  (icons.match(/const BY_SLUG[^}]+}/)![0].match(/^\s{2}([a-z-]+):/gm) || [])
-    .map((line) => line.trim().replace(':', '')),
+  (icons.match(/const BY_SLUG[^}]+}/)![0].match(/^\s{2}'?([a-z-]+)'?:/gm) || [])
+    .map((line) => line.trim().replace(/[':]/g, '')),
 );
 
 const packages = readdirSync(resolve(ROOT, 'scripts/catalog'))

@@ -76,10 +76,12 @@ const baseFaq = content.faq?.length ? content.faq : [
   { q: `Можно ли оплатить ${title} с расчётного счёта организации?`, a: `Да. Мы работаем с юрлицами и ИП по договору и счёту, предоставляем закрывающие документы для бухгалтерии.` },
   { q: `Как быстро предоставляется доступ к ${title}?`, a: `После поступления оплаты передаём ключи, доступы или инструкции по активации в согласованные сроки.` },
 ];
-// SEO-эксперимент snippets-5-vendors: на 5 целевых страницах FAQ-блок
-// «Как купить {Vendor} на юрлицо» целиком заменяет типовой; остальные — контроль.
+// SEO-эксперименты со сниппетами: `faq` целиком заменяет типовой блок
+// (snippets-5-vendors, snippets-6-demand), `faqAdd` добавляет вопрос под
+// запросную формулу первым, сохраняя собственный FAQ страницы
+// (snippets-3-gap-d). Остальные vendor-страницы — контрольная группа.
 const exp = SEO_EXPERIMENTS[entry.slug];
-const faq = exp ? exp.faq : baseFaq;
+const faq = exp?.faq ?? (exp?.faqAdd ? [...exp.faqAdd, ...baseFaq] : baseFaq);
 const faqTitle = exp ? exp.faqTitle : `Частые вопросы про ${title} для бизнеса`;
 
 const summaryText = content.summary || `${entry.about} BIZSoft поставляет ${title} российским юрлицам и ИП по договору с оплатой по счёту.`;

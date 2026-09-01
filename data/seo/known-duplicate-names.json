@@ -1,0 +1,1070 @@
+{
+  "_purpose": "Известный долг каталога, заведённый до правила 01.09.2026: карточки с одинаковым названием (duplicate_names) и с одинаковым коротким описанием (duplicate_short_descriptions — текст и число позиций). Тест tests/catalog-uniqueness.test.ts не пускает НОВЫЕ такие группы и не даёт расти старым; строку удаляют, когда группу развели — заново она не появится.",
+  "_generated": "2026-09-01",
+  "duplicate_names": {
+    "ManageEngine DataSecurity Plus Professional — сопровождение вендора на год, 10 TB": [
+      "me-datasecurity-plus-professional-data-risk-assessment-10-tb-perp-ams",
+      "me-datasecurity-plus-professional-fileanalysis-10-tb-perp-ams"
+    ],
+    "ManageEngine DataSecurity Plus Professional — сопровождение вендора на год, 15 TB": [
+      "me-datasecurity-plus-professional-data-risk-assessment-15-tb-perp-ams",
+      "me-datasecurity-plus-professional-fileanalysis-15-tb-perp-ams"
+    ],
+    "ManageEngine DataSecurity Plus Professional — сопровождение вендора на год, 2 TB": [
+      "me-datasecurity-plus-professional-data-risk-assessment-2-tb-perp-ams",
+      "me-datasecurity-plus-professional-fileanalysis-2-tb-perp-ams"
+    ],
+    "ManageEngine DataSecurity Plus Professional — сопровождение вендора на год, 20 TB": [
+      "me-datasecurity-plus-professional-data-risk-assessment-20-tb-perp-ams",
+      "me-datasecurity-plus-professional-fileanalysis-20-tb-perp-ams"
+    ],
+    "ManageEngine DataSecurity Plus Professional — сопровождение вендора на год, 5 TB": [
+      "me-datasecurity-plus-professional-data-risk-assessment-5-tb-perp-ams",
+      "me-datasecurity-plus-professional-fileanalysis-5-tb-perp-ams"
+    ],
+    "ManageEngine DataSecurity Plus Professional, 10 TB": [
+      "me-datasecurity-plus-professional-data-risk-assessment-10-tb",
+      "me-datasecurity-plus-professional-fileanalysis-10-tb"
+    ],
+    "ManageEngine DataSecurity Plus Professional, 10 TB, вечная лицензия": [
+      "me-datasecurity-plus-professional-data-risk-assessment-10-tb-perp",
+      "me-datasecurity-plus-professional-fileanalysis-10-tb-perp"
+    ],
+    "ManageEngine DataSecurity Plus Professional, 15 TB": [
+      "me-datasecurity-plus-professional-data-risk-assessment-15-tb",
+      "me-datasecurity-plus-professional-fileanalysis-15-tb"
+    ],
+    "ManageEngine DataSecurity Plus Professional, 15 TB, вечная лицензия": [
+      "me-datasecurity-plus-professional-data-risk-assessment-15-tb-perp",
+      "me-datasecurity-plus-professional-fileanalysis-15-tb-perp"
+    ],
+    "ManageEngine DataSecurity Plus Professional, 20 TB": [
+      "me-datasecurity-plus-professional-data-risk-assessment-20-tb",
+      "me-datasecurity-plus-professional-fileanalysis-20-tb"
+    ],
+    "ManageEngine DataSecurity Plus Professional, 20 TB, вечная лицензия": [
+      "me-datasecurity-plus-professional-data-risk-assessment-20-tb-perp",
+      "me-datasecurity-plus-professional-fileanalysis-20-tb-perp"
+    ],
+    "ManageEngine DataSecurity Plus Professional, 5 TB": [
+      "me-datasecurity-plus-professional-data-risk-assessment-5-tb",
+      "me-datasecurity-plus-professional-fileanalysis-5-tb"
+    ],
+    "ManageEngine DataSecurity Plus Professional, 5 TB, вечная лицензия": [
+      "me-datasecurity-plus-professional-data-risk-assessment-5-tb-perp",
+      "me-datasecurity-plus-professional-fileanalysis-5-tb-perp"
+    ],
+    "ManageEngine Endpoint Central MSP, 100 Workstations": [
+      "me-endpoint-central-msp-application-control-100-workstations",
+      "me-endpoint-central-msp-bitlocker-100-workstations",
+      "me-endpoint-central-msp-malware-protection-100-workstations",
+      "me-endpoint-central-msp-ransomware-protection-100-workstations"
+    ],
+    "ManageEngine Endpoint Central MSP, 1000 Workstations": [
+      "me-endpoint-central-msp-application-control-1000-workstations",
+      "me-endpoint-central-msp-bitlocker-1000-workstations",
+      "me-endpoint-central-msp-malware-protection-1000-workstations",
+      "me-endpoint-central-msp-ransomware-protection-1000-workstations"
+    ],
+    "ManageEngine Endpoint Central MSP, 10000 Workstations": [
+      "me-endpoint-central-msp-application-control-10000-workstations",
+      "me-endpoint-central-msp-bitlocker-10000-workstations",
+      "me-endpoint-central-msp-malware-protection-10000-workstations",
+      "me-endpoint-central-msp-ransomware-protection-10000-workstations"
+    ],
+    "ManageEngine Endpoint Central MSP, 250 Workstations": [
+      "me-endpoint-central-msp-application-control-250-workstations",
+      "me-endpoint-central-msp-bitlocker-250-workstations",
+      "me-endpoint-central-msp-malware-protection-250-workstations",
+      "me-endpoint-central-msp-ransomware-protection-250-workstations"
+    ],
+    "ManageEngine Endpoint Central MSP, 2500 Workstations": [
+      "me-endpoint-central-msp-application-control-2500-workstations",
+      "me-endpoint-central-msp-bitlocker-2500-workstations",
+      "me-endpoint-central-msp-malware-protection-2500-workstations",
+      "me-endpoint-central-msp-ransomware-protection-2500-workstations"
+    ],
+    "ManageEngine Endpoint Central MSP, 50 Workstations": [
+      "me-endpoint-central-msp-application-control-50-workstations",
+      "me-endpoint-central-msp-bitlocker-50-workstations",
+      "me-endpoint-central-msp-malware-protection-50-workstations",
+      "me-endpoint-central-msp-ransomware-protection-50-workstations"
+    ],
+    "ManageEngine Endpoint Central MSP, 500 Workstations": [
+      "me-endpoint-central-msp-application-control-500-workstations",
+      "me-endpoint-central-msp-bitlocker-500-workstations",
+      "me-endpoint-central-msp-malware-protection-500-workstations",
+      "me-endpoint-central-msp-ransomware-protection-500-workstations"
+    ],
+    "ManageEngine Endpoint Central MSP, 5000 Workstations": [
+      "me-endpoint-central-msp-application-control-5000-workstations",
+      "me-endpoint-central-msp-bitlocker-5000-workstations",
+      "me-endpoint-central-msp-malware-protection-5000-workstations",
+      "me-endpoint-central-msp-ransomware-protection-5000-workstations"
+    ],
+    "ManageEngine Endpoint Central — сопровождение вендора на год, 10 Servers": [
+      "me-endpoint-central-malware-protection-10-servers-perp-ams",
+      "me-endpoint-central-os-deployment-10-servers-perp-ams",
+      "me-endpoint-central-ransomware-protection-10-servers-perp-ams"
+    ],
+    "ManageEngine Endpoint Central — сопровождение вендора на год, 100 Servers": [
+      "me-endpoint-central-malware-protection-100-servers-perp-ams",
+      "me-endpoint-central-os-deployment-100-servers-perp-ams",
+      "me-endpoint-central-ransomware-protection-100-servers-perp-ams"
+    ],
+    "ManageEngine Endpoint Central — сопровождение вендора на год, 100 Workstations": [
+      "me-endpoint-central-malware-protection-100-workstations-perp-ams",
+      "me-endpoint-central-os-deployment-100-workstations-perp-ams",
+      "me-endpoint-central-ransomware-protection-100-workstations-perp-ams",
+      "me-endpoint-central-secure-private-access-100-workstations-perp-ams"
+    ],
+    "ManageEngine Endpoint Central — сопровождение вендора на год, 1000 Servers": [
+      "me-endpoint-central-malware-protection-1000-servers-perp-ams",
+      "me-endpoint-central-ransomware-protection-1000-servers-perp-ams"
+    ],
+    "ManageEngine Endpoint Central — сопровождение вендора на год, 1000 Workstations": [
+      "me-endpoint-central-malware-protection-1000-workstations-perp-ams",
+      "me-endpoint-central-os-deployment-1000-workstations-perp-ams",
+      "me-endpoint-central-ransomware-protection-1000-workstations-perp-ams",
+      "me-endpoint-central-secure-private-access-1000-workstations-perp-ams"
+    ],
+    "ManageEngine Endpoint Central — сопровождение вендора на год, 10000 Workstations": [
+      "me-endpoint-central-malware-protection-10000-workstations-perp-ams",
+      "me-endpoint-central-ransomware-protection-10000-workstations-perp-ams",
+      "me-endpoint-central-secure-private-access-10000-workstations-perp-ams"
+    ],
+    "ManageEngine Endpoint Central — сопровождение вендора на год, 25 Servers": [
+      "me-endpoint-central-malware-protection-25-servers-perp-ams",
+      "me-endpoint-central-os-deployment-25-servers-perp-ams",
+      "me-endpoint-central-ransomware-protection-25-servers-perp-ams"
+    ],
+    "ManageEngine Endpoint Central — сопровождение вендора на год, 250 Servers": [
+      "me-endpoint-central-malware-protection-250-servers-perp-ams",
+      "me-endpoint-central-os-deployment-250-servers-perp-ams",
+      "me-endpoint-central-ransomware-protection-250-servers-perp-ams"
+    ],
+    "ManageEngine Endpoint Central — сопровождение вендора на год, 250 Workstations": [
+      "me-endpoint-central-malware-protection-250-workstations-perp-ams",
+      "me-endpoint-central-os-deployment-250-workstations-perp-ams",
+      "me-endpoint-central-ransomware-protection-250-workstations-perp-ams",
+      "me-endpoint-central-secure-private-access-250-workstations-perp-ams"
+    ],
+    "ManageEngine Endpoint Central — сопровождение вендора на год, 2500 Servers": [
+      "me-endpoint-central-malware-protection-2500-servers-perp-ams",
+      "me-endpoint-central-ransomware-protection-2500-servers-perp-ams"
+    ],
+    "ManageEngine Endpoint Central — сопровождение вендора на год, 2500 Workstations": [
+      "me-endpoint-central-malware-protection-2500-workstations-perp-ams",
+      "me-endpoint-central-os-deployment-2500-workstations-perp-ams",
+      "me-endpoint-central-ransomware-protection-2500-workstations-perp-ams",
+      "me-endpoint-central-secure-private-access-2500-workstations-perp-ams"
+    ],
+    "ManageEngine Endpoint Central — сопровождение вендора на год, 50 Servers": [
+      "me-endpoint-central-malware-protection-50-servers-perp-ams",
+      "me-endpoint-central-os-deployment-50-servers-perp-ams",
+      "me-endpoint-central-ransomware-protection-50-servers-perp-ams"
+    ],
+    "ManageEngine Endpoint Central — сопровождение вендора на год, 50 Workstations": [
+      "me-endpoint-central-malware-protection-50-workstations-perp-ams",
+      "me-endpoint-central-os-deployment-50-workstations-perp-ams",
+      "me-endpoint-central-ransomware-protection-50-workstations-perp-ams",
+      "me-endpoint-central-secure-private-access-50-workstations-perp-ams"
+    ],
+    "ManageEngine Endpoint Central — сопровождение вендора на год, 500 Servers": [
+      "me-endpoint-central-malware-protection-500-servers-perp-ams",
+      "me-endpoint-central-os-deployment-500-servers-perp-ams",
+      "me-endpoint-central-ransomware-protection-500-servers-perp-ams"
+    ],
+    "ManageEngine Endpoint Central — сопровождение вендора на год, 500 Workstations": [
+      "me-endpoint-central-malware-protection-500-workstations-perp-ams",
+      "me-endpoint-central-os-deployment-500-workstations-perp-ams",
+      "me-endpoint-central-ransomware-protection-500-workstations-perp-ams",
+      "me-endpoint-central-secure-private-access-500-workstations-perp-ams"
+    ],
+    "ManageEngine Endpoint Central — сопровождение вендора на год, 5000 Servers": [
+      "me-endpoint-central-malware-protection-5000-servers-perp-ams",
+      "me-endpoint-central-ransomware-protection-5000-servers-perp-ams"
+    ],
+    "ManageEngine Endpoint Central — сопровождение вендора на год, 5000 Workstations": [
+      "me-endpoint-central-malware-protection-5000-workstations-perp-ams",
+      "me-endpoint-central-os-deployment-5000-workstations-perp-ams",
+      "me-endpoint-central-ransomware-protection-5000-workstations-perp-ams",
+      "me-endpoint-central-secure-private-access-5000-workstations-perp-ams"
+    ],
+    "ManageEngine Endpoint Central, 10 Servers": [
+      "me-endpoint-central-malware-protection-10-servers",
+      "me-endpoint-central-os-deployment-10-servers",
+      "me-endpoint-central-ransomware-protection-10-servers"
+    ],
+    "ManageEngine Endpoint Central, 10 Servers, вечная лицензия": [
+      "me-endpoint-central-malware-protection-10-servers-perp",
+      "me-endpoint-central-os-deployment-10-servers-perp",
+      "me-endpoint-central-ransomware-protection-10-servers-perp"
+    ],
+    "ManageEngine Endpoint Central, 100 Servers": [
+      "me-endpoint-central-malware-protection-100-servers",
+      "me-endpoint-central-os-deployment-100-servers",
+      "me-endpoint-central-ransomware-protection-100-servers"
+    ],
+    "ManageEngine Endpoint Central, 100 Servers, вечная лицензия": [
+      "me-endpoint-central-malware-protection-100-servers-perp",
+      "me-endpoint-central-os-deployment-100-servers-perp",
+      "me-endpoint-central-ransomware-protection-100-servers-perp"
+    ],
+    "ManageEngine Endpoint Central, 100 Workstations": [
+      "me-endpoint-central-malware-protection-100-workstations",
+      "me-endpoint-central-os-deployment-100-workstations",
+      "me-endpoint-central-ransomware-protection-100-workstations",
+      "me-endpoint-central-secure-private-access-100-workstations"
+    ],
+    "ManageEngine Endpoint Central, 100 Workstations, вечная лицензия": [
+      "me-endpoint-central-malware-protection-100-workstations-perp",
+      "me-endpoint-central-os-deployment-100-workstations-perp",
+      "me-endpoint-central-ransomware-protection-100-workstations-perp",
+      "me-endpoint-central-secure-private-access-100-workstations-perp"
+    ],
+    "ManageEngine Endpoint Central, 1000 Servers": [
+      "me-endpoint-central-malware-protection-1000-servers",
+      "me-endpoint-central-ransomware-protection-1000-servers"
+    ],
+    "ManageEngine Endpoint Central, 1000 Servers, вечная лицензия": [
+      "me-endpoint-central-malware-protection-1000-servers-perp",
+      "me-endpoint-central-ransomware-protection-1000-servers-perp"
+    ],
+    "ManageEngine Endpoint Central, 1000 Workstations": [
+      "me-endpoint-central-malware-protection-1000-workstations",
+      "me-endpoint-central-os-deployment-1000-workstations",
+      "me-endpoint-central-ransomware-protection-1000-workstations",
+      "me-endpoint-central-secure-private-access-1000-workstations"
+    ],
+    "ManageEngine Endpoint Central, 1000 Workstations, вечная лицензия": [
+      "me-endpoint-central-malware-protection-1000-workstations-perp",
+      "me-endpoint-central-os-deployment-1000-workstations-perp",
+      "me-endpoint-central-ransomware-protection-1000-workstations-perp",
+      "me-endpoint-central-secure-private-access-1000-workstations-perp"
+    ],
+    "ManageEngine Endpoint Central, 10000 Workstations": [
+      "me-endpoint-central-malware-protection-10000-workstations",
+      "me-endpoint-central-ransomware-protection-10000-workstations",
+      "me-endpoint-central-secure-private-access-10000-workstations"
+    ],
+    "ManageEngine Endpoint Central, 10000 Workstations, вечная лицензия": [
+      "me-endpoint-central-malware-protection-10000-workstations-perp",
+      "me-endpoint-central-ransomware-protection-10000-workstations-perp",
+      "me-endpoint-central-secure-private-access-10000-workstations-perp"
+    ],
+    "ManageEngine Endpoint Central, 25 Servers": [
+      "me-endpoint-central-malware-protection-25-servers",
+      "me-endpoint-central-os-deployment-25-servers",
+      "me-endpoint-central-ransomware-protection-25-servers"
+    ],
+    "ManageEngine Endpoint Central, 25 Servers, вечная лицензия": [
+      "me-endpoint-central-malware-protection-25-servers-perp",
+      "me-endpoint-central-os-deployment-25-servers-perp",
+      "me-endpoint-central-ransomware-protection-25-servers-perp"
+    ],
+    "ManageEngine Endpoint Central, 250 Servers": [
+      "me-endpoint-central-malware-protection-250-servers",
+      "me-endpoint-central-os-deployment-250-servers",
+      "me-endpoint-central-ransomware-protection-250-servers"
+    ],
+    "ManageEngine Endpoint Central, 250 Servers, вечная лицензия": [
+      "me-endpoint-central-malware-protection-250-servers-perp",
+      "me-endpoint-central-os-deployment-250-servers-perp",
+      "me-endpoint-central-ransomware-protection-250-servers-perp"
+    ],
+    "ManageEngine Endpoint Central, 250 Workstations": [
+      "me-endpoint-central-malware-protection-250-workstations",
+      "me-endpoint-central-os-deployment-250-workstations",
+      "me-endpoint-central-ransomware-protection-250-workstations",
+      "me-endpoint-central-secure-private-access-250-workstations"
+    ],
+    "ManageEngine Endpoint Central, 250 Workstations, вечная лицензия": [
+      "me-endpoint-central-malware-protection-250-workstations-perp",
+      "me-endpoint-central-os-deployment-250-workstations-perp",
+      "me-endpoint-central-ransomware-protection-250-workstations-perp",
+      "me-endpoint-central-secure-private-access-250-workstations-perp"
+    ],
+    "ManageEngine Endpoint Central, 2500 Servers": [
+      "me-endpoint-central-malware-protection-2500-servers",
+      "me-endpoint-central-ransomware-protection-2500-servers"
+    ],
+    "ManageEngine Endpoint Central, 2500 Servers, вечная лицензия": [
+      "me-endpoint-central-malware-protection-2500-servers-perp",
+      "me-endpoint-central-ransomware-protection-2500-servers-perp"
+    ],
+    "ManageEngine Endpoint Central, 2500 Workstations": [
+      "me-endpoint-central-malware-protection-2500-workstations",
+      "me-endpoint-central-os-deployment-2500-workstations",
+      "me-endpoint-central-ransomware-protection-2500-workstations",
+      "me-endpoint-central-secure-private-access-2500-workstations"
+    ],
+    "ManageEngine Endpoint Central, 2500 Workstations, вечная лицензия": [
+      "me-endpoint-central-malware-protection-2500-workstations-perp",
+      "me-endpoint-central-os-deployment-2500-workstations-perp",
+      "me-endpoint-central-ransomware-protection-2500-workstations-perp",
+      "me-endpoint-central-secure-private-access-2500-workstations-perp"
+    ],
+    "ManageEngine Endpoint Central, 50 Servers": [
+      "me-endpoint-central-malware-protection-50-servers",
+      "me-endpoint-central-os-deployment-50-servers",
+      "me-endpoint-central-ransomware-protection-50-servers"
+    ],
+    "ManageEngine Endpoint Central, 50 Servers, вечная лицензия": [
+      "me-endpoint-central-malware-protection-50-servers-perp",
+      "me-endpoint-central-os-deployment-50-servers-perp",
+      "me-endpoint-central-ransomware-protection-50-servers-perp"
+    ],
+    "ManageEngine Endpoint Central, 50 Workstations": [
+      "me-endpoint-central-malware-protection-50-workstations",
+      "me-endpoint-central-os-deployment-50-workstations",
+      "me-endpoint-central-ransomware-protection-50-workstations",
+      "me-endpoint-central-secure-private-access-50-workstations"
+    ],
+    "ManageEngine Endpoint Central, 50 Workstations, вечная лицензия": [
+      "me-endpoint-central-malware-protection-50-workstations-perp",
+      "me-endpoint-central-os-deployment-50-workstations-perp",
+      "me-endpoint-central-ransomware-protection-50-workstations-perp",
+      "me-endpoint-central-secure-private-access-50-workstations-perp"
+    ],
+    "ManageEngine Endpoint Central, 500 Servers": [
+      "me-endpoint-central-malware-protection-500-servers",
+      "me-endpoint-central-os-deployment-500-servers",
+      "me-endpoint-central-ransomware-protection-500-servers"
+    ],
+    "ManageEngine Endpoint Central, 500 Servers, вечная лицензия": [
+      "me-endpoint-central-malware-protection-500-servers-perp",
+      "me-endpoint-central-os-deployment-500-servers-perp",
+      "me-endpoint-central-ransomware-protection-500-servers-perp"
+    ],
+    "ManageEngine Endpoint Central, 500 Workstations": [
+      "me-endpoint-central-malware-protection-500-workstations",
+      "me-endpoint-central-os-deployment-500-workstations",
+      "me-endpoint-central-ransomware-protection-500-workstations",
+      "me-endpoint-central-secure-private-access-500-workstations"
+    ],
+    "ManageEngine Endpoint Central, 500 Workstations, вечная лицензия": [
+      "me-endpoint-central-malware-protection-500-workstations-perp",
+      "me-endpoint-central-os-deployment-500-workstations-perp",
+      "me-endpoint-central-ransomware-protection-500-workstations-perp",
+      "me-endpoint-central-secure-private-access-500-workstations-perp"
+    ],
+    "ManageEngine Endpoint Central, 5000 Servers": [
+      "me-endpoint-central-malware-protection-5000-servers",
+      "me-endpoint-central-ransomware-protection-5000-servers"
+    ],
+    "ManageEngine Endpoint Central, 5000 Servers, вечная лицензия": [
+      "me-endpoint-central-malware-protection-5000-servers-perp",
+      "me-endpoint-central-ransomware-protection-5000-servers-perp"
+    ],
+    "ManageEngine Endpoint Central, 5000 Workstations": [
+      "me-endpoint-central-malware-protection-5000-workstations",
+      "me-endpoint-central-os-deployment-5000-workstations",
+      "me-endpoint-central-ransomware-protection-5000-workstations",
+      "me-endpoint-central-secure-private-access-5000-workstations"
+    ],
+    "ManageEngine Endpoint Central, 5000 Workstations, вечная лицензия": [
+      "me-endpoint-central-malware-protection-5000-workstations-perp",
+      "me-endpoint-central-os-deployment-5000-workstations-perp",
+      "me-endpoint-central-ransomware-protection-5000-workstations-perp",
+      "me-endpoint-central-secure-private-access-5000-workstations-perp"
+    ],
+    "ManageEngine NetFlow Analyzer — сопровождение вендора на год, 250 Used Switch Ports in SPM and 250 Used IP Addresses in IPAM": [
+      "me-netflow-analyzer-ipam-spm-250-used-switch-ports-in-spm-and-250-used-ip-perp-2-ams",
+      "me-netflow-analyzer-ipam-spm-250-used-switch-ports-in-spm-and-250-used-ip-perp-ams"
+    ],
+    "ManageEngine NetFlow Analyzer — сопровождение вендора на год, Every additional 250 Used IP Addresses in IP Address Manager (IPAM)": [
+      "me-netflow-analyzer-ipam-spm-every-additional-250-used-ip-addresses-in-ip-perp-2-ams",
+      "me-netflow-analyzer-ipam-spm-every-additional-250-used-ip-addresses-in-ip-perp-ams"
+    ],
+    "ManageEngine NetFlow Analyzer — сопровождение вендора на год, Every additional 250 Used ports in Switch Port Mapper (SPM)": [
+      "me-netflow-analyzer-ipam-spm-every-additional-250-used-ports-in-switch-po-perp-2-ams",
+      "me-netflow-analyzer-ipam-spm-every-additional-250-used-ports-in-switch-po-perp-ams"
+    ],
+    "ManageEngine NetFlow Analyzer — сопровождение вендора на год, Unlimited IP Addresses in IP Address Manager (IPAM)": [
+      "me-netflow-analyzer-ipam-spm-unlimited-ip-addresses-in-ip-address-manager-perp-2-ams",
+      "me-netflow-analyzer-ipam-spm-unlimited-ip-addresses-in-ip-address-manager-perp-ams"
+    ],
+    "ManageEngine NetFlow Analyzer — сопровождение вендора на год, Unlimited Ports in SPM and Unlimited IP Addresses in IPAM": [
+      "me-netflow-analyzer-ipam-spm-unlimited-ports-in-spm-and-unlimited-ip-addr-perp-2-ams",
+      "me-netflow-analyzer-ipam-spm-unlimited-ports-in-spm-and-unlimited-ip-addr-perp-ams"
+    ],
+    "ManageEngine NetFlow Analyzer — сопровождение вендора на год, Unlimited Ports in Switch Port Mapper (SPM)": [
+      "me-netflow-analyzer-ipam-spm-unlimited-ports-in-switch-port-mapper-perp-2-ams",
+      "me-netflow-analyzer-ipam-spm-unlimited-ports-in-switch-port-mapper-perp-ams"
+    ],
+    "ManageEngine NetFlow Analyzer, 250 Used Switch Ports in SPM and 250 Used IP Addresses in IPAM": [
+      "me-netflow-analyzer-ipam-spm-250-used-switch-ports-in-spm-and-250-used-ip",
+      "me-netflow-analyzer-ipam-spm-250-used-switch-ports-in-spm-and-250-used-ip-2"
+    ],
+    "ManageEngine NetFlow Analyzer, 250 Used Switch Ports in SPM and 250 Used IP Addresses in IPAM, вечная лицензия": [
+      "me-netflow-analyzer-ipam-spm-250-used-switch-ports-in-spm-and-250-used-ip-perp",
+      "me-netflow-analyzer-ipam-spm-250-used-switch-ports-in-spm-and-250-used-ip-perp-2"
+    ],
+    "ManageEngine NetFlow Analyzer, Every additional 250 Used IP Addresses in IP Address Manager (IPAM)": [
+      "me-netflow-analyzer-ipam-spm-every-additional-250-used-ip-addresses-in-ip",
+      "me-netflow-analyzer-ipam-spm-every-additional-250-used-ip-addresses-in-ip-2"
+    ],
+    "ManageEngine NetFlow Analyzer, Every additional 250 Used IP Addresses in IP Address Manager (IPAM), вечная лицензия": [
+      "me-netflow-analyzer-ipam-spm-every-additional-250-used-ip-addresses-in-ip-perp",
+      "me-netflow-analyzer-ipam-spm-every-additional-250-used-ip-addresses-in-ip-perp-2"
+    ],
+    "ManageEngine NetFlow Analyzer, Every additional 250 Used ports in Switch Port Mapper (SPM)": [
+      "me-netflow-analyzer-ipam-spm-every-additional-250-used-ports-in-switch-po",
+      "me-netflow-analyzer-ipam-spm-every-additional-250-used-ports-in-switch-po-2"
+    ],
+    "ManageEngine NetFlow Analyzer, Every additional 250 Used ports in Switch Port Mapper (SPM), вечная лицензия": [
+      "me-netflow-analyzer-ipam-spm-every-additional-250-used-ports-in-switch-po-perp",
+      "me-netflow-analyzer-ipam-spm-every-additional-250-used-ports-in-switch-po-perp-2"
+    ],
+    "ManageEngine NetFlow Analyzer, Unlimited IP Addresses in IP Address Manager (IPAM)": [
+      "me-netflow-analyzer-ipam-spm-unlimited-ip-addresses-in-ip-address-manager",
+      "me-netflow-analyzer-ipam-spm-unlimited-ip-addresses-in-ip-address-manager-2"
+    ],
+    "ManageEngine NetFlow Analyzer, Unlimited IP Addresses in IP Address Manager (IPAM), вечная лицензия": [
+      "me-netflow-analyzer-ipam-spm-unlimited-ip-addresses-in-ip-address-manager-perp",
+      "me-netflow-analyzer-ipam-spm-unlimited-ip-addresses-in-ip-address-manager-perp-2"
+    ],
+    "ManageEngine NetFlow Analyzer, Unlimited Ports in SPM and Unlimited IP Addresses in IPAM": [
+      "me-netflow-analyzer-ipam-spm-unlimited-ports-in-spm-and-unlimited-ip-addr",
+      "me-netflow-analyzer-ipam-spm-unlimited-ports-in-spm-and-unlimited-ip-addr-2"
+    ],
+    "ManageEngine NetFlow Analyzer, Unlimited Ports in SPM and Unlimited IP Addresses in IPAM, вечная лицензия": [
+      "me-netflow-analyzer-ipam-spm-unlimited-ports-in-spm-and-unlimited-ip-addr-perp",
+      "me-netflow-analyzer-ipam-spm-unlimited-ports-in-spm-and-unlimited-ip-addr-perp-2"
+    ],
+    "ManageEngine NetFlow Analyzer, Unlimited Ports in Switch Port Mapper (SPM)": [
+      "me-netflow-analyzer-ipam-spm-unlimited-ports-in-switch-port-mapper",
+      "me-netflow-analyzer-ipam-spm-unlimited-ports-in-switch-port-mapper-2"
+    ],
+    "ManageEngine NetFlow Analyzer, Unlimited Ports in Switch Port Mapper (SPM), вечная лицензия": [
+      "me-netflow-analyzer-ipam-spm-unlimited-ports-in-switch-port-mapper-perp",
+      "me-netflow-analyzer-ipam-spm-unlimited-ports-in-switch-port-mapper-perp-2"
+    ],
+    "ManageEngine OpManager — сопровождение вендора на год, 250 Used Switch Ports in SPM and 250 Used IP Addresses in IPAM": [
+      "me-opmanager-ipam-spm-250-used-switch-ports-in-spm-and-250-used-ip-perp-2-ams",
+      "me-opmanager-ipam-spm-250-used-switch-ports-in-spm-and-250-used-ip-perp-ams"
+    ],
+    "ManageEngine OpManager — сопровождение вендора на год, Every additional 250 Used IP Addresses in IP Address Manager (IPAM)": [
+      "me-opmanager-ipam-spm-every-additional-250-used-ip-addresses-in-ip-perp-2-ams",
+      "me-opmanager-ipam-spm-every-additional-250-used-ip-addresses-in-ip-perp-ams"
+    ],
+    "ManageEngine OpManager — сопровождение вендора на год, Every additional 250 Used ports in Switch Port Mapper (SPM)": [
+      "me-opmanager-ipam-spm-every-additional-250-used-ports-in-switch-po-perp-2-ams",
+      "me-opmanager-ipam-spm-every-additional-250-used-ports-in-switch-po-perp-ams"
+    ],
+    "ManageEngine OpManager — сопровождение вендора на год, Unlimited IP Addresses in IP Address Manager (IPAM)": [
+      "me-opmanager-ipam-spm-unlimited-ip-addresses-in-ip-address-manager-perp-2-ams",
+      "me-opmanager-ipam-spm-unlimited-ip-addresses-in-ip-address-manager-perp-ams"
+    ],
+    "ManageEngine OpManager — сопровождение вендора на год, Unlimited Ports in SPM and Unlimited IP Addresses in IPAM": [
+      "me-opmanager-ipam-spm-unlimited-ports-in-spm-and-unlimited-ip-addr-perp-2-ams",
+      "me-opmanager-ipam-spm-unlimited-ports-in-spm-and-unlimited-ip-addr-perp-ams"
+    ],
+    "ManageEngine OpManager — сопровождение вендора на год, Unlimited Ports in Switch Port Mapper (SPM)": [
+      "me-opmanager-ipam-spm-unlimited-ports-in-switch-port-mapper-perp-2-ams",
+      "me-opmanager-ipam-spm-unlimited-ports-in-switch-port-mapper-perp-ams"
+    ],
+    "ManageEngine OpManager, 250 Used Switch Ports in SPM and 250 Used IP Addresses in IPAM": [
+      "me-opmanager-ipam-spm-250-used-switch-ports-in-spm-and-250-used-ip",
+      "me-opmanager-ipam-spm-250-used-switch-ports-in-spm-and-250-used-ip-2"
+    ],
+    "ManageEngine OpManager, 250 Used Switch Ports in SPM and 250 Used IP Addresses in IPAM, вечная лицензия": [
+      "me-opmanager-ipam-spm-250-used-switch-ports-in-spm-and-250-used-ip-perp",
+      "me-opmanager-ipam-spm-250-used-switch-ports-in-spm-and-250-used-ip-perp-2"
+    ],
+    "ManageEngine OpManager, Every additional 250 Used IP Addresses in IP Address Manager (IPAM)": [
+      "me-opmanager-ipam-spm-every-additional-250-used-ip-addresses-in-ip",
+      "me-opmanager-ipam-spm-every-additional-250-used-ip-addresses-in-ip-2"
+    ],
+    "ManageEngine OpManager, Every additional 250 Used IP Addresses in IP Address Manager (IPAM), вечная лицензия": [
+      "me-opmanager-ipam-spm-every-additional-250-used-ip-addresses-in-ip-perp",
+      "me-opmanager-ipam-spm-every-additional-250-used-ip-addresses-in-ip-perp-2"
+    ],
+    "ManageEngine OpManager, Every additional 250 Used ports in Switch Port Mapper (SPM)": [
+      "me-opmanager-ipam-spm-every-additional-250-used-ports-in-switch-po",
+      "me-opmanager-ipam-spm-every-additional-250-used-ports-in-switch-po-2"
+    ],
+    "ManageEngine OpManager, Every additional 250 Used ports in Switch Port Mapper (SPM), вечная лицензия": [
+      "me-opmanager-ipam-spm-every-additional-250-used-ports-in-switch-po-perp",
+      "me-opmanager-ipam-spm-every-additional-250-used-ports-in-switch-po-perp-2"
+    ],
+    "ManageEngine OpManager, Unlimited IP Addresses in IP Address Manager (IPAM)": [
+      "me-opmanager-ipam-spm-unlimited-ip-addresses-in-ip-address-manager",
+      "me-opmanager-ipam-spm-unlimited-ip-addresses-in-ip-address-manager-2"
+    ],
+    "ManageEngine OpManager, Unlimited IP Addresses in IP Address Manager (IPAM), вечная лицензия": [
+      "me-opmanager-ipam-spm-unlimited-ip-addresses-in-ip-address-manager-perp",
+      "me-opmanager-ipam-spm-unlimited-ip-addresses-in-ip-address-manager-perp-2"
+    ],
+    "ManageEngine OpManager, Unlimited Ports in SPM and Unlimited IP Addresses in IPAM": [
+      "me-opmanager-ipam-spm-unlimited-ports-in-spm-and-unlimited-ip-addr",
+      "me-opmanager-ipam-spm-unlimited-ports-in-spm-and-unlimited-ip-addr-2"
+    ],
+    "ManageEngine OpManager, Unlimited Ports in SPM and Unlimited IP Addresses in IPAM, вечная лицензия": [
+      "me-opmanager-ipam-spm-unlimited-ports-in-spm-and-unlimited-ip-addr-perp",
+      "me-opmanager-ipam-spm-unlimited-ports-in-spm-and-unlimited-ip-addr-perp-2"
+    ],
+    "ManageEngine OpManager, Unlimited Ports in Switch Port Mapper (SPM)": [
+      "me-opmanager-ipam-spm-unlimited-ports-in-switch-port-mapper",
+      "me-opmanager-ipam-spm-unlimited-ports-in-switch-port-mapper-2"
+    ],
+    "ManageEngine OpManager, Unlimited Ports in Switch Port Mapper (SPM), вечная лицензия": [
+      "me-opmanager-ipam-spm-unlimited-ports-in-switch-port-mapper-perp",
+      "me-opmanager-ipam-spm-unlimited-ports-in-switch-port-mapper-perp-2"
+    ],
+    "ManageEngine PAM360 Enterprise — сопровождение вендора на год, 10 Administrators (Unrestricted resources and users) and 25 keys": [
+      "me-pam360-enterprise-10-administrators-and-25-keys-perp-ams",
+      "me-pam360-enterprise-multi-language-10-administrators-and-25-keys-perp-ams"
+    ],
+    "ManageEngine PAM360 Enterprise — сопровождение вендора на год, 100 Administrators (Unrestricted resources and users) and 300 keys": [
+      "me-pam360-enterprise-100-administrators-and-300-keys-perp-ams",
+      "me-pam360-enterprise-multi-language-100-administrators-and-300-keys-perp-ams"
+    ],
+    "ManageEngine PAM360 Enterprise — сопровождение вендора на год, 150 Administrators (Unrestricted resources and users) and 500 keys": [
+      "me-pam360-enterprise-150-administrators-and-500-keys-perp-ams",
+      "me-pam360-enterprise-multi-language-150-administrators-and-500-keys-perp-ams"
+    ],
+    "ManageEngine PAM360 Enterprise — сопровождение вендора на год, 20 Administrators (Unrestricted resources and users) and 50 keys": [
+      "me-pam360-enterprise-20-administrators-and-50-keys-perp-ams",
+      "me-pam360-enterprise-multi-language-20-administrators-and-50-keys-perp-ams"
+    ],
+    "ManageEngine PAM360 Enterprise — сопровождение вендора на год, 200 Administrators (Unrestricted resources and users) and 1000 keys": [
+      "me-pam360-enterprise-200-administrators-and-1000-keys-perp-ams",
+      "me-pam360-enterprise-multi-language-200-administrators-and-1000-keys-perp-ams"
+    ],
+    "ManageEngine PAM360 Enterprise — сопровождение вендора на год, 25 Administrators (Unrestricted resources and users) and 100 keys": [
+      "me-pam360-enterprise-25-administrators-and-100-keys-perp-ams",
+      "me-pam360-enterprise-multi-language-25-administrators-and-100-keys-perp-ams"
+    ],
+    "ManageEngine PAM360 Enterprise — сопровождение вендора на год, 50 Administrators (Unrestricted resources and users) and 200 keys": [
+      "me-pam360-enterprise-50-administrators-and-200-keys-perp-ams",
+      "me-pam360-enterprise-multi-language-50-administrators-and-200-keys-perp-ams"
+    ],
+    "ManageEngine PAM360 Enterprise, 100 Administrators (Unrestricted resources and users) and 300 keys": [
+      "me-pam360-enterprise-100-administrators-and-300-keys",
+      "me-pam360-enterprise-multi-language-100-administrators-and-300-keys"
+    ],
+    "ManageEngine PAM360 Enterprise, 100 Administrators (Unrestricted resources and users) and 300 keys, вечная лицензия": [
+      "me-pam360-enterprise-100-administrators-and-300-keys-perp",
+      "me-pam360-enterprise-multi-language-100-administrators-and-300-keys-perp"
+    ],
+    "ManageEngine PAM360 Enterprise, 150 Administrators (Unrestricted resources and users) and 500 keys": [
+      "me-pam360-enterprise-150-administrators-and-500-keys",
+      "me-pam360-enterprise-multi-language-150-administrators-and-500-keys"
+    ],
+    "ManageEngine PAM360 Enterprise, 150 Administrators (Unrestricted resources and users) and 500 keys, вечная лицензия": [
+      "me-pam360-enterprise-150-administrators-and-500-keys-perp",
+      "me-pam360-enterprise-multi-language-150-administrators-and-500-keys-perp"
+    ],
+    "ManageEngine PAM360 Enterprise, 20 Administrators (Unrestricted resources and users) and 50 keys": [
+      "me-pam360-enterprise-20-administrators-and-50-keys",
+      "me-pam360-enterprise-multi-language-20-administrators-and-50-keys"
+    ],
+    "ManageEngine PAM360 Enterprise, 20 Administrators (Unrestricted resources and users) and 50 keys, вечная лицензия": [
+      "me-pam360-enterprise-20-administrators-and-50-keys-perp",
+      "me-pam360-enterprise-multi-language-20-administrators-and-50-keys-perp"
+    ],
+    "ManageEngine PAM360 Enterprise, 200 Administrators (Unrestricted resources and users) and 1000 keys": [
+      "me-pam360-enterprise-200-administrators-and-1000-keys",
+      "me-pam360-enterprise-multi-language-200-administrators-and-1000-keys"
+    ],
+    "ManageEngine PAM360 Enterprise, 200 Administrators (Unrestricted resources and users) and 1000 keys, вечная лицензия": [
+      "me-pam360-enterprise-200-administrators-and-1000-keys-perp",
+      "me-pam360-enterprise-multi-language-200-administrators-and-1000-keys-perp"
+    ],
+    "ManageEngine PAM360 Enterprise, 25 Administrators (Unrestricted resources and users) and 100 keys": [
+      "me-pam360-enterprise-25-administrators-and-100-keys",
+      "me-pam360-enterprise-multi-language-25-administrators-and-100-keys"
+    ],
+    "ManageEngine PAM360 Enterprise, 25 Administrators (Unrestricted resources and users) and 100 keys, вечная лицензия": [
+      "me-pam360-enterprise-25-administrators-and-100-keys-perp",
+      "me-pam360-enterprise-multi-language-25-administrators-and-100-keys-perp"
+    ],
+    "ManageEngine PAM360 Enterprise, 50 Administrators (Unrestricted resources and users) and 200 keys": [
+      "me-pam360-enterprise-50-administrators-and-200-keys",
+      "me-pam360-enterprise-multi-language-50-administrators-and-200-keys"
+    ],
+    "ManageEngine PAM360 Enterprise, 50 Administrators (Unrestricted resources and users) and 200 keys, вечная лицензия": [
+      "me-pam360-enterprise-50-administrators-and-200-keys-perp",
+      "me-pam360-enterprise-multi-language-50-administrators-and-200-keys-perp"
+    ],
+    "ManageEngine PAM360 MSP Enterprise — сопровождение вендора на год, 10 Administrators (Unrestricted resources and users) and 25 keys": [
+      "me-pam360-msp-enterprise-10-administrators-and-25-keys-perp-ams",
+      "me-pam360-msp-enterprise-multi-language-10-administrators-and-25-keys-perp-ams"
+    ],
+    "ManageEngine PAM360 MSP Enterprise — сопровождение вендора на год, 100 Administrators (Unrestricted resources and users) and 300 keys": [
+      "me-pam360-msp-enterprise-100-administrators-and-300-keys-perp-ams",
+      "me-pam360-msp-enterprise-multi-language-100-administrators-and-300-keys-perp-ams"
+    ],
+    "ManageEngine PAM360 MSP Enterprise — сопровождение вендора на год, 150 Administrators (Unrestricted resources and users) and 500 keys": [
+      "me-pam360-msp-enterprise-150-administrators-and-500-keys-perp-ams",
+      "me-pam360-msp-enterprise-multi-language-150-administrators-and-500-keys-perp-ams"
+    ],
+    "ManageEngine PAM360 MSP Enterprise — сопровождение вендора на год, 20 Administrators (Unrestricted resources and users) and 50 keys": [
+      "me-pam360-msp-enterprise-20-administrators-and-50-keys-perp-ams",
+      "me-pam360-msp-enterprise-multi-language-20-administrators-and-50-keys-perp-ams"
+    ],
+    "ManageEngine PAM360 MSP Enterprise — сопровождение вендора на год, 200 Administrators (Unrestricted resources and users) and 1000 keys": [
+      "me-pam360-msp-enterprise-200-administrators-and-1000-keys-perp-ams",
+      "me-pam360-msp-enterprise-multi-language-200-administrators-and-1000-keys-perp-ams"
+    ],
+    "ManageEngine PAM360 MSP Enterprise — сопровождение вендора на год, 25 Administrators (Unrestricted resources and users) and 100 keys": [
+      "me-pam360-msp-enterprise-25-administrators-and-100-keys-perp-ams",
+      "me-pam360-msp-enterprise-multi-language-25-administrators-and-100-keys-perp-ams"
+    ],
+    "ManageEngine PAM360 MSP Enterprise — сопровождение вендора на год, 50 Administrators (Unrestricted resources and users) and 200 keys": [
+      "me-pam360-msp-enterprise-50-administrators-and-200-keys-perp-ams",
+      "me-pam360-msp-enterprise-multi-language-50-administrators-and-200-keys-perp-ams"
+    ],
+    "ManageEngine PAM360 MSP Enterprise, 100 Administrators (Unrestricted resources and users) and 300 keys": [
+      "me-pam360-msp-enterprise-100-administrators-and-300-keys",
+      "me-pam360-msp-enterprise-multi-language-100-administrators-and-300-keys"
+    ],
+    "ManageEngine PAM360 MSP Enterprise, 100 Administrators (Unrestricted resources and users) and 300 keys, вечная лицензия": [
+      "me-pam360-msp-enterprise-100-administrators-and-300-keys-perp",
+      "me-pam360-msp-enterprise-multi-language-100-administrators-and-300-keys-perp"
+    ],
+    "ManageEngine PAM360 MSP Enterprise, 150 Administrators (Unrestricted resources and users) and 500 keys": [
+      "me-pam360-msp-enterprise-150-administrators-and-500-keys",
+      "me-pam360-msp-enterprise-multi-language-150-administrators-and-500-keys"
+    ],
+    "ManageEngine PAM360 MSP Enterprise, 150 Administrators (Unrestricted resources and users) and 500 keys, вечная лицензия": [
+      "me-pam360-msp-enterprise-150-administrators-and-500-keys-perp",
+      "me-pam360-msp-enterprise-multi-language-150-administrators-and-500-keys-perp"
+    ],
+    "ManageEngine PAM360 MSP Enterprise, 20 Administrators (Unrestricted resources and users) and 50 keys": [
+      "me-pam360-msp-enterprise-20-administrators-and-50-keys",
+      "me-pam360-msp-enterprise-multi-language-20-administrators-and-50-keys"
+    ],
+    "ManageEngine PAM360 MSP Enterprise, 20 Administrators (Unrestricted resources and users) and 50 keys, вечная лицензия": [
+      "me-pam360-msp-enterprise-20-administrators-and-50-keys-perp",
+      "me-pam360-msp-enterprise-multi-language-20-administrators-and-50-keys-perp"
+    ],
+    "ManageEngine PAM360 MSP Enterprise, 200 Administrators (Unrestricted resources and users) and 1000 keys": [
+      "me-pam360-msp-enterprise-200-administrators-and-1000-keys",
+      "me-pam360-msp-enterprise-multi-language-200-administrators-and-1000-keys"
+    ],
+    "ManageEngine PAM360 MSP Enterprise, 200 Administrators (Unrestricted resources and users) and 1000 keys, вечная лицензия": [
+      "me-pam360-msp-enterprise-200-administrators-and-1000-keys-perp",
+      "me-pam360-msp-enterprise-multi-language-200-administrators-and-1000-keys-perp"
+    ],
+    "ManageEngine PAM360 MSP Enterprise, 25 Administrators (Unrestricted resources and users) and 100 keys": [
+      "me-pam360-msp-enterprise-25-administrators-and-100-keys",
+      "me-pam360-msp-enterprise-multi-language-25-administrators-and-100-keys"
+    ],
+    "ManageEngine PAM360 MSP Enterprise, 25 Administrators (Unrestricted resources and users) and 100 keys, вечная лицензия": [
+      "me-pam360-msp-enterprise-25-administrators-and-100-keys-perp",
+      "me-pam360-msp-enterprise-multi-language-25-administrators-and-100-keys-perp"
+    ],
+    "ManageEngine PAM360 MSP Enterprise, 50 Administrators (Unrestricted resources and users) and 200 keys": [
+      "me-pam360-msp-enterprise-50-administrators-and-200-keys",
+      "me-pam360-msp-enterprise-multi-language-50-administrators-and-200-keys"
+    ],
+    "ManageEngine PAM360 MSP Enterprise, 50 Administrators (Unrestricted resources and users) and 200 keys, вечная лицензия": [
+      "me-pam360-msp-enterprise-50-administrators-and-200-keys-perp",
+      "me-pam360-msp-enterprise-multi-language-50-administrators-and-200-keys-perp"
+    ],
+    "ManageEngine ServiceDesk Plus MSP Enterprise, 10 Technicians and 500 IT Assets": [
+      "me-servicedesk-plus-msp-enterprise-10-technicians-and-500-it-assets",
+      "me-servicedesk-plus-msp-enterprise-multi-language-10-technicians-and-500-it-assets"
+    ],
+    "ManageEngine ServiceDesk Plus MSP Enterprise, 100 Technicians and 2000 IT Assets": [
+      "me-servicedesk-plus-msp-enterprise-100-technicians-and-2000-it-assets",
+      "me-servicedesk-plus-msp-enterprise-multi-language-100-technicians-and-2000-it-assets"
+    ],
+    "ManageEngine ServiceDesk Plus MSP Enterprise, 20 Technicians and 1000 IT Assets": [
+      "me-servicedesk-plus-msp-enterprise-20-technicians-and-1000-it-assets",
+      "me-servicedesk-plus-msp-enterprise-multi-language-20-technicians-and-1000-it-assets"
+    ],
+    "ManageEngine ServiceDesk Plus MSP Enterprise, 200 Technicians and 3000 IT Assets": [
+      "me-servicedesk-plus-msp-enterprise-200-technicians-and-3000-it-assets",
+      "me-servicedesk-plus-msp-enterprise-multi-language-200-technicians-and-3000-it-assets"
+    ],
+    "ManageEngine ServiceDesk Plus MSP Enterprise, 25 Technicians and 1000 IT Assets": [
+      "me-servicedesk-plus-msp-enterprise-25-technicians-and-1000-it-assets",
+      "me-servicedesk-plus-msp-enterprise-multi-language-25-technicians-and-1000-it-assets"
+    ],
+    "ManageEngine ServiceDesk Plus MSP Enterprise, 5 Technicians and 500 IT Assets": [
+      "me-servicedesk-plus-msp-enterprise-5-technicians-and-500-it-assets",
+      "me-servicedesk-plus-msp-enterprise-multi-language-5-technicians-and-500-it-assets"
+    ],
+    "ManageEngine ServiceDesk Plus MSP Enterprise, 50 Technicians and 2000 IT Assets": [
+      "me-servicedesk-plus-msp-enterprise-50-technicians-and-2000-it-assets",
+      "me-servicedesk-plus-msp-enterprise-multi-language-50-technicians-and-2000-it-assets"
+    ],
+    "ManageEngine ServiceDesk Plus MSP Enterprise, Additional 100 IT Assets": [
+      "me-servicedesk-plus-msp-enterprise-additional-100-it-assets",
+      "me-servicedesk-plus-msp-enterprise-multi-language-additional-100-it-assets"
+    ],
+    "ManageEngine ServiceDesk Plus MSP Enterprise, Additional 1000 IT Assets": [
+      "me-servicedesk-plus-msp-enterprise-additional-1000-it-assets",
+      "me-servicedesk-plus-msp-enterprise-multi-language-additional-1000-it-assets"
+    ],
+    "ManageEngine ServiceDesk Plus MSP Enterprise, Additional 10000 IT Assets": [
+      "me-servicedesk-plus-msp-enterprise-additional-10000-it-assets",
+      "me-servicedesk-plus-msp-enterprise-multi-language-additional-10000-it-assets"
+    ],
+    "ManageEngine ServiceDesk Plus MSP Enterprise, Additional 2000 IT Assets": [
+      "me-servicedesk-plus-msp-enterprise-additional-2000-it-assets",
+      "me-servicedesk-plus-msp-enterprise-multi-language-additional-2000-it-assets"
+    ],
+    "ManageEngine ServiceDesk Plus MSP Enterprise, Additional 250 IT Assets": [
+      "me-servicedesk-plus-msp-enterprise-additional-250-it-assets",
+      "me-servicedesk-plus-msp-enterprise-multi-language-additional-250-it-assets"
+    ],
+    "ManageEngine ServiceDesk Plus MSP Enterprise, Additional 500 IT Assets": [
+      "me-servicedesk-plus-msp-enterprise-additional-500-it-assets",
+      "me-servicedesk-plus-msp-enterprise-multi-language-additional-500-it-assets"
+    ],
+    "ManageEngine ServiceDesk Plus MSP Enterprise, Additional 5000 IT Assets": [
+      "me-servicedesk-plus-msp-enterprise-additional-5000-it-assets",
+      "me-servicedesk-plus-msp-enterprise-multi-language-additional-5000-it-assets"
+    ],
+    "ManageEngine ServiceDesk Plus MSP Enterprise, Fail Over Service": [
+      "me-servicedesk-plus-msp-enterprise-fail-over-service",
+      "me-servicedesk-plus-msp-enterprise-multi-language-fail-over-service"
+    ],
+    "ManageEngine ServiceDesk Plus MSP Professional, 10 Technicians and 500 IT Assets": [
+      "me-servicedesk-plus-msp-professional-10-technicians-and-500-it-assets",
+      "me-servicedesk-plus-msp-professional-multi-language-10-technicians-and-500-it-assets"
+    ],
+    "ManageEngine ServiceDesk Plus MSP Professional, 100 Technicians and 1000 IT Assets": [
+      "me-servicedesk-plus-msp-professional-100-technicians-and-1000-it-assets",
+      "me-servicedesk-plus-msp-professional-multi-language-100-technicians-and-1000-it-assets"
+    ],
+    "ManageEngine ServiceDesk Plus MSP Professional, 20 Technicians and 500 IT Assets": [
+      "me-servicedesk-plus-msp-professional-20-technicians-and-500-it-assets",
+      "me-servicedesk-plus-msp-professional-multi-language-20-technicians-and-500-it-assets"
+    ],
+    "ManageEngine ServiceDesk Plus MSP Professional, 200 Technicians and 1000 IT Assets": [
+      "me-servicedesk-plus-msp-professional-200-technicians-and-1000-it-assets",
+      "me-servicedesk-plus-msp-professional-multi-language-200-technicians-and-1000-it-assets"
+    ],
+    "ManageEngine ServiceDesk Plus MSP Professional, 25 Technicians and 500 IT Assets": [
+      "me-servicedesk-plus-msp-professional-25-technicians-and-500-it-assets",
+      "me-servicedesk-plus-msp-professional-multi-language-25-technicians-and-500-it-assets"
+    ],
+    "ManageEngine ServiceDesk Plus MSP Professional, 5 Technicians and 500 IT Assets": [
+      "me-servicedesk-plus-msp-professional-5-technicians-and-500-it-assets",
+      "me-servicedesk-plus-msp-professional-multi-language-5-technicians-and-500-it-assets"
+    ],
+    "ManageEngine ServiceDesk Plus MSP Professional, 50 Technicians and 1000 IT Assets": [
+      "me-servicedesk-plus-msp-professional-50-technicians-and-1000-it-assets",
+      "me-servicedesk-plus-msp-professional-multi-language-50-technicians-and-1000-it-assets"
+    ],
+    "ManageEngine ServiceDesk Plus MSP Professional, Additional 100 IT Assets": [
+      "me-servicedesk-plus-msp-professional-additional-100-it-assets",
+      "me-servicedesk-plus-msp-professional-multi-language-additional-100-it-assets"
+    ],
+    "ManageEngine ServiceDesk Plus MSP Professional, Additional 1000 IT Assets": [
+      "me-servicedesk-plus-msp-professional-additional-1000-it-assets",
+      "me-servicedesk-plus-msp-professional-multi-language-additional-1000-it-assets"
+    ],
+    "ManageEngine ServiceDesk Plus MSP Professional, Additional 10000 IT Assets": [
+      "me-servicedesk-plus-msp-professional-additional-10000-it-assets",
+      "me-servicedesk-plus-msp-professional-multi-language-additional-10000-it-assets"
+    ],
+    "ManageEngine ServiceDesk Plus MSP Professional, Additional 2000 IT Assets": [
+      "me-servicedesk-plus-msp-professional-additional-2000-it-assets",
+      "me-servicedesk-plus-msp-professional-multi-language-additional-2000-it-assets"
+    ],
+    "ManageEngine ServiceDesk Plus MSP Professional, Additional 250 IT Assets": [
+      "me-servicedesk-plus-msp-professional-additional-250-it-assets",
+      "me-servicedesk-plus-msp-professional-multi-language-additional-250-it-assets"
+    ],
+    "ManageEngine ServiceDesk Plus MSP Professional, Additional 500 IT Assets": [
+      "me-servicedesk-plus-msp-professional-additional-500-it-assets",
+      "me-servicedesk-plus-msp-professional-multi-language-additional-500-it-assets"
+    ],
+    "ManageEngine ServiceDesk Plus MSP Professional, Additional 5000 IT Assets": [
+      "me-servicedesk-plus-msp-professional-additional-5000-it-assets",
+      "me-servicedesk-plus-msp-professional-multi-language-additional-5000-it-assets"
+    ],
+    "ManageEngine ServiceDesk Plus MSP Professional, CMDB Addon": [
+      "me-servicedesk-plus-msp-professional-add-ons-for-cmdb-addon",
+      "me-servicedesk-plus-msp-professional-add-ons-for-multi-language-cmdb-addon"
+    ],
+    "ManageEngine ServiceDesk Plus MSP Professional, CTI Integration Add on": [
+      "me-servicedesk-plus-msp-professional-add-ons-for-cti-integration-add-on",
+      "me-servicedesk-plus-msp-professional-add-ons-for-multi-language-cti-integration-add-on"
+    ],
+    "ManageEngine ServiceDesk Plus MSP Professional, Change management Addon": [
+      "me-servicedesk-plus-msp-professional-add-ons-for-change-management-addon",
+      "me-servicedesk-plus-msp-professional-add-ons-for-multi-language-change-management-addon"
+    ],
+    "ManageEngine ServiceDesk Plus MSP Professional, Fail Over Service": [
+      "me-servicedesk-plus-msp-professional-add-ons-for-fail-over-service",
+      "me-servicedesk-plus-msp-professional-add-ons-for-multi-language-fail-over-service"
+    ],
+    "ManageEngine ServiceDesk Plus MSP Professional, Problem management Addon": [
+      "me-servicedesk-plus-msp-professional-add-ons-for-multi-language-problem-management-addon",
+      "me-servicedesk-plus-msp-professional-add-ons-for-problem-management-addon"
+    ],
+    "ManageEngine ServiceDesk Plus MSP Professional, Project Management Addon": [
+      "me-servicedesk-plus-msp-professional-add-ons-for-multi-language-project-management-addon",
+      "me-servicedesk-plus-msp-professional-add-ons-for-project-management-addon"
+    ],
+    "ManageEngine ServiceDesk Plus MSP Professional, Service catalog Addon": [
+      "me-servicedesk-plus-msp-professional-add-ons-for-multi-language-service-catalog-addon",
+      "me-servicedesk-plus-msp-professional-add-ons-for-service-catalog-addon"
+    ],
+    "ManageEngine ServiceDesk Plus MSP Standard, 100 Technicians": [
+      "me-servicedesk-plus-msp-standard-100-technicians",
+      "me-servicedesk-plus-msp-standard-multi-language-100-technicians"
+    ],
+    "ManageEngine ServiceDesk Plus MSP Standard, 20 Technicians": [
+      "me-servicedesk-plus-msp-standard-20-technicians",
+      "me-servicedesk-plus-msp-standard-multi-language-20-technicians"
+    ],
+    "ManageEngine ServiceDesk Plus MSP Standard, 200 Technicians": [
+      "me-servicedesk-plus-msp-standard-200-technicians",
+      "me-servicedesk-plus-msp-standard-multi-language-200-technicians"
+    ],
+    "ManageEngine ServiceDesk Plus MSP Standard, 25 Technicians": [
+      "me-servicedesk-plus-msp-standard-25-technicians",
+      "me-servicedesk-plus-msp-standard-multi-language-25-technicians"
+    ],
+    "ManageEngine ServiceDesk Plus MSP Standard, 50 Technicians": [
+      "me-servicedesk-plus-msp-standard-50-technicians",
+      "me-servicedesk-plus-msp-standard-multi-language-50-technicians"
+    ],
+    "ManageEngine ServiceDesk Plus MSP Standard, Change Management Add-on": [
+      "me-servicedesk-plus-msp-standard-change-management-add-on",
+      "me-servicedesk-plus-msp-standard-multi-language-change-management-add-on"
+    ],
+    "ManageEngine ServiceDesk Plus MSP Standard, Fail Over Service": [
+      "me-servicedesk-plus-msp-standard-fail-over-service",
+      "me-servicedesk-plus-msp-standard-multi-language-fail-over-service"
+    ],
+    "ManageEngine ServiceDesk Plus MSP Standard, Service Catalog Add-On": [
+      "me-servicedesk-plus-msp-standard-multi-language-service-catalog-add-on",
+      "me-servicedesk-plus-msp-standard-service-catalog-add-on"
+    ],
+    "ManageEngine ServiceDesk Plus, Additional 10 Users": [
+      "me-servicedesk-plus-analytics-plus-cloud-for-additional-10-users",
+      "me-servicedesk-plus-uem-remote-access-plus-additional-10-users"
+    ],
+    "ManageEngine ServiceDesk Plus, Additional 5 Users": [
+      "me-servicedesk-plus-analytics-plus-cloud-for-additional-5-users",
+      "me-servicedesk-plus-uem-remote-access-plus-additional-5-users"
+    ],
+    "ManageEngine SupportCenter Plus Enterprise, 10 Support Representatives": [
+      "me-supportcenter-plus-enterprise-10-support-representatives",
+      "me-supportcenter-plus-enterprise-multi-language-10-support-representatives"
+    ],
+    "ManageEngine SupportCenter Plus Enterprise, 100 Support Representatives": [
+      "me-supportcenter-plus-enterprise-100-support-representatives",
+      "me-supportcenter-plus-enterprise-multi-language-100-support-representatives"
+    ],
+    "ManageEngine SupportCenter Plus Enterprise, 20 Support Representatives": [
+      "me-supportcenter-plus-enterprise-20-support-representatives",
+      "me-supportcenter-plus-enterprise-multi-language-20-support-representatives"
+    ],
+    "ManageEngine SupportCenter Plus Enterprise, 5 Support Representatives": [
+      "me-supportcenter-plus-enterprise-5-support-representatives",
+      "me-supportcenter-plus-enterprise-multi-language-5-support-representatives"
+    ],
+    "ManageEngine SupportCenter Plus Enterprise, 50 Support Representatives": [
+      "me-supportcenter-plus-enterprise-50-support-representatives",
+      "me-supportcenter-plus-enterprise-multi-language-50-support-representatives"
+    ],
+    "ManageEngine SupportCenter Plus Professional, 100 Support Representatives": [
+      "me-supportcenter-plus-professional-100-support-representatives",
+      "me-supportcenter-plus-professional-multi-language-100-support-representatives"
+    ],
+    "ManageEngine SupportCenter Plus Professional, 20 Support Representatives": [
+      "me-supportcenter-plus-professional-20-support-representatives",
+      "me-supportcenter-plus-professional-multi-language-20-support-representatives"
+    ],
+    "ManageEngine SupportCenter Plus Professional, 5 Support Representatives": [
+      "me-supportcenter-plus-professional-5-support-representatives",
+      "me-supportcenter-plus-professional-multi-language-5-support-representatives"
+    ],
+    "ManageEngine SupportCenter Plus Professional, 50 Support Representatives": [
+      "me-supportcenter-plus-professional-50-support-representatives",
+      "me-supportcenter-plus-professional-multi-language-50-support-representatives"
+    ],
+    "ManageEngine SupportCenter Plus Standard, 100 Support Representatives": [
+      "me-supportcenter-plus-standard-100-support-representatives",
+      "me-supportcenter-plus-standard-multi-language-100-support-representatives"
+    ],
+    "ManageEngine SupportCenter Plus Standard, 20 Support Representatives": [
+      "me-supportcenter-plus-standard-20-support-representatives",
+      "me-supportcenter-plus-standard-multi-language-20-support-representatives"
+    ],
+    "ManageEngine SupportCenter Plus Standard, 25 Support Representatives": [
+      "me-supportcenter-plus-standard-25-support-representatives",
+      "me-supportcenter-plus-standard-multi-language-25-support-representatives"
+    ],
+    "ManageEngine SupportCenter Plus Standard, 50 Support Representatives": [
+      "me-supportcenter-plus-standard-50-support-representatives",
+      "me-supportcenter-plus-standard-multi-language-50-support-representatives"
+    ],
+    "ManageEngine SupportCenter Plus, CTI Addon": [
+      "me-supportcenter-plus-cti-addon",
+      "me-supportcenter-plus-multi-language-cti-addon"
+    ]
+  },
+  "duplicate_short_descriptions": {
+    "DataSecurity Plus Professional: вечная лицензия, объём по прайсу вендора — 10 TB.": 2,
+    "DataSecurity Plus Professional: вечная лицензия, объём по прайсу вендора — 15 TB.": 2,
+    "DataSecurity Plus Professional: вечная лицензия, объём по прайсу вендора — 20 TB.": 2,
+    "DataSecurity Plus Professional: вечная лицензия, объём по прайсу вендора — 5 TB.": 2,
+    "DataSecurity Plus Professional: годовая подписка, объём по прайсу вендора — 10 TB.": 2,
+    "DataSecurity Plus Professional: годовая подписка, объём по прайсу вендора — 15 TB.": 2,
+    "DataSecurity Plus Professional: годовая подписка, объём по прайсу вендора — 20 TB.": 2,
+    "DataSecurity Plus Professional: годовая подписка, объём по прайсу вендора — 5 TB.": 2,
+    "Endpoint Central MSP: годовая подписка, объём по прайсу вендора — 100 Workstations.": 4,
+    "Endpoint Central MSP: годовая подписка, объём по прайсу вендора — 1000 Workstations.": 4,
+    "Endpoint Central MSP: годовая подписка, объём по прайсу вендора — 10000 Workstations.": 4,
+    "Endpoint Central MSP: годовая подписка, объём по прайсу вендора — 250 Workstations.": 4,
+    "Endpoint Central MSP: годовая подписка, объём по прайсу вендора — 2500 Workstations.": 4,
+    "Endpoint Central MSP: годовая подписка, объём по прайсу вендора — 50 Workstations.": 4,
+    "Endpoint Central MSP: годовая подписка, объём по прайсу вендора — 500 Workstations.": 4,
+    "Endpoint Central MSP: годовая подписка, объём по прайсу вендора — 5000 Workstations.": 4,
+    "Endpoint Central: вечная лицензия, объём по прайсу вендора — 10 Servers.": 3,
+    "Endpoint Central: вечная лицензия, объём по прайсу вендора — 100 Servers.": 3,
+    "Endpoint Central: вечная лицензия, объём по прайсу вендора — 100 Workstations.": 4,
+    "Endpoint Central: вечная лицензия, объём по прайсу вендора — 1000 Servers.": 2,
+    "Endpoint Central: вечная лицензия, объём по прайсу вендора — 1000 Workstations.": 4,
+    "Endpoint Central: вечная лицензия, объём по прайсу вендора — 10000 Workstations.": 3,
+    "Endpoint Central: вечная лицензия, объём по прайсу вендора — 25 Servers.": 3,
+    "Endpoint Central: вечная лицензия, объём по прайсу вендора — 250 Servers.": 3,
+    "Endpoint Central: вечная лицензия, объём по прайсу вендора — 250 Workstations.": 4,
+    "Endpoint Central: вечная лицензия, объём по прайсу вендора — 2500 Servers.": 2,
+    "Endpoint Central: вечная лицензия, объём по прайсу вендора — 2500 Workstations.": 4,
+    "Endpoint Central: вечная лицензия, объём по прайсу вендора — 50 Servers.": 3,
+    "Endpoint Central: вечная лицензия, объём по прайсу вендора — 50 Workstations.": 4,
+    "Endpoint Central: вечная лицензия, объём по прайсу вендора — 500 Servers.": 3,
+    "Endpoint Central: вечная лицензия, объём по прайсу вендора — 500 Workstations.": 4,
+    "Endpoint Central: вечная лицензия, объём по прайсу вендора — 5000 Servers.": 2,
+    "Endpoint Central: вечная лицензия, объём по прайсу вендора — 5000 Workstations.": 4,
+    "Endpoint Central: годовая подписка, объём по прайсу вендора — 10 Servers.": 3,
+    "Endpoint Central: годовая подписка, объём по прайсу вендора — 100 Servers.": 3,
+    "Endpoint Central: годовая подписка, объём по прайсу вендора — 100 Workstations.": 4,
+    "Endpoint Central: годовая подписка, объём по прайсу вендора — 1000 Servers.": 2,
+    "Endpoint Central: годовая подписка, объём по прайсу вендора — 1000 Workstations.": 4,
+    "Endpoint Central: годовая подписка, объём по прайсу вендора — 10000 Workstations.": 3,
+    "Endpoint Central: годовая подписка, объём по прайсу вендора — 25 Servers.": 3,
+    "Endpoint Central: годовая подписка, объём по прайсу вендора — 250 Servers.": 3,
+    "Endpoint Central: годовая подписка, объём по прайсу вендора — 250 Workstations.": 4,
+    "Endpoint Central: годовая подписка, объём по прайсу вендора — 2500 Servers.": 2,
+    "Endpoint Central: годовая подписка, объём по прайсу вендора — 2500 Workstations.": 4,
+    "Endpoint Central: годовая подписка, объём по прайсу вендора — 50 Servers.": 3,
+    "Endpoint Central: годовая подписка, объём по прайсу вендора — 50 Workstations.": 4,
+    "Endpoint Central: годовая подписка, объём по прайсу вендора — 500 Servers.": 3,
+    "Endpoint Central: годовая подписка, объём по прайсу вендора — 500 Workstations.": 4,
+    "Endpoint Central: годовая подписка, объём по прайсу вендора — 5000 Servers.": 2,
+    "Endpoint Central: годовая подписка, объём по прайсу вендора — 5000 Workstations.": 4,
+    "NetFlow Analyzer: вечная лицензия, объём по прайсу вендора — 250 Used Switch Ports in SPM and 250 Used IP Addresses in IPAM.": 2,
+    "NetFlow Analyzer: вечная лицензия, объём по прайсу вендора — Every additional 250 Used IP Addresses in IP Address Manager (IPAM).": 2,
+    "NetFlow Analyzer: вечная лицензия, объём по прайсу вендора — Every additional 250 Used ports in Switch Port Mapper (SPM).": 2,
+    "NetFlow Analyzer: вечная лицензия, объём по прайсу вендора — Unlimited IP Addresses in IP Address Manager (IPAM).": 2,
+    "NetFlow Analyzer: вечная лицензия, объём по прайсу вендора — Unlimited Ports in SPM and Unlimited IP Addresses in IPAM.": 2,
+    "NetFlow Analyzer: вечная лицензия, объём по прайсу вендора — Unlimited Ports in Switch Port Mapper (SPM).": 2,
+    "NetFlow Analyzer: годовая подписка, объём по прайсу вендора — 250 Used Switch Ports in SPM and 250 Used IP Addresses in IPAM.": 2,
+    "NetFlow Analyzer: годовая подписка, объём по прайсу вендора — Every additional 250 Used IP Addresses in IP Address Manager (IPAM).": 2,
+    "NetFlow Analyzer: годовая подписка, объём по прайсу вендора — Every additional 250 Used ports in Switch Port Mapper (SPM).": 2,
+    "NetFlow Analyzer: годовая подписка, объём по прайсу вендора — Unlimited IP Addresses in IP Address Manager (IPAM).": 2,
+    "NetFlow Analyzer: годовая подписка, объём по прайсу вендора — Unlimited Ports in SPM and Unlimited IP Addresses in IPAM.": 2,
+    "NetFlow Analyzer: годовая подписка, объём по прайсу вендора — Unlimited Ports in Switch Port Mapper (SPM).": 2,
+    "OpManager: вечная лицензия, объём по прайсу вендора — 250 Used Switch Ports in SPM and 250 Used IP Addresses in IPAM.": 2,
+    "OpManager: вечная лицензия, объём по прайсу вендора — Every additional 250 Used IP Addresses in IP Address Manager (IPAM).": 2,
+    "OpManager: вечная лицензия, объём по прайсу вендора — Every additional 250 Used ports in Switch Port Mapper (SPM).": 2,
+    "OpManager: вечная лицензия, объём по прайсу вендора — Unlimited IP Addresses in IP Address Manager (IPAM).": 2,
+    "OpManager: вечная лицензия, объём по прайсу вендора — Unlimited Ports in SPM and Unlimited IP Addresses in IPAM.": 2,
+    "OpManager: вечная лицензия, объём по прайсу вендора — Unlimited Ports in Switch Port Mapper (SPM).": 2,
+    "OpManager: годовая подписка, объём по прайсу вендора — 250 Used Switch Ports in SPM and 250 Used IP Addresses in IPAM.": 2,
+    "OpManager: годовая подписка, объём по прайсу вендора — Every additional 250 Used IP Addresses in IP Address Manager (IPAM).": 2,
+    "OpManager: годовая подписка, объём по прайсу вендора — Every additional 250 Used ports in Switch Port Mapper (SPM).": 2,
+    "OpManager: годовая подписка, объём по прайсу вендора — Unlimited IP Addresses in IP Address Manager (IPAM).": 2,
+    "OpManager: годовая подписка, объём по прайсу вендора — Unlimited Ports in SPM and Unlimited IP Addresses in IPAM.": 2,
+    "OpManager: годовая подписка, объём по прайсу вендора — Unlimited Ports in Switch Port Mapper (SPM).": 2,
+    "PAM360 Enterprise: вечная лицензия, объём по прайсу вендора — 100 Administrators (Unrestricted resources and users) and 300 keys.": 2,
+    "PAM360 Enterprise: вечная лицензия, объём по прайсу вендора — 150 Administrators (Unrestricted resources and users) and 500 keys.": 2,
+    "PAM360 Enterprise: вечная лицензия, объём по прайсу вендора — 20 Administrators (Unrestricted resources and users) and 50 keys.": 2,
+    "PAM360 Enterprise: вечная лицензия, объём по прайсу вендора — 200 Administrators (Unrestricted resources and users) and 1000 keys.": 2,
+    "PAM360 Enterprise: вечная лицензия, объём по прайсу вендора — 25 Administrators (Unrestricted resources and users) and 100 keys.": 2,
+    "PAM360 Enterprise: вечная лицензия, объём по прайсу вендора — 50 Administrators (Unrestricted resources and users) and 200 keys.": 2,
+    "PAM360 Enterprise: годовая подписка, объём по прайсу вендора — 100 Administrators (Unrestricted resources and users) and 300 keys.": 2,
+    "PAM360 Enterprise: годовая подписка, объём по прайсу вендора — 150 Administrators (Unrestricted resources and users) and 500 keys.": 2,
+    "PAM360 Enterprise: годовая подписка, объём по прайсу вендора — 20 Administrators (Unrestricted resources and users) and 50 keys.": 2,
+    "PAM360 Enterprise: годовая подписка, объём по прайсу вендора — 200 Administrators (Unrestricted resources and users) and 1000 keys.": 2,
+    "PAM360 Enterprise: годовая подписка, объём по прайсу вендора — 25 Administrators (Unrestricted resources and users) and 100 keys.": 2,
+    "PAM360 Enterprise: годовая подписка, объём по прайсу вендора — 50 Administrators (Unrestricted resources and users) and 200 keys.": 2,
+    "PAM360 MSP Enterprise: вечная лицензия, объём по прайсу вендора — 100 Administrators (Unrestricted resources and users) and 300 keys.": 2,
+    "PAM360 MSP Enterprise: вечная лицензия, объём по прайсу вендора — 150 Administrators (Unrestricted resources and users) and 500 keys.": 2,
+    "PAM360 MSP Enterprise: вечная лицензия, объём по прайсу вендора — 20 Administrators (Unrestricted resources and users) and 50 keys.": 2,
+    "PAM360 MSP Enterprise: вечная лицензия, объём по прайсу вендора — 200 Administrators (Unrestricted resources and users) and 1000 keys.": 2,
+    "PAM360 MSP Enterprise: вечная лицензия, объём по прайсу вендора — 25 Administrators (Unrestricted resources and users) and 100 keys.": 2,
+    "PAM360 MSP Enterprise: вечная лицензия, объём по прайсу вендора — 50 Administrators (Unrestricted resources and users) and 200 keys.": 2,
+    "PAM360 MSP Enterprise: годовая подписка, объём по прайсу вендора — 100 Administrators (Unrestricted resources and users) and 300 keys.": 2,
+    "PAM360 MSP Enterprise: годовая подписка, объём по прайсу вендора — 150 Administrators (Unrestricted resources and users) and 500 keys.": 2,
+    "PAM360 MSP Enterprise: годовая подписка, объём по прайсу вендора — 20 Administrators (Unrestricted resources and users) and 50 keys.": 2,
+    "PAM360 MSP Enterprise: годовая подписка, объём по прайсу вендора — 200 Administrators (Unrestricted resources and users) and 1000 keys.": 2,
+    "PAM360 MSP Enterprise: годовая подписка, объём по прайсу вендора — 25 Administrators (Unrestricted resources and users) and 100 keys.": 2,
+    "PAM360 MSP Enterprise: годовая подписка, объём по прайсу вендора — 50 Administrators (Unrestricted resources and users) and 200 keys.": 2,
+    "ServiceDesk Plus MSP Enterprise: годовая подписка, объём по прайсу вендора — 10 Technicians and 500 IT Assets.": 2,
+    "ServiceDesk Plus MSP Enterprise: годовая подписка, объём по прайсу вендора — 100 Technicians and 2000 IT Assets.": 2,
+    "ServiceDesk Plus MSP Enterprise: годовая подписка, объём по прайсу вендора — 20 Technicians and 1000 IT Assets.": 2,
+    "ServiceDesk Plus MSP Enterprise: годовая подписка, объём по прайсу вендора — 200 Technicians and 3000 IT Assets.": 2,
+    "ServiceDesk Plus MSP Enterprise: годовая подписка, объём по прайсу вендора — 25 Technicians and 1000 IT Assets.": 2,
+    "ServiceDesk Plus MSP Enterprise: годовая подписка, объём по прайсу вендора — 5 Technicians and 500 IT Assets.": 2,
+    "ServiceDesk Plus MSP Enterprise: годовая подписка, объём по прайсу вендора — 50 Technicians and 2000 IT Assets.": 2,
+    "ServiceDesk Plus MSP Enterprise: годовая подписка, объём по прайсу вендора — Additional 100 IT Assets.": 2,
+    "ServiceDesk Plus MSP Enterprise: годовая подписка, объём по прайсу вендора — Additional 1000 IT Assets.": 2,
+    "ServiceDesk Plus MSP Enterprise: годовая подписка, объём по прайсу вендора — Additional 10000 IT Assets.": 2,
+    "ServiceDesk Plus MSP Enterprise: годовая подписка, объём по прайсу вендора — Additional 2000 IT Assets.": 2,
+    "ServiceDesk Plus MSP Enterprise: годовая подписка, объём по прайсу вендора — Additional 250 IT Assets.": 2,
+    "ServiceDesk Plus MSP Enterprise: годовая подписка, объём по прайсу вендора — Additional 500 IT Assets.": 2,
+    "ServiceDesk Plus MSP Enterprise: годовая подписка, объём по прайсу вендора — Additional 5000 IT Assets.": 2,
+    "ServiceDesk Plus MSP Enterprise: годовая подписка, объём по прайсу вендора — Fail Over Service.": 2,
+    "ServiceDesk Plus MSP Professional: годовая подписка, объём по прайсу вендора — 10 Technicians and 500 IT Assets.": 2,
+    "ServiceDesk Plus MSP Professional: годовая подписка, объём по прайсу вендора — 100 Technicians and 1000 IT Assets.": 2,
+    "ServiceDesk Plus MSP Professional: годовая подписка, объём по прайсу вендора — 20 Technicians and 500 IT Assets.": 2,
+    "ServiceDesk Plus MSP Professional: годовая подписка, объём по прайсу вендора — 200 Technicians and 1000 IT Assets.": 2,
+    "ServiceDesk Plus MSP Professional: годовая подписка, объём по прайсу вендора — 25 Technicians and 500 IT Assets.": 2,
+    "ServiceDesk Plus MSP Professional: годовая подписка, объём по прайсу вендора — 5 Technicians and 500 IT Assets.": 2,
+    "ServiceDesk Plus MSP Professional: годовая подписка, объём по прайсу вендора — 50 Technicians and 1000 IT Assets.": 2,
+    "ServiceDesk Plus MSP Professional: годовая подписка, объём по прайсу вендора — Additional 100 IT Assets.": 2,
+    "ServiceDesk Plus MSP Professional: годовая подписка, объём по прайсу вендора — Additional 1000 IT Assets.": 2,
+    "ServiceDesk Plus MSP Professional: годовая подписка, объём по прайсу вендора — Additional 10000 IT Assets.": 2,
+    "ServiceDesk Plus MSP Professional: годовая подписка, объём по прайсу вендора — Additional 2000 IT Assets.": 2,
+    "ServiceDesk Plus MSP Professional: годовая подписка, объём по прайсу вендора — Additional 250 IT Assets.": 2,
+    "ServiceDesk Plus MSP Professional: годовая подписка, объём по прайсу вендора — Additional 500 IT Assets.": 2,
+    "ServiceDesk Plus MSP Professional: годовая подписка, объём по прайсу вендора — Additional 5000 IT Assets.": 2,
+    "ServiceDesk Plus MSP Professional: годовая подписка, объём по прайсу вендора — CMDB Addon.": 2,
+    "ServiceDesk Plus MSP Professional: годовая подписка, объём по прайсу вендора — CTI Integration Add on.": 2,
+    "ServiceDesk Plus MSP Professional: годовая подписка, объём по прайсу вендора — Change management Addon.": 2,
+    "ServiceDesk Plus MSP Professional: годовая подписка, объём по прайсу вендора — Fail Over Service.": 2,
+    "ServiceDesk Plus MSP Professional: годовая подписка, объём по прайсу вендора — Problem management Addon.": 2,
+    "ServiceDesk Plus MSP Professional: годовая подписка, объём по прайсу вендора — Project Management Addon.": 2,
+    "ServiceDesk Plus MSP Professional: годовая подписка, объём по прайсу вендора — Service catalog Addon.": 2,
+    "ServiceDesk Plus MSP Standard: годовая подписка, объём по прайсу вендора — 100 Technicians.": 2,
+    "ServiceDesk Plus MSP Standard: годовая подписка, объём по прайсу вендора — 20 Technicians.": 2,
+    "ServiceDesk Plus MSP Standard: годовая подписка, объём по прайсу вендора — 200 Technicians.": 2,
+    "ServiceDesk Plus MSP Standard: годовая подписка, объём по прайсу вендора — 25 Technicians.": 2,
+    "ServiceDesk Plus MSP Standard: годовая подписка, объём по прайсу вендора — 50 Technicians.": 2,
+    "ServiceDesk Plus MSP Standard: годовая подписка, объём по прайсу вендора — Change Management Add-on.": 2,
+    "ServiceDesk Plus MSP Standard: годовая подписка, объём по прайсу вендора — Fail Over Service.": 2,
+    "ServiceDesk Plus MSP Standard: годовая подписка, объём по прайсу вендора — Service Catalog Add-On.": 2,
+    "ServiceDesk Plus: годовая подписка, объём по прайсу вендора — Additional 10 Users.": 2,
+    "ServiceDesk Plus: годовая подписка, объём по прайсу вендора — Additional 5 Users.": 2,
+    "SupportCenter Plus Enterprise: годовая подписка, объём по прайсу вендора — 10 Support Representatives.": 2,
+    "SupportCenter Plus Enterprise: годовая подписка, объём по прайсу вендора — 100 Support Representatives.": 2,
+    "SupportCenter Plus Enterprise: годовая подписка, объём по прайсу вендора — 20 Support Representatives.": 2,
+    "SupportCenter Plus Enterprise: годовая подписка, объём по прайсу вендора — 5 Support Representatives.": 2,
+    "SupportCenter Plus Enterprise: годовая подписка, объём по прайсу вендора — 50 Support Representatives.": 2,
+    "SupportCenter Plus Professional: годовая подписка, объём по прайсу вендора — 100 Support Representatives.": 2,
+    "SupportCenter Plus Professional: годовая подписка, объём по прайсу вендора — 20 Support Representatives.": 2,
+    "SupportCenter Plus Professional: годовая подписка, объём по прайсу вендора — 5 Support Representatives.": 2,
+    "SupportCenter Plus Professional: годовая подписка, объём по прайсу вендора — 50 Support Representatives.": 2,
+    "SupportCenter Plus Standard: годовая подписка, объём по прайсу вендора — 100 Support Representatives.": 2,
+    "SupportCenter Plus Standard: годовая подписка, объём по прайсу вендора — 20 Support Representatives.": 2,
+    "SupportCenter Plus Standard: годовая подписка, объём по прайсу вендора — 25 Support Representatives.": 2,
+    "SupportCenter Plus Standard: годовая подписка, объём по прайсу вендора — 50 Support Representatives.": 2,
+    "SupportCenter Plus: годовая подписка, объём по прайсу вендора — CTI Addon.": 2,
+    "Годовое сопровождение вендора: обновления и техподдержка к вечной лицензии того же объёма.": 1340
+  }
+}
