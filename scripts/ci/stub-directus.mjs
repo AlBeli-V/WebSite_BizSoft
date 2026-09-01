@@ -54,6 +54,9 @@ const PRODUCTS = [
   product({ id: 105, name: 'Черновик', sku: 'DRAFT-1', vendor: 'OpenAI', slug: 'chernovik', status: 'draft' }),
   // Сценарии структурированных данных: «цена по запросу» и активная акция.
   product({ id: 106, name: 'Товар по запросу', sku: 'REQ-1', vendor: 'OpenAI', slug: 'tovar-po-zaprosu', price: 0 }),
+  // Карточка со своей метой: проверяем, что meta_* из Directus доезжают до
+  // разметки и что бренд в title не задваивается.
+  product({ id: 108, name: 'Товар со своей метой', sku: 'META-1', vendor: 'OpenAI', slug: 'tovar-s-metoj', meta_title: 'Свой заголовок карточки | BIZSoft', meta_description: 'Своё описание карточки: проверяем, что мета из Directus попадает в разметку.' }),
   product({ id: 107, name: 'Товар с акцией', sku: 'PROMO-1', vendor: 'OpenAI', slug: 'tovar-s-akciej', price: 2000, promo_price: 1500, promo_label: 'Акция', promo_start: null, promo_end: '2099-12-31' }),
 ];
 
