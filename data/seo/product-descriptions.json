@@ -77,12 +77,36 @@
     },
     "deposit-unl-year": {
       "meta_title": "Depositphotos Unlimited на год — купить юрлицу | BIZSoft"
+    },
+    "bitdefender-premium-security-family": {
+      "meta_title": "Bitdefender Premium Security Family — купить | BIZSoft"
+    },
+    "bitdefender-premium-security-ind": {
+      "meta_title": "Bitdefender Premium Security на 1 пользователя | BIZSoft"
+    },
+    "bitdefender-total-security-family": {
+      "meta_title": "Bitdefender Total Security Family — купить | BIZSoft"
+    },
+    "bitdefender-total-security-ind": {
+      "meta_title": "Bitdefender Total Security на 1 пользователя | BIZSoft"
+    },
+    "bitdefender-ultimate-security-family": {
+      "meta_title": "Bitdefender Ultimate Security Family — купить | BIZSoft"
+    },
+    "bitdefender-ultimate-security-ind": {
+      "meta_title": "Bitdefender Ultimate Security на 1 пользователя | BIZSoft"
+    },
+    "parallels-desktop-standard-perpetual": {
+      "meta_title": "Parallels Desktop Standard бессрочно — купить | BIZSoft"
+    },
+    "parallels-desktop-standard-sub": {
+      "meta_title": "Parallels Desktop Standard подписка — купить | BIZSoft"
     }
   },
   "_meta": {
     "purpose": "Уникализация описаний карточек тарифов для возврата страниц из-под фильтра МПК Яндекса",
     "source_report": "reports/seo/excluded-pages-analysis.md",
-    "batch": "Adobe + Zoom (партия 1); Depositphotos Unlimited — развод одинаковых meta_title (партия 2)",
+    "batch": "Adobe + Zoom (партия 1); Depositphotos Unlimited — развод одинаковых meta_title (партия 2); Bitdefender и Parallels Desktop — развод дублей по находке ops-content-audit 01.09.2026 (партия 3)",
     "applied_by": ".github/workflows/ops-apply-descriptions.yml"
   }
 }
