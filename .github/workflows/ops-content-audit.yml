@@ -1,6 +1,10 @@
-# Аудит текстового контента карточек в прод-Directus: полнота описаний и
+# Аудит текстового контента карточек в прод-Directus: полнота описаний,
 # качество мета-тегов (пустые, обрывы «…», неверное написание бренда,
-# длина title/description). Только чтение. Результат — в журнал-issue #22.
+# длина title/description) и дубли между карточками: по фактическому
+# заголовку страницы (meta_title, а при пустом — name), meta_description,
+# названию товара (витрина и фиды) и short_description (из него
+# ops-fix-meta собирает meta_description). Только чтение, раз в неделю по
+# расписанию. Результат — в журнал-issue #22.
 name: ops-content-audit
 on:
   workflow_dispatch:
@@ -8,6 +12,14 @@ on:
       vendor:
         description: 'Ограничить вендором (пусто — весь каталог)'
         required: false
+      full:
+        description: 'true — печатать все группы дублей, а не первую десятку'
+        required: false
+        default: 'false'
+  schedule:
+    # понедельник 07:00 UTC = 10:00 МСК: еженедельная сверка каталога,
+    # чтобы дубли не копились до находки Вебмастера
+    - cron: '0 7 * * 1'
 permissions:
   issues: write
 jobs:
@@ -25,11 +37,12 @@ jobs:
         uses: appleboy/ssh-action@v1
         env:
           P_VENDOR: ${{ inputs.vendor }}
+          P_FULL: ${{ inputs.full }}
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
-          envs: P_VENDOR
+          envs: P_VENDOR,P_FULL
           capture_stdout: true
           script: |
             set -e
@@ -39,6 +52,7 @@ jobs:
             import json, os, urllib.parse, urllib.request
             token = os.environ['TOKEN']
             vendor = os.environ.get('P_VENDOR', '').strip()
+            full = os.environ.get('P_FULL', '').strip().lower() == 'true'
             flt = {'status': {'_eq': 'published'}}
             if vendor:
                 flt['vendor'] = {'_eq': vendor}
@@ -65,10 +79,17 @@ jobs:
             }
             # JB-плагины и личные лицензии не индексируются — считаем отдельно
             def noindex(r):
+                # Тот же набор правил, что в productNoindex() (src/lib/catalog.ts):
+                # плагины Marketplace, личные лицензии JetBrains и карточки
+                # продления. Без -RENEWAL аудит считал продления индексируемыми
+                # и показывал их как дубли первой покупки, хотя в поиск они
+                # не идут вовсе.
                 s = (r.get('sku') or '').upper()
-                return s.startswith('JB-PLG-') or (s.startswith('JB-') and s.endswith('-IND'))
+                return (s.startswith('JB-PLG-')
+                        or (s.startswith('JB-') and s.endswith('-IND'))
+                        or s.endswith('-RENEWAL'))
             idx = [r for r in rows if not noindex(r)]
-            print(f'из них индексируемых (без JB-PLG-* и *-IND): {len(idx)}\n')
+            print(f'из них индексируемых (без JB-PLG-*, *-IND и *-RENEWAL): {len(idx)}\n')
             print('== Проблемы (только по индексируемым) ==')
             for name, test in groups.items():
                 hits = [r for r in idx if test(r)]
@@ -77,6 +98,48 @@ jobs:
                     print(f"   - {r['slug']}")
                 if len(hits) > 6:
                     print(f'   … ещё {len(hits) - 6}')
+            # Одинаковые title/description на разных карточках Яндекс считает
+            # дублями и снимает страницы с индексации. Заголовок страницы —
+            # это meta_title, а при пустом meta_title — название товара
+            # (src/pages/product/[slug].astro: meta_title || name), поэтому
+            # дубли ищем по фактическому заголовку, иначе пары с пустой метой
+            # остаются невидимыми для аудита.
+            def effective_title(r):
+                return g(r, 'meta_title') or g(r, 'name')
+
+            print('\n== Дубли мета-тегов (только по индексируемым) ==')
+            # name — то, что видит покупатель на витрине и что уходит в фиды;
+            # short_description — источник, из которого ops-fix-meta собирает
+            # meta_description, поэтому его дубли предсказывают будущие дубли меты.
+            for f, value in (('заголовок страницы (meta_title или name)', effective_title),
+                             ('meta_description', lambda r: g(r, 'meta_description')),
+                             ('название товара (витрина и фиды)', lambda r: g(r, 'name')),
+                             ('short_description (источник meta_description)',
+                              lambda r: g(r, 'short_description'))):
+                seen = {}
+                for r in idx:
+                    v = value(r)
+                    if v:
+                        seen.setdefault(v, []).append(r)
+                dups = {v: rows_ for v, rows_ in seen.items() if len(rows_) > 1}
+                print(f'{f}: групп дублей {len(dups)}')
+                # По расписанию хватает первой десятки — отчёт читают глазами.
+                # Разгребая долг партиями, нужен весь список: full=true.
+                shown = sorted(dups.items(), key=lambda kv: -len(kv[1]))
+                if not full:
+                    shown = shown[:10]
+                for v, rows_ in shown:
+                    # откуда взят заголовок: своя мета или подставленное название
+                    src = ''
+                    if value is effective_title:
+                        empty = sum(1 for r in rows_ if not g(r, 'meta_title'))
+                        src = (' [meta_title пуст у всех, заголовок из name]' if empty == len(rows_)
+                               else f' [meta_title пуст у {empty} из {len(rows_)}]' if empty else '')
+                    slugs = ', '.join(sorted(r['slug'] for r in rows_))
+                    print(f'   - «{v[:70]}» — {len(rows_)} шт.{src}: {slugs}')
+                if len(dups) > len(shown):
+                    print(f'   … ещё {len(dups) - len(shown)} групп')
+
             lens = sorted(len(g(r, 'description')) for r in idx)
             if lens:
                 mid = lens[len(lens) // 2]
