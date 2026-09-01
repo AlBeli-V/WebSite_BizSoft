@@ -1021,5 +1021,89 @@
     "600455552": 0.0,
     "600455553": 0.0,
     "603134154": 0.0
+  },
+  "direct_attribution": {
+    "dimension": "ym:s:lastDirectBannerGroup",
+    "goal_keys": [
+      "click_messenger",
+      "lead_sent",
+      "quote_pdf",
+      "click_phone",
+      "click_email"
+    ],
+    "rows": [
+      {
+        "name": "Claude Code — для команд разработки",
+        "visits": 59.0,
+        "goal_reaches_any": 63.0,
+        "leads": {
+          "click_messenger": 0.0,
+          "lead_sent": 0.0,
+          "quote_pdf": 0.0,
+          "click_phone": 0.0,
+          "click_email": 0.0
+        }
+      },
+      {
+        "name": "ChatGPT Business — гипотеза с фильтром до клика",
+        "visits": 28.0,
+        "goal_reaches_any": 29.0,
+        "leads": {
+          "click_messenger": 0.0,
+          "lead_sent": 0.0,
+          "quote_pdf": 0.0,
+          "click_phone": 0.0,
+          "click_email": 0.0
+        }
+      },
+      {
+        "name": "Adobe — подписки для юрлиц",
+        "visits": 9.0,
+        "goal_reaches_any": 12.0,
+        "leads": {
+          "click_messenger": 0.0,
+          "lead_sent": 0.0,
+          "quote_pdf": 0.0,
+          "click_phone": 0.0,
+          "click_email": 0.0
+        }
+      },
+      {
+        "name": "Claude — подписки для компаний",
+        "visits": 6.0,
+        "goal_reaches_any": 6.0,
+        "leads": {
+          "click_messenger": 0.0,
+          "lead_sent": 0.0,
+          "quote_pdf": 0.0,
+          "click_phone": 0.0,
+          "click_email": 0.0
+        }
+      },
+      {
+        "name": "Midjourney — контрольная корзина",
+        "visits": 4.0,
+        "goal_reaches_any": 7.0,
+        "leads": {
+          "click_messenger": 0.0,
+          "lead_sent": 0.0,
+          "quote_pdf": 0.0,
+          "click_phone": 0.0,
+          "click_email": 1.0
+        }
+      },
+      {
+        "name": "Cursor — редактор для команд разработки",
+        "visits": 1.0,
+        "goal_reaches_any": 1.0,
+        "leads": {
+          "click_messenger": 0.0,
+          "lead_sent": 0.0,
+          "quote_pdf": 0.0,
+          "click_phone": 0.0,
+          "click_email": 0.0
+        }
+      }
+    ]
   }
 }
