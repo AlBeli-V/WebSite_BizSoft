@@ -1,7 +1,7 @@
 {
  "date": "2026-09-01",
  "source": "https://biz-soft.pro/sitemap.xml",
- "count": 790,
+ "count": 785,
  "urls": [
   {
    "path": "/",
@@ -133,6 +133,10 @@
   },
   {
    "path": "/solutions/ai-dlya-buhgalterii",
+   "lastmod": null
+  },
+  {
+   "path": "/solutions/po-dlya-razrabotki-igr",
    "lastmod": null
   },
   {
@@ -648,28 +652,28 @@
    "lastmod": "2026-07-05"
   },
   {
-   "path": "/blog/kak-oformit-korporativnuyu-ai-podpisku-na-yurlico",
-   "lastmod": "2026-07-05"
-  },
-  {
    "path": "/blog/kak-kupit-zarubezhnoe-po-dlya-yurlica",
    "lastmod": "2026-06-27"
   },
   {
-   "path": "/blog/kak-vybrat-ai-assistenta-dlya-komandy-razrabotki",
-   "lastmod": "2026-08-17"
+   "path": "/blog/kak-oformit-korporativnuyu-ai-podpisku-na-yurlico",
+   "lastmod": "2026-07-05"
   },
   {
    "path": "/blog/kak-oplatit-depositphotos-dlya-yurlica",
    "lastmod": "2026-08-19"
   },
   {
-   "path": "/blog/podpiska-napryamuyu-ili-cherez-postavshchika",
-   "lastmod": "2026-06-27"
+   "path": "/blog/kak-vybrat-ai-assistenta-dlya-komandy-razrabotki",
+   "lastmod": "2026-08-17"
   },
   {
    "path": "/blog/zakryvayushchie-dokumenty-na-po",
    "lastmod": "2026-08-21"
+  },
+  {
+   "path": "/blog/podpiska-napryamuyu-ili-cherez-postavshchika",
+   "lastmod": "2026-06-27"
   },
   {
    "path": "/catalog/office",
@@ -740,6 +744,10 @@
    "lastmod": null
   },
   {
+   "path": "/catalog/web",
+   "lastmod": null
+  },
+  {
    "path": "/catalog/ai/text",
    "lastmod": null
   },
@@ -770,34 +778,6 @@
   {
    "path": "/catalog/ai/enterprise",
    "lastmod": null
-  },
-  {
-   "path": "/product/ai-code-assistant-team",
-   "lastmod": "2026-08-28"
-  },
-  {
-   "path": "/product/ai-text-team",
-   "lastmod": "2026-08-21"
-  },
-  {
-   "path": "/product/video-conferencing-business",
-   "lastmod": "2026-08-21"
-  },
-  {
-   "path": "/product/graphics-pro-yearly",
-   "lastmod": "2026-08-28"
-  },
-  {
-   "path": "/product/ai-image-business",
-   "lastmod": "2026-08-21"
-  },
-  {
-   "path": "/product/corporate-chat-team",
-   "lastmod": "2026-08-21"
-  },
-  {
-   "path": "/product/design-collab-team",
-   "lastmod": "2026-08-21"
   },
   {
    "path": "/product/adobe-cc-pro",
@@ -2188,19 +2168,15 @@
    "lastmod": "2026-08-28"
   },
   {
-   "path": "/product/me-admanager-plus-msp-500-domain-users",
-   "lastmod": "2026-08-28"
-  },
-  {
    "path": "/product/me-admanager-plus-msp-active-directory-backup-an-250-user-objects",
    "lastmod": "2026-08-28"
   },
   {
-   "path": "/product/me-admanager-plus-msp-helpdesk-technicians-1-helpdesk-technicians",
+   "path": "/product/me-admanager-plus-msp-500-domain-users",
    "lastmod": "2026-08-28"
   },
   {
-   "path": "/product/me-admanager-plus-msp-helpdesk-technicians-1-helpdesk-technicians-perp",
+   "path": "/product/me-admanager-plus-msp-helpdesk-technicians-1-helpdesk-technicians",
    "lastmod": "2026-08-28"
   },
   {
@@ -2209,6 +2185,10 @@
   },
   {
    "path": "/product/me-admanager-plus-msp-active-directory-backup-an-250-user-objects-perp",
+   "lastmod": "2026-08-28"
+  },
+  {
+   "path": "/product/me-admanager-plus-msp-helpdesk-technicians-1-helpdesk-technicians-perp",
    "lastmod": "2026-08-28"
   },
   {
@@ -2324,11 +2304,11 @@
    "lastmod": "2026-08-28"
   },
   {
-   "path": "/product/me-datasecurity-plus-professional-data-risk-assessment-2-tb",
+   "path": "/product/me-datasecurity-plus-professional-fileanalysis-2-tb",
    "lastmod": "2026-08-28"
   },
   {
-   "path": "/product/me-datasecurity-plus-professional-fileanalysis-2-tb",
+   "path": "/product/me-datasecurity-plus-professional-data-risk-assessment-2-tb",
    "lastmod": "2026-08-28"
   },
   {
@@ -3121,11 +3101,11 @@
   },
   {
    "path": "/product/wordpress-business",
-   "lastmod": null
+   "lastmod": "2026-09-01"
   },
   {
    "path": "/product/wordpress-commerce",
-   "lastmod": null
+   "lastmod": "2026-09-01"
   },
   {
    "path": "/product/maxon-zbrush-teams",
