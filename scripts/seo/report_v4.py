@@ -464,24 +464,46 @@ def kpi_cards(snap: dict, prev: dict | None, dq: dict) -> list[dict]:
             # достижим. Остаётся отсутствие целей в счётчике, и починка нужна
             # именно там — текст, называющий закрытую причину, отправлял работу
             # не по адресу.
-            "interpretation": ("Это автоцели Метрики, а не подтверждённые обращения. "
-                               "Конверсионные цели заведены в счётчике только что, "
-                               "и в этот замер они ещё не попали: первые сопоставимые "
-                               "числа появятся со следующего сбора."
-                               if goals_lagging else
-                               f"Это автоцели Метрики, а не подтверждённые обращения. "
-                               f"Сайт отправляет {goals_missing} "
-                               f"{plural(goals_missing, 'цель', 'цели', 'целей')}, "
-                               f"которых нет в счётчике, поэтому счётчик их "
-                               f"отбрасывает. Ноль по ним означает отсутствие "
-                               f"замера, а не отсутствие обращений."
-                               if gap else
-                               "Это срабатывания форм на сайте, а не подтверждённые "
-                               "обращения: CRM не подключена."),
+            "interpretation": _commercial_interpretation(m, goals_lagging,
+                                                         goals_missing),
             "muted": True, "sparkline": None,
             "sample_ctr": f"{sample.get('label')} {pct(sample.get('value'), 2)}"
                           if sample else None})
     return cards[:4]
+
+
+def _commercial_interpretation(m: dict, goals_lagging: bool,
+                               goals_missing: int) -> str:
+    """Трактовка «Коммерческого сигнала» (вопрос руководителя 01.09.2026).
+
+    Прежний текст выбирался по флагу MEASUREMENT_GAP любого рода и при
+    goals_missing=0 печатал бессмыслицу «сайт отправляет 0 целей … счётчик
+    их отбрасывает». Теперь: причина называется только когда она есть, а
+    при наличии разбивки по целям показывается состав — без него сумма
+    нечитаема (клик по телефону и автоцель «поиск по сайту» в одной цифре).
+    """
+    base = "Действия посетителей из поиска по целям Метрики"
+    tail = ("; это не подтверждённые обращения — подтверждение появится "
+            "после связки с заявками (этап B)")
+    if goals_lagging:
+        return (f"{base}. Конверсионные цели заведены в счётчике только что "
+                f"и в этот замер ещё не попали: первые сопоставимые числа — "
+                f"со следующего сбора{tail}.")
+    if goals_missing:
+        return (f"{base}. Сайт отправляет "
+                f"{counted(goals_missing, 'цель', 'цели', 'целей')}, которых "
+                f"нет в счётчике, — по ним ноль означает отсутствие замера, "
+                f"а не отсутствие обращений{tail}.")
+    bd = m.get("goal_breakdown")
+    if bd:
+        top = "; ".join(f"{r['name'].lower().replace('автоцель: ', '')} — "
+                        f"{num(r['events'])}" for r in bd[:3])
+        more = len(bd) - 3
+        return (f"{base}. Состав: {top}"
+                + (f" и ещё {more}" if more > 0 else "") + tail + ".")
+    return (f"{base}: сумма по всем целям вперемешку — от клика по телефону "
+            f"до автоцели «поиск по сайту»; разбивка появится со следующего "
+            f"сбора данных{tail}.")
 
 
 def _dir(delta) -> str:
@@ -683,6 +705,7 @@ def assemble(snap, prev, dq, actions_cfg, site_check):
 
     demand_block = load_demand()
     growth_ideas = load_growth_ideas()
+    mgmt = _management_actions(exps, opps, demand_block, growth_ideas)
     # Стол решений (замечание руководителя 31.08.2026): «решений не
     # требуется» в шапке при письме, полном предложений ниже, — дезинформация.
     # Когда срочного решения нет, шапка агрегирует предложения нижних блоков.
@@ -743,6 +766,7 @@ def assemble(snap, prev, dq, actions_cfg, site_check):
             "Решений от вас сегодня не требуется."),
         "user_action_required": bool(red or exp_decisions),
         "owner_desk": desk,
+        "management_actions": mgmt,
         "kpis": kpis,
         "signals": sig,
         "drivers": dec,
@@ -950,6 +974,123 @@ def _exp_interim_line(e: dict) -> tuple[str, str | None]:
             f"(окно {ru_date(c['from'])}–{ru_date(c['to'])}, "
             f"{c['post_days']} из {c['window_days']} дней после){mult}{posline}")
     return line, ("; ".join(i.get("caveats") or []) or None)
+
+
+def _management_actions(exps: list, opps: dict, demand_block: dict,
+                        growth_ideas: dict) -> list[dict]:
+    """Раздел «Управленческие воздействия» (поручение руководителя 01.09.2026).
+
+    Каждое предложение «стола решений» разворачивается в постановку задачи:
+    что сделать, почему (доказательство данными), шаги, критерий приёмки и
+    что требуется от руководителя. Система без его команды ничего не меняет.
+    """
+    out = []
+
+    # 1. Решения по экспериментам на ближайшей контрольной точке.
+    props = sorted(
+        ((ev.get("clean_window_eta") or e["next_review"], e)
+         for e in exps for ev in [e.get("evaluation") or {}]
+         if ev.get("clean_window_eta") or e.get("next_review")),
+        key=lambda x: x[0])
+    if props:
+        when, e = props[0]
+        interim = e.get("interim") or {}
+        rel = interim.get("relative_uplift")
+        prelim = (f"предварительно ×{1 + rel:.1f}".replace(".", ",")
+                  if rel is not None else "предварительных данных мало")
+        out.append({
+            "task": f"Принять решение по эксперименту {e['ticket']}",
+            "why": (f"контрольная точка {ru_date(when)}; {prelim} по CTR кластера "
+                    f"({num(e.get('impressions_since_deploy'))} показов)"),
+            "steps": ("прочитать панель вердикта в письме контрольной даты "
+                      "(вердикт, уверенность, p-value, рекомендация с целевыми "
+                      "страницами) и ответить в чате командой"),
+            "acceptance": "решение зафиксировано в журнале решений экспериментов",
+            "from_you": (f"одна команда {ru_date(when)}: EXPAND / KEEP / REVERT / "
+                         f"EXTEND {e['ticket']}"),
+        })
+
+    # 2. Рост без бюджета: сниппеты под запросы с показами без переходов.
+    items = (opps.get("items") or []) if opps.get("available") else []
+    if items:
+        exp_slugs = {p.rstrip("/").rsplit("/", 1)[-1]
+                     for e in exps for p in _registry_pages(e)}
+        qlist = []
+        held = []
+        for o in items:
+            cl = o["cluster"]
+            if any(s in cl for s in exp_slugs):
+                held.append(cl)
+            else:
+                qlist.append(cl)
+        steps = ("для каждого запроса: переписать title целевой страницы под "
+                 "запросную формулу (≤65 символов, штатный слой src/lib/seo.ts), "
+                 "description ≤160 с оффером «счёт, договор, ЭДО», добавить "
+                 "вопрос в FAQ-блок; изменения — отдельным PR с частотностью "
+                 "по каждой правке, мерж ваш")
+        why = "; ".join(f"«{o['cluster']}» — {o['evidence']}" for o in items[:3])
+        note = (f"; запросы страниц активных экспериментов ({', '.join(held)}) — "
+                f"после вердикта, чтобы не смазать оценку" if held else "")
+        out.append({
+            "task": (f"Переписать сниппеты под "
+                     f"{counted(len(items), 'запрос', 'запроса', 'запросов')} "
+                     f"с показами без переходов"),
+            "why": why + note,
+            "steps": steps,
+            "acceptance": ("по каждому запросу появились переходы (CTR > 0) в "
+                           "течение 14 дней при позиции не хуже исходной ±1"),
+            "from_you": "команда «делай сниппеты» — подготовлю PR в тот же день",
+        })
+
+    # 3. Ассортимент: кандидаты в каталог (отклонённые руководителем скрыты).
+    exp_dm = (demand_block or {}).get("expansion") or {}
+    ready = exp_dm.get("items") or []
+    manual = exp_dm.get("manual_check") or []
+    if ready or manual:
+        parts_why, parts_steps, parts_from = [], [], []
+        if ready:
+            first = ready[0]
+            parts_why.append(
+                f"{first.get('brand')} — {num(first.get('commercial_demand'))} "
+                f"коммерческих запросов/мес, {first.get('recommendation_why', '')}")
+            parts_steps.append("по готовым: завести карточку штатным конвейером "
+                               "(Directus, иконки, микроразметка, sitemap)")
+            parts_from.append("решение «заводим <бренд>»")
+        if manual:
+            parts_why.append(f"у {len(manual)} кандидатов "
+                             f"({', '.join(manual)}) спрос подтверждён, "
+                             "но платёжная схема не опознана автоматически")
+            parts_steps.append("по ручным: проверить оплату на сайтах "
+                               "кандидатов и вернуть вердикт в исследование")
+            parts_from.append("решение по каждому после проверки")
+        out.append({
+            "task": "Расширение линейки: решить судьбу кандидатов с замеренным спросом",
+            "why": "; ".join(parts_why),
+            "steps": "; ".join(parts_steps) + "; параллельно исследование "
+                     "продолжает замерять остальных кандидатов вне каталога",
+            "acceptance": "каждый кандидат получает статус: заведён / отклонён "
+                          "(отклонённые больше не предлагаются)",
+            "from_you": "; ".join(parts_from),
+        })
+
+    # 4. Продвижение: свежие идеи копилки.
+    for it in (growth_ideas.get("fresh") or [])[:1]:
+        out.append({
+            "task": it["title"],
+            "why": it["why"],
+            "steps": it.get("steps", "конкретные шаги — в карточке идеи в "
+                                     "веб-отчёте"),
+            "acceptance": it.get("acceptance", "идея переведена в задачу со "
+                                               "сроком или отклонена"),
+            "from_you": it.get("from_you", "решение: развиваем / отклоняем"),
+        })
+    return out
+
+
+def _registry_pages(e: dict) -> list[str]:
+    """Страницы эксперимента из собранного словаря письма (по реестру)."""
+    reg = {x["id"]: x for x in exp_mod.load_registry()}
+    return (reg.get(e.get("id")) or {}).get("pages") or []
 
 
 def _exp_outlook_line(e: dict) -> str:
@@ -1257,8 +1398,9 @@ def html_email(b: dict, charts: dict, cid_mode: bool) -> str:
             f"на вашем столе {counted(len(b['owner_desk']), 'предложение', 'предложения', 'предложений')}</div>"
             f"{desk_rows}"
             f"<div data-meta=\"1\" style=\"font-size:12.5px;color:{T['text_secondary']};"
-            f"padding-top:{SP['s']}px;\">Подробности — в разделах ниже; решения "
-            f"принимаете вы, система без команды ничего не меняет.</div>"
+            f"padding-top:{SP['s']}px;\">Развёрнутые постановки задач — в разделе "
+            f"«Управленческие воздействия» внизу письма; решения принимаете вы, "
+            f"система без команды ничего не меняет.</div>"
             f"</td></tr></table></td></tr>")
     else:
         rows.append(
@@ -1568,6 +1710,29 @@ def html_email(b: dict, charts: dict, cid_mode: bool) -> str:
             f"{cards}{manual}",
             exp.get("note")))
 
+    # I-г. Управленческие воздействия (поручение руководителя 01.09.2026):
+    # каждое предложение «стола решений» — развёрнутой постановкой задачи.
+    if b.get("management_actions"):
+        cards_ma = ""
+        for i, m in enumerate(b["management_actions"], 1):
+            cards_ma += (
+                f"<div style=\"padding:{SP['m']}px 0;"
+                f"border-bottom:1px solid {T['border']};\">"
+                f"<div style=\"font-size:15px;font-weight:600;line-height:1.45;\">"
+                f"{i}. {m['task']}</div>"
+                f"<div style=\"font-size:14.5px;padding-top:{SP['xs']}px;"
+                f"line-height:1.55;\"><b>Зачем:</b> {m['why']}.</div>"
+                f"<div style=\"font-size:14.5px;padding-top:{SP['xs']}px;"
+                f"line-height:1.55;\"><b>Что делаем:</b> {m['steps']}.</div>"
+                f"<div data-meta=\"1\" style=\"font-size:12.5px;"
+                f"color:{T['text_secondary']};padding-top:{SP['xs']}px;"
+                f"line-height:1.5;\">Приёмка: {m['acceptance']}. "
+                f"От вас: {m['from_you']}.</div></div>")
+        rows.append(_section(
+            "Управленческие воздействия", cards_ma,
+            "постановки задач по предложениям из шапки; система без вашей "
+            "команды ничего не меняет"))
+
     # J. Здоровье данных
     h = b["health"]
     colour = {"positive": T["positive"], "warning": T["warning"],
@@ -1786,6 +1951,14 @@ def plain_text(b: dict) -> str:
         for it in gi["fresh"]:
             L.append(f"- {it['title']} — {it['why']}")
     h = b["health"]
+    if b.get("management_actions"):
+        L += ["", "УПРАВЛЕНЧЕСКИЕ ВОЗДЕЙСТВИЯ"]
+        for i, m in enumerate(b["management_actions"], 1):
+            L += [f"{i}. {m['task']}",
+                  f"   зачем: {m['why']}",
+                  f"   что делаем: {m['steps']}",
+                  f"   приёмка: {m['acceptance']}",
+                  f"   от вас: {m['from_you']}"]
     L += ["", "ЗДОРОВЬЕ ДАННЫХ",
           f"{PILL_LABEL[h['status']].capitalize()}: {h['reason']}. {h['detail']}",
           b["measurement_summary"]]
@@ -1896,6 +2069,21 @@ def _site_vendor_words() -> set[str]:
     return words
 
 
+VENDOR_DECISIONS = BASE / "vendor-decisions.json"
+
+
+def rejected_vendor_brands() -> set[str]:
+    """Кандидаты в каталог, отклонённые руководителем (нормализованные имена)."""
+    if not VENDOR_DECISIONS.exists():
+        return set()
+    try:
+        d = json.loads(VENDOR_DECISIONS.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return set()
+    return {" ".join(re.findall(r"[a-zа-яё0-9]+", b.lower()))
+            for b in (d.get("rejected") or {})}
+
+
 def _drop_vendors_already_on_site(block: dict) -> dict:
     """Не предлагать к заведению вендора, который уже на сайте.
 
@@ -1911,10 +2099,14 @@ def _drop_vendors_already_on_site(block: dict) -> dict:
     on_site = _site_vendor_words()
     if not on_site:
         return block
+    # Бренды, отклонённые руководителем, не предлагаются повторно
+    # (01.09.2026: «aws не добавляем и из предложений на будущее исключаем»).
+    rejected = rejected_vendor_brands()
 
     def known(brand: str) -> bool:
         b = " ".join(re.findall(r"[a-zа-яё0-9]+", (brand or "").lower()))
-        return bool(b) and any(b == w or b in w.split() for w in on_site)
+        return (bool(b) and any(b == w or b in w.split() for w in on_site)
+                or b in rejected)
 
     items = [i for i in (exp.get("items") or []) if not known(i.get("brand", ""))]
     manual = [m for m in (exp.get("manual_check") or []) if not known(m)]

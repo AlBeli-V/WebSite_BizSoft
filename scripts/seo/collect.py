@@ -295,6 +295,32 @@ def collect_metrika() -> dict:
     for key, params in queries.items():
         data, err = api_json(stat, headers=headers, params={**base, **params})
         result[key] = {'error': err} if err else data
+
+    # Разбивка целевых событий органики по целям (вопрос руководителя
+    # 01.09.2026: сумма «N целевых событий» без состава нечитаема — в ней
+    # смешаны клик по телефону и автоцель «поиск по сайту»). Метрика отдаёт
+    # по-цельные достижения метриками ym:s:goal<ID>reaches, до 20 метрик на
+    # запрос — цели разбиваются на порции.
+    goal_ids = [g['id'] for g in result['goals']
+                if isinstance(result['goals'], list) and g.get('id')] \
+        if isinstance(result['goals'], list) else []
+    reaches: dict[str, float] = {}
+    for i in range(0, len(goal_ids), 20):
+        chunk = goal_ids[i:i + 20]
+        data, err = api_json(stat, headers=headers, params={
+            **base,
+            'metrics': ','.join(f'ym:s:goal{gid}reaches' for gid in chunk),
+            'filters': "ym:s:lastTrafficSource=='organic'"})
+        if err:
+            result['organic_goal_reaches'] = {'error': err}
+            break
+        totals = data.get('totals') or []
+        # totals бывает плоским списком значений или списком строк.
+        row = totals[0] if totals and isinstance(totals[0], list) else totals
+        for gid, val in zip(chunk, row):
+            reaches[str(gid)] = val
+    else:
+        result['organic_goal_reaches'] = reaches
     return result
 
 
