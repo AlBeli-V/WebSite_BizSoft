@@ -1,0 +1,140 @@
+# Выгрузка заявок воронки и восстановление пути клиента к запросу.
+#
+# Зачем. Заявка приходит менеджеру письмом с каналом по метке браузера, где
+# выдача поисковика и его же сервисы выглядят одинаково («хост / referral»).
+# На вопрос «из каких каналов приходили заявки — реклама, органика, фиды»
+# такая метка не отвечает. Этот прогон складывает витрину
+# reports/seo/data/leads-<дата>.json: заявки за две недели плюс визиты
+# каждого посетителя из Метрики по ym:s:clientID. Витрину читает snapshot.py,
+# а письмо Growth Intelligence показывает блок «Заявки за сутки».
+#
+# Персональные данные не выгружаются: с сервера уходят только реквизиты
+# юрлица (компания, ИНН), состав запроса, сумма и метки источника. Имя
+# контакта, телефон, почта и текст обращения остаются в воронке и в почте
+# менеджера — витрина живёт в репозитории, и им там не место.
+#
+# Расписание: 03:20 UTC = 06:20 МСК — после сбора SEO-данных (03:07 UTC) и до
+# сборки утреннего письма. Время в cron задаётся в UTC, московское указано
+# рядом (правило проекта).
+#
+# Секреты: SSH_HOST/SSH_USER/SSH_KEY (выгрузка из Directus на сервере),
+# YANDEX_METRIKA_TOKEN + YANDEX_METRIKA_COUNTER_ID (визиты посетителя).
+
+name: ops-leads-collect
+
+on:
+  schedule:
+    - cron: "20 3 * * *"
+  workflow_dispatch:
+    inputs:
+      days:
+        description: "За сколько последних суток выгружать заявки (по умолчанию 14)"
+        required: false
+        default: "14"
+
+permissions:
+  contents: write
+
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Guard - only default branch
+        run: |
+          if [ "${{ github.ref_name }}" != "main" ]; then
+            echo "Запуск разрешён только с ветки main. Текущий ref: ${{ github.ref_name }}"
+            exit 1
+          fi
+
+      - uses: actions/checkout@v4
+
+      # Данные накатываются до прогона: push отправляет каталог целиком, и без
+      # предварительного pull он затёр бы хранилище устаревшей копией.
+      - name: Pull data branch
+        run: bash scripts/seo/data_sync.sh pull
+
+      - name: Export leads from Directus
+        id: run
+        uses: appleboy/ssh-action@v1
+        env:
+          P_DAYS: ${{ inputs.days }}
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          envs: P_DAYS
+          capture_stdout: true
+          command_timeout: 10m
+          script: |
+            set -e
+            TOKEN=$(sed -n 's/^DIRECTUS_TOKEN=//p' /opt/bizsoft/astro.env | tr -d '"\r')
+            if [ -z "$TOKEN" ]; then
+              echo "DIRECTUS_TOKEN не задан в /opt/bizsoft/astro.env" >&2
+              exit 1
+            fi
+            DAYS=${P_DAYS:-14}
+            # Маркеры вокруг выгрузки: appleboy/ssh-action возвращает в
+            # capture_stdout не только вывод скрипта, но и свои служебные
+            # строки («Successfully executed commands to all hosts» между
+            # рядами знаков «=»). Первый прогон 01.09 на них и упал —
+            # json.load видел «Extra data» во второй строке.
+            echo "#LEADS-JSON-BEGIN#"
+            python3 - "$TOKEN" "$DAYS" <<'PYEOF'
+            import datetime as dt, json, sys, urllib.parse, urllib.request
+            token, days = sys.argv[1], int(sys.argv[2] or 14)
+            # Поля перечислены явно: запрос «всё подряд» вынес бы в журнал
+            # прогона имя, телефон и текст обращения — персональные данные
+            # не должны покидать сервер вовсе.
+            fields = ",".join([
+                "id", "created_at", "company", "inn", "status", "source",
+                "form_source", "product_ref", "amount", "quote_no",
+                "utm_source", "utm_medium", "utm_campaign", "utm_content",
+                "utm_term", "yclid", "gclid", "first_touch_source",
+                "first_touch_ts", "last_touch_source", "landing_path",
+                "ym_client_id",
+            ])
+            since = (dt.datetime.now(dt.timezone.utc)
+                     - dt.timedelta(days=days)).strftime("%Y-%m-%dT%H:%M:%S")
+            query = urllib.parse.urlencode({
+                "fields": fields, "limit": -1, "sort": "created_at",
+                "filter[created_at][_gte]": since,
+            })
+            url = f"http://localhost:8055/items/leads?{query}"
+            req = urllib.request.Request(url, headers={"Authorization": f"Bearer {token}"})
+            rows = json.load(urllib.request.urlopen(req))["data"]
+            print(json.dumps({"leads": rows}, ensure_ascii=False))
+            PYEOF
+            echo "#LEADS-JSON-END#"
+
+      # Вывод передаётся через файл, а не через переменную окружения: у длинной
+      # выгрузки список аргументов процесса переполняется (Argument list too long).
+      # Из вывода вырезается участок между маркерами — всё остальное написала
+      # сама ssh-action, и JSON-ом не является.
+      - name: Save export to file
+        run: |
+          cat > /tmp/leads-stdout.txt <<'LEADS_RAW_EOF'
+          ${{ steps.run.outputs.stdout }}
+          LEADS_RAW_EOF
+          sed -n '/#LEADS-JSON-BEGIN#/,/#LEADS-JSON-END#/p' /tmp/leads-stdout.txt \
+            | sed '1d;$d' > /tmp/leads-raw.json
+          if [ ! -s /tmp/leads-raw.json ]; then
+            echo "::error::в выводе выгрузки нет участка между маркерами — выгрузка не выполнена"
+            sed -n '1,20p' /tmp/leads-stdout.txt
+            exit 1
+          fi
+          python3 -c "import json;d=json.load(open('/tmp/leads-raw.json'));print('заявок выгружено:', len(d['leads']))"
+
+      - name: Install deps
+        run: pip install --quiet requests
+
+      - name: Enrich with Metrika visits
+        env:
+          YANDEX_METRIKA_TOKEN: ${{ secrets.YANDEX_METRIKA_TOKEN }}
+          YANDEX_METRIKA_COUNTER_ID: ${{ secrets.YANDEX_METRIKA_COUNTER_ID }}
+        run: python3 scripts/seo/leads_collect.py --raw /tmp/leads-raw.json
+
+      # Пуш только своего каталога: параллельные прогоны конвейера пишут в ту же
+      # ветку, и полная замена чужих каталогов затирает свежие файлы.
+      - name: Push data
+        if: always()
+        run: bash scripts/seo/data_sync.sh push "Заявки воронки за $(date -u +%F)" "reports/seo/data"

@@ -1,0 +1,168 @@
+# Склейка двух карточек одного и того же товара в прод-Directus.
+#
+# Одна позиция, заведённая дважды (разные sku/слаги), делит спрос между
+# страницами и показывается в каталоге и фидах как два товара. Склейка:
+#   drop — снимается с витрины (status → draft, обратимо в админке),
+#   keep — получает слаг снятой в old_slugs, и /product/<drop> начинает
+#          отдавать 301 на /product/<keep> (src/pages/product/[slug].astro).
+# Ничего не удаляется: карточка остаётся в базе со всей историей.
+#
+# apply=false — план (обе карточки со всеми полями решения) без записи.
+# Результат — комментарий в журнал-issue #22.
+name: ops-merge-product
+on:
+  workflow_dispatch:
+    inputs:
+      keep:
+        description: 'Слаг карточки, которая остаётся'
+        required: true
+      drop:
+        description: 'Слаг карточки, которая снимается с витрины (301 на keep)'
+        required: true
+      price:
+        description: 'Перенести цену снимаемой карточки на остающуюся: true/false'
+        required: false
+        default: 'false'
+      apply:
+        description: 'true — записать в Directus, false — только план'
+        required: true
+        default: 'false'
+permissions:
+  issues: write
+jobs:
+  merge:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Guard - only default branch
+        run: |
+          if [ "${{ github.ref_name }}" != "main" ]; then
+            echo "Запуск разрешён только с ветки main. Текущий ref: ${{ github.ref_name }}"
+            exit 1
+          fi
+      - name: Merge in Directus
+        id: run
+        uses: appleboy/ssh-action@v1
+        env:
+          P_KEEP: ${{ inputs.keep }}
+          P_DROP: ${{ inputs.drop }}
+          P_PRICE: ${{ inputs.price }}
+          P_APPLY: ${{ inputs.apply }}
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          envs: P_KEEP,P_DROP,P_PRICE,P_APPLY
+          capture_stdout: true
+          script: |
+            set -e
+            cd /opt/bizsoft
+            ADMIN_EMAIL=$(docker compose exec -T directus printenv ADMIN_EMAIL | tr -d '\r')
+            ADMIN_PASSWORD=$(docker compose exec -T directus printenv ADMIN_PASSWORD | tr -d '\r')
+            export ADMIN_EMAIL ADMIN_PASSWORD
+            python3 - <<'PYEOF'
+            import json, os, urllib.parse, urllib.request
+            base = 'http://127.0.0.1:8055'
+
+            def req(method, path, data=None, token=None):
+                r = urllib.request.Request(base + path, method=method,
+                    data=json.dumps(data).encode() if data is not None else None,
+                    headers={'Content-Type': 'application/json',
+                             **({'Authorization': f'Bearer {token}'} if token else {})})
+                return json.load(urllib.request.urlopen(r))
+
+            keep_slug = os.environ['P_KEEP'].strip()
+            drop_slug = os.environ['P_DROP'].strip()
+            move_price = os.environ.get('P_PRICE', 'false').lower() == 'true'
+            apply = os.environ.get('P_APPLY', 'false').lower() == 'true'
+            if keep_slug == drop_slug:
+                raise SystemExit('keep и drop совпадают — склеивать нечего')
+
+            auth = req('POST', '/auth/login', {'email': os.environ['ADMIN_EMAIL'],
+                                               'password': os.environ['ADMIN_PASSWORD']})
+            tok = auth['data']['access_token']
+
+            # поля закупки появились не во всех базах — запрашиваем с откатом
+            fields = 'id,slug,sku,vendor,name,price,status,old_slugs,short_description'
+            flt = urllib.parse.quote(json.dumps({'slug': {'_in': [keep_slug, drop_slug]}}))
+            try:
+                rows = req('GET', f'/items/products?limit=-1&filter={flt}'
+                           f'&fields={fields},base_price_usd,base_price_eur,purchase_updated_at',
+                           token=tok)['data']
+            except Exception:
+                rows = req('GET', f'/items/products?limit=-1&filter={flt}&fields={fields}',
+                           token=tok)['data']
+            by = {r['slug']: r for r in rows}
+            missing = [s for s in (keep_slug, drop_slug) if s not in by]
+            if missing:
+                raise SystemExit('не найдены карточки: ' + ', '.join(missing))
+            keep, drop = by[keep_slug], by[drop_slug]
+
+            def show(tag, r):
+                print(f"[{tag}] {r['slug']} — {r.get('name')} [{r.get('vendor')}] "
+                      f"sku={r.get('sku')} статус={r.get('status')}")
+                print(f"      цена: {r.get('price')} ₽ | закупка: "
+                      f"USD {r.get('base_price_usd')} / EUR {r.get('base_price_eur')} "
+                      f"(обновлена {str(r.get('purchase_updated_at') or '—')[:10]})")
+                print(f"      old_slugs: {r.get('old_slugs') or '—'}")
+
+            show('остаётся', keep)
+            show('снимается', drop)
+
+            def values(v):
+                out = []
+                for item in (v or []):
+                    out.append(item.get('value') if isinstance(item, dict) else item)
+                return [s for s in out if s]
+
+            if keep.get('status') != 'published':
+                print(f"\n! остающаяся карточка не опубликована ({keep.get('status')}) — "
+                      'редирект вести некуда, склейка отменена')
+                raise SystemExit(1)
+
+            keep_patch, drop_patch = {}, {}
+            if drop_slug not in values(keep.get('old_slugs')):
+                keep_patch['old_slugs'] = list(keep.get('old_slugs') or []) + [{'value': drop_slug}]
+            if move_price and drop.get('price') and drop.get('price') != keep.get('price'):
+                keep_patch['price'] = drop['price']
+                for f in ('base_price_usd', 'base_price_eur', 'purchase_updated_at'):
+                    if drop.get(f) is not None:
+                        keep_patch[f] = drop[f]
+            if drop.get('status') != 'draft':
+                drop_patch['status'] = 'draft'
+
+            print(f"\nчто будет сделано ({'ПРИМЕНЕНО' if apply else 'план, без записи'}):")
+            if keep_patch:
+                for f, v in keep_patch.items():
+                    print(f"  {keep_slug}: {f} → {v}")
+            if drop_patch:
+                for f, v in drop_patch.items():
+                    print(f"  {drop_slug}: {f} → {v} (страница отдаст 301 на /product/{keep_slug})")
+            if not keep_patch and not drop_patch:
+                print('  нечего менять — карточки уже склеены')
+
+            if apply:
+                if keep_patch:
+                    req('PATCH', f"/items/products/{keep['id']}", keep_patch, token=tok)
+                if drop_patch:
+                    req('PATCH', f"/items/products/{drop['id']}", drop_patch, token=tok)
+                print('\nзаписано в Directus')
+            PYEOF
+      - name: Save to file
+        run: |
+          cat > /tmp/ops-merge.txt <<'OPS_MERGE_EOF'
+          ${{ steps.run.outputs.stdout }}
+          OPS_MERGE_EOF
+      - name: Post to issue
+        uses: actions/github-script@v7
+        env:
+          APPLY: ${{ inputs.apply }}
+          KEEP: ${{ inputs.keep }}
+          DROP: ${{ inputs.drop }}
+        with:
+          script: |
+            const out = require('fs').readFileSync('/tmp/ops-merge.txt', 'utf8').slice(0, 55000);
+            await github.rest.issues.createComment({
+              owner: context.repo.owner, repo: context.repo.repo, issue_number: 22,
+              body: `### ops-merge-product (apply=${process.env.APPLY}): `
+                + `${process.env.DROP} → ${process.env.KEEP}\n\n\`\`\`\n${out}\n\`\`\``,
+            });

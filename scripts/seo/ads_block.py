@@ -1,11 +1,12 @@
-"""Блок «Реклама» ежедневного письма — Direct Control Report, этап A.
+"""Блок «Реклама» ежедневного письма — Direct Control Report, этапы A и B.
 
 Правила вердиктов утверждены проектом 29.08.2026 (§3): маркер всегда
 идёт со словом-причиной; до 10 накопленных кликов направление серое —
-«мало данных», и никакие решения по нему не предлагаются. Заявки и CPA
-подключаются этапом B (связка с Метрикой/CRM по yclid) — до этого колонка
-CPA честно пустая, а вердикты строятся на кликах, вовлечении бюджета и
-чистоте поисковых запросов.
+«мало данных», и никакие решения по нему не предлагаются. Этап B
+(01.09.2026): связка Метрика→Директ приносит заявки (цели lead_sent и
+quote_pdf), контакты (клики по телефону/почте, мессенджер) и CPA против
+порога направления; изменения кабинета по-прежнему только решением
+руководителя. Без связки блок работает по правилам этапа A.
 
 Витрину reports/seo/ppc/direct-stats.json пишет scripts/ppc/direct_report.py.
 """
@@ -64,8 +65,13 @@ def _is_junk(query: str) -> bool:
     return any(m in q for m in JUNK_MARKERS)
 
 
-def build(date: str) -> dict:
-    """Собрать блок за письмо от `date` (данные Директа — по date-1)."""
+def build(date: str, attribution: dict | None = None) -> dict:
+    """Собрать блок за письмо от `date` (данные Директа — по date-1).
+
+    attribution — связка Метрика→Директ из снимка (этап B, 01.09.2026):
+    визиты и достижения ключевых целей по группам объявлений. Без неё блок
+    работает как в этапе A (вердикты по кликам и чистоте запросов).
+    """
     if not STATS.exists():
         return {"available": False, "reason": "выгрузки Директа ещё нет"}
     data = json.loads(STATS.read_text(encoding="utf-8"))
@@ -91,19 +97,41 @@ def build(date: str) -> dict:
         spend_all = sum(r["Cost"] for r in alltime)
         cpc = spend_day / clicks_day if clicks_day else None
 
+        att = _attribution_for(attribution, g["match"])
+        leads = contacts = None
+        cpa = None
+        if att is not None:
+            leads = att["leads_hard"]
+            contacts = att["contacts"]
+            cpa = spend_all / leads if leads else None
+
         if clicks_all < GREY_MIN_CLICKS:
             verdict = {"tone": "grey", "label": f"мало данных ({clicks_all} кл.)"}
-        elif clicks_all >= g["stop_clicks"]:
-            # Вовлечение (secondary) подключается этапом B; до него порог
-            # стоп-правила трактуем мягко: жёлтый сигнал «пора смотреть руками».
+        elif att is None:
             verdict = {"tone": "warn",
                        "label": f"{clicks_all} кл. — пора оценить вовлечение"}
+        elif leads and cpa is not None and cpa <= g["cpa_limit"]:
+            verdict = {"tone": "ok",
+                       "label": (f"{leads} заявк{'а' if leads == 1 else 'и' if leads < 5 else 'ок'}, "
+                                 f"CPA {cpa:.0f} ₽ (порог {g['cpa_limit']})")}
+        elif leads:
+            verdict = {"tone": "warn",
+                       "label": f"CPA {cpa:.0f} ₽ выше порога {g['cpa_limit']} ₽"}
+        elif contacts:
+            verdict = {"tone": "warn",
+                       "label": (f"заявок нет, контакты есть ({contacts}) — "
+                                 f"наблюдаем")}
+        elif clicks_all >= g["stop_clicks"]:
+            verdict = {"tone": "bad",
+                       "label": (f"{clicks_all} кл. без заявок и контактов — "
+                                 f"кандидат на паузу, решение за вами")}
         else:
             verdict = {"tone": "ok", "label": "идёт набор статистики"}
         rows.append({"key": g["key"], "label": g["label"],
                      "spend_day": spend_day, "clicks_day": clicks_day,
                      "clicks_total": clicks_all, "spend_total": spend_all,
-                     "cpc": cpc, "verdict": verdict})
+                     "cpc": cpc, "leads": leads, "contacts": contacts,
+                     "cpa": cpa, "verdict": verdict})
 
     # Строки витрины, не попавшие ни под одно направление, — сигнал, что
     # кабинет ушёл вперёд списка GROUPS. Показываем их суммой и жёлтым
@@ -162,6 +190,34 @@ def build(date: str) -> dict:
         "rows": rows,
         "junk": {"cost": junk_cost, "queries": junk_queries[:12]},
         "decisions": decisions,
-        "note": ("расход в деньгах кабинета (без НДС); заявки и CPA подключаются "
+        "attribution_available": attribution is not None,
+        "note": ("расход в деньгах кабинета (без НДС); заявки — цели Метрики "
+                 "(отправка заявки, скачивание КП), контакты — клики по "
+                 "телефону/почте и мессенджер; сверка с CRM по yclid — следующий шаг"
+                 if attribution is not None else
+                 "расход в деньгах кабинета (без НДС); заявки и CPA подключаются "
                  "связкой с Метрикой — этап B"),
     }
+
+
+def _attribution_for(attribution: dict | None, match: str) -> dict | None:
+    """Связка для направления: суммы по строкам Метрики, чьё имя содержит match.
+
+    Имя группы Метрика берёт из Директа, поэтому совпадение — той же
+    подстрокой, что и в витрине расходов. Если связка собрана по кампании
+    целиком (фолбэк-дименсия lastDirectClickOrder), по-групповых строк нет —
+    направлению честно возвращается None, а сумма кампании видна в note.
+    """
+    if not attribution or not attribution.get("rows"):
+        return None
+    if attribution.get("dimension") == "ym:s:lastDirectClickOrder":
+        return None
+    rows = [r for r in attribution["rows"] if match in (r.get("name") or "")]
+    if not rows:
+        return {"visits": 0, "leads_hard": 0, "contacts": 0}
+    leads_hard = sum(r["leads"].get("lead_sent", 0) + r["leads"].get("quote_pdf", 0)
+                     for r in rows)
+    contacts = sum(r["leads"].get("click_phone", 0) + r["leads"].get("click_email", 0)
+                   + r["leads"].get("click_messenger", 0) for r in rows)
+    return {"visits": sum(r["visits"] for r in rows),
+            "leads_hard": leads_hard, "contacts": contacts}
