@@ -185,6 +185,18 @@ def revisions_for(prefix: str, date: str, extract, metric: str) -> dict | None:
             "reason": "источник пересобирался в течение дня; каноническим считается последний сбор"}
 
 
+def _goal_breakdown(metrika: dict) -> list[dict] | None:
+    """Достижения целей органикой: [{name, events}] по убыванию, только ненулевые."""
+    reaches = metrika.get("organic_goal_reaches")
+    if not isinstance(reaches, dict) or "error" in reaches:
+        return None
+    names = {str(g.get("id")): g.get("name") for g in metrika.get("goals", [])
+             if isinstance(g, dict)}
+    rows = [{"name": names.get(gid, gid), "events": int(v)}
+            for gid, v in reaches.items() if v]
+    return sorted(rows, key=lambda r: -r["events"]) or []
+
+
 def source_meta(name, collected_at, latest_event, p_start, p_end, cmp_start, cmp_end,
                 filters, status, notes=None) -> dict:
     return {
@@ -516,6 +528,11 @@ def build_analytics(metrika: dict | None, ga4: dict | None, date: str) -> dict:
                  "events": sorted({c.get("url") for c in (g.get("conditions") or [])
                                    if isinstance(c, dict) and c.get("url")})}
                 for g in metrika.get("goals", [])],
+            # Состав целевых событий органики по целям (вопрос руководителя
+            # 01.09.2026): без него сумма нечитаема — в ней смешаны клик по
+            # телефону и автоцель «поиск по сайту». Пишутся только цели с
+            # ненулевыми достижениями, по убыванию.
+            "goal_breakdown": _goal_breakdown(metrika),
             "organic_landing_pages": lp,
             "channels": {k: v[0] for k, v in ts.items()},
             # Органика в разбивке по поисковым системам (ym:s:lastSearchEngineRoot):
