@@ -35,8 +35,9 @@ const live = packages
     .filter((p) => !p.archive)
     .map((p) => ({ ...p, file })));
 
-const knownDuplicates: Record<string, string[]> =
-  JSON.parse(readFileSync(BASELINE, 'utf8')).duplicate_names ?? {};
+const baseline = JSON.parse(readFileSync(BASELINE, 'utf8'));
+const knownDuplicates: Record<string, string[]> = baseline.duplicate_names ?? {};
+const knownDuplicateTexts: Record<string, number> = baseline.duplicate_short_descriptions ?? {};
 
 function groupBy(field: 'name' | 'short_description') {
   const groups = new Map<string, string[]>();
@@ -79,6 +80,31 @@ describe('каталог: карточка различима до импорт�
     ].join('\n')).toEqual([]);
   });
 
+  it('новых групп с одинаковым коротким описанием не появилось', () => {
+    // short_description — это лид карточки, Product.description в разметке
+    // и описание в фидах. Один текст на всю линейку означает столько же
+    // одинаковых страниц; развести помогает scripts/seo/dedupe-descriptions.mjs.
+    const fresh = groupBy('short_description')
+      .filter(([text]) => !(text in knownDuplicateTexts))
+      .map(([text, slugs]) => `«${text.slice(0, 70)}» — ${slugs.sort().join(', ')}`);
+
+    expect(fresh, [
+      'У этих позиций одинаковое короткое описание — одинаковый лид карточки',
+      'и одинаковый Product.description в разметке. Различитель (редакция,',
+      'объём, модуль, тип лицензии) есть в названии: разведите тексты',
+      'скриптом scripts/seo/dedupe-descriptions.mjs.',
+      '',
+      ...fresh,
+    ].join('\n')).toEqual([]);
+  });
+
+  it('известный долг по описаниям не растёт', () => {
+    const grown = groupBy('short_description')
+      .filter(([text, slugs]) => text in knownDuplicateTexts && slugs.length > knownDuplicateTexts[text])
+      .map(([text, slugs]) => `«${text.slice(0, 70)}»: было ${knownDuplicateTexts[text]}, стало ${slugs.length}`);
+    expect(grown).toEqual([]);
+  });
+
   it('у каждой живой позиции есть название и слаг', () => {
     const broken = live
       .filter((p) => !(p.name ?? '').trim() || !(p.slug ?? '').trim())
@@ -99,7 +125,7 @@ describe('каталог: карточка различима до импорт�
 describe('тексты SEO-партий: развод дублей, а не их размножение', () => {
   const file = resolve(__dirname, '../data/seo/product-descriptions.json');
   const payload = JSON.parse(readFileSync(file, 'utf8'));
-  const products: Record<string, { meta_title?: string; meta_description?: string }> =
+  const products: Record<string, { meta_title?: string; meta_description?: string; short_description?: string }> =
     payload.products ?? payload;
 
   it('meta_title в партиях уникальны между собой', () => {
@@ -111,6 +137,21 @@ describe('тексты SEO-партий: развод дублей, а не их
     const dups = [...seen.entries()]
       .filter(([, slugs]) => slugs.length > 1)
       .map(([title, slugs]) => `«${title}» — ${slugs.join(', ')}`);
+    expect(dups).toEqual([]);
+  });
+
+  it('short_description и meta_description в партиях уникальны', () => {
+    const dups: string[] = [];
+    for (const field of ['short_description', 'meta_description'] as const) {
+      const seen = new Map<string, string[]>();
+      for (const [slug, texts] of Object.entries(products)) {
+        const v = ((texts as Record<string, string>)[field] ?? '').trim();
+        if (v) seen.set(v, [...(seen.get(v) ?? []), slug]);
+      }
+      dups.push(...[...seen.entries()]
+        .filter(([, slugs]) => slugs.length > 1)
+        .map(([v, slugs]) => `${field} «${v.slice(0, 60)}» — ${slugs.join(', ')}`));
+    }
     expect(dups).toEqual([]);
   });
 
