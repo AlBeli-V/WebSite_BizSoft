@@ -144,6 +144,9 @@ CONTOURS = [
          (BASE / "data").glob("sitemap-2*.json")
          if (BASE / "data").exists() else []),
      "required": False},
+    # SERP-контур смотрит в reports/seo/serp (миграция этапа 3.1, #242).
+    # Старый дубликат на data/serp удалён 01.09: он видел только застрявшие
+    # до миграции файлы и вечно значился просроченным (замечание руководителя).
     {"id": "wordstat", "label": "Разведка спроса (Вордстат)",
      "cadence": "daily", "cadence_label": "ежедневно 04:20 МСК",
      "last": _last_wordstat, "required": True},

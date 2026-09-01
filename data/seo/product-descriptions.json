@@ -71,12 +71,72 @@
     },
     "zoom-ai-companion": {
       "description": "Zoom AI Companion (Custom add-on) — расширенный ИИ-помощник Zoom для компаний, которым мало возможностей ассистента, встроенного в базовые тарифы. Подключается к действующей лицензии Zoom Workplace.\nТипичный сценарий. Руководитель не успел на совещание: ИИ-помощник присылает итоги встречи с решениями и задачами, а на вопрос «что решили по срокам поставки» отвечает, опираясь не только на запись встречи, но и на подключённую базу знаний компании — документы и тикеты, а не общие сведения из интернета.\nЧто входит: автоматические итоги встреч и протоколы с задачами, умные ответы и черновики сообщений в чате и почте, помощь в Zoom Phone, подключение корпоративных источников знаний, поддержка собственных языковых моделей и расширенные лимиты обращений.\nЧем отличается от базового тарифа. В тарифы Zoom Workplace ИИ-помощник уже включён и делает итоги встреч и умные ответы. Этот add-on нужен, только когда требуется подключить внутренние базы знаний, использовать собственные модели или снять лимиты — то есть при осознанном внедрении ИИ в рабочие процессы, а не для эпизодических протоколов.\nОграничения: это дополнение, самостоятельно не работает — нужна базовая лицензия Zoom; подключение корпоративных источников требует настройки на стороне ИТ-отдела.\nКому подходит: компаниям, активно использующим Zoom для встреч и коммуникаций и внедряющим ИИ в процессы. Оформление на юрлицо: договор, счёт в рублях, закрывающие документы через ЭДО."
+    },
+    "deposit-unl-month": {
+      "meta_title": "Depositphotos Unlimited помесячно — купить юрлицу | BIZSoft"
+    },
+    "deposit-unl-year": {
+      "meta_title": "Depositphotos Unlimited на год — купить юрлицу | BIZSoft"
+    },
+    "bitdefender-premium-security-family": {
+      "meta_title": "Bitdefender Premium Security Family — купить | BIZSoft"
+    },
+    "bitdefender-premium-security-ind": {
+      "meta_title": "Bitdefender Premium Security на 1 пользователя | BIZSoft"
+    },
+    "bitdefender-total-security-family": {
+      "meta_title": "Bitdefender Total Security Family — купить | BIZSoft"
+    },
+    "bitdefender-total-security-ind": {
+      "meta_title": "Bitdefender Total Security на 1 пользователя | BIZSoft"
+    },
+    "bitdefender-ultimate-security-family": {
+      "meta_title": "Bitdefender Ultimate Security Family — купить | BIZSoft"
+    },
+    "bitdefender-ultimate-security-ind": {
+      "meta_title": "Bitdefender Ultimate Security на 1 пользователя | BIZSoft"
+    },
+    "parallels-desktop-standard-perpetual": {
+      "meta_title": "Parallels Desktop Standard бессрочно — купить | BIZSoft"
+    },
+    "parallels-desktop-standard-sub": {
+      "meta_title": "Parallels Desktop Standard подписка — купить | BIZSoft"
+    },
+    "me-admanager-plus-msp-500-domain-users": {
+      "meta_title": "ADManager Plus MSP, 500 доменных пользователей | BIZSoft"
+    },
+    "me-admanager-plus-msp-active-directory-backup-an-250-user-objects": {
+      "meta_title": "ADManager Plus MSP, AD Backup на 250 объектов | BIZSoft"
+    },
+    "me-admanager-plus-msp-helpdesk-technicians-1-helpdesk-technicians": {
+      "meta_title": "ADManager Plus MSP, 1 техник поддержки | BIZSoft"
+    },
+    "me-admanager-plus-msp-500-domain-users-perp": {
+      "meta_title": "ADManager Plus MSP, 500 польз., вечная лицензия | BIZSoft"
+    },
+    "me-admanager-plus-msp-active-directory-backup-an-250-user-objects-perp": {
+      "meta_title": "ADManager Plus MSP, AD Backup 250, вечная лицензия | BIZSoft"
+    },
+    "me-admanager-plus-msp-helpdesk-technicians-1-helpdesk-technicians-perp": {
+      "meta_title": "ADManager Plus MSP, 1 техник, вечная лицензия | BIZSoft"
+    },
+    "me-datasecurity-plus-professional-data-risk-assessment-2-tb": {
+      "meta_title": "DataSecurity Plus, Data Risk Assessment, 2 ТБ | BIZSoft"
+    },
+    "me-datasecurity-plus-professional-fileanalysis-2-tb": {
+      "meta_title": "DataSecurity Plus, File Analysis, 2 ТБ | BIZSoft"
+    },
+    "me-datasecurity-plus-professional-data-risk-assessment-2-tb-perp": {
+      "meta_title": "DataSecurity Plus, Risk Assessment 2 ТБ, вечная | BIZSoft"
+    },
+    "me-datasecurity-plus-professional-fileanalysis-2-tb-perp": {
+      "meta_title": "DataSecurity Plus, File Analysis, 2 ТБ, вечная | BIZSoft"
     }
   },
   "_meta": {
     "purpose": "Уникализация описаний карточек тарифов для возврата страниц из-под фильтра МПК Яндекса",
     "source_report": "reports/seo/excluded-pages-analysis.md",
-    "batch": "Adobe + Zoom (партия 1)",
+    "batch": "Adobe + Zoom (партия 1); Depositphotos Unlimited — развод одинаковых meta_title (партия 2); Bitdefender и Parallels Desktop — развод дублей по находке ops-content-audit 01.09.2026 (партия 3); ManageEngine ADManager Plus MSP и DataSecurity Plus — заголовки по модулю и объёму (партия 4)",
     "applied_by": ".github/workflows/ops-apply-descriptions.yml"
   }
 }

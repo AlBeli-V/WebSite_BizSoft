@@ -73,10 +73,22 @@ case "$cmd" in
     # сознательная правка маркера — прямым коммитом в seo-data мимо
     # data_sync (как при восстановлении 26.08).
     for f in reports/seo/intelligence/last-mailed.txt \
-             reports/seo/intelligence/last-notice.txt; do
+             reports/seo/intelligence/last-notice.txt \
+             reports/seo/intelligence/last-period-mailed.json; do
       if git cat-file -e "origin/$BRANCH:$f" 2>/dev/null; then
         git -C "$tmp" checkout -- "$f" 2>/dev/null || true
       fi
+    done
+
+    # Файлы проверки живых страниц пишет только workflow seo-site-check.
+    # Параллельный прогон, снявший копию каталога до его пуша, не должен их
+    # затирать полной заменой: 31.08 сборщик данных удалил свежий
+    # site-check-2026-08-31.json через 26 секунд после записи, и письмо
+    # написало «нет данных» о выкате. Локальный файл (у самого site-check)
+    # новее и остаётся; отсутствующий локально — восстанавливается.
+    git ls-tree -r --name-only "origin/$BRANCH" -- reports/seo/intelligence \
+      | grep '/site-check-' | while read -r f; do
+      [ -f "$f" ] || git -C "$tmp" checkout -- "$f" 2>/dev/null || true
     done
 
     # Копии workflow в seo-data (push-триггер исполняет файл из пушенной
