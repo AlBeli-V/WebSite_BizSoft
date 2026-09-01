@@ -81,6 +81,28 @@ check('sitemap: нет повторяющихся <loc>', async () => {
   const dup = locs.filter((l, i) => locs.indexOf(l) !== i);
   return { ok: dup.length === 0, got: dup.length ? `дубли: ${[...new Set(dup)].join(', ')}` : 'нет' };
 });
+check('уникальные <title> у страниц из sitemap', async () => {
+  // Одинаковые title на разных URL Яндекс считает дублями и снимает
+  // страницы с индексации. Title карточки — это meta_title из Directus
+  // (src/pages/product/[slug].astro), так что проверяем итоговую разметку.
+  const r = await req('/sitemap.xml');
+  const paths = [...r.body.matchAll(/<loc>([^<]+)<\/loc>/g)]
+    .map((m) => new URL(m[1]).pathname);
+  const byTitle = new Map();
+  for (const p of paths) {
+    const page = await req(p);
+    const t = (page.body.match(/<title>([^<]*)<\/title>/) || [, ''])[1].trim();
+    if (!t) continue;
+    byTitle.set(t, [...(byTitle.get(t) || []), p]);
+  }
+  const dup = [...byTitle.entries()].filter(([, ps]) => ps.length > 1);
+  return {
+    ok: dup.length === 0,
+    got: dup.length
+      ? dup.map(([t, ps]) => `«${t}» — ${ps.join(', ')}`).join('; ')
+      : `нет (${byTitle.size} страниц)`,
+  };
+});
 check('sitemap: /vendors присутствует', async () => {
   const r = await req('/sitemap.xml');
   return { ok: /<loc>[^<]*\/vendors<\/loc>/.test(r.body), got: /<loc>[^<]*\/vendors<\/loc>/.test(r.body) ? 'есть' : 'НЕТ' };
