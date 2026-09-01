@@ -106,6 +106,16 @@ class TestRegionDemand(unittest.TestCase):
         self.assertEqual(rows[2]["name"], "77777")
         self.assertEqual(self.r.parse_regions({}), [])
 
+    def test_pick_phrases_prefers_frequent(self):
+        """Хвосты ниже порога частотности не тратят вызовы регионов."""
+        import unittest.mock as m
+        core = ["хвост один", "adobe купить", "хвост два", "cursor подписка"]
+        freq = {"adobe купить": 3000, "cursor подписка": 500, "хвост один": 5}
+        with m.patch.object(self.r, "_frequency_map", return_value=freq):
+            sel = self.r.pick_phrases(core, cap=3)
+        self.assertEqual(sel[:2], ["adobe купить", "cursor подписка"])
+        self.assertEqual(len(sel), 3)
+
     def test_parse_regions_legacy_shape(self):
         data = {"regions": [
             {"regionId": 2, "regionName": "Санкт-Петербург", "count": 50},
