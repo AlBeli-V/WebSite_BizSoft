@@ -71,12 +71,564 @@
     },
     "zoom-ai-companion": {
       "description": "Zoom AI Companion (Custom add-on) — расширенный ИИ-помощник Zoom для компаний, которым мало возможностей ассистента, встроенного в базовые тарифы. Подключается к действующей лицензии Zoom Workplace.\nТипичный сценарий. Руководитель не успел на совещание: ИИ-помощник присылает итоги встречи с решениями и задачами, а на вопрос «что решили по срокам поставки» отвечает, опираясь не только на запись встречи, но и на подключённую базу знаний компании — документы и тикеты, а не общие сведения из интернета.\nЧто входит: автоматические итоги встреч и протоколы с задачами, умные ответы и черновики сообщений в чате и почте, помощь в Zoom Phone, подключение корпоративных источников знаний, поддержка собственных языковых моделей и расширенные лимиты обращений.\nЧем отличается от базового тарифа. В тарифы Zoom Workplace ИИ-помощник уже включён и делает итоги встреч и умные ответы. Этот add-on нужен, только когда требуется подключить внутренние базы знаний, использовать собственные модели или снять лимиты — то есть при осознанном внедрении ИИ в рабочие процессы, а не для эпизодических протоколов.\nОграничения: это дополнение, самостоятельно не работает — нужна базовая лицензия Zoom; подключение корпоративных источников требует настройки на стороне ИТ-отдела.\nКому подходит: компаниям, активно использующим Zoom для встреч и коммуникаций и внедряющим ИИ в процессы. Оформление на юрлицо: договор, счёт в рублях, закрывающие документы через ЭДО."
+    },
+    "deposit-unl-month": {
+      "meta_title": "Depositphotos Unlimited помесячно — купить юрлицу | BIZSoft"
+    },
+    "deposit-unl-year": {
+      "meta_title": "Depositphotos Unlimited на год — купить юрлицу | BIZSoft"
+    },
+    "bitdefender-premium-security-family": {
+      "meta_title": "Bitdefender Premium Security Family — купить | BIZSoft"
+    },
+    "bitdefender-premium-security-ind": {
+      "meta_title": "Bitdefender Premium Security на 1 пользователя | BIZSoft"
+    },
+    "bitdefender-total-security-family": {
+      "meta_title": "Bitdefender Total Security Family — купить | BIZSoft"
+    },
+    "bitdefender-total-security-ind": {
+      "meta_title": "Bitdefender Total Security на 1 пользователя | BIZSoft"
+    },
+    "bitdefender-ultimate-security-family": {
+      "meta_title": "Bitdefender Ultimate Security Family — купить | BIZSoft"
+    },
+    "bitdefender-ultimate-security-ind": {
+      "meta_title": "Bitdefender Ultimate Security на 1 пользователя | BIZSoft"
+    },
+    "parallels-desktop-standard-perpetual": {
+      "meta_title": "Parallels Desktop Standard бессрочно — купить | BIZSoft"
+    },
+    "parallels-desktop-standard-sub": {
+      "meta_title": "Parallels Desktop Standard подписка — купить | BIZSoft"
+    },
+    "me-admanager-plus-msp-500-domain-users": {
+      "meta_title": "ADManager Plus MSP, 500 доменных пользователей | BIZSoft",
+      "short_description": "ADManager Plus MSP, 500 доменных пользователей — управление Active Directory клиентов сервис-провайдера. Годовая подписка на один домен клиента.",
+      "meta_description": "ManageEngine ADManager Plus MSP, 500 доменных пользователей, годовая подписка: управление Active Directory клиентов сервис-провайдера. Оплата по счёту, ЭДО."
+    },
+    "me-admanager-plus-msp-active-directory-backup-an-250-user-objects": {
+      "meta_title": "ADManager Plus MSP, AD Backup на 250 объектов | BIZSoft",
+      "short_description": "ADManager Plus MSP, AD Backup на 250 объектов — управление Active Directory клиентов сервис-провайдера. Годовая подписка на один домен клиента.",
+      "meta_description": "ManageEngine ADManager Plus MSP, AD Backup на 250 объектов, годовая подписка: управление Active Directory клиентов сервис-провайдера. Оплата по счёту, ЭДО."
+    },
+    "me-admanager-plus-msp-helpdesk-technicians-1-helpdesk-technicians": {
+      "meta_title": "ADManager Plus MSP, 1 техник поддержки | BIZSoft",
+      "short_description": "ADManager Plus MSP, 1 техник службы поддержки — управление Active Directory клиентов сервис-провайдера. Годовая подписка на один домен клиента.",
+      "meta_description": "ManageEngine ADManager Plus MSP, 1 техник службы поддержки, годовая подписка: управление Active Directory клиентов сервис-провайдера. Оплата по счёту, ЭДО."
+    },
+    "me-admanager-plus-msp-500-domain-users-perp": {
+      "meta_title": "ADManager Plus MSP, 500 польз., вечная лицензия | BIZSoft",
+      "short_description": "ADManager Plus MSP, 500 доменных пользователей — управление Active Directory клиентов сервис-провайдера. Вечная лицензия на один домен клиента.",
+      "meta_description": "ManageEngine ADManager Plus MSP, 500 доменных пользователей, вечная лицензия: управление Active Directory клиентов сервис-провайдера. Оплата по счёту, ЭДО."
+    },
+    "me-admanager-plus-msp-active-directory-backup-an-250-user-objects-perp": {
+      "meta_title": "ADManager Plus MSP, AD Backup 250, вечная лицензия | BIZSoft",
+      "short_description": "ADManager Plus MSP, AD Backup на 250 объектов — управление Active Directory клиентов сервис-провайдера. Вечная лицензия на один домен клиента.",
+      "meta_description": "ManageEngine ADManager Plus MSP, AD Backup на 250 объектов, вечная лицензия: управление Active Directory клиентов сервис-провайдера. Оплата по счёту, ЭДО."
+    },
+    "me-admanager-plus-msp-helpdesk-technicians-1-helpdesk-technicians-perp": {
+      "meta_title": "ADManager Plus MSP, 1 техник, вечная лицензия | BIZSoft",
+      "short_description": "ADManager Plus MSP, 1 техник службы поддержки — управление Active Directory клиентов сервис-провайдера. Вечная лицензия на один домен клиента.",
+      "meta_description": "ManageEngine ADManager Plus MSP, 1 техник службы поддержки, вечная лицензия: управление Active Directory клиентов сервис-провайдера. Оплата по счёту, ЭДО."
+    },
+    "me-datasecurity-plus-professional-data-risk-assessment-2-tb": {
+      "meta_title": "DataSecurity Plus, Data Risk Assessment, 2 ТБ | BIZSoft",
+      "short_description": "DataSecurity Plus Professional, Data Risk Assessment — аудит файловых серверов, поиск чувствительных данных и контроль каналов утечки. Годовая подписка на 2 терабайта.",
+      "meta_description": "DataSecurity Plus Professional, Data Risk Assessment, годовая подписка: аудит файловых серверов, поиск чувствительных данных и контроль каналов утечки."
+    },
+    "me-datasecurity-plus-professional-fileanalysis-2-tb": {
+      "meta_title": "DataSecurity Plus, File Analysis, 2 ТБ | BIZSoft",
+      "short_description": "DataSecurity Plus Professional, File Analysis — аудит файловых серверов, поиск чувствительных данных и контроль каналов утечки. Годовая подписка на 2 терабайта.",
+      "meta_description": "ManageEngine DataSecurity Plus Professional, File Analysis, годовая подписка: аудит файловых серверов, поиск чувствительных данных и контроль каналов утечки."
+    },
+    "me-datasecurity-plus-professional-data-risk-assessment-2-tb-perp": {
+      "meta_title": "DataSecurity Plus, Risk Assessment 2 ТБ, вечная | BIZSoft",
+      "short_description": "DataSecurity Plus Professional, Data Risk Assessment — аудит файловых серверов, поиск чувствительных данных и контроль каналов утечки. Вечная лицензия на 2 терабайта.",
+      "meta_description": "DataSecurity Plus Professional, Data Risk Assessment, вечная лицензия: аудит файловых серверов, поиск чувствительных данных и контроль каналов утечки."
+    },
+    "me-datasecurity-plus-professional-fileanalysis-2-tb-perp": {
+      "meta_title": "DataSecurity Plus, File Analysis, 2 ТБ, вечная | BIZSoft",
+      "short_description": "DataSecurity Plus Professional, File Analysis — аудит файловых серверов, поиск чувствительных данных и контроль каналов утечки. Вечная лицензия на 2 терабайта.",
+      "meta_description": "ManageEngine DataSecurity Plus Professional, File Analysis, вечная лицензия: аудит файловых серверов, поиск чувствительных данных и контроль каналов утечки."
+    },
+    "me-endpoint-central-enterprise-distributed-enterprise-10-servers-and-single-user-license": {
+      "short_description": "Endpoint Central Enterprise(Distributed) — единое управление рабочими местами: обновления, программы, настройки и защита. Годовая подписка на 10 серверов и одно рабочее место администратора.",
+      "meta_description": "ManageEngine Endpoint Central Enterprise(Distributed), годовая подписка: единое управление рабочими местами — обновления, программы, настройки и защита."
+    },
+    "me-endpoint-central-professional-10-servers-and-single-user-license": {
+      "short_description": "Endpoint Central Professional — единое управление рабочими местами: обновления, программы, настройки и защита. Годовая подписка на 10 серверов и одно рабочее место администратора.",
+      "meta_description": "Endpoint Central Professional, годовая подписка: единое управление рабочими местами — обновления, программы, настройки и защита. Оплата по счёту, ЭДО."
+    },
+    "me-endpoint-central-security-10-servers-and-single-user-license": {
+      "short_description": "Endpoint Central Security — единое управление рабочими местами: обновления, программы, настройки и защита. Годовая подписка на 10 серверов и одно рабочее место администратора.",
+      "meta_description": "ManageEngine Endpoint Central Security, годовая подписка: единое управление рабочими местами — обновления, программы, настройки и защита. Оплата по счёту, ЭДО."
+    },
+    "me-endpoint-central-uem-10-servers-and-single-user-license": {
+      "short_description": "Endpoint Central UEM — единое управление рабочими местами: обновления, программы, настройки и защита. Годовая подписка на 10 серверов и одно рабочее место администратора.",
+      "meta_description": "ManageEngine Endpoint Central UEM, годовая подписка: единое управление рабочими местами — обновления, программы, настройки и защита. Оплата по счёту, ЭДО."
+    },
+    "me-endpoint-central-enterprise-distributed-enterprise-10-servers-and-single-user-license-perp": {
+      "short_description": "Endpoint Central Enterprise(Distributed) — единое управление рабочими местами: обновления, программы, настройки и защита. Вечная лицензия на 10 серверов и одно рабочее место администратора.",
+      "meta_description": "Endpoint Central Enterprise(Distributed), вечная лицензия: единое управление рабочими местами — обновления, программы, настройки и защита. Оплата по счёту, ЭДО."
+    },
+    "me-endpoint-central-professional-10-servers-and-single-user-license-perp": {
+      "short_description": "Endpoint Central Professional — единое управление рабочими местами: обновления, программы, настройки и защита. Вечная лицензия на 10 серверов и одно рабочее место администратора.",
+      "meta_description": "Endpoint Central Professional, вечная лицензия: единое управление рабочими местами — обновления, программы, настройки и защита. Оплата по счёту, ЭДО."
+    },
+    "me-endpoint-central-security-10-servers-and-single-user-license-perp": {
+      "short_description": "Endpoint Central Security — единое управление рабочими местами: обновления, программы, настройки и защита. Вечная лицензия на 10 серверов и одно рабочее место администратора.",
+      "meta_description": "ManageEngine Endpoint Central Security, вечная лицензия: единое управление рабочими местами — обновления, программы, настройки и защита. Оплата по счёту, ЭДО."
+    },
+    "me-endpoint-central-uem-10-servers-and-single-user-license-perp": {
+      "short_description": "Endpoint Central UEM — единое управление рабочими местами: обновления, программы, настройки и защита. Вечная лицензия на 10 серверов и одно рабочее место администратора.",
+      "meta_description": "ManageEngine Endpoint Central UEM, вечная лицензия: единое управление рабочими местами — обновления, программы, настройки и защита. Оплата по счёту, ЭДО."
+    },
+    "me-servicedesk-plus-msp-enterprise-2-technicians-and-250-it-assets": {
+      "short_description": "ServiceDesk Plus MSP Enterprise — служба поддержки сервис-провайдера: заявки, договоры и биллинг по клиентам. Годовая подписка на 2 специалиста и 250 ИТ-активов.",
+      "meta_description": "ServiceDesk Plus MSP Enterprise, годовая подписка: служба поддержки сервис-провайдера — заявки, договоры и биллинг по клиентам. Оплата по счёту, ЭДО."
+    },
+    "me-servicedesk-plus-msp-enterprise-multi-language-2-technicians-and-250-it-assets": {
+      "short_description": "ServiceDesk Plus MSP Enterprise, многоязычная версия — служба поддержки сервис-провайдера: заявки, договоры и биллинг по клиентам. Годовая подписка на 2 специалиста и 250 ИТ-активов.",
+      "meta_description": "ServiceDesk Plus MSP Enterprise, многоязычная версия, годовая подписка: служба поддержки сервис-провайдера — заявки, договоры и биллинг по клиентам."
+    },
+    "me-servicedesk-plus-msp-professional-2-technicians-and-250-it-assets": {
+      "short_description": "ServiceDesk Plus MSP Professional — служба поддержки сервис-провайдера: заявки, договоры и биллинг по клиентам. Годовая подписка на 2 специалиста и 250 ИТ-активов.",
+      "meta_description": "ServiceDesk Plus MSP Professional, годовая подписка: служба поддержки сервис-провайдера — заявки, договоры и биллинг по клиентам. Оплата по счёту, ЭДО."
+    },
+    "me-servicedesk-plus-msp-professional-multi-language-2-technicians-and-250-it-assets": {
+      "short_description": "ServiceDesk Plus MSP Professional, многоязычная версия — служба поддержки сервис-провайдера: заявки, договоры и биллинг по клиентам. Годовая подписка на 2 специалиста и 250 ИТ-активов.",
+      "meta_description": "ServiceDesk Plus MSP Professional, многоязычная версия, годовая подписка: служба поддержки сервис-провайдера — заявки, договоры и биллинг по клиентам."
+    },
+    "me-supportcenter-plus-enterprise-2-support-representatives": {
+      "short_description": "SupportCenter Plus Enterprise — поддержка внешних клиентов: обращения, договоры обслуживания и биллинг. Годовая подписка на 2 сотрудника поддержки.",
+      "meta_description": "ManageEngine SupportCenter Plus Enterprise, годовая подписка: поддержка внешних клиентов — обращения, договоры обслуживания и биллинг. Оплата по счёту, ЭДО."
+    },
+    "me-supportcenter-plus-enterprise-multi-language-2-support-representatives": {
+      "short_description": "SupportCenter Plus Enterprise, многоязычная версия — поддержка внешних клиентов: обращения, договоры обслуживания и биллинг. Годовая подписка на 2 сотрудника поддержки.",
+      "meta_description": "ManageEngine SupportCenter Plus Enterprise, многоязычная версия, годовая подписка: поддержка внешних клиентов — обращения, договоры обслуживания и биллинг."
+    },
+    "me-supportcenter-plus-professional-2-support-representatives": {
+      "short_description": "SupportCenter Plus Professional — поддержка внешних клиентов: обращения, договоры обслуживания и биллинг. Годовая подписка на 2 сотрудника поддержки.",
+      "meta_description": "ManageEngine SupportCenter Plus Professional, годовая подписка: поддержка внешних клиентов — обращения, договоры обслуживания и биллинг. Оплата по счёту, ЭДО."
+    },
+    "me-supportcenter-plus-professional-multi-language-2-support-representatives": {
+      "short_description": "SupportCenter Plus Professional, многоязычная версия — поддержка внешних клиентов: обращения, договоры обслуживания и биллинг. Годовая подписка на 2 сотрудника поддержки.",
+      "meta_description": "ManageEngine SupportCenter Plus Professional, многоязычная версия, годовая подписка: поддержка внешних клиентов — обращения, договоры обслуживания и биллинг."
+    },
+    "me-firewall-analyzer-enterprise-20-devices-pack-with-2-users": {
+      "short_description": "Firewall Analyzer Enterprise — разбор правил и журналов межсетевых экранов. Годовая подписка на 1 устройство и 2 пользователя.",
+      "meta_description": "ManageEngine Firewall Analyzer Enterprise, годовая подписка: разбор правил и журналов межсетевых экранов. Оплата по счёту, ЭДО."
+    },
+    "me-firewall-analyzer-professional-1-device-pack-with-2-users": {
+      "short_description": "Firewall Analyzer Professional — разбор правил и журналов межсетевых экранов. Годовая подписка на 1 устройство и 2 пользователя.",
+      "meta_description": "ManageEngine Firewall Analyzer Professional, годовая подписка: разбор правил и журналов межсетевых экранов. Оплата по счёту, ЭДО."
+    },
+    "me-firewall-analyzer-standard-1-device-pack-with-2-users": {
+      "short_description": "Firewall Analyzer Standard — разбор правил и журналов межсетевых экранов. Годовая подписка на 1 устройство и 2 пользователя.",
+      "meta_description": "ManageEngine Firewall Analyzer Standard, годовая подписка: разбор правил и журналов межсетевых экранов. Оплата по счёту, ЭДО."
+    },
+    "me-firewall-analyzer-enterprise-20-devices-pack-with-2-users-perp": {
+      "short_description": "Firewall Analyzer Enterprise — разбор правил и журналов межсетевых экранов. Вечная лицензия на 1 устройство и 2 пользователя.",
+      "meta_description": "ManageEngine Firewall Analyzer Enterprise, вечная лицензия: разбор правил и журналов межсетевых экранов. Оплата по счёту, ЭДО."
+    },
+    "me-firewall-analyzer-professional-1-device-pack-with-2-users-perp": {
+      "short_description": "Firewall Analyzer Professional — разбор правил и журналов межсетевых экранов. Вечная лицензия на 1 устройство и 2 пользователя.",
+      "meta_description": "ManageEngine Firewall Analyzer Professional, вечная лицензия: разбор правил и журналов межсетевых экранов. Оплата по счёту, ЭДО."
+    },
+    "me-firewall-analyzer-standard-1-device-pack-with-2-users-perp": {
+      "short_description": "Firewall Analyzer Standard — разбор правил и журналов межсетевых экранов. Вечная лицензия на 1 устройство и 2 пользователя.",
+      "meta_description": "ManageEngine Firewall Analyzer Standard, вечная лицензия: разбор правил и журналов межсетевых экранов. Оплата по счёту, ЭДО."
+    },
+    "me-netflow-analyzer-enterprise-10-interfaces-pack-with-2-users": {
+      "short_description": "NetFlow Analyzer Enterprise — анализ сетевого трафика: кто, куда и сколько передаёт. Годовая подписка на 10 интерфейсов и 2 пользователя.",
+      "meta_description": "ManageEngine NetFlow Analyzer Enterprise, годовая подписка: анализ сетевого трафика — кто, куда и сколько передаёт. Оплата по счёту, ЭДО."
+    },
+    "me-netflow-analyzer-professional-10-interfaces-pack-with-2-users": {
+      "short_description": "NetFlow Analyzer Professional — анализ сетевого трафика: кто, куда и сколько передаёт. Годовая подписка на 10 интерфейсов и 2 пользователя.",
+      "meta_description": "ManageEngine NetFlow Analyzer Professional, годовая подписка: анализ сетевого трафика — кто, куда и сколько передаёт. Оплата по счёту, ЭДО."
+    },
+    "me-netflow-analyzer-standard-500-interfaces-pack-with-2-users": {
+      "short_description": "NetFlow Analyzer Standard — анализ сетевого трафика: кто, куда и сколько передаёт. Годовая подписка на 10 интерфейсов и 2 пользователя.",
+      "meta_description": "ManageEngine NetFlow Analyzer Standard, годовая подписка: анализ сетевого трафика — кто, куда и сколько передаёт. Оплата по счёту, ЭДО."
+    },
+    "me-netflow-analyzer-enterprise-10-interfaces-pack-with-2-users-perp": {
+      "short_description": "NetFlow Analyzer Enterprise — анализ сетевого трафика: кто, куда и сколько передаёт. Вечная лицензия на 10 интерфейсов и 2 пользователя.",
+      "meta_description": "ManageEngine NetFlow Analyzer Enterprise, вечная лицензия: анализ сетевого трафика — кто, куда и сколько передаёт. Оплата по счёту, ЭДО."
+    },
+    "me-netflow-analyzer-professional-10-interfaces-pack-with-2-users-perp": {
+      "short_description": "NetFlow Analyzer Professional — анализ сетевого трафика: кто, куда и сколько передаёт. Вечная лицензия на 10 интерфейсов и 2 пользователя.",
+      "meta_description": "ManageEngine NetFlow Analyzer Professional, вечная лицензия: анализ сетевого трафика — кто, куда и сколько передаёт. Оплата по счёту, ЭДО."
+    },
+    "me-netflow-analyzer-standard-500-interfaces-pack-with-2-users-perp": {
+      "short_description": "NetFlow Analyzer Standard — анализ сетевого трафика: кто, куда и сколько передаёт. Вечная лицензия на 10 интерфейсов и 2 пользователя.",
+      "meta_description": "ManageEngine NetFlow Analyzer Standard, вечная лицензия: анализ сетевого трафика — кто, куда и сколько передаёт. Оплата по счёту, ЭДО."
+    },
+    "me-patch-connect-plus-enterprise-250-computers": {
+      "short_description": "Patch Connect Plus Enterprise — обновления сторонних программ через уже развёрнутые ConfigMgr или Intune. Годовая подписка на 250 компьютеров.",
+      "meta_description": "ManageEngine Patch Connect Plus Enterprise, годовая подписка: обновления сторонних программ через уже развёрнутые ConfigMgr или Intune. Оплата по счёту, ЭДО."
+    },
+    "me-patch-connect-plus-professional-250-computers": {
+      "short_description": "Patch Connect Plus Professional — обновления сторонних программ через уже развёрнутые ConfigMgr или Intune. Годовая подписка на 250 компьютеров.",
+      "meta_description": "ManageEngine Patch Connect Plus Professional, годовая подписка: обновления сторонних программ через уже развёрнутые ConfigMgr или Intune. Оплата по счёту, ЭДО."
+    },
+    "me-patch-connect-plus-standard-250-computers": {
+      "short_description": "Patch Connect Plus Standard — обновления сторонних программ через уже развёрнутые ConfigMgr или Intune. Годовая подписка на 250 компьютеров.",
+      "meta_description": "ManageEngine Patch Connect Plus Standard, годовая подписка: обновления сторонних программ через уже развёрнутые ConfigMgr или Intune. Оплата по счёту, ЭДО."
+    },
+    "me-patch-connect-plus-enterprise-250-computers-perp": {
+      "short_description": "Patch Connect Plus Enterprise — обновления сторонних программ через уже развёрнутые ConfigMgr или Intune. Вечная лицензия на 250 компьютеров.",
+      "meta_description": "ManageEngine Patch Connect Plus Enterprise, вечная лицензия: обновления сторонних программ через уже развёрнутые ConfigMgr или Intune. Оплата по счёту, ЭДО."
+    },
+    "me-patch-connect-plus-professional-250-computers-perp": {
+      "short_description": "Patch Connect Plus Professional — обновления сторонних программ через уже развёрнутые ConfigMgr или Intune. Вечная лицензия на 250 компьютеров.",
+      "meta_description": "ManageEngine Patch Connect Plus Professional, вечная лицензия: обновления сторонних программ через уже развёрнутые ConfigMgr или Intune. Оплата по счёту, ЭДО."
+    },
+    "me-patch-connect-plus-standard-250-computers-perp": {
+      "short_description": "Patch Connect Plus Standard — обновления сторонних программ через уже развёрнутые ConfigMgr или Intune. Вечная лицензия на 250 компьютеров.",
+      "meta_description": "ManageEngine Patch Connect Plus Standard, вечная лицензия: обновления сторонних программ через уже развёрнутые ConfigMgr или Intune. Оплата по счёту, ЭДО."
+    },
+    "me-adaudit-plus-professional-2-domain-controllers": {
+      "short_description": "ADAudit Plus Professional — аудит Active Directory и файловых серверов в реальном времени. Годовая подписка на 2 контроллера домена.",
+      "meta_description": "ManageEngine ADAudit Plus Professional, годовая подписка: аудит Active Directory и файловых серверов в реальном времени. Оплата по счёту, ЭДО."
+    },
+    "me-adaudit-plus-standard-2-domain-controllers": {
+      "short_description": "ADAudit Plus Standard — аудит Active Directory и файловых серверов в реальном времени. Годовая подписка на 2 контроллера домена.",
+      "meta_description": "ManageEngine ADAudit Plus Standard, годовая подписка: аудит Active Directory и файловых серверов в реальном времени. Оплата по счёту, ЭДО."
+    },
+    "me-adaudit-plus-professional-2-domain-controllers-perp": {
+      "short_description": "ADAudit Plus Professional — аудит Active Directory и файловых серверов в реальном времени. Вечная лицензия на 2 контроллера домена.",
+      "meta_description": "ManageEngine ADAudit Plus Professional, вечная лицензия: аудит Active Directory и файловых серверов в реальном времени. Оплата по счёту, ЭДО."
+    },
+    "me-adaudit-plus-standard-2-domain-controllers-perp": {
+      "short_description": "ADAudit Plus Standard — аудит Active Directory и файловых серверов в реальном времени. Вечная лицензия на 2 контроллера домена.",
+      "meta_description": "ManageEngine ADAudit Plus Standard, вечная лицензия: аудит Active Directory и файловых серверов в реальном времени. Оплата по счёту, ЭДО."
+    },
+    "me-admanager-plus-professional-1-domain": {
+      "short_description": "ADManager Plus Professional — управление Active Directory: массовые операции, делегирование и отчётность. Годовая подписка на 1 домен.",
+      "meta_description": "ManageEngine ADManager Plus Professional, годовая подписка: управление Active Directory — массовые операции, делегирование и отчётность. Оплата по счёту, ЭДО."
+    },
+    "me-admanager-plus-standard-1-domain-with-2-help-desk-technicians": {
+      "short_description": "ADManager Plus Standard — управление Active Directory: массовые операции, делегирование и отчётность. Годовая подписка на 1 домен.",
+      "meta_description": "ManageEngine ADManager Plus Standard, годовая подписка: управление Active Directory — массовые операции, делегирование и отчётность. Оплата по счёту, ЭДО."
+    },
+    "me-admanager-plus-professional-1-domain-perp": {
+      "short_description": "ADManager Plus Professional — управление Active Directory: массовые операции, делегирование и отчётность. Вечная лицензия на 1 домен.",
+      "meta_description": "ManageEngine ADManager Plus Professional, вечная лицензия: управление Active Directory — массовые операции, делегирование и отчётность. Оплата по счёту, ЭДО."
+    },
+    "me-admanager-plus-standard-1-domain-with-2-help-desk-technicians-perp": {
+      "short_description": "ADManager Plus Standard — управление Active Directory: массовые операции, делегирование и отчётность. Вечная лицензия на 1 домен.",
+      "meta_description": "ManageEngine ADManager Plus Standard, вечная лицензия: управление Active Directory — массовые операции, делегирование и отчётность. Оплата по счёту, ЭДО."
+    },
+    "me-analytics-plus-professional-5-concurrent-guests-pack": {
+      "short_description": "Analytics Plus Professional — аналитика поверх данных службы поддержки, мониторинга и учёта активов. Годовая подписка на 5 пакетов одновременных читателей.",
+      "meta_description": "ManageEngine Analytics Plus Professional, годовая подписка: аналитика поверх данных службы поддержки, мониторинга и учёта активов. Оплата по счёту, ЭДО."
+    },
+    "me-analytics-plus-standard-5-concurrent-guests-pack": {
+      "short_description": "Analytics Plus Standard — аналитика поверх данных службы поддержки, мониторинга и учёта активов. Годовая подписка на 5 пакетов одновременных читателей.",
+      "meta_description": "ManageEngine Analytics Plus Standard, годовая подписка: аналитика поверх данных службы поддержки, мониторинга и учёта активов. Оплата по счёту, ЭДО."
+    },
+    "me-analytics-plus-professional-5-concurrent-guests-pack-perp": {
+      "short_description": "Analytics Plus Professional — аналитика поверх данных службы поддержки, мониторинга и учёта активов. Вечная лицензия на 5 пакетов одновременных читателей.",
+      "meta_description": "ManageEngine Analytics Plus Professional, вечная лицензия: аналитика поверх данных службы поддержки, мониторинга и учёта активов. Оплата по счёту, ЭДО."
+    },
+    "me-analytics-plus-standard-5-concurrent-guests-pack-perp": {
+      "short_description": "Analytics Plus Standard — аналитика поверх данных службы поддержки, мониторинга и учёта активов. Вечная лицензия на 5 пакетов одновременных читателей.",
+      "meta_description": "ManageEngine Analytics Plus Standard, вечная лицензия: аналитика поверх данных службы поддержки, мониторинга и учёта активов. Оплата по счёту, ЭДО."
+    },
+    "me-applications-manager-enterprise-100-monitors-with-1-user": {
+      "short_description": "Applications Manager Enterprise — мониторинг приложений, баз данных и серверов приложений. Годовая подписка на 10 наблюдаемых компонентов и один пользователь.",
+      "meta_description": "ManageEngine Applications Manager Enterprise, годовая подписка: мониторинг приложений, баз данных и серверов приложений. Оплата по счёту, ЭДО."
+    },
+    "me-applications-manager-professional-10-monitors-with-1-user": {
+      "short_description": "Applications Manager Professional — мониторинг приложений, баз данных и серверов приложений. Годовая подписка на 10 наблюдаемых компонентов и один пользователь.",
+      "meta_description": "ManageEngine Applications Manager Professional, годовая подписка: мониторинг приложений, баз данных и серверов приложений. Оплата по счёту, ЭДО."
+    },
+    "me-applications-manager-enterprise-100-monitors-with-1-user-perp": {
+      "short_description": "Applications Manager Enterprise — мониторинг приложений, баз данных и серверов приложений. Вечная лицензия на 10 наблюдаемых компонентов и один пользователь.",
+      "meta_description": "ManageEngine Applications Manager Enterprise, вечная лицензия: мониторинг приложений, баз данных и серверов приложений. Оплата по счёту, ЭДО."
+    },
+    "me-applications-manager-professional-10-monitors-with-1-user-perp": {
+      "short_description": "Applications Manager Professional — мониторинг приложений, баз данных и серверов приложений. Вечная лицензия на 10 наблюдаемых компонентов и один пользователь.",
+      "meta_description": "ManageEngine Applications Manager Professional, вечная лицензия: мониторинг приложений, баз данных и серверов приложений. Оплата по счёту, ЭДО."
+    },
+    "me-exchange-reporter-plus-professional-100-mailboxes": {
+      "short_description": "Exchange Reporter Plus Professional — отчётность и аудит почтовой системы Exchange. Годовая подписка на 100 почтовых ящиков.",
+      "meta_description": "ManageEngine Exchange Reporter Plus Professional, годовая подписка: отчётность и аудит почтовой системы Exchange. Оплата по счёту, ЭДО."
+    },
+    "me-exchange-reporter-plus-standard-100-mailboxes": {
+      "short_description": "Exchange Reporter Plus Standard — отчётность и аудит почтовой системы Exchange. Годовая подписка на 100 почтовых ящиков.",
+      "meta_description": "ManageEngine Exchange Reporter Plus Standard, годовая подписка: отчётность и аудит почтовой системы Exchange. Оплата по счёту, ЭДО."
+    },
+    "me-exchange-reporter-plus-professional-100-mailboxes-perp": {
+      "short_description": "Exchange Reporter Plus Professional — отчётность и аудит почтовой системы Exchange. Вечная лицензия на 100 почтовых ящиков.",
+      "meta_description": "ManageEngine Exchange Reporter Plus Professional, вечная лицензия: отчётность и аудит почтовой системы Exchange. Оплата по счёту, ЭДО."
+    },
+    "me-exchange-reporter-plus-standard-100-mailboxes-perp": {
+      "short_description": "Exchange Reporter Plus Standard — отчётность и аудит почтовой системы Exchange. Вечная лицензия на 100 почтовых ящиков.",
+      "meta_description": "ManageEngine Exchange Reporter Plus Standard, вечная лицензия: отчётность и аудит почтовой системы Exchange. Оплата по счёту, ЭДО."
+    },
+    "me-m365-manager-plus-professional-100-users-mailboxes-with-1-help-desk-technic": {
+      "short_description": "M365 Manager Plus Professional — Управление, отчётность и аудит Microsoft 365 из одного интерфейса. Годовая подписка на 100 пользователей и один специалист поддержки.",
+      "meta_description": "ManageEngine M365 Manager Plus Professional, годовая подписка: Управление, отчётность и аудит Microsoft 365 из одного интерфейса. Оплата по счёту, ЭДО."
+    },
+    "me-m365-manager-plus-standard-100-users-mailboxes-with-1-help-desk-technic": {
+      "short_description": "M365 Manager Plus Standard — Управление, отчётность и аудит Microsoft 365 из одного интерфейса. Годовая подписка на 100 пользователей и один специалист поддержки.",
+      "meta_description": "ManageEngine M365 Manager Plus Standard, годовая подписка: Управление, отчётность и аудит Microsoft 365 из одного интерфейса. Оплата по счёту, ЭДО."
+    },
+    "me-m365-manager-plus-professional-100-users-mailboxes-with-1-help-desk-technic-perp": {
+      "short_description": "M365 Manager Plus Professional — Управление, отчётность и аудит Microsoft 365 из одного интерфейса. Вечная лицензия на 100 пользователей и один специалист поддержки.",
+      "meta_description": "ManageEngine M365 Manager Plus Professional, вечная лицензия: Управление, отчётность и аудит Microsoft 365 из одного интерфейса. Оплата по счёту, ЭДО."
+    },
+    "me-m365-manager-plus-standard-100-users-mailboxes-with-1-help-desk-technic-perp": {
+      "short_description": "M365 Manager Plus Standard — Управление, отчётность и аудит Microsoft 365 из одного интерфейса. Вечная лицензия на 100 пользователей и один специалист поддержки.",
+      "meta_description": "ManageEngine M365 Manager Plus Standard, вечная лицензия: Управление, отчётность и аудит Microsoft 365 из одного интерфейса. Оплата по счёту, ЭДО."
+    },
+    "me-mobile-device-manager-plus-msp-professional-single-user-license-with-50-mobile-devices": {
+      "short_description": "Mobile Device Manager Plus MSP Professional — управление мобильными устройствами клиентов сервис-провайдера. Годовая подписка на 50 мобильных устройств и один специалист.",
+      "meta_description": "ManageEngine Mobile Device Manager Plus MSP Professional, годовая подписка: управление мобильными устройствами клиентов сервис-провайдера. Оплата по счёту, ЭДО."
+    },
+    "me-mobile-device-manager-plus-msp-standard-single-user-license-with-50-mobile-devices": {
+      "short_description": "Mobile Device Manager Plus MSP Standard — управление мобильными устройствами клиентов сервис-провайдера. Годовая подписка на 50 мобильных устройств и один специалист.",
+      "meta_description": "ManageEngine Mobile Device Manager Plus MSP Standard, годовая подписка: управление мобильными устройствами клиентов сервис-провайдера. Оплата по счёту, ЭДО."
+    },
+    "me-mobile-device-manager-plus-msp-professional-single-user-license-with-50-mobile-devices-perp": {
+      "short_description": "Mobile Device Manager Plus MSP Professional — управление мобильными устройствами клиентов сервис-провайдера. Вечная лицензия на 50 мобильных устройств и один специалист.",
+      "meta_description": "ManageEngine Mobile Device Manager Plus MSP Professional, вечная лицензия: управление мобильными устройствами клиентов сервис-провайдера. Оплата по счёту, ЭДО."
+    },
+    "me-mobile-device-manager-plus-msp-standard-single-user-license-with-50-mobile-devices-perp": {
+      "short_description": "Mobile Device Manager Plus MSP Standard — управление мобильными устройствами клиентов сервис-провайдера. Вечная лицензия на 50 мобильных устройств и один специалист.",
+      "meta_description": "ManageEngine Mobile Device Manager Plus MSP Standard, вечная лицензия: управление мобильными устройствами клиентов сервис-провайдера. Оплата по счёту, ЭДО."
+    },
+    "me-mobile-device-manager-plus-professional-single-user-license-with-50-mobile-devices": {
+      "short_description": "Mobile Device Manager Plus Professional — управление телефонами и планшетами: выдача, настройка, защита, списание. Годовая подписка на 50 мобильных устройств и одно рабочее место администратора.",
+      "meta_description": "Mobile Device Manager Plus Professional, годовая подписка: управление телефонами и планшетами — выдача, настройка, защита, списание. Оплата по счёту, ЭДО."
+    },
+    "me-mobile-device-manager-plus-standard-single-user-license-with-50-mobile-devices": {
+      "short_description": "Mobile Device Manager Plus Standard — управление телефонами и планшетами: выдача, настройка, защита, списание. Годовая подписка на 50 мобильных устройств и одно рабочее место администратора.",
+      "meta_description": "Mobile Device Manager Plus Standard, годовая подписка: управление телефонами и планшетами — выдача, настройка, защита, списание. Оплата по счёту, ЭДО."
+    },
+    "me-mobile-device-manager-plus-professional-single-user-license-with-50-mobile-devices-perp": {
+      "short_description": "Mobile Device Manager Plus Professional — управление телефонами и планшетами: выдача, настройка, защита, списание. Вечная лицензия на 50 мобильных устройств и одно рабочее место администратора.",
+      "meta_description": "Mobile Device Manager Plus Professional, вечная лицензия: управление телефонами и планшетами — выдача, настройка, защита, списание. Оплата по счёту, ЭДО."
+    },
+    "me-mobile-device-manager-plus-standard-single-user-license-with-50-mobile-devices-perp": {
+      "short_description": "Mobile Device Manager Plus Standard — управление телефонами и планшетами: выдача, настройка, защита, списание. Вечная лицензия на 50 мобильных устройств и одно рабочее место администратора.",
+      "meta_description": "Mobile Device Manager Plus Standard, вечная лицензия: управление телефонами и планшетами — выдача, настройка, защита, списание. Оплата по счёту, ЭДО."
+    },
+    "me-network-configuration-manager-enterprise-250-devices-pack-with-2-users": {
+      "short_description": "Network Configuration Manager Enterprise — резервные копии и контроль изменений конфигураций сетевого оборудования. Годовая подписка на 10 устройств и 2 пользователя.",
+      "meta_description": "Network Configuration Manager Enterprise, годовая подписка: резервные копии и контроль изменений конфигураций сетевого оборудования. Оплата по счёту, ЭДО."
+    },
+    "me-network-configuration-manager-professional-10-devices-pack-with-2-users": {
+      "short_description": "Network Configuration Manager Professional — резервные копии и контроль изменений конфигураций сетевого оборудования. Годовая подписка на 10 устройств и 2 пользователя.",
+      "meta_description": "Network Configuration Manager Professional, годовая подписка: резервные копии и контроль изменений конфигураций сетевого оборудования. Оплата по счёту, ЭДО."
+    },
+    "me-network-configuration-manager-enterprise-250-devices-pack-with-2-users-perp": {
+      "short_description": "Network Configuration Manager Enterprise — резервные копии и контроль изменений конфигураций сетевого оборудования. Вечная лицензия на 10 устройств и 2 пользователя.",
+      "meta_description": "Network Configuration Manager Enterprise, вечная лицензия: резервные копии и контроль изменений конфигураций сетевого оборудования. Оплата по счёту, ЭДО."
+    },
+    "me-network-configuration-manager-professional-10-devices-pack-with-2-users-perp": {
+      "short_description": "Network Configuration Manager Professional — резервные копии и контроль изменений конфигураций сетевого оборудования. Вечная лицензия на 10 устройств и 2 пользователя.",
+      "meta_description": "Network Configuration Manager Professional, вечная лицензия: резервные копии и контроль изменений конфигураций сетевого оборудования. Оплата по счёту, ЭДО."
+    },
+    "me-os-deployer-enterprise-10-servers": {
+      "short_description": "OS Deployer Enterprise — развёртывание операционных систем образами, включая массовую замену парка. Годовая подписка на 10 серверов.",
+      "meta_description": "ManageEngine OS Deployer Enterprise, годовая подписка: развёртывание операционных систем образами, включая массовую замену парка. Оплата по счёту, ЭДО."
+    },
+    "me-os-deployer-professional-10-servers": {
+      "short_description": "OS Deployer Professional — развёртывание операционных систем образами, включая массовую замену парка. Годовая подписка на 10 серверов.",
+      "meta_description": "ManageEngine OS Deployer Professional, годовая подписка: развёртывание операционных систем образами, включая массовую замену парка. Оплата по счёту, ЭДО."
+    },
+    "me-os-deployer-enterprise-10-servers-perp": {
+      "short_description": "OS Deployer Enterprise — развёртывание операционных систем образами, включая массовую замену парка. Вечная лицензия на 10 серверов.",
+      "meta_description": "ManageEngine OS Deployer Enterprise, вечная лицензия: развёртывание операционных систем образами, включая массовую замену парка. Оплата по счёту, ЭДО."
+    },
+    "me-os-deployer-professional-10-servers-perp": {
+      "short_description": "OS Deployer Professional — развёртывание операционных систем образами, включая массовую замену парка. Вечная лицензия на 10 серверов.",
+      "meta_description": "ManageEngine OS Deployer Professional, вечная лицензия: развёртывание операционных систем образами, включая массовую замену парка. Оплата по счёту, ЭДО."
+    },
+    "me-opmanager-professional-10-devices-pack-with-2-users": {
+      "short_description": "OpManager Professional — мониторинг сети и серверов: доступность, загрузка, оповещения. Годовая подписка на 10 устройств и 2 пользователя.",
+      "meta_description": "ManageEngine OpManager Professional, годовая подписка: мониторинг сети и серверов — доступность, загрузка, оповещения. Оплата по счёту, ЭДО."
+    },
+    "me-opmanager-standard-10-devices-pack-with-2-users": {
+      "short_description": "OpManager Standard — мониторинг сети и серверов: доступность, загрузка, оповещения. Годовая подписка на 10 устройств и 2 пользователя.",
+      "meta_description": "ManageEngine OpManager Standard, годовая подписка: мониторинг сети и серверов — доступность, загрузка, оповещения. Оплата по счёту, ЭДО."
+    },
+    "me-opmanager-professional-10-devices-pack-with-2-users-perp": {
+      "short_description": "OpManager Professional — мониторинг сети и серверов: доступность, загрузка, оповещения. Вечная лицензия на 10 устройств и 2 пользователя.",
+      "meta_description": "ManageEngine OpManager Professional, вечная лицензия: мониторинг сети и серверов — доступность, загрузка, оповещения. Оплата по счёту, ЭДО."
+    },
+    "me-opmanager-standard-10-devices-pack-with-2-users-perp": {
+      "short_description": "OpManager Standard — мониторинг сети и серверов: доступность, загрузка, оповещения. Вечная лицензия на 10 устройств и 2 пользователя.",
+      "meta_description": "ManageEngine OpManager Standard, вечная лицензия: мониторинг сети и серверов — доступность, загрузка, оповещения. Оплата по счёту, ЭДО."
+    },
+    "me-oputils-management-every-additional-250-used-ports-in-switch-po": {
+      "short_description": "ManageEngine OpUtils — учёт IP-адресов и портов коммутаторов. Годовая подписка на базовый пакет вендора.",
+      "meta_description": "ManageEngine OpUtils, годовая подписка: учёт IP-адресов и портов коммутаторов. Оплата по счёту, ЭДО."
+    },
+    "me-oputils-professional-every-additional-250-used-ports-in-switch-po": {
+      "short_description": "OpUtils Professional — учёт IP-адресов и портов коммутаторов. Годовая подписка на базовый пакет вендора.",
+      "meta_description": "ManageEngine OpUtils Professional, годовая подписка: учёт IP-адресов и портов коммутаторов. Оплата по счёту, ЭДО."
+    },
+    "me-oputils-management-every-additional-250-used-ports-in-switch-po-perp": {
+      "short_description": "ManageEngine OpUtils — учёт IP-адресов и портов коммутаторов. Вечная лицензия на базовый пакет вендора.",
+      "meta_description": "ManageEngine OpUtils, вечная лицензия: учёт IP-адресов и портов коммутаторов. Оплата по счёту, ЭДО."
+    },
+    "me-oputils-professional-every-additional-250-used-ports-in-switch-po-perp": {
+      "short_description": "OpUtils Professional — учёт IP-адресов и портов коммутаторов. Вечная лицензия на базовый пакет вендора.",
+      "meta_description": "ManageEngine OpUtils Professional, вечная лицензия: учёт IP-адресов и портов коммутаторов. Оплата по счёту, ЭДО."
+    },
+    "me-pam360-enterprise-10-administrators-and-25-keys": {
+      "short_description": "PAM360 Enterprise — управление привилегированным доступом: хранилище секретов, сессии и запись действий. Годовая подписка на 10 администраторов.",
+      "meta_description": "ManageEngine PAM360 Enterprise, годовая подписка: управление привилегированным доступом — хранилище секретов, сессии и запись действий. Оплата по счёту, ЭДО."
+    },
+    "me-pam360-enterprise-multi-language-10-administrators-and-25-keys": {
+      "short_description": "PAM360 Enterprise, многоязычная версия — управление привилегированным доступом: хранилище секретов, сессии и запись действий. Годовая подписка на 10 администраторов.",
+      "meta_description": "ManageEngine PAM360 Enterprise, многоязычная версия, годовая подписка: управление привилегированным доступом — хранилище секретов, сессии и запись действий."
+    },
+    "me-pam360-enterprise-10-administrators-and-25-keys-perp": {
+      "short_description": "PAM360 Enterprise — управление привилегированным доступом: хранилище секретов, сессии и запись действий. Вечная лицензия на 10 администраторов.",
+      "meta_description": "ManageEngine PAM360 Enterprise, вечная лицензия: управление привилегированным доступом — хранилище секретов, сессии и запись действий. Оплата по счёту, ЭДО."
+    },
+    "me-pam360-enterprise-multi-language-10-administrators-and-25-keys-perp": {
+      "short_description": "PAM360 Enterprise, многоязычная версия — управление привилегированным доступом: хранилище секретов, сессии и запись действий. Вечная лицензия на 10 администраторов.",
+      "meta_description": "ManageEngine PAM360 Enterprise, многоязычная версия, вечная лицензия: управление привилегированным доступом — хранилище секретов, сессии и запись действий."
+    },
+    "me-pam360-msp-enterprise-10-administrators-and-25-keys": {
+      "short_description": "PAM360 MSP Enterprise — привилегированный доступ к системам клиентов с разделением по компаниям. Годовая подписка на 10 администраторов.",
+      "meta_description": "ManageEngine PAM360 MSP Enterprise, годовая подписка: привилегированный доступ к системам клиентов с разделением по компаниям. Оплата по счёту, ЭДО."
+    },
+    "me-pam360-msp-enterprise-multi-language-10-administrators-and-25-keys": {
+      "short_description": "PAM360 MSP Enterprise, многоязычная версия — привилегированный доступ к системам клиентов с разделением по компаниям. Годовая подписка на 10 администраторов.",
+      "meta_description": "PAM360 MSP Enterprise, многоязычная версия, годовая подписка: привилегированный доступ к системам клиентов с разделением по компаниям. Оплата по счёту, ЭДО."
+    },
+    "me-pam360-msp-enterprise-10-administrators-and-25-keys-perp": {
+      "short_description": "PAM360 MSP Enterprise — привилегированный доступ к системам клиентов с разделением по компаниям. Вечная лицензия на 10 администраторов.",
+      "meta_description": "ManageEngine PAM360 MSP Enterprise, вечная лицензия: привилегированный доступ к системам клиентов с разделением по компаниям. Оплата по счёту, ЭДО."
+    },
+    "me-pam360-msp-enterprise-multi-language-10-administrators-and-25-keys-perp": {
+      "short_description": "PAM360 MSP Enterprise, многоязычная версия — привилегированный доступ к системам клиентов с разделением по компаниям. Вечная лицензия на 10 администраторов.",
+      "meta_description": "PAM360 MSP Enterprise, многоязычная версия, вечная лицензия: привилегированный доступ к системам клиентов с разделением по компаниям. Оплата по счёту, ЭДО."
+    },
+    "me-password-manager-pro-msp-premium-5-administrators": {
+      "short_description": "Password Manager Pro MSP Premium — хранилище паролей провайдера с разделением по компаниям-клиентам. Годовая подписка на 5 администраторов.",
+      "meta_description": "ManageEngine Password Manager Pro MSP Premium, годовая подписка: хранилище паролей провайдера с разделением по компаниям-клиентам. Оплата по счёту, ЭДО."
+    },
+    "me-password-manager-pro-msp-standard-5-administrators": {
+      "short_description": "Password Manager Pro MSP Standard — хранилище паролей провайдера с разделением по компаниям-клиентам. Годовая подписка на 5 администраторов.",
+      "meta_description": "ManageEngine Password Manager Pro MSP Standard, годовая подписка: хранилище паролей провайдера с разделением по компаниям-клиентам. Оплата по счёту, ЭДО."
+    },
+    "me-password-manager-pro-msp-premium-5-administrators-perp": {
+      "short_description": "Password Manager Pro MSP Premium — хранилище паролей провайдера с разделением по компаниям-клиентам. Вечная лицензия на 5 администраторов.",
+      "meta_description": "ManageEngine Password Manager Pro MSP Premium, вечная лицензия: хранилище паролей провайдера с разделением по компаниям-клиентам. Оплата по счёту, ЭДО."
+    },
+    "me-password-manager-pro-msp-standard-5-administrators-perp": {
+      "short_description": "Password Manager Pro MSP Standard — хранилище паролей провайдера с разделением по компаниям-клиентам. Вечная лицензия на 5 администраторов.",
+      "meta_description": "ManageEngine Password Manager Pro MSP Standard, вечная лицензия: хранилище паролей провайдера с разделением по компаниям-клиентам. Оплата по счёту, ЭДО."
+    },
+    "me-patch-manager-plus-enterprise-10-servers-and-single-user-license": {
+      "short_description": "Patch Manager Plus Enterprise — только обновления: операционные системы и сторонние программы по расписанию. Годовая подписка на 10 серверов и одно рабочее место администратора.",
+      "meta_description": "Patch Manager Plus Enterprise, годовая подписка: только обновления — операционные системы и сторонние программы по расписанию. Оплата по счёту, ЭДО."
+    },
+    "me-patch-manager-plus-professional-10-servers-and-single-user-license": {
+      "short_description": "Patch Manager Plus Professional — только обновления: операционные системы и сторонние программы по расписанию. Годовая подписка на 10 серверов и одно рабочее место администратора.",
+      "meta_description": "Patch Manager Plus Professional, годовая подписка: только обновления — операционные системы и сторонние программы по расписанию. Оплата по счёту, ЭДО."
+    },
+    "me-patch-manager-plus-enterprise-10-servers-and-single-user-license-perp": {
+      "short_description": "Patch Manager Plus Enterprise — только обновления: операционные системы и сторонние программы по расписанию. Вечная лицензия на 10 серверов и одно рабочее место администратора.",
+      "meta_description": "ManageEngine Patch Manager Plus Enterprise, вечная лицензия: только обновления — операционные системы и сторонние программы по расписанию. Оплата по счёту, ЭДО."
+    },
+    "me-patch-manager-plus-professional-10-servers-and-single-user-license-perp": {
+      "short_description": "Patch Manager Plus Professional — только обновления: операционные системы и сторонние программы по расписанию. Вечная лицензия на 10 серверов и одно рабочее место администратора.",
+      "meta_description": "Patch Manager Plus Professional, вечная лицензия: только обновления — операционные системы и сторонние программы по расписанию. Оплата по счёту, ЭДО."
+    },
+    "me-remote-access-plus-professional-25-computers-and-5-users": {
+      "short_description": "Remote Access Plus Professional — удалённая помощь пользователям: подключение к экрану, диагностика, чат и звонок. Годовая подписка на 25 компьютеров и 5 специалистов поддержки.",
+      "meta_description": "Remote Access Plus Professional, годовая подписка: удалённая помощь пользователям — подключение к экрану, диагностика, чат и звонок. Оплата по счёту, ЭДО."
+    },
+    "me-remote-access-plus-standard-25-computers-and-5-users": {
+      "short_description": "Remote Access Plus Standard — удалённая помощь пользователям: подключение к экрану, диагностика, чат и звонок. Годовая подписка на 25 компьютеров и 5 специалистов поддержки.",
+      "meta_description": "Remote Access Plus Standard, годовая подписка: удалённая помощь пользователям — подключение к экрану, диагностика, чат и звонок. Оплата по счёту, ЭДО."
+    },
+    "me-remote-access-plus-professional-25-computers-and-5-users-perp": {
+      "short_description": "Remote Access Plus Professional — удалённая помощь пользователям: подключение к экрану, диагностика, чат и звонок. Вечная лицензия на 25 компьютеров и 5 специалистов поддержки.",
+      "meta_description": "Remote Access Plus Professional, вечная лицензия: удалённая помощь пользователям — подключение к экрану, диагностика, чат и звонок. Оплата по счёту, ЭДО."
+    },
+    "me-remote-access-plus-standard-25-computers-and-5-users-perp": {
+      "short_description": "Remote Access Plus Standard — удалённая помощь пользователям: подключение к экрану, диагностика, чат и звонок. Вечная лицензия на 25 компьютеров и 5 специалистов поддержки.",
+      "meta_description": "Remote Access Plus Standard, вечная лицензия: удалённая помощь пользователям — подключение к экрану, диагностика, чат и звонок. Оплата по счёту, ЭДО."
+    },
+    "me-servicedesk-plus-enterprise-2-technicians": {
+      "short_description": "ServiceDesk Plus Enterprise — служба поддержки: заявки, согласования, база решений и учёт ИТ-активов. Годовая подписка на 2 технических специалиста.",
+      "meta_description": "ManageEngine ServiceDesk Plus Enterprise, годовая подписка: служба поддержки — заявки, согласования, база решений и учёт ИТ-активов. Оплата по счёту, ЭДО."
+    },
+    "me-servicedesk-plus-professional-2-technicians": {
+      "short_description": "ServiceDesk Plus Professional — служба поддержки: заявки, согласования, база решений и учёт ИТ-активов. Годовая подписка на 2 технических специалиста.",
+      "meta_description": "ManageEngine ServiceDesk Plus Professional, годовая подписка: служба поддержки — заявки, согласования, база решений и учёт ИТ-активов. Оплата по счёту, ЭДО."
+    },
+    "me-servicedesk-plus-msp-standard-10-technicians": {
+      "short_description": "ServiceDesk Plus MSP Standard — служба поддержки сервис-провайдера: заявки, договоры и биллинг по клиентам. Годовая подписка на 10 технических специалистов.",
+      "meta_description": "ManageEngine ServiceDesk Plus MSP Standard, годовая подписка: служба поддержки сервис-провайдера — заявки, договоры и биллинг по клиентам. Оплата по счёту, ЭДО."
+    },
+    "me-servicedesk-plus-msp-standard-multi-language-10-technicians": {
+      "short_description": "ServiceDesk Plus MSP Standard, многоязычная версия — служба поддержки сервис-провайдера: заявки, договоры и биллинг по клиентам. Годовая подписка на 10 технических специалистов.",
+      "meta_description": "ManageEngine ServiceDesk Plus MSP Standard, многоязычная версия, годовая подписка: служба поддержки сервис-провайдера — заявки, договоры и биллинг по клиентам."
+    },
+    "me-servicedesk-plus-multi-language-enterprise-servicedesk-plus-multi-lan-2-technicians": {
+      "short_description": "ServiceDesk Plus Multi Language Enterprise — служба поддержки с интерфейсом на нескольких языках одновременно. Годовая подписка на 2 технических специалиста.",
+      "meta_description": "ServiceDesk Plus Multi Language Enterprise, годовая подписка: служба поддержки с интерфейсом на нескольких языках одновременно. Оплата по счёту, ЭДО."
+    },
+    "me-servicedesk-plus-multi-language-professional-servicedesk-plus-multi-lan-2-technicians": {
+      "short_description": "ServiceDesk Plus Multi Language Professional — служба поддержки с интерфейсом на нескольких языках одновременно. Годовая подписка на 2 технических специалиста.",
+      "meta_description": "ServiceDesk Plus Multi Language Professional, годовая подписка: служба поддержки с интерфейсом на нескольких языках одновременно. Оплата по счёту, ЭДО."
+    },
+    "me-sharepoint-manager-plus-professional-1-farm-m365-tenant": {
+      "short_description": "SharePoint Manager Plus Professional — Отчётность, аудит и управление SharePoint. Годовая подписка на одна ферма или облачная подписка.",
+      "meta_description": "ManageEngine SharePoint Manager Plus Professional, годовая подписка: Отчётность, аудит и управление SharePoint. Оплата по счёту, ЭДО."
+    },
+    "me-sharepoint-manager-plus-standard-1-farm-m365-tenant": {
+      "short_description": "SharePoint Manager Plus Standard — Отчётность, аудит и управление SharePoint. Годовая подписка на одна ферма или облачная подписка.",
+      "meta_description": "ManageEngine SharePoint Manager Plus Standard, годовая подписка: Отчётность, аудит и управление SharePoint. Оплата по счёту, ЭДО."
+    },
+    "me-sharepoint-manager-plus-professional-1-farm-m365-tenant-perp": {
+      "short_description": "SharePoint Manager Plus Professional — Отчётность, аудит и управление SharePoint. Вечная лицензия на одна ферма или облачная подписка.",
+      "meta_description": "ManageEngine SharePoint Manager Plus Professional, вечная лицензия: Отчётность, аудит и управление SharePoint. Оплата по счёту, ЭДО."
+    },
+    "me-sharepoint-manager-plus-standard-1-farm-m365-tenant-perp": {
+      "short_description": "SharePoint Manager Plus Standard — Отчётность, аудит и управление SharePoint. Вечная лицензия на одна ферма или облачная подписка.",
+      "meta_description": "ManageEngine SharePoint Manager Plus Standard, вечная лицензия: Отчётность, аудит и управление SharePoint. Оплата по счёту, ЭДО."
+    },
+    "me-supportcenter-plus-standard-10-support-representatives": {
+      "short_description": "SupportCenter Plus Standard — поддержка внешних клиентов: обращения, договоры обслуживания и биллинг. Годовая подписка на 10 сотрудников поддержки.",
+      "meta_description": "ManageEngine SupportCenter Plus Standard, годовая подписка: поддержка внешних клиентов — обращения, договоры обслуживания и биллинг. Оплата по счёту, ЭДО."
+    },
+    "me-supportcenter-plus-standard-multi-language-10-support-representatives": {
+      "short_description": "SupportCenter Plus Standard, многоязычная версия — поддержка внешних клиентов: обращения, договоры обслуживания и биллинг. Годовая подписка на 10 сотрудников поддержки.",
+      "meta_description": "ManageEngine SupportCenter Plus Standard, многоязычная версия, годовая подписка: поддержка внешних клиентов — обращения, договоры обслуживания и биллинг."
+    },
+    "me-vulnerability-manager-plus-enterprise-10-servers-and-single-user-license": {
+      "short_description": "Vulnerability Manager Plus Enterprise — поиск уязвимостей и их устранение из одного интерфейса. Годовая подписка на 10 серверов и одно рабочее место администратора.",
+      "meta_description": "ManageEngine Vulnerability Manager Plus Enterprise, годовая подписка: поиск уязвимостей и их устранение из одного интерфейса. Оплата по счёту, ЭДО."
+    },
+    "me-vulnerability-manager-plus-professional-10-servers-and-single-user-license": {
+      "short_description": "Vulnerability Manager Plus Professional — поиск уязвимостей и их устранение из одного интерфейса. Годовая подписка на 10 серверов и одно рабочее место администратора.",
+      "meta_description": "ManageEngine Vulnerability Manager Plus Professional, годовая подписка: поиск уязвимостей и их устранение из одного интерфейса. Оплата по счёту, ЭДО."
+    },
+    "me-vulnerability-manager-plus-enterprise-10-servers-and-single-user-license-perp": {
+      "short_description": "Vulnerability Manager Plus Enterprise — поиск уязвимостей и их устранение из одного интерфейса. Вечная лицензия на 10 серверов и одно рабочее место администратора.",
+      "meta_description": "ManageEngine Vulnerability Manager Plus Enterprise, вечная лицензия: поиск уязвимостей и их устранение из одного интерфейса. Оплата по счёту, ЭДО."
+    },
+    "me-vulnerability-manager-plus-professional-10-servers-and-single-user-license-perp": {
+      "short_description": "Vulnerability Manager Plus Professional — поиск уязвимостей и их устранение из одного интерфейса. Вечная лицензия на 10 серверов и одно рабочее место администратора.",
+      "meta_description": "ManageEngine Vulnerability Manager Plus Professional, вечная лицензия: поиск уязвимостей и их устранение из одного интерфейса. Оплата по счёту, ЭДО."
     }
   },
   "_meta": {
     "purpose": "Уникализация описаний карточек тарифов для возврата страниц из-под фильтра МПК Яндекса",
     "source_report": "reports/seo/excluded-pages-analysis.md",
-    "batch": "Adobe + Zoom (партия 1)",
+    "batch": "Adobe + Zoom (партия 1); Depositphotos Unlimited — развод одинаковых meta_title (партия 2); Bitdefender и Parallels Desktop — развод дублей по находке ops-content-audit 01.09.2026 (партия 3); ManageEngine ADManager Plus MSP и DataSecurity Plus — заголовки по модулю и объёму (партия 4)",
     "applied_by": ".github/workflows/ops-apply-descriptions.yml"
   }
 }
