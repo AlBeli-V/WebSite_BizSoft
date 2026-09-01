@@ -1,6 +1,6 @@
 {
  "schema_version": "1.0.0",
- "collected_at": "2026-09-01T06:25:29+00:00",
+ "collected_at": "2026-09-01T07:00:13+00:00",
  "date_from": "2026-08-28",
  "date_to": "2026-09-01",
  "groups": [
@@ -99,7 +99,7 @@
    "CampaignId": "713927850",
    "AdGroupId": "5793418349",
    "AdGroupName": "Claude — подписки для компаний",
-   "Impressions": 10,
+   "Impressions": 15,
    "Clicks": 0,
    "Cost": 0.0
   },
@@ -117,7 +117,7 @@
    "CampaignId": "713927850",
    "AdGroupId": "5793418352",
    "AdGroupName": "ChatGPT Business — гипотеза с фильтром до клика",
-   "Impressions": 3,
+   "Impressions": 11,
    "Clicks": 0,
    "Cost": 0.0
   },
@@ -126,18 +126,18 @@
    "CampaignId": "713927850",
    "AdGroupId": "5793785058",
    "AdGroupName": "Cursor — редактор для команд разработки",
-   "Impressions": 1,
-   "Clicks": 0,
-   "Cost": 0.0
+   "Impressions": 3,
+   "Clicks": 1,
+   "Cost": 20.43
   },
   {
    "Date": "2026-09-01",
    "CampaignId": "713927850",
    "AdGroupId": "5793785067",
    "AdGroupName": "Adobe — подписки для юрлиц",
-   "Impressions": 7,
-   "Clicks": 0,
-   "Cost": 0.0
+   "Impressions": 32,
+   "Clicks": 2,
+   "Cost": 17.73
   }
  ],
  "queries": [
