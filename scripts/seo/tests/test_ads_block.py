@@ -35,7 +35,7 @@ def _q(date, name, query, imp, clicks, cost):
 
 
 class AdsBlockTest(unittest.TestCase):
-    def _build(self, payload, date="2026-08-29"):
+    def _build(self, payload, date="2026-08-29", attribution=None):
         tmp = tempfile.NamedTemporaryFile('w', suffix='.json', delete=False,
                                           encoding='utf-8')
         json.dump(payload, tmp, ensure_ascii=False)
@@ -43,7 +43,7 @@ class AdsBlockTest(unittest.TestCase):
         old = ads_block.STATS
         ads_block.STATS = pathlib.Path(tmp.name)
         try:
-            return ads_block.build(date)
+            return ads_block.build(date, attribution)
         finally:
             ads_block.STATS = old
             pathlib.Path(tmp.name).unlink(missing_ok=True)
@@ -148,3 +148,64 @@ class ParseTsvTest(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+
+
+def _att(rows, dimension="ym:s:lastDirectBannerGroup"):
+    return {"dimension": dimension, "goal_keys": ["lead_sent"], "rows": rows}
+
+
+class StageBAttributionTest(unittest.TestCase):
+    """Этап B (01.09.2026): заявки и CPA из связки Метрика→Директ."""
+
+    _build = AdsBlockTest._build
+
+    def test_заявки_с_допустимым_CPA_зелёные(self):
+        stats = _stats([_g("2026-08-28", "Claude Code — для команд", 500, 30, 2000.0)])
+        att = _att([{"name": "Claude Code — для команд", "visits": 28,
+                     "goal_reaches_any": 6,
+                     "leads": {"lead_sent": 1, "quote_pdf": 0,
+                               "click_phone": 2, "click_email": 0,
+                               "click_messenger": 0}}])
+        b = self._build(stats, attribution=att)
+        row = next(r for r in b["rows"] if r["key"] == "k2")
+        self.assertEqual(row["leads"], 1)
+        self.assertEqual(row["contacts"], 2)
+        self.assertEqual(row["verdict"]["tone"], "ok")
+        self.assertIn("CPA 2000", row["verdict"]["label"])
+
+    def test_клики_без_заявок_и_контактов_красные(self):
+        stats = _stats([_g("2026-08-28", "Claude Code — для команд", 500, 30, 2000.0)])
+        att = _att([{"name": "Claude Code — для команд", "visits": 28,
+                     "goal_reaches_any": 0, "leads": {}}])
+        b = self._build(stats, attribution=att)
+        row = next(r for r in b["rows"] if r["key"] == "k2")
+        self.assertEqual(row["verdict"]["tone"], "bad")
+        self.assertIn("кандидат на паузу", row["verdict"]["label"])
+        self.assertIn("решение за вами", row["verdict"]["label"])
+
+    def test_CPA_выше_порога_жёлтый(self):
+        stats = _stats([_g("2026-08-28", "Midjourney — контрольная", 500, 30, 2000.0)])
+        att = _att([{"name": "Midjourney — контрольная", "visits": 28,
+                     "goal_reaches_any": 1,
+                     "leads": {"lead_sent": 1}}])
+        b = self._build(stats, attribution=att)
+        row = next(r for r in b["rows"] if r["key"] == "k3")
+        self.assertEqual(row["verdict"]["tone"], "warn")  # 2000 > порога 600
+        self.assertIn("выше порога", row["verdict"]["label"])
+
+    def test_фолбэк_по_кампании_не_приписывает_группам(self):
+        stats = _stats([_g("2026-08-28", "Claude Code — для команд", 500, 30, 2000.0)])
+        att = _att([{"name": "bs-test-2026-09", "visits": 100,
+                     "goal_reaches_any": 5, "leads": {"lead_sent": 2}}],
+                   dimension="ym:s:lastDirectClickOrder")
+        b = self._build(stats, attribution=att)
+        row = next(r for r in b["rows"] if r["key"] == "k2")
+        self.assertIsNone(row["leads"])   # по-групповых данных нет — честный None
+        self.assertEqual(row["verdict"]["tone"], "warn")
+
+    def test_без_связки_поведение_этапа_A(self):
+        stats = _stats([_g("2026-08-28", "Claude Code — для команд", 500, 30, 2000.0)])
+        b = self._build(stats, attribution=None)
+        row = next(r for r in b["rows"] if r["key"] == "k2")
+        self.assertIsNone(row["leads"])
+        self.assertIn("пора оценить вовлечение", row["verdict"]["label"])
