@@ -159,12 +159,45 @@ def enrich(leads: list[dict]) -> dict:
     return {'available': True, 'error': first_error, 'counter': counter}
 
 
-def load_raw(path: pathlib.Path) -> list[dict]:
-    """Выгрузка с сервера: массив записей или объект с ключом leads/data."""
-    payload = json.loads(path.read_text(encoding='utf-8'))
+def _rows(payload) -> list[dict] | None:
+    """Записи из разобранного JSON: массив или объект с ключом leads/data."""
     if isinstance(payload, dict):
         payload = payload.get('leads') or payload.get('data') or []
+    if not isinstance(payload, list):
+        return None
     return [r for r in payload if isinstance(r, dict)]
+
+
+def load_raw(path: pathlib.Path) -> list[dict]:
+    """Выгрузка с сервера, устойчивая к посторонним строкам в файле.
+
+    Выгрузка приезжает через capture_stdout ssh-action, а та подмешивает к
+    выводу скрипта свои строки («Successfully executed commands to all
+    hosts» между рядами знаков «=»). Прогон 01.09 на этом и упал: разбор
+    файла целиком спотыкался об «Extra data» во второй строке. Поэтому при
+    неудаче разбирается построчно — берётся первая строка, которая сама по
+    себе является выгрузкой. Маркеры в воркфлоу режут то же самое раньше;
+    здесь — вторая линия обороны, чтобы формат вывода чужого действия не
+    ронял сбор.
+    """
+    text = path.read_text(encoding='utf-8')
+    try:
+        rows = _rows(json.loads(text))
+    except ValueError:
+        rows = None
+    if rows is not None:
+        return rows
+    for line in text.splitlines():
+        line = line.strip()
+        if not line or line[0] not in '{[':
+            continue
+        try:
+            rows = _rows(json.loads(line))
+        except ValueError:
+            continue
+        if rows is not None:
+            return rows
+    raise ValueError('в выгрузке нет строки с заявками')
 
 
 def main() -> int:

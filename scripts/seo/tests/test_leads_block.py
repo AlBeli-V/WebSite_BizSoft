@@ -196,6 +196,44 @@ class TestCollectorNormalization(unittest.TestCase):
         for forbidden in ("name", "email", "phone", "message"):
             self.assertNotIn(forbidden, rows[0])
 
+    def test_export_survives_ssh_action_noise(self):
+        """capture_stdout подмешивает к выгрузке служебные строки действия.
+
+        Прогон 01.09 на этом и упал: разбор файла целиком видел «Extra data»
+        во второй строке, и сбор заявок не доходил до Метрики.
+        """
+        import tempfile
+        collect = load("leads_collect")
+        noisy = ('{"leads": [{"id": 27, "company": "ООО «Ромашка»"}]}\n'
+                 "===============================================\n"
+                 "\u2705 Successfully executed commands to all hosts.\n"
+                 "===============================================\n")
+        with tempfile.NamedTemporaryFile("w", suffix=".json", delete=False,
+                                         encoding="utf-8") as fh:
+            fh.write(noisy)
+            path = pathlib.Path(fh.name)
+        try:
+            rows = collect.load_raw(path)
+        finally:
+            path.unlink()
+        self.assertEqual(len(rows), 1)
+        self.assertEqual(rows[0]["id"], 27)
+
+    def test_export_without_leads_raises(self):
+        # Пустой или чужой вывод — ошибка сбора, а не «ноль заявок»: тихо
+        # записанная пустая витрина выглядела бы как сутки без обращений.
+        import tempfile
+        collect = load("leads_collect")
+        with tempfile.NamedTemporaryFile("w", suffix=".json", delete=False,
+                                         encoding="utf-8") as fh:
+            fh.write("Permission denied\nno json here\n")
+            path = pathlib.Path(fh.name)
+        try:
+            with self.assertRaises(ValueError):
+                collect.load_raw(path)
+        finally:
+            path.unlink()
+
     def test_steps_sorted_by_date(self):
         collect = load("leads_collect")
         steps = collect.parse_steps({"data": [
