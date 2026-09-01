@@ -100,6 +100,20 @@ class TestChannelFromMetrika(unittest.TestCase):
             {"date": DAY, "source": "organic", "engine": "Yandex", "landing": "/"}]})
         self.assertEqual(leads.channel_of(item)["label"], "поиск Яндекса")
 
+    def test_referral_host_taken_from_touch_when_metrika_silent(self):
+        # В визитах Метрики домена реферера нет, а вопрос «откуда» без него
+        # без ответа. Хост берётся из метки браузера — заявка ООО
+        # «ИНФОРМАТИК» 31.08.2026 пришла с корпоративного портала клиента.
+        item = lead(last_touch_source="bitrix.informatic.ru / referral",
+                    ym_client_id="11",
+                    journey={"available": True, "visits": 1, "steps": [
+                        {"date": DAY, "source": "referral",
+                         "landing": "/product/mrmst-tb5-studio"}]})
+        ch = leads.channel_of(item)
+        self.assertEqual(ch["basis"], "Метрика")
+        self.assertIn("bitrix.informatic.ru", ch["label"])
+        self.assertIn("bitrix.informatic.ru", leads.journey_line(item))
+
     def test_last_visit_decides_not_first(self):
         item = lead(ym_client_id="7", journey={"available": True, "visits": 2, "steps": [
             {"date": "2026-08-31", "source": "ad", "engine": "Yandex", "landing": "/"},
