@@ -1,7 +1,8 @@
 # Аудит текстового контента карточек в прод-Directus: полнота описаний,
 # качество мета-тегов (пустые, обрывы «…», неверное написание бренда,
-# длина title/description) и дубли meta_title/meta_description между
-# карточками. Только чтение. Результат — в журнал-issue #22.
+# длина title/description) и дубли между карточками — по фактическому
+# заголовку страницы (meta_title, а при пустом — name) и по
+# meta_description. Только чтение. Результат — в журнал-issue #22.
 name: ops-content-audit
 on:
   workflow_dispatch:
@@ -79,20 +80,33 @@ jobs:
                 if len(hits) > 6:
                     print(f'   … ещё {len(hits) - 6}')
             # Одинаковые title/description на разных карточках Яндекс считает
-            # дублями и снимает страницы с индексации: title карточки — это
-            # meta_title (см. src/pages/product/[slug].astro), поэтому дубли
-            # ищем именно по нему, а не по названию товара.
+            # дублями и снимает страницы с индексации. Заголовок страницы —
+            # это meta_title, а при пустом meta_title — название товара
+            # (src/pages/product/[slug].astro: meta_title || name), поэтому
+            # дубли ищем по фактическому заголовку, иначе пары с пустой метой
+            # остаются невидимыми для аудита.
+            def effective_title(r):
+                return g(r, 'meta_title') or g(r, 'name')
+
             print('\n== Дубли мета-тегов (только по индексируемым) ==')
-            for f in ('meta_title', 'meta_description'):
+            for f, value in (('заголовок страницы (meta_title или name)', effective_title),
+                             ('meta_description', lambda r: g(r, 'meta_description'))):
                 seen = {}
                 for r in idx:
-                    v = g(r, f)
+                    v = value(r)
                     if v:
-                        seen.setdefault(v, []).append(r['slug'])
-                dups = {v: sl for v, sl in seen.items() if len(sl) > 1}
+                        seen.setdefault(v, []).append(r)
+                dups = {v: rows_ for v, rows_ in seen.items() if len(rows_) > 1}
                 print(f'{f}: групп дублей {len(dups)}')
-                for v, sl in sorted(dups.items(), key=lambda kv: -len(kv[1]))[:10]:
-                    print(f'   - «{v[:70]}» — {len(sl)} шт.: {", ".join(sorted(sl))}')
+                for v, rows_ in sorted(dups.items(), key=lambda kv: -len(kv[1]))[:10]:
+                    # откуда взят заголовок: своя мета или подставленное название
+                    src = ''
+                    if value is effective_title:
+                        empty = sum(1 for r in rows_ if not g(r, 'meta_title'))
+                        src = (' [meta_title пуст у всех, заголовок из name]' if empty == len(rows_)
+                               else f' [meta_title пуст у {empty} из {len(rows_)}]' if empty else '')
+                    slugs = ', '.join(sorted(r['slug'] for r in rows_))
+                    print(f'   - «{v[:70]}» — {len(rows_)} шт.{src}: {slugs}')
                 if len(dups) > 10:
                     print(f'   … ещё {len(dups) - 10} групп')
 
