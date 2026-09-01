@@ -73,6 +73,12 @@ jobs:
               exit 1
             fi
             DAYS=${P_DAYS:-14}
+            # Маркеры вокруг выгрузки: appleboy/ssh-action возвращает в
+            # capture_stdout не только вывод скрипта, но и свои служебные
+            # строки («Successfully executed commands to all hosts» между
+            # рядами знаков «=»). Первый прогон 01.09 на них и упал —
+            # json.load видел «Extra data» во второй строке.
+            echo "#LEADS-JSON-BEGIN#"
             python3 - "$TOKEN" "$DAYS" <<'PYEOF'
             import datetime as dt, json, sys, urllib.parse, urllib.request
             token, days = sys.argv[1], int(sys.argv[2] or 14)
@@ -98,14 +104,24 @@ jobs:
             rows = json.load(urllib.request.urlopen(req))["data"]
             print(json.dumps({"leads": rows}, ensure_ascii=False))
             PYEOF
+            echo "#LEADS-JSON-END#"
 
       # Вывод передаётся через файл, а не через переменную окружения: у длинной
       # выгрузки список аргументов процесса переполняется (Argument list too long).
+      # Из вывода вырезается участок между маркерами — всё остальное написала
+      # сама ssh-action, и JSON-ом не является.
       - name: Save export to file
         run: |
-          cat > /tmp/leads-raw.json <<'LEADS_RAW_EOF'
+          cat > /tmp/leads-stdout.txt <<'LEADS_RAW_EOF'
           ${{ steps.run.outputs.stdout }}
           LEADS_RAW_EOF
+          sed -n '/#LEADS-JSON-BEGIN#/,/#LEADS-JSON-END#/p' /tmp/leads-stdout.txt \
+            | sed '1d;$d' > /tmp/leads-raw.json
+          if [ ! -s /tmp/leads-raw.json ]; then
+            echo "::error::в выводе выгрузки нет участка между маркерами — выгрузка не выполнена"
+            sed -n '1,20p' /tmp/leads-stdout.txt
+            exit 1
+          fi
           python3 -c "import json;d=json.load(open('/tmp/leads-raw.json'));print('заявок выгружено:', len(d['leads']))"
 
       - name: Install deps
