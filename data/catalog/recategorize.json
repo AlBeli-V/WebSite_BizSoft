@@ -1,5 +1,5 @@
 {
-  "_note": "Переразложение товаров по разделам каталога («Назначение ПО») по их описаниям: артикул → слаг целевого раздела. Применяет воркфлоу ops-recategorize (apply=false — только отчёт «было → станет»). Для товаров из scripts/catalog/*.json категория одновременно исправлена в самом пакете, чтобы следующий прогон ops-import-vendors не вернул старую. Позиция, уже лежащая в целевом разделе, — no-op.",
+  "_note": "Переразложение товаров по разделам каталога («Назначение ПО») по их описаниям: артикул → слаг целевого раздела. Применяет воркфлоу ops-recategorize (apply=false — только отчёт «было → станет»). Для товаров из scripts/catalog/*.json категория одновременно исправлена в самом пакете, чтобы следующий прогон ops-import-vendors не вернул старую. Позиция, уже лежащая в целевом разделе, — no-op. Блок unpublish — артикулы, которые снимаются с витрины (status → draft): решение руководителя 30.08.2026 по семи обезличенным сид-карточкам без вендора.",
   "_reasons": {
     "ai-text": "текстовые AI-ассистенты и перевод: DeepL, Grok, Kimi, ChatGPT — раньше висели в родительском разделе ai и не были видны в /catalog/ai/text",
     "ai-video": "генеративное видео: Kling, Higgsfield",
@@ -10,7 +10,8 @@
     "development": "инструменты разработки: Visual Studio (лежала в «Офисном ПО»), TeamCity, Qodana",
     "system": "операционные системы: Windows 11 Pro лежала в «Офисном ПО»",
     "database": "работа с данными: Datalore",
-    "architecture": "архитектурная визуализация: Lumion — у вендора в пакете catSeg architecture, а товары были в design"
+    "architecture": "архитектурная визуализация: Lumion — у вендора в пакете catSeg architecture, а товары были в design",
+    "web": "сайты и хостинг: WordPress.com — облачная CMS и магазин на WooCommerce лежали в «Дизайне и графике»; раздел web заведён решением руководителя 30.08.2026"
   },
   "moves": {
     "DEEPL-STARTER": "ai-text",
@@ -51,6 +52,19 @@
     "JB-DATALORE": "database",
     "LUMION-VIEW": "architecture",
     "LUMION-PRO": "architecture",
-    "LUMION-PRO-FLOATING": "architecture"
-  }
+    "LUMION-PRO-FLOATING": "architecture",
+    "WORDPRESS-BUSINESS": "web",
+    "WORDPRESS-BUSINESS-RENEWAL": "web",
+    "WORDPRESS-COMMERCE": "web",
+    "WORDPRESS-COMMERCE-RENEWAL": "web"
+  },
+  "unpublish": [
+    "DEV-AI-TEAM",
+    "AI-TXT-TEAM",
+    "AI-IMG-BIZ",
+    "VCS-BIZ",
+    "GFX-PRO-1Y",
+    "COMM-CHAT",
+    "GFX-COLLAB"
+  ]
 }

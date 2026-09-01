@@ -1,0 +1,140 @@
+<!doctype html>
+<!-- МАКЕТ deep competitive report (раздел 25 задания), уровни L1–L2 + Strike List
+     + пример Attack Card (L4). Данные РЕАЛЬНЫЕ: SERP-срез Яндекса 30.08.2026,
+     150 запросов Tier-1, Москва (seo-data: reports/seo/data/serp/2026-08-30-serp.jsonl).
+     День 1: окна 7/30/90d пусты, B2B Confidence — предварительная ручная оценка,
+     Vulnerability недоступен до Phase 4 (Scoring: базовый).
+     Боевой отчёт живёт на https://biz-soft.pro/ci-<токен>/2026-08-30/ за basic auth. -->
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>CI Deep Report · 30.08.2026</title>
+<style>
+  :root{--ink:#101828;--muted:#667085;--line:#EAECF0;--ok:#12B76A;--bad:#D92D20;--brand:#F4511E;}
+  body{margin:0;background:#f4f5f7;color:var(--ink);font:14px/1.5 -apple-system,Segoe UI,Roboto,Arial,sans-serif;}
+  .wrap{max-width:980px;margin:0 auto;padding:24px 16px;}
+  h1{font-size:22px;margin:0 0 4px;} h2{font-size:16px;margin:28px 0 10px;} h3{font-size:14px;margin:18px 0 8px;}
+  .sub{color:var(--muted);font-size:12px;}
+  .cards{display:flex;gap:10px;flex-wrap:wrap;margin:14px 0;}
+  .card{flex:1 1 150px;background:#fff;border:1px solid var(--line);border-radius:8px;padding:12px;}
+  .card .k{font-size:11px;color:var(--muted);} .card .v{font-size:22px;font-weight:700;} .card .d{font-size:11px;color:#98A2B3;}
+  table{width:100%;border-collapse:collapse;background:#fff;border:1px solid var(--line);border-radius:8px;font-size:13px;}
+  th{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;text-align:left;padding:8px;border-bottom:1px solid var(--line);}
+  td{padding:8px;border-bottom:1px solid var(--line);vertical-align:top;}
+  tr:last-child td{border-bottom:none;}
+  .tag{display:inline-block;font-size:11px;padding:1px 7px;border-radius:10px;border:1px solid var(--line);color:var(--muted);white-space:nowrap;}
+  .tag.pay{background:#FEF3F2;color:var(--bad);border-color:#FECDCA;}
+  .tag.b2b{background:#F0F9FF;color:#175CD3;border-color:#B2DDFF;}
+  .tag.b2c{background:#F8F9FC;} .tag.info{background:#F8F9FC;}
+  .us{background:#FFF4EF;}
+  .lbl{display:inline-block;font-size:10px;font-weight:700;letter-spacing:.05em;padding:1px 6px;border-radius:3px;margin-right:6px;}
+  .fact{background:#ECFDF3;color:#067647;} .likely{background:#FFFAEB;color:#B54708;} .hypo{background:#F4F3FF;color:#5925DC;} .act{background:#EFF8FF;color:#175CD3;}
+  .btn{display:inline-block;font-size:12px;font-weight:600;text-decoration:none;padding:6px 12px;border-radius:6px;border:1px solid var(--line);color:var(--ink);margin-right:6px;}
+  .btn.acc{background:#ECFDF3;border-color:#A6F4C5;} .btn.rej{background:#FEF3F2;border-color:#FECDCA;} .btn.done{background:#EFF8FF;border-color:#B2DDFF;}
+  .note{background:#FFFAEB;border:1px solid #FEDF89;border-radius:8px;padding:10px 12px;font-size:12px;color:#B54708;margin:12px 0;}
+  .scroll{overflow-x:auto;}
+  .attack{background:#fff;border:1px solid var(--line);border-radius:8px;padding:16px;margin-top:10px;}
+  a{color:#175CD3;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<h1>Конкурентная разведка · Deep Report</h1>
+<div class="sub">30.08.2026 · Яндекс, Москва (регион 213) · 150 запросов Tier-1 · снимок неизменяем ·
+архив: <a href="#">/ci-&lt;токен&gt;/2026-08-30/</a> · Scoring: базовый (Vulnerability — с Phase 4)</div>
+
+<div class="note">День 1 наблюдений: окна 7/30/90d будут заполняться по мере накопления истории.
+Google: NO DATA (нет ключа SERP-провайдера). NO DATA никогда не отображается как ноль.</div>
+
+<!-- ============ L1 EXECUTIVE DASHBOARD ============ -->
+<h2>L1 · Executive Dashboard</h2>
+<div class="cards">
+  <div class="card"><div class="k">B2B Share · Яндекс</div><div class="v">5,4%</div><div class="d">Δ7d н/д · Δ30d н/д</div></div>
+  <div class="card"><div class="k">B2B Share · Google</div><div class="v" style="color:#98A2B3;">NO DATA</div><div class="d">нет ключа провайдера</div></div>
+  <div class="card"><div class="k">TOP-3</div><div class="v">28/150</div><div class="d">18,7% запросов</div></div>
+  <div class="card"><div class="k">TOP-10</div><div class="v">94/150</div><div class="d">62,7% запросов</div></div>
+  <div class="card"><div class="k">Attack-кандидаты</div><div class="v">66</div><div class="d">BIZSoft 4–10, лидер №1 — чужой</div></div>
+</div>
+
+<h3>Взвешенная видимость по категориям (CTR-кривая × позиция, топ-10)</h3>
+<div class="scroll"><table>
+<tr><th>Категория</th><th>Share</th><th>Главные домены</th><th>В основном рейтинге</th></tr>
+<tr><td><span class="tag pay">H/π · платёжные посредники</span></td><td><b>29,6%</b></td><td>raketapay.ru 10,0% · pipl.io 6,0% · finteka.io 3,4% · card-open.ru 3,1%</td><td>да (перехватывают транзакционный intent)</td></tr>
+<tr><td><span class="tag info">G · информационные</span></td><td>23,0%</td><td>dzen.ru 12,6% · vc.ru 3,4% · rbc 3,1% · klerk.ru 2,7%</td><td>нет (конкурент за клик)</td></tr>
+<tr><td><span class="tag b2b">A/B/D · B2B-реселлеры</span></td><td>12,8%</td><td>platipomiru.com 6,8% · syssoft.ru 2,1% · migsoft.ru 1,6% · legasoft.ru</td><td>да</td></tr>
+<tr><td><span class="tag b2c">E · B2C/маркетплейсы</span></td><td>9,1%</td><td>ggsel.net 2,7% · market.yandex 2,3% · avito · plati.market</td><td>нет</td></tr>
+<tr class="us"><td><b>BIZSoft</b></td><td><b>5,4%</b></td><td>biz-soft.pro</td><td>—</td></tr>
+<tr><td>Прочие / не классифицировано</td><td>20,1%</td><td>хвост discovery — очередь на классификацию</td><td>—</td></tr>
+</table></div>
+
+<p><span class="lbl fact">FACT</span>Softline, allsoft, softkey — 0 попаданий в топ-10 из 150 запросов среза.
+<span class="lbl likely">LIKELY</span>Поле «купить/оплатить зарубежный софт юрлицом» отдано посредникам по оплате, а не классическим реселлерам.
+<span class="lbl hypo">HYPOTHESIS</span>Их страницы уязвимы по B2B-глубине (нет договора/ЭДО/закрывающих) — проверка в Phase 4.</p>
+
+<!-- ============ L2 COMPETITOR LEADERBOARD ============ -->
+<h2>L2 · Competitor Leaderboard</h2>
+<div class="sub">Основной пул: B2B Confidence ≥ 60 (предварительная ручная оценка; авто-классификатор — Phase 1).
+Строки в боевом отчёте кликабельны → L3 Competitor Page. Overlap: stage 1 (inferred по SERP).</div>
+<div class="scroll"><table>
+<tr><th>#</th><th>Домен</th><th>Категория</th><th>B2B conf.</th><th>Share</th><th>TOP-3</th><th>TOP-10</th><th>Threat</th><th>Vendor overlap (st.1)</th><th>Тренд</th><th>Стратегия (предв.)</th></tr>
+<tr><td>1</td><td><b>raketapay.ru</b></td><td><span class="tag pay">посредник</span></td><td>72</td><td>10,0%</td><td>44</td><td>63</td><td>78</td><td>GitHub, Anthropic, Perplexity, Canva…</td><td>н/д</td><td>B2B INTENT + PRODUCT SCALE</td></tr>
+<tr><td>2</td><td><b>platipomiru.com</b></td><td><span class="tag b2b">B2B compact</span></td><td>75</td><td>6,8%</td><td>36</td><td>68</td><td>71</td><td>широкий (68/150 запросов)</td><td>н/д</td><td>PRODUCT SCALE</td></tr>
+<tr><td>3</td><td><b>pipl.io</b></td><td><span class="tag pay">посредник</span></td><td>68</td><td>6,0%</td><td>38</td><td>63</td><td>69</td><td>широкий</td><td>н/д</td><td>B2B INTENT</td></tr>
+<tr><td>4</td><td>finteka.io</td><td><span class="tag pay">посредник</span></td><td>64</td><td>3,4%</td><td>15</td><td>57</td><td>55</td><td>широкий</td><td>н/д</td><td>LONG-TAIL</td></tr>
+<tr><td>5</td><td>card-open.ru</td><td><span class="tag pay">посредник</span></td><td>61</td><td>3,1%</td><td>16</td><td>37</td><td>49</td><td>средний</td><td>н/д</td><td>—</td></tr>
+<tr><td>6</td><td><b>syssoft.ru</b></td><td><span class="tag b2b">B2B direct</span></td><td>93</td><td>2,1%</td><td>13</td><td>28</td><td>46</td><td>Figma, Adobe, JetBrains…</td><td>н/д</td><td>VENDOR HUB + B2B INTENT</td></tr>
+<tr><td>7</td><td>aifory.pro</td><td><span class="tag pay">посредник</span></td><td>60</td><td>2,2%</td><td>5</td><td>50</td><td>44</td><td>AI-вендоры</td><td>н/д</td><td>LONG-TAIL (AI)</td></tr>
+<tr><td>8</td><td>kartli.io</td><td><span class="tag pay">посредник</span></td><td>60</td><td>2,1%</td><td>4</td><td>52</td><td>42</td><td>широкий</td><td>н/д</td><td>LONG-TAIL</td></tr>
+<tr><td>9</td><td><b>migsoft.ru</b></td><td><span class="tag b2b">B2B compact</span> ⭐</td><td>88</td><td>1,6%</td><td>—</td><td>22</td><td>38</td><td>Figma, JetBrains…</td><td>н/д</td><td>VENDOR HUB</td></tr>
+<tr><td>10</td><td>legasoft.ru</td><td><span class="tag b2b">B2B compact</span> ⭐</td><td>82</td><td>~1%</td><td>—</td><td>14</td><td>31</td><td>средний</td><td>н/д</td><td>—</td></tr>
+<tr><td>—</td><td>remoney.ru</td><td><span class="tag pay">посредник</span></td><td>~55</td><td>~1,5%</td><td>—</td><td>37</td><td>—</td><td>—</td><td>н/д</td><td>кандидат в пул (Confidence &lt; 60)</td></tr>
+<tr><td>—</td><td>ggsel.net</td><td><span class="tag b2c">B2C ключи</span></td><td>15</td><td>2,7%</td><td>16</td><td>40</td><td>—</td><td>—</td><td>н/д</td><td>вне основного рейтинга (кат. E)</td></tr>
+</table></div>
+<div class="sub" style="margin-top:6px;">⭐ — приоритетная группа COMPACT B2B (похожи на BIZSoft по модели).
+FASTEST RISING — появится после накопления 7 дней истории.</div>
+
+<!-- ============ STRIKE LIST ============ -->
+<h2>Strike List (фрагмент — 5 из 66 кандидатов, сортировка Opportunity DESC)</h2>
+<div class="scroll"><table>
+<tr><th>Prio</th><th>Opp.</th><th>Conf.</th><th>Запрос</th><th>Вендор</th><th>BIZSoft</th><th>Конкурент №1</th><th>Effort</th><th>Статус</th></tr>
+<tr><td>1</td><td><b>74</b></td><td>MED</td><td>github copilot business купить</td><td>GitHub</td><td>№6 /vendors/github</td><td>raketapay.ru</td><td>S</td><td>NEW</td></tr>
+<tr><td>2</td><td>71</td><td>MED</td><td>оплата зарубежного по для юр лица документы</td><td>—</td><td>№4</td><td>raketapay.ru</td><td>S</td><td>NEW</td></tr>
+<tr><td>3</td><td>69</td><td>MED</td><td>тарифные планы anthropic для бизнеса</td><td>Anthropic</td><td>№4 /vendors/anthropic</td><td>raketapay.ru</td><td>S</td><td>NEW</td></tr>
+<tr><td>4</td><td>66</td><td>MED</td><td>купить perplexity max юридическим лицом</td><td>Perplexity</td><td>№4</td><td>raketapay.ru</td><td>M</td><td>NEW</td></tr>
+<tr><td>5</td><td>63</td><td>MED</td><td>claude team plan купить</td><td>Anthropic</td><td>№7</td><td>raketapay.ru</td><td>S</td><td>NEW</td></tr>
+</table></div>
+
+<!-- ============ L4 ATTACK CARD (пример) ============ -->
+<h2>L4 · Attack Card — пример</h2>
+<div class="attack">
+  <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;">
+    <div><b>ATT-001</b> · «github copilot business купить» · GitHub · Яндекс · Москва</div>
+    <div class="sub">Opportunity <b>74</b> · Threat 78 · Vulnerability н/д (Phase 4) · Effort S · Risk low · Confidence MEDIUM</div>
+  </div>
+  <p style="margin:10px 0 4px;"><span class="lbl fact">FACT</span>BIZSoft №6 (/vendors/github), лидер raketapay.ru №1; спрос кластера GitHub — 331 фраза в semantic-universe.</p>
+  <p style="margin:4px 0;"><span class="lbl fact">EVIDENCE</span>serp/2026-08-30-serp.jsonl, строка запроса; частотности — wordstat/semantic-universe.jsonl.</p>
+  <p style="margin:4px 0;"><span class="lbl likely">LIKELY</span>Лидер отвечает на интент «как оплатить», но не раскрывает корпоративное лицензирование (seats, договор, закрывающие).</p>
+  <p style="margin:4px 0;"><span class="lbl hypo">HYPOTHESIS</span>Углубление B2B-контента страницы GitHub поднимет BIZSoft в зону топ-3 за 30–60 дней.</p>
+  <p style="margin:4px 0 10px;"><span class="lbl act">ACTION PLAN</span>
+    1) добавить на /vendors/github H2 «Copilot Business для юридических лиц: оплата по счёту» с таблицей лицензирования per-seat;
+    2) FAQ: «Как купить Copilot Business на компанию?», «Какие закрывающие документы?», «Можно ли оплатить в рублях с НДС?»;
+    3) внутренние ссылки с /product/* GitHub-позиций на vendor-страницу.
+    Контроль: 14/30/60 дней, метрика — позиция + клики Вебмастера.</p>
+  <div>
+    <a class="btn acc" href="https://github.com/AlBeli-V/WebSite_BizSoft/issues/new?title=CI-DECISION%3A+ACCEPT+ATT-001&labels=ci-decision">✓ Accept</a>
+    <a class="btn rej" href="https://github.com/AlBeli-V/WebSite_BizSoft/issues/new?title=CI-DECISION%3A+REJECT+ATT-001&labels=ci-decision">✗ Reject</a>
+    <a class="btn done" href="https://github.com/AlBeli-V/WebSite_BizSoft/issues/new?title=CI-DECISION%3A+DONE+ATT-001&labels=ci-decision">✔ Done</a>
+    <span class="sub">статусы читает ночной прогон · без подтверждения — NEW, «в бэклоге N дней»</span>
+  </div>
+</div>
+
+<p class="sub" style="margin-top:24px;">EMAIL = решение · DEEP REPORT = объяснение · COMPETITOR PAGE = разведка ·
+ATTACK PAGE = план действий · EVIDENCE = доказательства · RAW DATA = первичные данные.<br>
+L3 Competitor Pages и L5 Raw Evidence — с Phase 3–4. Отчёт не индексируется и защищён basic auth.</p>
+
+</div>
+</body>
+</html>
