@@ -25,6 +25,10 @@ SNAPSHOTS_DIR = os.path.join(DATA_DIR, "snapshots")
 COMPETITORS_DIR = os.path.join(DATA_DIR, "competitors")
 DECISIONS_DIR = os.path.join(DATA_DIR, "decisions")
 LEDGER_DIR = os.path.join(DATA_DIR, "ledger")
+# Реестр версий мониторингового ядра: смена состава запросов меняет поле,
+# внутри которого считается доля, поэтому версия ядра хранится отдельно и
+# входит в метаданные каждого снимка.
+QUERY_SETS_PATH = os.path.join(DATA_DIR, "query-sets.json")
 
 REPORTS_DIR = os.path.join(REPO_ROOT, "reports", "competitive")
 ARCHIVE_DIR = os.path.join(REPORTS_DIR, "archive")

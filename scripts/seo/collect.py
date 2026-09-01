@@ -295,7 +295,73 @@ def collect_metrika() -> dict:
     for key, params in queries.items():
         data, err = api_json(stat, headers=headers, params={**base, **params})
         result[key] = {'error': err} if err else data
+
+    # Разбивка целевых событий органики по целям (вопрос руководителя
+    # 01.09.2026: сумма «N целевых событий» без состава нечитаема — в ней
+    # смешаны клик по телефону и автоцель «поиск по сайту»). Метрика отдаёт
+    # по-цельные достижения метриками ym:s:goal<ID>reaches, до 20 метрик на
+    # запрос — цели разбиваются на порции.
+    goal_ids = [g['id'] for g in result['goals']
+                if isinstance(result['goals'], list) and g.get('id')] \
+        if isinstance(result['goals'], list) else []
+    reaches: dict[str, float] = {}
+    for i in range(0, len(goal_ids), 20):
+        chunk = goal_ids[i:i + 20]
+        data, err = api_json(stat, headers=headers, params={
+            **base,
+            'metrics': ','.join(f'ym:s:goal{gid}reaches' for gid in chunk),
+            'filters': "ym:s:lastTrafficSource=='organic'"})
+        if err:
+            result['organic_goal_reaches'] = {'error': err}
+            break
+        totals = data.get('totals') or []
+        # totals бывает плоским списком значений или списком строк.
+        row = totals[0] if totals and isinstance(totals[0], list) else totals
+        for gid, val in zip(chunk, row):
+            reaches[str(gid)] = val
+    else:
+        result['organic_goal_reaches'] = reaches
+
+    # Этап B Direct Control Report (решение руководителя 01.09.2026): связка
+    # рекламного трафика с целями — визиты и достижения ключевых целей в
+    # разрезе групп Директа. Имя дименсии группы отличается между версиями
+    # справочника Метрики, поэтому кандидаты пробуются по очереди; последний
+    # фолбэк — кампания целиком (общий CPA без разбивки).
+    key_goal_ids = {}
+    if isinstance(result['goals'], list):
+        for g in result['goals']:
+            for c in (g.get('conditions') or []):
+                url = c.get('url') if isinstance(c, dict) else None
+                if url in KEY_GOAL_EVENTS:
+                    key_goal_ids[url] = g['id']
+            if g.get('type') == 'messenger':
+                key_goal_ids.setdefault('click_messenger', g['id'])
+    metrics = ['ym:s:visits', 'ym:s:sumGoalReachesAny'] + [
+        f'ym:s:goal{gid}reaches' for gid in key_goal_ids.values()]
+    for dim in ('ym:s:lastDirectBannerGroup', 'ym:s:lastDirectClickBanner',
+                'ym:s:lastDirectClickOrder'):
+        data, err = api_json(stat, headers=headers, params={
+            **base, 'dimensions': dim, 'metrics': ','.join(metrics),
+            'filters': "ym:s:lastTrafficSource=='ad'"})
+        if not err:
+            result['direct_attribution'] = {
+                'dimension': dim,
+                'goal_keys': list(key_goal_ids),
+                'rows': [{'name': (r['dimensions'][0] or {}).get('name'),
+                          'visits': r['metrics'][0],
+                          'goal_reaches_any': r['metrics'][1],
+                          'leads': {k: r['metrics'][2 + i]
+                                    for i, k in enumerate(key_goal_ids)}}
+                         for r in data.get('data', [])]}
+            break
+    else:
+        result['direct_attribution'] = {'error': err}
     return result
+
+
+# Ключевые цели для связки с Директом: жёсткие конверсии и контакты из
+# реестра src/lib/analytics.ts (key: true). Мессенджер добирается автоцелью.
+KEY_GOAL_EVENTS = ('lead_sent', 'quote_pdf', 'click_phone', 'click_email')
 
 
 def collect_ga4() -> dict:

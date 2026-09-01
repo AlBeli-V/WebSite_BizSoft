@@ -40,6 +40,26 @@ def pct(value: float | None, digits: int = 1) -> str:
     return kpi_mod.ru_number(100 * value, digits) + "%"
 
 
+SOURCE_NAMES = {
+    "wordstat": "частотность Wordstat, за месяц",
+    "webmaster": "показы Вебмастера, за две недели",
+}
+
+
+def format_demand(pkg: dict) -> str:
+    """Спрос по источникам, без суммирования разнородных величин."""
+    by_source = pkg.get("demand_by_source") or {}
+    queries = pkg.get("demand_queries_by_source") or {}
+    if not by_source:
+        return "спрос не измерен"
+    parts = []
+    for source, value in sorted(by_source.items(), key=lambda kv: -kv[1]):
+        name = SOURCE_NAMES.get(source, source)
+        count = queries.get(source, 0)
+        parts.append(f"{value} ({name}) по {count} запр.")
+    return "спрос: " + "; ".join(parts)
+
+
 def _heading(title: str, hint: str = "") -> str:
     hint_html = (f'<span style="font-weight:400;color:{MUTED};"> — {esc(hint)}</span>'
                  if hint else "")
@@ -71,13 +91,22 @@ def _td(text: str, *, align: str = "left", bold: bool = False,
             f'font-variant-numeric:tabular-nums;">{text}</td>')
 
 
-def kpi_section(kpi, snapshot: dict) -> str:
-    """Показатели с источником и оценкой достоверности — как в SEO-письме."""
+def kpi_section(kpi, snapshot: dict, signal_delta: float | None = None) -> str:
+    """Показатели с источником и оценкой достоверности — как в SEO-письме.
+
+    Две дельты различаются намеренно (замечание внешнего аудита): суточная
+    справочна, а вердикт и главный сигнал строятся на сглаженной. Без этого
+    возникал бы вопрос, почему при заметном движении за сутки вердикт
+    остаётся нейтральным.
+    """
     coverage = snapshot.get("покрытие") or {}
     usable = coverage.get("яндекс_запросов_с_данными")
+    delta_text = kpi_mod.format_delta(kpi.share_delta_pp, unit=" п.п.")
+    if signal_delta is not None:
+        delta_text += f" · сигнальная {kpi_mod.format_delta(signal_delta, unit=' п.п.')}"
     rows = [
         ("Доля видимости в Яндексе", kpi_mod.format_share(kpi.share_yandex),
-         kpi_mod.format_delta(kpi.share_delta_pp, unit=" п.п."),
+         delta_text,
          f"Яндекс, Москва, {usable} запросов"),
         ("Запросов в ТОП-3", f"{kpi.top3} из {kpi.queries}",
          kpi_mod.format_delta(kpi.top3_delta), "срез выдачи"),
@@ -178,6 +207,7 @@ def packages_section(packages: list[dict], limit: int = 3) -> str:
     for pkg in packages[:limit]:
         upside = (f' · при выходе в ТОП-3 ≈ +{pkg["traffic_upside"]:.0f} переходов'
                   if pkg.get("traffic_upside") is not None else "")
+        demand_text = format_demand(pkg)
         checks = "".join(
             f'<li style="margin:2px 0;">{esc(c)}</li>'
             for c in (pkg.get("checklist") or [])[:3])
@@ -195,10 +225,11 @@ def packages_section(packages: list[dict], limit: int = 3) -> str:
     <div style="font-size:12px;color:{MUTED};padding-top:5px;line-height:1.5;">
       Страница: <span style="color:{INK};">{esc(url_short)}</span><br>
       Закроет запросов: <b style="color:{INK};">{pkg["queries_count"]}</b> ·
-      спрос <b style="color:{INK};">{pkg["demand_total"]}</b> ·
+      {demand_text} ·
       сейчас позиции {pkg["position_best"]}–{pkg["position_worst"]} ·
       выше нас {esc(", ".join(pkg["rivals"][:2]))}<br>
       Потенциал: <b style="color:{BRAND};">{esc(pkg["potential_label"])}</b>{upside} ·
+      спрос измерен по {esc(pkg.get("demand_coverage", "0/0"))} запросам ·
       трудоёмкость {esc(pkg["effort"])} · уверенность {esc(pkg["confidence"])}
     </div>
     <div style="font-size:12px;color:{MUTED};padding-top:6px;">Что проверить:</div>

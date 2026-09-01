@@ -259,12 +259,17 @@ def _packages_block(packages: list[dict]) -> str:
       <p class="q">Страница: <b>{esc(url_short)}</b> ({esc(pkg['page_kind'])}).<br>
       Сейчас позиции {pkg['position_best']}–{pkg['position_worst']}.<br>
       Выше нас: {esc(", ".join(pkg['rivals']))}.<br>
-      Суммарный спрос группы: {pkg['demand_total']}.<br>
+      Спрос по источникам (не суммируется — величины разной природы):
+      {esc("; ".join(f"{v} {k} по {pkg.get('demand_queries_by_source', {}).get(k, 0)} запр."
+                     for k, v in (pkg.get('demand_by_source') or {}).items()) or "не измерен")}.<br>
       Уверенность оценки: {esc(pkg['confidence'])}.</p>
       <p class="q"><span class="lbl likely">ОЦЕНКА</span>Индекс потенциала
-      {pkg['potential_index']:.3f} ({esc(pkg['potential_label'])}) — безразмерная
+      {("%.3f" % pkg['potential_index']) if pkg.get('potential_index') is not None
+       else "не считается"} ({esc(pkg['potential_label'])}) — безразмерная
       величина для сравнения пакетов между собой: прирост веса позиции,
       умноженный на нормированный спрос.<br>
+      Спрос измерен по {esc(pkg.get('demand_coverage', '0/0'))} запросам пакета.
+      {esc(pkg.get('potential_note', ''))}<br>
       {("Прирост переходов: ≈ +%.0f. " % pkg['traffic_upside'])
        if pkg.get('traffic_upside') is not None else ""}{esc(pkg['upside_note'])}<br>
       Источники спроса группы: {esc(", ".join(pkg.get("demand_sources") or ["нет"]))}.
@@ -275,6 +280,11 @@ def _packages_block(packages: list[dict]) -> str:
   </div>
 </details>""")
     return "".join(blocks)
+
+
+def _meta(snapshot: dict, key: str):
+    """Значение из блока метаданных снимка. «н/д» — снимок старого формата."""
+    return (snapshot.get("метаданные") or {}).get(key, "н/д")
 
 
 def build(date: str, snapshot: dict, previous: dict | None,
@@ -405,8 +415,24 @@ Wordstat, а где её нет — показы Яндекс.Вебмастер
 ноль.</p></details>
 </div>
 
+<details><summary>Условия расчёта: чем и по какому полю посчитан этот день</summary>
+<p class="q">Версия методики {esc(str(_meta(snapshot, "версия_методики")))} ·
+отпечаток конфигурации {esc(str(_meta(snapshot, "хеш_конфига")))} ·
+ядро запросов {esc(str(_meta(snapshot, "ядро_версия")))}
+({esc(str(_meta(snapshot, "ядро_хеш")))}, {esc(str(_meta(snapshot, "запросов_в_ядре")))} запросов) ·
+покрытие по запросам {esc(str(_meta(snapshot, "покрытие_запросов")))} ·
+покрытие по спросу {esc(str(_meta(snapshot, "взвешенное_покрытие")))} ·
+источники спроса {esc(str(_meta(snapshot, "состав_источников_спроса")))}.<br>
+Сравнивать цифры этого дня с другими днями допустимо только при совпадении
+версии методики, отпечатка конфигурации и отпечатка ядра; при различии ядра
+динамика считается по пересечению составов запросов, а не по полям целиком.
+Оценки, полученные в разных режимах зрелости модели, между собой не
+сравниваются.</p></details>
+
 <footer>
 BIZSoft Competitive Intelligence · отчёт за {esc(date)} ·
+методика {esc(str(_meta(snapshot, "версия_методики")))} ·
+ядро {esc(str(_meta(snapshot, "ядро_версия")))} ·
 собран {esc(datetime.now(MSK).strftime('%d.%m.%Y %H:%M'))} МСК ·
 страница не индексируется и не имеет ссылок с сайта
 </footer>

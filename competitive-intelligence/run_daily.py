@@ -87,23 +87,39 @@ def main(argv: list[str]) -> int:
     previous = kpi_mod.load_snapshot(earlier[-1]) if earlier else None
     print(f"3. Сравнение с: {earlier[-1] if earlier else 'нет сравнимого дня'}")
 
-    # История долей по дням — для динамики Threat и вердикта. Собирается из
-    # сохранённых снимков: сравнимые измерения, а не соседние точки.
+    # История долей по дням — для динамики Threat и вердикта.
+    #
+    # Ряд по нашей доле строится не из сохранённых чисел, а пересчётом по
+    # пересечению составов ядра (kpi.comparable_series): доля считается
+    # внутри поля, и если состав запросов между днями менялся, «изменение
+    # доли» смешивало бы движение конкурентов с редактированием списка.
+    # Для конкурентов такого пересчёта нет — по-доменной видимости по каждому
+    # запросу мы не храним, — поэтому там действует более грубое правило:
+    # динамика считается, только если состав ядра во всех днях ряда совпадал.
     histories: dict[str, list[float]] = {}
-    our_history: list[float] = []
+    past_snapshots: list[dict] = []
     for past_date in kpi_mod.available_snapshots():
         if past_date > date:
             continue
         past = kpi_mod.load_snapshot(past_date) or {}
+        past_snapshots.append(past)
         for leader in (past.get("лидеры") or []):
             histories.setdefault(leader["домен"], []).append(leader.get("доля") or 0.0)
-        share = (past.get("наши_показатели") or {}).get("доля_видимости")
-        if share is not None:
-            our_history.append(share)
+    # Свежий снимок за сегодня уже записан на диск, поэтому он в ряду есть.
+    our_history, core_meta = kpi_mod.comparable_series(past_snapshots)
+    core_hashes = {kpi_mod.core_hash(s) for s in past_snapshots if kpi_mod.core_hash(s)}
+    core_stable = len(core_hashes) <= 1
+    core_note = core_meta.get("причина") or (
+        "" if core_stable else "состав ядра между днями менялся")
+    print(f"3а. Сравнимый ряд: {len(our_history)} измерений"
+          + (f" по пересечению из {core_meta.get('пересечение')} запросов"
+             if core_meta.get("пересечение") else "")
+          + (f"; {core_note}" if core_note else ""))
 
     rivals = [d for d in (snapshot.get("лидеры") or []) if d["домен"] != OURS]
     ranked = threat_mod.rank(rivals, histories=histories,
-                             queries_total=len(usable))
+                             queries_total=len(usable),
+                             core_stable=core_stable)
     threat_leader = ranked[0] if ranked else None
     if threat_leader:
         print(f"4. Threat-лидер: {threat_leader[0]['домен']} "
@@ -122,14 +138,17 @@ def main(argv: list[str]) -> int:
         json.dump(packages, fh, ensure_ascii=False, indent=2)
     countable = [p for p in packages if p["traffic_upside"] is not None]
     high = sum(1 for p in packages if p["potential_label"] == "высокий")
+    unscored = sum(1 for p in packages if p["potential_index"] is None)
     print(f"6. Пакеты работ: {len(packages)}, из них {high} с высоким "
           f"потенциалом; переходы считаются для {len(countable)} "
-          f"(сопоставимый спрос)")
+          f"(сопоставимый спрос); без измеренного спроса и потому без "
+          f"индекса — {unscored}")
 
     meta = build_email.build(date, snapshot, previous, attacks=attacks,
                              threat_leader=threat_leader,
                              stale_notice=stale_notice, ranked_rivals=ranked,
-                             packages=packages, history=our_history)
+                             packages=packages, history=our_history,
+                             core_note=core_note)
     kpi_obj = kpi_mod.build_kpi(snapshot, previous)
     os.makedirs(paths.REPORTS_DIR, exist_ok=True)
     base = os.path.join(paths.REPORTS_DIR, f"{date}-email")
@@ -137,9 +156,10 @@ def main(argv: list[str]) -> int:
         fh.write(build_email.render_txt(meta, snapshot=snapshot, attacks=attacks,
                                         ranked_rivals=ranked, packages=packages))
     with open(f"{base}.html", "w", encoding="utf-8") as fh:
-        fh.write(build_email.render_html(meta, kpi=kpi_obj, snapshot=snapshot,
-                                         attacks=attacks, ranked_rivals=ranked,
-                                         packages=packages))
+        fh.write(build_email.render_html(
+            meta, kpi=kpi_obj, snapshot=snapshot, attacks=attacks,
+            ranked_rivals=ranked, packages=packages,
+            signal_delta=meta.get("дельта_сигнальная_пп")))
     with open(f"{base}.json", "w", encoding="utf-8") as fh:
         json.dump(meta, fh, ensure_ascii=False, indent=2)
 
