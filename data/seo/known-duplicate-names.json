@@ -2,16 +2,6 @@
   "_purpose": "Известный долг: карточки, заведённые с одинаковым названием до введения правила 01.09.2026. Тест tests/catalog-uniqueness.test.ts не пускает НОВЫЕ такие группы, а этот список фиксирует старые. Строку из списка удаляют, когда названия развели — заново она не появится.",
   "_generated": "2026-09-01",
   "duplicate_names": {
-    "ManageEngine ADManager Plus MSP, один домен клиента": [
-      "me-admanager-plus-msp-500-domain-users",
-      "me-admanager-plus-msp-active-directory-backup-an-250-user-objects",
-      "me-admanager-plus-msp-helpdesk-technicians-1-helpdesk-technicians"
-    ],
-    "ManageEngine ADManager Plus MSP, один домен клиента, вечная лицензия": [
-      "me-admanager-plus-msp-500-domain-users-perp",
-      "me-admanager-plus-msp-active-directory-backup-an-250-user-objects-perp",
-      "me-admanager-plus-msp-helpdesk-technicians-1-helpdesk-technicians-perp"
-    ],
     "ManageEngine DataSecurity Plus Professional — сопровождение вендора на год, 10 TB": [
       "me-datasecurity-plus-professional-data-risk-assessment-10-tb-perp-ams",
       "me-datasecurity-plus-professional-fileanalysis-10-tb-perp-ams"
@@ -47,14 +37,6 @@
     "ManageEngine DataSecurity Plus Professional, 15 TB, вечная лицензия": [
       "me-datasecurity-plus-professional-data-risk-assessment-15-tb-perp",
       "me-datasecurity-plus-professional-fileanalysis-15-tb-perp"
-    ],
-    "ManageEngine DataSecurity Plus Professional, 2 терабайта": [
-      "me-datasecurity-plus-professional-data-risk-assessment-2-tb",
-      "me-datasecurity-plus-professional-fileanalysis-2-tb"
-    ],
-    "ManageEngine DataSecurity Plus Professional, 2 терабайта, вечная лицензия": [
-      "me-datasecurity-plus-professional-data-risk-assessment-2-tb-perp",
-      "me-datasecurity-plus-professional-fileanalysis-2-tb-perp"
     ],
     "ManageEngine DataSecurity Plus Professional, 20 TB": [
       "me-datasecurity-plus-professional-data-risk-assessment-20-tb",
