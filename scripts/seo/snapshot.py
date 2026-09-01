@@ -185,6 +185,23 @@ def revisions_for(prefix: str, date: str, extract, metric: str) -> dict | None:
             "reason": "источник пересобирался в течение дня; каноническим считается последний сбор"}
 
 
+def _direct_attribution(metrika: dict) -> dict | None:
+    """Связка Метрика→Директ: визиты и ключевые цели по группам объявлений."""
+    att = metrika.get("direct_attribution")
+    if not isinstance(att, dict) or "error" in att or "rows" not in att:
+        return None
+    return {
+        "dimension": att.get("dimension"),
+        "goal_keys": att.get("goal_keys") or [],
+        "rows": [{"name": r.get("name") or "—",
+                  "visits": int(r.get("visits") or 0),
+                  "goal_reaches_any": int(r.get("goal_reaches_any") or 0),
+                  "leads": {k: int(v or 0)
+                            for k, v in (r.get("leads") or {}).items()}}
+                 for r in att["rows"]],
+    }
+
+
 def _goal_breakdown(metrika: dict) -> list[dict] | None:
     """Достижения целей органикой: [{name, events}] по убыванию, только ненулевые."""
     reaches = metrika.get("organic_goal_reaches")
@@ -533,6 +550,10 @@ def build_analytics(metrika: dict | None, ga4: dict | None, date: str) -> dict:
             # телефону и автоцель «поиск по сайту». Пишутся только цели с
             # ненулевыми достижениями, по убыванию.
             "goal_breakdown": _goal_breakdown(metrika),
+            # Этап B: рекламный трафик в разрезе групп Директа с достижениями
+            # ключевых целей (см. collect.KEY_GOAL_EVENTS). None — связка не
+            # собрана (ошибка или старое сырьё), пустой список — измеренный ноль.
+            "direct_attribution": _direct_attribution(metrika),
             "organic_landing_pages": lp,
             "channels": {k: v[0] for k, v in ts.items()},
             # Органика в разбивке по поисковым системам (ym:s:lastSearchEngineRoot):

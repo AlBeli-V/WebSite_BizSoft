@@ -781,7 +781,9 @@ def assemble(snap, prev, dq, actions_cfg, site_check):
         "health": health,
         "loop_health": load_loop_health(),
         "demand": demand_block,
-        "ads": ads_block.build(date),
+        "ads": ads_block.build(
+            date, (snap.get("analytics") or {}).get("metrika", {})
+            .get("direct_attribution")),
         "growth_ideas": growth_ideas,
         "measurement_summary": _measurement_summary(dq),
         "checkpoints": _checkpoints(exps, actions_cfg),
@@ -1463,6 +1465,9 @@ def html_email(b: dict, charts: dict, cid_mode: bool) -> str:
             f"<b>{r['label']}</b> — {r['spend_day']:.0f} ₽, "
             f"{counted(r['clicks_day'], 'клик', 'клика', 'кликов')}"
             + (f", CPC {r['cpc']:.0f} ₽" if r["cpc"] else "")
+            + (f", заявок {r['leads']}" + (f" · CPA {r['cpa']:.0f} ₽" if r.get("cpa") else "")
+               + (f", контактов {r['contacts']}" if r.get("contacts") else "")
+               if r.get("leads") is not None else "")
             + f" · <span style=\"color:{tone_c[r['verdict']['tone']]};\">"
               f"{r['verdict']['label']}</span></div>"
             for r in ads["rows"])
@@ -1840,6 +1845,12 @@ def plain_text(b: dict) -> str:
                      "warn": "[жёлтый]", "bad": "[красный]"}
         for r in ads["rows"]:
             cpc = f", CPC {r['cpc']:.0f} р." if r["cpc"] else ""
+            if r.get("leads") is not None:
+                cpc += f", заявок {r['leads']}"
+                if r.get("cpa"):
+                    cpc += f" (CPA {r['cpa']:.0f} р.)"
+                if r.get("contacts"):
+                    cpc += f", контактов {r['contacts']}"
             L.append(f"- {r['label']}: {r['spend_day']:.0f} р., "
                      f"{counted(r['clicks_day'], 'клик', 'клика', 'кликов')} за день{cpc} "
                      f"{tone_word[r['verdict']['tone']]} {r['verdict']['label']}")
