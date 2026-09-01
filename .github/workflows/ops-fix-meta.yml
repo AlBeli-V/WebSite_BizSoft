@@ -106,21 +106,25 @@ jobs:
                 body = body.rstrip(' ,;:—–-')
                 return bool(body) and name.startswith(body) and body != name.strip()
 
-            def build_title(name, cur):
+            def build_title(name, cur, free=lambda t: True):
                 t = (cur or '').replace('BizSoft', BRAND).strip()
                 if CUT_MARK.search(t) or is_cut(t, name):
                     t = ''          # обрезанный огрызок пересобираем с нуля
                 if not t:
                     t = f'{name} — купить для юрлица | {BRAND}'
-                if len(t) <= TITLE_MAX:
+                if len(t) <= TITLE_MAX and free(t):
                     return t
                 # длинный заголовок укорачиваем целыми смысловыми кусками,
-                # а не обрезкой посередине скобки
+                # а не обрезкой посередине скобки. Кандидат без скобочной части
+                # пропускаем, если он уже занят соседом: у пар вида
+                # «WordPress.com Business (первая покупка)» и «(продление)»
+                # различие живёт именно в скобках.
                 short = re.sub(r'\s*\([^)]*\)', '', name).strip()
                 for cand in (f'{short} — купить для юрлица | {BRAND}',
+                             f'{name} — купить для юрлица | {BRAND}',
                              f'{name} | {BRAND}',
                              f'{short} | {BRAND}'):
-                    if len(cand) <= TITLE_MAX:
+                    if len(cand) <= TITLE_MAX and free(cand):
                         return cand
                 # Обрезать название по словам нельзя: у линеек вроде
                 # «ManageEngine DataSecurity Plus Professional, Data Leak
@@ -196,10 +200,16 @@ jobs:
             # какие описания уже заняты в каталоге: и чтобы не плодить дубли,
             # и чтобы видеть коллизии внутри самого прогона
             taken_desc = {}
+            taken_title = {}
             for r in rows:
                 d = (r.get('meta_description') or '').strip()
                 if d:
                     taken_desc.setdefault(d, r['slug'])
+                tt = (r.get('meta_title') or '').strip()
+                # занятыми считаем только исправные заголовки: огрызки и так
+                # будут переписаны, держать их в реестре незачем
+                if tt and not (CUT_MARK.search(tt) or is_cut(tt, r['name'])):
+                    taken_title.setdefault(tt, r['slug'])
             for r in rows:
                 patch = {}
                 # единое написание бренда во всех текстовых полях карточки,
@@ -209,9 +219,12 @@ jobs:
                     fixed = fix_brand(cur)
                     if fixed != cur:
                         patch[f] = fixed
-                nt = build_title(r['name'], r.get('meta_title'))
+                nt = build_title(r['name'], r.get('meta_title'),
+                                 lambda cand: taken_title.get(cand, r['slug']) == r['slug'])
                 if nt != (r.get('meta_title') or ''):
                     patch['meta_title'] = nt
+                if nt:
+                    taken_title[nt] = r['slug']
                 nd = build_desc(r.get('short_description'), r.get('meta_description'))
                 # short_description у линейки часто общий на все объёмы и
                 # редакции — тогда описание получают одинаковое. Разводим
