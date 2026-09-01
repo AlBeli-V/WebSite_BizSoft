@@ -16,10 +16,15 @@ from mailer import build_email  # noqa: E402
 
 
 def snapshot(*, share=0.054, top3=28, top10=94, queries=150, leaders=None,
-             categories=None, date="2026-08-30", coverage=150):
+             categories=None, date="2026-08-30", coverage=150,
+             core_hash="ядро-150"):
     return {
         "дата": date,
         "зрелость_скоринга": "базовый",
+        # Отпечаток состава ядра: сравнение долей допустимо только внутри
+        # одного состава, поэтому фикстуры по умолчанию описывают одно и то
+        # же ядро. Тест на смену состава задаёт core_hash явно.
+        "ядро_запросов": {"хеш": core_hash, "версия": "v1", "запросов": 150},
         "покрытие": {"яндекс_запросов_всего": 150,
                      "яндекс_запросов_с_данными": coverage,
                      "яндекс_ошибок": 150 - coverage, "google": None},
@@ -279,6 +284,89 @@ class TestStaleData(unittest.TestCase):
                                               "(502 запросов с ошибкой), "
                                               "показаны данные за 2026-08-30")
         self.assertTrue(meta["лимит_соблюдён"])
+
+
+class TestPackageChoice(unittest.TestCase):
+    """Выбор главного поручения не должен предпочитать неизученные цели.
+
+    Замечание второй внешней рецензии: при нормализации весов пакет с
+    отсутствующим спросом получает фору — неудобный фактор просто исчезает
+    из расчёта.
+    """
+
+    def package(self, pid, potential, upside=None):
+        return {"package_id": pid, "potential_index": potential,
+                "traffic_upside": upside, "url": "https://biz-soft.pro/a",
+                "action": "тест", "queries_count": 1, "demand_total": 10,
+                "position_best": 5, "position_worst": 5, "effort": "S",
+                "potential_label": "высокий"}
+
+    def test_при_сопоставимом_потенциале_выбирается_измеренный(self):
+        chosen = build_email.pick_package([
+            self.package("WP-01", 0.11),                # спрос не измерен
+            self.package("WP-02", 0.10, upside=12.0),   # спрос измерен
+        ])
+        self.assertEqual(chosen["package_id"], "WP-02")
+
+    def test_явно_больший_потенциал_побеждает(self):
+        """Запрет не абсолютный: заметно лучшая цель выигрывает."""
+        chosen = build_email.pick_package([
+            self.package("WP-01", 0.50),
+            self.package("WP-02", 0.10, upside=12.0),
+        ])
+        self.assertEqual(chosen["package_id"], "WP-01")
+
+    def test_без_измеренных_берётся_лучший(self):
+        chosen = build_email.pick_package([
+            self.package("WP-01", 0.20),
+            self.package("WP-02", 0.10),
+        ])
+        self.assertEqual(chosen["package_id"], "WP-01")
+
+    def test_пустой_список(self):
+        self.assertIsNone(build_email.pick_package([]))
+        self.assertIsNone(build_email.pick_package(None))
+
+
+class TestCoverageClassification(unittest.TestCase):
+    """Критический недостаток данных отделён от некритического.
+
+    Замечание третьей рецензии: при формулировке «неполные данные → вердикт
+    недостаточно данных» система с незапущенным Google обязана была бы вечно
+    отвечать «недостаточно данных», а 149 валидных запросов из 150 и 20 из
+    150 назывались бы одинаково.
+    """
+
+    def test_полное_покрытие_рабочее(self):
+        state, note = kpi_mod.coverage_state(snapshot(coverage=150))
+        self.assertEqual(state, "ок")
+
+    def test_отсутствие_google_не_критично(self):
+        """Необязательный источник снижает достоверность, но не блокирует."""
+        state, note = kpi_mod.coverage_state(snapshot(coverage=150))
+        self.assertEqual(state, "ок")
+        self.assertIn("Google", note)
+
+    def test_потеря_большей_части_ядра_критична(self):
+        state, note = kpi_mod.coverage_state(snapshot(coverage=20))
+        self.assertEqual(state, "критическое")
+        self.assertIn("20", note)
+
+    def test_почти_полное_покрытие_рабочее(self):
+        """149 из 150 — рабочий день, а не сбой."""
+        state, _ = kpi_mod.coverage_state(snapshot(coverage=149))
+        self.assertEqual(state, "ок")
+
+    def test_пустой_срез_критичен(self):
+        state, note = kpi_mod.coverage_state(snapshot(coverage=0))
+        self.assertEqual(state, "критическое")
+
+    def test_порог_на_границе(self):
+        """80% — граница: ровно на пороге данные ещё рабочие."""
+        state, _ = kpi_mod.coverage_state(snapshot(coverage=120))
+        self.assertEqual(state, "ок")
+        state, _ = kpi_mod.coverage_state(snapshot(coverage=119))
+        self.assertEqual(state, "критическое")
 
 
 if __name__ == "__main__":
