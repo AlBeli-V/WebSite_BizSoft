@@ -44,6 +44,9 @@ const ALLOWED_CATEGORIES = ['system', 'security', 'development', 'collaboration'
   // один из прежних разделов. Создаёт их воркфлоу ops-categories по
   // data/catalog/categories.json.
   'iam', 'helpdesk', 'endpoint',
+  // Заведён 30.08.2026 решением руководителя: сайты компании и интернет-
+  // магазины (WordPress.com) — не «Дизайн и графика».
+  'web',
   // AI-подкатегории хаба /catalog/ai (заведены миграцией ai-catalog-migrate):
   // профильный AI-товар лежит в подкатегории, а не в родительском ai — иначе
   // его нет в выдаче /catalog/ai/<sub>. Родительский ai остаётся для позиций
