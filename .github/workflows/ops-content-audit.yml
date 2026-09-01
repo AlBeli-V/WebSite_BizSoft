@@ -1,8 +1,10 @@
 # Аудит текстового контента карточек в прод-Directus: полнота описаний,
 # качество мета-тегов (пустые, обрывы «…», неверное написание бренда,
-# длина title/description) и дубли между карточками — по фактическому
-# заголовку страницы (meta_title, а при пустом — name) и по
-# meta_description. Только чтение. Результат — в журнал-issue #22.
+# длина title/description) и дубли между карточками: по фактическому
+# заголовку страницы (meta_title, а при пустом — name), meta_description,
+# названию товара (витрина и фиды) и short_description (из него
+# ops-fix-meta собирает meta_description). Только чтение, раз в неделю по
+# расписанию. Результат — в журнал-issue #22.
 name: ops-content-audit
 on:
   workflow_dispatch:
@@ -10,6 +12,10 @@ on:
       vendor:
         description: 'Ограничить вендором (пусто — весь каталог)'
         required: false
+  schedule:
+    # понедельник 07:00 UTC = 10:00 МСК: еженедельная сверка каталога,
+    # чтобы дубли не копились до находки Вебмастера
+    - cron: '0 7 * * 1'
 permissions:
   issues: write
 jobs:
@@ -89,8 +95,14 @@ jobs:
                 return g(r, 'meta_title') or g(r, 'name')
 
             print('\n== Дубли мета-тегов (только по индексируемым) ==')
+            # name — то, что видит покупатель на витрине и что уходит в фиды;
+            # short_description — источник, из которого ops-fix-meta собирает
+            # meta_description, поэтому его дубли предсказывают будущие дубли меты.
             for f, value in (('заголовок страницы (meta_title или name)', effective_title),
-                             ('meta_description', lambda r: g(r, 'meta_description'))):
+                             ('meta_description', lambda r: g(r, 'meta_description')),
+                             ('название товара (витрина и фиды)', lambda r: g(r, 'name')),
+                             ('short_description (источник meta_description)',
+                              lambda r: g(r, 'short_description'))):
                 seen = {}
                 for r in idx:
                     v = value(r)
