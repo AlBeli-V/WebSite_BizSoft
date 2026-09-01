@@ -28,8 +28,37 @@ import client as client_mod    # noqa: E402
 import config as config_mod    # noqa: E402
 
 OUT_DIR = pathlib.Path("reports/seo/wordstat")
+UNIVERSE = OUT_DIR / "semantic-universe.jsonl"
 PHRASES_CAP = 50
 TOP_REGIONS = 15
+# Ниже этой месячной частотности региональное распределение не существует:
+# замер 01.09.2026 дал 43 из 50 ответов below_threshold — длинные хвосты
+# из ядра тратят вызовы впустую. Отбираем частотные фразы, хвосты — добор.
+MIN_FREQUENCY = 100
+
+
+def _frequency_map() -> dict[str, int]:
+    freq: dict[str, int] = {}
+    if not UNIVERSE.exists():
+        return freq
+    for line in UNIVERSE.read_text(encoding="utf-8").splitlines():
+        try:
+            row = json.loads(line)
+        except ValueError:
+            continue
+        f = row.get("wordstat_frequency")
+        if isinstance(f, (int, float)) and f > 0:
+            freq[row.get("phrase", "").lower()] = int(f)
+    return freq
+
+
+def pick_phrases(core: list[str], cap: int = PHRASES_CAP) -> list[str]:
+    """Частотные фразы ядра вперёд; хвосты — только если частотных мало."""
+    freq = _frequency_map()
+    frequent = [p for p in core if freq.get(p.lower(), 0) >= MIN_FREQUENCY]
+    frequent.sort(key=lambda p: -freq.get(p.lower(), 0))
+    rest = [p for p in core if p not in frequent]
+    return (frequent + rest)[:cap]
 
 
 # Имена по геобазе Яндекса даём только для регионов, в которых уверены;
@@ -64,7 +93,8 @@ def parse_regions(data: dict) -> list[dict]:
 
 def run(date_s: str) -> dict:
     import serp_watchlist
-    phrases = serp_watchlist.build(date_s, cap=PHRASES_CAP)
+    core = serp_watchlist.build(date_s, cap=PHRASES_CAP * 6)
+    phrases = pick_phrases(core)
     if not phrases:
         return {"available": False, "reason": "ядро фраз пусто"}
     cfg = config_mod.load()
