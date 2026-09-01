@@ -148,8 +148,15 @@ def channel_from_metrika(lead: dict) -> dict | None:
     elif src == "ad":
         label = "реклама — Яндекс.Директ" if (engine or "").lower().startswith("yandex") \
             else "реклама"
-    elif src == "referral" and last.get("referer_host"):
-        label = f"переход по ссылке — {last['referer_host']}"
+    elif src == "referral":
+        # Метрика называет источник, но не сайт-донор: в запросе визитов его
+        # нет. Хост при этом известен из метки браузера, и без него строка
+        # «переход по ссылке» не отвечает на вопрос «откуда» — ровно тот, ради
+        # которого блок и заведён (заявка ООО «ИНФОРМАТИК» 31.08.2026 пришла
+        # с корпоративного портала клиента, и это видно только по хосту).
+        host = last.get("referer_host") or _host(lead.get("last_touch_source") or "")
+        if host:
+            label = f"переход по ссылке — {host}"
     return {"key": src, "label": label,
             "evidence": f"визит {ru_date(last.get('date'))}"}
 
@@ -183,16 +190,17 @@ def journey_line(lead: dict) -> str:
     if journey.get("available") and steps:
         first = steps[0]
         parts = [f"первый визит {ru_date(first.get('date'))} — "
-                 f"{_step_text(first)}"]
+                 f"{_step_text(first, lead)}"]
         if first.get("landing"):
             parts[0] += f", вход {first['landing']}"
         visits = journey.get("visits") or len(steps)
         if len(steps) > 1:
-            middle = ", ".join(_step_text(s) for s in steps[1:-1][:2])
+            middle = ", ".join(_step_text(s, lead) for s in steps[1:-1][:2])
             last = steps[-1]
             parts.append(f"{counted(visits, 'визит', 'визита', 'визитов')} до заявки"
                          + (f" ({middle})" if middle else ""))
-            parts.append(f"заявка после визита {ru_date(last.get('date'))} — {_step_text(last)}")
+            parts.append(f"заявка после визита {ru_date(last.get('date'))} — "
+                         f"{_step_text(last, lead)}")
         else:
             parts.append(f"{counted(visits, 'визит', 'визита', 'визитов')} до заявки")
         return "; ".join(parts)
@@ -222,15 +230,20 @@ def _journey_gap(lead: dict) -> str:
     return "визитов по этому посетителю Метрика не вернула"
 
 
-def _step_text(step: dict) -> str:
-    """Один шаг пути: источник, поисковик и фраза, если она известна."""
+def _step_text(step: dict, lead: dict | None = None) -> str:
+    """Один шаг пути: источник, поисковик и фраза, если она известна.
+
+    Заявка передаётся, чтобы шаг-переход мог назвать сайт-донор из метки
+    браузера: в визитах Метрики домена реферера нет.
+    """
     src = (step.get("source") or "undefined").lower()
     text = METRIKA_SOURCE.get(src, src)
     engine = _engine(step)
     if src == "organic" and engine:
         text = f"поиск {engine}"
-    elif src == "referral" and step.get("referer_host"):
-        text = f"переход с {step['referer_host']}"
+    elif src == "referral":
+        host = step.get("referer_host") or _host((lead or {}).get("last_touch_source") or "")
+        text = f"переход с {host}" if host else "переход по ссылке"
     elif src == "ad":
         text = "реклама"
     if step.get("phrase"):
