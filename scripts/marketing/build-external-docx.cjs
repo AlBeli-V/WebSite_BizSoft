@@ -4,7 +4,8 @@
  * Источник — markdown-файлы docs/marketing/external/week1/*.md: правки текстов
  * вносятся там, .docx пересобирается. Обратной конвертации нет.
  *
- * Запуск: node scripts/marketing/build-external-docx.js
+ * Запуск: node scripts/marketing/build-external-docx.cjs [week1|dzen1]
+ * Расширение .cjs обязательно: проект в ESM-режиме ("type": "module").
  */
 const fs = require('fs');
 const path = require('path');
@@ -17,8 +18,45 @@ const {
 } = D;
 
 const ROOT = path.resolve(__dirname, '..', '..');
-const SRC = path.join(ROOT, 'docs/marketing/external/week1');
-const OUT = path.join(ROOT, 'exports/marketing/bizsoft-external-week1.docx');
+
+/**
+ * Пакеты документов. По умолчанию — week1.
+ */
+const PACKS = {
+  week1: {
+    files: ['docs/marketing/external/week1/01-vc-oplata-po.md',
+            'docs/marketing/external/week1/02-dzen-oplata-poshagovo.md',
+            'docs/marketing/external/week1/03-spark-oshibki-buhgalteria.md',
+            'docs/marketing/external/week1/04-tenchat-karta-sotrudnika.md',
+            'docs/marketing/external/week1/05-dzen-ai-dlya-kompanii.md',
+            'docs/marketing/external/week1/06-tenchat-minimum-mest.md',
+            'docs/marketing/external/week1/07-dzen-ai-dlya-razrabotki.md',
+            'docs/marketing/external/week1/08-spark-byudzhet-ai-razrabotka.md'],
+    out: 'exports/marketing/bizsoft-external-week1.docx',
+    kicker: 'BIZSoft · Внешние публикации',
+    title: 'Неделя 1: восемь материалов',
+    subtitle: 'Пакет на внешнее экспертное ревью',
+    platforms: 'VC.ru · Дзен · Spark.ru · TenChat',
+    map: true,
+    intro: 'docs/marketing/external/_intro-week1.md',
+  },
+  dzen1: {
+    files: ['docs/marketing/external/dzen-requirements.md',
+            'docs/marketing/external/dzen/01-karta-sotrudnika.md'],
+    out: 'exports/marketing/bizsoft-dzen-01-karta-sotrudnika.docx',
+    kicker: 'BIZSoft · Дзен',
+    title: 'Регламент площадки и первый материал',
+    subtitle: 'На ревью внешнего маркетолога',
+    platforms: 'Дзен · канал BIZSoft',
+    map: false,
+    fullHead: true, // служебная шапка выводится целиком, а не тремя полями
+    intro: 'docs/marketing/external/_intro-dzen1.md',
+  },
+};
+
+const PACK = PACKS[process.argv[2] || 'week1'];
+if (!PACK) { console.error('Неизвестный пакет:', process.argv[2]); process.exit(1); }
+const OUT = path.join(ROOT, PACK.out);
 
 /** Инлайновая разметка: **жирный**, *курсив*, [текст](url), `код`. */
 function runs(text, base = {}) {
@@ -48,20 +86,81 @@ function runs(text, base = {}) {
   return out.length ? out : [new TextRun({ text: '', ...base })];
 }
 
+const cellBorders = {
+  top: { style: BorderStyle.SINGLE, size: 4, color: 'D9D9D9' },
+  bottom: { style: BorderStyle.SINGLE, size: 4, color: 'D9D9D9' },
+  left: { style: BorderStyle.SINGLE, size: 4, color: 'D9D9D9' },
+  right: { style: BorderStyle.SINGLE, size: 4, color: 'D9D9D9' },
+};
+
+/** Строки-продолжения (отступ ≥2 пробелов) приклеиваются к своему пункту. */
+function joinWrapped(md) {
+  const out = [];
+  for (const raw of md.split('\n')) {
+    const isCont = /^\s{2,}\S/.test(raw) && out.length && out[out.length - 1].trim() !== '';
+    if (isCont && !/^\s*[-*]\s/.test(raw) && !/^\s*\d+\.\s/.test(raw) && !/^\s*\|/.test(raw)) {
+      out[out.length - 1] += ' ' + raw.trim();
+    } else {
+      out.push(raw);
+    }
+  }
+  return out;
+}
+
+/** Markdown-таблица → docx Table. Ширины колонок пропорциональны заголовкам. */
+function mdTable(rows) {
+  const cells = rows.map((r) => r.replace(/^\||\|$/g, '').split('|').map((c) => c.trim()));
+  const cols = cells[0].length;
+  const weights = cells[0].map((_, i) =>
+    Math.max(...cells.map((r) => (r[i] || '').length), 6));
+  const sum = weights.reduce((a, b) => a + b, 0);
+  const TOTALW = 9000;
+  const widths = weights.map((w) => Math.round((w / sum) * TOTALW));
+  widths[cols - 1] = TOTALW - widths.slice(0, -1).reduce((a, b) => a + b, 0);
+  const body = cells.slice(1).filter((r) => !/^-{2,}$/.test((r[0] || '').replace(/:/g, '')));
+  const mk = (r, header) => new TableRow({
+    tableHeader: header,
+    children: r.slice(0, cols).map((txt, i) => new TableCell({
+      width: { size: widths[i], type: WidthType.DXA },
+      borders: cellBorders,
+      shading: header ? { type: ShadingType.CLEAR, fill: 'F2F2F2', color: 'auto' } : undefined,
+      margins: { top: 60, bottom: 60, left: 90, right: 90 },
+      children: [new Paragraph({
+        children: runs(txt, { size: 19, bold: header || undefined }),
+        spacing: { after: 0, line: 260 },
+      })],
+    })),
+  });
+  return new Table({
+    columnWidths: widths,
+    width: { size: TOTALW, type: WidthType.DXA },
+    rows: [mk(cells[0], true), ...body.map((r) => mk(r, false))],
+  });
+}
+
 /** Абзацы markdown → элементы docx. Заголовки статьи сдвинуты на уровень вниз. */
 function mdToParagraphs(md, { shift = 1 } = {}) {
   const els = [];
-  const lines = md.split('\n');
+  const lines = joinWrapped(md);
   let buf = [];
+  let table = [];
   const flush = () => {
     if (!buf.length) return;
     els.push(new Paragraph({ children: runs(buf.join(' ')), spacing: { after: 160, line: 300 } }));
     buf = [];
   };
+  const flushTable = () => {
+    if (table.length < 2) { table.forEach((r) => buf.push(r)); table = []; flush(); return; }
+    els.push(mdTable(table));
+    els.push(new Paragraph({ text: '', spacing: { after: 160 } }));
+    table = [];
+  };
   const H = [HeadingLevel.HEADING_1, HeadingLevel.HEADING_2, HeadingLevel.HEADING_3,
              HeadingLevel.HEADING_4, HeadingLevel.HEADING_5];
   for (const raw of lines) {
     const line = raw.trimEnd();
+    if (/^\s*\|.*\|\s*$/.test(line)) { flush(); table.push(line.trim()); continue; }
+    if (table.length) flushTable();
     if (/^\s*$/.test(line)) { flush(); continue; }
     if (/^---+$/.test(line)) { flush(); continue; }
     const h = line.match(/^(#{1,4})\s+(.*)$/);
@@ -76,13 +175,13 @@ function mdToParagraphs(md, { shift = 1 } = {}) {
       }));
       continue;
     }
-    const ul = line.match(/^[-*]\s+(.*)$/);
+    const ul = line.match(/^\s*[-*]\s+(.*)$/);
     if (ul) {
       flush();
       els.push(new Paragraph({ children: runs(ul[1]), bullet: { level: 0 }, spacing: { after: 80, line: 300 } }));
       continue;
     }
-    const ol = line.match(/^(\d+)\.\s+(.*)$/);
+    const ol = line.match(/^\s*(\d+)\.\s+(.*)$/);
     if (ol) {
       flush();
       els.push(new Paragraph({
@@ -92,14 +191,9 @@ function mdToParagraphs(md, { shift = 1 } = {}) {
       }));
       continue;
     }
-    const cont = line.match(/^\s{2,}(\S.*)$/);
-    if (cont && els.length && !buf.length) {
-      // продолжение пункта списка — дописываем в последний абзац
-      const prev = els[els.length - 1];
-      if (prev instanceof Paragraph) { buf.push(line.trim()); continue; }
-    }
     buf.push(line.trim());
   }
+  if (table.length) flushTable();
   flush();
   return els;
 }
@@ -107,6 +201,12 @@ function mdToParagraphs(md, { shift = 1 } = {}) {
 /** Служебная шапка файла (до первого «---») и тело статьи. */
 function splitArticle(md) {
   const i = md.indexOf('\n---\n');
+  // Документ без служебной шапки (например регламент) идёт телом целиком:
+  // первая строка «# Заголовок» становится названием раздела.
+  if (i === -1) {
+    const nl = md.indexOf('\n');
+    return { head: md.slice(0, nl).trim(), body: md.slice(nl).trim() };
+  }
   return { head: md.slice(0, i).trim(), body: md.slice(i + 5).trim() };
 }
 
@@ -125,12 +225,6 @@ function meta(head) {
   };
 }
 
-const cellBorders = {
-  top: { style: BorderStyle.SINGLE, size: 4, color: 'D9D9D9' },
-  bottom: { style: BorderStyle.SINGLE, size: 4, color: 'D9D9D9' },
-  left: { style: BorderStyle.SINGLE, size: 4, color: 'D9D9D9' },
-  right: { style: BorderStyle.SINGLE, size: 4, color: 'D9D9D9' },
-};
 
 const WIDTHS = [700, 2200, 4300, 1000, 1200];
 const TOTAL = WIDTHS.reduce((a, b) => a + b, 0);
@@ -148,10 +242,9 @@ function cell(text, w, opts = {}) {
   });
 }
 
-const files = fs.readdirSync(SRC).filter((f) => f.endsWith('.md')).sort();
-const articles = files.map((f) => {
-  const { head, body } = splitArticle(fs.readFileSync(path.join(SRC, f), 'utf8'));
-  return { file: f, ...meta(head), body };
+const articles = PACK.files.map((rel) => {
+  const { head, body } = splitArticle(fs.readFileSync(path.join(ROOT, rel), 'utf8'));
+  return { file: rel, head, ...meta(head), body };
 });
 
 const children = [];
@@ -160,22 +253,22 @@ const children = [];
 children.push(
   new Paragraph({ text: '', spacing: { after: 1400 } }),
   new Paragraph({
-    children: [new TextRun({ text: 'BIZSoft · Внешние публикации', size: 24, color: '767676', characterSpacing: 30 })],
+    children: [new TextRun({ text: PACK.kicker, size: 24, color: '767676', characterSpacing: 30 })],
     alignment: AlignmentType.CENTER,
     spacing: { after: 200 },
   }),
   new Paragraph({
-    children: [new TextRun({ text: 'Неделя 1: восемь материалов', bold: true, size: 44 })],
+    children: [new TextRun({ text: PACK.title, bold: true, size: 44 })],
     alignment: AlignmentType.CENTER,
     spacing: { after: 120 },
   }),
   new Paragraph({
-    children: [new TextRun({ text: 'Пакет на внешнее экспертное ревью', size: 28, color: '404040' })],
+    children: [new TextRun({ text: PACK.subtitle, size: 28, color: '404040' })],
     alignment: AlignmentType.CENTER,
     spacing: { after: 600 },
   }),
   new Paragraph({
-    children: [new TextRun({ text: 'VC.ru · Дзен · Spark.ru · TenChat', size: 22, color: '767676' })],
+    children: [new TextRun({ text: PACK.platforms, size: 22, color: '767676' })],
     alignment: AlignmentType.CENTER,
     spacing: { after: 120 },
   }),
@@ -188,42 +281,12 @@ children.push(
 
 // ── Что мы просим у эксперта ──
 children.push(
-  new Paragraph({ text: 'О чём мы просим эксперта', heading: HeadingLevel.HEADING_1, spacing: { after: 200 } }),
-  ...mdToParagraphs(`
-Восемь текстов ниже — первая неделя программы внешних публикаций BIZSoft. Задача недели не в
-ссылках как таковых, а в замере: какие площадки и какие темы дают индексацию, показы и переходы.
-Платные размещения покупаются позже и только по темам, доказавшим спрос.
-
-Все материалы написаны от лица BIZSoft как отраслевого эксперта, с открытым раскрытием аффилиации:
-мы прямо говорим, что мы поставщик. Это осознанный выбор — скрытая реклама снимается площадками
-и хуже читается аудиторией.
-
-**Что важно проверить в первую очередь**
-
-1. **Юридические и бухгалтерские формулировки.** Тексты касаются оплаты зарубежного ПО, закрывающих
-документов и лицензирования. Мы намеренно избегали ссылок на конкретные нормы, но утверждения
-о том, что принимает бухгалтерия и на кого оформляется лицензия, требуют проверки специалистом.
-2. **Фактура по продуктам.** В материалах названы пороги мест (ChatGPT Business — от 2, Claude Team —
-от 5), наличие SSO только на Enterprise, IP-индемнификация у GitHub Copilot Business. Эти данные
-взяты из каталога сайта и должны быть сверены с текущими условиями вендоров на дату публикации.
-3. **Тональность для площадки.** VC.ru и Spark.ru плохо принимают материалы, читающиеся как реклама.
-Просим оценить, где текст сваливается в продажу.
-4. **Раскрытие аффилиации.** Достаточно ли явно и достаточно ли уместно оно сделано.
-5. **Ссылочная нагрузка.** В каждом материале 2–3 ссылки на сайт. Просим сказать, где это выглядит
-избыточным для конкретной площадки.
-6. **Что мы упустили** — возражения аудитории, на которые текст не отвечает.
-
-**Чего в текстах сознательно нет**
-
-Цен. На сайте цены ориентировочные и зависят от курса и состава, поэтому в статьях названы принципы
-ценообразования, а не цифры. Если эксперт считает, что без порядка цен материал теряет ценность,
-это отдельное решение.
-`.trim(), { shift: 1 }),
+  ...mdToParagraphs(fs.readFileSync(path.join(ROOT, PACK.intro), 'utf8').trim(), { shift: 0 }),
   new Paragraph({ children: [new PageBreak()] }),
 );
 
 // ── Карта публикаций ──
-children.push(
+if (PACK.map) { children.push(
   new Paragraph({ text: 'Карта публикаций недели', heading: HeadingLevel.HEADING_1, spacing: { after: 200 } }),
   new Table({
     columnWidths: WIDTHS,
@@ -262,7 +325,7 @@ children.push(
     spacing: { before: 200 },
   }),
   new Paragraph({ children: [new PageBreak()] }),
-);
+); }
 
 // ── Статьи ──
 articles.forEach((a, i) => {
@@ -278,21 +341,27 @@ articles.forEach((a, i) => {
       border: { bottom: { style: BorderStyle.SINGLE, size: 6, color: 'D9D9D9', space: 6 } },
     }),
   );
-  const info = [
-    ['Объём', a.volume],
-    ['Ключевые фразы', a.keys],
-    ['Целевые ссылки', a.links],
-  ];
-  info.forEach(([k, v]) => {
-    if (!v) return;
-    children.push(new Paragraph({
-      children: [
-        new TextRun({ text: `${k}: `, bold: true, size: 19, color: '404040' }),
-        ...runs(v, { size: 19, color: '404040' }),
-      ],
-      spacing: { after: 60, line: 260 },
-    }));
-  });
+  if (PACK.fullHead) {
+    // Шапка целиком: в ней таблицы и решения, которые нужны рецензенту.
+    const rest = a.head.split('\n').slice(1).join('\n').trim();
+    if (rest) children.push(...mdToParagraphs(rest, { shift: 1 }));
+  } else {
+    const info = [
+      ['Объём', a.volume],
+      ['Ключевые фразы', a.keys],
+      ['Целевые ссылки', a.links],
+    ];
+    info.forEach(([k, v]) => {
+      if (!v) return;
+      children.push(new Paragraph({
+        children: [
+          new TextRun({ text: `${k}: `, bold: true, size: 19, color: '404040' }),
+          ...runs(v, { size: 19, color: '404040' }),
+        ],
+        spacing: { after: 60, line: 260 },
+      }));
+    });
+  }
   children.push(new Paragraph({ text: '', spacing: { after: 200 } }));
   children.push(...mdToParagraphs(a.body, { shift: 1 }));
   if (i < articles.length - 1) children.push(new Paragraph({ children: [new PageBreak()] }));
