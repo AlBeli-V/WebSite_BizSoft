@@ -235,7 +235,15 @@ def run(date: str) -> dict:
         "низкая база Google": r"низкая база|малые числа|база в десятки",
         "рано для вывода": r"рано для вывода|не может проявиться|окно источника ещё",
     }
-    repeats = {name: len(re.findall(pat, vis, re.I)) for name, pat in key_facts.items()}
+    # Подписи достоверности источников («достоверность: низкая, малые числа»)
+    # повторяются у каждого показателя с малой выборкой по построению — это
+    # служебная метка охвата, а не повтор утверждения. 02.09 три таких
+    # подписи (Google, Метрика, заявки) уронили приёмку и заблокировали
+    # письмо с первым вердиктом эксперимента, поэтому они исключаются из
+    # текста, по которому считаются повторы фактов.
+    facts_text = re.sub(r"достоверность:[^|\n·]*", " ", vis, flags=re.I)
+    repeats = {name: len(re.findall(pat, facts_text, re.I))
+               for name, pat in key_facts.items()}
     over = {k: v for k, v in repeats.items() if v > LIMITS["max_fact_repeats"]}
     add("no_duplicate_fact", not over, f"повторы: {repeats}; сверх лимита: {over or 'нет'}")
 

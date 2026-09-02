@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python3 competitive-intelligence/run_daily.py)",
+      "Bash(python3 competitive-intelligence/run_daily.py *)",
+      "Bash(python3 -m unittest discover *)",
+      "Bash(bash competitive-intelligence/storage/data_sync_ci.sh *)",
+      "Bash(git fetch *)",
+      "Bash(git checkout main)",
+      "Bash(git reset --hard origin/main)",
+      "Bash(git rev-parse *)",
+      "Bash(git ls-tree *)",
+      "Bash(git status *)",
+      "Bash(git log *)"
+    ]
+  }
+}
