@@ -334,7 +334,7 @@
   },
   {
    "id": "cluster-coreldraw",
-   "ticket": "CONTENT-002",
+   "ticket": "CONTENT-003",
    "start": "2026-09-02",
    "status": "running",
    "evaluation_kind": "impressions_growth",
@@ -364,7 +364,7 @@
    "hypothesis": "Тираж приёма, подтверждённого CONTENT-001 (+70% показов кластера Depositphotos и вход статьи в топ-10 за 14 дней): статья под транзакционный интент плюс взаимная перелинковка поднимут показы кластера CorelDRAW, где страницы стоят на позициях 5-11.",
    "success_metric": "рост показов кластера CorelDRAW относительно базовых 145 показов за 13 дней и вход статьи /blog/kak-oplatit-coreldraw-dlya-yurlica в топ-10 Яндекса к 16.09.2026",
    "control_group": "остальные кластеры вендоров без статьи",
-   "source": "решение руководителя 02.09.2026 (EXPAND по CONTENT-001, первый кластер — CorelDRAW)"
+   "source": "решение руководителя 02.09.2026 (EXPAND по CONTENT-001, первый кластер — CorelDRAW); номер изменён с CONTENT-002 на CONTENT-003 02.09.2026: тикет заняла раньше партия content-6-clusters, а два эксперимента с одним номером в письме неразличимы"
   }
  ]
 }
