@@ -130,14 +130,18 @@ def _evaluate_ctr(exp: dict, date: str) -> dict:
                               "queries": len(mb)}
 
     # Гейт экспозиции (§5) — по matched-набору: именно он несёт вывод.
-    # Гейт адаптивный (вопрос руководителя 31.08.2026): окно источника
-    # скользящее, показы кластера за окно примерно постоянны, и малый кластер
-    # настроенный порог не наберёт никогда — для него порог снижается до доли
-    # ёмкости окна с пометкой и ограничением уверенности.
+    # Адаптация (31.08.2026): окно источника скользящее, малый кластер
+    # настроенный порог не наберёт никогда — порог снижается до доли ёмкости
+    # с пометкой и ограничением уверенности.
+    # Гейт адаптируется по ёмкости ТОГО набора, на котором делается вывод, —
+    # matched (issue #297). Прежде он считался от overall: 02.09 SEO-EXP-001
+    # имел overall 532/610 (≥500 → адаптации нет) при matched 485/250, и
+    # эксперимент получил «копить данные». Копить нечего: matched ограничен
+    # пересечением с baseline-окном, которое в прошлом и не растёт.
     need_b, adapted_b = st.effective_gate(
-        overall_b["impressions"], cfg["EXPERIMENT_MIN_BASELINE_IMPRESSIONS"], cfg)
+        matched_b["impressions"], cfg["EXPERIMENT_MIN_BASELINE_IMPRESSIONS"], cfg)
     need_e, adapted_e = st.effective_gate(
-        overall_e["impressions"], cfg["EXPERIMENT_MIN_POST_IMPRESSIONS"], cfg)
+        matched_e["impressions"], cfg["EXPERIMENT_MIN_POST_IMPRESSIONS"], cfg)
     adapted = adapted_b or adapted_e
     res["effective_gate"] = {"baseline": need_b, "experiment": need_e,
                              "adapted": adapted}
@@ -161,10 +165,19 @@ def _evaluate_ctr(exp: dict, date: str) -> dict:
             lack.append(f"после внедрения: {matched_e['impressions']} из {need_e}")
         res["verdict_reason"] = ("экспозиция ниже минимальной по совпадающим "
                                  "запросам (" + "; ".join(lack) + ")")
-        res["recommendation_detail"] = (
-            f"копить данные до следующей вехи; не хватает "
-            f"{max(0, need_b - matched_b['impressions']) + max(0, need_e - matched_e['impressions'])} "
-            "показов суммарно")
+        lack_total = (max(0, need_b - matched_b["impressions"])
+                      + max(0, need_e - matched_e["impressions"]))
+        if matched_b["impressions"] < need_b:
+            # baseline-окно в прошлом: ожидание его не увеличит (issue #297).
+            res["recommendation_detail"] = (
+                "ожидание не поможет: не хватает показов в базовом окне, а оно "
+                "в прошлом и не растёт. Варианты — NEW_TEST с чистым baseline "
+                "или решение по предварительному сравнению из письма")
+            res["recommendation"] = "NEW_TEST"
+        else:
+            res["recommendation_detail"] = (
+                f"копить данные до следующей вехи; не хватает {lack_total} "
+                "показов суммарно")
         return res
 
     if len(mb) < cfg["EXPERIMENT_MIN_MATCHED_QUERIES"]:
