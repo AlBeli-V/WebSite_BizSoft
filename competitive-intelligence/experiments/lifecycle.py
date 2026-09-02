@@ -37,6 +37,16 @@ import paths  # noqa: E402,F401
 from attack_engine import page_audit  # noqa: E402
 from experiments import journal as jr  # noqa: E402
 
+# Тип страницы по адресу: нужен, чтобы отличить правку одной страницы от
+# правки шаблона, которая задевает все страницы своего типа.
+KIND_BY_PREFIX = {"/vendors/": "vendor", "/product/": "product",
+                  "/blog/": "blog"}
+SCOPE_PAGE = "страница"
+SCOPE_KIND = "тип страниц"
+# Сколько соседних страниц того же типа проверяем, чтобы понять, правка была
+# точечной или шаблонной.
+PEERS_TO_CHECK = 3
+
 # Значения по умолчанию; конфиг может их переопределить.
 WATCH_DAYS = 14
 WINDOW = 3                 # сколько дней усредняем на каждом конце
@@ -62,6 +72,57 @@ def settings(config: dict | None = None) -> dict:
     }
 
 
+def kind_of_url(url: str) -> str:
+    """Тип страницы по её адресу. Неизвестный адрес типа не имеет."""
+    path = (url or "").replace("https://biz-soft.pro", "")
+    for prefix, kind in KIND_BY_PREFIX.items():
+        if path.startswith(prefix):
+            return kind
+    return ""
+
+
+def conditions_of(snapshot: dict) -> dict:
+    """Условия, в которых снят замер: чем и по какому полю считали.
+
+    Хранится вместе с базой эксперимента. Методика может измениться между
+    базой и оценкой — тогда сравнение «было → стало» перестаёт быть
+    сравнением одной линейкой, и отчёт обязан это показать, а не молча
+    выдать разницу.
+    """
+    meta = snapshot.get("метаданные") or {}
+    return {
+        "версия_методики": meta.get("версия_методики"),
+        "хеш_конфига": meta.get("хеш_конфига"),
+        "ядро_хеш": meta.get("ядро_хеш"),
+        "ядро_версия": meta.get("ядро_версия"),
+    }
+
+
+def comparability(base: dict, now: dict) -> tuple[str, str]:
+    """Сравнимы ли условия базы и текущего замера.
+
+    Возвращает (оценка, пояснение). «Полная» — считали одинаково. «Ограничена»
+    — что-то поменялось, и разницу нельзя целиком относить на счёт правки.
+    """
+    if not base:
+        return "неизвестна", "условия базы не сохранялись"
+    отличия = []
+    if base.get("хеш_конфига") != now.get("хеш_конфига"):
+        отличия.append(f"конфигурация модели ({base.get('хеш_конфига')} → "
+                       f"{now.get('хеш_конфига')})")
+    if base.get("версия_методики") != now.get("версия_методики"):
+        отличия.append(f"версия методики ({base.get('версия_методики')} → "
+                       f"{now.get('версия_методики')})")
+    if base.get("ядро_хеш") != now.get("ядро_хеш"):
+        отличия.append("состав ядра запросов")
+    if not отличия:
+        return "полная", "база и замер получены одной моделью на одном ядре"
+    return "ограничена", (
+        "между базой и замером изменилось: " + "; ".join(отличия)
+        + ". Позиции измеряются одинаково в любой версии, поэтому сравнение "
+          "остаётся осмысленным, но приписывать всю разницу правке нельзя")
+
+
 def positions_on(snapshot: dict, queries) -> dict[str, int]:
     """Позиции BIZSoft по запросам в конкретном дне.
 
@@ -76,7 +137,13 @@ def positions_on(snapshot: dict, queries) -> dict[str, int]:
         bucket = per_query.get(key)
         if bucket is None:
             continue
-        result[query] = bucket.get("позиция") or jr.OUT_OF_TOP
+        # Снимки до 01.09.2026 позиций не хранили. Отсутствие самого поля —
+        # это «не измеряли», а не «нас там не было»: подставлять сюда 21
+        # значит уверять, что до правки страница была вне выдачи, и любой
+        # эксперимент показал бы улучшение на ровном месте.
+        if "позиция" not in bucket:
+            continue
+        result[query] = bucket["позиция"] or jr.OUT_OF_TOP
     return result
 
 
@@ -99,17 +166,29 @@ def _dates_upto(snapshots: dict, day: str, count: int) -> list[str]:
 
 def baseline_for(snapshots: dict, day: str, queries, window: int) -> dict:
     """База «до»: медиана позиций за последние дни перед внедрением."""
-    dates = _dates_before(snapshots, day, window) or _dates_upto(snapshots, day, 1)
+    dates = _dates_before(snapshots, day, window)
+    median = _median_positions(snapshots, dates, queries)
+    fallback = ""
+    if median is None:
+        # Позиций за прошлые дни нет — берём день фиксации внедрения. Правка
+        # к этому моменту ещё не на проде (деплой идёт после), поэтому замер
+        # честно описывает состояние «до».
+        dates = _dates_upto(snapshots, day, 1)
+        median = _median_positions(snapshots, dates, queries)
+        fallback = ("замеров до дня внедрения нет; базой взят сам день "
+                    "фиксации — правка к этому моменту ещё не была на проде")
     return {
         "дата": day,
         "дни": dates,
-        "медиана_позиций": _median_positions(snapshots, dates, queries),
+        "медиана_позиций": median,
         "запросов": len(list(queries)),
+        "_оговорка": fallback,
     }
 
 
 def register(experiments: list[jr.Experiment], packages: list[dict],
-             today: str) -> list[jr.Experiment]:
+             today: str, snapshot: dict | None = None,
+             systemic_kinds: list[str] | None = None) -> list[jr.Experiment]:
     """Заводит эксперименты по новым пакетам работ.
 
     Регистрируются только пакеты с проверяемым признаком внедрения — то есть
@@ -154,11 +233,52 @@ def register(experiments: list[jr.Experiment], packages: list[dict],
             action_kinds=sorted(set(k for k in kinds if k)),
             hypothesis=(f"выполнение {len(requirements)} требований к тексту "
                         f"страницы поднимет позиции по запросам пакета"),
+            conditions=conditions_of(snapshot or {}),
         )
+        # Правка шаблона задевает все страницы своего типа. Поэтому такие
+        # страницы исключаются из контрольной группы у КАЖДОГО эксперимента,
+        # а не только у тех, чьи собственные требования в шаблон попали:
+        # контроль строится из всех запросов ядра, и запрос, ведущий на
+        # изменённую страницу, контролем быть не может.
+        experiment.affected_kinds = sorted(systemic_kinds or [])
+        if kind_of_url(url) in (systemic_kinds or []):
+            системные = set(package.get("системные_слова") or [])
+            слова = {w for req in requirements
+                     for w in page_audit.significant_words(req["фраза"])}
+            if слова & системные:
+                experiment.scope = SCOPE_KIND
         experiment.log(today, f"предложен пакетом {experiment.package_id}")
         created.append(experiment)
     experiments.extend(created)
     return created
+
+
+def _detect_scope(exp: jr.Experiment, experiments: list[jr.Experiment],
+                  loader) -> tuple[str, list[str]]:
+    """Точечная правка или шаблонная: проверяем соседей того же типа.
+
+    Если те же требования внезапно выполнились и на других страницах этого
+    типа, которых поручение не касалось, — правили шаблон. Тогда все страницы
+    типа затронуты, и контролем они быть не могут. Проверка эмпирическая: она
+    не зависит от того, кто и через какой файл вносил правку.
+    """
+    kind = kind_of_url(exp.url)
+    if not kind:
+        return SCOPE_PAGE, []
+    peers = [e for e in experiments
+             if e.url != exp.url and kind_of_url(e.url) == kind][:PEERS_TO_CHECK]
+    if len(peers) < 2:
+        return SCOPE_PAGE, []
+    затронуты = 0
+    for peer in peers:
+        page = loader(peer.url, peer.page_kind)
+        if not page.available:
+            continue
+        if all(_satisfied(page, req) for req in exp.requirements):
+            затронуты += 1
+    if затронуты >= 2:
+        return SCOPE_KIND, [kind]
+    return SCOPE_PAGE, []
 
 
 def _satisfied(page, requirement: dict) -> bool:
@@ -205,6 +325,17 @@ def detect_implementation(experiments: list[jr.Experiment], snapshots: dict,
         exp.baseline = baseline_for(snapshots, today, exp.queries,
                                     opts["окно_усреднения"])
         exp.watch_until = jr.add_days(today, opts["окно_наблюдения_дней"])
+        if exp.scope != SCOPE_KIND:
+            # Проверка соседей уточняет область, но не отменяет уже известные
+            # затронутые типы: их проставили при регистрации по системным
+            # правкам дня, и терять их нельзя — контроль снова стал бы грязным.
+            scope, kinds = _detect_scope(exp, experiments, loader)
+            exp.scope = scope
+            exp.affected_kinds = sorted(set(exp.affected_kinds) | set(kinds))
+        if exp.scope == SCOPE_KIND:
+            exp.log(today, (f"правка затронула все страницы типа "
+                            f"«{exp.affected_kinds[0]}» — они исключены из "
+                            f"контрольной группы"))
         exp.log(today, (f"внедрение подтверждено, наблюдение до "
                         f"{exp.watch_until}"))
         moved.append(exp)
@@ -243,7 +374,10 @@ def measure(exp: jr.Experiment, snapshots: dict, today: str,
     before_dates = exp.baseline.get("дни") or []
     after_dates = _dates_upto(snapshots, today, window)
 
-    control_queries = _control_queries(snapshots, after_dates, exp.queries)
+    # Состав контроля фиксируется по обоим окнам сразу: разный состав до и
+    # после сам по себе сдвинул бы медиану.
+    control_queries = _control_queries(snapshots, before_dates + after_dates,
+                                       exp.queries, exp.affected_kinds)
     before = _median_positions(snapshots, before_dates, exp.queries)
     after = _median_positions(snapshots, after_dates, exp.queries)
     control_before = _median_positions(snapshots, before_dates, control_queries)
@@ -268,8 +402,17 @@ def measure(exp: jr.Experiment, snapshots: dict, today: str,
 
     confident = (len(exp.queries) >= opts["минимум_запросов"]
                  and control_delta is not None
+                 and len(control_queries) >= 5
                  and len(before_dates) >= 2 and len(after_dates) >= 2)
+    сравнимость, пояснение = comparability(
+        exp.conditions, conditions_of(snapshots.get(today) or {}))
     return {
+        "сравнимость_условий": сравнимость,
+        "_сравнимость_пояснение": пояснение,
+        "контрольных_запросов": len(control_queries),
+        "контроль_исключал": (f"страницы типа {', '.join(exp.affected_kinds)}"
+                              if exp.affected_kinds else "ничего, кроме "
+                              "запросов самого эксперимента"),
         "медиана_до": before,
         "медиана_после": after,
         "дельта": delta,
@@ -288,10 +431,30 @@ def measure(exp: jr.Experiment, snapshots: dict, today: str,
     }
 
 
-def _control_queries(snapshots: dict, dates: list[str], exclude) -> list[str]:
-    """Контроль: запросы ядра вне эксперимента, измеренные в те же дни."""
+def _control_queries(snapshots: dict, dates: list[str], exclude,
+                     exclude_kinds: list[str] | None = None) -> list[str]:
+    """Контроль: запросы ядра вне эксперимента, измеренные в те же дни.
+
+    Если правка была шаблонной, из контроля исключаются все страницы её типа.
+    Иначе контрольная группа оказалась бы затронута той же правкой, эффект
+    «размазался» бы по обеим группам, и разность разностей показала бы ноль
+    там, где изменение реально произошло.
+    """
     excluded = {page_audit.normalize(q) for q in exclude}
+    exclude_kinds = exclude_kinds or []
     keys: set[str] = set()
     for day in dates:
-        keys |= set((snapshots.get(day) or {}).get("по_запросам") or {})
-    return sorted(k for k in keys if k not in excluded)
+        per_query = (snapshots.get(day) or {}).get("по_запросам") or {}
+        for key, bucket in per_query.items():
+            if key in excluded:
+                continue
+            if exclude_kinds and kind_of_url(bucket.get("наш_url") or "") in exclude_kinds:
+                continue
+            # В контроль идут только запросы, где мы в выдаче. Запрос, по
+            # которому нас нет, стоит на условной позиции 21 в оба окна и
+            # ничего не измеряет: набрав таких сотни, мы получили бы
+            # неподвижную медиану и контроль, который всегда показывает ноль.
+            if not bucket.get("позиция"):
+                continue
+            keys.add(key)
+    return sorted(keys)

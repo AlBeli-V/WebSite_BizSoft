@@ -23,6 +23,7 @@ B2B-продажи у такого участника не подтвержде�
 from __future__ import annotations
 
 import os
+import re
 import sys
 from dataclasses import asdict, dataclass, field
 
@@ -34,6 +35,11 @@ from scoring import intent as intent_mod  # noqa: E402
 from scoring import opportunity as opp_mod  # noqa: E402
 
 OURS = "biz-soft.pro"
+# Запрос с доменом внутри — навигационный: человек ищет конкретный сайт
+# («runway цена companies.rbc.ru»), а не товар. Соперничать с чужим доменом
+# по его же имени бессмысленно, а в поручении такой запрос превращался в
+# требование вписать в наш текст чужой адрес.
+DOMAIN_IN_QUERY = re.compile(r"\b[a-z0-9][a-z0-9-]*\.(?:ru|com|io|net|org|pro|ai|me)\b")
 OUR_POSITION_MIN = 4
 OUR_POSITION_MAX = 20
 RIVAL_POSITION_MAX = 10
@@ -108,6 +114,8 @@ def build(rows, *, region: str = "213", engine: str = "yandex",
             continue
         if intent_mod.is_branded(row.query):
             continue  # бренд исключён из конкурентного поля (раздел 6)
+        if DOMAIN_IN_QUERY.search(row.query.lower()):
+            continue  # навигационный запрос к конкретному сайту
 
         our_pos, our_url = _find(row.top, OURS)
         if our_pos is None or not (OUR_POSITION_MIN <= our_pos <= OUR_POSITION_MAX):

@@ -38,6 +38,13 @@ BLOG_DIR = os.path.join(REPO, "src", "content", "blog")
 VENDORS_TS = os.path.join(REPO, "src", "data", "vendors.ts")
 VENDOR_PAGES = os.path.join(REPO, "src", "pages", "vendors")
 PRODUCT_META = os.path.join(REPO, "data", "seo", "product-descriptions.json")
+# Шаблоны, из которых собирается видимая часть страницы. Значительная доля
+# текста живёт именно здесь, а не в данных: заголовки «Как купить … через
+# BIZSoft», «Тарифы и продукты …», блоки про оплату в рублях и закрывающие
+# документы. Без них проверка врала в опасную сторону — советовала дописать
+# слова, которые на странице уже стоят в H1 и H2.
+VENDOR_TEMPLATE = os.path.join(REPO, "src", "components", "VendorLanding.astro")
+PRODUCT_TEMPLATE = os.path.join(REPO, "src", "pages", "product", "[slug].astro")
 
 # Слова, которые не несут темы и не должны требовать присутствия в тексте:
 # по ним нельзя судить, раскрыт запрос или нет.
@@ -115,6 +122,41 @@ def _read(path: str) -> str:
         return ""
 
 
+def template_content(path: str) -> tuple[list[str], str]:
+    """Видимый текст шаблона: заголовки и всё остальное без разметки.
+
+    Выражения вида {entry.about} вырезаются: их содержимое приходит из данных
+    и проверяется отдельно. Остаётся то, что видит любой посетитель страницы
+    независимо от вендора или товара.
+    """
+    raw = _read(path)
+    if not raw:
+        return [], ""
+    # Служебная часть .astro-файла тоже содержит видимый текст: вопросы FAQ,
+    # подписи, готовые формулировки. Отбрасывать её целиком значит не видеть
+    # половину страницы — на этом проверка один раз уже ошиблась, потребовав
+    # дописать слово, стоявшее в вопросе FAQ. Берём из неё строковые литералы
+    # с кириллицей длиной от двадцати символов: короткие строки — это ключи и
+    # имена полей, длинные — текст для читателя.
+    head = re.match(r"^---(.*?)---", raw, flags=re.S)
+    visible_strings = []
+    if head:
+        for quoted in re.findall(r"'([^']{20,})'|\"([^\"]{20,})\"|`([^`]{20,})`",
+                                 head.group(1), flags=re.S):
+            text = next((t for t in quoted if t), "")
+            if re.search(r"[а-яА-ЯёЁ]", text):
+                visible_strings.append(text)
+    body = re.sub(r"^---.*?---", " ", raw, count=1, flags=re.S)   # frontmatter
+    body = re.sub(r"<style[^>]*>.*?</style>", " ", body, flags=re.S)
+    body = re.sub(r"<script[^>]*>.*?</script>", " ", body, flags=re.S)
+    headings = [re.sub(r"[{][^}]*[}]", " ", h)
+                for h in re.findall(r"<h[123][^>]*>(.*?)</h[123]>", body, re.S)]
+    headings = [re.sub(r"<[^>]+>", " ", h).strip() for h in headings]
+    text = re.sub(r"[{][^}]*[}]", " ", body)
+    text = re.sub(r"<[^>]+>", " ", text)
+    return [h for h in headings if h], text + " " + " ".join(visible_strings)
+
+
 def _split_frontmatter(text: str) -> tuple[str, str]:
     if not text.startswith("---"):
         return "", text
@@ -187,9 +229,15 @@ def load_vendor(url: str) -> PageContent:
         page.scope_note = ("проверена bespoke-страница вендора целиком; "
                            "карточки товаров подтягиваются из Directus")
     elif page.available:
-        page.scope_note = ("проверены только редакторские tagline и about из "
-                           "src/data/vendors.ts: тело страницы собирается из "
-                           "Directus и в репозитории не хранится")
+        # Типовой лендинг: к редакторским полям добавляется текст шаблона —
+        # заголовки и блоки, которые видит посетитель на каждой такой странице.
+        tpl_headings, tpl_text = template_content(VENDOR_TEMPLATE)
+        page.headings += tpl_headings
+        page.body += " " + tpl_text
+        page.scope_note = ("проверены редакторские tagline и about из "
+                           "src/data/vendors.ts плюс текст типового лендинга "
+                           "(заголовки и блоки шаблона); карточки товаров "
+                           "приходят из Directus и в проверку не входят")
     else:
         page.scope_note = "запись вендора не найдена — содержимое не проверялось"
     return page
@@ -200,27 +248,35 @@ def load_product(url: str) -> PageContent:
     page = PageContent(url=url, kind="product", available=False,
                        edit_hint=(f"data/seo/product-descriptions.json, ключ "
                                   f"«{slug}» + workflow ops-apply-descriptions"))
+    # Текст шаблона карточки виден на каждой странице товара независимо от
+    # того, заведено ли для него описание в репозитории.
+    tpl_headings, tpl_text = template_content(PRODUCT_TEMPLATE)
+    page.headings = tpl_headings
+    # Название товара в репозитории не хранится; slug даёт его приближение и
+    # закрывает запросы, где бренд написан так же, как в адресе.
+    page.body = " ".join([tpl_text, slug.replace("-", " ")])
+    page.available = bool(tpl_text)
+    page.source_path = "src/pages/product/[slug].astro"
+    page.scope_note = ("проверён текст шаблона карточки и slug товара; "
+                       "название, описание и характеристики приходят из "
+                       "Directus и в проверку не входят")
+
     raw = _read(PRODUCT_META)
     if not raw:
-        page.scope_note = "файл описаний товаров недоступен"
         return page
     try:
         data = json.loads(raw).get("products") or {}
     except json.JSONDecodeError:
-        page.scope_note = "файл описаний товаров не читается"
         return page
     entry = data.get(slug)
     if not entry:
-        page.scope_note = ("товара нет в data/seo/product-descriptions.json: "
-                           "описание живёт только в Directus и не проверялось")
         return page
-    page.available = True
-    page.source_path = "data/seo/product-descriptions.json"
     page.title = entry.get("meta_title") or entry.get("title") or ""
-    page.body = " ".join(filter(None, [entry.get("description"),
-                                       entry.get("meta_description"),
-                                       page.title]))
-    page.scope_note = ("проверены описание и мета из "
+    page.body += " " + " ".join(filter(None, [entry.get("description"),
+                                              entry.get("meta_description"),
+                                              page.title]))
+    page.source_path = "data/seo/product-descriptions.json"
+    page.scope_note = ("проверены текст шаблона карточки, описание и мета из "
                        "data/seo/product-descriptions.json; остальное тело "
                        "карточки приходит из Directus")
     return page

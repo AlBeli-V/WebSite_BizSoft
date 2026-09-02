@@ -157,7 +157,10 @@ def main(argv: list[str]) -> int:
     from experiments import journal as _journal
     from experiments import learning as _learning
     effect_ranking = _learning.ranking(_journal.load(), config)
-    recommendations.enrich(packages, geo_by_query, effect_ranking)
+    systemic = recommendations.enrich(packages, geo_by_query, effect_ranking)
+    if systemic:
+        print(f"6б. Системные правки: {len(systemic)} — одна правка шаблона "
+              f"вместо десятков одинаковых правок в данных")
 
     # --- цикл экспериментов -------------------------------------------------
     # Порядок шагов важен. Сначала отмечаем внедрённое и оцениваем созревшее:
@@ -189,7 +192,13 @@ def main(argv: list[str]) -> int:
         package["мораторий_до"] = experiment.watch_until
         package["эксперимент"] = experiment.id
 
-    created = exp_lifecycle.register(experiments, packages, date)
+    # Типы страниц, шаблоны которых правятся сегодня: их страницы исключаются
+    # из контрольной группы всех экспериментов этого дня.
+    systemic_kinds = sorted({k for a in systemic
+                             for k, path in recommendations.TEMPLATE_OF.items()
+                             if a.where == path})
+    created = exp_lifecycle.register(experiments, packages, date, snapshot,
+                                     systemic_kinds)
     exp_journal.save(experiments)
     print(f"6а. Эксперименты: заведено {len(created)}, подтверждено внедрение "
           f"{len(implemented)}, оценено {len(evaluated)}, под мораторием "
@@ -241,7 +250,7 @@ def main(argv: list[str]) -> int:
                              [c.__dict__ for c in cards], rows,
                              packages=packages, histories=histories,
                              experiments=experiments, config=config,
-                             on_watch=on_watch)
+                             on_watch=on_watch, systemic=systemic)
     os.makedirs(paths.ARCHIVE_DIR, exist_ok=True)
     for target in (os.path.join(paths.ARCHIVE_DIR, f"{date}.html"),
                    os.path.join(paths.REPORTS_DIR, "latest.html")):
