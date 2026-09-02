@@ -41,6 +41,15 @@ const CLICKBAIT = ['шок', 'вся правда', 'никто не знает'
 
 const LIMITS = { minChars: 5000, maxChars: 9000, maxLinks: 2 };
 
+/**
+ * Потолок ссылок зависит от объёма: правило «не более двух» писалось для
+ * материалов ленты. В лонгриде на 20 000 знаков две ссылки — недобор, но
+ * плотность выше одной на ~5 000 знаков снова читается как размещение.
+ */
+function linkLimit(chars) {
+  return chars > 15000 ? Math.min(4, Math.floor(chars / 5000)) : LIMITS.maxLinks;
+}
+
 function textOf(md) {
   const i = md.indexOf('\n---\n');
   let body = i === -1 ? md : md.slice(i + 5);
@@ -91,7 +100,8 @@ function lint(file) {
   const links = [...body.matchAll(/\]\((https?:\/\/[^)]+)\)/g)].map((m) => m[1]);
   const own = links.filter((u) => u.includes('biz-soft.pro'));
   const foreign = links.filter((u) => !u.includes('biz-soft.pro'));
-  if (own.length > LIMITS.maxLinks) errors.push(`ссылок на biz-soft.pro: ${own.length}, потолок ${LIMITS.maxLinks}`);
+  const maxLinks = linkLimit(chars);
+  if (own.length > maxLinks) errors.push(`ссылок на biz-soft.pro: ${own.length}, потолок ${maxLinks} при объёме ${chars} знаков`);
   else notes.push(`ссылок на сайт: ${own.length}`);
   if (foreign.length) warnings.push(`внешние ссылки (${foreign.length}): ${foreign.join(', ')}`);
 
