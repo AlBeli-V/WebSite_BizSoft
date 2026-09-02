@@ -144,12 +144,9 @@ CONTOURS = [
          (BASE / "data").glob("sitemap-2*.json")
          if (BASE / "data").exists() else []),
      "required": False},
-    {"id": "serp", "label": "SERP-срез Яндекса (Search API)",
-     "cadence": "daily", "cadence_label": "ежедневно 01:37 МСК",
-     "last": lambda date: _dates_from_names(
-         (BASE / "data" / "serp").glob("2*-serp.jsonl")
-         if (BASE / "data" / "serp").exists() else []),
-     "required": False},
+    # SERP-контур смотрит в reports/seo/serp (миграция этапа 3.1, #242).
+    # Старый дубликат на data/serp удалён 01.09: он видел только застрявшие
+    # до миграции файлы и вечно значился просроченным (замечание руководителя).
     {"id": "wordstat", "label": "Разведка спроса (Вордстат)",
      "cadence": "daily", "cadence_label": "ежедневно 04:20 МСК",
      "last": _last_wordstat, "required": True},
@@ -168,6 +165,16 @@ CONTOURS = [
     {"id": "direct", "label": "Статистика Яндекс.Директа",
      "cadence": "weekdays-lag1", "cadence_label": "будни 07:10 МСК",
      "last": _last_direct, "required": True},
+    # Выгрузка заявок — новый контур (02.09.2026): молчаливый сбой SSH или
+    # Directus иначе виден только косвенно, по внезапно опустевшему блоку
+    # «Заявки за сутки», и пустые сутки от несобранных данных не отличить.
+    # required=False до первого прогона на проде.
+    {"id": "leads", "label": "Выгрузка заявок воронки",
+     "cadence": "daily", "cadence_label": "ежедневно 06:20 МСК",
+     "last": lambda date: _dates_from_names(
+         (BASE / "data").glob("leads-2*.json")
+         if (BASE / "data").exists() else []),
+     "required": False},
     {"id": "serp", "label": "SERP-срез Яндекса",
      "cadence": "daily", "cadence_label": "ежедневно 01:37 МСК",
      "last": lambda date: _dates_from_names(

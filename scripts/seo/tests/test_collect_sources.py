@@ -40,12 +40,19 @@ class TestCollectMetrika(unittest.TestCase):
         return {
             "/goals": goals or FakeResponse(200, {"goals": [{"id": 1, "name": "x",
                                                              "type": "action"}]}),
-            # Три среза бьют в один эндпоинт /stat/v1/data — очередь ответов
-            # в порядке traffic_sources, organic_by_engine, organic_landing_pages.
+            # Четыре запроса бьют в один эндпоинт /stat/v1/data — очередь
+            # ответов в порядке traffic_sources, organic_by_engine,
+            # organic_landing_pages, organic_goal_reaches (разбивка целей,
+            # добавлена 01.09.2026 по вопросу руководителя).
             "stat/v1/data": stat if stat is not None else [
                 FakeResponse(200, stat_rows()),
                 FakeResponse(200, stat_rows("Яндекс")),
                 FakeResponse(200, {"data": [], "totals": [0, 0, 0]}),
+                FakeResponse(200, {"data": [], "totals": [7]}),
+                # direct_attribution (этап B): первая дименсия-кандидат отвечает.
+                FakeResponse(200, {"data": [
+                    {"dimensions": [{"name": "Claude Code — для команд разработки"}],
+                     "metrics": [10, 4, 1, 0]}]}),
             ],
         }
 
@@ -69,7 +76,9 @@ class TestCollectMetrika(unittest.TestCase):
     def test_stat_timeout_becomes_error_state(self):
         out = self.collect(stat=[FakeRequests.Timeout("timed out"),
                                  FakeResponse(200, stat_rows("Яндекс")),
-                                 FakeResponse(200, {"data": [], "totals": [0, 0, 0]})])
+                                 FakeResponse(200, {"data": [], "totals": [0, 0, 0]}),
+                                 FakeResponse(200, {"data": [], "totals": [7]}),
+                                 FakeResponse(200, {"data": []})])
         self.assertIn("Timeout", out["traffic_sources"]["error"])
         an = self.s.build_analytics_safe(out, None, DATE)
         self.assertFalse(an["metrika"]["available"])
@@ -78,8 +87,20 @@ class TestCollectMetrika(unittest.TestCase):
     def test_invalid_json_slice(self):
         out = self.collect(stat=[FakeResponse(200, None, text="<html>"),
                                  FakeResponse(200, stat_rows("Яндекс")),
-                                 FakeResponse(200, {"data": [], "totals": [0, 0, 0]})])
+                                 FakeResponse(200, {"data": [], "totals": [0, 0, 0]}),
+                                 FakeResponse(200, {"data": [], "totals": [7]}),
+                                 FakeResponse(200, {"data": []})])
         self.assertIn("не является JSON", out["traffic_sources"]["error"])
+
+    def test_разбивка_целей_собирается_по_достижениям(self):
+        out = self.collect()
+        self.assertEqual(out["organic_goal_reaches"], {"1": 7})
+
+    def test_связка_директа_пишется_с_дименсией_и_строками(self):
+        out = self.collect()
+        att = out["direct_attribution"]
+        self.assertEqual(att["dimension"], "ym:s:lastDirectBannerGroup")
+        self.assertEqual(att["rows"][0]["visits"], 10)
 
 
 class TestCollectGscGa4(unittest.TestCase):

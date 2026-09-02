@@ -15,7 +15,14 @@ import subprocess
 from dataclasses import dataclass, field
 
 SEO_BRANCH = "seo-data"
-SERP_DIR = "reports/seo/data/serp"
+# Каталоги срезов в порядке приоритета. Базовый контур перенёс срезы из
+# reports/seo/data/serp в reports/seo/serp 01.09.2026; читать надо оба, иначе
+# в день миграции конкурентная разведка молча теряет источник — ровно это и
+# произошло: прогон 01.09 не нашёл ни одного среза и не отправил письмо.
+# Оставлять только новый путь нельзя: в старом лежит история за 30–31.08,
+# без которой рвётся ряд наблюдений.
+SERP_DIRS = ("reports/seo/serp", "reports/seo/data/serp")
+SERP_DIR = SERP_DIRS[0]
 
 
 @dataclass
@@ -41,25 +48,38 @@ def _git(*args: str) -> str:
 
 
 def available_dates(branch: str = SEO_BRANCH) -> list[str]:
-    """Даты, за которые в хранилище базового контура есть срезы."""
-    try:
-        listing = _git("ls-tree", "--name-only", f"origin/{branch}", f"{SERP_DIR}/")
-    except subprocess.CalledProcessError:
-        return []
-    dates = []
-    for path in listing.splitlines():
-        name = path.rsplit("/", 1)[-1]
-        if name.endswith("-serp.jsonl"):
-            dates.append(name[: -len("-serp.jsonl")])
+    """Даты, за которые в хранилище базового контура есть срезы.
+
+    Объединение по всем известным каталогам: после переноса часть истории
+    осталась в старом месте, и ряд наблюдений не должен от этого прерваться.
+    """
+    dates: set[str] = set()
+    for directory in SERP_DIRS:
+        try:
+            # --full-tree: пути отсчитываются от корня дерева, а не от
+            # текущего каталога. Без него прогон, запущенный не из корня
+            # репозитория, молча не находит ни одного среза.
+            listing = _git("ls-tree", "--full-tree", "--name-only",
+                           f"origin/{branch}", f"{directory}/")
+        except subprocess.CalledProcessError:
+            continue
+        for path in listing.splitlines():
+            name = path.rsplit("/", 1)[-1]
+            if name.endswith("-serp.jsonl"):
+                dates.add(name[: -len("-serp.jsonl")])
     return sorted(dates)
 
 
 def read_snapshot(date: str, branch: str = SEO_BRANCH) -> list[SerpRow]:
     """Срез за дату. Строки с ошибкой сохраняются — их считает Data Coverage."""
-    path = f"{SERP_DIR}/{date}-serp.jsonl"
-    try:
-        blob = _git("show", f"origin/{branch}:{path}")
-    except subprocess.CalledProcessError:
+    blob = None
+    for directory in SERP_DIRS:
+        try:
+            blob = _git("show", f"origin/{branch}:{directory}/{date}-serp.jsonl")
+            break
+        except subprocess.CalledProcessError:
+            continue
+    if blob is None:
         return []
     rows = []
     for line in blob.splitlines():

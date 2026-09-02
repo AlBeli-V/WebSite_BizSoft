@@ -12,6 +12,7 @@
 чинить нужно то из двух, что неверно.
 """
 import os
+import subprocess
 import sys
 import tempfile
 import unittest
@@ -22,6 +23,7 @@ sys.path.insert(0, ROOT)
 from attack_engine import work_packages  # noqa: E402
 from competitors import classifier  # noqa: E402
 from decision_engine import kpi as kpi_mod  # noqa: E402
+from decision_engine import signal as signal_mod  # noqa: E402
 from discovery import query_set, registry, run_discovery, serp_source  # noqa: E402
 from scoring import opportunity as opp  # noqa: E402
 from scoring import threat as threat_mod  # noqa: E402
@@ -409,6 +411,104 @@ class TestConfigContract(unittest.TestCase):
         self.assertEqual(
             float(self.config["покрытие"]["минимальное_пересечение_ядра"]),
             kpi_mod.MIN_COMPARABLE_CORE_RATIO)
+
+
+class TestSerpSourceRobustness(unittest.TestCase):
+    """Чтение срезов не должно зависеть от каталога запуска и от переезда.
+
+    Обе проверки написаны после реального сбоя 01.09.2026: базовый контур
+    перенёс срезы из reports/seo/data/serp в reports/seo/serp, а вызов
+    git ls-tree без --full-tree отсчитывал путь от текущего каталога.
+    В результате прогон не нашёл ни одного среза, письмо не ушло, и никто
+    об этом не узнал.
+    """
+
+    def test_34_ls_tree_вызывается_от_корня_дерева(self):
+        calls = []
+
+        def fake_git(*args):
+            calls.append(args)
+            return ""
+
+        original = serp_source._git
+        serp_source._git = fake_git
+        try:
+            serp_source.available_dates()
+        finally:
+            serp_source._git = original
+        self.assertTrue(calls, "ls-tree не вызывался вовсе")
+        for args in calls:
+            self.assertIn("--full-tree", args)
+
+    def test_35_даты_объединяются_по_всем_каталогам(self):
+        новый, старый = serp_source.SERP_DIRS
+
+        def fake_git(*args):
+            directory = args[-1].rstrip("/")
+            if directory == новый:
+                return f"{новый}/2026-09-01-serp.jsonl\n"
+            return f"{старый}/2026-08-30-serp.jsonl\n"
+
+        original = serp_source._git
+        serp_source._git = fake_git
+        try:
+            self.assertEqual(serp_source.available_dates(),
+                             ["2026-08-30", "2026-09-01"])
+        finally:
+            serp_source._git = original
+
+    def test_36_срез_ищется_и_в_старом_каталоге(self):
+        новый, старый = serp_source.SERP_DIRS
+        row = ('{"date": "2026-08-30", "query": "q", "region": "213", '
+               '"top": [{"domain": "biz-soft.pro"}]}')
+
+        def fake_git(*args):
+            if args[0] != "show":
+                return ""
+            if новый in args[1]:
+                raise subprocess.CalledProcessError(128, "git")
+            return row
+
+        original = serp_source._git
+        serp_source._git = fake_git
+        try:
+            rows = serp_source.read_snapshot("2026-08-30")
+        finally:
+            serp_source._git = original
+        self.assertEqual(len(rows), 1)
+        self.assertTrue(rows[0].has_data)
+
+
+class TestMainSignalHonesty(unittest.TestCase):
+    """Главный сигнал не сообщает о движении, которого не было."""
+
+    def _snapshot(self, date, core_size, share, core_hash):
+        return {
+            "дата": date,
+            "ядро_запросов": {"хеш": core_hash, "версия": "v1",
+                              "запросов": core_size},
+            "доли_по_категориям": {"H": 0.3},
+            "наши_показатели": {"доля_видимости": 0.03},
+            "лидеры": [{"домен": "raketapay.ru", "категория": "H",
+                        "доля": share, "топ3": 70, "топ10": 120}],
+        }
+
+    def test_37_смена_ядра_отменяет_сигнал_об_изменении(self):
+        вчера = self._snapshot("2026-08-31", 150, 0.10, "aaa")
+        сегодня = self._snapshot("2026-09-01", 369, 0.056, "bbb")
+        self.assertIsNone(signal_mod.change_signal(сегодня, вчера))
+        выбран = signal_mod.pick(сегодня, вчера)
+        self.assertEqual(выбран.kind, "структура")
+        self.assertIn("ядро выросло с 150 до 369", выбран.text)
+        self.assertIn("несопоставимы", выбран.text)
+        self.assertNotIn("просел", выбран.text)
+
+    def test_38_при_том_же_ядре_изменение_сообщается(self):
+        вчера = self._snapshot("2026-08-31", 150, 0.10, "aaa")
+        сегодня = self._snapshot("2026-09-01", 150, 0.056, "aaa")
+        выбран = signal_mod.pick(сегодня, вчера)
+        self.assertEqual(выбран.kind, "падение_конкурента")
+        self.assertIn("просел", выбран.text)
 
 
 if __name__ == "__main__":

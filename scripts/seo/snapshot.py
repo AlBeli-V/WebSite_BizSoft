@@ -20,6 +20,7 @@ import subprocess
 import sys
 
 import daily_windows
+import leads as leads_mod
 
 SCHEMA_VERSION = "2.2.0"
 # Часовой пояс отчётности — московский: так требует правило проекта, и так же
@@ -183,6 +184,35 @@ def revisions_for(prefix: str, date: str, extract, metric: str) -> dict | None:
     return {"metric": metric, "date": date, "values_seen": values,
             "canonical": float(current) if current is not None else None,
             "reason": "источник пересобирался в течение дня; каноническим считается последний сбор"}
+
+
+def _direct_attribution(metrika: dict) -> dict | None:
+    """Связка Метрика→Директ: визиты и ключевые цели по группам объявлений."""
+    att = metrika.get("direct_attribution")
+    if not isinstance(att, dict) or "error" in att or "rows" not in att:
+        return None
+    return {
+        "dimension": att.get("dimension"),
+        "goal_keys": att.get("goal_keys") or [],
+        "rows": [{"name": r.get("name") or "—",
+                  "visits": int(r.get("visits") or 0),
+                  "goal_reaches_any": int(r.get("goal_reaches_any") or 0),
+                  "leads": {k: int(v or 0)
+                            for k, v in (r.get("leads") or {}).items()}}
+                 for r in att["rows"]],
+    }
+
+
+def _goal_breakdown(metrika: dict) -> list[dict] | None:
+    """Достижения целей органикой: [{name, events}] по убыванию, только ненулевые."""
+    reaches = metrika.get("organic_goal_reaches")
+    if not isinstance(reaches, dict) or "error" in reaches:
+        return None
+    names = {str(g.get("id")): g.get("name") for g in metrika.get("goals", [])
+             if isinstance(g, dict)}
+    rows = [{"name": names.get(gid, gid), "events": int(v)}
+            for gid, v in reaches.items() if v]
+    return sorted(rows, key=lambda r: -r["events"]) or []
 
 
 def source_meta(name, collected_at, latest_event, p_start, p_end, cmp_start, cmp_end,
@@ -516,6 +546,15 @@ def build_analytics(metrika: dict | None, ga4: dict | None, date: str) -> dict:
                  "events": sorted({c.get("url") for c in (g.get("conditions") or [])
                                    if isinstance(c, dict) and c.get("url")})}
                 for g in metrika.get("goals", [])],
+            # Состав целевых событий органики по целям (вопрос руководителя
+            # 01.09.2026): без него сумма нечитаема — в ней смешаны клик по
+            # телефону и автоцель «поиск по сайту». Пишутся только цели с
+            # ненулевыми достижениями, по убыванию.
+            "goal_breakdown": _goal_breakdown(metrika),
+            # Этап B: рекламный трафик в разрезе групп Директа с достижениями
+            # ключевых целей (см. collect.KEY_GOAL_EVENTS). None — связка не
+            # собрана (ошибка или старое сырьё), пустой список — измеренный ноль.
+            "direct_attribution": _direct_attribution(metrika),
             "organic_landing_pages": lp,
             "channels": {k: v[0] for k, v in ts.items()},
             # Органика в разбивке по поисковым системам (ym:s:lastSearchEngineRoot):
@@ -753,6 +792,72 @@ def prev_snapshot(date: str) -> dict | None:
     }
 
 
+def load_leads(date: str) -> tuple[dict | None, str | None]:
+    """Выгрузка заявок за дату, а при её отсутствии — последняя доступная.
+
+    Сбор заявок идёт отдельным воркфлоу и по SSH: он падает по своим
+    причинам (сервер, база, сеть), и терять из-за этого весь блок нельзя.
+    Устаревшая выгрузка лучше пустоты — но только если письмо честно
+    называет её дату, поэтому вместе с данными возвращается их день.
+    """
+    raw = load("leads", date)
+    if raw is not None:
+        return raw, date
+    files = sorted(DATA_DIR.glob("leads-*.json"))
+    files = [f for f in files if f.stem[len("leads-"):] < date]
+    if not files:
+        return None, None
+    latest = files[-1]
+    return json.loads(latest.read_text(encoding="utf-8")), latest.stem[len("leads-"):]
+
+
+def build_crm(date: str) -> dict:
+    """Коммерческий результат: заявки воронки и путь клиента к запросу.
+
+    До 01.09.2026 блок был заглушкой «CRM не подключена»: заявки жили в
+    Directus и в почте менеджера, а отчёт знал только целевые события
+    Метрики — число, в котором смешаны клик по телефону и поиск по сайту.
+    Теперь сюда приходит выгрузка воронки, и отчёт впервые может назвать
+    канал каждой заявки. Сделки и выручка по-прежнему не измеряются: стадии
+    воронки ведёт менеджер вручную, и брать их как факт рано.
+    """
+    try:
+        raw, data_date = load_leads(date)
+    except (ValueError, OSError) as e:
+        # Битый или недописанный файл выгрузки — это отсутствие данных, а не
+        # повод потерять письмо целиком.
+        raw, data_date = None, None
+        print(f"crm: выгрузка заявок не прочитана: {e}", file=sys.stderr)
+    if raw is None:
+        return {"connected": False, "qualified_leads": None, "deals": None,
+                "revenue": None, "block": leads_mod.build(None, date),
+                "note": "выгрузка заявок не выполнялась — "
+                        "коммерческий результат не измеряется"}
+    try:
+        block = leads_mod.build(raw, date)
+    except Exception as e:  # noqa: BLE001 — сменившаяся форма выгрузки = нет данных
+        return {"connected": False, "qualified_leads": None, "deals": None,
+                "revenue": None, "block": leads_mod.build(None, date),
+                "note": f"выгрузка заявок не разобрана: {type(e).__name__}: {e}"}
+    return {
+        "connected": True,
+        "data_date": data_date,
+        "stale": data_date != date,
+        "collected_at": raw.get("collected_at"),
+        # «Обращения», а не «квалифицированные лиды»: заявка попадает сюда в
+        # момент отправки формы, до всякой квалификации. Поле сохраняет имя,
+        # которое читает карточка показателя, но смысл назван в примечании.
+        "qualified_leads": block.get("count"),
+        "leads_week": block.get("week_count"),
+        "amount_day": block.get("amount"),
+        "deals": None,
+        "revenue": None,
+        "block": block,
+        "note": "обращения — заявки воронки сайта; сделки и выручка "
+                "не измеряются: стадии ведёт менеджер вручную",
+    }
+
+
 def main() -> int:
     date = sys.argv[1] if len(sys.argv) > 1 else dt.datetime.now(
         dt.timezone(dt.timedelta(hours=3))).date().isoformat()
@@ -779,8 +884,7 @@ def main() -> int:
         "experiments": build_experiments(),
         "market_demand": build_market_demand(date),
         "data_revisions": data_revisions_safe(date, prev_date),
-        "crm": {"connected": False, "qualified_leads": None, "deals": None, "revenue": None,
-                "note": "CRM не подключена — квалифицированные лиды, сделки и выручка недоступны"},
+        "crm": build_crm(date),
         "ctr_model": {"approved": False,
                       "note": "утверждённая CTR-кривая по позициям отсутствует; "
                               "расчёт «потерянных кликов» не выполняется"},
