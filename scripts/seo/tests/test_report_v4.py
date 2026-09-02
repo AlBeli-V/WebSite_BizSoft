@@ -271,17 +271,29 @@ class TestExpansionGuard(unittest.TestCase):
     def setUpClass(cls):
         cls.r = load("report_v4")
 
+    def setUp(self):
+        # Реестры отказов уводим на несуществующие пути: проверяется отсев
+        # по каталогу, а не по решениям руководителя (у них свои тесты).
+        # Иначе результат зависит от того, накатаны ли машинные данные.
+        self._paths = (self.r.VENDOR_DECISIONS, self.r.WORDSTAT_DECISIONS)
+        missing = pathlib.Path("/nonexistent-decisions.json")
+        self.r.VENDOR_DECISIONS = missing
+        self.r.WORDSTAT_DECISIONS = missing
+
+    def tearDown(self):
+        self.r.VENDOR_DECISIONS, self.r.WORDSTAT_DECISIONS = self._paths
+
     def test_catalogue_vendors_are_dropped(self):
         # состояние исследования отстало от каталога — так ушло письмо 21.08.
         # Пример «вендора не с сайта» — basecamp: прежний пример wordpress
         # заведён в каталог 29.08.2026 и стал вычёркиваться по назначению.
         stale = {"available": True, "expansion": {
             "items": [{"brand": "suno"}, {"brand": "cloudflare"}, {"brand": "basecamp"}],
-            "manual_check": ["capcut", "principle", "nordvpn", "leonardo ai"]}}
+            "manual_check": ["capcut", "principle", "basecamp", "leonardo ai"]}}
         out = self.r._drop_vendors_already_on_site(stale)
         brands = [i["brand"] for i in out["expansion"]["items"]]
         self.assertEqual(brands, ["basecamp"])
-        self.assertEqual(out["expansion"]["manual_check"], ["nordvpn"])
+        self.assertEqual(out["expansion"]["manual_check"], ["basecamp"])
 
     def test_fresh_catalogue_vendors_are_dropped_too(self):
         # Партия 29.08.2026: wordpress и slack заведены — guard обязан
@@ -294,7 +306,7 @@ class TestExpansionGuard(unittest.TestCase):
 
     def test_untouched_when_nothing_to_drop(self):
         block = {"available": True, "expansion": {
-            "items": [{"brand": "basecamp"}], "manual_check": ["nordvpn"]}}
+            "items": [{"brand": "basecamp"}], "manual_check": ["basecamp"]}}
         self.assertIs(self.r._drop_vendors_already_on_site(block), block)
 
     def test_says_so_when_all_candidates_are_covered(self):
