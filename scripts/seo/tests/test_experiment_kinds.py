@@ -240,3 +240,86 @@ class FormulaGroupTest(IsolatedDataTest):
             f.unlink()
         self.assertIsNone(
             experiment_verdict._formula_group_result("g1", "2026-09-04"))
+
+
+class VerdictRenderTest(unittest.TestCase):
+    """Веб-отчёт рендерит вердикт любого типа оценки (регрессия 02.09, #298)."""
+
+    def setUp(self):
+        sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1]))
+        import webreport
+        self.wr = webreport
+
+    def _ev(self, **kw):
+        base = {"ticket": "T-1", "verdict": "CONFIRMED", "verdict_reason": "причина",
+                "confidence": "MEDIUM", "recommendation": "KEEP",
+                "recommendation_detail": "деталь", "sample_quality": [],
+                "recommended_targets": [], "requires_owner_decision": False}
+        base.update(kw)
+        return {"evaluation": base}
+
+    def test_рост_показов_без_baseline_окна_не_падает(self):
+        e = self._ev(evaluation_kind="impressions_growth",
+                     summary_line="показы 33/день против 20/день",
+                     windows={"experiment": {"from": "2026-08-20", "to": "2026-09-01",
+                                             "tainted": False}},
+                     metrics={"baseline_registry": {"impressions": 273, "days": 14}})
+        html = self.wr._evaluation_html(e)
+        self.assertIn("окно после", html)
+        self.assertIn("база сравнения", html)
+        self.assertNotIn("окно до", html)
+
+    def test_запуск_страниц_показывает_критерии(self):
+        e = self._ev(evaluation_kind="launch",
+                     summary_line="в выдаче 2 из 7",
+                     windows={"experiment": {"from": "2026-08-31", "to": "2026-09-12",
+                                             "tainted": False}},
+                     metrics={"launch": {"pages_in_search": 2, "pages_total": 7,
+                                         "need_pages": 5, "weekly_impressions": 40,
+                                         "need_weekly": 300}})
+        html = self.wr._evaluation_html(e)
+        self.assertIn("критерии запуска", html)
+
+    def test_ctr_вердикт_рендерится_как_прежде(self):
+        e = self._ev(evaluation_kind="ctr",
+                     windows={"baseline": {"from": "2026-08-06", "to": "2026-08-17"},
+                              "experiment": {"from": "2026-08-19", "to": "2026-08-30",
+                                             "tainted": False}},
+                     metrics={"baseline": {"impressions": 532, "clicks": 2},
+                              "experiment": {"impressions": 610, "clicks": 4}},
+                     matched_metrics={"queries": 24}, position_delta=-0.8,
+                     statistical_result={"baseline_ctr": 0.0038,
+                                         "experiment_ctr": 0.0066,
+                                         "absolute_uplift": 0.0028,
+                                         "relative_uplift": 0.94, "p_value": 0.633})
+        html = self.wr._evaluation_html(e)
+        self.assertIn("окно до", html)
+        self.assertIn("p-value", html)
+
+
+class MatchedGateTest(IsolatedDataTest):
+    """Гейт считается от matched-набора (issue #297)."""
+
+    def test_гейт_адаптируется_по_matched_а_не_overall(self):
+        exp = {"id": "g", "ticket": "T-1", "start": "2026-08-19",
+               "pages": ["/vendors/canva"], "query_markers": ["canva"]}
+        # overall выше 500 с обеих сторон, matched — ниже (общий запрос один).
+        _dump(self.tmp, "2026-08-18", "2026-08-05", "2026-08-18",
+              [_q("canva общий", 300, 2), _q("canva только до", 250, 1)])
+        _dump(self.tmp, "2026-09-04", "2026-08-20", "2026-09-01",
+              [_q("canva общий", 300, 6), _q("canva только после", 260, 2)])
+        r = experiment_verdict.evaluate(exp, "2026-09-04")
+        self.assertTrue(r["effective_gate"]["adapted"])
+        self.assertNotEqual(r["verdict"], "INSUFFICIENT_DATA")
+
+    def test_нехватка_baseline_не_предлагает_копить(self):
+        exp = {"id": "g", "ticket": "T-1", "start": "2026-08-19",
+               "pages": ["/vendors/canva"], "query_markers": ["canva"]}
+        _dump(self.tmp, "2026-08-18", "2026-08-05", "2026-08-18",
+              [_q("canva общий", 40, 0)])
+        _dump(self.tmp, "2026-09-04", "2026-08-20", "2026-09-01",
+              [_q("canva общий", 900, 20)])
+        r = experiment_verdict.evaluate(exp, "2026-09-04")
+        self.assertEqual(r["verdict"], "INSUFFICIENT_DATA")
+        self.assertEqual(r["recommendation"], "NEW_TEST")
+        self.assertIn("в прошлом и не растёт", r["recommendation_detail"])

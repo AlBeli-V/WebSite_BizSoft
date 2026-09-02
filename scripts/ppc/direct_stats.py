@@ -270,22 +270,42 @@ def metrika_sections() -> None:
     if not shown:
         print("  (запросы недоступны)")
 
+    # Страницы входа сводятся по пути своими силами: измерения Метрики
+    # держат в имени и query (startURLPathFull), поэтому одна посадочная
+    # растекалась на десяток строк с utm-метками. Отказы, глубина и время
+    # усредняются по визитам.
     print("\n== Метрика: поведение по посадочным ==")
-    try:
-        data = metrika_stat(counter, token, dimensions="ym:s:startURL",
-                            metrics=behaviour, filters=flt,
-                            sort="-ym:s:visits", limit=15)
+    shown = False
+    for dim in ("ym:s:startURL", "ym:s:startURLPathFull"):
+        try:
+            data = metrika_stat(counter, token, dimensions=dim,
+                                metrics=behaviour, filters=flt,
+                                sort="-ym:s:visits", limit=200)
+        except RuntimeError as e:
+            print(f"  ({dim} не принят: {e})")
+            continue
+        agg: dict[str, list[float]] = {}
         for row in data.get("data") or []:
-            url = row["dimensions"][0].get("name") or "?"
-            url = url.split("?")[0]
+            url = (row["dimensions"][0].get("name") or "?").split("?")[0]
             for prefix in ("https://biz-soft.pro", "http://biz-soft.pro"):
                 if url.startswith(prefix):
                     url = url[len(prefix):] or "/"
-            v, br, pd, dur = row["metrics"]
-            print(f"  {int(v):>3} виз. | отказы {br:.0f}% | глубина {pd:.2f} | "
-                  f"{dur:.0f} с — {url}")
-    except RuntimeError as e:
-        print(f"  (посадочные не прочитаны: {e})")
+            if len(url) > 1:
+                url = url.rstrip("/")
+            v, br, pd, dur = (float(x or 0) for x in row["metrics"])
+            cur = agg.setdefault(url, [0.0, 0.0, 0.0, 0.0])
+            cur[0] += v
+            cur[1] += br * v
+            cur[2] += pd * v
+            cur[3] += dur * v
+        for url, (v, br, pd, dur) in sorted(agg.items(), key=lambda kv: -kv[1][0])[:20]:
+            n = v or 1
+            print(f"  {int(v):>3} виз. | отказы {br / n:.0f}% | глубина {pd / n:.2f} | "
+                  f"{dur / n:.0f} с — {url}")
+        shown = True
+        break
+    if not shown:
+        print("  (посадочные недоступны)")
 
     # Эксперимент «быстрые ссылки»: их входы помечены utm_content=sl-*.
     print("\n== Метрика: визиты по utm_content (sl-* — быстрые ссылки) ==")
@@ -441,10 +461,12 @@ def main() -> None:
     print_tsv("Отчёт по площадкам", tsv)
 
     # Измерение эксперимента «быстрые ссылки»: клики по элементам
-    # объявления (sitelink1..8 против title и остальных).
+    # объявления (sitelink1..8 против title и остальных). Показы, CTR и
+    # позиции с ClickType несовместимы (ошибка 4000) — их здесь нет:
+    # у элемента объявления нет собственного показа, только клик.
     tsv = report(token, "click-type", {
         "SelectionCriteria": sel,
-        "FieldNames": ["ClickType", "Impressions", "Clicks", "Ctr", "AvgCpc", "Cost"],
+        "FieldNames": ["ClickType", "Clicks", "AvgCpc", "Cost"],
         "ReportName": f"bs-clicktype-{int(time.time())}",
         "ReportType": "CUSTOM_REPORT", "DateRangeType": "ALL_TIME",
         "Format": "TSV", "IncludeVAT": "YES",

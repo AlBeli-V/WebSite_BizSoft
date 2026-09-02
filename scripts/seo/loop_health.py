@@ -165,6 +165,16 @@ CONTOURS = [
     {"id": "direct", "label": "Статистика Яндекс.Директа",
      "cadence": "weekdays-lag1", "cadence_label": "будни 07:10 МСК",
      "last": _last_direct, "required": True},
+    # Выгрузка заявок — новый контур (02.09.2026): молчаливый сбой SSH или
+    # Directus иначе виден только косвенно, по внезапно опустевшему блоку
+    # «Заявки за сутки», и пустые сутки от несобранных данных не отличить.
+    # required=False до первого прогона на проде.
+    {"id": "leads", "label": "Выгрузка заявок воронки",
+     "cadence": "daily", "cadence_label": "ежедневно 06:20 МСК",
+     "last": lambda date: _dates_from_names(
+         (BASE / "data").glob("leads-2*.json")
+         if (BASE / "data").exists() else []),
+     "required": False},
     {"id": "serp", "label": "SERP-срез Яндекса",
      "cadence": "daily", "cadence_label": "ежедневно 01:37 МСК",
      "last": lambda date: _dates_from_names(
