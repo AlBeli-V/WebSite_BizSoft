@@ -3,23 +3,23 @@
  "date": "2026-09-02",
  "run": {
   "calls": 70,
-  "ok": 37,
-  "empty": 33,
-  "raw": 31,
+  "ok": 36,
+  "empty": 34,
+  "raw": 5,
   "new_phrases": 0,
   "new_clusters": 0,
   "new_commercial": 0,
   "stopped": "достигнут потолок прогона"
  },
  "efficiency": {
-  "calls_total": 865,
-  "calls_paid": 123,
-  "cost_month_rub": 2.46,
-  "cost_today_rub": 1.42,
-  "remaining_budget_rub": 5497.54,
-  "forecast_month_end_rub": 36.9,
+  "calls_total": 1110,
+  "calls_paid": 132,
+  "cost_month_rub": 2.64,
+  "cost_today_rub": 1.6,
+  "remaining_budget_rub": 5497.36,
+  "forecast_month_end_rub": 39.6,
   "state": "open",
-  "cache_hit_rate": 0.8578,
+  "cache_hit_rate": 0.8811,
   "duplicate_rate": 1.0,
   "unique_phrases": 0,
   "new_commercial_phrases": 0,
@@ -27,7 +27,7 @@
   "cost_per_1000_unique_phrases_rub": null,
   "cost_per_1000_commercial_phrases_rub": null,
   "cost_per_new_cluster_rub": null,
-  "empty_response_rate": 0.3295
+  "empty_response_rate": 0.3306
  },
  "universe": {
   "phrases": 23047,

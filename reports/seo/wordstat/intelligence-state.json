@@ -1,6 +1,6 @@
 {
  "date": "2026-09-02",
- "generated_at": "2026-09-02T05:53:53+00:00",
+ "generated_at": "2026-09-02T11:30:04+00:00",
  "measured_at": "2026-09-02",
  "universe": {
   "phrases": 23047,
@@ -16,9 +16,9 @@
   "total_commercial_demand": 287788,
   "levels": {
    "page": 0.8783,
-   "indexed": 0.6152,
-   "top10": 0.1244,
-   "clicks": 0.003,
+   "indexed": 0.6005,
+   "top10": 0.1171,
+   "clicks": 0.0031,
    "conversion_measured": null,
    "qualified_leads": null
   },
@@ -75,11 +75,11 @@
   "Дизайн и графика": {
    "demand": 38883,
    "covered": 38883,
-   "top10": 2888,
-   "clicks": 0,
+   "top10": 779,
+   "clicks": 26,
    "page_coverage": 1.0,
-   "top10_coverage": 0.074,
-   "click_coverage": 0.0
+   "top10_coverage": 0.02,
+   "click_coverage": 0.001
   },
   "Звук, видео и медиа": {
    "demand": 17264,
@@ -169,14 +169,13 @@
   "C": 73
  },
  "gaps_by_class": {
-  "GAP-A": 1,
-  "GAP-B": 27,
-  "GAP-C": 5,
+  "GAP-B": 28,
+  "GAP-C": 4,
   "GAP-D": 13,
   "GAP-E": 1,
   "GAP-F": 4,
   "GAP-G": 1,
-  "GAP-H": 26
+  "GAP-H": 24
  },
  "uncovered_top": [
   {
@@ -187,32 +186,11 @@
    "top_phrase": "оплата зарубежных сервисов"
   },
   {
-   "cluster": "aws купить",
-   "demand": 1133,
-   "gap": "GAP-A",
-   "action": "новая посадочная страница или материал",
-   "top_phrase": "aws присадка купить"
-  },
-  {
    "cluster": "wordpress купить",
    "demand": 299,
    "gap": "GAP-H",
    "action": "снизить приоритет, наблюдать",
    "top_phrase": "wordpress купить"
-  },
-  {
-   "cluster": "nordvpn купить",
-   "demand": 167,
-   "gap": "GAP-H",
-   "action": "снизить приоритет, наблюдать",
-   "top_phrase": "nordvpn купить"
-  },
-  {
-   "cluster": "ansys купить",
-   "demand": 129,
-   "gap": "GAP-H",
-   "action": "снизить приоритет, наблюдать",
-   "top_phrase": "ansys купить"
   },
   {
    "cluster": "hailuo купить",
@@ -521,218 +499,9 @@
  "vendor_expansion": {
   "available": true,
   "reason": null,
-  "candidates_total": 112,
-  "candidates_measured": 39,
+  "candidates_total": 109,
+  "candidates_measured": 37,
   "recommended": [
-   {
-    "brand": "aws",
-    "kind": "classic",
-    "payment": {
-     "verdict": "likely_card",
-     "note": "есть цены и кнопки покупки, платёжная система не опознана",
-     "url": "https://aws.com/pricing",
-     "checked_at": "2026-08-20"
-    },
-    "recommendation": "рекомендуем добавить с проверкой",
-    "recommendation_why": "цены и покупка на сайте есть, платёжная система не опознана — подтвердить при первой сделке",
-    "total_demand": 1820,
-    "commercial_demand": 1133,
-    "commercial_phrases": 22,
-    "top_phrases": [
-     {
-      "phrase": "aws присадка купить",
-      "frequency": 254
-     },
-     {
-      "phrase": "купить aws присадок",
-      "frequency": 254
-     },
-     {
-      "phrase": "whirlpool aws купить",
-      "frequency": 106
-     },
-     {
-      "phrase": "aws для двигателя купить",
-      "frequency": 86
-     },
-     {
-      "phrase": "aws присадка купить официальный",
-      "frequency": 81
-     }
-    ],
-    "trend": "stable",
-    "effort": 1.0,
-    "effort_note": "одна карточка вендора",
-    "demand_confidence": "высокая",
-    "demand_confidence_note": null,
-    "priority_score": 1133.0,
-    "seo": {
-     "url": "/vendors/aws",
-     "title": "Оплата Aws для юридических лиц из России — счёт, договор, ЭДО | BIZSoft",
-     "description": "Оплатим подписку Aws на вашу компанию в рублях по счёту. Договор, закрывающие документы через ЭДО, доступ за 1–3 дня.",
-     "h1": "Aws для юридических лиц",
-     "faq_topics": [
-      "Как купить Aws на юрлицо — по счёту и договору?",
-      "Какие закрывающие документы вы предоставляете?",
-      "Как быстро появится доступ к Aws после оплаты?",
-      "В какой валюте оплата и как считается цена?"
-     ],
-     "target_phrases": [
-      "aws присадка купить",
-      "купить aws присадок",
-      "whirlpool aws купить",
-      "aws для двигателя купить",
-      "aws присадка купить официальный",
-      "aws присадка купить официальный сайт",
-      "h2pro aws купить",
-      "aws nt 10 купить"
-     ],
-     "needed_subclusters": [
-      "покупка"
-     ],
-     "internal_links": [
-      "/catalog",
-      "/blog/kak-kupit-zarubezhnoe-po-dlya-yurlica"
-     ]
-    },
-    "measured_at": "2026-09-02"
-   },
-   {
-    "brand": "nordvpn",
-    "kind": "classic",
-    "payment": {
-     "verdict": "unknown",
-     "note": "признаков оплаты на странице не найдено",
-     "url": "https://nordvpn.ai/pricing",
-     "checked_at": "2026-09-01"
-    },
-    "recommendation": "проверить вручную",
-    "recommendation_why": "признаков оплаты на странице тарифов не найдено",
-    "total_demand": 167,
-    "commercial_demand": 167,
-    "commercial_phrases": 4,
-    "top_phrases": [
-     {
-      "phrase": "nordvpn купить",
-      "frequency": 121
-     },
-     {
-      "phrase": "nordvpn подписка купить",
-      "frequency": 24
-     },
-     {
-      "phrase": "nordvpn для роутера купить аккаунт",
-      "frequency": 13
-     },
-     {
-      "phrase": "nordvpn купить в россии",
-      "frequency": 9
-     }
-    ],
-    "trend": "declining",
-    "effort": 1.0,
-    "effort_note": "одна карточка вендора",
-    "demand_confidence": "высокая",
-    "demand_confidence_note": null,
-    "priority_score": 167.0,
-    "seo": {
-     "url": "/vendors/nordvpn",
-     "title": "Оплата Nordvpn для юридических лиц из России — счёт, договор, ЭДО | BIZSoft",
-     "description": "Оплатим подписку Nordvpn на вашу компанию в рублях по счёту. Договор, закрывающие документы через ЭДО, доступ за 1–3 дня.",
-     "h1": "Nordvpn для юридических лиц",
-     "faq_topics": [
-      "Как купить Nordvpn на юрлицо — по счёту и договору?",
-      "Какие закрывающие документы вы предоставляете?",
-      "Как быстро появится доступ к Nordvpn после оплаты?",
-      "В какой валюте оплата и как считается цена?"
-     ],
-     "target_phrases": [
-      "nordvpn купить",
-      "nordvpn подписка купить",
-      "nordvpn для роутера купить аккаунт",
-      "nordvpn купить в россии"
-     ],
-     "needed_subclusters": [
-      "покупка"
-     ],
-     "internal_links": [
-      "/catalog",
-      "/blog/kak-kupit-zarubezhnoe-po-dlya-yurlica"
-     ]
-    },
-    "measured_at": "2026-08-20"
-   },
-   {
-    "brand": "ansys",
-    "kind": "classic",
-    "payment": {
-     "verdict": "unknown",
-     "note": "признаков оплаты на странице не найдено",
-     "url": "https://www.ansys.com/products",
-     "checked_at": "2026-09-01"
-    },
-    "recommendation": "проверить вручную",
-    "recommendation_why": "признаков оплаты на странице тарифов не найдено",
-    "total_demand": 129,
-    "commercial_demand": 129,
-    "commercial_phrases": 5,
-    "top_phrases": [
-     {
-      "phrase": "ansys купить",
-      "frequency": 79
-     },
-     {
-      "phrase": "лицензия ansys купить",
-      "frequency": 18
-     },
-     {
-      "phrase": "anycubic ansys 010310 купить",
-      "frequency": 17
-     },
-     {
-      "phrase": "ansys 010310 anycubic kobra 3 max купить",
-      "frequency": 10
-     },
-     {
-      "phrase": "какой ноутбук купить для работы в ansys",
-      "frequency": 5
-     }
-    ],
-    "trend": "declining",
-    "effort": 1.0,
-    "effort_note": "одна карточка вендора",
-    "demand_confidence": "высокая",
-    "demand_confidence_note": null,
-    "priority_score": 129.0,
-    "seo": {
-     "url": "/vendors/ansys",
-     "title": "Оплата Ansys для юридических лиц из России — счёт, договор, ЭДО | BIZSoft",
-     "description": "Оплатим подписку Ansys на вашу компанию в рублях по счёту. Договор, закрывающие документы через ЭДО, доступ за 1–3 дня.",
-     "h1": "Ansys для юридических лиц",
-     "faq_topics": [
-      "Как купить Ansys на юрлицо — по счёту и договору?",
-      "Какие закрывающие документы вы предоставляете?",
-      "Как быстро появится доступ к Ansys после оплаты?",
-      "В какой валюте оплата и как считается цена?"
-     ],
-     "target_phrases": [
-      "ansys купить",
-      "лицензия ansys купить",
-      "anycubic ansys 010310 купить",
-      "ansys 010310 anycubic kobra 3 max купить",
-      "какой ноутбук купить для работы в ansys"
-     ],
-     "needed_subclusters": [
-      "покупка",
-      "цены и тарифы"
-     ],
-     "internal_links": [
-      "/catalog",
-      "/blog/kak-kupit-zarubezhnoe-po-dlya-yurlica"
-     ]
-    },
-    "measured_at": "2026-08-20"
-   },
    {
     "brand": "hailuo",
     "kind": "ai",
@@ -799,33 +568,29 @@
     "measured_at": "2026-08-29"
    }
   ],
-  "recommended_total": 4,
-  "combined_demand": 1532,
+  "recommended_total": 1,
+  "combined_demand": 103,
   "by_payment": {
-   "likely_card": 1,
-   "unknown": 3
+   "unknown": 1
   },
   "by_kind": {
-   "ai": 1,
-   "classic": 3
+   "ai": 1
   },
   "low_confidence": [],
   "needs_manual_check": [
-   "nordvpn",
-   "ansys",
    "hailuo"
   ],
   "note": "Российские вендоры исключены: их лицензии продаются напрямую, услуга оплаты из-за рубежа к ним неприменима."
  },
  "efficiency": {
-  "calls_total": 1040,
+  "calls_total": 1110,
   "calls_paid": 132,
   "cost_month_rub": 2.64,
   "cost_today_rub": 1.6,
   "remaining_budget_rub": 5497.36,
   "forecast_month_end_rub": 39.6,
   "state": "open",
-  "cache_hit_rate": 0.8731,
+  "cache_hit_rate": 0.8811,
   "duplicate_rate": 1.0,
   "unique_phrases": 0,
   "new_commercial_phrases": 0,
@@ -833,7 +598,7 @@
   "cost_per_1000_unique_phrases_rub": null,
   "cost_per_1000_commercial_phrases_rub": null,
   "cost_per_new_cluster_rub": null,
-  "empty_response_rate": 0.3202
+  "empty_response_rate": 0.3306
  },
  "quota": {
   "requests_per_hour": 500,
@@ -846,32 +611,30 @@
   "title": "Спрос и направления развития",
   "expansion": {
    "title": "Каких вендоров добавить",
-   "summary": "Проверили спрос на 39 зарубежных разработчиков вне каталога: у 4 он подтверждён, суммарно 1 532 запросов в месяц. Из них: 1 с оплатой картой можно заводить сразу, 3 требуют ручной проверки оплаты.",
+   "summary": "Проверили спрос на 37 зарубежных разработчиков вне каталога: у 1 он подтверждён, суммарно 103 запросов в месяц. Из них: 1 требуют ручной проверки оплаты.",
    "items": [
     {
-     "brand": "aws",
-     "demand": 1133,
-     "kind": "классический",
-     "payment": "likely_card",
-     "recommendation": "рекомендуем добавить с проверкой",
+     "brand": "hailuo",
+     "demand": 103,
+     "kind": "AI-сервис",
+     "payment": "unknown",
+     "recommendation": "проверить вручную",
      "effort": "одна карточка вендора",
-     "url": "/vendors/aws",
+     "url": "/vendors/hailuo",
      "confidence": "высокая",
      "confidence_note": null
     }
    ],
    "manual_check": [
-    "nordvpn",
-    "ansys",
     "hailuo"
    ],
    "note": "Российские вендоры исключены: их лицензии продаются напрямую, услуга оплаты из-за рубежа к ним неприменима."
   },
-  "summary": "Мы видим 287 788 покупательских запросов в месяц по 171 направлениям каталога. Своя страница есть под 88% этого спроса, в поиске находится 62%, на первой странице — 12%. Без страницы остаётся 17 778 запросов в месяц — это направления, где спрос есть, а нас в выдаче нет. Ещё 52 137 запросов в месяц не отнесены ни к нам, ни к чужому товару: это голые фразы омонимичных брендов (box — 30 187, zoom — 10 813, bubble купить — 5 732). В спрос и в решения об ассортименте они не входят.",
+  "summary": "Мы видим 287 788 покупательских запросов в месяц по 171 направлениям каталога. Своя страница есть под 88% этого спроса, в поиске находится 60%, на первой странице — 12%. Без страницы остаётся 16 349 запросов в месяц — это направления, где спрос есть, а нас в выдаче нет. Ещё 52 137 запросов в месяц не отнесены ни к нам, ни к чужому товару: это голые фразы омонимичных брендов (box — 30 187, zoom — 10 813, bubble купить — 5 732). В спрос и в решения об ассортименте они не входят.",
   "coverage": {
    "page": 0.8783,
-   "indexed": 0.6152,
-   "top10": 0.1244
+   "indexed": 0.6005,
+   "top10": 0.1171
   },
   "lead_opportunity": {
    "cluster": "google",
