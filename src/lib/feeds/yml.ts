@@ -13,6 +13,7 @@
 import type { Product, Category } from '../types';
 import { effectivePrice } from '../pricing';
 import { offerDescription } from './select';
+import { hasProductIconImage } from './product-image';
 import type { FeedOffer, FeedShopInfo } from './types';
 
 export const YML_DESCRIPTION_LIMIT = 3000;
@@ -29,13 +30,43 @@ function categoryName(p: Product): string {
   return c?.name || 'Программное обеспечение';
 }
 
+/**
+ * Публичная OG-карточка товара (1200×630, рендерится сервером сайта): название,
+ * вендор, цена, бренд BIZSoft. Ассеты Directus наружу не проксируются, поэтому
+ * это единственный стабильный публичный источник изображения «как в соцсети».
+ */
+export const ogPicture = (p: Product, baseUrl: string) => `${baseUrl}/og/product/${p.slug}.png`;
+
+/**
+ * Чистый знак товара на белом фоне без надписей и цены
+ * (/img/product-icon/<slug>.png). Нужен площадкам, которые показывают
+ * изображение как фотографию товара и запрещают надписи и цену на нём:
+ * товарные карточки Яндекс Бизнеса и прайс-лист 2ГИС. Знака нет — отдаём
+ * OG-карточку, чтобы оффер не остался вовсе без изображения.
+ */
+export const productMarkPicture = (p: Product, baseUrl: string) =>
+  (hasProductIconImage(p.slug, p.vendor)
+    ? `${baseUrl}/img/product-icon/${p.slug}.png`
+    : ogPicture(p, baseUrl));
+
 /** Дата в формате YML: YYYY-MM-DD hh:mm (локальное время не важно, важна свежесть). */
 export function ymlDate(now: Date): string {
   return now.toISOString().slice(0, 16).replace('T', ' ');
 }
 
-/** Привести товар к нормализованному офферу для YML. */
-export function toFeedOffer(p: Product, baseUrl: string, now: Date): FeedOffer {
+/**
+ * Привести товар к нормализованному офферу для YML.
+ *
+ * `picture` — функция-резолвер адреса картинки: у площадок разные требования
+ * к изображению товара, и подменять сериализатор целиком ради этого не нужно.
+ * По умолчанию — публичная OG-карточка (название, вендор, цена, бренд).
+ */
+export function toFeedOffer(
+  p: Product,
+  baseUrl: string,
+  now: Date,
+  picture: (p: Product, baseUrl: string) => string = ogPicture,
+): FeedOffer {
   const eff = effectivePrice(p, now);
   return {
     id: p.sku,
@@ -45,10 +76,7 @@ export function toFeedOffer(p: Product, baseUrl: string, now: Date): FeedOffer {
     oldPrice: eff.isPromo ? eff.oldPrice : null,
     currencyId: 'RUR',
     categoryName: categoryName(p),
-    // Публичная OG-картинка карточки (1200×630, рендерится сервером сайта).
-    // Ассеты Directus наружу не проксируются, поэтому единственный стабильный
-    // публичный источник изображения — этот эндпоинт.
-    picture: `${baseUrl}/og/product/${p.slug}.png`,
+    picture: picture(p, baseUrl),
     description: offerDescription(p, YML_DESCRIPTION_LIMIT),
     vendor: p.vendor || null,
     vendorCode: p.sku,
