@@ -1,14 +1,14 @@
 {
- "generated_at": "2026-09-02T02:44:06+00:00",
+ "generated_at": "2026-09-02T03:35:00+00:00",
  "region": "225",
- "spent_rub": 1.42,
+ "spent_rub": 0.0,
  "results": [
   {
    "phrase": "учет лицензий",
    "group": "category",
    "status": "ok",
-   "source": "api",
-   "cost_rub": 0.02,
+   "source": "cache",
+   "cost_rub": 0.0,
    "exact": 6301,
    "top_sum": 17546,
    "related_total": 49,
@@ -67,8 +67,8 @@
    "phrase": "управление лицензиями",
    "group": "category",
    "status": "ok",
-   "source": "api",
-   "cost_rub": 0.02,
+   "source": "cache",
+   "cost_rub": 0.0,
    "exact": 8867,
    "top_sum": 22029,
    "related_total": 49,
@@ -127,8 +127,8 @@
    "phrase": "учет программного обеспечения",
    "group": "category",
    "status": "ok",
-   "source": "api",
-   "cost_rub": 0.02,
+   "source": "cache",
+   "cost_rub": 0.0,
    "exact": 2447,
    "top_sum": 7009,
    "related_total": 49,
@@ -187,8 +187,8 @@
    "phrase": "инвентаризация по",
    "group": "category",
    "status": "ok",
-   "source": "api",
-   "cost_rub": 0.02,
+   "source": "cache",
+   "cost_rub": 0.0,
    "exact": 27890,
    "top_sum": 79198,
    "related_total": 49,
@@ -247,8 +247,8 @@
    "phrase": "инвентаризация компьютеров",
    "group": "category",
    "status": "ok",
-   "source": "api",
-   "cost_rub": 0.02,
+   "source": "cache",
+   "cost_rub": 0.0,
    "exact": 578,
    "top_sum": 1682,
    "related_total": 24,
@@ -307,8 +307,8 @@
    "phrase": "учет ит активов",
    "group": "category",
    "status": "ok",
-   "source": "api",
-   "cost_rub": 0.02,
+   "source": "cache",
+   "cost_rub": 0.0,
    "exact": 245,
    "top_sum": 367,
    "related_total": 5,
@@ -339,8 +339,8 @@
    "phrase": "управление ит активами",
    "group": "category",
    "status": "ok",
-   "source": "api",
-   "cost_rub": 0.02,
+   "source": "cache",
+   "cost_rub": 0.0,
    "exact": null,
    "top_sum": 240,
    "related_total": 4,
@@ -367,8 +367,8 @@
    "phrase": "itam",
    "group": "category",
    "status": "ok",
-   "source": "api",
-   "cost_rub": 0.02,
+   "source": "cache",
+   "cost_rub": 0.0,
    "exact": 1130,
    "top_sum": 2468,
    "related_total": 25,
@@ -427,8 +427,8 @@
    "phrase": "sam система",
    "group": "category",
    "status": "ok",
-   "source": "api",
-   "cost_rub": 0.02,
+   "source": "cache",
+   "cost_rub": 0.0,
    "exact": 142,
    "top_sum": 153,
    "related_total": 2,
@@ -447,8 +447,8 @@
    "phrase": "software asset management",
    "group": "category",
    "status": "ok",
-   "source": "api",
-   "cost_rub": 0.02,
+   "source": "cache",
+   "cost_rub": 0.0,
    "exact": 18,
    "top_sum": 18,
    "related_total": 0,
@@ -458,8 +458,8 @@
    "phrase": "аудит лицензий",
    "group": "category",
    "status": "ok",
-   "source": "api",
-   "cost_rub": 0.02,
+   "source": "cache",
+   "cost_rub": 0.0,
    "exact": null,
    "top_sum": 565,
    "related_total": 6,
@@ -494,8 +494,8 @@
    "phrase": "система инвентаризации сети",
    "group": "category",
    "status": "ok",
-   "source": "api",
-   "cost_rub": 0.02,
+   "source": "cache",
+   "cost_rub": 0.0,
    "exact": null,
    "top_sum": 17,
    "related_total": 1,
@@ -510,8 +510,8 @@
    "phrase": "cmdb",
    "group": "category",
    "status": "ok",
-   "source": "api",
-   "cost_rub": 0.02,
+   "source": "cache",
+   "cost_rub": 0.0,
    "exact": 1347,
    "top_sum": 1698,
    "related_total": 18,
@@ -570,8 +570,8 @@
    "phrase": "service desk",
    "group": "category",
    "status": "ok",
-   "source": "api",
-   "cost_rub": 0.02,
+   "source": "cache",
+   "cost_rub": 0.0,
    "exact": 5871,
    "top_sum": 10498,
    "related_total": 49,
@@ -630,8 +630,8 @@
    "phrase": "управление подписками",
    "group": "smp",
    "status": "ok",
-   "source": "api",
-   "cost_rub": 0.02,
+   "source": "cache",
+   "cost_rub": 0.0,
    "exact": 16140,
    "top_sum": 50157,
    "related_total": 49,
@@ -690,8 +690,8 @@
    "phrase": "учет подписок",
    "group": "smp",
    "status": "ok",
-   "source": "api",
-   "cost_rub": 0.02,
+   "source": "cache",
+   "cost_rub": 0.0,
    "exact": null,
    "top_sum": 1236,
    "related_total": 18,
@@ -750,8 +750,8 @@
    "phrase": "контроль подписок сотрудников",
    "group": "smp",
    "status": "ok",
-   "source": "api",
-   "cost_rub": 0.02,
+   "source": "cache",
+   "cost_rub": 0.0,
    "exact": null,
    "top_sum": 0,
    "related_total": 0,
@@ -761,8 +761,8 @@
    "phrase": "неиспользуемые лицензии",
    "group": "smp",
    "status": "ok",
-   "source": "api",
-   "cost_rub": 0.02,
+   "source": "cache",
+   "cost_rub": 0.0,
    "exact": null,
    "top_sum": 0,
    "related_total": 0,
@@ -772,8 +772,8 @@
    "phrase": "shadow it",
    "group": "smp",
    "status": "ok",
-   "source": "api",
-   "cost_rub": 0.02,
+   "source": "cache",
+   "cost_rub": 0.0,
    "exact": 1575,
    "top_sum": 2906,
    "related_total": 15,
@@ -832,8 +832,8 @@
    "phrase": "оптимизация расходов на по",
    "group": "smp",
    "status": "ok",
-   "source": "api",
-   "cost_rub": 0.02,
+   "source": "cache",
+   "cost_rub": 0.0,
    "exact": null,
    "top_sum": 0,
    "related_total": 0,
@@ -843,8 +843,8 @@
    "phrase": "saas management",
    "group": "smp",
    "status": "ok",
-   "source": "api",
-   "cost_rub": 0.02,
+   "source": "cache",
+   "cost_rub": 0.0,
    "exact": 22,
    "top_sum": 22,
    "related_total": 0,
@@ -854,8 +854,8 @@
    "phrase": "manageengine",
    "group": "foreign",
    "status": "ok",
-   "source": "api",
-   "cost_rub": 0.02,
+   "source": "cache",
+   "cost_rub": 0.0,
    "exact": 850,
    "top_sum": 2360,
    "related_total": 36,
@@ -914,8 +914,8 @@
    "phrase": "assetexplorer",
    "group": "foreign",
    "status": "ok",
-   "source": "api",
-   "cost_rub": 0.02,
+   "source": "cache",
+   "cost_rub": 0.0,
    "exact": null,
    "top_sum": 0,
    "related_total": 0,
@@ -925,8 +925,8 @@
    "phrase": "servicedesk plus",
    "group": "foreign",
    "status": "ok",
-   "source": "api",
-   "cost_rub": 0.02,
+   "source": "cache",
+   "cost_rub": 0.0,
    "exact": null,
    "top_sum": 0,
    "related_total": 0,
@@ -936,8 +936,8 @@
    "phrase": "endpoint central",
    "group": "foreign",
    "status": "ok",
-   "source": "api",
-   "cost_rub": 0.02,
+   "source": "cache",
+   "cost_rub": 0.0,
    "exact": 232,
    "top_sum": 405,
    "related_total": 5,
@@ -968,8 +968,8 @@
    "phrase": "lansweeper",
    "group": "foreign",
    "status": "ok",
-   "source": "api",
-   "cost_rub": 0.02,
+   "source": "cache",
+   "cost_rub": 0.0,
    "exact": 326,
    "top_sum": 372,
    "related_total": 4,
@@ -996,8 +996,8 @@
    "phrase": "freshservice",
    "group": "foreign",
    "status": "ok",
-   "source": "api",
-   "cost_rub": 0.02,
+   "source": "cache",
+   "cost_rub": 0.0,
    "exact": 17,
    "top_sum": 17,
    "related_total": 0,
@@ -1007,8 +1007,8 @@
    "phrase": "snipe-it",
    "group": "foreign",
    "status": "ok",
-   "source": "api",
-   "cost_rub": 0.02,
+   "source": "cache",
+   "cost_rub": 0.0,
    "exact": null,
    "top_sum": 558,
    "related_total": 7,
@@ -1047,8 +1047,8 @@
    "phrase": "glpi",
    "group": "foreign",
    "status": "ok",
-   "source": "api",
-   "cost_rub": 0.02,
+   "source": "cache",
+   "cost_rub": 0.0,
    "exact": 4938,
    "top_sum": 8626,
    "related_total": 49,
@@ -1107,8 +1107,8 @@
    "phrase": "infraon",
    "group": "foreign",
    "status": "below_threshold",
-   "source": "api",
-   "cost_rub": 0.02,
+   "source": "cache",
+   "cost_rub": 0.0,
    "exact": null,
    "top_sum": 0,
    "related_total": 0,
@@ -1118,8 +1118,8 @@
    "phrase": "motadata",
    "group": "foreign",
    "status": "below_threshold",
-   "source": "api",
-   "cost_rub": 0.02,
+   "source": "cache",
+   "cost_rub": 0.0,
    "exact": null,
    "top_sum": 0,
    "related_total": 0,
@@ -1129,8 +1129,8 @@
    "phrase": "invgate",
    "group": "foreign",
    "status": "ok",
-   "source": "api",
-   "cost_rub": 0.02,
+   "source": "cache",
+   "cost_rub": 0.0,
    "exact": null,
    "top_sum": 9,
    "related_total": 1,
@@ -1145,8 +1145,8 @@
    "phrase": "pdq inventory",
    "group": "foreign",
    "status": "ok",
-   "source": "api",
-   "cost_rub": 0.02,
+   "source": "cache",
+   "cost_rub": 0.0,
    "exact": 64,
    "top_sum": 73,
    "related_total": 1,
@@ -1161,8 +1161,8 @@
    "phrase": "action1",
    "group": "foreign",
    "status": "ok",
-   "source": "api",
-   "cost_rub": 0.02,
+   "source": "cache",
+   "cost_rub": 0.0,
    "exact": 48,
    "top_sum": 48,
    "related_total": 0,
@@ -1172,8 +1172,8 @@
    "phrase": "atera",
    "group": "foreign",
    "status": "ok",
-   "source": "api",
-   "cost_rub": 0.02,
+   "source": "cache",
+   "cost_rub": 0.0,
    "exact": 809,
    "top_sum": 1653,
    "related_total": 35,
@@ -1232,8 +1232,8 @@
    "phrase": "ninjaone",
    "group": "foreign",
    "status": "ok",
-   "source": "api",
-   "cost_rub": 0.02,
+   "source": "cache",
+   "cost_rub": 0.0,
    "exact": 28,
    "top_sum": 28,
    "related_total": 0,
@@ -1243,8 +1243,8 @@
    "phrase": "zluri",
    "group": "foreign",
    "status": "below_threshold",
-   "source": "api",
-   "cost_rub": 0.02,
+   "source": "cache",
+   "cost_rub": 0.0,
    "exact": null,
    "top_sum": 0,
    "related_total": 0,
@@ -1254,8 +1254,8 @@
    "phrase": "torii",
    "group": "foreign",
    "status": "ok",
-   "source": "api",
-   "cost_rub": 0.02,
+   "source": "cache",
+   "cost_rub": 0.0,
    "exact": 1081,
    "top_sum": 2846,
    "related_total": 49,
@@ -1314,8 +1314,8 @@
    "phrase": "zylo",
    "group": "foreign",
    "status": "ok",
-   "source": "api",
-   "cost_rub": 0.02,
+   "source": "cache",
+   "cost_rub": 0.0,
    "exact": 887,
    "top_sum": 2488,
    "related_total": 34,
@@ -1374,8 +1374,8 @@
    "phrase": "bettercloud",
    "group": "foreign",
    "status": "ok",
-   "source": "api",
-   "cost_rub": 0.02,
+   "source": "cache",
+   "cost_rub": 0.0,
    "exact": null,
    "top_sum": 84,
    "related_total": 1,
@@ -1390,8 +1390,8 @@
    "phrase": "cledara",
    "group": "foreign",
    "status": "ok",
-   "source": "api",
-   "cost_rub": 0.02,
+   "source": "cache",
+   "cost_rub": 0.0,
    "exact": null,
    "top_sum": 0,
    "related_total": 0,
@@ -1401,8 +1401,8 @@
    "phrase": "sastrify",
    "group": "foreign",
    "status": "below_threshold",
-   "source": "api",
-   "cost_rub": 0.02,
+   "source": "cache",
+   "cost_rub": 0.0,
    "exact": null,
    "top_sum": 0,
    "related_total": 0,
@@ -1412,8 +1412,8 @@
    "phrase": "productiv",
    "group": "foreign",
    "status": "ok",
-   "source": "api",
-   "cost_rub": 0.02,
+   "source": "cache",
+   "cost_rub": 0.0,
    "exact": 49,
    "top_sum": 76,
    "related_total": 2,
@@ -1432,8 +1432,8 @@
    "phrase": "josys",
    "group": "foreign",
    "status": "ok",
-   "source": "api",
-   "cost_rub": 0.02,
+   "source": "cache",
+   "cost_rub": 0.0,
    "exact": null,
    "top_sum": 10,
    "related_total": 2,
@@ -1452,8 +1452,8 @@
    "phrase": "cloudeagle",
    "group": "foreign",
    "status": "below_threshold",
-   "source": "api",
-   "cost_rub": 0.02,
+   "source": "cache",
+   "cost_rub": 0.0,
    "exact": null,
    "top_sum": 0,
    "related_total": 0,
@@ -1463,8 +1463,8 @@
    "phrase": "flexera",
    "group": "foreign",
    "status": "ok",
-   "source": "api",
-   "cost_rub": 0.02,
+   "source": "cache",
+   "cost_rub": 0.0,
    "exact": 534,
    "top_sum": 942,
    "related_total": 14,
@@ -1523,8 +1523,8 @@
    "phrase": "servicenow",
    "group": "foreign",
    "status": "ok",
-   "source": "api",
-   "cost_rub": 0.02,
+   "source": "cache",
+   "cost_rub": 0.0,
    "exact": 195,
    "top_sum": 195,
    "related_total": 0,
@@ -1534,8 +1534,8 @@
    "phrase": "snow software",
    "group": "foreign",
    "status": "ok",
-   "source": "api",
-   "cost_rub": 0.02,
+   "source": "cache",
+   "cost_rub": 0.0,
    "exact": 3,
    "top_sum": 3,
    "related_total": 0,
@@ -1545,8 +1545,8 @@
    "phrase": "matrix42",
    "group": "foreign",
    "status": "ok",
-   "source": "api",
-   "cost_rub": 0.02,
+   "source": "cache",
+   "cost_rub": 0.0,
    "exact": null,
    "top_sum": 0,
    "related_total": 0,
@@ -1556,8 +1556,8 @@
    "phrase": "ivanti",
    "group": "foreign",
    "status": "ok",
-   "source": "api",
-   "cost_rub": 0.02,
+   "source": "cache",
+   "cost_rub": 0.0,
    "exact": 249,
    "top_sum": 455,
    "related_total": 9,
@@ -1604,8 +1604,8 @@
    "phrase": "usu software",
    "group": "foreign",
    "status": "ok",
-   "source": "api",
-   "cost_rub": 0.02,
+   "source": "cache",
+   "cost_rub": 0.0,
    "exact": null,
    "top_sum": 0,
    "related_total": 0,
@@ -1615,8 +1615,8 @@
    "phrase": "teamdynamix",
    "group": "foreign",
    "status": "ok",
-   "source": "api",
-   "cost_rub": 0.02,
+   "source": "cache",
+   "cost_rub": 0.0,
    "exact": null,
    "top_sum": 0,
    "related_total": 0,
@@ -1626,8 +1626,8 @@
    "phrase": "naumen sam",
    "group": "russian",
    "status": "ok",
-   "source": "api",
-   "cost_rub": 0.02,
+   "source": "cache",
+   "cost_rub": 0.0,
    "exact": null,
    "top_sum": 0,
    "related_total": 0,
@@ -1637,8 +1637,8 @@
    "phrase": "naumen service desk",
    "group": "russian",
    "status": "ok",
-   "source": "api",
-   "cost_rub": 0.02,
+   "source": "cache",
+   "cost_rub": 0.0,
    "exact": 580,
    "top_sum": 687,
    "related_total": 6,
@@ -1673,8 +1673,8 @@
    "phrase": "инфраменеджер",
    "group": "russian",
    "status": "ok",
-   "source": "api",
-   "cost_rub": 0.02,
+   "source": "cache",
+   "cost_rub": 0.0,
    "exact": 263,
    "top_sum": 292,
    "related_total": 2,
@@ -1693,8 +1693,8 @@
    "phrase": "simpleone",
    "group": "russian",
    "status": "ok",
-   "source": "api",
-   "cost_rub": 0.02,
+   "source": "cache",
+   "cost_rub": 0.0,
    "exact": 1441,
    "top_sum": 2556,
    "related_total": 37,
@@ -1753,8 +1753,8 @@
    "phrase": "a-tracker",
    "group": "russian",
    "status": "ok",
-   "source": "api",
-   "cost_rub": 0.02,
+   "source": "cache",
+   "cost_rub": 0.0,
    "exact": null,
    "top_sum": 1156,
    "related_total": 13,
@@ -1813,8 +1813,8 @@
    "phrase": "итилиум",
    "group": "russian",
    "status": "ok",
-   "source": "api",
-   "cost_rub": 0.02,
+   "source": "cache",
+   "cost_rub": 0.0,
    "exact": 1526,
    "top_sum": 2429,
    "related_total": 23,
@@ -1873,8 +1873,8 @@
    "phrase": "itsm 365",
    "group": "russian",
    "status": "ok",
-   "source": "api",
-   "cost_rub": 0.02,
+   "source": "cache",
+   "cost_rub": 0.0,
    "exact": 205,
    "top_sum": 260,
    "related_total": 3,
@@ -1897,8 +1897,8 @@
    "phrase": "инферит итмен",
    "group": "russian",
    "status": "ok",
-   "source": "api",
-   "cost_rub": 0.02,
+   "source": "cache",
+   "cost_rub": 0.0,
    "exact": 43,
    "top_sum": 48,
    "related_total": 1,
@@ -1913,8 +1913,8 @@
    "phrase": "10-страйк инвентаризация",
    "group": "russian",
    "status": "ok",
-   "source": "api",
-   "cost_rub": 0.02,
+   "source": "cache",
+   "cost_rub": 0.0,
    "exact": null,
    "top_sum": 698,
    "related_total": 12,
@@ -1973,8 +1973,8 @@
    "phrase": "total network inventory",
    "group": "russian",
    "status": "ok",
-   "source": "api",
-   "cost_rub": 0.02,
+   "source": "cache",
+   "cost_rub": 0.0,
    "exact": 352,
    "top_sum": 511,
    "related_total": 11,
@@ -2029,8 +2029,8 @@
    "phrase": "hardware inspector",
    "group": "russian",
    "status": "ok",
-   "source": "api",
-   "cost_rub": 0.02,
+   "source": "cache",
+   "cost_rub": 0.0,
    "exact": 185,
    "top_sum": 229,
    "related_total": 5,
@@ -2061,8 +2061,8 @@
    "phrase": "it invent",
    "group": "russian",
    "status": "ok",
-   "source": "api",
-   "cost_rub": 0.02,
+   "source": "cache",
+   "cost_rub": 0.0,
    "exact": 710,
    "top_sum": 919,
    "related_total": 9,
@@ -2109,8 +2109,8 @@
    "phrase": "okdesk",
    "group": "russian",
    "status": "ok",
-   "source": "api",
-   "cost_rub": 0.02,
+   "source": "cache",
+   "cost_rub": 0.0,
    "exact": 1363,
    "top_sum": 2489,
    "related_total": 31,
@@ -2169,8 +2169,8 @@
    "phrase": "manageengine купить",
    "group": "commercial",
    "status": "ok",
-   "source": "api",
-   "cost_rub": 0.02,
+   "source": "cache",
+   "cost_rub": 0.0,
    "exact": null,
    "top_sum": 0,
    "related_total": 0,
@@ -2180,8 +2180,8 @@
    "phrase": "lansweeper купить",
    "group": "commercial",
    "status": "below_threshold",
-   "source": "api",
-   "cost_rub": 0.02,
+   "source": "cache",
+   "cost_rub": 0.0,
    "exact": null,
    "top_sum": 0,
    "related_total": 0,
@@ -2191,8 +2191,8 @@
    "phrase": "freshservice купить",
    "group": "commercial",
    "status": "below_threshold",
-   "source": "api",
-   "cost_rub": 0.02,
+   "source": "cache",
+   "cost_rub": 0.0,
    "exact": null,
    "top_sum": 0,
    "related_total": 0,
@@ -2202,8 +2202,8 @@
    "phrase": "assetexplorer купить",
    "group": "commercial",
    "status": "below_threshold",
-   "source": "api",
-   "cost_rub": 0.02,
+   "source": "cache",
+   "cost_rub": 0.0,
    "exact": null,
    "top_sum": 0,
    "related_total": 0,
@@ -2213,8 +2213,8 @@
    "phrase": "naumen sam купить",
    "group": "commercial",
    "status": "below_threshold",
-   "source": "api",
-   "cost_rub": 0.02,
+   "source": "cache",
+   "cost_rub": 0.0,
    "exact": null,
    "top_sum": 0,
    "related_total": 0,
@@ -2224,8 +2224,8 @@
    "phrase": "система учета лицензий купить",
    "group": "commercial",
    "status": "ok",
-   "source": "api",
-   "cost_rub": 0.02,
+   "source": "cache",
+   "cost_rub": 0.0,
    "exact": null,
    "top_sum": 0,
    "related_total": 0,
@@ -2234,27 +2234,23 @@
  ],
  "serp": [
   {
-   "found": 395533,
+   "found": 396142,
    "docs": [
     {
      "domain": "patent-family.ru",
      "title": "Учёт лицензий на ПО: НМА или расходы... — Patent Family Group"
     },
     {
-     "domain": "buhexpert8.ru",
-     "title": "Учет лицензии на деятельность в 1С 8.3: счета и документы"
+     "domain": "www.klerk.ru",
+     "title": "Как в бухгалтерском и налоговом учетах отразить расходы на..."
     },
     {
      "domain": "buh.ru",
      "title": "Как учитывать права на использование программ для ЭВМ..."
     },
     {
-     "domain": "ms1c.ru",
-     "title": "Как учитывать неисключительные права по-новому в 1С:Бухгалтерии"
-    },
-    {
-     "domain": "www.klerk.ru",
-     "title": "Как в бухгалтерском и налоговом учетах отразить расходы на..."
+     "domain": "buhexpert8.ru",
+     "title": "Учет лицензии на деятельность в 1С 8.3: счета и документы"
     },
     {
      "domain": "www.1c-usoft.ru",
@@ -2265,38 +2261,42 @@
      "title": "Как учесть неисключительные права с помощью документа..."
     },
     {
-     "domain": "1c.razdolie.ru",
-     "title": "Неисключительная лицензия 1С: бухгалтерский и налоговый учёт"
+     "domain": "www.garant.ru",
+     "title": "Учет затрат на приобретение неисключительных прав на..."
+    },
+    {
+     "domain": "ms1c.ru",
+     "title": "Как учитывать неисключительные права по-новому в 1С:Бухгалтерии"
     },
     {
      "domain": "its.1c.ru",
      "title": "18.02.2025 Как в \"1С:Бухгалтерии 8\" отразить приобретение..."
     },
     {
-     "domain": "www.consultant.ru",
-     "title": "Отражение бессрочной лицензии \\ 2026-2025-2024 год \\ Акты..."
+     "domain": "1c.razdolie.ru",
+     "title": "Неисключительная лицензия 1С: бухгалтерский и налоговый учёт"
     }
    ],
    "query": "учет лицензий"
   },
   {
-   "found": 438408,
+   "found": 423977,
    "docs": [
-    {
-     "domain": "buhexpert8.ru",
-     "title": "Особенности учета программного обеспечения с 2024"
-    },
     {
      "domain": "patent-family.ru",
      "title": "Учет программного обеспечения как НМА... — Patent Family Group"
     },
     {
-     "domain": "www.klerk.ru",
-     "title": "Как в бухгалтерском и налоговом учетах отразить расходы на..."
+     "domain": "buhexpert8.ru",
+     "title": "Особенности учета программного обеспечения с 2024"
     },
     {
      "domain": "buh.ru",
      "title": "Как учитывать права на использование программ для ЭВМ..."
+    },
+    {
+     "domain": "www.klerk.ru",
+     "title": "Как в бухгалтерском и налоговом учетах отразить расходы на..."
     },
     {
      "domain": "1glss.ru",
@@ -2307,26 +2307,26 @@
      "title": "Учет затрат на приобретение неисключительных прав на..."
     },
     {
-     "domain": "www.moedelo.org",
-     "title": "Учёт программного обеспечения в бухгалтерском... — «Мое Дело»"
+     "domain": "www.zakonrf.info",
+     "title": "Учет программного обеспечения: особенности бухгалтерского..."
     },
     {
-     "domain": "assistentus.ru",
-     "title": "Учет программного обеспечения в организации. Проводки, счета"
+     "domain": "1eska.ru",
+     "title": "Как учесть неисключительные права с помощью документа..."
     },
     {
-     "domain": "www.consultant.ru",
-     "title": "Как отразить в учете приобретение программного обеспечения..."
+     "domain": "www.v2b.ru",
+     "title": "Расходы на программное обеспечение | Время бухгалтера"
     },
     {
      "domain": "www.4dk.ru",
-     "title": "Учет программного обеспечения в бюджетных учреждениях в 2025"
+     "title": "Учёт ПО в бюджетном учреждении"
     }
    ],
    "query": "учет программного обеспечения"
   },
   {
-   "found": 347565,
+   "found": 348279,
    "docs": [
     {
      "domain": "www.10-strike.ru",
@@ -2345,12 +2345,12 @@
      "title": "Программа для учета компьютеров в сети, инвентаризация..."
     },
     {
-     "domain": "www.total-network-inventory.ru",
-     "title": "Программа для инвентаризации и учета компьютеров в сети"
-    },
-    {
      "domain": "habr.com",
      "title": "Инвентаризация в 2026: чем считать железо, ПО и лицензии / Хабр"
+    },
+    {
+     "domain": "www.total-network-inventory.ru",
+     "title": "Программа для инвентаризации и учета компьютеров в сети"
     },
     {
      "domain": "it-invent.ru",
@@ -2372,7 +2372,7 @@
    "query": "инвентаризация компьютеров"
   },
   {
-   "found": 1541681,
+   "found": 1546900,
    "docs": [
     {
      "domain": "habr.com",
@@ -2387,12 +2387,12 @@
      "title": "Постановление Правительства РФ от... — Контур.Норматив"
     },
     {
-     "domain": "www.inframanager.ru",
-     "title": "Управление ИТ-активами 2026: как перейти от ручного учета..."
-    },
-    {
      "domain": "rvision.ru",
      "title": "R-Vision ITAM — система управления и учета ИТ-активов"
+    },
+    {
+     "domain": "www.inframanager.ru",
+     "title": "Управление ИТ-активами 2026: как перейти от ручного учета..."
     },
     {
      "domain": "itglobal.com",
@@ -2403,22 +2403,22 @@
      "title": "Учёт и повторное использование ИТ-активов"
     },
     {
+     "domain": "itsm365.com",
+     "title": "Учет ИТ-активов: зачем нужен и как внедрить"
+    },
+    {
      "domain": "www.kt-team.ru",
      "title": "ITAM: управление ИТ-активами и затратами"
     },
     {
      "domain": "www.garant.ru",
      "title": "Постановление Правительства Российской Федерации от 1 июля..."
-    },
-    {
-     "domain": "itsm365.com",
-     "title": "Учет ИТ-активов: зачем нужен и как внедрить"
     }
    ],
    "query": "учет ит активов"
   },
   {
-   "found": 1042930,
+   "found": 1043345,
    "docs": [
     {
      "domain": "plus.yandex.ru",
@@ -2441,12 +2441,12 @@
      "title": "Как отключить платную подписку на телефоне — как... | Банки.ру"
     },
     {
-     "domain": "start.ru",
-     "title": "Настройки"
-    },
-    {
      "domain": "support.google.com",
      "title": "Как управлять подписками и периодическими платежами..."
+    },
+    {
+     "domain": "start.ru",
+     "title": "Настройки"
     },
     {
      "domain": "dzen.ru",
@@ -2464,7 +2464,7 @@
    "query": "управление подписками"
   },
   {
-   "found": 3037,
+   "found": 3036,
    "docs": [
     {
      "domain": "lansweeper.com",
@@ -2487,12 +2487,12 @@
      "title": "Скачать Lansweeper 12.9.0.3 + активация ключом бесплатно"
     },
     {
-     "domain": "www.softportal.com",
-     "title": "Cкачать Lansweeper 12.8.1.3 (Windows)"
-    },
-    {
      "domain": "www.youtube.com",
      "title": "Lansweeper - YouTube"
+    },
+    {
+     "domain": "www.softportal.com",
+     "title": "Cкачать Lansweeper 12.8.1.3 (Windows)"
     },
     {
      "domain": "www.iesoft.ru",
@@ -2510,7 +2510,7 @@
    "query": "lansweeper"
   },
   {
-   "found": 7498112,
+   "found": 7499097,
    "docs": [
     {
      "domain": "allsoft.ru",
@@ -2521,12 +2521,12 @@
      "title": "ManageEngine – ПО для управления ИТ-операциями и службами"
     },
     {
-     "domain": "legasoft.ru",
-     "title": "Купить manageengine oputils. бессрочная лицензия standard для..."
-    },
-    {
      "domain": "www.syssoft.ru",
      "title": "ManageEngine: ITSM, UEM, PAM и мониторинг ИТ-инфраструктуры"
+    },
+    {
+     "domain": "legasoft.ru",
+     "title": "Купить manageengine oputils. бессрочная лицензия standard для..."
     },
     {
      "domain": "store.softline.ru",
@@ -2538,7 +2538,7 @@
     },
     {
      "domain": "www.softmagazin.ru",
-     "title": "ManageEngine OpManager MSP - купить лицензию по выгодной..."
+     "title": "ManageEngine ServiceDesk Plus Professional - купить лицензию по..."
     },
     {
      "domain": "migsoft.ru",
@@ -2556,7 +2556,7 @@
    "query": "manageengine купить"
   },
   {
-   "found": 14102654,
+   "found": 14105656,
    "docs": [
     {
      "domain": "allsoft.ru",
@@ -2567,12 +2567,12 @@
      "title": "Naumen Software Asset Management: учет, контроль и управления..."
     },
     {
-     "domain": "store.softline.ru",
-     "title": "10-Strike Software Учет Программного Обеспечения Pro..."
-    },
-    {
      "domain": "www.lers.ru",
      "title": "Стоимость лицензии системы диспетчеризации ЛЭРС УЧЁТ"
+    },
+    {
+     "domain": "store.softline.ru",
+     "title": "10-Strike Software Учет Программного Обеспечения Pro..."
     },
     {
      "domain": "softservis24.ru",
@@ -2583,20 +2583,20 @@
      "title": "Система управления лицензиями - купить по привлекательной..."
     },
     {
+     "domain": "kipkatalog.ru",
+     "title": "Купить ПО \"ЛЭРС УЧЁТ\", 20 коммерческих лицензий"
+    },
+    {
      "domain": "www.10-strike.ru",
      "title": "Российская программа учета программного обеспечения на..."
     },
     {
+     "domain": "a2is.ru",
+     "title": "ТОП-20 Систем управления лицензиями 2025 - Цены, Отзывы"
+    },
+    {
      "domain": "www.inframanager.ru",
      "title": "SAM — система учёта программного обеспечения и лицензий"
-    },
-    {
-     "domain": "www.robotx.ru",
-     "title": "10-Страйк: Учет Программного Обеспечения — программа для..."
-    },
-    {
-     "domain": "kipkatalog.ru",
-     "title": "Купить ПО \"ЛЭРС УЧЁТ\", 20 коммерческих лицензий"
     }
    ],
    "query": "система учета лицензий купить"
