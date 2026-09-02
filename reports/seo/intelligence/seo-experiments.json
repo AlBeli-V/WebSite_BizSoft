@@ -256,6 +256,81 @@
    ],
    "formula_group": "query-phrase-snippet-2026-09",
    "power_note": "объём мал (≈65 показов на запрос за период): при нуле кликов на 14-й день публикуется описательный вывод «недостаточно данных», не отрицательный результат"
+  },
+  {
+   "id": "content-6-clusters",
+   "ticket": "CONTENT-002",
+   "start": "2026-09-02",
+   "status": "running",
+   "pages": [
+    "/blog/kak-kupit-perplexity-dlya-yurlica",
+    "/blog/kak-oplatit-framer-dlya-yurlica",
+    "/blog/kak-kupit-github-copilot-dlya-yurlica",
+    "/blog/kak-oplatit-envato-elements-dlya-yurlica",
+    "/blog/kak-oplatit-postman-dlya-yurlica",
+    "/blog/tarify-runway-oplata-dlya-yurlica",
+    "/vendors/perplexity",
+    "/vendors/framer",
+    "/vendors/github",
+    "/vendors/envato",
+    "/vendors/postman",
+    "/vendors/runway"
+   ],
+   "target_pages": [
+    "/blog/kak-kupit-perplexity-dlya-yurlica",
+    "/blog/kak-oplatit-framer-dlya-yurlica",
+    "/blog/kak-kupit-github-copilot-dlya-yurlica",
+    "/blog/kak-oplatit-envato-elements-dlya-yurlica",
+    "/blog/kak-oplatit-postman-dlya-yurlica",
+    "/blog/tarify-runway-oplata-dlya-yurlica"
+   ],
+   "baseline": {
+    "period": "12 дней, окно Вебмастера 19.08–30.08.2026 (выгрузка 02.09)",
+    "impressions_cluster": 684,
+    "days": 12,
+    "positions": "4.8–9.1 (средняя по кластерам, взвешенная показами)",
+    "note": "Шесть кластеров, прошедших гейты приёма CONTENT-001 целиком: Perplexity 159, Framer 120, GitHub 112, Envato 106, Postman 102, Runway 85 показов за окно (сумма 684 посчитана маркерами самого эксперимента — тем же кодом, которым вердикт считает окно после внедрения). Отбор — scripts/seo/expansion.py, профиль content.",
+    "by_cluster": {
+     "perplexity": 159,
+     "framer": 120,
+     "github": 112,
+     "envato": 106,
+     "postman": 102,
+     "runway": 85
+    }
+   },
+   "changes": [
+    "шесть статей блога под транзакционный интент кластера по схеме CONTENT-001: прямой ответ в первых двух предложениях, порядок оформления счёта, таблица сравнения тарифов со ссылками на карточки, раздел «когда это не нужно», FAQ-блок с FAQPage-разметкой",
+    "частотные формулировки кластеров в заголовках и тексте: «для юридических лиц», «в рублях», «по счёту», «из России», «оформить подписку»",
+    "перелинковка статья → /vendors/<slug>, /catalog, /documents и карточки товаров кластера",
+    "обратная перелинковка карточка → статья работает штатно через relatedProducts (src/pages/product/[slug].astro), нового кода не нужно"
+   ],
+   "hypothesis": "Приём, подтверждённый на кластере Depositphotos (CONTENT-001, вердикт CONFIRMED 02.09.2026: +70% показов, статья на 5-й позиции), воспроизводится на других кластерах при тех же условиях — сайт уже показывается по кластеру со средней позицией в топ-10 и есть карточки товаров для взаимной перелинковки.",
+   "success_metric": "рост суммарных показов шести кластеров относительно базовых 684 показов за 12 дней и вход статей в топ-10 Яндекса; контрольная точка 16.09.2026",
+   "control_group": "кластеры Windsurf, GitLab, Atlassian, Box, Descript, Dropbox — прошли те же гейты отбора (показы, средняя позиция в топ-10, карточки товаров), но статей не получили. До контрольной точки 16.09.2026 статьи по ним не заводить: это следующая волна расширения, и взятая раньше времени она лишит эксперимент контроля.",
+   "source": "src/content/blog/*.md (шесть файлов партии); отбор целей — scripts/seo/expansion.py, профиль content",
+   "evaluation_kind": "impressions_growth",
+   "query_markers": [
+    "perplexity",
+    "перплексити",
+    "framer",
+    "github",
+    "copilot",
+    "envato",
+    "postman",
+    "постман",
+    "runway"
+   ],
+   "query_exclude": [
+    "microsoft copilot",
+    "ms copilot",
+    "video copilot"
+   ],
+   "owner_decision": {
+    "date": "2026-09-02",
+    "decision": "EXPAND",
+    "note": "Решение руководителя по вердикту CONTENT-001: тиражируем приём. Отбор целей — по условиям оригинала (не по списку из отчёта: он был собран по общей частотности бренда), первая партия — шесть кластеров."
+   }
   }
  ]
 }
