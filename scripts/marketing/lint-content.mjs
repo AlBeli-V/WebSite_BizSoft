@@ -97,16 +97,18 @@ function lint(file) {
   else notes.push(`объём ${chars} знаков — в ориентире`);
 
   // Ссылки
-  const links = [...body.matchAll(/\]\((https?:\/\/[^)]+)\)/g)].map((m) => m[1]);
-  const own = links.filter((u) => u.includes('biz-soft.pro'));
-  const foreign = links.filter((u) => !u.includes('biz-soft.pro'));
+  // Свои ссылки бывают абсолютными (внешние площадки) и относительными
+  // (материал для сайта) — считаем и те, и другие.
+  const links = [...body.matchAll(/\]\((https?:\/\/[^)]+|\/[^)]*)\)/g)].map((m) => m[1]);
+  const own = links.filter((u) => u.includes('biz-soft.pro') || u.startsWith('/'));
+  const foreign = links.filter((u) => !u.includes('biz-soft.pro') && !u.startsWith('/'));
   const maxLinks = linkLimit(chars);
   if (own.length > maxLinks) errors.push(`ссылок на biz-soft.pro: ${own.length}, потолок ${maxLinks} при объёме ${chars} знаков`);
   else notes.push(`ссылок на сайт: ${own.length}`);
   if (foreign.length) warnings.push(`внешние ссылки (${foreign.length}): ${foreign.join(', ')}`);
 
   // Ссылка не в первом экране: первые ~1500 знаков
-  const firstLink = body.search(/\]\(https?:\/\/[^)]*biz-soft\.pro/);
+  const firstLink = body.search(/\]\((?:https?:\/\/[^)]*biz-soft\.pro|\/)/);
   if (own.length && firstLink !== -1 && plain(body.slice(0, firstLink)).length < 1500) {
     errors.push('первая ссылка на сайт стоит в первом экране материала');
   }
