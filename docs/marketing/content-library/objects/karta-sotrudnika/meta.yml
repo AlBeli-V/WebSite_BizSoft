@@ -27,7 +27,9 @@ link_targets:
 
 versions:
   master: docs/marketing/content-library/objects/karta-sotrudnika/source.md
-  dzen: docs/marketing/external/dzen/01-karta-sotrudnika.md
+  dzen_short: docs/marketing/external/dzen/01-karta-sotrudnika.md   # первая, короткая, готова
+  dzen_tco: docs/marketing/external/dzen/02-tco-podpiski.md         # вторая, с расчётной моделью
+  site: src/content/blog/stoimost-vladeniya-podpiskoy.md            # полная, draft до аудита
   tenchat: docs/marketing/external/week1/04-tenchat-karta-sotrudnika.md
   site: null   # кандидат: статья блога через 1–2 месяца после публикации
 
