@@ -1,5 +1,11 @@
 #!/usr/bin/env python3
-"""Замер спроса по когорте SAM/ITAM/SMP: частоты Вордстата и состав выдачи.
+"""Разовый замер спроса по набору фраз: частоты Вордстата и состав выдачи.
+
+Первым набором была когорта SAM/ITAM/SMP (он же набор по умолчанию), но замер
+не привязан к классу систем: любой набор `--set` со своими `title` и `slug`
+даёт отдельный отчёт. Второе штатное применение — подбор названий новой
+линейки товаров по фактическому спросу (правило CLAUDE.md про уникальные
+title/description требует опираться на Вордстат, а не на догадки).
 
 Зачем отдельный прогон. Штатный Discovery засевает вселенную брендами
 существующего каталога, поэтому категориальные запросы корпоративного ПО
@@ -40,6 +46,11 @@ import config  # noqa: E402
 import normalize as N  # noqa: E402
 
 SET_PATH = pathlib.Path("data/seo/sam-demand-probe.json")
+# Заголовок отчёта и префикс его файлов задаёт сам набор (ключи title/slug):
+# скрипт обслуживает не только когорту SAM, но и любой разовый замер под
+# решение — например, выбор названий для новой линейки товаров.
+DEFAULT_TITLE = "Спрос по когорте SAM/ITAM/SMP"
+DEFAULT_SLUG = "sam-demand"
 OUT_DIR = pathlib.Path("reports/seo/wordstat")
 SERP_URL = "https://searchapi.api.cloud.yandex.net/v2/web/search"
 SERP_TOP = 10
@@ -114,8 +125,8 @@ def serp(key: str, query: str) -> dict:
 
 # ── Отчёт ────────────────────────────────────────────────────────────────
 def render(results: list[dict], serps: list[dict], groups: dict[str, str],
-           spent: float) -> str:
-    out = [f"# Спрос по когорте SAM/ITAM/SMP — {dt.date.today().isoformat()}",
+           spent: float, title: str = DEFAULT_TITLE) -> str:
+    out = [f"# {title} — {dt.date.today().isoformat()}",
            "",
            "Регион: Россия. Окно: последние 30 дней. Источник: Wordstat API "
            "(`getTop`) и веб-поиск Yandex Search API.",
@@ -166,6 +177,8 @@ def main() -> int:
     cfg["collection"]["region_id"] = spec.get("region", cfg["collection"]["region_id"])
     num_phrases = spec.get("num_phrases", cfg["collection"]["num_phrases"])
     groups = {g["key"]: g["title"] for g in spec["groups"]}
+    title = spec.get("title", DEFAULT_TITLE)
+    slug = spec.get("slug", DEFAULT_SLUG)
 
     tasks = [(g["key"], p) for g in spec["groups"] for p in g["phrases"]]
     if args.dry_run:
@@ -211,11 +224,11 @@ def main() -> int:
                 print(f"веб-поиск недоступен: {s['error']}")
                 break
 
-    report = render(results, serps, groups, spent)
+    report = render(results, serps, groups, spent, title)
     OUT_DIR.mkdir(parents=True, exist_ok=True)
     stamp = dt.date.today().isoformat()
-    (OUT_DIR / f"sam-demand-{stamp}.md").write_text(report, encoding="utf-8")
-    (OUT_DIR / f"sam-demand-{stamp}.json").write_text(
+    (OUT_DIR / f"{slug}-{stamp}.md").write_text(report, encoding="utf-8")
+    (OUT_DIR / f"{slug}-{stamp}.json").write_text(
         json.dumps({"generated_at": dt.datetime.now(dt.timezone.utc)
                     .isoformat(timespec="seconds"),
                     "region": cfg["collection"]["region_id"],

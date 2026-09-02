@@ -37,6 +37,10 @@ on:
       - "data/seo/sam-demand-probe.json"
   workflow_dispatch:
     inputs:
+      set:
+        description: "Набор фраз (data/seo/*-probe.json)"
+        required: false
+        default: "data/seo/sam-demand-probe.json"
       max_calls:
         description: "Потолок вызовов Вордстата за прогон"
         required: false
@@ -82,23 +86,33 @@ jobs:
           WORDSTAT_API_KEY: ${{ secrets.WORDSTAT_API_KEY }}
           MAX_CALLS: ${{ inputs.max_calls || '80' }}
           SKIP_SERP: ${{ inputs.skip_serp }}
+          SET: ${{ inputs.set || 'data/seo/sam-demand-probe.json' }}
         run: |
           if [ -z "$WORDSTAT_API_KEY" ]; then
             echo "::error::Секрет WORDSTAT_API_KEY не задан — замер невозможен."
             exit 1
           fi
-          args="--max-calls $MAX_CALLS"
+          if [ ! -f "$SET" ]; then
+            echo "::error::Набор фраз $SET не найден."
+            exit 1
+          fi
+          # Префикс файлов отчёта задаёт сам набор (ключ slug) — на нём же
+          # строится путь артефакта, иначе прогон по другому набору уехал бы
+          # в артефакт под чужим именем.
+          slug=$(python3 -c "import json,sys;print(json.load(open(sys.argv[1])).get('slug','sam-demand'))" "$SET")
+          echo "slug=$slug" >> "$GITHUB_OUTPUT"
+          args="--set $SET --max-calls $MAX_CALLS"
           [ "$SKIP_SERP" = "true" ] && args="$args --no-serp"
           python3 scripts/seo/wordstat/sam_probe.py $args | tee /tmp/sam-demand.md
 
       - uses: actions/upload-artifact@v4
         with:
-          name: sam-demand
-          path: reports/seo/wordstat/sam-demand-*
+          name: ${{ steps.run.outputs.slug }}
+          path: reports/seo/wordstat/${{ steps.run.outputs.slug }}-*
 
       - name: Push data branch
         run: |
-          bash scripts/seo/data_sync.sh push "SAM-когорта: замер спроса" \
+          bash scripts/seo/data_sync.sh push "Замер спроса Вордстата: ${{ steps.run.outputs.slug }}" \
             "reports/seo/wordstat" || echo "push данных не удался — результат остался в артефакте"
 
       # Отчёт длиннее лимита комментария GitHub не пройдёт целиком, поэтому в
