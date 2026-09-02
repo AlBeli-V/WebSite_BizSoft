@@ -214,6 +214,29 @@ class TestEvaluate(unittest.TestCase):
         self.assertEqual(lifecycle.positions_on(snap, ["запрос"])["запрос"],
                          jr.OUT_OF_TOP)
 
+    def test_старый_снимок_без_позиций_не_считается_вылетом_из_топа(self):
+        """Регресс: база показывала 21 и любой опыт выглядел успешным.
+
+        Снимки до 01.09.2026 позиций не хранили. Отсутствие поля — это
+        «не измеряли», а не «нас там не было».
+        """
+        старый = {"дата": "2026-08-30",
+                  "по_запросам": {"запрос": {"наша": 0.1, "поле": 1.0}}}
+        self.assertEqual(lifecycle.positions_on(старый, ["запрос"]), {})
+
+        новый = snapshot("2026-09-01", {"запрос": None})
+        self.assertEqual(lifecycle.positions_on(новый, ["запрос"])["запрос"],
+                         jr.OUT_OF_TOP)
+
+    def test_база_берёт_день_внедрения_если_прошлых_замеров_нет(self):
+        snapshots = {"2026-08-30": {"дата": "2026-08-30",
+                                    "по_запросам": {"запрос": {"наша": 0.1,
+                                                               "поле": 1.0}}},
+                     "2026-09-01": snapshot("2026-09-01", {"запрос": 7})}
+        base = lifecycle.baseline_for(snapshots, "2026-09-01", ["запрос"], 3)
+        self.assertEqual(base["медиана_позиций"], 7)
+        self.assertIn("ещё не была на проде", base["_оговорка"])
+
     def test_контроль_не_включает_запросы_эксперимента(self):
         snapshots = self._snapshots(9, 4, 10, 8)
         control = lifecycle._control_queries(

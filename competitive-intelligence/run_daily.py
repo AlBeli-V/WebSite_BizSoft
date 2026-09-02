@@ -157,7 +157,10 @@ def main(argv: list[str]) -> int:
     from experiments import journal as _journal
     from experiments import learning as _learning
     effect_ranking = _learning.ranking(_journal.load(), config)
-    recommendations.enrich(packages, geo_by_query, effect_ranking)
+    systemic = recommendations.enrich(packages, geo_by_query, effect_ranking)
+    if systemic:
+        print(f"6б. Системные правки: {len(systemic)} — одна правка шаблона "
+              f"вместо десятков одинаковых правок в данных")
 
     # --- цикл экспериментов -------------------------------------------------
     # Порядок шагов важен. Сначала отмечаем внедрённое и оцениваем созревшее:
@@ -241,7 +244,7 @@ def main(argv: list[str]) -> int:
                              [c.__dict__ for c in cards], rows,
                              packages=packages, histories=histories,
                              experiments=experiments, config=config,
-                             on_watch=on_watch)
+                             on_watch=on_watch, systemic=systemic)
     os.makedirs(paths.ARCHIVE_DIR, exist_ok=True)
     for target in (os.path.join(paths.ARCHIVE_DIR, f"{date}.html"),
                    os.path.join(paths.REPORTS_DIR, "latest.html")):

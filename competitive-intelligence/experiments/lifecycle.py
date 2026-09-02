@@ -76,7 +76,13 @@ def positions_on(snapshot: dict, queries) -> dict[str, int]:
         bucket = per_query.get(key)
         if bucket is None:
             continue
-        result[query] = bucket.get("позиция") or jr.OUT_OF_TOP
+        # Снимки до 01.09.2026 позиций не хранили. Отсутствие самого поля —
+        # это «не измеряли», а не «нас там не было»: подставлять сюда 21
+        # значит уверять, что до правки страница была вне выдачи, и любой
+        # эксперимент показал бы улучшение на ровном месте.
+        if "позиция" not in bucket:
+            continue
+        result[query] = bucket["позиция"] or jr.OUT_OF_TOP
     return result
 
 
@@ -99,12 +105,23 @@ def _dates_upto(snapshots: dict, day: str, count: int) -> list[str]:
 
 def baseline_for(snapshots: dict, day: str, queries, window: int) -> dict:
     """База «до»: медиана позиций за последние дни перед внедрением."""
-    dates = _dates_before(snapshots, day, window) or _dates_upto(snapshots, day, 1)
+    dates = _dates_before(snapshots, day, window)
+    median = _median_positions(snapshots, dates, queries)
+    fallback = ""
+    if median is None:
+        # Позиций за прошлые дни нет — берём день фиксации внедрения. Правка
+        # к этому моменту ещё не на проде (деплой идёт после), поэтому замер
+        # честно описывает состояние «до».
+        dates = _dates_upto(snapshots, day, 1)
+        median = _median_positions(snapshots, dates, queries)
+        fallback = ("замеров до дня внедрения нет; базой взят сам день "
+                    "фиксации — правка к этому моменту ещё не была на проде")
     return {
         "дата": day,
         "дни": dates,
-        "медиана_позиций": _median_positions(snapshots, dates, queries),
+        "медиана_позиций": median,
         "запросов": len(list(queries)),
+        "_оговорка": fallback,
     }
 
 

@@ -170,5 +170,79 @@ class TestGeoAndPlural(unittest.TestCase):
         self.assertEqual(rec.queries_word(21), "21 запрос")
 
 
+class TestGuardsAndSystemic(unittest.TestCase):
+    """Уроки первого выполненного объёма работ (01.09.2026).
+
+    Контур предлагал дописать в описание Postman слово «москва», в описание
+    Depositphotos — «недорого», а на карточку товара — латинское название,
+    которое и так стоит в её заголовке из Directus. И двадцать раз предлагал
+    дописать одно и то же слово в двадцать разных описаний вместо одной
+    правки шаблона.
+    """
+
+    def setUp(self):
+        self.page = page_from(ARTICLE)
+
+    def test_оценочное_слово_не_становится_поручением(self):
+        pkg = package(queries=["недорого оплатить подписку figma"])
+        actions, done, skip = rec.build(pkg, self.page)
+        тексты = " ".join(a.what for a in actions)
+        self.assertNotIn("недорого", тексты)
+        self.assertTrue(any("недорого" in s and "оценочное" in s for s in skip))
+
+    def test_город_не_дописывается_в_текст(self):
+        pkg = package(queries=["москва figma оплата подписки"])
+        actions, done, skip = rec.build(pkg, self.page)
+        self.assertTrue(any("москва" in s and "город" in s for s in skip))
+
+    def test_латинское_слово_на_карточке_проверяют_а_не_дописывают(self):
+        """Название товара приходит из Directus и в проверку не попадает."""
+        card = page_audit.PageContent(
+            url="https://biz-soft.pro/product/ghcopilot-business",
+            kind="product", available=True, body="как купить подписку")
+        pkg = package(url=card.url, page_kind="product",
+                      queries=["github copilot business купить"])
+        actions, done, skip = rec.build(pkg, card)
+        self.assertTrue(any("Directus" in s and "проверить" in s for s in skip))
+        self.assertFalse(any("github" in a.what.lower() for a in actions))
+
+    def test_общая_нехватка_становится_правкой_шаблона(self):
+        """Три страницы одного типа с одним пробелом — это шаблон, а не текст."""
+        pages, packages = {}, []
+        for i in range(3):
+            url = f"https://biz-soft.pro/vendors/v{i}"
+            pages[url] = page_audit.PageContent(
+                url=url, kind="vendor", available=True,
+                body=f"Vendor{i} — инструмент для студий.")
+            packages.append(package(package_id=f"WP-0{i}", url=url,
+                                    page_kind="vendor",
+                                    queries=[f"vendor{i} аккаунт оплата"]))
+        systemic, words = rec.systemic_actions(packages, pages)
+        self.assertEqual(len(systemic), 1)
+        self.assertIn("аккаунт", systemic[0].what)
+        self.assertIn("VendorLanding.astro", systemic[0].where)
+        self.assertIn("аккаунт", words["vendor"])
+
+    def test_слово_из_шаблонной_правки_не_дублируется_в_поручении(self):
+        url = "https://biz-soft.pro/vendors/v1"
+        page = page_audit.PageContent(url=url, kind="vendor", available=True,
+                                      body="Vendor1 — инструмент для студий.")
+        pkg = package(url=url, page_kind="vendor", queries=["vendor1 аккаунт"])
+        actions, done, skip = rec.build(pkg, page, template_words={"аккаунт"})
+        self.assertTrue(any("системной правкой" in d for d in done))
+        self.assertFalse(any("аккаунт" in a.what for a in actions))
+
+    def test_редкая_нехватка_остаётся_правкой_страницы(self):
+        """Одна страница — это её текст, а не шаблон: порог не достигнут."""
+        url = "https://biz-soft.pro/vendors/v1"
+        pages = {url: page_audit.PageContent(url=url, kind="vendor",
+                                             available=True,
+                                             body="Vendor1 — инструмент.")}
+        packages = [package(url=url, page_kind="vendor",
+                            queries=["vendor1 уникальноеслово"])]
+        systemic, words = rec.systemic_actions(packages, pages)
+        self.assertEqual(systemic, [])
+
+
 if __name__ == "__main__":
     unittest.main()

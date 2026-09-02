@@ -252,6 +252,32 @@ def _competitor_pages(cards: list[dict], full_cards: list[dict], limit: int = 8)
     return "".join(blocks)
 
 
+def _systemic_block(systemic: list | None) -> str:
+    """Правки уровня шаблона: одна правка вместо десятков одинаковых.
+
+    Блок стоит перед списком пакетов намеренно: если одного и того же слова
+    не хватает на трёх и более страницах одного типа, дело не в тексте
+    конкретной страницы, а в шаблоне — и начинать надо отсюда.
+    """
+    if not systemic:
+        return ""
+    blocks = "".join(f"""
+  <div class="wp-act"><b>{esc(a.action_id)}. {esc(a.what)}</b>
+    <span class="lbl">{esc(a.effort)} · {esc(a.owner)}</span>
+    <p class="q"><b>Где:</b> {esc(a.where)}<br><b>Почему:</b> {esc(a.why)}</p>
+    <ul class="q">{"".join(f"<li>{esc(step)}</li>" for step in a.steps)}</ul>
+    <p class="q"><b>Приёмка:</b> {esc(a.check)}</p></div>""" for a in systemic)
+    return f"""
+<div class="card">
+  <h3>Сначала — системные правки</h3>
+  <p class="q">Одного и того же не хватает сразу многим страницам одного типа.
+  Это не текст страницы, а шаблон: одна правка закрывает все. Слова из этого
+  блока исключены из поручений по отдельным страницам, чтобы одно и то же не
+  дописывалось двадцать раз.</p>
+  {blocks}
+</div>"""
+
+
 def _packages_block(packages: list[dict]) -> str:
     """План работ: что поручить, где править, почему и как принять.
 
@@ -436,7 +462,8 @@ def build(date: str, snapshot: dict, previous: dict | None,
           packages: list[dict] | None = None,
           histories: dict[str, list[float]] | None = None,
           experiments: list | None = None, config: dict | None = None,
-          on_watch: list[dict] | None = None) -> str:
+          on_watch: list[dict] | None = None,
+          systemic: list | None = None) -> str:
     """Собирает самодостаточный HTML-отчёт."""
     ours = snapshot.get("наши_показатели") or {}
     coverage = snapshot.get("покрытие") or {}
@@ -511,6 +538,7 @@ def build(date: str, snapshot: dict, previous: dict | None,
 {_competitor_pages(leaders, full_cards)}
 
 <h2 id="plan">4 · План работ — {len(packages or [])} пакетов</h2>
+{_systemic_block(systemic)}
 <p class="lead">Точки атаки, сведённые в поручения. Единица работы — страница:
 одна доработка закрывает сразу несколько запросов, и именно её можно поручить
 и принять. Порядок — по ожидаемому приросту переходов; суммарная оценка по
