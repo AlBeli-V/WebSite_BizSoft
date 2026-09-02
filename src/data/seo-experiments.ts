@@ -20,10 +20,16 @@
  * «оплата {vendor} юридическим лицом» ставится в начало title, description и
  * первого вопроса FAQ. Bespoke-FAQ страницы при этом сохраняется — вопрос
  * добавляется первым (faqAdd), а не заменяет блок целиком.
- * CorelDRAW («оплата coreldraw для россиян», 69 показов, позиция 9,06) в эту
- * группу не входит: страница участвует в незавершённом snippets-5-vendors,
- * правка до вердикта 02.09.2026 смазала бы его оценку. Подготовленный
- * вариант — reports/seo/tasks/SEO-EXP-004-gap-d-snippets.md.
+ * CorelDRAW («оплата coreldraw для россиян», 69 показов, позиция 9,06)
+ * добавлен в группу 02.09.2026 — после того как руководитель принял решение
+ * по SEO-EXP-001 и страница освободилась от незавершённого эксперимента.
+ *
+ * «snippets-10-expand» (02.09.2026): тираж коммерческой формулы SEO-EXP-001
+ * по решению руководителя 02.09.2026 (EXPAND). Десять карточек с наибольшим
+ * замеренным спросом вне действующих экспериментов — список выдан
+ * expand_candidates() вердикт-движка. Формула та же, что в snippets-5-vendors
+ * и snippets-6-demand: менять её при тираже нельзя, иначе тиражируется не то,
+ * что оценивалось.
  *
  * title передаётся с брендом «| BIZSoft» — SeoHead не добавляет суффикс,
  * если бренд уже есть в title (бренд в итоговом HTML ровно один раз).
@@ -72,14 +78,28 @@ const faqFor = (vendor: string): { q: string; a: string }[] => [
  * точная формулировка запроса идёт первой, оффер «счёт, договор, ЭДО» —
  * сразу за ней. Длина ≤160.
  */
-const descLegal = (vendor: string) =>
-  `Оплата ${vendor} юридическим лицом: счёт, договор и закрывающие документы через ЭДО. Оформим подписку на вашу компанию, оплата в рублях, доступ за 1–3 дня.`;
+const descQuery = (phrase: string) =>
+  `${phrase}: счёт, договор и закрывающие документы через ЭДО. Оформим подписку на вашу компанию, оплата в рублях, доступ за 1–3 дня.`;
+
+const descLegal = (vendor: string) => descQuery(`Оплата ${vendor} юридическим лицом`);
 
 /** Вопрос под ту же запросную формулу — добавляется первым к FAQ страницы. */
 const faqLegalPay = (vendor: string) => [
   {
     q: `Как оплатить ${vendor} юридическим лицом из России?`,
     a: `Оплата ${vendor} юридическим лицом идёт по безналичному расчёту: BIZSoft заключает договор, выставляет счёт на вашу организацию и передаёт закрывающие документы (акт или УПД) через ЭДО. Зарубежная карта не нужна, рублёвая цена считается от прайса вендора по курсу ЦБ РФ на дату счёта, доступ — за 1–3 рабочих дня после оплаты.`,
+  },
+];
+
+/**
+ * Вопрос под формулу «оплата {vendor} для россиян»: запрос спрашивает не про
+ * юрлицо, а про то, что зарубежная оплата из России не проходит, — вопрос
+ * отвечает ровно на это, оставаясь в том же оффере.
+ */
+const faqRussiansPay = (vendor: string) => [
+  {
+    q: `Как оплатить ${vendor} для россиян, если зарубежная карта не проходит?`,
+    a: `Оплата ${vendor} для россиян и российских компаний идёт через BIZSoft по безналичному расчёту: мы заключаем договор, выставляем счёт на вашу организацию и передаём закрывающие документы (акт или УПД) через ЭДО. Зарубежная карта не нужна, рублёвая цена считается от прайса вендора по курсу ЦБ РФ на дату счёта, доступ — за 1–3 рабочих дня после оплаты.`,
   },
 ];
 
@@ -96,11 +116,15 @@ export const SEO_EXPERIMENTS: Record<string, SeoExperiment> = {
     faqTitle: 'Как купить Depositphotos на юрлицо',
     faq: faqFor('Depositphotos'),
   },
+  // CorelDRAW переведён на запросную формулу 02.09.2026 (см. snippets-3-gap-d
+  // ниже): решение по SEO-EXP-001 принято, страница освободилась.
   coreldraw: {
-    title: 'Оплата CorelDRAW для юрлиц из России — счёт, договор, ЭДО | BIZSoft',
-    description: desc('CorelDRAW'),
-    faqTitle: 'Как купить CorelDRAW на юрлицо',
-    faq: faqFor('CorelDRAW'),
+    // «оплата coreldraw для россиян» — 69 показов за период, средняя позиция
+    // 9,06, переходов 0; кластер CorelDRAW — 131 087 запросов/мес.
+    title: 'Оплата CorelDRAW для россиян — счёт, договор, ЭДО | BIZSoft',
+    description: descQuery('Оплата CorelDRAW для россиян'),
+    faqTitle: 'Оплата CorelDRAW для россиян',
+    faqAdd: faqRussiansPay('CorelDRAW'),
   },
   heygen: {
     title: 'HeyGen — тарифы и оплата на юрлицо в рублях | BIZSoft',
@@ -190,6 +214,83 @@ export const SEO_EXPERIMENTS: Record<string, SeoExperiment> = {
     faqTitle: 'Оплата Motion Array юридическим лицом',
     faqAdd: faqLegalPay('Motion Array'),
   },
+
+  // ─── snippets-10-expand, старт 02.09.2026 ───
+  // Тираж формулы snippets-5-vendors по решению руководителя 02.09.2026
+  // (EXPAND). Страницы — десять карточек с наибольшим замеренным спросом вне
+  // действующих экспериментов (expand_candidates(), src/data/vendor-demand.json);
+  // в скобках — спрос кластера в месяц. Формула не менялась: тиражируется
+  // ровно то, что оценивалось.
+  google: {
+    // Google — 14 845 866; продаём Google Workspace и Gemini для Workspace
+    title: 'Оплата Google Workspace для юрлиц из России — счёт, договор, ЭДО | BIZSoft',
+    description: desc('Google Workspace'),
+    faqTitle: 'Как купить Google Workspace на юрлицо',
+    faq: faqFor('Google Workspace'),
+  },
+  microsoft: {
+    // Microsoft — 4 178 821
+    title: 'Оплата Microsoft 365 для юрлиц из России — счёт, договор, ЭДО | BIZSoft',
+    description: desc('Microsoft 365'),
+    faqTitle: 'Как купить Microsoft 365 на юрлицо',
+    faq: faqFor('Microsoft 365'),
+  },
+  github: {
+    // GitHub — 3 636 435
+    title: 'Оплата GitHub Copilot для юрлиц из России — счёт, договор, ЭДО | BIZSoft',
+    description: desc('GitHub Copilot'),
+    faqTitle: 'Как купить GitHub Copilot на юрлицо',
+    faq: faqFor('GitHub Copilot'),
+  },
+  unity: {
+    // Unity — 558 386
+    title: 'Оплата Unity Pro для юрлиц из России — счёт, договор, ЭДО | BIZSoft',
+    description: desc('Unity Pro'),
+    faqTitle: 'Как купить Unity Pro на юрлицо',
+    faq: faqFor('Unity Pro'),
+  },
+  docker: {
+    // Docker — 451 482
+    title: 'Оплата Docker для юрлиц из России — счёт, договор, ЭДО | BIZSoft',
+    description: desc('Docker'),
+    faqTitle: 'Как купить Docker на юрлицо',
+    faq: faqFor('Docker'),
+  },
+  runway: {
+    // Runway — 188 544
+    title: 'Оплата Runway для юрлиц из России — счёт, договор, ЭДО | BIZSoft',
+    description: desc('Runway'),
+    faqTitle: 'Как купить Runway на юрлицо',
+    faq: faqFor('Runway'),
+  },
+  solidworks: {
+    // SOLIDWORKS — 164 050
+    title: 'Оплата SOLIDWORKS для юрлиц из России — счёт, договор, ЭДО | BIZSoft',
+    description: desc('SOLIDWORKS'),
+    faqTitle: 'Как купить SOLIDWORKS на юрлицо',
+    faq: faqFor('SOLIDWORKS'),
+  },
+  acronis: {
+    // Acronis — 152 256
+    title: 'Оплата Acronis для юрлиц из России — счёт, договор, ЭДО | BIZSoft',
+    description: desc('Acronis'),
+    faqTitle: 'Как купить Acronis на юрлицо',
+    faq: faqFor('Acronis'),
+  },
+  'unreal-engine': {
+    // Unreal Engine — 148 486
+    title: 'Оплата Unreal Engine для юрлиц из России — счёт, договор, ЭДО | BIZSoft',
+    description: desc('Unreal Engine'),
+    faqTitle: 'Как купить Unreal Engine на юрлицо',
+    faq: faqFor('Unreal Engine'),
+  },
+  perplexity: {
+    // Perplexity — 147 403
+    title: 'Оплата Perplexity для юрлиц из России — счёт, договор, ЭДО | BIZSoft',
+    description: desc('Perplexity'),
+    faqTitle: 'Как купить Perplexity на юрлицо',
+    faq: faqFor('Perplexity'),
+  },
 };
 
 /** Анкоры внутренней перелинковки эксперимента (для / и /catalog). */
@@ -208,4 +309,14 @@ export const SEO_EXPERIMENT_LINKS: { slug: string; anchor: string }[] = [
   { slug: 'anthropic', anchor: 'Claude — подписка Team для компании' },
   { slug: 'artlist', anchor: 'Artlist — оплата юридическим лицом' },
   { slug: 'motion-array', anchor: 'Motion Array — оплата юридическим лицом' },
+  { slug: 'google', anchor: 'Google Workspace — оплата на юрлицо' },
+  { slug: 'microsoft', anchor: 'Microsoft 365 — подписка для компании' },
+  { slug: 'github', anchor: 'GitHub Copilot — оплата для команды' },
+  { slug: 'unity', anchor: 'Unity Pro — подписка для студии' },
+  { slug: 'docker', anchor: 'Docker — тарифы Pro и Team по счёту' },
+  { slug: 'runway', anchor: 'Runway — оплата на юрлицо' },
+  { slug: 'solidworks', anchor: 'SOLIDWORKS — лицензии для предприятия' },
+  { slug: 'acronis', anchor: 'Acronis — резервное копирование по счёту' },
+  { slug: 'unreal-engine', anchor: 'Unreal Engine — подписка для студии' },
+  { slug: 'perplexity', anchor: 'Perplexity — Enterprise Pro для команды' },
 ];

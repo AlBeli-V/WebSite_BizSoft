@@ -38,7 +38,8 @@ TEXT_LIMIT = 1000
 REPORT_URL = "https://biz-soft.pro/ci-c98370a0ebe87d97/latest.html"
 
 
-def do_next_text(attack: dict | None, package: dict | None = None) -> str:
+def do_next_text(attack: dict | None, package: dict | None = None,
+                 compact: bool = False) -> str:
     """DO NEXT — одно поручение, а не список и не строка про один запрос.
 
     Формулируется через пакет работ: страница, охват, ожидаемый эффект.
@@ -51,6 +52,27 @@ def do_next_text(attack: dict | None, package: dict | None = None) -> str:
     """
     if package:
         url_short = package["url"].replace("https://biz-soft.pro", "")
+        actions = package.get("действия") or []
+        first = actions[0] if actions else None
+        # Поручение называет конкретный шаг и место правки. Раньше здесь было
+        # направление («добавить коммерческий блок»), выбранное по типу
+        # страницы: поручить его было нельзя, а проверка показала, что на
+        # части страниц оно попросту неверно.
+        if first:
+            steps = first.get("steps", [])
+            # Компактная форма нужна в дни, когда остальные блоки письма
+            # длиннее обычного: лимит верхнего уровня — 1000 видимых символов,
+            # и поручение сокращается первым, оставаясь исполнимым.
+            if compact:
+                examples = steps[0].split(" — не хватает")[0] if steps else ""
+            else:
+                examples = "; ".join(steps[:2])
+            tail = (f" Ещё {len(actions) - 1} шага ТЗ — в отчёте."
+                    if len(actions) > 1 else "")
+            return (f"Что делать: {package['package_id']} ({url_short}) — "
+                    f"{first['what'].lower()}: {examples}. "
+                    f"Трудоёмкость {first['effort']}, исполнитель — "
+                    f"{first['owner']}.{tail}")
         upside = (f"при выходе в ТОП-3 даст примерно "
                   f"+{package['traffic_upside']:.0f} переходов"
                   if package.get("traffic_upside") is not None
@@ -82,7 +104,8 @@ def watch_text(threat_leader: tuple[dict, object] | None) -> str:
 
 def visible_text(kpi, verdict_mark, verdict_why, signal, *,
                  attack=None, threat_leader=None, package=None,
-                 signal_delta: float | None = None) -> str:
+                 signal_delta: float | None = None,
+                 compact: bool = False) -> str:
     """Основная текстовая часть письма — то, что считается против лимита.
 
     Ссылки, подписи и футер в лимит не входят (раздел 23), поэтому здесь
@@ -96,7 +119,7 @@ def visible_text(kpi, verdict_mark, verdict_why, signal, *,
          f"Google {kpi_mod.format_share(kpi.share_google)} · "
          f"ТОП-3 {kpi.top3}/{kpi.queries} · ТОП-10 {kpi.top10}/{kpi.queries}."),
         f"Главный сигнал: {signal.text}",
-        do_next_text(attack, package),
+        do_next_text(attack, package, compact=compact),
         watch_text(threat_leader),
     ]
     return "\n".join(lines)
@@ -158,7 +181,7 @@ def build(date: str, snapshot: dict, previous: dict | None,
           threat_leader=None, stale_notice: str | None = None,
           ranked_rivals=None, packages: list[dict] | None = None,
           history: list[float] | None = None,
-          core_note: str = "") -> dict:
+          core_note: str = "", experiments_line: str = "") -> dict:
     kpi = kpi_mod.build_kpi(snapshot, previous)
     verdict_mark, verdict_why = kpi_mod.verdict(kpi, history, core_note=core_note)
     signal_delta = kpi_mod.trend_change(history or [])
@@ -175,6 +198,13 @@ def build(date: str, snapshot: dict, previous: dict | None,
     text = visible_text(kpi, verdict_mark, verdict_why, signal,
                         attack=attack, threat_leader=threat_leader,
                         package=package, signal_delta=signal_delta)
+    if len(text) > TEXT_LIMIT:
+        # Сокращаем поручение, а не выводы: письмо без вердикта и сигнала
+        # бесполезно, а поручение остаётся исполнимым и в краткой форме.
+        text = visible_text(kpi, verdict_mark, verdict_why, signal,
+                            attack=attack, threat_leader=threat_leader,
+                            package=package, signal_delta=signal_delta,
+                            compact=True)
 
     coverage = snapshot.get("покрытие") or {}
     subject = (f"Конкурентная разведка · "
@@ -204,6 +234,11 @@ def build(date: str, snapshot: dict, previous: dict | None,
         "сравнение_с": kpi.compared_with,
         "дельта_суточная_пп": kpi.share_delta_pp,
         "основание_дельты": kpi.delta_basis,
+        # Строка про эксперименты живёт в детализации, а не в верхнем уровне:
+        # состав executive-части задан разделом 23 задания и ограничен 1000
+        # символами, а цикл проверки — это отчётность о ходе работ, не решение
+        # дня. В отчёте под неё отведён отдельный раздел.
+        "эксперименты_строка": experiments_line,
         "ядро": {
             "версия": kpi.core_version,
             "хеш": kpi.core_hash,
@@ -233,6 +268,8 @@ def render_txt(meta: dict, *, snapshot: dict | None = None,
     отключивший HTML, обязан получить те же сведения, а не обрубок.
     """
     parts = [meta["тема"], "", meta["текст"]]
+    if meta.get("эксперименты_строка"):
+        parts += ["", meta["эксперименты_строка"]]
 
     if packages:
         parts += ["", "ЧТО ПОРУЧИТЬ (по убыванию ожидаемого эффекта)"]
@@ -338,7 +375,8 @@ def _block(title: str, body: str, *, accent: bool = False) -> str:
 def render_html(meta: dict, *, kpi=None, snapshot: dict | None = None,
                 attacks: list[dict] | None = None, ranked_rivals=None,
                 packages: list[dict] | None = None,
-                signal_delta: float | None = None) -> str:
+                signal_delta: float | None = None,
+                on_watch: list[dict] | None = None) -> str:
     """HTML-версия письма: верхний уровень плюс секции детализации.
 
     Верхний уровень (вердикт, показатели, сигнал, действие, наблюдение)
@@ -373,6 +411,8 @@ def render_html(meta: dict, *, kpi=None, snapshot: dict | None = None,
             + sections.rivals_section(snapshot.get("лидеры") or [],
                                       ranked_rivals or [])
             + sections.attacks_section(attacks or [])
+            + sections.experiments_section(
+                meta.get('эксперименты_строка', ''), on_watch)
             + sections.limits_section(snapshot, attacks or []))
 
     def cell(label: str, value: str, note: str) -> str:
