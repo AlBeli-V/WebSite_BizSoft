@@ -52,6 +52,12 @@ const PACKS = {
     fullHead: true, // служебная шапка выводится целиком, а не тремя полями
     intro: 'docs/marketing/external/_intro-dzen1.md',
   },
+  // Мастер-версия с расчётной моделью — на аудит юриста и налогового консультанта.
+  'master-audit': {
+    files: ['docs/marketing/content-library/objects/karta-sotrudnika/source.md'],
+    out: 'exports/marketing/karta-sotrudnika-master-audit.docx',
+    bare: true,
+  },
   // Пакет для публикации: только текст статьи, без титула, вводной и карточки.
   // Копируется из Word прямо в редактор Дзена — форматирование переносится.
   'dzen1-publish': {

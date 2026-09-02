@@ -43,8 +43,21 @@ const LIMITS = { minChars: 5000, maxChars: 9000, maxLinks: 2 };
 
 function textOf(md) {
   const i = md.indexOf('\n---\n');
-  const body = i === -1 ? md : md.slice(i + 5);
+  let body = i === -1 ? md : md.slice(i + 5);
+  // Служебный блок для рецензентов не проверяется: в нём правила обсуждают,
+  // цитируя в том числе те формулировки, которые в тексте запрещены.
+  const notes = body.indexOf('ПРИМЕЧАНИЯ ДЛЯ ВНЕШНЕГО АУДИТА');
+  if (notes !== -1) body = body.slice(0, notes);
   return body.trim();
+}
+
+/**
+ * Расчётные материалы (`<!-- lint: calc-model -->` в шапке) содержат модельные
+ * суммы — это не прайс BIZSoft, а параметры сценария, поэтому проверка цен
+ * для них отключается. Всё остальное проверяется как обычно.
+ */
+function isCalcModel(md) {
+  return /<!--\s*lint:\s*calc-model\s*-->/.test(md);
 }
 
 /** Знаки без markdown-разметки — то, что увидит читатель. */
@@ -103,7 +116,11 @@ function lint(file) {
 
   // Цены цифрами
   const prices = text.match(/\d[\d\s]{2,}\s?(₽|руб|рублей)/gi);
-  if (prices) errors.push(`цены в тексте: ${[...new Set(prices)].join(', ')} — называем принцип расчёта, не цифры`);
+  if (prices && !isCalcModel(md)) {
+    errors.push(`цены в тексте: ${[...new Set(prices)].join(', ')} — называем принцип расчёта, не цифры`);
+  } else if (prices) {
+    notes.push(`модельные суммы (${new Set(prices).size} шт.) — проверка цен отключена директивой lint: calc-model`);
+  }
 
   // Структурные признаки
   if (!/BIZSoft/.test(text)) warnings.push('нет упоминания BIZSoft — аффилиация должна быть раскрыта');

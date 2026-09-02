@@ -9,7 +9,10 @@ thesis: |
   восстановление доступа + административные затраты + стоимость
   неиспользуемых лицензий.
   Тезис серии — развивать в следующих материалах.
-status: финальная версия №1 — к публикации (четыре круга ревью: 7,5 → 8,8 → 9,2 → 9,4)
+status: |
+  dzen — финальная версия №1, к публикации (четыре круга ревью: 7,5 → 8,8 → 9,2 → 9,4);
+  master — расширенная версия с расчётной моделью, НЕ публикуется до заключения
+  юриста и налогового консультанта (налоговые параметры не верифицированы)
 reference: эталон серии BIZSoft в Дзене
 
 keywords:
@@ -23,7 +26,7 @@ link_targets:
   - /blog/kak-kupit-zarubezhnoe-po-dlya-yurlica
 
 versions:
-  master: docs/marketing/external/dzen/01-karta-sotrudnika.md   # пока совпадает с версией для Дзена
+  master: docs/marketing/content-library/objects/karta-sotrudnika/source.md
   dzen: docs/marketing/external/dzen/01-karta-sotrudnika.md
   tenchat: docs/marketing/external/week1/04-tenchat-karta-sotrudnika.md
   site: null   # кандидат: статья блога через 1–2 месяца после публикации
