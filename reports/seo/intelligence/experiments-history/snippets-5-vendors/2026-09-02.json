@@ -1,0 +1,77 @@
+{
+ "experiment_id": "snippets-5-vendors",
+ "ticket": "SEO-EXP-001",
+ "date": "2026-09-02",
+ "source": "yandex",
+ "evaluation_kind": "ctr",
+ "windows": {
+  "baseline": {
+   "from": "2026-08-06",
+   "to": "2026-08-17",
+   "file": "2026-08-20"
+  },
+  "experiment": {
+   "from": "2026-08-19",
+   "to": "2026-08-30",
+   "file": "2026-09-02",
+   "tainted": true
+  }
+ },
+ "metrics": {
+  "baseline": {
+   "impressions": 532,
+   "clicks": 2,
+   "ctr": 0.0037593984962406013,
+   "avg_position": 7.197368421052632,
+   "queries": 33
+  },
+  "experiment": {
+   "impressions": 610,
+   "clicks": 4,
+   "ctr": 0.006557377049180328,
+   "avg_position": 7.973770491803279,
+   "queries": 102
+  },
+  "days": {
+   "baseline": 12,
+   "experiment": 12
+  }
+ },
+ "matched_metrics": {
+  "baseline": {
+   "impressions": 485,
+   "clicks": 1,
+   "ctr": 0.002061855670103093,
+   "avg_position": 7.0,
+   "queries": 24
+  },
+  "experiment": {
+   "impressions": 250,
+   "clicks": 1,
+   "ctr": 0.004,
+   "avg_position": 7.244,
+   "queries": 24
+  },
+  "queries": 24
+ },
+ "position_delta": null,
+ "sample_quality": [
+  "окно эксперимента захватывает день внедрения — часть показов могла увидеть старый вариант",
+  "baseline из усечённой выгрузки (100 запросов) — совпадающий набор занижен"
+ ],
+ "statistical_result": null,
+ "summary_line": null,
+ "confidence": "LOW",
+ "verdict": "INSUFFICIENT_DATA",
+ "verdict_reason": "экспозиция ниже минимальной по совпадающим запросам (baseline: 485 из 500 показов; после внедрения: 250 из 500)",
+ "recommendation": "EXTEND",
+ "recommendation_detail": "копить данные до следующей вехи; не хватает 265 показов суммарно",
+ "recommended_targets": [],
+ "requires_owner_decision": false,
+ "effective_gate": {
+  "baseline": 500,
+  "experiment": 500,
+  "adapted": false
+ },
+ "formula_group_result": null
+}

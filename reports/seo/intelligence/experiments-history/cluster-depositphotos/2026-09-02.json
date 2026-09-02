@@ -1,0 +1,53 @@
+{
+ "experiment_id": "cluster-depositphotos",
+ "ticket": "CONTENT-001",
+ "date": "2026-09-02",
+ "source": "yandex",
+ "evaluation_kind": "impressions_growth",
+ "windows": {
+  "experiment": {
+   "from": "2026-08-19",
+   "to": "2026-08-30",
+   "file": "2026-09-02",
+   "tainted": true
+  }
+ },
+ "metrics": {
+  "experiment": {
+   "impressions": 398,
+   "clicks": 0,
+   "ctr": 0.0,
+   "avg_position": 8.469849246231156,
+   "queries": 59
+  },
+  "baseline_registry": {
+   "impressions": 273,
+   "days": 14
+  }
+ },
+ "matched_metrics": null,
+ "position_delta": null,
+ "sample_quality": [
+  "окно захватывает день внедрения — рост слегка занижен"
+ ],
+ "statistical_result": null,
+ "summary_line": "показы кластера 33/день (окно 2026-08-19–2026-08-30) против 20/день baseline (273 за 14 дн.) — +70% · статья в топ-10: позиция 5 (замер 2026-09-02) · без критерия значимости (у показов нет модели испытаний)",
+ "confidence": "MEDIUM",
+ "verdict": "CONFIRMED",
+ "verdict_reason": "показы кластера выросли на +70% к baseline (20 → 33 показов/день), статья вошла в топ-10 (позиция 5)",
+ "recommendation": "EXPAND",
+ "recommendation_detail": "перенести приём (статья под транзакционный интент + взаимная перелинковка с карточками) на следующие 10 кластеров по убыванию замеренного спроса",
+ "recommended_targets": [
+  "/vendors/google",
+  "/vendors/microsoft",
+  "/vendors/github",
+  "/vendors/unity",
+  "/vendors/docker",
+  "/vendors/runway",
+  "/vendors/solidworks",
+  "/vendors/acronis",
+  "/vendors/unreal-engine",
+  "/vendors/perplexity"
+ ],
+ "requires_owner_decision": true
+}
