@@ -19,6 +19,13 @@ import json
 import pathlib
 
 DECISIONS_PATH = pathlib.Path("reports/seo/wordstat/decisions.json")
+#: Второй реестр решений по кандидатам — им пользуются письмо и веб-отчёт
+#: (report_v4.rejected_vendor_brands). Реестра было два, и они не знали друг
+#: о друге: 29.08.2026 руководитель отклонил NordVPN и Ansys, запись легла
+#: только в reports/vendors/rejected-products.md, а исследование продолжало
+#: их предлагать (проверка руководителя 02.09.2026). Теперь оба реестра
+#: читаются здесь и там: решение, записанное в любой из них, действует везде.
+VENDOR_DECISIONS_PATH = pathlib.Path("reports/seo/intelligence/vendor-decisions.json")
 
 #: Сервисы, которые покупают себе, а не на компанию.
 CONSUMER = {
@@ -57,10 +64,36 @@ def load_decisions() -> dict:
             "approved": data.get("approved") or []}
 
 
+def load_vendor_decisions() -> dict[str, str]:
+    """Отказы из реестра письма: бренд → причина.
+
+    Формат другой (словарь бренд → {date, reason}), поэтому читается отдельно
+    и приводится к общему виду.
+    """
+    if not VENDOR_DECISIONS_PATH.exists():
+        return {}
+    try:
+        data = json.loads(VENDOR_DECISIONS_PATH.read_text(encoding="utf-8"))
+    except (ValueError, OSError):
+        return {}
+    out = {}
+    for brand, row in (data.get("rejected") or {}).items():
+        if not brand:
+            continue
+        reason = (row or {}).get("reason", "") if isinstance(row, dict) else ""
+        out[str(brand).lower()] = str(reason)
+    return out
+
+
 def rejected_brands() -> dict[str, str]:
-    """Бренд → причина отказа. Такие в рекомендации не возвращаются."""
-    return {str(r.get("brand", "")).lower(): str(r.get("reason", ""))
-            for r in load_decisions()["rejected"] if r.get("brand")}
+    """Бренд → причина отказа. Такие в рекомендации не возвращаются.
+
+    Объединение обоих реестров: отказ, записанный в любом из них, действует.
+    """
+    out = dict(load_vendor_decisions())
+    out.update({str(r.get("brand", "")).lower(): str(r.get("reason", ""))
+                for r in load_decisions()["rejected"] if r.get("brand")})
+    return out
 
 
 def approved_brands() -> set[str]:

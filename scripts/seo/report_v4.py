@@ -5,8 +5,9 @@
 состояние экспериментов и следующие контрольные точки. Порядок блоков фиксирован:
 
   A Header · B Status bar · C От вас · D Четыре показателя · E Сигналы дня ·
-  F Драйверы и детракторы · G Контроль экспериментов · H Автономное исполнение ·
-  I Радар возможностей · J Здоровье данных и риски · K Контрольные точки · L Ссылки
+  E-а Заявки за сутки · E-б Реклама · F Драйверы и детракторы ·
+  G Контроль экспериментов · H Автономное исполнение · I Радар возможностей ·
+  J Здоровье данных и риски · K Контрольные точки · L Ссылки
 
 Объём 800–1200 видимых слов, первый экран — не более 250 (потолок поднят
 29–30.08.2026 под секции «Реклама», «Перспективные идеи» и loop-health;
@@ -31,6 +32,7 @@ import ads_block                      # noqa: E402
 import charts_v4                      # noqa: E402
 import drivers as drivers_mod         # noqa: E402
 import invariants as invariants_mod   # noqa: E402
+import leads as leads_mod             # noqa: E402
 import experiments as exp_mod         # noqa: E402
 import loop_health as loop_health_mod  # noqa: E402
 import opportunity as opp_mod         # noqa: E402
@@ -417,12 +419,28 @@ def kpi_cards(snap: dict, prev: dict | None, dq: dict) -> list[dict]:
     gap = any(f.get("code") == "MEASUREMENT_GAP" for f in (dq.get("findings") or []))
     crm = snap.get("crm") or {}
     if crm.get("connected"):
-        cards.append({"key": "commercial", "label": "Коммерческий сигнал",
-                      "value": num(crm.get("qualified_leads")), "unit": "обращений",
+        block = crm.get("block") or {}
+        day = block.get("day") or ""
+        # Показатель называется обращениями, а не целевыми событиями: это
+        # заявки воронки, у каждой есть компания и состав запроса. Достоверность
+        # честная — счёт заявок точен, но суточные числа однозначные, и на
+        # одной заявке выводов о канале не делают.
+        count = crm.get("qualified_leads") or 0
+        cards.append({"key": "commercial", "label": "Обращения",
+                      "value": num(count),
+                      "unit": plural(count, "заявка за сутки", "заявки за сутки",
+                                     "заявок за сутки"),
                       "delta": None, "delta_dir": "flat", "relative": None,
-                      "relative_note": "", "period": "", "source": "CRM",
-                      "confidence": "достаточная",
-                      "interpretation": "", "muted": False, "sparkline": None})
+                      "relative_note": "", "period": ru_date(day) if day else "",
+                      "source": "воронка сайта (Directus)",
+                      "confidence": "полный подсчёт, малые числа",
+                      # Разбор по каналам — в блоке «Заявки за сутки»; повторять
+                      # его в карточке значит дважды сказать одно и то же в
+                      # письме, где объём ограничен.
+                      "interpretation": ("Заявки воронки сайта: компания, состав "
+                                         "запроса и канал каждой — в блоке "
+                                         "«Заявки за сутки»."),
+                      "muted": False, "sparkline": None})
     elif not m.get("available"):
         # Целевые события считает Метрика; без неё коммерческий сигнал не измерен.
         cards.append(_no_data_card("commercial", "Коммерческий сигнал", "целевых событий",
@@ -781,12 +799,14 @@ def assemble(snap, prev, dq, actions_cfg, site_check):
         "health": health,
         "loop_health": load_loop_health(),
         "demand": demand_block,
+        "leads": (snap.get("crm") or {}).get("block") or {"available": False},
+        "crm": snap.get("crm") or {},
         "ads": ads_block.build(
             date, (snap.get("analytics") or {}).get("metrika", {})
             .get("direct_attribution")),
         "growth_ideas": growth_ideas,
         "measurement_summary": _measurement_summary(dq),
-        "checkpoints": _checkpoints(exps, actions_cfg),
+        "checkpoints": _checkpoints(exps, actions_cfg, date),
         "links": {"web": url, "web_public": public,
                   "tasks": f"{REPO}/tree/{BRANCH}/reports/seo/tasks"},
     }
@@ -1015,8 +1035,14 @@ def _management_actions(exps: list, opps: dict, demand_block: dict,
     # 2. Рост без бюджета: сниппеты под запросы с показами без переходов.
     items = (opps.get("items") or []) if opps.get("available") else []
     if items:
-        exp_slugs = {p.rstrip("/").rsplit("/", 1)[-1]
-                     for e in exps for p in _registry_pages(e)}
+        # Slug сопоставляется и с дефисом, и с пробелом: запрос кластера
+        # пишется «motion array», страница — /vendors/motion-array (02.09
+        # письмо предложило переписать сниппет, уже переписанный в #273).
+        exp_slugs = set()
+        for e in exps:
+            for pg in _registry_pages(e):
+                slug = pg.rstrip("/").rsplit("/", 1)[-1]
+                exp_slugs |= {slug, slug.replace("-", " ")}
         qlist = []
         held = []
         for o in items:
@@ -1272,26 +1298,46 @@ def _verdict_panel(e: dict) -> str:
             f"border-radius:0 10px 10px 0;\">{''.join(lines + rec)}</div>")
 
 
-def _checkpoints(exps, actions_cfg) -> list[dict]:
+def _review_subject(e: dict) -> str:
+    """Что именно замеряет ближайшая проверка — по метрике эксперимента."""
+    kind = e.get("evaluation_kind", "ctr")
+    if kind == "impressions_growth":
+        return "замер роста показов кластера и позиции статьи"
+    if kind == "launch":
+        return "замер индексации и показов новых страниц"
+    return "замер кликабельности изменённых страниц"
+
+
+def _checkpoints(exps, actions_cfg, date: str = "") -> list[dict]:
     out = []
     for e in exps:
         # next_review = None: все вехи эксперимента позади — он ждёт вердикта
         # (это видно в «Контроле эксперимента»), а «следующей проверки» у него
         # нет. Прошедшие даты сюда не попадают: их отсекает next_review_for
         # (вопрос руководителя 30.08 — письмо показывало 26.08 как будущее).
+        # Контрольная дата сегодня: проверка уже проведена, и её результат —
+        # в блоке «Контроль эксперимента» этого же письма. Показывать её как
+        # предстоящую нельзя (вопрос руководителя 02.09.2026), но и молчать о
+        # ней не нужно: строка называет вердикт и уводит к разбору.
         if not e.get("next_review"):
             continue
         out.append({"date": ru_date(e["next_review"]),
-                    "what": f"{e['ticket']}: замер кликабельности изменённых страниц"})
+                    "what": f"{e['ticket']}: {_review_subject(e)}"})
     for a in actions_cfg["actions"]:
         if a.get("due") and a["status"] in ("in_progress", "blocked"):
             out.append({"date": ru_date(a["due"]), "what": f"{a['id']}: {a['title']}"})
+    # Дедупликация по (дата, идентификатор): у задачи журнала и эксперимента
+    # совпадает тикет (SEO-EXP-002), и один и тот же контроль печатался
+    # дважды разными формулировками.
     seen, uniq = set(), []
     for c in out:
-        k = (c["date"], c["what"])
+        k = (c["date"], c["what"].split(":", 1)[0].strip())
         if k not in seen:
             seen.add(k)
             uniq.append(c)
+    # По возрастанию даты: ближайшее сверху. Дата в формате ДД.ММ, поэтому
+    # сортируется по (месяц, день).
+    uniq.sort(key=lambda c: tuple(reversed(c["date"].split("."))))
     return uniq[:3]
 
 
@@ -1450,6 +1496,42 @@ def html_email(b: dict, charts: dict, cid_mode: bool) -> str:
             f"padding-top:2px;\">достоверность: {s['confidence']}</div></div>"
             for s in b["signals"])
         rows.append(_section("Сигналы дня", sig))
+
+    # E-а. Заявки за сутки и путь к запросу.
+    #
+    # Стоит выше рекламы намеренно: реклама — это расход и гипотеза, заявка —
+    # результат. Канал каждой заявки называется с основанием («Метрика» или
+    # «метка браузера»): по метке выдача поисковика неотличима от его сервисов,
+    # и утверждать «пришли из органики» на таком основании нельзя.
+    lb = b.get("leads") or {}
+    if lb.get("available"):
+        if lb["count"]:
+            lead_rows = "".join(
+                f"<div style=\"padding:{SP['m']}px 0;border-bottom:1px solid {T['border']};\">"
+                f"<div style=\"font-size:15.5px;font-weight:600;line-height:1.45;\">"
+                f"{it['time']} · {it['company']}</div>"
+                f"<div style=\"font-size:14.5px;padding-top:2px;line-height:1.55;\">"
+                f"{it['request']} · {it['form']}</div>"
+                f"<div style=\"font-size:14.5px;padding-top:2px;line-height:1.55;\">"
+                f"<b>Канал:</b> {it['channel']}</div>"
+                f"<div style=\"font-size:14.5px;padding-top:2px;line-height:1.55;\">"
+                f"<b>Путь:</b> {it['journey']}</div>"
+                f"<div data-meta=\"1\" style=\"font-size:12.5px;color:{T['text_secondary']};"
+                f"padding-top:2px;\">основание: {it['channel_basis']}"
+                + (f" · {it['channel_evidence']}" if it['channel_evidence'] else "")
+                + "</div></div>"
+                for it in lb["items"])
+            more = (f"<div style=\"font-size:14.5px;padding-top:{SP['s']}px;\">"
+                    f"Ещё {counted(lb['more'], 'заявка', 'заявки', 'заявок')} за сутки — "
+                    f"в воронке сайта.</div>" if lb["more"] else "")
+        else:
+            lead_rows, more = "", ""
+        rows.append(_section(
+            "Заявки за сутки",
+            f"<div style=\"font-size:15px;line-height:1.6;\">"
+            f"{leads_mod.summary_line(lb)}</div>"
+            f"<div style=\"padding-top:{SP['s']}px;\">{lead_rows}</div>{more}",
+            lb.get("note", "")))
 
     # E-б. Реклама (Директ) — Direct Control Report, этап A. Маркер всегда
     # со словом-причиной; направления без 10 кликов — серые «мало данных».
@@ -1770,9 +1852,14 @@ def html_email(b: dict, charts: dict, cid_mode: bool) -> str:
         cps = "".join(
             f"<div style=\"font-size:15px;padding:{SP['xs']}px 0;line-height:1.55;\">"
             f"<b>{c['date']}</b> — {c['what']}</div>" for c in b["checkpoints"])
+        done_today = [e["ticket"] for e in b["experiments"]
+                      if e.get("control_date_today")]
+        note_done = (f"Проверки {', '.join(done_today)} проведены сегодня — их вердикты "
+                     f"выше, в «Контроле эксперимента». " if done_today else "")
         cps += (f"<div data-meta=\"1\" style=\"font-size:12.5px;color:{T['text_secondary']};"
                 f"padding-top:{SP['s']}px;line-height:1.45;\">"
-                f"До этих дат выводы по эксперименту не делаются: данных выдачи за более "
+                f"{note_done}"
+                f"До перечисленных дат выводы не делаются: данных выдачи за более "
                 f"короткий срок недостаточно, чтобы отличить эффект от обычных колебаний."
                 f"</div>")
         rows.append(_section("Следующие проверки", cps))
@@ -1834,6 +1921,18 @@ def plain_text(b: dict) -> str:
         for s in b["signals"]:
             L.append(f"- {s['metric']}: {s['previous']} -> {s['current']} ({s['delta']}). "
                      f"{s['meaning']}")
+    lb = b.get("leads") or {}
+    if lb.get("available"):
+        L += ["", "ЗАЯВКИ ЗА СУТКИ", leads_mod.summary_line(lb)]
+        for it in lb["items"]:
+            L.append(f"- {it['time']} · {it['company']}: {it['request']} ({it['form']})")
+            L.append(f"  канал: {it['channel']} — основание: {it['channel_basis']}")
+            L.append(f"  путь: {it['journey']}")
+        if lb["more"]:
+            L.append(f"  ещё {counted(lb['more'], 'заявка', 'заявки', 'заявок')} "
+                     f"за сутки — в воронке сайта")
+        if lb.get("note"):
+            L.append(f"  {lb['note']}")
     ads = b.get("ads") or {}
     if ads.get("available"):
         L += ["", "РЕКЛАМА — ЯНДЕКС.ДИРЕКТ",
@@ -1978,6 +2077,11 @@ def plain_text(b: dict) -> str:
         L.append(lh_line[0])
     if b["checkpoints"]:
         L += ["", "СЛЕДУЮЩИЕ ПРОВЕРКИ"]
+        done_today = [e["ticket"] for e in b["experiments"]
+                      if e.get("control_date_today")]
+        if done_today:
+            L.append(f"  проверки {', '.join(done_today)} проведены сегодня — "
+                     f"вердикты выше, в «Контроле эксперимента»")
         for c in b["checkpoints"]:
             L.append(f"- {c['date']} — {c['what']}")
     L += ["", f"Полный отчёт: {b['links']['web']}", f"Журнал работ: {b['links']['tasks']}"]
@@ -2081,18 +2185,36 @@ def _site_vendor_words() -> set[str]:
 
 
 VENDOR_DECISIONS = BASE / "vendor-decisions.json"
+# Второй реестр решений по кандидатам — им пользуется исследование
+# (scripts/seo/wordstat/audience.py). Реестра было два, и они не знали друг о
+# друге: 29.08.2026 руководитель отклонил NordVPN и Ansys, запись легла только
+# в reports/vendors/rejected-products.md, и оба контура продолжали предлагать
+# их заново (проверка руководителя 02.09.2026). Читаем оба: решение,
+# записанное в любой из них, действует и в письме, и в исследовании.
+WORDSTAT_DECISIONS = pathlib.Path("reports/seo/wordstat/decisions.json")
+
+
+def _norm_brand(b: str) -> str:
+    return " ".join(re.findall(r"[a-zа-яё0-9]+", (b or "").lower()))
 
 
 def rejected_vendor_brands() -> set[str]:
     """Кандидаты в каталог, отклонённые руководителем (нормализованные имена)."""
-    if not VENDOR_DECISIONS.exists():
-        return set()
-    try:
-        d = json.loads(VENDOR_DECISIONS.read_text(encoding="utf-8"))
-    except (OSError, json.JSONDecodeError):
-        return set()
-    return {" ".join(re.findall(r"[a-zа-яё0-9]+", b.lower()))
-            for b in (d.get("rejected") or {})}
+    out: set[str] = set()
+    if VENDOR_DECISIONS.exists():
+        try:
+            d = json.loads(VENDOR_DECISIONS.read_text(encoding="utf-8"))
+            out |= {_norm_brand(b) for b in (d.get("rejected") or {})}
+        except (OSError, json.JSONDecodeError):
+            pass
+    if WORDSTAT_DECISIONS.exists():
+        try:
+            d = json.loads(WORDSTAT_DECISIONS.read_text(encoding="utf-8"))
+            out |= {_norm_brand(r.get("brand", ""))
+                    for r in (d.get("rejected") or []) if r.get("brand")}
+        except (OSError, json.JSONDecodeError):
+            pass
+    return {b for b in out if b}
 
 
 def _drop_vendors_already_on_site(block: dict) -> dict:

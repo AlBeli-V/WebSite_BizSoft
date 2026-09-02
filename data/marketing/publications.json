@@ -1,0 +1,13 @@
+{
+  "schema_version": "1.0.0",
+  "note": "Реестр внешних публикаций BIZSoft. Заполняется после каждой публикации; замеры — на 3-й, 7-й и 14-й день. Источник данных для решений по платным размещениям (слой 3 программы docs/seo/external-links-program.md).",
+  "fields": {
+    "object": "slug контентного объекта из docs/marketing/content-library/objects/",
+    "platform": "dzen | vc | spark | tenchat | pressfeed",
+    "url": "адрес публикации",
+    "published_at": "дата публикации, YYYY-MM-DD",
+    "link_targets": "целевые URL biz-soft.pro в материале",
+    "checks": "замеры: day3 (индексация), day7 (показы, дочитывания, переходы), day14 (ссылка в Вебмастере, позиции целевых страниц)"
+  },
+  "publications": []
+}
