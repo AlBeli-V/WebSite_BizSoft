@@ -52,6 +52,25 @@ const PACKS = {
     fullHead: true, // служебная шапка выводится целиком, а не тремя полями
     intro: 'docs/marketing/external/_intro-dzen1.md',
   },
+  // Мастер-версия с расчётной моделью — на аудит юриста и налогового консультанта.
+  'master-audit': {
+    files: ['docs/marketing/content-library/objects/karta-sotrudnika/source.md'],
+    out: 'exports/marketing/karta-sotrudnika-master-audit.docx',
+    bare: true,
+  },
+  // Вторая статья Дзена — пакет для вставки в редактор.
+  'dzen2-publish': {
+    files: ['docs/marketing/external/dzen/02-tco-podpiski.md'],
+    out: 'exports/marketing/dzen-02-tco-publish.docx',
+    bare: true,
+  },
+  // Пакет для публикации: только текст статьи, без титула, вводной и карточки.
+  // Копируется из Word прямо в редактор Дзена — форматирование переносится.
+  'dzen1-publish': {
+    files: ['docs/marketing/external/dzen/01-karta-sotrudnika.md'],
+    out: 'exports/marketing/dzen-01-publish.docx',
+    bare: true,
+  },
 };
 
 const PACK = PACKS[process.argv[2] || 'week1'];
@@ -67,7 +86,8 @@ function runs(text, base = {}) {
     if (m.index > last) out.push(new TextRun({ text: text.slice(last, m.index), ...base }));
     const tok = m[0];
     if (tok.startsWith('**')) {
-      out.push(new TextRun({ text: tok.slice(2, -2), bold: true, ...base }));
+      // Внутри жирного может быть ссылка — разбираем рекурсивно, наследуя стиль.
+      out.push(...runs(tok.slice(2, -2), { ...base, bold: true }));
     } else if (tok.startsWith('`')) {
       out.push(new TextRun({ text: tok.slice(1, -1), font: 'Consolas', size: 20, ...base }));
     } else if (tok.startsWith('[')) {
@@ -78,7 +98,8 @@ function runs(text, base = {}) {
       }));
       out.push(new TextRun({ text: ` (${mm[2]})`, size: 18, color: '767676', ...base }));
     } else {
-      out.push(new TextRun({ text: tok.slice(1, -1), italics: true, ...base }));
+      // То же для курсива: подпись канала — курсив со ссылкой внутри.
+      out.push(...runs(tok.slice(1, -1), { ...base, italics: true }));
     }
     last = m.index + tok.length;
   }
@@ -249,8 +270,8 @@ const articles = PACK.files.map((rel) => {
 
 const children = [];
 
-// ── Титул ──
-children.push(
+// ── Титул и вводная: только для ревью-пакетов ──
+if (!PACK.bare) children.push(
   new Paragraph({ text: '', spacing: { after: 1400 } }),
   new Paragraph({
     children: [new TextRun({ text: PACK.kicker, size: 24, color: '767676', characterSpacing: 30 })],
@@ -279,14 +300,14 @@ children.push(
   new Paragraph({ children: [new PageBreak()] }),
 );
 
-// ── Что мы просим у эксперта ──
-children.push(
+// ── Вводная для рецензента ──
+if (!PACK.bare) children.push(
   ...mdToParagraphs(fs.readFileSync(path.join(ROOT, PACK.intro), 'utf8').trim(), { shift: 0 }),
   new Paragraph({ children: [new PageBreak()] }),
 );
 
 // ── Карта публикаций ──
-if (PACK.map) { children.push(
+if (PACK.map && !PACK.bare) { children.push(
   new Paragraph({ text: 'Карта публикаций недели', heading: HeadingLevel.HEADING_1, spacing: { after: 200 } }),
   new Table({
     columnWidths: WIDTHS,
@@ -329,6 +350,10 @@ if (PACK.map) { children.push(
 
 // ── Статьи ──
 articles.forEach((a, i) => {
+  if (PACK.bare) {
+    children.push(...mdToParagraphs(a.body, { shift: 0 }));
+    return;
+  }
   children.push(
     new Paragraph({
       children: [new TextRun({ text: `Материал ${i + 1} · ${a.platform}`, size: 20, color: '767676', characterSpacing: 20 })],
