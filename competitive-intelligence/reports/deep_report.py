@@ -11,6 +11,7 @@ COMPETITOR PAGE = разведка, ATTACK PAGE = план, EVIDENCE = дока�
   L3 Competitor Page — карточка каждого конкурента: след, запросы, страницы;
   L4 Attack Detail — Strike List целиком и разбор каждой точки атаки;
   L5 Raw Evidence — исходные строки выдачи, на которых всё построено.
+  L6 Experiments — судьба выданных поручений: внедрение, мораторий, эффект.
 
 Отчёт статический: один самодостаточный HTML без внешних зависимостей, чтобы
 открывался с телефона и не зависел от CDN.
@@ -106,12 +107,20 @@ a{color:var(--accent)}
 def _kpi_cards(snapshot: dict, previous: dict | None, attacks: list[dict]) -> str:
     ours = snapshot.get("наши_показатели") or {}
     prev = (previous or {}).get("наши_показатели") or {}
-    delta = ""
-    if ours.get("доля_видимости") is not None and prev.get("доля_видимости") is not None:
-        d = 100 * (ours["доля_видимости"] - prev["доля_видимости"])
-        delta = f"{d:+.2f} п.п. к {previous.get('дата')}".replace(".", ",")
-    else:
-        delta = "сравнимого дня нет"
+    # Дельта считается тем же способом, что и в письме: по пересечению
+    # составов ядра. Прямая разность долей двух дней сравнивала бы величины,
+    # посчитанные в разных полях, — и расширение ядра выглядело бы падением
+    # видимости. 01.09 отчёт из-за этого показывал −2,39 п.п. там, где
+    # сравнимая дельта была +0,55.
+    from decision_engine import kpi as kpi_mod
+    delta = "сравнимого дня нет"
+    if previous:
+        measure = kpi_mod.build_kpi(snapshot, previous)
+        if measure.share_delta_pp is not None:
+            basis = ("" if not measure.core_changed
+                     else f", {measure.comparable_core} общих запросов")
+            number = f"{measure.share_delta_pp:+.2f}".replace(".", ",")
+            delta = f"{number} п.п. к {previous.get('дата')}{basis}"
 
     cards = [
         ("B2B Share · Яндекс", pct(ours.get("доля_видимости")), delta),
@@ -317,6 +326,106 @@ def _packages_block(packages: list[dict]) -> str:
     return "".join(blocks)
 
 
+def _experiments_block(experiments: list | None, config: dict | None,
+                       on_watch: list[dict] | None) -> str:
+    """Уровень 6: что из поручений внедрено и что из этого вышло.
+
+    Раздел закрывает разрыв, из-за которого контур оставался генератором
+    предложений: раньше он не знал судьбы своих же рекомендаций, предлагал
+    одно и то же и ничему не учился. Здесь три части: страницы под мораторием
+    (правка внесена, идёт замер), таблица «было → стало» по завершённым
+    экспериментам и вывод по типам действий.
+    """
+    from experiments import journal as jr
+    from experiments import learning as lr
+
+    experiments = experiments or []
+    on_watch = on_watch or []
+    if not experiments and not on_watch:
+        return ('<p class="q">Журнал экспериментов пуст: цикл проверки только '
+                'запускается. Первые выводы появятся после того, как поручения '
+                'будут внедрены и отстоят срок наблюдения.</p>')
+
+    data = lr.funnel(experiments)
+    states = data["по_состояниям"]
+    verdicts = data["исходы"]
+
+    watch_rows = "".join(f"""
+<tr><td>{esc(e.id)}</td><td>{esc(e.url.replace('https://biz-soft.pro', ''))}</td>
+<td>{esc(e.implemented_at)}</td><td>{esc(e.watch_until)}</td>
+<td>{esc(str(e.baseline.get('медиана_позиций', '—')))}</td>
+<td>{esc(str(len(e.queries)))}</td></tr>"""
+        for e in experiments if e.state == jr.STATE_WATCH)
+    watch_table = (f"""
+<table><thead><tr><th>Опыт</th><th>Страница</th><th>Внедрено</th>
+<th>Замер до</th><th>Позиция до</th><th>Запросов</th></tr></thead>
+<tbody>{watch_rows}</tbody></table>""" if watch_rows else
+        '<p class="q">Под мораторием сейчас никого: внедрённых правок, '
+        'ожидающих замера, нет.</p>')
+
+    done_rows = "".join(f"""
+<tr><td>{esc(e.id)}</td><td>{esc(e.url.replace('https://biz-soft.pro', ''))}</td>
+<td>{esc(", ".join(e.action_kinds))}</td>
+<td>{esc(str(e.outcome.get('медиана_до', '—')))}</td>
+<td>{esc(str(e.outcome.get('медиана_после', '—')))}</td>
+<td>{esc(str(e.outcome.get('контроль_дельта', '—')))}</td>
+<td><b>{esc(str(e.outcome.get('чистый_эффект', '—')))}</b></td>
+<td>{esc(str(e.outcome.get('вердикт', '—')))}</td>
+<td>{esc(str(e.outcome.get('достоверность', '—')))}</td></tr>"""
+        for e in experiments if e.state == jr.STATE_DONE)
+    done_table = (f"""
+<table><thead><tr><th>Опыт</th><th>Страница</th><th>Что делали</th>
+<th>Позиция до</th><th>После</th><th>Сдвиг выдачи</th>
+<th>Чистый эффект</th><th>Вердикт</th><th>Достоверность</th></tr></thead>
+<tbody>{done_rows}</tbody></table>""" if done_rows else
+        '<p class="q">Завершённых экспериментов пока нет: ни одно окно '
+        'наблюдения ещё не истекло.</p>')
+
+    lesson_rows = "".join(f"""
+<tr><td>{esc(row['тип'])}</td><td>{row['наблюдений']}</td>
+<td>{row['медианный_эффект_позиций']}</td><td>{row['улучшений']}</td>
+<td>{esc(row['вывод'])}</td></tr>"""
+        for row in lr.by_action_kind(experiments, config))
+    lessons = (f"""
+<table><thead><tr><th>Тип действия</th><th>Наблюдений</th>
+<th>Медианный эффект, позиций</th><th>Улучшений</th><th>Вывод</th></tr></thead>
+<tbody>{lesson_rows}</tbody></table>""" if lesson_rows else
+        '<p class="q">Выводов по типам действий пока нет: ни один эксперимент '
+        'не доведён до оценки.</p>')
+
+    return f"""
+<p class="lead">Предложено {states.get(jr.STATE_PROPOSED, 0)} ·
+на наблюдении {states.get(jr.STATE_WATCH, 0)} ·
+оценено {states.get(jr.STATE_DONE, 0)} ·
+из оценённых улучшение у {verdicts[jr.VERDICT_BETTER]},
+без изменений {verdicts[jr.VERDICT_FLAT]},
+ухудшение {verdicts[jr.VERDICT_WORSE]}.</p>
+
+<h3>Под мораторием: правка внесена, идёт замер</h3>
+<p class="q">Эти страницы намеренно исключены из сегодняшних поручений. Если
+предлагать по ним новую работу, измерить эффект уже внесённой правки будет
+нельзя: непонятно, какая из двух что сдвинула.</p>
+{watch_table}
+
+<h3>Было → стало по завершённым экспериментам</h3>
+<p class="q"><b>Как считается эффект.</b> Берётся изменение медианной позиции
+по запросам эксперимента и — за тот же период — изменение по всем прочим
+запросам ядра, где мы ничего не трогали. Эффектом считается разница между
+ними: так общий сдвиг выдачи (апдейт алгоритма, сезонность, уход конкурента)
+не записывается в заслугу правки. Отрицательное значение — позиции выросли.
+Отсутствие в ТОП-20 считается позицией 21, иначе выпадение из выдачи улучшало
+бы среднее. <b>Это наблюдение, а не доказательство:</b> A/B-теста на поисковой
+выдаче не существует, и влияние других причин исключить нельзя.</p>
+{done_table}
+
+<h3>Чему это учит: какие правки работают</h3>
+<p class="q">Пока по типу действия накоплено меньше пяти оценённых
+экспериментов, вывода нет и порядок поручений не меняется: подстраивать
+приоритет работ под три случайных наблюдения — способ закрепить случайность
+в методике.</p>
+{lessons}"""
+
+
 def _meta(snapshot: dict, key: str):
     """Значение из блока метаданных снимка. «н/д» — снимок старого формата."""
     return (snapshot.get("метаданные") or {}).get(key, "н/д")
@@ -325,7 +434,9 @@ def _meta(snapshot: dict, key: str):
 def build(date: str, snapshot: dict, previous: dict | None,
           attacks: list[dict], full_cards: list[dict], rows,
           packages: list[dict] | None = None,
-          histories: dict[str, list[float]] | None = None) -> str:
+          histories: dict[str, list[float]] | None = None,
+          experiments: list | None = None, config: dict | None = None,
+          on_watch: list[dict] | None = None) -> str:
     """Собирает самодостаточный HTML-отчёт."""
     ours = snapshot.get("наши_показатели") or {}
     coverage = snapshot.get("покрытие") or {}
@@ -342,9 +453,10 @@ def build(date: str, snapshot: dict, previous: dict | None,
         '(насколько позицию конкурента реально отобрать) требует краулинга '
         'страниц конкурентов и появится в Phase 4 — до тех пор его вес '
         'перераспределён на измеримые факторы, а уверенность рекомендаций не '
-        'поднимается выше MEDIUM. Revenue считается прокси (спрос × '
-        'коммерческий интент), а не измеренной выручкой: калибровка по '
-        'конверсиям Метрики и GA4 — Phase 5.</div>')
+        'поднимается выше MEDIUM. Экономический фактор в модели отсутствует '
+        'вовсе: измеренной выручки по запросам нет, а её оценка через спрос и '
+        'интент дублировала бы эти факторы (убрана в версии 1.1.0). Судьба '
+        'выданных поручений отслеживается с 01.09.2026 — раздел 6.</div>')
 
     return f"""<!doctype html>
 <html lang="ru"><head><meta charset="utf-8">
@@ -368,7 +480,8 @@ def build(date: str, snapshot: dict, previous: dict | None,
   <a href="#l3">3 · Карточки конкурентов</a>
   <a href="#plan">4 · План работ</a>
   <a href="#l4">5 · Точки атаки</a>
-  <a href="#l5">6 · Исходные данные</a>
+  <a href="#exp">6 · Эксперименты</a>
+  <a href="#l5">7 · Исходные данные</a>
   <a href="#method">Методика</a>
 </nav>
 
@@ -416,7 +529,14 @@ def build(date: str, snapshot: dict, previous: dict | None,
 <h3>Разбор первых десяти</h3>
 {_attack_details(attacks)}
 
-<h2 id="l5">6 · Исходные данные</h2>
+<h2 id="exp">6 · Эксперименты: что внедрено и что из этого вышло</h2>
+<p class="lead">Раздел закрывает петлю обратной связи: поручение → внедрение →
+мораторий на время замера → оценка эффекта → вывод для будущих рекомендаций.
+Без него контур остаётся генератором предложений, который не знает судьбы
+собственных советов.</p>
+{_experiments_block(experiments, config, on_watch)}
+
+<h2 id="l5">7 · Исходные данные</h2>
 <p class="lead">Всё выше построено на этих строках выдачи. Каждая — запрос,
 регион и TOP-20 доменов с URL на момент съёма.</p>
 <details><summary>Показать выдачу по первым 20 запросам</summary>
@@ -446,8 +566,9 @@ Wordstat, а где её нет — показы Яндекс.Вебмастер
 <p class="q">Не оценивает уязвимость конкретных страниц конкурентов (нужен
 краулинг — Phase 4), не измеряет выручку по запросам (нужна привязка к
 конверсиям — Phase 5), не отслеживает историю решений и результат внедрений
-(Decision Memory — Phase 5). Отсутствие данных нигде не показывается как
-ноль.</p></details>
+(уязвимость страниц конкурентов — Phase 4). Отсутствие данных нигде не
+показывается как ноль. Судьба поручений с 01.09.2026 отслеживается — см.
+раздел 6.</p></details>
 </div>
 
 <details><summary>Условия расчёта: чем и по какому полю посчитан этот день</summary>

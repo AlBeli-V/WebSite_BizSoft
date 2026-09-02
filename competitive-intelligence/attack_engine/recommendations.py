@@ -303,18 +303,44 @@ def headline(actions: list[Action], package: dict) -> str:
     return actions[0].what
 
 
-def enrich(packages: list[dict], geo_by_query: dict | None = None) -> list[dict]:
+def order_by_effect(actions: list[Action],
+                    effect_ranking: dict[str, float] | None) -> list[Action]:
+    """Ставит вперёд типы действий, которые на опыте дают эффект.
+
+    Пока по типу действия не накоплено достаточно оценённых экспериментов,
+    его в ranking нет и порядок остаётся прежним: подстраивать очередь работ
+    под два-три случайных исхода — способ закрепить случайность. Переобход
+    всегда идёт последним: он не улучшение, а завершение работы.
+    """
+    if not effect_ranking:
+        return actions
+    def key(pair):
+        index, action = pair
+        if action.kind == "индексация":
+            return (2, 0.0, index)
+        effect = effect_ranking.get(action.kind)
+        if effect is None:
+            return (1, 0.0, index)   # неизученные — после изученных
+        return (0, effect, index)    # меньше (сильнее выигрыш) — раньше
+    return [a for _, a in sorted(enumerate(actions), key=key)]
+
+
+def enrich(packages: list[dict], geo_by_query: dict | None = None,
+           effect_ranking: dict[str, float] | None = None) -> list[dict]:
     """Дописывает в каждый пакет конкретные действия и то, что уже сделано.
 
-    Работает поверх готовых пакетов: скоринг и порядок не трогает, добавляет
-    только исполнительную часть.
+    Работает поверх готовых пакетов: скоринг и порядок пакетов не трогает,
+    добавляет только исполнительную часть. Порядок действий внутри пакета
+    может подстраиваться под накопленный опыт — см. order_by_effect.
     """
     geo_by_query = geo_by_query or {}
     for package in packages:
         page = page_audit.load(package.get("url", ""), package.get("page_kind", ""))
         geo = geo_gap(package.get("queries") or [], geo_by_query)
         actions, done, skip = build(package, page, geo)
+        actions = order_by_effect(actions, effect_ranking)
         package["действия"] = to_dicts(actions)
+        package["порядок_по_опыту"] = bool(effect_ranking)
         package["уже_сделано"] = done
         package["не_рекомендуем"] = skip
         package["проверено_по"] = page.scope_note
