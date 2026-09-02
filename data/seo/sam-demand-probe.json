@@ -1,0 +1,108 @@
+{
+  "note": "Когорта замера спроса по классу SAM/ITAM/SMP: категориальные запросы, бренды зарубежных и российских вендоров, покупательские формулировки. Читается scripts/seo/wordstat/sam_probe.py. Регион — Россия (225). Флаг serp=true означает, что по фразе снимается ещё и состав выдачи: это платный вызов веб-поиска, поэтому он стоит только там, где важно понять конкуренцию за место в топе.",
+  "region": "225",
+  "num_phrases": 50,
+  "groups": [
+    {
+      "key": "category",
+      "title": "Категориальный спрос: как ищут сам класс систем",
+      "phrases": [
+        { "p": "учет лицензий", "serp": true },
+        { "p": "управление лицензиями" },
+        { "p": "учет программного обеспечения", "serp": true },
+        { "p": "инвентаризация по" },
+        { "p": "инвентаризация компьютеров", "serp": true },
+        { "p": "учет ит активов", "serp": true },
+        { "p": "управление ит активами" },
+        { "p": "itam" },
+        { "p": "sam система" },
+        { "p": "software asset management" },
+        { "p": "аудит лицензий" },
+        { "p": "система инвентаризации сети" },
+        { "p": "cmdb" },
+        { "p": "service desk" }
+      ]
+    },
+    {
+      "key": "smp",
+      "title": "SaaS Management: спрос выражен проблемой, а не названием класса",
+      "phrases": [
+        { "p": "управление подписками", "serp": true },
+        { "p": "учет подписок" },
+        { "p": "контроль подписок сотрудников" },
+        { "p": "неиспользуемые лицензии" },
+        { "p": "shadow it" },
+        { "p": "оптимизация расходов на по" },
+        { "p": "saas management" }
+      ]
+    },
+    {
+      "key": "foreign",
+      "title": "Зарубежные вендоры класса",
+      "phrases": [
+        { "p": "manageengine" },
+        { "p": "assetexplorer" },
+        { "p": "servicedesk plus" },
+        { "p": "endpoint central" },
+        { "p": "lansweeper", "serp": true },
+        { "p": "freshservice" },
+        { "p": "snipe-it" },
+        { "p": "glpi" },
+        { "p": "infraon" },
+        { "p": "motadata" },
+        { "p": "invgate" },
+        { "p": "pdq inventory" },
+        { "p": "action1" },
+        { "p": "atera" },
+        { "p": "ninjaone" },
+        { "p": "zluri" },
+        { "p": "torii" },
+        { "p": "zylo" },
+        { "p": "bettercloud" },
+        { "p": "cledara" },
+        { "p": "sastrify" },
+        { "p": "productiv" },
+        { "p": "josys" },
+        { "p": "cloudeagle" },
+        { "p": "flexera" },
+        { "p": "servicenow" },
+        { "p": "snow software" },
+        { "p": "matrix42" },
+        { "p": "ivanti" },
+        { "p": "usu software" },
+        { "p": "teamdynamix" }
+      ]
+    },
+    {
+      "key": "russian",
+      "title": "Российские вендоры класса",
+      "phrases": [
+        { "p": "naumen sam" },
+        { "p": "naumen service desk" },
+        { "p": "инфраменеджер" },
+        { "p": "simpleone" },
+        { "p": "a-tracker" },
+        { "p": "итилиум" },
+        { "p": "itsm 365" },
+        { "p": "инферит итмен" },
+        { "p": "10-страйк инвентаризация" },
+        { "p": "total network inventory" },
+        { "p": "hardware inspector" },
+        { "p": "it invent" },
+        { "p": "okdesk" }
+      ]
+    },
+    {
+      "key": "commercial",
+      "title": "Покупательские формулировки по кандидатам",
+      "phrases": [
+        { "p": "manageengine купить", "serp": true },
+        { "p": "lansweeper купить" },
+        { "p": "freshservice купить" },
+        { "p": "assetexplorer купить" },
+        { "p": "naumen sam купить" },
+        { "p": "система учета лицензий купить", "serp": true }
+      ]
+    }
+  ]
+}
