@@ -22,6 +22,8 @@ discovery = importlib.import_module('discovery')
 # Данные из фикстур: копии machine-данных вычищены из main 30.08.2026.
 _FIXWS = pathlib.Path(__file__).resolve().parent / 'fixtures/reports/seo/wordstat'
 audience.DECISIONS_PATH = _FIXWS / 'decisions.json'
+audience.VENDOR_DECISIONS_PATH = (pathlib.Path(__file__).resolve().parent
+                                  / 'fixtures/reports/seo/intelligence/vendor-decisions.json')
 discovery.CANDIDATES_TS = _FIXWS / 'vendor-candidates.json'
 
 
@@ -49,6 +51,13 @@ class TestDecisions(unittest.TestCase):
         self.assertTrue(approved)
         for b in approved:
             self.assertIsNone(audience.skip_reason(b))
+
+    def test_отказ_из_второго_реестра_тоже_действует(self):
+        # 29.08.2026 руководитель отклонил NordVPN и Ansys, но решение легло
+        # только в один реестр, и кандидаты предлагались заново. Теперь любой
+        # из двух реестров закрывает вопрос.
+        self.assertIsNotNone(audience.skip_reason('vercel'))
+        self.assertIsNotNone(audience.skip_reason('vercel купить'))
 
     def test_registry_entries_are_traceable(self):
         d = audience.load_decisions()

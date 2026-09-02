@@ -20,6 +20,7 @@ import subprocess
 import sys
 
 import daily_windows
+import leads as leads_mod
 
 SCHEMA_VERSION = "2.2.0"
 # Часовой пояс отчётности — московский: так требует правило проекта, и так же
@@ -791,6 +792,72 @@ def prev_snapshot(date: str) -> dict | None:
     }
 
 
+def load_leads(date: str) -> tuple[dict | None, str | None]:
+    """Выгрузка заявок за дату, а при её отсутствии — последняя доступная.
+
+    Сбор заявок идёт отдельным воркфлоу и по SSH: он падает по своим
+    причинам (сервер, база, сеть), и терять из-за этого весь блок нельзя.
+    Устаревшая выгрузка лучше пустоты — но только если письмо честно
+    называет её дату, поэтому вместе с данными возвращается их день.
+    """
+    raw = load("leads", date)
+    if raw is not None:
+        return raw, date
+    files = sorted(DATA_DIR.glob("leads-*.json"))
+    files = [f for f in files if f.stem[len("leads-"):] < date]
+    if not files:
+        return None, None
+    latest = files[-1]
+    return json.loads(latest.read_text(encoding="utf-8")), latest.stem[len("leads-"):]
+
+
+def build_crm(date: str) -> dict:
+    """Коммерческий результат: заявки воронки и путь клиента к запросу.
+
+    До 01.09.2026 блок был заглушкой «CRM не подключена»: заявки жили в
+    Directus и в почте менеджера, а отчёт знал только целевые события
+    Метрики — число, в котором смешаны клик по телефону и поиск по сайту.
+    Теперь сюда приходит выгрузка воронки, и отчёт впервые может назвать
+    канал каждой заявки. Сделки и выручка по-прежнему не измеряются: стадии
+    воронки ведёт менеджер вручную, и брать их как факт рано.
+    """
+    try:
+        raw, data_date = load_leads(date)
+    except (ValueError, OSError) as e:
+        # Битый или недописанный файл выгрузки — это отсутствие данных, а не
+        # повод потерять письмо целиком.
+        raw, data_date = None, None
+        print(f"crm: выгрузка заявок не прочитана: {e}", file=sys.stderr)
+    if raw is None:
+        return {"connected": False, "qualified_leads": None, "deals": None,
+                "revenue": None, "block": leads_mod.build(None, date),
+                "note": "выгрузка заявок не выполнялась — "
+                        "коммерческий результат не измеряется"}
+    try:
+        block = leads_mod.build(raw, date)
+    except Exception as e:  # noqa: BLE001 — сменившаяся форма выгрузки = нет данных
+        return {"connected": False, "qualified_leads": None, "deals": None,
+                "revenue": None, "block": leads_mod.build(None, date),
+                "note": f"выгрузка заявок не разобрана: {type(e).__name__}: {e}"}
+    return {
+        "connected": True,
+        "data_date": data_date,
+        "stale": data_date != date,
+        "collected_at": raw.get("collected_at"),
+        # «Обращения», а не «квалифицированные лиды»: заявка попадает сюда в
+        # момент отправки формы, до всякой квалификации. Поле сохраняет имя,
+        # которое читает карточка показателя, но смысл назван в примечании.
+        "qualified_leads": block.get("count"),
+        "leads_week": block.get("week_count"),
+        "amount_day": block.get("amount"),
+        "deals": None,
+        "revenue": None,
+        "block": block,
+        "note": "обращения — заявки воронки сайта; сделки и выручка "
+                "не измеряются: стадии ведёт менеджер вручную",
+    }
+
+
 def main() -> int:
     date = sys.argv[1] if len(sys.argv) > 1 else dt.datetime.now(
         dt.timezone(dt.timedelta(hours=3))).date().isoformat()
@@ -817,8 +884,7 @@ def main() -> int:
         "experiments": build_experiments(),
         "market_demand": build_market_demand(date),
         "data_revisions": data_revisions_safe(date, prev_date),
-        "crm": {"connected": False, "qualified_leads": None, "deals": None, "revenue": None,
-                "note": "CRM не подключена — квалифицированные лиды, сделки и выручка недоступны"},
+        "crm": build_crm(date),
         "ctr_model": {"approved": False,
                       "note": "утверждённая CTR-кривая по позициям отсутствует; "
                               "расчёт «потерянных кликов» не выполняется"},

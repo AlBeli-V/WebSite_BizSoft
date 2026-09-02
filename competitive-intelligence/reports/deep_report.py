@@ -11,6 +11,7 @@ COMPETITOR PAGE = разведка, ATTACK PAGE = план, EVIDENCE = дока�
   L3 Competitor Page — карточка каждого конкурента: след, запросы, страницы;
   L4 Attack Detail — Strike List целиком и разбор каждой точки атаки;
   L5 Raw Evidence — исходные строки выдачи, на которых всё построено.
+  L6 Experiments — судьба выданных поручений: внедрение, мораторий, эффект.
 
 Отчёт статический: один самодостаточный HTML без внешних зависимостей, чтобы
 открывался с телефона и не зависел от CDN.
@@ -87,6 +88,8 @@ td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
      padding:2px 6px;border-radius:4px;margin-right:6px;vertical-align:1px}
 .fact{background:#ECFDF3;color:#067647}.likely{background:#FFFAEB;color:#B54708}
 .hypo{background:#F4F3FF;color:#5925DC}.act{background:#EFF8FF;color:#175CD3}
+.wp-act{border-left:3px solid #175CD3;padding:6px 0 6px 12px;margin:0 0 14px}
+.wp-act>b{display:block;font-size:14px;line-height:1.35;margin-bottom:4px}
 details{background:#fff;border:1px solid var(--line);border-radius:10px;
         padding:12px 16px;margin:10px 0}
 summary{cursor:pointer;font-weight:600;font-size:14px}
@@ -104,12 +107,20 @@ a{color:var(--accent)}
 def _kpi_cards(snapshot: dict, previous: dict | None, attacks: list[dict]) -> str:
     ours = snapshot.get("наши_показатели") or {}
     prev = (previous or {}).get("наши_показатели") or {}
-    delta = ""
-    if ours.get("доля_видимости") is not None and prev.get("доля_видимости") is not None:
-        d = 100 * (ours["доля_видимости"] - prev["доля_видимости"])
-        delta = f"{d:+.2f} п.п. к {previous.get('дата')}".replace(".", ",")
-    else:
-        delta = "сравнимого дня нет"
+    # Дельта считается тем же способом, что и в письме: по пересечению
+    # составов ядра. Прямая разность долей двух дней сравнивала бы величины,
+    # посчитанные в разных полях, — и расширение ядра выглядело бы падением
+    # видимости. 01.09 отчёт из-за этого показывал −2,39 п.п. там, где
+    # сравнимая дельта была +0,55.
+    from decision_engine import kpi as kpi_mod
+    delta = "сравнимого дня нет"
+    if previous:
+        measure = kpi_mod.build_kpi(snapshot, previous)
+        if measure.share_delta_pp is not None:
+            basis = ("" if not measure.core_changed
+                     else f", {measure.comparable_core} общих запросов")
+            number = f"{measure.share_delta_pp:+.2f}".replace(".", ",")
+            delta = f"{number} п.п. к {previous.get('дата')}{basis}"
 
     cards = [
         ("B2B Share · Яндекс", pct(ours.get("доля_видимости")), delta),
@@ -166,9 +177,49 @@ def _leaderboard(cards: list[dict], usable: int,
             '<th>Уверенность и основание</th></tr>' + "".join(rows) + "</table></div>")
 
 
-def _strike_table(attacks: list[dict]) -> str:
+def _attack_status(attacks: list[dict], packages: list[dict] | None,
+                   experiments: list | None) -> dict[str, tuple[str, str]]:
+    """Что происходит с каждой точкой атаки: запрос → (пакет, статус).
+
+    Без этой связки раздел был витриной запросов: руководитель видел 77 строк
+    и не понимал, что из них уже поручено, что сделано и что ждёт очереди.
+    """
+    from experiments import journal as jr
+    by_url = {}
+    for exp in (experiments or []):
+        # Последнее состояние по странице: она может пройти цикл не раз.
+        by_url[exp.url] = exp
+    result: dict[str, tuple[str, str]] = {}
+    for package in (packages or []):
+        exp = by_url.get(package.get("url", ""))
+        занятость = package.get("занятость") or {}
+        if exp is not None and exp.state == jr.STATE_WATCH:
+            status = f"правка внесена, замер до {exp.watch_until}"
+        elif exp is not None and exp.state == jr.STATE_DONE:
+            verdict = (exp.outcome or {}).get("вердикт", "оценён")
+            status = f"проверено: {verdict}"
+        elif занятость.get("степень") == "занята":
+            # Не «в очереди»: очередь означает, что работу можно брать. Здесь
+            # её брать нельзя — страницу меряет базовый SEO-контур.
+            срок = занятость.get("до") or "контрольной точки"
+            status = (f"страница занята экспериментом "
+                      f"{занятость.get('эксперимент', '')} до {срок}")
+        elif занятость.get("степень") == "контрольная группа":
+            status = (f"в очереди, но кластер — контроль эксперимента "
+                      f"{занятость.get('эксперимент', '')}")
+        else:
+            status = "в очереди на работу"
+        for query in package.get("queries") or []:
+            result[query] = (package.get("package_id", ""), status)
+    return result
+
+
+def _strike_table(attacks: list[dict], packages: list[dict] | None = None,
+                  experiments: list | None = None) -> str:
+    status_by_query = _attack_status(attacks, packages, experiments)
     rows = []
     for a in attacks:
+        package_id, status = status_by_query.get(a["query"], ("—", "вне плана работ"))
         rows.append(
             f'<tr><td>{esc(a["attack_id"])}</td>'
             f'<td class="num"><b>{a["opportunity"]}</b></td>'
@@ -178,12 +229,57 @@ def _strike_table(attacks: list[dict]) -> str:
             f'<td>{esc(a["rival_domain"])} <span class="sub">#{a["rival_position"]}</span></td>'
             f'<td class="num">{esc(a["demand"])}</td>'
             f'<td class="q">{esc(a["demand_source"])}</td>'
-            f'<td class="num">{a["commercial_intent"]:.2f}</td>'
-            f'<td class="num">{a["b2b_intent"]:.2f}</td></tr>')
+            f'<td>{esc(package_id)}</td>'
+            f'<td class="q">{esc(status)}</td></tr>')
     return ('<div class="scroll"><table><tr><th>ID</th><th class="num">Opp.</th>'
             '<th>Увер.</th><th>Запрос</th><th class="num">Наша</th><th>Конкурент</th>'
-            '<th class="num">Спрос</th><th>Источник</th><th class="num">Комм.</th>'
-            '<th class="num">B2B</th></tr>' + "".join(rows) + "</table></div>")
+            '<th class="num">Спрос</th><th>Источник</th><th>Поручение</th>'
+            '<th>Что с ним</th></tr>' + "".join(rows) + "</table></div>")
+
+
+def _attack_summary(attacks: list[dict], packages: list[dict] | None,
+                    experiments: list | None) -> str:
+    """Сводка по контролю: что сделано, что на замере, что ждёт очереди."""
+    status_by_query = _attack_status(attacks, packages, experiments)
+    считает = {"правка внесена": 0, "в очереди": 0, "проверено": 0,
+               "занята": 0, "вне плана": 0}
+    for a in attacks:
+        _, status = status_by_query.get(a["query"], ("", "вне плана"))
+        if status.startswith("правка внесена"):
+            считает["правка внесена"] += 1
+        elif status.startswith("проверено"):
+            считает["проверено"] += 1
+        elif status.startswith("страница занята"):
+            считает["занята"] += 1
+        elif status.startswith("в очереди"):
+            считает["в очереди"] += 1
+        else:
+            считает["вне плана"] += 1
+    return f"""
+<div class="card"><h3>Что происходит с этими точками</h3>
+<table><thead><tr><th>Состояние</th><th class="num">Запросов</th>
+<th>Что это значит</th></tr></thead><tbody>
+<tr><td>Правка внесена, идёт замер</td><td class="num">{считает['правка внесена']}</td>
+<td>страница доработана, до конца моратория новых поручений по ней нет</td></tr>
+<tr><td>Проверено, эффект измерен</td><td class="num">{считает['проверено']}</td>
+<td>окно наблюдения истекло, результат в разделе 6</td></tr>
+<tr><td>В очереди на работу</td><td class="num">{считает['в очереди']}</td>
+<td>поручение сформировано, правка ещё не внесена</td></tr>
+<tr><td>Страница занята чужим замером</td><td class="num">{считает['занята']}</td>
+<td>по странице идёт эксперимент базового SEO-контура: вторая правка в том же
+окне лишит оценки оба замера, работа берётся после контрольной точки</td></tr>
+<tr><td>Вне плана работ</td><td class="num">{считает['вне плана']}</td>
+<td>запрос не сведён в пакет: спрос не измерен либо страница не в нашей зоне</td></tr>
+</tbody></table>
+<p class="q"><b>Чего ждать от закрытия точки.</b> Цель по каждой — выход в
+ТОП-3 по её запросу. Величина выигрыша считается не здесь, а по пакету работ
+(раздел 4): там она выражена индексом потенциала, а в переходах — только там,
+где спрос измерен сопоставимой шкалой. Факт вместо ожидания появляется в
+разделе 6 через две недели после внесения правки: позиции сравниваются с
+базой и с контрольной группой.</p></div>"""
+
+
+
 
 
 def _attack_details(attacks: list[dict], limit: int = 10) -> str:
@@ -241,45 +337,234 @@ def _competitor_pages(cards: list[dict], full_cards: list[dict], limit: int = 8)
     return "".join(blocks)
 
 
+def _systemic_block(systemic: list | None) -> str:
+    """Правки уровня шаблона: одна правка вместо десятков одинаковых.
+
+    Блок стоит перед списком пакетов намеренно: если одного и того же слова
+    не хватает на трёх и более страницах одного типа, дело не в тексте
+    конкретной страницы, а в шаблоне — и начинать надо отсюда.
+    """
+    if not systemic:
+        return ""
+    blocks = "".join(f"""
+  <div class="wp-act"><b>{esc(a.action_id)}. {esc(a.what)}</b>
+    <span class="lbl">{esc(a.effort)} · {esc(a.owner)}</span>
+    <p class="q"><b>Где:</b> {esc(a.where)}<br><b>Почему:</b> {esc(a.why)}</p>
+    <ul class="q">{"".join(f"<li>{esc(step)}</li>" for step in a.steps)}</ul>
+    <p class="q"><b>Приёмка:</b> {esc(a.check)}</p></div>""" for a in systemic)
+    return f"""
+<div class="card">
+  <h3>Сначала — системные правки</h3>
+  <p class="q">Одного и того же не хватает сразу многим страницам одного типа.
+  Это не текст страницы, а шаблон: одна правка закрывает все. Слова из этого
+  блока исключены из поручений по отдельным страницам, чтобы одно и то же не
+  дописывалось двадцать раз.</p>
+  {blocks}
+</div>"""
+
+
 def _packages_block(packages: list[dict]) -> str:
-    """План работ: что поручить, что это даст, по каким пунктам принимать."""
+    """План работ: что поручить, где править, почему и как принять.
+
+    До версии 1.4.0 здесь печаталось описание проблемы и общий чеклист по типу
+    страницы. Руководитель проверил первое поручение и увидел, что поручить его
+    нельзя: непонятно, что именно и в каком файле менять, а часть советов
+    относилась к тому, что на странице уже сделано. Теперь блок печатает
+    исполнимое ТЗ, а обоснование приоритета уходит на второй план — оно нужно
+    для решения «делать или нет», а не для исполнения.
+    """
     if not packages:
         return '<p class="lead">Пакетов работ нет: нет точек атаки.</p>'
     blocks = []
     for pkg in packages:
-        checks = "".join(f"<li>{esc(c)}</li>" for c in (pkg.get("checklist") or []))
         queries = "".join(f"<li>{esc(q)}</li>" for q in (pkg.get("queries") or []))
         url_short = pkg["url"].replace("https://biz-soft.pro", "")
+        # Каждое действие отвечает на четыре вопроса: что, где, почему и как
+        # принять. Без любого из них работу нельзя ни поручить, ни принять.
+        actions = "".join(
+            f"""
+      <div class="wp-act"><b>{esc(a['action_id'])}. {esc(a['what'])}</b>
+        <span class="lbl">{esc(a['effort'])} · {esc(a['owner'])}</span>
+        <p class="q"><b>Где:</b> {esc(a['where'])}<br>
+        <b>Почему:</b> {esc(a['why'])}</p>
+        <ul class="q">{"".join(f"<li>{esc(step)}</li>" for step in (a.get('steps') or []))}</ul>
+        <p class="q"><b>Приёмка:</b> {esc(a['check'])}</p></div>"""
+            for a in (pkg.get("действия") or []))
+        if not actions:
+            actions = ('<p class="q">действий не сформировано: содержимое '
+                       'страницы проверить не удалось</p>')
+        done_items = "".join(f"<li>{esc(d)}</li>"
+                             for d in (pkg.get("уже_сделано") or []))
+        done = (f'<ul class="q">{done_items}</ul>' if done_items else
+                '<p class="q">по этой странице ничего из проверяемого '
+                'не сделано</p>')
+        skip_items = "".join(f"<li>{esc(d)}</li>"
+                             for d in (pkg.get("не_рекомендуем") or []))
+        skip = f'<ul class="q">{skip_items}</ul>' if skip_items else '<p class="q">—</p>'
+        demand = esc("; ".join(
+            f"{v} {k} по {pkg.get('demand_queries_by_source', {}).get(k, 0)} запр."
+            for k, v in (pkg.get('demand_by_source') or {}).items()) or "не измерен")
+        index_text = (("%.3f" % pkg['potential_index'])
+                      if pkg.get('potential_index') is not None else "не считается")
+        upside = (("Прирост переходов: ≈ +%.0f. " % pkg['traffic_upside'])
+                  if pkg.get('traffic_upside') is not None else "")
         blocks.append(f"""
-<details><summary>{esc(pkg['package_id'])} · потенциал {esc(pkg['potential_label'])} ·
-  {pkg['queries_count']} запросов · трудоёмкость {esc(pkg['effort'])} ·
-  {esc(pkg['action'])}</summary>
+<details><summary>{esc(pkg['package_id'])} · {esc(pkg['action'])} ·
+  {pkg['queries_count']} запросов · потенциал {esc(pkg['potential_label'])}</summary>
   <div class="grid2">
-    <div><h3>Что и где</h3>
-      <p class="q">Страница: <b>{esc(url_short)}</b> ({esc(pkg['page_kind'])}).<br>
-      Сейчас позиции {pkg['position_best']}–{pkg['position_worst']}.<br>
+    <div><h3>Что сделать</h3>{actions}</div>
+    <div><h3>Уже сделано — проверено, работ не требует</h3>{done}
+      <h3>Не рекомендуем сейчас</h3>{skip}</div>
+    <div><h3>Чем обоснован приоритет</h3>
+      <p class="q">Страница: <b>{esc(url_short)}</b> ({esc(pkg['page_kind'])}),
+      сейчас позиции {pkg['position_best']}–{pkg['position_worst']}.<br>
       Выше нас: {esc(", ".join(pkg['rivals']))}.<br>
-      Спрос по источникам (не суммируется — величины разной природы):
-      {esc("; ".join(f"{v} {k} по {pkg.get('demand_queries_by_source', {}).get(k, 0)} запр."
-                     for k, v in (pkg.get('demand_by_source') or {}).items()) or "не измерен")}.<br>
-      Уверенность оценки: {esc(pkg['confidence'])}.</p>
-      <p class="q"><span class="lbl likely">ОЦЕНКА</span>Индекс потенциала
-      {("%.3f" % pkg['potential_index']) if pkg.get('potential_index') is not None
-       else "не считается"} ({esc(pkg['potential_label'])}) — безразмерная
-      величина для сравнения пакетов между собой: прирост веса позиции,
-      умноженный на нормированный спрос.<br>
-      Спрос измерен по {esc(pkg.get('demand_coverage', '0/0'))} запросам пакета.
-      {esc(pkg.get('potential_note', ''))}<br>
-      {("Прирост переходов: ≈ +%.0f. " % pkg['traffic_upside'])
-       if pkg.get('traffic_upside') is not None else ""}{esc(pkg['upside_note'])}<br>
-      Источники спроса группы: {esc(", ".join(pkg.get("demand_sources") or ["нет"]))}.
+      Спрос по источникам (не суммируется — величины разной природы): {demand}.<br>
+      <span class="lbl likely">ОЦЕНКА</span>Индекс потенциала {index_text}
+      ({esc(pkg['potential_label'])}) — безразмерная величина для сравнения
+      пакетов между собой: прирост веса позиции, умноженный на нормированный
+      спрос. Спрос измерен по {esc(pkg.get('demand_coverage', '0/0'))} запросам
+      пакета.<br>
+      {upside}{esc(pkg['upside_note'])}<br>
+      Уверенность оценки: {esc(pkg['confidence'])}.<br>
+      <b>Что именно проверено:</b> {esc(pkg.get('проверено_по', 'проверка не проводилась'))}
+      (источник: {esc(pkg.get('источник_текста', '—'))}).<br>
       Любая оценка реализуется только если правка действительно поднимет
       страницу.</p></div>
-    <div><h3>Что проверить при приёмке</h3><ul class="q">{checks}</ul></div>
     <div><h3>Какие запросы закрывает</h3><ul class="q">{queries}</ul></div>
   </div>
 </details>""")
     return "".join(blocks)
+
+
+def _experiments_block(experiments: list | None, config: dict | None,
+                       on_watch: list[dict] | None) -> str:
+    """Уровень 6: что из поручений внедрено и что из этого вышло.
+
+    Раздел закрывает разрыв, из-за которого контур оставался генератором
+    предложений: раньше он не знал судьбы своих же рекомендаций, предлагал
+    одно и то же и ничему не учился. Здесь три части: страницы под мораторием
+    (правка внесена, идёт замер), таблица «было → стало» по завершённым
+    экспериментам и вывод по типам действий.
+    """
+    from experiments import journal as jr
+    from experiments import learning as lr
+
+    experiments = experiments or []
+    on_watch = on_watch or []
+    if not experiments and not on_watch:
+        return ('<p class="q">Журнал экспериментов пуст: цикл проверки только '
+                'запускается. Первые выводы появятся после того, как поручения '
+                'будут внедрены и отстоят срок наблюдения.</p>')
+
+    data = lr.funnel(experiments)
+    states = data["по_состояниям"]
+    verdicts = data["исходы"]
+
+    watch_rows = "".join(f"""
+<tr><td>{esc(e.id)}</td><td>{esc(e.url.replace('https://biz-soft.pro', ''))}</td>
+<td>{esc(e.implemented_at)}</td><td>{esc(e.watch_until)}</td>
+<td>{esc(str(e.baseline.get('медиана_позиций', '—')))}</td>
+<td>{esc(str(len(e.queries)))}</td></tr>"""
+        for e in experiments if e.state == jr.STATE_WATCH)
+    watch_table = (f"""
+<table><thead><tr><th>Опыт</th><th>Страница</th><th>Внедрено</th>
+<th>Замер до</th><th>Позиция до</th><th>Запросов</th></tr></thead>
+<tbody>{watch_rows}</tbody></table>""" if watch_rows else
+        '<p class="q">Под мораторием сейчас никого: внедрённых правок, '
+        'ожидающих замера, нет.</p>')
+
+    done_rows = "".join(f"""
+<tr><td>{esc(e.id)}</td><td>{esc(e.url.replace('https://biz-soft.pro', ''))}</td>
+<td>{esc(", ".join(e.action_kinds))}</td>
+<td>{esc(str(e.outcome.get('медиана_до', '—')))}</td>
+<td>{esc(str(e.outcome.get('медиана_после', '—')))}</td>
+<td>{esc(str(e.outcome.get('контроль_дельта', '—')))}</td>
+<td><b>{esc(str(e.outcome.get('чистый_эффект', '—')))}</b></td>
+<td>{esc(str(e.outcome.get('вердикт', '—')))}</td>
+<td>{esc(str(e.outcome.get('достоверность', '—')))}</td>
+<td>{esc(str(e.outcome.get('сравнимость_условий', '—')))}</td></tr>"""
+        for e in experiments if e.state == jr.STATE_DONE)
+    done_table = (f"""
+<table><thead><tr><th>Опыт</th><th>Страница</th><th>Что делали</th>
+<th>Позиция до</th><th>После</th><th>Сдвиг выдачи</th>
+<th>Чистый эффект</th><th>Вердикт</th><th>Достоверность</th>
+<th>Сравнимость условий</th></tr></thead>
+<tbody>{done_rows}</tbody></table>""" if done_rows else
+        '<p class="q">Завершённых экспериментов пока нет: ни одно окно '
+        'наблюдения ещё не истекло.</p>')
+
+    lesson_rows = "".join(f"""
+<tr><td>{esc(row['тип'])}</td><td>{row['наблюдений']}</td>
+<td>{row['медианный_эффект_позиций']}</td><td>{row['улучшений']}</td>
+<td>{esc(row['вывод'])}</td></tr>"""
+        for row in lr.by_action_kind(experiments, config))
+    lessons = (f"""
+<table><thead><tr><th>Тип действия</th><th>Наблюдений</th>
+<th>Медианный эффект, позиций</th><th>Улучшений</th><th>Вывод</th></tr></thead>
+<tbody>{lesson_rows}</tbody></table>""" if lesson_rows else
+        '<p class="q">Выводов по типам действий пока нет: ни один эксперимент '
+        'не доведён до оценки.</p>')
+
+    return f"""
+<p class="lead">Предложено {states.get(jr.STATE_PROPOSED, 0)} ·
+на наблюдении {states.get(jr.STATE_WATCH, 0)} ·
+оценено {states.get(jr.STATE_DONE, 0)} ·
+из оценённых улучшение у {verdicts[jr.VERDICT_BETTER]},
+без изменений {verdicts[jr.VERDICT_FLAT]},
+ухудшение {verdicts[jr.VERDICT_WORSE]}.</p>
+
+<h3>Что нивелировано в замере</h3>
+<p class="q">Правки вносились по одной версии методики, а замер пойдёт по
+другой — методика за эти дни менялась. Плюс часть правок была не текстом
+страницы, а шаблоном: она задела все страницы своего типа, включая те, что
+служат контролем. Если это не учесть, сравнение «было → стало» окажется
+сравнением разными линейками на загрязнённой контрольной группе. Что сделано:</p>
+<ul class="q">
+  <li><b>Условия базы сохраняются вместе с ней</b> — версия методики, отпечаток
+  конфигурации и версия ядра запросов. При оценке они сверяются с текущими, и
+  в таблице появляется колонка «сравнимость условий»: «полная», если считали
+  одинаково, и «ограничена», если модель между замерами менялась. Позиции
+  измеряются одинаково в любой версии, поэтому сравнение остаётся осмысленным
+  — но всю разницу относить на счёт правки в таком случае нельзя.</li>
+  <li><b>Страницы, задетые правкой шаблона, исключаются из контроля.</b> Правка
+  шаблона применяется ко всем страницам своего типа: оставить их в контрольной
+  группе значит сравнивать изменённое с изменённым и получить ноль там, где
+  эффект есть.</li>
+  <li><b>В контроль идут только запросы, где мы присутствуем в выдаче.</b>
+  Запрос, по которому нас нет, стоит на условной позиции 21 в оба окна и
+  ничего не измеряет; набрав таких сотни, мы получили бы неподвижную медиану
+  и контроль, который всегда показывает ноль.</li>
+  <li><b>Состав контроля фиксируется по обоим окнам сразу</b> — разный состав
+  до и после сам по себе сдвинул бы медиану.</li>
+</ul>
+<p class="q">Чего нивелировать нельзя и что остаётся ограничением: мы не ставим
+A/B-тест на поисковой выдаче. Контрольная группа снимает общий сдвиг, но не
+события, случившиеся ровно с этой страницей.</p>
+
+<h3>Под мораторием: правка внесена, идёт замер</h3>
+<p class="q">Эти страницы намеренно исключены из сегодняшних поручений. Если
+предлагать по ним новую работу, измерить эффект уже внесённой правки будет
+нельзя: непонятно, какая из двух что сдвинула.</p>
+{watch_table}
+
+<h3>Было → стало по завершённым экспериментам</h3>
+<p class="q"><b>Как считается эффект.</b> Берётся изменение медианной позиции
+по запросам эксперимента и — за тот же период — изменение по всем прочим
+запросам ядра, где мы ничего не трогали. Эффектом считается разница между
+ними: так общий сдвиг выдачи (апдейт алгоритма, сезонность, уход конкурента)
+не записывается в заслугу правки. Отрицательное значение — позиции выросли.
+Отсутствие в ТОП-20 считается позицией 21, иначе выпадение из выдачи улучшало
+бы среднее. <b>Это наблюдение, а не доказательство:</b> A/B-теста на поисковой
+выдаче не существует, и влияние других причин исключить нельзя.</p>
+{done_table}
+
+<h3>Чему это учит: какие правки работают</h3>
+<p class="q">Пока по типу действия накоплено меньше пяти оценённых
+экспериментов, вывода нет и порядок поручений не меняется: подстраивать
+приоритет работ под три случайных наблюдения — способ закрепить случайность
+в методике.</p>
+{lessons}"""
 
 
 def _meta(snapshot: dict, key: str):
@@ -290,7 +575,10 @@ def _meta(snapshot: dict, key: str):
 def build(date: str, snapshot: dict, previous: dict | None,
           attacks: list[dict], full_cards: list[dict], rows,
           packages: list[dict] | None = None,
-          histories: dict[str, list[float]] | None = None) -> str:
+          histories: dict[str, list[float]] | None = None,
+          experiments: list | None = None, config: dict | None = None,
+          on_watch: list[dict] | None = None,
+          systemic: list | None = None) -> str:
     """Собирает самодостаточный HTML-отчёт."""
     ours = snapshot.get("наши_показатели") or {}
     coverage = snapshot.get("покрытие") or {}
@@ -307,9 +595,10 @@ def build(date: str, snapshot: dict, previous: dict | None,
         '(насколько позицию конкурента реально отобрать) требует краулинга '
         'страниц конкурентов и появится в Phase 4 — до тех пор его вес '
         'перераспределён на измеримые факторы, а уверенность рекомендаций не '
-        'поднимается выше MEDIUM. Revenue считается прокси (спрос × '
-        'коммерческий интент), а не измеренной выручкой: калибровка по '
-        'конверсиям Метрики и GA4 — Phase 5.</div>')
+        'поднимается выше MEDIUM. Экономический фактор в модели отсутствует '
+        'вовсе: измеренной выручки по запросам нет, а её оценка через спрос и '
+        'интент дублировала бы эти факторы (убрана в версии 1.1.0). Судьба '
+        'выданных поручений отслеживается с 01.09.2026 — раздел 6.</div>')
 
     return f"""<!doctype html>
 <html lang="ru"><head><meta charset="utf-8">
@@ -333,7 +622,8 @@ def build(date: str, snapshot: dict, previous: dict | None,
   <a href="#l3">3 · Карточки конкурентов</a>
   <a href="#plan">4 · План работ</a>
   <a href="#l4">5 · Точки атаки</a>
-  <a href="#l5">6 · Исходные данные</a>
+  <a href="#exp">6 · Эксперименты</a>
+  <a href="#l5">7 · Исходные данные</a>
   <a href="#method">Методика</a>
 </nav>
 
@@ -363,6 +653,7 @@ def build(date: str, snapshot: dict, previous: dict | None,
 {_competitor_pages(leaders, full_cards)}
 
 <h2 id="plan">4 · План работ — {len(packages or [])} пакетов</h2>
+{_systemic_block(systemic)}
 <p class="lead">Точки атаки, сведённые в поручения. Единица работы — страница:
 одна доработка закрывает сразу несколько запросов, и именно её можно поручить
 и принять. Порядок — по ожидаемому приросту переходов; суммарная оценка по
@@ -371,17 +662,33 @@ def build(date: str, snapshot: dict, previous: dict | None,
 {_packages_block(packages or [])}
 
 <h2 id="l4">5 · Точки атаки — {len(attacks)} кандидатов</h2>
-<p class="lead">Кандидат — запрос, где мы на 4–20 позиции, а выше стоит
-конкурент из основного рейтинга. Где мы уже в ТОП-3, отбирать нечего; где
-выше только маркетплейсы, мы не конкурируем за сделку. Opportunity 0–100
-взвешивает выручку, интент, близость позиции, спрос и запас улучшения
-страницы.</p>
-{_strike_table(attacks)}
+<p class="lead">Кандидат — запрос, где мы на 4–20 позиции, а выше стоит другой
+участник выдачи. Где мы уже в ТОП-3, отбирать нечего; где нас нет в ТОП-20
+вовсе — это работа по созданию страницы, а не атака. Если выше стоит компания
+с признаками B2B-продажи, на кону сделка; если официальный сайт вендора,
+статья или маркетплейс — переход мы теряем точно, и такой запрос остаётся
+кандидатом с пометкой вида конкуренции.</p>
+<p class="lead">Opportunity 0–100 взвешивает коммерческий и B2B-интент,
+близость позиции, спрос, уязвимость страницы конкурента, запас улучшения
+нашей страницы и приоритет вендора. <b>Экономического фактора в оценке
+нет</b>: измеренной выручки по запросам не существует, а её оценка через
+спрос и интент дублировала бы эти же факторы — он убран в версии 1.1.0.
+Недоступные факторы не заменяются средним: их вес пропорционально
+распределяется между измеренными, а уверенность понижается.</p>
+{_attack_summary(attacks, (packages or []) + (on_watch or []), experiments)}
+{_strike_table(attacks, (packages or []) + (on_watch or []), experiments)}
 
 <h3>Разбор первых десяти</h3>
 {_attack_details(attacks)}
 
-<h2 id="l5">6 · Исходные данные</h2>
+<h2 id="exp">6 · Эксперименты: что внедрено и что из этого вышло</h2>
+<p class="lead">Раздел закрывает петлю обратной связи: поручение → внедрение →
+мораторий на время замера → оценка эффекта → вывод для будущих рекомендаций.
+Без него контур остаётся генератором предложений, который не знает судьбы
+собственных советов.</p>
+{_experiments_block(experiments, config, on_watch)}
+
+<h2 id="l5">7 · Исходные данные</h2>
 <p class="lead">Всё выше построено на этих строках выдачи. Каждая — запрос,
 регион и TOP-20 доменов с URL на момент съёма.</p>
 <details><summary>Показать выдачу по первым 20 запросам</summary>
@@ -411,8 +718,9 @@ Wordstat, а где её нет — показы Яндекс.Вебмастер
 <p class="q">Не оценивает уязвимость конкретных страниц конкурентов (нужен
 краулинг — Phase 4), не измеряет выручку по запросам (нужна привязка к
 конверсиям — Phase 5), не отслеживает историю решений и результат внедрений
-(Decision Memory — Phase 5). Отсутствие данных нигде не показывается как
-ноль.</p></details>
+(уязвимость страниц конкурентов — Phase 4). Отсутствие данных нигде не
+показывается как ноль. Судьба поручений с 01.09.2026 отслеживается — см.
+раздел 6.</p></details>
 </div>
 
 <details><summary>Условия расчёта: чем и по какому полю посчитан этот день</summary>

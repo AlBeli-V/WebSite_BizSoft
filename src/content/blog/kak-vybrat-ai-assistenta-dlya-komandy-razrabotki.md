@@ -5,6 +5,8 @@ date: 2026-08-17
 tags: ["AI", "разработка", "Copilot", "Cursor", "Claude"]
 summaryAnswer: "Командам на привычных IDE и GitHub подходит GitHub Copilot Business ($19/пользователя в месяц, IP-индемнификация и org-политики); командам, готовым перейти на AI-first редактор — Cursor Business ($32/место в месяц при годовой оплате, агентные правки); для работы с большими кодовыми базами и документацией — Claude Team с Claude Code (от $20/место в месяц при годовой оплате)."
 author: "Редакция BIZSoft"
+cover: "/blog/covers/kak-vybrat-ai-assistenta-dlya-komandy-razrabotki.png"
+coverAlt: "Символ кода в центре схемы: AI-ассистент, команда разработки, доступы и интеграции"
 related:
   - { label: "AI для разработчиков", href: "/solutions/ai-dlya-razrabotchikov" }
   - { label: "Сравнение: Cursor vs Copilot", href: "/compare/cursor-vs-copilot" }

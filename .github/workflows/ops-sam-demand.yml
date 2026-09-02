@@ -1,0 +1,119 @@
+# Замер спроса по когорте SAM/ITAM/SMP: частоты Вордстата и состав выдачи.
+#
+# Нужен, потому что решение «каких вендоров класса брать на сайт» иначе
+# принимается по ощущениям: штатный Discovery засевает вселенную брендами
+# нынешнего каталога, и ни категориальные запросы («учёт лицензий»), ни бренды
+# отсутствующих вендоров в замер не попадают.
+#
+# Ключ Вордстата живёт в секретах репозитория, поэтому замер выполняется здесь,
+# а не в сессии. Прогон read-only по отношению к прод-контуру: сайт, Directus,
+# SSH, почта и кабинеты аналитики не затрагиваются — поэтому ограничение
+# «только с main» (правило CLAUDE.md для деплоя и прод-операций) к нему не
+# относится, и запускать его можно с рабочей ветки. Расход — около 1,5 ₽ за
+# полный набор; учитывается штатным контроллером бюджета.
+#
+# Результат: комментарий в журнал-issue #22, артефакт прогона и файлы
+# reports/seo/wordstat/sam-demand-<дата>.{md,json} в ветке-хранилище seo-data.
+name: ops-sam-demand
+
+on:
+  # Контрольный замер раз в месяц: 1-го числа, 10:00 МСК (07:00 UTC). Нужен,
+  # чтобы решение по классу пересматривалось по факту, а не по ожиданиям;
+  # кэш Вордстата живёт месяц, поэтому повтор стоит примерно как первый прогон.
+  # Расписание GitHub исполняет только из ветки по умолчанию — заработает
+  # после слияния этого файла в main.
+  schedule:
+    - cron: "0 7 1 * *"
+  # Ручной запуск GitHub предлагает только для workflow, уже попавших в main;
+  # пока замер живёт в рабочей ветке, его запускает пуш самих файлов замера —
+  # набора фраз, скрипта или этого workflow. Кэш Вордстата (TTL месяц) гасит
+  # повторы, поэтому переизмерение той же когорты почти ничего не стоит.
+  push:
+    branches:
+      - "claude/**"
+    paths:
+      - ".github/workflows/ops-sam-demand.yml"
+      - "scripts/seo/wordstat/sam_probe.py"
+      - "data/seo/sam-demand-probe.json"
+  workflow_dispatch:
+    inputs:
+      max_calls:
+        description: "Потолок вызовов Вордстата за прогон"
+        required: false
+        default: "80"
+      skip_serp:
+        description: "Не снимать выдачу (только частоты)"
+        required: false
+        default: false
+        type: boolean
+
+permissions:
+  contents: write
+  issues: write
+
+# Часовая квота Вордстата одна на облако: прогон встаёт в ту же очередь, что и
+# ночное исследование, иначе оба ловят 429 и тормозят друг друга.
+concurrency:
+  group: seo-wordstat-api
+  cancel-in-progress: false
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+
+      # Состояние лимитера и журнал бюджета живут в ветке-хранилище: без них
+      # прогон не знает ни израсходованного за месяц, ни занятых слотов квоты.
+      - name: Pull data branch
+        run: bash scripts/seo/data_sync.sh pull
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install deps
+        run: pip install --quiet requests
+
+      - name: Measure demand
+        id: run
+        env:
+          WORDSTAT_API_KEY: ${{ secrets.WORDSTAT_API_KEY }}
+          MAX_CALLS: ${{ inputs.max_calls || '80' }}
+          SKIP_SERP: ${{ inputs.skip_serp }}
+        run: |
+          if [ -z "$WORDSTAT_API_KEY" ]; then
+            echo "::error::Секрет WORDSTAT_API_KEY не задан — замер невозможен."
+            exit 1
+          fi
+          args="--max-calls $MAX_CALLS"
+          [ "$SKIP_SERP" = "true" ] && args="$args --no-serp"
+          python3 scripts/seo/wordstat/sam_probe.py $args | tee /tmp/sam-demand.md
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: sam-demand
+          path: reports/seo/wordstat/sam-demand-*
+
+      - name: Push data branch
+        run: |
+          bash scripts/seo/data_sync.sh push "SAM-когорта: замер спроса" \
+            "reports/seo/wordstat" || echo "push данных не удался — результат остался в артефакте"
+
+      # Отчёт длиннее лимита комментария GitHub не пройдёт целиком, поэтому в
+      # issue уходит его начало: таблицы частот, ради которых прогон и делается.
+      - name: Post to issue
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const body = fs.readFileSync('/tmp/sam-demand.md', 'utf8');
+            const head = body.length > 60000 ? body.slice(0, 60000) +
+              '\n\n…отчёт обрезан, полная версия — в артефакте прогона и в ветке seo-data.' : body;
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: 22,
+              body: '### ops-sam-demand · ' + new Date().toISOString() + '\n\n' + head,
+            });

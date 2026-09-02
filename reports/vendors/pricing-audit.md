@@ -240,3 +240,31 @@ for 3 months» действует только на помесячную опл�
 | TOONBOOM-HARMONY-PREMIUM | Toon Boom | Harmony Premium (годовая подписка) | publish | — | за 1 пользователя в год при годовой схеме оплаты | quote-only: цена в КП | https://www.toonboom.com/products/harmony | 2026-08-29 |
 | WINRAR-LICENSE | RARLAB | WinRAR Standard Licence (бессрочная, на число рабочих мест) | publish | — | бессрочная лицензия, за 1 рабочее место (объёмные скидки) | quote-only: цена в КП | https://www.win-rar.com/ | 2026-08-29 |
 | THINK-CELL-SUITE | think-cell | think-cell Suite (годовая лицензия на пользователя) | publish | — | за 1 пользователя в год при годовой схеме оплаты | quote-only: цена в КП | https://www.think-cell.com/en/pricing | 2026-08-29 |
+| HAILUO-STANDARD | Hailuo AI | Hailuo AI Standard (помесячная оплата) | publish | 14.99 | за 1 пользователя в месяц | search-estimate: число снято с официальной страницы подписки 02.09.2026 (ops-probe), пара «план ↔ цена» — по независимым обзорам | https://hailuoai.video/subscribe | 2026-09-02 |
+| HAILUO-PRO | Hailuo AI | Hailuo AI Pro (помесячная оплата) | publish | 54.99 | за 1 пользователя в месяц | search-estimate: число снято с официальной страницы подписки 02.09.2026 (ops-probe), пара «план ↔ цена» — по независимым обзорам | https://hailuoai.video/subscribe | 2026-09-02 |
+| HAILUO-MAX | Hailuo AI | Hailuo AI Max (помесячная оплата) | publish | 199.99 | за 1 пользователя в месяц | search-estimate: число снято с официальной страницы подписки 02.09.2026 (ops-probe), пара «план ↔ цена» — по независимым обзорам | https://hailuoai.video/subscribe | 2026-09-02 |
+
+## Hailuo AI — что именно подтверждено 02.09.2026
+
+Из сессии egress к сайту вендора закрыт, поэтому страницы снимались воркфлоу
+`ops-probe` с раннера GitHub (результаты — комментарии в issue #22):
+
+- `https://hailuoai.video/doc/payment-policy.html` (HTTP 200, last-modified
+  01.09.2026): линейка планов **Standard, Pro, Master, Max** и legacy-план
+  **Unlimited**, кредитная модель, платёжный провайдер **Stripe** (оплата
+  картой на сайте — self-service checkout), политика возврата. Цен на странице
+  нет.
+- `https://hailuoai.video/subscribe` (HTTP 200): имена планов, «yearly»,
+  «annual», «per month» и пулы кредитов (1000, 10000, 20000 и др.); из
+  денежных значений на странице присутствуют в том числе **14.99, 54.99,
+  199.99, 94.99, 124.99**.
+
+Заведены три тарифа, чьи числа найдены на странице и совпали с независимыми
+обзорами тарифной сетки: Standard 14.99, Pro 54.99, Max 199.99. **Master
+(по обзорам 119.99) не заведён** — этого числа на странице 02.09.2026 нет.
+Пары «имя плана ↔ цена» страница автоматически не отдаёт (Next.js, значения
+и подписи разнесены по разметке), поэтому уверенность помечена как
+`search-estimate`, а не `vendor-page`: перед первой сделкой цена
+подтверждается на checkout вендора.
+| LANSWEEPER-STARTER-2000-DEVICES | Lansweeper | Lansweeper Starter (Annual Subscription, 2,000 devices) | publish | 3500.0 | за пакет на 2 000 устройств в год | owner-manual-check | https://www.lansweeper.com/pricing/ | 2026-09-02 |
+| LANSWEEPER-PRO-2000-9000-DEVICES | Lansweeper | Lansweeper Pro (Annual Subscription, 2,000–9,000 devices) | publish | 7000.0 | за пакет от 2 000 устройств в год | owner-manual-check | https://www.lansweeper.com/pricing/ | 2026-09-02 |
