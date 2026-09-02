@@ -2185,18 +2185,36 @@ def _site_vendor_words() -> set[str]:
 
 
 VENDOR_DECISIONS = BASE / "vendor-decisions.json"
+# Второй реестр решений по кандидатам — им пользуется исследование
+# (scripts/seo/wordstat/audience.py). Реестра было два, и они не знали друг о
+# друге: 29.08.2026 руководитель отклонил NordVPN и Ansys, запись легла только
+# в reports/vendors/rejected-products.md, и оба контура продолжали предлагать
+# их заново (проверка руководителя 02.09.2026). Читаем оба: решение,
+# записанное в любой из них, действует и в письме, и в исследовании.
+WORDSTAT_DECISIONS = pathlib.Path("reports/seo/wordstat/decisions.json")
+
+
+def _norm_brand(b: str) -> str:
+    return " ".join(re.findall(r"[a-zа-яё0-9]+", (b or "").lower()))
 
 
 def rejected_vendor_brands() -> set[str]:
     """Кандидаты в каталог, отклонённые руководителем (нормализованные имена)."""
-    if not VENDOR_DECISIONS.exists():
-        return set()
-    try:
-        d = json.loads(VENDOR_DECISIONS.read_text(encoding="utf-8"))
-    except (OSError, json.JSONDecodeError):
-        return set()
-    return {" ".join(re.findall(r"[a-zа-яё0-9]+", b.lower()))
-            for b in (d.get("rejected") or {})}
+    out: set[str] = set()
+    if VENDOR_DECISIONS.exists():
+        try:
+            d = json.loads(VENDOR_DECISIONS.read_text(encoding="utf-8"))
+            out |= {_norm_brand(b) for b in (d.get("rejected") or {})}
+        except (OSError, json.JSONDecodeError):
+            pass
+    if WORDSTAT_DECISIONS.exists():
+        try:
+            d = json.loads(WORDSTAT_DECISIONS.read_text(encoding="utf-8"))
+            out |= {_norm_brand(r.get("brand", ""))
+                    for r in (d.get("rejected") or []) if r.get("brand")}
+        except (OSError, json.JSONDecodeError):
+            pass
+    return {b for b in out if b}
 
 
 def _drop_vendors_already_on_site(block: dict) -> dict:
