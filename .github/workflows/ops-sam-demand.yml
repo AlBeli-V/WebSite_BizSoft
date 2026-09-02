@@ -17,6 +17,17 @@
 name: ops-sam-demand
 
 on:
+  # Ручной запуск GitHub предлагает только для workflow, уже попавших в main;
+  # пока замер живёт в рабочей ветке, его запускает пуш самих файлов замера —
+  # набора фраз, скрипта или этого workflow. Кэш Вордстата (TTL месяц) гасит
+  # повторы, поэтому переизмерение той же когорты почти ничего не стоит.
+  push:
+    branches:
+      - "claude/**"
+    paths:
+      - ".github/workflows/ops-sam-demand.yml"
+      - "scripts/seo/wordstat/sam_probe.py"
+      - "data/seo/sam-demand-probe.json"
   workflow_dispatch:
     inputs:
       max_calls:
