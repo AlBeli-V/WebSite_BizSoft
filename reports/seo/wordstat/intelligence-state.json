@@ -1,15 +1,15 @@
 {
  "date": "2026-09-02",
- "generated_at": "2026-09-02T16:26:14+00:00",
+ "generated_at": "2026-09-02T16:42:27+00:00",
  "measured_at": "2026-09-02",
  "universe": {
-  "phrases": 23047,
+  "phrases": 23052,
   "commercial_phrases": 2145,
-  "clusters": 172,
+  "clusters": 173,
   "total_commercial_demand": 287788,
-  "total_demand": 37032206,
-  "with_page": 22349,
-  "cost_rub": 5.9249
+  "total_demand": 37032586,
+  "with_page": 22354,
+  "cost_rub": 5.9449
  },
  "coverage": {
   "available": true,
@@ -166,7 +166,7 @@
  "tiers": {
   "A": 48,
   "B": 31,
-  "C": 75
+  "C": 76
  },
  "gaps_by_class": {
   "GAP-B": 28,
@@ -504,22 +504,22 @@
   "note": "Российские вендоры исключены: их лицензии продаются напрямую, услуга оплаты из-за рубежа к ним неприменима."
  },
  "efficiency": {
-  "calls_total": 1419,
-  "calls_paid": 157,
-  "cost_month_rub": 3.14,
-  "cost_today_rub": 2.1,
-  "remaining_budget_rub": 5496.86,
-  "forecast_month_end_rub": 47.1,
+  "calls_total": 1489,
+  "calls_paid": 158,
+  "cost_month_rub": 3.16,
+  "cost_today_rub": 2.12,
+  "remaining_budget_rub": 5496.84,
+  "forecast_month_end_rub": 47.4,
   "state": "open",
-  "cache_hit_rate": 0.8894,
-  "duplicate_rate": 1.0,
-  "unique_phrases": 0,
+  "cache_hit_rate": 0.8939,
+  "duplicate_rate": 0.9971,
+  "unique_phrases": 5,
   "new_commercial_phrases": 0,
-  "new_clusters": 0,
-  "cost_per_1000_unique_phrases_rub": null,
+  "new_clusters": 1,
+  "cost_per_1000_unique_phrases_rub": 632.0,
   "cost_per_1000_commercial_phrases_rub": null,
-  "cost_per_new_cluster_rub": null,
-  "empty_response_rate": 0.284
+  "cost_per_new_cluster_rub": 3.16,
+  "empty_response_rate": 0.2928
  },
  "quota": {
   "requests_per_hour": 500,
@@ -531,7 +531,7 @@
   "available": true,
   "title": "Спрос и направления развития",
   "expansion": null,
-  "summary": "Мы видим 287 788 покупательских запросов в месяц по 172 направлениям каталога. Своя страница есть под 88% этого спроса, в поиске находится 60%, на первой странице — 12%. Без страницы остаётся 16 246 запросов в месяц — это направления, где спрос есть, а нас в выдаче нет. Ещё 52 137 запросов в месяц не отнесены ни к нам, ни к чужому товару: это голые фразы омонимичных брендов (box — 30 187, zoom — 10 813, bubble купить — 5 732). В спрос и в решения об ассортименте они не входят.",
+  "summary": "Мы видим 287 788 покупательских запросов в месяц по 173 направлениям каталога. Своя страница есть под 88% этого спроса, в поиске находится 60%, на первой странице — 12%. Без страницы остаётся 16 246 запросов в месяц — это направления, где спрос есть, а нас в выдаче нет. Ещё 52 137 запросов в месяц не отнесены ни к нам, ни к чужому товару: это голые фразы омонимичных брендов (box — 30 187, zoom — 10 813, bubble купить — 5 732). В спрос и в решения об ассортименте они не входят.",
   "coverage": {
    "page": 0.8785,
    "indexed": 0.6005,
