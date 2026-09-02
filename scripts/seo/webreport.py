@@ -143,8 +143,33 @@ def _evaluation_html(e: dict) -> str:
                              "LOW": "низкая"}[ev["confidence"]]],
             ["рекомендация", f"{rl[ev['recommendation']]} — "
                              f"{ev['recommendation_detail'] or '—'}"]]
-    if ev.get("windows"):
-        w, mm, om = ev["windows"], ev["matched_metrics"], ev["metrics"]
+    if ev.get("summary_line"):
+        # Оценки не-CTR типов (рост показов, запуск страниц) несут готовую
+        # сводку: у них нет matched-набора и p-value по построению.
+        rows.append(["сводка", ev["summary_line"]])
+    w = ev.get("windows") or {}
+    if w.get("experiment") and not w.get("baseline"):
+        # impressions_growth / launch: baseline берётся из реестра или не
+        # существует вовсе (новые страницы). Падение здесь было регрессией
+        # #246 — ветка впервые исполнилась 02.09 на вердикте CONTENT-001.
+        taint = " (захватывает день внедрения)" if w["experiment"].get("tainted") else ""
+        rows.append(["окно после",
+                     f"{w['experiment']['from']} — {w['experiment']['to']}{taint}"])
+        base_reg = ((ev.get("metrics") or {}).get("baseline_registry") or {})
+        if base_reg:
+            rows.append(["база сравнения (реестр)",
+                         f"{base_reg.get('impressions')} показов за "
+                         f"{base_reg.get('days')} дн."])
+        launch = ((ev.get("metrics") or {}).get("launch") or {})
+        if launch:
+            rows.append(["критерии запуска",
+                         f"в выдаче {launch.get('pages_in_search')} из "
+                         f"{launch.get('pages_total')} (нужно "
+                         f"{launch.get('need_pages')}); "
+                         f"{launch.get('weekly_impressions')} показов/нед "
+                         f"(нужно {launch.get('need_weekly')})"])
+    elif w.get("baseline"):
+        mm, om = ev["matched_metrics"], ev["metrics"]
         stat = ev.get("statistical_result") or {}
         taint = " (захватывает день внедрения)" if w["experiment"].get("tainted") else ""
         rows += [

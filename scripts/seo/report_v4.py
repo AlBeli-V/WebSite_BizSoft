@@ -1035,8 +1035,14 @@ def _management_actions(exps: list, opps: dict, demand_block: dict,
     # 2. Рост без бюджета: сниппеты под запросы с показами без переходов.
     items = (opps.get("items") or []) if opps.get("available") else []
     if items:
-        exp_slugs = {p.rstrip("/").rsplit("/", 1)[-1]
-                     for e in exps for p in _registry_pages(e)}
+        # Slug сопоставляется и с дефисом, и с пробелом: запрос кластера
+        # пишется «motion array», страница — /vendors/motion-array (02.09
+        # письмо предложило переписать сниппет, уже переписанный в #273).
+        exp_slugs = set()
+        for e in exps:
+            for pg in _registry_pages(e):
+                slug = pg.rstrip("/").rsplit("/", 1)[-1]
+                exp_slugs |= {slug, slug.replace("-", " ")}
         qlist = []
         held = []
         for o in items:
