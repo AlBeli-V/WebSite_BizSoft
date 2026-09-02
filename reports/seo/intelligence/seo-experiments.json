@@ -4,7 +4,7 @@
    "id": "snippets-5-vendors",
    "ticket": "SEO-EXP-001",
    "start": "2026-08-19",
-   "status": "decided",
+   "status": "running",
    "pages": [
     "/vendors/canva",
     "/vendors/depositphotos",
@@ -21,17 +21,7 @@
    "success_metric": "CTR кластеров Canva/Depositphotos/CorelDRAW/HeyGen/Marmoset в Яндекс.Вебмастере ≥2% через 7 дней (26.08.2026), ≥3% через 14 дней (02.09.2026)",
    "control_group": "остальные vendor-страницы без изменений",
    "source": "src/data/seo-experiments.ts (рендер: src/pages/vendors/[slug].astro → VendorLanding)",
-   "formula_group": "commercial-snippet-2026-08",
-   "decision": {
-    "date": "2026-09-02",
-    "owner_decision": "EXPAND",
-    "engine_verdict": "INSUFFICIENT_DATA",
-    "engine_recommendation": "EXTEND",
-    "confidence": "LOW",
-    "by": "руководитель",
-    "note": "Решение принято при недостаточной экспозиции по совпадающим запросам (485 и 250 показов при гейте 500): основание — предварительный рост кластера целиком, CTR 0,38% → 0,66% (610 показов, 4 клика), позиция 7,2 → 8,0. Правка не снимается, формула тиражируется отдельным экспериментом snippets-10-expand со своим окном. Журнал: reports/seo/intelligence/experiment-decisions.jsonl"
-   },
-   "pages_note": "/vendors/coreldraw 02.09.2026 переведён в snippets-3-gap-d: решение по эксперименту принято, страница освободилась. Историческая экспозиция считалась по пяти страницам."
+   "formula_group": "commercial-snippet-2026-08"
   },
   {
    "id": "cluster-depositphotos",
@@ -222,8 +212,7 @@
    "status": "running",
    "pages": [
     "/vendors/artlist",
-    "/vendors/motion-array",
-    "/vendors/coreldraw"
+    "/vendors/motion-array"
    ],
    "baseline": {
     "period": "отчётный период Яндекс.Вебмастера до 01.09.2026",
@@ -237,54 +226,36 @@
       "impressions": 63,
       "avg_position": 3.13,
       "clicks": 0
-     },
-     "оплата coreldraw для россиян": {
-      "impressions": 69,
-      "avg_position": 9.06,
-      "clicks": 0
      }
     },
     "cluster_demand": {
      "Artlist": 4609,
-     "Motion Array": 990,
-     "CorelDRAW": 131087
+     "Motion Array": 990
     },
-    "note": "GAP-D: позиция в топ-10 при нулевом CTR (Artlist и Motion Array — топ-5, CorelDRAW — 9,06). Спрос кластеров — Вордстат, src/data/vendor-demand.json",
+    "note": "GAP-D: топ-5 при нулевом CTR. Спрос кластеров — Вордстат, src/data/vendor-demand.json",
     "recrawl_requested": "2026-09-02"
    },
    "changes": [
     "title по запросной формуле «Оплата {Vendor} юридическим лицом — счёт, договор, ЭДО | BIZSoft», ядро ≤65 символов, бренд в строке один раз",
     "description: «Оплата {Vendor} юридическим лицом: счёт, договор и закрывающие документы через ЭДО. Оформим подписку на вашу компанию, оплата в рублях, доступ за 1–3 дня.» (153 символа)",
     "первый вопрос FAQ «Как оплатить {Vendor} юридическим лицом из России?» добавлен к собственному FAQ страницы (механика faqAdd), блок целиком не заменяется",
-    "внутренние ссылки на обе страницы в блоке перелинковки на / и /catalog",
-    "CorelDRAW (02.09.2026): та же механика под формулу «оплата coreldraw для россиян» — запрос спрашивает не про юрлицо, а про невозможность зарубежной оплаты из России, поэтому вопрос FAQ отвечает ровно на это"
+    "внутренние ссылки на обе страницы в блоке перелинковки на / и /catalog"
    ],
    "hypothesis": "Запросы стоят в топ-5 без единого перехода: позиция клику не мешает, мешает сниппет по общей коммерческой формуле «для юрлиц из России». Точная формулировка запроса в заголовке и описании повышает кликабельность без изменения контента страницы.",
-   "success_metric": "CTR > 0 по каждому запросу за 14 дней при средней позиции не хуже базовой ±1 (контроль 15.09.2026 по Artlist и Motion Array, 16.09.2026 по CorelDRAW)",
+   "success_metric": "CTR > 0 по каждому запросу за 14 дней от появления сниппета в выдаче при средней позиции не хуже базовой ±1 (3,39 и 3,13)",
    "control_group": "остальные vendor-страницы без изменений; snippets-5-vendors, snippets-6-demand и snippet-anthropic-demand считаются раздельно, пересечений по страницам нет",
    "source": "src/data/seo-experiments.ts (рендер: src/pages/vendors/[slug].astro → VendorLanding)",
-   "title_marker": "оплата .*(юридическим лицом|для россиян)",
+   "title_marker": "оплата .+ юридическим лицом",
    "query_markers": [
     "artlist",
     "артлист",
     "motion array",
     "моушн эррей",
     "моушен эррей",
-    "моушн array",
-    "coreldraw",
-    "корелдрав",
-    "корел дро",
-    "корел"
+    "моушн array"
    ],
    "formula_group": "query-phrase-snippet-2026-09",
-   "power_note": "объём мал (≈65 показов на запрос за период): при нуле кликов на 14-й день публикуется описательный вывод «недостаточно данных», не отрицательный результат",
-   "pages_added": [
-    {
-     "page": "/vendors/coreldraw",
-     "date": "2026-09-02",
-     "why": "правка была отложена до решения по SEO-EXP-001, чтобы не смешивать два изменения на одной странице"
-    }
-   ]
+   "power_note": "объём мал (≈65 показов на запрос за период): при нуле кликов на 14-й день публикуется описательный вывод «недостаточно данных», не отрицательный результат"
   },
   {
    "id": "content-6-clusters",
@@ -359,82 +330,41 @@
     "date": "2026-09-02",
     "decision": "EXPAND",
     "note": "Решение руководителя по вердикту CONTENT-001: тиражируем приём. Отбор целей — по условиям оригинала (не по списку из отчёта: он был собран по общей частотности бренда), первая партия — шесть кластеров."
-   },
-   "control_clusters": [
-    "windsurf",
-    "gitlab",
-    "atlassian",
-    "box",
-    "descript",
-    "dropbox"
-   ],
-   "restored": {
-    "date": "2026-09-02",
-    "from": "bf3bdb8",
-    "why": "запись потеряна при коммите решений 02.09 (5a68c75): прогон писал файл, взятый до коммита bf3bdb8, и затёр им запись эксперимента. Без неё CONTENT-002 не оценивается на контрольной точке 16.09, движок расширения предлагает те же кластеры следующей волной, а проверка занятости конкурентной разведки не видит шести страниц эксперимента",
-    "added": "control_clusters — контрольная группа машиночитаемо, чтобы её не приходилось разбирать из текста control_group"
    }
   },
   {
-   "id": "snippets-10-expand",
-   "ticket": "SEO-EXP-005",
+   "id": "cluster-coreldraw",
+   "ticket": "CONTENT-002",
    "start": "2026-09-02",
    "status": "running",
+   "evaluation_kind": "impressions_growth",
    "pages": [
-    "/vendors/google",
-    "/vendors/microsoft",
-    "/vendors/github",
-    "/vendors/unity",
-    "/vendors/docker",
-    "/vendors/runway",
-    "/vendors/solidworks",
-    "/vendors/acronis",
-    "/vendors/unreal-engine",
-    "/vendors/perplexity"
+    "/blog/kak-oplatit-coreldraw-dlya-yurlica",
+    "/vendors/coreldraw",
+    "/product/cdr-gs-sub",
+    "/product/cdr-gs-perp",
+    "/product/cdr-gs-biz"
    ],
-   "changes": [
-    "title по формуле snippets-5-vendors «Оплата {Vendor} для юрлиц из России — счёт, договор, ЭДО | BIZSoft», ядро ≤65 символов, бренд в строке один раз",
-    "description: «Оплатим подписку {Vendor} на вашу компанию в рублях по счёту. Договор, закрывающие документы через ЭДО, доступ за 1–3 дня.» (≤160)",
-    "FAQ-блок «Как купить {Vendor} на юрлицо» — 4 вопроса (счёт и договор, ЭДО, сроки 1–3 дня, рубли по курсу ЦБ) с FAQPage-разметкой",
-    "внутренние ссылки на десять страниц в блоке перелинковки / и /catalog"
-   ],
-   "selection": "Десять карточек с наибольшим замеренным спросом Вордстата вне действующих экспериментов; список выдан expand_candidates() вердикт-движка на 02.09.2026. Спрос кластеров, запросов/мес: Google 14 845 866, Microsoft 4 178 821, GitHub 3 636 435, Unity 558 386, Docker 451 482, Runway 188 544, SOLIDWORKS 164 050, Acronis 152 256, Unreal Engine 148 486, Perplexity 147 403.",
-   "hypothesis": "Формула коммерческого сниппета, показавшая предварительный рост кликабельности в snippets-5-vendors, повышает CTR и на карточках с большим замеренным спросом.",
-   "success_metric": "CTR кластеров десяти страниц выше базового окна при средней позиции не хуже базовой ±1; контрольные точки 09.09, 16.09 и 30.09.2026",
-   "control_group": "остальные vendor-страницы без изменений (77 карточек); snippets-5-vendors, snippets-6-demand, snippet-anthropic-demand и snippets-3-gap-d считаются отдельно, пересечений по страницам нет",
-   "source": "src/data/seo-experiments.ts (рендер: src/pages/vendors/[slug].astro → VendorLanding)",
-   "origin": "тираж по решению руководителя 02.09.2026 (EXPAND по SEO-EXP-001); формула перенесена дословно — иначе тиражируется не то, что оценивалось",
+   "target_page": "/blog/kak-oplatit-coreldraw-dlya-yurlica",
    "query_markers": [
-    "google workspace",
-    "гугл воркспейс",
-    "google gemini",
-    "gemini",
-    "джемини",
-    "microsoft 365",
-    "office 365",
-    "майкрософт",
-    "microsoft",
-    "офис 365",
-    "github",
-    "гитхаб",
-    "copilot",
-    "unity",
-    "юнити",
-    "docker",
-    "докер",
-    "runway",
-    "runway ml",
-    "solidworks",
-    "солидворкс",
-    "acronis",
-    "акронис",
-    "unreal engine",
-    "unreal",
-    "анрил",
-    "perplexity",
-    "перплексити"
+    "coreldraw",
+    "корел"
    ],
-   "formula_group": "commercial-snippet-2026-08"
+   "baseline": {
+    "period": "окно Вебмастера до 02.09.2026",
+    "impressions_cluster": 145,
+    "days": 13,
+    "positions": "5-11",
+    "note": "замер 02.09.2026: 24 запроса кластера, ядро «оплата coreldraw для россиян» — 69 показов, позиция 9,1"
+   },
+   "changes": [
+    "статья src/content/blog/kak-oplatit-coreldraw-dlya-yurlica.md под транзакционный интент «оплата CorelDRAW для юрлица»: прямой ответ в первых двух предложениях, таблица моделей лицензирования, раздел для бухгалтерии, раздел ограничений, FAQ из 7 вопросов с FAQPage-разметкой",
+    "взаимная перелинковка: статья → /vendors/coreldraw, /catalog, /documents и три карточки Graphics Suite; обратная связь карточка → статья через relatedProducts"
+   ],
+   "hypothesis": "Тираж приёма, подтверждённого CONTENT-001 (+70% показов кластера Depositphotos и вход статьи в топ-10 за 14 дней): статья под транзакционный интент плюс взаимная перелинковка поднимут показы кластера CorelDRAW, где страницы стоят на позициях 5-11.",
+   "success_metric": "рост показов кластера CorelDRAW относительно базовых 145 показов за 13 дней и вход статьи /blog/kak-oplatit-coreldraw-dlya-yurlica в топ-10 Яндекса к 16.09.2026",
+   "control_group": "остальные кластеры вендоров без статьи",
+   "source": "решение руководителя 02.09.2026 (EXPAND по CONTENT-001, первый кластер — CorelDRAW)"
   }
  ]
 }
