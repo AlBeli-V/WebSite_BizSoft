@@ -8,7 +8,7 @@ on:
       to:
         description: 'Получатель'
         required: true
-        default: 'hello@biz-soft.pro'
+        default: 'avbelyaev@biz-soft.pro'
       subject:
         description: 'Тема письма'
         required: true

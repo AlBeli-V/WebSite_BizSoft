@@ -250,6 +250,16 @@ def build(snap: dict, date: str, site_check: dict | None = None) -> list[dict]:
         rec = out[-1]
         rec["control_date_today"] = date in control_dates_for(
             start, e.get("next_review"))
+        if rec["control_date_today"]:
+            # Сегодня контрольная дата: проверка уже проведена, её результат —
+            # в блоке «Контроль эксперимента». «Следующей» она быть не может
+            # (вопрос руководителя 02.09.2026: письмо показывало 02.09 как
+            # предстоящую проверку в самом письме от 02.09). Следующая — вехa
+            # строго после сегодня.
+            nxt = e.get("next_review")
+            rec["next_review"] = next_review_for(
+                start, today + dt.timedelta(days=1),
+                nxt if nxt and nxt > date else None)
         try:
             rec["evaluation"] = experiment_verdict.evaluate(e, date)
             if rec["control_date_today"]:
