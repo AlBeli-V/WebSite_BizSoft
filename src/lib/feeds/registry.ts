@@ -13,12 +13,23 @@
 import { site, seller } from '../../config/site';
 import type { Product } from '../types';
 import { selectFeedProducts } from './select';
-import { buildYml, toFeedOffer } from './yml';
+import { buildYml, toFeedOffer, productMarkPicture } from './yml';
 import { buildDgisYml } from './dgis';
 import type { FeedSpec } from './types';
 import vendorDemand from '../../data/vendor-demand.json';
+import productDemand from '../../data/product-demand.json';
 
 const DEMAND: Record<string, number> = vendorDemand.vendors;
+/**
+ * Измеренный спрос на карточку (slug → счёт). Первая ступень ранжирования:
+ * позиция, которую действительно ищут и открывают, идёт в выгрузке раньше
+ * позиции сильного вендора, которую не смотрят. Файл собирает
+ * scripts/seo/build-product-demand.mjs.
+ */
+const PRODUCT_DEMAND: Record<string, number> = Object.fromEntries(
+  Object.entries(productDemand.products as Record<string, { score: number }>)
+    .map(([slug, row]) => [slug, row.score]),
+);
 
 const SHOP = { name: site.name, company: seller.shortName, url: site.url };
 
@@ -47,6 +58,19 @@ function buildYandexYml(products: Product[], opts: { now?: Date }): string {
   return buildYml(products.map((p) => toFeedOffer(p, site.url, now)), SHOP, now);
 }
 
+/**
+ * Тот же YML, но с чистым знаком товара вместо OG-карточки: Яндекс Бизнес
+ * показывает изображение как фотографию товара в карточке организации, а на
+ * фотографии товара не должно быть ни цены, ни названия магазина. OG-карточка
+ * несёт и то и другое — она сделана для ссылки в мессенджере, не для витрины.
+ * Аудит кабинета 02.09.2026.
+ */
+function buildYandexBusinessYml(products: Product[], opts: { now?: Date }): string {
+  const now = opts.now ?? new Date();
+  return buildYml(
+    products.map((p) => toFeedOffer(p, site.url, now, productMarkPicture)), SHOP, now);
+}
+
 export const FEEDS: Record<string, FeedSpec> = {
   /** Яндекс Товары (кабинет merchants.yandex.ru), YML по ссылке. */
   'yandex-products': {
@@ -64,7 +88,7 @@ export const FEEDS: Record<string, FeedSpec> = {
     path: '/yandex-business.xml',
     contentType: 'application/xml; charset=utf-8',
     maxOffersEnv: 'YANDEX_BUSINESS_FEED_MAX',
-    build: buildYandexYml,
+    build: buildYandexBusinessYml,
   },
   /**
    * Яндекс Директ («Библиотека» → «Фиды»): товарные кампании и смарт-баннеры.
@@ -116,6 +140,7 @@ export function renderFeed(specId: string, products: Product[], now: Date = new 
   if (!spec) throw new Error(`Неизвестный фид: ${specId}`);
   const picked = selectFeedProducts(products, {
     demand: DEMAND,
+    productDemand: PRODUCT_DEMAND,
     maxOffers: envMaxOffers(spec.maxOffersEnv),
     extraFilter: spec.extraFilter,
     now,

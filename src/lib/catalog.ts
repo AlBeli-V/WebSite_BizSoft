@@ -13,12 +13,20 @@ export const PRODUCT_KIND_LABEL: Record<ProductKind, string> = {
 };
 
 const ZOOM_ADDON = /^ZOOM-(PHONE|WEBINARS|ROOMS|LARGE-MEETING|EVENTS|AI-COMPANION)/i;
+/**
+ * Пакеты дополнительных кредитов вендора: <VENDOR>-CREDITS-<объём>.
+ * Покупаются поверх подписки и без неё не имеют смысла — это дополнение,
+ * а не самостоятельный продукт: так они и подписаны в фасете каталога,
+ * в порядке выгрузок и в ответах агентам.
+ */
+const CREDITS_PACK = /-CREDITS-\d+$/;
 
 /** Классифицировать товар по контексту (sku). */
 export function productKind(p: Pick<Product, 'sku'>): ProductKind {
   const sku = (p.sku || '').toUpperCase();
   if (sku.startsWith('JB-PLG-')) return 'addon';
   if (ZOOM_ADDON.test(sku)) return 'addon';
+  if (CREDITS_PACK.test(sku)) return 'addon';
   return 'main';
 }
 
@@ -90,8 +98,9 @@ export function vendorLegal(vendor?: string | null): string {
 }
 
 /**
- * Индексная матрица: какие товары временно НЕ индексировать (noindex + вне sitemap).
- * Сейчас: все плагины JetBrains Marketplace (JB-PLG-*) и личные лицензии JetBrains (JB-…-IND).
+ * Индексная матрица: какие товары НЕ индексировать (noindex + вне sitemap и фидов).
+ * Сейчас: плагины JetBrains Marketplace (JB-PLG-*), личные лицензии JetBrains
+ * (JB-…-IND), карточки продлений (*-RENEWAL) и пакеты кредитов (*-CREDITS-<объём>).
  * Основные продукты для организаций, AI и командные инструменты — индексируются.
  */
 export function productNoindex(sku?: string | null): boolean {
@@ -102,5 +111,13 @@ export function productNoindex(sku?: string | null): boolean {
   // витрине и в КП, но в поиск не идут — иначе конкурируют со страницей
   // первой покупки того же тарифа (решение руководителя 29.08.2026).
   if (s.endsWith('-RENEWAL')) return true;
+  // Пакеты кредитов (<VENDOR>-CREDITS-<объём>): линейка отличается только числом,
+  // а замер Вордстата 02.09.2026 даёт на весь покупательский интент около сотни
+  // показов в месяц («купить кредиты kling» — 37, «kling ai купить кредиты» — 27,
+  // «пополнить kling ai» — 39). Восемь почти одинаковых страниц под один интент —
+  // это малоценные страницы и каннибализация вендорской страницы, которая уже
+  // держит брендовый спрос («kling ai купить» — 312). Карточки живут на витрине,
+  // в корзине и в КП; интент «купить кредиты <вендор>» держит страница вендора.
+  if (CREDITS_PACK.test(s)) return true;
   return false;
 }
