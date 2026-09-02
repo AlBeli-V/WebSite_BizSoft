@@ -21,7 +21,6 @@ from __future__ import annotations
 import datetime as dt
 import json
 import pathlib
-import re
 import sys
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
@@ -29,8 +28,6 @@ import experiment_stats as st  # noqa: E402
 
 HISTORY_DIR = pathlib.Path("reports/seo/intelligence/experiments-history")
 DECISIONS = pathlib.Path("reports/seo/intelligence/experiment-decisions.jsonl")
-VENDOR_DEMAND = pathlib.Path("src/data/vendor-demand.json")
-VENDORS_TS = pathlib.Path("src/data/vendors.ts")
 
 VERDICTS = ("CONFIRMED", "REJECTED", "INCONCLUSIVE", "INSUFFICIENT_DATA")
 RECOMMENDATIONS = ("EXPAND", "REVERT", "KEEP", "EXTEND", "NEW_TEST")
@@ -246,6 +243,53 @@ def _serp_pages(exp: dict, today: dt.date) -> dict | None:
         return None
 
 
+def _target_pages(exp: dict) -> list[str]:
+    """Целевые страницы приёма: партия (`target_pages`) или одна (`target_page`).
+
+    Тиражирование по построению выкатывает несколько страниц сразу, и вывод
+    «статья в топ-10» об одной из шести скрывал бы остальные пять.
+    """
+    pages = exp.get("target_pages") or (
+        [exp["target_page"]] if exp.get("target_page") else [])
+    return pages or (exp.get("pages") or [])[:1]
+
+
+def _target_pages_note(exp: dict, today: dt.date) -> tuple[str, int | None, dict]:
+    """Строка о положении целевых страниц в выдаче и счёт вошедших в топ-10."""
+    targets = _target_pages(exp)
+    serp = _serp_pages(exp, today)
+    measured = {p: serp["pages"][p]["best_position"] for p in targets
+                if serp and p in (serp.get("pages") or {})}
+    stat = {"targets": len(targets), "measured": len(measured),
+            "in_top": sum(1 for pos in measured.values() if pos <= 10)}
+    if not measured:
+        return ("страницы в замер выдачи не попали" if len(targets) != 1
+                else "статья в замер выдачи не попала"), None, stat
+    first_pos = measured[targets[0]] if targets[0] in measured else None
+    if len(targets) == 1:
+        pos = next(iter(measured.values()))
+        note = (f"статья в топ-10: позиция {pos} (замер {serp['measured_at']})"
+                if pos <= 10 else f"статья вне топ-10: позиция {pos}")
+        return note, pos, stat
+    positions = ", ".join(f"{p.rsplit('/', 1)[-1]} — {measured[p]}"
+                          for p in targets if p in measured)
+    note = (f"в топ-10 {stat['in_top']} из {stat['measured']} замеренных "
+            f"страниц партии (позиции: {positions}; замер {serp['measured_at']})")
+    return note, first_pos, stat
+
+
+def _top10_reason(top10: dict, target_pos: int | None, prefix: str = ", ") -> str:
+    """Хвост причины вердикта о положении целевых страниц."""
+    if top10["targets"] == 1:
+        if target_pos is not None and target_pos <= 10:
+            return f"{prefix}статья вошла в топ-10 (позиция {target_pos})"
+        return ""
+    if not top10["in_top"]:
+        return ""
+    return (f"{prefix}в топ-10 вошли {top10['in_top']} из "
+            f"{top10['measured']} замеренных страниц партии")
+
+
 def _evaluate_impressions_growth(exp: dict, date: str) -> dict:
     """Оценка контент-эксперимента: рост показов кластера + вход статьи в топ.
 
@@ -293,15 +337,7 @@ def _evaluate_impressions_growth(exp: dict, date: str) -> dict:
         res["sample_quality"].append(
             "окно захватывает день внедрения — рост слегка занижен")
 
-    target = exp.get("target_page") or (exp.get("pages") or [None])[0]
-    serp = _serp_pages(exp, today)
-    top_note = "статья в замер выдачи не попала"
-    target_pos = None
-    if serp and target and target in serp["pages"]:
-        target_pos = serp["pages"][target]["best_position"]
-        top_note = (f"статья в топ-10: позиция {target_pos} "
-                    f"(замер {serp['measured_at']})" if target_pos <= 10 else
-                    f"статья вне топ-10: позиция {target_pos}")
+    top_note, target_pos, top10 = _target_pages_note(exp, today)
     res["summary_line"] = (
         f"показы кластера {per_day_cur:.0f}/день (окно {w['from']}–{w['to']}) "
         f"против {per_day_base:.0f}/день baseline ({base_imp} за {base_days} дн.)"
@@ -314,17 +350,23 @@ def _evaluate_impressions_growth(exp: dict, date: str) -> dict:
         res["verdict_reason"] = (
             f"показы кластера выросли на {growth * 100:+.0f}% к baseline "
             f"({per_day_base:.0f} → {per_day_cur:.0f} показов/день)"
-            + (f", статья вошла в топ-10 (позиция {target_pos})"
-               if target_pos and target_pos <= 10 else ""))
+            + _top10_reason(top10, target_pos))
         res["confidence"] = ("HIGH" if growth >= 0.5 and m["impressions"] >= 500
-                             and target_pos and target_pos <= 10 else "MEDIUM")
-        targets = expand_candidates(exclude_pages=exp.get("pages") or [])
+                             and top10["in_top"] * 2 >= max(top10["measured"], 1)
+                             and top10["in_top"] else "MEDIUM")
+        targets = expand_candidates(exclude_pages=exp.get("pages") or [],
+                                    profile="content")
         res["recommendation"] = "EXPAND"
         res["recommended_targets"] = targets
         res["recommendation_detail"] = (
             "перенести приём (статья под транзакционный интент + взаимная "
-            f"перелинковка с карточками) на следующие {len(targets)} кластеров "
-            "по убыванию замеренного спроса")
+            f"перелинковка с карточками) на следующие {len(targets)} кластеров, "
+            "где условия оригинала выполнены целиком: сайт уже показывается "
+            "по кластеру со средней позицией в топ-10 и есть карточки товара "
+            "для перелинковки" if targets else
+            "приём подтверждён, но кластеров с условиями оригинала не найдено: "
+            "нет выгрузки Вебмастера или ни один кластер не проходит гейты — "
+            "цели нужно отобрать вручную")
         res["requires_owner_decision"] = True
     elif growth is not None and growth <= -min_uplift:
         res["verdict"] = "INCONCLUSIVE"
@@ -340,8 +382,7 @@ def _evaluate_impressions_growth(exp: dict, date: str) -> dict:
         res["verdict_reason"] = (
             f"изменение показов ({(growth or 0) * 100:+.0f}%) в пределах "
             f"бизнес-порога ±{min_uplift * 100:.0f}%"
-            + (f"; статья при этом в топ-10 (позиция {target_pos})"
-               if target_pos and target_pos <= 10 else ""))
+            + (_top10_reason(top10, target_pos, prefix="; ")))
         res["recommendation"] = "EXTEND"
         res["recommendation_detail"] = "продлить наблюдение до следующей вехи"
     return res
@@ -511,12 +552,16 @@ def _recommend(res: dict, exp: dict, stat: dict) -> None:
     """Рекомендация по вердикту (§9). Только предложение — решение за владельцем."""
     v = res["verdict"]
     if v == "CONFIRMED":
-        targets = expand_candidates(exclude_pages=exp.get("pages") or [])
+        targets = expand_candidates(exclude_pages=exp.get("pages") or [],
+                                    profile="snippet")
         res["recommendation"] = "EXPAND"
         res["recommended_targets"] = targets
         res["recommendation_detail"] = (
             "применить подтверждённую формулу сниппета к следующим "
-            f"{len(targets)} карточкам (по убыванию замеренного спроса)")
+            f"{len(targets)} карточкам (по убыванию коммерческого спроса "
+            "Вордстата)" if targets else
+            "формула подтверждена, но список карточек не собран: нет выгрузки "
+            "спроса — кандидатов нужно отобрать вручную")
         res["requires_owner_decision"] = True
     elif v == "REJECTED":
         res["recommendation"] = "REVERT"
@@ -602,35 +647,24 @@ def _signed(v: float | None) -> str:
     return "—" if v is None else f"{v:+.1f}"
 
 
-# ── EXPAND-кандидаты (§9): следующие карточки по замеренному спросу ─────────
+# ── EXPAND-кандидаты (§9): следующие страницы для тиражирования ─────────────
 
-def expand_candidates(exclude_pages: list[str], limit: int = 10) -> list[str]:
-    """Карточки вендоров с наибольшим спросом Вордстата вне экспериментов."""
+def expand_candidates(exclude_pages: list[str], limit: int = 10,
+                      profile: str = "snippet") -> list[str]:
+    """Страницы для тиражирования приёма — слой `expansion.py`.
+
+    Раньше кандидаты брались сортировкой `src/data/vendor-demand.json`, то есть
+    по ОБЩЕЙ частотности бренда; правило 10 отчётности это запрещает, и на
+    вердикте CONTENT-001 от 02.09.2026 ошибка стала видна: в цели попали
+    Google, Microsoft и Docker — кластеры, где либо спрос не покупательский,
+    либо сайта нет в выдаче. Отбор перенесён в `expansion.candidates` и
+    разведён по профилям приёма.
+    """
+    import expansion
     try:
-        demand = json.loads(VENDOR_DEMAND.read_text(encoding="utf-8"))["vendors"]
-        text = VENDORS_TS.read_text(encoding="utf-8")
-    except (OSError, KeyError, json.JSONDecodeError):
+        return expansion.candidate_urls(exclude_pages, limit, profile)
+    except Exception:  # noqa: BLE001 — рекомендация не должна ронять письмо
         return []
-    slug_by_name = {name: slug for slug, name in
-                    re.findall(r"\{\s*slug:\s*'([^']+)',\s*vendor:\s*'([^']+)'", text)}
-    excluded = {p.rstrip("/").rsplit("/", 1)[-1] for p in exclude_pages}
-    # Все страницы действующих экспериментов тоже вне кандидатов.
-    try:
-        reg = json.loads(pathlib.Path(
-            "reports/seo/intelligence/seo-experiments.json").read_text(encoding="utf-8"))
-        for e in reg.get("experiments", []):
-            excluded |= {p.rstrip("/").rsplit("/", 1)[-1] for p in e.get("pages") or []}
-    except (OSError, json.JSONDecodeError):
-        pass
-    out = []
-    for name, vol in sorted(demand.items(), key=lambda kv: -kv[1]):
-        slug = slug_by_name.get(name)
-        if not slug or slug in excluded:
-            continue
-        out.append(f"/vendors/{slug}")
-        if len(out) >= limit:
-            break
-    return out
 
 
 # ── История и журнал решений (§10, §13) ─────────────────────────────────────

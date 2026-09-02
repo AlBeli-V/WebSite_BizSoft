@@ -101,6 +101,36 @@ const COVERS = {
     icons: ['ruble', 'doc', 'folder', 'cloud', 'stamp', 'clock'],
     alt: 'Сток-изображения в центре схемы оплаты подписки для юридического лица',
   },
+  'kak-kupit-perplexity-dlya-yurlica': {
+    hero: 'brain',
+    icons: ['doc', 'folder', 'lock', 'users', 'ruble', 'stamp'],
+    alt: 'AI-поиск в центре схемы: источники ответов, внутренние файлы компании, единый вход и оплата по счёту',
+  },
+  'kak-oplatit-framer-dlya-yurlica': {
+    hero: 'cloud',
+    icons: ['code', 'image', 'folder', 'users', 'ruble', 'chart'],
+    alt: 'Сайт на хостинге в центре схемы: визуальный редактор, CMS-коллекции, команда редакторов и оплата подписки',
+  },
+  'kak-kupit-github-copilot-dlya-yurlica': {
+    hero: 'code',
+    icons: ['brain', 'users', 'shield', 'lock', 'doc', 'ruble'],
+    alt: 'Код в центре схемы: AI-помощник разработчика, команда, политики организации и оформление на юрлицо',
+  },
+  'tarify-runway-oplata-dlya-yurlica': {
+    hero: 'image',
+    icons: ['brain', 'cloud', 'chart', 'ruble', 'users', 'clock'],
+    alt: 'Кадр видео в центре схемы: генеративные модели, кредиты, рабочие места и оплата тарифа',
+  },
+  'kak-oplatit-envato-elements-dlya-yurlica': {
+    hero: 'folder',
+    icons: ['image', 'brain', 'ruble', 'users', 'doc', 'clock'],
+    alt: 'Библиотека ассетов в центре схемы: изображения и шаблоны, места в команде, лицензия и оплата по счёту',
+  },
+  'kak-oplatit-postman-dlya-yurlica': {
+    hero: 'cloud',
+    icons: ['code', 'refresh', 'users', 'lock', 'doc', 'chart'],
+    alt: 'API в центре схемы: коллекции запросов, тесты по расписанию, роли участников и оформление подписки',
+  },
   'podpiska-napryamuyu-ili-cherez-postavshchika': {
     hero: 'route',
     icons: ['card', 'doc', 'ruble', 'warn', 'stamp', 'scale'],
