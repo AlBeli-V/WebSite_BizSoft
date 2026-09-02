@@ -24,6 +24,14 @@ const blog = defineCollection({
     relatedSolutions: z.array(z.string()).default([]),
     // исключить из индексации, не попадая в sitemap
     noindex: z.boolean().default(false),
+    // ── Обложка ──
+    // Путь от корня сайта (файл в public/), например /blog/covers/slug.jpg.
+    // Она же уходит в og:image и в схему BlogPosting: карточка в соцсетях и
+    // в выдаче без изображения выглядит пустой.
+    cover: z.string().optional(),
+    // Альтернативный текст. Без него изображение недоступно скринридеру и не
+    // даёт поиску понять, что изображено.
+    coverAlt: z.string().optional(),
   }),
 });
 
