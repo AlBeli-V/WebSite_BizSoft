@@ -71,8 +71,12 @@ def refresh_negative_knowledge(date_s: str) -> dict:
                 d = json.loads(line)
             except ValueError:
                 continue
-            if d.get("verdict") not in ("REJECTED",) \
-                    and d.get("decision") not in ("REVERT",):
+            # Ключ решения в журнале — owner_decision (пишет append_decision);
+            # «decision» осталось от первой версии формата и встречается в
+            # ранних записях. Читаем оба, иначе откат не попадает в реестр
+            # отклонённого и предлагается заново.
+            decision = d.get("owner_decision") or d.get("decision")
+            if d.get("verdict") != "REJECTED" and decision != "REVERT":
                 continue
             key = (d.get("experiment_id") or "").lower()
             if not key or key in known:
@@ -80,9 +84,9 @@ def refresh_negative_knowledge(date_s: str) -> dict:
             known.add(key)
             entries.append({"key": key,
                             "what": d.get("experiment_id"),
-                            "verdict": d.get("verdict") or d.get("decision"),
+                            "verdict": d.get("verdict") or decision,
                             "date": d.get("date"),
-                            "why": d.get("reason") or ""})
+                            "why": d.get("note") or d.get("reason") or ""})
     data = {"updated": date_s, "entries": entries,
             "note": ("доказанно не работающее не тестируем повторно; "
                      "пополняется из журнала решений экспериментов")}
