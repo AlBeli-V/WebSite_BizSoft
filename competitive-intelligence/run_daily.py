@@ -192,7 +192,13 @@ def main(argv: list[str]) -> int:
         package["мораторий_до"] = experiment.watch_until
         package["эксперимент"] = experiment.id
 
-    created = exp_lifecycle.register(experiments, packages, date)
+    # Типы страниц, шаблоны которых правятся сегодня: их страницы исключаются
+    # из контрольной группы всех экспериментов этого дня.
+    systemic_kinds = sorted({k for a in systemic
+                             for k, path in recommendations.TEMPLATE_OF.items()
+                             if a.where == path})
+    created = exp_lifecycle.register(experiments, packages, date, snapshot,
+                                     systemic_kinds)
     exp_journal.save(experiments)
     print(f"6а. Эксперименты: заведено {len(created)}, подтверждено внедрение "
           f"{len(implemented)}, оценено {len(evaluated)}, под мораторием "

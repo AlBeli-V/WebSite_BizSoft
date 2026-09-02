@@ -482,6 +482,9 @@ def enrich(packages: list[dict], geo_by_query: dict | None = None,
         package["порядок_по_опыту"] = bool(effect_ranking)
         package["уже_сделано"] = done
         package["не_рекомендуем"] = skip
+        # Слова, закрываемые правкой шаблона: по ним эксперимент поймёт, что
+        # правка затронула все страницы типа, и исключит их из контроля.
+        package["системные_слова"] = sorted(template_words.get(page.kind, set()))
         package["проверено_по"] = page.scope_note
         package["источник_текста"] = page.source_path or page.edit_hint
         package["action"] = headline(actions, package)

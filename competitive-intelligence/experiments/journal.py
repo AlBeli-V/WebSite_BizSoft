@@ -75,6 +75,15 @@ class Experiment:
     hypothesis: str = ""
     state: str = STATE_PROPOSED
     baseline: dict = field(default_factory=dict)
+    # Условия, в которых снята база. Без них сравнение «было → стало» рискует
+    # оказаться сравнением разными линейками: методика менялась шесть раз за
+    # два дня, и молча сопоставлять замеры разных версий нельзя.
+    conditions: dict = field(default_factory=dict)
+    # Что именно затронула правка: одна страница или весь тип страниц. Правка
+    # шаблона применяется ко всем страницам своего типа, поэтому они не могут
+    # служить контрольной группой — контроль был бы «загрязнён» той же правкой.
+    scope: str = "страница"
+    affected_kinds: list[str] = field(default_factory=list)
     implemented_at: str = ""
     implementation_note: str = ""
     watch_until: str = ""
@@ -99,6 +108,9 @@ def _to_dict(exp: Experiment) -> dict:
         "гипотеза": data["hypothesis"],
         "состояние": data["state"],
         "база": data["baseline"],
+        "условия_базы": data["conditions"],
+        "область_правки": data["scope"],
+        "затронутые_типы_страниц": data["affected_kinds"],
         "внедрён": data["implemented_at"],
         "подтверждение_внедрения": data["implementation_note"],
         "наблюдение_до": data["watch_until"],
@@ -120,6 +132,9 @@ def _from_dict(raw: dict) -> Experiment:
         hypothesis=raw.get("гипотеза", ""),
         state=raw.get("состояние", STATE_PROPOSED),
         baseline=raw.get("база") or {},
+        conditions=raw.get("условия_базы") or {},
+        scope=raw.get("область_правки", "страница"),
+        affected_kinds=raw.get("затронутые_типы_страниц") or [],
         implemented_at=raw.get("внедрён", ""),
         implementation_note=raw.get("подтверждение_внедрения", ""),
         watch_until=raw.get("наблюдение_до", ""),
