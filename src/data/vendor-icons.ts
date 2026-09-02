@@ -27,6 +27,9 @@ const ALIAS: Record<string, string> = {
   wwise: 'audiokinetic',
   'fl-studio': 'image-line',
   winrar: 'rarlab',
+  // Hailuo AI — сервис компании MiniMax, знак в пакете лежит под именем
+  // правообладателя.
+  hailuo: 'minimax',
 };
 
 export interface VendorIconPair { color: string; mono: string }

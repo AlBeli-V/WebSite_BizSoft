@@ -5,6 +5,8 @@ date: 2026-07-05
 tags: ["AI", "безопасность", "данные", "комплаенс"]
 summaryAnswer: "В корпоративных тарифах ведущих AI-сервисов данные компании не используются для обучения моделей по умолчанию, а Enterprise добавляет SSO, SCIM, журналы аудита, настраиваемое хранение и сертификацию SOC 2 (для части — HIPAA). Это ключевое отличие от бесплатных и личных тарифов."
 author: "Редакция BIZSoft"
+cover: "/blog/covers/bezopasnost-dannyh-v-korporativnyh-ai.png"
+coverAlt: "Щит в центре схемы из иконок AI-сервисов, доступов и хранения данных"
 related:
   - { label: "Каталог AI-сервисов", href: "/catalog/ai" }
   - { label: "AI для юристов", href: "/solutions/ai-dlya-yuristov" }
