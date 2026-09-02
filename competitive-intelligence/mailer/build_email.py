@@ -38,7 +38,8 @@ TEXT_LIMIT = 1000
 REPORT_URL = "https://biz-soft.pro/ci-c98370a0ebe87d97/latest.html"
 
 
-def do_next_text(attack: dict | None, package: dict | None = None) -> str:
+def do_next_text(attack: dict | None, package: dict | None = None,
+                 compact: bool = False) -> str:
     """DO NEXT — одно поручение, а не список и не строка про один запрос.
 
     Формулируется через пакет работ: страница, охват, ожидаемый эффект.
@@ -51,6 +52,27 @@ def do_next_text(attack: dict | None, package: dict | None = None) -> str:
     """
     if package:
         url_short = package["url"].replace("https://biz-soft.pro", "")
+        actions = package.get("действия") or []
+        first = actions[0] if actions else None
+        # Поручение называет конкретный шаг и место правки. Раньше здесь было
+        # направление («добавить коммерческий блок»), выбранное по типу
+        # страницы: поручить его было нельзя, а проверка показала, что на
+        # части страниц оно попросту неверно.
+        if first:
+            steps = first.get("steps", [])
+            # Компактная форма нужна в дни, когда остальные блоки письма
+            # длиннее обычного: лимит верхнего уровня — 1000 видимых символов,
+            # и поручение сокращается первым, оставаясь исполнимым.
+            if compact:
+                examples = steps[0].split(" — не хватает")[0] if steps else ""
+            else:
+                examples = "; ".join(steps[:2])
+            tail = (f" Ещё {len(actions) - 1} шага ТЗ — в отчёте."
+                    if len(actions) > 1 else "")
+            return (f"Что делать: {package['package_id']} ({url_short}) — "
+                    f"{first['what'].lower()}: {examples}. "
+                    f"Трудоёмкость {first['effort']}, исполнитель — "
+                    f"{first['owner']}.{tail}")
         upside = (f"при выходе в ТОП-3 даст примерно "
                   f"+{package['traffic_upside']:.0f} переходов"
                   if package.get("traffic_upside") is not None
@@ -82,7 +104,8 @@ def watch_text(threat_leader: tuple[dict, object] | None) -> str:
 
 def visible_text(kpi, verdict_mark, verdict_why, signal, *,
                  attack=None, threat_leader=None, package=None,
-                 signal_delta: float | None = None) -> str:
+                 signal_delta: float | None = None,
+                 compact: bool = False) -> str:
     """Основная текстовая часть письма — то, что считается против лимита.
 
     Ссылки, подписи и футер в лимит не входят (раздел 23), поэтому здесь
@@ -96,7 +119,7 @@ def visible_text(kpi, verdict_mark, verdict_why, signal, *,
          f"Google {kpi_mod.format_share(kpi.share_google)} · "
          f"ТОП-3 {kpi.top3}/{kpi.queries} · ТОП-10 {kpi.top10}/{kpi.queries}."),
         f"Главный сигнал: {signal.text}",
-        do_next_text(attack, package),
+        do_next_text(attack, package, compact=compact),
         watch_text(threat_leader),
     ]
     return "\n".join(lines)
@@ -175,6 +198,13 @@ def build(date: str, snapshot: dict, previous: dict | None,
     text = visible_text(kpi, verdict_mark, verdict_why, signal,
                         attack=attack, threat_leader=threat_leader,
                         package=package, signal_delta=signal_delta)
+    if len(text) > TEXT_LIMIT:
+        # Сокращаем поручение, а не выводы: письмо без вердикта и сигнала
+        # бесполезно, а поручение остаётся исполнимым и в краткой форме.
+        text = visible_text(kpi, verdict_mark, verdict_why, signal,
+                            attack=attack, threat_leader=threat_leader,
+                            package=package, signal_delta=signal_delta,
+                            compact=True)
 
     coverage = snapshot.get("покрытие") or {}
     subject = (f"Конкурентная разведка · "

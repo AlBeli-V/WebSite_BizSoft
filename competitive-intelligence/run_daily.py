@@ -131,8 +131,28 @@ def main(argv: list[str]) -> int:
         json.dump(attacks, fh, ensure_ascii=False, indent=2)
     print(f"5. Strike List: {len(attacks)} кандидатов в атаку")
 
-    from attack_engine import work_packages
+    from attack_engine import page_audit, recommendations, work_packages
     packages = work_packages.to_dicts(work_packages.build(attacks, config))
+
+    # Позиции по регионам — основание для гео-действия. Считается только там,
+    # где запрос измерен в обоих регионах: сравнивать позицию в Москве с
+    # отсутствием замера в Петербурге бессмысленно.
+    geo_by_query: dict[str, list] = {}
+    for row in rows:
+        if not row.has_data:
+            continue
+        position = next((index for index, item in enumerate(row.top, start=1)
+                         if serp_source.normalize_domain(item.get("domain", "")) == OURS),
+                        None)
+        entry = geo_by_query.setdefault(page_audit.normalize(row.query), [None, None])
+        if row.region == "213":
+            entry[0] = position
+        elif row.region == "2":
+            entry[1] = position
+
+    # Исполнительная часть: что именно сделать на каждой странице. Пакеты уже
+    # отсортированы и оценены — здесь добавляются только действия.
+    recommendations.enrich(packages, geo_by_query)
     with open(os.path.join(paths.PROCESSED_DIR, f"{date}-work-packages.json"),
               "w", encoding="utf-8") as fh:
         json.dump(packages, fh, ensure_ascii=False, indent=2)

@@ -208,13 +208,27 @@ def packages_section(packages: list[dict], limit: int = 3) -> str:
         upside = (f' · при выходе в ТОП-3 ≈ +{pkg["traffic_upside"]:.0f} переходов'
                   if pkg.get("traffic_upside") is not None else "")
         demand_text = format_demand(pkg)
+        # В письме — первые шаги ТЗ, а не чеклист приёмки: руководителю нужно
+        # понять, что именно он поручает. Полное ТЗ с обоснованием и приёмкой
+        # по каждому шагу — в отчёте.
+        actions = pkg.get("действия") or []
         checks = "".join(
-            f'<li style="margin:2px 0;">{esc(c)}</li>'
-            for c in (pkg.get("checklist") or [])[:3])
+            f'<li style="margin:2px 0;">{esc(a["what"])} '
+            f'<span style="color:{MUTED};">({esc(a["effort"])}, {esc(a["owner"])})</span></li>'
+            for a in actions[:3])
+        if not checks:
+            checks = "".join(
+                f'<li style="margin:2px 0;">{esc(c)}</li>'
+                for c in (pkg.get("checklist") or [])[:3])
         queries = ", ".join(f"«{q}»" for q in (pkg.get("queries") or [])[:3])
         more = (f" и ещё {pkg['queries_count'] - 3}"
                 if pkg["queries_count"] > 3 else "")
         url_short = pkg["url"].replace("https://biz-soft.pro", "")
+        done = pkg.get("уже_сделано") or []
+        done_line = (
+            f'<div style="font-size:11px;color:{MUTED};padding-top:4px;">'
+            f'Проверено и работ не требует: {esc("; ".join(done))}</div>'
+            if done else "")
         blocks.append(f"""
 <tr><td style="padding:10px 24px 0;">
   <table role="presentation" width="100%" cellpadding="0" cellspacing="0"
@@ -232,11 +246,12 @@ def packages_section(packages: list[dict], limit: int = 3) -> str:
       спрос измерен по {esc(pkg.get("demand_coverage", "0/0"))} запросам ·
       трудоёмкость {esc(pkg["effort"])} · уверенность {esc(pkg["confidence"])}
     </div>
-    <div style="font-size:12px;color:{MUTED};padding-top:6px;">Что проверить:</div>
+    <div style="font-size:12px;color:{MUTED};padding-top:6px;">Что сделать:</div>
     <ul style="font-size:12px;color:{MUTED};margin:2px 0 0;padding-left:18px;
                line-height:1.45;">{checks}</ul>
     <div style="font-size:11px;color:{MUTED};padding-top:6px;">
       Запросы: {esc(queries)}{esc(more)}</div>
+    {done_line}
   </td></tr></table>
 </td></tr>""")
     return (_heading("Что поручить", "пакеты работ по убыванию ожидаемого эффекта")

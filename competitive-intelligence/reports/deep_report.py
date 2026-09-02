@@ -87,6 +87,8 @@ td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
      padding:2px 6px;border-radius:4px;margin-right:6px;vertical-align:1px}
 .fact{background:#ECFDF3;color:#067647}.likely{background:#FFFAEB;color:#B54708}
 .hypo{background:#F4F3FF;color:#5925DC}.act{background:#EFF8FF;color:#175CD3}
+.wp-act{border-left:3px solid #175CD3;padding:6px 0 6px 12px;margin:0 0 14px}
+.wp-act>b{display:block;font-size:14px;line-height:1.35;margin-bottom:4px}
 details{background:#fff;border:1px solid var(--line);border-radius:10px;
         padding:12px 16px;margin:10px 0}
 summary{cursor:pointer;font-weight:600;font-size:14px}
@@ -242,40 +244,73 @@ def _competitor_pages(cards: list[dict], full_cards: list[dict], limit: int = 8)
 
 
 def _packages_block(packages: list[dict]) -> str:
-    """План работ: что поручить, что это даст, по каким пунктам принимать."""
+    """План работ: что поручить, где править, почему и как принять.
+
+    До версии 1.4.0 здесь печаталось описание проблемы и общий чеклист по типу
+    страницы. Руководитель проверил первое поручение и увидел, что поручить его
+    нельзя: непонятно, что именно и в каком файле менять, а часть советов
+    относилась к тому, что на странице уже сделано. Теперь блок печатает
+    исполнимое ТЗ, а обоснование приоритета уходит на второй план — оно нужно
+    для решения «делать или нет», а не для исполнения.
+    """
     if not packages:
         return '<p class="lead">Пакетов работ нет: нет точек атаки.</p>'
     blocks = []
     for pkg in packages:
-        checks = "".join(f"<li>{esc(c)}</li>" for c in (pkg.get("checklist") or []))
         queries = "".join(f"<li>{esc(q)}</li>" for q in (pkg.get("queries") or []))
         url_short = pkg["url"].replace("https://biz-soft.pro", "")
+        # Каждое действие отвечает на четыре вопроса: что, где, почему и как
+        # принять. Без любого из них работу нельзя ни поручить, ни принять.
+        actions = "".join(
+            f"""
+      <div class="wp-act"><b>{esc(a['action_id'])}. {esc(a['what'])}</b>
+        <span class="lbl">{esc(a['effort'])} · {esc(a['owner'])}</span>
+        <p class="q"><b>Где:</b> {esc(a['where'])}<br>
+        <b>Почему:</b> {esc(a['why'])}</p>
+        <ul class="q">{"".join(f"<li>{esc(step)}</li>" for step in (a.get('steps') or []))}</ul>
+        <p class="q"><b>Приёмка:</b> {esc(a['check'])}</p></div>"""
+            for a in (pkg.get("действия") or []))
+        if not actions:
+            actions = ('<p class="q">действий не сформировано: содержимое '
+                       'страницы проверить не удалось</p>')
+        done_items = "".join(f"<li>{esc(d)}</li>"
+                             for d in (pkg.get("уже_сделано") or []))
+        done = (f'<ul class="q">{done_items}</ul>' if done_items else
+                '<p class="q">по этой странице ничего из проверяемого '
+                'не сделано</p>')
+        skip_items = "".join(f"<li>{esc(d)}</li>"
+                             for d in (pkg.get("не_рекомендуем") or []))
+        skip = f'<ul class="q">{skip_items}</ul>' if skip_items else '<p class="q">—</p>'
+        demand = esc("; ".join(
+            f"{v} {k} по {pkg.get('demand_queries_by_source', {}).get(k, 0)} запр."
+            for k, v in (pkg.get('demand_by_source') or {}).items()) or "не измерен")
+        index_text = (("%.3f" % pkg['potential_index'])
+                      if pkg.get('potential_index') is not None else "не считается")
+        upside = (("Прирост переходов: ≈ +%.0f. " % pkg['traffic_upside'])
+                  if pkg.get('traffic_upside') is not None else "")
         blocks.append(f"""
-<details><summary>{esc(pkg['package_id'])} · потенциал {esc(pkg['potential_label'])} ·
-  {pkg['queries_count']} запросов · трудоёмкость {esc(pkg['effort'])} ·
-  {esc(pkg['action'])}</summary>
+<details><summary>{esc(pkg['package_id'])} · {esc(pkg['action'])} ·
+  {pkg['queries_count']} запросов · потенциал {esc(pkg['potential_label'])}</summary>
   <div class="grid2">
-    <div><h3>Что и где</h3>
-      <p class="q">Страница: <b>{esc(url_short)}</b> ({esc(pkg['page_kind'])}).<br>
-      Сейчас позиции {pkg['position_best']}–{pkg['position_worst']}.<br>
+    <div><h3>Что сделать</h3>{actions}</div>
+    <div><h3>Уже сделано — проверено, работ не требует</h3>{done}
+      <h3>Не рекомендуем сейчас</h3>{skip}</div>
+    <div><h3>Чем обоснован приоритет</h3>
+      <p class="q">Страница: <b>{esc(url_short)}</b> ({esc(pkg['page_kind'])}),
+      сейчас позиции {pkg['position_best']}–{pkg['position_worst']}.<br>
       Выше нас: {esc(", ".join(pkg['rivals']))}.<br>
-      Спрос по источникам (не суммируется — величины разной природы):
-      {esc("; ".join(f"{v} {k} по {pkg.get('demand_queries_by_source', {}).get(k, 0)} запр."
-                     for k, v in (pkg.get('demand_by_source') or {}).items()) or "не измерен")}.<br>
-      Уверенность оценки: {esc(pkg['confidence'])}.</p>
-      <p class="q"><span class="lbl likely">ОЦЕНКА</span>Индекс потенциала
-      {("%.3f" % pkg['potential_index']) if pkg.get('potential_index') is not None
-       else "не считается"} ({esc(pkg['potential_label'])}) — безразмерная
-      величина для сравнения пакетов между собой: прирост веса позиции,
-      умноженный на нормированный спрос.<br>
-      Спрос измерен по {esc(pkg.get('demand_coverage', '0/0'))} запросам пакета.
-      {esc(pkg.get('potential_note', ''))}<br>
-      {("Прирост переходов: ≈ +%.0f. " % pkg['traffic_upside'])
-       if pkg.get('traffic_upside') is not None else ""}{esc(pkg['upside_note'])}<br>
-      Источники спроса группы: {esc(", ".join(pkg.get("demand_sources") or ["нет"]))}.
+      Спрос по источникам (не суммируется — величины разной природы): {demand}.<br>
+      <span class="lbl likely">ОЦЕНКА</span>Индекс потенциала {index_text}
+      ({esc(pkg['potential_label'])}) — безразмерная величина для сравнения
+      пакетов между собой: прирост веса позиции, умноженный на нормированный
+      спрос. Спрос измерен по {esc(pkg.get('demand_coverage', '0/0'))} запросам
+      пакета.<br>
+      {upside}{esc(pkg['upside_note'])}<br>
+      Уверенность оценки: {esc(pkg['confidence'])}.<br>
+      <b>Что именно проверено:</b> {esc(pkg.get('проверено_по', 'проверка не проводилась'))}
+      (источник: {esc(pkg.get('источник_текста', '—'))}).<br>
       Любая оценка реализуется только если правка действительно поднимет
       страницу.</p></div>
-    <div><h3>Что проверить при приёмке</h3><ul class="q">{checks}</ul></div>
     <div><h3>Какие запросы закрывает</h3><ul class="q">{queries}</ul></div>
   </div>
 </details>""")
