@@ -41,10 +41,32 @@ const CLICKBAIT = ['шок', 'вся правда', 'никто не знает'
 
 const LIMITS = { minChars: 5000, maxChars: 9000, maxLinks: 2 };
 
+/**
+ * Потолок ссылок зависит от объёма: правило «не более двух» писалось для
+ * материалов ленты. В лонгриде на 20 000 знаков две ссылки — недобор, но
+ * плотность выше одной на ~5 000 знаков снова читается как размещение.
+ */
+function linkLimit(chars) {
+  return chars > 15000 ? Math.min(4, Math.floor(chars / 5000)) : LIMITS.maxLinks;
+}
+
 function textOf(md) {
   const i = md.indexOf('\n---\n');
-  const body = i === -1 ? md : md.slice(i + 5);
+  let body = i === -1 ? md : md.slice(i + 5);
+  // Служебный блок для рецензентов не проверяется: в нём правила обсуждают,
+  // цитируя в том числе те формулировки, которые в тексте запрещены.
+  const notes = body.indexOf('ПРИМЕЧАНИЯ ДЛЯ ВНЕШНЕГО АУДИТА');
+  if (notes !== -1) body = body.slice(0, notes);
   return body.trim();
+}
+
+/**
+ * Расчётные материалы (`<!-- lint: calc-model -->` в шапке) содержат модельные
+ * суммы — это не прайс BIZSoft, а параметры сценария, поэтому проверка цен
+ * для них отключается. Всё остальное проверяется как обычно.
+ */
+function isCalcModel(md) {
+  return /<!--\s*lint:\s*calc-model\s*-->/.test(md);
 }
 
 /** Знаки без markdown-разметки — то, что увидит читатель. */
@@ -75,15 +97,18 @@ function lint(file) {
   else notes.push(`объём ${chars} знаков — в ориентире`);
 
   // Ссылки
-  const links = [...body.matchAll(/\]\((https?:\/\/[^)]+)\)/g)].map((m) => m[1]);
-  const own = links.filter((u) => u.includes('biz-soft.pro'));
-  const foreign = links.filter((u) => !u.includes('biz-soft.pro'));
-  if (own.length > LIMITS.maxLinks) errors.push(`ссылок на biz-soft.pro: ${own.length}, потолок ${LIMITS.maxLinks}`);
+  // Свои ссылки бывают абсолютными (внешние площадки) и относительными
+  // (материал для сайта) — считаем и те, и другие.
+  const links = [...body.matchAll(/\]\((https?:\/\/[^)]+|\/[^)]*)\)/g)].map((m) => m[1]);
+  const own = links.filter((u) => u.includes('biz-soft.pro') || u.startsWith('/'));
+  const foreign = links.filter((u) => !u.includes('biz-soft.pro') && !u.startsWith('/'));
+  const maxLinks = linkLimit(chars);
+  if (own.length > maxLinks) errors.push(`ссылок на biz-soft.pro: ${own.length}, потолок ${maxLinks} при объёме ${chars} знаков`);
   else notes.push(`ссылок на сайт: ${own.length}`);
   if (foreign.length) warnings.push(`внешние ссылки (${foreign.length}): ${foreign.join(', ')}`);
 
   // Ссылка не в первом экране: первые ~1500 знаков
-  const firstLink = body.search(/\]\(https?:\/\/[^)]*biz-soft\.pro/);
+  const firstLink = body.search(/\]\((?:https?:\/\/[^)]*biz-soft\.pro|\/)/);
   if (own.length && firstLink !== -1 && plain(body.slice(0, firstLink)).length < 1500) {
     errors.push('первая ссылка на сайт стоит в первом экране материала');
   }
@@ -103,7 +128,11 @@ function lint(file) {
 
   // Цены цифрами
   const prices = text.match(/\d[\d\s]{2,}\s?(₽|руб|рублей)/gi);
-  if (prices) errors.push(`цены в тексте: ${[...new Set(prices)].join(', ')} — называем принцип расчёта, не цифры`);
+  if (prices && !isCalcModel(md)) {
+    errors.push(`цены в тексте: ${[...new Set(prices)].join(', ')} — называем принцип расчёта, не цифры`);
+  } else if (prices) {
+    notes.push(`модельные суммы (${new Set(prices).size} шт.) — проверка цен отключена директивой lint: calc-model`);
+  }
 
   // Структурные признаки
   if (!/BIZSoft/.test(text)) warnings.push('нет упоминания BIZSoft — аффилиация должна быть раскрыта');
