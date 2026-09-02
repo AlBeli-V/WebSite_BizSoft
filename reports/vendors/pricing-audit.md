@@ -240,3 +240,51 @@ for 3 months» действует только на помесячную опл�
 | TOONBOOM-HARMONY-PREMIUM | Toon Boom | Harmony Premium (годовая подписка) | publish | — | за 1 пользователя в год при годовой схеме оплаты | quote-only: цена в КП | https://www.toonboom.com/products/harmony | 2026-08-29 |
 | WINRAR-LICENSE | RARLAB | WinRAR Standard Licence (бессрочная, на число рабочих мест) | publish | — | бессрочная лицензия, за 1 рабочее место (объёмные скидки) | quote-only: цена в КП | https://www.win-rar.com/ | 2026-08-29 |
 | THINK-CELL-SUITE | think-cell | think-cell Suite (годовая лицензия на пользователя) | publish | — | за 1 пользователя в год при годовой схеме оплаты | quote-only: цена в КП | https://www.think-cell.com/en/pricing | 2026-08-29 |
+| HAILUO-STANDARD | Hailuo AI | Hailuo AI Standard (помесячная оплата) | publish | 14.99 | за 1 пользователя в месяц | search-estimate: число снято с официальной страницы подписки 02.09.2026 (ops-probe), пара «план ↔ цена» — по независимым обзорам | https://hailuoai.video/subscribe | 2026-09-02 |
+| HAILUO-PRO | Hailuo AI | Hailuo AI Pro (помесячная оплата) | publish | 54.99 | за 1 пользователя в месяц | search-estimate: число снято с официальной страницы подписки 02.09.2026 (ops-probe), пара «план ↔ цена» — по независимым обзорам | https://hailuoai.video/subscribe | 2026-09-02 |
+| HAILUO-MAX | Hailuo AI | Hailuo AI Max (помесячная оплата) | publish | 199.99 | за 1 пользователя в месяц | search-estimate: число снято с официальной страницы подписки 02.09.2026 (ops-probe), пара «план ↔ цена» — по независимым обзорам | https://hailuoai.video/subscribe | 2026-09-02 |
+
+## Hailuo AI — что именно подтверждено 02.09.2026
+
+Из сессии egress к сайту вендора закрыт, поэтому страницы снимались воркфлоу
+`ops-probe` с раннера GitHub (результаты — комментарии в issue #22):
+
+- `https://hailuoai.video/doc/payment-policy.html` (HTTP 200, last-modified
+  01.09.2026): линейка планов **Standard, Pro, Master, Max** и legacy-план
+  **Unlimited**, кредитная модель, платёжный провайдер **Stripe** (оплата
+  картой на сайте — self-service checkout), политика возврата. Цен на странице
+  нет.
+- `https://hailuoai.video/subscribe` (HTTP 200): имена планов, «yearly»,
+  «annual», «per month» и пулы кредитов (1000, 10000, 20000 и др.); из
+  денежных значений на странице присутствуют в том числе **14.99, 54.99,
+  199.99, 94.99, 124.99**.
+
+Заведены три тарифа, чьи числа найдены на странице и совпали с независимыми
+обзорами тарифной сетки: Standard 14.99, Pro 54.99, Max 199.99. **Master
+(по обзорам 119.99) не заведён** — этого числа на странице 02.09.2026 нет.
+Пары «имя плана ↔ цена» страница автоматически не отдаёт (Next.js, значения
+и подписи разнесены по разметке), поэтому уверенность помечена как
+`search-estimate`, а не `vendor-page`: перед первой сделкой цена
+подтверждается на checkout вендора.
+| LANSWEEPER-STARTER-2000-DEVICES | Lansweeper | Lansweeper Starter (Annual Subscription, 2,000 devices) | publish | 3500.0 | за пакет на 2 000 устройств в год | owner-manual-check | https://www.lansweeper.com/pricing/ | 2026-09-02 |
+| LANSWEEPER-PRO-2000-9000-DEVICES | Lansweeper | Lansweeper Pro (Annual Subscription, 2,000–9,000 devices) | publish | 7000.0 | за пакет от 2 000 устройств в год | owner-manual-check | https://www.lansweeper.com/pricing/ | 2026-09-02 |
+
+## Kling AI — себестоимость от руководителя (02.09.2026)
+
+Цены закупки переданы руководителем: подписки Standard 120, Pro 444, Premier 1104 доллара за год (прежние 79/293/729 были оценкой веб-исследования 20.08.2026 и заменены), пакеты дополнительных кредитов — по витрине пополнения баланса Kling AI. Из среды сессии сайт вендора недоступен, поэтому источник подтверждения — ручная проверка руководителя.
+
+Пакеты кредитов до 1 320 идут по базовой ставке 66 кредитов за доллар; с 3 500 вендор добавляет бонус (6 %), с 7 500 — 14 %, с 16 000 и выше — максимальные 21 %. Бонус объявлен как ограниченное по времени предложение (Limited-Time Credit Offer), поэтому **объём проверяется на дату счёта**; себестоимость закупки от акции не зависит и остаётся привязкой к доллару. Кредиты не возвращаются, не передаются и не обмениваются на подписку, срок действия — 2 года с момента начисления.
+
+| SKU | Вендор | Официальное имя | Реш. | База USD | Метрика | Подтверждение | Источник | Проверено |
+|---|---|---|---|---|---|---|---|---|
+| KLING-STANDARD | Kling AI | Kling AI Standard (годовая оплата) | publish | 120.0 | за 1 пользователя в год | owner-manual-check | https://kling.ai | 2026-09-02 |
+| KLING-PRO | Kling AI | Kling AI Pro (годовая оплата) | publish | 444.0 | за 1 пользователя в год | owner-manual-check | https://kling.ai | 2026-09-02 |
+| KLING-PREMIER | Kling AI | Kling AI Premier (годовая оплата) | publish | 1104.0 | за 1 пользователя в год | owner-manual-check | https://kling.ai | 2026-09-02 |
+| KLING-CREDITS-330 | Kling AI | Kling AI Credits, 330 credits | publish | 5.0 | за пакет кредитов, разовая покупка | owner-manual-check | https://kling.ai | 2026-09-02 |
+| KLING-CREDITS-660 | Kling AI | Kling AI Credits, 660 credits | publish | 10.0 | за пакет кредитов, разовая покупка | owner-manual-check | https://kling.ai | 2026-09-02 |
+| KLING-CREDITS-1320 | Kling AI | Kling AI Credits, 1320 credits | publish | 20.0 | за пакет кредитов, разовая покупка | owner-manual-check | https://kling.ai | 2026-09-02 |
+| KLING-CREDITS-3500 | Kling AI | Kling AI Credits, 3500 credits | publish | 50.0 | за пакет кредитов, разовая покупка | owner-manual-check | https://kling.ai | 2026-09-02 |
+| KLING-CREDITS-7500 | Kling AI | Kling AI Credits, 7500 credits | publish | 100.0 | за пакет кредитов, разовая покупка | owner-manual-check | https://kling.ai | 2026-09-02 |
+| KLING-CREDITS-16000 | Kling AI | Kling AI Credits, 16000 credits | publish | 200.0 | за пакет кредитов, разовая покупка | owner-manual-check | https://kling.ai | 2026-09-02 |
+| KLING-CREDITS-48000 | Kling AI | Kling AI Credits, 48000 credits | publish | 600.0 | за пакет кредитов, разовая покупка | owner-manual-check | https://kling.ai | 2026-09-02 |
+| KLING-CREDITS-96000 | Kling AI | Kling AI Credits, 96000 credits | publish | 1200.0 | за пакет кредитов, разовая покупка | owner-manual-check | https://kling.ai | 2026-09-02 |

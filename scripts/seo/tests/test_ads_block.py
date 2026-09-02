@@ -173,15 +173,32 @@ class StageBAttributionTest(unittest.TestCase):
         self.assertEqual(row["verdict"]["tone"], "ok")
         self.assertIn("CPA 2000", row["verdict"]["label"])
 
-    def test_клики_без_заявок_и_контактов_красные(self):
-        stats = _stats([_g("2026-08-28", "Claude Code — для команд", 500, 30, 2000.0)])
-        att = _att([{"name": "Claude Code — для команд", "visits": 28,
+    def test_расход_выше_цены_заявки_без_заявок_красный(self):
+        """Порог паузы — CPA-лимит направления, а не число кликов."""
+        stats = _stats([_g("2026-08-28", "Claude Code — для команд", 900, 60, 3200.0)])
+        att = _att([{"name": "Claude Code — для команд", "visits": 55,
                      "goal_reaches_any": 0, "leads": {}}])
         b = self._build(stats, attribution=att)
         row = next(r for r in b["rows"] if r["key"] == "k2")
         self.assertEqual(row["verdict"]["tone"], "bad")
         self.assertIn("кандидат на паузу", row["verdict"]["label"])
         self.assertIn("решение за вами", row["verdict"]["label"])
+
+    def test_много_кликов_но_расход_ниже_цены_заявки_не_красный(self):
+        """Ноль заявок на 30 кликах — обычный исход и у здоровой группы.
+
+        Прежний ручной порог (25 кликов) красил такую строку в красное и
+        предлагал паузу, когда направление потратило две трети допустимой
+        цены заявки. Теперь до порога строка показывает остаток.
+        """
+        stats = _stats([_g("2026-08-28", "Claude Code — для команд", 500, 30, 2000.0)])
+        att = _att([{"name": "Claude Code — для команд", "visits": 28,
+                     "goal_reaches_any": 0, "leads": {}}])
+        b = self._build(stats, attribution=att)
+        row = next(r for r in b["rows"] if r["key"] == "k2")
+        self.assertEqual(row["verdict"]["tone"], "ok")
+        self.assertIn("2000 из 3000", row["verdict"]["label"])
+        self.assertNotIn("паузу", row["verdict"]["label"])
 
     def test_CPA_выше_порога_жёлтый(self):
         stats = _stats([_g("2026-08-28", "Midjourney — контрольная", 500, 30, 2000.0)])

@@ -57,7 +57,8 @@ def per_query_visibility(rows, config: dict, region: str = REGION) -> dict:
         key = query_set.normalize(row.query)
         if not key:
             continue
-        bucket = result.setdefault(key, {"наша": 0.0, "поле": 0.0})
+        bucket = result.setdefault(key, {"наша": 0.0, "поле": 0.0,
+                                          "позиция": None, "наш_url": None})
         for index, item in enumerate(row.top, start=1):
             domain = serp_source.normalize_domain(item.get("domain", ""))
             if not domain:
@@ -66,7 +67,18 @@ def per_query_visibility(rows, config: dict, region: str = REGION) -> dict:
             bucket["поле"] += value
             if domain == OURS:
                 bucket["наша"] += value
-    return {q: {"наша": round(v["наша"], 6), "поле": round(v["поле"], 6)}
+                # Позиция нужна для оценки экспериментов «было → стало»:
+                # видимость отвечает на вопрос «сколько весим», позиция — на
+                # вопрос «сдвинулись ли», и подменять одно другим нельзя.
+                if bucket["позиция"] is None or index < bucket["позиция"]:
+                    bucket["позиция"] = index
+                    # Адрес нашей страницы нужен, чтобы строить контрольную
+                    # группу экспериментов: правка шаблона задевает все
+                    # страницы своего типа, и такие запросы контролем быть
+                    # не могут.
+                    bucket["наш_url"] = item.get("url")
+    return {q: {"наша": round(v["наша"], 6), "поле": round(v["поле"], 6),
+                "позиция": v["позиция"], "наш_url": v["наш_url"]}
             for q, v in result.items()}
 
 

@@ -354,6 +354,7 @@ export const LOGO_FILE: Record<string, string> = {
   "browserstack": "/brand-logos/browserstack-logo.svg",
   "slack": "/brand-logos/slack-logo.svg",
   "grok": "/brand-logos/grok-logo.svg",
+  "hailuo": "/brand-logos/hailuo-logo.svg",
   "higgsfield": "/brand-logos/higgsfield-logo.svg",
   "krea": "/brand-logos/krea-logo.svg",
   "lovable": "/brand-logos/lovable-logo.svg",

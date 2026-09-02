@@ -27,6 +27,10 @@ function fmtDate(d: Date) {
     <div class="posts">
       {posts.map((p) => (
         <a href={`/blog/${p.id}`} class="card card-hover post reveal">
+          {p.data.cover && (
+            <img class="thumb" src={p.data.cover} alt={p.data.coverAlt || p.data.title}
+                 width="600" height="338" loading="lazy" decoding="async" />
+          )}
           <div class="tags">{p.data.tags.slice(0, 2).map((t) => <span>{t}</span>)}</div>
           <h2>{p.data.title}</h2>
           <p>{p.data.description}</p>
@@ -46,6 +50,16 @@ function fmtDate(d: Date) {
   .lead { color: var(--color-text-muted); font-size: 1.08rem; }
   .posts { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.2rem; }
   .post { padding: 1.6rem; display: flex; flex-direction: column; gap: 0.6rem; }
+  /* Обложка занимает всю ширину карточки: внутренние отступы компенсируются
+     отрицательными полями, иначе картинка «висит» в рамке из воздуха. */
+  .thumb {
+    width: calc(100% + 3.2rem);
+    margin: -1.6rem -1.6rem 0.4rem;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    border-radius: var(--radius, 12px) var(--radius, 12px) 0 0;
+    display: block;
+  }
   .tags { display: flex; gap: 0.4rem; }
   .tags span { background: var(--color-bg-elevated); color: var(--color-text-muted); font-size: 0.72rem; padding: 0.15rem 0.55rem; border-radius: 6px; }
   .post h2 { font-size: 1.25rem; }
