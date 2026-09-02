@@ -203,6 +203,14 @@ def register(experiments: list[jr.Experiment], packages: list[dict],
         url = package.get("url") or ""
         if url in active:
             continue
+        # Страница уже под чужим экспериментом базового SEO-контура. Завести
+        # по ней свой — значит положить на страницу вторую правку в том же
+        # окне наблюдения и лишить оценки оба эксперимента сразу. Пакет
+        # остаётся видимым в отчёте с пометкой занятости, но поручением не
+        # становится (правка 1.7.0, см. attack_engine/occupancy.py).
+        занятость = package.get("занятость") or {}
+        if занятость.get("степень") == "занята":
+            continue
         requirements = []
         kinds = []
         seen = set()

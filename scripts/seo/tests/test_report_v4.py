@@ -282,6 +282,18 @@ class TestExpansionGuard(unittest.TestCase):
         assert cls.UNKNOWN.replace("-", " ") not in known, (
             f"{cls.UNKNOWN} перестал быть незнакомым брендом — возьмите другую заглушку")
 
+    def setUp(self):
+        # Реестры отказов уводим на несуществующие пути: проверяется отсев
+        # по каталогу, а не по решениям руководителя (у них свои тесты).
+        # Иначе результат зависит от того, накатаны ли машинные данные.
+        self._paths = (self.r.VENDOR_DECISIONS, self.r.WORDSTAT_DECISIONS)
+        missing = pathlib.Path("/nonexistent-decisions.json")
+        self.r.VENDOR_DECISIONS = missing
+        self.r.WORDSTAT_DECISIONS = missing
+
+    def tearDown(self):
+        self.r.VENDOR_DECISIONS, self.r.WORDSTAT_DECISIONS = self._paths
+
     def test_catalogue_vendors_are_dropped(self):
         # состояние исследования отстало от каталога — так ушло письмо 21.08.
         stale = {"available": True, "expansion": {

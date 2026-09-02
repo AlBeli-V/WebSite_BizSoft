@@ -45,6 +45,17 @@ PRODUCT_META = os.path.join(REPO, "data", "seo", "product-descriptions.json")
 # слова, которые на странице уже стоят в H1 и H2.
 VENDOR_TEMPLATE = os.path.join(REPO, "src", "components", "VendorLanding.astro")
 PRODUCT_TEMPLATE = os.path.join(REPO, "src", "pages", "product", "[slug].astro")
+# Bespoke-контент типового лендинга: сравнение тарифов, матрица выбора,
+# сценарии и СВОЙ FAQ. Живёт в scripts/content/<slug>.json, откуда
+# scripts/build-vendor-content.mjs собирает src/data/vendor-content.ts.
+# Без него проверка видела у страницы «12 заголовков и 0 вопросов FAQ» и
+# требовала вынести в заголовки то, что уже стоит вопросом FAQ или
+# заголовком сценария (разбор плана работ 02.09.2026).
+VENDOR_CONTENT_DIR = os.path.join(REPO, "scripts", "content")
+# Эксперименты со сниппетами подменяют FAQ страницы: `faq` вытесняет
+# собственный блок целиком, `faqAdd` добавляет вопрос первым. Не учитывать
+# подмену — значит считать раскрытым то, чего на странице нет.
+SEO_EXPERIMENTS_TS = os.path.join(REPO, "src", "data", "seo-experiments.ts")
 
 # Слова, которые не несут темы и не должны требовать присутствия в тексте:
 # по ним нельзя судить, раскрыт запрос или нет.
@@ -154,7 +165,86 @@ def template_content(path: str) -> tuple[list[str], str]:
     headings = [re.sub(r"<[^>]+>", " ", h).strip() for h in headings]
     text = re.sub(r"[{][^}]*[}]", " ", body)
     text = re.sub(r"<[^>]+>", " ", text)
-    return [h for h in headings if h], text + " " + " ".join(visible_strings)
+    return [h for h in headings if h], text, visible_strings
+
+
+def vendor_bespoke(slug: str) -> dict:
+    """Собственный контент лендинга вендора: scripts/content/<slug>.json.
+
+    Пустой словарь означает «записи нет», а не «контента нет»: у страницы
+    остаётся шаблонная обвязка, и её проверяет template_content.
+    """
+    path = os.path.join(VENDOR_CONTENT_DIR, f"{slug}.json")
+    raw = _read(path)
+    if not raw:
+        return {}
+    try:
+        data = json.loads(raw)
+    except json.JSONDecodeError:
+        return {}
+    return data if isinstance(data, dict) else {}
+
+
+def experiment_faq_mode(slug: str) -> str:
+    """Как эксперимент со сниппетами обходится с FAQ страницы.
+
+    "faq" — блок заменён целиком, собственный FAQ страницы не рендерится;
+    "faqAdd" — вопрос эксперимента добавлен первым, свой блок сохранён;
+    "" — страница в экспериментах со сниппетами не участвует.
+    """
+    source = _read(SEO_EXPERIMENTS_TS)
+    if not source:
+        return ""
+    entry = re.search(r"^  '?" + re.escape(slug) + r"'?:\s*\{(.*?)^  \},",
+                      source, re.S | re.M)
+    if not entry:
+        return ""
+    block = entry.group(1)
+    if re.search(r"^\s{4}faq:", block, re.M):
+        return "faq"
+    if re.search(r"^\s{4}faqAdd:", block, re.M):
+        return "faqAdd"
+    return ""
+
+
+def _template_faq(title: str) -> list[str]:
+    """Шаблонные вопросы FAQ типового лендинга (VendorLanding.astro).
+
+    Дублируются здесь намеренно: в шаблоне они собраны из шаблонных строк с
+    подстановкой ${title}, и вытащить из файла готовый вопрос нельзя —
+    получилась бы строка с дырой вместо названия вендора.
+    """
+    return [
+        f"Как купить {title} для юридического лица в России?",
+        f"Сколько стоит {title}?",
+        f"Можно ли оплатить {title} с расчётного счёта организации?",
+        f"Как быстро предоставляется доступ к {title}?",
+    ]
+
+
+def plural_sections(content: dict) -> str:
+    """Какие bespoke-разделы заведены у вендора — для пометки о границах."""
+    names = {"summary": "лид", "comparison": "сравнение тарифов",
+             "decision": "матрица выбора", "scenarios": "сценарии",
+             "faq": "свой FAQ"}
+    found = [title for key, title in names.items() if content.get(key)]
+    return ", ".join(found) if found else "пусто"
+
+
+def _bespoke_texts(content: dict) -> list[str]:
+    """Видимый текст bespoke-блоков, кроме заголовков: он идёт в тело."""
+    texts: list[str] = [content.get("summary") or ""]
+    texts += [q.get("a", "") for q in (content.get("faq") or [])]
+    texts += [s.get("text", "") for s in (content.get("scenarios") or [])]
+    comparison = content.get("comparison") or {}
+    texts += list(comparison.get("cols") or [])
+    for row in comparison.get("rows") or []:
+        texts.append(row.get("label", ""))
+        texts += list(row.get("values") or [])
+    for item in content.get("decision") or []:
+        texts += [item.get("scenario", ""), item.get("product", ""),
+                  item.get("note", "")]
+    return [t for t in texts if t]
 
 
 def _split_frontmatter(text: str) -> tuple[str, str]:
@@ -230,14 +320,51 @@ def load_vendor(url: str) -> PageContent:
                            "карточки товаров подтягиваются из Directus")
     elif page.available:
         # Типовой лендинг: к редакторским полям добавляется текст шаблона —
-        # заголовки и блоки, которые видит посетитель на каждой такой странице.
-        tpl_headings, tpl_text = template_content(VENDOR_TEMPLATE)
+        # заголовки и блоки, которые видит посетитель на каждой такой
+        # странице, — и bespoke-контент вендора, если он заведён.
+        tpl_headings, tpl_text, tpl_strings = template_content(VENDOR_TEMPLATE)
         page.headings += tpl_headings
         page.body += " " + tpl_text
-        page.scope_note = ("проверены редакторские tagline и about из "
-                           "src/data/vendors.ts плюс текст типового лендинга "
-                           "(заголовки и блоки шаблона); карточки товаров "
-                           "приходят из Directus и в проверку не входят")
+        content = vendor_bespoke(slug)
+        title = page.title or slug
+        # FAQ страницы восстанавливается по правилу самого шаблона:
+        #   faq = exp.faq ?? (exp.faqAdd ? [...exp.faqAdd, ...base] : base)
+        #   base = свой FAQ вендора, а при его отсутствии — шаблонный.
+        own_faq = [q.get("q", "") for q in (content.get("faq") or []) if q.get("q")]
+        base_faq = own_faq or _template_faq(title)
+        mode = experiment_faq_mode(slug)
+        if mode == "faq":
+            # Блок заменён экспериментом целиком: собственный FAQ вендора на
+            # странице не выводится, и считать его раскрытием нельзя.
+            faq = [f"Как купить {title} на юрлицо — по счёту и договору?",
+                   "Какие закрывающие документы вы предоставляете?",
+                   f"Как быстро появится доступ к {title} после оплаты?",
+                   "В какой валюте оплата и как считается цена?"]
+        elif mode == "faqAdd":
+            faq = [f"Как оплатить {title} юридическим лицом из России?"] + base_faq
+        else:
+            faq = base_faq
+        page.faq_questions += faq
+        # Заголовки сценариев рендерятся как H3 — это заголовки, а не тело.
+        page.headings += [s.get("title", "")
+                          for s in (content.get("scenarios") or [])
+                          if s.get("title")]
+        page.body += " " + " ".join(_bespoke_texts(content))
+        # Строковые литералы шаблона — это в том числе шаблонный FAQ. Если у
+        # вендора свой блок, шаблонного на странице нет, и подмешивать его в
+        # тело значит считать раскрытым то, чего посетитель не видит.
+        if not own_faq:
+            page.body += " " + " ".join(tpl_strings)
+        parts = ["редакторские tagline и about из src/data/vendors.ts",
+                 "текст типового лендинга (заголовки и блоки шаблона)"]
+        if content:
+            parts.append(f"bespoke-контент scripts/content/{slug}.json "
+                         f"({plural_sections(content)})")
+        if mode:
+            parts.append("подмена FAQ экспериментом со сниппетами учтена")
+        page.scope_note = ("проверены " + "; ".join(parts) +
+                           "; карточки товаров приходят из Directus и в "
+                           "проверку не входят")
     else:
         page.scope_note = "запись вендора не найдена — содержимое не проверялось"
     return page
@@ -250,11 +377,12 @@ def load_product(url: str) -> PageContent:
                                   f"«{slug}» + workflow ops-apply-descriptions"))
     # Текст шаблона карточки виден на каждой странице товара независимо от
     # того, заведено ли для него описание в репозитории.
-    tpl_headings, tpl_text = template_content(PRODUCT_TEMPLATE)
+    tpl_headings, tpl_text, tpl_strings = template_content(PRODUCT_TEMPLATE)
     page.headings = tpl_headings
     # Название товара в репозитории не хранится; slug даёт его приближение и
     # закрывает запросы, где бренд написан так же, как в адресе.
-    page.body = " ".join([tpl_text, slug.replace("-", " ")])
+    page.body = " ".join([tpl_text, " ".join(tpl_strings),
+                          slug.replace("-", " ")])
     page.available = bool(tpl_text)
     page.source_path = "src/pages/product/[slug].astro"
     page.scope_note = ("проверён текст шаблона карточки и slug товара; "

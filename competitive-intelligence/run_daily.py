@@ -192,6 +192,28 @@ def main(argv: list[str]) -> int:
         package["мораторий_до"] = experiment.watch_until
         package["эксперимент"] = experiment.id
 
+    # Занятость страниц чужими экспериментами базового SEO-контура. Пакет по
+    # занятой странице остаётся в отчёте с пометкой, но поручением не
+    # становится: вторая правка в чужом окне наблюдения лишает оценки оба
+    # эксперимента (разбор плана работ 02.09.2026).
+    from attack_engine import occupancy as occupancy_mod
+    registry_read = occupancy_mod.available()
+    if registry_read:
+        _, occupied = occupancy_mod.mark(packages)
+        control = [p for p in packages
+                   if (p.get("занятость") or {}).get("степень")
+                   == occupancy_mod.BUSY_CONTROL]
+        print(f"6в. Занятость: {len(occupied)} страниц под чужими "
+              f"экспериментами, {len(control)} в их контрольных группах")
+    else:
+        occupied = []
+        print("6в. Занятость: реестр экспериментов базового контура не "
+              "прочитан — занятость не проверена, пометки нет данных")
+        for package in packages:
+            package["занятость_нет_данных"] = (
+                "реестр экспериментов базового контура недоступен: "
+                "проверьте вручную, не идёт ли по странице чужой замер")
+
     # Типы страниц, шаблоны которых правятся сегодня: их страницы исключаются
     # из контрольной группы всех экспериментов этого дня.
     systemic_kinds = sorted({k for a in systemic
