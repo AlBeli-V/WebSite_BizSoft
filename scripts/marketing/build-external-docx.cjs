@@ -58,6 +58,12 @@ const PACKS = {
     out: 'exports/marketing/karta-sotrudnika-master-audit.docx',
     bare: true,
   },
+  // Вторая статья Дзена — пакет для вставки в редактор.
+  'dzen2-publish': {
+    files: ['docs/marketing/external/dzen/02-tco-podpiski.md'],
+    out: 'exports/marketing/dzen-02-tco-publish.docx',
+    bare: true,
+  },
   // Пакет для публикации: только текст статьи, без титула, вводной и карточки.
   // Копируется из Word прямо в редактор Дзена — форматирование переносится.
   'dzen1-publish': {

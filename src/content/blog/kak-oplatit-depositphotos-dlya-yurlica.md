@@ -6,6 +6,8 @@ updated: 2026-08-19
 tags: ["гайд", "оформление", "сток"]
 summaryAnswer: "Оплатить Depositphotos для юридического лица в России можно через российского поставщика: вы получаете счёт в рублях, оплачиваете с расчётного счёта компании, а доступ к стоку и закрывающие документы приходят по договору через ЭДО."
 author: "Редакция BIZSoft"
+cover: "/blog/covers/kak-oplatit-depositphotos-dlya-yurlica.png"
+coverAlt: "Сток-изображения в центре схемы оплаты подписки для юридического лица"
 related:
   - { label: "Оплата Depositphotos на юрлицо", href: "/vendors/depositphotos" }
   - { label: "Каталог сервисов", href: "/catalog" }
