@@ -267,21 +267,30 @@ class TestMeasurementLimits(unittest.TestCase):
 class TestExpansionGuard(unittest.TestCase):
     """Уже заведённого вендора нельзя предлагать завести."""
 
+    # Пример «вендора не с сайта» — синтетическое имя, а не реальный бренд:
+    # реальные примеры протухают, как только руководитель заводит вендора
+    # (wordpress, 29.08.2026) или отклоняет его (nordvpn, 02.09.2026 —
+    # реклама VPN запрещена), и тест падает без единой правки кода.
+    UNKNOWN = "zzz-example-vendor"
+
     @classmethod
     def setUpClass(cls):
         cls.r = load("report_v4")
+        # заглушка обязана быть вне каталога и вне реестра отклонённых,
+        # иначе смысл проверки теряется
+        known = cls.r._site_vendor_words() | cls.r.rejected_vendor_brands()
+        assert cls.UNKNOWN.replace("-", " ") not in known, (
+            f"{cls.UNKNOWN} перестал быть незнакомым брендом — возьмите другую заглушку")
 
     def test_catalogue_vendors_are_dropped(self):
         # состояние исследования отстало от каталога — так ушло письмо 21.08.
-        # Пример «вендора не с сайта» — basecamp: прежний пример wordpress
-        # заведён в каталог 29.08.2026 и стал вычёркиваться по назначению.
         stale = {"available": True, "expansion": {
-            "items": [{"brand": "suno"}, {"brand": "cloudflare"}, {"brand": "basecamp"}],
-            "manual_check": ["capcut", "principle", "nordvpn", "leonardo ai"]}}
+            "items": [{"brand": "suno"}, {"brand": "cloudflare"}, {"brand": self.UNKNOWN}],
+            "manual_check": ["capcut", "principle", self.UNKNOWN, "leonardo ai"]}}
         out = self.r._drop_vendors_already_on_site(stale)
         brands = [i["brand"] for i in out["expansion"]["items"]]
-        self.assertEqual(brands, ["basecamp"])
-        self.assertEqual(out["expansion"]["manual_check"], ["nordvpn"])
+        self.assertEqual(brands, [self.UNKNOWN])
+        self.assertEqual(out["expansion"]["manual_check"], [self.UNKNOWN])
 
     def test_fresh_catalogue_vendors_are_dropped_too(self):
         # Партия 29.08.2026: wordpress и slack заведены — guard обязан
@@ -294,7 +303,7 @@ class TestExpansionGuard(unittest.TestCase):
 
     def test_untouched_when_nothing_to_drop(self):
         block = {"available": True, "expansion": {
-            "items": [{"brand": "basecamp"}], "manual_check": ["nordvpn"]}}
+            "items": [{"brand": self.UNKNOWN}], "manual_check": [self.UNKNOWN]}}
         self.assertIs(self.r._drop_vendors_already_on_site(block), block)
 
     def test_says_so_when_all_candidates_are_covered(self):
