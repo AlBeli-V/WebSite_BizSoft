@@ -2002,7 +2002,7 @@
   "buy_markers": [],
   "sales_markers": [],
   "has_prices": false,
-  "checked_at": "2026-08-29",
+  "checked_at": "2026-09-02",
   "kind": "ai"
  },
  "manus ai": {
@@ -2014,7 +2014,7 @@
   "has_prices": false,
   "url": "https://www.manusai.com/pricing",
   "http_status": 200,
-  "checked_at": "2026-08-29",
+  "checked_at": "2026-09-02",
   "kind": "ai"
  },
  "mistral ai": {
@@ -2028,7 +2028,7 @@
   "has_prices": true,
   "url": "https://mistral.ai/pricing",
   "http_status": 200,
-  "checked_at": "2026-08-29",
+  "checked_at": "2026-09-02",
   "kind": "ai"
  },
  "hailuo": {
@@ -2042,7 +2042,7 @@
   "has_prices": false,
   "url": "https://www.hailuo.com/pricing",
   "http_status": 200,
-  "checked_at": "2026-08-29",
+  "checked_at": "2026-09-02",
   "kind": "ai"
  },
  "zapier": {
@@ -2066,15 +2066,17 @@
   "kind": "classic"
  },
  "make.com": {
-  "verdict": "unknown",
-  "note": "признаков оплаты на странице не найдено",
+  "verdict": "likely_card",
+  "note": "есть цены и кнопки покупки, платёжная система не опознана",
   "card_markers": [],
-  "buy_markers": [],
+  "buy_markers": [
+   "buy now"
+  ],
   "sales_markers": [],
   "has_prices": true,
   "url": "https://www.makecom.com/pricing",
   "http_status": 200,
-  "checked_at": "2026-08-29",
+  "checked_at": "2026-09-02",
   "kind": "classic"
  },
  "tldv": {
@@ -2086,7 +2088,7 @@
   "buy_markers": [],
   "sales_markers": [],
   "has_prices": false,
-  "checked_at": "2026-08-29",
+  "checked_at": "2026-09-02",
   "kind": "ai"
  },
  "d5 render": {
@@ -2098,7 +2100,7 @@
   "has_prices": false,
   "url": "https://www.d5render.com/pricing",
   "http_status": 200,
-  "checked_at": "2026-08-29",
+  "checked_at": "2026-09-02",
   "kind": "classic"
  },
  "vectorworks": {
@@ -2108,9 +2110,9 @@
   "buy_markers": [],
   "sales_markers": [],
   "has_prices": true,
-  "url": "https://www.vectorworks.com/pricing",
+  "url": "https://www.vectorworks.com/plans",
   "http_status": 200,
-  "checked_at": "2026-08-29",
+  "checked_at": "2026-09-02",
   "kind": "classic"
  },
  "luminar neo": {
@@ -2122,7 +2124,7 @@
   "has_prices": false,
   "url": "https://www.luminarneo.com/pricing",
   "http_status": 200,
-  "checked_at": "2026-08-29",
+  "checked_at": "2026-09-02",
   "kind": "classic"
  },
  "sublime text": {

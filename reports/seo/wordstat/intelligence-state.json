@@ -1,6 +1,6 @@
 {
  "date": "2026-09-02",
- "generated_at": "2026-09-02T04:47:02+00:00",
+ "generated_at": "2026-09-02T05:53:53+00:00",
  "measured_at": "2026-09-02",
  "universe": {
   "phrases": 23047,
@@ -740,7 +740,7 @@
      "verdict": "unknown",
      "note": "признаков оплаты на странице не найдено",
      "url": "https://www.hailuo.com/pricing",
-     "checked_at": "2026-08-29"
+     "checked_at": "2026-09-02"
     },
     "recommendation": "проверить вручную",
     "recommendation_why": "признаков оплаты на странице тарифов не найдено",
@@ -818,14 +818,14 @@
   "note": "Российские вендоры исключены: их лицензии продаются напрямую, услуга оплаты из-за рубежа к ним неприменима."
  },
  "efficiency": {
-  "calls_total": 865,
-  "calls_paid": 123,
-  "cost_month_rub": 2.46,
-  "cost_today_rub": 1.42,
-  "remaining_budget_rub": 5497.54,
-  "forecast_month_end_rub": 36.9,
+  "calls_total": 1040,
+  "calls_paid": 132,
+  "cost_month_rub": 2.64,
+  "cost_today_rub": 1.6,
+  "remaining_budget_rub": 5497.36,
+  "forecast_month_end_rub": 39.6,
   "state": "open",
-  "cache_hit_rate": 0.8578,
+  "cache_hit_rate": 0.8731,
   "duplicate_rate": 1.0,
   "unique_phrases": 0,
   "new_commercial_phrases": 0,
@@ -833,7 +833,7 @@
   "cost_per_1000_unique_phrases_rub": null,
   "cost_per_1000_commercial_phrases_rub": null,
   "cost_per_new_cluster_rub": null,
-  "empty_response_rate": 0.3295
+  "empty_response_rate": 0.3202
  },
  "quota": {
   "requests_per_hour": 500,
