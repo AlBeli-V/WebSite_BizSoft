@@ -806,7 +806,7 @@ def assemble(snap, prev, dq, actions_cfg, site_check):
             .get("direct_attribution")),
         "growth_ideas": growth_ideas,
         "measurement_summary": _measurement_summary(dq),
-        "checkpoints": _checkpoints(exps, actions_cfg),
+        "checkpoints": _checkpoints(exps, actions_cfg, date),
         "links": {"web": url, "web_public": public,
                   "tasks": f"{REPO}/tree/{BRANCH}/reports/seo/tasks"},
     }
@@ -1035,8 +1035,14 @@ def _management_actions(exps: list, opps: dict, demand_block: dict,
     # 2. Рост без бюджета: сниппеты под запросы с показами без переходов.
     items = (opps.get("items") or []) if opps.get("available") else []
     if items:
-        exp_slugs = {p.rstrip("/").rsplit("/", 1)[-1]
-                     for e in exps for p in _registry_pages(e)}
+        # Slug сопоставляется и с дефисом, и с пробелом: запрос кластера
+        # пишется «motion array», страница — /vendors/motion-array (02.09
+        # письмо предложило переписать сниппет, уже переписанный в #273).
+        exp_slugs = set()
+        for e in exps:
+            for pg in _registry_pages(e):
+                slug = pg.rstrip("/").rsplit("/", 1)[-1]
+                exp_slugs |= {slug, slug.replace("-", " ")}
         qlist = []
         held = []
         for o in items:
@@ -1292,26 +1298,46 @@ def _verdict_panel(e: dict) -> str:
             f"border-radius:0 10px 10px 0;\">{''.join(lines + rec)}</div>")
 
 
-def _checkpoints(exps, actions_cfg) -> list[dict]:
+def _review_subject(e: dict) -> str:
+    """Что именно замеряет ближайшая проверка — по метрике эксперимента."""
+    kind = e.get("evaluation_kind", "ctr")
+    if kind == "impressions_growth":
+        return "замер роста показов кластера и позиции статьи"
+    if kind == "launch":
+        return "замер индексации и показов новых страниц"
+    return "замер кликабельности изменённых страниц"
+
+
+def _checkpoints(exps, actions_cfg, date: str = "") -> list[dict]:
     out = []
     for e in exps:
         # next_review = None: все вехи эксперимента позади — он ждёт вердикта
         # (это видно в «Контроле эксперимента»), а «следующей проверки» у него
         # нет. Прошедшие даты сюда не попадают: их отсекает next_review_for
         # (вопрос руководителя 30.08 — письмо показывало 26.08 как будущее).
+        # Контрольная дата сегодня: проверка уже проведена, и её результат —
+        # в блоке «Контроль эксперимента» этого же письма. Показывать её как
+        # предстоящую нельзя (вопрос руководителя 02.09.2026), но и молчать о
+        # ней не нужно: строка называет вердикт и уводит к разбору.
         if not e.get("next_review"):
             continue
         out.append({"date": ru_date(e["next_review"]),
-                    "what": f"{e['ticket']}: замер кликабельности изменённых страниц"})
+                    "what": f"{e['ticket']}: {_review_subject(e)}"})
     for a in actions_cfg["actions"]:
         if a.get("due") and a["status"] in ("in_progress", "blocked"):
             out.append({"date": ru_date(a["due"]), "what": f"{a['id']}: {a['title']}"})
+    # Дедупликация по (дата, идентификатор): у задачи журнала и эксперимента
+    # совпадает тикет (SEO-EXP-002), и один и тот же контроль печатался
+    # дважды разными формулировками.
     seen, uniq = set(), []
     for c in out:
-        k = (c["date"], c["what"])
+        k = (c["date"], c["what"].split(":", 1)[0].strip())
         if k not in seen:
             seen.add(k)
             uniq.append(c)
+    # По возрастанию даты: ближайшее сверху. Дата в формате ДД.ММ, поэтому
+    # сортируется по (месяц, день).
+    uniq.sort(key=lambda c: tuple(reversed(c["date"].split("."))))
     return uniq[:3]
 
 
@@ -1826,9 +1852,14 @@ def html_email(b: dict, charts: dict, cid_mode: bool) -> str:
         cps = "".join(
             f"<div style=\"font-size:15px;padding:{SP['xs']}px 0;line-height:1.55;\">"
             f"<b>{c['date']}</b> — {c['what']}</div>" for c in b["checkpoints"])
+        done_today = [e["ticket"] for e in b["experiments"]
+                      if e.get("control_date_today")]
+        note_done = (f"Проверки {', '.join(done_today)} проведены сегодня — их вердикты "
+                     f"выше, в «Контроле эксперимента». " if done_today else "")
         cps += (f"<div data-meta=\"1\" style=\"font-size:12.5px;color:{T['text_secondary']};"
                 f"padding-top:{SP['s']}px;line-height:1.45;\">"
-                f"До этих дат выводы по эксперименту не делаются: данных выдачи за более "
+                f"{note_done}"
+                f"До перечисленных дат выводы не делаются: данных выдачи за более "
                 f"короткий срок недостаточно, чтобы отличить эффект от обычных колебаний."
                 f"</div>")
         rows.append(_section("Следующие проверки", cps))
@@ -2046,6 +2077,11 @@ def plain_text(b: dict) -> str:
         L.append(lh_line[0])
     if b["checkpoints"]:
         L += ["", "СЛЕДУЮЩИЕ ПРОВЕРКИ"]
+        done_today = [e["ticket"] for e in b["experiments"]
+                      if e.get("control_date_today")]
+        if done_today:
+            L.append(f"  проверки {', '.join(done_today)} проведены сегодня — "
+                     f"вердикты выше, в «Контроле эксперимента»")
         for c in b["checkpoints"]:
             L.append(f"- {c['date']} — {c['what']}")
     L += ["", f"Полный отчёт: {b['links']['web']}", f"Журнал работ: {b['links']['tasks']}"]
