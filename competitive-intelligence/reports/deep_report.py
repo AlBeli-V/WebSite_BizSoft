@@ -192,11 +192,21 @@ def _attack_status(attacks: list[dict], packages: list[dict] | None,
     result: dict[str, tuple[str, str]] = {}
     for package in (packages or []):
         exp = by_url.get(package.get("url", ""))
+        занятость = package.get("занятость") or {}
         if exp is not None and exp.state == jr.STATE_WATCH:
             status = f"правка внесена, замер до {exp.watch_until}"
         elif exp is not None and exp.state == jr.STATE_DONE:
             verdict = (exp.outcome or {}).get("вердикт", "оценён")
             status = f"проверено: {verdict}"
+        elif занятость.get("степень") == "занята":
+            # Не «в очереди»: очередь означает, что работу можно брать. Здесь
+            # её брать нельзя — страницу меряет базовый SEO-контур.
+            срок = занятость.get("до") or "контрольной точки"
+            status = (f"страница занята экспериментом "
+                      f"{занятость.get('эксперимент', '')} до {срок}")
+        elif занятость.get("степень") == "контрольная группа":
+            status = (f"в очереди, но кластер — контроль эксперимента "
+                      f"{занятость.get('эксперимент', '')}")
         else:
             status = "в очереди на работу"
         for query in package.get("queries") or []:
@@ -231,13 +241,16 @@ def _attack_summary(attacks: list[dict], packages: list[dict] | None,
                     experiments: list | None) -> str:
     """Сводка по контролю: что сделано, что на замере, что ждёт очереди."""
     status_by_query = _attack_status(attacks, packages, experiments)
-    считает = {"правка внесена": 0, "в очереди": 0, "проверено": 0, "вне плана": 0}
+    считает = {"правка внесена": 0, "в очереди": 0, "проверено": 0,
+               "занята": 0, "вне плана": 0}
     for a in attacks:
         _, status = status_by_query.get(a["query"], ("", "вне плана"))
         if status.startswith("правка внесена"):
             считает["правка внесена"] += 1
         elif status.startswith("проверено"):
             считает["проверено"] += 1
+        elif status.startswith("страница занята"):
+            считает["занята"] += 1
         elif status.startswith("в очереди"):
             считает["в очереди"] += 1
         else:
@@ -252,6 +265,9 @@ def _attack_summary(attacks: list[dict], packages: list[dict] | None,
 <td>окно наблюдения истекло, результат в разделе 6</td></tr>
 <tr><td>В очереди на работу</td><td class="num">{считает['в очереди']}</td>
 <td>поручение сформировано, правка ещё не внесена</td></tr>
+<tr><td>Страница занята чужим замером</td><td class="num">{считает['занята']}</td>
+<td>по странице идёт эксперимент базового SEO-контура: вторая правка в том же
+окне лишит оценки оба замера, работа берётся после контрольной точки</td></tr>
 <tr><td>Вне плана работ</td><td class="num">{считает['вне плана']}</td>
 <td>запрос не сведён в пакет: спрос не измерен либо страница не в нашей зоне</td></tr>
 </tbody></table>
