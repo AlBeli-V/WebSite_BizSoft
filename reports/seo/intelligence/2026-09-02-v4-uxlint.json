@@ -1,17 +1,17 @@
 {
  "date": "2026-09-02",
- "passed": true,
+ "passed": false,
  "counts": {
   "total": 26,
-  "failed": 0
+  "failed": 1
  },
- "visible_words": 1827,
+ "visible_words": 1808,
  "first_screen_words": 161,
  "checks": [
   {
    "check": "visible_words",
    "ok": true,
-   "detail": "1827 слов при пределе 1850"
+   "detail": "1808 слов при пределе 1850"
   },
   {
    "check": "first_screen_words",
@@ -80,8 +80,8 @@
   },
   {
    "check": "no_duplicate_fact",
-   "ok": true,
-   "detail": "повторы: {'оговорка про охват': 0, 'отсутствие CRM': 0, 'низкая база Google': 0, 'рано для вывода': 0}; сверх лимита: нет"
+   "ok": false,
+   "detail": "повторы: {'оговорка про охват': 0, 'отсутствие CRM': 0, 'низкая база Google': 3, 'рано для вывода': 0}; сверх лимита: {'низкая база Google': 3}"
   },
   {
    "check": "no_unsupported_causal",
