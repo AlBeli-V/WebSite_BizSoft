@@ -6,6 +6,8 @@ updated: 2026-09-02
 tags: ["гайд", "оформление", "AI"]
 summaryAnswer: "Купить Perplexity для юридического лица в России можно через российского поставщика: компания получает счёт в рублях, оплачивает его с расчётного счёта, а места в корпоративном тарифе Enterprise Pro или Enterprise Max и закрывающие документы приходят по договору через ЭДО."
 author: "Редакция BIZSoft"
+cover: "/blog/covers/kak-kupit-perplexity-dlya-yurlica.png"
+coverAlt: "AI-поиск в центре схемы: источники ответов, внутренние файлы компании, единый вход и оплата по счёту"
 related:
   - { label: "Perplexity для юридических лиц", href: "/vendors/perplexity" }
   - { label: "Каталог сервисов", href: "/catalog" }
