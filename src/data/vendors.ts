@@ -40,7 +40,7 @@ export const VENDORS: VendorEntry[] = [
     about: 'Sketch — редактор интерфейсов для дизайнеров на Mac с совместной работой, дизайн-системами и передачей макетов в разработку.' },
   { slug: 'framer', vendor: 'Framer', legalName: 'Framer B.V.', brandColor: '#0099FF', site: 'https://www.framer.com', catSeg: 'design', catLabel: 'Дизайн и графика', domain: 'design',
     tagline: 'Дизайн и публикация сайтов без кода: тарифы Basic, Pro, Scale и Enterprise.',
-    about: 'Framer — платформа для дизайна и публикации сайтов с CMS, анимациями и хостингом. Подходит студиям и продуктовым командам для лендингов и промо-сайтов.' },
+    about: 'Framer — платформа для дизайна и публикации сайтов с CMS, анимациями, хостингом и подключением собственного домена. Подходит студиям и продуктовым командам для лендингов и промо-сайтов. Годовая подписка оформляется на организацию по счёту.' },
   { slug: 'miro', vendor: 'Miro', legalName: 'RealtimeBoard, Inc. dba Miro', brandColor: '#FFD02F', site: 'https://miro.com', catSeg: 'collaboration', catLabel: 'Доски и совместная работа', domain: 'design',
     tagline: 'Онлайн-доска для совместной работы: тарифы Starter и Business для команд.',
     about: 'Miro — бесконечная онлайн-доска для брейнштормов, воркшопов, карт пользовательских путей и дизайн-операций. Незаменима для распределённых креативных и продуктовых команд.' },
@@ -49,7 +49,7 @@ export const VENDORS: VendorEntry[] = [
     about: 'Zeplin — платформа связи дизайна и разработки: спецификации, ассеты, стайлгайды и единое пространство для дизайнеров и инженеров.' },
   { slug: 'clip-studio-paint', vendor: 'Clip Studio Paint', legalName: 'CELSYS, Inc.', brandColor: '#00A0E9', site: 'https://www.clipstudio.net', catSeg: 'design', catLabel: 'Дизайн и графика', domain: 'design',
     tagline: 'Рисование, иллюстрация и комиксы: бессрочные лицензии PRO/EX и подписки.',
-    about: 'Clip Studio Paint — профессиональный инструмент цифрового рисования, иллюстрации, комиксов и анимации. Стандарт для художников и студий концепт-арта.' },
+    about: 'Clip Studio Paint (Клип Студио Пейнт) — профессиональный инструмент цифрового рисования, иллюстрации, комиксов и анимации. Стандарт для художников и студий концепт-арта.' },
   { slug: 'procreate', vendor: 'Procreate', legalName: 'Savage Interactive Pty Ltd', brandColor: '#111111', site: 'https://procreate.com', catSeg: 'design', catLabel: 'Дизайн и графика', domain: 'design',
     tagline: 'Рисование и 2D-анимация на iPad: разовые покупки Procreate и Procreate Dreams.',
     about: 'Procreate — приложение для рисования и иллюстрации на iPad с разовой покупкой. Популярно у иллюстраторов, концепт-художников и дизайнеров.' },
@@ -83,7 +83,7 @@ export const VENDORS: VendorEntry[] = [
   // ─── Блок 2: игры / 3D ───
   { slug: 'unity', vendor: 'Unity', legalName: 'Unity Technologies', brandColor: '#111111', site: 'https://unity.com', catSeg: 'development', catLabel: 'Средства разработки', domain: 'games',
     tagline: 'Игровой движок Unity: подписки Pro и Enterprise для студий.',
-    about: 'Unity — один из ведущих движков для разработки игр и интерактивных приложений на всех платформах, включая мобильные, ПК, консоли и AR/VR.' },
+    about: 'Unity (Юнити) — один из ведущих движков для разработки игр и интерактивных приложений на всех платформах, включая мобильные, ПК, консоли и AR/VR.' },
   { slug: 'unreal-engine', vendor: 'Unreal Engine', legalName: 'Epic Games, Inc.', brandColor: '#0E1128', site: 'https://www.unrealengine.com', catSeg: 'development', catLabel: 'Средства разработки', domain: 'games',
     tagline: 'Unreal Engine для студий: посадочная подписка и RealityScan.',
     about: 'Unreal Engine — движок Epic Games с фотореалистичной графикой для игр, кино, архвиза и вещания; для неигрового применения продаётся по подписке на рабочее место.' },
@@ -142,7 +142,7 @@ export const VENDORS: VendorEntry[] = [
     about: 'Avid — индустриальные стандарты видеомонтажа (Media Composer) и аудиопроизводства (Pro Tools) для кино, ТВ и музыкального продакшена.' },
   { slug: 'foundry', vendor: 'Foundry', legalName: 'The Foundry Visionmongers Ltd', brandColor: '#FFCC00', site: 'https://www.foundry.com', catSeg: 'media', catLabel: 'Звук, видео и медиа', domain: 'video',
     tagline: 'Nuke, Mari и Katana: подписки для VFX-студий.',
-    about: 'Foundry — набор для высококлассного VFX: композитинг Nuke, текстурирование Mari и look development Katana. Используется в кино и на телевидении.' },
+    about: 'Foundry (Фаундри) — набор для высококлассного VFX: композитинг Nuke, текстурирование Mari и look development Katana. Используется в кино и на телевидении.' },
   { slug: 'boris-fx', vendor: 'Boris FX', legalName: 'Boris FX, Inc.', brandColor: '#0A66C2', site: 'https://borisfx.com', catSeg: 'media', catLabel: 'Звук, видео и медиа', domain: 'video',
     tagline: 'Sapphire, Continuum, Mocha Pro и Silhouette: подписки и бессрочные.',
     about: 'Boris FX — наградные VFX-плагины: эффекты Sapphire, набор Continuum, планарный трекинг Mocha Pro и ротоскопинг Silhouette для Adobe, Avid, Resolve и Nuke.' },
@@ -154,7 +154,7 @@ export const VENDORS: VendorEntry[] = [
     about: 'Wondershare Filmora — доступный видеоредактор с ИИ-инструментами, эффектами и кросс-платформенными лицензиями для авторов, SMM и небольших студий.' },
   { slug: 'vegas', vendor: 'MAGIX Vegas', title: 'VEGAS Pro', legalName: 'MAGIX Software GmbH', brandColor: '#258ee5', site: 'https://www.vegascreativesoftware.com', catSeg: 'media', catLabel: 'Звук, видео и медиа', domain: 'video',
     tagline: 'VEGAS Pro: редакции Edit, Post и Suite, подписка и бессрочно.',
-    about: 'VEGAS Pro (MAGIX) — профессиональный видеоредактор с монтажом 4K/HDR, цветокоррекцией и инструментами постпродакшена.' },
+    about: 'VEGAS Pro (MAGIX) — профессиональный видеоредактор с монтажом 4K/HDR, цветокоррекцией и инструментами постпродакшена. В русскоязычных материалах редактор называют «Вегас».' },
   { slug: 'telestream', vendor: 'Telestream', legalName: 'Telestream, LLC', brandColor: '#00A0DF', site: 'https://www.telestream.net', catSeg: 'media', catLabel: 'Звук, видео и медиа', domain: 'video',
     tagline: 'ScreenFlow, Wirecast и Vantage: запись, стриминг и транскодинг.',
     about: 'Telestream — инструменты записи экрана (ScreenFlow), прямых трансляций (Wirecast) и корпоративного медиа-транскодинга (Vantage).' },
@@ -296,6 +296,13 @@ export const VENDORS: VendorEntry[] = [
   { slug: 'openrouter', vendor: 'OpenRouter', legalName: 'OpenRouter, Inc.', brandColor: '#1C1C1E', site: 'https://openrouter.ai', catSeg: 'ai', catLabel: 'AI-сервисы', domain: 'ai',
     tagline: 'Единый API для десятков языковых моделей: GPT, Claude, Gemini, Grok и другие через один баланс.',
     about: 'OpenRouter — агрегатор языковых моделей: один API-ключ и один баланс дают доступ к моделям OpenAI, Anthropic, Google, xAI, Meta и десяткам других. Команда разработки переключает модели без смены кода и отдельных договоров с каждым вендором. Модель оплаты — пополнение баланса, с которого списывается фактическое потребление; подписок с фиксированной ценой у сервиса нет.' },
+  // Заведён 02.09.2026 по решению руководителя (спрос кластера подтверждён
+  // исследованием, платёжная схема проверена вручную: checkout Stripe на
+  // странице подписки вендора). Знак — глиф правообладателя MiniMax,
+  // подключён через ALIAS hailuo→minimax в src/data/vendor-icons.ts.
+  { slug: 'hailuo', vendor: 'Hailuo AI', title: 'Hailuo AI', legalName: 'MiniMax (Shanghai MiniMax Technology Co., Ltd.)', brandColor: '#E73562', site: 'https://hailuoai.video', catSeg: 'ai', catLabel: 'AI-сервисы', domain: 'ai',
+    tagline: 'Генеративное видео Hailuo от MiniMax: тарифы Standard, Pro и Max с месячным пулом кредитов.',
+    about: 'Hailuo AI — сервис генеративного видео компании MiniMax: ролик создаётся по текстовому описанию или оживляет статичный кадр. Тарифы отличаются месячным пулом кредитов, длиной и качеством роликов и приоритетом в очереди генерации; на старших планах доступен режим генерации без списания кредитов. Применяется в рекламе, контенте для соцсетей и превизуализации, где видеоряд нужен без съёмки.' },
   { slug: 'higgsfield', vendor: 'Higgsfield', legalName: 'Higgsfield AI, Inc.', brandColor: '#101014', site: 'https://higgsfield.ai', catSeg: 'ai', catLabel: 'AI-сервисы', domain: 'ai',
     tagline: 'AI-генерация видео для рекламы и соцсетей: управление камерой, спецэффекты и генерация по кадру.',
     about: 'Higgsfield — сервис AI-генерации видео, ориентированный на рекламу и контент для соцсетей: кинематографические движения камеры, спецэффекты, генерация роликов из статичных кадров. Подписки отличаются объёмом генераций и скоростью очереди. Применяется маркетинговыми командами и продакшн-студиями для быстрых видео без съёмки.' },
@@ -339,6 +346,13 @@ export const VENDORS: VendorEntry[] = [
   { slug: 'think-cell', vendor: 'think-cell', legalName: 'think-cell Software GmbH', brandColor: '#76B82A', site: 'https://www.think-cell.com', catSeg: 'office', catLabel: 'Офисное ПО', domain: 'it',
     tagline: 'think-cell: диаграммы консалтингового уровня в PowerPoint — водопады, Гантт и связка с Excel.',
     about: 'think-cell — надстройка PowerPoint для деловых диаграмм: водопадные диаграммы, Мекко, Гантт, каскады и автоматические выноски, связанные с данными Excel. Стандарт де-факто в консалтинге и корпоративных финансах: слайды, на которые вручную уходят часы, собираются за минуты. Годовые лицензии на пользователя; лицензия действует и на домашнем компьютере сотрудника.' },
+  // Заведён 02.09.2026 решением руководителя. Спрос по замеру ops-sam-demand —
+  // 326 показов в месяц, выдача по бренду разрежена (3 037 документов). Цены
+  // сняты руководителем вручную: сайт вендора закрыт проверкой Cloudflare, и
+  // ни ops-probe, ни ops-price-scan страницу тарифов не берут.
+  { slug: 'lansweeper', vendor: 'Lansweeper', legalName: 'Lansweeper NV', brandColor: '#00A6D6', site: 'https://www.lansweeper.com', catSeg: 'system', catLabel: 'Системное ПО', domain: 'it',
+    tagline: 'Обнаружение и инвентаризация ИТ-активов: сканирование сети, состав оборудования и программ, учёт лицензий. Тарифы Starter и Pro.',
+    about: 'Lansweeper — система обнаружения и учёта ИТ-активов бельгийской разработки. Сканирует сеть и собирает состав того, что в ней работает: компьютеры и серверы, их железо и установленные программы, сетевое оборудование, виртуальные машины и облачные ресурсы. На собранном инвентаре строятся отчёты по лицензиям, срокам поддержки и изменениям в парке. Лицензия считается по числу учитываемых устройств, а не по числу администраторов, поэтому стоимость зависит от размера инфраструктуры, а не команды.' },
 ];
 
 export function vendorBySlug(slug: string): VendorEntry | undefined {

@@ -27,12 +27,28 @@ export function feedEligible(p: Product, now: Date = new Date()): boolean {
 }
 
 /**
- * Ключ сортировки: спрос вендора в Вордстате (по убыванию), внутри вендора —
- * основные продукты раньше дополнений, затем витринный sort и имя.
- * Вендор без данных Вордстата получает спрос 0 и уходит в хвост.
+ * Ключ сортировки, две ступени.
+ *
+ * Первая — измеренный спрос на саму карточку (src/data/product-demand.json:
+ * визиты органики и показы страницы). Площадка показывает первыми те позиции,
+ * что идут первыми в выгрузке, а спрос вендора — оценка рынка, а не нашей
+ * витрины: карточка, которую действительно ищут и открывают, должна идти
+ * раньше. Поручение руководителя 02.09.2026 по аудиту Яндекс Бизнеса.
+ *
+ * Вторая — спрос вендора в Вордстате (по убыванию); внутри вендора основные
+ * продукты идут раньше дополнений, затем витринный sort и имя. Карточка без
+ * измеренного спроса и вендор без данных Вордстата получают 0 и уходят в
+ * хвост — порядок для них тот же, что был до появления первой ступени.
  */
-export function rankProducts(products: Product[], demand: Record<string, number>): Product[] {
+export function rankProducts(
+  products: Product[],
+  demand: Record<string, number>,
+  productDemand: Record<string, number> = {},
+): Product[] {
   return [...products].sort((a, b) => {
+    const pa = productDemand[a.slug || ''] || 0;
+    const pb = productDemand[b.slug || ''] || 0;
+    if (pa !== pb) return pb - pa;
     const da = demand[a.vendor || ''] || 0;
     const db = demand[b.vendor || ''] || 0;
     if (da !== db) return db - da;
@@ -54,7 +70,7 @@ export function selectFeedProducts(products: Product[], opts: FeedSelectOptions)
   const now = opts.now ?? new Date();
   let picked = products.filter((p) => feedEligible(p, now));
   if (opts.extraFilter) picked = picked.filter(opts.extraFilter);
-  picked = rankProducts(picked, opts.demand);
+  picked = rankProducts(picked, opts.demand, opts.productDemand);
   if (opts.maxOffers && opts.maxOffers > 0) picked = picked.slice(0, opts.maxOffers);
   return picked;
 }
