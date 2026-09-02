@@ -1174,37 +1174,6 @@
   },
   {
     "attack_id": "ATT-039",
-    "query": "купить recraft pro www.klerk.ru",
-    "engine": "yandex",
-    "region": "213",
-    "our_position": 6,
-    "our_url": "https://biz-soft.pro/vendors/recraft",
-    "rival_domain": "raketapay.ru",
-    "rival_position": 3,
-    "rival_category": "H",
-    "competition_kind": "сделка",
-    "demand": 4,
-    "demand_source": "webmaster",
-    "commercial_intent": 0.7,
-    "b2b_intent": 0.0,
-    "opportunity": 47,
-    "confidence": "MEDIUM",
-    "breakdown": {
-      "commercial": 16.5,
-      "b2b": 0.0,
-      "proximity": 15.4,
-      "demand": 0.4,
-      "page_improvement": 11.8,
-      "vendor": 2.9
-    },
-    "notes": [
-      "Vulnerability недоступен до обхода страниц конкурентов: его вес пропорционально распределён между измеренными факторами, а не передан выбранным",
-      "спрос оценён по показам Вебмастера (4) — это видимая нам часть спроса за две недели, а не рынок за месяц",
-      "экономический фактор не участвует: измеренной выручки нет, а её оценка через спрос и интент дублировала бы эти факторы"
-    ]
-  },
-  {
-    "attack_id": "ATT-040",
     "query": "вегас редактор видео цена",
     "engine": "yandex",
     "region": "213",
@@ -1235,38 +1204,7 @@
     ]
   },
   {
-    "attack_id": "ATT-041",
-    "query": "купить рекрафт www.klerk.ru",
-    "engine": "yandex",
-    "region": "213",
-    "our_position": 6,
-    "our_url": "https://biz-soft.pro/vendors/recraft",
-    "rival_domain": "raketapay.ru",
-    "rival_position": 3,
-    "rival_category": "H",
-    "competition_kind": "сделка",
-    "demand": 3,
-    "demand_source": "webmaster",
-    "commercial_intent": 0.7,
-    "b2b_intent": 0.0,
-    "opportunity": 47,
-    "confidence": "MEDIUM",
-    "breakdown": {
-      "commercial": 16.5,
-      "b2b": 0.0,
-      "proximity": 15.4,
-      "demand": 0.3,
-      "page_improvement": 11.8,
-      "vendor": 2.9
-    },
-    "notes": [
-      "Vulnerability недоступен до обхода страниц конкурентов: его вес пропорционально распределён между измеренными факторами, а не передан выбранным",
-      "спрос оценён по показам Вебмастера (3) — это видимая нам часть спроса за две недели, а не рынок за месяц",
-      "экономический фактор не участвует: измеренной выручки нет, а её оценка через спрос и интент дублировала бы эти факторы"
-    ]
-  },
-  {
-    "attack_id": "ATT-042",
+    "attack_id": "ATT-040",
     "query": "runway ai тарифы",
     "engine": "yandex",
     "region": "213",
@@ -1297,7 +1235,7 @@
     ]
   },
   {
-    "attack_id": "ATT-043",
+    "attack_id": "ATT-041",
     "query": "framer годовая подписка из россии",
     "engine": "yandex",
     "region": "213",
@@ -1328,7 +1266,7 @@
     ]
   },
   {
-    "attack_id": "ATT-044",
+    "attack_id": "ATT-042",
     "query": "framer оплата рублями",
     "engine": "yandex",
     "region": "213",
@@ -1359,7 +1297,7 @@
     ]
   },
   {
-    "attack_id": "ATT-045",
+    "attack_id": "ATT-043",
     "query": "как купить framer pro в россии",
     "engine": "yandex",
     "region": "213",
@@ -1390,7 +1328,7 @@
     ]
   },
   {
-    "attack_id": "ATT-046",
+    "attack_id": "ATT-044",
     "query": "оплата depositphotos из россии",
     "engine": "yandex",
     "region": "213",
@@ -1421,7 +1359,7 @@
     ]
   },
   {
-    "attack_id": "ATT-047",
+    "attack_id": "ATT-045",
     "query": "depositphotos оплата из россии",
     "engine": "yandex",
     "region": "213",
@@ -1452,7 +1390,7 @@
     ]
   },
   {
-    "attack_id": "ATT-048",
+    "attack_id": "ATT-046",
     "query": "купить аккаунт windsurf",
     "engine": "yandex",
     "region": "213",
@@ -1482,7 +1420,7 @@
     ]
   },
   {
-    "attack_id": "ATT-049",
+    "attack_id": "ATT-047",
     "query": "как оплатить тариф depositphotos из россии",
     "engine": "yandex",
     "region": "213",
@@ -1513,7 +1451,7 @@
     ]
   },
   {
-    "attack_id": "ATT-050",
+    "attack_id": "ATT-048",
     "query": "оплата depositphotos",
     "engine": "yandex",
     "region": "213",
@@ -1544,7 +1482,7 @@
     ]
   },
   {
-    "attack_id": "ATT-051",
+    "attack_id": "ATT-049",
     "query": "оплата coreldraw",
     "engine": "yandex",
     "region": "213",
@@ -1575,7 +1513,7 @@
     ]
   },
   {
-    "attack_id": "ATT-052",
+    "attack_id": "ATT-050",
     "query": "marmoset toolbag 5 купить",
     "engine": "yandex",
     "region": "213",
@@ -1605,7 +1543,7 @@
     ]
   },
   {
-    "attack_id": "ATT-053",
+    "attack_id": "ATT-051",
     "query": "coreldraw подписка",
     "engine": "yandex",
     "region": "213",
@@ -1635,7 +1573,7 @@
     ]
   },
   {
-    "attack_id": "ATT-054",
+    "attack_id": "ATT-052",
     "query": "artlist подписка",
     "engine": "yandex",
     "region": "213",
@@ -1665,7 +1603,7 @@
     ]
   },
   {
-    "attack_id": "ATT-055",
+    "attack_id": "ATT-053",
     "query": "artlist купить",
     "engine": "yandex",
     "region": "213",
@@ -1695,7 +1633,7 @@
     ]
   },
   {
-    "attack_id": "ATT-056",
+    "attack_id": "ATT-054",
     "query": "как оплатить пакет depositphotos из россии",
     "engine": "yandex",
     "region": "213",
@@ -1726,7 +1664,7 @@
     ]
   },
   {
-    "attack_id": "ATT-057",
+    "attack_id": "ATT-055",
     "query": "как оплатить box облако из россии",
     "engine": "yandex",
     "region": "213",
@@ -1757,7 +1695,7 @@
     ]
   },
   {
-    "attack_id": "ATT-058",
+    "attack_id": "ATT-056",
     "query": "depositphotos как оплатить в россии",
     "engine": "yandex",
     "region": "213",
@@ -1788,7 +1726,7 @@
     ]
   },
   {
-    "attack_id": "ATT-059",
+    "attack_id": "ATT-057",
     "query": "как оплатить depositphotos в рублях",
     "engine": "yandex",
     "region": "213",
@@ -1819,7 +1757,7 @@
     ]
   },
   {
-    "attack_id": "ATT-060",
+    "attack_id": "ATT-058",
     "query": "как оплатить coreldraw в рублях",
     "engine": "yandex",
     "region": "213",
@@ -1850,7 +1788,7 @@
     ]
   },
   {
-    "attack_id": "ATT-061",
+    "attack_id": "ATT-059",
     "query": "как оплатить depositphotos в россии",
     "engine": "yandex",
     "region": "213",
@@ -1881,7 +1819,7 @@
     ]
   },
   {
-    "attack_id": "ATT-062",
+    "attack_id": "ATT-060",
     "query": "как оплатить депозитфотос из россии",
     "engine": "yandex",
     "region": "213",
@@ -1912,7 +1850,7 @@
     ]
   },
   {
-    "attack_id": "ATT-063",
+    "attack_id": "ATT-061",
     "query": "как сейчас оплатить depositphotos из россии",
     "engine": "yandex",
     "region": "213",
@@ -1943,7 +1881,7 @@
     ]
   },
   {
-    "attack_id": "ATT-064",
+    "attack_id": "ATT-062",
     "query": "как оплатить depositphotos без зарубежной карты",
     "engine": "yandex",
     "region": "213",
@@ -1974,7 +1912,7 @@
     ]
   },
   {
-    "attack_id": "ATT-065",
+    "attack_id": "ATT-063",
     "query": "как оплатить depositphotos из россии",
     "engine": "yandex",
     "region": "213",
@@ -2005,7 +1943,7 @@
     ]
   },
   {
-    "attack_id": "ATT-066",
+    "attack_id": "ATT-064",
     "query": "как купить recraft без зарубежной карты",
     "engine": "yandex",
     "region": "213",
@@ -2036,7 +1974,7 @@
     ]
   },
   {
-    "attack_id": "ATT-067",
+    "attack_id": "ATT-065",
     "query": "чем оплатить depositphotos из россии",
     "engine": "yandex",
     "region": "213",
@@ -2067,7 +2005,7 @@
     ]
   },
   {
-    "attack_id": "ATT-068",
+    "attack_id": "ATT-066",
     "query": "купить подписку на клип студио пейнт",
     "engine": "yandex",
     "region": "213",
@@ -2098,7 +2036,7 @@
     ]
   },
   {
-    "attack_id": "ATT-069",
+    "attack_id": "ATT-067",
     "query": "character creator 5 купить",
     "engine": "yandex",
     "region": "213",
@@ -2129,38 +2067,7 @@
     ]
   },
   {
-    "attack_id": "ATT-070",
-    "query": "runway цена companies.rbc.ru",
-    "engine": "yandex",
-    "region": "213",
-    "our_position": 5,
-    "our_url": "https://biz-soft.pro/vendors/runway",
-    "rival_domain": "companies.rbc.ru",
-    "rival_position": 1,
-    "rival_category": "G",
-    "competition_kind": "клик",
-    "demand": 9,
-    "demand_source": "webmaster",
-    "commercial_intent": 0.7,
-    "b2b_intent": 0.0,
-    "opportunity": 49,
-    "confidence": "MEDIUM",
-    "breakdown": {
-      "commercial": 16.5,
-      "b2b": 0.0,
-      "proximity": 16.6,
-      "demand": 0.8,
-      "page_improvement": 11.8,
-      "vendor": 2.9
-    },
-    "notes": [
-      "Vulnerability недоступен до обхода страниц конкурентов: его вес пропорционально распределён между измеренными факторами, а не передан выбранным",
-      "спрос оценён по показам Вебмастера (9) — это видимая нам часть спроса за две недели, а не рынок за месяц",
-      "экономический фактор не участвует: измеренной выручки нет, а её оценка через спрос и интент дублировала бы эти факторы"
-    ]
-  },
-  {
-    "attack_id": "ATT-071",
+    "attack_id": "ATT-068",
     "query": "sketchup go подписка",
     "engine": "yandex",
     "region": "213",
@@ -2191,38 +2098,7 @@
     ]
   },
   {
-    "attack_id": "ATT-072",
-    "query": "runway тарифы companies.rbc.ru",
-    "engine": "yandex",
-    "region": "213",
-    "our_position": 6,
-    "our_url": "https://biz-soft.pro/vendors/runway",
-    "rival_domain": "companies.rbc.ru",
-    "rival_position": 1,
-    "rival_category": "G",
-    "competition_kind": "клик",
-    "demand": 8,
-    "demand_source": "webmaster",
-    "commercial_intent": 0.7,
-    "b2b_intent": 0.0,
-    "opportunity": 47,
-    "confidence": "MEDIUM",
-    "breakdown": {
-      "commercial": 16.5,
-      "b2b": 0.0,
-      "proximity": 15.4,
-      "demand": 0.7,
-      "page_improvement": 11.8,
-      "vendor": 2.9
-    },
-    "notes": [
-      "Vulnerability недоступен до обхода страниц конкурентов: его вес пропорционально распределён между измеренными факторами, а не передан выбранным",
-      "спрос оценён по показам Вебмастера (8) — это видимая нам часть спроса за две недели, а не рынок за месяц",
-      "экономический фактор не участвует: измеренной выручки нет, а её оценка через спрос и интент дублировала бы эти факторы"
-    ]
-  },
-  {
-    "attack_id": "ATT-073",
+    "attack_id": "ATT-069",
     "query": "сколько стоит подписка клип студио бессрочная",
     "engine": "yandex",
     "region": "213",
@@ -2253,7 +2129,7 @@
     ]
   },
   {
-    "attack_id": "ATT-074",
+    "attack_id": "ATT-070",
     "query": "recraft тарифы",
     "engine": "yandex",
     "region": "213",
@@ -2284,7 +2160,7 @@
     ]
   },
   {
-    "attack_id": "ATT-075",
+    "attack_id": "ATT-071",
     "query": "купить фаундри",
     "engine": "yandex",
     "region": "213",
@@ -2311,68 +2187,6 @@
     "notes": [
       "Vulnerability недоступен до обхода страниц конкурентов: его вес пропорционально распределён между измеренными факторами, а не передан выбранным",
       "спрос оценён по показам Вебмастера (3) — это видимая нам часть спроса за две недели, а не рынок за месяц",
-      "экономический фактор не участвует: измеренной выручки нет, а её оценка через спрос и интент дублировала бы эти факторы"
-    ]
-  },
-  {
-    "attack_id": "ATT-076",
-    "query": "runway ai цена companies.rbc.ru",
-    "engine": "yandex",
-    "region": "213",
-    "our_position": 9,
-    "our_url": "https://biz-soft.pro/vendors/runway",
-    "rival_domain": "companies.rbc.ru",
-    "rival_position": 1,
-    "rival_category": "G",
-    "competition_kind": "клик",
-    "demand": 10,
-    "demand_source": "webmaster",
-    "commercial_intent": 0.7,
-    "b2b_intent": 0.0,
-    "opportunity": 44,
-    "confidence": "MEDIUM",
-    "breakdown": {
-      "commercial": 16.5,
-      "b2b": 0.0,
-      "proximity": 12.1,
-      "demand": 0.9,
-      "page_improvement": 11.8,
-      "vendor": 2.9
-    },
-    "notes": [
-      "Vulnerability недоступен до обхода страниц конкурентов: его вес пропорционально распределён между измеренными факторами, а не передан выбранным",
-      "спрос оценён по показам Вебмастера (10) — это видимая нам часть спроса за две недели, а не рынок за месяц",
-      "экономический фактор не участвует: измеренной выручки нет, а её оценка через спрос и интент дублировала бы эти факторы"
-    ]
-  },
-  {
-    "attack_id": "ATT-077",
-    "query": "runway ai тарифы companies.rbc.ru",
-    "engine": "yandex",
-    "region": "213",
-    "our_position": 10,
-    "our_url": "https://biz-soft.pro/vendors/runway",
-    "rival_domain": "companies.rbc.ru",
-    "rival_position": 1,
-    "rival_category": "G",
-    "competition_kind": "клик",
-    "demand": 4,
-    "demand_source": "webmaster",
-    "commercial_intent": 0.7,
-    "b2b_intent": 0.0,
-    "opportunity": 43,
-    "confidence": "MEDIUM",
-    "breakdown": {
-      "commercial": 16.5,
-      "b2b": 0.0,
-      "proximity": 11.0,
-      "demand": 0.4,
-      "page_improvement": 11.8,
-      "vendor": 2.9
-    },
-    "notes": [
-      "Vulnerability недоступен до обхода страниц конкурентов: его вес пропорционально распределён между измеренными факторами, а не передан выбранным",
-      "спрос оценён по показам Вебмастера (4) — это видимая нам часть спроса за две недели, а не рынок за месяц",
       "экономический фактор не участвует: измеренной выручки нет, а её оценка через спрос и интент дублировала бы эти факторы"
     ]
   }
