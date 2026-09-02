@@ -48,15 +48,23 @@ const articleSchema = {
   // Издатель — единый узел организации из BaseLayout, связь по @id.
   publisher: { '@id': ORG_ID },
   mainEntityOfPage: pageUrl,
+  // Изображение статьи: без него карточка в выдаче и соцсетях остаётся пустой.
+  ...(d.cover ? { image: new URL(d.cover, site.url).href } : {}),
   ...(d.reviewedBy ? { reviewedBy: { '@type': 'Person', name: d.reviewedBy } } : {}),
 };
 ---
-<BaseLayout title={d.title} description={d.description} type="article" noindex={d.noindex}>
+<BaseLayout title={d.title} description={d.description} type="article" noindex={d.noindex}
+  ogImage={d.cover}>
   <JsonLd schema={articleSchema} />
   <div class="container-page section">
     <Breadcrumbs items={[{ name: 'База знаний', url: '/blog' }, { name: d.title, url: `/blog/${post.id}` }]} />
 
     <article class="article">
+      {d.cover && (
+        <img class="cover" src={d.cover} alt={d.coverAlt || d.title}
+             width="1664" height="936" fetchpriority="high" decoding="async" />
+      )}
+
       <header>
         <div class="tags">{d.tags.map((t) => <span>{t}</span>)}</div>
         <h1>{d.title}</h1>
@@ -110,6 +118,17 @@ const articleSchema = {
 </BaseLayout>
 
 <style>
+  /* Обложка статьи: фиксированная пропорция, чтобы страница не «прыгала»
+     при загрузке изображения. */
+  .cover {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    border-radius: 14px;
+    display: block;
+    margin-bottom: 1.4rem;
+  }
+
   .section { padding-top: 2rem; }
   .article { max-width: 760px; }
   .tags { display: flex; gap: 0.4rem; margin-bottom: 1rem; }

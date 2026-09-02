@@ -15,10 +15,13 @@ class RejectedVendorsTest(unittest.TestCase):
     def setUp(self):
         self.tmp = pathlib.Path(tempfile.mkdtemp())
         self.old = report_v4.VENDOR_DECISIONS
+        self.old_ws = report_v4.WORDSTAT_DECISIONS
         report_v4.VENDOR_DECISIONS = self.tmp / "vendor-decisions.json"
+        report_v4.WORDSTAT_DECISIONS = self.tmp / "decisions.json"
 
     def tearDown(self):
         report_v4.VENDOR_DECISIONS = self.old
+        report_v4.WORDSTAT_DECISIONS = self.old_ws
         shutil.rmtree(self.tmp, ignore_errors=True)
 
     def test_отклонённый_бренд_выпадает_из_расширения(self):
@@ -35,6 +38,20 @@ class RejectedVendorsTest(unittest.TestCase):
 
     def test_без_файла_решений_ничего_не_фильтруется(self):
         self.assertEqual(report_v4.rejected_vendor_brands(), set())
+
+    def test_отказ_из_реестра_исследования_тоже_действует(self):
+        # NordVPN и Ansys отклонены 29.08.2026, но запись легла мимо реестра
+        # письма — и письмо предлагало их снова (проверка руководителя 02.09).
+        report_v4.WORDSTAT_DECISIONS.write_text(json.dumps(
+            {"rejected": [{"brand": "nordvpn", "reason": "реклама VPN запрещена"},
+                          {"brand": "ansys", "reason": "quote-only"}]},
+            ensure_ascii=False), encoding="utf-8")
+        self.assertEqual(report_v4.rejected_vendor_brands(), {"nordvpn", "ansys"})
+        block = {"expansion": {"items": [{"brand": "ansys"}],
+                               "manual_check": ["nordvpn", "basecamp"]}}
+        out = report_v4._drop_vendors_already_on_site(block)
+        self.assertEqual(out["expansion"]["items"], [])
+        self.assertEqual(out["expansion"]["manual_check"], ["basecamp"])
 
 
 class ManagementActionsTest(unittest.TestCase):
