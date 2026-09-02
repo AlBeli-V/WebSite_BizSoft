@@ -124,6 +124,64 @@ class ImpressionsGrowthTest(IsolatedDataTest):
         self.assertIn("не очистилось", ev["verdict_reason"])
 
 
+BATCH_EXP = {
+    "id": "cluster-batch", "ticket": "CONTENT-002", "start": "2026-08-19",
+    "evaluation_kind": "impressions_growth",
+    "pages": ["/blog/a", "/blog/b", "/blog/c"],
+    "target_pages": ["/blog/a", "/blog/b", "/blog/c"],
+    "query_markers": ["perplexity", "framer"],
+    "baseline": {"impressions_cluster": 273, "days": 14},
+}
+
+
+class BatchTargetPagesTest(IsolatedDataTest):
+    """Тиражирование выкатывает несколько страниц сразу (решение 02.09.2026).
+
+    Вывод «статья в топ-10» об одной странице из партии скрывал бы остальные,
+    поэтому вердикт считает вошедшие в топ-10 из замеренных.
+    """
+
+    def _serp_batch(self):
+        self._serp_write("2026-09-03", [
+            {"date": "2026-09-03", "query": "оплата perplexity",
+             "top": [{"domain": "biz-soft.pro",
+                      "url": "https://biz-soft.pro/blog/a", "title": "A"}]},
+            {"date": "2026-09-03", "query": "оплата framer",
+             "top": ([{"domain": "other.ru", "url": "https://other.ru/x",
+                       "title": "x"}] * 11)
+                    + [{"domain": "biz-soft.pro",
+                        "url": "https://biz-soft.pro/blog/b", "title": "B"}]},
+        ])
+
+    def test_вердикт_считает_вошедшие_в_топ_10_из_замеренных(self):
+        _dump(self.tmp, "2026-09-04", "2026-08-20", "2026-09-01",
+              [_q("оплата perplexity", 546)])
+        self._serp_batch()
+        ev = experiment_verdict.evaluate(BATCH_EXP, "2026-09-04")
+        self.assertEqual(ev["verdict"], "CONFIRMED")
+        # /blog/a в топ-10, /blog/b на 12-й, /blog/c в замер не попала.
+        self.assertIn("в топ-10 вошли 1 из 2 замеренных", ev["verdict_reason"])
+        self.assertIn("a — 1", ev["summary_line"])
+        self.assertIn("b — 12", ev["summary_line"])
+
+    def test_партия_без_замера_выдачи_не_выдумывает_позиций(self):
+        _dump(self.tmp, "2026-09-04", "2026-08-20", "2026-09-01",
+              [_q("оплата perplexity", 546)])
+        ev = experiment_verdict.evaluate(BATCH_EXP, "2026-09-04")
+        self.assertIn("в замер выдачи не попали", ev["summary_line"])
+        self.assertNotIn("топ-10 вошли", ev["verdict_reason"])
+
+    def test_одиночная_цель_отчитывается_как_прежде(self):
+        _dump(self.tmp, "2026-09-04", "2026-08-20", "2026-09-01",
+              [_q("оплата depositphotos", 546)])
+        self._serp_write("2026-09-03", [{
+            "date": "2026-09-03", "query": "как оплатить depositphotos",
+            "top": [{"domain": "biz-soft.pro",
+                     "url": "https://biz-soft.pro/blog/statya", "title": "T"}]}])
+        ev = experiment_verdict.evaluate(GROWTH_EXP, "2026-09-04")
+        self.assertIn("статья вошла в топ-10 (позиция 1)", ev["verdict_reason"])
+
+
 LAUNCH_EXP = {
     "id": "pages-x", "ticket": "PAGES-EXP-001", "start": "2026-08-30",
     "evaluation_kind": "launch",
