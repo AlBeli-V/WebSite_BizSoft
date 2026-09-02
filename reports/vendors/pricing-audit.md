@@ -266,3 +266,5 @@ for 3 months» действует только на помесячную опл�
 и подписи разнесены по разметке), поэтому уверенность помечена как
 `search-estimate`, а не `vendor-page`: перед первой сделкой цена
 подтверждается на checkout вендора.
+| LANSWEEPER-STARTER-2000-DEVICES | Lansweeper | Lansweeper Starter (Annual Subscription, 2,000 devices) | publish | 3500.0 | за пакет на 2 000 устройств в год | owner-manual-check | https://www.lansweeper.com/pricing/ | 2026-09-02 |
+| LANSWEEPER-PRO-2000-9000-DEVICES | Lansweeper | Lansweeper Pro (Annual Subscription, 2,000–9,000 devices) | publish | 7000.0 | за пакет от 2 000 устройств в год | owner-manual-check | https://www.lansweeper.com/pricing/ | 2026-09-02 |
