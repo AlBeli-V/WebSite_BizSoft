@@ -181,7 +181,7 @@ def build(date: str, snapshot: dict, previous: dict | None,
           threat_leader=None, stale_notice: str | None = None,
           ranked_rivals=None, packages: list[dict] | None = None,
           history: list[float] | None = None,
-          core_note: str = "") -> dict:
+          core_note: str = "", experiments_line: str = "") -> dict:
     kpi = kpi_mod.build_kpi(snapshot, previous)
     verdict_mark, verdict_why = kpi_mod.verdict(kpi, history, core_note=core_note)
     signal_delta = kpi_mod.trend_change(history or [])
@@ -234,6 +234,11 @@ def build(date: str, snapshot: dict, previous: dict | None,
         "сравнение_с": kpi.compared_with,
         "дельта_суточная_пп": kpi.share_delta_pp,
         "основание_дельты": kpi.delta_basis,
+        # Строка про эксперименты живёт в детализации, а не в верхнем уровне:
+        # состав executive-части задан разделом 23 задания и ограничен 1000
+        # символами, а цикл проверки — это отчётность о ходе работ, не решение
+        # дня. В отчёте под неё отведён отдельный раздел.
+        "эксперименты_строка": experiments_line,
         "ядро": {
             "версия": kpi.core_version,
             "хеш": kpi.core_hash,
@@ -263,6 +268,8 @@ def render_txt(meta: dict, *, snapshot: dict | None = None,
     отключивший HTML, обязан получить те же сведения, а не обрубок.
     """
     parts = [meta["тема"], "", meta["текст"]]
+    if meta.get("эксперименты_строка"):
+        parts += ["", meta["эксперименты_строка"]]
 
     if packages:
         parts += ["", "ЧТО ПОРУЧИТЬ (по убыванию ожидаемого эффекта)"]
@@ -368,7 +375,8 @@ def _block(title: str, body: str, *, accent: bool = False) -> str:
 def render_html(meta: dict, *, kpi=None, snapshot: dict | None = None,
                 attacks: list[dict] | None = None, ranked_rivals=None,
                 packages: list[dict] | None = None,
-                signal_delta: float | None = None) -> str:
+                signal_delta: float | None = None,
+                on_watch: list[dict] | None = None) -> str:
     """HTML-версия письма: верхний уровень плюс секции детализации.
 
     Верхний уровень (вердикт, показатели, сигнал, действие, наблюдение)
@@ -403,6 +411,8 @@ def render_html(meta: dict, *, kpi=None, snapshot: dict | None = None,
             + sections.rivals_section(snapshot.get("лидеры") or [],
                                       ranked_rivals or [])
             + sections.attacks_section(attacks or [])
+            + sections.experiments_section(
+                meta.get('эксперименты_строка', ''), on_watch)
             + sections.limits_section(snapshot, attacks or []))
 
     def cell(label: str, value: str, note: str) -> str:
