@@ -342,3 +342,59 @@ class TestLearning(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class TestAttackStatusInReport(unittest.TestCase):
+    """Раздел «Точки атаки» обязан показывать, что с каждой точкой делают.
+
+    До 02.09.2026 он был витриной запросов: 77 строк без указания, что из них
+    поручено, что уже сделано и что ждёт очереди. Руководитель читал раздел и
+    не мог связать его ни с планом работ, ни с контролем внесённых правок.
+    """
+
+    def setUp(self):
+        sys.path.insert(0, os.path.join(ROOT, "reports"))
+        from reports import deep_report
+        self.report = deep_report
+        self.attacks = [{"query": "запрос под правкой"},
+                        {"query": "запрос в очереди"},
+                        {"query": "запрос вне плана"}]
+        self.packages = [
+            {"package_id": "WP-01", "url": "https://biz-soft.pro/blog/a",
+             "queries": ["запрос под правкой"]},
+            {"package_id": "WP-02", "url": "https://biz-soft.pro/blog/b",
+             "queries": ["запрос в очереди"]},
+        ]
+
+    def _experiment(self, url, state, **over):
+        exp = jr.Experiment(id="EXP", created="2026-09-01", url=url,
+                            page_kind="blog", package_id="WP")
+        exp.state = state
+        for key, value in over.items():
+            setattr(exp, key, value)
+        return exp
+
+    def test_страница_под_мораторием_помечена_как_на_замере(self):
+        experiments = [self._experiment("https://biz-soft.pro/blog/a",
+                                        jr.STATE_WATCH,
+                                        watch_until="2026-09-15")]
+        status = self.report._attack_status(self.attacks, self.packages,
+                                            experiments)
+        self.assertIn("замер до 2026-09-15", status["запрос под правкой"][1])
+        self.assertEqual(status["запрос под правкой"][0], "WP-01")
+
+    def test_поручение_без_правки_ждёт_очереди(self):
+        status = self.report._attack_status(self.attacks, self.packages, [])
+        self.assertEqual(status["запрос в очереди"][1], "в очереди на работу")
+
+    def test_точка_вне_пакетов_видна_отдельно(self):
+        status = self.report._attack_status(self.attacks, self.packages, [])
+        self.assertNotIn("запрос вне плана", status)
+
+    def test_оценённый_эксперимент_показывает_вердикт(self):
+        experiments = [self._experiment("https://biz-soft.pro/blog/a",
+                                        jr.STATE_DONE,
+                                        outcome={"вердикт": jr.VERDICT_BETTER})]
+        status = self.report._attack_status(self.attacks, self.packages,
+                                            experiments)
+        self.assertIn("улучшение", status["запрос под правкой"][1])

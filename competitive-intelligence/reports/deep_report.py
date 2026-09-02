@@ -177,9 +177,39 @@ def _leaderboard(cards: list[dict], usable: int,
             '<th>Уверенность и основание</th></tr>' + "".join(rows) + "</table></div>")
 
 
-def _strike_table(attacks: list[dict]) -> str:
+def _attack_status(attacks: list[dict], packages: list[dict] | None,
+                   experiments: list | None) -> dict[str, tuple[str, str]]:
+    """Что происходит с каждой точкой атаки: запрос → (пакет, статус).
+
+    Без этой связки раздел был витриной запросов: руководитель видел 77 строк
+    и не понимал, что из них уже поручено, что сделано и что ждёт очереди.
+    """
+    from experiments import journal as jr
+    by_url = {}
+    for exp in (experiments or []):
+        # Последнее состояние по странице: она может пройти цикл не раз.
+        by_url[exp.url] = exp
+    result: dict[str, tuple[str, str]] = {}
+    for package in (packages or []):
+        exp = by_url.get(package.get("url", ""))
+        if exp is not None and exp.state == jr.STATE_WATCH:
+            status = f"правка внесена, замер до {exp.watch_until}"
+        elif exp is not None and exp.state == jr.STATE_DONE:
+            verdict = (exp.outcome or {}).get("вердикт", "оценён")
+            status = f"проверено: {verdict}"
+        else:
+            status = "в очереди на работу"
+        for query in package.get("queries") or []:
+            result[query] = (package.get("package_id", ""), status)
+    return result
+
+
+def _strike_table(attacks: list[dict], packages: list[dict] | None = None,
+                  experiments: list | None = None) -> str:
+    status_by_query = _attack_status(attacks, packages, experiments)
     rows = []
     for a in attacks:
+        package_id, status = status_by_query.get(a["query"], ("—", "вне плана работ"))
         rows.append(
             f'<tr><td>{esc(a["attack_id"])}</td>'
             f'<td class="num"><b>{a["opportunity"]}</b></td>'
@@ -189,12 +219,51 @@ def _strike_table(attacks: list[dict]) -> str:
             f'<td>{esc(a["rival_domain"])} <span class="sub">#{a["rival_position"]}</span></td>'
             f'<td class="num">{esc(a["demand"])}</td>'
             f'<td class="q">{esc(a["demand_source"])}</td>'
-            f'<td class="num">{a["commercial_intent"]:.2f}</td>'
-            f'<td class="num">{a["b2b_intent"]:.2f}</td></tr>')
+            f'<td>{esc(package_id)}</td>'
+            f'<td class="q">{esc(status)}</td></tr>')
     return ('<div class="scroll"><table><tr><th>ID</th><th class="num">Opp.</th>'
             '<th>Увер.</th><th>Запрос</th><th class="num">Наша</th><th>Конкурент</th>'
-            '<th class="num">Спрос</th><th>Источник</th><th class="num">Комм.</th>'
-            '<th class="num">B2B</th></tr>' + "".join(rows) + "</table></div>")
+            '<th class="num">Спрос</th><th>Источник</th><th>Поручение</th>'
+            '<th>Что с ним</th></tr>' + "".join(rows) + "</table></div>")
+
+
+def _attack_summary(attacks: list[dict], packages: list[dict] | None,
+                    experiments: list | None) -> str:
+    """Сводка по контролю: что сделано, что на замере, что ждёт очереди."""
+    status_by_query = _attack_status(attacks, packages, experiments)
+    считает = {"правка внесена": 0, "в очереди": 0, "проверено": 0, "вне плана": 0}
+    for a in attacks:
+        _, status = status_by_query.get(a["query"], ("", "вне плана"))
+        if status.startswith("правка внесена"):
+            считает["правка внесена"] += 1
+        elif status.startswith("проверено"):
+            считает["проверено"] += 1
+        elif status.startswith("в очереди"):
+            считает["в очереди"] += 1
+        else:
+            считает["вне плана"] += 1
+    return f"""
+<div class="card"><h3>Что происходит с этими точками</h3>
+<table><thead><tr><th>Состояние</th><th class="num">Запросов</th>
+<th>Что это значит</th></tr></thead><tbody>
+<tr><td>Правка внесена, идёт замер</td><td class="num">{считает['правка внесена']}</td>
+<td>страница доработана, до конца моратория новых поручений по ней нет</td></tr>
+<tr><td>Проверено, эффект измерен</td><td class="num">{считает['проверено']}</td>
+<td>окно наблюдения истекло, результат в разделе 6</td></tr>
+<tr><td>В очереди на работу</td><td class="num">{считает['в очереди']}</td>
+<td>поручение сформировано, правка ещё не внесена</td></tr>
+<tr><td>Вне плана работ</td><td class="num">{считает['вне плана']}</td>
+<td>запрос не сведён в пакет: спрос не измерен либо страница не в нашей зоне</td></tr>
+</tbody></table>
+<p class="q"><b>Чего ждать от закрытия точки.</b> Цель по каждой — выход в
+ТОП-3 по её запросу. Величина выигрыша считается не здесь, а по пакету работ
+(раздел 4): там она выражена индексом потенциала, а в переходах — только там,
+где спрос измерен сопоставимой шкалой. Факт вместо ожидания появляется в
+разделе 6 через две недели после внесения правки: позиции сравниваются с
+базой и с контрольной группой.</p></div>"""
+
+
+
 
 
 def _attack_details(attacks: list[dict], limit: int = 10) -> str:
@@ -577,12 +646,21 @@ def build(date: str, snapshot: dict, previous: dict | None,
 {_packages_block(packages or [])}
 
 <h2 id="l4">5 · Точки атаки — {len(attacks)} кандидатов</h2>
-<p class="lead">Кандидат — запрос, где мы на 4–20 позиции, а выше стоит
-конкурент из основного рейтинга. Где мы уже в ТОП-3, отбирать нечего; где
-выше только маркетплейсы, мы не конкурируем за сделку. Opportunity 0–100
-взвешивает выручку, интент, близость позиции, спрос и запас улучшения
-страницы.</p>
-{_strike_table(attacks)}
+<p class="lead">Кандидат — запрос, где мы на 4–20 позиции, а выше стоит другой
+участник выдачи. Где мы уже в ТОП-3, отбирать нечего; где нас нет в ТОП-20
+вовсе — это работа по созданию страницы, а не атака. Если выше стоит компания
+с признаками B2B-продажи, на кону сделка; если официальный сайт вендора,
+статья или маркетплейс — переход мы теряем точно, и такой запрос остаётся
+кандидатом с пометкой вида конкуренции.</p>
+<p class="lead">Opportunity 0–100 взвешивает коммерческий и B2B-интент,
+близость позиции, спрос, уязвимость страницы конкурента, запас улучшения
+нашей страницы и приоритет вендора. <b>Экономического фактора в оценке
+нет</b>: измеренной выручки по запросам не существует, а её оценка через
+спрос и интент дублировала бы эти же факторы — он убран в версии 1.1.0.
+Недоступные факторы не заменяются средним: их вес пропорционально
+распределяется между измеренными, а уверенность понижается.</p>
+{_attack_summary(attacks, (packages or []) + (on_watch or []), experiments)}
+{_strike_table(attacks, (packages or []) + (on_watch or []), experiments)}
 
 <h3>Разбор первых десяти</h3>
 {_attack_details(attacks)}
