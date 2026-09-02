@@ -124,6 +124,64 @@ class ImpressionsGrowthTest(IsolatedDataTest):
         self.assertIn("не очистилось", ev["verdict_reason"])
 
 
+BATCH_EXP = {
+    "id": "cluster-batch", "ticket": "CONTENT-002", "start": "2026-08-19",
+    "evaluation_kind": "impressions_growth",
+    "pages": ["/blog/a", "/blog/b", "/blog/c"],
+    "target_pages": ["/blog/a", "/blog/b", "/blog/c"],
+    "query_markers": ["perplexity", "framer"],
+    "baseline": {"impressions_cluster": 273, "days": 14},
+}
+
+
+class BatchTargetPagesTest(IsolatedDataTest):
+    """Тиражирование выкатывает несколько страниц сразу (решение 02.09.2026).
+
+    Вывод «статья в топ-10» об одной странице из партии скрывал бы остальные,
+    поэтому вердикт считает вошедшие в топ-10 из замеренных.
+    """
+
+    def _serp_batch(self):
+        self._serp_write("2026-09-03", [
+            {"date": "2026-09-03", "query": "оплата perplexity",
+             "top": [{"domain": "biz-soft.pro",
+                      "url": "https://biz-soft.pro/blog/a", "title": "A"}]},
+            {"date": "2026-09-03", "query": "оплата framer",
+             "top": ([{"domain": "other.ru", "url": "https://other.ru/x",
+                       "title": "x"}] * 11)
+                    + [{"domain": "biz-soft.pro",
+                        "url": "https://biz-soft.pro/blog/b", "title": "B"}]},
+        ])
+
+    def test_вердикт_считает_вошедшие_в_топ_10_из_замеренных(self):
+        _dump(self.tmp, "2026-09-04", "2026-08-20", "2026-09-01",
+              [_q("оплата perplexity", 546)])
+        self._serp_batch()
+        ev = experiment_verdict.evaluate(BATCH_EXP, "2026-09-04")
+        self.assertEqual(ev["verdict"], "CONFIRMED")
+        # /blog/a в топ-10, /blog/b на 12-й, /blog/c в замер не попала.
+        self.assertIn("в топ-10 вошли 1 из 2 замеренных", ev["verdict_reason"])
+        self.assertIn("a — 1", ev["summary_line"])
+        self.assertIn("b — 12", ev["summary_line"])
+
+    def test_партия_без_замера_выдачи_не_выдумывает_позиций(self):
+        _dump(self.tmp, "2026-09-04", "2026-08-20", "2026-09-01",
+              [_q("оплата perplexity", 546)])
+        ev = experiment_verdict.evaluate(BATCH_EXP, "2026-09-04")
+        self.assertIn("в замер выдачи не попали", ev["summary_line"])
+        self.assertNotIn("топ-10 вошли", ev["verdict_reason"])
+
+    def test_одиночная_цель_отчитывается_как_прежде(self):
+        _dump(self.tmp, "2026-09-04", "2026-08-20", "2026-09-01",
+              [_q("оплата depositphotos", 546)])
+        self._serp_write("2026-09-03", [{
+            "date": "2026-09-03", "query": "как оплатить depositphotos",
+            "top": [{"domain": "biz-soft.pro",
+                     "url": "https://biz-soft.pro/blog/statya", "title": "T"}]}])
+        ev = experiment_verdict.evaluate(GROWTH_EXP, "2026-09-04")
+        self.assertIn("статья вошла в топ-10 (позиция 1)", ev["verdict_reason"])
+
+
 LAUNCH_EXP = {
     "id": "pages-x", "ticket": "PAGES-EXP-001", "start": "2026-08-30",
     "evaluation_kind": "launch",
@@ -240,3 +298,86 @@ class FormulaGroupTest(IsolatedDataTest):
             f.unlink()
         self.assertIsNone(
             experiment_verdict._formula_group_result("g1", "2026-09-04"))
+
+
+class VerdictRenderTest(unittest.TestCase):
+    """Веб-отчёт рендерит вердикт любого типа оценки (регрессия 02.09, #298)."""
+
+    def setUp(self):
+        sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1]))
+        import webreport
+        self.wr = webreport
+
+    def _ev(self, **kw):
+        base = {"ticket": "T-1", "verdict": "CONFIRMED", "verdict_reason": "причина",
+                "confidence": "MEDIUM", "recommendation": "KEEP",
+                "recommendation_detail": "деталь", "sample_quality": [],
+                "recommended_targets": [], "requires_owner_decision": False}
+        base.update(kw)
+        return {"evaluation": base}
+
+    def test_рост_показов_без_baseline_окна_не_падает(self):
+        e = self._ev(evaluation_kind="impressions_growth",
+                     summary_line="показы 33/день против 20/день",
+                     windows={"experiment": {"from": "2026-08-20", "to": "2026-09-01",
+                                             "tainted": False}},
+                     metrics={"baseline_registry": {"impressions": 273, "days": 14}})
+        html = self.wr._evaluation_html(e)
+        self.assertIn("окно после", html)
+        self.assertIn("база сравнения", html)
+        self.assertNotIn("окно до", html)
+
+    def test_запуск_страниц_показывает_критерии(self):
+        e = self._ev(evaluation_kind="launch",
+                     summary_line="в выдаче 2 из 7",
+                     windows={"experiment": {"from": "2026-08-31", "to": "2026-09-12",
+                                             "tainted": False}},
+                     metrics={"launch": {"pages_in_search": 2, "pages_total": 7,
+                                         "need_pages": 5, "weekly_impressions": 40,
+                                         "need_weekly": 300}})
+        html = self.wr._evaluation_html(e)
+        self.assertIn("критерии запуска", html)
+
+    def test_ctr_вердикт_рендерится_как_прежде(self):
+        e = self._ev(evaluation_kind="ctr",
+                     windows={"baseline": {"from": "2026-08-06", "to": "2026-08-17"},
+                              "experiment": {"from": "2026-08-19", "to": "2026-08-30",
+                                             "tainted": False}},
+                     metrics={"baseline": {"impressions": 532, "clicks": 2},
+                              "experiment": {"impressions": 610, "clicks": 4}},
+                     matched_metrics={"queries": 24}, position_delta=-0.8,
+                     statistical_result={"baseline_ctr": 0.0038,
+                                         "experiment_ctr": 0.0066,
+                                         "absolute_uplift": 0.0028,
+                                         "relative_uplift": 0.94, "p_value": 0.633})
+        html = self.wr._evaluation_html(e)
+        self.assertIn("окно до", html)
+        self.assertIn("p-value", html)
+
+
+class MatchedGateTest(IsolatedDataTest):
+    """Гейт считается от matched-набора (issue #297)."""
+
+    def test_гейт_адаптируется_по_matched_а_не_overall(self):
+        exp = {"id": "g", "ticket": "T-1", "start": "2026-08-19",
+               "pages": ["/vendors/canva"], "query_markers": ["canva"]}
+        # overall выше 500 с обеих сторон, matched — ниже (общий запрос один).
+        _dump(self.tmp, "2026-08-18", "2026-08-05", "2026-08-18",
+              [_q("canva общий", 300, 2), _q("canva только до", 250, 1)])
+        _dump(self.tmp, "2026-09-04", "2026-08-20", "2026-09-01",
+              [_q("canva общий", 300, 6), _q("canva только после", 260, 2)])
+        r = experiment_verdict.evaluate(exp, "2026-09-04")
+        self.assertTrue(r["effective_gate"]["adapted"])
+        self.assertNotEqual(r["verdict"], "INSUFFICIENT_DATA")
+
+    def test_нехватка_baseline_не_предлагает_копить(self):
+        exp = {"id": "g", "ticket": "T-1", "start": "2026-08-19",
+               "pages": ["/vendors/canva"], "query_markers": ["canva"]}
+        _dump(self.tmp, "2026-08-18", "2026-08-05", "2026-08-18",
+              [_q("canva общий", 40, 0)])
+        _dump(self.tmp, "2026-09-04", "2026-08-20", "2026-09-01",
+              [_q("canva общий", 900, 20)])
+        r = experiment_verdict.evaluate(exp, "2026-09-04")
+        self.assertEqual(r["verdict"], "INSUFFICIENT_DATA")
+        self.assertEqual(r["recommendation"], "NEW_TEST")
+        self.assertIn("в прошлом и не растёт", r["recommendation_detail"])
