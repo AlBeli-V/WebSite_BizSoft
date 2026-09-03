@@ -22,6 +22,10 @@ on:
         description: 'Google-срез (xmlriver): auto — по расписанию конфига, force — снять сегодня, skip — не снимать'
         required: false
         default: 'auto'
+      yandex:
+        description: 'Яндекс-срез: auto — снимать, skip — не трогать (ручной досбор Google днём: повторный запуск перезаписал бы сегодняшний файл Яндекса остатком дневного бюджета)'
+        required: false
+        default: 'auto'
 
 permissions:
   contents: write
@@ -41,6 +45,7 @@ jobs:
         run: pip install --quiet requests
 
       - name: Collect SERP snapshots
+        if: inputs.yandex != 'skip'
         env:
           WORDSTAT_API_KEY: ${{ secrets.WORDSTAT_API_KEY }}
         run: python3 scripts/seo/serp_watch.py
