@@ -51,9 +51,13 @@ BASE_URL = f"https://{SITE}"
 OUT_DIR = pathlib.Path("reports/seo/data")
 MSK = ZoneInfo("Europe/Moscow")
 
-# Квота URL Inspection — 2000 в сутки на ресурс. 1800 оставляет запас ручному
-# ops-index-validate и повторному прогону после сбоя.
-MAX_INSPECT = 1800
+# Квота URL Inspection — 2000 в сутки на ресурс, и сутки у Google идут по
+# тихоокеанскому времени (сброс в 10:00 МСК). 03.09.2026 три прогона за день
+# (ручной, автоматический по пушу и повтор после мержа) исчерпали её: третий
+# получил 429 после 100 URL. 1000 за прогон покрывает 800 URL инвентаря за
+# один ночной запуск и оставляет половину квоты ручным ops-index-validate и
+# внеплановым прогонам.
+MAX_INSPECT = 1000
 INSPECT_URL = "https://searchconsole.googleapis.com/v1/urlInspection/index:inspect"
 # Инспекция идёт параллельно: один вызов API отвечает 2–4 с, и первый прогон
 # 03.09.2026 по 800 URL последовательно шёл дольше получаса. Пять потоков при
@@ -113,9 +117,13 @@ def load_inventory(date_s: str, out_dir: pathlib.Path = OUT_DIR) -> dict | None:
 
 def load_previous(prefix: str, date_s: str,
                   out_dir: pathlib.Path = OUT_DIR) -> dict:
-    """Прежний срез (не сегодняшний): наследуемые статусы Google."""
+    """Наследуемые статусы Google: последний имеющийся срез, включая
+    сегодняшний. Повторный прогон в тот же день (03.09.2026: после мержа по
+    пушу) прежде начинал с нуля и затирал утренний срез из 571 URL файлом со
+    100 — теперь он дополняет его: URL без статуса идут первыми, уже
+    инспектированные сегодня — в конец очереди."""
     date = dt.date.fromisoformat(date_s)
-    for back in range(1, LOOKBACK_DAYS + 1):
+    for back in range(0, LOOKBACK_DAYS + 1):
         d = (date - dt.timedelta(days=back)).isoformat()
         p = out_dir / f"{prefix}-{d}.json"
         if not p.exists():
@@ -225,7 +233,8 @@ def inspect_google(paths: list[str], prev: dict, date_s: str,
     for path in rest:
         old = prev.get(path)
         if old and old.get("inspected_at"):
-            result["pages"][path] = {**old, "stale_from": old["inspected_at"]}
+            result["pages"][path] = ({**old} if old["inspected_at"] == date_s
+                                     else {**old, "stale_from": old["inspected_at"]})
         else:
             result["pages"][path] = {"coverage_state": None, "inspected_at": None}
 

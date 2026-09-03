@@ -77,6 +77,14 @@ class TestGoogleInspection(unittest.TestCase):
         self.assertEqual(out["pages"]["/old"]["stale_from"], "2026-09-01")
         self.assertEqual(out["inherited"], 1)
 
+    def test_today_status_inherited_without_stale_mark(self):
+        prev = {"/done": {"coverage_state": "Submitted and indexed", "inspected_at": DATE}}
+        out = self.run_inspect(["/done", "/new"], prev, [inspection("URL is unknown to Google")],
+                               max_inspect=1)
+        self.assertEqual(out["pages"]["/new"]["coverage_state"], "URL is unknown to Google")
+        self.assertNotIn("stale_from", out["pages"]["/done"])
+        self.assertEqual(out["inherited"], 0)
+
     def test_quota_exhausted_stops_and_keeps_partial(self):
         out = self.run_inspect(["/a", "/b", "/c"], {},
                                [inspection("Submitted and indexed"),
@@ -120,6 +128,24 @@ class TestGoogleInspection(unittest.TestCase):
             out = self.ic.inspect_google(["/"], {}, DATE, workers=1)
         self.assertIn("не найден", out["error"])
         self.assertEqual(out["pages"], {})
+
+
+class TestPreviousSlice(unittest.TestCase):
+    def test_same_day_slice_is_inherited_not_overwritten(self):
+        ic = mocks.load("index_coverage")
+        with tempfile.TemporaryDirectory() as tmp:
+            d = pathlib.Path(tmp)
+            (d / "index-google-2026-09-02.json").write_text(json.dumps(
+                {"pages": {"/old": {"coverage_state": "Submitted and indexed",
+                                    "inspected_at": "2026-09-02"}}}), encoding="utf-8")
+            (d / "index-google-2026-09-03.json").write_text(json.dumps(
+                {"pages": {"/today": {"coverage_state": "URL is unknown to Google",
+                                      "inspected_at": "2026-09-03"}}}), encoding="utf-8")
+            prev = ic.load_previous("index-google", "2026-09-03", d)
+            self.assertIn("/today", prev)          # сегодняшний срез не теряется
+            # без сегодняшнего файла берётся вчерашний
+            (d / "index-google-2026-09-03.json").unlink()
+            self.assertIn("/old", ic.load_previous("index-google", "2026-09-03", d))
 
 
 class TestYandexPages(unittest.TestCase):
