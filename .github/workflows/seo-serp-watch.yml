@@ -19,7 +19,7 @@ on:
   workflow_dispatch:
     inputs:
       google:
-        description: 'Google-срез (xmlriver): auto — по расписанию конфига, force — снять сегодня, skip — не снимать'
+        description: 'Google-срез (xmlriver): auto — по расписанию конфига, force — снять сегодня (докачка недостающего), refetch — полный пересбор дня без докачки, skip — не снимать'
         required: false
         default: 'auto'
       yandex:
@@ -61,7 +61,9 @@ jobs:
           XMLRIVER_USER: ${{ secrets.XMLRIVER_USER }}
           XMLRIVER_KEY: ${{ secrets.XMLRIVER_KEY }}
         run: |
-          if [ "${{ inputs.google }}" = "force" ]; then
+          if [ "${{ inputs.google }}" = "refetch" ]; then
+            python3 scripts/seo/serp_google.py --force --refetch
+          elif [ "${{ inputs.google }}" = "force" ]; then
             python3 scripts/seo/serp_google.py --force
           else
             python3 scripts/seo/serp_google.py
