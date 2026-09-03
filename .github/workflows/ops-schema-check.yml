@@ -30,25 +30,25 @@ jobs:
         env:
           URLS: ${{ inputs.urls }}
         run: |
+          # Вывод проверки сохраняется в output даже при нарушениях, а шаг
+          # после этого краснеет: журнал получает отчёт с маркером ✗, а не
+          # «0/28 без нарушений» под зелёным прогоном (аудит 03.09.2026).
+          rc=0
           {
             echo 'result<<SCHEMA_EOF'
             if [ -n "$URLS" ]; then
-              node scripts/seo/check-structured-data.mjs --base https://biz-soft.pro --urls "$URLS" || true
+              node scripts/seo/check-structured-data.mjs --base https://biz-soft.pro --urls "$URLS" || rc=$?
             else
               # Контрольная выборка: заменяем стабовые слаги на реальные прод-URL.
-              node scripts/seo/check-structured-data.mjs --base https://biz-soft.pro --urls "/,/catalog,/catalog/design,/catalog/ai,/catalog/ai/text,/product/chatgpt-business,/product/anthropic-team,/vendors,/vendors/jetbrains,/vendors/zoom,/vendors/openai,/vendors/figma,/vendors/maxon,/vendors/adobe,/vendors/canva,/vendors/miro,/vendors/zoho,/compare/chatgpt-vs-claude,/compare/cursor-vs-copilot,/blog,/solutions,/faq,/pricing,/how-we-work,/contacts,/about,/cases,/documents" || true
+              node scripts/seo/check-structured-data.mjs --base https://biz-soft.pro --urls "/,/catalog,/catalog/design,/catalog/ai,/catalog/ai/text,/product/chatgpt-business,/product/anthropic-team,/vendors,/vendors/jetbrains,/vendors/zoom,/vendors/openai,/vendors/figma,/vendors/maxon,/vendors/adobe,/vendors/canva,/vendors/miro,/vendors/zoho,/compare/chatgpt-vs-claude,/compare/cursor-vs-copilot,/blog,/solutions,/faq,/pricing,/how-we-work,/contacts,/about,/cases,/documents" || rc=$?
             fi
             echo 'SCHEMA_EOF'
           } >> "$GITHUB_OUTPUT"
+          exit $rc
       - name: Post to issue
-        uses: actions/github-script@v7
-        env:
-          RESULT: ${{ steps.run.outputs.result }}
+        if: always()
+        uses: ./.github/actions/journal-post
         with:
-          script: |
-            await github.rest.issues.createComment({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: 22,
-              body: '### ops-schema-check · ' + new Date().toISOString() + '\n\n```\n' + process.env.RESULT + '\n```',
-            });
+          title: "ops-schema-check"
+          outcome: ${{ steps.run.outcome }}
+          body: ${{ steps.run.outputs.result }}

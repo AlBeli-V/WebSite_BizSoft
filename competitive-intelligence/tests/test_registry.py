@@ -105,5 +105,47 @@ class TestAppend(unittest.TestCase):
             self.assertEqual(lines[0]["domain"], "a.ru")
 
 
+class TestGoogleBlockFromRows(unittest.TestCase):
+    """Блок Google снимка дня: свой движок, свой регион, доля внутри поля."""
+
+    def test_блок_по_google_срезу(self):
+        from discovery import google_ru
+        from scoring import visibility
+        config = visibility.load_config()
+        rows = [
+            serp_source.SerpRow(date="2026-09-03", query="купить figma",
+                                region="2643", engine="google", found=100,
+                                top=[{"domain": "raketapay.ru", "url": "https://raketapay.ru/"},
+                                     {"domain": "biz-soft.pro", "url": "https://biz-soft.pro/"}]),
+            serp_source.SerpRow(date="2026-09-03", query="купить miro",
+                                region="2643", engine="google", found=100,
+                                top=[{"domain": "raketapay.ru", "url": "https://raketapay.ru/"},
+                                     {"domain": "ggsel.net", "url": "https://ggsel.net/"}]),
+            serp_source.SerpRow(date="2026-09-03", query="сбой", region="2643",
+                                engine="google", error="code=500"),
+        ]
+        g = google_ru.build_block("2026-09-03", "2026-09-03", rows, [], config)
+        self.assertTrue(g["доступен"])
+        self.assertEqual(g["покрытие"]["запросов_с_данными"], 2)
+        self.assertEqual(g["покрытие"]["запросов_всего"], 3)
+        self.assertEqual(g["глубина"], 10)
+        self.assertEqual((g["название"], g["регион"]), ("Россия", "2643"))
+        self.assertEqual(g["наши_показатели"]["топ10"], 1)
+        self.assertEqual(g["наши_показатели"]["лучшая_позиция"], 2)
+        self.assertEqual(g["наши_запросы"], [{"запрос": "купить figma", "позиция": 2}])
+        # лидеры — только основной рейтинг: ggsel.net (категория E) туда не входит
+        self.assertEqual([d["домен"] for d in g["лидеры"]], ["raketapay.ru"])
+        self.assertIn("E", g["доли_по_категориям"])
+        self.assertGreater(g["лидеры"][0]["доля"], g["наши_показатели"]["доля_видимости"])
+        self.assertGreater(g["наши_показатели"]["доля_видимости"], 0)
+
+    def test_без_среза_недоступен(self):
+        from discovery import google_ru
+        from scoring import visibility
+        g = google_ru.build_block("2026-09-03", None, [], [], visibility.load_config())
+        self.assertFalse(g["доступен"])
+        self.assertIsNone(google_ru.share(g))
+
+
 if __name__ == "__main__":
     unittest.main()

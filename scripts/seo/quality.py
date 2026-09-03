@@ -22,6 +22,66 @@ import snapshot as snapshot_mod  # noqa: E402
 SNAP_DIR = pathlib.Path("reports/seo/intelligence/snapshots")
 OUT_DIR = pathlib.Path("reports/seo/intelligence/data-quality")
 
+# Классы находок (решение руководителя 03.09.2026).
+#
+# Один список с одинаковым весом смешивал три разные вещи: сбой дня (сбор не
+# прошёл, источник не обновился, цель не заведена), постоянное ограничение
+# методики (CRM не отдаёт выручку, CTR-модели нет) и правило (запросы и
+# страницы Google считаются отдельно). Из 16 строк за 03.09.2026 сбоев было
+# ноль, а зелёный статус отчёта оставался недостижим: шесть предупреждений
+# стояли каждый день при исправных источниках, и раздел отвечал на вопрос
+# «что вообще неидеально» вместо «что сломалось сегодня».
+#
+# Статус отчёта и счётчики считаются только по сбоям. Ограничение несёт
+# условие снятия (lifted_when) и дату начала (since), если она известна.
+# Правило — не находка, а свойство методики; оно уходит в блок методики.
+# Критический уровень допускается только у сбоя: тест это стережёт.
+KIND_INCIDENT, KIND_LIMIT, KIND_RULE = "incident", "limit", "rule"
+KIND_LABEL = {KIND_INCIDENT: "сбой", KIND_LIMIT: "ограничение", KIND_RULE: "правило"}
+CODE_KIND = {
+    "SOURCE_UNAVAILABLE": KIND_INCIDENT,
+    "SOURCE_NOT_UPDATED": KIND_INCIDENT,
+    "DAILY_MISSING": KIND_INCIDENT,
+    "DAILY_GAP": KIND_INCIDENT,
+    "WINDOW_LENGTH_MISMATCH": KIND_INCIDENT,
+    "SAMPLE_CHURN": KIND_INCIDENT,
+    "SAMPLE_TRUNCATED": KIND_INCIDENT,
+    "INTRA_DAY_REVISION": KIND_INCIDENT,
+    "BASELINE_REVISED": KIND_INCIDENT,
+    "API_ERROR_AS_ZERO": KIND_INCIDENT,
+    "GOAL_NOT_CONFIGURED": KIND_INCIDENT,
+    "GOALS_CONFIGURED_AFTER_COLLECTION": KIND_INCIDENT,
+    "CRM_DATA_STALE": KIND_INCIDENT,
+    "MARKET_DEMAND_STALE": KIND_INCIDENT,
+    "ROLLING_WINDOW_OVERLAP": KIND_LIMIT,
+    "YANDEX_SAMPLE_SCOPE": KIND_LIMIT,
+    "SCOPE_MISMATCH": KIND_LIMIT,
+    "PERIOD_MISMATCH": KIND_LIMIT,
+    "MEASUREMENT_GAP": KIND_LIMIT,
+    "MEASUREMENT_CHANGE": KIND_LIMIT,
+    "LOW_CONVERSION_SAMPLE": KIND_LIMIT,
+    "GOAL_UNIQUENESS_UNKNOWN": KIND_LIMIT,
+    "LOW_IMPRESSION_BASE_GOOGLE": KIND_LIMIT,
+    "NO_CTR_MODEL": KIND_LIMIT,
+    "NO_CRM": KIND_LIMIT,
+    "NO_CRM_REVENUE": KIND_LIMIT,
+    "INDEXATION_UNCLASSIFIED": KIND_LIMIT,
+    "INDEXATION_COMMERCIAL_EXCLUDED": KIND_INCIDENT,
+    "INDEXATION_CLASSIFIED": KIND_RULE,
+    "MARKET_DEMAND_ABSENT": KIND_LIMIT,
+    "MARKET_DEMAND_PARTIAL": KIND_LIMIT,
+    "INTERNAL_TRAFFIC_IN_ORGANIC": KIND_LIMIT,
+    "TIMEZONE_MISMATCH": KIND_LIMIT,
+    "SCOPE_QUERY_VS_PAGE": KIND_RULE,
+    "DEMAND_NOT_COMPARABLE_TO_VISIBILITY": KIND_RULE,
+    "INTERNAL_TRAFFIC_EXCLUDED": KIND_RULE,
+}
+
+
+def finding_kind(f: dict) -> str:
+    """Класс находки; для файлов старой схемы (без kind) — по коду."""
+    return f.get("kind") or CODE_KIND.get(f.get("code"), KIND_INCIDENT)
+
 
 def delta(current, previous):
     """Абсолютная и относительная дельта. Относительная — только при previous > 0."""
@@ -94,14 +154,22 @@ def run_checks(snap: dict, prev: dict | None = None) -> dict:
     findings: list[dict] = []
     prev_yandex = (prev or {}).get("yandex")
 
-    def add(level, code, title, detail, effect=None, source=None):
+    def add(level, code, title, detail, effect=None, source=None,
+            kind=None, since=None, lifted_when=None):
         # source — машиночитаемый ключ источника (yandex|google|metrika|ga4):
         # письмо сопоставляет находку с карточкой по нему, а не по подстроке
         # русского заголовка. Поле необязательное: старые файлы data-quality
         # без него читаются как прежде.
+        # kind — класс находки (см. CODE_KIND); since и lifted_when — дата
+        # начала и условие снятия ограничения: без них читатель не отличит
+        # ограничение, которое стоит месяц, от появившегося сегодня.
+        kind = kind or CODE_KIND.get(code, KIND_INCIDENT)
+        if level == "critical":
+            kind = KIND_INCIDENT
         findings.append({"level": level, "code": code, "title": title,
                          "detail": detail, "effect_on_report": effect,
-                         "source": source})
+                         "source": source, "kind": kind, "since": since,
+                         "lifted_when": lifted_when})
 
     yx, g, an = snap["yandex"], snap["google"], snap["analytics"]
 
@@ -185,13 +253,29 @@ def run_checks(snap: dict, prev: dict | None = None) -> dict:
         s = yx["source"]
         ov = overlap_days(s["current_period_start"], s["current_period_end"],
                           s["comparison_period_start"], s["comparison_period_end"])
-        if ov:
+        if ov and yx_daily_ok:
+            # «Предыдущий период» агрегатного пути — окно вчерашнего сбора,
+            # поэтому пересечение на всё окно минус день структурно и будет
+            # каждый день. KPI и дельты считаются из дневной витрины по окнам
+            # равной длины встык; плавающее окно источника задевает только
+            # выборку запросов раздела возможностей. Это правило, а не сбой.
+            add("info", "ROLLING_WINDOW_OVERLAP",
+                "Окно запросов Вебмастера плавает вслед за задержкой источника",
+                f"Окно выборки запросов {s['current_period_start']}–{s['current_period_end']} "
+                f"({s['current_period_days']} дн.) пересекается с окном вчерашнего "
+                f"сбора на {ov} дн.",
+                "KPI и дельты считаются по дневной витрине (окна равной длины "
+                "встык). Выборка запросов используется только в разделе "
+                "возможностей; её суммы день к дню не сравниваются.",
+                kind=KIND_RULE)
+        elif ov:
             add("warning", "ROLLING_WINDOW_OVERLAP",
                 "Периоды Яндекс.Вебмастера пересекаются",
                 f"Текущее окно {s['current_period_start']}–{s['current_period_end']} "
                 f"({s['current_period_days']} дн.) пересекается с предыдущим на {ov} дн.",
                 "Изменение показов день к дню не является сравнением независимых периодов; "
-                "относительные проценты не публикуются.")
+                "относительные проценты не публикуются.",
+                lifted_when="дневная витрина Яндекса заполнена за оба окна")
         # 1б. Длина окон сравнения
         #
         # Пересечение окон проверялось и раньше, а вот равенство их длины — нет,
@@ -205,12 +289,16 @@ def run_checks(snap: dict, prev: dict | None = None) -> dict:
             # равной длины, и плавающее окно агрегата задевает только
             # выборку запросов в блоке возможностей — это предупреждение,
             # а не сбой.
-            add("warning" if yx_daily_ok else "critical", "WINDOW_LENGTH_MISMATCH",
+            add("info" if yx_daily_ok else "critical", "WINDOW_LENGTH_MISMATCH",
                 "Окна сравнения разной длины",
                 f"Текущее окно {cur_days} дн., предыдущее {cmp_days} дн. "
                 f"Задержка источника плавает, длина окна вслед за ней.",
-                "Абсолютная разница показов не публикуется: она включает вклад "
-                "лишних суток. Публикуется среднее за день с указанием длины окна.")
+                ("KPI считаются по витрине с окнами равной длины; разница длин "
+                 "касается только выборки запросов раздела возможностей."
+                 if yx_daily_ok else
+                 "Абсолютная разница показов не публикуется: она включает вклад "
+                 "лишних суток. Публикуется среднее за день с указанием длины окна."),
+                kind=KIND_RULE if yx_daily_ok else KIND_INCIDENT)
 
         # 1в. Смена состава выборки
         #
@@ -222,28 +310,49 @@ def run_checks(snap: dict, prev: dict | None = None) -> dict:
             # Смена состава выборки больше не трогает KPI: показы всего сайта
             # идут из дневной витрины. Предупреждение остаётся для блока
             # возможностей, который по-прежнему опирается на выборку.
-            add("warning" if yx_daily_ok else "critical", "SAMPLE_CHURN",
+            add("info" if yx_daily_ok else "critical", "SAMPLE_CHURN",
                 "Состав выборки запросов изменился",
                 f"Сменилось {churn['changed']} из {churn['previous']} запросов "
                 f"({churn['share']:.0%}). Вошедшие принесли {churn['gained']} показов, "
                 f"выбывшие унесли {churn['lost']}.",
                 "Разница сумм по двум разным множествам запросов не является "
-                "изменением видимости и не публикуется как дельта.")
+                "изменением видимости и не публикуется как дельта.",
+                kind=KIND_RULE if yx_daily_ok else KIND_INCIDENT)
 
         # 2. Scope выборки
-        add("warning", "YANDEX_SAMPLE_SCOPE",
-            f"Метрики Яндекса рассчитаны по выборке {yx['totals'].get('queries_fetched')} "
-            f"из {yx['totals'].get('queries_available')} запросов",
-            f"Показы {yx['totals']['impressions']} и клики {yx['totals']['clicks']} — "
-            f"сумма по {yx['totals'].get('queries_fetched')} запросам из API popular "
-            f"queries, не по всему сайту.",
-            "CTR Яндекса нельзя называть CTR сайта.")
-        if (yx["totals"].get("queries_available") or 0) > (yx["totals"].get("queries_fetched") or 0):
+        #
+        # Постраничный забор берёт все запросы хоста, и «выборка 1016 из 1016»
+        # выборкой не является: заголовок спорил сам с собой, а следом — с
+        # карточкой здоровья «KPI по всему сайту». Предупреждение остаётся
+        # только когда источник отдал не всё; при полном заборе — правило о
+        # том, где какие числа считаются.
+        fetched = yx["totals"].get("queries_fetched") or 0
+        available = yx["totals"].get("queries_available") or 0
+        truncated = available > fetched
+        if truncated:
+            add("warning", "YANDEX_SAMPLE_SCOPE",
+                f"Метрики Яндекса рассчитаны по выборке {fetched} из {available} запросов",
+                f"Показы {yx['totals']['impressions']} и клики {yx['totals']['clicks']} — "
+                f"сумма по {fetched} запросам из API popular queries, не по всему сайту.",
+                "CTR Яндекса нельзя называть CTR сайта.",
+                lifted_when="сборщик забирает все запросы хоста")
             add("warning", "SAMPLE_TRUNCATED",
                 "Источник отдал не все запросы",
-                f"Доступно {yx['totals']['queries_available']}, забрано "
-                f"{yx['totals']['queries_fetched']}.",
+                f"Доступно {available}, забрано {fetched}.",
                 "Длинный хвост запросов в показателях не учтён.")
+        else:
+            add("info", "YANDEX_SAMPLE_SCOPE",
+                f"Раздел возможностей считается по всем {fetched} запросам Вебмастера",
+                f"Показы {yx['totals']['impressions']} и клики {yx['totals']['clicks']} — "
+                f"сумма по всем запросам хоста за окно источника "
+                f"{s['current_period_start']}–{s['current_period_end']}; "
+                "KPI письма — из дневной витрины за окна равной длины." if yx_daily_ok else
+                f"Показы {yx['totals']['impressions']} и клики {yx['totals']['clicks']} — "
+                f"сумма по всем запросам хоста за окно источника "
+                f"{s['current_period_start']}–{s['current_period_end']}.",
+                "CTR по запросам публикуется как CTR за окно источника; с окном "
+                "витрины и с другими поисковыми системами не смешивается.",
+                kind=KIND_RULE)
 
     # 3. Кросс-источниковая сверка: клики поиска против визитов/сессий
     if yx.get("available") and an.get("metrika", {}).get("available"):
@@ -278,13 +387,36 @@ def run_checks(snap: dict, prev: dict | None = None) -> dict:
                 "о кликабельности всего сайта не делается.")
 
     # 4. Разные окна аналитики и поиска
+    #
+    # Вебмастер и GSC зреют три дня, аналитика — один, поэтому концы окон
+    # источников не совпадают по построению и будут расходиться каждый
+    # день. Решение руководителя 03.09.2026 — двойное окно: карточки
+    # источников на своих свежих окнах, а воронка и сверки между
+    # источниками — по общему окну витрины с концом по самому медленному
+    # источнику (daily.aligned). При полном общем окне расхождение концов —
+    # правило, а не сбой; без общего окна — прежнее ограничение.
+    aligned = daily.get("aligned") or {}
     if an.get("metrika", {}).get("available") and yx.get("available"):
         if an["metrika"]["source"]["current_period_end"] != yx["source"]["current_period_end"]:
-            add("warning", "PERIOD_MISMATCH",
-                "Окна источников не совпадают",
-                f"Вебмастер до {yx['source']['current_period_end']}, "
-                f"Метрика до {an['metrika']['source']['current_period_end']}.",
-                "Показатели поиска и аналитики не складываются в одну воронку без оговорки.")
+            if aligned.get("complete"):
+                add("info", "PERIOD_MISMATCH",
+                    "Окна источников кончаются разными днями",
+                    f"Вебмастер до {yx['source']['current_period_end']}, "
+                    f"Метрика до {an['metrika']['source']['current_period_end']}: "
+                    "задержка созревания у источников разная.",
+                    "Карточки показателей считаются по свежему окну своего "
+                    "источника; воронка и сверки между источниками — по общему "
+                    f"окну {aligned['current']['from']}–{aligned['current']['to']} "
+                    "(раздел «Карта измерений»).",
+                    kind=KIND_RULE)
+            else:
+                add("warning", "PERIOD_MISMATCH",
+                    "Окна источников не совпадают",
+                    f"Вебмастер до {yx['source']['current_period_end']}, "
+                    f"Метрика до {an['metrika']['source']['current_period_end']}.",
+                    "Показатели поиска и аналитики не складываются в одну воронку "
+                    "без оговорки.",
+                    lifted_when="общее окно витрины заполнено по всем источникам")
 
     # 5. Изменение разметки конверсий внутри периода
     # Разметка GA4 объявлена в реестре пределов (ANL-002) — проверка ниже, в 5б.
@@ -308,12 +440,14 @@ def run_checks(snap: dict, prev: dict | None = None) -> dict:
             add("warning", "MEASUREMENT_GAP",
                 lim["title"],
                 f"{lim['detail']} Источник: {lim['evidence']}.",
-                lim["rule"])
+                lim["rule"], since=lim.get("since"),
+                lifted_when=f"дата закрытия записи {lim['id']} в реестре пределов")
         elif start and start <= resolved <= end:
             add("warning", "MEASUREMENT_CHANGE",
                 f"{lim['title']}: методика изменилась внутри периода",
                 f"{lim['detail']} Изменение вступило в силу {resolved}, окно {start}–{end}.",
-                lim["rule"])
+                lim["rule"], since=resolved,
+                lifted_when=f"окно источника сдвинется за {resolved}")
 
     # 6. Пересборы внутри дня
     for rev in an.get("intra_day_revisions", []):
@@ -340,35 +474,56 @@ def run_checks(snap: dict, prev: dict | None = None) -> dict:
                 f"Зафиксировано {events:.0f} целевых событий (порог надёжности — "
                 f"{snap['thresholds']['low_conversions']}).",
                 "Доли конверсии публикуются только с указанием n и маркером низкой выборки; "
-                "события не называются заявками.")
+                "события не называются заявками.",
+                lifted_when=f"не менее {snap['thresholds']['low_conversions']} "
+                            "целевых событий за окно")
         if an["metrika"]["unique_goal_users"] is None:
             add("warning", "GOAL_UNIQUENESS_UNKNOWN",
                 "Уникальность целевых обращений не подтверждена",
                 "Собираются goal events (ym:s:sumGoalReachesAny) без дедупликации по посетителю.",
-                "Формулировка «заявка/лид» запрещена; используется «целевое событие».")
+                "Формулировка «заявка/лид» запрещена; используется «целевое событие».",
+                lifted_when="сборщик отдаёт посетителей, достигших конверсионных целей")
 
     # 8. Scope: query vs page (Google)
     if g.get("available"):
         t = g["totals"]
-        if t["queries_position_le_10"] == 0 and t["pages_position_le_10"] > 0:
-            add("info", "SCOPE_QUERY_VS_PAGE",
-                "Разные scope: запросы и страницы считаются отдельно",
-                f"Запросов со средней позицией ≤10: {t['queries_position_le_10']}; "
-                f"страниц со средней позицией ≤10: {t['pages_position_le_10']}. "
-                "Средняя позиция страницы и средняя позиция запроса — разные сущности.",
-                "В отчёте показатели по запросам и по страницам не смешиваются.")
+        # Google скрывает редкие запросы: строки по запросам покрывают лишь
+        # часть показов ресурса, а запросы с верхними позициями как раз среди
+        # скрытых. Поэтому «0 запросов в топ-10 при 16 страницах в топ-10» —
+        # не противоречие данных, а разное покрытие срезов. Правило называет
+        # долю покрытия, чтобы читатель не сопоставлял эти числа.
+        q_imp = sum((e.get("impressions") or 0) for e in (g.get("entities") or []))
+        total_imp = t.get("impressions_window") or 0
+        share = (f"{q_imp / total_imp:.0%}" if total_imp else "—")
+        add("info", "SCOPE_QUERY_VS_PAGE",
+            "Google: запросы и страницы считаются отдельно",
+            f"Видимые запросы ({t['queries_tracked']}) покрывают {q_imp} из "
+            f"{total_imp} показов ({share}); остальные показы Google относит к "
+            f"скрытым запросам. В топ-10 запросов: {t['queries_position_le_10']}, "
+            f"страниц: {t['pages_position_le_10']} — это разные срезы с разным "
+            "покрытием.",
+            "Число запросов и страниц в топ-10 между собой не сравнивается; "
+            "позиции по запросам публикуются с долей покрытия показов.")
         if t["impressions_window"] < snap["thresholds"]["low_impressions"] * 4:
             add("warning", "LOW_IMPRESSION_BASE_GOOGLE",
                 "Малая абсолютная база показов Google",
                 f"{t['impressions_window']} показов за {t['window_days']} дн.",
-                "Относительные изменения сопровождаются абсолютными и маркером низкой базы.")
+                "Относительные изменения сопровождаются абсолютными и маркером низкой базы.",
+                lifted_when=f"не менее {snap['thresholds']['low_impressions'] * 4} "
+                            "показов за окно источника")
 
     # 9. CTR-модель
     if not snap.get("ctr_model", {}).get("approved"):
+        # Кривую по своим данным строить не на чем: за окно источника 25
+        # кликов на 3816 показов (03.09.2026). Внешняя кривая запрещена
+        # методикой как фиктивная. Условие снятия названо явно, чтобы
+        # ограничение не выглядело поломкой.
         add("warning", "NO_CTR_MODEL",
             "Утверждённая CTR-модель отсутствует",
             "Нет документированной кривой CTR по позициям для наших поисковиков и устройств.",
-            "Расчёт «ожидаемого CTR» и «потерянных кликов» не публикуется.")
+            "Расчёт «ожидаемого CTR» и «потерянных кликов» не публикуется.",
+            lifted_when="не менее 300 кликов по запросам Вебмастера за окно "
+                        "источника и утверждённая руководителем кривая")
 
     # 10. CRM
     #
@@ -382,14 +537,17 @@ def run_checks(snap: dict, prev: dict | None = None) -> dict:
         add("warning", "NO_CRM",
             "CRM не подключена",
             "Квалифицированные лиды, сделки и выручка не измеряются.",
-            "Бизнес-результат в отчёте помечается «нет данных», цели Метрики его не заменяют.")
+            "Бизнес-результат в отчёте помечается «нет данных», цели Метрики его не заменяют.",
+            lifted_when="выгрузка заявок воронки подключена (ops-leads-collect)")
     else:
         if crm.get("revenue") is None:
             add("info", "NO_CRM_REVENUE",
                 "Сделки и выручка не измеряются",
                 "Воронка отдаёт заявки с каналом и составом запроса; стадии "
                 "«выиграна/проиграна» и сумма сделки ведутся менеджером вручную.",
-                "Бизнес-результат публикуется на уровне обращений; выручка — «нет данных».")
+                "Бизнес-результат публикуется на уровне обращений; выручка — «нет данных».",
+                since="2026-09-01",
+                lifted_when="стадии сделок и суммы ведутся в воронке и выгружаются")
         if crm.get("stale"):
             add("warning", "CRM_DATA_STALE",
                 "Выгрузка заявок отстала от даты отчёта",
@@ -397,13 +555,47 @@ def run_checks(snap: dict, prev: dict | None = None) -> dict:
                 f"при дате отчёта {snap.get('report_date')}.",
                 "Заявки показываются по последней удачной выгрузке, её дата названа в письме.")
 
-    # 11. Индексация без классификации
+    # 11. Индексация: классификация исключённых (INDEX-001)
     idx = yx.get("indexation") if yx.get("available") else None
-    if idx and idx.get("excluded_by_reason") is None and idx.get("excluded_urls"):
+    if idx and idx.get("excluded_by_reason") is not None:
+        reasons = ", ".join(f"{k}: {v}" for k, v in idx["excluded_by_reason"].items())
+        smp = idx.get("excluded_samples") or {}
+        commercial = idx.get("commercial_excluded_urls") or 0
+        if commercial:
+            paths = [u["path"] for u in (smp.get("unexpected") or []) if u.get("commercial")]
+            add("warning", "INDEXATION_COMMERCIAL_EXCLUDED",
+                "Коммерческие страницы сняты из поиска без ожидаемой причины",
+                f"{commercial} адресов из sitemap: {', '.join(paths[:5])}"
+                f"{' и ещё ' + str(len(paths) - 5) if len(paths) > 5 else ''}. "
+                f"Статусы исключения за окно: {reasons}.",
+                "Исключение этих страниц считается проблемой до разбора причины; "
+                "остальные исключения — ожидаемые (переадресация, canonical, "
+                "noindex, вне sitemap).", source="yandex")
+        else:
+            add("info", "INDEXATION_CLASSIFIED",
+                "Исключённые страницы классифицированы",
+                f"Разобрано {smp.get('classified')} из {idx.get('excluded_urls')} "
+                f"исключённых URL, статусы: {reasons}. Коммерческих страниц из "
+                "sitemap с неожиданным статусом нет.",
+                "Исключения из поиска не считаются проблемой; число исключённых "
+                "публикуется со статусами.", kind=KIND_RULE, source="yandex")
+        if (idx.get("unclassified_excluded_urls") or 0) > 0:
+            add("info", "INDEXATION_UNCLASSIFIED",
+                "Часть исключённых страниц без классификации",
+                f"Выборка событий поиска покрыла {smp.get('classified')} из "
+                f"{idx.get('excluded_urls')} исключённых URL; остальные сняты раньше "
+                f"окна выборки ({(smp.get('window') or {}).get('from')}–"
+                f"{(smp.get('window') or {}).get('to')}).",
+                "Утверждения о причинах делаются только по разобранной части.",
+                kind=KIND_LIMIT, since="2026-08-19",
+                lifted_when="окно выборки событий покрывает все исключения")
+    elif idx and idx.get("excluded_by_reason") is None and idx.get("excluded_urls"):
         add("warning", "INDEXATION_UNCLASSIFIED",
             "Исключённые страницы не классифицированы",
             f"Исключено {idx['excluded_urls']} URL; причины и коммерческая значимость неизвестны.",
-            "Нельзя утверждать, что все исключения — проблема (тикет INDEX-001).")
+            "Нельзя утверждать, что все исключения — проблема (тикет INDEX-001).",
+            since="2026-08-19",
+            lifted_when="сборщик отдаёт причины исключения (INDEX-001)")
 
     # 12. Рыночный спрос: свежесть, полнота и запрет на сравнение с нашей видимостью
     md = snap.get("market_demand") or {}
@@ -412,7 +604,8 @@ def run_checks(snap: dict, prev: dict | None = None) -> dict:
             "Рыночный спрос не измерен",
             md.get("reason", "замер отсутствует"),
             "Формулировки о рыночном спросе и о товарах с подтверждённым спросом "
-            "в отчёт не попадают.")
+            "в отчёт не попадают.",
+            lifted_when="исследование Wordstat отработало полный цикл")
     else:
         src = md["source"]
         if md.get("stale"):
@@ -420,20 +613,24 @@ def run_checks(snap: dict, prev: dict | None = None) -> dict:
                 "Замер спроса устарел",
                 f"Последний замер {src['measured_at']}, возраст {src['age_days']} дн. "
                 f"при обновлении {src['refresh']}.",
-                "Числа спроса публикуются с датой замера и не выдаются за текущие.")
+                "Числа спроса публикуются с датой замера и не выдаются за текущие.",
+                source="wordstat")
         if not md.get("complete"):
             add("warning", "MARKET_DEMAND_PARTIAL",
                 "Замер спроса неполный",
-                f"Собрано {md.get('coverage')} запросов месяца; "
+                f"Собрано {md.get('coverage')}; "
                 f"кластеров с данными {md.get('clusters_measured')} "
-                f"из {md.get('clusters_planned')}.",
+                f"из {md.get('clusters_planned')}; последний полный цикл — "
+                f"{src.get('last_full_cycle') or 'не было'}.",
                 "Выводы о разрывах семантики помечаются как предварительные, "
-                "решения об ассортименте по неполному замеру не принимаются.")
+                "решения об ассортименте по неполному замеру не принимаются.",
+                lifted_when="полный цикл Wordstat не старше месяца")
         add("info", "DEMAND_NOT_COMPARABLE_TO_VISIBILITY",
             "Спрос и наша видимость не сопоставляются напрямую",
             f"Спрос — {src.get('unit')}, {src.get('window')}, регион {src.get('region')}, "
             "соответствие "
-            f"{src.get('match_type')}. Наша видимость — выборка топ-100 запросов Вебмастера.",
+            f"{src.get('match_type')}. Наша видимость — запросы Вебмастера за окно "
+            "источника и дневная витрина показов.",
             "Доля голоса не рассчитывается; спрос используется как обоснование действий, "
             "а не как наш показатель.")
 
@@ -529,14 +726,35 @@ def run_checks(snap: dict, prev: dict | None = None) -> dict:
     m_block = an.get("metrika", {})
     ga_block = an.get("ga4", {})
     internal = ga_block.get("internal_in_organic") if ga_block.get("available") else None
-    if internal:
+    ai_assist = ga_block.get("ai_assistant_in_organic") if ga_block.get("available") else None
+    clean = ga_block.get("organic_sessions_clean") if ga_block.get("available") else None
+    if (internal or ai_assist) and clean is not None:
+        # Решение руководителя 03.09.2026: свои визиты вычитаются в снимке,
+        # Алиса выделяется отдельным каналом. Конверсия канала публикуется
+        # по очищенной органике; это правило подсчёта, а не сбой.
+        parts = []
+        if internal:
+            parts.append(f"собственные визиты ({', '.join(internal['sources'])}): "
+                         f"{internal['sessions']} сессий, "
+                         f"{internal['key_events']:.0f} ключевых событий — вычтены")
+        if ai_assist:
+            parts.append(f"переходы из Алисы и Нейро ({', '.join(ai_assist['sources'])}): "
+                         f"{ai_assist['sessions']} сессий — отдельный канал, не поиск")
+        add("info", "INTERNAL_TRAFFIC_EXCLUDED",
+            "Органика GA4 очищена от своих визитов и переходов из Алисы",
+            "; ".join(parts) + f". Очищенная органика: {clean} сессий из "
+            f"{ga_block.get('organic_sessions')}.",
+            "Конверсия органического канала публикуется по очищенным сессиям; "
+            "дневной ряд GA4 собран с тем же фильтром.",
+            source="ga4")
+    elif internal:
         add("warning", "INTERNAL_TRAFFIC_IN_ORGANIC",
             "В органике GA4 есть собственные визиты",
             f"Источники {', '.join(internal['sources'])}: {internal['sessions']} сессий, "
             f"{internal['key_events']} ключевых событий. GA4 относит домены Яндекса "
             "к поисковым системам, включая интерфейс Метрики.",
             "Конверсия органического канала не публикуется до очистки источника.",
-            source="ga4")
+            source="ga4", lifted_when="снимок отдаёт очищенную органику")
 
     # 16. Часовой пояс
     tz = snap.get("reporting_timezone") or ""
@@ -546,10 +764,15 @@ def run_checks(snap: dict, prev: dict | None = None) -> dict:
             "Часовой пояс отчёта не совпадает с поясом источника",
             f"Отчёт: {tz}; GA4 отдаёт данные в {src_tz}.",
             "Границы суток источника и отчёта расходятся; «сегодня» означает "
-            "разное в разных числах.")
+            "разное в разных числах.",
+            lifted_when="часовой пояс ресурса GA4 переведён на пояс отчёта")
 
     levels = [f["level"] for f in findings]
-    status = "critical" if "critical" in levels else ("warning" if "warning" in levels else "ok")
+    # Статус отчёта — по сбоям дня. Ограничения и правила в него не входят:
+    # иначе зелёный статус недостижим при исправных источниках.
+    incident_levels = [f["level"] for f in findings if f["kind"] == KIND_INCIDENT]
+    status = ("critical" if "critical" in incident_levels
+              else ("warning" if "warning" in incident_levels else "ok"))
     health = measurement.data_health(snap, findings)
     return {
         "schema_version": "3.1.0",
@@ -566,11 +789,16 @@ def run_checks(snap: dict, prev: dict | None = None) -> dict:
             "goals_lagging": goals_lagging_out,
         },
         "measurement_map": measurement.build_map(snap),
+        "funnel": measurement.funnel(snap),
         "sample_ctr": measurement.sample_ctr(snap),
         "report_date": snap["report_date"],
         "generated_at": dt.datetime.now(dt.timezone.utc).isoformat(timespec="seconds"),
         "status": status,
         "counts": {lvl: levels.count(lvl) for lvl in ("critical", "warning", "info")},
+        "incident_counts": {lvl: incident_levels.count(lvl)
+                            for lvl in ("critical", "warning", "info")},
+        "kind_counts": {k: sum(1 for f in findings if f["kind"] == k)
+                        for k in (KIND_INCIDENT, KIND_LIMIT, KIND_RULE)},
         "findings": findings,
         "publication_rules": {
             "allow_green_overall_status": status == "ok",

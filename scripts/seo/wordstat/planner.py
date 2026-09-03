@@ -133,6 +133,8 @@ def monthly_plan(universe, clusters: dict, tiers: dict, seed_plan: list[dict],
         "estimated_cost_rub": round(cost, 2),
         "budget_hard_cap_rub": cfg["budget"]["monthly_hard_cap_rub"],
         "budget_utilisation": round(cost / cfg["budget"]["monthly_hard_cap_rub"], 4),
+        "requests_per_hour": rph,
+        "target_requests_per_hour": cfg["quota"]["requests_per_hour_target"],
         "runtime_hours_at_current_quota": round(len(tasks) / rph, 1),
         "runtime_hours_at_target_quota": round(
             len(tasks) / cfg["quota"]["requests_per_hour_target"], 1),
@@ -168,9 +170,10 @@ def write_plan_md(plan: dict, path: pathlib.Path) -> None:
           f"{plan['max_possible_spend_current_quota_rub']:.0f} ₽",
           f"- бюджет является ограничением: "
           f"{'да' if plan['budget_is_binding'] else 'нет — ограничивает квота'}",
-          f"- время прохода при 100 запросах в час: "
-          f"{plan['runtime_hours_at_current_quota']} ч",
-          f"- при 500 запросах в час: {plan['runtime_hours_at_target_quota']} ч", "",
+          f"- время прохода при действующей квоте ({plan.get('requests_per_hour', '?')} "
+          f"запросов в час): {plan['runtime_hours_at_current_quota']} ч",
+          f"- при целевой квоте ({plan.get('target_requests_per_hour', '?')} в час): "
+          f"{plan['runtime_hours_at_target_quota']} ч", "",
           "План не предполагает освоения всего бюджета: цель — полезная информация "
           "на вызов, а не расход рублей.", "",
           "## Очередь задач (первые 30)", "",

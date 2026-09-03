@@ -60,7 +60,7 @@ def _latest_measure(today: dt.date) -> tuple[str, list[dict]] | None:
                 r = json.loads(line)
             except json.JSONDecodeError:
                 continue
-            if not r.get("error") and r.get("top"):
+            if not r.get("error") and isinstance(r.get("top"), list):
                 rows.append(r)
         if rows:
             return date, rows
