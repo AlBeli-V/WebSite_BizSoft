@@ -218,11 +218,13 @@ class TestResume(Base):
         self.assertEqual(row["collector_version"], self.sg.COLLECTOR_VERSION)
 
     def test_second_run_same_day_reuses_and_fetches_only_missing(self):
-        seen = []
+        # Сборщик многопоточный: порядок вызовов между ключами не задан,
+        # поэтому считаем вызовы по ключу, а не сверяем последовательность.
+        calls: dict[str, int] = {}
 
         def search(session, user, key, q, query_cfg=None, top_n=20, page=0):
-            seen.append(q)
-            if q == "сбой" and len(seen) <= 2:
+            calls[q] = calls.get(q, 0) + 1
+            if q == "сбой" and calls[q] == 1:
                 return {"error": "HTTP 500"}
             return {"found": 1, "top": [{"domain": "a.ru", "url": "", "title": q}],
                     "blocks": {}}
@@ -235,7 +237,7 @@ class TestResume(Base):
             # повторный запуск: figma уже есть, «сбой» докачивается, «новый» новый
             second = self.sg.run(DATE, ["купить figma", "сбой", "новый"],
                                  cfg(), "u", "k", force=True)
-        self.assertEqual(seen, ["купить figma", "сбой", "сбой", "новый"])
+        self.assertEqual(calls, {"купить figma": 1, "сбой": 2, "новый": 1})
         self.assertEqual(second["reused"], 1)
         self.assertEqual(second["requested"], 2)
         self.assertEqual(second["calls"], 2)
