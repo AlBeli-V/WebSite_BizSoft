@@ -2031,20 +2031,6 @@
   "checked_at": "2026-09-02",
   "kind": "ai"
  },
- "hailuo": {
-  "verdict": "unknown",
-  "note": "признаков оплаты на странице не найдено",
-  "card_markers": [
-   "stripe"
-  ],
-  "buy_markers": [],
-  "sales_markers": [],
-  "has_prices": false,
-  "url": "https://www.hailuo.com/pricing",
-  "http_status": 200,
-  "checked_at": "2026-09-02",
-  "kind": "ai"
- },
  "zapier": {
   "verdict": "card",
   "note": "найдены признаки самостоятельной оплаты картой",
