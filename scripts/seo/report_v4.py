@@ -1276,6 +1276,17 @@ def _verdict_panel(e: dict) -> str:
             f"{num(mm['experiment']['impressions'])} показов, CTR "
             f"{_pctf(mm['experiment']['ctr'])} · совпадающих запросов {mm['queries']} · "
             f"позиция {pos_s} · p={p_s}</div>")
+        if ev.get("per_page"):
+            # Перезапуск SEO-EXP-002: экспозиция каждой страницы видна отдельно,
+            # чтобы сумма по кластеру не скрывала страницу без показов.
+            parts = [f"{pp['page'].rsplit('/', 1)[-1]}: "
+                     f"{num(pp['baseline']['impressions'])} → "
+                     f"{num(pp['experiment']['impressions'])} показов, CTR "
+                     f"{_pctf(pp['baseline']['ctr'])} → {_pctf(pp['experiment']['ctr'])}"
+                     for pp in ev["per_page"]]
+            lines.append(
+                f"<div data-meta=\"1\" style=\"font-size:12.5px;color:{T['text_secondary']};"
+                f"padding-top:2px;line-height:1.5;\">По страницам — {'; '.join(parts)}</div>")
     rec = [f"<div style=\"font-size:14.5px;padding-top:{SP['s']}px;line-height:1.55;\">"
            f"<b>Рекомендация: {EXP_REC_LABEL[ev['recommendation']]}.</b> "
            f"{ev['recommendation_detail']}.</div>"]

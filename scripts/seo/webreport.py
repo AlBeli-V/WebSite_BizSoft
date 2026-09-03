@@ -172,9 +172,11 @@ def _evaluation_html(e: dict) -> str:
         mm, om = ev["matched_metrics"], ev["metrics"]
         stat = ev.get("statistical_result") or {}
         taint = " (захватывает день внедрения)" if w["experiment"].get("tainted") else ""
+        fixed_b = " (фиксированное, полная выгрузка)" if w["baseline"].get("fixed") else ""
+        fixed_e = " (фиксированное, полная выгрузка)" if w["experiment"].get("fixed") else ""
         rows += [
-            ["окно до", f"{w['baseline']['from']} — {w['baseline']['to']}"],
-            ["окно после", f"{w['experiment']['from']} — {w['experiment']['to']}{taint}"],
+            ["окно до", f"{w['baseline']['from']} — {w['baseline']['to']}{fixed_b}"],
+            ["окно после", f"{w['experiment']['from']} — {w['experiment']['to']}{taint}{fixed_e}"],
             ["кластер (все запросы)",
              f"до: {om['baseline']['impressions']} показов / {om['baseline']['clicks']} кликов; "
              f"после: {om['experiment']['impressions']} / {om['experiment']['clicks']}"],
@@ -187,6 +189,17 @@ def _evaluation_html(e: dict) -> str:
              "—" if ev["position_delta"] is None else f"{ev['position_delta']:+.2f}"],
             ["p-value", "—" if stat.get("p_value") is None else f"{stat['p_value']:.4f}"],
         ]
+        for pp in ev.get("per_page") or []:
+            # Разбивка по страницам (перезапуск SEO-EXP-002): экспозиция и
+            # CTR каждой страницы отдельно — страница без показов видна сразу.
+            b, x = pp["baseline"], pp["experiment"]
+            pos_b = "—" if b["avg_position"] is None else f"{b['avg_position']:.1f}"
+            pos_x = "—" if x["avg_position"] is None else f"{x['avg_position']:.1f}"
+            rows.append([f"страница {pp['page']}",
+                         f"до: {b['impressions']} показов / {b['clicks']} кликов, "
+                         f"CTR {_p(b['ctr'])}, позиция {pos_b}; "
+                         f"после: {x['impressions']} / {x['clicks']}, CTR {_p(x['ctr'])}, "
+                         f"позиция {pos_x}; совпадающих запросов {pp['matched_queries']}"])
     if ev.get("sample_quality"):
         rows.append(["качество выборки", "; ".join(ev["sample_quality"])])
     if ev.get("recommended_targets"):
