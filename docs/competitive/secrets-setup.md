@@ -16,9 +16,10 @@
 | Секрет | Зачем | Статус | Срочность |
 |---|---|---|---|
 | `DATAFORSEO_LOGIN` + `DATAFORSEO_PASSWORD` | Google SERP (провайдер выбран руководителем 31.08: DataForSEO) | ⏳ аккаунт создан, секреты завести | нужен для Google-части; без него Phase 1 стартует только по Яндексу |
+| `XMLRIVER_USER` + `XMLRIVER_KEY` | российский Google SERP через xmlriver (подключён руководителем 03.09; `user_id` 22510, ключ — из кабинета) | ⏳ завести | Google-срез базового контура (`seo-serp-watch`, шаг xmlriver); проверка — `ops-xmlriver-probe`; подробности `docs/seo/serp-google-xmlriver.md` |
 | `YC_BILLING_SA_KEY` | факт расхода Yandex Cloud (SERP+Wordstat) | ❌ нет | желательно; без него бюджет живёт на расчётной оценке |
 | `CI_REPORT_PASSWORD` | basic auth deep report | ❌ нет | нужен к Phase 3 |
-| `YANDEX_OAUTH` | переобход URL в Вебмастере (`ops-yandex-recrawl`) | ⚠️ по журналу 18.08 отсутствовал — проверить | не блокирует CI, но нужен для приёмки атак |
+| `YANDEX_OAUTH` | переобход URL в Вебмастере (`ops-yandex-recrawl`) | ✅ есть: по журналу issue #22 c 29.08 по 02.09 все прогоны отдают «токен: задан», заявки принимаются (HTTP 202), квота 150 URL/сутки | не блокирует CI, но нужен для приёмки атак |
 | `WORDSTAT_API_KEY`, `GSC_SERVICE_ACCOUNT_JSON`, `YANDEX_WEBMASTER_TOKEN`, `YANDEX_METRIKA_TOKEN`, `YANDEX_METRIKA_COUNTER_ID`, `GA4_PROPERTY_ID`, `SMTP_PASS`, `SSH_KEY/HOST/USER` | всё остальное | ✅ уже есть | трогать не надо |
 
 ---
@@ -78,10 +79,15 @@ Deep report — конкурентная аналитика, токен-пути
 3. Пароль сохранить у себя: он вводится один раз в браузере при открытии
    отчёта (браузер запомнит).
 
-## 4. `YANDEX_OAUTH` — переобход в Вебмастере (проверить)
+## 4. `YANDEX_OAUTH` — переобход в Вебмастере (заведён, проверено 03.09.2026)
 
-По журналу issue #22 от 18.08 секрета не было («токен НЕ НАЙДЕН»). Если с тех
-пор не заведён — атаки CI нельзя будет быстро отправлять на переобход.
+По журналу issue #22 от 18.08 секрета не было («токен НЕ НАЙДЕН»). С 29.08
+все прогоны `ops-yandex-recrawl` пишут «токен: задан», host_id
+`https:biz-soft.pro:443`, заявки принимаются с HTTP 202; 01.09 квота
+150 URL/сутки была выбрана полностью (HTTP 429 `QUOTA_EXCEEDED` до полуночи
+МСК). Фраза письма Growth Intelligence «инструмент ждёт токена с правами
+Вебмастера» была зашита в код и снята 03.09.2026. Ниже — порядок повторного
+заведения, если токен отзовут (OAuth-токены Яндекса живут до года).
 
 1. Зайти на <https://oauth.yandex.ru> под аккаунтом, которому принадлежит
    сайт в Вебмастере → **Создать приложение**.
@@ -101,6 +107,7 @@ Deep report — конкурентная аналитика, токен-пути
 | Секрет | Как проверить |
 |---|---|
 | `DATAFORSEO_LOGIN/PASSWORD` | workflow `ci-serp-probe` (уже в репо): один запрос, баланс + топ-10 в issue #22 |
+| `XMLRIVER_USER/KEY` | workflow `ops-xmlriver-probe`: баланс + один запрос Google (0,025 ₽), топ-20 и позиция biz-soft.pro в issue #22 |
 | `YC_BILLING_SA_KEY` | ручной запуск `seo-serp-watch` → файл `cloud-billing.json` в `seo-data` |
 | `CI_REPORT_PASSWORD` | используется в Phase 3 при настройке nginx |
 | `YANDEX_OAUTH` | ручной запуск `ops-yandex-recrawl` → квота в issue #22 |

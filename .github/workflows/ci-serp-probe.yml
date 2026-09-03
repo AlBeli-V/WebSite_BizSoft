@@ -29,7 +29,11 @@ jobs:
         run: |
           echo "::error::Запуск разрешён только с ветки main (правило проекта)"
           exit 1
-      - uses: actions/checkout@v4
+      - name: Checkout
+        # always() — шаг журнала ниже тоже always(): без этого при
+        # падении раннего шага checkout пропустится и запись не пройдёт.
+        if: always()
+        uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
@@ -42,20 +46,17 @@ jobs:
           LOCATION_CODE: ${{ inputs.location_code }}
         run: |
           pip install --quiet requests
+          rc=0
           {
             echo 'result<<SERP_EOF'
-            python3 competitive-intelligence/serp/dataforseo_probe.py || true
+            python3 competitive-intelligence/serp/dataforseo_probe.py 2>&1 || rc=$?
             echo 'SERP_EOF'
           } >> "$GITHUB_OUTPUT"
+          exit $rc
       - name: Post to issue
-        uses: actions/github-script@v7
-        env:
-          RESULT: ${{ steps.run.outputs.result }}
+        if: always()
+        uses: ./.github/actions/journal-post
         with:
-          script: |
-            await github.rest.issues.createComment({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: 22,
-              body: '### ci-serp-probe (DataForSEO) · ' + new Date().toISOString() + '\n\n```\n' + process.env.RESULT + '\n```',
-            });
+          title: "ci-serp-probe (DataForSEO)"
+          outcome: ${{ steps.run.outcome }}
+          body: ${{ steps.run.outputs.result }}

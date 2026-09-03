@@ -109,8 +109,18 @@ def demand_coverage(rows, region: str = REGION) -> tuple[dict, dict]:
 
 
 def build_snapshot(date: str, cards: list, rows: list, config: dict,
-                   query_sets_path: str | None = None) -> dict:
-    """Канонический снимок дня: цифры письма берутся только отсюда."""
+                   query_sets_path: str | None = None,
+                   google: dict | None = None) -> dict:
+    """Канонический снимок дня: цифры письма берутся только отсюда.
+
+    `google` — блок российской выдачи Google (discovery/google_ru.py) из
+    еженедельного среза xmlriver; без него блок помечается недоступным, а
+    доля Google остаётся NO DATA — не нулём.
+    """
+    from discovery import google_ru
+    google = google or google_ru.unavailable(
+        "блок Google не строился в этом прогоне", config)
+    google_share = google_ru.share(google)
     # Наш домен исключается из всех конкурентных срезов: он не конкурент сам
     # себе. Раньше biz-soft.pro попадал и в перечень «кто держит выдачу», и в
     # карточки конкурентов, а его доля вливалась в категорию «прямые
@@ -169,7 +179,7 @@ def build_snapshot(date: str, cards: list, rows: list, config: dict,
             "opportunity_режим": "degraded",
             "opportunity_недоступные_факторы": ["vulnerability"],
             "threat_режим": "base_0_70",
-            "google_собирается": False,
+            "google_собирается": bool(google.get("доступен")),
             "b2b_confidence_измеряется": False,
             "_правило_сравнимости": (
                 "оценки сравнимы между датами только при одинаковой версии "
@@ -191,9 +201,17 @@ def build_snapshot(date: str, cards: list, rows: list, config: dict,
             "яндекс_запросов_с_данными": len(usable),
             "яндекс_ошибок": len(failed),
             "взвешенное_покрытие": weighted_coverage,
-            "google": None,
-            "_google_пояснение": "NO DATA: еженедельный сбор Google ещё не запущен",
+            # Наша доля видимости в Google RU (серия google_ru, xmlriver);
+            # None — свежего среза нет. Подробности — блок «google».
+            "google": google_share,
+            "_google_пояснение": (
+                f"Google RU: срез xmlriver от {google.get('дата_среза')}, "
+                f"{(google.get('покрытие') or {}).get('запросов_с_данными')} "
+                f"запросов с данными"
+                if google.get("доступен") else
+                f"NO DATA: {google.get('причина')}"),
         },
+        "google": google,
         "наши_показатели": {
             "взвешенная_видимость": ours.weighted_visibility if ours else None,
             "доля_видимости": ours.share if ours else None,
@@ -232,8 +250,14 @@ def main(argv: list[str]) -> int:
         print(f"Срез {date} не дал ни одного домена — прогон остановлен")
         return 1
 
+    from discovery import google_ru
+    g_geo = google_ru.geo(config)
+    g_date, g_rows = serp_source.latest_snapshot(
+        "google", date, g_geo["свежесть_дней"])
+    google = google_ru.build_block(date, g_date, g_rows, rows, config)
+
     registry_path = registry.append(cards)
-    snapshot = build_snapshot(date, cards, rows, config)
+    snapshot = build_snapshot(date, cards, rows, config, google=google)
     os.makedirs(paths.SNAPSHOTS_DIR, exist_ok=True)
     snapshot_path = os.path.join(paths.SNAPSHOTS_DIR, f"{date}-discovery.json")
     with open(snapshot_path, "w", encoding="utf-8") as fh:
