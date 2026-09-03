@@ -23,6 +23,10 @@ SEO_BRANCH = "seo-data"
 # без которой рвётся ряд наблюдений.
 SERP_DIRS = ("reports/seo/serp", "reports/seo/data/serp")
 SERP_DIR = SERP_DIRS[0]
+# Суффикс файла среза по поисковой системе. Google-срез (xmlriver, с
+# 03.09.2026) лежит рядом с Яндексом под своим суффиксом, чтобы прежние
+# читатели не приняли его за Яндекс.
+SNAPSHOT_SUFFIX = {"yandex": "-serp.jsonl", "google": "-serp-google.jsonl"}
 
 
 @dataclass
@@ -47,12 +51,14 @@ def _git(*args: str) -> str:
                           check=True).stdout
 
 
-def available_dates(branch: str = SEO_BRANCH) -> list[str]:
+def available_dates(branch: str = SEO_BRANCH,
+                    engine: str = "yandex") -> list[str]:
     """Даты, за которые в хранилище базового контура есть срезы.
 
     Объединение по всем известным каталогам: после переноса часть истории
     осталась в старом месте, и ряд наблюдений не должен от этого прерваться.
     """
+    suffix = SNAPSHOT_SUFFIX[engine]
     dates: set[str] = set()
     for directory in SERP_DIRS:
         try:
@@ -65,17 +71,21 @@ def available_dates(branch: str = SEO_BRANCH) -> list[str]:
             continue
         for path in listing.splitlines():
             name = path.rsplit("/", 1)[-1]
-            if name.endswith("-serp.jsonl"):
-                dates.add(name[: -len("-serp.jsonl")])
+            # Точная длина даты: у Google суффикс длиннее, и «-serp.jsonl»
+            # на конце имени Яндекса не должен ловить чужие файлы.
+            if name.endswith(suffix) and len(name) == 10 + len(suffix):
+                dates.add(name[: -len(suffix)])
     return sorted(dates)
 
 
-def read_snapshot(date: str, branch: str = SEO_BRANCH) -> list[SerpRow]:
+def read_snapshot(date: str, branch: str = SEO_BRANCH,
+                  engine: str = "yandex") -> list[SerpRow]:
     """Срез за дату. Строки с ошибкой сохраняются — их считает Data Coverage."""
+    suffix = SNAPSHOT_SUFFIX[engine]
     blob = None
     for directory in SERP_DIRS:
         try:
-            blob = _git("show", f"origin/{branch}:{directory}/{date}-serp.jsonl")
+            blob = _git("show", f"origin/{branch}:{directory}/{date}{suffix}")
             break
         except subprocess.CalledProcessError:
             continue
@@ -94,6 +104,7 @@ def read_snapshot(date: str, branch: str = SEO_BRANCH) -> list[SerpRow]:
             date=raw.get("date", date),
             query=raw.get("query", ""),
             region=str(raw.get("region", "")),
+            engine=raw.get("engine") or engine,
             found=raw.get("found"),
             top=raw.get("top") or [],
             error=raw.get("error"),
