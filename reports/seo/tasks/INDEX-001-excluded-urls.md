@@ -1,6 +1,8 @@
 # INDEX-001 — Классификация исключённых URL
 
-**Приоритет:** P1 · **Статус:** open
+**Приоритет:** P1 · **Статус:** in_progress (03.09.2026: сборщик и классификация
+в коде, ждём первого боевого прогона `seo-data-collect` — он подтвердит контракт
+метода `search-urls/events/samples`; до него в снимке `excluded_by_reason: null`)
 
 ## Контекст
 Яндекс.Вебмастер: 169 URL в поиске, 32 исключено (снимок 2026-08-19). Причины не выгружаются —
@@ -18,4 +20,10 @@
 Определяется числом коммерчески значимых URL, а не общим количеством исключений.
 
 ## Результат
-`reports/seo/excluded-pages-analysis.md` + поле `excluded_by_reason` в snapshot.
+Поле `excluded_by_reason` в snapshot — сделано (`snapshot.classify_excluded`,
+03.09.2026): статусы исключения, `commercial_excluded_urls`,
+`unclassified_excluded_urls`, выборка неожиданных исключений
+`excluded_samples.unexpected`. Проверки качества: `INDEXATION_COMMERCIAL_EXCLUDED`
+(сбой), `INDEXATION_CLASSIFIED` (правило), `INDEXATION_UNCLASSIFIED`
+(ограничение — часть исключений раньше окна выборки). Отчёт
+`reports/seo/excluded-pages-analysis.md` — после первого прогона с данными.
