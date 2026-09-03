@@ -193,6 +193,11 @@ def build(snap: dict, date: str, site_check: dict | None = None) -> list[dict]:
             refresh = (f"{serp['pages_seen']} из {len(pages)} страниц в выдаче, "
                        f"обновление сниппета не подтверждено "
                        f"(замер {ru_date(serp['measured_at'])})")
+        elif serp:
+            # Замер есть, но ни одна страница не вошла в топ-10 своего ядра
+            # запросов — это не отсутствие замера, а факт о выдаче.
+            refresh = (f"страницы не найдены в топ-10 замеренной выдачи "
+                       f"(замер {ru_date(serp['measured_at'])})")
         else:
             refresh = ("не измерено: нет успешного SERP-замера за 7 дней"
                        if live else "нет данных")

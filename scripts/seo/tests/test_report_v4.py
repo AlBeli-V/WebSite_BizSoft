@@ -170,6 +170,38 @@ class TestExperimentControl(unittest.TestCase):
     def test_verdict_is_too_early_without_exposure(self):
         self.assertEqual(self.rows[0]["verdict"], "too_early")
 
+    def test_serp_line_does_not_blame_webmaster_token(self):
+        """Переобход в Вебмастере работает (03.09.2026): письмо не должно
+        объяснять отсутствие сниппета «ожиданием токена»."""
+        r = load("report_v4")
+        base = {"search_snippet_refresh": "3 из 5 страниц в выдаче",
+                "serp": {"pages": {"/vendors/canva": {"best_position": 2}},
+                         "pages_seen": 1, "pages_with_new_snippet": 0}}
+        line = r._exp_serp_line(base)
+        self.assertNotIn("токен", line)
+        self.assertIn("ops-yandex-recrawl", line)
+        fresh = dict(base, serp=dict(base["serp"], pages_with_new_snippet=1))
+        self.assertIn("новый вариант", r._exp_serp_line(fresh))
+        self.assertNotIn("токен", r._exp_serp_line(
+            {"search_snippet_refresh": "не измерено", "serp": None}))
+
+    def test_pages_absent_from_top10_is_not_missing_measure(self):
+        """Замер есть, страниц в топ-10 нет — это факт о выдаче, а не
+        «нет успешного SERP-замера»."""
+        import serp_snippets
+        saved = serp_snippets.serp_status
+        serp_snippets.serp_status = lambda *a, **k: {
+            "measured_at": DATE, "pages_total": 5, "pages_seen": 0,
+            "pages_with_new_snippet": 0, "pages": {}}
+        try:
+            rows = self.e.build(self.snap, DATE,
+                                {"snippets-5-vendors": {"pages_recrawled": 5,
+                                                        "new_snippets_detected": 5}})
+        finally:
+            serp_snippets.serp_status = saved
+        self.assertIn("не найдены в топ-10", rows[0]["search_snippet_refresh"])
+        self.assertNotIn("нет успешного SERP-замера", rows[0]["search_snippet_refresh"])
+
     def test_combined_treatment_not_split(self):
         self.assertTrue(self.rows[0]["combined_treatment"])
         self.assertIn("не разделяются", self.rows[0]["combined_note"])

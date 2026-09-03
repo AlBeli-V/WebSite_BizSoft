@@ -470,7 +470,7 @@ def _evaluate_launch(exp: dict, date: str) -> dict:
         res["recommendation"] = "EXTEND"
         res["recommendation_detail"] = (
             "разобрать отсутствующие страницы (индексация, сниппеты); "
-            "после восстановления Вебмастер-токена — запросить переобход; "
+            "запросить переобход через ops-yandex-recrawl; "
             "если и следующая веха провалена — решение о судьбе раздела")
         res["requires_owner_decision"] = days >= clicks_by_day
     return res
