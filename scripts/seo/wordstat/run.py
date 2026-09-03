@@ -182,7 +182,8 @@ def run_tasks(tasks, client, uni, vendors, stats, budget, cfg, date, *, cap=None
                 source_seed=task["phrase"], region=cfg["collection"]["region_id"],
                 period="последние 30 дней", method="getTop",
                 cost_rub=res["cost_rub"] / max(1, len(rows)), vendors=index,
-                vendor=vendor.get("vendor"), category=vendor.get("category"))
+                vendor=vendor.get("vendor"), category=vendor.get("category"),
+                source=res["source"])
             known_clusters.add(row.get("cluster"))
             if is_new and row["intent"] == "commercial" and row.get("in_scope"):
                 new_commercial += 1

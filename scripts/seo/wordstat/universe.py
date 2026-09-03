@@ -93,8 +93,16 @@ class Universe:
     def observe(self, *, phrase: str, frequency: int | None, date: str,
                 source_seed: str, region: str, period: str, method: str,
                 cost_rub: float, vendors: dict[str, str],
-                vendor: str | None = None, category: str | None = None) -> tuple[dict, bool]:
-        """Записать наблюдение. Возвращает строку и признак «фраза новая»."""
+                vendor: str | None = None, category: str | None = None,
+                source: str = "api") -> tuple[dict, bool]:
+        """Записать наблюдение. Возвращает строку и признак «фраза новая».
+
+        source — «api» (платный вызов, новое измерение) или «cache» (тот же
+        ответ повторно). Повтор из кэша не двигает last_seen и не дописывает
+        историю: иначе «замер от сегодня» подписывал двухнедельные числа, а
+        тренд «stable» строился по дублям одного значения (аудит 03.09.2026,
+        находки 3 и 5 по Wordstat).
+        """
         key = N.morph_key(phrase)
         row = self.rows.get(key)
         is_new = row is None
@@ -124,17 +132,18 @@ class Universe:
             "wordstat_frequency": frequency,
             "wordstat_period": period,
             "region": region,
-            "last_seen": date,
+            "last_seen": date if (source == "api" or is_new) else row.get("last_seen"),
             "source_method": method,
             "vendor": vendor or row.get("vendor"),
             "category": category or row.get("category"),
             "api_cost_rub": round((row.get("api_cost_rub") or 0.0) + cost_rub, 6),
         })
         hist = row["historical_frequency"]
-        if not hist or hist[-1]["date"] != date:
-            hist.append({"date": date, "frequency": frequency})
-        else:
-            hist[-1]["frequency"] = frequency
+        if source == "api" or is_new:
+            if not hist or hist[-1]["date"] != date:
+                hist.append({"date": date, "frequency": frequency})
+            else:
+                hist[-1]["frequency"] = frequency
         return row, is_new
 
     def link_site(self, phrase: str, **site) -> dict | None:

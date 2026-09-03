@@ -173,8 +173,12 @@ def existing_rows(date_s: str, cfg: dict) -> dict[str, dict]:
             row = json.loads(line)
         except ValueError:
             continue
-        if row.get("error") or not row.get("top"):
+        if row.get("error"):
             continue
+        if not isinstance(row.get("top"), list):
+            continue          # строка без результата замера — докачать
+        # Пустая выдача без ошибки — полный замер; докачивать и платить
+        # за неё повторно не нужно (pages_missing видит короткую страницу).
         if row.get("series", series) != series or row.get("loc", loc) != loc:
             continue
         out[_norm(row.get("query", ""))] = row

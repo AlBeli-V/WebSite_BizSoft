@@ -121,19 +121,32 @@ jobs:
           pip install --quiet requests
 
       - name: Build report
+        id: build
         if: steps.guard.outputs.build == 'yes'
         env:
           DATE: ${{ steps.guard.outputs.date }}
         run: |
           python3 scripts/seo/snapshot.py "$DATE"
           python3 scripts/seo/quality.py "$DATE"
-          python3 scripts/seo/report_v4.py "$DATE"
+          # Код 2 — не поломка, а блокировка выпуска инвариантами о дате и
+          # причине (docs/rules/report-integrity.md): файла письма нет
+          # намеренно, причины — в <дата>-v4-blocked.json. Прогон идёт
+          # дальше: предпросмотр и blocked.json уходят в seo-data, письмо не
+          # отправляется, уведомление с причинами даёт сторож seo-report-email.
+          rc=0
+          python3 scripts/seo/report_v4.py "$DATE" || rc=$?
+          if [ "$rc" = "2" ]; then
+            echo "blocked=yes" >> "$GITHUB_OUTPUT"
+            echo "::warning::письмо за $DATE заблокировано инвариантами — см. reports/seo/intelligence/$DATE-v4-blocked.json"
+          elif [ "$rc" != "0" ]; then
+            exit "$rc"
+          fi
           python3 scripts/seo/webreport.py "$DATE"
 
       # Гейты прежнего промпта: проверка в браузере, UX lint, качество
       # содержания, скриншоты и тесты. Любой красный — письмо не уходит.
       - name: Quality gates
-        if: steps.guard.outputs.build == 'yes'
+        if: steps.guard.outputs.build == 'yes' && steps.build.outputs.blocked != 'yes'
         env:
           DATE: ${{ steps.guard.outputs.date }}
         run: |
@@ -160,13 +173,22 @@ jobs:
             "reports/seo/intelligence reports/seo/public"
 
       - name: Publish web report
-        if: steps.guard.outputs.build == 'yes'
+        if: steps.guard.outputs.build == 'yes' && steps.build.outputs.blocked != 'yes'
         run: bash scripts/ops/gh_dispatch_wait.sh seo-publish-web.yml --timeout 600
 
       # Одно письмо на дату: маркер last-mailed.txt пишет только почтовый
       # workflow. Ручной dispatch почтового workflow маркер игнорирует
       # (сознательная переотправка), поэтому проверка маркера — здесь.
+      - name: Blocked letter goes to journal, not to the mailbox
+        if: steps.build.outputs.blocked == 'yes'
+        env:
+          DATE: ${{ steps.guard.outputs.date }}
+        run: |
+          reasons=$(python3 -c "import json;print('; '.join(json.load(open('reports/seo/intelligence/$DATE-v4-blocked.json'))['blocking']))")
+          gh issue comment 22 --body "seo-daily-report: письмо за $DATE НЕ ВЫПУЩЕНО — блокирующие инварианты: $reasons. Предпросмотр — reports/seo/intelligence/$DATE-v4.html в seo-data; уведомление руководителю даёт сторож seo-report-email (10:00 МСК). Прогон: $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
+
       - name: Ensure letter is sent
+        if: steps.build.outputs.blocked != 'yes'
         env:
           DATE: ${{ steps.guard.outputs.date }}
         run: |
