@@ -20,6 +20,7 @@ import datetime as dt
 import json
 import pathlib
 
+import passport
 STATS = pathlib.Path("reports/seo/ppc/direct-stats.json")
 
 WEEKLY_LIMIT_RUB = 4098  # 5000 ₽/нед пополнения минус НДС 22%
@@ -80,7 +81,7 @@ def build(date: str, attribution: dict | None = None) -> dict:
     работает как в этапе A (вердикты по кликам и чистоте запросов).
     """
     if not STATS.exists():
-        return {"available": False, "reason": "выгрузки Директа ещё нет"}
+        return passport.unavailable("no_file", source="витрина Директа")
     data = json.loads(STATS.read_text(encoding="utf-8"))
     yesterday = (_campaign_day(date) - dt.timedelta(days=1)).isoformat()
     # Дата данных берётся из витрины, а не из календаря. Выгрузка Директа
@@ -221,6 +222,7 @@ def build(date: str, attribution: dict | None = None) -> dict:
 
     return {
         "available": True,
+        "status": "stale" if stale else "ok",
         "as_of": as_of,
         "expected_as_of": yesterday,
         "stale": stale,

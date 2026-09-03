@@ -277,6 +277,19 @@ python3 scripts/seo/quality.py <дата>
 python3 scripts/seo/report_v4.py <дата>     # графики, письмо, EML, текст + инварианты
 python3 scripts/seo/uxlint_v4.py <дата>
 python3 scripts/seo/invariants.py <дата>    # отдельный прогон при разборе нарушений
+```
+
+Инварианты двух уровней (с 03.09.2026, `docs/ops/report-integrity-audit-2026-09-03.md`,
+раздел 8). Блокирующие — ложь о дате или причине: недоступный блок без кода
+причины из `scripts/seo/passport.py`, данные старше ожидаемых без пометки
+`stale`, сбой источника без пилюли, «следующая проверка» днём письма. При них
+`report_v4.py` возвращает код 2, не пишет `<дата>-v4-email.html` и оставляет
+`<дата>-v4-blocked.json`; воркфлоу отправки шлёт уведомление о сбое с этими
+причинами. Мягкие (форма) — в `<дата>-invariants.json`, письмо уходит.
+Новый блок с состоянием «нет данных» заводится только через
+`passport.unavailable(код, source=…)`.
+
+```
 python3 -m unittest discover -s scripts/seo/tests -t scripts/seo/tests
 ```
 

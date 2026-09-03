@@ -26,6 +26,7 @@ import opportunity as opp_mod    # noqa: E402
 import tiers as tiers_mod        # noqa: E402
 import universe as universe_mod  # noqa: E402
 import vendor_expansion as vx    # noqa: E402
+import passport
 
 OUT = pathlib.Path("reports/seo/wordstat")
 SNAP_DIR = pathlib.Path("reports/seo/intelligence/snapshots")
@@ -108,8 +109,7 @@ def executive_block(state: dict) -> dict:
     uni = state["universe"]
     opps = state["opportunities"]
     if not cov.get("available"):
-        return {"available": False,
-                "reason": "замера спроса нет"}
+        return passport.unavailable("no_rows", source="замер спроса")
 
     levels = cov["levels"]
     lead = opps[0] if opps else None

@@ -14,6 +14,7 @@ Google; по Яндексу разбивка запрос×страница ис
 from __future__ import annotations
 
 import pairs
+import passport
 
 MIN_IMPRESSIONS = 10     # ниже — расщепление неотличимо от шума
 MIN_SHARE = 0.2          # страница «участвует» в запросе с этой доли показов
@@ -29,9 +30,8 @@ VERDICT_LABEL = {
 def build(date_s: str) -> dict:
     data = pairs.load_latest(date_s)
     if not data:
-        return {"available": False,
-                "reason": "данных сенсора пар «запрос × страница» за окно нет",
-                "items": []}
+        return passport.unavailable(
+            "no_file", source="сенсор пар «запрос × страница»", items=[])
     agg = pairs.by_query(data["rows"])
     items = []
     for query, q in agg.items():

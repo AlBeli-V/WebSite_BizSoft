@@ -15,6 +15,7 @@ opportunity_score = commercial_intent × observable_demand × confidence
 
 from __future__ import annotations
 
+import passport
 INTENT_WEIGHT = {"commercial": 1.0, "unknown": 0.5, "informational": 0.3,
                  "navigational": 0.15}
 CONFIDENCE_WEIGHT = {"sufficient": 1.0, "low": 0.6, "very_low": 0.3, "unknown": 0.4}
@@ -133,10 +134,9 @@ def money_radar(snap: dict, limit: int = 15) -> dict:
                 "confidence": e.get("confidence", "unknown"),
             })
     if not items:
-        return {"available": False,
-                "reason": "коммерческих запросов в зоне позиций 4–20 с "
-                          "достаточными показами сейчас нет",
-                "items": []}
+        return passport.unavailable(
+            "no_signal", detail="коммерческих запросов в зоне позиций 4–20 "
+                                "с достаточными показами нет", items=[])
     items.sort(key=lambda i: -(i["impressions"] or 0))
     return {"available": True, "items": items[:limit],
             "considered": len(items),
@@ -182,9 +182,8 @@ def build(snap: dict, decision_date: str | None = None, limit: int = 3) -> dict:
     """
     items = from_market_demand(snap) + from_queries(snap, "yandex") + from_queries(snap, "google")
     if not items:
-        return {"available": False,
-                "reason": "сигналов, достаточных для приоритизации, пока нет",
-                "items": []}
+        return passport.unavailable("no_signal", detail="сигналов для приоритизации",
+                                    items=[])
     items.sort(key=lambda i: -i["score"])
     seen, top = set(), []
     for i in items:
