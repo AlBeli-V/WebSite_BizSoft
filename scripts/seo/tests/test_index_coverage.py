@@ -97,6 +97,17 @@ class TestGoogleInspection(unittest.TestCase):
         self.assertEqual(set(out["pages"]), set(paths))
         self.assertTrue(all(p["inspected_at"] == DATE for p in out["pages"].values()))
 
+    def test_expired_token_is_refreshed_and_request_retried(self):
+        """HTTP 401 — протухший токен, а не квота: обновить и повторить."""
+        out = self.run_inspect(["/a", "/b"], {},
+                               [FakeResponse(401, text="UNAUTHENTICATED"),
+                                inspection("Submitted and indexed"),
+                                inspection("URL is unknown to Google")])
+        self.assertNotIn("error", out)
+        self.assertEqual(out["inspected"], 2)
+        self.assertNotIn("errors", out)
+        self.assertEqual(out["pages"]["/a"]["coverage_state"], "Submitted and indexed")
+
     def test_no_inspection_at_all_is_error(self):
         out = self.run_inspect(["/a"], {}, [FakeResponse(403, text="Forbidden")])
         self.assertIn("error", out)

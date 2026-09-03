@@ -151,6 +151,16 @@ def inspect_google(paths: list[str], prev: dict, date_s: str,
         info, scopes=["https://www.googleapis.com/auth/webmasters.readonly"])
     creds.refresh(Request())
     headers = {"Authorization": f"Bearer {creds.token}"}
+    auth_lock = threading.Lock()
+
+    def refresh_token():
+        # Токен сервисного аккаунта живёт около часа. Первый прогон 03.09.2026
+        # шёл 61 минуту, и последние 239 URL получили HTTP 401 — статус
+        # потерян не из-за квоты, а из-за протухшего токена. Обновляем под
+        # замком: один поток обновляет, остальные ждут и берут новый заголовок.
+        with auth_lock:
+            creds.refresh(Request())
+            headers["Authorization"] = f"Bearer {creds.token}"
 
     result = {"date": date_s, "source": "google_url_inspection",
               "quota_per_run": max_inspect, "pages": {}}
@@ -178,9 +188,13 @@ def inspect_google(paths: list[str], prev: dict, date_s: str,
         # прогон не останавливает.
         if stop.is_set():
             return path, None, None
-        data, err = api_json(INSPECT_URL, headers=headers,
-                             body={"inspectionUrl": BASE_URL + path,
-                                   "siteUrl": site_url})
+        if getattr(creds, "expired", False):
+            refresh_token()
+        body = {"inspectionUrl": BASE_URL + path, "siteUrl": site_url}
+        data, err = api_json(INSPECT_URL, headers=dict(headers), body=body)
+        if err and "HTTP 401" in err:
+            refresh_token()
+            data, err = api_json(INSPECT_URL, headers=dict(headers), body=body)
         if err:
             with lock:
                 errors.append(f"{path}: {err}")
