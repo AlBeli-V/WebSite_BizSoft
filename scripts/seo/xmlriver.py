@@ -12,11 +12,17 @@
 выдача, а не сбой.
 
 Учётные данные — только из окружения: XMLRIVER_USER (user_id) и
-XMLRIVER_KEY. Все параметры запроса (местоположение, устройство, число
-результатов) передаются в URL явно из data/seo/xmlriver.json, чтобы сбор не
+XMLRIVER_KEY. Все параметры запроса (местоположение, страна, язык,
+устройство) передаются в URL явно из data/seo/xmlriver.json, чтобы сбор не
 зависел от «настроек по умолчанию» в кабинете.
 
-Проба: python3 scripts/seo/xmlriver.py probe "купить figma"
+Страница выдачи Google у xmlriver — только 10 позиций («ТОП» в кабинете
+даёт выбрать одно значение, 10; проверено 03.09.2026). Топ-20 — это две
+страницы, параметр page (0 — первая, 1 — вторая), как в Yandex Search API,
+на котором основано API сервиса. Платная галка «Кол-во результатов» число
+позиций не меняет — она покупает точное «найдено N».
+
+Проба: python3 scripts/seo/xmlriver.py probe "купить figma" [page]
        (баланс + РОВНО ОДИН платный запрос; вывод — в issue #22 через
        workflow ops-xmlriver-probe).
 """
@@ -45,6 +51,8 @@ RETRY_SERVICE_CODES = {"500"}
 # Типы блоков, которые считаем органикой. xmlriver помечает блоки узлом
 # contentType (organic, ads, video, …); документ без пометки — органика.
 ORGANIC_TYPES = {"", "organic"}
+# Позиций на одной странице выдачи Google у xmlriver.
+PAGE_SIZE = 10
 RETRIES = 3
 RETRY_PAUSE_S = 3.0
 TIMEOUT_S = 60
@@ -55,9 +63,10 @@ def load_config(path: pathlib.Path = CONFIG_PATH) -> dict:
     умолчанию (Россия, десктоп, топ-20)."""
     defaults = {"enabled": True, "price_rub_per_1000": 25.0,
                 "cadence": "weekly", "weekday": 1,
-                "daily_cap": 600, "monthly_cap": 15000,
-                "core_cap": 500, "top_n": 20,
-                "query": {"loc": 2643, "device": "desktop", "groupby": 20},
+                "daily_cap": 1100, "monthly_cap": 15000,
+                "core_cap": 500, "top_n": 20, "pages": 2,
+                "query": {"loc": 2643, "country": 2643, "lr": "RU",
+                          "device": "desktop"},
                 "balance_warn_days": 14}
     try:
         data = json.loads(path.read_text(encoding="utf-8"))
@@ -76,17 +85,20 @@ def credentials() -> tuple[str, str]:
 
 
 def build_params(user: str, key: str, query: str,
-                 query_cfg: dict | None = None) -> dict:
+                 query_cfg: dict | None = None, page: int = 0) -> dict:
     """Параметры запроса Google: учётные данные + настройки из конфига.
 
     Передаются только заданные настройки: `null` в конфиге означает
-    «действует настройка кабинета» (язык, домен Google).
+    «действует настройка кабинета» (домен Google). Первая страница идёт
+    без page — ровно тот запрос, что проверен пробой.
     """
     params = {"user": user, "key": key, "query": query}
     for k, v in (query_cfg or {}).items():
         if v in (None, ""):
             continue
         params[k] = v
+    if page:
+        params["page"] = page
     return params
 
 
@@ -138,14 +150,15 @@ def parse_google_xml(xml_text: str, top_n: int = 20) -> dict:
 
 
 def search_google(session, user: str, key: str, query: str,
-                  query_cfg: dict | None = None, top_n: int = 20) -> dict:
+                  query_cfg: dict | None = None, top_n: int = 20,
+                  page: int = 0) -> dict:
     """Один запрос Google через xmlriver с повторами на сетевые сбои и 5xx.
 
     Ошибки сервиса кодом 200 (<error>) не повторяются: это вердикт по
     учётным данным, балансу или запросу, а не помеха. Исключение —
     RETRY_SERVICE_CODES, где сервис сам просит перезапрос.
     """
-    params = build_params(user, key, query, query_cfg)
+    params = build_params(user, key, query, query_cfg, page)
     last = ""
     for attempt in range(1, RETRIES + 1):
         try:
@@ -184,7 +197,7 @@ def get_balance(session, user: str, key: str) -> dict:
         return {"error": f"баланс не является числом: {text[:300]}"}
 
 
-def probe(query: str) -> int:
+def probe(query: str, page: int = 0) -> int:
     """Проба: баланс + ровно один платный запрос, вывод для issue #22."""
     user, key = credentials()
     if not user or not key:
@@ -201,11 +214,11 @@ def probe(query: str) -> int:
               f"(≈{bal['balance_rub'] / cfg['price_rub_per_1000'] * 1000:.0f} "
               f"запросов по {cfg['price_rub_per_1000']} ₽/1000)")
     shown = {k: v for k, v in build_params("…", "…", query,
-                                            cfg["query"]).items()
+                                            cfg["query"], page).items()
              if k not in ("user", "key")}
     print(f"Проба Google SERP: {json.dumps(shown, ensure_ascii=False)}")
     res = search_google(session, user, key, query, cfg["query"],
-                        cfg["top_n"])
+                        cfg["top_n"], page)
     if "error" in res:
         print(f"Ошибка: {res['error']}")
         if res.get("raw_head"):
@@ -216,7 +229,8 @@ def probe(query: str) -> int:
           f"Блоки: {json.dumps(res['blocks'], ensure_ascii=False)}. "
           f"Органика топ-{len(res['top'])}:")
     ours = None
-    for i, d in enumerate(res["top"], 1):
+    offset = page * PAGE_SIZE
+    for i, d in enumerate(res["top"], 1 + offset):
         if d["domain"] == "biz-soft.pro" and ours is None:
             ours = i
         print(f"  {i:>2}. {d['domain']:<28} {d['title'][:70]}")
@@ -227,8 +241,13 @@ def probe(query: str) -> int:
 
 def main(argv: list[str]) -> int:
     if len(argv) >= 1 and argv[0] == "probe":
-        return probe(" ".join(argv[1:]).strip() or "купить figma")
-    print("использование: xmlriver.py probe \"запрос\"")
+        rest = argv[1:]
+        page = 0
+        if rest and rest[-1].isdigit():
+            page = int(rest[-1])
+            rest = rest[:-1]
+        return probe(" ".join(rest).strip() or "купить figma", page)
+    print("использование: xmlriver.py probe \"запрос\" [page]")
     return 2
 
 
