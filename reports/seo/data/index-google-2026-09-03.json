@@ -3,16 +3,6 @@
  "source": "google_url_inspection",
  "quota_per_run": 1000,
  "pages": {
-  "/blog/inventarizaciya-it-aktivov-s-chego-nachat": {
-   "coverage_state": "URL is unknown to Google",
-   "verdict": "NEUTRAL",
-   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
-   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
-   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
-   "last_crawl": null,
-   "google_canonical": null,
-   "inspected_at": "2026-09-03"
-  },
   "/blog/elevenlabs-tarify-oplata-dlya-yurlica": {
    "coverage_state": null,
    "inspected_at": null
@@ -85,7 +75,39 @@
    "coverage_state": null,
    "inspected_at": null
   },
+  "/blog/tag/ai": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/blog/tag/bezopasnost": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/blog/tag/buhgalteriya": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/blog/tag/gajd": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/blog/tag/licenzii": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/blog/tag/oformlenie": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/blog/tag/razrabotka": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
   "/blog/tarify-runway-oplata-dlya-yurlica": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/product/hailuo-master": {
    "coverage_state": null,
    "inspected_at": null
   },
@@ -1105,6 +1127,16 @@
   },
   "/blog/enterprise-vs-team-korporativnye-tarify-ai": {
    "coverage_state": "Discovered - currently not indexed",
+   "verdict": "NEUTRAL",
+   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
+   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
+   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
+   "last_crawl": null,
+   "google_canonical": null,
+   "inspected_at": "2026-09-03"
+  },
+  "/blog/inventarizaciya-it-aktivov-s-chego-nachat": {
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -5525,14 +5557,16 @@
   }
  },
  "site_url": "sc-domain:biz-soft.pro",
- "inspected": 1,
+ "inspected": 0,
  "inherited": 0,
- "without_status": 245,
+ "without_status": 253,
  "errors": [
-  "/blog/glpi-manageengine-ili-korobka: HTTP 429: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"Quota exceeded for sc-domain:biz-soft.pro.\",\n    \"status\": \"RESOURCE_EXHAUSTED\"\n  }\n}\n",
   "/blog/kak-kupit-github-copilot-dlya-yurlica: HTTP 429: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"Quota exceeded for sc-domain:biz-soft.pro.\",\n    \"status\": \"RESOURCE_EXHAUSTED\"\n  }\n}\n",
-  "/blog/elevenlabs-tarify-oplata-dlya-yurlica: HTTP 429: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"Quota exceeded for sc-domain:biz-soft.pro.\",\n    \"status\": \"RESOURCE_EXHAUSTED\"\n  }\n}\n",
-  "/blog/gitlab-godovaya-podpiska-iz-rossii-dlya-yurlica: HTTP 429: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"Quota exceeded for sc-domain:biz-soft.pro.\",\n    \"status\": \"RESOURCE_EXHAUSTED\"\n  }\n}\n"
+  "/blog/kak-kupit-perplexity-dlya-yurlica: HTTP 429: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"Quota exceeded for sc-domain:biz-soft.pro.\",\n    \"status\": \"RESOURCE_EXHAUSTED\"\n  }\n}\n",
+  "/blog/glpi-manageengine-ili-korobka: HTTP 429: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"Quota exceeded for sc-domain:biz-soft.pro.\",\n    \"status\": \"RESOURCE_EXHAUSTED\"\n  }\n}\n",
+  "/blog/gitlab-godovaya-podpiska-iz-rossii-dlya-yurlica: HTTP 429: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"Quota exceeded for sc-domain:biz-soft.pro.\",\n    \"status\": \"RESOURCE_EXHAUSTED\"\n  }\n}\n",
+  "/blog/elevenlabs-tarify-oplata-dlya-yurlica: HTTP 429: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"Quota exceeded for sc-domain:biz-soft.pro.\",\n    \"status\": \"RESOURCE_EXHAUSTED\"\n  }\n}\n"
  ],
+ "error": "ни один URL не проинспектирован: /blog/kak-kupit-github-copilot-dlya-yurlica: HTTP 429: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"Quota exceeded for sc-domain:biz-soft.pro.\",\n    \"status\": \"RESOURCE_EXHAUSTED\"\n  }\n}\n",
  "inventory_date": "2026-09-03"
 }
