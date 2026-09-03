@@ -63,15 +63,8 @@ jobs:
       # чтения результатов (Actions job-logs API периодически недоступен интеграциям).
       - name: Post results to perf journal (issue #22)
         if: always()
-        uses: actions/github-script@v7
-        env:
-          OUT: ${{ steps.probe.outputs.stdout }}
+        uses: ./.github/actions/journal-post
         with:
-          script: |
-            const out = (process.env.OUT || '(нет вывода)').slice(0, 60000);
-            await github.rest.issues.createComment({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: 22,
-              body: '### ops-perf · ' + new Date().toISOString() + '\n```\n' + out + '\n```',
-            });
+          title: "ops-perf"
+          outcome: ${{ steps.probe.outcome }}
+          body: ${{ steps.probe.outputs.stdout }}

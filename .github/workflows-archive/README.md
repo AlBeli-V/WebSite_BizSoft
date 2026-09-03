@@ -43,3 +43,11 @@ git mv .github/workflows-archive/<файл>.yml .github/workflows/<файл>.yml
 
 Подробности каждой операции — в шапке-комментарии самого файла и, где
 есть, в соответствующем отчёте под `reports/`.
+
+## Срок годности
+
+У одноразового workflow в шапке стоит `# expires: ГГГГ-ММ-ДД`
+(аудит достоверности отчётов 03.09.2026, `docs/rules/report-integrity.md`).
+Просроченный файл в `.github/workflows/` роняет `pnpm test`
+(`tests/workflows-lint.test.ts`), пока его не перенесут сюда или не продлят
+через PR.

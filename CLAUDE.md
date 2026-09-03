@@ -49,6 +49,14 @@
   `seo-committee-build`, `competitive-intelligence-daily`, `seo-serp-watch`,
   `seo-wordstat`. Статусы `intelligence/actions.json` обновляет PR,
   внедряющий действие. Тишина: при успехе ничего, при сбое — запись в issue #22.
+- **Достоверность отчётов** (`docs/rules/report-integrity.md`). В тексте
+  отчётов, промптов и журнала нет литералов без срока годности (даты,
+  обещания, суммы, квоты) — `test_report_literals`, исключения с
+  `valid_until`. Недоступный блок письма — только `passport.unavailable`;
+  ложь о дате или причине блокирует выпуск. Запись в issue #22 — только
+  `journal-post` с `outcome`; `|| true` вокруг основного скрипта запрещён.
+  Секреты — в `ops/secrets/registry.json`; одноразовые workflow с
+  `# expires:`. Периодные сравнения — только по полным окнам.
 - **Товарные фиды закрыты** (`docs/rules/product-feeds.md`, `docs/yandex-feeds.md`).
   По умолчанию 404 (`X-Feed-Status: disabled`). Включать
   `YANDEX_FEEDS_ENABLED`, добавлять фиды в кабинеты, писать в поддержку

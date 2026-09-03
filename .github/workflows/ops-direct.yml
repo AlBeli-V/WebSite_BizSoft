@@ -183,8 +183,9 @@ jobs:
         if: env.ACTION == 'check'
         id: run_check
         env:
-          T_YANDEX_OAUTH: ${{ secrets.YANDEX_OAUTH }}
-          T_DIRECT_TOKEN: ${{ secrets.DIRECT_TOKEN }}
+          # Пробы дублей YANDEX_OAUTH и DIRECT_TOKEN сняты 03.09.2026: значения
+          # совпадают с основными именами (подтверждение руководителя), а проба
+          # чужого токена против API Директа всегда давала «ДОСТУПА НЕТ».
           T_YANDEX_DIRECT_TOKEN: ${{ secrets.YANDEX_DIRECT_TOKEN }}
           T_WORDSTAT_API_KEY: ${{ secrets.WORDSTAT_API_KEY }}
         run: |
@@ -232,8 +233,6 @@ jobs:
           PYEOF
           }
           echo "Проверка $(date -u +'%Y-%m-%d %H:%M') UTC, только чтение (Clients.get, Campaigns.get):" >> "$OUT"
-          probe YANDEX_OAUTH        "$T_YANDEX_OAUTH"
-          probe DIRECT_TOKEN        "$T_DIRECT_TOKEN"
           probe YANDEX_DIRECT_TOKEN "$T_YANDEX_DIRECT_TOKEN"
           probe WORDSTAT_API_KEY    "$T_WORDSTAT_API_KEY"
           cat "$OUT"

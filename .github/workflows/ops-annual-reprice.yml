@@ -123,13 +123,9 @@ jobs:
             print('APPLIED' if apply else 'DRY-RUN: запись не выполнялась (apply=false)')
             PYEOF
       - name: Post to issue
-        uses: actions/github-script@v7
-        env:
-          RESULT: ${{ steps.run.outputs.stdout }}
-          P_INPUTS: 'skus=${{ inputs.skus }}; multiplier=${{ inputs.multiplier }}; note=${{ inputs.price_note }}; apply=${{ inputs.apply }}'
+        if: always()
+        uses: ./.github/actions/journal-post
         with:
-          script: |
-            await github.rest.issues.createComment({
-              owner: context.repo.owner, repo: context.repo.repo, issue_number: 22,
-              body: '### ops-annual-reprice\n\n`' + process.env.P_INPUTS + '`\n\n```\n' + process.env.RESULT + '\n```',
-            });
+          title: "ops-annual-reprice"
+          outcome: ${{ steps.run.outcome }}
+          body: ${{ steps.run.outputs.stdout }}

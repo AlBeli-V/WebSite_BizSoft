@@ -142,20 +142,8 @@ jobs:
 
       - name: Post results to journal (issue #22)
         if: always()
-        uses: actions/github-script@v7
-        env:
-          OUT: ${{ steps.run.outputs.stdout }}
+        uses: ./.github/actions/journal-post
         with:
-          script: |
-            const out = (process.env.OUT || '(нет вывода)').slice(0, 50000);
-            // Молчим, когда всё в порядке: ежедневный комментарий «расхождений
-            // нет» быстро превращает журнал в шум, который перестают читать.
-            if (out.includes('Расхождений нет.')) {
-              core.info('расхождений нет, комментарий не публикуем');
-              return;
-            }
-            await github.rest.issues.createComment({
-              owner: context.repo.owner, repo: context.repo.repo, issue_number: 22,
-              body: '### ops-zoho-audit · ' + new Date().toISOString()
-                + '\n```\n' + out + '\n```',
-            });
+          title: "ops-zoho-audit"
+          outcome: ${{ steps.run.outcome }}
+          body: ${{ steps.run.outputs.stdout }}

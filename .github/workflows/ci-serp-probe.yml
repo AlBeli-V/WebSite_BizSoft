@@ -48,14 +48,9 @@ jobs:
             echo 'SERP_EOF'
           } >> "$GITHUB_OUTPUT"
       - name: Post to issue
-        uses: actions/github-script@v7
-        env:
-          RESULT: ${{ steps.run.outputs.result }}
+        if: always()
+        uses: ./.github/actions/journal-post
         with:
-          script: |
-            await github.rest.issues.createComment({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: 22,
-              body: '### ci-serp-probe (DataForSEO) · ' + new Date().toISOString() + '\n\n```\n' + process.env.RESULT + '\n```',
-            });
+          title: "ci-serp-probe (DataForSEO)"
+          outcome: ${{ steps.run.outcome }}
+          body: ${{ steps.run.outputs.result }}

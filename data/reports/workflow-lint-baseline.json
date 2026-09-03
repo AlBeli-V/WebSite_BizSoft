@@ -18,14 +18,14 @@
       "R1": 1,
       "R2": 0,
       "R3": 0,
-      "R4": 1,
+      "R4": 0,
       "R5": 0
     },
     "ci-serp-probe.yml": {
       "R1": 1,
       "R2": 0,
       "R3": 0,
-      "R4": 1,
+      "R4": 0,
       "R5": 0
     },
     "competitive-intelligence-mail.yml": {
@@ -40,20 +40,6 @@
       "R2": 0,
       "R3": 1,
       "R4": 0,
-      "R5": 0
-    },
-    "ops-admin-token.yml": {
-      "R1": 0,
-      "R2": 0,
-      "R3": 1,
-      "R4": 0,
-      "R5": 0
-    },
-    "ops-annual-reprice.yml": {
-      "R1": 0,
-      "R2": 0,
-      "R3": 0,
-      "R4": 1,
       "R5": 0
     },
     "ops-apply-descriptions.yml": {
@@ -71,25 +57,18 @@
       "R5": 0
     },
     "ops-billing-check.yml": {
-      "R1": 3,
+      "R1": 1,
       "R2": 0,
       "R3": 0,
-      "R4": 1,
+      "R4": 0,
       "R5": 0
     },
     "ops-bimi-dmarc-check.yml": {
       "R1": 0,
       "R2": 0,
-      "R3": 1,
+      "R3": 0,
       "R4": 0,
       "R5": 1
-    },
-    "ops-categories.yml": {
-      "R1": 0,
-      "R2": 0,
-      "R3": 1,
-      "R4": 0,
-      "R5": 0
     },
     "ops-content-audit.yml": {
       "R1": 0,
@@ -105,17 +84,10 @@
       "R4": 0,
       "R5": 0
     },
-    "ops-crm-cleanup-test.yml": {
-      "R1": 0,
-      "R2": 0,
-      "R3": 1,
-      "R4": 0,
-      "R5": 0
-    },
     "ops-currency-refresh.yml": {
       "R1": 0,
       "R2": 1,
-      "R3": 1,
+      "R3": 0,
       "R4": 0,
       "R5": 1
     },
@@ -140,24 +112,17 @@
       "R4": 0,
       "R5": 2
     },
-    "ops-directus-schema.yml": {
-      "R1": 0,
-      "R2": 0,
-      "R3": 1,
-      "R4": 0,
-      "R5": 0
-    },
     "ops-directus-token-sync.yml": {
       "R1": 1,
       "R2": 0,
-      "R3": 1,
+      "R3": 0,
       "R4": 0,
       "R5": 1
     },
     "ops-disk-cleanup.yml": {
       "R1": 2,
       "R2": 0,
-      "R3": 1,
+      "R3": 0,
       "R4": 0,
       "R5": 0
     },
@@ -182,13 +147,6 @@
       "R4": 0,
       "R5": 0
     },
-    "ops-fetch-fonts.yml": {
-      "R1": 0,
-      "R2": 0,
-      "R3": 1,
-      "R4": 0,
-      "R5": 0
-    },
     "ops-fix-meta.yml": {
       "R1": 0,
       "R2": 0,
@@ -199,22 +157,15 @@
     "ops-form-test.yml": {
       "R1": 0,
       "R2": 0,
-      "R3": 1,
+      "R3": 0,
       "R4": 0,
       "R5": 2
     },
     "ops-import-vendors.yml": {
       "R1": 0,
       "R2": 1,
-      "R3": 1,
-      "R4": 0,
-      "R5": 0
-    },
-    "ops-index-validate.yml": {
-      "R1": 1,
-      "R2": 0,
       "R3": 0,
-      "R4": 1,
+      "R4": 0,
       "R5": 0
     },
     "ops-indexnow.yml": {
@@ -248,35 +199,21 @@
     "ops-nginx-ci-reports.yml": {
       "R1": 1,
       "R2": 0,
-      "R3": 1,
+      "R3": 0,
       "R4": 0,
       "R5": 1
-    },
-    "ops-nginx-ratelimit.yml": {
-      "R1": 0,
-      "R2": 0,
-      "R3": 1,
-      "R4": 0,
-      "R5": 0
     },
     "ops-nginx-reports.yml": {
       "R1": 0,
       "R2": 0,
-      "R3": 1,
+      "R3": 0,
       "R4": 0,
       "R5": 1
-    },
-    "ops-patch-product.yml": {
-      "R1": 0,
-      "R2": 0,
-      "R3": 0,
-      "R4": 1,
-      "R5": 0
     },
     "ops-perf.yml": {
       "R1": 0,
       "R2": 0,
-      "R3": 1,
+      "R3": 0,
       "R4": 0,
       "R5": 2
     },
@@ -298,7 +235,7 @@
       "R1": 0,
       "R2": 0,
       "R3": 0,
-      "R4": 1,
+      "R4": 0,
       "R5": 2
     },
     "ops-quote-test.yml": {
@@ -308,29 +245,8 @@
       "R4": 0,
       "R5": 2
     },
-    "ops-recategorize.yml": {
-      "R1": 0,
-      "R2": 0,
-      "R3": 1,
-      "R4": 0,
-      "R5": 0
-    },
-    "ops-rename-product.yml": {
-      "R1": 0,
-      "R2": 0,
-      "R3": 0,
-      "R4": 1,
-      "R5": 0
-    },
     "ops-sam-demand.yml": {
       "R1": 0,
-      "R2": 0,
-      "R3": 0,
-      "R4": 1,
-      "R5": 0
-    },
-    "ops-schema-check.yml": {
-      "R1": 2,
       "R2": 0,
       "R3": 0,
       "R4": 1,
@@ -343,18 +259,11 @@
       "R4": 1,
       "R5": 0
     },
-    "ops-send-mail.yml": {
-      "R1": 0,
-      "R2": 0,
-      "R3": 1,
-      "R4": 0,
-      "R5": 0
-    },
     "ops-serp-probe.yml": {
       "R1": 1,
       "R2": 0,
       "R3": 0,
-      "R4": 1,
+      "R4": 0,
       "R5": 0
     },
     "ops-server-config.yml": {
@@ -367,14 +276,14 @@
     "ops-server-stats.yml": {
       "R1": 5,
       "R2": 0,
-      "R3": 1,
+      "R3": 0,
       "R4": 0,
       "R5": 0
     },
     "ops-vendors-audit.yml": {
       "R1": 0,
       "R2": 0,
-      "R3": 1,
+      "R3": 0,
       "R4": 0,
       "R5": 1
     },
@@ -382,7 +291,7 @@
       "R1": 1,
       "R2": 0,
       "R3": 0,
-      "R4": 1,
+      "R4": 0,
       "R5": 0
     },
     "ops-yandex-disk-upload.yml": {
@@ -395,14 +304,14 @@
     "ops-yandex-feeds-toggle.yml": {
       "R1": 2,
       "R2": 0,
-      "R3": 1,
+      "R3": 0,
       "R4": 0,
       "R5": 2
     },
     "ops-yandex-feeds.yml": {
       "R1": 0,
       "R2": 0,
-      "R3": 1,
+      "R3": 0,
       "R4": 0,
       "R5": 2
     },
@@ -410,20 +319,6 @@
       "R1": 1,
       "R2": 0,
       "R3": 0,
-      "R4": 0,
-      "R5": 0
-    },
-    "ops-zoho-audit.yml": {
-      "R1": 0,
-      "R2": 0,
-      "R3": 1,
-      "R4": 0,
-      "R5": 0
-    },
-    "ops-zoho-rollback.yml": {
-      "R1": 0,
-      "R2": 0,
-      "R3": 1,
       "R4": 0,
       "R5": 0
     },
