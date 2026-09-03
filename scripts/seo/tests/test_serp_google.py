@@ -120,8 +120,9 @@ class TestBudget(Base):
 
     def test_two_pages_merge_into_one_row_and_two_ledger_lines(self):
         def page_top(page):
-            return [{"domain": f"d{page}-{i}.ru", "url": "https://x/",
-                     "title": ""} for i in range(10)]
+            return [{"domain": f"d{page}-{i}.ru",
+                     "url": f"https://d{page}-{i}.ru/", "title": ""}
+                    for i in range(10)]
         seen = []
 
         def search(session, user, key, q, query_cfg=None, top_n=20, page=0):
@@ -152,6 +153,17 @@ class TestBudget(Base):
         self.assertEqual(len(rows["хвост"]["top"]), 10)
         self.assertIn("500", rows["хвост"]["partial_error"])
         self.assertNotIn("error", rows["хвост"])
+
+    def test_duplicate_second_page_is_not_glued(self):
+        """xmlriver игнорирует page: та же выдача не должна удваивать топ."""
+        same = [{"domain": f"d{i}.ru", "url": f"https://d{i}.ru/", "title": ""}
+                for i in range(10)]
+        res = self.sg.merge_pages(
+            [{"found": 100, "top": same, "blocks": {"organic": 10}},
+             {"found": 100, "top": same, "blocks": {"organic": 10}}], 20)
+        self.assertEqual(len(res["top"]), 10)
+        self.assertEqual(res["duplicates_dropped"], 10)
+        self.assertEqual(res["pages_fetched"], 2)
 
     def test_second_page_not_fetched_after_first_page_error_or_short(self):
         seen = []

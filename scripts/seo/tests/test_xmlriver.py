@@ -128,7 +128,9 @@ class TestParams(unittest.TestCase):
         self.assertTrue(cfg["query"].get("loc"))
         # groupby сервис принимает только 10 — топ-20 берётся страницами
         self.assertNotIn("groupby", cfg["query"])
-        self.assertEqual(cfg["pages"], 2)
+        # page сервис игнорирует (проба 03.09.2026) — страницы выключены,
+        # пока поддержка xmlriver не подтвердит способ получить 11–20
+        self.assertEqual(cfg["pages"], 1)
         self.assertGreaterEqual(cfg["daily_cap"], cfg["core_cap"] * cfg["pages"])
         # учётные данные в конфиг не кладут — только секреты
         for k in cfg:

@@ -8,10 +8,12 @@
 Что считается:
   * карточки доменов и наша доля взвешенной видимости — той же CTR-кривой и
     тем же классификатором, что для Яндекса (registry.build с engine="google");
-  * покрытие и возраст среза — Google собирается раз в неделю, и блок честно
-    говорит, за какую дату он;
+  * покрытие, возраст и глубина среза — Google собирается раз в неделю, и
+    блок честно говорит, за какую дату он и сколько позиций в нём есть
+    (xmlriver отдаёт 10: параметр page сервис игнорирует, проверено
+    03.09.2026);
   * разрыв с Яндексом по одному ядру: запросы, где Яндекс держит нас в
-    топ-10, а Google не показывает в топ-20, и наоборот. Это главный
+    топ-10, а в собранной выдаче Google нас нет, и наоборот. Это главный
     управленческий вопрос по Google — страница релевантна (Яндекс её
     ранжирует), значит дело в индексации, авторитете или конкурентоспособности
     страницы именно там;
@@ -37,6 +39,14 @@ OURS = "biz-soft.pro"
 YANDEX_REGION = "213"
 MAX_GAP_ITEMS = 40
 MAX_ATTACKS = 10
+MAX_OUR_QUERIES = 20
+
+
+def depth_of(rows) -> int:
+    """Глубина собранной выдачи: 10 или 20 позиций по самой длинной строке.
+    xmlriver отдаёт 10 (page игнорирует); при включении страниц станет 20."""
+    longest = max((len(r.top) for r in rows if r.has_data), default=0)
+    return 20 if longest > 10 else 10
 
 
 def geo(config: dict) -> dict:
@@ -64,7 +74,8 @@ def cross_engine_gap(google_rows, yandex_rows, region: str) -> dict:
     """Разрыв присутствия в топе между системами по общим запросам.
 
     Сравнивается присутствие, а не позиции: системы разные, и «5-е место в
-    Яндексе против 12-го в Google» ничего не измеряет.
+    Яндексе против 12-го в Google» ничего не измеряет. «В Google нет» —
+    нет в собранной выдаче (её глубина — поле «глубина_google»).
     """
     g = {query_set.normalize(r.query): r for r in google_rows
          if r.has_data and r.region == region}
@@ -94,12 +105,15 @@ def cross_engine_gap(google_rows, yandex_rows, region: str) -> dict:
     return {
         "сопоставлено": len(common),
         "в_обеих_топ10": both,
-        "яндекс_топ10_google_вне_топ20": ya_only[:MAX_GAP_ITEMS],
-        "яндекс_топ10_google_вне_топ20_всего": len(ya_only),
-        "google_топ10_яндекс_вне_топ20": g_only[:MAX_GAP_ITEMS],
-        "google_топ10_яндекс_вне_топ20_всего": len(g_only),
+        "глубина_google": depth_of(google_rows),
+        "глубина_яндекс": depth_of(yandex_rows),
+        "яндекс_топ10_google_нет": ya_only[:MAX_GAP_ITEMS],
+        "яндекс_топ10_google_нет_всего": len(ya_only),
+        "google_топ10_яндекс_нет": g_only[:MAX_GAP_ITEMS],
+        "google_топ10_яндекс_нет_всего": len(g_only),
         "_пояснение": ("запросы одного ядра, измеренные в обеих системах; "
-                       "сравнивается присутствие в топе, не позиции"),
+                       "сравнивается присутствие в собранной выдаче, не "
+                       "позиции; «нет» — нет в выдаче своей глубины"),
     }
 
 
@@ -132,7 +146,11 @@ def build_block(date: str, google_date: str | None, google_rows,
     # сравнимая доля по пересечению ядер считалась и здесь.
     from discovery import run_discovery
     per_query = run_discovery.per_query_visibility(rows, config, region=region)
-    top20 = sum(1 for v in per_query.values() if v.get("позиция"))
+    depth = depth_of(rows)
+    our_queries = sorted(
+        ({"запрос": q, "позиция": v["позиция"]}
+         for q, v in per_query.items() if v.get("позиция")),
+        key=lambda item: item["позиция"])
 
     age = (dt.date.fromisoformat(date) - dt.date.fromisoformat(google_date)).days
     attacks = attacks or []
@@ -141,6 +159,7 @@ def build_block(date: str, google_date: str | None, google_rows,
         **g,
         "дата_среза": google_date,
         "возраст_дней": age,
+        "глубина": depth,
         "покрытие": {
             "запросов_всего": len(rows),
             "запросов_с_данными": len(usable),
@@ -152,15 +171,17 @@ def build_block(date: str, google_date: str | None, google_rows,
             "доля_видимости": ours.share,
             "топ3": ours.top3,
             "топ10": ours.top10,
-            "топ20": top20,
+            "в_выдаче": len(our_queries),
+            "лучшая_позиция": ours.best_position,
             "запросов_в_поле": len(usable),
         } if ours else {
             "взвешенная_видимость": 0.0, "доля_видимости": 0.0,
-            "топ3": 0, "топ10": 0, "топ20": 0,
+            "топ3": 0, "топ10": 0, "в_выдаче": 0, "лучшая_позиция": None,
             "запросов_в_поле": len(usable),
             "_пояснение": "домен не найден ни в одной выдаче среза: это "
                           "измеренный ноль, а не отсутствие данных",
         }),
+        "наши_запросы": our_queries[:MAX_OUR_QUERIES],
         "по_запросам": per_query,
         "доли_по_категориям": by_category,
         "конкурентов_в_основном_рейтинге": len(main),
@@ -183,8 +204,10 @@ def build_block(date: str, google_date: str | None, google_rows,
         },
         "_правило_сравнимости": (
             "серия google_ru начинается с первого среза; сводной цифры с "
-            "Яндексом и динамики нет до накопления базовой линии; позиции "
-            "Яндекса и Google не сравниваются как равноточные"),
+            "Яндексом и динамики нет до накопления базовой линии; доли "
+            "считаются внутри Google-поля глубиной «глубина» позиций и с "
+            "Яндексом не складываются; позиции двух систем не сравниваются "
+            "как равноточные"),
     }
 
 

@@ -125,7 +125,8 @@ def _kpi_cards(snapshot: dict, previous: dict | None, attacks: list[dict]) -> st
     google = kpi_mod.google_block(snapshot)
     g_ours = (google or {}).get("наши_показатели") or {}
     if google:
-        g_note = f"Россия (xmlriver), срез {google.get('дата_среза')}"
+        g_note = (f"Россия (xmlriver), топ-{google.get('глубина', 10)}, "
+                  f"срез {google.get('дата_среза')}")
         measure_g = kpi_mod.build_kpi(snapshot, previous) if previous else None
         if measure_g and measure_g.google_delta_pp is not None:
             number = f"{measure_g.google_delta_pp:+.2f}".replace(".", ",")
@@ -165,12 +166,15 @@ def _google_block(snapshot: dict) -> str:
             f'<p class="lead">Первая настоящая российская выдача Google в контуре: '
             f'{esc(cov.get("запросов_с_данными"))} запросов ядра с данными '
             f'(ошибок {esc(cov.get("ошибок"))}), возраст среза '
-            f'{esc(google.get("возраст_дней"))} дн. Наша доля взвешенной видимости '
-            f'<b>{pct(ours.get("доля_видимости"))}</b>, ТОП-3 по '
-            f'{esc(ours.get("топ3"))}, ТОП-10 по {esc(ours.get("топ10"))}, ТОП-20 по '
-            f'{esc(ours.get("топ20"))} запросам. Срез тот же, что читает ежедневный '
-            f'SEO-отчёт; повторно не покупается. Серия google_ru только началась — '
-            f'динамики и сводной цифры с Яндексом нет до накопления базовой линии.</p>')
+            f'{esc(google.get("возраст_дней"))} дн., глубина выдачи '
+            f'{esc(google.get("глубина", 10))} позиций (глубже xmlriver не отдаёт). '
+            f'Наша доля взвешенной видимости <b>{pct(ours.get("доля_видимости"))}</b>, '
+            f'ТОП-3 по {esc(ours.get("топ3"))}, ТОП-10 по {esc(ours.get("топ10"))}, '
+            f'лучшая позиция {esc(ours.get("лучшая_позиция"))}. Срез тот же, что '
+            f'читает ежедневный SEO-отчёт; повторно не покупается. Доли считаются '
+            f'внутри Google-поля и с Яндексом не складываются. Серия google_ru '
+            f'только началась — динамики и сводной цифры с Яндексом нет до '
+            f'накопления базовой линии.</p>')
     rows = "".join(
         f'<tr><td>{esc(d["домен"])}</td><td>{esc(d.get("категория"))}</td>'
         f'<td class="num">{pct(d.get("доля"))}</td><td class="num">{esc(d.get("топ3"))}</td>'
@@ -180,19 +184,22 @@ def _google_block(snapshot: dict) -> str:
                     f'{rows}</table></div>' if leaders else
                     '<div class="note">В основном рейтинге Google пока никого: все '
                     'домены выдачи вне конкурентных категорий.</div>')
-    ya_only = gap.get("яндекс_топ10_google_вне_топ20") or []
-    g_only = gap.get("google_топ10_яндекс_вне_топ20") or []
+    ya_only = gap.get("яндекс_топ10_google_нет") or []
+    g_only = gap.get("google_топ10_яндекс_нет") or []
     gap_html = (f'<h4>Разрыв с Яндексом по общему ядру</h4>'
                 f'<p class="lead">Сопоставлено {esc(gap.get("сопоставлено"))} запросов, '
                 f'измеренных в обеих системах: в топ-10 обеих — '
-                f'<b>{esc(gap.get("в_обеих_топ10"))}</b>; Яндекс топ-10, Google вне '
-                f'топ-20 — <b>{esc(gap.get("яндекс_топ10_google_вне_топ20_всего"))}</b>; '
-                f'Google топ-10, Яндекс вне топ-20 — '
-                f'<b>{esc(gap.get("google_топ10_яндекс_вне_топ20_всего"))}</b>. '
+                f'<b>{esc(gap.get("в_обеих_топ10"))}</b>; Яндекс топ-10, в Google нет '
+                f'— <b>{esc(gap.get("яндекс_топ10_google_нет_всего"))}</b>; '
+                f'Google топ-10, в Яндексе нет — '
+                f'<b>{esc(gap.get("google_топ10_яндекс_нет_всего"))}</b>. «Нет» — '
+                f'нет в собранной выдаче своей глубины (Google '
+                f'{esc(gap.get("глубина_google", 10))}, Яндекс '
+                f'{esc(gap.get("глубина_яндекс", 20))}). '
                 'Первая группа — главный вопрос по Google: страница релевантна '
                 '(Яндекс её ранжирует), значит дело в индексации, авторитете домена '
                 'или конкурентоспособности страницы именно в Google. Сравнивается '
-                'присутствие в топе, не позиции.</p>')
+                'присутствие в выдаче, не позиции.</p>')
     if ya_only:
         gap_html += ('<div class="scroll"><table><tr><th>Запрос</th><th>Яндекс</th>'
                      '<th>Кто в топ-3 Google</th></tr>' + "".join(
@@ -201,7 +208,7 @@ def _google_block(snapshot: dict) -> str:
                          f'<td class="q">{esc(", ".join(d for d in i["google_топ3"] if d))}</td></tr>'
                          for i in ya_only[:25]) + '</table></div>')
     if g_only:
-        gap_html += ('<details><summary>Google топ-10, Яндекс вне топ-20 — '
+        gap_html += ('<details><summary>Google топ-10, в Яндексе нет — '
                      f'{len(g_only)} запросов</summary><div class="scroll"><table>'
                      '<tr><th>Запрос</th><th>Google</th><th>Кто в топ-3 Яндекса</th></tr>'
                      + "".join(
@@ -807,7 +814,9 @@ Wordstat, а где её нет — показы Яндекс.Вебмастер
 xmlriver (местоположение Россия), еженедельный срез того же базового контура,
 читается только на чтение и повторно не покупается; серия google_ru ведётся с
 первого среза 09.2026, прежней Google-серии нет. Позиции Яндекса и Google не
-сравниваются как равноточные — сравнивается присутствие в топе.</p></details>
+сравниваются как равноточные — сравнивается присутствие в выдаче; глубина
+Google-среза — 10 позиций (глубже xmlriver не отдаёт), доли считаются внутри
+своего поля и не складываются.</p></details>
 <details><summary>Чего этот отчёт пока не делает</summary>
 <p class="q">Не оценивает уязвимость конкретных страниц конкурентов (нужен
 краулинг — Phase 4), не измеряет выручку по запросам (нужна привязка к

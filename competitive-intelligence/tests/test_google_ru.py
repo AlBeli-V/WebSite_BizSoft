@@ -66,7 +66,12 @@ class TestBlock(unittest.TestCase):
         ours = block["наши_показатели"]
         self.assertGreater(ours["доля_видимости"], 0)
         self.assertLess(ours["доля_видимости"], 1)
-        self.assertEqual((ours["топ3"], ours["топ10"], ours["топ20"]), (2, 2, 2))
+        self.assertEqual((ours["топ3"], ours["топ10"], ours["в_выдаче"]), (2, 2, 2))
+        self.assertEqual(ours["лучшая_позиция"], 1)
+        self.assertEqual(block["глубина"], 10)
+        self.assertEqual(block["наши_запросы"],
+                         [{"запрос": "наоборот", "позиция": 1},
+                          {"запрос": "zoom для юрлиц", "позиция": 3}])
         self.assertEqual(ours["запросов_в_поле"], 3)
         self.assertIn("купить figma", block["по_запросам"])
         self.assertIsNone(block["по_запросам"]["купить figma"]["позиция"])
@@ -78,13 +83,13 @@ class TestBlock(unittest.TestCase):
         gap = block["разрыв_с_яндексом"]
         self.assertEqual(gap["сопоставлено"], 3)
         self.assertEqual(gap["в_обеих_топ10"], 1)
-        ya = gap["яндекс_топ10_google_вне_топ20"]
+        ya = gap["яндекс_топ10_google_нет"]
         self.assertEqual([i["запрос"] for i in ya], ["купить figma"])
         self.assertEqual(ya[0]["позиция_яндекс"], 1)
         self.assertEqual(ya[0]["google_топ3"], ["softline.ru", "allsoft.ru", "syssoft.ru"])
-        g = gap["google_топ10_яндекс_вне_топ20"]
+        g = gap["google_топ10_яндекс_нет"]
         self.assertEqual([i["запрос"] for i in g], ["наоборот"])
-        self.assertEqual(gap["яндекс_топ10_google_вне_топ20_всего"], 1)
+        self.assertEqual(gap["яндекс_топ10_google_нет_всего"], 1)
 
     def test_наш_домен_отсутствует_везде_это_измеренный_ноль(self):
         rows = [grow("q", "a.ru", "b.ru")]
@@ -140,21 +145,24 @@ def snapshot_with_google(g_date, per_query, share, previous_yandex=None):
             "название": "Россия", "регион": "2643", "дата_среза": g_date,
             "возраст_дней": 1,
             "покрытие": {"запросов_всего": 2, "запросов_с_данными": 2, "ошибок": 0},
+            "глубина": 10,
             "наши_показатели": {"доля_видимости": share, "топ3": 1, "топ10": 1,
-                                "топ20": 2, "запросов_в_поле": 2,
+                                "в_выдаче": 2, "лучшая_позиция": 1,
+                                "запросов_в_поле": 2,
                                 "взвешенная_видимость": 0.2},
+            "наши_запросы": [{"запрос": "zoom", "позиция": 1}],
             "по_запросам": per_query,
             "доли_по_категориям": {},
             "лидеры": [{"домен": "softline.ru", "категория": "A", "доля": 0.3,
                         "топ3": 1, "топ10": 2}],
             "конкурентов_в_основном_рейтинге": 1,
             "разрыв_с_яндексом": {"сопоставлено": 2, "в_обеих_топ10": 1,
-                                  "яндекс_топ10_google_вне_топ20": [
+                                  "яндекс_топ10_google_нет": [
                                       {"запрос": "купить figma", "позиция_яндекс": 2,
                                        "google_топ3": ["softline.ru"]}],
-                                  "яндекс_топ10_google_вне_топ20_всего": 1,
-                                  "google_топ10_яндекс_вне_топ20": [],
-                                  "google_топ10_яндекс_вне_топ20_всего": 0},
+                                  "яндекс_топ10_google_нет_всего": 1,
+                                  "google_топ10_яндекс_нет": [],
+                                  "google_топ10_яндекс_нет_всего": 0},
             "точки_атаки": {"всего": 1, "первые": [
                 {"запрос": "zoom", "наша_позиция": 5, "соперник": "softline.ru",
                  "позиция_соперника": 2, "вид": "сделка", "opportunity": 40}]},
@@ -183,9 +191,12 @@ class TestEmailAndReport(unittest.TestCase):
         txt = build_email.render_txt(meta, snapshot=snap)
         self.assertIn("срез 2026-09-07", txt)
         html = build_email.render_html(meta, kpi=kpi, snapshot=snap)
-        self.assertIn("Google, Россия", html)
+        self.assertIn("Google по России", html)
         self.assertIn("softline.ru", html)
+        self.assertIn("biz-soft.pro (мы)", html)
         self.assertIn("Где Google нас не показывает", html)
+        self.assertIn("GOOGLE ПО РОССИИ", txt)
+        self.assertIn("глубина 10", html)
         self.assertNotIn("еженедельный сбор не запущен", html)
         self.assertIn("срез 2026-09-07", html)
 

@@ -211,12 +211,13 @@ def cross_engine_gap(date_s: str, yandex_region: str = "213",
     """Разрыв между системами по одному ядру запросов.
 
     Три множества по запросам, измеренным в обеих выдачах:
-      - «яндекс_топ10_google_вне_топ20» — Яндекс держит нас в топ-10, Google
-        не показывает в топ-20: страница есть и релевантна (Яндекс её
+      - yandex_top10_google_absent — Яндекс держит нас в топ-10, Google
+        не показывает в собранной выдаче (глубина у xmlriver — 10 позиций,
+        поле google_depth): страница есть и релевантна (Яндекс её
         ранжирует), значит вопрос к Google — индексация, авторитет или
         конкурентоспособность страницы именно там;
-      - «google_топ10_яндекс_вне_топ20» — обратное;
-      - «в_обеих_топ10» — счётчик, где всё в порядке.
+      - google_top10_yandex_absent — обратное;
+      - both_top10 — счётчик, где всё в порядке.
     Позиции берутся как есть, без усреднения; сравнивать их как равноточные
     нельзя (разные системы), сравнивается только присутствие в топе.
     """
@@ -255,15 +256,18 @@ def cross_engine_gap(date_s: str, yandex_region: str = "213",
             })
     ya_only.sort(key=lambda i: i["yandex_position"])
     g_only.sort(key=lambda i: i["google_position"])
+    g_depth = max((len(r.get("top") or []) for r in gmap.values()), default=0)
     return {
         "available": True,
         "as_of_yandex": yx["date"],
         "as_of_google": g["date"],
+        "google_depth": 20 if g_depth > 10 else 10,
         "queries_compared": len(common),
         "both_top10": both,
         "yandex_top10_google_absent": ya_only,
         "google_top10_yandex_absent": g_only,
         "note": ("запросы одного ядра, измеренные в обеих системах: Яндекс "
-                 "(Москва) и Google (Россия, xmlriver). Сравнивается "
-                 "присутствие в топе, а не позиции: системы разные"),
+                 "(Москва, топ-20) и Google (Россия, xmlriver, глубина "
+                 f"{20 if g_depth > 10 else 10}). Сравнивается присутствие в "
+                 "собранной выдаче, а не позиции: системы разные"),
     }

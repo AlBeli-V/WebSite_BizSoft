@@ -551,22 +551,23 @@ def _gap_section(gap: dict) -> str:
     head = (f"<p>Сопоставлено {gap['queries_compared']} запросов ядра "
             f"(Яндекс от {ru_date(gap['as_of_yandex'])}, Google от "
             f"{ru_date(gap['as_of_google'])}). В топ-10 обеих систем — "
-            f"<b>{gap['both_top10']}</b>; Яндекс топ-10, Google вне топ-20 — "
-            f"<b>{len(ya_only)}</b>; Google топ-10, Яндекс вне топ-20 — "
-            f"<b>{len(g_only)}</b>.</p>"
+            f"<b>{gap['both_top10']}</b>; Яндекс топ-10, в Google нет — "
+            f"<b>{len(ya_only)}</b>; Google топ-10, в Яндексе нет — "
+            f"<b>{len(g_only)}</b> («нет» — нет в собранной выдаче: Google "
+            f"глубиной {gap.get('google_depth', 10)}, Яндекс — 20).</p>"
             f"<p class='muted desc'>{gap.get('note', '')}. Первая группа — "
             f"главный вопрос по Google: страница релевантна (Яндекс её "
             f"ранжирует), значит дело в индексации, авторитете домена или "
             f"конкурентоспособности страницы именно в Google.</p>")
     body = ""
     if ya_only:
-        body += "<h3>Яндекс топ-10, Google не показывает</h3>" + table(
+        body += "<h3>Яндекс топ-10, в Google нет</h3>" + table(
             ["Запрос", "Позиция в Яндексе", "Кто в топ-3 Google"],
             [[f"<b>{i['query']}</b>", str(i["yandex_position"]),
               ", ".join(d for d in i["google_top3"] if d)]
              for i in ya_only[:25]])
     if g_only:
-        body += "<h3>Google топ-10, Яндекс не показывает</h3>" + table(
+        body += "<h3>Google топ-10, в Яндексе нет</h3>" + table(
             ["Запрос", "Позиция в Google", "Кто в топ-3 Яндекса"],
             [[f"<b>{i['query']}</b>", str(i["google_position"]),
               ", ".join(d for d in i["yandex_top3"] if d)]
@@ -946,9 +947,9 @@ def build_html(b: dict, snap: dict, dq: dict, date: str) -> str:
          "crit": 2 if (gap.get("available")
                        and gap.get("yandex_top10_google_absent")) else 0,
          "desc": "Запросы одного ядра, измеренные в обеих системах: где "
-                 "Яндекс держит нас в топ-10, а Google не показывает вовсе, "
-                 "и наоборот. Разделяет проблему индексации, авторитета и "
-                 "релевантности страницы для Google.",
+                 "Яндекс держит нас в топ-10, а в собранной выдаче Google "
+                 "(глубина 10) нас нет, и наоборот. Разделяет проблему "
+                 "индексации, авторитета и релевантности страницы для Google.",
          "html": _gap_section(gap)},
         {"id": "lifecycle", "title": "Жизненный цикл страниц (Google)",
          "crit": 2 if (lc.get("counts") or {}).get("declining")
@@ -1194,9 +1195,10 @@ def build_markdown(b: dict, snap: dict, dq: dict, date: str) -> str:
         ya_only = gap["yandex_top10_google_absent"]
         L += ["## Разрыв Яндекс ↔ Google по ядру запросов", "",
               f"Сопоставлено {gap['queries_compared']} запросов: в топ-10 "
-              f"обеих систем {gap['both_top10']}; Яндекс топ-10, Google вне "
-              f"топ-20 — {len(ya_only)}; Google топ-10, Яндекс вне топ-20 — "
-              f"{len(gap['google_top10_yandex_absent'])}.", ""]
+              f"обеих систем {gap['both_top10']}; Яндекс топ-10, в Google "
+              f"нет — {len(ya_only)}; Google топ-10, в Яндексе нет — "
+              f"{len(gap['google_top10_yandex_absent'])} (глубина Google "
+              f"{gap.get('google_depth', 10)}).", ""]
         if ya_only:
             L += ["| Запрос | Позиция в Яндексе | Топ-3 Google |", "|---|---|---|"]
             for i in ya_only[:15]:
