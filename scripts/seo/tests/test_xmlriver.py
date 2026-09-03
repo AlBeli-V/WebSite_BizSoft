@@ -181,6 +181,20 @@ class TestHttp(unittest.TestCase):
         self.assertIn("после 4 попыток", out["error"])
         self.assertIn("code=500", out["error"])
 
+    def test_empty_body_is_retried(self):
+        """Пустое тело при HTTP 200 — помеха, а не вердикт (пересбор 03.09)."""
+        calls = []
+
+        class S:
+            def get(self, url, params=None, timeout=None):
+                calls.append(1)
+                if len(calls) == 1:
+                    return mocks.FakeResponse(200, text="")
+                return mocks.FakeResponse(200, text=SERP_XML)
+        out = self.x.search_google(S(), "u", "k", "q")
+        self.assertEqual(len(calls), 2)
+        self.assertEqual(len(out["top"]), 2)
+
     def test_4xx_not_retried(self):
         calls = []
 
