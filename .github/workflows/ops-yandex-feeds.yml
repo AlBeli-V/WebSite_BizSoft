@@ -69,7 +69,7 @@ jobs:
                 *) echo "❌ Content-Type вне списка, который принимает Яндекс"; FAIL=1;;
               esac
               BODY=/tmp/feed.xml
-              curl -sS --max-time 120 -o "$BODY" "$URL"
+              curl -sSf --max-time 120 -o "$BODY" "$URL"
               if xmllint --noout "$BODY" 2>/tmp/xmlerr; then
                 echo "XML: валиден"
               else

@@ -73,7 +73,7 @@ jobs:
               [ "$CODE" = "200" ] && break
               sleep 5
             done
-            CAT=$(curl -s --max-time 20 http://127.0.0.1:3000/catalog | grep -c 'data-goal' || true)
+            CAT=$(curl -sf --max-time 20 http://127.0.0.1:3000/catalog | grep -c 'data-goal' || true)
             echo "маркеров каталога на /catalog: $CAT"
 
       - name: Post results to journal (issue #22)

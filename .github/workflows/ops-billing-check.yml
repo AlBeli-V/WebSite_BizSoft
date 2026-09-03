@@ -45,7 +45,7 @@ jobs:
           exit $rc
       - name: Push data
         if: always()
-        run: bash scripts/seo/data_sync.sh push "Проверка биллинга $(date -u +%FT%TZ)" || true
+        run: bash scripts/seo/data_sync.sh push "Проверка биллинга $(date -u +%FT%TZ)"
       - name: Post to issue
         if: always()
         uses: ./.github/actions/journal-post

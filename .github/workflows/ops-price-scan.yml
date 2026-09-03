@@ -24,6 +24,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Render and extract
+        id: run
         env:
           URLS: ${{ inputs.urls }}
           KEYWORDS: ${{ inputs.keywords }}
@@ -64,16 +65,17 @@ jobs:
             } > "out/report-$i.txt"
             echo "$u" > "out/url-$i.txt"
           done
+      - name: Save to file
+        if: always()
+        run: |
+          : > /tmp/price-scan.txt
+          for f in $(ls out/report-*.txt 2>/dev/null | sort); do
+            cat "$f" >> /tmp/price-scan.txt; echo >> /tmp/price-scan.txt
+          done
       - name: Post to issue
-        uses: actions/github-script@v7
+        if: always()
+        uses: ./.github/actions/journal-post
         with:
-          script: |
-            const fs = require('fs');
-            const files = fs.readdirSync('out').filter((f) => f.startsWith('report-')).sort();
-            for (const f of files) {
-              const body = fs.readFileSync(`out/${f}`, 'utf8').slice(0, 55000);
-              await github.rest.issues.createComment({
-                owner: context.repo.owner, repo: context.repo.repo, issue_number: 22,
-                body: `### ops-price-scan\n\n\`\`\`\n${body}\n\`\`\``,
-              });
-            }
+          title: "ops-price-scan"
+          outcome: ${{ steps.run.outcome }}
+          body-file: /tmp/price-scan.txt

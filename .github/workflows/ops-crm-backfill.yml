@@ -100,15 +100,8 @@ jobs:
             rm -f /tmp/crm-backfill.json /tmp/crm-backfill.py
       - name: Post to issue
         if: always()
-        uses: actions/github-script@v7
-        env:
-          OUT: ${{ steps.run.outputs.stdout }}
-          MODE: ${{ inputs.apply }}
+        uses: ./.github/actions/journal-post
         with:
-          script: |
-            const out = (process.env.OUT || '(пустой вывод)').slice(0, 55000);
-            const mode = process.env.MODE === 'true' ? 'перенос' : 'сухой прогон';
-            await github.rest.issues.createComment({
-              owner: context.repo.owner, repo: context.repo.repo, issue_number: 22,
-              body: `### ops-crm-backfill (${mode})\n\n\`\`\`\n${out}\n\`\`\``,
-            });
+          title: "ops-crm-backfill (${{ inputs.apply == 'true' && 'перенос' || 'сухой прогон' }})"
+          outcome: ${{ steps.run.outcome }}
+          body: ${{ steps.run.outputs.stdout }}

@@ -66,7 +66,7 @@ jobs:
               CODE=$(curl -s -o /dev/null -w '%{http_code}' --max-time 30 "https://biz-soft.pro/$p")
               DIS=$(curl -sI --max-time 30 "https://biz-soft.pro/$p" | grep -i '^x-feed-status:' | tr -d '\r' || true)
               if [ "$CODE" = "200" ]; then
-                OFFERS=$(curl -s --max-time 60 "https://biz-soft.pro/$p" | grep -c '<offer ' || true)
+                OFFERS=$(curl -sf --max-time 60 "https://biz-soft.pro/$p" | grep -c '<offer ' || true)
                 echo "  /$p → HTTP $CODE, ОТКРЫТ, офферов: $OFFERS"
               else
                 echo "  /$p → HTTP $CODE ${DIS:+($DIS)}"

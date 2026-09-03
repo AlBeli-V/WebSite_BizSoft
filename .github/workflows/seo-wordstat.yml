@@ -81,6 +81,7 @@ jobs:
         run: pip install --quiet requests
 
       - name: Run research
+        id: research
         env:
           WORDSTAT_API_KEY: ${{ secrets.WORDSTAT_API_KEY }}
           # Пуш кода проверяет план, но не тратит квоту: платный прогон запускается
@@ -125,7 +126,11 @@ jobs:
             momentum)  python3 scripts/seo/wordstat/momentum.py ;;
             regions)   python3 scripts/seo/wordstat/region_demand.py ;;
           esac
-          python3 scripts/seo/wordstat/report.py || true
+          # Сбой отчёта не прячется: данные прогона всё равно уходят в push
+          # (шаг ниже), а прогон краснеет последним шагом.
+          rc=0
+          python3 scripts/seo/wordstat/report.py || rc=$?
+          echo "report_rc=$rc" >> "$GITHUB_OUTPUT"
 
       # Momentum спроса (механика №19, «зелёный свет» 30.08.2026): помесячная
       # динамика коммерческого ядра, еженедельно по понедельникам.
@@ -134,6 +139,7 @@ jobs:
       # конкретному слоту не работает — 31.08 планировщик GitHub ночной слот
       # просто не запустил, и понедельничный замер пропал бы целиком.
       - name: Demand momentum (weekly, Mon)
+        id: momentum
         if: github.event_name == 'schedule'
         env:
           WORDSTAT_API_KEY: ${{ secrets.WORDSTAT_API_KEY }}
@@ -143,12 +149,13 @@ jobs:
           elif [ -f "reports/seo/wordstat/momentum-$(TZ='Europe/Moscow' date +%F).json" ]; then
             echo "momentum за сегодня уже собран"
           else
-            python3 scripts/seo/wordstat/momentum.py || true
+            python3 scripts/seo/wordstat/momentum.py || echo "momentum_rc=$?" >> "$GITHUB_OUTPUT"
           fi
 
       # Региональная карта спроса: 1-го числа, ≤50 фраз × 0,05 ₽ ≈ 2,5 ₽.
       # Та же идемпотентность по файлу месяца.
       - name: Regional demand (monthly, 1st)
+        id: regions
         if: github.event_name == 'schedule'
         env:
           WORDSTAT_API_KEY: ${{ secrets.WORDSTAT_API_KEY }}
@@ -158,9 +165,17 @@ jobs:
           elif [ -f "reports/seo/wordstat/region-demand-$(TZ='Europe/Moscow' date +%Y-%m).json" ]; then
             echo "регионы за месяц уже собраны"
           else
-            python3 scripts/seo/wordstat/region_demand.py || true
+            python3 scripts/seo/wordstat/region_demand.py || echo "regions_rc=$?" >> "$GITHUB_OUTPUT"
           fi
 
       - name: Push results
         run: |
           bash scripts/seo/data_sync.sh push "Wordstat Intelligence: прогон $(date -u +%F' '%H:%M)" "reports/seo/wordstat"
+
+      # Данные уже в хранилище; теперь честный статус прогона: любой из
+      # шагов отчёта, momentum или регионов, вернувший ошибку, красит прогон.
+      - name: Fail if a report step failed
+        if: steps.research.outputs.report_rc != '0' || steps.momentum.outputs.momentum_rc != '' || steps.regions.outputs.regions_rc != ''
+        run: |
+          echo "::error::report_rc=${{ steps.research.outputs.report_rc }} momentum_rc=${{ steps.momentum.outputs.momentum_rc }} regions_rc=${{ steps.regions.outputs.regions_rc }}"
+          exit 1

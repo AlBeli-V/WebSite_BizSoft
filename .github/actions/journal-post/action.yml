@@ -15,6 +15,11 @@
 #       title: "ops-currency-refresh"          # без «###», без времени
 #       outcome: ${{ steps.run.outcome }}      # success | failure | cancelled | skipped
 #       body: ${{ steps.run.outputs.stdout }}  # вывод; пусто — «(нет вывода)»
+#
+# Длинный вывод (больше лимита env-переменной процесса) передаётся файлом:
+#       body-file: /tmp/ops-audit.txt
+# Текст длиннее одного комментария режется по строкам на части
+# «(i/N)». format: code (по умолчанию, в ``` ```) или markdown (как есть).
 name: journal-post
 description: Комментарий в журнал-issue с маркером статуса прогона
 
@@ -29,6 +34,14 @@ inputs:
     description: Текст записи (обычно stdout основного шага)
     required: false
     default: ""
+  body-file:
+    description: Файл с текстом записи (вместо body, для длинного вывода)
+    required: false
+    default: ""
+  format:
+    description: code — в блоке ```; markdown — как есть
+    required: false
+    default: "code"
   issue:
     description: Номер журнал-issue
     required: false
@@ -46,20 +59,43 @@ runs:
         JP_TITLE: ${{ inputs.title }}
         JP_OUTCOME: ${{ inputs.outcome }}
         JP_BODY: ${{ inputs.body }}
+        JP_BODY_FILE: ${{ inputs['body-file'] }}
+        JP_FORMAT: ${{ inputs.format }}
         JP_ISSUE: ${{ inputs.issue }}
         JP_FAIL: ${{ inputs['fail-on-error'] }}
       with:
         script: |
+          const fs = require('fs');
           const outcome = process.env.JP_OUTCOME || 'unknown';
           const mark = outcome === 'success' ? '✓' : '✗';
-          const body = (process.env.JP_BODY || '(нет вывода)').slice(0, 60000);
+          let text = process.env.JP_BODY || '';
+          if (process.env.JP_BODY_FILE) {
+            try { text = fs.readFileSync(process.env.JP_BODY_FILE, 'utf8'); }
+            catch (e) { text = `(файл вывода не прочитан: ${e.message})`; }
+          }
+          text = text.trim() || '(нет вывода)';
           const note = outcome === 'success' ? '' :
             `\nСтатус основного шага: **${outcome}** — вывод ниже может быть неполным.\n`;
-          await github.rest.issues.createComment({
-            owner: context.repo.owner, repo: context.repo.repo,
-            issue_number: Number(process.env.JP_ISSUE),
-            body: `### ${process.env.JP_TITLE} ${mark} · ${new Date().toISOString()}\n${note}\n\`\`\`\n${body}\n\`\`\``,
-          });
+          // Лимит комментария GitHub — 65536 символов; режем по строкам.
+          const LIMIT = 55000;
+          const parts = [];
+          let cur = '';
+          for (const line of text.split('\n')) {
+            if (cur.length + line.length + 1 > LIMIT && cur) { parts.push(cur); cur = ''; }
+            cur += line + '\n';
+          }
+          if (cur) parts.push(cur);
+          const stamp = new Date().toISOString();
+          for (let i = 0; i < parts.length; i++) {
+            const suffix = parts.length > 1 ? ` (${i + 1}/${parts.length})` : '';
+            const content = process.env.JP_FORMAT === 'markdown'
+              ? parts[i] : '```\n' + parts[i] + '```';
+            await github.rest.issues.createComment({
+              owner: context.repo.owner, repo: context.repo.repo,
+              issue_number: Number(process.env.JP_ISSUE),
+              body: `### ${process.env.JP_TITLE} ${mark}${suffix} · ${stamp}\n${i === 0 ? note : ''}\n${content}`,
+            });
+          }
           if (outcome !== 'success' && process.env.JP_FAIL === 'true') {
             core.setFailed(`Основной шаг завершился со статусом ${outcome} — подробности в issue #${process.env.JP_ISSUE}`);
           }

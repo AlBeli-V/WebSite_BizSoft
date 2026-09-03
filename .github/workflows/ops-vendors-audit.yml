@@ -30,7 +30,7 @@ jobs:
           capture_stdout: true
           script: |
             set -e
-            curl -s https://biz-soft.pro/vendors -o /tmp/vendors-audit.html
+            curl -sf https://biz-soft.pro/vendors -o /tmp/vendors-audit.html
             python3 - <<'PY'
             import re
             html = open('/tmp/vendors-audit.html', encoding='utf-8').read()

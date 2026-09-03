@@ -24,11 +24,11 @@ const dir = resolve(root, '.github/workflows');
 const baselinePath = resolve(root, 'data/reports/workflow-lint-baseline.json');
 
 export const RULES: Record<string, string> = {
-  R1: '`|| true` — сбой скрипта не влияет на статус прогона',
+  R1: '`|| true` после вызова скрипта или push — сбой не влияет на статус прогона',
   R2: '`exit 0` после «не найден/не задан» — отсутствие секрета выглядит успехом',
   R3: 'шаг журнала с `if: always()` не смотрит на `steps.*.outcome` — упавший шаг публикуется как штатный',
   R4: 'шаг журнала без `if: always()` — при падении в журнал не попадает ничего',
-  R5: '`curl` без проверки кода ответа (`-f`/`--fail`/`http_code`)',
+  R5: '`curl` за телом ответа без проверки кода (`-f`/`--fail`/`http_code`); запросы заголовков (-I/-D -) не считаются',
 };
 
 type Counts = Record<string, number>;
@@ -59,8 +59,11 @@ export function lint(text: string): Counts {
 
   lines.forEach((line, index) => {
     if (isComment(line)) return;
-    if (/\|\|\s*true\b/.test(line)) counts.R1 += 1;
-    if (/curl\s/.test(line) && !/(\s-f\b|--fail|-sf\b|-fsS|-fS|http_code|-w\s)/.test(line)) {
+    // Маскировка — это `|| true` после вызова скрипта, инструмента или push.
+    // Диагностика вида `grep -c … || true`, `docker system df || true`,
+    // `cp … || true` статус не подменяет: там нечего маскировать.
+    if (/(python3|node|bash|pnpm|npx|gh|git push|git pull|data_sync\.sh|docker compose (exec|up|run))\b[^|\n]*\|\|\s*true\b/.test(line)) counts.R1 += 1;
+    if (/curl\s/.test(line) && !/(\s-f\b|--fail|-sf\b|-fsS|-fS|-sSf|http_code|-w\s|\s-s?S?I\b|-D\s-)/.test(line)) {
       counts.R5 += 1;
     }
     if (/не найден|не задан|NOT FOUND|отсутству/i.test(line)) {
