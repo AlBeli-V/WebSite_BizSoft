@@ -126,6 +126,27 @@ vegas-suite-perp и три подписочные карточки ManageEngine 
 `/vendors/sketchup` — при спросе 131 944 показа в месяц это первый кандидат
 на доработку лендинга.
 
+Сделано (PR группы F, 03.09.2026):
+
+- разделы `collaboration`, `design`, `monitoring` — блок `content` в
+  `data/catalog/categories.json` (seo_text «Как выбрать», свои `faqs`,
+  `meta_title`, `meta_description`); переносит `ops-categories`
+  (`apply=false` → `apply=true`), витрина выводит seo_text под списком
+  товаров (`src/lib/text-blocks.ts`), а не вместо лида;
+- `/catalog/ai/image` — `guide`, `faq`, `metaTitle`, `metaDescription` в
+  `src/data/ai-hub.ts`, шаблон `[sub].astro` их рендерит;
+- решения — поле `sections` («Как выбрать») в `src/data/solutions.ts`,
+  `ai-dlya-marketinga` переписана целиком, `ai-servisy-dlya-biznesa`
+  дополнена; связанные разделы ведут на основные адреса, а не на слитые
+  дубли с 301;
+- `/vendors/sketchup` — контент приведён к прайсу: сравнение и сценарии по
+  Go / Pro / Pro Scan / Pro Civil Contractor (Studio из прайса снят
+  19.08.2026, а лендинг всё ещё сравнивал с ним), FAQ 9 вопросов, включая
+  бесплатную и образовательную версии.
+
+После мержа: деплой → `ops-categories` → переобход семи URL
+(`ops-yandex-recrawl`) → контроль статуса через сенсор покрытия.
+
 ### G. Уже сняты с витрины — действий нет
 
 ai-image-business, corporate-chat-team, dscrpt-hobbyist, mj-basic,
