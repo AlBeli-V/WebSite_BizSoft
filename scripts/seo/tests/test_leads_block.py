@@ -163,6 +163,22 @@ class TestBuild(unittest.TestCase):
         self.assertEqual(block["count"], 0)
         self.assertIn("не поступило", leads.summary_line(block))
 
+    def test_stale_export_is_named_not_called_full(self):
+        """Выгрузка старше письма: сутки покрыты не полностью, и блок это говорит.
+
+        Аудит 03.09.2026: карточка писала «0 заявок · полный подсчёт» по
+        выгрузке, снятой в 06:20 отчётных суток.
+        """
+        block = leads.mark_stale(leads.build(raw(), DATE), "2026-09-01")
+        self.assertTrue(block["stale"])
+        line = leads.summary_line(block)
+        self.assertIn("выгрузке от 01.09", line)
+        self.assertIn("не полностью", line)
+        self.assertIn("не поступило", line)
+        self.assertIn("подсчёт за сутки неполный", block["note"])
+        # Свежий блок пометки не получает.
+        self.assertNotIn("stale", leads.build(raw(), DATE))
+
     def test_no_export_says_so(self):
         block = leads.build(None, DATE)
         self.assertFalse(block["available"])

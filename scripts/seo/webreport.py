@@ -82,12 +82,15 @@ def _ads_section(ads: dict) -> str:
     руководителя (этап B — классификация и внесение через API).
     """
     if not ads.get("available"):
-        return ("<p class='muted'>Выгрузки Директа ещё нет: блок появится после "
-                "первого сбора статистики кампании.</p>")
-    head = (f"<p class='lede'>Кампания <b>{ads['campaign']}</b>, данные за "
+        return "<p class='muted'>Выгрузки Директа нет.</p>"
+    head = (f"<p class='lede'>Кампания <b>{ads.get('campaign') or 'Директа'}</b>, данные за "
             f"{ru_date(ads['as_of'])}: за день {ads['day_spend']:.0f} ₽, "
-            f"с запуска {ads['week']['spent']:.0f} из {num(ads['week']['limit'])} ₽ "
-            f"недельного лимита. {ads.get('note', '')}</p>")
+            f"за 7 дней {ads['week']['spent']:.0f} из {num(ads['week']['limit'])} ₽ "
+            f"недельного лимита, с запуска {ads['since_launch']['spent']:.0f} ₽ "
+            f"({ads['since_launch']['days']} дн.)."
+            + (f" Выгрузка отстаёт: ожидались данные за {ru_date(ads['expected_as_of'])}."
+               if ads.get('stale') else "")
+            + f" {ads.get('note', '')}</p>")
     rows = []
     for r in ads["rows"]:
         label, cls = ADS_TONE[r["verdict"]["tone"]]
@@ -205,11 +208,11 @@ def _p(v, digits=2) -> str:
 def _demand_section() -> str:
     """Покрытие спроса и разрывы: полные таблицы живут здесь, не в письме."""
     if not DEMAND_STATE.exists():
-        return "<p class='muted'>Исследование спроса ещё не выполнялось.</p>"
+        return "<p class='muted'>Результатов исследования спроса нет.</p>"
     st = json.loads(DEMAND_STATE.read_text(encoding="utf-8"))
     cov, uni = st["coverage"], st["universe"]
     if not cov.get("available"):
-        return "<p class='muted'>Спрос ещё не измерен.</p>"
+        return "<p class='muted'>Спрос не измерен.</p>"
     meaning = {"page": "есть релевантная страница",
                "indexed": "страница участвует в поиске",
                "top10": "мы на первой странице выдачи",
@@ -365,8 +368,7 @@ def _toc(sections: list[dict]) -> str:
 def _loop_section(lh: dict) -> str:
     """Работа конвейера: каждый контур подтверждён артефактом с датой."""
     if not lh.get("available"):
-        return ("<p class='muted'>Реестр исполнения контуров ещё не собран: "
-                "он появляется после первого прогона письма с loop-health.</p>")
+        return "<p class='muted'>Реестра исполнения контуров нет (loop-health).</p>"
     rows = []
     for r in lh.get("contours", []):
         state = ("<span class='chip critical'>просрочен</span>" if r["overdue"]
@@ -513,7 +515,7 @@ def _serp_section(sp: dict) -> str:
             f"запросов ядра. Мы в топ-10 по <b>{sp['ours_in_top10']}</b>; "
             f"слабых выдач (лёгкая точка входа) — <b>{sp['weak_serps']}</b>."
             + (f" Сравнение с {ru_date(sp['prev_date'])}." if sp.get("prev_date")
-               else " Первый срез — сравнение появится со следующего.")
+               else " Предыдущего среза нет — сравнения нет.")
             + "</p>")
     doms = table(["Домен", "Появлений в топ-10", "Кто это"],
                  [[d["domain"], str(d["hits"]),
@@ -660,7 +662,8 @@ def build_html(b: dict, snap: dict, dq: dict, date: str) -> str:
     opp = table(
         ["Кластер", "Доказательство", "Потенциал", "Достоверность", "Действие", "Решение к"],
         [[o["cluster"], o["evidence"], o["potential"], o["confidence"],
-          o["recommended_action"], ru_date_full(o["decision_date"])]
+          o["recommended_action"],
+          ru_date_full(o["decision_date"]) if o.get("decision_date") else "срок не назначен"]
          for o in b["opportunities"]["items"]])
 
     charts = "".join(
@@ -1134,7 +1137,8 @@ def build_markdown(b: dict, snap: dict, dq: dict, date: str) -> str:
           "|---|---|---|---|---|"]
     for o in b["opportunities"]["items"]:
         L.append(f"| {o['cluster']} | {o['evidence']} | {o['potential']} | "
-                 f"{o['recommended_action']} | {ru_date_full(o['decision_date'])} |")
+                 f"{o['recommended_action']} | "
+                 f"{ru_date_full(o['decision_date']) if o.get('decision_date') else 'срок не назначен'} |")
     L.append("")
 
     mr = opp_mod.money_radar(snap)

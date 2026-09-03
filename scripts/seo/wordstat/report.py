@@ -109,7 +109,7 @@ def executive_block(state: dict) -> dict:
     opps = state["opportunities"]
     if not cov.get("available"):
         return {"available": False,
-                "reason": "замер спроса ещё не собран"}
+                "reason": "замера спроса нет"}
 
     levels = cov["levels"]
     lead = opps[0] if opps else None
@@ -128,7 +128,7 @@ def executive_block(state: dict) -> dict:
     if uncovered_demand:
         lines.append(
             f"Без страницы остаётся {spaced(uncovered_demand)} запросов в месяц — "
-            "это направления, где спрос есть, а нас в выдаче нет.")
+            "это направления, где спрос есть, а своей страницы нет.")
     ua_line = unattributed_line(state)
     if ua_line:
         lines.append(ua_line)

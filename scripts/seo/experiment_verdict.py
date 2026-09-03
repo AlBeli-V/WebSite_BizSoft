@@ -88,8 +88,8 @@ def _evaluate_ctr(exp: dict, date: str) -> dict:
     if not win["experiment"]:
         res["clean_window_eta"] = win["clean_experiment_eta"]
         res["verdict_reason"] = (
-            "окно источника ещё не очистилось от периода до внедрения; "
-            f"чистое окно ожидается к {win['clean_experiment_eta'] or '—'}")
+            "окно источника захватывает период до внедрения; "
+            f"чистое окно — с {win['clean_experiment_eta'] or '—'}")
         res["recommendation_detail"] = (
             f"продлить наблюдение до {win['clean_experiment_eta'] or 'следующей вехи'}")
         return res
@@ -314,8 +314,8 @@ def _evaluate_impressions_growth(exp: dict, date: str) -> dict:
     win = st.pick_windows(start, today)
     if not win["experiment"]:
         res["verdict_reason"] = (
-            "окно источника ещё не очистилось от периода до внедрения; "
-            f"чистое окно ожидается к {win['clean_experiment_eta'] or '—'}")
+            "окно источника захватывает период до внедрения; "
+            f"чистое окно — с {win['clean_experiment_eta'] or '—'}")
         res["recommendation_detail"] = (
             f"продлить наблюдение до {win['clean_experiment_eta'] or 'следующей вехи'}")
         return res

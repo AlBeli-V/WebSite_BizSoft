@@ -55,7 +55,7 @@ jobs:
                              **({'Authorization': f'Bearer {token}'} if token else {})})
                 return json.load(urllib.request.urlopen(r))
             if not os.path.exists(SRC):
-                print('файл не найден:', SRC); print('деплой ещё не разложил тексты на сервер'); raise SystemExit(1)
+                print('файл не найден:', SRC); print('файла на сервере нет: деплой его не разложил'); raise SystemExit(1)
             mtime = datetime.datetime.utcfromtimestamp(os.path.getmtime(SRC)).isoformat()
             payload = json.load(open(SRC, encoding='utf-8'))
             texts = payload.get('products', payload)

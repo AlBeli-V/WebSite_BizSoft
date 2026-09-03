@@ -57,7 +57,7 @@ jobs:
               CTYPE=$(echo "$HDRS" | grep -i '^content-type:' | tr -d '\r')
               echo "HTTP $CODE; $CTYPE"
               if echo "$HDRS" | grep -qi '^x-feed-status: disabled'; then
-                echo "⏸ фид подготовлен, но ЗАКРЫТ (решение руководителя 29.08.2026)."
+                echo "⏸ фид подготовлен, но ЗАКРЫТ: открытие — только по команде руководителя (docs/yandex-feeds.md)."
                 echo "Открытие: YANDEX_FEEDS_ENABLED на проде — только по команде руководителя."
                 echo; continue
               fi

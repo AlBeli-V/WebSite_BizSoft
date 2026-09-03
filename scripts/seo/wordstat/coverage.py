@@ -111,7 +111,13 @@ def clusters_of(uni) -> dict[str, dict]:
         c = out.setdefault(cluster, {
             "cluster": cluster, "phrases": 0, "commercial_phrases": 0,
             "demand": 0, "commercial_demand": 0, "url": None, "page_exists": False,
-            "indexed": False, "best_position": None, "impressions": 0, "clicks": 0,
+            # Индексация трёхзначна: True — есть наблюдение (показы в
+            # Вебмастере или страница в выборке GSC), None — наблюдения нет.
+            # False здесь не выставляется: ни один из источников не отдаёт
+            # факта «не в индексе», и отсутствие в выборке топ-100 запросов
+            # таким фактом не является (аудит 03.09.2026: 29 кластеров были
+            # объявлены неиндексируемыми по отсутствию наблюдения).
+            "indexed": None, "best_position": None, "impressions": 0, "clicks": 0,
             "top_phrases": [], "vendor": row.get("vendor"),
             "category": row.get("category"), "subclusters": {},
         })
@@ -202,7 +208,7 @@ def demand_coverage(clusters: dict[str, dict], conversion_clusters: set[str]) ->
             "qualified_leads": None,
         },
         "note": "Доли считаются по сумме частотностей коммерческих фраз кластера. "
-                "Уровень «обращения» появится после подключения CRM.",
+                "Уровень «обращения» не измеряется.",
     }
 
 
@@ -236,6 +242,8 @@ GAP_ACTIONS = {
     "GAP-F": ("Спрос большой, органика будет долгой", "исследование платного канала"),
     "GAP-G": ("Спрос растёт", "ранняя возможность"),
     "GAP-H": ("Спрос снижается", "снизить приоритет, наблюдать"),
+    "GAP-N": ("Страница есть, в поиске не наблюдалась",
+              "проверить индексацию и позицию — замер, а не вывод"),
 }
 
 
@@ -245,10 +253,14 @@ def classify_gap(c: dict, trend: str, conversion_clusters: set[str]) -> str:
         return "GAP-H"
     if not c["page_exists"]:
         return "GAP-G" if trend == "growing" else "GAP-A"
-    if not c["indexed"]:
-        return "GAP-B"
+    if c["indexed"] is False:
+        return "GAP-B"          # только по доказанному факту неиндексации
     pos = c["best_position"]
-    if pos is None or pos > TOP_POSITION:
+    if c["indexed"] is None or pos is None:
+        # Наблюдения нет: ни показов, ни позиции. Это задача на замер, а не
+        # вывод «не индексируется» или «вне топ-100».
+        return "GAP-N"
+    if pos > TOP_POSITION:
         return "GAP-F" if c["commercial_demand"] >= 5000 else "GAP-C"
     if c["impressions"] and (c["ctr"] or 0) < WEAK_CTR:
         return "GAP-D"

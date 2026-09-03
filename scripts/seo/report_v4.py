@@ -399,7 +399,7 @@ def kpi_cards(snap: dict, prev: dict | None, dq: dict) -> list[dict]:
             {"key": "traffic", "label": "Органический трафик",
              "value": num(m.get("organic_visits")), "unit": "визитов",
              "delta": None, "delta_dir": "flat", "relative": None,
-             "relative_note": "сравнение с предыдущим периодом появится после накопления серии",
+             "relative_note": "сравнения с предыдущим периодом нет: дневная серия не покрывает оба окна",
              "period": f"{ru_date(m['source']['current_period_start'])}–"
                        f"{ru_date(m['source']['current_period_end'])}",
              "source": "Яндекс.Метрика, весь сайт",
@@ -433,7 +433,10 @@ def kpi_cards(snap: dict, prev: dict | None, dq: dict) -> list[dict]:
                       "delta": None, "delta_dir": "flat", "relative": None,
                       "relative_note": "", "period": ru_date(day) if day else "",
                       "source": "воронка сайта (Directus)",
-                      "confidence": "полный подсчёт, малые числа",
+                      "confidence": (f"выгрузка от {ru_date(block['data_date'])}, "
+                                     "сутки покрыты не полностью"
+                                     if block.get("stale")
+                                     else "полный подсчёт, малые числа"),
                       # Разбор по каналам — в блоке «Заявки за сутки»; повторять
                       # его в карточке значит дважды сказать одно и то же в
                       # письме, где объём ограничен.
@@ -501,11 +504,10 @@ def _commercial_interpretation(m: dict, goals_lagging: bool,
     нечитаема (клик по телефону и автоцель «поиск по сайту» в одной цифре).
     """
     base = "Действия посетителей из поиска по целям Метрики"
-    tail = ("; это не подтверждённые обращения — подтверждение появится "
-            "после связки с заявками (этап B)")
+    tail = "; это не подтверждённые обращения — с заявками воронки не сверяется"
     if goals_lagging:
-        return (f"{base}. Конверсионные цели заведены в счётчике только что "
-                f"и в этот замер ещё не попали: первые сопоставимые числа — "
+        return (f"{base}. Конверсионные цели заведены в счётчике позже начала "
+                f"окна и в этот замер не попали: первые сопоставимые числа — "
                 f"со следующего сбора{tail}.")
     if goals_missing:
         return (f"{base}. Сайт отправляет "
@@ -520,8 +522,8 @@ def _commercial_interpretation(m: dict, goals_lagging: bool,
         return (f"{base}. Состав: {top}"
                 + (f" и ещё {more}" if more > 0 else "") + tail + ".")
     return (f"{base}: сумма по всем целям вперемешку — от клика по телефону "
-            f"до автоцели «поиск по сайту»; разбивка появится со следующего "
-            f"сбора данных{tail}.")
+            f"до автоцели «поиск по сайту»; разбивки по целям в этом снимке "
+            f"нет{tail}.")
 
 
 def _dir(delta) -> str:
@@ -700,6 +702,31 @@ def web_url(date: str) -> tuple[str, bool]:
     return f"{REPO}/tree/{BRANCH}/reports/seo/public/daily/{date}", False
 
 
+def ads_headline(ads: dict, currency: str = "₽") -> str:
+    """Шапка блока рекламы: день, неделя и «с запуска» — три разных числа.
+
+    Прежде расход за всё время кампании печатался «из недельного лимита»;
+    с восьмого дня фраза теряла смысл. Дата данных — из витрины: если
+    выгрузка отстала, письмо говорит об этом, а не считает день пустым.
+    """
+    name = ads.get("campaign") or "Кампания Директа"
+    line = (f"{name}, данные за {ru_date(ads['as_of'])}: за день "
+            f"{ads['day_spend']:.0f} {currency}, за 7 дней "
+            f"{ads['week']['spent']:.0f} из {num(ads['week']['limit'])} {currency} "
+            f"недельного лимита, с запуска {ads['since_launch']['spent']:.0f} {currency} "
+            f"({ads['since_launch']['days']} дн.).")
+    if ads.get("stale"):
+        line += (f" Выгрузка отстаёт: ожидались данные за "
+                 f"{ru_date(ads['expected_as_of'])}.")
+    return line
+
+
+def decision_label(o: dict) -> str:
+    """«Решение к дате», если срок назначен; иначе — без выдуманной даты."""
+    return (f"решение к {ru_date(o['decision_date'])}" if o.get("decision_date")
+            else "решение за вами, срок не назначен")
+
+
 def assemble(snap, prev, dq, actions_cfg, site_check):
     date = snap["report_date"]
     health = dq["data_health"]
@@ -709,7 +736,7 @@ def assemble(snap, prev, dq, actions_cfg, site_check):
     dec = drivers_mod.build(snap, prev)
     exps = exp_mod.build(snap, date, site_check)
     board = execution_board(actions_cfg, date)
-    opps = opp_mod.build(snap, "2026-08-26")
+    opps = opp_mod.build(snap)
     red = [a for a in actions_cfg["actions"] if a["zone"] == "RED"
            and a.get("status") == "awaiting_decision"]
     # Вердикт эксперимента в контрольную дату (задание 30.08.2026): если движок
@@ -981,7 +1008,7 @@ def _exp_interim_line(e: dict) -> tuple[str, str | None]:
     if not i:
         eta = ((e.get("evaluation") or {}).get("windows") or {}).get(
             "clean_experiment_eta")
-        return ("сравнение появится после первой выгрузки Вебмастера с окном "
+        return ("сравнения нет: у источника нет выгрузки с окном "
                 "после внедрения"
                 + (f" (ожидается к {ru_date(eta)})" if eta else ""), None)
     b, c = i["baseline"], i["current"]
@@ -1070,7 +1097,7 @@ def _management_actions(exps: list, opps: dict, demand_block: dict,
             "steps": steps,
             "acceptance": ("по каждому запросу появились переходы (CTR > 0) в "
                            "течение 14 дней при позиции не хуже исходной ±1"),
-            "from_you": "команда «делай сниппеты» — подготовлю PR в тот же день",
+            "from_you": "команда «делай сниппеты» — правки уходят в PR",
         })
 
     # 3. Ассортимент: кандидаты в каталог (отклонённые руководителем скрыты).
@@ -1207,7 +1234,7 @@ def _exp_short_line(o: dict) -> str:
     kind = o.get("evaluation_kind", "ctr")
     imp = o.get("impressions_since_deploy")
     review = (f"проверка {ru_date(o['next_review'])}" if o.get("next_review")
-              else "вехи пройдены, ждёт вердикта")
+              else "вехи пройдены, вердикт не вынесен")
     if kind == "launch":
         m = ((o.get("evaluation") or {}).get("metrics") or {}).get("launch")
         if m:
@@ -1564,10 +1591,7 @@ def html_email(b: dict, charts: dict, cid_mode: bool) -> str:
         rows.append(_section(
             "Реклама — Яндекс.Директ",
             f"<div style=\"font-size:15px;line-height:1.6;\">"
-            f"{ads['campaign']}, за {ru_date(ads['as_of'])}: "
-            f"{ads['day_spend']:.0f} ₽ за день, с запуска "
-            f"{ads['week']['spent']:.0f} из {num(ads['week']['limit'])} ₽ "
-            f"недельного лимита.</div>"
+            f"{ads_headline(ads)}</div>"
             f"<div style=\"padding-top:{SP['s']}px;\">{ad_rows}</div>{dec_html}",
             ads.get("note", "")))
 
@@ -1691,7 +1715,7 @@ def html_email(b: dict, charts: dict, cid_mode: bool) -> str:
             f"<div style=\"font-size:14.5px;padding-top:{SP['xs']}px;line-height:1.55;\">"
             f"Что делаем: {o['recommended_action']}</div>"
             f"<div data-meta=\"1\" style=\"font-size:12.5px;color:{T['text_secondary']};"
-            f"padding-top:2px;\">решение к {ru_date(o['decision_date'])} · "
+            f"padding-top:2px;\">{decision_label(o)} · "
             f"достоверность: {o['confidence']}</div></div>"
             for o in b["opportunities"]["items"])
         rows.append(_section("Где ближе всего рост", items))
@@ -1938,11 +1962,7 @@ def plain_text(b: dict) -> str:
             L.append(f"  {lb['note']}")
     ads = b.get("ads") or {}
     if ads.get("available"):
-        L += ["", "РЕКЛАМА — ЯНДЕКС.ДИРЕКТ",
-              f"Кампания {ads['campaign']}, данные за {ru_date(ads['as_of'])}: "
-              f"за день {ads['day_spend']:.0f} р., с запуска "
-              f"{ads['week']['spent']:.0f} из {num(ads['week']['limit'])} р. "
-              f"недельного лимита."]
+        L += ["", "РЕКЛАМА — ЯНДЕКС.ДИРЕКТ", ads_headline(ads, currency="р.")]
         tone_word = {"grey": "[серый]", "ok": "[зелёный]",
                      "warn": "[жёлтый]", "bad": "[красный]"}
         for r in ads["rows"]:
@@ -2022,7 +2042,7 @@ def plain_text(b: dict) -> str:
             L.append(f"- {o['cluster']}: {o['evidence']}")
             L.append(f"  потенциал: {o['potential']}")
             L.append(f"  что делаем: {o['recommended_action']} "
-                     f"(решение к {ru_date(o['decision_date'])})")
+                     f"({decision_label(o)})")
     vr = b.get("vendor_radar") or {}
     if vr.get("available"):
         L += ["", "ИНТЕРЕС К ВЕНДОРАМ В ПОИСКЕ"]
@@ -2139,7 +2159,7 @@ PAYMENT_LABEL = {
     "sales_only": "покупка только через отдел продаж",
     "unknown": "способ оплаты не определён",
     "unreachable": "сайт вендора не открылся при проверке",
-    "not_checked": "оплата ещё не проверялась",
+    "not_checked": "оплата не проверена",
 }
 
 
@@ -2150,7 +2170,7 @@ def load_demand() -> dict:
     он идёт отдельным блоком аналитики и не смешивается с суточными показателями.
     """
     if not DEMAND_STATE.exists():
-        return {"available": False, "reason": "исследование спроса ещё не выполнялось"}
+        return {"available": False, "reason": "результатов исследования спроса нет"}
     state = json.loads(DEMAND_STATE.read_text(encoding="utf-8"))
     block = state.get("executive_block") or {"available": False,
                                              "reason": "нет сводки исследования"}

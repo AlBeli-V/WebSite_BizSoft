@@ -303,8 +303,7 @@ def build(raw: dict | None, date: str) -> dict:
     if not raw or not raw.get("leads_available", True):
         return {"available": False,
                 "reason": (raw or {}).get("reason")
-                or "выгрузка заявок не выполнялась — блок появится после "
-                   "первого прогона ops-leads-collect"}
+                or "выгрузки заявок нет (ops-leads-collect)"}
 
     day = _day_bounds(date)
     week_start = (dt.date.fromisoformat(day) - dt.timedelta(days=SUMMARY_DAYS - 1)).isoformat()
@@ -371,16 +370,43 @@ def _note(metrika: dict, unresolved: int, day_count: int) -> str:
     return base
 
 
+def mark_stale(block: dict, data_date: str) -> dict:
+    """Выгрузка старше даты письма: сутки покрыты не полностью.
+
+    Снимок знал об этом (`crm.stale`), а письмо печатало «полный подсчёт»
+    по выгрузке, снятой до конца отчётных суток (аудит 03.09.2026). Пометка
+    ставится в самом блоке, чтобы каждый потребитель — карточка, сводка,
+    текстовая версия — видел её без отдельного знания о снимке.
+    """
+    if not block.get("available"):
+        return block
+    day = dt.date.fromisoformat(data_date).strftime("%d.%m")
+    block["stale"] = True
+    block["data_date"] = data_date
+    note = block.get("note") or ""
+    block["note"] = ((note + "; ") if note else "") + (
+        f"выгрузка от {day}: заявки, поступившие после неё, в письмо не попали — "
+        "подсчёт за сутки неполный")
+    return block
+
+
 def summary_line(block: dict) -> str:
     """Одна строка для сводки писем и для карточки показателя."""
     if not block.get("available"):
         return "Заявки не выгружаются."
     if not block["count"]:
-        return (f"За сутки заявок не поступило; за "
+        text = (f"За сутки заявок не поступило; за "
                 f"{counted(SUMMARY_DAYS, 'день', 'дня', 'дней')} — "
                 f"{counted(block['week_count'], 'заявка', 'заявки', 'заявок')}.")
-    channels = ", ".join(f"{c['label']}: {c['count']}" for c in block["channels"][:3])
-    return (f"{counted(block['count'], 'заявка', 'заявки', 'заявок')} за сутки"
-            + (f" на {num(block['amount'])} ₽" if block["amount"] else "")
-            + (f"; за {SUMMARY_DAYS} дней по каналам: {channels}" if channels else "")
-            + ".")
+    else:
+        channels = ", ".join(f"{c['label']}: {c['count']}" for c in block["channels"][:3])
+        text = (f"{counted(block['count'], 'заявка', 'заявки', 'заявок')} за сутки"
+                + (f" на {num(block['amount'])} ₽" if block["amount"] else "")
+                + (f"; за {SUMMARY_DAYS} дней по каналам: {channels}" if channels else "")
+                + ".")
+    if block.get("stale"):
+        day = dt.date.fromisoformat(block["data_date"]).strftime("%d.%m")
+        return (f"По выгрузке от {day}, сутки покрыты не полностью: "
+                + text[0].lower() + text[1:])
+    return text
+

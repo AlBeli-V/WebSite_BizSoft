@@ -27,7 +27,7 @@ def build(date_s: str) -> dict:
     inv = inventory.load_latest(date_s)
     if not inv:
         return {"available": False,
-                "reason": "инвентарь sitemap ещё не собран "
+                "reason": "инвентаря sitemap за окно нет "
                           "(шаг workflow seo-data-collect)",
                 "items": []}
     seen = inventory.pages_with_impressions(date_s)
@@ -47,7 +47,7 @@ def build(date_s: str) -> dict:
             young += 1
             continue        # молодая страница без показов — норма, не находка
         if days is not None and days < OLD_DAYS and not floor:
-            verdict = "наблюдение: показов нет, срок ещё не вышел"
+            verdict = "наблюдение: показов нет, срок не вышел"
         else:
             verdict = ("без показов Google — разобрать: индексация / спрос / "
                        "название / перелинковка")

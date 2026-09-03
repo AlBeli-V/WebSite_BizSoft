@@ -128,7 +128,7 @@ def build(date_s: str, region: str | None = None,
     region = region or spec["region"]
     data = _load(date_s, engine=engine)
     if not data:
-        reason = ("SERP-архив ещё не накоплен (workflow seo-serp-watch)"
+        reason = ("SERP-срезов за окно нет (workflow seo-serp-watch)"
                   if engine == "yandex" else
                   f"свежего Google-среза нет (сбор еженедельный, окно "
                   f"{spec['lookback']} дней; шаг Collect Google SERP в "
