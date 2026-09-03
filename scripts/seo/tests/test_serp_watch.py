@@ -308,6 +308,14 @@ class TestSerpAnalysis(unittest.TestCase):
         self.assertEqual(item["left_top10"], ["old.ru"])
         self.assertEqual(res["prev_date"], "2026-08-29")
 
+    def test_empty_serp_is_a_measurement_not_an_error(self):
+        """Успешный замер с пустой выдачей остаётся в срезе (аудит 03.09.2026)."""
+        self.write_day(DATE, [{"query": "редкий запрос", "found": 0, "top": []},
+                              {"query": "сбой", "error": "HTTP 500"}])
+        loaded = self.sa._load(DATE)
+        self.assertIsNotNone(loaded)
+        self.assertEqual([r["query"] for r in loaded["rows"]], ["редкий запрос"])
+
     def test_no_archive_is_honest(self):
         res = self.sa.build(DATE)
         self.assertFalse(res["available"])

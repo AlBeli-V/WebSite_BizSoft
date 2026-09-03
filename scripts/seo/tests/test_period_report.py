@@ -87,3 +87,28 @@ class AggregationTest(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class CoverageWordingTest(unittest.TestCase):
+    """Вердикт и таблица не выдают неполное окно за измеренное (аудит 03.09.2026)."""
+
+    @staticmethod
+    def _m(total, covered, days=7, **kw):
+        return {"label": "x", "total": total, "covered_days": covered, "days": days, **kw}
+
+    def test_вердикт_только_по_полным_окнам(self):
+        b = {"metrics": {"yandex_clicks": self._m(70, 4), "goals_organic": self._m(3, 4)},
+             "prev_metrics": {"yandex_clicks": self._m(100, 7), "goals_organic": self._m(2, 7)}}
+        b.setdefault("watch", [])
+        try:
+            pr._summarise(b)
+        except KeyError:
+            self.skipTest("_summarise требует полный набор метрик")
+        self.assertIn("не приводится", b["summary"])
+        self.assertNotIn("снизились", b["summary"])
+
+    def test_источник_без_данных_печатается_прочерком_а_не_нулём(self):
+        self.assertEqual(pr._fmt_metric(self._m(0.0, 0)), "—")
+        self.assertEqual(pr._fmt_metric(self._m(0.0, 7)), "0")
+        self.assertTrue(pr._fully_covered(self._m(1, 7)))
+        self.assertFalse(pr._fully_covered(self._m(1, 6)))

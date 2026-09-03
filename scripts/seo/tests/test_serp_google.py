@@ -327,6 +327,22 @@ class TestResume(Base):
         # журнал вызовов — только фактические вызовы: 2 + 2
         self.assertEqual(self.sg.month_spent(self.date), 4)
 
+    def test_empty_result_is_reused_not_refetched(self):
+        """Пустая выдача без ошибки — полный замер: докачка за неё не платит."""
+        calls: dict[str, int] = {}
+
+        def search(session, user, key, q, query_cfg=None, top_n=20, page=0):
+            calls[q] = calls.get(q, 0) + 1
+            return {"found": 0, "top": [], "blocks": {}}
+
+        with mock.patch.object(self.sg.xmlriver, "search_google", search), \
+                mock.patch.object(self.sg.xmlriver, "get_balance",
+                                  lambda s, u, k: {"balance_rub": 100.0}):
+            self.sg.run(DATE, ["пусто"], cfg(), "u", "k")
+            second = self.sg.run(DATE, ["пусто"], cfg(), "u", "k", force=True)
+        self.assertEqual(calls, {"пусто": 1})
+        self.assertEqual(second["reused"], 1)
+
     def test_full_reuse_costs_nothing_and_is_success(self):
         with mock.patch.object(self.sg.xmlriver, "search_google",
                                self.fake_search({})), \
