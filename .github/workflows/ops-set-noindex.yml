@@ -1,0 +1,135 @@
+# Точечный noindex карточек товара в прод-Directus.
+#
+# Правила noindex по шаблону sku (плагины JB-PLG-*, личные лицензии *-IND,
+# продления *-RENEWAL, пакеты кредитов) живут в коде — productNoindex()
+# в src/lib/catalog.ts. Этот workflow — для решений по конкретным карточкам,
+# которые под шаблон не подходят: аддоны, дубли бессрочных лицензий без
+# общего признака, тарифы «hobbyist/basic» не для юрлиц. Поле noindex у
+# карточки убирает её из sitemap и ставит <meta name="robots" content=
+# "noindex, nofollow">; на витрине, в корзине и КП карточка остаётся.
+#
+# apply=false — план (карточки с текущим и целевым значением) без записи.
+# Результат — комментарий в журнал-issue #22. Решение о списке — руководителя
+# (план разбора страниц без показов, docs/seo/thin-pages-plan-2026-09-03.md).
+name: ops-set-noindex
+on:
+  workflow_dispatch:
+    inputs:
+      slugs:
+        description: 'Слаги карточек через запятую'
+        required: true
+      value:
+        description: 'true — закрыть от индексации, false — открыть'
+        required: true
+        default: 'true'
+      apply:
+        description: 'true — записать в Directus, false — только план'
+        required: true
+        default: 'false'
+permissions:
+  issues: write
+jobs:
+  noindex:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Guard - only default branch
+        run: |
+          if [ "${{ github.ref_name }}" != "main" ]; then
+            echo "Запуск разрешён только с ветки main. Текущий ref: ${{ github.ref_name }}"
+            exit 1
+          fi
+      - name: Set noindex in Directus
+        id: run
+        uses: appleboy/ssh-action@v1
+        env:
+          P_SLUGS: ${{ inputs.slugs }}
+          P_VALUE: ${{ inputs.value }}
+          P_APPLY: ${{ inputs.apply }}
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          envs: P_SLUGS,P_VALUE,P_APPLY
+          capture_stdout: true
+          script: |
+            set -e
+            cd /opt/bizsoft
+            ADMIN_EMAIL=$(docker compose exec -T directus printenv ADMIN_EMAIL | tr -d '\r')
+            ADMIN_PASSWORD=$(docker compose exec -T directus printenv ADMIN_PASSWORD | tr -d '\r')
+            export ADMIN_EMAIL ADMIN_PASSWORD
+            python3 - <<'PYEOF'
+            import datetime, json, os, urllib.error, urllib.parse, urllib.request
+            base = 'http://127.0.0.1:8055'
+
+            def req(method, path, data=None, token=None):
+                r = urllib.request.Request(base + path, method=method,
+                    data=json.dumps(data).encode() if data is not None else None,
+                    headers={'Content-Type': 'application/json',
+                             **({'Authorization': f'Bearer {token}'} if token else {})})
+                return json.load(urllib.request.urlopen(r))
+
+            slugs = [s.strip() for s in os.environ['P_SLUGS'].split(',') if s.strip()]
+            value = os.environ.get('P_VALUE', 'true').lower() == 'true'
+            apply = os.environ.get('P_APPLY', 'false').lower() == 'true'
+            if not slugs:
+                raise SystemExit('список слагов пуст')
+
+            auth = req('POST', '/auth/login', {'email': os.environ['ADMIN_EMAIL'],
+                                               'password': os.environ['ADMIN_PASSWORD']})
+            tok = auth['data']['access_token']
+            flt = urllib.parse.quote(json.dumps({'slug': {'_in': slugs}}))
+            rows = req('GET', f'/items/products?limit=-1&filter={flt}'
+                       '&fields=id,slug,sku,vendor,name,status,noindex', token=tok)['data']
+            by = {r['slug']: r for r in rows}
+            missing = [s for s in slugs if s not in by]
+            if missing:
+                print('не найдены карточки: ' + ', '.join(missing))
+
+            print(f"noindex → {value} ({'ПРИМЕНЕНО' if apply else 'план, без записи'}):")
+            changed = skipped = 0
+            for s in slugs:
+                r = by.get(s)
+                if not r:
+                    continue
+                cur = bool(r.get('noindex'))
+                mark = 'без изменений' if cur == value else f'{cur} → {value}'
+                print(f"  {s} — {r.get('name')} [{r.get('vendor')}] sku={r.get('sku')} "
+                      f"статус={r.get('status')}: {mark}")
+                if cur == value:
+                    skipped += 1
+                    continue
+                changed += 1
+                if apply:
+                    # Смена индексируемости — содержательное изменение: штамп для
+                    # lastmod. Без поля в схеме — запись без штампа.
+                    patch = {'noindex': value}
+                    stamp = {**patch, 'content_updated_at':
+                             datetime.datetime.now(datetime.timezone.utc).isoformat()}
+                    try:
+                        req('PATCH', f"/items/products/{r['id']}", stamp, token=tok)
+                    except urllib.error.HTTPError:
+                        req('PATCH', f"/items/products/{r['id']}", patch, token=tok)
+            print(f"\nизменено: {changed}, без изменений: {skipped}, не найдено: {len(missing)}")
+            if apply and changed:
+                print('записано в Directus; sitemap и мета обновятся при следующем запросе '
+                      '(кэш каталога), переобход — ops-yandex-recrawl')
+            PYEOF
+      - name: Save to file
+        run: |
+          cat > /tmp/ops-noindex.txt <<'OPS_NOINDEX_EOF'
+          ${{ steps.run.outputs.stdout }}
+          OPS_NOINDEX_EOF
+      - name: Post to issue
+        uses: actions/github-script@v7
+        env:
+          APPLY: ${{ inputs.apply }}
+          VALUE: ${{ inputs.value }}
+        with:
+          script: |
+            const fs = require('fs');
+            const out = fs.readFileSync('/tmp/ops-noindex.txt', 'utf8').trim();
+            const mode = process.env.APPLY === 'true' ? 'применено' : 'план';
+            await github.rest.issues.createComment({
+              owner: context.repo.owner, repo: context.repo.repo, issue_number: 22,
+              body: `### ops-set-noindex · ${mode} · noindex=${process.env.VALUE} · ${new Date().toISOString()}\n\n\`\`\`\n${out}\n\`\`\``,
+            });
