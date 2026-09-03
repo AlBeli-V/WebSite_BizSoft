@@ -542,6 +542,39 @@ def _serp_section(sp: dict) -> str:
               f"<p class='muted desc'>{sp.get('note', '')}.</p>" + body)
 
 
+def _gap_section(gap: dict) -> str:
+    """Разрыв Яндекс ↔ Google по одному ядру: где Google нас не показывает."""
+    if not gap.get("available"):
+        return f"<p class='muted'>{gap.get('reason', 'Данных нет')}.</p>"
+    ya_only = gap["yandex_top10_google_absent"]
+    g_only = gap["google_top10_yandex_absent"]
+    head = (f"<p>Сопоставлено {gap['queries_compared']} запросов ядра "
+            f"(Яндекс от {ru_date(gap['as_of_yandex'])}, Google от "
+            f"{ru_date(gap['as_of_google'])}). В топ-10 обеих систем — "
+            f"<b>{gap['both_top10']}</b>; Яндекс топ-10, в Google нет — "
+            f"<b>{len(ya_only)}</b>; Google топ-10, в Яндексе нет — "
+            f"<b>{len(g_only)}</b> («нет» — нет в собранной выдаче: Google "
+            f"глубиной {gap.get('google_depth', 10)}, Яндекс — 20).</p>"
+            f"<p class='muted desc'>{gap.get('note', '')}. Первая группа — "
+            f"главный вопрос по Google: страница релевантна (Яндекс её "
+            f"ранжирует), значит дело в индексации, авторитете домена или "
+            f"конкурентоспособности страницы именно в Google.</p>")
+    body = ""
+    if ya_only:
+        body += "<h3>Яндекс топ-10, в Google нет</h3>" + table(
+            ["Запрос", "Позиция в Яндексе", "Кто в топ-3 Google"],
+            [[f"<b>{i['query']}</b>", str(i["yandex_position"]),
+              ", ".join(d for d in i["google_top3"] if d)]
+             for i in ya_only[:25]])
+    if g_only:
+        body += "<h3>Google топ-10, в Яндексе нет</h3>" + table(
+            ["Запрос", "Позиция в Google", "Кто в топ-3 Яндекса"],
+            [[f"<b>{i['query']}</b>", str(i["google_position"]),
+              ", ".join(d for d in i["yandex_top3"] if d)]
+             for i in g_only[:25]])
+    return head + body
+
+
 def embed_png(path: pathlib.Path) -> str:
     """PNG внутрь страницы: отчёт открывается по ссылке, а не только из репозитория."""
     return "data:image/png;base64," + base64.b64encode(path.read_bytes()).decode()
@@ -824,6 +857,8 @@ def build_html(b: dict, snap: dict, dq: dict, date: str) -> str:
     zi = zero_mod.build(date)
     lc = lifecycle_mod.build(date)
     sp = serp_mod.build(date)
+    spg = serp_mod.build(date, engine="google")
+    gap = serp_mod.cross_engine_gap(date)
 
     signals_html = (
         f"<div class='scroll'><table><thead><tr>"
@@ -900,6 +935,22 @@ def build_html(b: dict, snap: dict, dq: dict, date: str) -> str:
                  "входа, и движения доменов к прошлому срезу — ранний "
                  "детектор вытеснения.",
          "html": _serp_section(sp)},
+        {"id": "serp-google", "title": "SERP Google (Россия): позиции и конкуренты",
+         "crit": 2 if spg.get("available") else 0,
+         "desc": "Реальная выдача Google по российскому местоположению "
+                 "(xmlriver, еженедельный срез — тот же, что читает "
+                 "конкурентная разведка): фактическая позиция сайта, кто "
+                 "занимает топ, слабые выдачи и движения к прошлому срезу. "
+                 "Позиции Яндекса и Google не сравниваются как равноточные.",
+         "html": _serp_section(spg)},
+        {"id": "serp-gap", "title": "Разрыв Яндекс ↔ Google по ядру запросов",
+         "crit": 2 if (gap.get("available")
+                       and gap.get("yandex_top10_google_absent")) else 0,
+         "desc": "Запросы одного ядра, измеренные в обеих системах: где "
+                 "Яндекс держит нас в топ-10, а в собранной выдаче Google "
+                 "(глубина 10) нас нет, и наоборот. Разделяет проблему "
+                 "индексации, авторитета и релевантности страницы для Google.",
+         "html": _gap_section(gap)},
         {"id": "lifecycle", "title": "Жизненный цикл страниц (Google)",
          "crit": 2 if (lc.get("counts") or {}).get("declining")
                  else (1 if lc.get("available") else 0),
@@ -1128,6 +1179,32 @@ def build_markdown(b: dict, snap: dict, dq: dict, date: str) -> str:
         for d in sp["top_domains"][:10]:
             L.append(f"| {d['domain']} | {d['hits']} | {d['kind']} |")
         L.append("")
+
+    spg = serp_mod.build(date, engine="google")
+    if spg.get("available"):
+        L += ["## SERP Google (Россия): позиции и конкуренты", "",
+              f"Срез {spg['as_of']} (xmlriver, местоположение Россия): "
+              f"{spg['queries_total']} запросов; мы в топ-10 по "
+              f"{spg['ours_in_top10']}; слабых выдач: {spg['weak_serps']}.", "",
+              "| Домен | Топ-10 появлений | Кто |", "|---|---|---|"]
+        for d in spg["top_domains"][:10]:
+            L.append(f"| {d['domain']} | {d['hits']} | {d['kind']} |")
+        L.append("")
+    gap = serp_mod.cross_engine_gap(date)
+    if gap.get("available"):
+        ya_only = gap["yandex_top10_google_absent"]
+        L += ["## Разрыв Яндекс ↔ Google по ядру запросов", "",
+              f"Сопоставлено {gap['queries_compared']} запросов: в топ-10 "
+              f"обеих систем {gap['both_top10']}; Яндекс топ-10, в Google "
+              f"нет — {len(ya_only)}; Google топ-10, в Яндексе нет — "
+              f"{len(gap['google_top10_yandex_absent'])} (глубина Google "
+              f"{gap.get('google_depth', 10)}).", ""]
+        if ya_only:
+            L += ["| Запрос | Позиция в Яндексе | Топ-3 Google |", "|---|---|---|"]
+            for i in ya_only[:15]:
+                L.append(f"| {i['query']} | {i['yandex_position']} | "
+                         f"{', '.join(d for d in i['google_top3'] if d)} |")
+            L.append("")
 
     lc = lifecycle_mod.build(date)
     if lc.get("available") and lc.get("counts"):

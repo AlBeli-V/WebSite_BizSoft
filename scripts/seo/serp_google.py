@@ -20,8 +20,24 @@
     31.08.2026 — Google еженедельно) или daily; --force снимает срез в любой
     день (ручной прогон).
 
-Запуск (workflow seo-serp-watch): python3 scripts/seo/serp_google.py [дата] [--force]
+Один сбор — все потребители (архитектура 03.09.2026). Срез — единственный
+источник Google-выдачи для обоих контуров: веб-отчёт Growth Intelligence
+(serp_analysis.py) и конкурентная разведка (competitive-intelligence,
+читает ветку seo-data только на чтение). Никто из них к xmlriver не ходит.
+Отсюда две меры против повторной оплаты одного и того же:
+  - докачка: если срез за дату уже есть (повторный запуск, --force после
+    сбоя, добивка), ключи с данными не запрашиваются повторно — платятся
+    только недостающие и ошибочные; полный пересбор — только --refetch;
+  - провенанс в каждой строке (provider, series, loc, device, lang,
+    collector_version): потребители отличают российскую серию google_ru от
+    любой другой и не склеивают их в один ряд.
+Журнал прогонов serp/ledger/google-runs.jsonl — по строке на прогон: сколько
+ключей запрошено, сколько взято из готового среза, сколько вызовов и рублей
+ушло. По нему видно, что дедупликация действительно экономит.
+
+Запуск (workflow seo-serp-watch): python3 scripts/seo/serp_google.py [дата] [--force] [--refetch]
 Выход: reports/seo/serp/<дата>-serp-google.jsonl (строка на запрос, engine=google)
+       reports/seo/serp/ledger/google-runs.jsonl (строка на прогон)
        reports/seo/serp/xmlriver-balance.json (остаток кабинета после прогона)
 Без секретов XMLRIVER_USER/XMLRIVER_KEY шаг тихо пропускается (код 0):
 Яндекс-срез от этого не зависит.
@@ -44,7 +60,12 @@ import xmlriver  # noqa: E402
 SERP_DIR = pathlib.Path("reports/seo/serp")
 LEDGER_DIR = SERP_DIR / "ledger"
 BALANCE_FILE = SERP_DIR / "xmlriver-balance.json"
+RUNS_FILE_NAME = "google-runs.jsonl"
 ENGINE = "google"
+PROVIDER = "xmlriver"
+# Версия сборщика пишется в каждую строку среза: смена разбора или склейки
+# страниц — повод не сравнивать строки как равноточные.
+COLLECTOR_VERSION = "1.1.0"
 WORKERS = 4
 PAUSE_S = 0.2
 
@@ -94,6 +115,57 @@ def log_call(date: dt.date, query: str, status: str, found: int | None,
              "query": query, "engine": ENGINE, "loc": loc, "page": page,
              "status": status, "found": found}
     with ledger_path(date).open("a", encoding="utf-8") as f:
+        f.write(json.dumps(entry, ensure_ascii=False) + "\n")
+
+
+def snapshot_path(date_s: str) -> pathlib.Path:
+    return SERP_DIR / f"{date_s}-serp-google.jsonl"
+
+
+def _norm(query: str) -> str:
+    return " ".join((query or "").lower().split())
+
+
+def existing_rows(date_s: str, cfg: dict) -> dict[str, dict]:
+    """Строки с данными из уже записанного среза за дату — по нормализованному
+    запросу. Годятся только строки той же серии и того же местоположения:
+    смена loc в конфиге делает старые строки другим измерением.
+    Строки с ошибкой не возвращаются — их надо докачать."""
+    p = snapshot_path(date_s)
+    if not p.exists():
+        return {}
+    series = cfg.get("series", "google_ru")
+    loc = cfg["query"].get("loc")
+    out: dict[str, dict] = {}
+    for line in p.read_text(encoding="utf-8").splitlines():
+        if not line.strip():
+            continue
+        try:
+            row = json.loads(line)
+        except ValueError:
+            continue
+        if row.get("error") or not row.get("top"):
+            continue
+        if row.get("series", series) != series or row.get("loc", loc) != loc:
+            continue
+        out[_norm(row.get("query", ""))] = row
+    return out
+
+
+def log_run(summary: dict) -> None:
+    """Строка журнала прогонов: сколько запрошено, сколько взято из готового
+    среза, сколько вызовов и рублей ушло. Пишется и при полной докачке
+    (нулевой расход) — нулевая строка и есть доказательство экономии."""
+    LEDGER_DIR.mkdir(parents=True, exist_ok=True)
+    entry = {"at": dt.datetime.now(dt.timezone.utc).isoformat(timespec="seconds"),
+             **{k: summary.get(k) for k in (
+                 "date", "engine", "provider", "series", "loc",
+                 "requested", "reused", "calls", "ok", "failed",
+                 "skipped_over_budget", "cost_rub")}}
+    bal = summary.get("balance") or {}
+    if bal.get("balance_rub") is not None:
+        entry["balance_rub"] = bal["balance_rub"]
+    with (LEDGER_DIR / RUNS_FILE_NAME).open("a", encoding="utf-8") as f:
         f.write(json.dumps(entry, ensure_ascii=False) + "\n")
 
 
@@ -170,6 +242,10 @@ def collect(session, user: str, key: str, date: dt.date, queries: list[str],
     (объединённый топ или ошибка). Возвращает (ok, failed, calls).
     """
     loc = cfg["query"].get("loc")
+    provenance = {"provider": PROVIDER, "series": cfg.get("series", "google_ru"),
+                  "device": cfg["query"].get("device"),
+                  "lang": cfg["query"].get("lr"),
+                  "collector_version": COLLECTOR_VERSION}
     ok = failed = calls = 0
 
     def one(q: str) -> tuple[str, dict]:
@@ -187,7 +263,7 @@ def collect(session, user: str, key: str, date: dt.date, queries: list[str],
             merged = merge_pages(fetched["pages"], cfg["top_n"])
             row = {"date": date.isoformat(), "query": q, "engine": ENGINE,
                    "region": str(loc) if loc is not None else "",
-                   "loc": loc, **merged}
+                   "loc": loc, **provenance, **merged}
             if "error" in merged:
                 failed += 1
             else:
@@ -222,7 +298,13 @@ def write_balance(session, user: str, key: str, cfg: dict,
 
 
 def run(date_s: str, queries: list[str], cfg: dict, user: str, key: str,
-        force: bool = False) -> dict:
+        force: bool = False, refetch: bool = False) -> dict:
+    """Срез за дату: докачка недостающего поверх уже собранного.
+
+    Ключи, по которым в срезе за эту дату уже есть данные, повторно не
+    запрашиваются (повторный запуск, --force после сбоя, добивка) — за них
+    не платим. `refetch` отключает докачку и пересобирает всё.
+    """
     import requests
 
     date = dt.date.fromisoformat(date_s)
@@ -232,41 +314,55 @@ def run(date_s: str, queries: list[str], cfg: dict, user: str, key: str,
         return {"skipped": f"{date_s} не день сбора Google "
                            f"(cadence={cfg.get('cadence')}, "
                            f"weekday={cfg.get('weekday')})"}
+    ready = {} if refetch else existing_rows(date_s, cfg)
+    reused = [q for q in queries if _norm(q) in ready]
+    missing = [q for q in queries if _norm(q) not in ready]
+
     spent = month_spent(date)
     today = day_spent(date)
     pages = max(int(cfg.get("pages", 1)), 1)
     # Потолки — в вызовах; на ключ уходит `pages` вызовов.
     budget = min(cfg["daily_cap"] - today, cfg["monthly_cap"] - spent) // pages
-    if budget <= 0:
+    if budget <= 0 and missing:
         reason = (f"месячный потолок {cfg['monthly_cap']} запросов исчерпан "
                   f"({spent} израсходовано)"
                   if cfg["monthly_cap"] - spent <= 0 else
                   f"дневной потолок {cfg['daily_cap']} запросов исчерпан "
                   f"({today} за сегодня)")
-        return {"error": reason, "spent_month": spent, "spent_today": today}
-    todo = queries[:budget]
-    skipped = len(queries) - len(todo)
+        return {"error": reason, "spent_month": spent, "spent_today": today,
+                "reused": len(reused)}
+    todo = missing[:max(budget, 0)]
+    skipped = len(missing) - len(todo)
 
     SERP_DIR.mkdir(parents=True, exist_ok=True)
-    out_path = SERP_DIR / f"{date_s}-serp-google.jsonl"
+    out_path = snapshot_path(date_s)
     session = requests.Session()
     with out_path.open("w", encoding="utf-8") as out:
         def writer(row: dict):
             out.write(json.dumps(row, ensure_ascii=False) + "\n")
+        # Сначала — уже собранное (как было записано), потом докачка.
+        for q in reused:
+            writer(ready[_norm(q)])
         ok, failed, calls = collect(session, user, key, date, todo, cfg,
                                     writer)
     balance = write_balance(session, user, key, cfg, today + calls)
-    return {"date": date_s, "engine": ENGINE, "requested": len(todo),
-            "pages": pages, "calls": calls,
-            "ok": ok, "failed": failed, "skipped_over_budget": skipped,
-            "spent_month": spent + calls, "cap_month": cfg["monthly_cap"],
-            "loc": cfg["query"].get("loc"), "balance": balance,
-            "out": str(out_path)}
+    summary = {"date": date_s, "engine": ENGINE, "provider": PROVIDER,
+               "series": cfg.get("series", "google_ru"),
+               "requested": len(todo), "reused": len(reused),
+               "pages": pages, "calls": calls,
+               "cost_rub": round(calls * cfg["price_rub_per_1000"] / 1000, 3),
+               "ok": ok, "failed": failed, "skipped_over_budget": skipped,
+               "spent_month": spent + calls, "cap_month": cfg["monthly_cap"],
+               "loc": cfg["query"].get("loc"), "balance": balance,
+               "out": str(out_path)}
+    log_run(summary)
+    return summary
 
 
 def main() -> int:
     args = [a for a in sys.argv[1:] if not a.startswith("--")]
     force = "--force" in sys.argv[1:]
+    refetch = "--refetch" in sys.argv[1:]
     date_s = args[0] if args else dt.datetime.now(MSK).date().isoformat()
     user, key = xmlriver.credentials()
     if not user or not key:
@@ -278,16 +374,21 @@ def main() -> int:
     if not core:
         print("watchlist пуст — собирать нечего")
         return 1
-    res = run(date_s, core, cfg, user, key, force=force)
+    res = run(date_s, core, cfg, user, key, force=force, refetch=refetch)
     print(json.dumps(res, ensure_ascii=False, indent=1))
     if res.get("skipped"):
         return 0
+    if res.get("reused"):
+        print(f"из готового среза за {date_s} взято {res['reused']} ключей, "
+              f"докачано {res.get('requested', 0)} — повторно не оплачивались")
     if res.get("balance", {}).get("needs_topup"):
         print(f"::warning::баланс xmlriver {res['balance'].get('balance_rub')} ₽ "
               f"— хватит примерно на {res['balance'].get('days_left_estimate')} "
               f"дн. сбора, нужно пополнение")
-    return 1 if res.get("error") or res.get("failed") == res.get("requested") \
-        else 0
+    # Полная докачка без единого вызова — успех, а не «все запросы упали».
+    all_failed = (res.get("requested", 0) > 0
+                  and res.get("failed") == res.get("requested"))
+    return 1 if res.get("error") or all_failed else 0
 
 
 if __name__ == "__main__":

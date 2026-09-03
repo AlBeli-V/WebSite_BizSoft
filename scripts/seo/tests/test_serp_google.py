@@ -210,5 +210,99 @@ class TestBudget(Base):
         self.assertEqual(out["days_left_estimate"], 560)  # 80 прогонов × 7 дней
 
 
+class TestResume(Base):
+    """Докачка: собранное за дату повторно не оплачивается."""
+
+    def _rows(self, res):
+        return {json.loads(l)["query"]: json.loads(l) for l in
+                pathlib.Path(res["out"]).read_text(encoding="utf-8").splitlines()}
+
+    def test_rows_carry_provenance(self):
+        with mock.patch.object(self.sg.xmlriver, "search_google",
+                               self.fake_search({})), \
+                mock.patch.object(self.sg.xmlriver, "get_balance",
+                                  lambda s, u, k: {"balance_rub": 100.0}):
+            res = self.sg.run(DATE, ["купить figma"], cfg(), "u", "k")
+        row = self._rows(res)["купить figma"]
+        self.assertEqual(row["provider"], "xmlriver")
+        self.assertEqual(row["series"], "google_ru")
+        self.assertEqual(row["device"], "desktop")
+        self.assertEqual(row["collector_version"], self.sg.COLLECTOR_VERSION)
+
+    def test_second_run_same_day_reuses_and_fetches_only_missing(self):
+        # Сборщик многопоточный: порядок вызовов между ключами не задан,
+        # поэтому считаем вызовы по ключу, а не сверяем последовательность.
+        calls: dict[str, int] = {}
+
+        def search(session, user, key, q, query_cfg=None, top_n=20, page=0):
+            calls[q] = calls.get(q, 0) + 1
+            if q == "сбой" and calls[q] == 1:
+                return {"error": "HTTP 500"}
+            return {"found": 1, "top": [{"domain": "a.ru", "url": "", "title": q}],
+                    "blocks": {}}
+
+        with mock.patch.object(self.sg.xmlriver, "search_google", search), \
+                mock.patch.object(self.sg.xmlriver, "get_balance",
+                                  lambda s, u, k: {"balance_rub": 100.0}):
+            first = self.sg.run(DATE, ["купить figma", "сбой"], cfg(), "u", "k")
+            self.assertEqual((first["ok"], first["failed"]), (1, 1))
+            # повторный запуск: figma уже есть, «сбой» докачивается, «новый» новый
+            second = self.sg.run(DATE, ["купить figma", "сбой", "новый"],
+                                 cfg(), "u", "k", force=True)
+        self.assertEqual(calls, {"купить figma": 1, "сбой": 2, "новый": 1})
+        self.assertEqual(second["reused"], 1)
+        self.assertEqual(second["requested"], 2)
+        self.assertEqual(second["calls"], 2)
+        rows = self._rows(second)
+        self.assertEqual(set(rows), {"купить figma", "сбой", "новый"})
+        self.assertNotIn("error", rows["сбой"])
+        # журнал вызовов — только фактические вызовы: 2 + 2
+        self.assertEqual(self.sg.month_spent(self.date), 4)
+
+    def test_full_reuse_costs_nothing_and_is_success(self):
+        with mock.patch.object(self.sg.xmlriver, "search_google",
+                               self.fake_search({})), \
+                mock.patch.object(self.sg.xmlriver, "get_balance",
+                                  lambda s, u, k: {"balance_rub": 100.0}):
+            self.sg.run(DATE, ["q1", "q2"], cfg(), "u", "k")
+        with mock.patch.object(self.sg.xmlriver, "search_google",
+                               side_effect=AssertionError("платный вызов")), \
+                mock.patch.object(self.sg.xmlriver, "get_balance",
+                                  lambda s, u, k: {"balance_rub": 100.0}):
+            res = self.sg.run(DATE, ["q1", "q2"], cfg(), "u", "k", force=True)
+        self.assertEqual((res["reused"], res["requested"], res["calls"]), (2, 0, 0))
+        self.assertEqual(res["cost_rub"], 0)
+        self.assertNotIn("error", res)
+        # потолок не мешает докачке нулевого объёма
+        runs = [json.loads(l) for l in
+                (self.sg.LEDGER_DIR / self.sg.RUNS_FILE_NAME)
+                .read_text(encoding="utf-8").splitlines()]
+        self.assertEqual(len(runs), 2)
+        self.assertEqual(runs[-1]["reused"], 2)
+        self.assertEqual(runs[-1]["calls"], 0)
+        self.assertEqual(runs[0]["cost_rub"], 0.05)   # 2 вызова × 25 ₽/1000
+
+    def test_refetch_ignores_ready_rows(self):
+        with mock.patch.object(self.sg.xmlriver, "search_google",
+                               self.fake_search({})), \
+                mock.patch.object(self.sg.xmlriver, "get_balance",
+                                  lambda s, u, k: {"balance_rub": 100.0}):
+            self.sg.run(DATE, ["q1"], cfg(), "u", "k")
+            res = self.sg.run(DATE, ["q1"], cfg(), "u", "k", force=True,
+                              refetch=True)
+        self.assertEqual((res["reused"], res["requested"]), (0, 1))
+
+    def test_other_series_or_loc_is_not_reused(self):
+        with mock.patch.object(self.sg.xmlriver, "search_google",
+                               self.fake_search({})), \
+                mock.patch.object(self.sg.xmlriver, "get_balance",
+                                  lambda s, u, k: {"balance_rub": 100.0}):
+            self.sg.run(DATE, ["q1"], cfg(), "u", "k")
+            moscow = cfg(query={"loc": 1011969, "device": "desktop"},
+                         series="google_msk")
+            res = self.sg.run(DATE, ["q1"], moscow, "u", "k", force=True)
+        self.assertEqual((res["reused"], res["requested"]), (0, 1))
+
+
 if __name__ == "__main__":
     unittest.main()

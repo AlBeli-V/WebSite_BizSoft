@@ -251,6 +251,8 @@ def build(date: str, snapshot: dict, previous: dict | None,
         "kpi": {
             "share_yandex": kpi.share_yandex,
             "share_google": kpi.share_google,
+            "google_date": kpi.google_date,
+            "google_delta_pp": kpi.google_delta_pp,
             "top3": kpi.top3,
             "top10": kpi.top10,
             "queries": kpi.queries,
@@ -271,18 +273,23 @@ def render_txt(meta: dict, *, snapshot: dict | None = None,
     if meta.get("эксперименты_строка"):
         parts += ["", meta["эксперименты_строка"]]
 
-    google = (snapshot or {}).get("google")
+    google = kpi_mod.google_block(snapshot or {})
     if google:
+        ours = google.get("наши_показатели") or {}
+        gap = google.get("разрыв_с_яндексом") or {}
         parts += ["", f"GOOGLE ПО РОССИИ (xmlriver, глубина "
                       f"{google.get('глубина', 10)}, "
-                      f"{google.get('запросов_с_данными')} запросов, срез "
-                      f"{google.get('дата_среза')})"]
+                      f"{(google.get('покрытие') or {}).get('запросов_с_данными')} "
+                      f"запросов, срез {google.get('дата_среза')})"]
         parts.append(f"Наша доля видимости в Google: "
-                     f"{kpi_mod.format_share(google.get('наша_доля_видимости'))}; "
-                     f"ТОП-3: {google.get('топ3', 0)}, ТОП-10: {google.get('топ10', 0)}")
+                     f"{kpi_mod.format_share(ours.get('доля_видимости'))}; "
+                     f"ТОП-3: {ours.get('топ3', 0)}, ТОП-10: {ours.get('топ10', 0)}")
         for item in (google.get("лидеры") or [])[:5]:
             parts.append(f"  {item['домен']}: {kpi_mod.format_share(item.get('доля'))}, "
                          f"ТОП-3 {item.get('топ3', 0)}, ТОП-10 {item.get('топ10', 0)}")
+        parts.append(f"Разрыв с Яндексом: Яндекс топ-10, в Google нет — "
+                     f"{gap.get('яндекс_топ10_google_нет_всего', 0)} из "
+                     f"{gap.get('сопоставлено', 0)} общих запросов.")
         parts.append("  Доли внутри Google-поля, с Яндексом не складываются.")
 
     if packages:
@@ -361,10 +368,21 @@ def render_txt(meta: dict, *, snapshot: dict | None = None,
         "",
         f"Scoring: {meta['зрелость_скоринга']} · "
         f"источник: Яндекс (Москва), {meta['покрытие'].get('яндекс_запросов_с_данными')} запросов · "
-        f"Google: {'NO DATA' if meta['kpi']['share_google'] is None else 'есть'} · "
+        f"Google: {_google_source_line(meta)} · "
         "B2C и маркетплейсы вне основного рейтинга · NO DATA не равно нулю.",
     ]
     return "\n".join(parts)
+
+
+def _google_source_line(meta: dict) -> str:
+    """Подпись источника Google: доля и дата еженедельного среза, либо NO DATA."""
+    k = meta["kpi"]
+    if k.get("share_google") is None:
+        return "NO DATA"
+    line = kpi_mod.format_share(k["share_google"])
+    if k.get("google_date"):
+        line += f" (Россия, xmlriver, срез {k['google_date']})"
+    return line
 
 
 def _classifier():
@@ -410,10 +428,10 @@ def render_html(meta: dict, *, kpi=None, snapshot: dict | None = None,
                     else f"{100 * k['share_google']:.1f}%")
     yandex_share = ("NO DATA" if k["share_yandex"] is None
                     else f"{100 * k['share_yandex']:.1f}%")
-    google_info = (snapshot or {}).get("google") or {}
+    google_info = kpi_mod.google_block(snapshot or {})
     google_note = (f"Россия, топ-{google_info.get('глубина', 10)}, "
-                   f"{google_info.get('запросов_с_данными')} запросов"
-                   if google_info else "еженедельный сбор")
+                   f"срез {google_info.get('дата_среза')}"
+                   if google_info else "нет свежего среза")
 
     # Секции детализации собираются только когда переданы данные: письмо
     # обязано оставаться отправляемым и в урезанном виде.
@@ -473,7 +491,7 @@ def render_html(meta: dict, *, kpi=None, snapshot: dict | None = None,
 <tr><td style="padding:0 24px 18px;border-top:1px solid #EAECF0;">
 <div style="font-size:11px;color:#98A2B3;padding-top:10px;line-height:1.5;">
 Scoring: {esc(meta['зрелость_скоринга'])} · источник: Яндекс (Москва), {esc(str(meta['покрытие'].get('яндекс_запросов_с_данными')))} запросов ·
-Google: {esc(google_share)} · B2C и маркетплейсы вне основного рейтинга · NO DATA не равно нулю.
+Google: {esc(_google_source_line(meta))} · B2C и маркетплейсы вне основного рейтинга · NO DATA не равно нулю.
 </div></td></tr>
 </table></td></tr></table></body></html>"""
 

@@ -24,18 +24,12 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import paths  # noqa: E402
 from attack_engine import strike_list  # noqa: E402
 from decision_engine import kpi as kpi_mod  # noqa: E402
-from discovery import registry, run_discovery, serp_source  # noqa: E402
+from discovery import google_ru, registry, run_discovery, serp_source  # noqa: E402
 from mailer import build_email  # noqa: E402
 from scoring import threat as threat_mod  # noqa: E402
 from scoring import visibility  # noqa: E402
 
 OURS = "biz-soft.pro"
-GOOGLE_MAX_AGE_DAYS = 7   # еженедельный сбор: срез старше недели не показываем
-
-
-def _days_between(earlier: str, later: str) -> int:
-    from datetime import date as _date
-    return (_date.fromisoformat(later) - _date.fromisoformat(earlier)).days
 
 
 def main(argv: list[str]) -> int:
@@ -77,29 +71,40 @@ def main(argv: list[str]) -> int:
         print("   Данных нет — письмо не собирается")
         return 1
 
-    # Google-срез (xmlriver, Россия, топ-10) базовый контур снимает
-    # еженедельно, поэтому берётся срез за дату либо последний не старше
-    # недели — с честной датой в снимке. Без среза блок Google — NO DATA.
-    google_dates = [d for d in serp_source.available_dates(engine="google")
-                    if d <= date]
-    google_date = google_dates[-1] if google_dates else None
-    if google_date and (_days_between(google_date, date) > GOOGLE_MAX_AGE_DAYS):
-        google_date = None
-    google_rows = (serp_source.read_snapshot(google_date, engine="google")
-                   if google_date else [])
-    google_usable = [r for r in google_rows if r.has_data]
-    if google_rows:
-        print(f"1а. Google: {len(google_usable)} запросов с данными из "
-              f"{len(google_rows)} (срез {google_date})")
-    else:
-        print("1а. Google: среза нет — блок Google в письме NO DATA")
-
     config = visibility.load_config()
     cards = registry.build(rows, config, date=date)
     registry.append(cards)
+
+    # Google RU — из того же хранилища базового контура (еженедельный срез
+    # xmlriver, read-only): последний свежий срез не старше окна из конфига.
+    # Точки атаки в Google считаются тем же Strike List отдельным списком —
+    # в пакеты работ они пока не входят (серия только начинается).
+    g_geo = google_ru.geo(config)
+    g_date, g_rows = serp_source.latest_snapshot(
+        "google", date, g_geo["свежесть_дней"])
+    google_attacks = (strike_list.to_dicts(strike_list.build(
+        g_rows, region=g_geo["регион"], engine="google")) if g_rows else [])
+    google = google_ru.build_block(date, g_date, g_rows, rows, config,
+                                   attacks=google_attacks)
+    if google.get("доступен"):
+        os.makedirs(paths.PROCESSED_DIR, exist_ok=True)
+        with open(os.path.join(paths.PROCESSED_DIR,
+                               f"{date}-strike-list-google.json"),
+                  "w", encoding="utf-8") as fh:
+            json.dump(google_attacks, fh, ensure_ascii=False, indent=2)
+        gap = google["разрыв_с_яндексом"]
+        print(f"1а. Google RU: срез {g_date} (xmlriver), "
+              f"{google['покрытие']['запросов_с_данными']} запросов с данными, "
+              f"доля {100 * (google['наши_показатели']['доля_видимости'] or 0):.2f}%, "
+              f"ТОП-10 по {google['наши_показатели']['топ10']}; "
+              f"глубина {google['глубина']}; Яндекс топ-10 / в Google нет — "
+              f"{gap['яндекс_топ10_google_нет_всего']}; "
+              f"точек атаки в Google — {len(google_attacks)}")
+    else:
+        print(f"1а. Google RU: {google.get('причина')}")
+
     snapshot = run_discovery.build_snapshot(date, cards, rows, config,
-                                            google_rows=google_rows,
-                                            google_date=google_date)
+                                            google=google)
     os.makedirs(paths.SNAPSHOTS_DIR, exist_ok=True)
     with open(os.path.join(paths.SNAPSHOTS_DIR, f"{date}-discovery.json"),
               "w", encoding="utf-8") as fh:
