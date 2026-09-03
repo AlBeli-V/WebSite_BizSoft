@@ -2,7 +2,7 @@
   "дата": "2026-09-03",
   "тема": "Конкурентная разведка · 03.09.2026 · ⚪",
   "вердикт": "⚪",
-  "текст": "⚪ Недостаточно данных для оценки динамики: нужно 6 сравнимых измерений, не хватает 6 (пересечение составов (143 из 381) меньше порога 70% — сравнимого поля фактически нет).\nB2B Share Яндекс 3,2% (за сутки +0,49 п.п., сигнальная н/д) · Google 0,1% · ТОП-3 48/531 · ТОП-10 116/531.\nГлавный сигнал: Коммерческую выдачу держат платёжные посредники — 16,7% взвешенной видимости (raketapay.ru 7,1%, pipl.io 1,9%, card-open.ru 1,6%); BIZSoft — 3,2%. Сравнение с 2026-09-02 не приводится: состав ядра изменился (386 → 381 запросов), доли по разным ядрам несопоставимы.\nЧто делать: WP-03 (/blog/kak-oplatit-coreldraw-dlya-yurlica) — дописать текст под 1 запрос без единого вхождения на странице: «как оплатить тариф coreldraw из россии» — не хватает слов: тариф. Трудоёмкость S, исполнитель — редактор. Ещё 5 шага ТЗ — в отчёте.\nСледим: raketapay.ru — Threat 27, топ-3 по 80 запросам, доля 7,1%.",
+  "текст": "⚪ Недостаточно данных для оценки динамики: нужно 6 сравнимых измерений, не хватает 6 (пересечение составов (143 из 381) меньше порога 70% — сравнимого поля фактически нет).\nB2B Share Яндекс 3,2% (за сутки +0,49 п.п., сигнальная н/д) · Google 0,1% · ТОП-3 48/531 · ТОП-10 116/531.\nГлавный сигнал: Коммерческую выдачу держат платёжные посредники — 16,7% взвешенной видимости (raketapay.ru 7,1%, pipl.io 1,9%, card-open.ru 1,6%); BIZSoft — 3,2%. Сравнение с 2026-09-02 не приводится: состав ядра изменился (386 → 381 запросов), доли по разным ядрам несопоставимы.\nЧто делать: WP-04 (/blog/kak-oplatit-coreldraw-dlya-yurlica) — дописать текст под 1 запрос без единого вхождения на странице: «как оплатить тариф coreldraw из россии» — не хватает слов: тариф. Трудоёмкость S, исполнитель — редактор. Ещё 5 шага ТЗ — в отчёте.\nСледим: raketapay.ru — Threat 27, топ-3 по 80 запросам, доля 7,1%.",
   "видимых_символов": 886,
   "лимит_символов": 1000,
   "лимит_соблюдён": true,
@@ -41,7 +41,7 @@
     ]
   },
   "пакет_работ": {
-    "package_id": "WP-03",
+    "package_id": "WP-04",
     "url": "https://biz-soft.pro/blog/kak-oplatit-coreldraw-dlya-yurlica",
     "page_kind": "blog",
     "subject": "kak-oplatit-coreldraw-dlya-yurlica",
@@ -59,7 +59,7 @@
     ],
     "queries_count": 4,
     "demand_by_source": {
-      "webmaster": 82
+      "webmaster": 89
     },
     "demand_queries_by_source": {
       "webmaster": 4
@@ -70,7 +70,7 @@
     "demand_measured_queries": 4,
     "demand_coverage": "4/4",
     "demand_coverage_ratio": 1.0,
-    "demand_index": 0.0282,
+    "demand_index": 0.0306,
     "position_best": 5,
     "position_worst": 7,
     "rivals": [
@@ -79,7 +79,7 @@
     ],
     "opportunity_best": 52,
     "confidence": "MEDIUM",
-    "potential_index": 0.0282,
+    "potential_index": 0.0306,
     "potential_label": "высокий",
     "potential_note": "спрос измерен по всем 4 запросам пакета",
     "traffic_upside": null,
@@ -93,7 +93,7 @@
     ],
     "действия": [
       {
-        "action_id": "WP-03-1",
+        "action_id": "WP-04-1",
         "kind": "текст",
         "what": "Дописать текст под 1 запрос без единого вхождения на странице",
         "where": "/blog/kak-oplatit-coreldraw-dlya-yurlica — src/content/blog/kak-oplatit-coreldraw-dlya-yurlica.md (правка md-файла статьи, обычный PR)",
@@ -106,7 +106,7 @@
         "owner": "редактор"
       },
       {
-        "action_id": "WP-03-2",
+        "action_id": "WP-04-2",
         "kind": "заголовки",
         "what": "Вынести 1 запрос в подзаголовки или вопросы FAQ",
         "where": "/blog/kak-oplatit-coreldraw-dlya-yurlica — src/content/blog/kak-oplatit-coreldraw-dlya-yurlica.md",
@@ -119,7 +119,7 @@
         "owner": "редактор"
       },
       {
-        "action_id": "WP-03-3",
+        "action_id": "WP-04-3",
         "kind": "заголовки",
         "what": "Добавить 1 вопрос в существующий FAQ",
         "where": "src/content/blog/kak-oplatit-coreldraw-dlya-yurlica.md, блок faq во frontmatter",
@@ -132,7 +132,7 @@
         "owner": "редактор"
       },
       {
-        "action_id": "WP-03-4",
+        "action_id": "WP-04-4",
         "kind": "мета",
         "what": "Пересобрать заголовок страницы под ведущий запрос пакета",
         "where": "src/content/blog/kak-oplatit-coreldraw-dlya-yurlica.md — поле title",
@@ -145,7 +145,7 @@
         "owner": "SEO + редактор"
       },
       {
-        "action_id": "WP-03-5",
+        "action_id": "WP-04-5",
         "kind": "текст",
         "what": "Закрыть региональный разрыв по Санкт-Петербургу",
         "where": "/blog/kak-oplatit-coreldraw-dlya-yurlica — src/content/blog/kak-oplatit-coreldraw-dlya-yurlica.md",
@@ -159,7 +159,7 @@
         "owner": "редактор"
       },
       {
-        "action_id": "WP-03-6",
+        "action_id": "WP-04-6",
         "kind": "индексация",
         "what": "Отправить страницу на переобход после правок",
         "where": "workflow ops-yandex-recrawl, запуск с main",
@@ -195,7 +195,7 @@
       "ограничение": "рост показов кластера CorelDRAW относительно базовых 145 показов за 13 дней и вход статьи /blog/kak-oplatit-coreldraw-dlya-yurlica в топ-10 Яндекса к 16.09.2026"
     }
   },
-  "действие_хэш": "38415d287c85a337",
+  "действие_хэш": "4fd678d8fd456513",
   "кандидатов_в_атаку": 63,
   "покрытие": {
     "яндекс_запросов_всего": 531,
@@ -205,8 +205,8 @@
       "webmaster": 1.0,
       "wordstat": 1.0
     },
-    "google": 0.001031,
-    "_google_пояснение": "Google RU: срез xmlriver от 2026-09-03, 355 запросов с данными"
+    "google": 0.000966,
+    "_google_пояснение": "Google RU: срез xmlriver от 2026-09-03, 379 запросов с данными"
   },
   "предупреждение_о_свежести": null,
   "сравнение_с": "2026-09-02",
@@ -226,7 +226,7 @@
   "дельта_сигнальная_пп": null,
   "kpi": {
     "share_yandex": 0.031989,
-    "share_google": 0.001031,
+    "share_google": 0.000966,
     "google_date": "2026-09-03",
     "google_delta_pp": null,
     "top3": 48,

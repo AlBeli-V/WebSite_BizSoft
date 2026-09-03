@@ -1,6 +1,6 @@
 [
   {
-    "package_id": "WP-03",
+    "package_id": "WP-04",
     "url": "https://biz-soft.pro/blog/kak-oplatit-coreldraw-dlya-yurlica",
     "page_kind": "blog",
     "subject": "kak-oplatit-coreldraw-dlya-yurlica",
@@ -18,7 +18,7 @@
     ],
     "queries_count": 4,
     "demand_by_source": {
-      "webmaster": 82
+      "webmaster": 89
     },
     "demand_queries_by_source": {
       "webmaster": 4
@@ -29,7 +29,7 @@
     "demand_measured_queries": 4,
     "demand_coverage": "4/4",
     "demand_coverage_ratio": 1.0,
-    "demand_index": 0.0282,
+    "demand_index": 0.0306,
     "position_best": 5,
     "position_worst": 7,
     "rivals": [
@@ -38,7 +38,7 @@
     ],
     "opportunity_best": 52,
     "confidence": "MEDIUM",
-    "potential_index": 0.0282,
+    "potential_index": 0.0306,
     "potential_label": "высокий",
     "potential_note": "спрос измерен по всем 4 запросам пакета",
     "traffic_upside": null,
@@ -52,7 +52,7 @@
     ],
     "действия": [
       {
-        "action_id": "WP-03-1",
+        "action_id": "WP-04-1",
         "kind": "текст",
         "what": "Дописать текст под 1 запрос без единого вхождения на странице",
         "where": "/blog/kak-oplatit-coreldraw-dlya-yurlica — src/content/blog/kak-oplatit-coreldraw-dlya-yurlica.md (правка md-файла статьи, обычный PR)",
@@ -65,7 +65,7 @@
         "owner": "редактор"
       },
       {
-        "action_id": "WP-03-2",
+        "action_id": "WP-04-2",
         "kind": "заголовки",
         "what": "Вынести 1 запрос в подзаголовки или вопросы FAQ",
         "where": "/blog/kak-oplatit-coreldraw-dlya-yurlica — src/content/blog/kak-oplatit-coreldraw-dlya-yurlica.md",
@@ -78,7 +78,7 @@
         "owner": "редактор"
       },
       {
-        "action_id": "WP-03-3",
+        "action_id": "WP-04-3",
         "kind": "заголовки",
         "what": "Добавить 1 вопрос в существующий FAQ",
         "where": "src/content/blog/kak-oplatit-coreldraw-dlya-yurlica.md, блок faq во frontmatter",
@@ -91,7 +91,7 @@
         "owner": "редактор"
       },
       {
-        "action_id": "WP-03-4",
+        "action_id": "WP-04-4",
         "kind": "мета",
         "what": "Пересобрать заголовок страницы под ведущий запрос пакета",
         "where": "src/content/blog/kak-oplatit-coreldraw-dlya-yurlica.md — поле title",
@@ -104,7 +104,7 @@
         "owner": "SEO + редактор"
       },
       {
-        "action_id": "WP-03-5",
+        "action_id": "WP-04-5",
         "kind": "текст",
         "what": "Закрыть региональный разрыв по Санкт-Петербургу",
         "where": "/blog/kak-oplatit-coreldraw-dlya-yurlica — src/content/blog/kak-oplatit-coreldraw-dlya-yurlica.md",
@@ -118,7 +118,7 @@
         "owner": "редактор"
       },
       {
-        "action_id": "WP-03-6",
+        "action_id": "WP-04-6",
         "kind": "индексация",
         "what": "Отправить страницу на переобход после правок",
         "where": "workflow ops-yandex-recrawl, запуск с main",
@@ -170,7 +170,7 @@
     "queries_count": 2,
     "demand_by_source": {
       "wordstat": 63,
-      "webmaster": 36
+      "webmaster": 41
     },
     "demand_queries_by_source": {
       "wordstat": 1,
@@ -183,7 +183,7 @@
     "demand_measured_queries": 2,
     "demand_coverage": "2/2",
     "demand_coverage_ratio": 1.0,
-    "demand_index": 0.0173,
+    "demand_index": 0.0192,
     "position_best": 6,
     "position_worst": 8,
     "rivals": [
@@ -192,7 +192,7 @@
     ],
     "opportunity_best": 56,
     "confidence": "MEDIUM",
-    "potential_index": 0.0173,
+    "potential_index": 0.0192,
     "potential_label": "высокий",
     "potential_note": "спрос измерен по всем 2 запросам пакета",
     "traffic_upside": null,
@@ -234,7 +234,7 @@
     ],
     "queries_count": 2,
     "demand_by_source": {
-      "webmaster": 21,
+      "webmaster": 19,
       "wordstat": 28
     },
     "demand_queries_by_source": {
@@ -248,7 +248,7 @@
     "demand_measured_queries": 2,
     "demand_coverage": "2/2",
     "demand_coverage_ratio": 1.0,
-    "demand_index": 0.0101,
+    "demand_index": 0.0094,
     "position_best": 8,
     "position_worst": 9,
     "rivals": [
@@ -256,7 +256,7 @@
     ],
     "opportunity_best": 46,
     "confidence": "MEDIUM",
-    "potential_index": 0.0101,
+    "potential_index": 0.0094,
     "potential_label": "высокий",
     "potential_note": "спрос измерен по всем 2 запросам пакета",
     "traffic_upside": null,
@@ -291,7 +291,7 @@
     }
   },
   {
-    "package_id": "WP-07",
+    "package_id": "WP-08",
     "url": "https://biz-soft.pro/blog/kak-kupit-github-copilot-dlya-yurlica",
     "page_kind": "blog",
     "subject": "kak-kupit-github-copilot-dlya-yurlica",
@@ -299,11 +299,11 @@
       "купить подписку github copilot business"
     ],
     "attack_ids": [
-      "ATT-005"
+      "ATT-004"
     ],
     "queries_count": 1,
     "demand_by_source": {
-      "webmaster": 29
+      "webmaster": 31
     },
     "demand_queries_by_source": {
       "webmaster": 1
@@ -314,15 +314,15 @@
     "demand_measured_queries": 1,
     "demand_coverage": "1/1",
     "demand_coverage_ratio": 1.0,
-    "demand_index": 0.0087,
+    "demand_index": 0.0093,
     "position_best": 6,
     "position_worst": 6,
     "rivals": [
       "raketapay.ru"
     ],
-    "opportunity_best": 64,
+    "opportunity_best": 65,
     "confidence": "MEDIUM",
-    "potential_index": 0.0087,
+    "potential_index": 0.0093,
     "potential_label": "высокий",
     "potential_note": "спрос измерен по всем 1 запросам пакета",
     "traffic_upside": null,
@@ -336,7 +336,7 @@
     ],
     "действия": [
       {
-        "action_id": "WP-07-1",
+        "action_id": "WP-08-1",
         "kind": "мета",
         "what": "Пересобрать заголовок страницы под ведущий запрос пакета",
         "where": "src/content/blog/kak-kupit-github-copilot-dlya-yurlica.md — поле title",
@@ -349,7 +349,7 @@
         "owner": "SEO + редактор"
       },
       {
-        "action_id": "WP-07-2",
+        "action_id": "WP-08-2",
         "kind": "индексация",
         "what": "Отправить страницу на переобход после правок",
         "where": "workflow ops-yandex-recrawl, запуск с main",
@@ -398,7 +398,7 @@
     ],
     "queries_count": 1,
     "demand_by_source": {
-      "webmaster": 19
+      "webmaster": 21
     },
     "demand_queries_by_source": {
       "webmaster": 1
@@ -409,7 +409,7 @@
     "demand_measured_queries": 1,
     "demand_coverage": "1/1",
     "demand_coverage_ratio": 1.0,
-    "demand_index": 0.0067,
+    "demand_index": 0.0074,
     "position_best": 7,
     "position_worst": 7,
     "rivals": [
@@ -417,7 +417,7 @@
     ],
     "opportunity_best": 47,
     "confidence": "MEDIUM",
-    "potential_index": 0.0067,
+    "potential_index": 0.0074,
     "potential_label": "высокий",
     "potential_note": "спрос измерен по всем 1 запросам пакета",
     "traffic_upside": null,
@@ -491,7 +491,7 @@
     ],
     "queries_count": 1,
     "demand_by_source": {
-      "webmaster": 39
+      "webmaster": 41
     },
     "demand_queries_by_source": {
       "webmaster": 1
@@ -502,15 +502,15 @@
     "demand_measured_queries": 1,
     "demand_coverage": "1/1",
     "demand_coverage_ratio": 1.0,
-    "demand_index": 0.0059,
+    "demand_index": 0.0061,
     "position_best": 4,
     "position_worst": 4,
     "rivals": [
       "raketapay.ru"
     ],
-    "opportunity_best": 60,
+    "opportunity_best": 61,
     "confidence": "MEDIUM",
-    "potential_index": 0.0059,
+    "potential_index": 0.0061,
     "potential_label": "средний",
     "potential_note": "спрос измерен по всем 1 запросам пакета",
     "traffic_upside": null,
@@ -608,7 +608,7 @@
     ],
     "queries_count": 2,
     "demand_by_source": {
-      "webmaster": 18
+      "webmaster": 19
     },
     "demand_queries_by_source": {
       "webmaster": 2
@@ -619,7 +619,7 @@
     "demand_measured_queries": 2,
     "demand_coverage": "2/2",
     "demand_coverage_ratio": 1.0,
-    "demand_index": 0.0042,
+    "demand_index": 0.0044,
     "position_best": 4,
     "position_worst": 5,
     "rivals": [
@@ -627,7 +627,7 @@
     ],
     "opportunity_best": 56,
     "confidence": "MEDIUM",
-    "potential_index": 0.0042,
+    "potential_index": 0.0044,
     "potential_label": "средний",
     "potential_note": "спрос измерен по всем 2 запросам пакета",
     "traffic_upside": null,
@@ -693,18 +693,18 @@
   },
   {
     "package_id": "WP-16",
-    "url": "https://biz-soft.pro/blog/kak-oplatit-framer-dlya-yurlica",
-    "page_kind": "blog",
-    "subject": "kak-oplatit-framer-dlya-yurlica",
+    "url": "https://biz-soft.pro/vendors/depositphotos",
+    "page_kind": "vendor",
+    "subject": "depositphotos",
     "queries": [
-      "как купить framer pro в россии"
+      "оплата depositphotos"
     ],
     "attack_ids": [
-      "ATT-040"
+      "ATT-042"
     ],
     "queries_count": 1,
     "demand_by_source": {
-      "webmaster": 25
+      "webmaster": 11
     },
     "demand_queries_by_source": {
       "webmaster": 1
@@ -715,15 +715,81 @@
     "demand_measured_queries": 1,
     "demand_coverage": "1/1",
     "demand_coverage_ratio": 1.0,
-    "demand_index": 0.0037,
+    "demand_index": 0.0044,
+    "position_best": 9,
+    "position_worst": 9,
+    "rivals": [
+      "platipomiru.com"
+    ],
+    "opportunity_best": 44,
+    "confidence": "MEDIUM",
+    "potential_index": 0.0044,
+    "potential_label": "средний",
+    "potential_note": "спрос измерен по всем 1 запросам пакета",
+    "traffic_upside": null,
+    "upside_note": "перевод в переходы невозможен: спрос измерен показами Вебмастера — это видимая нам часть спроса за две недели, а не объём рынка",
+    "effort": "S",
+    "action": "правок по репозиторию не требуется: запросы пакета уже раскрыты в проверенном тексте — остаётся проверить тело страницы из Directus",
+    "checklist": [
+      "Блок «Оплата по счёту для юридических лиц»: договор, счёт, НДС, закрывающие документы, ЭДО — на первом экране, не в подвале",
+      "FAQ из вопросов покупателя-юрлица: как оплатить с расчётного счёта, какие документы придут, сроки поставки лицензии",
+      "Таблица тарифов с указанием, что доступно для команд и компаний",
+      "Ссылки с карточек товаров этого вендора на страницу вендора"
+    ],
+    "действия": [],
+    "порядок_по_опыту": false,
+    "уже_сделано": [],
+    "не_рекомендуем": [
+      "внешние ссылки и их закупка: ссылочный профиль этим контуром не измеряется — предлагать бюджет под неизмеряемое нельзя",
+      "поведенческие факторы: данные Метрики по этим страницам в контур не заведены, эффект правок проверить нечем",
+      "общие формулировки вида «улучшить SEO» и «усилить контент»: их нельзя ни поручить, ни принять — они запрещены проверкой отчёта"
+    ],
+    "системные_слова": [],
+    "проверено_по": "проверены редакторские tagline и about из src/data/vendors.ts; текст типового лендинга (заголовки и блоки шаблона); bespoke-контент scripts/content/depositphotos.json (лид, сравнение тарифов, матрица выбора, сценарии, свой FAQ); подмена FAQ экспериментом со сниппетами учтена; карточки товаров приходят из Directus и в проверку не входят",
+    "источник_текста": "src/data/vendors.ts",
+    "занятость": {
+      "степень": "занята",
+      "эксперимент": "snippets-5-vendors",
+      "заявка": "SEO-EXP-001",
+      "начат": "2026-08-19",
+      "до": "2026-09-02",
+      "почему": "страница входит в действующий эксперимент базового SEO-контура «snippets-5-vendors» (начат 2026-08-19): вторая правка в том же окне лишит оценки оба эксперимента",
+      "ограничение": "CTR кластеров Canva/Depositphotos/CorelDRAW/HeyGen/Marmoset в Яндекс.Вебмастере ≥2% через 7 дней (26.08.2026), ≥3% через 14 дней (02.09.2026)"
+    }
+  },
+  {
+    "package_id": "WP-17",
+    "url": "https://biz-soft.pro/blog/kak-oplatit-framer-dlya-yurlica",
+    "page_kind": "blog",
+    "subject": "kak-oplatit-framer-dlya-yurlica",
+    "queries": [
+      "как купить framer pro в россии"
+    ],
+    "attack_ids": [
+      "ATT-037"
+    ],
+    "queries_count": 1,
+    "demand_by_source": {
+      "webmaster": 28
+    },
+    "demand_queries_by_source": {
+      "webmaster": 1
+    },
+    "demand_sources": [
+      "webmaster"
+    ],
+    "demand_measured_queries": 1,
+    "demand_coverage": "1/1",
+    "demand_coverage_ratio": 1.0,
+    "demand_index": 0.0042,
     "position_best": 4,
     "position_worst": 4,
     "rivals": [
       "aifory.pro"
     ],
-    "opportunity_best": 44,
+    "opportunity_best": 45,
     "confidence": "MEDIUM",
-    "potential_index": 0.0037,
+    "potential_index": 0.0042,
     "potential_label": "средний",
     "potential_note": "спрос измерен по всем 1 запросам пакета",
     "traffic_upside": null,
@@ -737,7 +803,7 @@
     ],
     "действия": [
       {
-        "action_id": "WP-16-1",
+        "action_id": "WP-17-1",
         "kind": "текст",
         "what": "Дописать текст под 1 запрос без единого вхождения на странице",
         "where": "/blog/kak-oplatit-framer-dlya-yurlica — src/content/blog/kak-oplatit-framer-dlya-yurlica.md (правка md-файла статьи, обычный PR)",
@@ -750,7 +816,7 @@
         "owner": "редактор"
       },
       {
-        "action_id": "WP-16-2",
+        "action_id": "WP-17-2",
         "kind": "заголовки",
         "what": "Добавить 1 вопрос в существующий FAQ",
         "where": "src/content/blog/kak-oplatit-framer-dlya-yurlica.md, блок faq во frontmatter",
@@ -763,7 +829,7 @@
         "owner": "редактор"
       },
       {
-        "action_id": "WP-16-3",
+        "action_id": "WP-17-3",
         "kind": "мета",
         "what": "Пересобрать заголовок страницы под ведущий запрос пакета",
         "where": "src/content/blog/kak-oplatit-framer-dlya-yurlica.md — поле title",
@@ -776,7 +842,7 @@
         "owner": "SEO + редактор"
       },
       {
-        "action_id": "WP-16-4",
+        "action_id": "WP-17-4",
         "kind": "индексация",
         "what": "Отправить страницу на переобход после правок",
         "where": "workflow ops-yandex-recrawl, запуск с main",
@@ -813,81 +879,15 @@
     }
   },
   {
-    "package_id": "WP-17",
-    "url": "https://biz-soft.pro/vendors/depositphotos",
+    "package_id": "WP-18",
+    "url": "https://biz-soft.pro/vendors/descript",
     "page_kind": "vendor",
-    "subject": "depositphotos",
+    "subject": "descript",
     "queries": [
-      "оплата depositphotos"
+      "купить подписку descript"
     ],
     "attack_ids": [
-      "ATT-042"
-    ],
-    "queries_count": 1,
-    "demand_by_source": {
-      "webmaster": 9
-    },
-    "demand_queries_by_source": {
-      "webmaster": 1
-    },
-    "demand_sources": [
-      "webmaster"
-    ],
-    "demand_measured_queries": 1,
-    "demand_coverage": "1/1",
-    "demand_coverage_ratio": 1.0,
-    "demand_index": 0.0036,
-    "position_best": 9,
-    "position_worst": 9,
-    "rivals": [
-      "platipomiru.com"
-    ],
-    "opportunity_best": 44,
-    "confidence": "MEDIUM",
-    "potential_index": 0.0036,
-    "potential_label": "средний",
-    "potential_note": "спрос измерен по всем 1 запросам пакета",
-    "traffic_upside": null,
-    "upside_note": "перевод в переходы невозможен: спрос измерен показами Вебмастера — это видимая нам часть спроса за две недели, а не объём рынка",
-    "effort": "S",
-    "action": "правок по репозиторию не требуется: запросы пакета уже раскрыты в проверенном тексте — остаётся проверить тело страницы из Directus",
-    "checklist": [
-      "Блок «Оплата по счёту для юридических лиц»: договор, счёт, НДС, закрывающие документы, ЭДО — на первом экране, не в подвале",
-      "FAQ из вопросов покупателя-юрлица: как оплатить с расчётного счёта, какие документы придут, сроки поставки лицензии",
-      "Таблица тарифов с указанием, что доступно для команд и компаний",
-      "Ссылки с карточек товаров этого вендора на страницу вендора"
-    ],
-    "действия": [],
-    "порядок_по_опыту": false,
-    "уже_сделано": [],
-    "не_рекомендуем": [
-      "внешние ссылки и их закупка: ссылочный профиль этим контуром не измеряется — предлагать бюджет под неизмеряемое нельзя",
-      "поведенческие факторы: данные Метрики по этим страницам в контур не заведены, эффект правок проверить нечем",
-      "общие формулировки вида «улучшить SEO» и «усилить контент»: их нельзя ни поручить, ни принять — они запрещены проверкой отчёта"
-    ],
-    "системные_слова": [],
-    "проверено_по": "проверены редакторские tagline и about из src/data/vendors.ts; текст типового лендинга (заголовки и блоки шаблона); bespoke-контент scripts/content/depositphotos.json (лид, сравнение тарифов, матрица выбора, сценарии, свой FAQ); подмена FAQ экспериментом со сниппетами учтена; карточки товаров приходят из Directus и в проверку не входят",
-    "источник_текста": "src/data/vendors.ts",
-    "занятость": {
-      "степень": "занята",
-      "эксперимент": "snippets-5-vendors",
-      "заявка": "SEO-EXP-001",
-      "начат": "2026-08-19",
-      "до": "2026-09-02",
-      "почему": "страница входит в действующий эксперимент базового SEO-контура «snippets-5-vendors» (начат 2026-08-19): вторая правка в том же окне лишит оценки оба эксперимента",
-      "ограничение": "CTR кластеров Canva/Depositphotos/CorelDRAW/HeyGen/Marmoset в Яндекс.Вебмастере ≥2% через 7 дней (26.08.2026), ≥3% через 14 дней (02.09.2026)"
-    }
-  },
-  {
-    "package_id": "WP-19",
-    "url": "https://biz-soft.pro/product/adobe-lr",
-    "page_kind": "product",
-    "subject": "adobe-lr",
-    "queries": [
-      "купить lightroom юридическим лицом"
-    ],
-    "attack_ids": [
-      "ATT-003"
+      "ATT-019"
     ],
     "queries_count": 1,
     "demand_by_source": {
@@ -902,7 +902,100 @@
     "demand_measured_queries": 1,
     "demand_coverage": "1/1",
     "demand_coverage_ratio": 1.0,
-    "demand_index": 0.0028,
+    "demand_index": 0.0041,
+    "position_best": 8,
+    "position_worst": 8,
+    "rivals": [
+      "raketapay.ru"
+    ],
+    "opportunity_best": 52,
+    "confidence": "MEDIUM",
+    "potential_index": 0.0041,
+    "potential_label": "средний",
+    "potential_note": "спрос измерен по всем 1 запросам пакета",
+    "traffic_upside": null,
+    "upside_note": "перевод в переходы невозможен: спрос измерен показами Вебмастера — это видимая нам часть спроса за две недели, а не объём рынка",
+    "effort": "S",
+    "action": "Вынести 1 запрос в подзаголовки или вопросы FAQ",
+    "checklist": [
+      "Блок «Оплата по счёту для юридических лиц»: договор, счёт, НДС, закрывающие документы, ЭДО — на первом экране, не в подвале",
+      "FAQ из вопросов покупателя-юрлица: как оплатить с расчётного счёта, какие документы придут, сроки поставки лицензии",
+      "Таблица тарифов с указанием, что доступно для команд и компаний",
+      "Ссылки с карточек товаров этого вендора на страницу вендора"
+    ],
+    "действия": [
+      {
+        "action_id": "WP-18-1",
+        "kind": "заголовки",
+        "what": "Вынести 1 запрос в подзаголовки или вопросы FAQ",
+        "where": "/vendors/descript — src/data/vendors.ts, запись slug: 'descript'",
+        "why": "тема раскрыта в тексте, но не видна в структуре страницы: заголовки и вопросы FAQ поисковик сопоставляет с запросом в первую очередь",
+        "steps": [
+          "«купить подписку descript»"
+        ],
+        "check": "каждая фраза стоит в H2/H3 или в вопросе FAQ, а не только в абзаце",
+        "effort": "S",
+        "owner": "редактор"
+      },
+      {
+        "action_id": "WP-18-2",
+        "kind": "индексация",
+        "what": "Отправить страницу на переобход после правок",
+        "where": "workflow ops-yandex-recrawl, запуск с main",
+        "why": "правка вступает в силу для поиска только после переобхода; квота 150 URL в сутки, страница одна",
+        "steps": [
+          "urls = https://biz-soft.pro/vendors/descript"
+        ],
+        "check": "URL принят Вебмастером, результат в журнале issue #22",
+        "effort": "S",
+        "owner": "SEO"
+      }
+    ],
+    "порядок_по_опыту": false,
+    "уже_сделано": [],
+    "не_рекомендуем": [
+      "внешние ссылки и их закупка: ссылочный профиль этим контуром не измеряется — предлагать бюджет под неизмеряемое нельзя",
+      "поведенческие факторы: данные Метрики по этим страницам в контур не заведены, эффект правок проверить нечем",
+      "общие формулировки вида «улучшить SEO» и «усилить контент»: их нельзя ни поручить, ни принять — они запрещены проверкой отчёта"
+    ],
+    "системные_слова": [],
+    "проверено_по": "проверены редакторские tagline и about из src/data/vendors.ts; текст типового лендинга (заголовки и блоки шаблона); bespoke-контент scripts/content/descript.json (лид, сравнение тарифов, матрица выбора, сценарии, свой FAQ); карточки товаров приходят из Directus и в проверку не входят",
+    "источник_текста": "src/data/vendors.ts",
+    "занятость": {
+      "степень": "контрольная группа",
+      "эксперимент": "content-6-clusters",
+      "заявка": "CONTENT-002",
+      "начат": "2026-09-02",
+      "до": "2026-09-16",
+      "почему": "кластер «descript» — контрольная группа эксперимента «content-6-clusters»: работа по нему меняет то, с чем сравнивают результат",
+      "ограничение": "кластеры Windsurf, GitLab, Atlassian, Box, Descript, Dropbox — прошли те же гейты отбора (показы, средняя позиция в топ-10, карточки товаров), но статей не получили. До контрольной точки 16.09.2026 статьи по ним не заводить: это следующая волна расширения, и взятая раньше времени она лишит эксперимент контроля."
+    }
+  },
+  {
+    "package_id": "WP-20",
+    "url": "https://biz-soft.pro/product/adobe-lr",
+    "page_kind": "product",
+    "subject": "adobe-lr",
+    "queries": [
+      "купить lightroom юридическим лицом"
+    ],
+    "attack_ids": [
+      "ATT-003"
+    ],
+    "queries_count": 1,
+    "demand_by_source": {
+      "webmaster": 13
+    },
+    "demand_queries_by_source": {
+      "webmaster": 1
+    },
+    "demand_sources": [
+      "webmaster"
+    ],
+    "demand_measured_queries": 1,
+    "demand_coverage": "1/1",
+    "demand_coverage_ratio": 1.0,
+    "demand_index": 0.0033,
     "position_best": 5,
     "position_worst": 5,
     "rivals": [
@@ -910,7 +1003,7 @@
     ],
     "opportunity_best": 65,
     "confidence": "MEDIUM",
-    "potential_index": 0.0028,
+    "potential_index": 0.0033,
     "potential_label": "средний",
     "potential_note": "спрос измерен по всем 1 запросам пакета",
     "traffic_upside": null,
@@ -926,7 +1019,7 @@
     ],
     "действия": [
       {
-        "action_id": "WP-19-1",
+        "action_id": "WP-20-1",
         "kind": "проверка",
         "what": "Проверить в Directus, как раскрыты на карточке 1 запрос",
         "where": "/product/adobe-lr — карточка товара в Directus (name, short_description)",
@@ -939,7 +1032,7 @@
         "owner": "редактор"
       },
       {
-        "action_id": "WP-19-2",
+        "action_id": "WP-20-2",
         "kind": "индексация",
         "what": "Отправить страницу на переобход после правок",
         "where": "workflow ops-yandex-recrawl, запуск с main",
@@ -964,7 +1057,7 @@
     "источник_текста": "data/seo/product-descriptions.json"
   },
   {
-    "package_id": "WP-21",
+    "package_id": "WP-22",
     "url": "https://biz-soft.pro/vendors/box",
     "page_kind": "vendor",
     "subject": "box",
@@ -1010,7 +1103,7 @@
     ],
     "действия": [
       {
-        "action_id": "WP-21-1",
+        "action_id": "WP-22-1",
         "kind": "текст",
         "what": "Дописать текст под 1 запрос без единого вхождения на странице",
         "where": "/vendors/box — src/data/vendors.ts, запись slug: 'box' (правка полей tagline/about в src/data/vendors.ts, обычный PR; карточки товаров на странице приходят из Directus)",
@@ -1023,7 +1116,7 @@
         "owner": "редактор"
       },
       {
-        "action_id": "WP-21-2",
+        "action_id": "WP-22-2",
         "kind": "индексация",
         "what": "Отправить страницу на переобход после правок",
         "where": "workflow ops-yandex-recrawl, запуск с main",
@@ -1057,100 +1150,7 @@
     }
   },
   {
-    "package_id": "WP-22",
-    "url": "https://biz-soft.pro/vendors/descript",
-    "page_kind": "vendor",
-    "subject": "descript",
-    "queries": [
-      "купить подписку descript"
-    ],
-    "attack_ids": [
-      "ATT-019"
-    ],
-    "queries_count": 1,
-    "demand_by_source": {
-      "webmaster": 7
-    },
-    "demand_queries_by_source": {
-      "webmaster": 1
-    },
-    "demand_sources": [
-      "webmaster"
-    ],
-    "demand_measured_queries": 1,
-    "demand_coverage": "1/1",
-    "demand_coverage_ratio": 1.0,
-    "demand_index": 0.0026,
-    "position_best": 8,
-    "position_worst": 8,
-    "rivals": [
-      "raketapay.ru"
-    ],
-    "opportunity_best": 52,
-    "confidence": "MEDIUM",
-    "potential_index": 0.0026,
-    "potential_label": "средний",
-    "potential_note": "спрос измерен по всем 1 запросам пакета",
-    "traffic_upside": null,
-    "upside_note": "перевод в переходы невозможен: спрос измерен показами Вебмастера — это видимая нам часть спроса за две недели, а не объём рынка",
-    "effort": "S",
-    "action": "Вынести 1 запрос в подзаголовки или вопросы FAQ",
-    "checklist": [
-      "Блок «Оплата по счёту для юридических лиц»: договор, счёт, НДС, закрывающие документы, ЭДО — на первом экране, не в подвале",
-      "FAQ из вопросов покупателя-юрлица: как оплатить с расчётного счёта, какие документы придут, сроки поставки лицензии",
-      "Таблица тарифов с указанием, что доступно для команд и компаний",
-      "Ссылки с карточек товаров этого вендора на страницу вендора"
-    ],
-    "действия": [
-      {
-        "action_id": "WP-22-1",
-        "kind": "заголовки",
-        "what": "Вынести 1 запрос в подзаголовки или вопросы FAQ",
-        "where": "/vendors/descript — src/data/vendors.ts, запись slug: 'descript'",
-        "why": "тема раскрыта в тексте, но не видна в структуре страницы: заголовки и вопросы FAQ поисковик сопоставляет с запросом в первую очередь",
-        "steps": [
-          "«купить подписку descript»"
-        ],
-        "check": "каждая фраза стоит в H2/H3 или в вопросе FAQ, а не только в абзаце",
-        "effort": "S",
-        "owner": "редактор"
-      },
-      {
-        "action_id": "WP-22-2",
-        "kind": "индексация",
-        "what": "Отправить страницу на переобход после правок",
-        "where": "workflow ops-yandex-recrawl, запуск с main",
-        "why": "правка вступает в силу для поиска только после переобхода; квота 150 URL в сутки, страница одна",
-        "steps": [
-          "urls = https://biz-soft.pro/vendors/descript"
-        ],
-        "check": "URL принят Вебмастером, результат в журнале issue #22",
-        "effort": "S",
-        "owner": "SEO"
-      }
-    ],
-    "порядок_по_опыту": false,
-    "уже_сделано": [],
-    "не_рекомендуем": [
-      "внешние ссылки и их закупка: ссылочный профиль этим контуром не измеряется — предлагать бюджет под неизмеряемое нельзя",
-      "поведенческие факторы: данные Метрики по этим страницам в контур не заведены, эффект правок проверить нечем",
-      "общие формулировки вида «улучшить SEO» и «усилить контент»: их нельзя ни поручить, ни принять — они запрещены проверкой отчёта"
-    ],
-    "системные_слова": [],
-    "проверено_по": "проверены редакторские tagline и about из src/data/vendors.ts; текст типового лендинга (заголовки и блоки шаблона); bespoke-контент scripts/content/descript.json (лид, сравнение тарифов, матрица выбора, сценарии, свой FAQ); карточки товаров приходят из Directus и в проверку не входят",
-    "источник_текста": "src/data/vendors.ts",
-    "занятость": {
-      "степень": "контрольная группа",
-      "эксперимент": "content-6-clusters",
-      "заявка": "CONTENT-002",
-      "начат": "2026-09-02",
-      "до": "2026-09-16",
-      "почему": "кластер «descript» — контрольная группа эксперимента «content-6-clusters»: работа по нему меняет то, с чем сравнивают результат",
-      "ограничение": "кластеры Windsurf, GitLab, Atlassian, Box, Descript, Dropbox — прошли те же гейты отбора (показы, средняя позиция в топ-10, карточки товаров), но статей не получили. До контрольной точки 16.09.2026 статьи по ним не заводить: это следующая волна расширения, и взятая раньше времени она лишит эксперимент контроля."
-    }
-  },
-  {
-    "package_id": "WP-25",
+    "package_id": "WP-24",
     "url": "https://www.biz-soft.pro/vendors/monotype",
     "page_kind": "vendor",
     "subject": "monotype",
@@ -1207,7 +1207,7 @@
     "источник_текста": "src/data/vendors.ts"
   },
   {
-    "package_id": "WP-27",
+    "package_id": "WP-26",
     "url": "https://biz-soft.pro/vendors/cloudflare",
     "page_kind": "vendor",
     "subject": "cloudflare",
@@ -1215,7 +1215,7 @@
       "cloudflare купить москва и мо"
     ],
     "attack_ids": [
-      "ATT-039"
+      "ATT-040"
     ],
     "queries_count": 1,
     "demand_by_source": {
@@ -1265,7 +1265,7 @@
     "источник_текста": "src/data/vendors.ts"
   },
   {
-    "package_id": "WP-28",
+    "package_id": "WP-27",
     "url": "https://biz-soft.pro/vendors/houdini",
     "page_kind": "vendor",
     "subject": "houdini",
