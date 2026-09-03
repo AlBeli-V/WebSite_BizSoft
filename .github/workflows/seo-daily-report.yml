@@ -1,0 +1,191 @@
+# Ежедневный конвейер BIZSoft Growth Intelligence: письмо V4 и веб-отчёт.
+#
+# Заменяет ежедневную Routine на сессии Claude (решение руководителя
+# 03.09.2026 по разбору расхода токенов): все шаги прогона детерминированы,
+# модель в них не участвовала. Порядок повторяет прежний промпт:
+#   0) убедиться, что за сегодня есть сбор данных, выгрузка заявок и
+#      проверка живых страниц — недостающее запустить и дождаться;
+#   1) snapshot → quality → report_v4 → webreport; проверка в браузере,
+#      UX lint, качество содержания, скриншоты, тесты — все обязаны быть
+#      зелёными, иначе письмо не уходит (сторож seo-report-email пришлёт
+#      уведомление о сбое);
+#   2) push в seo-data, выкладка веб-отчёта, отправка письма.
+# Статусы реестра действий (intelligence/actions.json) обновляет PR,
+# внедряющий действие, — отдельного шага здесь нет.
+#
+# Push из Actions под GITHUB_TOKEN не запускает push-триггеры почтового и
+# публикационного workflow, поэтому они вызываются явно через
+# scripts/ops/gh_dispatch_wait.sh. Одно письмо на дату стережёт маркер
+# last-mailed.txt: контрольный слот и повторный запуск письмо не дублируют.
+#
+# Расписание (UTC; московское рядом — правило проекта):
+#   06:00 UTC = 09:00 МСК — штатный слот;
+#   06:35 UTC = 09:35 МСК — контрольный слот: планировщик GitHub пропускает
+#   отдельные слоты (инцидент 27.08.2026 — шесть часов тишины); если отчёт
+#   за сегодня уже в хранилище, слот только проверяет отправку.
+#   Сторож seo-report-email в 10:00 МСК шлёт уведомление о сбое, если письма
+#   нет и после этого.
+name: seo-daily-report
+
+on:
+  schedule:
+    - cron: "0 6 * * *"
+    - cron: "35 6 * * *"
+  workflow_dispatch:
+    inputs:
+      force:
+        description: "yes — пересобрать отчёт за сегодня, даже если он уже есть в seo-data"
+        required: false
+        default: "no"
+
+permissions:
+  contents: write
+  actions: write
+  issues: write
+
+# Два слота и ручной запуск не должны собирать один отчёт параллельно.
+concurrency:
+  group: seo-daily-report
+  cancel-in-progress: false
+
+jobs:
+  report:
+    runs-on: ubuntu-latest
+    timeout-minutes: 150
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Pull data branch
+        run: bash scripts/seo/data_sync.sh pull
+
+      - name: Resolve date and guard
+        id: guard
+        env:
+          FORCE: ${{ inputs.force || 'no' }}
+        run: |
+          date=$(TZ=Europe/Moscow date +%F)
+          echo "date=$date" >> "$GITHUB_OUTPUT"
+          if [ -f "reports/seo/intelligence/$date-v4-email.html" ] && [ "$FORCE" != "yes" ]; then
+            echo "build=no" >> "$GITHUB_OUTPUT"
+            echo "отчёт за $date уже собран — остаётся проверить отправку"
+          else
+            echo "build=yes" >> "$GITHUB_OUTPUT"
+            echo "отчёт за $date собирается"
+          fi
+
+      # Шаг 0 прежнего промпта: сбор данных, выгрузка заявок и проверка живых
+      # страниц идут своими расписаниями раньше; если какого-то артефакта за
+      # сегодня нет — запустить и дождаться. Повторный прогон в один день у
+      # всех трёх безвреден (файл за дату перезаписывается).
+      - name: Ensure today's inputs
+        if: steps.guard.outputs.build == 'yes'
+        env:
+          DATE: ${{ steps.guard.outputs.date }}
+        run: |
+          ensure() {
+            if [ -f "$1" ]; then
+              echo "есть: $1"
+              return
+            fi
+            echo "нет $1 — запускается $2"
+            bash scripts/ops/gh_dispatch_wait.sh "$2" --timeout 2400
+            bash scripts/seo/data_sync.sh pull
+          }
+          ensure "reports/seo/data/gsc-$DATE.json" seo-data-collect.yml
+          ensure "reports/seo/data/leads-$DATE.json" ops-leads-collect.yml
+          ensure "reports/seo/intelligence/site-check-$DATE.json" seo-site-check.yml
+
+      - name: Setup pnpm
+        if: steps.guard.outputs.build == 'yes'
+        uses: pnpm/action-setup@v4
+      - name: Setup Node
+        if: steps.guard.outputs.build == 'yes'
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - uses: actions/setup-python@v5
+        if: steps.guard.outputs.build == 'yes'
+        with:
+          python-version: "3.12"
+
+      # Графики письма и проверка в браузере рендерятся через playwright
+      # (scripts/seo/render.mjs, emailcheck.mjs) — нужен chromium раннера.
+      - name: Install deps
+        if: steps.guard.outputs.build == 'yes'
+        run: |
+          pnpm install --frozen-lockfile
+          pnpm exec playwright install --with-deps chromium
+          pip install --quiet requests
+
+      - name: Build report
+        if: steps.guard.outputs.build == 'yes'
+        env:
+          DATE: ${{ steps.guard.outputs.date }}
+        run: |
+          python3 scripts/seo/snapshot.py "$DATE"
+          python3 scripts/seo/quality.py "$DATE"
+          python3 scripts/seo/report_v4.py "$DATE"
+          python3 scripts/seo/webreport.py "$DATE"
+
+      # Гейты прежнего промпта: проверка в браузере, UX lint, качество
+      # содержания, скриншоты и тесты. Любой красный — письмо не уходит.
+      - name: Quality gates
+        if: steps.guard.outputs.build == 'yes'
+        env:
+          DATE: ${{ steps.guard.outputs.date }}
+        run: |
+          set -o pipefail
+          node scripts/seo/emailcheck.mjs \
+            "reports/seo/intelligence/$DATE-v4.html" \
+            "reports/seo/intelligence/$DATE-v4-render.json"
+          python3 scripts/seo/uxlint_v4.py "$DATE"
+          python3 scripts/seo/contentcheck.py "$DATE"
+          python3 scripts/seo/previews_v4.py "$DATE"
+          python3 -m unittest discover -s scripts/seo/tests -t scripts/seo/tests \
+            -p 'test_*.py' 2>&1 | tee /tmp/py-tests.log
+          grep -qE '^Ran [1-9][0-9]* tests' /tmp/py-tests.log \
+            || { echo 'Тестов не найдено — проверка ничего не значит'; exit 1; }
+
+      # Каталоги-владения прогона: intelligence (письмо, снимок, качество)
+      # и public (веб-отчёт). Остальное пушат свои workflow.
+      - name: Push report to seo-data
+        if: steps.guard.outputs.build == 'yes'
+        env:
+          DATE: ${{ steps.guard.outputs.date }}
+        run: |
+          bash scripts/seo/data_sync.sh push "Отчёт за $DATE" \
+            "reports/seo/intelligence reports/seo/public"
+
+      - name: Publish web report
+        if: steps.guard.outputs.build == 'yes'
+        run: bash scripts/ops/gh_dispatch_wait.sh seo-publish-web.yml --timeout 600
+
+      # Одно письмо на дату: маркер last-mailed.txt пишет только почтовый
+      # workflow. Ручной dispatch почтового workflow маркер игнорирует
+      # (сознательная переотправка), поэтому проверка маркера — здесь.
+      - name: Ensure letter is sent
+        env:
+          DATE: ${{ steps.guard.outputs.date }}
+        run: |
+          git fetch origin seo-data --quiet
+          mailed=$(git show origin/seo-data:reports/seo/intelligence/last-mailed.txt 2>/dev/null || echo "")
+          if [ "$mailed" = "$DATE" ]; then
+            echo "письмо за $DATE уже отправлено"
+            exit 0
+          fi
+          if ! git cat-file -e "origin/seo-data:reports/seo/intelligence/$DATE-v4-email.html" 2>/dev/null; then
+            echo "::error::письма за $DATE в хранилище нет — отправлять нечего"
+            exit 1
+          fi
+          bash scripts/ops/gh_dispatch_wait.sh seo-report-email.yml --timeout 900
+
+      # Тишина при успехе; при сбое — одна запись в журнал-issue #22.
+      - name: Journal on failure
+        if: failure()
+        env:
+          DATE: ${{ steps.guard.outputs.date }}
+        run: |
+          gh issue comment 22 --body "seo-daily-report: прогон за $DATE завершился с ошибкой — $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID. Письмо Growth Intelligence не собрано или не отправлено; уведомление о сбое даёт сторож seo-report-email."

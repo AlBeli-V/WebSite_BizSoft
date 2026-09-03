@@ -45,9 +45,9 @@ PY_SCOPES = [
     ("competitive-intelligence/scoring", ["*.py"]),
     ("competitive-intelligence/experiments", ["*.py"]),
 ]
-TEXT_SCOPES = [
-    ("ops/routines/prompts", ["*.md"]),
-]
+# Промпты Routine на сессиях Claude упразднены 03.09.2026 (операционные
+# прогоны переведены в Actions); текстовых областей проверки пока нет.
+TEXT_SCOPES: list[tuple[str, list[str]]] = []
 # В воркфлоу проверяются только строки, которые уходят в журнал или письмо.
 YML_LINE_RE = re.compile(r"^\s*(echo\s|print\(|.*\.append\(f?['\"]|body:)")
 
