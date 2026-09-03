@@ -48,15 +48,18 @@ CONFIG_PATH = pathlib.Path("data/seo/xmlriver.json")
 NO_RESULTS_CODE = "15"
 # Коды ошибок сервиса кодом 200, на которые он сам просит перезапрос:
 # 500 — «Выполните перезапрос. Ответ от поисковой системы не получен»
-# (проба 03.09.2026). Это помеха, а не вердикт, — повторяем как 5xx.
-RETRY_SERVICE_CODES = {"500"}
+# (проба 03.09.2026); 111 — «Нет свободных каналов для сбора данных»
+# (дневной срез 03.09.2026: 6 ключей из 381 при 4 потоках). Это помеха,
+# а не вердикт, — повторяем как 5xx, с растущей паузой.
+RETRY_SERVICE_CODES = {"500", "111"}
 # Типы блоков, которые считаем органикой. xmlriver помечает блоки узлом
 # contentType (organic, ads, video, …); документ без пометки — органика.
 ORGANIC_TYPES = {"", "organic"}
 # Позиций на одной странице выдачи Google у xmlriver.
 PAGE_SIZE = 10
-RETRIES = 3
-RETRY_PAUSE_S = 3.0
+RETRIES = 4
+RETRY_PAUSE_S = 3.0      # пауза растёт: 3, 6, 9 с — сервису нужно время
+                         # освободить канал, мгновенный повтор бесполезен
 TIMEOUT_S = 60
 
 
@@ -179,7 +182,7 @@ def search_google(session, user: str, key: str, query: str,
                     return parsed
                 last = parsed["error"]
         if attempt < RETRIES:
-            time.sleep(RETRY_PAUSE_S)
+            time.sleep(RETRY_PAUSE_S * attempt)
     return {"error": f"сбой после {RETRIES} попыток: {last}"}
 
 
