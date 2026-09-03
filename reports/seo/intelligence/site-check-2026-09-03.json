@@ -1,5 +1,5 @@
 {
- "checked_at": "2026-09-03T06:21:44+00:00",
+ "checked_at": "2026-09-03T07:17:54+00:00",
  "experiments": {
   "snippets-5-vendors": {
    "pages_total": 5,
@@ -81,55 +81,6 @@
      "http_ok": true,
      "title": "Depositphotos пакет 100 изображений | BIZSoft",
      "faqpage_blocks": 0,
-     "new_snippet_detected": false
-    }
-   ]
-  },
-  "snippets-6-demand": {
-   "pages_total": 6,
-   "pages_recrawled": 6,
-   "new_snippets_detected": 1,
-   "pages": [
-    {
-     "page": "/vendors/adobe",
-     "http_ok": true,
-     "title": "Оплата Adobe для юрлиц из России — счёт, договор, ЭДО | BIZSoft",
-     "faqpage_blocks": 1,
-     "new_snippet_detected": true
-    },
-    {
-     "page": "/vendors/autodesk",
-     "http_ok": true,
-     "title": "Лицензии Autodesk для юрлиц из России — счёт и договор | BIZSoft",
-     "faqpage_blocks": 1,
-     "new_snippet_detected": false
-    },
-    {
-     "page": "/vendors/procreate",
-     "http_ok": true,
-     "title": "Procreate для компании — покупка по счёту и договору | BIZSoft",
-     "faqpage_blocks": 1,
-     "new_snippet_detected": false
-    },
-    {
-     "page": "/vendors/blackmagic",
-     "http_ok": true,
-     "title": "DaVinci Resolve Studio — лицензия на юрлицо по счёту | BIZSoft",
-     "faqpage_blocks": 1,
-     "new_snippet_detected": false
-    },
-    {
-     "page": "/vendors/midjourney",
-     "http_ok": true,
-     "title": "Подписка Midjourney для юрлиц — счёт, договор, ЭДО | BIZSoft",
-     "faqpage_blocks": 1,
-     "new_snippet_detected": false
-    },
-    {
-     "page": "/vendors/clip-studio-paint",
-     "http_ok": true,
-     "title": "Clip Studio Paint для студии — счёт и договор | BIZSoft",
-     "faqpage_blocks": 1,
      "new_snippet_detected": false
     }
    ]
@@ -355,6 +306,153 @@
      "title": "CorelDRAW Graphics Suite для бизнеса (Volume) | BIZSoft",
      "faqpage_blocks": 0,
      "new_snippet_detected": false
+    }
+   ]
+  },
+  "content-10-clusters": {
+   "pages_total": 20,
+   "pages_recrawled": 20,
+   "new_snippets_detected": 17,
+   "pages": [
+    {
+     "page": "/blog/kak-kupit-windsurf-iz-rossii-dlya-yurlica",
+     "http_ok": true,
+     "title": "Windsurf AI в России: как купить и оплатить юридическим лицом — BIZSoft",
+     "faqpage_blocks": 1,
+     "new_snippet_detected": true
+    },
+    {
+     "page": "/blog/gitlab-godovaya-podpiska-iz-rossii-dlya-yurlica",
+     "http_ok": true,
+     "title": "GitLab: годовая подписка из России — оплата Premium для юрлица — BIZSoft",
+     "faqpage_blocks": 1,
+     "new_snippet_detected": true
+    },
+    {
+     "page": "/blog/oplata-descript-yuridicheskim-licom",
+     "http_ok": true,
+     "title": "Оплата Descript юридическим лицом: как купить подписку из России — BIZSoft",
+     "faqpage_blocks": 1,
+     "new_snippet_detected": true
+    },
+    {
+     "page": "/blog/kak-poluchit-schet-i-zakryvayushchie-ot-atlassian",
+     "http_ok": true,
+     "title": "Как получить счёт и закрывающие от Atlassian: оплата Confluence и Jira в рублях — BIZSoft",
+     "faqpage_blocks": 1,
+     "new_snippet_detected": true
+    },
+    {
+     "page": "/blog/kak-oplatit-box-business-iz-rossii",
+     "http_ok": true,
+     "title": "Оплата Box для юридических лиц из России: как оплатить Box Business по счёту — BIZSoft",
+     "faqpage_blocks": 1,
+     "new_snippet_detected": true
+    },
+    {
+     "page": "/blog/korporativnye-plany-cloudflare-dlya-kompanij-iz-rf",
+     "http_ok": true,
+     "title": "Корпоративные планы Cloudflare для компаний из РФ: тарифы и оплата по счёту — BIZSoft",
+     "faqpage_blocks": 1,
+     "new_snippet_detected": true
+    },
+    {
+     "page": "/blog/oplata-dropbox-dlya-yurlica-iz-rossii",
+     "http_ok": true,
+     "title": "Оплата Dropbox для юридических лиц из России: тарифы Business и Business Plus — BIZSoft",
+     "faqpage_blocks": 1,
+     "new_snippet_detected": true
+    },
+    {
+     "page": "/blog/kupit-leonardo-ai-yuridicheskim-licom",
+     "http_ok": true,
+     "title": "Купить Leonardo AI юридическим лицом: тарифы и оплата из России — BIZSoft",
+     "faqpage_blocks": 1,
+     "new_snippet_detected": true
+    },
+    {
+     "page": "/blog/spine-2d-kupit-licenziyu-dlya-yurlica",
+     "http_ok": true,
+     "title": "Spine 2D: как купить лицензию Essential или Professional в России на юрлицо — BIZSoft",
+     "faqpage_blocks": 1,
+     "new_snippet_detected": true
+    },
+    {
+     "page": "/blog/elevenlabs-tarify-oplata-dlya-yurlica",
+     "http_ok": true,
+     "title": "Тарифы ElevenLabs: чем отличаются Creator, Pro и Scale и как оплатить юрлицом — BIZSoft",
+     "faqpage_blocks": 1,
+     "new_snippet_detected": true
+    },
+    {
+     "page": "/vendors/windsurf",
+     "http_ok": true,
+     "title": "Купить Windsurf для юрлица — тарифы, счёт и КП — BIZSoft",
+     "faqpage_blocks": 1,
+     "new_snippet_detected": true
+    },
+    {
+     "page": "/vendors/gitlab",
+     "http_ok": true,
+     "title": "502 Bad Gateway",
+     "faqpage_blocks": 0,
+     "new_snippet_detected": false
+    },
+    {
+     "page": "/vendors/descript",
+     "http_ok": true,
+     "title": "502 Bad Gateway",
+     "faqpage_blocks": 0,
+     "new_snippet_detected": false
+    },
+    {
+     "page": "/vendors/atlassian",
+     "http_ok": true,
+     "title": "502 Bad Gateway",
+     "faqpage_blocks": 0,
+     "new_snippet_detected": false
+    },
+    {
+     "page": "/vendors/box",
+     "http_ok": true,
+     "title": "Купить Box для юрлица — тарифы, счёт и КП — BIZSoft",
+     "faqpage_blocks": 1,
+     "new_snippet_detected": true
+    },
+    {
+     "page": "/vendors/cloudflare",
+     "http_ok": true,
+     "title": "Купить Cloudflare для юрлица — тарифы, счёт и КП — BIZSoft",
+     "faqpage_blocks": 1,
+     "new_snippet_detected": true
+    },
+    {
+     "page": "/vendors/dropbox",
+     "http_ok": true,
+     "title": "Купить Dropbox для юрлица — тарифы, счёт и КП — BIZSoft",
+     "faqpage_blocks": 1,
+     "new_snippet_detected": true
+    },
+    {
+     "page": "/vendors/leonardo-ai",
+     "http_ok": true,
+     "title": "Купить Leonardo AI для юрлица — тарифы, счёт и КП — BIZSoft",
+     "faqpage_blocks": 1,
+     "new_snippet_detected": true
+    },
+    {
+     "page": "/vendors/spine",
+     "http_ok": true,
+     "title": "Купить Spine для юрлица — тарифы, счёт и КП — BIZSoft",
+     "faqpage_blocks": 1,
+     "new_snippet_detected": true
+    },
+    {
+     "page": "/vendors/elevenlabs",
+     "http_ok": true,
+     "title": "Купить ElevenLabs для юрлица — тарифы, счёт и КП — BIZSoft",
+     "faqpage_blocks": 1,
+     "new_snippet_detected": true
     }
    ]
   }
