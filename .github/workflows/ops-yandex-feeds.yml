@@ -57,7 +57,7 @@ jobs:
               CTYPE=$(echo "$HDRS" | grep -i '^content-type:' | tr -d '\r')
               echo "HTTP $CODE; $CTYPE"
               if echo "$HDRS" | grep -qi '^x-feed-status: disabled'; then
-                echo "⏸ фид подготовлен, но ЗАКРЫТ (решение руководителя 29.08.2026)."
+                echo "⏸ фид подготовлен, но ЗАКРЫТ: открытие — только по команде руководителя (docs/yandex-feeds.md)."
                 echo "Открытие: YANDEX_FEEDS_ENABLED на проде — только по команде руководителя."
                 echo; continue
               fi
@@ -97,16 +97,11 @@ jobs:
 
       - name: Post results to journal (issue #22)
         if: always()
-        uses: actions/github-script@v7
-        env:
-          OUT: ${{ steps.check.outputs.result }}
+        uses: ./.github/actions/journal-post
         with:
-          script: |
-            const out = (process.env.OUT || '(нет вывода)').slice(0, 60000);
-            await github.rest.issues.createComment({
-              owner: context.repo.owner, repo: context.repo.repo, issue_number: 22,
-              body: '### ops-yandex-feeds · ' + new Date().toISOString() + '\n\n```\n' + out + '\n```',
-            });
+          title: "ops-yandex-feeds"
+          outcome: ${{ steps.check.outcome }}
+          body: ${{ steps.check.outputs.result }}
 
       - name: Fail job on broken feed
         if: steps.check.outputs.fail == '1'

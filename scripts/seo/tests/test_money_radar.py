@@ -83,7 +83,8 @@ class TestMoneyRadar(unittest.TestCase):
     def test_empty_is_honest(self):
         res = self.o.money_radar(snap([]))
         self.assertFalse(res["available"])
-        self.assertIn("сейчас нет", res["reason"])
+        self.assertEqual(res["reason_code"], "no_signal")
+        self.assertIn("меньше порога", res["reason"])
 
 
 if __name__ == "__main__":

@@ -32,25 +32,24 @@ jobs:
           YC_BILLING_SA_KEY: ${{ secrets.YC_BILLING_SA_KEY }}
         run: |
           pip install --quiet requests pyjwt cryptography
+          # Вывод обоих скриптов попадает в журнал и при сбое, а шаг краснеет:
+          # трейсбек в stderr и код возврата больше не прячутся за || true.
+          rc=0
           {
             echo 'result<<BILLING_EOF'
-            python3 scripts/seo/yc_billing.py || true
+            python3 scripts/seo/yc_billing.py 2>&1 || rc=$?
             echo '---'
-            python3 scripts/seo/cloud_budget.py || true
+            python3 scripts/seo/cloud_budget.py 2>&1 || rc=$?
             echo 'BILLING_EOF'
           } >> "$GITHUB_OUTPUT"
+          exit $rc
       - name: Push data
         if: always()
         run: bash scripts/seo/data_sync.sh push "Проверка биллинга $(date -u +%FT%TZ)" || true
       - name: Post to issue
-        uses: actions/github-script@v7
-        env:
-          RESULT: ${{ steps.run.outputs.result }}
+        if: always()
+        uses: ./.github/actions/journal-post
         with:
-          script: |
-            await github.rest.issues.createComment({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: 22,
-              body: '### ops-billing-check · ' + new Date().toISOString() + '\n\n```\n' + process.env.RESULT + '\n```',
-            });
+          title: "ops-billing-check"
+          outcome: ${{ steps.run.outcome }}
+          body: ${{ steps.run.outputs.result }}

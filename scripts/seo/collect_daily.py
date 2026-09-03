@@ -292,7 +292,7 @@ def fetch_ga4(date_from: dt.date, date_to: dt.date):
                     'stringFilter': {'value': 'Organic Search'}}},
         {'notExpression': {'filter': {
             'fieldName': 'sessionSource',
-            'inListFilter': {'values': list(base.INTERNAL_SOURCES)}}}},
+            'inListFilter': {'values': list(base.NON_SEARCH_SOURCES)}}}},
     ]}}
     body = {
         'dateRanges': [{'startDate': date_from.isoformat(),

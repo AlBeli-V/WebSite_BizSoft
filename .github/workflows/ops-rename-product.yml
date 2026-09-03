@@ -62,12 +62,9 @@ jobs:
             print(f"стало: '{name}'")
             PYEOF
       - name: Post to issue
-        uses: actions/github-script@v7
-        env:
-          RESULT: ${{ steps.run.outputs.stdout }}
+        if: always()
+        uses: ./.github/actions/journal-post
         with:
-          script: |
-            await github.rest.issues.createComment({
-              owner: context.repo.owner, repo: context.repo.repo, issue_number: 22,
-              body: '### ops-rename-product\n\n```\n' + process.env.RESULT + '\n```',
-            });
+          title: "ops-rename-product"
+          outcome: ${{ steps.run.outcome }}
+          body: ${{ steps.run.outputs.stdout }}

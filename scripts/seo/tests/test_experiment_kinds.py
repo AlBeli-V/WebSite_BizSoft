@@ -121,7 +121,7 @@ class ImpressionsGrowthTest(IsolatedDataTest):
               [_q("оплата depositphotos", 400)])
         ev = experiment_verdict.evaluate(GROWTH_EXP, "2026-08-31")
         self.assertEqual(ev["verdict"], "INSUFFICIENT_DATA")
-        self.assertIn("не очистилось", ev["verdict_reason"])
+        self.assertIn("захватывает период до внедрения", ev["verdict_reason"])
 
 
 BATCH_EXP = {

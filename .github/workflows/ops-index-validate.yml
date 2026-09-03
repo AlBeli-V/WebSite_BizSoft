@@ -45,7 +45,10 @@ jobs:
           URLS: ${{ inputs.urls }}
           SUBMIT_SITEMAP: ${{ inputs.submit_sitemap }}
         run: |
-          python3 - <<'PY' > report.txt || true
+          # Отчёт сохраняется и при сбое скрипта, а шаг после этого краснеет:
+          # «0 проблем» и «проверка не выполнилась» больше не выглядят одинаково.
+          rc=0
+          python3 - <<'PY' > report.txt || rc=$?
           import json, os, time, urllib.parse
           import requests
 
@@ -152,15 +155,11 @@ jobs:
             cat report.txt
             echo 'IDX_EOF'
           } >> "$GITHUB_OUTPUT"
+          exit $rc
       - name: Post to issue
-        uses: actions/github-script@v7
-        env:
-          RESULT: ${{ steps.run.outputs.result }}
+        if: always()
+        uses: ./.github/actions/journal-post
         with:
-          script: |
-            await github.rest.issues.createComment({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: 22,
-              body: '### ops-index-validate · ' + new Date().toISOString() + '\n\n```\n' + process.env.RESULT + '\n```',
-            });
+          title: "ops-index-validate"
+          outcome: ${{ steps.run.outcome }}
+          body: ${{ steps.run.outputs.result }}

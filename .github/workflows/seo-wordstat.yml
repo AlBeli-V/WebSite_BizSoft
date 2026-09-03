@@ -12,12 +12,22 @@ name: seo-wordstat
 on:
   schedule:
     # Полный цикл раз в сутки: около 340 вызовов, 0,7 часа при квоте 500 в час.
+    # Слот номинальный, а не единственный источник full — см. шаг Run research:
+    # GitHub периодически пропускает конкретный cron-слот (инцидент 03.09.2026:
+    # слот 01:20 UTC не выполнился, до 21:08 UTC full не запускался вовсе), и
+    # режим для расписания выбирается по факту (есть ли marker-файл full за
+    # сегодня по МСК), а не по совпадению со строкой этого cron.
     - cron: "20 1 * * *"
     # Добор четыре раза в сутки: продолжает цикл, если тот прервался, и
     # обновляет отчёт. Почасовым он был при квоте 100 в час, когда цикл не
-    # помещался в одно окно; теперь помещается, и частые прогоны дают только
-    # конфликты в машинных файлах.
+    # помещался в одно окно; теперь помещается. Любой из этих прогонов сам
+    # становится full, если полного цикла за сегодня ещё не было.
     - cron: "25 */6 * * *"
+    # 02:35 UTC = 05:35 МСК — контрольный слот вместо прежней Routine
+    # «Добивка Wordstat» (решение руководителя 03.09.2026): режим выбирается
+    # по факту (см. Run research), поэтому пропущенный ночной full
+    # закрывается здесь, до утреннего письма, а не в 09:25 МСК.
+    - cron: "35 2 * * *"
   push:
     branches:
       - main
@@ -76,11 +86,8 @@ jobs:
           # Пуш кода проверяет план, но не тратит квоту: платный прогон запускается
           # только по расписанию или явным выбором режима. Иначе каждая правка
           # исходников отнимала бы часовой слот у запланированного исследования.
-          # Ночной запуск — полный цикл, остальные часы — добор.
-          MODE: ${{ inputs.mode
-                 || (github.event_name == 'push' && 'dry-run')
-                 || (github.event.schedule == '20 1 * * *' && 'full')
-                 || 'daily' }}
+          INPUT_MODE: ${{ inputs.mode }}
+          IS_PUSH: ${{ github.event_name == 'push' }}
           MAX_CALLS: ${{ inputs.max_calls || '70' }}
         run: |
           if [ -z "$WORDSTAT_API_KEY" ]; then
@@ -88,6 +95,24 @@ jobs:
             exit 1
           fi
           python3 scripts/seo/wordstat/run.py --dry-run
+
+          # Режим для расписания решается по факту, а не по имени слота:
+          # если marker-файла full за сегодня (МСК) ещё нет — этот прогон и
+          # есть full, каким бы cron-слотом его ни разбудило; иначе — добор.
+          # Так пропуск любого отдельного слота GitHub-планировщиком лечится
+          # следующим же schedule-прогоном, а не ждёт сутки или подстраховку.
+          if [ -n "$INPUT_MODE" ]; then
+            MODE="$INPUT_MODE"
+          elif [ "$IS_PUSH" = "true" ]; then
+            MODE=dry-run
+          else
+            TODAY_MSK=$(TZ='Europe/Moscow' date +%F)
+            if [ -f "reports/seo/wordstat/${TODAY_MSK}-full-result.json" ]; then
+              MODE=daily
+            else
+              MODE=full
+            fi
+          fi
           case "$MODE" in
             dry-run) echo "Только план, вызовы не выполнялись." ;;
             pilot)   python3 scripts/seo/wordstat/run.py --pilot --max-calls "$MAX_CALLS" ;;
@@ -113,9 +138,9 @@ jobs:
         env:
           WORDSTAT_API_KEY: ${{ secrets.WORDSTAT_API_KEY }}
         run: |
-          if [ "$(date -u +%u)" != "1" ]; then
+          if [ "$(TZ='Europe/Moscow' date +%u)" != "1" ]; then
             echo "не понедельник — momentum пропущен"
-          elif [ -f "reports/seo/wordstat/momentum-$(date -u +%F).json" ]; then
+          elif [ -f "reports/seo/wordstat/momentum-$(TZ='Europe/Moscow' date +%F).json" ]; then
             echo "momentum за сегодня уже собран"
           else
             python3 scripts/seo/wordstat/momentum.py || true
@@ -128,9 +153,9 @@ jobs:
         env:
           WORDSTAT_API_KEY: ${{ secrets.WORDSTAT_API_KEY }}
         run: |
-          if [ "$(date -u +%d)" != "01" ]; then
+          if [ "$(TZ='Europe/Moscow' date +%d)" != "01" ]; then
             echo "не первое число — регионы пропущены"
-          elif [ -f "reports/seo/wordstat/region-demand-$(date -u +%Y-%m).json" ]; then
+          elif [ -f "reports/seo/wordstat/region-demand-$(TZ='Europe/Moscow' date +%Y-%m).json" ]; then
             echo "регионы за месяц уже собраны"
           else
             python3 scripts/seo/wordstat/region_demand.py || true

@@ -365,7 +365,8 @@ export const LOGO_FILE: Record<string, string> = {
   "capture-one": "/brand-logos/capture-one-logo.svg",
   "toon-boom": "/brand-logos/toon-boom-logo.svg",
   "winrar": "/brand-logos/winrar-logo.svg",
-  "think-cell": "/brand-logos/think-cell-logo.svg"
+  "think-cell": "/brand-logos/think-cell-logo.svg",
+  "lansweeper": "/brand-logos/lansweeper-logo.svg"
 };
 
 export function brandLogo(slug: string): BrandLogo | undefined {

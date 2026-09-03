@@ -123,7 +123,12 @@ export const GET: APIRoute = async () => {
     const products = await getProducts();
     for (const p of products) {
       if (p.noindex || productNoindex(p.sku)) continue;
-      const lastmod = p.date_updated ? String(p.date_updated).slice(0, 10) : undefined;
+      // lastmod — дата содержательного изменения (content_updated_at), а не
+      // date_updated: тот сдвигается ежедневной переоценкой по курсу ЦБ у
+      // всего каталога разом (02.09.2026 — у 537 карточек из 593 одна дата),
+      // и Google перестаёт учитывать lastmod при выборе, что обходить. Пока
+      // штампа нет, честнее не отдавать дату вовсе, чем отдавать ложную.
+      const lastmod = p.content_updated_at ? String(p.content_updated_at).slice(0, 10) : undefined;
       entries.push(urlEntry(`/product/${p.slug}`, 0.7, 'weekly', lastmod));
     }
   } catch (e) {

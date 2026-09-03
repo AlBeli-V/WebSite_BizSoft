@@ -13,12 +13,20 @@ export const PRODUCT_KIND_LABEL: Record<ProductKind, string> = {
 };
 
 const ZOOM_ADDON = /^ZOOM-(PHONE|WEBINARS|ROOMS|LARGE-MEETING|EVENTS|AI-COMPANION)/i;
+/**
+ * Пакеты дополнительных кредитов вендора: <VENDOR>-CREDITS-<объём>.
+ * Покупаются поверх подписки и без неё не имеют смысла — это дополнение,
+ * а не самостоятельный продукт: так они и подписаны в фасете каталога,
+ * в порядке выгрузок и в ответах агентам.
+ */
+const CREDITS_PACK = /-CREDITS-\d+$/;
 
 /** Классифицировать товар по контексту (sku). */
 export function productKind(p: Pick<Product, 'sku'>): ProductKind {
   const sku = (p.sku || '').toUpperCase();
   if (sku.startsWith('JB-PLG-')) return 'addon';
   if (ZOOM_ADDON.test(sku)) return 'addon';
+  if (CREDITS_PACK.test(sku)) return 'addon';
   return 'main';
 }
 
@@ -90,17 +98,37 @@ export function vendorLegal(vendor?: string | null): string {
 }
 
 /**
- * Индексная матрица: какие товары временно НЕ индексировать (noindex + вне sitemap).
- * Сейчас: все плагины JetBrains Marketplace (JB-PLG-*) и личные лицензии JetBrains (JB-…-IND).
+ * Индексная матрица: какие товары НЕ индексировать (noindex + вне sitemap и фидов).
+ * Сейчас: плагины JetBrains Marketplace (JB-PLG-*), личные лицензии любого
+ * вендора (*-IND), бессрочные дубли ManageEngine (ME-*-PERP), карточки
+ * продлений (*-RENEWAL) и пакеты кредитов (*-CREDITS-<объём>).
  * Основные продукты для организаций, AI и командные инструменты — индексируются.
  */
 export function productNoindex(sku?: string | null): boolean {
   const s = (sku || '').toUpperCase();
   if (s.startsWith('JB-PLG-')) return true;               // 867 плагинов Marketplace
-  if (s.startsWith('JB-') && s.endsWith('-IND')) return true; // личные лицензии JetBrains
+  // Личные лицензии (*-IND) любого вендора: сайт продаёт юрлицам, а срез
+  // покрытия 03.09.2026 показал, что Яндекс исключил 6 из 7 таких карточек
+  // как малоценные (Bitdefender, Monotype, Marmoset). Правило было только для
+  // JetBrains — теперь для всех.
+  if (s.endsWith('-IND')) return true;
+  // Бессрочные лицензии ManageEngine (ME-*-PERP): у каждой из 81 карточки есть
+  // парная годовая подписка с тем же текстом, отличие — «вечная лицензия» в
+  // названии. Google держал их в очереди «обнаружена, не сканирована»,
+  // Яндекс исключал как малоценные (разбор 03.09.2026). Бессрочный вариант
+  // остаётся на витрине и в КП, в поиск идёт карточка подписки.
+  if (s.startsWith('ME-') && s.endsWith('-PERP')) return true;
   // Карточки продления (у вендора цена продления выше первого года): живут на
   // витрине и в КП, но в поиск не идут — иначе конкурируют со страницей
   // первой покупки того же тарифа (решение руководителя 29.08.2026).
   if (s.endsWith('-RENEWAL')) return true;
+  // Пакеты кредитов (<VENDOR>-CREDITS-<объём>): линейка отличается только числом,
+  // а замер Вордстата 02.09.2026 даёт на весь покупательский интент около сотни
+  // показов в месяц («купить кредиты kling» — 37, «kling ai купить кредиты» — 27,
+  // «пополнить kling ai» — 39). Восемь почти одинаковых страниц под один интент —
+  // это малоценные страницы и каннибализация вендорской страницы, которая уже
+  // держит брендовый спрос («kling ai купить» — 312). Карточки живут на витрине,
+  // в корзине и в КП; интент «купить кредиты <вендор>» держит страница вендора.
+  if (CREDITS_PACK.test(s)) return true;
   return false;
 }

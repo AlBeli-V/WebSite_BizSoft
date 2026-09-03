@@ -1,6 +1,14 @@
 # Переобход страниц в Яндекс.Вебмастере по API (recrawl/queue).
-# Токен: секрет YANDEX_OAUTH, либо YANDEX_OAUTH= в /opt/bizsoft/astro.env.
+# Токен: секрет YANDEX_WEBMASTER_TOKEN (то же имя, что у выгрузок Вебмастера в
+# seo-data-collect; дубль YANDEX_OAUTH снят 03.09.2026), либо YANDEX_OAUTH= в
+# /opt/bizsoft/astro.env на сервере.
 # Значение токена в логи не печатается. Результат — комментарием в issue #22.
+#
+# Статус прогона отражает результат, а не факт запуска: без токена, при
+# отказе API или отклонении хотя бы одного URL (квота, 4xx) прогон красный,
+# а в заголовке записи журнала стоит ✗. Прежде и отсутствие токена, и HTTP
+# 429 по каждому URL давали зелёный прогон и запись, читавшуюся как «переобход
+# запрошен» (аудит 03.09.2026).
 
 name: ops-yandex-recrawl
 
@@ -10,7 +18,6 @@ on:
       urls:
         description: "URL через запятую (полные https)"
         required: true
-        default: "https://biz-soft.pro/vendors/canva,https://biz-soft.pro/vendors/depositphotos,https://biz-soft.pro/vendors/coreldraw,https://biz-soft.pro/vendors/heygen,https://biz-soft.pro/vendors/marmoset"
 
 permissions:
   contents: read
@@ -28,10 +35,13 @@ jobs:
           fi
       - name: Send recrawl requests
         id: run
+        # Отчёт в журнал должен попасть и при поломке; красный статус
+        # возвращает отдельный шаг ниже.
+        continue-on-error: true
         uses: appleboy/ssh-action@v1
         env:
           URLS: ${{ inputs.urls }}
-          YTOKEN: ${{ secrets.YANDEX_OAUTH }}
+          YTOKEN: ${{ secrets.YANDEX_WEBMASTER_TOKEN }}
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
@@ -44,15 +54,14 @@ jobs:
               YTOKEN=$(sed -n 's/^YANDEX_OAUTH=//p' /opt/bizsoft/astro.env 2>/dev/null | tr -d '"\r' || true)
             fi
             if [ -z "$YTOKEN" ]; then
-              echo "токен: НЕ НАЙДЕН (ни секрета YANDEX_OAUTH, ни YANDEX_OAUTH в astro.env)"
-              echo "нужно: создать OAuth-приложение на oauth.yandex.ru с доступом «Яндекс.Вебмастер»,"
-              echo "получить токен и добавить его секретом YANDEX_OAUTH в GitHub-репозиторий."
-              exit 0
+              echo "токен: НЕ НАЙДЕН (ни секрета YANDEX_WEBMASTER_TOKEN, ни YANDEX_OAUTH в astro.env)"
+              echo "переобход не запрошен ни по одному URL"
+              exit 1
             fi
             echo "токен: задан"
             export YTOKEN URLS
             python3 - <<'PY'
-            import json, os, urllib.request
+            import json, os, sys, urllib.request
             tok = os.environ['YTOKEN']
             def req(method, path, body=None):
                 r = urllib.request.Request('https://api.webmaster.yandex.net/v4' + path,
@@ -66,19 +75,29 @@ jobs:
                     return e.code, json.loads(e.read() or b'{}')
             st, u = req('GET', '/user')
             if st != 200:
-                print(f'user: HTTP {st} {u}'); raise SystemExit
+                print(f'user: HTTP {st} {u} — переобход не запрошен'); sys.exit(1)
             uid = u['user_id']
             st, hs = req('GET', f'/user/{uid}/hosts')
             host = next((h['host_id'] for h in hs.get('hosts', []) if 'biz-soft.pro' in h['host_id'] and h['host_id'].startswith('https')), None)
             print(f'host_id: {host}')
             if not host:
-                print('hosts:', [h['host_id'] for h in hs.get('hosts', [])]); raise SystemExit
+                print('hosts:', [h['host_id'] for h in hs.get('hosts', [])])
+                print('хост не найден — переобход не запрошен'); sys.exit(1)
             st, q = req('GET', f'/user/{uid}/hosts/{host}/recrawl/quota')
             print(f"квота: {q}")
+            accepted, rejected = [], []
             for url in os.environ['URLS'].split(','):
                 url = url.strip()
+                if not url:
+                    continue
                 st, resp = req('POST', f'/user/{uid}/hosts/{host}/recrawl/queue', {'url': url})
-                print(f'  {url} → HTTP {st} {resp.get("task_id", resp)}')
+                ok = st in (200, 201, 202) and resp.get('task_id')
+                (accepted if ok else rejected).append(url)
+                print(f'  {url} → HTTP {st} {"принято, task_id " + str(resp.get("task_id")) if ok else "ОТКЛОНЕНО: " + json.dumps(resp, ensure_ascii=False)}')
+            print(f'итог: принято {len(accepted)}, отклонено {len(rejected)}')
+            if rejected:
+                print('отклонённые URL: ' + ', '.join(rejected))
+                sys.exit(1)
             PY
 
       - name: Post results to journal (issue #22)
@@ -86,10 +105,20 @@ jobs:
         uses: actions/github-script@v7
         env:
           OUT: ${{ steps.run.outputs.stdout }}
+          RESULT: ${{ steps.run.outcome }}
         with:
           script: |
             const out = (process.env.OUT || '(нет вывода)').slice(0, 60000);
+            const mark = process.env.RESULT === 'success' ? '✓' : '✗';
             await github.rest.issues.createComment({
               owner: context.repo.owner, repo: context.repo.repo, issue_number: 22,
-              body: '### ops-yandex-recrawl · ' + new Date().toISOString() + '\n```\n' + out + '\n```',
+              body: `### ops-yandex-recrawl ${mark} · ` + new Date().toISOString() +
+                (mark === '✗' ? '\nПереобход запрошен не полностью — см. вывод.' : '') +
+                '\n```\n' + out + '\n```',
             });
+
+      - name: Fail the run if it failed
+        if: steps.run.outcome != 'success'
+        run: |
+          echo "Переобход запрошен не полностью — подробности в issue #22"
+          exit 1
