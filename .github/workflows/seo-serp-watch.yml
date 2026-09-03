@@ -16,6 +16,12 @@ name: seo-serp-watch
 on:
   schedule:
     - cron: "37 22 * * *"
+    # 23:45 UTC = 02:45 МСК — контрольный слот вместо прежней Routine
+    # «Добивка ночного SERP» (решение руководителя 03.09.2026): планировщик
+    # GitHub пропускает отдельные слоты. Если срез Яндекса за сегодня уже в
+    # хранилище, шаг сбора пропускается (см. Guard ниже) — повторный запуск
+    # перезаписал бы файл дня остатком дневного бюджета.
+    - cron: "45 23 * * *"
   workflow_dispatch:
     inputs:
       google:
@@ -29,6 +35,12 @@ on:
 
 permissions:
   contents: write
+
+# Штатный и контрольный слоты идут по очереди: второй дожидается первого
+# и по его артефакту решает, есть ли ему что делать.
+concurrency:
+  group: seo-serp-watch
+  cancel-in-progress: false
 
 jobs:
   watch:
@@ -44,8 +56,24 @@ jobs:
       - name: Install deps
         run: pip install --quiet requests
 
+      # Идемпотентность по артефакту дня (дата по МСК, как в serp_watch.py):
+      # прогон по расписанию не пересобирает срез Яндекса, если файл за
+      # сегодня уже есть и в нём есть успешные строки. Ручной dispatch
+      # проверку не проходит — это осознанный пересбор.
+      - name: Guard - today's Yandex snapshot
+        id: guard
+        run: |
+          date=$(TZ=Europe/Moscow date +%F)
+          f="reports/seo/serp/$date-serp.jsonl"
+          if [ "${{ github.event_name }}" = "schedule" ] && [ -f "$f" ] && grep -q '"top"' "$f"; then
+            echo "yandex=skip" >> "$GITHUB_OUTPUT"
+            echo "срез Яндекса за $date уже собран — повторный сбор пропущен"
+          else
+            echo "yandex=run" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Collect SERP snapshots
-        if: inputs.yandex != 'skip'
+        if: inputs.yandex != 'skip' && steps.guard.outputs.yandex == 'run'
         env:
           WORDSTAT_API_KEY: ${{ secrets.WORDSTAT_API_KEY }}
         run: python3 scripts/seo/serp_watch.py

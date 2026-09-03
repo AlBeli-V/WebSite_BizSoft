@@ -1,0 +1,561 @@
+# Единый workflow рекламного кабинета Яндекс.Директа.
+#
+# Объединяет девять прежних workflow — ops-direct-apply, ops-direct-check,
+# ops-direct-expand, ops-direct-improve, ops-direct-negatives,
+# ops-direct-refine, ops-direct-sitelinks, ops-direct-stats,
+# ops-direct-tighten — в один файл через вход action (workflow_dispatch
+# ограничен 10 inputs, девять отдельных файлов с 1-2 своими входами каждый
+# в лимит уже не укладывались бы, заведи их кто-то одним workflow сразу).
+#
+# Правило объединения: каждый вызов скрипта, его аргументы, env, секреты,
+# шаг Guard - only default branch, checkout и публикация в issue #22 —
+# буквально те же, что были в исходном файле; разница только в том, что
+# все шаги теперь в одной job и выбираются условием if: env.ACTION == '...'
+# по общему входу action. Это рекламный кабинет, поведение не менялось.
+#
+# Вход mode — общий для action=apply/expand/improve/negatives/refine/
+# sitelinks/tighten (седьмой вход отдельным файлом на каждое действие не
+# завести — лимит inputs). Список options — объединение всех прежних
+# наборов; какие значения понимает конкретное действие, — то же самое, что
+# было в соответствующем файле (см. комментарий над блоком шагов этого
+# действия ниже):
+#   apply      — dry-run | apply | tune | audit
+#   expand/improve/negatives/refine/sitelinks/tighten — dry-run | apply
+#   sitelinks  — дополнительно rollback (откат эксперимента)
+# Для check и stats mode не используется вовсе — как и раньше.
+#
+# Вход spec — только для action=apply (файл спецификации кампании в
+# ветке seo-data). Больше входов размечать не потребовалось: action + mode
+# + spec — три входа, до лимита далеко, отдельный вход-контейнер вида
+# params/spec-json не понадобился.
+#
+# action=stats дополнительно живёт на расписании (07:10 МСК, будни — было
+# в ops-direct-stats.yml). При срабатывании по cron GitHub не передаёт
+# workflow_dispatch inputs, поэтому эффективное действие вычисляется как
+# env.ACTION = inputs.action, а при пустом (расписание) — 'stats'.
+#
+# Идентификаторы шагов (id) переименованы из повторявшегося во всех девяти
+# файлах "run" в уникальные (run_apply, run_check, ...): GitHub Actions не
+# допускает повтор id в одной job. На вызов скрипта, его аргументы и вывод
+# это не влияет — переименован только внутренний ссылочный идентификатор,
+# и только там, где он использовался дальше по шагам (действие check).
+name: ops-direct
+on:
+  workflow_dispatch:
+    inputs:
+      action:
+        description: "apply — создать/применить кампанию по спецификации; check — доступ к кабинету (+ статистика); expand/improve/negatives/refine/sitelinks/tighten — точечные правки кампании bs-test-2026-09; stats — статистика кампании"
+        required: true
+        type: choice
+        options: ["apply", "check", "expand", "improve", "negatives", "refine", "sitelinks", "stats", "tighten"]
+      mode:
+        description: "Для apply/expand/improve/negatives/refine/sitelinks/tighten: dry-run — план без записи; apply — применить; tune/audit — только apply; rollback — только sitelinks. Не используется для check и stats"
+        required: false
+        default: "dry-run"
+        type: choice
+        options: ["dry-run", "apply", "tune", "audit", "rollback"]
+      spec:
+        description: "Только для action=apply: файл спецификации в seo-data (round1-spec.json | round2-spec.json)"
+        required: false
+        default: "round1-spec.json"
+  schedule:
+    - cron: "10 4 * * 1-5"  # 07:10 МСК, будни — статистика (action=stats), было в ops-direct-stats.yml
+permissions:
+  contents: read
+  issues: write
+jobs:
+  direct:
+    runs-on: ubuntu-latest
+    env:
+      # На schedule inputs.action пуст — эффективное действие 'stats',
+      # как и было (ops-direct-stats.yml не принимал action вовсе).
+      ACTION: ${{ inputs.action || 'stats' }}
+    steps:
+      # Было в apply/expand/improve/negatives/refine/sitelinks/tighten;
+      # check и stats этого шага никогда не имели.
+      - name: Guard - only default branch
+        if: env.ACTION != 'check' && env.ACTION != 'stats'
+        run: |
+          if [ "${{ github.ref_name }}" != "main" ]; then
+            echo "Запуск разрешён только с ветки main. Текущий ref: ${{ github.ref_name }}"
+            exit 1
+          fi
+
+      - uses: actions/checkout@v4
+
+      # ==================== action=apply ====================
+      # Создание и правка кампании Яндекс.Директа из спецификации в seo-data
+      # (round1-spec.json по умолчанию; раунд 2 и далее — входом spec).
+      # (ветка seo-data, reports/seo/ppc/). Запуск кампании разрешён прямым
+      # поручением владельца 28.08.2026; повторные изменения — только по
+      # новому подтверждению. Скрипт защищён от дублей: существующая
+      # кампания с тем же именем останавливает выполнение.
+      #
+      # mode=dry-run — собрать payload'ы и проверить лимиты, записи в API
+      # нет; mode=apply — создать кампанию, группы, фразы, объявления и
+      # отправить объявления на модерацию; tune — счётчик/разметка/
+      # мониторинг/StartDate; audit — сверка состояния.
+      - name: Fetch spec from seo-data
+        if: env.ACTION == 'apply'
+        env:
+          SPEC: ${{ inputs.spec }}
+        run: |
+          case "${SPEC:-round1-spec.json}" in
+            round1-spec.json|round2-spec.json) ;;
+            *) echo "недопустимое имя спецификации: $SPEC"; exit 1 ;;
+          esac
+          git fetch --depth=1 origin seo-data
+          git show "origin/seo-data:reports/seo/ppc/${SPEC:-round1-spec.json}" > /tmp/spec.json
+          python3 -c "import json; s=json.load(open('/tmp/spec.json')); print('спецификация:', s['spec_version'], s['date'], '-', s['campaign']['name'])"
+
+      - name: Apply
+        if: env.ACTION == 'apply'
+        id: run_apply
+        env:
+          DIRECT_TOKEN: ${{ secrets.YANDEX_DIRECT_TOKEN }}
+          MODE: ${{ inputs.mode }}
+        run: |
+          set -o pipefail
+          python3 scripts/ppc/direct_apply.py /tmp/spec.json "$MODE" 2>&1 | tee /tmp/direct-apply.log
+
+      - name: Save log for issue
+        if: always() && env.ACTION == 'apply'
+        run: |
+          [ -f /tmp/direct-apply.log ] || echo "(лог не создан)" > /tmp/direct-apply.log
+
+      - name: Post to issue
+        if: always() && env.ACTION == 'apply'
+        uses: actions/github-script@v7
+        env:
+          MODE: ${{ inputs.mode }}
+        with:
+          script: |
+            const log = require('fs').readFileSync('/tmp/direct-apply.log', 'utf8');
+            await github.rest.issues.createComment({
+              owner: context.repo.owner, repo: context.repo.repo, issue_number: 22,
+              body: '### ops-direct-apply (mode=' + process.env.MODE + ')\n\n```\n'
+                + log.slice(0, 20000) + '\n```\n\n---\n_Generated by [Claude Code](https://claude.ai/code)_',
+            });
+
+      # ==================== action=check ====================
+      # Проверка доступа к кабинету Яндекс.Директа: только чтение.
+      #
+      # Зачем: перед подготовкой рекламных кампаний нужно убедиться, что
+      # токен в секретах репозитория действительно даёт доступ к API
+      # Директа (руководитель перевыпустил токен 28.08). Workflow
+      # перебирает вероятные имена секретов, для каждого непустого делает
+      # два read-only запроса (Clients.get и Campaigns.get) и публикует
+      # итог в журнал issue #22.
+      #
+      # Ничего не создаёт, не меняет и не удаляет ни в кабинете, ни на
+      # проде. Значения токенов в лог не попадают — только имя секрета и
+      # результат.
+      #
+      # Дополнительно: шаг статистики — read-only отчёты Reports API по
+      # кампании bs-test-2026-09 через scripts/ppc/direct_stats.py;
+      # результат — отдельный комментарий в issue #22.
+      - name: Collect campaign stats (read-only)
+        if: env.ACTION == 'check'
+        id: stats
+        continue-on-error: true
+        env:
+          DIRECT_TOKEN: ${{ secrets.YANDEX_DIRECT_TOKEN }}
+        run: |
+          set -o pipefail
+          python3 scripts/ppc/direct_stats.py 2>&1 | tee /tmp/direct-stats.log
+
+      - name: Post stats to issue
+        if: always() && env.ACTION == 'check'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            let log = '(лог не создан)';
+            try { log = fs.readFileSync('/tmp/direct-stats.log', 'utf8'); } catch (e) {}
+            await github.rest.issues.createComment({
+              owner: context.repo.owner, repo: context.repo.repo, issue_number: 22,
+              body: '### ops-direct-stats — статистика кампании bs-test-2026-09\n\n```\n'
+                + log.slice(0, 58000)
+                + '\n```\n\n---\n_Generated by [Claude Code](https://claude.ai/code)_',
+            });
+
+      - name: Check Direct API access
+        if: env.ACTION == 'check'
+        id: run_check
+        env:
+          T_YANDEX_OAUTH: ${{ secrets.YANDEX_OAUTH }}
+          T_DIRECT_TOKEN: ${{ secrets.DIRECT_TOKEN }}
+          T_YANDEX_DIRECT_TOKEN: ${{ secrets.YANDEX_DIRECT_TOKEN }}
+          T_WORDSTAT_API_KEY: ${{ secrets.WORDSTAT_API_KEY }}
+        run: |
+          set -u
+          OUT=direct-check.txt
+          : > "$OUT"
+          probe() {  # $1 = имя секрета, $2 = токен
+            name="$1"; token="$2"
+            if [ -z "$token" ]; then
+              echo "- $name: секрет пуст или не задан" >> "$OUT"
+              return
+            fi
+            clients=$(curl -sS --max-time 30 https://api.direct.yandex.com/json/v5/clients \
+              -H "Authorization: Bearer $token" -H "Accept-Language: ru" \
+              -H "Content-Type: application/json; charset=utf-8" \
+              -d '{"method":"get","params":{"FieldNames":["Login","ClientId","Currency"]}}' || echo '{"curl":"error"}')
+            camps=$(curl -sS --max-time 30 https://api.direct.yandex.com/json/v5/campaigns \
+              -H "Authorization: Bearer $token" -H "Accept-Language: ru" \
+              -H "Content-Type: application/json; charset=utf-8" \
+              -d '{"method":"get","params":{"SelectionCriteria":{},"FieldNames":["Id","Name","State","Status","Type"]}}' || echo '{"curl":"error"}')
+            CLIENTS_JSON="$clients" CAMPS_JSON="$camps" NAME="$name" python3 - >> "$OUT" <<'PYEOF'
+          import json, os
+          name = os.environ["NAME"]
+          def parse(raw):
+              try:
+                  return json.loads(raw)
+              except Exception:
+                  return {"error": {"error_string": "ответ не разобран", "error_detail": raw[:200]}}
+          cl, ca = parse(os.environ["CLIENTS_JSON"]), parse(os.environ["CAMPS_JSON"])
+          def err(d):
+              e = d.get("error")
+              return f"код {e.get('error_code')}: {e.get('error_string')} — {e.get('error_detail')}" if e else None
+          if err(cl):
+              print(f"- {name}: ДОСТУПА НЕТ ({err(cl)})")
+          else:
+              info = (cl.get("result", {}).get("Clients") or [{}])[0]
+              login, cur = info.get("Login", "?"), info.get("Currency", "?")
+              if err(ca):
+                  print(f"- {name}: клиент {login} ({cur}) виден, но кампании не читаются ({err(ca)})")
+              else:
+                  camps = ca.get("result", {}).get("Campaigns") or []
+                  print(f"- {name}: ДОСТУП ЕСТЬ — кабинет {login}, валюта {cur}, кампаний: {len(camps)}")
+                  for c in camps[:10]:
+                      print(f"    - {c.get('Id')} «{c.get('Name')}» [{c.get('Type')}] {c.get('State')}/{c.get('Status')}")
+          PYEOF
+          }
+          echo "Проверка $(date -u +'%Y-%m-%d %H:%M') UTC, только чтение (Clients.get, Campaigns.get):" >> "$OUT"
+          probe YANDEX_OAUTH        "$T_YANDEX_OAUTH"
+          probe DIRECT_TOKEN        "$T_DIRECT_TOKEN"
+          probe YANDEX_DIRECT_TOKEN "$T_YANDEX_DIRECT_TOKEN"
+          probe WORDSTAT_API_KEY    "$T_WORDSTAT_API_KEY"
+          cat "$OUT"
+          {
+            echo 'result<<EOF'
+            cat "$OUT"
+            echo 'EOF'
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Post to issue
+        if: always() && env.ACTION == 'check'
+        uses: actions/github-script@v7
+        env:
+          OUT: ${{ steps.run_check.outputs.result }}
+        with:
+          script: |
+            await github.rest.issues.createComment({
+              owner: context.repo.owner, repo: context.repo.repo, issue_number: 22,
+              body: '### ops-direct-check — доступ к кабинету Яндекс.Директа\n\n'
+                + (process.env.OUT || '(нет вывода)').slice(0, 20000)
+                + '\n\n---\n_Generated by [Claude Code](https://claude.ai/code)_',
+            });
+
+      # ==================== action=expand ====================
+      # Расширение кампании bs-test-2026-09 по поручению владельца
+      # 29.08.2026: укоротить Title и вернуть Title2 семи объявлениям
+      # (потеряны при создании, предупреждение 10254), добавить группы
+      # Cursor и Adobe под товарные запросы с наибольшим чистым
+      # коммерческим спросом Вордстата — компенсация ожидаемого падения
+      # объёма после EXACT-only автотаргетинга. Бюджет кампании не
+      # меняется.
+      #
+      # mode=dry-run — показать текущие тексты и план, записи в API нет;
+      # mode=apply — применить: обновить заголовки, создать группы, фразы,
+      # объявления (на модерацию), ограничить автотаргетинг новых групп.
+      - name: Expand
+        if: env.ACTION == 'expand'
+        id: run_expand
+        env:
+          DIRECT_TOKEN: ${{ secrets.YANDEX_DIRECT_TOKEN }}
+          MODE: ${{ inputs.mode }}
+        run: |
+          set -o pipefail
+          python3 scripts/ppc/direct_expand.py "$MODE" 2>&1 | tee /tmp/direct-expand.log
+
+      - name: Save log for issue
+        if: always() && env.ACTION == 'expand'
+        run: |
+          [ -f /tmp/direct-expand.log ] || echo "(лог не создан)" > /tmp/direct-expand.log
+
+      - name: Post to issue
+        if: always() && env.ACTION == 'expand'
+        uses: actions/github-script@v7
+        env:
+          MODE: ${{ inputs.mode }}
+        with:
+          script: |
+            const fs = require('fs');
+            const log = fs.readFileSync('/tmp/direct-expand.log', 'utf8');
+            await github.rest.issues.createComment({
+              owner: context.repo.owner, repo: context.repo.repo, issue_number: 22,
+              body: '### ops-direct-expand (mode=' + process.env.MODE + ') — Title2 и группы Cursor/Adobe\n\n```\n'
+                + log.slice(0, 58000)
+                + '\n```\n\n---\n_Generated by [Claude Code](https://claude.ai/code)_',
+            });
+
+      # ==================== action=improve ====================
+      # Оздоровление кампании bs-test-2026-09 по поручению владельца
+      # 29.08.2026: убрать автотаргетинг, добавить минус-слова по фактам
+      # первого дня открутки, расшить фразовую семантику (кавычки сняты,
+      # охват защищают минусы). Обоснование — разбор ops-direct-stats в
+      # issue #22 и reports/marketing/direct-stats-review-2026-08-29.md.
+      #
+      # mode=dry-run — показать план, в API только чтение;
+      # mode=apply — применить изменения в кабинете.
+      - name: Improve
+        if: env.ACTION == 'improve'
+        id: run_improve
+        env:
+          DIRECT_TOKEN: ${{ secrets.YANDEX_DIRECT_TOKEN }}
+          MODE: ${{ inputs.mode }}
+        run: |
+          set -o pipefail
+          python3 scripts/ppc/direct_improve.py "$MODE" 2>&1 | tee /tmp/direct-improve.log
+
+      - name: Save log for issue
+        if: always() && env.ACTION == 'improve'
+        run: |
+          [ -f /tmp/direct-improve.log ] || echo "(лог не создан)" > /tmp/direct-improve.log
+
+      - name: Post to issue
+        if: always() && env.ACTION == 'improve'
+        uses: actions/github-script@v7
+        env:
+          MODE: ${{ inputs.mode }}
+        with:
+          script: |
+            const fs = require('fs');
+            const log = fs.readFileSync('/tmp/direct-improve.log', 'utf8');
+            await github.rest.issues.createComment({
+              owner: context.repo.owner, repo: context.repo.repo, issue_number: 22,
+              body: '### ops-direct-improve (mode=' + process.env.MODE + ') — оздоровление bs-test-2026-09\n\n```\n'
+                + log.slice(0, 58000)
+                + '\n```\n\n---\n_Generated by [Claude Code](https://claude.ai/code)_',
+            });
+
+      # ==================== action=negatives ====================
+      # Пакет минус-слов кампании bs-test-2026-09 (поручение владельца
+      # 03.09.2026). Добавляет маркеры пиратского и активационного
+      # интента по фактам поведения визитов: такие запросы дают 100%
+      # отказов и 0-1 секунду на сайте. Обоснование и разбор —
+      # reports/marketing/direct-negatives-v4-2026-09-03.md.
+      #
+      # Перед добавлением каждое слово проверяется на пересечение с
+      # действующими фразами кампании: режущее свою семантику в пакет не
+      # попадает. Минус-слова применяются мгновенно, перемодерация не
+      # нужна — запуск безопасен в рабочее время показов.
+      #
+      # mode=dry-run — показать пакет и проверку, в API только чтение;
+      # mode=apply — применить.
+      - name: Negatives
+        if: env.ACTION == 'negatives'
+        id: run_negatives
+        env:
+          DIRECT_TOKEN: ${{ secrets.YANDEX_DIRECT_TOKEN }}
+          MODE: ${{ inputs.mode }}
+        run: |
+          set -o pipefail
+          python3 scripts/ppc/direct_negatives.py "$MODE" 2>&1 | tee /tmp/direct-negatives.log
+
+      - name: Save log for issue
+        if: always() && env.ACTION == 'negatives'
+        run: |
+          [ -f /tmp/direct-negatives.log ] || echo "(лог не создан)" > /tmp/direct-negatives.log
+
+      - name: Post to issue
+        if: always() && env.ACTION == 'negatives'
+        uses: actions/github-script@v7
+        env:
+          MODE: ${{ inputs.mode }}
+        with:
+          script: |
+            const fs = require('fs');
+            const log = fs.readFileSync('/tmp/direct-negatives.log', 'utf8');
+            await github.rest.issues.createComment({
+              owner: context.repo.owner, repo: context.repo.repo, issue_number: 22,
+              body: '### ops-direct-negatives (mode=' + process.env.MODE + ') — минус-слова bs-test-2026-09\n\n```\n'
+                + log.slice(0, 58000)
+                + '\n```\n\n---\n_Generated by [Claude Code](https://claude.ai/code)_',
+            });
+
+      # ==================== action=refine ====================
+      # Доводка кампании bs-test-2026-09, раунд 2 — по фактам дня
+      # 01.09.2026: минус-слова «активация/активировать/ключ», групповая
+      # минус-фраза «команды для» в Claude Code, перенос подтверждённых
+      # запросов в фразы. Обоснование —
+      # reports/marketing/direct-refine-plan-2026-09-02.md.
+      #
+      # Перед изменениями скрипт проверяет, что ни один минус не задевает
+      # собственную ключевую фразу, и падает, если задевает.
+      #
+      # mode=dry-run — показать план, в API только чтение;
+      # mode=apply — применить изменения в кабинете.
+      - name: Refine
+        if: env.ACTION == 'refine'
+        id: run_refine
+        env:
+          DIRECT_TOKEN: ${{ secrets.YANDEX_DIRECT_TOKEN }}
+          MODE: ${{ inputs.mode }}
+        run: |
+          set -o pipefail
+          python3 scripts/ppc/direct_refine.py "$MODE" 2>&1 | tee /tmp/direct-refine.log
+
+      - name: Save log for issue
+        if: always() && env.ACTION == 'refine'
+        run: |
+          [ -f /tmp/direct-refine.log ] || echo "(лог не создан)" > /tmp/direct-refine.log
+
+      - name: Post to issue
+        if: always() && env.ACTION == 'refine'
+        uses: actions/github-script@v7
+        env:
+          MODE: ${{ inputs.mode }}
+        with:
+          script: |
+            const fs = require('fs');
+            const log = fs.readFileSync('/tmp/direct-refine.log', 'utf8');
+            await github.rest.issues.createComment({
+              owner: context.repo.owner, repo: context.repo.repo, issue_number: 22,
+              body: '### ops-direct-refine (mode=' + process.env.MODE + ') — доводка bs-test-2026-09, раунд 2\n\n```\n'
+                + log.slice(0, 58000)
+                + '\n```\n\n---\n_Generated by [Claude Code](https://claude.ai/code)_',
+            });
+
+      # ==================== action=sitelinks ====================
+      # Эксперимент «быстрые ссылки» для bs-test-2026-09 (поручение
+      # владельца 31.08.2026): один B2B-набор из четырёх ссылок (оплата по
+      # счёту, договор и ЭДО, расчёт стоимости, контакты) привязывается ко
+      # всем объявлениям кампании. Гипотеза, измерение и критерии решения —
+      # reports/marketing/direct-sitelinks-experiment-2026-08-31.md.
+      #
+      # ВНИМАНИЕ: apply отправляет объявления на перемодерацию — запускать
+      # вне окна показов (после 19:00 МСК или в выходные).
+      #
+      # mode=dry-run — показать набор и план, в API только чтение;
+      # mode=apply — создать набор и привязать к объявлениям;
+      # mode=rollback — отвязать наборы (откат эксперимента).
+      - name: Sitelinks
+        if: env.ACTION == 'sitelinks'
+        id: run_sitelinks
+        env:
+          DIRECT_TOKEN: ${{ secrets.YANDEX_DIRECT_TOKEN }}
+          MODE: ${{ inputs.mode }}
+        run: |
+          set -o pipefail
+          python3 scripts/ppc/direct_sitelinks.py "$MODE" 2>&1 | tee /tmp/direct-sitelinks.log
+
+      - name: Save log for issue
+        if: always() && env.ACTION == 'sitelinks'
+        run: |
+          [ -f /tmp/direct-sitelinks.log ] || echo "(лог не создан)" > /tmp/direct-sitelinks.log
+
+      - name: Post to issue
+        if: always() && env.ACTION == 'sitelinks'
+        uses: actions/github-script@v7
+        env:
+          MODE: ${{ inputs.mode }}
+        with:
+          script: |
+            const fs = require('fs');
+            const log = fs.readFileSync('/tmp/direct-sitelinks.log', 'utf8');
+            await github.rest.issues.createComment({
+              owner: context.repo.owner, repo: context.repo.repo, issue_number: 22,
+              body: '### ops-direct-sitelinks (mode=' + process.env.MODE + ') — быстрые ссылки bs-test-2026-09\n\n```\n'
+                + log.slice(0, 58000)
+                + '\n```\n\n---\n_Generated by [Claude Code](https://claude.ai/code)_',
+            });
+
+      # ==================== action=stats ====================
+      # Статистика кампании Яндекс.Директа bs-test-2026-09: только чтение.
+      #
+      # Собирает состояние кампании/групп/объявлений/фраз и отчёты Reports
+      # API (по дням, условиям показа, поисковым запросам с классификацией
+      # интента A–E и кандидатами в фразы, устройствам, площадкам), а из
+      # Метрики — конверсии кампании в разбивке по целям и поведение
+      # визитов по запросам и посадочным (поручение владельца 31.08,
+      # пункт P1 аудита). Результат публикуется в журнал issue #22.
+      # Ничего не создаёт, не меняет и не удаляет ни в кабинете, ни на
+      # проде. Токен в лог не попадает.
+      #
+      # Расписание: по будням в 04:10 UTC = 07:10 МСК, после готовности
+      # данных Директа за вчерашний день (механизм накопления опыта, P3
+      # аудита direct-audit-2026-08-29.md) — см. общий schedule: наверху
+      # файла.
+      - name: Collect stats
+        if: env.ACTION == 'stats'
+        id: run_stats
+        env:
+          DIRECT_TOKEN: ${{ secrets.YANDEX_DIRECT_TOKEN }}
+          YANDEX_METRIKA_TOKEN: ${{ secrets.YANDEX_METRIKA_TOKEN }}
+          YANDEX_METRIKA_COUNTER_ID: ${{ secrets.YANDEX_METRIKA_COUNTER_ID }}
+        run: |
+          set -o pipefail
+          python3 scripts/ppc/direct_stats.py 2>&1 | tee /tmp/direct-stats.log
+
+      - name: Save log for issue
+        if: always() && env.ACTION == 'stats'
+        run: |
+          [ -f /tmp/direct-stats.log ] || echo "(лог не создан)" > /tmp/direct-stats.log
+
+      - name: Post to issue
+        if: always() && env.ACTION == 'stats'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const log = fs.readFileSync('/tmp/direct-stats.log', 'utf8');
+            await github.rest.issues.createComment({
+              owner: context.repo.owner, repo: context.repo.repo, issue_number: 22,
+              body: '### ops-direct-stats — статистика кампании bs-test-2026-09\n\n```\n'
+                + log.slice(0, 58000)
+                + '\n```\n\n---\n_Generated by [Claude Code](https://claude.ai/code)_',
+            });
+
+      # ==================== action=tighten ====================
+      # Затяжка кампании bs-test-2026-09 по поручению владельца
+      # 31.08.2026: автотаргетинг последней discovery-группы (Claude Code)
+      # → только «целевые запросы» (EXACT), групповые минусы по фактам
+      # двух дней открутки (включая «cloud» — Google Cloud Code), перенос
+      # целевых поисковых запросов в фразы. Обоснование — ops-direct-stats
+      # за 28.08 и 31.08 в issue #22 и
+      # reports/marketing/direct-tighten-plan-2026-08-31.md.
+      #
+      # mode=dry-run — показать план, в API только чтение;
+      # mode=apply — применить изменения в кабинете.
+      - name: Tighten
+        if: env.ACTION == 'tighten'
+        id: run_tighten
+        env:
+          DIRECT_TOKEN: ${{ secrets.YANDEX_DIRECT_TOKEN }}
+          MODE: ${{ inputs.mode }}
+        run: |
+          set -o pipefail
+          python3 scripts/ppc/direct_tighten.py "$MODE" 2>&1 | tee /tmp/direct-tighten.log
+
+      - name: Save log for issue
+        if: always() && env.ACTION == 'tighten'
+        run: |
+          [ -f /tmp/direct-tighten.log ] || echo "(лог не создан)" > /tmp/direct-tighten.log
+
+      - name: Post to issue
+        if: always() && env.ACTION == 'tighten'
+        uses: actions/github-script@v7
+        env:
+          MODE: ${{ inputs.mode }}
+        with:
+          script: |
+            const fs = require('fs');
+            const log = fs.readFileSync('/tmp/direct-tighten.log', 'utf8');
+            await github.rest.issues.createComment({
+              owner: context.repo.owner, repo: context.repo.repo, issue_number: 22,
+              body: '### ops-direct-tighten (mode=' + process.env.MODE + ') — затяжка bs-test-2026-09\n\n```\n'
+                + log.slice(0, 58000)
+                + '\n```\n\n---\n_Generated by [Claude Code](https://claude.ai/code)_',
+            });
