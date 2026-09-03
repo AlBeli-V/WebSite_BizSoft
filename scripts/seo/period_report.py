@@ -294,26 +294,29 @@ def _delta_pct(cur: float, prev: float) -> float | None:
     return None
 
 
+def _clicks_sentence(cur: dict, prev: dict) -> str:
+    """Фраза о кликах: вердикт только по полным окнам.
+
+    Вердикт «снизились» по неполному окну — ложь: недозревший хвост периода
+    прежде считался нулём (аудит 03.09.2026).
+    """
+    yc, yp = cur["total"], prev["total"]
+    if not (_fully_covered(cur) and _fully_covered(prev)):
+        return (f"кликов из Яндекса {num(yc)} за {cur['covered_days']} из "
+                f"{cur['days']} дн., сравнение с прошлым периодом не приводится: "
+                f"окна покрыты не полностью")
+    d = _delta_pct(yc, yp)
+    if d is None:
+        return f"кликов из Яндекса {num(yc)}"
+    word = "выросли" if d > 0.05 else "снизились" if d < -0.05 else "держатся"
+    return f"клики из Яндекса {word} ({num(yp)} → {num(yc)}, {d:+.0%})"
+
+
 def _summarise(b: dict) -> None:
     """Итог периода одним абзацем + список «на что смотреть»."""
     cur, prev = b["metrics"], b["prev_metrics"]
     parts = []
-    yc, yp = cur["yandex_clicks"]["total"], prev["yandex_clicks"]["total"]
-    full = _fully_covered(cur["yandex_clicks"]) and _fully_covered(prev["yandex_clicks"])
-    d = _delta_pct(yc, yp) if full else None
-    if not full:
-        # Вердикт «снизились» по неполному окну — ложь: недозревший хвост
-        # периода прежде считался нулём (аудит 03.09.2026).
-        parts.append(f"кликов из Яндекса {num(yc)} за "
-                     f"{cur['yandex_clicks']['covered_days']} из "
-                     f"{cur['yandex_clicks']['days']} дн., сравнение с прошлым "
-                     f"периодом не приводится: окна покрыты не полностью")
-    elif d is not None:
-        word = "выросли" if d > 0.05 else "снизились" if d < -0.05 else "держатся"
-        parts.append(f"клики из Яндекса {word} "
-                     f"({num(yp)} → {num(yc)}, {d:+.0%})")
-    else:
-        parts.append(f"кликов из Яндекса {num(yc)}")
+    parts.append(_clicks_sentence(cur["yandex_clicks"], prev["yandex_clicks"]))
     gc = cur["goals_organic"]["total"]
     gp = prev["goals_organic"]["total"]
     parts.append(f"достижений целей {num(gc)}"

@@ -97,15 +97,12 @@ class CoverageWordingTest(unittest.TestCase):
         return {"label": "x", "total": total, "covered_days": covered, "days": days, **kw}
 
     def test_вердикт_только_по_полным_окнам(self):
-        b = {"metrics": {"yandex_clicks": self._m(70, 4), "goals_organic": self._m(3, 4)},
-             "prev_metrics": {"yandex_clicks": self._m(100, 7), "goals_organic": self._m(2, 7)}}
-        b.setdefault("watch", [])
-        try:
-            pr._summarise(b)
-        except KeyError:
-            self.skipTest("_summarise требует полный набор метрик")
-        self.assertIn("не приводится", b["summary"])
-        self.assertNotIn("снизились", b["summary"])
+        partial = pr._clicks_sentence(self._m(70, 4), self._m(100, 7))
+        self.assertIn("не приводится", partial)
+        self.assertIn("4 из 7 дн.", partial)
+        self.assertNotIn("снизились", partial)
+        full = pr._clicks_sentence(self._m(70, 7), self._m(100, 7))
+        self.assertIn("снизились", full)
 
     def test_источник_без_данных_печатается_прочерком_а_не_нулём(self):
         self.assertEqual(pr._fmt_metric(self._m(0.0, 0)), "—")
