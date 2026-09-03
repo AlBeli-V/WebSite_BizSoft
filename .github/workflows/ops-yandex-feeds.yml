@@ -35,6 +35,11 @@ jobs:
             exit 1
           fi
 
+      # Локальный action journal-post лежит в репозитории — без checkout
+      # раннер его не находит, и запись в журнал падает (см. прогон #41
+      # ops-yandex-recrawl 03.09.2026).
+      - uses: actions/checkout@v4
+
       - name: Install xmllint
         run: sudo apt-get update -qq && sudo apt-get install -y -qq libxml2-utils
 

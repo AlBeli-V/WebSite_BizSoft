@@ -19,6 +19,11 @@ jobs:
   fonts:
     runs-on: ubuntu-latest
     steps:
+      # Локальный action journal-post лежит в репозитории — без checkout
+      # раннер его не находит, и запись в журнал падает (см. прогон #41
+      # ops-yandex-recrawl 03.09.2026).
+      - uses: actions/checkout@v4
+
       - name: Fetch page and extract fonts
         id: probe
         env:

@@ -39,6 +39,11 @@ jobs:
             echo "Запуск разрешён только с ветки main. Текущий ref: ${{ github.ref_name }}"
             exit 1
           fi
+      # Локальный action journal-post лежит в репозитории — без checkout
+      # раннер его не находит, и запись в журнал падает (см. прогон #41
+      # ops-yandex-recrawl 03.09.2026).
+      - uses: actions/checkout@v4
+
       - name: Merge in Directus
         id: run
         uses: appleboy/ssh-action@v1
