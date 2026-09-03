@@ -25,6 +25,7 @@ on:
       - "scripts/seo/collect.py"
       - "scripts/seo/collect_daily.py"
       - "scripts/seo/sitemap_inventory.py"
+      - "scripts/seo/index_coverage.py"
 
 permissions:
   contents: write
@@ -82,6 +83,18 @@ jobs:
       - name: Collect sitemap inventory
         if: always()
         run: python3 scripts/seo/sitemap_inventory.py
+
+      # Покрытие индекса по каждому URL инвентаря: URL Inspection Google
+      # (квота 2000/сутки, прогон берёт ≤1800) и выборки Вебмастера — страницы
+      # в поиске и причины исключения. Даёт zero-impression отчёту причину
+      # вместо общего «разобрать». Шаг идёт после инвентаря: без него
+      # инспектировать нечего; секреты — те же, что у основного сбора.
+      - name: Collect index coverage
+        if: always()
+        env:
+          GSC_SERVICE_ACCOUNT_JSON: ${{ secrets.GSC_SERVICE_ACCOUNT_JSON }}
+          YANDEX_WEBMASTER_TOKEN: ${{ secrets.YANDEX_WEBMASTER_TOKEN }}
+        run: python3 scripts/seo/index_coverage.py
 
       - name: Push data
         if: always()

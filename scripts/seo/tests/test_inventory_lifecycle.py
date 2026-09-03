@@ -138,6 +138,68 @@ class TestZeroImpression(Stage2Base):
         self.assertIn("разобрать", z["items"][0]["verdict"])
 
 
+    def write_index(self, google=None, yandex=None, date=DATE):
+        if google is not None:
+            (self.data_dir / f"index-google-{date}.json").write_text(json.dumps(
+                {"date": date, "inspected": len(google),
+                 "pages": {p: {"coverage_state": st, "inspected_at": date}
+                           for p, st in google.items()}}), encoding="utf-8")
+        if yandex is not None:
+            (self.data_dir / f"index-yandex-{date}.json").write_text(json.dumps(
+                {"date": date, "in_search_count": 400, **yandex}), encoding="utf-8")
+
+    def test_causes_from_index_coverage(self):
+        """Статус индекса превращает общий «разобрать» в причину."""
+        paths = ["/", "/product/unknown", "/product/crawled", "/product/idx",
+                 "/vendors/tech", "/product/nodata"]
+        self.write_sitemap(paths)
+        self.write_first_seen({p: "2026-08-01" for p in paths}, started="2026-08-01")
+        self.write_gsc([self.pair("q", "/", "2026-08-29", 5)])
+        self.write_index(
+            google={"/": "Submitted and indexed",
+                    "/product/unknown": "URL is unknown to Google",
+                    "/product/crawled": "Crawled - currently not indexed",
+                    "/product/idx": "Indexed, not submitted in sitemap",
+                    "/vendors/tech": "Excluded by ‘noindex’ tag"},
+            yandex={"in_search": ["/", "/product/idx"],
+                    "excluded": {"/product/crawled": {"status": "LOW_QUALITY",
+                                                      "date": "2026-08-20"}}})
+        z = self.detector("zero_impression").build(DATE)
+        by = {i["path"]: i for i in z["items"]}
+        self.assertIn("не знает URL", by["/product/unknown"]["verdict"])
+        self.assertIn("разбор содержимого", by["/product/crawled"]["verdict"])
+        self.assertIn("спрос, название, сниппет", by["/product/idx"]["verdict"])
+        self.assertIn("noindex", by["/vendors/tech"]["verdict"])
+        self.assertIn("разобрать", by["/product/nodata"]["verdict"])  # нет статуса
+        self.assertEqual(by["/product/crawled"]["yandex_index"]["label"],
+                         "исключена: малоценная или маловостребованная")
+        self.assertEqual(by["/product/idx"]["yandex_index"]["status"], "in_search")
+        self.assertEqual(by["/product/unknown"]["yandex_index"]["status"], "absent")
+        # Сначала то, где действие ближе: crawled и indexed раньше unknown.
+        order = [i["path"] for i in z["items"]]
+        self.assertLess(order.index("/product/crawled"), order.index("/product/unknown"))
+        # Index Efficiency: в индексе Google — 2 из 6 (главная и idx), в поиске
+        # Яндекса — 2 из 6; исключения по причинам.
+        self.assertEqual(z["index_google"]["indexed"], 2)
+        self.assertAlmostEqual(z["index_google"]["coverage_indexed"], 0.333, places=3)
+        self.assertEqual(z["index_google"]["by_class"]["unknown"], 1)
+        self.assertEqual(z["index_yandex"]["in_search"], 2)
+        self.assertEqual(z["index_yandex"]["excluded_by_reason"],
+                         {"малоценная или маловостребованная": 1})
+        self.assertEqual(z["by_cause"]["crawled"], 1)
+
+    def test_without_coverage_files_behaviour_unchanged(self):
+        self.write_sitemap(["/product/b"])
+        self.write_first_seen({"/product/b": "2026-08-01"}, started="2026-08-01")
+        self.write_gsc([])
+        z = self.detector("zero_impression").build(DATE)
+        self.assertFalse(z["index_google"]["available"])
+        self.assertFalse(z["index_yandex"]["available"])
+        self.assertEqual(z["items"][0]["google_index"]["class"], "no_data")
+        self.assertEqual(z["items"][0]["yandex_index"]["status"], "no_data")
+        self.assertIn("разобрать", z["items"][0]["verdict"])
+
+
 class TestLifecycle(Stage2Base):
     def test_statuses(self):
         rows = (

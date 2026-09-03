@@ -438,21 +438,58 @@ def _mismatch_section(mm: dict) -> str:
 
 
 def _zero_section(zi: dict, snap: dict) -> str:
-    """Инвентарь и страницы без показов + Index Efficiency по системам."""
+    """Инвентарь и страницы без показов + Index Efficiency по системам.
+
+    Две доли Google — «в индексе» (URL Inspection) и «с показами» (Search
+    Analytics) — называются раздельно: до сенсора покрытия одна подменяла
+    другую, и 3,9% страниц с показами читались как провал ранжирования, тогда
+    как карточки Google просто не знал.
+    """
     if not zi.get("available"):
         return f"<p class='muted'>{zi.get('reason', 'Данных нет')}.</p>"
     idx = (snap.get("yandex") or {}).get("indexation") or {}
     y_indexed = idx.get("indexed_urls")
     total = zi["inventory_total"]
+    ig = zi.get("index_google") or {}
+    iy = zi.get("index_yandex") or {}
+    if ig.get("available"):
+        g_txt = (f"Google — в индексе <b>{num(ig['indexed'])}</b> "
+                 f"({ig['coverage_indexed']:.1%}), с показами "
+                 f"<b>{zi['with_impressions']}</b> ({zi['coverage_google']:.1%})")
+    else:
+        g_txt = (f"Google — <b>{zi['with_impressions']}</b> страниц с показами "
+                 f"({zi['coverage_google']:.1%}); индекс по страницам не измерен")
+    if iy.get("available"):
+        y_txt = (f"Яндекс — в поиске <b>{num(iy['in_search'])}</b> страниц "
+                 f"инвентаря ({iy['coverage']:.1%})"
+                 + (f", по сводке хоста {num(y_indexed)}" if y_indexed else ""))
+    elif y_indexed and total:
+        y_txt = (f"Яндекс — <b>{num(y_indexed)}</b> страниц в поиске по сводке "
+                 f"хоста ({y_indexed / total:.1%}); по страницам не измерено")
+    else:
+        y_txt = "Яндекс — число страниц в поиске не измерено"
     eff = (
         f"<p>Инвентарь sitemap: <b>{num(total)}</b> URL (выгрузка "
-        f"{ru_date(zi['as_of'])}). Index Efficiency: "
-        f"Google — <b>{zi['with_impressions']}</b> страниц с показами "
-        f"({zi['coverage_google']:.1%}); Яндекс — "
-        + (f"<b>{num(y_indexed)}</b> страниц в поиске ({y_indexed / total:.1%})"
-           if y_indexed and total else "число страниц в поиске не измерено")
-        + ". Если каталог растёт быстрее этих долей — рост SKU превращается "
-          "в SEO-инфляцию.</p>")
+        f"{ru_date(zi['as_of'])}). Index Efficiency: {g_txt}; {y_txt}. "
+        "Если каталог растёт быстрее этих долей — рост SKU превращается "
+        "в SEO-инфляцию.</p>")
+    causes = ""
+    if ig.get("available") and zi.get("by_cause"):
+        from inventory import GOOGLE_CLASS_LABEL
+        parts = ", ".join(
+            f"{GOOGLE_CLASS_LABEL.get(k, k)} — {v}"
+            for k, v in sorted(zi["by_cause"].items(), key=lambda kv: -kv[1]))
+        causes += (f"<p><b>Причины по Google</b> (URL Inspection от "
+                   f"{ru_date(ig.get('as_of'))}): {parts}.</p>")
+    if iy.get("available"):
+        ex = iy.get("excluded_by_reason") or {}
+        ex_txt = (", ".join(f"{k} — {v}" for k, v in sorted(
+            ex.items(), key=lambda kv: -kv[1])) if ex else "нет")
+        causes += (f"<p><b>Яндекс по страницам инвентаря</b> (выборки Вебмастера "
+                   f"от {ru_date(iy.get('as_of'))}): в поиске "
+                   f"{num(iy['in_search'])}, исключено — {ex_txt}, без "
+                   f"зафиксированной причины — "
+                   f"{(iy.get('by_status') or {}).get('absent', 0)}.</p>")
     types = ", ".join(f"{k}: {v}" for k, v in sorted(
         zi["by_type"].items(), key=lambda kv: -kv[1]))
     rows = [[f"<code>{i['path']}</code>",
@@ -460,13 +497,17 @@ def _zero_section(zi: dict, snap: dict) -> str:
              (f"≥{i['known_days']}" if i["known_days_is_floor"]
               else str(i["known_days"] if i["known_days"] is not None else "—"))
              + " дн.",
+             f"G: {i['google_index']['label']}"
+             + (f" (обход {i['google_index']['last_crawl']})"
+                if i["google_index"].get("last_crawl") else "")
+             + f" · Я: {i['yandex_index']['label']}",
              i["verdict"]]
             for i in zi["items"]]
-    body = table(["Страница", "Тип", "В инвентаре", "Вердикт"], rows)
+    body = table(["Страница", "Тип", "В инвентаре", "Индекс", "Вердикт"], rows)
     more = ("" if zi["zero_total"] <= len(zi["items"]) else
             f"<p class='muted'>Показаны {len(zi['items'])} из "
             f"{zi['zero_total']}; полный разбор — партиями.</p>")
-    return (eff
+    return (eff + causes
             + f"<p class='muted desc'>Без показов: {num(zi['zero_total'])} "
               f"(по типам — {types}); молодых страниц пропущено: "
               f"{zi['young_skipped']}. {zi['note']}.</p>"
@@ -1223,11 +1264,26 @@ def build_markdown(b: dict, snap: dict, dq: dict, date: str) -> str:
     if zi.get("available"):
         types = ", ".join(f"{k}: {v}" for k, v in sorted(
             zi["by_type"].items(), key=lambda kv: -kv[1]))
+        ig, iy = zi.get("index_google") or {}, zi.get("index_yandex") or {}
         L += ["## Инвентарь и страницы без показов", "",
               f"Инвентарь sitemap: {num(zi['inventory_total'])} URL; с показами "
               f"Google: {zi['with_impressions']} "
               f"({zi['coverage_google']:.1%}); без показов: "
               f"{num(zi['zero_total'])} ({types}). {zi['note']}", ""]
+        if ig.get("available"):
+            from inventory import GOOGLE_CLASS_LABEL
+            parts = ", ".join(f"{GOOGLE_CLASS_LABEL.get(k, k)} — {v}"
+                              for k, v in sorted(zi.get("by_cause", {}).items(),
+                                                 key=lambda kv: -kv[1]))
+            L += [f"В индексе Google: {num(ig['indexed'])} "
+                  f"({ig['coverage_indexed']:.1%}). Причины отсутствия "
+                  f"показов: {parts}.", ""]
+        if iy.get("available"):
+            ex = ", ".join(f"{k} — {v}" for k, v in sorted(
+                (iy.get("excluded_by_reason") or {}).items(),
+                key=lambda kv: -kv[1])) or "нет"
+            L += [f"Яндекс: в поиске {num(iy['in_search'])} страниц инвентаря "
+                  f"({iy['coverage']:.1%}); исключено — {ex}.", ""]
 
     lh = b.get("loop_health") or {}
     if lh.get("available"):
