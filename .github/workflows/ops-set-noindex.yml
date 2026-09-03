@@ -114,22 +114,30 @@ jobs:
                 print('записано в Directus; sitemap и мета обновятся при следующем запросе '
                       '(кэш каталога), переобход — ops-yandex-recrawl')
             PYEOF
+      # Журнал пишется и при падении шага записи: иначе сбой не оставляет
+      # следа в issue #22 (правило линта воркфлоу R4), а упавший прогон
+      # помечается явно по steps.run.outcome (R3).
       - name: Save to file
+        if: always()
         run: |
           cat > /tmp/ops-noindex.txt <<'OPS_NOINDEX_EOF'
           ${{ steps.run.outputs.stdout }}
           OPS_NOINDEX_EOF
+          echo "OUTCOME=${{ steps.run.outcome }}" >> "$GITHUB_ENV"
       - name: Post to issue
+        if: always()
         uses: actions/github-script@v7
         env:
           APPLY: ${{ inputs.apply }}
           VALUE: ${{ inputs.value }}
+          OUTCOME: ${{ steps.run.outcome }}
         with:
           script: |
             const fs = require('fs');
-            const out = fs.readFileSync('/tmp/ops-noindex.txt', 'utf8').trim();
+            const out = fs.readFileSync('/tmp/ops-noindex.txt', 'utf8').trim() || '(вывода нет)';
             const mode = process.env.APPLY === 'true' ? 'применено' : 'план';
+            const status = process.env.OUTCOME === 'success' ? '' : ` · СБОЙ шага записи (${process.env.OUTCOME})`;
             await github.rest.issues.createComment({
               owner: context.repo.owner, repo: context.repo.repo, issue_number: 22,
-              body: `### ops-set-noindex · ${mode} · noindex=${process.env.VALUE} · ${new Date().toISOString()}\n\n\`\`\`\n${out}\n\`\`\``,
+              body: `### ops-set-noindex · ${mode} · noindex=${process.env.VALUE}${status} · ${new Date().toISOString()}\n\n\`\`\`\n${out}\n\`\`\``,
             });
