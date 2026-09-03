@@ -1,0 +1,5441 @@
+{
+  "дата": "2026-09-03",
+  "собран": "2026-09-03T08:51:08.085302+03:00",
+  "версия_модели": "1.8.0",
+  "версия_конфига": "1.8.0",
+  "зрелость_скоринга": "базовый",
+  "метаданные": {
+    "версия_методики": "1.8.0",
+    "хеш_конфига": "7d597fe91c5f",
+    "ядро_версия": "v4",
+    "ядро_хеш": "ad439f4b9cf1",
+    "запросов_в_ядре": 381,
+    "покрытие_запросов": 1.0,
+    "взвешенное_покрытие": {
+      "webmaster": 1.0,
+      "wordstat": 1.0
+    },
+    "состав_источников_спроса": {
+      "webmaster": 190,
+      "wordstat": 180,
+      "none": 11
+    },
+    "opportunity_режим": "degraded",
+    "opportunity_недоступные_факторы": [
+      "vulnerability"
+    ],
+    "threat_режим": "base_0_70",
+    "_правило_сравнимости": "сравнивать значения между датами допустимо только при совпадении версии методики, хеша конфига и хеша ядра; при различии ядра используется сравнимая доля, считаемая по пересечению составов (блок «по_запросам»)"
+  },
+  "состояние_зрелости": {
+    "opportunity_режим": "degraded",
+    "opportunity_недоступные_факторы": [
+      "vulnerability"
+    ],
+    "threat_режим": "base_0_70",
+    "google_собирается": true,
+    "b2b_confidence_измеряется": false,
+    "_правило_сравнимости": "оценки сравнимы между датами только при одинаковой версии модели и одинаковом режиме доступности факторов; при включении ранее недоступного фактора начинается новая базовая линия, и изменение оценки через границу режима не интерпретируется как изменение самой возможности"
+  },
+  "_зрелость_пояснение": "Vulnerability недоступен до обхода страниц конкурентов, вес распределён пропорционально; Confidence рекомендаций не выше MEDIUM",
+  "ядро_запросов": {
+    "версия": "v4",
+    "хеш": "ad439f4b9cf1",
+    "запросов": 381,
+    "запросы": [
+      "adobe acrobat купить",
+      "adobe cloud купить",
+      "adobe creative купить",
+      "adobe photoshop купить",
+      "adobe premiere купить",
+      "adobe pro купить",
+      "adobe купить",
+      "adobe подписка",
+      "anydesk аналоги",
+      "artlist купить",
+      "artlist купить права",
+      "artlist подписка",
+      "assassin s creed unity купить",
+      "assassin s unity купить",
+      "assassin unity купить",
+      "assassins creed unity купить",
+      "assassins creed unity купить ключ",
+      "assassins creed unity купить стим",
+      "autodesk license",
+      "autodesk license download",
+      "autodesk license manager",
+      "autodesk license скачать",
+      "autodesk network license",
+      "autodesk network license manager",
+      "autodesk купить",
+      "autodesk недействительная лицензия",
+      "autodesk обнаружена лицензия",
+      "avid bb7 купить",
+      "avid carp купить",
+      "avid pro tools купить",
+      "avid купить",
+      "avid цена",
+      "canva pro купить",
+      "canva pro подписка",
+      "canva аналоги",
+      "canva купить подписку",
+      "canva оплата",
+      "canva подписка",
+      "canva тарифы",
+      "capture one для россиян оплата",
+      "character creator 5 купить",
+      "claude team plan купить",
+      "claude team купить",
+      "clip studio paint ex купить",
+      "clip studio paint купить",
+      "clip studio paint купить лицензию",
+      "clip studio paint лицензия",
+      "cloudflare купить",
+      "cloudflare купить москва и мо",
+      "coreldraw 2026 купить",
+      "coreldraw graphics suite купить",
+      "coreldraw graphics купить",
+      "coreldraw suite купить",
+      "coreldraw купить",
+      "coreldraw купить ключ",
+      "coreldraw лицензия",
+      "coreldraw лицензия купить",
+      "coreldraw подписка",
+      "cursor аналоги",
+      "davinci resolve 21 купить",
+      "davinci resolve license",
+      "davinci resolve studio 21 купить",
+      "davinci resolve studio купить",
+      "davinci resolve studio лицензия",
+      "davinci resolve ключ купить",
+      "davinci resolve купить",
+      "davinci resolve купить в россии",
+      "davinci resolve купить лицензию",
+      "davinci resolve лицензия",
+      "depositphotos как оплатить в россии",
+      "depositphotos не проходит оплата российской картой",
+      "depositphotos оплата из россии",
+      "dropbox купить подписку",
+      "elena miro купить",
+      "elevenlabs подписка купить",
+      "elevenlabs тарифы",
+      "elevenlabs тарифы www.klerk.ru",
+      "elevenlabs цена www.klerk.ru",
+      "envato elements тариф россия",
+      "envato купить",
+      "epidemic sound купить",
+      "epidemic sound купить подписку",
+      "etch a sketch волшебный экран купить",
+      "etch a sketch купить",
+      "figma enterprise оплата рф",
+      "figma аналоги",
+      "fmod лицензия",
+      "foundry vtt купить",
+      "foundry vtt купить в россии",
+      "foundry купить",
+      "foundry купить в россии",
+      "framer basic оплата россия",
+      "framer годовая подписка из россии",
+      "framer домен оплата рф",
+      "framer оплата рублями",
+      "framer оформить подписку россия",
+      "framer тариф россия",
+      "freepik купить",
+      "freepik купить подписку",
+      "gamma business оплата из россии",
+      "gamma pro купить",
+      "github business купить",
+      "github copilot business купить",
+      "github copilot купить в россии",
+      "gitlab premium оплата из россии",
+      "gitlab saas оплата из россии",
+      "gitlab годовая подписка из россии",
+      "gitlab оплатить",
+      "gitlab оформить подписку россия",
+      "gitlab подписка оплатить в рф",
+      "heygen оплатить",
+      "heygen подписка",
+      "houdini цена",
+      "la rive game for men купить",
+      "la rive купить",
+      "la rive цена",
+      "magnific оплата юридическим ai лицом",
+      "marmoset toolbag 5 купить лицензию",
+      "maxon pricing",
+      "maxon sd 9 купить",
+      "maxon купить",
+      "midjourney купить",
+      "midjourney купить подписку",
+      "midjourney нейросеть подписка",
+      "midjourney оплата",
+      "midjourney оплатить подписку",
+      "midjourney подписка",
+      "midjourney стоимость",
+      "midjourney тарифы",
+      "miro аналоги",
+      "miro подписка",
+      "miro цены",
+      "monotype лицензия",
+      "native instruments maschine mk3 купить",
+      "native instruments mk3 купить",
+      "notion аналоги",
+      "openrouter аналоги",
+      "perplexity enterprise max купить",
+      "perplexity enterprise pro купить",
+      "perplexity enterprise купить",
+      "perplexity купить max юридическим лицом",
+      "postman оплата подписки",
+      "procreate подписка",
+      "procreate стоимость",
+      "recraft годовая подписка",
+      "recraft купить",
+      "recraft купить подписку",
+      "recraft подписка",
+      "recraft тарифы",
+      "rive gauche купить",
+      "rive купить",
+      "rive туалетная вода купить",
+      "riven купить",
+      "runway ai тарифы",
+      "runway ai тарифы companies.rbc.ru",
+      "runway ai цена companies.rbc.ru",
+      "runway красноярск купить",
+      "runway красноярск купить квартиру",
+      "runway купить",
+      "runway купить подписку",
+      "runway октан корректор купить",
+      "runway подписка",
+      "runway стоимость",
+      "runway тарифы",
+      "runway тарифы companies.rbc.ru",
+      "runway цена companies.rbc.ru",
+      "shutterstock лицензия",
+      "shutterstock подписка",
+      "sketch аппарат для массажа купить",
+      "sketch аппарат купить",
+      "sketch массаж купить",
+      "sketches купить",
+      "sketchup go подписка",
+      "spine 2d купить",
+      "spine concept купить",
+      "spine corsa купить",
+      "spine essential лицензия стоимость",
+      "spine pro купить",
+      "spine skate купить",
+      "spine кроссовки купить",
+      "spine купить",
+      "spine цена",
+      "st croix avid купить",
+      "unity купить ключ",
+      "unity лицензия",
+      "unity подписки",
+      "unity сцена",
+      "unreal engine купить",
+      "unreal engine сцена",
+      "windsurf pro купить плати по миру",
+      "windsurf купить подписку",
+      "wondershare filmora купить",
+      "wondershare filmora подписка",
+      "wondershare recoverit ключ активации лицензионный бесплатно",
+      "wondershare ключ активации лицензионный",
+      "wondershare ключи лицензионные",
+      "wondershare купить",
+      "wondershare подписка",
+      "yamaguchi runway купить",
+      "yoga spine купить",
+      "бесплатные безлицензионные картинки freepik",
+      "вегас редактор видео цена",
+      "дешево оплатить depositphotos из россии",
+      "дропбокс купить",
+      "журнал runway купить",
+      "как купить framer pro в россии",
+      "как купить procreate на айпад",
+      "как купить procreate на айпад в россии",
+      "как купить recraft без зарубежной карты",
+      "как купить runway в россии companies.rbc.ru",
+      "как купить windsurf из россии",
+      "как оплатить box business из россии",
+      "как оплатить box облако из россии",
+      "как оплатить canva",
+      "как оплатить confluence standard из россии",
+      "как оплатить confluence в рублях",
+      "как оплатить coreldraw в рублях",
+      "как оплатить depositphotos без зарубежной карты",
+      "как оплатить depositphotos в россии",
+      "как оплатить depositphotos в рублях",
+      "как оплатить depositphotos из россии",
+      "как оплатить depositphotos из россии 2026",
+      "как оплатить dropbox business из россии",
+      "как оплатить heygen из россии",
+      "как оплатить midjourney",
+      "как оплатить midjourney из россии",
+      "как оплатить procreate",
+      "как оплатить procreate из россии",
+      "как оплатить депозитфотос из россии",
+      "как оплатить пакет depositphotos из россии",
+      "как оплатить подписку depositphotos из россии",
+      "как оплатить тариф box из россии",
+      "как оплатить тариф confluence из россии",
+      "как оплатить тариф coreldraw из россии",
+      "как оплатить тариф depositphotos из россии",
+      "как отменить подписку wondershare",
+      "как получить счет и закрывающие от atlassian",
+      "как получить счет по и закрывающие от atlassian",
+      "как продлить подписку depositphotos из россии",
+      "как сейчас оплатить depositphotos из россии",
+      "клип студио пейнт подписка на год",
+      "ключ wondershare recoverit активации лицензионный",
+      "корпоративные тарифы slack для бизнеса из рф",
+      "купить after effects юридическим лицом",
+      "купить canva",
+      "купить chatgpt pro юридическим лицом",
+      "купить claude enterprise",
+      "купить claude team в россии",
+      "купить cursor",
+      "купить cursor pro юридическим лицом",
+      "купить elevenlabs",
+      "купить envato elements юридическим лицом",
+      "купить heygen юридическим лицом",
+      "купить kling ai юридичеким лицом",
+      "купить leonardo ai юридическим лицом",
+      "купить lightroom юридическим лицом",
+      "купить native instruments",
+      "купить native instruments traktor",
+      "купить notion ai юридическим лицом",
+      "купить openai api юридическим лицом",
+      "купить perplexity max юридическим лицом",
+      "купить perplexity pro юридическим лицом",
+      "купить procreate",
+      "купить procreate на ipad",
+      "купить recraft pro www.klerk.ru",
+      "купить recraft www.klerk.ru",
+      "купить shutterstock",
+      "купить yamaguchi runway x",
+      "купить zoom pro юридическим лицом",
+      "купить аккаунт windsurf",
+      "купить ботинки spine",
+      "купить вегас про",
+      "купить воду la rive",
+      "купить дропбокс",
+      "купить квартиру runway",
+      "купить клинг из россии",
+      "купить лыжные ботинки spine",
+      "купить подписку adobe",
+      "купить подписку artlist",
+      "купить подписку capture one",
+      "купить подписку clip studio paint",
+      "купить подписку descript",
+      "купить подписку github copilot business",
+      "купить подписку motion array",
+      "купить подписку windsurf",
+      "купить подписку суно премьер",
+      "купить рекрафт www.klerk.ru",
+      "купить туалетную воду la rive",
+      "купить фаундри",
+      "купить хейген",
+      "лицензии freepik",
+      "лицензия adobe",
+      "лицензия autodesk",
+      "лицензия wondershare",
+      "можно ли купить procreate",
+      "можно ли оплатить depositphotos российской картой",
+      "москва postman оплата подписки",
+      "недорого оплатить подписку depositphotos",
+      "оплата artlist лицом юридическим",
+      "оплата artlist юридическим лицом",
+      "оплата box в рублях",
+      "оплата box для юридических лиц из россии",
+      "оплата box по счету из россии",
+      "оплата canva для юридических лиц из россии",
+      "оплата capture one",
+      "оплата capture one без vpn",
+      "оплата capture one юридическим лицом",
+      "оплата confluence premium из россии",
+      "оплата confluence в рублях",
+      "оплата confluence для юридических лиц из россии",
+      "оплата confluence по счету из россии",
+      "оплата coreldraw",
+      "оплата coreldraw в рублях",
+      "оплата coreldraw для россиян",
+      "оплата coreldraw для юридических лиц из россии",
+      "оплата coreldraw из россии",
+      "оплата coreldraw по счету из россии",
+      "оплата coreldraw россиян",
+      "оплата depositphotos",
+      "оплата depositphotos в рублях",
+      "оплата depositphotos для россиян",
+      "оплата depositphotos для юридических лиц из россии",
+      "оплата depositphotos зарубежной картой",
+      "оплата depositphotos из россии",
+      "оплата depositphotos из россии 2026",
+      "оплата depositphotos картой мир",
+      "оплата depositphotos российской картой",
+      "оплата depositphotos через посредника",
+      "оплата descript юридическим лицом",
+      "оплата dropbox business в россии",
+      "оплата dropbox business в россии dzen.ru/a/alvpm2omyk6cmyml",
+      "оплата dropbox для юридических лиц из россии",
+      "оплата envato юридическим лицом",
+      "оплата gitlab для россиян",
+      "оплата magnific ai юридическим лицом",
+      "оплата motion array юридическим лицом",
+      "оплата n8n cloud юридическим лицом",
+      "оплата openrouter юридическим лицом",
+      "оплата postman лицом юридическим",
+      "оплата postman юридическим лицом",
+      "оплата windsurf юридическим лицом",
+      "оплата zoho юридическим лицом",
+      "оплата депозитфотос в россии 2026",
+      "оплата зарубежного по для юр лица документы",
+      "оплата зарубежного по для юрлица",
+      "оплата зарубежных сервисов для юридических лиц документы",
+      "оплата иностранной подписки для бизнеса документы",
+      "оплата пакета depositphotos в россии",
+      "оплата по zoho юридическим лицом",
+      "оплата подписки depositphotos из россии",
+      "оплата юридическим postman лицом",
+      "оплатить clip studio paint",
+      "оплатить depositphotos без иностранной карты",
+      "оплатить depositphotos из россии",
+      "оплатить depositphotos через сервис посредник",
+      "оплатить freepik",
+      "оплатить подписку capture one",
+      "оплатить подписку depositphotos в россии",
+      "оплатить подписку one capture",
+      "оплатить подписку postman",
+      "подписка clip studio paint",
+      "подписка elevenlabs",
+      "подписка envato",
+      "подписка freepik",
+      "подписка recraft ai",
+      "пошаговая инструкция оплата depositphotos из россии",
+      "продление подписки postman из россии",
+      "прокриэйт цена",
+      "работает ли оплата depositphotos в россии 2026",
+      "рабочие способы оплаты depositphotos 2026",
+      "рекрафт тарифы",
+      "сервисы оплаты coreldraw из россии",
+      "сервисы оплаты depositphotos из россии",
+      "сколько стоит лицензия юнити",
+      "сколько стоит подписка клип студио бессрочная",
+      "способы оплаты depositphotos из россии",
+      "суно премьер купить sostav.ru/blogs/287160/102824",
+      "тарифные планы anthropic для бизнеса",
+      "тарифы recraft",
+      "фаундри купить",
+      "чем оплатить depositphotos из россии"
+    ]
+  },
+  "по_запросам": {
+    "оплата coreldraw для россиян": {
+      "наша": 0.03,
+      "поле": 0.783,
+      "позиция": 7,
+      "наш_url": "https://biz-soft.pro/blog/kak-oplatit-coreldraw-dlya-yurlica"
+    },
+    "оплата artlist юридическим лицом": {
+      "наша": 0.15,
+      "поле": 0.783,
+      "позиция": 2,
+      "наш_url": "https://biz-soft.pro/vendors/artlist"
+    },
+    "оплата motion array юридическим лицом": {
+      "наша": 0.15,
+      "поле": 0.783,
+      "позиция": 2,
+      "наш_url": "https://biz-soft.pro/vendors/motion-array"
+    },
+    "claude team купить": {
+      "наша": 0.04,
+      "поле": 0.783,
+      "позиция": 6,
+      "наш_url": "https://biz-soft.pro/product/anthropic-team"
+    },
+    "купить подписку суно премьер": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "купить perplexity pro юридическим лицом": {
+      "наша": 0.1,
+      "поле": 0.783,
+      "позиция": 3,
+      "наш_url": "https://biz-soft.pro/blog/kak-kupit-perplexity-dlya-yurlica"
+    },
+    "оплата postman юридическим лицом": {
+      "наша": 0.15,
+      "поле": 0.783,
+      "позиция": 2,
+      "наш_url": "https://biz-soft.pro/blog/kak-oplatit-postman-dlya-yurlica"
+    },
+    "оплата зарубежного по для юр лица документы": {
+      "наша": 0.1,
+      "поле": 0.783,
+      "позиция": 3,
+      "наш_url": "https://biz-soft.pro/blog/kak-kupit-zarubezhnoe-po-dlya-yurlica"
+    },
+    "github copilot business купить": {
+      "наша": 0.07,
+      "поле": 0.783,
+      "позиция": 4,
+      "наш_url": "https://biz-soft.pro/product/ghcopilot-business"
+    },
+    "оплата envato юридическим лицом": {
+      "наша": 0.15,
+      "поле": 0.783,
+      "позиция": 2,
+      "наш_url": "https://biz-soft.pro/blog/kak-oplatit-envato-elements-dlya-yurlica"
+    },
+    "оплата descript юридическим лицом": {
+      "наша": 0.15,
+      "поле": 0.783,
+      "позиция": 2,
+      "наш_url": "https://biz-soft.pro/vendors/descript"
+    },
+    "claude team plan купить": {
+      "наша": 0.025,
+      "поле": 0.783,
+      "позиция": 8,
+      "наш_url": "https://biz-soft.pro/product/anthropic-team"
+    },
+    "купить perplexity max юридическим лицом": {
+      "наша": 0.15,
+      "поле": 0.783,
+      "позиция": 2,
+      "наш_url": "https://biz-soft.pro/blog/kak-kupit-perplexity-dlya-yurlica"
+    },
+    "купить envato elements юридическим лицом": {
+      "наша": 0.15,
+      "поле": 0.783,
+      "позиция": 2,
+      "наш_url": "https://biz-soft.pro/vendors/envato"
+    },
+    "купить notion ai юридическим лицом": {
+      "наша": 0.15,
+      "поле": 0.783,
+      "позиция": 2,
+      "наш_url": "https://biz-soft.pro/product/notion-business"
+    },
+    "купить heygen юридическим лицом": {
+      "наша": 0.15,
+      "поле": 0.783,
+      "позиция": 2,
+      "наш_url": "https://biz-soft.pro/product/heygen-business"
+    },
+    "оплата зарубежных сервисов для юридических лиц документы": {
+      "наша": 0.018,
+      "поле": 0.783,
+      "позиция": 10,
+      "наш_url": "https://biz-soft.pro/blog/kak-kupit-zarubezhnoe-po-dlya-yurlica"
+    },
+    "как получить счет и закрывающие от atlassian": {
+      "наша": 0.15,
+      "поле": 0.783,
+      "позиция": 2,
+      "наш_url": "https://biz-soft.pro/vendors/atlassian"
+    },
+    "тарифные планы anthropic для бизнеса": {
+      "наша": 0.15,
+      "поле": 0.783,
+      "позиция": 2,
+      "наш_url": "https://biz-soft.pro/vendors/anthropic"
+    },
+    "купить подписку github copilot business": {
+      "наша": 0.04,
+      "поле": 0.783,
+      "позиция": 6,
+      "наш_url": "https://biz-soft.pro/blog/kak-kupit-github-copilot-dlya-yurlica"
+    },
+    "оплата magnific ai юридическим лицом": {
+      "наша": 0.1,
+      "поле": 0.783,
+      "позиция": 3,
+      "наш_url": "https://biz-soft.pro/vendors/freepik"
+    },
+    "оплата иностранной подписки для бизнеса документы": {
+      "наша": 0.04,
+      "поле": 0.783,
+      "позиция": 6,
+      "наш_url": "https://biz-soft.pro/blog/kak-kupit-zarubezhnoe-po-dlya-yurlica"
+    },
+    "купить after effects юридическим лицом": {
+      "наша": 0.1,
+      "поле": 0.783,
+      "позиция": 3,
+      "наш_url": "https://biz-soft.pro/product/adobe-ae"
+    },
+    "perplexity enterprise купить": {
+      "наша": 0.025,
+      "поле": 0.783,
+      "позиция": 8,
+      "наш_url": "https://biz-soft.pro/vendors/perplexity"
+    },
+    "купить claude enterprise": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "купить leonardo ai юридическим лицом": {
+      "наша": 0.15,
+      "поле": 0.783,
+      "позиция": 2,
+      "наш_url": "https://biz-soft.pro/vendors/leonardo-ai"
+    },
+    "github business купить": {
+      "наша": 0.15,
+      "поле": 0.783,
+      "позиция": 2,
+      "наш_url": "https://biz-soft.pro/vendors/github"
+    },
+    "framer тариф россия": {
+      "наша": 0.15,
+      "поле": 0.783,
+      "позиция": 2,
+      "наш_url": "https://biz-soft.pro/blog/kak-oplatit-framer-dlya-yurlica"
+    },
+    "как купить framer pro в россии": {
+      "наша": 0.07,
+      "поле": 0.783,
+      "позиция": 4,
+      "наш_url": "https://biz-soft.pro/blog/kak-oplatit-framer-dlya-yurlica"
+    },
+    "framer оформить подписку россия": {
+      "наша": 0.15,
+      "поле": 0.783,
+      "позиция": 2,
+      "наш_url": "https://biz-soft.pro/blog/kak-oplatit-framer-dlya-yurlica"
+    },
+    "framer basic оплата россия": {
+      "наша": 0.15,
+      "поле": 0.783,
+      "позиция": 2,
+      "наш_url": "https://biz-soft.pro/blog/kak-oplatit-framer-dlya-yurlica"
+    },
+    "runway ai тарифы": {
+      "наша": 0.025,
+      "поле": 0.783,
+      "позиция": 8,
+      "наш_url": "https://biz-soft.pro/vendors/runway"
+    },
+    "купить claude team в россии": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "оплата depositphotos из россии": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "купить подписку motion array": {
+      "наша": 0.07,
+      "поле": 0.783,
+      "позиция": 4,
+      "наш_url": "https://biz-soft.pro/vendors/motion-array"
+    },
+    "купить cursor pro юридическим лицом": {
+      "наша": 0.04,
+      "поле": 0.783,
+      "позиция": 6,
+      "наш_url": "https://biz-soft.pro/vendors/cursor"
+    },
+    "gitlab годовая подписка из россии": {
+      "наша": 0.03,
+      "поле": 0.783,
+      "позиция": 7,
+      "наш_url": "https://biz-soft.pro/vendors/gitlab"
+    },
+    "оплата зарубежного по для юрлица": {
+      "наша": 0.03,
+      "поле": 0.783,
+      "позиция": 7,
+      "наш_url": "https://biz-soft.pro/blog/kak-kupit-zarubezhnoe-po-dlya-yurlica"
+    },
+    "оплата canva для юридических лиц из россии": {
+      "наша": 0.15,
+      "поле": 0.783,
+      "позиция": 2,
+      "наш_url": "https://biz-soft.pro/vendors/canva"
+    },
+    "оплата depositphotos для юридических лиц из россии": {
+      "наша": 0.28,
+      "поле": 0.783,
+      "позиция": 1,
+      "наш_url": "https://biz-soft.pro/vendors/depositphotos"
+    },
+    "как оплатить пакет depositphotos из россии": {
+      "наша": 0.03,
+      "поле": 0.783,
+      "позиция": 7,
+      "наш_url": "https://biz-soft.pro/blog/kak-oplatit-depositphotos-dlya-yurlica"
+    },
+    "оплата пакета depositphotos в россии": {
+      "наша": 0.03,
+      "поле": 0.783,
+      "позиция": 7,
+      "наш_url": "https://biz-soft.pro/blog/kak-oplatit-depositphotos-dlya-yurlica"
+    },
+    "как оплатить depositphotos в россии": {
+      "наша": 0.02,
+      "поле": 0.783,
+      "позиция": 9,
+      "наш_url": "https://biz-soft.pro/blog/kak-oplatit-depositphotos-dlya-yurlica"
+    },
+    "depositphotos как оплатить в россии": {
+      "наша": 0.025,
+      "поле": 0.783,
+      "позиция": 8,
+      "наш_url": "https://biz-soft.pro/blog/kak-oplatit-depositphotos-dlya-yurlica"
+    },
+    "postman оплата подписки": {
+      "наша": 0.05,
+      "поле": 0.783,
+      "позиция": 5,
+      "наш_url": "https://biz-soft.pro/blog/kak-oplatit-postman-dlya-yurlica"
+    },
+    "оплата coreldraw по счету из россии": {
+      "наша": 0.15,
+      "поле": 0.783,
+      "позиция": 2,
+      "наш_url": "https://biz-soft.pro/blog/kak-oplatit-coreldraw-dlya-yurlica"
+    },
+    "оплата coreldraw для юридических лиц из россии": {
+      "наша": 0.28,
+      "поле": 0.783,
+      "позиция": 1,
+      "наш_url": "https://biz-soft.pro/blog/kak-oplatit-coreldraw-dlya-yurlica"
+    },
+    "оплата dropbox для юридических лиц из россии": {
+      "наша": 0.1,
+      "поле": 0.783,
+      "позиция": 3,
+      "наш_url": "https://biz-soft.pro/vendors/dropbox"
+    },
+    "оплата depositphotos в рублях": {
+      "наша": 0.025,
+      "поле": 0.783,
+      "позиция": 8,
+      "наш_url": "https://biz-soft.pro/blog/kak-oplatit-depositphotos-dlya-yurlica"
+    },
+    "gamma business оплата из россии": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "как оплатить депозитфотос из россии": {
+      "наша": 0.018,
+      "поле": 0.783,
+      "позиция": 10,
+      "наш_url": "https://biz-soft.pro/blog/kak-oplatit-depositphotos-dlya-yurlica"
+    },
+    "как оплатить тариф depositphotos из россии": {
+      "наша": 0.018,
+      "поле": 0.783,
+      "позиция": 10,
+      "наш_url": "https://biz-soft.pro/blog/kak-oplatit-depositphotos-dlya-yurlica"
+    },
+    "как оплатить depositphotos в рублях": {
+      "наша": 0.03,
+      "поле": 0.783,
+      "позиция": 7,
+      "наш_url": "https://biz-soft.pro/blog/kak-oplatit-depositphotos-dlya-yurlica"
+    },
+    "оплата box для юридических лиц из россии": {
+      "наша": 0.15,
+      "поле": 0.783,
+      "позиция": 2,
+      "наш_url": "https://biz-soft.pro/vendors/box"
+    },
+    "как сейчас оплатить depositphotos из россии": {
+      "наша": 0.018,
+      "поле": 0.783,
+      "позиция": 10,
+      "наш_url": "https://biz-soft.pro/blog/kak-oplatit-depositphotos-dlya-yurlica"
+    },
+    "дешево оплатить depositphotos из россии": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "купить подписку artlist": {
+      "наша": 0.04,
+      "поле": 0.783,
+      "позиция": 6,
+      "наш_url": "https://biz-soft.pro/vendors/artlist"
+    },
+    "купить lightroom юридическим лицом": {
+      "наша": 0.05,
+      "поле": 0.783,
+      "позиция": 5,
+      "наш_url": "https://biz-soft.pro/product/adobe-lr"
+    },
+    "runway тарифы": {
+      "наша": 0.02,
+      "поле": 0.783,
+      "позиция": 9,
+      "наш_url": "https://biz-soft.pro/vendors/runway"
+    },
+    "framer домен оплата рф": {
+      "наша": 0.15,
+      "поле": 0.783,
+      "позиция": 2,
+      "наш_url": "https://biz-soft.pro/blog/kak-oplatit-framer-dlya-yurlica"
+    },
+    "купить cursor": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "купить аккаунт windsurf": {
+      "наша": 0.02,
+      "поле": 0.783,
+      "позиция": 9,
+      "наш_url": "https://biz-soft.pro/vendors/windsurf"
+    },
+    "оплатить подписку depositphotos в россии": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "gitlab оплатить": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "недорого оплатить подписку depositphotos": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "оплата depositphotos российской картой": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "как оплатить depositphotos из россии": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "оплатить depositphotos из россии": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "depositphotos оплата из россии": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "elevenlabs цена www.klerk.ru": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "оплата confluence в рублях": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "оплата n8n cloud юридическим лицом": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "оплата windsurf юридическим лицом": {
+      "наша": 0.15,
+      "поле": 0.783,
+      "позиция": 2,
+      "наш_url": "https://biz-soft.pro/vendors/windsurf"
+    },
+    "оплата confluence для юридических лиц из россии": {
+      "наша": 0.1,
+      "поле": 0.783,
+      "позиция": 3,
+      "наш_url": "https://biz-soft.pro/vendors/atlassian"
+    },
+    "character creator 5 купить": {
+      "наша": 0.07,
+      "поле": 0.783,
+      "позиция": 4,
+      "наш_url": "https://biz-soft.pro/vendors/reallusion"
+    },
+    "оплата depositphotos": {
+      "наша": 0.02,
+      "поле": 0.783,
+      "позиция": 9,
+      "наш_url": "https://biz-soft.pro/vendors/depositphotos"
+    },
+    "как оплатить box business из россии": {
+      "наша": 0.04,
+      "поле": 0.783,
+      "позиция": 6,
+      "наш_url": "https://biz-soft.pro/vendors/box"
+    },
+    "depositphotos не проходит оплата российской картой": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "runway ai цена companies.rbc.ru": {
+      "наша": 0.07,
+      "поле": 0.783,
+      "позиция": 4,
+      "наш_url": "https://biz-soft.pro/vendors/runway"
+    },
+    "как оплатить box облако из россии": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "runway стоимость": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "оплата box по счету из россии": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "envato elements тариф россия": {
+      "наша": 0.03,
+      "поле": 0.783,
+      "позиция": 7,
+      "наш_url": "https://biz-soft.pro/vendors/envato"
+    },
+    "perplexity enterprise pro купить": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "купить kling ai юридичеким лицом": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "оплатить подписку postman": {
+      "наша": 0.1,
+      "поле": 0.783,
+      "позиция": 3,
+      "наш_url": "https://biz-soft.pro/blog/kak-oplatit-postman-dlya-yurlica"
+    },
+    "купить chatgpt pro юридическим лицом": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "можно ли оплатить depositphotos российской картой": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "perplexity enterprise max купить": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "оплата подписки depositphotos из россии": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "оплата capture one без vpn": {
+      "наша": 0.02,
+      "поле": 0.783,
+      "позиция": 9,
+      "наш_url": "https://biz-soft.pro/vendors/capture-one"
+    },
+    "сервисы оплаты depositphotos из россии": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "рекрафт тарифы": {
+      "наша": 0.05,
+      "поле": 0.783,
+      "позиция": 5,
+      "наш_url": "https://biz-soft.pro/vendors/recraft"
+    },
+    "чем оплатить depositphotos из россии": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "купить дропбокс": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "способы оплаты depositphotos из россии": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "оплата capture one юридическим лицом": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "купить подписку descript": {
+      "наша": 0.025,
+      "поле": 0.783,
+      "позиция": 8,
+      "наш_url": "https://biz-soft.pro/vendors/descript"
+    },
+    "тарифы recraft": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "оплатить depositphotos через сервис посредник": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "runway цена companies.rbc.ru": {
+      "наша": 0.07,
+      "поле": 0.783,
+      "позиция": 4,
+      "наш_url": "https://biz-soft.pro/blog/tarify-runway-oplata-dlya-yurlica"
+    },
+    "оплата openrouter юридическим лицом": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "windsurf pro купить плати по миру": {
+      "наша": 0.025,
+      "поле": 0.783,
+      "позиция": 8,
+      "наш_url": "https://biz-soft.pro/vendors/windsurf"
+    },
+    "gitlab оформить подписку россия": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "recraft тарифы": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "runway тарифы companies.rbc.ru": {
+      "наша": 0.07,
+      "поле": 0.783,
+      "позиция": 4,
+      "наш_url": "https://biz-soft.pro/blog/tarify-runway-oplata-dlya-yurlica"
+    },
+    "оплата confluence по счету из россии": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "как продлить подписку depositphotos из россии": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "пошаговая инструкция оплата depositphotos из россии": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "как купить recraft без зарубежной карты": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "оплата zoho юридическим лицом": {
+      "наша": 0.1,
+      "поле": 0.783,
+      "позиция": 3,
+      "наш_url": "https://biz-soft.pro/vendors/zoho"
+    },
+    "recraft годовая подписка": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "как оплатить тариф coreldraw из россии": {
+      "наша": 0.03,
+      "поле": 0.783,
+      "позиция": 7,
+      "наш_url": "https://biz-soft.pro/blog/kak-oplatit-coreldraw-dlya-yurlica"
+    },
+    "купить подписку windsurf": {
+      "наша": 0.018,
+      "поле": 0.783,
+      "позиция": 10,
+      "наш_url": "https://biz-soft.pro/vendors/windsurf"
+    },
+    "купить recraft www.klerk.ru": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "gitlab premium оплата из россии": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "как оплатить подписку depositphotos из россии": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "оплата depositphotos через посредника": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "купить zoom pro юридическим лицом": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "оплатить depositphotos без иностранной карты": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "фаундри купить": {
+      "наша": 0.02,
+      "поле": 0.783,
+      "позиция": 9,
+      "наш_url": "https://biz-soft.pro/vendors/foundry"
+    },
+    "купить подписку capture one": {
+      "наша": 0.02,
+      "поле": 0.783,
+      "позиция": 9,
+      "наш_url": "https://biz-soft.pro/vendors/capture-one"
+    },
+    "работает ли оплата depositphotos в россии 2026": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "дропбокс купить": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "оплата coreldraw": {
+      "наша": 0.05,
+      "поле": 0.783,
+      "позиция": 5,
+      "наш_url": "https://biz-soft.pro/vendors/coreldraw"
+    },
+    "gamma pro купить": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "оплата capture one": {
+      "наша": 0.1,
+      "поле": 0.783,
+      "позиция": 3,
+      "наш_url": "https://biz-soft.pro/vendors/capture-one"
+    },
+    "оплата confluence premium из россии": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "суно премьер купить sostav.ru/blogs/287160/102824": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "купить openai api юридическим лицом": {
+      "наша": 0.1,
+      "поле": 0.783,
+      "позиция": 3,
+      "наш_url": "https://biz-soft.pro/vendors/openai"
+    },
+    "framer годовая подписка из россии": {
+      "наша": 0.15,
+      "поле": 0.783,
+      "позиция": 2,
+      "наш_url": "https://biz-soft.pro/blog/kak-oplatit-framer-dlya-yurlica"
+    },
+    "как оплатить тариф box из россии": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "как оплатить confluence в рублях": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "оплата юридическим postman лицом": {
+      "наша": 0.15,
+      "поле": 0.783,
+      "позиция": 2,
+      "наш_url": "https://biz-soft.pro/blog/kak-oplatit-postman-dlya-yurlica"
+    },
+    "оплата dropbox business в россии dzen.ru/a/alvpm2omyk6cmyml": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "cloudflare купить": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "github copilot купить в россии": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "dropbox купить подписку": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "оплатить подписку one capture": {
+      "наша": 0.07,
+      "поле": 0.783,
+      "позиция": 4,
+      "наш_url": "https://biz-soft.pro/vendors/capture-one"
+    },
+    "как оплатить depositphotos из россии 2026": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "как оплатить depositphotos без зарубежной карты": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "оплата coreldraw из россии": {
+      "наша": 0.07,
+      "поле": 0.783,
+      "позиция": 4,
+      "наш_url": "https://biz-soft.pro/vendors/coreldraw"
+    },
+    "продление подписки postman из россии": {
+      "наша": 0.1,
+      "поле": 0.783,
+      "позиция": 3,
+      "наш_url": "https://biz-soft.pro/blog/kak-oplatit-postman-dlya-yurlica"
+    },
+    "как купить windsurf из россии": {
+      "наша": 0.05,
+      "поле": 0.783,
+      "позиция": 5,
+      "наш_url": "https://biz-soft.pro/vendors/windsurf"
+    },
+    "runway ai тарифы companies.rbc.ru": {
+      "наша": 0.02,
+      "поле": 0.783,
+      "позиция": 9,
+      "наш_url": "https://biz-soft.pro/vendors/runway"
+    },
+    "foundry купить": {
+      "наша": 0.018,
+      "поле": 0.783,
+      "позиция": 10,
+      "наш_url": "https://biz-soft.pro/vendors/foundry"
+    },
+    "spine 2d купить": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "оплатить подписку capture one": {
+      "наша": 0.1,
+      "поле": 0.783,
+      "позиция": 3,
+      "наш_url": "https://biz-soft.pro/vendors/capture-one"
+    },
+    "оплата coreldraw россиян": {
+      "наша": 0.05,
+      "поле": 0.783,
+      "позиция": 5,
+      "наш_url": "https://biz-soft.pro/blog/kak-oplatit-coreldraw-dlya-yurlica"
+    },
+    "оплата depositphotos из россии 2026": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "купить клинг из россии": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "оплата по zoho юридическим лицом": {
+      "наша": 0.07,
+      "поле": 0.783,
+      "позиция": 4,
+      "наш_url": "https://biz-soft.pro/vendors/zoho"
+    },
+    "оплата artlist лицом юридическим": {
+      "наша": 0.15,
+      "поле": 0.783,
+      "позиция": 2,
+      "наш_url": "https://biz-soft.pro/vendors/artlist"
+    },
+    "perplexity купить max юридическим лицом": {
+      "наша": 0.15,
+      "поле": 0.783,
+      "позиция": 2,
+      "наш_url": "https://biz-soft.pro/blog/kak-kupit-perplexity-dlya-yurlica"
+    },
+    "capture one для россиян оплата": {
+      "наша": 0.04,
+      "поле": 0.783,
+      "позиция": 6,
+      "наш_url": "https://biz-soft.pro/vendors/capture-one"
+    },
+    "купить фаундри": {
+      "наша": 0.04,
+      "поле": 0.783,
+      "позиция": 6,
+      "наш_url": "https://biz-soft.pro/vendors/foundry"
+    },
+    "вегас редактор видео цена": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "купить хейген": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "как получить счет по и закрывающие от atlassian": {
+      "наша": 0.1,
+      "поле": 0.783,
+      "позиция": 3,
+      "наш_url": "https://biz-soft.pro/vendors/atlassian"
+    },
+    "оплата gitlab для россиян": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "как купить runway в россии companies.rbc.ru": {
+      "наша": 0.025,
+      "поле": 0.783,
+      "позиция": 8,
+      "наш_url": "https://biz-soft.pro/blog/tarify-runway-oplata-dlya-yurlica"
+    },
+    "как оплатить coreldraw в рублях": {
+      "наша": 0.15,
+      "поле": 0.783,
+      "позиция": 2,
+      "наш_url": "https://biz-soft.pro/blog/kak-oplatit-coreldraw-dlya-yurlica"
+    },
+    "сервисы оплаты coreldraw из россии": {
+      "наша": 0.04,
+      "поле": 0.783,
+      "позиция": 6,
+      "наш_url": "https://biz-soft.pro/blog/kak-oplatit-coreldraw-dlya-yurlica"
+    },
+    "как оплатить dropbox business из россии": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "fmod лицензия": {
+      "наша": 0.15,
+      "поле": 0.783,
+      "позиция": 2,
+      "наш_url": "https://biz-soft.pro/vendors/fmod"
+    },
+    "оплата депозитфотос в россии 2026": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "москва postman оплата подписки": {
+      "наша": 0.07,
+      "поле": 0.783,
+      "позиция": 4,
+      "наш_url": "https://biz-soft.pro/blog/kak-oplatit-postman-dlya-yurlica"
+    },
+    "sketchup go подписка": {
+      "наша": 0.07,
+      "поле": 0.783,
+      "позиция": 4,
+      "наш_url": "https://biz-soft.pro/product/sketchup-go"
+    },
+    "как оплатить confluence standard из россии": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "gitlab подписка оплатить в рф": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "cloudflare купить москва и мо": {
+      "наша": 0.025,
+      "поле": 0.783,
+      "позиция": 8,
+      "наш_url": "https://biz-soft.pro/vendors/cloudflare"
+    },
+    "оплата depositphotos зарубежной картой": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "figma enterprise оплата рф": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "оплата postman лицом юридическим": {
+      "наша": 0.15,
+      "поле": 0.783,
+      "позиция": 2,
+      "наш_url": "https://biz-soft.pro/blog/kak-oplatit-postman-dlya-yurlica"
+    },
+    "artlist купить права": {
+      "наша": 0.07,
+      "поле": 0.783,
+      "позиция": 4,
+      "наш_url": "https://biz-soft.pro/vendors/artlist"
+    },
+    "купить рекрафт www.klerk.ru": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "houdini цена": {
+      "наша": 0.04,
+      "поле": 0.783,
+      "позиция": 6,
+      "наш_url": "https://biz-soft.pro/vendors/houdini"
+    },
+    "как оплатить тариф confluence из россии": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "клип студио пейнт подписка на год": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "прокриэйт цена": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "elevenlabs тарифы www.klerk.ru": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "оплата depositphotos для россиян": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "оплата coreldraw в рублях": {
+      "наша": 0.07,
+      "поле": 0.783,
+      "позиция": 4,
+      "наш_url": "https://biz-soft.pro/vendors/coreldraw"
+    },
+    "spine essential лицензия стоимость": {
+      "наша": 0.15,
+      "поле": 0.783,
+      "позиция": 2,
+      "наш_url": "https://biz-soft.pro/product/spine-essential"
+    },
+    "рабочие способы оплаты depositphotos 2026": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "framer оплата рублями": {
+      "наша": 0.15,
+      "поле": 0.783,
+      "позиция": 2,
+      "наш_url": "https://biz-soft.pro/blog/kak-oplatit-framer-dlya-yurlica"
+    },
+    "купить recraft pro www.klerk.ru": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "оплата box в рублях": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "сколько стоит подписка клип студио бессрочная": {
+      "наша": 0.04,
+      "поле": 0.783,
+      "позиция": 6,
+      "наш_url": "https://biz-soft.pro/vendors/clip-studio-paint"
+    },
+    "marmoset toolbag 5 купить лицензию": {
+      "наша": 0.28,
+      "поле": 0.783,
+      "позиция": 1,
+      "наш_url": "https://biz-soft.pro/vendors/marmoset"
+    },
+    "корпоративные тарифы slack для бизнеса из рф": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "оплата depositphotos картой мир": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "maxon pricing": {
+      "наша": 0.07,
+      "поле": 0.783,
+      "позиция": 4,
+      "наш_url": "https://biz-soft.pro/vendors/maxon"
+    },
+    "windsurf купить подписку": {
+      "наша": 0.02,
+      "поле": 0.783,
+      "позиция": 9,
+      "наш_url": "https://biz-soft.pro/vendors/windsurf"
+    },
+    "magnific оплата юридическим ai лицом": {
+      "наша": 0.1,
+      "поле": 0.783,
+      "позиция": 3,
+      "наш_url": "https://biz-soft.pro/vendors/freepik"
+    },
+    "купить вегас про": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "сколько стоит лицензия юнити": {
+      "наша": 0.05,
+      "поле": 0.783,
+      "позиция": 5,
+      "наш_url": "https://biz-soft.pro/vendors/unity"
+    },
+    "gitlab saas оплата из россии": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "adobe купить": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "adobe подписка": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "лицензия adobe": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "adobe pro купить": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "adobe photoshop купить": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "adobe acrobat купить": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "купить подписку adobe": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "adobe cloud купить": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "adobe creative купить": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "adobe premiere купить": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "autodesk license": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "лицензия autodesk": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "autodesk license download": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "autodesk купить": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "autodesk license manager": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "autodesk network license": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "autodesk license скачать": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "autodesk network license manager": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "autodesk недействительная лицензия": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "autodesk обнаружена лицензия": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "unity сцена": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "assassin unity купить": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "assassins creed unity купить": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "assassin s unity купить": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "assassin s creed unity купить": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "unity лицензия": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "unity купить ключ": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "assassins creed unity купить ключ": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "unity подписки": {
+      "наша": 0.1,
+      "поле": 0.783,
+      "позиция": 3,
+      "наш_url": "https://biz-soft.pro/vendors/unity"
+    },
+    "assassins creed unity купить стим": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "runway купить": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "runway подписка": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "runway красноярск купить": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "купить квартиру runway": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "runway красноярск купить квартиру": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "runway купить подписку": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "yamaguchi runway купить": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "купить yamaguchi runway x": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "runway октан корректор купить": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "журнал runway купить": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "rive купить": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "riven купить": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "la rive купить": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "rive gauche купить": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "la rive цена": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "купить воду la rive": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "rive туалетная вода купить": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "купить туалетную воду la rive": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "la rive game for men купить": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "spine купить": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "spine кроссовки купить": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "купить ботинки spine": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "spine цена": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "купить лыжные ботинки spine": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "yoga spine купить": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "spine skate купить": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "spine corsa купить": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "spine pro купить": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "купить procreate": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "купить procreate на ipad": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "как купить procreate на айпад": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "как купить procreate на айпад в россии": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "как оплатить procreate": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "procreate подписка": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "procreate стоимость": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "как оплатить procreate из россии": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "можно ли купить procreate": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "davinci resolve купить": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "davinci resolve studio купить": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "davinci resolve лицензия": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "davinci resolve license": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "davinci resolve ключ купить": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "davinci resolve 21 купить": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "davinci resolve studio лицензия": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "davinci resolve купить лицензию": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "davinci resolve studio 21 купить": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "davinci resolve купить в россии": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "midjourney подписка": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "midjourney купить": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "midjourney купить подписку": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "как оплатить midjourney": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "midjourney оплата": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "как оплатить midjourney из россии": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "midjourney тарифы": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "midjourney оплатить подписку": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "midjourney стоимость": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "midjourney нейросеть подписка": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "canva подписка": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "купить canva": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "как оплатить canva": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "canva купить подписку": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "canva pro подписка": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "canva pro купить": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "canva оплата": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "canva тарифы": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "coreldraw купить": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "coreldraw лицензия": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "coreldraw лицензия купить": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "coreldraw graphics купить": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "coreldraw купить ключ": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "coreldraw 2026 купить": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "coreldraw suite купить": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "coreldraw graphics suite купить": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "coreldraw подписка": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "sketches купить": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "sketch аппарат купить": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "etch a sketch купить": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "sketch массаж купить": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "sketch аппарат для массажа купить": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "etch a sketch волшебный экран купить": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "clip studio paint купить": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "подписка clip studio paint": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "clip studio paint лицензия": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "clip studio paint ex купить": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "купить подписку clip studio paint": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "оплатить clip studio paint": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "clip studio paint купить лицензию": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "wondershare подписка": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "wondershare купить": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "wondershare ключи лицензионные": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "wondershare ключ активации лицензионный": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "лицензия wondershare": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "wondershare filmora купить": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "ключ wondershare recoverit активации лицензионный": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "wondershare recoverit ключ активации лицензионный бесплатно": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "wondershare filmora подписка": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "как отменить подписку wondershare": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "foundry vtt купить": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "foundry купить в россии": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "foundry vtt купить в россии": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "avid купить": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "avid bb7 купить": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "avid pro tools купить": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "avid цена": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "avid carp купить": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "st croix avid купить": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "heygen подписка": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "heygen оплатить": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "как оплатить heygen из россии": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "miro подписка": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "miro цены": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "elena miro купить": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "подписка elevenlabs": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "купить elevenlabs": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "elevenlabs подписка купить": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "elevenlabs тарифы": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "купить native instruments": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "native instruments mk3 купить": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "купить native instruments traktor": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "native instruments maschine mk3 купить": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "maxon купить": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "maxon sd 9 купить": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "подписка freepik": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "freepik купить": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "оплатить freepik": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "бесплатные безлицензионные картинки freepik": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "freepik купить подписку": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "лицензии freepik": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "shutterstock лицензия": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "купить shutterstock": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "shutterstock подписка": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "unreal engine сцена": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "unreal engine купить": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "recraft подписка": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "recraft купить": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "recraft купить подписку": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "подписка recraft ai": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "подписка envato": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "envato купить": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "epidemic sound купить": {
+      "наша": 0.02,
+      "поле": 0.783,
+      "позиция": 9,
+      "наш_url": "https://biz-soft.pro/vendors/epidemic-sound"
+    },
+    "epidemic sound купить подписку": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "artlist подписка": {
+      "наша": 0.02,
+      "поле": 0.783,
+      "позиция": 9,
+      "наш_url": "https://biz-soft.pro/vendors/artlist"
+    },
+    "artlist купить": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "monotype лицензия": {
+      "наша": 0.07,
+      "поле": 0.783,
+      "позиция": 4,
+      "наш_url": "https://www.biz-soft.pro/vendors/monotype"
+    },
+    "anydesk аналоги": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "notion аналоги": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "canva аналоги": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "miro аналоги": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "cursor аналоги": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "figma аналоги": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "openrouter аналоги": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "оплата dropbox business в россии": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "spine concept купить": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    }
+  },
+  "покрытие": {
+    "яндекс_запросов_всего": 531,
+    "яндекс_запросов_с_данными": 531,
+    "яндекс_ошибок": 0,
+    "взвешенное_покрытие": {
+      "webmaster": 1.0,
+      "wordstat": 1.0
+    },
+    "google": 0.001031,
+    "_google_пояснение": "Google RU: срез xmlriver от 2026-09-03, 355 запросов с данными"
+  },
+  "google": {
+    "доступен": true,
+    "провайдер": "xmlriver",
+    "серия": "google_ru",
+    "локация": 2643,
+    "название": "Россия",
+    "регион": "2643",
+    "свежесть_дней": 8,
+    "дата_среза": "2026-09-03",
+    "возраст_дней": 0,
+    "глубина": 10,
+    "покрытие": {
+      "запросов_всего": 381,
+      "запросов_с_данными": 355,
+      "ошибок": 26,
+      "покрытие_запросов": 0.9318
+    },
+    "наши_показатели": {
+      "взвешенная_видимость": 0.28,
+      "доля_видимости": 0.001031,
+      "топ3": 1,
+      "топ10": 1,
+      "в_выдаче": 1,
+      "лучшая_позиция": 1,
+      "запросов_в_поле": 355
+    },
+    "наши_запросы": [
+      {
+        "запрос": "оплата descript юридическим лицом",
+        "позиция": 1
+      }
+    ],
+    "по_запросам": {
+      "оплата artlist юридическим лицом": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "claude team купить": {
+        "наша": 0.0,
+        "поле": 0.783,
+        "позиция": null,
+        "наш_url": null
+      },
+      "купить подписку суно премьер": {
+        "наша": 0.0,
+        "поле": 0.783,
+        "позиция": null,
+        "наш_url": null
+      },
+      "оплата coreldraw для россиян": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "оплата motion array юридическим лицом": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "купить perplexity pro юридическим лицом": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "оплата postman юридическим лицом": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "оплата зарубежного по для юр лица документы": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "claude team plan купить": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "купить perplexity max юридическим лицом": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "оплата envato юридическим лицом": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "оплата descript юридическим лицом": {
+        "наша": 0.28,
+        "поле": 0.765,
+        "позиция": 1,
+        "наш_url": "https://biz-soft.pro/vendors/descript"
+      },
+      "github copilot business купить": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "купить heygen юридическим лицом": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "купить notion ai юридическим лицом": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "оплата зарубежных сервисов для юридических лиц документы": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "как получить счет и закрывающие от atlassian": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "купить envato elements юридическим лицом": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "оплата иностранной подписки для бизнеса документы": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "купить подписку github copilot business": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "perplexity enterprise купить": {
+        "наша": 0.0,
+        "поле": 0.783,
+        "позиция": null,
+        "наш_url": null
+      },
+      "купить after effects юридическим лицом": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "тарифные планы anthropic для бизнеса": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "оплата magnific ai юридическим лицом": {
+        "наша": 0.0,
+        "поле": 0.745,
+        "позиция": null,
+        "наш_url": null
+      },
+      "купить leonardo ai юридическим лицом": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "купить claude enterprise": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "как купить framer pro в россии": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "framer оформить подписку россия": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "runway ai тарифы": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "framer basic оплата россия": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "купить claude team в россии": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "framer тариф россия": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "купить подписку motion array": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "оплата depositphotos из россии": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "купить cursor pro юридическим лицом": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "оплата зарубежного по для юрлица": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "оплата пакета depositphotos в россии": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "оплата canva для юридических лиц из россии": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "как оплатить depositphotos в россии": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "как оплатить пакет depositphotos из россии": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "depositphotos как оплатить в россии": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "postman оплата подписки": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "оплата coreldraw по счету из россии": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "оплата depositphotos для юридических лиц из россии": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "оплата coreldraw для юридических лиц из россии": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "оплата dropbox для юридических лиц из россии": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "gamma business оплата из россии": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "как оплатить depositphotos в рублях": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "как оплатить депозитфотос из россии": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "как оплатить тариф depositphotos из россии": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "как сейчас оплатить depositphotos из россии": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "оплата box для юридических лиц из россии": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "оплата depositphotos в рублях": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "дешево оплатить depositphotos из россии": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "купить lightroom юридическим лицом": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "купить подписку artlist": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "runway тарифы": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "оплата dropbox business в россии": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "купить аккаунт windsurf": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "gitlab оплатить": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "купить cursor": {
+        "наша": 0.0,
+        "поле": 0.783,
+        "позиция": null,
+        "наш_url": null
+      },
+      "недорого оплатить подписку depositphotos": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "оплатить подписку depositphotos в россии": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "framer домен оплата рф": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "как оплатить depositphotos из россии": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "оплатить depositphotos из россии": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "оплата depositphotos российской картой": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "elevenlabs цена www.klerk.ru": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "оплата confluence в рублях": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "оплата n8n cloud юридическим лицом": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "оплата windsurf юридическим лицом": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "depositphotos оплата из россии": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "оплата confluence для юридических лиц из россии": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "оплата depositphotos": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "как оплатить box business из россии": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "как оплатить box облако из россии": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "depositphotos не проходит оплата российской картой": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "character creator 5 купить": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "runway стоимость": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "perplexity enterprise pro купить": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "оплата box по счету из россии": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "envato elements тариф россия": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "оплатить подписку postman": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "купить kling ai юридичеким лицом": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "perplexity enterprise max купить": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "оплата capture one без vpn": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "купить chatgpt pro юридическим лицом": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "оплата подписки depositphotos из россии": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "рекрафт тарифы": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "чем оплатить depositphotos из россии": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "можно ли оплатить depositphotos российской картой": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "оплата capture one юридическим лицом": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "купить дропбокс": {
+        "наша": 0.0,
+        "поле": 0.783,
+        "позиция": null,
+        "наш_url": null
+      },
+      "тарифы recraft": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "купить подписку descript": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "runway цена companies.rbc.ru": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "оплатить depositphotos через сервис посредник": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "windsurf pro купить плати по миру": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "сервисы оплаты depositphotos из россии": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "оплата openrouter юридическим лицом": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "recraft тарифы": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "как продлить подписку depositphotos из россии": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "оплата confluence по счету из россии": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "как купить recraft без зарубежной карты": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "gitlab оформить подписку россия": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "пошаговая инструкция оплата depositphotos из россии": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "как оплатить тариф coreldraw из россии": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "купить подписку windsurf": {
+        "наша": 0.0,
+        "поле": 0.783,
+        "позиция": null,
+        "наш_url": null
+      },
+      "купить recraft www.klerk.ru": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "gitlab premium оплата из россии": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "оплата zoho юридическим лицом": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "recraft годовая подписка": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "купить zoom pro юридическим лицом": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "оплатить depositphotos без иностранной карты": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "как оплатить подписку depositphotos из россии": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "фаундри купить": {
+        "наша": 0.0,
+        "поле": 0.783,
+        "позиция": null,
+        "наш_url": null
+      },
+      "купить подписку capture one": {
+        "наша": 0.0,
+        "поле": 0.783,
+        "позиция": null,
+        "наш_url": null
+      },
+      "работает ли оплата depositphotos в россии 2026": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "gamma pro купить": {
+        "наша": 0.0,
+        "поле": 0.783,
+        "позиция": null,
+        "наш_url": null
+      },
+      "дропбокс купить": {
+        "наша": 0.0,
+        "поле": 0.783,
+        "позиция": null,
+        "наш_url": null
+      },
+      "оплата capture one": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "суно премьер купить sostav.ru/blogs/287160/102824": {
+        "наша": 0.0,
+        "поле": 0.28,
+        "позиция": null,
+        "наш_url": null
+      },
+      "оплата coreldraw": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "framer годовая подписка из россии": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "оплата confluence premium из россии": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "как оплатить тариф box из россии": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "как оплатить confluence в рублях": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "купить openai api юридическим лицом": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "оплата юридическим postman лицом": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "оплата dropbox business в россии dzen.ru/a/alvpm2omyk6cmyml": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "github copilot купить в россии": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "dropbox купить подписку": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "как оплатить depositphotos из россии 2026": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "cloudflare купить": {
+        "наша": 0.0,
+        "поле": 0.745,
+        "позиция": null,
+        "наш_url": null
+      },
+      "оплата coreldraw из россии": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "как оплатить depositphotos без зарубежной карты": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "как купить windsurf из россии": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "продление подписки postman из россии": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "foundry купить": {
+        "наша": 0.0,
+        "поле": 0.783,
+        "позиция": null,
+        "наш_url": null
+      },
+      "spine 2d купить": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "оплатить подписку capture one": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "runway ai тарифы companies.rbc.ru": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "оплата coreldraw россиян": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "купить клинг из россии": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "оплата depositphotos из россии 2026": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "оплатить подписку one capture": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "оплата artlist лицом юридическим": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "купить фаундри": {
+        "наша": 0.0,
+        "поле": 0.783,
+        "позиция": null,
+        "наш_url": null
+      },
+      "оплата по zoho юридическим лицом": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "perplexity купить max юридическим лицом": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "capture one для россиян оплата": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "как купить runway в россии companies.rbc.ru": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "вегас редактор видео цена": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "как оплатить coreldraw в рублях": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "оплата gitlab для россиян": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "как оплатить dropbox business из россии": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "fmod лицензия": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "оплата депозитфотос в россии 2026": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "sketchup go подписка": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "сервисы оплаты coreldraw из россии": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "как оплатить confluence standard из россии": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "москва postman оплата подписки": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "figma enterprise оплата рф": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "cloudflare купить москва и мо": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "gitlab подписка оплатить в рф": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "купить рекрафт www.klerk.ru": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "artlist купить права": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "оплата depositphotos зарубежной картой": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "как оплатить тариф confluence из россии": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "клип студио пейнт подписка на год": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "houdini цена": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "оплата depositphotos для россиян": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "elevenlabs тарифы www.klerk.ru": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "прокриэйт цена": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "spine essential лицензия стоимость": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "рабочие способы оплаты depositphotos 2026": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "framer оплата рублями": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "оплата box в рублях": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "сколько стоит подписка клип студио бессрочная": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "marmoset toolbag 5 купить лицензию": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "корпоративные тарифы slack для бизнеса из рф": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "оплата coreldraw в рублях": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "купить recraft pro www.klerk.ru": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "maxon pricing": {
+        "наша": 0.0,
+        "поле": 0.745,
+        "позиция": null,
+        "наш_url": null
+      },
+      "windsurf купить подписку": {
+        "наша": 0.0,
+        "поле": 0.783,
+        "позиция": null,
+        "наш_url": null
+      },
+      "сколько стоит лицензия юнити": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "оплата depositphotos картой мир": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "купить вегас про": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "adobe подписка": {
+        "наша": 0.0,
+        "поле": 0.783,
+        "позиция": null,
+        "наш_url": null
+      },
+      "gitlab saas оплата из россии": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "лицензия adobe": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "adobe pro купить": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "adobe купить": {
+        "наша": 0.0,
+        "поле": 0.783,
+        "позиция": null,
+        "наш_url": null
+      },
+      "adobe acrobat купить": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "adobe photoshop купить": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "adobe premiere купить": {
+        "наша": 0.0,
+        "поле": 0.783,
+        "позиция": null,
+        "наш_url": null
+      },
+      "adobe cloud купить": {
+        "наша": 0.0,
+        "поле": 0.783,
+        "позиция": null,
+        "наш_url": null
+      },
+      "лицензия autodesk": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "adobe creative купить": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "autodesk license download": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "autodesk license manager": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "autodesk купить": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "autodesk network license manager": {
+        "наша": 0.0,
+        "поле": 0.745,
+        "позиция": null,
+        "наш_url": null
+      },
+      "autodesk недействительная лицензия": {
+        "наша": 0.0,
+        "поле": 0.745,
+        "позиция": null,
+        "наш_url": null
+      },
+      "autodesk license скачать": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "autodesk обнаружена лицензия": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "assassin unity купить": {
+        "наша": 0.0,
+        "поле": 0.783,
+        "позиция": null,
+        "наш_url": null
+      },
+      "unity лицензия": {
+        "наша": 0.0,
+        "поле": 0.745,
+        "позиция": null,
+        "наш_url": null
+      },
+      "assassins creed unity купить ключ": {
+        "наша": 0.0,
+        "поле": 0.783,
+        "позиция": null,
+        "наш_url": null
+      },
+      "unity подписки": {
+        "наша": 0.0,
+        "поле": 0.745,
+        "позиция": null,
+        "наш_url": null
+      },
+      "assassins creed unity купить стим": {
+        "наша": 0.0,
+        "поле": 0.783,
+        "позиция": null,
+        "наш_url": null
+      },
+      "runway подписка": {
+        "наша": 0.0,
+        "поле": 0.783,
+        "позиция": null,
+        "наш_url": null
+      },
+      "runway красноярск купить": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "runway купить": {
+        "наша": 0.0,
+        "поле": 0.783,
+        "позиция": null,
+        "наш_url": null
+      },
+      "unity сцена": {
+        "наша": 0.0,
+        "поле": 0.745,
+        "позиция": null,
+        "наш_url": null
+      },
+      "runway купить подписку": {
+        "наша": 0.0,
+        "поле": 0.783,
+        "позиция": null,
+        "наш_url": null
+      },
+      "yamaguchi runway купить": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "купить yamaguchi runway x": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "rive купить": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "runway октан корректор купить": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "la rive купить": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "rive gauche купить": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "riven купить": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "la rive цена": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "купить квартиру runway": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "spine купить": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "la rive game for men купить": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "spine кроссовки купить": {
+        "наша": 0.0,
+        "поле": 0.783,
+        "позиция": null,
+        "наш_url": null
+      },
+      "купить туалетную воду la rive": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "spine цена": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "купить ботинки spine": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "spine concept купить": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "spine skate купить": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "spine pro купить": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "spine corsa купить": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "купить procreate": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "yoga spine купить": {
+        "наша": 0.0,
+        "поле": 0.783,
+        "позиция": null,
+        "наш_url": null
+      },
+      "купить лыжные ботинки spine": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "купить procreate на ipad": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "как купить procreate на айпад в россии": {
+        "наша": 0.0,
+        "поле": 0.745,
+        "позиция": null,
+        "наш_url": null
+      },
+      "как купить procreate на айпад": {
+        "наша": 0.0,
+        "поле": 0.745,
+        "позиция": null,
+        "наш_url": null
+      },
+      "procreate стоимость": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "как оплатить procreate из россии": {
+        "наша": 0.0,
+        "поле": 0.745,
+        "позиция": null,
+        "наш_url": null
+      },
+      "procreate подписка": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "можно ли купить procreate": {
+        "наша": 0.0,
+        "поле": 0.745,
+        "позиция": null,
+        "наш_url": null
+      },
+      "davinci resolve купить": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "davinci resolve лицензия": {
+        "наша": 0.0,
+        "поле": 0.745,
+        "позиция": null,
+        "наш_url": null
+      },
+      "как оплатить procreate": {
+        "наша": 0.0,
+        "поле": 0.745,
+        "позиция": null,
+        "наш_url": null
+      },
+      "davinci resolve studio купить": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "davinci resolve 21 купить": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "davinci resolve ключ купить": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "davinci resolve купить лицензию": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "davinci resolve studio лицензия": {
+        "наша": 0.0,
+        "поле": 0.745,
+        "позиция": null,
+        "наш_url": null
+      },
+      "davinci resolve studio 21 купить": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "midjourney подписка": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "davinci resolve license": {
+        "наша": 0.0,
+        "поле": 0.72,
+        "позиция": null,
+        "наш_url": null
+      },
+      "davinci resolve купить в россии": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "midjourney купить": {
+        "наша": 0.0,
+        "поле": 0.783,
+        "позиция": null,
+        "наш_url": null
+      },
+      "midjourney оплата": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "как оплатить midjourney": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "midjourney купить подписку": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "midjourney стоимость": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "midjourney нейросеть подписка": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "canva подписка": {
+        "наша": 0.0,
+        "поле": 0.783,
+        "позиция": null,
+        "наш_url": null
+      },
+      "как оплатить midjourney из россии": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "как оплатить canva": {
+        "наша": 0.0,
+        "поле": 0.745,
+        "позиция": null,
+        "наш_url": null
+      },
+      "canva купить подписку": {
+        "наша": 0.0,
+        "поле": 0.783,
+        "позиция": null,
+        "наш_url": null
+      },
+      "midjourney оплатить подписку": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "canva pro купить": {
+        "наша": 0.0,
+        "поле": 0.783,
+        "позиция": null,
+        "наш_url": null
+      },
+      "canva оплата": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "купить canva": {
+        "наша": 0.0,
+        "поле": 0.783,
+        "позиция": null,
+        "наш_url": null
+      },
+      "coreldraw купить": {
+        "наша": 0.0,
+        "поле": 0.783,
+        "позиция": null,
+        "наш_url": null
+      },
+      "canva тарифы": {
+        "наша": 0.0,
+        "поле": 0.783,
+        "позиция": null,
+        "наш_url": null
+      },
+      "coreldraw лицензия купить": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "coreldraw лицензия": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "coreldraw graphics купить": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "coreldraw 2026 купить": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "canva pro подписка": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "coreldraw suite купить": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "coreldraw подписка": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "coreldraw graphics suite купить": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "sketches купить": {
+        "наша": 0.0,
+        "поле": 0.783,
+        "позиция": null,
+        "наш_url": null
+      },
+      "etch a sketch купить": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "sketch аппарат купить": {
+        "наша": 0.0,
+        "поле": 0.745,
+        "позиция": null,
+        "наш_url": null
+      },
+      "coreldraw купить ключ": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "sketch массаж купить": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "подписка clip studio paint": {
+        "наша": 0.0,
+        "поле": 0.783,
+        "позиция": null,
+        "наш_url": null
+      },
+      "etch a sketch волшебный экран купить": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "clip studio paint ex купить": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "sketch аппарат для массажа купить": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "купить подписку clip studio paint": {
+        "наша": 0.0,
+        "поле": 0.783,
+        "позиция": null,
+        "наш_url": null
+      },
+      "clip studio paint лицензия": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "clip studio paint купить": {
+        "наша": 0.0,
+        "поле": 0.783,
+        "позиция": null,
+        "наш_url": null
+      },
+      "clip studio paint купить лицензию": {
+        "наша": 0.0,
+        "поле": 0.783,
+        "позиция": null,
+        "наш_url": null
+      },
+      "wondershare купить": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "оплатить clip studio paint": {
+        "наша": 0.0,
+        "поле": 0.745,
+        "позиция": null,
+        "наш_url": null
+      },
+      "wondershare ключ активации лицензионный": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "лицензия wondershare": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "wondershare ключи лицензионные": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "wondershare подписка": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "wondershare filmora купить": {
+        "наша": 0.0,
+        "поле": 0.783,
+        "позиция": null,
+        "наш_url": null
+      },
+      "как отменить подписку wondershare": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "wondershare filmora подписка": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "foundry vtt купить": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "foundry купить в россии": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "avid купить": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "ключ wondershare recoverit активации лицензионный": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "avid bb7 купить": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "wondershare recoverit ключ активации лицензионный бесплатно": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "avid цена": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "avid carp купить": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "heygen подписка": {
+        "наша": 0.0,
+        "поле": 0.783,
+        "позиция": null,
+        "наш_url": null
+      },
+      "heygen оплатить": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "st croix avid купить": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "avid pro tools купить": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "как оплатить heygen из россии": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "подписка elevenlabs": {
+        "наша": 0.0,
+        "поле": 0.783,
+        "позиция": null,
+        "наш_url": null
+      },
+      "elena miro купить": {
+        "наша": 0.0,
+        "поле": 0.783,
+        "позиция": null,
+        "наш_url": null
+      },
+      "miro подписка": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "miro цены": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "купить elevenlabs": {
+        "наша": 0.0,
+        "поле": 0.783,
+        "позиция": null,
+        "наш_url": null
+      },
+      "elevenlabs подписка купить": {
+        "наша": 0.0,
+        "поле": 0.783,
+        "позиция": null,
+        "наш_url": null
+      },
+      "elevenlabs тарифы": {
+        "наша": 0.0,
+        "поле": 0.69,
+        "позиция": null,
+        "наш_url": null
+      },
+      "купить native instruments": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "купить native instruments traktor": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "native instruments maschine mk3 купить": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "maxon купить": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "подписка freepik": {
+        "наша": 0.0,
+        "поле": 0.783,
+        "позиция": null,
+        "наш_url": null
+      },
+      "оплатить freepik": {
+        "наша": 0.0,
+        "поле": 0.783,
+        "позиция": null,
+        "наш_url": null
+      },
+      "maxon sd 9 купить": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "native instruments mk3 купить": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "freepik купить": {
+        "наша": 0.0,
+        "поле": 0.783,
+        "позиция": null,
+        "наш_url": null
+      },
+      "freepik купить подписку": {
+        "наша": 0.0,
+        "поле": 0.783,
+        "позиция": null,
+        "наш_url": null
+      },
+      "бесплатные безлицензионные картинки freepik": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "shutterstock подписка": {
+        "наша": 0.0,
+        "поле": 0.745,
+        "позиция": null,
+        "наш_url": null
+      },
+      "shutterstock лицензия": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "unreal engine купить": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "unreal engine сцена": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "recraft подписка": {
+        "наша": 0.0,
+        "поле": 0.783,
+        "позиция": null,
+        "наш_url": null
+      },
+      "recraft купить подписку": {
+        "наша": 0.0,
+        "поле": 0.783,
+        "позиция": null,
+        "наш_url": null
+      },
+      "recraft купить": {
+        "наша": 0.0,
+        "поле": 0.783,
+        "позиция": null,
+        "наш_url": null
+      },
+      "envato купить": {
+        "наша": 0.0,
+        "поле": 0.783,
+        "позиция": null,
+        "наш_url": null
+      },
+      "epidemic sound купить": {
+        "наша": 0.0,
+        "поле": 0.783,
+        "позиция": null,
+        "наш_url": null
+      },
+      "epidemic sound купить подписку": {
+        "наша": 0.0,
+        "поле": 0.783,
+        "позиция": null,
+        "наш_url": null
+      },
+      "подписка envato": {
+        "наша": 0.0,
+        "поле": 0.783,
+        "позиция": null,
+        "наш_url": null
+      },
+      "artlist купить": {
+        "наша": 0.0,
+        "поле": 0.783,
+        "позиция": null,
+        "наш_url": null
+      },
+      "подписка recraft ai": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "anydesk аналоги": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "notion аналоги": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "miro аналоги": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "canva аналоги": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "figma аналоги": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "cursor аналоги": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "openrouter аналоги": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "monotype лицензия": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      }
+    },
+    "доли_по_категориям": {
+      "E": 0.187364,
+      "G": 0.211657,
+      "A": 0.089035,
+      "?": 0.328245,
+      "H": 0.08625,
+      "F": 0.096405
+    },
+    "конкурентов_в_основном_рейтинге": 27,
+    "лидеры": [
+      {
+        "домен": "platipomiru.com",
+        "категория": "A",
+        "доля": 0.037853,
+        "топ3": 51,
+        "топ10": 77
+      },
+      {
+        "домен": "remoney.ru",
+        "категория": "H",
+        "доля": 0.028923,
+        "топ3": 32,
+        "топ10": 45
+      },
+      {
+        "домен": "store.softline.ru",
+        "категория": "A",
+        "доля": 0.017159,
+        "топ3": 22,
+        "топ10": 33
+      },
+      {
+        "домен": "syssoft.ru",
+        "категория": "A",
+        "доля": 0.015815,
+        "топ3": 18,
+        "топ10": 47
+      },
+      {
+        "домен": "oplata.guru",
+        "категория": "H",
+        "доля": 0.014637,
+        "топ3": 13,
+        "топ10": 37
+      },
+      {
+        "домен": "payment.mts.ru",
+        "категория": "H",
+        "доля": 0.010781,
+        "топ3": 11,
+        "топ10": 26
+      },
+      {
+        "домен": "pay-saas.ru",
+        "категория": "H",
+        "доля": 0.009555,
+        "топ3": 13,
+        "топ10": 29
+      },
+      {
+        "домен": "migsoft.ru",
+        "категория": "A",
+        "доля": 0.009021,
+        "топ3": 10,
+        "топ10": 30
+      },
+      {
+        "домен": "global-payments.ru",
+        "категория": "H",
+        "доля": 0.005192,
+        "топ3": 6,
+        "топ10": 9
+      },
+      {
+        "домен": "softmagazin.ru",
+        "категория": "A",
+        "доля": 0.005118,
+        "топ3": 4,
+        "топ10": 25
+      }
+    ],
+    "разрыв_с_яндексом": {
+      "сопоставлено": 355,
+      "в_обеих_топ10": 1,
+      "глубина_google": 10,
+      "глубина_яндекс": 10,
+      "яндекс_топ10_google_нет": [
+        {
+          "запрос": "marmoset toolbag 5 купить лицензию",
+          "позиция_яндекс": 1,
+          "google_топ3": [
+            "syssoft.ru",
+            "softmap.ru",
+            "softlist.biz"
+          ]
+        },
+        {
+          "запрос": "оплата coreldraw для юридических лиц из россии",
+          "позиция_яндекс": 1,
+          "google_топ3": [
+            "syssoft.ru",
+            "store.softline.ru",
+            "platipomiru.com"
+          ]
+        },
+        {
+          "запрос": "оплата depositphotos для юридических лиц из россии",
+          "позиция_яндекс": 1,
+          "google_топ3": [
+            "depositphotos.com",
+            "remoney.ru",
+            "kavkaz.rbc.ru"
+          ]
+        },
+        {
+          "запрос": "fmod лицензия",
+          "позиция_яндекс": 2,
+          "google_топ3": [
+            "fmod.com",
+            "ru.wikipedia.org",
+            "syssoft.ru"
+          ]
+        },
+        {
+          "запрос": "framer basic оплата россия",
+          "позиция_яндекс": 2,
+          "google_топ3": [
+            "plati.market",
+            "mshopy.ru",
+            "vc.ru"
+          ]
+        },
+        {
+          "запрос": "framer годовая подписка из россии",
+          "позиция_яндекс": 2,
+          "google_топ3": [
+            "mshopy.ru",
+            "ggsel.net",
+            "sravni.ru"
+          ]
+        },
+        {
+          "запрос": "framer домен оплата рф",
+          "позиция_яндекс": 2,
+          "google_топ3": [
+            "dtf.ru",
+            "reddit.com",
+            "taptop.pro"
+          ]
+        },
+        {
+          "запрос": "framer оплата рублями",
+          "позиция_яндекс": 2,
+          "google_топ3": [
+            "platipomiru.com",
+            "vc.ru",
+            "dtf.ru"
+          ]
+        },
+        {
+          "запрос": "framer оформить подписку россия",
+          "позиция_яндекс": 2,
+          "google_топ3": [
+            "ggsel.net",
+            "mshopy.ru",
+            "vc.ru"
+          ]
+        },
+        {
+          "запрос": "framer тариф россия",
+          "позиция_яндекс": 2,
+          "google_топ3": [
+            "ya.zerocoder.ru",
+            "taptop.pro",
+            "reddit.com"
+          ]
+        },
+        {
+          "запрос": "perplexity купить max юридическим лицом",
+          "позиция_яндекс": 2,
+          "google_топ3": [
+            "syssoft.ru",
+            "perplexity.ai",
+            "companies.rbc.ru"
+          ]
+        },
+        {
+          "запрос": "spine essential лицензия стоимость",
+          "позиция_яндекс": 2,
+          "google_топ3": [
+            "ru.esotericsoftware.com",
+            "reddit.com",
+            "fortsoft.com.ua"
+          ]
+        },
+        {
+          "запрос": "как оплатить coreldraw в рублях",
+          "позиция_яндекс": 2,
+          "google_топ3": [
+            "pay-saas.ru",
+            "grinny.io",
+            "platipomiru.com"
+          ]
+        },
+        {
+          "запрос": "как получить счет и закрывающие от atlassian",
+          "позиция_яндекс": 2,
+          "google_топ3": [
+            "atlassian.com",
+            "vc.ru",
+            "raketapay.ru"
+          ]
+        },
+        {
+          "запрос": "купить envato elements юридическим лицом",
+          "позиция_яндекс": 2,
+          "google_топ3": [
+            "ggsel.net",
+            "vc.ru",
+            "migsoft.ru"
+          ]
+        },
+        {
+          "запрос": "купить heygen юридическим лицом",
+          "позиция_яндекс": 2,
+          "google_топ3": [
+            "ml-soft.ru",
+            "vc.ru",
+            "exnode.ru"
+          ]
+        },
+        {
+          "запрос": "купить leonardo ai юридическим лицом",
+          "позиция_яндекс": 2,
+          "google_топ3": [
+            "oplata.guru",
+            "vc.ru",
+            "wanttopay.net"
+          ]
+        },
+        {
+          "запрос": "купить notion ai юридическим лицом",
+          "позиция_яндекс": 2,
+          "google_топ3": [
+            "migsoft.ru",
+            "vc.ru",
+            "dtf.ru"
+          ]
+        },
+        {
+          "запрос": "купить perplexity max юридическим лицом",
+          "позиция_яндекс": 2,
+          "google_топ3": [
+            "syssoft.ru",
+            "klerk.ru",
+            "perplexity.ai"
+          ]
+        },
+        {
+          "запрос": "оплата artlist лицом юридическим",
+          "позиция_яндекс": 2,
+          "google_топ3": [
+            "oplata.guru",
+            "dtf.ru",
+            "getpayall.com"
+          ]
+        },
+        {
+          "запрос": "оплата artlist юридическим лицом",
+          "позиция_яндекс": 2,
+          "google_топ3": [
+            "dtf.ru",
+            "oplata.guru",
+            "pikabu.ru"
+          ]
+        },
+        {
+          "запрос": "оплата box для юридических лиц из россии",
+          "позиция_яндекс": 2,
+          "google_топ3": [
+            "pochta.ru",
+            "admvolot.gosuslugi.ru",
+            "invoicebox.ru"
+          ]
+        },
+        {
+          "запрос": "оплата canva для юридических лиц из россии",
+          "позиция_яндекс": 2,
+          "google_топ3": [
+            "vc.ru",
+            "easypayments.online",
+            "canva.com"
+          ]
+        },
+        {
+          "запрос": "оплата coreldraw по счету из россии",
+          "позиция_яндекс": 2,
+          "google_топ3": [
+            "platipomiru.com",
+            "pay-saas.ru",
+            "pyyplbot.com"
+          ]
+        },
+        {
+          "запрос": "оплата envato юридическим лицом",
+          "позиция_яндекс": 2,
+          "google_топ3": [
+            "oplata.guru",
+            "vc.ru",
+            "wanttopay.net"
+          ]
+        },
+        {
+          "запрос": "оплата motion array юридическим лицом",
+          "позиция_яндекс": 2,
+          "google_топ3": [
+            "remoney.ru",
+            "vc.ru",
+            "pay-saas.ru"
+          ]
+        },
+        {
+          "запрос": "оплата postman юридическим лицом",
+          "позиция_яндекс": 2,
+          "google_топ3": [
+            "dtf.ru",
+            "pikabu.ru",
+            "vc.ru"
+          ]
+        },
+        {
+          "запрос": "оплата windsurf юридическим лицом",
+          "позиция_яндекс": 2,
+          "google_топ3": [
+            "vc.ru",
+            "pay-saas.ru",
+            "oplata.guru"
+          ]
+        },
+        {
+          "запрос": "оплата юридическим postman лицом",
+          "позиция_яндекс": 2,
+          "google_топ3": [
+            "dtf.ru",
+            "vc.ru",
+            "postman.com"
+          ]
+        },
+        {
+          "запрос": "тарифные планы anthropic для бизнеса",
+          "позиция_яндекс": 2,
+          "google_топ3": [
+            "vc.ru",
+            "reddit.com",
+            "migsoft.ru"
+          ]
+        },
+        {
+          "запрос": "unity подписки",
+          "позиция_яндекс": 3,
+          "google_топ3": [
+            "unity.com",
+            "unity.com",
+            "unity.com"
+          ]
+        },
+        {
+          "запрос": "купить after effects юридическим лицом",
+          "позиция_яндекс": 3,
+          "google_топ3": [
+            "ml-soft.ru",
+            "ml-soft.ru",
+            "vc.ru"
+          ]
+        },
+        {
+          "запрос": "купить openai api юридическим лицом",
+          "позиция_яндекс": 3,
+          "google_топ3": [
+            "ggsel.net",
+            "proxyapi.ru",
+            "vc.ru"
+          ]
+        },
+        {
+          "запрос": "купить perplexity pro юридическим лицом",
+          "позиция_яндекс": 3,
+          "google_топ3": [
+            "syssoft.ru",
+            "companies.rbc.ru",
+            "klerk.ru"
+          ]
+        },
+        {
+          "запрос": "оплата capture one",
+          "позиция_яндекс": 3,
+          "google_топ3": [
+            "plati.market",
+            "reddit.com",
+            "vc.ru"
+          ]
+        },
+        {
+          "запрос": "оплата confluence для юридических лиц из россии",
+          "позиция_яндекс": 3,
+          "google_топ3": [
+            "atlassian.com",
+            "raketapay.ru",
+            "pay-saas.ru"
+          ]
+        },
+        {
+          "запрос": "оплата dropbox для юридических лиц из россии",
+          "позиция_яндекс": 3,
+          "google_топ3": [
+            "global-payments.ru",
+            "vc.ru",
+            "wanttopay.net"
+          ]
+        },
+        {
+          "запрос": "оплата magnific ai юридическим лицом",
+          "позиция_яндекс": 3,
+          "google_топ3": [
+            "getpayall.com",
+            "sostav.ru",
+            "vc.ru"
+          ]
+        },
+        {
+          "запрос": "оплата zoho юридическим лицом",
+          "позиция_яндекс": 3,
+          "google_топ3": [
+            "vc.ru",
+            "oplata.guru",
+            "dtf.ru"
+          ]
+        },
+        {
+          "запрос": "оплата зарубежного по для юр лица документы",
+          "позиция_яндекс": 3,
+          "google_топ3": [
+            "corp.pay-saas.ru",
+            "global-payments.ru",
+            "sostav.ru"
+          ]
+        }
+      ],
+      "яндекс_топ10_google_нет_всего": 107,
+      "google_топ10_яндекс_нет": [],
+      "google_топ10_яндекс_нет_всего": 0,
+      "_пояснение": "запросы одного ядра, измеренные в обеих системах; сравнивается присутствие в собранной выдаче, не позиции; «нет» — нет в выдаче своей глубины"
+    },
+    "точки_атаки": {
+      "всего": 0,
+      "первые": []
+    },
+    "_правило_сравнимости": "серия google_ru начинается с первого среза; сводной цифры с Яндексом и динамики нет до накопления базовой линии; доли считаются внутри Google-поля глубиной «глубина» позиций и с Яндексом не складываются; позиции двух систем не сравниваются как равноточные"
+  },
+  "наши_показатели": {
+    "взвешенная_видимость": 9.543,
+    "доля_видимости": 0.031989,
+    "топ3": 48,
+    "топ10": 116,
+    "запросов_в_поле": 531
+  },
+  "доли_по_категориям": {
+    "H": 0.167151,
+    "G": 0.177093,
+    "E": 0.217332,
+    "A": 0.082005,
+    "?": 0.274068,
+    "F": 0.050388
+  },
+  "_доли_по_категориям_пояснение": "доли конкурентов без BIZSoft; наша доля — в «наши_показатели», поэтому сумма меньше 100%",
+  "конкурентов_в_основном_рейтинге": 41,
+  "не_классифицировано": 466,
+  "лидеры": [
+    {
+      "домен": "raketapay.ru",
+      "категория": "H",
+      "доля": 0.071014,
+      "топ3": 80,
+      "топ10": 126
+    },
+    {
+      "домен": "platipomiru.com",
+      "категория": "A",
+      "доля": 0.031613,
+      "топ3": 40,
+      "топ10": 89
+    },
+    {
+      "домен": "pipl.io",
+      "категория": "H",
+      "доля": 0.018554,
+      "топ3": 26,
+      "топ10": 68
+    },
+    {
+      "домен": "syssoft.ru",
+      "категория": "A",
+      "доля": 0.017471,
+      "топ3": 22,
+      "топ10": 75
+    },
+    {
+      "домен": "card-open.ru",
+      "категория": "H",
+      "доля": 0.015681,
+      "топ3": 17,
+      "топ10": 54
+    },
+    {
+      "домен": "finteka.io",
+      "категория": "H",
+      "доля": 0.015011,
+      "топ3": 23,
+      "топ10": 65
+    },
+    {
+      "домен": "aifory.pro",
+      "категория": "H",
+      "доля": 0.008628,
+      "топ3": 4,
+      "топ10": 60
+    },
+    {
+      "домен": "store.softline.ru",
+      "категория": "A",
+      "доля": 0.008189,
+      "топ3": 8,
+      "топ10": 30
+    },
+    {
+      "домен": "softmagazin.ru",
+      "категория": "A",
+      "доля": 0.006828,
+      "топ3": 7,
+      "топ10": 35
+    },
+    {
+      "домен": "windows-office.ru",
+      "категория": "A",
+      "доля": 0.006242,
+      "топ3": 3,
+      "топ10": 42
+    }
+  ]
+}
