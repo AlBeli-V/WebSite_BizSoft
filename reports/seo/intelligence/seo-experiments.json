@@ -374,7 +374,7 @@
   },
   {
    "id": "content-10-clusters",
-   "ticket": "CONTENT-003",
+   "ticket": "CONTENT-004",
    "start": "2026-09-03",
    "status": "running",
    "pages": [
@@ -481,7 +481,8 @@
     "date": "2026-09-03",
     "decision": "EXPAND",
     "note": "Решение руководителя 03.09.2026 в чате по вердикту CONTENT-001 (CONFIRMED, +62%, позиция 6): «эксперимент удачный, расширяем на рекомендованные страницы и продукты вендоров второй части, ставим на аналогичное наблюдение и контроль для дальнейшего тиража». Партия — все десять кандидатов профиля content на дату решения."
-   }
+   },
+   "ticket_note": "03.09.2026: тикет переназначен с CONTENT-003 (занят cluster-coreldraw) решением руководителя"
   },
   {
    "id": "snippets-2-price-intent",
@@ -647,6 +648,138 @@
      }
     ]
    }
+  },
+  {
+   "id": "snippets-2-product-gap-d",
+   "ticket": "SEO-EXP-006",
+   "start": null,
+   "status": "planned",
+   "pages": [
+    "/product/adobe-ae",
+    "/product/adobe-lr"
+   ],
+   "page_markers": {
+    "/product/adobe-ae": [
+     "after effects",
+     "aftereffects",
+     "афтер эффект",
+     "афтерэффект",
+     "after effect"
+    ],
+    "/product/adobe-lr": [
+     "lightroom",
+     "лайтрум",
+     "light room"
+    ]
+   },
+   "query_intent_any": [
+    "купить",
+    "покуп",
+    "оплат",
+    "юрлиц",
+    "юридическ",
+    "лиценз",
+    "подписк",
+    "цена",
+    "стоимость",
+    "сколько стоит",
+    "компани",
+    "бизнес",
+    "организац",
+    "счёт",
+    "счет",
+    "росси"
+   ],
+   "query_exclude": [
+    "скачать",
+    "торрент",
+    "torrent",
+    "взлом",
+    "crack",
+    "кряк",
+    "бесплатно",
+    "free",
+    "урок",
+    "плагин",
+    "plugin",
+    "шаблон",
+    "template",
+    "пресет",
+    "preset"
+   ],
+   "title_marker": "юридическим лицом",
+   "windows": null,
+   "evaluation_kind": "ctr",
+   "formula_group": "query-phrase-snippet-2026-09",
+   "baseline": {
+    "period": "выгрузка Вебмастера от 2026-09-03 (окно 2026-08-20–2026-08-31, 1016 запросов)",
+    "pages": {
+     "/product/adobe-ae": {
+      "queries": 3,
+      "impressions": 33,
+      "clicks": 0,
+      "avg_position": 4.64,
+      "top_queries": [
+       {
+        "q": "купить after effects юридическим лицом",
+        "impressions": 31,
+        "position": 4.4
+       },
+       {
+        "q": "купить after effects юридическим лицрм",
+        "impressions": 1,
+        "position": 10.0
+       },
+       {
+        "q": "adobe after effects цена",
+        "impressions": 1,
+        "position": 7.0
+       }
+      ]
+     },
+     "/product/adobe-lr": {
+      "queries": 3,
+      "impressions": 17,
+      "clicks": 0,
+      "avg_position": 3.71,
+      "top_queries": [
+       {
+        "q": "купить lightroom юридическим лицом",
+        "impressions": 13,
+        "position": 3.5
+       },
+       {
+        "q": "купить lightroom юридическим лицом московская область",
+        "impressions": 2,
+        "position": 2.5
+       },
+       {
+        "q": "купить lightroom юридическим лицом москва и мо",
+        "impressions": 2,
+        "position": 6.0
+       }
+      ]
+     }
+    },
+    "current_titles": {
+     "/product/adobe-ae": "Adobe After Effects — купить для юрлица | BIZSoft",
+     "/product/adobe-lr": "Adobe Lightroom — купить для юрлица | BIZSoft"
+    },
+    "serp_check": "01–03.09.2026 (Москва и СПб): /product/adobe-ae — позиции 2–3 по «купить after effects юридическим лицом», /product/adobe-lr — позиции 1–7 по «купить lightroom юридическим лицом»",
+    "note": "GAP-D на карточках товаров: топ-5 при нуле переходов; фиксированные окна записывает activate по факту выката"
+   },
+   "changes": [
+    "meta_title по запросной формуле «Купить {Продукт} юридическим лицом — счёт, договор, ЭДО» (≤60, бренд добавляет SeoHead)",
+    "meta_description начинается с «Купить Adobe {Продукт} юридическим лицом из России», дальше состав плана и оффер (счёт, договор, рубли, ЭДО, 1–3 дня), ≤160",
+    "контент карточки, FAQ и цена не меняются — одно изменение: сниппет; правка через data/seo/product-descriptions.json + ops-apply-descriptions"
+   ],
+   "hypothesis": "Карточки стоят в топ-5 по запросам «купить after effects / lightroom юридическим лицом» с 44 показами и нулём переходов: позиция клику не мешает, мешает общий сниппет «купить для юрлица». Точная формулировка запроса в начале title и description поднимет кликабельность без изменения контента.",
+   "success_metric": "CTR > 0 по каждому запросу и ≥3 % по кластеру страницы за фиксированное окно 28 дней после выката при средней позиции не хуже базовой ±1 (4,4 и 3,5); вспомогательно — пул формулы query-phrase-snippet-2026-09",
+   "control_group": "остальные карточки Adobe (Photoshop, Premiere Pro, Illustrator и др.) без изменений; SEO-EXP-004 и SEO-EXP-002-R — тот же приём на других страницах, считаются раздельно",
+   "source": "data/seo/product-descriptions.json → ops-apply-descriptions → Directus meta_title/meta_description (рендер: src/pages/product/[slug].astro, SeoHead)",
+   "power_note": "ёмкость ≈100 показов за 28 дней на две карточки: вывод по самим карточкам описательный, вывод о формуле — по пулу",
+   "selection": "Находка разбора SEO-EXP-002: маркеры кластера Adobe приписывали vendor-странице показы этих карточек; по правилу 03.09.2026 сниппет-тест ставится там, где показы есть (docs/seo/experiments/seo-exp-002-restart.md)",
+   "owner_decision": "заведён решением руководителя 2026-09-03 (кнопка в чате)"
   }
  ]
 }

@@ -186,6 +186,25 @@
    "qa": null,
    "deploy": null,
    "rollback": null
+  },
+  {
+   "id": "SEO-EXP-006",
+   "title": "Сниппеты карточек After Effects и Lightroom под запрос «купить … юридическим лицом»",
+   "plain": "Две карточки Adobe, стоящие в топ-5 без переходов, получают заголовок и описание с точной формулировкой запроса.",
+   "zone": "GREEN",
+   "owner_role": "seo_lead",
+   "status": "in_progress",
+   "status_label": "ждёт применения в Directus",
+   "due": null,
+   "ticket": "reports/seo/intelligence/seo-experiments.json (snippets-2-product-gap-d)",
+   "outcome": "Проверяем, поднимет ли точная формулировка запроса кликабельность карточек, которые уже стоят на позициях 1–4 без переходов.",
+   "stage": "tested",
+   "status_changed_at": "2026-09-03",
+   "artifact": "2 карточки товаров",
+   "ci": null,
+   "qa": null,
+   "deploy": null,
+   "rollback": null
   }
  ],
  "notes": {
