@@ -12,6 +12,7 @@ from __future__ import annotations
 import datetime as dt
 
 import pairs
+import passport
 from mismatch import page_type
 
 NEW_WINDOW_DAYS = 10     # первая активность в последние N дней окна → new
@@ -60,9 +61,8 @@ def _status(days: dict[str, int], window_end: dt.date) -> tuple[str, dict]:
 def build(date_s: str) -> dict:
     data = pairs.load_latest(date_s)
     if not data:
-        return {"available": False,
-                "reason": "сенсор пар «запрос × страница» ещё не накопил данных",
-                "items": []}
+        return passport.unavailable(
+            "no_file", source="сенсор пар «запрос × страница»", items=[])
     window_end = dt.date.fromisoformat(
         (data.get("window") or {}).get("to") or data["date"])
     series = _page_series(data["rows"])

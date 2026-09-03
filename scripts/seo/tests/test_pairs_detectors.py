@@ -77,7 +77,7 @@ class TestCannibalization(PairsBase):
     def test_no_data_is_honest(self):
         cb = self.detector("cannibalization").build(DATE)
         self.assertFalse(cb["available"])
-        self.assertIn("не накопил", cb["reason"])
+        self.assertIn("за окно нет", cb["reason"])
 
     def test_unstable_leader_ranks_first(self):
         self.write_pairs(
