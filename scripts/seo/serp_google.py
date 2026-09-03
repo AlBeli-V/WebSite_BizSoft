@@ -5,11 +5,12 @@
 Ядро — то же, из данных (serp_watchlist.py); регион один — местоположение
 из data/seo/xmlriver.json (по умолчанию Россия, 2643).
 
-Страница выдачи у xmlriver — 10 позиций, поэтому топ-20 снимается двумя
-страницами (`pages` в конфиге, параметр page): два платных вызова на
-ключ, в срезе — одна строка с объединённым топом. Вторая страница без
-первой не запрашивается; сбой второй страницы не стирает первую — строка
-получает `partial_error`.
+Страница выдачи у xmlriver — 10 позиций. Механизм нескольких страниц
+(`pages` в конфиге, параметр page) есть, но выключен (pages=1): проба
+03.09.2026 показала, что page сервис игнорирует и «вторая страница» —
+дубль первой. При pages>1 вторая страница идёт только после удачной
+первой, повторы по URL не склеиваются (`duplicates_dropped`), сбой второй
+страницы не стирает первую (`partial_error`).
 
 Дисциплина — как у Яндекс-среза:
   - ни один вызов без строки в журнале serp/ledger/google-<месяц>.jsonl
@@ -137,11 +138,20 @@ def merge_pages(results: list[dict], top_n: int) -> dict:
         return {"error": first["error"]}
     row = {"found": first.get("found"), "top": list(first.get("top") or [])}
     blocks = dict(first.get("blocks") or {})
+    seen_urls = {d.get("url") for d in row["top"]}
     for res in results[1:]:
         if "error" in res:
             row["partial_error"] = res["error"]
             break
-        row["top"] += res.get("top") or []
+        # Сервис может отдать на «следующей» странице ту же выдачу
+        # (xmlriver игнорирует page — проба 03.09.2026): повторы по URL не
+        # склеиваем, а считаем, чтобы дубль был виден в срезе.
+        fresh = [d for d in (res.get("top") or [])
+                 if d.get("url") not in seen_urls]
+        row["duplicates_dropped"] = (row.get("duplicates_dropped", 0)
+                                     + len(res.get("top") or []) - len(fresh))
+        row["top"] += fresh
+        seen_urls.update(d.get("url") for d in fresh)
         for k, v in (res.get("blocks") or {}).items():
             blocks[k] = blocks.get(k, 0) + v
     row["top"] = row["top"][:top_n]
