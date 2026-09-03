@@ -26,6 +26,7 @@ from __future__ import annotations
 import datetime as dt
 
 from textfmt import counted, num, ru_date
+import passport
 
 # Сколько заявок показывать в письме подробно. Остальные уходят строкой
 # «ещё N» — письмо ограничено по объёму (uxlint), а разбор каждой заявки
@@ -300,11 +301,11 @@ def build(raw: dict | None, date: str) -> dict:
     сутки нет, так и сказано. Это разные состояния, и путать их нельзя:
     первое требует чинить сбор, второе — работать со спросом.
     """
-    if not raw or not raw.get("leads_available", True):
-        return {"available": False,
-                "reason": (raw or {}).get("reason")
-                or "выгрузка заявок не выполнялась — блок появится после "
-                   "первого прогона ops-leads-collect"}
+    if not raw:
+        return passport.unavailable("no_file", source="выгрузка заявок (ops-leads-collect)")
+    if not raw.get("leads_available", True):
+        return passport.unavailable("api_error", source="выгрузка заявок (ops-leads-collect)",
+                                    detail=raw.get("reason"))
 
     day = _day_bounds(date)
     week_start = (dt.date.fromisoformat(day) - dt.timedelta(days=SUMMARY_DAYS - 1)).isoformat()
@@ -344,6 +345,11 @@ def build(raw: dict | None, date: str) -> dict:
 
     return {
         "available": True,
+        "status": "ok",
+        # Дата данных — день, за который считаются заявки; ожидаемая — тот же
+        # день. Выгрузка старше письма помечается mark_stale.
+        "as_of": day,
+        "expected_as_of": day,
         "day": day,
         "window": {"from": week_start, "to": day},
         "count": len(day_leads),
@@ -371,16 +377,45 @@ def _note(metrika: dict, unresolved: int, day_count: int) -> str:
     return base
 
 
+def mark_stale(block: dict, data_date: str) -> dict:
+    """Выгрузка старше даты письма: сутки покрыты не полностью.
+
+    Снимок знал об этом (`crm.stale`), а письмо печатало «полный подсчёт»
+    по выгрузке, снятой до конца отчётных суток (аудит 03.09.2026). Пометка
+    ставится в самом блоке, чтобы каждый потребитель — карточка, сводка,
+    текстовая версия — видел её без отдельного знания о снимке.
+    """
+    if not block.get("available"):
+        return block
+    day = dt.date.fromisoformat(data_date).strftime("%d.%m")
+    block["stale"] = True
+    block["status"] = "stale"
+    block["data_date"] = data_date
+    block["as_of"] = data_date
+    note = block.get("note") or ""
+    block["note"] = ((note + "; ") if note else "") + (
+        f"выгрузка от {day}: заявки, поступившие после неё, в письмо не попали — "
+        "подсчёт за сутки неполный")
+    return block
+
+
 def summary_line(block: dict) -> str:
     """Одна строка для сводки писем и для карточки показателя."""
     if not block.get("available"):
         return "Заявки не выгружаются."
     if not block["count"]:
-        return (f"За сутки заявок не поступило; за "
+        text = (f"За сутки заявок не поступило; за "
                 f"{counted(SUMMARY_DAYS, 'день', 'дня', 'дней')} — "
                 f"{counted(block['week_count'], 'заявка', 'заявки', 'заявок')}.")
-    channels = ", ".join(f"{c['label']}: {c['count']}" for c in block["channels"][:3])
-    return (f"{counted(block['count'], 'заявка', 'заявки', 'заявок')} за сутки"
-            + (f" на {num(block['amount'])} ₽" if block["amount"] else "")
-            + (f"; за {SUMMARY_DAYS} дней по каналам: {channels}" if channels else "")
-            + ".")
+    else:
+        channels = ", ".join(f"{c['label']}: {c['count']}" for c in block["channels"][:3])
+        text = (f"{counted(block['count'], 'заявка', 'заявки', 'заявок')} за сутки"
+                + (f" на {num(block['amount'])} ₽" if block["amount"] else "")
+                + (f"; за {SUMMARY_DAYS} дней по каналам: {channels}" if channels else "")
+                + ".")
+    if block.get("stale"):
+        day = dt.date.fromisoformat(block["data_date"]).strftime("%d.%m")
+        return (f"По выгрузке от {day}, сутки покрыты не полностью: "
+                + text[0].lower() + text[1:])
+    return text
+

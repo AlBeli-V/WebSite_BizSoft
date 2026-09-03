@@ -56,14 +56,15 @@ const ready = Boolean(pageCategory) && products.length > 0;
 // Сравнения, релевантные подкатегории (по category.slug вида "ai/<sub>").
 const relatedCompare = comparisons.filter((c) => c.category.slug === `ai/${meta.sub}`).slice(0, 4);
 
-const faq = [
+const guide = meta.guide ?? [];
+const faq = meta.faq?.length ? meta.faq : [
   { q: `Как купить ${meta.name.toLowerCase()} для юрлица?`, a: 'Оставьте заявку или добавьте позиции в избранное и нажмите «Получить КП». Заключаем договор, выставляем счёт в рублях, после оплаты предоставляем доступ и передаём закрывающие через ЭДО.' },
   { q: 'Цена указана за год?', a: 'Да, для корпоративных AI-подписок мы ориентируемся на годовые тарифы. Рублёвая цена считается от годовой цены вендора по курсу ЦБ РФ на дату счёта; итог фиксируется в счёте.' },
 ];
 ---
 <BaseLayout
-  title={`${meta.name} — AI-сервисы для бизнеса`}
-  description={meta.intro.slice(0, 160)}
+  title={meta.metaTitle ?? `${meta.name} — AI-сервисы для бизнеса`}
+  description={meta.metaDescription ?? meta.intro.slice(0, 160)}
   canonical={path}
   noindex={!ready}
 >
@@ -103,6 +104,18 @@ const faq = [
       </section>
     )}
 
+    {guide.length > 0 && (
+      <section class="guide prose-bizsoft">
+        <h2>Как выбрать</h2>
+        {guide.map((g) => (
+          <Fragment>
+            <h3>{g.title}</h3>
+            <p>{g.text}</p>
+          </Fragment>
+        ))}
+      </section>
+    )}
+
     <FAQ items={faq} title="Вопросы по разделу" />
   </div>
   <CTASection />
@@ -124,4 +137,6 @@ const faq = [
   .related h2 { font-size: 1.4rem; margin-bottom: 1rem; }
   .rel-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; }
   .rel { padding: 1.1rem 1.3rem; font-weight: 600; color: var(--color-accent); }
+  .guide { margin-top: 2.6rem; max-width: 760px; }
+  .guide h2 { margin-top: 0; }
 </style>
