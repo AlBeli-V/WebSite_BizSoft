@@ -72,6 +72,30 @@ describe('rankProducts: спрос Вордстата и порядок внут
     expect(ranked.map((p) => p.vendor)).toEqual(['Zoom', 'Figma', 'NoName']);
   });
 
+  it('карточка с измеренным спросом обгоняет вендора с большим Вордстатом', () => {
+    // Площадка показывает первыми те позиции, что идут первыми в выгрузке.
+    // Спрос вендора — оценка рынка; визиты и показы карточки — факт нашей
+    // витрины, и он важнее (поручение руководителя 02.09.2026).
+    const ranked = rankProducts(
+      [
+        product({ id: 1, vendor: 'Zoom', sku: 'ZOOM-1', slug: 'zoom-1', name: 'Zoom' }),
+        product({ id: 2, vendor: 'Figma', sku: 'FIGMA-1', slug: 'figma-pro', name: 'Figma' }),
+      ],
+      demand,
+      { 'figma-pro': 40 },
+    );
+    expect(ranked.map((p) => p.slug)).toEqual(['figma-pro', 'zoom-1']);
+  });
+
+  it('без измеренного спроса порядок прежний — по вендору', () => {
+    const items = [
+      product({ id: 1, vendor: 'Figma', sku: 'FIGMA-1', slug: 'figma-pro' }),
+      product({ id: 2, vendor: 'Zoom', sku: 'ZOOM-1', slug: 'zoom-1' }),
+    ];
+    expect(rankProducts(items, demand, {}).map((p) => p.vendor))
+      .toEqual(rankProducts(items, demand).map((p) => p.vendor));
+  });
+
   it('внутри вендора основной продукт раньше дополнения', () => {
     const ranked = rankProducts(
       [
@@ -179,6 +203,20 @@ describe('реестр фидов', () => {
     // Zoom популярнее Figma в спросе Вордстата — под лимит попадает он
     expect(body).toContain('ZOOM-1');
     expect(body).not.toContain('FIGMA-PRO');
+  });
+
+  it('Яндекс Бизнес отдаёт чистый знак товара, а не OG-карточку с ценой', () => {
+    // Бизнес показывает картинку как фотографию товара в карточке
+    // организации, а на фотографии товара не должно быть ни цены, ни
+    // названия магазина. OG-карточка несёт и то и другое (аудит 02.09.2026).
+    const items = [product({ id: 1, vendor: 'Figma' })];
+    const business = renderFeed('yandex-business', items, NOW).body;
+    expect(business).toContain('<picture>https://biz-soft.pro/img/product-icon/figma-professional.png</picture>');
+    expect(business).not.toContain('/og/product/');
+    // Остальные яндекс-фиды остаются на OG-карточке: у Товаров и Директа
+    // изображение работает как рекламный креатив, а не как фото товара.
+    const products = renderFeed('yandex-products', items, NOW).body;
+    expect(products).toContain('<picture>https://biz-soft.pro/og/product/figma-professional.png</picture>');
   });
 
   it('envMaxOffers: мусор и отрицательные значения = без лимита', () => {
