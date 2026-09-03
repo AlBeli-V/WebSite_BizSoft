@@ -24,7 +24,7 @@ XMLRIVER_KEY. Все параметры запроса (местоположен
 «найдено N». Поэтому срез — топ-10; механизм страниц оставлен выключенным
 (pages=1) до ответа поддержки xmlriver.
 
-Проба: python3 scripts/seo/xmlriver.py probe "купить figma" [page]
+Проба: python3 scripts/seo/xmlriver.py probe "купить figma" [page≥1]
        (баланс + РОВНО ОДИН платный запрос; вывод — в issue #22 через
        workflow ops-xmlriver-probe).
 """
@@ -91,7 +91,7 @@ def credentials() -> tuple[str, str]:
 
 
 def build_params(user: str, key: str, query: str,
-                 query_cfg: dict | None = None, page: int = 0) -> dict:
+                 query_cfg: dict | None = None, page: int = 1) -> dict:
     """Параметры запроса Google: учётные данные + настройки из конфига.
 
     Передаются только заданные настройки: `null` в конфиге означает
@@ -103,7 +103,10 @@ def build_params(user: str, key: str, query: str,
         if v in (None, ""):
             continue
         params[k] = v
-    if page:
+    # Страницы у xmlriver нумеруются с ЕДИНИЦЫ (ответ поддержки 03.09.2026:
+    # page=1 — первая страница, page=2 — вторая; в Yandex Search API счёт с
+    # нуля, и первая проба с page=1 честно вернула первую страницу).
+    if page and page >= 2:
         params["page"] = page
     return params
 
@@ -157,8 +160,10 @@ def parse_google_xml(xml_text: str, top_n: int = 20) -> dict:
 
 def search_google(session, user: str, key: str, query: str,
                   query_cfg: dict | None = None, top_n: int = 20,
-                  page: int = 0) -> dict:
+                  page: int = 1) -> dict:
     """Один запрос Google через xmlriver с повторами на сетевые сбои и 5xx.
+
+    page — номер страницы выдачи по нумерации xmlriver (с 1).
 
     Ошибки сервиса кодом 200 (<error>) не повторяются: это вердикт по
     учётным данным, балансу или запросу, а не помеха. Исключение —
@@ -203,7 +208,7 @@ def get_balance(session, user: str, key: str) -> dict:
         return {"error": f"баланс не является числом: {text[:300]}"}
 
 
-def probe(query: str, page: int = 0) -> int:
+def probe(query: str, page: int = 1) -> int:
     """Проба: баланс + ровно один платный запрос, вывод для issue #22."""
     user, key = credentials()
     if not user or not key:
@@ -235,7 +240,7 @@ def probe(query: str, page: int = 0) -> int:
           f"Блоки: {json.dumps(res['blocks'], ensure_ascii=False)}. "
           f"Органика топ-{len(res['top'])}:")
     ours = None
-    offset = page * PAGE_SIZE
+    offset = (max(page, 1) - 1) * PAGE_SIZE
     for i, d in enumerate(res["top"], 1 + offset):
         if d["domain"] == "biz-soft.pro" and ours is None:
             ours = i
@@ -248,9 +253,9 @@ def probe(query: str, page: int = 0) -> int:
 def main(argv: list[str]) -> int:
     if len(argv) >= 1 and argv[0] == "probe":
         rest = argv[1:]
-        page = 0
+        page = 1
         if rest and rest[-1].isdigit():
-            page = int(rest[-1])
+            page = max(int(rest[-1]), 1)
             rest = rest[:-1]
         return probe(" ".join(rest).strip() or "купить figma", page)
     print("использование: xmlriver.py probe \"запрос\" [page]")

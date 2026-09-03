@@ -46,7 +46,7 @@ jobs:
             ADMIN_PASSWORD=$(docker compose exec -T directus printenv ADMIN_PASSWORD | tr -d '\r')
             export ADMIN_EMAIL ADMIN_PASSWORD
             python3 - <<'PYEOF'
-            import json, os, re, urllib.parse, urllib.request
+            import datetime, json, os, re, urllib.error, urllib.parse, urllib.request
             base = 'http://127.0.0.1:8055'
             BRAND = 'BIZSoft'
             TAIL = ' Оплата по счёту, закрывающие через ЭДО.'
@@ -251,7 +251,13 @@ jobs:
                         print(f"  {f} было ({len(r.get(f) or '')}): {r.get(f) or '—'}")
                         print(f"  {f} стало ({len(patch[f])}): {patch[f]}")
                 if apply:
-                    req('PATCH', f"/items/products/{r['id']}", patch, token=tok)
+                    # Штамп содержательного изменения для lastmod в sitemap;
+                    # без поля в схеме — запись без штампа (см. ops-apply-descriptions).
+                    stamp = {**patch, 'content_updated_at': datetime.datetime.now(datetime.timezone.utc).isoformat()}
+                    try:
+                        req('PATCH', f"/items/products/{r['id']}", stamp, token=tok)
+                    except urllib.error.HTTPError:
+                        req('PATCH', f"/items/products/{r['id']}", patch, token=tok)
             print(f"\nизменено карточек: {changed} | meta_title: {stats['title']}, "
                   f"meta_description: {stats['desc']}, бренд в текстах: {stats.get('brand', 0)}")
             PYEOF

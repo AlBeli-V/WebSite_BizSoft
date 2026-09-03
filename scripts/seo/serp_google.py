@@ -5,12 +5,12 @@
 Ядро — то же, из данных (serp_watchlist.py); регион один — местоположение
 из data/seo/xmlriver.json (по умолчанию Россия, 2643).
 
-Страница выдачи у xmlriver — 10 позиций. Механизм нескольких страниц
-(`pages` в конфиге, параметр page) есть, но выключен (pages=1): проба
-03.09.2026 показала, что page сервис игнорирует и «вторая страница» —
-дубль первой. При pages>1 вторая страница идёт только после удачной
-первой, повторы по URL не склеиваются (`duplicates_dropped`), сбой второй
-страницы не стирает первую (`partial_error`).
+Страница выдачи у xmlriver — 10 позиций; глубже — постранично, параметр
+page с нумерацией с единицы (ответ поддержки 03.09.2026). `pages` в
+конфиге — сколько страниц снимать на ключ (2 = топ-20). Следующая
+страница идёт только после удачной и полной предыдущей, повторы по URL не
+склеиваются (`duplicates_dropped`), сбой следующей страницы не стирает
+собранное (`partial_error`).
 
 Дисциплина — как у Яндекс-среза:
   - ни один вызов без строки в журнале serp/ledger/google-<месяц>.jsonl
@@ -108,7 +108,7 @@ def day_spent(date: dt.date) -> int:
 
 
 def log_call(date: dt.date, query: str, status: str, found: int | None,
-             loc, page: int = 0) -> None:
+             loc, page: int = 1) -> None:
     LEDGER_DIR.mkdir(parents=True, exist_ok=True)
     entry = {"at": dt.datetime.now(dt.timezone.utc).isoformat(timespec="seconds"),
              "date": date.isoformat(),
@@ -186,7 +186,8 @@ def fetch_query(session, user: str, key: str, q: str, cfg: dict) -> dict:
     """
     pages = max(int(cfg.get("pages", 1)), 1)
     out = []
-    for page in range(pages):
+    # Нумерация страниц xmlriver — с единицы (ответ поддержки 03.09.2026).
+    for page in range(1, pages + 1):
         try:
             res = xmlriver.search_google(session, user, key, q,
                                         cfg["query"], cfg["top_n"], page)
@@ -256,7 +257,7 @@ def collect(session, user: str, key: str, date: dt.date, queries: list[str],
         futures = [pool.submit(one, q) for q in queries]
         for fut in as_completed(futures):
             q, fetched = fut.result()
-            for page, res in enumerate(fetched["pages"]):
+            for page, res in enumerate(fetched["pages"], start=1):
                 log_call(date, q, "ok" if "error" not in res else "error",
                          res.get("found"), loc, page)
                 calls += 1
