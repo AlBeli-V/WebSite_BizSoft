@@ -146,16 +146,15 @@ jobs:
                 print(f'\ndescription: медиана {mid} симв., минимум {lens[0]}, максимум {lens[-1]}')
             PYEOF
       - name: Save to file
+        if: always()
         run: |
           cat > /tmp/ops-audit.txt <<'OPS_AUDIT_EOF'
           ${{ steps.run.outputs.stdout }}
           OPS_AUDIT_EOF
       - name: Post to issue
-        uses: actions/github-script@v7
+        if: always()
+        uses: ./.github/actions/journal-post
         with:
-          script: |
-            const out = require('fs').readFileSync('/tmp/ops-audit.txt', 'utf8').slice(0, 60000);
-            await github.rest.issues.createComment({
-              owner: context.repo.owner, repo: context.repo.repo, issue_number: 22,
-              body: '### ops-content-audit\n\n```\n' + out + '\n```',
-            });
+          title: "ops-content-audit"
+          outcome: ${{ steps.run.outcome }}
+          body-file: /tmp/ops-audit.txt

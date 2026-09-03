@@ -45,7 +45,7 @@ jobs:
             probe https://biz-soft.pro/catalog
             echo
             echo "== Статика =="
-            CSS=$(curl -s https://biz-soft.pro/ | grep -o '/_astro/[^"]*\.css' | head -1)
+            CSS=$(curl -sf https://biz-soft.pro/ | grep -o '/_astro/[^"]*\.css' | head -1)
             [ -n "$CSS" ] && probe "https://biz-soft.pro$CSS"
             probe https://biz-soft.pro/robots.txt
             LOGO=$(ls /opt/bizsoft/astro-src/public/brand-logos 2>/dev/null | head -1)

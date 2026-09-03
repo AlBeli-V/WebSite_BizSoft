@@ -99,26 +99,15 @@ jobs:
                   f"режим: {'ПРИМЕНЕНО' if apply else 'план (без записи)'}")
             PYEOF
       - name: Save to file
+        if: always()
         run: |
           cat > /tmp/ops-apply.txt <<'OPS_APPLY_EOF'
           ${{ steps.run.outputs.stdout }}
           OPS_APPLY_EOF
       - name: Post to issue
-        uses: actions/github-script@v7
-        env:
-          APPLY: ${{ inputs.apply }}
+        if: always()
+        uses: ./.github/actions/journal-post
         with:
-          script: |
-            const lines = require('fs').readFileSync('/tmp/ops-apply.txt', 'utf8').split('\n');
-            const parts = []; let cur = '';
-            for (const l of lines) {
-              if (cur.length + l.length > 55000) { parts.push(cur); cur = ''; }
-              cur += l + '\n';
-            }
-            if (cur) parts.push(cur);
-            for (let i = 0; i < parts.length; i++) {
-              await github.rest.issues.createComment({
-                owner: context.repo.owner, repo: context.repo.repo, issue_number: 22,
-                body: `### ops-apply-descriptions (apply=${process.env.APPLY}) (${i + 1}/${parts.length})\n\n\`\`\`\n${parts[i]}\`\`\``,
-              });
-            }
+          title: "ops-apply-descriptions (apply=${{ inputs.apply }})"
+          outcome: ${{ steps.run.outcome }}
+          body-file: /tmp/ops-apply.txt

@@ -63,7 +63,7 @@ jobs:
           script: |
             set -e
             TOKEN=$(sed -n 's/^ADMIN_TOOLS_TOKEN=//p' /opt/bizsoft/astro.env | tr -d '"\r')
-            if [ -z "$TOKEN" ]; then echo "ADMIN_TOOLS_TOKEN не найден в astro.env"; exit 0; fi
+            if [ -z "$TOKEN" ]; then echo "ADMIN_TOOLS_TOKEN не найден в astro.env — импорт не выполнен"; exit 1; fi
             export TOKEN
             python3 - <<'PY'
             import base64, json, os, urllib.request

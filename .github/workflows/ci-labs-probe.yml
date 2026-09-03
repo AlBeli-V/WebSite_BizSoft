@@ -43,11 +43,13 @@ jobs:
           LOCATION_CODE: ${{ inputs.location_code }}
         run: |
           pip install --quiet requests
+          rc=0
           {
             echo 'result<<LABS_EOF'
-            python3 competitive-intelligence/serp/labs_probe.py || true
+            python3 competitive-intelligence/serp/labs_probe.py 2>&1 || rc=$?
             echo 'LABS_EOF'
           } >> "$GITHUB_OUTPUT"
+          exit $rc
       - name: Post to issue
         if: always()
         uses: ./.github/actions/journal-post

@@ -679,3 +679,40 @@ PR. Проставлено девяти файлам (шесть Директ-п
 **Не вошло:** остальные находки раздела 3.2–3.3 без подтверждённого вреда
 для писем (allocator, vendor_radar note, quota-литералы — в allowlist до
 17.09), промпты Routine (упразднены #347).
+
+## 11. Долг линта (03.09.2026): журнал со статусом везде
+
+Ветка `claude/report-integrity-lint-debt`. База линта уменьшена с 40 файлов
+до 7, и оставшиеся семь — осознанные исключения, а не долг:
+
+- `journal-post` расширен: `body-file` (длинный вывод через файл, как и
+  прежде делали шаги «Save to file»), разбиение на части «(i/N)» по строкам,
+  `format: markdown` для отчётов с таблицами. Переведены ещё 29 шагов:
+  многочастные выкладки (`ops-export-*`, `ops-price-audit`, `ops-fix-meta`,
+  `ops-apply-descriptions`), все девять действий `ops-direct`, `ops-backup`
+  и `ops-yandex-recrawl` (свои маркеры заменены общим), `seo-goals-sync`,
+  `ops-me-crawl`, `ops-crm-backfill`, `ops-sam-demand`, `ops-price-scan`
+  (сводный файл), `ops-dadata-setup`, `ops-set-noindex`, `ops-quote-test`,
+  `ops-server-config`, `ops-merge-product`, `ops-content-audit`,
+  `ops-yandex-disk-upload`.
+- `|| true` снят с четырёх проб (`ci-labs-probe`, `ci-serp-probe`,
+  `ops-serp-probe`, `ops-xmlriver-probe`: вывод сохраняется, шаг завершается
+  кодом скрипта), с отчёта, momentum и регионов в `seo-wordstat` (данные
+  уходят в push, затем отдельный шаг красит прогон), с push биллинга.
+- `exit 0` после «ADMIN_TOOLS_TOKEN не найден» в `ops-currency-refresh` и
+  `ops-import-vendors` — теперь `exit 1`; в переоценке `set -o pipefail`,
+  чтобы `head` не прятал код `curl`.
+- `curl` за телом ответа получил `--fail` в 15 местах (админ-API переоценки
+  и импорта, тестовые заявки, sitemap, фиды, витрина вендоров).
+- Правила линта уточнены под смысл: R1 считает `|| true` только после
+  вызова скрипта, инструмента или push (диагностика вида `grep -c … || true`
+  не маскирует статус); R5 не считает запросы заголовков (`-I`, `-D -`).
+
+Осознанные исключения в базе: `competitive-intelligence-mail` (`git pull
+|| true` внутри цикла повторов push маркера, за которым идёт `exit 1`),
+`ops-backup` (`exit 0` без секрета rclone — бэкап продолжается локально),
+`git-sync-branches` (тишина при «изменений нет» — намеренная),
+`ops-delete-branch` и `ops-screenshot` (запись об удалении ветки и
+base64-выкладка PNG — не отчёты о прогоне), `ops-direct` и `ops-probe`
+(ответ API разбирается как JSON с ошибкой, заголовки печатаются как
+диагностика).

@@ -41,11 +41,13 @@ jobs:
           QUERY: ${{ inputs.query }}
         run: |
           pip install --quiet requests
+          rc=0
           {
             echo 'result<<SERP_EOF'
-            python3 scripts/seo/serp_probe.py "$QUERY" || true
+            python3 scripts/seo/serp_probe.py "$QUERY" 2>&1 || rc=$?
             echo 'SERP_EOF'
           } >> "$GITHUB_OUTPUT"
+          exit $rc
       - name: Post to issue
         if: always()
         uses: ./.github/actions/journal-post

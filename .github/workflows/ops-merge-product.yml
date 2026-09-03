@@ -148,21 +148,15 @@ jobs:
                 print('\nзаписано в Directus')
             PYEOF
       - name: Save to file
+        if: always()
         run: |
           cat > /tmp/ops-merge.txt <<'OPS_MERGE_EOF'
           ${{ steps.run.outputs.stdout }}
           OPS_MERGE_EOF
       - name: Post to issue
-        uses: actions/github-script@v7
-        env:
-          APPLY: ${{ inputs.apply }}
-          KEEP: ${{ inputs.keep }}
-          DROP: ${{ inputs.drop }}
+        if: always()
+        uses: ./.github/actions/journal-post
         with:
-          script: |
-            const out = require('fs').readFileSync('/tmp/ops-merge.txt', 'utf8').slice(0, 55000);
-            await github.rest.issues.createComment({
-              owner: context.repo.owner, repo: context.repo.repo, issue_number: 22,
-              body: `### ops-merge-product (apply=${process.env.APPLY}): `
-                + `${process.env.DROP} → ${process.env.KEEP}\n\n\`\`\`\n${out}\n\`\`\``,
-            });
+          title: "ops-merge-product (apply=${{ inputs.apply }}): ${{ inputs.drop }} → ${{ inputs.keep }}"
+          outcome: ${{ steps.run.outcome }}
+          body-file: /tmp/ops-merge.txt

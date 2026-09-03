@@ -262,27 +262,15 @@ jobs:
                   f"meta_description: {stats['desc']}, бренд в текстах: {stats.get('brand', 0)}")
             PYEOF
       - name: Save to file
+        if: always()
         run: |
           cat > /tmp/ops-fixmeta.txt <<'OPS_FIXMETA_EOF'
           ${{ steps.run.outputs.stdout }}
           OPS_FIXMETA_EOF
       - name: Post to issue
-        uses: actions/github-script@v7
-        env:
-          APPLY: ${{ inputs.apply }}
+        if: always()
+        uses: ./.github/actions/journal-post
         with:
-          script: |
-            const lines = require('fs').readFileSync('/tmp/ops-fixmeta.txt', 'utf8').split('\n');
-            const parts = []; let cur = '';
-            for (const l of lines) {
-              if (cur.length + l.length > 55000) { parts.push(cur); cur = ''; }
-              cur += l + '\n';
-            }
-            if (cur) parts.push(cur);
-            const tail = parts.length > 3 ? parts.slice(-1) : parts;   // длинный план — только итог
-            for (let i = 0; i < tail.length; i++) {
-              await github.rest.issues.createComment({
-                owner: context.repo.owner, repo: context.repo.repo, issue_number: 22,
-                body: `### ops-fix-meta (apply=${process.env.APPLY}) (${i + 1}/${tail.length}, всего частей ${parts.length})\n\n\`\`\`\n${tail[i]}\`\`\``,
-              });
-            }
+          title: "ops-fix-meta (apply=${{ inputs.apply }})"
+          outcome: ${{ steps.run.outcome }}
+          body-file: /tmp/ops-fixmeta.txt
