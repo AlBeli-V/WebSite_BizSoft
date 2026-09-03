@@ -13,7 +13,12 @@
 
 from __future__ import annotations
 
+import pathlib
 import re
+import sys
+
+sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
+import measurement  # noqa: E402
 
 VENDOR_PATH = re.compile(r"^/vendors/([a-z0-9-]+)")
 MIN_SHARE = 0.05          # вклад меньше 5 % в отдельный драйвер не выносим
@@ -169,7 +174,7 @@ def build(snap: dict, prev: dict | None) -> dict:
             "engine": "yandex",
             "engine_label": "Яндекс",
             "metric_label": "показы",
-            "window_label": f"выборка топ-100 запросов, окно "
+            "window_label": f"{measurement.yandex_scope_label(y)}, окно "
                             f"{src['current_period_start']}–{src['current_period_end']}",
             "pages": {"available": False,
                       "reason": "источник не отдаёт разбивку по страницам"},

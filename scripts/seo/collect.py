@@ -56,11 +56,24 @@ MAX_QUERIES = 2000
 PAIRS_PAGE_LIMIT = 1000
 PAIRS_MAX_ROWS = 25000
 
-# Источники, которые GA4 считает органическим поиском, а мы — своими визитами
-# и не-поиском. Интерфейсы Яндекса — это переходы сотрудников; Алиса — не
-# поисковая выдача.
+# Источники, которые GA4 считает органическим поиском, а мы — нет.
+#
+# Интерфейсы Яндекса (Метрика, Вебмастер, Директ) — переходы сотрудников:
+# собственные визиты, из органики вычитаются. Алиса — переходы живых
+# пользователей из ассистента и Нейро: это не поисковая выдача, но и не
+# «свои визиты» (решение руководителя 03.09.2026: прежде alice.yandex.ru
+# лежал в одном списке с интерфейсами, и пять реальных сессий за окно
+# считались собственными). В дневной ряд органики не входят ни те, ни
+# другие; в снимке Алиса учитывается отдельным каналом.
 INTERNAL_SOURCES = ('metrika.yandex.ru', 'webmaster.yandex.ru',
-                    'direct.yandex.ru', 'alice.yandex.ru')
+                    'direct.yandex.ru')
+AI_ASSISTANT_SOURCES = ('alice.yandex.ru',)
+NON_SEARCH_SOURCES = INTERNAL_SOURCES + AI_ASSISTANT_SOURCES
+
+# INDEX-001: выборка событий поиска Вебмастера (снятые из поиска URL с
+# причиной). Глубина — 90 дней, потолок — 500 строк за сбор.
+EXCLUDED_EVENTS_DAYS = 90
+EXCLUDED_EVENTS_MAX = 500
 
 
 def api_json(url, *, headers=None, params=None, body=None, timeout=30):
@@ -270,6 +283,34 @@ def collect_yandex() -> dict:
         err = f"API вернул ошибку в теле ответа: {summary['error_message']}"
     result['summary'] = {'error': err} if err else summary
 
+    # INDEX-001: исключённые из поиска URL с причинами. Сводка отдаёт только
+    # число исключённых; выборка событий поиска называет статус каждого
+    # снятого адреса (excluded_url_status). Сырой ответ сохраняется целиком:
+    # контракт метода подтверждается первым боевым прогоном, разбор живёт в
+    # snapshot и при смене формы ответа даёт «нет классификации», а не
+    # ложный ноль. Ошибка этого среза не делает источник недоступным:
+    # показы и клики от него не зависят.
+    ev_to = today()
+    ev_from = ev_to - dt.timedelta(days=EXCLUDED_EVENTS_DAYS)
+    ev_url = f'{base}/{uid}/hosts/{host_id}/search-urls/events/samples'
+    samples, ev_meta = [], {}
+    for offset in range(0, EXCLUDED_EVENTS_MAX, PAGE_LIMIT):
+        data, err = api_json(ev_url, headers=headers, params={
+            'date_from': ev_from.isoformat(), 'date_to': ev_to.isoformat(),
+            'limit': PAGE_LIMIT, 'offset': offset})
+        if err:
+            ev_meta = ev_meta or {'error': err}
+            break
+        chunk = (data.get('samples') or []) if isinstance(data, dict) else []
+        ev_meta = ev_meta or {k: v for k, v in data.items() if k != 'samples'}
+        samples.extend(chunk)
+        if len(chunk) < PAGE_LIMIT or len(samples) >= (data.get('count') or 0):
+            break
+    result['search_url_events'] = {**ev_meta, 'samples': samples,
+                                   'fetched': len(samples),
+                                   'date_from': ev_from.isoformat(),
+                                   'date_to': ev_to.isoformat()}
+
     result['popular_queries'] = fetch_popular_queries(
         headers, uid, host_id, date_from, date_to)
     return result
@@ -360,6 +401,25 @@ def collect_metrika() -> dict:
                     key_goal_ids[url] = g['id']
             if g.get('type') == 'messenger':
                 key_goal_ids.setdefault('click_messenger', g['id'])
+
+    # Уникальные посетители органики, достигшие конверсионных целей
+    # (решение руководителя 03.09.2026). Метрика отдаёт их метрикой
+    # ym:s:goal<ID>users — по цели, без дедупликации между целями:
+    # посетитель, который и написал в мессенджер, и скачал КП, войдёт в
+    # обе. Поэтому в снимке лежит разбивка по ключам, а не одно число.
+    if key_goal_ids:
+        data, err = api_json(stat, headers=headers, params={
+            **base,
+            'metrics': ','.join(f'ym:s:goal{gid}users' for gid in key_goal_ids.values()),
+            'filters': "ym:s:lastTrafficSource=='organic'"})
+        if err:
+            result['organic_goal_users'] = {'error': err}
+        else:
+            totals = data.get('totals') or []
+            row = totals[0] if totals and isinstance(totals[0], list) else totals
+            result['organic_goal_users'] = {key: val for key, val in zip(key_goal_ids, row)}
+    else:
+        result['organic_goal_users'] = {}
     metrics = ['ym:s:visits', 'ym:s:sumGoalReachesAny'] + [
         f'ym:s:goal{gid}reaches' for gid in key_goal_ids.values()]
     for dim in ('ym:s:lastDirectBannerGroup', 'ym:s:lastDirectClickBanner',
@@ -419,7 +479,7 @@ def collect_ga4() -> dict:
         organic_filter,
         {'notExpression': {'filter': {
             'fieldName': 'sessionSource',
-            'inListFilter': {'values': list(INTERNAL_SOURCES)}}}},
+            'inListFilter': {'values': list(NON_SEARCH_SOURCES)}}}},
     ]}}
     reports = {
         'channels': {
