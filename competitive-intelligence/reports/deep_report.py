@@ -122,9 +122,21 @@ def _kpi_cards(snapshot: dict, previous: dict | None, attacks: list[dict]) -> st
             number = f"{measure.share_delta_pp:+.2f}".replace(".", ",")
             delta = f"{number} п.п. к {previous.get('дата')}{basis}"
 
+    google = kpi_mod.google_block(snapshot)
+    g_ours = (google or {}).get("наши_показатели") or {}
+    if google:
+        g_note = f"Россия (xmlriver), срез {google.get('дата_среза')}"
+        measure_g = kpi_mod.build_kpi(snapshot, previous) if previous else None
+        if measure_g and measure_g.google_delta_pp is not None:
+            number = f"{measure_g.google_delta_pp:+.2f}".replace(".", ",")
+            g_note += f" · {number} п.п. к срезу {measure_g.google_compared_with}"
+    else:
+        g_note = ((snapshot.get("google") or {}).get("причина")
+                  or "еженедельный сбор ещё не запущен")
     cards = [
         ("B2B Share · Яндекс", pct(ours.get("доля_видимости")), delta),
-        ("B2B Share · Google", "NO DATA", "еженедельный сбор ещё не запущен"),
+        ("B2B Share · Google", pct(g_ours.get("доля_видимости")) if google else "NO DATA",
+         g_note),
         ("Запросов в ТОП-3", f"{ours.get('топ3', '—')}", f"из {ours.get('запросов_в_поле', '—')}"),
         ("Запросов в ТОП-10", f"{ours.get('топ10', '—')}", f"из {ours.get('запросов_в_поле', '—')}"),
         ("Точек атаки", str(len(attacks)), "мы на 4–20, выше конкурент"),
@@ -133,6 +145,84 @@ def _kpi_cards(snapshot: dict, previous: dict | None, attacks: list[dict]) -> st
         f'<div class="card"><div class="k">{esc(k)}</div>'
         f'<div class="v">{esc(v)}</div><div class="d">{esc(d)}</div></div>'
         for k, v, d in cards) + "</div>"
+
+
+def _google_block(snapshot: dict) -> str:
+    """Google, Россия: лидеры выдачи, разрыв с Яндексом, точки атаки."""
+    from decision_engine import kpi as kpi_mod
+    google = kpi_mod.google_block(snapshot)
+    if not google:
+        reason = (snapshot.get("google") or {}).get("причина") or "сбор не запущен"
+        return (f'<h3>Google, Россия</h3><div class="note">Нет данных: {esc(reason)}. '
+                'Раздел заполнится после ближайшего еженедельного среза xmlriver.</div>')
+    ours = google.get("наши_показатели") or {}
+    cov = google.get("покрытие") or {}
+    gap = google.get("разрыв_с_яндексом") or {}
+    attacks = google.get("точки_атаки") or {}
+    leaders = google.get("лидеры") or []
+    head = (f'<h3>Google, Россия — срез {esc(google.get("дата_среза"))} '
+            f'(xmlriver, местоположение {esc(google.get("название"))})</h3>'
+            f'<p class="lead">Первая настоящая российская выдача Google в контуре: '
+            f'{esc(cov.get("запросов_с_данными"))} запросов ядра с данными '
+            f'(ошибок {esc(cov.get("ошибок"))}), возраст среза '
+            f'{esc(google.get("возраст_дней"))} дн. Наша доля взвешенной видимости '
+            f'<b>{pct(ours.get("доля_видимости"))}</b>, ТОП-3 по '
+            f'{esc(ours.get("топ3"))}, ТОП-10 по {esc(ours.get("топ10"))}, ТОП-20 по '
+            f'{esc(ours.get("топ20"))} запросам. Срез тот же, что читает ежедневный '
+            f'SEO-отчёт; повторно не покупается. Серия google_ru только началась — '
+            f'динамики и сводной цифры с Яндексом нет до накопления базовой линии.</p>')
+    rows = "".join(
+        f'<tr><td>{esc(d["домен"])}</td><td>{esc(d.get("категория"))}</td>'
+        f'<td class="num">{pct(d.get("доля"))}</td><td class="num">{esc(d.get("топ3"))}</td>'
+        f'<td class="num">{esc(d.get("топ10"))}</td></tr>' for d in leaders)
+    leaders_html = ('<div class="scroll"><table><tr><th>Домен</th><th>Категория</th>'
+                    '<th>Доля</th><th>ТОП-3</th><th>ТОП-10</th></tr>'
+                    f'{rows}</table></div>' if leaders else
+                    '<div class="note">В основном рейтинге Google пока никого: все '
+                    'домены выдачи вне конкурентных категорий.</div>')
+    ya_only = gap.get("яндекс_топ10_google_вне_топ20") or []
+    g_only = gap.get("google_топ10_яндекс_вне_топ20") or []
+    gap_html = (f'<h4>Разрыв с Яндексом по общему ядру</h4>'
+                f'<p class="lead">Сопоставлено {esc(gap.get("сопоставлено"))} запросов, '
+                f'измеренных в обеих системах: в топ-10 обеих — '
+                f'<b>{esc(gap.get("в_обеих_топ10"))}</b>; Яндекс топ-10, Google вне '
+                f'топ-20 — <b>{esc(gap.get("яндекс_топ10_google_вне_топ20_всего"))}</b>; '
+                f'Google топ-10, Яндекс вне топ-20 — '
+                f'<b>{esc(gap.get("google_топ10_яндекс_вне_топ20_всего"))}</b>. '
+                'Первая группа — главный вопрос по Google: страница релевантна '
+                '(Яндекс её ранжирует), значит дело в индексации, авторитете домена '
+                'или конкурентоспособности страницы именно в Google. Сравнивается '
+                'присутствие в топе, не позиции.</p>')
+    if ya_only:
+        gap_html += ('<div class="scroll"><table><tr><th>Запрос</th><th>Яндекс</th>'
+                     '<th>Кто в топ-3 Google</th></tr>' + "".join(
+                         f'<tr><td class="q">{esc(i["запрос"])}</td>'
+                         f'<td class="num">№{esc(i["позиция_яндекс"])}</td>'
+                         f'<td class="q">{esc(", ".join(d for d in i["google_топ3"] if d))}</td></tr>'
+                         for i in ya_only[:25]) + '</table></div>')
+    if g_only:
+        gap_html += ('<details><summary>Google топ-10, Яндекс вне топ-20 — '
+                     f'{len(g_only)} запросов</summary><div class="scroll"><table>'
+                     '<tr><th>Запрос</th><th>Google</th><th>Кто в топ-3 Яндекса</th></tr>'
+                     + "".join(
+                         f'<tr><td class="q">{esc(i["запрос"])}</td>'
+                         f'<td class="num">№{esc(i["позиция_google"])}</td>'
+                         f'<td class="q">{esc(", ".join(d for d in i["яндекс_топ3"] if d))}</td></tr>'
+                         for i in g_only[:25]) + '</table></div></details>')
+    first = attacks.get("первые") or []
+    attacks_html = (f'<h4>Точки атаки в Google — {esc(attacks.get("всего"))} кандидатов</h4>'
+                    '<p class="lead">Тот же Strike List по Google-срезу: мы на 4–20, '
+                    'выше стоит другой участник. В пакеты работ пока не входят — '
+                    'список справочный, до накопления базовой линии.</p>')
+    if first:
+        attacks_html += ('<div class="scroll"><table><tr><th>Запрос</th><th>Мы</th>'
+                         '<th>Выше нас</th><th>Вид</th><th>Opportunity</th></tr>' + "".join(
+                             f'<tr><td class="q">{esc(a["запрос"])}</td>'
+                             f'<td class="num">№{esc(a["наша_позиция"])}</td>'
+                             f'<td>{esc(a["соперник"])} №{esc(a["позиция_соперника"])}</td>'
+                             f'<td>{esc(a.get("вид"))}</td><td class="num">{esc(a.get("opportunity"))}</td></tr>'
+                             for a in first) + '</table></div>')
+    return head + leaders_html + gap_html + attacks_html
 
 
 def _category_table(snapshot: dict) -> str:
@@ -639,6 +729,8 @@ def build(date: str, snapshot: dict, previous: dict | None,
 входят.</p>
 {_category_table(snapshot)}
 
+{_google_block(snapshot)}
+
 <h2 id="l2">2 · Конкуренты по уровню угрозы</h2>
 <p class="lead">Threat 0–100 — насколько конкурент опасен сейчас: доля
 видимости, присутствие в ТОП-3 и ТОП-10 плюс динамика, когда есть с чем
@@ -711,9 +803,11 @@ def build(date: str, snapshot: dict, previous: dict | None,
 <p class="q">Срезы выдачи Яндекса собирает базовый SEO-контур; конкурентная
 разведка читает их только на чтение и повторно не покупает. Спрос — частотность
 Wordstat, а где её нет — показы Яндекс.Вебмастера (источник указан в таблице
-атак, шкалы нормируются раздельно). Google собирается отдельно и еженедельно;
-у Google нет геотаргетинга России, поэтому его данные снимаются через
-прокси-локацию и не сравнимы с яндексовыми как равноточные.</p></details>
+атак, шкалы нормируются раздельно). Google — российская выдача через
+xmlriver (местоположение Россия), еженедельный срез того же базового контура,
+читается только на чтение и повторно не покупается; серия google_ru ведётся с
+первого среза 09.2026, прежней Google-серии нет. Позиции Яндекса и Google не
+сравниваются как равноточные — сравнивается присутствие в топе.</p></details>
 <details><summary>Чего этот отчёт пока не делает</summary>
 <p class="q">Не оценивает уязвимость конкретных страниц конкурентов (нужен
 краулинг — Phase 4), не измеряет выручку по запросам (нужна привязка к

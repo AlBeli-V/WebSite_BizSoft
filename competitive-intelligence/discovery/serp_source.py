@@ -1,9 +1,11 @@
-"""Чтение SERP-срезов Яндекса из ветки-хранилища базового контура — read-only.
+"""Чтение SERP-срезов Яндекса и Google из ветки-хранилища базового контура — read-only.
 
 Базовый SEO-контур с 30.08 ежедневно снимает выдачу Яндекса по коммерческому
-ядру (`seo-serp-watch` → ветка `seo-data`). Правило независимости контуров
-(раздел 2 задания) требует не покупать эти же снимки повторно: конкурентная
-разведка читает их как есть и докупает только то, чего там нет.
+ядру (`seo-serp-watch` → ветка `seo-data`), а с 03.09.2026 — еженедельно
+выдачу Google по российскому местоположению (xmlriver, тот же workflow).
+Правило независимости контуров (раздел 2 задания) требует не покупать эти же
+снимки повторно: конкурентная разведка читает их как есть. Собственных
+запросов к xmlriver или DataForSEO у разведки нет.
 
 Отсюда единственный способ доступа — `git show origin/seo-data:<путь>`.
 Ничего не пишем, ветку не трогаем, рабочую копию не меняем.
@@ -110,6 +112,29 @@ def read_snapshot(date: str, branch: str = SEO_BRANCH,
             error=raw.get("error"),
         ))
     return rows
+
+
+def latest_snapshot(engine: str, on_or_before: str, max_age_days: int,
+                    branch: str = SEO_BRANCH) -> tuple[str | None, list[SerpRow]]:
+    """Последний срез системы не старше max_age_days от даты прогона.
+
+    Google собирается раз в неделю, и «срез за сегодня» для него — редкость:
+    потребитель берёт последний свежий. Слишком старый срез не подставляется
+    — лучше «нет данных», чем позиции недельной давности под сегодняшней датой.
+    Возвращает (дата среза, строки) либо (None, []).
+    """
+    import datetime as dt
+    limit = (dt.date.fromisoformat(on_or_before)
+             - dt.timedelta(days=max_age_days)).isoformat()
+    for date in reversed(available_dates(branch, engine)):
+        if date > on_or_before:
+            continue
+        if date < limit:
+            break
+        rows = read_snapshot(date, branch, engine)
+        if any(r.has_data for r in rows):
+            return date, rows
+    return None, []
 
 
 def normalize_domain(domain: str) -> str:

@@ -24,7 +24,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import paths  # noqa: E402
 from attack_engine import strike_list  # noqa: E402
 from decision_engine import kpi as kpi_mod  # noqa: E402
-from discovery import registry, run_discovery, serp_source  # noqa: E402
+from discovery import google_ru, registry, run_discovery, serp_source  # noqa: E402
 from mailer import build_email  # noqa: E402
 from scoring import threat as threat_mod  # noqa: E402
 from scoring import visibility  # noqa: E402
@@ -74,7 +74,37 @@ def main(argv: list[str]) -> int:
     config = visibility.load_config()
     cards = registry.build(rows, config, date=date)
     registry.append(cards)
-    snapshot = run_discovery.build_snapshot(date, cards, rows, config)
+
+    # Google RU — из того же хранилища базового контура (еженедельный срез
+    # xmlriver, read-only): последний свежий срез не старше окна из конфига.
+    # Точки атаки в Google считаются тем же Strike List отдельным списком —
+    # в пакеты работ они пока не входят (серия только начинается).
+    g_geo = google_ru.geo(config)
+    g_date, g_rows = serp_source.latest_snapshot(
+        "google", date, g_geo["свежесть_дней"])
+    google_attacks = (strike_list.to_dicts(strike_list.build(
+        g_rows, region=g_geo["регион"], engine="google")) if g_rows else [])
+    google = google_ru.build_block(date, g_date, g_rows, rows, config,
+                                   attacks=google_attacks)
+    if google.get("доступен"):
+        os.makedirs(paths.PROCESSED_DIR, exist_ok=True)
+        with open(os.path.join(paths.PROCESSED_DIR,
+                               f"{date}-strike-list-google.json"),
+                  "w", encoding="utf-8") as fh:
+            json.dump(google_attacks, fh, ensure_ascii=False, indent=2)
+        gap = google["разрыв_с_яндексом"]
+        print(f"1а. Google RU: срез {g_date} (xmlriver), "
+              f"{google['покрытие']['запросов_с_данными']} запросов с данными, "
+              f"доля {100 * (google['наши_показатели']['доля_видимости'] or 0):.2f}%, "
+              f"ТОП-10 по {google['наши_показатели']['топ10']}; "
+              f"Яндекс топ-10 / Google вне топ-20 — "
+              f"{gap['яндекс_топ10_google_вне_топ20_всего']}; "
+              f"точек атаки в Google — {len(google_attacks)}")
+    else:
+        print(f"1а. Google RU: {google.get('причина')}")
+
+    snapshot = run_discovery.build_snapshot(date, cards, rows, config,
+                                            google=google)
     os.makedirs(paths.SNAPSHOTS_DIR, exist_ok=True)
     with open(os.path.join(paths.SNAPSHOTS_DIR, f"{date}-discovery.json"),
               "w", encoding="utf-8") as fh:

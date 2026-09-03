@@ -65,6 +65,7 @@ def load_config(path: pathlib.Path = CONFIG_PATH) -> dict:
                 "cadence": "weekly", "weekday": 1,
                 "daily_cap": 1100, "monthly_cap": 15000,
                 "core_cap": 500, "top_n": 20, "pages": 2,
+                "series": "google_ru", "freshness_days": 8,
                 "query": {"loc": 2643, "country": 2643, "lr": "RU",
                           "device": "desktop"},
                 "balance_warn_days": 14}

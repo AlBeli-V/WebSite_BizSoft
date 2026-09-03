@@ -251,6 +251,8 @@ def build(date: str, snapshot: dict, previous: dict | None,
         "kpi": {
             "share_yandex": kpi.share_yandex,
             "share_google": kpi.share_google,
+            "google_date": kpi.google_date,
+            "google_delta_pp": kpi.google_delta_pp,
             "top3": kpi.top3,
             "top10": kpi.top10,
             "queries": kpi.queries,
@@ -347,10 +349,21 @@ def render_txt(meta: dict, *, snapshot: dict | None = None,
         "",
         f"Scoring: {meta['зрелость_скоринга']} · "
         f"источник: Яндекс (Москва), {meta['покрытие'].get('яндекс_запросов_с_данными')} запросов · "
-        f"Google: {'NO DATA' if meta['kpi']['share_google'] is None else 'есть'} · "
+        f"Google: {_google_source_line(meta)} · "
         "B2C и маркетплейсы вне основного рейтинга · NO DATA не равно нулю.",
     ]
     return "\n".join(parts)
+
+
+def _google_source_line(meta: dict) -> str:
+    """Подпись источника Google: доля и дата еженедельного среза, либо NO DATA."""
+    k = meta["kpi"]
+    if k.get("share_google") is None:
+        return "NO DATA"
+    line = kpi_mod.format_share(k["share_google"])
+    if k.get("google_date"):
+        line += f" (Россия, xmlriver, срез {k['google_date']})"
+    return line
 
 
 def _classifier():
@@ -408,6 +421,7 @@ def render_html(meta: dict, *, kpi=None, snapshot: dict | None = None,
             + sections.options_section(packages or [])
             + sections.kpi_section(kpi, snapshot, signal_delta)
             + sections.field_section(snapshot)
+            + sections.google_section(snapshot)
             + sections.rivals_section(snapshot.get("лидеры") or [],
                                       ranked_rivals or [])
             + sections.attacks_section(attacks or [])
@@ -437,7 +451,7 @@ def render_html(meta: dict, *, kpi=None, snapshot: dict | None = None,
 <tr><td style="padding:10px 24px;">
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="font-size:13px;"><tr>
 {cell('B2B Share · Яндекс', yandex_share, f'Δ7д: {delta}')}<td style="width:6px;"></td>
-{cell('B2B Share · Google', google_share, 'еженедельный сбор')}<td style="width:6px;"></td>
+{cell('B2B Share · Google', google_share, f"срез {k['google_date']}" if k.get('google_date') else 'нет свежего среза')}<td style="width:6px;"></td>
 {cell('ТОП-3', f"{k['top3']}/{k['queries']}", 'запросов')}<td style="width:6px;"></td>
 {cell('ТОП-10', f"{k['top10']}/{k['queries']}", 'запросов')}
 </tr></table></td></tr>
@@ -454,7 +468,7 @@ def render_html(meta: dict, *, kpi=None, snapshot: dict | None = None,
 <tr><td style="padding:0 24px 18px;border-top:1px solid #EAECF0;">
 <div style="font-size:11px;color:#98A2B3;padding-top:10px;line-height:1.5;">
 Scoring: {esc(meta['зрелость_скоринга'])} · источник: Яндекс (Москва), {esc(str(meta['покрытие'].get('яндекс_запросов_с_данными')))} запросов ·
-Google: {esc(google_share)} · B2C и маркетплейсы вне основного рейтинга · NO DATA не равно нулю.
+Google: {esc(_google_source_line(meta))} · B2C и маркетплейсы вне основного рейтинга · NO DATA не равно нулю.
 </div></td></tr>
 </table></td></tr></table></body></html>"""
 

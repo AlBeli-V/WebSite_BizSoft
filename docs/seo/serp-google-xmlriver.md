@@ -25,7 +25,9 @@ New repository secret. В репозитории, конфиге и перепи
 | Часть | Файл | Назначение |
 |---|---|---|
 | Клиент | `scripts/seo/xmlriver.py` | запрос `search/xml`, разбор Яндекс.XML-ответа (органика топ-N, блоки рекламы/видео отдельно, код 15 = пустая выдача), баланс `api/get_balance`, повторы на 5xx и сеть |
-| Сборщик | `scripts/seo/serp_google.py` | срез по ядру `serp_watchlist.py`, журнал вызовов, потолки, баланс |
+| Сборщик | `scripts/seo/serp_google.py` | срез по ядру `serp_watchlist.py`, журнал вызовов, потолки, баланс; докачка без повторной оплаты, журнал прогонов |
+| Потребитель, SEO | `scripts/seo/serp_analysis.py` (`engine="google"`, `cross_engine_gap`), `webreport.py` | разделы «SERP Google (Россия)» и «Разрыв Яндекс ↔ Google» веб-отчёта |
+| Потребитель, разведка | `competitive-intelligence/discovery/serp_source.py` (`latest_snapshot`), `discovery/google_ru.py` | блок `google` снимка дня, доля в письме и deep report, точки атаки в Google |
 | Настройки | `data/seo/xmlriver.json` | местоположение, устройство, число результатов, расписание, потолки, тариф |
 | Ночной прогон | `.github/workflows/seo-serp-watch.yml`, шаг `Collect Google SERP (xmlriver)` | идёт после Яндекс-среза, без секретов тихо пропускается |
 | Проба | `.github/workflows/ops-xmlriver-probe.yml` | баланс + ровно один платный запрос, результат в issue #22 |
@@ -34,12 +36,19 @@ New repository secret. В репозитории, конфиге и перепи
 Выход в ветке `seo-data`:
 
 - `reports/seo/serp/<дата>-serp-google.jsonl` — строка на запрос:
-  `date, query, engine=google, region/loc, found, top[{domain,url,title}],
-  blocks` или `error`. Суффикс отличается от Яндекса (`-serp.jsonl`),
-  чтобы `serp_analysis.py`, `loop_health.py` и `serp_source.py` не приняли
-  Google за Яндекс.
+  `date, query, engine=google, region/loc, provider=xmlriver,
+  series=google_ru, device, lang, collector_version, found,
+  top[{domain,url,title}], blocks, pages_fetched` или `error`. Суффикс
+  отличается от Яндекса (`-serp.jsonl`), чтобы `serp_analysis.py`,
+  `loop_health.py` и `serp_source.py` не приняли Google за Яндекс.
+  Провенанс (`series`, `loc`) нужен потребителям: смена местоположения —
+  другая серия, её нельзя склеить с `google_ru` в один ряд.
 - `reports/seo/serp/ledger/google-<месяц>.jsonl` — append-only журнал: одна
   строка на каждый вызов (по нему считаются потолки и расход).
+- `reports/seo/serp/ledger/google-runs.jsonl` — строка на прогон: сколько
+  ключей запрошено, сколько взято из готового среза (`reused`), вызовов,
+  рублей, остаток. Нулевая строка при повторном запуске — доказательство,
+  что дедупликация работает.
 - `reports/seo/serp/xmlriver-balance.json` — остаток кабинета после прогона и
   оценка запаса в днях сбора; при запасе меньше `balance_warn_days` шаг пишет
   `::warning` в лог прогона.
@@ -77,6 +86,18 @@ Related Questions, нулевая позиция, реклама и т.п.) и �
 Значения параметров печатает проба `ops-xmlriver-probe` — по ней и
 сверяется местоположение.
 
+## Один сбор — все потребители, докачка без повторной оплаты
+
+Срез читают два контура — веб-отчёт Growth Intelligence и конкурентная
+разведка (read-only из `seo-data`). Ни один из них к xmlriver не обращается,
+собственных сборщиков SERP в контурах нет (`docs/competitive/decisions-2026-09-03.md`).
+
+Повторный запуск `serp_google.py` за ту же дату (ручной `google=force`,
+добивка после сбоя) не покупает собранное второй раз: ключи с данными той
+же серии и того же `loc` берутся из готового файла, докачиваются только
+недостающие и ошибочные. Полный пересбор — `--refetch`. Потребители берут
+последний срез не старше `freshness_days` (8): старше — «нет данных».
+
 ## Расписание и потолки
 
 - `cadence: weekly`, `weekday: 1` — раз в неделю, в ночь на понедельник по
@@ -102,11 +123,17 @@ Related Questions, нулевая позиция, реклама и т.п.) и �
    дождаться ночи понедельника. Файл `<дата>-serp-google.jsonl` — в
    `seo-data`.
 
-## Что дальше (не сделано, отдельная задача)
+## Подключение потребителей (сделано 03.09.2026)
 
-Конкурентная разведка (`competitive-intelligence/discovery/serp_source.py`)
-уже умеет читать Google-срез (`engine="google"`), но скоринг видимости,
-письмо и deep report по-прежнему считают только Яндекс
-(`google_собирается: False`). Подключение Google в скоринг разведки —
-следующий шаг после первого подтверждённого среза; пометка «прокси-гео» из
-решения 31.08 для xmlriver не нужна — местоположение российское.
+- Разведка: `run_daily.py` берёт последний свежий Google-срез
+  (`serp_source.latest_snapshot`), строит блок `google` снимка
+  (`discovery/google_ru.py`): доля взвешенной видимости, ТОП-3/10/20,
+  лидеры, разрыв с Яндексом по общему ядру, точки атаки в Google
+  (`<дата>-strike-list-google.json`). Письмо показывает долю Google и дату
+  среза, deep report — раздел «Google, Россия» в итогах дня. Без свежего
+  среза — NO DATA, как и раньше. Пометка «прокси-гео» снята.
+- SEO-отчёт: `serp_analysis.build(date, engine="google")` и
+  `cross_engine_gap(date)` → разделы веб-отчёта «SERP Google (Россия)» и
+  «Разрыв Яндекс ↔ Google по ядру запросов» (HTML и markdown).
+- Динамика и сводная цифра «Яндекс + Google» появятся после накопления
+  базовой линии серии `google_ru` (не раньше месяца измерений).
