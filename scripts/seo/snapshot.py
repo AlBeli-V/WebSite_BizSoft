@@ -21,6 +21,7 @@ import sys
 
 import daily_windows
 import leads as leads_mod
+import passport
 
 SCHEMA_VERSION = "2.2.0"
 # Часовой пояс отчётности — московский: так требует правило проекта, и так же
@@ -250,7 +251,9 @@ def source_unavailable(name: str, raw: dict | None, error: str | None = None,
     """
     status = status or ("missing" if raw is None else "error")
     msg = error or (raw or {}).get("error") or "выгрузка отсутствует"
-    return {"available": False, "error": msg,
+    code = "no_file" if status == "missing" else "api_error"
+    return {**passport.unavailable(code, source=name, detail=None if status == "missing" else msg),
+            "error": msg,
             "source": source_meta(name, (raw or {}).get("date"), None,
                                   p_start, p_end, None, None, filters or {}, status)}
 
@@ -624,7 +627,9 @@ def _goal_users(metrika: dict) -> tuple[dict | None, int | None]:
 
 
 def build_analytics(metrika: dict | None, ga4: dict | None, date: str) -> dict:
-    out = {"metrika": {"available": False}, "ga4": {"available": False}, "intra_day_revisions": []}
+    out = {"metrika": passport.unavailable("no_file", source="yandex_metrika"),
+           "ga4": passport.unavailable("no_file", source="ga4"),
+           "intra_day_revisions": []}
     m_err = (metrika_partial_error(metrika)
              if metrika and not metrika.get("error") else None)
     if not metrika or metrika.get("error") or m_err:
@@ -857,6 +862,10 @@ def _demand_from_state(date: str) -> dict | None:
         "coverage": (f"{uni.get('commercial_phrases')} коммерческих фраз из "
                      f"{uni.get('phrases')} в {uni.get('clusters')} кластерах"),
         "complete": complete,
+        "status": "stale" if age > DEMAND_STALE_DAYS else "ok",
+        "as_of": measured_at,
+        "expected_as_of": (dt.date.fromisoformat(date)
+                           - dt.timedelta(days=DEMAND_STALE_DAYS)).isoformat(),
         "stale": age > DEMAND_STALE_DAYS,
         "clusters_measured": uni.get("clusters"),
         "clusters_planned": uni.get("clusters"),
@@ -884,21 +893,20 @@ def build_market_demand(date: str) -> dict:
         return from_state
     briefs = sorted(SEMANTICS_DIR.glob("brief-*.json"))
     if not briefs:
-        return {"available": False,
-                "reason": "замера рыночного спроса нет",
-                "comparable_to_visibility": False}
+        return passport.unavailable("no_file", source="замер рыночного спроса",
+                                    comparable_to_visibility=False)
     brief = json.loads(briefs[-1].read_text(encoding="utf-8"))
     if "coverage" not in brief:
         # Замеры до 19.08.2026 собраны без фильтра релевантности: по транслитерациям
         # брендов в них попали омонимы («корал тревел», «пион корал шарм»).
         # Такой замер не используется — лучше отсутствие данных, чем чужие числа.
-        return {"available": False,
-                "reason": "замер собран до включения фильтра релевантности и не используется",
-                "comparable_to_visibility": False}
+        return passport.unavailable("excluded", source="замер рыночного спроса",
+                                    detail="собран до включения фильтра релевантности",
+                                    comparable_to_visibility=False)
     measured = brief.get("clusters_measured") or 0
     if not measured:
-        return {"available": False,
-                "reason": "замер начат, но ни один кластер не собран",
+        return {**passport.unavailable("no_rows", source="замер рыночного спроса",
+                                       detail="ни один кластер не собран"),
                 "measured_at": brief.get("report_date"),
                 "coverage": brief.get("coverage"),
                 "complete": brief.get("complete", False),
@@ -920,6 +928,10 @@ def build_market_demand(date: str) -> dict:
         },
         "coverage": brief.get("coverage"),
         "complete": brief.get("complete", False),
+        "status": "stale" if age > DEMAND_STALE_DAYS else "ok",
+        "as_of": measured_at,
+        "expected_as_of": (dt.date.fromisoformat(date)
+                           - dt.timedelta(days=DEMAND_STALE_DAYS)).isoformat(),
         "stale": age > DEMAND_STALE_DAYS,
         "clusters_measured": measured,
         "clusters_planned": brief.get("clusters_planned"),

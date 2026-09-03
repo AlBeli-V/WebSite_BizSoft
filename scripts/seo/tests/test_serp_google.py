@@ -196,6 +196,73 @@ class TestBudget(Base):
         self.assertEqual(res["requested"], 2)
         self.assertEqual(res["skipped_over_budget"], 2)
 
+    def test_pages_missing(self):
+        c = cfg(pages=2)
+        full9 = {"top": [{}] * 9, "pages_fetched": 1}
+        self.assertEqual(self.sg.pages_missing(full9, c), 1)     # докачать 2-ю
+        short = {"top": [{}] * 3, "pages_fetched": 1}
+        self.assertEqual(self.sg.pages_missing(short, c), 0)     # глубина исчерпана
+        done = {"top": [{}] * 18, "pages_fetched": 2}
+        self.assertEqual(self.sg.pages_missing(done, c), 0)
+        partial = {"top": [{}] * 9, "pages_fetched": 2, "partial_error": "500"}
+        self.assertEqual(self.sg.pages_missing(partial, c), 1)   # повторить 2-ю
+        self.assertEqual(self.sg.pages_missing(full9, cfg(pages=1)), 0)
+
+    def test_second_page_topped_up_over_existing_row(self):
+        """Строка с одной страницей из прежнего прогона получает вторую
+        страницу без повторной оплаты первой (пересбор 03.09.2026)."""
+        c = cfg(pages=2, daily_cap=10, monthly_cap=10)
+        self.sg.SERP_DIR.mkdir(parents=True, exist_ok=True)
+        prior = {"date": DATE, "query": "купить figma", "engine": "google",
+                 "region": "2643", "loc": 2643, "series": "google_ru",
+                 "found": 100, "pages_fetched": 1, "blocks": {"organic": 9},
+                 "top": [{"domain": f"a{i}.ru", "url": f"https://a{i}.ru/",
+                          "title": ""} for i in range(9)]}
+        self.sg.snapshot_path(DATE).write_text(
+            json.dumps(prior, ensure_ascii=False) + "\n", encoding="utf-8")
+        seen = []
+
+        def search(session, user, key, q, query_cfg=None, top_n=20, page=1):
+            seen.append((q, page))
+            return {"found": 100, "blocks": {"organic": 10},
+                    "top": [{"domain": f"b{i}.ru", "url": f"https://b{i}.ru/",
+                             "title": ""} for i in range(10)]}
+
+        with mock.patch.object(self.sg.xmlriver, "search_google", search), \
+                mock.patch.object(self.sg.xmlriver, "get_balance",
+                                  lambda s, u, k: {"balance_rub": 100.0}):
+            res = self.sg.run(DATE, ["купить figma"], c, "u", "k", force=True)
+        self.assertEqual(seen, [("купить figma", 2)])     # только вторая
+        self.assertEqual((res["calls"], res["topped_up"], res["reused"]), (1, 1, 0))
+        row = json.loads(pathlib.Path(res["out"]).read_text(encoding="utf-8")
+                         .splitlines()[0])
+        self.assertEqual(len(row["top"]), 19)
+        self.assertEqual(row["top"][9]["domain"], "b0.ru")
+        self.assertEqual(row["pages_fetched"], 2)
+        # журнал: одна строка со страницей 2
+        lines = [json.loads(l) for l in self.sg.ledger_path(self.date)
+                 .read_text(encoding="utf-8").splitlines()]
+        self.assertEqual([l["page"] for l in lines], [2])
+
+    def test_nine_results_still_fetch_second_page(self):
+        """Первая страница из 9 органических — полная, вторая нужна."""
+        seen = []
+
+        def search(session, user, key, q, query_cfg=None, top_n=20, page=1):
+            seen.append(page)
+            return {"found": 100, "blocks": {},
+                    "top": [{"domain": f"p{page}-{i}.ru",
+                             "url": f"https://p{page}-{i}.ru/", "title": ""}
+                            for i in range(9)]}
+
+        with mock.patch.object(self.sg.xmlriver, "search_google", search), \
+                mock.patch.object(self.sg.xmlriver, "get_balance",
+                                  lambda s, u, k: {"error": "x"}):
+            res = self.sg.run(DATE, ["q"], cfg(pages=2, daily_cap=10,
+                                               monthly_cap=10), "u", "k")
+        self.assertEqual(seen, [1, 2])
+        self.assertEqual(res["calls"], 2)
+
     def test_balance_topup_flag(self):
         class S:
             pass

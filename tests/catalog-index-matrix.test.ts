@@ -30,6 +30,19 @@ describe('productNoindex', () => {
     expect(productNoindex('kling-credits-3500')).toBe(true);
   });
 
+  it('личные лицензии любого вендора не индексируются (03.09.2026)', () => {
+    expect(productNoindex('BITDEFENDER-TOTAL-SECURITY-IND')).toBe(true);
+    expect(productNoindex('MONO-IND-PRO')).toBe(false);   // -IND- в середине — не суффикс
+    expect(productNoindex('MRMST-TB5-IND')).toBe(true);
+    expect(productNoindex('MONO-IND')).toBe(true);
+  });
+
+  it('бессрочные дубли ManageEngine не индексируются, подписки — да', () => {
+    expect(productNoindex('ME-OPMANAGER-STANDARD-10-DEVICES-PACK-WITH-2-USERS-PERP')).toBe(true);
+    expect(productNoindex('ME-OPMANAGER-STANDARD-10-DEVICES-PACK-WITH-2-USERS')).toBe(false);
+    expect(productNoindex('AVID-MC-PERP')).toBe(false);   // не ManageEngine — точечно, не правилом
+  });
+
   it('прежние правила не сломаны', () => {
     expect(productNoindex('JB-PLG-12345')).toBe(true);
     expect(productNoindex('JB-IDEA-IND')).toBe(true);
@@ -59,6 +72,24 @@ describe('заведённые пакеты кредитов', () => {
     for (const p of creditPacks) {
       expect(productNoindex(p.sku), `${p.sku} обязан быть noindex`).toBe(true);
       expect(productKind({ sku: p.sku }), `${p.sku} обязан быть дополнением`).toBe('addon');
+    }
+  });
+});
+
+describe('партия ManageEngine и правило бессрочных дублей', () => {
+  it('у каждой опубликованной бессрочной карточки есть парная подписка, и в индекс идёт только подписка', () => {
+    const raw = JSON.parse(readFileSync('scripts/catalog/zoho.json', 'utf8'));
+    const items: { sku: string; status?: string }[] = Array.isArray(raw) ? raw : raw.products ?? raw.items;
+    const me = items.filter((i) => i.sku.startsWith('ME-') && i.status === 'published');
+    const skus = new Set(me.map((i) => i.sku));
+    const perp = me.filter((i) => i.sku.endsWith('-PERP'));
+    expect(perp.length).toBeGreaterThan(0);
+    for (const i of perp) {
+      expect(skus.has(i.sku.slice(0, -5)), `у ${i.sku} нет парной подписки`).toBe(true);
+      expect(productNoindex(i.sku)).toBe(true);
+    }
+    for (const i of me.filter((i) => !i.sku.endsWith('-PERP'))) {
+      expect(productNoindex(i.sku), `${i.sku} должна индексироваться`).toBe(false);
     }
   });
 });

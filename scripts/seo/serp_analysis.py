@@ -25,6 +25,7 @@ from __future__ import annotations
 import datetime as dt
 import json
 import pathlib
+import passport
 
 SERP_DIR = pathlib.Path("reports/seo/serp")
 LOOKBACK_DAYS = 7
@@ -133,14 +134,12 @@ def build(date_s: str, region: str | None = None,
                   f"свежего Google-среза нет (сбор еженедельный, окно "
                   f"{spec['lookback']} дней; шаг Collect Google SERP в "
                   f"seo-serp-watch)")
-        return {"available": False, "engine": engine, "reason": reason,
-                "items": []}
+        return passport.unavailable("no_file", detail=reason, engine=engine, items=[])
     region_rows = [r for r in data["rows"]
                    if (r.get("region") or spec["region"]) == region]
     if not region_rows:
-        return {"available": False, "engine": engine,
-                "reason": f"по региону {region} срезов ещё нет",
-                "items": []}
+        return passport.unavailable("no_match", detail=f"регион {region}",
+                                    engine=engine, items=[])
     prev = _load(date_s, offset_from=data["date"], engine=engine)
     prev_tops = {r["query"]: {d.get("domain", "").lower().removeprefix("www.")
                               for d in (r.get("top") or [])[:10]}
@@ -224,10 +223,9 @@ def cross_engine_gap(date_s: str, yandex_region: str = "213",
     yx = _load(date_s, engine="yandex")
     g = _load(date_s, engine="google")
     if not yx or not g:
-        return {"available": False,
-                "reason": ("нет свежего среза " +
-                           ("Google" if yx else "Яндекса") +
-                           " — сопоставлять нечего")}
+        return passport.unavailable(
+            "no_file", source=("срез Google" if yx else "срез Яндекса"),
+            detail="сопоставлять нечего")
     google_region = google_region or ENGINES["google"]["region"]
     ymap = {_norm_query(r["query"]): r for r in yx["rows"]
             if (r.get("region") or "213") == yandex_region}

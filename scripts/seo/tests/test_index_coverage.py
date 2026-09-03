@@ -16,6 +16,7 @@ import unittest
 from unittest import mock
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
+sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1]))  # inventory → pairs
 import mocks  # noqa: E402
 from mocks import FakeRequests, FakeResponse  # noqa: E402
 
@@ -37,7 +38,7 @@ class TestGoogleInspection(unittest.TestCase):
         cls.addClassCleanup(env.stop)
         cls.ic = mocks.load("index_coverage")
 
-    def run_inspect(self, paths, prev, inspect_responses, max_inspect=1800):
+    def run_inspect(self, paths, prev, inspect_responses, max_inspect=1800, workers=1):
         routes = {
             "/webmasters/v3/sites": FakeResponse(200, {"siteEntry": [
                 {"siteUrl": "sc-domain:biz-soft.pro"}]}),
@@ -46,7 +47,7 @@ class TestGoogleInspection(unittest.TestCase):
         with mock.patch.dict(sys.modules, mocks.fake_google_modules()), \
                 mock.patch.object(self.ic, "requests", FakeRequests(routes)):
             return self.ic.inspect_google(paths, prev, DATE,
-                                          max_inspect=max_inspect, pause=0)
+                                          max_inspect=max_inspect, workers=workers)
 
     def test_statuses_recorded(self):
         out = self.run_inspect(["/", "/product/a"], {},
@@ -76,6 +77,14 @@ class TestGoogleInspection(unittest.TestCase):
         self.assertEqual(out["pages"]["/old"]["stale_from"], "2026-09-01")
         self.assertEqual(out["inherited"], 1)
 
+    def test_today_status_inherited_without_stale_mark(self):
+        prev = {"/done": {"coverage_state": "Submitted and indexed", "inspected_at": DATE}}
+        out = self.run_inspect(["/done", "/new"], prev, [inspection("URL is unknown to Google")],
+                               max_inspect=1)
+        self.assertEqual(out["pages"]["/new"]["coverage_state"], "URL is unknown to Google")
+        self.assertNotIn("stale_from", out["pages"]["/done"])
+        self.assertEqual(out["inherited"], 0)
+
     def test_quota_exhausted_stops_and_keeps_partial(self):
         out = self.run_inspect(["/a", "/b", "/c"], {},
                                [inspection("Submitted and indexed"),
@@ -87,6 +96,26 @@ class TestGoogleInspection(unittest.TestCase):
         self.assertEqual(out["without_status"], 2)
         self.assertIn("HTTP 429", out["errors"][0])
 
+    def test_parallel_workers_collect_all(self):
+        """Потоки не теряют и не дублируют результаты."""
+        paths = [f"/product/p{i}" for i in range(12)]
+        out = self.run_inspect(paths, {}, [inspection("Submitted and indexed")] * 12,
+                               workers=4)
+        self.assertEqual(out["inspected"], 12)
+        self.assertEqual(set(out["pages"]), set(paths))
+        self.assertTrue(all(p["inspected_at"] == DATE for p in out["pages"].values()))
+
+    def test_expired_token_is_refreshed_and_request_retried(self):
+        """HTTP 401 — протухший токен, а не квота: обновить и повторить."""
+        out = self.run_inspect(["/a", "/b"], {},
+                               [FakeResponse(401, text="UNAUTHENTICATED"),
+                                inspection("Submitted and indexed"),
+                                inspection("URL is unknown to Google")])
+        self.assertNotIn("error", out)
+        self.assertEqual(out["inspected"], 2)
+        self.assertNotIn("errors", out)
+        self.assertEqual(out["pages"]["/a"]["coverage_state"], "Submitted and indexed")
+
     def test_no_inspection_at_all_is_error(self):
         out = self.run_inspect(["/a"], {}, [FakeResponse(403, text="Forbidden")])
         self.assertIn("error", out)
@@ -96,9 +125,27 @@ class TestGoogleInspection(unittest.TestCase):
         routes = {"/webmasters/v3/sites": FakeResponse(200, {"siteEntry": []})}
         with mock.patch.dict(sys.modules, mocks.fake_google_modules()), \
                 mock.patch.object(self.ic, "requests", FakeRequests(routes)):
-            out = self.ic.inspect_google(["/"], {}, DATE, pause=0)
+            out = self.ic.inspect_google(["/"], {}, DATE, workers=1)
         self.assertIn("не найден", out["error"])
         self.assertEqual(out["pages"], {})
+
+
+class TestPreviousSlice(unittest.TestCase):
+    def test_same_day_slice_is_inherited_not_overwritten(self):
+        ic = mocks.load("index_coverage")
+        with tempfile.TemporaryDirectory() as tmp:
+            d = pathlib.Path(tmp)
+            (d / "index-google-2026-09-02.json").write_text(json.dumps(
+                {"pages": {"/old": {"coverage_state": "Submitted and indexed",
+                                    "inspected_at": "2026-09-02"}}}), encoding="utf-8")
+            (d / "index-google-2026-09-03.json").write_text(json.dumps(
+                {"pages": {"/today": {"coverage_state": "URL is unknown to Google",
+                                      "inspected_at": "2026-09-03"}}}), encoding="utf-8")
+            prev = ic.load_previous("index-google", "2026-09-03", d)
+            self.assertIn("/today", prev)          # сегодняшний срез не теряется
+            # без сегодняшнего файла берётся вчерашний
+            (d / "index-google-2026-09-03.json").unlink()
+            self.assertIn("/old", ic.load_previous("index-google", "2026-09-03", d))
 
 
 class TestYandexPages(unittest.TestCase):

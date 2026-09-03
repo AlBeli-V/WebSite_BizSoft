@@ -22,6 +22,7 @@ from __future__ import annotations
 
 import pathlib
 import re
+import passport
 
 VENDORS_TS = pathlib.Path("src/data/vendors.ts")
 MIN_SHOWS = 8          # ниже — шум, а не интерес (порог как в радаре возможностей)
@@ -66,10 +67,9 @@ def build(snap: dict) -> dict:
     cat = catalogue()
     yx, g = snap.get("yandex") or {}, snap.get("google") or {}
     if not cat:
-        return {"available": False, "reason": "каталог вендоров недоступен"}
+        return passport.unavailable("no_file", source="каталог вендоров")
     if not (yx.get("available") or g.get("available")):
-        return {"available": False,
-                "reason": "источники поиска не отдали данных"}
+        return passport.unavailable("no_rows", source="источники поиска")
 
     items: dict[str, dict] = {}
     for engine, block in (("yandex", yx), ("google", g)):
@@ -93,8 +93,7 @@ def build(snap: dict) -> dict:
     ranked.sort(key=lambda it: (-it["yandex"]["impressions"],
                                 -it["google"]["impressions"], it["vendor"]))
     return {
-        "available": bool(ranked),
-        "reason": None if ranked else "вендорные запросы ниже порога значимости",
+        **passport.flag(bool(ranked), "no_signal", detail="вендорных запросов выше порога нет"),
         "items": ranked,
         "ppc": ppc_candidates(snap, cat),
         # Коротко: полная методологическая оговорка живёт в карте измерений

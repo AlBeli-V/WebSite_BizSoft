@@ -32,6 +32,7 @@ import ads_block                      # noqa: E402
 import charts_v4                      # noqa: E402
 import drivers as drivers_mod         # noqa: E402
 import invariants as invariants_mod   # noqa: E402
+import passport                      # noqa: E402
 import leads as leads_mod             # noqa: E402
 import measurement                    # noqa: E402
 import experiments as exp_mod         # noqa: E402
@@ -828,7 +829,9 @@ def assemble(snap, prev, dq, actions_cfg, site_check):
         "health": health,
         "loop_health": load_loop_health(),
         "demand": demand_block,
-        "leads": (snap.get("crm") or {}).get("block") or {"available": False},
+        "leads": passport.normalize((snap.get("crm") or {}).get("block"),
+                                    default_code="no_file",
+                                    source="выгрузка заявок (ops-leads-collect)"),
         "crm": snap.get("crm") or {},
         "ads": ads_block.build(
             date, (snap.get("analytics") or {}).get("metrika", {})
@@ -848,11 +851,11 @@ def _driver_blocks(dec: dict) -> list[dict]:
         part = b["pages"] if b["pages"].get("available") else b["queries"]
         kind = "страницам" if b["pages"].get("available") else "запросам"
         if not part.get("available"):
-            out.append({"engine": b["engine_label"], "window": b["window_label"],
-                        "available": False,
-                        "text": "Причина изменения пока не определена: разложить его "
-                                "на имеющихся данных нельзя.",
-                        "rows": []})
+            out.append(passport.unavailable(
+                "no_signal", detail="разложение по страницам и запросам",
+                engine=b["engine_label"], window=b["window_label"],
+                text="Причина изменения пока не определена: разложить его "
+                     "на имеющихся данных нельзя.", rows=[]))
             continue
         rows = [{"entity": i["entity"], "delta": signed(i["delta"]),
                  "share": f"{round(i['share_of_total_delta'] * 100)}%",
@@ -1367,7 +1370,11 @@ def _checkpoints(exps, actions_cfg, date: str = "") -> list[dict]:
         out.append({"date": ru_date(e["next_review"]),
                     "what": f"{e['ticket']}: {_review_subject(e)}"})
     for a in actions_cfg["actions"]:
-        if a.get("due") and a["status"] in ("in_progress", "blocked"):
+        # Срок сегодня или в прошлом — не «следующая» проверка: письмо 03.09
+        # печатало задачу со сроком «сегодня» рядом с «проверки проведены
+        # сегодня» (аудит 03.09.2026).
+        if a.get("due") and a["status"] in ("in_progress", "blocked") \
+                and (not date or a["due"] > date):
             out.append({"date": ru_date(a["due"]), "what": f"{a['id']}: {a['title']}"})
     # Дедупликация по (дата, идентификатор): у задачи журнала и эксперимента
     # совпадает тикет (SEO-EXP-002), и один и тот же контроль печатался
@@ -2183,10 +2190,14 @@ def load_demand() -> dict:
     он идёт отдельным блоком аналитики и не смешивается с суточными показателями.
     """
     if not DEMAND_STATE.exists():
-        return {"available": False, "reason": "результатов исследования спроса нет"}
+        return passport.unavailable("no_file", source="исследование спроса")
     state = json.loads(DEMAND_STATE.read_text(encoding="utf-8"))
-    block = state.get("executive_block") or {"available": False,
-                                             "reason": "нет сводки исследования"}
+    # Сводка приходит из ветки данных и могла быть собрана старым кодом без
+    # кода причины — доводится до контракта здесь, а не роняет письмо.
+    block = passport.normalize(state.get("executive_block"),
+                               default_code="no_rows", source="сводка исследования спроса")
+    if block.get("available") and not block.get("as_of"):
+        block["as_of"] = state.get("date") or block.get("date")
     return _drop_vendors_already_on_site(block)
 
 
@@ -2200,7 +2211,7 @@ def load_growth_ideas() -> dict:
     руководителем, меняет статус и из письма уходит.
     """
     if not GROWTH_IDEAS.exists():
-        return {"available": False, "items": [], "fresh": []}
+        return passport.unavailable("no_file", source="копилка идей", items=[], fresh=[])
     data = json.loads(GROWTH_IDEAS.read_text(encoding="utf-8"))
     items = data.get("items", [])
     fresh = [i for i in items if i.get("status") == "new"][:2]
@@ -2298,11 +2309,11 @@ def load_loop_health() -> dict:
     сообщает ложное «всё в срок».
     """
     if not LOOP_HEALTH.exists():
-        return {"available": False}
+        return passport.unavailable("no_file", source="реестр исполнения контуров")
     try:
         return json.loads(LOOP_HEALTH.read_text(encoding="utf-8"))
     except (OSError, ValueError):
-        return {"available": False}
+        return passport.unavailable("parse_error", source="реестр исполнения контуров")
 
 
 def loop_health_line(lh: dict) -> tuple[str, bool] | None:
@@ -2363,19 +2374,36 @@ def main() -> int:
     preview_html = html_email(b, charts, cid_mode=False)
     text = plain_text(b)
 
-    (BASE / f"{date}-v4-email.html").write_text(email_html, encoding="utf-8")
     (BASE / f"{date}-v4.html").write_text(preview_html, encoding="utf-8")
     (BASE / f"{date}-v4.txt").write_text(text, encoding="utf-8")
-    (BASE / f"{date}-v4.eml").write_bytes(build_eml(b, email_html, text, charts, date))
     (BASE / f"{date}-v4-blocks.json").write_text(
         json.dumps(b, ensure_ascii=False, indent=1, default=str), encoding="utf-8")
 
     # Инварианты боевого письма — те же правила, что в сценарных тестах.
-    # Нарушение не блокирует отправку (лучше письмо с зафиксированным
-    # нарушением, чем молчание), но остаётся в <дата>-invariants.json.
+    # Два уровня (решение руководителя 03.09.2026): ложь о дате или причине
+    # блокирует выпуск — файл для отправки не пишется, а причины ложатся в
+    # <дата>-v4-blocked.json, откуда их берёт уведомление о сбое сборки
+    # (seo-report-email.yml). Мягкие нарушения формы остаются в
+    # <дата>-invariants.json, письмо уходит.
     inv = invariants_mod.write_report(date, snap, dq, b, preview_html)
+    email_path = BASE / f"{date}-v4-email.html"
+    blocked_path = BASE / f"{date}-v4-blocked.json"
+    if inv["blocking"]:
+        email_path.unlink(missing_ok=True)
+        blocked_path.write_text(json.dumps(
+            {"date": date, "blocking": inv["blocking"], "soft": inv["soft"]},
+            ensure_ascii=False, indent=1), encoding="utf-8")
+        print("ПИСЬМО ЗАБЛОКИРОВАНО инвариантами о дате и причине "
+              f"({len(inv['blocking'])}):")
+        for line in inv["blocking"]:
+            print(f"  - {line}")
+        print(f"Файл для отправки не записан; причины — {blocked_path.name}")
+        return 2
+    blocked_path.unlink(missing_ok=True)
+    email_path.write_text(email_html, encoding="utf-8")
+    (BASE / f"{date}-v4.eml").write_bytes(build_eml(b, email_html, text, charts, date))
     inv_status = ("ок" if inv["passed"]
-                  else "НАРУШЕНЫ: " + "; ".join(inv["violations"]))
+                  else "мягкие нарушения: " + "; ".join(inv["soft"]))
 
     print(f"V4: видимых слов {visible_words(preview_html)}, "
           f"первый экран {first_screen_words(preview_html)}, "

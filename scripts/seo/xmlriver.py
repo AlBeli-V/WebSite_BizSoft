@@ -183,7 +183,10 @@ def search_google(session, user: str, key: str, query: str,
                 return {"error": f"HTTP {r.status_code}: {r.text[:300]}"}
             else:
                 parsed = parse_google_xml(r.text, top_n)
-                if parsed.get("code") not in RETRY_SERVICE_CODES:
+                # Пустое или битое тело при HTTP 200 (пересбор 03.09.2026:
+                # «no element found», 6 ключей) — тоже помеха, повторяем.
+                if (parsed.get("code") not in RETRY_SERVICE_CODES
+                        and "raw_head" not in parsed):
                     return parsed
                 last = parsed["error"]
         if attempt < RETRIES:

@@ -26,6 +26,7 @@
 
 from __future__ import annotations
 
+import passport
 SCOPE_SAMPLE_QUERIES = "выборка запросов Вебмастера"
 SCOPE_ALL_QUERIES = "все запросы хоста за окно источника"
 SCOPE_SITEWIDE = "весь сайт"
@@ -257,7 +258,7 @@ def funnel(snap: dict) -> dict:
     """
     aligned = (snap.get("daily") or {}).get("aligned") or {}
     if not aligned.get("available"):
-        return {"available": False, "reason": "дневная витрина не заполнена"}
+        return passport.unavailable("no_rows", source="дневная витрина")
     rows = []
     for source, metric, label, origin in FUNNEL_ROWS:
         w = (aligned.get("sources") or {}).get(source, {}).get(metric)

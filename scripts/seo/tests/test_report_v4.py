@@ -96,7 +96,8 @@ class TestDrivers(unittest.TestCase):
     def test_no_previous_means_cause_unknown(self):
         res = self.d.build(self.snap, None)
         self.assertFalse(res["available"])
-        self.assertIn("не определена", res["reason"])
+        self.assertEqual(res["reason_code"], "no_previous")
+        self.assertIn("предыдущего замера", res["reason"])
 
     def test_shares_are_bounded(self):
         res = self.d.build(self.snap, self.prev)

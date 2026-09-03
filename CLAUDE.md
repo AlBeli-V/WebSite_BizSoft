@@ -56,6 +56,11 @@
 
 ## Каталог, страницы, SEO
 
+- **Поля форм с ПДн — класс `ym-disable-keys`** (`docs/rules/webvisor-masking.md`).
+  Любое поле ввода персональных данных на публичной странице (ФИО, e-mail,
+  телефон, компания, ИНН, текст обращения) несёт класс `ym-disable-keys`:
+  Вебвизор не записывает ввод в нём. Проверка — `tests/webvisor-masking.test.ts`;
+  настройки кабинета — `docs/marketing/webvisor.md`.
 - **Каталог** (`docs/rules/catalog.md`). Directus — единственный источник
   товаров; вендор — точное поле `vendor` (сверять с `src/data/vendors.ts`).
   На bespoke-страницах вендоров не фильтровать по префиксу sku; ключи —

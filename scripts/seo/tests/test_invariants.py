@@ -62,6 +62,57 @@ class TestInvariants(unittest.TestCase):
         v = self.inv.check(OK_SNAP, OK_DQ, OK_BLOCKS, "показов по-прежнему нет")
         self.assertTrue(any("по-прежнему" in x for x in v))
 
+    def test_unavailable_block_without_reason_code_blocks_the_letter(self):
+        """Ложь о причине — блокирующая: письмо с такой строкой не выпускается."""
+        blocks = dict(OK_BLOCKS, ads={"available": False,
+                                      "reason": "инструмент ждёт токена Вебмастера"})
+        t = self.inv.check_tiers(OK_SNAP, OK_DQ, blocks, "")
+        self.assertTrue(any("без кода причины" in x for x in t["blocking"]))
+        self.assertEqual(t["soft"], [])
+
+    def test_passport_block_passes(self):
+        import passport
+        blocks = dict(OK_BLOCKS, ads=passport.unavailable("no_file", source="витрина Директа"))
+        self.assertEqual(self.inv.check_tiers(OK_SNAP, OK_DQ, blocks, "")["blocking"], [])
+
+    def test_old_data_without_stale_mark_blocks(self):
+        blocks = dict(OK_BLOCKS, leads={"available": True, "as_of": "2026-08-30",
+                                        "expected_as_of": "2026-09-02"})
+        t = self.inv.check_tiers(OK_SNAP, OK_DQ, blocks, "")
+        self.assertTrue(any("без пометки stale" in x for x in t["blocking"]))
+
+    def test_checkpoint_dated_today_blocks(self):
+        blocks = dict(OK_BLOCKS, date="2026-09-03",
+                      checkpoints=[{"date": "03.09", "what": "SEO-EXP-002: сниппеты"}])
+        t = self.inv.check_tiers(OK_SNAP, OK_DQ, blocks, "")
+        self.assertTrue(any("днём письма" in x for x in t["blocking"]))
+        blocks["checkpoints"] = [{"date": "16.09", "what": "SEO-EXP-002: сниппеты"}]
+        self.assertEqual(self.inv.check_tiers(OK_SNAP, OK_DQ, blocks, "")["blocking"], [])
+
+    def test_form_violations_stay_soft(self):
+        blocks = dict(OK_BLOCKS, kpis=[{"key": "google", "value": "нет данных",
+                                        "delta": "+5", "relative": None}])
+        t = self.inv.check_tiers(OK_SNAP, OK_DQ, blocks, "показов по-прежнему нет")
+        self.assertEqual(t["blocking"], [])
+        self.assertEqual(len(t["soft"]), 2)
+
+    def test_exposure_contradiction_is_soft(self):
+        blocks = dict(OK_BLOCKS, experiments=[{"ticket": "SEO-EXP-002", "exposure_ok": True,
+                                               "verdict": {"verdict": "INSUFFICIENT_DATA"}}])
+        t = self.inv.check_tiers(OK_SNAP, OK_DQ, blocks, "")
+        self.assertTrue(any("порог пройден" in x for x in t["soft"]))
+
+    def test_write_report_records_tiers(self):
+        blocks = dict(OK_BLOCKS, ads={"available": False, "reason": "ждёт токена"})
+        with tempfile.TemporaryDirectory() as tmp:
+            out = self.inv.write_report("2026-09-03", OK_SNAP, OK_DQ, blocks,
+                                        "", out_dir=pathlib.Path(tmp))
+            self.assertTrue(out["blocked"])
+            self.assertFalse(out["passed"])
+            saved = json.loads((pathlib.Path(tmp) / "2026-09-03-invariants.json")
+                               .read_text(encoding="utf-8"))
+            self.assertEqual(saved["blocking"], out["blocking"])
+
     def test_write_report_records_result(self):
         with tempfile.TemporaryDirectory() as tmp:
             out = self.inv.write_report("2026-08-25", OK_SNAP, OK_DQ, OK_BLOCKS,
