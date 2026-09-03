@@ -268,8 +268,8 @@ def merge_pages(results: list[dict], top_n: int,
         if "error" in res:
             row["partial_error"] = res["error"]
             break
-        # Сервис может отдать на «следующей» странице ту же выдачу
-        # (xmlriver игнорирует page — проба 03.09.2026): повторы по URL не
+        # Google повторяет часть URL на соседних страницах (проверено на
+        # срезе 03.09.2026: 113 повторов на 373 ключа): повторы по URL не
         # склеиваем, а считаем, чтобы дубль был виден в срезе.
         fresh = [d for d in (res.get("top") or [])
                  if d.get("url") not in seen_urls]
