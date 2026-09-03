@@ -81,15 +81,11 @@ jobs:
           cat "$REPORT"
       - name: Post to issue
         if: always()
-        uses: actions/github-script@v7
-        env:
-          OUT: ${{ steps.check.outputs.result }}
+        uses: ./.github/actions/journal-post
         with:
-          script: |
-            await github.rest.issues.createComment({
-              owner: context.repo.owner, repo: context.repo.repo, issue_number: 22,
-              body: '### ops-bimi-dmarc-check (еженедельно, пн 10:00 МСК)\n\n' + (process.env.OUT || '(нет вывода)'),
-            });
+          title: "ops-bimi-dmarc-check (еженедельно, пн 10:00 МСК)"
+          outcome: ${{ steps.check.outcome }}
+          body: ${{ steps.check.outputs.result }}
       - name: Fail on problems
         if: steps.check.outputs.fail == '1'
         run: |

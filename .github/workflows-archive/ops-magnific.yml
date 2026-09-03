@@ -1,3 +1,4 @@
+# expires: 2026-09-17 — одноразовое поручение; по истечении срока перенести в .github/workflows-archive/ или продлить через PR.
 # Ребрендинг Freepik → Magnific в данных Directus (scripts/rename-magnific.py).
 # Запуск вручную: apply=false — dry-run (отчёт), apply=true — применить.
 # Результат публикуется комментарием в журнал-issue #22.
@@ -66,16 +67,8 @@ jobs:
 
       - name: Post results to journal (issue #22)
         if: always()
-        uses: actions/github-script@v7
-        env:
-          OUT: ${{ steps.run.outputs.stdout }}
-          APPLY: ${{ inputs.apply }}
+        uses: ./.github/actions/journal-post
         with:
-          script: |
-            const out = (process.env.OUT || '(нет вывода)').slice(0, 60000);
-            await github.rest.issues.createComment({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: 22,
-              body: '### ops-magnific (apply=' + process.env.APPLY + ') · ' + new Date().toISOString() + '\n```\n' + out + '\n```',
-            });
+          title: "ops-magnific (apply=${{ inputs.apply }})"
+          outcome: ${{ steps.run.outcome }}
+          body: ${{ steps.run.outputs.stdout }}

@@ -1,5 +1,7 @@
 # Переобход страниц в Яндекс.Вебмастере по API (recrawl/queue).
-# Токен: секрет YANDEX_OAUTH, либо YANDEX_OAUTH= в /opt/bizsoft/astro.env.
+# Токен: секрет YANDEX_WEBMASTER_TOKEN (то же имя, что у выгрузок Вебмастера в
+# seo-data-collect; дубль YANDEX_OAUTH снят 03.09.2026), либо YANDEX_OAUTH= в
+# /opt/bizsoft/astro.env на сервере.
 # Значение токена в логи не печатается. Результат — комментарием в issue #22.
 #
 # Статус прогона отражает результат, а не факт запуска: без токена, при
@@ -39,7 +41,7 @@ jobs:
         uses: appleboy/ssh-action@v1
         env:
           URLS: ${{ inputs.urls }}
-          YTOKEN: ${{ secrets.YANDEX_OAUTH }}
+          YTOKEN: ${{ secrets.YANDEX_WEBMASTER_TOKEN }}
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
@@ -52,7 +54,7 @@ jobs:
               YTOKEN=$(sed -n 's/^YANDEX_OAUTH=//p' /opt/bizsoft/astro.env 2>/dev/null | tr -d '"\r' || true)
             fi
             if [ -z "$YTOKEN" ]; then
-              echo "токен: НЕ НАЙДЕН (ни секрета YANDEX_OAUTH, ни YANDEX_OAUTH в astro.env)"
+              echo "токен: НЕ НАЙДЕН (ни секрета YANDEX_WEBMASTER_TOKEN, ни YANDEX_OAUTH в astro.env)"
               echo "переобход не запрошен ни по одному URL"
               exit 1
             fi

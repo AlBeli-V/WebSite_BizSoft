@@ -90,6 +90,18 @@ function scan(): Record<string, Counts> {
   return result;
 }
 
+describe('срок годности одноразовых воркфлоу', () => {
+  it('файл с истёкшим `# expires:` перенесён в .github/workflows-archive/ или продлён', () => {
+    const today = new Date().toISOString().slice(0, 10);
+    const expired: string[] = [];
+    for (const name of readdirSync(dir).filter((n) => n.endsWith('.yml'))) {
+      const m = readFileSync(resolve(dir, name), 'utf8').match(/^#\s*expires:\s*(\d{4}-\d{2}-\d{2})/m);
+      if (m && m[1] < today) expired.push(`${name}: срок ${m[1]} вышел`);
+    }
+    expect(expired).toEqual([]);
+  });
+});
+
 describe('линт воркфлоу: статус прогона не теряется', () => {
   const current = scan();
 
