@@ -1,0 +1,105 @@
+{
+ "experiment_id": "snippets-6-demand",
+ "ticket": "SEO-EXP-002",
+ "date": "2026-09-03",
+ "source": "yandex",
+ "evaluation_kind": "ctr",
+ "windows": {
+  "baseline": {
+   "from": "2026-08-07",
+   "to": "2026-08-19",
+   "file": "2026-08-21"
+  },
+  "experiment": {
+   "from": "2026-08-20",
+   "to": "2026-08-31",
+   "file": "2026-09-03",
+   "tainted": true
+  }
+ },
+ "metrics": {
+  "baseline": {
+   "impressions": 23,
+   "clicks": 0,
+   "ctr": 0.0,
+   "avg_position": 9.956521739130435,
+   "queries": 6
+  },
+  "experiment": {
+   "impressions": 100,
+   "clicks": 1,
+   "ctr": 0.01,
+   "avg_position": 7.35,
+   "queries": 42
+  },
+  "days": {
+   "baseline": 13,
+   "experiment": 12
+  }
+ },
+ "matched_metrics": {
+  "baseline": {
+   "impressions": 6,
+   "clicks": 0,
+   "ctr": 0.0,
+   "avg_position": 9.166666666666666,
+   "queries": 2
+  },
+  "experiment": {
+   "impressions": 4,
+   "clicks": 0,
+   "ctr": 0.0,
+   "avg_position": 9.75,
+   "queries": 2
+  },
+  "queries": 2
+ },
+ "position_delta": null,
+ "sample_quality": [
+  "окно эксперимента захватывает день внедрения — часть показов могла увидеть старый вариант",
+  "baseline из усечённой выгрузки (100 запросов) — совпадающий набор занижен",
+  "порог экспозиции адаптирован под ёмкость кластера (100/100 вместо 500/500): окно источника скользящее, и больший объём кластер не наберёт"
+ ],
+ "statistical_result": null,
+ "summary_line": null,
+ "confidence": "LOW",
+ "verdict": "INSUFFICIENT_DATA",
+ "verdict_reason": "экспозиция ниже минимальной по совпадающим запросам (baseline: 6 из 100 показов; после внедрения: 4 из 100)",
+ "recommendation": "NEW_TEST",
+ "recommendation_detail": "ожидание не поможет: не хватает показов в базовом окне, а оно в прошлом и не растёт. Варианты — NEW_TEST с чистым baseline или решение по предварительному сравнению из письма",
+ "recommended_targets": [],
+ "requires_owner_decision": false,
+ "effective_gate": {
+  "baseline": 100,
+  "experiment": 100,
+  "adapted": true
+ },
+ "formula_group_result": {
+  "group": "commercial-snippet-2026-08",
+  "members": [
+   "SEO-EXP-001",
+   "SEO-EXP-002"
+  ],
+  "baseline": {
+   "clicks": 1,
+   "impressions": 468
+  },
+  "experiment": {
+   "clicks": 0,
+   "impressions": 222
+  },
+  "stat": {
+   "baseline_ctr": 0.002136752136752137,
+   "experiment_ctr": 0.0,
+   "absolute_uplift": -0.002136752136752137,
+   "relative_uplift": -1.0,
+   "z": -0.6892368598113644,
+   "p_value": 0.4906742245448616,
+   "sample_sizes": {
+    "baseline": 468,
+    "experiment": 222
+   }
+  },
+  "note": "объединённая оценка формулы по кластерам участников; окна у каждого свои, вердикты участников не подменяет"
+ }
+}
