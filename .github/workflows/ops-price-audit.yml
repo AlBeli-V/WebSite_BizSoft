@@ -24,6 +24,9 @@ on:
         required: false
         default: 'false'
 permissions:
+  # contents: read нужен actions/checkout — без него composite action
+  # journal-post недоступен, а fetch падает с «Repository not found».
+  contents: read
   issues: write
 jobs:
   audit:

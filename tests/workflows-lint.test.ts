@@ -30,6 +30,7 @@ export const RULES: Record<string, string> = {
   R4: 'шаг журнала без `if: always()` — при падении в журнал не попадает ничего',
   R5: '`curl` за телом ответа без проверки кода (`-f`/`--fail`/`http_code`); запросы заголовков (-I/-D -) не считаются',
   R6: 'локальный action `journal-post` без `actions/checkout` — раннер его не находит, и шаг журнала падает',
+  R7: '`actions/checkout` при явном `permissions:` без `contents` — GITHUB_TOKEN не читает репозиторий, checkout падает с «Repository not found» до основной работы',
 };
 
 type Counts = Record<string, number>;
@@ -56,7 +57,7 @@ function steps(lines: string[]): string[][] {
 
 export function lint(text: string): Counts {
   const lines = text.split('\n');
-  const counts: Counts = { R1: 0, R2: 0, R3: 0, R4: 0, R5: 0, R6: 0 };
+  const counts: Counts = { R1: 0, R2: 0, R3: 0, R4: 0, R5: 0, R6: 0, R7: 0 };
 
   lines.forEach((line, index) => {
     if (isComment(line)) return;
@@ -78,6 +79,20 @@ export function lint(text: string): Counts {
   // сразу после перевода на journal-post.
   const code = lines.filter((l) => !isComment(l)).join('\n');
   if (/uses:\s*\.\/\.github\/actions\/journal-post/.test(code) && !/uses:\s*actions\/checkout@/.test(code)) counts.R6 += 1;
+
+  // Явный блок permissions обнуляет всё, что в нём не названо: без
+  // `contents: read` checkout получает «Repository not found», и прогон
+  // падает раньше основной работы — так 03.09.2026 после #361 встали 20
+  // ops-воркфлоу с `permissions: issues: write`. Блок — верхнеуровневый
+  // или у job; `read-all`/`write-all` право дают.
+  if (/uses:\s*actions\/checkout@/.test(code)) {
+    const blocks = [...code.matchAll(/^([ \t]*)permissions:[ \t]*(\S*)\n((?:\1[ \t]+\S.*\n)*)/gm)];
+    for (const m of blocks) {
+      const inline = m[2];
+      if (/read-all|write-all/.test(inline)) continue;
+      if (!/^\s+contents:/m.test(m[3])) counts.R7 += 1;
+    }
+  }
 
   for (const step of steps(lines)) {
     const body = step.join('\n');
