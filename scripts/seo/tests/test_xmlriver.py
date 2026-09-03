@@ -94,11 +94,15 @@ class TestParams(unittest.TestCase):
         self.assertEqual(p, {"user": "u", "key": "k", "query": "купить figma",
                              "loc": 2643, "device": "desktop", "groupby": 20})
 
-    def test_page_param_only_for_second_page(self):
-        first = self.x.build_params("u", "k", "q", {"loc": 2643}, page=0)
-        second = self.x.build_params("u", "k", "q", {"loc": 2643}, page=1)
+    def test_page_param_only_from_second_page(self):
+        """Нумерация xmlriver — с единицы: первая страница без параметра,
+        вторая — page=2 (ответ поддержки 03.09.2026)."""
+        first = self.x.build_params("u", "k", "q", {"loc": 2643}, page=1)
+        default = self.x.build_params("u", "k", "q", {"loc": 2643})
+        second = self.x.build_params("u", "k", "q", {"loc": 2643}, page=2)
         self.assertNotIn("page", first)
-        self.assertEqual(second["page"], 1)
+        self.assertNotIn("page", default)
+        self.assertEqual(second["page"], 2)
 
     def test_config_defaults_and_comment_keys_dropped(self):
         import json

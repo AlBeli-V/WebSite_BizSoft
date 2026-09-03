@@ -39,7 +39,7 @@ class Base(unittest.TestCase):
         self.date = dt.date.fromisoformat(DATE)
 
     def fake_search(self, results):
-        def search(session, user, key, q, query_cfg=None, top_n=20, page=0):
+        def search(session, user, key, q, query_cfg=None, top_n=20, page=1):
             return results.get(q, {"found": 1, "top": [
                 {"domain": "biz-soft.pro", "url": "https://biz-soft.pro/",
                  "title": q}], "blocks": {"organic": 1}})
@@ -125,9 +125,9 @@ class TestBudget(Base):
                     for i in range(10)]
         seen = []
 
-        def search(session, user, key, q, query_cfg=None, top_n=20, page=0):
+        def search(session, user, key, q, query_cfg=None, top_n=20, page=1):
             seen.append((q, page))
-            if q == "хвост" and page == 1:
+            if q == "хвост" and page == 2:
                 return {"error": "code=500"}
             return {"found": 100, "top": page_top(page),
                     "blocks": {"organic": 10}}
@@ -138,8 +138,9 @@ class TestBudget(Base):
             res = self.sg.run(DATE, ["купить figma", "хвост"],
                               cfg(pages=2, daily_cap=10, monthly_cap=10),
                               "u", "k")
-        self.assertEqual(sorted(seen), [("купить figma", 0), ("купить figma", 1),
-                                        ("хвост", 0), ("хвост", 1)])
+        # страницы xmlriver нумеруются с единицы
+        self.assertEqual(sorted(seen), [("купить figma", 1), ("купить figma", 2),
+                                        ("хвост", 1), ("хвост", 2)])
         self.assertEqual((res["ok"], res["failed"], res["calls"]), (2, 0, 4))
         self.assertEqual(self.sg.month_spent(self.date), 4)   # в вызовах
         rows = {json.loads(l)["query"]: json.loads(l) for l in
@@ -147,7 +148,7 @@ class TestBudget(Base):
         top = rows["купить figma"]["top"]
         self.assertEqual(len(top), 20)
         self.assertEqual((top[0]["domain"], top[10]["domain"]),
-                         ("d0-0.ru", "d1-0.ru"))
+                         ("d1-0.ru", "d2-0.ru"))
         self.assertEqual(rows["купить figma"]["pages_fetched"], 2)
         # сбой второй страницы: первая сохранена, ошибка помечена
         self.assertEqual(len(rows["хвост"]["top"]), 10)
@@ -168,7 +169,7 @@ class TestBudget(Base):
     def test_second_page_not_fetched_after_first_page_error_or_short(self):
         seen = []
 
-        def search(session, user, key, q, query_cfg=None, top_n=20, page=0):
+        def search(session, user, key, q, query_cfg=None, top_n=20, page=1):
             seen.append((q, page))
             if q == "сбой":
                 return {"error": "HTTP 403"}
@@ -181,7 +182,7 @@ class TestBudget(Base):
             res = self.sg.run(DATE, ["сбой", "короткая"],
                               cfg(pages=2, daily_cap=10, monthly_cap=10),
                               "u", "k")
-        self.assertEqual(sorted(seen), [("короткая", 0), ("сбой", 0)])
+        self.assertEqual(sorted(seen), [("короткая", 1), ("сбой", 1)])
         self.assertEqual((res["ok"], res["failed"], res["calls"]), (1, 1, 2))
 
     def test_budget_is_counted_in_calls(self):
