@@ -271,6 +271,20 @@ def render_txt(meta: dict, *, snapshot: dict | None = None,
     if meta.get("эксперименты_строка"):
         parts += ["", meta["эксперименты_строка"]]
 
+    google = (snapshot or {}).get("google")
+    if google:
+        parts += ["", f"GOOGLE ПО РОССИИ (xmlriver, глубина "
+                      f"{google.get('глубина', 10)}, "
+                      f"{google.get('запросов_с_данными')} запросов, срез "
+                      f"{google.get('дата_среза')})"]
+        parts.append(f"Наша доля видимости в Google: "
+                     f"{kpi_mod.format_share(google.get('наша_доля_видимости'))}; "
+                     f"ТОП-3: {google.get('топ3', 0)}, ТОП-10: {google.get('топ10', 0)}")
+        for item in (google.get("лидеры") or [])[:5]:
+            parts.append(f"  {item['домен']}: {kpi_mod.format_share(item.get('доля'))}, "
+                         f"ТОП-3 {item.get('топ3', 0)}, ТОП-10 {item.get('топ10', 0)}")
+        parts.append("  Доли внутри Google-поля, с Яндексом не складываются.")
+
     if packages:
         parts += ["", "ЧТО ПОРУЧИТЬ (по убыванию ожидаемого эффекта)"]
         for pkg in packages[:3]:
@@ -396,6 +410,10 @@ def render_html(meta: dict, *, kpi=None, snapshot: dict | None = None,
                     else f"{100 * k['share_google']:.1f}%")
     yandex_share = ("NO DATA" if k["share_yandex"] is None
                     else f"{100 * k['share_yandex']:.1f}%")
+    google_info = (snapshot or {}).get("google") or {}
+    google_note = (f"Россия, топ-{google_info.get('глубина', 10)}, "
+                   f"{google_info.get('запросов_с_данными')} запросов"
+                   if google_info else "еженедельный сбор")
 
     # Секции детализации собираются только когда переданы данные: письмо
     # обязано оставаться отправляемым и в урезанном виде.
@@ -410,6 +428,7 @@ def render_html(meta: dict, *, kpi=None, snapshot: dict | None = None,
             + sections.field_section(snapshot)
             + sections.rivals_section(snapshot.get("лидеры") or [],
                                       ranked_rivals or [])
+            + sections.google_section(snapshot)
             + sections.attacks_section(attacks or [])
             + sections.experiments_section(
                 meta.get('эксперименты_строка', ''), on_watch)
@@ -437,7 +456,7 @@ def render_html(meta: dict, *, kpi=None, snapshot: dict | None = None,
 <tr><td style="padding:10px 24px;">
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="font-size:13px;"><tr>
 {cell('B2B Share · Яндекс', yandex_share, f'Δ7д: {delta}')}<td style="width:6px;"></td>
-{cell('B2B Share · Google', google_share, 'еженедельный сбор')}<td style="width:6px;"></td>
+{cell('B2B Share · Google', google_share, google_note)}<td style="width:6px;"></td>
 {cell('ТОП-3', f"{k['top3']}/{k['queries']}", 'запросов')}<td style="width:6px;"></td>
 {cell('ТОП-10', f"{k['top10']}/{k['queries']}", 'запросов')}
 </tr></table></td></tr>
