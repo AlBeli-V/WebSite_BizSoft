@@ -175,7 +175,7 @@ class TestHttp(unittest.TestCase):
             def get(self, url, params=None, timeout=None):
                 return mocks.FakeResponse(200, text=RETRY_XML)
         out = self.x.search_google(S(), "u", "k", "q")
-        self.assertIn("после 3 попыток", out["error"])
+        self.assertIn("после 4 попыток", out["error"])
         self.assertIn("code=500", out["error"])
 
     def test_4xx_not_retried(self):
@@ -194,7 +194,28 @@ class TestHttp(unittest.TestCase):
             def get(self, url, params=None, timeout=None):
                 raise ConnectionError("reset")
         out = self.x.search_google(S(), "u", "k", "q")
-        self.assertIn("после 3 попыток", out["error"])
+        self.assertIn("после 4 попыток", out["error"])
+
+    def test_no_free_channels_is_retried_with_growing_pause(self):
+        """code=111 «Нет свободных каналов» — повтор с растущей паузой."""
+        pauses = []
+        self.x.time.sleep = pauses.append
+        self.x.RETRY_PAUSE_S = 3.0
+        calls = []
+        busy = RETRY_XML.replace('code="500"', 'code="111"').replace(
+            "Выполните перезапрос. Ответ от поисковой системы не получен.",
+            "Нет свободных каналов для сбора данных")
+
+        class S:
+            def get(self, url, params=None, timeout=None):
+                calls.append(1)
+                if len(calls) < 3:
+                    return mocks.FakeResponse(200, text=busy)
+                return mocks.FakeResponse(200, text=SERP_XML)
+        out = self.x.search_google(S(), "u", "k", "q")
+        self.assertEqual(len(calls), 3)
+        self.assertEqual(pauses, [3.0, 6.0])
+        self.assertEqual(len(out["top"]), 2)
 
     def test_balance(self):
         class S:
