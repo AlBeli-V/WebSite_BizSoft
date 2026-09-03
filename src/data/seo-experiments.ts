@@ -24,6 +24,18 @@
  * добавлен в группу 02.09.2026 — после того как руководитель принял решение
  * по SEO-EXP-001 и страница освободилась от незавершённого эксперимента.
  *
+ * Перезапуск SEO-EXP-002 «snippets-2-price-intent» (решение руководителя
+ * 03.09.2026). Разбор показал, что у четырёх из шести страниц snippets-6-demand
+ * показов в Яндексе нет вовсе (сниппет-тест там невозможен: кликать нечего),
+ * а показы кластера Adobe шли на карточки товаров. Две страницы с реальной
+ * экспозицией — Clip Studio Paint и Procreate — переведены на запросную
+ * формулу под ценовой интент их фактических запросов Вебмастера («сколько
+ * стоит … в рублях», «купить … в России», «бессрочная лицензия»): фраза идёт
+ * первой в title, description и первом вопросе FAQ (механика faqAdd, как в
+ * snippets-3-gap-d). Adobe, Autodesk, Blackmagic и Midjourney остаются с
+ * прежними сниппетами вне эксперимента (решение KEEP 03.09.2026); их
+ * кластеры — кандидаты на контентный приём, не на сниппет.
+ *
  * «snippets-10-expand» (02.09.2026): тираж коммерческой формулы SEO-EXP-001
  * по решению руководителя 02.09.2026 (EXPAND). Десять карточек с наибольшим
  * замеренным спросом вне действующих экспериментов — список выдан
@@ -82,6 +94,18 @@ const descQuery = (phrase: string) =>
   `${phrase}: счёт, договор и закрывающие документы через ЭДО. Оформим подписку на вашу компанию, оплата в рублях, доступ за 1–3 дня.`;
 
 const descLegal = (vendor: string) => descQuery(`Оплата ${vendor} юридическим лицом`);
+
+/**
+ * Первый вопрос FAQ под ценовой интент (перезапуск SEO-EXP-002): запрос
+ * «сколько стоит {vendor}» в самом вопросе, в ответе — модель лицензии,
+ * рублёвая цена по курсу ЦБ и штатный оффер (счёт, договор, ЭДО, 1–3 дня).
+ */
+const faqPrice = (vendor: string, tail: string, licensing: string) => [
+  {
+    q: `Сколько стоит ${vendor} ${tail}?`,
+    a: `${licensing} Цена в рублях считается от прайса вендора по курсу ЦБ РФ на дату счёта. BIZSoft заключает договор, выставляет счёт на вашу организацию и передаёт закрывающие документы через ЭДО; доступ — за 1–3 рабочих дня после оплаты.`,
+  },
+];
 
 /** Вопрос под ту же запросную формулу — добавляется первым к FAQ страницы. */
 const faqLegalPay = (vendor: string) => [
@@ -155,12 +179,23 @@ export const SEO_EXPERIMENTS: Record<string, SeoExperiment> = {
     faqTitle: 'Как купить Autodesk на юрлицо',
     faq: faqFor('Autodesk'),
   },
+  // Adobe, Autodesk, Blackmagic и Midjourney: сниппеты snippets-6-demand
+  // оставлены как есть (KEEP 03.09.2026), эксперимент на них закрыт —
+  // показов у этих страниц нет, сниппет проверить нечем.
   procreate: {
-    // «купить procreate» — 823 запроса в месяц, кластер 2 412
-    title: 'Procreate для компании — покупка по счёту и договору | BIZSoft',
-    description: desc('Procreate'),
-    faqTitle: 'Как купить Procreate на юрлицо',
-    faq: faqFor('Procreate'),
+    // Перезапуск SEO-EXP-002 (snippets-2-price-intent). Реальные запросы
+    // Вебмастера: «procreate цена» (5 показов за окно), «прокриэйт цена» (4),
+    // «procreate купить в россии» (3), «сколько стоит procreate»; позиции
+    // 5–14, переходов 0. Прежняя цель «купить procreate» (823/мес) — B2C
+    // (iPad и книги на маркетплейсах), сайт по ней не показывается.
+    title: 'Procreate: цена в рублях и покупка в России на компанию | BIZSoft',
+    description: 'Сколько стоит Procreate (Прокриэйт) в рублях и как купить в России: разовая покупка для iPad на юрлицо через Apple Business Manager, счёт и ЭДО за 1–3 дня.',
+    faqTitle: 'Сколько стоит Procreate и как купить в России',
+    faqAdd: faqPrice(
+      'Procreate',
+      'и как купить его в России на компанию',
+      'Procreate и Procreate Dreams — разовая покупка без подписки; для организации закупку проводим через Apple Business Manager (VPP) на юрлицо.',
+    ),
   },
   blackmagic: {
     // «davinci resolve купить» — 531 запрос в месяц, кластер 1 354
@@ -177,11 +212,20 @@ export const SEO_EXPERIMENTS: Record<string, SeoExperiment> = {
     faq: faqFor('Midjourney'),
   },
   'clip-studio-paint': {
-    // «clip studio paint купить» — 417 запросов в месяц, кластер 985
-    title: 'Clip Studio Paint для студии — счёт и договор | BIZSoft',
-    description: desc('Clip Studio Paint'),
-    faqTitle: 'Как купить Clip Studio Paint на юрлицо',
-    faq: faqFor('Clip Studio Paint'),
+    // Перезапуск SEO-EXP-002 (snippets-2-price-intent). Реальные запросы
+    // Вебмастера: «купить подписку на клип студио пейнт» (7 показов за окно),
+    // «клип студио купить лицензию навсегда» (5), «сколько стоит подписка
+    // в клип студио» (4), «сколько стоит клип студио в рублях» (3),
+    // «бессрочная лицензия клип студио» (3); позиции 6–12, переходов 0.
+    // Кириллическое написание бренда — в описании: так спрашивают.
+    title: 'Clip Studio Paint: цена бессрочной лицензии и подписки в рублях | BIZSoft',
+    description: 'Сколько стоит Clip Studio Paint (Клип Студио Пейнт) в рублях: бессрочная лицензия PRO и EX или подписка. Оформим на компанию по счёту, ЭДО, доступ за 1–3 дня.',
+    faqTitle: 'Сколько стоит Clip Studio Paint в рублях',
+    faqAdd: faqPrice(
+      'Clip Studio Paint',
+      'в рублях — бессрочная лицензия или подписка',
+      'Бессрочная лицензия PRO или EX — разовый платёж за приобретённую версию; подписка — регулярный платёж на 1 устройство с актуальной версией.',
+    ),
   },
   // «snippet-anthropic-demand» (29.08.2026): GAP-D по данным замера 29.08 —
   // кластер «claude купить» 9 944 показов/мес (весь кластер anthropic — 27 231),
@@ -302,10 +346,10 @@ export const SEO_EXPERIMENT_LINKS: { slug: string; anchor: string }[] = [
   { slug: 'marmoset', anchor: 'Marmoset Toolbag — лицензии для команд' },
   { slug: 'adobe', anchor: 'Adobe Creative Cloud — оплата на юрлицо' },
   { slug: 'autodesk', anchor: 'Autodesk — лицензии для компаний' },
-  { slug: 'procreate', anchor: 'Procreate — покупка по счёту' },
+  { slug: 'procreate', anchor: 'Procreate — цена в рублях и покупка в России' },
   { slug: 'blackmagic', anchor: 'DaVinci Resolve Studio — лицензия для студии' },
   { slug: 'midjourney', anchor: 'Midjourney — подписка для юрлиц' },
-  { slug: 'clip-studio-paint', anchor: 'Clip Studio Paint — лицензии для студии' },
+  { slug: 'clip-studio-paint', anchor: 'Clip Studio Paint — цена лицензии и подписки в рублях' },
   { slug: 'anthropic', anchor: 'Claude — подписка Team для компании' },
   { slug: 'artlist', anchor: 'Artlist — оплата юридическим лицом' },
   { slug: 'motion-array', anchor: 'Motion Array — оплата юридическим лицом' },

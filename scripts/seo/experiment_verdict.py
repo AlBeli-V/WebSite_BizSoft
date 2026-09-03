@@ -79,27 +79,31 @@ def _evaluate_ctr(exp: dict, date: str) -> dict:
 
     res = _skeleton(exp, date)
 
-    win = st.pick_windows(start, today)
+    win = st.pick_windows(start, today, exp)
     if not win["baseline"]:
         res["verdict_reason"] = ("нет выгрузки Вебмастера с окном целиком до "
                                  "старта — baseline построить не из чего")
         res["recommendation_detail"] = "оценка невозможна для этого эксперимента"
         return res
     if not win["experiment"]:
-        res["clean_window_eta"] = win["clean_experiment_eta"]
+        eta = win.get("fixed_experiment_eta") or win["clean_experiment_eta"]
+        res["clean_window_eta"] = eta
         res["verdict_reason"] = (
             "окно источника ещё не очистилось от периода до внедрения; "
-            f"чистое окно ожидается к {win['clean_experiment_eta'] or '—'}")
+            f"чистое окно ожидается к {eta or '—'}")
         res["recommendation_detail"] = (
-            f"продлить наблюдение до {win['clean_experiment_eta'] or 'следующей вехи'}")
+            f"продлить наблюдение до {eta or 'следующей вехи'}")
         return res
 
+    fixed = win.get("fixed") or {}
     res["windows"] = {
         "baseline": {"from": win["baseline"]["from"], "to": win["baseline"]["to"],
-                     "file": win["baseline"]["file_date"]},
+                     "file": win["baseline"]["file_date"],
+                     "fixed": bool(fixed.get("baseline"))},
         "experiment": {"from": win["experiment"]["from"], "to": win["experiment"]["to"],
                        "file": win["experiment"]["file_date"],
-                       "tainted": win["experiment_tainted"]},
+                       "tainted": win["experiment_tainted"],
+                       "fixed": bool(fixed.get("experiment"))},
     }
     if win["experiment_tainted"]:
         res["sample_quality"].append(
@@ -107,11 +111,17 @@ def _evaluate_ctr(exp: dict, date: str) -> dict:
             "увидеть старый вариант")
     # До 24.08 сборщик забирал только топ-100 запросов (постраничный обход
     # появился позже): усечённый baseline занижает matched-набор — это
-    # ограничение данных, а не результат эксперимента.
-    if len(win["baseline"]["queries"]) < 200:
+    # ограничение данных, а не результат эксперимента. Фиксированное окно
+    # выгружается полным обходом — там усечения нет по построению.
+    if len(win["baseline"]["queries"]) < 200 and not fixed.get("baseline"):
         res["sample_quality"].append(
             f"baseline из усечённой выгрузки ({len(win['baseline']['queries'])} "
             "запросов) — совпадающий набор занижен")
+    if fixed.get("baseline") and not fixed.get("experiment"):
+        res["sample_quality"].append(
+            "окно после внедрения пока скользящее (короче фиксированного "
+            "baseline): сравнение предварительное до выгрузки полного окна "
+            f"к {win.get('fixed_experiment_eta') or '—'}")
 
     base_rows = st._rows_for_cluster(win["baseline"]["queries"], keys)
     exp_rows = st._rows_for_cluster(win["experiment"]["queries"], keys)
@@ -120,6 +130,7 @@ def _evaluate_ctr(exp: dict, date: str) -> dict:
                       "days": {
                           "baseline": _days(win["baseline"]),
                           "experiment": _days(win["experiment"])}}
+    res["per_page"] = _per_page_metrics(exp, win)
 
     mb, me = st.matched_sets(base_rows, exp_rows)
     matched_b, matched_e = st.metrics(mb), st.metrics(me)
@@ -203,6 +214,28 @@ def _evaluate_ctr(exp: dict, date: str) -> dict:
 def _days(window: dict) -> int:
     return (dt.date.fromisoformat(window["to"])
             - dt.date.fromisoformat(window["from"])).days + 1
+
+
+def _per_page_metrics(exp: dict, win: dict) -> list[dict]:
+    """Метрики каждой страницы эксперимента в обоих окнах (page_markers).
+
+    Вердикт по-прежнему один на эксперимент — это не разделение совместного
+    внедрения, а контроль экспозиции: страница без показов в обоих окнах
+    видна сразу, а не растворяется в сумме по кластеру.
+    """
+    import experiments
+    out = []
+    for page, pk in experiments.page_keys(exp).items():
+        b_rows = st._rows_for_cluster(win["baseline"]["queries"], pk)
+        e_rows = st._rows_for_cluster(win["experiment"]["queries"], pk)
+        mb, me = st.matched_sets(b_rows, e_rows)
+        out.append({"page": page,
+                    "baseline": st.metrics(b_rows),
+                    "experiment": st.metrics(e_rows),
+                    "matched_queries": len(mb),
+                    "matched": {"baseline": st.metrics(mb),
+                                "experiment": st.metrics(me)}})
+    return out
 
 
 def _keys(exp: dict) -> dict:
@@ -311,7 +344,7 @@ def _evaluate_impressions_growth(exp: dict, date: str) -> dict:
                                  "рост считать не от чего")
         return res
 
-    win = st.pick_windows(start, today)
+    win = st.pick_windows(start, today, exp)
     if not win["experiment"]:
         res["verdict_reason"] = (
             "окно источника ещё не очистилось от периода до внедрения; "
@@ -412,7 +445,7 @@ def _evaluate_launch(exp: dict, date: str) -> dict:
     serp_note = (f"(замер {serp['measured_at']})" if serp
                  else "(нет успешного SERP-замера за 7 дней)")
 
-    win = st.pick_windows(start, today)
+    win = st.pick_windows(start, today, exp)
     w = win["experiment"] or win["baseline"]
     weekly = clicks = 0
     if w:
@@ -600,7 +633,7 @@ def _formula_group_result(group: str, date: str) -> dict | None:
                 or e.get("evaluation_kind", "ctr") != "ctr"):
             continue
         win = st.pick_windows(dt.date.fromisoformat(e["start"]),
-                              dt.date.fromisoformat(today_s))
+                              dt.date.fromisoformat(today_s), e)
         if not win["baseline"] or not win["experiment"]:
             continue
         keys = experiments.cluster_keys(e)
