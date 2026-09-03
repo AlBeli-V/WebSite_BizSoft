@@ -21,6 +21,9 @@ on:
     # чтобы дубли не копились до находки Вебмастера
     - cron: '0 7 * * 1'
 permissions:
+  # checkout читает репозиторий токеном GITHUB_TOKEN: при явном permissions
+  # без contents раннер получает «Repository not found» (прогон #204 ops-probe).
+  contents: read
   issues: write
 jobs:
   audit:
@@ -32,6 +35,11 @@ jobs:
             echo "Запуск разрешён только с ветки main. Текущий ref: ${{ github.ref_name }}"
             exit 1
           fi
+      # Локальный action journal-post лежит в репозитории — без checkout
+      # раннер его не находит, и запись в журнал падает (см. прогон #41
+      # ops-yandex-recrawl 03.09.2026).
+      - uses: actions/checkout@v4
+
       - name: Audit content
         id: run
         uses: appleboy/ssh-action@v1
@@ -146,16 +154,21 @@ jobs:
                 print(f'\ndescription: медиана {mid} симв., минимум {lens[0]}, максимум {lens[-1]}')
             PYEOF
       - name: Save to file
+        if: always()
         run: |
           cat > /tmp/ops-audit.txt <<'OPS_AUDIT_EOF'
           ${{ steps.run.outputs.stdout }}
           OPS_AUDIT_EOF
+      # Локальному action нужен репозиторий в рабочей копии. if: always() —
+      # потому что шаг журнала тоже always(): без этого при падении основного
+      # шага checkout пропускается, и запись в журнал снова не проходит.
+      - name: Checkout for journal action
+        if: always()
+        uses: actions/checkout@v4
       - name: Post to issue
-        uses: actions/github-script@v7
+        if: always()
+        uses: ./.github/actions/journal-post
         with:
-          script: |
-            const out = require('fs').readFileSync('/tmp/ops-audit.txt', 'utf8').slice(0, 60000);
-            await github.rest.issues.createComment({
-              owner: context.repo.owner, repo: context.repo.repo, issue_number: 22,
-              body: '### ops-content-audit\n\n```\n' + out + '\n```',
-            });
+          title: "ops-content-audit"
+          outcome: ${{ steps.run.outcome }}
+          body-file: /tmp/ops-audit.txt

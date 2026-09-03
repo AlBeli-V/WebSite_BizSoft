@@ -12,6 +12,7 @@ import { alternativesPages } from '../data/alternatives';
 import { aiSubcategories } from '../data/ai-hub';
 import { VENDORS } from '../data/vendors';
 import { vendorSlug } from '../lib/vendor-links';
+import { collectTags } from '../lib/blog-tags';
 
 // Только опубликованные индексируемые страницы. Без cart/consent/admin/api/draft/noindex.
 const STATIC_ROUTES: { path: string; priority: number; changefreq: string }[] = [
@@ -104,6 +105,12 @@ export const GET: APIRoute = async () => {
       const lastmod = (p.data.updated || p.data.date).toISOString().slice(0, 10);
       entries.push(urlEntry(`/blog/${p.id}`, 0.6, 'monthly', lastmod));
     }
+    // Подборки статей по тегам (/blog/tag/*): в карту идут только те, где
+    // статей не меньше порога — остальные отдают noindex (src/lib/blog-tags.ts).
+    for (const t of collectTags(posts.map((p) => ({ tags: p.data.tags })))) {
+      if (!t.indexed) continue;
+      entries.push(urlEntry(`/blog/tag/${t.slug}`, 0.5, 'weekly'));
+    }
   } catch (e) {
     // Блог собирается из локальных файлов: сбой здесь означает поломку сборки,
     // а не временную недоступность источника — карта всё равно неполна.
@@ -123,7 +130,12 @@ export const GET: APIRoute = async () => {
     const products = await getProducts();
     for (const p of products) {
       if (p.noindex || productNoindex(p.sku)) continue;
-      const lastmod = p.date_updated ? String(p.date_updated).slice(0, 10) : undefined;
+      // lastmod — дата содержательного изменения (content_updated_at), а не
+      // date_updated: тот сдвигается ежедневной переоценкой по курсу ЦБ у
+      // всего каталога разом (02.09.2026 — у 537 карточек из 593 одна дата),
+      // и Google перестаёт учитывать lastmod при выборе, что обходить. Пока
+      // штампа нет, честнее не отдавать дату вовсе, чем отдавать ложную.
+      const lastmod = p.content_updated_at ? String(p.content_updated_at).slice(0, 10) : undefined;
       entries.push(urlEntry(`/product/${p.slug}`, 0.7, 'weekly', lastmod));
     }
   } catch (e) {

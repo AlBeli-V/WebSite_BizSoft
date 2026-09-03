@@ -20,6 +20,10 @@ import { seller, workingHours } from '../config/site';
     </header>
 
     <div class="grid">
+      <!-- Реквизиты и форма — секция после героя: без её заголовка h3 формы
+           шёл сразу за h1 страницы (Lighthouse heading-order). Заголовок
+           скрыт .sr-only: визуально блок в подписи не нуждается. -->
+      <h2 class="sr-only">Реквизиты и форма обратной связи</h2>
       <div class="info card">
         <div class="row"><span>Телефон</span><a href={`tel:${seller.phoneHref}`}>{seller.phone}</a></div>
         <div class="row"><span>E-mail</span><a href={`mailto:${seller.email}`}>{seller.email}</a></div>

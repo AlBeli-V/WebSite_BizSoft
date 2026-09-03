@@ -1,5 +1,6 @@
 ---
 import { getCollection, render } from 'astro:content';
+import { tagSlug } from '../../lib/blog-tags';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import FAQ from '../../components/FAQ.astro';
@@ -66,7 +67,7 @@ const articleSchema = {
       )}
 
       <header>
-        <div class="tags">{d.tags.map((t) => <span>{t}</span>)}</div>
+        <div class="tags">{d.tags.map((t) => <a href={`/blog/tag/${tagSlug(t)}`}>{t}</a>)}</div>
         <h1>{d.title}</h1>
         <p class="byline">
           <span>{d.author}</span>
@@ -132,7 +133,8 @@ const articleSchema = {
   .section { padding-top: 2rem; }
   .article { max-width: 760px; }
   .tags { display: flex; gap: 0.4rem; margin-bottom: 1rem; }
-  .tags span { background: var(--color-bg-elevated); color: var(--color-text-muted); font-size: 0.72rem; padding: 0.15rem 0.55rem; border-radius: 6px; }
+  .tags a { background: var(--color-bg-elevated); color: var(--color-text-muted); font-size: 0.72rem; padding: 0.15rem 0.55rem; border-radius: 6px; text-decoration: none; }
+  .tags a:hover { color: var(--color-text); }
   h1 { font-size: clamp(1.8rem, 4vw, 2.6rem); margin-bottom: 0.6rem; }
   .byline { color: var(--color-text-dim); font-size: 0.85rem; margin-bottom: 1.5rem; display: flex; flex-wrap: wrap; gap: 0.4rem; align-items: center; }
   .byline .dot { color: var(--color-border-strong); }
