@@ -40,7 +40,8 @@ import json
 import os
 import pathlib
 import sys
-import time
+import threading
+from concurrent.futures import ThreadPoolExecutor
 from zoneinfo import ZoneInfo
 
 import requests
@@ -54,8 +55,11 @@ MSK = ZoneInfo("Europe/Moscow")
 # ops-index-validate и повторному прогону после сбоя.
 MAX_INSPECT = 1800
 INSPECT_URL = "https://searchconsole.googleapis.com/v1/urlInspection/index:inspect"
-# 600 запросов в минуту; пауза держит прогон ниже потолка без запаса «на глаз».
-INSPECT_PAUSE = 0.12
+# Инспекция идёт параллельно: один вызов API отвечает 2–4 с, и первый прогон
+# 03.09.2026 по 800 URL последовательно шёл дольше получаса. Пять потоков при
+# такой латентности дают ~100–150 запросов в минуту — вчетверо ниже потолка
+# 600/мин, паузы между запросами не нужны.
+INSPECT_WORKERS = 5
 LOOKBACK_DAYS = 7
 
 YA_PAGE = 100          # предел страницы у samples-эндпоинтов
@@ -138,7 +142,7 @@ def inspection_order(paths: list[str], prev: dict) -> list[str]:
 
 def inspect_google(paths: list[str], prev: dict, date_s: str,
                    max_inspect: int = MAX_INSPECT,
-                   pause: float = INSPECT_PAUSE) -> dict:
+                   workers: int = INSPECT_WORKERS) -> dict:
     from google.auth.transport.requests import Request
     from google.oauth2 import service_account
 
@@ -147,6 +151,16 @@ def inspect_google(paths: list[str], prev: dict, date_s: str,
         info, scopes=["https://www.googleapis.com/auth/webmasters.readonly"])
     creds.refresh(Request())
     headers = {"Authorization": f"Bearer {creds.token}"}
+    auth_lock = threading.Lock()
+
+    def refresh_token():
+        # Токен сервисного аккаунта живёт около часа. Первый прогон 03.09.2026
+        # шёл 61 минуту, и последние 239 URL получили HTTP 401 — статус
+        # потерян не из-за квоты, а из-за протухшего токена. Обновляем под
+        # замком: один поток обновляет, остальные ждут и берут новый заголовок.
+        with auth_lock:
+            creds.refresh(Request())
+            headers["Authorization"] = f"Bearer {creds.token}"
 
     result = {"date": date_s, "source": "google_url_inspection",
               "quota_per_run": max_inspect, "pages": {}}
@@ -164,38 +178,49 @@ def inspect_google(paths: list[str], prev: dict, date_s: str,
     order = inspection_order(paths, prev)
     todo, rest = order[:max_inspect], order[max_inspect:]
     errors: list[str] = []
-    inspected = 0
-    stopped = False
-    for i, path in enumerate(todo):
-        if stopped:
-            rest.append(path)
-            continue
-        data, err = api_json(INSPECT_URL, headers=headers,
-                             body={"inspectionUrl": BASE_URL + path,
-                                   "siteUrl": site_url})
+    stop = threading.Event()
+    lock = threading.Lock()
+
+    def inspect_one(path: str):
+        # Исчерпание квоты (429) или отказ доступа (403) повторяются на каждом
+        # следующем URL — после первого такого ответа остальные потоки в API
+        # не ходят, и URL получают прежний статус. Единичная ошибка одного URL
+        # прогон не останавливает.
+        if stop.is_set():
+            return path, None, None
+        if getattr(creds, "expired", False):
+            refresh_token()
+        body = {"inspectionUrl": BASE_URL + path, "siteUrl": site_url}
+        data, err = api_json(INSPECT_URL, headers=dict(headers), body=body)
+        if err and "HTTP 401" in err:
+            refresh_token()
+            data, err = api_json(INSPECT_URL, headers=dict(headers), body=body)
         if err:
-            errors.append(f"{path}: {err}")
-            # Исчерпание квоты (429) или отказ доступа (403) повторяются на
-            # каждом следующем URL — дальше не ходим, остальным — прежний
-            # статус. Единичная ошибка одного URL прогон не останавливает.
-            if "HTTP 429" in err or "HTTP 403" in err or len(errors) >= 20:
-                stopped = True
-            rest.append(path)
-            continue
-        idx = (data.get("inspectionResult") or {}).get("indexStatusResult") or {}
-        result["pages"][path] = {
-            "coverage_state": idx.get("coverageState"),
-            "verdict": idx.get("verdict"),
-            "indexing_state": idx.get("indexingState"),
-            "robots_txt_state": idx.get("robotsTxtState"),
-            "page_fetch_state": idx.get("pageFetchState"),
-            "last_crawl": idx.get("lastCrawlTime"),
-            "google_canonical": idx.get("googleCanonical"),
-            "inspected_at": date_s,
-        }
-        inspected += 1
-        if pause and i + 1 < len(todo):
-            time.sleep(pause)
+            with lock:
+                errors.append(f"{path}: {err}")
+                if "HTTP 429" in err or "HTTP 403" in err or len(errors) >= 20:
+                    stop.set()
+            return path, None, err
+        return path, data, None
+
+    inspected = 0
+    with ThreadPoolExecutor(max_workers=max(1, workers)) as pool:
+        for path, data, err in pool.map(inspect_one, todo):
+            if data is None:
+                rest.append(path)
+                continue
+            idx = (data.get("inspectionResult") or {}).get("indexStatusResult") or {}
+            result["pages"][path] = {
+                "coverage_state": idx.get("coverageState"),
+                "verdict": idx.get("verdict"),
+                "indexing_state": idx.get("indexingState"),
+                "robots_txt_state": idx.get("robotsTxtState"),
+                "page_fetch_state": idx.get("pageFetchState"),
+                "last_crawl": idx.get("lastCrawlTime"),
+                "google_canonical": idx.get("googleCanonical"),
+                "inspected_at": date_s,
+            }
+            inspected += 1
 
     for path in rest:
         old = prev.get(path)
