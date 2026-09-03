@@ -104,6 +104,18 @@ def kpi_section(kpi, snapshot: dict, signal_delta: float | None = None) -> str:
     delta_text = kpi_mod.format_delta(kpi.share_delta_pp, unit=" п.п.")
     if signal_delta is not None:
         delta_text += f" · сигнальная {kpi_mod.format_delta(signal_delta, unit=' п.п.')}"
+    google = snapshot.get("google") or {}
+    if google:
+        google_row = ("Доля видимости в Google",
+                      kpi_mod.format_share(google.get("наша_доля_видимости")),
+                      "н/д",
+                      f"Google, {google.get('гео', 'Россия')}, "
+                      f"{google.get('запросов_с_данными')} запросов, "
+                      f"глубина {google.get('глубина', 10)}, "
+                      f"срез {google.get('дата_среза')}")
+    else:
+        google_row = ("Доля видимости в Google", "нет данных", "н/д",
+                      "Google-среза за эту дату нет (сбор еженедельный)")
     rows = [
         ("Доля видимости в Яндексе", kpi_mod.format_share(kpi.share_yandex),
          delta_text,
@@ -112,8 +124,7 @@ def kpi_section(kpi, snapshot: dict, signal_delta: float | None = None) -> str:
          kpi_mod.format_delta(kpi.top3_delta), "срез выдачи"),
         ("Запросов в ТОП-10", f"{kpi.top10} из {kpi.queries}",
          kpi_mod.format_delta(kpi.top10_delta), "срез выдачи"),
-        ("Доля видимости в Google", "нет данных", "н/д",
-         "еженедельный сбор не запущен"),
+        google_row,
     ]
     body = "".join(
         f'<tr>{_td(esc(name))}{_td(esc(value), align="right", bold=True)}'
@@ -173,6 +184,47 @@ def rivals_section(leaders: list[dict], ranked: list, limit: int = 5) -> str:
             f'{_th("ТОП-3", "right")}{_th("Угроза", "right")}</tr>')
     return (_heading("Кто давит сильнее всего", "угроза 0–100: доля, позиции, динамика")
             + _table("".join(rows), head))
+
+
+def google_section(snapshot: dict, limit: int = 8) -> str:
+    """Google по России: кто держит выдачу и где мы. Отдельный движок —
+    отдельная таблица; доли с Яндексом не складываются, глубина 10."""
+    google = snapshot.get("google")
+    if not google:
+        return ""
+    ours_share = kpi_mod.format_share(google.get("наша_доля_видимости"))
+    rows_html = "".join(
+        f'<tr>{_td(esc(item["домен"]), bold=True)}'
+        f'{_td(esc(item.get("категория") or "—"), color=MUTED, small=True)}'
+        f'{_td(kpi_mod.format_share(item.get("доля")), align="right")}'
+        f'{_td(str(item.get("топ3", 0)), align="right")}'
+        f'{_td(str(item.get("топ10", 0)), align="right")}</tr>'
+        for item in (google.get("лидеры") or [])[:limit])
+    rows_html += (
+        f'<tr>{_td("biz-soft.pro (мы)", bold=True)}'
+        f'{_td("—", color=MUTED, small=True)}'
+        f'{_td(ours_share, align="right", bold=True)}'
+        f'{_td(str(google.get("топ3", 0)), align="right", bold=True)}'
+        f'{_td(str(google.get("топ10", 0)), align="right", bold=True)}</tr>')
+    head = (f'<tr>{_th("Домен")}{_th("Категория")}{_th("Доля", "right")}'
+            f'{_th("ТОП-3", "right")}{_th("ТОП-10", "right")}</tr>')
+    ours_queries = google.get("наши_запросы") or []
+    if ours_queries:
+        examples = ", ".join(f"«{q['запрос']}» — {q['позиция']}"
+                             for q in ours_queries[:5])
+        note = f"Мы в ТОП-10 Google: {examples}."
+    else:
+        note = (f"biz-soft.pro в ТОП-10 Google нет ни по одному из "
+                f"{google.get('запросов_с_данными')} запросов ядра — "
+                f"самостоятельный сигнал, не ошибка сбора.")
+    note_html = (f'<tr><td colspan="5" style="padding:6px 6px 0;font-size:12px;'
+                 f'color:{MUTED};line-height:1.45;">{esc(note)}</td></tr>')
+    return (_heading("Google по России",
+                     f"{google.get('гео', 'Россия')}, xmlriver, глубина "
+                     f"{google.get('глубина', 10)}, "
+                     f"{google.get('запросов_с_данными')} запросов, срез "
+                     f"{google.get('дата_среза')}; доли внутри Google-поля")
+            + _table(rows_html + note_html, head))
 
 
 def attacks_section(attacks: list[dict], limit: int = 5) -> str:
@@ -357,7 +409,13 @@ def limits_section(snapshot: dict, attacks: list[dict]) -> str:
         f"Спрос по {by_webmaster} из {len(attacks)} точек атаки взят из показов "
         "Вебмастера, а не из частотности Wordstat — шкалы разные.",
         f"{unknown} доменов выдачи не классифицированы и в рейтинг не включены.",
-        "Google не собирается: раздел заполнится после первого еженедельного среза.",
+        (f"Google собирается еженедельно (xmlriver, Россия) на глубину "
+         f"{(snapshot.get('google') or {}).get('глубина', 10)} позиций; "
+         "позиции 11–20 сервис не отдаёт — вопрос в его поддержке. Доли Google "
+         "и Яндекса считаются внутри своих полей и не складываются."
+         if snapshot.get("google") else
+         "Google-среза за эту дату нет: сбор еженедельный (xmlriver, Россия, "
+         "топ-10), блок заполнится ближайшим срезом."),
     ]
     body = "".join(
         f'<tr><td style="padding:3px 6px;font-size:12px;color:{MUTED};'

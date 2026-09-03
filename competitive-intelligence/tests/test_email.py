@@ -371,3 +371,44 @@ class TestCoverageClassification(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class TestGoogleBlock(unittest.TestCase):
+    """Google по России (xmlriver, топ-10) в письме: раздел, KPI, честность."""
+
+    def google(self):
+        return {"дата_среза": "2026-09-03", "источник": "xmlriver",
+                "гео": "Россия (loc 2643)", "глубина": 10,
+                "запросов_всего": 480, "запросов_с_данными": 470,
+                "наша_доля_видимости": 0.0, "наша_взвешенная_видимость": 0.0,
+                "топ3": 0, "топ10": 0, "лучшая_позиция": None,
+                "наши_запросы": [],
+                "лидеры": [{"домен": "ggsel.net", "категория": "G",
+                            "доля": 0.21, "топ3": 300, "топ10": 420}]}
+
+    def test_без_среза_google_no_data(self):
+        snap = snapshot()
+        meta = build_email.build("2026-08-30", snap, None)
+        html_page = build_email.render_html(meta, kpi=kpi_mod.build_kpi(snap, None),
+                                            snapshot=snap)
+        self.assertNotIn("Google по России", html_page)
+        self.assertIn("Google-среза за эту дату нет", html_page)
+        self.assertIn("NO DATA", html_page)
+
+    def test_с_срезом_раздел_и_доля(self):
+        snap = snapshot()
+        snap["google"] = self.google()
+        snap["покрытие"]["google"] = 0.0
+        meta = build_email.build("2026-08-30", snap, None)
+        html_page = build_email.render_html(meta, kpi=kpi_mod.build_kpi(snap, None),
+                                            snapshot=snap)
+        self.assertIn("Google по России", html_page)
+        self.assertIn("ggsel.net", html_page)
+        # ноль в Google — измеренный ноль, а не NO DATA
+        self.assertIn("0,0%", html_page)
+        self.assertIn("ни по одному из 470 запросов", html_page)
+        self.assertIn("Россия, топ-10, 470 запросов", html_page)
+        txt = build_email.render_txt(meta, snapshot=snap)
+        self.assertIn("GOOGLE ПО РОССИИ", txt)
+        self.assertIn("ggsel.net", txt)
+        self.assertTrue(meta["лимит_соблюдён"])
