@@ -224,6 +224,11 @@ if (isAi) {
 
       <!-- Результаты -->
       <div class="results">
+        <!-- Список товаров — самостоятельная секция страницы: без её заголовка
+             карточки (h3) шли сразу за h1 и структура заголовков рвалась
+             (Lighthouse heading-order). Визуально подпись не нужна — заголовок
+             скрыт .sr-only и виден только скринридеру. -->
+        <h2 class="sr-only">Товары раздела «{title}»</h2>
         <div class="results-head">
           <span>Найдено: <b>{filtered.length}</b></span>
           <a href="/catalog" class="switch-link">← Весь каталог</a>
