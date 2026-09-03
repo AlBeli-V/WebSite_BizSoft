@@ -652,8 +652,8 @@
   {
    "id": "snippets-2-product-gap-d",
    "ticket": "SEO-EXP-006",
-   "start": null,
-   "status": "planned",
+   "start": "2026-09-03",
+   "status": "running",
    "pages": [
     "/product/adobe-ae",
     "/product/adobe-lr"
@@ -708,7 +708,17 @@
     "preset"
    ],
    "title_marker": "юридическим лицом",
-   "windows": null,
+   "windows": {
+    "days": 28,
+    "baseline": {
+     "from": "2026-08-03",
+     "to": "2026-08-30"
+    },
+    "experiment": {
+     "from": "2026-09-04",
+     "to": "2026-10-01"
+    }
+   },
    "evaluation_kind": "ctr",
    "formula_group": "query-phrase-snippet-2026-09",
    "baseline": {
@@ -779,7 +789,22 @@
    "source": "data/seo/product-descriptions.json → ops-apply-descriptions → Directus meta_title/meta_description (рендер: src/pages/product/[slug].astro, SeoHead)",
    "power_note": "ёмкость ≈100 показов за 28 дней на две карточки: вывод по самим карточкам описательный, вывод о формуле — по пулу",
    "selection": "Находка разбора SEO-EXP-002: маркеры кластера Adobe приписывали vendor-странице показы этих карточек; по правилу 03.09.2026 сниппет-тест ставится там, где показы есть (docs/seo/experiments/seo-exp-002-restart.md)",
-   "owner_decision": "заведён решением руководителя 2026-09-03 (кнопка в чате)"
+   "owner_decision": "заведён решением руководителя 2026-09-03 (кнопка в чате)",
+   "activated": {
+    "date": "2026-09-03",
+    "pages": [
+     {
+      "page": "/product/adobe-ae",
+      "title": "Купить After Effects юридическим лицом — счёт, договор, ЭДО — BIZSoft",
+      "new_variant": true
+     },
+     {
+      "page": "/product/adobe-lr",
+      "title": "Купить Lightroom юридическим лицом — счёт, договор, ЭДО — BIZSoft",
+      "new_variant": true
+     }
+    ]
+   }
   }
  ]
 }
