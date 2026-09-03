@@ -162,6 +162,12 @@ jobs:
             echo "Забрать: ssh <сервер> \"sudo cat /root/admin-token.txt\""
             echo "ВНИМАНИЕ: старый токен больше не действует — обновите его в браузере на /admin/prices и /admin/leads."
 
+      # Локальному action нужен репозиторий в рабочей копии. if: always() —
+      # потому что шаг журнала тоже always(): без этого при падении основного
+      # шага checkout пропускается, и запись в журнал снова не проходит.
+      - name: Checkout for journal action
+        if: always()
+        uses: actions/checkout@v4
       - name: Post results to journal (issue #22)
         if: always()
         uses: ./.github/actions/journal-post

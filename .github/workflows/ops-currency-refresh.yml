@@ -58,6 +58,12 @@ jobs:
             echo "== длительность переоценки: $(( $(date +%s) - START )) с =="
             echo "   (было рассчитано на ~1100 позиций, стало ~5900)"
 
+      # Локальному action нужен репозиторий в рабочей копии. if: always() —
+      # потому что шаг журнала тоже always(): без этого при падении основного
+      # шага checkout пропускается, и запись в журнал снова не проходит.
+      - name: Checkout for journal action
+        if: always()
+        uses: actions/checkout@v4
       - name: Post results to journal (issue #22)
         if: always()
         uses: ./.github/actions/journal-post

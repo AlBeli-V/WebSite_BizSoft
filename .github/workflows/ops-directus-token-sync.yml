@@ -76,6 +76,12 @@ jobs:
             CAT=$(curl -sf --max-time 20 http://127.0.0.1:3000/catalog | grep -c 'data-goal' || true)
             echo "маркеров каталога на /catalog: $CAT"
 
+      # Локальному action нужен репозиторий в рабочей копии. if: always() —
+      # потому что шаг журнала тоже always(): без этого при падении основного
+      # шага checkout пропускается, и запись в журнал снова не проходит.
+      - name: Checkout for journal action
+        if: always()
+        uses: actions/checkout@v4
       - name: Post results to journal (issue #22)
         if: always()
         uses: ./.github/actions/journal-post

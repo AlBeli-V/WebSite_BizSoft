@@ -61,6 +61,12 @@ jobs:
 
       # Публикуем результаты комментарием в журнал-issue #22 — надёжный канал
       # чтения результатов (Actions job-logs API периодически недоступен интеграциям).
+      # Локальному action нужен репозиторий в рабочей копии. if: always() —
+      # потому что шаг журнала тоже always(): без этого при падении основного
+      # шага checkout пропускается, и запись в журнал снова не проходит.
+      - name: Checkout for journal action
+        if: always()
+        uses: actions/checkout@v4
       - name: Post results to perf journal (issue #22)
         if: always()
         uses: ./.github/actions/journal-post

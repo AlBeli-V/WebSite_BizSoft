@@ -61,6 +61,12 @@ jobs:
           cat > /tmp/ops-content.txt <<'OPS_CONTENT_EOF'
           ${{ steps.run.outputs.stdout }}
           OPS_CONTENT_EOF
+      # Локальному action нужен репозиторий в рабочей копии. if: always() —
+      # потому что шаг журнала тоже always(): без этого при падении основного
+      # шага checkout пропускается, и запись в журнал снова не проходит.
+      - name: Checkout for journal action
+        if: always()
+        uses: actions/checkout@v4
       - name: Post to issue
         if: always()
         uses: ./.github/actions/journal-post

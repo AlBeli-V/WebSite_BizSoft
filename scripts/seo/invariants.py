@@ -86,7 +86,13 @@ def soft(blocks: dict, html: str) -> list[str]:
         v.append("недоказуемое «по-прежнему» в тексте письма")
 
     for e in blocks.get("experiments") or []:
-        verdict = ((e.get("verdict") or {}).get("verdict"))
+        # Вердикт движка лежит в evaluation.verdict; поле verdict самого
+        # эксперимента — стадия наблюдения («observing», «too_early»), строка.
+        # Прежняя редакция читала стадию как словарь и на реальном блоке
+        # роняла сборку письма (AttributeError), а на фикстурах молчала:
+        # у них форма другая. Заодно инвариант начал проверять то, что
+        # заявлен проверять, — до этого он не срабатывал ни разу.
+        verdict = (e.get("evaluation") or {}).get("verdict")
         if e.get("exposure_ok") and verdict == "INSUFFICIENT_DATA":
             v.append(f"{e.get('ticket')}: «порог пройден» при вердикте «мало данных»")
     return v
