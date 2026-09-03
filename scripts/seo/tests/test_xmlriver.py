@@ -37,6 +37,11 @@ ERROR_XML = """<?xml version="1.0" encoding="utf-8"?>
  <response><error code="101">Недостаточно средств</error></response>
 </yandexsearch>"""
 
+RETRY_XML = """<?xml version="1.0" encoding="utf-8"?>
+<yandexsearch version="1.0">
+ <response><error code="500">Выполните перезапрос. Ответ от поисковой системы не получен.</error></response>
+</yandexsearch>"""
+
 EMPTY_XML = """<?xml version="1.0" encoding="utf-8"?>
 <yandexsearch version="1.0">
  <response><error code="15">Искомая комбинация слов нигде не встречается</error></response>
@@ -138,6 +143,28 @@ class TestHttp(unittest.TestCase):
         self.assertEqual(len(calls), 2)
         self.assertEqual(calls[0]["loc"], 2643)
         self.assertEqual(len(out["top"]), 2)
+
+    def test_service_code_500_is_retried(self):
+        """Сервис сам просит перезапрос — это помеха, а не вердикт."""
+        calls = []
+
+        class S:
+            def get(self, url, params=None, timeout=None):
+                calls.append(1)
+                if len(calls) == 1:
+                    return mocks.FakeResponse(200, text=RETRY_XML)
+                return mocks.FakeResponse(200, text=SERP_XML)
+        out = self.x.search_google(S(), "u", "k", "q")
+        self.assertEqual(len(calls), 2)
+        self.assertEqual(len(out["top"]), 2)
+
+    def test_service_code_500_exhausts_retries(self):
+        class S:
+            def get(self, url, params=None, timeout=None):
+                return mocks.FakeResponse(200, text=RETRY_XML)
+        out = self.x.search_google(S(), "u", "k", "q")
+        self.assertIn("после 3 попыток", out["error"])
+        self.assertIn("code=500", out["error"])
 
     def test_4xx_not_retried(self):
         calls = []
