@@ -38,6 +38,10 @@ CONFIG_PATH = pathlib.Path("data/seo/xmlriver.json")
 # Код Яндекс.XML «искомая комбинация слов нигде не встречается»; xmlriver
 # повторяет его для пустой выдачи Google.
 NO_RESULTS_CODE = "15"
+# Коды ошибок сервиса кодом 200, на которые он сам просит перезапрос:
+# 500 — «Выполните перезапрос. Ответ от поисковой системы не получен»
+# (проба 03.09.2026). Это помеха, а не вердикт, — повторяем как 5xx.
+RETRY_SERVICE_CODES = {"500"}
 # Типы блоков, которые считаем органикой. xmlriver помечает блоки узлом
 # contentType (organic, ads, video, …); документ без пометки — органика.
 ORGANIC_TYPES = {"", "organic"}
@@ -138,7 +142,8 @@ def search_google(session, user: str, key: str, query: str,
     """Один запрос Google через xmlriver с повторами на сетевые сбои и 5xx.
 
     Ошибки сервиса кодом 200 (<error>) не повторяются: это вердикт по
-    учётным данным, балансу или запросу, а не помеха.
+    учётным данным, балансу или запросу, а не помеха. Исключение —
+    RETRY_SERVICE_CODES, где сервис сам просит перезапрос.
     """
     params = build_params(user, key, query, query_cfg)
     last = ""
@@ -153,7 +158,10 @@ def search_google(session, user: str, key: str, query: str,
             elif not r.ok:
                 return {"error": f"HTTP {r.status_code}: {r.text[:300]}"}
             else:
-                return parse_google_xml(r.text, top_n)
+                parsed = parse_google_xml(r.text, top_n)
+                if parsed.get("code") not in RETRY_SERVICE_CODES:
+                    return parsed
+                last = parsed["error"]
         if attempt < RETRIES:
             time.sleep(RETRY_PAUSE_S)
     return {"error": f"сбой после {RETRIES} попыток: {last}"}
