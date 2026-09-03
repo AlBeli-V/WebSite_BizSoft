@@ -30,6 +30,7 @@ export const RULES: Record<string, string> = {
   R4: 'шаг журнала без `if: always()` — при падении в журнал не попадает ничего',
   R5: '`curl` за телом ответа без проверки кода (`-f`/`--fail`/`http_code`); запросы заголовков (-I/-D -) не считаются',
   R6: 'локальный action `journal-post` без `actions/checkout` — раннер его не находит, и шаг журнала падает',
+  R7: '`actions/checkout` при явном `permissions:` без `contents: read` — токен не читает репозиторий, checkout падает с «Repository not found»',
 };
 
 type Counts = Record<string, number>;
@@ -56,7 +57,7 @@ function steps(lines: string[]): string[][] {
 
 export function lint(text: string): Counts {
   const lines = text.split('\n');
-  const counts: Counts = { R1: 0, R2: 0, R3: 0, R4: 0, R5: 0, R6: 0 };
+  const counts: Counts = { R1: 0, R2: 0, R3: 0, R4: 0, R5: 0, R6: 0, R7: 0 };
 
   lines.forEach((line, index) => {
     if (isComment(line)) return;
@@ -78,6 +79,10 @@ export function lint(text: string): Counts {
   // сразу после перевода на journal-post.
   const code = lines.filter((l) => !isComment(l)).join('\n');
   if (/uses:\s*\.\/\.github\/actions\/journal-post/.test(code) && !/uses:\s*actions\/checkout@/.test(code)) counts.R6 += 1;
+  // Явный блок permissions обнуляет всё неперечисленное: без contents токен
+  // не читает репозиторий, и checkout падает — так упал прогон #204 ops-probe
+  // сразу после добавления checkout.
+  if (/uses:\s*actions\/checkout@/.test(code) && /^\s*permissions:/m.test(code) && !/^\s+contents:\s*(read|write)\b/m.test(code)) counts.R7 += 1;
 
   for (const step of steps(lines)) {
     const body = step.join('\n');
