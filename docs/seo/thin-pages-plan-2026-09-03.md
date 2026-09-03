@@ -137,6 +137,35 @@ recraft-basic: в свежем sitemap их нет, запись об исклю
 ni-ozone-adv и другие) — убедиться, что они отдают 301 через `old_slugs`,
 а не 404.
 
+### H. Разделы каталога из выборки событий поиска — контент разделов
+
+Добавлено 03.09.2026 по решению руководителя. Первый прогон сбора с
+выборкой событий поиска Вебмастера (INDEX-001, PR #341) назвал причину у
+42 из 50 исключений: все — «малоценная или маловостребованная». Среди них
+восемь разделов каталога, которых в группе F не было: `/catalog/architecture`,
+`/catalog/endpoint`, `/catalog/iam`, `/catalog/media`, `/catalog/office`,
+`/catalog/pm`, `/catalog/system`, `/catalog/vcs`. Механизм тот же, что у F:
+intro-текст раздела в `data/catalog/categories.json` → `ops-categories`.
+У части разделов intro в плане уже есть (architecture) — сначала сверить,
+доехал ли текст до прода и показывается ли он на странице раздела.
+
+### I. Карточки тарифов Business — партия уникальных текстов
+
+Тем же срезом сняты восемь карточек тарифов Business: `bitdefender-gravityzone-business`,
+`cloudflare-business`, `cursor-business`, `cursor-business-premium`,
+`docker-business`, `parallels-desktop-business`, `prfrc-p4-cloud`,
+`sentry-business`. У каждой есть соседний тариф того же продукта с почти
+тем же описанием (Cursor Business против Cursor Business Premium, Docker
+Business против Docker Team). Механизм — как у группы E: различитель
+тарифа в `name`/`meta_title`/`short_description`, партия через
+`ops-apply-descriptions` после визы; noindex не ставится — это
+коммерческие карточки с собственным интентом.
+
+Полный перечень снятых адресов с датами — в снимке дня
+(`yandex.indexation.excluded_samples.unexpected`, ветка `seo-data`); в
+отчёте это сбой дня `INDEXATION_COMMERCIAL_EXCLUDED`, пока страницы не
+разобраны.
+
 ## Что даёт
 
 | | Было | Станет |

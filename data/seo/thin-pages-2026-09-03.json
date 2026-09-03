@@ -1,57 +1,150 @@
 {
-  "_note": "План разбора страниц, которые Яндекс исключил как малоценные, и линеек ManageEngine (срез покрытия 03.09.2026). Машинный список для ops-set-noindex: слаги по группам. Применяется только после визы руководителя; текст плана — docs/seo/thin-pages-plan-2026-09-03.md.",
-  "generated": "2026-09-03",
-  "source": "reports/seo/data/index-google-2026-09-03.json, index-yandex-2026-09-03.json (ветка seo-data); выгрузка ops-export-products 03.09",
-  "groups": [
-    {
-      "id": "A-rule-ind",
-      "title": "Личные лицензии (*-IND) — правило productNoindex, в коде",
-      "mechanism": "code",
-      "slugs": ["bitdefender-premium-security-ind", "bitdefender-total-security-ind", "bitdefender-ultimate-security-ind", "mono-ind", "mrmst-tb-sub-ind", "mrmst-tb5-ind"]
-    },
-    {
-      "id": "A-point-individual",
-      "title": "Личные лицензии без суффикса -IND в sku — точечно",
-      "mechanism": "ops-set-noindex",
-      "slugs": ["mono-ind-pro", "maxon-redgiant", "maxon-redshift", "maxon-zbrush"]
-    },
-    {
-      "id": "B-rule-me-perp",
-      "title": "ManageEngine: бессрочные дубли (ME-*-PERP) — правило productNoindex, 81 карточка",
-      "mechanism": "code",
-      "slugs_pattern": "me-*-perp",
-      "count": 81
-    },
-    {
-      "id": "C-perp-pairs",
-      "title": "Бессрочные дубли с парной подпиской у других вендоров — точечно",
-      "mechanism": "ops-set-noindex",
-      "slugs": ["avid-mc-perp", "boris-continuum-perp", "boris-mocha-perp", "boris-sapphire-perp", "cdr-gs-perp", "csp-ex-perp", "rizom-rs-perp", "rizom-vs-perp", "vegas-edit-perp", "wndr-filmora-perp-win"],
-      "proposed_extra": ["csp-pro-perp", "cdr-painter-perp"]
-    },
-    {
-      "id": "D-zoom-addons",
-      "title": "Zoom: аддоны и телефония — точечно; интент держит /vendors/zoom",
-      "mechanism": "ops-set-noindex",
-      "slugs": ["zoom-ai-companion", "zoom-events", "zoom-large-meeting-500", "zoom-phone-global", "zoom-phone-metered", "zoom-phone-us-ca", "zoom-rooms", "zoom-webinars-500"]
-    },
-    {
-      "id": "E-texts",
-      "title": "Остаются в индексе — уникализировать тексты партией ops-apply-descriptions",
-      "mechanism": "ops-apply-descriptions",
-      "slugs": ["zoom-wp-business", "zoom-wp-business-plus", "zoom-wp-enterprise", "box-business-plus", "confluence-standard", "miro-business", "avid-pt-ult-perp", "vegas-suite-perp", "me-ddi-central-professional-2-dns-clusters-2-dhcp-clusters-3-ntp-servers", "me-password-manager-pro-enterprise-10-administrators-and-10-keys", "me-password-manager-pro-standard-2-administrators"]
-    },
-    {
-      "id": "F-content",
-      "title": "Разделы и лендинги без товарной логики — контент отдельной партией",
-      "mechanism": "content",
-      "paths": ["/catalog/ai/image", "/catalog/collaboration", "/catalog/design", "/catalog/monitoring", "/solutions/ai-dlya-marketinga", "/solutions/ai-servisy-dlya-biznesa", "/vendors/sketchup"]
-    },
-    {
-      "id": "G-already-removed",
-      "title": "Уже сняты с витрины до разбора — действий нет",
-      "mechanism": "none",
-      "slugs": ["ai-image-business", "corporate-chat-team", "dscrpt-hobbyist", "mj-basic", "recraft-basic"]
-    }
-  ]
+ "_note": "План разбора страниц, которые Яндекс исключил как малоценные, и линеек ManageEngine (срез покрытия 03.09.2026). Машинный список для ops-set-noindex: слаги по группам. Применяется только после визы руководителя; текст плана — docs/seo/thin-pages-plan-2026-09-03.md.",
+ "generated": "2026-09-03",
+ "source": "reports/seo/data/index-google-2026-09-03.json, index-yandex-2026-09-03.json (ветка seo-data); выгрузка ops-export-products 03.09",
+ "groups": [
+  {
+   "id": "A-rule-ind",
+   "title": "Личные лицензии (*-IND) — правило productNoindex, в коде",
+   "mechanism": "code",
+   "slugs": [
+    "bitdefender-premium-security-ind",
+    "bitdefender-total-security-ind",
+    "bitdefender-ultimate-security-ind",
+    "mono-ind",
+    "mrmst-tb-sub-ind",
+    "mrmst-tb5-ind"
+   ]
+  },
+  {
+   "id": "A-point-individual",
+   "title": "Личные лицензии без суффикса -IND в sku — точечно",
+   "mechanism": "ops-set-noindex",
+   "slugs": [
+    "mono-ind-pro",
+    "maxon-redgiant",
+    "maxon-redshift",
+    "maxon-zbrush"
+   ]
+  },
+  {
+   "id": "B-rule-me-perp",
+   "title": "ManageEngine: бессрочные дубли (ME-*-PERP) — правило productNoindex, 81 карточка",
+   "mechanism": "code",
+   "slugs_pattern": "me-*-perp",
+   "count": 81
+  },
+  {
+   "id": "C-perp-pairs",
+   "title": "Бессрочные дубли с парной подпиской у других вендоров — точечно",
+   "mechanism": "ops-set-noindex",
+   "slugs": [
+    "avid-mc-perp",
+    "boris-continuum-perp",
+    "boris-mocha-perp",
+    "boris-sapphire-perp",
+    "cdr-gs-perp",
+    "csp-ex-perp",
+    "rizom-rs-perp",
+    "rizom-vs-perp",
+    "vegas-edit-perp",
+    "wndr-filmora-perp-win"
+   ],
+   "proposed_extra": [
+    "csp-pro-perp",
+    "cdr-painter-perp"
+   ]
+  },
+  {
+   "id": "D-zoom-addons",
+   "title": "Zoom: аддоны и телефония — точечно; интент держит /vendors/zoom",
+   "mechanism": "ops-set-noindex",
+   "slugs": [
+    "zoom-ai-companion",
+    "zoom-events",
+    "zoom-large-meeting-500",
+    "zoom-phone-global",
+    "zoom-phone-metered",
+    "zoom-phone-us-ca",
+    "zoom-rooms",
+    "zoom-webinars-500"
+   ]
+  },
+  {
+   "id": "E-texts",
+   "title": "Остаются в индексе — уникализировать тексты партией ops-apply-descriptions",
+   "mechanism": "ops-apply-descriptions",
+   "slugs": [
+    "zoom-wp-business",
+    "zoom-wp-business-plus",
+    "zoom-wp-enterprise",
+    "box-business-plus",
+    "confluence-standard",
+    "miro-business",
+    "avid-pt-ult-perp",
+    "vegas-suite-perp",
+    "me-ddi-central-professional-2-dns-clusters-2-dhcp-clusters-3-ntp-servers",
+    "me-password-manager-pro-enterprise-10-administrators-and-10-keys",
+    "me-password-manager-pro-standard-2-administrators"
+   ]
+  },
+  {
+   "id": "F-content",
+   "title": "Разделы и лендинги без товарной логики — контент отдельной партией",
+   "mechanism": "content",
+   "paths": [
+    "/catalog/ai/image",
+    "/catalog/collaboration",
+    "/catalog/design",
+    "/catalog/monitoring",
+    "/solutions/ai-dlya-marketinga",
+    "/solutions/ai-servisy-dlya-biznesa",
+    "/vendors/sketchup"
+   ]
+  },
+  {
+   "id": "G-already-removed",
+   "title": "Уже сняты с витрины до разбора — действий нет",
+   "mechanism": "none",
+   "slugs": [
+    "ai-image-business",
+    "corporate-chat-team",
+    "dscrpt-hobbyist",
+    "mj-basic",
+    "recraft-basic"
+   ]
+  },
+  {
+   "id": "H-catalog-sections",
+   "title": "Разделы каталога, снятые Яндексом как малоценные (выборка событий поиска 03.09) — контент разделов",
+   "mechanism": "content",
+   "source": "search-urls/events/samples, excluded_url_status=LOW_QUALITY; добавлено 03.09.2026 по решению руководителя",
+   "paths": [
+    "/catalog/architecture",
+    "/catalog/endpoint",
+    "/catalog/iam",
+    "/catalog/media",
+    "/catalog/office",
+    "/catalog/pm",
+    "/catalog/system",
+    "/catalog/vcs"
+   ]
+  },
+  {
+   "id": "I-business-tariffs",
+   "title": "Карточки тарифов Business, снятые как малоценные — различитель тарифа в тексте, партия ops-apply-descriptions",
+   "mechanism": "ops-apply-descriptions",
+   "source": "search-urls/events/samples, excluded_url_status=LOW_QUALITY; добавлено 03.09.2026 по решению руководителя",
+   "slugs": [
+    "bitdefender-gravityzone-business",
+    "cloudflare-business",
+    "cursor-business",
+    "cursor-business-premium",
+    "docker-business",
+    "parallels-desktop-business",
+    "prfrc-p4-cloud",
+    "sentry-business"
+   ]
+  }
+ ]
 }
