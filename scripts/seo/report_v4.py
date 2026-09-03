@@ -33,6 +33,7 @@ import charts_v4                      # noqa: E402
 import drivers as drivers_mod         # noqa: E402
 import invariants as invariants_mod   # noqa: E402
 import leads as leads_mod             # noqa: E402
+import measurement                    # noqa: E402
 import experiments as exp_mod         # noqa: E402
 import loop_health as loop_health_mod  # noqa: E402
 import opportunity as opp_mod         # noqa: E402
@@ -271,7 +272,7 @@ def kpi_cards(snap: dict, prev: dict | None, dq: dict) -> list[dict]:
                               "относительный процент не публикуется: окна источника пересекаются",
              "period": f"{ru_date(y_block['source']['current_period_start'])}–"
                        f"{ru_date(y_block['source']['current_period_end'])}",
-             "source": "Яндекс.Вебмастер, выборка топ-100 запросов",
+             "source": f"Яндекс.Вебмастер, {measurement.yandex_scope_label(y_block)}",
              # Достоверность — из порога методики, а не константой.
              "confidence": ("достаточная"
                             if (yt["impressions"] or 0) >= snap["thresholds"]["low_impressions"]
@@ -284,12 +285,13 @@ def kpi_cards(snap: dict, prev: dict | None, dq: dict) -> list[dict]:
                                # правой части — сравнение просто не называется.
                                (f", {signed(top_delta)} к вчера. "
                                 if top_delta is not None else ". ") +
-                               f"CTR выборки {pct(sample.get('value'), 2)} — "
+                               f"{sample.get('label', 'CTR выборки')} "
+                               f"{pct(sample.get('value'), 2)} — "
                                f"{sample.get('caveat', '')}.",
              "muted": False, "sparkline": None})
     else:
         cards.append(_no_data_card("yandex", "Видимость в Яндексе", "показов",
-                                   y_block, "Яндекс.Вебмастер, выборка топ-100 запросов"))
+                                   y_block, "Яндекс.Вебмастер, запросы хоста"))
 
     g_daily = _daily_windows(snap, "gsc") if rules.get("kpi_from_daily") else None
     if g_daily:

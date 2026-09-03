@@ -28,6 +28,7 @@ import cannibalization as cannibal_mod  # noqa: E402
 import lifecycle as lifecycle_mod  # noqa: E402
 import mismatch as mismatch_mod  # noqa: E402
 import opportunity as opp_mod    # noqa: E402
+import quality as quality_mod    # noqa: E402
 import serp_analysis as serp_mod  # noqa: E402
 import snapshot as snapshot_mod  # noqa: E402
 import zero_impression as zero_mod  # noqa: E402
@@ -200,6 +201,83 @@ def _evaluation_html(e: dict) -> str:
 
 def _p(v, digits=2) -> str:
     return "—" if v is None else f"{v * 100:.{digits}f}%"
+
+
+def _quality_groups(dq: dict) -> dict[str, list[dict]]:
+    """Находки по классам: сбой / ограничение / правило (quality.CODE_KIND)."""
+    groups: dict[str, list[dict]] = {"incident": [], "limit": [], "rule": []}
+    for f in dq.get("findings") or []:
+        groups.setdefault(quality_mod.finding_kind(f), []).append(f)
+    return groups
+
+
+def _quality_section(dq: dict) -> str:
+    """Раздел «Качество данных» тремя блоками (решение руководителя 03.09.2026).
+
+    Один список с одинаковым весом смешивал сбой дня, постоянное
+    ограничение методики и правило подсчёта; из 16 строк за 03.09 сбоев
+    было ноль. Теперь первый блок отвечает на вопрос «что сломалось
+    сегодня», второй свёрнут и несёт дату и условие снятия, третий — про
+    то, как считаются числа.
+    """
+    groups = _quality_groups(dq)
+    inc = groups["incident"]
+
+    def chip(level: str) -> str:
+        cls = {"critical": "critical", "warning": "warning", "info": ""}[level]
+        return f"<span class='chip {cls}'>{level}</span>"
+
+    if inc:
+        incidents = table(["Уровень", "Проверка", "Что обнаружено", "Следствие для отчёта"],
+                          [[chip(f["level"]), f["title"], f["detail"],
+                            f.get("effect_on_report") or "—"] for f in inc])
+    else:
+        incidents = ("<p class='callout'><b class='chip positive'>сбоев нет</b> "
+                     "Все источники собраны, обновились и отдали данные; цели "
+                     "заведены; выгрузки не отстали.</p>")
+    limits = table(["Уровень", "Ограничение", "Что именно", "Следствие для отчёта",
+                    "С какого дня", "Снимается, когда"],
+                   [[chip(f["level"]), f["title"], f["detail"],
+                     f.get("effect_on_report") or "—",
+                     ru_date(f["since"]) if f.get("since") else "—",
+                     f.get("lifted_when") or "—"] for f in groups["limit"]]) \
+        if groups["limit"] else "<p class='muted'>Ограничений нет.</p>"
+    rules = table(["Правило", "Как считается", "Следствие для отчёта"],
+                  [[f["title"], f["detail"], f.get("effect_on_report") or "—"]
+                   for f in groups["rule"]]) \
+        if groups["rule"] else "<p class='muted'>Правил нет.</p>"
+    n_inc, n_lim, n_rule = len(inc), len(groups["limit"]), len(groups["rule"])
+    return (
+        f"<p>Сбоев дня: <b>{n_inc}</b> · постоянных ограничений: <b>{n_lim}</b> · "
+        f"правил подсчёта: <b>{n_rule}</b>. Статус данных отчёта считается "
+        "только по сбоям.</p>"
+        f"<h3>Сбои дня</h3>{incidents}"
+        f"<details><summary><b>Постоянные ограничения методики ({n_lim})</b> — "
+        "не сбои: у каждого названы дата и условие снятия</summary>"
+        f"{limits}</details>"
+        f"<details><summary><b>Правила подсчёта ({n_rule})</b> — как складываются "
+        f"числа, чтобы их не сравнивали неверно</summary>{rules}</details>")
+
+
+def _funnel_section(dq: dict) -> str:
+    """Сводная воронка за общее окно — рядом с картой измерений."""
+    fn = dq.get("funnel") or {}
+    if not fn.get("available"):
+        return ""
+    cur, prev = fn.get("current") or {}, fn.get("previous") or {}
+    rows = []
+    for r in fn.get("rows") or []:
+        d = r.get("delta")
+        delta = "—" if d is None else (f"+{num(d)}" if d > 0 else num(d))
+        rows.append([r["label"], r["source"], num(r["previous"]), num(r["current"]), delta])
+    caveat = ("" if fn.get("complete") else
+              "<p class='muted'>Окно неполное: нет дней " +
+              ", ".join(fn.get("missing_dates") or []) + " — дельты не публикуются.</p>")
+    return (f"<h3>Сводная воронка за общее окно {ru_date(cur.get('from'))}–"
+            f"{ru_date(cur.get('to'))}</h3>"
+            f"<p class='muted'>Против {ru_date(prev.get('from'))}–{ru_date(prev.get('to'))}. "
+            f"{fn.get('note', '')}</p>{caveat}"
+            + table(["Показатель", "Источник", "Было", "Стало", "Δ"], rows))
 
 
 def _demand_section() -> str:
@@ -613,11 +691,6 @@ def build_html(b: dict, snap: dict, dq: dict, date: str) -> str:
           ", ".join(m["comparable_with"]) or "—", m["difference_explanation"]]
          for m in dq.get("measurement_map", [])])
 
-    findings = table(
-        ["Уровень", "Проверка", "Что обнаружено", "Следствие для отчёта"],
-        [[f["level"], f["title"], f["detail"], f.get("effect_on_report") or "—"]
-         for f in dq["findings"]])
-
     board = table(
         ["Задача", "Владелец", "Стадия", "Статус", "Срок", "Артефакт"],
         [[f"<a href='{r['artifact_url']}'>{r['task']}</a>", r["owner"], r["stage"],
@@ -833,13 +906,7 @@ def build_html(b: dict, snap: dict, dq: dict, date: str) -> str:
             f"<td>{s_['previous']}</td><td>{s_['current']}</td><td>{s_['delta']}</td>"
             f"<td class='muted'>{s_['confidence']}</td></tr>")
 
-    findings_rows = []
-    for f in dq["findings"]:
-        cls = {"critical": "critical", "warning": "warning", "info": ""}[f["level"]]
-        findings_rows.append([f"<span class='chip {cls}'>{f['level']}</span>",
-                              f["title"], f["detail"], f.get("effect_on_report") or "—"])
-    findings = table(["Уровень", "Проверка", "Что обнаружено", "Следствие для отчёта"],
-                     findings_rows)
+    findings = _quality_section(dq)
 
     health_cls = {"positive": "positive", "warning": "warning", "danger": "danger"}[
         b["health"]["colour"]]
@@ -868,10 +935,11 @@ def build_html(b: dict, snap: dict, dq: dict, date: str) -> str:
         f"<div class='callout'><b class='chip {health_cls}'>"
         f"{PILL_LABEL[b['health']['status']]}</b>"
         f"<p style='margin:10px 0 0'>{b['health']['detail']}</p></div>"
-        f"<p>{b['measurement_summary']}</p>{mmap}")
+        f"<p>{b['measurement_summary']}</p>{mmap}{_funnel_section(dq)}")
 
     # Критичность каждого раздела — из его содержимого, не константой.
-    dq_levels = {f["level"] for f in dq["findings"]}
+    # Качество данных: по сбоям дня, ограничения и правила статус не портят.
+    dq_levels = {f["level"] for f in _quality_groups(dq)["incident"]}
     ads_tones = {d["tone"] for d in ads_data.get("decisions", [])}
     exp_verdicts = {e["verdict"] for e in b["experiments"]}
     sections = [
@@ -1004,13 +1072,15 @@ def build_html(b: dict, snap: dict, dq: dict, date: str) -> str:
         {"id": "quality", "title": "Качество данных",
          "crit": 3 if "critical" in dq_levels
                  else (2 if "warning" in dq_levels else 1),
-         "desc": "Полный список проверок качества данных за день (~35 правил): "
-                 "что обнаружено и как это ограничивает выводы отчёта.",
+         "desc": "Сбои дня (что сломалось в сборе и источниках сегодня), "
+                 "постоянные ограничения методики с условием снятия и правила "
+                 "подсчёта. Статус данных отчёта считается только по сбоям.",
          "html": findings},
-        {"id": "yandex-queries", "title": "Запросы Яндекса — выборка топ-100",
+        {"id": "yandex-queries", "title": "Запросы Яндекса за окно источника",
          "crit": 0,
          "desc": "Полная таблица запросов Вебмастера с показами, кликами, "
-                 "позицией и интентом. Это выборка запросов, не весь сайт.",
+                 "позицией и интентом за окно источника; окно плавает вслед "
+                 "за задержкой Вебмастера и не совпадает с окном KPI.",
          "html": queries},
         {"id": "google-pages", "title": "Страницы в Google",
          "crit": 0,
@@ -1295,14 +1365,25 @@ def build_markdown(b: dict, snap: dict, dq: dict, date: str) -> str:
     for m in dq.get("measurement_map", []):
         L.append(f"| {m['source']} | {m['metric']} | {m['scope']} | {m['period']} | "
                  f"{', '.join(m['comparable_with']) or '—'} |")
+    groups = _quality_groups(dq)
     L += ["", "## Качество данных", "",
           f"**{PILL_LABEL[cov['status']].capitalize()}:** {cov['reason']}. {cov['detail']}",
-          "", "| Уровень | Проверка | Что обнаружено |", "|---|---|---|"]
-    for f in dq["findings"]:
-        L.append(f"| {f['level']} | {f['title']} | {f['detail']} |")
+          "", f"Сбоев дня: {len(groups['incident'])} · постоянных ограничений: "
+          f"{len(groups['limit'])} · правил подсчёта: {len(groups['rule'])}.", ""]
+    for kind, title in (("incident", "Сбои дня"), ("limit", "Постоянные ограничения"),
+                        ("rule", "Правила подсчёта")):
+        L += [f"### {title}", ""]
+        if not groups[kind]:
+            L += ["Нет.", ""]
+            continue
+        L += ["| Уровень | Проверка | Что обнаружено | Снимается, когда |", "|---|---|---|---|"]
+        for f in groups[kind]:
+            L.append(f"| {f['level']} | {f['title']} | {f['detail']} | "
+                     f"{f.get('lifted_when') or '—'} |")
+        L.append("")
 
     yx = snap["yandex"]
-    L += ["", "## Запросы Яндекса — выборка топ-100", "",
+    L += ["", "## Запросы Яндекса за окно источника", "",
           "| Запрос | Показы | Клики | Средняя позиция | Интент |", "|---|---|---|---|---|"]
     for e in sorted(yx.get("entities") or [], key=lambda e: -e["impressions"])[:50]:
         L.append(f"| {e['entity_id']} | {num(e['impressions'])} | {num(e['clicks'])} | "
