@@ -5,7 +5,11 @@
 #   2) сливает дубли разделов: товары переезжают в основной раздел, дубль
 #      уходит с витрины (в archived, не удаляется);
 #   3) проставляет разделам intro — текст, который покупатель видит на плитке
-#      раздела и подзаголовком на странице раздела.
+#      раздела и подзаголовком на странице раздела;
+#   4) переносит тексты страниц разделов из блока `content`: seo_text (блок
+#      «Как выбрать» под списком товаров), faqs (вопросы раздела), meta_title
+#      и meta_description. Поля сравниваются по одному, пишутся только
+#      изменившиеся.
 #
 # Источник — `data/catalog/categories.json` в репозитории: тексты правятся
 # ревью в коде, а не вслепую в базе.
@@ -124,9 +128,23 @@ jobs:
             intros = plan.get('intro', {})
             creates = plan.get('create', [])
             merges = plan.get('merge', {})
+            # Тексты страниц разделов; ключи с подчёркиванием — заметки редактора.
+            contents = {k: v for k, v in plan.get('content', {}).items()
+                        if not k.startswith('_')}
+            CONTENT_FIELDS = ('seo_text', 'faqs', 'meta_title', 'meta_description')
+
+            def norm(field, value):
+                """Сравнимое представление поля: строки без хвостовых пробелов,
+                faqs — как список пар без учёта форматирования JSON."""
+                if field == 'faqs':
+                    items = value if isinstance(value, list) else []
+                    return [(str(i.get('q', '')).strip(), str(i.get('a', '')).strip())
+                            for i in items if isinstance(i, dict)]
+                return (value or '').strip()
 
             cats = call('GET', '/items/categories?limit=-1'
-                        '&fields=id,slug,name,sort,status,intro&sort=sort,name',
+                        '&fields=id,slug,name,sort,status,intro,'
+                        + ','.join(CONTENT_FIELDS) + '&sort=sort,name',
                         token=read_token)
             by_slug = {c['slug']: c for c in cats}
 
@@ -143,14 +161,16 @@ jobs:
                 row['vendors'][v] = row['vendors'].get(v, 0) + 1
 
             print('РАЗДЕЛЫ КАТАЛОГА')
-            print(f"{'слаг':24} {'опубл':>6} {'скрыт':>6} {'intro':>6}  название / вендоры")
+            print(f"{'слаг':24} {'опубл':>6} {'скрыт':>6} {'intro':>6} {'текст':>6} {'faq':>4}  название / вендоры")
             for c in cats:
                 s = c['slug']
                 n = counts.get(s, {})
                 intro = (c.get('intro') or '').strip()
+                text = (c.get('seo_text') or '').strip()
+                faqs = c.get('faqs') if isinstance(c.get('faqs'), list) else []
                 top = sorted(n.get('vendors', {}).items(), key=lambda x: -x[1])[:5]
                 print(f"{s:24} {n.get('published', 0):>6} {n.get('draft', 0):>6} "
-                      f"{len(intro):>6}  {c['name']} · "
+                      f"{len(intro):>6} {len(text):>6} {len(faqs):>4}  {c['name']} · "
                       + ', '.join(f'{v} {k}' for v, k in top))
             orphan = counts.get('(без категории)')
             if orphan:
@@ -192,6 +212,32 @@ jobs:
             if missing:
                 print(f"  ? без текста в плане: {', '.join(missing)}")
 
+            # Тексты страниц: по каждому полю отдельно, чтобы отчёт показывал,
+            # что именно изменится, а PATCH не трогал совпадающее.
+            todo_content = []
+            for slug, fields in contents.items():
+                cur = by_slug.get(slug)
+                if cur is None:
+                    print(f"  ! текст страницы для {slug}, а в базе такого раздела нет")
+                    continue
+                patch = {}
+                for f in CONTENT_FIELDS:
+                    if f not in fields:
+                        continue
+                    if norm(f, cur.get(f)) != norm(f, fields[f]):
+                        patch[f] = fields[f]
+                if not patch:
+                    continue
+                todo_content.append((slug, cur, patch))
+                parts = []
+                for f, v in patch.items():
+                    was = cur.get(f)
+                    if f == 'faqs':
+                        parts.append(f"faqs {len(norm(f, was))} → {len(norm(f, v))} вопр.")
+                    else:
+                        parts.append(f"{f} {len(norm(f, was))} → {len(norm(f, v))} симв.")
+                print(f"  ~ {slug}: текст страницы — " + ', '.join(parts))
+
             if not apply:
                 print('\nОТЧЁТ. Ничего не записано (apply=false).')
                 raise SystemExit(0)
@@ -225,9 +271,16 @@ jobs:
                 call('PATCH', f"/items/categories/{cur['id']}",
                      {'intro': intros[slug]}, token=write_token)
                 patched += 1
+            content_patched = 0
+            for slug, cur, patch in todo_content:
+                target = by_slug[slug]  # созданный в этом прогоне раздел уже в by_slug
+                call('PATCH', f"/items/categories/{target['id']}", patch, token=write_token)
+                content_patched += 1
+                print(f"текст страницы {slug}: {', '.join(patch)}")
+
             print(f"\nПРИМЕНЕНО: создано разделов {len(todo_create)}, "
                   f"слито дублей {len(todo_merge)} (товаров перенесено {moved}), "
-                  f"обновлено описаний {patched}")
+                  f"обновлено описаний {patched}, текстов страниц {content_patched}")
             PY
 
       - name: Post results to journal (issue #22)
