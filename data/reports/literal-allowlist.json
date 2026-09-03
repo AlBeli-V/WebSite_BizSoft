@@ -2,13 +2,6 @@
  "$comment": "Исключения для scripts/seo/tests/test_report_literals.py — утверждения без срока годности, которые ещё живут в тексте отчётов. Каждая запись — долг с датой: после valid_until тест падает, пока текст не исправлен. Запись, которой ничего не соответствует, тоже роняет тест. Этапы — по docs/ops/report-integrity-audit-2026-09-03.md, раздел 6.",
  "entries": [
   {
-   "file": ".github/workflows/ops-briefing-2026-08-24.yml",
-   "match": "2026-08-24",
-   "code": "DATE",
-   "reason": "разовый воркфлоу от 24.08.2026 живёт как постоянный; архивация и поле expires — этап 3 (М5)",
-   "valid_until": "2026-09-17"
-  },
-  {
    "file": "competitive-intelligence/attack_engine/recommendations.py",
    "match": "квота 150 URL",
    "code": "QUOTA",

@@ -1,3 +1,4 @@
+# expires: 2026-09-17 — одноразовое поручение; по истечении срока перенести в .github/workflows-archive/ или продлить через PR.
 # Применяет оптимизацию #1 из reports/server/load-analysis-2026-08-19.md:
 #   - копирует обновлённый deploy.sh (с builder prune) в /opt/bizsoft/deploy.sh
 #   - разово чистит build-кэш Docker (наблюдали ~9.6 ГБ)
@@ -84,16 +85,8 @@ jobs:
 
       - name: Post results to journal (issue #22)
         if: always()
-        uses: actions/github-script@v7
-        env:
-          OUT: ${{ steps.run.outputs.stdout }}
-          APPLY: ${{ github.event_name == 'push' && 'true' || inputs.apply }}
+        uses: ./.github/actions/journal-post
         with:
-          script: |
-            const out = (process.env.OUT || '(нет вывода)').slice(0, 60000);
-            await github.rest.issues.createComment({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: 22,
-              body: '### ops-apply-cleanup (apply=' + process.env.APPLY + ') · ' + new Date().toISOString() + '\n```\n' + out + '\n```',
-            });
+          title: "ops-apply-cleanup (apply=${{ github.event_name == 'push' && 'true' || inputs.apply }})"
+          outcome: ${{ steps.run.outcome }}
+          body: ${{ steps.run.outputs.stdout }}

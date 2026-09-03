@@ -32,15 +32,9 @@ jobs:
             echo 'PROBE_EOF'
           } >> "$GITHUB_OUTPUT"
       - name: Post to issue
-        uses: actions/github-script@v7
-        env:
-          PROBE_URL: ${{ inputs.url }}
-          PROBE_RESULT: ${{ steps.probe.outputs.result }}
+        if: always()
+        uses: ./.github/actions/journal-post
         with:
-          script: |
-            await github.rest.issues.createComment({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: 22,
-              body: '### ops-probe: ' + process.env.PROBE_URL + '\n\n```\n' + process.env.PROBE_RESULT + '\n```',
-            });
+          title: "ops-probe: ${{ inputs.url }}"
+          outcome: ${{ steps.probe.outcome }}
+          body: ${{ steps.probe.outputs.result }}

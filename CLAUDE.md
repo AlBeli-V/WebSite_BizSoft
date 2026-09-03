@@ -178,6 +178,32 @@ meta_title у `/product/deposit-unl-month` и `/product/deposit-unl-year`).
 автоматическая — `tests/webvisor-masking.test.ts` роняет `pnpm test`. Что
 настроено в кабинете и как смотреть записи — `docs/marketing/webvisor.md`.
 
+## Регулярное правило: журнал со статусом, реестр секретов, срок годности воркфлоу
+
+Установлено 03.09.2026 по аудиту достоверности отчётов
+(`docs/ops/report-integrity-audit-2026-09-03.md`). Действует во всех ветках.
+
+- Запись в журнал-issue #22 из воркфлоу — только через composite action
+  `.github/actions/journal-post` с обязательным `outcome` основного шага:
+  заголовок несёт ✓/✗, при неуспехе прогон красный. Свой
+  `actions/github-script` с `createComment` больше не заводить;
+  `tests/workflows-lint.test.ts` не даст вырасти числу шагов без статуса.
+- `|| true` и `exit 0` после «не найден/не задан» вокруг основного скрипта
+  запрещены: вывод сохраняется в output (`rc=$?` → `exit $rc`), а шаг
+  краснеет.
+- Каждый секрет, который читает воркфлоу, записан в
+  `ops/secrets/registry.json` с назначением и потребителями
+  (`tests/secrets-registry.test.ts`). Второе имя одного токена — долг со
+  сроком `resolve_by`.
+- Одноразовый воркфлоу (поручение, дата в имени) несёт `# expires:` в
+  шапке; просроченный переносится в `.github/workflows-archive/` или
+  продлевается через PR.
+- Текст отчётов, промптов Routine и записей журнала не содержит утверждений
+  без срока годности (даты, обещания, «ждёт», суммы, квоты) —
+  `scripts/seo/tests/test_report_literals.py`, исключения в
+  `data/reports/literal-allowlist.json` с `valid_until`. Недоступный блок
+  письма — только через `scripts/seo/passport.py`.
+
 ## Каталог и привязки
 
 - Directus — единственный источник товаров; вендор товара — точное значение
