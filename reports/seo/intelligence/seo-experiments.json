@@ -307,7 +307,7 @@
    ],
    "hypothesis": "Приём, подтверждённый на кластере Depositphotos (CONTENT-001, вердикт CONFIRMED 02.09.2026: +70% показов, статья на 5-й позиции), воспроизводится на других кластерах при тех же условиях — сайт уже показывается по кластеру со средней позицией в топ-10 и есть карточки товаров для взаимной перелинковки.",
    "success_metric": "рост суммарных показов шести кластеров относительно базовых 684 показов за 12 дней и вход статей в топ-10 Яндекса; контрольная точка 16.09.2026",
-   "control_group": "кластеры Windsurf, GitLab, Atlassian, Box, Descript, Dropbox — прошли те же гейты отбора (показы, средняя позиция в топ-10, карточки товаров), но статей не получили. До контрольной точки 16.09.2026 статьи по ним не заводить: это следующая волна расширения, и взятая раньше времени она лишит эксперимент контроля.",
+   "control_group": "до 03.09.2026 — кластеры Windsurf, GitLab, Atlassian, Box, Descript, Dropbox; решением руководителя 03.09.2026 (EXPAND по CONTENT-001) все шесть получили статьи в партии CONTENT-003, поэтому контроль переназначен на кластеры Unity, QuadSpinner Gaea, Foundry, SideFX Houdini, Maxon — без статей блога (общая контрольная группа с content-10-clusters). Оговорка для вердикта 16.09: у новой группы показов меньше (24 + 21 + 20 + 20 + 19 за окно), чем у прежней, и сравнение с ней слабее.",
    "source": "src/content/blog/*.md (шесть файлов партии); отбор целей — scripts/seo/expansion.py, профиль content",
    "evaluation_kind": "impressions_growth",
    "query_markers": [
@@ -330,7 +330,10 @@
     "date": "2026-09-02",
     "decision": "EXPAND",
     "note": "Решение руководителя по вердикту CONTENT-001: тиражируем приём. Отбор целей — по условиям оригинала (не по списку из отчёта: он был собран по общей частотности бренда), первая партия — шесть кластеров."
-   }
+   },
+   "notes": [
+    "03.09.2026: контрольная группа переназначена — прежняя целиком ушла в партию CONTENT-003 по решению руководителя."
+   ]
   },
   {
    "id": "cluster-coreldraw",
@@ -365,6 +368,117 @@
    "success_metric": "рост показов кластера CorelDRAW относительно базовых 145 показов за 13 дней и вход статьи /blog/kak-oplatit-coreldraw-dlya-yurlica в топ-10 Яндекса к 16.09.2026",
    "control_group": "остальные кластеры вендоров без статьи",
    "source": "решение руководителя 02.09.2026 (EXPAND по CONTENT-001, первый кластер — CorelDRAW); номер изменён с CONTENT-002 на CONTENT-003 02.09.2026: тикет заняла раньше партия content-6-clusters, а два эксперимента с одним номером в письме неразличимы"
+  },
+  {
+   "id": "content-10-clusters",
+   "ticket": "CONTENT-003",
+   "start": "2026-09-03",
+   "status": "running",
+   "pages": [
+    "/blog/kak-kupit-windsurf-iz-rossii-dlya-yurlica",
+    "/blog/gitlab-godovaya-podpiska-iz-rossii-dlya-yurlica",
+    "/blog/oplata-descript-yuridicheskim-licom",
+    "/blog/kak-poluchit-schet-i-zakryvayushchie-ot-atlassian",
+    "/blog/kak-oplatit-box-business-iz-rossii",
+    "/blog/korporativnye-plany-cloudflare-dlya-kompanij-iz-rf",
+    "/blog/oplata-dropbox-dlya-yurlica-iz-rossii",
+    "/blog/kupit-leonardo-ai-yuridicheskim-licom",
+    "/blog/spine-2d-kupit-licenziyu-dlya-yurlica",
+    "/blog/elevenlabs-tarify-oplata-dlya-yurlica",
+    "/vendors/windsurf",
+    "/vendors/gitlab",
+    "/vendors/descript",
+    "/vendors/atlassian",
+    "/vendors/box",
+    "/vendors/cloudflare",
+    "/vendors/dropbox",
+    "/vendors/leonardo-ai",
+    "/vendors/spine",
+    "/vendors/elevenlabs"
+   ],
+   "target_pages": [
+    "/blog/kak-kupit-windsurf-iz-rossii-dlya-yurlica",
+    "/blog/gitlab-godovaya-podpiska-iz-rossii-dlya-yurlica",
+    "/blog/oplata-descript-yuridicheskim-licom",
+    "/blog/kak-poluchit-schet-i-zakryvayushchie-ot-atlassian",
+    "/blog/kak-oplatit-box-business-iz-rossii",
+    "/blog/korporativnye-plany-cloudflare-dlya-kompanij-iz-rf",
+    "/blog/oplata-dropbox-dlya-yurlica-iz-rossii",
+    "/blog/kupit-leonardo-ai-yuridicheskim-licom",
+    "/blog/spine-2d-kupit-licenziyu-dlya-yurlica",
+    "/blog/elevenlabs-tarify-oplata-dlya-yurlica"
+   ],
+   "baseline": {
+    "period": "12 дней, окно Вебмастера 20.08–31.08.2026 (выгрузка 03.09)",
+    "impressions_cluster": 609,
+    "days": 12,
+    "positions": "4.0–9.2 (средняя по кластерам, взвешенная показами)",
+    "note": "Десять кластеров второй волны тиража — все кандидаты профиля content на 03.09.2026 (scripts/seo/expansion.py): показы кластера при средней позиции ≤ 10, не меньше двух карточек, кластер не занят другим экспериментом. Сумма 609 посчитана маркерами самого эксперимента — тем же кодом, которым вердикт считает окно после внедрения; по-кластерный разрез (596) — по первому совпавшему маркеру, разница — запросы с несколькими маркерами и общие формы.",
+    "by_cluster": {
+     "windsurf": 111,
+     "gitlab": 62,
+     "descript": 56,
+     "atlassian": 100,
+     "box": 49,
+     "cloudflare": 47,
+     "dropbox": 58,
+     "leonardo-ai": 49,
+     "spine": 36,
+     "elevenlabs": 28
+    }
+   },
+   "changes": [
+    "десять статей блога под транзакционный интент кластера по схеме CONTENT-001: прямой ответ в первых двух предложениях, разбор, которого нет на лендинге (расчёт мест, единица тарификации, права), порядок оформления счёта, таблица сравнения тарифов со ссылками на карточки, раздел «когда это не нужно», FAQ-блок с FAQPage-разметкой штатным компонентом",
+    "ведущие запросы кластеров из выгрузки Вебмастера — в заголовках и тексте дословно: «windsurf ai в россии», «gitlab годовая подписка из россии», «оплата descript юридическим лицом», «как получить счет и закрывающие от atlassian», «оплата box для юридических лиц из россии», «корпоративные планы cloudflare для компаний из рф», «оплата dropbox для юридических лиц из россии», «купить leonardo ai юридическим лицом», «spine 2d купить», «elevenlabs тарифы»",
+    "перелинковка статья → /vendors/<slug>, /catalog, /documents и карточки товаров кластера",
+    "обратная перелинковка карточка → статья работает штатно через relatedProducts (src/pages/product/[slug].astro), нового кода не нужно",
+    "обложки по единой дизайн-системе тем же генератором (scripts/marketing/build-blog-covers.mjs)"
+   ],
+   "hypothesis": "Приём, подтверждённый на кластере Depositphotos (CONTENT-001, вердикт CONFIRMED 03.09.2026: +62% показов, статья на 6-й позиции) и тиражированный первой партией (CONTENT-002), воспроизводится на следующих десяти кластерах при тех же условиях — сайт уже показывается по кластеру со средней позицией в топ-10 и есть карточки товаров для взаимной перелинковки.",
+   "success_metric": "рост суммарных показов десяти кластеров относительно базовых 609 показов за 12 дней и вход статей в топ-10 Яндекса; контрольная точка 17.09.2026 (14 дней после внедрения), затем 01.10.2026 (28 дней)",
+   "control_group": "кластеры Unity (прошёл все гейты профиля content: 24 показа за окно, позиция 7.0, две карточки), QuadSpinner Gaea, Foundry, SideFX Houdini, Maxon (позиция в топ-10 и карточки есть, показов меньше порога 2/день) — без статей блога. Статей по ним до контрольной точки 01.10.2026 не заводить: это единственные оставшиеся кластеры, на которых видно, растут ли показы без приёма.",
+   "source": "src/content/blog/*.md (десять файлов партии); отбор целей — scripts/seo/expansion.py, профиль content; задача — reports/seo/tasks/CONTENT-003-cluster-articles-wave2.md",
+   "evaluation_kind": "impressions_growth",
+   "query_markers": [
+    "windsurf",
+    "виндсерф",
+    "gitlab",
+    "гитлаб",
+    "descript",
+    "дескрипт",
+    "atlassian",
+    "атлассиан",
+    "jira",
+    "джира",
+    "confluence",
+    "конфлюенс",
+    "box",
+    "cloudflare",
+    "клаудфлар",
+    "клаудфлаер",
+    "dropbox",
+    "дропбокс",
+    "дроп бокс",
+    "leonardo",
+    "леонардо",
+    "spine",
+    "спайн",
+    "elevenlabs",
+    "eleven labs",
+    "элевенлабс"
+   ],
+   "query_exclude": [
+    "xbox",
+    "x box",
+    "leonardo da vinci",
+    "да винчи",
+    "бизнес бокс"
+   ],
+   "owner_decision": {
+    "date": "2026-09-03",
+    "decision": "EXPAND",
+    "note": "Решение руководителя 03.09.2026 в чате по вердикту CONTENT-001 (CONFIRMED, +62%, позиция 6): «эксперимент удачный, расширяем на рекомендованные страницы и продукты вендоров второй части, ставим на аналогичное наблюдение и контроль для дальнейшего тиража». Партия — все десять кандидатов профиля content на дату решения."
+   }
   }
  ]
 }
