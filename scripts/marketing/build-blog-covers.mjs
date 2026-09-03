@@ -187,6 +187,17 @@ const COVERS = {
     icons: ['brain', 'users', 'code', 'clock', 'ruble', 'doc'],
     alt: 'Звуковая волна в центре схемы: клонирование голоса, кредиты на синтез, интеграция через API и оплата подписки по счёту',
   },
+  // Тираж решения EXPAND по CONTENT-001: кластеры CorelDRAW и HeyGen.
+  'kak-oplatit-coreldraw-dlya-yurlica': {
+    hero: 'image',
+    icons: ['users', 'stamp', 'refresh', 'clock', 'ruble', 'doc'],
+    alt: 'Графический пакет в центре схемы: подписка и бессрочная лицензия, рабочие места дизайнеров, продление и оплата по счёту',
+  },
+  'kak-oplatit-heygen-dlya-yurlica': {
+    hero: 'image',
+    icons: ['brain', 'users', 'refresh', 'shield', 'ruble', 'doc'],
+    alt: 'Кадр видео в центре схемы: ИИ-аватар и озвучка, перевод на другие языки, места команды и оформление подписки по счёту',
+  },
 };
 
 const logo = readFileSync(resolve(ROOT, 'public/brand/bizsoft-logo-primary-transparent.png'))
