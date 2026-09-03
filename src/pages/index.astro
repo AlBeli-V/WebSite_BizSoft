@@ -177,6 +177,11 @@ const servicesItemList = {
 
       {heroCards.length >= 2 ? (
         <div class="hero-media reveal is-visible">
+          <!-- Заголовок секции для скринридеров: карточки несут h3, а после h1
+               уровень нельзя перепрыгивать через два (Lighthouse
+               heading-order). Визуально блок подписи не имеет — заголовок
+               скрыт классом .sr-only, но остаётся в структуре страницы. -->
+          <h2 class="sr-only">Популярные тарифы</h2>
           <div class="hero-cards">
             {heroCards.map((p, i) => {
               const eff = effectivePrice(p);

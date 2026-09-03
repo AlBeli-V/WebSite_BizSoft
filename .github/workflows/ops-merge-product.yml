@@ -28,6 +28,9 @@ on:
         required: true
         default: 'false'
 permissions:
+  # checkout читает репозиторий токеном GITHUB_TOKEN: при явном permissions
+  # без contents раннер получает «Repository not found» (прогон #204 ops-probe).
+  contents: read
   issues: write
 jobs:
   merge:
@@ -39,6 +42,11 @@ jobs:
             echo "Запуск разрешён только с ветки main. Текущий ref: ${{ github.ref_name }}"
             exit 1
           fi
+      # Локальный action journal-post лежит в репозитории — без checkout
+      # раннер его не находит, и запись в журнал падает (см. прогон #41
+      # ops-yandex-recrawl 03.09.2026).
+      - uses: actions/checkout@v4
+
       - name: Merge in Directus
         id: run
         uses: appleboy/ssh-action@v1
@@ -148,21 +156,21 @@ jobs:
                 print('\nзаписано в Directus')
             PYEOF
       - name: Save to file
+        if: always()
         run: |
           cat > /tmp/ops-merge.txt <<'OPS_MERGE_EOF'
           ${{ steps.run.outputs.stdout }}
           OPS_MERGE_EOF
+      # Локальному action нужен репозиторий в рабочей копии. if: always() —
+      # потому что шаг журнала тоже always(): без этого при падении основного
+      # шага checkout пропускается, и запись в журнал снова не проходит.
+      - name: Checkout for journal action
+        if: always()
+        uses: actions/checkout@v4
       - name: Post to issue
-        uses: actions/github-script@v7
-        env:
-          APPLY: ${{ inputs.apply }}
-          KEEP: ${{ inputs.keep }}
-          DROP: ${{ inputs.drop }}
+        if: always()
+        uses: ./.github/actions/journal-post
         with:
-          script: |
-            const out = require('fs').readFileSync('/tmp/ops-merge.txt', 'utf8').slice(0, 55000);
-            await github.rest.issues.createComment({
-              owner: context.repo.owner, repo: context.repo.repo, issue_number: 22,
-              body: `### ops-merge-product (apply=${process.env.APPLY}): `
-                + `${process.env.DROP} → ${process.env.KEEP}\n\n\`\`\`\n${out}\n\`\`\``,
-            });
+          title: "ops-merge-product (apply=${{ inputs.apply }}): ${{ inputs.drop }} → ${{ inputs.keep }}"
+          outcome: ${{ steps.run.outcome }}
+          body-file: /tmp/ops-merge.txt

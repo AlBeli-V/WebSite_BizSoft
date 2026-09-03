@@ -33,7 +33,11 @@ jobs:
             echo "Запуск разрешён только с ветки main. Текущий ref: ${{ github.ref_name }}"
             exit 1
           fi
-      - uses: actions/checkout@v4
+      - name: Checkout
+        # always() — шаг журнала ниже тоже always(): без этого при
+        # падении раннего шага checkout пропустится и запись не пройдёт.
+        if: always()
+        uses: actions/checkout@v4
 
       - name: Extract location block from template
         run: |
@@ -146,14 +150,8 @@ jobs:
 
       - name: Post to issue
         if: always()
-        uses: actions/github-script@v7
-        env:
-          OUT: ${{ steps.run.outputs.stdout }}
-          MODE: ${{ inputs.apply }}
+        uses: ./.github/actions/journal-post
         with:
-          script: |
-            await github.rest.issues.createComment({
-              owner: context.repo.owner, repo: context.repo.repo, issue_number: 22,
-              body: '### ops-nginx-ci-reports (apply=' + process.env.MODE + ')\n\n```\n'
-                + (process.env.OUT || '(нет вывода)').slice(0, 20000) + '\n```',
-            });
+          title: "ops-nginx-ci-reports (apply=${{ inputs.apply }})"
+          outcome: ${{ steps.run.outcome }}
+          body: ${{ steps.run.outputs.stdout }}

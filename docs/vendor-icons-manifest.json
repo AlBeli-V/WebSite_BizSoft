@@ -1378,5 +1378,16 @@
   "source_kind": "Официальный глиф бренда MiniMax (simple-icons), вектор",
   "quality": "vector-original-palette",
   "note": "Знак правообладателя — компании MiniMax; сервис Hailuo AI собственного знака не публикует. Подключается к странице /vendors/hailuo через ALIAS hailuo→minimax в src/data/vendor-icons.ts. Цвет #E73562."
+ },
+ {
+  "index": 101,
+  "vendor": "Lansweeper",
+  "slug": "lansweeper",
+  "official_domain": "lansweeper.com",
+  "catalog_url": "https://biz-soft.pro/vendors/lansweeper",
+  "added": "2026-09-02",
+  "source_kind": "Официальный вектор логотипа Lansweeper (контуры букв L и s)",
+  "quality": "vector-original-palette",
+  "note": "Знак «Ls» собран из контуров официального логотипа: буква L серая, s оранжевая и крупнее, чем в слове, — так же, как в фирменной квадратной иконке вендора. Полное написание Lansweeper живёт отдельным файлом в public/brand-logos и показывается в плитке производителей; сайт вендора закрыт Cloudflare, поэтому исходник взят из опубликованного официального SVG логотипа."
  }
 ]

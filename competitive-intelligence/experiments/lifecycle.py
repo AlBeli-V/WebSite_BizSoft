@@ -176,7 +176,7 @@ def baseline_for(snapshots: dict, day: str, queries, window: int) -> dict:
         dates = _dates_upto(snapshots, day, 1)
         median = _median_positions(snapshots, dates, queries)
         fallback = ("замеров до дня внедрения нет; базой взят сам день "
-                    "фиксации — правка к этому моменту ещё не была на проде")
+                    "фиксации")
     return {
         "дата": day,
         "дни": dates,
