@@ -15,14 +15,14 @@ const { source = 'pricing', title = 'Запросить расчёт', submitLab
 <form class="lead-form card" data-lead-form data-source={source}>
   <h3>{title}</h3>
   <div class="lf-grid">
-    <label>ФИО:<input name="name" required autocomplete="name" /></label>
-    <label>E-mail:<input name="email" type="email" required autocomplete="email" /></label>
-    <label>Телефон:<input name="phone" type="tel" required autocomplete="tel" placeholder="+7 (___) ___-__-__" /></label>
-    <label>Компания:<input name="company" required autocomplete="organization" /></label>
-    <label>ИНН:<input name="inn" required inputmode="numeric" pattern="[0-9]{10,12}" placeholder="10 или 12 цифр" /></label>
+    <label>ФИО:<input class="ym-disable-keys" name="name" required autocomplete="name" /></label>
+    <label>E-mail:<input class="ym-disable-keys" name="email" type="email" required autocomplete="email" /></label>
+    <label>Телефон:<input class="ym-disable-keys" name="phone" type="tel" required autocomplete="tel" placeholder="+7 (___) ___-__-__" /></label>
+    <label>Компания:<input class="ym-disable-keys" name="company" required autocomplete="organization" /></label>
+    <label>ИНН:<input class="ym-disable-keys" name="inn" required inputmode="numeric" pattern="[0-9]{10,12}" placeholder="10 или 12 цифр" /></label>
     <label>Количество мест:<input name="seats" type="number" min="1" max="10000" required inputmode="numeric" placeholder="например, 10" /></label>
   </div>
-  <label>Что нужно подобрать?<textarea name="message" rows="3" required placeholder="Сервисы, количество пользователей, сроки…"></textarea></label>
+  <label>Что нужно подобрать?<textarea class="ym-disable-keys" name="message" rows="3" required placeholder="Сервисы, количество пользователей, сроки…"></textarea></label>
   <VendorChips />
   <FormGuardFields />
   <label class="lf-consent">

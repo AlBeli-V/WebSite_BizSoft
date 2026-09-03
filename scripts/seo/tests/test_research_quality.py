@@ -22,6 +22,8 @@ discovery = importlib.import_module('discovery')
 # Данные из фикстур: копии machine-данных вычищены из main 30.08.2026.
 _FIXWS = pathlib.Path(__file__).resolve().parent / 'fixtures/reports/seo/wordstat'
 audience.DECISIONS_PATH = _FIXWS / 'decisions.json'
+audience.VENDOR_DECISIONS_PATH = (pathlib.Path(__file__).resolve().parent
+                                  / 'fixtures/reports/seo/intelligence/vendor-decisions.json')
 discovery.CANDIDATES_TS = _FIXWS / 'vendor-candidates.json'
 
 
@@ -49,6 +51,13 @@ class TestDecisions(unittest.TestCase):
         self.assertTrue(approved)
         for b in approved:
             self.assertIsNone(audience.skip_reason(b))
+
+    def test_отказ_из_второго_реестра_тоже_действует(self):
+        # 29.08.2026 руководитель отклонил NordVPN и Ansys, но решение легло
+        # только в один реестр, и кандидаты предлагались заново. Теперь любой
+        # из двух реестров закрывает вопрос.
+        self.assertIsNotNone(audience.skip_reason('vercel'))
+        self.assertIsNotNone(audience.skip_reason('vercel купить'))
 
     def test_registry_entries_are_traceable(self):
         d = audience.load_decisions()
@@ -111,7 +120,7 @@ class TestPlaybook(unittest.TestCase):
 
     def test_every_gap_class_has_a_task(self):
         for cls in ('GAP-A', 'GAP-B', 'GAP-C', 'GAP-D',
-                    'GAP-E', 'GAP-F', 'GAP-G', 'GAP-H'):
+                    'GAP-E', 'GAP-F', 'GAP-G', 'GAP-H', 'GAP-N'):
             r = playbook.build({**self.SAMPLE, 'gap': cls}, '2026-08-21')
             self.assertTrue(r['step'], cls)
             self.assertTrue(r['prompt'], cls)
@@ -127,9 +136,17 @@ class TestPlaybook(unittest.TestCase):
 
     def test_success_is_measurable(self):
         """Признак завершения содержит дату — иначе задача не закрывается."""
-        for cls in ('GAP-A', 'GAP-B', 'GAP-C', 'GAP-D', 'GAP-E'):
+        for cls in ('GAP-A', 'GAP-B', 'GAP-C', 'GAP-D', 'GAP-E', 'GAP-N'):
             r = playbook.build({**self.SAMPLE, 'gap': cls}, '2026-08-21')
             self.assertIn('2026-', r['success'], cls)
+
+    def test_unobserved_page_gets_a_measurement_not_a_verdict(self):
+        """GAP-N поручает замер; слов «не индексируется» и «вне топ-100» в нём нет."""
+        r = playbook.build({**self.SAMPLE, 'gap': 'GAP-N', 'best_position': None},
+                           '2026-08-21')
+        self.assertIn('отсутствие наблюдения', r['prompt'])
+        self.assertNotIn('не индексируется', r['step'])
+        self.assertNotIn('вне топ-100', r['prompt'])
 
     def test_new_page_prompt_requires_payment_check(self):
         """Спрос без возможности оплатить в сделку не превращается."""

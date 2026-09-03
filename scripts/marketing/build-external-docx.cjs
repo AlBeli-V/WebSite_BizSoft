@@ -86,7 +86,8 @@ function runs(text, base = {}) {
     if (m.index > last) out.push(new TextRun({ text: text.slice(last, m.index), ...base }));
     const tok = m[0];
     if (tok.startsWith('**')) {
-      out.push(new TextRun({ text: tok.slice(2, -2), bold: true, ...base }));
+      // Внутри жирного может быть ссылка — разбираем рекурсивно, наследуя стиль.
+      out.push(...runs(tok.slice(2, -2), { ...base, bold: true }));
     } else if (tok.startsWith('`')) {
       out.push(new TextRun({ text: tok.slice(1, -1), font: 'Consolas', size: 20, ...base }));
     } else if (tok.startsWith('[')) {
@@ -97,7 +98,8 @@ function runs(text, base = {}) {
       }));
       out.push(new TextRun({ text: ` (${mm[2]})`, size: 18, color: '767676', ...base }));
     } else {
-      out.push(new TextRun({ text: tok.slice(1, -1), italics: true, ...base }));
+      // То же для курсива: подпись канала — курсив со ссылкой внутри.
+      out.push(...runs(tok.slice(1, -1), { ...base, italics: true }));
     }
     last = m.index + tok.length;
   }

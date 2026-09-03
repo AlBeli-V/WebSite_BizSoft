@@ -97,6 +97,37 @@ class AdsBlockTest(unittest.TestCase):
         b = self._build(_stats(), date='2026-08-30')
         self.assertEqual(b['decisions'], [])
 
+    def test_неделя_и_с_запуска_разные_суммы(self):
+        # Расход за всё время сравнивался с недельным лимитом; теперь неделя —
+        # последние семь дней данных, «с запуска» — отдельная сумма.
+        groups = [_g('2026-08-10', 'Claude — подписки', 10, 2, 1000.0),
+                  _g('2026-08-28', 'Claude — подписки', 10, 2, 100.0)]
+        b = self._build(_stats(groups=groups) | {"date_from": "2026-08-10"})
+        self.assertAlmostEqual(b['week']['spent'], 100.0)
+        self.assertAlmostEqual(b['since_launch']['spent'], 1100.0)
+        self.assertEqual(b['since_launch']['days'], 19)
+        self.assertFalse(b['stale'])
+        self.assertEqual(b['as_of'], '2026-08-28')
+
+    def test_отставшая_выгрузка_не_пустой_кабинет(self):
+        # Витрина покрывает только 26.08, письмо от 29.08 ждёт 28.08: это
+        # сбой сбора, а не «ни одного показа в рабочий день».
+        groups = [_g('2026-08-26', 'Claude — подписки', 10, 2, 100.0)]
+        b = self._build(_stats(groups=groups) | {"date_to": "2026-08-26"})
+        self.assertTrue(b['stale'])
+        self.assertEqual(b['as_of'], '2026-08-26')
+        self.assertEqual(b['expected_as_of'], '2026-08-28')
+        self.assertFalse(any('ни одного показа' in d['text'] for d in b['decisions']))
+        self.assertTrue(any('отстаёт' in d['text'] and d['tone'] == 'warn'
+                            for d in b['decisions']))
+        self.assertAlmostEqual(b['day_spend'], 100.0)
+
+    def test_имя_кампании_не_зашито(self):
+        b = self._build(_stats())
+        self.assertIsNone(b['campaign'])
+        b = self._build(_stats() | {"campaign": "bs-2026-10"})
+        self.assertEqual(b['campaign'], 'bs-2026-10')
+
     def test_недельный_расход_суммируется_по_всем_группам(self):
         groups = [_g('2026-08-28', 'Claude — подписки', 10, 2, 100.0),
                   _g('2026-08-28', 'Midjourney', 10, 1, 50.5)]
@@ -173,15 +204,32 @@ class StageBAttributionTest(unittest.TestCase):
         self.assertEqual(row["verdict"]["tone"], "ok")
         self.assertIn("CPA 2000", row["verdict"]["label"])
 
-    def test_клики_без_заявок_и_контактов_красные(self):
-        stats = _stats([_g("2026-08-28", "Claude Code — для команд", 500, 30, 2000.0)])
-        att = _att([{"name": "Claude Code — для команд", "visits": 28,
+    def test_расход_выше_цены_заявки_без_заявок_красный(self):
+        """Порог паузы — CPA-лимит направления, а не число кликов."""
+        stats = _stats([_g("2026-08-28", "Claude Code — для команд", 900, 60, 3200.0)])
+        att = _att([{"name": "Claude Code — для команд", "visits": 55,
                      "goal_reaches_any": 0, "leads": {}}])
         b = self._build(stats, attribution=att)
         row = next(r for r in b["rows"] if r["key"] == "k2")
         self.assertEqual(row["verdict"]["tone"], "bad")
         self.assertIn("кандидат на паузу", row["verdict"]["label"])
         self.assertIn("решение за вами", row["verdict"]["label"])
+
+    def test_много_кликов_но_расход_ниже_цены_заявки_не_красный(self):
+        """Ноль заявок на 30 кликах — обычный исход и у здоровой группы.
+
+        Прежний ручной порог (25 кликов) красил такую строку в красное и
+        предлагал паузу, когда направление потратило две трети допустимой
+        цены заявки. Теперь до порога строка показывает остаток.
+        """
+        stats = _stats([_g("2026-08-28", "Claude Code — для команд", 500, 30, 2000.0)])
+        att = _att([{"name": "Claude Code — для команд", "visits": 28,
+                     "goal_reaches_any": 0, "leads": {}}])
+        b = self._build(stats, attribution=att)
+        row = next(r for r in b["rows"] if r["key"] == "k2")
+        self.assertEqual(row["verdict"]["tone"], "ok")
+        self.assertIn("2000 из 3000", row["verdict"]["label"])
+        self.assertNotIn("паузу", row["verdict"]["label"])
 
     def test_CPA_выше_порога_жёлтый(self):
         stats = _stats([_g("2026-08-28", "Midjourney — контрольная", 500, 30, 2000.0)])

@@ -3,16 +3,41 @@ import { SEO_EXPERIMENTS, SEO_EXPERIMENT_LINKS } from '../src/data/seo-experimen
 
 // Эксперименты живут в одном файле, но считаются раздельно: даты старта
 // разные, и смешивать их метрики нельзя.
-const EXP_1 = ['canva', 'depositphotos', 'coreldraw', 'heygen', 'marmoset'];
-const EXP_2 = ['adobe', 'autodesk', 'procreate', 'blackmagic', 'midjourney', 'clip-studio-paint'];
+// CorelDRAW ушёл из EXP_1 в EXP_4 02.09.2026: решение по SEO-EXP-001 принято
+// (EXPAND), страница освободилась под запросную формулу.
+const EXP_1 = ['canva', 'depositphotos', 'heygen', 'marmoset'];
+// snippets-6-demand закрыт 03.09.2026 (перезапуск): четыре страницы без
+// показов остаются с прежними сниппетами вне эксперимента (KEEP).
+const EXP_2 = ['adobe', 'autodesk', 'blackmagic', 'midjourney'];
+// Перезапуск SEO-EXP-002 «snippets-2-price-intent»: запросная формула под
+// ценовой интент фактических запросов Вебмастера.
+const EXP_2R = ['clip-studio-paint', 'procreate'];
 // «snippet-anthropic-demand» (29.08.2026): GAP-D — показы есть, кликов нет.
 const EXP_3 = ['anthropic'];
 // «snippets-3-gap-d» (01.09.2026): запросная формула «оплата {vendor}
 // юридическим лицом» вместо общей коммерческой.
-const EXP_4 = ['artlist', 'motion-array'];
+const EXP_4 = ['artlist', 'motion-array', 'coreldraw'];
+// «snippets-10-expand» (02.09.2026): тираж формулы EXP_1 по решению
+// руководителя. Формула та же — иначе тиражируется не то, что оценивалось.
+const EXP_5 = ['google', 'microsoft', 'github', 'unity', 'docker', 'runway',
+  'solidworks', 'acronis', 'unreal-engine', 'perplexity'];
+// Запросная формула каждой страницы EXP_4: она обязана стоять в title,
+// description, заголовке блока вопросов и в первом вопросе — в этом и есть
+// вся правка, поэтому проверяется явно, а не по общему шаблону.
+const EXP_4_PHRASE: Record<string, string> = {
+  artlist: 'оплата artlist юридическим лицом',
+  'motion-array': 'оплата motion array юридическим лицом',
+  coreldraw: 'оплата coreldraw для россиян',
+};
+// Ценовая формула EXP_2R: вопрос «сколько стоит {Vendor}» стоит первым в
+// description, заголовке блока вопросов и первом вопросе; в title — «цена».
+const EXP_2R_VENDOR: Record<string, string> = {
+  'clip-studio-paint': 'Clip Studio Paint',
+  procreate: 'Procreate',
+};
 // Группы с общей коммерческой формулой title/description.
-const COMMERCIAL = [...EXP_1, ...EXP_2, ...EXP_3];
-const SLUGS = [...COMMERCIAL, ...EXP_4];
+const COMMERCIAL = [...EXP_1, ...EXP_2, ...EXP_3, ...EXP_5];
+const SLUGS = [...COMMERCIAL, ...EXP_4, ...EXP_2R];
 
 describe('SEO-эксперименты на vendor-страницах', () => {
   it('все группы на месте, пересечений нет — иначе метрики смешаются', () => {
@@ -20,10 +45,11 @@ describe('SEO-эксперименты на vendor-страницах', () => {
     expect(SEO_EXPERIMENT_LINKS.map((l) => l.slug).sort()).toEqual([...SLUGS].sort());
     expect(EXP_1.filter((s) => EXP_2.includes(s))).toEqual([]);
     expect(SLUGS.filter((s) => EXP_4.includes(s) && COMMERCIAL.includes(s))).toEqual([]);
+    expect(SLUGS.filter((s) => EXP_2R.includes(s) && (COMMERCIAL.includes(s) || EXP_4.includes(s)))).toEqual([]);
   });
 
-  it('контрольная группа не затронута: правок ровно 14 vendor-страниц', () => {
-    expect(Object.keys(SEO_EXPERIMENTS)).toHaveLength(14);
+  it('контрольная группа не затронута: правок ровно 24 vendor-страницы', () => {
+    expect(Object.keys(SEO_EXPERIMENTS)).toHaveLength(24);
   });
 
   it('бренд в title ровно один раз, до 65 символов без учёта «| BIZSoft»', () => {
@@ -53,7 +79,8 @@ describe('SEO-эксперименты на vendor-страницах', () => {
     for (const s of EXP_4) {
       const { description } = SEO_EXPERIMENTS[s];
       expect(description.length).toBeLessThanOrEqual(160);
-      expect(description).toMatch(/^Оплата .+ юридическим лицом: сч[её]т, договор/);
+      // Формулировка запроса идёт первой, оффер — сразу за двоеточием.
+      expect(description).toMatch(/^Оплата .+: сч[её]т, договор/);
       expect(description).toContain('ЭДО');
       expect(description).toContain('1–3 дня');
     }
@@ -82,9 +109,49 @@ describe('SEO-эксперименты на vendor-страницах', () => {
       // эксперимент и другой объём правки.
       expect(faq).toBeUndefined();
       expect(faqAdd).toHaveLength(1);
-      expect(faqTitle).toMatch(/^Оплата .+ юридическим лицом$/);
+      expect(faqTitle).toMatch(/^Оплата /);
       const [{ q, a }] = faqAdd!;
-      expect(q).toMatch(/^Как оплатить .+ юридическим лицом из России\?$/);
+      expect(q).toMatch(/^Как оплатить .+\?$/);
+      expect(a).toMatch(/сч[её]т/i);
+      expect(a).toMatch(/договор/i);
+      expect(a).toMatch(/ЭДО/);
+      expect(a).toMatch(/1–3/);
+      expect(a).toMatch(/курсу ЦБ/);
+    }
+  });
+
+  it('snippets-3-gap-d: формулировка запроса стоит в сниппете и в вопросе', () => {
+    for (const s of EXP_4) {
+      const phrase = EXP_4_PHRASE[s];
+      const { title, description, faqTitle, faqAdd } = SEO_EXPERIMENTS[s];
+      // Слова запроса, а не строка целиком: в заголовке они идут с заглавной
+      // и в том же порядке, но между ними может стоять тире или двоеточие.
+      const words = phrase.split(' ');
+      const head = new RegExp(words.join('\\s+'), 'i');
+      expect(title).toMatch(head);
+      expect(description).toMatch(head);
+      expect(faqTitle.toLowerCase()).toBe(phrase);
+      expect(`${faqAdd![0].q} ${faqAdd![0].a}`).toMatch(head);
+    }
+  });
+
+  it('snippets-2-price-intent: ценовая формула в сниппете, вопрос добавлен к bespoke-FAQ', () => {
+    for (const s of EXP_2R) {
+      const vendor = EXP_2R_VENDOR[s];
+      const { title, description, faqTitle, faq, faqAdd } = SEO_EXPERIMENTS[s];
+      expect(title).toContain(vendor);
+      expect(title).toMatch(/цена/);
+      expect(description.length).toBeLessThanOrEqual(160);
+      expect(description.startsWith(`Сколько стоит ${vendor}`)).toBe(true);
+      expect(description).toMatch(/в рублях/);
+      expect(description).toContain('ЭДО');
+      expect(description).toContain('1–3 дня');
+      expect(faqTitle.startsWith('Сколько стоит')).toBe(true);
+      // Собственный FAQ страницы сохраняется — вопрос добавляется первым.
+      expect(faq).toBeUndefined();
+      expect(faqAdd).toHaveLength(1);
+      const [{ q, a }] = faqAdd!;
+      expect(q.startsWith(`Сколько стоит ${vendor}`)).toBe(true);
       expect(a).toMatch(/сч[её]т/i);
       expect(a).toMatch(/договор/i);
       expect(a).toMatch(/ЭДО/);
@@ -100,11 +167,13 @@ describe('SEO-эксперименты на vendor-страницах', () => {
     }
   });
 
-  // Барьер: страницы незавершённого snippets-5-vendors не трогаем до вердикта
-  // 02.09.2026 — правка сниппета смазала бы оценку эксперимента.
-  it('CorelDRAW остаётся на формуле snippets-5-vendors до вердикта', () => {
-    expect(SEO_EXPERIMENTS.coreldraw.title).toBe(
-      'Оплата CorelDRAW для юрлиц из России — счёт, договор, ЭДО | BIZSoft',
-    );
+  // Решение руководителя 02.09.2026 — EXPAND: формула snippets-5-vendors
+  // тиражируется без изменений. Тираж с «улучшенной» формулой оценивал бы
+  // не то изменение, которое признано удачным.
+  it('тираж повторяет формулу исходного эксперимента дословно', () => {
+    for (const s of EXP_5) {
+      const { title } = SEO_EXPERIMENTS[s];
+      expect(title).toMatch(/^Оплата .+ для юрлиц из России — счёт, договор, ЭДО \| BIZSoft$/);
+    }
   });
 });

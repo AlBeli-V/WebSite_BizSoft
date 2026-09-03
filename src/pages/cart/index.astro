@@ -104,7 +104,7 @@ try {
       <p class="kp-hint">Подготовим коммерческое предложение с составом заказа и реквизитами и отправим на указанную почту.</p>
       <label class="kp-suggest">
         Организация или ИНН:
-        <input name="buyer_company" required autocomplete="organization"
+        <input class="ym-disable-keys" name="buyer_company" required autocomplete="organization"
                placeholder="Начните вводить название или ИНН"
                role="combobox" aria-expanded="false" aria-autocomplete="list"
                aria-controls="kp-suggest-list" data-company />
@@ -112,12 +112,12 @@ try {
       </label>
       <p class="kp-found" data-found hidden></p>
       <div class="kp-row">
-        <label>ИНН:<input name="buyer_inn" required inputmode="numeric" data-inn /></label>
-        <label>ФИО:<input name="contact_name" required autocomplete="name" /></label>
+        <label>ИНН:<input class="ym-disable-keys" name="buyer_inn" required inputmode="numeric" data-inn /></label>
+        <label>ФИО:<input class="ym-disable-keys" name="contact_name" required autocomplete="name" /></label>
       </div>
       <div class="kp-row">
-        <label>E-mail:<input name="email" type="email" required autocomplete="email" /></label>
-        <label>Телефон:<input name="phone" type="tel" required autocomplete="tel" placeholder="+7 (___) ___-__-__" /></label>
+        <label>E-mail:<input class="ym-disable-keys" name="email" type="email" required autocomplete="email" /></label>
+        <label>Телефон:<input class="ym-disable-keys" name="phone" type="tel" required autocomplete="tel" placeholder="+7 (___) ___-__-__" /></label>
       </div>
       <FormGuardFields />
       <label class="kp-consent">

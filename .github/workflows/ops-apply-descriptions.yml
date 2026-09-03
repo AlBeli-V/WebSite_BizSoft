@@ -45,7 +45,7 @@ jobs:
             ADMIN_PASSWORD=$(docker compose exec -T directus printenv ADMIN_PASSWORD | tr -d '\r')
             export ADMIN_EMAIL ADMIN_PASSWORD
             python3 - <<'PYEOF'
-            import datetime, json, os, urllib.request
+            import datetime, json, os, urllib.error, urllib.request
             SRC = '/opt/bizsoft/astro-src/data/seo/product-descriptions.json'
             base = 'http://127.0.0.1:8055'
             def req(method, path, data=None, token=None):
@@ -55,7 +55,7 @@ jobs:
                              **({'Authorization': f'Bearer {token}'} if token else {})})
                 return json.load(urllib.request.urlopen(r))
             if not os.path.exists(SRC):
-                print('файл не найден:', SRC); print('деплой ещё не разложил тексты на сервер'); raise SystemExit(1)
+                print('файл не найден:', SRC); print('файла на сервере нет: деплой его не разложил'); raise SystemExit(1)
             mtime = datetime.datetime.utcfromtimestamp(os.path.getmtime(SRC)).isoformat()
             payload = json.load(open(SRC, encoding='utf-8'))
             texts = payload.get('products', payload)
@@ -86,7 +86,14 @@ jobs:
                     print(f'    было:  {было[:160]}')
                     print(f'    стало: {v[:160]}')
                 if apply:
-                    req('PATCH', f"/items/products/{cur['id']}", patch, token=tok)
+                    # Мета и тексты — содержательное изменение: штамп для
+                    # lastmod в sitemap. Пока схема без поля (ops-directus-schema
+                    # не прогнан) — пишем без штампа, а не роняем прогон.
+                    stamp = {**patch, 'content_updated_at': datetime.datetime.now(datetime.timezone.utc).isoformat()}
+                    try:
+                        req('PATCH', f"/items/products/{cur['id']}", stamp, token=tok)
+                    except urllib.error.HTTPError:
+                        req('PATCH', f"/items/products/{cur['id']}", patch, token=tok)
                 changed += 1
             print(f'\nизменено: {changed}, без изменений: {skipped}, не найдено: {missing} | '
                   f"режим: {'ПРИМЕНЕНО' if apply else 'план (без записи)'}")

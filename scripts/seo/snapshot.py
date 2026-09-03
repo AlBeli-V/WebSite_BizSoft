@@ -21,6 +21,7 @@ import sys
 
 import daily_windows
 import leads as leads_mod
+import passport
 
 SCHEMA_VERSION = "2.2.0"
 # Часовой пояс отчётности — московский: так требует правило проекта, и так же
@@ -250,9 +251,94 @@ def source_unavailable(name: str, raw: dict | None, error: str | None = None,
     """
     status = status or ("missing" if raw is None else "error")
     msg = error or (raw or {}).get("error") or "выгрузка отсутствует"
-    return {"available": False, "error": msg,
+    code = "no_file" if status == "missing" else "api_error"
+    return {**passport.unavailable(code, source=name, detail=None if status == "missing" else msg),
+            "error": msg,
             "source": source_meta(name, (raw or {}).get("date"), None,
                                   p_start, p_end, None, None, filters or {}, status)}
+
+
+# INDEX-001. Статусы исключения Вебмастера, которые не являются проблемой
+# сами по себе: адрес намеренно закрыт, переадресован или склеен.
+EXPECTED_EXCLUSION_STATUSES = {
+    "REDIRECT_SEARCH", "REDIRECT_NOTSEARCHABLE", "NOT_CANONICAL",
+    "NOINDEX", "NOT_MAIN_MIRROR", "PARSER_ERROR_NOINDEX",
+}
+COMMERCIAL_PREFIXES = ("/product/", "/vendors/", "/solutions/", "/catalog")
+
+
+def load_sitemap_paths(date: str) -> set[str] | None:
+    """Пути живого sitemap из инвентаря (sitemap_inventory.py); None — нет выгрузки."""
+    inv = load("sitemap", date)
+    if not inv:
+        files = sorted(DATA_DIR.glob("sitemap-*.json"))
+        if not files:
+            return None
+        try:
+            inv = json.loads(files[-1].read_text(encoding="utf-8"))
+        except ValueError:
+            return None
+    return {u.get("path") for u in (inv.get("urls") or []) if u.get("path")}
+
+
+def classify_excluded(events: dict | None, excluded_total: int | None,
+                      date: str) -> dict:
+    """Исключённые из поиска URL по причинам (INDEX-001).
+
+    Источник — выборка событий поиска Вебмастера: у события «снят из
+    поиска» есть статус исключения. Классификация трёхслойная: статус
+    источника (переадресация, canonical, noindex — ожидаемо), присутствие
+    адреса в живом sitemap (снятые карточки и закрытые по правилу каталога
+    страницы в sitemap не входят — ожидаемо) и раздел сайта (карточка,
+    вендор, решение, каталог — коммерчески значимо). Тревога — только
+    коммерческий адрес из sitemap с неожиданным статусом.
+
+    Без выборки (старое сырьё, ошибка среза) — прежние None: «причины
+    неизвестны», а не «проблем нет».
+    """
+    none = {"excluded_by_reason": None, "commercial_excluded_urls": None,
+            "unclassified_excluded_urls": excluded_total,
+            "excluded_samples": None}
+    if not isinstance(events, dict) or events.get("error"):
+        return none
+    samples = [s for s in (events.get("samples") or [])
+               if isinstance(s, dict) and s.get("event") == "REMOVED_FROM_SEARCH"]
+    if not samples:
+        return none
+    sitemap = load_sitemap_paths(date)
+    by_reason: dict[str, int] = {}
+    commercial, unexpected = [], []
+    seen = set()
+    for s in samples:
+        url = s.get("url") or ""
+        path = url.replace("https://biz-soft.pro", "").replace("http://biz-soft.pro", "") or "/"
+        if path in seen:
+            continue
+        seen.add(path)
+        status = s.get("excluded_url_status") or "UNKNOWN"
+        by_reason[status] = by_reason.get(status, 0) + 1
+        in_sitemap = (path in sitemap) if sitemap is not None else None
+        is_commercial = path.startswith(COMMERCIAL_PREFIXES)
+        expected = status in EXPECTED_EXCLUSION_STATUSES or in_sitemap is False
+        if not expected:
+            unexpected.append({"path": path, "status": status,
+                               "event_date": s.get("event_date"),
+                               "commercial": is_commercial})
+            if is_commercial:
+                commercial.append(path)
+    classified = len(seen)
+    return {
+        "excluded_by_reason": dict(sorted(by_reason.items(), key=lambda kv: -kv[1])),
+        "commercial_excluded_urls": len(commercial),
+        "unclassified_excluded_urls": max(0, (excluded_total or 0) - classified)
+        if excluded_total is not None else None,
+        "excluded_samples": {
+            "classified": classified,
+            "window": {"from": events.get("date_from"), "to": events.get("date_to")},
+            "sitemap_known": sitemap is not None,
+            "unexpected": sorted(unexpected, key=lambda u: (not u["commercial"], u["path"]))[:50],
+        },
+    }
 
 
 def build_yandex(raw: dict | None, prev: dict | None, date: str) -> dict:
@@ -319,7 +405,10 @@ def build_yandex(raw: dict | None, prev: dict | None, date: str) -> dict:
                        "запросов (API popular queries, постраничный забор)"),
              "region": "не задан в запросе", "device": "все"},
             "ok",
-            "Клики/показы относятся к выборке топ-100 запросов, а не ко всему сайту."),
+            ("Клики/показы — по всем запросам хоста за окно источника (постраничный "
+             "забор); KPI письма — из дневной витрины."
+             if pq.get("count") and pq.get("fetched", 0) >= pq["count"] else
+             "Клики/показы относятся к выборке запросов, а не ко всему сайту.")),
         "entities": entities,
         "totals": {
             "impressions": impressions,
@@ -341,11 +430,10 @@ def build_yandex(raw: dict | None, prev: dict | None, date: str) -> dict:
                                 if summary.get("searchable_pages_count") is not None else None,
             "indexed_urls": summary.get("searchable_pages_count"),
             "excluded_urls": summary.get("excluded_pages_count"),
-            "excluded_by_reason": None,
-            "commercial_excluded_urls": None,
-            "unclassified_excluded_urls": summary.get("excluded_pages_count"),
             "sqi": sqi,
             "site_problems": summary.get("site_problems"),
+            **classify_excluded(raw.get("search_url_events"),
+                                summary.get("excluded_pages_count"), date),
         },
     }
 
@@ -505,8 +593,43 @@ def ga4_partial_error(raw: dict) -> str | None:
     return None
 
 
+# Те же списки, что у сборщиков (collect.INTERNAL_SOURCES и
+# collect.AI_ASSISTANT_SOURCES); повторены здесь, чтобы снимок не тянул
+# модуль сбора с его зависимостями от секретов.
+INTERNAL_SOURCES = ("metrika.yandex.ru", "webmaster.yandex.ru", "direct.yandex.ru")
+AI_ASSISTANT_SOURCES = ("alice.yandex.ru",)
+
+
+def _source_group(rows: list, names: tuple) -> dict | None:
+    """Сессии и ключевые события GA4 по группе источников; None — нет строк."""
+    hits = [r for r in rows if r["dimensionValues"][0]["value"] in names]
+    if not hits:
+        return None
+    return {
+        "sources": [r["dimensionValues"][0]["value"] for r in hits],
+        "sessions": sum(int(r["metricValues"][0]["value"]) for r in hits),
+        "key_events": sum(float(r["metricValues"][1]["value"]) for r in hits),
+    }
+
+
+def _goal_users(metrika: dict) -> tuple[dict | None, int | None]:
+    """Уникальные посетители органики по конверсионным целям.
+
+    Сборщик отдаёт разбивку по ключам целей (ym:s:goal<ID>users). Сумма по
+    ключам — верхняя оценка уникальных: посетитель с двумя разными целями
+    входит в обе. Пустая разбивка при заведённых целях — измеренный ноль.
+    """
+    raw = metrika.get("organic_goal_users")
+    if not isinstance(raw, dict) or "error" in raw:
+        return None, None
+    by_key = {k: int(float(v or 0)) for k, v in raw.items()}
+    return by_key, sum(by_key.values())
+
+
 def build_analytics(metrika: dict | None, ga4: dict | None, date: str) -> dict:
-    out = {"metrika": {"available": False}, "ga4": {"available": False}, "intra_day_revisions": []}
+    out = {"metrika": passport.unavailable("no_file", source="yandex_metrika"),
+           "ga4": passport.unavailable("no_file", source="ga4"),
+           "intra_day_revisions": []}
     m_err = (metrika_partial_error(metrika)
              if metrika and not metrika.get("error") else None)
     if not metrika or metrika.get("error") or m_err:
@@ -534,7 +657,12 @@ def build_analytics(metrika: dict | None, ga4: dict | None, date: str) -> dict:
             "visits_total": tot[0], "users_total": tot[1],
             "goal_events_total": tot[4],
             "organic_visits": org[0], "organic_goal_events": org[4],
-            "unique_goal_users": None,
+            # Уникальные посетители органики с конверсионной целью (решение
+            # руководителя 03.09.2026): верхняя оценка суммой по целям,
+            # разбивка рядом. None — сборщик не отдал срез (старое сырьё
+            # или ошибка запроса).
+            "unique_goal_users": _goal_users(metrika)[1],
+            "goal_users_by_key": _goal_users(metrika)[0],
             "qualified_leads": None, "deals": None, "revenue": None,
             # Кроме имени сохраняется идентификатор события из условий цели:
             # цели, заведённые 21.08.2026 через API, называются по-русски
@@ -595,17 +723,13 @@ def build_analytics(metrika: dict | None, ga4: dict | None, date: str) -> dict:
               for r in ga4.get("channels", {}).get("rows", [])}
         org = ch.get("Organic Search", ["0", "0", "0"])
         w = ga4.get("window", {})
-        # Свои визиты, которые GA4 засчитал в органический поиск. Считаются из
-        # сырого среза источников, а не предполагаются.
-        internal_names = ("metrika.yandex.ru", "webmaster.yandex.ru",
-                          "direct.yandex.ru", "alice.yandex.ru")
-        hits = [r for r in ga4.get("organic_sources", {}).get("rows", [])
-                if r["dimensionValues"][0]["value"] in internal_names]
-        internal = {
-            "sources": [r["dimensionValues"][0]["value"] for r in hits],
-            "sessions": sum(int(r["metricValues"][0]["value"]) for r in hits),
-            "key_events": sum(float(r["metricValues"][1]["value"]) for r in hits),
-        } if hits else None
+        # Свои визиты, которые GA4 засчитал в органический поиск, считаются
+        # из сырого среза источников, а не предполагаются. Алиса — отдельный
+        # канал: переходы живых пользователей из ассистента и Нейро, не
+        # выдача и не сотрудники (решение руководителя 03.09.2026).
+        src_rows = ga4.get("organic_sources", {}).get("rows", [])
+        internal = _source_group(src_rows, INTERNAL_SOURCES)
+        ai_assistant = _source_group(src_rows, AI_ASSISTANT_SOURCES)
         src_tz = ((ga4.get("channels") or {}).get("metadata") or {}).get("timeZone")
         lp = [{"entity_id": r["dimensionValues"][0]["value"],
                "sessions": int(r["metricValues"][0]["value"]),
@@ -614,6 +738,14 @@ def build_analytics(metrika: dict | None, ga4: dict | None, date: str) -> dict:
         out["ga4"] = {
             "available": True,
             "internal_in_organic": internal,
+            "ai_assistant_in_organic": ai_assistant,
+            # Органика без своих визитов и без Алисы — тот же состав, что у
+            # дневного ряда GA4 (collect_daily фильтрует те же источники);
+            # именно по этим числам публикуется конверсия канала.
+            "organic_sessions_clean": int(org[0]) - sum(
+                (b or {}).get("sessions", 0) for b in (internal, ai_assistant)),
+            "organic_key_events_clean": int(org[2]) - int(sum(
+                (b or {}).get("key_events", 0) for b in (internal, ai_assistant))),
             "source_timezone": src_tz,
             "source": source_meta("ga4", ga4.get("date"), w.get("to"), w.get("from"),
                                   w.get("to"), None, None,
@@ -666,33 +798,115 @@ def build_analytics_safe(metrika: dict | None, ga4: dict | None, date: str) -> d
 
 
 SEMANTICS_DIR = pathlib.Path("reports/seo/semantics")
+WORDSTAT_DIR = pathlib.Path("reports/seo/wordstat")
+DEMAND_STATE = WORDSTAT_DIR / "intelligence-state.json"
 DEMAND_STALE_DAYS = 45      # старше — замер считается устаревшим
+DEMAND_FULL_CYCLE_DAYS = 31  # полный цикл Wordstat не старше месяца — замер полный
+
+
+def _demand_from_state(date: str) -> dict | None:
+    """Спрос из живого состояния исследования Wordstat (ветка seo-data).
+
+    До 03.09.2026 снимок читал brief-2026-08-20.json из main — выжимку
+    упразднённого gap-анализа, которая не обновлялась две недели и
+    объявляла замер неполным (360 из 554 фраз), пока живое состояние
+    исследования (23 тысячи фраз, 174 кластера, полный цикл ежедневно)
+    лежало рядом и питало раздел «Спрос» веб-отчёта. Два раздела одного
+    отчёта спорили о свежести одного источника.
+    """
+    if not DEMAND_STATE.exists():
+        return None
+    try:
+        st = json.loads(DEMAND_STATE.read_text(encoding="utf-8"))
+    except ValueError:
+        return None
+    cov, uni = st.get("coverage") or {}, st.get("universe") or {}
+    measured_at = st.get("measured_at") or st.get("date")
+    if not cov.get("available") or not measured_at:
+        return None
+    age = (dt.date.fromisoformat(date) - dt.date.fromisoformat(measured_at)).days
+    full_dates = sorted(p.name[:10] for p in WORDSTAT_DIR.glob("*-full-result.json"))
+    last_full = full_dates[-1] if full_dates else None
+    full_age = ((dt.date.fromisoformat(date) - dt.date.fromisoformat(last_full)).days
+                if last_full else None)
+    complete = full_age is not None and full_age <= DEMAND_FULL_CYCLE_DAYS
+    # Разрывы в форме прежней выжимки: кластер → фразы с частотностью, по
+    # которым нас нет. Потребитель — блок возможностей (opportunity.py).
+    gaps: dict[str, list] = {}
+    top_commercial = []
+    for o in st.get("opportunities") or []:
+        cluster = o.get("cluster")
+        if not cluster:
+            continue
+        top_commercial.append({"cluster": cluster, "page": o.get("url"),
+                               "commercial_impressions": o.get("commercial_demand"),
+                               "seed_impressions": None,
+                               "gap": o.get("gap"), "gap_title": o.get("gap_title")})
+        phrases = [{"phrase": p.get("phrase"), "impressions": p.get("frequency")}
+                   for p in (o.get("top_phrases") or []) if p.get("phrase")]
+        if phrases and not (o.get("indexed") and (o.get("impressions") or 0) > 0):
+            gaps[cluster] = phrases
+    return {
+        "available": True,
+        "source": {
+            "source_name": "yandex_wordstat",
+            "measured_at": measured_at,
+            "age_days": age,
+            "region": "Россия",
+            "unit": "показы в поиске Яндекса",
+            "window": "последние 30 дней",
+            "match_type": "broad",
+            "refresh": "полный цикл ежедневно",
+            "last_full_cycle": last_full,
+        },
+        "coverage": (f"{uni.get('commercial_phrases')} коммерческих фраз из "
+                     f"{uni.get('phrases')} в {uni.get('clusters')} кластерах"),
+        "complete": complete,
+        "status": "stale" if age > DEMAND_STALE_DAYS else "ok",
+        "as_of": measured_at,
+        "expected_as_of": (dt.date.fromisoformat(date)
+                           - dt.timedelta(days=DEMAND_STALE_DAYS)).isoformat(),
+        "stale": age > DEMAND_STALE_DAYS,
+        "clusters_measured": uni.get("clusters"),
+        "clusters_planned": uni.get("clusters"),
+        "total_commercial_demand": cov.get("total_commercial_demand"),
+        "coverage_levels": cov.get("levels"),
+        "top_commercial": top_commercial,
+        "gap_cards": len(gaps),
+        "gap_phrases": sum(len(v) for v in gaps.values()),
+        "gaps": gaps,
+        "discovery": [],
+        "comparable_to_visibility": False,
+    }
 
 
 def build_market_demand(date: str) -> dict:
     """Рыночный спрос из Вордстата — знаменатель для нашей видимости.
 
-    Источник обновляется помесячно, поэтому в снимок дня попадает последний
-    доступный замер с его собственной датой и возрастом. Суточной дельты у спроса
-    нет и быть не может: сравнивать его день ко дню запрещено методикой.
+    Источник — живое состояние исследования Wordstat; старая выжимка
+    gap-анализа остаётся запасным путём для сырья до 03.09.2026. Суточной
+    дельты у спроса нет и быть не может: сравнивать его день ко дню
+    запрещено методикой.
     """
+    from_state = _demand_from_state(date)
+    if from_state is not None:
+        return from_state
     briefs = sorted(SEMANTICS_DIR.glob("brief-*.json"))
     if not briefs:
-        return {"available": False,
-                "reason": "замер рыночного спроса ещё не собран",
-                "comparable_to_visibility": False}
+        return passport.unavailable("no_file", source="замер рыночного спроса",
+                                    comparable_to_visibility=False)
     brief = json.loads(briefs[-1].read_text(encoding="utf-8"))
     if "coverage" not in brief:
         # Замеры до 19.08.2026 собраны без фильтра релевантности: по транслитерациям
         # брендов в них попали омонимы («корал тревел», «пион корал шарм»).
         # Такой замер не используется — лучше отсутствие данных, чем чужие числа.
-        return {"available": False,
-                "reason": "замер собран до включения фильтра релевантности и не используется",
-                "comparable_to_visibility": False}
+        return passport.unavailable("excluded", source="замер рыночного спроса",
+                                    detail="собран до включения фильтра релевантности",
+                                    comparable_to_visibility=False)
     measured = brief.get("clusters_measured") or 0
     if not measured:
-        return {"available": False,
-                "reason": "замер начат, но ни один кластер ещё не собран",
+        return {**passport.unavailable("no_rows", source="замер рыночного спроса",
+                                       detail="ни один кластер не собран"),
                 "measured_at": brief.get("report_date"),
                 "coverage": brief.get("coverage"),
                 "complete": brief.get("complete", False),
@@ -714,6 +928,10 @@ def build_market_demand(date: str) -> dict:
         },
         "coverage": brief.get("coverage"),
         "complete": brief.get("complete", False),
+        "status": "stale" if age > DEMAND_STALE_DAYS else "ok",
+        "as_of": measured_at,
+        "expected_as_of": (dt.date.fromisoformat(date)
+                           - dt.timedelta(days=DEMAND_STALE_DAYS)).isoformat(),
         "stale": age > DEMAND_STALE_DAYS,
         "clusters_measured": measured,
         "clusters_planned": brief.get("clusters_planned"),
@@ -722,8 +940,8 @@ def build_market_demand(date: str) -> dict:
         "gap_phrases": sum(len(v) for v in gaps.values()),
         "gaps": gaps,
         "discovery": brief.get("discovery") or [],
-        # Доля голоса не рассчитывается: наша видимость известна по выборке
-        # топ-100 запросов Вебмастера, охват и периоды источников не сверены.
+        # Доля голоса не рассчитывается: охват и периоды спроса и нашей
+        # видимости не сверены.
         "comparable_to_visibility": False,
     }
 
@@ -831,7 +1049,7 @@ def build_crm(date: str) -> dict:
     if raw is None:
         return {"connected": False, "qualified_leads": None, "deals": None,
                 "revenue": None, "block": leads_mod.build(None, date),
-                "note": "выгрузка заявок не выполнялась — "
+                "note": "выгрузки заявок нет — "
                         "коммерческий результат не измеряется"}
     try:
         block = leads_mod.build(raw, date)
@@ -839,6 +1057,10 @@ def build_crm(date: str) -> dict:
         return {"connected": False, "qualified_leads": None, "deals": None,
                 "revenue": None, "block": leads_mod.build(None, date),
                 "note": f"выгрузка заявок не разобрана: {type(e).__name__}: {e}"}
+    if data_date != date:
+        # Флаг stale прежде жил только в снимке, и письмо его не читало:
+        # карточка писала «полный подсчёт» по выгрузке, снятой до конца суток.
+        block = leads_mod.mark_stale(block, data_date)
     return {
         "connected": True,
         "data_date": data_date,

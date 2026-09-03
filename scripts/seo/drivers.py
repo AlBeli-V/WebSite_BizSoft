@@ -13,7 +13,13 @@
 
 from __future__ import annotations
 
+import pathlib
 import re
+import sys
+
+sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
+import measurement  # noqa: E402
+import passport
 
 VENDOR_PATH = re.compile(r"^/vendors/([a-z0-9-]+)")
 MIN_SHARE = 0.05          # вклад меньше 5 % в отдельный драйвер не выносим
@@ -50,9 +56,7 @@ def decompose(cur_rows, prev_rows, vendors, metric="impressions", limit=5):
     """Драйверы и детракторы изменения метрики между двумя снимками."""
     cur, prev = index(cur_rows), index(prev_rows)
     if not cur or not prev:
-        return {"available": False,
-                "reason": "нет сопоставимого предыдущего замера",
-                "drivers": [], "total_delta": None}
+        return passport.unavailable("no_previous", drivers=[], total_delta=None)
 
     items = []
     for key in set(cur) | set(prev):
@@ -111,8 +115,7 @@ def decompose(cur_rows, prev_rows, vendors, metric="impressions", limit=5):
     losses = [i for i in significant if i["delta"] < 0][:limit - len(gains)]
     shown = gains + losses
     return {
-        "available": bool(shown),
-        "reason": None if shown else "изменения слишком дробные, чтобы назвать драйвер",
+        **passport.flag(bool(shown), "no_signal", detail="изменений выше порога нет"),
         "total_delta": total,
         "net_delta_of_shown": sum(i["delta"] for i in shown),
         "drivers": gains,
@@ -141,9 +144,8 @@ def vendor_slugs(snap: dict) -> set[str]:
 def build(snap: dict, prev: dict | None) -> dict:
     """Разложение по обеим поисковым системам с явным указанием окна."""
     if not prev:
-        return {"available": False,
-                "reason": "нет предыдущего снимка — причина изменения пока не определена",
-                "blocks": []}
+        return passport.unavailable("no_previous", source="снимок за предыдущий день",
+                                    blocks=[])
     vendors = vendor_slugs(snap)
     blocks = []
 
@@ -169,18 +171,17 @@ def build(snap: dict, prev: dict | None) -> dict:
             "engine": "yandex",
             "engine_label": "Яндекс",
             "metric_label": "показы",
-            "window_label": f"выборка топ-100 запросов, окно "
+            "window_label": f"{measurement.yandex_scope_label(y)}, окно "
                             f"{src['current_period_start']}–{src['current_period_end']}",
-            "pages": {"available": False,
-                      "reason": "источник не отдаёт разбивку по страницам"},
+            "pages": passport.unavailable("unsupported", source="Вебмастер",
+                                          detail="разбивка по страницам"),
             "queries": queries,
         })
 
     usable = [b for b in blocks
               if b["pages"].get("available") or b["queries"].get("available")]
     return {
-        "available": bool(usable),
-        "reason": None if usable else "причина изменения пока не определена",
+        **passport.flag(bool(usable), "no_rows", source="разложение по источникам"),
         "blocks": blocks,
     }
 

@@ -2,7 +2,10 @@
 
 Правила вердиктов утверждены проектом 29.08.2026 (§3): маркер всегда
 идёт со словом-причиной; до 10 накопленных кликов направление серое —
-«мало данных», и никакие решения по нему не предлагаются. Этап B
+«мало данных», и никакие решения по нему не предлагаются. Порог паузы —
+экономический: направление становится кандидатом, когда потратило свой
+CPA-лимит без единой заявки и без контактов (решение руководителя
+02.09.2026 взамен ручных стоп-порогов по кликам). Этап B
 (01.09.2026): связка Метрика→Директ приносит заявки (цели lead_sent и
 quote_pdf), контакты (клики по телефону/почте, мессенджер) и CPA против
 порога направления; изменения кабинета по-прежнему только решением
@@ -17,29 +20,34 @@ import datetime as dt
 import json
 import pathlib
 
+import passport
 STATS = pathlib.Path("reports/seo/ppc/direct-stats.json")
 
 WEEKLY_LIMIT_RUB = 4098  # 5000 ₽/нед пополнения минус НДС 22%
 GREY_MIN_CLICKS = 10
 
-# Направление ← имя группы в кабинете; стоп-порог кликов без вовлечения и
-# допустимый CPA (≈25% прибыли сделки направления) — из спецификации v3.
+# Направление ← имя группы в кабинете и допустимый CPA заявки (≈25%
+# прибыли сделки направления) — из спецификации v3. Отдельного стоп-порога
+# по кликам больше нет: он задавался вручную (12–40 кликов) и был в 4–10
+# раз ниже экономического, поэтому письмо предлагало останавливать группы,
+# не потратившие и трети допустимой цены заявки. Решение руководителя
+# 02.09.2026: порог паузы — сам CPA-лимит.
 GROUPS = [
     {"key": "k1", "label": "Claude", "match": "Claude — подписки",
-     "stop_clicks": 40, "cpa_limit": 3000},
+     "cpa_limit": 3000},
     {"key": "k2", "label": "Claude Code", "match": "Claude Code",
-     "stop_clicks": 25, "cpa_limit": 3000},
+     "cpa_limit": 3000},
     {"key": "k3", "label": "Midjourney", "match": "Midjourney",
-     "stop_clicks": 25, "cpa_limit": 600},
+     "cpa_limit": 600},
     {"key": "k4", "label": "ChatGPT Business", "match": "ChatGPT",
-     "stop_clicks": 12, "cpa_limit": 2500},
-    # Расширение #210 (29.08): пороги предложены по аналогии — Cursor как
+     "cpa_limit": 2500},
+    # Расширение #210 (29.08): лимиты предложены по аналогии — Cursor как
     # Claude Code (B2B-dev, сопоставимая подписка), Adobe консервативнее
     # (маржа ниже AI-подписок); уточняются решением руководителя.
     {"key": "k5", "label": "Cursor", "match": "Cursor",
-     "stop_clicks": 25, "cpa_limit": 3000},
+     "cpa_limit": 3000},
     {"key": "k6", "label": "Adobe", "match": "Adobe",
-     "stop_clicks": 20, "cpa_limit": 1500},
+     "cpa_limit": 1500},
 ]
 
 # Маркеры нерелевантного интента в реальном поисковом запросе. Запрос,
@@ -73,22 +81,38 @@ def build(date: str, attribution: dict | None = None) -> dict:
     работает как в этапе A (вердикты по кликам и чистоте запросов).
     """
     if not STATS.exists():
-        return {"available": False, "reason": "выгрузки Директа ещё нет"}
+        return passport.unavailable("no_file", source="витрина Директа")
     data = json.loads(STATS.read_text(encoding="utf-8"))
     yesterday = (_campaign_day(date) - dt.timedelta(days=1)).isoformat()
+    # Дата данных берётся из витрины, а не из календаря. Выгрузка Директа
+    # идёт отдельным шагом и при сбое остаётся прежней; считать её «вчера»
+    # значило бы печатать «за день 0 ₽» и «ни одного показа» как факты о
+    # кабинете, а не о сборе (аудит 03.09.2026).
+    covered_to = data.get("date_to") or max(
+        (r["Date"] for r in data["groups"]), default=yesterday)
+    stale = covered_to < yesterday
+    as_of = covered_to if stale else yesterday
 
     # Пейсинг — по ВСЕМ строкам витрины, а не по перечисленным направлениям:
     # расширение кампании (новая группа в кабинете) не должно молча занижать
     # недельный расход письма (инцидент #217, группы Cursor/Adobe из #210).
     total_spend_day = sum(r["Cost"] for r in data["groups"]
-                          if r["Date"] == yesterday)
+                          if r["Date"] == as_of)
     total_spend_all = sum(r["Cost"] for r in data["groups"])
+    # Неделя — последние семь дней данных; «с запуска» — отдельная сумма.
+    # Прежде расход за всё время кампании сравнивался с недельным лимитом.
+    week_from = (_campaign_day(as_of) - dt.timedelta(days=6)).isoformat()
+    total_spend_week = sum(r["Cost"] for r in data["groups"]
+                           if week_from <= r["Date"] <= as_of)
+    launched = data.get("date_from") or min(
+        (r["Date"] for r in data["groups"]), default=as_of)
+    days_running = (_campaign_day(as_of) - _campaign_day(launched)).days + 1
 
     rows = []
     matched_names: set[str] = set()
     for g in GROUPS:
         day = [r for r in data["groups"]
-               if g["match"] in r["AdGroupName"] and r["Date"] == yesterday]
+               if g["match"] in r["AdGroupName"] and r["Date"] == as_of]
         alltime = [r for r in data["groups"] if g["match"] in r["AdGroupName"]]
         matched_names.update(r["AdGroupName"] for r in alltime)
         spend_day = sum(r["Cost"] for r in day)
@@ -121,24 +145,31 @@ def build(date: str, attribution: dict | None = None) -> dict:
             verdict = {"tone": "warn",
                        "label": (f"заявок нет, контакты есть ({contacts}) — "
                                  f"наблюдаем")}
-        elif clicks_all >= g["stop_clicks"]:
+        elif spend_all >= g["cpa_limit"]:
+            # Направление убыточно не на N кликах, а когда потратило
+            # допустимую цену заявки и не привело ни одной: заявка,
+            # пришедшая раньше этой отметки, ещё укладывается в экономику.
             verdict = {"tone": "bad",
-                       "label": (f"{clicks_all} кл. без заявок и контактов — "
+                       "label": (f"{spend_all:.0f} ₽ без заявок и контактов — "
+                                 f"выше допустимой цены заявки {g['cpa_limit']} ₽, "
                                  f"кандидат на паузу, решение за вами")}
         else:
-            verdict = {"tone": "ok", "label": "идёт набор статистики"}
+            verdict = {"tone": "ok",
+                       "label": (f"идёт набор статистики "
+                                 f"({spend_all:.0f} из {g['cpa_limit']} ₽ до порога)")}
         rows.append({"key": g["key"], "label": g["label"],
                      "spend_day": spend_day, "clicks_day": clicks_day,
                      "clicks_total": clicks_all, "spend_total": spend_all,
                      "cpc": cpc, "leads": leads, "contacts": contacts,
-                     "cpa": cpa, "verdict": verdict})
+                     "cpa": cpa, "cpa_limit": g["cpa_limit"],
+                     "verdict": verdict})
 
     # Строки витрины, не попавшие ни под одно направление, — сигнал, что
     # кабинет ушёл вперёд списка GROUPS. Показываем их суммой и жёлтым
     # вердиктом, а не теряем: контроль не должен слепнуть от расширения.
     other = [r for r in data["groups"] if r["AdGroupName"] not in matched_names]
     if other:
-        o_day = [r for r in other if r["Date"] == yesterday]
+        o_day = [r for r in other if r["Date"] == as_of]
         spend_day = sum(r["Cost"] for r in o_day)
         clicks_day = sum(r["Clicks"] for r in o_day)
         clicks_all = sum(r["Clicks"] for r in other)
@@ -172,20 +203,36 @@ def build(date: str, attribution: dict | None = None) -> dict:
         })
 
     # Аномалия: рабочий день без показов — модерация, баланс или мониторинг.
-    ydate = _campaign_day(yesterday)
-    if ydate.weekday() < 5 and ydate >= _campaign_day(data["date_from"]):
-        imp_yesterday = sum(r["Impressions"] for r in data["groups"]
-                            if r["Date"] == yesterday)
-        if imp_yesterday == 0:
+    # Проверяется только по дню, который выгрузка действительно покрыла:
+    # отставшая витрина — это сбой сбора, а не пустой кабинет.
+    ydate = _campaign_day(as_of)
+    if stale:
+        decisions.append({"tone": "warn",
+                          "text": (f"выгрузка Директа отстаёт: последние данные за "
+                                   f"{ydate.strftime('%d.%m')}, ожидались за "
+                                   f"{_campaign_day(yesterday).strftime('%d.%m')} — "
+                                   "суточные показатели не обновлены")})
+    elif ydate.weekday() < 5 and ydate >= _campaign_day(launched):
+        imp_day = sum(r["Impressions"] for r in data["groups"]
+                      if r["Date"] == as_of)
+        if imp_day == 0:
             decisions.append({"tone": "bad",
                               "text": "в рабочий день не было ни одного показа — "
                                       "проверить модерацию, баланс и доступность сайта"})
 
     return {
         "available": True,
-        "as_of": yesterday,
-        "campaign": "bs-test-2026-09",
-        "week": {"spent": total_spend_all, "limit": WEEKLY_LIMIT_RUB},
+        "status": "stale" if stale else "ok",
+        "as_of": as_of,
+        "expected_as_of": yesterday,
+        "stale": stale,
+        # Имя кампании — из витрины, если сборщик его записал; зашитого имени
+        # больше нет: кабинет может переименовать кампанию, письмо — нет.
+        "campaign": data.get("campaign"),
+        "week": {"spent": total_spend_week, "limit": WEEKLY_LIMIT_RUB,
+                 "from": week_from, "to": as_of},
+        "since_launch": {"spent": total_spend_all, "from": launched,
+                         "days": days_running},
         "day_spend": total_spend_day,
         "rows": rows,
         "junk": {"cost": junk_cost, "queries": junk_queries[:12]},
@@ -193,10 +240,10 @@ def build(date: str, attribution: dict | None = None) -> dict:
         "attribution_available": attribution is not None,
         "note": ("расход в деньгах кабинета (без НДС); заявки — цели Метрики "
                  "(отправка заявки, скачивание КП), контакты — клики по "
-                 "телефону/почте и мессенджер; сверка с CRM по yclid — следующий шаг"
+                 "телефону/почте и мессенджер; с CRM не сверяется"
                  if attribution is not None else
-                 "расход в деньгах кабинета (без НДС); заявки и CPA подключаются "
-                 "связкой с Метрикой — этап B"),
+                 "расход в деньгах кабинета (без НДС); связки с Метрикой в этом "
+                 "снимке нет — заявки и CPA не измерены"),
     }
 
 

@@ -1,0 +1,61 @@
+# Проба xmlriver — российский Google SERP (подключён руководителем 03.09.2026).
+#
+# Делает один бесплатный вызов баланса и РОВНО ОДИН платный запрос Google
+# (25 ₽/1000 → 0,025 ₽) с параметрами из data/seo/xmlriver.json — отвечает:
+# работают ли секреты XMLRIVER_USER/XMLRIVER_KEY, верно ли местоположение и
+# что видно в выдаче. Read-only, сайт и кабинеты не трогает. Результат —
+# комментарием в журнал-issue #22. Ручной запуск — только с main (правило CLAUDE.md).
+name: ops-xmlriver-probe
+on:
+  workflow_dispatch:
+    inputs:
+      query:
+        description: 'Поисковый запрос пробы'
+        required: false
+        default: 'купить figma'
+      page:
+        description: 'Страница выдачи (нумерация xmlriver с 1): 1 — позиции 1–10, 2 — позиции 11–20'
+        required: false
+        default: '1'
+permissions:
+  contents: read
+  issues: write
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Guard - only default branch
+        if: github.ref != 'refs/heads/main'
+        run: |
+          echo "::error::Запуск разрешён только с ветки main (правило проекта)"
+          exit 1
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Probe xmlriver
+        id: run
+        env:
+          XMLRIVER_USER: ${{ secrets.XMLRIVER_USER }}
+          XMLRIVER_KEY: ${{ secrets.XMLRIVER_KEY }}
+          QUERY: ${{ inputs.query }}
+          PAGE: ${{ inputs.page }}
+        run: |
+          pip install --quiet requests
+          {
+            echo 'result<<SERP_EOF'
+            python3 scripts/seo/xmlriver.py probe "$QUERY" "${PAGE:-1}" || true
+            echo 'SERP_EOF'
+          } >> "$GITHUB_OUTPUT"
+      - name: Post to issue
+        uses: actions/github-script@v7
+        env:
+          RESULT: ${{ steps.run.outputs.result }}
+        with:
+          script: |
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: 22,
+              body: '### ops-xmlriver-probe (Google SERP, xmlriver) · ' + new Date().toISOString() + '\n\n```\n' + process.env.RESULT + '\n```',
+            });

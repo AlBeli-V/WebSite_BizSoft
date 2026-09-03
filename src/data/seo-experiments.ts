@@ -20,10 +20,28 @@
  * «оплата {vendor} юридическим лицом» ставится в начало title, description и
  * первого вопроса FAQ. Bespoke-FAQ страницы при этом сохраняется — вопрос
  * добавляется первым (faqAdd), а не заменяет блок целиком.
- * CorelDRAW («оплата coreldraw для россиян», 69 показов, позиция 9,06) в эту
- * группу не входит: страница участвует в незавершённом snippets-5-vendors,
- * правка до вердикта 02.09.2026 смазала бы его оценку. Подготовленный
- * вариант — reports/seo/tasks/SEO-EXP-004-gap-d-snippets.md.
+ * CorelDRAW («оплата coreldraw для россиян», 69 показов, позиция 9,06)
+ * добавлен в группу 02.09.2026 — после того как руководитель принял решение
+ * по SEO-EXP-001 и страница освободилась от незавершённого эксперимента.
+ *
+ * Перезапуск SEO-EXP-002 «snippets-2-price-intent» (решение руководителя
+ * 03.09.2026). Разбор показал, что у четырёх из шести страниц snippets-6-demand
+ * показов в Яндексе нет вовсе (сниппет-тест там невозможен: кликать нечего),
+ * а показы кластера Adobe шли на карточки товаров. Две страницы с реальной
+ * экспозицией — Clip Studio Paint и Procreate — переведены на запросную
+ * формулу под ценовой интент их фактических запросов Вебмастера («сколько
+ * стоит … в рублях», «купить … в России», «бессрочная лицензия»): фраза идёт
+ * первой в title, description и первом вопросе FAQ (механика faqAdd, как в
+ * snippets-3-gap-d). Adobe, Autodesk, Blackmagic и Midjourney остаются с
+ * прежними сниппетами вне эксперимента (решение KEEP 03.09.2026); их
+ * кластеры — кандидаты на контентный приём, не на сниппет.
+ *
+ * «snippets-10-expand» (02.09.2026): тираж коммерческой формулы SEO-EXP-001
+ * по решению руководителя 02.09.2026 (EXPAND). Десять карточек с наибольшим
+ * замеренным спросом вне действующих экспериментов — список выдан
+ * expand_candidates() вердикт-движка. Формула та же, что в snippets-5-vendors
+ * и snippets-6-demand: менять её при тираже нельзя, иначе тиражируется не то,
+ * что оценивалось.
  *
  * title передаётся с брендом «| BIZSoft» — SeoHead не добавляет суффикс,
  * если бренд уже есть в title (бренд в итоговом HTML ровно один раз).
@@ -72,14 +90,40 @@ const faqFor = (vendor: string): { q: string; a: string }[] => [
  * точная формулировка запроса идёт первой, оффер «счёт, договор, ЭДО» —
  * сразу за ней. Длина ≤160.
  */
-const descLegal = (vendor: string) =>
-  `Оплата ${vendor} юридическим лицом: счёт, договор и закрывающие документы через ЭДО. Оформим подписку на вашу компанию, оплата в рублях, доступ за 1–3 дня.`;
+const descQuery = (phrase: string) =>
+  `${phrase}: счёт, договор и закрывающие документы через ЭДО. Оформим подписку на вашу компанию, оплата в рублях, доступ за 1–3 дня.`;
+
+const descLegal = (vendor: string) => descQuery(`Оплата ${vendor} юридическим лицом`);
+
+/**
+ * Первый вопрос FAQ под ценовой интент (перезапуск SEO-EXP-002): запрос
+ * «сколько стоит {vendor}» в самом вопросе, в ответе — модель лицензии,
+ * рублёвая цена по курсу ЦБ и штатный оффер (счёт, договор, ЭДО, 1–3 дня).
+ */
+const faqPrice = (vendor: string, tail: string, licensing: string) => [
+  {
+    q: `Сколько стоит ${vendor} ${tail}?`,
+    a: `${licensing} Цена в рублях считается от прайса вендора по курсу ЦБ РФ на дату счёта. BIZSoft заключает договор, выставляет счёт на вашу организацию и передаёт закрывающие документы через ЭДО; доступ — за 1–3 рабочих дня после оплаты.`,
+  },
+];
 
 /** Вопрос под ту же запросную формулу — добавляется первым к FAQ страницы. */
 const faqLegalPay = (vendor: string) => [
   {
     q: `Как оплатить ${vendor} юридическим лицом из России?`,
     a: `Оплата ${vendor} юридическим лицом идёт по безналичному расчёту: BIZSoft заключает договор, выставляет счёт на вашу организацию и передаёт закрывающие документы (акт или УПД) через ЭДО. Зарубежная карта не нужна, рублёвая цена считается от прайса вендора по курсу ЦБ РФ на дату счёта, доступ — за 1–3 рабочих дня после оплаты.`,
+  },
+];
+
+/**
+ * Вопрос под формулу «оплата {vendor} для россиян»: запрос спрашивает не про
+ * юрлицо, а про то, что зарубежная оплата из России не проходит, — вопрос
+ * отвечает ровно на это, оставаясь в том же оффере.
+ */
+const faqRussiansPay = (vendor: string) => [
+  {
+    q: `Как оплатить ${vendor} для россиян, если зарубежная карта не проходит?`,
+    a: `Оплата ${vendor} для россиян и российских компаний идёт через BIZSoft по безналичному расчёту: мы заключаем договор, выставляем счёт на вашу организацию и передаём закрывающие документы (акт или УПД) через ЭДО. Зарубежная карта не нужна, рублёвая цена считается от прайса вендора по курсу ЦБ РФ на дату счёта, доступ — за 1–3 рабочих дня после оплаты.`,
   },
 ];
 
@@ -96,11 +140,15 @@ export const SEO_EXPERIMENTS: Record<string, SeoExperiment> = {
     faqTitle: 'Как купить Depositphotos на юрлицо',
     faq: faqFor('Depositphotos'),
   },
+  // CorelDRAW переведён на запросную формулу 02.09.2026 (см. snippets-3-gap-d
+  // ниже): решение по SEO-EXP-001 принято, страница освободилась.
   coreldraw: {
-    title: 'Оплата CorelDRAW для юрлиц из России — счёт, договор, ЭДО | BIZSoft',
-    description: desc('CorelDRAW'),
-    faqTitle: 'Как купить CorelDRAW на юрлицо',
-    faq: faqFor('CorelDRAW'),
+    // «оплата coreldraw для россиян» — 69 показов за период, средняя позиция
+    // 9,06, переходов 0; кластер CorelDRAW — 131 087 запросов/мес.
+    title: 'Оплата CorelDRAW для россиян — счёт, договор, ЭДО | BIZSoft',
+    description: descQuery('Оплата CorelDRAW для россиян'),
+    faqTitle: 'Оплата CorelDRAW для россиян',
+    faqAdd: faqRussiansPay('CorelDRAW'),
   },
   heygen: {
     title: 'HeyGen — тарифы и оплата на юрлицо в рублях | BIZSoft',
@@ -131,12 +179,23 @@ export const SEO_EXPERIMENTS: Record<string, SeoExperiment> = {
     faqTitle: 'Как купить Autodesk на юрлицо',
     faq: faqFor('Autodesk'),
   },
+  // Adobe, Autodesk, Blackmagic и Midjourney: сниппеты snippets-6-demand
+  // оставлены как есть (KEEP 03.09.2026), эксперимент на них закрыт —
+  // показов у этих страниц нет, сниппет проверить нечем.
   procreate: {
-    // «купить procreate» — 823 запроса в месяц, кластер 2 412
-    title: 'Procreate для компании — покупка по счёту и договору | BIZSoft',
-    description: desc('Procreate'),
-    faqTitle: 'Как купить Procreate на юрлицо',
-    faq: faqFor('Procreate'),
+    // Перезапуск SEO-EXP-002 (snippets-2-price-intent). Реальные запросы
+    // Вебмастера: «procreate цена» (5 показов за окно), «прокриэйт цена» (4),
+    // «procreate купить в россии» (3), «сколько стоит procreate»; позиции
+    // 5–14, переходов 0. Прежняя цель «купить procreate» (823/мес) — B2C
+    // (iPad и книги на маркетплейсах), сайт по ней не показывается.
+    title: 'Procreate: цена в рублях и покупка в России на компанию | BIZSoft',
+    description: 'Сколько стоит Procreate (Прокриэйт) в рублях и как купить в России: разовая покупка для iPad на юрлицо через Apple Business Manager, счёт и ЭДО за 1–3 дня.',
+    faqTitle: 'Сколько стоит Procreate и как купить в России',
+    faqAdd: faqPrice(
+      'Procreate',
+      'и как купить его в России на компанию',
+      'Procreate и Procreate Dreams — разовая покупка без подписки; для организации закупку проводим через Apple Business Manager (VPP) на юрлицо.',
+    ),
   },
   blackmagic: {
     // «davinci resolve купить» — 531 запрос в месяц, кластер 1 354
@@ -153,11 +212,20 @@ export const SEO_EXPERIMENTS: Record<string, SeoExperiment> = {
     faq: faqFor('Midjourney'),
   },
   'clip-studio-paint': {
-    // «clip studio paint купить» — 417 запросов в месяц, кластер 985
-    title: 'Clip Studio Paint для студии — счёт и договор | BIZSoft',
-    description: desc('Clip Studio Paint'),
-    faqTitle: 'Как купить Clip Studio Paint на юрлицо',
-    faq: faqFor('Clip Studio Paint'),
+    // Перезапуск SEO-EXP-002 (snippets-2-price-intent). Реальные запросы
+    // Вебмастера: «купить подписку на клип студио пейнт» (7 показов за окно),
+    // «клип студио купить лицензию навсегда» (5), «сколько стоит подписка
+    // в клип студио» (4), «сколько стоит клип студио в рублях» (3),
+    // «бессрочная лицензия клип студио» (3); позиции 6–12, переходов 0.
+    // Кириллическое написание бренда — в описании: так спрашивают.
+    title: 'Clip Studio Paint: цена бессрочной лицензии и подписки в рублях | BIZSoft',
+    description: 'Сколько стоит Clip Studio Paint (Клип Студио Пейнт) в рублях: бессрочная лицензия PRO и EX или подписка. Оформим на компанию по счёту, ЭДО, доступ за 1–3 дня.',
+    faqTitle: 'Сколько стоит Clip Studio Paint в рублях',
+    faqAdd: faqPrice(
+      'Clip Studio Paint',
+      'в рублях — бессрочная лицензия или подписка',
+      'Бессрочная лицензия PRO или EX — разовый платёж за приобретённую версию; подписка — регулярный платёж на 1 устройство с актуальной версией.',
+    ),
   },
   // «snippet-anthropic-demand» (29.08.2026): GAP-D по данным замера 29.08 —
   // кластер «claude купить» 9 944 показов/мес (весь кластер anthropic — 27 231),
@@ -190,6 +258,83 @@ export const SEO_EXPERIMENTS: Record<string, SeoExperiment> = {
     faqTitle: 'Оплата Motion Array юридическим лицом',
     faqAdd: faqLegalPay('Motion Array'),
   },
+
+  // ─── snippets-10-expand, старт 02.09.2026 ───
+  // Тираж формулы snippets-5-vendors по решению руководителя 02.09.2026
+  // (EXPAND). Страницы — десять карточек с наибольшим замеренным спросом вне
+  // действующих экспериментов (expand_candidates(), src/data/vendor-demand.json);
+  // в скобках — спрос кластера в месяц. Формула не менялась: тиражируется
+  // ровно то, что оценивалось.
+  google: {
+    // Google — 14 845 866; продаём Google Workspace и Gemini для Workspace
+    title: 'Оплата Google Workspace для юрлиц из России — счёт, договор, ЭДО | BIZSoft',
+    description: desc('Google Workspace'),
+    faqTitle: 'Как купить Google Workspace на юрлицо',
+    faq: faqFor('Google Workspace'),
+  },
+  microsoft: {
+    // Microsoft — 4 178 821
+    title: 'Оплата Microsoft 365 для юрлиц из России — счёт, договор, ЭДО | BIZSoft',
+    description: desc('Microsoft 365'),
+    faqTitle: 'Как купить Microsoft 365 на юрлицо',
+    faq: faqFor('Microsoft 365'),
+  },
+  github: {
+    // GitHub — 3 636 435
+    title: 'Оплата GitHub Copilot для юрлиц из России — счёт, договор, ЭДО | BIZSoft',
+    description: desc('GitHub Copilot'),
+    faqTitle: 'Как купить GitHub Copilot на юрлицо',
+    faq: faqFor('GitHub Copilot'),
+  },
+  unity: {
+    // Unity — 558 386
+    title: 'Оплата Unity Pro для юрлиц из России — счёт, договор, ЭДО | BIZSoft',
+    description: desc('Unity Pro'),
+    faqTitle: 'Как купить Unity Pro на юрлицо',
+    faq: faqFor('Unity Pro'),
+  },
+  docker: {
+    // Docker — 451 482
+    title: 'Оплата Docker для юрлиц из России — счёт, договор, ЭДО | BIZSoft',
+    description: desc('Docker'),
+    faqTitle: 'Как купить Docker на юрлицо',
+    faq: faqFor('Docker'),
+  },
+  runway: {
+    // Runway — 188 544
+    title: 'Оплата Runway для юрлиц из России — счёт, договор, ЭДО | BIZSoft',
+    description: desc('Runway'),
+    faqTitle: 'Как купить Runway на юрлицо',
+    faq: faqFor('Runway'),
+  },
+  solidworks: {
+    // SOLIDWORKS — 164 050
+    title: 'Оплата SOLIDWORKS для юрлиц из России — счёт, договор, ЭДО | BIZSoft',
+    description: desc('SOLIDWORKS'),
+    faqTitle: 'Как купить SOLIDWORKS на юрлицо',
+    faq: faqFor('SOLIDWORKS'),
+  },
+  acronis: {
+    // Acronis — 152 256
+    title: 'Оплата Acronis для юрлиц из России — счёт, договор, ЭДО | BIZSoft',
+    description: desc('Acronis'),
+    faqTitle: 'Как купить Acronis на юрлицо',
+    faq: faqFor('Acronis'),
+  },
+  'unreal-engine': {
+    // Unreal Engine — 148 486
+    title: 'Оплата Unreal Engine для юрлиц из России — счёт, договор, ЭДО | BIZSoft',
+    description: desc('Unreal Engine'),
+    faqTitle: 'Как купить Unreal Engine на юрлицо',
+    faq: faqFor('Unreal Engine'),
+  },
+  perplexity: {
+    // Perplexity — 147 403
+    title: 'Оплата Perplexity для юрлиц из России — счёт, договор, ЭДО | BIZSoft',
+    description: desc('Perplexity'),
+    faqTitle: 'Как купить Perplexity на юрлицо',
+    faq: faqFor('Perplexity'),
+  },
 };
 
 /** Анкоры внутренней перелинковки эксперимента (для / и /catalog). */
@@ -201,11 +346,21 @@ export const SEO_EXPERIMENT_LINKS: { slug: string; anchor: string }[] = [
   { slug: 'marmoset', anchor: 'Marmoset Toolbag — лицензии для команд' },
   { slug: 'adobe', anchor: 'Adobe Creative Cloud — оплата на юрлицо' },
   { slug: 'autodesk', anchor: 'Autodesk — лицензии для компаний' },
-  { slug: 'procreate', anchor: 'Procreate — покупка по счёту' },
+  { slug: 'procreate', anchor: 'Procreate — цена в рублях и покупка в России' },
   { slug: 'blackmagic', anchor: 'DaVinci Resolve Studio — лицензия для студии' },
   { slug: 'midjourney', anchor: 'Midjourney — подписка для юрлиц' },
-  { slug: 'clip-studio-paint', anchor: 'Clip Studio Paint — лицензии для студии' },
+  { slug: 'clip-studio-paint', anchor: 'Clip Studio Paint — цена лицензии и подписки в рублях' },
   { slug: 'anthropic', anchor: 'Claude — подписка Team для компании' },
   { slug: 'artlist', anchor: 'Artlist — оплата юридическим лицом' },
   { slug: 'motion-array', anchor: 'Motion Array — оплата юридическим лицом' },
+  { slug: 'google', anchor: 'Google Workspace — оплата на юрлицо' },
+  { slug: 'microsoft', anchor: 'Microsoft 365 — подписка для компании' },
+  { slug: 'github', anchor: 'GitHub Copilot — оплата для команды' },
+  { slug: 'unity', anchor: 'Unity Pro — подписка для студии' },
+  { slug: 'docker', anchor: 'Docker — тарифы Pro и Team по счёту' },
+  { slug: 'runway', anchor: 'Runway — оплата на юрлицо' },
+  { slug: 'solidworks', anchor: 'SOLIDWORKS — лицензии для предприятия' },
+  { slug: 'acronis', anchor: 'Acronis — резервное копирование по счёту' },
+  { slug: 'unreal-engine', anchor: 'Unreal Engine — подписка для студии' },
+  { slug: 'perplexity', anchor: 'Perplexity — Enterprise Pro для команды' },
 ];
