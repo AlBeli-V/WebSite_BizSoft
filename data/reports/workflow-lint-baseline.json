@@ -56,13 +56,6 @@
       "R4": 1,
       "R5": 0
     },
-    "ops-apply-cleanup.yml": {
-      "R1": 1,
-      "R2": 0,
-      "R3": 1,
-      "R4": 0,
-      "R5": 0
-    },
     "ops-apply-descriptions.yml": {
       "R1": 0,
       "R2": 0,
@@ -140,68 +133,12 @@
       "R4": 1,
       "R5": 0
     },
-    "ops-direct-apply.yml": {
+    "ops-direct.yml": {
       "R1": 0,
       "R2": 0,
-      "R3": 1,
-      "R4": 0,
-      "R5": 0
-    },
-    "ops-direct-check.yml": {
-      "R1": 0,
-      "R2": 0,
-      "R3": 2,
+      "R3": 10,
       "R4": 0,
       "R5": 2
-    },
-    "ops-direct-expand.yml": {
-      "R1": 0,
-      "R2": 0,
-      "R3": 1,
-      "R4": 0,
-      "R5": 0
-    },
-    "ops-direct-improve.yml": {
-      "R1": 0,
-      "R2": 0,
-      "R3": 1,
-      "R4": 0,
-      "R5": 0
-    },
-    "ops-direct-negatives.yml": {
-      "R1": 0,
-      "R2": 0,
-      "R3": 1,
-      "R4": 0,
-      "R5": 0
-    },
-    "ops-direct-refine.yml": {
-      "R1": 0,
-      "R2": 0,
-      "R3": 1,
-      "R4": 0,
-      "R5": 0
-    },
-    "ops-direct-sitelinks.yml": {
-      "R1": 0,
-      "R2": 0,
-      "R3": 1,
-      "R4": 0,
-      "R5": 0
-    },
-    "ops-direct-stats.yml": {
-      "R1": 0,
-      "R2": 0,
-      "R3": 1,
-      "R4": 0,
-      "R5": 0
-    },
-    "ops-direct-tighten.yml": {
-      "R1": 0,
-      "R2": 0,
-      "R3": 1,
-      "R4": 0,
-      "R5": 0
     },
     "ops-directus-schema.yml": {
       "R1": 0,
@@ -286,13 +223,6 @@
       "R3": 0,
       "R4": 0,
       "R5": 1
-    },
-    "ops-magnific.yml": {
-      "R1": 3,
-      "R2": 0,
-      "R3": 1,
-      "R4": 0,
-      "R5": 0
     },
     "ops-mail.yml": {
       "R1": 1,
@@ -439,13 +369,6 @@
       "R2": 0,
       "R3": 1,
       "R4": 0,
-      "R5": 0
-    },
-    "ops-strip-usd-notes.yml": {
-      "R1": 0,
-      "R2": 0,
-      "R3": 0,
-      "R4": 1,
       "R5": 0
     },
     "ops-vendors-audit.yml": {
