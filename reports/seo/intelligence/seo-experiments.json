@@ -486,8 +486,8 @@
   {
    "id": "snippets-2-price-intent",
    "ticket": "SEO-EXP-002-R",
-   "start": null,
-   "status": "planned",
+   "start": "2026-09-03",
+   "status": "running",
    "supersedes": "snippets-6-demand",
    "pages": [
     "/vendors/clip-studio-paint",
@@ -548,7 +548,17 @@
     "пипл"
    ],
    "title_marker": "(цена|сколько стоит)",
-   "windows": null,
+   "windows": {
+    "days": 28,
+    "baseline": {
+     "from": "2026-08-03",
+     "to": "2026-08-30"
+    },
+    "experiment": {
+     "from": "2026-09-04",
+     "to": "2026-10-01"
+    }
+   },
    "evaluation_kind": "ctr",
    "formula_group": "query-phrase-snippet-2026-09",
    "baseline": {
@@ -621,7 +631,22 @@
    "source": "src/data/seo-experiments.ts (рендер: src/pages/vendors/[slug].astro → VendorLanding)",
    "power_note": "ёмкость Clip Studio Paint ≈150 показов за 28 дней, Procreate ≈45: порог экспозиции у Procreate не наберётся — на контрольной точке по нему публикуется описательный вывод, не отрицательный результат; вывод о формуле — по пулу",
    "selection": "Две из шести страниц snippets-6-demand с реальной экспозицией в Вебмастере; отбор по показам, а не по частотности Вордстата (docs/seo/experiments/seo-exp-002-restart.md)",
-   "owner_decision": "перезапуск — команда руководителя 2026-09-03"
+   "owner_decision": "перезапуск — команда руководителя 2026-09-03",
+   "activated": {
+    "date": "2026-09-03",
+    "pages": [
+     {
+      "page": "/vendors/clip-studio-paint",
+      "title": "Clip Studio Paint: цена бессрочной лицензии и подписки в рублях | BIZSoft",
+      "new_variant": true
+     },
+     {
+      "page": "/vendors/procreate",
+      "title": "Procreate: цена в рублях и покупка в России на компанию | BIZSoft",
+      "new_variant": true
+     }
+    ]
+   }
   }
  ]
 }

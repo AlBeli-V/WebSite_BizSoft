@@ -1,5 +1,5 @@
 {
- "checked_at": "2026-09-03T07:17:54+00:00",
+ "checked_at": "2026-09-03T07:20:49+00:00",
  "experiments": {
   "snippets-5-vendors": {
    "pages_total": 5,
@@ -312,7 +312,7 @@
   "content-10-clusters": {
    "pages_total": 20,
    "pages_recrawled": 20,
-   "new_snippets_detected": 17,
+   "new_snippets_detected": 20,
    "pages": [
     {
      "page": "/blog/kak-kupit-windsurf-iz-rossii-dlya-yurlica",
@@ -394,23 +394,23 @@
     {
      "page": "/vendors/gitlab",
      "http_ok": true,
-     "title": "502 Bad Gateway",
-     "faqpage_blocks": 0,
-     "new_snippet_detected": false
+     "title": "Купить GitLab для юрлица — тарифы, счёт и КП — BIZSoft",
+     "faqpage_blocks": 1,
+     "new_snippet_detected": true
     },
     {
      "page": "/vendors/descript",
      "http_ok": true,
-     "title": "502 Bad Gateway",
-     "faqpage_blocks": 0,
-     "new_snippet_detected": false
+     "title": "Купить Descript для юрлица — тарифы, счёт и КП — BIZSoft",
+     "faqpage_blocks": 1,
+     "new_snippet_detected": true
     },
     {
      "page": "/vendors/atlassian",
      "http_ok": true,
-     "title": "502 Bad Gateway",
-     "faqpage_blocks": 0,
-     "new_snippet_detected": false
+     "title": "Купить Atlassian для юрлица — тарифы, счёт и КП — BIZSoft",
+     "faqpage_blocks": 1,
+     "new_snippet_detected": true
     },
     {
      "page": "/vendors/box",
@@ -451,6 +451,27 @@
      "page": "/vendors/elevenlabs",
      "http_ok": true,
      "title": "Купить ElevenLabs для юрлица — тарифы, счёт и КП — BIZSoft",
+     "faqpage_blocks": 1,
+     "new_snippet_detected": true
+    }
+   ]
+  },
+  "snippets-2-price-intent": {
+   "pages_total": 2,
+   "pages_recrawled": 2,
+   "new_snippets_detected": 2,
+   "pages": [
+    {
+     "page": "/vendors/clip-studio-paint",
+     "http_ok": true,
+     "title": "Clip Studio Paint: цена бессрочной лицензии и подписки в рублях | BIZSoft",
+     "faqpage_blocks": 1,
+     "new_snippet_detected": true
+    },
+    {
+     "page": "/vendors/procreate",
+     "http_ok": true,
+     "title": "Procreate: цена в рублях и покупка в России на компанию | BIZSoft",
      "faqpage_blocks": 1,
      "new_snippet_detected": true
     }
