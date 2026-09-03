@@ -80,6 +80,12 @@ jobs:
           for f in $(ls out/report-*.txt 2>/dev/null | sort); do
             cat "$f" >> /tmp/price-scan.txt; echo >> /tmp/price-scan.txt
           done
+      # Локальному action нужен репозиторий в рабочей копии. if: always() —
+      # потому что шаг журнала тоже always(): без этого при падении основного
+      # шага checkout пропускается, и запись в журнал снова не проходит.
+      - name: Checkout for journal action
+        if: always()
+        uses: actions/checkout@v4
       - name: Post to issue
         if: always()
         uses: ./.github/actions/journal-post

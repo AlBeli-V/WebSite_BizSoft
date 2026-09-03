@@ -82,7 +82,11 @@ jobs:
             exit 1
           fi
 
-      - uses: actions/checkout@v4
+      - name: Checkout
+        # always() — шаг журнала ниже тоже always(): без этого при
+        # падении раннего шага checkout пропустится и запись не пройдёт.
+        if: always()
+        uses: actions/checkout@v4
 
       # Скрипт и открытая инструкция едут на сервер в base64: так кириллица
       # и переносы строк переживают путь через ssh-action без искажений.

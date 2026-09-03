@@ -106,6 +106,12 @@ jobs:
               -d "{\"apply\": $APPLY}" || echo "000")
             python3 /tmp/crm-backfill.py "$CODE" /tmp/crm-backfill.json
             rm -f /tmp/crm-backfill.json /tmp/crm-backfill.py
+      # Локальному action нужен репозиторий в рабочей копии. if: always() —
+      # потому что шаг журнала тоже always(): без этого при падении основного
+      # шага checkout пропускается, и запись в журнал снова не проходит.
+      - name: Checkout for journal action
+        if: always()
+        uses: actions/checkout@v4
       - name: Post to issue
         if: always()
         uses: ./.github/actions/journal-post
