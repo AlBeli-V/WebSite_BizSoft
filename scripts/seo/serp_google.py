@@ -5,8 +5,15 @@
 Ядро — то же, из данных (serp_watchlist.py); регион один — местоположение
 из data/seo/xmlriver.json (по умолчанию Россия, 2643).
 
+Страница выдачи у xmlriver — 10 позиций, поэтому топ-20 снимается двумя
+страницами (`pages` в конфиге, параметр page): два платных вызова на
+ключ, в срезе — одна строка с объединённым топом. Вторая страница без
+первой не запрашивается; сбой второй страницы не стирает первую — строка
+получает `partial_error`.
+
 Дисциплина — как у Яндекс-среза:
-  - ни один вызов без строки в журнале serp/ledger/google-<месяц>.jsonl;
+  - ни один вызов без строки в журнале serp/ledger/google-<месяц>.jsonl
+    (потолки считаются в ВЫЗОВАХ, а не в ключах);
   - дневной и месячный потолки из конфига проверяются до вызовов;
   - расписание: weekly (день недели из конфига, решение руководителя
     31.08.2026 — Google еженедельно) или daily; --force снимает срез в любой
@@ -79,11 +86,11 @@ def day_spent(date: dt.date) -> int:
 
 
 def log_call(date: dt.date, query: str, status: str, found: int | None,
-             loc) -> None:
+             loc, page: int = 0) -> None:
     LEDGER_DIR.mkdir(parents=True, exist_ok=True)
     entry = {"at": dt.datetime.now(dt.timezone.utc).isoformat(timespec="seconds"),
              "date": date.isoformat(),
-             "query": query, "engine": ENGINE, "loc": loc,
+             "query": query, "engine": ENGINE, "loc": loc, "page": page,
              "status": status, "found": found}
     with ledger_path(date).open("a", encoding="utf-8") as f:
         f.write(json.dumps(entry, ensure_ascii=False) + "\n")
@@ -98,45 +105,85 @@ def is_collection_day(date: dt.date, cfg: dict) -> bool:
     return True
 
 
+def fetch_query(session, user: str, key: str, q: str, cfg: dict) -> dict:
+    """Все страницы одного ключа: список результатов по страницам.
+
+    Вторая страница запрашивается только после удачной первой — иначе
+    платный вызов уйдёт впустую. Возвращает {"pages": [res0, res1, …]}.
+    """
+    pages = max(int(cfg.get("pages", 1)), 1)
+    out = []
+    for page in range(pages):
+        try:
+            res = xmlriver.search_google(session, user, key, q,
+                                        cfg["query"], cfg["top_n"], page)
+        except Exception as e:  # noqa: BLE001
+            res = {"error": f"{type(e).__name__}: {e}"}
+        out.append(res)
+        if "error" in res:
+            break
+        if len(res.get("top") or []) < xmlriver.PAGE_SIZE:
+            break     # выдача короче страницы — дальше пусто
+        time.sleep(PAUSE_S)
+    return {"pages": out}
+
+
+def merge_pages(results: list[dict], top_n: int) -> dict:
+    """Одна строка среза из страниц: топ склеивается по порядку страниц,
+    found и blocks — с первой; ошибка первой страницы — ошибка строки,
+    ошибка следующей — partial_error при сохранённом топе."""
+    first = results[0]
+    if "error" in first:
+        return {"error": first["error"]}
+    row = {"found": first.get("found"), "top": list(first.get("top") or [])}
+    blocks = dict(first.get("blocks") or {})
+    for res in results[1:]:
+        if "error" in res:
+            row["partial_error"] = res["error"]
+            break
+        row["top"] += res.get("top") or []
+        for k, v in (res.get("blocks") or {}).items():
+            blocks[k] = blocks.get(k, 0) + v
+    row["top"] = row["top"][:top_n]
+    if blocks:
+        row["blocks"] = blocks
+    row["pages_fetched"] = len(results)
+    return row
+
+
 def collect(session, user: str, key: str, date: dt.date, queries: list[str],
-            cfg: dict, writer) -> tuple[int, int]:
+            cfg: dict, writer) -> tuple[int, int, int]:
     """Снять выдачу по списку запросов в несколько потоков.
 
     Журнал и файл среза пишутся только из главного потока: каждый
-    завершённый вызов — одна строка журнала (платный вызов) и одна строка
-    среза (результат или ошибка).
+    платный вызов (страница) — строка журнала; каждый ключ — строка среза
+    (объединённый топ или ошибка). Возвращает (ok, failed, calls).
     """
     loc = cfg["query"].get("loc")
-    ok = failed = 0
+    ok = failed = calls = 0
 
     def one(q: str) -> tuple[str, dict]:
         time.sleep(PAUSE_S)
-        try:
-            return q, xmlriver.search_google(session, user, key, q,
-                                            cfg["query"], cfg["top_n"])
-        except Exception as e:  # noqa: BLE001
-            return q, {"error": f"{type(e).__name__}: {e}"}
+        return q, fetch_query(session, user, key, q, cfg)
 
     with ThreadPoolExecutor(max_workers=WORKERS) as pool:
         futures = [pool.submit(one, q) for q in queries]
         for fut in as_completed(futures):
-            q, res = fut.result()
-            log_call(date, q, "ok" if "error" not in res else "error",
-                     res.get("found"), loc)
+            q, fetched = fut.result()
+            for page, res in enumerate(fetched["pages"]):
+                log_call(date, q, "ok" if "error" not in res else "error",
+                         res.get("found"), loc, page)
+                calls += 1
+            merged = merge_pages(fetched["pages"], cfg["top_n"])
             row = {"date": date.isoformat(), "query": q, "engine": ENGINE,
                    "region": str(loc) if loc is not None else "",
-                   "loc": loc}
-            if "error" in res:
-                row["error"] = res["error"]
+                   "loc": loc, **merged}
+            if "error" in merged:
                 failed += 1
             else:
-                row["found"] = res.get("found")
-                row["top"] = res.get("top") or []
-                if res.get("blocks"):
-                    row["blocks"] = res["blocks"]
                 ok += 1
             writer(row)
-    return ok, failed
+    return ok, failed, calls
 
 
 def write_balance(session, user: str, key: str, cfg: dict,
@@ -177,7 +224,9 @@ def run(date_s: str, queries: list[str], cfg: dict, user: str, key: str,
                            f"weekday={cfg.get('weekday')})"}
     spent = month_spent(date)
     today = day_spent(date)
-    budget = min(cfg["daily_cap"] - today, cfg["monthly_cap"] - spent)
+    pages = max(int(cfg.get("pages", 1)), 1)
+    # Потолки — в вызовах; на ключ уходит `pages` вызовов.
+    budget = min(cfg["daily_cap"] - today, cfg["monthly_cap"] - spent) // pages
     if budget <= 0:
         reason = (f"месячный потолок {cfg['monthly_cap']} запросов исчерпан "
                   f"({spent} израсходовано)"
@@ -194,11 +243,13 @@ def run(date_s: str, queries: list[str], cfg: dict, user: str, key: str,
     with out_path.open("w", encoding="utf-8") as out:
         def writer(row: dict):
             out.write(json.dumps(row, ensure_ascii=False) + "\n")
-        ok, failed = collect(session, user, key, date, todo, cfg, writer)
-    balance = write_balance(session, user, key, cfg, today + len(todo))
+        ok, failed, calls = collect(session, user, key, date, todo, cfg,
+                                    writer)
+    balance = write_balance(session, user, key, cfg, today + calls)
     return {"date": date_s, "engine": ENGINE, "requested": len(todo),
+            "pages": pages, "calls": calls,
             "ok": ok, "failed": failed, "skipped_over_budget": skipped,
-            "spent_month": spent + len(todo), "cap_month": cfg["monthly_cap"],
+            "spent_month": spent + calls, "cap_month": cfg["monthly_cap"],
             "loc": cfg["query"].get("loc"), "balance": balance,
             "out": str(out_path)}
 

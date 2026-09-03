@@ -13,6 +13,10 @@ on:
         description: 'Поисковый запрос пробы'
         required: false
         default: 'купить figma'
+      page:
+        description: 'Страница выдачи: 0 — позиции 1–10, 1 — позиции 11–20'
+        required: false
+        default: '0'
 permissions:
   contents: read
   issues: write
@@ -35,11 +39,12 @@ jobs:
           XMLRIVER_USER: ${{ secrets.XMLRIVER_USER }}
           XMLRIVER_KEY: ${{ secrets.XMLRIVER_KEY }}
           QUERY: ${{ inputs.query }}
+          PAGE: ${{ inputs.page }}
         run: |
           pip install --quiet requests
           {
             echo 'result<<SERP_EOF'
-            python3 scripts/seo/xmlriver.py probe "$QUERY" || true
+            python3 scripts/seo/xmlriver.py probe "$QUERY" "${PAGE:-0}" || true
             echo 'SERP_EOF'
           } >> "$GITHUB_OUTPUT"
       - name: Post to issue
