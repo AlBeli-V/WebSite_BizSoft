@@ -21,6 +21,8 @@
 """
 from __future__ import annotations
 
+from datetime import datetime
+
 import os
 import sys
 from dataclasses import dataclass
@@ -108,9 +110,12 @@ def change_signal(snapshot: dict, previous: dict) -> Signal | None:
     card = now[best_domain]
     direction = "вырос" if best_delta > 0 else "просел"
     kind = "рост_конкурента" if best_delta > 0 else "падение_конкурента"
+    prev_date = previous.get("дата")
+    since = (f"к {datetime.strptime(prev_date, '%Y-%m-%d').strftime('%d.%m')}"
+             if prev_date else "к прошлому снимку")
     return Signal(
         text=(f"{best_domain} {direction} на {kpi.ru_number(abs(best_delta))} п.п. "
-              f"видимости за сутки (сейчас {kpi.ru_number(100 * card['доля'])}%, "
+              f"видимости {since} (сейчас {kpi.ru_number(100 * card['доля'])}%, "
               f"топ-3 по {card['топ3']} запросам)."),
         kind=kind,
         evidence=[best_domain],

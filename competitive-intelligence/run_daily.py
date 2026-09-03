@@ -32,6 +32,16 @@ from scoring import visibility  # noqa: E402
 OURS = "biz-soft.pro"
 
 
+def _fresh(snapshot: dict | None) -> bool:
+    """Снимок собран по срезу своего дня, а не откатом на старый.
+
+    Снимок с откатом повторяет данные другого дня; в ряды долей, в сравнение
+    «с прошлым днём» и в цикл экспериментов он входить не должен — иначе
+    «изменение 0» и дубли в истории выдаются за наблюдения.
+    """
+    return bool(snapshot) and not snapshot.get("предупреждение_о_свежести")
+
+
 def main(argv: list[str]) -> int:
     dates = serp_source.available_dates()
     if not dates:
@@ -52,6 +62,13 @@ def main(argv: list[str]) -> int:
     # 502 запроса вернули ошибку). Требование раздела 24 задания: письмо в
     # такой день всё равно уходит, но с вердиктом «недостаточно данных» и без
     # сильных выводов. Молчание хуже: руководитель не отличит сбой от тишины.
+    # Дата прогона и дата данных — разные вещи. Откат на старый срез не
+    # меняет дату прогона: все артефакты дня пишутся под ней, а старый срез
+    # входит в них как «данные за <дата>» с предупреждением о свежести.
+    # Прежде откат подменял саму дату: 31.08.2026 снимок, письмо и архив за
+    # 30.08 были перезаписаны, а письма за 31.08 не оказалось вовсе
+    # (аудит 03.09.2026).
+    data_date = date
     stale_notice = None
     if not usable and len(argv) <= 1:
         fallback = next((d for d in reversed(dates) if d != date
@@ -64,8 +81,8 @@ def main(argv: list[str]) -> int:
                         f"({len(rows)} запросов с ошибкой), "
                         f"показаны данные за {fallback}")
         print(f"   Сбор за {date} пуст — откат на последний пригодный срез {fallback}")
-        date = fallback
-        rows = serp_source.read_snapshot(date)
+        data_date = fallback
+        rows = serp_source.read_snapshot(data_date)
         usable = [r for r in rows if r.has_data]
     elif not usable:
         print("   Данных нет — письмо не собирается")
@@ -73,7 +90,9 @@ def main(argv: list[str]) -> int:
 
     config = visibility.load_config()
     cards = registry.build(rows, config, date=date)
-    registry.append(cards)
+    if stale_notice is None:
+        # Реестр появлений — только по собственному наблюдению дня.
+        registry.append(cards)
 
     # Google RU — из того же хранилища базового контура (еженедельный срез
     # xmlriver, read-only): последний свежий срез не старше окна из конфига.
@@ -105,6 +124,8 @@ def main(argv: list[str]) -> int:
 
     snapshot = run_discovery.build_snapshot(date, cards, rows, config,
                                             google=google)
+    snapshot["дата_данных"] = data_date
+    snapshot["предупреждение_о_свежести"] = stale_notice
     os.makedirs(paths.SNAPSHOTS_DIR, exist_ok=True)
     with open(os.path.join(paths.SNAPSHOTS_DIR, f"{date}-discovery.json"),
               "w", encoding="utf-8") as fh:
@@ -113,9 +134,13 @@ def main(argv: list[str]) -> int:
           f"{snapshot['конкурентов_в_основном_рейтинге']} в основном рейтинге")
 
     # Прошлый сравнимый день — для дельт, вердикта и динамики Threat
-    earlier = [d for d in kpi_mod.available_snapshots() if d < date]
-    previous = kpi_mod.load_snapshot(earlier[-1]) if earlier else None
-    print(f"3. Сравнение с: {earlier[-1] if earlier else 'нет сравнимого дня'}")
+    # Сравнение — только между снимками с собственными данными: день с
+    # откатом повторяет чужой срез, и «дельта 0» к нему была бы вымыслом.
+    earlier = [d for d in kpi_mod.available_snapshots()
+               if d < date and _fresh(kpi_mod.load_snapshot(d))]
+    previous = (kpi_mod.load_snapshot(earlier[-1])
+                if earlier and stale_notice is None else None)
+    print(f"3. Сравнение с: {earlier[-1] if previous else 'нет сравнимого дня'}")
 
     # История долей по дням — для динамики Threat и вердикта.
     #
@@ -132,6 +157,8 @@ def main(argv: list[str]) -> int:
         if past_date > date:
             continue
         past = kpi_mod.load_snapshot(past_date) or {}
+        if not _fresh(past):
+            continue
         past_snapshots.append(past)
         for leader in (past.get("лидеры") or []):
             histories.setdefault(leader["домен"], []).append(leader.get("доля") or 0.0)
@@ -204,7 +231,9 @@ def main(argv: list[str]) -> int:
     snapshots_by_date = {}
     for past_date in kpi_mod.available_snapshots():
         if past_date <= date:
-            snapshots_by_date[past_date] = kpi_mod.load_snapshot(past_date) or {}
+            past = kpi_mod.load_snapshot(past_date) or {}
+            if _fresh(past):
+                snapshots_by_date[past_date] = past
 
     experiments = exp_journal.load()
     implemented = exp_lifecycle.detect_implementation(

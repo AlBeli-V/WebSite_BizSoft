@@ -21,6 +21,7 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from competitors import classifier  # noqa: E402
 from decision_engine import kpi as kpi_mod  # noqa: E402
+from scoring import threat as threat_mod  # noqa: E402
 
 INK = "#101828"
 MUTED = "#667085"
@@ -180,8 +181,22 @@ def rivals_section(leaders: list[dict], ranked: list, limit: int = 5) -> str:
             f'{_td(str(threat.score), align="right", bold=True, color=DANGER)}</tr>')
     head = (f'<tr>{_th("Конкурент")}{_th("Кто это")}{_th("Доля", "right")}'
             f'{_th("ТОП-3", "right")}{_th("Угроза", "right")}</tr>')
-    return (_heading("Кто давит сильнее всего", "угроза 0–100: доля, позиции, динамика")
+    return (_heading("Кто давит сильнее всего", threat_scale_hint(ranked[:limit]))
             + _table("".join(rows), head))
+
+
+def threat_scale_hint(ranked: list) -> str:
+    """Подпись шкалы — по фактическому режиму оценок в таблице.
+
+    «Угроза 0–100» печаталась всегда, а считалась по базовой шкале 0–70 без
+    динамики: она требует шести сравнимых измерений при неизменном ядре.
+    """
+    scales = {t.scale_max for _, t in ranked} or {threat_mod.MAX_BASE}
+    scale = max(scales)
+    if any(t.mode == threat_mod.MODE_FULL for _, t in ranked):
+        return f"угроза 0–{scale}: доля, позиции, динамика"
+    return (f"угроза 0–{scale}: доля и позиции; динамика — после "
+            f"{threat_mod.WINDOW * 2} сравнимых измерений")
 
 
 def attacks_section(attacks: list[dict], limit: int = 5) -> str:
@@ -225,7 +240,9 @@ def packages_section(packages: list[dict], limit: int = 3) -> str:
             f'<li style="margin:2px 0;">{esc(a["what"])} '
             f'<span style="color:{MUTED};">({esc(a["effort"])}, {esc(a["owner"])})</span></li>'
             for a in actions[:3])
-        if not checks:
+        if not checks and not pkg.get("уже_сделано"):
+            # Шаблон приёмки — только пока страница не проверялась; после
+            # проверки «работ не требует» он противоречил бы самому себе.
             checks = "".join(
                 f'<li style="margin:2px 0;">{esc(c)}</li>'
                 for c in (pkg.get("checklist") or [])[:3])
@@ -357,13 +374,13 @@ def _google_limit_line(snapshot: dict) -> str:
     google = kpi_mod.google_block(snapshot)
     if not google:
         reason = (snapshot.get("google") or {}).get("причина") or "сбор не запущен"
-        return f"Google: {reason} — раздел заполнится после ближайшего еженедельного среза."
+        return f"Google: {reason}."
     return (f"Google — российская выдача (xmlriver), еженедельный срез от "
             f"{google.get('дата_среза')} на глубину {google.get('глубина', 10)} "
-            "позиций (глубже сервис не отдаёт); серия google_ru только "
-            "начинается: динамики и сводной цифры с Яндексом нет до накопления "
-            "базовой линии, доли считаются внутри своего поля, позиции двух "
-            "систем не сравниваются как равноточные.")
+            "позиций (глубже сервис не отдаёт); динамика считается только между "
+            "срезами разных дат, сводной цифры с Яндексом нет: доли считаются "
+            "внутри своего поля, позиции двух систем не сравниваются как "
+            "равноточные.")
 
 
 def google_section(snapshot: dict) -> str:

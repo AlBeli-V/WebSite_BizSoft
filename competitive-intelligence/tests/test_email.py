@@ -430,3 +430,47 @@ class TestGoogleBlock(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class TestCaptionsMatchComputation(unittest.TestCase):
+    """Подпись говорит то же, что посчитано (аудит 03.09.2026)."""
+
+    def test_delta_caption_names_compared_day_not_a_period(self):
+        from mailer import build_email as be
+        self.assertEqual(be.delta_caption("2026-08-30"), "к 30.08")
+        self.assertEqual(be.delta_caption(None), "сравнения нет")
+        self.assertNotIn("7д", be.delta_caption("2026-08-30"))
+
+    def test_threat_hint_follows_mode(self):
+        from mailer import sections
+        from scoring import threat as threat_mod
+        base = threat_mod.Threat(score=27, confidence="LOW")
+        hint = sections.threat_scale_hint([({}, base)])
+        self.assertIn("0–70", hint)
+        self.assertNotIn("0–100", hint)
+        full = threat_mod.Threat(score=62, confidence="MEDIUM",
+                                 mode=threat_mod.MODE_FULL,
+                                 scale_max=threat_mod.MAX_FULL)
+        self.assertIn("0–100", sections.threat_scale_hint([({}, full)]))
+        self.assertIn("0–70", sections.threat_scale_hint([]))
+
+    def test_txt_does_not_advise_what_is_already_done(self):
+        from mailer import build_email as be
+        pkg = {"package_id": "WP-05", "action": "правок не требуется",
+               "url": "https://biz-soft.pro/vendors/x", "queries_count": 2,
+               "position_best": 5, "position_worst": 9, "rivals": ["a.ru"],
+               "effort": "S", "confidence": "HIGH", "potential_label": "низкий",
+               "upside_note": "спрос не измерен", "traffic_upside": None,
+               "checklist": ["Блок «Оплата по счёту»", "FAQ покупателя-юрлица"],
+               "уже_сделано": ["оплата по счёту раскрыта", "FAQ есть"],
+               "queries": ["x купить"]}
+        meta = {"тема": "т", "текст": "т", "эксперименты_строка": "",
+                "зрелость_скоринга": "базовый", "покрытие": {},
+                "kpi": {"share_yandex": None, "share_google": None,
+                        "top3": 0, "top10": 0, "queries": 0}}
+        txt = be.render_txt(meta, snapshot={}, packages=[pkg])
+        self.assertIn("Проверено и работ не требует", txt)
+        self.assertNotIn("Оплата по счёту»", txt)
+        # Без проверки шаблон приёмки остаётся.
+        txt2 = be.render_txt(meta, snapshot={}, packages=[{**pkg, "уже_сделано": []}])
+        self.assertIn("Оплата по счёту»", txt2)

@@ -885,7 +885,7 @@ def build_market_demand(date: str) -> dict:
     briefs = sorted(SEMANTICS_DIR.glob("brief-*.json"))
     if not briefs:
         return {"available": False,
-                "reason": "замер рыночного спроса ещё не собран",
+                "reason": "замера рыночного спроса нет",
                 "comparable_to_visibility": False}
     brief = json.loads(briefs[-1].read_text(encoding="utf-8"))
     if "coverage" not in brief:
@@ -898,7 +898,7 @@ def build_market_demand(date: str) -> dict:
     measured = brief.get("clusters_measured") or 0
     if not measured:
         return {"available": False,
-                "reason": "замер начат, но ни один кластер ещё не собран",
+                "reason": "замер начат, но ни один кластер не собран",
                 "measured_at": brief.get("report_date"),
                 "coverage": brief.get("coverage"),
                 "complete": brief.get("complete", False),
@@ -1037,7 +1037,7 @@ def build_crm(date: str) -> dict:
     if raw is None:
         return {"connected": False, "qualified_leads": None, "deals": None,
                 "revenue": None, "block": leads_mod.build(None, date),
-                "note": "выгрузка заявок не выполнялась — "
+                "note": "выгрузки заявок нет — "
                         "коммерческий результат не измеряется"}
     try:
         block = leads_mod.build(raw, date)
@@ -1045,6 +1045,10 @@ def build_crm(date: str) -> dict:
         return {"connected": False, "qualified_leads": None, "deals": None,
                 "revenue": None, "block": leads_mod.build(None, date),
                 "note": f"выгрузка заявок не разобрана: {type(e).__name__}: {e}"}
+    if data_date != date:
+        # Флаг stale прежде жил только в снимке, и письмо его не читало:
+        # карточка писала «полный подсчёт» по выгрузке, снятой до конца суток.
+        block = leads_mod.mark_stale(block, data_date)
     return {
         "connected": True,
         "data_date": data_date,

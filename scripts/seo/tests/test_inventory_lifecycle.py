@@ -106,7 +106,7 @@ class TestZeroImpression(Stage2Base):
     def test_no_inventory_is_honest(self):
         z = self.detector("zero_impression").build(DATE)
         self.assertFalse(z["available"])
-        self.assertIn("ещё не собран", z["reason"])
+        self.assertIn("за окно нет", z["reason"])
 
     def test_classification_and_coverage(self):
         self.write_sitemap(["/", "/product/a", "/product/b", "/blog/c",

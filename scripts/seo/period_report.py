@@ -181,7 +181,7 @@ def collect_ads(p_from: dt.date, p_to: dt.date) -> dict:
     rows = [r for r in d.get("groups", []) if r.get("Date") in days]
     if not rows:
         return {"available": False,
-                "reason": "в периоде не было открутки (или данные ещё не собраны)"}
+                "reason": "в периоде не было открутки (или данных за него нет)"}
     by_group: dict[str, dict] = {}
     for r in rows:
         g = by_group.setdefault(r["AdGroupName"], {"imp": 0, "clicks": 0, "cost": 0.0})

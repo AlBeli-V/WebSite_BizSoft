@@ -92,12 +92,27 @@ def do_next_text(attack: dict | None, package: dict | None = None,
             f"уверенность {attack['confidence']}.")
 
 
+def _dm(iso: str | None) -> str:
+    """Дата ДД.ММ для подписи в тексте письма."""
+    return datetime.strptime(iso, "%Y-%m-%d").strftime("%d.%m") if iso else "—"
+
+
+def delta_caption(compared_with: str | None) -> str:
+    """Подпись дельты называет день сравнения, а не период.
+
+    Одна и та же величина подписывалась «Δ7д», «за сутки» и «к прошлому»,
+    хотя считается к последнему сравнимому снимку — не обязательно вчерашнему
+    (письмо 01.09.2026 сравнивало с 30.08 под подписью «за сутки»).
+    """
+    return f"к {_dm(compared_with)}" if compared_with else "сравнения нет"
+
+
 def watch_text(threat_leader: tuple[dict, object] | None) -> str:
     """WATCH — одна угроза, а не перечень конкурентов."""
     if not threat_leader:
         return "Следим: угроз выше порога не зафиксировано."
     card, threat = threat_leader
-    return (f"Следим: {card['домен']} — Threat {threat.score}, "
+    return (f"Следим: {card['домен']} — Threat {threat.score} из {threat.scale_max}, "
             f"топ-3 по {card['топ3']} запросам, доля "
             f"{kpi_mod.ru_number(100 * card['доля'])}%.")
 
@@ -114,7 +129,8 @@ def visible_text(kpi, verdict_mark, verdict_why, signal, *,
     lines = [
         f"{verdict_mark} {verdict_why}.",
         (f"B2B Share Яндекс {kpi_mod.format_share(kpi.share_yandex)} "
-         f"(за сутки {kpi_mod.format_delta(kpi.share_delta_pp, unit=' п.п.')}, "
+         f"({delta_caption(kpi.compared_with)} "
+         f"{kpi_mod.format_delta(kpi.share_delta_pp, unit=' п.п.')}, "
          f"сигнальная {kpi_mod.format_delta(signal_delta, unit=' п.п.')}) · "
          f"Google {kpi_mod.format_share(kpi.share_google)} · "
          f"ТОП-3 {kpi.top3}/{kpi.queries} · ТОП-10 {kpi.top10}/{kpi.queries}."),
@@ -309,8 +325,20 @@ def render_txt(meta: dict, *, snapshot: dict | None = None,
                 f"выше нас {', '.join(pkg['rivals'][:2])}\n"
                 f"   {upside} · трудоёмкость {pkg['effort']} · "
                 f"уверенность {pkg['confidence']}")
-            for check in (pkg.get("checklist") or [])[:3]:
-                parts.append(f"   - {check}")
+            # То же правило, что в HTML: сначала проверенные действия; если
+            # страница проверена и работ не требует — так и сказать; шаблонный
+            # чеклист — только когда проверки не было. Письмо 03.09.2026
+            # печатало «правок не требуется» и тут же шаблон «добавить FAQ».
+            actions = pkg.get("действия") or []
+            done = pkg.get("уже_сделано") or []
+            if actions:
+                for a in actions[:3]:
+                    parts.append(f"   - {a['what']} ({a['effort']}, {a['owner']})")
+            elif done:
+                parts.append("   Проверено и работ не требует: " + "; ".join(done))
+            else:
+                for check in (pkg.get("checklist") or [])[:3]:
+                    parts.append(f"   - {check}")
 
         quick = [p for p in packages if p["effort"] == "S"][:3]
 
@@ -459,6 +487,8 @@ def render_html(meta: dict, *, kpi=None, snapshot: dict | None = None,
             f'<div style="font-size:20px;font-weight:700;">{esc(value)}</div>'
             f'<div style="color:#98A2B3;font-size:11px;">{esc(note)}</div></td>')
 
+    delta_label = "Δ " + delta_caption(meta.get("сравнение_с"))
+
     return f"""<!doctype html>
 <html lang="ru"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -473,7 +503,7 @@ def render_html(meta: dict, *, kpi=None, snapshot: dict | None = None,
 <tr><td style="padding:6px 24px;"><div style="font-size:17px;font-weight:700;">{esc(verdict_line)}</div></td></tr>
 <tr><td style="padding:10px 24px;">
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="font-size:13px;"><tr>
-{cell('B2B Share · Яндекс', yandex_share, f'Δ7д: {delta}')}<td style="width:6px;"></td>
+{cell('B2B Share · Яндекс', yandex_share, f'{delta_label}: {delta}')}<td style="width:6px;"></td>
 {cell('B2B Share · Google', google_share, google_note)}<td style="width:6px;"></td>
 {cell('ТОП-3', f"{k['top3']}/{k['queries']}", 'запросов')}<td style="width:6px;"></td>
 {cell('ТОП-10', f"{k['top10']}/{k['queries']}", 'запросов')}

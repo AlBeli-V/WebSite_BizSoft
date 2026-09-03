@@ -30,7 +30,7 @@ def build(date_s: str) -> dict:
     data = pairs.load_latest(date_s)
     if not data:
         return {"available": False,
-                "reason": "сенсор пар «запрос × страница» ещё не накопил данных",
+                "reason": "данных сенсора пар «запрос × страница» за окно нет",
                 "items": []}
     agg = pairs.by_query(data["rows"])
     items = []

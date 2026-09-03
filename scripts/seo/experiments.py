@@ -142,14 +142,14 @@ def verdict_for(days: int, impressions: int | None, live: int | None,
     if days < MIN_EXPOSURE_DAYS:
         return ("too_early",
                 f"прошло {days} дн. из {MIN_EXPOSURE_DAYS} минимальных: окно источника "
-                "ещё не покрывает изменение")
+                "не покрывает изменение")
     if impressions is None:
         return ("inconclusive", "экспозиция не измерена")
     if impressions < min_imp:
         return ("observing",
                 f"накоплено {num(impressions)} показов из {min_imp} "
                 "минимальных для вывода")
-    return ("observing", "экспозиция набрана, ждём контрольную дату")
+    return ("observing", "экспозиция набрана, до контрольной даты")
 
 
 def control_dates_for(start: dt.date, explicit: str | None = None) -> list[str]:

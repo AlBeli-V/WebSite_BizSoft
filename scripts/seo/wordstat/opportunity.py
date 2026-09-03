@@ -22,6 +22,7 @@ EFFORT = {
     "GAP-F": 3.0,   # исследование платного канала
     "GAP-G": 4.0,   # ранняя страница под растущий спрос
     "GAP-H": 8.0,   # снижающийся спрос: работа окупается плохо
+    "GAP-N": 1.0,   # проверка индексации и позиции — замер, не правка
 }
 TREND_FACTOR = {"growing": 1.3, "stable": 1.0, "unknown": 0.9, "declining": 0.5}
 
@@ -30,11 +31,11 @@ def coverage_gap(gap: dict) -> float:
     """Насколько велик разрыв: 1.0 — нас нет вовсе, 0.1 — почти всё хорошо."""
     if not gap["page_exists"]:
         return 1.0
-    if not gap["indexed"]:
+    if gap["indexed"] is False:
         return 0.85
     pos = gap["best_position"]
-    if pos is None:
-        return 0.8
+    if gap["indexed"] is None or pos is None:
+        return 0.8      # размер разрыва не измерен — не самый большой и не малый
     if pos > 30:
         return 0.7
     if pos > 10:

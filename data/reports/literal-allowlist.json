@@ -1,0 +1,103 @@
+{
+ "$comment": "Исключения для scripts/seo/tests/test_report_literals.py — утверждения без срока годности, которые ещё живут в тексте отчётов. Каждая запись — долг с датой: после valid_until тест падает, пока текст не исправлен. Запись, которой ничего не соответствует, тоже роняет тест. Этапы — по docs/ops/report-integrity-audit-2026-09-03.md, раздел 6.",
+ "entries": [
+  {
+   "file": ".github/workflows/ops-briefing-2026-08-24.yml",
+   "match": "2026-08-24",
+   "code": "DATE",
+   "reason": "разовый воркфлоу от 24.08.2026 живёт как постоянный; архивация и поле expires — этап 3 (М5)",
+   "valid_until": "2026-09-17"
+  },
+  {
+   "file": "competitive-intelligence/attack_engine/recommendations.py",
+   "match": "квота 150 URL",
+   "code": "QUOTA",
+   "reason": "квота переобхода Вебмастера зашита в текст рекомендации; вынести в конфиг — этап 4",
+   "valid_until": "2026-09-17"
+  },
+  {
+   "file": "competitive-intelligence/reports/deep_report.py",
+   "match": "01.09.2026",
+   "code": "DATE",
+   "reason": "плашка «зрелость расчёта … с 01.09.2026» зашита; читать snapshot['зрелость_скоринга'] и дату первого снимка — этап 4",
+   "valid_until": "2026-09-17"
+  },
+  {
+   "file": "ops/routines/prompts/ci-mail-watch.md",
+   "match": "Сейчас 10:45",
+   "code": "PROMISE",
+   "reason": "время прогона подставлять из registry.json при create_trigger — этап 5 (М7)",
+   "valid_until": "2026-09-17"
+  },
+  {
+   "file": "ops/routines/prompts/ci-mail-watch.md",
+   "match": "01.09.2026",
+   "code": "DATE",
+   "reason": "исторический нарратив в оперативной инструкции; убрать — этап 5 (М7)",
+   "valid_until": "2026-09-17"
+  },
+  {
+   "file": "ops/routines/prompts/competitive-intelligence.md",
+   "match": "01.09.2026",
+   "code": "DATE",
+   "reason": "исторический нарратив в оперативной инструкции; убрать — этап 5 (М7)",
+   "valid_until": "2026-09-17"
+  },
+  {
+   "file": "ops/routines/prompts/routine-health.md",
+   "match": "Сейчас 10:00",
+   "code": "PROMISE",
+   "reason": "время прогона подставлять из registry.json при create_trigger — этап 5 (М7)",
+   "valid_until": "2026-09-17"
+  },
+  {
+   "file": "ops/routines/prompts/routine-health.md",
+   "match": "2026",
+   "code": "DATE",
+   "reason": "даты разбора 02.09–03.09.2026 в промпте; перенести в ops/routines/README.md — этап 5 (М7)",
+   "valid_until": "2026-09-17"
+  },
+  {
+   "file": "ops/routines/prompts/serp-catchup.md",
+   "match": "Сейчас 02:45",
+   "code": "PROMISE",
+   "reason": "время прогона подставлять из registry.json при create_trigger — этап 5 (М7)",
+   "valid_until": "2026-09-17"
+  },
+  {
+   "file": "ops/routines/prompts/serp-catchup.md",
+   "match": "01.09.2026",
+   "code": "DATE",
+   "reason": "дата поручения в промпте; убрать — этап 5 (М7)",
+   "valid_until": "2026-09-17"
+  },
+  {
+   "file": "ops/routines/prompts/wordstat-catchup.md",
+   "match": "Сейчас 05:35",
+   "code": "PROMISE",
+   "reason": "время прогона подставлять из registry.json при create_trigger — этап 5 (М7)",
+   "valid_until": "2026-09-17"
+  },
+  {
+   "file": "ops/routines/prompts/wordstat-catchup.md",
+   "match": "01.09.2026",
+   "code": "DATE",
+   "reason": "дата поручения в промпте; убрать — этап 5 (М7)",
+   "valid_until": "2026-09-17"
+  },
+  {
+   "file": "scripts/seo/snapshot.py",
+   "match": "2026-08-18",
+   "code": "DATE",
+   "reason": "граница разметки key events GA4 зашита в текст; брать из data/seo/measurement-limits.json — этап 4",
+   "valid_until": "2026-09-17"
+  },
+  {
+   "file": "scripts/seo/wordstat/config.py",
+   "match": "Целевая квота 500",
+   "code": "QUOTA",
+   "reason": "DEFAULT-конфиг с устаревшей квотой 100/час: при потере config.json станет кодом; убрать DEFAULT — этап 4",
+   "valid_until": "2026-09-17"
+  }
+ ]
+}

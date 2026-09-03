@@ -46,7 +46,7 @@ VERDICT_BY_CLASS = {
 }
 GENERIC_VERDICT = ("без показов Google — разобрать: индексация / спрос / "
                    "название / перелинковка")
-WAIT_VERDICT = "наблюдение: показов нет, срок ещё не вышел"
+WAIT_VERDICT = "наблюдение: показов нет, срок не вышел"
 
 
 def _google_status(path: str, gpages: dict) -> dict:
@@ -79,7 +79,7 @@ def build(date_s: str) -> dict:
     inv = inventory.load_latest(date_s)
     if not inv:
         return {"available": False,
-                "reason": "инвентарь sitemap ещё не собран "
+                "reason": "инвентаря sitemap за окно нет "
                           "(шаг workflow seo-data-collect)",
                 "items": []}
     seen = inventory.pages_with_impressions(date_s)

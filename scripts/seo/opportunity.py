@@ -172,7 +172,14 @@ def from_market_demand(snap: dict) -> list[dict]:
     return out
 
 
-def build(snap: dict, decision_date: str, limit: int = 3) -> dict:
+def build(snap: dict, decision_date: str | None = None, limit: int = 3) -> dict:
+    """Три ближайшие возможности роста.
+
+    decision_date — срок решения, если он назначен руководителем. Зашитой
+    даты здесь больше нет: письмо две недели печатало «решение к 26.08»,
+    когда этот день давно прошёл (аудит 03.09.2026). Без срока строка
+    честно говорит «решение за вами».
+    """
     items = from_market_demand(snap) + from_queries(snap, "yandex") + from_queries(snap, "google")
     if not items:
         return {"available": False,

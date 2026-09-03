@@ -311,7 +311,7 @@ class TestSerpAnalysis(unittest.TestCase):
     def test_no_archive_is_honest(self):
         res = self.sa.build(DATE)
         self.assertFalse(res["available"])
-        self.assertIn("ещё не накоплен", res["reason"])
+        self.assertIn("срезов за окно нет", res["reason"])
 
 
 if __name__ == "__main__":
