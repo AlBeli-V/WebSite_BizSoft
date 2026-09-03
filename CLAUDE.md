@@ -179,6 +179,14 @@ meta_title у `/product/deposit-unl-month` и `/product/deposit-unl-year`).
   порядка карточек — slug ИЛИ sku.
 - Живую выгрузку каталога (vendor/name/slug/sku/price) даёт workflow
   `ops-export-products` (комментарий в issue #22).
+- `lastmod` товара в sitemap — поле `content_updated_at` (дата содержательного
+  изменения), а не `date_updated`: последний Directus сдвигает при любом
+  PATCH, и ежедневная переоценка по курсу ЦБ ставила всему каталогу одну
+  дату (разбор 03.09.2026). Штамп ставит слой `src/lib/directus.ts`
+  (`withContentStamp`: цены, наценки, закупка и `sort` — нейтральны, всё
+  остальное — содержательно) и workflow мета-правок; переоценка и
+  `ops-annual-reprice` его не трогают. Без штампа `lastmod` у товара не
+  отдаётся. Поле заводит `ops-directus-schema` (schema-only).
 - Одна и та же позиция, заведённая дважды (разные sku и слаги), склеивается
   штатно: `ops-merge-product` (вход `keep`/`drop`, сначала `apply=false` —
   план). Остающаяся карточка получает слаг снятой в `old_slugs` — страница

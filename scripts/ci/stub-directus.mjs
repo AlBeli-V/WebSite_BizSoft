@@ -36,7 +36,7 @@ function product(over) {
     price_locked: false, promo_price: null, promo_label: '',
     promo_start: null, promo_end: null, features: [], faq: [],
     sort: over.sort ?? 1, status: over.status ?? 'published',
-    noindex: over.noindex ?? false, date_updated: '2026-08-01T00:00:00Z',
+    noindex: over.noindex ?? false, date_updated: '2026-08-01T00:00:00Z', content_updated_at: '2026-08-01T00:00:00Z',
     for_whom: '', use_cases: '', former_names: '',
     old_slugs: over.old_slugs ?? [], related_products: '', related_solutions: '',
     price_from: false, category: over.category ?? CATEGORIES[0],
