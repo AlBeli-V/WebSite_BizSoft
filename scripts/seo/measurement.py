@@ -15,7 +15,7 @@
   CRM leads             — обращения; источник не подключён.
 
 Правило сравнимости: два показателя сравниваются напрямую только при совпадении
-охвата (scope) и периода. Клики по выборке топ-100 запросов и визиты всего сайта
+охвата (scope) и периода. Клики по выборке запросов и визиты всего сайта
 охват не разделяют, поэтому их отношение не является «расхождением источников».
 
 Статус здоровья данных:
@@ -26,7 +26,9 @@
 
 from __future__ import annotations
 
-SCOPE_SAMPLE_QUERIES = "выборка топ-100 запросов"
+import passport
+SCOPE_SAMPLE_QUERIES = "выборка запросов Вебмастера"
+SCOPE_ALL_QUERIES = "все запросы хоста за окно источника"
 SCOPE_SITEWIDE = "весь сайт"
 SCOPE_NONE = "нет источника"
 
@@ -165,15 +167,34 @@ def build_map(snap: dict) -> list[dict]:
         _entry(
             "GA4", "sessions", "сессия из органического поиска",
             SCOPE_SITEWIDE, period_of(ga.get("source")),
-            "канал: Organic Search",
+            ("канал: Organic Search без собственных визитов и переходов из Алисы"
+             if ga.get("organic_sessions_clean") is not None else "канал: Organic Search"),
             "все страницы сайта, все поисковые системы",
             ["Яндекс.Метрика · visits"],
             "Модель сессии GA4 отличается от модели визита Метрики (граница суток, "
             "источник, таймаут), поэтому небольшое расхождение — норма, а не ошибка.",
-            ga.get("organic_sessions"), "ok" if ga.get("available") else "unavailable"),
+            (ga.get("organic_sessions_clean") if ga.get("organic_sessions_clean") is not None
+             else ga.get("organic_sessions")),
+            "ok" if ga.get("available") else "unavailable"),
         _crm_entry(snap),
     ]
     return rows
+
+
+def yandex_scope_label(yx: dict) -> str:
+    """Подпись охвата запросов Вебмастера по факту забора, не константой.
+
+    До 03.09.2026 письмо подписывало карточку «выборка топ-100 запросов» при
+    постраничном заборе всех 1016 запросов хоста — подпись спорила с числом
+    в ней же.
+    """
+    t = (yx or {}).get("totals") or {}
+    fetched, available = t.get("queries_fetched"), t.get("queries_available")
+    if available and (fetched or 0) >= available:
+        return f"все {available} запросов хоста"
+    if fetched and available:
+        return f"выборка {fetched} из {available} запросов"
+    return "выборка запросов"
 
 
 def sample_ctr(snap: dict) -> dict | None:
@@ -185,13 +206,82 @@ def sample_ctr(snap: dict) -> dict | None:
     imp, clicks = t.get("impressions"), t.get("clicks")
     if not imp:
         return None
+    full = bool(t.get("queries_available")) and \
+        (t.get("queries_fetched") or 0) >= (t.get("queries_available") or 0)
+    src = yx.get("source") or {}
+    period = f"{src.get('current_period_start')}–{src.get('current_period_end')}"
+    if full:
+        # Постраничный забор берёт все запросы хоста: это CTR по запросам
+        # за окно источника, а не «CTR выборки топ-100». Оговорка — про
+        # окно: оно плавает вслед за задержкой Вебмастера и не совпадает с
+        # окном дневной витрины, из которой считаются KPI.
+        return {
+            "value": clicks / imp,
+            "impressions": imp,
+            "clicks": clicks,
+            "scope": SCOPE_ALL_QUERIES,
+            "label": "CTR по запросам Вебмастера",
+            "caveat": f"по всем {t.get('queries_tracked')} запросам хоста за окно "
+                      f"источника {period}; окно витрины KPI другое",
+        }
     return {
         "value": clicks / imp,
         "impressions": imp,
         "clicks": clicks,
         "scope": SCOPE_SAMPLE_QUERIES,
         "label": "CTR выборки",
-        "caveat": "только выборка топ-100 запросов, не CTR всего сайта",
+        "caveat": f"только выборка {t.get('queries_fetched')} из "
+                  f"{t.get('queries_available')} запросов, не CTR всего сайта",
+    }
+
+
+FUNNEL_ROWS = (
+    ("yandex", "impressions", "Показы в Яндексе", "Яндекс.Вебмастер"),
+    ("yandex", "clicks", "Переходы из Яндекса", "Яндекс.Вебмастер"),
+    ("gsc", "impressions", "Показы в Google", "Google Search Console"),
+    ("gsc", "clicks", "Переходы из Google", "Google Search Console"),
+    ("metrika", "visits_organic", "Органические визиты", "Яндекс.Метрика"),
+    ("metrika", "goal_reaches_organic", "Целевые события органики", "Яндекс.Метрика"),
+    ("ga4", "sessions_organic", "Органические сессии (без своих визитов)", "GA4"),
+    ("ga4", "key_events_organic", "Ключевые события органики", "GA4"),
+)
+
+
+def funnel(snap: dict) -> dict:
+    """Сводная воронка за общее окно (решение руководителя 03.09.2026).
+
+    Карточки источников живут на своих свежих окнах; всё, что ставится в
+    один ряд — показы, переходы, визиты, цели, — берётся отсюда: из окна с
+    общим концом по самому медленному источнику. Переходы Яндекса и визиты
+    Метрики здесь одной недели, и их порядок величины сравним; равенства
+    от них по-прежнему не ждут (клик и визит — разные события).
+    """
+    aligned = (snap.get("daily") or {}).get("aligned") or {}
+    if not aligned.get("available"):
+        return passport.unavailable("no_rows", source="дневная витрина")
+    rows = []
+    for source, metric, label, origin in FUNNEL_ROWS:
+        w = (aligned.get("sources") or {}).get(source, {}).get(metric)
+        if not w:
+            continue
+        rows.append({
+            "source": origin, "metric": metric, "label": label,
+            "current": w["current"]["sum"], "previous": w["previous"]["sum"],
+            "delta": w.get("delta"),
+            "complete": bool(w["current"].get("complete") and w["previous"].get("complete")),
+        })
+    return {
+        "available": True,
+        "complete": bool(aligned.get("complete")),
+        "current": aligned.get("current"),
+        "previous": aligned.get("previous"),
+        "lag_days": aligned.get("lag_days"),
+        "missing_dates": aligned.get("missing_dates") or [],
+        "rows": rows,
+        "note": ("Все строки — за одно окно с общим концом по самому медленному "
+                 "источнику; карточки письма считаются по свежему окну каждого "
+                 "источника, поэтому числа здесь и в карточках различаются "
+                 "датами, а не методикой."),
     }
 
 

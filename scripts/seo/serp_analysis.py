@@ -7,6 +7,17 @@
 коммерческим запросам, какие выдачи «слабые» (маркетплейсы и форумы вместо
 специализированных конкурентов — лёгкая точка входа, механика №18) и что
 изменилось к прошлому срезу (семя детектора вытеснения, №16).
+
+С 03.09.2026 тот же разбор строится и по Google (engine="google"): срез
+serp_google.py через xmlriver, российское местоположение, файл
+<дата>-serp-google.jsonl. Сбор еженедельный, поэтому окно свежести шире.
+Второй источник — только чтение готового среза: собственных запросов к
+xmlriver здесь нет (правило «один сбор — все потребители»).
+
+cross_engine_gap() сопоставляет обе выдачи по одному ядру: запросы, где
+Яндекс уже держит нас в топ-10, а Google не показывает вовсе, — главный
+управленческий вопрос по Google (индексация, релевантность или авторитет
+домена), и без российской Google-выдачи он был неразличим.
 """
 
 from __future__ import annotations
@@ -14,10 +25,21 @@ from __future__ import annotations
 import datetime as dt
 import json
 import pathlib
+import passport
 
 SERP_DIR = pathlib.Path("reports/seo/serp")
 LOOKBACK_DAYS = 7
 OUR_DOMAIN = "biz-soft.pro"
+
+# Поисковые системы: суффикс файла среза, регион по умолчанию, окно свежести.
+# Google собирается раз в неделю (data/seo/xmlriver.json), окно — 8 дней с
+# запасом на дрейф расписания; Яндекс — ежедневно, окно 7 дней.
+ENGINES = {
+    "yandex": {"suffix": "-serp.jsonl", "region": "213", "lookback": LOOKBACK_DAYS,
+               "label": "Яндекса", "where": "Search API, регион Москва"},
+    "google": {"suffix": "-serp-google.jsonl", "region": "2643", "lookback": 8,
+               "label": "Google", "where": "xmlriver, местоположение Россия"},
+}
 
 # Классификация доменов топа. Списки консервативны и пополняются по фактам
 # из архива; всё неизвестное честно остаётся «прочие».
@@ -63,16 +85,18 @@ def classify_domain(domain: str) -> str:
     return "other"
 
 
-def _load(date_s: str, offset_from: str | None = None) -> dict | None:
-    """Последний срез не старше LOOKBACK_DAYS; offset_from — искать строго
-    раньше этой даты (для сравнения с предыдущим срезом)."""
+def _load(date_s: str, offset_from: str | None = None,
+          engine: str = "yandex") -> dict | None:
+    """Последний срез не старше окна свежести системы; offset_from — искать
+    строго раньше этой даты (для сравнения с предыдущим срезом)."""
+    spec = ENGINES[engine]
     date = dt.date.fromisoformat(date_s)
     start = 1 if offset_from else 0
-    for back in range(start, LOOKBACK_DAYS + 1):
+    for back in range(start, spec["lookback"] + 1):
         d = (date - dt.timedelta(days=back)).isoformat()
         if offset_from and d >= offset_from:
             continue
-        p = SERP_DIR / f"{d}-serp.jsonl"
+        p = SERP_DIR / f"{d}{spec['suffix']}"
         if not p.exists():
             continue
         rows = []
@@ -83,7 +107,9 @@ def _load(date_s: str, offset_from: str | None = None) -> dict | None:
                 rows.append(json.loads(line))
             except ValueError:
                 continue
-        rows = [r for r in rows if not r.get("error") and r.get("top")]
+        # Успешный замер с пустой выдачей (код 15 у xmlriver, found=0) —
+        # измерение «нас и никого нет», а не сбой: строка остаётся.
+        rows = [r for r in rows if not r.get("error") and isinstance(r.get("top"), list)]
         if rows:
             return {"date": d, "rows": rows}
     return None
@@ -96,25 +122,31 @@ def _our_position(top: list[dict]) -> int | None:
     return None
 
 
-def build(date_s: str, region: str = "213") -> dict:
-    """Анализ по одному региону: выдача регионозависима, и смешивание
-    Москвы с СПб в одних счётчиках дало бы кашу вместо позиций."""
-    data = _load(date_s)
+def build(date_s: str, region: str | None = None,
+          engine: str = "yandex") -> dict:
+    """Анализ по одной системе и одному региону: выдача регионозависима, и
+    смешивание Москвы с СПб (или Яндекса с Google) в одних счётчиках дало
+    бы кашу вместо позиций."""
+    spec = ENGINES[engine]
+    region = region or spec["region"]
+    data = _load(date_s, engine=engine)
     if not data:
-        return {"available": False,
-                "reason": "SERP-архив ещё не накоплен (workflow seo-serp-watch)",
-                "items": []}
+        reason = ("SERP-срезов за окно нет (workflow seo-serp-watch)"
+                  if engine == "yandex" else
+                  f"свежего Google-среза нет (сбор еженедельный, окно "
+                  f"{spec['lookback']} дней; шаг Collect Google SERP в "
+                  f"seo-serp-watch)")
+        return passport.unavailable("no_file", detail=reason, engine=engine, items=[])
     region_rows = [r for r in data["rows"]
-                   if (r.get("region") or "213") == region]
+                   if (r.get("region") or spec["region"]) == region]
     if not region_rows:
-        return {"available": False,
-                "reason": f"по региону {region} срезов ещё нет",
-                "items": []}
-    prev = _load(date_s, offset_from=data["date"])
+        return passport.unavailable("no_match", detail=f"регион {region}",
+                                    engine=engine, items=[])
+    prev = _load(date_s, offset_from=data["date"], engine=engine)
     prev_tops = {r["query"]: {d.get("domain", "").lower().removeprefix("www.")
                               for d in (r.get("top") or [])[:10]}
                  for r in (prev or {}).get("rows", [])
-                 if (r.get("region") or "213") == region}
+                 if (r.get("region") or spec["region"]) == region}
 
     items, domain_hits = [], {}
     ours_in_top10 = weak = 0
@@ -154,6 +186,7 @@ def build(date_s: str, region: str = "213") -> dict:
         key=lambda t: -t[1])
     return {
         "available": True,
+        "engine": engine,
         "as_of": data["date"],
         "region": region,
         "prev_date": (prev or {}).get("date"),
@@ -163,8 +196,78 @@ def build(date_s: str, region: str = "213") -> dict:
         "items": items,
         "top_domains": [{"domain": d, "hits": n, "kind": k}
                         for d, n, k in competitors[:15]],
-        "note": ("реальная выдача Яндекса (Search API, регион Москва, "
+        "note": (f"реальная выдача {spec['label']} ({spec['where']}, "
                  "топ-20); «слабая» выдача — ≥60% топ-10 занято "
                  "маркетплейсами и форумами, а не специализированными "
                  "конкурентами"),
+    }
+
+
+def _norm_query(q: str) -> str:
+    return " ".join((q or "").lower().split())
+
+
+def cross_engine_gap(date_s: str, yandex_region: str = "213",
+                     google_region: str | None = None) -> dict:
+    """Разрыв между системами по одному ядру запросов.
+
+    Три множества по запросам, измеренным в обеих выдачах:
+      - yandex_top10_google_absent — Яндекс держит нас в топ-10, Google
+        не показывает в собранной выдаче (глубина у xmlriver — 10 позиций,
+        поле google_depth): страница есть и релевантна (Яндекс её
+        ранжирует), значит вопрос к Google — индексация, авторитет или
+        конкурентоспособность страницы именно там;
+      - google_top10_yandex_absent — обратное;
+      - both_top10 — счётчик, где всё в порядке.
+    Позиции берутся как есть, без усреднения; сравнивать их как равноточные
+    нельзя (разные системы), сравнивается только присутствие в топе.
+    """
+    yx = _load(date_s, engine="yandex")
+    g = _load(date_s, engine="google")
+    if not yx or not g:
+        return passport.unavailable(
+            "no_file", source=("срез Google" if yx else "срез Яндекса"),
+            detail="сопоставлять нечего")
+    google_region = google_region or ENGINES["google"]["region"]
+    ymap = {_norm_query(r["query"]): r for r in yx["rows"]
+            if (r.get("region") or "213") == yandex_region}
+    gmap = {_norm_query(r["query"]): r for r in g["rows"]
+            if (r.get("region") or google_region) == google_region}
+    common = sorted(set(ymap) & set(gmap))
+    ya_only, g_only, both = [], [], 0
+    for key in common:
+        ypos = _our_position(ymap[key].get("top") or [])
+        gpos = _our_position(gmap[key].get("top") or [])
+        if ypos and ypos <= 10 and gpos and gpos <= 10:
+            both += 1
+        elif ypos and ypos <= 10 and not gpos:
+            ya_only.append({
+                "query": ymap[key]["query"], "yandex_position": ypos,
+                "google_position": None,
+                "google_top3": [d.get("domain") for d in
+                                (gmap[key].get("top") or [])[:3]],
+            })
+        elif gpos and gpos <= 10 and not ypos:
+            g_only.append({
+                "query": gmap[key]["query"], "google_position": gpos,
+                "yandex_position": None,
+                "yandex_top3": [d.get("domain") for d in
+                                (ymap[key].get("top") or [])[:3]],
+            })
+    ya_only.sort(key=lambda i: i["yandex_position"])
+    g_only.sort(key=lambda i: i["google_position"])
+    g_depth = max((len(r.get("top") or []) for r in gmap.values()), default=0)
+    return {
+        "available": True,
+        "as_of_yandex": yx["date"],
+        "as_of_google": g["date"],
+        "google_depth": 20 if g_depth > 10 else 10,
+        "queries_compared": len(common),
+        "both_top10": both,
+        "yandex_top10_google_absent": ya_only,
+        "google_top10_yandex_absent": g_only,
+        "note": ("запросы одного ядра, измеренные в обеих системах: Яндекс "
+                 "(Москва, топ-20) и Google (Россия, xmlriver, глубина "
+                 f"{20 if g_depth > 10 else 10}). Сравнивается присутствие в "
+                 "собранной выдаче, а не позиции: системы разные"),
     }

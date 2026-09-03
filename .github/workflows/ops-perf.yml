@@ -20,6 +20,11 @@ jobs:
             echo "Запуск разрешён только с ветки main. Текущий ref: ${{ github.ref_name }}"
             exit 1
           fi
+      # Локальный action journal-post лежит в репозитории — без checkout
+      # раннер его не находит, и запись в журнал падает (см. прогон #41
+      # ops-yandex-recrawl 03.09.2026).
+      - uses: actions/checkout@v4
+
       - name: Measure prod TTFB and headers
         id: probe
         uses: appleboy/ssh-action@v1
@@ -45,7 +50,7 @@ jobs:
             probe https://biz-soft.pro/catalog
             echo
             echo "== Статика =="
-            CSS=$(curl -s https://biz-soft.pro/ | grep -o '/_astro/[^"]*\.css' | head -1)
+            CSS=$(curl -sf https://biz-soft.pro/ | grep -o '/_astro/[^"]*\.css' | head -1)
             [ -n "$CSS" ] && probe "https://biz-soft.pro$CSS"
             probe https://biz-soft.pro/robots.txt
             LOGO=$(ls /opt/bizsoft/astro-src/public/brand-logos 2>/dev/null | head -1)
@@ -61,17 +66,16 @@ jobs:
 
       # Публикуем результаты комментарием в журнал-issue #22 — надёжный канал
       # чтения результатов (Actions job-logs API периодически недоступен интеграциям).
+      # Локальному action нужен репозиторий в рабочей копии. if: always() —
+      # потому что шаг журнала тоже always(): без этого при падении основного
+      # шага checkout пропускается, и запись в журнал снова не проходит.
+      - name: Checkout for journal action
+        if: always()
+        uses: actions/checkout@v4
       - name: Post results to perf journal (issue #22)
         if: always()
-        uses: actions/github-script@v7
-        env:
-          OUT: ${{ steps.probe.outputs.stdout }}
+        uses: ./.github/actions/journal-post
         with:
-          script: |
-            const out = (process.env.OUT || '(нет вывода)').slice(0, 60000);
-            await github.rest.issues.createComment({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: 22,
-              body: '### ops-perf · ' + new Date().toISOString() + '\n```\n' + out + '\n```',
-            });
+          title: "ops-perf"
+          outcome: ${{ steps.probe.outcome }}
+          body: ${{ steps.probe.outputs.stdout }}

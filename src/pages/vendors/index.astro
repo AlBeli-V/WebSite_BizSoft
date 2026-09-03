@@ -34,6 +34,10 @@ const AI_SLUGS: Record<string, string> = {
   // Ребрендинг: сервис Freepik переименован в Magnific (юрлицо то же — Freepik Company S.L.U.)
   magnific: 'freepik', 'magnific (freepik)': 'freepik',
 };
+// Вендоры, у которых в общем списке показывается полное написание, а
+// квадратный знак остаётся лендингу и карточкам товара: у Lansweeper знак
+// «Ls» рядом со словесными логотипами соседей не читается как название.
+const WORDMARK_TILE = new Set(['lansweeper']);
 // Ребрендинги: новый знак — крупно, прежний — мелко рядом со старым названием.
 const DUAL_LOGO: Record<string, { main: string; prev: string }> = {
   freepik: { main: '/brand-logos/magnific-logo.svg', prev: '/brand-logos/freepik-logo.svg' },
@@ -65,7 +69,7 @@ const items = rows.map((r) => {
     letter,
     top: TOP.has(slug),
     href: `/vendors/${slug}`,
-    pack: Boolean(vendorIcon(slug)),
+    pack: Boolean(vendorIcon(slug)) && !WORDMARK_TILE.has(slug),
     logo: dual?.main ?? logoFile(slug),
     prevLogo: dual?.prev ?? null,
   };

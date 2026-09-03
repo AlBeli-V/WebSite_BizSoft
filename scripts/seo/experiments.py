@@ -68,14 +68,44 @@ def cluster_keys(e: dict) -> dict:
                           (для страниц «аналогов» — «аналог/альтернатива/…»).
     Привязки запрос→страница у Вебмастера нет — это оценка, и она подписана
     оценкой в письме.
+
+    Перезапуск SEO-EXP-002 (03.09.2026) добавил третий способ задать ключи —
+    `page_markers`: словарь «страница → маркеры её запросов». Общий набор
+    эксперимента — объединение маркеров всех страниц, а page_keys() отдаёт
+    ключи каждой страницы отдельно: в SEO-EXP-002 маркеры кластера Adobe
+    («after effects», «lightroom») приписывали vendor-странице показы карточек
+    товаров, и средние по «кластеру» из шести вендоров скрывали, что у пяти
+    страниц показов нет вовсе.
     """
     slugs = [p.rstrip("/").rsplit("/", 1)[-1] for p in e.get("pages") or []]
-    markers = e.get("query_markers") or sorted(
-        {s.replace("-", " ") for s in slugs} | set(slugs))
+    page_markers = e.get("page_markers") or {}
+    if page_markers:
+        markers = sorted({m for ms in page_markers.values() for m in ms})
+    else:
+        markers = e.get("query_markers") or sorted(
+            {s.replace("-", " ") for s in slugs} | set(slugs))
     return {
         "any": [m.lower() for m in markers],
         "exclude": [m.lower() for m in e.get("query_exclude") or []],
         "intent_any": [m.lower() for m in e.get("query_intent_any") or []],
+    }
+
+
+def page_keys(e: dict) -> dict[str, dict]:
+    """Ключи атрибуции по каждой странице эксперимента (см. cluster_keys).
+
+    Пусто, если реестр не задал `page_markers`: тогда разбивки по страницам
+    нет, и оценка идёт по кластеру целиком, как прежде. Исключения и
+    интент-фильтр у страниц общие с экспериментом.
+    """
+    page_markers = e.get("page_markers") or {}
+    if not page_markers:
+        return {}
+    common = cluster_keys(e)
+    return {
+        page: {"any": [m.lower() for m in ms],
+               "exclude": common["exclude"], "intent_any": common["intent_any"]}
+        for page, ms in page_markers.items()
     }
 
 
@@ -112,14 +142,14 @@ def verdict_for(days: int, impressions: int | None, live: int | None,
     if days < MIN_EXPOSURE_DAYS:
         return ("too_early",
                 f"прошло {days} дн. из {MIN_EXPOSURE_DAYS} минимальных: окно источника "
-                "ещё не покрывает изменение")
+                "не покрывает изменение")
     if impressions is None:
         return ("inconclusive", "экспозиция не измерена")
     if impressions < min_imp:
         return ("observing",
                 f"накоплено {num(impressions)} показов из {min_imp} "
                 "минимальных для вывода")
-    return ("observing", "экспозиция набрана, ждём контрольную дату")
+    return ("observing", "экспозиция набрана, до контрольной даты")
 
 
 def control_dates_for(start: dt.date, explicit: str | None = None) -> list[str]:
@@ -159,6 +189,14 @@ def build(snap: dict, date: str, site_check: dict | None = None) -> list[dict]:
         days = (today - start).days
         keys = cluster_keys(e)
         imp, clicks = impressions_for(snap, keys)
+        # Разбивка по страницам (перезапуск SEO-EXP-002): у эксперимента с
+        # page_markers экспозиция каждой страницы видна отдельно, и «кластер
+        # набрал показы» больше не скрывает страницу без единого показа.
+        per_page = []
+        for page, pk in page_keys(e).items():
+            p_imp, p_clicks = impressions_for(snap, pk)
+            per_page.append({"page": page, "impressions": p_imp,
+                             "clicks": p_clicks})
         # Порог экспозиции адаптивен (вопрос руководителя 31.08.2026): окно
         # источника скользящее, малый кластер настроенные 500 не наберёт
         # никогда — порог снижается до доли ёмкости, с пометкой в письме.
@@ -181,7 +219,7 @@ def build(snap: dict, date: str, site_check: dict | None = None) -> list[dict]:
             print(f"serp_status({e['id']}): {exc}", file=sys.stderr)
             serp = None
         try:
-            interim = experiment_stats.interim_comparison(keys, start, today)
+            interim = experiment_stats.interim_comparison(keys, start, today, e)
         except Exception as exc:  # noqa: BLE001 - сбой сравнения не ломает письмо
             print(f"interim_comparison({e['id']}): {exc}", file=sys.stderr)
             interim = None
@@ -192,6 +230,11 @@ def build(snap: dict, date: str, site_check: dict | None = None) -> list[dict]:
         elif serp and serp.get("pages_seen"):
             refresh = (f"{serp['pages_seen']} из {len(pages)} страниц в выдаче, "
                        f"обновление сниппета не подтверждено "
+                       f"(замер {ru_date(serp['measured_at'])})")
+        elif serp:
+            # Замер есть, но ни одна страница не вошла в топ-10 своего ядра
+            # запросов — это не отсутствие замера, а факт о выдаче.
+            refresh = (f"страницы не найдены в топ-10 замеренной выдачи "
                        f"(замер {ru_date(serp['measured_at'])})")
         else:
             refresh = ("не измерено: нет успешного SERP-замера за 7 дней"
@@ -224,6 +267,7 @@ def build(snap: dict, date: str, site_check: dict | None = None) -> list[dict]:
             "impressions_since_deploy": imp,
             "impressions_estimated": True,
             "clicks_since_deploy": clicks,
+            "per_page": per_page,
             "primary_metric": e.get("success_metric", ""),
             "current_result": (
                 f"{counted(clicks, 'переход', 'перехода', 'переходов')} "

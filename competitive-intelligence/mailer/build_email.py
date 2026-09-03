@@ -92,12 +92,27 @@ def do_next_text(attack: dict | None, package: dict | None = None,
             f"уверенность {attack['confidence']}.")
 
 
+def _dm(iso: str | None) -> str:
+    """Дата ДД.ММ для подписи в тексте письма."""
+    return datetime.strptime(iso, "%Y-%m-%d").strftime("%d.%m") if iso else "—"
+
+
+def delta_caption(compared_with: str | None) -> str:
+    """Подпись дельты называет день сравнения, а не период.
+
+    Одна и та же величина подписывалась «Δ7д», «за сутки» и «к прошлому»,
+    хотя считается к последнему сравнимому снимку — не обязательно вчерашнему
+    (письмо 01.09.2026 сравнивало с 30.08 под подписью «за сутки»).
+    """
+    return f"к {_dm(compared_with)}" if compared_with else "сравнения нет"
+
+
 def watch_text(threat_leader: tuple[dict, object] | None) -> str:
     """WATCH — одна угроза, а не перечень конкурентов."""
     if not threat_leader:
         return "Следим: угроз выше порога не зафиксировано."
     card, threat = threat_leader
-    return (f"Следим: {card['домен']} — Threat {threat.score}, "
+    return (f"Следим: {card['домен']} — Threat {threat.score} из {threat.scale_max}, "
             f"топ-3 по {card['топ3']} запросам, доля "
             f"{kpi_mod.ru_number(100 * card['доля'])}%.")
 
@@ -114,7 +129,8 @@ def visible_text(kpi, verdict_mark, verdict_why, signal, *,
     lines = [
         f"{verdict_mark} {verdict_why}.",
         (f"B2B Share Яндекс {kpi_mod.format_share(kpi.share_yandex)} "
-         f"(за сутки {kpi_mod.format_delta(kpi.share_delta_pp, unit=' п.п.')}, "
+         f"({delta_caption(kpi.compared_with)} "
+         f"{kpi_mod.format_delta(kpi.share_delta_pp, unit=' п.п.')}, "
          f"сигнальная {kpi_mod.format_delta(signal_delta, unit=' п.п.')}) · "
          f"Google {kpi_mod.format_share(kpi.share_google)} · "
          f"ТОП-3 {kpi.top3}/{kpi.queries} · ТОП-10 {kpi.top10}/{kpi.queries}."),
@@ -251,6 +267,8 @@ def build(date: str, snapshot: dict, previous: dict | None,
         "kpi": {
             "share_yandex": kpi.share_yandex,
             "share_google": kpi.share_google,
+            "google_date": kpi.google_date,
+            "google_delta_pp": kpi.google_delta_pp,
             "top3": kpi.top3,
             "top10": kpi.top10,
             "queries": kpi.queries,
@@ -271,6 +289,25 @@ def render_txt(meta: dict, *, snapshot: dict | None = None,
     if meta.get("эксперименты_строка"):
         parts += ["", meta["эксперименты_строка"]]
 
+    google = kpi_mod.google_block(snapshot or {})
+    if google:
+        ours = google.get("наши_показатели") or {}
+        gap = google.get("разрыв_с_яндексом") or {}
+        parts += ["", f"GOOGLE ПО РОССИИ (xmlriver, глубина "
+                      f"{google.get('глубина', 10)}, "
+                      f"{(google.get('покрытие') or {}).get('запросов_с_данными')} "
+                      f"запросов, срез {google.get('дата_среза')})"]
+        parts.append(f"Наша доля видимости в Google: "
+                     f"{kpi_mod.format_share(ours.get('доля_видимости'))}; "
+                     f"ТОП-3: {ours.get('топ3', 0)}, ТОП-10: {ours.get('топ10', 0)}")
+        for item in (google.get("лидеры") or [])[:5]:
+            parts.append(f"  {item['домен']}: {kpi_mod.format_share(item.get('доля'))}, "
+                         f"ТОП-3 {item.get('топ3', 0)}, ТОП-10 {item.get('топ10', 0)}")
+        parts.append(f"Разрыв с Яндексом: Яндекс топ-10, в Google нет — "
+                     f"{gap.get('яндекс_топ10_google_нет_всего', 0)} из "
+                     f"{gap.get('сопоставлено', 0)} общих запросов.")
+        parts.append("  Доли внутри Google-поля, с Яндексом не складываются.")
+
     if packages:
         parts += ["", "ЧТО ПОРУЧИТЬ (по убыванию ожидаемого эффекта)"]
         for pkg in packages[:3]:
@@ -288,8 +325,20 @@ def render_txt(meta: dict, *, snapshot: dict | None = None,
                 f"выше нас {', '.join(pkg['rivals'][:2])}\n"
                 f"   {upside} · трудоёмкость {pkg['effort']} · "
                 f"уверенность {pkg['confidence']}")
-            for check in (pkg.get("checklist") or [])[:3]:
-                parts.append(f"   - {check}")
+            # То же правило, что в HTML: сначала проверенные действия; если
+            # страница проверена и работ не требует — так и сказать; шаблонный
+            # чеклист — только когда проверки не было. Письмо 03.09.2026
+            # печатало «правок не требуется» и тут же шаблон «добавить FAQ».
+            actions = pkg.get("действия") or []
+            done = pkg.get("уже_сделано") or []
+            if actions:
+                for a in actions[:3]:
+                    parts.append(f"   - {a['what']} ({a['effort']}, {a['owner']})")
+            elif done:
+                parts.append("   Проверено и работ не требует: " + "; ".join(done))
+            else:
+                for check in (pkg.get("checklist") or [])[:3]:
+                    parts.append(f"   - {check}")
 
         quick = [p for p in packages if p["effort"] == "S"][:3]
 
@@ -347,10 +396,21 @@ def render_txt(meta: dict, *, snapshot: dict | None = None,
         "",
         f"Scoring: {meta['зрелость_скоринга']} · "
         f"источник: Яндекс (Москва), {meta['покрытие'].get('яндекс_запросов_с_данными')} запросов · "
-        f"Google: {'NO DATA' if meta['kpi']['share_google'] is None else 'есть'} · "
+        f"Google: {_google_source_line(meta)} · "
         "B2C и маркетплейсы вне основного рейтинга · NO DATA не равно нулю.",
     ]
     return "\n".join(parts)
+
+
+def _google_source_line(meta: dict) -> str:
+    """Подпись источника Google: доля и дата еженедельного среза, либо NO DATA."""
+    k = meta["kpi"]
+    if k.get("share_google") is None:
+        return "NO DATA"
+    line = kpi_mod.format_share(k["share_google"])
+    if k.get("google_date"):
+        line += f" (Россия, xmlriver, срез {k['google_date']})"
+    return line
 
 
 def _classifier():
@@ -396,6 +456,10 @@ def render_html(meta: dict, *, kpi=None, snapshot: dict | None = None,
                     else f"{100 * k['share_google']:.1f}%")
     yandex_share = ("NO DATA" if k["share_yandex"] is None
                     else f"{100 * k['share_yandex']:.1f}%")
+    google_info = kpi_mod.google_block(snapshot or {})
+    google_note = (f"Россия, топ-{google_info.get('глубина', 10)}, "
+                   f"срез {google_info.get('дата_среза')}"
+                   if google_info else "нет свежего среза")
 
     # Секции детализации собираются только когда переданы данные: письмо
     # обязано оставаться отправляемым и в урезанном виде.
@@ -410,6 +474,7 @@ def render_html(meta: dict, *, kpi=None, snapshot: dict | None = None,
             + sections.field_section(snapshot)
             + sections.rivals_section(snapshot.get("лидеры") or [],
                                       ranked_rivals or [])
+            + sections.google_section(snapshot)
             + sections.attacks_section(attacks or [])
             + sections.experiments_section(
                 meta.get('эксперименты_строка', ''), on_watch)
@@ -421,6 +486,8 @@ def render_html(meta: dict, *, kpi=None, snapshot: dict | None = None,
             f'<div style="color:#667085;font-size:11px;">{esc(label)}</div>'
             f'<div style="font-size:20px;font-weight:700;">{esc(value)}</div>'
             f'<div style="color:#98A2B3;font-size:11px;">{esc(note)}</div></td>')
+
+    delta_label = "Δ " + delta_caption(meta.get("сравнение_с"))
 
     return f"""<!doctype html>
 <html lang="ru"><head><meta charset="utf-8">
@@ -436,8 +503,8 @@ def render_html(meta: dict, *, kpi=None, snapshot: dict | None = None,
 <tr><td style="padding:6px 24px;"><div style="font-size:17px;font-weight:700;">{esc(verdict_line)}</div></td></tr>
 <tr><td style="padding:10px 24px;">
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="font-size:13px;"><tr>
-{cell('B2B Share · Яндекс', yandex_share, f'Δ7д: {delta}')}<td style="width:6px;"></td>
-{cell('B2B Share · Google', google_share, 'еженедельный сбор')}<td style="width:6px;"></td>
+{cell('B2B Share · Яндекс', yandex_share, f'{delta_label}: {delta}')}<td style="width:6px;"></td>
+{cell('B2B Share · Google', google_share, google_note)}<td style="width:6px;"></td>
 {cell('ТОП-3', f"{k['top3']}/{k['queries']}", 'запросов')}<td style="width:6px;"></td>
 {cell('ТОП-10', f"{k['top10']}/{k['queries']}", 'запросов')}
 </tr></table></td></tr>
@@ -454,7 +521,7 @@ def render_html(meta: dict, *, kpi=None, snapshot: dict | None = None,
 <tr><td style="padding:0 24px 18px;border-top:1px solid #EAECF0;">
 <div style="font-size:11px;color:#98A2B3;padding-top:10px;line-height:1.5;">
 Scoring: {esc(meta['зрелость_скоринга'])} · источник: Яндекс (Москва), {esc(str(meta['покрытие'].get('яндекс_запросов_с_данными')))} запросов ·
-Google: {esc(google_share)} · B2C и маркетплейсы вне основного рейтинга · NO DATA не равно нулю.
+Google: {esc(_google_source_line(meta))} · B2C и маркетплейсы вне основного рейтинга · NO DATA не равно нулю.
 </div></td></tr>
 </table></td></tr></table></body></html>"""
 

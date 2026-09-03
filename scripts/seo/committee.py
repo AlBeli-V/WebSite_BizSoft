@@ -113,10 +113,18 @@ def build(date_s: str) -> dict:
     prev = period_report.collect_metrics(q_from, q_to)
 
     def delta(key):
+        # Сравнение — только когда оба окна покрыты данными целиком. Письмо
+        # уходит в понедельник за пн–вс, а Вебмастер и GSC дозревают ~3 дня:
+        # прежде хвост недели без данных считался нулём, и поиск системно
+        # «падал» на 30–45 % (аудит 03.09.2026, находка 2 по комитету).
         c, p = cur[key]["total"], prev[key]["total"]
+        full = (cur[key]["covered_days"] == cur[key]["days"]
+                and prev[key]["covered_days"] == prev[key]["days"])
         return {"label": cur[key]["label"], "cur": c, "prev": p,
-                "pct": ((c - p) / p) if p else None,
-                "covered": f"{cur[key]['covered_days']} из {cur[key]['days']} дн."}
+                "comparable": full,
+                "pct": ((c - p) / p) if (full and p) else None,
+                "covered": f"{cur[key]['covered_days']} из {cur[key]['days']} дн.",
+                "prev_covered": f"{prev[key]['covered_days']} из {prev[key]['days']} дн."}
 
     keys = ("yandex_impressions", "yandex_clicks", "gsc_impressions",
             "gsc_clicks", "visits_organic", "goals_organic")
@@ -175,6 +183,10 @@ def build(date_s: str) -> dict:
 # ── Рендер ──────────────────────────────────────────────────────────────────
 
 def _fmt_delta(d: dict) -> str:
+    if not d.get("comparable", True):
+        return (f"{d['label']}: {num(d['cur'])} за {d['covered']} — сравнение с "
+                f"прошлой неделей не приводится, окна покрыты не полностью "
+                f"(прошлая: {d.get('prev_covered', '?')})")
     pct = f" ({d['pct']:+.0%})" if d["pct"] is not None else ""
     return (f"{d['label']}: {num(d['prev'])} → {num(d['cur'])}{pct}, "
             f"данные {d['covered']}")

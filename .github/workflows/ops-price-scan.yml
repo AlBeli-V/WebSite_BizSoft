@@ -18,12 +18,21 @@ on:
         required: false
         default: 'per user|per month|billed|annual|Standard|Premium|Free'
 permissions:
+  # checkout читает репозиторий токеном GITHUB_TOKEN: при явном permissions
+  # без contents раннер получает «Repository not found» (прогон #204 ops-probe).
+  contents: read
   issues: write
 jobs:
   scan:
     runs-on: ubuntu-latest
     steps:
+      # Локальный action journal-post лежит в репозитории — без checkout
+      # раннер его не находит, и запись в журнал падает (см. прогон #41
+      # ops-yandex-recrawl 03.09.2026).
+      - uses: actions/checkout@v4
+
       - name: Render and extract
+        id: run
         env:
           URLS: ${{ inputs.urls }}
           KEYWORDS: ${{ inputs.keywords }}
@@ -64,16 +73,23 @@ jobs:
             } > "out/report-$i.txt"
             echo "$u" > "out/url-$i.txt"
           done
+      - name: Save to file
+        if: always()
+        run: |
+          : > /tmp/price-scan.txt
+          for f in $(ls out/report-*.txt 2>/dev/null | sort); do
+            cat "$f" >> /tmp/price-scan.txt; echo >> /tmp/price-scan.txt
+          done
+      # Локальному action нужен репозиторий в рабочей копии. if: always() —
+      # потому что шаг журнала тоже always(): без этого при падении основного
+      # шага checkout пропускается, и запись в журнал снова не проходит.
+      - name: Checkout for journal action
+        if: always()
+        uses: actions/checkout@v4
       - name: Post to issue
-        uses: actions/github-script@v7
+        if: always()
+        uses: ./.github/actions/journal-post
         with:
-          script: |
-            const fs = require('fs');
-            const files = fs.readdirSync('out').filter((f) => f.startsWith('report-')).sort();
-            for (const f of files) {
-              const body = fs.readFileSync(`out/${f}`, 'utf8').slice(0, 55000);
-              await github.rest.issues.createComment({
-                owner: context.repo.owner, repo: context.repo.repo, issue_number: 22,
-                body: `### ops-price-scan\n\n\`\`\`\n${body}\n\`\`\``,
-              });
-            }
+          title: "ops-price-scan"
+          outcome: ${{ steps.run.outcome }}
+          body-file: /tmp/price-scan.txt
