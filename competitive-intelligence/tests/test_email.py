@@ -369,5 +369,108 @@ class TestCoverageClassification(unittest.TestCase):
         self.assertEqual(state, "критическое")
 
 
+class TestGoogleBlock(unittest.TestCase):
+    """Google по России (xmlriver, топ-10) в письме: раздел, KPI, честность.
+
+    Схема блока — discovery/google_ru.py (единая для письма, deep report и
+    KPI после слияния двух реализаций 03.09.2026).
+    """
+
+    def google(self):
+        return {"доступен": True, "провайдер": "xmlriver", "серия": "google_ru",
+                "название": "Россия", "регион": "2643", "дата_среза": "2026-09-03",
+                "возраст_дней": 0, "глубина": 10,
+                "покрытие": {"запросов_всего": 480, "запросов_с_данными": 470,
+                             "ошибок": 10},
+                "наши_показатели": {"доля_видимости": 0.0, "взвешенная_видимость": 0.0,
+                                    "топ3": 0, "топ10": 0, "в_выдаче": 0,
+                                    "лучшая_позиция": None, "запросов_в_поле": 470},
+                "наши_запросы": [], "по_запросам": {},
+                "доли_по_категориям": {"G": 0.21},
+                "лидеры": [{"домен": "ggsel.net", "категория": "G",
+                            "доля": 0.21, "топ3": 300, "топ10": 420}],
+                "конкурентов_в_основном_рейтинге": 1,
+                "разрыв_с_яндексом": {"сопоставлено": 150, "в_обеих_топ10": 0,
+                                      "яндекс_топ10_google_нет": [],
+                                      "яндекс_топ10_google_нет_всего": 94,
+                                      "google_топ10_яндекс_нет": [],
+                                      "google_топ10_яндекс_нет_всего": 0},
+                "точки_атаки": {"всего": 0, "первые": []}}
+
+    def test_без_среза_google_no_data(self):
+        snap = snapshot()
+        snap["google"] = {"доступен": False,
+                          "причина": "свежего среза Google нет (сбор еженедельный)"}
+        meta = build_email.build("2026-08-30", snap, None)
+        html_page = build_email.render_html(meta, kpi=kpi_mod.build_kpi(snap, None),
+                                            snapshot=snap)
+        self.assertNotIn("Google по России", html_page)
+        self.assertIn("свежего среза Google нет", html_page)
+        self.assertIn("NO DATA", html_page)
+
+    def test_с_срезом_раздел_и_доля(self):
+        snap = snapshot()
+        snap["google"] = self.google()
+        snap["покрытие"]["google"] = 0.0
+        meta = build_email.build("2026-08-30", snap, None)
+        html_page = build_email.render_html(meta, kpi=kpi_mod.build_kpi(snap, None),
+                                            snapshot=snap)
+        self.assertIn("Google по России", html_page)
+        self.assertIn("ggsel.net", html_page)
+        # ноль в Google — измеренный ноль, а не NO DATA
+        self.assertIn("0,0%", html_page)
+        self.assertIn("ни по одному из 470 запросов", html_page)
+        self.assertIn("Россия, топ-10, срез 2026-09-03", html_page)
+        txt = build_email.render_txt(meta, snapshot=snap)
+        self.assertIn("GOOGLE ПО РОССИИ", txt)
+        self.assertIn("ggsel.net", txt)
+        self.assertIn("в Google нет — 94 из 150", txt)
+        self.assertTrue(meta["лимит_соблюдён"])
+
+
 if __name__ == "__main__":
     unittest.main()
+
+
+class TestCaptionsMatchComputation(unittest.TestCase):
+    """Подпись говорит то же, что посчитано (аудит 03.09.2026)."""
+
+    def test_delta_caption_names_compared_day_not_a_period(self):
+        from mailer import build_email as be
+        self.assertEqual(be.delta_caption("2026-08-30"), "к 30.08")
+        self.assertEqual(be.delta_caption(None), "сравнения нет")
+        self.assertNotIn("7д", be.delta_caption("2026-08-30"))
+
+    def test_threat_hint_follows_mode(self):
+        from mailer import sections
+        from scoring import threat as threat_mod
+        base = threat_mod.Threat(score=27, confidence="LOW")
+        hint = sections.threat_scale_hint([({}, base)])
+        self.assertIn("0–70", hint)
+        self.assertNotIn("0–100", hint)
+        full = threat_mod.Threat(score=62, confidence="MEDIUM",
+                                 mode=threat_mod.MODE_FULL,
+                                 scale_max=threat_mod.MAX_FULL)
+        self.assertIn("0–100", sections.threat_scale_hint([({}, full)]))
+        self.assertIn("0–70", sections.threat_scale_hint([]))
+
+    def test_txt_does_not_advise_what_is_already_done(self):
+        from mailer import build_email as be
+        pkg = {"package_id": "WP-05", "action": "правок не требуется",
+               "url": "https://biz-soft.pro/vendors/x", "queries_count": 2,
+               "position_best": 5, "position_worst": 9, "rivals": ["a.ru"],
+               "effort": "S", "confidence": "HIGH", "potential_label": "низкий",
+               "upside_note": "спрос не измерен", "traffic_upside": None,
+               "checklist": ["Блок «Оплата по счёту»", "FAQ покупателя-юрлица"],
+               "уже_сделано": ["оплата по счёту раскрыта", "FAQ есть"],
+               "queries": ["x купить"]}
+        meta = {"тема": "т", "текст": "т", "эксперименты_строка": "",
+                "зрелость_скоринга": "базовый", "покрытие": {},
+                "kpi": {"share_yandex": None, "share_google": None,
+                        "top3": 0, "top10": 0, "queries": 0}}
+        txt = be.render_txt(meta, snapshot={}, packages=[pkg])
+        self.assertIn("Проверено и работ не требует", txt)
+        self.assertNotIn("Оплата по счёту»", txt)
+        # Без проверки шаблон приёмки остаётся.
+        txt2 = be.render_txt(meta, snapshot={}, packages=[{**pkg, "уже_сделано": []}])
+        self.assertIn("Оплата по счёту»", txt2)

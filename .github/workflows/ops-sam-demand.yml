@@ -118,16 +118,10 @@ jobs:
       # Отчёт длиннее лимита комментария GitHub не пройдёт целиком, поэтому в
       # issue уходит его начало: таблицы частот, ради которых прогон и делается.
       - name: Post to issue
-        uses: actions/github-script@v7
+        if: always()
+        uses: ./.github/actions/journal-post
         with:
-          script: |
-            const fs = require('fs');
-            const body = fs.readFileSync('/tmp/sam-demand.md', 'utf8');
-            const head = body.length > 60000 ? body.slice(0, 60000) +
-              '\n\n…отчёт обрезан, полная версия — в артефакте прогона и в ветке seo-data.' : body;
-            await github.rest.issues.createComment({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: 22,
-              body: '### ops-sam-demand · ' + new Date().toISOString() + '\n\n' + head,
-            });
+          title: "ops-sam-demand"
+          outcome: ${{ steps.run.outcome }}
+          body-file: /tmp/sam-demand.md
+          format: markdown

@@ -136,6 +136,68 @@ const COVERS = {
     icons: ['card', 'doc', 'ruble', 'warn', 'stamp', 'scale'],
     alt: 'Развилка двух путей покупки подписки: напрямую и через российского поставщика',
   },
+  // Партия CONTENT-003: вторая волна тиража приёма на десять кластеров.
+  'kak-kupit-windsurf-iz-rossii-dlya-yurlica': {
+    hero: 'code',
+    icons: ['brain', 'users', 'lock', 'chart', 'doc', 'ruble'],
+    alt: 'Код в центре схемы: AI-агент в редакторе, рабочие места команды, политика хранения данных и оплата подписки по счёту',
+  },
+  'gitlab-godovaya-podpiska-iz-rossii-dlya-yurlica': {
+    hero: 'folder',
+    icons: ['code', 'refresh', 'users', 'clock', 'doc', 'ruble'],
+    alt: 'Репозиторий в центре схемы: конвейер CI/CD, ревью кода, места команды, годовой срок и оплата по счёту',
+  },
+  'oplata-descript-yuridicheskim-licom': {
+    hero: 'image',
+    icons: ['doc', 'brain', 'users', 'clock', 'ruble', 'stamp'],
+    alt: 'Видеодорожка в центре схемы: расшифровка в текст, ИИ-инструменты, команда монтажёров и оформление подписки по счёту',
+  },
+  'kak-poluchit-schet-i-zakryvayushchie-ot-atlassian': {
+    hero: 'chart',
+    icons: ['folder', 'users', 'doc', 'ruble', 'stamp', 'card'],
+    alt: 'Доска задач в центре схемы: база знаний, места команды, договор и счёт, закрывающие документы через ЭДО',
+  },
+  'kak-oplatit-box-business-iz-rossii': {
+    hero: 'folder',
+    icons: ['lock', 'doc', 'users', 'shield', 'ruble', 'stamp'],
+    alt: 'Папка с документами в центре схемы: права доступа, журнал действий, внешние участники и оплата подписки по счёту',
+  },
+  'korporativnye-plany-cloudflare-dlya-kompanij-iz-rf': {
+    hero: 'shield',
+    icons: ['cloud', 'lock', 'chart', 'route', 'ruble', 'doc'],
+    alt: 'Щит в центре схемы: защита сайта от атак, сеть доставки контента, сертификат, домены компании и оплата тарифа по счёту',
+  },
+  'oplata-dropbox-dlya-yurlica-iz-rossii': {
+    hero: 'cloud',
+    icons: ['folder', 'users', 'refresh', 'lock', 'ruble', 'doc'],
+    alt: 'Облачное хранилище в центре схемы: общие папки команды, восстановление версий, передача больших файлов и оплата подписки по счёту',
+  },
+  'kupit-leonardo-ai-yuridicheskim-licom': {
+    hero: 'image',
+    icons: ['brain', 'chart', 'code', 'users', 'ruble', 'doc'],
+    alt: 'Сгенерированное изображение в центре схемы: собственная модель, запас токенов, конвейер через API и оплата подписки по счёту',
+  },
+  'spine-2d-kupit-licenziyu-dlya-yurlica': {
+    hero: 'route',
+    icons: ['stamp', 'users', 'code', 'image', 'ruble', 'doc'],
+    alt: 'Скелет анимированного персонажа в центре схемы: бессрочная лицензия, рабочие места аниматоров, экспорт в игровой движок и оплата по счёту',
+  },
+  'elevenlabs-tarify-oplata-dlya-yurlica': {
+    hero: 'chart',
+    icons: ['brain', 'users', 'code', 'clock', 'ruble', 'doc'],
+    alt: 'Звуковая волна в центре схемы: клонирование голоса, кредиты на синтез, интеграция через API и оплата подписки по счёту',
+  },
+  // Тираж решения EXPAND по CONTENT-001: кластеры CorelDRAW и HeyGen.
+  'kak-oplatit-coreldraw-dlya-yurlica': {
+    hero: 'image',
+    icons: ['users', 'stamp', 'refresh', 'clock', 'ruble', 'doc'],
+    alt: 'Графический пакет в центре схемы: подписка и бессрочная лицензия, рабочие места дизайнеров, продление и оплата по счёту',
+  },
+  'kak-oplatit-heygen-dlya-yurlica': {
+    hero: 'image',
+    icons: ['brain', 'users', 'refresh', 'shield', 'ruble', 'doc'],
+    alt: 'Кадр видео в центре схемы: ИИ-аватар и озвучка, перевод на другие языки, места команды и оформление подписки по счёту',
+  },
 };
 
 const logo = readFileSync(resolve(ROOT, 'public/brand/bizsoft-logo-primary-transparent.png'))
