@@ -188,9 +188,77 @@ def collect_gsc_pairs(site_url: str, headers: dict,
     return out
 
 
+WEBMASTER_API = 'https://api.webmaster.yandex.net/v4/user'
+
+
+def webmaster_headers() -> dict:
+    return {'Authorization': f"OAuth {os.environ['YANDEX_WEBMASTER_TOKEN']}"}
+
+
+def resolve_host(headers: dict) -> tuple[dict | None, str | None]:
+    """user_id и host_id сайта в Вебмастере: ({uid, host_id, hosts}, None) или (None, ошибка)."""
+    base = WEBMASTER_API
+    user_data, err = api_json(base, headers=headers)
+    if err or 'user_id' not in (user_data or {}):
+        return None, ('/user: ' + err) if err else (
+            'API /user не вернул user_id: '
+            + json.dumps(user_data, ensure_ascii=False)[:500])
+    uid = user_data['user_id']
+    hosts, err = api_json(f'{base}/{uid}/hosts', headers=headers)
+    if err:
+        return None, f'/hosts: {err}'
+    all_hosts = hosts.get('hosts', [])
+    match = [h for h in all_hosts if SITE in h.get('host_id', '')]
+    if not match:
+        return None, f'{SITE} не найден в Вебмастере этого аккаунта (или не подтверждён)'
+    return {'uid': uid, 'host_id': match[0]['host_id'], 'hosts': all_hosts}, None
+
+
+def fetch_popular_queries(headers: dict, uid, host_id: str,
+                          date_from: dt.date, date_to: dt.date) -> dict:
+    """Популярные запросы хоста за окно — постраничным обходом до MAX_QUERIES.
+
+    Возвращает словарь popular_queries того же вида, что в yandex-<дата>.json
+    (date_from/date_to/count/fetched/queries; при сбое — error). Окно
+    произвольное: тем же обходом experiment_windows.py выгружает
+    фиксированные окна экспериментов задним числом.
+    """
+    params = {
+        'order_by': 'TOTAL_SHOWS',
+        'query_indicator': ['TOTAL_SHOWS', 'TOTAL_CLICKS', 'AVG_SHOW_POSITION', 'AVG_CLICK_POSITION'],
+        'date_from': date_from.isoformat(),
+        'date_to': date_to.isoformat(),
+        'limit': PAGE_LIMIT,
+    }
+    url = f'{WEBMASTER_API}/{uid}/hosts/{host_id}/search-queries/popular/'
+
+    # Постраничный забор вместо первых ста строк.
+    #
+    # Прежде бралась одна страница из 100 запросов при `count` в 506. Отбор шёл
+    # по TOTAL_SHOWS, поэтому выборка была смещена в сторону высокочастотных
+    # запросов и систематически теряла длинный хвост — а именно там у B2B-сайта
+    # живут конверсионные запросы вида «оплата X для юрлиц». Это же объясняло
+    # восьмикратный разрыв между кликами Вебмастера и органическими визитами
+    # Метрики.
+    queries, page, meta = [], None, {}
+    for offset in range(0, MAX_QUERIES, PAGE_LIMIT):
+        data, err = api_json(url, headers=headers, params={**params, 'offset': offset})
+        if err:
+            meta = meta or {'error': err}
+            break
+        page = data
+        chunk = page.get('queries') or []
+        meta = meta or {k: v for k, v in page.items() if k != 'queries'}
+        queries.extend(chunk)
+        if len(chunk) < PAGE_LIMIT or len(queries) >= (page.get('count') or 0):
+            break
+    return {**meta, 'queries': queries, 'fetched': len(queries),
+            'count': (page or {}).get('count', len(queries))}
+
+
 def collect_yandex() -> dict:
-    headers = {'Authorization': f"OAuth {os.environ['YANDEX_WEBMASTER_TOKEN']}"}
-    base = 'https://api.webmaster.yandex.net/v4/user'
+    headers = webmaster_headers()
+    base = WEBMASTER_API
     date_to = today()
     date_from = date_to - dt.timedelta(days=14)
     # Запрошенное окно фиксируется до первого запроса: при сбое письмо обязано
@@ -198,25 +266,12 @@ def collect_yandex() -> dict:
     result = {'date': TODAY,
               'window': {'from': date_from.isoformat(), 'to': date_to.isoformat()}}
 
-    user_data, err = api_json(base, headers=headers)
-    if err or 'user_id' not in (user_data or {}):
-        result['error'] = ('/user: ' + err) if err else (
-            'API /user не вернул user_id: '
-            + json.dumps(user_data, ensure_ascii=False)[:500])
-        return result
-    uid = user_data['user_id']
-
-    hosts, err = api_json(f'{base}/{uid}/hosts', headers=headers)
+    host, err = resolve_host(headers)
     if err:
-        result['error'] = f'/hosts: {err}'
+        result['error'] = err
         return result
-    result['hosts'] = hosts.get('hosts', [])
-    match = [h for h in result['hosts'] if SITE in h.get('host_id', '')]
-    if not match:
-        result['error'] = f'{SITE} не найден в Вебмастере этого аккаунта (или не подтверждён)'
-        return result
-
-    host_id = match[0]['host_id']
+    uid, host_id = host['uid'], host['host_id']
+    result['hosts'] = host['hosts']
     result['host_id'] = host_id
     # Прежде summary читался без проверки статуса и формата ответа: тело
     # HTTP-ошибки сохранялось как данные, дальше по конвейеру оно не имело
@@ -256,39 +311,8 @@ def collect_yandex() -> dict:
                                    'date_from': ev_from.isoformat(),
                                    'date_to': ev_to.isoformat()}
 
-    params = {
-        'order_by': 'TOTAL_SHOWS',
-        'query_indicator': ['TOTAL_SHOWS', 'TOTAL_CLICKS', 'AVG_SHOW_POSITION', 'AVG_CLICK_POSITION'],
-        'date_from': date_from.isoformat(),
-        'date_to': date_to.isoformat(),
-        'limit': PAGE_LIMIT,
-    }
-    url = f'{base}/{uid}/hosts/{host_id}/search-queries/popular/'
-
-    # Постраничный забор вместо первых ста строк.
-    #
-    # Прежде бралась одна страница из 100 запросов при `count` в 506. Отбор шёл
-    # по TOTAL_SHOWS, поэтому выборка была смещена в сторону высокочастотных
-    # запросов и систематически теряла длинный хвост — а именно там у B2B-сайта
-    # живут конверсионные запросы вида «оплата X для юрлиц». Это же объясняло
-    # восьмикратный разрыв между кликами Вебмастера и органическими визитами
-    # Метрики.
-    queries, page, meta = [], None, {}
-    for offset in range(0, MAX_QUERIES, PAGE_LIMIT):
-        data, err = api_json(url, headers=headers, params={**params, 'offset': offset})
-        if err:
-            meta = meta or {'error': err}
-            break
-        page = data
-        chunk = page.get('queries') or []
-        meta = meta or {k: v for k, v in page.items() if k != 'queries'}
-        queries.extend(chunk)
-        if len(chunk) < PAGE_LIMIT or len(queries) >= (page.get('count') or 0):
-            break
-
-    result['popular_queries'] = {**meta, 'queries': queries,
-                                 'fetched': len(queries),
-                                 'count': (page or {}).get('count', len(queries))}
+    result['popular_queries'] = fetch_popular_queries(
+        headers, uid, host_id, date_from, date_to)
     return result
 
 

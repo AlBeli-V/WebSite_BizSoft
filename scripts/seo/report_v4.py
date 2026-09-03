@@ -929,12 +929,15 @@ def _exp_serp_line(e: dict) -> str:
         posn = sorted(v["best_position"] for v in s["pages"].values())
         line += (f", позиции {posn[0]}–{posn[-1]}" if posn[0] != posn[-1]
                  else f", позиция {posn[0]}")
+    # Переобход в Вебмастере работает (ops-yandex-recrawl, квота 150 URL в
+    # сутки, журнал — issue #22); утверждать «не запрашивался» письмо не
+    # может — машинного реестра заявок нет. Прежняя формулировка про
+    # «ожидание токена» была ложной (разбор 03.09.2026).
     if s and s.get("pages_with_new_snippet"):
-        line += (" — Яндекс переобошёл страницы сам, принудительный переобход "
-                 "не понадобился")
-    else:
-        line += ("; принудительный переобход не запрашивался — инструмент ждёт "
-                 "токена с правами Вебмастера")
+        line += " — Яндекс уже показывает новый вариант"
+    elif s and s.get("pages_seen"):
+        line += ("; если сниппет не обновится за неделю — переобход через "
+                 "ops-yandex-recrawl")
     return line
 
 
@@ -1278,6 +1281,17 @@ def _verdict_panel(e: dict) -> str:
             f"{num(mm['experiment']['impressions'])} показов, CTR "
             f"{_pctf(mm['experiment']['ctr'])} · совпадающих запросов {mm['queries']} · "
             f"позиция {pos_s} · p={p_s}</div>")
+        if ev.get("per_page"):
+            # Перезапуск SEO-EXP-002: экспозиция каждой страницы видна отдельно,
+            # чтобы сумма по кластеру не скрывала страницу без показов.
+            parts = [f"{pp['page'].rsplit('/', 1)[-1]}: "
+                     f"{num(pp['baseline']['impressions'])} → "
+                     f"{num(pp['experiment']['impressions'])} показов, CTR "
+                     f"{_pctf(pp['baseline']['ctr'])} → {_pctf(pp['experiment']['ctr'])}"
+                     for pp in ev["per_page"]]
+            lines.append(
+                f"<div data-meta=\"1\" style=\"font-size:12.5px;color:{T['text_secondary']};"
+                f"padding-top:2px;line-height:1.5;\">По страницам — {'; '.join(parts)}</div>")
     rec = [f"<div style=\"font-size:14.5px;padding-top:{SP['s']}px;line-height:1.55;\">"
            f"<b>Рекомендация: {EXP_REC_LABEL[ev['recommendation']]}.</b> "
            f"{ev['recommendation_detail']}.</div>"]

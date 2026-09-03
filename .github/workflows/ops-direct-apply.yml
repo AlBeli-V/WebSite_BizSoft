@@ -1,4 +1,5 @@
-# Создание тестовой кампании Яндекс.Директа из спецификации round1-spec.json
+# Создание и правка кампании Яндекс.Директа из спецификации в seo-data
+# (round1-spec.json по умолчанию; раунд 2 и далее — входом spec).
 # (ветка seo-data, reports/seo/ppc/). Запуск кампании разрешён прямым
 # поручением владельца 28.08.2026; повторные изменения — только по новому
 # подтверждению. Скрипт защищён от дублей: существующая кампания с тем же
@@ -17,6 +18,10 @@ on:
         default: "dry-run"
         type: choice
         options: ["dry-run", "apply", "tune", "audit"]
+      spec:
+        description: "Файл спецификации в seo-data (round1-spec.json | round2-spec.json)"
+        required: false
+        default: "round1-spec.json"
 permissions:
   contents: read
   issues: write
@@ -32,11 +37,21 @@ jobs:
           fi
       - uses: actions/checkout@v4
 
+      # Имя файла спецификации — вход (02.09.2026): раунд 2 живёт отдельным
+      # файлом, чтобы спецификация раунда 1 осталась историей, а не была
+      # перезаписана. Значение проверяется по белому списку: в путь к файлу
+      # не должно попадать ничего, кроме известных имён.
       - name: Fetch spec from seo-data
+        env:
+          SPEC: ${{ inputs.spec }}
         run: |
+          case "${SPEC:-round1-spec.json}" in
+            round1-spec.json|round2-spec.json) ;;
+            *) echo "недопустимое имя спецификации: $SPEC"; exit 1 ;;
+          esac
           git fetch --depth=1 origin seo-data
-          git show origin/seo-data:reports/seo/ppc/round1-spec.json > /tmp/round1-spec.json
-          python3 -c "import json; s=json.load(open('/tmp/round1-spec.json')); print('спецификация:', s['spec_version'], s['date'], '-', s['campaign']['name'])"
+          git show "origin/seo-data:reports/seo/ppc/${SPEC:-round1-spec.json}" > /tmp/spec.json
+          python3 -c "import json; s=json.load(open('/tmp/spec.json')); print('спецификация:', s['spec_version'], s['date'], '-', s['campaign']['name'])"
 
       - name: Apply
         id: run
@@ -45,7 +60,7 @@ jobs:
           MODE: ${{ inputs.mode }}
         run: |
           set -o pipefail
-          python3 scripts/ppc/direct_apply.py /tmp/round1-spec.json "$MODE" 2>&1 | tee /tmp/direct-apply.log
+          python3 scripts/ppc/direct_apply.py /tmp/spec.json "$MODE" 2>&1 | tee /tmp/direct-apply.log
 
       - name: Save log for issue
         if: always()

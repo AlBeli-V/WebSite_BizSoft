@@ -94,11 +94,15 @@ class TestParams(unittest.TestCase):
         self.assertEqual(p, {"user": "u", "key": "k", "query": "купить figma",
                              "loc": 2643, "device": "desktop", "groupby": 20})
 
-    def test_page_param_only_for_second_page(self):
-        first = self.x.build_params("u", "k", "q", {"loc": 2643}, page=0)
-        second = self.x.build_params("u", "k", "q", {"loc": 2643}, page=1)
+    def test_page_param_only_from_second_page(self):
+        """Нумерация xmlriver — с единицы: первая страница без параметра,
+        вторая — page=2 (ответ поддержки 03.09.2026)."""
+        first = self.x.build_params("u", "k", "q", {"loc": 2643}, page=1)
+        default = self.x.build_params("u", "k", "q", {"loc": 2643})
+        second = self.x.build_params("u", "k", "q", {"loc": 2643}, page=2)
         self.assertNotIn("page", first)
-        self.assertEqual(second["page"], 1)
+        self.assertNotIn("page", default)
+        self.assertEqual(second["page"], 2)
 
     def test_config_defaults_and_comment_keys_dropped(self):
         import json
@@ -128,9 +132,8 @@ class TestParams(unittest.TestCase):
         self.assertTrue(cfg["query"].get("loc"))
         # groupby сервис принимает только 10 — топ-20 берётся страницами
         self.assertNotIn("groupby", cfg["query"])
-        # page сервис игнорирует (проба 03.09.2026) — страницы выключены,
-        # пока поддержка xmlriver не подтвердит способ получить 11–20
-        self.assertEqual(cfg["pages"], 1)
+        # топ-20 двумя страницами (нумерация с 1, решение руководителя 03.09.2026)
+        self.assertEqual(cfg["pages"], 2)
         self.assertGreaterEqual(cfg["daily_cap"], cfg["core_cap"] * cfg["pages"])
         # учётные данные в конфиг не кладут — только секреты
         for k in cfg:
