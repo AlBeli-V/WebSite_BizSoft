@@ -316,7 +316,7 @@ def write_markdown(state: dict, path: pathlib.Path) -> None:
 
 
 def main() -> int:
-    date = sys.argv[1] if len(sys.argv) > 1 else dt.date.today().isoformat()
+    date = sys.argv[1] if len(sys.argv) > 1 else config.today_msk()
     state = build_state(date)
     state["executive_block"] = executive_block(state)
     STATE_OUT.parent.mkdir(parents=True, exist_ok=True)
