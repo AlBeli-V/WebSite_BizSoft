@@ -1,15 +1,16 @@
 # Проверка доступа к кабинету Яндекс.Директа: только чтение.
 #
-# Зачем: перед подготовкой рекламных кампаний нужно убедиться, что токен в
-# секретах репозитория действительно даёт доступ к API Директа (руководитель
-# перевыпустил токен 28.08). Workflow перебирает вероятные имена секретов,
-# для каждого непустого делает два read-only запроса (Clients.get и
-# Campaigns.get) и публикует итог в журнал issue #22.
+# Зачем: перед подготовкой рекламных кампаний нужно убедиться, что токен
+# YANDEX_DIRECT_TOKEN действительно даёт доступ к API Директа. Workflow
+# делает два read-only запроса (Clients.get и Campaigns.get) и публикует
+# итог в журнал issue #22. Пробы посторонних секретов (YANDEX_OAUTH,
+# DIRECT_TOKEN, WORDSTAT_API_KEY) сняты 03.09.2026: они всегда давали
+# «ДОСТУПА НЕТ» и читались как поломка (аудит достоверности отчётов).
 #
 # Ничего не создаёт, не меняет и не удаляет ни в кабинете, ни на проде.
 # Значения токенов в лог не попадают — только имя секрета и результат.
 #
-# Дополнительно (запуск с этой ветки): шаг статистики — read-only отчёты
+# Дополнительно: шаг статистики — read-only отчёты
 # Reports API по кампании bs-test-2026-09 (по дням, условиям показа,
 # поисковым запросам, устройствам, площадкам) через
 # scripts/ppc/direct_stats.py; результат — отдельный комментарий в issue #22.
@@ -52,10 +53,7 @@ jobs:
       - name: Check Direct API access
         id: run
         env:
-          T_YANDEX_OAUTH: ${{ secrets.YANDEX_OAUTH }}
-          T_DIRECT_TOKEN: ${{ secrets.DIRECT_TOKEN }}
           T_YANDEX_DIRECT_TOKEN: ${{ secrets.YANDEX_DIRECT_TOKEN }}
-          T_WORDSTAT_API_KEY: ${{ secrets.WORDSTAT_API_KEY }}
         run: |
           set -u
           OUT=direct-check.txt
@@ -101,10 +99,7 @@ jobs:
           PYEOF
           }
           echo "Проверка $(date -u +'%Y-%m-%d %H:%M') UTC, только чтение (Clients.get, Campaigns.get):" >> "$OUT"
-          probe YANDEX_OAUTH        "$T_YANDEX_OAUTH"
-          probe DIRECT_TOKEN        "$T_DIRECT_TOKEN"
           probe YANDEX_DIRECT_TOKEN "$T_YANDEX_DIRECT_TOKEN"
-          probe WORDSTAT_API_KEY    "$T_WORDSTAT_API_KEY"
           cat "$OUT"
           {
             echo 'result<<EOF'
