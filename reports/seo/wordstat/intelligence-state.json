@@ -1,6 +1,6 @@
 {
  "date": "2026-09-03",
- "generated_at": "2026-09-03T05:49:31+00:00",
+ "generated_at": "2026-09-03T08:02:39+00:00",
  "measured_at": "2026-09-03",
  "universe": {
   "phrases": 23122,
@@ -16,13 +16,13 @@
   "total_commercial_demand": 287895,
   "levels": {
    "page": 0.8785,
-   "indexed": 0.6003,
-   "top10": 0.117,
-   "clicks": 0.0031,
+   "indexed": 0.3836,
+   "top10": 0.1159,
+   "clicks": 0.003,
    "conversion_measured": null,
    "qualified_leads": null
   },
-  "note": "Доли считаются по сумме частотностей коммерческих фраз кластера. Уровень «обращения» появится после подключения CRM."
+  "note": "Доли считаются по сумме частотностей коммерческих фраз кластера. Уровень «обращения» не измеряется."
  },
  "unattributed_demand": {
   "available": true,
@@ -75,11 +75,11 @@
   "Дизайн и графика": {
    "demand": 38883,
    "covered": 38883,
-   "top10": 779,
-   "clicks": 26,
+   "top10": 448,
+   "clicks": 0,
    "page_coverage": 1.0,
-   "top10_coverage": 0.02,
-   "click_coverage": 0.001
+   "top10_coverage": 0.012,
+   "click_coverage": 0.0
   },
   "Звук, видео и медиа": {
    "demand": 17264,
@@ -169,13 +169,13 @@
   "C": 75
  },
  "gaps_by_class": {
-  "GAP-B": 29,
-  "GAP-C": 4,
-  "GAP-D": 13,
+  "GAP-C": 5,
+  "GAP-D": 12,
   "GAP-E": 1,
-  "GAP-F": 4,
+  "GAP-F": 2,
   "GAP-G": 1,
-  "GAP-H": 23
+  "GAP-H": 23,
+  "GAP-N": 31
  },
  "uncovered_top": [
   {
@@ -198,14 +198,14 @@
    "cluster": "google",
    "vendor": "Google",
    "category": "AI-сервисы",
-   "gap": "GAP-B",
-   "gap_title": "Страница есть, не индексируется",
-   "recommended_action": "техническое SEO",
+   "gap": "GAP-N",
+   "gap_title": "Страница есть, в поиске не наблюдалась",
+   "recommended_action": "проверить индексацию и позицию — замер, а не вывод",
    "commercial_demand": 19390,
    "commercial_phrases": 132,
    "url": "/vendors/google",
    "page_exists": true,
-   "indexed": false,
+   "indexed": null,
    "best_position": null,
    "impressions": 0,
    "clicks": 0,
@@ -236,18 +236,18 @@
    "subclusters": {
     "покупка": 19390
    },
-   "step": "Разобраться, почему /vendors/google не индексируется",
-   "prompt": "Страница /vendors/google существует, но не в индексе. Проверь через ops-* workflow: код ответа, robots.txt, meta robots, canonical, наличие в sitemap.xml, статус в Яндекс.Вебмастере. Найди причину, устрани и запроси переобход через ops-yandex-recrawl. Контрольная дата 2026-09-13.",
-   "success": "страница в индексе к 2026-09-13",
-   "check_on": "2026-09-13",
-   "opportunity_score": 0.1546,
+   "step": "Проверить, видна ли /vendors/google в поиске по «gemini купить»",
+   "prompt": "Страница /vendors/google существует, но за окно наблюдения не встретилась ни в выборке запросов Вебмастера, ни в выборке страниц GSC. Это отсутствие наблюдения, а не факт неиндексации. Проверь статус URL в Яндекс.Вебмастере и GSC и позицию по фразе через ops-serp-probe. Если страницы нет в индексе — заведи задачу класса GAP-B (техническое SEO); если есть, но позиция слабая — GAP-C. Контрольная дата 2026-09-10.",
+   "success": "индексация и позиция по «gemini купить» измерены и записаны к 2026-09-10",
+   "check_on": "2026-09-10",
+   "opportunity_score": 0.291,
    "components": {
     "normalized_demand": 0.3109,
     "commercial_intent": 1.0,
-    "coverage_gap": 0.85,
+    "coverage_gap": 0.8,
     "trend_factor": 1.3,
     "confidence": 0.9,
-    "estimated_effort": 2.0
+    "estimated_effort": 1.0
    },
    "confidence_note": "достаточная: кластер измерен несколькими фразами"
   },
@@ -255,9 +255,9 @@
    "cluster": "adobe",
    "vendor": "Adobe",
    "category": "Дизайн и графика",
-   "gap": "GAP-F",
-   "gap_title": "Спрос большой, органика будет долгой",
-   "recommended_action": "исследование платного канала",
+   "gap": "GAP-N",
+   "gap_title": "Страница есть, в поиске не наблюдалась",
+   "recommended_action": "проверить индексацию и позицию — замер, а не вывод",
    "commercial_demand": 23322,
    "commercial_phrases": 209,
    "url": "/vendors/adobe",
@@ -296,135 +296,18 @@
     "цены и тарифы": 4679,
     "оплата": 296
    },
-   "step": "Оценить платный канал по «adobe купить» — 23 322 запросов в месяц, органика будет долгой",
-   "prompt": "По «adobe купить» спрос 23 322 запросов в месяц, органика займёт месяцы. Подготовь расчёт платного канала: оценка ставки, прогноз стоимости обращения, месячный бюджет. Только расчёт — запуск рекламы и бюджет решает руководитель, рекламные кабинеты не трогать.",
-   "success": "расчёт на столе у руководителя, решение о запуске за ним",
-   "check_on": "2026-10-03",
-   "opportunity_score": 0.08974,
+   "step": "Проверить, видна ли /vendors/adobe в поиске по «adobe купить»",
+   "prompt": "Страница /vendors/adobe существует, но за окно наблюдения не встретилась ни в выборке запросов Вебмастера, ни в выборке страниц GSC. Это отсутствие наблюдения, а не факт неиндексации. Проверь статус URL в Яндекс.Вебмастере и GSC и позицию по фразе через ops-serp-probe. Если страницы нет в индексе — заведи задачу класса GAP-B (техническое SEO); если есть, но позиция слабая — GAP-C. Контрольная дата 2026-09-10.",
+   "success": "индексация и позиция по «adobe купить» измерены и записаны к 2026-09-10",
+   "check_on": "2026-09-10",
+   "opportunity_score": 0.26921,
    "components": {
     "normalized_demand": 0.3739,
     "commercial_intent": 1.0,
     "coverage_gap": 0.8,
     "trend_factor": 1.0,
     "confidence": 0.9,
-    "estimated_effort": 3.0
-   },
-   "confidence_note": "достаточная: кластер измерен несколькими фразами"
-  },
-  {
-   "cluster": "anthropic",
-   "vendor": "Anthropic",
-   "category": "AI-сервисы",
-   "gap": "GAP-F",
-   "gap_title": "Спрос большой, органика будет долгой",
-   "recommended_action": "исследование платного канала",
-   "commercial_demand": 27231,
-   "commercial_phrases": 160,
-   "url": "/vendors/anthropic",
-   "page_exists": true,
-   "indexed": true,
-   "best_position": 11.0,
-   "impressions": 1,
-   "clicks": 0,
-   "ctr": 0.0,
-   "trend": "growing",
-   "top_phrases": [
-    {
-     "phrase": "claude купить",
-     "frequency": 9944
-    },
-    {
-     "phrase": "claude купить подписку",
-     "frequency": 4435
-    },
-    {
-     "phrase": "claude pro купить",
-     "frequency": 1107
-    },
-    {
-     "phrase": "claude code купить",
-     "frequency": 1101
-    },
-    {
-     "phrase": "купить аккаунт claude",
-     "frequency": 883
-    }
-   ],
-   "subclusters": {
-    "покупка": 26305,
-    "цены и тарифы": 369,
-    "подписка и продление": 258,
-    "прочее": 229
-   },
-   "step": "Оценить платный канал по «claude купить» — 27 231 запросов в месяц, органика будет долгой",
-   "prompt": "По «claude купить» спрос 27 231 запросов в месяц, органика займёт месяцы. Подготовь расчёт платного канала: оценка ставки, прогноз стоимости обращения, месячный бюджет. Только расчёт — запуск рекламы и бюджет решает руководитель, рекламные кабинеты не трогать.",
-   "success": "расчёт на столе у руководителя, решение о запуске за ним",
-   "check_on": "2026-10-03",
-   "opportunity_score": 0.08514,
-   "components": {
-    "normalized_demand": 0.4366,
-    "commercial_intent": 1.0,
-    "coverage_gap": 0.5,
-    "trend_factor": 1.3,
-    "confidence": 0.9,
-    "estimated_effort": 3.0
-   },
-   "confidence_note": "достаточная: кластер измерен несколькими фразами"
-  },
-  {
-   "cluster": "оплата зарубежных сервисов",
-   "vendor": null,
-   "category": null,
-   "gap": "GAP-G",
-   "gap_title": "Спрос растёт",
-   "recommended_action": "ранняя возможность",
-   "commercial_demand": 15947,
-   "commercial_phrases": 58,
-   "url": null,
-   "page_exists": false,
-   "indexed": false,
-   "best_position": null,
-   "impressions": 0,
-   "clicks": 0,
-   "ctr": null,
-   "trend": "growing",
-   "top_phrases": [
-    {
-     "phrase": "оплата зарубежных сервисов",
-     "frequency": 11541
-    },
-    {
-     "phrase": "оплата зарубежных сервисов из россии",
-     "frequency": 1081
-    },
-    {
-     "phrase": "оплата подписок зарубежных сервисов",
-     "frequency": 474
-    },
-    {
-     "phrase": "озон оплата зарубежных сервисов",
-     "frequency": 469
-    },
-    {
-     "phrase": "оплата зарубежных сервисов бесплатно",
-     "frequency": 357
-    }
-   ],
-   "subclusters": {
-    "оплата": 15947
-   },
-   "step": "Завести страницу под «оплата зарубежных сервисов» — 15 947 запросов в месяц; сейчас своей страницы нет",
-   "prompt": "Создай посадочную страницу под кластер «оплата зарубежных сервисов». Ведущая фраза — «оплата зарубежных сервисов», измеренный покупательский спрос 15 947 запросов в месяц. Проверь по src/data/vendors.ts, что вендора действительно нет в каталоге, и по reports/seo/wordstat/decisions.json — что решение по нему не принято. Прежде чем заводить: подтверди, что вендор принимает оплату картой или через наш зарубежный счёт, иначе спрос в сделку не превратится. Сделай карточку вендора, перелинкуй с разделом назначения ПО, добавь в sitemap и запроси переобход через ops-yandex-recrawl. Заведи эксперимент в reports/seo/intelligence/seo-experiments.json с собственной датой старта и контрольной датой 2026-09-24.",
-   "success": "страница в индексе Яндекса и показы по «оплата зарубежных сервисов» больше нуля к 2026-09-24",
-   "check_on": "2026-09-24",
-   "opportunity_score": 0.07479,
-   "components": {
-    "normalized_demand": 0.2557,
-    "commercial_intent": 1.0,
-    "coverage_gap": 1.0,
-    "trend_factor": 1.3,
-    "confidence": 0.9,
-    "estimated_effort": 4.0
+    "estimated_effort": 1.0
    },
    "confidence_note": "достаточная: кластер измерен несколькими фразами"
   },
@@ -432,14 +315,14 @@
    "cluster": "autodesk",
    "vendor": "Autodesk",
    "category": "Дизайн и графика",
-   "gap": "GAP-B",
-   "gap_title": "Страница есть, не индексируется",
-   "recommended_action": "техническое SEO",
+   "gap": "GAP-N",
+   "gap_title": "Страница есть, в поиске не наблюдалась",
+   "recommended_action": "проверить индексацию и позицию — замер, а не вывод",
    "commercial_demand": 7397,
    "commercial_phrases": 63,
    "url": "/vendors/autodesk",
    "page_exists": true,
-   "indexed": false,
+   "indexed": null,
    "best_position": null,
    "impressions": 0,
    "clicks": 0,
@@ -473,25 +356,145 @@
     "покупка": 652,
     "подписка и продление": 63
    },
-   "step": "Разобраться, почему /vendors/autodesk не индексируется",
-   "prompt": "Страница /vendors/autodesk существует, но не в индексе. Проверь через ops-* workflow: код ответа, robots.txt, meta robots, canonical, наличие в sitemap.xml, статус в Яндекс.Вебмастере. Найди причину, устрани и запроси переобход через ops-yandex-recrawl. Контрольная дата 2026-09-13.",
-   "success": "страница в индексе к 2026-09-13",
-   "check_on": "2026-09-13",
-   "opportunity_score": 0.05897,
+   "step": "Проверить, видна ли /vendors/autodesk в поиске по «autodesk license»",
+   "prompt": "Страница /vendors/autodesk существует, но за окно наблюдения не встретилась ни в выборке запросов Вебмастера, ни в выборке страниц GSC. Это отсутствие наблюдения, а не факт неиндексации. Проверь статус URL в Яндекс.Вебмастере и GSC и позицию по фразе через ops-serp-probe. Если страницы нет в индексе — заведи задачу класса GAP-B (техническое SEO); если есть, но позиция слабая — GAP-C. Контрольная дата 2026-09-10.",
+   "success": "индексация и позиция по «autodesk license» измерены и записаны к 2026-09-10",
+   "check_on": "2026-09-10",
+   "opportunity_score": 0.11101,
    "components": {
     "normalized_demand": 0.1186,
     "commercial_intent": 1.0,
-    "coverage_gap": 0.85,
+    "coverage_gap": 0.8,
     "trend_factor": 1.3,
     "confidence": 0.9,
-    "estimated_effort": 2.0
+    "estimated_effort": 1.0
+   },
+   "confidence_note": "достаточная: кластер измерен несколькими фразами"
+  },
+  {
+   "cluster": "openai",
+   "vendor": "OpenAI",
+   "category": null,
+   "gap": "GAP-N",
+   "gap_title": "Страница есть, в поиске не наблюдалась",
+   "recommended_action": "проверить индексацию и позицию — замер, а не вывод",
+   "commercial_demand": 7310,
+   "commercial_phrases": 33,
+   "url": "/vendors/openai",
+   "page_exists": true,
+   "indexed": true,
+   "best_position": null,
+   "impressions": 0,
+   "clicks": 0,
+   "ctr": null,
+   "trend": "growing",
+   "top_phrases": [
+    {
+     "phrase": "купить chatgpt plus",
+     "frequency": 2245
+    },
+    {
+     "phrase": "купить подписку chatgpt plus",
+     "frequency": 1549
+    },
+    {
+     "phrase": "openai купить",
+     "frequency": 523
+    },
+    {
+     "phrase": "подписка openai",
+     "frequency": 436
+    },
+    {
+     "phrase": "chatgpt plus купить в россии",
+     "frequency": 429
+    }
+   ],
+   "subclusters": {
+    "покупка": 5900,
+    "прочее": 626,
+    "подписка и продление": 436,
+    "оплата": 348
+   },
+   "step": "Проверить, видна ли /vendors/openai в поиске по «купить chatgpt plus»",
+   "prompt": "Страница /vendors/openai существует, но за окно наблюдения не встретилась ни в выборке запросов Вебмастера, ни в выборке страниц GSC. Это отсутствие наблюдения, а не факт неиндексации. Проверь статус URL в Яндекс.Вебмастере и GSC и позицию по фразе через ops-serp-probe. Если страницы нет в индексе — заведи задачу класса GAP-B (техническое SEO); если есть, но позиция слабая — GAP-C. Контрольная дата 2026-09-10.",
+   "success": "индексация и позиция по «купить chatgpt plus» измерены и записаны к 2026-09-10",
+   "check_on": "2026-09-10",
+   "opportunity_score": 0.1097,
+   "components": {
+    "normalized_demand": 0.1172,
+    "commercial_intent": 1.0,
+    "coverage_gap": 0.8,
+    "trend_factor": 1.3,
+    "confidence": 0.9,
+    "estimated_effort": 1.0
+   },
+   "confidence_note": "достаточная: кластер измерен несколькими фразами"
+  },
+  {
+   "cluster": "capcut",
+   "vendor": "CapCut",
+   "category": "Звук, видео и медиа",
+   "gap": "GAP-N",
+   "gap_title": "Страница есть, в поиске не наблюдалась",
+   "recommended_action": "проверить индексацию и позицию — замер, а не вывод",
+   "commercial_demand": 7103,
+   "commercial_phrases": 19,
+   "url": "/vendors/capcut",
+   "page_exists": true,
+   "indexed": null,
+   "best_position": null,
+   "impressions": 0,
+   "clicks": 0,
+   "ctr": null,
+   "trend": "growing",
+   "top_phrases": [
+    {
+     "phrase": "capcut подписка",
+     "frequency": 2442
+    },
+    {
+     "phrase": "capcut купить",
+     "frequency": 1112
+    },
+    {
+     "phrase": "capcut в россии",
+     "frequency": 822
+    },
+    {
+     "phrase": "capcut купить подписку",
+     "frequency": 612
+    },
+    {
+     "phrase": "как оплатить capcut",
+     "frequency": 520
+    }
+   ],
+   "subclusters": {
+    "подписка и продление": 2888,
+    "покупка": 2873,
+    "прочее": 822,
+    "оплата": 520
+   },
+   "step": "Проверить, видна ли /vendors/capcut в поиске по «capcut подписка»",
+   "prompt": "Страница /vendors/capcut существует, но за окно наблюдения не встретилась ни в выборке запросов Вебмастера, ни в выборке страниц GSC. Это отсутствие наблюдения, а не факт неиндексации. Проверь статус URL в Яндекс.Вебмастере и GSC и позицию по фразе через ops-serp-probe. Если страницы нет в индексе — заведи задачу класса GAP-B (техническое SEO); если есть, но позиция слабая — GAP-C. Контрольная дата 2026-09-10.",
+   "success": "индексация и позиция по «capcut подписка» измерены и записаны к 2026-09-10",
+   "check_on": "2026-09-10",
+   "opportunity_score": 0.10661,
+   "components": {
+    "normalized_demand": 0.1139,
+    "commercial_intent": 1.0,
+    "coverage_gap": 0.8,
+    "trend_factor": 1.3,
+    "confidence": 0.9,
+    "estimated_effort": 1.0
    },
    "confidence_note": "достаточная: кластер измерен несколькими фразами"
   }
  ],
  "vendor_expansion": {
   "available": false,
-  "reason": "спрос кандидатов ещё не измерен",
+  "reason": "рекомендовать некого: спрос кандидатов не измерен или ниже порогов",
   "candidates_total": 108,
   "candidates_measured": 36,
   "recommended": [],
@@ -504,14 +507,14 @@
   "note": "Российские вендоры исключены: их лицензии продаются напрямую, услуга оплаты из-за рубежа к ним неприменима."
  },
  "efficiency": {
-  "calls_total": 1997,
+  "calls_total": 2068,
   "calls_paid": 168,
   "cost_month_rub": 3.36,
   "cost_today_rub": 0.2,
   "remaining_budget_rub": 5496.64,
   "forecast_month_end_rub": 33.6,
   "state": "open",
-  "cache_hit_rate": 0.9159,
+  "cache_hit_rate": 0.9188,
   "duplicate_rate": 0.9606,
   "unique_phrases": 75,
   "new_commercial_phrases": 2,
@@ -519,7 +522,7 @@
   "cost_per_1000_unique_phrases_rub": 44.8,
   "cost_per_1000_commercial_phrases_rub": 1680.0,
   "cost_per_new_cluster_rub": 1.68,
-  "empty_response_rate": 0.3025
+  "empty_response_rate": 0.2964
  },
  "quota": {
   "requests_per_hour": 500,
@@ -531,17 +534,17 @@
   "available": true,
   "title": "Спрос и направления развития",
   "expansion": null,
-  "summary": "Мы видим 287 895 покупательских запросов в месяц по 174 направлениям каталога. Своя страница есть под 88% этого спроса, в поиске находится 60%, на первой странице — 12%. Без страницы остаётся 16 246 запросов в месяц — это направления, где спрос есть, а нас в выдаче нет. Ещё 52 137 запросов в месяц не отнесены ни к нам, ни к чужому товару: это голые фразы омонимичных брендов (box — 30 187, zoom — 10 813, bubble купить — 5 732). В спрос и в решения об ассортименте они не входят.",
+  "summary": "Мы видим 287 895 покупательских запросов в месяц по 174 направлениям каталога. Своя страница есть под 88% этого спроса, в поиске находится 38%, на первой странице — 12%. Без страницы остаётся 16 246 запросов в месяц — это направления, где спрос есть, а своей страницы нет. Ещё 52 137 запросов в месяц не отнесены ни к нам, ни к чужому товару: это голые фразы омонимичных брендов (box — 30 187, zoom — 10 813, bubble купить — 5 732). В спрос и в решения об ассортименте они не входят.",
   "coverage": {
    "page": 0.8785,
-   "indexed": 0.6003,
-   "top10": 0.117
+   "indexed": 0.3836,
+   "top10": 0.1159
   },
   "lead_opportunity": {
    "cluster": "google",
    "demand": 19390,
-   "action": "техническое SEO",
-   "why": "Страница есть, не индексируется",
+   "action": "проверить индексацию и позицию — замер, а не вывод",
+   "why": "Страница есть, в поиске не наблюдалась",
    "confidence": "достаточная: кластер измерен несколькими фразами"
   },
   "measured_at": "2026-09-03"
