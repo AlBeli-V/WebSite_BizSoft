@@ -26,6 +26,7 @@ from __future__ import annotations
 import datetime as dt
 
 from textfmt import counted, num, ru_date
+import passport
 
 # Сколько заявок показывать в письме подробно. Остальные уходят строкой
 # «ещё N» — письмо ограничено по объёму (uxlint), а разбор каждой заявки
@@ -300,10 +301,11 @@ def build(raw: dict | None, date: str) -> dict:
     сутки нет, так и сказано. Это разные состояния, и путать их нельзя:
     первое требует чинить сбор, второе — работать со спросом.
     """
-    if not raw or not raw.get("leads_available", True):
-        return {"available": False,
-                "reason": (raw or {}).get("reason")
-                or "выгрузки заявок нет (ops-leads-collect)"}
+    if not raw:
+        return passport.unavailable("no_file", source="выгрузка заявок (ops-leads-collect)")
+    if not raw.get("leads_available", True):
+        return passport.unavailable("api_error", source="выгрузка заявок (ops-leads-collect)",
+                                    detail=raw.get("reason"))
 
     day = _day_bounds(date)
     week_start = (dt.date.fromisoformat(day) - dt.timedelta(days=SUMMARY_DAYS - 1)).isoformat()
@@ -343,6 +345,11 @@ def build(raw: dict | None, date: str) -> dict:
 
     return {
         "available": True,
+        "status": "ok",
+        # Дата данных — день, за который считаются заявки; ожидаемая — тот же
+        # день. Выгрузка старше письма помечается mark_stale.
+        "as_of": day,
+        "expected_as_of": day,
         "day": day,
         "window": {"from": week_start, "to": day},
         "count": len(day_leads),
@@ -382,7 +389,9 @@ def mark_stale(block: dict, data_date: str) -> dict:
         return block
     day = dt.date.fromisoformat(data_date).strftime("%d.%m")
     block["stale"] = True
+    block["status"] = "stale"
     block["data_date"] = data_date
+    block["as_of"] = data_date
     note = block.get("note") or ""
     block["note"] = ((note + "; ") if note else "") + (
         f"выгрузка от {day}: заявки, поступившие после неё, в письмо не попали — "

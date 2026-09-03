@@ -26,6 +26,7 @@ import datetime as dt
 
 import inventory
 from mismatch import page_type
+import passport
 
 YOUNG_DAYS = 14     # моложе — «рано судить», это не находка
 OLD_DAYS = 30       # старше без показов — кандидат на разбор
@@ -78,10 +79,8 @@ def _yandex_status(path: str, yidx: dict | None,
 def build(date_s: str) -> dict:
     inv = inventory.load_latest(date_s)
     if not inv:
-        return {"available": False,
-                "reason": "инвентаря sitemap за окно нет "
-                          "(шаг workflow seo-data-collect)",
-                "items": []}
+        return passport.unavailable("no_file", source="инвентарь sitemap",
+                                    detail="шаг workflow seo-data-collect", items=[])
     seen = inventory.pages_with_impressions(date_s)
     reg = inventory.first_seen()
     started = reg.get("started")
