@@ -291,10 +291,12 @@ Routine.** Заведя или пересоздав Routine, вызвать `get
 - в `session_context.sources` есть `git_repository` нужного репозитория;
 - в `tags` нет `config:routine-lineage-none` и `routine:agent-minted`;
 - `origin` — `claude_code_mcp_seed` или `web_claude_ai`, но не
-  `scheduled_trigger`.
+  `scheduled_trigger` и не `force_run_trigger`.
 
 Ни привязку, ни промпт привязанной Routine `update_trigger` сменить не
-даёт — только пересозданием. Порядок заведения исполнителя целиком:
+даёт — отказывает с «editing the prompt of a routine whose fires deliver
+into a session that is not your own is not available via this tool»;
+правится только пересозданием. Порядок заведения исполнителя целиком:
 
 1. `create_session` с `source_url` https://github.com/AlBeli-V/WebSite_BizSoft,
    тегами `ops-routine` + контурный тег и подготовительным прогоном —
@@ -302,8 +304,18 @@ Routine.** Заведя или пересоздав Routine, вызвать `get
 2. `get_session` по новой сессии — приёмка из четырёх пунктов выше.
 3. `create_trigger` с `persistent_session_id` этой сессии.
 4. `delete_trigger` старой Routine, старую сессию архивировать.
-5. `fire_trigger` — контрольный прогон вне расписания. Пока исполнитель
-   реально не отработал хотя бы раз, Routine считается непринятой.
+5. Приёмка — по первому срабатыванию ПО РАСПИСАНИЮ: `get_session` по
+   исполнителю, у него обязан сдвинуться `updated_at`. Пока этого не
+   произошло, Routine считается непринятой.
+
+**`fire_trigger` для приёмки не годится** (установлено 03.09.2026
+экспериментом). Ручной запуск игнорирует `persistent_session_id`: он
+заводит отдельную сессию с `origin: force_run_trigger`, тегами
+`config:routine-lineage-none` и `routine:agent-minted` и пустыми
+`sources` — то есть ровно ту калеку, от которой мы уходим. Прогон уходит
+в неё, исполнитель не шевелится, и «контрольный прогон» проверяет не то.
+Отсюда же признак обойдённой привязки в ежедневном стороже: `last_fired_at`
+у Routine свежий, а `updated_at` у сессии-исполнителя старый.
 
 Сторожит это ежедневная Routine «Проверка привязок операционных Routine
 (10:00 МСК)»: обходит все Routine и по каждой вызывает `get_session`.
