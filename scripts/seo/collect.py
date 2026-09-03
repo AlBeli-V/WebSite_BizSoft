@@ -71,9 +71,12 @@ AI_ASSISTANT_SOURCES = ('alice.yandex.ru',)
 NON_SEARCH_SOURCES = INTERNAL_SOURCES + AI_ASSISTANT_SOURCES
 
 # INDEX-001: выборка событий поиска Вебмастера (снятые из поиска URL с
-# причиной). Глубина — 90 дней, потолок — 500 строк за сбор.
+# причиной). Глубина — 90 дней. Потолок — 2000 строк за сбор: первый боевой
+# прогон 03.09.2026 показал 1312 событий за окно при потолке 500, из них
+# снятых — 43 (остальные — «появилась в поиске»); срез обрезался, и 8 из 50
+# исключённых оставались без причины.
 EXCLUDED_EVENTS_DAYS = 90
-EXCLUDED_EVENTS_MAX = 500
+EXCLUDED_EVENTS_MAX = 2000
 
 
 def api_json(url, *, headers=None, params=None, body=None, timeout=30):
