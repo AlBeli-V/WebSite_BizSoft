@@ -65,9 +65,16 @@ ENGINE = "google"
 PROVIDER = "xmlriver"
 # Версия сборщика пишется в каждую строку среза: смена разбора или склейки
 # страниц — повод не сравнивать строки как равноточные.
-COLLECTOR_VERSION = "1.1.0"
-WORKERS = 4
-PAUSE_S = 0.2
+COLLECTOR_VERSION = "1.2.0"
+# Потоков — 3, не 4: пересбор 03.09.2026 при четырёх потоках упёрся в
+# «Нет свободных каналов» (code=111) по 26 ключам даже с четырьмя повторами.
+WORKERS = 3
+PAUSE_S = 0.5
+# Страница считается «полной», если органики на ней не меньше стольких
+# позиций: Google почти всегда отдаёт 8–9 органических результатов на
+# первой странице (блоки видео/рекламы занимают места), и порог в 10
+# оставлял без второй страницы 271 ключ из 328 (пересбор 03.09.2026).
+PAGE_FULL_MIN = 7
 
 MSK = ZoneInfo("Europe/Moscow")
 
@@ -126,11 +133,33 @@ def _norm(query: str) -> str:
     return " ".join((query or "").lower().split())
 
 
+def pages_missing(row: dict, cfg: dict) -> int:
+    """Сколько страниц ключу ещё не хватает до `pages` из конфига.
+
+    Ноль — строка полная: страниц снято сколько нужно, либо последняя
+    снятая страница оказалась короче PAGE_FULL_MIN (глубина выдачи
+    исчерпана, дальше пусто). Строка с partial_error — последняя страница
+    не снята, её надо повторить.
+    """
+    pages = max(int(cfg.get("pages", 1)), 1)
+    fetched = int(row.get("pages_fetched") or 1)
+    if row.get("partial_error"):
+        fetched -= 1          # страница с ошибкой не считается снятой
+    if fetched >= pages:
+        return 0
+    got = len(row.get("top") or [])
+    if got < PAGE_FULL_MIN * fetched:
+        return 0              # выдача короче — глубже ничего нет
+    return pages - fetched
+
+
 def existing_rows(date_s: str, cfg: dict) -> dict[str, dict]:
     """Строки с данными из уже записанного среза за дату — по нормализованному
     запросу. Годятся только строки той же серии и того же местоположения:
     смена loc в конфиге делает старые строки другим измерением.
-    Строки с ошибкой не возвращаются — их надо докачать."""
+    Строки с ошибкой не возвращаются — их надо докачать. Строки, у которых
+    снято меньше страниц, чем задано в конфиге, возвращаются: недостающие
+    страницы докачиваются поверх (pages_missing)."""
     p = snapshot_path(date_s)
     if not p.exists():
         return {}
@@ -178,16 +207,18 @@ def is_collection_day(date: dt.date, cfg: dict) -> bool:
     return True
 
 
-def fetch_query(session, user: str, key: str, q: str, cfg: dict) -> dict:
-    """Все страницы одного ключа: список результатов по страницам.
+def fetch_query(session, user: str, key: str, q: str, cfg: dict,
+                start_page: int = 1) -> dict:
+    """Страницы одного ключа начиная с start_page: список результатов.
 
-    Вторая страница запрашивается только после удачной первой — иначе
-    платный вызов уйдёт впустую. Возвращает {"pages": [res0, res1, …]}.
+    Следующая страница запрашивается только после удачной и «полной»
+    (≥ PAGE_FULL_MIN позиций) предыдущей — иначе платный вызов уйдёт
+    впустую. Возвращает {"pages": [res, …], "start_page": N}.
     """
     pages = max(int(cfg.get("pages", 1)), 1)
     out = []
     # Нумерация страниц xmlriver — с единицы (ответ поддержки 03.09.2026).
-    for page in range(1, pages + 1):
+    for page in range(max(start_page, 1), pages + 1):
         try:
             res = xmlriver.search_google(session, user, key, q,
                                         cfg["query"], cfg["top_n"], page)
@@ -196,23 +227,40 @@ def fetch_query(session, user: str, key: str, q: str, cfg: dict) -> dict:
         out.append(res)
         if "error" in res:
             break
-        if len(res.get("top") or []) < xmlriver.PAGE_SIZE:
+        if len(res.get("top") or []) < PAGE_FULL_MIN:
             break     # выдача короче страницы — дальше пусто
         time.sleep(PAUSE_S)
-    return {"pages": out}
+    return {"pages": out, "start_page": max(start_page, 1)}
 
 
-def merge_pages(results: list[dict], top_n: int) -> dict:
+def merge_pages(results: list[dict], top_n: int,
+                base: dict | None = None) -> dict:
     """Одна строка среза из страниц: топ склеивается по порядку страниц,
     found и blocks — с первой; ошибка первой страницы — ошибка строки,
-    ошибка следующей — partial_error при сохранённом топе."""
-    first = results[0]
-    if "error" in first:
-        return {"error": first["error"]}
-    row = {"found": first.get("found"), "top": list(first.get("top") or [])}
-    blocks = dict(first.get("blocks") or {})
+    ошибка следующей — partial_error при сохранённом топе.
+
+    base — уже записанная строка ключа (докачка страниц): её топ идёт
+    первым, новые страницы приклеиваются следом, pages_fetched растёт.
+    """
+    if base is not None:
+        row = {"found": base.get("found"), "top": list(base.get("top") or [])}
+        blocks = dict(base.get("blocks") or {})
+        prior_pages = int(base.get("pages_fetched") or 1)
+        if base.get("partial_error"):
+            prior_pages -= 1
+        rest = results
+        if base.get("duplicates_dropped"):
+            row["duplicates_dropped"] = base["duplicates_dropped"]
+    else:
+        first = results[0]
+        if "error" in first:
+            return {"error": first["error"]}
+        row = {"found": first.get("found"), "top": list(first.get("top") or [])}
+        blocks = dict(first.get("blocks") or {})
+        prior_pages = 1
+        rest = results[1:]
     seen_urls = {d.get("url") for d in row["top"]}
-    for res in results[1:]:
+    for res in rest:
         if "error" in res:
             row["partial_error"] = res["error"]
             break
@@ -230,17 +278,20 @@ def merge_pages(results: list[dict], top_n: int) -> dict:
     row["top"] = row["top"][:top_n]
     if blocks:
         row["blocks"] = blocks
-    row["pages_fetched"] = len(results)
+    row["pages_fetched"] = prior_pages + len(rest)
     return row
 
 
-def collect(session, user: str, key: str, date: dt.date, queries: list[str],
+def collect(session, user: str, key: str, date: dt.date, queries: list,
             cfg: dict, writer) -> tuple[int, int, int]:
     """Снять выдачу по списку запросов в несколько потоков.
 
-    Журнал и файл среза пишутся только из главного потока: каждый
-    платный вызов (страница) — строка журнала; каждый ключ — строка среза
-    (объединённый топ или ошибка). Возвращает (ok, failed, calls).
+    Элемент queries — ключ (str) либо пара (ключ, прежняя строка): во
+    втором случае докачиваются только недостающие страницы поверх
+    прежней строки. Журнал и файл среза пишутся только из главного
+    потока: каждый платный вызов (страница) — строка журнала; каждый
+    ключ — строка среза (объединённый топ или ошибка).
+    Возвращает (ok, failed, calls).
     """
     loc = cfg["query"].get("loc")
     provenance = {"provider": PROVIDER, "series": cfg.get("series", "google_ru"),
@@ -249,19 +300,29 @@ def collect(session, user: str, key: str, date: dt.date, queries: list[str],
                   "collector_version": COLLECTOR_VERSION}
     ok = failed = calls = 0
 
-    def one(q: str) -> tuple[str, dict]:
+    tasks = [(t, None) if isinstance(t, str) else (t[0], t[1])
+             for t in queries]
+
+    def one(task) -> tuple[str, dict | None, dict]:
+        q, base = task
         time.sleep(PAUSE_S)
-        return q, fetch_query(session, user, key, q, cfg)
+        start = 1
+        if base is not None:
+            fetched_pages = int(base.get("pages_fetched") or 1)
+            start = fetched_pages if base.get("partial_error") \
+                else fetched_pages + 1
+        return q, base, fetch_query(session, user, key, q, cfg, start)
 
     with ThreadPoolExecutor(max_workers=WORKERS) as pool:
-        futures = [pool.submit(one, q) for q in queries]
+        futures = [pool.submit(one, t) for t in tasks]
         for fut in as_completed(futures):
-            q, fetched = fut.result()
-            for page, res in enumerate(fetched["pages"], start=1):
+            q, base, fetched = fut.result()
+            for page, res in enumerate(fetched["pages"],
+                                       start=fetched["start_page"]):
                 log_call(date, q, "ok" if "error" not in res else "error",
                          res.get("found"), loc, page)
                 calls += 1
-            merged = merge_pages(fetched["pages"], cfg["top_n"])
+            merged = merge_pages(fetched["pages"], cfg["top_n"], base)
             row = {"date": date.isoformat(), "query": q, "engine": ENGINE,
                    "region": str(loc) if loc is not None else "",
                    "loc": loc, **provenance, **merged}
@@ -316,15 +377,22 @@ def run(date_s: str, queries: list[str], cfg: dict, user: str, key: str,
                            f"(cadence={cfg.get('cadence')}, "
                            f"weekday={cfg.get('weekday')})"}
     ready = {} if refetch else existing_rows(date_s, cfg)
-    reused = [q for q in queries if _norm(q) in ready]
+    pages = max(int(cfg.get("pages", 1)), 1)
+    # Готовые строки: полные берутся как есть, неполным докачиваются
+    # недостающие страницы (по одному вызову на страницу).
+    reused = [q for q in queries if _norm(q) in ready
+              and pages_missing(ready[_norm(q)], cfg) == 0]
+    topup = [q for q in queries if _norm(q) in ready
+             and pages_missing(ready[_norm(q)], cfg) > 0]
     missing = [q for q in queries if _norm(q) not in ready]
 
     spent = month_spent(date)
     today = day_spent(date)
-    pages = max(int(cfg.get("pages", 1)), 1)
-    # Потолки — в вызовах; на ключ уходит `pages` вызовов.
-    budget = min(cfg["daily_cap"] - today, cfg["monthly_cap"] - spent) // pages
-    if budget <= 0 and missing:
+    # Потолки — в вызовах: новый ключ стоит `pages` вызовов, докачка —
+    # столько, сколько страниц не хватает. Сначала докачка (дешевле и
+    # доводит уже оплаченное до нужной глубины), затем новые ключи.
+    budget = min(cfg["daily_cap"] - today, cfg["monthly_cap"] - spent)
+    if budget <= 0 and (missing or topup):
         reason = (f"месячный потолок {cfg['monthly_cap']} запросов исчерпан "
                   f"({spent} израсходовано)"
                   if cfg["monthly_cap"] - spent <= 0 else
@@ -332,8 +400,23 @@ def run(date_s: str, queries: list[str], cfg: dict, user: str, key: str,
                   f"({today} за сегодня)")
         return {"error": reason, "spent_month": spent, "spent_today": today,
                 "reused": len(reused)}
-    todo = missing[:max(budget, 0)]
-    skipped = len(missing) - len(todo)
+    todo: list = []
+    left = max(budget, 0)
+    for q in topup:
+        cost = pages_missing(ready[_norm(q)], cfg)
+        if cost > left:
+            break
+        todo.append((q, ready[_norm(q)]))
+        left -= cost
+    for q in missing:
+        if pages > left:
+            break
+        todo.append(q)
+        left -= pages
+    planned = {t if isinstance(t, str) else t[0] for t in todo}
+    skipped = sum(1 for q in topup + missing if q not in planned)
+    # Неполные строки, не влезшие в бюджет, остаются в срезе как есть.
+    reused += [q for q in topup if q not in planned]
 
     SERP_DIR.mkdir(parents=True, exist_ok=True)
     out_path = snapshot_path(date_s)
@@ -350,6 +433,7 @@ def run(date_s: str, queries: list[str], cfg: dict, user: str, key: str,
     summary = {"date": date_s, "engine": ENGINE, "provider": PROVIDER,
                "series": cfg.get("series", "google_ru"),
                "requested": len(todo), "reused": len(reused),
+               "topped_up": sum(1 for t in todo if not isinstance(t, str)),
                "pages": pages, "calls": calls,
                "cost_rub": round(calls * cfg["price_rub_per_1000"] / 1000, 3),
                "ok": ok, "failed": failed, "skipped_over_budget": skipped,
