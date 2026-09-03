@@ -1,8 +1,988 @@
 {
  "date": "2026-09-03",
  "source": "google_url_inspection",
- "quota_per_run": 1800,
+ "quota_per_run": 1000,
  "pages": {
+  "/product/parallels-desktop-pro": {
+   "coverage_state": "Discovered - currently not indexed",
+   "verdict": "NEUTRAL",
+   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
+   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
+   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
+   "last_crawl": null,
+   "google_canonical": null,
+   "inspected_at": "2026-09-03"
+  },
+  "/product/parallels-desktop-standard-perpetual": {
+   "coverage_state": "Discovered - currently not indexed",
+   "verdict": "NEUTRAL",
+   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
+   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
+   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
+   "last_crawl": null,
+   "google_canonical": null,
+   "inspected_at": "2026-09-03"
+  },
+  "/product/parallels-desktop-standard-sub": {
+   "coverage_state": "Discovered - currently not indexed",
+   "verdict": "NEUTRAL",
+   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
+   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
+   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
+   "last_crawl": null,
+   "google_canonical": null,
+   "inspected_at": "2026-09-03"
+  },
+  "/product/perplexity-enterprise-max": {
+   "coverage_state": "Discovered - currently not indexed",
+   "verdict": "NEUTRAL",
+   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
+   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
+   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
+   "last_crawl": null,
+   "google_canonical": null,
+   "inspected_at": "2026-09-03"
+  },
+  "/product/photon-ent": {
+   "coverage_state": "URL is unknown to Google",
+   "verdict": "NEUTRAL",
+   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
+   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
+   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
+   "last_crawl": null,
+   "google_canonical": null,
+   "inspected_at": "2026-09-03"
+  },
+  "/product/photon-fusion-100": {
+   "coverage_state": "URL is unknown to Google",
+   "verdict": "NEUTRAL",
+   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
+   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
+   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
+   "last_crawl": null,
+   "google_canonical": null,
+   "inspected_at": "2026-09-03"
+  },
+  "/product/photon-fusion-2000": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/product/postman-professional": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/product/postman-solo": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/product/prfrc-p4-cloud": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/product/prfrc-p4-scale": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/product/principle-license": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/product/procr-dreams": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/product/recraft-advanced": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/product/recraft-ent": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/product/recraft-pro": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/product/recraft-team": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/product/rive-cadet": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/product/rive-ent": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/product/rive-voyager": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/product/rizom-rs-perp": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/product/rizom-rs-sub": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/product/rizom-vs-perp": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/product/rizom-vs-sub": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/product/rlsn-cc5": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/product/rlsn-iclone8": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/product/rlsn-suite365": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/product/runway-ent": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/product/runway-max": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/product/runway-pro": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/product/runway-standard": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/product/sentry-business": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/product/sentry-team": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/product/shutter-img-10": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/product/shutter-img-350": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/product/shutter-img-50": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/product/sketch-mac": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/product/sketch-pro": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/product/sketch-standard": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/product/sketchup-go": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/product/sketchup-pro": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/product/sketchup-pro-civil": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/product/sketchup-pro-scan": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/product/slack-business-plus": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/product/slack-pro": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/product/solidworks-design-premium": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/product/solidworks-design-premium-device": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/product/solidworks-design-professional": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/product/solidworks-design-professional-device": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/product/solidworks-design-standard": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/product/solidworks-design-standard-device": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/product/solidworks-xdesign-quarterly": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/product/solidworks-xdesign-yearly": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/product/spdtr-ent": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/product/spdtr-indie": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/product/spdtr-pro-fl": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/product/spdtr-pro-nl": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/product/spine-essential": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/product/spine-pro": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/product/suno-premier": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/product/suno-pro": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/product/teamviewer-business": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/product/teamviewer-corporate": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/product/teamviewer-premium": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/product/teamviewer-remote-access": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/product/think-cell-suite": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/product/tlstr-screenflow": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/product/tlstr-vantage": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/product/tlstr-wirecast-pro": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/product/tlstr-wirecast-studio": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/product/toonboom-harmony-advanced": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/product/toonboom-harmony-premium": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/product/topaz-gigapixel": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/product/topaz-photo": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/product/topaz-studio": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/product/topaz-video": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/product/ue-realityscan": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/product/ue-sub": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/product/unity-ent": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/product/unity-pro": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/product/vegas-edit-perp": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/product/vegas-edit-sub": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/product/vegas-post-sub": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/product/vegas-suite-perp": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/product/windsurf-pro": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/product/windsurf-teams": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/product/winrar-license": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/product/wndr-filmora-annual": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/product/wndr-filmora-perp-win": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/product/wndr-filmora-team": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/product/wndr-filmora-xplat": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/product/wordpress-business": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/product/wordpress-commerce": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/product/wwise-platinum": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/product/wwise-premium": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/product/wwise-pro": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/product/xai-supergrok": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/product/xai-supergrok-heavy": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/product/zeplin-advanced": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/product/zeplin-ent": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/product/zoom-ai-companion": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/product/zoom-events": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/product/zoom-large-meeting-500": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/product/zoom-phone-global": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/product/zoom-phone-metered": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/product/zoom-phone-us-ca": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/product/zoom-rooms": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/product/zoom-webinars-500": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/product/zoom-wp-business": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/product/zoom-wp-business-plus": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/product/zoom-wp-enterprise": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/product/zoom-wp-pro": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/solutions": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/solutions/ai-dlya-analitikov": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/solutions/ai-dlya-biznesa": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/solutions/ai-dlya-buhgalterii": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/solutions/ai-dlya-dizainerov": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/solutions/ai-dlya-marketinga": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/solutions/ai-dlya-obrazovaniya": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/solutions/ai-dlya-prodazh": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/solutions/ai-dlya-razrabotchikov": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/solutions/ai-dlya-yuristov": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/solutions/ai-servisy-dlya-biznesa": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/solutions/design-studios": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/solutions/inostrannoe-po-po-dogovoru": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/solutions/it-companies": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/solutions/marketing-agencies": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/solutions/po-dlya-razrabotki-igr": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/solutions/po-dlya-yurlic-po-schetu": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/vendors": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/vendors/ableton": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/vendors/acronis": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/vendors/adobe": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/vendors/anthropic": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/vendors/anydesk": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/vendors/artlist": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/vendors/astute-graphics": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/vendors/atlassian": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/vendors/autodesk": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/vendors/avid": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/vendors/bitdefender": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/vendors/blackmagic": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/vendors/boris-fx": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/vendors/box": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/vendors/browserstack": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/vendors/canva": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/vendors/capcut": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/vendors/capture-one": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/vendors/clip-studio-paint": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/vendors/cloudflare": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/vendors/coreldraw": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/vendors/cubase": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/vendors/cursor": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/vendors/deepl": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/vendors/depositphotos": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/vendors/descript": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/vendors/docker": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/vendors/dropbox": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/vendors/elevenlabs": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/vendors/envato": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/vendors/epidemic-sound": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/vendors/figma": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/vendors/fl-studio": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/vendors/fmod": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/vendors/foundry": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/vendors/framer": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/vendors/freepik": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/vendors/gaea": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/vendors/gamma": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/vendors/github": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/vendors/gitlab": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/vendors/google": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/vendors/grammarly": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/vendors/grok": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/vendors/heygen": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/vendors/higgsfield": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/vendors/houdini": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/vendors/izotope": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/vendors/jasper": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/vendors/jetbrains": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/vendors/kimi": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/vendors/kling-ai": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/vendors/krea": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/vendors/leonardo-ai": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/vendors/lovable": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/vendors/lumion": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/vendors/marmoset": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/vendors/marvelous-designer": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/vendors/maxon": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/vendors/microsoft": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/vendors/midjourney": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/vendors/miro": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/vendors/monotype": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/vendors/motion-array": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/vendors/n8n": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/vendors/native-instruments": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/vendors/notion": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/vendors/openai": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/vendors/openrouter": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/vendors/parallels": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/vendors/perforce": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/vendors/perplexity": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/vendors/photon": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/vendors/postman": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/vendors/principle": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/vendors/procreate": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/vendors/reallusion": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/vendors/recraft": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/vendors/rive": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/vendors/rizomuv": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/vendors/runway": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/vendors/sentry": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/vendors/shutterstock": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/vendors/sketch": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/vendors/sketchup": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/vendors/slack": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/vendors/solidworks": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/vendors/speedtree": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/vendors/spine": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/vendors/suno": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/vendors/teamviewer": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/vendors/telestream": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/vendors/think-cell": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/vendors/toon-boom": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/vendors/topaz-labs": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/vendors/unity": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/vendors/unreal-engine": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/vendors/vegas": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/vendors/windsurf": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/vendors/winrar": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/vendors/wondershare": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/vendors/wordpress": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/vendors/wwise": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/vendors/zeplin": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/vendors/zoho": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
+  "/vendors/zoom": {
+   "coverage_state": null,
+   "inspected_at": null
+  },
   "/": {
    "coverage_state": "Submitted and indexed",
    "verdict": "PASS",
@@ -113,78 +1093,8 @@
    "google_canonical": null,
    "inspected_at": "2026-09-03"
   },
-  "/blog/elevenlabs-tarify-oplata-dlya-yurlica": {
-   "coverage_state": "URL is unknown to Google",
-   "verdict": "NEUTRAL",
-   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
-   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
-   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
-   "last_crawl": null,
-   "google_canonical": null,
-   "inspected_at": "2026-09-03"
-  },
   "/blog/enterprise-vs-team-korporativnye-tarify-ai": {
    "coverage_state": "Discovered - currently not indexed",
-   "verdict": "NEUTRAL",
-   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
-   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
-   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
-   "last_crawl": null,
-   "google_canonical": null,
-   "inspected_at": "2026-09-03"
-  },
-  "/blog/gitlab-godovaya-podpiska-iz-rossii-dlya-yurlica": {
-   "coverage_state": "URL is unknown to Google",
-   "verdict": "NEUTRAL",
-   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
-   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
-   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
-   "last_crawl": null,
-   "google_canonical": null,
-   "inspected_at": "2026-09-03"
-  },
-  "/blog/glpi-manageengine-ili-korobka": {
-   "coverage_state": "URL is unknown to Google",
-   "verdict": "NEUTRAL",
-   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
-   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
-   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
-   "last_crawl": null,
-   "google_canonical": null,
-   "inspected_at": "2026-09-03"
-  },
-  "/blog/inventarizaciya-it-aktivov-s-chego-nachat": {
-   "coverage_state": "URL is unknown to Google",
-   "verdict": "NEUTRAL",
-   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
-   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
-   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
-   "last_crawl": null,
-   "google_canonical": null,
-   "inspected_at": "2026-09-03"
-  },
-  "/blog/kak-kupit-github-copilot-dlya-yurlica": {
-   "coverage_state": "URL is unknown to Google",
-   "verdict": "NEUTRAL",
-   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
-   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
-   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
-   "last_crawl": null,
-   "google_canonical": null,
-   "inspected_at": "2026-09-03"
-  },
-  "/blog/kak-kupit-perplexity-dlya-yurlica": {
-   "coverage_state": "URL is unknown to Google",
-   "verdict": "NEUTRAL",
-   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
-   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
-   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
-   "last_crawl": null,
-   "google_canonical": null,
-   "inspected_at": "2026-09-03"
-  },
-  "/blog/kak-kupit-windsurf-iz-rossii-dlya-yurlica": {
-   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -213,68 +1123,8 @@
    "google_canonical": null,
    "inspected_at": "2026-09-03"
   },
-  "/blog/kak-oplatit-box-business-iz-rossii": {
-   "coverage_state": "URL is unknown to Google",
-   "verdict": "NEUTRAL",
-   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
-   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
-   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
-   "last_crawl": null,
-   "google_canonical": null,
-   "inspected_at": "2026-09-03"
-  },
-  "/blog/kak-oplatit-coreldraw-dlya-yurlica": {
-   "coverage_state": "URL is unknown to Google",
-   "verdict": "NEUTRAL",
-   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
-   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
-   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
-   "last_crawl": null,
-   "google_canonical": null,
-   "inspected_at": "2026-09-03"
-  },
   "/blog/kak-oplatit-depositphotos-dlya-yurlica": {
    "coverage_state": "Discovered - currently not indexed",
-   "verdict": "NEUTRAL",
-   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
-   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
-   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
-   "last_crawl": null,
-   "google_canonical": null,
-   "inspected_at": "2026-09-03"
-  },
-  "/blog/kak-oplatit-envato-elements-dlya-yurlica": {
-   "coverage_state": "URL is unknown to Google",
-   "verdict": "NEUTRAL",
-   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
-   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
-   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
-   "last_crawl": null,
-   "google_canonical": null,
-   "inspected_at": "2026-09-03"
-  },
-  "/blog/kak-oplatit-framer-dlya-yurlica": {
-   "coverage_state": "URL is unknown to Google",
-   "verdict": "NEUTRAL",
-   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
-   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
-   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
-   "last_crawl": null,
-   "google_canonical": null,
-   "inspected_at": "2026-09-03"
-  },
-  "/blog/kak-oplatit-postman-dlya-yurlica": {
-   "coverage_state": "URL is unknown to Google",
-   "verdict": "NEUTRAL",
-   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
-   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
-   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
-   "last_crawl": null,
-   "google_canonical": null,
-   "inspected_at": "2026-09-03"
-  },
-  "/blog/kak-poluchit-schet-i-zakryvayushchie-ot-atlassian": {
-   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -293,46 +1143,6 @@
    "google_canonical": null,
    "inspected_at": "2026-09-03"
   },
-  "/blog/korporativnye-plany-cloudflare-dlya-kompanij-iz-rf": {
-   "coverage_state": "URL is unknown to Google",
-   "verdict": "NEUTRAL",
-   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
-   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
-   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
-   "last_crawl": null,
-   "google_canonical": null,
-   "inspected_at": "2026-09-03"
-  },
-  "/blog/kupit-leonardo-ai-yuridicheskim-licom": {
-   "coverage_state": "URL is unknown to Google",
-   "verdict": "NEUTRAL",
-   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
-   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
-   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
-   "last_crawl": null,
-   "google_canonical": null,
-   "inspected_at": "2026-09-03"
-  },
-  "/blog/oplata-descript-yuridicheskim-licom": {
-   "coverage_state": "URL is unknown to Google",
-   "verdict": "NEUTRAL",
-   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
-   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
-   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
-   "last_crawl": null,
-   "google_canonical": null,
-   "inspected_at": "2026-09-03"
-  },
-  "/blog/oplata-dropbox-dlya-yurlica-iz-rossii": {
-   "coverage_state": "URL is unknown to Google",
-   "verdict": "NEUTRAL",
-   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
-   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
-   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
-   "last_crawl": null,
-   "google_canonical": null,
-   "inspected_at": "2026-09-03"
-  },
   "/blog/podpiska-napryamuyu-ili-cherez-postavshchika": {
    "coverage_state": "Submitted and indexed",
    "verdict": "PASS",
@@ -341,36 +1151,6 @@
    "page_fetch_state": "SUCCESSFUL",
    "last_crawl": "2026-06-28T19:04:34Z",
    "google_canonical": "https://biz-soft.pro/blog/podpiska-napryamuyu-ili-cherez-postavshchika",
-   "inspected_at": "2026-09-03"
-  },
-  "/blog/spine-2d-kupit-licenziyu-dlya-yurlica": {
-   "coverage_state": "URL is unknown to Google",
-   "verdict": "NEUTRAL",
-   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
-   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
-   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
-   "last_crawl": null,
-   "google_canonical": null,
-   "inspected_at": "2026-09-03"
-  },
-  "/blog/stoimost-vladeniya-podpiskoy": {
-   "coverage_state": "URL is unknown to Google",
-   "verdict": "NEUTRAL",
-   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
-   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
-   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
-   "last_crawl": null,
-   "google_canonical": null,
-   "inspected_at": "2026-09-03"
-  },
-  "/blog/tarify-runway-oplata-dlya-yurlica": {
-   "coverage_state": "URL is unknown to Google",
-   "verdict": "NEUTRAL",
-   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
-   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
-   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
-   "last_crawl": null,
-   "google_canonical": null,
    "inspected_at": "2026-09-03"
   },
   "/blog/zakryvayushchie-dokumenty-na-po": {
@@ -2683,36 +3463,6 @@
    "google_canonical": null,
    "inspected_at": "2026-09-03"
   },
-  "/product/hailuo-max": {
-   "coverage_state": "URL is unknown to Google",
-   "verdict": "NEUTRAL",
-   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
-   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
-   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
-   "last_crawl": null,
-   "google_canonical": null,
-   "inspected_at": "2026-09-03"
-  },
-  "/product/hailuo-pro": {
-   "coverage_state": "URL is unknown to Google",
-   "verdict": "NEUTRAL",
-   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
-   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
-   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
-   "last_crawl": null,
-   "google_canonical": null,
-   "inspected_at": "2026-09-03"
-  },
-  "/product/hailuo-standard": {
-   "coverage_state": "URL is unknown to Google",
-   "verdict": "NEUTRAL",
-   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
-   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
-   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
-   "last_crawl": null,
-   "google_canonical": null,
-   "inspected_at": "2026-09-03"
-  },
   "/product/heygen-business": {
    "coverage_state": "Submitted and indexed",
    "verdict": "PASS",
@@ -3164,26 +3914,6 @@
    "inspected_at": "2026-09-03"
   },
   "/product/krea-pro": {
-   "coverage_state": "URL is unknown to Google",
-   "verdict": "NEUTRAL",
-   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
-   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
-   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
-   "last_crawl": null,
-   "google_canonical": null,
-   "inspected_at": "2026-09-03"
-  },
-  "/product/lansweeper-pro-2000-9000-devices": {
-   "coverage_state": "URL is unknown to Google",
-   "verdict": "NEUTRAL",
-   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
-   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
-   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
-   "last_crawl": null,
-   "google_canonical": null,
-   "inspected_at": "2026-09-03"
-  },
-  "/product/lansweeper-starter-2000-devices": {
    "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
@@ -5712,976 +6442,16 @@
    "last_crawl": "2026-07-05T00:20:42Z",
    "google_canonical": "https://biz-soft.pro/product/procr-ipad",
    "inspected_at": "2026-09-03"
-  },
-  "/product/parallels-desktop-pro": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/product/parallels-desktop-standard-perpetual": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/product/parallels-desktop-standard-sub": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/product/perplexity-enterprise-max": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/product/photon-ent": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/product/photon-fusion-100": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/product/photon-fusion-2000": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/product/postman-professional": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/product/postman-solo": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/product/prfrc-p4-cloud": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/product/prfrc-p4-scale": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/product/principle-license": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/product/procr-dreams": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/product/recraft-advanced": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/product/recraft-ent": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/product/recraft-pro": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/product/recraft-team": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/product/rive-cadet": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/product/rive-ent": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/product/rive-voyager": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/product/rizom-rs-perp": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/product/rizom-rs-sub": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/product/rizom-vs-perp": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/product/rizom-vs-sub": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/product/rlsn-cc5": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/product/rlsn-iclone8": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/product/rlsn-suite365": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/product/runway-ent": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/product/runway-max": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/product/runway-pro": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/product/runway-standard": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/product/sentry-business": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/product/sentry-team": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/product/shutter-img-10": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/product/shutter-img-350": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/product/shutter-img-50": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/product/sketch-mac": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/product/sketch-pro": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/product/sketch-standard": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/product/sketchup-go": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/product/sketchup-pro": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/product/sketchup-pro-civil": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/product/sketchup-pro-scan": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/product/slack-business-plus": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/product/slack-pro": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/product/solidworks-design-premium": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/product/solidworks-design-premium-device": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/product/solidworks-design-professional": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/product/solidworks-design-professional-device": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/product/solidworks-design-standard": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/product/solidworks-design-standard-device": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/product/solidworks-xdesign-quarterly": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/product/solidworks-xdesign-yearly": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/product/spdtr-ent": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/product/spdtr-indie": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/product/spdtr-pro-fl": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/product/spdtr-pro-nl": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/product/spine-essential": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/product/spine-pro": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/product/suno-premier": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/product/suno-pro": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/product/teamviewer-business": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/product/teamviewer-corporate": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/product/teamviewer-premium": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/product/teamviewer-remote-access": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/product/think-cell-suite": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/product/tlstr-screenflow": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/product/tlstr-vantage": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/product/tlstr-wirecast-pro": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/product/tlstr-wirecast-studio": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/product/toonboom-harmony-advanced": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/product/toonboom-harmony-premium": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/product/topaz-gigapixel": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/product/topaz-photo": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/product/topaz-studio": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/product/topaz-video": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/product/ue-realityscan": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/product/ue-sub": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/product/unity-ent": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/product/unity-pro": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/product/vegas-edit-perp": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/product/vegas-edit-sub": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/product/vegas-post-sub": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/product/vegas-suite-perp": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/product/windsurf-pro": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/product/windsurf-teams": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/product/winrar-license": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/product/wndr-filmora-annual": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/product/wndr-filmora-perp-win": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/product/wndr-filmora-team": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/product/wndr-filmora-xplat": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/product/wordpress-business": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/product/wordpress-commerce": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/product/wwise-platinum": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/product/wwise-premium": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/product/wwise-pro": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/product/xai-supergrok": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/product/xai-supergrok-heavy": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/product/zeplin-advanced": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/product/zeplin-ent": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/product/zoom-ai-companion": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/product/zoom-events": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/product/zoom-large-meeting-500": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/product/zoom-phone-global": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/product/zoom-phone-metered": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/product/zoom-phone-us-ca": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/product/zoom-rooms": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/product/zoom-webinars-500": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/product/zoom-wp-business": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/product/zoom-wp-business-plus": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/product/zoom-wp-enterprise": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/product/zoom-wp-pro": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/solutions": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/solutions/ai-dlya-analitikov": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/solutions/ai-dlya-biznesa": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/solutions/ai-dlya-buhgalterii": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/solutions/ai-dlya-dizainerov": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/solutions/ai-dlya-marketinga": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/solutions/ai-dlya-obrazovaniya": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/solutions/ai-dlya-prodazh": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/solutions/ai-dlya-razrabotchikov": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/solutions/ai-dlya-yuristov": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/solutions/ai-servisy-dlya-biznesa": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/solutions/design-studios": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/solutions/inostrannoe-po-po-dogovoru": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/solutions/it-companies": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/solutions/marketing-agencies": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/solutions/po-dlya-razrabotki-igr": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/solutions/po-dlya-yurlic-po-schetu": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/solutions/uchet-po-i-it-aktivov": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/vendors": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/vendors/ableton": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/vendors/acronis": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/vendors/adobe": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/vendors/anthropic": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/vendors/anydesk": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/vendors/artlist": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/vendors/astute-graphics": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/vendors/atlassian": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/vendors/autodesk": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/vendors/avid": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/vendors/bitdefender": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/vendors/blackmagic": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/vendors/boris-fx": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/vendors/box": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/vendors/browserstack": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/vendors/canva": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/vendors/capcut": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/vendors/capture-one": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/vendors/clip-studio-paint": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/vendors/cloudflare": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/vendors/coreldraw": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/vendors/cubase": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/vendors/cursor": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/vendors/deepl": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/vendors/depositphotos": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/vendors/descript": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/vendors/docker": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/vendors/dropbox": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/vendors/elevenlabs": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/vendors/envato": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/vendors/epidemic-sound": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/vendors/figma": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/vendors/fl-studio": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/vendors/fmod": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/vendors/foundry": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/vendors/framer": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/vendors/freepik": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/vendors/gaea": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/vendors/gamma": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/vendors/github": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/vendors/gitlab": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/vendors/google": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/vendors/grammarly": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/vendors/grok": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/vendors/hailuo": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/vendors/heygen": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/vendors/higgsfield": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/vendors/houdini": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/vendors/izotope": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/vendors/jasper": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/vendors/jetbrains": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/vendors/kimi": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/vendors/kling-ai": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/vendors/krea": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/vendors/lansweeper": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/vendors/leonardo-ai": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/vendors/lovable": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/vendors/lumion": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/vendors/marmoset": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/vendors/marvelous-designer": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/vendors/maxon": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/vendors/microsoft": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/vendors/midjourney": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/vendors/miro": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/vendors/monotype": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/vendors/motion-array": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/vendors/n8n": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/vendors/native-instruments": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/vendors/notion": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/vendors/openai": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/vendors/openrouter": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/vendors/parallels": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/vendors/perforce": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/vendors/perplexity": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/vendors/photon": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/vendors/postman": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/vendors/principle": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/vendors/procreate": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/vendors/reallusion": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/vendors/recraft": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/vendors/rive": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/vendors/rizomuv": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/vendors/runway": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/vendors/sentry": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/vendors/shutterstock": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/vendors/sketch": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/vendors/sketchup": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/vendors/slack": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/vendors/solidworks": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/vendors/speedtree": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/vendors/spine": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/vendors/suno": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/vendors/teamviewer": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/vendors/telestream": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/vendors/think-cell": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/vendors/toon-boom": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/vendors/topaz-labs": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/vendors/unity": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/vendors/unreal-engine": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/vendors/vegas": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/vendors/windsurf": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/vendors/winrar": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/vendors/wondershare": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/vendors/wordpress": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/vendors/wwise": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/vendors/zeplin": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/vendors/zoho": {
-   "coverage_state": null,
-   "inspected_at": null
-  },
-  "/vendors/zoom": {
-   "coverage_state": null,
-   "inspected_at": null
   }
  },
  "site_url": "sc-domain:biz-soft.pro",
- "inspected": 571,
+ "inspected": 6,
  "inherited": 0,
- "without_status": 239,
+ "without_status": 230,
  "errors": [
-  "/product/parallels-desktop-pro: HTTP 401: {\n  \"error\": {\n    \"code\": 401,\n    \"message\": \"Request had invalid authentication credentials. Expected OAuth 2 access token, login cookie or other valid authentication credential. See https://developers.google.com/identity/sign-in/web/devconsole-project.\",\n    \"status\": \"UNAUTHENTICATED\",\n    \"det",
-  "/product/parallels-desktop-standard-perpetual: HTTP 401: {\n  \"error\": {\n    \"code\": 401,\n    \"message\": \"Request had invalid authentication credentials. Expected OAuth 2 access token, login cookie or other valid authentication credential. See https://developers.google.com/identity/sign-in/web/devconsole-project.\",\n    \"status\": \"UNAUTHENTICATED\",\n    \"det",
-  "/product/parallels-desktop-standard-sub: HTTP 401: {\n  \"error\": {\n    \"code\": 401,\n    \"message\": \"Request had invalid authentication credentials. Expected OAuth 2 access token, login cookie or other valid authentication credential. See https://developers.google.com/identity/sign-in/web/devconsole-project.\",\n    \"status\": \"UNAUTHENTICATED\",\n    \"det",
-  "/product/perplexity-enterprise-max: HTTP 401: {\n  \"error\": {\n    \"code\": 401,\n    \"message\": \"Request had invalid authentication credentials. Expected OAuth 2 access token, login cookie or other valid authentication credential. See https://developers.google.com/identity/sign-in/web/devconsole-project.\",\n    \"status\": \"UNAUTHENTICATED\",\n    \"det",
-  "/product/photon-ent: HTTP 401: {\n  \"error\": {\n    \"code\": 401,\n    \"message\": \"Request had invalid authentication credentials. Expected OAuth 2 access token, login cookie or other valid authentication credential. See https://developers.google.com/identity/sign-in/web/devconsole-project.\",\n    \"status\": \"UNAUTHENTICATED\",\n    \"det",
-  "/product/acronis-cp-backup-adv-m365-5: HTTP 429: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"Quota exceeded for sc-domain:biz-soft.pro.\",\n    \"status\": \"RESOURCE_EXHAUSTED\"\n  }\n}\n"
+  "/product/photon-fusion-2000: HTTP 429: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"Quota exceeded for sc-domain:biz-soft.pro.\",\n    \"status\": \"RESOURCE_EXHAUSTED\"\n  }\n}\n",
+  "/product/postman-professional: HTTP 429: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"Quota exceeded for sc-domain:biz-soft.pro.\",\n    \"status\": \"RESOURCE_EXHAUSTED\"\n  }\n}\n",
+  "/product/postman-solo: HTTP 429: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"Quota exceeded for sc-domain:biz-soft.pro.\",\n    \"status\": \"RESOURCE_EXHAUSTED\"\n  }\n}\n"
  ],
- "inventory_date": "2026-09-03",
- "note": "объединение прогонов 08:25 и 08:52 UTC (утренний срез 571 URL был затёрт повторным прогоном; повтор упёрся в квоту 429 после 100 URL)"
+ "inventory_date": "2026-09-02"
 }
