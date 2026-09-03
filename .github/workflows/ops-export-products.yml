@@ -4,6 +4,9 @@
 name: ops-export-products
 on: workflow_dispatch
 permissions:
+  # checkout читает репозиторий токеном GITHUB_TOKEN: при явном permissions
+  # без contents раннер получает «Repository not found» (прогон #204 ops-probe).
+  contents: read
   issues: write
 jobs:
   export:

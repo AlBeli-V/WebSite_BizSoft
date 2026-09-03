@@ -14,6 +14,9 @@ on:
         required: true
         default: 'vendor-icons/[a-z]+/adobe\.svg|#3f3f46|Диадок'
 permissions:
+  # checkout читает репозиторий токеном GITHUB_TOKEN: при явном permissions
+  # без contents раннер получает «Repository not found» (прогон #204 ops-probe).
+  contents: read
   issues: write
 jobs:
   probe:
