@@ -5,6 +5,8 @@ date: 2026-07-05
 tags: ["AI", "Enterprise", "Team", "сравнение", "безопасность"]
 summaryAnswer: "Team/Business-тарифы дают общее рабочее пространство, админ-панель и защиту данных для небольших и средних команд; Enterprise добавляет SSO, SCIM-провижининг, ролевой доступ, журналы аудита, настраиваемое хранение и комплаенс (SOC 2, HIPAA) для крупных организаций с индивидуальной ценой."
 author: "Редакция BIZSoft"
+cover: "/blog/covers/enterprise-vs-team-korporativnye-tarify-ai.png"
+coverAlt: "Схема корпоративных тарифов: места в команде, единый вход, аудит и управление доступом"
 related:
   - { label: "Каталог AI-сервисов", href: "/catalog/ai" }
   - { label: "AI для бизнеса", href: "/solutions/ai-dlya-biznesa" }

@@ -19,6 +19,10 @@ on:
         description: 'Вендоры через запятую (пусто — весь каталог)'
         required: false
         default: ''
+      full:
+        description: 'true — построчный перечень всех карточек, false — сводка и проблемные'
+        required: false
+        default: 'false'
 permissions:
   issues: write
 jobs:
@@ -36,11 +40,12 @@ jobs:
         uses: appleboy/ssh-action@v1
         env:
           P_VENDORS: ${{ inputs.vendors }}
+          P_FULL: ${{ inputs.full }}
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
-          envs: P_VENDORS
+          envs: P_VENDORS,P_FULL
           capture_stdout: true
           script: |
             set -e
@@ -59,6 +64,7 @@ jobs:
             usd, eur = rate.get('usd_rate'), rate.get('eur_rate')
             print(f"курс ЦБ: USD={usd} EUR={eur} дата={rate.get('rate_date')}")
 
+            full = os.environ.get('P_FULL', '').strip().lower() == 'true'
             vendors = [v.strip() for v in os.environ.get('P_VENDORS', '').split(',') if v.strip()]
             flt = {'status': {'_eq': 'published'}}
             if vendors:
@@ -71,12 +77,18 @@ jobs:
 
             monthly = re.compile(r'/\s*мес|в месяц|за месяц|/mo\b', re.I)
             DEFAULT_COEFF = 1.85
+            # Полный построчный перечень по каталогу (1477 карточек) не влезает
+            # в stdout ssh-действия — хвост обрезается молча. Поэтому по
+            # умолчанию печатаются сводка и проблемные строки; full=true даёт
+            # прежний построчный вывод (годится для одного-двух вендоров).
+            checked = []
             for p in rows:
                 price = p.get('price') or 0
                 coeff = p.get('markup_coeff') or DEFAULT_COEFF
                 cur = 'EUR' if p.get('peg_currency') == 'EUR' else 'USD'
                 b = p.get('base_price_eur') if cur == 'EUR' else p.get('base_price_usd')
                 r = eur if cur == 'EUR' else usd
+                calc = None
                 if not price:
                     verdict = 'NO-PRICE'
                 elif p.get('peg_to_usd') and b and b > 0 and r and r > 0:
@@ -88,9 +100,51 @@ jobs:
                 if monthly.search(p.get('price_note') or ''): marks.append('MONTHLY?')
                 if p.get('price_locked'): marks.append('LOCKED')
                 peg = f"peg={cur} base={b} coeff={coeff}" if p.get('peg_to_usd') else 'peg=нет'
-                print(f"{p.get('vendor') or '—'} | {p['sku']} | price={price or 'req'}"
-                      f" | note={p.get('price_note') or '—'} | {peg}"
-                      f" | {verdict}{(' | ' + ' '.join(marks)) if marks else ''}")
+                line = (f"{p.get('vendor') or '—'} | {p['sku']} | price={price or 'req'}"
+                        f" | note={p.get('price_note') or '—'} | {peg}"
+                        f" | {verdict}{(' | ' + ' '.join(marks)) if marks else ''}")
+                checked.append(dict(row=p, price=price, cur=cur, base=b, calc=calc,
+                                    verdict=verdict.split(' ')[0], line=line))
+                if full:
+                    print(line)
+
+            def pct(c):
+                if not c['calc'] or not c['price']:
+                    return 0.0
+                return (c['price'] - c['calc']) / c['calc'] * 100
+
+            by_verdict = {}
+            for c in checked:
+                by_verdict[c['verdict']] = by_verdict.get(c['verdict'], 0) + 1
+            print('\n== Сводка ==')
+            print('статусы: ' + ', '.join(f'{k} {v}' for k, v in sorted(by_verdict.items())))
+            pegs = {}
+            for c in checked:
+                key = c['cur'] if c['row'].get('peg_to_usd') else 'без привязки'
+                pegs[key] = pegs.get(key, 0) + 1
+            print('валютная привязка: ' + ', '.join(f'{k} {v}' for k, v in sorted(pegs.items())))
+
+            # Привязка к евро: у большинства вендоров прайс долларовый, и евро
+            # завышает цену на разницу курсов — сверять с прайсом вручную.
+            eur_rows = [c for c in checked if c['row'].get('peg_to_usd') and c['cur'] == 'EUR']
+            print(f'\n== Привязка к EUR: {len(eur_rows)} карточек ==')
+            by_vendor = {}
+            for c in eur_rows:
+                by_vendor.setdefault(c['row'].get('vendor') or '—', []).append(c)
+            for vendor, items in sorted(by_vendor.items(), key=lambda kv: -len(kv[1])):
+                skus = ', '.join(sorted(c['row']['sku'] for c in items)[:6])
+                more = f' … ещё {len(items) - 6}' if len(items) > 6 else ''
+                delta = (eur / usd - 1) * 100 if usd else 0
+                print(f'   - {vendor}: {len(items)} шт. (евро дороже доллара на {delta:.0f}%): {skus}{more}')
+
+            diffs = sorted((c for c in checked if c['verdict'] == 'FORMULA-DIFF'),
+                           key=lambda c: -abs(pct(c)))
+            print(f'\n== Расхождение с формулой: {len(diffs)} карточек ==')
+            for c in diffs[:20]:
+                print(f"   - {c['row'].get('vendor')} | {c['row']['sku']}: цена {c['price']}, "
+                      f"по формуле {c['calc']} ({pct(c):+.0f}%)")
+            if len(diffs) > 20:
+                print(f'   … ещё {len(diffs) - 20} (полный перечень — full=true)')
             PYEOF
       # Вывод может превышать лимит env-переменной процесса — передаём файлом.
       - name: Save result to file

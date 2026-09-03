@@ -4,8 +4,10 @@ interface Props {
   eyebrow?: string;
   title: string;
   align?: 'left' | 'center';
+  /** Уровень заголовка: 2 по умолчанию, 1 — когда это главный заголовок страницы. */
+  level?: 1 | 2;
 }
-const { num, eyebrow, title, align = 'left' } = Astro.props;
+const { num, eyebrow, title, align = 'left', level = 2 } = Astro.props;
 ---
 <div class:list={['section-heading', align]}>
   {(num || eyebrow) && (
@@ -14,7 +16,7 @@ const { num, eyebrow, title, align = 'left' } = Astro.props;
       {eyebrow && <span class="eyebrow">{eyebrow}</span>}
     </div>
   )}
-  <h2>{title}</h2>
+  {level === 1 ? <h1>{title}</h1> : <h2>{title}</h2>}
   <slot />
 </div>
 
@@ -34,6 +36,7 @@ const { num, eyebrow, title, align = 'left' } = Astro.props;
   .section-heading.center .meta {
     justify-content: center;
   }
+  h1,
   h2 {
     font-size: clamp(1.6rem, 3vw, 2.4rem);
   }

@@ -1,4 +1,5 @@
 # Ежедневный SERP-срез Яндекса по ядру запросов (Yandex Search API v2,
+# плюс Google-срез через xmlriver — шаг Collect Google SERP ниже;
 # веб-поиск, ключ WORDSTAT_API_KEY — тот же сервисный аккаунт, что Wordstat).
 # Решение руководителя 30.08.2026: рабочий сценарий, потолок 5 000
 # запросов/мес (потолок зашит в serp_watch.py и проверяется по журналу).
@@ -16,6 +17,11 @@ on:
   schedule:
     - cron: "37 22 * * *"
   workflow_dispatch:
+    inputs:
+      google:
+        description: 'Google-срез (xmlriver): auto — по расписанию конфига, force — снять сегодня, skip — не снимать'
+        required: false
+        default: 'auto'
 
 permissions:
   contents: write
@@ -38,6 +44,23 @@ jobs:
         env:
           WORDSTAT_API_KEY: ${{ secrets.WORDSTAT_API_KEY }}
         run: python3 scripts/seo/serp_watch.py
+
+      # Google-срез по тому же ядру через xmlriver (российская выдача,
+      # 25 ₽/1000; подключён руководителем 03.09.2026). Расписание, потолки и
+      # местоположение — data/seo/xmlriver.json (по умолчанию еженедельно,
+      # решение 31.08.2026). Без секретов шаг тихо пропускается; сбой не
+      # мешает Яндекс-срезу и push данных (if: always()).
+      - name: Collect Google SERP (xmlriver)
+        if: always() && inputs.google != 'skip'
+        env:
+          XMLRIVER_USER: ${{ secrets.XMLRIVER_USER }}
+          XMLRIVER_KEY: ${{ secrets.XMLRIVER_KEY }}
+        run: |
+          if [ "${{ inputs.google }}" = "force" ]; then
+            python3 scripts/seo/serp_google.py --force
+          else
+            python3 scripts/seo/serp_google.py
+          fi
 
       # Фактический биллинг (поручение 30.08.2026): остаток, тарифы SKU и
       # история остатка через Billing API. Без секрета YC_BILLING_SA_KEY шаг

@@ -1,0 +1,68 @@
+{
+ "note": "Измеренный спрос на карточку товара: визиты органики (Метрика) + клики и показы страницы (GSC). Счёт = визиты×10 + клики×5 + показы. Ниже порога 3 карточка в файл не попадает — на единичном визите порядок был бы шумом. Генерируется scripts/seo/build-product-demand.mjs, руками не править.",
+ "generated_at": "2026-09-02T07:22:13.789Z",
+ "sources": {
+  "gsc": {
+   "file": "gsc-2026-09-02.json",
+   "rows": 33
+  },
+  "metrika": {
+   "file": "metrika-2026-09-02.json",
+   "rows": 20,
+   "window": {
+    "from": "2026-08-19",
+    "to": "2026-09-01"
+   }
+  }
+ },
+ "weights": {
+  "visit": 10,
+  "click": 5,
+  "impression": 1,
+  "min_score": 3
+ },
+ "products": {
+  "anthropic-team": {
+   "impressions": 0,
+   "clicks": 0,
+   "visits": 4,
+   "score": 40
+  },
+  "sketchup-go": {
+   "impressions": 0,
+   "clicks": 0,
+   "visits": 3,
+   "score": 30
+  },
+  "mrmst-tb5-studio": {
+   "impressions": 0,
+   "clicks": 0,
+   "visits": 2,
+   "score": 20
+  },
+  "prfrc-p4-cloud": {
+   "impressions": 19,
+   "clicks": 0,
+   "visits": 0,
+   "score": 19
+  },
+  "unity-pro": {
+   "impressions": 0,
+   "clicks": 0,
+   "visits": 1,
+   "score": 10
+  },
+  "zoom-wp-pro": {
+   "impressions": 0,
+   "clicks": 0,
+   "visits": 1,
+   "score": 10
+  },
+  "adobe-substance-team": {
+   "impressions": 6,
+   "clicks": 0,
+   "visits": 0,
+   "score": 6
+  }
+ }
+}

@@ -14,7 +14,6 @@
 from __future__ import annotations
 
 import argparse
-import datetime as dt
 import json
 import pathlib
 import sys
@@ -207,7 +206,7 @@ def run_tasks(tasks, client, uni, vendors, stats, budget, cfg, date, *, cap=None
 
 def main() -> int:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--date", default=dt.date.today().isoformat())
+    ap.add_argument("--date", default=config.today_msk())
     ap.add_argument("--dry-run", action="store_true")
     ap.add_argument("--pilot", action="store_true")
     ap.add_argument("--daily", action="store_true")
