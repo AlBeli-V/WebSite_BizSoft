@@ -334,6 +334,20 @@ def collect_yandex_index(date_s: str) -> dict:
 
 # ── запуск ───────────────────────────────────────────────────────────────────
 
+# Исчерпание суточной квоты Google — не поломка контура: остальные источники
+# собраны, а страницы сохраняют статус прошлой инспекции (поле inherited).
+# 04.09.2026 такой 429 уронил весь сбор данных, и ежедневное письмо не вышло
+# вовсе. Теперь это ограничение: прогон зелёный, срез помечен как унаследованный,
+# возраст данных виден потребителю (правило достоверности отчётов).
+QUOTA_MARKERS = ("HTTP 429", "Quota exceeded", "RESOURCE_EXHAUSTED")
+
+
+def quota_limited(payload: dict) -> bool:
+    """Ошибка вызвана исчерпанной квотой, а унаследованные статусы есть."""
+    err = payload.get("error") or ""
+    return bool(payload.get("inherited")) and any(m in err for m in QUOTA_MARKERS)
+
+
 def main() -> int:
     date_s = today()
     OUT_DIR.mkdir(parents=True, exist_ok=True)
@@ -354,10 +368,18 @@ def main() -> int:
             g["inventory_date"] = inv["date"]
         except Exception as e:  # noqa: BLE001 — любая ошибка источника в JSON
             g = {"date": date_s, "error": f"{type(e).__name__}: {e}"}
-        ok = ok and "error" not in g
+        if quota_limited(g):
+            g["limited"] = "quota"
+        ok = ok and ("error" not in g or "limited" in g)
     p = OUT_DIR / f"index-google-{date_s}.json"
     p.write_text(json.dumps(g, ensure_ascii=False, indent=1), encoding="utf-8")
-    print(f"google: {'ошибка: ' + g['error'] if 'error' in g else 'ок'} "
+    if "limited" in g:
+        state = "квота исчерпана — статусы унаследованы с прошлой инспекции"
+    elif "error" in g:
+        state = "ошибка: " + g["error"]
+    else:
+        state = "ок"
+    print(f"google: {state} "
           f"(инспектировано {g.get('inspected', 0)}, унаследовано "
           f"{g.get('inherited', 0)}) -> {p}")
 

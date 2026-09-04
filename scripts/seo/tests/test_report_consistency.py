@@ -61,6 +61,17 @@ class Pipeline(unittest.TestCase):
     def setUpClass(cls):
         cls.s, cls.q, cls.r = load("snapshot"), load("quality"), load("report_v4")
         cls.inv = load("invariants")
+        # Блок экспериментов собирается из реестра и выгрузок Вебмастера в
+        # рабочей копии. Снимок здесь фикстурный («experiments»: []), поэтому
+        # реестр тоже должен быть пустым: иначе тест на фикстурах судит о
+        # боевых экспериментах и падает от их состояния, а не от кода
+        # (04.09.2026: 22 падения после накатывания данных ветки seo-data).
+        cls._reg = cls.r.exp_mod.REGISTRY
+        cls.r.exp_mod.REGISTRY = pathlib.Path("нет-такого-реестра.json")
+
+    @classmethod
+    def tearDownClass(cls):
+        cls.r.exp_mod.REGISTRY = cls._reg
 
     def make_snap(self, yandex=None, gsc=None, metrika=None, ga4=None):
         s = self.s

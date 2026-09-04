@@ -346,11 +346,16 @@ def _evaluate_impressions_growth(exp: dict, date: str) -> dict:
 
     win = st.pick_windows(start, today, exp)
     if not win["experiment"]:
+        eta = win.get("fixed_experiment_eta") or win["clean_experiment_eta"]
+        # Дату чистого окна показывает и блок эксперимента в письме — рядом с
+        # «порог пройден», иначе набранная экспозиция читается как готовность
+        # вывода (проверка 04.09.2026).
+        res["clean_window_eta"] = eta
         res["verdict_reason"] = (
             "окно источника захватывает период до внедрения; "
-            f"чистое окно — с {win['clean_experiment_eta'] or '—'}")
+            f"чистое окно — с {eta or '—'}")
         res["recommendation_detail"] = (
-            f"продлить наблюдение до {win['clean_experiment_eta'] or 'следующей вехи'}")
+            f"продлить наблюдение до {eta or 'следующей вехи'}")
         return res
 
     w = win["experiment"]
