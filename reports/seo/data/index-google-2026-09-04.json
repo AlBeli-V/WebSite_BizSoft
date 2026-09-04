@@ -6032,11 +6032,12 @@
  "without_status": 257,
  "errors": [
   "/blog/elevenlabs-tarify-oplata-dlya-yurlica: HTTP 429: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"Quota exceeded for sc-domain:biz-soft.pro.\",\n    \"status\": \"RESOURCE_EXHAUSTED\"\n  }\n}\n",
-  "/blog/gitlab-godovaya-podpiska-iz-rossii-dlya-yurlica: HTTP 429: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"Quota exceeded for sc-domain:biz-soft.pro.\",\n    \"status\": \"RESOURCE_EXHAUSTED\"\n  }\n}\n",
-  "/blog/kak-kupit-perplexity-dlya-yurlica: HTTP 429: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"Quota exceeded for sc-domain:biz-soft.pro.\",\n    \"status\": \"RESOURCE_EXHAUSTED\"\n  }\n}\n",
   "/blog/kak-kupit-github-copilot-dlya-yurlica: HTTP 429: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"Quota exceeded for sc-domain:biz-soft.pro.\",\n    \"status\": \"RESOURCE_EXHAUSTED\"\n  }\n}\n",
-  "/blog/glpi-manageengine-ili-korobka: HTTP 429: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"Quota exceeded for sc-domain:biz-soft.pro.\",\n    \"status\": \"RESOURCE_EXHAUSTED\"\n  }\n}\n"
+  "/blog/gitlab-godovaya-podpiska-iz-rossii-dlya-yurlica: HTTP 429: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"Quota exceeded for sc-domain:biz-soft.pro.\",\n    \"status\": \"RESOURCE_EXHAUSTED\"\n  }\n}\n",
+  "/blog/glpi-manageengine-ili-korobka: HTTP 429: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"Quota exceeded for sc-domain:biz-soft.pro.\",\n    \"status\": \"RESOURCE_EXHAUSTED\"\n  }\n}\n",
+  "/blog/kak-kupit-perplexity-dlya-yurlica: HTTP 429: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"Quota exceeded for sc-domain:biz-soft.pro.\",\n    \"status\": \"RESOURCE_EXHAUSTED\"\n  }\n}\n"
  ],
  "error": "ни один URL не проинспектирован: /blog/elevenlabs-tarify-oplata-dlya-yurlica: HTTP 429: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"Quota exceeded for sc-domain:biz-soft.pro.\",\n    \"status\": \"RESOURCE_EXHAUSTED\"\n  }\n}\n",
- "inventory_date": "2026-09-04"
+ "inventory_date": "2026-09-04",
+ "limited": "quota"
 }
