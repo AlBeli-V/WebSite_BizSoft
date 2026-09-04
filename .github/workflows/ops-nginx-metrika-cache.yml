@@ -194,6 +194,18 @@ jobs:
 
             systemctl reload nginx 2>/dev/null && echo 'nginx перечитан (systemctl)' \
               || { nginx -s reload && echo 'nginx перечитан (nginx -s reload)'; }
+
+            # Кэш очищается на каждом применении: в нём лежит ответ, снятый по
+            # прежним правилам, и смена этих правил его не касается. Прогон #3
+            # обновил конфиг на сжатую версию, но отдавалась старая несжатая
+            # копия (HIT, 288 КБ). Файл один и перезаполняется первым же
+            # запросом, поэтому чистить безопасно.
+            find /var/cache/nginx/metrika -type f -delete 2>/dev/null || true
+            echo "кэш очищен — следующий запрос возьмёт свежую копию"
+            # Прогрев: заполняем кэш сжатой версией, чтобы первый посетитель
+            # не ждал похода к Яндексу.
+            curl -s -H 'Accept-Encoding: gzip' -o /dev/null -w "  прогрев: код %{http_code}, по проводу %{size_download} Б\n" \
+              https://biz-soft.pro/m/tag.js || true
             ROOTEOF
             chmod +x /tmp/bz-metrika-apply.sh
 
