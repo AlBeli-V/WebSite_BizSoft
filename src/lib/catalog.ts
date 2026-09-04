@@ -30,6 +30,23 @@ export function productKind(p: Pick<Product, 'sku'>): ProductKind {
   return 'main';
 }
 
+/**
+ * Сколько опубликованных товаров в каждом разделе (ключ — slug категории).
+ *
+ * Один расчёт на страницу каталога и на инструмент list_categories: раздел,
+ * который человек видит в каталоге, и раздел, который агент предлагает как
+ * фильтр, обязаны совпадать. Пустые разделы отбрасывает уже потребитель —
+ * фильтр по разделу без товаров выглядит как поломка.
+ */
+export function countByCategory(products: Pick<Product, 'category'>[]): Record<string, number> {
+  const counts: Record<string, number> = {};
+  for (const p of products) {
+    const slug = typeof p.category === 'object' && p.category ? p.category.slug : '';
+    if (slug) counts[slug] = (counts[slug] || 0) + 1;
+  }
+  return counts;
+}
+
 /** Полное юридическое название производителя для отображения в карточке. */
 export const VENDOR_LEGAL: Record<string, string> = {
   JetBrains: 'JetBrains s.r.o.',
@@ -99,14 +116,25 @@ export function vendorLegal(vendor?: string | null): string {
 
 /**
  * Индексная матрица: какие товары НЕ индексировать (noindex + вне sitemap и фидов).
- * Сейчас: плагины JetBrains Marketplace (JB-PLG-*), личные лицензии JetBrains
- * (JB-…-IND), карточки продлений (*-RENEWAL) и пакеты кредитов (*-CREDITS-<объём>).
+ * Сейчас: плагины JetBrains Marketplace (JB-PLG-*), личные лицензии любого
+ * вендора (*-IND), бессрочные дубли ManageEngine (ME-*-PERP), карточки
+ * продлений (*-RENEWAL) и пакеты кредитов (*-CREDITS-<объём>).
  * Основные продукты для организаций, AI и командные инструменты — индексируются.
  */
 export function productNoindex(sku?: string | null): boolean {
   const s = (sku || '').toUpperCase();
   if (s.startsWith('JB-PLG-')) return true;               // 867 плагинов Marketplace
-  if (s.startsWith('JB-') && s.endsWith('-IND')) return true; // личные лицензии JetBrains
+  // Личные лицензии (*-IND) любого вендора: сайт продаёт юрлицам, а срез
+  // покрытия 03.09.2026 показал, что Яндекс исключил 6 из 7 таких карточек
+  // как малоценные (Bitdefender, Monotype, Marmoset). Правило было только для
+  // JetBrains — теперь для всех.
+  if (s.endsWith('-IND')) return true;
+  // Бессрочные лицензии ManageEngine (ME-*-PERP): у каждой из 81 карточки есть
+  // парная годовая подписка с тем же текстом, отличие — «вечная лицензия» в
+  // названии. Google держал их в очереди «обнаружена, не сканирована»,
+  // Яндекс исключал как малоценные (разбор 03.09.2026). Бессрочный вариант
+  // остаётся на витрине и в КП, в поиск идёт карточка подписки.
+  if (s.startsWith('ME-') && s.endsWith('-PERP')) return true;
   // Карточки продления (у вендора цена продления выше первого года): живут на
   // витрине и в КП, но в поиск не идут — иначе конкурируют со страницей
   // первой покупки того же тарифа (решение руководителя 29.08.2026).

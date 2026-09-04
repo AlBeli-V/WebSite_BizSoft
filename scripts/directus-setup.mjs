@@ -185,6 +185,12 @@ async function buildSchema() {
   // она взята. Экономика КП помечает устаревшие цены по этой дате.
   await ensureField('products', 'purchase_updated_at', { type: 'timestamp', meta: { interface: 'datetime', width: 'half', note: 'Когда закупочная цена сверялась с сайтом производителя.' } });
   await ensureField('products', 'purchase_source', { type: 'string', meta: { interface: 'input', width: 'half', note: 'Откуда взята закупочная цена: страница прайса вендора.' } });
+  // Дата содержательного изменения карточки — источник lastmod в sitemap
+  // (03.09.2026). Ставится импортом каталога, правками текстов и меты
+  // (админка, ops-apply-descriptions, ops-fix-meta); переоценка цен её не
+  // трогает — в отличие от date_updated, который Directus сдвигает при любом
+  // PATCH. Без значения sitemap не отдаёт lastmod у товара.
+  await ensureField('products', 'content_updated_at', { type: 'timestamp', meta: { interface: 'datetime', width: 'half', note: 'Дата содержательного изменения карточки — lastmod в sitemap. Переоценка цен не трогает.' } });
   await ensureField('products', 'markup_percent', { type: 'float', meta: { interface: 'input', note: 'Наценка, %' }, schema: { default_value: 0 } });
   await ensureField('products', 'promo_price', { type: 'float', meta: { interface: 'input', note: 'Акционная цена, ₽' } });
   await ensureField('products', 'promo_label', { type: 'string', meta: { interface: 'input' } });

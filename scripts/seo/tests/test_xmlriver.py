@@ -37,6 +37,11 @@ ERROR_XML = """<?xml version="1.0" encoding="utf-8"?>
  <response><error code="101">Недостаточно средств</error></response>
 </yandexsearch>"""
 
+RETRY_XML = """<?xml version="1.0" encoding="utf-8"?>
+<yandexsearch version="1.0">
+ <response><error code="500">Выполните перезапрос. Ответ от поисковой системы не получен.</error></response>
+</yandexsearch>"""
+
 EMPTY_XML = """<?xml version="1.0" encoding="utf-8"?>
 <yandexsearch version="1.0">
  <response><error code="15">Искомая комбинация слов нигде не встречается</error></response>
@@ -89,6 +94,16 @@ class TestParams(unittest.TestCase):
         self.assertEqual(p, {"user": "u", "key": "k", "query": "купить figma",
                              "loc": 2643, "device": "desktop", "groupby": 20})
 
+    def test_page_param_only_from_second_page(self):
+        """Нумерация xmlriver — с единицы: первая страница без параметра,
+        вторая — page=2 (ответ поддержки 03.09.2026)."""
+        first = self.x.build_params("u", "k", "q", {"loc": 2643}, page=1)
+        default = self.x.build_params("u", "k", "q", {"loc": 2643})
+        second = self.x.build_params("u", "k", "q", {"loc": 2643}, page=2)
+        self.assertNotIn("page", first)
+        self.assertNotIn("page", default)
+        self.assertEqual(second["page"], 2)
+
     def test_config_defaults_and_comment_keys_dropped(self):
         import json
         import tempfile
@@ -115,6 +130,11 @@ class TestParams(unittest.TestCase):
         self.assertGreater(cfg["daily_cap"], 0)
         self.assertGreaterEqual(cfg["monthly_cap"], cfg["daily_cap"])
         self.assertTrue(cfg["query"].get("loc"))
+        # groupby сервис принимает только 10 — топ-20 берётся страницами
+        self.assertNotIn("groupby", cfg["query"])
+        # топ-20 двумя страницами (нумерация с 1, решение руководителя 03.09.2026)
+        self.assertEqual(cfg["pages"], 2)
+        self.assertGreaterEqual(cfg["daily_cap"], cfg["core_cap"] * cfg["pages"])
         # учётные данные в конфиг не кладут — только секреты
         for k in cfg:
             self.assertNotIn("key", k.lower())
@@ -139,6 +159,42 @@ class TestHttp(unittest.TestCase):
         self.assertEqual(calls[0]["loc"], 2643)
         self.assertEqual(len(out["top"]), 2)
 
+    def test_service_code_500_is_retried(self):
+        """Сервис сам просит перезапрос — это помеха, а не вердикт."""
+        calls = []
+
+        class S:
+            def get(self, url, params=None, timeout=None):
+                calls.append(1)
+                if len(calls) == 1:
+                    return mocks.FakeResponse(200, text=RETRY_XML)
+                return mocks.FakeResponse(200, text=SERP_XML)
+        out = self.x.search_google(S(), "u", "k", "q")
+        self.assertEqual(len(calls), 2)
+        self.assertEqual(len(out["top"]), 2)
+
+    def test_service_code_500_exhausts_retries(self):
+        class S:
+            def get(self, url, params=None, timeout=None):
+                return mocks.FakeResponse(200, text=RETRY_XML)
+        out = self.x.search_google(S(), "u", "k", "q")
+        self.assertIn("после 4 попыток", out["error"])
+        self.assertIn("code=500", out["error"])
+
+    def test_empty_body_is_retried(self):
+        """Пустое тело при HTTP 200 — помеха, а не вердикт (пересбор 03.09)."""
+        calls = []
+
+        class S:
+            def get(self, url, params=None, timeout=None):
+                calls.append(1)
+                if len(calls) == 1:
+                    return mocks.FakeResponse(200, text="")
+                return mocks.FakeResponse(200, text=SERP_XML)
+        out = self.x.search_google(S(), "u", "k", "q")
+        self.assertEqual(len(calls), 2)
+        self.assertEqual(len(out["top"]), 2)
+
     def test_4xx_not_retried(self):
         calls = []
 
@@ -155,7 +211,28 @@ class TestHttp(unittest.TestCase):
             def get(self, url, params=None, timeout=None):
                 raise ConnectionError("reset")
         out = self.x.search_google(S(), "u", "k", "q")
-        self.assertIn("после 3 попыток", out["error"])
+        self.assertIn("после 4 попыток", out["error"])
+
+    def test_no_free_channels_is_retried_with_growing_pause(self):
+        """code=111 «Нет свободных каналов» — повтор с растущей паузой."""
+        pauses = []
+        self.x.time.sleep = pauses.append
+        self.x.RETRY_PAUSE_S = 3.0
+        calls = []
+        busy = RETRY_XML.replace('code="500"', 'code="111"').replace(
+            "Выполните перезапрос. Ответ от поисковой системы не получен.",
+            "Нет свободных каналов для сбора данных")
+
+        class S:
+            def get(self, url, params=None, timeout=None):
+                calls.append(1)
+                if len(calls) < 3:
+                    return mocks.FakeResponse(200, text=busy)
+                return mocks.FakeResponse(200, text=SERP_XML)
+        out = self.x.search_google(S(), "u", "k", "q")
+        self.assertEqual(len(calls), 3)
+        self.assertEqual(pauses, [3.0, 6.0])
+        self.assertEqual(len(out["top"]), 2)
 
     def test_balance(self):
         class S:

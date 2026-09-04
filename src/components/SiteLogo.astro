@@ -6,18 +6,18 @@
  * INTEGRATION ZONE», слоган «Единая точка доступа к ПО и AI-сервисам»
  * растянут во всю ширину лок-апа снизу (крупный и читаемый).
  *
- * Два файла под плотность экрана (srcset): bizsoft-logo-lockup-256.webp
- * (1×, 19 КБ) для обычных экранов и bizsoft-logo-lockup-512.webp (2×, 32 КБ)
- * для retina — иначе PageSpeed справедливо ругался, что обычный экран
- * тянет вдвое больший файл («Improve image delivery», аудит 30.08.2026).
- * 1× получен даунскейлом ровно 2:1 из 2×-файла (canvas Chromium, q=1.0):
- * визуальная дельта с lossless ≤1/255 — мыльности нет, retina-файл
- * не перекодировался вовсе. Мастер-PNG 1024×339 остаётся рядом для
- * схем/PDF и public/brand/. Оба файла идут через ассет-пайплайн (?url) —
- * хешированные URL в /_astro с годовым immutable-кэшем.
+ * Три файла под плотность и ширину экрана (srcset с w-дескрипторами +
+ * sizes): bizsoft-logo-lockup-256.webp (19 КБ), -384.webp (24 КБ, sharp из
+ * мастер-PNG, q=80) и -512.webp (32 КБ, retina, не перекодировался).
+ * Без sizes телефон с DPR 1,75 (профиль PageSpeed) при ширине шапки 180 px
+ * брал 512-пиксельный файл — «Improve image delivery» в отчёте; теперь ему
+ * достаётся 384. Мастер-PNG 1024×339 остаётся рядом для схем/PDF и
+ * public/brand/. Все файлы идут через ассет-пайплайн (?url) — хешированные
+ * URL в /_astro с годовым immutable-кэшем.
  * Масштабирование только пропорциональное: CSS width + height:auto.
  */
 import lockup1x from '../assets/brand/bizsoft-logo-lockup-256.webp?url';
+import lockup384 from '../assets/brand/bizsoft-logo-lockup-384.webp?url';
 import lockup2x from '../assets/brand/bizsoft-logo-lockup-512.webp?url';
 
 interface Props {
@@ -25,11 +25,19 @@ interface Props {
   variant?: 'header' | 'footer';
 }
 const { variant = 'header' } = Astro.props;
+// Ширина отрисовки — по CSS: шапка 256 px (до 920 px — clamp(180px, 42vw, 232px)),
+// подвал — до 236 px.
+const sizes = variant === 'header' ? '(max-width: 920px) 42vw, 256px' : '236px';
+// Логотип подвала — lazy: он далеко под первым экраном, а на телефоне с DPR
+// 1,75 ему подходит 512-пиксельный файл, и без lazy страница качала бы
+// и 384, и 512 ещё до первой отрисовки.
 ---
 <img
   class:list={['bizsoft-logo', variant]}
   src={lockup1x}
-  srcset={`${lockup1x} 1x, ${lockup2x} 2x`}
+  srcset={`${lockup1x} 256w, ${lockup384} 384w, ${lockup2x} 512w`}
+  sizes={sizes}
+  loading={variant === 'footer' ? 'lazy' : undefined}
   width="256"
   height="85"
   alt="BIZSoft — Business Integration Zone. Единая точка доступа к ПО и AI-сервисам"

@@ -16,6 +16,10 @@ import json
 import pathlib
 import sys
 
+# Сначала общий каталог scripts/seo (там passport), затем — свой:
+# insert(0) кладёт последний вызов первым, а у wordstat/ и seo/ есть
+# одноимённый opportunity.py, и брать его нужно из своего каталога.
+sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1]))
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
 
 import budget as budget_mod      # noqa: E402
@@ -26,6 +30,7 @@ import opportunity as opp_mod    # noqa: E402
 import tiers as tiers_mod        # noqa: E402
 import universe as universe_mod  # noqa: E402
 import vendor_expansion as vx    # noqa: E402
+import passport                # noqa: E402
 
 OUT = pathlib.Path("reports/seo/wordstat")
 SNAP_DIR = pathlib.Path("reports/seo/intelligence/snapshots")
@@ -108,8 +113,7 @@ def executive_block(state: dict) -> dict:
     uni = state["universe"]
     opps = state["opportunities"]
     if not cov.get("available"):
-        return {"available": False,
-                "reason": "замер спроса ещё не собран"}
+        return passport.unavailable("no_rows", source="замер спроса")
 
     levels = cov["levels"]
     lead = opps[0] if opps else None
@@ -128,7 +132,7 @@ def executive_block(state: dict) -> dict:
     if uncovered_demand:
         lines.append(
             f"Без страницы остаётся {spaced(uncovered_demand)} запросов в месяц — "
-            "это направления, где спрос есть, а нас в выдаче нет.")
+            "это направления, где спрос есть, а своей страницы нет.")
     ua_line = unattributed_line(state)
     if ua_line:
         lines.append(ua_line)
