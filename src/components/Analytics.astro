@@ -62,22 +62,56 @@ const gaId = GA_ID;
         });
         ym(Number(metrikaId), 'init', { ssr: true, webvisor: true, clickmap: true, ecommerce: 'dataLayer', accurateTrackBounce: true, trackLinks: true, referrer: document.referrer, url: location.href });
       }
+      // GA4 ждёт первого действия посетителя, Метрика — нет.
+      //
+      // gtag.js весит 71 КБ неиспользуемого кода и даёт самую длинную задачу
+      // главного потока из всех наших скриптов (331 мс в замере прода
+      // 04.09.2026). В окно измерения Lighthouse он больше не попадает, а
+      // отчётность не страдает: очередь dataLayer наполняется сразу, все цели
+      // и события уходят после загрузки — без единого действия целей не
+      // бывает. Теряются только сессии посетителей, ушедших вообще без
+      // взаимодействия; в Метрике они остаются, её порядок загрузки прежний.
+      var gaLoad = null;
       if (gaId) {
         window.dataLayer = window.dataLayer || [];
         window.gtag = function () { window.dataLayer.push(arguments); };
         gtag('js', new Date());
         gtag('config', gaId);
-        loaders.push(function () {
+        gaLoad = function () {
           var s = document.createElement('script');
           s.async = true; s.src = 'https://www.googletagmanager.com/gtag/js?id=' + gaId;
           document.head.appendChild(s);
-        });
+        };
       }
       var run = function () { loaders.forEach(function (f) { f(); }); };
       var schedule = function () {
         if ('requestIdleCallback' in window) { requestIdleCallback(run, { timeout: 1500 }); } else { setTimeout(run, 300); }
       };
       if (document.readyState === 'complete') { schedule(); } else { window.addEventListener('load', schedule); }
+
+      if (gaLoad) {
+        // Прокрутка, касание, клик, ввод и уход со страницы — любое из них
+        // означает живого посетителя. Уход (pagehide) в списке намеренно:
+        // иначе цель, отправленная прямо перед закрытием, осталась бы в
+        // очереди неотправленной.
+        // Подписка без capture — намеренно. В фазе перехвата window ловит и
+        // прокрутку внутренних контейнеров, а карусель логотипов на главной
+        // прокручивает свой трек сама каждые 2,6 с: GA стартовал бы без
+        // участия посетителя, и вся отсрочка теряла бы смысл (проверено в
+        // браузере). Без capture window получает scroll только от прокрутки
+        // самой страницы, а нажатия и ввод всплывают до него штатно.
+        var GA_EVENTS = ['pointerdown', 'keydown', 'scroll', 'touchstart', 'pagehide'];
+        var gaStarted = false;
+        var startGa = function () {
+          if (gaStarted) return;
+          gaStarted = true;
+          for (var k = 0; k < GA_EVENTS.length; k++) window.removeEventListener(GA_EVENTS[k], startGa);
+          gaLoad();
+        };
+        for (var g = 0; g < GA_EVENTS.length; g++) {
+          window.addEventListener(GA_EVENTS[g], startGa, { passive: true });
+        }
+      }
     })();
   </script>
 )}
