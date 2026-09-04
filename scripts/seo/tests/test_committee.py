@@ -124,6 +124,24 @@ class TestRender(unittest.TestCase):
         self.assertIn("Действия недели", html_doc)
         self.assertIn("Запрос «x»", plain)
 
+    def test_partial_windows_do_not_compare(self):
+        """Неполные окна: сумма без сравнения, а не ложное «упало».
+
+        Аудит 03.09.2026: понедельничное письмо за пн–вс при лаге данных
+        3 дня системно показывало падение поиска на 30–45 %.
+        """
+        partial = {"label": "Яндекс, показы", "cur": 700, "prev": 1000,
+                   "comparable": False, "pct": None,
+                   "covered": "4 из 7 дн.", "prev_covered": "7 из 7 дн."}
+        text = self.cm._fmt_delta(partial)
+        self.assertIn("не приводится", text)
+        self.assertIn("4 из 7 дн.", text)
+        self.assertNotIn("%", text)
+        full = {"label": "Яндекс, показы", "cur": 700, "prev": 1000,
+                "comparable": True, "pct": -0.3,
+                "covered": "7 из 7 дн.", "prev_covered": "7 из 7 дн."}
+        self.assertIn("-30%", self.cm._fmt_delta(full))
+
     def test_no_drivers_is_honest(self):
         html_doc, plain = self.cm.render(self._minimal())
         self.assertIn("Подтверждённых драйверов", html_doc)

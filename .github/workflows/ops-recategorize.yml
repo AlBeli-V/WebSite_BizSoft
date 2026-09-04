@@ -31,7 +31,11 @@ jobs:
             echo "Запуск разрешён только с ветки main. Текущий ref: ${{ github.ref_name }}"
             exit 1
           fi
-      - uses: actions/checkout@v4
+      - name: Checkout
+        # always() — шаг журнала ниже тоже always(): без этого при
+        # падении раннего шага checkout пропустится и запись не пройдёт.
+        if: always()
+        uses: actions/checkout@v4
 
       - name: Copy plan to server
         uses: appleboy/scp-action@v1
@@ -195,14 +199,8 @@ jobs:
 
       - name: Post results to journal (issue #22)
         if: always()
-        uses: actions/github-script@v7
-        env:
-          OUT: ${{ steps.run.outputs.stdout }}
-          APPLY: ${{ inputs.apply }}
+        uses: ./.github/actions/journal-post
         with:
-          script: |
-            const out = (process.env.OUT || '(нет вывода)').slice(0, 60000);
-            await github.rest.issues.createComment({
-              owner: context.repo.owner, repo: context.repo.repo, issue_number: 22,
-              body: `### ops-recategorize · apply=${process.env.APPLY}\n\n\`\`\`\n${out}\n\`\`\``,
-            });
+          title: "ops-recategorize · apply=${{ inputs.apply }}"
+          outcome: ${{ steps.run.outcome }}
+          body: ${{ steps.run.outputs.stdout }}

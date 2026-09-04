@@ -97,6 +97,37 @@ class AdsBlockTest(unittest.TestCase):
         b = self._build(_stats(), date='2026-08-30')
         self.assertEqual(b['decisions'], [])
 
+    def test_неделя_и_с_запуска_разные_суммы(self):
+        # Расход за всё время сравнивался с недельным лимитом; теперь неделя —
+        # последние семь дней данных, «с запуска» — отдельная сумма.
+        groups = [_g('2026-08-10', 'Claude — подписки', 10, 2, 1000.0),
+                  _g('2026-08-28', 'Claude — подписки', 10, 2, 100.0)]
+        b = self._build(_stats(groups=groups) | {"date_from": "2026-08-10"})
+        self.assertAlmostEqual(b['week']['spent'], 100.0)
+        self.assertAlmostEqual(b['since_launch']['spent'], 1100.0)
+        self.assertEqual(b['since_launch']['days'], 19)
+        self.assertFalse(b['stale'])
+        self.assertEqual(b['as_of'], '2026-08-28')
+
+    def test_отставшая_выгрузка_не_пустой_кабинет(self):
+        # Витрина покрывает только 26.08, письмо от 29.08 ждёт 28.08: это
+        # сбой сбора, а не «ни одного показа в рабочий день».
+        groups = [_g('2026-08-26', 'Claude — подписки', 10, 2, 100.0)]
+        b = self._build(_stats(groups=groups) | {"date_to": "2026-08-26"})
+        self.assertTrue(b['stale'])
+        self.assertEqual(b['as_of'], '2026-08-26')
+        self.assertEqual(b['expected_as_of'], '2026-08-28')
+        self.assertFalse(any('ни одного показа' in d['text'] for d in b['decisions']))
+        self.assertTrue(any('отстаёт' in d['text'] and d['tone'] == 'warn'
+                            for d in b['decisions']))
+        self.assertAlmostEqual(b['day_spend'], 100.0)
+
+    def test_имя_кампании_не_зашито(self):
+        b = self._build(_stats())
+        self.assertIsNone(b['campaign'])
+        b = self._build(_stats() | {"campaign": "bs-2026-10"})
+        self.assertEqual(b['campaign'], 'bs-2026-10')
+
     def test_недельный_расход_суммируется_по_всем_группам(self):
         groups = [_g('2026-08-28', 'Claude — подписки', 10, 2, 100.0),
                   _g('2026-08-28', 'Midjourney', 10, 1, 50.5)]
