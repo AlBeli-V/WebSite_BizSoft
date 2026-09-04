@@ -60,11 +60,18 @@ jobs:
         with:
           node-version: '22'
 
-      # Lighthouse ставится только для своего движка: для psi он не нужен,
-      # а установка занимает заметную часть прогона.
+      # Lighthouse ставится только для своего движка: для psi он не нужен.
+      # Кэш npm обязателен — без него установка съедала 7 минут из 12-минутного
+      # прогона (замер 04.09.2026).
+      - name: Cache npm
+        if: inputs.engine == 'lighthouse'
+        uses: actions/cache@v4
+        with:
+          path: ~/.npm
+          key: npm-lighthouse-13-${{ runner.os }}
       - name: Install Lighthouse
         if: inputs.engine == 'lighthouse'
-        run: npm install --no-save lighthouse@13
+        run: npm install --no-save --no-audit --no-fund lighthouse@13
 
       - name: Measure
         id: run
