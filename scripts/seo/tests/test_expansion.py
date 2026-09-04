@@ -4,9 +4,15 @@
 частотности бренда (`src/data/vendor-demand.json`), из-за чего вердикт
 CONTENT-001 предложил переносить статью на Google, Microsoft и Docker —
 кластеры без покупательского спроса или без присутствия сайта в выдаче.
-Проверяется, что профиль сниппета считает по коммерческим фразам, профиль
-контента — по замеренным показам с позицией в топ-10 и наличию карточек,
-а без данных источника список пуст, а не собран не по тому признаку.
+Проверяется, что оба профиля считают по замеренным показам Вебмастера
+(сниппет — случай GAP-D: топ-10 при CTR ниже порога; контент — плюс гейт
+карточек товара), а без данных источника список пуст, а не собран не по тому
+признаку.
+
+03.09.2026 к этому добавлен разбор SEO-EXP-002: профиль сниппета отбирал
+кандидатов по коммерческому спросу Вордстата и выдавал Adobe и Autodesk —
+страницы без показов, на которых сниппет-тест не даёт вывода ни при какой
+длительности (`docs/seo/experiments/seo-exp-002-restart.md`).
 """
 
 import json
@@ -34,9 +40,10 @@ def _phrase(vendor, phrase, freq, intent="commercial", in_scope=True):
             "wordstat_frequency": freq, "in_scope": in_scope}
 
 
-def _query(text, shows, pos):
+def _query(text, shows, pos, clicks=0):
     return {"query_text": text,
-            "indicators": {"TOTAL_SHOWS": shows, "AVG_SHOW_POSITION": pos}}
+            "indicators": {"TOTAL_SHOWS": shows, "TOTAL_CLICKS": clicks,
+                           "AVG_SHOW_POSITION": pos}}
 
 
 class ExpansionTest(unittest.TestCase):
@@ -76,6 +83,9 @@ class ExpansionTest(unittest.TestCase):
                     _query("оплата postman юридическим лицом", 100, 5.0),
                     _query("dockers купить", 3, 7.0),
                     _query("notion купить", 90, 27.0),
+                    # Кластер с экспозицией, который уже собирает переходы:
+                    # сниппет-приёму он не кандидат, контентному — да.
+                    _query("lonely подписка купить", 80, 6.0, clicks=9),
                 ]}}, ensure_ascii=False), encoding="utf-8")
 
         (self.tmp / "docs/catalog-product-icon-map.json").write_text(json.dumps([
@@ -109,13 +119,37 @@ class ExpansionTest(unittest.TestCase):
 
     # ── профиль сниппета ────────────────────────────────────────────────────
 
-    def test_сниппет_считает_по_коммерческим_фразам(self):
+    def test_сниппет_ранжирует_по_замеренным_показам(self):
         urls = expansion.candidate_urls(profile="snippet")
-        # Docker впереди по коммерческим фразам — формулу сниппета можно
-        # применить к любой карточке, качество кластера проверяет не этот слой.
-        self.assertEqual(urls[0], "/vendors/docker")
+        self.assertEqual(urls, ["/vendors/perplexity", "/vendors/postman"])
+
+    def test_сниппет_не_предлагает_кластер_без_показов(self):
+        # Разбор SEO-EXP-002: у Docker коммерческий спрос Вордстата самый
+        # высокий (9 000 «dockers купить»), но три показа за двенадцать дней —
+        # проверять сниппетом нечего.
+        urls = expansion.candidate_urls(profile="snippet")
+        self.assertNotIn("/vendors/docker", urls)
+
+    def test_сниппет_отсекает_кластер_вне_топ_10(self):
+        self.assertNotIn("/vendors/notion",
+                         expansion.candidate_urls(profile="snippet"))
+
+    def test_сниппет_отсекает_кластер_с_переходами(self):
+        # CTR 11% — сниппет уже собирает клики, менять его незачем.
+        self.assertNotIn("/vendors/lonely",
+                         expansion.candidate_urls(profile="snippet"))
+
+    def test_сниппет_берёт_кластер_с_нулевым_спросом_вордстата(self):
+        found = {c["vendor"]: c for c in expansion.candidates(profile="snippet")}
+        self.assertIn("Postman", found)
+        self.assertEqual(found["Postman"]["commercial_demand"], 0)
+        self.assertEqual(found["Postman"]["clicks"], 0)
+        self.assertEqual(found["Postman"]["ctr"], 0.0)
+
+    def test_сниппет_не_берёт_занятый_кластер(self):
         # Кластер занят действующим экспериментом на страницах аналогов.
-        self.assertNotIn("/vendors/notion", urls)
+        self.assertNotIn("/vendors/notion",
+                         expansion.candidate_urls(profile="snippet"))
 
     # ── профиль приёма CONTENT-001 ──────────────────────────────────────────
 
@@ -155,9 +189,18 @@ class ExpansionTest(unittest.TestCase):
         self._patch("YANDEX_DIR", self.tmp / "reports/seo/none")
         self.assertEqual(expansion.candidate_urls(profile="content"), [])
 
-    def test_без_семантики_сниппет_молчит(self):
-        self._patch("UNIVERSE", self.tmp / "reports/seo/wordstat/none.jsonl")
+    def test_без_выгрузки_вебмастера_сниппет_молчит(self):
+        self._patch("YANDEX_DIR", self.tmp / "reports/seo/none")
         self.assertEqual(expansion.candidate_urls(profile="snippet"), [])
+
+    def test_без_семантики_сниппет_считает_по_показам(self):
+        # Спрос Вордстата — основание и второй ключ сортировки, а не отбор:
+        # без семантики кандидаты остаются, у них лишь нулевой спрос.
+        self._patch("UNIVERSE", self.tmp / "reports/seo/wordstat/none.jsonl")
+        found = expansion.candidates(profile="snippet")
+        self.assertEqual([c["url"] for c in found],
+                         ["/vendors/perplexity", "/vendors/postman"])
+        self.assertTrue(all(c["commercial_demand"] == 0 for c in found))
 
     def test_неизвестный_профиль_отвергается(self):
         with self.assertRaises(ValueError):
