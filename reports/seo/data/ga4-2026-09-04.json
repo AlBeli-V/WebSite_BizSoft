@@ -34,10 +34,10 @@
         ],
         "metricValues": [
           {
-            "value": "195"
+            "value": "202"
           },
           {
-            "value": "174"
+            "value": "179"
           },
           {
             "value": "0"
@@ -52,10 +52,10 @@
         ],
         "metricValues": [
           {
-            "value": "144"
+            "value": "168"
           },
           {
-            "value": "124"
+            "value": "148"
           },
           {
             "value": "2"
@@ -88,10 +88,10 @@
         ],
         "metricValues": [
           {
-            "value": "32"
+            "value": "33"
           },
           {
-            "value": "27"
+            "value": "28"
           },
           {
             "value": "1"
@@ -112,7 +112,7 @@
             "value": "14"
           },
           {
-            "value": "3"
+            "value": "4"
           }
         ]
       },
@@ -124,28 +124,10 @@
         ],
         "metricValues": [
           {
-            "value": "21"
-          },
-          {
-            "value": "21"
+            "value": "1"
           },
           {
             "value": "1"
-          }
-        ]
-      },
-      {
-        "dimensionValues": [
-          {
-            "value": "Cross-network"
-          }
-        ],
-        "metricValues": [
-          {
-            "value": "3"
-          },
-          {
-            "value": "3"
           },
           {
             "value": "0"
@@ -153,7 +135,7 @@
         ]
       }
     ],
-    "rowCount": 7,
+    "rowCount": 6,
     "metadata": {
       "currencyCode": "RUB",
       "timeZone": "Europe/Moscow"
@@ -311,21 +293,6 @@
         "dimensionValues": [
           {
             "value": "/product/freepik-premium-plus"
-          }
-        ],
-        "metricValues": [
-          {
-            "value": "2"
-          },
-          {
-            "value": "0"
-          }
-        ]
-      },
-      {
-        "dimensionValues": [
-          {
-            "value": "/product/unity-pro"
           }
         ],
         "metricValues": [
@@ -505,6 +472,21 @@
       {
         "dimensionValues": [
           {
+            "value": "/product/unity-pro"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "1"
+          },
+          {
+            "value": "0"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
             "value": "/vendors/adobe"
           }
         ],
@@ -625,6 +607,21 @@
       {
         "dimensionValues": [
           {
+            "value": "/vendors/unity"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "1"
+          },
+          {
+            "value": "0"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
             "value": "/vendors/vegas"
           }
         ],
@@ -638,7 +635,7 @@
         ]
       }
     ],
-    "rowCount": 25,
+    "rowCount": 26,
     "metadata": {
       "currencyCode": "RUB",
       "timeZone": "Europe/Moscow"
@@ -741,21 +738,6 @@
         "dimensionValues": [
           {
             "value": "/product/freepik-premium-plus"
-          }
-        ],
-        "metricValues": [
-          {
-            "value": "2"
-          },
-          {
-            "value": "0"
-          }
-        ]
-      },
-      {
-        "dimensionValues": [
-          {
-            "value": "/product/unity-pro"
           }
         ],
         "metricValues": [
@@ -950,6 +932,21 @@
       {
         "dimensionValues": [
           {
+            "value": "/product/unity-pro"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "1"
+          },
+          {
+            "value": "0"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
             "value": "/vendors/adobe"
           }
         ],
@@ -1066,9 +1063,24 @@
             "value": "1"
           }
         ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/vendors/unity"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "1"
+          },
+          {
+            "value": "0"
+          }
+        ]
       }
     ],
-    "rowCount": 27,
+    "rowCount": 28,
     "metadata": {
       "currencyCode": "RUB",
       "timeZone": "Europe/Moscow"
