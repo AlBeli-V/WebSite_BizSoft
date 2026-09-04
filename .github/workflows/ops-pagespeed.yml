@@ -52,12 +52,23 @@ jobs:
           URLS: ${{ inputs.urls }}
           STRATEGY: ${{ inputs.strategy }}
           PSI_API_KEY: ${{ secrets.PSI_API_KEY }}
+          PSI_RAW_DIR: psi-raw
         run: |
           # Отчёт сохраняется и при сбое, а шаг после этого краснеет.
           rc=0
           node scripts/ops/pagespeed.mjs > pagespeed.txt || rc=$?
           cat pagespeed.txt
           exit $rc
+
+      # Сырые ответы PSI — для разбора причин, когда сводки в журнале мало
+      # (например, метрика не вычислена). Читаются офлайн:
+      # node scripts/ops/pagespeed.mjs --from psi-raw/<страница>-mobile.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: pagespeed-raw
+          path: psi-raw/
+          if-no-files-found: ignore
 
       - name: Post results to journal (issue #22)
         if: always()
