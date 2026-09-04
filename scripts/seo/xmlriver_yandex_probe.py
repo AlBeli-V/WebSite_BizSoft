@@ -38,6 +38,7 @@ import os
 import pathlib
 import subprocess
 import sys
+import time
 import xml.etree.ElementTree as ET
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
@@ -53,6 +54,13 @@ DEFAULT_ENDPOINTS = (
 SEO_BRANCH = "seo-data"
 REGION = "213"
 OURS = "biz-soft.pro"
+# Повторы на помеху сервиса. Коды из RETRY_SERVICE_CODES клиента — это
+# «выполните перезапрос», а не вердикт: 04.09.2026 вторая проба получила
+# code=500 и объявила верный адрес негодным, хотя двадцатью минутами раньше
+# он же ответил выдачей. Механизм повтора в проекте был — проба его не
+# переиспользовала.
+PROBE_RETRIES = 4
+RETRY_PAUSE_S = 3
 
 
 def daily_snapshot_top(query: str) -> list[str]:
@@ -104,8 +112,10 @@ def parse_with_types(xml_text: str) -> dict:
         return {"error": f"ответ не является XML: {e}", "raw_head": xml_text[:400]}
     err = root.find(".//error")
     if err is not None:
-        return {"error": f"ошибка сервиса (code={err.get('code', '?')}): "
-                         f"{(err.text or '').strip()}"}
+        code = (err.get("code") or "").strip()
+        return {"error": f"ошибка сервиса (code={code or '?'}): "
+                         f"{(err.text or '').strip()}",
+                "code": code}
     items = []
     for doc in root.findall(".//group/doc"):
         url = (doc.findtext("url") or "").strip()
@@ -143,31 +153,59 @@ def main(argv: list[str]) -> int:
 
     parsed = None
     used = None
+    # Адрес, ответивший разбираемым XML, доказал свою пригодность — даже если
+    # в этом XML вердикт сервиса. Перебирать после него другие адреса
+    # бессмысленно: ключ и баланс от смены адреса не изменятся, а вывод
+    # «адрес неверен» был бы ложным.
+    verdict = ""
     for endpoint in endpoints:
         print(f"Эндпоинт {endpoint}")
-        try:
-            r = requests.get(endpoint, params=params, timeout=60)
-        except requests.RequestException as e:
-            print(f"  сетевая ошибка: {type(e).__name__}: {e}")
-            continue
-        print(f"  HTTP {r.status_code}, тело {len(r.text)} символов")
-        if not r.ok:
-            print(f"  ответ сервиса: {r.text[:400]}")
-            continue
-        result = parse_with_types(r.text)
-        if result.get("error"):
-            print(f"  {result['error']}")
-            if result.get("raw_head"):
-                print(f"  начало ответа: {result['raw_head']}")
-            continue
-        parsed, used = result, endpoint
-        break
+        for attempt in range(1, PROBE_RETRIES + 1):
+            try:
+                r = requests.get(endpoint, params=params, timeout=60)
+            except requests.RequestException as e:
+                print(f"  попытка {attempt}: сетевая ошибка: {type(e).__name__}: {e}")
+            else:
+                print(f"  попытка {attempt}: HTTP {r.status_code}, "
+                      f"тело {len(r.text)} символов")
+                if r.status_code < 500 and not r.ok:
+                    # 4xx — вердикт по адресу или учётным данным, повтор
+                    # ничего не изменит.
+                    print(f"  ответ сервиса: {r.text[:400]}")
+                    break
+                if r.ok:
+                    result = parse_with_types(r.text)
+                    code = result.get("code")
+                    if not result.get("error"):
+                        parsed, used = result, endpoint
+                        break
+                    print(f"  {result['error']}")
+                    if result.get("raw_head"):
+                        print(f"  начало ответа: {result['raw_head']}")
+                    # Помеха сервиса — не приговор адресу: сервис сам просит
+                    # перезапрос. Всё прочее (неверный ключ, чужой формат)
+                    # повторять незачем.
+                    if code not in xmlriver.RETRY_SERVICE_CODES:
+                        verdict = result["error"]
+                        used = endpoint
+                        break
+            if attempt < PROBE_RETRIES:
+                time.sleep(RETRY_PAUSE_S * attempt)
+        if parsed is not None or verdict:
+            break
 
     if parsed is None:
-        print("\nВЫВОД: выдачу Яндекса через xmlriver получить не удалось. "
-              "Ни один известный адрес не ответил разбираемым XML — адрес "
-              "эндпоинта нужно уточнить в поддержке сервиса. Строить контур "
-              "на догадке нельзя.")
+        if verdict:
+            print(f"\nВЫВОД: адрес {used} рабочий — он ответил разбираемым "
+                  f"XML, — но сервис отказал: {verdict}. Дело не в адресе: "
+                  f"проверять надо учётные данные, баланс или сам запрос.")
+        else:
+            print(f"\nВЫВОД: выдачу получить не удалось после "
+                  f"{PROBE_RETRIES} попыток на каждый адрес. Если сервис "
+                  f"отвечал кодом «выполните перезапрос» — адрес верен, помеха "
+                  f"временная, пробу нужно просто повторить. Если ответы не "
+                  f"XML вовсе — адрес неверен и его надо уточнить в поддержке. "
+                  f"Строить контур на догадке нельзя.")
         return 1
 
     items = parsed["items"]
