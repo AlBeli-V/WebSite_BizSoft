@@ -1,0 +1,88 @@
+# Эталонный замер фактической выдачи Яндекса — раз в неделю, узкой выборкой.
+#
+# Решение руководителя 04.09.2026 по разбору расхождения. Ежедневный срез
+# приходит из Yandex Cloud Search API, а тот отдаёт только органические
+# документы: рекламы и колдунщиков в ответе нет. По нему можно узнать
+# органическую позицию — и нельзя узнать место, которое видит человек.
+# Сверка с Вебмастером показала, что расхождение системное (медиана +1,9
+# позиции), но причину не назвала: сдвиг неравномерен по глубине, значит
+# вклад дают и реклама, и иное ранжирование самого API. Разделяет их только
+# замер настоящей страницы выдачи.
+#
+# Выборка узкая намеренно — 26 запросов из data/seo/serp-reference-queries.json,
+# по пять на каждый диапазон глубины. Это калибровка, а не замена срезу:
+# снимать так всё ядро ежедневно нельзя ни по нагрузке, ни по риску капчи.
+#
+# Расписание: 04:20 UTC понедельника = 07:20 МСК — до первого слота
+# конкурентной разведки, чтобы свежий эталон успел попасть в отчёт дня.
+name: seo-serp-reference
+
+on:
+  schedule:
+    - cron: "20 4 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  issues: write
+
+concurrency:
+  group: seo-serp-reference
+  cancel-in-progress: false
+
+jobs:
+  reference:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      # Ветка назначения — seo-data: эталон лежит рядом с ежедневными
+      # срезами и читается теми же потребителями.
+      - name: Pull data branch
+        run: bash scripts/seo/data_sync.sh pull
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Install deps
+        run: |
+          corepack enable
+          pnpm install --frozen-lockfile
+          pnpm exec playwright install --with-deps chromium
+
+      # Разбор страницы выдачи проверяется на фикстуре перед каждым замером:
+      # разметка Яндекса меняется, и молча съехавший парсер испортил бы
+      # эталон, которым калибруются остальные цифры.
+      - name: Check SERP parser on fixture
+        run: pnpm check:serp-reference
+
+      # Капча и пустая выдача — ожидаемые исходы, а не аварии: скрипт пишет
+      # их в строку как ошибку и завершается ненулевым кодом только если не
+      # удалось замерить вообще ничего. Калибровать нечем — это сбой.
+      - name: Measure reference SERP
+        id: run
+        run: node scripts/seo/serp_reference.mjs 2>&1 | tee reference.txt
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: serp-reference
+          path: reports/seo/serp/*-serp-reference.jsonl
+          if-no-files-found: ignore
+
+      - name: Push data
+        if: always()
+        run: |
+          bash scripts/seo/data_sync.sh push \
+            "Эталонный замер выдачи за $(TZ=Europe/Moscow date +%F)" \
+            "reports/seo/serp"
+
+      - name: Post results to journal (issue #22)
+        if: always()
+        uses: ./.github/actions/journal-post
+        with:
+          title: "seo-serp-reference (эталонный замер выдачи)"
+          outcome: ${{ steps.run.outcome }}
+          body-file: reference.txt

@@ -220,8 +220,10 @@ def _kpi_cards(snapshot: dict, previous: dict | None, attacks: list[dict]) -> st
         ("B2B Share · Яндекс", pct(ours.get("доля_видимости")), delta),
         ("B2B Share · Google", pct(g_ours.get("доля_видимости")) if google else "NO DATA",
          g_note),
-        ("Запросов в ТОП-3", f"{ours.get('топ3', '—')}", f"из {ours.get('запросов_в_поле', '—')}"),
-        ("Запросов в ТОП-10", f"{ours.get('топ10', '—')}", f"из {ours.get('запросов_в_поле', '—')}"),
+        ("В ТОП-3 органики", f"{ours.get('топ3', '—')}",
+         f"из {ours.get('запросов_в_поле', '—')}; без рекламы и колдунщиков"),
+        ("В ТОП-10 органики", f"{ours.get('топ10', '—')}",
+         f"из {ours.get('запросов_в_поле', '—')}; без рекламы и колдунщиков"),
         ("Точек атаки", str(len(attacks)), "мы на 4–20, выше конкурент"),
     ]
     return '<div class="cards">' + "".join(
@@ -295,7 +297,7 @@ def _google_block(snapshot: dict) -> str:
             '<div class="scroll"><table><tr><th>Запрос</th><th>Яндекс</th>'
             '<th>Кто в топ-3 Google</th></tr>' + "".join(
                 f'<tr><td class="q">{esc(i["запрос"])}</td>'
-                f'<td class="num">№{esc(i["позиция_яндекс"])}</td>'
+                f'<td class="num">органика №{esc(i["позиция_яндекс"])}</td>'
                 f'<td class="q">{esc(", ".join(d for d in i["google_топ3"] if d))}</td></tr>'
                 for i in ya_only[:25]) + '</table></div>')
     if g_only:
@@ -795,6 +797,63 @@ A/B-тест на поисковой выдаче. Контрольная гру
 {lessons}"""
 
 
+def _position_check_block(measure: dict | None, verdict: dict | None) -> str:
+    """Насколько позиция среза расходится с позицией показа по Вебмастеру.
+
+    Блок появился после разбора 04.09.2026: отчёт назвал нас первыми там, где
+    ручная проверка выдачи показала второе место под четырьмя объявлениями.
+    Срез не врал — он приходит из Search API, где рекламы и колдунщиков нет
+    вовсе, и меряет органическую позицию в индексе API, а не место, которое
+    видит человек. Раз величины разные, отчёт обязан показывать, насколько они
+    разошлись, а не молчать об этом.
+    """
+    if not measure:
+        return ""
+    if not measure.get("доступна"):
+        return (f'<h3 id="poscheck">Сверка позиции с Вебмастером</h3>'
+                f'<div class="note">Не выполнена: {esc(measure.get("причина"))}. '
+                f'Пока сверки нет, расхождение органической позиции с местом '
+                f'в фактической выдаче не измерено — это неизвестность, а не '
+                f'подтверждение точности.</div>')
+    bands = "".join(
+        f'<tr><td>{esc(b["диапазон"])}</td>'
+        f'<td class="num">{b["запросов"]}</td>'
+        f'<td class="num">{b["медиана"]:+.2f}</td></tr>'
+        for b in measure.get("по_диапазонам") or [])
+    alarm = (verdict or {}).get("тревога")
+    note = (f'<div class="note{"" if alarm else " ok"}">'
+            f'{esc((verdict or {}).get("объяснение", ""))}</div>')
+    return (
+        f'<h3 id="poscheck">Сверка позиции с Вебмастером — '
+        f'{plural(measure["сопоставлено"], "запрос", "запроса", "запросов")}</h3>'
+        f'<p class="lead">Позиция в срезе — <b>органическая</b>: Yandex Cloud '
+        f'Search API отдаёт только документы выдачи, без рекламных блоков и '
+        f'колдунщиков. Вебмастер даёт другую величину — среднюю позицию '
+        f'показа в фактической выдаче со всеми её блоками. Сравнение двух '
+        f'величин показывает, насколько наши цифры расходятся с тем, что видит '
+        f'человек. Окно Вебмастера: {esc(measure["окно_вебмастера"])}; из '
+        f'сверки исключены '
+        f'{plural(measure["исключено_новых_страниц"], "запрос", "запроса", "запросов")} '
+        f'со страницами, созданными после этого окна — там сравнивать не с чем.</p>'
+        f'<p class="lead">Медиана расхождения '
+        f'<b>{measure["медиана_расхождения"]:+.2f}</b> позиции; срез '
+        f'оптимистичнее Вебмастера по {measure["срез_оптимистичнее"]} запросам '
+        f'из {measure["сопоставлено"]} '
+        f'({pct(measure["доля_оптимистичных"], 0)}), пессимистичнее — по '
+        f'{measure["срез_пессимистичнее"]}.</p>'
+        + note
+        + cut("Расхождение по диапазонам позиций",
+              '<div class="scroll"><table><tr><th>Позиция в срезе</th>'
+              '<th class="num">Запросов</th>'
+              '<th class="num">Медиана расхождения</th></tr>'
+              + bands + '</table></div>',
+              note="сдвиг неравномерен — значит дело не только в рекламе")
+        + '<p class="q">Чего сверка не даёт: она меряет размер расхождения, но '
+          'не его причину. Вклад рекламы и вклад иного ранжирования самого API '
+          'разделяются только эталонным замером фактической выдачи — его '
+          'делает отдельный недельный прогон.</p>')
+
+
 def _stale_occupancy_block(stale: list[dict] | None) -> str:
     """Чужие эксперименты, чьё окно замера прошло, а статус остался рабочим.
 
@@ -872,7 +931,8 @@ def _toc(snapshot: dict, leaders: list[dict], packages: list[dict] | None,
          attacks: list[dict], experiments: list | None,
          on_watch: list[dict] | None = None, detail_limit: int = 10,
          to_verify: list[dict] | None = None,
-         stale_occupancy: list[dict] | None = None) -> str:
+         stale_occupancy: list[dict] | None = None,
+         position_check: dict | None = None) -> str:
     """Плавающее меню: вся структура отчёта, включая блоки под катом.
 
     Верхняя навигация даёт семь ссылок на разделы — этого мало: работа
@@ -891,6 +951,8 @@ def _toc(snapshot: dict, leaders: list[dict], packages: list[dict] | None,
         items += [link("google", "Google, Россия"),
                   link("google-gap", "Разрыв с Яндексом"),
                   link("google-attacks", "Точки атаки в Google")]
+    if position_check:
+        items.append(link("poscheck", "Сверка позиции с Вебмастером"))
 
     items.append(link("l2", "2 · Конкуренты по уровню угрозы", "l1"))
 
@@ -1010,7 +1072,9 @@ def build(date: str, snapshot: dict, previous: dict | None,
           on_watch: list[dict] | None = None,
           systemic: list | None = None,
           to_verify: list[dict] | None = None,
-          stale_occupancy: list[dict] | None = None) -> str:
+          stale_occupancy: list[dict] | None = None,
+          position_check: dict | None = None,
+          position_verdict: dict | None = None) -> str:
     """Собирает самодостаточный HTML-отчёт."""
     ours = snapshot.get("наши_показатели") or {}
     coverage = snapshot.get("покрытие") or {}
@@ -1033,9 +1097,11 @@ def build(date: str, snapshot: dict, previous: dict | None,
         'выданных поручений отслеживается с 01.09.2026 — раздел 6.</div>')
 
     toc = _toc(snapshot, leaders, packages, attacks, experiments, on_watch,
-               to_verify=to_verify, stale_occupancy=stale_occupancy)
+               to_verify=to_verify, stale_occupancy=stale_occupancy,
+               position_check=position_check)
     verify_block = _verify_block(to_verify)
     stale_block = _stale_occupancy_block(stale_occupancy)
+    poscheck_block = _position_check_block(position_check, position_verdict)
     # Статус точки атаки ищется по всем пакетам дня, включая снятые с очереди:
     # иначе запрос, по которому пакет есть, значился бы «вне плана работ».
     planned = (packages or []) + (on_watch or []) + (to_verify or [])
@@ -1083,6 +1149,8 @@ def build(date: str, snapshot: dict, previous: dict | None,
 {_category_table(snapshot)}
 
 {_google_block(snapshot)}
+
+{poscheck_block}
 
 <h2 id="l2">2 · Конкуренты по уровню угрозы</h2>
 <p class="lead">Threat — насколько конкурент опасен сейчас: доля
