@@ -106,7 +106,34 @@ function report(url, strategy, data) {
   if (third.length) out.push('  сторонние: ' + third.slice(0, 5).map((t) => `${t.entity?.text || t.entity} ${Math.round(t.blockingTime)} мс блокировки, ${kb(t.transferSize)}`).join(' · '));
   const longTasks = a['long-tasks']?.details?.items || [];
   if (longTasks.length) out.push('  длинные задачи: ' + longTasks.slice(0, 5).map((t) => `${short(t.url)} ${Math.round(t.duration)} мс`).join(' · '));
+  if (score == null || process.env.PSI_VERBOSE) out.push(...diagnostics(a));
   return { score, text: out.join('\n') };
+}
+
+/**
+ * Расширенная диагностика — когда балл не вычислен (например, NO_LCP) и по
+ * сводке причину не понять: наблюдаемые тайминги трассы, флаг отмены LCP,
+ * ошибки консоли, сдвиги раскладки, моменты кадров, запросы не 200 и
+ * критичные ресурсы. Всё это есть в ответе PSI, но не в его сводке.
+ */
+function diagnostics(a) {
+  const out = ['  ── диагностика ──'];
+  const m = a.metrics?.details?.items?.[0] || {};
+  const obs = Object.entries(m).filter(([k]) => /^observed|lcpInvalidated/.test(k)).map(([k, v]) => `${k}=${v}`);
+  out.push('  трасса: ' + obs.join(' '));
+  for (const i of a['errors-in-console']?.details?.items || []) out.push(`  консоль: ${i.source} ${(i.description || '').slice(0, 160)} ${short(i.sourceLocation?.url)}`);
+  const shifts = a['layout-shifts']?.details?.items || [];
+  for (const s of shifts.slice(0, 4)) out.push(`  сдвиг ${s.score?.toFixed?.(3)}: ${(s.subItems?.items || []).map((x) => x.extra?.value || x.cause).join('; ').slice(0, 160)}`);
+  const shots = a['screenshot-thumbnails']?.details?.items || [];
+  if (shots.length) out.push('  кадры (мс): ' + shots.map((s) => Math.round(s.timing)).join(' '));
+  for (const q of a['network-requests']?.details?.items || []) {
+    if (q.statusCode !== 200 || /woff2|\.css$/.test(q.url) || q.resourceType === 'Document') {
+      out.push(`  запрос ${q.statusCode ?? '—'} ${q.resourceType || ''} ${Math.round(q.networkRequestTime)}→${Math.round(q.networkEndTime)} мс ${kb(q.transferSize)} ${short(q.url)}`);
+    }
+  }
+  const lcpIns = a['lcp-discovery-insight'];
+  if (lcpIns?.details) out.push('  lcp-discovery: ' + JSON.stringify(lcpIns.details).slice(0, 300));
+  return out;
 }
 
 if (FROM) {
