@@ -58,17 +58,61 @@ summary::marker{color:var(--muted)}
 footer{margin-top:48px;padding-top:16px;border-top:1px solid var(--line);
        font-size:12px;color:var(--muted)}
 a{color:var(--accent)}
-@media(max-width:640px){.wrap{padding:16px 10px 48px}h1{font-size:20px}
-  .card .v{font-size:22px}}
+h2,h3,h4,details{scroll-margin-top:18px}
+:target>summary,:target{outline:2px solid #B2DDFF;outline-offset:4px;border-radius:10px}
+.cut>summary{display:flex;flex-wrap:wrap;gap:4px 10px;align-items:baseline;
+             color:var(--accent)}
+.cut-note{font-weight:400;font-size:12px;color:var(--muted)}
+
+/* Плавающее меню разделов. Кнопка стоит поверх страницы в правом нижнем углу
+   и текст не сдвигает; панель открывается только по нажатию. Меню собрано на
+   <details>, поэтому работает и без JavaScript — скрипт лишь раскрывает
+   целевой кат и закрывает панель после перехода. */
+.toc{position:fixed;right:16px;bottom:16px;z-index:60;margin:0;padding:0;
+     background:none;border:0;border-radius:0}
+.toc>summary{list-style:none;display:flex;align-items:center;gap:8px;
+     background:var(--ink);color:#fff;border-radius:24px;padding:10px 16px;
+     font-size:13px;font-weight:600;box-shadow:0 6px 20px rgba(16,24,40,.28);
+     user-select:none}
+.toc>summary::-webkit-details-marker{display:none}
+.toc>summary::marker{content:""}
+.toc[open]>summary{background:var(--accent)}
+.toc-panel{position:absolute;right:0;bottom:52px;width:min(380px,calc(100vw - 32px));
+     max-height:min(70vh,620px);display:flex;flex-direction:column;background:#fff;
+     border:1px solid var(--line);border-radius:12px;overflow:hidden;
+     box-shadow:0 16px 40px rgba(16,24,40,.22)}
+.toc-head{display:flex;align-items:center;justify-content:space-between;
+     padding:10px 14px;border-bottom:1px solid var(--line);font-size:12px;
+     font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
+.toc-body{overflow-y:auto;padding:6px 0}
+.toc-body a{display:block;text-decoration:none;color:var(--ink);font-size:13px;
+     padding:6px 14px;line-height:1.35}
+.toc-body a:hover{background:var(--bg)}
+.toc-body .l1{font-weight:700}
+.toc-body .l2{padding-left:28px;color:var(--muted);font-size:12px}
+.toc-foot{display:flex;gap:8px;padding:10px 14px;border-top:1px solid var(--line)}
+.toc button{font:inherit;font-size:12px;cursor:pointer;background:#fff;
+     border:1px solid var(--line);border-radius:8px;padding:6px 10px;color:var(--ink)}
+.toc button:hover{background:var(--bg)}
+.toc-x{border:0!important;padding:0 4px!important;font-size:16px;line-height:1;
+     color:var(--muted)}
+@media(max-width:640px){.wrap{padding:16px 10px 72px}h1{font-size:20px}
+  .card .v{font-size:22px}
+  .toc{right:10px;bottom:10px}.toc-cap{display:none}
+  .toc>summary{padding:12px 14px;font-size:16px}}
+@media print{.toc{display:none}}
 </style></head>
 <body><div class="wrap">
 
 <h1>Конкурентная разведка BIZSoft</h1>
 <div class="sub">Срез за 2026-09-04 · Яндекс, Москва (регион 213) ·
-  525 запросов · собран 2026-09-04T09:28</div>
+  525 запросов · собран 2026-09-04T11:50</div>
 <p class="lead">Отчёт отвечает на пять вопросов: усиливаемся ли мы, кто забирает
 наш спрос, на каких запросах, где конкурент уязвим и что даст наибольший
-эффект. Письмо содержит только вывод — здесь основания.</p>
+эффект. Письмо содержит только вывод — здесь основания. Крупные таблицы и
+разборы убраны под кат: заголовок виден всегда, содержимое раскрывается
+нажатием. Кнопка «Разделы» в правом нижнем углу открывает структуру целиком —
+переход к любому пакету работ и любому конкуренту в одно нажатие.</p>
 
 
 <nav>
@@ -86,7 +130,7 @@ a{color:var(--accent)}
 <div class="cards"><div class="card"><div class="k">B2B Share · Яндекс</div><div class="v">4,6%</div><div class="d">+1,43 п.п. к 2026-09-03, 369 общих запросов</div></div><div class="card"><div class="k">B2B Share · Google</div><div class="v">0,1%</div><div class="d">Россия (xmlriver), топ-20, срез 2026-09-03</div></div><div class="card"><div class="k">Запросов в ТОП-3</div><div class="v">66</div><div class="d">из 525</div></div><div class="card"><div class="k">Запросов в ТОП-10</div><div class="v">146</div><div class="d">из 525</div></div><div class="card"><div class="k">Точек атаки</div><div class="v">76</div><div class="d">мы на 4–20, выше конкурент</div></div></div>
 <div class="note">Зрелость расчёта: <b>базовый</b>. Vulnerability (насколько позицию конкурента реально отобрать) требует краулинга страниц конкурентов и появится в Phase 4 — до тех пор его вес перераспределён на измеримые факторы, а уверенность рекомендаций не поднимается выше MEDIUM. Экономический фактор в модели отсутствует вовсе: измеренной выручки по запросам нет, а её оценка через спрос и интент дублировала бы эти факторы (убрана в версии 1.1.0). Судьба выданных поручений отслеживается с 01.09.2026 — раздел 6.</div>
 
-<h3>Кто держит коммерческую выдачу</h3>
+<h3 id="cat">Кто держит коммерческую выдачу</h3>
 <p class="lead">Доля взвешенной видимости: позиция каждого домена умножается на
 вес клика по этой позиции. Категории «B2C и маркетплейсы», «информационные
 площадки» и «официальные сайты вендоров» присутствуют в выдаче и забирают
@@ -94,7 +138,7 @@ a{color:var(--accent)}
 входят.</p>
 <div class="scroll"><table><tr><th>Категория</th><th class="num">Доля видимости</th><th></th><th>Кто внутри</th><th>В рейтинге</th></tr><tr><td><span class="tag ?">?</span> не классифицировано</td><td class="num">27,3%</td><td style="width:140px"><div class="bar"><i style="width:100%"></i></div></td><td class="q">—</td><td>нет</td></tr><tr><td><span class="tag E">E</span> B2C и маркетплейсы</td><td class="num">21,9%</td><td style="width:140px"><div class="bar"><i style="width:80%"></i></div></td><td class="q">—</td><td>нет</td></tr><tr><td><span class="tag H">H</span> платёжные посредники</td><td class="num">17,2%</td><td style="width:140px"><div class="bar"><i style="width:63%"></i></div></td><td class="q">raketapay.ru, pipl.io, card-open.ru</td><td>да</td></tr><tr><td><span class="tag G">G</span> информационные площадки</td><td class="num">15,1%</td><td style="width:140px"><div class="bar"><i style="width:55%"></i></div></td><td class="q">—</td><td>нет</td></tr><tr><td><span class="tag A">A</span> прямые B2B-реселлеры</td><td class="num">8,7%</td><td style="width:140px"><div class="bar"><i style="width:32%"></i></div></td><td class="q">platipomiru.com, syssoft.ru, store.softline.ru</td><td>да</td></tr><tr><td><span class="tag F">F</span> официальные сайты вендоров</td><td class="num">5,2%</td><td style="width:140px"><div class="bar"><i style="width:19%"></i></div></td><td class="q">—</td><td>нет</td></tr></table></div>
 
-<h3>Google, Россия — срез 2026-09-03 (xmlriver, местоположение Россия)</h3><p class="lead">Первая настоящая российская выдача Google в контуре: 375 запросов ядра с данными (ошибок 0), возраст среза 1 дн., глубина выдачи 20 позиций. Наша доля взвешенной видимости <b>0,1%</b>, ТОП-3 по 1, ТОП-10 по 1, лучшая позиция 1. Срез тот же, что читает ежедневный SEO-отчёт; повторно не покупается. Доли считаются внутри Google-поля и с Яндексом не складываются. Серия google_ru только началась — динамики и сводной цифры с Яндексом нет до накопления базовой линии.</p><div class="scroll"><table><tr><th>Домен</th><th>Категория</th><th>Доля</th><th>ТОП-3</th><th>ТОП-10</th></tr><tr><td>platipomiru.com</td><td>A</td><td class="num">3,0%</td><td class="num">49</td><td class="num">76</td></tr><tr><td>remoney.ru</td><td>H</td><td class="num">2,8%</td><td class="num">35</td><td class="num">53</td></tr><tr><td>oplata.guru</td><td>H</td><td class="num">1,5%</td><td class="num">15</td><td class="num">46</td></tr><tr><td>store.softline.ru</td><td>A</td><td class="num">1,4%</td><td class="num">20</td><td class="num">37</td></tr><tr><td>syssoft.ru</td><td>A</td><td class="num">1,4%</td><td class="num">17</td><td class="num">56</td></tr><tr><td>payment.mts.ru</td><td>H</td><td class="num">1,0%</td><td class="num">10</td><td class="num">31</td></tr><tr><td>migsoft.ru</td><td>A</td><td class="num">0,9%</td><td class="num">12</td><td class="num">34</td></tr><tr><td>pay-saas.ru</td><td>H</td><td class="num">0,9%</td><td class="num">11</td><td class="num">32</td></tr><tr><td>softmagazin.ru</td><td>A</td><td class="num">0,5%</td><td class="num">5</td><td class="num">30</td></tr><tr><td>raketapay.ru</td><td>H</td><td class="num">0,5%</td><td class="num">10</td><td class="num">14</td></tr></table></div><h4>Разрыв с Яндексом по общему ядру</h4><p class="lead">Сопоставлено 375 запросов, измеренных в обеих системах: в топ-10 обеих — <b>1</b>; Яндекс топ-10, в Google нет — <b>145</b>; Google топ-10, в Яндексе нет — <b>0</b>. «Нет» — нет в собранной выдаче своей глубины (Google 20, Яндекс 10). Первая группа — главный вопрос по Google: страница релевантна (Яндекс её ранжирует), значит дело в индексации, авторитете домена или конкурентоспособности страницы именно в Google. Сравнивается присутствие в выдаче, не позиции.</p><div class="scroll"><table><tr><th>Запрос</th><th>Яндекс</th><th>Кто в топ-3 Google</th></tr><tr><td class="q">как оплатить box business из россии</td><td class="num">№1</td><td class="q">brobank.ru, youtube.com, support.xbox.com</td></tr><tr><td class="q">как получить счет и закрывающие от atlassian</td><td class="num">№1</td><td class="q">atlassian.com, vc.ru, raketapay.ru</td></tr><tr><td class="q">как получить счет по и закрывающие от atlassian</td><td class="num">№1</td><td class="q">atlassian.com, raketapay.ru, habr.com</td></tr><tr><td class="q">оплата box в рублях</td><td class="num">№1</td><td class="q">platipomiru.com, 82box.ru, invoicebox.ru</td></tr><tr><td class="q">оплата box для юридических лиц из россии</td><td class="num">№1</td><td class="q">pochta.ru, admvolot.gosuslugi.ru, invoicebox.ru</td></tr><tr><td class="q">оплата box по счету из россии</td><td class="num">№1</td><td class="q">citi-box.ru, coinbox.ru, inplat-tech.ru</td></tr><tr><td class="q">оплата canva для юридических лиц из россии</td><td class="num">№1</td><td class="q">pikabu.ru, vc.ru, easypayments.online</td></tr><tr><td class="q">оплата coreldraw для юридических лиц из россии</td><td class="num">№1</td><td class="q">syssoft.ru, store.softline.ru, platipomiru.com</td></tr><tr><td class="q">оплата depositphotos для юридических лиц из россии</td><td class="num">№1</td><td class="q">depositphotos.com, remoney.ru, kavkaz.rbc.ru</td></tr><tr><td class="q">оплата dropbox business в россии</td><td class="num">№1</td><td class="q">global-payments.ru, vc.ru, wanttopay.net</td></tr><tr><td class="q">fmod лицензия</td><td class="num">№2</td><td class="q">fmod.com, ru.wikipedia.org, syssoft.ru</td></tr><tr><td class="q">framer basic оплата россия</td><td class="num">№2</td><td class="q">plati.market, mshopy.ru, vc.ru</td></tr><tr><td class="q">framer годовая подписка из россии</td><td class="num">№2</td><td class="q">mshopy.ru, ggsel.net, sravni.ru</td></tr><tr><td class="q">framer домен оплата рф</td><td class="num">№2</td><td class="q">dtf.ru, reddit.com, mshopy.ru</td></tr><tr><td class="q">framer оплата рублями</td><td class="num">№2</td><td class="q">platipomiru.com, vc.ru, dtf.ru</td></tr><tr><td class="q">framer оформить подписку россия</td><td class="num">№2</td><td class="q">ggsel.net, mshopy.ru, vc.ru</td></tr><tr><td class="q">framer тариф россия</td><td class="num">№2</td><td class="q">ya.zerocoder.ru, taptop.pro, reddit.com</td></tr><tr><td class="q">gitlab saas оплата из россии</td><td class="num">№2</td><td class="q">vc.ru, habr.com, raketapay.ru</td></tr><tr><td class="q">gitlab годовая подписка из россии</td><td class="num">№2</td><td class="q">dtf.ru, vc.ru, gitlab.softmart.ru</td></tr><tr><td class="q">monotype лицензия</td><td class="num">№2</td><td class="q">reddit.com, habr.com, forbes.ru</td></tr><tr><td class="q">perplexity купить max юридическим лицом</td><td class="num">№2</td><td class="q">syssoft.ru, perplexity.ai, klerk.ru</td></tr><tr><td class="q">spine essential лицензия стоимость</td><td class="num">№2</td><td class="q">ru.esotericsoftware.com, reddit.com, fortsoft.com.ua</td></tr><tr><td class="q">как оплатить confluence standard из россии</td><td class="num">№2</td><td class="q">atlassian.com, pyyplbot.com, getpayall.com</td></tr><tr><td class="q">как оплатить confluence в рублях</td><td class="num">№2</td><td class="q">getpayall.com, pyyplbot.com, platipomiru.com</td></tr><tr><td class="q">как оплатить coreldraw в рублях</td><td class="num">№2</td><td class="q">pay-saas.ru, grinny.io, platipomiru.com</td></tr></table></div><h4>Точки атаки в Google — 0 кандидатов</h4><p class="lead">Тот же Strike List по Google-срезу: мы на 4–20, выше стоит другой участник. В пакеты работ пока не входят — список справочный, до накопления базовой линии.</p>
+<h3 id="google">Google, Россия — срез 2026-09-03 (xmlriver, местоположение Россия)</h3><p class="lead">Первая настоящая российская выдача Google в контуре: 375 запросов ядра с данными (ошибок 0), возраст среза 1 дн., глубина выдачи 20 позиций. Наша доля взвешенной видимости <b>0,1%</b>, ТОП-3 по 1, ТОП-10 по 1, лучшая позиция 1. Срез тот же, что читает ежедневный SEO-отчёт; повторно не покупается. Доли считаются внутри Google-поля и с Яндексом не складываются. Серия google_ru только началась — динамики и сводной цифры с Яндексом нет до накопления базовой линии.</p><details class="cut"><summary>Лидеры выдачи Google — 10 доменов<span class="cut-note">первый: platipomiru.com</span></summary><div class="scroll"><table><tr><th>Домен</th><th>Категория</th><th>Доля</th><th>ТОП-3</th><th>ТОП-10</th></tr><tr><td>platipomiru.com</td><td>A</td><td class="num">3,0%</td><td class="num">49</td><td class="num">76</td></tr><tr><td>remoney.ru</td><td>H</td><td class="num">2,8%</td><td class="num">35</td><td class="num">53</td></tr><tr><td>oplata.guru</td><td>H</td><td class="num">1,5%</td><td class="num">15</td><td class="num">46</td></tr><tr><td>store.softline.ru</td><td>A</td><td class="num">1,4%</td><td class="num">20</td><td class="num">37</td></tr><tr><td>syssoft.ru</td><td>A</td><td class="num">1,4%</td><td class="num">17</td><td class="num">56</td></tr><tr><td>payment.mts.ru</td><td>H</td><td class="num">1,0%</td><td class="num">10</td><td class="num">31</td></tr><tr><td>migsoft.ru</td><td>A</td><td class="num">0,9%</td><td class="num">12</td><td class="num">34</td></tr><tr><td>pay-saas.ru</td><td>H</td><td class="num">0,9%</td><td class="num">11</td><td class="num">32</td></tr><tr><td>softmagazin.ru</td><td>A</td><td class="num">0,5%</td><td class="num">5</td><td class="num">30</td></tr><tr><td>raketapay.ru</td><td>H</td><td class="num">0,5%</td><td class="num">10</td><td class="num">14</td></tr></table></div></details><h4 id="google-gap">Разрыв с Яндексом по общему ядру</h4><p class="lead">Сопоставлено 375 запросов, измеренных в обеих системах: в топ-10 обеих — <b>1</b>; Яндекс топ-10, в Google нет — <b>145</b>; Google топ-10, в Яндексе нет — <b>0</b>. «Нет» — нет в собранной выдаче своей глубины (Google 20, Яндекс 10). Первая группа — главный вопрос по Google: страница релевантна (Яндекс её ранжирует), значит дело в индексации, авторитете домена или конкурентоспособности страницы именно в Google. Сравнивается присутствие в выдаче, не позиции.</p><details class="cut"><summary>Яндекс топ-10, в Google нет — 25 запросов из 145</summary><div class="scroll"><table><tr><th>Запрос</th><th>Яндекс</th><th>Кто в топ-3 Google</th></tr><tr><td class="q">как оплатить box business из россии</td><td class="num">№1</td><td class="q">brobank.ru, youtube.com, support.xbox.com</td></tr><tr><td class="q">как получить счет и закрывающие от atlassian</td><td class="num">№1</td><td class="q">atlassian.com, vc.ru, raketapay.ru</td></tr><tr><td class="q">как получить счет по и закрывающие от atlassian</td><td class="num">№1</td><td class="q">atlassian.com, raketapay.ru, habr.com</td></tr><tr><td class="q">оплата box в рублях</td><td class="num">№1</td><td class="q">platipomiru.com, 82box.ru, invoicebox.ru</td></tr><tr><td class="q">оплата box для юридических лиц из россии</td><td class="num">№1</td><td class="q">pochta.ru, admvolot.gosuslugi.ru, invoicebox.ru</td></tr><tr><td class="q">оплата box по счету из россии</td><td class="num">№1</td><td class="q">citi-box.ru, coinbox.ru, inplat-tech.ru</td></tr><tr><td class="q">оплата canva для юридических лиц из россии</td><td class="num">№1</td><td class="q">pikabu.ru, vc.ru, easypayments.online</td></tr><tr><td class="q">оплата coreldraw для юридических лиц из россии</td><td class="num">№1</td><td class="q">syssoft.ru, store.softline.ru, platipomiru.com</td></tr><tr><td class="q">оплата depositphotos для юридических лиц из россии</td><td class="num">№1</td><td class="q">depositphotos.com, remoney.ru, kavkaz.rbc.ru</td></tr><tr><td class="q">оплата dropbox business в россии</td><td class="num">№1</td><td class="q">global-payments.ru, vc.ru, wanttopay.net</td></tr><tr><td class="q">fmod лицензия</td><td class="num">№2</td><td class="q">fmod.com, ru.wikipedia.org, syssoft.ru</td></tr><tr><td class="q">framer basic оплата россия</td><td class="num">№2</td><td class="q">plati.market, mshopy.ru, vc.ru</td></tr><tr><td class="q">framer годовая подписка из россии</td><td class="num">№2</td><td class="q">mshopy.ru, ggsel.net, sravni.ru</td></tr><tr><td class="q">framer домен оплата рф</td><td class="num">№2</td><td class="q">dtf.ru, reddit.com, mshopy.ru</td></tr><tr><td class="q">framer оплата рублями</td><td class="num">№2</td><td class="q">platipomiru.com, vc.ru, dtf.ru</td></tr><tr><td class="q">framer оформить подписку россия</td><td class="num">№2</td><td class="q">ggsel.net, mshopy.ru, vc.ru</td></tr><tr><td class="q">framer тариф россия</td><td class="num">№2</td><td class="q">ya.zerocoder.ru, taptop.pro, reddit.com</td></tr><tr><td class="q">gitlab saas оплата из россии</td><td class="num">№2</td><td class="q">vc.ru, habr.com, raketapay.ru</td></tr><tr><td class="q">gitlab годовая подписка из россии</td><td class="num">№2</td><td class="q">dtf.ru, vc.ru, gitlab.softmart.ru</td></tr><tr><td class="q">monotype лицензия</td><td class="num">№2</td><td class="q">reddit.com, habr.com, forbes.ru</td></tr><tr><td class="q">perplexity купить max юридическим лицом</td><td class="num">№2</td><td class="q">syssoft.ru, perplexity.ai, klerk.ru</td></tr><tr><td class="q">spine essential лицензия стоимость</td><td class="num">№2</td><td class="q">ru.esotericsoftware.com, reddit.com, fortsoft.com.ua</td></tr><tr><td class="q">как оплатить confluence standard из россии</td><td class="num">№2</td><td class="q">atlassian.com, pyyplbot.com, getpayall.com</td></tr><tr><td class="q">как оплатить confluence в рублях</td><td class="num">№2</td><td class="q">getpayall.com, pyyplbot.com, platipomiru.com</td></tr><tr><td class="q">как оплатить coreldraw в рублях</td><td class="num">№2</td><td class="q">pay-saas.ru, grinny.io, platipomiru.com</td></tr></table></div></details><h4 id="google-attacks">Точки атаки в Google — 0 кандидатов</h4><p class="lead">Тот же Strike List по Google-срезу: мы на 4–20, выше стоит другой участник. В пакеты работ пока не входят — список справочный, до накопления базовой линии.</p>
 
 <h2 id="l2">2 · Конкуренты по уровню угрозы</h2>
 <p class="lead">Threat — насколько конкурент опасен сейчас: доля
@@ -103,14 +147,15 @@ a{color:var(--accent)}
 0–100), когда накоплено 6 сравнимых
 измерений при неизменном ядре. Режим и основание каждой оценки — в
 последней колонке таблицы; числа разных режимов между собой несравнимы.</p>
-<div class="scroll"><table><tr><th class="num">#</th><th>Домен</th><th>Категория</th><th class="num">Доля</th><th class="num">ТОП-3</th><th class="num">ТОП-10</th><th class="num">Threat</th><th>Уверенность и основание</th></tr><tr><td class="num">1</td><td><b>raketapay.ru</b></td><td><span class="tag H">платёжные посредники</span></td><td class="num">7,3%</td><td class="num">83</td><td class="num">121</td><td class="num"><b>28</b></td><td class="q">LOW · базовый режим (шкала 0–70): динамика требует 6 сравнимых измерений, не хватает 1; приближение по ТОП-3: счётчик «выше нас» не передан</td></tr><tr><td class="num">2</td><td><b>platipomiru.com</b></td><td><span class="tag A">прямые B2B-реселлеры</span></td><td class="num">3,6%</td><td class="num">44</td><td class="num">93</td><td class="num"><b>14</b></td><td class="q">LOW · базовый режим (шкала 0–70): динамика требует 6 сравнимых измерений, не хватает 1; приближение по ТОП-3: счётчик «выше нас» не передан</td></tr><tr><td class="num">3</td><td><b>pipl.io</b></td><td><span class="tag H">платёжные посредники</span></td><td class="num">2,4%</td><td class="num">35</td><td class="num">72</td><td class="num"><b>9</b></td><td class="q">LOW · базовый режим (шкала 0–70): динамика требует 6 сравнимых измерений, не хватает 1; приближение по ТОП-3: счётчик «выше нас» не передан</td></tr><tr><td class="num">4</td><td><b>syssoft.ru</b></td><td><span class="tag A">прямые B2B-реселлеры</span></td><td class="num">1,6%</td><td class="num">17</td><td class="num">73</td><td class="num"><b>6</b></td><td class="q">LOW · базовый режим (шкала 0–70): динамика требует 6 сравнимых измерений, не хватает 1; приближение по ТОП-3: счётчик «выше нас» не передан</td></tr><tr><td class="num">5</td><td><b>card-open.ru</b></td><td><span class="tag H">платёжные посредники</span></td><td class="num">1,5%</td><td class="num">20</td><td class="num">48</td><td class="num"><b>6</b></td><td class="q">LOW · базовый режим (шкала 0–70): динамика требует 6 сравнимых измерений, не хватает 1; приближение по ТОП-3: счётчик «выше нас» не передан</td></tr><tr><td class="num">6</td><td><b>finteka.io</b></td><td><span class="tag H">платёжные посредники</span></td><td class="num">1,4%</td><td class="num">14</td><td class="num">61</td><td class="num"><b>5</b></td><td class="q">LOW · базовый режим (шкала 0–70): динамика требует 6 сравнимых измерений, не хватает 1; приближение по ТОП-3: счётчик «выше нас» не передан</td></tr><tr><td class="num">7</td><td><b>store.softline.ru</b></td><td><span class="tag A">прямые B2B-реселлеры</span></td><td class="num">0,8%</td><td class="num">9</td><td class="num">29</td><td class="num"><b>3</b></td><td class="q">LOW · базовый режим (шкала 0–70): динамика требует 6 сравнимых измерений, не хватает 2; приближение по ТОП-3: счётчик «выше нас» не передан</td></tr><tr><td class="num">8</td><td><b>migsoft.ru</b></td><td><span class="tag A">прямые B2B-реселлеры</span></td><td class="num">0,8%</td><td class="num">10</td><td class="num">35</td><td class="num"><b>3</b></td><td class="q">LOW · базовый режим (шкала 0–70): динамика требует 6 сравнимых измерений, не хватает 4; приближение по ТОП-3: счётчик «выше нас» не передан</td></tr><tr><td class="num">9</td><td><b>aifory.pro</b></td><td><span class="tag H">платёжные посредники</span></td><td class="num">0,7%</td><td class="num">3</td><td class="num">59</td><td class="num"><b>3</b></td><td class="q">LOW · базовый режим (шкала 0–70): динамика требует 6 сравнимых измерений, не хватает 1; приближение по ТОП-3: счётчик «выше нас» не передан</td></tr><tr><td class="num">10</td><td><b>softmagazin.ru</b></td><td><span class="tag A">прямые B2B-реселлеры</span></td><td class="num">0,7%</td><td class="num">6</td><td class="num">35</td><td class="num"><b>3</b></td><td class="q">LOW · базовый режим (шкала 0–70): динамика требует 6 сравнимых измерений, не хватает 2; приближение по ТОП-3: счётчик «выше нас» не передан</td></tr></table></div>
+<details class="cut"><summary>Таблица угрозы — 10 конкурентов<span class="cut-note">первые: raketapay.ru, platipomiru.com, pipl.io</span></summary><div class="scroll"><table><tr><th class="num">#</th><th>Домен</th><th>Категория</th><th class="num">Доля</th><th class="num">ТОП-3</th><th class="num">ТОП-10</th><th class="num">Threat</th><th>Уверенность и основание</th></tr><tr><td class="num">1</td><td><b>raketapay.ru</b></td><td><span class="tag H">платёжные посредники</span></td><td class="num">7,3%</td><td class="num">83</td><td class="num">121</td><td class="num"><b>28</b></td><td class="q">LOW · базовый режим (шкала 0–70): динамика требует 6 сравнимых измерений, не хватает 1; приближение по ТОП-3: счётчик «выше нас» не передан</td></tr><tr><td class="num">2</td><td><b>platipomiru.com</b></td><td><span class="tag A">прямые B2B-реселлеры</span></td><td class="num">3,6%</td><td class="num">44</td><td class="num">93</td><td class="num"><b>14</b></td><td class="q">LOW · базовый режим (шкала 0–70): динамика требует 6 сравнимых измерений, не хватает 1; приближение по ТОП-3: счётчик «выше нас» не передан</td></tr><tr><td class="num">3</td><td><b>pipl.io</b></td><td><span class="tag H">платёжные посредники</span></td><td class="num">2,4%</td><td class="num">35</td><td class="num">72</td><td class="num"><b>9</b></td><td class="q">LOW · базовый режим (шкала 0–70): динамика требует 6 сравнимых измерений, не хватает 1; приближение по ТОП-3: счётчик «выше нас» не передан</td></tr><tr><td class="num">4</td><td><b>syssoft.ru</b></td><td><span class="tag A">прямые B2B-реселлеры</span></td><td class="num">1,6%</td><td class="num">17</td><td class="num">73</td><td class="num"><b>6</b></td><td class="q">LOW · базовый режим (шкала 0–70): динамика требует 6 сравнимых измерений, не хватает 1; приближение по ТОП-3: счётчик «выше нас» не передан</td></tr><tr><td class="num">5</td><td><b>card-open.ru</b></td><td><span class="tag H">платёжные посредники</span></td><td class="num">1,5%</td><td class="num">20</td><td class="num">48</td><td class="num"><b>6</b></td><td class="q">LOW · базовый режим (шкала 0–70): динамика требует 6 сравнимых измерений, не хватает 1; приближение по ТОП-3: счётчик «выше нас» не передан</td></tr><tr><td class="num">6</td><td><b>finteka.io</b></td><td><span class="tag H">платёжные посредники</span></td><td class="num">1,4%</td><td class="num">14</td><td class="num">61</td><td class="num"><b>5</b></td><td class="q">LOW · базовый режим (шкала 0–70): динамика требует 6 сравнимых измерений, не хватает 1; приближение по ТОП-3: счётчик «выше нас» не передан</td></tr><tr><td class="num">7</td><td><b>store.softline.ru</b></td><td><span class="tag A">прямые B2B-реселлеры</span></td><td class="num">0,8%</td><td class="num">9</td><td class="num">29</td><td class="num"><b>3</b></td><td class="q">LOW · базовый режим (шкала 0–70): динамика требует 6 сравнимых измерений, не хватает 2; приближение по ТОП-3: счётчик «выше нас» не передан</td></tr><tr><td class="num">8</td><td><b>migsoft.ru</b></td><td><span class="tag A">прямые B2B-реселлеры</span></td><td class="num">0,8%</td><td class="num">10</td><td class="num">35</td><td class="num"><b>3</b></td><td class="q">LOW · базовый режим (шкала 0–70): динамика требует 6 сравнимых измерений, не хватает 4; приближение по ТОП-3: счётчик «выше нас» не передан</td></tr><tr><td class="num">9</td><td><b>aifory.pro</b></td><td><span class="tag H">платёжные посредники</span></td><td class="num">0,7%</td><td class="num">3</td><td class="num">59</td><td class="num"><b>3</b></td><td class="q">LOW · базовый режим (шкала 0–70): динамика требует 6 сравнимых измерений, не хватает 1; приближение по ТОП-3: счётчик «выше нас» не передан</td></tr><tr><td class="num">10</td><td><b>softmagazin.ru</b></td><td><span class="tag A">прямые B2B-реселлеры</span></td><td class="num">0,7%</td><td class="num">6</td><td class="num">35</td><td class="num"><b>3</b></td><td class="q">LOW · базовый режим (шкала 0–70): динамика требует 6 сравнимых измерений, не хватает 2; приближение по ТОП-3: счётчик «выше нас» не передан</td></tr></table></div></details>
 
 <h2 id="l3">3 · Карточки конкурентов</h2>
 <p class="lead">По каждому — на каких запросах он виден и какими страницами
 ранжируется. Это и есть материал для разбора: что у них на странице такого,
 чего нет у нас.</p>
 
-<details><summary>raketapay.ru — доля 7,3%,
+<details id="cmp-raketapay-ru"><summary>raketapay.ru —
+  доля 7,3%,
   ТОП-3 по 83 запросам</summary>
   <div class="grid2">
     <div><h3>Кто это</h3>
@@ -123,7 +168,8 @@ a{color:var(--accent)}
     <div><h3>Страницы, которыми ранжируется</h3><ul class="q"><li><a href="https://raketapay.ru/oplata/motion-array" rel="noreferrer nofollow">https://raketapay.ru/oplata/motion-array</a></li><li><a href="https://raketapay.ru/oplata/artlist" rel="noreferrer nofollow">https://raketapay.ru/oplata/artlist</a></li><li><a href="https://raketapay.ru/kupit/suno-ai" rel="noreferrer nofollow">https://raketapay.ru/kupit/suno-ai</a></li></ul></div>
   </div>
 </details>
-<details><summary>platipomiru.com — доля 3,6%,
+<details id="cmp-platipomiru-com"><summary>platipomiru.com —
+  доля 3,6%,
   ТОП-3 по 44 запросам</summary>
   <div class="grid2">
     <div><h3>Кто это</h3>
@@ -136,7 +182,8 @@ a{color:var(--accent)}
     <div><h3>Страницы, которыми ранжируется</h3><ul class="q"><li><a href="https://platipomiru.com/online-service/coreldraw/" rel="noreferrer nofollow">https://platipomiru.com/online-service/coreldraw/</a></li><li><a href="https://platipomiru.com/online-service/framer/" rel="noreferrer nofollow">https://platipomiru.com/online-service/framer/</a></li><li><a href="https://platipomiru.com/online-service/framer/" rel="noreferrer nofollow">https://platipomiru.com/online-service/framer/</a></li></ul></div>
   </div>
 </details>
-<details><summary>pipl.io — доля 2,4%,
+<details id="cmp-pipl-io"><summary>pipl.io —
+  доля 2,4%,
   ТОП-3 по 35 запросам</summary>
   <div class="grid2">
     <div><h3>Кто это</h3>
@@ -149,7 +196,8 @@ a{color:var(--accent)}
     <div><h3>Страницы, которыми ранжируется</h3><ul class="q"><li><a href="https://pipl.io/kak-oplatit/coreldraw/" rel="noreferrer nofollow">https://pipl.io/kak-oplatit/coreldraw/</a></li><li><a href="https://pipl.io/kak-oplatit/artlist/" rel="noreferrer nofollow">https://pipl.io/kak-oplatit/artlist/</a></li><li><a href="https://pipl.io/kak-oplatit/envato/" rel="noreferrer nofollow">https://pipl.io/kak-oplatit/envato/</a></li></ul></div>
   </div>
 </details>
-<details><summary>syssoft.ru — доля 1,6%,
+<details id="cmp-syssoft-ru"><summary>syssoft.ru —
+  доля 1,6%,
   ТОП-3 по 17 запросам</summary>
   <div class="grid2">
     <div><h3>Кто это</h3>
@@ -162,7 +210,8 @@ a{color:var(--accent)}
     <div><h3>Страницы, которыми ранжируется</h3><ul class="q"><li><a href="https://www.syssoft.ru/perplexity/perplexity/" rel="noreferrer nofollow">https://www.syssoft.ru/perplexity/perplexity/</a></li><li><a href="https://www.syssoft.ru/postman/postman-enterprise/" rel="noreferrer nofollow">https://www.syssoft.ru/postman/postman-enterprise/</a></li><li><a href="https://www.syssoft.ru/notion-labs/notion-business/" rel="noreferrer nofollow">https://www.syssoft.ru/notion-labs/notion-business/</a></li></ul></div>
   </div>
 </details>
-<details><summary>card-open.ru — доля 1,5%,
+<details id="cmp-card-open-ru"><summary>card-open.ru —
+  доля 1,5%,
   ТОП-3 по 20 запросам</summary>
   <div class="grid2">
     <div><h3>Кто это</h3>
@@ -175,7 +224,8 @@ a{color:var(--accent)}
     <div><h3>Страницы, которыми ранжируется</h3><ul class="q"><li><a href="https://card-open.ru/blog/framer-obzor-2026" rel="noreferrer nofollow">https://card-open.ru/blog/framer-obzor-2026</a></li><li><a href="https://card-open.ru/blog/kak-oplatit-vercel-pro-i-gitlab-2026" rel="noreferrer nofollow">https://card-open.ru/blog/kak-oplatit-vercel-pro-i-gitlab-2026</a></li><li><a href="https://card-open.ru/blog/kak-oplatit-shutterstock-depositphotos-freepik-iz-rossii" rel="noreferrer nofollow">https://card-open.ru/blog/kak-oplatit-shutterstock-depositphotos-freepik-iz-rossii</a></li></ul></div>
   </div>
 </details>
-<details><summary>finteka.io — доля 1,4%,
+<details id="cmp-finteka-io"><summary>finteka.io —
+  доля 1,4%,
   ТОП-3 по 14 запросам</summary>
   <div class="grid2">
     <div><h3>Кто это</h3>
@@ -188,7 +238,8 @@ a{color:var(--accent)}
     <div><h3>Страницы, которыми ранжируется</h3><ul class="q"><li><a href="https://finteka.io/services/coreldraw" rel="noreferrer nofollow">https://finteka.io/services/coreldraw</a></li><li><a href="https://finteka.io/services/framer" rel="noreferrer nofollow">https://finteka.io/services/framer</a></li><li><a href="https://finteka.io/services/gitlab" rel="noreferrer nofollow">https://finteka.io/services/gitlab</a></li></ul></div>
   </div>
 </details>
-<details><summary>store.softline.ru — доля 0,8%,
+<details id="cmp-store-softline-ru"><summary>store.softline.ru —
+  доля 0,8%,
   ТОП-3 по 9 запросам</summary>
   <div class="grid2">
     <div><h3>Кто это</h3>
@@ -201,7 +252,8 @@ a{color:var(--accent)}
     <div><h3>Страницы, которыми ранжируется</h3><ul class="q"><li><a href="https://store.softline.ru/adobe/65297884ba01a12-490/" rel="noreferrer nofollow">https://store.softline.ru/adobe/65297884ba01a12-490/</a></li><li><a href="https://store.softline.ru/adobe/65297841ba03a12-299029/" rel="noreferrer nofollow">https://store.softline.ru/adobe/65297841ba03a12-299029/</a></li><li><a href="https://store.softline.ru/corel/coreldraw-graphics-suite-2021/" rel="noreferrer nofollow">https://store.softline.ru/corel/coreldraw-graphics-suite-2021/</a></li></ul></div>
   </div>
 </details>
-<details><summary>migsoft.ru — доля 0,8%,
+<details id="cmp-migsoft-ru"><summary>migsoft.ru —
+  доля 0,8%,
   ТОП-3 по 10 запросам</summary>
   <div class="grid2">
     <div><h3>Кто это</h3>
@@ -215,15 +267,16 @@ a{color:var(--accent)}
   </div>
 </details>
 
-<h2 id="plan">4 · План работ — 19 пакетов</h2>
+<h2 id="plan">4 · План работ — 14 пакетов</h2>
 
 <p class="lead">Точки атаки, сведённые в поручения. Единица работы — страница:
 одна доработка закрывает сразу несколько запросов, и именно её можно поручить
 и принять. Порядок — по ожидаемому приросту переходов; суммарная оценка по
-пакетам с сопоставимым спросом: +5
+пакетам с сопоставимым спросом: +1
 переходов при выходе в ТОП-3 — там, где спрос измерен сопоставимой шкалой.</p>
 
-<details><summary>WP-02 · Дописать текст под 1 запрос без единого вхождения на странице ·
+<details id="pkg-wp-02"><summary>WP-02 ·
+  /vendors/depositphotos · Дописать текст под 1 запрос без единого вхождения на странице ·
   5 запросов · потенциал высокий</summary>
   <div class="grid2">
     <div><h3>Что сделать</h3>
@@ -231,7 +284,7 @@ a{color:var(--accent)}
         <span class="lbl">S · редактор</span>
         <p class="q"><b>Где:</b> /vendors/depositphotos — src/data/vendors.ts, запись slug: &#x27;depositphotos&#x27; (правка полей tagline/about в src/data/vendors.ts, обычный PR; карточки товаров на странице приходят из Directus)<br>
         <b>Почему:</b> по этим запросам мы на позициях 5–10, выше нас finteka.io, platipomiru.com; вхождений темы нет в тексте, который мы контролируем в репозитории — проверены редакторские tagline и about из src/data/vendors.ts; текст типового лендинга (заголовки и блоки шаблона); bespoke-контент scripts/content/depositphotos.json (лид, сравнение тарифов, матрица выбора, сценарии, свой FAQ); подмена FAQ экспериментом со сниппетами учтена; карточки товаров приходят из Directus и в проверку не входят, поэтому перед правкой убедитесь, что фразы нет и в теле страницы из Directus</p>
-        <ul class="q"><li>«как оплатить depositphotos без зарубежной карты» — не хватает слов: оплатить, карты</li></ul>
+        <ul class="q"><li>«как оплатить depositphotos без зарубежной карты» — не хватает слов: карты</li></ul>
         <p class="q"><b>Приёмка:</b> каждая фраза из списка встречается в тексте страницы хотя бы раз, в естественной формулировке, а не перечислением</p></div>
       <div class="wp-act"><b>WP-02-2. Вынести 2 запроса в подзаголовки или вопросы FAQ</b>
         <span class="lbl">S · редактор</span>
@@ -266,7 +319,8 @@ a{color:var(--accent)}
     <div><h3>Какие запросы закрывает</h3><ul class="q"><li>недорого оплатить подписку depositphotos</li><li>оплата пакета depositphotos в россии</li><li>depositphotos оплата из россии</li><li>оплата depositphotos</li><li>как оплатить depositphotos без зарубежной карты</li></ul></div>
   </div>
 </details>
-<details><summary>WP-04 · Дописать текст под 1 запрос без единого вхождения на странице ·
+<details id="pkg-wp-04"><summary>WP-04 ·
+  /blog/kak-oplatit-coreldraw-dlya-yurlica · Дописать текст под 1 запрос без единого вхождения на странице ·
   4 запросов · потенциал высокий</summary>
   <div class="grid2">
     <div><h3>Что сделать</h3>
@@ -288,19 +342,13 @@ a{color:var(--accent)}
         <b>Почему:</b> FAQ на странице есть (7 вопросов), но нераскрытые формулировки запросов в него не попали</p>
         <ul class="q"><li>«как оплатить тариф coreldraw из россии?»</li></ul>
         <p class="q"><b>Приёмка:</b> новые вопросы видны на странице и попадают в разметку FAQPage</p></div>
-      <div class="wp-act"><b>WP-04-4. Пересобрать заголовок страницы под ведущий запрос пакета</b>
-        <span class="lbl">S · SEO + редактор</span>
-        <p class="q"><b>Где:</b> src/content/blog/kak-oplatit-coreldraw-dlya-yurlica.md — поле title<br>
-        <b>Почему:</b> в заголовке нет слов: оплата, россиян; ведущий запрос пакета — «оплата coreldraw для россиян»</p>
-        <ul class="q"><li>уместить «оплата coreldraw для россиян» в заголовок до 60 символов, не превращая его в перечисление ключей</li></ul>
-        <p class="q"><b>Приёмка:</b> заголовок уникален по сайту, до 60 символов, содержит фразу</p></div>
-      <div class="wp-act"><b>WP-04-5. Отправить страницу на переобход после правок</b>
+      <div class="wp-act"><b>WP-04-4. Отправить страницу на переобход после правок</b>
         <span class="lbl">S · SEO</span>
         <p class="q"><b>Где:</b> workflow ops-yandex-recrawl, запуск с main<br>
         <b>Почему:</b> правка вступает в силу для поиска только после переобхода; квота 150 URL в сутки, страница одна</p>
         <ul class="q"><li>urls = https://biz-soft.pro/blog/kak-oplatit-coreldraw-dlya-yurlica</li></ul>
         <p class="q"><b>Приёмка:</b> URL принят Вебмастером, результат в журнале issue #22</p></div></div>
-    <div><h3>Уже сделано — проверено, работ не требует</h3><ul class="q"><li>коммерческая связка на месте: со страницы стоят ссылки на карточки товара (5 штук) и на страницу вендора — добавлять нечего</li><li>FAQ есть — 7 вопросов, размечен штатным компонентом</li></ul>
+    <div><h3>Уже сделано — проверено, работ не требует</h3><ul class="q"><li>коммерческая связка на месте: со страницы стоят ссылки на карточки товара (5 штук) и на страницу вендора — добавлять нечего</li><li>FAQ есть — 7 вопросов, размечен штатным компонентом</li><li>заголовок страницы уже содержит ведущий запрос пакета</li></ul>
       <h3>Не рекомендуем сейчас</h3><ul class="q"><li>внешние ссылки и их закупка: ссылочный профиль этим контуром не измеряется — предлагать бюджет под неизмеряемое нельзя</li><li>поведенческие факторы: данные Метрики по этим страницам в контур не заведены, эффект правок проверить нечем</li><li>общие формулировки вида «улучшить SEO» и «усилить контент»: их нельзя ни поручить, ни принять — они запрещены проверкой отчёта</li></ul></div>
     <div><h3>Чем обоснован приоритет</h3>
       <p class="q">Страница: <b>/blog/kak-oplatit-coreldraw-dlya-yurlica</b> (blog),
@@ -321,12 +369,25 @@ a{color:var(--accent)}
     <div><h3>Какие запросы закрывает</h3><ul class="q"><li>оплата coreldraw для россиян</li><li>оплата coreldraw россиян</li><li>как оплатить тариф coreldraw из россии</li><li>сервисы оплаты coreldraw из россии</li></ul></div>
   </div>
 </details>
-<details><summary>WP-07 · правок по репозиторию не требуется: запросы пакета уже раскрыты в проверенном тексте — остаётся проверить тело страницы из Directus ·
+<details id="pkg-wp-07"><summary>WP-07 ·
+  /product/anthropic-team · Проверить в Directus, как раскрыты на карточке 1 запрос ·
   2 запросов · потенциал высокий</summary>
   <div class="grid2">
-    <div><h3>Что сделать</h3><p class="q">действий не сформировано: содержимое страницы проверить не удалось</p></div>
+    <div><h3>Что сделать</h3>
+      <div class="wp-act"><b>WP-07-1. Проверить в Directus, как раскрыты на карточке 1 запрос</b>
+        <span class="lbl">S · редактор</span>
+        <p class="q"><b>Где:</b> /product/anthropic-team — карточка товара в Directus (name, short_description)<br>
+        <b>Почему:</b> заголовки карточки собирает общий шаблон, а название и описание приходят из Directus: отдельного подзаголовка под запрос на карточке завести негде, и правка ушла бы в шаблон всех карточек</p>
+        <ul class="q"><li>«claude team купить»</li></ul>
+        <p class="q"><b>Приёмка:</b> по каждой фразе видно, каким полем карточки она раскрыта; решение о правке принимается по факту, а не вслепую</p></div>
+      <div class="wp-act"><b>WP-07-2. Отправить страницу на переобход после правок</b>
+        <span class="lbl">S · SEO</span>
+        <p class="q"><b>Где:</b> workflow ops-yandex-recrawl, запуск с main<br>
+        <b>Почему:</b> правка вступает в силу для поиска только после переобхода; квота 150 URL в сутки, страница одна</p>
+        <ul class="q"><li>urls = https://biz-soft.pro/product/anthropic-team</li></ul>
+        <p class="q"><b>Приёмка:</b> URL принят Вебмастером, результат в журнале issue #22</p></div></div>
     <div><h3>Уже сделано — проверено, работ не требует</h3><p class="q">по этой странице ничего из проверяемого не сделано</p>
-      <h3>Не рекомендуем сейчас</h3><ul class="q"><li>внешние ссылки и их закупка: ссылочный профиль этим контуром не измеряется — предлагать бюджет под неизмеряемое нельзя</li><li>поведенческие факторы: данные Метрики по этим страницам в контур не заведены, эффект правок проверить нечем</li><li>общие формулировки вида «улучшить SEO» и «усилить контент»: их нельзя ни поручить, ни принять — они запрещены проверкой отчёта</li><li>«claude team plan купить» — проверить, а не дописывать: «claude», «plan» может уже стоять в названии товара из Directus, которого проверка не видит</li><li>«claude team купить» — проверить, а не дописывать: «claude» может уже стоять в названии товара из Directus, которого проверка не видит</li></ul></div>
+      <h3>Не рекомендуем сейчас</h3><ul class="q"><li>внешние ссылки и их закупка: ссылочный профиль этим контуром не измеряется — предлагать бюджет под неизмеряемое нельзя</li><li>поведенческие факторы: данные Метрики по этим страницам в контур не заведены, эффект правок проверить нечем</li><li>общие формулировки вида «улучшить SEO» и «усилить контент»: их нельзя ни поручить, ни принять — они запрещены проверкой отчёта</li><li>«claude team plan купить» — проверить, а не дописывать: «plan» может уже стоять в названии товара из Directus, которого проверка не видит</li></ul></div>
     <div><h3>Чем обоснован приоритет</h3>
       <p class="q">Страница: <b>/product/anthropic-team</b> (product),
       сейчас позиции 5–5.<br>
@@ -346,7 +407,8 @@ a{color:var(--accent)}
     <div><h3>Какие запросы закрывает</h3><ul class="q"><li>claude team plan купить</li><li>claude team купить</li></ul></div>
   </div>
 </details>
-<details><summary>WP-08 · Пересобрать заголовок страницы под ведущий запрос пакета ·
+<details id="pkg-wp-08"><summary>WP-08 ·
+  /blog/kak-kupit-github-copilot-dlya-yurlica · Пересобрать заголовок страницы под ведущий запрос пакета ·
   1 запросов · потенциал высокий</summary>
   <div class="grid2">
     <div><h3>Что сделать</h3>
@@ -383,7 +445,8 @@ a{color:var(--accent)}
     <div><h3>Какие запросы закрывает</h3><ul class="q"><li>купить подписку github copilot business</li></ul></div>
   </div>
 </details>
-<details><summary>WP-11 · Вынести 1 запрос в подзаголовки или вопросы FAQ ·
+<details id="pkg-wp-11"><summary>WP-11 ·
+  /blog/gitlab-godovaya-podpiska-iz-rossii-dlya-yurlica · Вынести 1 запрос в подзаголовки или вопросы FAQ ·
   4 запросов · потенциал высокий</summary>
   <div class="grid2">
     <div><h3>Что сделать</h3>
@@ -393,19 +456,13 @@ a{color:var(--accent)}
         <b>Почему:</b> тема раскрыта в тексте, но не видна в структуре страницы: заголовки и вопросы FAQ поисковик сопоставляет с запросом в первую очередь</p>
         <ul class="q"><li>«gitlab оформить подписку россия»</li></ul>
         <p class="q"><b>Приёмка:</b> каждая фраза стоит в H2/H3 или в вопросе FAQ, а не только в абзаце</p></div>
-      <div class="wp-act"><b>WP-11-2. Пересобрать заголовок страницы под ведущий запрос пакета</b>
-        <span class="lbl">S · SEO + редактор</span>
-        <p class="q"><b>Где:</b> src/content/blog/gitlab-godovaya-podpiska-iz-rossii-dlya-yurlica.md — поле title<br>
-        <b>Почему:</b> в заголовке нет слов: оплатить; ведущий запрос пакета — «gitlab подписка оплатить в рф»</p>
-        <ul class="q"><li>уместить «gitlab подписка оплатить в рф» в заголовок до 60 символов, не превращая его в перечисление ключей</li></ul>
-        <p class="q"><b>Приёмка:</b> заголовок уникален по сайту, до 60 символов, содержит фразу</p></div>
-      <div class="wp-act"><b>WP-11-3. Отправить страницу на переобход после правок</b>
+      <div class="wp-act"><b>WP-11-2. Отправить страницу на переобход после правок</b>
         <span class="lbl">S · SEO</span>
         <p class="q"><b>Где:</b> workflow ops-yandex-recrawl, запуск с main<br>
         <b>Почему:</b> правка вступает в силу для поиска только после переобхода; квота 150 URL в сутки, страница одна</p>
         <ul class="q"><li>urls = https://biz-soft.pro/blog/gitlab-godovaya-podpiska-iz-rossii-dlya-yurlica</li></ul>
         <p class="q"><b>Приёмка:</b> URL принят Вебмастером, результат в журнале issue #22</p></div></div>
-    <div><h3>Уже сделано — проверено, работ не требует</h3><ul class="q"><li>коммерческая связка на месте: со страницы стоят ссылки на карточки товара (2 штуки) и на страницу вендора — добавлять нечего</li><li>FAQ есть — 7 вопросов, размечен штатным компонентом</li></ul>
+    <div><h3>Уже сделано — проверено, работ не требует</h3><ul class="q"><li>коммерческая связка на месте: со страницы стоят ссылки на карточки товара (2 штуки) и на страницу вендора — добавлять нечего</li><li>FAQ есть — 7 вопросов, размечен штатным компонентом</li><li>заголовок страницы уже содержит ведущий запрос пакета</li></ul>
       <h3>Не рекомендуем сейчас</h3><ul class="q"><li>внешние ссылки и их закупка: ссылочный профиль этим контуром не измеряется — предлагать бюджет под неизмеряемое нельзя</li><li>поведенческие факторы: данные Метрики по этим страницам в контур не заведены, эффект правок проверить нечем</li><li>общие формулировки вида «улучшить SEO» и «усилить контент»: их нельзя ни поручить, ни принять — они запрещены проверкой отчёта</li></ul></div>
     <div><h3>Чем обоснован приоритет</h3>
       <p class="q">Страница: <b>/blog/gitlab-godovaya-podpiska-iz-rossii-dlya-yurlica</b> (blog),
@@ -426,57 +483,8 @@ a{color:var(--accent)}
     <div><h3>Какие запросы закрывает</h3><ul class="q"><li>gitlab подписка оплатить в рф</li><li>gitlab оплатить</li><li>gitlab premium оплата из россии</li><li>gitlab оформить подписку россия</li></ul></div>
   </div>
 </details>
-<details><summary>WP-12 · правок по репозиторию не требуется: запросы пакета уже раскрыты в проверенном тексте — остаётся проверить тело страницы из Directus ·
-  1 запросов · потенциал средний</summary>
-  <div class="grid2">
-    <div><h3>Что сделать</h3><p class="q">действий не сформировано: содержимое страницы проверить не удалось</p></div>
-    <div><h3>Уже сделано — проверено, работ не требует</h3><p class="q">по этой странице ничего из проверяемого не сделано</p>
-      <h3>Не рекомендуем сейчас</h3><ul class="q"><li>внешние ссылки и их закупка: ссылочный профиль этим контуром не измеряется — предлагать бюджет под неизмеряемое нельзя</li><li>поведенческие факторы: данные Метрики по этим страницам в контур не заведены, эффект правок проверить нечем</li><li>общие формулировки вида «улучшить SEO» и «усилить контент»: их нельзя ни поручить, ни принять — они запрещены проверкой отчёта</li><li>«github copilot business купить» — проверить, а не дописывать: «github» может уже стоять в названии товара из Directus, которого проверка не видит</li></ul></div>
-    <div><h3>Чем обоснован приоритет</h3>
-      <p class="q">Страница: <b>/product/ghcopilot-business</b> (product),
-      сейчас позиции 4–4.<br>
-      Выше нас: raketapay.ru.<br>
-      Спрос по источникам (не суммируется — величины разной природы): 39 webmaster по 1 запр..<br>
-      <span class="lbl likely">ОЦЕНКА</span>Индекс потенциала 0.006
-      (средний) — безразмерная величина для сравнения
-      пакетов между собой: прирост веса позиции, умноженный на нормированный
-      спрос. Спрос измерен по 1/1 запросам
-      пакета.<br>
-      перевод в переходы невозможен: спрос измерен показами Вебмастера — это видимая нам часть спроса за две недели, а не объём рынка<br>
-      Уверенность оценки: MEDIUM.<br>
-      <b>Что именно проверено:</b> проверён текст шаблона карточки и slug товара; название, описание и характеристики приходят из Directus и в проверку не входят
-      (источник: src/pages/product/[slug].astro).<br>
-      Любая оценка реализуется только если правка действительно поднимет
-      страницу.</p></div>
-    <div><h3>Какие запросы закрывает</h3><ul class="q"><li>github copilot business купить</li></ul></div>
-  </div>
-</details>
-<details><summary>WP-13 · правок по репозиторию не требуется: запросы пакета уже раскрыты в проверенном тексте — остаётся проверить тело страницы из Directus ·
-  1 запросов · потенциал средний</summary>
-  <div class="grid2">
-    <div><h3>Что сделать</h3><p class="q">действий не сформировано: содержимое страницы проверить не удалось</p></div>
-    <div><h3>Уже сделано — проверено, работ не требует</h3><p class="q">по этой странице ничего из проверяемого не сделано</p>
-      <h3>Не рекомендуем сейчас</h3><ul class="q"><li>внешние ссылки и их закупка: ссылочный профиль этим контуром не измеряется — предлагать бюджет под неизмеряемое нельзя</li><li>поведенческие факторы: данные Метрики по этим страницам в контур не заведены, эффект правок проверить нечем</li><li>общие формулировки вида «улучшить SEO» и «усилить контент»: их нельзя ни поручить, ни принять — они запрещены проверкой отчёта</li></ul></div>
-    <div><h3>Чем обоснован приоритет</h3>
-      <p class="q">Страница: <b>/vendors/epidemic-sound</b> (vendor),
-      сейчас позиции 9–9.<br>
-      Выше нас: market.yandex.ru.<br>
-      Спрос по источникам (не суммируется — величины разной природы): 57 wordstat по 1 запр..<br>
-      <span class="lbl likely">ОЦЕНКА</span>Индекс потенциала 0.005
-      (средний) — безразмерная величина для сравнения
-      пакетов между собой: прирост веса позиции, умноженный на нормированный
-      спрос. Спрос измерен по 1/1 запросам
-      пакета.<br>
-      Прирост переходов: ≈ +5. оценка по частотности Wordstat: прирост кликов при выходе в ТОП-3 и неизменном спросе<br>
-      Уверенность оценки: MEDIUM.<br>
-      <b>Что именно проверено:</b> проверены редакторские tagline и about из src/data/vendors.ts; текст типового лендинга (заголовки и блоки шаблона); bespoke-контент scripts/content/epidemic-sound.json (лид, сравнение тарифов, матрица выбора, сценарии, свой FAQ); карточки товаров приходят из Directus и в проверку не входят
-      (источник: src/data/vendors.ts).<br>
-      Любая оценка реализуется только если правка действительно поднимет
-      страницу.</p></div>
-    <div><h3>Какие запросы закрывает</h3><ul class="q"><li>epidemic sound купить</li></ul></div>
-  </div>
-</details>
-<details><summary>WP-15 · Закрыть региональный разрыв по Санкт-Петербургу ·
+<details id="pkg-wp-15"><summary>WP-15 ·
+  /vendors/runway · Закрыть региональный разрыв по Санкт-Петербургу ·
   2 запросов · потенциал средний</summary>
   <div class="grid2">
     <div><h3>Что сделать</h3>
@@ -513,7 +521,8 @@ a{color:var(--accent)}
     <div><h3>Какие запросы закрывает</h3><ul class="q"><li>runway тарифы</li><li>runway ai тарифы</li></ul></div>
   </div>
 </details>
-<details><summary>WP-17 · Пересобрать заголовок страницы под ведущий запрос пакета ·
+<details id="pkg-wp-17"><summary>WP-17 ·
+  /blog/kak-oplatit-postman-dlya-yurlica · Пересобрать заголовок страницы под ведущий запрос пакета ·
   2 запросов · потенциал средний</summary>
   <div class="grid2">
     <div><h3>Что сделать</h3>
@@ -550,56 +559,8 @@ a{color:var(--accent)}
     <div><h3>Какие запросы закрывает</h3><ul class="q"><li>postman оплата подписки</li><li>москва postman оплата подписки</li></ul></div>
   </div>
 </details>
-<details><summary>WP-22 · Дописать текст под 1 запрос без единого вхождения на странице ·
-  1 запросов · потенциал средний</summary>
-  <div class="grid2">
-    <div><h3>Что сделать</h3>
-      <div class="wp-act"><b>WP-22-1. Дописать текст под 1 запрос без единого вхождения на странице</b>
-        <span class="lbl">S · редактор</span>
-        <p class="q"><b>Где:</b> /blog/kak-kupit-windsurf-iz-rossii-dlya-yurlica — src/content/blog/kak-kupit-windsurf-iz-rossii-dlya-yurlica.md (правка md-файла статьи, обычный PR)<br>
-        <b>Почему:</b> по этим запросам мы на позициях 8–8, выше нас platipomiru.com; вхождений темы нет в тексте, который мы контролируем в репозитории</p>
-        <ul class="q"><li>«windsurf pro купить плати по миру» — не хватает слов: миру</li></ul>
-        <p class="q"><b>Приёмка:</b> каждая фраза из списка встречается в тексте страницы хотя бы раз, в естественной формулировке, а не перечислением</p></div>
-      <div class="wp-act"><b>WP-22-2. Добавить 1 вопрос в существующий FAQ</b>
-        <span class="lbl">S · редактор</span>
-        <p class="q"><b>Где:</b> src/content/blog/kak-kupit-windsurf-iz-rossii-dlya-yurlica.md, блок faq во frontmatter<br>
-        <b>Почему:</b> FAQ на странице есть (7 вопросов), но нераскрытые формулировки запросов в него не попали</p>
-        <ul class="q"><li>«windsurf pro купить плати по миру?»</li></ul>
-        <p class="q"><b>Приёмка:</b> новые вопросы видны на странице и попадают в разметку FAQPage</p></div>
-      <div class="wp-act"><b>WP-22-3. Пересобрать заголовок страницы под ведущий запрос пакета</b>
-        <span class="lbl">S · SEO + редактор</span>
-        <p class="q"><b>Где:</b> src/content/blog/kak-kupit-windsurf-iz-rossii-dlya-yurlica.md — поле title<br>
-        <b>Почему:</b> в заголовке нет слов: pro, миру; ведущий запрос пакета — «windsurf pro купить плати по миру»</p>
-        <ul class="q"><li>уместить «windsurf pro купить плати по миру» в заголовок до 60 символов, не превращая его в перечисление ключей</li></ul>
-        <p class="q"><b>Приёмка:</b> заголовок уникален по сайту, до 60 символов, содержит фразу</p></div>
-      <div class="wp-act"><b>WP-22-4. Отправить страницу на переобход после правок</b>
-        <span class="lbl">S · SEO</span>
-        <p class="q"><b>Где:</b> workflow ops-yandex-recrawl, запуск с main<br>
-        <b>Почему:</b> правка вступает в силу для поиска только после переобхода; квота 150 URL в сутки, страница одна</p>
-        <ul class="q"><li>urls = https://biz-soft.pro/blog/kak-kupit-windsurf-iz-rossii-dlya-yurlica</li></ul>
-        <p class="q"><b>Приёмка:</b> URL принят Вебмастером, результат в журнале issue #22</p></div></div>
-    <div><h3>Уже сделано — проверено, работ не требует</h3><ul class="q"><li>коммерческая связка на месте: со страницы стоят ссылки на карточки товара (2 штуки) и на страницу вендора — добавлять нечего</li><li>FAQ есть — 7 вопросов, размечен штатным компонентом</li></ul>
-      <h3>Не рекомендуем сейчас</h3><ul class="q"><li>внешние ссылки и их закупка: ссылочный профиль этим контуром не измеряется — предлагать бюджет под неизмеряемое нельзя</li><li>поведенческие факторы: данные Метрики по этим страницам в контур не заведены, эффект правок проверить нечем</li><li>общие формулировки вида «улучшить SEO» и «усилить контент»: их нельзя ни поручить, ни принять — они запрещены проверкой отчёта</li></ul></div>
-    <div><h3>Чем обоснован приоритет</h3>
-      <p class="q">Страница: <b>/blog/kak-kupit-windsurf-iz-rossii-dlya-yurlica</b> (blog),
-      сейчас позиции 8–8.<br>
-      Выше нас: platipomiru.com.<br>
-      Спрос по источникам (не суммируется — величины разной природы): 7 webmaster по 1 запр..<br>
-      <span class="lbl likely">ОЦЕНКА</span>Индекс потенциала 0.003
-      (средний) — безразмерная величина для сравнения
-      пакетов между собой: прирост веса позиции, умноженный на нормированный
-      спрос. Спрос измерен по 1/1 запросам
-      пакета.<br>
-      перевод в переходы невозможен: спрос измерен показами Вебмастера — это видимая нам часть спроса за две недели, а не объём рынка<br>
-      Уверенность оценки: MEDIUM.<br>
-      <b>Что именно проверено:</b> проверен полный текст статьи: заголовки, тело, FAQ, ссылки
-      (источник: src/content/blog/kak-kupit-windsurf-iz-rossii-dlya-yurlica.md).<br>
-      Любая оценка реализуется только если правка действительно поднимет
-      страницу.</p></div>
-    <div><h3>Какие запросы закрывает</h3><ul class="q"><li>windsurf pro купить плати по миру</li></ul></div>
-  </div>
-</details>
-<details><summary>WP-24 · Вынести 1 запрос в подзаголовки или вопросы FAQ ·
+<details id="pkg-wp-24"><summary>WP-24 ·
+  /blog/kak-oplatit-box-business-iz-rossii · Вынести 1 запрос в подзаголовки или вопросы FAQ ·
   2 запросов · потенциал низкий</summary>
   <div class="grid2">
     <div><h3>Что сделать</h3>
@@ -642,7 +603,8 @@ a{color:var(--accent)}
     <div><h3>Какие запросы закрывает</h3><ul class="q"><li>как оплатить тариф box из россии</li><li>как оплатить box облако из россии</li></ul></div>
   </div>
 </details>
-<details><summary>WP-25 · Вынести 1 запрос в подзаголовки или вопросы FAQ ·
+<details id="pkg-wp-25"><summary>WP-25 ·
+  https://www.biz-soft.pro/vendors/openai · Вынести 1 запрос в подзаголовки или вопросы FAQ ·
   1 запросов · потенциал низкий</summary>
   <div class="grid2">
     <div><h3>Что сделать</h3>
@@ -679,53 +641,23 @@ a{color:var(--accent)}
     <div><h3>Какие запросы закрывает</h3><ul class="q"><li>купить openai api юридическим лицом</li></ul></div>
   </div>
 </details>
-<details><summary>WP-26 · Вынести 2 запроса в подзаголовки или вопросы FAQ ·
-  2 запросов · потенциал низкий</summary>
+<details id="pkg-wp-27"><summary>WP-27 ·
+  /vendors/houdini · Вынести 1 запрос в подзаголовки или вопросы FAQ ·
+  1 запросов · потенциал низкий</summary>
   <div class="grid2">
     <div><h3>Что сделать</h3>
-      <div class="wp-act"><b>WP-26-1. Вынести 2 запроса в подзаголовки или вопросы FAQ</b>
+      <div class="wp-act"><b>WP-27-1. Вынести 1 запрос в подзаголовки или вопросы FAQ</b>
         <span class="lbl">S · редактор</span>
-        <p class="q"><b>Где:</b> /vendors/descript — src/data/vendors.ts, запись slug: &#x27;descript&#x27;<br>
+        <p class="q"><b>Где:</b> /vendors/houdini — src/data/vendors.ts, запись slug: &#x27;houdini&#x27;<br>
         <b>Почему:</b> тема раскрыта в тексте, но не видна в структуре страницы: заголовки и вопросы FAQ поисковик сопоставляет с запросом в первую очередь</p>
-        <ul class="q"><li>«подписку descript купить»</li><li>«купить подписку descript»</li></ul>
+        <ul class="q"><li>«houdini цена»</li></ul>
         <p class="q"><b>Приёмка:</b> каждая фраза стоит в H2/H3 или в вопросе FAQ, а не только в абзаце</p></div>
-      <div class="wp-act"><b>WP-26-2. Закрыть региональный разрыв по Санкт-Петербургу</b>
-        <span class="lbl">M · редактор</span>
-        <p class="q"><b>Где:</b> /vendors/descript — src/data/vendors.ts, запись slug: &#x27;descript&#x27;<br>
-        <b>Почему:</b> в Москве позиция 4.0, в Санкт-Петербурге 8.0: разрыв 4.0 позиций по одним и тем же запросам</p>
-        <ul class="q"><li>проверить, нет ли в тексте привязки к одному городу</li><li>убедиться, что условия оформления не выглядят московскими</li></ul>
-        <p class="q"><b>Приёмка:</b> разрыв позиций между регионами сократился при следующем замере</p></div>
-      <div class="wp-act"><b>WP-26-3. Отправить страницу на переобход после правок</b>
+      <div class="wp-act"><b>WP-27-2. Отправить страницу на переобход после правок</b>
         <span class="lbl">S · SEO</span>
         <p class="q"><b>Где:</b> workflow ops-yandex-recrawl, запуск с main<br>
         <b>Почему:</b> правка вступает в силу для поиска только после переобхода; квота 150 URL в сутки, страница одна</p>
-        <ul class="q"><li>urls = https://biz-soft.pro/vendors/descript</li></ul>
+        <ul class="q"><li>urls = https://biz-soft.pro/vendors/houdini</li></ul>
         <p class="q"><b>Приёмка:</b> URL принят Вебмастером, результат в журнале issue #22</p></div></div>
-    <div><h3>Уже сделано — проверено, работ не требует</h3><p class="q">по этой странице ничего из проверяемого не сделано</p>
-      <h3>Не рекомендуем сейчас</h3><ul class="q"><li>внешние ссылки и их закупка: ссылочный профиль этим контуром не измеряется — предлагать бюджет под неизмеряемое нельзя</li><li>поведенческие факторы: данные Метрики по этим страницам в контур не заведены, эффект правок проверить нечем</li><li>общие формулировки вида «улучшить SEO» и «усилить контент»: их нельзя ни поручить, ни принять — они запрещены проверкой отчёта</li></ul></div>
-    <div><h3>Чем обоснован приоритет</h3>
-      <p class="q">Страница: <b>/vendors/descript</b> (vendor),
-      сейчас позиции 4–5.<br>
-      Выше нас: raketapay.ru.<br>
-      Спрос по источникам (не суммируется — величины разной природы): 7 webmaster по 1 запр..<br>
-      <span class="lbl likely">ОЦЕНКА</span>Индекс потенциала 0.001
-      (низкий) — безразмерная величина для сравнения
-      пакетов между собой: прирост веса позиции, умноженный на нормированный
-      спрос. Спрос измерен по 1/2 запросам
-      пакета.<br>
-      перевод в переходы невозможен: спрос измерен показами Вебмастера — это видимая нам часть спроса за две недели, а не объём рынка<br>
-      Уверенность оценки: LOW.<br>
-      <b>Что именно проверено:</b> проверены редакторские tagline и about из src/data/vendors.ts; текст типового лендинга (заголовки и блоки шаблона); bespoke-контент scripts/content/descript.json (лид, сравнение тарифов, матрица выбора, сценарии, свой FAQ); карточки товаров приходят из Directus и в проверку не входят
-      (источник: src/data/vendors.ts).<br>
-      Любая оценка реализуется только если правка действительно поднимет
-      страницу.</p></div>
-    <div><h3>Какие запросы закрывает</h3><ul class="q"><li>подписку descript купить</li><li>купить подписку descript</li></ul></div>
-  </div>
-</details>
-<details><summary>WP-27 · правок по репозиторию не требуется: запросы пакета уже раскрыты в проверенном тексте — остаётся проверить тело страницы из Directus ·
-  1 запросов · потенциал низкий</summary>
-  <div class="grid2">
-    <div><h3>Что сделать</h3><p class="q">действий не сформировано: содержимое страницы проверить не удалось</p></div>
     <div><h3>Уже сделано — проверено, работ не требует</h3><p class="q">по этой странице ничего из проверяемого не сделано</p>
       <h3>Не рекомендуем сейчас</h3><ul class="q"><li>внешние ссылки и их закупка: ссылочный профиль этим контуром не измеряется — предлагать бюджет под неизмеряемое нельзя</li><li>поведенческие факторы: данные Метрики по этим страницам в контур не заведены, эффект правок проверить нечем</li><li>общие формулировки вида «улучшить SEO» и «усилить контент»: их нельзя ни поручить, ни принять — они запрещены проверкой отчёта</li></ul></div>
     <div><h3>Чем обоснован приоритет</h3>
@@ -747,7 +679,8 @@ a{color:var(--accent)}
     <div><h3>Какие запросы закрывает</h3><ul class="q"><li>houdini цена</li></ul></div>
   </div>
 </details>
-<details><summary>WP-28 · Вынести 1 запрос в подзаголовки или вопросы FAQ ·
+<details id="pkg-wp-28"><summary>WP-28 ·
+  /vendors/zoho · Вынести 1 запрос в подзаголовки или вопросы FAQ ·
   1 запросов · потенциал низкий</summary>
   <div class="grid2">
     <div><h3>Что сделать</h3>
@@ -784,39 +717,15 @@ a{color:var(--accent)}
     <div><h3>Какие запросы закрывает</h3><ul class="q"><li>оплата по zoho юридическим лицом</li></ul></div>
   </div>
 </details>
-<details><summary>WP-29 · правок по репозиторию не требуется: запросы пакета уже раскрыты в проверенном тексте — остаётся проверить тело страницы из Directus ·
-  1 запросов · потенциал низкий</summary>
-  <div class="grid2">
-    <div><h3>Что сделать</h3><p class="q">действий не сформировано: содержимое страницы проверить не удалось</p></div>
-    <div><h3>Уже сделано — проверено, работ не требует</h3><p class="q">по этой странице ничего из проверяемого не сделано</p>
-      <h3>Не рекомендуем сейчас</h3><ul class="q"><li>внешние ссылки и их закупка: ссылочный профиль этим контуром не измеряется — предлагать бюджет под неизмеряемое нельзя</li><li>поведенческие факторы: данные Метрики по этим страницам в контур не заведены, эффект правок проверить нечем</li><li>общие формулировки вида «улучшить SEO» и «усилить контент»: их нельзя ни поручить, ни принять — они запрещены проверкой отчёта</li><li>«cloudflare купить москва и мо» — не дописываем: «москва» название города; гео-задача словом в тексте не решается</li></ul></div>
-    <div><h3>Чем обоснован приоритет</h3>
-      <p class="q">Страница: <b>/vendors/cloudflare</b> (vendor),
-      сейчас позиции 6–6.<br>
-      Выше нас: store.softline.ru.<br>
-      Спрос по источникам (не суммируется — величины разной природы): 3 webmaster по 1 запр..<br>
-      <span class="lbl likely">ОЦЕНКА</span>Индекс потенциала 0.001
-      (низкий) — безразмерная величина для сравнения
-      пакетов между собой: прирост веса позиции, умноженный на нормированный
-      спрос. Спрос измерен по 1/1 запросам
-      пакета.<br>
-      перевод в переходы невозможен: спрос измерен показами Вебмастера — это видимая нам часть спроса за две недели, а не объём рынка<br>
-      Уверенность оценки: MEDIUM.<br>
-      <b>Что именно проверено:</b> проверены редакторские tagline и about из src/data/vendors.ts; текст типового лендинга (заголовки и блоки шаблона); bespoke-контент scripts/content/cloudflare.json (лид, сравнение тарифов, матрица выбора, сценарии, свой FAQ); карточки товаров приходят из Directus и в проверку не входят
-      (источник: src/data/vendors.ts).<br>
-      Любая оценка реализуется только если правка действительно поднимет
-      страницу.</p></div>
-    <div><h3>Какие запросы закрывает</h3><ul class="q"><li>cloudflare купить москва и мо</li></ul></div>
-  </div>
-</details>
-<details><summary>WP-30 · Пересобрать заголовок страницы под ведущий запрос пакета ·
+<details id="pkg-wp-30"><summary>WP-30 ·
+  /blog/kak-poluchit-schet-i-zakryvayushchie-ot-atlassian · Пересобрать заголовок страницы под ведущий запрос пакета ·
   1 запросов · потенциал низкий</summary>
   <div class="grid2">
     <div><h3>Что сделать</h3>
       <div class="wp-act"><b>WP-30-1. Пересобрать заголовок страницы под ведущий запрос пакета</b>
         <span class="lbl">S · SEO + редактор</span>
         <p class="q"><b>Где:</b> src/content/blog/kak-poluchit-schet-i-zakryvayushchie-ot-atlassian.md — поле title<br>
-        <b>Почему:</b> в заголовке нет слов: оплатить, тариф, россии; ведущий запрос пакета — «как оплатить тариф confluence из россии»</p>
+        <b>Почему:</b> в заголовке нет слов: тариф, россии; ведущий запрос пакета — «как оплатить тариф confluence из россии»</p>
         <ul class="q"><li>уместить «как оплатить тариф confluence из россии» в заголовок до 60 символов, не превращая его в перечисление ключей</li></ul>
         <p class="q"><b>Приёмка:</b> заголовок уникален по сайту, до 60 символов, содержит фразу</p></div>
       <div class="wp-act"><b>WP-30-2. Отправить страницу на переобход после правок</b>
@@ -846,7 +755,8 @@ a{color:var(--accent)}
     <div><h3>Какие запросы закрывает</h3><ul class="q"><li>как оплатить тариф confluence из россии</li></ul></div>
   </div>
 </details>
-<details><summary>WP-32 · Проверить в Directus, как раскрыты на карточке 1 запрос ·
+<details id="pkg-wp-32"><summary>WP-32 ·
+  /product/spine-pro · Проверить в Directus, как раскрыты на карточке 1 запрос ·
   1 запросов · потенциал низкий</summary>
   <div class="grid2">
     <div><h3>Что сделать</h3>
@@ -883,7 +793,8 @@ a{color:var(--accent)}
     <div><h3>Какие запросы закрывает</h3><ul class="q"><li>spine pro купить</li></ul></div>
   </div>
 </details>
-<details><summary>WP-33 · Вынести 1 запрос в подзаголовки или вопросы FAQ ·
+<details id="pkg-wp-33"><summary>WP-33 ·
+  /vendors/perplexity · Вынести 1 запрос в подзаголовки или вопросы FAQ ·
   1 запросов · потенциал низкий</summary>
   <div class="grid2">
     <div><h3>Что сделать</h3>
@@ -920,6 +831,8 @@ a{color:var(--accent)}
     <div><h3>Какие запросы закрывает</h3><ul class="q"><li>perplexity enterprise купить</li></ul></div>
   </div>
 </details>
+<h3 id="stale">Занятость снята по истечении окна — 2 эксперимента</h3><p class="lead">У этих экспериментов базового SEO-контура окно замера уже прошло, а статус в реестре остался рабочим: его меняет человек. Их страницы освобождены для поручений нашим решением — правка, внесённая после конца окна, замеру не мешает. Строка стоит здесь, чтобы базовый контур увидел, что эксперименты пора закрывать.</p><details class="cut"><summary>Какие эксперименты освободили страницы</summary><div class="scroll"><table><tr><th>Эксперимент</th><th>Заявка</th><th>Начат</th><th>Окно до</th><th class="num">Страниц</th><th>Метрика успеха</th></tr><tr><td>snippets-5-vendors</td><td>SEO-EXP-001</td><td>2026-08-19</td><td>2026-09-02</td><td class="num">5</td><td class="q">CTR кластеров Canva/Depositphotos/CorelDRAW/HeyGen/Marmoset в Яндекс.Вебмастере ≥2% через 7 дней (26.08.2026), ≥3% через 14 дней (02.09.2026)</td></tr><tr><td>cluster-depositphotos</td><td>CONTENT-001</td><td>2026-08-19</td><td>2026-09-02</td><td class="num">5</td><td class="q">рост показов кластера Depositphotos относительно базовых 273 показов за 14 дней и вход статьи /blog/kak-oplatit-depositphotos-dlya-yurlica в топ-10 Яндекса за 14 дней (контроль 02.09.2026)</td></tr></table></div></details>
+<h3 id="verify">Проверить, а не делать — 4 страницы</h3><p class="lead">По этим страницам проверка не нашла, что менять: запросы пакета раскрыты в том тексте, который контур видит. Остаётся посмотреть тело страницы из Directus — в репозитории его нет. Это не поручение: работы здесь нет, есть проверка, и в очереди работ такие строки занимали место настоящих.</p><details class="cut"><summary>Список страниц под проверку</summary><div class="scroll"><table><tr><th>Пакет</th><th>Страница</th><th class="num">Запросов</th><th>Почему не поручение</th><th>Что уже проверено</th></tr><tr><td>WP-12</td><td>/product/ghcopilot-business</td><td class="num">1</td><td class="q">«github copilot business купить» — проверить, а не дописывать: «github», «copilot» может уже стоять в названии товара из Directus, которого проверка не видит</td><td class="q">проверён текст шаблона карточки и slug товара; название, описание и характеристики приходят из Directus и в проверку не входят</td></tr><tr><td>WP-13</td><td>/vendors/epidemic-sound</td><td class="num">1</td><td class="q">правок по репозиторию не требуется: запросы пакета уже раскрыты в проверенном тексте — остаётся проверить тело страницы из Directus</td><td class="q">проверены редакторские tagline и about из src/data/vendors.ts; текст типового лендинга (заголовки и блоки шаблона); bespoke-контент scripts/content/epidemic-sound.json (лид, сравнение тарифов, матрица выбора, сценарии, свой FAQ); карточки товаров приходят из Directus и в проверку не входят</td></tr><tr><td>WP-22</td><td>/blog/kak-kupit-windsurf-iz-rossii-dlya-yurlica</td><td class="num">1</td><td class="q">«windsurf pro купить плати по миру» — не дописываем: «миру» входит в название конкурента из этой же выдачи; чужой бренд в своём тексте не даёт позиции и выдаёт страницу за чужую; «windsurf pro купить плати по миру» — заголовок под этот запрос не пересобираем: «плати», «миру» входит в название конкурента из этой же выдачи</td><td class="q">проверен полный текст статьи: заголовки, тело, FAQ, ссылки</td></tr><tr><td>WP-29</td><td>/vendors/cloudflare</td><td class="num">1</td><td class="q">«cloudflare купить москва и мо» — не дописываем: «москва» название города; гео-задача словом в тексте не решается</td><td class="q">проверены редакторские tagline и about из src/data/vendors.ts; текст типового лендинга (заголовки и блоки шаблона); bespoke-контент scripts/content/cloudflare.json (лид, сравнение тарифов, матрица выбора, сценарии, свой FAQ); карточки товаров приходят из Directus и в проверку не входят</td></tr></table></div></details>
 
 <h2 id="l4">5 · Точки атаки — 76 кандидатов</h2>
 <p class="lead">Кандидат — запрос, где мы на 4–20 позиции, а выше стоит другой
@@ -939,16 +852,16 @@ a{color:var(--accent)}
 <div class="card"><h3>Что происходит с этими точками</h3>
 <table><thead><tr><th>Состояние</th><th class="num">Запросов</th>
 <th>Что это значит</th></tr></thead><tbody>
-<tr><td>Правка внесена, идёт замер</td><td class="num">42</td>
+<tr><td>Правка внесена, идёт замер</td><td class="num">44</td>
 <td>страница доработана, до конца моратория новых поручений по ней нет</td></tr>
 <tr><td>Проверено, эффект измерен</td><td class="num">0</td>
 <td>окно наблюдения истекло, результат в разделе 6</td></tr>
-<tr><td>В очереди на работу</td><td class="num">8</td>
+<tr><td>В очереди на работу</td><td class="num">11</td>
 <td>поручение сформировано, правка не внесена</td></tr>
-<tr><td>Страница занята чужим замером</td><td class="num">26</td>
+<tr><td>Страница занята чужим замером</td><td class="num">17</td>
 <td>по странице идёт эксперимент базового SEO-контура: вторая правка в том же
 окне лишит оценки оба замера, работа берётся после контрольной точки</td></tr>
-<tr><td>Вне плана работ</td><td class="num">0</td>
+<tr><td>Вне плана работ</td><td class="num">4</td>
 <td>запрос не сведён в пакет: спрос не измерен либо страница не в нашей зоне</td></tr>
 </tbody></table>
 <p class="q"><b>Чего ждать от закрытия точки.</b> Цель по каждой — выход в
@@ -957,12 +870,12 @@ a{color:var(--accent)}
 где спрос измерен сопоставимой шкалой. Факт вместо ожидания появляется в
 разделе 6 через две недели после внесения правки: позиции сравниваются с
 базой и с контрольной группой.</p></div>
-<div class="scroll"><table><tr><th>ID</th><th class="num">Opp.</th><th>Увер.</th><th>Запрос</th><th class="num">Наша</th><th>Конкурент</th><th class="num">Спрос</th><th>Источник</th><th>Поручение</th><th>Что с ним</th></tr><tr><td>ATT-001</td><td class="num"><b>69</b></td><td>MEDIUM</td><td class="q">оплата зарубежного по для юр лица документы</td><td class="num">4</td><td>raketapay.ru <span class="sub">#1</span></td><td class="num">41</td><td class="q">webmaster</td><td>WP-06</td><td class="q">правка внесена, замер до 2026-09-15</td></tr><tr><td>ATT-002</td><td class="num"><b>67</b></td><td>LOW</td><td class="q">подписку descript купить</td><td class="num">5</td><td>raketapay.ru <span class="sub">#1</span></td><td class="num">—</td><td class="q">none</td><td>WP-26</td><td class="q">страница занята экспериментом content-10-clusters до 2026-10-01</td></tr><tr><td>ATT-003</td><td class="num"><b>65</b></td><td>MEDIUM</td><td class="q">купить openai api юридическим лицом</td><td class="num">5</td><td>raketapay.ru <span class="sub">#1</span></td><td class="num">5</td><td class="q">webmaster</td><td>WP-25</td><td class="q">в очереди на работу</td></tr><tr><td>ATT-004</td><td class="num"><b>65</b></td><td>MEDIUM</td><td class="q">оплата по zoho юридическим лицом</td><td class="num">5</td><td>raketapay.ru <span class="sub">#2</span></td><td class="num">4</td><td class="q">webmaster</td><td>WP-28</td><td class="q">в очереди на работу</td></tr><tr><td>ATT-005</td><td class="num"><b>65</b></td><td>MEDIUM</td><td class="q">оплата иностранной подписки для бизнеса документы</td><td class="num">5</td><td>raketapay.ru <span class="sub">#2</span></td><td class="num">28</td><td class="q">webmaster</td><td>WP-06</td><td class="q">правка внесена, замер до 2026-09-15</td></tr><tr><td>ATT-006</td><td class="num"><b>63</b></td><td>MEDIUM</td><td class="q">оплата зарубежных сервисов для юридических лиц документы</td><td class="num">9</td><td>raketapay.ru <span class="sub">#1</span></td><td class="num">32</td><td class="q">webmaster</td><td>WP-06</td><td class="q">правка внесена, замер до 2026-09-15</td></tr><tr><td>ATT-007</td><td class="num"><b>63</b></td><td>MEDIUM</td><td class="q">купить подписку github copilot business</td><td class="num">7</td><td>raketapay.ru <span class="sub">#1</span></td><td class="num">29</td><td class="q">webmaster</td><td>WP-08</td><td class="q">страница занята экспериментом content-6-clusters до 2026-09-16</td></tr><tr><td>ATT-008</td><td class="num"><b>61</b></td><td>MEDIUM</td><td class="q">github copilot business купить</td><td class="num">4</td><td>raketapay.ru <span class="sub">#1</span></td><td class="num">39</td><td class="q">webmaster</td><td>WP-12</td><td class="q">в очереди на работу</td></tr><tr><td>ATT-009</td><td class="num"><b>59</b></td><td>MEDIUM</td><td class="q">claude team plan купить</td><td class="num">5</td><td>raketapay.ru <span class="sub">#1</span></td><td class="num">36</td><td class="q">webmaster</td><td>WP-07</td><td class="q">в очереди на работу</td></tr><tr><td>ATT-010</td><td class="num"><b>57</b></td><td>MEDIUM</td><td class="q">claude team купить</td><td class="num">5</td><td>softmagazin.ru <span class="sub">#1</span></td><td class="num">63</td><td class="q">wordstat</td><td>WP-07</td><td class="q">в очереди на работу</td></tr><tr><td>ATT-011</td><td class="num"><b>57</b></td><td>MEDIUM</td><td class="q">купить подписку descript</td><td class="num">4</td><td>raketapay.ru <span class="sub">#1</span></td><td class="num">7</td><td class="q">webmaster</td><td>WP-26</td><td class="q">страница занята экспериментом content-10-clusters до 2026-10-01</td></tr><tr><td>ATT-012</td><td class="num"><b>56</b></td><td>MEDIUM</td><td class="q">postman оплата подписки</td><td class="num">5</td><td>raketapay.ru <span class="sub">#1</span></td><td class="num">15</td><td class="q">webmaster</td><td>WP-17</td><td class="q">страница занята экспериментом content-6-clusters до 2026-09-16</td></tr><tr><td>ATT-013</td><td class="num"><b>56</b></td><td>MEDIUM</td><td class="q">оплатить подписку capture one</td><td class="num">4</td><td>raketapay.ru <span class="sub">#1</span></td><td class="num">4</td><td class="q">webmaster</td><td>WP-10</td><td class="q">правка внесена, замер до 2026-09-17</td></tr><tr><td>ATT-014</td><td class="num"><b>56</b></td><td>MEDIUM</td><td class="q">москва postman оплата подписки</td><td class="num">4</td><td>raketapay.ru <span class="sub">#1</span></td><td class="num">3</td><td class="q">webmaster</td><td>WP-17</td><td class="q">страница занята экспериментом content-6-clusters до 2026-09-16</td></tr><tr><td>ATT-015</td><td class="num"><b>56</b></td><td>MEDIUM</td><td class="q">gitlab подписка оплатить в рф</td><td class="num">4</td><td>platipomiru.com <span class="sub">#3</span></td><td class="num">3</td><td class="q">webmaster</td><td>WP-11</td><td class="q">страница занята экспериментом content-10-clusters до 2026-10-01</td></tr><tr><td>ATT-016</td><td class="num"><b>54</b></td><td>MEDIUM</td><td class="q">perplexity enterprise купить</td><td class="num">7</td><td>raketapay.ru <span class="sub">#1</span></td><td class="num">8</td><td class="q">wordstat</td><td>WP-33</td><td class="q">страница занята экспериментом content-6-clusters до 2026-09-16</td></tr><tr><td>ATT-017</td><td class="num"><b>54</b></td><td>MEDIUM</td><td class="q">купить подписку artlist</td><td class="num">7</td><td>raketapay.ru <span class="sub">#2</span></td><td class="num">11</td><td class="q">webmaster</td><td>WP-09</td><td class="q">правка внесена, замер до 2026-09-15</td></tr><tr><td>ATT-018</td><td class="num"><b>54</b></td><td>MEDIUM</td><td class="q">недорого оплатить подписку depositphotos</td><td class="num">9</td><td>platipomiru.com <span class="sub">#1</span></td><td class="num">40</td><td class="q">webmaster</td><td>WP-02</td><td class="q">страница занята экспериментом snippets-5-vendors до 2026-09-02</td></tr><tr><td>ATT-019</td><td class="num"><b>53</b></td><td>MEDIUM</td><td class="q">оплата coreldraw для россиян</td><td class="num">6</td><td>platipomiru.com <span class="sub">#3</span></td><td class="num">69</td><td class="q">webmaster</td><td>WP-04</td><td class="q">страница занята экспериментом cluster-coreldraw до 2026-09-16</td></tr><tr><td>ATT-020</td><td class="num"><b>53</b></td><td>MEDIUM</td><td class="q">оплата пакета depositphotos в россии</td><td class="num">5</td><td>finteka.io <span class="sub">#3</span></td><td class="num">57</td><td class="q">webmaster</td><td>WP-02</td><td class="q">страница занята экспериментом snippets-5-vendors до 2026-09-02</td></tr><tr><td>ATT-021</td><td class="num"><b>53</b></td><td>MEDIUM</td><td class="q">купить подписку capture one</td><td class="num">7</td><td>raketapay.ru <span class="sub">#1</span></td><td class="num">12</td><td class="q">wordstat</td><td>WP-10</td><td class="q">правка внесена, замер до 2026-09-17</td></tr><tr><td>ATT-022</td><td class="num"><b>52</b></td><td>MEDIUM</td><td class="q">оплатить подписку depositphotos в россии</td><td class="num">10</td><td>platipomiru.com <span class="sub">#1</span></td><td class="num">31</td><td class="q">webmaster</td><td>WP-01</td><td class="q">правка внесена, замер до 2026-09-15</td></tr><tr><td>ATT-023</td><td class="num"><b>52</b></td><td>MEDIUM</td><td class="q">windsurf купить подписку</td><td class="num">8</td><td>raketapay.ru <span class="sub">#1</span></td><td class="num">13</td><td class="q">wordstat</td><td>WP-16</td><td class="q">правка внесена, замер до 2026-09-15</td></tr><tr><td>ATT-024</td><td class="num"><b>51</b></td><td>MEDIUM</td><td class="q">купить подписку windsurf</td><td class="num">9</td><td>raketapay.ru <span class="sub">#1</span></td><td class="num">6</td><td class="q">webmaster</td><td>WP-16</td><td class="q">правка внесена, замер до 2026-09-15</td></tr><tr><td>ATT-025</td><td class="num"><b>50</b></td><td>MEDIUM</td><td class="q">foundry купить</td><td class="num">9</td><td>syssoft.ru <span class="sub">#3</span></td><td class="num">380</td><td class="q">wordstat</td><td>WP-03</td><td class="q">правка внесена, замер до 2026-09-15</td></tr><tr><td>ATT-026</td><td class="num"><b>49</b></td><td>MEDIUM</td><td class="q">gitlab оплатить</td><td class="num">5</td><td>raketapay.ru <span class="sub">#1</span></td><td class="num">10</td><td class="q">webmaster</td><td>WP-11</td><td class="q">страница занята экспериментом content-10-clusters до 2026-10-01</td></tr><tr><td>ATT-027</td><td class="num"><b>49</b></td><td>MEDIUM</td><td class="q">runway тарифы</td><td class="num">4</td><td>migsoft.ru <span class="sub">#2</span></td><td class="num">28</td><td class="q">wordstat</td><td>WP-15</td><td class="q">страница занята экспериментом content-6-clusters до 2026-09-16</td></tr><tr><td>ATT-028</td><td class="num"><b>49</b></td><td>MEDIUM</td><td class="q">gitlab premium оплата из россии</td><td class="num">4</td><td>platipomiru.com <span class="sub">#2</span></td><td class="num">6</td><td class="q">webmaster</td><td>WP-11</td><td class="q">страница занята экспериментом content-10-clusters до 2026-10-01</td></tr><tr><td>ATT-029</td><td class="num"><b>48</b></td><td>MEDIUM</td><td class="q">оплата depositphotos в рублях</td><td class="num">7</td><td>platipomiru.com <span class="sub">#1</span></td><td class="num">33</td><td class="q">webmaster</td><td>WP-01</td><td class="q">правка внесена, замер до 2026-09-15</td></tr><tr><td>ATT-030</td><td class="num"><b>48</b></td><td>MEDIUM</td><td class="q">envato elements тариф россия</td><td class="num">5</td><td>raketapay.ru <span class="sub">#4</span></td><td class="num">8</td><td class="q">webmaster</td><td>WP-23</td><td class="q">правка внесена, замер до 2026-09-17</td></tr><tr><td>ATT-031</td><td class="num"><b>48</b></td><td>MEDIUM</td><td class="q">оплата coreldraw из россии</td><td class="num">5</td><td>finteka.io <span class="sub">#2</span></td><td class="num">4</td><td class="q">webmaster</td><td>WP-14</td><td class="q">правка внесена, замер до 2026-09-17</td></tr><tr><td>ATT-032</td><td class="num"><b>48</b></td><td>MEDIUM</td><td class="q">тарифы recraft</td><td class="num">7</td><td>raketapay.ru <span class="sub">#3</span></td><td class="num">24</td><td class="q">webmaster</td><td>WP-05</td><td class="q">правка внесена, замер до 2026-09-17</td></tr><tr><td>ATT-033</td><td class="num"><b>48</b></td><td>MEDIUM</td><td class="q">оплата coreldraw</td><td class="num">5</td><td>platipomiru.com <span class="sub">#1</span></td><td class="num">5</td><td class="q">webmaster</td><td>WP-14</td><td class="q">правка внесена, замер до 2026-09-17</td></tr><tr><td>ATT-034</td><td class="num"><b>47</b></td><td>MEDIUM</td><td class="q">gitlab оформить подписку россия</td><td class="num">6</td><td>platipomiru.com <span class="sub">#3</span></td><td class="num">7</td><td class="q">webmaster</td><td>WP-11</td><td class="q">страница занята экспериментом content-10-clusters до 2026-10-01</td></tr><tr><td>ATT-035</td><td class="num"><b>47</b></td><td>MEDIUM</td><td class="q">как оплатить тариф box из россии</td><td class="num">4</td><td>pipl.io <span class="sub">#1</span></td><td class="num">4</td><td class="q">webmaster</td><td>WP-24</td><td class="q">страница занята экспериментом content-10-clusters до 2026-10-01</td></tr><tr><td>ATT-036</td><td class="num"><b>47</b></td><td>MEDIUM</td><td class="q">оплата coreldraw россиян</td><td class="num">6</td><td>platipomiru.com <span class="sub">#3</span></td><td class="num">4</td><td class="q">webmaster</td><td>WP-04</td><td class="q">страница занята экспериментом cluster-coreldraw до 2026-09-16</td></tr><tr><td>ATT-037</td><td class="num"><b>47</b></td><td>MEDIUM</td><td class="q">cloudflare купить москва и мо</td><td class="num">6</td><td>store.softline.ru <span class="sub">#1</span></td><td class="num">3</td><td class="q">webmaster</td><td>WP-29</td><td class="q">страница занята экспериментом content-10-clusters до 2026-10-01</td></tr><tr><td>ATT-038</td><td class="num"><b>46</b></td><td>MEDIUM</td><td class="q">оплата depositphotos из россии</td><td class="num">9</td><td>platipomiru.com <span class="sub">#1</span></td><td class="num">29</td><td class="q">webmaster</td><td>WP-01</td><td class="q">правка внесена, замер до 2026-09-15</td></tr><tr><td>ATT-039</td><td class="num"><b>46</b></td><td>MEDIUM</td><td class="q">оплата capture one без vpn</td><td class="num">7</td><td>raketapay.ru <span class="sub">#1</span></td><td class="num">8</td><td class="q">webmaster</td><td>WP-10</td><td class="q">правка внесена, замер до 2026-09-17</td></tr><tr><td>ATT-040</td><td class="num"><b>46</b></td><td>MEDIUM</td><td class="q">capture one для россиян оплата</td><td class="num">7</td><td>raketapay.ru <span class="sub">#1</span></td><td class="num">4</td><td class="q">webmaster</td><td>WP-10</td><td class="q">правка внесена, замер до 2026-09-17</td></tr><tr><td>ATT-041</td><td class="num"><b>46</b></td><td>MEDIUM</td><td class="q">как оплатить тариф coreldraw из россии</td><td class="num">6</td><td>pipl.io <span class="sub">#2</span></td><td class="num">23</td><td class="q">webmaster</td><td>WP-04</td><td class="q">страница занята экспериментом cluster-coreldraw до 2026-09-16</td></tr><tr><td>ATT-042</td><td class="num"><b>46</b></td><td>MEDIUM</td><td class="q">spine pro купить</td><td class="num">7</td><td>syssoft.ru <span class="sub">#1</span></td><td class="num">2</td><td class="q">webmaster</td><td>WP-32</td><td class="q">в очереди на работу</td></tr><tr><td>ATT-043</td><td class="num"><b>46</b></td><td>MEDIUM</td><td class="q">coreldraw подписка</td><td class="num">7</td><td>store.softline.ru <span class="sub">#3</span></td><td class="num">33</td><td class="q">wordstat</td><td>WP-14</td><td class="q">правка внесена, замер до 2026-09-17</td></tr><tr><td>ATT-044</td><td class="num"><b>45</b></td><td>MEDIUM</td><td class="q">как оплатить тариф depositphotos из россии</td><td class="num">9</td><td>platipomiru.com <span class="sub">#3</span></td><td class="num">51</td><td class="q">webmaster</td><td>WP-01</td><td class="q">правка внесена, замер до 2026-09-15</td></tr><tr><td>ATT-045</td><td class="num"><b>45</b></td><td>MEDIUM</td><td class="q">windsurf pro купить плати по миру</td><td class="num">8</td><td>platipomiru.com <span class="sub">#1</span></td><td class="num">7</td><td class="q">webmaster</td><td>WP-22</td><td class="q">страница занята экспериментом content-10-clusters до 2026-10-01</td></tr><tr><td>ATT-046</td><td class="num"><b>45</b></td><td>MEDIUM</td><td class="q">depositphotos оплата из россии</td><td class="num">9</td><td>platipomiru.com <span class="sub">#1</span></td><td class="num">18</td><td class="q">webmaster</td><td>WP-02</td><td class="q">страница занята экспериментом snippets-5-vendors до 2026-09-02</td></tr><tr><td>ATT-047</td><td class="num"><b>45</b></td><td>MEDIUM</td><td class="q">сервисы оплаты coreldraw из россии</td><td class="num">8</td><td>pipl.io <span class="sub">#2</span></td><td class="num">3</td><td class="q">webmaster</td><td>WP-04</td><td class="q">страница занята экспериментом cluster-coreldraw до 2026-09-16</td></tr><tr><td>ATT-048</td><td class="num"><b>45</b></td><td>MEDIUM</td><td class="q">houdini цена</td><td class="num">8</td><td>syssoft.ru <span class="sub">#2</span></td><td class="num">3</td><td class="q">webmaster</td><td>WP-27</td><td class="q">в очереди на работу</td></tr><tr><td>ATT-049</td><td class="num"><b>45</b></td><td>MEDIUM</td><td class="q">как оплатить тариф confluence из россии</td><td class="num">6</td><td>kartli.io <span class="sub">#2</span></td><td class="num">3</td><td class="q">webmaster</td><td>WP-30</td><td class="q">страница занята экспериментом content-10-clusters до 2026-10-01</td></tr><tr><td>ATT-050</td><td class="num"><b>45</b></td><td>MEDIUM</td><td class="q">рекрафт тарифы</td><td class="num">10</td><td>syssoft.ru <span class="sub">#5</span></td><td class="num">28</td><td class="q">webmaster</td><td>WP-05</td><td class="q">правка внесена, замер до 2026-09-17</td></tr><tr><td>ATT-051</td><td class="num"><b>45</b></td><td>MEDIUM</td><td class="q">artlist подписка</td><td class="num">8</td><td>platipomiru.com <span class="sub">#5</span></td><td class="num">47</td><td class="q">wordstat</td><td>WP-09</td><td class="q">правка внесена, замер до 2026-09-15</td></tr><tr><td>ATT-052</td><td class="num"><b>44</b></td><td>MEDIUM</td><td class="q">как купить framer pro в россии</td><td class="num">4</td><td>aifory.pro <span class="sub">#3</span></td><td class="num">25</td><td class="q">webmaster</td><td>WP-19</td><td class="q">правка внесена, замер до 2026-09-17</td></tr><tr><td>ATT-053</td><td class="num"><b>44</b></td><td>MEDIUM</td><td class="q">как оплатить depositphotos в рублях</td><td class="num">6</td><td>card-open.ru <span class="sub">#1</span></td><td class="num">49</td><td class="q">webmaster</td><td>WP-01</td><td class="q">правка внесена, замер до 2026-09-15</td></tr><tr><td>ATT-054</td><td class="num"><b>44</b></td><td>MEDIUM</td><td class="q">оплата depositphotos</td><td class="num">9</td><td>platipomiru.com <span class="sub">#1</span></td><td class="num">9</td><td class="q">webmaster</td><td>WP-02</td><td class="q">страница занята экспериментом snippets-5-vendors до 2026-09-02</td></tr><tr><td>ATT-055</td><td class="num"><b>43</b></td><td>MEDIUM</td><td class="q">как оплатить box облако из россии</td><td class="num">4</td><td>pipl.io <span class="sub">#2</span></td><td class="num">9</td><td class="q">webmaster</td><td>WP-24</td><td class="q">страница занята экспериментом content-10-clusters до 2026-10-01</td></tr><tr><td>ATT-056</td><td class="num"><b>43</b></td><td>MEDIUM</td><td class="q">как купить windsurf из россии</td><td class="num">4</td><td>raketapay.ru <span class="sub">#1</span></td><td class="num">4</td><td class="q">webmaster</td><td>WP-16</td><td class="q">правка внесена, замер до 2026-09-15</td></tr><tr><td>ATT-057</td><td class="num"><b>43</b></td><td>MEDIUM</td><td class="q">купить фаундри</td><td class="num">10</td><td>syssoft.ru <span class="sub">#6</span></td><td class="num">12</td><td class="q">webmaster</td><td>WP-03</td><td class="q">правка внесена, замер до 2026-09-15</td></tr><tr><td>ATT-058</td><td class="num"><b>42</b></td><td>MEDIUM</td><td class="q">купить аккаунт windsurf</td><td class="num">10</td><td>raketapay.ru <span class="sub">#2</span></td><td class="num">5</td><td class="q">wordstat</td><td>WP-16</td><td class="q">правка внесена, замер до 2026-09-15</td></tr><tr><td>ATT-059</td><td class="num"><b>42</b></td><td>MEDIUM</td><td class="q">как оплатить пакет depositphotos из россии</td><td class="num">7</td><td>finteka.io <span class="sub">#2</span></td><td class="num">34</td><td class="q">webmaster</td><td>WP-01</td><td class="q">правка внесена, замер до 2026-09-15</td></tr><tr><td>ATT-060</td><td class="num"><b>42</b></td><td>MEDIUM</td><td class="q">как оплатить capture one</td><td class="num">4</td><td>raketapay.ru <span class="sub">#2</span></td><td class="num">11</td><td class="q">wordstat</td><td>WP-10</td><td class="q">правка внесена, замер до 2026-09-17</td></tr><tr><td>ATT-061</td><td class="num"><b>41</b></td><td>MEDIUM</td><td class="q">как оплатить depositphotos в россии</td><td class="num">8</td><td>pipl.io <span class="sub">#1</span></td><td class="num">33</td><td class="q">webmaster</td><td>WP-01</td><td class="q">правка внесена, замер до 2026-09-15</td></tr><tr><td>ATT-062</td><td class="num"><b>40</b></td><td>MEDIUM</td><td class="q">depositphotos как оплатить в россии</td><td class="num">8</td><td>card-open.ru <span class="sub">#1</span></td><td class="num">23</td><td class="q">webmaster</td><td>WP-01</td><td class="q">правка внесена, замер до 2026-09-15</td></tr><tr><td>ATT-063</td><td class="num"><b>39</b></td><td>MEDIUM</td><td class="q">как купить recraft без зарубежной карты</td><td class="num">9</td><td>aifory.pro <span class="sub">#4</span></td><td class="num">21</td><td class="q">webmaster</td><td>WP-05</td><td class="q">правка внесена, замер до 2026-09-17</td></tr><tr><td>ATT-064</td><td class="num"><b>38</b></td><td>MEDIUM</td><td class="q">как оплатить depositphotos из россии</td><td class="num">9</td><td>pipl.io <span class="sub">#1</span></td><td class="num">10</td><td class="q">webmaster</td><td>WP-01</td><td class="q">правка внесена, замер до 2026-09-15</td></tr><tr><td>ATT-065</td><td class="num"><b>37</b></td><td>MEDIUM</td><td class="q">как оплатить депозитфотос из россии</td><td class="num">10</td><td>pipl.io <span class="sub">#2</span></td><td class="num">14</td><td class="q">webmaster</td><td>WP-01</td><td class="q">правка внесена, замер до 2026-09-15</td></tr><tr><td>ATT-066</td><td class="num"><b>37</b></td><td>MEDIUM</td><td class="q">как сейчас оплатить depositphotos из россии</td><td class="num">10</td><td>card-open.ru <span class="sub">#1</span></td><td class="num">18</td><td class="q">webmaster</td><td>WP-01</td><td class="q">правка внесена, замер до 2026-09-15</td></tr><tr><td>ATT-067</td><td class="num"><b>36</b></td><td>MEDIUM</td><td class="q">чем оплатить depositphotos из россии</td><td class="num">10</td><td>card-open.ru <span class="sub">#1</span></td><td class="num">8</td><td class="q">webmaster</td><td>WP-01</td><td class="q">правка внесена, замер до 2026-09-15</td></tr><tr><td>ATT-068</td><td class="num"><b>36</b></td><td>MEDIUM</td><td class="q">как оплатить depositphotos без зарубежной карты</td><td class="num">10</td><td>platipomiru.com <span class="sub">#1</span></td><td class="num">4</td><td class="q">webmaster</td><td>WP-02</td><td class="q">страница занята экспериментом snippets-5-vendors до 2026-09-02</td></tr><tr><td>ATT-069</td><td class="num"><b>56</b></td><td>MEDIUM</td><td class="q">gamma business оплата из россии</td><td class="num">6</td><td>dzen.ru <span class="sub">#1</span></td><td class="num">13</td><td class="q">webmaster</td><td>WP-18</td><td class="q">правка внесена, замер до 2026-09-15</td></tr><tr><td>ATT-070</td><td class="num"><b>51</b></td><td>MEDIUM</td><td class="q">runway ai тарифы</td><td class="num">4</td><td>runway.com <span class="sub">#1</span></td><td class="num">24</td><td class="q">webmaster</td><td>WP-15</td><td class="q">страница занята экспериментом content-6-clusters до 2026-09-16</td></tr><tr><td>ATT-071</td><td class="num"><b>50</b></td><td>MEDIUM</td><td class="q">фаундри купить</td><td class="num">4</td><td>foundryvtt.com <span class="sub">#1</span></td><td class="num">11</td><td class="q">webmaster</td><td>WP-03</td><td class="q">правка внесена, замер до 2026-09-15</td></tr><tr><td>ATT-072</td><td class="num"><b>48</b></td><td>MEDIUM</td><td class="q">character creator 5 купить</td><td class="num">6</td><td>market.yandex.ru <span class="sub">#1</span></td><td class="num">12</td><td class="q">webmaster</td><td>WP-20</td><td class="q">правка внесена, замер до 2026-09-17</td></tr><tr><td>ATT-073</td><td class="num"><b>48</b></td><td>MEDIUM</td><td class="q">sketchup go подписка</td><td class="num">5</td><td>sketchup.trimble.com <span class="sub">#1</span></td><td class="num">3</td><td class="q">webmaster</td><td>WP-31</td><td class="q">правка внесена, замер до 2026-09-15</td></tr><tr><td>ATT-074</td><td class="num"><b>46</b></td><td>MEDIUM</td><td class="q">сколько стоит подписка клип студио бессрочная</td><td class="num">7</td><td>wildberries.ru <span class="sub">#1</span></td><td class="num">3</td><td class="q">webmaster</td><td>WP-21</td><td class="q">правка внесена, замер до 2026-09-15</td></tr><tr><td>ATT-075</td><td class="num"><b>44</b></td><td>MEDIUM</td><td class="q">сколько стоит подписка в клип студио</td><td class="num">9</td><td>ggsel.net <span class="sub">#1</span></td><td class="num">6</td><td class="q">webmaster</td><td>WP-21</td><td class="q">правка внесена, замер до 2026-09-15</td></tr><tr><td>ATT-076</td><td class="num"><b>44</b></td><td>MEDIUM</td><td class="q">epidemic sound купить</td><td class="num">9</td><td>market.yandex.ru <span class="sub">#1</span></td><td class="num">57</td><td class="q">wordstat</td><td>WP-13</td><td class="q">в очереди на работу</td></tr></table></div>
+<details class="cut"><summary>Полная таблица точек атаки — 76 строк<span class="cut-note">из них в плане работ 76</span></summary><div class="scroll"><table><tr><th>ID</th><th class="num">Opp.</th><th>Увер.</th><th>Запрос</th><th class="num">Наша</th><th>Конкурент</th><th class="num">Спрос</th><th>Источник</th><th>Поручение</th><th>Что с ним</th></tr><tr><td>ATT-001</td><td class="num"><b>69</b></td><td>MEDIUM</td><td class="q">оплата зарубежного по для юр лица документы</td><td class="num">4</td><td>raketapay.ru <span class="sub">#1</span></td><td class="num">41</td><td class="q">webmaster</td><td>WP-06</td><td class="q">правка внесена, замер до 2026-09-15</td></tr><tr><td>ATT-002</td><td class="num"><b>67</b></td><td>LOW</td><td class="q">подписку descript купить</td><td class="num">5</td><td>raketapay.ru <span class="sub">#1</span></td><td class="num">—</td><td class="q">none</td><td>WP-26</td><td class="q">правка внесена, замер до 2026-09-18</td></tr><tr><td>ATT-003</td><td class="num"><b>65</b></td><td>MEDIUM</td><td class="q">купить openai api юридическим лицом</td><td class="num">5</td><td>raketapay.ru <span class="sub">#1</span></td><td class="num">5</td><td class="q">webmaster</td><td>WP-25</td><td class="q">в очереди на работу</td></tr><tr><td>ATT-004</td><td class="num"><b>65</b></td><td>MEDIUM</td><td class="q">оплата по zoho юридическим лицом</td><td class="num">5</td><td>raketapay.ru <span class="sub">#2</span></td><td class="num">4</td><td class="q">webmaster</td><td>WP-28</td><td class="q">в очереди на работу</td></tr><tr><td>ATT-005</td><td class="num"><b>65</b></td><td>MEDIUM</td><td class="q">оплата иностранной подписки для бизнеса документы</td><td class="num">5</td><td>raketapay.ru <span class="sub">#2</span></td><td class="num">28</td><td class="q">webmaster</td><td>WP-06</td><td class="q">правка внесена, замер до 2026-09-15</td></tr><tr><td>ATT-006</td><td class="num"><b>63</b></td><td>MEDIUM</td><td class="q">оплата зарубежных сервисов для юридических лиц документы</td><td class="num">9</td><td>raketapay.ru <span class="sub">#1</span></td><td class="num">32</td><td class="q">webmaster</td><td>WP-06</td><td class="q">правка внесена, замер до 2026-09-15</td></tr><tr><td>ATT-007</td><td class="num"><b>63</b></td><td>MEDIUM</td><td class="q">купить подписку github copilot business</td><td class="num">7</td><td>raketapay.ru <span class="sub">#1</span></td><td class="num">29</td><td class="q">webmaster</td><td>WP-08</td><td class="q">страница занята экспериментом content-6-clusters до 2026-09-16</td></tr><tr><td>ATT-008</td><td class="num"><b>61</b></td><td>MEDIUM</td><td class="q">github copilot business купить</td><td class="num">4</td><td>raketapay.ru <span class="sub">#1</span></td><td class="num">39</td><td class="q">webmaster</td><td>WP-12</td><td class="q">не поручение — проверка: правок не предлагаем: недостающее дописывать нельзя — см. «не рекомендуем сейчас»</td></tr><tr><td>ATT-009</td><td class="num"><b>59</b></td><td>MEDIUM</td><td class="q">claude team plan купить</td><td class="num">5</td><td>raketapay.ru <span class="sub">#1</span></td><td class="num">36</td><td class="q">webmaster</td><td>WP-07</td><td class="q">в очереди на работу</td></tr><tr><td>ATT-010</td><td class="num"><b>57</b></td><td>MEDIUM</td><td class="q">claude team купить</td><td class="num">5</td><td>softmagazin.ru <span class="sub">#1</span></td><td class="num">63</td><td class="q">wordstat</td><td>WP-07</td><td class="q">в очереди на работу</td></tr><tr><td>ATT-011</td><td class="num"><b>57</b></td><td>MEDIUM</td><td class="q">купить подписку descript</td><td class="num">4</td><td>raketapay.ru <span class="sub">#1</span></td><td class="num">7</td><td class="q">webmaster</td><td>WP-26</td><td class="q">правка внесена, замер до 2026-09-18</td></tr><tr><td>ATT-012</td><td class="num"><b>56</b></td><td>MEDIUM</td><td class="q">postman оплата подписки</td><td class="num">5</td><td>raketapay.ru <span class="sub">#1</span></td><td class="num">15</td><td class="q">webmaster</td><td>WP-17</td><td class="q">страница занята экспериментом content-6-clusters до 2026-09-16</td></tr><tr><td>ATT-013</td><td class="num"><b>56</b></td><td>MEDIUM</td><td class="q">оплатить подписку capture one</td><td class="num">4</td><td>raketapay.ru <span class="sub">#1</span></td><td class="num">4</td><td class="q">webmaster</td><td>WP-10</td><td class="q">правка внесена, замер до 2026-09-17</td></tr><tr><td>ATT-014</td><td class="num"><b>56</b></td><td>MEDIUM</td><td class="q">москва postman оплата подписки</td><td class="num">4</td><td>raketapay.ru <span class="sub">#1</span></td><td class="num">3</td><td class="q">webmaster</td><td>WP-17</td><td class="q">страница занята экспериментом content-6-clusters до 2026-09-16</td></tr><tr><td>ATT-015</td><td class="num"><b>56</b></td><td>MEDIUM</td><td class="q">gitlab подписка оплатить в рф</td><td class="num">4</td><td>platipomiru.com <span class="sub">#3</span></td><td class="num">3</td><td class="q">webmaster</td><td>WP-11</td><td class="q">страница занята экспериментом content-10-clusters до 2026-10-01</td></tr><tr><td>ATT-016</td><td class="num"><b>54</b></td><td>MEDIUM</td><td class="q">perplexity enterprise купить</td><td class="num">7</td><td>raketapay.ru <span class="sub">#1</span></td><td class="num">8</td><td class="q">wordstat</td><td>WP-33</td><td class="q">страница занята экспериментом content-6-clusters до 2026-09-16</td></tr><tr><td>ATT-017</td><td class="num"><b>54</b></td><td>MEDIUM</td><td class="q">купить подписку artlist</td><td class="num">7</td><td>raketapay.ru <span class="sub">#2</span></td><td class="num">11</td><td class="q">webmaster</td><td>WP-09</td><td class="q">правка внесена, замер до 2026-09-15</td></tr><tr><td>ATT-018</td><td class="num"><b>54</b></td><td>MEDIUM</td><td class="q">недорого оплатить подписку depositphotos</td><td class="num">9</td><td>platipomiru.com <span class="sub">#1</span></td><td class="num">40</td><td class="q">webmaster</td><td>WP-02</td><td class="q">в очереди на работу</td></tr><tr><td>ATT-019</td><td class="num"><b>53</b></td><td>MEDIUM</td><td class="q">оплата coreldraw для россиян</td><td class="num">6</td><td>platipomiru.com <span class="sub">#3</span></td><td class="num">69</td><td class="q">webmaster</td><td>WP-04</td><td class="q">страница занята экспериментом cluster-coreldraw до 2026-09-16</td></tr><tr><td>ATT-020</td><td class="num"><b>53</b></td><td>MEDIUM</td><td class="q">оплата пакета depositphotos в россии</td><td class="num">5</td><td>finteka.io <span class="sub">#3</span></td><td class="num">57</td><td class="q">webmaster</td><td>WP-02</td><td class="q">в очереди на работу</td></tr><tr><td>ATT-021</td><td class="num"><b>53</b></td><td>MEDIUM</td><td class="q">купить подписку capture one</td><td class="num">7</td><td>raketapay.ru <span class="sub">#1</span></td><td class="num">12</td><td class="q">wordstat</td><td>WP-10</td><td class="q">правка внесена, замер до 2026-09-17</td></tr><tr><td>ATT-022</td><td class="num"><b>52</b></td><td>MEDIUM</td><td class="q">оплатить подписку depositphotos в россии</td><td class="num">10</td><td>platipomiru.com <span class="sub">#1</span></td><td class="num">31</td><td class="q">webmaster</td><td>WP-01</td><td class="q">правка внесена, замер до 2026-09-15</td></tr><tr><td>ATT-023</td><td class="num"><b>52</b></td><td>MEDIUM</td><td class="q">windsurf купить подписку</td><td class="num">8</td><td>raketapay.ru <span class="sub">#1</span></td><td class="num">13</td><td class="q">wordstat</td><td>WP-16</td><td class="q">правка внесена, замер до 2026-09-15</td></tr><tr><td>ATT-024</td><td class="num"><b>51</b></td><td>MEDIUM</td><td class="q">купить подписку windsurf</td><td class="num">9</td><td>raketapay.ru <span class="sub">#1</span></td><td class="num">6</td><td class="q">webmaster</td><td>WP-16</td><td class="q">правка внесена, замер до 2026-09-15</td></tr><tr><td>ATT-025</td><td class="num"><b>50</b></td><td>MEDIUM</td><td class="q">foundry купить</td><td class="num">9</td><td>syssoft.ru <span class="sub">#3</span></td><td class="num">380</td><td class="q">wordstat</td><td>WP-03</td><td class="q">правка внесена, замер до 2026-09-15</td></tr><tr><td>ATT-026</td><td class="num"><b>49</b></td><td>MEDIUM</td><td class="q">gitlab оплатить</td><td class="num">5</td><td>raketapay.ru <span class="sub">#1</span></td><td class="num">10</td><td class="q">webmaster</td><td>WP-11</td><td class="q">страница занята экспериментом content-10-clusters до 2026-10-01</td></tr><tr><td>ATT-027</td><td class="num"><b>49</b></td><td>MEDIUM</td><td class="q">runway тарифы</td><td class="num">4</td><td>migsoft.ru <span class="sub">#2</span></td><td class="num">28</td><td class="q">wordstat</td><td>WP-15</td><td class="q">страница занята экспериментом content-6-clusters до 2026-09-16</td></tr><tr><td>ATT-028</td><td class="num"><b>49</b></td><td>MEDIUM</td><td class="q">gitlab premium оплата из россии</td><td class="num">4</td><td>platipomiru.com <span class="sub">#2</span></td><td class="num">6</td><td class="q">webmaster</td><td>WP-11</td><td class="q">страница занята экспериментом content-10-clusters до 2026-10-01</td></tr><tr><td>ATT-029</td><td class="num"><b>48</b></td><td>MEDIUM</td><td class="q">оплата depositphotos в рублях</td><td class="num">7</td><td>platipomiru.com <span class="sub">#1</span></td><td class="num">33</td><td class="q">webmaster</td><td>WP-01</td><td class="q">правка внесена, замер до 2026-09-15</td></tr><tr><td>ATT-030</td><td class="num"><b>48</b></td><td>MEDIUM</td><td class="q">envato elements тариф россия</td><td class="num">5</td><td>raketapay.ru <span class="sub">#4</span></td><td class="num">8</td><td class="q">webmaster</td><td>WP-23</td><td class="q">правка внесена, замер до 2026-09-17</td></tr><tr><td>ATT-031</td><td class="num"><b>48</b></td><td>MEDIUM</td><td class="q">оплата coreldraw из россии</td><td class="num">5</td><td>finteka.io <span class="sub">#2</span></td><td class="num">4</td><td class="q">webmaster</td><td>WP-14</td><td class="q">правка внесена, замер до 2026-09-17</td></tr><tr><td>ATT-032</td><td class="num"><b>48</b></td><td>MEDIUM</td><td class="q">тарифы recraft</td><td class="num">7</td><td>raketapay.ru <span class="sub">#3</span></td><td class="num">24</td><td class="q">webmaster</td><td>WP-05</td><td class="q">правка внесена, замер до 2026-09-17</td></tr><tr><td>ATT-033</td><td class="num"><b>48</b></td><td>MEDIUM</td><td class="q">оплата coreldraw</td><td class="num">5</td><td>platipomiru.com <span class="sub">#1</span></td><td class="num">5</td><td class="q">webmaster</td><td>WP-14</td><td class="q">правка внесена, замер до 2026-09-17</td></tr><tr><td>ATT-034</td><td class="num"><b>47</b></td><td>MEDIUM</td><td class="q">gitlab оформить подписку россия</td><td class="num">6</td><td>platipomiru.com <span class="sub">#3</span></td><td class="num">7</td><td class="q">webmaster</td><td>WP-11</td><td class="q">страница занята экспериментом content-10-clusters до 2026-10-01</td></tr><tr><td>ATT-035</td><td class="num"><b>47</b></td><td>MEDIUM</td><td class="q">как оплатить тариф box из россии</td><td class="num">4</td><td>pipl.io <span class="sub">#1</span></td><td class="num">4</td><td class="q">webmaster</td><td>WP-24</td><td class="q">страница занята экспериментом content-10-clusters до 2026-10-01</td></tr><tr><td>ATT-036</td><td class="num"><b>47</b></td><td>MEDIUM</td><td class="q">оплата coreldraw россиян</td><td class="num">6</td><td>platipomiru.com <span class="sub">#3</span></td><td class="num">4</td><td class="q">webmaster</td><td>WP-04</td><td class="q">страница занята экспериментом cluster-coreldraw до 2026-09-16</td></tr><tr><td>ATT-037</td><td class="num"><b>47</b></td><td>MEDIUM</td><td class="q">cloudflare купить москва и мо</td><td class="num">6</td><td>store.softline.ru <span class="sub">#1</span></td><td class="num">3</td><td class="q">webmaster</td><td>WP-29</td><td class="q">не поручение — проверка: правок не предлагаем: недостающее дописывать нельзя — см. «не рекомендуем сейчас»</td></tr><tr><td>ATT-038</td><td class="num"><b>46</b></td><td>MEDIUM</td><td class="q">оплата depositphotos из россии</td><td class="num">9</td><td>platipomiru.com <span class="sub">#1</span></td><td class="num">29</td><td class="q">webmaster</td><td>WP-01</td><td class="q">правка внесена, замер до 2026-09-15</td></tr><tr><td>ATT-039</td><td class="num"><b>46</b></td><td>MEDIUM</td><td class="q">оплата capture one без vpn</td><td class="num">7</td><td>raketapay.ru <span class="sub">#1</span></td><td class="num">8</td><td class="q">webmaster</td><td>WP-10</td><td class="q">правка внесена, замер до 2026-09-17</td></tr><tr><td>ATT-040</td><td class="num"><b>46</b></td><td>MEDIUM</td><td class="q">capture one для россиян оплата</td><td class="num">7</td><td>raketapay.ru <span class="sub">#1</span></td><td class="num">4</td><td class="q">webmaster</td><td>WP-10</td><td class="q">правка внесена, замер до 2026-09-17</td></tr><tr><td>ATT-041</td><td class="num"><b>46</b></td><td>MEDIUM</td><td class="q">как оплатить тариф coreldraw из россии</td><td class="num">6</td><td>pipl.io <span class="sub">#2</span></td><td class="num">23</td><td class="q">webmaster</td><td>WP-04</td><td class="q">страница занята экспериментом cluster-coreldraw до 2026-09-16</td></tr><tr><td>ATT-042</td><td class="num"><b>46</b></td><td>MEDIUM</td><td class="q">spine pro купить</td><td class="num">7</td><td>syssoft.ru <span class="sub">#1</span></td><td class="num">2</td><td class="q">webmaster</td><td>WP-32</td><td class="q">в очереди на работу</td></tr><tr><td>ATT-043</td><td class="num"><b>46</b></td><td>MEDIUM</td><td class="q">coreldraw подписка</td><td class="num">7</td><td>store.softline.ru <span class="sub">#3</span></td><td class="num">33</td><td class="q">wordstat</td><td>WP-14</td><td class="q">правка внесена, замер до 2026-09-17</td></tr><tr><td>ATT-044</td><td class="num"><b>45</b></td><td>MEDIUM</td><td class="q">как оплатить тариф depositphotos из россии</td><td class="num">9</td><td>platipomiru.com <span class="sub">#3</span></td><td class="num">51</td><td class="q">webmaster</td><td>WP-01</td><td class="q">правка внесена, замер до 2026-09-15</td></tr><tr><td>ATT-045</td><td class="num"><b>45</b></td><td>MEDIUM</td><td class="q">windsurf pro купить плати по миру</td><td class="num">8</td><td>platipomiru.com <span class="sub">#1</span></td><td class="num">7</td><td class="q">webmaster</td><td>WP-22</td><td class="q">не поручение — проверка: правок не предлагаем: недостающее дописывать нельзя — см. «не рекомендуем сейчас»</td></tr><tr><td>ATT-046</td><td class="num"><b>45</b></td><td>MEDIUM</td><td class="q">depositphotos оплата из россии</td><td class="num">9</td><td>platipomiru.com <span class="sub">#1</span></td><td class="num">18</td><td class="q">webmaster</td><td>WP-02</td><td class="q">в очереди на работу</td></tr><tr><td>ATT-047</td><td class="num"><b>45</b></td><td>MEDIUM</td><td class="q">сервисы оплаты coreldraw из россии</td><td class="num">8</td><td>pipl.io <span class="sub">#2</span></td><td class="num">3</td><td class="q">webmaster</td><td>WP-04</td><td class="q">страница занята экспериментом cluster-coreldraw до 2026-09-16</td></tr><tr><td>ATT-048</td><td class="num"><b>45</b></td><td>MEDIUM</td><td class="q">houdini цена</td><td class="num">8</td><td>syssoft.ru <span class="sub">#2</span></td><td class="num">3</td><td class="q">webmaster</td><td>WP-27</td><td class="q">в очереди на работу</td></tr><tr><td>ATT-049</td><td class="num"><b>45</b></td><td>MEDIUM</td><td class="q">как оплатить тариф confluence из россии</td><td class="num">6</td><td>kartli.io <span class="sub">#2</span></td><td class="num">3</td><td class="q">webmaster</td><td>WP-30</td><td class="q">страница занята экспериментом content-10-clusters до 2026-10-01</td></tr><tr><td>ATT-050</td><td class="num"><b>45</b></td><td>MEDIUM</td><td class="q">рекрафт тарифы</td><td class="num">10</td><td>syssoft.ru <span class="sub">#5</span></td><td class="num">28</td><td class="q">webmaster</td><td>WP-05</td><td class="q">правка внесена, замер до 2026-09-17</td></tr><tr><td>ATT-051</td><td class="num"><b>45</b></td><td>MEDIUM</td><td class="q">artlist подписка</td><td class="num">8</td><td>platipomiru.com <span class="sub">#5</span></td><td class="num">47</td><td class="q">wordstat</td><td>WP-09</td><td class="q">правка внесена, замер до 2026-09-15</td></tr><tr><td>ATT-052</td><td class="num"><b>44</b></td><td>MEDIUM</td><td class="q">как купить framer pro в россии</td><td class="num">4</td><td>aifory.pro <span class="sub">#3</span></td><td class="num">25</td><td class="q">webmaster</td><td>WP-19</td><td class="q">правка внесена, замер до 2026-09-17</td></tr><tr><td>ATT-053</td><td class="num"><b>44</b></td><td>MEDIUM</td><td class="q">как оплатить depositphotos в рублях</td><td class="num">6</td><td>card-open.ru <span class="sub">#1</span></td><td class="num">49</td><td class="q">webmaster</td><td>WP-01</td><td class="q">правка внесена, замер до 2026-09-15</td></tr><tr><td>ATT-054</td><td class="num"><b>44</b></td><td>MEDIUM</td><td class="q">оплата depositphotos</td><td class="num">9</td><td>platipomiru.com <span class="sub">#1</span></td><td class="num">9</td><td class="q">webmaster</td><td>WP-02</td><td class="q">в очереди на работу</td></tr><tr><td>ATT-055</td><td class="num"><b>43</b></td><td>MEDIUM</td><td class="q">как оплатить box облако из россии</td><td class="num">4</td><td>pipl.io <span class="sub">#2</span></td><td class="num">9</td><td class="q">webmaster</td><td>WP-24</td><td class="q">страница занята экспериментом content-10-clusters до 2026-10-01</td></tr><tr><td>ATT-056</td><td class="num"><b>43</b></td><td>MEDIUM</td><td class="q">как купить windsurf из россии</td><td class="num">4</td><td>raketapay.ru <span class="sub">#1</span></td><td class="num">4</td><td class="q">webmaster</td><td>WP-16</td><td class="q">правка внесена, замер до 2026-09-15</td></tr><tr><td>ATT-057</td><td class="num"><b>43</b></td><td>MEDIUM</td><td class="q">купить фаундри</td><td class="num">10</td><td>syssoft.ru <span class="sub">#6</span></td><td class="num">12</td><td class="q">webmaster</td><td>WP-03</td><td class="q">правка внесена, замер до 2026-09-15</td></tr><tr><td>ATT-058</td><td class="num"><b>42</b></td><td>MEDIUM</td><td class="q">купить аккаунт windsurf</td><td class="num">10</td><td>raketapay.ru <span class="sub">#2</span></td><td class="num">5</td><td class="q">wordstat</td><td>WP-16</td><td class="q">правка внесена, замер до 2026-09-15</td></tr><tr><td>ATT-059</td><td class="num"><b>42</b></td><td>MEDIUM</td><td class="q">как оплатить пакет depositphotos из россии</td><td class="num">7</td><td>finteka.io <span class="sub">#2</span></td><td class="num">34</td><td class="q">webmaster</td><td>WP-01</td><td class="q">правка внесена, замер до 2026-09-15</td></tr><tr><td>ATT-060</td><td class="num"><b>42</b></td><td>MEDIUM</td><td class="q">как оплатить capture one</td><td class="num">4</td><td>raketapay.ru <span class="sub">#2</span></td><td class="num">11</td><td class="q">wordstat</td><td>WP-10</td><td class="q">правка внесена, замер до 2026-09-17</td></tr><tr><td>ATT-061</td><td class="num"><b>41</b></td><td>MEDIUM</td><td class="q">как оплатить depositphotos в россии</td><td class="num">8</td><td>pipl.io <span class="sub">#1</span></td><td class="num">33</td><td class="q">webmaster</td><td>WP-01</td><td class="q">правка внесена, замер до 2026-09-15</td></tr><tr><td>ATT-062</td><td class="num"><b>40</b></td><td>MEDIUM</td><td class="q">depositphotos как оплатить в россии</td><td class="num">8</td><td>card-open.ru <span class="sub">#1</span></td><td class="num">23</td><td class="q">webmaster</td><td>WP-01</td><td class="q">правка внесена, замер до 2026-09-15</td></tr><tr><td>ATT-063</td><td class="num"><b>39</b></td><td>MEDIUM</td><td class="q">как купить recraft без зарубежной карты</td><td class="num">9</td><td>aifory.pro <span class="sub">#4</span></td><td class="num">21</td><td class="q">webmaster</td><td>WP-05</td><td class="q">правка внесена, замер до 2026-09-17</td></tr><tr><td>ATT-064</td><td class="num"><b>38</b></td><td>MEDIUM</td><td class="q">как оплатить depositphotos из россии</td><td class="num">9</td><td>pipl.io <span class="sub">#1</span></td><td class="num">10</td><td class="q">webmaster</td><td>WP-01</td><td class="q">правка внесена, замер до 2026-09-15</td></tr><tr><td>ATT-065</td><td class="num"><b>37</b></td><td>MEDIUM</td><td class="q">как оплатить депозитфотос из россии</td><td class="num">10</td><td>pipl.io <span class="sub">#2</span></td><td class="num">14</td><td class="q">webmaster</td><td>WP-01</td><td class="q">правка внесена, замер до 2026-09-15</td></tr><tr><td>ATT-066</td><td class="num"><b>37</b></td><td>MEDIUM</td><td class="q">как сейчас оплатить depositphotos из россии</td><td class="num">10</td><td>card-open.ru <span class="sub">#1</span></td><td class="num">18</td><td class="q">webmaster</td><td>WP-01</td><td class="q">правка внесена, замер до 2026-09-15</td></tr><tr><td>ATT-067</td><td class="num"><b>36</b></td><td>MEDIUM</td><td class="q">чем оплатить depositphotos из россии</td><td class="num">10</td><td>card-open.ru <span class="sub">#1</span></td><td class="num">8</td><td class="q">webmaster</td><td>WP-01</td><td class="q">правка внесена, замер до 2026-09-15</td></tr><tr><td>ATT-068</td><td class="num"><b>36</b></td><td>MEDIUM</td><td class="q">как оплатить depositphotos без зарубежной карты</td><td class="num">10</td><td>platipomiru.com <span class="sub">#1</span></td><td class="num">4</td><td class="q">webmaster</td><td>WP-02</td><td class="q">в очереди на работу</td></tr><tr><td>ATT-069</td><td class="num"><b>56</b></td><td>MEDIUM</td><td class="q">gamma business оплата из россии</td><td class="num">6</td><td>dzen.ru <span class="sub">#1</span></td><td class="num">13</td><td class="q">webmaster</td><td>WP-18</td><td class="q">правка внесена, замер до 2026-09-15</td></tr><tr><td>ATT-070</td><td class="num"><b>51</b></td><td>MEDIUM</td><td class="q">runway ai тарифы</td><td class="num">4</td><td>runway.com <span class="sub">#1</span></td><td class="num">24</td><td class="q">webmaster</td><td>WP-15</td><td class="q">страница занята экспериментом content-6-clusters до 2026-09-16</td></tr><tr><td>ATT-071</td><td class="num"><b>50</b></td><td>MEDIUM</td><td class="q">фаундри купить</td><td class="num">4</td><td>foundryvtt.com <span class="sub">#1</span></td><td class="num">11</td><td class="q">webmaster</td><td>WP-03</td><td class="q">правка внесена, замер до 2026-09-15</td></tr><tr><td>ATT-072</td><td class="num"><b>48</b></td><td>MEDIUM</td><td class="q">character creator 5 купить</td><td class="num">6</td><td>market.yandex.ru <span class="sub">#1</span></td><td class="num">12</td><td class="q">webmaster</td><td>WP-20</td><td class="q">правка внесена, замер до 2026-09-17</td></tr><tr><td>ATT-073</td><td class="num"><b>48</b></td><td>MEDIUM</td><td class="q">sketchup go подписка</td><td class="num">5</td><td>sketchup.trimble.com <span class="sub">#1</span></td><td class="num">3</td><td class="q">webmaster</td><td>WP-31</td><td class="q">правка внесена, замер до 2026-09-15</td></tr><tr><td>ATT-074</td><td class="num"><b>46</b></td><td>MEDIUM</td><td class="q">сколько стоит подписка клип студио бессрочная</td><td class="num">7</td><td>wildberries.ru <span class="sub">#1</span></td><td class="num">3</td><td class="q">webmaster</td><td>WP-21</td><td class="q">правка внесена, замер до 2026-09-15</td></tr><tr><td>ATT-075</td><td class="num"><b>44</b></td><td>MEDIUM</td><td class="q">сколько стоит подписка в клип студио</td><td class="num">9</td><td>ggsel.net <span class="sub">#1</span></td><td class="num">6</td><td class="q">webmaster</td><td>WP-21</td><td class="q">правка внесена, замер до 2026-09-15</td></tr><tr><td>ATT-076</td><td class="num"><b>44</b></td><td>MEDIUM</td><td class="q">epidemic sound купить</td><td class="num">9</td><td>market.yandex.ru <span class="sub">#1</span></td><td class="num">57</td><td class="q">wordstat</td><td>WP-13</td><td class="q">не поручение — проверка: правок по репозиторию не требуется: запросы пакета уже раскрыты в проверенном тексте — остаётся проверить тело страницы из Directus</td></tr></table></div></details>
 
-<h3>Разбор первых десяти</h3>
+<h3 id="att-details">Разбор первых десяти</h3>
 
-<details><summary>ATT-001 · Opportunity 69 ·
-  «оплата зарубежного по для юр лица документы»</summary>
+<details id="att-001"><summary>ATT-001 ·
+  Opportunity 69 · «оплата зарубежного по для юр лица документы»</summary>
   <p><span class="lbl fact">ФАКТ</span>BIZSoft на 4-м месте
      (https://biz-soft.pro/blog/kak-kupit-zarubezhnoe-po-dlya-yurlica); выше — raketapay.ru на 1-м.
      Спрос 41 (webmaster), коммерческий интент
@@ -977,8 +890,8 @@ a{color:var(--accent)}
      Контроль: 14 / 30 / 60 дней по позиции и кликам Вебмастера.</p>
   <ul class="q"><li>Vulnerability недоступен до обхода страниц конкурентов: его вес пропорционально распределён между измеренными факторами, а не передан выбранным</li><li>спрос оценён по показам Вебмастера (41) — это видимая нам часть спроса за две недели, а не рынок за месяц</li><li>экономический фактор не участвует: измеренной выручки нет, а её оценка через спрос и интент дублировала бы эти факторы</li></ul>
 </details>
-<details><summary>ATT-002 · Opportunity 67 ·
-  «подписку descript купить»</summary>
+<details id="att-002"><summary>ATT-002 ·
+  Opportunity 67 · «подписку descript купить»</summary>
   <p><span class="lbl fact">ФАКТ</span>BIZSoft на 5-м месте
      (https://biz-soft.pro/vendors/descript); выше — raketapay.ru на 1-м.
      Спрос — (none), коммерческий интент
@@ -993,8 +906,8 @@ a{color:var(--accent)}
      Контроль: 14 / 30 / 60 дней по позиции и кликам Вебмастера.</p>
   <ul class="q"><li>Vulnerability недоступен до обхода страниц конкурентов: его вес пропорционально распределён между измеренными факторами, а не передан выбранным</li><li>спрос по запросу неизвестен — фактор исключён из расчёта, веса остальных нормализованы, уверенность понижена</li><li>экономический фактор не участвует: измеренной выручки нет, а её оценка через спрос и интент дублировала бы эти факторы</li></ul>
 </details>
-<details><summary>ATT-003 · Opportunity 65 ·
-  «купить openai api юридическим лицом»</summary>
+<details id="att-003"><summary>ATT-003 ·
+  Opportunity 65 · «купить openai api юридическим лицом»</summary>
   <p><span class="lbl fact">ФАКТ</span>BIZSoft на 5-м месте
      (https://www.biz-soft.pro/vendors/openai); выше — raketapay.ru на 1-м.
      Спрос 5 (webmaster), коммерческий интент
@@ -1009,8 +922,8 @@ a{color:var(--accent)}
      Контроль: 14 / 30 / 60 дней по позиции и кликам Вебмастера.</p>
   <ul class="q"><li>Vulnerability недоступен до обхода страниц конкурентов: его вес пропорционально распределён между измеренными факторами, а не передан выбранным</li><li>спрос оценён по показам Вебмастера (5) — это видимая нам часть спроса за две недели, а не рынок за месяц</li><li>экономический фактор не участвует: измеренной выручки нет, а её оценка через спрос и интент дублировала бы эти факторы</li></ul>
 </details>
-<details><summary>ATT-004 · Opportunity 65 ·
-  «оплата по zoho юридическим лицом»</summary>
+<details id="att-004"><summary>ATT-004 ·
+  Opportunity 65 · «оплата по zoho юридическим лицом»</summary>
   <p><span class="lbl fact">ФАКТ</span>BIZSoft на 5-м месте
      (https://biz-soft.pro/vendors/zoho); выше — raketapay.ru на 2-м.
      Спрос 4 (webmaster), коммерческий интент
@@ -1025,8 +938,8 @@ a{color:var(--accent)}
      Контроль: 14 / 30 / 60 дней по позиции и кликам Вебмастера.</p>
   <ul class="q"><li>Vulnerability недоступен до обхода страниц конкурентов: его вес пропорционально распределён между измеренными факторами, а не передан выбранным</li><li>спрос оценён по показам Вебмастера (4) — это видимая нам часть спроса за две недели, а не рынок за месяц</li><li>экономический фактор не участвует: измеренной выручки нет, а её оценка через спрос и интент дублировала бы эти факторы</li></ul>
 </details>
-<details><summary>ATT-005 · Opportunity 65 ·
-  «оплата иностранной подписки для бизнеса документы»</summary>
+<details id="att-005"><summary>ATT-005 ·
+  Opportunity 65 · «оплата иностранной подписки для бизнеса документы»</summary>
   <p><span class="lbl fact">ФАКТ</span>BIZSoft на 5-м месте
      (https://biz-soft.pro/blog/kak-kupit-zarubezhnoe-po-dlya-yurlica); выше — raketapay.ru на 2-м.
      Спрос 28 (webmaster), коммерческий интент
@@ -1041,8 +954,8 @@ a{color:var(--accent)}
      Контроль: 14 / 30 / 60 дней по позиции и кликам Вебмастера.</p>
   <ul class="q"><li>Vulnerability недоступен до обхода страниц конкурентов: его вес пропорционально распределён между измеренными факторами, а не передан выбранным</li><li>спрос оценён по показам Вебмастера (28) — это видимая нам часть спроса за две недели, а не рынок за месяц</li><li>экономический фактор не участвует: измеренной выручки нет, а её оценка через спрос и интент дублировала бы эти факторы</li></ul>
 </details>
-<details><summary>ATT-006 · Opportunity 63 ·
-  «оплата зарубежных сервисов для юридических лиц документы»</summary>
+<details id="att-006"><summary>ATT-006 ·
+  Opportunity 63 · «оплата зарубежных сервисов для юридических лиц документы»</summary>
   <p><span class="lbl fact">ФАКТ</span>BIZSoft на 9-м месте
      (https://biz-soft.pro/blog/kak-kupit-zarubezhnoe-po-dlya-yurlica); выше — raketapay.ru на 1-м.
      Спрос 32 (webmaster), коммерческий интент
@@ -1057,8 +970,8 @@ a{color:var(--accent)}
      Контроль: 14 / 30 / 60 дней по позиции и кликам Вебмастера.</p>
   <ul class="q"><li>Vulnerability недоступен до обхода страниц конкурентов: его вес пропорционально распределён между измеренными факторами, а не передан выбранным</li><li>спрос оценён по показам Вебмастера (32) — это видимая нам часть спроса за две недели, а не рынок за месяц</li><li>экономический фактор не участвует: измеренной выручки нет, а её оценка через спрос и интент дублировала бы эти факторы</li></ul>
 </details>
-<details><summary>ATT-007 · Opportunity 63 ·
-  «купить подписку github copilot business»</summary>
+<details id="att-007"><summary>ATT-007 ·
+  Opportunity 63 · «купить подписку github copilot business»</summary>
   <p><span class="lbl fact">ФАКТ</span>BIZSoft на 7-м месте
      (https://biz-soft.pro/blog/kak-kupit-github-copilot-dlya-yurlica); выше — raketapay.ru на 1-м.
      Спрос 29 (webmaster), коммерческий интент
@@ -1073,8 +986,8 @@ a{color:var(--accent)}
      Контроль: 14 / 30 / 60 дней по позиции и кликам Вебмастера.</p>
   <ul class="q"><li>Vulnerability недоступен до обхода страниц конкурентов: его вес пропорционально распределён между измеренными факторами, а не передан выбранным</li><li>спрос оценён по показам Вебмастера (29) — это видимая нам часть спроса за две недели, а не рынок за месяц</li><li>экономический фактор не участвует: измеренной выручки нет, а её оценка через спрос и интент дублировала бы эти факторы</li></ul>
 </details>
-<details><summary>ATT-008 · Opportunity 61 ·
-  «github copilot business купить»</summary>
+<details id="att-008"><summary>ATT-008 ·
+  Opportunity 61 · «github copilot business купить»</summary>
   <p><span class="lbl fact">ФАКТ</span>BIZSoft на 4-м месте
      (https://biz-soft.pro/product/ghcopilot-business); выше — raketapay.ru на 1-м.
      Спрос 39 (webmaster), коммерческий интент
@@ -1089,8 +1002,8 @@ a{color:var(--accent)}
      Контроль: 14 / 30 / 60 дней по позиции и кликам Вебмастера.</p>
   <ul class="q"><li>Vulnerability недоступен до обхода страниц конкурентов: его вес пропорционально распределён между измеренными факторами, а не передан выбранным</li><li>спрос оценён по показам Вебмастера (39) — это видимая нам часть спроса за две недели, а не рынок за месяц</li><li>экономический фактор не участвует: измеренной выручки нет, а её оценка через спрос и интент дублировала бы эти факторы</li></ul>
 </details>
-<details><summary>ATT-009 · Opportunity 59 ·
-  «claude team plan купить»</summary>
+<details id="att-009"><summary>ATT-009 ·
+  Opportunity 59 · «claude team plan купить»</summary>
   <p><span class="lbl fact">ФАКТ</span>BIZSoft на 5-м месте
      (https://biz-soft.pro/product/anthropic-team); выше — raketapay.ru на 1-м.
      Спрос 36 (webmaster), коммерческий интент
@@ -1105,8 +1018,8 @@ a{color:var(--accent)}
      Контроль: 14 / 30 / 60 дней по позиции и кликам Вебмастера.</p>
   <ul class="q"><li>Vulnerability недоступен до обхода страниц конкурентов: его вес пропорционально распределён между измеренными факторами, а не передан выбранным</li><li>спрос оценён по показам Вебмастера (36) — это видимая нам часть спроса за две недели, а не рынок за месяц</li><li>экономический фактор не участвует: измеренной выручки нет, а её оценка через спрос и интент дублировала бы эти факторы</li></ul>
 </details>
-<details><summary>ATT-010 · Opportunity 57 ·
-  «claude team купить»</summary>
+<details id="att-010"><summary>ATT-010 ·
+  Opportunity 57 · «claude team купить»</summary>
   <p><span class="lbl fact">ФАКТ</span>BIZSoft на 5-м месте
      (https://biz-soft.pro/product/anthropic-team); выше — softmagazin.ru на 1-м.
      Спрос 63 (wordstat), коммерческий интент
@@ -1128,14 +1041,14 @@ a{color:var(--accent)}
 Без него контур остаётся генератором предложений, который не знает судьбы
 собственных советов.</p>
 
-<p class="lead">Предложено 12 ·
-на наблюдении 21 ·
+<p class="lead">Предложено 11 ·
+на наблюдении 23 ·
 оценено 0 ·
 из оценённых улучшение у 0,
 без изменений 0,
 ухудшение 0.</p>
 
-<h3>Что нивелировано в замере</h3>
+<details class="cut"><summary>Что нивелировано в замере и чего нивелировать нельзя</summary>
 <p class="q">Правки вносились по одной версии методики, а замер пойдёт по
 другой — методика за эти дни менялась. Плюс часть правок была не текстом
 страницы, а шаблоном: она задела все страницы своего типа, включая те, что
@@ -1161,9 +1074,9 @@ a{color:var(--accent)}
 </ul>
 <p class="q">Чего нивелировать нельзя и что остаётся ограничением: мы не ставим
 A/B-тест на поисковой выдаче. Контрольная группа снимает общий сдвиг, но не
-события, случившиеся ровно с этой страницей.</p>
+события, случившиеся ровно с этой страницей.</p></details>
 
-<h3>Под мораторием: правка внесена, идёт замер</h3>
+<h3 id="exp-watch">Под мораторием: правка внесена, идёт замер</h3>
 <p class="q">Эти страницы намеренно исключены из сегодняшних поручений. Если
 предлагать по ним новую работу, измерить эффект уже внесённой правки будет
 нельзя: непонятно, какая из двух что сдвинула.</p>
@@ -1247,6 +1160,14 @@ A/B-тест на поисковой выдаче. Контрольная гру
 <td>2026-09-03</td><td>2026-09-17</td>
 <td>14.5</td>
 <td>1</td></tr>
+<tr><td>EXP-0027</td><td>/vendors/descript</td>
+<td>2026-09-04</td><td>2026-09-18</td>
+<td>6</td>
+<td>1</td></tr>
+<tr><td>EXP-0029</td><td>/vendors/gitlab</td>
+<td>2026-09-04</td><td>2026-09-18</td>
+<td>14.5</td>
+<td>2</td></tr>
 <tr><td>EXP-0030</td><td>/vendors/monotype</td>
 <td>2026-09-03</td><td>2026-09-17</td>
 <td>2.5</td>
@@ -1256,7 +1177,8 @@ A/B-тест на поисковой выдаче. Контрольная гру
 <td>5</td>
 <td>1</td></tr></tbody></table>
 
-<h3>Было → стало по завершённым экспериментам</h3>
+
+<h3 id="exp-done">Было → стало по завершённым экспериментам</h3>
 <p class="q"><b>Как считается эффект.</b> Берётся изменение медианной позиции
 по запросам эксперимента и — за тот же период — изменение по всем прочим
 запросам ядра, где мы ничего не трогали. Эффектом считается разница между
@@ -1267,7 +1189,7 @@ A/B-тест на поисковой выдаче. Контрольная гру
 выдаче не существует, и влияние других причин исключить нельзя.</p>
 <p class="q">Завершённых экспериментов нет: ни одно окно наблюдения не истекло.</p>
 
-<h3>Чему это учит: какие правки работают</h3>
+<h3 id="exp-lessons">Чему это учит: какие правки работают</h3>
 <p class="q">Пока по типу действия накоплено меньше пяти оценённых
 экспериментов, вывода нет и порядок поручений не меняется: подстраивать
 приоритет работ под три случайных наблюдения — способ закрепить случайность
@@ -1311,8 +1233,8 @@ Google-среза задаётся числом страниц сборщика 
 </div>
 
 <details><summary>Условия расчёта: чем и по какому полю посчитан этот день</summary>
-<p class="q">Версия методики 1.8.0 ·
-отпечаток конфигурации 7d597fe91c5f ·
+<p class="q">Версия методики 1.8.1 ·
+отпечаток конфигурации 25fc736288b7 ·
 ядро запросов v5
 (033c2458b90b, 375 запросов) ·
 покрытие по запросам 1.0 ·
@@ -1326,9 +1248,68 @@ Google-среза задаётся числом страниц сборщика 
 
 <footer>
 BIZSoft Competitive Intelligence · отчёт за 2026-09-04 ·
-методика 1.8.0 ·
+методика 1.8.1 ·
 ядро v5 ·
-собран 04.09.2026 09:28 МСК ·
+собран 04.09.2026 11:50 МСК ·
 страница не индексируется и не имеет ссылок с сайта
 </footer>
-</div></body></html>
+</div>
+
+<details class="toc" id="toc">
+  <summary title="Разделы отчёта">☰<span class="toc-cap">Разделы</span></summary>
+  <div class="toc-panel">
+    <div class="toc-head">Структура отчёта
+      <button type="button" class="toc-x" data-toc-close
+              aria-label="Закрыть меню">×</button></div>
+    <div class="toc-body"><a class="l1" href="#l1">1 · Итоги дня</a><a class="l2" href="#cat">Кто держит коммерческую выдачу</a><a class="l2" href="#google">Google, Россия</a><a class="l2" href="#google-gap">Разрыв с Яндексом</a><a class="l2" href="#google-attacks">Точки атаки в Google</a><a class="l1" href="#l2">2 · Конкуренты по уровню угрозы</a><a class="l1" href="#l3">3 · Карточки конкурентов</a><a class="l2" href="#cmp-raketapay-ru">raketapay.ru</a><a class="l2" href="#cmp-platipomiru-com">platipomiru.com</a><a class="l2" href="#cmp-pipl-io">pipl.io</a><a class="l2" href="#cmp-syssoft-ru">syssoft.ru</a><a class="l2" href="#cmp-card-open-ru">card-open.ru</a><a class="l2" href="#cmp-finteka-io">finteka.io</a><a class="l2" href="#cmp-store-softline-ru">store.softline.ru</a><a class="l2" href="#cmp-migsoft-ru">migsoft.ru</a><a class="l1" href="#plan">4 · План работ — 14 пакетов</a><a class="l2" href="#pkg-wp-02">WP-02 · /vendors/depositphotos</a><a class="l2" href="#pkg-wp-04">WP-04 · /blog/kak-oplatit-coreldraw-dlya-yurlica</a><a class="l2" href="#pkg-wp-07">WP-07 · /product/anthropic-team</a><a class="l2" href="#pkg-wp-08">WP-08 · /blog/kak-kupit-github-copilot-dlya-yurlica</a><a class="l2" href="#pkg-wp-11">WP-11 · /blog/gitlab-godovaya-podpiska-iz-rossii-dlya-yurlica</a><a class="l2" href="#pkg-wp-15">WP-15 · /vendors/runway</a><a class="l2" href="#pkg-wp-17">WP-17 · /blog/kak-oplatit-postman-dlya-yurlica</a><a class="l2" href="#pkg-wp-24">WP-24 · /blog/kak-oplatit-box-business-iz-rossii</a><a class="l2" href="#pkg-wp-25">WP-25 · https://www.biz-soft.pro/vendors/openai</a><a class="l2" href="#pkg-wp-27">WP-27 · /vendors/houdini</a><a class="l2" href="#pkg-wp-28">WP-28 · /vendors/zoho</a><a class="l2" href="#pkg-wp-30">WP-30 · /blog/kak-poluchit-schet-i-zakryvayushchie-ot-atlassian</a><a class="l2" href="#pkg-wp-32">WP-32 · /product/spine-pro</a><a class="l2" href="#pkg-wp-33">WP-33 · /vendors/perplexity</a><a class="l2" href="#stale">Занятость снята по истечении окна</a><a class="l2" href="#verify">Проверить, а не делать</a><a class="l1" href="#l4">5 · Точки атаки — 76 кандидатов</a><a class="l2" href="#att-details">Разбор первых десяти</a><a class="l2" href="#att-001">ATT-001 · оплата зарубежного по для юр лица документы</a><a class="l2" href="#att-002">ATT-002 · подписку descript купить</a><a class="l2" href="#att-003">ATT-003 · купить openai api юридическим лицом</a><a class="l2" href="#att-004">ATT-004 · оплата по zoho юридическим лицом</a><a class="l2" href="#att-005">ATT-005 · оплата иностранной подписки для бизнеса документы</a><a class="l2" href="#att-006">ATT-006 · оплата зарубежных сервисов для юридических лиц документы</a><a class="l2" href="#att-007">ATT-007 · купить подписку github copilot business</a><a class="l2" href="#att-008">ATT-008 · github copilot business купить</a><a class="l2" href="#att-009">ATT-009 · claude team plan купить</a><a class="l2" href="#att-010">ATT-010 · claude team купить</a><a class="l1" href="#exp">6 · Эксперименты</a><a class="l2" href="#exp-watch">Под мораторием</a><a class="l2" href="#exp-done">Было → стало</a><a class="l2" href="#exp-lessons">Чему это учит</a><a class="l1" href="#l5">7 · Исходные данные</a><a class="l1" href="#method">Методика и границы</a></div>
+    <div class="toc-foot">
+      <button type="button" data-expand="all">Развернуть всё</button>
+      <button type="button" data-expand="none">Свернуть всё</button>
+    </div>
+  </div>
+</details>
+<script>
+(function(){
+  var toc=document.getElementById('toc');
+  function reveal(hash){
+    if(!hash||hash.length<2)return;
+    var el=document.getElementById(decodeURIComponent(hash.slice(1)));
+    if(!el)return;
+    if(el.tagName==='DETAILS')el.open=true;
+    for(var p=el.parentElement;p;p=p.parentElement){
+      if(p.tagName==='DETAILS'&&p.id!=='toc')p.open=true;
+    }
+    el.scrollIntoView({block:'start'});
+  }
+  function up(node,sel){
+    for(var n=node;n&&n.nodeType===1;n=n.parentElement){
+      if(n.matches&&n.matches(sel))return n;
+    }
+    return null;
+  }
+  document.addEventListener('click',function(e){
+    var close=up(e.target,'[data-toc-close]');
+    if(close){if(toc)toc.open=false;e.preventDefault();return;}
+    var expand=up(e.target,'[data-expand]');
+    if(expand){
+      var on=expand.getAttribute('data-expand')==='all';
+      Array.prototype.forEach.call(document.querySelectorAll('details'),
+        function(d){if(d.id!=='toc')d.open=on;});
+      e.preventDefault();return;
+    }
+    var a=up(e.target,'a[href^="#"]');
+    if(a){
+      reveal(a.getAttribute('href'));
+      if(toc&&toc.contains(a))toc.open=false;
+      return;
+    }
+    if(toc&&toc.open&&!toc.contains(e.target))toc.open=false;
+  });
+  document.addEventListener('keydown',function(e){
+    if(e.key==='Escape'&&toc)toc.open=false;
+  });
+  window.addEventListener('hashchange',function(){reveal(location.hash);});
+  if(location.hash)reveal(location.hash);
+})();
+</script>
+</body></html>
