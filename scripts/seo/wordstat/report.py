@@ -26,6 +26,7 @@ import opportunity as opp_mod    # noqa: E402
 import tiers as tiers_mod        # noqa: E402
 import universe as universe_mod  # noqa: E402
 import vendor_expansion as vx    # noqa: E402
+import passport
 
 OUT = pathlib.Path("reports/seo/wordstat")
 SNAP_DIR = pathlib.Path("reports/seo/intelligence/snapshots")
@@ -108,8 +109,7 @@ def executive_block(state: dict) -> dict:
     uni = state["universe"]
     opps = state["opportunities"]
     if not cov.get("available"):
-        return {"available": False,
-                "reason": "замер спроса ещё не собран"}
+        return passport.unavailable("no_rows", source="замер спроса")
 
     levels = cov["levels"]
     lead = opps[0] if opps else None
@@ -128,7 +128,7 @@ def executive_block(state: dict) -> dict:
     if uncovered_demand:
         lines.append(
             f"Без страницы остаётся {spaced(uncovered_demand)} запросов в месяц — "
-            "это направления, где спрос есть, а нас в выдаче нет.")
+            "это направления, где спрос есть, а своей страницы нет.")
     ua_line = unattributed_line(state)
     if ua_line:
         lines.append(ua_line)
@@ -316,7 +316,7 @@ def write_markdown(state: dict, path: pathlib.Path) -> None:
 
 
 def main() -> int:
-    date = sys.argv[1] if len(sys.argv) > 1 else dt.date.today().isoformat()
+    date = sys.argv[1] if len(sys.argv) > 1 else config.today_msk()
     state = build_state(date)
     state["executive_block"] = executive_block(state)
     STATE_OUT.parent.mkdir(parents=True, exist_ok=True)

@@ -176,23 +176,74 @@ const PRODUCT_FIELDS = [
  * и до прогона ops-directus-schema на проде каталог и КП падали бы целиком
  * из-за не доехавшей миграции. Каталог важнее свежести даты закупки.
  */
-const PRODUCT_FIELDS_PURCHASE = `${PRODUCT_FIELDS},purchase_updated_at,purchase_source`;
-let purchaseFieldsMissing = false;
+const PRODUCT_FIELDS_EXTRA = `${PRODUCT_FIELDS},purchase_updated_at,purchase_source,content_updated_at`;
+let extraFieldsMissing = false;
 
-async function productsQuery(params: Record<string, unknown>): Promise<Product[]> {
-  if (!purchaseFieldsMissing) {
+async function productsQuery(params: Record<string, unknown>, auth = false): Promise<Product[]> {
+  if (!extraFieldsMissing) {
     try {
       return await dx<Product[]>('/items/products', {
-        params: { ...params, fields: PRODUCT_FIELDS_PURCHASE },
+        auth,
+        params: { ...params, fields: PRODUCT_FIELDS_EXTRA },
       });
     } catch (e) {
       // Запоминаем до перезапуска процесса: после применения схемы поля
       // появятся, и новый деплой снова начнёт их запрашивать.
-      purchaseFieldsMissing = true;
-      console.warn('products: поля закупки недоступны, запрос без них', e);
+      extraFieldsMissing = true;
+      console.warn('products: поля схемы 28.08/03.09 недоступны, запрос без них', e);
     }
   }
-  return dx<Product[]>('/items/products', { params: { ...params, fields: PRODUCT_FIELDS } });
+  return dx<Product[]>('/items/products', { auth, params: { ...params, fields: PRODUCT_FIELDS } });
+}
+
+/**
+ * Поля, правка которых не меняет страницу для поисковика: цены и наценки
+ * (их ежедневно двигает переоценка по курсу ЦБ), дата и источник закупки,
+ * порядок сортировки. Любая другая правка — содержательная: она ставит
+ * content_updated_at, из которого sitemap берёт lastmod.
+ *
+ * date_updated для lastmod не годится: Directus сдвигает его при любом
+ * PATCH, и после переоценки 02.09.2026 у 537 карточек из 593 стоял один и
+ * тот же lastmod — сигнал свежести для Google обесценился (разбор 03.09.2026).
+ */
+const CONTENT_NEUTRAL_FIELDS = new Set([
+  'id', 'price', 'markup_coeff', 'markup_percent', 'base_price_usd', 'base_price_eur',
+  'peg_currency', 'peg_to_usd', 'price_locked', 'purchase_updated_at', 'purchase_source',
+  'sort', 'content_updated_at',
+]);
+
+export function isContentChange(payload: Record<string, unknown>): boolean {
+  return Object.keys(payload).some((k) => !CONTENT_NEUTRAL_FIELDS.has(k));
+}
+
+/**
+ * Дополнить payload штампом содержательного изменения. Пока схема без поля
+ * (ops-directus-schema ещё не прогнан), штамп не ставится: Directus
+ * отклоняет PATCH с неизвестным полем целиком, а каталог важнее даты.
+ */
+export function withContentStamp<T extends Record<string, unknown>>(payload: T, now = new Date()): T {
+  if (extraFieldsMissing || 'content_updated_at' in payload || !isContentChange(payload)) return payload;
+  return { ...payload, content_updated_at: now.toISOString() };
+}
+
+/** Записать со штампом; если Directus отверг именно штамп — повторить без него. */
+async function writeWithStamp(
+  write: (body: Record<string, unknown>) => Promise<unknown>,
+  payload: Record<string, unknown>,
+): Promise<unknown> {
+  const stamped = withContentStamp(payload);
+  if (stamped === payload) return write(payload);
+  try {
+    return await write(stamped);
+  } catch (e) {
+    // Откат только на отказ самого Directus (4xx: неизвестное поле, нет прав
+    // на него). Сеть, таймаут и 5xx — не про схему: повтор без штампа лишь
+    // задвоил бы запись, а флаг ложно отключил бы штампы до перезапуска.
+    if (!(e instanceof DirectusError) || e.status >= 500) throw e;
+    extraFieldsMissing = true;
+    console.warn('products: content_updated_at не принят схемой, запись без штампа', e);
+    return write(payload);
+  }
 }
 
 export interface ProductFilter {
@@ -380,10 +431,9 @@ export async function getProductsForReprice(): Promise<Product[]> {
 }
 
 export async function getAllProductsAdmin(): Promise<Product[]> {
-  return dx<Product[]>('/items/products', {
-    auth: true,
-    params: { fields: PRODUCT_FIELDS, sort: 'sort,name', limit: -1 },
-  });
+  // Через productsQuery: чтение с расширенным списком полей заодно выясняет,
+  // знает ли схема content_updated_at, — до первой записи импорта.
+  return productsQuery({ sort: 'sort,name', limit: -1 }, true);
 }
 
 export interface Lead {
@@ -474,11 +524,15 @@ export async function createQuote(payload: Record<string, unknown>): Promise<voi
 }
 
 export async function patchProduct(id: string | number, payload: Record<string, unknown>): Promise<void> {
-  await dx(`/items/products/${id}`, { auth: true, method: 'PATCH', body: payload });
+  await writeWithStamp((body) => dx(`/items/products/${id}`, { auth: true, method: 'PATCH', body }), payload);
 }
 
+/** Новая карточка — всегда содержательное событие: штамп ставится при создании. */
 export async function createProduct(payload: Record<string, unknown>): Promise<{ id: string | number }> {
-  return dx<{ id: string | number }>('/items/products', { auth: true, method: 'POST', body: payload });
+  return (await writeWithStamp(
+    (body) => dx<{ id: string | number }>('/items/products', { auth: true, method: 'POST', body }),
+    payload,
+  )) as { id: string | number };
 }
 
 /**
@@ -517,7 +571,7 @@ export async function createProductsBatch(
   const result: BatchResult = { ok: 0, failed: [] };
   for (const part of chunk(payloads, WRITE_BATCH)) {
     try {
-      await dx('/items/products', { auth: true, method: 'POST', body: part });
+      await dx('/items/products', { auth: true, method: 'POST', body: part.map((p) => withContentStamp(p)) });
       result.ok += part.length;
     } catch (e) {
       for (const one of part) {
@@ -539,7 +593,7 @@ export async function patchProductsBatch(
       await dx('/items/products', {
         auth: true,
         method: 'PATCH',
-        body: part.map((i) => ({ id: i.id, ...i.payload })),
+        body: part.map((i) => ({ id: i.id, ...withContentStamp(i.payload) })),
       });
       result.ok += part.length;
     } catch (e) {
