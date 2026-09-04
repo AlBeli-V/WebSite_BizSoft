@@ -71,7 +71,8 @@ class TestVendorRadar(unittest.TestCase):
                               metrika=raw("metrika"), ga4=raw("ga4"))
         vr = self.v.build(snap)
         self.assertFalse(vr["available"])
-        self.assertIn("не отдали данных", vr["reason"])
+        self.assertEqual(vr["reason_code"], "no_rows")
+        self.assertIn("источники поиска", vr["reason"])
 
     def test_ppc_candidates_are_commercial_unbranded_with_base(self):
         for c in self.v.ppc_candidates(self.snap):

@@ -13,6 +13,7 @@
 from __future__ import annotations
 
 import pairs
+import passport
 from snapshot import classify_intent, is_branded
 
 MIN_IMPRESSIONS = 8      # порог радара возможностей — то же значение
@@ -47,9 +48,8 @@ def page_type(page: str) -> str:
 def build(date_s: str) -> dict:
     data = pairs.load_latest(date_s)
     if not data:
-        return {"available": False,
-                "reason": "сенсор пар «запрос × страница» ещё не накопил данных",
-                "items": []}
+        return passport.unavailable(
+            "no_file", source="сенсор пар «запрос × страница»", items=[])
     agg = pairs.by_query(data["rows"])
     items = []
     for query, q in agg.items():

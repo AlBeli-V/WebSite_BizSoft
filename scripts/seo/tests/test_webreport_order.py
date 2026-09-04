@@ -50,7 +50,7 @@ class TestNewSections(unittest.TestCase):
 
     def test_loop_section_absent_registry(self):
         html = self.w._loop_section({"available": False})
-        self.assertIn("ещё не собран", html)
+        self.assertIn("Реестра исполнения контуров нет", html)
 
     def test_loop_section_marks_overdue(self):
         html = self.w._loop_section({"available": True, "contours": [

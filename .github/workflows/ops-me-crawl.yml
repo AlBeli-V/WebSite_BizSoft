@@ -56,6 +56,7 @@ jobs:
           npx playwright install --with-deps chromium
 
       - name: Crawl
+        id: run
         env:
           STAGE: ${{ inputs.stage }}
           LIMIT: ${{ inputs.limit }}
@@ -86,16 +87,8 @@ jobs:
 
       - name: Post summary to issue
         if: always()
-        uses: actions/github-script@v7
-        env:
-          STAGE: ${{ inputs.stage }}
+        uses: ./.github/actions/journal-post
         with:
-          script: |
-            const fs = require('fs');
-            let out = '(сводка не сформирована)';
-            try { out = fs.readFileSync('/tmp/me-crawl-summary.txt', 'utf8').slice(0, 55000); }
-            catch (e) { out = 'сводки нет: ' + e.message; }
-            await github.rest.issues.createComment({
-              owner: context.repo.owner, repo: context.repo.repo, issue_number: 22,
-              body: `### ops-me-crawl (${process.env.STAGE})\n\n\`\`\`\n${out}\n\`\`\``,
-            });
+          title: "ops-me-crawl (${{ inputs.stage }})"
+          outcome: ${{ steps.run.outcome }}
+          body-file: /tmp/me-crawl-summary.txt

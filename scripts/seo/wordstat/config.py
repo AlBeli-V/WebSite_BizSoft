@@ -18,6 +18,16 @@ import pathlib
 
 CONFIG_PATH = pathlib.Path("reports/seo/wordstat/config.json")
 
+MSK = dt.timezone(dt.timedelta(hours=3))
+
+
+def today_msk() -> str:
+    """Календарный день по Москве — единая точка отсчёта «сегодня» для всех
+    отчётов и файлов-маркеров пайплайна (раньше часть скриптов молчаливо
+    брала системную (UTC на раннере) дату, и вблизи полуночи МСК файл за
+    «сегодня» не совпадал с тем, что искали внешние проверки)."""
+    return dt.datetime.now(MSK).date().isoformat()
+
 DEFAULT = {
     "schema_version": "1.0.0",
     "currency": "RUB",

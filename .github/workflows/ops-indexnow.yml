@@ -42,7 +42,7 @@ jobs:
             fi
 
             echo "== Собираю URL из sitemap =="
-            curl -s http://127.0.0.1:3000/sitemap.xml -o /tmp/sitemap.xml
+            curl -sf http://127.0.0.1:3000/sitemap.xml -o /tmp/sitemap.xml
             python3 - <<'PY'
             import json, re, urllib.request
 

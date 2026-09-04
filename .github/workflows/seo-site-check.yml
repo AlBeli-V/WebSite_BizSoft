@@ -7,12 +7,18 @@
 name: seo-site-check
 
 on:
+  # Ежедневно 02:37 UTC = 05:37 МСК — до сбора данных (06:07 МСК) и письма:
+  # активированный здесь эксперимент в тот же день получает выгрузку
+  # baseline-окна. Минута некруглая сознательно (см. seo-data-collect).
+  schedule:
+    - cron: "37 2 * * *"
   workflow_dispatch:
   push:
     branches:
       - main
     paths:
       - ".github/workflows/seo-site-check.yml"
+      - "scripts/seo/experiment_windows.py"
 
 permissions:
   contents: write
@@ -83,6 +89,14 @@ jobs:
               print("::error::" + "; ".join(problems))
               sys.exit(1)
           PY
+
+      # Активация запланированных экспериментов (перезапуск SEO-EXP-002,
+      # 03.09.2026): эксперимент со статусом planned становится running в тот
+      # день, когда все его страницы отдают новый вариант, — дата старта
+      # равна факту выката, а не дате коммита; окна baseline/experiment
+      # записываются в реестр, выгружает их seo-data-collect.
+      - name: Activate planned experiments
+        run: python3 scripts/seo/experiment_windows.py activate
 
       # Страницы берутся из реестра экспериментов: до 31.08 проверялся только
       # SEO-EXP-001 (захардкоженный список), и остальные эксперименты вечно
