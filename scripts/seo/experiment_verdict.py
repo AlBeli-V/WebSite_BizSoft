@@ -118,10 +118,14 @@ def _evaluate_ctr(exp: dict, date: str) -> dict:
             f"baseline из усечённой выгрузки ({len(win['baseline']['queries'])} "
             "запросов) — совпадающий набор занижен")
     if fixed.get("baseline") and not fixed.get("experiment"):
+        eta = win.get("fixed_experiment_eta")
         res["sample_quality"].append(
             "окно после внедрения пока скользящее (короче фиксированного "
             "baseline): сравнение предварительное до выгрузки полного окна "
-            f"к {win.get('fixed_experiment_eta') or '—'}")
+            f"к {eta}" if eta else
+            "baseline фиксированный, окно после — скользящее: у эксперимента, "
+            "заведённого до фиксированных окон, полного окна «после» нет по "
+            "построению, и сравнение окон разной длины идёт по CTR")
 
     base_rows = st._rows_for_cluster(win["baseline"]["queries"], keys)
     exp_rows = st._rows_for_cluster(win["experiment"]["queries"], keys)

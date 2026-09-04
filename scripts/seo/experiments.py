@@ -161,6 +161,61 @@ def control_dates_for(start: dt.date, explicit: str | None = None) -> list[str]:
     return sorted(dates)
 
 
+#: Правило руководителя 04.09.2026: новый эксперимент заводится только на
+#: кластере, у которого экспозиция уже выше порога. Порог — в показах В ДЕНЬ,
+#: а не за окно: окна источника разной длины (скользящее ~12 дней,
+#: фиксированное 28), и абсолютное число сравнивало бы несравнимое. Значение
+#: соответствует полу адаптивного гейта (100 показов за 28 дней): ниже него
+#: вывод не даст ни один срок наблюдения, и эксперимент заведомо кончится
+#: описательным «мало данных» — так вышло у SEO-EXP-002. Идущие эксперименты
+#: правило не задевает.
+MIN_EXPOSURE_PER_DAY_FOR_NEW_EXPERIMENT = 100 / 28
+EXPOSURE_RULE_SINCE = "2026-09-04"
+
+
+def registry_issues(today: str, since: str = EXPOSURE_RULE_SINCE) -> list[str]:
+    """Записи реестра, нарушающие правило порога экспозиции.
+
+    Проверяются записи, заведённые с даты правила: `planned` (старта ещё нет)
+    и `running` со стартом не раньше `since`. Экспозиция считается по ключам
+    самого эксперимента в свежайшей выгрузке Вебмастера — тем же слоем, что
+    и в блоке письма. Без выгрузки проверка молчит: пустой список честнее
+    вывода, сделанного не по тем данным.
+    """
+    import experiment_stats as st
+
+    dates = st._available_dates()
+    day = None
+    for d in reversed(dates):
+        if d <= today:
+            day = st._load_day(d)
+            if day:
+                break
+    if not day:
+        return []
+    issues = []
+    for e in load_registry():
+        status, start = e.get("status"), e.get("start")
+        if status not in ("planned", "running"):
+            continue
+        if status == "running" and (not start or start < since):
+            continue
+        keys = cluster_keys(e)
+        rows = [q for q in day["queries"]
+                if query_matches(q.get("query_text") or "", keys)]
+        imp = sum(int(q["indicators"].get("TOTAL_SHOWS") or 0) for q in rows)
+        days = ((dt.date.fromisoformat(day["to"])
+                 - dt.date.fromisoformat(day["from"])).days + 1) if day["from"] else 1
+        per_day = imp / max(days, 1)
+        if per_day < MIN_EXPOSURE_PER_DAY_FOR_NEW_EXPERIMENT:
+            issues.append(
+                f"{e.get('ticket', e['id'])}: экспозиция кластера {imp} показов "
+                f"за окно {day['from']}–{day['to']} ({per_day:.1f}/день) при "
+                f"минимуме {MIN_EXPOSURE_PER_DAY_FOR_NEW_EXPERIMENT:.1f}/день "
+                "— вывод не даст ни один срок наблюдения")
+    return issues
+
+
 def _sync_exposure_with_verdict(rec: dict) -> None:
     """Строку экспозиции в письме считать по тому набору, что несёт вывод.
 
