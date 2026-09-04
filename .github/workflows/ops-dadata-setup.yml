@@ -23,6 +23,9 @@ on:
         options: [check, apply]
 
 permissions:
+  # checkout читает репозиторий токеном GITHUB_TOKEN: при явном permissions
+  # без contents раннер получает «Repository not found» (прогон #204 ops-probe).
+  contents: read
   issues: write
 
 jobs:
@@ -35,6 +38,11 @@ jobs:
             echo "Запуск разрешён только с ветки main. Текущий ref: ${{ github.ref_name }}"
             exit 1
           fi
+      # Локальный action journal-post лежит в репозитории — без checkout
+      # раннер его не находит, и запись в журнал падает (см. прогон #41
+      # ops-yandex-recrawl 03.09.2026).
+      - uses: actions/checkout@v4
+
       - name: Verify key works
         id: verify
         env:
@@ -68,6 +76,7 @@ jobs:
           PY
 
       - name: Write token to server
+        id: write
         if: inputs.mode == 'apply'
         uses: appleboy/ssh-action@v1
         env:
@@ -90,17 +99,16 @@ jobs:
             sleep 6
             docker compose ps astro
 
+      # Локальному action нужен репозиторий в рабочей копии. if: always() —
+      # потому что шаг журнала тоже always(): без этого при падении основного
+      # шага checkout пропускается, и запись в журнал снова не проходит.
+      - name: Checkout for journal action
+        if: always()
+        uses: actions/checkout@v4
       - name: Post to issue
         if: always()
-        uses: actions/github-script@v7
-        env:
-          MODE: ${{ inputs.mode }}
+        uses: ./.github/actions/journal-post
         with:
-          script: |
-            const fs = require('fs');
-            let out = '(нет вывода)';
-            try { out = fs.readFileSync('/tmp/dadata.txt', 'utf8').slice(0, 20000); } catch {}
-            await github.rest.issues.createComment({
-              owner: context.repo.owner, repo: context.repo.repo, issue_number: 22,
-              body: `### ops-dadata-setup (${process.env.MODE})\n\n\`\`\`\n${out}\n\`\`\``,
-            });
+          title: "ops-dadata-setup (${{ inputs.mode }})"
+          outcome: ${{ steps.write.outcome == 'skipped' && steps.verify.outcome || steps.write.outcome }}
+          body-file: /tmp/dadata.txt

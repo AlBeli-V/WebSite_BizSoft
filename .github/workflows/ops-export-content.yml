@@ -10,6 +10,9 @@ on:
         description: 'Слаги товаров через запятую'
         required: true
 permissions:
+  # checkout читает репозиторий токеном GITHUB_TOKEN: при явном permissions
+  # без contents раннер получает «Repository not found» (прогон #204 ops-probe).
+  contents: read
   issues: write
 jobs:
   export:
@@ -21,6 +24,11 @@ jobs:
             echo "Запуск разрешён только с ветки main. Текущий ref: ${{ github.ref_name }}"
             exit 1
           fi
+      # Локальный action journal-post лежит в репозитории — без checkout
+      # раннер его не находит, и запись в журнал падает (см. прогон #41
+      # ops-yandex-recrawl 03.09.2026).
+      - uses: actions/checkout@v4
+
       - name: Export content from Directus
         id: run
         uses: appleboy/ssh-action@v1
@@ -56,24 +64,21 @@ jobs:
                 print()
             PYEOF
       - name: Save to file
+        if: always()
         run: |
           cat > /tmp/ops-content.txt <<'OPS_CONTENT_EOF'
           ${{ steps.run.outputs.stdout }}
           OPS_CONTENT_EOF
+      # Локальному action нужен репозиторий в рабочей копии. if: always() —
+      # потому что шаг журнала тоже always(): без этого при падении основного
+      # шага checkout пропускается, и запись в журнал снова не проходит.
+      - name: Checkout for journal action
+        if: always()
+        uses: actions/checkout@v4
       - name: Post to issue
-        uses: actions/github-script@v7
+        if: always()
+        uses: ./.github/actions/journal-post
         with:
-          script: |
-            const lines = require('fs').readFileSync('/tmp/ops-content.txt', 'utf8').split('\n');
-            const parts = []; let cur = '';
-            for (const l of lines) {
-              if (cur.length + l.length > 55000) { parts.push(cur); cur = ''; }
-              cur += l + '\n';
-            }
-            if (cur) parts.push(cur);
-            for (let i = 0; i < parts.length; i++) {
-              await github.rest.issues.createComment({
-                owner: context.repo.owner, repo: context.repo.repo, issue_number: 22,
-                body: `### ops-export-content (${i + 1}/${parts.length})\n\n\`\`\`\n${parts[i]}\`\`\``,
-              });
-            }
+          title: "ops-export-content"
+          outcome: ${{ steps.run.outcome }}
+          body-file: /tmp/ops-content.txt

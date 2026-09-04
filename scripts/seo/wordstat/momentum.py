@@ -19,7 +19,6 @@ AI-сервисы) виден по динамике раньше, чем по а
 
 from __future__ import annotations
 
-import datetime as dt
 import json
 import pathlib
 import sys
@@ -127,8 +126,7 @@ def run(date_s: str) -> dict:
 
 
 def main() -> int:
-    date_s = sys.argv[1] if len(sys.argv) > 1 else dt.datetime.now(
-        dt.timezone(dt.timedelta(hours=3))).date().isoformat()
+    date_s = sys.argv[1] if len(sys.argv) > 1 else config_mod.today_msk()
     res = run(date_s)
     OUT_DIR.mkdir(parents=True, exist_ok=True)
     out = OUT_DIR / f"momentum-{date_s}.json"

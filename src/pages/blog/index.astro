@@ -4,10 +4,15 @@ import HeroSteps from '../../components/HeroSteps.astro';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import CTASection from '../../components/CTASection.astro';
+import { collectTags, MIN_BAR_TAG_POSTS } from '../../lib/blog-tags';
 
 const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
   (a, b) => b.data.date.getTime() - a.data.date.getTime(),
 );
+// Панель тем: подборки /blog/tag/<slug>, порядок — по числу статей; темы с
+// одной статьёй в панель не выводятся, к ним ведут теги на самой статье.
+const tags = collectTags(posts.map((p) => ({ tags: p.data.tags })))
+  .filter((t) => t.count >= MIN_BAR_TAG_POSTS);
 
 function fmtDate(d: Date) {
   return d.toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' });
@@ -23,6 +28,13 @@ function fmtDate(d: Date) {
     </div>
       <HeroSteps />
     </header>
+
+    <nav class="tag-bar" aria-label="Темы Базы знаний">
+      <a href="/blog" class="chip active" aria-current="page">Все статьи <span class="n">{posts.length}</span></a>
+      {tags.map((t) => (
+        <a href={`/blog/tag/${t.slug}`} class="chip">{t.tag} <span class="n">{t.count}</span></a>
+      ))}
+    </nav>
 
     <div class="posts">
       {posts.map((p) => (
@@ -48,6 +60,16 @@ function fmtDate(d: Date) {
   .head { max-width: 720px; margin-bottom: 2.5rem; }
   h1 { font-size: clamp(1.9rem, 4vw, 2.8rem); margin-bottom: 1rem; }
   .lead { color: var(--color-text-muted); font-size: 1.08rem; }
+  .tag-bar { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 2rem; }
+  .chip {
+    display: inline-flex; align-items: center; gap: 0.35rem;
+    background: var(--color-bg-elevated); color: var(--color-text-muted);
+    font-size: 0.85rem; padding: 0.35rem 0.8rem; border-radius: 999px;
+    text-decoration: none; border: 1px solid transparent;
+  }
+  .chip:hover { color: var(--color-text); border-color: var(--color-border, rgba(0,0,0,0.12)); }
+  .chip.active { background: var(--color-accent); color: #fff; }
+  .chip .n { font-size: 0.72rem; opacity: 0.75; }
   .posts { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.2rem; }
   .post { padding: 1.6rem; display: flex; flex-direction: column; gap: 0.6rem; }
   /* Обложка занимает всю ширину карточки: внутренние отступы компенсируются

@@ -112,9 +112,12 @@ const ld = [
         <h1>Поиск: «{q}»</h1>
         <p class="sr-meta">Найдено: <b>{searchResults.length}</b> · <a href="/catalog">Весь каталог →</a></p>
         {searchResults.length > 0 ? (
+          <>
+          <h2 class="sr-only">Найденные товары</h2>
           <div class="sr-grid">
             {searchResults.slice(0, 48).map((p) => <ProductCard product={p} />)}
           </div>
+          </>
         ) : (
           <p class="sr-empty">Ничего не нашлось. Попробуйте другое написание (например, латиницей) или <button class="btn btn-primary btn-sm" data-open-question>спросите нас</button> — подключаем и то, чего нет в каталоге.</p>
         )}
