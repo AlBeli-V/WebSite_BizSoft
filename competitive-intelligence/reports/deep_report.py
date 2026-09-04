@@ -795,6 +795,41 @@ A/B-тест на поисковой выдаче. Контрольная гру
 {lessons}"""
 
 
+def _stale_occupancy_block(stale: list[dict] | None) -> str:
+    """Чужие эксперименты, чьё окно замера прошло, а статус остался рабочим.
+
+    До 1.8.1 занятость снималась только сменой статуса в реестре базового
+    контура — а его меняет человек. 04.09.2026 два эксперимента с контрольной
+    точкой 02.09 всё ещё держали десять страниц, и отчёт печатал «страница
+    занята … до 2026-09-02», противореча себе в одной строке. Теперь занятость
+    считается по окну замера, а освобождённые страницы названы здесь: базовый
+    контур должен увидеть, что эксперимент пора закрывать.
+    """
+    from attack_engine import occupancy as occupancy_mod
+    if not stale:
+        return ""
+    rows = "".join(
+        f'<tr><td>{esc(e.get("id"))}</td><td>{esc(e.get("ticket"))}</td>'
+        f'<td>{esc(e.get("start"))}</td>'
+        f'<td>{esc(occupancy_mod.window_end(e))}</td>'
+        f'<td class="num">{len(e.get("pages") or [])}</td>'
+        f'<td class="q">{esc(e.get("success_metric"))}</td></tr>'
+        for e in stale)
+    return (
+        f'<h3 id="stale">Занятость снята по истечении окна — '
+        f'{plural(len(stale), "эксперимент", "эксперимента", "экспериментов")}'
+        f'</h3>'
+        f'<p class="lead">У этих экспериментов базового SEO-контура окно замера '
+        f'уже прошло, а статус в реестре остался рабочим: его меняет человек. '
+        f'Их страницы освобождены для поручений нашим решением — правка, '
+        f'внесённая после конца окна, замеру не мешает. Строка стоит здесь, '
+        f'чтобы базовый контур увидел, что эксперименты пора закрывать.</p>'
+        + cut("Какие эксперименты освободили страницы", 
+              '<div class="scroll"><table><tr><th>Эксперимент</th><th>Заявка</th>'
+              '<th>Начат</th><th>Окно до</th><th class="num">Страниц</th>'
+              '<th>Метрика успеха</th></tr>' + rows + '</table></div>'))
+
+
 def _verify_block(to_verify: list[dict] | None) -> str:
     """Страницы, по которым правок не требуется, — список проверок, не работ.
 
@@ -836,7 +871,8 @@ def _verify_block(to_verify: list[dict] | None) -> str:
 def _toc(snapshot: dict, leaders: list[dict], packages: list[dict] | None,
          attacks: list[dict], experiments: list | None,
          on_watch: list[dict] | None = None, detail_limit: int = 10,
-         to_verify: list[dict] | None = None) -> str:
+         to_verify: list[dict] | None = None,
+         stale_occupancy: list[dict] | None = None) -> str:
     """Плавающее меню: вся структура отчёта, включая блоки под катом.
 
     Верхняя навигация даёт семь ссылок на разделы — этого мало: работа
@@ -869,6 +905,8 @@ def _toc(snapshot: dict, leaders: list[dict], packages: list[dict] | None,
         items.append(link(anchor("pkg", pkg["package_id"]),
                           f"{pkg['package_id']} · {url_short}"))
 
+    if stale_occupancy:
+        items.append(link("stale", "Занятость снята по истечении окна"))
     if to_verify:
         items.append(link("verify", "Проверить, а не делать"))
 
@@ -971,7 +1009,8 @@ def build(date: str, snapshot: dict, previous: dict | None,
           experiments: list | None = None, config: dict | None = None,
           on_watch: list[dict] | None = None,
           systemic: list | None = None,
-          to_verify: list[dict] | None = None) -> str:
+          to_verify: list[dict] | None = None,
+          stale_occupancy: list[dict] | None = None) -> str:
     """Собирает самодостаточный HTML-отчёт."""
     ours = snapshot.get("наши_показатели") or {}
     coverage = snapshot.get("покрытие") or {}
@@ -994,8 +1033,9 @@ def build(date: str, snapshot: dict, previous: dict | None,
         'выданных поручений отслеживается с 01.09.2026 — раздел 6.</div>')
 
     toc = _toc(snapshot, leaders, packages, attacks, experiments, on_watch,
-               to_verify=to_verify)
+               to_verify=to_verify, stale_occupancy=stale_occupancy)
     verify_block = _verify_block(to_verify)
+    stale_block = _stale_occupancy_block(stale_occupancy)
     # Статус точки атаки ищется по всем пакетам дня, включая снятые с очереди:
     # иначе запрос, по которому пакет есть, значился бы «вне плана работ».
     planned = (packages or []) + (on_watch or []) + (to_verify or [])
@@ -1067,6 +1107,7 @@ def build(date: str, snapshot: dict, previous: dict | None,
 пакетам с сопоставимым спросом: +{sum(p['traffic_upside'] or 0 for p in (packages or [])):.0f}
 переходов при выходе в ТОП-3 — там, где спрос измерен сопоставимой шкалой.</p>
 {_packages_block(packages or [])}
+{stale_block}
 {verify_block}
 
 <h2 id="l4">5 · Точки атаки — {len(attacks)} кандидатов</h2>

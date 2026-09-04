@@ -299,13 +299,25 @@ def main(argv: list[str]) -> int:
     # эксперимента (разбор плана работ 02.09.2026).
     from attack_engine import occupancy as occupancy_mod
     registry_read = occupancy_mod.available()
+    stale_experiments: list[dict] = []
     if registry_read:
-        _, occupied = occupancy_mod.mark(packages)
+        _, occupied = occupancy_mod.mark(packages, today=date)
         control = [p for p in packages
                    if (p.get("занятость") or {}).get("степень")
                    == occupancy_mod.BUSY_CONTROL]
+        # Окно замера чужого эксперимента могло истечь, а статус в реестре
+        # базового контура остаться рабочим: его меняет человек. Страницы
+        # такого эксперимента освобождаются нашим решением, и отчёт обязан
+        # это назвать (разбор 04.09.2026).
+        stale_experiments = occupancy_mod.expired(occupancy_mod.load(), date)
         print(f"6в. Занятость: {len(occupied)} страниц под чужими "
               f"экспериментами, {len(control)} в их контрольных группах")
+        if stale_experiments:
+            print(f"6ж. Окно замера истекло, статус в реестре не закрыт: "
+                  + ", ".join(f"{e.get('id')} (до "
+                              f"{occupancy_mod.window_end(e)})"
+                              for e in stale_experiments)
+                  + " — страницы освобождены")
     else:
         occupied = []
         print("6в. Занятость: реестр экспериментов базового контура не "
@@ -380,7 +392,8 @@ def main(argv: list[str]) -> int:
                              packages=packages, histories=histories,
                              experiments=experiments, config=config,
                              on_watch=on_watch, systemic=systemic,
-                             to_verify=to_verify)
+                             to_verify=to_verify,
+                             stale_occupancy=stale_experiments)
     os.makedirs(paths.ARCHIVE_DIR, exist_ok=True)
     for target in (os.path.join(paths.ARCHIVE_DIR, f"{date}.html"),
                    os.path.join(paths.REPORTS_DIR, "latest.html")):
