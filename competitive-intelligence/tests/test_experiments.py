@@ -235,7 +235,7 @@ class TestEvaluate(unittest.TestCase):
                      "2026-09-01": snapshot("2026-09-01", {"запрос": 7})}
         base = lifecycle.baseline_for(snapshots, "2026-09-01", ["запрос"], 3)
         self.assertEqual(base["медиана_позиций"], 7)
-        self.assertIn("ещё не была на проде", base["_оговорка"])
+        self.assertIn("базой взят сам день фиксации", base["_оговорка"])
 
     def test_контроль_не_включает_запросы_эксперимента(self):
         snapshots = self._snapshots(9, 4, 10, 8)
