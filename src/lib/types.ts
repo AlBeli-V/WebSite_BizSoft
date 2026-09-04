@@ -92,6 +92,9 @@ export interface Product {
   // ── SEO-архитектура / масштабирование ──
   noindex?: boolean | null;
   date_updated?: string | null;
+  /** Дата содержательного изменения карточки — источник lastmod в sitemap.
+   *  date_updated для этого не годится: его сдвигает ежедневная переоценка. */
+  content_updated_at?: string | null;
   for_whom?: string | null;
   use_cases?: (string | { value?: string })[] | null;
   former_names?: (string | { value?: string })[] | null;

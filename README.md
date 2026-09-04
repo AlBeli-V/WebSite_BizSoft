@@ -102,4 +102,4 @@ Google Drive (папка `BizSoft-Backups`, выгрузка через rclone),
 
 ## SEO/Growth-аналитика — BIZSoft Search & Growth Intelligence
 
-Ежедневная автоматическая система маркетинговой аналитики (позиции Google/Яндекс, поведение, конверсии, отчёт-письмо руководителю в 9:00 МСК). Код и регламент — в `main` (`scripts/seo/`, `reports/seo/README.md`, восстановление расписания — `reports/seo/TRIGGER.md`), машинные данные — в отдельной ветке-хранилище `seo-data`; обмен — `scripts/seo/data_sync.sh`. Управление и доработки — через сессию Claude Code «BIZSoft Growth Intelligence» (любой новый агент подключается, прочитав указанные файлы).
+Ежедневная автоматическая система маркетинговой аналитики (позиции Google/Яндекс, поведение, конверсии, отчёт-письмо руководителю в 9:00 МСК). Код и регламент — в `main` (`scripts/seo/`, `reports/seo/README.md`, восстановление расписания — `reports/seo/TRIGGER.md`), машинные данные — в отдельной ветке-хранилище `seo-data`; обмен — `scripts/seo/data_sync.sh`. Ежедневный прогон — workflow `seo-daily-report.yml` (устройство — `docs/rules/operational-runs.md`); доработки — обычными PR.

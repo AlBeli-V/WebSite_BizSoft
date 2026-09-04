@@ -1,0 +1,117 @@
+# Еженедельная сборка письма «BIZSoft Growth Committee» (понедельник).
+#
+# Заменяет Routine «Growth Committee: сборка еженедельного письма» на сессии
+# Claude (решение руководителя 03.09.2026 по разбору расхода токенов):
+# прогон — это committee.py, тесты и push, модель в нём не участвовала.
+# Отправляет письмо workflow seo-committee-email; push из Actions под
+# GITHUB_TOKEN его push-триггер не запускает, поэтому вызов явный через
+# scripts/ops/gh_dispatch_wait.sh. Одно письмо на дату стережёт маркер
+# last-committee-mailed.txt.
+#
+# Расписание (UTC; московское рядом — правило проекта), только понедельник:
+#   06:10 UTC = 09:10 МСК — штатный слот;
+#   06:50 UTC = 09:50 МСК — контрольный слот на случай пропуска первого;
+#   сторож seo-committee-email в 10:30 МСК шлёт уведомление о сбое.
+name: seo-committee-build
+
+on:
+  schedule:
+    - cron: "10 6 * * 1"
+    - cron: "50 6 * * 1"
+  workflow_dispatch:
+    inputs:
+      force:
+        description: "yes — пересобрать письмо за сегодня, даже если оно уже есть в seo-data"
+        required: false
+        default: "no"
+
+permissions:
+  contents: write
+  actions: write
+  issues: write
+
+concurrency:
+  group: seo-committee-build
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install deps
+        run: pip install --quiet requests
+
+      - name: Pull data branch
+        run: bash scripts/seo/data_sync.sh pull
+
+      - name: Resolve date and guard
+        id: guard
+        env:
+          FORCE: ${{ inputs.force || 'no' }}
+        run: |
+          date=$(TZ=Europe/Moscow date +%F)
+          echo "date=$date" >> "$GITHUB_OUTPUT"
+          if [ -f "reports/seo/intelligence/$date-committee-email.html" ] && [ "$FORCE" != "yes" ]; then
+            echo "build=no" >> "$GITHUB_OUTPUT"
+            echo "письмо комитета за $date уже собрано — остаётся проверить отправку"
+          else
+            echo "build=yes" >> "$GITHUB_OUTPUT"
+            echo "письмо комитета за $date собирается"
+          fi
+
+      # Код возврата 1 — гейт содержания не пройден: письмо не пушится и не
+      # отправляется, сторож почтового workflow пришлёт уведомление о сбое.
+      - name: Build committee letter
+        if: steps.guard.outputs.build == 'yes'
+        env:
+          DATE: ${{ steps.guard.outputs.date }}
+        run: python3 scripts/seo/committee.py "$DATE"
+
+      - name: Tests
+        if: steps.guard.outputs.build == 'yes'
+        run: |
+          set -o pipefail
+          python3 -m unittest discover -s scripts/seo/tests -t scripts/seo/tests \
+            -p 'test_*.py' 2>&1 | tee /tmp/py-tests.log
+          grep -qE '^Ran [1-9][0-9]* tests' /tmp/py-tests.log \
+            || { echo 'Тестов не найдено — проверка ничего не значит'; exit 1; }
+
+      - name: Push letter to seo-data
+        if: steps.guard.outputs.build == 'yes'
+        env:
+          DATE: ${{ steps.guard.outputs.date }}
+        run: |
+          bash scripts/seo/data_sync.sh push "Письмо комитета за $DATE" \
+            "reports/seo/intelligence"
+
+      - name: Ensure letter is sent
+        env:
+          DATE: ${{ steps.guard.outputs.date }}
+        run: |
+          git fetch origin seo-data --quiet
+          mailed=$(git show origin/seo-data:reports/seo/intelligence/last-committee-mailed.txt 2>/dev/null || echo "")
+          if [ "$mailed" = "$DATE" ]; then
+            echo "письмо комитета за $DATE уже отправлено"
+            exit 0
+          fi
+          if ! git cat-file -e "origin/seo-data:reports/seo/intelligence/$DATE-committee-email.html" 2>/dev/null; then
+            echo "::error::письма комитета за $DATE в хранилище нет — отправлять нечего"
+            exit 1
+          fi
+          bash scripts/ops/gh_dispatch_wait.sh seo-committee-email.yml --timeout 900
+
+      - name: Journal on failure
+        if: failure()
+        env:
+          DATE: ${{ steps.guard.outputs.date }}
+        run: |
+          gh issue comment 22 --body "seo-committee-build: сборка письма комитета за $DATE завершилась с ошибкой — $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID. Уведомление о сбое даёт сторож seo-committee-email."
