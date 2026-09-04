@@ -161,6 +161,38 @@ def control_dates_for(start: dt.date, explicit: str | None = None) -> list[str]:
     return sorted(dates)
 
 
+def _sync_exposure_with_verdict(rec: dict) -> None:
+    """Строку экспозиции в письме считать по тому набору, что несёт вывод.
+
+    Решение руководителя 04.09.2026. Показы блока письма считались по всем
+    запросам кластера из снимка, а гейт вердикта — по совпадающим запросам
+    двух окон: 04.09 пять экспериментов имели «порог пройден» при вердикте
+    «мало данных», и это ловил инвариант достоверности. Числа обе честные, но
+    отвечают на разные вопросы, а в письме рядом стоят порог и вывод — значит
+    порог обязан быть тем же, по которому вывод и делается.
+
+    Охват кластера не теряется: он остаётся в `cluster_impressions` и в
+    разборе оценки. Оценки без matched-набора (рост показов, запуск страниц)
+    и несостоявшиеся оценки строку не меняют.
+    """
+    ev = rec.get("evaluation") or {}
+    matched = (ev.get("matched_metrics") or {}).get("experiment") or {}
+    gate = (ev.get("effective_gate") or {}).get("experiment")
+    if not matched or gate is None:
+        return
+    imp = matched.get("impressions")
+    if imp is None:
+        return
+    rec["cluster_impressions"] = rec["impressions_since_deploy"]
+    rec["cluster_clicks"] = rec["clicks_since_deploy"]
+    rec["exposure_basis"] = "matched"
+    rec["impressions_since_deploy"] = imp
+    rec["clicks_since_deploy"] = matched.get("clicks", 0)
+    rec["exposure_min_impressions"] = gate
+    rec["exposure_gate_adapted"] = bool((ev.get("effective_gate") or {}).get("adapted"))
+    rec["exposure_ok"] = imp >= gate
+
+
 def build(snap: dict, date: str, site_check: dict | None = None) -> list[dict]:
     # Вердикт-движок (задание руководителя 30.08.2026): оценка считается
     # ежедневно и показывается в веб-отчёте; в письмо расширенный блок и
@@ -306,6 +338,7 @@ def build(snap: dict, date: str, site_check: dict | None = None) -> list[dict]:
                 nxt if nxt and nxt > date else None)
         try:
             rec["evaluation"] = experiment_verdict.evaluate(e, date)
+            _sync_exposure_with_verdict(rec)
             if rec["control_date_today"]:
                 experiment_verdict.save_history(rec["evaluation"])
         except Exception as err:  # noqa: BLE001 — оценка не должна ронять письмо
