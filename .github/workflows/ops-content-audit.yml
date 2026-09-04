@@ -122,10 +122,11 @@ jobs:
             for name, test in groups.items():
                 hits = [r for r in idx if test(r)]
                 print(f'{name}: {len(hits)}')
-                for r in hits[:6]:
+                shown = hits if full else hits[:6]
+                for r in shown:
                     print(f"   - {r['slug']}")
-                if len(hits) > 6:
-                    print(f'   … ещё {len(hits) - 6}')
+                if len(hits) > len(shown):
+                    print(f'   … ещё {len(hits) - len(shown)} (full=true печатает все)')
             # Одинаковые title/description на разных карточках Яндекс считает
             # дублями и снимает страницы с индексации. Заголовок страницы —
             # это meta_title, а при пустом meta_title — название товара
