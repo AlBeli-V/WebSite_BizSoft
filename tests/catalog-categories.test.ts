@@ -2,6 +2,7 @@ import { describe, it, expect } from 'vitest';
 import { readFileSync, readdirSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { aiSubcategories } from '../src/data/ai-hub';
+import { textBlocks } from '../src/lib/text-blocks';
 
 /**
  * Разделы каталога («Назначение ПО»): плитки на /catalog.
@@ -20,7 +21,17 @@ const plan = JSON.parse(
   create: { slug: string; name: string; sort: number }[];
   merge: Record<string, string>;
   intro: Record<string, string>;
+  content: Record<string, CategoryContent | string>;
 };
+interface CategoryContent {
+  meta_title: string;
+  meta_description: string;
+  seo_text: string;
+  faqs: { q: string; a: string }[];
+}
+const content = Object.entries(plan.content).filter(
+  (e): e is [string, CategoryContent] => !e[0].startsWith('_'),
+);
 const segmentPage = readFileSync(resolve(ROOT, 'src/pages/catalog/[segment].astro'), 'utf8');
 const icons = readFileSync(resolve(ROOT, 'src/components/CategoryIcon.astro'), 'utf8');
 // Ключ с дефисом записан в кавычках ('ai-text': …) — регексп понимает оба вида.
@@ -143,5 +154,66 @@ describe('товары и разделы', () => {
       expect(a.category, `${a.sku}: раздел разошёлся с лицензией`)
         .toBe(licence?.category);
     }
+  });
+});
+
+describe('тексты страниц разделов (план thin-pages, группа F)', () => {
+  it('текст пишется разделу, который есть в плане', () => {
+    for (const [slug] of content) {
+      expect(Object.keys(plan.intro), `${slug}: текст без раздела`).toContain(slug);
+    }
+  });
+
+  it('мета в пределах выдачи и не повторяется', () => {
+    const titles = content.map(([, c]) => c.meta_title);
+    const descs = content.map(([, c]) => c.meta_description);
+    expect(new Set(titles).size).toBe(titles.length);
+    expect(new Set(descs).size).toBe(descs.length);
+    for (const [slug, c] of content) {
+      expect(c.meta_title.length, `${slug}.meta_title`).toBeLessThanOrEqual(60);
+      expect(c.meta_description.length, `${slug}.meta_description`).toBeLessThanOrEqual(160);
+    }
+  });
+
+  it('блок «Как выбрать» — структурированный текст, а не абзац-заглушка', () => {
+    for (const [slug, c] of content) {
+      const blocks = textBlocks(c.seo_text);
+      expect(blocks.filter((b) => b.type === 'h2').length, `${slug}: подзаголовки`).toBeGreaterThanOrEqual(2);
+      expect(blocks.filter((b) => b.type === 'p').length, `${slug}: абзацы`).toBeGreaterThanOrEqual(3);
+      expect(c.seo_text.length, `${slug}: слишком короткий текст`).toBeGreaterThan(1200);
+    }
+  });
+
+  it('вопросы раздела свои, а не типовые про покупку', () => {
+    const seen = new Set<string>();
+    for (const [slug, c] of content) {
+      expect(c.faqs.length, `${slug}: вопросов`).toBeGreaterThanOrEqual(4);
+      for (const f of c.faqs) {
+        expect(f.q.trim().length, `${slug}: пустой вопрос`).toBeGreaterThan(10);
+        expect(f.a.trim().length, `${slug}: короткий ответ «${f.q}»`).toBeGreaterThan(60);
+        expect(seen.has(f.q), `${slug}: вопрос повторяется — «${f.q}»`).toBe(false);
+        seen.add(f.q);
+      }
+    }
+  });
+
+  it('витрина выводит seo_text блоком, а не подставляет вместо лида', () => {
+    expect(segmentPage).toContain('textBlocks(pageCategory?.seo_text)');
+    expect(segmentPage).not.toMatch(/lead = pageCategory\.intro \|\| pageCategory\.seo_text/);
+  });
+});
+
+describe('разбор текста раздела', () => {
+  it('подзаголовок, абзац и список различаются', () => {
+    const blocks = textBlocks('## Раздел\n\nАбзац первый\nпродолжение.\n\n- один\n- два\n\n## Второй\n\nЕщё абзац.');
+    expect(blocks).toEqual([
+      { type: 'h2', text: 'Раздел' },
+      { type: 'p', text: 'Абзац первый продолжение.' },
+      { type: 'ul', items: ['один', 'два'] },
+      { type: 'h2', text: 'Второй' },
+      { type: 'p', text: 'Ещё абзац.' },
+    ]);
+    expect(textBlocks(null)).toEqual([]);
+    expect(textBlocks('')).toEqual([]);
   });
 });

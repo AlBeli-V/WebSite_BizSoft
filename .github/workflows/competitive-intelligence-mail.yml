@@ -103,6 +103,20 @@ jobs:
           for name in (f'{date}-email.html', f'{date}-email.txt'):
               if not os.path.exists(f'reports/competitive/{name}'):
                   problems.append(f'нет файла {name}')
+          # Блокирующие инварианты о дате (решение руководителя 03.09.2026):
+          # данные не за день письма обязаны быть названы, а вердикт при них —
+          # «недостаточно данных» (⚪). Иначе вчерашний срез уйдёт как сегодняшний.
+          snap_path = pathlib.Path(f'data/competitive/snapshots/{date}-discovery.json')
+          stale = meta.get('предупреждение_о_свежести')
+          if snap_path.exists():
+              snap = json.loads(snap_path.read_text(encoding='utf-8'))
+              data_date = snap.get('дата_данных') or snap.get('дата')
+              if data_date != date and not stale:
+                  problems.append(f'данные за {data_date} под датой письма {date} '
+                                  'без предупреждения о свежести')
+          if stale and meta.get('вердикт') != '⚪':
+              problems.append('предупреждение о свежести есть, а вердикт не '
+                              f"«недостаточно данных»: {meta.get('вердикт')}")
           if problems:
               print('::error::Гейт качества не пройден: ' + '; '.join(problems))
               sys.exit(1)

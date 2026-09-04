@@ -149,7 +149,7 @@ class VerdictScenarioTest(unittest.TestCase):
                  cluster("canva", 2500, 105, 6.3))
         r = ver.evaluate(EXP, "2026-08-30")
         self.assertEqual(r["verdict"], "INSUFFICIENT_DATA")
-        self.assertIn("не очистилось", r["verdict_reason"])
+        self.assertIn("захватывает период до внедрения", r["verdict_reason"])
         # Дата очистки посчитана: старт 19.08 + 1 день чистоты + лаг ~14 дн.
         self.assertIsNotNone(r["recommendation_detail"])
 
