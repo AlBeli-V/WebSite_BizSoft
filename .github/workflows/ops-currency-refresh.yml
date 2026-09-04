@@ -27,6 +27,11 @@ jobs:
             echo "Запуск разрешён только с ветки main. Текущий ref: ${{ github.ref_name }}"
             exit 1
           fi
+      # Локальный action journal-post лежит в репозитории — без checkout
+      # раннер его не находит, и запись в журнал падает (см. прогон #41
+      # ops-yandex-recrawl 03.09.2026).
+      - uses: actions/checkout@v4
+
       - name: Refresh CBR rate and reprice pegged products
         id: run
         uses: appleboy/ssh-action@v1
@@ -36,15 +41,15 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           capture_stdout: true
           script: |
-            set -e
+            set -e -o pipefail
             TOKEN=$(sed -n 's/^ADMIN_TOOLS_TOKEN=//p' /opt/bizsoft/astro.env | tr -d '"\r')
-            if [ -z "$TOKEN" ]; then echo "ADMIN_TOOLS_TOKEN не найден в astro.env"; exit 0; fi
+            if [ -z "$TOKEN" ]; then echo "ADMIN_TOOLS_TOKEN не найден в astro.env — переоценка не выполнена"; exit 1; fi
             # Таймаут 60 секунд был рассчитан на каталог в тысячу позиций.
             # После партии ManageEngine их около шести тысяч, и запрос,
             # не уложившись, обрывался бы на середине: часть цен обновлена,
             # часть нет, и в журнале «ошибка сети» вместо внятной причины.
             api() {
-              curl -sS --max-time 600 -X POST http://127.0.0.1:3000/api/admin/currency \
+              curl -sSf --max-time 600 -X POST http://127.0.0.1:3000/api/admin/currency \
                 -H "Content-Type: application/json" -H "x-admin-token: $TOKEN" -d "$1"
             }
             echo "== refresh курса ЦБ =="
@@ -58,15 +63,16 @@ jobs:
             echo "== длительность переоценки: $(( $(date +%s) - START )) с =="
             echo "   (было рассчитано на ~1100 позиций, стало ~5900)"
 
+      # Локальному action нужен репозиторий в рабочей копии. if: always() —
+      # потому что шаг журнала тоже always(): без этого при падении основного
+      # шага checkout пропускается, и запись в журнал снова не проходит.
+      - name: Checkout for journal action
+        if: always()
+        uses: actions/checkout@v4
       - name: Post results to journal (issue #22)
         if: always()
-        uses: actions/github-script@v7
-        env:
-          OUT: ${{ steps.run.outputs.stdout }}
+        uses: ./.github/actions/journal-post
         with:
-          script: |
-            const out = (process.env.OUT || '(нет вывода)').slice(0, 60000);
-            await github.rest.issues.createComment({
-              owner: context.repo.owner, repo: context.repo.repo, issue_number: 22,
-              body: '### ops-currency-refresh · ' + new Date().toISOString() + '\n```\n' + out + '\n```',
-            });
+          title: "ops-currency-refresh"
+          outcome: ${{ steps.run.outcome }}
+          body: ${{ steps.run.outputs.stdout }}

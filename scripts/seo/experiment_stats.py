@@ -14,6 +14,17 @@ matched query set, метрики, two-proportion z-test. Никаких вер�
 Окна не пересекаются, поэтому сравнение двух binomial-пропорций корректно
 без дневной разбивки. Пока чистого experiment-окна нет, слой честно
 возвращает его отсутствие и дату, когда окно очистится.
+
+Фиксированные окна (перезапуск SEO-EXP-002, 03.09.2026). Скользящие
+выгрузки дали два дефекта: baseline брался из усечённой выгрузки (до 23.08
+сборщик забирал только топ-100 из ~450 запросов — «23 показа → 100» был
+артефактом глубины выгрузки), а окно после внедрения ограничивалось
+~12 днями и не росло. API Вебмастера принимает произвольные date_from/
+date_to, поэтому реестр может задать окна явно (`windows`), а сборщик
+experiment_windows.py выгружает их полным обходом в
+yandex-window-<from>_<to>.json. Такие файлы имеют приоритет над выбором из
+ежедневных выгрузок; окна равной длины (по умолчанию 28 дней) сравниваются
+как есть.
 """
 
 from __future__ import annotations
@@ -52,6 +63,12 @@ CONFIG = {
     # Мощность для оценки MDE (какой рост CTR вообще различим при выборке).
     "EXPERIMENT_MDE_POWER_Z": 0.8416,   # z для мощности 80%
     "EXPERIMENT_MDE_ALPHA_Z": 1.9600,   # z для двустороннего alpha=0.05
+    # Фиксированные окна: длина каждого окна и лаг источника (данные за день
+    # устаиваются у Вебмастера примерно трое суток — окно baseline
+    # заканчивается за лаг до старта, окно после внедрения выгружается,
+    # когда прошёл лаг после его конца).
+    "EXPERIMENT_WINDOW_DAYS": 28,
+    "EXPERIMENT_SOURCE_LAG_DAYS": 3,
 }
 
 
@@ -107,14 +124,93 @@ def _available_dates() -> list[str]:
                   for p in DATA_DIR.glob("yandex-????-??-??.json"))
 
 
-def pick_windows(start: dt.date, today: dt.date) -> dict:
+# ── Фиксированные окна ──────────────────────────────────────────────────────
+
+def window_path(w_from: str, w_to: str) -> pathlib.Path:
+    """Файл выгрузки Вебмастера за фиксированное окно."""
+    return DATA_DIR / f"yandex-window-{w_from}_{w_to}.json"
+
+
+def load_window(w_from: str, w_to: str) -> dict | None:
+    """Выгрузка за фиксированное окно в том же виде, что у _load_day."""
+    p = window_path(w_from, w_to)
+    if not p.exists():
+        return None
+    try:
+        d = json.loads(p.read_text(encoding="utf-8"))
+    except (json.JSONDecodeError, OSError):
+        return None
+    pq = d.get("popular_queries") or {}
+    if pq.get("error") or not pq.get("queries"):
+        return None
+    return {"file_date": d.get("date") or w_to, "from": pq.get("date_from") or w_from,
+            "to": pq.get("date_to") or w_to, "queries": pq["queries"], "fixed": True}
+
+
+def plan_windows(start: dt.date, cfg: dict | None = None) -> dict:
+    """Окна baseline/experiment от даты старта: равной длины, без лага источника.
+
+    baseline заканчивается за лаг до старта (последние дни перед стартом у
+    Вебмастера ещё не устоялись в момент активации), experiment начинается
+    на следующий день после старта (выкат шёл в течение дня старта).
+    """
+    cfg = cfg or CONFIG
+    days = cfg["EXPERIMENT_WINDOW_DAYS"]
+    lag = cfg["EXPERIMENT_SOURCE_LAG_DAYS"]
+    clean = cfg["CLEAN_WINDOW_STARTS_DAYS_AFTER"]
+    b_to = start - dt.timedelta(days=lag + 1)
+    b_from = b_to - dt.timedelta(days=days - 1)
+    e_from = start + dt.timedelta(days=clean)
+    e_to = e_from + dt.timedelta(days=days - 1)
+    return {"days": days,
+            "baseline": {"from": b_from.isoformat(), "to": b_to.isoformat()},
+            "experiment": {"from": e_from.isoformat(), "to": e_to.isoformat()}}
+
+
+def window_ready(window: dict, today: dt.date, cfg: dict | None = None) -> bool:
+    """Окно можно выгружать: его последний день устоялся у источника."""
+    cfg = cfg or CONFIG
+    lag = cfg["EXPERIMENT_SOURCE_LAG_DAYS"]
+    return dt.date.fromisoformat(window["to"]) + dt.timedelta(days=lag) <= today
+
+
+def pick_windows(start: dt.date, today: dt.date, exp: dict | None = None) -> dict:
     """Выбрать выгрузки baseline и experiment для эксперимента с датой старта.
 
     baseline: последняя выгрузка, чьё окно закончилось ДО старта.
     experiment: свежайшая выгрузка, чьё окно началось ПОСЛЕ старта
     (окно, начинающееся в сам день старта, допускается с пометкой tainted:
     выкат шёл в течение дня, и часть окна могла увидеть старый вариант).
+
+    Если реестр эксперимента (`exp`) задаёт фиксированные окна и их выгрузки
+    уже лежат в каталоге данных, они имеют приоритет: полный обход без
+    усечения и без пересечения с периодом до внедрения.
     """
+    windows = _pick_rolling_windows(start, today)
+    fixed = {"baseline": False, "experiment": False}
+    planned = (exp or {}).get("windows") or {}
+    if planned.get("baseline"):
+        w = load_window(planned["baseline"]["from"], planned["baseline"]["to"])
+        if w:
+            windows["baseline"], fixed["baseline"] = w, True
+    if planned.get("experiment"):
+        w = load_window(planned["experiment"]["from"], planned["experiment"]["to"])
+        if w:
+            windows["experiment"], fixed["experiment"] = w, True
+            windows["experiment_tainted"] = False
+            windows["clean_experiment_eta"] = None
+        elif windows["experiment"] is None or windows["experiment_tainted"]:
+            # Чистое окно появится не раньше, чем устоится его последний день.
+            eta = (dt.date.fromisoformat(planned["experiment"]["to"])
+                   + dt.timedelta(days=CONFIG["EXPERIMENT_SOURCE_LAG_DAYS"]))
+            windows["fixed_experiment_eta"] = eta.isoformat()
+    windows["fixed"] = fixed
+    windows["planned"] = planned or None
+    return windows
+
+
+def _pick_rolling_windows(start: dt.date, today: dt.date) -> dict:
+    """Прежний выбор окон из ежедневных скользящих выгрузок."""
     base = exp = None
     exp_tainted = False
     for date in _available_dates():
@@ -148,7 +244,8 @@ def pick_windows(start: dt.date, today: dt.date) -> dict:
             "experiment_tainted": exp_tainted, "clean_experiment_eta": clean_eta}
 
 
-def interim_comparison(keys, start: dt.date, today: dt.date) -> dict | None:
+def interim_comparison(keys, start: dt.date, today: dt.date,
+                       exp: dict | None = None) -> dict | None:
     """Предварительное сравнение «старый → новый» до появления чистого окна.
 
     Вопрос руководителя 31.08.2026: письмо обязано показывать, как идёт
@@ -158,7 +255,7 @@ def interim_comparison(keys, start: dt.date, today: dt.date) -> dict | None:
     поэтому здесь нет p-value, а результат помечается предварительным:
     он отвечает «как идёт», а не «доказано ли».
     """
-    windows = pick_windows(start, today)
+    windows = pick_windows(start, today, exp)
     base = windows["baseline"]
     current = None
     for date in reversed(_available_dates()):
@@ -178,9 +275,13 @@ def interim_comparison(keys, start: dt.date, today: dt.date) -> dict | None:
     window_days = (w_to - w_from).days + 1
     post_days = max(0, min((w_to - start).days, window_days))
     caveats = []
-    if len(base["queries"]) < 200:
+    if len(base["queries"]) < 200 and not base.get("fixed"):
         caveats.append(f"базовое окно из усечённой выгрузки "
                        f"({len(base['queries'])} запросов) — клики занижены")
+    if base.get("fixed"):
+        caveats.append("базовое окно фиксированное (полная выгрузка "
+                       f"{base['from']}–{base['to']}); текущее — скользящее, "
+                       "окна разной длины сравниваются по CTR, не по показам")
     if post_days < window_days:
         caveats.append(f"текущее окно пересекает период до внедрения: "
                        f"{post_days} из {window_days} дней — после")

@@ -1,9 +1,11 @@
-"""Чтение SERP-срезов Яндекса из ветки-хранилища базового контура — read-only.
+"""Чтение SERP-срезов Яндекса и Google из ветки-хранилища базового контура — read-only.
 
 Базовый SEO-контур с 30.08 ежедневно снимает выдачу Яндекса по коммерческому
-ядру (`seo-serp-watch` → ветка `seo-data`). Правило независимости контуров
-(раздел 2 задания) требует не покупать эти же снимки повторно: конкурентная
-разведка читает их как есть и докупает только то, чего там нет.
+ядру (`seo-serp-watch` → ветка `seo-data`), а с 03.09.2026 — еженедельно
+выдачу Google по российскому местоположению (xmlriver, тот же workflow).
+Правило независимости контуров (раздел 2 задания) требует не покупать эти же
+снимки повторно: конкурентная разведка читает их как есть. Собственных
+запросов к xmlriver или DataForSEO у разведки нет.
 
 Отсюда единственный способ доступа — `git show origin/seo-data:<путь>`.
 Ничего не пишем, ветку не трогаем, рабочую копию не меняем.
@@ -23,6 +25,10 @@ SEO_BRANCH = "seo-data"
 # без которой рвётся ряд наблюдений.
 SERP_DIRS = ("reports/seo/serp", "reports/seo/data/serp")
 SERP_DIR = SERP_DIRS[0]
+# Суффикс файла среза по поисковой системе. Google-срез (xmlriver, с
+# 03.09.2026) лежит рядом с Яндексом под своим суффиксом, чтобы прежние
+# читатели не приняли его за Яндекс.
+SNAPSHOT_SUFFIX = {"yandex": "-serp.jsonl", "google": "-serp-google.jsonl"}
 
 
 @dataclass
@@ -47,12 +53,14 @@ def _git(*args: str) -> str:
                           check=True).stdout
 
 
-def available_dates(branch: str = SEO_BRANCH) -> list[str]:
+def available_dates(branch: str = SEO_BRANCH,
+                    engine: str = "yandex") -> list[str]:
     """Даты, за которые в хранилище базового контура есть срезы.
 
     Объединение по всем известным каталогам: после переноса часть истории
     осталась в старом месте, и ряд наблюдений не должен от этого прерваться.
     """
+    suffix = SNAPSHOT_SUFFIX[engine]
     dates: set[str] = set()
     for directory in SERP_DIRS:
         try:
@@ -65,17 +73,21 @@ def available_dates(branch: str = SEO_BRANCH) -> list[str]:
             continue
         for path in listing.splitlines():
             name = path.rsplit("/", 1)[-1]
-            if name.endswith("-serp.jsonl"):
-                dates.add(name[: -len("-serp.jsonl")])
+            # Точная длина даты: у Google суффикс длиннее, и «-serp.jsonl»
+            # на конце имени Яндекса не должен ловить чужие файлы.
+            if name.endswith(suffix) and len(name) == 10 + len(suffix):
+                dates.add(name[: -len(suffix)])
     return sorted(dates)
 
 
-def read_snapshot(date: str, branch: str = SEO_BRANCH) -> list[SerpRow]:
+def read_snapshot(date: str, branch: str = SEO_BRANCH,
+                  engine: str = "yandex") -> list[SerpRow]:
     """Срез за дату. Строки с ошибкой сохраняются — их считает Data Coverage."""
+    suffix = SNAPSHOT_SUFFIX[engine]
     blob = None
     for directory in SERP_DIRS:
         try:
-            blob = _git("show", f"origin/{branch}:{directory}/{date}-serp.jsonl")
+            blob = _git("show", f"origin/{branch}:{directory}/{date}{suffix}")
             break
         except subprocess.CalledProcessError:
             continue
@@ -94,11 +106,35 @@ def read_snapshot(date: str, branch: str = SEO_BRANCH) -> list[SerpRow]:
             date=raw.get("date", date),
             query=raw.get("query", ""),
             region=str(raw.get("region", "")),
+            engine=raw.get("engine") or engine,
             found=raw.get("found"),
             top=raw.get("top") or [],
             error=raw.get("error"),
         ))
     return rows
+
+
+def latest_snapshot(engine: str, on_or_before: str, max_age_days: int,
+                    branch: str = SEO_BRANCH) -> tuple[str | None, list[SerpRow]]:
+    """Последний срез системы не старше max_age_days от даты прогона.
+
+    Google собирается раз в неделю, и «срез за сегодня» для него — редкость:
+    потребитель берёт последний свежий. Слишком старый срез не подставляется
+    — лучше «нет данных», чем позиции недельной давности под сегодняшней датой.
+    Возвращает (дата среза, строки) либо (None, []).
+    """
+    import datetime as dt
+    limit = (dt.date.fromisoformat(on_or_before)
+             - dt.timedelta(days=max_age_days)).isoformat()
+    for date in reversed(available_dates(branch, engine)):
+        if date > on_or_before:
+            continue
+        if date < limit:
+            break
+        rows = read_snapshot(date, branch, engine)
+        if any(r.has_data for r in rows):
+            return date, rows
+    return None, []
 
 
 def normalize_domain(domain: str) -> str:
