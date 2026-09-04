@@ -6,7 +6,12 @@ import { SEO_EXPERIMENTS, SEO_EXPERIMENT_LINKS } from '../src/data/seo-experimen
 // CorelDRAW ушёл из EXP_1 в EXP_4 02.09.2026: решение по SEO-EXP-001 принято
 // (EXPAND), страница освободилась под запросную формулу.
 const EXP_1 = ['canva', 'depositphotos', 'heygen', 'marmoset'];
-const EXP_2 = ['adobe', 'autodesk', 'procreate', 'blackmagic', 'midjourney', 'clip-studio-paint'];
+// snippets-6-demand закрыт 03.09.2026 (перезапуск): четыре страницы без
+// показов остаются с прежними сниппетами вне эксперимента (KEEP).
+const EXP_2 = ['adobe', 'autodesk', 'blackmagic', 'midjourney'];
+// Перезапуск SEO-EXP-002 «snippets-2-price-intent»: запросная формула под
+// ценовой интент фактических запросов Вебмастера.
+const EXP_2R = ['clip-studio-paint', 'procreate'];
 // «snippet-anthropic-demand» (29.08.2026): GAP-D — показы есть, кликов нет.
 const EXP_3 = ['anthropic'];
 // «snippets-3-gap-d» (01.09.2026): запросная формула «оплата {vendor}
@@ -24,9 +29,15 @@ const EXP_4_PHRASE: Record<string, string> = {
   'motion-array': 'оплата motion array юридическим лицом',
   coreldraw: 'оплата coreldraw для россиян',
 };
+// Ценовая формула EXP_2R: вопрос «сколько стоит {Vendor}» стоит первым в
+// description, заголовке блока вопросов и первом вопросе; в title — «цена».
+const EXP_2R_VENDOR: Record<string, string> = {
+  'clip-studio-paint': 'Clip Studio Paint',
+  procreate: 'Procreate',
+};
 // Группы с общей коммерческой формулой title/description.
 const COMMERCIAL = [...EXP_1, ...EXP_2, ...EXP_3, ...EXP_5];
-const SLUGS = [...COMMERCIAL, ...EXP_4];
+const SLUGS = [...COMMERCIAL, ...EXP_4, ...EXP_2R];
 
 describe('SEO-эксперименты на vendor-страницах', () => {
   it('все группы на месте, пересечений нет — иначе метрики смешаются', () => {
@@ -34,6 +45,7 @@ describe('SEO-эксперименты на vendor-страницах', () => {
     expect(SEO_EXPERIMENT_LINKS.map((l) => l.slug).sort()).toEqual([...SLUGS].sort());
     expect(EXP_1.filter((s) => EXP_2.includes(s))).toEqual([]);
     expect(SLUGS.filter((s) => EXP_4.includes(s) && COMMERCIAL.includes(s))).toEqual([]);
+    expect(SLUGS.filter((s) => EXP_2R.includes(s) && (COMMERCIAL.includes(s) || EXP_4.includes(s)))).toEqual([]);
   });
 
   it('контрольная группа не затронута: правок ровно 24 vendor-страницы', () => {
@@ -120,6 +132,31 @@ describe('SEO-эксперименты на vendor-страницах', () => {
       expect(description).toMatch(head);
       expect(faqTitle.toLowerCase()).toBe(phrase);
       expect(`${faqAdd![0].q} ${faqAdd![0].a}`).toMatch(head);
+    }
+  });
+
+  it('snippets-2-price-intent: ценовая формула в сниппете, вопрос добавлен к bespoke-FAQ', () => {
+    for (const s of EXP_2R) {
+      const vendor = EXP_2R_VENDOR[s];
+      const { title, description, faqTitle, faq, faqAdd } = SEO_EXPERIMENTS[s];
+      expect(title).toContain(vendor);
+      expect(title).toMatch(/цена/);
+      expect(description.length).toBeLessThanOrEqual(160);
+      expect(description.startsWith(`Сколько стоит ${vendor}`)).toBe(true);
+      expect(description).toMatch(/в рублях/);
+      expect(description).toContain('ЭДО');
+      expect(description).toContain('1–3 дня');
+      expect(faqTitle.startsWith('Сколько стоит')).toBe(true);
+      // Собственный FAQ страницы сохраняется — вопрос добавляется первым.
+      expect(faq).toBeUndefined();
+      expect(faqAdd).toHaveLength(1);
+      const [{ q, a }] = faqAdd!;
+      expect(q.startsWith(`Сколько стоит ${vendor}`)).toBe(true);
+      expect(a).toMatch(/сч[её]т/i);
+      expect(a).toMatch(/договор/i);
+      expect(a).toMatch(/ЭДО/);
+      expect(a).toMatch(/1–3/);
+      expect(a).toMatch(/курсу ЦБ/);
     }
   });
 

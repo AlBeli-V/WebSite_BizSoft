@@ -16,26 +16,26 @@ const { source = 'question' } = Astro.props as { source?: string };
     </div>
 
     <label>ФИО:
-      <input type="text" name="name" required autocomplete="name" />
+      <input class="ym-disable-keys" type="text" name="name" required autocomplete="name" />
     </label>
     <div class="qf-row">
       <label>E-mail:
-        <input type="email" name="email" required autocomplete="email" />
+        <input class="ym-disable-keys" type="email" name="email" required autocomplete="email" />
       </label>
       <label>Телефон:
-        <input type="tel" name="phone" required autocomplete="tel" placeholder="+7 (___) ___-__-__" />
+        <input class="ym-disable-keys" type="tel" name="phone" required autocomplete="tel" placeholder="+7 (___) ___-__-__" />
       </label>
     </div>
     <div class="qf-row">
       <label>Компания:
-        <input type="text" name="company" required autocomplete="organization" />
+        <input class="ym-disable-keys" type="text" name="company" required autocomplete="organization" />
       </label>
       <label>ИНН:
-        <input type="text" name="inn" required inputmode="numeric" pattern="[0-9]{10,12}" placeholder="10 или 12 цифр" />
+        <input class="ym-disable-keys" type="text" name="inn" required inputmode="numeric" pattern="[0-9]{10,12}" placeholder="10 или 12 цифр" />
       </label>
     </div>
     <label>Сообщение:
-      <textarea name="message" rows="3" required placeholder="Что хотите уточнить?"></textarea>
+      <textarea class="ym-disable-keys" name="message" rows="3" required placeholder="Что хотите уточнить?"></textarea>
     </label>
 
     <input type="hidden" name="product_ref" data-product-ref />

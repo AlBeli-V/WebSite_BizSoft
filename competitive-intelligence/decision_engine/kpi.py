@@ -90,6 +90,15 @@ class Kpi:
     core_changed: bool = False
     delta_basis: str = "то же ядро"
     notes: list[str] = field(default_factory=list)
+    # Google RU (серия google_ru, xmlriver): дата среза, из которого взята
+    # доля, размер поля и дельта к прошлому срезу другой даты — по
+    # пересечению запросов, как и у Яндекса.
+    google_date: str | None = None
+    google_queries: int | None = None
+    google_top3: int | None = None
+    google_top10: int | None = None
+    google_delta_pp: float | None = None
+    google_compared_with: str | None = None
 
 
 def load_snapshot(date: str, directory: str | None = None) -> dict | None:
@@ -186,15 +195,30 @@ def comparable_series(snapshots: list[dict]) -> tuple[list[float], dict]:
     return series, meta
 
 
+def google_block(snapshot: dict) -> dict | None:
+    """Блок Google RU снимка, если срез был доступен; иначе None."""
+    block = snapshot.get("google") or {}
+    return block if block.get("доступен") else None
+
+
 def build_kpi(snapshot: dict, previous: dict | None = None) -> Kpi:
     """KPI дня. Дельты считаются только при наличии сравнимого прошлого."""
     ours = snapshot.get("наши_показатели") or {}
     coverage = snapshot.get("покрытие") or {}
     core = snapshot.get("ядро_запросов") or {}
+    google = google_block(snapshot)
+    g_ours = (google or {}).get("наши_показатели") or {}
     kpi = Kpi(
         date=snapshot.get("дата", ""),
         share_yandex=ours.get("доля_видимости"),
-        share_google=coverage.get("google"),
+        # Доля Google — из блока среза; старые снимки без блока хранят её в
+        # «покрытие.google» (там всегда был None).
+        share_google=(g_ours.get("доля_видимости") if google
+                      else coverage.get("google")),
+        google_date=(google or {}).get("дата_среза"),
+        google_queries=g_ours.get("запросов_в_поле"),
+        google_top3=g_ours.get("топ3"),
+        google_top10=g_ours.get("топ10"),
         top3=ours.get("топ3"),
         top10=ours.get("топ10"),
         queries=ours.get("запросов_в_поле"),
@@ -209,6 +233,20 @@ def build_kpi(snapshot: dict, previous: dict | None = None) -> Kpi:
 
     prev = previous.get("наши_показатели") or {}
     kpi.compared_with = previous.get("дата")
+
+    # Google: дельта только между срезами РАЗНЫХ дат — один и тот же
+    # еженедельный срез, прочитанный в два соседних дня, движения не даёт.
+    prev_google = google_block(previous)
+    if (google and prev_google
+            and prev_google.get("дата_среза") != google.get("дата_среза")):
+        common_g = (set(google.get("по_запросам") or {})
+                    & set(prev_google.get("по_запросам") or {}))
+        if common_g:
+            today_g = _share_on_block(google, common_g)
+            before_g = _share_on_block(prev_google, common_g)
+            if today_g is not None and before_g is not None:
+                kpi.google_delta_pp = round(100 * (today_g - before_g), 2)
+                kpi.google_compared_with = prev_google.get("дата_среза")
     kpi.core_changed = bool(core_hash(snapshot) and core_hash(previous)
                             and core_hash(snapshot) != core_hash(previous))
 
@@ -248,6 +286,18 @@ def build_kpi(snapshot: dict, previous: dict | None = None) -> Kpi:
         kpi.notes.append("сравнимость состава ядра не проверялась: в снимках "
                          "нет по-запросной видимости")
     return kpi
+
+
+def _share_on_block(block: dict, queries) -> float | None:
+    per_query = block.get("по_запросам") or {}
+    ours = field_total = 0.0
+    for query in queries:
+        bucket = per_query.get(query)
+        if not bucket:
+            continue
+        ours += bucket.get("наша") or 0.0
+        field_total += bucket.get("поле") or 0.0
+    return ours / field_total if field_total > 0 else None
 
 
 def trend_change(history: list[float]) -> float | None:
@@ -320,7 +370,12 @@ def coverage_state(snapshot: dict) -> tuple[str, str]:
             f"({detail}): потеряны самые весомые запросы")
 
     missing = []
-    if coverage.get("google") is None:
+    google = google_block(snapshot)
+    if google:
+        missing.append(f"Google RU: срез xmlriver от {google.get('дата_среза')}")
+    elif (snapshot.get("google") or {}).get("причина"):
+        missing.append(f"Google: {snapshot['google']['причина']}")
+    else:
         missing.append("Google не собирается")
     note = ("; ".join(missing) if missing else "все обязательные источники собраны")
     return "ок", note
