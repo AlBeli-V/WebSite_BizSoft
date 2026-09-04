@@ -1,37 +1,11 @@
 ---
 // Фирменные шрифты: Raleway (текст) + Prosto One (заголовки/цифры).
-// Оба — SIL OFL 1.1 (полностью бесплатные), self-host с нашего сервера
-// (woff2 в /_astro с вечным кэшем) — быстрее из РФ, без стороннего CDN.
-// Подключаем только нужные сайту наборы символов: кириллица, латиница и
-// latin-ext (в нём живёт знак рубля U+20BD). Полные файлы @fontsource везли
-// ещё cyrillic-ext и vietnamese — 30 правил @font-face вместо 18, из них
-// ~16 КБ CSS, которые не использует ни одна страница (Lighthouse,
-// unused-css-rules). Сами woff2 грузятся по факту нужного диапазона, так
-// что убраны именно неиспользуемые описания, а не шрифты.
-import '@fontsource/raleway/cyrillic-400.css';
-import '@fontsource/raleway/latin-400.css';
-import '@fontsource/raleway/latin-ext-400.css';
-import '@fontsource/raleway/cyrillic-500.css';
-import '@fontsource/raleway/latin-500.css';
-import '@fontsource/raleway/latin-ext-500.css';
-import '@fontsource/raleway/cyrillic-600.css';
-import '@fontsource/raleway/latin-600.css';
-import '@fontsource/raleway/latin-ext-600.css';
-import '@fontsource/raleway/cyrillic-700.css';
-import '@fontsource/raleway/latin-700.css';
-import '@fontsource/raleway/latin-ext-700.css';
-import '@fontsource/raleway/cyrillic-800.css';
-import '@fontsource/raleway/latin-800.css';
-import '@fontsource/raleway/latin-ext-800.css';
-import '@fontsource/prosto-one/cyrillic-400.css';
-import '@fontsource/prosto-one/latin-400.css';
-import '@fontsource/prosto-one/latin-ext-400.css';
-// Preload критичных начертаний: шрифт готов к первой отрисовке даже при
-// холодном кэше (инкогнито) — страница сразу в фирменной типографике.
-import ralewayCyr400 from '@fontsource/raleway/files/raleway-cyrillic-400-normal.woff2?url';
-import ralewayCyr700 from '@fontsource/raleway/files/raleway-cyrillic-700-normal.woff2?url';
-import ralewayLat400 from '@fontsource/raleway/files/raleway-latin-400-normal.woff2?url';
-import prostoCyr400 from '@fontsource/prosto-one/files/prosto-one-cyrillic-400-normal.woff2?url';
+// Оба — SIL OFL 1.1, self-host с нашего сервера (woff2 в /_astro с вечным
+// кэшем) — быстрее из РФ, без стороннего CDN. Правила @font-face — в
+// global.css; здесь только preload двух файлов, чтобы шрифт был готов к
+// первой отрисовке даже при холодном кэше (инкогнито).
+import ralewayVar from '../assets/fonts/raleway-var.woff2?url';
+import prostoOne from '../assets/fonts/prosto-one.woff2?url';
 import '../styles/global.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
@@ -61,19 +35,13 @@ const { title, description, canonical, ogImage, noindex, type, keywords } = Astr
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#ffffff" />
-    <!-- Фавикон — фирменный знак из брендового пакета (без перерисовки) -->
-    <link rel="icon" type="image/png" href="/brand/bizsoft-favicon.png" />
-    <link rel="apple-touch-icon" href="/brand/bizsoft-favicon.png" />
-    <link rel="preload" href={ralewayCyr400} as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href={ralewayCyr700} as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href={ralewayLat400} as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href={prostoCyr400} as="font" type="font/woff2" crossorigin />
-    <noscript>
-      <style>
-        /* Без JS секции с плавным появлением остаются видимыми */
-        .reveal { opacity: 1 !important; transform: none !important; }
-      </style>
-    </noscript>
+    <!-- Фавикон — фирменный знак из брендового пакета (без перерисовки);
+         180 px, палитровый PNG 9 КБ вместо 256 px / 35 КБ на каждой странице.
+         Оригинал 256 px остаётся в public/brand/bizsoft-favicon.png. -->
+    <link rel="icon" type="image/png" href="/brand/bizsoft-favicon-180.png" />
+    <link rel="apple-touch-icon" href="/brand/bizsoft-favicon-180.png" />
+    <link rel="preload" href={ralewayVar} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={prostoOne} as="font" type="font/woff2" crossorigin />
     <SeoHead title={title} description={description} canonical={canonical} ogImage={ogImage} noindex={noindex} type={type} keywords={keywords} />
     <JsonLd schema={[organizationSchema(), websiteSchema()]} />
   </head>
@@ -125,9 +93,18 @@ const { title, description, canonical, ogImage, noindex, type, keywords } = Astr
         if (name) trackGoal(name, { page_url: location.pathname });
       });
 
-      // Плавное появление секций (уважает prefers-reduced-motion через CSS)
+      // Плавное появление секций (уважает prefers-reduced-motion через CSS).
+      // Всё, что уже в первом экране, помечается видимым синхронно — до того,
+      // как html.js-reveal включит скрытие: первый экран не мигает и не ждёт
+      // observer, анимируются только секции ниже.
       const reveal = () => {
         const els = document.querySelectorAll('.reveal:not(.is-visible)');
+        const vh = window.innerHeight || document.documentElement.clientHeight;
+        els.forEach((el) => {
+          const r = el.getBoundingClientRect();
+          if (r.top < vh && r.bottom > 0) el.classList.add('is-visible');
+        });
+        document.documentElement.classList.add('js-reveal');
         if (!('IntersectionObserver' in window) || els.length === 0) {
           els.forEach((el) => el.classList.add('is-visible'));
           return;

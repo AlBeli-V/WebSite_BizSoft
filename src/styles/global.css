@@ -63,6 +63,30 @@
    Поэтому фолбэк объявлен по диапазонам весов со своим size-adjust.
    Вертикаль (fontkit по woff2): ascent 940, descent 234, при em 1000;
    overrides = метрика / size-adjust. */
+/* Фирменные шрифты — два self-hosted файла вместо девятнадцати.
+   Raleway — вариативный (ось wght 100–900): один файл закрывает все пять
+   начертаний сайта, Prosto One — один файл. Оба собраны pyftsubset из
+   исходников Google Fonts (SIL OFL 1.1) с кириллицей, латиницей, знаками
+   ₽ € № и типографской пунктуацией — см. scripts/build-fonts.sh.
+   Прежние наборы @fontsource делили каждое начертание на три файла по
+   диапазонам (cyrillic / latin / latin-ext), и мобильная главная тянула
+   19 файлов ≈ 290 КБ, из них шесть latin-ext (≈ 90 КБ) — ради одного знака
+   ₽. Теперь 2 файла ≈ 90 КБ; оба preload'ятся в BaseLayout. */
+@font-face {
+  font-family: 'Raleway';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('../assets/fonts/raleway-var.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Prosto One';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../assets/fonts/prosto-one.woff2') format('woff2');
+}
+
 @font-face {
   font-family: 'Raleway-fallback';
   src: local('Arial'), local('Liberation Sans'), local('Arimo'), local('Helvetica Neue'), local('Roboto');
@@ -321,18 +345,24 @@
     border: 0;
   }
 
-  /* Плавное появление секций (Intersection Observer добавляет .is-visible) */
-  .reveal {
+  /* Плавное появление секций (Intersection Observer добавляет .is-visible).
+     Скрываются только под html.js-reveal — класс ставит скрипт BaseLayout,
+     предварительно пометив .is-visible всё, что уже в первом экране. До
+     загрузки JS (и без него) контент виден: иначе на мобильном первый экран
+     каталога и карточек ждал модульный скрипт, и LCP сдвигался на его загрузку. */
+  html.js-reveal .reveal {
     opacity: 0;
     transform: translateY(16px);
+  }
+  .reveal {
     transition: opacity 0.6s ease, transform 0.6s ease;
   }
-  .reveal.is-visible {
+  html.js-reveal .reveal.is-visible {
     opacity: 1;
     transform: none;
   }
   @media (prefers-reduced-motion: reduce) {
-    .reveal {
+    html.js-reveal .reveal {
       opacity: 1;
       transform: none;
     }
