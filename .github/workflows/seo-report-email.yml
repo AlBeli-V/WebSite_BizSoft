@@ -98,7 +98,7 @@ jobs:
             exit 1
           fi
           python3 - <<'PY'
-          import glob, os, smtplib, ssl, pathlib, re
+          import glob, json, os, smtplib, ssl, pathlib, re
           from email.message import EmailMessage
           from email.utils import formatdate, make_msgid
 
@@ -144,10 +144,23 @@ jobs:
               # Старый отчёт под видом свежего — худший из возможных фолбэков.
               last = (os.path.basename(v4[-1]).replace('-v4-email.html', '')
                       if v4 else 'нет ни одного')
+              # Письмо, остановленное блокирующими инвариантами (ложь о дате
+              # или причине), — не «не собралось», а «не выпущено»: причины
+              # лежат в <дата>-v4-blocked.json, и уведомление их называет.
+              blocked_path = pathlib.Path(f'reports/seo/intelligence/{today}-v4-blocked.json')
+              if blocked_path.exists():
+                  blocked = json.loads(blocked_path.read_text(encoding='utf-8'))
+                  why = ('Письмо собрано, но НЕ ВЫПУЩЕНО: сработали блокирующие '
+                         'инварианты о дате или причине —\n'
+                         + '\n'.join(f'  - {b}' for b in blocked.get('blocking', []))
+                         + '\n\nПредпросмотр без отправки — '
+                         f'reports/seo/intelligence/{today}-v4.html в ветке seo-data.\n\n')
+              else:
+                  why = (f'Отчёт за {today} не собрался к контрольному времени (10:00 МСК).\n')
               msg['Subject'] = f'{prefix}BIZSoft Growth Intelligence — сбой сборки за {today}'
               msg.set_content(
-                  f'Отчёт за {today} не собрался к контрольному времени (10:00 МСК).\n'
-                  f'Последнее успешное письмо — за {last}.\n\n'
+                  why
+                  + f'Последнее успешное письмо — за {last}.\n\n'
                   'Показатели дня не потеряны: сырые выгрузки лежат в ветке seo-data,\n'
                   'отчёт можно собрать задним числом после починки конвейера.\n\n'
                   'Что смотреть: журнал операций — issue #22\n'

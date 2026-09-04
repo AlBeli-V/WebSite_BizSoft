@@ -89,11 +89,11 @@ jobs:
 
             echo "== 1/4 Курс ЦБ (apply=$APPLY) =="
             if [ "$APPLY" = "true" ]; then
-              curl -s -X POST http://127.0.0.1:3000/api/admin/currency \
+              curl -sf -X POST http://127.0.0.1:3000/api/admin/currency \
                 -H "x-admin-token: $T" -H 'Content-Type: application/json' \
                 -d '{"action":"refresh"}' -o /tmp/ai-migrate/cbr.json
             else
-              curl -s http://127.0.0.1:3000/api/admin/currency \
+              curl -sf http://127.0.0.1:3000/api/admin/currency \
                 -H "x-admin-token: $T" -o /tmp/ai-migrate/cbr.json
             fi
             python3 -c "import json;d=json.load(open('/tmp/ai-migrate/cbr.json'));r=d.get('rate') or {};print('usd:',r.get('usd_rate'),'eur:',r.get('eur_rate'),'date:',r.get('rate_date'),'mode:',r.get('mode'))"
@@ -102,7 +102,7 @@ jobs:
             python3 /tmp/ai-migrate/ai-catalog-data.py pre
 
             echo "== 3/4 Импорт карточек (apply=$APPLY) =="
-            curl -s -X POST http://127.0.0.1:3000/api/admin/import \
+            curl -sf -X POST http://127.0.0.1:3000/api/admin/import \
               -H "x-admin-token: $T" -H 'Content-Type: application/json' \
               --data-binary @/tmp/ai-migrate/ai-import-body.json -o /tmp/ai-migrate/resp.json
             python3 - <<'PY'

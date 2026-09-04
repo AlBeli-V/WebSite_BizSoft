@@ -62,6 +62,18 @@ const solutionVendors = solution
       </div>
     </div>
 
+    {solution.sections && solution.sections.length > 0 && (
+      <section class="guide prose-bizsoft">
+        <h2>Как выбрать</h2>
+        {solution.sections.map((sec) => (
+          <Fragment>
+            <h3>{sec.title}</h3>
+            <p>{sec.text}</p>
+          </Fragment>
+        ))}
+      </section>
+    )}
+
     <section class="related">
       <h2>Подходящие разделы каталога</h2>
       <div class="rel-grid">
@@ -111,6 +123,8 @@ const solutionVendors = solution
   .pains li, .offer li { padding-left: 1.6rem; position: relative; color: var(--color-text); }
   .pains li::before { content: '—'; position: absolute; left: 0; color: var(--color-text-dim); }
   .offer li::before { content: '✓'; position: absolute; left: 0; color: var(--color-accent); font-weight: 700; }
+  .guide { margin-bottom: 2.5rem; max-width: 760px; }
+  .guide h2 { margin-top: 0; font-size: 1.6rem; }
   .related { margin-bottom: 1rem; }
   .related h2 { font-size: 1.4rem; margin-bottom: 1rem; }
   .rel-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; }
