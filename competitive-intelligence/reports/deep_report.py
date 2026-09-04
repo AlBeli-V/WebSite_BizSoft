@@ -399,6 +399,11 @@ def _attack_status(attacks: list[dict], packages: list[dict] | None,
         elif занятость.get("степень") == "контрольная группа":
             status = (f"в очереди, но кластер — контроль эксперимента "
                       f"{занятость.get('эксперимент', '')}")
+        elif package.get("причина_моратория"):
+            status = (f"снято с поручений до {package.get('мораторий_до')}: "
+                      f"{package['причина_моратория']}")
+        elif package.get("очередь") is False:
+            status = "не поручение — проверка: " + package.get("action", "")
         else:
             status = "в очереди на работу"
         for query in package.get("queries") or []:
@@ -704,6 +709,28 @@ def _experiments_block(experiments: list | None, config: dict | None,
         '<p class="q">Выводов по типам действий пока нет: ни один эксперимент '
         'не доведён до оценки.</p>')
 
+    # Страницы, снятые с поручений не своим экспериментом, а тем, что их
+    # правили вне контура. Без этой таблицы отчёт молча не показывал бы
+    # сегодня пакет, который вчера был, — и это выглядело бы как потеря данных.
+    outside = [p for p in on_watch if p.get("причина_моратория")]
+    outside_block = ""
+    if outside:
+        rows = "".join(
+            f'<tr><td>{esc(p["url"].replace("https://biz-soft.pro", ""))}</td>'
+            f'<td>{esc(p.get("мораторий_до"))}</td>'
+            f'<td class="q">{esc(p.get("причина_моратория"))}</td></tr>'
+            for p in outside)
+        outside_block = (
+            f'<h3 id="exp-outside">Снято с поручений: страница правилась вне '
+            f'контура — {plural(len(outside), "страница", "страницы", "страниц")}</h3>'
+            f'<p class="q">Контур сравнивает отпечаток проверяемого текста '
+            f'каждой страницы с прошлым прогоном. Изменился — значит страницу '
+            f'правили, и она выводится из очереди на срок наблюдения независимо '
+            f'от того, кто внёс правку: измерению мешает вторая правка в окне, '
+            f'а не её авторство.</p>'
+            f'<div class="scroll"><table><tr><th>Страница</th>'
+            f'<th>Мораторий до</th><th>Основание</th></tr>{rows}</table></div>')
+
     caveats = cut("Что нивелировано в замере и чего нивелировать нельзя", """
 <p class="q">Правки вносились по одной версии методики, а замер пойдёт по
 другой — методика за эти дни менялась. Плюс часть правок была не текстом
@@ -747,6 +774,7 @@ A/B-тест на поисковой выдаче. Контрольная гру
 предлагать по ним новую работу, измерить эффект уже внесённой правки будет
 нельзя: непонятно, какая из двух что сдвинула.</p>
 {watch_table}
+{outside_block}
 
 <h3 id="exp-done">Было → стало по завершённым экспериментам</h3>
 <p class="q"><b>Как считается эффект.</b> Берётся изменение медианной позиции
@@ -767,9 +795,48 @@ A/B-тест на поисковой выдаче. Контрольная гру
 {lessons}"""
 
 
+def _verify_block(to_verify: list[dict] | None) -> str:
+    """Страницы, по которым правок не требуется, — список проверок, не работ.
+
+    Раньше такой пакет стоял в очереди поручений наравне с настоящими: 04.09
+    их было пять из девятнадцати, и один попал в топ-3 письма как поручение
+    дня с заголовком «правок по репозиторию не требуется». Поручить это
+    нельзя, принять тоже — значит и места в очереди работ этому нет.
+    """
+    if not to_verify:
+        return ""
+    def why(package: dict) -> str:
+        # Общие пункты «не рекомендуем» одинаковы у всех пакетов и ничего не
+        # объясняют; объясняют адресные — те, что начинаются с самого запроса.
+        specific = [line for line in (package.get("не_рекомендуем") or [])
+                    if line.startswith("«")]
+        return "; ".join(specific) if specific else package.get("action", "—")
+
+    rows = "".join(
+        f'<tr><td>{esc(p["package_id"])}</td>'
+        f'<td>{esc(p["url"].replace("https://biz-soft.pro", ""))}</td>'
+        f'<td class="num">{p["queries_count"]}</td>'
+        f'<td class="q">{esc(why(p))}</td>'
+        f'<td class="q">{esc(p.get("проверено_по", "—"))}</td></tr>'
+        for p in to_verify)
+    table = ('<div class="scroll"><table><tr><th>Пакет</th><th>Страница</th>'
+             '<th class="num">Запросов</th><th>Почему не поручение</th>'
+             '<th>Что уже проверено</th></tr>'
+             + rows + "</table></div>")
+    return (f'<h3 id="verify">Проверить, а не делать — '
+            f'{plural(len(to_verify), "страница", "страницы", "страниц")}</h3>'
+            f'<p class="lead">По этим страницам проверка не нашла, что менять: '
+            f'запросы пакета раскрыты в том тексте, который контур видит. '
+            f'Остаётся посмотреть тело страницы из Directus — в репозитории его '
+            f'нет. Это не поручение: работы здесь нет, есть проверка, и в '
+            f'очереди работ такие строки занимали место настоящих.</p>'
+            + cut("Список страниц под проверку", table))
+
+
 def _toc(snapshot: dict, leaders: list[dict], packages: list[dict] | None,
          attacks: list[dict], experiments: list | None,
-         on_watch: list[dict] | None = None, detail_limit: int = 10) -> str:
+         on_watch: list[dict] | None = None, detail_limit: int = 10,
+         to_verify: list[dict] | None = None) -> str:
     """Плавающее меню: вся структура отчёта, включая блоки под катом.
 
     Верхняя навигация даёт семь ссылок на разделы — этого мало: работа
@@ -801,6 +868,9 @@ def _toc(snapshot: dict, leaders: list[dict], packages: list[dict] | None,
         url_short = pkg["url"].replace("https://biz-soft.pro", "")
         items.append(link(anchor("pkg", pkg["package_id"]),
                           f"{pkg['package_id']} · {url_short}"))
+
+    if to_verify:
+        items.append(link("verify", "Проверить, а не делать"))
 
     items.append(link("l4", f"5 · Точки атаки — {len(attacks)} кандидатов", "l1"))
     items.append(link("att-details", "Разбор первых десяти"))
@@ -900,7 +970,8 @@ def build(date: str, snapshot: dict, previous: dict | None,
           histories: dict[str, list[float]] | None = None,
           experiments: list | None = None, config: dict | None = None,
           on_watch: list[dict] | None = None,
-          systemic: list | None = None) -> str:
+          systemic: list | None = None,
+          to_verify: list[dict] | None = None) -> str:
     """Собирает самодостаточный HTML-отчёт."""
     ours = snapshot.get("наши_показатели") or {}
     coverage = snapshot.get("покрытие") or {}
@@ -922,7 +993,12 @@ def build(date: str, snapshot: dict, previous: dict | None,
         'интент дублировала бы эти факторы (убрана в версии 1.1.0). Судьба '
         'выданных поручений отслеживается с 01.09.2026 — раздел 6.</div>')
 
-    toc = _toc(snapshot, leaders, packages, attacks, experiments, on_watch)
+    toc = _toc(snapshot, leaders, packages, attacks, experiments, on_watch,
+               to_verify=to_verify)
+    verify_block = _verify_block(to_verify)
+    # Статус точки атаки ищется по всем пакетам дня, включая снятые с очереди:
+    # иначе запрос, по которому пакет есть, значился бы «вне плана работ».
+    planned = (packages or []) + (on_watch or []) + (to_verify or [])
 
     return f"""<!doctype html>
 <html lang="ru"><head><meta charset="utf-8">
@@ -991,6 +1067,7 @@ def build(date: str, snapshot: dict, previous: dict | None,
 пакетам с сопоставимым спросом: +{sum(p['traffic_upside'] or 0 for p in (packages or [])):.0f}
 переходов при выходе в ТОП-3 — там, где спрос измерен сопоставимой шкалой.</p>
 {_packages_block(packages or [])}
+{verify_block}
 
 <h2 id="l4">5 · Точки атаки — {len(attacks)} кандидатов</h2>
 <p class="lead">Кандидат — запрос, где мы на 4–20 позиции, а выше стоит другой
@@ -1006,8 +1083,8 @@ def build(date: str, snapshot: dict, previous: dict | None,
 спрос и интент дублировала бы эти же факторы — он убран в версии 1.1.0.
 Недоступные факторы не заменяются средним: их вес пропорционально
 распределяется между измеренными, а уверенность понижается.</p>
-{_attack_summary(attacks, (packages or []) + (on_watch or []), experiments)}
-{_strike_table(attacks, (packages or []) + (on_watch or []), experiments)}
+{_attack_summary(attacks, planned, experiments)}
+{_strike_table(attacks, planned, experiments)}
 
 <h3 id="att-details">Разбор первых десяти</h3>
 {_attack_details(attacks)}
