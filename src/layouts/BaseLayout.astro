@@ -2,10 +2,14 @@
 // Фирменные шрифты: Raleway (текст) + Prosto One (заголовки/цифры).
 // Оба — SIL OFL 1.1, self-host с нашего сервера (woff2 в /_astro с вечным
 // кэшем) — быстрее из РФ, без стороннего CDN. Правила @font-face — в
-// global.css; здесь только preload двух файлов, чтобы шрифт был готов к
-// первой отрисовке даже при холодном кэше (инкогнито).
-import ralewayVar from '../assets/fonts/raleway-var.woff2?url';
-import prostoOne from '../assets/fonts/prosto-one.woff2?url';
+// global.css.
+//
+// preload у них снят. Он ставил оба файла (79 КБ) в начало очереди, на один
+// канал с документом первого экрана, а выигрыша не давал: с font-display
+// optional шрифт применяется, только если успел к первой отрисовке, и на
+// медленной сети он не успевает всё равно. Замеры прода 04.09.2026: без
+// загрузки шрифтов балл 98 и LCP 1,8 с, с загрузкой — 92 и 3,3 с; то есть
+// платим именно за место в очереди, а не за подмену шрифта.
 import '../styles/global.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
@@ -40,8 +44,6 @@ const { title, description, canonical, ogImage, noindex, type, keywords } = Astr
          Оригинал 256 px остаётся в public/brand/bizsoft-favicon.png. -->
     <link rel="icon" type="image/png" href="/brand/bizsoft-favicon-180.png" />
     <link rel="apple-touch-icon" href="/brand/bizsoft-favicon-180.png" />
-    <link rel="preload" href={ralewayVar} as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href={prostoOne} as="font" type="font/woff2" crossorigin />
     <SeoHead title={title} description={description} canonical={canonical} ogImage={ogImage} noindex={noindex} type={type} keywords={keywords} />
     <JsonLd schema={[organizationSchema(), websiteSchema()]} />
   </head>
