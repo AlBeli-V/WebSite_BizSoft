@@ -44,12 +44,12 @@ on:
   workflow_dispatch:
     inputs:
       action:
-        description: "apply — создать/применить кампанию по спецификации; check — доступ к кабинету (+ статистика); expand/improve/negatives/refine/sitelinks/tighten — точечные правки кампании bs-test-2026-09; stats — статистика кампании"
+        description: "apply — создать/применить кампанию по спецификации; check — доступ к кабинету (+ статистика); autotargeting/expand/improve/negatives/refine/sitelinks/tighten — точечные правки кампании bs-test-2026-09; stats — статистика кампании"
         required: true
         type: choice
-        options: ["apply", "check", "expand", "improve", "negatives", "refine", "sitelinks", "stats", "tighten"]
+        options: ["apply", "autotargeting", "check", "expand", "improve", "negatives", "refine", "sitelinks", "stats", "tighten"]
       mode:
-        description: "Для apply/expand/improve/negatives/refine/sitelinks/tighten: dry-run — план без записи; apply — применить; tune/audit — только apply; rollback — только sitelinks. Не используется для check и stats"
+        description: "Для apply/autotargeting/expand/improve/negatives/refine/sitelinks/tighten: dry-run — план без записи; apply — применить; tune/audit — только apply; rollback — только sitelinks. Не используется для check и stats"
         required: false
         default: "dry-run"
         type: choice
@@ -449,6 +449,42 @@ jobs:
           title: "ops-direct stats (mode=${{ inputs.mode }})"
           outcome: ${{ steps.run_stats.outcome }}
           body-file: /tmp/direct-stats.log
+      # ==================== action=autotargeting ====================
+      # Выравнивание автотаргетинга кампании по режиму EXACT-only
+      # (поручение владельца 04.09.2026). Раунд 2 завёл четыре группы,
+      # не задав им автотаргетинг, — Директ включил его в полном режиме,
+      # и он потянул смежные услуги вне оффера: «подключение к
+      # электронному документообороту стоимость» 42,37 ₽, «финансовые
+      # услуги по оплате за границу» 40,70 ₽ (лента кандидатов 03.09).
+      # Скрипт не привязан к списку групп: сверяет фактические категории
+      # каждого условия и выравнивает расходящиеся, поэтому ловит и любую
+      # новую группу, заведённую позже. Ставки и бюджет не трогает.
+      #
+      # mode=dry-run — показать расхождения, в API только чтение;
+      # mode=apply — выровнять.
+      - name: Autotargeting
+        if: env.ACTION == 'autotargeting'
+        id: run_autotargeting
+        env:
+          DIRECT_TOKEN: ${{ secrets.YANDEX_DIRECT_TOKEN }}
+          MODE: ${{ inputs.mode }}
+        run: |
+          set -o pipefail
+          python3 scripts/ppc/direct_autotargeting.py "$MODE" 2>&1 | tee /tmp/direct-autotargeting.log
+
+      - name: Save log for issue
+        if: always() && env.ACTION == 'autotargeting'
+        run: |
+          [ -f /tmp/direct-autotargeting.log ] || echo "(лог не создан)" > /tmp/direct-autotargeting.log
+
+      - name: Post to issue
+        if: always() && env.ACTION == 'autotargeting'
+        uses: ./.github/actions/journal-post
+        with:
+          title: "ops-direct autotargeting (mode=${{ inputs.mode }})"
+          outcome: ${{ steps.run_autotargeting.outcome }}
+          body-file: /tmp/direct-autotargeting.log
+
       # ==================== action=tighten ====================
       # Затяжка кампании bs-test-2026-09 по поручению владельца
       # 31.08.2026: автотаргетинг последней discovery-группы (Claude Code)
