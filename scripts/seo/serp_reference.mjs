@@ -37,6 +37,12 @@ const QUERIES_PATH = 'data/seo/serp-reference-queries.json';
 const REGION = 213; // Москва — тот же регион, что у ежедневного среза
 const NAV_TIMEOUT_MS = 45_000;
 const PAUSE_MS = [7_000, 15_000]; // пауза между запросами, случайная
+// Доля запросов, которую нужно замерить, чтобы результат вообще годился в
+// калибровку. Первый прогон 04.09.2026 вернул «успех» при двух замерах из
+// двадцати шести (на остальных капча): формально измерено не ноль, по
+// существу — ничего. Зелёный прогон с бесполезным результатом хуже красного:
+// он не зовёт разбираться.
+const MIN_MEASURED_SHARE = 0.4;
 
 function pause() {
   const [lo, hi] = PAUSE_MS;
@@ -150,11 +156,18 @@ async function main() {
   mkdirSync(dirname(out), { recursive: true });
   writeFileSync(out, rows.map((r) => JSON.stringify(r)).join('\n') + '\n', 'utf8');
 
-  const measured = rows.filter((r) => !r.error && r.absolute_position !== null);
+  // Строка без нас в выдаче — это measured: страница разобрана, нас там нет,
+  // и это осмысленный факт. Негодной делает замер только неразобранная
+  // страница: капча, редирект, съехавшая разметка.
+  const parsed = rows.filter((r) => !r.error);
+  const found = parsed.filter((r) => r.absolute_position !== null);
   const failed = rows.filter((r) => r.error);
-  console.log(`\nЗамерено ${measured.length} из ${rows.length}; ошибок ${failed.length}`);
-  if (measured.length) {
-    const gaps = measured
+  const captcha = failed.filter((r) => (r.error || '').includes('капча'));
+  console.log(`\nРазобрано ${parsed.length} из ${rows.length} ` +
+              `(нас нашли в ${found.length}); ошибок ${failed.length}` +
+              (captcha.length ? `, из них капча ${captcha.length}` : ''));
+  if (found.length) {
+    const gaps = found
       .filter((r) => r.organic_position !== null)
       .map((r) => r.absolute_position - r.organic_position)
       .sort((a, b) => a - b);
@@ -162,9 +175,21 @@ async function main() {
     console.log(`Медиана «абсолют минус органика»: ${median === null ? 'н/д' : `+${median}`}`);
   }
   console.log(out);
-  // Полный провал замера — это сбой, а не пустой результат: калибровать
-  // нечем, и молча возвращать успех нельзя.
-  return measured.length === 0 ? 1 : 0;
+
+  // Порог достаточности, а не «хотя бы что-то». Замер существует ради
+  // калибровки: по паре страниц её не сделать, и зелёный прогон с такой
+  // выборкой создаёт ложное впечатление, что эталон есть.
+  const need = Math.ceil(rows.length * MIN_MEASURED_SHARE);
+  if (parsed.length < need) {
+    console.error(
+      `\nЗамер не годится в калибровку: разобрано ${parsed.length} страниц ` +
+      `из ${rows.length} при необходимых ${need}` +
+      (captcha.length ? `; капча на ${captcha.length}` : '') +
+      '. Строки сохранены как есть — выдумывать позиции нельзя.'
+    );
+    return 1;
+  }
+  return 0;
 }
 
 // Запуск только как программа: проверка парсера импортирует readSerp и
