@@ -103,6 +103,31 @@ check('уникальные <title> у страниц из sitemap', async () =>
       : `нет (${byTitle.size} страниц)`,
   };
 });
+check('иерархия заголовков без пропусков и ровно один h1', async () => {
+  // Lighthouse (правило axe heading-order) считает ошибкой скачок уровня
+  // больше чем на один: <h1> → <h3> в обход <h2>. Так уехали на прод
+  // карточки в героях и сетках товаров — заголовок секции там визуально не
+  // нужен, и его просто не ставили. Проверяем всю выдачу sitemap, чтобы
+  // новая страница с той же ошибкой не прошла молча; невидимый заголовок
+  // секции ставится классом .sr-only.
+  const r = await req('/sitemap.xml');
+  const paths = [...r.body.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => new URL(m[1]).pathname);
+  const bad = [];
+  for (const p of paths) {
+    const page = await req(p);
+    const html = page.body.replace(/<!--[\s\S]*?-->/g, '');
+    const levels = [...html.matchAll(/<h([1-6])[\s>]/gi)].map((m) => Number(m[1]));
+    const h1 = levels.filter((l) => l === 1).length;
+    const jumps = [];
+    let prev = 0;
+    for (const l of levels) {
+      if (prev && l > prev + 1) jumps.push(`h${prev}→h${l}`);
+      prev = l;
+    }
+    if (h1 !== 1 || jumps.length) bad.push(`${p} (h1: ${h1}${jumps.length ? ', ' + jumps.join(', ') : ''})`);
+  }
+  return { ok: bad.length === 0, got: bad.length ? bad.slice(0, 8).join('; ') : `нет (${paths.length} страниц)` };
+});
 check('мета карточки из Directus доезжает до разметки', async () => {
   // Заголовок и описание страницы товара берутся из meta_title/meta_description
   // Directus; если связь порвётся, страница начнёт отдавать название товара и

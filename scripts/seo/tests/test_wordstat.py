@@ -345,6 +345,18 @@ class TestUniverse(unittest.TestCase):
         self.assertEqual(row["first_seen"], "2026-07-01")
         self.assertEqual(row["last_seen"], "2026-08-01")
 
+    def test_cache_replay_does_not_move_last_seen_or_history(self):
+        """Повтор из кэша — не измерение: «замер от сегодня» и «stable» по
+        дублям одного числа были ложью (аудит 03.09.2026)."""
+        self.observe("canva купить", 100, "2026-08-20")
+        self.uni.observe(phrase="canva купить", frequency=100, date="2026-09-03",
+                         source_seed="canva", region="225", period="30 дней",
+                         method="getTop", cost_rub=0.0, vendors={}, source="cache")
+        row = self.uni.get("canva купить")
+        self.assertEqual(row["last_seen"], "2026-08-20")
+        self.assertEqual(len(row["historical_frequency"]), 1)
+        self.assertEqual(self.uni.trend("canva купить")["direction"], "unknown")
+
     def test_trend_needs_two_points(self):
         self.observe("canva купить", 100, "2026-07-01")
         self.assertEqual(self.uni.trend("canva купить")["direction"], "unknown")
@@ -488,6 +500,32 @@ class TestCoverage(unittest.TestCase):
                          commercial_demand=9000), "stable", set()), "GAP-F")
         self.assertEqual(self.C.classify_gap(self.cluster(), "growing", set()), "GAP-G")
         self.assertEqual(self.C.classify_gap(self.cluster(), "declining", set()), "GAP-H")
+
+    def test_absence_of_observation_is_not_a_negative_fact(self):
+        """Кластер вне выборок Вебмастера и GSC — задача на замер, не «не индексируется».
+
+        Аудит 03.09.2026: 29 кластеров получили GAP-B и поручение «разобраться,
+        почему страница не индексируется» только потому, что их фразы не
+        попали в выборку топ-100 запросов. GAP-B — лишь по доказанному факту.
+        """
+        self.assertEqual(self.C.classify_gap(
+            self.cluster(page_exists=True, indexed=None), "stable", set()), "GAP-N")
+        # Показы есть, позиция не измерена — «вне топ-100» утверждать нельзя.
+        self.assertEqual(self.C.classify_gap(
+            self.cluster(page_exists=True, indexed=True, best_position=None,
+                         commercial_demand=9000), "stable", set()), "GAP-N")
+        # Доказанная неиндексация по-прежнему GAP-B.
+        self.assertEqual(self.C.classify_gap(
+            self.cluster(page_exists=True, indexed=False), "stable", set()), "GAP-B")
+
+    def test_clusters_without_signals_have_unknown_indexation(self):
+        """clusters_of не выставляет False: у источников нет факта «не в индексе»."""
+        class Uni:
+            rows = {"a": {"phrase": "x купить", "cluster": "x", "intent": "commercial",
+                          "wordstat_frequency": 100, "mapped_url": "/vendors/x"}}
+        c = self.C.clusters_of(Uni())["x"]
+        self.assertTrue(c["page_exists"])
+        self.assertIsNone(c["indexed"])
 
 
 class TestOpportunity(unittest.TestCase):

@@ -49,7 +49,7 @@ PAYMENT_ACTION = {
                 "признаков оплаты на странице тарифов не найдено"),
     "unreachable": ("проверить вручную",
                     "страница тарифов не открылась при автоматической проверке"),
-    "not_checked": ("проверить вручную", "оплата ещё не проверялась"),
+    "not_checked": ("проверить вручную", "оплата не проверена"),
 }
 
 
@@ -230,7 +230,7 @@ def build(universe, vendors: list[dict], limit: int = 10) -> dict:
         confidence, confidence_note = demand_confidence(brand, commercial)
         trend = universe.trend(commercial[0]["phrase"]) if commercial else {"direction": "unknown"}
         pay = payments.get(brand) or {"verdict": "not_checked",
-                                      "note": "оплата ещё не проверялась"}
+                                      "note": "оплата не проверена"}
         action, why = PAYMENT_ACTION.get(pay["verdict"], PAYMENT_ACTION["not_checked"])
         rows.append({
             "brand": brand,
@@ -264,7 +264,7 @@ def build(universe, vendors: list[dict], limit: int = 10) -> dict:
     total_candidates = len(pending(vendors, universe))
     return {
         "available": bool(rows),
-        "reason": None if rows else "спрос кандидатов ещё не измерен",
+        "reason": None if rows else "рекомендовать некого: спрос кандидатов не измерен или ниже порогов",
         "candidates_total": total_candidates,
         "candidates_measured": measured,
         "recommended": rows[:limit],
