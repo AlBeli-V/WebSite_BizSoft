@@ -1,9 +1,15 @@
-# Замер PageSpeed Insights (мобильный/десктопный Lighthouse Google) по
-# страницам прода — тот же отчёт, что pagespeed.web.dev, но из раннера:
-# сессия ассистента до biz-soft.pro не достаёт, а анонимная квота PSI API
-# общая на всех и часто исчерпана. Только чтение, ничего не меняет.
-# Ключ PSI_API_KEY (Google Cloud → PageSpeed Insights API) необязателен,
-# но без него замер упирается в общую квоту (HTTP 429).
+# Замер производительности прода по страницам — из раннера: сессия
+# ассистента до biz-soft.pro не достаёт. Только чтение, ничего не меняет.
+#
+# Два движка (вход `engine`):
+#   psi        — PageSpeed Insights, тот же отчёт, что pagespeed.web.dev.
+#                Ключ PSI_API_KEY (Google Cloud → PageSpeed Insights API)
+#                необязателен, но без него замер упирается в общую квоту (429).
+#   lighthouse — Lighthouse прямо на раннере, с разбором трассы. Нужен, когда
+#                PSI не считает метрику (NO_LCP) и по сводке не видно, были ли
+#                кандидаты LCP и что их отзывает; заодно замер повторяемый
+#                (вход `runs` — сколько прогонов, в итог идёт медиана).
+#
 # Результат — в журнал-issue #22.
 
 name: ops-pagespeed
@@ -16,9 +22,17 @@ on:
         required: false
         default: '/,/catalog/ai,/product/chatgpt-business'
       strategy:
-        description: 'mobile | desktop | both'
+        description: 'mobile | desktop | both (для engine=psi)'
         required: false
         default: 'mobile'
+      engine:
+        description: 'psi | lighthouse'
+        required: false
+        default: 'psi'
+      runs:
+        description: 'Прогонов на страницу (для engine=lighthouse)'
+        required: false
+        default: '1'
 
 permissions:
   contents: read
@@ -27,7 +41,7 @@ permissions:
 jobs:
   pagespeed:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 30
     steps:
       - name: Guard - only default branch
         run: |
@@ -46,17 +60,31 @@ jobs:
         with:
           node-version: '22'
 
-      - name: PageSpeed Insights
+      # Lighthouse ставится только для своего движка: для psi он не нужен,
+      # а установка занимает заметную часть прогона.
+      - name: Install Lighthouse
+        if: inputs.engine == 'lighthouse'
+        run: npm install --no-save lighthouse@13
+
+      - name: Measure
         id: run
         env:
           URLS: ${{ inputs.urls }}
           STRATEGY: ${{ inputs.strategy }}
+          RUNS: ${{ inputs.runs }}
+          FORM: ${{ inputs.strategy }}
           PSI_API_KEY: ${{ secrets.PSI_API_KEY }}
           PSI_RAW_DIR: psi-raw
         run: |
           # Отчёт сохраняется и при сбое, а шаг после этого краснеет.
           rc=0
-          node scripts/ops/pagespeed.mjs > pagespeed.txt || rc=$?
+          if [ "${{ inputs.engine }}" = "lighthouse" ]; then
+            # На раннере ubuntu-latest предустановлен Chrome — Lighthouse
+            # находит его сам; PATH нужен, чтобы npx взял локальную установку.
+            PATH="$PWD/node_modules/.bin:$PATH" node scripts/ops/lighthouse-trace.mjs > pagespeed.txt || rc=$?
+          else
+            node scripts/ops/pagespeed.mjs > pagespeed.txt || rc=$?
+          fi
           cat pagespeed.txt
           exit $rc
 
@@ -74,6 +102,6 @@ jobs:
         if: always()
         uses: ./.github/actions/journal-post
         with:
-          title: "ops-pagespeed (${{ inputs.strategy }})"
+          title: "ops-pagespeed (${{ inputs.engine }}, ${{ inputs.strategy }})"
           outcome: ${{ steps.run.outcome }}
           body-file: pagespeed.txt
