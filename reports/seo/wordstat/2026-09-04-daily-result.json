@@ -12,14 +12,14 @@
   "stopped": "достигнут потолок прогона"
  },
  "efficiency": {
-  "calls_total": 3004,
+  "calls_total": 3145,
   "calls_paid": 178,
   "cost_month_rub": 3.56,
   "cost_today_rub": 0.0,
   "remaining_budget_rub": 5496.44,
   "forecast_month_end_rub": 26.7,
   "state": "open",
-  "cache_hit_rate": 0.9407,
+  "cache_hit_rate": 0.9434,
   "duplicate_rate": 0.9629,
   "unique_phrases": 75,
   "new_commercial_phrases": 2,
@@ -27,7 +27,7 @@
   "cost_per_1000_unique_phrases_rub": 47.467,
   "cost_per_1000_commercial_phrases_rub": 1780.0,
   "cost_per_new_cluster_rub": 1.78,
-  "empty_response_rate": 0.2863
+  "empty_response_rate": 0.2871
  },
  "universe": {
   "phrases": 23122,
