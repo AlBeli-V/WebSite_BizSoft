@@ -15,17 +15,30 @@ COMPETITOR PAGE = разведка, ATTACK PAGE = план, EVIDENCE = дока�
 
 Отчёт статический: один самодостаточный HTML без внешних зависимостей, чтобы
 открывался с телефона и не зависел от CDN.
+
+Навигация. Отчёт вырос до двухсот килобайт, и читать его подряд нельзя.
+Крупные таблицы и разборы убраны под кат (`cut`): заголовок с размером блока
+виден всегда, содержимое раскрывается нажатием. Структура целиком — в
+плавающем меню в правом нижнем углу (`_toc`): оно перечисляет не только семь
+разделов, но и каждый пакет работ, каждого конкурента и каждую разобранную
+точку атаки, то есть то, что лежит внутри свёрнутых блоков и прокруткой не
+находится. Меню собрано на `<details>` и потому работает без JavaScript;
+скрипт (`_toc_script`) добавляет три вещи: раскрывает кат, внутрь которого
+ведёт ссылка, закрывает панель после перехода и даёт «развернуть/свернуть
+всё». Панель позиционирована `fixed` и текст не сдвигает.
 """
 from __future__ import annotations
 
 import html
 import json
 import os
+import re
 import sys
 from datetime import datetime, timedelta, timezone
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import paths  # noqa: E402
+from attack_engine.recommendations import plural  # noqa: E402
 from competitors import classifier  # noqa: E402
 from scoring import threat as threat_mod  # noqa: E402
 
@@ -41,6 +54,34 @@ def pct(value: float | None, digits: int = 1) -> str:
     if value is None:
         return "н/д"
     return f"{100 * value:.{digits}f}".replace(".", ",") + "%"
+
+
+def anchor(prefix: str, value) -> str:
+    """Устойчивый якорь блока: по нему работает переход из плавающего меню.
+
+    Домены и адреса страниц содержат точки и слэши — в id их держать можно, но
+    в селекторе и в ссылке они требуют экранирования. Приводим к латинице,
+    цифрам и дефису: якорь остаётся читаемым и не ломает ни ссылку, ни JS.
+    """
+    slug = re.sub(r"[^0-9a-zA-Zа-яА-ЯёЁ]+", "-", str(value or "")).strip("-").lower()
+    if not slug:
+        return prefix
+    # ATT-001 с префиксом «att» дало бы «att-att-001»: идентификатор уже несёт
+    # своё пространство имён, второй раз его добавлять незачем.
+    return slug if slug.startswith(f"{prefix}-") else f"{prefix}-{slug}"
+
+
+def cut(summary: str, body: str, *, note: str = "", open_: bool = False) -> str:
+    """Крупный блок под катом: заголовок виден всегда, содержимое — по клику.
+
+    Отчёт читают с телефона, и сплошное полотно таблиц в нём не листается.
+    Под кат уходит то, что занимает экран и нужно не всегда: длинные таблицы,
+    разборы, методические пояснения. В summary остаётся суть блока и его
+    размер — по ней видно, стоит ли раскрывать.
+    """
+    hint = f'<span class="cut-note">{esc(note)}</span>' if note else ""
+    return (f'<details class="cut"{" open" if open_ else ""}>'
+            f'<summary>{summary}{hint}</summary>{body}</details>')
 
 
 def _styles() -> str:
@@ -99,8 +140,49 @@ summary::marker{color:var(--muted)}
 footer{margin-top:48px;padding-top:16px;border-top:1px solid var(--line);
        font-size:12px;color:var(--muted)}
 a{color:var(--accent)}
-@media(max-width:640px){.wrap{padding:16px 10px 48px}h1{font-size:20px}
-  .card .v{font-size:22px}}
+h2,h3,h4,details{scroll-margin-top:18px}
+:target>summary,:target{outline:2px solid #B2DDFF;outline-offset:4px;border-radius:10px}
+.cut>summary{display:flex;flex-wrap:wrap;gap:4px 10px;align-items:baseline;
+             color:var(--accent)}
+.cut-note{font-weight:400;font-size:12px;color:var(--muted)}
+
+/* Плавающее меню разделов. Кнопка стоит поверх страницы в правом нижнем углу
+   и текст не сдвигает; панель открывается только по нажатию. Меню собрано на
+   <details>, поэтому работает и без JavaScript — скрипт лишь раскрывает
+   целевой кат и закрывает панель после перехода. */
+.toc{position:fixed;right:16px;bottom:16px;z-index:60;margin:0;padding:0;
+     background:none;border:0;border-radius:0}
+.toc>summary{list-style:none;display:flex;align-items:center;gap:8px;
+     background:var(--ink);color:#fff;border-radius:24px;padding:10px 16px;
+     font-size:13px;font-weight:600;box-shadow:0 6px 20px rgba(16,24,40,.28);
+     user-select:none}
+.toc>summary::-webkit-details-marker{display:none}
+.toc>summary::marker{content:""}
+.toc[open]>summary{background:var(--accent)}
+.toc-panel{position:absolute;right:0;bottom:52px;width:min(380px,calc(100vw - 32px));
+     max-height:min(70vh,620px);display:flex;flex-direction:column;background:#fff;
+     border:1px solid var(--line);border-radius:12px;overflow:hidden;
+     box-shadow:0 16px 40px rgba(16,24,40,.22)}
+.toc-head{display:flex;align-items:center;justify-content:space-between;
+     padding:10px 14px;border-bottom:1px solid var(--line);font-size:12px;
+     font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
+.toc-body{overflow-y:auto;padding:6px 0}
+.toc-body a{display:block;text-decoration:none;color:var(--ink);font-size:13px;
+     padding:6px 14px;line-height:1.35}
+.toc-body a:hover{background:var(--bg)}
+.toc-body .l1{font-weight:700}
+.toc-body .l2{padding-left:28px;color:var(--muted);font-size:12px}
+.toc-foot{display:flex;gap:8px;padding:10px 14px;border-top:1px solid var(--line)}
+.toc button{font:inherit;font-size:12px;cursor:pointer;background:#fff;
+     border:1px solid var(--line);border-radius:8px;padding:6px 10px;color:var(--ink)}
+.toc button:hover{background:var(--bg)}
+.toc-x{border:0!important;padding:0 4px!important;font-size:16px;line-height:1;
+     color:var(--muted)}
+@media(max-width:640px){.wrap{padding:16px 10px 72px}h1{font-size:20px}
+  .card .v{font-size:22px}
+  .toc{right:10px;bottom:10px}.toc-cap{display:none}
+  .toc>summary{padding:12px 14px;font-size:16px}}
+@media print{.toc{display:none}}
 """
 
 
@@ -161,7 +243,7 @@ def _google_block(snapshot: dict) -> str:
     gap = google.get("разрыв_с_яндексом") or {}
     attacks = google.get("точки_атаки") or {}
     leaders = google.get("лидеры") or []
-    head = (f'<h3>Google, Россия — срез {esc(google.get("дата_среза"))} '
+    head = (f'<h3 id="google">Google, Россия — срез {esc(google.get("дата_среза"))} '
             f'(xmlriver, местоположение {esc(google.get("название"))})</h3>'
             f'<p class="lead">Первая настоящая российская выдача Google в контуре: '
             f'{esc(cov.get("запросов_с_данными"))} запросов ядра с данными '
@@ -184,9 +266,14 @@ def _google_block(snapshot: dict) -> str:
                     f'{rows}</table></div>' if leaders else
                     '<div class="note">В основном рейтинге Google пока никого: все '
                     'домены выдачи вне конкурентных категорий.</div>')
+    if leaders:
+        leaders_html = cut(f"Лидеры выдачи Google — "
+                           f"{plural(len(leaders), 'домен', 'домена', 'доменов')}",
+                           leaders_html,
+                           note=f"первый: {leaders[0].get('домен', '')}")
     ya_only = gap.get("яндекс_топ10_google_нет") or []
     g_only = gap.get("google_топ10_яндекс_нет") or []
-    gap_html = (f'<h4>Разрыв с Яндексом по общему ядру</h4>'
+    gap_html = (f'<h4 id="google-gap">Разрыв с Яндексом по общему ядру</h4>'
                 f'<p class="lead">Сопоставлено {esc(gap.get("сопоставлено"))} запросов, '
                 f'измеренных в обеих системах: в топ-10 обеих — '
                 f'<b>{esc(gap.get("в_обеих_топ10"))}</b>; Яндекс топ-10, в Google нет '
@@ -201,12 +288,16 @@ def _google_block(snapshot: dict) -> str:
                 'или конкурентоспособности страницы именно в Google. Сравнивается '
                 'присутствие в выдаче, не позиции.</p>')
     if ya_only:
-        gap_html += ('<div class="scroll"><table><tr><th>Запрос</th><th>Яндекс</th>'
-                     '<th>Кто в топ-3 Google</th></tr>' + "".join(
-                         f'<tr><td class="q">{esc(i["запрос"])}</td>'
-                         f'<td class="num">№{esc(i["позиция_яндекс"])}</td>'
-                         f'<td class="q">{esc(", ".join(d for d in i["google_топ3"] if d))}</td></tr>'
-                         for i in ya_only[:25]) + '</table></div>')
+        gap_html += cut(
+            f"Яндекс топ-10, в Google нет — "
+            f"{plural(len(ya_only[:25]), 'запрос', 'запроса', 'запросов')} из "
+            f"{esc(gap.get('яндекс_топ10_google_нет_всего'))}",
+            '<div class="scroll"><table><tr><th>Запрос</th><th>Яндекс</th>'
+            '<th>Кто в топ-3 Google</th></tr>' + "".join(
+                f'<tr><td class="q">{esc(i["запрос"])}</td>'
+                f'<td class="num">№{esc(i["позиция_яндекс"])}</td>'
+                f'<td class="q">{esc(", ".join(d for d in i["google_топ3"] if d))}</td></tr>'
+                for i in ya_only[:25]) + '</table></div>')
     if g_only:
         gap_html += ('<details><summary>Google топ-10, в Яндексе нет — '
                      f'{len(g_only)} запросов</summary><div class="scroll"><table>'
@@ -217,7 +308,8 @@ def _google_block(snapshot: dict) -> str:
                          f'<td class="q">{esc(", ".join(d for d in i["яндекс_топ3"] if d))}</td></tr>'
                          for i in g_only[:25]) + '</table></div></details>')
     first = attacks.get("первые") or []
-    attacks_html = (f'<h4>Точки атаки в Google — {esc(attacks.get("всего"))} кандидатов</h4>'
+    attacks_html = (f'<h4 id="google-attacks">Точки атаки в Google — '
+                    f'{esc(attacks.get("всего"))} кандидатов</h4>'
                     '<p class="lead">Тот же Strike List по Google-срезу: мы на 4–20, '
                     'выше стоит другой участник. В пакеты работ пока не входят — '
                     'список справочный, до накопления базовой линии.</p>')
@@ -268,10 +360,13 @@ def _leaderboard(cards: list[dict], usable: int,
             f'<td class="num">{esc(card.get("топ10"))}</td>'
             f'<td class="num"><b>{t.score}</b></td>'
             f'<td class="q">{esc(t.confidence)} · {esc(t.explanation)}</td></tr>')
-    return ('<div class="scroll"><table><tr><th class="num">#</th><th>Домен</th>'
-            '<th>Категория</th><th class="num">Доля</th><th class="num">ТОП-3</th>'
-            '<th class="num">ТОП-10</th><th class="num">Threat</th>'
-            '<th>Уверенность и основание</th></tr>' + "".join(rows) + "</table></div>")
+    table = ('<div class="scroll"><table><tr><th class="num">#</th><th>Домен</th>'
+             '<th>Категория</th><th class="num">Доля</th><th class="num">ТОП-3</th>'
+             '<th class="num">ТОП-10</th><th class="num">Threat</th>'
+             '<th>Уверенность и основание</th></tr>' + "".join(rows) + "</table></div>")
+    top = ", ".join(card["домен"] for card, _ in ranked[:3])
+    return cut(f"Таблица угрозы — {plural(len(ranked), 'конкурент', 'конкурента', 'конкурентов')}",
+               table, note=f"первые: {top}" if top else "")
 
 
 def _attack_status(attacks: list[dict], packages: list[dict] | None,
@@ -328,10 +423,14 @@ def _strike_table(attacks: list[dict], packages: list[dict] | None = None,
             f'<td class="q">{esc(a["demand_source"])}</td>'
             f'<td>{esc(package_id)}</td>'
             f'<td class="q">{esc(status)}</td></tr>')
-    return ('<div class="scroll"><table><tr><th>ID</th><th class="num">Opp.</th>'
-            '<th>Увер.</th><th>Запрос</th><th class="num">Наша</th><th>Конкурент</th>'
-            '<th class="num">Спрос</th><th>Источник</th><th>Поручение</th>'
-            '<th>Что с ним</th></tr>' + "".join(rows) + "</table></div>")
+    table = ('<div class="scroll"><table><tr><th>ID</th><th class="num">Opp.</th>'
+             '<th>Увер.</th><th>Запрос</th><th class="num">Наша</th><th>Конкурент</th>'
+             '<th class="num">Спрос</th><th>Источник</th><th>Поручение</th>'
+             '<th>Что с ним</th></tr>' + "".join(rows) + "</table></div>")
+    planned = sum(1 for a in attacks if a["query"] in status_by_query)
+    return cut(f"Полная таблица точек атаки — "
+               f"{plural(len(attacks), 'строка', 'строки', 'строк')}", table,
+               note=f"из них в плане работ {planned}")
 
 
 def _attack_summary(attacks: list[dict], packages: list[dict] | None,
@@ -386,8 +485,8 @@ def _attack_details(attacks: list[dict], limit: int = 10) -> str:
         notes = "".join(f"<li>{esc(n)}</li>" for n in (a.get("notes") or []))
         our_url = a.get("our_url") or "страницы нет в выдаче"
         blocks.append(f"""
-<details><summary>{esc(a['attack_id'])} · Opportunity {a['opportunity']} ·
-  «{esc(a['query'])}»</summary>
+<details id="{anchor('att', a['attack_id'])}"><summary>{esc(a['attack_id'])} ·
+  Opportunity {a['opportunity']} · «{esc(a['query'])}»</summary>
   <p><span class="lbl fact">ФАКТ</span>BIZSoft на {a['our_position']}-м месте
      ({esc(our_url)}); выше — {esc(a['rival_domain'])} на {a['rival_position']}-м.
      Спрос {esc(a['demand'])} ({esc(a['demand_source'])}), коммерческий интент
@@ -418,7 +517,8 @@ def _competitor_pages(cards: list[dict], full_cards: list[dict], limit: int = 8)
                        for u in (full.get("evidence_urls") or [])[:3])
         cat = card.get("категория", "?")
         blocks.append(f"""
-<details><summary>{esc(domain)} — доля {pct(card.get('доля'))},
+<details id="{anchor('cmp', domain)}"><summary>{esc(domain)} —
+  доля {pct(card.get('доля'))},
   ТОП-3 по {esc(card.get('топ3'))} запросам</summary>
   <div class="grid2">
     <div><h3>Кто это</h3>
@@ -506,7 +606,8 @@ def _packages_block(packages: list[dict]) -> str:
         upside = (("Прирост переходов: ≈ +%.0f. " % pkg['traffic_upside'])
                   if pkg.get('traffic_upside') is not None else "")
         blocks.append(f"""
-<details><summary>{esc(pkg['package_id'])} · {esc(pkg['action'])} ·
+<details id="{anchor('pkg', pkg['package_id'])}"><summary>{esc(pkg['package_id'])} ·
+  {esc(url_short)} · {esc(pkg['action'])} ·
   {pkg['queries_count']} запросов · потенциал {esc(pkg['potential_label'])}</summary>
   <div class="grid2">
     <div><h3>Что сделать</h3>{actions}</div>
@@ -603,15 +704,7 @@ def _experiments_block(experiments: list | None, config: dict | None,
         '<p class="q">Выводов по типам действий пока нет: ни один эксперимент '
         'не доведён до оценки.</p>')
 
-    return f"""
-<p class="lead">Предложено {states.get(jr.STATE_PROPOSED, 0)} ·
-на наблюдении {states.get(jr.STATE_WATCH, 0)} ·
-оценено {states.get(jr.STATE_DONE, 0)} ·
-из оценённых улучшение у {verdicts[jr.VERDICT_BETTER]},
-без изменений {verdicts[jr.VERDICT_FLAT]},
-ухудшение {verdicts[jr.VERDICT_WORSE]}.</p>
-
-<h3>Что нивелировано в замере</h3>
+    caveats = cut("Что нивелировано в замере и чего нивелировать нельзя", """
 <p class="q">Правки вносились по одной версии методики, а замер пойдёт по
 другой — методика за эти дни менялась. Плюс часть правок была не текстом
 страницы, а шаблоном: она задела все страницы своего типа, включая те, что
@@ -637,15 +730,25 @@ def _experiments_block(experiments: list | None, config: dict | None,
 </ul>
 <p class="q">Чего нивелировать нельзя и что остаётся ограничением: мы не ставим
 A/B-тест на поисковой выдаче. Контрольная группа снимает общий сдвиг, но не
-события, случившиеся ровно с этой страницей.</p>
+события, случившиеся ровно с этой страницей.</p>""")
 
-<h3>Под мораторием: правка внесена, идёт замер</h3>
+    return f"""
+<p class="lead">Предложено {states.get(jr.STATE_PROPOSED, 0)} ·
+на наблюдении {states.get(jr.STATE_WATCH, 0)} ·
+оценено {states.get(jr.STATE_DONE, 0)} ·
+из оценённых улучшение у {verdicts[jr.VERDICT_BETTER]},
+без изменений {verdicts[jr.VERDICT_FLAT]},
+ухудшение {verdicts[jr.VERDICT_WORSE]}.</p>
+
+{caveats}
+
+<h3 id="exp-watch">Под мораторием: правка внесена, идёт замер</h3>
 <p class="q">Эти страницы намеренно исключены из сегодняшних поручений. Если
 предлагать по ним новую работу, измерить эффект уже внесённой правки будет
 нельзя: непонятно, какая из двух что сдвинула.</p>
 {watch_table}
 
-<h3>Было → стало по завершённым экспериментам</h3>
+<h3 id="exp-done">Было → стало по завершённым экспериментам</h3>
 <p class="q"><b>Как считается эффект.</b> Берётся изменение медианной позиции
 по запросам эксперимента и — за тот же период — изменение по всем прочим
 запросам ядра, где мы ничего не трогали. Эффектом считается разница между
@@ -656,12 +759,134 @@ A/B-тест на поисковой выдаче. Контрольная гру
 выдаче не существует, и влияние других причин исключить нельзя.</p>
 {done_table}
 
-<h3>Чему это учит: какие правки работают</h3>
+<h3 id="exp-lessons">Чему это учит: какие правки работают</h3>
 <p class="q">Пока по типу действия накоплено меньше пяти оценённых
 экспериментов, вывода нет и порядок поручений не меняется: подстраивать
 приоритет работ под три случайных наблюдения — способ закрепить случайность
 в методике.</p>
 {lessons}"""
+
+
+def _toc(snapshot: dict, leaders: list[dict], packages: list[dict] | None,
+         attacks: list[dict], experiments: list | None,
+         on_watch: list[dict] | None = None, detail_limit: int = 10) -> str:
+    """Плавающее меню: вся структура отчёта, включая блоки под катом.
+
+    Верхняя навигация даёт семь ссылок на разделы — этого мало: работа
+    руководителя идёт по конкретному пакету и конкретному конкуренту, а они
+    лежат внутри разделов под катом. Меню перечисляет их поимённо, поэтому
+    переход занимает одно нажатие вместо прокрутки на два экрана.
+    """
+    from decision_engine import kpi as kpi_mod
+
+    def link(href: str, text: str, level: str = "l2") -> str:
+        return f'<a class="{level}" href="#{href}">{esc(text)}</a>'
+
+    items = [link("l1", "1 · Итоги дня", "l1"),
+             link("cat", "Кто держит коммерческую выдачу")]
+    if kpi_mod.google_block(snapshot):
+        items += [link("google", "Google, Россия"),
+                  link("google-gap", "Разрыв с Яндексом"),
+                  link("google-attacks", "Точки атаки в Google")]
+
+    items.append(link("l2", "2 · Конкуренты по уровню угрозы", "l1"))
+
+    items.append(link("l3", "3 · Карточки конкурентов", "l1"))
+    rivals = [c for c in leaders if c["домен"] != OURS][:8]
+    items += [link(anchor("cmp", c["домен"]), c["домен"]) for c in rivals]
+
+    packages = packages or []
+    items.append(link("plan", f"4 · План работ — {len(packages)} пакетов", "l1"))
+    for pkg in packages:
+        url_short = pkg["url"].replace("https://biz-soft.pro", "")
+        items.append(link(anchor("pkg", pkg["package_id"]),
+                          f"{pkg['package_id']} · {url_short}"))
+
+    items.append(link("l4", f"5 · Точки атаки — {len(attacks)} кандидатов", "l1"))
+    items.append(link("att-details", "Разбор первых десяти"))
+    items += [link(anchor("att", a["attack_id"]),
+                   f"{a['attack_id']} · {a['query']}")
+              for a in attacks[:detail_limit]]
+
+    items.append(link("exp", "6 · Эксперименты", "l1"))
+    # Подзаголовков раздела нет, пока журнал пуст: ссылка в меню на якорь,
+    # которого в документе не будет, ведёт в никуда.
+    if experiments or on_watch:
+        items += [link("exp-watch", "Под мораторием"),
+                  link("exp-done", "Было → стало"),
+                  link("exp-lessons", "Чему это учит")]
+
+    items.append(link("l5", "7 · Исходные данные", "l1"))
+    items.append(link("method", "Методика и границы", "l1"))
+
+    return f"""
+<details class="toc" id="toc">
+  <summary title="Разделы отчёта">☰<span class="toc-cap">Разделы</span></summary>
+  <div class="toc-panel">
+    <div class="toc-head">Структура отчёта
+      <button type="button" class="toc-x" data-toc-close
+              aria-label="Закрыть меню">×</button></div>
+    <div class="toc-body">{"".join(items)}</div>
+    <div class="toc-foot">
+      <button type="button" data-expand="all">Развернуть всё</button>
+      <button type="button" data-expand="none">Свернуть всё</button>
+    </div>
+  </div>
+</details>"""
+
+
+def _toc_script() -> str:
+    """Поведение меню и катов. Без скрипта отчёт остаётся работоспособным.
+
+    Скрипт делает три вещи: раскрывает кат, внутрь которого ведёт ссылка (иначе
+    переход по якорю попадал бы в свёрнутый блок и выглядел как «ничего не
+    произошло»), закрывает панель после перехода и даёт две кнопки «развернуть
+    или свернуть всё».
+    """
+    return """
+(function(){
+  var toc=document.getElementById('toc');
+  function reveal(hash){
+    if(!hash||hash.length<2)return;
+    var el=document.getElementById(decodeURIComponent(hash.slice(1)));
+    if(!el)return;
+    if(el.tagName==='DETAILS')el.open=true;
+    for(var p=el.parentElement;p;p=p.parentElement){
+      if(p.tagName==='DETAILS'&&p.id!=='toc')p.open=true;
+    }
+    el.scrollIntoView({block:'start'});
+  }
+  function up(node,sel){
+    for(var n=node;n&&n.nodeType===1;n=n.parentElement){
+      if(n.matches&&n.matches(sel))return n;
+    }
+    return null;
+  }
+  document.addEventListener('click',function(e){
+    var close=up(e.target,'[data-toc-close]');
+    if(close){if(toc)toc.open=false;e.preventDefault();return;}
+    var expand=up(e.target,'[data-expand]');
+    if(expand){
+      var on=expand.getAttribute('data-expand')==='all';
+      Array.prototype.forEach.call(document.querySelectorAll('details'),
+        function(d){if(d.id!=='toc')d.open=on;});
+      e.preventDefault();return;
+    }
+    var a=up(e.target,'a[href^="#"]');
+    if(a){
+      reveal(a.getAttribute('href'));
+      if(toc&&toc.contains(a))toc.open=false;
+      return;
+    }
+    if(toc&&toc.open&&!toc.contains(e.target))toc.open=false;
+  });
+  document.addEventListener('keydown',function(e){
+    if(e.key==='Escape'&&toc)toc.open=false;
+  });
+  window.addEventListener('hashchange',function(){reveal(location.hash);});
+  if(location.hash)reveal(location.hash);
+})();
+"""
 
 
 def _meta(snapshot: dict, key: str):
@@ -697,6 +922,8 @@ def build(date: str, snapshot: dict, previous: dict | None,
         'интент дублировала бы эти факторы (убрана в версии 1.1.0). Судьба '
         'выданных поручений отслеживается с 01.09.2026 — раздел 6.</div>')
 
+    toc = _toc(snapshot, leaders, packages, attacks, experiments, on_watch)
+
     return f"""<!doctype html>
 <html lang="ru"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -710,7 +937,10 @@ def build(date: str, snapshot: dict, previous: dict | None,
   {esc(usable)} запросов · собран {esc(snapshot.get('собран', '')[:16])}</div>
 <p class="lead">Отчёт отвечает на пять вопросов: усиливаемся ли мы, кто забирает
 наш спрос, на каких запросах, где конкурент уязвим и что даст наибольший
-эффект. Письмо содержит только вывод — здесь основания.</p>
+эффект. Письмо содержит только вывод — здесь основания. Крупные таблицы и
+разборы убраны под кат: заголовок виден всегда, содержимое раскрывается
+нажатием. Кнопка «Разделы» в правом нижнем углу открывает структуру целиком —
+переход к любому пакету работ и любому конкуренту в одно нажатие.</p>
 {warn}
 
 <nav>
@@ -728,7 +958,7 @@ def build(date: str, snapshot: dict, previous: dict | None,
 {_kpi_cards(snapshot, previous, attacks)}
 {maturity}
 
-<h3>Кто держит коммерческую выдачу</h3>
+<h3 id="cat">Кто держит коммерческую выдачу</h3>
 <p class="lead">Доля взвешенной видимости: позиция каждого домена умножается на
 вес клика по этой позиции. Категории «B2C и маркетплейсы», «информационные
 площадки» и «официальные сайты вендоров» присутствуют в выдаче и забирают
@@ -779,7 +1009,7 @@ def build(date: str, snapshot: dict, previous: dict | None,
 {_attack_summary(attacks, (packages or []) + (on_watch or []), experiments)}
 {_strike_table(attacks, (packages or []) + (on_watch or []), experiments)}
 
-<h3>Разбор первых десяти</h3>
+<h3 id="att-details">Разбор первых десяти</h3>
 {_attack_details(attacks)}
 
 <h2 id="exp">6 · Эксперименты: что внедрено и что из этого вышло</h2>
@@ -849,7 +1079,10 @@ BIZSoft Competitive Intelligence · отчёт за {esc(date)} ·
 собран {esc(datetime.now(MSK).strftime('%d.%m.%Y %H:%M'))} МСК ·
 страница не индексируется и не имеет ссылок с сайта
 </footer>
-</div></body></html>"""
+</div>
+{toc}
+<script>{_toc_script()}</script>
+</body></html>"""
 
 
 def main(argv: list[str]) -> int:
