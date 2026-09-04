@@ -5,10 +5,27 @@
 # (раздел 23 задания), маркер анти-дублей — свой.
 #
 # Логика режимов повторяет проверенный seo-report-email вместе с его
-# выученными уроками: одно письмо на одну дату; push отправляет только отчёт
-# НОВЕЕ последнего отправленного (иначе повторный пуш переотправляет старое);
+# выученными уроками: push отправляет только отчёт НОВЕЕ последнего
+# отправленного (иначе повторный пуш переотправляет старое);
 # сторожевой запуск шлёт честное уведомление о сбое вместо устаревшего
 # письма — старый отчёт под видом свежего худший из возможных фолбэков.
+#
+# Правило «одно письмо на дату» с 03.09.2026 заменено на «письмо по
+# последнему пушу дня» (решение руководителя). Причина: в тот день в
+# competitive-data пушили два контура, первый занял суточный маркер в
+# 08:51, и штатный прогон 09:20 МСК ушёл в skip — руководитель получил
+# расчёт по неполному срезу Google (355 запросов вместо 379). Маркер
+# теперь хранит дату, sha256 отправленного письма и счётчик отправок за
+# эту дату: тот же текст повторно не уходит (защита от дублей 01.09
+# сохранена), изменившийся — уходит с пометкой «Уточнённый расчёт» в
+# теме, но не больше трёх писем за дату, чтобы серия пушей не устроила
+# почтовый шторм.
+# ВАЖНО: копия этого файла обязана лежать в ветке competitive-data.
+# GitHub берёт определение workflow из той ветки, в которую пришёл push, а не
+# из main. Пока копии в ветке данных не было, push отчёта не запускал отправку
+# ни разу — письмо могло уйти только ручным запуском (01.09.2026). Меняя этот
+# файл, тем же содержимым обнови копию в competitive-data, иначе push-триггер
+# будет работать по устаревшей логике. Так же устроен seo-report-email.yml.
 name: competitive-intelligence-mail
 
 on:
@@ -50,15 +67,51 @@ jobs:
           today=$(TZ=Europe/Moscow date +%F)
           latest=$(ls reports/competitive/*-email.html 2>/dev/null | sort | tail -1)
           date=$(basename "$latest" 2>/dev/null | sed 's/-email.html//')
-          mailed=$(cat reports/competitive/last-mailed.txt 2>/dev/null || echo "")
+          # Маркер: «<дата> <sha256 письма> <счётчик отправок за дату>».
+          # Старый формат — одна дата без полей — читается как есть: хэш
+          # пустой, и переотправка не срабатывает (миграция бесшумная).
+          marker=$(cat reports/competitive/last-mailed.txt 2>/dev/null || echo "")
+          mailed=$(printf '%s' "$marker" | awk '{print $1}')
+          mailed_hash=$(printf '%s' "$marker" | awk '{print $2}')
+          mailed_count=$(printf '%s' "$marker" | awk '{print $3+0}')
           noticed=$(cat reports/competitive/last-notice.txt 2>/dev/null || echo "")
+          # Хэш берётся с обеих версий письма: текст и HTML собираются
+          # раздельно, и правка только в одной — это уже другое письмо.
+          hash=""
+          if [ -n "$date" ]; then
+            hash=$(cat "reports/competitive/$date-email.txt" \
+                       "reports/competitive/$date-email.html" 2>/dev/null \
+                   | sha256sum | cut -d' ' -f1)
+          fi
           echo "date=$date" >> "$GITHUB_OUTPUT"
           echo "today=$today" >> "$GITHUB_OUTPUT"
+          echo "hash=$hash" >> "$GITHUB_OUTPUT"
           mode=send
+          resend=0
+          count=1
           case "${{ github.event_name }}" in
             push)
               # ISO-даты сравниваются строково корректно.
-              { [ -z "$date" ] || [ ! "$date" \> "$mailed" ]; } && mode=skip
+              if [ -z "$date" ]; then
+                mode=skip
+              elif [ "$date" \> "$mailed" ]; then
+                mode=send
+              elif [ "$date" = "$mailed" ] && [ -n "$hash" ] \
+                   && [ -n "$mailed_hash" ] && [ "$hash" != "$mailed_hash" ]; then
+                # Тот же день, но расчёт изменился: уходит уточнение.
+                # Потолок в три письма за дату — защита от почтового шторма,
+                # если контур начнёт пушить пачкой.
+                if [ "$mailed_count" -ge 3 ]; then
+                  mode=skip
+                  echo "::warning::За $date уже отправлено $mailed_count писем — уточнение не ушло"
+                else
+                  mode=send
+                  resend=1
+                  count=$((mailed_count + 1))
+                fi
+              else
+                mode=skip
+              fi
               ;;
             schedule)
               if [ "$date" = "$today" ]; then
@@ -71,7 +124,9 @@ jobs:
           esac
           [ -z "$date" ] && [ "$mode" = "send" ] && mode=notice
           echo "mode=$mode" >> "$GITHUB_OUTPUT"
-          echo "Режим: $mode (письмо: ${date:-нет}, сегодня: $today)"
+          echo "resend=$resend" >> "$GITHUB_OUTPUT"
+          echo "count=$count" >> "$GITHUB_OUTPUT"
+          echo "Режим: $mode (письмо: ${date:-нет}, сегодня: $today, уточнение: $resend)"
 
       - name: Quality gate
         # Гейты качества перед отправкой (раздел 24 задания). Письмо, не
@@ -97,6 +152,20 @@ jobs:
           for name in (f'{date}-email.html', f'{date}-email.txt'):
               if not os.path.exists(f'reports/competitive/{name}'):
                   problems.append(f'нет файла {name}')
+          # Блокирующие инварианты о дате (решение руководителя 03.09.2026):
+          # данные не за день письма обязаны быть названы, а вердикт при них —
+          # «недостаточно данных» (⚪). Иначе вчерашний срез уйдёт как сегодняшний.
+          snap_path = pathlib.Path(f'data/competitive/snapshots/{date}-discovery.json')
+          stale = meta.get('предупреждение_о_свежести')
+          if snap_path.exists():
+              snap = json.loads(snap_path.read_text(encoding='utf-8'))
+              data_date = snap.get('дата_данных') or snap.get('дата')
+              if data_date != date and not stale:
+                  problems.append(f'данные за {data_date} под датой письма {date} '
+                                  'без предупреждения о свежести')
+          if stale and meta.get('вердикт') != '⚪':
+              problems.append('предупреждение о свежести есть, а вердикт не '
+                              f"«недостаточно данных»: {meta.get('вердикт')}")
           if problems:
               print('::error::Гейт качества не пройден: ' + '; '.join(problems))
               sys.exit(1)
@@ -116,6 +185,7 @@ jobs:
           TODAY: ${{ steps.guard.outputs.today }}
           DATE: ${{ steps.guard.outputs.date }}
           SUBJECT_PREFIX: ${{ inputs.subject_prefix || '' }}
+          RESEND: ${{ steps.guard.outputs.resend }}
         run: |
           if [ -z "$SMTP_PASS" ]; then
             echo "::error::Repo-секрет SMTP_PASS не задан — письмо не отправлено."
@@ -137,6 +207,10 @@ jobs:
           if mode == 'send':
               meta = json.loads(pathlib.Path(
                   f'reports/competitive/{date}-email.json').read_text(encoding='utf-8'))
+              # Уточнение за уже отправленную дату помечается в теме: два
+              # письма с одинаковым заголовком не дают понять, какое свежее.
+              if os.environ.get('RESEND') == '1' and not prefix:
+                  prefix = 'Уточнённый расчёт · '
               msg['Subject'] = prefix + meta['тема']
               msg.set_content(pathlib.Path(
                   f'reports/competitive/{date}-email.txt').read_text(encoding='utf-8'))
@@ -183,6 +257,8 @@ jobs:
           MODE: ${{ steps.guard.outputs.mode }}
           DATE: ${{ steps.guard.outputs.date }}
           TODAY: ${{ steps.guard.outputs.today }}
+          HASH: ${{ steps.guard.outputs.hash }}
+          COUNT: ${{ steps.guard.outputs.count }}
         run: |
           # Ставится в индекс ровно тот файл, который только что записан.
           # Раньше здесь было `git add last-mailed.txt last-notice.txt`: если
@@ -192,9 +268,11 @@ jobs:
           # сохранялся. Защита от повторной отправки не работала ни разу:
           # 01.09.2026 руководитель получил два одинаковых письма подряд.
           if [ "$MODE" = "send" ]; then
-            echo "$DATE" > reports/competitive/last-mailed.txt
+            # Хэш и счётчик — вместе с датой: по ним следующий push решает,
+            # уточнение это или тот же самый текст.
+            echo "$DATE $HASH $COUNT" > reports/competitive/last-mailed.txt
             marker=reports/competitive/last-mailed.txt
-            note="Письмо за $DATE отправлено"
+            note="Письмо за $DATE отправлено (отправка $COUNT)"
           else
             echo "$TODAY" > reports/competitive/last-notice.txt
             marker=reports/competitive/last-notice.txt
