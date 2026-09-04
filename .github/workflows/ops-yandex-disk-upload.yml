@@ -38,13 +38,9 @@ jobs:
           YANDEX_DISK_OAUTH: ${{ secrets.YANDEX_DISK_OAUTH }}
         run: python3 scripts/ops/yandex-disk-upload.py 2>&1 | tee /tmp/ya-upload.txt
       - name: Post to issue
-        uses: actions/github-script@v7
-        env:
-          RESULT: ${{ steps.run.outcome }}
+        if: always()
+        uses: ./.github/actions/journal-post
         with:
-          script: |
-            const out = require('fs').readFileSync('/tmp/ya-upload.txt', 'utf8').slice(0, 55000);
-            await github.rest.issues.createComment({
-              owner: context.repo.owner, repo: context.repo.repo, issue_number: 22,
-              body: `### ops-yandex-disk-upload (${process.env.RESULT})\n\n\`\`\`\n${out}\n\`\`\``,
-            });
+          title: "ops-yandex-disk-upload"
+          outcome: ${{ steps.run.outcome }}
+          body-file: /tmp/ya-upload.txt

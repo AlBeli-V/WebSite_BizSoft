@@ -2,12 +2,30 @@
 // Фирменные шрифты: Raleway (текст) + Prosto One (заголовки/цифры).
 // Оба — SIL OFL 1.1 (полностью бесплатные), self-host с нашего сервера
 // (woff2 в /_astro с вечным кэшем) — быстрее из РФ, без стороннего CDN.
-import '@fontsource/raleway/400.css';
-import '@fontsource/raleway/500.css';
-import '@fontsource/raleway/600.css';
-import '@fontsource/raleway/700.css';
-import '@fontsource/raleway/800.css';
-import '@fontsource/prosto-one/400.css';
+// Подключаем только нужные сайту наборы символов: кириллица, латиница и
+// latin-ext (в нём живёт знак рубля U+20BD). Полные файлы @fontsource везли
+// ещё cyrillic-ext и vietnamese — 30 правил @font-face вместо 18, из них
+// ~16 КБ CSS, которые не использует ни одна страница (Lighthouse,
+// unused-css-rules). Сами woff2 грузятся по факту нужного диапазона, так
+// что убраны именно неиспользуемые описания, а не шрифты.
+import '@fontsource/raleway/cyrillic-400.css';
+import '@fontsource/raleway/latin-400.css';
+import '@fontsource/raleway/latin-ext-400.css';
+import '@fontsource/raleway/cyrillic-500.css';
+import '@fontsource/raleway/latin-500.css';
+import '@fontsource/raleway/latin-ext-500.css';
+import '@fontsource/raleway/cyrillic-600.css';
+import '@fontsource/raleway/latin-600.css';
+import '@fontsource/raleway/latin-ext-600.css';
+import '@fontsource/raleway/cyrillic-700.css';
+import '@fontsource/raleway/latin-700.css';
+import '@fontsource/raleway/latin-ext-700.css';
+import '@fontsource/raleway/cyrillic-800.css';
+import '@fontsource/raleway/latin-800.css';
+import '@fontsource/raleway/latin-ext-800.css';
+import '@fontsource/prosto-one/cyrillic-400.css';
+import '@fontsource/prosto-one/latin-400.css';
+import '@fontsource/prosto-one/latin-ext-400.css';
 // Preload критичных начертаний: шрифт готов к первой отрисовке даже при
 // холодном кэше (инкогнито) — страница сразу в фирменной типографике.
 import ralewayCyr400 from '@fontsource/raleway/files/raleway-cyrillic-400-normal.woff2?url';

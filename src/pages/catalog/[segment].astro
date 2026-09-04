@@ -17,6 +17,7 @@ import { aiSubcategories, aiFlagships } from '../../data/ai-hub';
 import { comparisons } from '../../data/comparisons';
 import { solutions } from '../../data/solutions';
 import { effectivePrice } from '../../lib/pricing';
+import { textBlocks } from '../../lib/text-blocks';
 import type { Product } from '../../lib/types';
 
 const { segment } = Astro.params;
@@ -74,7 +75,8 @@ try {
       base = await getProducts({ categorySlug: segment! });
     }
     title = pageCategory.name;
-    lead = pageCategory.intro || pageCategory.seo_text || `${pageCategory.name}: зарубежные лицензии и подписки для юрлиц по договору и счёту.`;
+    // seo_text — не лид, а блок «Как выбрать» под списком товаров (ниже).
+    lead = pageCategory.intro || `${pageCategory.name}: зарубежные лицензии и подписки для юрлиц по договору и счёту.`;
   }
 } catch (e) {
   console.error('catalog segment error', e);
@@ -109,6 +111,9 @@ const filtered = base.filter((p) => {
 filtered.sort((a, b) => Number(!(effectivePrice(a).price > 0)) - Number(!(effectivePrice(b).price > 0)));
 
 const categoryFaqs = Array.isArray(pageCategory?.faqs) ? pageCategory!.faqs! : [];
+// Редакторский текст раздела: что внутри, как выбрать, как считаются лицензии.
+// Источник — data/catalog/categories.json → ops-categories → categories.seo_text.
+const guide = textBlocks(pageCategory?.seo_text);
 const faq = categoryFaqs.length > 0 ? categoryFaqs : [
   { q: 'Как купить ПО для юрлица?', a: 'Добавьте позиции в избранное и нажмите «Получить КП» либо оставьте заявку. Заключаем договор, выставляем счёт, после оплаты предоставляем доступ и передаём закрывающие через ЭДО.' },
   { q: 'Цены окончательные?', a: 'Цены ориентировочные (часть — по запросу или по курсу ЦБ). Итог подтверждаем в счёте.' },
@@ -224,6 +229,11 @@ if (isAi) {
 
       <!-- Результаты -->
       <div class="results">
+        <!-- Список товаров — самостоятельная секция страницы: без её заголовка
+             карточки (h3) шли сразу за h1 и структура заголовков рвалась
+             (Lighthouse heading-order). Визуально подпись не нужна — заголовок
+             скрыт .sr-only и виден только скринридеру. -->
+        <h2 class="sr-only">Товары раздела «{title}»</h2>
         <div class="results-head">
           <span>Найдено: <b>{filtered.length}</b></span>
           <a href="/catalog" class="switch-link">← Весь каталог</a>
@@ -259,6 +269,16 @@ if (isAi) {
       </section>
     )}
 
+    {guide.length > 0 && (
+      <section class="guide prose-bizsoft">
+        {guide.map((b) =>
+          b.type === 'h2' ? <h2>{b.text}</h2>
+          : b.type === 'ul' ? <ul>{b.items.map((i) => <li>{i}</li>)}</ul>
+          : <p>{b.text}</p>,
+        )}
+      </section>
+    )}
+
     <FAQ items={faq} title="Вопросы по разделу" />
   </div>
   <CTASection />
@@ -284,6 +304,8 @@ if (isAi) {
   .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 1.2rem; }
   .empty { color: var(--color-text-muted); }
   .empty a { color: var(--color-accent); }
+  .guide { margin-top: 2.6rem; max-width: 760px; }
+  .guide h2:first-child { margin-top: 0; }
   /* AI-хаб */
   .ai-flagships { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1.6rem; }
   .ai-chip { display: inline-block; padding: 0.45rem 0.9rem; border: 1px solid var(--color-border-strong); border-radius: 999px; background: var(--color-bg-elevated); color: var(--color-text); font-size: 0.88rem; font-weight: 600; transition: border-color 0.15s, color 0.15s; }
