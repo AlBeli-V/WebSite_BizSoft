@@ -97,13 +97,21 @@ const { title, description, canonical, ogImage, noindex, type, keywords } = Astr
       // Всё, что уже в первом экране, помечается видимым синхронно — до того,
       // как html.js-reveal включит скрытие: первый экран не мигает и не ждёт
       // observer, анимируются только секции ниже.
-      const reveal = () => {
+      // Запуск — после первой отрисовки (rAF + setTimeout): чтение геометрии
+      // из модульного скрипта до раскладки браузера заставляло считать
+      // раскладку всей страницы синхронно (длинная задача в отчёте PageSpeed).
+      const afterPaint = (fn: () => void) => requestAnimationFrame(() => setTimeout(fn, 0));
+      const reveal = () => afterPaint(() => {
         const els = document.querySelectorAll('.reveal:not(.is-visible)');
         const vh = window.innerHeight || document.documentElement.clientHeight;
-        els.forEach((el) => {
+        // Сначала все замеры, потом все записи классов: чередование
+        // getBoundingClientRect и classList.add даёт принудительный reflow на
+        // каждый элемент (forced-reflow в отчёте PageSpeed).
+        const inView = Array.from(els).filter((el) => {
           const r = el.getBoundingClientRect();
-          if (r.top < vh && r.bottom > 0) el.classList.add('is-visible');
+          return r.top < vh && r.bottom > 0;
         });
+        inView.forEach((el) => el.classList.add('is-visible'));
         document.documentElement.classList.add('js-reveal');
         if (!('IntersectionObserver' in window) || els.length === 0) {
           els.forEach((el) => el.classList.add('is-visible'));
@@ -121,7 +129,7 @@ const { title, description, canonical, ogImage, noindex, type, keywords } = Astr
           { threshold: 0.12 },
         );
         els.forEach((el) => io.observe(el));
-      };
+      });
       reveal();
       document.addEventListener('astro:after-swap', reveal);
 
