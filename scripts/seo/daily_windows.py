@@ -59,8 +59,12 @@ def load_series(source: str, base_dir: pathlib.Path | None = None) -> dict | Non
 
 
 def build_source(report_date: str, source: str,
-                 store: dict | None) -> dict:
-    """Окна одного источника: {available, complete, windows, missing_dates}."""
+                 store: dict | None, lag: int | None = None) -> dict:
+    """Окна одного источника: {available, complete, windows, missing_dates}.
+
+    lag — переопределение лага созревания: общее окно воронки строится с
+    лагом самого медленного источника, чтобы все ряды кончались одним днём.
+    """
     if not store or not (store.get('series') or {}):
         return {'available': False, 'error': 'витрина не заполнена',
                 'complete': False}
@@ -75,7 +79,7 @@ def build_source(report_date: str, source: str,
             return 0.0
         return v
 
-    lag = LAG_DAYS[source]
+    lag = LAG_DAYS[source] if lag is None else lag
     end = dt.date.fromisoformat(report_date) - dt.timedelta(days=lag)
     cur_start = end - dt.timedelta(days=WINDOW_DAYS - 1)
     prev_start = cur_start - dt.timedelta(days=WINDOW_DAYS)
@@ -115,12 +119,52 @@ def build_source(report_date: str, source: str,
     }
 
 
+def build_aligned(report_date: str, stores: dict[str, dict | None]) -> dict:
+    """Общее окно воронки: все источники обрезаны по самому медленному лагу.
+
+    Решение руководителя 03.09.2026 («двойное окно»). Карточки источников
+    остаются на своих свежих окнах: визиты и заявки Метрики за вчера — самый
+    оперативный сигнал письма, и терять два дня ради сопоставимости нельзя.
+    А воронка «показы → клики → визиты → цели» и любые сверки между
+    источниками складываются только из этого окна: у Вебмастера и GSC данные
+    зреют три дня, у аналитики один, и без общего конца воронка состояла из
+    разных недель.
+    """
+    lag = max(LAG_DAYS.values())
+    end = dt.date.fromisoformat(report_date) - dt.timedelta(days=lag)
+    cur_start = end - dt.timedelta(days=WINDOW_DAYS - 1)
+    prev_start = cur_start - dt.timedelta(days=WINDOW_DAYS)
+    sources, missing = {}, set()
+    for source in METRICS:
+        blk = build_source(report_date, source, stores.get(source), lag=lag)
+        sources[source] = blk
+        if not blk.get('available'):
+            missing.add(f'{source}: витрина не заполнена')
+        else:
+            missing.update(blk.get('missing_dates') or [])
+    return {
+        'available': all(v.get('available') for v in sources.values()),
+        'complete': all(v.get('available') and v.get('complete')
+                        for v in sources.values()),
+        'lag_days': lag,
+        'window_days': WINDOW_DAYS,
+        'current': {'from': cur_start.isoformat(), 'to': end.isoformat()},
+        'previous': {'from': prev_start.isoformat(),
+                     'to': (cur_start - dt.timedelta(days=1)).isoformat()},
+        'missing_dates': sorted(missing),
+        'sources': {s: (v.get('windows') or {}) for s, v in sources.items()},
+    }
+
+
 def build(report_date: str, base_dir: pathlib.Path | None = None) -> dict:
     """Блок daily для снимка: окна всех источников + сводный признак."""
     out = {}
+    stores = {source: load_series(source, base_dir) for source in METRICS}
     for source in METRICS:
-        out[source] = build_source(report_date, source,
-                                   load_series(source, base_dir))
+        out[source] = build_source(report_date, source, stores[source])
     out['any_available'] = any(v.get('available') for v in out.values()
                                if isinstance(v, dict))
+    # Общее окно воронки (см. build_aligned): ключ не совпадает с именем
+    # источника, потребители перебирают источники по METRICS.
+    out['aligned'] = build_aligned(report_date, stores)
     return out

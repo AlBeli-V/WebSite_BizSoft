@@ -1,0 +1,133 @@
+# Ежедневный прогон конкурентной разведки: снимок дня, письмо, публикация.
+#
+# Заменяет Routine «BIZSoft Конкурентная разведка» и «Сторож письма
+# конкурентной разведки» на сессиях Claude (решение руководителя 03.09.2026
+# по разбору расхода токенов): run_daily.py детерминирован, LLM-шагов в нём
+# нет, а промпт Routine сводился к «pull → прогон → тесты → push → проверить
+# отправку». Здесь то же самое без сессии.
+#
+# Push из Actions под GITHUB_TOKEN не запускает push-триггеры почтового и
+# публикационного workflow — они вызываются явно через
+# scripts/ops/gh_dispatch_wait.sh. Одно письмо на дату стережёт маркер
+# reports/competitive/last-mailed.txt.
+#
+# Расписание (UTC; московское рядом — правило проекта):
+#   06:20 UTC = 09:20 МСК — штатный слот (письмо должно быть у руководителя
+#   к 10:00 МСК; срезы выдачи собраны ночью workflow seo-serp-watch);
+#   07:05 UTC = 10:05 МСК — контрольный слот на случай пропуска первого
+#   планировщиком GitHub: если письмо за сегодня уже собрано, слот только
+#   проверяет отправку. Сторож competitive-intelligence-mail в 10:40 МСК
+#   шлёт уведомление о сбое, если письма нет и после этого.
+name: competitive-intelligence-daily
+
+on:
+  schedule:
+    - cron: "20 6 * * *"
+    - cron: "5 7 * * *"
+  workflow_dispatch:
+    inputs:
+      force:
+        description: "yes — пересобрать снимок и письмо за сегодня, даже если они уже есть в competitive-data"
+        required: false
+        default: "no"
+
+permissions:
+  contents: write
+  actions: write
+  issues: write
+
+concurrency:
+  group: competitive-intelligence-daily
+  cancel-in-progress: false
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install deps
+        run: pip install --quiet requests
+
+      # Срезы выдачи контур читает прямо из origin/seo-data (git show),
+      # свои данные — из competitive-data через data_sync_ci.sh.
+      - name: Pull data branches
+        run: |
+          git fetch origin seo-data --quiet
+          bash competitive-intelligence/storage/data_sync_ci.sh pull
+
+      - name: Resolve date and guard
+        id: guard
+        env:
+          FORCE: ${{ inputs.force || 'no' }}
+        run: |
+          date=$(TZ=Europe/Moscow date +%F)
+          echo "date=$date" >> "$GITHUB_OUTPUT"
+          if [ -f "reports/competitive/$date-email.html" ] && [ "$FORCE" != "yes" ]; then
+            echo "build=no" >> "$GITHUB_OUTPUT"
+            echo "письмо за $date уже собрано — остаётся проверить отправку"
+          else
+            echo "build=yes" >> "$GITHUB_OUTPUT"
+            echo "снимок за $date собирается"
+          fi
+
+      # Код возврата 1 — данных нет или гейт качества не пройден: результат
+      # не пушится, сторож почтового workflow пришлёт уведомление о сбое.
+      - name: Run daily pipeline
+        if: steps.guard.outputs.build == 'yes'
+        run: python3 competitive-intelligence/run_daily.py
+
+      - name: Tests
+        if: steps.guard.outputs.build == 'yes'
+        run: |
+          set -o pipefail
+          python3 -m unittest discover -s competitive-intelligence/tests \
+            -t competitive-intelligence/tests -p 'test_*.py' 2>&1 \
+            | tee /tmp/ci-tests.log
+          grep -qE '^Ran [1-9][0-9]* tests' /tmp/ci-tests.log \
+            || { echo 'Тестов не найдено — проверка ничего не значит'; exit 1; }
+
+      - name: Push results to competitive-data
+        if: steps.guard.outputs.build == 'yes'
+        env:
+          DATE: ${{ steps.guard.outputs.date }}
+        run: |
+          bash competitive-intelligence/storage/data_sync_ci.sh push \
+            "Прогон конкурентной разведки за $DATE" \
+            "data/competitive reports/competitive"
+
+      - name: Publish deep report
+        if: steps.guard.outputs.build == 'yes'
+        run: bash scripts/ops/gh_dispatch_wait.sh ci-publish-report.yml --timeout 600
+
+      # Ручной dispatch почтового workflow маркер игнорирует (сознательная
+      # переотправка), поэтому проверка «уже отправлено» — здесь.
+      - name: Ensure letter is sent
+        env:
+          DATE: ${{ steps.guard.outputs.date }}
+        run: |
+          git fetch origin competitive-data --quiet
+          mailed=$(git show origin/competitive-data:reports/competitive/last-mailed.txt 2>/dev/null || echo "")
+          if [ "$mailed" = "$DATE" ]; then
+            echo "письмо за $DATE уже отправлено"
+            exit 0
+          fi
+          if ! git cat-file -e "origin/competitive-data:reports/competitive/$DATE-email.html" 2>/dev/null; then
+            echo "::error::письма за $DATE в хранилище нет — отправлять нечего"
+            exit 1
+          fi
+          bash scripts/ops/gh_dispatch_wait.sh competitive-intelligence-mail.yml --timeout 900
+
+      - name: Journal on failure
+        if: failure()
+        env:
+          DATE: ${{ steps.guard.outputs.date }}
+        run: |
+          gh issue comment 22 --body "competitive-intelligence-daily: прогон за $DATE завершился с ошибкой — $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID. Письмо конкурентной разведки не собрано или не отправлено; уведомление о сбое даёт сторож competitive-intelligence-mail."

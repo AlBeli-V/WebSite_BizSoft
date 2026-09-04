@@ -7,7 +7,10 @@ import { describe, expect, it } from 'vitest';
 import { solutions } from '../src/data/solutions';
 import { plannedSolutions } from '../src/data/scaffold';
 
-const FILLED = ['po-dlya-yurlic-po-schetu', 'inostrannoe-po-po-dogovoru', 'ai-servisy-dlya-biznesa'];
+const FILLED = ['po-dlya-yurlic-po-schetu', 'inostrannoe-po-po-dogovoru', 'ai-servisy-dlya-biznesa', 'ai-dlya-marketinga'];
+// Страницы, снятые Яндексом как малоценные 31.08–02.09.2026: их отличие от
+// раздела каталога — блок «Как выбрать» (план thin-pages, группа F).
+const GUIDED = ['ai-servisy-dlya-biznesa', 'ai-dlya-marketinga'];
 
 describe('посадочные решений под измеренный спрос', () => {
   it('три адреса больше не заготовки', () => {
@@ -24,6 +27,22 @@ describe('посадочные решений под измеренный спр
       expect(s!.offer.length).toBeGreaterThanOrEqual(3);
       expect(s!.faq.length).toBeGreaterThanOrEqual(4);
       expect(s!.relatedCategories.length).toBeGreaterThanOrEqual(2);
+    }
+  });
+
+  it('у снятых Яндексом страниц есть блок «Как выбрать»', () => {
+    for (const slug of GUIDED) {
+      const s = solutions.find((x) => x.slug === slug)!;
+      expect(s.sections?.length ?? 0, `${slug}: разделов блока`).toBeGreaterThanOrEqual(3);
+      for (const sec of s.sections!) expect(sec.text.length, `${slug}: «${sec.title}»`).toBeGreaterThan(200);
+      expect(s.faq.length, `${slug}: вопросов`).toBeGreaterThanOrEqual(5);
+    }
+  });
+
+  it('связанные разделы ведут на основные адреса, а не на слитые дубли с 301', () => {
+    const merged = ['graphics-design', 'ai-services', 'communications', 'developer-tools'];
+    for (const s of solutions) {
+      for (const c of s.relatedCategories) expect(merged, `${s.slug} → /catalog/${c.slug}`).not.toContain(c.slug);
     }
   });
 
