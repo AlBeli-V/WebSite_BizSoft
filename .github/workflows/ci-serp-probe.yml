@@ -29,7 +29,11 @@ jobs:
         run: |
           echo "::error::Запуск разрешён только с ветки main (правило проекта)"
           exit 1
-      - uses: actions/checkout@v4
+      - name: Checkout
+        # always() — шаг журнала ниже тоже always(): без этого при
+        # падении раннего шага checkout пропустится и запись не пройдёт.
+        if: always()
+        uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
@@ -42,11 +46,13 @@ jobs:
           LOCATION_CODE: ${{ inputs.location_code }}
         run: |
           pip install --quiet requests
+          rc=0
           {
             echo 'result<<SERP_EOF'
-            python3 competitive-intelligence/serp/dataforseo_probe.py || true
+            python3 competitive-intelligence/serp/dataforseo_probe.py 2>&1 || rc=$?
             echo 'SERP_EOF'
           } >> "$GITHUB_OUTPUT"
+          exit $rc
       - name: Post to issue
         if: always()
         uses: ./.github/actions/journal-post

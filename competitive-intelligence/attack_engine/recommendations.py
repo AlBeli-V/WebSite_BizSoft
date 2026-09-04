@@ -66,6 +66,42 @@ STOP_GEO = {
     "казань", "краснодар",
 }
 
+# Транслитерация для сверки слова запроса с доменом конкурента. Русские
+# написания брендов («плати по миру») в домене стоят латиницей
+# (platipomiru.com), и без этой таблицы совпадение не находится.
+TRANSLIT = {
+    "а": "a", "б": "b", "в": "v", "г": "g", "д": "d", "е": "e", "ж": "zh",
+    "з": "z", "и": "i", "й": "y", "к": "k", "л": "l", "м": "m", "н": "n",
+    "о": "o", "п": "p", "р": "r", "с": "s", "т": "t", "у": "u", "ф": "f",
+    "х": "h", "ц": "c", "ч": "ch", "ш": "sh", "щ": "sch", "ъ": "", "ы": "y",
+    "ь": "", "э": "e", "ю": "yu", "я": "ya",
+}
+# Короче этого слово к домену не примеряем: «pay» и «мир» встречаются внутри
+# слишком многих доменов, и запрет вышел бы шире брендов.
+MIN_BRAND_WORD = 4
+
+
+def translit(word: str) -> str:
+    return "".join(TRANSLIT.get(ch, ch) for ch in (word or "").lower())
+
+
+def rival_brand_words(words: list[str], rivals: list[str] | None) -> list[str]:
+    """Слова запроса, которые являются частью названия конкурента.
+
+    Разбор отчёта 04.09.2026: по запросу «windsurf pro купить плати по миру»
+    контур предлагал дописать в заголовок нашей статьи слово «миру». «Плати
+    по миру» — это platipomiru.com, конкурент из той же выдачи. Вписывать чужой
+    бренд в свой заголовок бессмысленно как SEO (по брендовому запросу выигрывает
+    владелец бренда) и недопустимо как текст: страница начинает выдавать себя за
+    чужую. Стоп-листы на оценочные слова и города уже были — брендов не было.
+    """
+    domains = " ".join((rivals or [])).lower()
+    if not domains:
+        return []
+    return [w for w in words
+            if len(w) >= MIN_BRAND_WORD
+            and (w in domains or translit(w) in domains)]
+
 # Где лежит шаблон, из которого собирается видимая часть страницы. Нужен,
 # чтобы предлагать одну правку на весь тип страниц вместо десятков одинаковых
 # правок в данных.
@@ -195,10 +231,17 @@ def build(package: dict, page: page_audit.PageContent,
             continue
         words = [w for w in words if w not in template_words]
         stop = [w for w in words if w in STOP_EVALUATIVE or w in STOP_GEO]
+        brand = rival_brand_words(words, package.get("rivals"))
         blind = ([w for w in words
                   if page.kind == "product" and re.fullmatch(r"[a-z0-9]+", w)]
                  if page.kind == "product" else [])
-        if stop:
+        if brand and not stop:
+            blocked.append(f"«{query}» — не дописываем: "
+                           + ", ".join(f"«{w}»" for w in brand)
+                           + " входит в название конкурента из этой же выдачи; "
+                             "чужой бренд в своём тексте не даёт позиции и "
+                             "выдаёт страницу за чужую")
+        elif stop:
             blocked.append(f"«{query}» — не дописываем: "
                            + ", ".join(f"«{w}»" for w in stop)
                            + (" оценочное слово о себе"
@@ -325,8 +368,23 @@ def build(package: dict, page: page_audit.PageContent,
     top_query = queries[0] if queries else ""
     if top_query and page.title and page.kind in ("blog", "product"):
         words = page_audit.significant_words(top_query)
-        title_norm = page_audit.normalize(page.title)
-        lost = [w for w in words if w not in title_norm]
+        # Сравнение по формам слова, а не подстрокой нормализованного
+        # заголовка. Подстрочная проверка объявляла, что в заголовке «Как
+        # оплатить CorelDRAW для юридического лица в России» нет слов «оплата»
+        # и «россиян», и требовала пересобрать заголовок, который запрос уже
+        # закрывает (разбор отчёта 04.09.2026).
+        title_words = page_audit.normalize(page.title).split()
+        lost = [w for w in words
+                if not any(page_audit.same_word(w, t) for t in title_words)]
+        # Бренд конкурента в свой заголовок не вписывается — по той же причине,
+        # по которой он не дописывается в текст.
+        brand_in_title = rival_brand_words(lost, package.get("rivals"))
+        if brand_in_title:
+            skip_extra.append(
+                f"«{top_query}» — заголовок под этот запрос не пересобираем: "
+                + ", ".join(f"«{w}»" for w in brand_in_title)
+                + " входит в название конкурента из этой же выдачи")
+            lost = []
         if lost:
             add("мета",
                 "Пересобрать заголовок страницы под ведущий запрос пакета",
@@ -380,7 +438,8 @@ def not_recommended() -> list[str]:
     ]
 
 
-def headline(actions: list[Action], package: dict) -> str:
+def headline(actions: list[Action], package: dict,
+             blocked: list[str] | None = None) -> str:
     """Заголовок пакета — первое действие, а не шаблон по типу страницы.
 
     Именно эта строка уходит в письмо как поручение дня, поэтому она обязана
@@ -391,6 +450,13 @@ def headline(actions: list[Action], package: dict) -> str:
         # «довести условия для юрлиц до уровня конкурентов» нельзя ни
         # поручить, ни принять. Если проверка страницы не нашла, что менять,
         # это и есть результат — его и печатаем, а не общую формулировку.
+        # Причин, по которым действий нет, две, и они разные: либо всё
+        # раскрыто, либо недостающее дописывать запрещено (бренд конкурента,
+        # оценочное слово, город). Смешивать их — врать о состоянии страницы.
+        specific = [line for line in (blocked or []) if line.startswith("«")]
+        if specific:
+            return ("правок не предлагаем: недостающее дописывать нельзя — "
+                    "см. «не рекомендуем сейчас»")
         return ("правок по репозиторию не требуется: запросы пакета уже "
                 "раскрыты в проверенном тексте — остаётся проверить тело "
                 "страницы из Directus")
@@ -509,7 +575,7 @@ def enrich(packages: list[dict], geo_by_query: dict | None = None,
         package["системные_слова"] = sorted(template_words.get(page.kind, set()))
         package["проверено_по"] = page.scope_note
         package["источник_текста"] = page.source_path or page.edit_hint
-        package["action"] = headline(actions, package)
+        package["action"] = headline(actions, package, skip)
     return systemic
 
 

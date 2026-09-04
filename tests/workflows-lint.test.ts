@@ -24,11 +24,13 @@ const dir = resolve(root, '.github/workflows');
 const baselinePath = resolve(root, 'data/reports/workflow-lint-baseline.json');
 
 export const RULES: Record<string, string> = {
-  R1: '`|| true` — сбой скрипта не влияет на статус прогона',
+  R1: '`|| true` после вызова скрипта или push — сбой не влияет на статус прогона',
   R2: '`exit 0` после «не найден/не задан» — отсутствие секрета выглядит успехом',
   R3: 'шаг журнала с `if: always()` не смотрит на `steps.*.outcome` — упавший шаг публикуется как штатный',
   R4: 'шаг журнала без `if: always()` — при падении в журнал не попадает ничего',
-  R5: '`curl` без проверки кода ответа (`-f`/`--fail`/`http_code`)',
+  R5: '`curl` за телом ответа без проверки кода (`-f`/`--fail`/`http_code`); запросы заголовков (-I/-D -) не считаются',
+  R6: 'локальный action `journal-post` без `actions/checkout` — раннер его не находит, и шаг журнала падает',
+  R7: '`actions/checkout` при явном `permissions:` без `contents: read` — токен не читает репозиторий, checkout падает с «Repository not found»',
 };
 
 type Counts = Record<string, number>;
@@ -55,12 +57,15 @@ function steps(lines: string[]): string[][] {
 
 export function lint(text: string): Counts {
   const lines = text.split('\n');
-  const counts: Counts = { R1: 0, R2: 0, R3: 0, R4: 0, R5: 0 };
+  const counts: Counts = { R1: 0, R2: 0, R3: 0, R4: 0, R5: 0, R6: 0, R7: 0 };
 
   lines.forEach((line, index) => {
     if (isComment(line)) return;
-    if (/\|\|\s*true\b/.test(line)) counts.R1 += 1;
-    if (/curl\s/.test(line) && !/(\s-f\b|--fail|-sf\b|-fsS|-fS|http_code|-w\s)/.test(line)) {
+    // Маскировка — это `|| true` после вызова скрипта, инструмента или push.
+    // Диагностика вида `grep -c … || true`, `docker system df || true`,
+    // `cp … || true` статус не подменяет: там нечего маскировать.
+    if (/(python3|node|bash|pnpm|npx|gh|git push|git pull|data_sync\.sh|docker compose (exec|up|run))\b[^|\n]*\|\|\s*true\b/.test(line)) counts.R1 += 1;
+    if (/curl\s/.test(line) && !/(\s-f\b|--fail|-sf\b|-fsS|-fS|-sSf|http_code|-w\s|\s-s?S?I\b|-D\s-)/.test(line)) {
       counts.R5 += 1;
     }
     if (/не найден|не задан|NOT FOUND|отсутству/i.test(line)) {
@@ -68,6 +73,16 @@ export function lint(text: string): Counts {
       if (window.some((l) => /(^|;|&&)\s*exit 0\b/.test(l))) counts.R2 += 1;
     }
   });
+
+  // Локальный action едет с репозиторием: без checkout раннер не находит
+  // action.yml, и журнал молчит — так 03.09.2026 упали 32 ops-воркфлоу
+  // сразу после перевода на journal-post.
+  const code = lines.filter((l) => !isComment(l)).join('\n');
+  if (/uses:\s*\.\/\.github\/actions\/journal-post/.test(code) && !/uses:\s*actions\/checkout@/.test(code)) counts.R6 += 1;
+  // Явный блок permissions обнуляет всё неперечисленное: без contents токен
+  // не читает репозиторий, и checkout падает — так упал прогон #204 ops-probe
+  // сразу после добавления checkout.
+  if (/uses:\s*actions\/checkout@/.test(code) && /^\s*permissions:/m.test(code) && !/^\s+contents:\s*(read|write)\b/m.test(code)) counts.R7 += 1;
 
   for (const step of steps(lines)) {
     const body = step.join('\n');

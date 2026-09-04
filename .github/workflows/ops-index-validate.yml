@@ -32,6 +32,11 @@ jobs:
   run:
     runs-on: ubuntu-latest
     steps:
+      # Локальный action journal-post лежит в репозитории — без checkout
+      # раннер его не находит, и запись в журнал падает (см. прогон #41
+      # ops-yandex-recrawl 03.09.2026).
+      - uses: actions/checkout@v4
+
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
@@ -156,6 +161,12 @@ jobs:
             echo 'IDX_EOF'
           } >> "$GITHUB_OUTPUT"
           exit $rc
+      # Локальному action нужен репозиторий в рабочей копии. if: always() —
+      # потому что шаг журнала тоже always(): без этого при падении основного
+      # шага checkout пропускается, и запись в журнал снова не проходит.
+      - name: Checkout for journal action
+        if: always()
+        uses: actions/checkout@v4
       - name: Post to issue
         if: always()
         uses: ./.github/actions/journal-post

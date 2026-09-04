@@ -156,7 +156,7 @@ class TestBudget(Base):
         self.assertNotIn("error", rows["хвост"])
 
     def test_duplicate_second_page_is_not_glued(self):
-        """xmlriver игнорирует page: та же выдача не должна удваивать топ."""
+        """Повтор URL на второй странице не должен удваивать топ."""
         same = [{"domain": f"d{i}.ru", "url": f"https://d{i}.ru/", "title": ""}
                 for i in range(10)]
         res = self.sg.merge_pages(

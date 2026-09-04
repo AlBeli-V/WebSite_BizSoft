@@ -14,11 +14,19 @@ on:
         required: true
         default: 'vendor-icons/[a-z]+/adobe\.svg|#3f3f46|Диадок'
 permissions:
+  # checkout читает репозиторий токеном GITHUB_TOKEN: при явном permissions
+  # без contents раннер получает «Repository not found» (прогон #204 ops-probe).
+  contents: read
   issues: write
 jobs:
   probe:
     runs-on: ubuntu-latest
     steps:
+      # Локальный action journal-post лежит в репозитории — без checkout
+      # раннер его не находит, и запись в журнал падает (см. прогон #41
+      # ops-yandex-recrawl 03.09.2026).
+      - uses: actions/checkout@v4
+
       - name: Fetch and grep
         id: probe
         run: |
@@ -31,6 +39,12 @@ jobs:
             curl -sS --max-time 30 "${{ inputs.url }}" | grep -oE "${{ inputs.pattern }}" | sort | uniq -c | head -40 || echo "(нет совпадений)"
             echo 'PROBE_EOF'
           } >> "$GITHUB_OUTPUT"
+      # Локальному action нужен репозиторий в рабочей копии. if: always() —
+      # потому что шаг журнала тоже always(): без этого при падении основного
+      # шага checkout пропускается, и запись в журнал снова не проходит.
+      - name: Checkout for journal action
+        if: always()
+        uses: actions/checkout@v4
       - name: Post to issue
         if: always()
         uses: ./.github/actions/journal-post

@@ -21,6 +21,9 @@ on:
     # чтобы дубли не копились до находки Вебмастера
     - cron: '0 7 * * 1'
 permissions:
+  # checkout читает репозиторий токеном GITHUB_TOKEN: при явном permissions
+  # без contents раннер получает «Repository not found» (прогон #204 ops-probe).
+  contents: read
   issues: write
 jobs:
   audit:
@@ -32,6 +35,11 @@ jobs:
             echo "Запуск разрешён только с ветки main. Текущий ref: ${{ github.ref_name }}"
             exit 1
           fi
+      # Локальный action journal-post лежит в репозитории — без checkout
+      # раннер его не находит, и запись в журнал падает (см. прогон #41
+      # ops-yandex-recrawl 03.09.2026).
+      - uses: actions/checkout@v4
+
       - name: Audit content
         id: run
         uses: appleboy/ssh-action@v1
@@ -49,7 +57,7 @@ jobs:
             TOKEN=$(sed -n 's/^DIRECTUS_TOKEN=//p' /opt/bizsoft/astro.env | tr -d '"\r')
             export TOKEN
             python3 - <<'PYEOF'
-            import json, os, urllib.parse, urllib.request
+            import json, os, re, urllib.parse, urllib.request
             token = os.environ['TOKEN']
             vendor = os.environ.get('P_VENDOR', '').strip()
             full = os.environ.get('P_FULL', '').strip().lower() == 'true'
@@ -66,9 +74,37 @@ jobs:
             def g(r, f):
                 return (r.get(f) or '').strip()
 
+            # Курс валюты в тексте («по курсу 80», «80 ₽ за доллар», «$1 = 80 ₽»)
+            # и цена с периодом в валюте («$20/мес», «€15 в месяц», «$80 за место
+            # в месяц»). Порог лицензирования без периода — не находка.
+            STALE_MONEY = re.compile(
+                r'курс[а-яё]{0,3}\s+\d'
+                r'|\d+[\d\s.,]*\s*(?:₽|руб[а-яё.]*)\s*за\s*(?:1\s*)?(?:доллар|евро|\$|USD|EUR)'
+                r'|(?:\$|€|USD|EUR)\s?1\s*[=≈]'
+                r'|(?:\$|€)\s?\d+[\d.,]*\s*(?:/|за\s|в\s)\s*(?:мес|месяц|год|year|month|место|пользоват)'
+                r'|(?:\$|€)\s?\d+[\d.,]*\s*/\s*(?:мес|мес\.|month|year)',
+                re.IGNORECASE)
+
+            # Пустой meta_title — долг не всегда. Заголовком страницы служит
+            # meta_title, а при пустом — название товара, к которому SeoHead
+            # дописывает бренд (src/components/SeoHead.astro). У длинных имён
+            # линеек ManageEngine («ManageEngine Mobile Device Manager Plus
+            # Professional, 50 мобильных устройств и одно рабочее место
+            # администратора») короткого заголовка не существует: обрезка по
+            # словам убивает различитель объёма и создаёт дубли — ровно то, что
+            # прогон 01.09.2026 и сделал, а построитель с тех пор оставляет поле
+            # пустым намеренно (#281). Такие карточки считаются отдельно и
+            # долгом не числятся (решение руководителя 04.09.2026).
+            BRAND_SUFFIX = ' — BIZSoft'
+
+            def title_fits(r):
+                """Помещается ли заголовок из названия товара в 60 символов."""
+                return len(g(r, 'name')) + len(BRAND_SUFFIX) <= 60
+
             groups = {
                 'meta_title: старое написание бренда «BizSoft»': lambda r: 'BizSoft' in g(r, 'meta_title'),
-                'meta_title: пусто': lambda r: not g(r, 'meta_title'),
+                'meta_title: пусто, хотя короткий заголовок возможен':
+                    lambda r: not g(r, 'meta_title') and title_fits(r),
                 'meta_title: длиннее 60 символов': lambda r: len(g(r, 'meta_title')) > 60,
                 'meta_description: обрыв фразы (символ …)': lambda r: '…' in g(r, 'meta_description'),
                 'meta_description: пусто': lambda r: not g(r, 'meta_description'),
@@ -76,6 +112,14 @@ jobs:
                 'description: пусто': lambda r: not g(r, 'description'),
                 'description: короче 500 символов': lambda r: 0 < len(g(r, 'description')) < 500,
                 'short_description: пусто': lambda r: not g(r, 'short_description'),
+                # Текст с ценой, которая устаревает сама по себе. Рублёвая цена
+                # считается штатно (курс ЦБ × коэффициент, ежедневная переоценка),
+                # поэтому ни курс, ни цена «за месяц в долларах» в описании жить
+                # не должны: через неделю они расходятся с витриной. Пороги
+                # лицензирования вендора («доход до $100K») сюда не попадают —
+                # проверяются только суммы с периодом и явные курсы.
+                'текст: устаревающая цена или курс валюты': lambda r: bool(STALE_MONEY.search(
+                    ' '.join(g(r, f) for f in ('short_description', 'description', 'meta_description')))),
             }
             # JB-плагины и личные лицензии не индексируются — считаем отдельно
             def noindex(r):
@@ -87,17 +131,22 @@ jobs:
                 s = (r.get('sku') or '').upper()
                 return (s.startswith('JB-PLG-')
                         or (s.startswith('JB-') and s.endswith('-IND'))
-                        or s.endswith('-RENEWAL'))
+                        or s.endswith('-RENEWAL')
+                        or re.search(r'-CREDITS-\d+$', s) is not None)
             idx = [r for r in rows if not noindex(r)]
-            print(f'из них индексируемых (без JB-PLG-*, *-IND и *-RENEWAL): {len(idx)}\n')
+            print(f'из них индексируемых (без JB-PLG-*, *-IND, *-RENEWAL и пакетов кредитов): {len(idx)}\n')
+            long_name = [r for r in idx if not g(r, 'meta_title') and not title_fits(r)]
+            print(f'штатно без meta_title (название длиннее {60 - len(BRAND_SUFFIX)} символов, '
+                  f'заголовком служит полное название): {len(long_name)}')
             print('== Проблемы (только по индексируемым) ==')
             for name, test in groups.items():
                 hits = [r for r in idx if test(r)]
                 print(f'{name}: {len(hits)}')
-                for r in hits[:6]:
+                shown = hits if full else hits[:6]
+                for r in shown:
                     print(f"   - {r['slug']}")
-                if len(hits) > 6:
-                    print(f'   … ещё {len(hits) - 6}')
+                if len(hits) > len(shown):
+                    print(f'   … ещё {len(hits) - len(shown)} (full=true печатает все)')
             # Одинаковые title/description на разных карточках Яндекс считает
             # дублями и снимает страницы с индексации. Заголовок страницы —
             # это meta_title, а при пустом meta_title — название товара
@@ -146,16 +195,21 @@ jobs:
                 print(f'\ndescription: медиана {mid} симв., минимум {lens[0]}, максимум {lens[-1]}')
             PYEOF
       - name: Save to file
+        if: always()
         run: |
           cat > /tmp/ops-audit.txt <<'OPS_AUDIT_EOF'
           ${{ steps.run.outputs.stdout }}
           OPS_AUDIT_EOF
+      # Локальному action нужен репозиторий в рабочей копии. if: always() —
+      # потому что шаг журнала тоже always(): без этого при падении основного
+      # шага checkout пропускается, и запись в журнал снова не проходит.
+      - name: Checkout for journal action
+        if: always()
+        uses: actions/checkout@v4
       - name: Post to issue
-        uses: actions/github-script@v7
+        if: always()
+        uses: ./.github/actions/journal-post
         with:
-          script: |
-            const out = require('fs').readFileSync('/tmp/ops-audit.txt', 'utf8').slice(0, 60000);
-            await github.rest.issues.createComment({
-              owner: context.repo.owner, repo: context.repo.repo, issue_number: 22,
-              body: '### ops-content-audit\n\n```\n' + out + '\n```',
-            });
+          title: "ops-content-audit"
+          outcome: ${{ steps.run.outcome }}
+          body-file: /tmp/ops-audit.txt

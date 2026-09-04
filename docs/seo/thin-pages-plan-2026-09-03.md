@@ -126,6 +126,27 @@ vegas-suite-perp и три подписочные карточки ManageEngine 
 `/vendors/sketchup` — при спросе 131 944 показа в месяц это первый кандидат
 на доработку лендинга.
 
+Сделано (PR группы F, 03.09.2026):
+
+- разделы `collaboration`, `design`, `monitoring` — блок `content` в
+  `data/catalog/categories.json` (seo_text «Как выбрать», свои `faqs`,
+  `meta_title`, `meta_description`); переносит `ops-categories`
+  (`apply=false` → `apply=true`), витрина выводит seo_text под списком
+  товаров (`src/lib/text-blocks.ts`), а не вместо лида;
+- `/catalog/ai/image` — `guide`, `faq`, `metaTitle`, `metaDescription` в
+  `src/data/ai-hub.ts`, шаблон `[sub].astro` их рендерит;
+- решения — поле `sections` («Как выбрать») в `src/data/solutions.ts`,
+  `ai-dlya-marketinga` переписана целиком, `ai-servisy-dlya-biznesa`
+  дополнена; связанные разделы ведут на основные адреса, а не на слитые
+  дубли с 301;
+- `/vendors/sketchup` — контент приведён к прайсу: сравнение и сценарии по
+  Go / Pro / Pro Scan / Pro Civil Contractor (Studio из прайса снят
+  19.08.2026, а лендинг всё ещё сравнивал с ним), FAQ 9 вопросов, включая
+  бесплатную и образовательную версии.
+
+После мержа: деплой → `ops-categories` → переобход семи URL
+(`ops-yandex-recrawl`) → контроль статуса через сенсор покрытия.
+
 ### G. Уже сняты с витрины — действий нет
 
 ai-image-business, corporate-chat-team, dscrpt-hobbyist, mj-basic,
@@ -136,6 +157,35 @@ recraft-basic: в свежем sitemap их нет, запись об исклю
 уже нет (openai-plus, openai-pro, openai-api, ai-text-team, int-collab-miro,
 ni-ozone-adv и другие) — убедиться, что они отдают 301 через `old_slugs`,
 а не 404.
+
+### H. Разделы каталога из выборки событий поиска — контент разделов
+
+Добавлено 03.09.2026 по решению руководителя. Первый прогон сбора с
+выборкой событий поиска Вебмастера (INDEX-001, PR #341) назвал причину у
+42 из 50 исключений: все — «малоценная или маловостребованная». Среди них
+восемь разделов каталога, которых в группе F не было: `/catalog/architecture`,
+`/catalog/endpoint`, `/catalog/iam`, `/catalog/media`, `/catalog/office`,
+`/catalog/pm`, `/catalog/system`, `/catalog/vcs`. Механизм тот же, что у F:
+intro-текст раздела в `data/catalog/categories.json` → `ops-categories`.
+У части разделов intro в плане уже есть (architecture) — сначала сверить,
+доехал ли текст до прода и показывается ли он на странице раздела.
+
+### I. Карточки тарифов Business — партия уникальных текстов
+
+Тем же срезом сняты восемь карточек тарифов Business: `bitdefender-gravityzone-business`,
+`cloudflare-business`, `cursor-business`, `cursor-business-premium`,
+`docker-business`, `parallels-desktop-business`, `prfrc-p4-cloud`,
+`sentry-business`. У каждой есть соседний тариф того же продукта с почти
+тем же описанием (Cursor Business против Cursor Business Premium, Docker
+Business против Docker Team). Механизм — как у группы E: различитель
+тарифа в `name`/`meta_title`/`short_description`, партия через
+`ops-apply-descriptions` после визы; noindex не ставится — это
+коммерческие карточки с собственным интентом.
+
+Полный перечень снятых адресов с датами — в снимке дня
+(`yandex.indexation.excluded_samples.unexpected`, ветка `seo-data`); в
+отчёте это сбой дня `INDEXATION_COMMERCIAL_EXCLUDED`, пока страницы не
+разобраны.
 
 ## Что даёт
 

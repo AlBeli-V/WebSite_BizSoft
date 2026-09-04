@@ -1,37 +1,11 @@
 ---
 // Фирменные шрифты: Raleway (текст) + Prosto One (заголовки/цифры).
-// Оба — SIL OFL 1.1 (полностью бесплатные), self-host с нашего сервера
-// (woff2 в /_astro с вечным кэшем) — быстрее из РФ, без стороннего CDN.
-// Подключаем только нужные сайту наборы символов: кириллица, латиница и
-// latin-ext (в нём живёт знак рубля U+20BD). Полные файлы @fontsource везли
-// ещё cyrillic-ext и vietnamese — 30 правил @font-face вместо 18, из них
-// ~16 КБ CSS, которые не использует ни одна страница (Lighthouse,
-// unused-css-rules). Сами woff2 грузятся по факту нужного диапазона, так
-// что убраны именно неиспользуемые описания, а не шрифты.
-import '@fontsource/raleway/cyrillic-400.css';
-import '@fontsource/raleway/latin-400.css';
-import '@fontsource/raleway/latin-ext-400.css';
-import '@fontsource/raleway/cyrillic-500.css';
-import '@fontsource/raleway/latin-500.css';
-import '@fontsource/raleway/latin-ext-500.css';
-import '@fontsource/raleway/cyrillic-600.css';
-import '@fontsource/raleway/latin-600.css';
-import '@fontsource/raleway/latin-ext-600.css';
-import '@fontsource/raleway/cyrillic-700.css';
-import '@fontsource/raleway/latin-700.css';
-import '@fontsource/raleway/latin-ext-700.css';
-import '@fontsource/raleway/cyrillic-800.css';
-import '@fontsource/raleway/latin-800.css';
-import '@fontsource/raleway/latin-ext-800.css';
-import '@fontsource/prosto-one/cyrillic-400.css';
-import '@fontsource/prosto-one/latin-400.css';
-import '@fontsource/prosto-one/latin-ext-400.css';
-// Preload критичных начертаний: шрифт готов к первой отрисовке даже при
-// холодном кэше (инкогнито) — страница сразу в фирменной типографике.
-import ralewayCyr400 from '@fontsource/raleway/files/raleway-cyrillic-400-normal.woff2?url';
-import ralewayCyr700 from '@fontsource/raleway/files/raleway-cyrillic-700-normal.woff2?url';
-import ralewayLat400 from '@fontsource/raleway/files/raleway-latin-400-normal.woff2?url';
-import prostoCyr400 from '@fontsource/prosto-one/files/prosto-one-cyrillic-400-normal.woff2?url';
+// Оба — SIL OFL 1.1, self-host с нашего сервера (woff2 в /_astro с вечным
+// кэшем) — быстрее из РФ, без стороннего CDN. Правила @font-face — в
+// global.css; здесь только preload двух файлов, чтобы шрифт был готов к
+// первой отрисовке даже при холодном кэше (инкогнито).
+import ralewayVar from '../assets/fonts/raleway-var.woff2?url';
+import prostoOne from '../assets/fonts/prosto-one.woff2?url';
 import '../styles/global.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
@@ -61,19 +35,13 @@ const { title, description, canonical, ogImage, noindex, type, keywords } = Astr
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#ffffff" />
-    <!-- Фавикон — фирменный знак из брендового пакета (без перерисовки) -->
-    <link rel="icon" type="image/png" href="/brand/bizsoft-favicon.png" />
-    <link rel="apple-touch-icon" href="/brand/bizsoft-favicon.png" />
-    <link rel="preload" href={ralewayCyr400} as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href={ralewayCyr700} as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href={ralewayLat400} as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href={prostoCyr400} as="font" type="font/woff2" crossorigin />
-    <noscript>
-      <style>
-        /* Без JS секции с плавным появлением остаются видимыми */
-        .reveal { opacity: 1 !important; transform: none !important; }
-      </style>
-    </noscript>
+    <!-- Фавикон — фирменный знак из брендового пакета (без перерисовки);
+         180 px, палитровый PNG 9 КБ вместо 256 px / 35 КБ на каждой странице.
+         Оригинал 256 px остаётся в public/brand/bizsoft-favicon.png. -->
+    <link rel="icon" type="image/png" href="/brand/bizsoft-favicon-180.png" />
+    <link rel="apple-touch-icon" href="/brand/bizsoft-favicon-180.png" />
+    <link rel="preload" href={ralewayVar} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={prostoOne} as="font" type="font/woff2" crossorigin />
     <SeoHead title={title} description={description} canonical={canonical} ogImage={ogImage} noindex={noindex} type={type} keywords={keywords} />
     <JsonLd schema={[organizationSchema(), websiteSchema()]} />
   </head>
@@ -87,6 +55,32 @@ const { title, description, canonical, ogImage, noindex, type, keywords } = Astr
     <Analytics />
     <CookieNotice />
     {WEBMCP_ENABLED && <WebMCP />}
+
+    <!-- Плавное появление получают только секции ниже первого экрана.
+
+         Скрипт синхронный и стоит в конце body: он размечает страницу до
+         первой отрисовки. Если на очень медленной сети он всё же опоздает,
+         хуже не станет — секции ниже сгиба просто появятся без анимации, а
+         видимый контент не сдвинется: его этот скрипт не трогает.
+
+         Обратный порядок (скрыть всё, потом вернуть первый экран) стоил
+         сдвига раскладки 0,076 и потерянного кандидата LCP в замере
+         PageSpeed 04.09.2026: у Google документ едет 1,1 с, скрипт приходил
+         после отрисовки, и возврат transform двигал видимый контент. -->
+    <script is:inline>
+      (function () {
+        var els = document.querySelectorAll('.reveal');
+        var vh = window.innerHeight || document.documentElement.clientHeight;
+        var below = [];
+        // Сначала все замеры, потом все записи классов: чередование чтения
+        // геометрии и правки DOM заставляет браузер пересчитывать раскладку
+        // на каждом элементе.
+        for (var i = 0; i < els.length; i++) {
+          if (els[i].getBoundingClientRect().top >= vh) below.push(els[i]);
+        }
+        for (var j = 0; j < below.length; j++) below[j].classList.add('is-below');
+      })();
+    </script>
 
     <style is:global>
       .skip-link {
@@ -125,9 +119,16 @@ const { title, description, canonical, ogImage, noindex, type, keywords } = Astr
         if (name) trackGoal(name, { page_url: location.pathname });
       });
 
-      // Плавное появление секций (уважает prefers-reduced-motion через CSS)
-      const reveal = () => {
-        const els = document.querySelectorAll('.reveal:not(.is-visible)');
+      // Плавное появление секций (уважает prefers-reduced-motion через CSS).
+      // Что скрыто, решил синхронный скрипт в конце body — он пометил классом
+      // is-below только секции ниже первого экрана. Здесь остаётся наблюдатель,
+      // который показывает их при прокрутке.
+      // Запуск — после первой отрисовки (rAF + setTimeout): чтение геометрии
+      // из модульного скрипта до раскладки браузера заставляло считать
+      // раскладку всей страницы синхронно (длинная задача в отчёте PageSpeed).
+      const afterPaint = (fn: () => void) => requestAnimationFrame(() => setTimeout(fn, 0));
+      const reveal = () => afterPaint(() => {
+        const els = document.querySelectorAll('.reveal.is-below:not(.is-visible)');
         if (!('IntersectionObserver' in window) || els.length === 0) {
           els.forEach((el) => el.classList.add('is-visible'));
           return;
@@ -144,7 +145,7 @@ const { title, description, canonical, ogImage, noindex, type, keywords } = Astr
           { threshold: 0.12 },
         );
         els.forEach((el) => io.observe(el));
-      };
+      });
       reveal();
       document.addEventListener('astro:after-swap', reveal);
 

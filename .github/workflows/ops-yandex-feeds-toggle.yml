@@ -20,6 +20,9 @@ on:
         default: ''
 
 permissions:
+  # checkout читает репозиторий токеном GITHUB_TOKEN: при явном permissions
+  # без contents раннер получает «Repository not found» (прогон #204 ops-probe).
+  contents: read
   issues: write
 
 jobs:
@@ -32,6 +35,11 @@ jobs:
             echo "Запуск разрешён только с ветки main. Текущий ref: ${{ github.ref_name }}"
             exit 1
           fi
+
+      # Локальный action journal-post лежит в репозитории — без checkout
+      # раннер его не находит, и запись в журнал падает (см. прогон #41
+      # ops-yandex-recrawl 03.09.2026).
+      - uses: actions/checkout@v4
 
       - name: Toggle feeds on server
         id: run
@@ -66,13 +74,19 @@ jobs:
               CODE=$(curl -s -o /dev/null -w '%{http_code}' --max-time 30 "https://biz-soft.pro/$p")
               DIS=$(curl -sI --max-time 30 "https://biz-soft.pro/$p" | grep -i '^x-feed-status:' | tr -d '\r' || true)
               if [ "$CODE" = "200" ]; then
-                OFFERS=$(curl -s --max-time 60 "https://biz-soft.pro/$p" | grep -c '<offer ' || true)
+                OFFERS=$(curl -sf --max-time 60 "https://biz-soft.pro/$p" | grep -c '<offer ' || true)
                 echo "  /$p → HTTP $CODE, ОТКРЫТ, офферов: $OFFERS"
               else
                 echo "  /$p → HTTP $CODE ${DIS:+($DIS)}"
               fi
             done
 
+      # Локальному action нужен репозиторий в рабочей копии. if: always() —
+      # потому что шаг журнала тоже always(): без этого при падении основного
+      # шага checkout пропускается, и запись в журнал снова не проходит.
+      - name: Checkout for journal action
+        if: always()
+        uses: actions/checkout@v4
       - name: Post to issue
         if: always()
         uses: ./.github/actions/journal-post

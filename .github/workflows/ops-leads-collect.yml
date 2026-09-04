@@ -47,6 +47,15 @@ permissions:
 jobs:
   collect:
     runs-on: ubuntu-latest
+    # workflow_run срабатывает на любое завершение seo-data-collect, включая
+    # его прогоны по push в main. Такой push — это мерж, и в ту же минуту
+    # deploy.yml перезапускает прод: 03.09.2026 два срабатывания (08:53 и
+    # 12:00 UTC) упали на HTTP 500 от Directus во время деплоя. Выгрузка
+    # заявок по цепочке идёт только за прогонами по расписанию и ручными;
+    # push-прогоны сбора выгрузку не запускают.
+    if: >-
+      github.event_name != 'workflow_run' ||
+      github.event.workflow_run.event != 'push'
     steps:
       - name: Guard - only default branch
         run: |

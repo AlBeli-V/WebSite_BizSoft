@@ -30,7 +30,7 @@ docker image prune -f 2>&1 | tail -1 || true
 # резерва в 2 ГБ (самое свежее остаётся), вывод не подавляется — сбой чистки
 # виден в логе деплоя, а не только по заполненному диску.
 echo "→ Очистка build-кэша (оставляем до 2 ГБ)…"
-docker builder prune -af --keep-storage=2GB 2>&1 | tail -2 || true
+docker builder prune -af --reserved-space=2GB 2>&1 | tail -2 || true
 
 echo "→ Статус:"
 docker compose ps astro

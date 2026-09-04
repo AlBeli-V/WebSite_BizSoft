@@ -47,6 +47,11 @@ jobs:
             echo "Запуск разрешён только с ветки main. Текущий ref: ${{ github.ref_name }}"
             exit 1
           fi
+      # Локальный action journal-post лежит в репозитории — без checkout
+      # раннер его не находит, и запись в журнал падает (см. прогон #41
+      # ops-yandex-recrawl 03.09.2026).
+      - uses: actions/checkout@v4
+
       - name: Check or rotate
         id: run
         uses: appleboy/ssh-action@v1
@@ -162,6 +167,12 @@ jobs:
             echo "Забрать: ssh <сервер> \"sudo cat /root/admin-token.txt\""
             echo "ВНИМАНИЕ: старый токен больше не действует — обновите его в браузере на /admin/prices и /admin/leads."
 
+      # Локальному action нужен репозиторий в рабочей копии. if: always() —
+      # потому что шаг журнала тоже always(): без этого при падении основного
+      # шага checkout пропускается, и запись в журнал снова не проходит.
+      - name: Checkout for journal action
+        if: always()
+        uses: actions/checkout@v4
       - name: Post results to journal (issue #22)
         if: always()
         uses: ./.github/actions/journal-post

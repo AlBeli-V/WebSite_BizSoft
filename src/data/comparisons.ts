@@ -38,11 +38,11 @@ export const comparisons: Comparison[] = [
     metaTitle: 'ChatGPT Business vs Claude Team: что выбрать бизнесу',
     metaDescription: 'Сравнение ChatGPT Business и Claude Team для команд: тарифы, годовая цена, безопасность, места. Оформление на юрлицо по счёту, закрывающие через ЭДО.',
     h1: 'ChatGPT Business vs Claude Team',
-    summaryAnswer: 'ChatGPT Business — сильнее по экосистеме (GPTs, Codex, генерация изображений и Deep Research) и стартует от 2 мест; Claude Team — глубже в работе с длинным контекстом, анализе документов и разработке через Claude Code, но требует от 5 мест. Данные не используются для обучения; актуальные рублёвые цены — в карточках каталога BIZSoft. Обе подписки BIZSoft оформляет на юрлицо по счёту с закрывающими через ЭДО.',
+    summaryAnswer: 'ChatGPT Business — сильнее по экосистеме (GPTs, Codex, генерация изображений и Deep Research) и стартует от 2 мест; Claude Team — глубже в работе с длинным контекстом, анализе документов и разработке через Claude Code, и тоже стартует от 2 мест. Данные не используются для обучения; актуальные рублёвые цены — в карточках каталога BIZSoft. Обе подписки BIZSoft оформляет на юрлицо по счёту с закрывающими через ЭДО.',
     a: { name: 'ChatGPT Business', href: `${PROC}/chatgpt-business`, tagline: 'AI-ассистент OpenAI для команд с широкой экосистемой инструментов.', bestFor: ['Команды, которым нужны GPTs, Codex и генерация изображений', 'Быстрый старт от 2 мест', 'Маркетинг, поддержка, продуктовые команды'] },
     b: { name: 'Claude Team', href: `${PROC}/anthropic-team`, tagline: 'AI-ассистент Anthropic с упором на длинный контекст и работу с кодом.', bestFor: ['Работа с большими документами и длинным контекстом', 'Разработка через Claude Code', 'Аналитика, юристы, R&D'] },
     rows: [
-      { label: 'Минимум мест', a: 'от 2', b: 'от 5' },
+      { label: 'Минимум мест', a: 'от 2', b: 'от 2' },
       { label: 'Данные для обучения моделей', a: 'Не используются', b: 'Не используются' },
       { label: 'Сильные стороны', a: 'GPTs, Codex, Deep Research, генерация изображений', b: 'Длинный контекст, анализ документов, Claude Code' },
       { label: 'SSO', a: 'Только в Enterprise', b: 'Только в Enterprise' },
@@ -61,7 +61,7 @@ export const comparisons: Comparison[] = [
     metaTitle: 'Claude Team vs Google Gemini for Workspace: сравнение',
     metaDescription: 'Claude Team или Gemini for Workspace для бизнеса: контекст, интеграция с офисом, безопасность, цена за год. Оформление на юрлицо по счёту.',
     h1: 'Claude Team vs Google Gemini for Workspace',
-    summaryAnswer: 'Claude Team — самостоятельный AI-ассистент с сильной работой по длинному контексту и коду; Gemini for Workspace встроен в Gmail, Docs, Sheets и Meet и выгоден, если компания уже работает в Google Workspace. Claude Team стартует от 5 мест; актуальные рублёвые цены — в карточках каталога BIZSoft. Обе оформляются на юрлицо по счёту через BIZSoft.',
+    summaryAnswer: 'Claude Team — самостоятельный AI-ассистент с сильной работой по длинному контексту и коду; Gemini for Workspace встроен в Gmail, Docs, Sheets и Meet и выгоден, если компания уже работает в Google Workspace. Claude Team стартует от 2 мест; актуальные рублёвые цены — в карточках каталога BIZSoft. Обе оформляются на юрлицо по счёту через BIZSoft.',
     a: { name: 'Claude Team', href: `${PROC}/anthropic-team`, tagline: 'Отдельный AI-ассистент Anthropic для команд.', bestFor: ['Длинный контекст и анализ документов', 'Разработка через Claude Code', 'Команды, которым не нужен привязанный офис'] },
     b: { name: 'Gemini for Workspace', href: `${PROC}/gemini-workspace-standard`, tagline: 'AI внутри Google Workspace (Gmail, Docs, Meet).', bestFor: ['Компании на Google Workspace', 'AI прямо в почте и документах', 'Единый админ и защита данных'] },
     rows: [
