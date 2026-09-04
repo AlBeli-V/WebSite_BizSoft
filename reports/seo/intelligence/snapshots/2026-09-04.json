@@ -1,7 +1,7 @@
 {
  "schema_version": "2.2.0",
  "report_date": "2026-09-04",
- "generated_at": "2026-09-04T06:35:42+00:00",
+ "generated_at": "2026-09-04T17:21:52+00:00",
  "reporting_timezone": "Europe/Moscow (UTC+3)",
  "declared_goals": [
   "add_to_cart",
@@ -14767,19 +14767,18 @@
     "notes": "key events размечены 2026-08-18 — сравнение конверсий внутри периода некорректно"
    },
    "metric_name": "sessions (GA4)",
-   "sessions_total": 473,
+   "sessions_total": 486,
    "organic_sessions": 57,
    "organic_users": 33,
    "organic_key_events": 12,
    "key_events_marked_at": "2026-08-18",
    "channels": {
-    "Paid Search": 195,
-    "Direct": 143,
+    "Paid Search": 202,
+    "Direct": 168,
     "Organic Search": 57,
-    "Paid Other": 31,
+    "Paid Other": 33,
     "Referral": 25,
-    "Unassigned": 19,
-    "Cross-network": 3
+    "Unassigned": 1
    },
    "organic_sources": {
     "yandex.ru": 39,
@@ -14805,11 +14804,6 @@
     },
     {
      "entity_id": "/product/freepik-premium-plus",
-     "sessions": 2,
-     "key_events": 0
-    },
-    {
-     "entity_id": "/product/unity-pro",
      "sessions": 2,
      "key_events": 0
     },
@@ -14869,6 +14863,11 @@
      "key_events": 0
     },
     {
+     "entity_id": "/product/unity-pro",
+     "sessions": 1,
+     "key_events": 0
+    },
+    {
      "entity_id": "/vendors/adobe",
      "sessions": 1,
      "key_events": 0
@@ -14909,6 +14908,11 @@
      "key_events": 0
     },
     {
+     "entity_id": "/vendors/unity",
+     "sessions": 1,
+     "key_events": 0
+    },
+    {
      "entity_id": "/vendors/vegas",
      "sessions": 1,
      "key_events": 0
@@ -14924,7 +14928,7 @@
    "missing_dates": [],
    "lag_days": 3,
    "window_days": 7,
-   "updated_at": "2026-09-04T06:16:51+00:00",
+   "updated_at": "2026-09-04T10:02:38+00:00",
    "windows": {
     "impressions": {
      "current": {
@@ -14996,7 +15000,7 @@
    "missing_dates": [],
    "lag_days": 3,
    "window_days": 7,
-   "updated_at": "2026-09-04T06:16:51+00:00",
+   "updated_at": "2026-09-04T10:02:39+00:00",
    "windows": {
     "impressions": {
      "current": {
@@ -15068,7 +15072,7 @@
    "missing_dates": [],
    "lag_days": 1,
    "window_days": 7,
-   "updated_at": "2026-09-04T06:16:53+00:00",
+   "updated_at": "2026-09-04T10:02:40+00:00",
    "windows": {
     "visits_organic": {
      "current": {
@@ -15171,7 +15175,7 @@
    "missing_dates": [],
    "lag_days": 1,
    "window_days": 7,
-   "updated_at": "2026-09-04T06:16:53+00:00",
+   "updated_at": "2026-09-04T10:02:41+00:00",
    "windows": {
     "sessions_organic": {
      "current": {
@@ -15879,6 +15883,35 @@
    "owner": null,
    "result": null,
    "source": "решение руководителя 03.09.2026 (кнопка в чате): второй кластер тиража выбран по спросу из четырёх свободных кандидатов — HeyGen, Recraft, Canva, Notion"
+  },
+  {
+   "id": "cluster-recraft",
+   "title": "cluster-recraft",
+   "hypothesis": "Третий тираж приёма, подтверждённого CONTENT-001. В отличие от CorelDRAW и HeyGen, здесь ядро спроса — не «оплата вендора», а «тарифы» и «без зарубежной карты»: статья отвечает именно на эти формулировки, поэтому проверяется не только сам приём, но и его переносимость на другой тип интента.",
+   "treatment_urls": [
+    "/blog/kak-kupit-recraft-dlya-yurlica",
+    "/vendors/recraft",
+    "/compare/midjourney-vs-recraft",
+    "/product/recraft-advanced",
+    "/product/recraft-pro",
+    "/product/recraft-team",
+    "/product/recraft-ent"
+   ],
+   "control_urls": "остальные кластеры вендоров без статьи; CONTENT-003 (CorelDRAW) и CONTENT-005 (HeyGen) — тот же приём на других кластерах, считаются раздельно",
+   "deployment_date": "2026-09-04",
+   "measurement_start_date": null,
+   "status": "closed",
+   "primary_metric": "рост показов кластера Recraft относительно базовых 180 показов за 28 дней и вход статьи /blog/kak-kupit-recraft-dlya-yurlica в топ-10 Яндекса к 18.09.2026",
+   "guardrail_metrics": [
+    "impressions",
+    "average_position",
+    "organic_sessions"
+   ],
+   "minimum_exposure": "не задан — требуется определить до объявления результата",
+   "review_date": null,
+   "owner": null,
+   "result": null,
+   "source": "решение руководителя 04.09.2026 (кнопка в чате): третий кластер тиража — Recraft, второй по приоритету в разборе свободных кандидатов от 03.09"
   }
  ],
  "market_demand": {
@@ -15905,8 +15938,8 @@
   "total_commercial_demand": 287895,
   "coverage_levels": {
    "page": 0.8785,
-   "indexed": 0.3836,
-   "top10": 0.1159,
+   "indexed": 0.3882,
+   "top10": 0.2016,
    "clicks": 0.003,
    "conversion_measured": null,
    "qualified_leads": null
@@ -15929,6 +15962,14 @@
     "gap_title": "Страница есть, в поиске не наблюдалась"
    },
    {
+    "cluster": "anthropic",
+    "page": "/vendors/anthropic",
+    "commercial_impressions": 27231,
+    "seed_impressions": null,
+    "gap": "GAP-D",
+    "gap_title": "Позиция хорошая, показы есть, переходов мало"
+   },
+   {
     "cluster": "autodesk",
     "page": "/vendors/autodesk",
     "commercial_impressions": 7397,
@@ -15943,18 +15984,10 @@
     "seed_impressions": null,
     "gap": "GAP-N",
     "gap_title": "Страница есть, в поиске не наблюдалась"
-   },
-   {
-    "cluster": "capcut",
-    "page": "/vendors/capcut",
-    "commercial_impressions": 7103,
-    "seed_impressions": null,
-    "gap": "GAP-N",
-    "gap_title": "Страница есть, в поиске не наблюдалась"
    }
   ],
-  "gap_cards": 5,
-  "gap_phrases": 25,
+  "gap_cards": 4,
+  "gap_phrases": 20,
   "gaps": {
    "google": [
     {
@@ -16043,28 +16076,6 @@
      "phrase": "chatgpt plus купить в россии",
      "impressions": 429
     }
-   ],
-   "capcut": [
-    {
-     "phrase": "capcut подписка",
-     "impressions": 2442
-    },
-    {
-     "phrase": "capcut купить",
-     "impressions": 1112
-    },
-    {
-     "phrase": "capcut в россии",
-     "impressions": 822
-    },
-    {
-     "phrase": "capcut купить подписку",
-     "impressions": 612
-    },
-    {
-     "phrase": "как оплатить capcut",
-     "impressions": 520
-    }
    ]
   },
   "discovery": [],
@@ -16075,7 +16086,7 @@
   "connected": true,
   "data_date": "2026-09-04",
   "stale": false,
-  "collected_at": "2026-09-04T06:20:06+00:00",
+  "collected_at": "2026-09-04T10:18:48+00:00",
   "qualified_leads": 0,
   "leads_week": 4,
   "amount_day": 0,
