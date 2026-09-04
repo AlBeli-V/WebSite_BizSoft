@@ -12,15 +12,15 @@
       "как оплатить depositphotos без зарубежной карты"
     ],
     "attack_ids": [
-      "ATT-018",
-      "ATT-020",
-      "ATT-046",
+      "ATT-019",
+      "ATT-021",
+      "ATT-047",
       "ATT-054",
       "ATT-068"
     ],
     "queries_count": 5,
     "demand_by_source": {
-      "webmaster": 128
+      "webmaster": 123
     },
     "demand_queries_by_source": {
       "webmaster": 5
@@ -31,7 +31,7 @@
     "demand_measured_queries": 5,
     "demand_coverage": "5/5",
     "demand_coverage_ratio": 1.0,
-    "demand_index": 0.0427,
+    "demand_index": 0.0411,
     "position_best": 5,
     "position_worst": 10,
     "rivals": [
@@ -40,7 +40,7 @@
     ],
     "opportunity_best": 54,
     "confidence": "MEDIUM",
-    "potential_index": 0.0427,
+    "potential_index": 0.0411,
     "potential_label": "высокий",
     "potential_note": "спрос измерен по всем 5 запросам пакета",
     "traffic_upside": null,
@@ -105,7 +105,16 @@
     ],
     "системные_слова": [],
     "проверено_по": "проверены редакторские tagline и about из src/data/vendors.ts; текст типового лендинга (заголовки и блоки шаблона); bespoke-контент scripts/content/depositphotos.json (лид, сравнение тарифов, матрица выбора, сценарии, свой FAQ); подмена FAQ экспериментом со сниппетами учтена; карточки товаров приходят из Directus и в проверку не входят",
-    "источник_текста": "src/data/vendors.ts"
+    "источник_текста": "src/data/vendors.ts",
+    "занятость": {
+      "степень": "занята",
+      "эксперимент": "snippets-5-vendors",
+      "заявка": "SEO-EXP-001",
+      "начат": "2026-08-19",
+      "до": "2026-09-16",
+      "почему": "страница входит в действующий эксперимент базового SEO-контура «snippets-5-vendors» (начат 2026-08-19): вторая правка в том же окне лишит оценки оба эксперимента",
+      "ограничение": "CTR кластеров Canva/Depositphotos/CorelDRAW/HeyGen/Marmoset в Яндекс.Вебмастере ≥2% через 7 дней (26.08.2026), ≥3% через 14 дней (02.09.2026)"
+    }
   },
   {
     "package_id": "WP-04",
@@ -119,14 +128,14 @@
       "сервисы оплаты coreldraw из россии"
     ],
     "attack_ids": [
-      "ATT-019",
+      "ATT-017",
       "ATT-036",
       "ATT-041",
-      "ATT-047"
+      "ATT-048"
     ],
     "queries_count": 4,
     "demand_by_source": {
-      "webmaster": 99
+      "webmaster": 106
     },
     "demand_queries_by_source": {
       "webmaster": 4
@@ -137,16 +146,16 @@
     "demand_measured_queries": 4,
     "demand_coverage": "4/4",
     "demand_coverage_ratio": 1.0,
-    "demand_index": 0.0299,
+    "demand_index": 0.032,
     "position_best": 6,
     "position_worst": 8,
     "rivals": [
       "pipl.io",
       "platipomiru.com"
     ],
-    "opportunity_best": 53,
+    "opportunity_best": 54,
     "confidence": "MEDIUM",
-    "potential_index": 0.0299,
+    "potential_index": 0.032,
     "potential_label": "высокий",
     "potential_note": "спрос измерен по всем 4 запросам пакета",
     "traffic_upside": null,
@@ -231,7 +240,7 @@
       "эксперимент": "cluster-coreldraw",
       "заявка": "CONTENT-003",
       "начат": "2026-09-02",
-      "до": "2026-09-16",
+      "до": "2026-09-30",
       "почему": "страница входит в действующий эксперимент базового SEO-контура «cluster-coreldraw» (начат 2026-09-02): вторая правка в том же окне лишит оценки оба эксперимента",
       "ограничение": "рост показов кластера CorelDRAW относительно базовых 145 показов за 13 дней и вход статьи /blog/kak-oplatit-coreldraw-dlya-yurlica в топ-10 Яндекса к 16.09.2026"
     }
@@ -246,12 +255,12 @@
       "claude team купить"
     ],
     "attack_ids": [
-      "ATT-009",
-      "ATT-010"
+      "ATT-008",
+      "ATT-009"
     ],
     "queries_count": 2,
     "demand_by_source": {
-      "webmaster": 36,
+      "webmaster": 41,
       "wordstat": 63
     },
     "demand_queries_by_source": {
@@ -265,22 +274,22 @@
     "demand_measured_queries": 2,
     "demand_coverage": "2/2",
     "demand_coverage_ratio": 1.0,
-    "demand_index": 0.0121,
+    "demand_index": 0.0134,
     "position_best": 5,
     "position_worst": 5,
     "rivals": [
       "raketapay.ru",
       "softmagazin.ru"
     ],
-    "opportunity_best": 59,
+    "opportunity_best": 60,
     "confidence": "MEDIUM",
-    "potential_index": 0.0121,
+    "potential_index": 0.0134,
     "potential_label": "высокий",
     "potential_note": "спрос измерен по всем 2 запросам пакета",
     "traffic_upside": null,
     "upside_note": "перевод в переходы невозможен: спрос группы измерен разными шкалами (webmaster, wordstat) — складывать их и называть результат переходами нельзя",
     "effort": "S",
-    "action": "Проверить в Directus, как раскрыты на карточке 1 запрос",
+    "action": "Пересобрать заголовок страницы под ведущий запрос пакета",
     "checklist": [
       "Блок «Оплата по счёту для юридических лиц»: договор, счёт, НДС, закрывающие документы, ЭДО — на первом экране, не в подвале",
       "FAQ из вопросов покупателя-юрлица: как оплатить с расчётного счёта, какие документы придут, сроки поставки лицензии",
@@ -290,16 +299,16 @@
     "действия": [
       {
         "action_id": "WP-07-1",
-        "kind": "проверка",
-        "what": "Проверить в Directus, как раскрыты на карточке 1 запрос",
-        "where": "/product/anthropic-team — карточка товара в Directus (name, short_description)",
-        "why": "заголовки карточки собирает общий шаблон, а название и описание приходят из Directus: отдельного подзаголовка под запрос на карточке завести негде, и правка ушла бы в шаблон всех карточек",
+        "kind": "мета",
+        "what": "Пересобрать заголовок страницы под ведущий запрос пакета",
+        "where": "data/seo/product-descriptions.json, ключ «anthropic-team» + workflow ops-apply-descriptions — поле title и meta_title",
+        "why": "в заголовке нет слов: plan; ведущий запрос пакета — «claude team plan купить»",
         "steps": [
-          "«claude team купить»"
+          "уместить «claude team plan купить» в заголовок до 60 символов, не превращая его в перечисление ключей"
         ],
-        "check": "по каждой фразе видно, каким полем карточки она раскрыта; решение о правке принимается по факту, а не вслепую",
+        "check": "заголовок уникален по сайту, до 60 символов, содержит фразу",
         "effort": "S",
-        "owner": "редактор"
+        "owner": "SEO + редактор"
       },
       {
         "action_id": "WP-07-2",
@@ -324,8 +333,8 @@
       "«claude team plan купить» — проверить, а не дописывать: «plan» может уже стоять в названии товара из Directus, которого проверка не видит"
     ],
     "системные_слова": [],
-    "проверено_по": "проверён текст шаблона карточки и slug товара; название, описание и характеристики приходят из Directus и в проверку не входят",
-    "источник_текста": "src/pages/product/[slug].astro"
+    "проверено_по": "проверены текст шаблона карточки, описание и мета из data/seo/product-descriptions.json; остальное тело карточки приходит из Directus",
+    "источник_текста": "data/seo/product-descriptions.json"
   },
   {
     "package_id": "WP-08",
@@ -336,11 +345,11 @@
       "купить подписку github copilot business"
     ],
     "attack_ids": [
-      "ATT-007"
+      "ATT-005"
     ],
     "queries_count": 1,
     "demand_by_source": {
-      "webmaster": 29
+      "webmaster": 31
     },
     "demand_queries_by_source": {
       "webmaster": 1
@@ -351,15 +360,15 @@
     "demand_measured_queries": 1,
     "demand_coverage": "1/1",
     "demand_coverage_ratio": 1.0,
-    "demand_index": 0.0102,
+    "demand_index": 0.0109,
     "position_best": 7,
     "position_worst": 7,
     "rivals": [
       "raketapay.ru"
     ],
-    "opportunity_best": 63,
+    "opportunity_best": 64,
     "confidence": "MEDIUM",
-    "potential_index": 0.0102,
+    "potential_index": 0.0109,
     "potential_label": "высокий",
     "potential_note": "спрос измерен по всем 1 запросам пакета",
     "traffic_upside": null,
@@ -417,13 +426,97 @@
       "эксперимент": "content-6-clusters",
       "заявка": "CONTENT-002",
       "начат": "2026-09-02",
-      "до": "2026-09-16",
+      "до": "2026-09-30",
       "почему": "страница входит в действующий эксперимент базового SEO-контура «content-6-clusters» (начат 2026-09-02): вторая правка в том же окне лишит оценки оба эксперимента",
       "ограничение": "рост суммарных показов шести кластеров относительно базовых 684 показов за 12 дней и вход статей в топ-10 Яндекса; контрольная точка 16.09.2026"
     }
   },
   {
     "package_id": "WP-11",
+    "url": "https://biz-soft.pro/product/ghcopilot-business",
+    "page_kind": "product",
+    "subject": "ghcopilot-business",
+    "queries": [
+      "github copilot business купить"
+    ],
+    "attack_ids": [
+      "ATT-007"
+    ],
+    "queries_count": 1,
+    "demand_by_source": {
+      "webmaster": 43
+    },
+    "demand_queries_by_source": {
+      "webmaster": 1
+    },
+    "demand_sources": [
+      "webmaster"
+    ],
+    "demand_measured_queries": 1,
+    "demand_coverage": "1/1",
+    "demand_coverage_ratio": 1.0,
+    "demand_index": 0.0065,
+    "position_best": 4,
+    "position_worst": 4,
+    "rivals": [
+      "raketapay.ru"
+    ],
+    "opportunity_best": 61,
+    "confidence": "MEDIUM",
+    "potential_index": 0.0065,
+    "potential_label": "высокий",
+    "potential_note": "спрос измерен по всем 1 запросам пакета",
+    "traffic_upside": null,
+    "upside_note": "перевод в переходы невозможен: спрос измерен показами Вебмастера — это видимая нам часть спроса за две недели, а не объём рынка",
+    "effort": "S",
+    "action": "Проверить в Directus, как раскрыты на карточке 1 запрос",
+    "checklist": [
+      "Блок «Оплата по счёту для юридических лиц»: договор, счёт, НДС, закрывающие документы, ЭДО — на первом экране, не в подвале",
+      "FAQ из вопросов покупателя-юрлица: как оплатить с расчётного счёта, какие документы придут, сроки поставки лицензии",
+      "Явное указание, что позиция продаётся организациям, а не физлицам",
+      "Условия продления и добавления пользователей"
+    ],
+    "действия": [
+      {
+        "action_id": "WP-11-1",
+        "kind": "проверка",
+        "what": "Проверить в Directus, как раскрыты на карточке 1 запрос",
+        "where": "/product/ghcopilot-business — карточка товара в Directus (name, short_description)",
+        "why": "заголовки карточки собирает общий шаблон, а название и описание приходят из Directus: отдельного подзаголовка под запрос на карточке завести негде, и правка ушла бы в шаблон всех карточек",
+        "steps": [
+          "«github copilot business купить»"
+        ],
+        "check": "по каждой фразе видно, каким полем карточки она раскрыта; решение о правке принимается по факту, а не вслепую",
+        "effort": "S",
+        "owner": "редактор"
+      },
+      {
+        "action_id": "WP-11-2",
+        "kind": "индексация",
+        "what": "Отправить страницу на переобход после правок",
+        "where": "workflow ops-yandex-recrawl, запуск с main",
+        "why": "правка вступает в силу для поиска только после переобхода; квота 150 URL в сутки, страница одна",
+        "steps": [
+          "urls = https://biz-soft.pro/product/ghcopilot-business"
+        ],
+        "check": "URL принят Вебмастером, результат в журнале issue #22",
+        "effort": "S",
+        "owner": "SEO"
+      }
+    ],
+    "порядок_по_опыту": false,
+    "уже_сделано": [],
+    "не_рекомендуем": [
+      "внешние ссылки и их закупка: ссылочный профиль этим контуром не измеряется — предлагать бюджет под неизмеряемое нельзя",
+      "поведенческие факторы: данные Метрики по этим страницам в контур не заведены, эффект правок проверить нечем",
+      "общие формулировки вида «улучшить SEO» и «усилить контент»: их нельзя ни поручить, ни принять — они запрещены проверкой отчёта"
+    ],
+    "системные_слова": [],
+    "проверено_по": "проверены текст шаблона карточки, описание и мета из data/seo/product-descriptions.json; остальное тело карточки приходит из Directus",
+    "источник_текста": "data/seo/product-descriptions.json"
+  },
+  {
+    "package_id": "WP-12",
     "url": "https://biz-soft.pro/blog/gitlab-godovaya-podpiska-iz-rossii-dlya-yurlica",
     "page_kind": "blog",
     "subject": "gitlab-godovaya-podpiska-iz-rossii-dlya-yurlica",
@@ -434,14 +527,14 @@
       "gitlab оформить подписку россия"
     ],
     "attack_ids": [
-      "ATT-015",
-      "ATT-026",
-      "ATT-028",
+      "ATT-014",
+      "ATT-027",
+      "ATT-029",
       "ATT-034"
     ],
     "queries_count": 4,
     "demand_by_source": {
-      "webmaster": 26
+      "webmaster": 27
     },
     "demand_queries_by_source": {
       "webmaster": 4
@@ -452,7 +545,7 @@
     "demand_measured_queries": 4,
     "demand_coverage": "4/4",
     "demand_coverage_ratio": 1.0,
-    "demand_index": 0.006,
+    "demand_index": 0.0063,
     "position_best": 4,
     "position_worst": 6,
     "rivals": [
@@ -461,8 +554,8 @@
     ],
     "opportunity_best": 56,
     "confidence": "MEDIUM",
-    "potential_index": 0.006,
-    "potential_label": "высокий",
+    "potential_index": 0.0063,
+    "potential_label": "средний",
     "potential_note": "спрос измерен по всем 4 запросам пакета",
     "traffic_upside": null,
     "upside_note": "перевод в переходы невозможен: спрос измерен показами Вебмастера — это видимая нам часть спроса за две недели, а не объём рынка",
@@ -475,7 +568,7 @@
     ],
     "действия": [
       {
-        "action_id": "WP-11-1",
+        "action_id": "WP-12-1",
         "kind": "заголовки",
         "what": "Вынести 1 запрос в подзаголовки или вопросы FAQ",
         "where": "/blog/gitlab-godovaya-podpiska-iz-rossii-dlya-yurlica — src/content/blog/gitlab-godovaya-podpiska-iz-rossii-dlya-yurlica.md",
@@ -488,7 +581,7 @@
         "owner": "редактор"
       },
       {
-        "action_id": "WP-11-2",
+        "action_id": "WP-12-2",
         "kind": "индексация",
         "what": "Отправить страницу на переобход после правок",
         "where": "workflow ops-yandex-recrawl, запуск с main",
@@ -535,13 +628,13 @@
       "runway ai тарифы"
     ],
     "attack_ids": [
-      "ATT-027",
+      "ATT-028",
       "ATT-070"
     ],
     "queries_count": 2,
     "demand_by_source": {
       "wordstat": 28,
-      "webmaster": 24
+      "webmaster": 26
     },
     "demand_queries_by_source": {
       "wordstat": 1,
@@ -554,7 +647,7 @@
     "demand_measured_queries": 2,
     "demand_coverage": "2/2",
     "demand_coverage_ratio": 1.0,
-    "demand_index": 0.0044,
+    "demand_index": 0.0047,
     "position_best": 4,
     "position_worst": 4,
     "rivals": [
@@ -563,7 +656,7 @@
     ],
     "opportunity_best": 51,
     "confidence": "MEDIUM",
-    "potential_index": 0.0044,
+    "potential_index": 0.0047,
     "potential_label": "средний",
     "potential_note": "спрос измерен по всем 2 запросам пакета",
     "traffic_upside": null,
@@ -620,13 +713,13 @@
       "эксперимент": "content-6-clusters",
       "заявка": "CONTENT-002",
       "начат": "2026-09-02",
-      "до": "2026-09-16",
+      "до": "2026-09-30",
       "почему": "страница входит в действующий эксперимент базового SEO-контура «content-6-clusters» (начат 2026-09-02): вторая правка в том же окне лишит оценки оба эксперимента",
       "ограничение": "рост суммарных показов шести кластеров относительно базовых 684 показов за 12 дней и вход статей в топ-10 Яндекса; контрольная точка 16.09.2026"
     }
   },
   {
-    "package_id": "WP-17",
+    "package_id": "WP-18",
     "url": "https://biz-soft.pro/blog/kak-oplatit-postman-dlya-yurlica",
     "page_kind": "blog",
     "subject": "kak-oplatit-postman-dlya-yurlica",
@@ -635,12 +728,12 @@
       "москва postman оплата подписки"
     ],
     "attack_ids": [
-      "ATT-012",
-      "ATT-014"
+      "ATT-011",
+      "ATT-013"
     ],
     "queries_count": 2,
     "demand_by_source": {
-      "webmaster": 18
+      "webmaster": 19
     },
     "demand_queries_by_source": {
       "webmaster": 2
@@ -651,7 +744,7 @@
     "demand_measured_queries": 2,
     "demand_coverage": "2/2",
     "demand_coverage_ratio": 1.0,
-    "demand_index": 0.0042,
+    "demand_index": 0.0044,
     "position_best": 4,
     "position_worst": 5,
     "rivals": [
@@ -659,7 +752,7 @@
     ],
     "opportunity_best": 56,
     "confidence": "MEDIUM",
-    "potential_index": 0.0042,
+    "potential_index": 0.0044,
     "potential_label": "средний",
     "potential_note": "спрос измерен по всем 2 запросам пакета",
     "traffic_upside": null,
@@ -673,7 +766,7 @@
     ],
     "действия": [
       {
-        "action_id": "WP-17-1",
+        "action_id": "WP-18-1",
         "kind": "мета",
         "what": "Пересобрать заголовок страницы под ведущий запрос пакета",
         "where": "src/content/blog/kak-oplatit-postman-dlya-yurlica.md — поле title",
@@ -686,7 +779,7 @@
         "owner": "SEO + редактор"
       },
       {
-        "action_id": "WP-17-2",
+        "action_id": "WP-18-2",
         "kind": "индексация",
         "what": "Отправить страницу на переобход после правок",
         "where": "workflow ops-yandex-recrawl, запуск с main",
@@ -718,13 +811,13 @@
       "эксперимент": "content-6-clusters",
       "заявка": "CONTENT-002",
       "начат": "2026-09-02",
-      "до": "2026-09-16",
+      "до": "2026-09-30",
       "почему": "страница входит в действующий эксперимент базового SEO-контура «content-6-clusters» (начат 2026-09-02): вторая правка в том же окне лишит оценки оба эксперимента",
       "ограничение": "рост суммарных показов шести кластеров относительно базовых 684 показов за 12 дней и вход статей в топ-10 Яндекса; контрольная точка 16.09.2026"
     }
   },
   {
-    "package_id": "WP-24",
+    "package_id": "WP-25",
     "url": "https://biz-soft.pro/blog/kak-oplatit-box-business-iz-rossii",
     "page_kind": "blog",
     "subject": "kak-oplatit-box-business-iz-rossii",
@@ -771,7 +864,7 @@
     ],
     "действия": [
       {
-        "action_id": "WP-24-1",
+        "action_id": "WP-25-1",
         "kind": "заголовки",
         "what": "Вынести 1 запрос в подзаголовки или вопросы FAQ",
         "where": "/blog/kak-oplatit-box-business-iz-rossii — src/content/blog/kak-oplatit-box-business-iz-rossii.md",
@@ -784,7 +877,7 @@
         "owner": "редактор"
       },
       {
-        "action_id": "WP-24-2",
+        "action_id": "WP-25-2",
         "kind": "мета",
         "what": "Пересобрать заголовок страницы под ведущий запрос пакета",
         "where": "src/content/blog/kak-oplatit-box-business-iz-rossii.md — поле title",
@@ -797,7 +890,7 @@
         "owner": "SEO + редактор"
       },
       {
-        "action_id": "WP-24-3",
+        "action_id": "WP-25-3",
         "kind": "индексация",
         "what": "Отправить страницу на переобход после правок",
         "where": "workflow ops-yandex-recrawl, запуск с main",
@@ -834,7 +927,7 @@
     }
   },
   {
-    "package_id": "WP-25",
+    "package_id": "WP-26",
     "url": "https://www.biz-soft.pro/vendors/openai",
     "page_kind": "vendor",
     "subject": "openai",
@@ -846,7 +939,7 @@
     ],
     "queries_count": 1,
     "demand_by_source": {
-      "webmaster": 5
+      "webmaster": 6
     },
     "demand_queries_by_source": {
       "webmaster": 1
@@ -857,7 +950,7 @@
     "demand_measured_queries": 1,
     "demand_coverage": "1/1",
     "demand_coverage_ratio": 1.0,
-    "demand_index": 0.0013,
+    "demand_index": 0.0015,
     "position_best": 5,
     "position_worst": 5,
     "rivals": [
@@ -865,7 +958,7 @@
     ],
     "opportunity_best": 65,
     "confidence": "MEDIUM",
-    "potential_index": 0.0013,
+    "potential_index": 0.0015,
     "potential_label": "низкий",
     "potential_note": "спрос измерен по всем 1 запросам пакета",
     "traffic_upside": null,
@@ -881,7 +974,7 @@
     ],
     "действия": [
       {
-        "action_id": "WP-25-1",
+        "action_id": "WP-26-1",
         "kind": "заголовки",
         "what": "Вынести 1 запрос в подзаголовки или вопросы FAQ",
         "where": "https://www.biz-soft.pro/vendors/openai — src/pages/vendors/openai.astro",
@@ -894,7 +987,7 @@
         "owner": "редактор"
       },
       {
-        "action_id": "WP-25-2",
+        "action_id": "WP-26-2",
         "kind": "индексация",
         "what": "Отправить страницу на переобход после правок",
         "where": "workflow ops-yandex-recrawl, запуск с main",
@@ -927,7 +1020,7 @@
       "houdini цена"
     ],
     "attack_ids": [
-      "ATT-048"
+      "ATT-049"
     ],
     "queries_count": 1,
     "demand_by_source": {
@@ -1096,7 +1189,7 @@
       "как оплатить тариф confluence из россии"
     ],
     "attack_ids": [
-      "ATT-049"
+      "ATT-050"
     ],
     "queries_count": 1,
     "demand_by_source": {
@@ -1354,72 +1447,13 @@
       "эксперимент": "content-6-clusters",
       "заявка": "CONTENT-002",
       "начат": "2026-09-02",
-      "до": "2026-09-16",
+      "до": "2026-09-30",
       "почему": "страница входит в действующий эксперимент базового SEO-контура «content-6-clusters» (начат 2026-09-02): вторая правка в том же окне лишит оценки оба эксперимента",
       "ограничение": "рост суммарных показов шести кластеров относительно базовых 684 показов за 12 дней и вход статей в топ-10 Яндекса; контрольная точка 16.09.2026"
     }
   },
   {
-    "package_id": "WP-12",
-    "url": "https://biz-soft.pro/product/ghcopilot-business",
-    "page_kind": "product",
-    "subject": "ghcopilot-business",
-    "queries": [
-      "github copilot business купить"
-    ],
-    "attack_ids": [
-      "ATT-008"
-    ],
-    "queries_count": 1,
-    "demand_by_source": {
-      "webmaster": 39
-    },
-    "demand_queries_by_source": {
-      "webmaster": 1
-    },
-    "demand_sources": [
-      "webmaster"
-    ],
-    "demand_measured_queries": 1,
-    "demand_coverage": "1/1",
-    "demand_coverage_ratio": 1.0,
-    "demand_index": 0.0059,
-    "position_best": 4,
-    "position_worst": 4,
-    "rivals": [
-      "raketapay.ru"
-    ],
-    "opportunity_best": 61,
-    "confidence": "MEDIUM",
-    "potential_index": 0.0059,
-    "potential_label": "средний",
-    "potential_note": "спрос измерен по всем 1 запросам пакета",
-    "traffic_upside": null,
-    "upside_note": "перевод в переходы невозможен: спрос измерен показами Вебмастера — это видимая нам часть спроса за две недели, а не объём рынка",
-    "effort": "S",
-    "action": "правок не предлагаем: недостающее дописывать нельзя — см. «не рекомендуем сейчас»",
-    "checklist": [
-      "Блок «Оплата по счёту для юридических лиц»: договор, счёт, НДС, закрывающие документы, ЭДО — на первом экране, не в подвале",
-      "FAQ из вопросов покупателя-юрлица: как оплатить с расчётного счёта, какие документы придут, сроки поставки лицензии",
-      "Явное указание, что позиция продаётся организациям, а не физлицам",
-      "Условия продления и добавления пользователей"
-    ],
-    "действия": [],
-    "порядок_по_опыту": false,
-    "уже_сделано": [],
-    "не_рекомендуем": [
-      "внешние ссылки и их закупка: ссылочный профиль этим контуром не измеряется — предлагать бюджет под неизмеряемое нельзя",
-      "поведенческие факторы: данные Метрики по этим страницам в контур не заведены, эффект правок проверить нечем",
-      "общие формулировки вида «улучшить SEO» и «усилить контент»: их нельзя ни поручить, ни принять — они запрещены проверкой отчёта",
-      "«github copilot business купить» — проверить, а не дописывать: «github», «copilot» может уже стоять в названии товара из Directus, которого проверка не видит"
-    ],
-    "системные_слова": [],
-    "проверено_по": "проверён текст шаблона карточки и slug товара; название, описание и характеристики приходят из Directus и в проверку не входят",
-    "источник_текста": "src/pages/product/[slug].astro",
-    "очередь": false
-  },
-  {
-    "package_id": "WP-13",
+    "package_id": "WP-16",
     "url": "https://biz-soft.pro/vendors/epidemic-sound",
     "page_kind": "vendor",
     "subject": "epidemic-sound",
@@ -1477,7 +1511,7 @@
     "очередь": false
   },
   {
-    "package_id": "WP-22",
+    "package_id": "WP-21",
     "url": "https://biz-soft.pro/blog/kak-kupit-windsurf-iz-rossii-dlya-yurlica",
     "page_kind": "blog",
     "subject": "kak-kupit-windsurf-iz-rossii-dlya-yurlica",
@@ -1485,11 +1519,11 @@
       "windsurf pro купить плати по миру"
     ],
     "attack_ids": [
-      "ATT-045"
+      "ATT-046"
     ],
     "queries_count": 1,
     "demand_by_source": {
-      "webmaster": 7
+      "webmaster": 10
     },
     "demand_queries_by_source": {
       "webmaster": 1
@@ -1500,7 +1534,7 @@
     "demand_measured_queries": 1,
     "demand_coverage": "1/1",
     "demand_coverage_ratio": 1.0,
-    "demand_index": 0.0026,
+    "demand_index": 0.0038,
     "position_best": 8,
     "position_worst": 8,
     "rivals": [
@@ -1508,7 +1542,7 @@
     ],
     "opportunity_best": 45,
     "confidence": "MEDIUM",
-    "potential_index": 0.0026,
+    "potential_index": 0.0038,
     "potential_label": "средний",
     "potential_note": "спрос измерен по всем 1 запросам пакета",
     "traffic_upside": null,
@@ -1619,9 +1653,9 @@
     ],
     "attack_ids": [
       "ATT-022",
-      "ATT-029",
+      "ATT-030",
       "ATT-038",
-      "ATT-044",
+      "ATT-045",
       "ATT-053",
       "ATT-059",
       "ATT-061",
@@ -1633,7 +1667,7 @@
     ],
     "queries_count": 12,
     "demand_by_source": {
-      "webmaster": 333
+      "webmaster": 316
     },
     "demand_queries_by_source": {
       "webmaster": 12
@@ -1644,7 +1678,7 @@
     "demand_measured_queries": 12,
     "demand_coverage": "12/12",
     "demand_coverage_ratio": 1.0,
-    "demand_index": 0.1243,
+    "demand_index": 0.1178,
     "position_best": 6,
     "position_worst": 10,
     "rivals": [
@@ -1655,7 +1689,7 @@
     ],
     "opportunity_best": 52,
     "confidence": "MEDIUM",
-    "potential_index": 0.1243,
+    "potential_index": 0.1178,
     "potential_label": "высокий",
     "potential_note": "спрос измерен по всем 12 запросам пакета",
     "traffic_upside": null,
@@ -1730,7 +1764,7 @@
     "queries_count": 3,
     "demand_by_source": {
       "wordstat": 380,
-      "webmaster": 23
+      "webmaster": 24
     },
     "demand_queries_by_source": {
       "wordstat": 1,
@@ -1743,7 +1777,7 @@
     "demand_measured_queries": 3,
     "demand_coverage": "3/3",
     "demand_coverage_ratio": 1.0,
-    "demand_index": 0.037,
+    "demand_index": 0.0374,
     "position_best": 4,
     "position_worst": 10,
     "rivals": [
@@ -1752,7 +1786,7 @@
     ],
     "opportunity_best": 50,
     "confidence": "MEDIUM",
-    "potential_index": 0.037,
+    "potential_index": 0.0374,
     "potential_label": "высокий",
     "potential_note": "спрос измерен по всем 3 запросам пакета",
     "traffic_upside": null,
@@ -1824,6 +1858,113 @@
   },
   {
     "package_id": "WP-05",
+    "url": "https://biz-soft.pro/blog/kak-kupit-zarubezhnoe-po-dlya-yurlica",
+    "page_kind": "blog",
+    "subject": "kak-kupit-zarubezhnoe-po-dlya-yurlica",
+    "queries": [
+      "оплата зарубежного по для юр лица документы",
+      "оплата иностранной подписки для бизнеса документы",
+      "оплата зарубежных сервисов для юридических лиц документы"
+    ],
+    "attack_ids": [
+      "ATT-001",
+      "ATT-002",
+      "ATT-006"
+    ],
+    "queries_count": 3,
+    "demand_by_source": {
+      "webmaster": 115
+    },
+    "demand_queries_by_source": {
+      "webmaster": 3
+    },
+    "demand_sources": [
+      "webmaster"
+    ],
+    "demand_measured_queries": 3,
+    "demand_coverage": "3/3",
+    "demand_coverage_ratio": 1.0,
+    "demand_index": 0.0295,
+    "position_best": 4,
+    "position_worst": 9,
+    "rivals": [
+      "raketapay.ru"
+    ],
+    "opportunity_best": 69,
+    "confidence": "MEDIUM",
+    "potential_index": 0.0295,
+    "potential_label": "высокий",
+    "potential_note": "спрос измерен по всем 3 запросам пакета",
+    "traffic_upside": null,
+    "upside_note": "перевод в переходы невозможен: спрос измерен показами Вебмастера — это видимая нам часть спроса за две недели, а не объём рынка",
+    "effort": "S",
+    "action": "Добавить коммерческий переход из статьи",
+    "checklist": [
+      "Блок «Купить у нас» со ссылкой на карточку товара и вендора",
+      "Условия для юрлиц кратко, с переходом на страницу оплаты",
+      "Обновить дату материала и цены, если они устарели",
+      "Проверить, что формулировки покрывают запросы вида «оплата зарубежного по для юр лица документы»"
+    ],
+    "действия": [
+      {
+        "action_id": "WP-05-1",
+        "kind": "перелинковка",
+        "what": "Добавить коммерческий переход из статьи",
+        "where": "src/content/blog/kak-kupit-zarubezhnoe-po-dlya-yurlica.md, блок related и текст статьи",
+        "why": "статья отвечает на вопрос, но не ведёт к покупке: ссылку на карточку товара с ценой и ссылку на страницу вендора на странице нет",
+        "steps": [
+          "ссылку на карточку товара с ценой",
+          "ссылку на страницу вендора"
+        ],
+        "check": "из статьи есть переход на страницу, где можно оформить заказ",
+        "effort": "S",
+        "owner": "редактор"
+      },
+      {
+        "action_id": "WP-05-2",
+        "kind": "мета",
+        "what": "Пересобрать заголовок страницы под ведущий запрос пакета",
+        "where": "src/content/blog/kak-kupit-zarubezhnoe-po-dlya-yurlica.md — поле title",
+        "why": "в заголовке нет слов: оплата, лица, документы; ведущий запрос пакета — «оплата зарубежного по для юр лица документы»",
+        "steps": [
+          "уместить «оплата зарубежного по для юр лица документы» в заголовок до 60 символов, не превращая его в перечисление ключей"
+        ],
+        "check": "заголовок уникален по сайту, до 60 символов, содержит фразу",
+        "effort": "S",
+        "owner": "SEO + редактор"
+      },
+      {
+        "action_id": "WP-05-3",
+        "kind": "индексация",
+        "what": "Отправить страницу на переобход после правок",
+        "where": "workflow ops-yandex-recrawl, запуск с main",
+        "why": "правка вступает в силу для поиска только после переобхода; квота 150 URL в сутки, страница одна",
+        "steps": [
+          "urls = https://biz-soft.pro/blog/kak-kupit-zarubezhnoe-po-dlya-yurlica"
+        ],
+        "check": "URL принят Вебмастером, результат в журнале issue #22",
+        "effort": "S",
+        "owner": "SEO"
+      }
+    ],
+    "порядок_по_опыту": false,
+    "уже_сделано": [
+      "FAQ есть — 4 вопроса, размечен штатным компонентом"
+    ],
+    "не_рекомендуем": [
+      "внешние ссылки и их закупка: ссылочный профиль этим контуром не измеряется — предлагать бюджет под неизмеряемое нельзя",
+      "поведенческие факторы: данные Метрики по этим страницам в контур не заведены, эффект правок проверить нечем",
+      "общие формулировки вида «улучшить SEO» и «усилить контент»: их нельзя ни поручить, ни принять — они запрещены проверкой отчёта"
+    ],
+    "системные_слова": [],
+    "проверено_по": "проверен полный текст статьи: заголовки, тело, FAQ, ссылки",
+    "источник_текста": "src/content/blog/kak-kupit-zarubezhnoe-po-dlya-yurlica.md",
+    "мораторий_до": "2026-09-15",
+    "эксперимент": "EXP-0003",
+    "очередь": false
+  },
+  {
+    "package_id": "WP-06",
     "url": "https://biz-soft.pro/vendors/recraft",
     "page_kind": "vendor",
     "subject": "recraft",
@@ -1834,7 +1975,7 @@
     ],
     "attack_ids": [
       "ATT-032",
-      "ATT-050",
+      "ATT-051",
       "ATT-063"
     ],
     "queries_count": 3,
@@ -1889,90 +2030,83 @@
     "очередь": false
   },
   {
-    "package_id": "WP-06",
-    "url": "https://biz-soft.pro/blog/kak-kupit-zarubezhnoe-po-dlya-yurlica",
-    "page_kind": "blog",
-    "subject": "kak-kupit-zarubezhnoe-po-dlya-yurlica",
+    "package_id": "WP-09",
+    "url": "https://biz-soft.pro/vendors/capture-one",
+    "page_kind": "vendor",
+    "subject": "capture-one",
     "queries": [
-      "оплата зарубежного по для юр лица документы",
-      "оплата иностранной подписки для бизнеса документы",
-      "оплата зарубежных сервисов для юридических лиц документы"
+      "оплатить подписку capture one",
+      "купить подписку capture one",
+      "оплата capture one без vpn",
+      "capture one для россиян оплата",
+      "как оплатить capture one"
     ],
     "attack_ids": [
-      "ATT-001",
-      "ATT-005",
-      "ATT-006"
+      "ATT-012",
+      "ATT-020",
+      "ATT-039",
+      "ATT-040",
+      "ATT-060"
     ],
-    "queries_count": 3,
+    "queries_count": 5,
     "demand_by_source": {
-      "webmaster": 101
+      "webmaster": 21,
+      "wordstat": 23
     },
     "demand_queries_by_source": {
-      "webmaster": 3
+      "webmaster": 3,
+      "wordstat": 2
     },
     "demand_sources": [
-      "webmaster"
+      "webmaster",
+      "wordstat"
     ],
-    "demand_measured_queries": 3,
-    "demand_coverage": "3/3",
+    "demand_measured_queries": 5,
+    "demand_coverage": "5/5",
     "demand_coverage_ratio": 1.0,
-    "demand_index": 0.026,
+    "demand_index": 0.0075,
     "position_best": 4,
-    "position_worst": 9,
+    "position_worst": 7,
     "rivals": [
       "raketapay.ru"
     ],
-    "opportunity_best": 69,
+    "opportunity_best": 56,
     "confidence": "MEDIUM",
-    "potential_index": 0.026,
+    "potential_index": 0.0075,
     "potential_label": "высокий",
-    "potential_note": "спрос измерен по всем 3 запросам пакета",
+    "potential_note": "спрос измерен по всем 5 запросам пакета",
     "traffic_upside": null,
-    "upside_note": "перевод в переходы невозможен: спрос измерен показами Вебмастера — это видимая нам часть спроса за две недели, а не объём рынка",
-    "effort": "S",
-    "action": "Добавить коммерческий переход из статьи",
+    "upside_note": "перевод в переходы невозможен: спрос группы измерен разными шкалами (webmaster, wordstat) — складывать их и называть результат переходами нельзя",
+    "effort": "M",
+    "action": "Дописать текст под 1 запрос без единого вхождения на странице",
     "checklist": [
-      "Блок «Купить у нас» со ссылкой на карточку товара и вендора",
-      "Условия для юрлиц кратко, с переходом на страницу оплаты",
-      "Обновить дату материала и цены, если они устарели",
-      "Проверить, что формулировки покрывают запросы вида «оплата зарубежного по для юр лица документы»"
+      "Блок «Оплата по счёту для юридических лиц»: договор, счёт, НДС, закрывающие документы, ЭДО — на первом экране, не в подвале",
+      "FAQ из вопросов покупателя-юрлица: как оплатить с расчётного счёта, какие документы придут, сроки поставки лицензии",
+      "Таблица тарифов с указанием, что доступно для команд и компаний",
+      "Ссылки с карточек товаров этого вендора на страницу вендора"
     ],
     "действия": [
       {
-        "action_id": "WP-06-1",
-        "kind": "перелинковка",
-        "what": "Добавить коммерческий переход из статьи",
-        "where": "src/content/blog/kak-kupit-zarubezhnoe-po-dlya-yurlica.md, блок related и текст статьи",
-        "why": "статья отвечает на вопрос, но не ведёт к покупке: ссылку на карточку товара с ценой и ссылку на страницу вендора на странице нет",
+        "action_id": "WP-09-1",
+        "kind": "текст",
+        "what": "Дописать текст под 1 запрос без единого вхождения на странице",
+        "where": "/vendors/capture-one — src/data/vendors.ts, запись slug: 'capture-one' (правка полей tagline/about в src/data/vendors.ts, обычный PR; карточки товаров на странице приходят из Directus)",
+        "why": "по этим запросам мы на позициях 4–7, выше нас raketapay.ru; вхождений темы нет в тексте, который мы контролируем в репозитории — проверены редакторские tagline и about из src/data/vendors.ts; текст типового лендинга (заголовки и блоки шаблона); bespoke-контент scripts/content/capture-one.json (лид, сравнение тарифов, матрица выбора, сценарии, свой FAQ); карточки товаров приходят из Directus и в проверку не входят, поэтому перед правкой убедитесь, что фразы нет и в теле страницы из Directus",
         "steps": [
-          "ссылку на карточку товара с ценой",
-          "ссылку на страницу вендора"
+          "«оплата capture one без vpn» — не хватает слов: vpn"
         ],
-        "check": "из статьи есть переход на страницу, где можно оформить заказ",
+        "check": "каждая фраза из списка встречается в тексте страницы хотя бы раз, в естественной формулировке, а не перечислением",
         "effort": "S",
         "owner": "редактор"
       },
       {
-        "action_id": "WP-06-2",
-        "kind": "мета",
-        "what": "Пересобрать заголовок страницы под ведущий запрос пакета",
-        "where": "src/content/blog/kak-kupit-zarubezhnoe-po-dlya-yurlica.md — поле title",
-        "why": "в заголовке нет слов: оплата, лица, документы; ведущий запрос пакета — «оплата зарубежного по для юр лица документы»",
-        "steps": [
-          "уместить «оплата зарубежного по для юр лица документы» в заголовок до 60 символов, не превращая его в перечисление ключей"
-        ],
-        "check": "заголовок уникален по сайту, до 60 символов, содержит фразу",
-        "effort": "S",
-        "owner": "SEO + редактор"
-      },
-      {
-        "action_id": "WP-06-3",
+        "action_id": "WP-09-2",
         "kind": "индексация",
         "what": "Отправить страницу на переобход после правок",
         "where": "workflow ops-yandex-recrawl, запуск с main",
         "why": "правка вступает в силу для поиска только после переобхода; квота 150 URL в сутки, страница одна",
         "steps": [
-          "urls = https://biz-soft.pro/blog/kak-kupit-zarubezhnoe-po-dlya-yurlica"
+          "urls = https://biz-soft.pro/vendors/capture-one"
         ],
         "check": "URL принят Вебмастером, результат в журнале issue #22",
         "effort": "S",
@@ -1980,23 +2114,21 @@
       }
     ],
     "порядок_по_опыту": false,
-    "уже_сделано": [
-      "FAQ есть — 4 вопроса, размечен штатным компонентом"
-    ],
+    "уже_сделано": [],
     "не_рекомендуем": [
       "внешние ссылки и их закупка: ссылочный профиль этим контуром не измеряется — предлагать бюджет под неизмеряемое нельзя",
       "поведенческие факторы: данные Метрики по этим страницам в контур не заведены, эффект правок проверить нечем",
       "общие формулировки вида «улучшить SEO» и «усилить контент»: их нельзя ни поручить, ни принять — они запрещены проверкой отчёта"
     ],
     "системные_слова": [],
-    "проверено_по": "проверен полный текст статьи: заголовки, тело, FAQ, ссылки",
-    "источник_текста": "src/content/blog/kak-kupit-zarubezhnoe-po-dlya-yurlica.md",
-    "мораторий_до": "2026-09-15",
-    "эксперимент": "EXP-0003",
+    "проверено_по": "проверены редакторские tagline и about из src/data/vendors.ts; текст типового лендинга (заголовки и блоки шаблона); bespoke-контент scripts/content/capture-one.json (лид, сравнение тарифов, матрица выбора, сценарии, свой FAQ); карточки товаров приходят из Directus и в проверку не входят",
+    "источник_текста": "src/data/vendors.ts",
+    "мораторий_до": "2026-09-17",
+    "эксперимент": "EXP-0026",
     "очередь": false
   },
   {
-    "package_id": "WP-09",
+    "package_id": "WP-10",
     "url": "https://biz-soft.pro/vendors/artlist",
     "page_kind": "vendor",
     "subject": "artlist",
@@ -2005,8 +2137,8 @@
       "artlist подписка"
     ],
     "attack_ids": [
-      "ATT-017",
-      "ATT-051"
+      "ATT-018",
+      "ATT-052"
     ],
     "queries_count": 2,
     "demand_by_source": {
@@ -2062,105 +2194,7 @@
     "очередь": false
   },
   {
-    "package_id": "WP-10",
-    "url": "https://biz-soft.pro/vendors/capture-one",
-    "page_kind": "vendor",
-    "subject": "capture-one",
-    "queries": [
-      "оплатить подписку capture one",
-      "купить подписку capture one",
-      "оплата capture one без vpn",
-      "capture one для россиян оплата",
-      "как оплатить capture one"
-    ],
-    "attack_ids": [
-      "ATT-013",
-      "ATT-021",
-      "ATT-039",
-      "ATT-040",
-      "ATT-060"
-    ],
-    "queries_count": 5,
-    "demand_by_source": {
-      "webmaster": 16,
-      "wordstat": 23
-    },
-    "demand_queries_by_source": {
-      "webmaster": 3,
-      "wordstat": 2
-    },
-    "demand_sources": [
-      "webmaster",
-      "wordstat"
-    ],
-    "demand_measured_queries": 5,
-    "demand_coverage": "5/5",
-    "demand_coverage_ratio": 1.0,
-    "demand_index": 0.006,
-    "position_best": 4,
-    "position_worst": 7,
-    "rivals": [
-      "raketapay.ru"
-    ],
-    "opportunity_best": 56,
-    "confidence": "MEDIUM",
-    "potential_index": 0.006,
-    "potential_label": "высокий",
-    "potential_note": "спрос измерен по всем 5 запросам пакета",
-    "traffic_upside": null,
-    "upside_note": "перевод в переходы невозможен: спрос группы измерен разными шкалами (webmaster, wordstat) — складывать их и называть результат переходами нельзя",
-    "effort": "M",
-    "action": "Дописать текст под 1 запрос без единого вхождения на странице",
-    "checklist": [
-      "Блок «Оплата по счёту для юридических лиц»: договор, счёт, НДС, закрывающие документы, ЭДО — на первом экране, не в подвале",
-      "FAQ из вопросов покупателя-юрлица: как оплатить с расчётного счёта, какие документы придут, сроки поставки лицензии",
-      "Таблица тарифов с указанием, что доступно для команд и компаний",
-      "Ссылки с карточек товаров этого вендора на страницу вендора"
-    ],
-    "действия": [
-      {
-        "action_id": "WP-10-1",
-        "kind": "текст",
-        "what": "Дописать текст под 1 запрос без единого вхождения на странице",
-        "where": "/vendors/capture-one — src/data/vendors.ts, запись slug: 'capture-one' (правка полей tagline/about в src/data/vendors.ts, обычный PR; карточки товаров на странице приходят из Directus)",
-        "why": "по этим запросам мы на позициях 4–7, выше нас raketapay.ru; вхождений темы нет в тексте, который мы контролируем в репозитории — проверены редакторские tagline и about из src/data/vendors.ts; текст типового лендинга (заголовки и блоки шаблона); bespoke-контент scripts/content/capture-one.json (лид, сравнение тарифов, матрица выбора, сценарии, свой FAQ); карточки товаров приходят из Directus и в проверку не входят, поэтому перед правкой убедитесь, что фразы нет и в теле страницы из Directus",
-        "steps": [
-          "«оплата capture one без vpn» — не хватает слов: vpn"
-        ],
-        "check": "каждая фраза из списка встречается в тексте страницы хотя бы раз, в естественной формулировке, а не перечислением",
-        "effort": "S",
-        "owner": "редактор"
-      },
-      {
-        "action_id": "WP-10-2",
-        "kind": "индексация",
-        "what": "Отправить страницу на переобход после правок",
-        "where": "workflow ops-yandex-recrawl, запуск с main",
-        "why": "правка вступает в силу для поиска только после переобхода; квота 150 URL в сутки, страница одна",
-        "steps": [
-          "urls = https://biz-soft.pro/vendors/capture-one"
-        ],
-        "check": "URL принят Вебмастером, результат в журнале issue #22",
-        "effort": "S",
-        "owner": "SEO"
-      }
-    ],
-    "порядок_по_опыту": false,
-    "уже_сделано": [],
-    "не_рекомендуем": [
-      "внешние ссылки и их закупка: ссылочный профиль этим контуром не измеряется — предлагать бюджет под неизмеряемое нельзя",
-      "поведенческие факторы: данные Метрики по этим страницам в контур не заведены, эффект правок проверить нечем",
-      "общие формулировки вида «улучшить SEO» и «усилить контент»: их нельзя ни поручить, ни принять — они запрещены проверкой отчёта"
-    ],
-    "системные_слова": [],
-    "проверено_по": "проверены редакторские tagline и about из src/data/vendors.ts; текст типового лендинга (заголовки и блоки шаблона); bespoke-контент scripts/content/capture-one.json (лид, сравнение тарифов, матрица выбора, сценарии, свой FAQ); карточки товаров приходят из Directus и в проверку не входят",
-    "источник_текста": "src/data/vendors.ts",
-    "мораторий_до": "2026-09-17",
-    "эксперимент": "EXP-0026",
-    "очередь": false
-  },
-  {
-    "package_id": "WP-14",
+    "package_id": "WP-13",
     "url": "https://biz-soft.pro/vendors/coreldraw",
     "page_kind": "vendor",
     "subject": "coreldraw",
@@ -2176,7 +2210,7 @@
     ],
     "queries_count": 3,
     "demand_by_source": {
-      "webmaster": 9,
+      "webmaster": 11,
       "wordstat": 33
     },
     "demand_queries_by_source": {
@@ -2190,7 +2224,7 @@
     "demand_measured_queries": 3,
     "demand_coverage": "3/3",
     "demand_coverage_ratio": 1.0,
-    "demand_index": 0.0046,
+    "demand_index": 0.0051,
     "position_best": 5,
     "position_worst": 7,
     "rivals": [
@@ -2200,7 +2234,7 @@
     ],
     "opportunity_best": 48,
     "confidence": "MEDIUM",
-    "potential_index": 0.0046,
+    "potential_index": 0.0051,
     "potential_label": "средний",
     "potential_note": "спрос измерен по всем 3 запросам пакета",
     "traffic_upside": null,
@@ -2229,7 +2263,7 @@
     "очередь": false
   },
   {
-    "package_id": "WP-16",
+    "package_id": "WP-14",
     "url": "https://biz-soft.pro/vendors/windsurf",
     "page_kind": "vendor",
     "subject": "windsurf",
@@ -2248,7 +2282,7 @@
     "queries_count": 4,
     "demand_by_source": {
       "wordstat": 18,
-      "webmaster": 10
+      "webmaster": 13
     },
     "demand_queries_by_source": {
       "wordstat": 2,
@@ -2261,7 +2295,7 @@
     "demand_measured_queries": 4,
     "demand_coverage": "4/4",
     "demand_coverage_ratio": 1.0,
-    "demand_index": 0.0044,
+    "demand_index": 0.0048,
     "position_best": 4,
     "position_worst": 10,
     "rivals": [
@@ -2269,7 +2303,7 @@
     ],
     "opportunity_best": 52,
     "confidence": "MEDIUM",
-    "potential_index": 0.0044,
+    "potential_index": 0.0048,
     "potential_label": "средний",
     "potential_note": "спрос измерен по всем 4 запросам пакета",
     "traffic_upside": null,
@@ -2284,7 +2318,7 @@
     ],
     "действия": [
       {
-        "action_id": "WP-16-1",
+        "action_id": "WP-14-1",
         "kind": "заголовки",
         "what": "Вынести 1 запрос в подзаголовки или вопросы FAQ",
         "where": "/vendors/windsurf — src/data/vendors.ts, запись slug: 'windsurf'",
@@ -2297,7 +2331,7 @@
         "owner": "редактор"
       },
       {
-        "action_id": "WP-16-2",
+        "action_id": "WP-14-2",
         "kind": "индексация",
         "what": "Отправить страницу на переобход после правок",
         "where": "workflow ops-yandex-recrawl, запуск с main",
@@ -2325,7 +2359,7 @@
     "очередь": false
   },
   {
-    "package_id": "WP-18",
+    "package_id": "WP-17",
     "url": "https://biz-soft.pro/product/gamma-business",
     "page_kind": "product",
     "subject": "gamma-business",
@@ -2337,7 +2371,7 @@
     ],
     "queries_count": 1,
     "demand_by_source": {
-      "webmaster": 13
+      "webmaster": 15
     },
     "demand_queries_by_source": {
       "webmaster": 1
@@ -2348,7 +2382,7 @@
     "demand_measured_queries": 1,
     "demand_coverage": "1/1",
     "demand_coverage_ratio": 1.0,
-    "demand_index": 0.0039,
+    "demand_index": 0.0045,
     "position_best": 6,
     "position_worst": 6,
     "rivals": [
@@ -2356,7 +2390,7 @@
     ],
     "opportunity_best": 56,
     "confidence": "MEDIUM",
-    "potential_index": 0.0039,
+    "potential_index": 0.0045,
     "potential_label": "средний",
     "potential_note": "спрос измерен по всем 1 запросам пакета",
     "traffic_upside": null,
@@ -2371,7 +2405,7 @@
     ],
     "действия": [
       {
-        "action_id": "WP-18-1",
+        "action_id": "WP-17-1",
         "kind": "проверка",
         "what": "Проверить в Directus, как раскрыты на карточке 1 запрос",
         "where": "/product/gamma-business — карточка товара в Directus (name, short_description)",
@@ -2384,7 +2418,7 @@
         "owner": "редактор"
       },
       {
-        "action_id": "WP-18-2",
+        "action_id": "WP-17-2",
         "kind": "индексация",
         "what": "Отправить страницу на переобход после правок",
         "where": "workflow ops-yandex-recrawl, запуск с main",
@@ -2405,8 +2439,8 @@
       "общие формулировки вида «улучшить SEO» и «усилить контент»: их нельзя ни поручить, ни принять — они запрещены проверкой отчёта"
     ],
     "системные_слова": [],
-    "проверено_по": "проверён текст шаблона карточки и slug товара; название, описание и характеристики приходят из Directus и в проверку не входят",
-    "источник_текста": "src/pages/product/[slug].astro",
+    "проверено_по": "проверены текст шаблона карточки, описание и мета из data/seo/product-descriptions.json; остальное тело карточки приходит из Directus",
+    "источник_текста": "data/seo/product-descriptions.json",
     "мораторий_до": "2026-09-15",
     "эксперимент": "EXP-0013",
     "очередь": false
@@ -2420,11 +2454,11 @@
       "как купить framer pro в россии"
     ],
     "attack_ids": [
-      "ATT-052"
+      "ATT-044"
     ],
     "queries_count": 1,
     "demand_by_source": {
-      "webmaster": 25
+      "webmaster": 28
     },
     "demand_queries_by_source": {
       "webmaster": 1
@@ -2435,15 +2469,15 @@
     "demand_measured_queries": 1,
     "demand_coverage": "1/1",
     "demand_coverage_ratio": 1.0,
-    "demand_index": 0.0037,
+    "demand_index": 0.0042,
     "position_best": 4,
     "position_worst": 4,
     "rivals": [
       "aifory.pro"
     ],
-    "opportunity_best": 44,
+    "opportunity_best": 45,
     "confidence": "MEDIUM",
-    "potential_index": 0.0037,
+    "potential_index": 0.0042,
     "potential_label": "средний",
     "potential_note": "спрос измерен по всем 1 запросам пакета",
     "traffic_upside": null,
@@ -2473,6 +2507,97 @@
   },
   {
     "package_id": "WP-20",
+    "url": "https://biz-soft.pro/vendors/clip-studio-paint",
+    "page_kind": "vendor",
+    "subject": "clip-studio-paint",
+    "queries": [
+      "сколько стоит подписка клип студио бессрочная",
+      "сколько стоит подписка в клип студио"
+    ],
+    "attack_ids": [
+      "ATT-074",
+      "ATT-075"
+    ],
+    "queries_count": 2,
+    "demand_by_source": {
+      "webmaster": 10
+    },
+    "demand_queries_by_source": {
+      "webmaster": 2
+    },
+    "demand_sources": [
+      "webmaster"
+    ],
+    "demand_measured_queries": 2,
+    "demand_coverage": "2/2",
+    "demand_coverage_ratio": 1.0,
+    "demand_index": 0.0039,
+    "position_best": 7,
+    "position_worst": 9,
+    "rivals": [
+      "ggsel.net",
+      "wildberries.ru"
+    ],
+    "opportunity_best": 46,
+    "confidence": "MEDIUM",
+    "potential_index": 0.0039,
+    "potential_label": "средний",
+    "potential_note": "спрос измерен по всем 2 запросам пакета",
+    "traffic_upside": null,
+    "upside_note": "перевод в переходы невозможен: спрос измерен показами Вебмастера — это видимая нам часть спроса за две недели, а не объём рынка",
+    "effort": "S",
+    "action": "Вынести 2 запроса в подзаголовки или вопросы FAQ",
+    "checklist": [
+      "Блок «Оплата по счёту для юридических лиц»: договор, счёт, НДС, закрывающие документы, ЭДО — на первом экране, не в подвале",
+      "FAQ из вопросов покупателя-юрлица: как оплатить с расчётного счёта, какие документы придут, сроки поставки лицензии",
+      "Таблица тарифов с указанием, что доступно для команд и компаний",
+      "Ссылки с карточек товаров этого вендора на страницу вендора"
+    ],
+    "действия": [
+      {
+        "action_id": "WP-20-1",
+        "kind": "заголовки",
+        "what": "Вынести 2 запроса в подзаголовки или вопросы FAQ",
+        "where": "/vendors/clip-studio-paint — src/data/vendors.ts, запись slug: 'clip-studio-paint'",
+        "why": "тема раскрыта в тексте, но не видна в структуре страницы: заголовки и вопросы FAQ поисковик сопоставляет с запросом в первую очередь",
+        "steps": [
+          "«сколько стоит подписка клип студио бессрочная»",
+          "«сколько стоит подписка в клип студио»"
+        ],
+        "check": "каждая фраза стоит в H2/H3 или в вопросе FAQ, а не только в абзаце",
+        "effort": "S",
+        "owner": "редактор"
+      },
+      {
+        "action_id": "WP-20-2",
+        "kind": "индексация",
+        "what": "Отправить страницу на переобход после правок",
+        "where": "workflow ops-yandex-recrawl, запуск с main",
+        "why": "правка вступает в силу для поиска только после переобхода; квота 150 URL в сутки, страница одна",
+        "steps": [
+          "urls = https://biz-soft.pro/vendors/clip-studio-paint"
+        ],
+        "check": "URL принят Вебмастером, результат в журнале issue #22",
+        "effort": "S",
+        "owner": "SEO"
+      }
+    ],
+    "порядок_по_опыту": false,
+    "уже_сделано": [],
+    "не_рекомендуем": [
+      "внешние ссылки и их закупка: ссылочный профиль этим контуром не измеряется — предлагать бюджет под неизмеряемое нельзя",
+      "поведенческие факторы: данные Метрики по этим страницам в контур не заведены, эффект правок проверить нечем",
+      "общие формулировки вида «улучшить SEO» и «усилить контент»: их нельзя ни поручить, ни принять — они запрещены проверкой отчёта"
+    ],
+    "системные_слова": [],
+    "проверено_по": "проверены редакторские tagline и about из src/data/vendors.ts; текст типового лендинга (заголовки и блоки шаблона); bespoke-контент scripts/content/clip-studio-paint.json (лид, сравнение тарифов, матрица выбора, сценарии, свой FAQ); подмена FAQ экспериментом со сниппетами учтена; карточки товаров приходят из Directus и в проверку не входят",
+    "источник_текста": "src/data/vendors.ts",
+    "мораторий_до": "2026-09-15",
+    "эксперимент": "EXP-0012",
+    "очередь": false
+  },
+  {
+    "package_id": "WP-22",
     "url": "https://biz-soft.pro/vendors/reallusion",
     "page_kind": "vendor",
     "subject": "reallusion",
@@ -2532,21 +2657,21 @@
     "очередь": false
   },
   {
-    "package_id": "WP-21",
-    "url": "https://biz-soft.pro/vendors/clip-studio-paint",
+    "package_id": "WP-23",
+    "url": "https://biz-soft.pro/vendors/descript",
     "page_kind": "vendor",
-    "subject": "clip-studio-paint",
+    "subject": "descript",
     "queries": [
-      "сколько стоит подписка клип студио бессрочная",
-      "сколько стоит подписка в клип студио"
+      "купить подписку descript",
+      "подписку descript купить"
     ],
     "attack_ids": [
-      "ATT-074",
-      "ATT-075"
+      "ATT-010",
+      "ATT-015"
     ],
     "queries_count": 2,
     "demand_by_source": {
-      "webmaster": 9
+      "webmaster": 14
     },
     "demand_queries_by_source": {
       "webmaster": 2
@@ -2557,209 +2682,17 @@
     "demand_measured_queries": 2,
     "demand_coverage": "2/2",
     "demand_coverage_ratio": 1.0,
-    "demand_index": 0.0034,
-    "position_best": 7,
-    "position_worst": 9,
-    "rivals": [
-      "ggsel.net",
-      "wildberries.ru"
-    ],
-    "opportunity_best": 46,
-    "confidence": "MEDIUM",
-    "potential_index": 0.0034,
-    "potential_label": "средний",
-    "potential_note": "спрос измерен по всем 2 запросам пакета",
-    "traffic_upside": null,
-    "upside_note": "перевод в переходы невозможен: спрос измерен показами Вебмастера — это видимая нам часть спроса за две недели, а не объём рынка",
-    "effort": "S",
-    "action": "Вынести 2 запроса в подзаголовки или вопросы FAQ",
-    "checklist": [
-      "Блок «Оплата по счёту для юридических лиц»: договор, счёт, НДС, закрывающие документы, ЭДО — на первом экране, не в подвале",
-      "FAQ из вопросов покупателя-юрлица: как оплатить с расчётного счёта, какие документы придут, сроки поставки лицензии",
-      "Таблица тарифов с указанием, что доступно для команд и компаний",
-      "Ссылки с карточек товаров этого вендора на страницу вендора"
-    ],
-    "действия": [
-      {
-        "action_id": "WP-21-1",
-        "kind": "заголовки",
-        "what": "Вынести 2 запроса в подзаголовки или вопросы FAQ",
-        "where": "/vendors/clip-studio-paint — src/data/vendors.ts, запись slug: 'clip-studio-paint'",
-        "why": "тема раскрыта в тексте, но не видна в структуре страницы: заголовки и вопросы FAQ поисковик сопоставляет с запросом в первую очередь",
-        "steps": [
-          "«сколько стоит подписка клип студио бессрочная»",
-          "«сколько стоит подписка в клип студио»"
-        ],
-        "check": "каждая фраза стоит в H2/H3 или в вопросе FAQ, а не только в абзаце",
-        "effort": "S",
-        "owner": "редактор"
-      },
-      {
-        "action_id": "WP-21-2",
-        "kind": "индексация",
-        "what": "Отправить страницу на переобход после правок",
-        "where": "workflow ops-yandex-recrawl, запуск с main",
-        "why": "правка вступает в силу для поиска только после переобхода; квота 150 URL в сутки, страница одна",
-        "steps": [
-          "urls = https://biz-soft.pro/vendors/clip-studio-paint"
-        ],
-        "check": "URL принят Вебмастером, результат в журнале issue #22",
-        "effort": "S",
-        "owner": "SEO"
-      }
-    ],
-    "порядок_по_опыту": false,
-    "уже_сделано": [],
-    "не_рекомендуем": [
-      "внешние ссылки и их закупка: ссылочный профиль этим контуром не измеряется — предлагать бюджет под неизмеряемое нельзя",
-      "поведенческие факторы: данные Метрики по этим страницам в контур не заведены, эффект правок проверить нечем",
-      "общие формулировки вида «улучшить SEO» и «усилить контент»: их нельзя ни поручить, ни принять — они запрещены проверкой отчёта"
-    ],
-    "системные_слова": [],
-    "проверено_по": "проверены редакторские tagline и about из src/data/vendors.ts; текст типового лендинга (заголовки и блоки шаблона); bespoke-контент scripts/content/clip-studio-paint.json (лид, сравнение тарифов, матрица выбора, сценарии, свой FAQ); подмена FAQ экспериментом со сниппетами учтена; карточки товаров приходят из Directus и в проверку не входят",
-    "источник_текста": "src/data/vendors.ts",
-    "мораторий_до": "2026-09-15",
-    "эксперимент": "EXP-0012",
-    "очередь": false
-  },
-  {
-    "package_id": "WP-23",
-    "url": "https://biz-soft.pro/vendors/envato",
-    "page_kind": "vendor",
-    "subject": "envato",
-    "queries": [
-      "envato elements тариф россия"
-    ],
-    "attack_ids": [
-      "ATT-030"
-    ],
-    "queries_count": 1,
-    "demand_by_source": {
-      "webmaster": 8
-    },
-    "demand_queries_by_source": {
-      "webmaster": 1
-    },
-    "demand_sources": [
-      "webmaster"
-    ],
-    "demand_measured_queries": 1,
-    "demand_coverage": "1/1",
-    "demand_coverage_ratio": 1.0,
-    "demand_index": 0.002,
-    "position_best": 5,
-    "position_worst": 5,
-    "rivals": [
-      "raketapay.ru"
-    ],
-    "opportunity_best": 48,
-    "confidence": "MEDIUM",
-    "potential_index": 0.002,
-    "potential_label": "низкий",
-    "potential_note": "спрос измерен по всем 1 запросам пакета",
-    "traffic_upside": null,
-    "upside_note": "перевод в переходы невозможен: спрос измерен показами Вебмастера — это видимая нам часть спроса за две недели, а не объём рынка",
-    "effort": "S",
-    "action": "Вынести 1 запрос в подзаголовки или вопросы FAQ",
-    "checklist": [
-      "Блок «Оплата по счёту для юридических лиц»: договор, счёт, НДС, закрывающие документы, ЭДО — на первом экране, не в подвале",
-      "FAQ из вопросов покупателя-юрлица: как оплатить с расчётного счёта, какие документы придут, сроки поставки лицензии",
-      "Таблица тарифов с указанием, что доступно для команд и компаний",
-      "Ссылки с карточек товаров этого вендора на страницу вендора"
-    ],
-    "действия": [
-      {
-        "action_id": "WP-23-1",
-        "kind": "заголовки",
-        "what": "Вынести 1 запрос в подзаголовки или вопросы FAQ",
-        "where": "/vendors/envato — src/data/vendors.ts, запись slug: 'envato'",
-        "why": "тема раскрыта в тексте, но не видна в структуре страницы: заголовки и вопросы FAQ поисковик сопоставляет с запросом в первую очередь",
-        "steps": [
-          "«envato elements тариф россия»"
-        ],
-        "check": "каждая фраза стоит в H2/H3 или в вопросе FAQ, а не только в абзаце",
-        "effort": "S",
-        "owner": "редактор"
-      },
-      {
-        "action_id": "WP-23-2",
-        "kind": "текст",
-        "what": "Закрыть региональный разрыв по Санкт-Петербургу",
-        "where": "/vendors/envato — src/data/vendors.ts, запись slug: 'envato'",
-        "why": "в Москве позиция 5.0, в Санкт-Петербурге 7.0: разрыв 2.0 позиций по одним и тем же запросам",
-        "steps": [
-          "проверить, нет ли в тексте привязки к одному городу",
-          "убедиться, что условия оформления не выглядят московскими"
-        ],
-        "check": "разрыв позиций между регионами сократился при следующем замере",
-        "effort": "M",
-        "owner": "редактор"
-      },
-      {
-        "action_id": "WP-23-3",
-        "kind": "индексация",
-        "what": "Отправить страницу на переобход после правок",
-        "where": "workflow ops-yandex-recrawl, запуск с main",
-        "why": "правка вступает в силу для поиска только после переобхода; квота 150 URL в сутки, страница одна",
-        "steps": [
-          "urls = https://biz-soft.pro/vendors/envato"
-        ],
-        "check": "URL принят Вебмастером, результат в журнале issue #22",
-        "effort": "S",
-        "owner": "SEO"
-      }
-    ],
-    "порядок_по_опыту": false,
-    "уже_сделано": [],
-    "не_рекомендуем": [
-      "внешние ссылки и их закупка: ссылочный профиль этим контуром не измеряется — предлагать бюджет под неизмеряемое нельзя",
-      "поведенческие факторы: данные Метрики по этим страницам в контур не заведены, эффект правок проверить нечем",
-      "общие формулировки вида «улучшить SEO» и «усилить контент»: их нельзя ни поручить, ни принять — они запрещены проверкой отчёта"
-    ],
-    "системные_слова": [],
-    "проверено_по": "проверены редакторские tagline и about из src/data/vendors.ts; текст типового лендинга (заголовки и блоки шаблона); bespoke-контент scripts/content/envato.json (лид, сравнение тарифов, матрица выбора, сценарии, свой FAQ); карточки товаров приходят из Directus и в проверку не входят",
-    "источник_текста": "src/data/vendors.ts",
-    "мораторий_до": "2026-09-17",
-    "эксперимент": "EXP-0009",
-    "очередь": false
-  },
-  {
-    "package_id": "WP-26",
-    "url": "https://biz-soft.pro/vendors/descript",
-    "page_kind": "vendor",
-    "subject": "descript",
-    "queries": [
-      "подписку descript купить",
-      "купить подписку descript"
-    ],
-    "attack_ids": [
-      "ATT-002",
-      "ATT-011"
-    ],
-    "queries_count": 2,
-    "demand_by_source": {
-      "webmaster": 7
-    },
-    "demand_queries_by_source": {
-      "webmaster": 1
-    },
-    "demand_sources": [
-      "webmaster"
-    ],
-    "demand_measured_queries": 1,
-    "demand_coverage": "1/2",
-    "demand_coverage_ratio": 0.5,
-    "demand_index": 0.0011,
+    "demand_index": 0.0024,
     "position_best": 4,
     "position_worst": 5,
     "rivals": [
       "raketapay.ru"
     ],
-    "opportunity_best": 67,
-    "confidence": "LOW",
-    "potential_index": 0.0011,
+    "opportunity_best": 57,
+    "confidence": "MEDIUM",
+    "potential_index": 0.0024,
     "potential_label": "низкий",
-    "potential_note": "индекс посчитан по 1 запросам из 2 — по остальным спрос не измерен и они в индекс не входят",
+    "potential_note": "спрос измерен по всем 2 запросам пакета",
     "traffic_upside": null,
     "upside_note": "перевод в переходы невозможен: спрос измерен показами Вебмастера — это видимая нам часть спроса за две недели, а не объём рынка",
     "effort": "S",
@@ -2772,7 +2705,7 @@
     ],
     "действия": [
       {
-        "action_id": "WP-26-1",
+        "action_id": "WP-23-1",
         "kind": "текст",
         "what": "Закрыть региональный разрыв по Санкт-Петербургу",
         "where": "/vendors/descript — src/data/vendors.ts, запись slug: 'descript'",
@@ -2786,7 +2719,7 @@
         "owner": "редактор"
       },
       {
-        "action_id": "WP-26-2",
+        "action_id": "WP-23-2",
         "kind": "индексация",
         "what": "Отправить страницу на переобход после правок",
         "where": "workflow ops-yandex-recrawl, запуск с main",
@@ -2811,6 +2744,107 @@
     "источник_текста": "src/data/vendors.ts",
     "мораторий_до": "2026-09-18",
     "эксперимент": "EXP-0027",
+    "очередь": false
+  },
+  {
+    "package_id": "WP-24",
+    "url": "https://biz-soft.pro/vendors/envato",
+    "page_kind": "vendor",
+    "subject": "envato",
+    "queries": [
+      "envato elements тариф россия"
+    ],
+    "attack_ids": [
+      "ATT-026"
+    ],
+    "queries_count": 1,
+    "demand_by_source": {
+      "webmaster": 9
+    },
+    "demand_queries_by_source": {
+      "webmaster": 1
+    },
+    "demand_sources": [
+      "webmaster"
+    ],
+    "demand_measured_queries": 1,
+    "demand_coverage": "1/1",
+    "demand_coverage_ratio": 1.0,
+    "demand_index": 0.0022,
+    "position_best": 5,
+    "position_worst": 5,
+    "rivals": [
+      "raketapay.ru"
+    ],
+    "opportunity_best": 49,
+    "confidence": "MEDIUM",
+    "potential_index": 0.0022,
+    "potential_label": "низкий",
+    "potential_note": "спрос измерен по всем 1 запросам пакета",
+    "traffic_upside": null,
+    "upside_note": "перевод в переходы невозможен: спрос измерен показами Вебмастера — это видимая нам часть спроса за две недели, а не объём рынка",
+    "effort": "S",
+    "action": "Вынести 1 запрос в подзаголовки или вопросы FAQ",
+    "checklist": [
+      "Блок «Оплата по счёту для юридических лиц»: договор, счёт, НДС, закрывающие документы, ЭДО — на первом экране, не в подвале",
+      "FAQ из вопросов покупателя-юрлица: как оплатить с расчётного счёта, какие документы придут, сроки поставки лицензии",
+      "Таблица тарифов с указанием, что доступно для команд и компаний",
+      "Ссылки с карточек товаров этого вендора на страницу вендора"
+    ],
+    "действия": [
+      {
+        "action_id": "WP-24-1",
+        "kind": "заголовки",
+        "what": "Вынести 1 запрос в подзаголовки или вопросы FAQ",
+        "where": "/vendors/envato — src/data/vendors.ts, запись slug: 'envato'",
+        "why": "тема раскрыта в тексте, но не видна в структуре страницы: заголовки и вопросы FAQ поисковик сопоставляет с запросом в первую очередь",
+        "steps": [
+          "«envato elements тариф россия»"
+        ],
+        "check": "каждая фраза стоит в H2/H3 или в вопросе FAQ, а не только в абзаце",
+        "effort": "S",
+        "owner": "редактор"
+      },
+      {
+        "action_id": "WP-24-2",
+        "kind": "текст",
+        "what": "Закрыть региональный разрыв по Санкт-Петербургу",
+        "where": "/vendors/envato — src/data/vendors.ts, запись slug: 'envato'",
+        "why": "в Москве позиция 5.0, в Санкт-Петербурге 7.0: разрыв 2.0 позиций по одним и тем же запросам",
+        "steps": [
+          "проверить, нет ли в тексте привязки к одному городу",
+          "убедиться, что условия оформления не выглядят московскими"
+        ],
+        "check": "разрыв позиций между регионами сократился при следующем замере",
+        "effort": "M",
+        "owner": "редактор"
+      },
+      {
+        "action_id": "WP-24-3",
+        "kind": "индексация",
+        "what": "Отправить страницу на переобход после правок",
+        "where": "workflow ops-yandex-recrawl, запуск с main",
+        "why": "правка вступает в силу для поиска только после переобхода; квота 150 URL в сутки, страница одна",
+        "steps": [
+          "urls = https://biz-soft.pro/vendors/envato"
+        ],
+        "check": "URL принят Вебмастером, результат в журнале issue #22",
+        "effort": "S",
+        "owner": "SEO"
+      }
+    ],
+    "порядок_по_опыту": false,
+    "уже_сделано": [],
+    "не_рекомендуем": [
+      "внешние ссылки и их закупка: ссылочный профиль этим контуром не измеряется — предлагать бюджет под неизмеряемое нельзя",
+      "поведенческие факторы: данные Метрики по этим страницам в контур не заведены, эффект правок проверить нечем",
+      "общие формулировки вида «улучшить SEO» и «усилить контент»: их нельзя ни поручить, ни принять — они запрещены проверкой отчёта"
+    ],
+    "системные_слова": [],
+    "проверено_по": "проверены редакторские tagline и about из src/data/vendors.ts; текст типового лендинга (заголовки и блоки шаблона); bespoke-контент scripts/content/envato.json (лид, сравнение тарифов, матрица выбора, сценарии, свой FAQ); карточки товаров приходят из Directus и в проверку не входят",
+    "источник_текста": "src/data/vendors.ts",
+    "мораторий_до": "2026-09-17",
+    "эксперимент": "EXP-0009",
     "очередь": false
   },
   {
