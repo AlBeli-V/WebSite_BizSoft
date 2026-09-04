@@ -1,0 +1,242 @@
+# Тег Яндекс.Метрики со своего домена, с кэшем на nginx (PERF-METRIKA-001).
+#
+# Зачем: tag.js приходит с mc.yandex.ru отдельным соединением (DNS + TLS к
+# чужому домену) и с коротким чужим кэшем — на мобильном профиле PageSpeed
+# это ~150–250 мс и постоянное замечание об эффективности кэша на 70 КБ.
+# Через свой домен файл едет по уже открытому HTTP/2-соединению.
+#
+# Что делает: кладёт зону кэша в /etc/nginx/conf.d/ и вставляет в живой
+# server{} блок location из deploy/nginx-metrika-locations.conf. Идемпотентно:
+# блок ищется по маркеру «PERF-METRIKA-001 begin», повторный запуск ничего
+# не дублирует.
+#
+# Права: у деплой-пользователя нет беспарольного sudo (диагностика 23.08).
+# Правка конфига и reload выполняются разово под root через одноразовый
+# docker-контейнер (--rm, chroot /host) — тем же способом, что в
+# ops-nginx-ratelimit: sudoers не меняется, после выхода контейнера
+# повышенных прав не остаётся.
+#
+# Безопасность применения: перед правкой снимается копия конфига рядом с
+# оригиналом. Если nginx -t не проходит, копия возвращается на место,
+# conf.d-файл удаляется (если его положил этот же запуск), и шаг падает с
+# ненулевым кодом — живой сайт остаётся на прежнем конфиге.
+#
+# Безопасность для счётчика: сайт грузит тег с /m/tag.js и при ошибке
+# загрузки сам подставляет оригинальный адрес mc.yandex.ru (см. Analytics.astro),
+# поэтому порядок «сначала код, потом конфиг» тоже безопасен — Метрика
+# работает в любом случае.
+#
+# Результат — комментарий в журнал-issue #22.
+name: ops-nginx-metrika-cache
+on:
+  workflow_dispatch:
+    inputs:
+      apply:
+        description: "false — только показать текущее состояние; true — применить"
+        required: true
+        default: "false"
+        type: choice
+        options: ["false", "true"]
+permissions:
+  contents: read
+  issues: write
+jobs:
+  nginx:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Guard - only default branch
+        run: |
+          if [ "${{ github.ref_name }}" != "main" ]; then
+            echo "Запуск разрешён только с ветки main. Текущий ref: ${{ github.ref_name }}"
+            exit 1
+          fi
+      - name: Checkout
+        # always() — шаг журнала ниже тоже always(): без этого при
+        # падении раннего шага checkout пропустится и запись не пройдёт.
+        if: always()
+        uses: actions/checkout@v4
+
+      - name: Проверить, что исходные файлы на месте
+        run: |
+          MISSING=0
+          for f in deploy/nginx-metrika-cache.conf deploy/nginx-metrika-locations.conf; do
+            if [ ! -s "$f" ]; then echo "НЕТ файла $f"; MISSING=1; fi
+          done
+          if [ "$MISSING" = "1" ]; then
+            echo "::error::В main нет файлов кэша Метрики."
+            exit 1
+          fi
+          echo "--- зона кэша:"; cat deploy/nginx-metrika-cache.conf
+          echo "--- location:"; cat deploy/nginx-metrika-locations.conf
+
+      - name: Copy configs to server
+        uses: appleboy/scp-action@v1
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          source: 'deploy/nginx-metrika-cache.conf,deploy/nginx-metrika-locations.conf'
+          target: /tmp/bizsoft-metrika
+          strip_components: 1
+
+      - name: Apply on server
+        id: run
+        uses: appleboy/ssh-action@v1
+        env:
+          P_APPLY: ${{ inputs.apply }}
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          envs: P_APPLY
+          command_timeout: 10m
+          capture_stdout: true
+          script: |
+            set -e
+            echo "== окружение =="
+            SUDO=""
+            sudo -n true 2>/dev/null && SUDO="sudo -n"
+            DOCKER=НЕТ
+            docker info >/dev/null 2>&1 && DOCKER=да
+            echo "пользователь: $(id -un), sudo без пароля: $([ -n "$SUDO" ] && echo да || echo НЕТ), docker: $DOCKER"
+
+            echo
+            echo "== текущее состояние =="
+            CONF=$(grep -rl "server_name biz-soft.pro" /etc/nginx 2>/dev/null | grep -v '\.bak' | head -1)
+            if [ -z "$CONF" ] && [ -n "$SUDO" ]; then
+              CONF=$($SUDO grep -rl "server_name biz-soft.pro" /etc/nginx 2>/dev/null | grep -v '\.bak' | head -1)
+            fi
+            echo "конфиг сайта: ${CONF:-НЕ НАЙДЕН}"
+            [ -n "$CONF" ]
+            if [ -f /etc/nginx/conf.d/bizsoft-metrika-cache.conf ]; then
+              echo "зона кэша: файл на месте"
+            else
+              echo "зона кэша: файла нет"
+            fi
+            if grep -q "PERF-METRIKA-001" "$CONF" 2>/dev/null; then
+              echo "блок location: уже в конфиге"
+            else
+              echo "блок location: в конфиге нет"
+            fi
+            echo "--- как сейчас отвечает /m/tag.js:"
+            curl -s -o /dev/null -w "  код %{http_code}, тип %{content_type}, размер %{size_download} Б\n" \
+              https://biz-soft.pro/m/tag.js || echo "  (запрос не прошёл)"
+
+            if [ "$P_APPLY" != "true" ]; then
+              echo
+              echo "apply=false: изменений не делалось"
+              rm -rf /tmp/bizsoft-metrika
+              exit 0
+            fi
+
+            # Скрипт, исполняемый под root. Идемпотентен и самооткатываем:
+            # при неудачном nginx -t возвращает конфиг из копии и падает.
+            cat > /tmp/bz-metrika-apply.sh <<'ROOTEOF'
+            #!/bin/bash
+            set -e
+            conf=$(grep -rl "server_name biz-soft.pro" /etc/nginx | grep -v '\.bak' | head -1)
+            stamp=$(date +%Y%m%d-%H%M%S)
+            backup="$conf.bak-metrika-$stamp"
+            zone=/etc/nginx/conf.d/bizsoft-metrika-cache.conf
+            zone_added=нет
+
+            cp -p "$conf" "$backup"
+            echo "копия конфига: $backup"
+
+            if [ -f "$zone" ]; then
+              cp -p "$zone" "$zone.bak-$stamp"
+              echo "зона уже была, копия: $zone.bak-$stamp"
+            else
+              zone_added=да
+            fi
+            cp /tmp/bizsoft-metrika/nginx-metrika-cache.conf "$zone"
+            echo "зона кэша записана: $zone"
+
+            mkdir -p /var/cache/nginx/metrika
+            chown -R www-data:www-data /var/cache/nginx/metrika 2>/dev/null || true
+            echo "каталог кэша готов: /var/cache/nginx/metrika"
+
+            python3 - "$conf" <<'PYEOF'
+            import sys
+            conf = sys.argv[1]
+            block = open('/tmp/bizsoft-metrika/nginx-metrika-locations.conf',
+                         encoding='utf-8').read().rstrip('\n')
+            text = open(conf, encoding='utf-8').read()
+            if 'PERF-METRIKA-001' in text:
+                print('блок location уже есть — файл не меняю')
+            else:
+                marker = '    location / {'
+                assert marker in text, 'маркер "location / {" не найден'
+                open(conf, 'w', encoding='utf-8').write(
+                    text.replace(marker, block + '\n\n' + marker, 1))
+                print('блок location вставлен перед location /')
+            PYEOF
+
+            # Точка проверки. Всё, что ниже, выполняется только на исправном
+            # конфиге; иначе откат и ненулевой код возврата.
+            if ! nginx -t; then
+              echo "nginx -t НЕ ПРОШЁЛ — откатываю"
+              cp -p "$backup" "$conf"
+              if [ "$zone_added" = "да" ]; then rm -f "$zone"; else cp -p "$zone.bak-$stamp" "$zone"; fi
+              nginx -t && echo "конфиг возвращён в исходное состояние"
+              exit 1
+            fi
+
+            systemctl reload nginx 2>/dev/null && echo 'nginx перечитан (systemctl)' \
+              || { nginx -s reload && echo 'nginx перечитан (nginx -s reload)'; }
+            ROOTEOF
+            chmod +x /tmp/bz-metrika-apply.sh
+
+            if [ -n "$SUDO" ]; then
+              $SUDO /tmp/bz-metrika-apply.sh
+            elif [ "$DOCKER" = "да" ]; then
+              echo "sudo нет — разовое выполнение под root в одноразовом контейнере (--rm)"
+              docker run --rm --pid=host -v /:/host alpine:3 chroot /host /bin/bash /tmp/bz-metrika-apply.sh
+            else
+              echo "ни sudo, ни docker — применить нечем"
+              exit 1
+            fi
+
+            rm -f /tmp/bz-metrika-apply.sh
+            rm -rf /tmp/bizsoft-metrika
+            echo "временные файлы удалены; sudoers не менялся, контейнер удалён — повышенных прав не осталось"
+
+            echo
+            echo "== проверка после применения =="
+            sleep 2
+            for i in 1 2; do
+              curl -s -o /tmp/bz-tag.js -D /tmp/bz-tag.h -w "  попытка $i: код %{http_code}, размер %{size_download} Б\n" \
+                https://biz-soft.pro/m/tag.js || true
+              grep -i "^x-cache-status\|^content-type\|^cache-control" /tmp/bz-tag.h | sed 's/^/    /' || true
+            done
+            echo "  первые байты файла: $(head -c 60 /tmp/bz-tag.js 2>/dev/null)"
+            rm -f /tmp/bz-tag.js /tmp/bz-tag.h
+
+      # Приёмка снаружи: файл действительно отдаётся и это скрипт Метрики.
+      - name: Probe metrika tag
+        if: inputs.apply == 'true'
+        run: |
+          URL="https://biz-soft.pro/m/tag.js"
+          CODE=$(curl -s -o /tmp/tag.js -w '%{http_code}' --max-time 20 "$URL")
+          TYPE=$(curl -s -o /dev/null -w '%{content_type}' --max-time 20 "$URL")
+          SIZE=$(stat -c%s /tmp/tag.js 2>/dev/null || echo 0)
+          echo "код $CODE, тип $TYPE, размер $SIZE Б"
+          if [ "$CODE" != "200" ] || [ "$SIZE" -lt 10000 ]; then
+            echo "::error::Тег Метрики не отдаётся со своего домена — сайт продолжит грузить его с mc.yandex.ru через фолбэк, но выигрыша нет."
+            exit 1
+          fi
+          # Признак настоящего тега: в нём есть обращение к mc.yandex.ru.
+          if grep -qi "yandex" /tmp/tag.js; then
+            echo "✓ отдан настоящий тег Метрики"
+          else
+            echo "::error::По адресу отдаётся не тег Метрики."
+            exit 1
+          fi
+
+      - name: Post to issue
+        if: always()
+        uses: ./.github/actions/journal-post
+        with:
+          title: "ops-nginx-metrika-cache (apply=${{ inputs.apply }})"
+          outcome: ${{ steps.run.outcome }}
+          body: ${{ steps.run.outputs.stdout }}

@@ -59,9 +59,11 @@ function run(url, dir, i) {
     if (!traceFile) throw new Error('файл трассы не найден в каталоге прогона');
     const trace = JSON.parse(readFileSync(join(dir, traceFile), 'utf8'));
     const events = trace.traceEvents || trace;
+    // Ловим и служебные события UKM: когда кандидатов нет вовсе, только по
+    // ним видно, дошло ли дело до расчёта LCP и в каком фрейме.
     lcpEvents = events
-      .filter((e) => e.name === 'largestContentfulPaint::Candidate' || e.name === 'largestContentfulPaint::Invalidate')
-      .map((e) => ({ name: e.name.replace('largestContentfulPaint::', ''), ts: e.ts, size: e.args?.data?.size, type: e.args?.data?.type, frame: e.args?.frame }))
+      .filter((e) => /largestcontentfulpaint/i.test(e.name || ''))
+      .map((e) => ({ name: (e.name || '').replace(/^largestContentfulPaint::/, ''), ts: e.ts, size: e.args?.data?.size, type: e.args?.data?.type, frame: e.args?.frame }))
       .sort((a, b) => a.ts - b.ts);
   } catch (e) {
     lcpEvents = [{ name: 'трасса не прочитана', note: e.message }];
@@ -86,8 +88,18 @@ for (const p of paths) {
       console.log('  ' + [['FCP', 'first-contentful-paint'], ['LCP', 'largest-contentful-paint'], ['TBT', 'total-blocking-time'], ['CLS', 'cumulative-layout-shift'], ['SI', 'speed-index']]
         .map(([n, k]) => `${n} ${a[k]?.displayValue ?? '—'}`).join(' · '));
       if (a['largest-contentful-paint']?.scoreDisplayMode === 'error') console.log(`  LCP не вычислен: ${a['largest-contentful-paint'].errorMessage}`);
+      console.log(`  TTFB ${a['server-response-time']?.numericValue != null ? Math.round(a['server-response-time'].numericValue) + ' мс' : '—'} · документ ${Math.round((a['network-requests']?.details?.items?.[0]?.transferSize || 0) / 1024)} КБ`);
       const el = a['largest-contentful-paint-element']?.details?.items?.[0]?.items?.[0]?.node;
       if (el) console.log(`  LCP-элемент: ${el.selector} — «${(el.nodeLabel || '').slice(0, 70)}»`);
+      // Крупнейшие узлы первого экрана: когда кандидата LCP нет, полезно
+      // видеть, что вообще было отрисовано и каких размеров.
+      for (const s of (a['screenshot-thumbnails']?.details?.items || []).slice(-1)) {
+        if (s.timing) console.log(`  последний кадр: ${Math.round(s.timing)} мс`);
+      }
+      const losses = Object.values(a)
+        .filter((x) => x.score != null && x.score < 1 && !/^(first-contentful|largest-contentful|total-blocking|cumulative-layout|speed-index|interactive|max-potential)/.test(x.id))
+        .sort((p, q) => (q.details?.overallSavingsMs || 0) - (p.details?.overallSavingsMs || 0));
+      if (losses.length) console.log('  потери: ' + losses.slice(0, 5).map((l) => `${l.id}${l.displayValue ? ` (${l.displayValue})` : ''}`).join(' · '));
       // Главное: события LCP из трассы — кандидат или отзыв, в порядке времени.
       const t0 = lcpEvents.length ? lcpEvents[0].ts : 0;
       console.log(`  события LCP в трассе: ${lcpEvents.length}`);
