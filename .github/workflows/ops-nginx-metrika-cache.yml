@@ -157,13 +157,23 @@ jobs:
             echo "каталог кэша готов: /var/cache/nginx/metrika"
 
             python3 - "$conf" <<'PYEOF'
+            import re
             import sys
             conf = sys.argv[1]
             block = open('/tmp/bizsoft-metrika/nginx-metrika-locations.conf',
                          encoding='utf-8').read().rstrip('\n')
             text = open(conf, encoding='utf-8').read()
             if 'PERF-METRIKA-001' in text:
-                print('блок location уже есть — файл не меняю')
+                # Блок уже стоит — заменяем целиком на версию из репозитория,
+                # иначе правки конфига (например, режим сжатия) не доезжали бы
+                # до сервера: повторный запуск видел маркер и ничего не делал.
+                pattern = re.compile(
+                    r'[ \t]*#[^\n]*PERF-METRIKA-001 begin.*?#[^\n]*PERF-METRIKA-001 end[^\n]*\n',
+                    re.S)
+                new_text, n = pattern.subn(block + '\n', text)
+                assert n == 1, f'ожидался один блок PERF-METRIKA-001, найдено {n}'
+                open(conf, 'w', encoding='utf-8').write(new_text)
+                print('блок location обновлён из репозитория')
             else:
                 marker = '    location / {'
                 assert marker in text, 'маркер "location / {" не найден'
@@ -220,7 +230,7 @@ jobs:
           CODE=$(curl -s -o /tmp/tag.js -w '%{http_code}' --max-time 20 "$URL")
           TYPE=$(curl -s -o /dev/null -w '%{content_type}' --max-time 20 "$URL")
           SIZE=$(stat -c%s /tmp/tag.js 2>/dev/null || echo 0)
-          echo "код $CODE, тип $TYPE, размер $SIZE Б"
+          echo "без сжатия: код $CODE, тип $TYPE, размер $SIZE Б"
           if [ "$CODE" != "200" ] || [ "$SIZE" -lt 10000 ]; then
             echo "::error::Тег Метрики не отдаётся со своего домена — сайт продолжит грузить его с mc.yandex.ru через фолбэк, но выигрыша нет."
             exit 1
@@ -232,6 +242,19 @@ jobs:
             echo "::error::По адресу отдаётся не тег Метрики."
             exit 1
           fi
+
+          # Главная проверка выигрыша: браузер запрашивает сжатие, и по проводу
+          # должно уехать ~70 КБ, как с mc.yandex.ru. Без сжатия это 288 КБ —
+          # вчетверо хуже, чем было до кэша, поэтому здесь красный статус.
+          GZ=$(curl -s -H 'Accept-Encoding: gzip' -o /tmp/tag.gz -D /tmp/tag.h -w '%{size_download}' --max-time 20 "$URL")
+          ENC=$(grep -i '^content-encoding' /tmp/tag.h | tr -d '\r' | head -1)
+          VARY=$(grep -i '^vary' /tmp/tag.h | tr -d '\r' | head -1)
+          echo "со сжатием: по проводу $GZ Б; ${ENC:-content-encoding отсутствует}; ${VARY:-vary отсутствует}"
+          if [ "$GZ" -gt 120000 ]; then
+            echo "::error::Тег отдаётся несжатым ($GZ Б). Проверьте gzip/gunzip в блоке PERF-METRIKA-001 и gzip_types в http-блоке."
+            exit 1
+          fi
+          echo "✓ сжатие работает: экономия $(( (SIZE - GZ) / 1024 )) КБ на загрузку"
 
       - name: Post to issue
         if: always()
