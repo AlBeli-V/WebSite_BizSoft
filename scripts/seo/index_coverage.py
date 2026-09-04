@@ -51,9 +51,13 @@ BASE_URL = f"https://{SITE}"
 OUT_DIR = pathlib.Path("reports/seo/data")
 MSK = ZoneInfo("Europe/Moscow")
 
-# Квота URL Inspection — 2000 в сутки на ресурс. 1800 оставляет запас ручному
-# ops-index-validate и повторному прогону после сбоя.
-MAX_INSPECT = 1800
+# Квота URL Inspection — 2000 в сутки на ресурс, и сутки у Google идут по
+# тихоокеанскому времени (сброс в 10:00 МСК). 03.09.2026 три прогона за день
+# (ручной, автоматический по пушу и повтор после мержа) исчерпали её: третий
+# получил 429 после 100 URL. 1000 за прогон покрывает 800 URL инвентаря за
+# один ночной запуск и оставляет половину квоты ручным ops-index-validate и
+# внеплановым прогонам.
+MAX_INSPECT = 1000
 INSPECT_URL = "https://searchconsole.googleapis.com/v1/urlInspection/index:inspect"
 # Инспекция идёт параллельно: один вызов API отвечает 2–4 с, и первый прогон
 # 03.09.2026 по 800 URL последовательно шёл дольше получаса. Пять потоков при
@@ -113,9 +117,13 @@ def load_inventory(date_s: str, out_dir: pathlib.Path = OUT_DIR) -> dict | None:
 
 def load_previous(prefix: str, date_s: str,
                   out_dir: pathlib.Path = OUT_DIR) -> dict:
-    """Прежний срез (не сегодняшний): наследуемые статусы Google."""
+    """Наследуемые статусы Google: последний имеющийся срез, включая
+    сегодняшний. Повторный прогон в тот же день (03.09.2026: после мержа по
+    пушу) прежде начинал с нуля и затирал утренний срез из 571 URL файлом со
+    100 — теперь он дополняет его: URL без статуса идут первыми, уже
+    инспектированные сегодня — в конец очереди."""
     date = dt.date.fromisoformat(date_s)
-    for back in range(1, LOOKBACK_DAYS + 1):
+    for back in range(0, LOOKBACK_DAYS + 1):
         d = (date - dt.timedelta(days=back)).isoformat()
         p = out_dir / f"{prefix}-{d}.json"
         if not p.exists():
@@ -225,7 +233,8 @@ def inspect_google(paths: list[str], prev: dict, date_s: str,
     for path in rest:
         old = prev.get(path)
         if old and old.get("inspected_at"):
-            result["pages"][path] = {**old, "stale_from": old["inspected_at"]}
+            result["pages"][path] = ({**old} if old["inspected_at"] == date_s
+                                     else {**old, "stale_from": old["inspected_at"]})
         else:
             result["pages"][path] = {"coverage_state": None, "inspected_at": None}
 
@@ -325,6 +334,20 @@ def collect_yandex_index(date_s: str) -> dict:
 
 # ── запуск ───────────────────────────────────────────────────────────────────
 
+# Исчерпание суточной квоты Google — не поломка контура: остальные источники
+# собраны, а страницы сохраняют статус прошлой инспекции (поле inherited).
+# 04.09.2026 такой 429 уронил весь сбор данных, и ежедневное письмо не вышло
+# вовсе. Теперь это ограничение: прогон зелёный, срез помечен как унаследованный,
+# возраст данных виден потребителю (правило достоверности отчётов).
+QUOTA_MARKERS = ("HTTP 429", "Quota exceeded", "RESOURCE_EXHAUSTED")
+
+
+def quota_limited(payload: dict) -> bool:
+    """Ошибка вызвана исчерпанной квотой, а унаследованные статусы есть."""
+    err = payload.get("error") or ""
+    return bool(payload.get("inherited")) and any(m in err for m in QUOTA_MARKERS)
+
+
 def main() -> int:
     date_s = today()
     OUT_DIR.mkdir(parents=True, exist_ok=True)
@@ -345,10 +368,18 @@ def main() -> int:
             g["inventory_date"] = inv["date"]
         except Exception as e:  # noqa: BLE001 — любая ошибка источника в JSON
             g = {"date": date_s, "error": f"{type(e).__name__}: {e}"}
-        ok = ok and "error" not in g
+        if quota_limited(g):
+            g["limited"] = "quota"
+        ok = ok and ("error" not in g or "limited" in g)
     p = OUT_DIR / f"index-google-{date_s}.json"
     p.write_text(json.dumps(g, ensure_ascii=False, indent=1), encoding="utf-8")
-    print(f"google: {'ошибка: ' + g['error'] if 'error' in g else 'ок'} "
+    if "limited" in g:
+        state = "квота исчерпана — статусы унаследованы с прошлой инспекции"
+    elif "error" in g:
+        state = "ошибка: " + g["error"]
+    else:
+        state = "ок"
+    print(f"google: {state} "
           f"(инспектировано {g.get('inspected', 0)}, унаследовано "
           f"{g.get('inherited', 0)}) -> {p}")
 

@@ -1,0 +1,109 @@
+---
+/**
+ * Подборка статей Базы знаний по тегу: /blog/tag/<slug>.
+ *
+ * Слаг — транслитерация русского тега (src/lib/blog-tags.ts). Подборки с
+ * малым числом статей отдают noindex и в sitemap не попадают: тонкая
+ * страница-дубль вредит индексации, а для навигации она всё равно нужна.
+ * Неизвестный слаг — 404, чтобы робот не индексировал пустые подборки.
+ */
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../../components/Breadcrumbs.astro';
+import CTASection from '../../../components/CTASection.astro';
+import { collectTags, MIN_BAR_TAG_POSTS } from '../../../lib/blog-tags';
+
+export async function getStaticPaths() {
+  // Подборка на каждый тег опубликованных статей; неизвестный слаг — 404
+  // средствами статической сборки, как и у самих статей.
+  const all = (await getCollection('blog', ({ data }) => !data.draft)).sort(
+    (a, b) => b.data.date.getTime() - a.data.date.getTime(),
+  );
+  const tags = collectTags(all.map((p) => ({ tags: p.data.tags })));
+  return tags.map((entry) => ({
+    params: { tag: entry.slug },
+    props: { entry, tags, posts: all.filter((p) => p.data.tags.includes(entry.tag)) },
+  }));
+}
+
+const { entry, tags, posts } = Astro.props;
+const title = `Статьи по теме «${entry.tag}»`;
+const description = `База знаний BIZSoft, подборка «${entry.tag}»: ${posts.length} ${plural(posts.length)} о покупке ПО и сервисов для юридических лиц — оформление, документы, выбор тарифа.`;
+
+function plural(n: number) {
+  const m10 = n % 10, m100 = n % 100;
+  if (m10 === 1 && m100 !== 11) return 'статья';
+  if (m10 >= 2 && m10 <= 4 && (m100 < 10 || m100 >= 20)) return 'статьи';
+  return 'статей';
+}
+function fmtDate(d: Date) {
+  return d.toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' });
+}
+---
+<BaseLayout title={title} description={description} noindex={!entry.indexed}>
+  <div class="container-page section">
+    <Breadcrumbs items={[{ name: 'База знаний', url: '/blog' }, { name: entry.tag, url: `/blog/tag/${entry.slug}` }]} />
+    <header class="head">
+      <h1>{title}</h1>
+      <p class="lead">{posts.length} {plural(posts.length)}. Все материалы Базы знаний — на <a href="/blog">общей странице</a>.</p>
+    </header>
+
+    <nav class="tag-bar" aria-label="Темы Базы знаний">
+      <a href="/blog" class="chip">Все статьи</a>
+      {tags.filter((t) => t.count >= MIN_BAR_TAG_POSTS || t.slug === entry.slug).map((t) => (
+        <a href={`/blog/tag/${t.slug}`} class:list={['chip', { active: t.slug === entry.slug }]}
+           aria-current={t.slug === entry.slug ? 'page' : undefined}>
+          {t.tag} <span class="n">{t.count}</span>
+        </a>
+      ))}
+    </nav>
+
+    <div class="posts">
+      {posts.map((p) => (
+        <a href={`/blog/${p.id}`} class="card card-hover post reveal">
+          {p.data.cover && (
+            <img class="thumb" src={p.data.cover} alt={p.data.coverAlt || p.data.title}
+                 width="600" height="338" loading="lazy" decoding="async" />
+          )}
+          <div class="tags">{p.data.tags.slice(0, 2).map((t) => <span>{t}</span>)}</div>
+          <h2>{p.data.title}</h2>
+          <p>{p.data.description}</p>
+          <span class="date">{fmtDate(p.data.updated || p.data.date)}</span>
+        </a>
+      ))}
+    </div>
+  </div>
+  <CTASection />
+</BaseLayout>
+
+<style>
+  .section { padding-top: 2rem; }
+  .head { max-width: 720px; margin-bottom: 1.5rem; }
+  h1 { font-size: clamp(1.9rem, 4vw, 2.8rem); margin-bottom: 1rem; }
+  .lead { color: var(--color-text-muted); font-size: 1.08rem; }
+  .tag-bar { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 2rem; }
+  .chip {
+    display: inline-flex; align-items: center; gap: 0.35rem;
+    background: var(--color-bg-elevated); color: var(--color-text-muted);
+    font-size: 0.85rem; padding: 0.35rem 0.8rem; border-radius: 999px;
+    text-decoration: none; border: 1px solid transparent;
+  }
+  .chip:hover { color: var(--color-text); border-color: var(--color-border, rgba(0,0,0,0.12)); }
+  .chip.active { background: var(--color-accent); color: #fff; }
+  .chip .n { font-size: 0.72rem; opacity: 0.75; }
+  .posts { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.2rem; }
+  .post { padding: 1.6rem; display: flex; flex-direction: column; gap: 0.6rem; }
+  .thumb {
+    width: calc(100% + 3.2rem);
+    margin: -1.6rem -1.6rem 0.4rem;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    border-radius: var(--radius, 12px) var(--radius, 12px) 0 0;
+    display: block;
+  }
+  .tags { display: flex; gap: 0.4rem; }
+  .tags span { background: var(--color-bg-elevated); color: var(--color-text-muted); font-size: 0.72rem; padding: 0.15rem 0.55rem; border-radius: 6px; }
+  .post h2 { font-size: 1.25rem; }
+  .post p { color: var(--color-text-muted); font-size: 0.92rem; flex-grow: 1; }
+  .date { color: var(--color-text-dim); font-size: 0.82rem; }
+</style>

@@ -1,5 +1,7 @@
 # Переобход страниц в Яндекс.Вебмастере по API (recrawl/queue).
-# Токен: секрет YANDEX_OAUTH, либо YANDEX_OAUTH= в /opt/bizsoft/astro.env.
+# Токен: секрет YANDEX_WEBMASTER_TOKEN (то же имя, что у выгрузок Вебмастера в
+# seo-data-collect; дубль YANDEX_OAUTH снят 03.09.2026), либо YANDEX_OAUTH= в
+# /opt/bizsoft/astro.env на сервере.
 # Значение токена в логи не печатается. Результат — комментарием в issue #22.
 #
 # Статус прогона отражает результат, а не факт запуска: без токена, при
@@ -31,6 +33,11 @@ jobs:
             echo "Запуск разрешён только с ветки main. Текущий ref: ${{ github.ref_name }}"
             exit 1
           fi
+      # Локальный action journal-post лежит в репозитории — без checkout
+      # раннер его не находит, и запись в журнал падает (см. прогон #41
+      # ops-yandex-recrawl 03.09.2026).
+      - uses: actions/checkout@v4
+
       - name: Send recrawl requests
         id: run
         # Отчёт в журнал должен попасть и при поломке; красный статус
@@ -39,7 +46,7 @@ jobs:
         uses: appleboy/ssh-action@v1
         env:
           URLS: ${{ inputs.urls }}
-          YTOKEN: ${{ secrets.YANDEX_OAUTH }}
+          YTOKEN: ${{ secrets.YANDEX_WEBMASTER_TOKEN }}
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
@@ -52,7 +59,7 @@ jobs:
               YTOKEN=$(sed -n 's/^YANDEX_OAUTH=//p' /opt/bizsoft/astro.env 2>/dev/null | tr -d '"\r' || true)
             fi
             if [ -z "$YTOKEN" ]; then
-              echo "токен: НЕ НАЙДЕН (ни секрета YANDEX_OAUTH, ни YANDEX_OAUTH в astro.env)"
+              echo "токен: НЕ НАЙДЕН (ни секрета YANDEX_WEBMASTER_TOKEN, ни YANDEX_OAUTH в astro.env)"
               echo "переобход не запрошен ни по одному URL"
               exit 1
             fi
@@ -98,25 +105,16 @@ jobs:
                 sys.exit(1)
             PY
 
+      # Локальному action нужен репозиторий в рабочей копии. if: always() —
+      # потому что шаг журнала тоже always(): без этого при падении основного
+      # шага checkout пропускается, и запись в журнал снова не проходит.
+      - name: Checkout for journal action
+        if: always()
+        uses: actions/checkout@v4
       - name: Post results to journal (issue #22)
         if: always()
-        uses: actions/github-script@v7
-        env:
-          OUT: ${{ steps.run.outputs.stdout }}
-          RESULT: ${{ steps.run.outcome }}
+        uses: ./.github/actions/journal-post
         with:
-          script: |
-            const out = (process.env.OUT || '(нет вывода)').slice(0, 60000);
-            const mark = process.env.RESULT === 'success' ? '✓' : '✗';
-            await github.rest.issues.createComment({
-              owner: context.repo.owner, repo: context.repo.repo, issue_number: 22,
-              body: `### ops-yandex-recrawl ${mark} · ` + new Date().toISOString() +
-                (mark === '✗' ? '\nПереобход запрошен не полностью — см. вывод.' : '') +
-                '\n```\n' + out + '\n```',
-            });
-
-      - name: Fail the run if it failed
-        if: steps.run.outcome != 'success'
-        run: |
-          echo "Переобход запрошен не полностью — подробности в issue #22"
-          exit 1
+          title: "ops-yandex-recrawl"
+          outcome: ${{ steps.run.outcome }}
+          body: ${{ steps.run.outputs.stdout }}

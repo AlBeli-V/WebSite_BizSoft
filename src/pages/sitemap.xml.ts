@@ -12,6 +12,7 @@ import { alternativesPages } from '../data/alternatives';
 import { aiSubcategories } from '../data/ai-hub';
 import { VENDORS } from '../data/vendors';
 import { vendorSlug } from '../lib/vendor-links';
+import { collectTags } from '../lib/blog-tags';
 
 // Только опубликованные индексируемые страницы. Без cart/consent/admin/api/draft/noindex.
 const STATIC_ROUTES: { path: string; priority: number; changefreq: string }[] = [
@@ -103,6 +104,12 @@ export const GET: APIRoute = async () => {
     for (const p of posts) {
       const lastmod = (p.data.updated || p.data.date).toISOString().slice(0, 10);
       entries.push(urlEntry(`/blog/${p.id}`, 0.6, 'monthly', lastmod));
+    }
+    // Подборки статей по тегам (/blog/tag/*): в карту идут только те, где
+    // статей не меньше порога — остальные отдают noindex (src/lib/blog-tags.ts).
+    for (const t of collectTags(posts.map((p) => ({ tags: p.data.tags })))) {
+      if (!t.indexed) continue;
+      entries.push(urlEntry(`/blog/tag/${t.slug}`, 0.5, 'weekly'));
     }
   } catch (e) {
     // Блог собирается из локальных файлов: сбой здесь означает поломку сборки,

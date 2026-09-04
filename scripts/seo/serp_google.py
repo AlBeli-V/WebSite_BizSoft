@@ -173,8 +173,12 @@ def existing_rows(date_s: str, cfg: dict) -> dict[str, dict]:
             row = json.loads(line)
         except ValueError:
             continue
-        if row.get("error") or not row.get("top"):
+        if row.get("error"):
             continue
+        if not isinstance(row.get("top"), list):
+            continue          # строка без результата замера — докачать
+        # Пустая выдача без ошибки — полный замер; докачивать и платить
+        # за неё повторно не нужно (pages_missing видит короткую страницу).
         if row.get("series", series) != series or row.get("loc", loc) != loc:
             continue
         out[_norm(row.get("query", ""))] = row
@@ -264,8 +268,8 @@ def merge_pages(results: list[dict], top_n: int,
         if "error" in res:
             row["partial_error"] = res["error"]
             break
-        # Сервис может отдать на «следующей» странице ту же выдачу
-        # (xmlriver игнорирует page — проба 03.09.2026): повторы по URL не
+        # Google повторяет часть URL на соседних страницах (проверено на
+        # срезе 03.09.2026: 113 повторов на 373 ключа): повторы по URL не
         # склеиваем, а считаем, чтобы дубль был виден в срезе.
         fresh = [d for d in (res.get("top") or [])
                  if d.get("url") not in seen_urls]

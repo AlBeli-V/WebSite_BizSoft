@@ -132,7 +132,7 @@ jobs:
 
               if grep -q '^SMTP_PASS=.\+' "$ENVF"; then
                 echo "-- тестовая заявка (source=ops-mail-test, можно удалить в Leads) --"
-                curl -s -X POST http://127.0.0.1:3000/api/lead -H 'Content-Type: application/json' \
+                curl -sf -X POST http://127.0.0.1:3000/api/lead -H 'Content-Type: application/json' \
                   -d "{\"name\":\"Тест доставки почты\",\"company\":\"BizSoft (ops)\",\"email\":\"$NEW_EMAIL\",\"phone\":\"—\",\"message\":\"Тестовая заявка: проверка уведомлений на MANAGER_EMAIL после настройки. Можно удалить.\",\"consent\":true,\"source\":\"ops-mail-test\"}"
                 echo
                 sleep 5

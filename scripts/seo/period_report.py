@@ -294,18 +294,29 @@ def _delta_pct(cur: float, prev: float) -> float | None:
     return None
 
 
+def _clicks_sentence(cur: dict, prev: dict) -> str:
+    """Фраза о кликах: вердикт только по полным окнам.
+
+    Вердикт «снизились» по неполному окну — ложь: недозревший хвост периода
+    прежде считался нулём (аудит 03.09.2026).
+    """
+    yc, yp = cur["total"], prev["total"]
+    if not (_fully_covered(cur) and _fully_covered(prev)):
+        return (f"кликов из Яндекса {num(yc)} за {cur['covered_days']} из "
+                f"{cur['days']} дн., сравнение с прошлым периодом не приводится: "
+                f"окна покрыты не полностью")
+    d = _delta_pct(yc, yp)
+    if d is None:
+        return f"кликов из Яндекса {num(yc)}"
+    word = "выросли" if d > 0.05 else "снизились" if d < -0.05 else "держатся"
+    return f"клики из Яндекса {word} ({num(yp)} → {num(yc)}, {d:+.0%})"
+
+
 def _summarise(b: dict) -> None:
     """Итог периода одним абзацем + список «на что смотреть»."""
     cur, prev = b["metrics"], b["prev_metrics"]
     parts = []
-    yc, yp = cur["yandex_clicks"]["total"], prev["yandex_clicks"]["total"]
-    d = _delta_pct(yc, yp)
-    if d is not None:
-        word = "выросли" if d > 0.05 else "снизились" if d < -0.05 else "держатся"
-        parts.append(f"клики из Яндекса {word} "
-                     f"({num(yp)} → {num(yc)}, {d:+.0%})")
-    else:
-        parts.append(f"кликов из Яндекса {num(yc)}")
+    parts.append(_clicks_sentence(cur["yandex_clicks"], prev["yandex_clicks"]))
     gc = cur["goals_organic"]["total"]
     gp = prev["goals_organic"]["total"]
     parts.append(f"достижений целей {num(gc)}"
@@ -340,7 +351,14 @@ def _summarise(b: dict) -> None:
 
 # ── Рендер письма ───────────────────────────────────────────────────────────
 
+def _fully_covered(m: dict) -> bool:
+    return bool(m.get("days")) and m.get("covered_days") == m.get("days")
+
+
 def _fmt_metric(m: dict) -> str:
+    """«—» для источника без данных за период: ноль и «нет данных» различны."""
+    if not m.get("covered_days"):
+        return "—"
     if m.get("is_ratio"):
         return "—" if m["total"] is None else f"{m['total'] * 100:.2f}%"
     return num(int(m["total"]))
@@ -352,15 +370,27 @@ def _kpi_rows_html(b: dict) -> str:
                 "gsc_impressions", "gsc_clicks", "visits_all",
                 "visits_organic", "goals_organic", "ga4_sessions"):
         cur, prev = b["metrics"][key], b["prev_metrics"][key]
-        if cur.get("is_ratio"):
+        comparable = _fully_covered(cur) and _fully_covered(prev)
+        if not comparable:
+            delta = "—"
+        elif cur.get("is_ratio"):
             delta = ("—" if cur["total"] is None or prev["total"] is None else
                      f"{(cur['total'] - prev['total']) * 100:+.2f} п.п.")
         else:
             d = _delta_pct(cur["total"], prev["total"])
             delta = "—" if d is None else f"{d:+.0%}"
-        cov = ("" if cur["covered_days"] == cur["days"] else
+        # Покрытие подписывается обеим колонкам: у прошлого периода оно
+        # прежде не показывалось, и «0» читался как измеренный ноль.
+        cov = ("" if _fully_covered(cur) else
                f" <span data-meta=\"1\" style=\"color:{T['warning']};\">"
-               f"({cur['covered_days']}/{cur['days']} дн.)</span>")
+               f"({cur['covered_days']}/{cur['days']} дн.")
+        cov += ("" if _fully_covered(prev) or not cov else
+                f"; прошлый {prev['covered_days']}/{prev['days']}")
+        if cov:
+            cov += ")</span>"
+        elif not _fully_covered(prev):
+            cov = (f" <span data-meta=\"1\" style=\"color:{T['warning']};\">"
+                   f"(прошлый {prev['covered_days']}/{prev['days']} дн.)</span>")
         colour = (T["text_primary"] if delta in ("—",) else
                   T["positive"] if delta.startswith("+") else
                   T["danger"] if delta.startswith("-") else T["text_primary"])

@@ -345,6 +345,18 @@ class TestUniverse(unittest.TestCase):
         self.assertEqual(row["first_seen"], "2026-07-01")
         self.assertEqual(row["last_seen"], "2026-08-01")
 
+    def test_cache_replay_does_not_move_last_seen_or_history(self):
+        """Повтор из кэша — не измерение: «замер от сегодня» и «stable» по
+        дублям одного числа были ложью (аудит 03.09.2026)."""
+        self.observe("canva купить", 100, "2026-08-20")
+        self.uni.observe(phrase="canva купить", frequency=100, date="2026-09-03",
+                         source_seed="canva", region="225", period="30 дней",
+                         method="getTop", cost_rub=0.0, vendors={}, source="cache")
+        row = self.uni.get("canva купить")
+        self.assertEqual(row["last_seen"], "2026-08-20")
+        self.assertEqual(len(row["historical_frequency"]), 1)
+        self.assertEqual(self.uni.trend("canva купить")["direction"], "unknown")
+
     def test_trend_needs_two_points(self):
         self.observe("canva купить", 100, "2026-07-01")
         self.assertEqual(self.uni.trend("canva купить")["direction"], "unknown")

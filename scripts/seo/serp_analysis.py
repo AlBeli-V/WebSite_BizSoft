@@ -107,7 +107,9 @@ def _load(date_s: str, offset_from: str | None = None,
                 rows.append(json.loads(line))
             except ValueError:
                 continue
-        rows = [r for r in rows if not r.get("error") and r.get("top")]
+        # Успешный замер с пустой выдачей (код 15 у xmlriver, found=0) —
+        # измерение «нас и никого нет», а не сбой: строка остаётся.
+        rows = [r for r in rows if not r.get("error") and isinstance(r.get("top"), list)]
         if rows:
             return {"date": d, "rows": rows}
     return None

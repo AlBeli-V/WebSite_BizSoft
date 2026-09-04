@@ -97,8 +97,14 @@ class TestInvariants(unittest.TestCase):
         self.assertEqual(len(t["soft"]), 2)
 
     def test_exposure_contradiction_is_soft(self):
+        # Форма — как у experiments.build: стадия строкой в verdict, вердикт
+        # движка в evaluation. Прежняя редакция теста подставляла словарь в
+        # verdict, такой формы конвейер не отдаёт никогда — тест закреплял
+        # ошибку кода вместо того, чтобы её поймать.
         blocks = dict(OK_BLOCKS, experiments=[{"ticket": "SEO-EXP-002", "exposure_ok": True,
-                                               "verdict": {"verdict": "INSUFFICIENT_DATA"}}])
+                                               "verdict": "observing",
+                                               "exposure_basis": "matched",
+                                               "evaluation": {"verdict": "INSUFFICIENT_DATA"}}])
         t = self.inv.check_tiers(OK_SNAP, OK_DQ, blocks, "")
         self.assertTrue(any("порог пройден" in x for x in t["soft"]))
 
@@ -121,6 +127,47 @@ class TestInvariants(unittest.TestCase):
             saved = json.loads((pathlib.Path(tmp) / "2026-08-25-invariants.json")
                                .read_text(encoding="utf-8"))
             self.assertEqual(saved["violations"], [])
+
+    # Форма блока экспериментов — как её собирает experiments.build, а не как
+    # удобно тесту: verdict эксперимента — строка стадии, вердикт движка лежит
+    # в evaluation.verdict. Инвариант S4, написанный под словарь, ронял сборку
+    # письма на реальных данных (03.09.2026) и молчал на фикстурах.
+    EXPERIMENT = {"ticket": "SEO-EXP-001", "verdict": "observing",
+                  "exposure_ok": True, "exposure_basis": "matched",
+                  "evaluation": {"verdict": "INSUFFICIENT_DATA"}}
+
+    def test_experiment_stage_is_a_string_and_does_not_crash(self):
+        blocks = dict(OK_BLOCKS, experiments=[self.EXPERIMENT])
+        self.assertEqual(self.inv.check(OK_SNAP, OK_DQ, blocks, "текст"),
+                         ["SEO-EXP-001: «порог пройден» при вердикте «мало данных»"])
+
+    def test_экспозиция_кластера_без_чистого_окна_не_нарушение(self):
+        # Решение 04.09.2026: пока окно источника захватывает период до
+        # внедрения, совпадающего набора не существует — экспозиция кластера
+        # набрана, а сравнивать не с чем. Это стадия, а не ложь: строка письма
+        # называет дату чистого окна. Прежде инвариант ругался на пять
+        # действующих экспериментов сразу.
+        exp = dict(self.EXPERIMENT)
+        exp.pop("exposure_basis")
+        exp["evaluation"] = {"verdict": "INSUFFICIENT_DATA",
+                             "clean_window_eta": "2026-09-13"}
+        blocks = dict(OK_BLOCKS, experiments=[exp])
+        self.assertEqual(self.inv.check(OK_SNAP, OK_DQ, blocks, "текст"), [])
+
+    def test_exposure_below_gate_is_not_a_violation(self):
+        exp = dict(self.EXPERIMENT, exposure_ok=False)
+        blocks = dict(OK_BLOCKS, experiments=[exp])
+        self.assertEqual(self.inv.check(OK_SNAP, OK_DQ, blocks, "текст"), [])
+
+    def test_confirmed_verdict_with_exposure_is_not_a_violation(self):
+        exp = dict(self.EXPERIMENT, evaluation={"verdict": "CONFIRMED"})
+        blocks = dict(OK_BLOCKS, experiments=[exp])
+        self.assertEqual(self.inv.check(OK_SNAP, OK_DQ, blocks, "текст"), [])
+
+    def test_experiment_without_evaluation_is_not_a_violation(self):
+        exp = {"ticket": "X", "verdict": "too_early", "exposure_ok": True}
+        blocks = dict(OK_BLOCKS, experiments=[exp])
+        self.assertEqual(self.inv.check(OK_SNAP, OK_DQ, blocks, "текст"), [])
 
 
 if __name__ == "__main__":
