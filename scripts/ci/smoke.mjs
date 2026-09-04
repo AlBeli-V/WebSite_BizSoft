@@ -223,6 +223,32 @@ check('WebMCP: search_products находит товар и даёт ссылк�
   const hit = body?.data?.items?.find((i) => i.url?.endsWith('/product/chatgpt-business'));
   return { ok: Boolean(hit), got: hit ? `найден ${hit.sku}` : `HTTP ${r.status}, не найден` };
 });
+check('WebMCP: фильтры подбора сужают выдачу (раздел + потолок цены)', async () => {
+  const r = await req('/api/agent/search_products?category=design&max_price=5000');
+  const body = r.status === 200 ? JSON.parse(r.body) : null;
+  const items = body?.data?.items || [];
+  // «Цена по запросу» внутрь ценового диапазона попадать не должна.
+  const ok = items.length > 0 && items.every((i) => typeof i.price === 'number' && i.price <= 5000);
+  return { ok, got: `HTTP ${r.status}, ${items.length} поз.: ${items.map((i) => i.price).join(', ') || '—'}` };
+});
+check('WebMCP: list_categories отдаёт разделы со ссылками', async () => {
+  const r = await req('/api/agent/list_categories');
+  const body = r.status === 200 ? JSON.parse(r.body) : null;
+  const items = body?.data?.items || [];
+  const ok = items.length > 0 && items.every((i) => i.url?.startsWith('https://biz-soft.pro/catalog/') && i.products_count > 0);
+  return { ok, got: `HTTP ${r.status}, ${items.map((i) => i.slug).join(', ') || '—'}` };
+});
+check('WebMCP: search_policies отвечает условиями с сайта, не выдумкой', async () => {
+  const r = await req('/api/agent/search_policies?query=' + encodeURIComponent('дадите закрывающие документы'));
+  const body = r.status === 200 ? JSON.parse(r.body) : null;
+  const top = body?.data?.items?.[0];
+  const ok = Boolean(top?.answer) && top?.url?.startsWith('https://biz-soft.pro/');
+  return { ok, got: top ? `${top.id} → ${top.url}` : `HTTP ${r.status}` };
+});
+check('WebMCP: пустого вызова каталога нет — 400 вместо всей базы', async () => {
+  const r = await req('/api/agent/search_products');
+  return { ok: r.status === 400, got: String(r.status) };
+});
 check('WebMCP: мусорный вход отклоняется схемой (400), не 500', async () => {
   const r = await req('/api/agent/search_products?query=x&limit=abc&hack=1');
   return { ok: r.status === 400, got: String(r.status) };

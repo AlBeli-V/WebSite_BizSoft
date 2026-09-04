@@ -23,7 +23,7 @@ TypeScript strict · Vitest · Python 3 (контуры SEO/разведки/р�
 | SERP (Яндекс + Google xmlriver) | `scripts/seo/serp_watch.py`, `serp_google.py`, `xmlriver.py`, `serp_analysis.py` | ветка `seo-data` → `reports/seo/serp/` | `seo-serp-watch` — единственный сборщик («один сбор — все потребители») | `docs/seo/serp-google-xmlriver.md` | `scripts/seo/tests` |
 | Конкурентная разведка | `competitive-intelligence/` (discovery, scoring, decision_engine, mailer, `run_daily.py`) | orphan-ветка `competitive-data` | `competitive-intelligence-daily`, `competitive-intelligence-mail` | `docs/competitive/methodology.md` (1313 стр. — по разделу), `docs/competitive/TRIGGER.md` | `python3 -m unittest discover -s competitive-intelligence/tests` |
 | Директ (реклама) | `scripts/ppc/direct_*.py` | аккаунт Яндекс.Директа, вне git; результат — issue #22 | `ops-direct` (единый, вход `action`: apply/check/expand/improve/negatives/refine/sitelinks/stats/tighten) | заголовок `ops-direct.yml` | — |
-| WebMCP | `src/webmcp/*`, `src/pages/api/agent/*` | тот же Directus, отдельной базы нет | входит в `ci.yml` | `docs/webmcp/architecture.md`, `security.md`, `tools.md`, `testing.md`, `shopping-agent-review.md` | `pnpm test:webmcp-browser` |
+| WebMCP | `src/webmcp/*`, `src/pages/api/agent/*`, `src/data/policies.ts`, `src/lib/policy-search.ts` | тот же Directus, отдельной базы нет | входит в `ci.yml` | `docs/webmcp/architecture.md`, `security.md`, `tools.md`, `testing.md`, `shopping-agent-review.md` | `pnpm test:webmcp-browser` |
 | Логотипы/иконки | `scripts/build-logos.mjs`, `src/components/VendorLogo.astro`, `VendorIcon/ProductIcon/CategoryIcon.astro` | `docs/*icons-manifest.json`, `docs/*icon-map.json` | `ops-fetch-assets` (приём архивов) | skill `add-logo-and-icons` | `pnpm check:artifacts` |
 | Фиды | `src/lib/feeds/*` (yml, registry, select) | — (SSR из Directus на лету) | `ops-yandex-feeds-toggle`, `ops-yandex-feeds` | `docs/yandex-feeds.md` | `pnpm smoke` (закрыты по умолчанию) |
 | Письма | `scripts/seo/report_v4.py`, `committee.py`; `competitive-intelligence/mailer/*` | ветки `seo-data` / `competitive-data` | `seo-report-email`, `seo-committee-build`+`seo-committee-email`, `competitive-intelligence-mail`, `ops-send-mail`, `ops-mail` | `reports/seo/README.md` | `uxlint_v4.py`, `contentcheck.py` (в конвейере отчёта) |
@@ -49,6 +49,10 @@ TypeScript strict · Vitest · Python 3 (контуры SEO/разведки/р�
   (Growth Intelligence) или `scripts/seo/committee.py` (Growth Committee);
   методика — `docs/seo/reporting-methodology.md`, открывать нужный раздел,
   не файл целиком.
+- **Правка условий работы** (договор, счёт, ЭДО, сроки, порядок сделки) —
+  только `src/data/policies.ts`: из него рендерятся `/faq`, `/how-we-work`,
+  `/pricing` и отвечает WebMCP-инструмент `search_policies`. Массив
+  `{ q, a }` прямо в `.astro` запрещён тестом `tests/policies.test.ts`.
 - **Новый workflow** — `.github/workflows/*.yml`; production-workflow
   запускается только с `main` (правило CLAUDE.md); для запуска одного
   workflow из другого — `scripts/ops/gh_dispatch_wait.sh`.
