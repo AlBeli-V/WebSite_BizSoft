@@ -1,8 +1,8 @@
 {
  "schema_version": "1.0.0",
- "collected_at": "2026-09-03T20:23:17+00:00",
+ "collected_at": "2026-09-04T06:17:11+00:00",
  "date_from": "2026-08-28",
- "date_to": "2026-09-03",
+ "date_to": "2026-09-04",
  "groups": [
   {
    "Date": "2026-08-28",
@@ -291,6 +291,15 @@
    "Impressions": 25,
    "Clicks": 2,
    "Cost": 53.92
+  },
+  {
+   "Date": "2026-09-04",
+   "CampaignId": "713927850",
+   "AdGroupId": "5793785067",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
   }
  ],
  "queries": [
@@ -15405,6 +15414,22 @@
    "Impressions": 2,
    "Clicks": 1,
    "Cost": 19.19
+  },
+  {
+   "Date": "2026-09-04",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "adobe podcast premium тарифы",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-04",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "слетела лицензия adobe acrobat reader pro",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
   }
  ]
 }
