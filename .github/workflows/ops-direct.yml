@@ -13,14 +13,14 @@
 # все шаги теперь в одной job и выбираются условием if: env.ACTION == '...'
 # по общему входу action. Это рекламный кабинет, поведение не менялось.
 #
-# Вход mode — общий для action=apply/expand/improve/negatives/refine/
+# Вход mode — общий для action=apply/ceiling/expand/improve/negatives/refine/
 # sitelinks/tighten (седьмой вход отдельным файлом на каждое действие не
 # завести — лимит inputs). Список options — объединение всех прежних
 # наборов; какие значения понимает конкретное действие, — то же самое, что
 # было в соответствующем файле (см. комментарий над блоком шагов этого
 # действия ниже):
 #   apply      — dry-run | apply | tune | audit
-#   expand/improve/negatives/refine/sitelinks/tighten — dry-run | apply
+#   ceiling/expand/improve/negatives/refine/sitelinks/tighten — dry-run | apply
 #   sitelinks  — дополнительно rollback (откат эксперимента)
 # Для check и stats mode не используется вовсе — как и раньше.
 #
@@ -44,12 +44,12 @@ on:
   workflow_dispatch:
     inputs:
       action:
-        description: "apply — создать/применить кампанию по спецификации; check — доступ к кабинету (+ статистика); autotargeting/expand/improve/negatives/refine/sitelinks/tighten — точечные правки кампании bs-test-2026-09; stats — статистика кампании"
+        description: "apply — создать/применить кампанию по спецификации; ceiling — потолок цены клика; check — доступ к кабинету (+ статистика); autotargeting/expand/improve/negatives/refine/sitelinks/tighten — точечные правки кампании bs-test-2026-09; stats — статистика кампании"
         required: true
         type: choice
-        options: ["apply", "autotargeting", "check", "expand", "improve", "negatives", "refine", "sitelinks", "stats", "tighten"]
+        options: ["apply", "autotargeting", "ceiling", "check", "expand", "improve", "negatives", "refine", "sitelinks", "stats", "tighten"]
       mode:
-        description: "Для apply/autotargeting/expand/improve/negatives/refine/sitelinks/tighten: dry-run — план без записи; apply — применить; tune/audit — только apply; rollback — только sitelinks. Не используется для check и stats"
+        description: "Для apply/autotargeting/ceiling/expand/improve/negatives/refine/sitelinks/tighten: dry-run — план без записи; apply — применить; tune/audit — только apply; rollback — только sitelinks. Не используется для check и stats"
         required: false
         default: "dry-run"
         type: choice
@@ -341,6 +341,33 @@ jobs:
           title: "ops-direct negatives (mode=${{ inputs.mode }})"
           outcome: ${{ steps.run_negatives.outcome }}
           body-file: /tmp/direct-negatives.log
+      # ==================== action=ceiling ====================
+      # Потолок цены клика в стратегии «максимум кликов» (решение
+      # руководителя 04.09.2026: недельный лимит прежний, дорогие клики
+      # срезаем). Обоснование — reports/marketing/direct-refine-plan-2026-09-02.md,
+      # раздел «Замер 04.09». Недельный лимит скрипт переносит как есть.
+      - name: Ceiling
+        if: env.ACTION == 'ceiling'
+        id: run_ceiling
+        env:
+          DIRECT_TOKEN: ${{ secrets.YANDEX_DIRECT_TOKEN }}
+          MODE: ${{ inputs.mode }}
+        run: |
+          set -o pipefail
+          python3 scripts/ppc/direct_ceiling.py "$MODE" 2>&1 | tee /tmp/direct-ceiling.log
+
+      - name: Save log for issue
+        if: always() && env.ACTION == 'ceiling'
+        run: |
+          [ -f /tmp/direct-ceiling.log ] || echo "(лог не создан)" > /tmp/direct-ceiling.log
+
+      - name: Post to issue
+        if: always() && env.ACTION == 'ceiling'
+        uses: ./.github/actions/journal-post
+        with:
+          title: "ops-direct ceiling (mode=${{ inputs.mode }})"
+          outcome: ${{ steps.run_ceiling.outcome }}
+          body-file: /tmp/direct-ceiling.log
       # ==================== action=refine ====================
       # Доводка кампании bs-test-2026-09, раунд 2 — по фактам дня
       # 01.09.2026: минус-слова «активация/активировать/ключ», групповая

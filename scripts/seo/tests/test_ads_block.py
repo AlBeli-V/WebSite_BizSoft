@@ -231,6 +231,27 @@ class StageBAttributionTest(unittest.TestCase):
         self.assertIn("2000 из 3000", row["verdict"]["label"])
         self.assertNotIn("паузу", row["verdict"]["label"])
 
+    def test_группы_расширения_под_контролем_а_не_в_прочих(self):
+        """Группы, заведённые после расширения, имеют своё направление.
+
+        До 04.09 они шли одной строкой «прочие группы — добавить в
+        контроль»: порога паузы у такой строки нет, и расход по ним
+        письмо не оценивало вовсе.
+        """
+        stats = _stats([
+            _g("2026-08-28", "Зарубежное ПО для юрлица — счёт и закрывающие", 122, 13, 435.0),
+            _g("2026-08-28", "Atlassian — счёт и закрывающие для Confluence и Jira", 15, 0, 0.0),
+            _g("2026-08-28", "Box и Dropbox — оплата облака на юрлицо", 24, 1, 26.0),
+            _g("2026-08-28", "Descript — оплата на юрлицо", 25, 2, 65.78),
+        ])
+        b = self._build(stats)
+        keys = {r["key"] for r in b["rows"]}
+        self.assertIn("k7", keys)
+        self.assertIn("k8", keys)
+        self.assertIn("k9", keys)
+        self.assertIn("k10", keys)
+        self.assertNotIn("other", keys)
+
     def test_CPA_выше_порога_жёлтый(self):
         stats = _stats([_g("2026-08-28", "Midjourney — контрольная", 500, 30, 2000.0)])
         att = _att([{"name": "Midjourney — контрольная", "visits": 28,
