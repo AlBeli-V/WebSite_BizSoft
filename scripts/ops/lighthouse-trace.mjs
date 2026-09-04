@@ -14,6 +14,11 @@
  *   BASE       https://biz-soft.pro
  *   RUNS       сколько прогонов на страницу (по умолчанию 1), печатается медиана
  *   FORM       mobile (по умолчанию) | desktop
+ *   BLOCK      шаблоны адресов через запятую — не загружать в прогоне
+ *              (например «*/m/tag.js*»): так меряется цена стороннего
+ *              скрипта, не трогая живой сайт. Прогон с блокировкой — это
+ *              опыт, а не показатель сайта, поэтому шаблоны печатаются в
+ *              заголовке каждого прогона и в итоге.
  *
  * Требует установленного пакета lighthouse и Chrome на машине:
  *   npm install --no-save lighthouse@13
@@ -29,6 +34,8 @@ const BASE = (process.env.BASE || 'https://biz-soft.pro').replace(/\/$/, '');
 const paths = (process.env.URLS || '/').split(',').map((s) => s.trim()).filter(Boolean);
 const RUNS = Math.max(1, Number(process.env.RUNS || 1));
 const FORM = process.env.FORM === 'desktop' ? 'desktop' : 'mobile';
+const BLOCK = (process.env.BLOCK || '').split(',').map((s) => s.trim()).filter(Boolean);
+const BLOCK_NOTE = BLOCK.length ? ` · ОПЫТ: не загружалось ${BLOCK.join(', ')}` : '';
 
 const short = (u) => String(u || '').replace(BASE, '') || '/';
 const median = (xs) => {
@@ -47,6 +54,7 @@ function run(url, dir, i) {
     '--output=json', `--output-path=${out}.report.json`,
     '--save-assets', '--quiet',
     '--chrome-flags=--headless=new --no-sandbox --disable-gpu --disable-dev-shm-usage',
+    ...BLOCK.map((p) => `--blocked-url-patterns=${p}`),
   ];
   const r = spawnSync('npx', args, { cwd: dir, encoding: 'utf8', maxBuffer: 512 * 1024 * 1024 });
   if (r.status !== 0) throw new Error(`lighthouse завершился с кодом ${r.status}: ${(r.stderr || '').slice(-400)}`);
@@ -84,7 +92,7 @@ for (const p of paths) {
       const raw = report.categories.performance.score;
       const score = raw == null ? null : Math.round(raw * 100);
       if (score == null) failed++; else scores.push(score);
-      console.log(`── ${short(url)} [${FORM}] прогон ${i}/${RUNS} — ${score == null ? 'балл не вычислен' : `балл ${score}`}`);
+      console.log(`── ${short(url)} [${FORM}] прогон ${i}/${RUNS} — ${score == null ? 'балл не вычислен' : `балл ${score}`}${BLOCK_NOTE}`);
       console.log('  ' + [['FCP', 'first-contentful-paint'], ['LCP', 'largest-contentful-paint'], ['TBT', 'total-blocking-time'], ['CLS', 'cumulative-layout-shift'], ['SI', 'speed-index']]
         .map(([n, k]) => `${n} ${a[k]?.displayValue ?? '—'}`).join(' · '));
       if (a['largest-contentful-paint']?.scoreDisplayMode === 'error') console.log(`  LCP не вычислен: ${a['largest-contentful-paint'].errorMessage}`);
@@ -119,5 +127,5 @@ for (const p of paths) {
   }
   summary.push(`${short(url)} ${scores.length ? median(scores) : 'нет балла'}${RUNS > 1 && scores.length ? ` (из ${scores.join('/')})` : ''}`);
 }
-console.log('Итог (медиана): ' + summary.join(' · ') + (failed ? ` · проблемных прогонов: ${failed}` : ''));
+console.log('Итог (медиана): ' + summary.join(' · ') + (failed ? ` · проблемных прогонов: ${failed}` : '') + BLOCK_NOTE);
 process.exit(failed ? 1 : 0);
