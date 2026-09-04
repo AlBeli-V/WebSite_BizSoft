@@ -242,14 +242,56 @@ def main(argv: list[str]) -> int:
         experiments, snapshots_by_date, date, config)
     frozen = exp_lifecycle.moratorium(experiments)
 
+    # Второй источник моратория: страница правилась вне контура. Журнал знает
+    # только собственные поручения, а работа по тикетам и решениям
+    # руководителя для него невидима — и наутро после публикации статьи контур
+    # требовал её дорабатывать (разбор отчёта 04.09.2026).
+    from experiments import page_changes
+    changes_state = page_changes.load()
+    changes = page_changes.update(
+        changes_state,
+        {p["url"]: page_audit.load(p["url"].replace("https://biz-soft.pro", ""),
+                                   p["page_kind"]) for p in packages},
+        date, config)
+    page_changes.save(changes_state, date)
+    edited = page_changes.frozen(changes_state, date)
+    if changes["правка_шаблона"]:
+        print(f"6г. Правка шаблона по типам {', '.join(changes['правка_шаблона'])}: "
+              f"страницы этих типов под мораторий не выводятся")
+    print(f"6д. Правки вне контура: изменились {len(changes['изменились'])} "
+          f"страниц, под мораторием с сегодня "
+          f"{len(changes['под_мораторием_с_сегодня'])}")
+
     # Страницы на наблюдении не попадают в поручения: правка уже внесена, идёт
     # замер эффекта. Они не исчезают из отчёта — для них отдельный раздел.
-    on_watch = [p for p in packages if p["url"] in frozen]
-    packages = [p for p in packages if p["url"] not in frozen]
+    on_watch = [p for p in packages if p["url"] in frozen or p["url"] in edited]
+    packages = [p for p in packages
+                if p["url"] not in frozen and p["url"] not in edited]
     for package in on_watch:
-        experiment = frozen[package["url"]]
-        package["мораторий_до"] = experiment.watch_until
-        package["эксперимент"] = experiment.id
+        experiment = frozen.get(package["url"])
+        if experiment is not None:
+            package["мораторий_до"] = experiment.watch_until
+            package["эксперимент"] = experiment.id
+            continue
+        entry = edited[package["url"]]
+        package["мораторий_до"] = entry.get("мораторий_до")
+        package["эксперимент"] = "—"
+        package["причина_моратория"] = (
+            f"{entry.get('причина', page_changes.REASON_EDITED)}; последняя "
+            f"правка {entry.get('последняя_правка', 'н/д')}")
+
+    # Пакет, по которому проверка не нашла что менять, — не поручение. Его
+    # заголовок так и звучит: «правок по репозиторию не требуется, остаётся
+    # проверить тело страницы из Directus». В очереди работ такая строка
+    # занимает место настоящей: 04.09 пять пакетов из девятнадцати были
+    # такими, и один из них попал в топ-3 письма как поручение дня. Теперь
+    # они идут отдельным списком проверок — их надо не делать, а посмотреть.
+    to_verify = [p for p in packages if not p.get("действия")]
+    packages = [p for p in packages if p.get("действия")]
+    for package in to_verify:
+        package["очередь"] = False
+    print(f"6е. Проверки без правок: {len(to_verify)} страниц вынесено из "
+          f"очереди поручений в отдельный список")
 
     # Занятость страниц чужими экспериментами базового SEO-контура. Пакет по
     # занятой странице остаётся в отчёте с пометкой, но поручением не
@@ -257,13 +299,25 @@ def main(argv: list[str]) -> int:
     # эксперимента (разбор плана работ 02.09.2026).
     from attack_engine import occupancy as occupancy_mod
     registry_read = occupancy_mod.available()
+    stale_experiments: list[dict] = []
     if registry_read:
-        _, occupied = occupancy_mod.mark(packages)
+        _, occupied = occupancy_mod.mark(packages, today=date)
         control = [p for p in packages
                    if (p.get("занятость") or {}).get("степень")
                    == occupancy_mod.BUSY_CONTROL]
+        # Окно замера чужого эксперимента могло истечь, а статус в реестре
+        # базового контура остаться рабочим: его меняет человек. Страницы
+        # такого эксперимента освобождаются нашим решением, и отчёт обязан
+        # это назвать (разбор 04.09.2026).
+        stale_experiments = occupancy_mod.expired(occupancy_mod.load(), date)
         print(f"6в. Занятость: {len(occupied)} страниц под чужими "
               f"экспериментами, {len(control)} в их контрольных группах")
+        if stale_experiments:
+            print(f"6ж. Окно замера истекло, статус в реестре не закрыт: "
+                  + ", ".join(f"{e.get('id')} (до "
+                              f"{occupancy_mod.window_end(e)})"
+                              for e in stale_experiments)
+                  + " — страницы освобождены")
     else:
         occupied = []
         print("6в. Занятость: реестр экспериментов базового контура не "
@@ -284,9 +338,15 @@ def main(argv: list[str]) -> int:
     print(f"6а. Эксперименты: заведено {len(created)}, подтверждено внедрение "
           f"{len(implemented)}, оценено {len(evaluated)}, под мораторием "
           f"{len(on_watch)} страниц")
+    # В артефакт дня идут все пакеты, включая вынесенные из очереди: снимок
+    # обязан быть полным, иначе разбор задним числом невозможен. Отличает их
+    # поле «очередь».
+    for package in on_watch:
+        package["очередь"] = False
     with open(os.path.join(paths.PROCESSED_DIR, f"{date}-work-packages.json"),
               "w", encoding="utf-8") as fh:
-        json.dump(packages, fh, ensure_ascii=False, indent=2)
+        json.dump(packages + to_verify + on_watch, fh, ensure_ascii=False,
+                  indent=2)
     countable = [p for p in packages if p["traffic_upside"] is not None]
     high = sum(1 for p in packages if p["potential_label"] == "высокий")
     unscored = sum(1 for p in packages if p["potential_index"] is None)
@@ -331,7 +391,9 @@ def main(argv: list[str]) -> int:
                              [c.__dict__ for c in cards], rows,
                              packages=packages, histories=histories,
                              experiments=experiments, config=config,
-                             on_watch=on_watch, systemic=systemic)
+                             on_watch=on_watch, systemic=systemic,
+                             to_verify=to_verify,
+                             stale_occupancy=stale_experiments)
     os.makedirs(paths.ARCHIVE_DIR, exist_ok=True)
     for target in (os.path.join(paths.ARCHIVE_DIR, f"{date}.html"),
                    os.path.join(paths.REPORTS_DIR, "latest.html")):
