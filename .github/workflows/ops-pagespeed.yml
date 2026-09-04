@@ -1,0 +1,68 @@
+# Замер PageSpeed Insights (мобильный/десктопный Lighthouse Google) по
+# страницам прода — тот же отчёт, что pagespeed.web.dev, но из раннера:
+# сессия ассистента до biz-soft.pro не достаёт, а анонимная квота PSI API
+# общая на всех и часто исчерпана. Только чтение, ничего не меняет.
+# Ключ PSI_API_KEY (Google Cloud → PageSpeed Insights API) необязателен,
+# но без него замер упирается в общую квоту (HTTP 429).
+# Результат — в журнал-issue #22.
+
+name: ops-pagespeed
+
+on:
+  workflow_dispatch:
+    inputs:
+      urls:
+        description: 'Пути через запятую'
+        required: false
+        default: '/,/catalog/ai,/product/chatgpt-business'
+      strategy:
+        description: 'mobile | desktop | both'
+        required: false
+        default: 'mobile'
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  pagespeed:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Guard - only default branch
+        run: |
+          if [ "${{ github.ref_name }}" != "main" ]; then
+            echo "Запуск разрешён только с ветки main. Текущий ref: ${{ github.ref_name }}"
+            exit 1
+          fi
+      # Локальный action journal-post лежит в репозитории — без checkout
+      # раннер его не находит, и запись в журнал падает. always() — чтобы
+      # запись прошла и после отказа сторожа.
+      - name: Checkout
+        if: always()
+        uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: PageSpeed Insights
+        id: run
+        env:
+          URLS: ${{ inputs.urls }}
+          STRATEGY: ${{ inputs.strategy }}
+          PSI_API_KEY: ${{ secrets.PSI_API_KEY }}
+        run: |
+          # Отчёт сохраняется и при сбое, а шаг после этого краснеет.
+          rc=0
+          node scripts/ops/pagespeed.mjs > pagespeed.txt || rc=$?
+          cat pagespeed.txt
+          exit $rc
+
+      - name: Post results to journal (issue #22)
+        if: always()
+        uses: ./.github/actions/journal-post
+        with:
+          title: "ops-pagespeed (${{ inputs.strategy }})"
+          outcome: ${{ steps.run.outcome }}
+          body-file: pagespeed.txt
