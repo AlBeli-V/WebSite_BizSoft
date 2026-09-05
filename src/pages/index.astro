@@ -45,6 +45,13 @@ const PERF_CSS: Record<string, string> = {
   'no-hero': '.hero { display: none !important; }',
   'system-fonts': ':root { --font-sans: system-ui, sans-serif; --font-display: system-ui, sans-serif; }',
   'no-reveal': '.reveal { transition: none !important; } .reveal.is-below { opacity: 1 !important; transform: none !important; }',
+  // Третья серия: hero-only получил балл дважды, no-hero — NO_LCP дважды,
+  // значит виновник ниже хиро. Делим «ниже хиро» пополам и проверяем два
+  // блока порознь.
+  'no-carousel': '.logos-sec { display: none !important; }',
+  'no-pop': '.pop-services { display: none !important; }',
+  'upper-half': 'main > .section { display: none !important; }',
+  'lower-half': '.digits, .logos-sec, .pop-services { display: none !important; }',
 };
 const perfCss = PERF_CSS[perfVariant] ? `<style>${PERF_CSS[perfVariant]}</style>` : '';
 
