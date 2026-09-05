@@ -41,7 +41,18 @@ const { label, autoplay = 0, slideWidth = 'clamp(260px, 80vw, 340px)', dots = fa
     gap: 1.1rem;
     overflow-x: auto;
     scroll-snap-type: x mandatory;
-    scroll-behavior: smooth;
+    /* scroll-behavior: smooth здесь намеренно НЕТ.
+       С mandatory-привязкой браузер после раскладки сам подтягивает трек к
+       точке привязки (отступ 0.2rem = 3 px), и smooth в CSS превращал этот
+       сдвиг в анимированную прокрутку. Chrome считает её прокруткой и
+       прекращает регистрировать кандидатов Largest Contentful Paint — ещё
+       до первой отрисовки, так что кандидата не оставалось вовсе: PageSpeed
+       Insights возвращал NO_LCP и не считал балл главной (10 прогонов из 11
+       по её копиям, 05.09.2026). Копии без smooth или без привязки давали
+       99–100 в 8 прогонах из 8. На /catalog та же карусель ниже первого
+       экрана, и подтяжка в окно замера не попадала.
+       Плавность стрелок и автопрокрутки не теряется: они просят её сами,
+       через scrollBy({ behavior: 'smooth' }) в скрипте ниже. */
     padding: 0.4rem 0.2rem 1rem;
     margin: 0;
     list-style: none;
@@ -108,47 +119,28 @@ const { label, autoplay = 0, slideWidth = 'clamp(260px, 80vw, 340px)', dots = fa
     // Автопрокрутка. Пауза: наведение/фокус, reduce-motion, карусель вне экрана,
     // скрытая вкладка. Вне-экранная пауза критична для Speed Index и батареи.
     //
-    // Старт — только после первого действия посетителя (касание, нажатие,
-    // прокрутка страницы, движение мыши). До него трек не двигается.
-    // Причина — Largest Contentful Paint: Chrome прекращает регистрировать
-    // кандидатов после прокрутки, а автопрокрутка двигает трек через
-    // scrollBy. Когда карусель попадает в первый экран (главная), первый
-    // шаг через 2,6 с обрывал запись раньше, чем Google фиксировал
-    // кандидата: PageSpeed Insights возвращал NO_LCP и не считал балл — в
-    // 4 прогонах из 5 по главной и в 5 из 6 по её копиям. Копии главной
-    // без логопанели давали 99–100 в 4 прогонах из 4 (05.09.2026). На
-    // /catalog та же карусель стоит ниже первого экрана и в окно замера не
-    // стартует — потому там 99. После первого действия посетителя LCP уже
-    // зафиксирован, и движение трека ни на что не влияет — ни в
-    // лаборатории, ни у живых людей в CrUX.
+    // Автопрокрутка по таймеру к NO_LCP в PageSpeed отношения не имеет: её
+    // отсрочка до первого действия посетителя (05.09.2026) NO_LCP не сняла
+    // (4 прогона из 4), а копии главной с прежней автопрокруткой, но без
+    // scroll-behavior: smooth на треке дали 99–100. Причина была в CSS —
+    // см. комментарий у .carousel-track. Отсрочка возвращена к прежнему
+    // поведению решением руководителя.
     const ms = Number(root.dataset.autoplay || 0);
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (ms > 0 && !reduce) {
       let timer: number | undefined;
       let hovered = false;
       let visible = false;
-      let engaged = false;
       const tick = () => {
         if (track.scrollLeft >= maxScroll()) track.scrollTo({ left: 0, behavior: 'smooth' });
         else track.scrollBy({ left: step(), behavior: 'smooth' });
       };
       const stop = () => { if (timer) { window.clearInterval(timer); timer = undefined; } };
       const update = () => {
-        const shouldRun = engaged && visible && !hovered && !document.hidden;
+        const shouldRun = visible && !hovered && !document.hidden;
         if (shouldRun && !timer) timer = window.setInterval(tick, ms);
         if (!shouldRun) stop();
       };
-      // Подписка без capture: в фазе перехвата window ловил бы и прокрутку
-      // внутренних контейнеров — в том числе свою собственную, если бы трек
-      // уже двигался (та же ловушка, что была у отложенного GA4).
-      const ENGAGE = ['pointerdown', 'keydown', 'scroll', 'touchstart', 'mousemove'];
-      const engage = () => {
-        if (engaged) return;
-        engaged = true;
-        for (const type of ENGAGE) window.removeEventListener(type, engage);
-        update();
-      };
-      for (const type of ENGAGE) window.addEventListener(type, engage, { passive: true });
       root.addEventListener('mouseenter', () => { hovered = true; update(); });
       root.addEventListener('mouseleave', () => { hovered = false; update(); });
       root.addEventListener('focusin', () => { hovered = true; update(); });
