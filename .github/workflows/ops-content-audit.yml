@@ -85,9 +85,26 @@ jobs:
                 r'|(?:\$|€)\s?\d+[\d.,]*\s*/\s*(?:мес|мес\.|month|year)',
                 re.IGNORECASE)
 
+            # Пустой meta_title — долг не всегда. Заголовком страницы служит
+            # meta_title, а при пустом — название товара, к которому SeoHead
+            # дописывает бренд (src/components/SeoHead.astro). У длинных имён
+            # линеек ManageEngine («ManageEngine Mobile Device Manager Plus
+            # Professional, 50 мобильных устройств и одно рабочее место
+            # администратора») короткого заголовка не существует: обрезка по
+            # словам убивает различитель объёма и создаёт дубли — ровно то, что
+            # прогон 01.09.2026 и сделал, а построитель с тех пор оставляет поле
+            # пустым намеренно (#281). Такие карточки считаются отдельно и
+            # долгом не числятся (решение руководителя 04.09.2026).
+            BRAND_SUFFIX = ' — BIZSoft'
+
+            def title_fits(r):
+                """Помещается ли заголовок из названия товара в 60 символов."""
+                return len(g(r, 'name')) + len(BRAND_SUFFIX) <= 60
+
             groups = {
                 'meta_title: старое написание бренда «BizSoft»': lambda r: 'BizSoft' in g(r, 'meta_title'),
-                'meta_title: пусто': lambda r: not g(r, 'meta_title'),
+                'meta_title: пусто, хотя короткий заголовок возможен':
+                    lambda r: not g(r, 'meta_title') and title_fits(r),
                 'meta_title: длиннее 60 символов': lambda r: len(g(r, 'meta_title')) > 60,
                 'meta_description: обрыв фразы (символ …)': lambda r: '…' in g(r, 'meta_description'),
                 'meta_description: пусто': lambda r: not g(r, 'meta_description'),
@@ -118,6 +135,9 @@ jobs:
                         or re.search(r'-CREDITS-\d+$', s) is not None)
             idx = [r for r in rows if not noindex(r)]
             print(f'из них индексируемых (без JB-PLG-*, *-IND, *-RENEWAL и пакетов кредитов): {len(idx)}\n')
+            long_name = [r for r in idx if not g(r, 'meta_title') and not title_fits(r)]
+            print(f'штатно без meta_title (название длиннее {60 - len(BRAND_SUFFIX)} символов, '
+                  f'заголовком служит полное название): {len(long_name)}')
             print('== Проблемы (только по индексируемым) ==')
             for name, test in groups.items():
                 hits = [r for r in idx if test(r)]

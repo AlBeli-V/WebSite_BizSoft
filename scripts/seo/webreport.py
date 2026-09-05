@@ -23,14 +23,18 @@ import pathlib
 import sys
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
+sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1] / "viz"))
 
 import cannibalization as cannibal_mod  # noqa: E402
+import daily_windows  # noqa: E402
+import kpi_kit as kit  # noqa: E402
 import lifecycle as lifecycle_mod  # noqa: E402
 import mismatch as mismatch_mod  # noqa: E402
 import opportunity as opp_mod    # noqa: E402
 import quality as quality_mod    # noqa: E402
 import serp_analysis as serp_mod  # noqa: E402
 import snapshot as snapshot_mod  # noqa: E402
+import technical                 # noqa: E402
 import zero_impression as zero_mod  # noqa: E402
 from report_v4 import (BLOB, BRANCH, PILL_LABEL, REPO, VERDICT_LABEL,  # noqa: E402
                        _exp_exposure_line, _exp_implementation_line,
@@ -444,6 +448,25 @@ def order_sections(sections: list[dict]) -> list[dict]:
     return sorted(sections, key=lambda s: -s["crit"])
 
 
+def _navbar(sections: list[dict], date: str) -> str:
+    """Липкая панель с меню разделов.
+
+    Веб-отчёт — сотни килобайт: без постоянного доступа к списку разделов
+    переход между ними означает прокрутку через все таблицы. Меню собрано на
+    <details>, поэтому работает без скриптов и в почтовых просмотрщиках.
+    """
+    items = ""
+    for s in sections:
+        label, cls = SEVERITY_LABEL[s["crit"]]
+        chip = f"<span class='chip {cls}'>{label}</span>" if label else ""
+        items += f"<a href='#{s['id']}'>{s['title']}{chip}</a>"
+    return (f"<div class='navbar'><div class='row'>"
+            f"<span class='brand'>Growth Intelligence · {date}</span>"
+            f"<details class='navmenu'><summary>Разделы</summary>"
+            f"<div class='menu'><a href='#top'>В начало</a>{items}</div>"
+            f"</details></div></div>")
+
+
 def _toc(sections: list[dict]) -> str:
     items = ""
     for s in sections:
@@ -454,6 +477,124 @@ def _toc(sections: list[dict]) -> str:
             f"<p class='muted desc'>Разделы отсортированы по критичности: "
             f"сверху — требующее внимания сегодня, ниже — рабочие и "
             f"справочные блоки.</p><ol>{items}</ol></nav>")
+
+
+# Пороги ката. Крупный раздел развёрнутым в потоке вытесняет всё остальное:
+# 20 000 знаков ≈ полсотни строк таблицы. Справочный сворачивается с меньшего
+# объёма, но короткий блок под кат не прячется — экономить там нечего, а лишний
+# клик раздражает.
+CUT_CHARS = 20000
+CUT_CHARS_REFERENCE = 6000
+
+# Ядро отчёта: раздел не сворачивается независимо от объёма. Ради контроля
+# экспериментов отчёт и открывают — прятать его за клик нельзя.
+ALWAYS_OPEN = {"experiments"}
+
+
+def _section_html(s: dict) -> str:
+    """Раздел отчёта; объёмное и справочное содержимое — под катом.
+
+    Развёрнутыми остаются разделы, требующие внимания сегодня, ядро отчёта и
+    всё короткое. Под кат уходит объёмное — крупные таблицы и справочные блоки,
+    которые читают выборочно. Заголовок, описание и пометка критичности видны
+    всегда, поэтому оглавление и поиск по странице не страдают.
+    """
+    label, cls = SEVERITY_LABEL[s["crit"]]
+    chip = f" <span class='chip {cls}'>{label}</span>" if label else ""
+    head = (f"<section id=\"{s['id']}\"><h2>{s['title']}{chip}"
+            f"<a class='backtop' href='#top'>наверх</a></h2>"
+            f"<p class='muted desc'>{s['desc']}</p>")
+    size = len(s["html"])
+    big = size > CUT_CHARS
+    reference = s["crit"] == 0 and size > CUT_CHARS_REFERENCE
+    if s["id"] in ALWAYS_OPEN or not (big or reference):
+        return head + s["html"] + "</section>"
+    hint = "объёмный блок" if big else "справочный блок"
+    return (head + f"<details class='cut'><summary>Показать раздел "
+            f"<span class='hint'>— {hint}</span></summary>{s['html']}</details>"
+            "</section>")
+
+
+def _ru_num(value: float, digits: int = 1) -> str:
+    """Дробное по-русски: запятой, как остальные числа отчёта."""
+    return f"{value:.{digits}f}".replace(".", ",")
+
+
+def _technical_section(tech: dict) -> str:
+    """Таблица замеров и разбор просадок. Для веб-отчёта подробностей больше,
+    чем в письме: здесь у читателя есть место и время."""
+    if not tech.get("available"):
+        tail = technical._no_data_tail(
+            tech, "Последний удачный замер — {}.",
+            "Последняя попытка {} не удалась.", "Замеров ещё не было.")
+        # Причина — паспортная формулировка по коду; она идёт отдельной
+        # фразой, иначе склеивается с соседним текстом в нечитаемую строку.
+        why = tech.get("reason")
+        why = f"Причина: {why}. " if why else ""
+        return (f"<p><b>Данные недоступны.</b> {tail} {why}"
+                f"Остальные разделы отчёта это не "
+                f"затрагивает: скорость измеряется отдельным источником.</p>")
+
+    label = {"green": "GREEN", "yellow": "YELLOW", "red": "RED"}[tech["level"]]
+    rows = ""
+    for p in tech.get("pages", []):
+        lcp = f"{_ru_num(p['lcp_ms'] / 1000)} с" if p.get("lcp_ms") else "—"
+        cls = _ru_num(p["cls"], 2) if p.get("cls") is not None else "—"
+        field = p.get("field") or {}
+        field_txt = (f"{_ru_num(field['lcp_ms'] / 1000)} с"
+                     if field.get("lcp_ms") else "нет выборки")
+        rows += (f"<tr><td>{p['page_type']}</td><td>{p['path']}</td>"
+                 f"<td>{p.get('performance', '—')}</td><td>{lcp}</td><td>{cls}</td>"
+                 f"<td>{p.get('seo', '—')}</td><td>{p.get('accessibility', '—')}</td>"
+                 f"<td>{p.get('best_practices', '—')}</td><td>{field_txt}</td></tr>")
+
+    # Первый замер сравнивать не с чем, и это надо сказать словами: строка
+    # «сравнение с предыдущим замером нет» напечаталась 05.09.2026 в первом
+    # же веб-отчёте контура.
+    prev = tech.get("previous_date")
+    compare = (f"сравнение с {prev}" if prev
+               else "предыдущего замера для сравнения нет")
+    head = (f"<p><b>{label}</b> · мобильная скорость главной "
+            f"{tech.get('mobile_performance')}, худший балл выборки "
+            f"{tech.get('worst_performance')}. Замер {tech.get('date')} "
+            f"({'расширенный' if tech.get('mode') == 'weekly' else 'ежедневный'}), "
+            f"{compare}.</p>")
+
+    table = ("<div class='scroll'><table><tr><th>Тип</th><th>Адрес</th>"
+             "<th>Скорость</th><th>LCP</th><th>CLS</th><th>SEO</th>"
+             "<th>Доступность</th><th>Практики</th><th>Поле CrUX</th></tr>"
+             + rows + "</table></div>")
+
+    if tech.get("regressions"):
+        problems = "".join(
+            f"<li><b>{r['page_type']}</b> ({r['path']}): "
+            f"{_technical_issue_text(r['issues'])}. Вероятная причина: "
+            f"{r['cause']}. {r['priority']}.</li>"
+            for r in tech["regressions"])
+        table += f"<p><b>Что ухудшилось</b></p><ul>{problems}</ul>"
+    else:
+        table += "<p class='muted'>Значимых изменений к прошлому замеру нет.</p>"
+
+    full = tech.get("last_full")
+    if full:
+        table += (f"<p class='muted'>Последняя расширенная проверка "
+                  f"{full['date']}: {full['urls']} адресов — зелёных "
+                  f"{full['green']}, жёлтых {full['yellow']}, красных "
+                  f"{full['red']}.</p>")
+    return head + table
+
+
+def _technical_issue_text(issues: list[dict]) -> str:
+    out = []
+    for i in issues:
+        if i["kind"] == "performance":
+            out.append(f"скорость {i['was']} → {i['now']} ({i['delta']})")
+        elif i["kind"] == "lcp":
+            out.append(f"LCP {_ru_num(i['was'] / 1000)} с → "
+                       f"{_ru_num(i['now'] / 1000)} с (+{i['delta_pct']} %)")
+        elif i["kind"] == "cls":
+            out.append(f"CLS {_ru_num(i['was'], 2)} → {_ru_num(i['now'], 2)}")
+    return "; ".join(out)
 
 
 def _loop_section(lh: dict) -> str:
@@ -722,24 +863,223 @@ def table(headers: list[str], rows: list[list[str]]) -> str:
     return f"<div class='scroll'><table><thead><tr>{th}</tr></thead><tbody>{trs}</tbody></table></div>"
 
 
+WINDOW = daily_windows.WINDOW_DAYS
+KPI_SOURCE = {"yandex": "yandex", "google": "google", "traffic": "metrika",
+              "commercial": "metrika"}
+PILL_STATE = {
+    "positive": "good", "mixed": "warn", "negative": "crit", "stable": "good",
+    "verified": "good", "limited": "warn", "degraded": "crit", "none": "neutral",
+    "required": "crit", "unknown": "neutral",
+}
+
+
+def _dates_from(start: str | None, n: int) -> list[str]:
+    if not start:
+        return [f"д{i + 1}" for i in range(n)]
+    d0 = dt.date.fromisoformat(start)
+    return [(d0 + dt.timedelta(days=i)).isoformat() for i in range(n)]
+
+
+def _week_chart(kpi: dict, w: int = 620, h: int = 190) -> str:
+    """Неделя к неделе по дням: текущее окно цветом источника, прошлое — серым."""
+    tail = list(kpi.get("sparkline") or [])
+    if len(tail) < WINDOW * 2:
+        return ""
+    prev, cur = tail[:WINDOW], tail[WINDOW:WINDOW * 2]
+    start = kpi.get("sparkline_from")
+    cur_dates = _dates_from(
+        (dt.date.fromisoformat(start) + dt.timedelta(days=WINDOW)).isoformat() if start else None,
+        WINDOW)
+    labels = [ru_date(d) if start else d for d in cur_dates]
+    colour = kit.series_color(KPI_SOURCE.get(kpi.get("key", ""), "yandex"))
+    return kit.line_chart(
+        [{"name": "эта неделя", "values": cur, "color": colour},
+         {"name": "прошлая неделя", "values": prev, "context": True}],
+        labels, w=w, h=h, ticks=4, area=True, title=kpi["label"])
+
+
+def _kpi_panel(k: dict, snap: dict) -> str:
+    """Углубление плитки: динамика по дням и топ сущностей показателя."""
+    chart = _week_chart(k)
+    left = (f"<div><h4>{k['label']}: динамика по дням</h4>"
+            f"<p class='kit-hint'>{k['interpretation']}</p>"
+            f"<p class='kit-hint'>{k['period']} · {k['source']} · серым — предыдущее окно</p>"
+            + (chart or "<p class='kit-muted'>Дневного ряда для этого показателя нет — "
+                        "витрина источника не заполнена.</p>") + "</div>")
+    right = ""
+    if k.get("key") == "yandex" and (snap["yandex"].get("entities") or []):
+        ents = sorted(snap["yandex"]["entities"], key=lambda e: -e["impressions"])[:8]
+        top = ents[0]["impressions"] or 1
+        rows = [{"q": f"{e['entity_id']}", "imp": kit.bar_cell(e["impressions"], top),
+                 "pos": kit.pos_cell(e.get("average_position"))} for e in ents]
+        right = ("<div><h4>Запросы с наибольшими показами</h4>"
+                 "<p class='kit-hint'>окно источника, выборка Вебмастера</p>"
+                 + kit.dense_table([{"key": "q", "label": "Запрос"},
+                                    {"key": "imp", "label": "Показы", "align": "right"},
+                                    {"key": "pos", "label": "Позиция", "align": "right"}],
+                                   rows, sortable=False) + "</div>")
+    elif k.get("key") == "google" and (snap["google"].get("pages") or []):
+        pages = sorted(snap["google"]["pages"], key=lambda e: -e["impressions"])[:8]
+        top = pages[0]["impressions"] or 1
+        rows = [{"p": e["entity_id"], "imp": kit.bar_cell(e["impressions"], top,
+                                                           kit.series_color("google")),
+                 "pos": kit.pos_cell(e.get("average_position"))} for e in pages]
+        right = ("<div><h4>Страницы с наибольшими показами</h4>"
+                 "<p class='kit-hint'>окно Search Console</p>"
+                 + kit.dense_table([{"key": "p", "label": "Страница"},
+                                    {"key": "imp", "label": "Показы", "align": "right"},
+                                    {"key": "pos", "label": "Позиция", "align": "right"}],
+                                   rows, sortable=False) + "</div>")
+    else:
+        right = (f"<div><h4>Как читать</h4><p class='kit-hint'>{k['interpretation']}</p>"
+                 f"<p class='kit-hint'>достоверность: {k['confidence']}"
+                 + (f" · {k['relative_note']}" if k.get("relative_note") else "") + "</p></div>")
+    return left + right
+
+
+def _kpi_dashboard(b: dict, snap: dict) -> str:
+    """Пульт: четыре плитки со спарклайнами, клик раскрывает углубление."""
+    tiles, panels = [], []
+    for i, k in enumerate(b["kpis"]):
+        delta = k["delta"] or ""
+        if k.get("relative"):
+            delta = f"{delta} {k['relative']}".strip()
+        colour = kit.series_color(KPI_SOURCE.get(k.get("key", ""), "yandex"))
+        tiles.append(kit.stat_tile(
+            k["label"], k["value"], k["unit"], delta or None, k.get("delta_dir"),
+            spark=k.get("sparkline"), color=colour, note=k["interpretation"],
+            meta=f"{k['period']} · {k['source']} · достоверность: {k['confidence']}",
+            key=k["key"], active=(i == 0), muted=bool(k["muted"])))
+        panels.append(kit.panel(k["key"], _kpi_panel(k, snap), active=(i == 0)))
+    return kit.dash(kit.kpi_row(tiles), "".join(panels),
+                    title="Четыре показателя руководителя",
+                    period="клик по плитке раскрывает динамику и состав")
+
+
+def _status_dashboard(b: dict) -> str:
+    """Светофор контуров: статусы шапки письма и здоровье данных."""
+    rows = [{"state": PILL_STATE.get(p["state"], "neutral"), "name": p["label"],
+             "value": "", "comment": p["text"]} for p in b["pills"]]
+    h = b["health"]
+    rows.append({"state": {"positive": "good", "warning": "warn", "danger": "crit"}[h["colour"]],
+                 "name": "ЗДОРОВЬЕ ДАННЫХ", "value": "",
+                 "comment": f"<b>{PILL_LABEL[h['status']]}</b> — {h['detail']}"})
+    body = kit.status_rows(rows, head=False)
+    return kit.dash("", body, title="Состояние контуров", period=b["sources_line"])
+
+
+def _daily_multiples(snap: dict) -> str:
+    """Малые кратные: дневные ряды всех источников на одной оси времени."""
+    daily = snap.get("daily") or {}
+    cards, labels = [], None
+    names = {("yandex", "impressions"): "Показы, Яндекс", ("yandex", "clicks"): "Клики, Яндекс",
+             ("gsc", "impressions"): "Показы, Google", ("gsc", "clicks"): "Клики, Google",
+             ("metrika", "visits_organic"): "Визиты из поиска",
+             ("metrika", "goal_reaches_organic"): "Цели из поиска"}
+    for (source, metric), title in names.items():
+        blk = daily.get(source) or {}
+        win = (blk.get("windows") or {}).get(metric)
+        if not blk.get("available") or not win or len(win.get("tail") or []) < WINDOW * 2:
+            continue
+        tail = win["tail"]
+        cur = tail[WINDOW:WINDOW * 2]
+        if labels is None:
+            labels = [ru_date(d) for d in _dates_from(win["current"]["from"], WINDOW)]
+        cards.append({"title": title, "values": cur, "prev": tail[:WINDOW],
+                      "color": kit.series_color(source),
+                      "caption": f"неделя {num(win['current']['sum'])}"
+                                 + (f" · {signed(win['delta'])}" if win.get("delta") is not None else "")})
+    if not cards:
+        return ""
+    return kit.dash("", kit.small_multiples(cards, labels),
+                    title="Динамика по дням: все источники",
+                    period="текущее окно цветом источника, предыдущее — серым")
+
+
+def _heat_dashboard(snap: dict, date: str) -> str:
+    """Календарь-теплокарта показов за четыре недели: Яндекс из витрины, иначе Google."""
+    end = dt.date.fromisoformat(date) - dt.timedelta(days=daily_windows.LAG_DAYS["yandex"])
+    dates = [(end - dt.timedelta(days=27 - i)).isoformat() for i in range(28)]
+    store = daily_windows.load_series("yandex")
+    series = ((store or {}).get("series") or {}).get("impressions") or {}
+    title, unit = "Показы в Яндексе по дням", "показов"
+    if not series:
+        g = {d["date"]: d.get("impressions") for d in (snap["google"].get("daily") or [])
+             if d.get("date")}
+        if not g:
+            return ""
+        series, title = g, "Показы в Google по дням"
+    values = [series.get(d) for d in dates]
+    if sum(v is not None for v in values) < 7:
+        return ""
+    return kit.dash("", kit.heatmap(dates, values, unit),
+                    title=title, period=f"{ru_date(dates[0])} – {ru_date(dates[-1])} · "
+                                        f"пустая клетка — день без данных")
+
+
+def _live_charts(b: dict) -> str:
+    """Графики письма в живом виде: тренд показателя и вклад драйверов."""
+    parts = []
+    for k in b["kpis"]:
+        chart = _week_chart(k)
+        if chart:
+            parts.append(f"<h3>{k['label']} по дням</h3>{chart}")
+            break
+    for db in b["driver_blocks"]:
+        if not db.get("available") or not db.get("rows"):
+            continue
+        rows = []
+        for r in db["rows"]:
+            try:
+                d = float(str(r["delta"]).replace("−", "-").replace("+", "").replace("\u202f", ""))
+            except ValueError:
+                continue
+            rows.append({"entity": r["entity"], "delta": d,
+                         "share_of_total_delta": float(str(r["share"]).rstrip("%")) / 100})
+        if rows:
+            parts.append(f"<h3>Вклад страниц: {db['engine']}</h3>"
+                         f"<p class='muted'>{db['window']}</p>{kit.delta_bars(rows)}")
+    return "".join(parts)
+
+
+def _entity_table(entities: list[dict], kind: str, colour: str, limit: int) -> str:
+    """Таблица-дашборд запросов или страниц: бар показов, позиция, статус."""
+    ents = sorted(entities or [], key=lambda e: -e["impressions"])[:limit]
+    if not ents:
+        return "<p class='muted'>Строк нет.</p>"
+    top = ents[0]["impressions"] or 1
+    rows = []
+    for e in ents:
+        rows.append({
+            "e": e["entity_id"],
+            "imp": kit.bar_cell(e["impressions"], top, colour),
+            "clicks": {"html": num(e["clicks"]), "sort": e["clicks"]},
+            "ctr": {"html": pct(e.get("ctr"), 2), "sort": e.get("ctr") or 0},
+            "pos": kit.pos_cell(e.get("average_position")),
+            "intent": kit.chip(e["intent"], "neutral") if e.get("intent") else "",
+            "conf": kit.chip(e.get("confidence", ""), "good" if e.get("confidence") == "sufficient"
+                             else "neutral") if e.get("confidence") else "",
+        })
+    cols = [{"key": "e", "label": kind},
+            {"key": "imp", "label": "Показы", "align": "right"},
+            {"key": "clicks", "label": "Клики", "align": "right"},
+            {"key": "ctr", "label": "CTR", "align": "right"},
+            {"key": "pos", "label": "Позиция", "align": "right"}]
+    if any(r["intent"] for r in rows):
+        cols.append({"key": "intent", "label": "Интент"})
+    if any(r["conf"] for r in rows):
+        cols.append({"key": "conf", "label": "Достоверность"})
+    return kit.dense_table(cols, rows)
+
+
 def build_html(b: dict, snap: dict, dq: dict, date: str) -> str:
     yx, g = snap["yandex"], snap["google"]
 
-    queries = table(
-        ["Запрос", "Показы", "Клики", "CTR", "Средняя позиция", "Интент", "Достоверность"],
-        [[e["entity_id"], num(e["impressions"]), num(e["clicks"]), pct(e["ctr"], 2),
-          e["average_position"], e["intent"], e["confidence"]]
-         for e in sorted(yx.get("entities") or [], key=lambda e: -e["impressions"])[:100]])
-
-    pages = table(
-        ["Страница", "Показы", "Клики", "Средняя позиция"],
-        [[p["entity_id"], num(p["impressions"]), num(p["clicks"]), p["average_position"]]
-         for p in sorted(g.get("pages") or [], key=lambda p: -p["impressions"])[:50]])
-
-    gq = table(
-        ["Запрос", "Показы", "Клики", "Средняя позиция"],
-        [[e["entity_id"], num(e["impressions"]), num(e["clicks"]), e["average_position"]]
-         for e in sorted(g.get("entities") or [], key=lambda e: -e["impressions"])[:50]])
+    # Таблицы-дашборды KPI-kit: бар показов, позиция, чипы интента и
+    # достоверности, сортировка по любому столбцу.
+    queries = _entity_table(yx.get("entities"), "Запрос", kit.series_color("yandex"), 100)
+    pages = _entity_table(g.get("pages"), "Страница", kit.series_color("google"), 50)
+    gq = _entity_table(g.get("entities"), "Запрос", kit.series_color("google"), 50)
 
     mmap = table(
         ["Источник", "Показатель", "Сущность", "Охват", "Период", "Сравнимо с", "Почему различается"],
@@ -793,42 +1133,31 @@ def build_html(b: dict, snap: dict, dq: dict, date: str) -> str:
           ru_date_full(o["decision_date"]) if o.get("decision_date") else "срок не назначен"]
          for o in b["opportunities"]["items"]])
 
-    charts = "".join(
+    # Графики письма — в живом виде (KPI-kit, наведение показывает значения);
+    # таймлайн эксперимента остаётся картинкой письма.
+    charts = _live_charts(b) + "".join(
         f"<figure><img src='{embed_png(BASE / 'charts' / f'{date}-{n}.png')}' alt='{c}'>"
         f"<figcaption>{c}</figcaption></figure>"
-        for n, c in (("kpi-slope", "Показы Google неделя к неделе"),
-                     ("drivers", "Вклад страниц в изменение показов"),
-                     ("experiment", "Ход эксперимента"))
+        for n, c in (("experiment", "Ход эксперимента"),)
         if (BASE / "charts" / f"{date}-{n}.png").exists())
 
     # Токены светлой темы объявлены на голом :root, тёмные — отдельно для
     # системной настройки и для явного выбора: у зрителя три состояния, и цвет,
     # объявленный только внутри media-блока, в неотмеченном состоянии не сработает.
-    css = """
+    css = kit.kit_css() + """
+    /* Токены страницы — псевдонимы палитры KPI-kit: одна тема на письмо,
+       веб-отчёт и конкурентную разведку; тёмная тема приходит из kit. */
     :root{
-      --ground:#F6F8FB; --surface:#FFFFFF; --ink:#101828; --muted:#667085;
-      --line:#EAECF0; --line-strong:#D8DDE5; --brand:#F4511E;
-      --positive:#12B76A; --warning:#B54708; --warning-bg:#FFFAEB;
-      --danger:#D92D20; --info:#2E90FA; --chip:#F2F4F7;
-    }
-    @media (prefers-color-scheme: dark){
-      :root:not([data-theme="light"]){
-        --ground:#0C111D; --surface:#161B26; --ink:#ECEFF3; --muted:#94A3B8;
-        --line:#1F2733; --line-strong:#2A3444; --brand:#FF7A45;
-        --positive:#3DDC97; --warning:#F5A524; --warning-bg:#231A0B;
-        --danger:#FF6B60; --info:#5BA8FF; --chip:#1C2431;
-      }
-    }
-    :root[data-theme="dark"]{
-      --ground:#0C111D; --surface:#161B26; --ink:#ECEFF3; --muted:#94A3B8;
-      --line:#1F2733; --line-strong:#2A3444; --brand:#FF7A45;
-      --positive:#3DDC97; --warning:#F5A524; --warning-bg:#231A0B;
-      --danger:#FF6B60; --info:#5BA8FF; --chip:#1C2431;
+      --ground:var(--kit-plane); --surface:var(--kit-surface); --ink:var(--kit-ink);
+      --muted:var(--kit-muted); --line:var(--kit-hair); --line-strong:var(--kit-hair2);
+      --brand:var(--kit-accent); --positive:var(--kit-good); --warning:var(--kit-warn);
+      --warning-bg:var(--kit-warn-soft); --danger:var(--kit-crit); --info:var(--kit-s1);
+      --chip:var(--kit-surface2);
     }
     *{box-sizing:border-box}
     body{
       margin:0; background:var(--ground); color:var(--ink);
-      font:400 16px/1.6 'IBM Plex Sans','Segoe UI',system-ui,-apple-system,sans-serif;
+      font:400 16px/1.6 'Raleway',system-ui,-apple-system,'Segoe UI',sans-serif;
       -webkit-font-smoothing:antialiased;
     }
     .wrap{max-width:1080px;margin:0 auto;padding:0 24px 96px}
@@ -844,7 +1173,7 @@ def build_html(b: dict, snap: dict, dq: dict, date: str) -> str:
       display:flex; flex-wrap:wrap; gap:8px; align-items:center;
     }
     .pill{
-      font:500 12.5px/1 'IBM Plex Mono',ui-monospace,monospace;
+      font:500 12.5px/1 'Raleway',system-ui,sans-serif;
       letter-spacing:.04em; text-transform:uppercase;
       border:1px solid var(--line-strong); border-radius:999px; padding:6px 11px;
       color:var(--muted); white-space:nowrap;
@@ -853,15 +1182,14 @@ def build_html(b: dict, snap: dict, dq: dict, date: str) -> str:
     .pill.warning{color:var(--warning);border-color:var(--warning)}
     .pill.danger{color:var(--danger);border-color:var(--danger)}
     .freshness{
-      font:400 12.5px/1.5 'IBM Plex Mono',ui-monospace,monospace;
+      font:400 12.5px/1.5 'Raleway',system-ui,sans-serif;
       color:var(--muted); margin-left:auto;
     }
     section{padding:36px 0;border-top:1px solid var(--line)}
     section:first-of-type{border-top:0}
     h2{
-      font-size:13px; font-weight:600; letter-spacing:.09em; text-transform:uppercase;
-      color:var(--muted); margin:0 0 18px;
-      font-family:'IBM Plex Mono',ui-monospace,monospace;
+      font-size:18px; font-weight:700; letter-spacing:-.01em;
+      color:var(--ink); margin:0 0 14px;
     }
     h3{font-size:17px;margin:26px 0 10px;letter-spacing:-.01em}
     p{margin:0 0 12px;max-width:72ch}
@@ -873,7 +1201,7 @@ def build_html(b: dict, snap: dict, dq: dict, date: str) -> str:
     }
     .card .label{font-size:13px;color:var(--muted)}
     .card .value{
-      font:600 30px/1.15 'IBM Plex Sans',sans-serif;
+      font:600 30px/1.15 'Raleway',system-ui,sans-serif;
       font-variant-numeric:tabular-nums; margin-top:4px; letter-spacing:-.02em;
     }
     .card .unit{font-size:13.5px;color:var(--muted);font-weight:400}
@@ -881,7 +1209,7 @@ def build_html(b: dict, snap: dict, dq: dict, date: str) -> str:
     .card .delta.up{color:var(--positive)} .card .delta.down{color:var(--danger)}
     .card .note{font-size:14px;margin-top:8px;line-height:1.5}
     .card .meta{
-      font:400 12px/1.5 'IBM Plex Mono',ui-monospace,monospace;
+      font:400 12px/1.5 'Raleway',system-ui,sans-serif;
       color:var(--muted); margin-top:10px;
     }
     .scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
@@ -889,13 +1217,13 @@ def build_html(b: dict, snap: dict, dq: dict, date: str) -> str:
     th,td{text-align:left;padding:9px 12px 9px 0;border-bottom:1px solid var(--line);
       vertical-align:top}
     th{
-      font:600 11.5px/1.4 'IBM Plex Mono',ui-monospace,monospace;
+      font:600 11.5px/1.4 'Raleway',system-ui,sans-serif;
       letter-spacing:.06em; text-transform:uppercase; color:var(--muted);
       border-bottom-color:var(--line-strong);
     }
     td:first-child{padding-left:0}
     .chip{
-      display:inline-block; font:500 11.5px/1 'IBM Plex Mono',ui-monospace,monospace;
+      display:inline-block; font:500 11.5px/1 'Raleway',system-ui,sans-serif;
       letter-spacing:.04em; text-transform:uppercase; padding:4px 8px;
       border-radius:5px; background:var(--chip); color:var(--muted);
     }
@@ -913,11 +1241,66 @@ def build_html(b: dict, snap: dict, dq: dict, date: str) -> str:
     nav.toc ol{margin:8px 0 0;padding-left:22px;columns:2;column-gap:36px}
     nav.toc li{padding:3px 0;break-inside:avoid;font-size:14.5px}
     @media (max-width:640px){nav.toc ol{columns:1}}
+    /* Липкая навигация: отчёт длинный, и без неё переход между разделами —
+       это прокрутка через сотни строк таблиц. Меню на <details>, без скриптов. */
+    .navbar{
+      position:sticky; top:0; z-index:100; margin:0 -24px; padding:0 24px;
+      background:color-mix(in srgb,var(--ground) 94%,transparent);
+      backdrop-filter:saturate(180%) blur(8px);
+      border-bottom:1px solid var(--line);
+    }
+    .navbar .row{display:flex;align-items:center;gap:14px;padding:9px 0}
+    .navbar .brand{
+      font:600 12.5px/1 'Raleway',system-ui,sans-serif;
+      letter-spacing:.04em; text-transform:uppercase; color:var(--muted);
+      white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+    }
+    .navmenu{margin-left:auto;position:relative}
+    .navmenu>summary{
+      list-style:none; cursor:pointer; user-select:none;
+      font:500 13px/1 'Raleway',system-ui,sans-serif;
+      padding:7px 12px; border:1px solid var(--line-strong); border-radius:8px;
+      color:var(--ink); background:var(--surface); white-space:nowrap;
+    }
+    .navmenu>summary::-webkit-details-marker{display:none}
+    .navmenu>summary::after{content:' ▾';color:var(--muted)}
+    .navmenu[open]>summary::after{content:' ▴'}
+    .navmenu .menu{
+      position:absolute; right:0; top:calc(100% + 6px); z-index:30;
+      min-width:290px; max-height:70vh; overflow:auto;
+      background:var(--surface); border:1px solid var(--line-strong);
+      border-radius:10px; padding:8px; box-shadow:0 12px 32px rgba(0,0,0,.16);
+    }
+    .navmenu .menu a{display:block;padding:7px 9px;border-radius:6px;
+      font-size:14px;text-decoration:none;color:var(--ink)}
+    .navmenu .menu a:hover{background:var(--chip)}
+    .navmenu .menu .chip{margin-left:6px}
+    @media (max-width:640px){
+      .navbar{margin:0 -16px;padding:0 16px}
+      .navmenu .menu{min-width:min(88vw,320px)}
+    }
+    /* Кат: справочные и объёмные разделы открываются по требованию —
+       иначе страница на сотни килобайт листается вслепую. */
+    details.cut{border-top:1px dashed var(--line-strong);margin-top:14px}
+    details.cut>summary{
+      list-style:none; cursor:pointer; user-select:none; padding:12px 0 2px;
+      font:500 14px/1.4 'Raleway',system-ui,sans-serif; color:var(--brand);
+    }
+    details.cut>summary::-webkit-details-marker{display:none}
+    details.cut>summary::before{content:'▸ ';color:var(--muted)}
+    details.cut[open]>summary::before{content:'▾ '}
+    details.cut>summary .hint{color:var(--muted);font-weight:400}
+    .backtop{
+      font:400 12.5px/1 'Raleway',system-ui,sans-serif;
+      color:var(--muted); text-decoration:none; margin-left:10px;
+      vertical-align:middle; white-space:nowrap;
+    }
+    section>h2{scroll-margin-top:64px}
     figure{margin:0 0 22px}
     img{max-width:100%;height:auto;border:1px solid var(--line);border-radius:10px;
       background:#fff}
     figcaption{
-      font:400 12.5px/1.5 'IBM Plex Mono',ui-monospace,monospace;
+      font:400 12.5px/1.5 'Raleway',system-ui,sans-serif;
       color:var(--muted); padding-top:7px;
     }
     a{color:var(--brand);text-underline-offset:2px}
@@ -931,12 +1314,8 @@ def build_html(b: dict, snap: dict, dq: dict, date: str) -> str:
     @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
     """
 
-    pill_class = {"positive": "positive", "mixed": "warning", "negative": "danger",
-                  "stable": "", "verified": "positive", "limited": "warning",
-                  "degraded": "danger", "none": "", "required": "warning"}
-    pills = "".join(
-        f"<span class='pill {pill_class.get(p['state'], '')}'>{p['label']}: {p['text']}</span>"
-        for p in b["pills"])
+    # Статусы шапки письма живут в светофоре пульта (_status_dashboard);
+    # липкая панель оставляет только строку свежести источников.
 
     cards = ""
     for k in b["kpis"]:
@@ -1117,7 +1496,8 @@ def build_html(b: dict, snap: dict, dq: dict, date: str) -> str:
          "html": ideas},
         {"id": "charts", "title": "Графики",
          "crit": 0,
-         "desc": "Графики письма в полном размере.",
+         "desc": "Графики письма в полном размере и в живом виде: наведение "
+                 "показывает значения по дням.",
          "html": charts or "<p class='muted'>Графиков нет.</p>"},
         {"id": "measurement", "title": "Карта измерений",
          "crit": 3 if b["health"]["colour"] == "danger"
@@ -1126,6 +1506,17 @@ def build_html(b: dict, snap: dict, dq: dict, date: str) -> str:
                  "чем его корректно сравнивать. Здесь же — текущий статус "
                  "здоровья данных и его причина.",
          "html": mmap_html},
+        {"id": "technical", "title": "Техническое состояние сайта",
+         # Критичность ведёт себя как у любого раздела: красный статус
+         # поднимает его выше, зелёный оставляет среди рабочих блоков.
+         "crit": {"red": 3, "yellow": 2}.get(
+             (b.get("technical") or {}).get("level"), 1),
+         "desc": "Скорость страниц по замеру PageSpeed Insights: мобильная "
+                 "выдача как основной показатель, регрессии к прошлому замеру "
+                 "и последняя расширенная проверка шаблонов. Балл SEO у "
+                 "Lighthouse относится к технической вёрстке и не связан с "
+                 "видимостью сайта в поиске.",
+         "html": _technical_section(b.get("technical") or {})},
         {"id": "quality", "title": "Качество данных",
          "crit": 3 if "critical" in dq_levels
                  else (2 if "warning" in dq_levels else 1),
@@ -1149,33 +1540,31 @@ def build_html(b: dict, snap: dict, dq: dict, date: str) -> str:
          "html": gq},
     ]
     ordered = order_sections(sections)
-    body_sections = ""
-    for s in ordered:
-        label, cls = SEVERITY_LABEL[s["crit"]]
-        chip = f" <span class='chip {cls}'>{label}</span>" if label else ""
-        body_sections += (
-            f"<section id=\"{s['id']}\"><h2>{s['title']}{chip}</h2>"
-            f"<p class='muted desc'>{s['desc']}</p>{s['html']}</section>")
+    body_sections = "".join(_section_html(s) for s in ordered)
 
     return f"""<!doctype html><html lang="ru"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>BIZSoft Growth Intelligence</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
-<style>{css}</style></head><body><div class="wrap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700&display=swap">
+<style>{css}</style></head><body id="top"><div class="wrap">
+{_navbar(ordered, ru_date_full(date))}
 
 <header>
   <h1>BIZSoft Growth Intelligence</h1>
   <div class="sub">Daily Search, Demand &amp; Experiment Control · {ru_date_full(date)}</div>
 </header>
 
-<div class="statusbar">{pills}<span class="freshness">{b['sources_line']}</span></div>
+<div class="statusbar"><span class="freshness">{b['sources_line']}</span></div>
 
-<section>
-  <h2>Итог дня</h2>
+<section id="dash">
+  <h2>Пульт</h2>
   <p class="lede"><b>От вас:</b> {b['user_action']}</p>
-  <div class="cards">{cards}</div>
+  {_kpi_dashboard(b, snap)}
+  {_status_dashboard(b)}
+  {_daily_multiples(snap)}
+  {_heat_dashboard(snap, date)}
 </section>
 
 {_toc(ordered)}
@@ -1188,7 +1577,7 @@ def build_html(b: dict, snap: dict, dq: dict, date: str) -> str:
   Отчёт собран автоматически из данных Яндекс.Вебмастера, Google Search Console,
   Яндекс.Метрики и GA4; числа не редактируются вручную.
 </footer>
-</div></body></html>"""
+</div><script>{kit.kit_js()}</script></body></html>"""
 
 
 def build_markdown(b: dict, snap: dict, dq: dict, date: str) -> str:

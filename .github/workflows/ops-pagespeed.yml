@@ -10,6 +10,11 @@
 #                кандидаты LCP и что их отзывает; заодно замер повторяемый
 #                (вход `runs` — сколько прогонов, в итог идёт медиана).
 #
+# Вход `block` (только для lighthouse) не загружает в прогоне указанные
+# адреса — так меряется цена стороннего скрипта, не трогая живой сайт.
+# Такой прогон — опыт, а не показатель сайта: шаблоны печатаются в заголовке
+# каждого прогона и в итоге, чтобы цифру нельзя было принять за обычный замер.
+#
 # Результат — в журнал-issue #22.
 
 name: ops-pagespeed
@@ -33,6 +38,10 @@ on:
         description: 'Прогонов на страницу (для engine=lighthouse)'
         required: false
         default: '1'
+      block:
+        description: 'Шаблоны адресов не загружать в прогоне, через запятую (опыт, engine=lighthouse)'
+        required: false
+        default: ''
 
 permissions:
   contents: read
@@ -79,6 +88,7 @@ jobs:
           URLS: ${{ inputs.urls }}
           STRATEGY: ${{ inputs.strategy }}
           RUNS: ${{ inputs.runs }}
+          BLOCK: ${{ inputs.block }}
           FORM: ${{ inputs.strategy }}
           PSI_API_KEY: ${{ secrets.PSI_API_KEY }}
           PSI_RAW_DIR: psi-raw

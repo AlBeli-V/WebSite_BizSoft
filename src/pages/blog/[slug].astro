@@ -3,6 +3,7 @@ import { getCollection, render } from 'astro:content';
 import { tagSlug } from '../../lib/blog-tags';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import BlogCover from '../../components/BlogCover.astro';
 import FAQ from '../../components/FAQ.astro';
 import CTASection from '../../components/CTASection.astro';
 import JsonLd from '../../components/JsonLd.astro';
@@ -62,8 +63,8 @@ const articleSchema = {
 
     <article class="article">
       {d.cover && (
-        <img class="cover" src={d.cover} alt={d.coverAlt || d.title}
-             width="1664" height="936" fetchpriority="high" decoding="async" />
+        <BlogCover cover={d.cover} alt={d.coverAlt || d.title} class="cover"
+                   priority sizes="(max-width: 800px) 100vw, 760px" />
       )}
 
       <header>
