@@ -86,3 +86,31 @@ iTunes Gift Card для трёх регионов (Россия, Казахст�
 4. `ops-apply-descriptions` (`only=app-store-itunes-gift-card`) — мета.
 5. Проверить `/sitemap.xml` (родитель есть, вариантов нет, `/vendors/apple`,
    `/catalog/gift-cards`), затем `ops-yandex-recrawl`.
+
+## Кластер материалов Apple (05.09.2026)
+
+Заведён вне очереди по поручению руководителя после замера спроса
+(`ops-sam-demand`, набор `data/seo/apple-gift-card-probe.json`, отчёт
+`reports/seo/wordstat/apple-gift-card-demand-2026-09-05.*` в `seo-data`).
+Разбор спроса, конкурентов и план — `docs/marketing/apple-gift-card-plan-2026-09.md`.
+
+- Карточка `/product/app-store-itunes-gift-card`: секции «Почему после
+  1 апреля 2026 года нужна именно Gift Card», «Для компании: три сценария»,
+  «Сколько кодов нужно на год подписок» и пять FAQ (`src/data/gift-cards.ts`);
+  мета переписана под спрос («подарочная карта apple» ≫ «apple gift card») в
+  `data/seo/product-descriptions.json` — в прод через `ops-apply-descriptions`.
+- Лендинг `/vendors/apple` (`scripts/content/apple.json`): summary, сценарий
+  «Продление подписок после 1 апреля 2026 года», два FAQ.
+- Статьи (тег «подарочные карты» открывает страницу тега при трёх и более
+  материалах): `kak-popolnit-app-store-v-rossii` (обновлена),
+  `apple-prekratila-priem-platezhey-v-rossii-kak-prodlit-podpiski`,
+  `apple-gift-card-sotrudnikam-podarok-ot-kompanii`,
+  `apple-gift-card-turciya-kazahstan-dlya-kompanii`. Обложки —
+  `scripts/marketing/build-blog-covers.mjs`.
+- Решение `/solutions/podarochnye-karty-sotrudnikam` (`src/data/solutions.ts`),
+  плитки вендоров Apple, Airalo, Discord — `src/data/vendor-solutions.ts`.
+- Директ: две кампании по спецификациям в `seo-data` — `bs-apple-gift-2026-09`
+  (российские аккаунты и подарки, `round3-spec.json`, 4 500 ₽/нед) и
+  `bs-apple-regions-2026-09` (Турция и Казахстан, `round3-regions-spec.json`,
+  500 ₽/нед); расписание из спецификации (`campaign.time_targeting`,
+  ежедневно 9–21 МСК), минус-слова под премиальное позиционирование.

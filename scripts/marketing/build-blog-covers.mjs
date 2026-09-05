@@ -80,6 +80,21 @@ const COVERS = {
     icons: ['ruble', 'cloud', 'users', 'doc', 'stamp', 'warn'],
     alt: 'Подарочная карта в центре схемы пополнения баланса Apple Account: регион аккаунта, оплата по счёту, документы и предупреждение о регионе',
   },
+  'apple-prekratila-priem-platezhey-v-rossii-kak-prodlit-podpiski': {
+    hero: 'card',
+    icons: ['cloud', 'refresh', 'warn', 'ruble', 'doc', 'users'],
+    alt: 'Схема продления подписок Apple после 1 апреля 2026 года: код подарочной карты пополняет баланс Apple Account, с которого списываются iCloud+, Apple Music и приложения; способы оплаты через банк и оператора перечёркнуты',
+  },
+  'apple-gift-card-sotrudnikam-podarok-ot-kompanii': {
+    hero: 'card',
+    icons: ['users', 'doc', 'stamp', 'ruble', 'scale', 'warn'],
+    alt: 'Подарочная карта в центре схемы корпоративного подарка: сотрудники, договор дарения, счёт, документы и предупреждение о лимите',
+  },
+  'apple-gift-card-turciya-kazahstan-dlya-kompanii': {
+    hero: 'card',
+    icons: ['route', 'users', 'ruble', 'doc', 'cloud', 'warn'],
+    alt: 'Подарочная карта в центре схемы с двумя регионами аккаунта, маршрутом передачи кода за рубеж, документами и предупреждением о несовпадении региона',
+  },
   'stoimost-vladeniya-podpiskoy': {
     hero: 'card',
     icons: ['cloud', 'brain', 'folder', 'refresh', 'lock', 'users', 'chart', 'warn'],
