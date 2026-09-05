@@ -1,23 +1,23 @@
 {
  "date": "2026-09-05",
- "generated_at": "2026-09-05T07:04:42+00:00",
- "measured_at": "2026-09-03",
+ "generated_at": "2026-09-05T10:46:02+00:00",
+ "measured_at": "2026-09-05",
  "universe": {
-  "phrases": 23122,
-  "commercial_phrases": 2147,
-  "clusters": 174,
-  "total_commercial_demand": 287895,
-  "total_demand": 37043856,
-  "with_page": 22423,
-  "cost_rub": 5.9849
+  "phrases": 23748,
+  "commercial_phrases": 2173,
+  "clusters": 177,
+  "total_commercial_demand": 293941,
+  "total_demand": 40418773,
+  "with_page": 23051,
+  "cost_rub": 6.0452
  },
  "coverage": {
   "available": true,
-  "total_commercial_demand": 287895,
+  "total_commercial_demand": 293941,
   "levels": {
-   "page": 0.8785,
-   "indexed": 0.3772,
-   "top10": 0.1859,
+   "page": 0.8811,
+   "indexed": 0.3694,
+   "top10": 0.1821,
    "clicks": 0.0,
    "conversion_measured": null,
    "qualified_leads": null
@@ -65,10 +65,10 @@
   },
   "не определено": {
    "demand": 53074,
-   "covered": 18096,
+   "covered": 18137,
    "top10": 0,
    "clicks": 0,
-   "page_coverage": 0.341,
+   "page_coverage": 0.342,
    "top10_coverage": 0.0,
    "click_coverage": 0.0
   },
@@ -102,6 +102,15 @@
   "Системное ПО": {
    "demand": 7167,
    "covered": 7167,
+   "top10": 0,
+   "clicks": 0,
+   "page_coverage": 1.0,
+   "top10_coverage": 0.0,
+   "click_coverage": 0.0
+  },
+  "Подарочные карты и пополнение баланса": {
+   "demand": 6046,
+   "covered": 6046,
    "top10": 0,
    "clicks": 0,
    "page_coverage": 1.0,
@@ -164,9 +173,9 @@
   }
  },
  "tiers": {
-  "A": 48,
-  "B": 32,
-  "C": 75
+  "A": 50,
+  "B": 33,
+  "C": 76
  },
  "gaps_by_class": {
   "GAP-C": 7,
@@ -174,12 +183,12 @@
   "GAP-F": 1,
   "GAP-G": 1,
   "GAP-H": 22,
-  "GAP-N": 33
+  "GAP-N": 36
  },
  "uncovered_top": [
   {
    "cluster": "оплата зарубежных сервисов",
-   "demand": 15947,
+   "demand": 15906,
    "gap": "GAP-G",
    "action": "ранняя возможность",
    "top_phrase": "оплата зарубежных сервисов"
@@ -506,22 +515,22 @@
   "note": "Российские вендоры исключены: их лицензии продаются напрямую, услуга оплаты из-за рубежа к ним неприменима."
  },
  "efficiency": {
-  "calls_total": 3780,
-  "calls_paid": 181,
-  "cost_month_rub": 3.62,
-  "cost_today_rub": 0.06,
-  "remaining_budget_rub": 5496.38,
-  "forecast_month_end_rub": 21.72,
+  "calls_total": 3850,
+  "calls_paid": 184,
+  "cost_month_rub": 3.68,
+  "cost_today_rub": 0.12,
+  "remaining_budget_rub": 5496.32,
+  "forecast_month_end_rub": 22.08,
   "state": "open",
-  "cache_hit_rate": 0.9521,
-  "duplicate_rate": 0.9636,
-  "unique_phrases": 75,
-  "new_commercial_phrases": 2,
-  "new_clusters": 2,
-  "cost_per_1000_unique_phrases_rub": 48.267,
-  "cost_per_1000_commercial_phrases_rub": 1810.0,
-  "cost_per_new_cluster_rub": 1.81,
-  "empty_response_rate": 0.3013
+  "cache_hit_rate": 0.9522,
+  "duplicate_rate": 0.7425,
+  "unique_phrases": 701,
+  "new_commercial_phrases": 28,
+  "new_clusters": 4,
+  "cost_per_1000_unique_phrases_rub": 5.25,
+  "cost_per_1000_commercial_phrases_rub": 131.429,
+  "cost_per_new_cluster_rub": 0.92,
+  "empty_response_rate": 0.3044
  },
  "quota": {
   "requests_per_hour": 500,
@@ -533,11 +542,11 @@
   "available": true,
   "title": "Спрос и направления развития",
   "expansion": null,
-  "summary": "Мы видим 287 895 покупательских запросов в месяц по 174 направлениям каталога. Своя страница есть под 88% этого спроса, в поиске находится 38%, на первой странице — 19%. Без страницы остаётся 16 246 запросов в месяц — это направления, где спрос есть, а своей страницы нет. Ещё 52 137 запросов в месяц не отнесены ни к нам, ни к чужому товару: это голые фразы омонимичных брендов (box — 30 187, zoom — 10 813, bubble купить — 5 732). В спрос и в решения об ассортименте они не входят.",
+  "summary": "Мы видим 293 941 покупательских запросов в месяц по 177 направлениям каталога. Своя страница есть под 88% этого спроса, в поиске находится 37%, на первой странице — 18%. Без страницы остаётся 16 205 запросов в месяц — это направления, где спрос есть, а своей страницы нет. Ещё 52 137 запросов в месяц не отнесены ни к нам, ни к чужому товару: это голые фразы омонимичных брендов (box — 30 187, zoom — 10 813, bubble купить — 5 732). В спрос и в решения об ассортименте они не входят.",
   "coverage": {
-   "page": 0.8785,
-   "indexed": 0.3772,
-   "top10": 0.1859
+   "page": 0.8811,
+   "indexed": 0.3694,
+   "top10": 0.1821
   },
   "lead_opportunity": {
    "cluster": "google",
@@ -546,6 +555,6 @@
    "why": "Страница есть, в поиске не наблюдалась",
    "confidence": "достаточная: кластер измерен несколькими фразами"
   },
-  "measured_at": "2026-09-03"
+  "measured_at": "2026-09-05"
  }
 }
