@@ -22,7 +22,10 @@ export const prerender = false;
 // странице остаётся только хиро; no-hero — всё, кроме хиро; system-fonts —
 // без фирменных шрифтов вовсе; no-reveal — анимация появления секций
 // выключена стилем.
-const VARIANTS = ['control', 'no-stats', 'no-banner', 'no-hero-decor', 'hero-only', 'no-hero', 'system-fonts', 'no-reveal'] as const;
+// Третья серия: no-carousel — без логопанели; no-pop — без витрины
+// популярного; upper-half — хиро, цифры, логопанель, витрина (без остальных
+// секций); lower-half — хиро и остальные секции (без цифр, логопанели, витрины).
+const VARIANTS = ['control', 'no-stats', 'no-banner', 'no-hero-decor', 'hero-only', 'no-hero', 'system-fonts', 'no-reveal', 'no-carousel', 'no-pop', 'upper-half', 'lower-half'] as const;
 const variant = Astro.params.variant ?? '';
 if (!(VARIANTS as readonly string[]).includes(variant)) {
   return new Response(null, { status: 404 });
