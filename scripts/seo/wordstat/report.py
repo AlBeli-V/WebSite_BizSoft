@@ -16,6 +16,10 @@ import json
 import pathlib
 import sys
 
+# Сначала общий каталог scripts/seo (там passport), затем — свой:
+# insert(0) кладёт последний вызов первым, а у wordstat/ и seo/ есть
+# одноимённый opportunity.py, и брать его нужно из своего каталога.
+sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1]))
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
 
 import budget as budget_mod      # noqa: E402
@@ -26,7 +30,7 @@ import opportunity as opp_mod    # noqa: E402
 import tiers as tiers_mod        # noqa: E402
 import universe as universe_mod  # noqa: E402
 import vendor_expansion as vx    # noqa: E402
-import passport
+import passport                # noqa: E402
 
 OUT = pathlib.Path("reports/seo/wordstat")
 SNAP_DIR = pathlib.Path("reports/seo/intelligence/snapshots")

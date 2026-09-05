@@ -325,6 +325,31 @@ async function fetchVendors(origin?: 'domestic' | 'foreign'): Promise<{ vendor: 
   return [...counts.entries()].map(([vendor, count]) => ({ vendor, count })).sort((a, b) => a.vendor.localeCompare(b.vendor, 'ru'));
 }
 
+/**
+ * Срез каталога для счётчиков витрины: по одному вендору и слагу категории
+ * на позицию.
+ *
+ * Главной нужны только числа — сколько всего позиций, сколько вендоров и
+ * сколько товаров в каждом направлении. Раньше она брала их из полной
+ * выборки getProducts(), то есть тянула на каждую позицию описание, SEO-текст,
+ * характеристики и вопросы. После истечения кэша первый запрос оплачивал эту
+ * выгрузку целиком, и главная проваливалась по времени ответа: три подряд
+ * замера Lighthouse на одном и том же коде дали 52, 73 и 95 баллов, тогда как
+ * раздел каталога с узкой выборкой держал 90 стабильно.
+ *
+ * Два поля вместо полусотни: объём ответа падает примерно в сто раз.
+ */
+export async function getCatalogFacets(): Promise<{ vendor: string | null; category: { slug: string } | null }[]> {
+  return cached('facets', () => dx<{ vendor: string | null; category: { slug: string } | null }[]>('/items/products', {
+    params: {
+      fields: 'vendor,category.slug',
+      // Те же условия, что у витрины: опубликованное и не отечественное.
+      filter: JSON.stringify({ _and: [{ status: { _eq: 'published' } }, { origin: { _neq: 'domestic' } }] }),
+      limit: -1,
+    },
+  }));
+}
+
 /** Если slug устарел (есть в old_slugs опубликованного товара) — вернуть актуальный slug для 301. */
 export async function findCanonicalProductSlug(oldSlug: string): Promise<string | null> {
   return cached(`canonical:${oldSlug}`, async () => {
@@ -396,7 +421,10 @@ export async function getProductsBySlugs(slugs: string[]): Promise<Product[]> {
   if (!slugs.length) return [];
   return cached(`slugs:${[...slugs].sort().join(',')}`, () => dx<Product[]>('/items/products', {
     params: {
-      fields: 'id,name,slug,vendor,origin,short_description,price,promo_price,promo_start,promo_end,currency,license_type,image',
+      // sku, price_note и promo_label добавлены для карточек витрины:
+      // ProductCard печатает артикул и приписку к цене, effectivePrice —
+      // подпись акции. Без них главная не смогла бы обойтись этой выборкой.
+      fields: 'id,name,sku,slug,vendor,origin,short_description,price,price_note,promo_price,promo_label,promo_start,promo_end,currency,license_type,image',
       filter: JSON.stringify({ slug: { _in: slugs }, status: { _eq: 'published' } }),
       limit: -1,
     },

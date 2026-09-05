@@ -980,8 +980,22 @@ def _exp_exposure_line(e: dict) -> str:
              else f"до порога ещё {num(thr - imp)}")
     if e.get("exposure_gate_adapted"):
         state += ", порог адаптирован под ёмкость кластера"
+    # Считается по совпадающим запросам окон — тому набору, на котором
+    # выносится вердикт (решение 04.09.2026); охват кластера целиком стоит
+    # рядом, чтобы масштаб присутствия в выдаче не пропадал.
+    scope = ""
+    if e.get("exposure_basis") == "matched" and e.get("cluster_impressions"):
+        scope = (f" по совпадающим запросам окон; кластер целиком — "
+                 f"{counted(e['cluster_impressions'], 'показ', 'показа', 'показов')}")
+    elif e.get("exposure_ok"):
+        # Показы кластера набраны, но окно источника ещё захватывает период до
+        # внедрения: сравнивать не с чем, и «порог пройден» без этой оговорки
+        # читается как «данных достаточно для вывода» (проверка 04.09.2026).
+        eta = (e.get("evaluation") or {}).get("clean_window_eta")
+        if eta:
+            scope = f", вывод ждёт чистого окна с {ru_date(eta)}"
     return (f"{counted(imp, 'показ', 'показа', 'показов')} из {num(thr)} "
-            f"минимальных ({state}) · "
+            f"минимальных ({state}){scope} · "
             f"{counted(e.get('clicks_since_deploy'), 'клик', 'клика', 'кликов')} · "
             f"день {e['days_elapsed']} из {exp_mod.MIN_EXPOSURE_DAYS} минимальных")
 

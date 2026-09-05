@@ -118,10 +118,14 @@ def _evaluate_ctr(exp: dict, date: str) -> dict:
             f"baseline из усечённой выгрузки ({len(win['baseline']['queries'])} "
             "запросов) — совпадающий набор занижен")
     if fixed.get("baseline") and not fixed.get("experiment"):
+        eta = win.get("fixed_experiment_eta")
         res["sample_quality"].append(
             "окно после внедрения пока скользящее (короче фиксированного "
             "baseline): сравнение предварительное до выгрузки полного окна "
-            f"к {win.get('fixed_experiment_eta') or '—'}")
+            f"к {eta}" if eta else
+            "baseline фиксированный, окно после — скользящее: у эксперимента, "
+            "заведённого до фиксированных окон, полного окна «после» нет по "
+            "построению, и сравнение окон разной длины идёт по CTR")
 
     base_rows = st._rows_for_cluster(win["baseline"]["queries"], keys)
     exp_rows = st._rows_for_cluster(win["experiment"]["queries"], keys)
@@ -346,11 +350,16 @@ def _evaluate_impressions_growth(exp: dict, date: str) -> dict:
 
     win = st.pick_windows(start, today, exp)
     if not win["experiment"]:
+        eta = win.get("fixed_experiment_eta") or win["clean_experiment_eta"]
+        # Дату чистого окна показывает и блок эксперимента в письме — рядом с
+        # «порог пройден», иначе набранная экспозиция читается как готовность
+        # вывода (проверка 04.09.2026).
+        res["clean_window_eta"] = eta
         res["verdict_reason"] = (
             "окно источника захватывает период до внедрения; "
-            f"чистое окно — с {win['clean_experiment_eta'] or '—'}")
+            f"чистое окно — с {eta or '—'}")
         res["recommendation_detail"] = (
-            f"продлить наблюдение до {win['clean_experiment_eta'] or 'следующей вехи'}")
+            f"продлить наблюдение до {eta or 'следующей вехи'}")
         return res
 
     w = win["experiment"]

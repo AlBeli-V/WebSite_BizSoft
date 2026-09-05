@@ -49,8 +49,10 @@ Directus → доменная логика (lib/directus, lib/pricing, lib/catal
 Правила, которые нельзя нарушать:
 
 1. **Один источник данных.** Инструменты читают тот же Directus теми же
-   функциями (`getProducts`, `getProductBySlug`, `getVendors`), цена —
-   только `effectivePrice()`. Отдельной «базы для агентов» не существует.
+   функциями (`getProducts`, `getProductBySlug`, `getVendors`, `getCategories`),
+   цена — только `effectivePrice()`. Тексты об условиях покупки — из того же
+   `src/data/policies.ts`, которым рендерятся страницы `/faq`, `/how-we-work`
+   и `/pricing`. Отдельной «базы для агентов» не существует.
 2. **Отказ слоя не трогает сайт.** Нет браузерного API — регистратор
    молча выходит; упал Directus — API отвечает 503 (как страницы);
    выключен рубильник — сайт работает как до внедрения.
@@ -70,6 +72,8 @@ Directus → доменная логика (lib/directus, lib/pricing, lib/catal
 | `src/pages/api/agent/[tool].ts` | Единственный HTTP-эндпоинт: `GET /api/agent/<tool>?...` (JSON, noindex) |
 | `src/components/WebMCP.astro` | Подключение клиентского чанка из BaseLayout |
 | `src/lib/product-search.ts` | Общий поиск каталога — один и тот же для страницы `/catalog?q=` и `search_products` |
+| `src/data/policies.ts` | База условий работы (договор, счёт, ЭДО, сроки, порядок сделки) — один источник для страниц `/faq`, `/how-we-work`, `/pricing` и для `search_policies` |
+| `src/lib/policy-search.ts` | Поиск по условиям: сопоставление по основе слова, вес темы выше веса ответа |
 
 Цепочка вызова инструмента:
 
@@ -121,6 +125,7 @@ Directus → доменная логика (lib/directus, lib/pricing, lib/catal
 | Каталог/поиск `/catalog` | высокая | да | `search_products` (общая логика с `?q=`) |
 | Список вендоров `/vendors` | средняя | да | `list_vendors` |
 | Сравнения `/compare/*` | средняя | нет отдельного tool | агент вызывает `get_product` дважды |
+| Условия покупки `/faq`, `/how-we-work`, `/pricing` | высокая | да | `search_policies` над общей базой условий |
 | Корзина/КП `/cart`, формы | write | **нет в v1** | политика side effects (security.md) |
 | Блог, solutions, справочные | низкая | нет | контент читается как обычный HTML |
 | Служебные (admin, api, og) | нулевая | нет | не экспонируются |
