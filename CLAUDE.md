@@ -103,7 +103,9 @@
   Вебмастера; в реестре обязательны `page_markers`, `query_intent_any`,
   `query_exclude`, `title_marker`, `baseline`; статус `planned`, `start`
   ставит `seo-site-check`; одно изменение на эксперимент; после деплоя —
-  переобход.
+  переобход. Новый эксперимент любого типа — только на кластере с
+  экспозицией выше 3,6 показа в день (100 за 28 дней): проверка
+  `experiment_windows.py validate` перед отправкой реестра.
 - **SERP: один сбор — все потребители** (`docs/rules/serp-single-source.md`).
   Выдачу собирает только `seo-serp-watch` (Яндекс ежедневно, Google RU через
   xmlriver еженедельно) в `reports/seo/serp` ветки `seo-data`; параллельные
