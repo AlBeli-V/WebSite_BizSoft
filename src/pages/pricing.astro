@@ -4,6 +4,7 @@ import HeroSteps from '../components/HeroSteps.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
 import LeadForm from '../components/LeadForm.astro';
 import FAQ from '../components/FAQ.astro';
+import { policyFaq } from '../data/policies';
 
 const factors = [
   { t: 'Состав и количество', d: 'Какие сервисы и сколько пользователей/рабочих мест нужно.' },
@@ -12,11 +13,7 @@ const factors = [
   { t: 'Объём заказа', d: 'При большом объёме считаем условия отдельно.' },
 ];
 
-const faq = [
-  { q: 'Почему в каталоге «ориентировочные» цены?', a: 'Итоговая стоимость зависит от состава, количества пользователей, срока и актуального курса. Поэтому финальную цену мы фиксируем в счёте и КП.' },
-  { q: 'Как быстро получу расчёт?', a: 'Обычно в течение рабочего дня. Можно ускорить — добавьте сервисы в избранное и нажмите «Получить КП».' },
-  { q: 'В какой валюте оплата?', a: 'Оплата в рублях по счёту с расчётного счёта вашей организации.' },
-];
+const faq = policyFaq('/pricing');
 ---
 <BaseLayout title="Стоимость и расчёт" description="Как формируется стоимость подписок на ПО в BIZSoft и как запросить индивидуальный расчёт для юрлица. Оплата по счёту в рублях.">
   <div class="container-page section">

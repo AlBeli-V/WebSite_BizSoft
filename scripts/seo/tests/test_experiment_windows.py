@@ -226,6 +226,122 @@ class ActivateTest(unittest.TestCase):
             shutil.rmtree(tmp, ignore_errors=True)
 
 
+class BackfillTest(unittest.TestCase):
+    """Фиксированный baseline идущим экспериментам (решение 04.09.2026)."""
+
+    def test_ставится_только_baseline_окна_после_нет(self):
+        e = {k: v for k, v in EXP.items() if k != "windows"}
+        reg = {"experiments": [e]}
+        done = ew.backfill(reg, dt.date(2026, 9, 4))
+        self.assertEqual(len(done), 1)
+        w = reg["experiments"][0]["windows"]
+        # 28 дней, заканчивающихся за лаг источника до старта 05.09.
+        self.assertEqual(w["baseline"], {"from": "2026-08-05", "to": "2026-09-01"})
+        self.assertIsNone(w["experiment"])
+        self.assertEqual(reg["experiments"][0]["windows_backfilled"], "2026-09-04")
+
+    def test_эксперимент_с_окнами_не_переписывается(self):
+        reg = {"experiments": [dict(EXP)]}
+        self.assertEqual(ew.backfill(reg, dt.date(2026, 9, 4)), [])
+        self.assertEqual(reg["experiments"][0]["windows"], EXP["windows"])
+
+    def test_planned_без_даты_старта_пропускается(self):
+        e = {k: v for k, v in EXP.items() if k != "windows"}
+        e.update({"status": "planned", "start": None})
+        reg = {"experiments": [e]}
+        self.assertEqual(ew.backfill(reg, dt.date(2026, 9, 4)), [])
+        self.assertNotIn("windows", reg["experiments"][0])
+
+    def test_после_backfill_окно_ставится_в_очередь_выгрузки(self):
+        e = {k: v for k, v in EXP.items() if k != "windows"}
+        reg = {"experiments": [e]}
+        ew.backfill(reg, dt.date(2026, 9, 4))
+        due = ew.windows_due(reg, dt.date(2026, 9, 4))
+        self.assertEqual([(r, w["from"]) for _, r, w in due],
+                         [("baseline", "2026-08-05")])
+
+
+class RegistryRuleTest(unittest.TestCase):
+    """Правило порога экспозиции для новых экспериментов (решение 04.09.2026)."""
+
+    def setUp(self):
+        self.tmp = pathlib.Path(tempfile.mkdtemp())
+        self.addCleanup(shutil.rmtree, self.tmp, True)
+        self.old_dir, st.DATA_DIR = st.DATA_DIR, self.tmp
+        self.addCleanup(setattr, st, "DATA_DIR", self.old_dir)
+        self.old_reg, experiments.REGISTRY = experiments.REGISTRY, self.tmp / "reg.json"
+        self.addCleanup(setattr, experiments, "REGISTRY", self.old_reg)
+        (self.tmp / "yandex-2026-09-04.json").write_text(json.dumps({
+            "date": "2026-09-04",
+            "popular_queries": {"date_from": "2026-08-22", "date_to": "2026-09-02",
+                                "queries": [q("клип студио купить", 120, 0, 8),
+                                            q("procreate цена", 20, 0, 10)]}},
+            ensure_ascii=False), encoding="utf-8")
+
+    def reg(self, *experiments_):
+        experiments.REGISTRY.write_text(
+            json.dumps({"experiments": list(experiments_)}, ensure_ascii=False),
+            encoding="utf-8")
+
+    def planned(self, page, markers, **kw):
+        e = {"id": f"exp-{page}", "ticket": "SEO-EXP-X", "status": "planned",
+             "start": None, "pages": [page], "page_markers": {page: markers},
+             "query_intent_any": ["купить", "цена"]}
+        e.update(kw)
+        return e
+
+    def test_кластер_с_экспозицией_проходит(self):
+        self.reg(self.planned("/vendors/clip-studio-paint", ["клип студио"]))
+        self.assertEqual(experiments.registry_issues("2026-09-04"), [])
+
+    def test_кластер_без_экспозиции_отклоняется(self):
+        self.reg(self.planned("/vendors/procreate", ["procreate"]))
+        issues = experiments.registry_issues("2026-09-04")
+        self.assertEqual(len(issues), 1)
+        self.assertIn("20 показов", issues[0])
+        self.assertIn("/день", issues[0])
+
+    def test_порог_нормирован_на_длину_окна(self):
+        # Кластер Recraft 04.09: 180 показов за 28 дней августа (всплеск от
+        # внешней публикации) и 4 показа за последние 12 дней. Абсолютный
+        # порог сравнивал бы несравнимые окна — правило считает показы в день.
+        self.assertAlmostEqual(experiments.MIN_EXPOSURE_PER_DAY_FOR_NEW_EXPERIMENT,
+                               100 / 28, places=4)
+        (self.tmp / "yandex-2026-09-04.json").write_text(json.dumps({
+            "date": "2026-09-04",
+            "popular_queries": {"date_from": "2026-08-03", "date_to": "2026-08-30",
+                                "queries": [q("клип студио купить", 120, 0, 8)]}},
+            ensure_ascii=False), encoding="utf-8")
+        # 120 показов за 28 дней — это 4,3/день, порог пройден; те же 120 за
+        # 12-дневное окно дали бы 10/день, вывод тот же, но без нормировки
+        # порог «100 за окно» отклонил бы кластер на длинном окне.
+        self.reg(self.planned("/vendors/clip-studio-paint", ["клип студио"]))
+        self.assertEqual(experiments.registry_issues("2026-09-04"), [])
+
+    def test_идущие_до_правила_не_проверяются(self):
+        # Шесть записей, заведённых до 04.09, имеют экспозицию ниже порога —
+        # решения по ним уже приняты, правило их не пересматривает.
+        old = self.planned("/vendors/procreate", ["procreate"],
+                           status="running", start="2026-08-20")
+        self.reg(old)
+        self.assertEqual(experiments.registry_issues("2026-09-04"), [])
+
+    def test_running_заведённый_после_правила_проверяется(self):
+        new = self.planned("/vendors/procreate", ["procreate"],
+                           status="running", start="2026-09-05")
+        self.reg(new)
+        self.assertEqual(len(experiments.registry_issues("2026-09-04")), 1)
+
+    def test_закрытые_и_черновые_статусы_не_проверяются(self):
+        self.reg(self.planned("/vendors/procreate", ["procreate"], status="closed"))
+        self.assertEqual(experiments.registry_issues("2026-09-04"), [])
+
+    def test_без_выгрузки_вебмастера_правило_молчит(self):
+        (self.tmp / "yandex-2026-09-04.json").unlink()
+        self.reg(self.planned("/vendors/procreate", ["procreate"]))
+        self.assertEqual(experiments.registry_issues("2026-09-04"), [])
+
+
 class FetchTest(unittest.TestCase):
     def setUp(self):
         self.tmp = pathlib.Path(tempfile.mkdtemp())
