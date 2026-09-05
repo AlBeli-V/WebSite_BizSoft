@@ -1,0 +1,111 @@
+{
+  "schema_version": "1.0.0",
+  "base": "https://biz-soft.pro",
+  "note": "Наблюдение за скоростью сайта. Ежедневно меряются три представителя основных шаблонов, раз в неделю — расширенная выборка по трём прогонам (медиана). Только мобильная стратегия: по ней идёт основной трафик и принимаются решения, а десктопный замер отчёт всё равно не показывает. Адреса живут здесь, а не в workflow, чтобы менять их без правки прогона.",
+  "daily": {
+    "strategy": "mobile",
+    "runs": 1,
+    "urls": [
+      {
+        "path": "/",
+        "pageType": "homepage",
+        "why": "точка входа бренда и самая часто правимая страница; базовый замер 05.09 — 100"
+      },
+      {
+        "path": "/product/chatgpt-business",
+        "pageType": "product",
+        "why": "шаблон карточки товара: цена, микроразметка, ежедневная переоценка каталога; базовый замер 05.09 — 100"
+      },
+      {
+        "path": "/blog/kak-kupit-recraft-dlya-yurlica",
+        "pageType": "content",
+        "why": "шаблон статьи — худший в базовом замере 05.09 (96, LCP 2,9 с из-за обложки) и единственный, куда еженедельно добавляются новые страницы с новыми изображениями"
+      }
+    ],
+    "baseline": {
+      "date": "2026-09-05",
+      "source": "ops-pagespeed (psi, mobile), 12 адресов, прогон 33956231994",
+      "note": "Вендорская страница (100, правится редко) оставлена в расширенной выборке: ежедневный контроль ей ничего не добавляет."
+    }
+  },
+  "weekly": {
+    "strategy": "mobile",
+    "runs": 3,
+    "weekday": 6,
+    "urls": [
+      {
+        "path": "/",
+        "pageType": "homepage"
+      },
+      {
+        "path": "/catalog",
+        "pageType": "catalog"
+      },
+      {
+        "path": "/catalog/ai",
+        "pageType": "category"
+      },
+      {
+        "path": "/vendors/anthropic",
+        "pageType": "vendor"
+      },
+      {
+        "path": "/vendors/coreldraw",
+        "pageType": "vendor"
+      },
+      {
+        "path": "/vendors/heygen",
+        "pageType": "vendor"
+      },
+      {
+        "path": "/product/chatgpt-business",
+        "pageType": "product"
+      },
+      {
+        "path": "/product/heygen-business",
+        "pageType": "product"
+      },
+      {
+        "path": "/product/cdr-gs-sub",
+        "pageType": "product"
+      },
+      {
+        "path": "/blog/kak-oplatit-coreldraw-dlya-yurlica",
+        "pageType": "content"
+      },
+      {
+        "path": "/blog/kak-kupit-recraft-dlya-yurlica",
+        "pageType": "content"
+      },
+      {
+        "path": "/compare/midjourney-vs-recraft",
+        "pageType": "heavy"
+      }
+    ]
+  },
+  "thresholds": {
+    "performance": {
+      "green": 90,
+      "yellow": 80
+    },
+    "seo": {
+      "green": 95
+    },
+    "accessibility": {
+      "green": 90
+    },
+    "best_practices": {
+      "green": 95
+    },
+    "regression": {
+      "performance_warning": 5,
+      "performance_critical": 10,
+      "lcp_warning_pct": 20,
+      "cls_warning_abs": 0.05
+    },
+    "confirm_run": {
+      "performance_drop": 5,
+      "lcp_worse_pct": 20
+    }
+  }
+}
