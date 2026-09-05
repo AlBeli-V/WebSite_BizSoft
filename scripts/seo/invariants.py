@@ -92,8 +92,15 @@ def soft(blocks: dict, html: str) -> list[str]:
         # роняла сборку письма (AttributeError), а на фикстурах молчала:
         # у них форма другая. Заодно инвариант начал проверять то, что
         # заявлен проверять, — до этого он не срабатывал ни разу.
-        verdict = (e.get("evaluation") or {}).get("verdict")
-        if e.get("exposure_ok") and verdict == "INSUFFICIENT_DATA":
+        ev = e.get("evaluation") or {}
+        verdict = ev.get("verdict")
+        # Противоречие — это «порог пройден» на ТОМ ЖЕ наборе, по которому
+        # вынесен вердикт (решение 04.09.2026). Пока окно источника захватывает
+        # период до внедрения, matched-набора не существует: экспозиция
+        # кластера набрана, а сравнивать не с чем — это законная стадия, и
+        # строка письма называет дату чистого окна.
+        if (e.get("exposure_ok") and verdict == "INSUFFICIENT_DATA"
+                and e.get("exposure_basis") == "matched"):
             v.append(f"{e.get('ticket')}: «порог пройден» при вердикте «мало данных»")
     return v
 

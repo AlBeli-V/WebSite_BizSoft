@@ -3,6 +3,7 @@
 // Запуск: node scripts/seo/emailcheck.mjs <html> <json-out>
 import { chromium } from 'playwright';
 import fs from 'fs';
+import { chromiumExecutable } from './chromium.mjs';
 
 const [file, out] = process.argv.slice(2);
 const raw = fs.readFileSync(file, 'utf8');
@@ -12,8 +13,9 @@ const variants = [
 ];
 const widths = [375, 680];
 
+const executablePath = chromiumExecutable();
 const browser = await chromium.launch({
-  executablePath: '/opt/pw-browsers/chromium-1194/chrome-linux/chrome',
+  ...(executablePath ? { executablePath } : {}),
   args: ['--no-sandbox'],
 });
 const results = [];

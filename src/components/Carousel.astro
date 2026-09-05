@@ -100,7 +100,10 @@ const { label, autoplay = 0, slideWidth = 'clamp(260px, 80vw, 340px)', dots = fa
     next.addEventListener('click', () => track.scrollBy({ left: step(), behavior: 'smooth' }));
     track.addEventListener('scroll', sync, { passive: true });
     window.addEventListener('resize', sync);
-    sync();
+    // Первый sync — после раскладки браузера: синхронное чтение scrollWidth
+    // при инициализации скрипта заставляло считать раскладку всей страницы
+    // (длинная задача 115 мс и forced-reflow в отчёте PageSpeed на мобильном).
+    requestAnimationFrame(() => setTimeout(sync, 0));
 
     // Автопрокрутка. Пауза: наведение/фокус, reduce-motion, карусель вне экрана,
     // скрытая вкладка. Вне-экранная пауза критична для Speed Index и батареи.
