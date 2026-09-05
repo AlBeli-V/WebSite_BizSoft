@@ -19,6 +19,7 @@ import { site } from '../../config/site';
 import { POPULAR_VENDORS } from '../../data/popular';
 import { SEO_EXPERIMENT_LINKS } from '../../data/seo-experiments';
 import { searchProducts } from '../../lib/product-search';
+import { countByCategory } from '../../lib/catalog';
 import { isSourceUnavailable, serviceUnavailable } from '../../lib/http';
 import type { Product, Category } from '../../lib/types';
 
@@ -42,11 +43,7 @@ try {
 const q = (Astro.url.searchParams.get('q') || '').trim();
 const searchResults = q ? searchProducts(products, q) : [];
 
-const catCounts: Record<string, number> = {};
-for (const p of products) {
-  const slug = typeof p.category === 'object' && p.category ? p.category.slug : '';
-  if (slug) catCounts[slug] = (catCounts[slug] || 0) + 1;
-}
+const catCounts = countByCategory(products);
 const usedCategories = categories
   .filter((c) => (catCounts[c.slug] || 0) > 0)
   .map((c) => ({
