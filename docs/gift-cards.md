@@ -109,6 +109,8 @@ iTunes Gift Card для трёх регионов (Россия, Казахст�
   `scripts/marketing/build-blog-covers.mjs`.
 - Решение `/solutions/podarochnye-karty-sotrudnikam` (`src/data/solutions.ts`),
   плитки вендоров Apple, Airalo, Discord — `src/data/vendor-solutions.ts`.
-- Директ: отдельная кампания `bs-apple-gift-2026-09` по спецификации
-  `reports/seo/ppc/round3-spec.json` (ветка `seo-data`), расписание из
-  спецификации (`campaign.time_targeting`, ежедневно 9–21 МСК).
+- Директ: две кампании по спецификациям в `seo-data` — `bs-apple-gift-2026-09`
+  (российские аккаунты и подарки, `round3-spec.json`, 4 500 ₽/нед) и
+  `bs-apple-regions-2026-09` (Турция и Казахстан, `round3-regions-spec.json`,
+  500 ₽/нед); расписание из спецификации (`campaign.time_targeting`,
+  ежедневно 9–21 МСК), минус-слова под премиальное позиционирование.

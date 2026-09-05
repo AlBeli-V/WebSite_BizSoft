@@ -44,7 +44,7 @@ on:
   workflow_dispatch:
     inputs:
       action:
-        description: "apply — создать/применить кампанию по спецификации; ceiling — потолок цены клика; check — доступ к кабинету (+ статистика); autotargeting/expand/improve/negatives/refine/sitelinks/tighten — точечные правки кампании bs-test-2026-09; stats — статистика кампании"
+        description: "apply — создать/применить кампанию по спецификации; ceiling — потолок цены клика; check — доступ к кабинету (+ статистика); autotargeting/expand/improve/negatives/refine/sitelinks/tighten — точечные правки кампании bs-test-2026-09; stats — статистика кампаний bs-* (тестовая и подарочные карты Apple)"
         required: true
         type: choice
         options: ["apply", "autotargeting", "ceiling", "check", "expand", "improve", "negatives", "refine", "sitelinks", "stats", "tighten"]
@@ -55,7 +55,7 @@ on:
         type: choice
         options: ["dry-run", "apply", "tune", "audit", "rollback"]
       spec:
-        description: "Только для action=apply: файл спецификации в seo-data (round1-spec.json | round2-spec.json | round3-spec.json)"
+        description: "Только для action=apply: файл спецификации в seo-data (round1-spec.json | round2-spec.json | round3-spec.json | round3-regions-spec.json)"
         required: false
         default: "round1-spec.json"
   schedule:
@@ -105,7 +105,7 @@ jobs:
           SPEC: ${{ inputs.spec }}
         run: |
           case "${SPEC:-round1-spec.json}" in
-            round1-spec.json|round2-spec.json|round3-spec.json) ;;
+            round1-spec.json|round2-spec.json|round3-spec.json|round3-regions-spec.json) ;;
             *) echo "недопустимое имя спецификации: $SPEC"; exit 1 ;;
           esac
           git fetch --depth=1 origin seo-data
