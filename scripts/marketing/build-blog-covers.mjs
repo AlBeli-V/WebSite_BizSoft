@@ -11,12 +11,26 @@
  * единообразны, а при смене фирменного цвета — перерисованы одной командой.
  *
  * Запуск: node scripts/marketing/build-blog-covers.mjs [slug ...]
- * Без аргументов рисует все. Результат — public/blog/covers/<slug>.png.
+ * Без аргументов рисует все. Результат — public/blog/covers/<slug>.png
+ * и две ширины WebP рядом: <slug>-832.webp и <slug>.webp.
+ *
+ * Зачем два формата. PNG остаётся картинкой для og:image — соцсети и
+ * мессенджеры её показывают, и вес там значения не имеет: файл тянет робот,
+ * не читатель. Страницу же грузит человек, и PNG на четверть мегабайта был
+ * самым тяжёлым элементом статьи: замер PageSpeed 05.09.2026 показал LCP
+ * 2,6–2,9 с у статей против секунды у остальных шаблонов, а аудит Lighthouse
+ * назвал виновника поимённо — обложку. WebP тех же размеров весит в разы
+ * меньше при том же изображении.
+ *
+ * Режим `--webp-only` пересобирает только WebP из уже нарисованных PNG, не
+ * трогая сами PNG: перерисовка всех обложек ради смены формата дала бы
+ * невидимые глазу отличия отрисовки в 29 файлах.
  */
-import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
+import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'node:fs';
 import { resolve, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { Resvg } from '@resvg/resvg-js';
+import sharp from 'sharp';
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..', '..');
 const OUT_DIR = resolve(ROOT, 'public/blog/covers');
@@ -313,16 +327,42 @@ function buildSvg({ hero, icons }) {
 </svg>`;
 }
 
-const want = process.argv.slice(2);
+/**
+ * Ширины WebP. 1664 — для экранов с двойной плотностью, 832 — для карточек
+ * списка и телефонов: там обложка занимает не больше 400 CSS-пикселей, и
+ * полноразмерный файл тратится впустую.
+ */
+export const WEBP_WIDTHS = [832, W];
+
+/** WebP обеих ширин рядом с PNG. Имена жёсткие: их знает разметка страницы. */
+async function writeWebp(slug, png) {
+  for (const width of WEBP_WIDTHS) {
+    const name = width === W ? `${slug}.webp` : `${slug}-${width}.webp`;
+    const buf = await sharp(png).resize({ width })
+      .webp({ quality: 80, effort: 6 }).toBuffer();
+    writeFileSync(resolve(OUT_DIR, name), buf);
+    console.log(`${name} — ${(buf.length / 1024).toFixed(0)} КБ`);
+  }
+}
+
+const argv = process.argv.slice(2);
+const webpOnly = argv.includes('--webp-only');
+const want = argv.filter((a) => !a.startsWith('--'));
 const list = want.length ? want : Object.keys(COVERS);
 mkdirSync(OUT_DIR, { recursive: true });
 
 for (const slug of list) {
-  const cfg = COVERS[slug];
-  if (!cfg) { console.error(`нет конфигурации обложки: ${slug}`); process.exitCode = 1; continue; }
-  const svg = buildSvg(cfg);
-  const png = new Resvg(svg, { fitTo: { mode: 'width', value: W } }).render().asPng();
   const out = resolve(OUT_DIR, `${slug}.png`);
-  writeFileSync(out, png);
-  console.log(`${slug}.png — ${(png.length / 1024).toFixed(0)} КБ`);
+  let png;
+  if (webpOnly) {
+    if (!existsSync(out)) { console.error(`нет обложки: ${slug}.png`); process.exitCode = 1; continue; }
+    png = readFileSync(out);
+  } else {
+    const cfg = COVERS[slug];
+    if (!cfg) { console.error(`нет конфигурации обложки: ${slug}`); process.exitCode = 1; continue; }
+    png = new Resvg(buildSvg(cfg), { fitTo: { mode: 'width', value: W } }).render().asPng();
+    writeFileSync(out, png);
+    console.log(`${slug}.png — ${(png.length / 1024).toFixed(0)} КБ`);
+  }
+  await writeWebp(slug, png);
 }
