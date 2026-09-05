@@ -40,6 +40,7 @@ import os
 import re
 import subprocess
 import sys
+from datetime import date, timedelta
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import paths  # noqa: E402,F401
@@ -54,6 +55,11 @@ BUSY_CONTROL = "контрольная группа"
 # что решение принято и страница освободилась — ровно так базовый контур
 # поступил с /vendors/coreldraw 02.09.2026.
 LIVE_STATES = {"running", "observing", "watch"}
+
+# Сколько держать страницу, если из реестра не выводится ни дата окончания, ни
+# длительность окна. Без запасного срока эксперимент без дат в метрике
+# блокировал бы страницу вечно.
+DEFAULT_WINDOW_DAYS = 28
 
 
 def _registry_raw(branch: str = SEO_BRANCH) -> str:
@@ -91,20 +97,107 @@ def _path_of(url: str) -> str:
     return re.sub(r"^https?://[^/]+", "", url or "").rstrip("/") or "/"
 
 
-def _checkpoint(experiment: dict) -> str:
-    """Дата, до которой страница занята, — из метрики успеха или окна.
-
-    В реестре контрольная точка записана человеком в тексте `success_metric`
-    («контрольная точка 16.09.2026»), отдельного поля под неё нет. Берём
-    последнюю дату из текста: раньше неё эксперимент не закрывается.
-    """
-    text = " ".join(str(experiment.get(k) or "")
-                    for k in ("success_metric", "control_group"))
-    dates = re.findall(r"(\d{2})\.(\d{2})\.(\d{4})", text)
-    if not dates:
+def _add_days(day: str, days: int) -> str:
+    try:
+        start = date.fromisoformat(day)
+    except (TypeError, ValueError):
         return ""
-    day, month, year = max(dates, key=lambda d: (d[2], d[1], d[0]))
-    return f"{year}-{month}-{day}"
+    return (start + timedelta(days=days)).isoformat()
+
+
+def _dates_in(text: str, year_hint: str = "") -> list[str]:
+    """Даты из текста метрики. Год без указания берётся у старта.
+
+    В реестре встречается и «контрольная точка 16.09.2026», и «К 27.09: первые
+    клики» — без года. Вторая форма прежде не читалась вовсе, и окно
+    наблюдения обрывалось на первой контрольной точке.
+    """
+    found = [f"{y}-{m}-{d}"
+             for d, m, y in re.findall(r"(\d{2})\.(\d{2})\.(\d{4})", text)]
+    if year_hint:
+        tail = re.sub(r"\d{2}\.\d{2}\.\d{4}", " ", text)
+        for d, m in re.findall(r"(\d{2})\.(\d{2})(?!\.\d)", tail):
+            found.append(f"{year_hint}-{m}-{d}")
+    return sorted(found)
+
+
+def _durations_in(text: str) -> list[int]:
+    """Длительности окна из текста: «за 14 дней», «через 28 дней»."""
+    return [int(n) for n in re.findall(r"(\d{1,3})\s*дн", text or "")]
+
+
+def _checkpoint(experiment: dict, default_days: int = DEFAULT_WINDOW_DAYS) -> str:
+    """Дата, до которой страница занята: конец самого длинного окна замера.
+
+    Источники перебираются все, и берётся самый поздний срок: освободить
+    страницу раньше времени дороже, чем подержать её лишний день. Порядок
+    важен и разобран в 1.8.1:
+
+      * `windows.experiment.to` — машиночитаемое поле новых экспериментов,
+        самое надёжное;
+      * `end` и `start` + `windows.days`;
+      * даты и длительности из `success_metric`.
+
+    `control_group` источником дат больше не является. Там встречаются даты
+    решений («KEEP 03.09.2026»), и по ним окно snippets-2-price-intent
+    закрывалось в день собственного старта при заявленных 28 днях.
+
+    Если срок не выводится ниоткуда, берётся `start` плюс окно по умолчанию:
+    без этого эксперимент без дат в метрике держал бы страницы бессрочно.
+    """
+    start = str(experiment.get("start") or "")
+    year_hint = start[:4]
+    candidates: list[str] = []
+
+    windows = experiment.get("windows") or {}
+    if isinstance(windows, dict):
+        planned = (windows.get("experiment") or {}) if isinstance(
+            windows.get("experiment"), dict) else {}
+        if planned.get("to"):
+            candidates.append(str(planned["to"]))
+        if windows.get("days"):
+            candidates.append(_add_days(start, int(windows["days"])))
+    if experiment.get("end"):
+        candidates.append(str(experiment["end"]))
+
+    metric = str(experiment.get("success_metric") or "")
+    candidates += _dates_in(metric, year_hint)
+    candidates += [_add_days(start, days) for days in _durations_in(metric)]
+
+    candidates = [c for c in candidates if c]
+    if candidates:
+        return max(candidates)
+    return _add_days(start, default_days)
+
+
+def window_end(experiment: dict) -> str:
+    """Публичное имя для конца окна занятости."""
+    return _checkpoint(experiment)
+
+
+def is_live(experiment: dict, today: str) -> bool:
+    """Меряет ли эксперимент прямо сейчас.
+
+    Статус в реестре базового контура меняет человек, и снятие занятости на
+    него не завязывается: 04.09.2026 два эксперимента с контрольной точкой
+    02.09 всё ещё стояли `running` и держали десять страниц. Отчёт при этом
+    сам печатал «страница занята … до 2026-09-02» — то есть противоречил себе
+    в одной строке.
+    """
+    if not today:
+        return True
+    end = window_end(experiment)
+    return not end or end >= today
+
+
+def expired(experiments: list[dict], today: str) -> list[dict]:
+    """Эксперименты, чьё окно прошло, а статус в реестре ещё рабочий.
+
+    Возвращаются не для того, чтобы кого-то упрекнуть: страницы освобождаются
+    нашим решением, и отчёт обязан это назвать, а базовый контур — увидеть,
+    что эксперимент пора закрывать.
+    """
+    return [e for e in experiments if not is_live(e, today)]
 
 
 def _control_clusters(experiment: dict) -> list[str]:
@@ -128,16 +221,20 @@ def _control_clusters(experiment: dict) -> list[str]:
             if part.strip() and " " not in part.strip().strip(".")]
 
 
-def find(url: str, subject: str, experiments: list[dict]) -> dict | None:
+def find(url: str, subject: str, experiments: list[dict],
+         today: str = "") -> dict | None:
     """Кто занял страницу или её кластер. None — свободна.
 
     Приоритет у прямой занятости страницей: она запрещает работу, тогда как
-    контрольная группа только ставит условие.
+    контрольная группа только ставит условие. Эксперименты с истёкшим окном
+    замера пропускаются: их правка уже отстояла срок, и вторая ей не помешает.
     """
     path = _path_of(url)
     subject_norm = (subject or "").strip().lower()
     control_hit: dict | None = None
     for experiment in experiments:
+        if not is_live(experiment, today):
+            continue
         pages = [_path_of(p) for p in (experiment.get("pages") or [])]
         if path in pages:
             return {
@@ -145,7 +242,7 @@ def find(url: str, subject: str, experiments: list[dict]) -> dict | None:
                 "эксперимент": experiment.get("id", ""),
                 "заявка": experiment.get("ticket", ""),
                 "начат": experiment.get("start", ""),
-                "до": _checkpoint(experiment),
+                "до": window_end(experiment),
                 "почему": (f"страница входит в действующий эксперимент "
                            f"базового SEO-контура «{experiment.get('id')}» "
                            f"(начат {experiment.get('start')}): вторая правка "
@@ -159,7 +256,7 @@ def find(url: str, subject: str, experiments: list[dict]) -> dict | None:
                 "эксперимент": experiment.get("id", ""),
                 "заявка": experiment.get("ticket", ""),
                 "начат": experiment.get("start", ""),
-                "до": _checkpoint(experiment),
+                "до": window_end(experiment),
                 "почему": (f"кластер «{subject}» — контрольная группа "
                            f"эксперимента «{experiment.get('id')}»: работа по "
                            f"нему меняет то, с чем сравнивают результат"),
@@ -168,8 +265,8 @@ def find(url: str, subject: str, experiments: list[dict]) -> dict | None:
     return control_hit
 
 
-def mark(packages: list[dict], experiments: list[dict] | None = None
-         ) -> tuple[list[dict], list[dict]]:
+def mark(packages: list[dict], experiments: list[dict] | None = None,
+         today: str = "") -> tuple[list[dict], list[dict]]:
     """Делит пакеты на свободные и занятые, проставляя пометку занятости.
 
     Возвращает (свободные, занятые). Пакеты в контрольной группе остаются
@@ -181,7 +278,8 @@ def mark(packages: list[dict], experiments: list[dict] | None = None
     free: list[dict] = []
     busy: list[dict] = []
     for package in packages:
-        hit = find(package.get("url", ""), package.get("subject", ""), live)
+        hit = find(package.get("url", ""), package.get("subject", ""), live,
+                   today)
         if hit is None:
             free.append(package)
             continue

@@ -10,9 +10,18 @@
  * Все обработчики v1 — только чтение; записи (заявки, КП) сознательно
  * не открыты агентам, см. docs/webmcp/security.md.
  */
-import { getProducts, getProductBySlug, getVendors } from '../lib/directus';
+import { getCategories, getProducts, getProductBySlug, getVendors } from '../lib/directus';
+import type { ProductFilter } from '../lib/directus';
+import type { Product } from '../lib/types';
+import { countByCategory } from '../lib/catalog';
+import { effectivePrice } from '../lib/pricing';
 import { searchProducts } from '../lib/product-search';
+import { searchPolicies } from '../lib/policy-search';
+import { ALL_POLICIES } from '../data/policies';
+import { site } from '../config/site';
 import {
+  toAgentCategory,
+  toAgentPolicy,
   toAgentProductBrief,
   toAgentProductFull,
   toAgentVendor,
@@ -34,20 +43,92 @@ const errResult = (status: number, error: string): ToolResult => ({ status, body
 
 type Handler = (input: Record<string, string | number>) => Promise<ToolResult>;
 
+/** Цена товара для фильтра и сортировки; 0 — «цена по запросу». */
+const priceOf = (p: Product): number => {
+  const v = effectivePrice(p).price;
+  return v > 0 ? v : 0;
+};
+
 const handlers: Record<string, Handler> = {
   async search_products(input) {
-    const query = String(input.query);
+    const query = input.query ? String(input.query) : '';
     const limit = Number(input.limit ?? 10);
-    let products = await getProducts();
+    // Бизнес-проверка сверх схемы: пустой вызов вернул бы весь каталог.
+    if (!query && !input.vendor && !input.category) {
+      return errResult(400, 'укажите query, vendor или category — хотя бы одно');
+    }
+    const min = input.min_price != null ? Number(input.min_price) : null;
+    const max = input.max_price != null ? Number(input.max_price) : null;
+    if (min != null && max != null && min > max) {
+      return errResult(400, `min_price (${min}) больше max_price (${max})`);
+    }
+
+    // Фильтры вендора и раздела — те же параметры каталога, что у страниц:
+    // выборку делает Directus, а не перебор всего каталога в памяти.
+    const filter: ProductFilter = {};
     if (input.vendor) {
       const match = resolveVendorName(String(input.vendor), await getVendors());
-      if (!match) return errResult(404, `производитель «${input.vendor}» не найден в каталоге`);
-      products = products.filter((p) => p.vendor === match.vendor);
+      if (!match) return errResult(404, `производитель «${input.vendor}» не найден в каталоге. Список — list_vendors.`);
+      filter.vendor = match.vendor;
     }
-    const found = searchProducts(products, query);
+    if (input.category) {
+      const needle = String(input.category).toLowerCase();
+      const cats = await getCategories();
+      const cat = cats.find((c) => c.slug === needle) ?? cats.find((c) => c.name.toLowerCase() === needle);
+      if (!cat) return errResult(404, `раздел «${input.category}» не найден. Список — list_categories.`);
+      filter.categorySlug = cat.slug;
+    }
+
+    let products = await getProducts(filter);
+    if (input.license) products = products.filter((p) => p.license_type === input.license);
+    if (min != null || max != null) {
+      // «Цена по запросу» из ценового диапазона уходит: сравнивать нечего,
+      // а показать её внутри «до 50 000 ₽» — соврать о цене.
+      products = products.filter((p) => {
+        const price = priceOf(p);
+        return price > 0 && (min == null || price >= min) && (max == null || price <= max);
+      });
+    }
+
+    const found = query ? searchProducts(products, query) : products;
+    const sort = input.sort ? String(input.sort) : 'relevance';
+    // Порядок задаём копией: searchProducts уже вернул отсортированный
+    // по релевантности массив, и его переворачивать на месте нельзя.
+    const items = sort === 'relevance'
+      ? found
+      : [...found].sort((a, b) => {
+        // «Цена по запросу» остаётся в конце при любой сортировке — как в каталоге.
+        const pa = priceOf(a);
+        const pb = priceOf(b);
+        if (pa === 0 || pb === 0) return Number(pa === 0) - Number(pb === 0);
+        return sort === 'price_asc' ? pa - pb : pb - pa;
+      });
+    return okResult({
+      total: items.length,
+      items: items.slice(0, limit).map(toAgentProductBrief),
+    });
+  },
+
+  async list_categories() {
+    const [categories, products] = await Promise.all([getCategories(), getProducts()]);
+    const counts = countByCategory(products);
+    // Пустые разделы не показываем: фильтр по ним вернул бы пусто, и агент
+    // решил бы, что сломан каталог. Ровно так же поступает страница /catalog.
+    const items = categories
+      .filter((c) => (counts[c.slug] || 0) > 0)
+      .map((c) => toAgentCategory(c, counts[c.slug]));
+    return okResult({ total: items.length, items });
+  },
+
+  async search_policies(input) {
+    const limit = Number(input.limit ?? 5);
+    const found = searchPolicies(ALL_POLICIES, String(input.query));
+    if (found.length === 0) {
+      return errResult(404, `по этому вопросу условий в базе нет. Не додумывайте ответ: отправьте человека на ${site.url}/faq или к менеджеру через форму на сайте.`);
+    }
     return okResult({
       total: found.length,
-      items: found.slice(0, limit).map(toAgentProductBrief),
+      items: found.slice(0, limit).map(toAgentPolicy),
     });
   },
 
