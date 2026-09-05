@@ -10,7 +10,8 @@
  * (base_price_usd/eur, markup_coeff, purchase_source и т.п.) в ответы
  * не попадает — как и в HTML, и в фиды. Тест: tests/webmcp-adapters.test.ts.
  */
-import type { Product } from '../lib/types';
+import type { Category, Product } from '../lib/types';
+import type { PolicyItem } from '../data/policies';
 import { LICENSE_LABEL } from '../lib/types';
 import { effectivePrice } from '../lib/pricing';
 import { productKind, PRODUCT_KIND_LABEL, vendorLegal } from '../lib/catalog';
@@ -45,6 +46,22 @@ export interface AgentProductFull extends AgentProductBrief {
   purchase_terms: string[];
 }
 
+export interface AgentCategory {
+  name: string;
+  slug: string;
+  url: string;
+  products_count: number;
+}
+
+/** Ответ об условиях работы: тот же текст, что человек читает на странице. */
+export interface AgentPolicy {
+  id: string;
+  question: string;
+  answer: string;
+  /** Страница сайта с этим ответом — агенту есть куда отправить человека. */
+  url: string;
+}
+
 export interface AgentVendor {
   vendor: string;
   title: string;
@@ -62,6 +79,28 @@ export function productUrl(slug: string): string {
 
 export function vendorUrl(vendorName: string): string {
   return `${site.url}/vendors/${vendorSlug(vendorName)}`;
+}
+
+export function categoryUrl(slug: string): string {
+  return `${site.url}/catalog/${slug}`;
+}
+
+export function toAgentCategory(c: Category, productsCount: number): AgentCategory {
+  return {
+    name: c.name,
+    slug: c.slug,
+    url: categoryUrl(c.slug),
+    products_count: productsCount,
+  };
+}
+
+export function toAgentPolicy(p: PolicyItem): AgentPolicy {
+  return {
+    id: p.id,
+    question: p.question,
+    answer: p.answer,
+    url: `${site.url}${p.path}`,
+  };
 }
 
 export function toAgentProductBrief(p: Product): AgentProductBrief {
