@@ -63,6 +63,43 @@
    Поэтому фолбэк объявлен по диапазонам весов со своим size-adjust.
    Вертикаль (fontkit по woff2): ascent 940, descent 234, при em 1000;
    overrides = метрика / size-adjust. */
+/* Фирменные шрифты — два self-hosted файла вместо девятнадцати.
+   Raleway — вариативный (ось wght 100–900): один файл закрывает все пять
+   начертаний сайта, Prosto One — один файл. Оба собраны pyftsubset из
+   исходников Google Fonts (SIL OFL 1.1) с кириллицей, латиницей, знаками
+   ₽ € № и типографской пунктуацией — см. scripts/build-fonts.sh.
+   Прежние наборы @fontsource делили каждое начертание на три файла по
+   диапазонам (cyrillic / latin / latin-ext), и мобильная главная тянула
+   19 файлов ≈ 290 КБ, из них шесть latin-ext (≈ 90 КБ) — ради одного знака
+   ₽. Теперь 2 файла ≈ 90 КБ; оба preload'ятся в BaseLayout. */
+/* font-display: optional — не swap.
+   Со swap текст рисуется запасным шрифтом, а потом подменяется фирменным, и
+   Chrome всё это время не засчитывает его как кандидата Largest Contentful
+   Paint: в трассе прогонов по проду 04.09.2026 не было ни одного события
+   Candidate, только отзывы. На раннере это давало LCP 3,2 с вместо 1,8 с, а
+   на инфраструктуре Google кандидат не появлялся до конца замера — отсюда
+   NO_LCP и «балл не вычислен» в веб-интерфейсе PageSpeed.
+   Опыт (прогон с блокировкой обоих файлов шрифтов): LCP 1,8 с, балл 98
+   против 93, кандидат — заголовок первого экрана через 0,8 с.
+   С optional подмены нет вовсе: шрифт либо готов к первой отрисовке, либо
+   весь визит идёт запасным (со второго визита он в кэше и успевает всегда).
+   Раскладка при этом не едет — ниже описаны запасные семейства с метриками,
+   подогнанными под фирменные. */
+@font-face {
+  font-family: 'Raleway';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: optional;
+  src: url('../assets/fonts/raleway-var.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Prosto One';
+  font-style: normal;
+  font-weight: 400;
+  font-display: optional;
+  src: url('../assets/fonts/prosto-one.woff2') format('woff2');
+}
+
 @font-face {
   font-family: 'Raleway-fallback';
   src: local('Arial'), local('Liberation Sans'), local('Arimo'), local('Helvetica Neue'), local('Roboto');
@@ -321,18 +358,34 @@
     border: 0;
   }
 
-  /* Плавное появление секций (Intersection Observer добавляет .is-visible) */
+  /* Плавное появление секций (Intersection Observer добавляет .is-visible).
+     Скрываются только под html.js-reveal — класс ставит скрипт BaseLayout,
+     предварительно пометив .is-visible всё, что уже в первом экране. До
+     загрузки JS (и без него) контент виден: иначе на мобильном первый экран
+     каталога и карточек ждал модульный скрипт, и LCP сдвигался на его загрузку. */
+  /* Скрыта только та секция, которую скрипт пометил как лежащую ниже первого
+     экрана (.is-below). Первый экран в анимации не участвует вовсе.
+
+     Прежде было наоборот: скрывались все .reveal, а первый экран скрипт
+     возвращал обратно. На медленной сети скрипт срабатывал уже после первой
+     отрисовки, и возврат transform: translateY(16px) → none двигал видимый
+     контент на 16 пикселей — сдвиг раскладки 0,076 и потеря кандидата LCP в
+     замере PageSpeed 04.09.2026 (у Google документ едет 1,1 с, на быстрой
+     сети дефект не воспроизводился). Теперь двигаться нечему: то, что видно
+     сразу, не сдвигается ни при какой скорости сети. */
   .reveal {
-    opacity: 0;
-    transform: translateY(16px);
     transition: opacity 0.6s ease, transform 0.6s ease;
   }
-  .reveal.is-visible {
+  .reveal.is-below {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  .reveal.is-below.is-visible {
     opacity: 1;
     transform: none;
   }
   @media (prefers-reduced-motion: reduce) {
-    .reveal {
+    .reveal.is-below {
       opacity: 1;
       transform: none;
     }

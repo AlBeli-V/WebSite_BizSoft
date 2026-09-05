@@ -14,12 +14,6 @@ importers:
       '@astrojs/sitemap':
         specifier: ^3.2.1
         version: 3.7.3
-      '@fontsource/prosto-one':
-        specifier: ^5.3.0
-        version: 5.3.0
-      '@fontsource/raleway':
-        specifier: ^5.3.0
-        version: 5.3.0
       '@resvg/resvg-js':
         specifier: ^2.6.2
         version: 2.6.2
@@ -636,12 +630,6 @@ packages:
     engines: {node: '>=18'}
     cpu: [x64]
     os: [win32]
-
-  '@fontsource/prosto-one@5.3.0':
-    resolution: {integrity: sha512-bOD3L1irJNwuL+T8hBOggmTP1ymhJYyMMM2T2sdk5Lx+poBuCog8+wCDykv7ts9JlTWHYAKt7/LrkfTp7XPPzQ==}
-
-  '@fontsource/raleway@5.3.0':
-    resolution: {integrity: sha512-BTWr1I14Ji0DWpS/KCIq/CXcvxXWgMO73gynWpbYv7A5wlPhLevozgRmdPJvZmUf0fhH+Lju+F4nigJ6Ums24A==}
 
   '@img/colour@1.1.0':
     resolution: {integrity: sha512-Td76q7j57o/tLVdgS746cYARfSyxk8iEfRxewL9h4OMzYhbW4TAcppl0mT4eyqXddh6L/jwoM75mo7ixa/pCeQ==}
@@ -3279,10 +3267,6 @@ snapshots:
 
   '@esbuild/win32-x64@0.28.1':
     optional: true
-
-  '@fontsource/prosto-one@5.3.0': {}
-
-  '@fontsource/raleway@5.3.0': {}
 
   '@img/colour@1.1.0':
     optional: true

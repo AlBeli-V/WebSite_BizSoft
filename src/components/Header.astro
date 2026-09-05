@@ -171,9 +171,17 @@ const navRest = mainNav.filter((i) => i.href !== '/catalog');
         </a>
       ))}
       <p class="m-cap">/ Все вендоры</p>
-      {ddRest.map((v) => (
-        <a href={v.href} class="mobile-link mobile-sub">{v.name}</a>
-      ))}
+      {/*
+        Полный список вендоров сюда переносит скрипт при первом открытии
+        бургера — копией из десктопного меню выше. Раньше те же ~100 ссылок
+        рендерились в разметке дважды (для десктопного и мобильного меню), и
+        каждая страница сайта везла лишние ~14 КБ HTML, из которых половина
+        заведомо не показывалась. Мобильное меню и так открывается только
+        скриптом (nav скрыт атрибутом hidden), поэтому доступность не меняется:
+        без JS ни один из двух списков всё равно не виден, а ссылка
+        «Все производители →» выше ведёт на полный перечень.
+      */}
+      <div data-mobile-vendors></div>
     </details>
     <details class="mobile-dd" open={typeActive}>
       <summary class:list={['mobile-link', 'mobile-dd-summary', { active: typeActive }]}>
@@ -423,7 +431,37 @@ const navRest = mainNav.filter((i) => i.href !== '/catalog');
   // Бургер-меню
   const burger = document.querySelector('[data-burger]');
   const mobileNav = document.querySelector('[data-mobile-nav]');
+
+  // Полный список вендоров в мобильном меню — копией из десктопного, при
+  // первом открытии. В разметке он больше не дублируется (см. комментарий у
+  // [data-mobile-vendors]).
+  //
+  // Ссылки именно клонируются, а не создаются заново: стили компонента Astro
+  // скоупит атрибутом data-astro-cid-*, и у элемента, собранного через
+  // createElement, его нет — правила .mobile-dd a к нему не применяются, и
+  // список слипается в одну строку без отступов (проверено в браузере).
+  // Клон несёт атрибут исходной ссылки, поэтому выглядит как остальные пункты.
+  let vendorsCopied = false;
+  const fillMobileVendors = () => {
+    if (vendorsCopied) return;
+    const box = document.querySelector('[data-mobile-vendors]');
+    const source = document.querySelectorAll('.nav-dd .nav-dd-menu a.dd-item:not(.dd-logo-item):not(.dd-all)');
+    if (!box || source.length === 0) return;
+    const frag = document.createDocumentFragment();
+    source.forEach((a) => {
+      const href = a.getAttribute('href');
+      if (!href || !href.startsWith('/vendors/')) return;
+      const link = a.cloneNode(true) as HTMLAnchorElement;
+      link.className = 'mobile-link mobile-sub';
+      link.removeAttribute('role');
+      frag.appendChild(link);
+    });
+    box.appendChild(frag);
+    vendorsCopied = true;
+  };
+
   burger?.addEventListener('click', () => {
+    fillMobileVendors();
     const open = mobileNav?.hasAttribute('data-open');
     if (open) {
       mobileNav?.removeAttribute('data-open');

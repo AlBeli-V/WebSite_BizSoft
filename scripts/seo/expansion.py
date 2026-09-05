@@ -14,10 +14,17 @@ Google и Microsoft сайт вне топ-10 и переносить приём
 расширения считает кандидатов по тому источнику, который отвечает за его
 приём:
 
-  snippet — формула сниппета применима к любой карточке вендора: нужна только
-            страница в реестре и незанятость действующим экспериментом.
-            Порядок — по коммерческому спросу Вордстата: правка сниппета
-            окупается там, где есть рынок;
+  snippet — сниппет меняет долю кликов при показе, а не показы и позиции,
+            поэтому приём воспроизводим только там, где страница уже
+            показывается и недобирает переходы (случай GAP-D). Порядок — по
+            замеренным показам кластера в Вебмастере при средней позиции в
+            топ-10 и CTR ниже порога; спрос Вордстата идёт основанием и
+            вторым ключом сортировки, а не отбором. До 03.09.2026 отбор шёл
+            по коммерческому спросу Вордстата, и в кандидатах стояли Adobe и
+            Autodesk — страницы, у которых показов нет вовсе: разбор
+            SEO-EXP-002 показал, что сниппет-тест на таких страницах не даёт
+            вывода ни при какой длительности
+            (`docs/seo/experiments/seo-exp-002-restart.md`);
   content — приём CONTENT-001 (статья под транзакционный интент + взаимная
             перелинковка с карточками) воспроизводим лишь там, где сошлись
             условия оригинала. Сам оригинал отобран не по Вордстату:
@@ -64,6 +71,11 @@ MIN_CLUSTER_IMPRESSIONS_PER_DAY = 2.0
 
 #: «В топ-10» — строго средняя позиция ≤ 10 (правило 6 отчётности).
 MAX_CLUSTER_POSITION = 10.0
+
+#: Потолок CTR кластера для сниппет-приёма: выше — сниппет уже собирает
+#: переходы, и менять его незачем. Порог из наблюдений GAP-D: у кластеров с
+#: экспозицией в топ-10 CTR либо нулевой, либо сразу выше 2%.
+MAX_CLUSTER_CTR_FOR_SNIPPET = 0.01
 
 PROFILES = ("snippet", "content")
 
@@ -183,6 +195,7 @@ def cluster_visibility() -> dict[str, dict]:
         text = (row.get("query_text") or "").lower()
         ind = row.get("indicators") or {}
         shows = ind.get("TOTAL_SHOWS") or 0
+        clicks = ind.get("TOTAL_CLICKS") or 0
         position = ind.get("AVG_SHOW_POSITION")
         if not shows:
             continue
@@ -190,14 +203,17 @@ def cluster_visibility() -> dict[str, dict]:
             if not any(re.search(rf"(?<![a-zа-я0-9]){re.escape(k)}(?![a-zа-я0-9])", text)
                        for k in keys):
                 continue
-            a = acc.setdefault(vendor, {"impressions": 0.0, "weighted": 0.0,
-                                        "positioned": 0.0})
+            a = acc.setdefault(vendor, {"impressions": 0.0, "clicks": 0.0,
+                                        "weighted": 0.0, "positioned": 0.0})
             a["impressions"] += shows
+            a["clicks"] += clicks
             if position is not None:
                 a["weighted"] += position * shows
                 a["positioned"] += shows
     return {vendor: {
         "impressions": int(a["impressions"]),
+        "clicks": int(a["clicks"]),
+        "ctr": (a["clicks"] / a["impressions"]) if a["impressions"] else None,
         "per_day": round(a["impressions"] / days, 2),
         "avg_position": (round(a["weighted"] / a["positioned"], 1)
                          if a["positioned"] else None),
@@ -235,15 +251,43 @@ def candidates(exclude_pages: list[str] | None = None, limit: int = 10,
     demand = commercial_demand()
     if profile == "content":
         return _content_candidates(slugs, busy, demand, limit)
-    if not demand:
+    return _snippet_candidates(slugs, busy, demand, limit)
+
+
+def _snippet_candidates(slugs: dict[str, str], busy: set[str],
+                        demand: dict[str, int], limit: int) -> list[dict]:
+    """Кластеры случая GAP-D: показы в топ-10 есть, переходов почти нет.
+
+    Порядок — по замеренным показам: сниппет работает долей кликов, и чем
+    больше показов, тем быстрее эффект станет различимым. Спрос Вордстата —
+    второй ключ и основание в карточке кандидата, отбором он не служит.
+    """
+    visibility = cluster_visibility()
+    if not visibility:
         return []
     out: list[dict] = []
-    for vendor, value in sorted(demand.items(), key=lambda kv: -kv[1]):
+    for vendor, vis in sorted(visibility.items(),
+                              key=lambda kv: (-kv[1]["impressions"],
+                                              -demand.get(kv[0], 0))):
         slug = slugs.get(vendor)
         if not slug or slug in busy:
             continue
+        position = vis["avg_position"]
+        if position is None or position > MAX_CLUSTER_POSITION:
+            continue
+        if vis["per_day"] < MIN_CLUSTER_IMPRESSIONS_PER_DAY:
+            continue
+        ctr = vis["ctr"]
+        if ctr is None or ctr > MAX_CLUSTER_CTR_FOR_SNIPPET:
+            continue
         out.append({"url": f"/vendors/{slug}", "vendor": vendor,
-                    "commercial_demand": value})
+                    "impressions": vis["impressions"],
+                    "impressions_per_day": vis["per_day"],
+                    "clicks": vis["clicks"],
+                    "ctr": round(ctr, 4),
+                    "avg_position": position,
+                    "window_days": vis["window_days"],
+                    "commercial_demand": demand.get(vendor, 0)})
         if len(out) >= limit:
             break
     return out
@@ -301,4 +345,7 @@ if __name__ == "__main__":  # ручная сверка списка перед 
                   f"{c['window_days']} дн., позиция {c['avg_position']}, "
                   f"карточек {c['products']}, спрос {c['commercial_demand']}")
         else:
-            print(f"{c['url']:28} спрос {c['commercial_demand']:>7}")
+            print(f"{c['url']:28} показов {c['impressions']:>4} за "
+                  f"{c['window_days']} дн., позиция {c['avg_position']}, "
+                  f"CTR {c['ctr'] * 100:.1f}% ({c['clicks']} кликов), "
+                  f"спрос {c['commercial_demand']}")

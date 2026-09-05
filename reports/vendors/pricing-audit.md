@@ -244,6 +244,12 @@ for 3 months» действует только на помесячную опл�
 | HAILUO-PRO | Hailuo AI | Hailuo AI Pro (годовая подписка) | publish | 800 | за 1 пользователя в год | vendor-page: страница подписки, ручная проверка руководителя | https://hailuoai.video/subscribe | 2026-09-02 |
 | HAILUO-MASTER | Hailuo AI | Hailuo AI Master (годовая подписка) | publish | 1050 | за 1 пользователя в год | vendor-page: страница подписки, ручная проверка руководителя | https://hailuoai.video/subscribe | 2026-09-02 |
 | HAILUO-MAX | Hailuo AI | Hailuo AI Max (годовая подписка) | publish | 2700 | за 1 пользователя в год | vendor-page: страница подписки, ручная проверка руководителя | https://hailuoai.video/subscribe | 2026-09-02 |
+| HAILUO-CREDITS-550 | Hailuo AI | Hailuo AI Credits, 550 credits | publish | 6.25 | за пакет кредитов, разовая покупка | owner-manual-check: витрина 5 $ + 25 % к закупке | https://hailuoai.video | 2026-09-04 |
+| HAILUO-CREDITS-1100 | Hailuo AI | Hailuo AI Credits, 1100 credits | publish | 12.5 | за пакет кредитов, разовая покупка | owner-manual-check: витрина 10 $ + 25 % к закупке | https://hailuoai.video | 2026-09-04 |
+| HAILUO-CREDITS-3400 | Hailuo AI | Hailuo AI Credits, 3400 credits | publish | 37.5 | за пакет кредитов, разовая покупка | owner-manual-check: витрина 30 $ + 25 % к закупке | https://hailuoai.video | 2026-09-04 |
+| HAILUO-CREDITS-11500 | Hailuo AI | Hailuo AI Credits, 11500 credits | publish | 125 | за пакет кредитов, разовая покупка | owner-manual-check: витрина 100 $ + 25 % к закупке | https://hailuoai.video | 2026-09-04 |
+| HAILUO-CREDITS-23000 | Hailuo AI | Hailuo AI Credits, 23000 credits | publish | 250 | за пакет кредитов, разовая покупка | owner-manual-check: витрина 200 $ + 25 % к закупке | https://hailuoai.video | 2026-09-04 |
+| HAILUO-CREDITS-35000 | Hailuo AI | Hailuo AI Credits, 35000 credits | publish | 375 | за пакет кредитов, разовая покупка | owner-manual-check: витрина 300 $ + 25 % к закупке | https://hailuoai.video | 2026-09-04 |
 
 ## Hailuo AI — цены по ручной проверке руководителя 02.09.2026
 
@@ -271,6 +277,33 @@ GitHub — из сессии egress к сайту вендора закрыт; �
 схему — годовую — и другие суммы. Урок для регламента: пока пара «имя плана ↔
 цена» не подтверждена, карточку заводить не следует даже с честной пометкой о
 происхождении числа.
+
+### Пакеты дополнительных кредитов Hailuo AI — решение руководителя 04.09.2026
+
+Витрина пополнения кредитов hailuoai.video (снимок руководителя 04.09.2026)
+показывает шесть пакетов: 550 (500 + 50), 1 100 (1 000 + 100), 3 400
+(3 000 + 400), 11 500 (10 000 + 1 500), 23 000 (20 000 + 3 000) и 35 000
+(30 000 + 5 000) кредитов за 5, 10, 30, 100, 200 и 300 $ соответственно; бонус
+вендора уже включён в объём (10 / 10 / 13 / 15 / 15 / 17 %).
+
+**Себестоимость закупки по решению руководителя = цена витрины + 25 %:**
+6,25 / 12,5 / 37,5 / 125 / 250 / 375 $. Именно эта сумма записана в
+`base_price_usd`; рублёвая цена на сайте считается штатно от этой базы
+(`computePegRub`, курс ЦБ × стандартный коэффициент). Надбавка отражает
+издержки закупки пакета за рубежом и в тексте карточки не показывается —
+покупатель видит только рублёвую цену. Это отличие от пакетов Kling AI, где
+базой служит цена витрины без надбавки.
+
+Правила вендора, отражённые в карточках: кредиты истекают в конце второго
+года, не передаются и не возвращаются; привилегии тарифа (ускоренная очередь и
+режимы старших планов) даёт только активная подписка — покупка одних
+дополнительных кредитов их не открывает. Состав пакетов (бонусная часть) на
+витрине может меняться, поэтому объём подтверждается на дату счёта.
+
+Индексная матрица: пакеты `HAILUO-CREDITS-<объём>` штатно попадают под правило
+`*-CREDITS-<объём>` (`productNoindex` → noindex, вне sitemap и фидов;
+`productKind` → дополнение), интент «купить кредиты Hailuo» держит страница
+`/vendors/hailuo`.
 | LANSWEEPER-STARTER-2000-DEVICES | Lansweeper | Lansweeper Starter (Annual Subscription, 2,000 devices) | publish | 3500.0 | за пакет на 2 000 устройств в год | owner-manual-check | https://www.lansweeper.com/pricing/ | 2026-09-02 |
 | LANSWEEPER-PRO-2000-9000-DEVICES | Lansweeper | Lansweeper Pro (Annual Subscription, 2,000–9,000 devices) | publish | 7000.0 | за пакет от 2 000 устройств в год | owner-manual-check | https://www.lansweeper.com/pricing/ | 2026-09-02 |
 
