@@ -45,7 +45,10 @@
   Ежедневные и еженедельные прогоны с детерминированными шагами — workflow с
   двумя cron-слотами, идемпотентностью по артефакту дня, очередью и явным
   вызовом почтовых workflow (`scripts/ops/gh_dispatch_wait.sh`). Routine на
-  сессиях Claude для них не заводятся. Контуры: `seo-daily-report`,
+  сессиях Claude для них не заводятся. Время старта задаёт сторож
+  `seo-morning-gate`: планировщик GitHub задерживает слоты на 4–5 часов,
+  поэтому утренние контуры запускает он, а их собственные слоты остаются
+  страховкой. Контуры: `seo-daily-report`,
   `seo-committee-build`, `competitive-intelligence-daily`, `seo-serp-watch`,
   `seo-wordstat`. Статусы `intelligence/actions.json` обновляет PR,
   внедряющий действие. Тишина: при успехе ничего, при сбое — запись в issue #22.
