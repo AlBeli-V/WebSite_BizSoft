@@ -133,7 +133,8 @@ def visible_text(kpi, verdict_mark, verdict_why, signal, *,
          f"{kpi_mod.format_delta(kpi.share_delta_pp, unit=' п.п.')}, "
          f"сигнальная {kpi_mod.format_delta(signal_delta, unit=' п.п.')}) · "
          f"Google {kpi_mod.format_share(kpi.share_google)} · "
-         f"ТОП-3 {kpi.top3}/{kpi.queries} · ТОП-10 {kpi.top10}/{kpi.queries}."),
+         f"ТОП-3 органики {kpi.top3}/{kpi.queries} · "
+         f"ТОП-10 органики {kpi.top10}/{kpi.queries}."),
         f"Главный сигнал: {signal.text}",
         do_next_text(attack, package, compact=compact),
         watch_text(threat_leader),
@@ -397,6 +398,8 @@ def render_txt(meta: dict, *, snapshot: dict | None = None,
         f"Scoring: {meta['зрелость_скоринга']} · "
         f"источник: Яндекс (Москва), {meta['покрытие'].get('яндекс_запросов_с_данными')} запросов · "
         f"Google: {_google_source_line(meta)} · "
+        "позиции органические (Search API, без рекламы и колдунщиков; "
+        "расхождение с позицией показа — в отчёте) · "
         "B2C и маркетплейсы вне основного рейтинга · NO DATA не равно нулю.",
     ]
     return "\n".join(parts)
@@ -521,7 +524,8 @@ def render_html(meta: dict, *, kpi=None, snapshot: dict | None = None,
 <tr><td style="padding:0 24px 18px;border-top:1px solid #EAECF0;">
 <div style="font-size:11px;color:#98A2B3;padding-top:10px;line-height:1.5;">
 Scoring: {esc(meta['зрелость_скоринга'])} · источник: Яндекс (Москва), {esc(str(meta['покрытие'].get('яндекс_запросов_с_данными')))} запросов ·
-Google: {esc(_google_source_line(meta))} · B2C и маркетплейсы вне основного рейтинга · NO DATA не равно нулю.
+Google: {esc(_google_source_line(meta))} · позиции органические (Search API, без рекламы и колдунщиков; расхождение с позицией показа — в отчёте) ·
+B2C и маркетплейсы вне основного рейтинга · NO DATA не равно нулю.
 </div></td></tr>
 </table></td></tr></table></body></html>"""
 

@@ -12,7 +12,7 @@ import CTASection from './CTASection.astro';
 import QuestionForm from './QuestionForm.astro';
 import JsonLd from './JsonLd.astro';
 import { getProducts } from '../lib/directus';
-import { effectivePrice } from '../lib/pricing';
+import { effectivePrice, formatRub } from '../lib/pricing';
 import { logoFile } from '../data/logos';
 import { vendorIcon } from '../data/vendor-icons';
 import VendorIcon from './VendorIcon.astro';
@@ -42,6 +42,14 @@ try {
 }
 // «Цена по запросу» — всегда в конце списка
 products.sort((a, b) => Number(!(effectivePrice(a).price > 0)) - Number(!(effectivePrice(b).price > 0)));
+
+// Цена «от» в первом экране. На bespoke-лендингах (openai, figma, jetbrains,
+// maxon) она стоит с самого начала, на типовом её не было — и замер 04.09
+// показал разницу: /vendors/openai 22 % отказов, /vendors/anthropic 40 %,
+// /vendors/adobe 42 % при глубине 1,04 и 16 секундах. Человек с запросом
+// «adobe купить» ищет цену; не найдя её на первом экране, уходит.
+const priced = products.filter((p) => effectivePrice(p).price > 0);
+const minPrice = priced.length ? Math.min(...priced.map((p) => effectivePrice(p).price)) : 0;
 
 const plural = (n: number) => (n % 10 === 1 && n % 100 !== 11 ? 'позиция' : [2, 3, 4].includes(n % 10) && ![12, 13, 14].includes(n % 100) ? 'позиции' : 'позиций');
 
@@ -89,14 +97,23 @@ const ld = [
         Подберите и оформите {name} на компанию: договор, счёт в рублях, оплата вендору с нашей стороны
         и закрывающие документы через ЭДО.
       </p>
+      {minPrice > 0 && (
+        <p class="from">
+          Цены от <b>{formatRub(minPrice)}</b> в год
+          {products.length > 0 && <> · {products.length} {plural(products.length)} в каталоге</>}
+        </p>
+      )}
       <ul class="v-chips">
         <li>Для юрлиц и ИП</li>
-        <li>КП и счёт за 1 день</li>
-        <li>Договор и закрывающие</li>
+        <li>Оплата по счёту в рублях</li>
+        <li>Закрывающие через ЭДО</li>
       </ul>
       <div class="v-actions">
         <button class="btn btn-primary" data-open-question data-product={name}>Получить расчёт и КП</button>
-        <a href="/vendors" class="btn btn-ghost">Все производители</a>
+        {/* Вторая кнопка вела на /vendors — уводила с посадочной ровно тех,
+            кто пришёл по рекламе за конкретным продуктом. Теперь она ведёт
+            к тарифам этой же страницы. */}
+        <a href="#tariffs" class="btn btn-ghost">Смотреть тарифы</a>
       </div>
     </div>
     <HeroSteps />
@@ -105,7 +122,7 @@ const ld = [
   <div class="summary"><strong>Коротко:</strong> {summary}</div>
 
   {products.length > 0 && (
-    <section class="v-products">
+    <section class="v-products" id="tariffs">
       <h2>Тарифы и позиции {name}</h2>
       <div class="v-grid">
         {products.map((p) => <ProductCard product={p} />)}
@@ -128,6 +145,8 @@ const ld = [
 <style>
   .section { padding: 2rem 0 1rem; }
   .v-hero { margin: 1rem 0 2rem; }
+  .from { color: var(--color-text-muted); font-size: 0.92rem; margin: 0 0 0.6rem; }
+  .from b { color: var(--color-text); }
   .v-brand { display: flex; align-items: center; gap: 0.65rem; margin-bottom: 1rem; flex-wrap: wrap; }
   .v-brand img { width: 44px; height: 44px; object-fit: contain; border-radius: 10px; }
   .v-brand span { font-weight: 700; font-size: 1.05rem; }
