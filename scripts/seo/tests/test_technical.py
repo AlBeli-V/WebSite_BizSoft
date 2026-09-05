@@ -248,5 +248,33 @@ class BuildTest(unittest.TestCase):
         self.assertEqual((full["green"], full["yellow"], full["red"]), (1, 1, 1))
 
 
+class TestTechnicalSectionTypography(unittest.TestCase):
+    """Блок письма: текст мельче 14 px допустим только как метаданные.
+
+    Браузерная проверка uxlint (rendered_font_sizes) берёт минимальный
+    размер по всем элементам без data-meta; 05.09.2026 подпись о последней
+    расширенной проверке в 13,5 px без пометки заблокировала выпуск.
+    """
+
+    def test_melkiy_tekst_tolko_s_pometkoy_metadannykh(self):
+        import importlib.util
+        import re
+        spec = importlib.util.spec_from_file_location(
+            "report_v4", pathlib.Path(__file__).resolve().parents[1] / "report_v4.py")
+        r = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(r)
+        html = r._technical_html({
+            "available": True, "level": "green", "mobile_performance": 96,
+            "pages_checked": 3, "pages": [{"page_type": "Главная", "performance": 96}],
+            "lcp_ms": 2100, "cls": 0.01, "regressions": [],
+            "last_full": {"date": "2026-09-05", "urls": 12, "green": 10,
+                          "yellow": 2, "red": 0}})
+        for m in re.finditer(r"<div([^>]*)>", html):
+            attrs = m.group(1)
+            size = re.search(r"font-size:([\d.]+)px", attrs)
+            if size and float(size.group(1)) < 14:
+                self.assertIn('data-meta="1"', attrs, attrs)
+
+
 if __name__ == "__main__":
     unittest.main()

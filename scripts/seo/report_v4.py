@@ -1540,7 +1540,11 @@ def _technical_html(tech: dict) -> str:
 
     full = tech.get("last_full")
     if full:
-        body += (f"<div style=\"font-size:13.5px;padding-top:{SP['s']}px;"
+        # Служебная подпись о последней расширенной проверке — метаданные:
+        # без data-meta браузерная проверка uxlint (rendered_font_sizes)
+        # считает 13,5 px основным текстом и блокирует выпуск (05.09.2026,
+        # первая суббота с расширенным замером).
+        body += (f"<div data-meta=\"1\" style=\"font-size:13.5px;padding-top:{SP['s']}px;"
                  f"color:{T['text_secondary']};\">"
                  f"Последняя расширенная проверка {ru_date(full['date'])}: "
                  f"{full['urls']} адресов, зелёных {full['green']}, "
