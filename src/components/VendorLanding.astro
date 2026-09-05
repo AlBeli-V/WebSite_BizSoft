@@ -17,6 +17,7 @@ import { effectivePrice, formatRub } from '../lib/pricing';
 import { collectionPageSchema } from '../lib/seo';
 import { SEO_EXPERIMENTS } from '../data/seo-experiments';
 import { planType, PLAN_LABEL } from '../lib/plan-type';
+import { productKind } from '../lib/catalog';
 import { productIcons } from '../data/product-icons';
 import ProductIcon from './ProductIcon.astro';
 import AddToCartButton from './AddToCartButton.astro';
@@ -58,7 +59,12 @@ const cards = products.map((p) => {
 // Карточки «Цена по запросу» — всегда в конце списка
 cards.sort((a, b) => Number(a.byRequest) - Number(b.byRequest));
 const priced = cards.filter((c) => !c.byRequest);
-const minPrice = priced.length ? Math.min(...products.filter((p) => effectivePrice(p).price > 0).map((p) => effectivePrice(p).price)) : 0;
+// «Цены от … в год» — по основным продуктам (тарифам): дополнения — пакеты
+// кредитов и плагины — разовые и дешевле любого тарифа, минимум по ним выдал бы
+// цену пакета кредитов за «год». Если тарифов с ценой нет — по всем позициям.
+const mainPriced = priced.filter((c) => productKind({ sku: c.sku }) === 'main');
+const minPool = mainPriced.length ? mainPriced : priced;
+const minPrice = minPool.length ? Math.min(...minPool.map((c) => c.price)) : 0;
 const hasMin = minPrice > 0;
 const hasCards = cards.length > 0;
 

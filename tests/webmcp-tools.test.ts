@@ -19,19 +19,27 @@ const P = (over: Partial<Product>): Product => ({
   ...over,
 });
 
+const COMMS = { id: 1, name: 'Видеосвязь', slug: 'communications', status: 'published' as const };
+const AI = { id: 2, name: 'AI-сервисы', slug: 'ai', status: 'published' as const };
+/** Раздел без товаров: в выдачу list_categories попадать не должен. */
+const EMPTY = { id: 3, name: 'Пустой раздел', slug: 'empty', status: 'published' as const };
+
 const CATALOG: Product[] = [
-  P({ name: 'Zoom Workplace Pro', sku: 'ZOOM-PRO', slug: 'zoom-workplace-pro', vendor: 'Zoom', price: 25_000, keywords: 'видеосвязь конференции' }),
-  P({ name: 'Zoom Workplace Business', sku: 'ZOOM-BIZ', slug: 'zoom-workplace-business', vendor: 'Zoom', price: 31_000 }),
-  P({ name: 'Claude Team', sku: 'INT-AI-CLAUDE-TEAM', slug: 'claude-team', vendor: 'Anthropic', price: 42_000, keywords: 'AI ассистент команда' }),
-  P({ name: 'Claude Enterprise', sku: 'INT-AI-CLAUDE-ENT', slug: 'claude-enterprise', vendor: 'Anthropic', price: 0 }),
+  P({ name: 'Zoom Workplace Pro', sku: 'ZOOM-PRO', slug: 'zoom-workplace-pro', vendor: 'Zoom', price: 25_000, keywords: 'видеосвязь конференции', category: COMMS, license_type: 'org' }),
+  P({ name: 'Zoom Workplace Business', sku: 'ZOOM-BIZ', slug: 'zoom-workplace-business', vendor: 'Zoom', price: 31_000, category: COMMS, license_type: 'org' }),
+  P({ name: 'Claude Team', sku: 'INT-AI-CLAUDE-TEAM', slug: 'claude-team', vendor: 'Anthropic', price: 42_000, keywords: 'AI ассистент команда', category: AI, license_type: 'org' }),
+  P({ name: 'Claude Enterprise', sku: 'INT-AI-CLAUDE-ENT', slug: 'claude-enterprise', vendor: 'Anthropic', price: 0, category: AI }),
+  P({ name: 'Claude Pro личный', sku: 'INT-AI-CLAUDE-PRO', slug: 'claude-pro', vendor: 'Anthropic', price: 3_000, category: AI, license_type: 'individual' }),
 ];
 
 vi.mock('../src/lib/directus', () => ({
-  getProducts: vi.fn(async (opts?: { vendor?: string }) =>
-    opts?.vendor ? CATALOG.filter((p) => p.vendor === opts.vendor) : CATALOG),
+  getProducts: vi.fn(async (opts?: { vendor?: string; categorySlug?: string }) => CATALOG.filter((p) =>
+    (!opts?.vendor || p.vendor === opts.vendor)
+    && (!opts?.categorySlug || (typeof p.category === 'object' && p.category?.slug === opts.categorySlug)))),
   getProductBySlug: vi.fn(async (slug: string) => CATALOG.find((p) => p.slug === slug) ?? null),
+  getCategories: vi.fn(async () => [COMMS, AI, EMPTY]),
   getVendors: vi.fn(async () => [
-    { vendor: 'Anthropic', count: 2 },
+    { vendor: 'Anthropic', count: 3 },
     { vendor: 'Zoom', count: 2 },
   ]),
   DirectusError: class extends Error { status = 0 },
@@ -110,7 +118,7 @@ describe('runTool: вендоры', () => {
     expect(((v.body as Ok).data as { vendor: string }).vendor).toBe('Anthropic');
     const lp = await runTool('list_vendor_products', { vendor: 'Anthropic' });
     const data = (lp.body as Ok).data as { total: number; items: { vendor: string }[] };
-    expect(data.total).toBe(2);
+    expect(data.total).toBe(3);
     expect(data.items.every((i) => i.vendor === 'Anthropic')).toBe(true);
   });
 
@@ -118,6 +126,101 @@ describe('runTool: вендоры', () => {
     const r = await runTool('get_vendor', { vendor: 'Роскосмос' });
     expect(r.status).toBe(404);
     expect((r.body as { ok: false; error: string }).error).toContain('list_vendors');
+  });
+});
+
+describe('runTool: search_products — фильтры и порядок', () => {
+  it('фильтр по разделу: и по слагу, и по названию; неизвестный — 404', async () => {
+    const bySlug = await runTool('search_products', { category: 'ai' });
+    expect(((bySlug.body as Ok).data as { total: number }).total).toBe(3);
+    const byName = await runTool('search_products', { category: 'Видеосвязь' });
+    expect(((byName.body as Ok).data as { total: number }).total).toBe(2);
+    const bad = await runTool('search_products', { category: 'Ковроткачество' });
+    expect(bad.status).toBe(404);
+    expect((bad.body as { ok: false; error: string }).error).toContain('list_categories');
+  });
+
+  it('фильтр по типу лицензии сужает выдачу', async () => {
+    const r = await runTool('search_products', { category: 'ai', license: 'individual' });
+    const data = (r.body as Ok).data as { total: number; items: { sku: string }[] };
+    expect(data.total).toBe(1);
+    expect(data.items[0].sku).toBe('INT-AI-CLAUDE-PRO');
+  });
+
+  it('ценовые границы включительны, «цена по запросу» из диапазона уходит', async () => {
+    const r = await runTool('search_products', { query: 'Claude', max_price: 42_000 });
+    const data = (r.body as Ok).data as { items: { sku: string; price: number | null }[] };
+    expect(data.items.map((i) => i.sku)).toEqual(['INT-AI-CLAUDE-TEAM', 'INT-AI-CLAUDE-PRO']);
+    expect(data.items.every((i) => i.price !== null)).toBe(true);
+    const both = await runTool('search_products', { query: 'Claude', min_price: 3_000, max_price: 3_000 });
+    expect(((both.body as Ok).data as { total: number }).total).toBe(1);
+  });
+
+  it('перевёрнутый диапазон — 400, а не пустая выдача', async () => {
+    const r = await runTool('search_products', { query: 'Claude', min_price: 50_000, max_price: 1_000 });
+    expect(r.status).toBe(400);
+  });
+
+  it('сортировка по цене; «цена по запросу» остаётся в конце', async () => {
+    const asc = await runTool('search_products', { category: 'ai', sort: 'price_asc' });
+    const a = (asc.body as Ok).data as { items: { price: number | null }[] };
+    expect(a.items.map((i) => i.price)).toEqual([3_000, 42_000, null]);
+    const desc = await runTool('search_products', { category: 'ai', sort: 'price_desc' });
+    const d = (desc.body as Ok).data as { items: { price: number | null }[] };
+    expect(d.items.map((i) => i.price)).toEqual([42_000, 3_000, null]);
+  });
+
+  it('query необязателен при заданном фильтре, но пустой вызов — 400', async () => {
+    expect((await runTool('search_products', { vendor: 'Zoom' })).status).toBe(200);
+    expect((await runTool('search_products', {})).status).toBe(400);
+    expect((await runTool('search_products', { limit: 5 })).status).toBe(400);
+  });
+
+  it('значения фильтров вне перечня отклоняются схемой', async () => {
+    expect((await runTool('search_products', { query: 'x1', license: 'pirate' })).status).toBe(400);
+    expect((await runTool('search_products', { query: 'x1', sort: 'random' })).status).toBe(400);
+    expect((await runTool('search_products', { query: 'x1', min_price: -1 })).status).toBe(400);
+  });
+});
+
+describe('runTool: list_categories', () => {
+  it('разделы с товарами, со счётчиком и ссылкой; пустые не показываются', async () => {
+    const r = await runTool('list_categories', {});
+    const data = (r.body as Ok).data as { total: number; items: { slug: string; url: string; products_count: number }[] };
+    expect(data.total).toBe(2);
+    expect(data.items.map((i) => i.slug)).toEqual(['communications', 'ai']);
+    expect(data.items[1].products_count).toBe(3);
+    expect(data.items[0].url).toBe('https://biz-soft.pro/catalog/communications');
+  });
+});
+
+describe('runTool: search_policies', () => {
+  it('отвечает текстом сайта и даёт ссылку на страницу с этим ответом', async () => {
+    const r = await runTool('search_policies', { query: 'дадите закрывающие документы' });
+    expect(r.status).toBe(200);
+    const data = (r.body as Ok).data as { items: { id: string; answer: string; url: string }[] };
+    expect(data.items[0].id).toBe('contract-and-docs');
+    expect(data.items[0].answer).toContain('электронный документооборот');
+    expect(data.items[0].url).toBe('https://biz-soft.pro/faq');
+  });
+
+  it('вопрос об оплате находит условия оплаты по счёту в рублях', async () => {
+    const r = await runTool('search_policies', { query: 'в какой валюте платить' });
+    const data = (r.body as Ok).data as { items: { answer: string }[] };
+    expect(data.items[0].answer).toContain('рублях');
+  });
+
+  it('limit ограничивает выдачу, total сообщает полное число', async () => {
+    const r = await runTool('search_policies', { query: 'договор счёт документы', limit: 1 });
+    const data = (r.body as Ok).data as { total: number; items: unknown[] };
+    expect(data.items).toHaveLength(1);
+    expect(data.total).toBeGreaterThan(1);
+  });
+
+  it('нет ответа в базе — 404 с прямым запретом додумывать', async () => {
+    const r = await runTool('search_policies', { query: 'ямб хорей амфибрахий' });
+    expect(r.status).toBe(404);
+    expect((r.body as { ok: false; error: string }).error).toContain('Не додумывайте');
   });
 });
 
