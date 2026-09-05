@@ -141,6 +141,20 @@ jobs:
           retention-days: 7
           if-no-files-found: ignore
 
+      # История замера уезжает в хранилище сразу, отдельно от отчёта: замер —
+      # самый дорогой шаг прогона (расширенная выборка это 36 запросов и около
+      # получаса), и он не должен пропадать из-за сбоя более поздней проверки
+      # письма. 05.09.2026 гейт uxlint заблокировал письмо, общий push после
+      # него не выполнился, и повторный прогон мерил всю выборку заново.
+      # always() — именно для случая «дальше что-то упало»; при отказе самого
+      # замера отправлять нечего, и data_sync честно скажет «изменений нет».
+      - name: Push PageSpeed history to seo-data
+        if: always() && steps.guard.outputs.build == 'yes'
+        env:
+          DATE: ${{ steps.guard.outputs.date }}
+        run: bash scripts/seo/data_sync.sh push "Замер скорости за $DATE" \
+               "reports/seo/pagespeed"
+
       - name: Build report
         id: build
         if: steps.guard.outputs.build == 'yes'
