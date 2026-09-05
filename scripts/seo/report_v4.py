@@ -33,6 +33,7 @@ import charts_v4                      # noqa: E402
 import drivers as drivers_mod         # noqa: E402
 import invariants as invariants_mod   # noqa: E402
 import passport                      # noqa: E402
+import technical                     # noqa: E402
 import leads as leads_mod             # noqa: E402
 import measurement                    # noqa: E402
 import experiments as exp_mod         # noqa: E402
@@ -733,6 +734,12 @@ def decision_label(o: dict) -> str:
 def assemble(snap, prev, dq, actions_cfg, site_check):
     date = snap["report_date"]
     health = dq["data_health"]
+    # Техническое здоровье — тактический показатель, а не стратегический KPI:
+    # он живёт пилюлей в статусбаре и компактной секцией, но не занимает место
+    # среди четырёх показателей роста и не входит в SEO-оценку.
+    tech = snap.get("technical") or {
+        **passport.unavailable("no_file", source="замер PageSpeed"),
+        "level": "unknown"}
     st = search_status(snap, prev)
     kpis = kpi_cards(snap, prev, dq)
     sig = signals(snap, prev, dq)
@@ -800,6 +807,8 @@ def assemble(snap, prev, dq, actions_cfg, site_check):
             {"label": "ПОИСК", "state": st, "text": PILL_LABEL[st]},
             {"label": "ДАННЫЕ", "state": health["status"],
              "text": PILL_LABEL[health["status"]]},
+            {"label": "ТЕХНИКА", "state": _tech_pill_state(tech),
+             "text": _tech_pill_text(tech)},
             {"label": "ОТ ВАС",
              "state": "required" if (red or exp_decisions) else "none",
              "text": (PILL_LABEL["required"] if (red or exp_decisions) else
@@ -827,6 +836,7 @@ def assemble(snap, prev, dq, actions_cfg, site_check):
         "opportunities": opps,
         "vendor_radar": vendor_radar_mod.build(snap),
         "health": health,
+        "technical": tech,
         "loop_health": load_loop_health(),
         "demand": demand_block,
         "leads": passport.normalize((snap.get("crm") or {}).get("block"),
@@ -1407,6 +1417,25 @@ def _checkpoints(exps, actions_cfg, date: str = "") -> list[dict]:
 
 # ── Рендер письма ───────────────────────────────────────────────────────────
 
+# Пилюля технического состояния. Состояния переиспользуют существующую
+# палитру статусбара: verified — зелёное, limited — жёлтое, degraded — красное.
+TECH_PILL_STATE = {"green": "verified", "yellow": "limited", "red": "degraded",
+                   "unknown": "unknown"}
+
+
+def _tech_pill_state(tech: dict) -> str:
+    return TECH_PILL_STATE.get(tech.get("level", "unknown"), "unknown")
+
+
+def _tech_pill_text(tech: dict) -> str:
+    """«GREEN · 93» — статус и балл мобильной скорости, без десятых долей."""
+    if not tech.get("available"):
+        return "нет данных"
+    label = {"green": "GREEN", "yellow": "YELLOW", "red": "RED"}[tech["level"]]
+    perf = tech.get("mobile_performance")
+    return f"{label} · {perf}" if perf is not None else label
+
+
 def _pill(p: dict) -> str:
     c = PILL_COLOUR[p["state"]]
     return (f"<span data-meta=\"1\" style=\"display:inline-block;padding:3px 10px;margin:0 6px 6px 0;"
@@ -1447,6 +1476,78 @@ def _kpi_cell(k: dict, charts: dict, cid_mode: bool) -> str:
         f"padding-top:{SP['s']}px;line-height:1.45;\">{k['period']} · {k['source']} · "
         f"достоверность: {k['confidence']}</div>"
         f"</td></tr></table>")
+
+
+def _tech_metric_line(tech: dict) -> str:
+    """LCP и CLS одной строкой: «в норме» или конкретное отклонение."""
+    parts = []
+    parts.append("LCP: в норме" if tech.get("lcp_ok") else "LCP: выше нормы")
+    parts.append("CLS: в норме" if tech.get("cls_ok") else "CLS: выше нормы")
+    return " · ".join(parts)
+
+
+def _technical_html(tech: dict) -> str:
+    """Компактный блок скорости: 5–7 строк в зелёном состоянии.
+
+    Подробности печатаются только при просадке и не более чем по трём
+    страницам: длинный аудит Lighthouse в ежедневном письме не нужен, для
+    него есть отдельный ручной прогон ops-pagespeed.
+    """
+    if not tech.get("available"):
+        last = tech.get("last_success") or tech.get("date")
+        tail = (f"Последний удачный замер: {ru_date(last)}." if last
+                else "Замеров ещё не было.")
+        return (f"<div style=\"font-size:15px;line-height:1.55;\">"
+                f"<b>Данные недоступны.</b> {tail} "
+                f"На остальные показатели отчёта это не влияет: скорость "
+                f"измеряется отдельным источником.</div>")
+
+    label = {"green": "GREEN", "yellow": "YELLOW", "red": "RED"}[tech["level"]]
+    colour = {"green": T["positive"], "yellow": T["warning"],
+              "red": T["danger"]}[tech["level"]]
+    head = (f"<div style=\"font-size:15.5px;font-weight:700;color:{colour};\">"
+            f"{label} · мобильная скорость {tech.get('mobile_performance')}</div>")
+
+    pages = ", ".join(f"{p['page_type'].lower()} {p['performance']}"
+                      for p in tech.get("pages", []) if p.get("performance") is not None)
+    body = (f"<div style=\"font-size:15px;padding-top:{SP['xs']}px;line-height:1.55;\">"
+            f"Проверено страниц: {tech.get('pages_checked')} — {pages}.</div>"
+            f"<div style=\"font-size:14.5px;padding-top:{SP['xs']}px;"
+            f"color:{T['text_secondary']};\">{_tech_metric_line(tech)}</div>")
+
+    if not tech.get("regressions"):
+        body += (f"<div style=\"font-size:14.5px;padding-top:{SP['xs']}px;"
+                 f"color:{T['text_secondary']};\">"
+                 f"Значимых изменений к прошлому замеру нет.</div>")
+    else:
+        for r in tech["regressions"]:
+            body += (f"<div style=\"font-size:15px;padding-top:{SP['s']}px;"
+                     f"line-height:1.55;\"><b>{r['page_type']}</b> "
+                     f"({r['path']}): {_tech_issue_text(r['issues'])}. "
+                     f"Вероятная причина: {r['cause']}. {r['priority']}.</div>")
+
+    full = tech.get("last_full")
+    if full:
+        body += (f"<div style=\"font-size:13.5px;padding-top:{SP['s']}px;"
+                 f"color:{T['text_secondary']};\">"
+                 f"Последняя расширенная проверка {ru_date(full['date'])}: "
+                 f"{full['urls']} адресов, зелёных {full['green']}, "
+                 f"жёлтых {full['yellow']}, красных {full['red']}.</div>")
+    return head + body
+
+
+def _tech_issue_text(issues: list[dict]) -> str:
+    """Что именно ухудшилось — числами, без интерпретаций."""
+    out = []
+    for i in issues:
+        if i["kind"] == "performance":
+            out.append(f"скорость {i['was']} → {i['now']} ({i['delta']})")
+        elif i["kind"] == "lcp":
+            out.append(f"LCP {i['was'] / 1000:.1f} с → {i['now'] / 1000:.1f} с "
+                       f"(+{i['delta_pct']} %)")
+        elif i["kind"] == "cls":
+            out.append(f"CLS {i['was']:.2f} → {i['now']:.2f}")
+    return "; ".join(out)
 
 
 def _section(title: str, body: str, note: str = "") -> str:
@@ -1881,6 +1982,11 @@ def html_email(b: dict, charts: dict, cid_mode: bool) -> str:
             "постановки задач по предложениям из шапки; система без вашей "
             "команды ничего не меняет"))
 
+    # J-а. Техническое состояние: PageSpeed по представителям шаблонов.
+    # В зелёном состоянии блок занимает несколько строк — подробности нужны
+    # только когда есть просадка, иначе он превращается в шум.
+    rows.append(_section("Техническое состояние", _technical_html(b["technical"])))
+
     # J. Здоровье данных
     h = b["health"]
     colour = {"positive": T["positive"], "warning": T["warning"],
@@ -1977,6 +2083,9 @@ def plain_text(b: dict) -> str:
         d = f" ({k['delta']}{' ' + k['relative'] if k.get('relative') else ''})" if k["delta"] else ""
         L.append(f"- {k['label']}: {k['value']} {k['unit']}{d}. {k['interpretation']}")
         L.append(f"  {k['period']} · {k['source']} · достоверность: {k['confidence']}")
+    # Техника — одной строкой: состояние, балл и суть изменения. Подробности
+    # ждут в полном отчёте, письмо ими не нагружается.
+    L += ["", technical.email_line(b["technical"])]
     if b["signals"]:
         L += ["", "СИГНАЛЫ ДНЯ"]
         for s in b["signals"]:

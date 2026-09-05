@@ -120,6 +120,27 @@ jobs:
           pnpm exec playwright install --with-deps chromium
           pip install --quiet requests
 
+      # Замер скорости — до сборки отчёта: снимок читает готовую историю.
+      # Шаг не роняет прогон: скрипт сам записывает состояние «данных нет»
+      # с причиной, и письмо выходит с честной пометкой вместо цифры. Режим
+      # auto сам выбирает ежедневную тройку или недельную выборку.
+      - name: Measure PageSpeed
+        if: steps.guard.outputs.build == 'yes'
+        env:
+          PSI_API_KEY: ${{ secrets.PSI_API_KEY }}
+          PSI_RAW_DIR: psi-raw
+        run: node scripts/ops/pagespeed_monitor.mjs --mode auto
+
+      # Сырые ответы PSI живут артефактом с коротким сроком хранения: в ветку
+      # данных они не коммитятся, там остаются только сведённые метрики.
+      - uses: actions/upload-artifact@v4
+        if: steps.guard.outputs.build == 'yes'
+        with:
+          name: psi-raw-${{ steps.guard.outputs.date }}
+          path: psi-raw/
+          retention-days: 7
+          if-no-files-found: ignore
+
       - name: Build report
         id: build
         if: steps.guard.outputs.build == 'yes'
@@ -170,7 +191,7 @@ jobs:
           DATE: ${{ steps.guard.outputs.date }}
         run: |
           bash scripts/seo/data_sync.sh push "Отчёт за $DATE" \
-            "reports/seo/intelligence reports/seo/public"
+            "reports/seo/intelligence reports/seo/public reports/seo/pagespeed"
 
       - name: Publish web report
         if: steps.guard.outputs.build == 'yes' && steps.build.outputs.blocked != 'yes'

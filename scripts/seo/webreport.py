@@ -511,6 +511,77 @@ def _section_html(s: dict) -> str:
             "</section>")
 
 
+def _technical_section(tech: dict) -> str:
+    """Таблица замеров и разбор просадок. Для веб-отчёта подробностей больше,
+    чем в письме: здесь у читателя есть место и время."""
+    if not tech.get("available"):
+        last = tech.get("last_success") or tech.get("date")
+        tail = (f"Последний удачный замер — {last}." if last
+                else "Замеров ещё не было.")
+        # Причина — паспортная формулировка по коду; она идёт отдельной
+        # фразой, иначе склеивается с соседним текстом в нечитаемую строку.
+        why = tech.get("reason")
+        why = f"Причина: {why}. " if why else ""
+        return (f"<p><b>Данные недоступны.</b> {tail} {why}"
+                f"Остальные разделы отчёта это не "
+                f"затрагивает: скорость измеряется отдельным источником.</p>")
+
+    label = {"green": "GREEN", "yellow": "YELLOW", "red": "RED"}[tech["level"]]
+    rows = ""
+    for p in tech.get("pages", []):
+        lcp = f"{p['lcp_ms'] / 1000:.1f} с" if p.get("lcp_ms") else "—"
+        cls = f"{p['cls']:.2f}" if p.get("cls") is not None else "—"
+        field = p.get("field") or {}
+        field_txt = (f"{field['lcp_ms'] / 1000:.1f} с"
+                     if field.get("lcp_ms") else "нет выборки")
+        rows += (f"<tr><td>{p['page_type']}</td><td>{p['path']}</td>"
+                 f"<td>{p.get('performance', '—')}</td><td>{lcp}</td><td>{cls}</td>"
+                 f"<td>{p.get('seo', '—')}</td><td>{p.get('accessibility', '—')}</td>"
+                 f"<td>{p.get('best_practices', '—')}</td><td>{field_txt}</td></tr>")
+
+    head = (f"<p><b>{label}</b> · мобильная скорость главной "
+            f"{tech.get('mobile_performance')}, худший балл выборки "
+            f"{tech.get('worst_performance')}. Замер {tech.get('date')} "
+            f"({'расширенный' if tech.get('mode') == 'weekly' else 'ежедневный'}), "
+            f"сравнение с {tech.get('previous_date') or 'предыдущим замером нет'}.</p>")
+
+    table = ("<div class='scroll'><table><tr><th>Тип</th><th>Адрес</th>"
+             "<th>Скорость</th><th>LCP</th><th>CLS</th><th>SEO</th>"
+             "<th>Доступность</th><th>Практики</th><th>Поле CrUX</th></tr>"
+             + rows + "</table></div>")
+
+    if tech.get("regressions"):
+        problems = "".join(
+            f"<li><b>{r['page_type']}</b> ({r['path']}): "
+            f"{_technical_issue_text(r['issues'])}. Вероятная причина: "
+            f"{r['cause']}. {r['priority']}.</li>"
+            for r in tech["regressions"])
+        table += f"<p><b>Что ухудшилось</b></p><ul>{problems}</ul>"
+    else:
+        table += "<p class='muted'>Значимых изменений к прошлому замеру нет.</p>"
+
+    full = tech.get("last_full")
+    if full:
+        table += (f"<p class='muted'>Последняя расширенная проверка "
+                  f"{full['date']}: {full['urls']} адресов — зелёных "
+                  f"{full['green']}, жёлтых {full['yellow']}, красных "
+                  f"{full['red']}.</p>")
+    return head + table
+
+
+def _technical_issue_text(issues: list[dict]) -> str:
+    out = []
+    for i in issues:
+        if i["kind"] == "performance":
+            out.append(f"скорость {i['was']} → {i['now']} ({i['delta']})")
+        elif i["kind"] == "lcp":
+            out.append(f"LCP {i['was'] / 1000:.1f} с → {i['now'] / 1000:.1f} с "
+                       f"(+{i['delta_pct']} %)")
+        elif i["kind"] == "cls":
+            out.append(f"CLS {i['was']:.2f} → {i['now']:.2f}")
+    return "; ".join(out)
+
+
 def _loop_section(lh: dict) -> str:
     """Работа конвейера: каждый контур подтверждён артефактом с датой."""
     if not lh.get("available"):
@@ -1236,6 +1307,17 @@ def build_html(b: dict, snap: dict, dq: dict, date: str) -> str:
                  "чем его корректно сравнивать. Здесь же — текущий статус "
                  "здоровья данных и его причина.",
          "html": mmap_html},
+        {"id": "technical", "title": "Техническое состояние сайта",
+         # Критичность ведёт себя как у любого раздела: красный статус
+         # поднимает его выше, зелёный оставляет среди рабочих блоков.
+         "crit": {"red": 3, "yellow": 2}.get(
+             (b.get("technical") or {}).get("level"), 1),
+         "desc": "Скорость страниц по замеру PageSpeed Insights: мобильная "
+                 "выдача как основной показатель, регрессии к прошлому замеру "
+                 "и последняя расширенная проверка шаблонов. Балл SEO у "
+                 "Lighthouse относится к технической вёрстке и не связан с "
+                 "видимостью сайта в поиске.",
+         "html": _technical_section(b.get("technical") or {})},
         {"id": "quality", "title": "Качество данных",
          "crit": 3 if "critical" in dq_levels
                  else (2 if "warning" in dq_levels else 1),
