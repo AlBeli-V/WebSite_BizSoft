@@ -27,9 +27,11 @@ import re
 import sys
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
+sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1] / "viz"))
 
 import ads_block                      # noqa: E402
 import charts_v4                      # noqa: E402
+import kpi_kit as kit                 # noqa: E402
 import drivers as drivers_mod         # noqa: E402
 import invariants as invariants_mod   # noqa: E402
 import passport                      # noqa: E402
@@ -60,11 +62,14 @@ GROWTH_IDEAS = pathlib.Path("reports/seo/intelligence/growth-ideas.json")
 LOOP_HEALTH = pathlib.Path("reports/seo/intelligence/loop-health.json")
 
 # ── Design tokens ───────────────────────────────────────────────────────────
+# Палитра — из KPI-kit (scripts/viz/kpi_kit.py): один визуальный слой у письма,
+# веб-отчёта и конкурентной разведки. Ключи сохранены ради существующей вёрстки.
 T = {
-    "background": "#F6F8FB", "surface": "#FFFFFF", "text_primary": "#101828",
-    "text_secondary": "#667085", "border": "#EAECF0", "brand": "#F4511E",
-    "positive": "#12B76A", "warning": "#F79009", "info": "#2E90FA",
-    "danger": "#D92D20", "muted": "#98A2B3",
+    "background": kit.LIGHT["plane"], "surface": kit.LIGHT["surface"],
+    "text_primary": kit.LIGHT["ink"], "text_secondary": kit.LIGHT["muted"],
+    "border": kit.LIGHT["hair"], "brand": kit.LIGHT["accent"],
+    "positive": kit.LIGHT["good"], "warning": kit.LIGHT["warn"], "info": kit.LIGHT["s1"],
+    "danger": kit.LIGHT["crit"], "muted": kit.LIGHT["gray"],
 }
 SP = {"xs": 4, "s": 8, "m": 12, "l": 16, "xl": 24, "xxl": 32}
 FONT = ("-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',"
@@ -253,7 +258,8 @@ def kpi_cards(snap: dict, prev: dict | None, dq: dict) -> list[dict]:
                                 + (f"CTR {pct(site_ctr, 2)} по всему сайту."
                                    if site_ctr is not None else "")),
              "muted": False,
-             "sparkline": y_daily["windows"]["impressions"].get("tail")})
+             "sparkline": y_daily["windows"]["impressions"].get("tail"),
+             "sparkline_from": y_daily["windows"]["impressions"]["previous"]["from"]})
     elif y_block.get("available"):
         yt = y_block["totals"]
         yp = (prev or {}).get("yandex", {}).get("totals", {})
@@ -322,6 +328,7 @@ def kpi_cards(snap: dict, prev: dict | None, dq: dict) -> list[dict]:
              "interpretation": interpretation,
              "muted": False,
              "sparkline": g_daily["windows"]["impressions"].get("tail"),
+             "sparkline_from": g_daily["windows"]["impressions"]["previous"]["from"],
              "slope": {"prev_label": "пред. неделя", "prev": int(w["prev_num"]),
                        "cur_label": "эта неделя", "cur": imp,
                        "label": "Показы Google за неделю"}})
@@ -397,7 +404,8 @@ def kpi_cards(snap: dict, prev: dict | None, dq: dict) -> list[dict]:
                             else "низкая, малые числа"),
              "interpretation": "Визиты из поиска: весь сайт, все поисковые системы.",
              "muted": False,
-             "sparkline": m_daily["windows"]["visits_organic"].get("tail")})
+             "sparkline": m_daily["windows"]["visits_organic"].get("tail"),
+             "sparkline_from": m_daily["windows"]["visits_organic"]["previous"]["from"]})
     elif m.get("available"):
         cards.append(
             {"key": "traffic", "label": "Органический трафик",
@@ -1443,39 +1451,40 @@ def _pill(p: dict) -> str:
             f"color:{c};white-space:nowrap;\">{p['label']}: {p['text']}</span>")
 
 
+PILL_STATE = {
+    "positive": "good", "mixed": "warn", "negative": "crit", "stable": "good",
+    "verified": "good", "limited": "warn", "degraded": "crit", "none": "neutral",
+    "required": "crit", "unknown": "neutral",
+}
+
+
+def _pill_row(p: dict) -> dict:
+    """Пилюля статуса → строка светофора KPI-kit (глиф + цвет состояния)."""
+    return {"state": PILL_STATE.get(p["state"], "neutral"), "name": p["label"],
+            "comment": p["text"]}
+
+
 def _kpi_cell(k: dict, charts: dict, cid_mode: bool) -> str:
-    # delta_dir отсутствует, когда дельта не публикуется: окна разной длины или
-    # выборка пересобрана. Это не «нет изменения», а «сравнивать нечего с чем».
-    dir_colour = {"up": T["positive"], "down": T["danger"], "flat": T["muted"],
-                  None: T["muted"]}[k.get("delta_dir")]
-    tone = T["muted"] if k["muted"] else T["text_primary"]
-    delta = (f"<span style=\"font-size:14px;color:{dir_colour};font-weight:600;\">"
-             f"{k['delta']}</span>" if k["delta"] else "")
-    rel = (f"<span data-meta=\"1\" style=\"font-size:13px;color:{T['text_secondary']};\"> "
-           f"{k['relative']}</span>" if k.get("relative") else "")
-    spark = ""
-    if k.get("slope") and charts.get("kpi-slope"):
-        spark = (f"<div style=\"padding-top:{SP['s']}px;\">"
-                 f"{_img(charts, 'kpi-slope', cid_mode)}</div>")
-    return (
-        f"<table role=\"presentation\" width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" "
-        f"style=\"background:{T['surface']};border:1px solid {T['border']};"
-        f"border-radius:12px;\"><tr><td style=\"padding:{SP['l']}px;\">"
-        f"<div data-meta=\"1\" style=\"font-size:13px;color:{T['text_secondary']};"
-        f"letter-spacing:.01em;\">{k['label']}</div>"
-        f"<div style=\"padding-top:{SP['xs']}px;\">"
-        f"<span style=\"font-size:30px;line-height:1.1;font-weight:700;color:{tone};\">"
-        f"{k['value']}</span> "
-        f"<span data-meta=\"1\" style=\"font-size:13.5px;color:{T['text_secondary']};\">"
-        f"{k['unit']}</span>"
-        f" {delta}{rel}</div>"
-        f"{spark}"
-        f"<div style=\"font-size:14.5px;color:{T['text_primary']};padding-top:{SP['s']}px;"
-        f"line-height:1.5;\">{k['interpretation']}</div>"
-        f"<div data-meta=\"1\" style=\"font-size:12.5px;color:{T['text_secondary']};"
-        f"padding-top:{SP['s']}px;line-height:1.45;\">{k['period']} · {k['source']} · "
-        f"достоверность: {k['confidence']}</div>"
-        f"</td></tr></table>")
+    """Плитка показателя — компонент KPI-kit для письма.
+
+    delta_dir отсутствует, когда дельта не публикуется: окна разной длины или
+    выборка пересобрана. Это не «нет изменения», а «сравнивать нечего с чем».
+    График дня (тренд по дням или «было → стало») вкладывается в плитку того
+    показателя, по которому он построен.
+    """
+    delta = k["delta"] or ""
+    if k.get("relative"):
+        delta = f"{delta} {k['relative']}".strip()
+    trend = charts.get("kpi-trend") or {}
+    extra = ""
+    if trend and trend.get("kpi_key") == k.get("key"):
+        extra = (f"<div style=\"padding-top:{SP['s']}px;\">"
+                 f"{_img(charts, 'kpi-trend', cid_mode)}</div>")
+    return kit.email_tile(
+        k["label"], k["value"], k["unit"], delta or None, k.get("delta_dir"),
+        note=k["interpretation"],
+        meta=f"{k['period']} · {k['source']} · достоверность: {k['confidence']}",
+        muted=bool(k["muted"]), extra=extra)
 
 
 def _tech_metric_line(tech: dict) -> str:
@@ -1582,16 +1591,16 @@ def _img(charts: dict, name: str, cid_mode: bool) -> str:
 def html_email(b: dict, charts: dict, cid_mode: bool) -> str:
     rows = []
 
-    # A. Header + B. Status bar
+    # A. Header + B. Status bar — тёмный мастхед KPI-kit и светофор состояний
+    # вместо пилюль: те же четыре статуса (ПОИСК, ДАННЫЕ, ТЕХНИКА, ОТ ВАС),
+    # но с глифом и цветом состояния, читаемыми без картинок.
+    brand = b["title"].replace("BIZSoft", f"BIZ<span style=\"color:{T['brand']};\">Soft</span>", 1)
+    rows.append(kit.email_masthead(
+        brand, f"{b['subtitle']} · {b['date_h']}<br>{b['sources_line']}"))
     rows.append(
-        f"<tr><td style=\"padding:0 0 {SP['m']}px 0;\">"
-        f"<div style=\"font-size:24px;font-weight:700;color:{T['text_primary']};"
-        f"line-height:1.25;\">{b['title']}</div>"
-        f"<div style=\"font-size:14px;color:{T['text_secondary']};padding-top:2px;\">"
-        f"{b['subtitle']} · {b['date_h']}</div>"
-        f"<div style=\"padding-top:{SP['m']}px;\">{''.join(_pill(p) for p in b['pills'])}</div>"
-        f"<div data-meta=\"1\" style=\"font-size:12.5px;color:{T['text_secondary']};"
-        f"line-height:1.45;\">{b['sources_line']}</div></td></tr>")
+        f"<tr><td style=\"padding:{SP['m']}px 0 0 0;\">"
+        + kit.email_status_rows([_pill_row(p) for p in b["pills"]])
+        + "</td></tr>")
 
     # C. От вас
     if b["user_action_required"]:
@@ -1643,7 +1652,7 @@ def html_email(b: dict, charts: dict, cid_mode: bool) -> str:
         cells.append(
             f"{mso_open}"
             f"<div class=\"kpi\" style=\"display:inline-block;width:100%;"
-            f"max-width:308px;vertical-align:top;padding:{SP['s']}px;font-size:15px;\">"
+            f"max-width:290px;vertical-align:top;padding:{SP['s']}px;font-size:15px;\">"
             f"{_kpi_cell(k, charts, cid_mode)}</div>")
     cells.append("<!--[if mso]></td></tr></table><![endif]-->")
     rows.append(_section(

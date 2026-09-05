@@ -23,8 +23,11 @@ import pathlib
 import sys
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
+sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1] / "viz"))
 
 import cannibalization as cannibal_mod  # noqa: E402
+import daily_windows  # noqa: E402
+import kpi_kit as kit  # noqa: E402
 import lifecycle as lifecycle_mod  # noqa: E402
 import mismatch as mismatch_mod  # noqa: E402
 import opportunity as opp_mod    # noqa: E402
@@ -854,24 +857,223 @@ def table(headers: list[str], rows: list[list[str]]) -> str:
     return f"<div class='scroll'><table><thead><tr>{th}</tr></thead><tbody>{trs}</tbody></table></div>"
 
 
+WINDOW = daily_windows.WINDOW_DAYS
+KPI_SOURCE = {"yandex": "yandex", "google": "google", "traffic": "metrika",
+              "commercial": "metrika"}
+PILL_STATE = {
+    "positive": "good", "mixed": "warn", "negative": "crit", "stable": "good",
+    "verified": "good", "limited": "warn", "degraded": "crit", "none": "neutral",
+    "required": "crit", "unknown": "neutral",
+}
+
+
+def _dates_from(start: str | None, n: int) -> list[str]:
+    if not start:
+        return [f"д{i + 1}" for i in range(n)]
+    d0 = dt.date.fromisoformat(start)
+    return [(d0 + dt.timedelta(days=i)).isoformat() for i in range(n)]
+
+
+def _week_chart(kpi: dict, w: int = 620, h: int = 190) -> str:
+    """Неделя к неделе по дням: текущее окно цветом источника, прошлое — серым."""
+    tail = list(kpi.get("sparkline") or [])
+    if len(tail) < WINDOW * 2:
+        return ""
+    prev, cur = tail[:WINDOW], tail[WINDOW:WINDOW * 2]
+    start = kpi.get("sparkline_from")
+    cur_dates = _dates_from(
+        (dt.date.fromisoformat(start) + dt.timedelta(days=WINDOW)).isoformat() if start else None,
+        WINDOW)
+    labels = [ru_date(d) if start else d for d in cur_dates]
+    colour = kit.series_color(KPI_SOURCE.get(kpi.get("key", ""), "yandex"))
+    return kit.line_chart(
+        [{"name": "эта неделя", "values": cur, "color": colour},
+         {"name": "прошлая неделя", "values": prev, "context": True}],
+        labels, w=w, h=h, ticks=4, area=True, title=kpi["label"])
+
+
+def _kpi_panel(k: dict, snap: dict) -> str:
+    """Углубление плитки: динамика по дням и топ сущностей показателя."""
+    chart = _week_chart(k)
+    left = (f"<div><h4>{k['label']}: динамика по дням</h4>"
+            f"<p class='kit-hint'>{k['interpretation']}</p>"
+            f"<p class='kit-hint'>{k['period']} · {k['source']} · серым — предыдущее окно</p>"
+            + (chart or "<p class='kit-muted'>Дневного ряда для этого показателя нет — "
+                        "витрина источника не заполнена.</p>") + "</div>")
+    right = ""
+    if k.get("key") == "yandex" and (snap["yandex"].get("entities") or []):
+        ents = sorted(snap["yandex"]["entities"], key=lambda e: -e["impressions"])[:8]
+        top = ents[0]["impressions"] or 1
+        rows = [{"q": f"{e['entity_id']}", "imp": kit.bar_cell(e["impressions"], top),
+                 "pos": kit.pos_cell(e.get("average_position"))} for e in ents]
+        right = ("<div><h4>Запросы с наибольшими показами</h4>"
+                 "<p class='kit-hint'>окно источника, выборка Вебмастера</p>"
+                 + kit.dense_table([{"key": "q", "label": "Запрос"},
+                                    {"key": "imp", "label": "Показы", "align": "right"},
+                                    {"key": "pos", "label": "Позиция", "align": "right"}],
+                                   rows, sortable=False) + "</div>")
+    elif k.get("key") == "google" and (snap["google"].get("pages") or []):
+        pages = sorted(snap["google"]["pages"], key=lambda e: -e["impressions"])[:8]
+        top = pages[0]["impressions"] or 1
+        rows = [{"p": e["entity_id"], "imp": kit.bar_cell(e["impressions"], top,
+                                                           kit.series_color("google")),
+                 "pos": kit.pos_cell(e.get("average_position"))} for e in pages]
+        right = ("<div><h4>Страницы с наибольшими показами</h4>"
+                 "<p class='kit-hint'>окно Search Console</p>"
+                 + kit.dense_table([{"key": "p", "label": "Страница"},
+                                    {"key": "imp", "label": "Показы", "align": "right"},
+                                    {"key": "pos", "label": "Позиция", "align": "right"}],
+                                   rows, sortable=False) + "</div>")
+    else:
+        right = (f"<div><h4>Как читать</h4><p class='kit-hint'>{k['interpretation']}</p>"
+                 f"<p class='kit-hint'>достоверность: {k['confidence']}"
+                 + (f" · {k['relative_note']}" if k.get("relative_note") else "") + "</p></div>")
+    return left + right
+
+
+def _kpi_dashboard(b: dict, snap: dict) -> str:
+    """Пульт: четыре плитки со спарклайнами, клик раскрывает углубление."""
+    tiles, panels = [], []
+    for i, k in enumerate(b["kpis"]):
+        delta = k["delta"] or ""
+        if k.get("relative"):
+            delta = f"{delta} {k['relative']}".strip()
+        colour = kit.series_color(KPI_SOURCE.get(k.get("key", ""), "yandex"))
+        tiles.append(kit.stat_tile(
+            k["label"], k["value"], k["unit"], delta or None, k.get("delta_dir"),
+            spark=k.get("sparkline"), color=colour, note=k["interpretation"],
+            meta=f"{k['period']} · {k['source']} · достоверность: {k['confidence']}",
+            key=k["key"], active=(i == 0), muted=bool(k["muted"])))
+        panels.append(kit.panel(k["key"], _kpi_panel(k, snap), active=(i == 0)))
+    return kit.dash(kit.kpi_row(tiles), "".join(panels),
+                    title="Четыре показателя руководителя",
+                    period="клик по плитке раскрывает динамику и состав")
+
+
+def _status_dashboard(b: dict) -> str:
+    """Светофор контуров: статусы шапки письма и здоровье данных."""
+    rows = [{"state": PILL_STATE.get(p["state"], "neutral"), "name": p["label"],
+             "value": "", "comment": p["text"]} for p in b["pills"]]
+    h = b["health"]
+    rows.append({"state": {"positive": "good", "warning": "warn", "danger": "crit"}[h["colour"]],
+                 "name": "ЗДОРОВЬЕ ДАННЫХ", "value": "",
+                 "comment": f"<b>{PILL_LABEL[h['status']]}</b> — {h['detail']}"})
+    body = kit.status_rows(rows, head=False)
+    return kit.dash("", body, title="Состояние контуров", period=b["sources_line"])
+
+
+def _daily_multiples(snap: dict) -> str:
+    """Малые кратные: дневные ряды всех источников на одной оси времени."""
+    daily = snap.get("daily") or {}
+    cards, labels = [], None
+    names = {("yandex", "impressions"): "Показы, Яндекс", ("yandex", "clicks"): "Клики, Яндекс",
+             ("gsc", "impressions"): "Показы, Google", ("gsc", "clicks"): "Клики, Google",
+             ("metrika", "visits_organic"): "Визиты из поиска",
+             ("metrika", "goal_reaches_organic"): "Цели из поиска"}
+    for (source, metric), title in names.items():
+        blk = daily.get(source) or {}
+        win = (blk.get("windows") or {}).get(metric)
+        if not blk.get("available") or not win or len(win.get("tail") or []) < WINDOW * 2:
+            continue
+        tail = win["tail"]
+        cur = tail[WINDOW:WINDOW * 2]
+        if labels is None:
+            labels = [ru_date(d) for d in _dates_from(win["current"]["from"], WINDOW)]
+        cards.append({"title": title, "values": cur, "prev": tail[:WINDOW],
+                      "color": kit.series_color(source),
+                      "caption": f"неделя {num(win['current']['sum'])}"
+                                 + (f" · {signed(win['delta'])}" if win.get("delta") is not None else "")})
+    if not cards:
+        return ""
+    return kit.dash("", kit.small_multiples(cards, labels),
+                    title="Динамика по дням: все источники",
+                    period="текущее окно цветом источника, предыдущее — серым")
+
+
+def _heat_dashboard(snap: dict, date: str) -> str:
+    """Календарь-теплокарта показов за четыре недели: Яндекс из витрины, иначе Google."""
+    end = dt.date.fromisoformat(date) - dt.timedelta(days=daily_windows.LAG_DAYS["yandex"])
+    dates = [(end - dt.timedelta(days=27 - i)).isoformat() for i in range(28)]
+    store = daily_windows.load_series("yandex")
+    series = ((store or {}).get("series") or {}).get("impressions") or {}
+    title, unit = "Показы в Яндексе по дням", "показов"
+    if not series:
+        g = {d["date"]: d.get("impressions") for d in (snap["google"].get("daily") or [])
+             if d.get("date")}
+        if not g:
+            return ""
+        series, title = g, "Показы в Google по дням"
+    values = [series.get(d) for d in dates]
+    if sum(v is not None for v in values) < 7:
+        return ""
+    return kit.dash("", kit.heatmap(dates, values, unit),
+                    title=title, period=f"{ru_date(dates[0])} – {ru_date(dates[-1])} · "
+                                        f"пустая клетка — день без данных")
+
+
+def _live_charts(b: dict) -> str:
+    """Графики письма в живом виде: тренд показателя и вклад драйверов."""
+    parts = []
+    for k in b["kpis"]:
+        chart = _week_chart(k)
+        if chart:
+            parts.append(f"<h3>{k['label']} по дням</h3>{chart}")
+            break
+    for db in b["driver_blocks"]:
+        if not db.get("available") or not db.get("rows"):
+            continue
+        rows = []
+        for r in db["rows"]:
+            try:
+                d = float(str(r["delta"]).replace("−", "-").replace("+", "").replace("\u202f", ""))
+            except ValueError:
+                continue
+            rows.append({"entity": r["entity"], "delta": d,
+                         "share_of_total_delta": float(str(r["share"]).rstrip("%")) / 100})
+        if rows:
+            parts.append(f"<h3>Вклад страниц: {db['engine']}</h3>"
+                         f"<p class='muted'>{db['window']}</p>{kit.delta_bars(rows)}")
+    return "".join(parts)
+
+
+def _entity_table(entities: list[dict], kind: str, colour: str, limit: int) -> str:
+    """Таблица-дашборд запросов или страниц: бар показов, позиция, статус."""
+    ents = sorted(entities or [], key=lambda e: -e["impressions"])[:limit]
+    if not ents:
+        return "<p class='muted'>Строк нет.</p>"
+    top = ents[0]["impressions"] or 1
+    rows = []
+    for e in ents:
+        rows.append({
+            "e": e["entity_id"],
+            "imp": kit.bar_cell(e["impressions"], top, colour),
+            "clicks": {"html": num(e["clicks"]), "sort": e["clicks"]},
+            "ctr": {"html": pct(e.get("ctr"), 2), "sort": e.get("ctr") or 0},
+            "pos": kit.pos_cell(e.get("average_position")),
+            "intent": kit.chip(e["intent"], "neutral") if e.get("intent") else "",
+            "conf": kit.chip(e.get("confidence", ""), "good" if e.get("confidence") == "sufficient"
+                             else "neutral") if e.get("confidence") else "",
+        })
+    cols = [{"key": "e", "label": kind},
+            {"key": "imp", "label": "Показы", "align": "right"},
+            {"key": "clicks", "label": "Клики", "align": "right"},
+            {"key": "ctr", "label": "CTR", "align": "right"},
+            {"key": "pos", "label": "Позиция", "align": "right"}]
+    if any(r["intent"] for r in rows):
+        cols.append({"key": "intent", "label": "Интент"})
+    if any(r["conf"] for r in rows):
+        cols.append({"key": "conf", "label": "Достоверность"})
+    return kit.dense_table(cols, rows)
+
+
 def build_html(b: dict, snap: dict, dq: dict, date: str) -> str:
     yx, g = snap["yandex"], snap["google"]
 
-    queries = table(
-        ["Запрос", "Показы", "Клики", "CTR", "Средняя позиция", "Интент", "Достоверность"],
-        [[e["entity_id"], num(e["impressions"]), num(e["clicks"]), pct(e["ctr"], 2),
-          e["average_position"], e["intent"], e["confidence"]]
-         for e in sorted(yx.get("entities") or [], key=lambda e: -e["impressions"])[:100]])
-
-    pages = table(
-        ["Страница", "Показы", "Клики", "Средняя позиция"],
-        [[p["entity_id"], num(p["impressions"]), num(p["clicks"]), p["average_position"]]
-         for p in sorted(g.get("pages") or [], key=lambda p: -p["impressions"])[:50]])
-
-    gq = table(
-        ["Запрос", "Показы", "Клики", "Средняя позиция"],
-        [[e["entity_id"], num(e["impressions"]), num(e["clicks"]), e["average_position"]]
-         for e in sorted(g.get("entities") or [], key=lambda e: -e["impressions"])[:50]])
+    # Таблицы-дашборды KPI-kit: бар показов, позиция, чипы интента и
+    # достоверности, сортировка по любому столбцу.
+    queries = _entity_table(yx.get("entities"), "Запрос", kit.series_color("yandex"), 100)
+    pages = _entity_table(g.get("pages"), "Страница", kit.series_color("google"), 50)
+    gq = _entity_table(g.get("entities"), "Запрос", kit.series_color("google"), 50)
 
     mmap = table(
         ["Источник", "Показатель", "Сущность", "Охват", "Период", "Сравнимо с", "Почему различается"],
@@ -925,42 +1127,31 @@ def build_html(b: dict, snap: dict, dq: dict, date: str) -> str:
           ru_date_full(o["decision_date"]) if o.get("decision_date") else "срок не назначен"]
          for o in b["opportunities"]["items"]])
 
-    charts = "".join(
+    # Графики письма — в живом виде (KPI-kit, наведение показывает значения);
+    # таймлайн эксперимента остаётся картинкой письма.
+    charts = _live_charts(b) + "".join(
         f"<figure><img src='{embed_png(BASE / 'charts' / f'{date}-{n}.png')}' alt='{c}'>"
         f"<figcaption>{c}</figcaption></figure>"
-        for n, c in (("kpi-slope", "Показы Google неделя к неделе"),
-                     ("drivers", "Вклад страниц в изменение показов"),
-                     ("experiment", "Ход эксперимента"))
+        for n, c in (("experiment", "Ход эксперимента"),)
         if (BASE / "charts" / f"{date}-{n}.png").exists())
 
     # Токены светлой темы объявлены на голом :root, тёмные — отдельно для
     # системной настройки и для явного выбора: у зрителя три состояния, и цвет,
     # объявленный только внутри media-блока, в неотмеченном состоянии не сработает.
-    css = """
+    css = kit.kit_css() + """
+    /* Токены страницы — псевдонимы палитры KPI-kit: одна тема на письмо,
+       веб-отчёт и конкурентную разведку; тёмная тема приходит из kit. */
     :root{
-      --ground:#F6F8FB; --surface:#FFFFFF; --ink:#101828; --muted:#667085;
-      --line:#EAECF0; --line-strong:#D8DDE5; --brand:#F4511E;
-      --positive:#12B76A; --warning:#B54708; --warning-bg:#FFFAEB;
-      --danger:#D92D20; --info:#2E90FA; --chip:#F2F4F7;
-    }
-    @media (prefers-color-scheme: dark){
-      :root:not([data-theme="light"]){
-        --ground:#0C111D; --surface:#161B26; --ink:#ECEFF3; --muted:#94A3B8;
-        --line:#1F2733; --line-strong:#2A3444; --brand:#FF7A45;
-        --positive:#3DDC97; --warning:#F5A524; --warning-bg:#231A0B;
-        --danger:#FF6B60; --info:#5BA8FF; --chip:#1C2431;
-      }
-    }
-    :root[data-theme="dark"]{
-      --ground:#0C111D; --surface:#161B26; --ink:#ECEFF3; --muted:#94A3B8;
-      --line:#1F2733; --line-strong:#2A3444; --brand:#FF7A45;
-      --positive:#3DDC97; --warning:#F5A524; --warning-bg:#231A0B;
-      --danger:#FF6B60; --info:#5BA8FF; --chip:#1C2431;
+      --ground:var(--kit-plane); --surface:var(--kit-surface); --ink:var(--kit-ink);
+      --muted:var(--kit-muted); --line:var(--kit-hair); --line-strong:var(--kit-hair2);
+      --brand:var(--kit-accent); --positive:var(--kit-good); --warning:var(--kit-warn);
+      --warning-bg:var(--kit-warn-soft); --danger:var(--kit-crit); --info:var(--kit-s1);
+      --chip:var(--kit-surface2);
     }
     *{box-sizing:border-box}
     body{
       margin:0; background:var(--ground); color:var(--ink);
-      font:400 16px/1.6 'IBM Plex Sans','Segoe UI',system-ui,-apple-system,sans-serif;
+      font:400 16px/1.6 'Raleway',system-ui,-apple-system,'Segoe UI',sans-serif;
       -webkit-font-smoothing:antialiased;
     }
     .wrap{max-width:1080px;margin:0 auto;padding:0 24px 96px}
@@ -976,7 +1167,7 @@ def build_html(b: dict, snap: dict, dq: dict, date: str) -> str:
       display:flex; flex-wrap:wrap; gap:8px; align-items:center;
     }
     .pill{
-      font:500 12.5px/1 'IBM Plex Mono',ui-monospace,monospace;
+      font:500 12.5px/1 'Raleway',system-ui,sans-serif;
       letter-spacing:.04em; text-transform:uppercase;
       border:1px solid var(--line-strong); border-radius:999px; padding:6px 11px;
       color:var(--muted); white-space:nowrap;
@@ -985,15 +1176,14 @@ def build_html(b: dict, snap: dict, dq: dict, date: str) -> str:
     .pill.warning{color:var(--warning);border-color:var(--warning)}
     .pill.danger{color:var(--danger);border-color:var(--danger)}
     .freshness{
-      font:400 12.5px/1.5 'IBM Plex Mono',ui-monospace,monospace;
+      font:400 12.5px/1.5 'Raleway',system-ui,sans-serif;
       color:var(--muted); margin-left:auto;
     }
     section{padding:36px 0;border-top:1px solid var(--line)}
     section:first-of-type{border-top:0}
     h2{
-      font-size:13px; font-weight:600; letter-spacing:.09em; text-transform:uppercase;
-      color:var(--muted); margin:0 0 18px;
-      font-family:'IBM Plex Mono',ui-monospace,monospace;
+      font-size:18px; font-weight:700; letter-spacing:-.01em;
+      color:var(--ink); margin:0 0 14px;
     }
     h3{font-size:17px;margin:26px 0 10px;letter-spacing:-.01em}
     p{margin:0 0 12px;max-width:72ch}
@@ -1005,7 +1195,7 @@ def build_html(b: dict, snap: dict, dq: dict, date: str) -> str:
     }
     .card .label{font-size:13px;color:var(--muted)}
     .card .value{
-      font:600 30px/1.15 'IBM Plex Sans',sans-serif;
+      font:600 30px/1.15 'Raleway',system-ui,sans-serif;
       font-variant-numeric:tabular-nums; margin-top:4px; letter-spacing:-.02em;
     }
     .card .unit{font-size:13.5px;color:var(--muted);font-weight:400}
@@ -1013,7 +1203,7 @@ def build_html(b: dict, snap: dict, dq: dict, date: str) -> str:
     .card .delta.up{color:var(--positive)} .card .delta.down{color:var(--danger)}
     .card .note{font-size:14px;margin-top:8px;line-height:1.5}
     .card .meta{
-      font:400 12px/1.5 'IBM Plex Mono',ui-monospace,monospace;
+      font:400 12px/1.5 'Raleway',system-ui,sans-serif;
       color:var(--muted); margin-top:10px;
     }
     .scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
@@ -1021,13 +1211,13 @@ def build_html(b: dict, snap: dict, dq: dict, date: str) -> str:
     th,td{text-align:left;padding:9px 12px 9px 0;border-bottom:1px solid var(--line);
       vertical-align:top}
     th{
-      font:600 11.5px/1.4 'IBM Plex Mono',ui-monospace,monospace;
+      font:600 11.5px/1.4 'Raleway',system-ui,sans-serif;
       letter-spacing:.06em; text-transform:uppercase; color:var(--muted);
       border-bottom-color:var(--line-strong);
     }
     td:first-child{padding-left:0}
     .chip{
-      display:inline-block; font:500 11.5px/1 'IBM Plex Mono',ui-monospace,monospace;
+      display:inline-block; font:500 11.5px/1 'Raleway',system-ui,sans-serif;
       letter-spacing:.04em; text-transform:uppercase; padding:4px 8px;
       border-radius:5px; background:var(--chip); color:var(--muted);
     }
@@ -1055,14 +1245,14 @@ def build_html(b: dict, snap: dict, dq: dict, date: str) -> str:
     }
     .navbar .row{display:flex;align-items:center;gap:14px;padding:9px 0}
     .navbar .brand{
-      font:600 12.5px/1 'IBM Plex Mono',ui-monospace,monospace;
+      font:600 12.5px/1 'Raleway',system-ui,sans-serif;
       letter-spacing:.04em; text-transform:uppercase; color:var(--muted);
       white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
     }
     .navmenu{margin-left:auto;position:relative}
     .navmenu>summary{
       list-style:none; cursor:pointer; user-select:none;
-      font:500 13px/1 'IBM Plex Sans',system-ui,sans-serif;
+      font:500 13px/1 'Raleway',system-ui,sans-serif;
       padding:7px 12px; border:1px solid var(--line-strong); border-radius:8px;
       color:var(--ink); background:var(--surface); white-space:nowrap;
     }
@@ -1088,14 +1278,14 @@ def build_html(b: dict, snap: dict, dq: dict, date: str) -> str:
     details.cut{border-top:1px dashed var(--line-strong);margin-top:14px}
     details.cut>summary{
       list-style:none; cursor:pointer; user-select:none; padding:12px 0 2px;
-      font:500 14px/1.4 'IBM Plex Sans',system-ui,sans-serif; color:var(--brand);
+      font:500 14px/1.4 'Raleway',system-ui,sans-serif; color:var(--brand);
     }
     details.cut>summary::-webkit-details-marker{display:none}
     details.cut>summary::before{content:'▸ ';color:var(--muted)}
     details.cut[open]>summary::before{content:'▾ '}
     details.cut>summary .hint{color:var(--muted);font-weight:400}
     .backtop{
-      font:400 12.5px/1 'IBM Plex Mono',ui-monospace,monospace;
+      font:400 12.5px/1 'Raleway',system-ui,sans-serif;
       color:var(--muted); text-decoration:none; margin-left:10px;
       vertical-align:middle; white-space:nowrap;
     }
@@ -1104,7 +1294,7 @@ def build_html(b: dict, snap: dict, dq: dict, date: str) -> str:
     img{max-width:100%;height:auto;border:1px solid var(--line);border-radius:10px;
       background:#fff}
     figcaption{
-      font:400 12.5px/1.5 'IBM Plex Mono',ui-monospace,monospace;
+      font:400 12.5px/1.5 'Raleway',system-ui,sans-serif;
       color:var(--muted); padding-top:7px;
     }
     a{color:var(--brand);text-underline-offset:2px}
@@ -1118,12 +1308,8 @@ def build_html(b: dict, snap: dict, dq: dict, date: str) -> str:
     @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
     """
 
-    pill_class = {"positive": "positive", "mixed": "warning", "negative": "danger",
-                  "stable": "", "verified": "positive", "limited": "warning",
-                  "degraded": "danger", "none": "", "required": "warning"}
-    pills = "".join(
-        f"<span class='pill {pill_class.get(p['state'], '')}'>{p['label']}: {p['text']}</span>"
-        for p in b["pills"])
+    # Статусы шапки письма живут в светофоре пульта (_status_dashboard);
+    # липкая панель оставляет только строку свежести источников.
 
     cards = ""
     for k in b["kpis"]:
@@ -1304,7 +1490,8 @@ def build_html(b: dict, snap: dict, dq: dict, date: str) -> str:
          "html": ideas},
         {"id": "charts", "title": "Графики",
          "crit": 0,
-         "desc": "Графики письма в полном размере.",
+         "desc": "Графики письма в полном размере и в живом виде: наведение "
+                 "показывает значения по дням.",
          "html": charts or "<p class='muted'>Графиков нет.</p>"},
         {"id": "measurement", "title": "Карта измерений",
          "crit": 3 if b["health"]["colour"] == "danger"
@@ -1354,7 +1541,7 @@ def build_html(b: dict, snap: dict, dq: dict, date: str) -> str:
 <title>BIZSoft Growth Intelligence</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700&display=swap">
 <style>{css}</style></head><body id="top"><div class="wrap">
 {_navbar(ordered, ru_date_full(date))}
 
@@ -1363,12 +1550,15 @@ def build_html(b: dict, snap: dict, dq: dict, date: str) -> str:
   <div class="sub">Daily Search, Demand &amp; Experiment Control · {ru_date_full(date)}</div>
 </header>
 
-<div class="statusbar">{pills}<span class="freshness">{b['sources_line']}</span></div>
+<div class="statusbar"><span class="freshness">{b['sources_line']}</span></div>
 
-<section>
-  <h2>Итог дня</h2>
+<section id="dash">
+  <h2>Пульт</h2>
   <p class="lede"><b>От вас:</b> {b['user_action']}</p>
-  <div class="cards">{cards}</div>
+  {_kpi_dashboard(b, snap)}
+  {_status_dashboard(b)}
+  {_daily_multiples(snap)}
+  {_heat_dashboard(snap, date)}
 </section>
 
 {_toc(ordered)}
@@ -1381,7 +1571,7 @@ def build_html(b: dict, snap: dict, dq: dict, date: str) -> str:
   Отчёт собран автоматически из данных Яндекс.Вебмастера, Google Search Console,
   Яндекс.Метрики и GA4; числа не редактируются вручную.
 </footer>
-</div></body></html>"""
+</div><script>{kit.kit_js()}</script></body></html>"""
 
 
 def build_markdown(b: dict, snap: dict, dq: dict, date: str) -> str:
