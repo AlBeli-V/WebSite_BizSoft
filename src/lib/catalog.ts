@@ -21,11 +21,13 @@ const ZOOM_ADDON = /^ZOOM-(PHONE|WEBINARS|ROOMS|LARGE-MEETING|EVENTS|AI-COMPANIO
  */
 const CREDITS_PACK = /-CREDITS-\d+$/;
 /**
- * Вариант подарочной карты: <РОДИТЕЛЬ>-GIFT-CARD-<регион>-<номинал>, например
- * APP-STORE-ITUNES-GIFT-CARD-RU-1000. Родитель заканчивается на -GIFT-CARD и
- * является страницей; варианты — номиналы одного продукта, страниц не имеют.
+ * Вариант подарочной карты: <РОДИТЕЛЬ>-GIFT-CARD-<регион>-<вариант>, например
+ * APP-STORE-ITUNES-GIFT-CARD-RU-1000 или DISCORD-NITRO-GIFT-CARD-GLOBAL-NITRO-12M.
+ * Регион — 2–6 заглавных букв (RU, KZ, GLOBAL), вариант — номинал или код
+ * тарифа. Родитель заканчивается на -GIFT-CARD и является страницей;
+ * варианты — номиналы одного продукта, страниц не имеют.
  */
-const GIFT_CARD_VARIANT = /-GIFT-CARD-[A-Z]{2}-\d+$/;
+const GIFT_CARD_VARIANT = /-GIFT-CARD-[A-Z]{2,6}-[A-Z0-9-]+$/;
 
 /** Классифицировать товар по контексту (sku). */
 export function productKind(p: Pick<Product, 'sku'>): ProductKind {
@@ -55,6 +57,11 @@ export function countByCategory(products: Pick<Product, 'category'>[]): Record<s
 
 /** Полное юридическое название производителя для отображения в карточке. */
 export const VENDOR_LEGAL: Record<string, string> = {
+  // Подарочные карты (docs/gift-cards.md)
+  Apple: 'Apple Inc.',
+  Airalo: 'Airalo Technologies Inc.',
+  Binance: 'Binance Holdings Ltd.',
+  Discord: 'Discord Inc.',
   JetBrains: 'JetBrains s.r.o.',
   'JetBrains Marketplace': 'JetBrains s.r.o.',
   Zoom: 'Zoom Communications, Inc.',

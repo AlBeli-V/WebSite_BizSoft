@@ -15,7 +15,7 @@ import { productSchema, giftCardProductSchema, canonicalUrl } from '../../lib/se
 import { effectivePrice, formatRub } from '../../lib/pricing';
 import { ORIGIN_LABEL, LICENSE_LABEL, listValues } from '../../lib/types';
 import { vendorLegal, productNoindex, isGiftCard, isVariant } from '../../lib/catalog';
-import { groupGiftCardVariants, giftCardPriceRange, pickInitialVariant, formatDenomination, type GiftCardRegion } from '../../lib/gift-cards';
+import { groupGiftCardVariants, giftCardPriceRange, pickInitialVariant, variantLabel, type GiftCardRegion } from '../../lib/gift-cards';
 import { giftCardContent } from '../../data/gift-cards';
 import GiftCardSelector from '../../components/GiftCardSelector.astro';
 import { getAiInterlinks } from '../../data/ai-interlinks';
@@ -217,7 +217,7 @@ try {
                   {region.variants.map((v) => (
                     <li>
                       <button type="button" class="gift-pick" data-pick-sku={v.sku} disabled={v.availability === 'out_of_stock' || !(v.price > 0)}>
-                        <span class="gp-nom">{formatDenomination(v)}</span>
+                        <span class="gp-nom">{variantLabel(v)}</span>
                         <span class="gp-arrow" aria-hidden="true">→</span>
                         <span class="gp-price">{v.price > 0 ? formatRub(v.price) : 'по запросу'}</span>
                       </button>
@@ -311,9 +311,9 @@ try {
           <div class="block">
             <h2>Как купить {gift?.shortName || product.name} для юридического лица</h2>
             <ol class="steps">
-              <li>Выбираете регион Apple Account и номинал, добавляете позицию в избранное и формируете заявку или КП.</li>
+              <li>Выбираете {gift?.regionLabel ? gift.regionLabel.toLowerCase() : 'регион аккаунта'} и вариант, добавляете позицию в избранное и формируете заявку или КП.</li>
               <li>Заключаем договор и выставляем счёт на оплату в рублях.</li>
-              <li>После оплаты передаём цифровой код Gift Card на указанную почту.</li>
+              <li>{gift?.deliveryNote || 'После оплаты передаём цифровой код на указанную почту.'}</li>
               <li>Передаём закрывающие документы через ЭДО.</li>
             </ol>
             <p class="muted">Оформляем на юридическое лицо или ИП: счёт в рублях,
@@ -416,6 +416,7 @@ try {
               productName={product.name}
               sku={product.sku}
               vendor={product.vendor || ''}
+              regionLabel={gift?.regionLabel}
               denominationNote={gift?.denominationNote || 'Номинал — сумма, которая будет зачислена на баланс аккаунта после активации.'}
               regionWarning={gift?.regionWarning || 'Карта предназначена только для аккаунта соответствующего региона: проверьте регион учётной записи до заказа.'}
               availabilityNote={gift?.availabilityNote || 'Количество кодов отдельных номиналов может быть ограничено.'}

@@ -180,7 +180,7 @@ const PRODUCT_FIELDS = [
  * подарочные карты): product_type, parent_sku, region_code, region_name,
  * denomination, denomination_currency, availability — с тем же откатом.
  */
-const VARIANT_FIELDS = 'product_type,parent_sku,region_code,region_name,denomination,denomination_currency,availability';
+const VARIANT_FIELDS = 'product_type,parent_sku,region_code,region_name,denomination,denomination_currency,availability,variant_label';
 const PRODUCT_FIELDS_EXTRA = `${PRODUCT_FIELDS},purchase_updated_at,purchase_source,content_updated_at,${VARIANT_FIELDS}`;
 let extraFieldsMissing = false;
 

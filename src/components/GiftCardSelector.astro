@@ -10,7 +10,7 @@
  * живёт в корзине и КП как обычная позиция.
  */
 import { formatRub } from '../lib/pricing';
-import { formatDenomination, type GiftCardRegion, type GiftCardVariant } from '../lib/gift-cards';
+import { variantLabel, type GiftCardRegion, type GiftCardVariant } from '../lib/gift-cards';
 import { AVAILABILITY_LABEL } from '../lib/types';
 
 interface Props {
@@ -19,14 +19,18 @@ interface Props {
   productName: string;
   sku: string;
   vendor?: string;
+  /** Подпись шага 1: «Регион Apple Account», «Регион аккаунта». */
+  regionLabel?: string;
   denominationNote: string;
   regionWarning: string;
   availabilityNote: string;
   rateDate?: string | null;
   vat?: number;
 }
-const { regions, initial, productName, sku, vendor = '', denominationNote, regionWarning, availabilityNote, rateDate, vat = 0 } = Astro.props;
+const { regions, initial, productName, sku, vendor = '', regionLabel = 'Регион аккаунта', denominationNote, regionWarning, availabilityNote, rateDate, vat = 0 } = Astro.props;
 const activeRegion = initial?.regionCode ?? regions[0]?.code ?? '';
+// Один регион (Global) — выбирать нечего: шаг 1 показываем строкой, а не кнопкой.
+const singleRegion = regions.length === 1;
 ---
 <div class="gc card" data-gift-card data-product={productName} data-sku={sku} data-vendor={vendor}>
   {regions.length === 0 ? (
@@ -34,21 +38,25 @@ const activeRegion = initial?.regionCode ?? regions[0]?.code ?? '';
   ) : (
     <>
       <div class="gc-step">
-        <span class="gc-cap"><b>Шаг 1.</b> Регион Apple Account</span>
-        <div class="gc-regions" role="tablist" aria-label="Регион Apple Account">
-          {regions.map((r) => (
-            <button type="button" class:list={['gc-region', { active: r.code === activeRegion }]} role="tab"
-              aria-selected={r.code === activeRegion ? 'true' : 'false'} data-region={r.code}>
-              {r.name}<span class="gc-cur">{r.currency}</span>
-            </button>
-          ))}
-        </div>
+        <span class="gc-cap"><b>Шаг 1.</b> {regionLabel}</span>
+        {singleRegion ? (
+          <p class="gc-single"><button type="button" class="gc-region active" role="tab" aria-selected="true" data-region={regions[0].code}>{regions[0].name}<span class="gc-cur">{regions[0].currency}</span></button></p>
+        ) : (
+          <div class="gc-regions" role="tablist" aria-label={regionLabel}>
+            {regions.map((r) => (
+              <button type="button" class:list={['gc-region', { active: r.code === activeRegion }]} role="tab"
+                aria-selected={r.code === activeRegion ? 'true' : 'false'} data-region={r.code}>
+                {r.name}<span class="gc-cur">{r.currency}</span>
+              </button>
+            ))}
+          </div>
+        )}
       </div>
 
       <p class="gc-warn" role="note">{regionWarning}</p>
 
       <div class="gc-step">
-        <span class="gc-cap"><b>Шаг 2.</b> Номинал Gift Card</span>
+        <span class="gc-cap"><b>Шаг 2.</b> {regions.some((r) => r.variants.some((v) => v.label)) ? 'Вариант' : 'Номинал'} Gift Card</span>
         {regions.map((r) => (
           <div class="gc-denoms" role="tabpanel" data-region-panel={r.code} hidden={r.code !== activeRegion}>
             {r.variants.map((v) => (
@@ -58,7 +66,7 @@ const activeRegion = initial?.regionCode ?? regions[0]?.code ?? '';
                 data-availability={v.availability}
                 disabled={v.availability === 'out_of_stock' || !(v.price > 0)}
                 aria-pressed={initial?.sku === v.sku ? 'true' : 'false'}>
-                <span class="gc-nom">{formatDenomination(v)}</span>
+                <span class="gc-nom">{variantLabel(v)}</span>
                 <span class="gc-arrow" aria-hidden="true">→</span>
                 <span class="gc-price">{v.price > 0 ? formatRub(v.price) : 'по запросу'}</span>
                 {v.availability !== 'in_stock' && <span class="gc-avail">{AVAILABILITY_LABEL[v.availability]}</span>}
@@ -70,7 +78,7 @@ const activeRegion = initial?.regionCode ?? regions[0]?.code ?? '';
       </div>
 
       <div class="gc-summary">
-        <div class="gc-chosen"><span>Выбрано</span><b data-chosen>{initial ? `${formatDenomination(initial)} · ${initial.regionName}` : '—'}</b></div>
+        <div class="gc-chosen"><span>Выбрано</span><b data-chosen>{initial ? `${variantLabel(initial)} · ${initial.regionName}` : '—'}</b></div>
         <div class="gc-qty-row">
           <span class="gc-qty-label">Количество</span>
           <div class="gc-qty">
@@ -108,7 +116,9 @@ const activeRegion = initial?.regionCode ?? regions[0]?.code ?? '';
   .gc-step { display: flex; flex-direction: column; gap: 0.6rem; }
   .gc-cap { font-size: 0.9rem; color: var(--color-text-muted); }
   .gc-cap b { color: var(--color-text); }
-  .gc-regions { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.4rem; }
+  .gc-regions { display: grid; grid-template-columns: repeat(auto-fit, minmax(90px, 1fr)); gap: 0.4rem; }
+  .gc-single { margin: 0; }
+  .gc-single .gc-region { cursor: default; width: 100%; }
   .gc-region { display: flex; flex-direction: column; align-items: center; gap: 0.1rem; padding: 0.55rem 0.4rem; border-radius: 10px;
     border: 1px solid var(--color-border-strong); background: var(--color-bg-elevated); color: var(--color-text); font: inherit; font-weight: 600; cursor: pointer; }
   .gc-region .gc-cur { font-size: 0.72rem; color: var(--color-text-dim); font-weight: 500; }

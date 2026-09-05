@@ -192,6 +192,22 @@ check('подарочная карта: JSON-LD — один Product с Aggregat
   if (!html.includes('itemprop="lowPrice" content="1895"')) throw new Error('microdata lowPrice расходится');
   return { ok: true, got: `AggregateOffer ${offers.lowPrice}–${offers.highPrice} × ${offers.offerCount}, microdata согласована` };
 });
+check('подарочная подписка (Discord): один регион Global, подписи вариантов, 12 месяцев раньше 1 месяца', async () => {
+  const r = await req('/product/discord-nitro-gift-card');
+  const html = r.body;
+  if (r.status !== 200) throw new Error(`HTTP ${r.status}`);
+  if (!html.includes('data-gift-card')) throw new Error('нет селектора');
+  if ((html.match(/data-region="GLOBAL"/g) || []).length !== 1) throw new Error('регион Global должен быть один и показан строкой');
+  if (!html.includes('Discord Nitro, 12 месяцев') || !html.includes('Discord Nitro Basic, 1 месяц')) throw new Error('нет подписей вариантов');
+  const i12 = html.indexOf('data-sku="DISCORD-NITRO-GIFT-CARD-GLOBAL-NITRO-12M"');
+  const i1 = html.indexOf('data-sku="DISCORD-NITRO-GIFT-CARD-GLOBAL-BASIC-1M"');
+  if (i12 < 0 || i1 < 0 || i12 > i1) throw new Error('порядок вариантов не по убыванию срока');
+  if (!html.includes('Ограниченное количество')) throw new Error('пометка ограниченного наличия не выведена');
+  const nodes = ldNodes(html);
+  const offers = ofType(nodes, 'Product')[0]?.offers;
+  if (!offers || offers['@type'] !== 'AggregateOffer' || offers.lowPrice !== 1122 || offers.highPrice !== 22726) throw new Error('AggregateOffer расходится с витриной');
+  return { ok: true, got: 'Global, 2 варианта, AggregateOffer 1122–22726' };
+});
 check('подарочная карта: WebMCP отдаёт вариант с ценой и без закупки', async () => {
   const r = await req('/api/agent/get_product?slug=app-store-itunes-gift-card-ru-1000');
   const j = JSON.parse(r.body);

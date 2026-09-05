@@ -44,7 +44,7 @@ function product(over) {
     image: null, images: [],
     // Тип товара и варианты (подарочные карты): у обычных товаров пусто.
     product_type: null, parent_sku: null, region_code: null, region_name: null,
-    denomination: null, denomination_currency: null, availability: null,
+    denomination: null, denomination_currency: null, availability: null, variant_label: null,
     // Переопределения сверх базовых полей (promo_* для проверок разметки и т.п.)
     ...over,
   };
@@ -77,6 +77,14 @@ const PRODUCTS = [
     price: 3734, product_type: 'gift_card', parent_sku: 'APP-STORE-ITUNES-GIFT-CARD', region_code: 'RU', region_name: 'Россия', denomination: 1000, denomination_currency: 'RUB', availability: 'in_stock', category: CATEGORIES[2] }),
   product({ id: 113, name: 'Apple Gift Card 2000 TRY, Турция', sku: 'APP-STORE-ITUNES-GIFT-CARD-TR-2000', vendor: 'Apple', slug: 'app-store-itunes-gift-card-tr-2000',
     price: 11275, product_type: 'gift_card', parent_sku: 'APP-STORE-ITUNES-GIFT-CARD', region_code: 'TR', region_name: 'Турция', denomination: 2000, denomination_currency: 'TRY', availability: 'in_stock', category: CATEGORIES[2] }),
+  // Подписка по подарочной ссылке: один регион Global, варианты с подписью
+  // вместо денежного номинала (variant_label), срок в месяцах — для порядка.
+  product({ id: 114, name: 'Discord Nitro (подарочная подписка)', sku: 'DISCORD-NITRO-GIFT-CARD', vendor: 'Discord', slug: 'discord-nitro-gift-card',
+    price: 1122, price_from: true, product_type: 'gift_card', category: CATEGORIES[2], short_description: 'Подписка Discord Nitro подарочной ссылкой.' }),
+  product({ id: 115, name: 'Discord Nitro Basic, 1 месяц (Global)', sku: 'DISCORD-NITRO-GIFT-CARD-GLOBAL-BASIC-1M', vendor: 'Discord', slug: 'discord-nitro-gift-card-global-basic-1m',
+    price: 1122, product_type: 'gift_card', parent_sku: 'DISCORD-NITRO-GIFT-CARD', region_code: 'GLOBAL', region_name: 'Все страны (Global)', denomination: 1, denomination_currency: 'MONTH', variant_label: 'Discord Nitro Basic, 1 месяц', availability: 'in_stock', category: CATEGORIES[2] }),
+  product({ id: 116, name: 'Discord Nitro, 12 месяцев (Global)', sku: 'DISCORD-NITRO-GIFT-CARD-GLOBAL-NITRO-12M', vendor: 'Discord', slug: 'discord-nitro-gift-card-global-nitro-12m',
+    price: 22726, product_type: 'gift_card', parent_sku: 'DISCORD-NITRO-GIFT-CARD', region_code: 'GLOBAL', region_name: 'Все страны (Global)', denomination: 12, denomination_currency: 'MONTH', variant_label: 'Discord Nitro, 12 месяцев', availability: 'limited', category: CATEGORIES[2] }),
 ];
 
 const CURRENCY = [{ id: 1, usd_rate: 90, eur_rate: 100, mode: 'auto', source: 'cbr.ru', auto_recalc: false, rate_date: '2026-08-01', updated_at: '2026-08-01T00:00:00Z' }];

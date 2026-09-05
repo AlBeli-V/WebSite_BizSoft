@@ -16,8 +16,14 @@ iTunes Gift Card для трёх регионов (Россия, Казахст�
   `denomination`, `denomination_currency` (RUB/KZT/TRY), `availability`
   (`in_stock` | `limited` | `out_of_stock`), закупка в `base_price_usd`
   (это и есть cost_usd задания), `markup_coeff = 3.0`.
-- Артикулы: родитель `…-GIFT-CARD`, вариант `…-GIFT-CARD-<регион>-<номинал>`
-  (`APP-STORE-ITUNES-GIFT-CARD-RU-1000`). По этому шаблону `productNoindex()`
+- Вариант без денежного номинала (подписка Discord: тариф и срок) несёт
+  `variant_label` — подпись на витрине; `denomination` тогда — срок в месяцах
+  для сортировки, `denomination_currency = MONTH`.
+- Регион `GLOBAL` — код без привязки к стране; порядок регионов на витрине —
+  `REGION_ORDER` (RU, KZ, TR), остальные после них по алфавиту.
+- Артикулы: родитель `…-GIFT-CARD`, вариант `…-GIFT-CARD-<регион>-<номинал|код>`
+  (`APP-STORE-ITUNES-GIFT-CARD-RU-1000`, `DISCORD-NITRO-GIFT-CARD-GLOBAL-NITRO-12M`).
+  По этому шаблону `productNoindex()`
   закрывает варианты от индексации: в sitemap, фиды и поиск идёт только
   родитель. Страница варианта (`/product/<slug варианта>`) отдаёт 301 на
   родителя с `?sku=<вариант>` — страница открывается с выбранным номиналом,
@@ -53,10 +59,12 @@ iTunes Gift Card для трёх регионов (Россия, Казахст�
 
 ## Как заводить новую карту
 
-1. Пакет `scripts/catalog/<vendor>.json` по образцу `apple.json` — для Apple
-   пакет собирает `node scripts/build-gift-card-package.mjs` из таблицы
-   номиналов и закупок (изменились закупки — правится таблица, пересобирается
-   пакет, дальше штатный импорт).
+1. Запись вендора в таблице `scripts/build-gift-card-package.mjs` (родители,
+   регионы, `[номинал, закупка USD]` или `[срок, закупка, { code, label }]`
+   для подписок) и `node scripts/build-gift-card-package.mjs` — пакет
+   `scripts/catalog/<vendor>.json` собирается из неё (изменились закупки —
+   правится таблица, пересобирается пакет, дальше штатный импорт). Заведены:
+   Apple (RU/KZ/TR), Airalo, Binance (три карты по активу), Discord.
 2. Запись в `VENDORS` (`catSeg: 'gift-cards'`, `domain: 'gift'`),
    `VENDOR_LEGAL`, контент лендинга `scripts/content/<slug>.json`, иконка
    вендора (skill `add-logo-and-icons`).
@@ -68,7 +76,9 @@ iTunes Gift Card для трёх регионов (Россия, Казахст�
 
 1. `ops-directus-schema` (schema-only) — поля `product_type`, `parent_sku`,
    `region_code`, `region_name`, `denomination`, `denomination_currency`,
-   `availability`. До прогона сайт работает: слой `directus.ts` запрашивает
+   `availability`, `variant_label`. Процесс сайта, стартовавший до миграции,
+   запоминает «полей нет» до перезапуска — после схемы нужен редеплой
+   (`deploy` с main вручную). До прогона сайт работает: слой `directus.ts` запрашивает
    их с откатом.
 2. `ops-categories` (`apply=false`, затем `true`) — раздел `gift-cards`.
 3. `ops-import-vendors` (`apply=false`, затем `true`) — 1 родитель + 28
