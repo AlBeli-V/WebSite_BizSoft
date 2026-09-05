@@ -25,7 +25,7 @@ export const prerender = false;
 // Третья серия: no-carousel — без логопанели; no-pop — без витрины
 // популярного; upper-half — хиро, цифры, логопанель, витрина (без остальных
 // секций); lower-half — хиро и остальные секции (без цифр, логопанели, витрины).
-const VARIANTS = ['control', 'no-stats', 'no-banner', 'no-hero-decor', 'hero-only', 'no-hero', 'system-fonts', 'no-reveal', 'no-carousel', 'no-pop', 'upper-half', 'lower-half'] as const;
+const VARIANTS = ['control', 'no-stats', 'no-banner', 'no-hero-decor', 'hero-only', 'no-hero', 'system-fonts', 'no-reveal', 'no-carousel', 'no-pop', 'upper-half', 'lower-half', 'snap-off', 'smooth-off', 'snap-only-off', 'track-hidden'] as const;
 const variant = Astro.params.variant ?? '';
 if (!(VARIANTS as readonly string[]).includes(variant)) {
   return new Response(null, { status: 404 });
