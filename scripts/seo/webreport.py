@@ -444,6 +444,25 @@ def order_sections(sections: list[dict]) -> list[dict]:
     return sorted(sections, key=lambda s: -s["crit"])
 
 
+def _navbar(sections: list[dict], date: str) -> str:
+    """Липкая панель с меню разделов.
+
+    Веб-отчёт — сотни килобайт: без постоянного доступа к списку разделов
+    переход между ними означает прокрутку через все таблицы. Меню собрано на
+    <details>, поэтому работает без скриптов и в почтовых просмотрщиках.
+    """
+    items = ""
+    for s in sections:
+        label, cls = SEVERITY_LABEL[s["crit"]]
+        chip = f"<span class='chip {cls}'>{label}</span>" if label else ""
+        items += f"<a href='#{s['id']}'>{s['title']}{chip}</a>"
+    return (f"<div class='navbar'><div class='row'>"
+            f"<span class='brand'>Growth Intelligence · {date}</span>"
+            f"<details class='navmenu'><summary>Разделы</summary>"
+            f"<div class='menu'><a href='#top'>В начало</a>{items}</div>"
+            f"</details></div></div>")
+
+
 def _toc(sections: list[dict]) -> str:
     items = ""
     for s in sections:
@@ -454,6 +473,42 @@ def _toc(sections: list[dict]) -> str:
             f"<p class='muted desc'>Разделы отсортированы по критичности: "
             f"сверху — требующее внимания сегодня, ниже — рабочие и "
             f"справочные блоки.</p><ol>{items}</ol></nav>")
+
+
+# Пороги ката. Крупный раздел развёрнутым в потоке вытесняет всё остальное:
+# 20 000 знаков ≈ полсотни строк таблицы. Справочный сворачивается с меньшего
+# объёма, но короткий блок под кат не прячется — экономить там нечего, а лишний
+# клик раздражает.
+CUT_CHARS = 20000
+CUT_CHARS_REFERENCE = 6000
+
+# Ядро отчёта: раздел не сворачивается независимо от объёма. Ради контроля
+# экспериментов отчёт и открывают — прятать его за клик нельзя.
+ALWAYS_OPEN = {"experiments"}
+
+
+def _section_html(s: dict) -> str:
+    """Раздел отчёта; объёмное и справочное содержимое — под катом.
+
+    Развёрнутыми остаются разделы, требующие внимания сегодня, ядро отчёта и
+    всё короткое. Под кат уходит объёмное — крупные таблицы и справочные блоки,
+    которые читают выборочно. Заголовок, описание и пометка критичности видны
+    всегда, поэтому оглавление и поиск по странице не страдают.
+    """
+    label, cls = SEVERITY_LABEL[s["crit"]]
+    chip = f" <span class='chip {cls}'>{label}</span>" if label else ""
+    head = (f"<section id=\"{s['id']}\"><h2>{s['title']}{chip}"
+            f"<a class='backtop' href='#top'>наверх</a></h2>"
+            f"<p class='muted desc'>{s['desc']}</p>")
+    size = len(s["html"])
+    big = size > CUT_CHARS
+    reference = s["crit"] == 0 and size > CUT_CHARS_REFERENCE
+    if s["id"] in ALWAYS_OPEN or not (big or reference):
+        return head + s["html"] + "</section>"
+    hint = "объёмный блок" if big else "справочный блок"
+    return (head + f"<details class='cut'><summary>Показать раздел "
+            f"<span class='hint'>— {hint}</span></summary>{s['html']}</details>"
+            "</section>")
 
 
 def _loop_section(lh: dict) -> str:
@@ -913,6 +968,61 @@ def build_html(b: dict, snap: dict, dq: dict, date: str) -> str:
     nav.toc ol{margin:8px 0 0;padding-left:22px;columns:2;column-gap:36px}
     nav.toc li{padding:3px 0;break-inside:avoid;font-size:14.5px}
     @media (max-width:640px){nav.toc ol{columns:1}}
+    /* Липкая навигация: отчёт длинный, и без неё переход между разделами —
+       это прокрутка через сотни строк таблиц. Меню на <details>, без скриптов. */
+    .navbar{
+      position:sticky; top:0; z-index:100; margin:0 -24px; padding:0 24px;
+      background:color-mix(in srgb,var(--ground) 94%,transparent);
+      backdrop-filter:saturate(180%) blur(8px);
+      border-bottom:1px solid var(--line);
+    }
+    .navbar .row{display:flex;align-items:center;gap:14px;padding:9px 0}
+    .navbar .brand{
+      font:600 12.5px/1 'IBM Plex Mono',ui-monospace,monospace;
+      letter-spacing:.04em; text-transform:uppercase; color:var(--muted);
+      white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+    }
+    .navmenu{margin-left:auto;position:relative}
+    .navmenu>summary{
+      list-style:none; cursor:pointer; user-select:none;
+      font:500 13px/1 'IBM Plex Sans',system-ui,sans-serif;
+      padding:7px 12px; border:1px solid var(--line-strong); border-radius:8px;
+      color:var(--ink); background:var(--surface); white-space:nowrap;
+    }
+    .navmenu>summary::-webkit-details-marker{display:none}
+    .navmenu>summary::after{content:' ▾';color:var(--muted)}
+    .navmenu[open]>summary::after{content:' ▴'}
+    .navmenu .menu{
+      position:absolute; right:0; top:calc(100% + 6px); z-index:30;
+      min-width:290px; max-height:70vh; overflow:auto;
+      background:var(--surface); border:1px solid var(--line-strong);
+      border-radius:10px; padding:8px; box-shadow:0 12px 32px rgba(0,0,0,.16);
+    }
+    .navmenu .menu a{display:block;padding:7px 9px;border-radius:6px;
+      font-size:14px;text-decoration:none;color:var(--ink)}
+    .navmenu .menu a:hover{background:var(--chip)}
+    .navmenu .menu .chip{margin-left:6px}
+    @media (max-width:640px){
+      .navbar{margin:0 -16px;padding:0 16px}
+      .navmenu .menu{min-width:min(88vw,320px)}
+    }
+    /* Кат: справочные и объёмные разделы открываются по требованию —
+       иначе страница на сотни килобайт листается вслепую. */
+    details.cut{border-top:1px dashed var(--line-strong);margin-top:14px}
+    details.cut>summary{
+      list-style:none; cursor:pointer; user-select:none; padding:12px 0 2px;
+      font:500 14px/1.4 'IBM Plex Sans',system-ui,sans-serif; color:var(--brand);
+    }
+    details.cut>summary::-webkit-details-marker{display:none}
+    details.cut>summary::before{content:'▸ ';color:var(--muted)}
+    details.cut[open]>summary::before{content:'▾ '}
+    details.cut>summary .hint{color:var(--muted);font-weight:400}
+    .backtop{
+      font:400 12.5px/1 'IBM Plex Mono',ui-monospace,monospace;
+      color:var(--muted); text-decoration:none; margin-left:10px;
+      vertical-align:middle; white-space:nowrap;
+    }
+    section>h2{scroll-margin-top:64px}
     figure{margin:0 0 22px}
     img{max-width:100%;height:auto;border:1px solid var(--line);border-radius:10px;
       background:#fff}
@@ -1149,13 +1259,7 @@ def build_html(b: dict, snap: dict, dq: dict, date: str) -> str:
          "html": gq},
     ]
     ordered = order_sections(sections)
-    body_sections = ""
-    for s in ordered:
-        label, cls = SEVERITY_LABEL[s["crit"]]
-        chip = f" <span class='chip {cls}'>{label}</span>" if label else ""
-        body_sections += (
-            f"<section id=\"{s['id']}\"><h2>{s['title']}{chip}</h2>"
-            f"<p class='muted desc'>{s['desc']}</p>{s['html']}</section>")
+    body_sections = "".join(_section_html(s) for s in ordered)
 
     return f"""<!doctype html><html lang="ru"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -1163,7 +1267,8 @@ def build_html(b: dict, snap: dict, dq: dict, date: str) -> str:
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
-<style>{css}</style></head><body><div class="wrap">
+<style>{css}</style></head><body id="top"><div class="wrap">
+{_navbar(ordered, ru_date_full(date))}
 
 <header>
   <h1>BIZSoft Growth Intelligence</h1>

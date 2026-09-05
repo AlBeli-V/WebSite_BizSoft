@@ -107,7 +107,7 @@ try {
     await page.addInitScript(MODEL_CONTEXT_STUB);
     await page.goto(APP + '/product/chatgpt-business', { waitUntil: 'networkidle' });
     // Регистрация идёт асинхронно после загрузки чанка.
-    await page.waitForFunction(() => window.__wmcpStub?.tools?.length >= 5, null, { timeout: 5000 }).catch(() => {});
+    await page.waitForFunction(() => window.__wmcpStub?.tools?.length >= 7, null, { timeout: 5000 }).catch(() => {});
 
     const tools = await page.evaluate(() => window.__wmcpStub.tools.map((t) => ({
       name: t.name,
@@ -119,8 +119,11 @@ try {
       hasExecute: typeof t.execute === 'function',
     })));
     const names = tools.map((t) => t.name).sort();
-    report('регистрация: все 5 инструментов зарегистрированы',
-      JSON.stringify(names) === JSON.stringify(['get_product', 'get_vendor', 'list_vendor_products', 'list_vendors', 'search_products']),
+    // Список явный, а не «сколько-нибудь»: добавили инструмент — сюда же и
+    // в docs/webmcp/tools.md, иначе браузерный контур молча устареет.
+    const EXPECTED = ['get_product', 'get_vendor', 'list_categories', 'list_vendor_products', 'list_vendors', 'search_policies', 'search_products'];
+    report(`регистрация: все ${EXPECTED.length} инструментов зарегистрированы`,
+      JSON.stringify(names) === JSON.stringify(EXPECTED),
       names.join(', '));
     report('регистрация: у каждого — описание, JSON Schema и readOnlyHint',
       tools.every((t) => t.hasDescription && t.readOnly && t.schemaType === 'object' && t.noExtra && t.hasExecute));
