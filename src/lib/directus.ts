@@ -299,13 +299,13 @@ async function fetchProducts(opts: ProductFilter = {}): Promise<Product[]> {
     const q = opts.q;
     and.push({ _or: [{ name: { _icontains: q } }, { vendor: { _icontains: q } }, { keywords: { _icontains: q } }, { sku: { _icontains: q } }] });
   }
-  return dx<Product[]>('/items/products', {
-    params: {
-      fields: PRODUCT_FIELDS,
-      filter: JSON.stringify({ _and: and }),
-      sort: 'sort,name',
-      limit: -1,
-    },
+  // Через productsQuery: витрине нужны поля вариантов (product_type,
+  // parent_sku) — без них родитель подарочной карты рендерится как обычный
+  // товар, а варианты попадают в списки. Откат до миграции — тот же.
+  return productsQuery({
+    filter: JSON.stringify({ _and: and }),
+    sort: 'sort,name',
+    limit: -1,
   });
 }
 
@@ -370,12 +370,11 @@ export async function findCanonicalProductSlug(oldSlug: string): Promise<string 
 
 export async function getProductBySlug(slug: string): Promise<Product | null> {
   return cached(`product:${slug}`, async () => {
-    const data = await dx<Product[]>('/items/products', {
-      params: {
-        fields: PRODUCT_FIELDS,
-        filter: JSON.stringify({ slug: { _eq: slug }, status: { _eq: 'published' } }),
-        limit: 1,
-      },
+    // Через productsQuery: страница карточки решает по product_type и
+    // parent_sku, показывать селектор вариантов или отдать 301 на родителя.
+    const data = await productsQuery({
+      filter: JSON.stringify({ slug: { _eq: slug }, status: { _eq: 'published' } }),
+      limit: 1,
     });
     return data[0] ?? null;
   });
@@ -441,7 +440,10 @@ export async function getProductsBySlugs(slugs: string[]): Promise<Product[]> {
       // sku, price_note и promo_label добавлены для карточек витрины:
       // ProductCard печатает артикул и приписку к цене, effectivePrice —
       // подпись акции. Без них главная не смогла бы обойтись этой выборкой.
-      fields: 'id,name,sku,slug,vendor,origin,short_description,price,price_note,promo_price,promo_label,promo_start,promo_end,currency,license_type,image',
+      // price_from, product_type и parent_sku — для карточек подарочных карт
+      // («от», кнопка выбора номинала вместо избранного); поля есть в схеме
+      // с 05.09.2026 (ops-directus-schema применён до этого кода).
+      fields: 'id,name,sku,slug,vendor,origin,short_description,price,price_note,promo_price,promo_label,promo_start,promo_end,currency,license_type,image,price_from,product_type,parent_sku',
       filter: JSON.stringify({ slug: { _in: slugs }, status: { _eq: 'published' } }),
       limit: -1,
     },

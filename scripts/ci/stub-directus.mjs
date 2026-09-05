@@ -163,6 +163,16 @@ const server = createServer((req, res) => {
   let rows = source.filter((r) => match(r, filter));
   const limit = Number(url.searchParams.get('limit') ?? -1);
   if (limit > 0) rows = rows.slice(0, limit);
+  // Проекция полей, как у настоящего Directus: чего сайт не запросил в
+  // fields, того он не получит. Без этого стаб маскировал выборки мимо
+  // productsQuery — на проде карточка подарочной карты рендерилась как
+  // обычный товар, а смоук этого не видел (05.09.2026). Вложенные пути
+  // (category.slug, images.directus_files_id.id) отдают верхний объект целиком.
+  const fields = (url.searchParams.get('fields') || '').split(',').map((f) => f.trim()).filter(Boolean);
+  if (fields.length && !fields.includes('*')) {
+    const tops = new Set(fields.map((f) => f.split('.')[0]));
+    rows = rows.map((r) => Object.fromEntries(Object.entries(r).filter(([k]) => tops.has(k))));
+  }
 
   res.writeHead(200, { 'Content-Type': 'application/json' });
   res.end(JSON.stringify({ data: rows }));
