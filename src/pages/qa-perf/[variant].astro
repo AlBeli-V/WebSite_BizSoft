@@ -18,7 +18,11 @@ import Home from '../index.astro';
 // динамический маршрут без getStaticPaths обязан отказаться от пререндера.
 export const prerender = false;
 
-const VARIANTS = ['control', 'no-stats', 'no-banner', 'no-hero-decor'] as const;
+// Вторая серия (05.09.2026, после первой без результата): hero-only — на
+// странице остаётся только хиро; no-hero — всё, кроме хиро; system-fonts —
+// без фирменных шрифтов вовсе; no-reveal — анимация появления секций
+// выключена стилем.
+const VARIANTS = ['control', 'no-stats', 'no-banner', 'no-hero-decor', 'hero-only', 'no-hero', 'system-fonts', 'no-reveal'] as const;
 const variant = Astro.params.variant ?? '';
 if (!(VARIANTS as readonly string[]).includes(variant)) {
   return new Response(null, { status: 404 });
