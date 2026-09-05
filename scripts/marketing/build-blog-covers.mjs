@@ -61,6 +61,11 @@ const ICONS = {
 
 /** Обложки: центральный объект и иконки-спутники по смыслу статьи. */
 const COVERS = {
+  'kak-popolnit-app-store-v-rossii': {
+    hero: 'card',
+    icons: ['ruble', 'cloud', 'users', 'doc', 'stamp', 'warn'],
+    alt: 'Подарочная карта в центре схемы пополнения баланса Apple Account: регион аккаунта, оплата по счёту, документы и предупреждение о регионе',
+  },
   'stoimost-vladeniya-podpiskoy': {
     hero: 'card',
     icons: ['cloud', 'brain', 'folder', 'refresh', 'lock', 'users', 'chart', 'warn'],

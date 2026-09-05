@@ -36,6 +36,9 @@ TypeScript strict · Vitest · Python 3 (контуры SEO/разведки/р�
   чеклист и обязательные шаги (sitemap, микроразметка, WebMCP, уникальность
   meta) — `docs/vendors-expansion-prompt.md`, раздел 11/11а, и правила в
   `CLAUDE.md`.
+- **Подарочная карта (тип gift_card)** — модель, цена ×3, порядок на проде:
+  `docs/gift-cards.md`; пакет Apple собирает `scripts/build-gift-card-package.mjs`,
+  контент страницы — `src/data/gift-cards.ts`, логика — `src/lib/gift-cards.ts`.
 - **Новая статья** — `src/content/blog/<slug>.md`; редполитика — skill
   `bizsoft-content`; формат frontmatter — `README.md`, раздел «Контент по
   календарю».

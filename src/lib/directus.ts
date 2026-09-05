@@ -175,8 +175,13 @@ const PRODUCT_FIELDS = [
  * отвечает 400 на ВЕСЬ запрос, если хоть одно поле из fields не существует,
  * и до прогона ops-directus-schema на проде каталог и КП падали бы целиком
  * из-за не доехавшей миграции. Каталог важнее свежести даты закупки.
+ *
+ * Тем же списком идут поля вариантов и типа товара (схема 05.09.2026,
+ * подарочные карты): product_type, parent_sku, region_code, region_name,
+ * denomination, denomination_currency, availability — с тем же откатом.
  */
-const PRODUCT_FIELDS_EXTRA = `${PRODUCT_FIELDS},purchase_updated_at,purchase_source,content_updated_at`;
+const VARIANT_FIELDS = 'product_type,parent_sku,region_code,region_name,denomination,denomination_currency,availability';
+const PRODUCT_FIELDS_EXTRA = `${PRODUCT_FIELDS},purchase_updated_at,purchase_source,content_updated_at,${VARIANT_FIELDS}`;
 let extraFieldsMissing = false;
 
 async function productsQuery(params: Record<string, unknown>, auth = false): Promise<Product[]> {
@@ -190,7 +195,7 @@ async function productsQuery(params: Record<string, unknown>, auth = false): Pro
       // Запоминаем до перезапуска процесса: после применения схемы поля
       // появятся, и новый деплой снова начнёт их запрашивать.
       extraFieldsMissing = true;
-      console.warn('products: поля схемы 28.08/03.09 недоступны, запрос без них', e);
+      console.warn('products: поля схемы 28.08/03.09/05.09 недоступны, запрос без них', e);
     }
   }
   return dx<Product[]>('/items/products', { auth, params: { ...params, fields: PRODUCT_FIELDS } });
@@ -377,6 +382,18 @@ export async function getProductBySlug(slug: string): Promise<Product | null> {
 }
 
 /** Товары по списку sku (для пересчёта корзины на сервере при генерации КП). */
+/**
+ * Варианты товара (номиналы подарочной карты) по артикулу родителя.
+ * Опубликованные, в порядке базы — порядок для витрины задаёт
+ * lib/gift-cards.ts (denomination DESC), а не sort и не id.
+ */
+export async function getProductVariants(parentSku: string): Promise<Product[]> {
+  return cached(`variants:${parentSku}`, () => productsQuery({
+    filter: JSON.stringify({ _and: [{ status: { _eq: 'published' } }, { parent_sku: { _eq: parentSku } }] }),
+    limit: -1,
+  }));
+}
+
 export async function getProductsBySkus(skus: string[]): Promise<Product[]> {
   if (skus.length === 0) return [];
   // С полями закупки: выборку по артикулам использует расчёт экономики КП.
