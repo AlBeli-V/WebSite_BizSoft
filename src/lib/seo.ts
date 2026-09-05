@@ -180,6 +180,51 @@ export function productSchema(p: Product, opts?: { images?: string[] }): Record<
   };
 }
 
+/**
+ * Product + AggregateOffer родительской карточки подарочной карты.
+ *
+ * У карты нет одной цены: номиналы одного продукта продаются по разным ценам,
+ * и Google для такого случая предписывает AggregateOffer (lowPrice/highPrice/
+ * offerCount) на одном Product — вместо отдельного Product на каждый номинал,
+ * то есть без отдельных страниц-дублей. Диапазон считается из тех же данных,
+ * что и витрина (effectivePrice вариантов); без доступных вариантов разметки
+ * нет (null) — Offer без цены запрещён так же, как у обычной карточки.
+ */
+export function giftCardProductSchema(
+  p: Product,
+  range: { low: number; high: number; count: number } | null,
+  opts?: { images?: string[] },
+): Record<string, unknown> | null {
+  if (!range || range.low <= 0) return null;
+  const cat = typeof p.category === 'object' && p.category ? p.category : null;
+  const currency = p.currency || 'RUB';
+  const url = `${site.url}/product/${p.slug}`;
+  const images = opts?.images?.length ? opts.images : [`${site.url}/og-default.png`];
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    '@id': `${url}#product`,
+    url,
+    name: p.name,
+    sku: p.sku,
+    image: images,
+    description: p.short_description || p.meta_description || p.name,
+    ...(p.vendor ? { brand: { '@type': 'Brand', name: p.vendor } } : {}),
+    ...(cat ? { category: cat.name } : {}),
+    offers: {
+      '@type': 'AggregateOffer',
+      url,
+      priceCurrency: currency,
+      lowPrice: range.low,
+      highPrice: range.high,
+      offerCount: range.count,
+      availability: 'https://schema.org/InStock',
+      seller: { '@id': ORG_ID },
+      ...offerLogistics(currency),
+    },
+  };
+}
+
 export function itemListSchema(category: Category, products: Product[], pagePath?: string) {
   return {
     '@context': 'https://schema.org',
