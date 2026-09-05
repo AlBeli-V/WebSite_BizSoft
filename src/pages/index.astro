@@ -36,6 +36,17 @@ import type { Product } from '../lib/types';
 // со страницей /qa-perf после прогона.
 const perfVariant = ((Astro.props as { perfVariant?: string }).perfVariant ?? '');
 const skip = (name: string) => perfVariant === name;
+// Вторая серия вариантов — через CSS, чтобы не резать разметку: display:none
+// выключает отрисовку блока так же, как его отсутствие. Первая серия
+// (no-stats, no-banner, no-hero-decor) виновника не нашла — NO_LCP держится
+// при отключении каждого из трёх порознь, контрольная копия его воспроизводит.
+const PERF_CSS: Record<string, string> = {
+  'hero-only': 'main > *:not(.hero) { display: none !important; }',
+  'no-hero': '.hero { display: none !important; }',
+  'system-fonts': ':root { --font-sans: system-ui, sans-serif; --font-display: system-ui, sans-serif; }',
+  'no-reveal': '.reveal { transition: none !important; } .reveal.is-below { opacity: 1 !important; transform: none !important; }',
+};
+const perfCss = PERF_CSS[perfVariant] ? `<style>${PERF_CSS[perfVariant]}</style>` : '';
 
 // Узнаваемые бренды для логопанели. Ссылки — на готовые лендинги.
 type Brand = { name: string; slug: string; color: string; blurb: string };
@@ -179,6 +190,7 @@ const servicesItemList = {
   description="Единая точка доступа к зарубежному ПО и AI-сервисам для российских юрлиц: ChatGPT, Claude, Midjourney, Adobe, Figma, JetBrains. Договор, оплата в рублях по счёту, закрывающие через ЭДО, доступ за 1–3 дня."
 >
   <JsonLd schema={[localBusinessSchema(), servicesItemList]} />
+  {perfCss && <Fragment set:html={perfCss} />}
 
   <!-- HERO: заголовок + бестселлеры с ценами -->
   <section class="hero">
