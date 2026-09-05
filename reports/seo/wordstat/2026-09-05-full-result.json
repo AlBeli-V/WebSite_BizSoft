@@ -1,0 +1,41 @@
+{
+ "mode": "full",
+ "date": "2026-09-05",
+ "run": {
+  "calls": 143,
+  "ok": 95,
+  "empty": 48,
+  "raw": 5,
+  "new_phrases": 0,
+  "new_clusters": 0,
+  "new_commercial": 0,
+  "stopped": null
+ },
+ "efficiency": {
+  "calls_total": 3640,
+  "calls_paid": 181,
+  "cost_month_rub": 3.62,
+  "cost_today_rub": 0.06,
+  "remaining_budget_rub": 5496.38,
+  "forecast_month_end_rub": 21.72,
+  "state": "open",
+  "cache_hit_rate": 0.9503,
+  "duplicate_rate": 0.9636,
+  "unique_phrases": 75,
+  "new_commercial_phrases": 2,
+  "new_clusters": 2,
+  "cost_per_1000_unique_phrases_rub": 48.267,
+  "cost_per_1000_commercial_phrases_rub": 1810.0,
+  "cost_per_new_cluster_rub": 1.81,
+  "empty_response_rate": 0.2942
+ },
+ "universe": {
+  "phrases": 23122,
+  "commercial_phrases": 2147,
+  "clusters": 174,
+  "total_commercial_demand": 287895,
+  "total_demand": 37043856,
+  "with_page": 22423,
+  "cost_rub": 5.9849
+ }
+}
