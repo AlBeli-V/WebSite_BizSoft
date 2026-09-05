@@ -1,7 +1,7 @@
 {
  "mode": "weekly",
  "mode_label": "еженедельный",
- "send_date": "2026-08-30",
+ "send_date": "2026-09-05",
  "from": "2026-08-29",
  "to": "2026-09-04",
  "prev_from": "2026-08-22",
@@ -11,64 +11,64 @@
  "metrics": {
   "yandex_impressions": {
    "label": "Яндекс, показы",
-   "total": 0.0,
-   "covered_days": 2,
+   "total": 3345.0,
+   "covered_days": 7,
    "days": 7
   },
   "yandex_clicks": {
    "label": "Яндекс, клики",
-   "total": 0.0,
-   "covered_days": 2,
+   "total": 26.0,
+   "covered_days": 7,
    "days": 7
   },
   "gsc_impressions": {
    "label": "Google, показы",
-   "total": 0.0,
-   "covered_days": 0,
+   "total": 52.0,
+   "covered_days": 5,
    "days": 7
   },
   "gsc_clicks": {
    "label": "Google, клики",
    "total": 0.0,
-   "covered_days": 0,
+   "covered_days": 5,
    "days": 7
   },
   "visits_all": {
    "label": "Визиты сайта, все",
-   "total": 21.0,
-   "covered_days": 2,
+   "total": 389.0,
+   "covered_days": 7,
    "days": 7
   },
   "visits_organic": {
    "label": "Визиты, органика",
-   "total": 1.0,
-   "covered_days": 1,
+   "total": 18.0,
+   "covered_days": 6,
    "days": 7
   },
   "goals_organic": {
    "label": "Достижения целей (органика)",
-   "total": 1.0,
-   "covered_days": 1,
+   "total": 27.0,
+   "covered_days": 6,
    "days": 7
   },
   "ga4_sessions": {
    "label": "GA4, органические сессии",
-   "total": 1.0,
-   "covered_days": 1,
+   "total": 24.0,
+   "covered_days": 5,
    "days": 7
   },
   "yandex_ctr": {
    "label": "Яндекс, CTR",
-   "total": null,
-   "covered_days": 2,
+   "total": 0.007772795216741405,
+   "covered_days": 7,
    "days": 7,
    "is_ratio": true
   },
   "_extremes": {
    "yandex_clicks": {
     "best": {
-     "date": "2026-08-29",
-     "value": 0.0
+     "date": "2026-09-01",
+     "value": 8.0
     },
     "worst": {
      "date": "2026-08-29",
@@ -77,12 +77,12 @@
    },
    "goals": {
     "best": {
-     "date": "2026-08-30",
-     "value": 1.0
+     "date": "2026-09-02",
+     "value": 11.0
     },
     "worst": {
-     "date": "2026-08-30",
-     "value": 1.0
+     "date": "2026-08-31",
+     "value": 0.0
     }
    }
   }
@@ -102,14 +102,14 @@
   },
   "gsc_impressions": {
    "label": "Google, показы",
-   "total": 22.0,
-   "covered_days": 6,
+   "total": 31.0,
+   "covered_days": 7,
    "days": 7
   },
   "gsc_clicks": {
    "label": "Google, клики",
    "total": 1.0,
-   "covered_days": 6,
+   "covered_days": 7,
    "days": 7
   },
   "visits_all": {
@@ -167,8 +167,84 @@
   }
  },
  "ads": {
-  "available": false,
-  "reason": "в периоде не было открутки (или данные ещё не собраны)"
+  "available": true,
+  "campaign": "bs-test-2026-09",
+  "cost": 4066.61,
+  "clicks": 243,
+  "impressions": 3395,
+  "cpc": 16.73502057613169,
+  "groups": [
+   {
+    "name": "Adobe",
+    "imp": 800,
+    "clicks": 61,
+    "cost": 950.62,
+    "cpc": 15.583934426229508
+   },
+   {
+    "name": "ChatGPT Business",
+    "imp": 763,
+    "clicks": 41,
+    "cost": 884.7,
+    "cpc": 21.578048780487805
+   },
+   {
+    "name": "Claude",
+    "imp": 551,
+    "clicks": 32,
+    "cost": 688.23,
+    "cpc": 21.5071875
+   },
+   {
+    "name": "Claude Code",
+    "imp": 854,
+    "clicks": 76,
+    "cost": 653.8299999999999,
+    "cpc": 8.603026315789473
+   },
+   {
+    "name": "Cursor",
+    "imp": 185,
+    "clicks": 13,
+    "cost": 395.85,
+    "cpc": 30.450000000000003
+   },
+   {
+    "name": "Зарубежное ПО для юрлица",
+    "imp": 122,
+    "clicks": 13,
+    "cost": 356.78,
+    "cpc": 27.444615384615382
+   },
+   {
+    "name": "Midjourney",
+    "imp": 56,
+    "clicks": 4,
+    "cost": 61.36,
+    "cpc": 15.34
+   },
+   {
+    "name": "Descript",
+    "imp": 25,
+    "clicks": 2,
+    "cost": 53.92,
+    "cpc": 26.96
+   },
+   {
+    "name": "Box и Dropbox",
+    "imp": 24,
+    "clicks": 1,
+    "cost": 21.32,
+    "cpc": 21.32
+   },
+   {
+    "name": "Atlassian",
+    "imp": 15,
+    "clicks": 0,
+    "cost": 0.0,
+    "cpc": null
+   }
+  ]
  },
  "prev_ads": {
   "available": true,
@@ -209,18 +285,43 @@
   ]
  },
  "indexation": {
-  "available": false,
-  "reason": "нет снимка на конец периода"
+  "available": true,
+  "start": {
+   "indexed": 478,
+   "known": 525
+  },
+  "end": {
+   "indexed": 476,
+   "known": 526
+  },
+  "start_missing": false
  },
  "events": {
-  "experiment_verdicts": [],
+  "experiment_verdicts": [
+   {
+    "ticket": "CONTENT-001",
+    "date": "2026-09-02",
+    "verdict": "CONFIRMED",
+    "recommendation": "EXPAND"
+   },
+   {
+    "ticket": "SEO-EXP-001",
+    "date": "2026-09-02",
+    "verdict": "INSUFFICIENT_DATA",
+    "recommendation": "EXTEND"
+   },
+   {
+    "ticket": "SEO-EXP-002",
+    "date": "2026-09-03",
+    "verdict": "INSUFFICIENT_DATA",
+    "recommendation": "NEW_TEST"
+   }
+  ],
   "ppc_decisions": []
  },
- "summary": "За период клики из Яндекса снизились (10 → 0, -100%); достижений целей 1 против 46 прошлым периодом.",
+ "summary": "За период клики из Яндекса выросли (10 → 26, +160%); достижений целей 27 против 46 прошлым периодом; реклама: 4067 ₽ и 243 кликов.",
  "attention": [
-  "Яндекс, клики: данные за 2 из 7 дней — хвост периода дозреет у источника, цифры уточнятся",
-  "Google, клики: данные за 0 из 7 дней — хвост периода дозреет у источника, цифры уточнятся",
-  "Визиты сайта, все: данные за 2 из 7 дней — хвост периода дозреет у источника, цифры уточнятся",
-  "показы Яндекса просели на 100% к прошлому периоду — смотреть страницы-детракторы в ежедневных отчётах"
+  "Google, клики: данные за 5 из 7 дней — хвост периода дозреет у источника, цифры уточнятся",
+  "последние ~3 дня периода у Яндекс.Вебмастера и GSC дозревают задним числом — суммы по поиску могут вырасти при уточнении"
  ]
 }
