@@ -4,11 +4,15 @@
 import { chromium } from 'playwright';
 import { readFileSync } from 'node:fs';
 import path from 'node:path';
+import { chromiumExecutable } from './chromium.mjs';
 
-const EXECUTABLE = '/opt/pw-browsers/chromium-1194/chrome-linux/chrome';
 const jobs = JSON.parse(readFileSync(process.argv[2], 'utf-8'));
 
-const browser = await chromium.launch({ executablePath: EXECUTABLE, args: ['--no-sandbox'] });
+const executablePath = chromiumExecutable();
+const browser = await chromium.launch({
+  ...(executablePath ? { executablePath } : {}),
+  args: ['--no-sandbox'],
+});
 for (const job of jobs) {
   const page = await browser.newPage({
     viewport: { width: job.width, height: job.height ?? 800 },

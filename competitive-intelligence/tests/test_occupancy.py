@@ -150,5 +150,81 @@ class TestRegisterSkipsOccupied(unittest.TestCase):
         self.assertEqual(len(created), 1)
 
 
+class TestWindowExpiry(unittest.TestCase):
+    """Занятость снимается по окну замера, а не по статусу в чужом реестре.
+
+    Разбор 04.09.2026. Статус эксперимента в реестре базового контура ставит
+    человек, и пока он этого не сделал, страница считалась занятой бессрочно.
+    Два эксперимента с контрольной точкой 02.09 держали десять страниц, а
+    отчёт печатал «страница занята … до 2026-09-02» — противоречие в одной
+    строке.
+    """
+
+    RUNNING_BUT_OVER = {
+        "id": "snippets-5-vendors", "ticket": "SEO-EXP-001", "status": "running",
+        "start": "2026-08-19", "pages": ["/vendors/depositphotos"],
+        "success_metric": "CTR ≥2% через 7 дней (26.08.2026), ≥3% через "
+                          "14 дней (02.09.2026)",
+        "control_group": "остальные vendor-страницы без изменений",
+    }
+
+    def test_окно_считается_по_последней_дате_метрики(self):
+        self.assertEqual("2026-09-02",
+                         occupancy.window_end(self.RUNNING_BUT_OVER))
+
+    def test_истёкшее_окно_страницу_освобождает(self):
+        hit = occupancy.find("/vendors/depositphotos", "depositphotos",
+                             [self.RUNNING_BUT_OVER], today="2026-09-04")
+        self.assertIsNone(hit)
+
+    def test_действующее_окно_страницу_держит(self):
+        hit = occupancy.find("/vendors/depositphotos", "depositphotos",
+                             [self.RUNNING_BUT_OVER], today="2026-08-25")
+        self.assertIsNotNone(hit)
+        self.assertEqual(occupancy.BUSY_PAGE, hit["степень"])
+
+    def test_истёкшие_называются_отдельно(self):
+        stale = occupancy.expired([self.RUNNING_BUT_OVER], "2026-09-04")
+        self.assertEqual(["snippets-5-vendors"], [e["id"] for e in stale])
+
+    def test_дата_решения_из_контрольной_группы_окно_не_закрывает(self):
+        # «KEEP 03.09.2026» в control_group — дата решения, а не конец окна.
+        # По ней эксперимент закрывался в день собственного старта.
+        experiment = {
+            "id": "snippets-2-price-intent", "status": "running",
+            "start": "2026-09-03", "pages": ["/vendors/procreate"],
+            "windows": {"days": 28,
+                        "experiment": {"from": "2026-09-04", "to": "2026-10-01"}},
+            "success_metric": "CTR ≥2 % за фиксированное окно 28 дней",
+            "control_group": "Adobe, Autodesk выведены (KEEP 03.09.2026)",
+        }
+        self.assertEqual("2026-10-01", occupancy.window_end(experiment))
+        self.assertTrue(occupancy.is_live(experiment, "2026-09-04"))
+
+    def test_дата_без_года_читается_по_году_старта(self):
+        experiment = {
+            "id": "pages-exp-001", "status": "running", "start": "2026-08-30",
+            "pages": ["/vendors/x"],
+            "success_metric": "К 13.09.2026: страницы в поиске. К 27.09: "
+                              "первые клики.",
+        }
+        self.assertEqual("2026-09-27", occupancy.window_end(experiment))
+
+    def test_эксперимент_без_дат_не_держит_страницу_вечно(self):
+        experiment = {
+            "id": "no-dates", "status": "running", "start": "2026-09-01",
+            "pages": ["/vendors/x"],
+            "success_metric": "CTR > 0 по каждому запросу",
+        }
+        end = occupancy.window_end(experiment)
+        self.assertTrue(end)
+        self.assertFalse(occupancy.is_live(experiment, "2026-12-01"))
+
+    def test_без_даты_прогона_поведение_прежнее(self):
+        # Вызов без today ничего не освобождает: так проверка остаётся
+        # совместимой со старыми вызовами и не освобождает страницы молча.
+        self.assertTrue(occupancy.is_live(self.RUNNING_BUT_OVER, ""))
+
+
 if __name__ == "__main__":
     unittest.main()
