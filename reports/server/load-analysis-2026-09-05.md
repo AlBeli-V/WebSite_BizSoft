@@ -78,8 +78,10 @@ access-логи; комментарий в issue #22). Предыдущий ср
 `connect() to [2a02:6b8::1:119]:443 failed (101: Network is unreachable)`
 для `/m/tag.js` — nginx-прокси Метрики резолвит `mc.yandex.ru` в IPv6-адрес,
 а IPv6-маршрута у хоста нет. Часть запросов к счётчику отваливается, пока
-nginx не переберёт адреса. Лечится `resolver … ipv6=off` в конфиге прокси
-Метрики (`deploy/nginx-metrika-cache.conf`, применяется под root).
+nginx не переберёт адреса. Исправление — `resolver … ipv6=off` и `proxy_pass` через
+переменную в `deploy/nginx-metrika-locations.conf`; на прод накатывается
+workflow `ops-nginx-metrika-cache` (apply=true, только с main), который
+подставляет резолверы хоста и откатывает конфиг, если `nginx -t` не проходит.
 
 ## 4. Заключение по утилизации
 
