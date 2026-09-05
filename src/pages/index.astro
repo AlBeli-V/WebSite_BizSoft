@@ -45,6 +45,15 @@ const PERF_CSS: Record<string, string> = {
   'no-hero': '.hero { display: none !important; }',
   'system-fonts': ':root { --font-sans: system-ui, sans-serif; --font-display: system-ui, sans-serif; }',
   'no-reveal': '.reveal { transition: none !important; } .reveal.is-below { opacity: 1 !important; transform: none !important; }',
+  // Четвёртая серия: логопанель как таковая. Без автопрокрутки NO_LCP
+  // остался (#409, 4 прогона из 4), значит дело в самом треке карусели.
+  // Локально трек без единого действия стоит на scrollLeft = 3: mandatory
+  // snap подтягивает его к точке привязки, а scroll-behavior: smooth делает
+  // сдвиг анимированной прокруткой.
+  'snap-off': '[data-track] { scroll-snap-type: none !important; scroll-behavior: auto !important; }',
+  'smooth-off': '[data-track] { scroll-behavior: auto !important; }',
+  'snap-only-off': '[data-track] { scroll-snap-type: none !important; }',
+  'track-hidden': '[data-track] { display: none !important; }',
   // Третья серия: hero-only получил балл дважды, no-hero — NO_LCP дважды,
   // значит виновник ниже хиро. Делим «ниже хиро» пополам и проверяем два
   // блока порознь.
