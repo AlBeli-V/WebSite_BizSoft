@@ -355,6 +355,24 @@ def main(argv: list[str]) -> int:
           f"(сопоставимый спрос); без измеренного спроса и потому без "
           f"индекса — {unscored}")
 
+    # Сверка позиции среза с позицией показа по Вебмастеру. Отчёт обязан
+    # показывать, насколько органическая позиция из Search API расходится с
+    # тем, что видит человек в выдаче: величины разные, и молчать об этом
+    # значит выдавать одну за другую (разбор 04.09.2026).
+    from decision_engine import position_check as poscheck_mod
+    poscheck = poscheck_mod.compare(rows)
+    poscheck_verdict = poscheck_mod.verdict(poscheck, config)
+    if poscheck.get("доступна"):
+        print(f"6з. Сверка позиций с Вебмастером: сопоставлено "
+              f"{poscheck['сопоставлено']}, медиана расхождения "
+              f"{poscheck['медиана_расхождения']:+.2f}, срез оптимистичнее по "
+              f"{poscheck['срез_оптимистичнее']}")
+    else:
+        print(f"6з. Сверка позиций с Вебмастером не выполнена: "
+              f"{poscheck.get('причина')}")
+    if poscheck_verdict.get("тревога"):
+        print(f"   ТРЕВОГА: {poscheck_verdict['объяснение']}")
+
     meta = build_email.build(date, snapshot, previous, attacks=attacks,
                              threat_leader=threat_leader,
                              stale_notice=stale_notice, ranked_rivals=ranked,
@@ -393,7 +411,11 @@ def main(argv: list[str]) -> int:
                              experiments=experiments, config=config,
                              on_watch=on_watch, systemic=systemic,
                              to_verify=to_verify,
-                             stale_occupancy=stale_experiments)
+                             stale_occupancy=stale_experiments,
+                             position_check=poscheck,
+                             position_verdict=poscheck_verdict,
+                             our_history=our_history,
+                             history_dates=[p.get("дата") or "" for p in past_snapshots])
     os.makedirs(paths.ARCHIVE_DIR, exist_ok=True)
     for target in (os.path.join(paths.ARCHIVE_DIR, f"{date}.html"),
                    os.path.join(paths.REPORTS_DIR, "latest.html")):

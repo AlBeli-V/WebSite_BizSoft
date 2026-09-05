@@ -1,0 +1,50 @@
+---
+/**
+ * Обложка статьи: WebP читателю, PNG — соцсетям и старым клиентам.
+ *
+ * Замер PageSpeed 05.09.2026 показал, что LCP статей 2,6–2,9 с против секунды
+ * у остальных шаблонов, и назвал причину: обложка-PNG на четверть мегабайта.
+ * Тот же рисунок в WebP весит 18 КБ в полной ширине и 7 КБ в половинной.
+ *
+ * PNG остаётся в разметке как запасной вариант тега picture и как og:image:
+ * там файл тянет робот соцсети, и вес значения не имеет.
+ */
+interface Props {
+  cover: string;
+  alt: string;
+  class?: string;
+  /** Первый экран статьи: грузить сразу и с приоритетом, а не лениво. */
+  priority?: boolean;
+  sizes?: string;
+  width?: number;
+  height?: number;
+}
+
+const {
+  cover, alt, class: klass, priority = false,
+  sizes = '100vw', width = 1664, height = 936,
+} = Astro.props;
+
+// WebP собирает scripts/marketing/build-blog-covers.mjs рядом с PNG; если
+// обложка пришла в другом формате, отдаём её как есть, без вариантов.
+const base = cover.endsWith('.png') ? cover.slice(0, -4) : null;
+---
+
+{base ? (
+  <picture>
+    <source type="image/webp" srcset={`${base}-832.webp 832w, ${base}.webp 1664w`} sizes={sizes} />
+    <img class={klass} src={cover} alt={alt} width={width} height={height}
+         fetchpriority={priority ? 'high' : undefined}
+         loading={priority ? 'eager' : 'lazy'} decoding="async" />
+  </picture>
+) : (
+  <img class={klass} src={cover} alt={alt} width={width} height={height}
+       fetchpriority={priority ? 'high' : undefined}
+       loading={priority ? 'eager' : 'lazy'} decoding="async" />
+)}
+
+<style>
+  /* Тег picture не должен участвовать в раскладке: стили карточек и статьи
+     написаны для самой картинки, включая отрицательные поля миниатюры. */
+  picture { display: contents; }
+</style>

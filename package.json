@@ -20,7 +20,8 @@
     "verify": "pnpm test && pnpm typecheck && pnpm build && pnpm check:artifacts && pnpm smoke",
     "directus:schema": "node scripts/directus-setup.mjs",
     "ai:cards": "node scripts/build-vendor-cards.mjs scripts/ai-catalog-cards.json out/ai-cards.xlsx",
-    "ai:import": "node scripts/import-cards.mjs out/ai-cards.xlsx"
+    "ai:import": "node scripts/import-cards.mjs out/ai-cards.xlsx",
+    "check:serp-reference": "node scripts/ci/serp-reference-check.mjs"
   },
   "dependencies": {
     "@astrojs/node": "^9.1.3",
@@ -42,6 +43,7 @@
     "@types/nodemailer": "^6.4.17",
     "@types/pdfkit": "^0.13.9",
     "playwright": "^1.62.1",
+    "sharp": "^0.34.5",
     "simple-icons": "^16.25.0",
     "typescript": "^5.7.3",
     "vitest": "^3.0.5"

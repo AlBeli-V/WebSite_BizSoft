@@ -2,10 +2,14 @@
 // Фирменные шрифты: Raleway (текст) + Prosto One (заголовки/цифры).
 // Оба — SIL OFL 1.1, self-host с нашего сервера (woff2 в /_astro с вечным
 // кэшем) — быстрее из РФ, без стороннего CDN. Правила @font-face — в
-// global.css; здесь только preload двух файлов, чтобы шрифт был готов к
-// первой отрисовке даже при холодном кэше (инкогнито).
-import ralewayVar from '../assets/fonts/raleway-var.woff2?url';
-import prostoOne from '../assets/fonts/prosto-one.woff2?url';
+// global.css.
+//
+// preload у них снят. Он ставил оба файла (79 КБ) в начало очереди, на один
+// канал с документом первого экрана, а выигрыша не давал: с font-display
+// optional шрифт применяется, только если успел к первой отрисовке, и на
+// медленной сети он не успевает всё равно. Замеры прода 04.09.2026: без
+// загрузки шрифтов балл 98 и LCP 1,8 с, с загрузкой — 92 и 3,3 с; то есть
+// платим именно за место в очереди, а не за подмену шрифта.
 import '../styles/global.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
@@ -40,18 +44,8 @@ const { title, description, canonical, ogImage, noindex, type, keywords } = Astr
          Оригинал 256 px остаётся в public/brand/bizsoft-favicon.png. -->
     <link rel="icon" type="image/png" href="/brand/bizsoft-favicon-180.png" />
     <link rel="apple-touch-icon" href="/brand/bizsoft-favicon-180.png" />
-    <link rel="preload" href={ralewayVar} as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href={prostoOne} as="font" type="font/woff2" crossorigin />
     <SeoHead title={title} description={description} canonical={canonical} ogImage={ogImage} noindex={noindex} type={type} keywords={keywords} />
     <JsonLd schema={[organizationSchema(), websiteSchema()]} />
-    <!-- Режим плавного появления включается здесь, до первой отрисовки.
-         Раньше класс ставил модульный скрипт: на медленной сети он приходил
-         уже после отрисовки, и Chrome отзывал кандидата Largest Contentful
-         Paint у элементов, которые только что скрылись, — PageSpeed возвращал
-         по главной NO_LCP и не считал балл (прогоны ops-pagespeed 1–3).
-         Элементы первого экрана помечает видимыми синхронный скрипт в конце
-         body: скрытие и показ происходят в одном кадре, до отрисовки. -->
-    <script is:inline>document.documentElement.classList.add('js-reveal');</script>
   </head>
   <body>
     <a href="#main" class="skip-link">К содержимому</a>
@@ -63,26 +57,6 @@ const { title, description, canonical, ogImage, noindex, type, keywords } = Astr
     <Analytics />
     <CookieNotice />
     {WEBMCP_ENABLED && <WebMCP />}
-
-    <!-- Первый экран показывается синхронно, до первой отрисовки: скрытие
-         (html.js-reveal из head) и показ видимых секций попадают в один кадр.
-         Модульный скрипт для этого не годится — на медленной сети он приходит
-         после отрисовки, и тогда сначала виден весь контент, а затем часть
-         его гаснет: Chrome отзывает кандидата LCP, PageSpeed возвращает
-         NO_LCP и не считает балл. Геометрия читается один раз, до раскладки
-         страницы, поэтому повторного пересчёта здесь нет. -->
-    <script is:inline>
-      (function () {
-        var els = document.querySelectorAll('.reveal:not(.is-visible)');
-        var vh = window.innerHeight || document.documentElement.clientHeight;
-        var inView = [];
-        for (var i = 0; i < els.length; i++) {
-          var r = els[i].getBoundingClientRect();
-          if (r.top < vh && r.bottom > 0) inView.push(els[i]);
-        }
-        for (var j = 0; j < inView.length; j++) inView[j].classList.add('is-visible');
-      })();
-    </script>
 
     <style is:global>
       .skip-link {
@@ -121,17 +95,30 @@ const { title, description, canonical, ogImage, noindex, type, keywords } = Astr
         if (name) trackGoal(name, { page_url: location.pathname });
       });
 
-      // Плавное появление секций (уважает prefers-reduced-motion через CSS).
-      // Класс html.js-reveal и показ первого экрана — на совести синхронных
-      // inline-скриптов (в head и в конце body): они успевают до первой
-      // отрисовки, поэтому кандидат LCP не отзывается. Здесь остаётся только
-      // наблюдатель за секциями ниже сгиба.
-      // Запуск — после первой отрисовки (rAF + setTimeout): чтение геометрии
-      // из модульного скрипта до раскладки браузера заставляло считать
-      // раскладку всей страницы синхронно (длинная задача в отчёте PageSpeed).
+      // Плавное появление получают только секции ниже первого экрана.
+      //
+      // Разметка идёт здесь, после первой отрисовки (rAF + setTimeout), а не
+      // синхронным скриптом в конце body, как было раньше. Тот скрипт читал
+      // геометрию всех секций до первой отрисовки и заставлял браузер считать
+      // раскладку всей страницы разом — это и был forced-reflow в отчётах
+      // PageSpeed. Замер локально при процессоре в 10 раз медленнее: без него
+      // первая отрисовка 464 мс против 624, LCP 764 мс против 936.
+      //
+      // Прятать после отрисовки безопасно: помечаются только секции, целиком
+      // ушедшие за нижнюю границу экрана (top >= высоты окна), — на экране
+      // ничего не меняется, а opacity и transform раскладку не двигают.
       const afterPaint = (fn: () => void) => requestAnimationFrame(() => setTimeout(fn, 0));
       const reveal = () => afterPaint(() => {
-        const els = document.querySelectorAll('.reveal:not(.is-visible)');
+        // Сначала все замеры, потом все правки классов: чередование чтения
+        // геометрии и записи заставляет пересчитывать раскладку на каждом шаге.
+        const vh = window.innerHeight || document.documentElement.clientHeight;
+        const below: Element[] = [];
+        document.querySelectorAll('.reveal:not(.is-below):not(.is-visible)').forEach((el) => {
+          if (el.getBoundingClientRect().top >= vh) below.push(el);
+        });
+        below.forEach((el) => el.classList.add('is-below'));
+
+        const els = document.querySelectorAll('.reveal.is-below:not(.is-visible)');
         if (!('IntersectionObserver' in window) || els.length === 0) {
           els.forEach((el) => el.classList.add('is-visible'));
           return;

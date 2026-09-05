@@ -28,6 +28,7 @@ import paths  # noqa: E402
 from decision_engine import kpi as kpi_mod  # noqa: E402
 from decision_engine import signal as signal_mod  # noqa: E402
 from mailer import sections  # noqa: E402
+from mailer.sections import kit  # noqa: E402
 
 MSK = timezone(timedelta(hours=3))
 TEXT_LIMIT = 1000
@@ -133,7 +134,8 @@ def visible_text(kpi, verdict_mark, verdict_why, signal, *,
          f"{kpi_mod.format_delta(kpi.share_delta_pp, unit=' п.п.')}, "
          f"сигнальная {kpi_mod.format_delta(signal_delta, unit=' п.п.')}) · "
          f"Google {kpi_mod.format_share(kpi.share_google)} · "
-         f"ТОП-3 {kpi.top3}/{kpi.queries} · ТОП-10 {kpi.top10}/{kpi.queries}."),
+         f"ТОП-3 органики {kpi.top3}/{kpi.queries} · "
+         f"ТОП-10 органики {kpi.top10}/{kpi.queries}."),
         f"Главный сигнал: {signal.text}",
         do_next_text(attack, package, compact=compact),
         watch_text(threat_leader),
@@ -397,6 +399,8 @@ def render_txt(meta: dict, *, snapshot: dict | None = None,
         f"Scoring: {meta['зрелость_скоринга']} · "
         f"источник: Яндекс (Москва), {meta['покрытие'].get('яндекс_запросов_с_данными')} запросов · "
         f"Google: {_google_source_line(meta)} · "
+        "позиции органические (Search API, без рекламы и колдунщиков; "
+        "расхождение с позицией показа — в отчёте) · "
         "B2C и маркетплейсы вне основного рейтинга · NO DATA не равно нулю.",
     ]
     return "\n".join(parts)
@@ -423,10 +427,11 @@ def _block(title: str, body: str, *, accent: bool = False) -> str:
     if not body:
         return ""
     escaped = html.escape(body)
-    frame = ('padding:10px 12px;background:#FFF4EF;border-left:3px solid #F4511E;'
-             'border-radius:4px;') if accent else ""
+    frame = (f'padding:10px 12px;background:{kit.LIGHT["accent_soft"]};'
+             f'border-left:3px solid {kit.LIGHT["accent"]};border-radius:0 8px 8px 0;'
+             if accent else "")
     return (f'<tr><td style="padding:12px 24px 0;"><div style="{frame}">'
-            f'<div style="font-size:11px;color:#667085;letter-spacing:.06em;'
+            f'<div style="font-size:11px;color:{kit.LIGHT["muted"]};letter-spacing:.06em;'
             f'font-weight:700;">{html.escape(title)}</div>'
             f'<div style="font-size:14px;line-height:1.45;padding-top:4px;">'
             f'{escaped}</div></div></td></tr>')
@@ -481,47 +486,47 @@ def render_html(meta: dict, *, kpi=None, snapshot: dict | None = None,
             + sections.limits_section(snapshot, attacks or []))
 
     def cell(label: str, value: str, note: str) -> str:
-        return (
-            '<td style="padding:8px;border:1px solid #EAECF0;border-radius:6px;">'
-            f'<div style="color:#667085;font-size:11px;">{esc(label)}</div>'
-            f'<div style="font-size:20px;font-weight:700;">{esc(value)}</div>'
-            f'<div style="color:#98A2B3;font-size:11px;">{esc(note)}</div></td>')
+        """Плитка KPI-kit: та же, что в SEO-письме; NO DATA — приглушённая."""
+        return (f'<td width="50%" valign="top" style="padding:4px;">'
+                + kit.email_tile(label, value, note=esc(note), muted=(value == "NO DATA"))
+                + '</td>')
 
     delta_label = "Δ " + delta_caption(meta.get("сравнение_с"))
+    C = kit.LIGHT
+    masthead = kit.email_masthead(
+        f'BIZ<span style="color:{C["accent"]};">Soft</span> · Конкурентная разведка',
+        esc(meta["дата"]))
 
     return f"""<!doctype html>
 <html lang="ru"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{esc(meta['тема'])}</title></head>
-<body style="margin:0;padding:0;background:#f4f5f7;">
-<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#f4f5f7;">
+<body style="margin:0;padding:0;background:{C['plane']};">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:{C['plane']};">
 <tr><td align="center" style="padding:16px 8px;">
-<table role="presentation" width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;background:#ffffff;border:1px solid #EAECF0;border-radius:8px;font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;color:#101828;">
-<tr><td style="padding:20px 24px 6px;">
-<div style="font-size:12px;color:#667085;letter-spacing:.04em;">BIZSOFT · КОНКУРЕНТНАЯ РАЗВЕДКА · {esc(meta['дата'])}</div>
-</td></tr>
-<tr><td style="padding:6px 24px;"><div style="font-size:17px;font-weight:700;">{esc(verdict_line)}</div></td></tr>
-<tr><td style="padding:10px 24px;">
-<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="font-size:13px;"><tr>
-{cell('B2B Share · Яндекс', yandex_share, f'{delta_label}: {delta}')}<td style="width:6px;"></td>
-{cell('B2B Share · Google', google_share, google_note)}<td style="width:6px;"></td>
-{cell('ТОП-3', f"{k['top3']}/{k['queries']}", 'запросов')}<td style="width:6px;"></td>
-{cell('ТОП-10', f"{k['top10']}/{k['queries']}", 'запросов')}
-</tr></table></td></tr>
+<table role="presentation" width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;background:{C['surface']};border:1px solid {C['hair']};border-radius:14px;font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;color:{C['ink']};">
+{masthead}
+<tr><td style="padding:16px 24px 6px;"><div style="font-size:17px;font-weight:700;">{esc(verdict_line)}</div></td></tr>
+<tr><td style="padding:6px 20px;">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="font-size:13px;">
+<tr>{cell('B2B Share · Яндекс', yandex_share, f'{delta_label}: {delta}')}{cell('B2B Share · Google', google_share, google_note)}</tr>
+<tr>{cell('ТОП-3 органики', f"{k['top3']} из {k['queries']}", 'запросов')}{cell('ТОП-10 органики', f"{k['top10']} из {k['queries']}", 'запросов')}</tr>
+</table></td></tr>
 <tr><td style="padding:12px 24px 0;">
-<div style="font-size:11px;color:#667085;letter-spacing:.06em;font-weight:700;">ГЛАВНЫЙ СИГНАЛ</div>
+<div style="font-size:11px;color:{C['muted']};letter-spacing:.06em;font-weight:700;">ГЛАВНЫЙ СИГНАЛ</div>
 <div style="font-size:14px;line-height:1.45;padding-top:4px;">{esc(signal_line.removeprefix('Главный сигнал: '))}</div>
 </td></tr>
 {_block('ЧТО ДЕЛАТЬ СЕГОДНЯ', do_next_line.removeprefix('Что делать: '), accent=True)}
 {_block('СЛЕДИМ', watch_line.removeprefix('Следим: '))}
 {detail}
 <tr><td style="padding:22px 24px 20px;" align="center">
-<a href="{REPORT_URL}" style="display:inline-block;background:#101828;color:#ffffff;text-decoration:none;font-size:14px;font-weight:600;padding:10px 22px;border-radius:6px;">Открыть полную конкурентную аналитику →</a>
+<a href="{REPORT_URL}" style="display:inline-block;background:{C['accent']};color:#ffffff;text-decoration:none;font-size:14px;font-weight:600;padding:10px 22px;border-radius:8px;">Открыть полную конкурентную аналитику →</a>
 </td></tr>
-<tr><td style="padding:0 24px 18px;border-top:1px solid #EAECF0;">
-<div style="font-size:11px;color:#98A2B3;padding-top:10px;line-height:1.5;">
+<tr><td style="padding:0 24px 18px;border-top:1px solid {C['hair']};">
+<div style="font-size:11px;color:{C['muted']};padding-top:10px;line-height:1.5;">
 Scoring: {esc(meta['зрелость_скоринга'])} · источник: Яндекс (Москва), {esc(str(meta['покрытие'].get('яндекс_запросов_с_данными')))} запросов ·
-Google: {esc(_google_source_line(meta))} · B2C и маркетплейсы вне основного рейтинга · NO DATA не равно нулю.
+Google: {esc(_google_source_line(meta))} · позиции органические (Search API, без рекламы и колдунщиков; расхождение с позицией показа — в отчёте) ·
+B2C и маркетплейсы вне основного рейтинга · NO DATA не равно нулю.
 </div></td></tr>
 </table></td></tr></table></body></html>"""
 

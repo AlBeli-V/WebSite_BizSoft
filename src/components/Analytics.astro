@@ -25,33 +25,93 @@ const gaId = GA_ID;
     (function () {
       var loaders = [];
       if (metrikaId) {
-        (function (m, e, t, r, i, k, a) {
-          m[i] = m[i] || function () { (m[i].a = m[i].a || []).push(arguments); };
-          m[i].l = 1 * new Date();
-          loaders.push(function () {
-            for (var j = 0; j < e.scripts.length; j++) { if (e.scripts[j].src === r) { return; } }
-            k = e.createElement(t); a = e.getElementsByTagName(t)[0];
-            k.async = 1; k.src = r; a.parentNode.insertBefore(k, a);
-          });
-        })(window, document, 'script', 'https://mc.yandex.ru/metrika/tag.js?id=' + metrikaId, 'ym');
+        // Очередь ym() создаётся сразу, файл тега — позже (см. комментарий выше).
+        window.ym = window.ym || function () { (window.ym.a = window.ym.a || []).push(arguments); };
+        window.ym.l = 1 * new Date();
+        // Тег берётся со своего домена: /m/tag.js — кэширующий прокси nginx
+        // на файл счётчика с mc.yandex.ru (PERF-METRIKA-001, конфиг в
+        // deploy/nginx-metrika-locations.conf). Так файл едет по уже открытому
+        // соединению, без отдельных DNS и TLS к чужому домену, и с нашим
+        // длинным кэшем. Сам счётчик после загрузки ходит на mc.yandex.ru
+        // напрямую — поведение Метрики не меняется.
+        // Адрес-источник ниже — единственное вхождение пути тега в этом файле:
+        // его считает tests/analytics-contract.test.ts, защищая от повторного
+        // подключения счётчика.
+        //
+        // Если прокси недоступен (конфиг ещё не применён, ошибка на сервере),
+        // onerror подставляет оригинальный адрес: счётчик работает всегда,
+        // и порядок выкладки «код раньше конфига» безопасен.
+        var origin = 'https://mc.yandex.ru/metrika/tag.js?id=' + metrikaId;
+        var proxied = '/m/tag.js';
+        loaders.push(function () {
+          for (var j = 0; j < document.scripts.length; j++) {
+            var src = document.scripts[j].src;
+            if (src === origin || (src && src.indexOf(proxied) !== -1)) return;
+          }
+          var first = document.getElementsByTagName('script')[0];
+          var el = document.createElement('script');
+          el.async = 1;
+          el.src = proxied;
+          el.onerror = function () {
+            var fb = document.createElement('script');
+            fb.async = 1;
+            fb.src = origin;
+            first.parentNode.insertBefore(fb, first);
+          };
+          first.parentNode.insertBefore(el, first);
+        });
         ym(Number(metrikaId), 'init', { ssr: true, webvisor: true, clickmap: true, ecommerce: 'dataLayer', accurateTrackBounce: true, trackLinks: true, referrer: document.referrer, url: location.href });
       }
+      // GA4 ждёт первого действия посетителя, Метрика — нет.
+      //
+      // gtag.js весит 71 КБ неиспользуемого кода и даёт самую длинную задачу
+      // главного потока из всех наших скриптов (331 мс в замере прода
+      // 04.09.2026). В окно измерения Lighthouse он больше не попадает, а
+      // отчётность не страдает: очередь dataLayer наполняется сразу, все цели
+      // и события уходят после загрузки — без единого действия целей не
+      // бывает. Теряются только сессии посетителей, ушедших вообще без
+      // взаимодействия; в Метрике они остаются, её порядок загрузки прежний.
+      var gaLoad = null;
       if (gaId) {
         window.dataLayer = window.dataLayer || [];
         window.gtag = function () { window.dataLayer.push(arguments); };
         gtag('js', new Date());
         gtag('config', gaId);
-        loaders.push(function () {
+        gaLoad = function () {
           var s = document.createElement('script');
           s.async = true; s.src = 'https://www.googletagmanager.com/gtag/js?id=' + gaId;
           document.head.appendChild(s);
-        });
+        };
       }
       var run = function () { loaders.forEach(function (f) { f(); }); };
       var schedule = function () {
         if ('requestIdleCallback' in window) { requestIdleCallback(run, { timeout: 1500 }); } else { setTimeout(run, 300); }
       };
       if (document.readyState === 'complete') { schedule(); } else { window.addEventListener('load', schedule); }
+
+      if (gaLoad) {
+        // Прокрутка, касание, клик, ввод и уход со страницы — любое из них
+        // означает живого посетителя. Уход (pagehide) в списке намеренно:
+        // иначе цель, отправленная прямо перед закрытием, осталась бы в
+        // очереди неотправленной.
+        // Подписка без capture — намеренно. В фазе перехвата window ловит и
+        // прокрутку внутренних контейнеров, а карусель логотипов на главной
+        // прокручивает свой трек сама каждые 2,6 с: GA стартовал бы без
+        // участия посетителя, и вся отсрочка теряла бы смысл (проверено в
+        // браузере). Без capture window получает scroll только от прокрутки
+        // самой страницы, а нажатия и ввод всплывают до него штатно.
+        var GA_EVENTS = ['pointerdown', 'keydown', 'scroll', 'touchstart', 'pagehide'];
+        var gaStarted = false;
+        var startGa = function () {
+          if (gaStarted) return;
+          gaStarted = true;
+          for (var k = 0; k < GA_EVENTS.length; k++) window.removeEventListener(GA_EVENTS[k], startGa);
+          gaLoad();
+        };
+        for (var g = 0; g < GA_EVENTS.length; g++) {
+          window.addEventListener(GA_EVENTS[g], startGa, { passive: true });
+        }
+      }
     })();
   </script>
 )}

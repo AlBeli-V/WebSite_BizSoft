@@ -38,6 +38,8 @@ from datetime import datetime, timedelta, timezone
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import paths  # noqa: E402
+sys.path.insert(0, os.path.join(paths.REPO_ROOT, "scripts", "viz"))
+import kpi_kit as kit  # noqa: E402
 from attack_engine.recommendations import plural  # noqa: E402
 from competitors import classifier  # noqa: E402
 from scoring import threat as threat_mod  # noqa: E402
@@ -85,9 +87,12 @@ def cut(summary: str, body: str, *, note: str = "", open_: bool = False) -> str:
 
 
 def _styles() -> str:
-    return """
-:root{--ink:#101828;--muted:#667085;--line:#EAECF0;--bg:#F9FAFB;
-      --ok:#12B76A;--bad:#D92D20;--brand:#F4511E;--accent:#175CD3;}
+    # Палитра и компоненты — из KPI-kit (scripts/viz/kpi_kit.py): один
+    # визуальный слой у SEO-отчётов и разведки. Тема светлая: страница
+    # самодостаточна и внешних ресурсов (шрифтов, скриптов) не подключает.
+    return kit.light_css() + """
+:root{--ink:var(--kit-ink);--muted:var(--kit-muted);--line:var(--kit-hair);--bg:var(--kit-plane);
+      --ok:var(--kit-good);--bad:var(--kit-crit);--brand:var(--kit-accent);--accent:var(--kit-s1);}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);
      font:15px/1.55 -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Arial,sans-serif;}
@@ -120,8 +125,9 @@ td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
 .tag.H{background:#FEF3F2;color:#B42318;border-color:#FECDCA}
 .tag.A,.tag.B{background:#EFF8FF;color:#175CD3;border-color:#B2DDFF}
 .tag.E,.tag.G,.tag.F{background:#F8F9FC}
-.bar{height:8px;border-radius:4px;background:var(--line);overflow:hidden;min-width:60px}
-.bar i{display:block;height:100%;background:var(--brand)}
+.bar{height:10px;border-radius:0 4px 4px 0;background:var(--kit-q1);overflow:hidden;min-width:60px}
+.bar i{display:block;height:100%;background:var(--kit-s1);border-radius:0 4px 4px 0}
+.kit-dash table{font-size:13.5px}
 .note{background:#FFFAEB;border:1px solid #FEDF89;border-radius:10px;
       padding:12px 14px;font-size:13px;color:#93370D;margin:14px 0}
 .ok{background:#ECFDF3;border-color:#A6F4C5;color:#05603A}
@@ -186,16 +192,21 @@ h2,h3,h4,details{scroll-margin-top:18px}
 """
 
 
-def _kpi_cards(snapshot: dict, previous: dict | None, attacks: list[dict]) -> str:
+def _kpi_cards(snapshot: dict, previous: dict | None, attacks: list[dict],
+               histories: dict[str, list[float]] | None = None,
+               our_history: list[float] | None = None,
+               history_dates: list[str] | None = None) -> str:
+    """Пульт итогов дня: плитки KPI-kit со спарклайном доли и линия «мы и лидеры».
+
+    Дельта считается тем же способом, что и в письме: по пересечению
+    составов ядра. Прямая разность долей двух дней сравнивала бы величины,
+    посчитанные в разных полях, — и расширение ядра выглядело бы падением
+    видимости. 01.09 отчёт из-за этого показывал −2,39 п.п. там, где
+    сравнимая дельта была +0,55.
+    """
     ours = snapshot.get("наши_показатели") or {}
-    prev = (previous or {}).get("наши_показатели") or {}
-    # Дельта считается тем же способом, что и в письме: по пересечению
-    # составов ядра. Прямая разность долей двух дней сравнивала бы величины,
-    # посчитанные в разных полях, — и расширение ядра выглядело бы падением
-    # видимости. 01.09 отчёт из-за этого показывал −2,39 п.п. там, где
-    # сравнимая дельта была +0,55.
     from decision_engine import kpi as kpi_mod
-    delta = "сравнимого дня нет"
+    delta, delta_dir = "сравнимого дня нет", None
     if previous:
         measure = kpi_mod.build_kpi(snapshot, previous)
         if measure.share_delta_pp is not None:
@@ -203,6 +214,7 @@ def _kpi_cards(snapshot: dict, previous: dict | None, attacks: list[dict]) -> st
                      else f", {measure.comparable_core} общих запросов")
             number = f"{measure.share_delta_pp:+.2f}".replace(".", ",")
             delta = f"{number} п.п. к {previous.get('дата')}{basis}"
+            delta_dir = kit.delta_dir(measure.share_delta_pp)
 
     google = kpi_mod.google_block(snapshot)
     g_ours = (google or {}).get("наши_показатели") or {}
@@ -216,18 +228,62 @@ def _kpi_cards(snapshot: dict, previous: dict | None, attacks: list[dict]) -> st
     else:
         g_note = ((snapshot.get("google") or {}).get("причина")
                   or "среза Google в снимке нет")
-    cards = [
-        ("B2B Share · Яндекс", pct(ours.get("доля_видимости")), delta),
-        ("B2B Share · Google", pct(g_ours.get("доля_видимости")) if google else "NO DATA",
-         g_note),
-        ("Запросов в ТОП-3", f"{ours.get('топ3', '—')}", f"из {ours.get('запросов_в_поле', '—')}"),
-        ("Запросов в ТОП-10", f"{ours.get('топ10', '—')}", f"из {ours.get('запросов_в_поле', '—')}"),
-        ("Точек атаки", str(len(attacks)), "мы на 4–20, выше конкурент"),
+    spark = our_history if our_history and len(our_history) >= 2 else \
+        ((histories or {}).get(OURS) if len((histories or {}).get(OURS) or []) >= 2 else None)
+    queries = ours.get("запросов_в_поле", "—")
+    tiles = [
+        kit.stat_tile("B2B Share · Яндекс", pct(ours.get("доля_видимости")),
+                      delta=delta if delta_dir else None, direction=delta_dir,
+                      note=("" if delta_dir else delta),
+                      spark=[100 * v for v in spark] if spark else None,
+                      color=kit.series_color("ours"),
+                      meta="доля взвешенной видимости в поле запросов"),
+        kit.stat_tile("B2B Share · Google",
+                      pct(g_ours.get("доля_видимости")) if google else "NO DATA",
+                      note=g_note, muted=not google, color=kit.series_color("google")),
+        kit.stat_tile("В ТОП-3 органики", str(ours.get("топ3", "—")), f"из {queries}",
+                      note="без рекламы и колдунщиков"),
+        kit.stat_tile("В ТОП-10 органики", str(ours.get("топ10", "—")), f"из {queries}",
+                      note="без рекламы и колдунщиков"),
+        kit.stat_tile("Точек атаки", str(len(attacks)), note="мы на 4–20, выше конкурент"),
     ]
-    return '<div class="cards">' + "".join(
-        f'<div class="card"><div class="k">{esc(k)}</div>'
-        f'<div class="v">{esc(v)}</div><div class="d">{esc(d)}</div></div>'
-        for k, v, d in cards) + "</div>"
+    chart = _share_history_chart(snapshot, histories or {}, history_dates or [])
+    return kit.dash(kit.kpi_row(tiles), chart, title="Итоги дня",
+                    period=f"срез {snapshot.get('дата', '')} · Яндекс, Москва")
+
+
+def _share_history_chart(snapshot: dict, histories: dict[str, list[float]],
+                         dates: list[str]) -> str:
+    """Линия долей: мы и три ближайших лидера на одной шкале времени.
+
+    Ряд домена берётся только если он есть в каждом дне ряда — иначе точки
+    домена сдвинулись бы относительно оси дат.
+    """
+    ours = histories.get(OURS) or []
+    n = len(dates) if dates else len(ours)
+    if n < 3 or len(ours) != n:
+        return ""
+    leaders = sorted((d for d in (snapshot.get("лидеры") or []) if d["домен"] != OURS),
+                     key=lambda d: -(d.get("доля") or 0))
+    series = [{"name": OURS, "values": [100 * v for v in ours],
+               "color": kit.series_color("ours")}]
+    slots = ["s2", "s3", "s4"]
+    for d in leaders:
+        if not slots:
+            break
+        h = histories.get(d["домен"]) or []
+        if len(h) != n:
+            continue
+        series.append({"name": d["домен"], "values": [100 * v for v in h],
+                       "color": kit.tok(slots.pop(0))})
+    labels = [f"{d[8:10]}.{d[5:7]}" if len(d) >= 10 else d for d in dates] or \
+        [str(i + 1) for i in range(n)]
+    chart = kit.line_chart(series, labels, w=980, h=220, ticks=4, title="Доля видимости, %",
+                           fmt=lambda v: f"{v:g}".replace(".", ","))
+    return ('<div class="kit-panel" style="grid-template-columns:1fr">'
+            '<div><h4>Доля видимости по дням: мы и ближайшие лидеры</h4>'
+            '<p class="kit-hint">проценты взвешенной видимости; наведение показывает '
+            'значения дня</p>' + chart + '</div></div>')
 
 
 def _google_block(snapshot: dict) -> str:
@@ -295,7 +351,7 @@ def _google_block(snapshot: dict) -> str:
             '<div class="scroll"><table><tr><th>Запрос</th><th>Яндекс</th>'
             '<th>Кто в топ-3 Google</th></tr>' + "".join(
                 f'<tr><td class="q">{esc(i["запрос"])}</td>'
-                f'<td class="num">№{esc(i["позиция_яндекс"])}</td>'
+                f'<td class="num">органика №{esc(i["позиция_яндекс"])}</td>'
                 f'<td class="q">{esc(", ".join(d for d in i["google_топ3"] if d))}</td></tr>'
                 for i in ya_only[:25]) + '</table></div>')
     if g_only:
@@ -325,23 +381,27 @@ def _google_block(snapshot: dict) -> str:
 
 
 def _category_table(snapshot: dict) -> str:
+    """Кто держит выдачу: таблица-дашборд KPI-kit с полосой доли."""
     shares = snapshot.get("доли_по_категориям") or {}
     leaders = snapshot.get("лидеры") or []
+    top = max(shares.values()) if shares else 1
     rows = []
     for cat, share in sorted(shares.items(), key=lambda kv: kv[1], reverse=True):
         name = classifier.CATEGORY_NAMES.get(cat, cat)
         in_rank = classifier.in_main_ranking(cat)
-        top = [d["домен"] for d in leaders if d.get("категория") == cat][:3]
-        width = min(100, 100 * share / max(shares.values()))
-        rows.append(
-            f'<tr><td><span class="tag {esc(cat)}">{esc(cat)}</span> {esc(name)}</td>'
-            f'<td class="num">{pct(share)}</td>'
-            f'<td style="width:140px"><div class="bar"><i style="width:{width:.0f}%"></i></div></td>'
-            f'<td class="q">{esc(", ".join(top)) if top else "—"}</td>'
-            f'<td>{"да" if in_rank else "нет"}</td></tr>')
-    return ('<div class="scroll"><table><tr><th>Категория</th>'
-            '<th class="num">Доля видимости</th><th></th><th>Кто внутри</th>'
-            '<th>В рейтинге</th></tr>' + "".join(rows) + "</table></div>")
+        who = [d["домен"] for d in leaders if d.get("категория") == cat][:3]
+        rows.append({
+            "cat": f'<span class="tag {esc(cat)}">{esc(cat)}</span> {esc(name)}',
+            "share": kit.bar_cell(share, top, kit.tok("s1") if in_rank else kit.tok("gray"),
+                                  text=pct(share)),
+            "who": f'<span class="q">{esc(", ".join(who)) if who else "—"}</span>',
+            "rank": kit.chip("в рейтинге", "good") if in_rank else kit.chip("вне рейтинга", "neutral"),
+        })
+    return kit.dense_table(
+        [{"key": "cat", "label": "Категория"},
+         {"key": "share", "label": "Доля видимости", "align": "right"},
+         {"key": "who", "label": "Кто внутри"},
+         {"key": "rank", "label": "В рейтинге"}], rows)
 
 
 def _leaderboard(cards: list[dict], usable: int,
@@ -795,6 +855,65 @@ A/B-тест на поисковой выдаче. Контрольная гру
 {lessons}"""
 
 
+def _position_check_block(measure: dict | None, verdict: dict | None) -> str:
+    """Насколько позиция среза расходится с позицией показа по Вебмастеру.
+
+    Блок появился после разбора 04.09.2026: отчёт назвал нас первыми там, где
+    ручная проверка выдачи показала второе место под четырьмя объявлениями.
+    Срез не врал — он приходит из Search API, где рекламы и колдунщиков нет
+    вовсе, и меряет органическую позицию в индексе API, а не место, которое
+    видит человек. Раз величины разные, отчёт обязан показывать, насколько они
+    разошлись, а не молчать об этом.
+    """
+    if not measure:
+        return ""
+    if not measure.get("доступна"):
+        return (f'<h3 id="poscheck">Сверка позиции с Вебмастером</h3>'
+                f'<div class="note">Не выполнена: {esc(measure.get("причина"))}. '
+                f'Пока сверки нет, расхождение органической позиции с местом '
+                f'в фактической выдаче не измерено — это неизвестность, а не '
+                f'подтверждение точности.</div>')
+    bands = "".join(
+        f'<tr><td>{esc(b["диапазон"])}</td>'
+        f'<td class="num">{b["запросов"]}</td>'
+        f'<td class="num">{b["медиана"]:+.2f}</td></tr>'
+        for b in measure.get("по_диапазонам") or [])
+    alarm = (verdict or {}).get("тревога")
+    note = (f'<div class="note{"" if alarm else " ok"}">'
+            f'{esc((verdict or {}).get("объяснение", ""))}</div>')
+    return (
+        f'<h3 id="poscheck">Сверка позиции с Вебмастером — '
+        f'{plural(measure["сопоставлено"], "запрос", "запроса", "запросов")}</h3>'
+        f'<p class="lead">Позиция в срезе — <b>органическая</b>: Yandex Cloud '
+        f'Search API отдаёт только документы выдачи, без рекламных блоков и '
+        f'колдунщиков. Вебмастер даёт другую величину — среднюю позицию '
+        f'показа в фактической выдаче со всеми её блоками. Сравнение двух '
+        f'величин показывает, насколько наши цифры расходятся с тем, что видит '
+        f'человек. Окно Вебмастера: {esc(measure["окно_вебмастера"])}; из '
+        f'сверки исключены '
+        f'{plural(measure["исключено_новых_страниц"], "запрос", "запроса", "запросов")} '
+        f'со страницами, созданными после этого окна — там сравнивать не с чем.</p>'
+        f'<p class="lead">Медиана расхождения '
+        f'<b>{measure["медиана_расхождения"]:+.2f}</b> позиции; срез '
+        f'оптимистичнее Вебмастера по {measure["срез_оптимистичнее"]} запросам '
+        f'из {measure["сопоставлено"]} '
+        f'({pct(measure["доля_оптимистичных"], 0)}), пессимистичнее — по '
+        f'{measure["срез_пессимистичнее"]}.</p>'
+        + note
+        + cut("Расхождение по диапазонам позиций",
+              '<div class="scroll"><table><tr><th>Позиция в срезе</th>'
+              '<th class="num">Запросов</th>'
+              '<th class="num">Медиана расхождения</th></tr>'
+              + bands + '</table></div>',
+              note="сдвиг неравномерен — значит дело не только в рекламе")
+        + '<p class="q">Чего сверка не даёт: она меряет размер расхождения, но '
+          'не его причину. Разложить его на вклад рекламы и вклад ранжирования '
+          'нечем: все доступные автоматические источники — Search API, xmlriver '
+          'и сам Вебмастер — видят только органику, а место, которое видит '
+          'человек, ни одним из них не измеряется: проверено пробами обоих '
+          'источников. Это граница контура, названная прямо.</p>')
+
+
 def _stale_occupancy_block(stale: list[dict] | None) -> str:
     """Чужие эксперименты, чьё окно замера прошло, а статус остался рабочим.
 
@@ -872,7 +991,8 @@ def _toc(snapshot: dict, leaders: list[dict], packages: list[dict] | None,
          attacks: list[dict], experiments: list | None,
          on_watch: list[dict] | None = None, detail_limit: int = 10,
          to_verify: list[dict] | None = None,
-         stale_occupancy: list[dict] | None = None) -> str:
+         stale_occupancy: list[dict] | None = None,
+         position_check: dict | None = None) -> str:
     """Плавающее меню: вся структура отчёта, включая блоки под катом.
 
     Верхняя навигация даёт семь ссылок на разделы — этого мало: работа
@@ -891,6 +1011,8 @@ def _toc(snapshot: dict, leaders: list[dict], packages: list[dict] | None,
         items += [link("google", "Google, Россия"),
                   link("google-gap", "Разрыв с Яндексом"),
                   link("google-attacks", "Точки атаки в Google")]
+    if position_check:
+        items.append(link("poscheck", "Сверка позиции с Вебмастером"))
 
     items.append(link("l2", "2 · Конкуренты по уровню угрозы", "l1"))
 
@@ -1010,7 +1132,11 @@ def build(date: str, snapshot: dict, previous: dict | None,
           on_watch: list[dict] | None = None,
           systemic: list | None = None,
           to_verify: list[dict] | None = None,
-          stale_occupancy: list[dict] | None = None) -> str:
+          stale_occupancy: list[dict] | None = None,
+          position_check: dict | None = None,
+          position_verdict: dict | None = None,
+          our_history: list[float] | None = None,
+          history_dates: list[str] | None = None) -> str:
     """Собирает самодостаточный HTML-отчёт."""
     ours = snapshot.get("наши_показатели") or {}
     coverage = snapshot.get("покрытие") or {}
@@ -1033,9 +1159,11 @@ def build(date: str, snapshot: dict, previous: dict | None,
         'выданных поручений отслеживается с 01.09.2026 — раздел 6.</div>')
 
     toc = _toc(snapshot, leaders, packages, attacks, experiments, on_watch,
-               to_verify=to_verify, stale_occupancy=stale_occupancy)
+               to_verify=to_verify, stale_occupancy=stale_occupancy,
+               position_check=position_check)
     verify_block = _verify_block(to_verify)
     stale_block = _stale_occupancy_block(stale_occupancy)
+    poscheck_block = _position_check_block(position_check, position_verdict)
     # Статус точки атаки ищется по всем пакетам дня, включая снятые с очереди:
     # иначе запрос, по которому пакет есть, значился бы «вне плана работ».
     planned = (packages or []) + (on_watch or []) + (to_verify or [])
@@ -1071,7 +1199,7 @@ def build(date: str, snapshot: dict, previous: dict | None,
 </nav>
 
 <h2 id="l1">1 · Итоги дня</h2>
-{_kpi_cards(snapshot, previous, attacks)}
+{_kpi_cards(snapshot, previous, attacks, histories, our_history, history_dates)}
 {maturity}
 
 <h3 id="cat">Кто держит коммерческую выдачу</h3>
@@ -1083,6 +1211,8 @@ def build(date: str, snapshot: dict, previous: dict | None,
 {_category_table(snapshot)}
 
 {_google_block(snapshot)}
+
+{poscheck_block}
 
 <h2 id="l2">2 · Конкуренты по уровню угрозы</h2>
 <p class="lead">Threat — насколько конкурент опасен сейчас: доля
@@ -1200,6 +1330,7 @@ BIZSoft Competitive Intelligence · отчёт за {esc(date)} ·
 </div>
 {toc}
 <script>{_toc_script()}</script>
+<script>{kit.kit_js()}</script>
 </body></html>"""
 
 
@@ -1233,15 +1364,19 @@ def main(argv: list[str]) -> int:
     packages = work_packages.to_dicts(work_packages.build(attacks))
 
     histories: dict[str, list[float]] = {}
+    past_snapshots: list[dict] = []
     for past_date in dates:
         if past_date > date:
             continue
         past = kpi_mod.load_snapshot(past_date) or {}
+        past_snapshots.append(past)
         for leader in (past.get("лидеры") or []):
             histories.setdefault(leader["домен"], []).append(leader.get("доля") or 0.0)
+    our_history, _ = kpi_mod.comparable_series(past_snapshots)
 
     page = build(date, snapshot, previous, attacks, full_cards, rows,
-                 packages=packages, histories=histories)
+                 packages=packages, histories=histories, our_history=our_history,
+                 history_dates=[p.get("дата") or "" for p in past_snapshots])
     os.makedirs(paths.ARCHIVE_DIR, exist_ok=True)
     archive = os.path.join(paths.ARCHIVE_DIR, f"{date}.html")
     latest = os.path.join(paths.REPORTS_DIR, "latest.html")
