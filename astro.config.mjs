@@ -13,8 +13,16 @@ export default defineConfig({
   // отдаёт статику (about/index.html → /about). Редирект слеша делает nginx.
   trailingSlash: 'never',
   adapter: node({ mode: 'standalone' }),
+  build: {
+    // Весь CSS страницы — инлайном в <head>. При assetsInlineLimit: 0 (ниже)
+    // режим 'auto' не инлайнил ни одного файла, и главная тянула 15 отдельных
+    // блокирующих таблиц стилей (Lighthouse, render-blocking: ~2 с на
+    // мобильном профиле). Один документ вместо шестнадцати запросов до первой
+    // отрисовки: ~8 КБ gzip в HTML против 15 сетевых кругов до сервера в РФ.
+    inlineStylesheets: 'always',
+  },
   vite: {
-    // Шрифты остаются на font-display: swap (дефолт @fontsource): фирменный
+    // Шрифты остаются на font-display: swap (см. @font-face в global.css): фирменный
     // Raleway/Prosto One появляется сразу после загрузки даже при первом визите.
     // (Прежний рерайт swap → optional оставлял первый визит на системном
     // фолбэке — сайт выглядел «со старым шрифтом» в инкогнито/без кэша.)

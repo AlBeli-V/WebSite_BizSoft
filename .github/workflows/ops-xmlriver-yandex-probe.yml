@@ -1,0 +1,85 @@
+# Проба выдачи Яндекса через xmlriver — один платный запрос, только чтение.
+#
+# expires: 2026-10-04 — одноразовая диагностика. Если к этой дате решение по
+# источнику эталона принято, workflow удаляется вместе со скриптом пробы.
+#
+# Повод (решение руководителя 04.09.2026). Эталонный замер живой выдачи через
+# Chromium провалился на капче: 24 запроса из 26. Два уцелевших замера
+# показали расхождение с ежедневным срезом при нулевой рекламе на странице —
+# значит вопрос уже не в рекламе, а в ранжировании самого Search API.
+# Ответить на него может второй независимый источник выдачи; xmlriver для
+# Google в проекте работает с 03.09, и вопрос в том, годится ли он по Яндексу.
+#
+# Проба отвечает на три вещи: отвечает ли Яндекс-эндпоинт сервиса; приходят
+# ли в ответе рекламные блоки (от этого зависит, достижим ли вообще
+# absolute_position); насколько выдача расходится с нашим ежедневным срезом.
+# Стоимость — один запрос (25 ₽/1000 → 0,025 ₽). Сайт и кабинеты не трогает.
+#
+# Ручной запуск — только с main (правило проекта о production-workflow).
+name: ops-xmlriver-yandex-probe
+
+on:
+  workflow_dispatch:
+    inputs:
+      query:
+        description: 'Запрос пробы (по умолчанию — из разбора расхождения)'
+        required: false
+        default: 'оплата depositphotos из россии'
+      endpoint:
+        description: 'Адрес эндпоинта Яндекса; пусто — перебрать известные'
+        required: false
+        default: ''
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Guard - only default branch
+        if: github.ref != 'refs/heads/main'
+        run: |
+          echo "::error::Запуск разрешён только с ветки main (правило проекта)"
+          exit 1
+
+      # always() — шаг журнала ниже тоже always(): без этого при падении
+      # раннего шага checkout пропустится и запись в issue не пройдёт.
+      - name: Checkout
+        if: always()
+        uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      # Ежедневный срез нужен для сверки: проба сравнивает выдачу xmlriver с
+      # тем, что в тот же день записал Search API.
+      - name: Fetch seo-data
+        run: git fetch origin seo-data --quiet
+
+      - name: Probe xmlriver (Yandex)
+        id: run
+        env:
+          XMLRIVER_USER: ${{ secrets.XMLRIVER_USER }}
+          XMLRIVER_KEY: ${{ secrets.XMLRIVER_KEY }}
+          QUERY: ${{ inputs.query }}
+          ENDPOINT: ${{ inputs.endpoint }}
+        run: |
+          pip install --quiet requests
+          rc=0
+          {
+            echo 'result<<PROBE_EOF'
+            python3 scripts/seo/xmlriver_yandex_probe.py "$QUERY" $ENDPOINT 2>&1 || rc=$?
+            echo 'PROBE_EOF'
+          } >> "$GITHUB_OUTPUT"
+          exit $rc
+
+      - name: Post to issue
+        if: always()
+        uses: ./.github/actions/journal-post
+        with:
+          title: "ops-xmlriver-yandex-probe (выдача Яндекса через xmlriver)"
+          outcome: ${{ steps.run.outcome }}
+          body: ${{ steps.run.outputs.result }}

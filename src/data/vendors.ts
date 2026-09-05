@@ -301,7 +301,7 @@ export const VENDORS: VendorEntry[] = [
   // странице подписки вендора). Знак — глиф правообладателя MiniMax,
   // подключён через ALIAS hailuo→minimax в src/data/vendor-icons.ts.
   { slug: 'hailuo', vendor: 'Hailuo AI', title: 'Hailuo AI', legalName: 'MiniMax (Shanghai MiniMax Technology Co., Ltd.)', brandColor: '#E73562', site: 'https://hailuoai.video', catSeg: 'ai', catLabel: 'AI-сервисы', domain: 'ai',
-    tagline: 'Генеративное видео Hailuo от MiniMax: тарифы Standard, Pro и Max с месячным пулом кредитов.',
+    tagline: 'Генеративное видео Hailuo от MiniMax: тарифы Standard, Pro, Master и Max с месячным пулом кредитов и пакеты дополнительных кредитов.',
     about: 'Hailuo AI — сервис генеративного видео компании MiniMax: ролик создаётся по текстовому описанию или оживляет статичный кадр. Тарифы отличаются месячным пулом кредитов, длиной и качеством роликов и приоритетом в очереди генерации; на старших планах доступен режим генерации без списания кредитов. Применяется в рекламе, контенте для соцсетей и превизуализации, где видеоряд нужен без съёмки.' },
   { slug: 'higgsfield', vendor: 'Higgsfield', legalName: 'Higgsfield AI, Inc.', brandColor: '#101014', site: 'https://higgsfield.ai', catSeg: 'ai', catLabel: 'AI-сервисы', domain: 'ai',
     tagline: 'AI-генерация видео для рекламы и соцсетей: управление камерой, спецэффекты и генерация по кадру.',

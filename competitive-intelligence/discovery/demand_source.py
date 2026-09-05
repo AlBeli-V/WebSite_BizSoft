@@ -62,15 +62,14 @@ def frequency(phrase: str, table: dict[str, int] | None = None) -> int | None:
 
 
 @lru_cache(maxsize=1)
-def load_impressions(branch: str = SEO_BRANCH) -> dict[str, int]:
-    """Показы запросов из Яндекс.Вебмастера — запасная мера спроса.
+def load_webmaster(branch: str = SEO_BRANCH) -> dict:
+    """Свежая выгрузка Яндекс.Вебмастера целиком. Читается один раз за прогон.
 
-    Частотность Wordstat покрывает лишь часть ядра (ядро SERP-мониторинга
-    строится в том числе из запросов Вебмастера, которых в базе Wordstat
-    нет). Показы отвечают на другой вопрос — сколько раз нас уже показали, —
-    но как мера объёма спроса годятся и покрывают заметно больше запросов.
-    Источник всегда помечается, чтобы две разные величины не смешивались
-    молча.
+    Из неё берутся две разные величины: показы (мера спроса) и средняя
+    позиция показа (эталон для сверки с нашим срезом выдачи). Раньше файл
+    читался только ради показов, и позиции пропадали зря — а это единственное
+    в контуре измерение позиции, сделанное самим Яндексом по фактической
+    выдаче, а не по API.
     """
     try:
         listing = subprocess.run(
@@ -86,17 +85,57 @@ def load_impressions(branch: str = SEO_BRANCH) -> dict[str, int]:
     try:
         blob = subprocess.run(["git", "show", f"origin/{branch}:{files[-1]}"],
                               capture_output=True, text=True, check=True).stdout
-        data = json.loads(blob)
+        return json.loads(blob)
     except (subprocess.CalledProcessError, json.JSONDecodeError):
         return {}
 
+
+def load_impressions(branch: str = SEO_BRANCH) -> dict[str, int]:
+    """Показы запросов из Яндекс.Вебмастера — запасная мера спроса.
+
+    Частотность Wordstat покрывает лишь часть ядра (ядро SERP-мониторинга
+    строится в том числе из запросов Вебмастера, которых в базе Wordstat
+    нет). Показы отвечают на другой вопрос — сколько раз нас уже показали, —
+    но как мера объёма спроса годятся и покрывают заметно больше запросов.
+    Источник всегда помечается, чтобы две разные величины не смешивались
+    молча.
+    """
     result: dict[str, int] = {}
-    for item in ((data.get("popular_queries") or {}).get("queries") or []):
+    for item in ((load_webmaster(branch).get("popular_queries") or {})
+                 .get("queries") or []):
         phrase = item.get("query_text")
         shows = (item.get("indicators") or {}).get("TOTAL_SHOWS")
         if phrase and shows is not None:
             result[_normalize(phrase)] = int(shows)
     return result
+
+
+def load_positions(branch: str = SEO_BRANCH) -> dict[str, dict]:
+    """Средняя позиция показа по данным Вебмастера: фраза → позиция и показы.
+
+    `AVG_SHOW_POSITION` — позиция, на которой нас фактически показывали в
+    выдаче Яндекса, со всеми её блоками. Наш срез приходит из Search API и
+    содержит только органические документы. Это разные величины, и сравнение
+    одной с другой — единственный доступный контуру способ узнать, насколько
+    срез расходится с тем, что видит пользователь.
+    """
+    result: dict[str, dict] = {}
+    for item in ((load_webmaster(branch).get("popular_queries") or {})
+                 .get("queries") or []):
+        phrase = item.get("query_text")
+        indicators = item.get("indicators") or {}
+        position = indicators.get("AVG_SHOW_POSITION")
+        if phrase and position is not None:
+            result[_normalize(phrase)] = {
+                "позиция": float(position),
+                "показов": float(indicators.get("TOTAL_SHOWS") or 0)}
+    return result
+
+
+def webmaster_window(branch: str = SEO_BRANCH) -> tuple[str, str]:
+    """Окно, за которое посчитаны позиции и показы Вебмастера."""
+    block = load_webmaster(branch).get("popular_queries") or {}
+    return block.get("date_from") or "", block.get("date_to") or ""
 
 
 def demand(phrase: str) -> tuple[int | None, str]:

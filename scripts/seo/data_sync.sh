@@ -9,11 +9,24 @@
 #   data_sync.sh pull            — данные из origin/seo-data в рабочую копию
 #   data_sync.sh push "<сообщение>" [каталоги] — результаты в seo-data;
 #       третий аргумент (список каталогов через пробел) ограничивает push
-#       каталогами-владениями прогона. Push — полная замена каталога, и
-#       30.08 три одновременно стартовавших workflow затёрли друг другу
-#       свежие файлы: поздний прогон принёс устаревшую копию чужого
-#       каталога. Каждый workflow пушит только своё; без третьего
-#       аргумента (сессия, Routine) — все каталоги, как раньше.
+#       каталогами-владениями прогона. Каждый workflow пушит только своё;
+#       без третьего аргумента (сессия, Routine) — все каталоги.
+#
+# Отправляются только файлы, которые прогон действительно изменил
+# (решение руководителя 04.09.2026). Прежде push был полной заменой
+# каталога: в хранилище уезжала вся рабочая копия, включая файлы, снятые
+# pull-ом в начале прогона и с тех пор обновлённые кем-то другим. Так
+# терялись чужие правки — 30.08 три одновременных workflow затёрли друг
+# другу свежие файлы, 29.08 push откатил почтовый маркер на сутки и
+# сторож отправил письмо повторно (issue #230), 31.08 сборщик удалил
+# свежий site-check через 26 секунд после записи, 04.09 проверка живых
+# страниц затёрла реестр экспериментов через минуту после правки.
+# Точечные списки исключений закрывали каждый случай по отдельности —
+# теперь механизм общий: pull запоминает снятую версию хранилища
+# (метка в .git), push сверяет с ней каждый файл и трогает лишь
+# отличающиеся. Файл, удалённый прогоном, удаляется и в хранилище;
+# файл, которого прогон не касался, остаётся версии хранилища, какой бы
+# свежей она ни была.
 #
 # push устойчив к гонке с параллельными прогонами (Wordstat пишет в ту же
 # ветку): rebase -X theirs и три попытки, как в прежней схеме. Машинные
@@ -23,6 +36,11 @@ set -euo pipefail
 BRANCH=seo-data
 DIRS=(reports/seo/data reports/seo/serp reports/seo/wordstat
       reports/seo/intelligence reports/seo/public reports/seo/ppc)
+
+# Метка версии, снятой последним pull: по ней push отличает «этот файл
+# изменил прогон» от «этот файл лежал так с момента pull». Живёт в .git,
+# а не в рабочей копии, чтобы не уехать в хранилище вместе с данными.
+BASELINE_FILE="$(git rev-parse --git-dir)/seo-data-baseline"
 
 cmd=${1:?использование: data_sync.sh pull | push \"сообщение\"}
 
@@ -35,6 +53,7 @@ case "$cmd" in
         git restore --source "origin/$BRANCH" --worktree -- "$d"
       fi
     done
+    git rev-parse "origin/$BRANCH" > "$BASELINE_FILE"
     echo "данные накатаны из origin/$BRANCH"
     ;;
 
@@ -51,45 +70,46 @@ case "$cmd" in
       done
       DIRS=("${scoped[@]}")
     fi
+    if [ -s "$BASELINE_FILE" ] && git cat-file -e "$(cat "$BASELINE_FILE")^{commit}" 2>/dev/null; then
+      base=$(cat "$BASELINE_FILE")
+    else
+      # Метки нет: pull в этом прогоне не делали (или .git не переживил шаг).
+      # Сверять не с чем, поэтому за исходное берётся текущее состояние
+      # хранилища — отправятся файлы, отличающиеся от него прямо сейчас.
+      base=$(git rev-parse "origin/$BRANCH")
+      echo "внимание: метки pull нет, изменения считаются от текущего $BRANCH"
+    fi
+
     tmp=$(mktemp -d)
     trap 'git worktree remove --force "$tmp" 2>/dev/null || true' EXIT
     git worktree add --quiet --detach "$tmp" "origin/$BRANCH"
 
+    changed=0 removed=0 kept=0
     for d in "${DIRS[@]}"; do
-      [ -d "$d" ] || continue
-      # Полная замена каталога, а не наложение: удалённый прогоном файл
-      # (например, истёкший кэш) должен исчезнуть и из хранилища, иначе оно
-      # только растёт. rsync не используется — его нет в контейнере сессии.
-      rm -rf "${tmp:?}/$d"
-      mkdir -p "$(dirname "$tmp/$d")"
-      cp -a "$d" "$tmp/$d"
-    done
-
-    # Служебные маркеры почтового workflow пишет только сам workflow (шаг
-    # Record marker). Копия маркера в рабочей копии прогона снята pull-ом и
-    # могла устареть за время прогона: 29.08 такой push откатил last-mailed
-    # на сутки и сторож повторно отправил уже отправленное письмо
-    # (issue #230). Поэтому маркеры всегда остаются версии хранилища;
-    # сознательная правка маркера — прямым коммитом в seo-data мимо
-    # data_sync (как при восстановлении 26.08).
-    for f in reports/seo/intelligence/last-mailed.txt \
-             reports/seo/intelligence/last-notice.txt \
-             reports/seo/intelligence/last-period-mailed.json; do
-      if git cat-file -e "origin/$BRANCH:$f" 2>/dev/null; then
-        git -C "$tmp" checkout -- "$f" 2>/dev/null || true
+      # Файлы рабочей копии: отправляются новые и изменённые с момента pull.
+      if [ -d "$d" ]; then
+        while IFS= read -r f; do
+          if git cat-file -e "$base:$f" 2>/dev/null \
+             && git show "$base:$f" 2>/dev/null | cmp -s - "$f"; then
+            kept=$((kept + 1))          # прогон не трогал — версия хранилища
+            continue
+          fi
+          mkdir -p "$tmp/$(dirname "$f")"
+          cp -a "$f" "$tmp/$f"
+          changed=$((changed + 1))
+        done < <(find "$d" -type f)
       fi
+      # Файлы, удалённые прогоном: были в снятой версии, в рабочей копии нет.
+      # Истёкший кэш должен исчезнуть и из хранилища, иначе оно только растёт.
+      while IFS= read -r f; do
+        [ -n "$f" ] || continue
+        if [ ! -e "$f" ]; then
+          rm -f "$tmp/$f"
+          removed=$((removed + 1))
+        fi
+      done < <(git ls-tree -r --name-only "$base" -- "$d" 2>/dev/null)
     done
-
-    # Файлы проверки живых страниц пишет только workflow seo-site-check.
-    # Параллельный прогон, снявший копию каталога до его пуша, не должен их
-    # затирать полной заменой: 31.08 сборщик данных удалил свежий
-    # site-check-2026-08-31.json через 26 секунд после записи, и письмо
-    # написало «нет данных» о выкате. Локальный файл (у самого site-check)
-    # новее и остаётся; отсутствующий локально — восстанавливается.
-    git ls-tree -r --name-only "origin/$BRANCH" -- reports/seo/intelligence \
-      | grep '/site-check-' | while read -r f; do
-      [ -f "$f" ] || git -C "$tmp" checkout -- "$f" 2>/dev/null || true
-    done
+    echo "к отправке: изменено $changed, удалено $removed; оставлено версии хранилища: $kept"
 
     # Копии workflow в seo-data (push-триггер исполняет файл из пушенной
     # ветки). Обновлять их может только сессия: GITHUB_TOKEN воркфлоу не
