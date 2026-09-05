@@ -23,7 +23,7 @@ import VendorIcon from '../components/VendorIcon.astro';
 import { vendorSlug } from '../lib/vendor-links';
 import { site, seller } from '../config/site';
 import { POPULAR_VENDORS } from '../data/popular';
-import { getProducts } from '../lib/directus';
+import { getCatalogFacets, getProductsBySlugs } from '../lib/directus';
 import { effectivePrice, formatRub } from '../lib/pricing';
 import type { Product } from '../lib/types';
 
@@ -48,21 +48,36 @@ function textOn(hex: string): string {
   return lum > 0.62 ? '#1d1d1f' : '#ffffff';
 }
 
+// Кураторский список бестселлеров (slug'и подтверждены в БД).
+const POPULAR_SLUGS = ['chatgpt-business', 'anthropic-team', 'ghcopilot-business', 'cursor-business', 'mscopilot-m365', 'gemini-workspace-standard', 'mj-standard', 'recraft-advanced'];
+
 // ── Живые данные каталога: цифры доверия, плитки категорий, товары с ценами ──
-let all: Product[] = [];
-try {
-  all = await getProducts();
-} catch (e) {
-  console.error('home products error', e);
-}
-const catSlug = (p: Product) => (typeof p.category === 'object' && p.category ? p.category.slug : '');
-const productCount = all.length;
-const vendorCount = new Set(all.map((p) => p.vendor).filter(Boolean)).size;
+//
+// Две узкие выборки вместо одной полной. Прежде главная брала весь каталог
+// через getProducts() — с описаниями, SEO-текстами, характеристиками и
+// вопросами по каждой позиции, — хотя ей нужны только счётчики и восемь
+// карточек. После истечения кэша первый запрос оплачивал всю выгрузку, и
+// главная проваливалась по времени ответа: три подряд замера Lighthouse на
+// одном и том же коде дали 52, 73 и 95 баллов. Теперь счётчики берутся из
+// среза в два поля, а карточки — по списку слагов.
+const [facets, popularRows] = await Promise.all([
+  getCatalogFacets().catch((e) => {
+    console.error('home facets error', e);
+    return [] as Awaited<ReturnType<typeof getCatalogFacets>>;
+  }),
+  getProductsBySlugs(POPULAR_SLUGS).catch((e) => {
+    console.error('home popular error', e);
+    return [] as Product[];
+  }),
+]);
+const facetSlug = (f: (typeof facets)[number]) => f.category?.slug ?? '';
+const productCount = facets.length;
+const vendorCount = new Set(facets.map((f) => f.vendor).filter(Boolean)).size;
 // округляем вниз до десятка — «380+»
 const tenDown = (n: number) => `${Math.max(10, Math.floor(n / 10) * 10)}+`;
 
-const catCount = (pred: (s: string) => boolean) => all.filter((p) => pred(catSlug(p))).length;
-const firstPresent = (slugs: string[]) => slugs.find((s) => all.some((p) => catSlug(p) === s));
+const catCount = (pred: (s: string) => boolean) => facets.filter((f) => pred(facetSlug(f))).length;
+const firstPresent = (slugs: string[]) => slugs.find((s) => facets.some((f) => facetSlug(f) === s));
 const tiles = [
   { icon: 'ai', name: 'AI-сервисы', href: '/catalog/ai', note: 'ChatGPT, Claude, Copilot, Midjourney', count: catCount((s) => s.startsWith('ai')) },
   { icon: 'design', name: 'Дизайн и графика', href: `/catalog/${firstPresent(['design', 'graphics-design']) || 'design'}`, note: 'Figma, Adobe, Canva, CorelDRAW', count: catCount((s) => ['design', 'graphics-design'].includes(s)) },
@@ -70,9 +85,9 @@ const tiles = [
   { icon: 'video', name: 'Видео и медиа', href: `/catalog/${firstPresent(['media']) || 'media'}`, note: 'DaVinci, Avid, Runway', count: catCount((s) => s === 'media') },
 ].filter((t) => t.count > 0);
 
-// Кураторский список бестселлеров (slug'и подтверждены в БД).
-const POPULAR_SLUGS = ['chatgpt-business', 'anthropic-team', 'ghcopilot-business', 'cursor-business', 'mscopilot-m365', 'gemini-workspace-standard', 'mj-standard', 'recraft-advanced'];
-const bySlug = new Map(all.map((p) => [p.slug, p]));
+// Порядок карточек задаёт список выше: выборка по слагам возвращает строки в
+// порядке базы, а витрина показывает бестселлеры в кураторском порядке.
+const bySlug = new Map(popularRows.map((p) => [p.slug, p]));
 const popular = POPULAR_SLUGS.map((s) => bySlug.get(s)).filter((p): p is Product => Boolean(p));
 // Hero-карточки: первые 4 бестселлера с известной ценой.
 const heroCards = popular.filter((p) => effectivePrice(p).price > 0).slice(0, 4);

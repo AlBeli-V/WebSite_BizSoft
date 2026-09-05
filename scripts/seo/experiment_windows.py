@@ -15,6 +15,20 @@
               постраничным обходом (без усечения до топ-100). Запускается
               из seo-data-collect (там есть токен Вебмастера). Файл, который
               уже есть, повторно не выгружается.
+  validate  — правило руководителя 04.09.2026: новый эксперимент заводится
+              только на кластере с экспозицией выше порога. Проверяются
+              записи `planned` и `running`, заведённые с даты правила;
+              возврат 1, если правило нарушено. Запускать перед отправкой
+              реестра в seo-data.
+  backfill  — проставляет фиксированное baseline-окно уже идущим
+              экспериментам, заведённым до появления этого слоя (решение
+              руководителя 04.09.2026). Их baseline брался из скользящей
+              выгрузки, а у SEO-EXP-001 и CONTENT-001 — из усечённой (100
+              запросов вместо полутора тысяч): вердикты на вехе 16.09
+              опирались бы на тот же слабый базис, из-за которого
+              SEO-EXP-002 не дал вывода. Окно «после» остаётся скользящим —
+              его задним числом не построить, и сравнение честно помечается
+              предварительным.
 
 Оба режима идемпотентны и молчат, если делать нечего: контур работает на
 автомате, без обращений к руководителю.
@@ -108,6 +122,34 @@ def activate(reg: dict, today: dt.date, site: str = SITE,
 
 # ── fetch ───────────────────────────────────────────────────────────────────
 
+def backfill(reg: dict, today: dt.date) -> list[dict]:
+    """Фиксированное baseline-окно для идущих экспериментов без окон.
+
+    Ставится только baseline: окно до старта целиком в прошлом, и Вебмастер
+    отдаёт его полным обходом по произвольным датам. Экспериментам, у которых
+    окна уже заданы (заведены через activate), ничего не меняется — задним
+    числом переписывать измеритель идущего эксперимента нельзя.
+    """
+    done = []
+    for exp in reg.get("experiments", []):
+        if exp.get("status") not in ("running", "observing"):
+            continue
+        if (exp.get("windows") or {}).get("baseline"):
+            continue
+        if not exp.get("start"):
+            continue
+        planned = st.plan_windows(dt.date.fromisoformat(exp["start"]))
+        exp["windows"] = {"days": planned["days"],
+                          "baseline": planned["baseline"],
+                          "experiment": None}
+        exp["windows_backfilled"] = today.isoformat()
+        done.append(exp)
+        w = planned["baseline"]
+        print(f"{exp['id']}: baseline {w['from']}–{w['to']} "
+              f"(старт {exp['start']}), окно после остаётся скользящим")
+    return done
+
+
 def windows_due(reg: dict, today: dt.date) -> list[tuple[dict, str, dict]]:
     """Окна, которые пора выгрузить: (эксперимент, роль окна, окно)."""
     due = []
@@ -179,7 +221,8 @@ def fetch(reg: dict, today: dt.date, fetcher=None) -> list[pathlib.Path]:
 
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description=__doc__.split("\n", 1)[0])
-    ap.add_argument("command", choices=("activate", "fetch"))
+    ap.add_argument("command",
+                    choices=("activate", "fetch", "backfill", "validate"))
     ap.add_argument("--date", default=dt.date.today().isoformat(),
                     help="дата прогона (ISO), по умолчанию сегодня")
     ap.add_argument("--registry", default=str(REGISTRY))
@@ -191,6 +234,21 @@ def main(argv: list[str] | None = None) -> int:
     if args.command == "activate":
         if activate(reg, today, args.site):
             save_registry(reg, path)
+        return 0
+    if args.command == "validate":
+        import experiments
+        experiments.REGISTRY = path
+        issues = experiments.registry_issues(args.date)
+        for line in issues:
+            print(line)
+        if not issues:
+            print("реестр в порядке: правило порога экспозиции соблюдено")
+        return 1 if issues else 0
+    if args.command == "backfill":
+        if backfill(reg, today):
+            save_registry(reg, path)
+        else:
+            print("экспериментов без фиксированного baseline нет")
         return 0
     fetch(reg, today)
     return 0
