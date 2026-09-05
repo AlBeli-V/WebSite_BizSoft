@@ -360,6 +360,17 @@ export const VENDORS: VendorEntry[] = [
   { slug: 'apple', vendor: 'Apple', legalName: 'Apple Inc.', brandColor: '#1D1D1F', site: 'https://www.apple.com', catSeg: 'gift-cards', catLabel: 'Подарочные карты и пополнение баланса', domain: 'gift',
     tagline: 'Цифровые Apple Gift Card для пополнения баланса Apple Account: коды для аккаунтов России, Казахстана и Турции, номиналы от малых до крупных.',
     about: 'Apple Gift Card (App Store & iTunes Gift Card) — цифровой код, который зачисляет свой номинал на баланс Apple Account. С баланса оплачиваются приложения и игры в App Store, покупки внутри приложений и подписки Apple, доступные в стране учётной записи. Карта действует только для аккаунта того региона, для которого выпущена, поэтому регион выбирается до заказа.' },
+  // Заведены 05.09.2026 по заданию руководителя вслед за Apple: тот же тип
+  // gift_card, регион Global, закупка в USD × курс ЦБ × 3,0.
+  { slug: 'airalo', vendor: 'Airalo', legalName: 'Airalo Technologies Inc.', brandColor: '#E8412C', site: 'https://www.airalo.com', catSeg: 'gift-cards', catLabel: 'Подарочные карты и пополнение баланса', domain: 'gift',
+    tagline: 'Ваучеры Airalo для оплаты eSIM в поездках: код пополняет баланс аккаунта Airalo, номиналы 5–50 USD, регион Global.',
+    about: 'Airalo — магазин eSIM для поездок: тарифы мобильного интернета в 200+ странах покупаются в приложении без физической SIM-карты. Ваучер Airalo — цифровой код, который зачисляет свой номинал на баланс аккаунта Airalo; с баланса оплачиваются eSIM-тарифы. Удобен, когда компания оплачивает связь сотрудникам в командировках, не привязывая корпоративную карту к сервису.' },
+  { slug: 'binance', vendor: 'Binance', legalName: 'Binance Holdings Ltd.', brandColor: '#F0B90B', site: 'https://www.binance.com', catSeg: 'gift-cards', catLabel: 'Подарочные карты и пополнение баланса', domain: 'gift',
+    tagline: 'Binance Gift Card: цифровой код, который зачисляет выбранный актив (BTC, USDC или USDT) на счёт Binance получателя; номиналы в USD, регион Global.',
+    about: 'Binance Gift Card — цифровой код биржи Binance, который после погашения зачисляет на счёт получателя актив, указанный в карте (BTC, USDC или USDT), в объёме, соответствующем номиналу в USD. Погашается в приложении или на сайте Binance в разделе Gift Card владельцем верифицированного аккаунта. Доступность сервиса Binance в конкретной стране и требования к аккаунту определяет Binance.' },
+  { slug: 'discord', vendor: 'Discord', legalName: 'Discord Inc.', brandColor: '#5865F2', site: 'https://discord.com', catSeg: 'gift-cards', catLabel: 'Подарочные карты и пополнение баланса', domain: 'gift',
+    tagline: 'Подписки Discord Nitro и Nitro Basic по подарочной ссылке: 1 и 12 месяцев, регион Global, оформление на компанию по счёту.',
+    about: 'Discord — платформа голосового, видео- и текстового общения для сообществ и команд. Подписка Nitro расширяет возможности аккаунта: качество стрима, размер загружаемых файлов, кастомизация профиля и бусты серверов; Nitro Basic — младший тариф с частью этих возможностей. Подписка передаётся подарочной ссылкой Discord: получатель открывает её в своём аккаунте и активирует срок.' },
 ];
 
 export function vendorBySlug(slug: string): VendorEntry | undefined {

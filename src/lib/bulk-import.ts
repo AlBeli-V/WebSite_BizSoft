@@ -16,7 +16,7 @@ export const IMPORT_COLUMNS = [
   'features', 'status', 'sort',
   // Тип товара и варианты (подарочные карты, docs/gift-cards.md).
   'product_type', 'parent_sku', 'region_code', 'region_name', 'denomination', 'denomination_currency', 'availability',
-  'price_from',
+  'variant_label', 'price_from',
 ] as const;
 
 const NUM = new Set(['price', 'vat_percent', 'base_price_usd', 'base_price_eur', 'markup_coeff', 'promo_price', 'sort', 'denomination']);
@@ -122,7 +122,7 @@ export function buildPlan(
 
     // простые строковые поля
     for (const f of ['name', 'vendor', 'short_description', 'description', 'keywords', 'price_note', 'promo_label', 'currency',
-      'parent_sku', 'region_code', 'region_name', 'denomination_currency']) {
+      'parent_sku', 'region_code', 'region_name', 'denomination_currency', 'variant_label']) {
       if (row[f] !== undefined && row[f] !== '') setField(f, row[f]);
     }
     // Тип товара: пусто — обычный товар; gift_card — подарочная карта.

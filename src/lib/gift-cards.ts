@@ -14,7 +14,8 @@
 import type { Product, Availability } from './types';
 import { effectivePrice } from './pricing';
 
-/** Порядок регионов на витрине: как в задании руководителя, а не по алфавиту. */
+/** Порядок регионов на витрине: как в задании руководителя, а не по алфавиту;
+ *  прочие коды (GLOBAL, MENA…) — после известных, по алфавиту. */
 export const REGION_ORDER: string[] = ['RU', 'KZ', 'TR'];
 
 /** Названия валют номинала для подписи «1 000 ₽ / 2 000 ₸ / 500 ₺». */
@@ -34,6 +35,8 @@ export interface GiftCardVariant {
   regionName: string;
   currency: string;
   denomination: number;
+  /** Подпись варианта, когда номинал — не сумма в валюте (подписка, тариф). */
+  label: string | null;
   /** Итоговая цена BIZSoft в рублях (effectivePrice); закупка сюда не попадает. */
   price: number;
   availability: Availability;
@@ -67,6 +70,7 @@ export function toGiftCardVariant(p: Product): GiftCardVariant | null {
     regionName: p.region_name || String(p.region_code).toUpperCase(),
     currency: (p.denomination_currency || '').toUpperCase(),
     denomination,
+    label: p.variant_label ? String(p.variant_label) : null,
     price: effectivePrice(p).price,
     availability: availabilityOf(p),
   };
@@ -105,6 +109,11 @@ export function formatDenomination(v: Pick<GiftCardVariant, 'denomination' | 'cu
   const num = new Intl.NumberFormat('ru-RU', { maximumFractionDigits: 0 }).format(v.denomination);
   const sym = DENOMINATION_CURRENCY_SYMBOL[v.currency];
   return sym ? `${num} ${sym}` : `${num} ${v.currency}`;
+}
+
+/** Подпись варианта на витрине: своя (тариф, срок) либо номинал в валюте. */
+export function variantLabel(v: Pick<GiftCardVariant, 'denomination' | 'currency' | 'label'>): string {
+  return v.label || formatDenomination(v);
 }
 
 /** Диапазон цен доступных вариантов (для AggregateOffer и «от N ₽»). */

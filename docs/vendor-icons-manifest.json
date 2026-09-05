@@ -1401,5 +1401,29 @@
   "quality": "vector-original-palette",
   "source_license_note": "Collection license: CC0-1.0; trademarks remain with owners",
   "note": "Знак правообладателя одноцветный (#1D1D1F), поэтому color и mono совпадают. Глиф нормирован на холст 512×512 с safe zone 12,5 %. Тот же глиф build-logos.mjs кладёт в public/brand-logos/apple-logo.svg для плитки производителей."
+ },
+ {
+  "index": 103,
+  "vendor": "Binance",
+  "slug": "binance",
+  "official_domain": "binance.com",
+  "catalog_url": "https://biz-soft.pro/vendors/binance",
+  "added": "2026-09-05",
+  "source_kind": "Официальный знак Binance (глиф simple-icons, вектор)",
+  "quality": "vector-original-palette",
+  "source_license_note": "Collection license: CC0-1.0; trademarks remain with owners",
+  "note": "Глиф нормирован на холст 512×512 с safe zone 12,5 %; color — фирменный #F0B90B, mono — единый тёмный тон пакета. Airalo в simple-icons нет и сайт вендора из сессии недоступен — у Airalo буквенный знак из штатного фолбэка build-logos.mjs (статус UNRESOLVED до получения официального файла)."
+ },
+ {
+  "index": 104,
+  "vendor": "Discord",
+  "slug": "discord",
+  "official_domain": "discord.com",
+  "catalog_url": "https://biz-soft.pro/vendors/discord",
+  "added": "2026-09-05",
+  "source_kind": "Официальный знак Discord (глиф simple-icons, вектор)",
+  "quality": "vector-original-palette",
+  "source_license_note": "Collection license: CC0-1.0; trademarks remain with owners",
+  "note": "Глиф нормирован на холст 512×512 с safe zone 12,5 %; color — фирменный #5865F2, mono — единый тёмный тон пакета. Airalo в simple-icons нет и сайт вендора из сессии недоступен — у Airalo буквенный знак из штатного фолбэка build-logos.mjs (статус UNRESOLVED до получения официального файла)."
  }
 ]
