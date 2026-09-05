@@ -9,12 +9,15 @@ import FAQ from '../../components/FAQ.astro';
 import QuestionForm from '../../components/QuestionForm.astro';
 import CTASection from '../../components/CTASection.astro';
 import JsonLd from '../../components/JsonLd.astro';
-import { getProductBySlug, findCanonicalProductSlug, getProductsBySlugs, galleryImages , getCurrencyRate } from '../../lib/directus';
+import { getProductBySlug, findCanonicalProductSlug, getProductsBySlugs, getProductsBySkus, getProductVariants, galleryImages , getCurrencyRate } from '../../lib/directus';
 import { isSourceUnavailable, serviceUnavailable } from '../../lib/http';
-import { productSchema, canonicalUrl } from '../../lib/seo';
+import { productSchema, giftCardProductSchema, canonicalUrl } from '../../lib/seo';
 import { effectivePrice, formatRub } from '../../lib/pricing';
 import { ORIGIN_LABEL, LICENSE_LABEL, listValues } from '../../lib/types';
-import { vendorLegal, productNoindex } from '../../lib/catalog';
+import { vendorLegal, productNoindex, isGiftCard, isVariant } from '../../lib/catalog';
+import { groupGiftCardVariants, giftCardPriceRange, pickInitialVariant, formatDenomination, type GiftCardRegion } from '../../lib/gift-cards';
+import { giftCardContent } from '../../data/gift-cards';
+import GiftCardSelector from '../../components/GiftCardSelector.astro';
 import { getAiInterlinks } from '../../data/ai-interlinks';
 import { productIcons } from '../../data/product-icons';
 import ProductIcon from '../../components/ProductIcon.astro';
@@ -47,12 +50,43 @@ if (product.origin === 'domestic') {
   return new Response(null, { status: 404, statusText: 'Not Found' });
 }
 
+// Вариант (номинал подарочной карты) своей страницы не имеет: отдельный
+// адрес на каждый номинал — те же дубли, что у пакетов кредитов. Отдаём 301
+// на родительскую карточку с уже выбранным вариантом (?sku=…); canonical
+// у неё без параметров, поэтому в индекс идёт один адрес.
+if (isVariant(product)) {
+  try {
+    const [parent] = await getProductsBySkus([product.parent_sku!]);
+    if (parent) return Astro.redirect(`/product/${parent.slug}?sku=${encodeURIComponent(product.sku)}`, 301);
+  } catch (e) {
+    console.error('variant parent lookup', e);
+    if (isSourceUnavailable(e)) return serviceUnavailable();
+  }
+}
+
+// Подарочная карта: варианты (регион + номинал) — из Directus, порядок и
+// группировку задаёт lib/gift-cards.ts; редакторские разделы — data/gift-cards.ts.
+const isGift = isGiftCard(product);
+let giftRegions: GiftCardRegion[] = [];
+if (isGift) {
+  try {
+    giftRegions = groupGiftCardVariants(await getProductVariants(product.sku));
+  } catch (e) {
+    console.error('gift card variants', e);
+    if (isSourceUnavailable(e)) return serviceUnavailable();
+  }
+}
+const giftRange = isGift ? giftCardPriceRange(giftRegions) : null;
+const giftInitial = isGift ? pickInitialVariant(giftRegions, Astro.url.searchParams.get('sku')) : null;
+const gift = isGift ? giftCardContent(product.slug) : undefined;
+
 const eff = effectivePrice(product);
 const category = typeof product.category === 'object' ? product.category : null;
 const features = Array.isArray(product.features)
   ? product.features.map((f) => (typeof f === 'string' ? f : (f as { value?: string }).value)).filter(Boolean)
   : [];
-const faq = Array.isArray(product.faq) ? product.faq : [];
+// У подарочной карты вопросы из редакторского модуля; у остальных — из Directus.
+const faq = gift ? gift.faq : (Array.isArray(product.faq) ? product.faq : []);
 const gallery = galleryImages(product);
 const vat = product.vat_percent ?? 0;
 const byRequest = product.price <= 0 && !eff.isPromo;
@@ -82,18 +116,24 @@ const aiLinks = product.vendor ? getAiInterlinks(product.vendor) : null;
 // из одних данных (effectivePrice + Directus) — расходиться им не с чего;
 // согласованность закреплена смоук-проверкой. Для «цены по запросу»
 // productSchema возвращает null — товарной разметки нет ни в одном слое.
-const productLd = productSchema(product, { images: gallery.map((g) => g.url) });
+// Подарочная карта — один Product с AggregateOffer по вариантам (без Product
+// на каждый номинал); диапазон — из тех же вариантов, что видит покупатель.
+const productLd = isGift
+  ? giftCardProductSchema(product, giftRange, { images: gallery.map((g) => g.url) })
+  : productSchema(product, { images: gallery.map((g) => g.url) });
 const canonicalProductUrl = canonicalUrl(`/product/${product.slug}`);
 const microImage = gallery.length > 0 ? gallery[0].url : canonicalUrl('/og-default.png');
 // Наборы microdata-атрибутов: у «цены по запросу» пустые — атрибуты не
 // выводятся вовсе, страница остаётся без товарной microdata.
-const mdProduct = !byRequest
+// У подарочной карты microdata есть только при наличии диапазона (как и JSON-LD).
+const hasMd = isGift ? productLd !== null : !byRequest;
+const mdProduct = hasMd
   ? { itemscope: true, itemtype: 'https://schema.org/Product', itemid: `${canonicalProductUrl}#product` }
   : {};
-const mdName = !byRequest ? { itemprop: 'name' } : {};
-const mdDesc = !byRequest && product.short_description ? { itemprop: 'description' } : {};
-const mdOffer = !byRequest
-  ? { itemprop: 'offers', itemscope: true, itemtype: 'https://schema.org/Offer' }
+const mdName = hasMd ? { itemprop: 'name' } : {};
+const mdDesc = hasMd && product.short_description ? { itemprop: 'description' } : {};
+const mdOffer = hasMd
+  ? { itemprop: 'offers', itemscope: true, itemtype: isGift ? 'https://schema.org/AggregateOffer' : 'https://schema.org/Offer' }
   : {};
 
 // Обратная перелинковка «карточка → статья»: берём статьи, которые сами
@@ -128,9 +168,9 @@ try {
       ]}
     />
 
-    <div class="product-layout" {...mdProduct}>
+    <div class:list={['product-layout', { gift: isGift }]} {...mdProduct}>
       <div class="product-main">
-        {!byRequest && (
+        {hasMd && (
           <>
             <meta itemprop="sku" content={product.sku} />
             <link itemprop="url" href={canonicalProductUrl} />
@@ -158,6 +198,56 @@ try {
         )}
         {product.short_description && <p class="lead" {...mdDesc}>{product.short_description}</p>}
 
+        {gift && (
+          <div class="gift-intro">
+            <p class="gift-warn">{gift.regionWarning}</p>
+            <p class="muted">{gift.disclaimer}</p>
+          </div>
+        )}
+
+        {gift && gift.regions.map((rc) => {
+          const region = giftRegions.find((r) => r.code === rc.code);
+          return (
+            <div class="block gift-region" id={`region-${rc.code.toLowerCase()}`}>
+              <h2>{rc.h2}</h2>
+              <p class="muted">{rc.text}</p>
+              {rc.note && <p class="muted small-note">{rc.note}</p>}
+              {region && region.variants.length > 0 ? (
+                <ul class="gift-denoms" aria-label={`Номиналы, ${region.name}`}>
+                  {region.variants.map((v) => (
+                    <li>
+                      <button type="button" class="gift-pick" data-pick-sku={v.sku} disabled={v.availability === 'out_of_stock' || !(v.price > 0)}>
+                        <span class="gp-nom">{formatDenomination(v)}</span>
+                        <span class="gp-arrow" aria-hidden="true">→</span>
+                        <span class="gp-price">{v.price > 0 ? formatRub(v.price) : 'по запросу'}</span>
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <p class="muted">Номиналы этого региона временно недоступны — уточните наличие через форму вопроса.</p>
+              )}
+            </div>
+          );
+        })}
+
+        {gift && gift.sections.map((sec) => (
+          <div class="block prose-bizsoft">
+            <h2>{sec.h2}</h2>
+            {sec.paragraphs.map((t) => <p>{t}</p>)}
+            {sec.bullets && sec.bullets.length > 0 && <ul class="features">{sec.bullets.map((b) => <li>{b}</li>)}</ul>}
+          </div>
+        ))}
+
+        {gift && (
+          <div class="block" id="activation">
+            <h2>{gift.activation.h2}</h2>
+            <p class="muted">{gift.activation.intro}</p>
+            <ol class="steps">{gift.activation.steps.map((st) => <li>{st}</li>)}</ol>
+            <p class="gift-warn">{gift.activation.warning}</p>
+          </div>
+        )}
+
         {gallery.length > 0 && (
           <div class="gallery" data-gallery>
             {gallery.map((g, i) => (
@@ -168,7 +258,7 @@ try {
           </div>
         )}
 
-        {product.description && (
+        {product.description && !gift && (
           <div class="prose-bizsoft block">
             <h2>Описание</h2>
             <div class="collapsible clamped" data-collapsible><p>{product.description}</p></div>
@@ -176,7 +266,7 @@ try {
           </div>
         )}
 
-        {features.length > 0 && (
+        {features.length > 0 && !gift && (
           <div class="block">
             <h2>Что входит</h2>
             <ul class="features">{features.map((f) => <li>{f}</li>)}</ul>
@@ -191,8 +281,14 @@ try {
               {product.origin && <tr><th>Происхождение</th><td>{ORIGIN_LABEL[product.origin]}</td></tr>}
               {category && <tr><th>Категория</th><td>{category.name}</td></tr>}
               {product.license_type && <tr><th>Тип использования</th><td>{LICENSE_LABEL[product.license_type]}</td></tr>}
+              {isGift && giftRegions.length > 0 && (
+                <tr><th>Регионы</th><td>{giftRegions.map((r) => `${r.name} (${r.currency})`).join(', ')}</td></tr>
+              )}
+              {isGift && giftRegions.length > 0 && (
+                <tr><th>Номиналов</th><td>{giftRegions.reduce((n, r) => n + r.variants.length, 0)}</td></tr>
+              )}
               <tr><th>Артикул</th><td>{product.sku}</td></tr>
-              {!byRequest && vat > 0 && <tr><th>НДС</th><td>в т.ч. {vat}%</td></tr>}
+              {(!byRequest || isGift) && vat > 0 && <tr><th>НДС</th><td>в т.ч. {vat}%</td></tr>}
             </tbody>
           </table>
         </div>
@@ -211,20 +307,36 @@ try {
           </div>
         )}
 
-        <div class="block">
-          <h2>Как купить {product.name} для юридического лица</h2>
-          <ol class="steps">
-            <li>Добавляете товар в избранное и формируете заявку или КП.</li>
-            <li>Заключаем договор и выставляем счёт на оплату.</li>
-            <li>После оплаты предоставляем доступ к сервису или аккаунту.</li>
-            <li>Передаём закрывающие документы через ЭДО.</li>
-          </ol>
-          <p class="muted">Подписку или лицензию оформляем из России на
-          юридическое лицо: счёт в рублях, оплата с расчётного счёта,
-          зарубежная карта не требуется. Стоимость зависит от редакции,
-          числа рабочих мест и срока — актуальную цену указываем в счёте
-          и КП.</p>
-        </div>
+        {isGift ? (
+          <div class="block">
+            <h2>Как купить {gift?.shortName || product.name} для юридического лица</h2>
+            <ol class="steps">
+              <li>Выбираете регион Apple Account и номинал, добавляете позицию в избранное и формируете заявку или КП.</li>
+              <li>Заключаем договор и выставляем счёт на оплату в рублях.</li>
+              <li>После оплаты передаём цифровой код Gift Card на указанную почту.</li>
+              <li>Передаём закрывающие документы через ЭДО.</li>
+            </ol>
+            <p class="muted">Оформляем на юридическое лицо или ИП: счёт в рублях,
+            оплата с расчётного счёта, зарубежная карта не требуется. Цена
+            зависит от региона и номинала и фиксируется в счёте и КП.</p>
+            {gift && <p class="muted">{gift.availabilityNote}</p>}
+          </div>
+        ) : (
+          <div class="block">
+            <h2>Как купить {product.name} для юридического лица</h2>
+            <ol class="steps">
+              <li>Добавляете товар в избранное и формируете заявку или КП.</li>
+              <li>Заключаем договор и выставляем счёт на оплату.</li>
+              <li>После оплаты предоставляем доступ к сервису или аккаунту.</li>
+              <li>Передаём закрывающие документы через ЭДО.</li>
+            </ol>
+            <p class="muted">Подписку или лицензию оформляем из России на
+            юридическое лицо: счёт в рублях, оплата с расчётного счёта,
+            зарубежная карта не требуется. Стоимость зависит от редакции,
+            числа рабочих мест и срока — актуальную цену указываем в счёте
+            и КП.</p>
+          </div>
+        )}
 
         <div class="block">
           <h2>Что получает юридическое лицо</h2>
@@ -240,7 +352,7 @@ try {
           <div class="prose-bizsoft block"><p>{product.seo_text}</p></div>
         )}
 
-        <FAQ items={faq} title="Частые вопросы о товаре" />
+        <FAQ items={faq} title={gift ? 'Вопросы и ответы' : 'Частые вопросы о товаре'} />
 
         {relatedProducts.length > 0 && (
           <div class="block">
@@ -286,6 +398,32 @@ try {
       </div>
 
       <aside class="product-aside">
+        {isGift ? (
+          <div {...mdOffer}>
+            {hasMd && giftRange && (
+              <>
+                <link itemprop="url" href={canonicalProductUrl} />
+                <meta itemprop="lowPrice" content={String(giftRange.low)} />
+                <meta itemprop="highPrice" content={String(giftRange.high)} />
+                <meta itemprop="offerCount" content={String(giftRange.count)} />
+                <meta itemprop="priceCurrency" content={product.currency || 'RUB'} />
+                <link itemprop="availability" href="https://schema.org/InStock" />
+              </>
+            )}
+            <GiftCardSelector
+              regions={giftRegions}
+              initial={giftInitial}
+              productName={product.name}
+              sku={product.sku}
+              vendor={product.vendor || ''}
+              denominationNote={gift?.denominationNote || 'Номинал — сумма, которая будет зачислена на баланс аккаунта после активации.'}
+              regionWarning={gift?.regionWarning || 'Карта предназначена только для аккаунта соответствующего региона: проверьте регион учётной записи до заказа.'}
+              availabilityNote={gift?.availabilityNote || 'Количество кодов отдельных номиналов может быть ограничено.'}
+              rateDate={rateDate}
+              vat={vat}
+            />
+          </div>
+        ) : (
         <div class="card buy-card" {...mdOffer}>
           {!byRequest && (
             <>
@@ -372,6 +510,7 @@ try {
             <li>✓ Поддержка на весь срок</li>
           </ul>
         </div>
+        )}
       </aside>
     </div>
   </div>
@@ -445,6 +584,19 @@ try {
   .buy-actions .btn { width: 100%; }
   .buy-trust { list-style: none; padding: 1rem 0 0; margin: 0; border-top: 1px solid var(--color-border); display: grid; gap: 0.4rem; color: var(--color-text-muted); font-size: 0.88rem; }
   .muted { color: var(--color-text-muted); max-width: 65ch; }
+  /* Подарочные карты: предупреждение о регионе и списки номиналов по регионам */
+  .gift-intro { display: flex; flex-direction: column; gap: 0.6rem; margin-top: 1rem; }
+  .gift-warn { margin: 0; padding: 0.8rem 1rem; border-radius: 10px; font-weight: 600; line-height: 1.45; max-width: 70ch;
+    background: color-mix(in srgb, #e07b00 14%, transparent); border: 1px solid color-mix(in srgb, #e07b00 45%, transparent); }
+  .small-note { font-size: 0.88rem; }
+  .gift-denoms { list-style: none; padding: 0; margin: 0.8rem 0 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 0.4rem; }
+  .gift-pick { width: 100%; display: grid; grid-template-columns: auto auto 1fr; align-items: baseline; gap: 0.5rem; text-align: left; padding: 0.5rem 0.8rem;
+    border-radius: 10px; border: 1px solid var(--color-border); background: var(--color-bg-card); color: var(--color-text); font: inherit; cursor: pointer; }
+  .gift-pick:hover { border-color: var(--color-accent); }
+  .gift-pick:disabled { opacity: 0.55; cursor: not-allowed; }
+  .gp-nom { font-weight: 700; font-variant-numeric: tabular-nums; }
+  .gp-arrow { color: var(--color-text-dim); }
+  .gp-price { text-align: right; font-weight: 600; font-variant-numeric: tabular-nums; }
   .ai-interlinks { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1.2rem; }
   .ai-interlinks h3 { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.04em; color: var(--color-text-dim); margin-bottom: 0.6rem; }
   .ai-interlinks ul { list-style: none; padding: 0; display: grid; gap: 0.4rem; }
@@ -462,6 +614,8 @@ try {
   @media (max-width: 900px) {
     .product-layout { grid-template-columns: 1fr; }
     .product-aside { position: static; }
+    /* Подарочная карта: выбор региона и номинала — первым экраном, до описания */
+    .product-layout.gift .product-aside { order: -1; }
     /* Более удобные зоны нажатия на мобильном */
     .qty button { width: 40px; height: 40px; }
     .qty input { height: 40px; }
@@ -487,30 +641,32 @@ try {
     }
   });
 
-  // ── Количество + живой пересчёт ──
-  const qtyInput = document.querySelector('[data-qty]') as HTMLInputElement | null;
-  const totalEl = document.querySelector('[data-total]') as HTMLElement | null;
-  const addBtn = document.querySelector('[data-add-cart]') as HTMLButtonElement | null;
+  // ── Количество + живой пересчёт (карточка покупки; у подарочной карты
+  // свой блок с теми же data-атрибутами — его обслуживает GiftCardSelector) ──
+  const buyCard = document.querySelector<HTMLElement>('.buy-card');
+  const qtyInput = buyCard?.querySelector<HTMLInputElement>('[data-qty]') ?? null;
+  const totalEl = buyCard?.querySelector<HTMLElement>('[data-total]') ?? null;
+  const addBtn = buyCard?.querySelector<HTMLButtonElement>('[data-add-cart]') ?? null;
   const unit = addBtn ? Number(addBtn.dataset.price || 0) : 0;
-  document.querySelectorAll<HTMLButtonElement>('[data-team]').forEach((b) => {
+  buyCard?.querySelectorAll<HTMLButtonElement>('[data-team]').forEach((b) => {
     b.addEventListener('click', () => {
-      const q = document.querySelector<HTMLInputElement>('[data-qty]');
-      if (q) { q.value = b.dataset.team || '1'; q.dispatchEvent(new Event('input', { bubbles: true })); }
+      if (qtyInput) { qtyInput.value = b.dataset.team || '1'; qtyInput.dispatchEvent(new Event('input', { bubbles: true })); }
     });
   });
 
   function curQty() { return Math.max(1, Math.floor(Number(qtyInput?.value || 1) || 1)); }
   function refreshTotal() { if (totalEl) totalEl.textContent = formatRub(unit * curQty()); }
 
-  document.querySelector('[data-inc]')?.addEventListener('click', () => { if (qtyInput) { qtyInput.value = String(curQty() + 1); refreshTotal(); } });
-  document.querySelector('[data-dec]')?.addEventListener('click', () => { if (qtyInput) { qtyInput.value = String(Math.max(1, curQty() - 1)); refreshTotal(); } });
+  buyCard?.querySelector('[data-inc]')?.addEventListener('click', () => { if (qtyInput) { qtyInput.value = String(curQty() + 1); refreshTotal(); } });
+  buyCard?.querySelector('[data-dec]')?.addEventListener('click', () => { if (qtyInput) { qtyInput.value = String(Math.max(1, curQty() - 1)); refreshTotal(); } });
   qtyInput?.addEventListener('input', refreshTotal);
   refreshTotal();
 
   // Просмотр карточки: знаменатель для добавлений в подборку. Без него
   // «добавили 3 раза» не говорит ничего — 3 из 5 и 3 из 500 разные вещи.
+  const giftRoot = document.querySelector<HTMLElement>('[data-gift-card]');
   trackGoal('view_product', {
-    sku: addBtn?.dataset.sku || '',
+    sku: addBtn?.dataset.sku || giftRoot?.dataset.sku || '',
     slug: addBtn?.dataset.slug || location.pathname,
   });
 
@@ -521,6 +677,21 @@ try {
     const add = addBtn.querySelector('.lbl-add') as HTMLElement;
     def.hidden = true; add.hidden = false;
     setTimeout(() => { def.hidden = false; add.hidden = true; }, 1600);
+  });
+
+  // ── Подарочная карта: выбор номинала из региональных списков → селектор ──
+  document.querySelectorAll<HTMLButtonElement>('[data-pick-sku]').forEach((b) => {
+    b.addEventListener('click', () => {
+      const sku = (b.dataset.pickSku || '').toUpperCase();
+      const target = Array.from(document.querySelectorAll<HTMLButtonElement>('[data-gift-card] [data-variant]'))
+        .find((v) => (v.dataset.sku || '').toUpperCase() === sku);
+      if (!target) return;
+      const panel = target.closest<HTMLElement>('[data-region-panel]');
+      const regionBtn = panel ? document.querySelector<HTMLButtonElement>(`[data-gift-card] [data-region="${panel.dataset.regionPanel}"]`) : null;
+      regionBtn?.click();
+      target.click();
+      document.querySelector('[data-gift-card]')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
   });
 
   // ── Лайтбокс галереи ──

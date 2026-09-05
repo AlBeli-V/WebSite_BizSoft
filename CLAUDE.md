@@ -79,6 +79,12 @@
   `content_updated_at`. Задвоенные позиции склеивать `ops-merge-product`
   (сначала `apply=false`; 301 через `old_slugs`, снятая — `draft`);
   карточки не удалять.
+- **Подарочные карты — варианты одного товара** (`docs/gift-cards.md`).
+  `product_type = gift_card`: родитель со страницей и варианты-строки с
+  `parent_sku`, регионом и номиналом; цена варианта = закупка USD × курс ЦБ
+  × 3,0 (`GIFT_CARD_MARKUP_COEFF`), номинал в цене не участвует; страниц на
+  номинал нет (301 на родителя, `productNoindex`), в списках витрины —
+  только родитель, порядок номиналов — `denomination DESC` из кода.
 - **Новые страницы → sitemap → индексация** (`docs/rules/sitemap-indexing.md`).
   Проверить `/sitemap.xml` (bespoke-страницы — руками в `STATIC_ROUTES`;
   `noindex` и `productNoindex()` не попадают), затем переобход через

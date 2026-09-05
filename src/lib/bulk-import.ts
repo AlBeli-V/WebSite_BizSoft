@@ -3,8 +3,7 @@
  * Чистая логика построения плана; применение — в эндпоинте.
  */
 import type { Product } from './types';
-import { DEFAULT_MARKUP_COEFF } from './types';
-import { computePegRub, type Rates } from './pricing';
+import { computePegRub, defaultMarkupCoeff, type Rates } from './pricing';
 
 export interface RawRow { [key: string]: string | number | null | undefined }
 
@@ -15,9 +14,12 @@ export const IMPORT_COLUMNS = [
   'price', 'price_note', 'vat_percent', 'currency',
   'promo_price', 'promo_label', 'promo_start', 'promo_end',
   'features', 'status', 'sort',
+  // Тип товара и варианты (подарочные карты, docs/gift-cards.md).
+  'product_type', 'parent_sku', 'region_code', 'region_name', 'denomination', 'denomination_currency', 'availability',
+  'price_from',
 ] as const;
 
-const NUM = new Set(['price', 'vat_percent', 'base_price_usd', 'base_price_eur', 'markup_coeff', 'promo_price', 'sort']);
+const NUM = new Set(['price', 'vat_percent', 'base_price_usd', 'base_price_eur', 'markup_coeff', 'promo_price', 'sort', 'denomination']);
 
 export function normPegCurrency(v: string): 'USD' | 'EUR' | '' {
   const s = v.trim().toUpperCase();
@@ -119,15 +121,25 @@ export function buildPlan(
     };
 
     // простые строковые поля
-    for (const f of ['name', 'vendor', 'short_description', 'description', 'keywords', 'price_note', 'promo_label', 'currency']) {
+    for (const f of ['name', 'vendor', 'short_description', 'description', 'keywords', 'price_note', 'promo_label', 'currency',
+      'parent_sku', 'region_code', 'region_name', 'denomination_currency']) {
       if (row[f] !== undefined && row[f] !== '') setField(f, row[f]);
+    }
+    // Тип товара: пусто — обычный товар; gift_card — подарочная карта.
+    if (row.product_type) {
+      const t = row.product_type.toLowerCase().replace(/[\s-]/g, '_');
+      if (t !== 'gift_card') errs.push(`product_type: неизвестно «${row.product_type}»`); else setField('product_type', 'gift_card');
+    }
+    if (row.availability) {
+      const a = row.availability.toLowerCase().replace(/[\s-]/g, '_');
+      if (!['in_stock', 'limited', 'out_of_stock'].includes(a)) errs.push(`availability: неизвестно «${row.availability}»`); else setField('availability', a);
     }
     // даты
     for (const f of ['promo_start', 'promo_end']) {
       if (row[f]) setField(f, row[f]);
     }
     // числа
-    for (const f of ['price', 'vat_percent', 'base_price_usd', 'base_price_eur', 'markup_coeff', 'promo_price', 'sort']) {
+    for (const f of ['price', 'vat_percent', 'base_price_usd', 'base_price_eur', 'markup_coeff', 'promo_price', 'sort', 'denomination']) {
       if (row[f] !== undefined && row[f] !== '') {
         const n = normNum(row[f]);
         if (n == null) errs.push(`поле ${f}: не число «${row[f]}»`); else setField(f, n);
@@ -142,6 +154,8 @@ export function buildPlan(
     // peg_to_usd / price_locked (булевы)
     if (row.peg_to_usd !== undefined && row.peg_to_usd !== '') setField('peg_to_usd', normBool(row.peg_to_usd));
     if (row.price_locked !== undefined && row.price_locked !== '') setField('price_locked', normBool(row.price_locked));
+    // Цена «от» — у родителя вариантов (минимальный номинал) и у конфигурируемых позиций.
+    if (row.price_from !== undefined && row.price_from !== '') setField('price_from', normBool(row.price_from));
     // category
     if (row.category) {
       const id = categoryResolver(row.category);
@@ -173,7 +187,9 @@ export function buildPlan(
         base_price_eur: ((payload.base_price_eur ?? cur?.base_price_eur) ?? null) as number | null,
         markup_coeff: (payload.markup_coeff as number | undefined) ?? cur?.markup_coeff ?? null,
       };
-      const rub = computePegRub(eff, opts.rates, opts.defaultCoeff ?? DEFAULT_MARKUP_COEFF);
+      // Коэффициент по умолчанию зависит от типа товара: подарочные карты ×3,0.
+      const productType = (payload.product_type as Product['product_type'] | undefined) ?? cur?.product_type ?? null;
+      const rub = computePegRub(eff, opts.rates, opts.defaultCoeff ?? defaultMarkupCoeff({ product_type: productType }));
       if (rub != null) setField('price', rub);
     }
 

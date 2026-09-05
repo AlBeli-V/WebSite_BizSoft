@@ -1,0 +1,233 @@
+---
+/**
+ * Выбор региона и номинала подарочной карты (product_type = gift_card).
+ *
+ * Шаг 1 — регион аккаунта, шаг 2 — номиналы выбранного региона по убыванию
+ * (порядок задаёт lib/gift-cards.ts, не база). У каждого варианта — номинал
+ * и итоговая цена BIZSoft в рублях; закупка в разметку не попадает: в
+ * data-атрибуты уходят только sku, slug, название и рублёвая цена варианта.
+ * Выбранный вариант добавляется в избранное своим артикулом — дальше он
+ * живёт в корзине и КП как обычная позиция.
+ */
+import { formatRub } from '../lib/pricing';
+import { formatDenomination, type GiftCardRegion, type GiftCardVariant } from '../lib/gift-cards';
+import { AVAILABILITY_LABEL } from '../lib/types';
+
+interface Props {
+  regions: GiftCardRegion[];
+  initial: GiftCardVariant | null;
+  productName: string;
+  sku: string;
+  vendor?: string;
+  denominationNote: string;
+  regionWarning: string;
+  availabilityNote: string;
+  rateDate?: string | null;
+  vat?: number;
+}
+const { regions, initial, productName, sku, vendor = '', denominationNote, regionWarning, availabilityNote, rateDate, vat = 0 } = Astro.props;
+const activeRegion = initial?.regionCode ?? regions[0]?.code ?? '';
+---
+<div class="gc card" data-gift-card data-product={productName} data-sku={sku} data-vendor={vendor}>
+  {regions.length === 0 ? (
+    <p class="gc-empty">Номиналы временно недоступны — запросите наличие через форму вопроса.</p>
+  ) : (
+    <>
+      <div class="gc-step">
+        <span class="gc-cap"><b>Шаг 1.</b> Регион Apple Account</span>
+        <div class="gc-regions" role="tablist" aria-label="Регион Apple Account">
+          {regions.map((r) => (
+            <button type="button" class:list={['gc-region', { active: r.code === activeRegion }]} role="tab"
+              aria-selected={r.code === activeRegion ? 'true' : 'false'} data-region={r.code}>
+              {r.name}<span class="gc-cur">{r.currency}</span>
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <p class="gc-warn" role="note">{regionWarning}</p>
+
+      <div class="gc-step">
+        <span class="gc-cap"><b>Шаг 2.</b> Номинал Gift Card</span>
+        {regions.map((r) => (
+          <div class="gc-denoms" role="tabpanel" data-region-panel={r.code} hidden={r.code !== activeRegion}>
+            {r.variants.map((v) => (
+              <button type="button"
+                class:list={['gc-denom', { active: initial?.sku === v.sku, soldout: v.availability === 'out_of_stock' }]}
+                data-variant data-sku={v.sku} data-slug={v.slug} data-name={v.name} data-price={v.price}
+                data-availability={v.availability}
+                disabled={v.availability === 'out_of_stock' || !(v.price > 0)}
+                aria-pressed={initial?.sku === v.sku ? 'true' : 'false'}>
+                <span class="gc-nom">{formatDenomination(v)}</span>
+                <span class="gc-arrow" aria-hidden="true">→</span>
+                <span class="gc-price">{v.price > 0 ? formatRub(v.price) : 'по запросу'}</span>
+                {v.availability !== 'in_stock' && <span class="gc-avail">{AVAILABILITY_LABEL[v.availability]}</span>}
+              </button>
+            ))}
+          </div>
+        ))}
+        <p class="gc-note">{denominationNote}</p>
+      </div>
+
+      <div class="gc-summary">
+        <div class="gc-chosen"><span>Выбрано</span><b data-chosen>{initial ? `${formatDenomination(initial)} · ${initial.regionName}` : '—'}</b></div>
+        <div class="gc-qty-row">
+          <span class="gc-qty-label">Количество</span>
+          <div class="gc-qty">
+            <button type="button" data-dec aria-label="Меньше">−</button>
+            <input type="number" min="1" value="1" data-qty aria-label="Количество кодов" />
+            <button type="button" data-inc aria-label="Больше">+</button>
+          </div>
+        </div>
+        <div class="gc-total"><span>Итого</span><b data-total>{initial ? formatRub(initial.price) : '—'}</b></div>
+        {vat > 0 && <p class="gc-vat">в т.ч. НДС {vat}% — налог включён в цену, сверху не добавляется.</p>}
+        {rateDate && <p class="gc-rate">Цена рассчитана по курсу ЦБ на {rateDate} и фиксируется в счёте.</p>}
+      </div>
+
+      <div class="gc-actions">
+        <button type="button" class="btn btn-primary" data-gc-add disabled={!initial}>
+          <span class="lbl-def">В избранное</span><span class="lbl-add" hidden>Добавлено ✓</span>
+        </button>
+        <button type="button" class="btn btn-ghost" data-open-question data-product={productName} data-sku={initial?.sku ?? sku}>Задать вопрос</button>
+      </div>
+
+      <p class="gc-limited">{availabilityNote}</p>
+
+      <ul class="gc-trust">
+        <li>✓ Договор и счёт в рублях</li>
+        <li>✓ Код передаём после оплаты</li>
+        <li>✓ Закрывающие через ЭДО</li>
+      </ul>
+    </>
+  )}
+</div>
+
+<style>
+  .gc { padding: 1.4rem; display: flex; flex-direction: column; gap: 1rem; }
+  .gc-empty { margin: 0; color: var(--color-text-muted); }
+  .gc-step { display: flex; flex-direction: column; gap: 0.6rem; }
+  .gc-cap { font-size: 0.9rem; color: var(--color-text-muted); }
+  .gc-cap b { color: var(--color-text); }
+  .gc-regions { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.4rem; }
+  .gc-region { display: flex; flex-direction: column; align-items: center; gap: 0.1rem; padding: 0.55rem 0.4rem; border-radius: 10px;
+    border: 1px solid var(--color-border-strong); background: var(--color-bg-elevated); color: var(--color-text); font: inherit; font-weight: 600; cursor: pointer; }
+  .gc-region .gc-cur { font-size: 0.72rem; color: var(--color-text-dim); font-weight: 500; }
+  .gc-region.active { border-color: var(--color-accent); background: color-mix(in srgb, var(--color-accent) 12%, transparent); color: var(--color-accent); }
+  .gc-region.active .gc-cur { color: var(--color-accent); }
+  .gc-warn { margin: 0; padding: 0.7rem 0.9rem; border-radius: 10px; font-size: 0.86rem; line-height: 1.45; font-weight: 600;
+    background: color-mix(in srgb, #e07b00 14%, transparent); border: 1px solid color-mix(in srgb, #e07b00 45%, transparent); color: var(--color-text); }
+  .gc-denoms { display: grid; gap: 0.35rem; }
+  .gc-denoms[hidden] { display: none; }
+  .gc-denom { display: grid; grid-template-columns: auto auto 1fr; align-items: baseline; gap: 0.5rem; text-align: left; padding: 0.55rem 0.8rem; border-radius: 10px;
+    border: 1px solid var(--color-border); background: var(--color-bg-card); color: var(--color-text); font: inherit; cursor: pointer; }
+  .gc-denom:hover { border-color: var(--color-accent); }
+  .gc-denom.active { border-color: var(--color-accent); background: color-mix(in srgb, var(--color-accent) 10%, transparent); }
+  .gc-denom.soldout, .gc-denom:disabled { opacity: 0.55; cursor: not-allowed; }
+  .gc-nom { font-weight: 700; font-variant-numeric: tabular-nums; min-width: 5.2rem; }
+  .gc-arrow { color: var(--color-text-dim); }
+  .gc-price { font-weight: 600; font-variant-numeric: tabular-nums; text-align: right; }
+  .gc-avail { grid-column: 1 / -1; font-size: 0.74rem; color: var(--color-text-dim); }
+  .gc-note, .gc-limited, .gc-vat, .gc-rate { margin: 0; font-size: 0.82rem; color: var(--color-text-dim); line-height: 1.45; }
+  .gc-summary { border-top: 1px solid var(--color-border); padding-top: 0.8rem; display: flex; flex-direction: column; gap: 0.5rem; }
+  .gc-chosen, .gc-qty-row, .gc-total { display: flex; align-items: center; justify-content: space-between; gap: 0.6rem; }
+  .gc-chosen span, .gc-qty-label, .gc-total span { color: var(--color-text-muted); font-size: 0.9rem; }
+  .gc-total b { font-size: 1.4rem; }
+  .gc-qty { display: flex; align-items: center; gap: 0.3rem; }
+  .gc-qty button { width: 32px; height: 32px; border-radius: 8px; border: 1px solid var(--color-border-strong); background: var(--color-bg-elevated); color: var(--color-text); cursor: pointer; font-size: 1.1rem; }
+  .gc-qty input { width: 52px; text-align: center; background: var(--color-bg-elevated); border: 1px solid var(--color-border-strong); border-radius: 8px; color: var(--color-text); padding: 0.4rem; font: inherit; }
+  .gc-actions { display: flex; flex-direction: column; gap: 0.6rem; }
+  .gc-actions .btn { width: 100%; }
+  .gc-trust { list-style: none; padding: 0.8rem 0 0; margin: 0; border-top: 1px solid var(--color-border); display: grid; gap: 0.35rem; color: var(--color-text-muted); font-size: 0.88rem; }
+  @media (max-width: 900px) {
+    .gc-qty button { width: 40px; height: 40px; }
+    .gc-qty input { height: 40px; }
+    .gc-denom { padding: 0.7rem 0.8rem; }
+  }
+</style>
+
+<script>
+  import { trackGoal } from '@/lib/analytics';
+  import { addToCart } from '../lib/cart-client';
+  import { formatRub } from '../lib/pricing';
+
+  document.querySelectorAll<HTMLElement>('[data-gift-card]').forEach((root) => {
+    const regionBtns = Array.from(root.querySelectorAll<HTMLButtonElement>('[data-region]'));
+    const panels = Array.from(root.querySelectorAll<HTMLElement>('[data-region-panel]'));
+    const variants = Array.from(root.querySelectorAll<HTMLButtonElement>('[data-variant]'));
+    const chosenEl = root.querySelector<HTMLElement>('[data-chosen]');
+    const totalEl = root.querySelector<HTMLElement>('[data-total]');
+    const qtyInput = root.querySelector<HTMLInputElement>('[data-qty]');
+    const addBtn = root.querySelector<HTMLButtonElement>('[data-gc-add]');
+    const askBtn = root.querySelector<HTMLButtonElement>('[data-open-question]');
+    let current: HTMLButtonElement | null = variants.find((v) => v.classList.contains('active')) ?? null;
+
+    const qty = () => Math.max(1, Math.floor(Number(qtyInput?.value || 1) || 1));
+    const price = () => Number(current?.dataset.price || 0);
+    const refresh = () => {
+      if (totalEl) totalEl.textContent = current ? formatRub(price() * qty()) : '—';
+      if (chosenEl && current) {
+        const nom = current.querySelector('.gc-nom')?.textContent || '';
+        const region = regionBtns.find((b) => b.classList.contains('active'));
+        const regionName = region ? (region.childNodes[0]?.textContent || '').trim() : '';
+        chosenEl.textContent = `${nom} · ${regionName}`;
+      }
+      if (addBtn) addBtn.disabled = !current;
+      if (askBtn && current) askBtn.dataset.sku = current.dataset.sku || '';
+    };
+
+    const selectRegion = (code: string, keepVariant = false) => {
+      regionBtns.forEach((b) => {
+        const on = b.dataset.region === code;
+        b.classList.toggle('active', on);
+        b.setAttribute('aria-selected', on ? 'true' : 'false');
+      });
+      panels.forEach((p) => { p.hidden = p.dataset.regionPanel !== code; });
+      if (!keepVariant) {
+        // Смена региона — новый список номиналов; выбранным становится первый доступный.
+        const panel = panels.find((p) => p.dataset.regionPanel === code);
+        const first = panel ? Array.from(panel.querySelectorAll<HTMLButtonElement>('[data-variant]')).find((v) => !v.disabled) ?? null : null;
+        selectVariant(first);
+      }
+    };
+
+    const selectVariant = (btn: HTMLButtonElement | null) => {
+      current = btn;
+      variants.forEach((v) => {
+        const on = v === btn;
+        v.classList.toggle('active', on);
+        v.setAttribute('aria-pressed', on ? 'true' : 'false');
+      });
+      refresh();
+    };
+
+    regionBtns.forEach((b) => b.addEventListener('click', () => selectRegion(b.dataset.region || '')));
+    variants.forEach((v) => v.addEventListener('click', () => selectVariant(v)));
+    root.querySelector('[data-inc]')?.addEventListener('click', () => { if (qtyInput) { qtyInput.value = String(qty() + 1); refresh(); } });
+    root.querySelector('[data-dec]')?.addEventListener('click', () => { if (qtyInput) { qtyInput.value = String(Math.max(1, qty() - 1)); refresh(); } });
+    qtyInput?.addEventListener('input', refresh);
+
+    // ?sku=<вариант> — открыть страницу с уже выбранным номиналом (ссылки из корзины и КП).
+    const wanted = new URLSearchParams(location.search).get('sku');
+    if (wanted) {
+      const hit = variants.find((v) => (v.dataset.sku || '').toUpperCase() === wanted.toUpperCase());
+      if (hit) {
+        const panel = hit.closest<HTMLElement>('[data-region-panel]');
+        if (panel) selectRegion(panel.dataset.regionPanel || '', true);
+        selectVariant(hit);
+      }
+    }
+    refresh();
+
+    addBtn?.addEventListener('click', () => {
+      if (!current) return;
+      addToCart({
+        sku: current.dataset.sku!, slug: current.dataset.slug!, name: current.dataset.name!,
+        vendor: root.dataset.vendor || '', price: price(),
+      }, qty());
+      trackGoal('add_to_cart', { sku: current.dataset.sku || '' });
+      const def = addBtn.querySelector<HTMLElement>('.lbl-def');
+      const add = addBtn.querySelector<HTMLElement>('.lbl-add');
+      if (def && add) { def.hidden = true; add.hidden = false; setTimeout(() => { def.hidden = false; add.hidden = true; }, 1600); }
+    });
+  });
+</script>

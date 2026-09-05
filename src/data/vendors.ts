@@ -5,7 +5,7 @@
  * Zoom и JetBrains — отдельные bespoke-страницы (vendors/zoom.astro, vendors/jetbrains.astro).
  */
 
-export type VendorDomain = 'design' | 'games' | 'video' | 'ai' | 'it';
+export type VendorDomain = 'design' | 'games' | 'video' | 'ai' | 'it' | 'gift';
 
 export interface VendorEntry {
   slug: string;
@@ -353,6 +353,13 @@ export const VENDORS: VendorEntry[] = [
   { slug: 'lansweeper', vendor: 'Lansweeper', legalName: 'Lansweeper NV', brandColor: '#00A6D6', site: 'https://www.lansweeper.com', catSeg: 'system', catLabel: 'Системное ПО', domain: 'it',
     tagline: 'Обнаружение и инвентаризация ИТ-активов: сканирование сети, состав оборудования и программ, учёт лицензий. Тарифы Starter и Pro.',
     about: 'Lansweeper — система обнаружения и учёта ИТ-активов бельгийской разработки. Сканирует сеть и собирает состав того, что в ней работает: компьютеры и серверы, их железо и установленные программы, сетевое оборудование, виртуальные машины и облачные ресурсы. На собранном инвентаре строятся отчёты по лицензиям, срокам поддержки и изменениям в парке. Лицензия считается по числу учитываемых устройств, а не по числу администраторов, поэтому стоимость зависит от размера инфраструктуры, а не команды.' },
+  // Заведён 05.09.2026 по заданию руководителя: цифровые подарочные карты
+  // App Store & iTunes трёх регионов (Россия, Казахстан, Турция) — первый товар
+  // типа gift_card (docs/gift-cards.md). BIZSoft не является авторизованным
+  // реселлером Apple — на странице это сказано прямо.
+  { slug: 'apple', vendor: 'Apple', legalName: 'Apple Inc.', brandColor: '#1D1D1F', site: 'https://www.apple.com', catSeg: 'gift-cards', catLabel: 'Подарочные карты и пополнение баланса', domain: 'gift',
+    tagline: 'Цифровые Apple Gift Card для пополнения баланса Apple Account: коды для аккаунтов России, Казахстана и Турции, номиналы от малых до крупных.',
+    about: 'Apple Gift Card (App Store & iTunes Gift Card) — цифровой код, который зачисляет свой номинал на баланс Apple Account. С баланса оплачиваются приложения и игры в App Store, покупки внутри приложений и подписки Apple, доступные в стране учётной записи. Карта действует только для аккаунта того региона, для которого выпущена, поэтому регион выбирается до заказа.' },
 ];
 
 export function vendorBySlug(slug: string): VendorEntry | undefined {
@@ -366,4 +373,5 @@ export const DOMAIN_AUDIENCE: Record<VendorDomain, string> = {
   video: 'видеопродакшн-студий, моушн-дизайнеров и монтажёров',
   ai: 'креативных команд, использующих генеративный ИИ',
   it: 'ИТ-отделов, команд разработки и системных администраторов',
+  gift: 'компаний, которые оплачивают приложения и сервисы для сотрудников через баланс аккаунта',
 };
