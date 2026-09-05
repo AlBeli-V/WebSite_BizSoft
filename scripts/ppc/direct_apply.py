@@ -74,22 +74,44 @@ def check_add_results(label: str, result: dict, key: str = "AddResults") -> list
     return ids
 
 
-def schedule_business_hours() -> list[str]:
-    """Пн–пт 9:00–19:00 (слоты 9..18), сб–вс — показов нет.
+def schedule_business_hours(days: tuple[int, ...] = (1, 2, 3, 4, 5),
+                            hour_from: int = 9, hour_to: int = 19) -> list[str]:
+    """Расписание показов: по умолчанию пн–пт 9:00–19:00 (слоты 9..18), сб–вс — нет.
 
+    Дни и часы задаёт спецификация (ключ campaign.time_targeting, см.
+    schedule_from_spec): кампания подарочных карт Apple (раунд 3) показывается
+    и вечером, и в выходные — спрос на пополнение баланса не рабочий. Слот
+    hour_to не включается: 9..19 означает часы 9, 10, …, 18.
     API ждёт каждый день строкой «день,ч0,...,ч23» (ошибка 8000 при массиве).
     """
     items = []
     for day in range(1, 8):
-        on = [100 if (day <= 5 and 9 <= h <= 18) else 0 for h in range(24)]
+        on = [100 if (day in days and hour_from <= h < hour_to) else 0 for h in range(24)]
         items.append(",".join(str(v) for v in [day] + on))
     return items
+
+
+def schedule_from_spec(camp: dict) -> tuple[list[str], bool]:
+    """Расписание и признак «показы в выходные» из campaign.time_targeting.
+
+    Без ключа — прежнее поведение (пн–пт 9–19, праздники выключены), так что
+    спецификации раундов 1–2 воспроизводятся без изменений.
+    """
+    tt = camp.get("time_targeting") or {}
+    days = tuple(int(d) for d in tt.get("days", (1, 2, 3, 4, 5)))
+    hour_from = int(tt.get("hour_from", 9))
+    hour_to = int(tt.get("hour_to", 19))
+    if not days or any(d < 1 or d > 7 for d in days) or not (0 <= hour_from < hour_to <= 24):
+        raise SystemExit(f"time_targeting некорректен: days={days} hours={hour_from}-{hour_to}")
+    weekends = any(d >= 6 for d in days)
+    return schedule_business_hours(days, hour_from, hour_to), weekends
 
 
 def build_campaign(spec: dict) -> dict:
     camp = spec["campaign"]
     weekly_net_rub = camp["strategy"]["weekly_limit_rub_net"]
     bid_ceiling_rub = max(g["max_bid_rub"] for g in spec["groups"])
+    schedule, weekends = schedule_from_spec(camp)
     return {
         "Campaigns": [
             {
@@ -97,9 +119,11 @@ def build_campaign(spec: dict) -> dict:
                 "StartDate": camp["start_date"],
                 "TimeZone": "Europe/Moscow",
                 "TimeTargeting": {
-                    "Schedule": {"Items": schedule_business_hours()},
+                    "Schedule": {"Items": schedule},
                     "ConsiderWorkingWeekends": "NO",
-                    "HolidaysSchedule": {"SuspendOnHolidays": "YES"},
+                    # Кампания с показами в выходные не останавливается и в
+                    # праздники: её спрос не привязан к рабочему календарю.
+                    "HolidaysSchedule": {"SuspendOnHolidays": "NO" if weekends else "YES"},
                 },
                 "NegativeKeywords": {"Items": camp["negative_keywords"]},
                 "TextCampaign": {
