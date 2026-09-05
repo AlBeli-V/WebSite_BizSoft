@@ -1,0 +1,27 @@
+---
+// ВРЕМЕННАЯ диагностическая страница, 05.09.2026. Удалить после прогона.
+//
+// Зачем: PageSpeed Insights (движок веб-интерфейса pagespeed.web.dev) не
+// регистрирует кандидата LCP на главной — NO_LCP в 4 прогонах из 5, — а на
+// /catalog, /catalog/ai, /about и /vendors даёт 99–100. Общие с этими
+// страницами компоненты (карусель, плитки, анимация секций) исключены
+// бисектом; остались три, которые есть только на главной. Здесь главная
+// отдаётся копиями: полной (контроль адреса) и с одним отключённым
+// компонентом в каждой. Прогон PSI по всем пяти адресам называет виновника.
+//
+// Страницы закрыты noindex (пропом в главную) и в sitemap не входят:
+// STATIC_ROUTES заполняется руками. Правки самой главной — только проп
+// perfVariant, по своему адресу она рендерится как прежде.
+import Home from '../index.astro';
+
+// Как и сама главная — рендер на запрос: сайт собран в static с Node-адаптером,
+// динамический маршрут без getStaticPaths обязан отказаться от пререндера.
+export const prerender = false;
+
+const VARIANTS = ['control', 'no-stats', 'no-banner', 'no-hero-decor'] as const;
+const variant = Astro.params.variant ?? '';
+if (!(VARIANTS as readonly string[]).includes(variant)) {
+  return new Response(null, { status: 404 });
+}
+---
+<Home perfVariant={variant} />
