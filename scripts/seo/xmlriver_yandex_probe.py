@@ -1,0 +1,260 @@
+#!/usr/bin/env python3
+"""Проба выдачи Яндекса через xmlriver — ровно один платный запрос.
+
+Зачем (решение руководителя 04.09.2026). Эталонный замер живой выдачи через
+Chromium из GitHub Actions провалился: капча на 24 запросах из 26. Два
+уцелевших замера показывали расхождение с ежедневным срезом при нулевой
+рекламе, и из этого была выдвинута гипотеза, что дело в самом ранжировании
+Search API. Проба заводилась, чтобы её проверить вторым независимым
+источником: xmlriver для Google в проекте работает с 03.09.
+
+**Итог двух прогонов 04.09 — гипотеза опровергнута, и вот чем.**
+
+1. Адрес `https://xmlriver.com/search_yandex/xml` отвечает и отдаёт выдачу.
+2. **Рекламных блоков сервис не отдаёт.** Второй прогон шёл по запросу
+   «как оплатить box business из россии» — тому самому, где руководитель
+   своими глазами видел четыре объявления «Промо». Ответ: тринадцать
+   документов, все `organic`, ни одного рекламного. Значит `absolute_position`
+   и `ads_before` через xmlriver недостижимы в принципе.
+3. **Ранжирование совпадает со срезом**, а не с Chromium-замером:
+
+       «оплата depositphotos из россии»   xmlriver 8, срез 9;  общих 10 из 10
+       «как оплатить box business из россии» xmlriver 1, срез 1; общих 8 из 10
+
+   Два независимых источника согласны между собой. Chromium-замеры, давшие
+   другие числа, шли из дата-центра, где Яндекс на 24 запросах из 26 показал
+   капчу, — доверять оставшимся двум оснований не было.
+
+Отсюда вывод для контура: все доступные автоматические источники видят только
+органику, и место, которое видит человек, ни одним из них не измеряется. Это
+граница, а не недоработка; она названа в методике (раздел 3.9а).
+
+Проба оставлена как диагностический инструмент: если у сервиса появится
+разметка рекламных блоков или понадобится сверить ранжирование ещё раз,
+повторять её дешевле, чем писать заново.
+
+Запуск: python3 scripts/seo/xmlriver_yandex_probe.py "запрос" [endpoint]
+Тратит ОДИН платный запрос. Вывод — в журнал issue #22 через workflow
+ops-xmlriver-yandex-probe.
+"""
+from __future__ import annotations
+
+import json
+import os
+import pathlib
+import subprocess
+import sys
+import time
+import xml.etree.ElementTree as ET
+
+sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
+
+import xmlriver  # noqa: E402
+
+# Адреса, по которым сервис отдаёт выдачу Яндекса. Первый — основной по
+# документации xmlriver, второй пробуется, если первый ответил не XML.
+DEFAULT_ENDPOINTS = (
+    "https://xmlriver.com/search_yandex/xml",
+    "https://xmlriver.com/api/search_yandex/xml",
+)
+SEO_BRANCH = "seo-data"
+REGION = "213"
+OURS = "biz-soft.pro"
+# Повторы на помеху сервиса. Коды из RETRY_SERVICE_CODES клиента — это
+# «выполните перезапрос», а не вердикт: 04.09.2026 вторая проба получила
+# code=500 и объявила верный адрес негодным, хотя двадцатью минутами раньше
+# он же ответил выдачей. Механизм повтора в проекте был — проба его не
+# переиспользовала.
+PROBE_RETRIES = 4
+RETRY_PAUSE_S = 3
+
+
+def daily_snapshot_top(query: str) -> list[str]:
+    """Топ доменов по этому запросу из последнего ежедневного среза.
+
+    Читается тем же способом, что и везде в проекте, — `git show` по ветке
+    базового контура, только на чтение.
+    """
+    try:
+        listing = subprocess.run(
+            ["git", "ls-tree", "--full-tree", "--name-only",
+             f"origin/{SEO_BRANCH}", "reports/seo/serp/"],
+            capture_output=True, text=True, check=True).stdout
+    except subprocess.CalledProcessError:
+        return []
+    files = sorted(p for p in listing.splitlines() if p.endswith("-serp.jsonl"))
+    if not files:
+        return []
+    try:
+        blob = subprocess.run(["git", "show", f"origin/{SEO_BRANCH}:{files[-1]}"],
+                              capture_output=True, text=True, check=True).stdout
+    except subprocess.CalledProcessError:
+        return []
+    needle = " ".join(query.lower().split())
+    for line in blob.splitlines():
+        try:
+            row = json.loads(line)
+        except json.JSONDecodeError:
+            continue
+        if row.get("region") != REGION:
+            continue
+        if " ".join((row.get("query") or "").lower().split()) != needle:
+            continue
+        return [(d.get("domain") or "").lower().removeprefix("www.")
+                for d in (row.get("top") or [])]
+    return []
+
+
+def parse_with_types(xml_text: str) -> dict:
+    """Разбор ответа с сохранением ПОРЯДКА документов и типов блоков.
+
+    Штатный разбор клиента выбрасывает неорганические документы — для сбора
+    выдачи это правильно, но здесь выбрасывать нельзя: вопрос пробы ровно в
+    том, приходят ли рекламные блоки и на каких местах они стоят.
+    """
+    try:
+        root = ET.fromstring(xml_text)
+    except ET.ParseError as e:
+        return {"error": f"ответ не является XML: {e}", "raw_head": xml_text[:400]}
+    err = root.find(".//error")
+    if err is not None:
+        code = (err.get("code") or "").strip()
+        return {"error": f"ошибка сервиса (code={code or '?'}): "
+                         f"{(err.text or '').strip()}",
+                "code": code}
+    items = []
+    for doc in root.findall(".//group/doc"):
+        url = (doc.findtext("url") or "").strip()
+        domain = ((doc.findtext("domain") or "").strip().lower().removeprefix("www.")
+                  or xmlriver._domain_of(url))
+        items.append({"domain": domain,
+                      "type": (doc.findtext("contentType") or "").strip().lower()
+                              or "organic"})
+    return {"items": items}
+
+
+def main(argv: list[str]) -> int:
+    user, key = xmlriver.credentials()
+    if not user or not key:
+        print("секреты XMLRIVER_USER / XMLRIVER_KEY не заданы — пробовать нечем")
+        return 1
+    import requests
+
+    query = (argv[1] if len(argv) > 1 else "оплата depositphotos из россии").strip()
+    endpoints = [argv[2]] if len(argv) > 2 else list(DEFAULT_ENDPOINTS)
+    config = json.loads(pathlib.Path("data/seo/xmlriver.json").read_text("utf-8"))
+
+    # Регион задаётся так же, как в ежедневном срезе: Москва. Прочие
+    # параметры — из конфига Google-сбора, кроме тех, что относятся только
+    # к Google (домен выдачи).
+    params = {"user": user, "key": key, "query": query, "loc": REGION}
+    for name in ("lr", "device"):
+        value = (config.get("query") or {}).get(name)
+        if value:
+            params[name] = value
+
+    print(f"Проба выдачи Яндекса через xmlriver: «{query}», регион {REGION}")
+    print(f"Параметры (без ключа): "
+          f"{ {k: v for k, v in params.items() if k != 'key'} }\n")
+
+    parsed = None
+    used = None
+    # Адрес, ответивший разбираемым XML, доказал свою пригодность — даже если
+    # в этом XML вердикт сервиса. Перебирать после него другие адреса
+    # бессмысленно: ключ и баланс от смены адреса не изменятся, а вывод
+    # «адрес неверен» был бы ложным.
+    verdict = ""
+    for endpoint in endpoints:
+        print(f"Эндпоинт {endpoint}")
+        for attempt in range(1, PROBE_RETRIES + 1):
+            try:
+                r = requests.get(endpoint, params=params, timeout=60)
+            except requests.RequestException as e:
+                print(f"  попытка {attempt}: сетевая ошибка: {type(e).__name__}: {e}")
+            else:
+                print(f"  попытка {attempt}: HTTP {r.status_code}, "
+                      f"тело {len(r.text)} символов")
+                if r.status_code < 500 and not r.ok:
+                    # 4xx — вердикт по адресу или учётным данным, повтор
+                    # ничего не изменит.
+                    print(f"  ответ сервиса: {r.text[:400]}")
+                    break
+                if r.ok:
+                    result = parse_with_types(r.text)
+                    code = result.get("code")
+                    if not result.get("error"):
+                        parsed, used = result, endpoint
+                        break
+                    print(f"  {result['error']}")
+                    if result.get("raw_head"):
+                        print(f"  начало ответа: {result['raw_head']}")
+                    # Помеха сервиса — не приговор адресу: сервис сам просит
+                    # перезапрос. Всё прочее (неверный ключ, чужой формат)
+                    # повторять незачем.
+                    if code not in xmlriver.RETRY_SERVICE_CODES:
+                        verdict = result["error"]
+                        used = endpoint
+                        break
+            if attempt < PROBE_RETRIES:
+                time.sleep(RETRY_PAUSE_S * attempt)
+        if parsed is not None or verdict:
+            break
+
+    if parsed is None:
+        if verdict:
+            print(f"\nВЫВОД: адрес {used} рабочий — он ответил разбираемым "
+                  f"XML, — но сервис отказал: {verdict}. Дело не в адресе: "
+                  f"проверять надо учётные данные, баланс или сам запрос.")
+        else:
+            print(f"\nВЫВОД: выдачу получить не удалось после "
+                  f"{PROBE_RETRIES} попыток на каждый адрес. Если сервис "
+                  f"отвечал кодом «выполните перезапрос» — адрес верен, помеха "
+                  f"временная, пробу нужно просто повторить. Если ответы не "
+                  f"XML вовсе — адрес неверен и его надо уточнить в поддержке. "
+                  f"Строить контур на догадке нельзя.")
+        return 1
+
+    items = parsed["items"]
+    types: dict[str, int] = {}
+    for item in items:
+        types[item["type"]] = types.get(item["type"], 0) + 1
+    ads = [i for i, item in enumerate(items, start=1) if item["type"] != "organic"]
+
+    print(f"\nПолучено {len(items)} документов, адрес {used}")
+    print(f"Типы блоков: {types}")
+    print("Первые 10 позиций (позиция · тип · домен):")
+    for index, item in enumerate(items[:10], start=1):
+        mark = "органика" if item["type"] == "organic" else item["type"].upper()
+        star = " ←── мы" if item["domain"] == OURS else ""
+        print(f"  {index:2}. {mark:10} {item['domain']}{star}")
+
+    daily = daily_snapshot_top(query)
+    if daily:
+        organic = [i["domain"] for i in items if i["type"] == "organic"]
+        common = len(set(organic[:10]) & set(daily[:10]))
+        our_x = next((i + 1 for i, d in enumerate(organic) if d == OURS), None)
+        our_d = next((i + 1 for i, d in enumerate(daily) if d == OURS), None)
+        print(f"\nСверка с ежедневным срезом Search API:")
+        print(f"  общих доменов в топ-10: {common} из 10")
+        print(f"  наша органическая позиция: xmlriver {our_x or '—'}, "
+              f"срез {our_d or '—'}")
+    else:
+        print("\nСверка с ежедневным срезом невозможна: запроса нет в "
+              "последнем срезе.")
+
+    print("\nВЫВОД ПО ГЛАВНОМУ ВОПРОСУ")
+    if ads:
+        print(f"  Рекламные блоки в ответе ЕСТЬ (позиции {ads}). Значит через "
+              f"xmlriver можно получить absolute_position и ads_before — то, "
+              f"чего Search API не отдаёт вовсе.")
+    else:
+        print("  Рекламных блоков в ответе НЕТ. Либо их не было в этой выдаче, "
+              "либо сервис их не отдаёт — по одному запросу не различить. "
+              "Повторить пробу на запросе, где реклама заведомо есть; если и "
+              "там пусто, absolute_position через xmlriver недостижим, и "
+              "остаётся сравнивать только ранжирование.")
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main(sys.argv))

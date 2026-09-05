@@ -17,6 +17,7 @@ import { effectivePrice, formatRub } from '../lib/pricing';
 import { collectionPageSchema } from '../lib/seo';
 import { SEO_EXPERIMENTS } from '../data/seo-experiments';
 import { planType, PLAN_LABEL } from '../lib/plan-type';
+import { productKind, listingProducts, isGiftCard } from '../lib/catalog';
 import { productIcons } from '../data/product-icons';
 import ProductIcon from './ProductIcon.astro';
 import AddToCartButton from './AddToCartButton.astro';
@@ -38,7 +39,9 @@ try {
 }
 
 // Вью-модели карточек (операторы сравнения — здесь, не в шаблоне).
-const cards = products.map((p) => {
+// Варианты (номиналы подарочных карт) в сетке не показываются: их
+// представляет родительская карточка с выбором региона и номинала.
+const cards = listingProducts(products).map((p) => {
   const eff = effectivePrice(p);
   const feats = Array.isArray(p.features) ? p.features.slice(0, 5) : [];
   return {
@@ -53,12 +56,21 @@ const cards = products.map((p) => {
     features: feats,
     plan: planType(p.name, p.short_description || ''),
     icon: productIcons(p.slug).length > 0,
+    // Подарочная карта: цена «от» минимального номинала, в избранное — со
+    // страницы карты после выбора региона и номинала.
+    gift: isGiftCard(p),
+    priceFrom: Boolean(p.price_from),
   };
 });
 // Карточки «Цена по запросу» — всегда в конце списка
 cards.sort((a, b) => Number(a.byRequest) - Number(b.byRequest));
 const priced = cards.filter((c) => !c.byRequest);
-const minPrice = priced.length ? Math.min(...products.filter((p) => effectivePrice(p).price > 0).map((p) => effectivePrice(p).price)) : 0;
+// «Цены от … в год» — по основным продуктам (тарифам): дополнения — пакеты
+// кредитов и плагины — разовые и дешевле любого тарифа, минимум по ним выдал бы
+// цену пакета кредитов за «год». Если тарифов с ценой нет — по всем позициям.
+const mainPriced = priced.filter((c) => productKind({ sku: c.sku }) === 'main');
+const minPool = mainPriced.length ? mainPriced : priced;
+const minPrice = minPool.length ? Math.min(...minPool.map((c) => c.price)) : 0;
 const hasMin = minPrice > 0;
 const hasCards = cards.length > 0;
 
@@ -119,7 +131,7 @@ const solutionLinks = (VENDOR_SOLUTIONS[entry.slug] || [])
       <button class="btn btn-primary" data-open-question data-product={`${title} — подбор тарифа`} data-ev="click_get_quote">Получить расчёт и КП</button>
       {hasCards && <a href="#products" class="btn btn-ghost" data-ev="click_choose_plan">Смотреть тарифы</a>}
     </div>
-    {hasMin && <p class="from">Цены от <b>{formatRub(minPrice)}</b> в год</p>}
+    {hasMin && <p class="from">Цены от <b>{formatRub(minPrice)}</b>{entry.domain === 'gift' ? ' за код' : ' в год'}</p>}
   </header>
 
   <!-- Прямой ответ (GEO/AEO) -->
@@ -141,12 +153,14 @@ const solutionLinks = (VENDOR_SOLUTIONS[entry.slug] || [])
             <div class="vprice">
               {c.byRequest
                 ? <span class="req">Цена по запросу</span>
-                : <span class="pv"><b>{c.priceText}</b> <span class="note">{c.note}</span></span>}
+                : <span class="pv"><b>{c.priceFrom ? `от ${c.priceText}` : c.priceText}</b> <span class="note">{c.note}</span></span>}
             </div>
             {c.features.length > 0 && <ul class="vfeat">{c.features.map((f) => <li>{f}</li>)}</ul>}
             <div class="vactions">
               {c.byRequest ? (
                 <button class="btn btn-primary btn-sm" data-open-question data-product={`${title} — ${c.name}`} data-sku={c.sku} data-ev="click_get_quote">Запросить цену</button>
+              ) : c.gift ? (
+                <a href={`/product/${c.slug}`} class="btn btn-primary btn-sm" data-ev="click_product_card">Выбрать регион и номинал</a>
               ) : (
                 <AddToCartButton sku={c.sku} slug={c.slug} name={c.name} vendor={entry.vendor} price={c.price} compact />
               )}

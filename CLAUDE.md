@@ -45,7 +45,10 @@
   Ежедневные и еженедельные прогоны с детерминированными шагами — workflow с
   двумя cron-слотами, идемпотентностью по артефакту дня, очередью и явным
   вызовом почтовых workflow (`scripts/ops/gh_dispatch_wait.sh`). Routine на
-  сессиях Claude для них не заводятся. Контуры: `seo-daily-report`,
+  сессиях Claude для них не заводятся. Время старта задаёт сторож
+  `seo-morning-gate`: планировщик GitHub задерживает слоты на 4–5 часов,
+  поэтому утренние контуры запускает он, а их собственные слоты остаются
+  страховкой. Контуры: `seo-daily-report`,
   `seo-committee-build`, `competitive-intelligence-daily`, `seo-serp-watch`,
   `seo-wordstat`. Статусы `intelligence/actions.json` обновляет PR,
   внедряющий действие. Тишина: при успехе ничего, при сбое — запись в issue #22.
@@ -76,6 +79,12 @@
   `content_updated_at`. Задвоенные позиции склеивать `ops-merge-product`
   (сначала `apply=false`; 301 через `old_slugs`, снятая — `draft`);
   карточки не удалять.
+- **Подарочные карты — варианты одного товара** (`docs/gift-cards.md`).
+  `product_type = gift_card`: родитель со страницей и варианты-строки с
+  `parent_sku`, регионом и номиналом; цена варианта = закупка USD × курс ЦБ
+  × 3,0 (`GIFT_CARD_MARKUP_COEFF`), номинал в цене не участвует; страниц на
+  номинал нет (301 на родителя, `productNoindex`), в списках витрины —
+  только родитель, порядок номиналов — `denomination DESC` из кода.
 - **Новые страницы → sitemap → индексация** (`docs/rules/sitemap-indexing.md`).
   Проверить `/sitemap.xml` (bespoke-страницы — руками в `STATIC_ROUTES`;
   `noindex` и `productNoindex()` не попадают), затем переобход через
@@ -103,7 +112,9 @@
   Вебмастера; в реестре обязательны `page_markers`, `query_intent_any`,
   `query_exclude`, `title_marker`, `baseline`; статус `planned`, `start`
   ставит `seo-site-check`; одно изменение на эксперимент; после деплоя —
-  переобход.
+  переобход. Новый эксперимент любого типа — только на кластере с
+  экспозицией выше 3,6 показа в день (100 за 28 дней): проверка
+  `experiment_windows.py validate` перед отправкой реестра.
 - **SERP: один сбор — все потребители** (`docs/rules/serp-single-source.md`).
   Выдачу собирает только `seo-serp-watch` (Яндекс ежедневно, Google RU через
   xmlriver еженедельно) в `reports/seo/serp` ветки `seo-data`; параллельные

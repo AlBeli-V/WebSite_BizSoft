@@ -146,6 +146,61 @@ check('бренд в title не задваивается', async () => {
   const hits = (title.match(/BIZSoft/gi) || []).length;
   return { ok: hits === 1, got: `вхождений бренда: ${hits}` };
 });
+// ── Подарочные карты: одна страница на все номиналы ──
+check('подарочная карта: страница родителя отдаёт 200 с выбором региона и номинала', async () => {
+  const r = await req('/product/app-store-itunes-gift-card');
+  const html = r.body;
+  if (r.status !== 200) throw new Error(`HTTP ${r.status}`);
+  if (!html.includes('data-gift-card')) throw new Error('нет селектора вариантов');
+  if (!html.includes('data-region="RU"') || !html.includes('data-region="TR"')) throw new Error('нет кнопок регионов');
+  // Номиналы региона по убыванию: 1000 раньше 500, хотя в базе порядок обратный.
+  const i1000 = html.indexOf('data-sku="APP-STORE-ITUNES-GIFT-CARD-RU-1000"');
+  const i500 = html.indexOf('data-sku="APP-STORE-ITUNES-GIFT-CARD-RU-500"');
+  if (i1000 < 0 || i500 < 0 || i1000 > i500) throw new Error('номиналы не по убыванию');
+  if (/base_price_usd|markup_coeff/.test(html)) throw new Error('закупка попала в HTML');
+  if (!html.includes('rel="canonical" href="https://biz-soft.pro/product/app-store-itunes-gift-card"')) throw new Error('canonical не на родителя');
+  return { ok: true, got: '200, селектор, регионы RU/TR, номиналы по убыванию, закупки в HTML нет' };
+});
+check('подарочная карта: ?sku= не меняет canonical и не закрывает страницу от индексации', async () => {
+  const html = (await req('/product/app-store-itunes-gift-card?sku=APP-STORE-ITUNES-GIFT-CARD-TR-2000')).body;
+  if (!html.includes('rel="canonical" href="https://biz-soft.pro/product/app-store-itunes-gift-card"')) throw new Error('canonical с параметром');
+  if (html.includes('name="robots" content="noindex')) throw new Error('родитель закрыт noindex');
+  return { ok: true, got: 'canonical без параметров, noindex нет' };
+});
+check('подарочная карта: страница варианта отдаёт 301 на родителя с выбранным номиналом', async () => {
+  const r = await req('/product/app-store-itunes-gift-card-ru-1000');
+  if (r.status !== 301) throw new Error(`HTTP ${r.status}`);
+  const loc = r.headers.get('location') || '';
+  if (!loc.startsWith('/product/app-store-itunes-gift-card?sku=APP-STORE-ITUNES-GIFT-CARD-RU-1000')) throw new Error(`location: ${loc}`);
+  return { ok: true, got: `301 → ${loc}` };
+});
+check('подарочная карта: sitemap содержит родителя и не содержит варианты', async () => {
+  const xml = (await req('/sitemap.xml')).body;
+  if (!xml.includes('/product/app-store-itunes-gift-card</loc>')) throw new Error('родителя нет в sitemap');
+  if (xml.includes('app-store-itunes-gift-card-ru-') || xml.includes('app-store-itunes-gift-card-tr-')) throw new Error('вариант попал в sitemap');
+  return { ok: true, got: 'родитель есть, вариантов нет' };
+});
+check('подарочная карта: JSON-LD — один Product с AggregateOffer, диапазон совпадает с витриной', async () => {
+  const html = (await req('/product/app-store-itunes-gift-card')).body;
+  const nodes = ldNodes(html);
+  const products = ofType(nodes, 'Product');
+  if (products.length !== 1) throw new Error(`Product: ${products.length}`);
+  const offers = products[0].offers;
+  if (!offers || offers['@type'] !== 'AggregateOffer') throw new Error('нет AggregateOffer');
+  if (offers.lowPrice !== 1895 || offers.highPrice !== 11275 || offers.offerCount !== 3) throw new Error(`диапазон ${offers.lowPrice}–${offers.highPrice} × ${offers.offerCount}`);
+  if (!html.includes('itemtype="https://schema.org/AggregateOffer"')) throw new Error('microdata без AggregateOffer');
+  if (!html.includes('itemprop="lowPrice" content="1895"')) throw new Error('microdata lowPrice расходится');
+  return { ok: true, got: `AggregateOffer ${offers.lowPrice}–${offers.highPrice} × ${offers.offerCount}, microdata согласована` };
+});
+check('подарочная карта: WebMCP отдаёт вариант с ценой и без закупки', async () => {
+  const r = await req('/api/agent/get_product?slug=app-store-itunes-gift-card-ru-1000');
+  const j = JSON.parse(r.body);
+  if (r.status !== 200) throw new Error(`HTTP ${r.status}`);
+  if (j?.data?.price !== 3734) throw new Error(`price=${j?.data?.price}`);
+  if (JSON.stringify(j).includes('base_price')) throw new Error('закупка в ответе агенту');
+  return { ok: true, got: `price=${j.data.price}, закупки нет` };
+});
+
 check('sitemap: /vendors присутствует', async () => {
   const r = await req('/sitemap.xml');
   return { ok: /<loc>[^<]*\/vendors<\/loc>/.test(r.body), got: /<loc>[^<]*\/vendors<\/loc>/.test(r.body) ? 'есть' : 'НЕТ' };
@@ -222,6 +277,32 @@ check('WebMCP: search_products находит товар и даёт ссылк�
   const body = r.status === 200 ? JSON.parse(r.body) : null;
   const hit = body?.data?.items?.find((i) => i.url?.endsWith('/product/chatgpt-business'));
   return { ok: Boolean(hit), got: hit ? `найден ${hit.sku}` : `HTTP ${r.status}, не найден` };
+});
+check('WebMCP: фильтры подбора сужают выдачу (раздел + потолок цены)', async () => {
+  const r = await req('/api/agent/search_products?category=design&max_price=5000');
+  const body = r.status === 200 ? JSON.parse(r.body) : null;
+  const items = body?.data?.items || [];
+  // «Цена по запросу» внутрь ценового диапазона попадать не должна.
+  const ok = items.length > 0 && items.every((i) => typeof i.price === 'number' && i.price <= 5000);
+  return { ok, got: `HTTP ${r.status}, ${items.length} поз.: ${items.map((i) => i.price).join(', ') || '—'}` };
+});
+check('WebMCP: list_categories отдаёт разделы со ссылками', async () => {
+  const r = await req('/api/agent/list_categories');
+  const body = r.status === 200 ? JSON.parse(r.body) : null;
+  const items = body?.data?.items || [];
+  const ok = items.length > 0 && items.every((i) => i.url?.startsWith('https://biz-soft.pro/catalog/') && i.products_count > 0);
+  return { ok, got: `HTTP ${r.status}, ${items.map((i) => i.slug).join(', ') || '—'}` };
+});
+check('WebMCP: search_policies отвечает условиями с сайта, не выдумкой', async () => {
+  const r = await req('/api/agent/search_policies?query=' + encodeURIComponent('дадите закрывающие документы'));
+  const body = r.status === 200 ? JSON.parse(r.body) : null;
+  const top = body?.data?.items?.[0];
+  const ok = Boolean(top?.answer) && top?.url?.startsWith('https://biz-soft.pro/');
+  return { ok, got: top ? `${top.id} → ${top.url}` : `HTTP ${r.status}` };
+});
+check('WebMCP: пустого вызова каталога нет — 400 вместо всей базы', async () => {
+  const r = await req('/api/agent/search_products');
+  return { ok: r.status === 400, got: String(r.status) };
 });
 check('WebMCP: мусорный вход отклоняется схемой (400), не 500', async () => {
   const r = await req('/api/agent/search_products?query=x&limit=abc&hack=1');

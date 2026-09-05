@@ -42,7 +42,9 @@ if (files.length === 0) { console.error('нет пакетов в scripts/catalo
 const COLS = ['sku', 'name', 'vendor', 'origin', 'category', 'license_type',
   'short_description', 'description', 'keywords',
   'base_price_usd', 'peg_currency', 'markup_coeff', 'price_locked',
-  'price', 'price_note', 'vat_percent', 'currency', 'features', 'status', 'sort'];
+  'price', 'price_note', 'vat_percent', 'currency', 'features', 'status', 'sort',
+  // Тип товара и варианты подарочных карт (docs/gift-cards.md).
+  'product_type', 'parent_sku', 'region_code', 'region_name', 'denomination', 'denomination_currency', 'availability', 'price_from'];
 
 const rows = [];
 for (const f of files) {
@@ -78,6 +80,14 @@ for (const f of files) {
       features: Array.isArray(p.features) ? p.features.join(' | ') : '',
       status: p.status || (hasBase ? 'published' : 'published'),
       sort: p.sort ?? '',
+      product_type: p.product_type || '',
+      parent_sku: p.parent_sku || '',
+      region_code: p.region_code || '',
+      region_name: p.region_name || '',
+      denomination: p.denomination ?? '',
+      denomination_currency: p.denomination_currency || '',
+      availability: p.availability || '',
+      price_from: p.price_from ? 1 : '',
     });
   }
 }

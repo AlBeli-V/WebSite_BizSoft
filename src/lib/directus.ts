@@ -175,8 +175,13 @@ const PRODUCT_FIELDS = [
  * отвечает 400 на ВЕСЬ запрос, если хоть одно поле из fields не существует,
  * и до прогона ops-directus-schema на проде каталог и КП падали бы целиком
  * из-за не доехавшей миграции. Каталог важнее свежести даты закупки.
+ *
+ * Тем же списком идут поля вариантов и типа товара (схема 05.09.2026,
+ * подарочные карты): product_type, parent_sku, region_code, region_name,
+ * denomination, denomination_currency, availability — с тем же откатом.
  */
-const PRODUCT_FIELDS_EXTRA = `${PRODUCT_FIELDS},purchase_updated_at,purchase_source,content_updated_at`;
+const VARIANT_FIELDS = 'product_type,parent_sku,region_code,region_name,denomination,denomination_currency,availability';
+const PRODUCT_FIELDS_EXTRA = `${PRODUCT_FIELDS},purchase_updated_at,purchase_source,content_updated_at,${VARIANT_FIELDS}`;
 let extraFieldsMissing = false;
 
 async function productsQuery(params: Record<string, unknown>, auth = false): Promise<Product[]> {
@@ -190,7 +195,7 @@ async function productsQuery(params: Record<string, unknown>, auth = false): Pro
       // Запоминаем до перезапуска процесса: после применения схемы поля
       // появятся, и новый деплой снова начнёт их запрашивать.
       extraFieldsMissing = true;
-      console.warn('products: поля схемы 28.08/03.09 недоступны, запрос без них', e);
+      console.warn('products: поля схемы 28.08/03.09/05.09 недоступны, запрос без них', e);
     }
   }
   return dx<Product[]>('/items/products', { auth, params: { ...params, fields: PRODUCT_FIELDS } });
@@ -325,6 +330,31 @@ async function fetchVendors(origin?: 'domestic' | 'foreign'): Promise<{ vendor: 
   return [...counts.entries()].map(([vendor, count]) => ({ vendor, count })).sort((a, b) => a.vendor.localeCompare(b.vendor, 'ru'));
 }
 
+/**
+ * Срез каталога для счётчиков витрины: по одному вендору и слагу категории
+ * на позицию.
+ *
+ * Главной нужны только числа — сколько всего позиций, сколько вендоров и
+ * сколько товаров в каждом направлении. Раньше она брала их из полной
+ * выборки getProducts(), то есть тянула на каждую позицию описание, SEO-текст,
+ * характеристики и вопросы. После истечения кэша первый запрос оплачивал эту
+ * выгрузку целиком, и главная проваливалась по времени ответа: три подряд
+ * замера Lighthouse на одном и том же коде дали 52, 73 и 95 баллов, тогда как
+ * раздел каталога с узкой выборкой держал 90 стабильно.
+ *
+ * Два поля вместо полусотни: объём ответа падает примерно в сто раз.
+ */
+export async function getCatalogFacets(): Promise<{ vendor: string | null; category: { slug: string } | null }[]> {
+  return cached('facets', () => dx<{ vendor: string | null; category: { slug: string } | null }[]>('/items/products', {
+    params: {
+      fields: 'vendor,category.slug',
+      // Те же условия, что у витрины: опубликованное и не отечественное.
+      filter: JSON.stringify({ _and: [{ status: { _eq: 'published' } }, { origin: { _neq: 'domestic' } }] }),
+      limit: -1,
+    },
+  }));
+}
+
 /** Если slug устарел (есть в old_slugs опубликованного товара) — вернуть актуальный slug для 301. */
 export async function findCanonicalProductSlug(oldSlug: string): Promise<string | null> {
   return cached(`canonical:${oldSlug}`, async () => {
@@ -352,6 +382,18 @@ export async function getProductBySlug(slug: string): Promise<Product | null> {
 }
 
 /** Товары по списку sku (для пересчёта корзины на сервере при генерации КП). */
+/**
+ * Варианты товара (номиналы подарочной карты) по артикулу родителя.
+ * Опубликованные, в порядке базы — порядок для витрины задаёт
+ * lib/gift-cards.ts (denomination DESC), а не sort и не id.
+ */
+export async function getProductVariants(parentSku: string): Promise<Product[]> {
+  return cached(`variants:${parentSku}`, () => productsQuery({
+    filter: JSON.stringify({ _and: [{ status: { _eq: 'published' } }, { parent_sku: { _eq: parentSku } }] }),
+    limit: -1,
+  }));
+}
+
 export async function getProductsBySkus(skus: string[]): Promise<Product[]> {
   if (skus.length === 0) return [];
   // С полями закупки: выборку по артикулам использует расчёт экономики КП.
@@ -396,7 +438,10 @@ export async function getProductsBySlugs(slugs: string[]): Promise<Product[]> {
   if (!slugs.length) return [];
   return cached(`slugs:${[...slugs].sort().join(',')}`, () => dx<Product[]>('/items/products', {
     params: {
-      fields: 'id,name,slug,vendor,origin,short_description,price,promo_price,promo_start,promo_end,currency,license_type,image',
+      // sku, price_note и promo_label добавлены для карточек витрины:
+      // ProductCard печатает артикул и приписку к цене, effectivePrice —
+      // подпись акции. Без них главная не смогла бы обойтись этой выборкой.
+      fields: 'id,name,sku,slug,vendor,origin,short_description,price,price_note,promo_price,promo_label,promo_start,promo_end,currency,license_type,image',
       filter: JSON.stringify({ slug: { _in: slugs }, status: { _eq: 'published' } }),
       limit: -1,
     },

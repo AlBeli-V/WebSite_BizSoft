@@ -28,6 +28,11 @@
 | GitHub Copilot Business — IP-индемнификация, org-политики, исключения контента | `src/data/comparisons.ts` (cursor-vs-copilot) | 01.09.2026 |
 | Cursor Business — отдельный редактор (форк VS Code), SSO SAML/OIDC, принудительный режим приватности | `src/data/comparisons.ts` | 01.09.2026 |
 | Enterprise-уровень добавляет SSO, SCIM, ролевой доступ, журналы аудита, настраиваемое хранение, комплаенс | `src/content/blog/enterprise-vs-team-korporativnye-tarify-ai.md` | 01.09.2026 |
+| HeyGen в каталоге — три тарифа: Pro, Business, Enterprise (карточки `heygen-pro`, `heygen-business`, `heygen-ent`) | `seo-site-check` от 04.09.2026 (живые заголовки страниц) | 04.09.2026 |
+| HeyGen: командные тарифы Business с местами и Enterprise; в Enterprise — SAML SSO, SCIM, журналы аудита | `src/data/comparisons.ts` (runway-vs-heygen) | 03.09.2026 |
+| HeyGen: коммерческое использование открывается на платных тарифах | `src/data/comparisons.ts` (runway-vs-heygen) | 03.09.2026 |
+| HeyGen — генерация видео с ИИ-аватарами и синхронной озвучкой на 175+ языках | `src/data/vendors.ts` (slug heygen) | 03.09.2026 |
+| CorelDRAW Graphics Suite в каталоге — подписка (`cdr-gs-sub`), бессрочная лицензия (`cdr-gs-perp`) и программа для бизнеса (`cdr-gs-biz`, цена по запросу) | каталог Directus, статья тиража от 02.09.2026 | 02.09.2026 |
 
 **Живая выгрузка каталога** (vendor / name / slug / sku / price) — workflow
 `ops-export-products`, результат комментарием в issue #22. Перед публикацией
@@ -41,6 +46,9 @@
 | Яндекс, 150 запросов, Москва: TOP-10 — 94 запроса, TOP-3 — 28, взвешенная видимость 5,4% | `docs/competitive/decisions-2026-08-31.md` | 30.08.2026 |
 | Google: biz-soft.pro отсутствует в TOP-20 по коммерческим запросам | `docs/competitive/decisions-2026-08-31.md` | 31.08.2026 |
 | Суммарная частота по вендорам: GitHub 3 636 435, Cursor 585 323, Figma 245 860, OpenAI 220 695, Autodesk 176 532, Midjourney 104 389, Anthropic 63 926, JetBrains 47 966 | `src/data/vendor-demand.json` | 29.08.2026 |
+| Кластер HeyGen в собственной выдаче: 39 запросов, 342 показа за окно 03–30.08.2026; ядро «heygen тарифы» — 108 показов при позиции 6,5 | `reports/seo/data/yandex-window-2026-08-03_2026-08-30.json` | 03.09.2026 |
+| Транзакционное ядро HeyGen («оплата», «купить», «юрлицо»): 20 запросов, 148 показов, средняя позиция 10,8 | там же, отбор по транзакционным формулировкам | 03.09.2026 |
+| Свободные от экспериментов и рекламы кластеры со статьями-кандидатами на 03.09.2026: HeyGen 148, Recraft 70, Canva 62, Notion 56 показов транзакционных запросов | там же + `reports/seo/intelligence/seo-experiments.json` | 03.09.2026 |
 
 ## Налоговые параметры 2026 года
 

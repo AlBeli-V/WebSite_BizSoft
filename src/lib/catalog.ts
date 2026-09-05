@@ -20,6 +20,12 @@ const ZOOM_ADDON = /^ZOOM-(PHONE|WEBINARS|ROOMS|LARGE-MEETING|EVENTS|AI-COMPANIO
  * в порядке выгрузок и в ответах агентам.
  */
 const CREDITS_PACK = /-CREDITS-\d+$/;
+/**
+ * Вариант подарочной карты: <РОДИТЕЛЬ>-GIFT-CARD-<регион>-<номинал>, например
+ * APP-STORE-ITUNES-GIFT-CARD-RU-1000. Родитель заканчивается на -GIFT-CARD и
+ * является страницей; варианты — номиналы одного продукта, страниц не имеют.
+ */
+const GIFT_CARD_VARIANT = /-GIFT-CARD-[A-Z]{2}-\d+$/;
 
 /** Классифицировать товар по контексту (sku). */
 export function productKind(p: Pick<Product, 'sku'>): ProductKind {
@@ -28,6 +34,23 @@ export function productKind(p: Pick<Product, 'sku'>): ProductKind {
   if (ZOOM_ADDON.test(sku)) return 'addon';
   if (CREDITS_PACK.test(sku)) return 'addon';
   return 'main';
+}
+
+/**
+ * Сколько опубликованных товаров в каждом разделе (ключ — slug категории).
+ *
+ * Один расчёт на страницу каталога и на инструмент list_categories: раздел,
+ * который человек видит в каталоге, и раздел, который агент предлагает как
+ * фильтр, обязаны совпадать. Пустые разделы отбрасывает уже потребитель —
+ * фильтр по разделу без товаров выглядит как поломка.
+ */
+export function countByCategory(products: Pick<Product, 'category'>[]): Record<string, number> {
+  const counts: Record<string, number> = {};
+  for (const p of products) {
+    const slug = typeof p.category === 'object' && p.category ? p.category.slug : '';
+    if (slug) counts[slug] = (counts[slug] || 0) + 1;
+  }
+  return counts;
 }
 
 /** Полное юридическое название производителя для отображения в карточке. */
@@ -130,5 +153,31 @@ export function productNoindex(sku?: string | null): boolean {
   // держит брендовый спрос («kling ai купить» — 312). Карточки живут на витрине,
   // в корзине и в КП; интент «купить кредиты <вендор>» держит страница вендора.
   if (CREDITS_PACK.test(s)) return true;
+  // Варианты подарочных карт (<…>-GIFT-CARD-<регион>-<номинал>): регион и
+  // номинал — варианты одного продукта, а не отдельные страницы. Отдельная
+  // индексируемая страница на каждый номинал — те же дубли, что у пакетов
+  // кредитов. Страница варианта отдаёт 301 на родительскую карточку; в поиск
+  // идёт только она.
+  if (GIFT_CARD_VARIANT.test(s)) return true;
   return false;
+}
+
+/** Товар — подарочная карта (родитель или вариант). */
+export function isGiftCard(p: Pick<Product, 'product_type'>): boolean {
+  return p.product_type === 'gift_card';
+}
+
+/** Товар — вариант другого товара (номинал, регион): страницы не имеет. */
+export function isVariant(p: Pick<Product, 'parent_sku'>): boolean {
+  return Boolean(p.parent_sku);
+}
+
+/**
+ * Позиции для витринных списков (каталог, лендинг вендора, поиск на сайте):
+ * варианты скрыты — их представляет родительская карточка с выбором
+ * региона и номинала. В корзине, КП и WebMCP варианты остаются: там нужен
+ * конкретный артикул с ценой.
+ */
+export function listingProducts<T extends Pick<Product, 'parent_sku'>>(products: T[]): T[] {
+  return products.filter((p) => !isVariant(p));
 }
