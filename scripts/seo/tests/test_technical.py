@@ -213,6 +213,33 @@ class BuildTest(unittest.TestCase):
         self.write(measurement(pages=new))
         self.assertEqual(len(technical.build("2026-09-05")["regressions"]), 3)
 
+    def test_neudachnaya_popytka_nazyvaet_prichinu(self):
+        # Удачных замеров нет, но попытка была: «файла нет» — не та новость.
+        (self.hist / "2026-09-05.json").write_text(json.dumps({
+            "date": "2026-09-05", "mode": "daily", "status": "unavailable",
+            "reason": "HTTP 429: Quota exceeded",
+            "pages": [{"path": "/", "pageType": "homepage",
+                       "strategy": "mobile", "error": "HTTP 429"}]},
+            ensure_ascii=False), encoding="utf-8")
+        b = technical.build("2026-09-05")
+        self.assertEqual(b["reason_code"], "api_error")
+        self.assertEqual(b["last_attempt"], "2026-09-05")
+        self.assertIn("429", b["reason"])
+        self.assertIn("не удалась", technical.email_line(b))
+
+    def test_pri_sboe_ostayotsya_proshlyy_udachnyy_zamer(self):
+        # latest.json перезаписывается только удачным замером, поэтому
+        # вчерашние цифры остаются на месте с честным возрастом.
+        self.write(measurement(date="2026-09-04", pages=[page(perf=93)]))
+        (self.hist / "2026-09-05.json").write_text(json.dumps({
+            "date": "2026-09-05", "mode": "daily", "status": "unavailable",
+            "reason": "HTTP 429", "pages": []}, ensure_ascii=False),
+            encoding="utf-8")
+        b = technical.build("2026-09-05")
+        self.assertTrue(b["available"])
+        self.assertEqual(b["as_of"], "2026-09-04")
+        self.assertEqual(b["age_days"], 1)
+
     def test_posledniy_polnyy_audit_schitaet_svetofor(self):
         self.write(measurement(mode="weekly", pages=[
             page(path="/a", perf=95), page(path="/b", perf=85),

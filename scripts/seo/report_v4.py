@@ -1494,9 +1494,12 @@ def _technical_html(tech: dict) -> str:
     него есть отдельный ручной прогон ops-pagespeed.
     """
     if not tech.get("available"):
-        last = tech.get("last_success") or tech.get("date")
-        tail = (f"Последний удачный замер: {ru_date(last)}." if last
-                else "Замеров ещё не было.")
+        tail = technical._no_data_tail(
+            tech, "Последний удачный замер: {}.".format(
+                ru_date(tech.get("last_success") or "")),
+            "Последняя попытка {} не удалась.".format(
+                ru_date(tech.get("last_attempt") or "")),
+            "Замеров ещё не было.")
         return (f"<div style=\"font-size:15px;line-height:1.55;\">"
                 f"<b>Данные недоступны.</b> {tail} "
                 f"На остальные показатели отчёта это не влияет: скорость "
@@ -1536,6 +1539,11 @@ def _technical_html(tech: dict) -> str:
     return head + body
 
 
+def _ru_num(value: float, digits: int = 1) -> str:
+    """Дробное по-русски: запятой, как остальные числа отчёта."""
+    return f"{value:.{digits}f}".replace(".", ",")
+
+
 def _tech_issue_text(issues: list[dict]) -> str:
     """Что именно ухудшилось — числами, без интерпретаций."""
     out = []
@@ -1543,10 +1551,10 @@ def _tech_issue_text(issues: list[dict]) -> str:
         if i["kind"] == "performance":
             out.append(f"скорость {i['was']} → {i['now']} ({i['delta']})")
         elif i["kind"] == "lcp":
-            out.append(f"LCP {i['was'] / 1000:.1f} с → {i['now'] / 1000:.1f} с "
-                       f"(+{i['delta_pct']} %)")
+            out.append(f"LCP {_ru_num(i['was'] / 1000)} с → "
+                       f"{_ru_num(i['now'] / 1000)} с (+{i['delta_pct']} %)")
         elif i["kind"] == "cls":
-            out.append(f"CLS {i['was']:.2f} → {i['now']:.2f}")
+            out.append(f"CLS {_ru_num(i['was'], 2)} → {_ru_num(i['now'], 2)}")
     return "; ".join(out)
 
 

@@ -137,6 +137,14 @@ def build(date: str) -> dict:
     if not LATEST.exists():
         # Паспортный status описывает доступность источника, level — светофор
         # техники. Разные вопросы: «прочиталось ли» и «всё ли в порядке».
+        # Если удачных замеров не было, но попытка сегодня была и не удалась,
+        # честнее назвать её причину, чем сказать «файла нет».
+        failed = _last_failure()
+        if failed:
+            return {**passport.unavailable(
+                "api_error", source="PageSpeed Insights",
+                detail=_short(failed.get("reason")),
+                last_attempt=failed.get("date")), "level": "unknown"}
         return {**passport.unavailable("no_file",
                                        source="история замеров PageSpeed"),
                 "level": "unknown"}
@@ -223,6 +231,23 @@ def _previous_measurement(current_date: str | None) -> dict | None:
     return None
 
 
+def _last_failure() -> dict | None:
+    """Последняя неудачная попытка замера — когда удачных ещё не было."""
+    if not HISTORY.exists():
+        return None
+    for f in sorted(HISTORY.glob("*.json"), reverse=True):
+        data = json.loads(f.read_text(encoding="utf-8"))
+        if not _mobile(data.get("pages") or []):
+            return data
+    return None
+
+
+def _short(text: str | None, limit: int = 120) -> str:
+    """Ответ стороннего API бывает в абзац; в отчёт идёт начало строки."""
+    t = " ".join((text or "причина не записана").split())
+    return t if len(t) <= limit else t[:limit - 1] + "…"
+
+
 def _last_full_audit() -> dict | None:
     """Последняя расширенная выборка: она одна показывает состояние шаблонов."""
     if not HISTORY.exists():
@@ -254,11 +279,24 @@ def _age_days(measured: str | None, today: str) -> int | None:
     return (b - a).days
 
 
+def _no_data_tail(block: dict, success: str, attempt: str, never: str) -> str:
+    """Чем закончить «данных нет»: удачный замер, неудачная попытка или ничего.
+
+    Разница важна читателю: «последний замер вчерашний» и «сегодня замер не
+    удался» — разные новости, и обе честнее общего «данных нет».
+    """
+    if block.get("last_success"):
+        return success.format(block["last_success"])
+    if block.get("last_attempt"):
+        return attempt.format(block["last_attempt"])
+    return never
+
+
 def email_line(block: dict) -> str:
     """Одна строка для письма: состояние, балл и суть изменения."""
     if not block.get("available"):
-        last = block.get("last_success")
-        tail = f"последний замер {last}" if last else "замеров ещё не было"
+        tail = _no_data_tail(block, "последний замер {}",
+                             "попытка {} не удалась", "замеров ещё не было")
         return f"Техника: НЕТ ДАННЫХ · {tail}"
     label = {"green": "GREEN", "yellow": "YELLOW", "red": "RED"}[block["level"]]
     perf = block.get("mobile_performance")

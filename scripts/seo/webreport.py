@@ -31,6 +31,7 @@ import opportunity as opp_mod    # noqa: E402
 import quality as quality_mod    # noqa: E402
 import serp_analysis as serp_mod  # noqa: E402
 import snapshot as snapshot_mod  # noqa: E402
+import technical                 # noqa: E402
 import zero_impression as zero_mod  # noqa: E402
 from report_v4 import (BLOB, BRANCH, PILL_LABEL, REPO, VERDICT_LABEL,  # noqa: E402
                        _exp_exposure_line, _exp_implementation_line,
@@ -511,13 +512,18 @@ def _section_html(s: dict) -> str:
             "</section>")
 
 
+def _ru_num(value: float, digits: int = 1) -> str:
+    """Дробное по-русски: запятой, как остальные числа отчёта."""
+    return f"{value:.{digits}f}".replace(".", ",")
+
+
 def _technical_section(tech: dict) -> str:
     """Таблица замеров и разбор просадок. Для веб-отчёта подробностей больше,
     чем в письме: здесь у читателя есть место и время."""
     if not tech.get("available"):
-        last = tech.get("last_success") or tech.get("date")
-        tail = (f"Последний удачный замер — {last}." if last
-                else "Замеров ещё не было.")
+        tail = technical._no_data_tail(
+            tech, "Последний удачный замер — {}.",
+            "Последняя попытка {} не удалась.", "Замеров ещё не было.")
         # Причина — паспортная формулировка по коду; она идёт отдельной
         # фразой, иначе склеивается с соседним текстом в нечитаемую строку.
         why = tech.get("reason")
@@ -529,10 +535,10 @@ def _technical_section(tech: dict) -> str:
     label = {"green": "GREEN", "yellow": "YELLOW", "red": "RED"}[tech["level"]]
     rows = ""
     for p in tech.get("pages", []):
-        lcp = f"{p['lcp_ms'] / 1000:.1f} с" if p.get("lcp_ms") else "—"
-        cls = f"{p['cls']:.2f}" if p.get("cls") is not None else "—"
+        lcp = f"{_ru_num(p['lcp_ms'] / 1000)} с" if p.get("lcp_ms") else "—"
+        cls = _ru_num(p["cls"], 2) if p.get("cls") is not None else "—"
         field = p.get("field") or {}
-        field_txt = (f"{field['lcp_ms'] / 1000:.1f} с"
+        field_txt = (f"{_ru_num(field['lcp_ms'] / 1000)} с"
                      if field.get("lcp_ms") else "нет выборки")
         rows += (f"<tr><td>{p['page_type']}</td><td>{p['path']}</td>"
                  f"<td>{p.get('performance', '—')}</td><td>{lcp}</td><td>{cls}</td>"
@@ -575,10 +581,10 @@ def _technical_issue_text(issues: list[dict]) -> str:
         if i["kind"] == "performance":
             out.append(f"скорость {i['was']} → {i['now']} ({i['delta']})")
         elif i["kind"] == "lcp":
-            out.append(f"LCP {i['was'] / 1000:.1f} с → {i['now'] / 1000:.1f} с "
-                       f"(+{i['delta_pct']} %)")
+            out.append(f"LCP {_ru_num(i['was'] / 1000)} с → "
+                       f"{_ru_num(i['now'] / 1000)} с (+{i['delta_pct']} %)")
         elif i["kind"] == "cls":
-            out.append(f"CLS {i['was']:.2f} → {i['now']:.2f}")
+            out.append(f"CLS {_ru_num(i['was'], 2)} → {_ru_num(i['now'], 2)}")
     return "; ".join(out)
 
 
