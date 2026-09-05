@@ -548,11 +548,17 @@ def _technical_section(tech: dict) -> str:
                  f"<td>{p.get('seo', '—')}</td><td>{p.get('accessibility', '—')}</td>"
                  f"<td>{p.get('best_practices', '—')}</td><td>{field_txt}</td></tr>")
 
+    # Первый замер сравнивать не с чем, и это надо сказать словами: строка
+    # «сравнение с предыдущим замером нет» напечаталась 05.09.2026 в первом
+    # же веб-отчёте контура.
+    prev = tech.get("previous_date")
+    compare = (f"сравнение с {prev}" if prev
+               else "предыдущего замера для сравнения нет")
     head = (f"<p><b>{label}</b> · мобильная скорость главной "
             f"{tech.get('mobile_performance')}, худший балл выборки "
             f"{tech.get('worst_performance')}. Замер {tech.get('date')} "
             f"({'расширенный' if tech.get('mode') == 'weekly' else 'ежедневный'}), "
-            f"сравнение с {tech.get('previous_date') or 'предыдущим замером нет'}.</p>")
+            f"{compare}.</p>")
 
     table = ("<div class='scroll'><table><tr><th>Тип</th><th>Адрес</th>"
              "<th>Скорость</th><th>LCP</th><th>CLS</th><th>SEO</th>"
