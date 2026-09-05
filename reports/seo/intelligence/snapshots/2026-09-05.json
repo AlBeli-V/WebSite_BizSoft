@@ -1,7 +1,7 @@
 {
  "schema_version": "2.2.0",
  "report_date": "2026-09-05",
- "generated_at": "2026-09-05T06:53:54+00:00",
+ "generated_at": "2026-09-05T11:46:10+00:00",
  "reporting_timezone": "Europe/Moscow (UTC+3)",
  "declared_goals": [
   "add_to_cart",
@@ -15754,7 +15754,7 @@
    "missing_dates": [],
    "lag_days": 3,
    "window_days": 7,
-   "updated_at": "2026-09-05T06:49:11+00:00",
+   "updated_at": "2026-09-05T07:35:25+00:00",
    "windows": {
     "impressions": {
      "current": {
@@ -15826,7 +15826,7 @@
    "missing_dates": [],
    "lag_days": 3,
    "window_days": 7,
-   "updated_at": "2026-09-05T06:49:12+00:00",
+   "updated_at": "2026-09-05T07:35:26+00:00",
    "windows": {
     "impressions": {
      "current": {
@@ -15898,7 +15898,7 @@
    "missing_dates": [],
    "lag_days": 1,
    "window_days": 7,
-   "updated_at": "2026-09-05T06:49:13+00:00",
+   "updated_at": "2026-09-05T07:35:27+00:00",
    "windows": {
     "visits_organic": {
      "current": {
@@ -16001,7 +16001,7 @@
    "missing_dates": [],
    "lag_days": 1,
    "window_days": 7,
-   "updated_at": "2026-09-05T06:49:13+00:00",
+   "updated_at": "2026-09-05T07:35:28+00:00",
    "windows": {
     "sessions_organic": {
      "current": {
@@ -16744,8 +16744,8 @@
   "available": true,
   "source": {
    "source_name": "yandex_wordstat",
-   "measured_at": "2026-09-03",
-   "age_days": 2,
+   "measured_at": "2026-09-05",
+   "age_days": 0,
    "region": "Россия",
    "unit": "показы в поиске Яндекса",
    "window": "последние 30 дней",
@@ -16753,20 +16753,20 @@
    "refresh": "полный цикл ежедневно",
    "last_full_cycle": "2026-09-05"
   },
-  "coverage": "2147 коммерческих фраз из 23122 в 174 кластерах",
+  "coverage": "2173 коммерческих фраз из 23748 в 177 кластерах",
   "complete": true,
   "status": "ok",
-  "as_of": "2026-09-03",
+  "as_of": "2026-09-05",
   "expected_as_of": "2026-07-22",
   "stale": false,
-  "clusters_measured": 174,
-  "clusters_planned": 174,
-  "total_commercial_demand": 287895,
+  "clusters_measured": 177,
+  "clusters_planned": 177,
+  "total_commercial_demand": 293941,
   "coverage_levels": {
-   "page": 0.8785,
-   "indexed": 0.3882,
-   "top10": 0.2016,
-   "clicks": 0.003,
+   "page": 0.8811,
+   "indexed": 0.3694,
+   "top10": 0.1821,
+   "clicks": 0.0,
    "conversion_measured": null,
    "qualified_leads": null
   },
@@ -16912,7 +16912,7 @@
   "connected": true,
   "data_date": "2026-09-05",
   "stale": false,
-  "collected_at": "2026-09-05T06:50:57+00:00",
+  "collected_at": "2026-09-05T07:52:00+00:00",
   "qualified_leads": 0,
   "leads_week": 3,
   "amount_day": 0,
@@ -16952,6 +16952,164 @@
    "empty_text": "За сутки заявок не поступило."
   },
   "note": "обращения — заявки воронки сайта; сделки и выручка не измеряются: стадии ведёт менеджер вручную"
+ },
+ "technical": {
+  "status": "ok",
+  "level": "green",
+  "available": true,
+  "as_of": "2026-09-05",
+  "date": "2026-09-05",
+  "mode": "weekly",
+  "age_days": 0,
+  "mobile_performance": 99,
+  "worst_performance": 97,
+  "pages_checked": 12,
+  "pages": [
+   {
+    "path": "/",
+    "page_type": "Главная",
+    "performance": 99,
+    "seo": 100,
+    "accessibility": 97,
+    "best_practices": 100,
+    "lcp_ms": 1576,
+    "cls": 0,
+    "field": null
+   },
+   {
+    "path": "/catalog",
+    "page_type": "Каталог",
+    "performance": 100,
+    "seo": 100,
+    "accessibility": 97,
+    "best_practices": 100,
+    "lcp_ms": 946,
+    "cls": 0,
+    "field": null
+   },
+   {
+    "path": "/catalog/ai",
+    "page_type": "Категория",
+    "performance": 100,
+    "seo": 100,
+    "accessibility": 96,
+    "best_practices": 100,
+    "lcp_ms": 1111,
+    "cls": 0,
+    "field": null
+   },
+   {
+    "path": "/vendors/anthropic",
+    "page_type": "Вендорская страница",
+    "performance": 99,
+    "seo": 100,
+    "accessibility": 97,
+    "best_practices": 100,
+    "lcp_ms": 1651,
+    "cls": 0,
+    "field": null
+   },
+   {
+    "path": "/vendors/coreldraw",
+    "page_type": "Вендорская страница",
+    "performance": 99,
+    "seo": 100,
+    "accessibility": 97,
+    "best_practices": 100,
+    "lcp_ms": 1651,
+    "cls": 0,
+    "field": null
+   },
+   {
+    "path": "/vendors/heygen",
+    "page_type": "Вендорская страница",
+    "performance": 99,
+    "seo": 100,
+    "accessibility": 97,
+    "best_practices": 100,
+    "lcp_ms": 1501,
+    "cls": 0,
+    "field": null
+   },
+   {
+    "path": "/product/chatgpt-business",
+    "page_type": "Карточка товара",
+    "performance": 100,
+    "seo": 100,
+    "accessibility": 96,
+    "best_practices": 100,
+    "lcp_ms": 956,
+    "cls": 0.00378701967939832,
+    "field": null
+   },
+   {
+    "path": "/product/heygen-business",
+    "page_type": "Карточка товара",
+    "performance": 100,
+    "seo": 100,
+    "accessibility": 96,
+    "best_practices": 100,
+    "lcp_ms": 987,
+    "cls": 0.002614846921489316,
+    "field": null
+   },
+   {
+    "path": "/product/cdr-gs-sub",
+    "page_type": "Карточка товара",
+    "performance": 100,
+    "seo": 100,
+    "accessibility": 96,
+    "best_practices": 100,
+    "lcp_ms": 1501,
+    "cls": 0,
+    "field": null
+   },
+   {
+    "path": "/blog/kak-oplatit-coreldraw-dlya-yurlica",
+    "page_type": "Статья",
+    "performance": 98,
+    "seo": 100,
+    "accessibility": 96,
+    "best_practices": 100,
+    "lcp_ms": 1502,
+    "cls": 0,
+    "field": null
+   },
+   {
+    "path": "/blog/kak-kupit-recraft-dlya-yurlica",
+    "page_type": "Статья",
+    "performance": 97,
+    "seo": 100,
+    "accessibility": 96,
+    "best_practices": 100,
+    "lcp_ms": 1501,
+    "cls": 0,
+    "field": null
+   },
+   {
+    "path": "/compare/midjourney-vs-recraft",
+    "page_type": "Сравнение",
+    "performance": 100,
+    "seo": 100,
+    "accessibility": 96,
+    "best_practices": 100,
+    "lcp_ms": 1502,
+    "cls": 0,
+    "field": null
+   }
+  ],
+  "previous_date": null,
+  "regressions": [],
+  "lcp_ok": true,
+  "cls_ok": true,
+  "last_full": {
+   "date": "2026-09-05",
+   "urls": 12,
+   "green": 12,
+   "yellow": 0,
+   "red": 0,
+   "unknown": 0
+  }
  },
  "ctr_model": {
   "approved": false,

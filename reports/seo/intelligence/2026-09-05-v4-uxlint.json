@@ -5,18 +5,18 @@
   "total": 26,
   "failed": 0
  },
- "visible_words": 1658,
- "first_screen_words": 213,
+ "visible_words": 1735,
+ "first_screen_words": 227,
  "checks": [
   {
    "check": "visible_words",
    "ok": true,
-   "detail": "1658 слов при пределе 1850"
+   "detail": "1735 слов при пределе 1900"
   },
   {
    "check": "first_screen_words",
    "ok": true,
-   "detail": "213 слов на первом экране при пределе 320"
+   "detail": "227 слов на первом экране при пределе 320"
   },
   {
    "check": "kpi_limit",
@@ -46,7 +46,7 @@
   {
    "check": "chart_height",
    "ok": true,
-   "detail": "высоты изображений: [70, 82, 50] при пределе 220px"
+   "detail": "высоты изображений: [160, 82, 50] при пределе 220px"
   },
   {
    "check": "no_half_width_cards_on_mobile",

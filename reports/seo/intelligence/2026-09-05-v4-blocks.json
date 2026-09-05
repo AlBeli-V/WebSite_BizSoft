@@ -15,12 +15,17 @@
    "text": "сверено"
   },
   {
+   "label": "ТЕХНИКА",
+   "state": "verified",
+   "text": "GREEN · 99"
+  },
+  {
    "label": "ОТ ВАС",
    "state": "none",
    "text": "2 предложения"
   }
  ],
- "sources_line": "Яндекс по 02.09 · Google по 02.09 · Метрика по 04.09 · спрос 03.09",
+ "sources_line": "Яндекс по 02.09 · Google по 02.09 · Метрика по 04.09 · спрос 05.09",
  "user_action": "Срочных решений нет.",
  "user_action_required": false,
  "owner_desk": [
@@ -73,7 +78,8 @@
     358.0,
     435.0,
     559.0
-   ]
+   ],
+   "sparkline_from": "2026-08-20"
   },
   {
    "key": "google",
@@ -105,6 +111,7 @@
     9,
     11
    ],
+   "sparkline_from": "2026-08-20",
    "slope": {
     "prev_label": "пред. неделя",
     "prev": 28,
@@ -142,7 +149,8 @@
     4.0,
     2.0,
     5.0
-   ]
+   ],
+   "sparkline_from": "2026-08-22"
   },
   {
    "key": "commercial",
@@ -2715,9 +2723,167 @@
   "colour": "positive",
   "detail": "Показы и клики Яндекса, показы Google, визиты Метрики и сессии GA4 считаются по всему сайту за окна равной длины. Выборка запросов используется только в разделе возможностей и на KPI не влияет."
  },
+ "technical": {
+  "status": "ok",
+  "level": "green",
+  "available": true,
+  "as_of": "2026-09-05",
+  "date": "2026-09-05",
+  "mode": "weekly",
+  "age_days": 0,
+  "mobile_performance": 99,
+  "worst_performance": 97,
+  "pages_checked": 12,
+  "pages": [
+   {
+    "path": "/",
+    "page_type": "Главная",
+    "performance": 99,
+    "seo": 100,
+    "accessibility": 97,
+    "best_practices": 100,
+    "lcp_ms": 1576,
+    "cls": 0,
+    "field": null
+   },
+   {
+    "path": "/catalog",
+    "page_type": "Каталог",
+    "performance": 100,
+    "seo": 100,
+    "accessibility": 97,
+    "best_practices": 100,
+    "lcp_ms": 946,
+    "cls": 0,
+    "field": null
+   },
+   {
+    "path": "/catalog/ai",
+    "page_type": "Категория",
+    "performance": 100,
+    "seo": 100,
+    "accessibility": 96,
+    "best_practices": 100,
+    "lcp_ms": 1111,
+    "cls": 0,
+    "field": null
+   },
+   {
+    "path": "/vendors/anthropic",
+    "page_type": "Вендорская страница",
+    "performance": 99,
+    "seo": 100,
+    "accessibility": 97,
+    "best_practices": 100,
+    "lcp_ms": 1651,
+    "cls": 0,
+    "field": null
+   },
+   {
+    "path": "/vendors/coreldraw",
+    "page_type": "Вендорская страница",
+    "performance": 99,
+    "seo": 100,
+    "accessibility": 97,
+    "best_practices": 100,
+    "lcp_ms": 1651,
+    "cls": 0,
+    "field": null
+   },
+   {
+    "path": "/vendors/heygen",
+    "page_type": "Вендорская страница",
+    "performance": 99,
+    "seo": 100,
+    "accessibility": 97,
+    "best_practices": 100,
+    "lcp_ms": 1501,
+    "cls": 0,
+    "field": null
+   },
+   {
+    "path": "/product/chatgpt-business",
+    "page_type": "Карточка товара",
+    "performance": 100,
+    "seo": 100,
+    "accessibility": 96,
+    "best_practices": 100,
+    "lcp_ms": 956,
+    "cls": 0.00378701967939832,
+    "field": null
+   },
+   {
+    "path": "/product/heygen-business",
+    "page_type": "Карточка товара",
+    "performance": 100,
+    "seo": 100,
+    "accessibility": 96,
+    "best_practices": 100,
+    "lcp_ms": 987,
+    "cls": 0.002614846921489316,
+    "field": null
+   },
+   {
+    "path": "/product/cdr-gs-sub",
+    "page_type": "Карточка товара",
+    "performance": 100,
+    "seo": 100,
+    "accessibility": 96,
+    "best_practices": 100,
+    "lcp_ms": 1501,
+    "cls": 0,
+    "field": null
+   },
+   {
+    "path": "/blog/kak-oplatit-coreldraw-dlya-yurlica",
+    "page_type": "Статья",
+    "performance": 98,
+    "seo": 100,
+    "accessibility": 96,
+    "best_practices": 100,
+    "lcp_ms": 1502,
+    "cls": 0,
+    "field": null
+   },
+   {
+    "path": "/blog/kak-kupit-recraft-dlya-yurlica",
+    "page_type": "Статья",
+    "performance": 97,
+    "seo": 100,
+    "accessibility": 96,
+    "best_practices": 100,
+    "lcp_ms": 1501,
+    "cls": 0,
+    "field": null
+   },
+   {
+    "path": "/compare/midjourney-vs-recraft",
+    "page_type": "Сравнение",
+    "performance": 100,
+    "seo": 100,
+    "accessibility": 96,
+    "best_practices": 100,
+    "lcp_ms": 1502,
+    "cls": 0,
+    "field": null
+   }
+  ],
+  "previous_date": null,
+  "regressions": [],
+  "lcp_ok": true,
+  "cls_ok": true,
+  "last_full": {
+   "date": "2026-09-05",
+   "urls": 12,
+   "green": 12,
+   "yellow": 0,
+   "red": 0,
+   "unknown": 0
+  }
+ },
  "loop_health": {
   "date": "2026-09-05",
-  "generated_at": "2026-09-05T06:53:55+00:00",
+  "generated_at": "2026-09-05T11:46:10+00:00",
   "contours": [
    {
     "id": "collect",
@@ -2783,7 +2949,7 @@
     "id": "report",
     "label": "Сборка письма V4",
     "cadence": "ежедневно 09:00 МСК",
-    "last_run": "2026-09-04",
+    "last_run": "2026-09-05",
     "expected_since": "2026-09-04",
     "overdue": false,
     "days_late": 0,
@@ -2793,7 +2959,7 @@
     "id": "email",
     "label": "Отправка письма руководителю",
     "cadence": "ежедневно ~09:30 МСК",
-    "last_run": "2026-09-04",
+    "last_run": "2026-09-05",
     "expected_since": "2026-09-04",
     "overdue": false,
     "days_late": 0,
@@ -2839,11 +3005,11 @@
   "available": true,
   "title": "Спрос и направления развития",
   "expansion": null,
-  "summary": "Мы видим 287 895 покупательских запросов в месяц по 174 направлениям каталога. Своя страница есть под 88% этого спроса, в поиске находится 39%, на первой странице — 20%. Без страницы остаётся 16 246 запросов в месяц — это направления, где спрос есть, а своей страницы нет. Ещё 52 137 запросов в месяц не отнесены ни к нам, ни к чужому товару: это голые фразы омонимичных брендов (box — 30 187, zoom — 10 813, bubble купить — 5 732). В спрос и в решения об ассортименте они не входят.",
+  "summary": "Мы видим 293 941 покупательских запросов в месяц по 177 направлениям каталога. Своя страница есть под 88% этого спроса, в поиске находится 37%, на первой странице — 18%. Без страницы остаётся 16 205 запросов в месяц — это направления, где спрос есть, а своей страницы нет. Ещё 52 137 запросов в месяц не отнесены ни к нам, ни к чужому товару: это голые фразы омонимичных брендов (box — 30 187, zoom — 10 813, bubble купить — 5 732). В спрос и в решения об ассортименте они не входят.",
   "coverage": {
-   "page": 0.8785,
-   "indexed": 0.3882,
-   "top10": 0.2016
+   "page": 0.8811,
+   "indexed": 0.3694,
+   "top10": 0.1821
   },
   "lead_opportunity": {
    "cluster": "google",
@@ -2852,7 +3018,7 @@
    "why": "Страница есть, в поиске не наблюдалась",
    "confidence": "достаточная: кластер измерен несколькими фразами"
   },
-  "measured_at": "2026-09-03",
+  "measured_at": "2026-09-05",
   "as_of": "2026-09-05"
  },
  "leads": {
@@ -2892,7 +3058,7 @@
   "connected": true,
   "data_date": "2026-09-05",
   "stale": false,
-  "collected_at": "2026-09-05T06:50:57+00:00",
+  "collected_at": "2026-09-05T07:52:00+00:00",
   "qualified_leads": 0,
   "leads_week": 3,
   "amount_day": 0,
