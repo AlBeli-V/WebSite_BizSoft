@@ -119,8 +119,16 @@ jobs:
               echo "блок location: в конфиге нет"
             fi
             echo "--- как сейчас отвечает /m/tag.js:"
-            curl -s -o /dev/null -w "  код %{http_code}, тип %{content_type}, размер %{size_download} Б\n" \
+            curl -s -o /dev/null -w "  без сжатия: код %{http_code}, тип %{content_type}, размер %{size_download} Б\n" \
               https://biz-soft.pro/m/tag.js || echo "  (запрос не прошёл)"
+            curl -s -H 'Accept-Encoding: gzip' -o /dev/null -D /tmp/bz-h1 -w "  со сжатием: код %{http_code}, по проводу %{size_download} Б\n" https://biz-soft.pro/m/tag.js || true
+            grep -i '^content-encoding' /tmp/bz-h1 | sed 's/^/    /' || echo "    content-encoding отсутствует"
+            # Что отдаёт сам Яндекс: прогон #4 показал, что на явный запрос
+            # gzip он присылает несжатое, поэтому сжимаем у себя. Строка ниже
+            # покажет, если это когда-нибудь изменится.
+            curl -s -H 'Accept-Encoding: gzip' -o /dev/null -D /tmp/bz-h2 -w "  апстрим mc.yandex.ru: код %{http_code}, по проводу %{size_download} Б\n" 'https://mc.yandex.ru/metrika/tag.js' || true
+            grep -i '^content-encoding' /tmp/bz-h2 | sed 's/^/    /' || echo "    апстрим: content-encoding отсутствует"
+            rm -f /tmp/bz-h1 /tmp/bz-h2
 
             if [ "$P_APPLY" != "true" ]; then
               echo

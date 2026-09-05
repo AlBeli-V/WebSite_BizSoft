@@ -122,8 +122,20 @@ function diagnostics(a) {
   const obs = Object.entries(m).filter(([k]) => /^observed|lcpInvalidated/.test(k)).map(([k, v]) => `${k}=${v}`);
   out.push('  трасса: ' + obs.join(' '));
   for (const i of a['errors-in-console']?.details?.items || []) out.push(`  консоль: ${i.source} ${(i.description || '').slice(0, 160)} ${short(i.sourceLocation?.url)}`);
-  const shifts = a['layout-shifts']?.details?.items || [];
-  for (const s of shifts.slice(0, 4)) out.push(`  сдвиг ${s.score?.toFixed?.(3)}: ${(s.subItems?.items || []).map((x) => x.extra?.value || x.cause).join('; ').slice(0, 160)}`);
+  // Сдвиги раскладки: главное здесь — какой элемент поехал. Прежний вариант
+  // печатал только subItems.cause и на отчётах Lighthouse 13 давал пустую
+  // строку — из-за неё причину сдвига 0,076 дважды искали вслепую.
+  for (const s of a['layout-shifts']?.details?.items || []) {
+    out.push(`  сдвиг ${num(s.score)}: ${node(s.node)}`);
+    for (const sub of s.subItems?.items || []) {
+      const cause = sub.cause?.formattedDefault || sub.cause || sub.extra?.value || '';
+      out.push(`    причина: ${String(cause).slice(0, 160)} ${node(sub.node)}`);
+    }
+  }
+  // Виновники сдвига в терминах Lighthouse 13 (шрифты без размеров, картинки
+  // без width/height, вставленный контент) — отдельный аудит.
+  const culprits = a['cls-culprits-insight'];
+  if (culprits?.details) out.push('  cls-culprits: ' + trim(culprits.details));
   const shots = a['screenshot-thumbnails']?.details?.items || [];
   if (shots.length) out.push('  кадры (мс): ' + shots.map((s) => Math.round(s.timing)).join(' '));
   for (const q of a['network-requests']?.details?.items || []) {
@@ -131,10 +143,22 @@ function diagnostics(a) {
       out.push(`  запрос ${q.statusCode ?? '—'} ${q.resourceType || ''} ${Math.round(q.networkRequestTime)}→${Math.round(q.networkEndTime)} мс ${kb(q.transferSize)} ${short(q.url)}`);
     }
   }
-  const lcpIns = a['lcp-discovery-insight'];
-  if (lcpIns?.details) out.push('  lcp-discovery: ' + JSON.stringify(lcpIns.details).slice(0, 300));
+  // Почему нет кандидата LCP: аудиты элемента и его этапов остаются в отчёте
+  // даже при NO_LCP и показывают, что Chrome вообще видел на первом экране.
+  for (const id of ['largest-contentful-paint-element', 'lcp-discovery-insight', 'lcp-lazy-loaded', 'prioritize-lcp-image']) {
+    if (a[id]?.details) out.push(`  ${id}: ${trim(a[id].details)}`);
+  }
   return out;
 }
+
+/** Число без экспоненты и с тремя знаками — score сдвига бывает строкой. */
+const num = (v) => (typeof v === 'number' ? v.toFixed(3) : String(v ?? '—'));
+
+/** Элемент из отчёта: селектор и подпись, чего бы ни не хватало в узле. */
+const node = (n) => (n ? `${n.selector || n.nodeLabel || ''} «${String(n.nodeLabel || n.snippet || '').slice(0, 90)}»` : '—');
+
+/** Кусок отчёта как есть — когда структура аудита заранее не известна. */
+const trim = (v, limit = 600) => JSON.stringify(v).slice(0, limit);
 
 if (FROM) {
   const data = JSON.parse(readFileSync(FROM, 'utf8'));
