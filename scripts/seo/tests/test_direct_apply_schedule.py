@@ -48,7 +48,14 @@ class ScheduleTest(unittest.TestCase):
         items = tt["Schedule"]["Items"]
         for item in items:
             self.assertEqual(_hours(item), list(range(9, 21)))
-        self.assertEqual(tt["HolidaysSchedule"]["SuspendOnHolidays"], "NO")
+        # При SuspendOnHolidays = NO API требует часы показов в праздники
+        # (код 5000 на apply 05.09.2026) — те же, что и в будни.
+        self.assertEqual(tt["HolidaysSchedule"],
+                         {"SuspendOnHolidays": "NO", "StartHour": 9, "EndHour": 21, "BidPercent": 100})
+
+    def test_default_holidays_block_has_no_hours(self):
+        tt = da.build_campaign(_spec())["Campaigns"][0]["TimeTargeting"]
+        self.assertEqual(tt["HolidaysSchedule"], {"SuspendOnHolidays": "YES"})
 
     def test_invalid_schedule_stops(self):
         with self.assertRaises(SystemExit):

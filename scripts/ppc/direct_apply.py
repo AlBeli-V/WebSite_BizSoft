@@ -91,11 +91,16 @@ def schedule_business_hours(days: tuple[int, ...] = (1, 2, 3, 4, 5),
     return items
 
 
-def schedule_from_spec(camp: dict) -> tuple[list[str], bool]:
-    """Расписание и признак «показы в выходные» из campaign.time_targeting.
+def schedule_from_spec(camp: dict) -> tuple[list[str], dict]:
+    """Расписание и блок праздников из campaign.time_targeting.
 
     Без ключа — прежнее поведение (пн–пт 9–19, праздники выключены), так что
-    спецификации раундов 1–2 воспроизводятся без изменений.
+    спецификации раундов 1–2 воспроизводятся без изменений. Кампания с
+    показами в выходные не останавливается и в праздники: её спрос не
+    привязан к рабочему календарю. У API при SuspendOnHolidays = NO
+    обязательны часы показов в праздники StartHour (0–23) и EndHour (1–24) —
+    без них Campaigns.add отвечает кодом 5000 (прогон 05.09.2026, раунд 3);
+    берём те же часы, что и в будни.
     """
     tt = camp.get("time_targeting") or {}
     days = tuple(int(d) for d in tt.get("days", (1, 2, 3, 4, 5)))
@@ -104,14 +109,19 @@ def schedule_from_spec(camp: dict) -> tuple[list[str], bool]:
     if not days or any(d < 1 or d > 7 for d in days) or not (0 <= hour_from < hour_to <= 24):
         raise SystemExit(f"time_targeting некорректен: days={days} hours={hour_from}-{hour_to}")
     weekends = any(d >= 6 for d in days)
-    return schedule_business_hours(days, hour_from, hour_to), weekends
+    if weekends:
+        holidays = {"SuspendOnHolidays": "NO", "StartHour": hour_from, "EndHour": hour_to,
+                    "BidPercent": 100}
+    else:
+        holidays = {"SuspendOnHolidays": "YES"}
+    return schedule_business_hours(days, hour_from, hour_to), holidays
 
 
 def build_campaign(spec: dict) -> dict:
     camp = spec["campaign"]
     weekly_net_rub = camp["strategy"]["weekly_limit_rub_net"]
     bid_ceiling_rub = max(g["max_bid_rub"] for g in spec["groups"])
-    schedule, weekends = schedule_from_spec(camp)
+    schedule, holidays = schedule_from_spec(camp)
     return {
         "Campaigns": [
             {
@@ -121,9 +131,7 @@ def build_campaign(spec: dict) -> dict:
                 "TimeTargeting": {
                     "Schedule": {"Items": schedule},
                     "ConsiderWorkingWeekends": "NO",
-                    # Кампания с показами в выходные не останавливается и в
-                    # праздники: её спрос не привязан к рабочему календарю.
-                    "HolidaysSchedule": {"SuspendOnHolidays": "NO" if weekends else "YES"},
+                    "HolidaysSchedule": holidays,
                 },
                 "NegativeKeywords": {"Items": camp["negative_keywords"]},
                 "TextCampaign": {
