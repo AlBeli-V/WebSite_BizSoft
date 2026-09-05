@@ -24,6 +24,11 @@ class TestCloudBudget(unittest.TestCase):
         self.cb.NOTICE_FILE = base / "cloud-budget-notice.txt"
         self.cb.WORDSTAT_LEDGER_DIR = base / "wledger"
         self.cb.SERP_LEDGER_DIR = base / "sledger"
+        # Факт из Billing API и история остатка тоже читаются из рабочей копии:
+        # без подмены боевой cloud-billing.json подменял базовую точку теста, и
+        # расчёт шёл от реального остатка (04.09.2026 — два падения).
+        self.cb.BILLING_FILE = base / "cloud-billing.json"
+        self.cb.HISTORY_FILE = base / "cloud-balance-history.jsonl"
 
     def set_balance(self, rub=10000, date="2026-08-30"):
         self.cb.BALANCE_FILE.write_text(json.dumps(

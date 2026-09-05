@@ -198,6 +198,11 @@ const COVERS = {
     icons: ['brain', 'users', 'refresh', 'shield', 'ruble', 'doc'],
     alt: 'Кадр видео в центре схемы: ИИ-аватар и озвучка, перевод на другие языки, места команды и оформление подписки по счёту',
   },
+  'kak-kupit-recraft-dlya-yurlica': {
+    hero: 'image',
+    icons: ['brain', 'users', 'folder', 'clock', 'ruble', 'doc'],
+    alt: 'Векторная иллюстрация в центре схемы: генерация в SVG, общий стиль бренда, места команды и оформление подписки по счёту',
+  },
 };
 
 const logo = readFileSync(resolve(ROOT, 'public/brand/bizsoft-logo-primary-transparent.png'))
