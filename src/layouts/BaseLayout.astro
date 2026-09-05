@@ -2,10 +2,14 @@
 // Фирменные шрифты: Raleway (текст) + Prosto One (заголовки/цифры).
 // Оба — SIL OFL 1.1, self-host с нашего сервера (woff2 в /_astro с вечным
 // кэшем) — быстрее из РФ, без стороннего CDN. Правила @font-face — в
-// global.css; здесь только preload двух файлов, чтобы шрифт был готов к
-// первой отрисовке даже при холодном кэше (инкогнито).
-import ralewayVar from '../assets/fonts/raleway-var.woff2?url';
-import prostoOne from '../assets/fonts/prosto-one.woff2?url';
+// global.css.
+//
+// preload у них снят. Он ставил оба файла (79 КБ) в начало очереди, на один
+// канал с документом первого экрана, а выигрыша не давал: с font-display
+// optional шрифт применяется, только если успел к первой отрисовке, и на
+// медленной сети он не успевает всё равно. Замеры прода 04.09.2026: без
+// загрузки шрифтов балл 98 и LCP 1,8 с, с загрузкой — 92 и 3,3 с; то есть
+// платим именно за место в очереди, а не за подмену шрифта.
 import '../styles/global.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
@@ -40,8 +44,6 @@ const { title, description, canonical, ogImage, noindex, type, keywords } = Astr
          Оригинал 256 px остаётся в public/brand/bizsoft-favicon.png. -->
     <link rel="icon" type="image/png" href="/brand/bizsoft-favicon-180.png" />
     <link rel="apple-touch-icon" href="/brand/bizsoft-favicon-180.png" />
-    <link rel="preload" href={ralewayVar} as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href={prostoOne} as="font" type="font/woff2" crossorigin />
     <SeoHead title={title} description={description} canonical={canonical} ogImage={ogImage} noindex={noindex} type={type} keywords={keywords} />
     <JsonLd schema={[organizationSchema(), websiteSchema()]} />
   </head>
@@ -55,32 +57,6 @@ const { title, description, canonical, ogImage, noindex, type, keywords } = Astr
     <Analytics />
     <CookieNotice />
     {WEBMCP_ENABLED && <WebMCP />}
-
-    <!-- Плавное появление получают только секции ниже первого экрана.
-
-         Скрипт синхронный и стоит в конце body: он размечает страницу до
-         первой отрисовки. Если на очень медленной сети он всё же опоздает,
-         хуже не станет — секции ниже сгиба просто появятся без анимации, а
-         видимый контент не сдвинется: его этот скрипт не трогает.
-
-         Обратный порядок (скрыть всё, потом вернуть первый экран) стоил
-         сдвига раскладки 0,076 и потерянного кандидата LCP в замере
-         PageSpeed 04.09.2026: у Google документ едет 1,1 с, скрипт приходил
-         после отрисовки, и возврат transform двигал видимый контент. -->
-    <script is:inline>
-      (function () {
-        var els = document.querySelectorAll('.reveal');
-        var vh = window.innerHeight || document.documentElement.clientHeight;
-        var below = [];
-        // Сначала все замеры, потом все записи классов: чередование чтения
-        // геометрии и правки DOM заставляет браузер пересчитывать раскладку
-        // на каждом элементе.
-        for (var i = 0; i < els.length; i++) {
-          if (els[i].getBoundingClientRect().top >= vh) below.push(els[i]);
-        }
-        for (var j = 0; j < below.length; j++) below[j].classList.add('is-below');
-      })();
-    </script>
 
     <style is:global>
       .skip-link {
@@ -119,15 +95,29 @@ const { title, description, canonical, ogImage, noindex, type, keywords } = Astr
         if (name) trackGoal(name, { page_url: location.pathname });
       });
 
-      // Плавное появление секций (уважает prefers-reduced-motion через CSS).
-      // Что скрыто, решил синхронный скрипт в конце body — он пометил классом
-      // is-below только секции ниже первого экрана. Здесь остаётся наблюдатель,
-      // который показывает их при прокрутке.
-      // Запуск — после первой отрисовки (rAF + setTimeout): чтение геометрии
-      // из модульного скрипта до раскладки браузера заставляло считать
-      // раскладку всей страницы синхронно (длинная задача в отчёте PageSpeed).
+      // Плавное появление получают только секции ниже первого экрана.
+      //
+      // Разметка идёт здесь, после первой отрисовки (rAF + setTimeout), а не
+      // синхронным скриптом в конце body, как было раньше. Тот скрипт читал
+      // геометрию всех секций до первой отрисовки и заставлял браузер считать
+      // раскладку всей страницы разом — это и был forced-reflow в отчётах
+      // PageSpeed. Замер локально при процессоре в 10 раз медленнее: без него
+      // первая отрисовка 464 мс против 624, LCP 764 мс против 936.
+      //
+      // Прятать после отрисовки безопасно: помечаются только секции, целиком
+      // ушедшие за нижнюю границу экрана (top >= высоты окна), — на экране
+      // ничего не меняется, а opacity и transform раскладку не двигают.
       const afterPaint = (fn: () => void) => requestAnimationFrame(() => setTimeout(fn, 0));
       const reveal = () => afterPaint(() => {
+        // Сначала все замеры, потом все правки классов: чередование чтения
+        // геометрии и записи заставляет пересчитывать раскладку на каждом шаге.
+        const vh = window.innerHeight || document.documentElement.clientHeight;
+        const below: Element[] = [];
+        document.querySelectorAll('.reveal:not(.is-below):not(.is-visible)').forEach((el) => {
+          if (el.getBoundingClientRect().top >= vh) below.push(el);
+        });
+        below.forEach((el) => el.classList.add('is-below'));
+
         const els = document.querySelectorAll('.reveal.is-below:not(.is-visible)');
         if (!('IntersectionObserver' in window) || els.length === 0) {
           els.forEach((el) => el.classList.add('is-visible'));
