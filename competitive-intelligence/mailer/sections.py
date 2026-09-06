@@ -18,16 +18,21 @@ import html
 import os
 import sys
 
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+_CI_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, _CI_ROOT)
+sys.path.insert(0, os.path.join(os.path.dirname(_CI_ROOT), "scripts", "viz"))
 from competitors import classifier  # noqa: E402
 from decision_engine import kpi as kpi_mod  # noqa: E402
 from scoring import threat as threat_mod  # noqa: E402
+import kpi_kit as kit  # noqa: E402
 
-INK = "#101828"
-MUTED = "#667085"
-LINE = "#EAECF0"
-BRAND = "#F4511E"
-DANGER = "#D92D20"
+# Палитра — из KPI-kit: один визуальный слой у SEO-письма, веб-отчётов и
+# конкурентной разведки. Серия «мы» — синяя, конкуренты — вне серий.
+INK = kit.LIGHT["ink"]
+MUTED = kit.LIGHT["muted"]
+LINE = kit.LIGHT["hair"]
+BRAND = kit.LIGHT["accent"]
+DANGER = kit.LIGHT["crit"]
 OURS = "biz-soft.pro"
 
 
@@ -149,18 +154,23 @@ def field_section(snapshot: dict) -> str:
         who = ", ".join(d["домен"] for d in leaders
                         if d.get("категория") == cat)[:46]
         width = max(2, round(100 * share / top_value))
-        color = BRAND if in_rank else "#B9C0CA"
+        # Категории основного рейтинга — синим (серия «поле сделки»), вне
+        # рейтинга — серым контекстом; те же марки, что и в веб-отчёте.
+        color = kit.LIGHT["s1"] if in_rank else kit.LIGHT["gray"]
         bar = (f'<table role="presentation" cellpadding="0" cellspacing="0" '
                f'style="width:100%;"><tr>'
-               f'<td style="background:{color};height:8px;width:{width}%;'
-               f'border-radius:4px;font-size:0;line-height:0;">&nbsp;</td>'
+               f'<td style="background:{color};height:10px;width:{width}%;'
+               f'border-radius:0 4px 4px 0;font-size:0;line-height:0;">&nbsp;</td>'
                f'<td style="font-size:0;line-height:0;">&nbsp;</td></tr></table>')
         suffix = "" if in_rank else f' <span style="color:{MUTED};">(вне рейтинга)</span>'
         who_text = esc(who) if who else "—"
+        # Ячейке полосы нужна своя ширина: иначе таблица ужимает её до нуля
+        # и полоса длиной 100 % рисуется точкой.
+        bar_td = _td(bar).replace("<td ", '<td width="34%" ', 1)
         rows.append(
             f'<tr>{_td(esc(name) + suffix)}'
             f'{_td(pct(share), align="right", bold=in_rank)}'
-            f'{_td(bar)}{_td(who_text, color=MUTED, small=True)}</tr>')
+            f'{bar_td}{_td(who_text, color=MUTED, small=True)}</tr>')
     head = (f'<tr>{_th("Категория")}{_th("Доля", "right")}{_th("")}{_th("Кто внутри")}</tr>')
     return (_heading("Кто держит выдачу", "доля взвешенной видимости")
             + _table("".join(rows), head))

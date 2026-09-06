@@ -191,6 +191,17 @@ async function buildSchema() {
   // трогает — в отличие от date_updated, который Directus сдвигает при любом
   // PATCH. Без значения sitemap не отдаёт lastmod у товара.
   await ensureField('products', 'content_updated_at', { type: 'timestamp', meta: { interface: 'datetime', width: 'half', note: 'Дата содержательного изменения карточки — lastmod в sitemap. Переоценка цен не трогает.' } });
+  // Тип товара и варианты (05.09.2026, подарочные карты Apple — docs/gift-cards.md).
+  // Вариант = отдельная строка с parent_sku, регионом и номиналом; закупка в
+  // base_price_usd, коэффициент 3,0 — переоценивает тот же ops-currency-refresh.
+  await ensureField('products', 'product_type', { type: 'string', meta: { interface: 'select-dropdown', width: 'half', options: { allowNone: true, choices: [{ text: 'Подарочная карта', value: 'gift_card' }] }, note: 'Пусто — обычная лицензия/подписка. gift_card — цифровая подарочная карта: цена = закупка USD × курс × 3,0.' } });
+  await ensureField('products', 'parent_sku', { type: 'string', meta: { interface: 'input', width: 'half', note: 'Артикул родительской карточки — только у варианта (номинала). Вариант страницы не имеет: 301 на родителя.' } });
+  await ensureField('products', 'region_code', { type: 'string', meta: { interface: 'input', width: 'half', note: 'Регион карты: RU, KZ, TR (ISO 3166-1 alpha-2).' } });
+  await ensureField('products', 'region_name', { type: 'string', meta: { interface: 'input', width: 'half', note: 'Название региона для витрины: Россия, Казахстан, Турция.' } });
+  await ensureField('products', 'denomination', { type: 'float', meta: { interface: 'input', width: 'half', note: 'Номинал — сумма, зачисляемая на баланс аккаунта. В расчёте цены не участвует.' } });
+  await ensureField('products', 'denomination_currency', { type: 'string', meta: { interface: 'input', width: 'half', note: 'Валюта номинала: RUB, KZT, TRY.' } });
+  await ensureField('products', 'variant_label', { type: 'string', meta: { interface: 'input', width: 'half', note: 'Подпись варианта на витрине, если номинал — не сумма в валюте (например, «Nitro, 12 месяцев»). Пусто — подпись из номинала.' } });
+  await ensureField('products', 'availability', { type: 'string', meta: { interface: 'select-dropdown', width: 'half', options: { choices: [{ text: 'В наличии', value: 'in_stock' }, { text: 'Ограниченное количество', value: 'limited' }, { text: 'Нет в наличии', value: 'out_of_stock' }] }, note: 'Наличие кодов варианта. out_of_stock — вариант показан, но не выбирается.' }, schema: { default_value: 'in_stock' } });
   await ensureField('products', 'markup_percent', { type: 'float', meta: { interface: 'input', note: 'Наценка, %' }, schema: { default_value: 0 } });
   await ensureField('products', 'promo_price', { type: 'float', meta: { interface: 'input', note: 'Акционная цена, ₽' } });
   await ensureField('products', 'promo_label', { type: 'string', meta: { interface: 'input' } });
