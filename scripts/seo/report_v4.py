@@ -27,12 +27,15 @@ import re
 import sys
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
+sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1] / "viz"))
 
 import ads_block                      # noqa: E402
 import charts_v4                      # noqa: E402
+import kpi_kit as kit                 # noqa: E402
 import drivers as drivers_mod         # noqa: E402
 import invariants as invariants_mod   # noqa: E402
 import passport                      # noqa: E402
+import technical                     # noqa: E402
 import leads as leads_mod             # noqa: E402
 import measurement                    # noqa: E402
 import experiments as exp_mod         # noqa: E402
@@ -59,11 +62,14 @@ GROWTH_IDEAS = pathlib.Path("reports/seo/intelligence/growth-ideas.json")
 LOOP_HEALTH = pathlib.Path("reports/seo/intelligence/loop-health.json")
 
 # ── Design tokens ───────────────────────────────────────────────────────────
+# Палитра — из KPI-kit (scripts/viz/kpi_kit.py): один визуальный слой у письма,
+# веб-отчёта и конкурентной разведки. Ключи сохранены ради существующей вёрстки.
 T = {
-    "background": "#F6F8FB", "surface": "#FFFFFF", "text_primary": "#101828",
-    "text_secondary": "#667085", "border": "#EAECF0", "brand": "#F4511E",
-    "positive": "#12B76A", "warning": "#F79009", "info": "#2E90FA",
-    "danger": "#D92D20", "muted": "#98A2B3",
+    "background": kit.LIGHT["plane"], "surface": kit.LIGHT["surface"],
+    "text_primary": kit.LIGHT["ink"], "text_secondary": kit.LIGHT["muted"],
+    "border": kit.LIGHT["hair"], "brand": kit.LIGHT["accent"],
+    "positive": kit.LIGHT["good"], "warning": kit.LIGHT["warn"], "info": kit.LIGHT["s1"],
+    "danger": kit.LIGHT["crit"], "muted": kit.LIGHT["gray"],
 }
 SP = {"xs": 4, "s": 8, "m": 12, "l": 16, "xl": 24, "xxl": 32}
 FONT = ("-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',"
@@ -252,7 +258,8 @@ def kpi_cards(snap: dict, prev: dict | None, dq: dict) -> list[dict]:
                                 + (f"CTR {pct(site_ctr, 2)} по всему сайту."
                                    if site_ctr is not None else "")),
              "muted": False,
-             "sparkline": y_daily["windows"]["impressions"].get("tail")})
+             "sparkline": y_daily["windows"]["impressions"].get("tail"),
+             "sparkline_from": y_daily["windows"]["impressions"]["previous"]["from"]})
     elif y_block.get("available"):
         yt = y_block["totals"]
         yp = (prev or {}).get("yandex", {}).get("totals", {})
@@ -321,6 +328,7 @@ def kpi_cards(snap: dict, prev: dict | None, dq: dict) -> list[dict]:
              "interpretation": interpretation,
              "muted": False,
              "sparkline": g_daily["windows"]["impressions"].get("tail"),
+             "sparkline_from": g_daily["windows"]["impressions"]["previous"]["from"],
              "slope": {"prev_label": "пред. неделя", "prev": int(w["prev_num"]),
                        "cur_label": "эта неделя", "cur": imp,
                        "label": "Показы Google за неделю"}})
@@ -396,7 +404,8 @@ def kpi_cards(snap: dict, prev: dict | None, dq: dict) -> list[dict]:
                             else "низкая, малые числа"),
              "interpretation": "Визиты из поиска: весь сайт, все поисковые системы.",
              "muted": False,
-             "sparkline": m_daily["windows"]["visits_organic"].get("tail")})
+             "sparkline": m_daily["windows"]["visits_organic"].get("tail"),
+             "sparkline_from": m_daily["windows"]["visits_organic"]["previous"]["from"]})
     elif m.get("available"):
         cards.append(
             {"key": "traffic", "label": "Органический трафик",
@@ -733,6 +742,12 @@ def decision_label(o: dict) -> str:
 def assemble(snap, prev, dq, actions_cfg, site_check):
     date = snap["report_date"]
     health = dq["data_health"]
+    # Техническое здоровье — тактический показатель, а не стратегический KPI:
+    # он живёт пилюлей в статусбаре и компактной секцией, но не занимает место
+    # среди четырёх показателей роста и не входит в SEO-оценку.
+    tech = snap.get("technical") or {
+        **passport.unavailable("no_file", source="замер PageSpeed"),
+        "level": "unknown"}
     st = search_status(snap, prev)
     kpis = kpi_cards(snap, prev, dq)
     sig = signals(snap, prev, dq)
@@ -800,6 +815,8 @@ def assemble(snap, prev, dq, actions_cfg, site_check):
             {"label": "ПОИСК", "state": st, "text": PILL_LABEL[st]},
             {"label": "ДАННЫЕ", "state": health["status"],
              "text": PILL_LABEL[health["status"]]},
+            {"label": "ТЕХНИКА", "state": _tech_pill_state(tech),
+             "text": _tech_pill_text(tech)},
             {"label": "ОТ ВАС",
              "state": "required" if (red or exp_decisions) else "none",
              "text": (PILL_LABEL["required"] if (red or exp_decisions) else
@@ -827,6 +844,7 @@ def assemble(snap, prev, dq, actions_cfg, site_check):
         "opportunities": opps,
         "vendor_radar": vendor_radar_mod.build(snap),
         "health": health,
+        "technical": tech,
         "loop_health": load_loop_health(),
         "demand": demand_block,
         "leads": passport.normalize((snap.get("crm") or {}).get("block"),
@@ -1407,6 +1425,25 @@ def _checkpoints(exps, actions_cfg, date: str = "") -> list[dict]:
 
 # ── Рендер письма ───────────────────────────────────────────────────────────
 
+# Пилюля технического состояния. Состояния переиспользуют существующую
+# палитру статусбара: verified — зелёное, limited — жёлтое, degraded — красное.
+TECH_PILL_STATE = {"green": "verified", "yellow": "limited", "red": "degraded",
+                   "unknown": "unknown"}
+
+
+def _tech_pill_state(tech: dict) -> str:
+    return TECH_PILL_STATE.get(tech.get("level", "unknown"), "unknown")
+
+
+def _tech_pill_text(tech: dict) -> str:
+    """«GREEN · 93» — статус и балл мобильной скорости, без десятых долей."""
+    if not tech.get("available"):
+        return "нет данных"
+    label = {"green": "GREEN", "yellow": "YELLOW", "red": "RED"}[tech["level"]]
+    perf = tech.get("mobile_performance")
+    return f"{label} · {perf}" if perf is not None else label
+
+
 def _pill(p: dict) -> str:
     c = PILL_COLOUR[p["state"]]
     return (f"<span data-meta=\"1\" style=\"display:inline-block;padding:3px 10px;margin:0 6px 6px 0;"
@@ -1414,39 +1451,124 @@ def _pill(p: dict) -> str:
             f"color:{c};white-space:nowrap;\">{p['label']}: {p['text']}</span>")
 
 
+PILL_STATE = {
+    "positive": "good", "mixed": "warn", "negative": "crit", "stable": "good",
+    "verified": "good", "limited": "warn", "degraded": "crit", "none": "neutral",
+    "required": "crit", "unknown": "neutral",
+}
+
+
+def _pill_row(p: dict) -> dict:
+    """Пилюля статуса → строка светофора KPI-kit (глиф + цвет состояния)."""
+    return {"state": PILL_STATE.get(p["state"], "neutral"), "name": p["label"],
+            "comment": p["text"]}
+
+
 def _kpi_cell(k: dict, charts: dict, cid_mode: bool) -> str:
-    # delta_dir отсутствует, когда дельта не публикуется: окна разной длины или
-    # выборка пересобрана. Это не «нет изменения», а «сравнивать нечего с чем».
-    dir_colour = {"up": T["positive"], "down": T["danger"], "flat": T["muted"],
-                  None: T["muted"]}[k.get("delta_dir")]
-    tone = T["muted"] if k["muted"] else T["text_primary"]
-    delta = (f"<span style=\"font-size:14px;color:{dir_colour};font-weight:600;\">"
-             f"{k['delta']}</span>" if k["delta"] else "")
-    rel = (f"<span data-meta=\"1\" style=\"font-size:13px;color:{T['text_secondary']};\"> "
-           f"{k['relative']}</span>" if k.get("relative") else "")
-    spark = ""
-    if k.get("slope") and charts.get("kpi-slope"):
-        spark = (f"<div style=\"padding-top:{SP['s']}px;\">"
-                 f"{_img(charts, 'kpi-slope', cid_mode)}</div>")
-    return (
-        f"<table role=\"presentation\" width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" "
-        f"style=\"background:{T['surface']};border:1px solid {T['border']};"
-        f"border-radius:12px;\"><tr><td style=\"padding:{SP['l']}px;\">"
-        f"<div data-meta=\"1\" style=\"font-size:13px;color:{T['text_secondary']};"
-        f"letter-spacing:.01em;\">{k['label']}</div>"
-        f"<div style=\"padding-top:{SP['xs']}px;\">"
-        f"<span style=\"font-size:30px;line-height:1.1;font-weight:700;color:{tone};\">"
-        f"{k['value']}</span> "
-        f"<span data-meta=\"1\" style=\"font-size:13.5px;color:{T['text_secondary']};\">"
-        f"{k['unit']}</span>"
-        f" {delta}{rel}</div>"
-        f"{spark}"
-        f"<div style=\"font-size:14.5px;color:{T['text_primary']};padding-top:{SP['s']}px;"
-        f"line-height:1.5;\">{k['interpretation']}</div>"
-        f"<div data-meta=\"1\" style=\"font-size:12.5px;color:{T['text_secondary']};"
-        f"padding-top:{SP['s']}px;line-height:1.45;\">{k['period']} · {k['source']} · "
-        f"достоверность: {k['confidence']}</div>"
-        f"</td></tr></table>")
+    """Плитка показателя — компонент KPI-kit для письма.
+
+    delta_dir отсутствует, когда дельта не публикуется: окна разной длины или
+    выборка пересобрана. Это не «нет изменения», а «сравнивать нечего с чем».
+    График дня (тренд по дням или «было → стало») вкладывается в плитку того
+    показателя, по которому он построен.
+    """
+    delta = k["delta"] or ""
+    if k.get("relative"):
+        delta = f"{delta} {k['relative']}".strip()
+    trend = charts.get("kpi-trend") or {}
+    extra = ""
+    if trend and trend.get("kpi_key") == k.get("key"):
+        extra = (f"<div style=\"padding-top:{SP['s']}px;\">"
+                 f"{_img(charts, 'kpi-trend', cid_mode)}</div>")
+    return kit.email_tile(
+        k["label"], k["value"], k["unit"], delta or None, k.get("delta_dir"),
+        note=k["interpretation"],
+        meta=f"{k['period']} · {k['source']} · достоверность: {k['confidence']}",
+        muted=bool(k["muted"]), extra=extra)
+
+
+def _tech_metric_line(tech: dict) -> str:
+    """LCP и CLS одной строкой: «в норме» или конкретное отклонение."""
+    parts = []
+    parts.append("LCP: в норме" if tech.get("lcp_ok") else "LCP: выше нормы")
+    parts.append("CLS: в норме" if tech.get("cls_ok") else "CLS: выше нормы")
+    return " · ".join(parts)
+
+
+def _technical_html(tech: dict) -> str:
+    """Компактный блок скорости: 5–7 строк в зелёном состоянии.
+
+    Подробности печатаются только при просадке и не более чем по трём
+    страницам: длинный аудит Lighthouse в ежедневном письме не нужен, для
+    него есть отдельный ручной прогон ops-pagespeed.
+    """
+    if not tech.get("available"):
+        tail = technical._no_data_tail(
+            tech, "Последний удачный замер: {}.".format(
+                ru_date(tech.get("last_success") or "")),
+            "Последняя попытка {} не удалась.".format(
+                ru_date(tech.get("last_attempt") or "")),
+            "Замеров ещё не было.")
+        return (f"<div style=\"font-size:15px;line-height:1.55;\">"
+                f"<b>Данные недоступны.</b> {tail} "
+                f"На остальные показатели отчёта это не влияет: скорость "
+                f"измеряется отдельным источником.</div>")
+
+    label = {"green": "GREEN", "yellow": "YELLOW", "red": "RED"}[tech["level"]]
+    colour = {"green": T["positive"], "yellow": T["warning"],
+              "red": T["danger"]}[tech["level"]]
+    head = (f"<div style=\"font-size:15.5px;font-weight:700;color:{colour};\">"
+            f"{label} · мобильная скорость {tech.get('mobile_performance')}</div>")
+
+    pages = ", ".join(f"{p['page_type'].lower()} {p['performance']}"
+                      for p in tech.get("pages", []) if p.get("performance") is not None)
+    body = (f"<div style=\"font-size:15px;padding-top:{SP['xs']}px;line-height:1.55;\">"
+            f"Проверено страниц: {tech.get('pages_checked')} — {pages}.</div>"
+            f"<div style=\"font-size:14.5px;padding-top:{SP['xs']}px;"
+            f"color:{T['text_secondary']};\">{_tech_metric_line(tech)}</div>")
+
+    if not tech.get("regressions"):
+        body += (f"<div style=\"font-size:14.5px;padding-top:{SP['xs']}px;"
+                 f"color:{T['text_secondary']};\">"
+                 f"Значимых изменений к прошлому замеру нет.</div>")
+    else:
+        for r in tech["regressions"]:
+            body += (f"<div style=\"font-size:15px;padding-top:{SP['s']}px;"
+                     f"line-height:1.55;\"><b>{r['page_type']}</b> "
+                     f"({r['path']}): {_tech_issue_text(r['issues'])}. "
+                     f"Вероятная причина: {r['cause']}. {r['priority']}.</div>")
+
+    full = tech.get("last_full")
+    if full:
+        # Служебная подпись о последней расширенной проверке — метаданные:
+        # без data-meta браузерная проверка uxlint (rendered_font_sizes)
+        # считает 13,5 px основным текстом и блокирует выпуск (05.09.2026,
+        # первая суббота с расширенным замером).
+        body += (f"<div data-meta=\"1\" style=\"font-size:13.5px;padding-top:{SP['s']}px;"
+                 f"color:{T['text_secondary']};\">"
+                 f"Последняя расширенная проверка {ru_date(full['date'])}: "
+                 f"{full['urls']} адресов, зелёных {full['green']}, "
+                 f"жёлтых {full['yellow']}, красных {full['red']}.</div>")
+    return head + body
+
+
+def _ru_num(value: float, digits: int = 1) -> str:
+    """Дробное по-русски: запятой, как остальные числа отчёта."""
+    return f"{value:.{digits}f}".replace(".", ",")
+
+
+def _tech_issue_text(issues: list[dict]) -> str:
+    """Что именно ухудшилось — числами, без интерпретаций."""
+    out = []
+    for i in issues:
+        if i["kind"] == "performance":
+            out.append(f"скорость {i['was']} → {i['now']} ({i['delta']})")
+        elif i["kind"] == "lcp":
+            out.append(f"LCP {_ru_num(i['was'] / 1000)} с → "
+                       f"{_ru_num(i['now'] / 1000)} с (+{i['delta_pct']} %)")
+        elif i["kind"] == "cls":
+            out.append(f"CLS {_ru_num(i['was'], 2)} → {_ru_num(i['now'], 2)}")
+    return "; ".join(out)
 
 
 def _section(title: str, body: str, note: str = "") -> str:
@@ -1473,16 +1595,16 @@ def _img(charts: dict, name: str, cid_mode: bool) -> str:
 def html_email(b: dict, charts: dict, cid_mode: bool) -> str:
     rows = []
 
-    # A. Header + B. Status bar
+    # A. Header + B. Status bar — тёмный мастхед KPI-kit и светофор состояний
+    # вместо пилюль: те же четыре статуса (ПОИСК, ДАННЫЕ, ТЕХНИКА, ОТ ВАС),
+    # но с глифом и цветом состояния, читаемыми без картинок.
+    brand = b["title"].replace("BIZSoft", f"BIZ<span style=\"color:{T['brand']};\">Soft</span>", 1)
+    rows.append(kit.email_masthead(
+        brand, f"{b['subtitle']} · {b['date_h']}<br>{b['sources_line']}"))
     rows.append(
-        f"<tr><td style=\"padding:0 0 {SP['m']}px 0;\">"
-        f"<div style=\"font-size:24px;font-weight:700;color:{T['text_primary']};"
-        f"line-height:1.25;\">{b['title']}</div>"
-        f"<div style=\"font-size:14px;color:{T['text_secondary']};padding-top:2px;\">"
-        f"{b['subtitle']} · {b['date_h']}</div>"
-        f"<div style=\"padding-top:{SP['m']}px;\">{''.join(_pill(p) for p in b['pills'])}</div>"
-        f"<div data-meta=\"1\" style=\"font-size:12.5px;color:{T['text_secondary']};"
-        f"line-height:1.45;\">{b['sources_line']}</div></td></tr>")
+        f"<tr><td style=\"padding:{SP['m']}px 0 0 0;\">"
+        + kit.email_status_rows([_pill_row(p) for p in b["pills"]])
+        + "</td></tr>")
 
     # C. От вас
     if b["user_action_required"]:
@@ -1534,7 +1656,7 @@ def html_email(b: dict, charts: dict, cid_mode: bool) -> str:
         cells.append(
             f"{mso_open}"
             f"<div class=\"kpi\" style=\"display:inline-block;width:100%;"
-            f"max-width:308px;vertical-align:top;padding:{SP['s']}px;font-size:15px;\">"
+            f"max-width:290px;vertical-align:top;padding:{SP['s']}px;font-size:15px;\">"
             f"{_kpi_cell(k, charts, cid_mode)}</div>")
     cells.append("<!--[if mso]></td></tr></table><![endif]-->")
     rows.append(_section(
@@ -1881,6 +2003,11 @@ def html_email(b: dict, charts: dict, cid_mode: bool) -> str:
             "постановки задач по предложениям из шапки; система без вашей "
             "команды ничего не меняет"))
 
+    # J-а. Техническое состояние: PageSpeed по представителям шаблонов.
+    # В зелёном состоянии блок занимает несколько строк — подробности нужны
+    # только когда есть просадка, иначе он превращается в шум.
+    rows.append(_section("Техническое состояние", _technical_html(b["technical"])))
+
     # J. Здоровье данных
     h = b["health"]
     colour = {"positive": T["positive"], "warning": T["warning"],
@@ -1977,6 +2104,9 @@ def plain_text(b: dict) -> str:
         d = f" ({k['delta']}{' ' + k['relative'] if k.get('relative') else ''})" if k["delta"] else ""
         L.append(f"- {k['label']}: {k['value']} {k['unit']}{d}. {k['interpretation']}")
         L.append(f"  {k['period']} · {k['source']} · достоверность: {k['confidence']}")
+    # Техника — одной строкой: состояние, балл и суть изменения. Подробности
+    # ждут в полном отчёте, письмо ими не нагружается.
+    L += ["", technical.email_line(b["technical"])]
     if b["signals"]:
         L += ["", "СИГНАЛЫ ДНЯ"]
         for s in b["signals"]:

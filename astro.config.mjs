@@ -22,12 +22,12 @@ export default defineConfig({
     inlineStylesheets: 'always',
   },
   vite: {
-    // Шрифты остаются на font-display: swap (см. @font-face в global.css): фирменный
-    // Raleway/Prosto One появляется сразу после загрузки даже при первом визите.
-    // (Прежний рерайт swap → optional оставлял первый визит на системном
-    // фолбэке — сайт выглядел «со старым шрифтом» в инкогнито/без кэша.)
-    // Сдвиг макета гасится preload критичных woff2 в BaseLayout + метрическим
-    // фолбэком Raleway-fallback в global.css.
+    // Шрифты переведены на font-display: optional, а preload с них снят
+    // (решение руководителя 04.09.2026, правила — в @font-face в global.css
+    // и в шапке BaseLayout). Первый визит на медленной сети идёт запасным
+    // шрифтом: это принятая плата за то, что PageSpeed вообще начал считать
+    // балл — прежде замер возвращал NO_LCP. Раскладку держит метрический
+    // фолбэк Raleway-fallback в global.css, сдвиг в замерах ноль.
     plugins: [tailwindcss()],
     // Иконки вендоров/товаров подключены через ?url в расчёте на хешированные
     // файлы в /_astro с годовым кэшем, но дефолтный assetsInlineLimit (4 КБ)
