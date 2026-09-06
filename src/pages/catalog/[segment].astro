@@ -11,7 +11,7 @@ import QuestionForm from '../../components/QuestionForm.astro';
 import JsonLd from '../../components/JsonLd.astro';
 import { getProducts, getCategoryBySlug, getProductsBySlugs } from '../../lib/directus';
 import { LICENSE_LABEL, type LicenseType } from '../../lib/types';
-import { productKind, PRODUCT_KIND_LABEL, type ProductKind } from '../../lib/catalog';
+import { productKind, PRODUCT_KIND_LABEL, type ProductKind, listingProducts } from '../../lib/catalog';
 import { itemListSchema } from '../../lib/seo';
 import { aiSubcategories, aiFlagships } from '../../data/ai-hub';
 import { comparisons } from '../../data/comparisons';
@@ -74,6 +74,9 @@ try {
     } else {
       base = await getProducts({ categorySlug: segment! });
     }
+    // Варианты (номиналы подарочных карт) в списке не показываются — их
+    // представляет родительская карточка с выбором региона и номинала.
+    base = listingProducts(base);
     title = pageCategory.name;
     // seo_text — не лид, а блок «Как выбрать» под списком товаров (ниже).
     lead = pageCategory.intro || `${pageCategory.name}: зарубежные лицензии и подписки для юрлиц по договору и счёту.`;

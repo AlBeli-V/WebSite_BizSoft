@@ -1389,5 +1389,52 @@
   "source_kind": "Официальный вектор логотипа Lansweeper (контуры букв L и s)",
   "quality": "vector-original-palette",
   "note": "Знак «Ls» собран из контуров официального логотипа: буква L серая, s оранжевая и крупнее, чем в слове, — так же, как в фирменной квадратной иконке вендора. Полное написание Lansweeper живёт отдельным файлом в public/brand-logos и показывается в плитке производителей; сайт вендора закрыт Cloudflare, поэтому исходник взят из опубликованного официального SVG логотипа."
+ },
+ {
+  "index": 102,
+  "vendor": "Apple",
+  "slug": "apple",
+  "official_domain": "apple.com",
+  "catalog_url": "https://biz-soft.pro/vendors/apple",
+  "added": "2026-09-05",
+  "source_kind": "Официальный знак Apple (глиф simple-icons, вектор)",
+  "quality": "vector-original-palette",
+  "source_license_note": "Collection license: CC0-1.0; trademarks remain with owners",
+  "note": "Знак правообладателя одноцветный (#1D1D1F), поэтому color и mono совпадают. Глиф нормирован на холст 512×512 с safe zone 12,5 %. Тот же глиф build-logos.mjs кладёт в public/brand-logos/apple-logo.svg для плитки производителей."
+ },
+ {
+  "index": 103,
+  "vendor": "Binance",
+  "slug": "binance",
+  "official_domain": "binance.com",
+  "catalog_url": "https://biz-soft.pro/vendors/binance",
+  "added": "2026-09-05",
+  "source_kind": "Официальный знак Binance (глиф simple-icons, вектор)",
+  "quality": "vector-original-palette",
+  "source_license_note": "Collection license: CC0-1.0; trademarks remain with owners",
+  "note": "Глиф нормирован на холст 512×512 с safe zone 12,5 %; color — фирменный #F0B90B, mono — единый тёмный тон пакета."
+ },
+ {
+  "index": 104,
+  "vendor": "Discord",
+  "slug": "discord",
+  "official_domain": "discord.com",
+  "catalog_url": "https://biz-soft.pro/vendors/discord",
+  "added": "2026-09-05",
+  "source_kind": "Официальный знак Discord (глиф simple-icons, вектор)",
+  "quality": "vector-original-palette",
+  "source_license_note": "Collection license: CC0-1.0; trademarks remain with owners",
+  "note": "Глиф нормирован на холст 512×512 с safe zone 12,5 %; color — фирменный #5865F2, mono — единый тёмный тон пакета."
+ },
+ {
+  "index": 105,
+  "vendor": "Airalo",
+  "slug": "airalo",
+  "official_domain": "airalo.com",
+  "catalog_url": "https://biz-soft.pro/vendors/airalo",
+  "added": "2026-09-05",
+  "source_kind": "Эталон руководителя (официальный логотип Airalo, передан 05.09.2026): знак собран из геометрии оригинала",
+  "quality": "vector-original-palette",
+  "note": "USER_APPROVED_ASSET. Три полосы возрастающей высоты со скруглённым верхним левым углом и фирменными градиентами (жёлтый→оранжевый, коралловый→оранжевый, фиолетовый→красный); словесная часть «airalo» в квадратный знак не входит. Mono — тот же силуэт в едином тёмном тоне пакета."
  }
 ]
