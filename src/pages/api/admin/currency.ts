@@ -3,7 +3,7 @@ export const prerender = false;
 import type { APIRoute } from 'astro';
 import { getCurrencyRate, upsertCurrencyRate, getProductsForReprice, patchProductsBatch } from '../../../lib/directus';
 import { fetchCbrRates } from '../../../lib/currency';
-import { computePegRub, type RoundingRule, type Rates } from '../../../lib/pricing';
+import { computePegRub, defaultMarkupCoeff, type RoundingRule, type Rates } from '../../../lib/pricing';
 import { checkAdmin, unauthorized } from '../../../lib/admin-auth';
 import { DEFAULT_MARKUP_COEFF, type Product } from '../../../lib/types';
 
@@ -30,7 +30,10 @@ function buildReprice(products: Product[], rates: Rates, scope: Scope, coeff: nu
     if (!p.peg_to_usd) continue;
     if (!inScope(p, scope)) continue;
     if (p.price_locked && !includeLocked) continue;
-    const effCoeff = coeff != null && coeff > 0 ? coeff : (p.markup_coeff ?? DEFAULT_MARKUP_COEFF);
+    // Без своего коэффициента — значение по типу товара (подарочные карты ×3,0,
+    // остальное ×1,85); в REPRICE_FIELDS product_type не запрашивается, поэтому
+    // у карт коэффициент хранится в самой строке (ставит импорт).
+    const effCoeff = coeff != null && coeff > 0 ? coeff : (p.markup_coeff ?? defaultMarkupCoeff(p));
     const after = computePegRub({ ...p, markup_coeff: effCoeff }, rates, DEFAULT_MARKUP_COEFF, ROUNDING);
     if (after == null) continue;
     if (after !== p.price || (coeff != null && coeff !== p.markup_coeff)) {
