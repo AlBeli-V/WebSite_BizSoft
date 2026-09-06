@@ -84,6 +84,11 @@ export const VENDOR_SOLUTIONS: Record<string, string[]> = {
   n8n: ['it-companies', 'ai-servisy-dlya-biznesa', 'po-dlya-yurlic-po-schetu'],
   teamviewer: ['it-companies', 'po-dlya-yurlic-po-schetu', 'inostrannoe-po-po-dogovoru'],
   zoho: ['it-companies', 'po-dlya-yurlic-po-schetu', 'inostrannoe-po-po-dogovoru'],
+  // Подарочные карты (05.09.2026): корпоративный подарок сотрудникам — единственное
+  // решение, где эти вендоры уместны; классические разделы по задачам ПО им не подходят.
+  apple: ['podarochnye-karty-sotrudnikam', 'po-dlya-yurlic-po-schetu'],
+  airalo: ['podarochnye-karty-sotrudnikam', 'po-dlya-yurlic-po-schetu'],
+  discord: ['podarochnye-karty-sotrudnikam'],
 };
 
 /** Обратная карта: какие вендоры показывать плитками на странице решения. */

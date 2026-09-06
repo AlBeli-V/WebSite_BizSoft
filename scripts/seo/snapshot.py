@@ -22,6 +22,7 @@ import sys
 import daily_windows
 import leads as leads_mod
 import passport
+import technical
 
 SCHEMA_VERSION = "2.2.0"
 # Часовой пояс отчётности — московский: так требует правило проекта, и так же
@@ -1080,6 +1081,20 @@ def build_crm(date: str) -> dict:
     }
 
 
+def build_technical(date: str) -> dict:
+    """Блок PageSpeed. Любой сбой разбора — «данных нет», а не падение снимка.
+
+    Технический замер полезен, но письмо руководителя не может от него
+    зависеть: сторонний API недоступен чаще, чем собственные выгрузки.
+    """
+    try:
+        return technical.build(date)
+    except Exception as e:  # noqa: BLE001 — источник сторонний, форма может смениться
+        return {**passport.unavailable(
+            "parse_error", source="замер PageSpeed",
+            detail=f"{type(e).__name__}: {e}"), "level": "unknown"}
+
+
 def main() -> int:
     date = sys.argv[1] if len(sys.argv) > 1 else dt.datetime.now(
         dt.timezone(dt.timedelta(hours=3))).date().isoformat()
@@ -1107,6 +1122,10 @@ def main() -> int:
         "market_demand": build_market_demand(date),
         "data_revisions": data_revisions_safe(date, prev_date),
         "crm": build_crm(date),
+        # Техническое здоровье: PageSpeed по представителям шаблонов. Сбой
+        # замера не должен ломать снимок — блок сам возвращает состояние
+        # «данных нет» с датой последнего удачного замера.
+        "technical": build_technical(date),
         "ctr_model": {"approved": False,
                       "note": "утверждённая CTR-кривая по позициям отсутствует; "
                               "расчёт «потерянных кликов» не выполняется"},
