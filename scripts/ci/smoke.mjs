@@ -146,6 +146,77 @@ check('бренд в title не задваивается', async () => {
   const hits = (title.match(/BIZSoft/gi) || []).length;
   return { ok: hits === 1, got: `вхождений бренда: ${hits}` };
 });
+// ── Подарочные карты: одна страница на все номиналы ──
+check('подарочная карта: страница родителя отдаёт 200 с выбором региона и номинала', async () => {
+  const r = await req('/product/app-store-itunes-gift-card');
+  const html = r.body;
+  if (r.status !== 200) throw new Error(`HTTP ${r.status}`);
+  if (!html.includes('data-gift-card')) throw new Error('нет селектора вариантов');
+  if (!html.includes('data-region="RU"') || !html.includes('data-region="TR"')) throw new Error('нет кнопок регионов');
+  // Номиналы региона по убыванию: 1000 раньше 500, хотя в базе порядок обратный.
+  const i1000 = html.indexOf('data-sku="APP-STORE-ITUNES-GIFT-CARD-RU-1000"');
+  const i500 = html.indexOf('data-sku="APP-STORE-ITUNES-GIFT-CARD-RU-500"');
+  if (i1000 < 0 || i500 < 0 || i1000 > i500) throw new Error('номиналы не по убыванию');
+  if (/base_price_usd|markup_coeff/.test(html)) throw new Error('закупка попала в HTML');
+  if (!html.includes('rel="canonical" href="https://biz-soft.pro/product/app-store-itunes-gift-card"')) throw new Error('canonical не на родителя');
+  return { ok: true, got: '200, селектор, регионы RU/TR, номиналы по убыванию, закупки в HTML нет' };
+});
+check('подарочная карта: ?sku= не меняет canonical и не закрывает страницу от индексации', async () => {
+  const html = (await req('/product/app-store-itunes-gift-card?sku=APP-STORE-ITUNES-GIFT-CARD-TR-2000')).body;
+  if (!html.includes('rel="canonical" href="https://biz-soft.pro/product/app-store-itunes-gift-card"')) throw new Error('canonical с параметром');
+  if (html.includes('name="robots" content="noindex')) throw new Error('родитель закрыт noindex');
+  return { ok: true, got: 'canonical без параметров, noindex нет' };
+});
+check('подарочная карта: страница варианта отдаёт 301 на родителя с выбранным номиналом', async () => {
+  const r = await req('/product/app-store-itunes-gift-card-ru-1000');
+  if (r.status !== 301) throw new Error(`HTTP ${r.status}`);
+  const loc = r.headers.get('location') || '';
+  if (!loc.startsWith('/product/app-store-itunes-gift-card?sku=APP-STORE-ITUNES-GIFT-CARD-RU-1000')) throw new Error(`location: ${loc}`);
+  return { ok: true, got: `301 → ${loc}` };
+});
+check('подарочная карта: sitemap содержит родителя и не содержит варианты', async () => {
+  const xml = (await req('/sitemap.xml')).body;
+  if (!xml.includes('/product/app-store-itunes-gift-card</loc>')) throw new Error('родителя нет в sitemap');
+  if (xml.includes('app-store-itunes-gift-card-ru-') || xml.includes('app-store-itunes-gift-card-tr-')) throw new Error('вариант попал в sitemap');
+  return { ok: true, got: 'родитель есть, вариантов нет' };
+});
+check('подарочная карта: JSON-LD — один Product с AggregateOffer, диапазон совпадает с витриной', async () => {
+  const html = (await req('/product/app-store-itunes-gift-card')).body;
+  const nodes = ldNodes(html);
+  const products = ofType(nodes, 'Product');
+  if (products.length !== 1) throw new Error(`Product: ${products.length}`);
+  const offers = products[0].offers;
+  if (!offers || offers['@type'] !== 'AggregateOffer') throw new Error('нет AggregateOffer');
+  if (offers.lowPrice !== 1895 || offers.highPrice !== 11275 || offers.offerCount !== 3) throw new Error(`диапазон ${offers.lowPrice}–${offers.highPrice} × ${offers.offerCount}`);
+  if (!html.includes('itemtype="https://schema.org/AggregateOffer"')) throw new Error('microdata без AggregateOffer');
+  if (!html.includes('itemprop="lowPrice" content="1895"')) throw new Error('microdata lowPrice расходится');
+  return { ok: true, got: `AggregateOffer ${offers.lowPrice}–${offers.highPrice} × ${offers.offerCount}, microdata согласована` };
+});
+check('подарочная подписка (Discord): один регион Global, подписи вариантов, 12 месяцев раньше 1 месяца', async () => {
+  const r = await req('/product/discord-nitro-gift-card');
+  const html = r.body;
+  if (r.status !== 200) throw new Error(`HTTP ${r.status}`);
+  if (!html.includes('data-gift-card')) throw new Error('нет селектора');
+  if ((html.match(/data-region="GLOBAL"/g) || []).length !== 1) throw new Error('регион Global должен быть один и показан строкой');
+  if (!html.includes('Discord Nitro, 12 месяцев') || !html.includes('Discord Nitro Basic, 1 месяц')) throw new Error('нет подписей вариантов');
+  const i12 = html.indexOf('data-sku="DISCORD-NITRO-GIFT-CARD-GLOBAL-NITRO-12M"');
+  const i1 = html.indexOf('data-sku="DISCORD-NITRO-GIFT-CARD-GLOBAL-BASIC-1M"');
+  if (i12 < 0 || i1 < 0 || i12 > i1) throw new Error('порядок вариантов не по убыванию срока');
+  if (!html.includes('Ограниченное количество')) throw new Error('пометка ограниченного наличия не выведена');
+  const nodes = ldNodes(html);
+  const offers = ofType(nodes, 'Product')[0]?.offers;
+  if (!offers || offers['@type'] !== 'AggregateOffer' || offers.lowPrice !== 1122 || offers.highPrice !== 22726) throw new Error('AggregateOffer расходится с витриной');
+  return { ok: true, got: 'Global, 2 варианта, AggregateOffer 1122–22726' };
+});
+check('подарочная карта: WebMCP отдаёт вариант с ценой и без закупки', async () => {
+  const r = await req('/api/agent/get_product?slug=app-store-itunes-gift-card-ru-1000');
+  const j = JSON.parse(r.body);
+  if (r.status !== 200) throw new Error(`HTTP ${r.status}`);
+  if (j?.data?.price !== 3734) throw new Error(`price=${j?.data?.price}`);
+  if (JSON.stringify(j).includes('base_price')) throw new Error('закупка в ответе агенту');
+  return { ok: true, got: `price=${j.data.price}, закупки нет` };
+});
+
 check('sitemap: /vendors присутствует', async () => {
   const r = await req('/sitemap.xml');
   return { ok: /<loc>[^<]*\/vendors<\/loc>/.test(r.body), got: /<loc>[^<]*\/vendors<\/loc>/.test(r.body) ? 'есть' : 'НЕТ' };

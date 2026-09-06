@@ -14,6 +14,7 @@
 |---|---|---|
 | 1. Сбор | воркфлоу `seo-data-collect.yml` → `scripts/seo/collect.py` | `reports/seo/data/<источник>-<дата>.json`; в `gsc-*.json` также пары «запрос × страница × день» (ключ `pairs`) — слой `pairs.py`, детекторы `cannibalization.py` и `mismatch.py` |
 | 1б. Заявки воронки | воркфлоу `ops-leads-collect.yml` → выгрузка Directus по SSH + `scripts/seo/leads_collect.py` | `reports/seo/data/leads-<дата>.json`: заявки за две недели без персональных данных + путь визитов посетителя из Метрики (`ym:s:clientID`); методика — `docs/marketing/lead-attribution.md` |
+| 1в. Скорость сайта | шаг `Measure PageSpeed` в `seo-daily-report.yml` → `scripts/ops/pagespeed_monitor.mjs` | `reports/seo/pagespeed/history/<дата>.json` + `latest.json`: PageSpeed по трём представителям шаблонов ежедневно и по двенадцати адресам в субботу (медиана трёх прогонов); трактовка — `scripts/seo/technical.py`, методика — `docs/seo/pagespeed-monitor.md` |
 | 2. Канонический snapshot | `python3 scripts/seo/snapshot.py <дата>` | `intelligence/snapshots/<дата>.json` |
 | 3. Качество данных | `python3 scripts/seo/quality.py <дата>` | `intelligence/data-quality/<дата>.json` |
 | 4. Графики | `python3 scripts/seo/charts.py <дата>` | `intelligence/charts/<дата>-*.svg` |
