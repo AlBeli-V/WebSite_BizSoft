@@ -413,7 +413,9 @@ def main(argv: list[str]) -> int:
                              to_verify=to_verify,
                              stale_occupancy=stale_experiments,
                              position_check=poscheck,
-                             position_verdict=poscheck_verdict)
+                             position_verdict=poscheck_verdict,
+                             our_history=our_history,
+                             history_dates=[p.get("дата") or "" for p in past_snapshots])
     os.makedirs(paths.ARCHIVE_DIR, exist_ok=True)
     for target in (os.path.join(paths.ARCHIVE_DIR, f"{date}.html"),
                    os.path.join(paths.REPORTS_DIR, "latest.html")):

@@ -35,7 +35,8 @@ set -euo pipefail
 
 BRANCH=seo-data
 DIRS=(reports/seo/data reports/seo/serp reports/seo/wordstat
-      reports/seo/intelligence reports/seo/public reports/seo/ppc)
+      reports/seo/intelligence reports/seo/public reports/seo/ppc
+      reports/seo/pagespeed)
 
 # Метка версии, снятой последним pull: по ней push отличает «этот файл
 # изменил прогон» от «этот файл лежал так с момента pull». Живёт в .git,
