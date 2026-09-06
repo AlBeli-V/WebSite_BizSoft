@@ -99,7 +99,8 @@ class TestGa4PartialError(unittest.TestCase):
         self.assertIn("2026-08-11–2026-08-24", f["detail"])
 
     def test_email_still_builds(self):
-        self.assertIn("BIZSoft", self.html)
+        # Бренд в мастхеде набран как BIZ + оранжевое Soft (айдентика сайта).
+        self.assertIn("Soft</span> Growth Intelligence", self.html)
         self.assertTrue(self.text.strip())
 
     def test_measurement_map_marks_ga4_unavailable(self):

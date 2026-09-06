@@ -1,0 +1,65 @@
+# Сторож утренних контуров: запускает ежедневный конвейер и разведку тогда,
+# когда наступило нужное время, а не когда до слота добрался планировщик.
+#
+# Зачем. Замер 04–05.09.2026 показал: cron-слоты этого репозитория стартуют в
+# среднем на 4–5 часов позже назначенного (слот 06:35 UTC → прогон 11:39 UTC;
+# 07:05 → 12:01; 03:07 → 07:52). Утреннее письмо из-за этого приходило к обеду.
+# Задержка одинакова для любого часа, поэтому перенос слота не помогает.
+#
+# Решение руководителя 05.09.2026 — «будильник внутри Actions». Ждать внутри
+# job нельзя: репозиторий приватный, ожидание тарифицируется поминутно, а сон
+# до утра стоил бы около 8000 минут в месяц. Поэтому сторож просыпается
+# каждый час в окне ночь–утро, тратит секунды и сам решает, пора ли. При любой
+# задержке планировщика один из часовых слотов попадёт в окно 09–13 МСК.
+#
+# Расписание в самих контурах оставлено страховкой: если сторож не сработает,
+# конвейер всё равно стартует по своему слоту, пусть и с задержкой. Дубля
+# письма быть не может — его блокирует маркер last-mailed.txt.
+name: seo-morning-gate
+
+on:
+  schedule:
+    # Каждый час с 22:00 до 09:00 UTC. Ночные слоты нужны потому, что при
+    # задержке в 4–5 часов именно они попадают в утреннее окно МСК.
+    - cron: "3 22-23,0-9 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: write
+
+concurrency:
+  group: seo-morning-gate
+  cancel-in-progress: false
+
+jobs:
+  gate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Decide
+        id: decide
+        run: |
+          git fetch --depth=1 origin seo-data --quiet
+          mailed=$(git show origin/seo-data:reports/seo/intelligence/last-mailed.txt 2>/dev/null || echo "")
+          verdict=$(bash scripts/ops/morning_gate.sh \
+            "$(TZ=Europe/Moscow date +%H)" "$(TZ=Europe/Moscow date +%F)" "$mailed")
+          echo "$verdict"
+          case "$verdict" in
+            run:*) echo "run=yes" >> "$GITHUB_OUTPUT" ;;
+            *)     echo "run=no"  >> "$GITHUB_OUTPUT" ;;
+          esac
+
+      # Оба контура запускаются без ожидания: сторож своё дело сделал, а
+      # следить за прогонами — задача самих контуров и журнала issue #22.
+      - name: Start daily report
+        if: steps.decide.outputs.run == 'yes'
+        run: bash scripts/ops/gh_dispatch_wait.sh seo-daily-report.yml --ref main --no-wait
+
+      - name: Start competitive intelligence
+        if: steps.decide.outputs.run == 'yes'
+        run: bash scripts/ops/gh_dispatch_wait.sh competitive-intelligence-daily.yml --ref main --no-wait
