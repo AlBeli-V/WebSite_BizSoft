@@ -1,0 +1,835 @@
+<title>Витрина KPI-дашбордов BIZSoft</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700&family=Prosto+One&display=swap">
+<style>
+:root{
+  color-scheme:light;
+  --plane:#f5f5f7; --surface:#ffffff; --surface-2:#fafafb;
+  --ink:#1d1d1f; --ink-2:#3f3f46; --muted:#6e6e78;
+  --hair:#e8e8ed; --hair-2:#d2d2d7;
+  --accent:#f2591d; --accent-ink:#b8420f; --accent-soft:#fff2ec;
+  --s1:#2a78d6; --s2:#f2591d; --s3:#1baf7a; --s4:#eda100; --s1-soft:rgba(42,120,214,.10);
+  --gray-mark:#c3c2c7;
+  --q1:#e3eefc; --q2:#b7d3f6; --q3:#86b6ef; --q4:#5598e7; --q5:#2a78d6; --q6:#1c5cab; --q7:#0d366b;
+  --good:#1a8f4c; --good-soft:#e6f4ec; --warn:#b97a00; --warn-soft:#fff5dc; --crit:#d92d20; --crit-soft:#fdecea;
+  --hero:#1d1d1f; --hero-ink:#ffffff; --hero-muted:#a0a0a8;
+  --shadow:0 4px 18px rgba(0,0,0,.06),0 1px 4px rgba(0,0,0,.04);
+  --r:14px; --r-sm:10px;
+  --sans:'Raleway',-apple-system,BlinkMacSystemFont,system-ui,'Segoe UI',Roboto,Arial,sans-serif;
+  --display:'Prosto One',system-ui,sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --plane:#0f0f11; --surface:#1b1b1e; --surface-2:#202024;
+    --ink:#f5f5f7; --ink-2:#c9c9cf; --muted:#9a9aa4;
+    --hair:#2c2c31; --hair-2:#3d3d44;
+    --accent:#f2591d; --accent-ink:#ff8a5b; --accent-soft:#3a2418;
+    --s1:#3987e5; --s2:#f2591d; --s3:#199e70; --s4:#c98500; --s1-soft:rgba(57,135,229,.16);
+    --gray-mark:#4a4a52;
+    --q1:#1b2a40; --q2:#184f95; --q3:#1c5cab; --q4:#2a78d6; --q5:#3987e5; --q6:#6da7ec; --q7:#9ec5f4;
+    --good:#3dbb6e; --good-soft:#12301c; --warn:#e0a020; --warn-soft:#332a10; --crit:#ef5a50; --crit-soft:#3a1a18;
+    --hero:#0b0b0c; --hero-ink:#ffffff; --hero-muted:#9a9aa4;
+    --shadow:0 4px 18px rgba(0,0,0,.4);
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --plane:#0f0f11; --surface:#1b1b1e; --surface-2:#202024;
+  --ink:#f5f5f7; --ink-2:#c9c9cf; --muted:#9a9aa4;
+  --hair:#2c2c31; --hair-2:#3d3d44;
+  --accent:#f2591d; --accent-ink:#ff8a5b; --accent-soft:#3a2418;
+  --s1:#3987e5; --s2:#f2591d; --s3:#199e70; --s4:#c98500; --s1-soft:rgba(57,135,229,.16);
+  --gray-mark:#4a4a52;
+  --q1:#1b2a40; --q2:#184f95; --q3:#1c5cab; --q4:#2a78d6; --q5:#3987e5; --q6:#6da7ec; --q7:#9ec5f4;
+  --good:#3dbb6e; --good-soft:#12301c; --warn:#e0a020; --warn-soft:#332a10; --crit:#ef5a50; --crit-soft:#3a1a18;
+  --hero:#0b0b0c; --hero-ink:#ffffff; --hero-muted:#9a9aa4;
+  --shadow:0 4px 18px rgba(0,0,0,.4);
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--plane);color:var(--ink);font-family:var(--sans);font-size:14px;line-height:1.45;-webkit-font-smoothing:antialiased}
+a{color:var(--accent-ink)}
+h1,h2,h3{margin:0;text-wrap:balance}
+button{font:inherit;color:inherit;cursor:pointer}
+.num{font-variant-numeric:tabular-nums}
+
+/* ---------- шапка и навигация ---------- */
+.mast{max-width:1120px;margin:0 auto;padding:36px 20px 8px}
+.brand{font-family:var(--display);font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.brand b{color:var(--accent);font-weight:400}
+.mast h1{font-size:30px;font-weight:700;letter-spacing:-.01em;margin-top:10px}
+.mast p{max-width:68ch;color:var(--ink-2);margin:10px 0 0}
+.legend{display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:14px;font-size:12.5px;color:var(--muted)}
+.legend span::before{content:"";display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px;vertical-align:-1px}
+.legend .l1::before{background:var(--s1)} .legend .l2::before{background:var(--s2)} .legend .l3::before{background:var(--gray-mark)}
+nav.dots{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--plane) 88%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--hair)}
+nav.dots .in{max-width:1120px;margin:0 auto;padding:10px 20px;display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+nav.dots a{display:inline-flex;align-items:center;gap:6px;height:28px;padding:0 10px;border-radius:999px;border:1px solid var(--hair-2);background:var(--surface);color:var(--ink-2);text-decoration:none;font-size:12.5px;font-weight:600}
+nav.dots a i{font-style:normal;font-family:var(--display);font-size:11px;color:var(--muted)}
+nav.dots a.yes{border-color:var(--good);color:var(--good)} nav.dots a.partial{border-color:var(--warn);color:var(--warn)} nav.dots a.no{border-color:var(--crit);color:var(--crit)}
+nav.dots .count{margin-left:auto;font-size:12.5px;color:var(--muted)}
+
+/* ---------- секция варианта ---------- */
+.variant{max-width:1120px;margin:0 auto;padding:40px 20px 8px}
+.vhead{display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:start;margin-bottom:16px}
+.vnum{font-family:var(--display);font-size:38px;line-height:1;color:var(--accent);padding-top:2px;min-width:54px}
+.vhead h2{font-size:22px;font-weight:700}
+.vhead .why{color:var(--ink-2);max-width:78ch;margin:6px 0 0}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.tag{font-size:11.5px;font-weight:600;letter-spacing:.02em;padding:3px 9px;border-radius:999px;background:var(--surface);border:1px solid var(--hair-2);color:var(--ink-2)}
+.tag.web{border-color:var(--s1);color:var(--s1)} .tag.mail{border-color:var(--accent);color:var(--accent-ink)}
+.frame{background:var(--surface);border:1px solid var(--hair);border-radius:var(--r);box-shadow:var(--shadow);padding:22px 24px;overflow-x:auto}
+.frame.plain{background:transparent;border:0;box-shadow:none;padding:0}
+.dash-title{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:16px}
+.dash-title h3{font-size:16px;font-weight:700}
+.dash-title .period{font-size:12.5px;color:var(--muted)}
+
+/* ---------- голосование ---------- */
+.vote{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;margin-top:12px;padding:12px 16px;border:1px dashed var(--hair-2);border-radius:var(--r-sm);background:var(--surface-2)}
+.vote .q{font-weight:600;color:var(--ink-2);white-space:nowrap}
+.vote .btns{display:flex;gap:6px;flex-wrap:wrap}
+.vote button{height:32px;padding:0 14px;border-radius:999px;border:1px solid var(--hair-2);background:var(--surface);font-weight:600;font-size:13px}
+.vote button:focus-visible,nav.dots a:focus-visible,.tile:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.vote button.on.yes{background:var(--good-soft);border-color:var(--good);color:var(--good)}
+.vote button.on.partial{background:var(--warn-soft);border-color:var(--warn);color:var(--warn)}
+.vote button.on.no{background:var(--crit-soft);border-color:var(--crit);color:var(--crit)}
+.vote input{width:100%;min-width:180px;height:32px;padding:0 10px;border:1px solid var(--hair-2);border-radius:8px;background:var(--surface);color:var(--ink);font:inherit;font-size:13px}
+.vote .st{font-size:12px;color:var(--muted);white-space:nowrap;min-width:84px;text-align:right}
+@media (max-width:720px){.vote{grid-template-columns:1fr}.vote .st{text-align:left}}
+
+/* ---------- общие детали дашбордов ---------- */
+.kpi-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px}
+.tile{position:relative;text-align:left;background:var(--surface);border:1px solid var(--hair);border-radius:var(--r-sm);padding:14px 14px 12px;display:flex;flex-direction:column;gap:6px;min-height:118px}
+.tile.clickable{cursor:pointer;transition:border-color .15s}
+.tile.clickable:hover{border-color:var(--hair-2)}
+.tile.active{border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent)}
+.tile .lbl{font-size:12px;color:var(--muted);font-weight:600}
+.tile .val{font-size:26px;font-weight:600;line-height:1.05;letter-spacing:-.01em}
+.tile .val small{font-size:13px;font-weight:500;color:var(--muted);margin-left:3px}
+.tile .sub{display:flex;align-items:center;gap:8px;justify-content:space-between;margin-top:auto}
+.delta{font-size:12.5px;font-weight:600;white-space:nowrap}
+.delta.up{color:var(--good)} .delta.down{color:var(--crit)} .delta.flat{color:var(--muted)}
+.spark{display:block}
+.chart svg{display:block;max-width:100%;height:auto}
+.axis{font-size:11px;fill:var(--muted)}
+.grid{stroke:var(--hair);stroke-width:1}
+.base{stroke:var(--hair-2);stroke-width:1}
+.tip{position:fixed;z-index:50;pointer-events:none;background:var(--ink);color:var(--plane);font-size:12px;line-height:1.35;padding:6px 9px;border-radius:7px;opacity:0;transform:translate(-50%,-110%);transition:opacity .08s;white-space:nowrap}
+.tip.show{opacity:1}
+.detail{margin-top:14px;border-top:1px solid var(--hair);padding-top:14px;display:grid;grid-template-columns:1.4fr 1fr;gap:18px}
+@media (max-width:820px){.detail{grid-template-columns:1fr}}
+.detail h4,.panel h4{margin:0 0 8px;font-size:13.5px;font-weight:700}
+.detail .hint{font-size:12px;color:var(--muted);margin:0 0 8px}
+table.t{width:100%;border-collapse:collapse;font-size:13px}
+table.t th{font-size:11.5px;font-weight:600;color:var(--muted);text-align:left;padding:6px 8px;border-bottom:1px solid var(--hair-2);letter-spacing:.02em;white-space:nowrap}
+table.t td{padding:7px 8px;border-bottom:1px solid var(--hair);vertical-align:middle}
+table.t td.r{white-space:nowrap}
+table.t td.r,table.t th.r{text-align:right}
+table.t tr:last-child td{border-bottom:0}
+.bar-in{display:inline-block;height:10px;background:var(--s1);border-radius:0 4px 4px 0;vertical-align:middle;margin-right:8px}
+.pill{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;font-weight:600;padding:2px 8px;border-radius:999px;white-space:nowrap}
+.pill.good{background:var(--good-soft);color:var(--good)} .pill.warn{background:var(--warn-soft);color:var(--warn)} .pill.crit{background:var(--crit-soft);color:var(--crit)} .pill.neutral{background:var(--plane);color:var(--ink-2)}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chips button{height:28px;padding:0 12px;border-radius:999px;border:1px solid var(--hair-2);background:var(--surface);font-size:12.5px;font-weight:600;color:var(--ink-2)}
+.chips button.on{background:var(--ink);color:var(--plane);border-color:var(--ink)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+@media (max-width:820px){.two{grid-template-columns:1fr}}
+.note{font-size:12.5px;color:var(--muted);margin-top:12px}
+.legend-row{display:flex;gap:16px;flex-wrap:wrap;font-size:12px;color:var(--ink-2);margin-bottom:8px}
+.legend-row i{display:inline-block;width:14px;height:3px;border-radius:2px;vertical-align:middle;margin-right:6px}
+
+/* вариант 2: светофор */
+.status-list{display:flex;flex-direction:column}
+.srow{display:grid;grid-template-columns:28px 1.3fr 90px 90px 1.6fr 1.4fr;gap:12px;align-items:center;padding:11px 6px;border-bottom:1px solid var(--hair)}
+.srow:last-child{border-bottom:0}
+.srow.h{font-size:11.5px;font-weight:600;color:var(--muted);padding:4px 6px;letter-spacing:.02em}
+.srow .name{font-weight:600}
+.srow .name small{display:block;font-weight:500;color:var(--muted);font-size:11.5px}
+.srow .v{font-size:17px;font-weight:600}
+.srow .cmt{font-size:12.5px;color:var(--ink-2)}
+.dot{width:14px;height:14px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;color:#fff;font-size:9px;font-weight:700}
+.dot.good{background:var(--good)} .dot.warn{background:var(--warn)} .dot.crit{background:var(--crit)}
+.meter{position:relative;height:8px;border-radius:4px;background:var(--q1);overflow:visible}
+.meter b{position:absolute;left:0;top:0;height:100%;border-radius:4px;background:var(--s1)}
+.meter b.good{background:var(--good)} .meter b.warn{background:var(--warn)} .meter b.crit{background:var(--crit)}
+.meter i{position:absolute;top:-3px;width:2px;height:14px;background:var(--ink)}
+.meter-wrap{display:flex;align-items:center;gap:10px}
+.meter-wrap span{font-size:11.5px;color:var(--muted);white-space:nowrap}
+@media (max-width:820px){.srow{grid-template-columns:24px 1fr 80px 70px;} .srow .m,.srow .cmt,.srow.h .m{display:none}}
+
+/* вариант 3: одна цифра */
+.hero-grid{display:grid;grid-template-columns:280px 1fr;gap:20px}
+@media (max-width:820px){.hero-grid{grid-template-columns:1fr}}
+.hero{background:var(--hero);color:var(--hero-ink);border-radius:var(--r);padding:22px 22px 18px;display:flex;flex-direction:column;justify-content:space-between;min-height:250px}
+.hero .lbl{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--hero-muted);font-weight:600}
+.hero .big{font-size:76px;font-weight:700;line-height:1;letter-spacing:-.03em;margin-top:6px}
+.hero .big small{font-size:20px;color:var(--hero-muted);font-weight:500;letter-spacing:0}
+.hero .dl{color:#4ad07a;font-weight:600;font-size:14px;margin-top:6px}
+.hero .foot{font-size:12px;color:var(--hero-muted);margin-top:12px}
+.wf{display:grid;grid-template-columns:1fr;gap:6px}
+.wf-row{display:grid;grid-template-columns:200px 1fr 54px;gap:10px;align-items:center;font-size:13px}
+.wf-row .lab{color:var(--ink-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.wf-track{position:relative;height:14px}
+.wf-track b{position:absolute;top:0;height:14px;border-radius:4px}
+.wf-track .zero{position:absolute;top:-4px;bottom:-4px;width:1px;background:var(--hair-2)}
+.wf-row .v{text-align:right;font-weight:600}
+.wf-row.total .lab{font-weight:700;color:var(--ink)}
+.mini3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:16px}
+@media (max-width:600px){.mini3{grid-template-columns:1fr}.wf-row{grid-template-columns:120px 1fr 48px}}
+
+/* вариант 4: воронка */
+.funnel{display:flex;flex-direction:column;gap:4px;margin-top:12px}
+.fstep{display:grid;grid-template-columns:150px 1fr 110px;gap:12px;align-items:center}
+.fstep .lab{font-weight:600}
+.fstep .lab small{display:block;font-weight:500;color:var(--muted);font-size:11.5px}
+.ftrack{height:26px;position:relative}
+.ftrack b{display:block;height:100%;border-radius:0 4px 4px 0;background:var(--s1);min-width:3px}
+.ftrack b.g{background:var(--s2)}
+.fstep .v{font-weight:600;font-size:15px;text-align:right}
+.fconv{display:grid;grid-template-columns:150px 1fr;gap:12px;font-size:12px;color:var(--muted);padding:2px 0 6px}
+.fconv span{padding-left:6px}
+.fconv strong{color:var(--ink-2)}
+
+/* вариант 5: дерево */
+.tree details{border-top:1px solid var(--hair)}
+.tree > details:first-child{border-top:0}
+.tree summary{list-style:none;display:grid;grid-template-columns:20px 1fr 120px 150px 80px;gap:12px;align-items:center;padding:10px 6px;cursor:pointer}
+.tree summary::-webkit-details-marker{display:none}
+.tree summary .car{color:var(--muted);transition:transform .15s;font-size:11px}
+.tree details[open] > summary .car{transform:rotate(90deg)}
+.tree summary .nm{font-weight:600}
+.tree summary .nm small{color:var(--muted);font-weight:500;margin-left:6px}
+.tree .lvl2 summary{padding-left:26px;background:var(--surface-2)}
+.tree .lvl3{display:grid;grid-template-columns:20px 1fr 120px 150px 80px;gap:12px;align-items:center;padding:8px 6px 8px 50px;font-size:13px;border-top:1px solid var(--hair)}
+.tree .lvl3 .nm{color:var(--ink-2)}
+.tbar{height:8px;border-radius:0 4px 4px 0;background:var(--s1)}
+.tbar.g{background:var(--s2)} .tbar.gray{background:var(--gray-mark)}
+.tree .r{text-align:right;font-weight:600}
+@media (max-width:720px){.tree summary,.tree .lvl3{grid-template-columns:20px 1fr 80px}.tree .hidem{display:none}}
+
+/* вариант 6: теплокарта */
+.heat{display:grid;grid-template-columns:110px repeat(7,1fr);gap:3px;align-items:center}
+.heat .rl{font-size:12px;color:var(--ink-2);padding-right:6px;white-space:nowrap}
+.heat .cl{font-size:11px;color:var(--muted);text-align:center;padding-bottom:2px}
+.heat .c{height:30px;border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:11.5px;font-weight:600;cursor:default}
+.heat .c.ink{color:#fff}
+.heat .c.mute{color:var(--ink-2)}
+.heat .wk{font-size:12px;font-weight:600;text-align:right;padding-right:4px}
+.ramp{display:flex;align-items:center;gap:6px;font-size:11.5px;color:var(--muted);margin-top:10px}
+.ramp i{display:inline-block;width:22px;height:10px;border-radius:2px}
+
+/* вариант 7: малые кратные */
+.multi{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+@media (max-width:820px){.multi{grid-template-columns:1fr 1fr}} @media (max-width:520px){.multi{grid-template-columns:1fr}}
+.mcard{border:1px solid var(--hair);border-radius:var(--r-sm);padding:12px 12px 8px}
+.mcard .h{display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin-bottom:4px}
+.mcard .h b{font-size:13px;font-weight:600}
+.mcard .h span{font-size:12px;color:var(--muted)}
+
+/* вариант 8: таблица */
+table.dense th{cursor:pointer;user-select:none}
+table.dense th.sorted::after{content:" ↓";color:var(--accent)}
+table.dense td .sp{vertical-align:middle}
+.pos{display:inline-block;min-width:34px;text-align:right;font-weight:600}
+
+/* вариант 9: bullet */
+.bullets{display:grid;grid-template-columns:1fr;gap:14px}
+.bl{display:grid;grid-template-columns:170px 1fr 120px;gap:14px;align-items:center}
+.bl .lab{font-weight:600}
+.bl .lab small{display:block;font-weight:500;color:var(--muted);font-size:11.5px}
+.btrack{position:relative;height:22px;border-radius:4px;overflow:hidden;background:var(--q1)}
+.btrack .band{position:absolute;top:0;height:100%}
+.btrack .fill{position:absolute;top:7px;height:8px;border-radius:0 4px 4px 0;background:var(--ink)}
+.btrack .tgt{position:absolute;top:2px;height:18px;width:3px;background:var(--accent)}
+.bl .v{text-align:right;font-weight:600}
+.bl .v small{display:block;font-weight:500;color:var(--muted);font-size:11.5px}
+.bl-axis{display:grid;grid-template-columns:170px 1fr 120px;gap:14px;font-size:11px;color:var(--muted)}
+.bl-axis div{display:flex;justify-content:space-between}
+@media (max-width:600px){.bl,.bl-axis{grid-template-columns:100px 1fr 80px}}
+
+/* вариант 10: письмо */
+.mailwrap{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start}
+@media (max-width:900px){.mailwrap{grid-template-columns:1fr}}
+.mail{max-width:600px;margin:0 auto;background:#ffffff;color:#1d1d1f;border:1px solid #e8e8ed;border-radius:12px;overflow:hidden;font-family:Arial,Helvetica,sans-serif}
+.mail table{border-collapse:collapse}
+.mail .mh{background:#1d1d1f;color:#fff;padding:18px 22px}
+.mail .mh .t{font-size:17px;font-weight:bold}
+.mail .mh .t span{color:#f2591d}
+.mail .mh .d{font-size:12px;color:#a0a0a8;margin-top:4px}
+.mail .sec{padding:16px 22px}
+.mail .sec h4{margin:0 0 10px;font-size:14px;color:#1d1d1f}
+.mail .k{width:100%}
+.mail .k td{width:25%;padding:0 4px}
+.mail .kt{border:1px solid #e8e8ed;border-radius:8px;padding:10px 10px 8px}
+.mail .kt .l{font-size:11px;color:#6e6e78;font-weight:bold}
+.mail .kt .v{font-size:20px;font-weight:bold;margin-top:2px}
+.mail .kt .dl{font-size:11px;font-weight:bold;margin-top:2px}
+.mail .img{border:1px solid #e8e8ed;border-radius:8px;padding:8px;background:#fff}
+.mail .img .cap{font-size:11px;color:#6e6e78;margin-top:6px}
+.mail .sl td{padding:7px 0;border-bottom:1px solid #e8e8ed;font-size:13px}
+.mail .cta{display:inline-block;background:#f2591d;color:#fff;text-decoration:none;font-weight:bold;font-size:13px;padding:10px 16px;border-radius:8px}
+.mail .ft{padding:12px 22px 16px;font-size:11px;color:#6e6e78;border-top:1px solid #e8e8ed}
+.phone{width:375px;max-width:100%;margin:0 auto;border:1px solid var(--hair-2);border-radius:26px;padding:10px;background:var(--surface-2)}
+.phone .mail{border-radius:18px}
+.phone .mail .k td{display:block;width:100%;padding:0 0 6px}
+
+/* ---------- итог ---------- */
+.summary{max-width:1120px;margin:0 auto;padding:40px 20px 70px}
+.summary .box{background:var(--surface);border:1px solid var(--hair);border-radius:var(--r);padding:20px 24px}
+.summary ol{margin:8px 0 0;padding-left:20px;columns:2;column-gap:32px}
+.summary li{break-inside:avoid;margin-bottom:6px}
+@media (max-width:640px){.summary ol{columns:1}}
+.summary .tot{font-weight:600;margin-top:12px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div class="tip" id="tip"></div>
+
+<header class="mast">
+  <div class="brand">BIZ<b>Soft</b> · Growth Intelligence</div>
+  <h1>Десять способов показать одни и те же KPI</h1>
+  <p>Одни и те же демо-данные выпуска от 19 августа (показы, клики, позиции, визиты, заявки, Growth Score) в десяти визуальных решениях. Под каждым макетом три кнопки: выбор сохраняется, я его прочитаю и соберу итоговый комплект из того, что понравилось. Дневные ряды за 28 дней — синтетические, привязанные к реальным итогам выпуска.</p>
+  <div class="legend"><span class="l1">Яндекс</span><span class="l2">Google</span><span class="l3">контекст / прошлый период</span></div>
+</header>
+
+<nav class="dots" aria-label="Переход к макетам"><div class="in" id="dots"></div></nav>
+
+<!-- ============ 1 ============ -->
+<section class="variant" id="v1">
+  <div class="vhead"><div class="vnum">1</div><div>
+    <h2>Пульт KPI с углублением по клику</h2>
+    <p class="why">Шесть плиток — вся картина за пять секунд. Клик по плитке раскрывает под ней динамику за 28 дней и топ страниц по этой метрике. Это основа страницы «подробных данных»; в письмо уходит ряд плиток без раскрытия.</p>
+    <div class="tags"><span class="tag web">Страница</span><span class="tag mail">Письмо (ряд плиток → PNG)</span><span class="tag">Обзор → углубление</span></div>
+  </div></div>
+  <div class="frame">
+    <div class="dash-title"><h3>Поисковая видимость и спрос</h3><span class="period">28 дней до 19.08 · сравнение с предыдущими 28 днями</span></div>
+    <div class="kpi-row" id="v1-tiles"></div>
+    <div class="detail" id="v1-detail"></div>
+  </div>
+  <div class="vote" data-v="1"></div>
+</section>
+
+<!-- ============ 2 ============ -->
+<section class="variant" id="v2">
+  <div class="vhead"><div class="vnum">2</div><div>
+    <h2>Светофор целей</h2>
+    <p class="why">Каждый KPI — строка: статус, значение, дельта, шкала до цели и одна фраза «что это значит». Читается сверху вниз как чек-лист, не требует графиков и одинаково выглядит в письме и на странице.</p>
+    <div class="tags"><span class="tag web">Страница</span><span class="tag mail">Письмо (таблица, без картинок)</span><span class="tag">Обзор</span></div>
+  </div></div>
+  <div class="frame">
+    <div class="dash-title"><h3>Состояние контуров на 19.08</h3><span class="period">цель квартала · факт · дельта за 7 дней</span></div>
+    <div class="status-list" id="v2-list"></div>
+  </div>
+  <div class="vote" data-v="2"></div>
+</section>
+
+<!-- ============ 3 ============ -->
+<section class="variant" id="v3">
+  <div class="vhead"><div class="vnum">3</div><div>
+    <h2>Одна цифра и её разложение</h2>
+    <p class="why">Growth Score как главный герой, справа — из чего сложились +9 за неделю: каждый драйвер сдвигает планку вправо или влево. Под ним три опорные метрики. Отвечает на вопрос «почему число такое», а не только «какое».</p>
+    <div class="tags"><span class="tag web">Страница</span><span class="tag mail">Письмо (весь блок → PNG)</span><span class="tag">Обзор → причины</span></div>
+  </div></div>
+  <div class="frame">
+    <div class="hero-grid">
+      <div class="hero">
+        <div><div class="lbl">SEO Growth Score</div><div class="big num">49<small>/100</small></div><div class="dl">▲ +9 за неделю · 44 утром</div></div>
+        <div class="foot">Базовая линия 40 · лучший день месяца по Google</div>
+      </div>
+      <div>
+        <h4 style="margin:0 0 10px;font-size:13.5px">Что сдвинуло Score за неделю</h4>
+        <div class="wf" id="v3-wf"></div>
+      </div>
+    </div>
+    <div class="mini3" id="v3-mini"></div>
+  </div>
+  <div class="vote" data-v="3"></div>
+</section>
+
+<!-- ============ 4 ============ -->
+<section class="variant" id="v4">
+  <div class="vhead"><div class="vnum">4</div><div>
+    <h2>Воронка спроса</h2>
+    <p class="why">Показы → клики → визиты → заявки. Между ступенями — конверсия, поэтому сразу видно узкое место (сейчас это переход из выдачи, CTR 0,65%). Переключатель сверху режет воронку по источнику.</p>
+    <div class="tags"><span class="tag web">Страница</span><span class="tag mail">Письмо (воронка → PNG)</span><span class="tag">Обзор → источник</span></div>
+  </div></div>
+  <div class="frame">
+    <div class="dash-title"><h3>От показа до заявки</h3><span class="period">28 дней до 19.08</span></div>
+    <div class="chips" id="v4-chips"><button class="on" data-src="all">Все источники</button><button data-src="ya">Яндекс</button><button data-src="g">Google</button></div>
+    <div class="funnel" id="v4-funnel"></div>
+    <p class="note" id="v4-note"></p>
+  </div>
+  <div class="vote" data-v="4"></div>
+</section>
+
+<!-- ============ 5 ============ -->
+<section class="variant" id="v5">
+  <div class="vhead"><div class="vnum">5</div><div>
+    <h2>Дерево: итог → поисковик → кластер → страница</h2>
+    <p class="why">Один список, который раскрывается вглубь. Верхняя строка — итог по сайту, ниже — Яндекс и Google, внутри — кластеры вендоров, внутри — конкретные страницы с позицией. Так задаётся принцип «от общего к частному» буквально.</p>
+    <div class="tags"><span class="tag web">Страница</span><span class="tag">Углубление на 3 уровня</span></div>
+  </div></div>
+  <div class="frame">
+    <div class="dash-title"><h3>Показы и позиции по структуре сайта</h3><span class="period">7 дней до 19.08 · Δ к прошлой неделе</span></div>
+    <div class="tree" id="v5-tree"></div>
+  </div>
+  <div class="vote" data-v="5"></div>
+</section>
+
+<!-- ============ 6 ============ -->
+<section class="variant" id="v6">
+  <div class="vhead"><div class="vnum">6</div><div>
+    <h2>Календарь-теплокарта</h2>
+    <p class="why">Четыре недели по дням. Насыщенность клетки — величина, поэтому виден недельный ритм, выбросы и провалы сбора данных. Справа — итог недели. Годится для показов, кликов, визитов и любых дневных метрик.</p>
+    <div class="tags"><span class="tag web">Страница</span><span class="tag mail">Письмо (сетка → PNG)</span><span class="tag">Динамика по дням</span></div>
+  </div></div>
+  <div class="frame">
+    <div class="dash-title"><h3>Показы в Яндексе по дням</h3><span class="period">23.07 – 19.08</span></div>
+    <div class="heat" id="v6-heat"></div>
+    <div class="ramp" id="v6-ramp"></div>
+  </div>
+  <div class="vote" data-v="6"></div>
+</section>
+
+<!-- ============ 7 ============ -->
+<section class="variant" id="v7">
+  <div class="vhead"><div class="vnum">7</div><div>
+    <h2>Малые кратные: шесть трендов на одной оси времени</h2>
+    <p class="why">Каждой метрике — свой маленький график, у всех одна шкала времени. Нет двойных осей и наложений, взгляд скользит по ряду и сравнивает форму кривых. Серая линия — прошлый период для контекста.</p>
+    <div class="tags"><span class="tag web">Страница</span><span class="tag mail">Письмо (каждая карточка → PNG)</span><span class="tag">Обзор динамики</span></div>
+  </div></div>
+  <div class="frame">
+    <div class="dash-title"><h3>Динамика за 28 дней</h3><span class="period">23.07 – 19.08 · серым — предыдущие 28 дней</span></div>
+    <div class="multi" id="v7-multi"></div>
+  </div>
+  <div class="vote" data-v="7"></div>
+</section>
+
+<!-- ============ 8 ============ -->
+<section class="variant" id="v8">
+  <div class="vhead"><div class="vnum">8</div><div>
+    <h2>Таблица-дашборд по страницам</h2>
+    <p class="why">Уровень «частное»: одна строка — одна страница. Внутри строки бар показов, спарклайн тренда, позиция с дельтой и статус. Сортировка по любому столбцу. Это замена длинных текстовых таблиц из нынешних отчётов.</p>
+    <div class="tags"><span class="tag web">Страница</span><span class="tag">Углубление до страниц</span></div>
+  </div></div>
+  <div class="frame">
+    <div class="dash-title"><h3>Страницы с показами</h3><span class="period">7 дней до 19.08 · клик по заголовку — сортировка</span></div>
+    <div style="overflow-x:auto"><table class="t dense" id="v8-table"></table></div>
+  </div>
+  <div class="vote" data-v="8"></div>
+</section>
+
+<!-- ============ 9 ============ -->
+<section class="variant" id="v9">
+  <div class="vhead"><div class="vnum">9</div><div>
+    <h2>План и факт: bullet-шкалы</h2>
+    <p class="why">Тёмная полоса — факт, оранжевая риска — цель квартала, ступени фона — зоны «плохо / приемлемо / хорошо». Пять KPI занимают меньше места, чем один график, и сразу отвечают «дотянули или нет».</p>
+    <div class="tags"><span class="tag web">Страница</span><span class="tag mail">Письмо (шкалы → PNG)</span><span class="tag">Обзор к целям</span></div>
+  </div></div>
+  <div class="frame">
+    <div class="dash-title"><h3>Цели III квартала</h3><span class="period">факт на 19.08 · цель на 30.09</span></div>
+    <div class="bullets" id="v9-bullets"></div>
+  </div>
+  <div class="vote" data-v="9"></div>
+</section>
+
+<!-- ============ 10 ============ -->
+<section class="variant" id="v10">
+  <div class="vhead"><div class="vnum">10</div><div>
+    <h2>Письмо: сводка в четыре плитки и одна картинка</h2>
+    <p class="why">Как тот же дашборд живёт в почте: таблицы вместо сетки, никакого JavaScript, один график вставлен картинкой (в конвейере её делает уже существующий render.mjs). Слева — настольный вид 600 px, справа — телефон 375 px. Кнопка ведёт на полную страницу с углублением.</p>
+    <div class="tags"><span class="tag mail">Письмо</span><span class="tag">Обзор → ссылка на страницу</span></div>
+  </div></div>
+  <div class="frame plain">
+    <div class="mailwrap">
+      <div id="v10-desktop"></div>
+      <div class="phone" id="v10-phone"></div>
+    </div>
+  </div>
+  <div class="vote" data-v="10"></div>
+</section>
+
+<section class="summary">
+  <div class="box">
+    <h2 style="font-size:18px">Ваш выбор</h2>
+    <p style="color:var(--ink-2);margin:6px 0 0">Список обновляется по мере голосования. Когда закончите, просто скажите мне «посмотри выбор» — я прочитаю его из базы страницы.</p>
+    <ol id="sum-list"></ol>
+    <div class="tot" id="sum-tot"></div>
+  </div>
+</section>
+
+<script>
+/* ============================================================
+   ДЕМО-ДАННЫЕ. Итоги — из выпуска 19.08.2026; дневные ряды синтетические.
+   ============================================================ */
+const VARIANTS = [
+  [1,'Пульт KPI с углублением'],[2,'Светофор целей'],[3,'Одна цифра и разложение'],[4,'Воронка спроса'],
+  [5,'Дерево углубления'],[6,'Календарь-теплокарта'],[7,'Малые кратные'],[8,'Таблица-дашборд'],
+  [9,'План и факт (bullet)'],[10,'Письмо']
+];
+let seed = 20260819;
+const rnd = () => { seed = (seed * 1103515245 + 12345) % 2147483648; return seed / 2147483648; };
+const DAYS = 28;
+const DATES = Array.from({length: DAYS}, (_, i) => { const d = new Date(2026, 6, 23 + i); return d; });
+const dLabel = d => `${String(d.getDate()).padStart(2,'0')}.${String(d.getMonth()+1).padStart(2,'0')}`;
+const DOW = ['пн','вт','ср','чт','пт','сб','вс'];
+function series(base, amp, trend, weekend = .55, floor = 0) {
+  return DATES.map((d, i) => {
+    const w = (d.getDay() === 0 || d.getDay() === 6) ? weekend : 1;
+    const v = (base + trend * i + (rnd() - .5) * amp) * w;
+    return Math.max(floor, Math.round(v));
+  });
+}
+const sum = a => a.reduce((x, y) => x + y, 0);
+const S = {
+  yaImp: series(34, 14, -0.12, .5),
+  gImp:  series(2.2, 2.5, .22, .7),
+  clicks: DATES.map((d,i)=> i%5===2 || i===26 ? 1 : (i===19 ? 2 : 0)),
+  visits: series(4.8, 4, .05, .45),
+  top10: DATES.map((_, i) => 84 + Math.floor(i / 5)),
+  top3:  DATES.map((_, i) => i < 9 ? 4 : i < 18 ? 5 : i < 25 ? 6 : 7),
+  indexed: DATES.map((_, i) => 150 + Math.floor(i * .72)),
+  leads: DATES.map((_, i) => (i === 8 || i === 17 || i === 27) ? 1 : 0),
+};
+function scaleTo(arr, total) { const k = total / (sum(arr) || 1); return arr.map(v => Math.round(v * k)); }
+S.yaImp = scaleTo(S.yaImp, 926); S.gImp = scaleTo(S.gImp, 115); S.visits = scaleTo(S.visits, 154);
+const PREV = { yaImp: series(35, 13, 0, .5), gImp: series(1.4, 2, .02, .7), visits: series(4.2, 4, 0, .45), clicks: DATES.map((_,i)=> i%6===1?1:0), top10: DATES.map((_, i) => 79 + Math.floor(i / 6)), indexed: DATES.map((_, i) => 141 + Math.floor(i * .3)) };
+const last = a => a[a.length - 1];
+const fmt = n => new Intl.NumberFormat('ru-RU').format(n);
+const pct = (a, b) => b ? ((a / b) * 100) : 0;
+const fpct = v => v.toLocaleString('ru-RU', { maximumFractionDigits: v < 10 ? 2 : 0 }) + '%';
+const sgn = (v, unit = '') => (v > 0 ? '+' : v < 0 ? '−' : '') + fmt(Math.abs(v)) + unit;
+
+const PAGES = [
+  { url: '/vendors/blackmagic', name: 'Blackmagic', cl: 'Видео', src: 'ya', imp: 13, prev: 11, pos: 11.0, dpos: 0, clicks: 1, status: 'good' },
+  { url: '/vendors/elevenlabs', name: 'ElevenLabs', cl: 'ИИ-сервисы', src: 'ya', imp: 9, prev: 0, pos: 9.0, dpos: 0, clicks: 0, status: 'good', isNew: true },
+  { url: '/vendors/jetbrains', name: 'JetBrains', cl: 'Разработка', src: 'ya', imp: 13, prev: 8, pos: 32.5, dpos: .5, clicks: 0, status: 'warn' },
+  { url: '/product/jetbrains-ai', name: 'JetBrains AI', cl: 'Разработка', src: 'ya', imp: 6, prev: 4, pos: 32.5, dpos: .5, clicks: 0, status: 'warn' },
+  { url: '/blog/kak-kupit-zarubezhnoe-po', name: 'Как купить зарубежное ПО для юрлица', cl: 'Блог', src: 'ya', imp: 7, prev: 6, pos: 6.4, dpos: 1.1, clicks: 3, status: 'good', leads: 3 },
+  { url: '/product/openai-business', name: 'OpenAI Business', cl: 'ИИ-сервисы', src: 'g', imp: 12, prev: 5, pos: 4.3, dpos: 2.0, clicks: 1, status: 'good' },
+  { url: '/vendors/figma', name: 'Figma', cl: 'Дизайн', src: 'ya', imp: 4, prev: 0, pos: 18.0, dpos: 0, clicks: 0, status: 'neutral', isNew: true },
+  { url: '/vendors/unity', name: 'Unity', cl: 'Разработка', src: 'ya', imp: 3, prev: 0, pos: 22.0, dpos: 0, clicks: 0, status: 'neutral', isNew: true },
+  { url: '/vendors/procreate', name: 'Procreate', cl: 'Дизайн', src: 'ya', imp: 2, prev: 0, pos: 27.0, dpos: 0, clicks: 0, status: 'neutral', isNew: true },
+  { url: '/vendors/zoho', name: 'Zoho', cl: 'Бизнес-ПО', src: 'g', imp: 8, prev: 9, pos: 14.2, dpos: -.8, clicks: 0, status: 'crit' },
+  { url: '/vendors/adobe', name: 'Adobe', cl: 'Дизайн', src: 'ya', imp: 11, prev: 14, pos: 15.5, dpos: -1.6, clicks: 1, status: 'crit' },
+];
+
+/* ============================================================
+   ГРАФИЧЕСКИЕ ПРИМИТИВЫ (inline SVG, без библиотек)
+   ============================================================ */
+const tip = document.getElementById('tip');
+function showTip(html, x, y) { tip.innerHTML = html; tip.style.left = x + 'px'; tip.style.top = (y - 10) + 'px'; tip.classList.add('show'); }
+function hideTip() { tip.classList.remove('show'); }
+document.addEventListener('mousemove', e => {
+  const t = e.target.closest('[data-tip]');
+  if (t) showTip(t.dataset.tip, e.clientX, e.clientY); else if (!e.target.closest('.hover-line')) hideTip();
+});
+
+function spark(values, color, w = 96, h = 28, accentLast = true) {
+  const lo = Math.min(...values), hi = Math.max(...values), span = (hi - lo) || 1;
+  const step = w / (values.length - 1);
+  const pt = (v, i) => `${(i * step).toFixed(1)},${(h - 3 - (v - lo) / span * (h - 6)).toFixed(1)}`;
+  const pts = values.map(pt).join(' ');
+  const [lx, ly] = pt(last(values), values.length - 1).split(',');
+  return `<svg class="spark" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" aria-hidden="true"><polyline points="${pts}" fill="none" stroke="${color}" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>${accentLast ? `<circle cx="${lx}" cy="${ly}" r="3.5" fill="${color}" stroke="var(--surface)" stroke-width="2"/>` : ''}</svg>`;
+}
+
+/* Линейный график: одна шкала, тонкая сетка, подпись конца, crosshair-тултип */
+function lineChart(sers, { w = 640, h = 200, yMin = 0, ticks = 4, dates = DATES, area = false, tag = '' } = {}) {
+  const padL = 40, padR = 52, padT = 12, padB = 26;
+  const iw = w - padL - padR, ih = h - padT - padB;
+  const all = sers.flatMap(s => s.values);
+  const hi = Math.max(...all) || 1;
+  const nice = niceMax(hi), lo = yMin;
+  const X = i => padL + i * iw / (dates.length - 1);
+  const Y = v => padT + ih - (v - lo) / (nice - lo) * ih;
+  let g = '';
+  for (let t = 0; t <= ticks; t++) {
+    const v = lo + (nice - lo) * t / ticks, y = Y(v);
+    g += `<line class="grid" x1="${padL}" x2="${w - padR}" y1="${y}" y2="${y}"/><text class="axis" x="${padL - 6}" y="${y + 4}" text-anchor="end">${fmt(Math.round(v))}</text>`;
+  }
+  const xt = [0, 7, 14, 21, dates.length - 1];
+  xt.forEach(i => { g += `<text class="axis" x="${X(i)}" y="${h - 8}" text-anchor="middle">${dLabel(dates[i])}</text>`; });
+  let paths = '';
+  sers.forEach(s => {
+    const d = s.values.map((v, i) => `${i ? 'L' : 'M'}${X(i).toFixed(1)} ${Y(v).toFixed(1)}`).join(' ');
+    if (area && !s.ctx) paths += `<path d="${d} L${X(s.values.length - 1)} ${Y(lo)} L${X(0)} ${Y(lo)} Z" fill="${s.color}" opacity=".10"/>`;
+    paths += `<path d="${d}" fill="none" stroke="${s.color}" stroke-width="${s.ctx ? 1.5 : 2}" stroke-linejoin="round" stroke-linecap="round"/>`;
+    if (!s.ctx) {
+      const lx = X(s.values.length - 1), ly = Y(last(s.values));
+      paths += `<circle cx="${lx}" cy="${ly}" r="4" fill="${s.color}" stroke="var(--surface)" stroke-width="2"/><text x="${lx + 8}" y="${ly + 4}" font-size="12" font-weight="600" fill="var(--ink)">${fmt(last(s.values))}</text>`;
+    }
+  });
+  const id = 'lc' + Math.random().toString(36).slice(2, 8);
+  const svg = `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" role="img" aria-label="${tag}">
+    ${g}<line class="base" x1="${padL}" x2="${w - padR}" y1="${Y(lo)}" y2="${Y(lo)}"/>${paths}
+    <g id="${id}-x" style="display:none"><line x1="0" x2="0" y1="${padT}" y2="${padT + ih}" stroke="var(--hair-2)" stroke-width="1"/>${sers.map(s => `<circle r="5" fill="${s.color}" stroke="var(--surface)" stroke-width="2"/>`).join('')}</g>
+    <rect class="hover-line" x="${padL}" y="${padT}" width="${iw}" height="${ih}" fill="transparent" data-id="${id}"/></svg>`;
+  queueMicrotask(() => {
+    const r = document.querySelector(`rect[data-id="${id}"]`); if (!r) return;
+    const svgEl = r.closest('svg'), hl = svgEl.querySelector(`#${id}-x`), dots = hl.querySelectorAll('circle'), ln = hl.querySelector('line');
+    r.addEventListener('mousemove', e => {
+      const b = svgEl.getBoundingClientRect(), sx = w / b.width;
+      const mx = (e.clientX - b.left) * sx;
+      const i = Math.max(0, Math.min(dates.length - 1, Math.round((mx - padL) / iw * (dates.length - 1))));
+      hl.style.display = ''; ln.setAttribute('x1', X(i)); ln.setAttribute('x2', X(i));
+      sers.forEach((s, k) => { dots[k].setAttribute('cx', X(i)); dots[k].setAttribute('cy', Y(s.values[i])); });
+      showTip(`<b>${dLabel(dates[i])}, ${DOW[(dates[i].getDay() + 6) % 7]}</b><br>` + sers.map(s => `${s.name}: <b>${fmt(s.values[i])}</b>`).join('<br>'), e.clientX, e.clientY);
+    });
+    r.addEventListener('mouseleave', () => { hl.style.display = 'none'; hideTip(); });
+  });
+  return `<div class="chart">${svg}</div>`;
+}
+function niceMax(v) { const p = Math.pow(10, Math.floor(Math.log10(v))); const m = v / p; const n = m <= 1 ? 1 : m <= 2 ? 2 : m <= 2.5 ? 2.5 : m <= 5 ? 5 : 10; return n * p; }
+function deltaEl(cur, prev, { unit = '', pp = false, goodUp = true } = {}) {
+  const d = pp ? cur - prev : (prev ? (cur - prev) / prev * 100 : 0);
+  const txt = pp ? sgn(+d.toFixed(2), ' п.п.') : (Math.abs(d) < .5 ? '→ без изменений' : sgn(Math.round(d), '%'));
+  const cls = Math.abs(d) < .5 ? 'flat' : ((d > 0) === goodUp ? 'up' : 'down');
+  const arrow = cls === 'flat' ? '' : (d > 0 ? '▲ ' : '▼ ');
+  return `<span class="delta ${cls}">${arrow}${txt}</span>`;
+}
+
+/* ============================================================
+   ВАРИАНТ 1 — плитки + углубление
+   ============================================================ */
+const KPIS = [
+  { k: 'yaImp', label: 'Показы, Яндекс', val: sum(S.yaImp), prev: sum(PREV.yaImp), color: 'var(--s1)', sub: 'из них топ-3: 7 запросов' },
+  { k: 'gImp', label: 'Показы, Google', val: sum(S.gImp), prev: sum(PREV.gImp), color: 'var(--s2)', sub: 'лучший день месяца — 11' },
+  { k: 'clicks', label: 'Клики из поиска', val: sum(S.clicks), prev: sum(PREV.clicks), color: 'var(--s1)', sub: 'CTR 0,65% · цель 1,5%' },
+  { k: 'visits', label: 'Визиты (Метрика)', val: sum(S.visits), prev: sum(PREV.visits), color: 'var(--s3)', sub: 'органика 100%' },
+  { k: 'top10', label: 'Запросов в топ-10', val: last(S.top10), prev: PREV.top10[PREV.top10.length - 1], color: 'var(--s1)', sub: 'топ-3: 7 (+3 за неделю)' },
+  { k: 'leads', label: 'Заявки-действия', val: sum(S.leads), prev: 1, color: 'var(--s3)', sub: 'все — со статьи блога' },
+];
+function renderV1() {
+  const box = document.getElementById('v1-tiles');
+  box.innerHTML = KPIS.map((k, i) => `<button class="tile clickable${i === 0 ? ' active' : ''}" data-k="${k.k}" aria-pressed="${i === 0}">
+    <span class="lbl">${k.label}</span><span class="val num">${fmt(k.val)}</span>
+    <span class="sub">${deltaEl(k.val, k.prev)}${spark(S[k.k], k.color)}</span></button>`).join('');
+  box.querySelectorAll('.tile').forEach(t => t.addEventListener('click', () => { box.querySelectorAll('.tile').forEach(x => { x.classList.remove('active'); x.setAttribute('aria-pressed', 'false'); }); t.classList.add('active'); t.setAttribute('aria-pressed', 'true'); v1Detail(t.dataset.k); }));
+  v1Detail('yaImp');
+}
+function v1Detail(k) {
+  const kp = KPIS.find(x => x.k === k);
+  const pages = PAGES.filter(p => k !== 'gImp' ? p.src === 'ya' : p.src === 'g').slice().sort((a, b) => b.imp - a.imp).slice(0, 5);
+  const sers = [{ name: kp.label, values: S[k], color: kp.color }];
+  if (PREV[k]) sers.push({ name: 'Предыдущие 28 дней', values: PREV[k], color: 'var(--gray-mark)', ctx: true });
+  document.getElementById('v1-detail').innerHTML = `<div><h4>${kp.label}: динамика по дням</h4><p class="hint">${kp.sub}${PREV[k] ? ' · серым — предыдущий период' : ''}</p>${lineChart(sers, { w: 620, h: 190, tag: kp.label })}</div>
+  <div><h4>Топ страниц по метрике</h4><p class="hint">7 дней до 19.08</p><table class="t"><tr><th>Страница</th><th class="r">Показы</th><th class="r">Позиция</th></tr>
+  ${pages.map(p => `<tr><td>${p.name}${p.isNew ? ' <span class="pill good">новая</span>' : ''}</td><td class="r num" style="white-space:nowrap"><i class="bar-in" style="width:${Math.round(p.imp / 13 * 44)}px"></i>${p.imp}</td><td class="r num">${p.pos.toLocaleString('ru-RU')}</td></tr>`).join('')}</table></div>`;
+}
+
+/* ============================================================
+   ВАРИАНТ 2 — светофор
+   ============================================================ */
+const STATUS = [
+  { st: 'good', name: 'Запросов в топ-3', sub: 'Яндекс', v: '7', d: '+3', dcls: 'up', cur: 7, tgt: 12, cmt: 'Витрина расширяется без вложений: +19 страниц в поиске за неделю.' },
+  { st: 'good', name: 'Индексация', sub: 'страниц в поиске Яндекса', v: '169', d: '+19', dcls: 'up', cur: 169, tgt: 200, cmt: 'Новые вендоры вошли в выдачу в первые сутки (ElevenLabs — позиция 9).' },
+  { st: 'warn', name: 'CTR из поиска', sub: 'Яндекс, 28 дней', v: '0,65%', d: '→', dcls: 'flat', cur: .65, tgt: 1.5, cmt: 'Данные до правки сниппетов 19.08; первый эффект ждём 21–22.08.' },
+  { st: 'good', name: 'Показы, Google', sub: '7 дней', v: '31', d: '+63%', dcls: 'up', cur: 31, tgt: 60, cmt: 'Лучшая неделя месяца, драйвер — /product/openai-business на позиции 4,3.' },
+  { st: 'crit', name: 'Заявки-действия', sub: '14 дней', v: '3', d: '+1', dcls: 'up', cur: 3, tgt: 10, cmt: 'Все три — со статьи блога; карточки товаров пока не конвертируют.' },
+  { st: 'warn', name: 'Визиты из поиска', sub: 'Метрика, 14 дней', v: '77', d: '+8%', dcls: 'up', cur: 77, tgt: 150, cmt: 'Весь поисковый трафик — Яндекс; Google даёт показы без переходов.' },
+];
+function renderV2() {
+  const el = document.getElementById('v2-list');
+  el.innerHTML = `<div class="srow h"><span></span><span>KPI</span><span>Факт</span><span>Δ 7 дн</span><span class="m">До цели квартала</span><span>Что это значит</span></div>` +
+    STATUS.map(s => { const p = Math.min(100, s.cur / s.tgt * 100); return `<div class="srow"><span class="dot ${s.st}" title="${s.st === 'good' ? 'в норме' : s.st === 'warn' ? 'внимание' : 'проблема'}">${s.st === 'good' ? '✓' : s.st === 'warn' ? '!' : '×'}</span>
+      <span class="name">${s.name}<small>${s.sub}</small></span><span class="v num">${s.v}</span><span class="delta ${s.dcls}">${s.d}</span>
+      <span class="m meter-wrap"><span class="meter" style="flex:1" data-tip="${Math.round(p)}% от цели ${s.tgt}"><b class="${s.st}" style="width:${p}%"></b></span><span>${p >= 100 ? 'цель' : Math.round(p) + '% · цель ' + s.tgt}</span></span>
+      <span class="cmt">${s.cmt}</span></div>`; }).join('');
+}
+
+/* ============================================================
+   ВАРИАНТ 3 — hero + waterfall
+   ============================================================ */
+function renderV3() {
+  const steps = [['Базовая линия', 40, 'base'], ['Показы Google +63%', 4], ['Яндекс топ-3: +3 запроса', 3], ['Индексация +19 страниц', 2], ['Третья заявка', 1], ['CTR ниже цели', -1], ['Итог на 19.08', 49, 'total']];
+  const max = 52, W = 100; let run = 0;
+  const px = v => v / max * W;
+  document.getElementById('v3-wf').innerHTML = steps.map(([lab, v, kind]) => {
+    let left, width, color, txt;
+    if (kind === 'base') { left = 0; width = px(v); color = 'var(--gray-mark)'; run = v; txt = fmt(v); }
+    else if (kind === 'total') { left = 0; width = px(v); color = 'var(--s1)'; txt = fmt(v); }
+    else { const a = run, b = run + v; left = px(Math.min(a, b)); width = px(Math.abs(v)); color = v > 0 ? 'var(--good)' : 'var(--crit)'; run = b; txt = sgn(v); }
+    return `<div class="wf-row ${kind || ''}"><span class="lab">${lab}</span><span class="wf-track" data-tip="${lab}: ${txt}"><i class="zero" style="left:${px(40)}%"></i><b style="left:${left}%;width:${width}%;background:${color}"></b></span><span class="v num">${txt}</span></div>`;
+  }).join('');
+  const mini = [['Показы Google, 7 дн', '31', deltaEl(31, 19), S.gImp, 'var(--s2)'], ['Запросов в топ-3', '7', deltaEl(7, 4), S.top3, 'var(--s1)'], ['Заявки, 14 дн', '3', deltaEl(3, 2), S.leads, 'var(--s3)']];
+  document.getElementById('v3-mini').innerHTML = mini.map(([l, v, d, s, c]) => `<div class="tile"><span class="lbl">${l}</span><span class="val num">${v}</span><span class="sub">${d}${spark(s, c)}</span></div>`).join('');
+}
+
+/* ============================================================
+   ВАРИАНТ 4 — воронка
+   ============================================================ */
+const FUN = {
+  all: { imp: sum(S.yaImp) + sum(S.gImp), clicks: 6, visits: 154, leads: 3, note: 'Узкое место — переход из выдачи: из тысячи показов кликают семь. Правка сниппетов 19.08 нацелена именно сюда.' },
+  ya:  { imp: sum(S.yaImp), clicks: 6, visits: 154, leads: 3, note: 'Весь поисковый трафик и все заявки — из Яндекса. CTR 0,65% при 7 запросах в топ-3.' },
+  g:   { imp: sum(S.gImp), clicks: 0, visits: 0, leads: 0, note: 'Google даёт показы (+63% за неделю), но пока ни одного клика: 0 запросов в топ-3, лучшая позиция 4,3.' },
+};
+function renderV4(src = 'all') {
+  const f = FUN[src], cls = src === 'g' ? ' g' : '';
+  const rows = [['Показы', 'в выдаче', f.imp], ['Клики', 'переходы из поиска', f.clicks], ['Визиты', 'Метрика, органика', f.visits], ['Заявки', 'целевые действия', f.leads]];
+  const max = rows[0][2] || 1;
+  let html = '';
+  rows.forEach(([l, s, v], i) => {
+    const w = Math.max(v / max * 100, v ? .6 : 0);
+    html += `<div class="fstep"><span class="lab">${l}<small>${s}</small></span><span class="ftrack" data-tip="${l}: ${fmt(v)}"><b class="${cls}" style="width:${w}%"></b></span><span class="v num">${fmt(v)}</span></div>`;
+    if (i < rows.length - 1) {
+      const nx = rows[i + 1][2]; const c = v ? pct(nx, v) : 0;
+      const label = i === 1 ? `↓ разные счётчики: клики — из кабинетов поисковиков, визиты — из Метрики (шире: брендовые и повторные переходы)` : `↓ конверсия <strong>${v ? fpct(c) : '—'}</strong>${i === 0 ? ' · цель 1,5%' : ''}`;
+      html += `<div class="fconv"><span></span><span>${label}</span></div>`;
+    }
+  });
+  document.getElementById('v4-funnel').innerHTML = html;
+  document.getElementById('v4-note').textContent = f.note;
+}
+document.querySelectorAll('#v4-chips button').forEach(b => b.addEventListener('click', () => { document.querySelectorAll('#v4-chips button').forEach(x => x.classList.remove('on')); b.classList.add('on'); renderV4(b.dataset.src); }));
+
+/* ============================================================
+   ВАРИАНТ 5 — дерево
+   ============================================================ */
+function renderV5() {
+  const groups = { ya: 'Яндекс', g: 'Google' };
+  const maxImp = 30;
+  const bar = (v, cls) => `<span class="tbar ${cls}" style="width:${Math.max(3, v / maxImp * 100)}%;display:block"></span>`;
+  const row3 = p => `<div class="lvl3"><span></span><span class="nm">${p.url}${p.isNew ? ' <span class="pill good">новая</span>' : ''}</span><span class="hidem">${bar(p.imp, p.src === 'g' ? 'g' : '')}</span><span class="hidem num" style="font-size:12px;color:var(--muted)">поз. ${p.pos.toLocaleString('ru-RU')} ${p.dpos ? `<span class="delta ${p.dpos > 0 ? 'up' : 'down'}">${p.dpos > 0 ? '▲' : '▼'}${Math.abs(p.dpos).toLocaleString('ru-RU')}</span>` : ''}</span><span class="r num">${p.imp}</span></div>`;
+  let total = 0, totalPrev = 0, html = '';
+  Object.entries(groups).forEach(([src, name]) => {
+    const ps = PAGES.filter(p => p.src === src);
+    const clusters = [...new Set(ps.map(p => p.cl))].map(c => { const items = ps.filter(p => p.cl === c); return { c, items, imp: sum(items.map(p => p.imp)), prev: sum(items.map(p => p.prev)) }; }).sort((a, b) => b.imp - a.imp);
+    const imp = sum(ps.map(p => p.imp)), prev = sum(ps.map(p => p.prev)); total += imp; totalPrev += prev;
+    html += `<details class="lvl1"${src === 'ya' ? ' open' : ''}><summary><span class="car">▶</span><span class="nm">${name}<small>${ps.length} стр.</small></span><span class="hidem">${bar(imp / 2, src === 'g' ? 'g' : '')}</span><span class="hidem">${deltaEl(imp, prev)}</span><span class="r num">${imp}</span></summary>` +
+      clusters.map((cl, i) => `<details class="lvl2"${src === 'ya' && i === 0 ? ' open' : ''}><summary><span class="car">▶</span><span class="nm">${cl.c}<small>${cl.items.length} стр.</small></span><span class="hidem">${bar(cl.imp, src === 'g' ? 'g' : '')}</span><span class="hidem">${deltaEl(cl.imp, cl.prev)}</span><span class="r num">${cl.imp}</span></summary>${cl.items.map(row3).join('')}</details>`).join('') + `</details>`;
+  });
+  document.getElementById('v5-tree').innerHTML = `<div class="lvl3" style="padding-left:6px;border-top:0;font-weight:700;background:var(--surface-2);border-radius:8px"><span></span><span class="nm" style="color:var(--ink)">Весь сайт</span><span class="hidem">${bar(total / 3, 'gray')}</span><span class="hidem">${deltaEl(total, totalPrev)}</span><span class="r num">${total}</span></div>` + html;
+}
+
+/* ============================================================
+   ВАРИАНТ 6 — теплокарта
+   ============================================================ */
+function renderV6() {
+  const vals = S.yaImp, hi = Math.max(...vals);
+  const ramp = ['var(--q1)', 'var(--q2)', 'var(--q3)', 'var(--q4)', 'var(--q5)', 'var(--q6)', 'var(--q7)'];
+  const step = v => Math.min(6, Math.floor(v / (hi + 1) * 7));
+  let html = `<div></div>` + DOW.map(d => `<div class="cl">${d}</div>`).join('') + `<div class="cl" style="text-align:right">нед.</div>`;
+  const heat = document.getElementById('v6-heat'); heat.style.gridTemplateColumns = '110px repeat(7,1fr) 56px';
+  for (let w = 0; w < 4; w++) {
+    const week = vals.slice(w * 7, w * 7 + 7);
+    html += `<div class="rl">${dLabel(DATES[w * 7])} – ${dLabel(DATES[w * 7 + 6])}</div>` + week.map((v, i) => { const s = step(v); return `<div class="c ${s >= 3 ? 'ink' : 'mute'}" style="background:${ramp[s]}" data-tip="${dLabel(DATES[w * 7 + i])}: ${v} показов">${v}</div>`; }).join('') + `<div class="wk num">${fmt(sum(week))}</div>`;
+  }
+  heat.innerHTML = html;
+  document.getElementById('v6-ramp').innerHTML = `меньше ${ramp.map(c => `<i style="background:${c}"></i>`).join('')} больше · всего за 28 дней: <b class="num" style="color:var(--ink)">${fmt(sum(vals))}</b>`;
+}
+
+/* ============================================================
+   ВАРИАНТ 7 — малые кратные
+   ============================================================ */
+function renderV7() {
+  const cards = [['Показы, Яндекс', 'yaImp', 'var(--s1)'], ['Показы, Google', 'gImp', 'var(--s2)'], ['Клики из поиска', 'clicks', 'var(--s1)'], ['Визиты', 'visits', 'var(--s3)'], ['Запросов в топ-10', 'top10', 'var(--s1)'], ['Страниц в индексе', 'indexed', 'var(--s1)']];
+  document.getElementById('v7-multi').innerHTML = cards.map(([l, k, c]) => {
+    const sers = [{ name: l, values: S[k], color: c }]; if (PREV[k]) sers.push({ name: 'прошлый период', values: PREV[k], color: 'var(--gray-mark)', ctx: true });
+    const tot = (k === 'top10' || k === 'indexed') ? last(S[k]) : sum(S[k]);
+    return `<div class="mcard"><div class="h"><b>${l}</b><span class="num">${(k === 'top10' || k === 'indexed') ? 'сейчас ' : 'всего '}${fmt(tot)}</span></div>${lineChart(sers, { w: 320, h: 130, ticks: 2, yMin: (k === 'top10' || k === 'indexed') ? Math.floor(Math.min(...S[k], ...(PREV[k] || S[k])) / 10) * 10 : 0, area: true, tag: l })}</div>`;
+  }).join('');
+}
+
+/* ============================================================
+   ВАРИАНТ 8 — таблица
+   ============================================================ */
+let v8sort = { key: 'imp', dir: -1 };
+function renderV8() {
+  const cols = [['name', 'Страница'], ['cl', 'Кластер'], ['imp', 'Показы, 7 дн', 'r'], ['clicks', 'Клики', 'r'], ['pos', 'Позиция', 'r'], ['trend', 'Тренд 28 дн'], ['status', 'Статус']];
+  const rows = PAGES.slice().sort((a, b) => { const k = v8sort.key; const av = a[k], bv = b[k]; return (typeof av === 'string' ? av.localeCompare(bv, 'ru') : av - bv) * v8sort.dir; });
+  const stLabel = { good: '✓ растёт', warn: '! далеко от топа', crit: '× теряет', neutral: '· новая' };
+  const t = document.getElementById('v8-table');
+  t.innerHTML = `<thead><tr>${cols.map(([k, l, cls]) => `<th class="${cls || ''}${v8sort.key === k ? ' sorted' : ''}" data-k="${k}">${l}</th>`).join('')}</tr></thead><tbody>` +
+    rows.map(p => { seed = p.imp * 977 + p.url.length; const tr = series(p.imp / 7 * 4, p.imp / 2, 0, .6); return `<tr><td><b>${p.name}</b><div style="font-size:11.5px;color:var(--muted)">${p.url}</div></td><td>${p.cl}</td><td class="r num"><i class="bar-in" style="width:${Math.round(p.imp / 13 * 56)}px;background:${p.src === 'g' ? 'var(--s2)' : 'var(--s1)'}"></i>${p.imp}</td><td class="r num">${p.clicks}</td><td class="r num"><span class="pos">${p.pos.toLocaleString('ru-RU')}</span> ${p.dpos ? `<span class="delta ${p.dpos > 0 ? 'up' : 'down'}">${p.dpos > 0 ? '▲' : '▼'}${Math.abs(p.dpos).toLocaleString('ru-RU')}</span>` : '<span class="delta flat">→</span>'}</td><td>${spark(tr, p.src === 'g' ? 'var(--s2)' : 'var(--s1)', 80, 24)}</td><td><span class="pill ${p.status}">${stLabel[p.status]}</span></td></tr>`; }).join('') + '</tbody>';
+  t.querySelectorAll('th').forEach(th => th.addEventListener('click', () => { const k = th.dataset.k; if (k === 'trend') return; v8sort = { key: k, dir: v8sort.key === k ? -v8sort.dir : (k === 'name' || k === 'cl' || k === 'pos' ? 1 : -1) }; renderV8(); }));
+}
+
+/* ============================================================
+   ВАРИАНТ 9 — bullet
+   ============================================================ */
+function renderV9() {
+  const items = [
+    { l: 'Показы, Яндекс', s: 'за 28 дней', v: 926, t: 1200, max: 1600, bands: [600, 1000] },
+    { l: 'Показы, Google', s: 'за 28 дней', v: 115, t: 200, max: 300, bands: [80, 160] },
+    { l: 'Запросов в топ-10', s: 'Яндекс, сейчас', v: 90, t: 120, max: 160, bands: [60, 100] },
+    { l: 'CTR из поиска', s: 'Яндекс, %', v: .65, t: 1.5, max: 2.5, bands: [.8, 1.5], dec: 2 },
+    { l: 'Заявки-действия', s: 'за квартал', v: 3, t: 10, max: 14, bands: [4, 8] },
+  ];
+  document.getElementById('v9-bullets').innerHTML = items.map(it => { const px = v => v / it.max * 100; const f = v => v.toLocaleString('ru-RU', { maximumFractionDigits: it.dec || 0 }); const done = Math.round(it.v / it.t * 100);
+    return `<div class="bl"><span class="lab">${it.l}<small>${it.s}</small></span><span class="btrack" data-tip="${it.l}: факт ${f(it.v)}, цель ${f(it.t)} (${done}%)"><i class="band" style="left:0;width:${px(it.bands[0])}%;background:var(--q3)"></i><i class="band" style="left:${px(it.bands[0])}%;width:${px(it.bands[1] - it.bands[0])}%;background:var(--q2)"></i><i class="fill" style="width:${px(it.v)}%"></i><i class="tgt" style="left:${px(it.t)}%"></i></span><span class="v num">${f(it.v)}<small>цель ${f(it.t)} · ${done}%</small></span></div>`; }).join('') +
+    `<div class="bl-axis"><span></span><div><span>0</span><span>← зоны: слабо · приемлемо · хорошо →</span><span>максимум</span></div><span></span></div>`;
+}
+
+/* ============================================================
+   ВАРИАНТ 10 — письмо
+   ============================================================ */
+function mailHtml() {
+  const kt = (l, v, d, c) => `<td><div class="kt"><div class="l">${l}</div><div class="v">${v}</div><div class="dl" style="color:${c}">${d}</div></div></td>`;
+  const chart = lineChart([{ name: 'Показы Google', values: S.gImp, color: '#f2591d' }, { name: 'прошлый период', values: PREV.gImp, color: '#c3c2c7', ctx: true }], { w: 540, h: 150, ticks: 2, area: true, tag: 'Показы Google' });
+  return `<div class="mail">
+    <div class="mh"><div class="t">BIZ<span>Soft</span> Growth Intelligence</div><div class="d">среда, 19 августа 2026 · утренний выпуск</div></div>
+    <div class="sec"><h4>Главное за сутки</h4><table class="k" role="presentation"><tr>
+      ${kt('Growth Score', '49', '▲ +9 за неделю', '#1a8f4c')}${kt('Показы Google, 7 дн', '31', '▲ +63%', '#1a8f4c')}${kt('Топ-3 Яндекс', '7', '▲ +3', '#1a8f4c')}${kt('Заявки, 14 дн', '3', '▲ +1', '#1a8f4c')}
+    </tr></table></div>
+    <div class="sec" style="padding-top:0"><div class="img"><div style="font-size:12px;font-weight:bold;margin-bottom:4px">Показы в Google по дням, 28 дней</div>${chart}<div class="cap">В письме это PNG-картинка: тот же SVG отрисован в render.mjs. Серым — предыдущий период.</div></div></div>
+    <div class="sec" style="padding-top:0"><h4>Состояние контуров</h4><table class="sl" role="presentation" width="100%">
+      <tr><td style="width:22px;color:#1a8f4c;font-weight:bold">✓</td><td>Индексация: 169 страниц (+19)</td><td style="text-align:right;color:#6e6e78">норма</td></tr>
+      <tr><td style="color:#b97a00;font-weight:bold">!</td><td>CTR из поиска 0,65% — правка сниппетов внедрена 19.08</td><td style="text-align:right;color:#6e6e78">ждём 22.08</td></tr>
+      <tr><td style="color:#d92d20;font-weight:bold">×</td><td>Заявки только со статьи блога, карточки не конвертируют</td><td style="text-align:right;color:#6e6e78">решение</td></tr>
+    </table></div>
+    <div class="sec" style="padding-top:4px"><a class="cta" href="#v1">Открыть полный дашборд →</a></div>
+    <div class="ft">Полные данные, углубление до страниц и таблицы — на странице отчёта. Письмо собрано автоматически.</div></div>`;
+}
+function renderV10() { document.getElementById('v10-desktop').innerHTML = mailHtml(); document.getElementById('v10-phone').innerHTML = mailHtml(); }
+
+/* ============================================================
+   ГОЛОСОВАНИЕ: db артефакта, запасной вариант — localStorage
+   ============================================================ */
+const votes = {};
+let dbRef = null;
+function lsGet() { try { return JSON.parse(localStorage.getItem('kpi-votes') || '{}'); } catch { return {}; } }
+function lsSet(o) { try { localStorage.setItem('kpi-votes', JSON.stringify(o)); } catch {} }
+function renderVoteBars() {
+  document.querySelectorAll('.vote').forEach(el => {
+    const n = el.dataset.v, v = votes[n] || {};
+    if (!el.dataset.built) {
+      el.innerHTML = `<span class="q">Вариант ${n}:</span><span class="btns"><button class="yes" data-c="yes">👍 Нравится</button><button class="partial" data-c="partial">Частично</button><button class="no" data-c="no">Нет</button><input placeholder="Комментарий (что взять, что убрать)"></span><span class="st"></span>`;
+      el.dataset.built = '1';
+      el.querySelectorAll('button').forEach(b => b.addEventListener('click', () => save(n, { choice: b.dataset.c })));
+      const inp = el.querySelector('input'); let t;
+      inp.addEventListener('input', () => { clearTimeout(t); t = setTimeout(() => save(n, { note: inp.value }), 700); });
+    }
+    el.querySelectorAll('button').forEach(b => b.classList.toggle('on', b.dataset.c === v.choice));
+    const inp = el.querySelector('input'); if (document.activeElement !== inp) inp.value = v.note || '';
+    el.querySelector('.st').textContent = v.choice ? 'сохранено' : '';
+  });
+  const dots = document.getElementById('dots');
+  dots.innerHTML = VARIANTS.map(([n, t]) => `<a href="#v${n}" class="${(votes[n] || {}).choice || ''}" title="${t}"><i>${n}</i>${t}</a>`).join('') + `<span class="count" id="dots-count"></span>`;
+  const c = { yes: 0, partial: 0, no: 0 }; Object.values(votes).forEach(v => { if (v.choice) c[v.choice]++; });
+  document.getElementById('dots-count').textContent = `👍 ${c.yes} · частично ${c.partial} · нет ${c.no}`;
+  const lab = { yes: '👍 нравится', partial: 'частично', no: 'нет' };
+  document.getElementById('sum-list').innerHTML = VARIANTS.map(([n, t]) => { const v = votes[n] || {}; return `<li>${t} — <b>${v.choice ? lab[v.choice] : 'без оценки'}</b>${v.note ? ` <span style="color:var(--muted)">· ${escapeHtml(v.note)}</span>` : ''}</li>`; }).join('');
+  document.getElementById('sum-tot').textContent = c.yes + c.partial + c.no ? `Оценено ${c.yes + c.partial + c.no} из 10 · берём в работу: ${c.yes} · доработать: ${c.partial} · не подходит: ${c.no}` : 'Пока ничего не оценено.';
+}
+function escapeHtml(s) { return String(s).replace(/[&<>"]/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[ch])); }
+async function save(n, patch) {
+  const title = VARIANTS.find(v => String(v[0]) === String(n))[1];
+  votes[n] = { ...(votes[n] || {}), variant: Number(n), title, ...patch, at: new Date().toISOString() };
+  renderVoteBars();
+  const el = document.querySelector(`.vote[data-v="${n}"] .st`);
+  if (dbRef) { try { await dbRef.collection('votes').doc('v' + n).set(votes[n]); el.textContent = 'сохранено'; } catch (e) { el.textContent = 'ошибка записи'; } }
+  else { lsSet(votes); el.textContent = 'сохранено локально'; }
+}
+async function initVotes() {
+  Object.assign(votes, lsGet()); renderVoteBars();
+  try {
+    const db = await window.claude?.use?.('db');
+    if (!db) return;
+    dbRef = db;
+    db.collection('votes').onSnapshot(snap => { snap.docs.forEach(d => { const v = d.data(); if (v && v.variant) votes[v.variant] = v; }); renderVoteBars(); }, () => {});
+  } catch {}
+}
+
+renderV1(); renderV2(); renderV3(); renderV4(); renderV5(); renderV6(); renderV7(); renderV8(); renderV9(); renderV10();
+initVotes();
+</script>
