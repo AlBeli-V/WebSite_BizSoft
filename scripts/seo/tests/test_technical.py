@@ -13,6 +13,7 @@ import unittest
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1]))
 import technical  # noqa: E402
+import webreport  # noqa: E402
 
 
 def page(path="/", page_type="homepage", perf=93, lcp=2100, cls=0.02,
@@ -239,6 +240,16 @@ class BuildTest(unittest.TestCase):
         self.assertTrue(b["available"])
         self.assertEqual(b["as_of"], "2026-09-04")
         self.assertEqual(b["age_days"], 1)
+
+    def test_pervyy_zamer_govorit_chto_sravnivat_ne_s_chem(self):
+        # Первый замер контура: строка сравнения не должна печататься
+        # обрывком «сравнение с предыдущим замером нет» (05.09.2026).
+        self.write(measurement(pages=[page(perf=99)]))
+        b = technical.build("2026-09-05")
+        self.assertIsNone(b["previous_date"])
+        html = webreport._technical_section(b)
+        self.assertIn("предыдущего замера для сравнения нет", html)
+        self.assertNotIn("сравнение с предыдущим", html)
 
     def test_posledniy_polnyy_audit_schitaet_svetofor(self):
         self.write(measurement(mode="weekly", pages=[
