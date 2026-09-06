@@ -118,6 +118,16 @@ jobs:
             else
               echo "блок location: в конфиге нет"
             fi
+            echo "--- ошибки IPv6 к mc.yandex.ru в error.log (сейчас + прошлая ротация):"
+            IPV6_ERRS=$( (cat /var/log/nginx/error.log /var/log/nginx/error.log.1 2>/dev/null \
+              || docker run --rm -v /var/log/nginx:/logs:ro --entrypoint sh postgres:16-alpine -c \
+                   'cat /logs/error.log /logs/error.log.1 2>/dev/null' 2>/dev/null) \
+              | grep -c 'metrika/tag.js.*Network is unreachable\|Network is unreachable.*metrika/tag.js' || true)
+            echo "  записей «Network is unreachable» по /m/tag.js: ${IPV6_ERRS:-0}"
+            echo "--- резолверы хоста (/etc/resolv.conf, только IPv4):"
+            RESOLVERS=$(grep -E '^nameserver[[:space:]]+[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+' /etc/resolv.conf 2>/dev/null \
+              | awk '{print $2}' | tr '\n' ' ' | sed 's/ $//')
+            echo "  ${RESOLVERS:-НЕ НАЙДЕНЫ}"
             echo "--- как сейчас отвечает /m/tag.js:"
             curl -s -o /dev/null -w "  без сжатия: код %{http_code}, тип %{content_type}, размер %{size_download} Б\n" \
               https://biz-soft.pro/m/tag.js || echo "  (запрос не прошёл)"
@@ -136,6 +146,18 @@ jobs:
               rm -rf /tmp/bizsoft-metrika
               exit 0
             fi
+
+            # В блоке location стоит плейсхолдер __RESOLVERS__ — подставляем
+            # IPv4-резолверы этого хоста. Без резолвера nginx -t упадёт на
+            # proxy_pass с переменной, поэтому при пустом списке останавливаемся
+            # до правки конфига.
+            if [ -z "$RESOLVERS" ]; then
+              echo "::error::В /etc/resolv.conf нет ни одного IPv4-резолвера — конфиг не применяю"
+              rm -rf /tmp/bizsoft-metrika
+              exit 1
+            fi
+            sed -i "s/__RESOLVERS__/$RESOLVERS/" /tmp/bizsoft-metrika/nginx-metrika-locations.conf
+            grep -n 'resolver ' /tmp/bizsoft-metrika/nginx-metrika-locations.conf | sed 's/^/  подставлено: /'
 
             # Скрипт, исполняемый под root. Идемпотентен и самооткатываем:
             # при неудачном nginx -t возвращает конфиг из копии и падает.
@@ -241,6 +263,12 @@ jobs:
             done
             echo "  первые байты файла: $(head -c 60 /tmp/bz-tag.js 2>/dev/null)"
             rm -f /tmp/bz-tag.js /tmp/bz-tag.h
+            if grep -q 'resolver .* ipv6=off' "$CONF" 2>/dev/null; then
+              echo "  ✓ в живом конфиге resolver с ipv6=off — новых ошибок IPv6 к mc.yandex.ru быть не должно"
+            else
+              echo "  ✗ в живом конфиге нет resolver ipv6=off — блок не обновился"
+              exit 1
+            fi
 
       # Приёмка снаружи: файл действительно отдаётся и это скрипт Метрики.
       - name: Probe metrika tag
