@@ -1,6 +1,6 @@
 {
  "date": "2026-09-06",
- "generated_at": "2026-09-06T07:16:00+00:00",
+ "generated_at": "2026-09-06T11:07:55+00:00",
  "measured_at": "2026-09-06",
  "universe": {
   "phrases": 24913,
@@ -16,9 +16,9 @@
   "total_commercial_demand": 971409,
   "levels": {
    "page": 0.964,
-   "indexed": 0.1118,
-   "top10": 0.0551,
-   "clicks": 0.0,
+   "indexed": 0.105,
+   "top10": 0.0636,
+   "clicks": 0.001,
    "conversion_measured": null,
    "qualified_leads": null
   },
@@ -57,10 +57,10 @@
   "AI-сервисы": {
    "demand": 84562,
    "covered": 84562,
-   "top10": 38158,
+   "top10": 39708,
    "clicks": 0,
    "page_coverage": 1.0,
-   "top10_coverage": 0.451,
+   "top10_coverage": 0.47,
    "click_coverage": 0.0
   },
   "Офисное ПО": {
@@ -84,28 +84,28 @@
   "Дизайн и графика": {
    "demand": 38883,
    "covered": 38883,
-   "top10": 2557,
-   "clicks": 0,
+   "top10": 3520,
+   "clicks": 963,
    "page_coverage": 1.0,
-   "top10_coverage": 0.066,
-   "click_coverage": 0.0
+   "top10_coverage": 0.091,
+   "click_coverage": 0.025
   },
   "Звук, видео и медиа": {
    "demand": 17264,
    "covered": 17264,
-   "top10": 3334,
+   "top10": 4563,
    "clicks": 0,
    "page_coverage": 1.0,
-   "top10_coverage": 0.193,
+   "top10_coverage": 0.264,
    "click_coverage": 0.0
   },
   "Средства разработки": {
    "demand": 10957,
    "covered": 10957,
-   "top10": 9373,
+   "top10": 10814,
    "clicks": 0,
    "page_coverage": 1.0,
-   "top10_coverage": 0.855,
+   "top10_coverage": 0.987,
    "click_coverage": 0.0
   },
   "Системное ПО": {
@@ -120,10 +120,10 @@
   "Антивирусы и безопасность": {
    "demand": 3311,
    "covered": 3311,
-   "top10": 0,
+   "top10": 3070,
    "clicks": 0,
    "page_coverage": 1.0,
-   "top10_coverage": 0.0,
+   "top10_coverage": 0.927,
    "click_coverage": 0.0
   },
   "Инженерное ПО (CAD/CAE)": {
@@ -178,12 +178,12 @@
   "C": 75
  },
  "gaps_by_class": {
-  "GAP-C": 7,
-  "GAP-D": 11,
-  "GAP-F": 1,
+  "GAP-C": 6,
+  "GAP-D": 14,
+  "GAP-E": 1,
   "GAP-G": 1,
   "GAP-H": 24,
-  "GAP-N": 35
+  "GAP-N": 33
  },
  "uncovered_top": [
   {
@@ -392,8 +392,8 @@
    "url": "/vendors/anthropic",
    "page_exists": true,
    "indexed": true,
-   "best_position": 4.0,
-   "impressions": 2,
+   "best_position": 9.0,
+   "impressions": 1,
    "clicks": 0,
    "ctr": 0.0,
    "trend": "growing",
@@ -425,8 +425,8 @@
     "подписка и продление": 258,
     "прочее": 229
    },
-   "step": "Переписать сниппет /vendors/anthropic: 2 показов, 0 переходов",
-   "prompt": "У /vendors/anthropic позиция 4.0 по «claude купить» и 2 показов, но всего 0 переходов — люди видят нас в выдаче и не заходят. Перепиши title и description под коммерческий интент: оплата на юрлицо, счёт, договор, ЭДО. Ядро title не длиннее 65 символов, description до 160. Заведи как отдельный эксперимент со своей датой старта, контроль 2026-09-13. Важно: выкат на сайте не равен обновлению сниппета в выдаче — фиксируй их раздельно.",
+   "step": "Переписать сниппет /vendors/anthropic: 1 показов, 0 переходов",
+   "prompt": "У /vendors/anthropic позиция 9.0 по «claude купить» и 1 показов, но всего 0 переходов — люди видят нас в выдаче и не заходят. Перепиши title и description под коммерческий интент: оплата на юрлицо, счёт, договор, ЭДО. Ядро title не длиннее 65 символов, description до 160. Заведи как отдельный эксперимент со своей датой старта, контроль 2026-09-13. Важно: выкат на сайте не равен обновлению сниппета в выдаче — фиксируй их раздельно.",
    "success": "CTR по «claude купить» выше текущего при том же объёме показов к 2026-09-13",
    "check_on": "2026-09-13",
    "opportunity_score": 0.01646,
@@ -441,60 +441,59 @@
    "confidence_note": "достаточная: кластер измерен несколькими фразами"
   },
   {
-   "cluster": "autodesk",
-   "vendor": "Autodesk",
-   "category": "Дизайн и графика",
+   "cluster": "suno",
+   "vendor": "Suno",
+   "category": "AI-сервисы",
    "gap": "GAP-N",
    "gap_title": "Страница есть, в поиске не наблюдалась",
    "recommended_action": "проверить индексацию и позицию — замер, а не вывод",
-   "commercial_demand": 7397,
-   "commercial_phrases": 63,
-   "url": "/vendors/autodesk",
+   "commercial_demand": 11488,
+   "commercial_phrases": 32,
+   "url": "/vendors/suno",
    "page_exists": true,
    "indexed": null,
    "best_position": null,
    "impressions": 0,
    "clicks": 0,
    "ctr": null,
-   "trend": "growing",
+   "trend": "stable",
    "top_phrases": [
     {
-     "phrase": "autodesk license",
-     "frequency": 1800
+     "phrase": "suno подписка",
+     "frequency": 3002
     },
     {
-     "phrase": "лицензия autodesk",
-     "frequency": 1015
+     "phrase": "оплатить suno",
+     "frequency": 2131
     },
     {
-     "phrase": "autodesk купить",
-     "frequency": 349
+     "phrase": "suno купить",
+     "frequency": 1576
     },
     {
-     "phrase": "autodesk license manager",
-     "frequency": 332
+     "phrase": "suno купить подписку",
+     "frequency": 982
     },
     {
-     "phrase": "autodesk network license",
-     "frequency": 330
+     "phrase": "suno оплата",
+     "frequency": 624
     }
    ],
    "subclusters": {
-    "цены и тарифы": 3450,
-    "прочее": 3232,
-    "покупка": 652,
-    "подписка и продление": 63
+    "подписка и продление": 3944,
+    "оплата": 3781,
+    "покупка": 3763
    },
-   "step": "Проверить, видна ли /vendors/autodesk в поиске по «autodesk license»",
-   "prompt": "Страница /vendors/autodesk существует, но за окно наблюдения не встретилась ни в выборке запросов Вебмастера, ни в выборке страниц GSC. Это отсутствие наблюдения, а не факт неиндексации. Проверь статус URL в Яндекс.Вебмастере и GSC и позицию по фразе через ops-serp-probe. Если страницы нет в индексе — заведи задачу класса GAP-B (техническое SEO); если есть, но позиция слабая — GAP-C. Контрольная дата 2026-09-13.",
-   "success": "индексация и позиция по «autodesk license» измерены и записаны к 2026-09-13",
+   "step": "Проверить, видна ли /vendors/suno в поиске по «suno подписка»",
+   "prompt": "Страница /vendors/suno существует, но за окно наблюдения не встретилась ни в выборке запросов Вебмастера, ни в выборке страниц GSC. Это отсутствие наблюдения, а не факт неиндексации. Проверь статус URL в Яндекс.Вебмастере и GSC и позицию по фразе через ops-serp-probe. Если страницы нет в индексе — заведи задачу класса GAP-B (техническое SEO); если есть, но позиция слабая — GAP-C. Контрольная дата 2026-09-13.",
+   "success": "индексация и позиция по «suno подписка» измерены и записаны к 2026-09-13",
    "check_on": "2026-09-13",
-   "opportunity_score": 0.0102,
+   "opportunity_score": 0.01224,
    "components": {
-    "normalized_demand": 0.0109,
+    "normalized_demand": 0.017,
     "commercial_intent": 1.0,
     "coverage_gap": 0.8,
-    "trend_factor": 1.3,
+    "trend_factor": 1.0,
     "confidence": 0.9,
     "estimated_effort": 1.0
    },
@@ -516,14 +515,14 @@
   "note": "Российские вендоры исключены: их лицензии продаются напрямую, услуга оплаты из-за рубежа к ним неприменима."
  },
  "efficiency": {
-  "calls_total": 4390,
+  "calls_total": 4460,
   "calls_paid": 264,
   "cost_month_rub": 5.34,
   "cost_today_rub": 0.28,
   "remaining_budget_rub": 5494.66,
   "forecast_month_end_rub": 26.7,
   "state": "open",
-  "cache_hit_rate": 0.9399,
+  "cache_hit_rate": 0.9408,
   "duplicate_rate": 0.6817,
   "unique_phrases": 1866,
   "new_commercial_phrases": 649,
@@ -531,7 +530,7 @@
   "cost_per_1000_unique_phrases_rub": 2.862,
   "cost_per_1000_commercial_phrases_rub": 8.228,
   "cost_per_new_cluster_rub": 1.335,
-  "empty_response_rate": 0.31
+  "empty_response_rate": 0.3128
  },
  "quota": {
   "requests_per_hour": 500,
@@ -543,11 +542,11 @@
   "available": true,
   "title": "Спрос и направления развития",
   "expansion": null,
-  "summary": "Мы видим 971 409 покупательских запросов в месяц по 177 направлениям каталога. Своя страница есть под 96% этого спроса, в поиске находится 11%, на первой странице — 6%. Без страницы остаётся 16 205 запросов в месяц — это направления, где спрос есть, а своей страницы нет. Ещё 52 137 запросов в месяц не отнесены ни к нам, ни к чужому товару: это голые фразы омонимичных брендов (box — 30 187, zoom — 10 813, bubble купить — 5 732). В спрос и в решения об ассортименте они не входят.",
+  "summary": "Мы видим 971 409 покупательских запросов в месяц по 177 направлениям каталога. Своя страница есть под 96% этого спроса, в поиске находится 10%, на первой странице — 6%. Без страницы остаётся 16 205 запросов в месяц — это направления, где спрос есть, а своей страницы нет. Ещё 52 137 запросов в месяц не отнесены ни к нам, ни к чужому товару: это голые фразы омонимичных брендов (box — 30 187, zoom — 10 813, bubble купить — 5 732). В спрос и в решения об ассортименте они не входят.",
   "coverage": {
    "page": 0.964,
-   "indexed": 0.1118,
-   "top10": 0.0551
+   "indexed": 0.105,
+   "top10": 0.0636
   },
   "lead_opportunity": {
    "cluster": "apple",
