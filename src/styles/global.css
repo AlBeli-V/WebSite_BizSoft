@@ -72,18 +72,31 @@
    диапазонам (cyrillic / latin / latin-ext), и мобильная главная тянула
    19 файлов ≈ 290 КБ, из них шесть latin-ext (≈ 90 КБ) — ради одного знака
    ₽. Теперь 2 файла ≈ 90 КБ; оба preload'ятся в BaseLayout. */
+/* font-display: optional — не swap.
+   Со swap текст рисуется запасным шрифтом, а потом подменяется фирменным, и
+   Chrome всё это время не засчитывает его как кандидата Largest Contentful
+   Paint: в трассе прогонов по проду 04.09.2026 не было ни одного события
+   Candidate, только отзывы. На раннере это давало LCP 3,2 с вместо 1,8 с, а
+   на инфраструктуре Google кандидат не появлялся до конца замера — отсюда
+   NO_LCP и «балл не вычислен» в веб-интерфейсе PageSpeed.
+   Опыт (прогон с блокировкой обоих файлов шрифтов): LCP 1,8 с, балл 98
+   против 93, кандидат — заголовок первого экрана через 0,8 с.
+   С optional подмены нет вовсе: шрифт либо готов к первой отрисовке, либо
+   весь визит идёт запасным (со второго визита он в кэше и успевает всегда).
+   Раскладка при этом не едет — ниже описаны запасные семейства с метриками,
+   подогнанными под фирменные. */
 @font-face {
   font-family: 'Raleway';
   font-style: normal;
   font-weight: 100 900;
-  font-display: swap;
+  font-display: optional;
   src: url('../assets/fonts/raleway-var.woff2') format('woff2');
 }
 @font-face {
   font-family: 'Prosto One';
   font-style: normal;
   font-weight: 400;
-  font-display: swap;
+  font-display: optional;
   src: url('../assets/fonts/prosto-one.woff2') format('woff2');
 }
 
