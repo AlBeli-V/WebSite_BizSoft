@@ -1,0 +1,30 @@
+{
+ "experiment_id": "pages-exp-001-alternatives",
+ "ticket": "PAGES-EXP-001",
+ "date": "2026-09-06",
+ "source": "yandex",
+ "evaluation_kind": "launch",
+ "windows": null,
+ "metrics": {
+  "launch": {
+   "pages_total": 7,
+   "pages_in_search": 0,
+   "weekly_impressions": 2,
+   "clicks": 0,
+   "need_pages": 5,
+   "need_weekly": 300
+  }
+ },
+ "matched_metrics": null,
+ "position_delta": null,
+ "sample_quality": [],
+ "statistical_result": null,
+ "summary_line": "в выдаче 0 из 7 страниц (замер 2026-09-06) · ~2 показов/нед из 300 · 0 кликов · день 7 из 14 до первой вехи",
+ "confidence": "LOW",
+ "verdict": "INSUFFICIENT_DATA",
+ "verdict_reason": "идёт набор: 0 из 5 страниц в выдаче, ~2 из 300 показов/нед; веха — 2026-09-13",
+ "recommendation": "EXTEND",
+ "recommendation_detail": "копить данные до вехи",
+ "recommended_targets": [],
+ "requires_owner_decision": false
+}
