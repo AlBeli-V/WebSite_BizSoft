@@ -52,7 +52,11 @@ const ALLOWED_CATEGORIES = ['system', 'security', 'development', 'collaboration'
   // его нет в выдаче /catalog/ai/<sub>. Родительский ai остаётся для позиций
   // вне подкатегорий (например, API-доступ к моделям).
   'ai-text', 'ai-code', 'ai-image', 'ai-video', 'ai-audio', 'ai-office',
-  'ai-marketing', 'ai-enterprise'];
+  'ai-marketing', 'ai-enterprise',
+  // Заведён 05.09.2026 под подарочные карты (Apple Gift Card): цифровой код
+  // пополнения баланса — не лицензия и не подписка, в прежние разделы не
+  // ложится. Создаёт ops-categories по data/catalog/categories.json.
+  'gift-cards'];
 
 describe('VENDORS', () => {
   it('слаги уникальны', () => {
