@@ -19,7 +19,7 @@ import { site } from '../../config/site';
 import { POPULAR_VENDORS } from '../../data/popular';
 import { SEO_EXPERIMENT_LINKS } from '../../data/seo-experiments';
 import { searchProducts } from '../../lib/product-search';
-import { countByCategory } from '../../lib/catalog';
+import { countByCategory, listingProducts } from '../../lib/catalog';
 import { isSourceUnavailable, serviceUnavailable } from '../../lib/http';
 import type { Product, Category } from '../../lib/types';
 
@@ -41,7 +41,9 @@ try {
 // Логика поиска общая с WebMCP-инструментом search_products (lib/product-search):
 // агент и человек обязаны находить одно и то же.
 const q = (Astro.url.searchParams.get('q') || '').trim();
-const searchResults = q ? searchProducts(products, q) : [];
+// Варианты подарочных карт в результатах не показываются: их представляет
+// родительская карточка (агент через WebMCP видит и варианты — ему нужен артикул).
+const searchResults = q ? searchProducts(listingProducts(products), q) : [];
 
 const catCounts = countByCategory(products);
 const usedCategories = categories

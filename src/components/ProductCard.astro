@@ -11,6 +11,7 @@ import { productIcons } from '../data/product-icons';
 import ProductIcon from './ProductIcon.astro';
 import { ORIGIN_LABEL, LICENSE_LABEL } from '../lib/types';
 import { planType, PLAN_LABEL } from '../lib/plan-type';
+import { isGiftCard } from '../lib/catalog';
 import type { Product } from '../lib/types';
 
 interface Props {
@@ -20,6 +21,9 @@ const { product } = Astro.props;
 const eff = effectivePrice(product);
 const logo = logoUrl(product, { width: 96, height: 96, fit: 'contain', format: 'webp' });
 const byRequest = !(product.price > 0) && !eff.isPromo; // NaN и null — тоже «по запросу»
+// Подарочная карта: в избранное добавляется конкретный номинал со страницы
+// карты, сама карточка ведёт туда; цена показывается как «от».
+const gift = isGiftCard(product);
 // Ребрендинг вендора «Новое имя (прежнее)»: новое — крупно, прежнее — мельче ниже,
 // рядом с прежним названием показываем его логотип (если есть в brand-logos).
 const renamed = (product.vendor || '').match(/^(.+?)\s*\((.+)\)$/);
@@ -72,6 +76,8 @@ const packIcon = packSlug ? vendorIcon(packSlug) : null;
   <div class="product-bottom">
     {byRequest ? (
       <div class="price-req">Цена по запросу</div>
+    ) : product.price_from ? (
+      <div class="price-from"><span class="from">от</span> <PriceTag product={product} /></div>
     ) : (
       <PriceTag product={product} />
     )}
@@ -79,6 +85,8 @@ const packIcon = packSlug ? vendorIcon(packSlug) : null;
     <div class="product-actions">
       {byRequest ? (
         <button class="btn btn-primary btn-sm" data-open-question data-product={product.name} data-sku={product.sku}>Запросить цену</button>
+      ) : gift ? (
+        <a href={`/product/${product.slug}`} class="btn btn-primary btn-sm">Выбрать номинал</a>
       ) : (
         <AddToCartButton sku={product.sku} slug={product.slug} name={product.name} vendor={vendorMain || ''} price={eff.price} compact />
       )}
@@ -89,6 +97,8 @@ const packIcon = packSlug ? vendorIcon(packSlug) : null;
 
 <style>
   .product-card { display: flex; flex-direction: column; justify-content: space-between; padding: 1.4rem; height: 100%; }
+  .price-from { display: flex; align-items: baseline; gap: 0.35rem; }
+  .price-from .from { color: var(--color-text-muted); font-size: 0.9rem; }
   .product-link { display: block; }
   .ptop-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.7rem; }
   .logo { width: 40px; height: 40px; border-radius: 8px; object-fit: contain; background: #fff; padding: 3px; }
