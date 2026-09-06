@@ -20,6 +20,7 @@ let mode = 'ok';
 const CATEGORIES = [
   { id: 1, name: 'AI-сервисы', slug: 'ai', status: 'published', sort: 1 },
   { id: 2, name: 'Дизайн', slug: 'design', status: 'published', sort: 2 },
+  { id: 3, name: 'Подарочные карты и пополнение баланса', slug: 'gift-cards', status: 'published', sort: 19 },
   { id: 9, name: 'Черновик', slug: 'draft-cat', status: 'draft', sort: 9 },
 ];
 
@@ -41,6 +42,9 @@ function product(over) {
     old_slugs: over.old_slugs ?? [], related_products: '', related_solutions: '',
     price_from: false, category: over.category ?? CATEGORIES[0],
     image: null, images: [],
+    // Тип товара и варианты (подарочные карты): у обычных товаров пусто.
+    product_type: null, parent_sku: null, region_code: null, region_name: null,
+    denomination: null, denomination_currency: null, availability: null, variant_label: null,
     // Переопределения сверх базовых полей (promo_* для проверок разметки и т.п.)
     ...over,
   };
@@ -62,6 +66,25 @@ const PRODUCTS = [
   // разметки и что бренд в title не задваивается.
   product({ id: 108, name: 'Товар со своей метой', sku: 'META-1', vendor: 'OpenAI', slug: 'tovar-s-metoj', meta_title: 'Свой заголовок карточки | BIZSoft', meta_description: 'Своё описание карточки: проверяем, что мета из Directus попадает в разметку.' }),
   product({ id: 107, name: 'Товар с акцией', sku: 'PROMO-1', vendor: 'OpenAI', slug: 'tovar-s-akciej', price: 2000, promo_price: 1500, promo_label: 'Акция', promo_start: null, promo_end: '2099-12-31' }),
+  // Подарочная карта: родитель со страницей и три варианта (два региона).
+  // Порядок вариантов в базе нарочно «неправильный» — витрина обязана
+  // выстроить номиналы по убыванию сама (lib/gift-cards.ts).
+  product({ id: 110, name: 'Apple App Store & iTunes Gift Card', sku: 'APP-STORE-ITUNES-GIFT-CARD', vendor: 'Apple', slug: 'app-store-itunes-gift-card',
+    price: 1895, price_from: true, product_type: 'gift_card', category: CATEGORIES[2], short_description: 'Цифровая карта пополнения баланса Apple Account.' }),
+  product({ id: 111, name: 'Apple Gift Card 500 RUB, Россия', sku: 'APP-STORE-ITUNES-GIFT-CARD-RU-500', vendor: 'Apple', slug: 'app-store-itunes-gift-card-ru-500',
+    price: 1895, product_type: 'gift_card', parent_sku: 'APP-STORE-ITUNES-GIFT-CARD', region_code: 'RU', region_name: 'Россия', denomination: 500, denomination_currency: 'RUB', availability: 'in_stock', category: CATEGORIES[2] }),
+  product({ id: 112, name: 'Apple Gift Card 1000 RUB, Россия', sku: 'APP-STORE-ITUNES-GIFT-CARD-RU-1000', vendor: 'Apple', slug: 'app-store-itunes-gift-card-ru-1000',
+    price: 3734, product_type: 'gift_card', parent_sku: 'APP-STORE-ITUNES-GIFT-CARD', region_code: 'RU', region_name: 'Россия', denomination: 1000, denomination_currency: 'RUB', availability: 'in_stock', category: CATEGORIES[2] }),
+  product({ id: 113, name: 'Apple Gift Card 2000 TRY, Турция', sku: 'APP-STORE-ITUNES-GIFT-CARD-TR-2000', vendor: 'Apple', slug: 'app-store-itunes-gift-card-tr-2000',
+    price: 11275, product_type: 'gift_card', parent_sku: 'APP-STORE-ITUNES-GIFT-CARD', region_code: 'TR', region_name: 'Турция', denomination: 2000, denomination_currency: 'TRY', availability: 'in_stock', category: CATEGORIES[2] }),
+  // Подписка по подарочной ссылке: один регион Global, варианты с подписью
+  // вместо денежного номинала (variant_label), срок в месяцах — для порядка.
+  product({ id: 114, name: 'Discord Nitro (подарочная подписка)', sku: 'DISCORD-NITRO-GIFT-CARD', vendor: 'Discord', slug: 'discord-nitro-gift-card',
+    price: 1122, price_from: true, product_type: 'gift_card', category: CATEGORIES[2], short_description: 'Подписка Discord Nitro подарочной ссылкой.' }),
+  product({ id: 115, name: 'Discord Nitro Basic, 1 месяц (Global)', sku: 'DISCORD-NITRO-GIFT-CARD-GLOBAL-BASIC-1M', vendor: 'Discord', slug: 'discord-nitro-gift-card-global-basic-1m',
+    price: 1122, product_type: 'gift_card', parent_sku: 'DISCORD-NITRO-GIFT-CARD', region_code: 'GLOBAL', region_name: 'Все страны (Global)', denomination: 1, denomination_currency: 'MONTH', variant_label: 'Discord Nitro Basic, 1 месяц', availability: 'in_stock', category: CATEGORIES[2] }),
+  product({ id: 116, name: 'Discord Nitro, 12 месяцев (Global)', sku: 'DISCORD-NITRO-GIFT-CARD-GLOBAL-NITRO-12M', vendor: 'Discord', slug: 'discord-nitro-gift-card-global-nitro-12m',
+    price: 22726, product_type: 'gift_card', parent_sku: 'DISCORD-NITRO-GIFT-CARD', region_code: 'GLOBAL', region_name: 'Все страны (Global)', denomination: 12, denomination_currency: 'MONTH', variant_label: 'Discord Nitro, 12 месяцев', availability: 'limited', category: CATEGORIES[2] }),
 ];
 
 const CURRENCY = [{ id: 1, usd_rate: 90, eur_rate: 100, mode: 'auto', source: 'cbr.ru', auto_recalc: false, rate_date: '2026-08-01', updated_at: '2026-08-01T00:00:00Z' }];
@@ -140,6 +163,16 @@ const server = createServer((req, res) => {
   let rows = source.filter((r) => match(r, filter));
   const limit = Number(url.searchParams.get('limit') ?? -1);
   if (limit > 0) rows = rows.slice(0, limit);
+  // Проекция полей, как у настоящего Directus: чего сайт не запросил в
+  // fields, того он не получит. Без этого стаб маскировал выборки мимо
+  // productsQuery — на проде карточка подарочной карты рендерилась как
+  // обычный товар, а смоук этого не видел (05.09.2026). Вложенные пути
+  // (category.slug, images.directus_files_id.id) отдают верхний объект целиком.
+  const fields = (url.searchParams.get('fields') || '').split(',').map((f) => f.trim()).filter(Boolean);
+  if (fields.length && !fields.includes('*')) {
+    const tops = new Set(fields.map((f) => f.split('.')[0]));
+    rows = rows.map((r) => Object.fromEntries(Object.entries(r).filter(([k]) => tops.has(k))));
+  }
 
   res.writeHead(200, { 'Content-Type': 'application/json' });
   res.end(JSON.stringify({ data: rows }));

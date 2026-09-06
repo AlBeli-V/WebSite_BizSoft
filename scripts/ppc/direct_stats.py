@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Сбор статистики Яндекс.Директа по кампании bs-test-2026-09: только чтение.
+"""Сбор статистики Яндекс.Директа по кампаниям bs-* (bs-test-2026-09, bs-apple-gift-2026-09, bs-apple-regions-2026-09): только чтение.
 
 Запускается воркфлоу ops-direct (action=stats). Ничего в кабинете не меняет.
 Собирает и печатает:
@@ -30,8 +30,21 @@ import urllib.request
 
 API = "https://api.direct.yandex.com/json/v5/"
 METRIKA_API = "https://api-metrika.yandex.net/"
-CAMPAIGN_NAME = "bs-test-2026-09"
-CAMPAIGN_START = "2026-08-28"  # StartDate кампании — окно выборок Метрики
+# Кампании кабинета, которые читает сбор: до 05.09.2026 одна bs-test-2026-09,
+# с раунда 3 — ещё bs-apple-gift-2026-09 и bs-apple-regions-2026-09 (подарочные
+# карты Apple). Отбор по префиксу, чтобы новая кампания по спецификации
+# попадала в статистику без правки этого файла; DIRECT_CAMPAIGNS (имена через
+# запятую) сужает набор для ручного прогона.
+CAMPAIGN_PREFIX = "bs-"
+CAMPAIGN_START = "2026-08-28"  # StartDate первой кампании — окно выборок Метрики
+
+
+def select_targets(camps: list[dict]) -> list[dict]:
+    """Кампании для сбора: явный список из DIRECT_CAMPAIGNS или все с префиксом."""
+    wanted = [n.strip() for n in os.environ.get("DIRECT_CAMPAIGNS", "").split(",") if n.strip()]
+    if wanted:
+        return [c for c in camps if c["Name"] in wanted]
+    return [c for c in camps if c["Name"].startswith(CAMPAIGN_PREFIX)]
 
 
 def call(service: str, method: str, params: dict, token: str) -> dict:
@@ -189,7 +202,7 @@ def metrika_stat(counter: str, token: str, **params) -> dict:
     return metrika_get("stat/v1/data", base, token)
 
 
-def metrika_sections() -> None:
+def metrika_sections(campaign_name: str) -> None:
     """Конверсии по целям и поведение визитов кампании (данные Метрики).
 
     Визиты кампании отбираются фильтром по utm_campaign, при нуле — по
@@ -198,14 +211,14 @@ def metrika_sections() -> None:
     """
     token = os.environ.get("YANDEX_METRIKA_TOKEN", "")
     counter = os.environ.get("YANDEX_METRIKA_COUNTER_ID", "")
-    print("\n== Метрика: визиты кампании (с 28.08) ==")
+    print(f"\n== Метрика: визиты кампании «{campaign_name}» (с 28.08) ==")
     if not token or not counter:
         print("(YANDEX_METRIKA_TOKEN/YANDEX_METRIKA_COUNTER_ID не заданы — разделы пропущены)")
         return
 
     flt = None
-    for cand in (f"ym:s:UTMCampaign=='{CAMPAIGN_NAME}'",
-                 f"ym:s:lastDirectClickOrder=='{CAMPAIGN_NAME}'"):
+    for cand in (f"ym:s:UTMCampaign=='{campaign_name}'",
+                 f"ym:s:lastDirectClickOrder=='{campaign_name}'"):
         try:
             data = metrika_stat(counter, token, metrics="ym:s:visits", filters=cand)
         except RuntimeError as e:
@@ -347,7 +360,6 @@ def main() -> None:
         token,
     ).get("Campaigns", [])
     print("== Кампании кабинета ==")
-    target_id = None
     for c in camps:
         funds = c.get("Funds", {})
         fmode = funds.get("Mode")
@@ -358,11 +370,20 @@ def main() -> None:
               f"оплата: {c.get('StatusPayment')} старт: {c.get('StartDate')} "
               f"валюта: {c.get('Currency')} финансы({fmode}): {bal} "
               f"клики(всего/сегодня): {stats.get('Clicks')} показы: {stats.get('Impressions')}")
-        if c["Name"] == CAMPAIGN_NAME:
-            target_id = c["Id"]
-    if target_id is None:
-        raise SystemExit(f"Кампания «{CAMPAIGN_NAME}» не найдена")
+    targets = select_targets(camps)
+    if not targets:
+        raise SystemExit(f"Кампании с префиксом «{CAMPAIGN_PREFIX}» не найдены")
+    for c in targets:
+        print(f"\n#### Кампания «{c['Name']}» ({c['Id']}) ####")
+        collect_campaign(token, c["Id"])
+        try:
+            metrika_sections(c["Name"])
+        except Exception as e:  # раздел вспомогательный, сбор Директа важнее
+            print(f"\n(разделы Метрики упали: {e})")
 
+
+def collect_campaign(token: str, target_id: int) -> None:
+    """Группы, объявления, фразы и отчёты Reports API одной кампании."""
     groups = call(
         "adgroups", "get",
         {"SelectionCriteria": {"CampaignIds": [target_id]},
@@ -472,11 +493,6 @@ def main() -> None:
         "Format": "TSV", "IncludeVAT": "YES",
     })
     print_tsv("Отчёт по элементам объявления (ClickType)", tsv)
-
-    try:
-        metrika_sections()
-    except Exception as e:  # раздел вспомогательный, сбор Директа важнее
-        print(f"\n(разделы Метрики упали: {e})")
 
 
 if __name__ == "__main__":
