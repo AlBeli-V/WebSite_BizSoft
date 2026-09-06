@@ -4,6 +4,7 @@
  * (массовое изменение, привязка к курсу ЦБ).
  */
 import type { Product } from './types';
+import { DEFAULT_MARKUP_COEFF, GIFT_CARD_MARKUP_COEFF } from './types';
 
 export type RoundingRule = 'none' | 'to1' | 'to10' | 'to100' | 'psychological99';
 
@@ -99,6 +100,23 @@ export function pegPriceCoeff(
 }
 
 export interface Rates { usd: number | null; eur: number | null }
+
+/**
+ * Коэффициент наценки по умолчанию для типа товара.
+ *
+ * Стратегия подарочных карт (gift_card) отличается от подписок одним числом:
+ * ×3,00 вместо ×1,85. Формула та же — себестоимость × курс × коэффициент, —
+ * поэтому карты переоцениваются тем же ежедневным механизмом, что и подписки;
+ * отдельной ветки расчёта нет. Явный markup_coeff у товара имеет приоритет.
+ */
+export function defaultMarkupCoeff(p: Pick<Product, 'product_type'> | null | undefined): number {
+  return p?.product_type === 'gift_card' ? GIFT_CARD_MARKUP_COEFF : DEFAULT_MARKUP_COEFF;
+}
+
+/** Действующий коэффициент товара: свой markup_coeff либо значение по типу. */
+export function markupCoeffOf(p: Pick<Product, 'product_type' | 'markup_coeff'>): number {
+  return p.markup_coeff != null && p.markup_coeff > 0 ? p.markup_coeff : defaultMarkupCoeff(p);
+}
 
 /**
  * Вычислить рублёвую цену привязанного к валюте товара по текущим курсам.

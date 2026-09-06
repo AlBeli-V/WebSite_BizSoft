@@ -102,7 +102,36 @@ export interface Product {
   related_products?: (string | { value?: string })[] | null;
   related_solutions?: (string | { value?: string })[] | null;
   price_from?: boolean | null;
+  // ── Тип товара и варианты (подарочные карты) ──
+  /** Тип товара: null/undefined — обычная лицензия или подписка; gift_card —
+   *  цифровая подарочная карта (см. docs/gift-cards.md). */
+  product_type?: ProductType | null;
+  /** Артикул родительской карточки: заполнен у варианта (номинал в регионе),
+   *  пуст у самостоятельного товара и у родителя. Вариант страницы не имеет —
+   *  отдаёт 301 на родителя, в sitemap и фиды не попадает. */
+  parent_sku?: string | null;
+  /** Регион карты (ISO 3166-1 alpha-2: RU, KZ, TR) и его название для витрины. */
+  region_code?: string | null;
+  region_name?: string | null;
+  /** Номинал — сумма, которая зачисляется на баланс аккаунта, и её валюта.
+   *  В расчёте цены не участвует: цена считается от base_price_usd. */
+  denomination?: number | null;
+  denomination_currency?: string | null;
+  /** Подпись варианта для витрины, когда номинал — не сумма в валюте
+   *  (например, «Discord Nitro, 12 месяцев»). Пусто — подпись из номинала. */
+  variant_label?: string | null;
+  /** Наличие кодов: in_stock — есть; limited — ограничено; out_of_stock — нет. */
+  availability?: Availability | null;
 }
+
+export type ProductType = 'gift_card';
+export type Availability = 'in_stock' | 'limited' | 'out_of_stock';
+
+export const AVAILABILITY_LABEL: Record<Availability, string> = {
+  in_stock: 'В наличии',
+  limited: 'Ограниченное количество',
+  out_of_stock: 'Нет в наличии',
+};
 
 /** Нормализовать list-поле Directus ([{value}] или [string]) в string[]. */
 export function listValues(v: unknown): string[] {
@@ -164,6 +193,12 @@ export interface CurrencyRate {
 
 /** Базовый коэффициент наценки по умолчанию. */
 export const DEFAULT_MARKUP_COEFF = 1.85;
+/**
+ * Коэффициент подарочных карт (product_type = gift_card): цена = закупка в USD
+ * × курс ЦБ × 3,00 — то есть 300 % от закупочной стоимости (ровно ×3, а не
+ * «+300 %»). Номинал карты в расчёте не участвует.
+ */
+export const GIFT_CARD_MARKUP_COEFF = 3.0;
 
 /** Позиция корзины на клиенте (localStorage). */
 export interface CartItem {

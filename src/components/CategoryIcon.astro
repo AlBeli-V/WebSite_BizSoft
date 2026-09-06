@@ -20,7 +20,7 @@ const key = `${slug} ${name}`.toLowerCase();
 
 type Icon = 'design' | 'dev' | 'ai' | 'media' | 'collab' | 'office' | 'comm'
   | 'security' | 'os' | 'iam' | 'helpdesk' | 'endpoint' | 'monitoring'
-  | 'pm' | 'database' | 'engineering' | 'architecture' | 'web' | 'default';
+  | 'pm' | 'database' | 'engineering' | 'architecture' | 'web' | 'gift' | 'default';
 
 /**
  * Точное соответствие «слаг раздела → иконка».
@@ -50,6 +50,7 @@ const BY_SLUG: Record<string, Icon> = {
   helpdesk: 'helpdesk',
   endpoint: 'endpoint',
   web: 'web',
+  'gift-cards': 'gift',
   // AI-подкатегории: на /catalog их плитки рисуются по полному слагу (ai-*),
   // на /catalog/ai — по короткому sub (text, code, …) через подбор по словам.
   'ai-text': 'ai',
@@ -114,6 +115,8 @@ const icon = pick();
   {icon === 'architecture' && (<><path d="M2.5 20.5h19"/><path d="M4.5 20.5V9.6L12 4l7.5 5.6v10.9"/><path d="M9.5 20.5V15h5v5.5"/></>)}
   {/* Сайты и хостинг — глобус: сайт компании в вебе. */}
   {icon === 'web' && (<><circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17"/><path d="M12 3.5c2.7 2.6 2.7 14.4 0 17-2.7-2.6-2.7-14.4 0-17Z"/></>)}
+  {/* Подарочные карты — карта с бантом: код пополнения баланса. */}
+  {icon === 'gift' && (<><rect x="2.5" y="8" width="19" height="12" rx="2"/><path d="M2.5 13h19"/><path d="M12 8v12"/><path d="M12 8c-.9-3-4.8-3.6-4.8-1.2S10.6 8 12 8Zm0 0c.9-3 4.8-3.6 4.8-1.2S13.4 8 12 8Z"/></>)}
   {icon === 'default' && (<><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></>)}
 </svg>
 
