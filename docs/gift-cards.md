@@ -16,8 +16,14 @@ iTunes Gift Card для трёх регионов (Россия, Казахст�
   `denomination`, `denomination_currency` (RUB/KZT/TRY), `availability`
   (`in_stock` | `limited` | `out_of_stock`), закупка в `base_price_usd`
   (это и есть cost_usd задания), `markup_coeff = 3.0`.
-- Артикулы: родитель `…-GIFT-CARD`, вариант `…-GIFT-CARD-<регион>-<номинал>`
-  (`APP-STORE-ITUNES-GIFT-CARD-RU-1000`). По этому шаблону `productNoindex()`
+- Вариант без денежного номинала (подписка Discord: тариф и срок) несёт
+  `variant_label` — подпись на витрине; `denomination` тогда — срок в месяцах
+  для сортировки, `denomination_currency = MONTH`.
+- Регион `GLOBAL` — код без привязки к стране; порядок регионов на витрине —
+  `REGION_ORDER` (RU, KZ, TR), остальные после них по алфавиту.
+- Артикулы: родитель `…-GIFT-CARD`, вариант `…-GIFT-CARD-<регион>-<номинал|код>`
+  (`APP-STORE-ITUNES-GIFT-CARD-RU-1000`, `DISCORD-NITRO-GIFT-CARD-GLOBAL-NITRO-12M`).
+  По этому шаблону `productNoindex()`
   закрывает варианты от индексации: в sitemap, фиды и поиск идёт только
   родитель. Страница варианта (`/product/<slug варианта>`) отдаёт 301 на
   родителя с `?sku=<вариант>` — страница открывается с выбранным номиналом,
@@ -53,10 +59,12 @@ iTunes Gift Card для трёх регионов (Россия, Казахст�
 
 ## Как заводить новую карту
 
-1. Пакет `scripts/catalog/<vendor>.json` по образцу `apple.json` — для Apple
-   пакет собирает `node scripts/build-gift-card-package.mjs` из таблицы
-   номиналов и закупок (изменились закупки — правится таблица, пересобирается
-   пакет, дальше штатный импорт).
+1. Запись вендора в таблице `scripts/build-gift-card-package.mjs` (родители,
+   регионы, `[номинал, закупка USD]` или `[срок, закупка, { code, label }]`
+   для подписок) и `node scripts/build-gift-card-package.mjs` — пакет
+   `scripts/catalog/<vendor>.json` собирается из неё (изменились закупки —
+   правится таблица, пересобирается пакет, дальше штатный импорт). Заведены:
+   Apple (RU/KZ/TR), Airalo, Binance (три карты по активу), Discord.
 2. Запись в `VENDORS` (`catSeg: 'gift-cards'`, `domain: 'gift'`),
    `VENDOR_LEGAL`, контент лендинга `scripts/content/<slug>.json`, иконка
    вендора (skill `add-logo-and-icons`).
@@ -68,7 +76,9 @@ iTunes Gift Card для трёх регионов (Россия, Казахст�
 
 1. `ops-directus-schema` (schema-only) — поля `product_type`, `parent_sku`,
    `region_code`, `region_name`, `denomination`, `denomination_currency`,
-   `availability`. До прогона сайт работает: слой `directus.ts` запрашивает
+   `availability`, `variant_label`. Процесс сайта, стартовавший до миграции,
+   запоминает «полей нет» до перезапуска — после схемы нужен редеплой
+   (`deploy` с main вручную). До прогона сайт работает: слой `directus.ts` запрашивает
    их с откатом.
 2. `ops-categories` (`apply=false`, затем `true`) — раздел `gift-cards`.
 3. `ops-import-vendors` (`apply=false`, затем `true`) — 1 родитель + 28
@@ -76,3 +86,31 @@ iTunes Gift Card для трёх регионов (Россия, Казахст�
 4. `ops-apply-descriptions` (`only=app-store-itunes-gift-card`) — мета.
 5. Проверить `/sitemap.xml` (родитель есть, вариантов нет, `/vendors/apple`,
    `/catalog/gift-cards`), затем `ops-yandex-recrawl`.
+
+## Кластер материалов Apple (05.09.2026)
+
+Заведён вне очереди по поручению руководителя после замера спроса
+(`ops-sam-demand`, набор `data/seo/apple-gift-card-probe.json`, отчёт
+`reports/seo/wordstat/apple-gift-card-demand-2026-09-05.*` в `seo-data`).
+Разбор спроса, конкурентов и план — `docs/marketing/apple-gift-card-plan-2026-09.md`.
+
+- Карточка `/product/app-store-itunes-gift-card`: секции «Почему после
+  1 апреля 2026 года нужна именно Gift Card», «Для компании: три сценария»,
+  «Сколько кодов нужно на год подписок» и пять FAQ (`src/data/gift-cards.ts`);
+  мета переписана под спрос («подарочная карта apple» ≫ «apple gift card») в
+  `data/seo/product-descriptions.json` — в прод через `ops-apply-descriptions`.
+- Лендинг `/vendors/apple` (`scripts/content/apple.json`): summary, сценарий
+  «Продление подписок после 1 апреля 2026 года», два FAQ.
+- Статьи (тег «подарочные карты» открывает страницу тега при трёх и более
+  материалах): `kak-popolnit-app-store-v-rossii` (обновлена),
+  `apple-prekratila-priem-platezhey-v-rossii-kak-prodlit-podpiski`,
+  `apple-gift-card-sotrudnikam-podarok-ot-kompanii`,
+  `apple-gift-card-turciya-kazahstan-dlya-kompanii`. Обложки —
+  `scripts/marketing/build-blog-covers.mjs`.
+- Решение `/solutions/podarochnye-karty-sotrudnikam` (`src/data/solutions.ts`),
+  плитки вендоров Apple, Airalo, Discord — `src/data/vendor-solutions.ts`.
+- Директ: две кампании по спецификациям в `seo-data` — `bs-apple-gift-2026-09`
+  (российские аккаунты и подарки, `round3-spec.json`, 4 500 ₽/нед) и
+  `bs-apple-regions-2026-09` (Турция и Казахстан, `round3-regions-spec.json`,
+  500 ₽/нед); расписание из спецификации (`campaign.time_targeting`,
+  ежедневно 9–21 МСК), минус-слова под премиальное позиционирование.

@@ -44,7 +44,7 @@ const COLS = ['sku', 'name', 'vendor', 'origin', 'category', 'license_type',
   'base_price_usd', 'peg_currency', 'markup_coeff', 'price_locked',
   'price', 'price_note', 'vat_percent', 'currency', 'features', 'status', 'sort',
   // Тип товара и варианты подарочных карт (docs/gift-cards.md).
-  'product_type', 'parent_sku', 'region_code', 'region_name', 'denomination', 'denomination_currency', 'availability', 'price_from'];
+  'product_type', 'parent_sku', 'region_code', 'region_name', 'denomination', 'denomination_currency', 'availability', 'variant_label', 'price_from'];
 
 const rows = [];
 for (const f of files) {
@@ -87,6 +87,7 @@ for (const f of files) {
       denomination: p.denomination ?? '',
       denomination_currency: p.denomination_currency || '',
       availability: p.availability || '',
+      variant_label: p.variant_label || '',
       price_from: p.price_from ? 1 : '',
     });
   }

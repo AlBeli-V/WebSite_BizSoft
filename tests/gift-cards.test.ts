@@ -208,6 +208,11 @@ describe('индексная матрица и списки', () => {
     expect(productNoindex(parent.sku)).toBe(false);
     expect(productNoindex('STEAM-GIFT-CARD-RU-1000')).toBe(true);
     expect(productNoindex('STEAM-GIFT-CARD')).toBe(false);
+    // Регион Global и вариант-подписка (код тарифа вместо номинала).
+    expect(productNoindex('DISCORD-NITRO-GIFT-CARD-GLOBAL-NITRO-12M')).toBe(true);
+    expect(productNoindex('BINANCE-USDT-GIFT-CARD-GLOBAL-500')).toBe(true);
+    expect(productNoindex('DISCORD-NITRO-GIFT-CARD')).toBe(false);
+    expect(productNoindex('BINANCE-USDT-GIFT-CARD')).toBe(false);
   });
 
   it('isGiftCard / isVariant / listingProducts', () => {
@@ -239,5 +244,75 @@ describe('разметка и ответ агенту', () => {
     const json = JSON.stringify(full);
     for (const secret of ['base_price', 'markup', 'peg_']) expect(json).not.toContain(secret);
     expect(full.price).toBeGreaterThan(0);
+  });
+});
+
+/**
+ * Общие инварианты всех пакетов подарочных карт (Apple, Airalo, Binance,
+ * Discord): родитель со страницей и ценой «от», варианты — с регионом,
+ * номиналом и закупкой, подпись у не денежных вариантов, мета родителя в
+ * партии описаний, редакторский контент страницы.
+ */
+describe('все пакеты подарочных карт', () => {
+  const dir = resolve(__dirname, '../scripts/catalog');
+  const batch = JSON.parse(readFileSync(resolve(__dirname, '../data/seo/product-descriptions.json'), 'utf8')) as { products: Record<string, unknown> };
+  const packages = ['apple', 'airalo', 'binance', 'discord'].map((slug) => ({
+    slug,
+    pkg: JSON.parse(readFileSync(resolve(dir, `${slug}.json`), 'utf8')) as { vendor_entry: { vendor: string; slug: string }; products: PkgProduct[] },
+  }));
+
+  it('вендоры заведены в VENDORS с разделом gift-cards', () => {
+    for (const { slug, pkg } of packages) {
+      const entry = VENDORS.find((v) => v.slug === slug);
+      expect(entry?.vendor, slug).toBe(pkg.vendor_entry.vendor);
+      expect(entry?.catSeg, slug).toBe('gift-cards');
+      expect(entry?.domain, slug).toBe('gift');
+    }
+  });
+
+  it('родители: страница, цена «от» от минимальной закупки, мета и контент', () => {
+    for (const { slug, pkg } of packages) {
+      const parents = pkg.products.filter((p) => !p.parent_sku);
+      expect(parents.length, slug).toBeGreaterThan(0);
+      for (const parent of parents) {
+        const kids = pkg.products.filter((p) => p.parent_sku === parent.sku);
+        expect(kids.length, parent.sku).toBeGreaterThan(0);
+        expect(parent.sku.endsWith('-GIFT-CARD'), parent.sku).toBe(true);
+        expect(productNoindex(parent.sku), parent.sku).toBe(false);
+        expect(parent.price_from, parent.sku).toBe(true);
+        expect(parent.markup_coeff, parent.sku).toBe(GIFT_CARD_MARKUP_COEFF);
+        expect(parent.base_price_usd, parent.sku).toBe(Math.min(...kids.map((k) => k.base_price_usd!)));
+        expect(GIFT_CARD_CONTENT[parent.slug], `нет контента страницы ${parent.slug}`).toBeTruthy();
+        expect(batch.products[parent.slug], `нет меты ${parent.slug} в product-descriptions.json`).toBeTruthy();
+      }
+    }
+  });
+
+  it('варианты: регион, номинал, закупка, ×3, подпись у подписок, noindex', () => {
+    for (const { slug, pkg } of packages) {
+      for (const v of pkg.products.filter((p) => p.parent_sku)) {
+        expect(v.sku.startsWith(`${v.parent_sku}-${v.region_code}-`), v.sku).toBe(true);
+        expect(productNoindex(v.sku), v.sku).toBe(true);
+        expect(v.region_code, v.sku).toMatch(/^[A-Z]{2,6}$/);
+        expect(String(v.region_name || '').length, v.sku).toBeGreaterThan(2);
+        expect(v.denomination, v.sku).toBeGreaterThan(0);
+        expect(v.base_price_usd, v.sku).toBeGreaterThan(0);
+        expect(v.markup_coeff, v.sku).toBe(GIFT_CARD_MARKUP_COEFF);
+        expect(v.product_type, v.sku).toBe('gift_card');
+        const monetary = /^[A-Z]{3}$/.test(String(v.denomination_currency)) && v.denomination_currency !== 'MON';
+        if (v.denomination_currency === 'MONTH') expect(String((v as { variant_label?: string }).variant_label || '').length, `${v.sku}: подпись подписки`).toBeGreaterThan(5);
+        else expect(monetary, `${v.sku}: валюта номинала ${v.denomination_currency}`).toBe(true);
+      }
+      expect(new Set(pkg.products.map((p) => p.slug)).size, slug).toBe(pkg.products.length);
+    }
+  });
+
+  it('группировка: у Global-карт один регион, номиналы по убыванию, подпись из variant_label', () => {
+    const discord = packages.find((p) => p.slug === 'discord')!.pkg.products.filter((p) => p.parent_sku);
+    const regions = groupGiftCardVariants(discord.map((v) => asProduct(v, { variant_label: (v as { variant_label?: string }).variant_label ?? null })));
+    expect(regions.length).toBe(1);
+    expect(regions[0].code).toBe('GLOBAL');
+    expect(regions[0].variants[0].label).toBe('Discord Nitro, 12 месяцев');
+    expect(regions[0].variants.map((v) => v.denomination)).toEqual([12, 1, 1]);
   });
 });

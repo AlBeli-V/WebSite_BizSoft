@@ -117,6 +117,9 @@ export interface Product {
    *  В расчёте цены не участвует: цена считается от base_price_usd. */
   denomination?: number | null;
   denomination_currency?: string | null;
+  /** Подпись варианта для витрины, когда номинал — не сумма в валюте
+   *  (например, «Discord Nitro, 12 месяцев»). Пусто — подпись из номинала. */
+  variant_label?: string | null;
   /** Наличие кодов: in_stock — есть; limited — ограничено; out_of_stock — нет. */
   availability?: Availability | null;
 }

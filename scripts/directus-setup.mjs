@@ -200,6 +200,7 @@ async function buildSchema() {
   await ensureField('products', 'region_name', { type: 'string', meta: { interface: 'input', width: 'half', note: 'Название региона для витрины: Россия, Казахстан, Турция.' } });
   await ensureField('products', 'denomination', { type: 'float', meta: { interface: 'input', width: 'half', note: 'Номинал — сумма, зачисляемая на баланс аккаунта. В расчёте цены не участвует.' } });
   await ensureField('products', 'denomination_currency', { type: 'string', meta: { interface: 'input', width: 'half', note: 'Валюта номинала: RUB, KZT, TRY.' } });
+  await ensureField('products', 'variant_label', { type: 'string', meta: { interface: 'input', width: 'half', note: 'Подпись варианта на витрине, если номинал — не сумма в валюте (например, «Nitro, 12 месяцев»). Пусто — подпись из номинала.' } });
   await ensureField('products', 'availability', { type: 'string', meta: { interface: 'select-dropdown', width: 'half', options: { choices: [{ text: 'В наличии', value: 'in_stock' }, { text: 'Ограниченное количество', value: 'limited' }, { text: 'Нет в наличии', value: 'out_of_stock' }] }, note: 'Наличие кодов варианта. out_of_stock — вариант показан, но не выбирается.' }, schema: { default_value: 'in_stock' } });
   await ensureField('products', 'markup_percent', { type: 'float', meta: { interface: 'input', note: 'Наценка, %' }, schema: { default_value: 0 } });
   await ensureField('products', 'promo_price', { type: 'float', meta: { interface: 'input', note: 'Акционная цена, ₽' } });

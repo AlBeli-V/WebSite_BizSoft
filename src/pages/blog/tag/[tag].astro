@@ -10,6 +10,7 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import Breadcrumbs from '../../../components/Breadcrumbs.astro';
+import BlogCover from '../../../components/BlogCover.astro';
 import CTASection from '../../../components/CTASection.astro';
 import { collectTags, MIN_BAR_TAG_POSTS } from '../../../lib/blog-tags';
 
@@ -62,8 +63,9 @@ function fmtDate(d: Date) {
       {posts.map((p) => (
         <a href={`/blog/${p.id}`} class="card card-hover post reveal">
           {p.data.cover && (
-            <img class="thumb" src={p.data.cover} alt={p.data.coverAlt || p.data.title}
-                 width="600" height="338" loading="lazy" decoding="async" />
+            <BlogCover cover={p.data.cover} alt={p.data.coverAlt || p.data.title}
+                       class="thumb" width={600} height={338}
+                       sizes="(max-width: 700px) 100vw, 360px" />
           )}
           <div class="tags">{p.data.tags.slice(0, 2).map((t) => <span>{t}</span>)}</div>
           <h2>{p.data.title}</h2>
