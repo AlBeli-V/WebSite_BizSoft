@@ -53,20 +53,13 @@ function calledGoals(): Set<string> {
 }
 
 /**
- * Цели, которые сайт отправляет через data-ev, но в реестре их нет.
+ * Цели механизма data-ev заведены в реестре наравне с trackGoal.
  *
- * Такая цель уходит в счётчик незаведённой: события идут, а в отчёте их
- * не существует. Список зафиксирован как долг 07.09.2026 — он не должен
- * расти. Заводить их в кабинете (seo-goals-sync) — отдельное решение
- * руководителя, поэтому здесь они только перечислены.
+ * До 07.09.2026 их было пятнадцать, и ни одна не значилась в реестре:
+ * события уходили в счётчик незаведёнными, то есть в отчёте их не
+ * существовало. Решение руководителя — завести весь набор; проверка ниже
+ * не даёт появиться новой цели мимо реестра.
  */
-const UNREGISTERED_DATA_EV = [
-  'click_buy_org', 'click_choose_plan', 'click_clarify_price', 'click_compare_app',
-  'click_pick_licenses', 'click_plugins_catalog', 'click_product_card', 'click_related_link',
-  'click_renew', 'click_request_invoice', 'expand_plugins_category', 'open_comparison_table',
-  'quiz_complete', 'quiz_step',
-];
-
 function dataEvGoals(): Set<string> {
   const found = new Set<string>();
   for (const f of walk(resolve(ROOT, 'src'))) {
@@ -80,9 +73,9 @@ function dataEvGoals(): Set<string> {
 describe('реестр целей', () => {
   const called = calledGoals();
 
-  it('незарегистрированных data-ev целей не прибавилось', () => {
+  it('каждая data-ev цель заведена в реестре', () => {
     const unregistered = [...dataEvGoals()].filter((g) => !GOALS[g]).sort();
-    expect(unregistered).toEqual([...UNREGISTERED_DATA_EV].sort());
+    expect(unregistered).toEqual([]);
   });
 
   it('шаги воронки заявки заведены в реестре', () => {

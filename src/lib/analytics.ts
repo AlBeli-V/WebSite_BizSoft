@@ -90,6 +90,39 @@ export const GOALS: Record<string, GoalSpec> = {
   view_solution: { ga4: 'view_item_list', key: false,
     meaning: 'Открыта страница назначения ПО' },
 
+  // ── Клики по лендингам производителей (механизм data-ev) ────────────
+  // Все они отправлялись с 21.08.2026, но в реестре не значились: цель,
+  // не заведённая в кабинете, принимается счётчиком и нигде не видна.
+  // Решение руководителя 07.09.2026 — завести весь набор.
+  click_related_link: { ga4: 'click_related_link', key: false,
+    meaning: 'Переход по связанной ссылке лендинга' },
+  click_product_card: { ga4: 'click_product_card', key: false,
+    meaning: 'Переход в карточку товара с лендинга' },
+  click_choose_plan: { ga4: 'click_choose_plan', key: false,
+    meaning: 'Переход к тарифам на самой странице' },
+  click_clarify_price: { ga4: 'click_clarify_price', key: false,
+    meaning: 'Нажата кнопка «уточнить цену» — открывает форму вопроса' },
+  click_request_invoice: { ga4: 'click_request_invoice', key: false,
+    meaning: 'Нажата кнопка запроса счёта — открывает форму вопроса' },
+  click_renew: { ga4: 'click_renew', key: false,
+    meaning: 'Нажата кнопка продления подписки — открывает форму вопроса' },
+  click_buy_org: { ga4: 'click_buy_org', key: false,
+    meaning: 'Нажата покупка тарифа на организацию — открывает форму вопроса' },
+  click_pick_licenses: { ga4: 'click_pick_licenses', key: false,
+    meaning: 'Переход к подборщику лицензий на странице' },
+  click_plugins_catalog: { ga4: 'click_plugins_catalog', key: false,
+    meaning: 'Переход в каталог из блока плагинов' },
+  expand_plugins_category: { ga4: 'expand_plugins_category', key: false,
+    meaning: 'Раскрыта категория плагинов' },
+  quiz_step: { ga4: 'quiz_step', key: false,
+    meaning: 'Шаг подборщика тарифа пройден' },
+  quiz_complete: { ga4: 'quiz_complete', key: false,
+    meaning: 'Подборщик тарифа доведён до конца — открывает форму вопроса' },
+  click_compare_app: { ga4: 'click_compare_app', key: false,
+    meaning: 'Таблица сравнения приложений показана на экране' },
+  open_comparison_table: { ga4: 'open_comparison_table', key: false,
+    meaning: 'Таблица сравнения тарифов показана на экране' },
+
   // ── Спрос, которого у нас нет ───────────────────────────────────────
   // Поиск по каталогу — единственный канал, где посетитель прямо называет,
   // что ему нужно. Пустая выдача по запросу дороже любого замера частотности:
