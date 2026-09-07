@@ -182,6 +182,18 @@ def print_query_classes(tsv: str | None) -> None:
             print(f"    {cost:.2f} ₽, кликов {cl} — «{q}»")
 
 
+# Названия целей воронки в кабинете Метрики — из meaning реестра
+# src/lib/analytics.ts. Сверка по подстроке: имя в кабинете человеческое
+# («Форма заявки открыта…»), идентификатора цели в нём нет.
+FUNNEL_MARKERS = ("форма заявки открыта", "начато заполнение формы",
+                  "отправлена заявка", "скачано коммерческое предложение")
+
+
+def _funnel_step(name: str) -> bool:
+    low = str(name or "").lower()
+    return any(m in low for m in FUNNEL_MARKERS)
+
+
 def metrika_get(path: str, params: dict, token: str) -> dict:
     url = METRIKA_API + path
     if params:
@@ -319,6 +331,48 @@ def metrika_sections(campaign_name: str) -> None:
         break
     if not shown:
         print("  (посадочные недоступны)")
+
+    # Разрез по устройствам. В отчёте Директа выше есть показы, клики и
+    # цена клика по типам устройства, но нет того, что происходит после
+    # клика. Мобильный клик стоит вдвое дешевле десктопного (9,66 против
+    # 21,97 ₽ на 04.09.2026) — прежде чем считать это резервом, надо
+    # видеть поведение и шаги воронки, а не одну цену.
+    print("\n== Метрика: поведение и воронка по устройствам ==")
+    try:
+        data = metrika_stat(counter, token, dimensions="ym:s:deviceCategory",
+                            metrics=behaviour, filters=flt,
+                            sort="-ym:s:visits", limit=10)
+        rows = data.get("data") or []
+        if not rows:
+            print("  (визитов с кампании по устройствам нет)")
+        for row in rows:
+            name = row["dimensions"][0].get("name") or "(не определено)"
+            v, br, pd, dur = row["metrics"]
+            print(f"  {int(v):>3} виз. | отказы {br:.0f}% | глубина {pd:.2f} | "
+                  f"{dur:.0f} с — {name}")
+    except RuntimeError as e:
+        print(f"  (устройства не прочитаны: {e})")
+
+    # Шаги воронки по устройствам: видно, где именно теряем мобильных.
+    steps = [g for g in goals if _funnel_step(g.get("name", ""))]
+    if steps:
+        for g in steps:
+            try:
+                data = metrika_stat(counter, token, dimensions="ym:s:deviceCategory",
+                                    metrics=f"ym:s:goal{g['id']}reaches",
+                                    filters=flt, limit=10)
+            except RuntimeError as e:
+                print(f"  (цель «{g.get('name')}» по устройствам не прочитана: {e})")
+                continue
+            parts = []
+            for row in data.get("data") or []:
+                dev = row["dimensions"][0].get("name") or "?"
+                val = int(row["metrics"][0])
+                if val:
+                    parts.append(f"{dev} {val}")
+            print(f"  {g.get('name')}: " + (", ".join(parts) if parts else "нет достижений"))
+    else:
+        print("  (целей воронки в счётчике не найдено — проверьте seo-goals-sync)")
 
     # Эксперимент «быстрые ссылки»: их входы помечены utm_content=sl-*.
     print("\n== Метрика: визиты по utm_content (sl-* — быстрые ссылки) ==")
