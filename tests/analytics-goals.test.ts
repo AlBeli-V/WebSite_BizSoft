@@ -38,6 +38,13 @@ function calledGoals(): Set<string> {
   for (const f of walk(resolve(ROOT, 'src'))) {
     if (f.endsWith('/lib/analytics.ts')) continue;
     const src = readFileSync(f, 'utf8');
+    // Цели механизма data-ev пишутся в двойных кавычках и мимо trackGoal(:
+    // сканер по одним лишь одинарным кавычкам их не видел, и цель могла
+    // годами уходить в счётчик, не значась в реестре (так было с
+    // click_get_quote — главным призывом всех лендингов производителей).
+    for (const m of src.matchAll(/data-ev(?:-view)?="([a-z0-9_]+)"/g)) {
+      if (names.includes(m[1])) found.add(m[1]);
+    }
     for (const m of src.matchAll(/'([a-z_]+)'/g)) {
       if (names.includes(m[1])) found.add(m[1]);
     }
@@ -45,8 +52,44 @@ function calledGoals(): Set<string> {
   return found;
 }
 
+/**
+ * Цели, которые сайт отправляет через data-ev, но в реестре их нет.
+ *
+ * Такая цель уходит в счётчик незаведённой: события идут, а в отчёте их
+ * не существует. Список зафиксирован как долг 07.09.2026 — он не должен
+ * расти. Заводить их в кабинете (seo-goals-sync) — отдельное решение
+ * руководителя, поэтому здесь они только перечислены.
+ */
+const UNREGISTERED_DATA_EV = [
+  'click_buy_org', 'click_choose_plan', 'click_clarify_price', 'click_compare_app',
+  'click_pick_licenses', 'click_plugins_catalog', 'click_product_card', 'click_related_link',
+  'click_renew', 'click_request_invoice', 'expand_plugins_category', 'open_comparison_table',
+  'quiz_complete', 'quiz_step',
+];
+
+function dataEvGoals(): Set<string> {
+  const found = new Set<string>();
+  for (const f of walk(resolve(ROOT, 'src'))) {
+    for (const m of readFileSync(f, 'utf8').matchAll(/data-ev(?:-view)?="([a-z0-9_]+)"/g)) {
+      found.add(m[1]);
+    }
+  }
+  return found;
+}
+
 describe('реестр целей', () => {
   const called = calledGoals();
+
+  it('незарегистрированных data-ev целей не прибавилось', () => {
+    const unregistered = [...dataEvGoals()].filter((g) => !GOALS[g]).sort();
+    expect(unregistered).toEqual([...UNREGISTERED_DATA_EV].sort());
+  });
+
+  it('шаги воронки заявки заведены в реестре', () => {
+    for (const g of ['click_get_quote', 'form_open', 'form_start', 'lead_sent']) {
+      expect(GOALS[g], g).toBeTruthy();
+    }
+  });
 
   it('каждая цель из кода описана в реестре', () => {
     const unknown = [...called].filter((g) => !GOALS[g]);
