@@ -392,6 +392,278 @@
       "status": "Active",
       "labels": [],
       "conditions": []
+    },
+    {
+      "id": 609796529,
+      "name": "Форма заявки открыта: модальная — по кнопке, инлайн — показана на экране",
+      "type": "action",
+      "default_price": 0.0,
+      "is_retargeting": 0,
+      "goal_source": "user",
+      "is_favorite": 0,
+      "status": "Active",
+      "labels": [],
+      "conditions": [
+        {
+          "type": "exact",
+          "url": "form_open"
+        }
+      ]
+    },
+    {
+      "id": 609796531,
+      "name": "Клик по кнопке «Получить расчёт и КП» на лендинге",
+      "type": "action",
+      "default_price": 0.0,
+      "is_retargeting": 0,
+      "goal_source": "user",
+      "is_favorite": 0,
+      "status": "Active",
+      "labels": [],
+      "conditions": [
+        {
+          "type": "exact",
+          "url": "click_get_quote"
+        }
+      ]
+    },
+    {
+      "id": 609796533,
+      "name": "Переход по связанной ссылке лендинга",
+      "type": "action",
+      "default_price": 0.0,
+      "is_retargeting": 0,
+      "goal_source": "user",
+      "is_favorite": 0,
+      "status": "Active",
+      "labels": [],
+      "conditions": [
+        {
+          "type": "exact",
+          "url": "click_related_link"
+        }
+      ]
+    },
+    {
+      "id": 609796534,
+      "name": "Переход в карточку товара с лендинга",
+      "type": "action",
+      "default_price": 0.0,
+      "is_retargeting": 0,
+      "goal_source": "user",
+      "is_favorite": 0,
+      "status": "Active",
+      "labels": [],
+      "conditions": [
+        {
+          "type": "exact",
+          "url": "click_product_card"
+        }
+      ]
+    },
+    {
+      "id": 609796561,
+      "name": "Переход к тарифам на самой странице",
+      "type": "action",
+      "default_price": 0.0,
+      "is_retargeting": 0,
+      "goal_source": "user",
+      "is_favorite": 0,
+      "status": "Active",
+      "labels": [],
+      "conditions": [
+        {
+          "type": "exact",
+          "url": "click_choose_plan"
+        }
+      ]
+    },
+    {
+      "id": 609796569,
+      "name": "Нажата кнопка «уточнить цену» — открывает форму вопроса",
+      "type": "action",
+      "default_price": 0.0,
+      "is_retargeting": 0,
+      "goal_source": "user",
+      "is_favorite": 0,
+      "status": "Active",
+      "labels": [],
+      "conditions": [
+        {
+          "type": "exact",
+          "url": "click_clarify_price"
+        }
+      ]
+    },
+    {
+      "id": 609796570,
+      "name": "Нажата кнопка запроса счёта — открывает форму вопроса",
+      "type": "action",
+      "default_price": 0.0,
+      "is_retargeting": 0,
+      "goal_source": "user",
+      "is_favorite": 0,
+      "status": "Active",
+      "labels": [],
+      "conditions": [
+        {
+          "type": "exact",
+          "url": "click_request_invoice"
+        }
+      ]
+    },
+    {
+      "id": 609796571,
+      "name": "Нажата кнопка продления подписки — открывает форму вопроса",
+      "type": "action",
+      "default_price": 0.0,
+      "is_retargeting": 0,
+      "goal_source": "user",
+      "is_favorite": 0,
+      "status": "Active",
+      "labels": [],
+      "conditions": [
+        {
+          "type": "exact",
+          "url": "click_renew"
+        }
+      ]
+    },
+    {
+      "id": 609796572,
+      "name": "Нажата покупка тарифа на организацию — открывает форму вопроса",
+      "type": "action",
+      "default_price": 0.0,
+      "is_retargeting": 0,
+      "goal_source": "user",
+      "is_favorite": 0,
+      "status": "Active",
+      "labels": [],
+      "conditions": [
+        {
+          "type": "exact",
+          "url": "click_buy_org"
+        }
+      ]
+    },
+    {
+      "id": 609796574,
+      "name": "Переход к подборщику лицензий на странице",
+      "type": "action",
+      "default_price": 0.0,
+      "is_retargeting": 0,
+      "goal_source": "user",
+      "is_favorite": 0,
+      "status": "Active",
+      "labels": [],
+      "conditions": [
+        {
+          "type": "exact",
+          "url": "click_pick_licenses"
+        }
+      ]
+    },
+    {
+      "id": 609796575,
+      "name": "Переход в каталог из блока плагинов",
+      "type": "action",
+      "default_price": 0.0,
+      "is_retargeting": 0,
+      "goal_source": "user",
+      "is_favorite": 0,
+      "status": "Active",
+      "labels": [],
+      "conditions": [
+        {
+          "type": "exact",
+          "url": "click_plugins_catalog"
+        }
+      ]
+    },
+    {
+      "id": 609796576,
+      "name": "Раскрыта категория плагинов",
+      "type": "action",
+      "default_price": 0.0,
+      "is_retargeting": 0,
+      "goal_source": "user",
+      "is_favorite": 0,
+      "status": "Active",
+      "labels": [],
+      "conditions": [
+        {
+          "type": "exact",
+          "url": "expand_plugins_category"
+        }
+      ]
+    },
+    {
+      "id": 609796577,
+      "name": "Шаг подборщика тарифа пройден",
+      "type": "action",
+      "default_price": 0.0,
+      "is_retargeting": 0,
+      "goal_source": "user",
+      "is_favorite": 0,
+      "status": "Active",
+      "labels": [],
+      "conditions": [
+        {
+          "type": "exact",
+          "url": "quiz_step"
+        }
+      ]
+    },
+    {
+      "id": 609796578,
+      "name": "Подборщик тарифа доведён до конца — открывает форму вопроса",
+      "type": "action",
+      "default_price": 0.0,
+      "is_retargeting": 0,
+      "goal_source": "user",
+      "is_favorite": 0,
+      "status": "Active",
+      "labels": [],
+      "conditions": [
+        {
+          "type": "exact",
+          "url": "quiz_complete"
+        }
+      ]
+    },
+    {
+      "id": 609796579,
+      "name": "Таблица сравнения приложений показана на экране",
+      "type": "action",
+      "default_price": 0.0,
+      "is_retargeting": 0,
+      "goal_source": "user",
+      "is_favorite": 0,
+      "status": "Active",
+      "labels": [],
+      "conditions": [
+        {
+          "type": "exact",
+          "url": "click_compare_app"
+        }
+      ]
+    },
+    {
+      "id": 609796580,
+      "name": "Таблица сравнения тарифов показана на экране",
+      "type": "action",
+      "default_price": 0.0,
+      "is_retargeting": 0,
+      "goal_source": "user",
+      "is_favorite": 0,
+      "status": "Active",
+      "labels": [],
+      "conditions": [
+        {
+          "type": "exact",
+          "url": "open_comparison_table"
+        }
+      ]
     }
   ],
   "traffic_sources": {
@@ -1072,7 +1344,23 @@
     "600455551": 0.0,
     "600455552": 0.0,
     "600455553": 0.0,
-    "603134154": 0.0
+    "603134154": 0.0,
+    "609796529": 0.0,
+    "609796531": 0.0,
+    "609796533": 0.0,
+    "609796534": 0.0,
+    "609796561": 0.0,
+    "609796569": 0.0,
+    "609796570": 0.0,
+    "609796571": 0.0,
+    "609796572": 0.0,
+    "609796574": 0.0,
+    "609796575": 0.0,
+    "609796576": 0.0,
+    "609796577": 0.0,
+    "609796578": 0.0,
+    "609796579": 0.0,
+    "609796580": 0.0
   },
   "organic_goal_users": {
     "click_messenger": 0.0,

@@ -57,6 +57,7 @@
   "/catalog/ai",
   "/catalog/ai/audio",
   "/catalog/ai/code",
+  "/catalog/ai/enterprise",
   "/catalog/ai/image",
   "/catalog/ai/marketing",
   "/catalog/ai/office",
@@ -79,12 +80,9 @@
   "/catalog/security",
   "/catalog/system",
   "/catalog/vcs",
-  "/compare/claude-vs-gemini",
-  "/compare/cursor-vs-windsurf",
-  "/compare/fl-studio-vs-ableton",
+  "/catalog/web",
   "/compare/gamma-vs-canva",
   "/compare/midjourney-vs-recraft",
-  "/compare/perplexity-vs-chatgpt",
   "/contacts",
   "/documents",
   "/faq",
@@ -107,6 +105,7 @@
   "/product/acronis-cp-standard-3vm",
   "/product/acronis-cp-standard-server",
   "/product/acronis-cp-standard-vhost",
+  "/product/acronis-cp-standard-win-ess",
   "/product/acronis-cp-standard-ws",
   "/product/adobe-acro-pro",
   "/product/adobe-acro-pro-team",
@@ -122,6 +121,7 @@
   "/product/adobe-dw",
   "/product/adobe-express",
   "/product/adobe-express-team",
+  "/product/adobe-ff-enterprise",
   "/product/adobe-ff-teams",
   "/product/adobe-id",
   "/product/adobe-incopy",
@@ -205,18 +205,15 @@
   "/product/cubase-pro",
   "/product/cursor-business",
   "/product/cursor-business-premium",
-  "/product/cursor-enterprise",
   "/product/deepl-advanced",
   "/product/deepl-business",
   "/product/deepl-starter",
   "/product/deposit-pack-100",
-  "/product/deposit-unl-month",
   "/product/deposit-unl-year",
   "/product/design-collab-team",
   "/product/discord-nitro-gift-card",
   "/product/docker-business",
   "/product/docker-pro",
-  "/product/docker-team",
   "/product/dropbox-advanced",
   "/product/dropbox-plus",
   "/product/dropbox-standard",
@@ -269,6 +266,7 @@
   "/product/ghcopilot-business",
   "/product/ghcopilot-enterprise",
   "/product/gitlab-premium-saas",
+  "/product/gitlab-premium-self-managed",
   "/product/grammarly-enterprise",
   "/product/graphics-pro-yearly",
   "/product/hailuo-max",
@@ -300,6 +298,7 @@
   "/product/jb-all-pack-org",
   "/product/jb-clion-org",
   "/product/jb-datagrip-org",
+  "/product/jb-datalore",
   "/product/jb-dotultimate-org",
   "/product/jb-goland-org",
   "/product/jb-idea-ult-org",
@@ -319,7 +318,6 @@
   "/product/kling-premier",
   "/product/kling-pro",
   "/product/kling-standard",
-  "/product/krea-business",
   "/product/krea-pro",
   "/product/lansweeper-pro-2000-9000-devices",
   "/product/lansweeper-starter-2000-devices",
@@ -367,7 +365,6 @@
   "/product/me-datasecurity-plus-professional-nas-server-1-netapp-nutanix-file-server",
   "/product/me-ddi-central-professional-2-dns-clusters-2-dhcp-clusters-3-ntp-servers",
   "/product/me-device-control-plus-professional-100-computers",
-  "/product/me-endpoint-central-professional-10-servers-and-single-user-license",
   "/product/me-endpoint-central-security-10-servers-and-single-user-license",
   "/product/me-endpoint-central-uem-10-servers-and-single-user-license",
   "/product/me-endpoint-dlp-plus-professional-100-workstations",
@@ -376,7 +373,6 @@
   "/product/me-fileanalysis-professional-2-tb",
   "/product/me-firewall-analyzer-professional-1-device-pack-with-2-users",
   "/product/me-firewall-analyzer-standard-1-device-pack-with-2-users",
-  "/product/me-m365-manager-plus-professional-100-users-mailboxes-with-1-help-desk-technic",
   "/product/me-m365-manager-plus-standard-100-users-mailboxes-with-1-help-desk-technic",
   "/product/me-m365-security-plus-standard-100-users-mailboxes-with-1-help-desk-technic",
   "/product/me-mobile-device-manager-plus-msp-professional-single-user-license-with-50-mobile-devices",
@@ -413,11 +409,10 @@
   "/product/me-remote-access-plus-professional-25-computers-and-5-users",
   "/product/me-remote-access-plus-standard-25-computers-and-5-users",
   "/product/me-servicedesk-plus-msp-professional-2-technicians-and-250-it-assets",
-  "/product/me-servicedesk-plus-msp-professional-multi-language-2-technicians-and-250-it-assets",
   "/product/me-servicedesk-plus-msp-standard-10-technicians",
   "/product/me-servicedesk-plus-msp-standard-multi-language-10-technicians",
+  "/product/me-servicedesk-plus-multi-language-professional-servicedesk-plus-multi-lan-2-technicians",
   "/product/me-servicedesk-plus-multi-language-standard-servicedesk-plus-multi-lan-10-technicians",
-  "/product/me-servicedesk-plus-professional-2-technicians",
   "/product/me-sharepoint-manager-plus-professional-1-farm-m365-tenant",
   "/product/me-sharepoint-manager-plus-standard-1-farm-m365-tenant",
   "/product/me-supportcenter-plus-professional-2-support-representatives",
@@ -467,13 +462,13 @@
   "/product/ni-rx-adv",
   "/product/ni-rx-std",
   "/product/notion-business",
-  "/product/notion-enterprise",
   "/product/openai-api",
   "/product/openai-business",
   "/product/openai-enterprise",
   "/product/openai-pro",
   "/product/openrouter-balance",
   "/product/parallels-desktop-business",
+  "/product/parallels-desktop-pro",
   "/product/parallels-desktop-standard-perpetual",
   "/product/parallels-desktop-standard-sub",
   "/product/perplexity-enterprise-max",
@@ -487,6 +482,7 @@
   "/product/postman-solo",
   "/product/prfrc-p4-cloud",
   "/product/prfrc-p4-platform",
+  "/product/prfrc-p4-scale",
   "/product/principle-license",
   "/product/principle-updates",
   "/product/procr-dreams",
@@ -558,11 +554,9 @@
   "/product/ue-sub",
   "/product/unity-ent",
   "/product/unity-pro",
-  "/product/vegas-edit-perp",
   "/product/vegas-edit-sub",
   "/product/vegas-post-sub",
   "/product/vegas-suite-perp",
-  "/product/video-conferencing-business",
   "/product/windsurf-pro",
   "/product/windsurf-teams",
   "/product/winrar-license",
@@ -588,19 +582,11 @@
   "/product/zoom-wp-business-plus",
   "/product/zoom-wp-pro",
   "/solutions",
-  "/solutions/ai-dlya-analitikov",
-  "/solutions/ai-dlya-buhgalterii",
-  "/solutions/ai-dlya-dizainerov",
-  "/solutions/ai-dlya-marketinga",
-  "/solutions/ai-dlya-obrazovaniya",
-  "/solutions/ai-dlya-prodazh",
   "/solutions/ai-dlya-razrabotchikov",
   "/solutions/design-studios",
   "/solutions/inostrannoe-po-po-dogovoru",
   "/solutions/it-companies",
   "/solutions/marketing-agencies",
-  "/solutions/po-dlya-razrabotki-igr",
-  "/solutions/po-dlya-yurlic-po-schetu",
   "/solutions/podarochnye-karty-sotrudnikam",
   "/solutions/uchet-po-i-it-aktivov",
   "/vendors",
@@ -719,9 +705,141 @@
   "/vendors/zoho",
   "/vendors/zoom"
  ],
- "in_search_count": 718,
- "in_search_fetched": 718,
+ "in_search_count": 704,
+ "in_search_fetched": 704,
  "excluded": {
+  "/compare/claude-vs-gemini": {
+   "status": "LOW_QUALITY",
+   "date": "2026-09-07",
+   "bad_http_status": null,
+   "target_url": null
+  },
+  "/compare/cursor-vs-windsurf": {
+   "status": "LOW_QUALITY",
+   "date": "2026-09-07",
+   "bad_http_status": null,
+   "target_url": null
+  },
+  "/compare/fl-studio-vs-ableton": {
+   "status": "LOW_QUALITY",
+   "date": "2026-09-07",
+   "bad_http_status": null,
+   "target_url": null
+  },
+  "/compare/perplexity-vs-chatgpt": {
+   "status": "LOW_QUALITY",
+   "date": "2026-09-07",
+   "bad_http_status": null,
+   "target_url": null
+  },
+  "/product/cursor-enterprise": {
+   "status": "LOW_QUALITY",
+   "date": "2026-09-07",
+   "bad_http_status": null,
+   "target_url": null
+  },
+  "/product/deposit-unl-month": {
+   "status": "LOW_QUALITY",
+   "date": "2026-09-07",
+   "bad_http_status": null,
+   "target_url": null
+  },
+  "/product/docker-team": {
+   "status": "LOW_QUALITY",
+   "date": "2026-09-07",
+   "bad_http_status": null,
+   "target_url": null
+  },
+  "/product/krea-business": {
+   "status": "LOW_QUALITY",
+   "date": "2026-09-07",
+   "bad_http_status": null,
+   "target_url": null
+  },
+  "/product/me-endpoint-central-professional-10-servers-and-single-user-license": {
+   "status": "LOW_QUALITY",
+   "date": "2026-09-07",
+   "bad_http_status": null,
+   "target_url": null
+  },
+  "/product/me-m365-manager-plus-professional-100-users-mailboxes-with-1-help-desk-technic": {
+   "status": "LOW_QUALITY",
+   "date": "2026-09-07",
+   "bad_http_status": null,
+   "target_url": null
+  },
+  "/product/me-servicedesk-plus-msp-professional-multi-language-2-technicians-and-250-it-assets": {
+   "status": "LOW_QUALITY",
+   "date": "2026-09-07",
+   "bad_http_status": null,
+   "target_url": null
+  },
+  "/product/me-servicedesk-plus-professional-2-technicians": {
+   "status": "LOW_QUALITY",
+   "date": "2026-09-07",
+   "bad_http_status": null,
+   "target_url": null
+  },
+  "/product/notion-enterprise": {
+   "status": "LOW_QUALITY",
+   "date": "2026-09-07",
+   "bad_http_status": null,
+   "target_url": null
+  },
+  "/product/vegas-edit-perp": {
+   "status": "LOW_QUALITY",
+   "date": "2026-09-07",
+   "bad_http_status": null,
+   "target_url": null
+  },
+  "/product/video-conferencing-business": {
+   "status": "LOW_QUALITY",
+   "date": "2026-09-07",
+   "bad_http_status": null,
+   "target_url": null
+  },
+  "/solutions/ai-dlya-analitikov": {
+   "status": "LOW_QUALITY",
+   "date": "2026-09-07",
+   "bad_http_status": null,
+   "target_url": null
+  },
+  "/solutions/ai-dlya-buhgalterii": {
+   "status": "LOW_QUALITY",
+   "date": "2026-09-07",
+   "bad_http_status": null,
+   "target_url": null
+  },
+  "/solutions/ai-dlya-dizainerov": {
+   "status": "LOW_QUALITY",
+   "date": "2026-09-07",
+   "bad_http_status": null,
+   "target_url": null
+  },
+  "/solutions/ai-dlya-marketinga": {
+   "status": "LOW_QUALITY",
+   "date": "2026-09-07",
+   "bad_http_status": null,
+   "target_url": null
+  },
+  "/solutions/ai-dlya-obrazovaniya": {
+   "status": "LOW_QUALITY",
+   "date": "2026-09-07",
+   "bad_http_status": null,
+   "target_url": null
+  },
+  "/solutions/ai-dlya-prodazh": {
+   "status": "LOW_QUALITY",
+   "date": "2026-09-07",
+   "bad_http_status": null,
+   "target_url": null
+  },
+  "/solutions/po-dlya-yurlic-po-schetu": {
+   "status": "LOW_QUALITY",
+   "date": "2026-09-07",
+   "bad_http_status": null,
+   "target_url": null
+  },
   "/compare/chatgpt-vs-claude": {
    "status": "LOW_QUALITY",
    "date": "2026-09-06",
@@ -848,7 +966,7 @@
    "bad_http_status": null,
    "target_url": null
   },
-  "/product/rizom-rs-sub": {
+  "/product/zeplin-advanced": {
    "status": "LOW_QUALITY",
    "date": "2026-07-23",
    "bad_http_status": null,
@@ -879,6 +997,6 @@
    "target_url": null
   }
  },
- "events_count": 1500,
- "events_fetched": 1493
+ "events_count": 1530,
+ "events_fetched": 1523
 }
