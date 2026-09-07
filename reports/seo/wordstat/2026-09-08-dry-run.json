@@ -1,0 +1,29 @@
+{
+ "mode": "dry-run",
+ "date": "2026-09-08",
+ "vendors": 109,
+ "seed_phrases": 120,
+ "planned_gettop": 120,
+ "planned_dynamics": 21,
+ "planned_regions": 38,
+ "planned_calls_total": 179,
+ "estimated_cost_rub": 4.72,
+ "budget_utilisation": 0.0009,
+ "runtime_hours_at_current_quota": 0.4,
+ "runtime_hours_at_500": 0.4,
+ "max_possible_spend_rub": 8280.0,
+ "budget_is_binding": true,
+ "today_slots": 450,
+ "today_selected": 179,
+ "today_cost_rub": 4.72,
+ "today_limited_by": "исчерпан список задач",
+ "universe": {
+  "phrases": 24913,
+  "commercial_phrases": 2794,
+  "clusters": 177,
+  "total_commercial_demand": 971409,
+  "total_demand": 51604507,
+  "with_page": 24216,
+  "cost_rub": 6.1456
+ }
+}
