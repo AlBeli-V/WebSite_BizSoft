@@ -16,6 +16,7 @@ import { itemListSchema } from '../../lib/seo';
 import { aiSubcategories, aiFlagships } from '../../data/ai-hub';
 import { comparisons } from '../../data/comparisons';
 import { solutions } from '../../data/solutions';
+import { alternativesForCategory } from '../../data/alternatives';
 import { effectivePrice } from '../../lib/pricing';
 import { textBlocks } from '../../lib/text-blocks';
 import type { Product } from '../../lib/types';
@@ -128,6 +129,12 @@ const hasFilters = Boolean(selVendor || selLicense || selKind || q);
 const isAi = segment === 'ai';
 const aiScenarios = isAi ? solutions.filter((s) => s.slug.startsWith('ai-dlya-')) : [];
 const aiCompare = isAi ? comparisons.slice(0, 6) : [];
+
+// Страницы «Аналоги X» этого раздела. До 08.09.2026 слой /alternatives/*
+// не имел ни одной входящей внутренней ссылки: он существовал только в
+// sitemap, и Googlebot не обошёл ни одну из 7 страниц, хотя все 7 — в поиске
+// Яндекса. Раздел каталога — ближайший тематический донор и сам на глубине 1.
+const altPages = alternativesForCategory(segment!);
 
 // Витрина флагманов: ссылка на карточку, только если товар уже импортирован
 // (проверка в рантайме); иначе — на подкатегорию. Нет 404 до импорта.
@@ -266,6 +273,19 @@ if (isAi) {
           <div class="ai-grid">
             {aiScenarios.map((s) => (
               <a href={`/solutions/${s.slug}`} class="card card-hover ai-link">{s.title} →</a>
+            ))}
+          </div>
+        </div>
+      </section>
+    )}
+
+    {altPages.length > 0 && (
+      <section class="ai-links">
+        <div class="ai-col">
+          <h2>Чем заменить: аналоги</h2>
+          <div class="ai-grid">
+            {altPages.map((a) => (
+              <a href={`/alternatives/${a.slug}`} class="card card-hover ai-link">{a.h1} →</a>
             ))}
           </div>
         </div>

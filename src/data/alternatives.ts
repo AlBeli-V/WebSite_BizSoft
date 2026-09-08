@@ -264,3 +264,19 @@ export const alternativesPages: AlternativesPage[] = [
 export function getAlternatives(slug: string): AlternativesPage | undefined {
   return alternativesPages.find((p) => p.slug === slug);
 }
+
+/**
+ * Страницы «Аналоги X», относящиеся к разделу каталога.
+ *
+ * Нужна для перелинковки: до 08.09.2026 на /alternatives/* не вело ни одной
+ * внутренней ссылки — слой существовал только в sitemap. Разбор покрытия
+ * Google за 08.09.2026 показал последствие: 0 из 7 страниц слоя обойдены
+ * Googlebot, при том что все 7 в поиске Яндекса. Раздел каталога — ближайший
+ * тематический донор: он сам на глубине 1 (меню «Тип» в шапке).
+ *
+ * `slug` раздела совпадает с category.slug записи: для вложенных AI-разделов
+ * это составной путь вида «ai/text».
+ */
+export function alternativesForCategory(categorySlug: string): AlternativesPage[] {
+  return alternativesPages.filter((p) => p.category.slug === categorySlug);
+}

@@ -5,8 +5,31 @@
 
 # gzip — в http-блоке (nginx.conf), здесь только проксирование.
 # Зоны limit_req_zone — тоже в http-блоке: см. deploy/nginx-rate-limit.conf.
+# ── Канонический хост: www → без www (SEO-WWW-001) ──
+# Снимок прода 20.08.2026 (deploy/nginx-biz-soft.conf.prod-2026-08-20)
+# показывает, что редиректа www→без-www на сервере нет вовсе: единственный
+# HTTPS-server слушает оба имени и отдаёт 200 по каждому. Редирект certbot в
+# http-блоке сохраняет хост ("return 301 https://$host$request_uri" при
+# $host = www.biz-soft.pro ведёт на www), то есть весь сайт доступен на двух
+# хостах. В логах прода www-хост встречается с живыми переходами
+# (referrer https://www.biz-soft.pro/vendors/monotype, 05.09.2026).
+#
+# Индексацию это не ломает — canonical на всех страницах абсолютный и
+# указывает на biz-soft.pro, — но обход удваивает: каждый URL существует в
+# двух вариантах. При замеренном темпе Googlebot (490 из 729 путей не
+# скачаны ни разу, 08.09.2026) это самая дешёвая экономия обхода, какая есть.
+#
+# Отдельным server{}: у него свой server_name, поэтому основной блок ниже
+# перестаёт отвечать на www и его правила не меняются ни одной строкой.
+# Сертификат certbot выписан на оба имени, TLS на www продолжает работать.
 server {
-    server_name biz-soft.pro www.biz-soft.pro;
+    server_name www.biz-soft.pro;
+    # Управляется certbot: listen 443 ssl http2 + пути к сертификату.
+    return 301 https://biz-soft.pro$request_uri;
+}
+
+server {
+    server_name biz-soft.pro;
 
     # Управляется certbot:
     # listen 443 ssl http2;
