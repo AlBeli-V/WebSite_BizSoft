@@ -140,19 +140,19 @@
         "*"
       ],
       "root_cause": "RC-2",
-      "recommended_action": "Отдельный server{} с server_name www.biz-soft.pro и 301 на https://biz-soft.pro$request_uri. Подготовлено в deploy/nginx-biz-soft.conf.template; применение — ops-server-config с apply=true, с ветки main, по решению руководителя.",
+      "recommended_action": "Отдельный server{} с server_name www.biz-soft.pro и 301 на https://biz-soft.pro$request_uri. Подготовлено в deploy/nginx-biz-soft.conf.template; решение руководителя получено 08.09.2026: применять сразу после мержа волны 1 через ops-server-config (сначала apply=false — диагностика расхождений, затем apply=true), только с ветки main.",
       "expected_effect": "устраняется удвоение инвентаря для обхода; при дефиците в 2 URL/сутки это самая дешёвая экономия",
       "confidence": 75,
       "effort": "S",
       "risk_google": "LOW",
       "risk_yandex": "LOW",
       "dependencies": [
-        "решение руководителя",
+        "мерж волны 1",
         "ops-server-config apply=true с main"
       ],
       "validation": "после применения: curl -I https://www.biz-soft.pro/vendors/openai → 301 на https://biz-soft.pro/vendors/openai; хост Яндекс.Вебмастера (https:biz-soft.pro:443) не меняется; canonical на страницах уже указывает на biz-soft.pro",
       "rollback_plan": "вернуть прежний конфиг тем же workflow; изменение обратимо одной правкой",
-      "status": "proposed",
+      "status": "approved",
       "ticket": "reports/seo/tasks/GIDX-001-canonical-host.md"
     },
     {
@@ -220,18 +220,18 @@
         "*"
       ],
       "root_cause": "RC-1",
-      "recommended_action": "Добавить sameAs с URL профилей BIZSoft на внешних площадках (Дзен, VC.ru, TenChat и т.д.). Данных в репозитории нет — нужны от руководителя. Выдумывать адреса нельзя.",
+      "recommended_action": "Решение руководителя 08.09.2026: действующих профилей на внешних площадках пока нет, заполнять sameAs нечем — ссылка на несуществующую страницу в разметке хуже её отсутствия. Вес задачи переходит в G-11: внешний авторитет набирается материалами на площадках, а первая же публикация даёт и упоминание, и адрес профиля, то есть разблокирует эту задачу как побочный результат.",
       "expected_effect": "усиление сигнала сущности; действует медленно и вместе с внешними упоминаниями",
       "confidence": 40,
       "effort": "S",
       "risk_google": "LOW",
       "risk_yandex": "LOW",
       "dependencies": [
-        "список профилей от руководителя"
+        "первый профиль BIZSoft на внешней площадке — побочный результат G-11"
       ],
       "validation": "pnpm smoke — Organization остаётся с одним @id; валидатор разметки без ошибок",
       "rollback_plan": "revert",
-      "status": "blocked",
+      "status": "deferred",
       "ticket": "reports/seo/tasks/GIDX-003-entity-sameas.md"
     },
     {
