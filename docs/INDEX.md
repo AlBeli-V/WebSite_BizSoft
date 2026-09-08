@@ -18,7 +18,7 @@ TypeScript strict · Vitest · Python 3 (контуры SEO/разведки/р�
 |---|---|---|---|---|---|
 | Сайт (Astro/Directus) | `src/` (pages, components, lib, data) | Directus/Postgres на проде, вне git | `deploy.yml`, `ci.yml` | `README.md`, `docs/OPERATIONS.md`, `docs/ADMIN-GUIDE.md` | `pnpm test`, `pnpm typecheck`, `pnpm smoke` |
 | Каталог и импорт | `scripts/catalog/*.json`, `scripts/import-vendors.mjs`, `scripts/import-cards.mjs`, `src/data/vendors.ts` | Directus прод; исходники вендоров — `main` | `ops-import-vendors`, `ops-export-products`, `ops-merge-product`, `ops-patch-product`, `ops-rename-product`, `ops-recategorize`, `ops-categories` | `docs/vendors-expansion-prompt.md`, `docs/ai-catalog-import.md` | `tests/catalog-uniqueness.test.ts`, `tests/bulk-import.test.ts` |
-| SEO Growth Intelligence | `scripts/seo/*.py` (collect, snapshot, quality, report_v4, webreport, allocator, loop_health) | ветка `seo-data` → `reports/seo/*` | `seo-data-collect`, `seo-daily-report`, `seo-report-email`, `seo-period-report`, `seo-site-check`, `seo-analytics-check`, `seo-goals-sync`, `seo-publish-web` | `reports/seo/README.md`, `docs/seo/reporting-methodology.md` (721 стр. — по разделу), `docs/seo/goals.md`, `docs/seo/pagespeed-monitor.md` | `python3 -m unittest discover -s scripts/seo/tests` (94 проверки) |
+| SEO Growth Intelligence | `scripts/seo/*.py` (collect, snapshot, quality, report_v4, webreport, allocator, loop_health, money_queries) | ветка `seo-data` → `reports/seo/*` | `seo-data-collect`, `seo-daily-report`, `seo-report-email`, `seo-period-report`, `seo-site-check`, `seo-analytics-check`, `seo-goals-sync`, `seo-publish-web` | `reports/seo/README.md`, `docs/seo/reporting-methodology.md` (721 стр. — по разделу), `docs/seo/goals.md`, `docs/seo/pagespeed-monitor.md` | `python3 -m unittest discover -s scripts/seo/tests` (94 проверки) |
 | Wordstat | `scripts/seo/wordstat/*.py` (run, report, audience) | ветка `seo-data` → `reports/seo/wordstat/` | `seo-wordstat` | `reports/seo/README.md` (раздел 11), `reports/seo/wordstat/decisions.json` — реестр решений по кандидатам | `scripts/seo/tests` (общий набор) |
 | SERP (Яндекс + Google xmlriver) | `scripts/seo/serp_watch.py`, `serp_google.py`, `xmlriver.py`, `serp_analysis.py` | ветка `seo-data` → `reports/seo/serp/` | `seo-serp-watch` — единственный сборщик («один сбор — все потребители») | `docs/seo/serp-google-xmlriver.md` | `scripts/seo/tests` |
 | Конкурентная разведка | `competitive-intelligence/` (discovery, scoring, decision_engine, mailer, `run_daily.py`) | orphan-ветка `competitive-data` | `competitive-intelligence-daily`, `competitive-intelligence-mail` | `docs/competitive/methodology.md` (1313 стр. — по разделу), `docs/competitive/TRIGGER.md` | `python3 -m unittest discover -s competitive-intelligence/tests` |
@@ -43,6 +43,13 @@ TypeScript strict · Vitest · Python 3 (контуры SEO/разведки/р�
 - **Новая статья** — `src/content/blog/<slug>.md`; редполитика — skill
   `bizsoft-content`; формат frontmatter — `README.md`, раздел «Контент по
   календарю».
+- **Отбор кластеров под правку сниппета или контента** — модель
+  `scripts/seo/money_queries.py`: считает недобор переходов, интент, ценность,
+  релевантность посадочной и риск, проверяет форму спроса (всплеск / затухание) и
+  занятость кластера идущими экспериментами — и по реестру `seo-data`, и по
+  выкаченным сниппетам в `src/data/seo-experiments.ts`. Результат — бэклог
+  `reports/seo/yandex-money-backlog.json`, разбор —
+  `reports/seo/yandex-money-growth-plan.md`.
 - **Правка меты карточки** — только через `data/seo/product-descriptions.json`
   + workflow `ops-apply-descriptions` (правило CLAUDE.md «уникальные title и
   description»), руками в Directus не редактировать.
