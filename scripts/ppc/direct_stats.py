@@ -214,6 +214,31 @@ def metrika_stat(counter: str, token: str, **params) -> dict:
     return metrika_get("stat/v1/data", base, token)
 
 
+def metrika_site_pulse() -> None:
+    """Визиты всего сайта по дням — жив ли счётчик как таковой.
+
+    Замер 08.09.2026: Директ отчитался о 24 кликах за 07.09, а визитов
+    кампании в Метрике за этот день не оказалось ни одного — ни под своей
+    меткой, ни под чужой. Разрезы по кампании этого не различают: они
+    молчат и когда трафик не дошёл, и когда счётчик перестал писать
+    вообще. Общий пульс сайта разводит эти случаи первым же взглядом.
+    """
+    token = os.environ.get("YANDEX_METRIKA_TOKEN", "")
+    counter = os.environ.get("YANDEX_METRIKA_COUNTER_ID", "")
+    print("\n== Метрика: пульс счётчика (весь сайт, визиты по дням) ==")
+    if not token or not counter:
+        print("  (токен или счётчик не заданы — раздел пропущен)")
+        return
+    try:
+        data = metrika_stat(counter, token, dimensions="ym:s:date",
+                            metrics="ym:s:visits", sort="-ym:s:date", limit=10)
+        rows = [(r["dimensions"][0].get("name") or "?", int(r["metrics"][0]))
+                for r in (data.get("data") or [])]
+        print("  " + (", ".join(f"{d} — {v}" for d, v in rows) if rows else "нет строк"))
+    except RuntimeError as e:
+        print(f"  (пульс не прочитан: {e})")
+
+
 def metrika_sections(campaign_name: str) -> None:
     """Конверсии по целям и поведение визитов кампании (данные Метрики).
 
@@ -451,6 +476,8 @@ def main() -> None:
               f"оплата: {c.get('StatusPayment')} старт: {c.get('StartDate')} "
               f"валюта: {c.get('Currency')} финансы({fmode}): {bal} "
               f"клики(всего/сегодня): {stats.get('Clicks')} показы: {stats.get('Impressions')}")
+    metrika_site_pulse()
+
     targets = select_targets(camps)
     if not targets:
         raise SystemExit(f"Кампании с префиксом «{CAMPAIGN_PREFIX}» не найдены")
