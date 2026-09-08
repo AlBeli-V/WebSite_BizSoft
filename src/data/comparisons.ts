@@ -14,6 +14,14 @@ export interface CompareSide {
 
 export interface Comparison {
   slug: string;
+  /**
+   * Дата последнего содержательного изменения записи — источник lastmod в
+   * sitemap. Проставляется при правке записи; даты задним числом не
+   * выдумываются. Первичное заполнение 08.09.2026 снято из истории git
+   * (git log -L по строкам записи), поэтому каждая дата отражает реальную
+   * правку, а не дату файла.
+   */
+  updated: string;
   metaTitle: string;
   metaDescription: string;
   h1: string;
@@ -35,6 +43,7 @@ const CAT = '/catalog/ai';
 export const comparisons: Comparison[] = [
   {
     slug: 'chatgpt-vs-claude',
+    updated: "2026-09-04",
     metaTitle: 'ChatGPT Business vs Claude Team: что выбрать бизнесу',
     metaDescription: 'Сравнение ChatGPT Business и Claude Team для команд: тарифы, годовая цена, безопасность, места. Оформление на юрлицо по счёту, закрывающие через ЭДО.',
     h1: 'ChatGPT Business vs Claude Team',
@@ -58,6 +67,7 @@ export const comparisons: Comparison[] = [
   },
   {
     slug: 'claude-vs-gemini',
+    updated: "2026-09-04",
     metaTitle: 'Claude Team vs Google Gemini for Workspace: сравнение',
     metaDescription: 'Claude Team или Gemini for Workspace для бизнеса: контекст, интеграция с офисом, безопасность, цена за год. Оформление на юрлицо по счёту.',
     h1: 'Claude Team vs Google Gemini for Workspace',
@@ -80,6 +90,7 @@ export const comparisons: Comparison[] = [
   },
   {
     slug: 'cursor-vs-copilot',
+    updated: "2026-08-19",
     metaTitle: 'Cursor Business vs GitHub Copilot Business: что выбрать',
     metaDescription: 'Cursor Business или GitHub Copilot Business для команды разработки: возможности, безопасность, цена за год, SSO. Оформление на юрлицо по счёту.',
     h1: 'Cursor Business vs GitHub Copilot Business',
@@ -103,6 +114,7 @@ export const comparisons: Comparison[] = [
   },
   {
     slug: 'midjourney-vs-firefly',
+    updated: "2026-08-18",
     metaTitle: 'Midjourney vs Adobe Firefly: сравнение для бизнеса',
     metaDescription: 'Midjourney или Adobe Firefly для команды: качество генерации, коммерческая безопасность, интеграции, лицензии. Оформление на юрлицо по счёту.',
     h1: 'Midjourney vs Adobe Firefly',
@@ -126,6 +138,7 @@ export const comparisons: Comparison[] = [
   },
   {
     slug: 'perplexity-vs-chatgpt',
+    updated: "2026-08-19",
     metaTitle: 'Perplexity Enterprise vs ChatGPT Business: сравнение',
     metaDescription: 'Perplexity Enterprise Pro или ChatGPT Business: поиск с источниками vs универсальный ассистент. Цена за год, безопасность, оформление на юрлицо.',
     h1: 'Perplexity Enterprise vs ChatGPT Business',
@@ -148,6 +161,7 @@ export const comparisons: Comparison[] = [
   },
   {
     slug: 'copilot-vs-gemini',
+    updated: "2026-08-19",
     metaTitle: 'Microsoft 365 Copilot vs Gemini for Workspace',
     metaDescription: 'Microsoft 365 Copilot или Google Gemini for Workspace: AI в офисе. Цена за год, интеграции, безопасность. Оформление на юрлицо по счёту.',
     h1: 'Microsoft 365 Copilot vs Gemini for Workspace',
@@ -170,6 +184,7 @@ export const comparisons: Comparison[] = [
   },
   {
     slug: 'chatgpt-vs-gemini',
+    updated: "2026-08-19",
     metaTitle: 'ChatGPT Business vs Gemini for Workspace: сравнение',
     metaDescription: 'ChatGPT Business или Gemini for Workspace для бизнеса: универсальный ассистент vs AI в офисе Google. Цена за год, оформление на юрлицо.',
     h1: 'ChatGPT Business vs Gemini for Workspace',
@@ -191,6 +206,7 @@ export const comparisons: Comparison[] = [
   },
   {
     slug: 'runway-vs-heygen',
+    updated: "2026-08-18",
     metaTitle: 'Runway vs HeyGen: сравнение AI-видео для бизнеса',
     metaDescription: 'Runway или HeyGen: генеративное видео vs AI-аватары и озвучка. Тарифы, места, коммерческое использование. Оформление на юрлицо по счёту.',
     h1: 'Runway vs HeyGen',
@@ -213,6 +229,7 @@ export const comparisons: Comparison[] = [
   },
   {
     slug: 'grammarly-vs-jasper',
+    updated: "2026-08-19",
     metaTitle: 'Grammarly Business vs Jasper: сравнение для маркетинга',
     metaDescription: 'Grammarly Business или Jasper: помощник письма vs платформа маркетингового контента. Цена за год, безопасность. Оформление на юрлицо по счёту.',
     h1: 'Grammarly Business vs Jasper',
@@ -234,6 +251,7 @@ export const comparisons: Comparison[] = [
   },
   {
     slug: 'elevenlabs-vs-descript',
+    updated: "2026-08-18",
     metaTitle: 'ElevenLabs vs Descript: сравнение AI-аудио',
     metaDescription: 'ElevenLabs или Descript: синтез голоса vs редактирование подкастов и видео. Тарифы, места, коммерческое использование. Оформление на юрлицо.',
     h1: 'ElevenLabs vs Descript',
@@ -256,6 +274,7 @@ export const comparisons: Comparison[] = [
   },
   {
     slug: 'midjourney-vs-recraft',
+    updated: "2026-08-18",
     metaTitle: 'Midjourney vs Recraft: сравнение генерации изображений',
     metaDescription: 'Midjourney или Recraft: художественная генерация vs брендовый дизайн и вектор. Тарифы, команды, права. Оформление на юрлицо по счёту.',
     h1: 'Midjourney vs Recraft',
@@ -278,6 +297,7 @@ export const comparisons: Comparison[] = [
   },
   {
     slug: 'notion-vs-chatgpt',
+    updated: "2026-08-19",
     metaTitle: 'Notion AI vs ChatGPT Business: сравнение',
     metaDescription: 'Notion AI или ChatGPT Business: AI в базе знаний vs универсальный ассистент. Цена за год, безопасность. Оформление на юрлицо по счёту.',
     h1: 'Notion AI vs ChatGPT Business',
@@ -299,6 +319,7 @@ export const comparisons: Comparison[] = [
   },
   {
     slug: 'gamma-vs-canva',
+    updated: "2026-08-18",
     metaTitle: 'Gamma vs Canva AI: сравнение для презентаций и дизайна',
     metaDescription: 'Gamma или Canva AI: AI-презентации vs визуальный дизайн-редактор. Тарифы, команды, брендинг. Оформление на юрлицо по счёту.',
     h1: 'Gamma vs Canva AI',
@@ -321,6 +342,7 @@ export const comparisons: Comparison[] = [
   },
   {
     slug: 'firefly-vs-canva',
+    updated: "2026-08-29",
     metaTitle: 'Adobe Firefly vs Canva AI: сравнение',
     metaDescription: 'Adobe Firefly или Canva AI: генеративный AI Adobe vs дизайн-платформа с Magic Studio. Коммерческая безопасность, команды. Оформление на юрлицо.',
     h1: 'Adobe Firefly vs Canva AI',
@@ -344,6 +366,7 @@ export const comparisons: Comparison[] = [
   // ─── Партия этапа 1 (29.08.2026): сравнения по измеренным кластерам спроса ───
   {
     slug: 'cursor-vs-windsurf',
+    updated: "2026-08-29",
     metaTitle: 'Cursor vs Windsurf: какой AI-редактор выбрать команде',
     metaDescription: 'Сравнение Cursor и Windsurf для команд разработки: агент Cascade, режимы приватности, командные тарифы. Оформление на юрлицо по счёту, закрывающие через ЭДО.',
     h1: 'Cursor vs Windsurf',
@@ -367,6 +390,7 @@ export const comparisons: Comparison[] = [
   },
   {
     slug: 'chatgpt-vs-grok',
+    updated: "2026-08-29",
     metaTitle: 'ChatGPT vs Grok: что выбрать компании',
     metaDescription: 'Сравнение ChatGPT и Grok (xAI) для бизнеса: экосистема инструментов против данных реального времени. Оформление подписок на юрлицо по счёту, закрывающие через ЭДО.',
     h1: 'ChatGPT vs Grok',
@@ -389,6 +413,7 @@ export const comparisons: Comparison[] = [
   },
   {
     slug: 'kimi-vs-chatgpt',
+    updated: "2026-08-29",
     metaTitle: 'Kimi vs ChatGPT: экономичная альтернатива для компании',
     metaDescription: 'Сравнение Kimi (Moonshot AI) и ChatGPT для бизнеса: стоимость владения, длинный контекст, экосистема. Оформление подписок на юрлицо по счёту, закрывающие через ЭДО.',
     h1: 'Kimi vs ChatGPT',
@@ -411,6 +436,7 @@ export const comparisons: Comparison[] = [
   },
   {
     slug: 'fl-studio-vs-ableton',
+    updated: "2026-08-29",
     metaTitle: 'FL Studio vs Ableton Live: какую DAW выбрать',
     metaDescription: 'Сравнение FL Studio и Ableton Live для студий: модель лицензий, сценарии, редакции и цены. Оформление покупки на юрлицо по счёту, закрывающие через ЭДО.',
     h1: 'FL Studio vs Ableton Live',

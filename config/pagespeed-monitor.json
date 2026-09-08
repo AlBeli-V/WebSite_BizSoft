@@ -101,7 +101,9 @@
       "performance_warning": 5,
       "performance_critical": 10,
       "lcp_warning_pct": 20,
-      "cls_warning_abs": 0.05
+      "cls_warning_abs": 0.05,
+      "lcp_floor_ms": 2000,
+      "cls_floor": 0.1
     },
     "confirm_run": {
       "performance_drop": 5,
