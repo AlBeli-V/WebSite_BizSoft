@@ -168,5 +168,30 @@ class TestBuild(Base):
             self.assertEqual(c["google_index_state"], "не измерялась")
 
 
+    def test_crawl_queue_skips_indexed_and_ranks_by_load(self):
+        """В очередь на обход попадает только то, чего нет в индексе Google,
+        и вперёд идёт страница, которая тянет больше запросов."""
+        a = self.m.build(self.dir, DATE)
+        index = {"/blog/kak-oplatit-framer-dlya-yurlica": "Discovered - currently not indexed",
+                 "/vendors/artlist": "Submitted and indexed"}
+        q = self.m.crawl_queue(a, self.dir, DATE, index)
+        paths = [i["path"] for i in q["items"]]
+        self.assertIn("/blog/kak-oplatit-framer-dlya-yurlica", paths)
+        self.assertNotIn("/vendors/artlist", paths)
+        self.assertEqual(q["total_candidates"], 1)
+        top = q["items"][0]
+        self.assertEqual(top["url"], "https://biz-soft.pro/blog/kak-oplatit-framer-dlya-yurlica")
+        self.assertEqual(top["best_yandex_position"], 2)
+
+    def test_crawl_queue_without_index_data_keeps_everything(self):
+        """Нет данных о покрытии — ни одна страница не объявляется
+        проиндексированной: очередь содержит всех кандидатов разрыва."""
+        a = self.m.build(self.dir, DATE)
+        q = self.m.crawl_queue(a, self.dir, DATE, {})
+        self.assertEqual(q["total_candidates"], 2)
+        for i in q["items"]:
+            self.assertEqual(i["google_index_state"], "не измерялась")
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -1,0 +1,496 @@
+{
+ "schema_version": "1.0.0",
+ "generated_for": "2026-09-08",
+ "as_of_google": "2026-09-07",
+ "as_of_yandex": "2026-09-08",
+ "purpose": "Очередь на запрос обхода в Search Console: страницы, которые держат топ-10 Яндекса по коммерческим запросам ядра и отсутствуют в индексе Google.",
+ "method": "разрыв между системами по одному ядру × покрытие индекса (scripts/seo/index_coverage.py)",
+ "note": "Запрос обхода делается вручную и имеет собственные ограничения площадки. Он не заменяет внутренние ссылки: страница без входящих ссылок с индексируемых страниц возвращается в «Discovered» после обхода.",
+ "total_candidates": 39,
+ "items": [
+  {
+   "url": "https://biz-soft.pro/blog/kak-oplatit-framer-dlya-yurlica",
+   "path": "/blog/kak-oplatit-framer-dlya-yurlica",
+   "google_index_state": "Discovered - currently not indexed",
+   "yandex_top10_queries": 32,
+   "best_yandex_position": 2,
+   "weakness_avg": 31.0,
+   "clusters": [
+    "framer"
+   ],
+   "priority_score": 41.92,
+   "sample_queries": [
+    "framer basic оплата россия",
+    "framer mini оплата рф",
+    "framer pro оплата из россии"
+   ]
+  },
+  {
+   "url": "https://biz-soft.pro/blog/gitlab-godovaya-podpiska-iz-rossii-dlya-yurlica",
+   "path": "/blog/gitlab-godovaya-podpiska-iz-rossii-dlya-yurlica",
+   "google_index_state": "Discovered - currently not indexed",
+   "yandex_top10_queries": 29,
+   "best_yandex_position": 2,
+   "weakness_avg": 26.7,
+   "clusters": [
+    "gitlab"
+   ],
+   "priority_score": 36.73,
+   "sample_queries": [
+    "gitlab bronze оплата россия",
+    "gitlab enterprise оплата из россии",
+    "gitlab gold оплата из россии"
+   ]
+  },
+  {
+   "url": "https://biz-soft.pro/vendors/capture-one",
+   "path": "/vendors/capture-one",
+   "google_index_state": "Discovered - currently not indexed",
+   "yandex_top10_queries": 12,
+   "best_yandex_position": 1,
+   "weakness_avg": 31.1,
+   "clusters": [
+    "capture-one"
+   ],
+   "priority_score": 15.73,
+   "sample_queries": [
+    "capture one для россиян оплата",
+    "capture оплата one лицом юридическим",
+    "как оплатить capture one"
+   ]
+  },
+  {
+   "url": "https://biz-soft.pro/blog/kak-poluchit-schet-i-zakryvayushchie-ot-atlassian",
+   "path": "/blog/kak-poluchit-schet-i-zakryvayushchie-ot-atlassian",
+   "google_index_state": "Discovered - currently not indexed",
+   "yandex_top10_queries": 14,
+   "best_yandex_position": 1,
+   "weakness_avg": 11.1,
+   "clusters": [
+    "atlassian",
+    "zoho"
+   ],
+   "priority_score": 15.56,
+   "sample_queries": [
+    "atlassian jira оплата из россии",
+    "jira standard оплата рф",
+    "jira не проходит оплата"
+   ]
+  },
+  {
+   "url": "https://biz-soft.pro/blog/kak-oplatit-postman-dlya-yurlica",
+   "path": "/blog/kak-oplatit-postman-dlya-yurlica",
+   "google_index_state": "Discovered - currently not indexed",
+   "yandex_top10_queries": 10,
+   "best_yandex_position": 1,
+   "weakness_avg": 18.5,
+   "clusters": [
+    "postman"
+   ],
+   "priority_score": 11.85,
+   "sample_queries": [
+    "postman оплата подписки",
+    "postman оплата юридическим лицом",
+    "москва postman оплата подписки"
+   ]
+  },
+  {
+   "url": "https://biz-soft.pro/blog/kak-oplatit-envato-elements-dlya-yurlica",
+   "path": "/blog/kak-oplatit-envato-elements-dlya-yurlica",
+   "google_index_state": "Discovered - currently not indexed",
+   "yandex_top10_queries": 8,
+   "best_yandex_position": 1,
+   "weakness_avg": 25.4,
+   "clusters": [
+    "envato"
+   ],
+   "priority_score": 10.03,
+   "sample_queries": [
+    "envato elements гайд оплата",
+    "envato elements как оплатить с рф",
+    "envato elements оплата помощь россия"
+   ]
+  },
+  {
+   "url": "https://biz-soft.pro/blog/tarify-runway-oplata-dlya-yurlica",
+   "path": "/blog/tarify-runway-oplata-dlya-yurlica",
+   "google_index_state": "Discovered - currently not indexed",
+   "yandex_top10_queries": 6,
+   "best_yandex_position": 5,
+   "weakness_avg": 33.7,
+   "clusters": [
+    "runway"
+   ],
+   "priority_score": 8.02,
+   "sample_queries": [
+    "runway standard оплата из россии",
+    "runway оплата ежемесячно из россии",
+    "runway тарифы habr.com"
+   ]
+  },
+  {
+   "url": "https://biz-soft.pro/vendors/perplexity",
+   "path": "/vendors/perplexity",
+   "google_index_state": "Discovered - currently not indexed",
+   "yandex_top10_queries": 5,
+   "best_yandex_position": 2,
+   "weakness_avg": 22.2,
+   "clusters": [
+    "perplexity"
+   ],
+   "priority_score": 6.11,
+   "sample_queries": [
+    "enterprise perplexity купить",
+    "perplexity enterprise pro купить",
+    "perplexity enterprise купить"
+   ]
+  },
+  {
+   "url": "https://biz-soft.pro/vendors/gitlab",
+   "path": "/vendors/gitlab",
+   "google_index_state": "URL is unknown to Google",
+   "yandex_top10_queries": 4,
+   "best_yandex_position": 6,
+   "weakness_avg": 14.5,
+   "clusters": [
+    "gitlab"
+   ],
+   "priority_score": 4.58,
+   "sample_queries": [
+    "gitlab купить",
+    "gitlab купить подписку россия",
+    "gitlab месячная подписка россия"
+   ]
+  },
+  {
+   "url": "https://biz-soft.pro/product/ghcopilot-business",
+   "path": "/product/ghcopilot-business",
+   "google_index_state": "Discovered - currently not indexed",
+   "yandex_top10_queries": 3,
+   "best_yandex_position": 2,
+   "weakness_avg": 28.3,
+   "clusters": [
+    "github"
+   ],
+   "priority_score": 3.85,
+   "sample_queries": [
+    "github business купить",
+    "github copilot business купить",
+    "купить подписку github copilot business"
+   ]
+  },
+  {
+   "url": "https://biz-soft.pro/blog/kupit-leonardo-ai-yuridicheskim-licom",
+   "path": "/blog/kupit-leonardo-ai-yuridicheskim-licom",
+   "google_index_state": "Discovered - currently not indexed",
+   "yandex_top10_queries": 3,
+   "best_yandex_position": 4,
+   "weakness_avg": 28.0,
+   "clusters": [
+    "leonardo-ai"
+   ],
+   "priority_score": 3.84,
+   "sample_queries": [
+    "leonardo apprentice оплата из россии",
+    "leonardo artisan оплата рф",
+    "leonardo maestro оплата россия"
+   ]
+  },
+  {
+   "url": "https://biz-soft.pro/vendors/anthropic",
+   "path": "/vendors/anthropic",
+   "google_index_state": "Discovered - currently not indexed",
+   "yandex_top10_queries": 3,
+   "best_yandex_position": 3,
+   "weakness_avg": 27.7,
+   "clusters": [
+    "anthropic"
+   ],
+   "priority_score": 3.83,
+   "sample_queries": [
+    "claude enterprise купить",
+    "планы тарифные anthropic для бизнеса",
+    "тарифные планы anthropic для бизнеса"
+   ]
+  },
+  {
+   "url": "https://biz-soft.pro/blog/kak-oplatit-coreldraw-dlya-yurlica",
+   "path": "/blog/kak-oplatit-coreldraw-dlya-yurlica",
+   "google_index_state": "Discovered - currently not indexed",
+   "yandex_top10_queries": 3,
+   "best_yandex_position": 2,
+   "weakness_avg": 22.3,
+   "clusters": [
+    "coreldraw"
+   ],
+   "priority_score": 3.67,
+   "sample_queries": [
+    "оплата coreldraw по счету из россии",
+    "оплата корел дро из россии",
+    "оплатить coreldraw без иностранной карты"
+   ]
+  },
+  {
+   "url": "https://biz-soft.pro/vendors/atlassian",
+   "path": "/vendors/atlassian",
+   "google_index_state": "URL is unknown to Google",
+   "yandex_top10_queries": 3,
+   "best_yandex_position": 2,
+   "weakness_avg": 7.3,
+   "clusters": [
+    "atlassian"
+   ],
+   "priority_score": 3.22,
+   "sample_queries": [
+    "jira premium оплата из россии",
+    "корпоративные лицензии atlassian",
+    "мск корпоративные лицензии atlassian"
+   ]
+  },
+  {
+   "url": "https://biz-soft.pro/blog/korporativnye-plany-cloudflare-dlya-kompanij-iz-rf",
+   "path": "/blog/korporativnye-plany-cloudflare-dlya-kompanij-iz-rf",
+   "google_index_state": "Discovered - currently not indexed",
+   "yandex_top10_queries": 2,
+   "best_yandex_position": 8,
+   "weakness_avg": 42.0,
+   "clusters": [
+    "cloudflare"
+   ],
+   "priority_score": 2.84,
+   "sample_queries": [
+    "как оплатить cloudflare pro из россии",
+    "как оплатить корпоративные подписки из россии sostav"
+   ]
+  },
+  {
+   "url": "https://biz-soft.pro/vendors/leonardo-ai",
+   "path": "/vendors/leonardo-ai",
+   "google_index_state": "Discovered - currently not indexed",
+   "yandex_top10_queries": 2,
+   "best_yandex_position": 1,
+   "weakness_avg": 33.0,
+   "clusters": [
+    "leonardo-ai"
+   ],
+   "priority_score": 2.66,
+   "sample_queries": [
+    "ai купить leonardo юридическим лицом",
+    "купить leonardo ai юридическим лицом"
+   ]
+  },
+  {
+   "url": "https://biz-soft.pro/vendors/hailuo",
+   "path": "/vendors/hailuo",
+   "google_index_state": "Discovered - currently not indexed",
+   "yandex_top10_queries": 2,
+   "best_yandex_position": 7,
+   "weakness_avg": 31.0,
+   "clusters": [],
+   "priority_score": 2.62,
+   "sample_queries": [
+    "как купить hailuo ai из россии",
+    "купить аккаунт hailuo ai"
+   ]
+  },
+  {
+   "url": "https://biz-soft.pro/product/anthropic-team",
+   "path": "/product/anthropic-team",
+   "google_index_state": "Discovered - currently not indexed",
+   "yandex_top10_queries": 2,
+   "best_yandex_position": 4,
+   "weakness_avg": 29.5,
+   "clusters": [
+    "anthropic"
+   ],
+   "priority_score": 2.59,
+   "sample_queries": [
+    "claude team plan купить",
+    "купить claude team"
+   ]
+  },
+  {
+   "url": "https://biz-soft.pro/blog/kak-kupit-github-copilot-dlya-yurlica",
+   "path": "/blog/kak-kupit-github-copilot-dlya-yurlica",
+   "google_index_state": "Discovered - currently not indexed",
+   "yandex_top10_queries": 2,
+   "best_yandex_position": 2,
+   "weakness_avg": 16.5,
+   "clusters": [
+    "github"
+   ],
+   "priority_score": 2.33,
+   "sample_queries": [
+    "github copilot business оплата из россии",
+    "github copilot оплата рублями"
+   ]
+  },
+  {
+   "url": "https://biz-soft.pro/blog/kak-kupit-perplexity-dlya-yurlica",
+   "path": "/blog/kak-kupit-perplexity-dlya-yurlica",
+   "google_index_state": "Discovered - currently not indexed",
+   "yandex_top10_queries": 2,
+   "best_yandex_position": 2,
+   "weakness_avg": 14.5,
+   "clusters": [
+    "perplexity"
+   ],
+   "priority_score": 2.29,
+   "sample_queries": [
+    "perplexity купить max юридическим лицом",
+    "купить perplexity max юридическим лицом"
+   ]
+  },
+  {
+   "url": "https://biz-soft.pro/vendors/postman",
+   "path": "/vendors/postman",
+   "google_index_state": "URL is unknown to Google",
+   "yandex_top10_queries": 2,
+   "best_yandex_position": 7,
+   "weakness_avg": 5.0,
+   "clusters": [
+    "postman"
+   ],
+   "priority_score": 2.1,
+   "sample_queries": [
+    "postman лицензия",
+    "купить подписку postman"
+   ]
+  },
+  {
+   "url": "https://biz-soft.pro/vendors/cursor",
+   "path": "/vendors/cursor",
+   "google_index_state": "Discovered - currently not indexed",
+   "yandex_top10_queries": 1,
+   "best_yandex_position": 4,
+   "weakness_avg": 64.0,
+   "clusters": [
+    "cursor"
+   ],
+   "priority_score": 1.64,
+   "sample_queries": [
+    "купить cursor pro юридическим лицом"
+   ]
+  },
+  {
+   "url": "https://biz-soft.pro/blog/elevenlabs-tarify-oplata-dlya-yurlica",
+   "path": "/blog/elevenlabs-tarify-oplata-dlya-yurlica",
+   "google_index_state": "Discovered - currently not indexed",
+   "yandex_top10_queries": 1,
+   "best_yandex_position": 9,
+   "weakness_avg": 61.0,
+   "clusters": [
+    "elevenlabs"
+   ],
+   "priority_score": 1.61,
+   "sample_queries": [
+    "elevenlabs тарифы www.klerk.ru"
+   ]
+  },
+  {
+   "url": "https://biz-soft.pro/blog/kak-kupit-windsurf-iz-rossii-dlya-yurlica",
+   "path": "/blog/kak-kupit-windsurf-iz-rossii-dlya-yurlica",
+   "google_index_state": "Discovered - currently not indexed",
+   "yandex_top10_queries": 1,
+   "best_yandex_position": 2,
+   "weakness_avg": 52.0,
+   "clusters": [
+    "windsurf"
+   ],
+   "priority_score": 1.52,
+   "sample_queries": [
+    "оплата windsurf юридическим лицом"
+   ]
+  },
+  {
+   "url": "https://biz-soft.pro/vendors/openrouter",
+   "path": "/vendors/openrouter",
+   "google_index_state": "Discovered - currently not indexed",
+   "yandex_top10_queries": 1,
+   "best_yandex_position": 3,
+   "weakness_avg": 46.0,
+   "clusters": [
+    "openrouter"
+   ],
+   "priority_score": 1.46,
+   "sample_queries": [
+    "оплата openrouter юридическим лицом"
+   ]
+  },
+  {
+   "url": "https://biz-soft.pro/vendors/windsurf",
+   "path": "/vendors/windsurf",
+   "google_index_state": "Discovered - currently not indexed",
+   "yandex_top10_queries": 1,
+   "best_yandex_position": 10,
+   "weakness_avg": 44.0,
+   "clusters": [
+    "windsurf"
+   ],
+   "priority_score": 1.44,
+   "sample_queries": [
+    "купить аккаунт windsurf"
+   ]
+  },
+  {
+   "url": "https://biz-soft.pro/blog/kak-oplatit-box-business-iz-rossii",
+   "path": "/blog/kak-oplatit-box-business-iz-rossii",
+   "google_index_state": "Discovered - currently not indexed",
+   "yandex_top10_queries": 1,
+   "best_yandex_position": 7,
+   "weakness_avg": 41.0,
+   "clusters": [
+    "box"
+   ],
+   "priority_score": 1.41,
+   "sample_queries": [
+    "оплатить бокс"
+   ]
+  },
+  {
+   "url": "https://biz-soft.pro/blog/kak-kupit-recraft-dlya-yurlica",
+   "path": "/blog/kak-kupit-recraft-dlya-yurlica",
+   "google_index_state": "URL is unknown to Google",
+   "yandex_top10_queries": 1,
+   "best_yandex_position": 2,
+   "weakness_avg": 40.0,
+   "clusters": [
+    "recraft"
+   ],
+   "priority_score": 1.4,
+   "sample_queries": [
+    "корпоративная оплата recraft"
+   ]
+  },
+  {
+   "url": "https://biz-soft.pro/product/adobe-ae",
+   "path": "/product/adobe-ae",
+   "google_index_state": "URL is unknown to Google",
+   "yandex_top10_queries": 1,
+   "best_yandex_position": 3,
+   "weakness_avg": 35.0,
+   "clusters": [
+    "adobe"
+   ],
+   "priority_score": 1.35,
+   "sample_queries": [
+    "купить after effects юридическим лицом"
+   ]
+  },
+  {
+   "url": "https://biz-soft.pro/vendors/google",
+   "path": "/vendors/google",
+   "google_index_state": "URL is unknown to Google",
+   "yandex_top10_queries": 1,
+   "best_yandex_position": 1,
+   "weakness_avg": 30.0,
+   "clusters": [
+    "google"
+   ],
+   "priority_score": 1.3,
+   "sample_queries": [
+    "купить gemini юридическим лицом"
+   ]
+  }
+ ]
+}

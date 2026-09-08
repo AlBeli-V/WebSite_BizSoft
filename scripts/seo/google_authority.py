@@ -749,6 +749,73 @@ def content_map(analysis: dict, serp_dir: pathlib.Path, date_s: str,
         "clusters": out,
     }
 
+
+def crawl_queue(analysis: dict, serp_dir: pathlib.Path, date_s: str,
+                index_state: dict[str, str], limit: int = 30) -> dict:
+    """Очередь на запрос обхода: страницы, которые держат топ-10 Яндекса и
+    отсутствуют в индексе Google.
+
+    Приоритет — число удерживаемых запросов, взвешенное слабостью выдачи:
+    страница, которая тянет тридцать запросов по слабым выдачам, стоит
+    обхода раньше, чем страница с одним запросом по сильной.
+    """
+    y = load_slice(serp_dir, date_s, "-serp.jsonl", 7)
+    ymap = {" ".join(r["query"].lower().split()): r
+            for r in (y or {}).get("rows", [])
+            if (r.get("region") or "213") == "213"}
+
+    agg: dict[str, dict] = {}
+    for i in analysis["items"]:
+        if not i["gap"]:
+            continue
+        row = ymap.get(" ".join(i["query"].lower().split()))
+        path = _our_url_path((row or {}).get("top") or [])
+        if not path:
+            continue
+        state = index_state.get(path, "не измерялась")
+        if state == "Submitted and indexed":
+            continue
+        e = agg.setdefault(path, {"queries": [], "weakness": [], "clusters": set(),
+                                  "best_yandex": 99, "state": state})
+        e["queries"].append(i["query"])
+        e["weakness"].append(i["weakness"])
+        if i["vendor"]:
+            e["clusters"].add(i["vendor"])
+        e["best_yandex"] = min(e["best_yandex"], i["yandex_position"] or 99)
+
+    items = []
+    for path, e in agg.items():
+        weak = sum(e["weakness"]) / len(e["weakness"])
+        items.append({
+            "url": f"https://{OUR_DOMAIN}{path}",
+            "path": path,
+            "google_index_state": e["state"],
+            "yandex_top10_queries": len(e["queries"]),
+            "best_yandex_position": e["best_yandex"],
+            "weakness_avg": round(weak, 1),
+            "clusters": sorted(e["clusters"]),
+            "priority_score": round(len(e["queries"]) * (1 + weak / 100), 2),
+            "sample_queries": sorted(e["queries"])[:3],
+        })
+    items.sort(key=lambda r: -r["priority_score"])
+    return {
+        "schema_version": "1.0.0",
+        "generated_for": analysis["generated_for"],
+        "as_of_google": analysis["as_of_google"],
+        "as_of_yandex": analysis["as_of_yandex"],
+        "purpose": ("Очередь на запрос обхода в Search Console: страницы, которые "
+                    "держат топ-10 Яндекса по коммерческим запросам ядра и "
+                    "отсутствуют в индексе Google."),
+        "method": ("разрыв между системами по одному ядру × покрытие индекса "
+                   "(scripts/seo/index_coverage.py)"),
+        "note": ("Запрос обхода делается вручную и имеет собственные ограничения "
+                 "площадки. Он не заменяет внутренние ссылки: страница без "
+                 "входящих ссылок с индексируемых страниц возвращается в "
+                 "«Discovered» после обхода."),
+        "total_candidates": len(items),
+        "items": items[:limit],
+    }
+
 # ─────────────────────────────── артефакты ─────────────────────────────────
 
 def write_link_gap_csv(analysis: dict, path: pathlib.Path) -> None:
@@ -770,18 +837,24 @@ def main() -> None:
     ap.add_argument("--index-dir", default="reports/seo/data")
     ap.add_argument("--out-dir", default="reports/seo")
     ap.add_argument("--date", default=dt.date.today().isoformat())
+    ap.add_argument("--stamp", action="store_true",
+                    help="префикс с датой в именах файлов (для архива в seo-data)")
     a = ap.parse_args()
     serp_dir = pathlib.Path(a.serp_dir)
     analysis = build(serp_dir, a.date)
     idx = load_index_state(pathlib.Path(a.index_dir), a.date)
     cmap = content_map(analysis, serp_dir, a.date, idx)
+    queue = crawl_queue(analysis, serp_dir, a.date, idx)
     out = pathlib.Path(a.out_dir)
     out.mkdir(parents=True, exist_ok=True)
-    (out / "google-serp-authority.json").write_text(
+    prefix = f"{a.date}-" if a.stamp else ""
+    (out / f"{prefix}google-serp-authority.json").write_text(
         json.dumps(analysis, ensure_ascii=False, indent=1), encoding="utf-8")
-    (out / "google-content-map.json").write_text(
+    (out / f"{prefix}google-content-map.json").write_text(
         json.dumps(cmap, ensure_ascii=False, indent=1), encoding="utf-8")
-    write_link_gap_csv(analysis, out / "google-link-gap.csv")
+    (out / f"{prefix}google-crawl-queue.json").write_text(
+        json.dumps(queue, ensure_ascii=False, indent=1), encoding="utf-8")
+    write_link_gap_csv(analysis, out / f"{prefix}google-link-gap.csv")
     print(json.dumps({k: v for k, v in analysis.items()
                       if k not in ("items", "link_gap", "hubs")},
                      ensure_ascii=False, indent=1))
