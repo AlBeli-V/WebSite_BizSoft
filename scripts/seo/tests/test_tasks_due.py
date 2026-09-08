@@ -112,13 +112,21 @@ class TestRealTickets(unittest.TestCase):
         rows = td.collect(TASKS)
         self.assertTrue(all(r["id"] and r["title"] for r in rows))
 
-    def test_аудит_видит_тикеты_соседних_контуров(self):
-        # 08.09.2026 соседняя ветка завела семь тикетов GIDX-*, у которых
-        # момент запуска записан прозой («через 7 дней после деплоя»). Слой
-        # созревания их не покажет; аудит обязан.
-        ids = {r["id"] for r in td.unmanaged(td.collect(TASKS))}
-        self.assertTrue(any(i.startswith("GIDX-") for i in ids),
-                        "аудит не видит тикеты без даты из соседних контуров")
+    def test_аудит_на_реальной_папке_согласован(self):
+        # Первая версия этой проверки требовала, чтобы в аудите были тикеты
+        # GIDX: их завели 08.09 без дат, и аудит их находил. Через час
+        # соседний контур проставил даты всем семи — и проверка упала, хотя
+        # произошло ровно то, ради чего аудит и сделан. Утверждать состояние
+        # чужих файлов нельзя: поведение аудита проверяется на фикстурах
+        # (TestUnmanaged), а здесь — только его согласованность с папкой.
+        rows = td.collect(TASKS)
+        audited = td.unmanaged(rows)
+        for r in audited:
+            self.assertTrue(r["status_open"], f"{r['id']}: тикет закрыт")
+            self.assertIsNone(r["due"], f"{r['id']}: у тикета есть дата")
+        # Тикет со сроком в аудит попасть не может ни при каком составе папки.
+        dated = {r["id"] for r in rows if r["due"]}
+        self.assertEqual(dated & {r["id"] for r in audited}, set())
 
 
 if __name__ == "__main__":
