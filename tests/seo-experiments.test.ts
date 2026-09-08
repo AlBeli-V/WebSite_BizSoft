@@ -21,6 +21,16 @@ const EXP_4 = ['artlist', 'motion-array', 'coreldraw'];
 // руководителя. Формула та же — иначе тиражируется не то, что оценивалось.
 const EXP_5 = ['google', 'microsoft', 'github', 'unity', 'docker', 'runway',
   'solidworks', 'acronis', 'unreal-engine', 'perplexity'];
+// «money-a1-query-phrase» (08.09.2026): партия Money Query Opportunity Model.
+// Формула та же, что у EXP_4 (формулировка кластера идёт первой), но фраза у
+// каждой страницы своя — кластеры спрашивают разное. Zoom входит в ту же
+// партию, но живёт в bespoke-странице src/pages/vendors/zoom.astro и в этот
+// реестр не попадает.
+const EXP_6 = ['capture-one', 'freepik'];
+const EXP_6_PHRASE: Record<string, string> = {
+  'capture-one': 'оплата capture one юридическим лицом',
+  freepik: 'оплата magnific ai юридическим лицом',
+};
 // Запросная формула каждой страницы EXP_4: она обязана стоять в title,
 // description, заголовке блока вопросов и в первом вопросе — в этом и есть
 // вся правка, поэтому проверяется явно, а не по общему шаблону.
@@ -37,19 +47,24 @@ const EXP_2R_VENDOR: Record<string, string> = {
 };
 // Группы с общей коммерческой формулой title/description.
 const COMMERCIAL = [...EXP_1, ...EXP_2, ...EXP_3, ...EXP_5];
-const SLUGS = [...COMMERCIAL, ...EXP_4, ...EXP_2R];
+const SLUGS = [...COMMERCIAL, ...EXP_4, ...EXP_2R, ...EXP_6];
 
 describe('SEO-эксперименты на vendor-страницах', () => {
   it('все группы на месте, пересечений нет — иначе метрики смешаются', () => {
     expect(Object.keys(SEO_EXPERIMENTS).sort()).toEqual([...SLUGS].sort());
-    expect(SEO_EXPERIMENT_LINKS.map((l) => l.slug).sort()).toEqual([...SLUGS].sort());
+    // EXP_6 намеренно без ссылок с / и /catalog: внутренняя перелинковка —
+    // фактор ранжирования, и вместе со сниппетом она сделала бы вывод
+    // партии неразделимым. Ссылки заводятся отдельной записью, если
+    // руководитель решит проверять их эффект.
+    expect(SEO_EXPERIMENT_LINKS.map((l) => l.slug).sort())
+      .toEqual([...COMMERCIAL, ...EXP_4, ...EXP_2R].sort());
     expect(EXP_1.filter((s) => EXP_2.includes(s))).toEqual([]);
     expect(SLUGS.filter((s) => EXP_4.includes(s) && COMMERCIAL.includes(s))).toEqual([]);
     expect(SLUGS.filter((s) => EXP_2R.includes(s) && (COMMERCIAL.includes(s) || EXP_4.includes(s)))).toEqual([]);
   });
 
-  it('контрольная группа не затронута: правок ровно 24 vendor-страницы', () => {
-    expect(Object.keys(SEO_EXPERIMENTS)).toHaveLength(24);
+  it('контрольная группа не затронута: правок ровно 26 vendor-страниц', () => {
+    expect(Object.keys(SEO_EXPERIMENTS)).toHaveLength(26);
   });
 
   it('бренд в title ровно один раз, до 65 символов без учёта «| BIZSoft»', () => {
@@ -132,6 +147,30 @@ describe('SEO-эксперименты на vendor-страницах', () => {
       expect(description).toMatch(head);
       expect(faqTitle.toLowerCase()).toBe(phrase);
       expect(`${faqAdd![0].q} ${faqAdd![0].a}`).toMatch(head);
+    }
+  });
+
+  it('money-a1: формулировка кластера первой, bespoke-FAQ сохранён', () => {
+    for (const s of EXP_6) {
+      const { title, description, faqTitle, faq, faqAdd } = SEO_EXPERIMENTS[s];
+      expect(description.length).toBeLessThanOrEqual(160);
+      expect(faq).toBeUndefined();
+      expect(faqAdd!.length).toBeGreaterThanOrEqual(1);
+      // Ключевые слова кластера обязаны быть и в заголовке, и в описании:
+      // в этом вся правка. Строка целиком не сверяется — у Capture One
+      // заголовок ведёт формулировкой про продление без карты, которой
+      // спрашивает половина кластера.
+      const words = EXP_6_PHRASE[s].split(' ').filter((w) => w !== 'юридическим' && w !== 'лицом');
+      const head = new RegExp(words.join('\\s+'), 'i');
+      expect(title).toMatch(head);
+      expect(description).toMatch(head);
+      expect(faqTitle).toMatch(/^Оплата /);
+      const [{ a }] = faqAdd!;
+      expect(a).toMatch(/сч[её]т/i);
+      expect(a).toMatch(/договор/i);
+      expect(a).toMatch(/ЭДО/);
+      expect(a).toMatch(/1–3/);
+      expect(a).toMatch(/курсу ЦБ/);
     }
   });
 
