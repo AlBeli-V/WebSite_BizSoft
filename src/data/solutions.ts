@@ -1,6 +1,14 @@
 /** Данные посадочных страниц под задачи/отрасли (/solutions/[industry]). */
 export interface Solution {
   slug: string;
+  /**
+   * Дата последнего содержательного изменения записи — источник lastmod в
+   * sitemap. Проставляется при правке записи; даты задним числом не
+   * выдумываются. Первичное заполнение 08.09.2026 снято из истории git
+   * (git log -L по строкам записи), поэтому каждая дата отражает реальную
+   * правку, а не дату файла.
+   */
+  updated: string;
   title: string;
   metaTitle: string;
   metaDescription: string;
@@ -24,6 +32,7 @@ export const solutions: Solution[] = [
   // массового спроса. Замер: reports/seo/wordstat/apple-gift-card-demand-2026-09-05.
   {
     slug: 'podarochnye-karty-sotrudnikam',
+    updated: "2026-09-05",
     title: 'Подарочные карты сотрудникам по счёту',
     metaTitle: 'Подарочные карты сотрудникам от компании — по счёту, ЭДО',
     metaDescription: 'Цифровые подарочные карты сотрудникам и партнёрам: Apple Gift Card, ваучеры Airalo, Discord Nitro. На юрлицо по счёту, закрывающие через ЭДО, код в день оплаты.',
@@ -66,6 +75,7 @@ export const solutions: Solution[] = [
   // До 20.08.2026 эти три адреса отдавали заглушку «в подготовке» с noindex.
   {
     slug: 'po-dlya-yurlic-po-schetu',
+    updated: "2026-09-03",
     title: 'ПО для юрлиц по счёту',
     metaTitle: 'Оплата ПО для юрлиц по счёту — договор, счёт, ЭДО',
     metaDescription: 'Оплатим лицензии и подписки на ПО за вашу компанию. Договор, счёт в рублях, закрывающие документы через ЭДО, доступ за 1–3 дня.',
@@ -95,6 +105,7 @@ export const solutions: Solution[] = [
   },
   {
     slug: 'inostrannoe-po-po-dogovoru',
+    updated: "2026-09-03",
     title: 'Иностранное ПО по договору',
     metaTitle: 'Иностранное ПО по договору для российских компаний',
     metaDescription: 'Зарубежные лицензии и подписки для российских юрлиц по договору: счёт в рублях, закрывающие через ЭДО, доступ за 1–3 дня.',
@@ -124,6 +135,7 @@ export const solutions: Solution[] = [
   },
   {
     slug: 'ai-servisy-dlya-biznesa',
+    updated: "2026-09-03",
     title: 'AI-сервисы для бизнеса',
     metaTitle: 'AI-сервисы для бизнеса: оплата на юрлицо по счёту',
     metaDescription: 'ChatGPT, Claude, Gemini, Copilot и другие AI-сервисы для компаний. Договор, счёт в рублях, закрывающие через ЭДО.',
@@ -175,6 +187,7 @@ export const solutions: Solution[] = [
   },
   {
     slug: 'design-studios',
+    updated: "2026-09-03",
     title: 'ПО для дизайн-студий и креативных команд',
     metaTitle: 'ПО для дизайн-студий: лицензии по договору',
     metaDescription: 'Графические редакторы и AI-инструменты для дизайн-студий по договору и счёту, с закрывающими документами через ЭДО.',
@@ -200,6 +213,7 @@ export const solutions: Solution[] = [
   },
   {
     slug: 'it-companies',
+    updated: "2026-09-03",
     title: 'ПО и AI-инструменты для IT-компаний',
     metaTitle: 'ПО для IT-компаний: инструменты разработки по договору',
     metaDescription: 'Инструменты разработки и AI-ассистенты для кода для IT-компаний РФ по договору и счёту, закрывающие документы через ЭДО.',
@@ -225,6 +239,7 @@ export const solutions: Solution[] = [
   },
   {
     slug: 'marketing-agencies',
+    updated: "2026-09-03",
     title: 'ПО для маркетинговых агентств',
     metaTitle: 'ПО для маркетинговых агентств: AI и связь по договору',
     metaDescription: 'AI-сервисы для контента, графика и видеоконференцсвязь для маркетинговых агентств по договору и счёту, ЭДО.',
@@ -252,6 +267,7 @@ export const solutions: Solution[] = [
   // ── AI-сценарии (см. docs/ai-catalog-redesign.md, Этап 7) ──
   {
     slug: 'ai-dlya-razrabotchikov',
+    updated: "2026-07-05",
     title: 'AI для разработчиков',
     metaTitle: 'AI для разработчиков: Copilot, Cursor, Claude по счёту',
     metaDescription: 'AI-ассистенты для команд разработки — GitHub Copilot, Cursor, Claude — для юрлиц РФ по договору и счёту, закрывающие через ЭДО.',
@@ -274,6 +290,7 @@ export const solutions: Solution[] = [
   },
   {
     slug: 'ai-dlya-biznesa',
+    updated: "2026-07-05",
     title: 'AI для бизнеса',
     metaTitle: 'AI для бизнеса: ChatGPT, Copilot, Gemini по счёту',
     metaDescription: 'Корпоративные AI-ассистенты — ChatGPT Business, Microsoft 365 Copilot, Gemini for Workspace, Notion AI — для юрлиц по договору и счёту.',
@@ -296,6 +313,7 @@ export const solutions: Solution[] = [
   },
   {
     slug: 'ai-dlya-marketinga',
+    updated: "2026-09-03",
     title: 'AI для маркетинга',
     metaTitle: 'AI для маркетинга: тексты, визуалы, видео на юрлицо',
     metaDescription: 'Как собрать набор AI-сервисов для отдела маркетинга: Jasper, Grammarly, Canva, Midjourney, Runway, HeyGen, ElevenLabs. Оформление на юрлицо по счёту, ЭДО.',
@@ -348,6 +366,7 @@ export const solutions: Solution[] = [
   },
   {
     slug: 'ai-dlya-prodazh',
+    updated: "2026-07-05",
     title: 'AI для продаж',
     metaTitle: 'AI для продаж: ChatGPT, Grammarly, Gamma, Perplexity',
     metaDescription: 'AI для отделов продаж — ChatGPT Business, Grammarly Business, Gamma, Perplexity — для юрлиц по договору и счёту, закрывающие через ЭДО.',
@@ -370,6 +389,7 @@ export const solutions: Solution[] = [
   },
   {
     slug: 'ai-dlya-obrazovaniya',
+    updated: "2026-07-05",
     title: 'AI для образования',
     metaTitle: 'AI для образования: ChatGPT, Claude, Gamma по счёту',
     metaDescription: 'AI для образовательных организаций — ChatGPT Business, Claude Team, Gamma, ElevenLabs — по договору и счёту, закрывающие через ЭДО.',
@@ -392,6 +412,7 @@ export const solutions: Solution[] = [
   },
   {
     slug: 'ai-dlya-dizainerov',
+    updated: "2026-07-05",
     title: 'AI для дизайнеров',
     metaTitle: 'AI для дизайнеров: Midjourney, Firefly, Recraft, Canva',
     metaDescription: 'AI для дизайн-команд — Midjourney, Adobe Firefly, Recraft, Canva AI — для юрлиц по договору и счёту, закрывающие через ЭДО.',
@@ -414,6 +435,7 @@ export const solutions: Solution[] = [
   },
   {
     slug: 'ai-dlya-analitikov',
+    updated: "2026-07-05",
     title: 'AI для аналитиков',
     metaTitle: 'AI для аналитиков: Perplexity, ChatGPT, Claude, Gemini',
     metaDescription: 'AI для аналитики и ресёрча — Perplexity Enterprise, ChatGPT Business, Claude Team, Gemini — для юрлиц по договору и счёту.',
@@ -436,6 +458,7 @@ export const solutions: Solution[] = [
   },
   {
     slug: 'ai-dlya-yuristov',
+    updated: "2026-07-05",
     title: 'AI для юристов',
     metaTitle: 'AI для юристов: Claude, ChatGPT, Perplexity Enterprise',
     metaDescription: 'AI для юридических команд — Claude Enterprise, ChatGPT Enterprise, Perplexity Enterprise — с SOC 2/SSO, по договору и счёту для юрлиц.',
@@ -458,6 +481,7 @@ export const solutions: Solution[] = [
   },
   {
     slug: 'ai-dlya-buhgalterii',
+    updated: "2026-09-01",
     title: 'AI для бухгалтерии',
     metaTitle: 'AI для бухгалтерии: Microsoft 365 Copilot, ChatGPT',
     metaDescription: 'AI для финансовых и бухгалтерских команд — Microsoft 365 Copilot, ChatGPT Business, Notion AI — для юрлиц по договору и счёту.',
@@ -484,6 +508,7 @@ export const solutions: Solution[] = [
   // собирает пласт в одну точку входа, не ломая категории по назначению.
   {
     slug: 'po-dlya-razrabotki-igr',
+    updated: "2026-09-02",
     title: 'ПО для разработки игр',
     metaTitle: 'ПО для разработки игр — лицензии для студий на юрлицо',
     metaDescription: 'Unity, Unreal Engine, Houdini, Wwise, FMOD, Photon и другие инструменты геймдева для российских студий: договор, счёт в рублях, ЭДО.',
@@ -519,6 +544,7 @@ export const solutions: Solution[] = [
   // страница построена вокруг инвентаризации, а не вокруг слова SAM.
   {
     slug: 'uchet-po-i-it-aktivov',
+    updated: "2026-09-02",
     title: 'Учёт ИТ-активов и лицензий',
     metaTitle: 'Учёт ИТ-активов и лицензий: системы инвентаризации',
     metaDescription: 'Системы инвентаризации компьютеров и учёта лицензий ManageEngine: обнаружение техники и ПО, CMDB, договоры. Договор, счёт в рублях, ЭДО.',
