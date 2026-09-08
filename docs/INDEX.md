@@ -29,7 +29,7 @@ TypeScript strict · Vitest · Python 3 (контуры SEO/разведки/р�
 | Визуальный слой отчётов (KPI-kit) | `scripts/viz/kpi_kit.py` (плитки, светофор, линии, теплокарта, малые кратные, таблицы-дашборды; email-варианты) | — | входит в `seo-daily-report`, `competitive-intelligence-daily` | `docs/rules/kpi-kit.md`, витрина `docs/design/kpi-dashboards/` | `scripts/seo/tests/test_kpi_kit.py` |
 | Письма | `scripts/seo/report_v4.py`, `committee.py`; `competitive-intelligence/mailer/*` | ветки `seo-data` / `competitive-data` | `seo-report-email`, `seo-committee-build`+`seo-committee-email`, `competitive-intelligence-mail`, `ops-send-mail`, `ops-mail` | `reports/seo/README.md` | `uxlint_v4.py`, `contentcheck.py` (в конвейере отчёта) |
 | Бэкапы/DR | `scripts/ops/backup.sh` | снапшоты на сервере `/opt/bizsoft` | `ops-backup` | `docs/DR-RUNBOOK.md`, `docs/OPERATIONS.md` | — |
-| Операционные прогоны | — (детерминированные workflow, без сессий Claude/Routine) | — | `seo-daily-report`, `competitive-intelligence-daily`, `seo-committee-build`; кросс-запуск между workflow — `scripts/ops/gh_dispatch_wait.sh` | заголовки этих workflow объясняют, какую Routine они заменили | — |
+| Операционные прогоны | — (детерминированные workflow, без сессий Claude/Routine) | — | `seo-daily-report`, `competitive-intelligence-daily`, `seo-committee-build`, `seo-tasks-due`; кросс-запуск между workflow — `scripts/ops/gh_dispatch_wait.sh` | заголовки этих workflow объясняют, какую Routine они заменили | — |
 
 ## Где что искать
 
@@ -50,6 +50,11 @@ TypeScript strict · Vitest · Python 3 (контуры SEO/разведки/р�
   выкаченным сниппетам в `src/data/seo-experiments.ts`. Результат — бэклог
   `reports/seo/yandex-money-backlog.json`, разбор —
   `reports/seo/yandex-money-growth-plan.md`.
+- **Очередь работ и сроки** — тикеты `reports/seo/tasks/*.md`. У тикета,
+  который нельзя делать сразу, в заголовке стоит `**Созревает:** ГГГГ-ММ-ДД`;
+  `scripts/seo/tasks_due.py` находит созревшие, workflow `seo-tasks-due`
+  ежедневно пишет их в issue #22 и молчит, когда не созрело ничего. Тикет без
+  срока слой не показывает никогда — срок обязателен, иначе задача пролежит.
 - **«Первое место, а переходов нет»** — замер первого экрана выдачи:
   протокол `data/seo/serp-fold-probe.json` (заполняется руками — Search API
   отдаёт только органику и о рекламе над ней не знает, а сессия в выдачу не

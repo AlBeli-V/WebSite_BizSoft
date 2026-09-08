@@ -1,5 +1,5 @@
 {
-  "note": "Записи для реестра экспериментов reports/seo/intelligence/seo-experiments.json ветки seo-data. Сессия в seo-data не пишет (правило prod-access), поэтому записи лежат здесь готовыми к переносу. Статус planned и start: null оставить как есть: в running переводит seo-site-check по факту выката (scripts/seo/experiment_windows.py activate), он же записывает фиксированные окна.",
+  "note": "Записи для реестра экспериментов reports/seo/intelligence/seo-experiments.json ветки seo-data. Сессия в seo-data не пишет (правило prod-access), поэтому записи лежат здесь готовыми к переносу. Статус planned и start: null оставить как есть: в running переводит seo-site-check по факту выката (scripts/seo/experiment_windows.py activate), он же записывает фиксированные окна. Запись snippets-10-expand — восстановление пропущенного: партия выкачена в код 02.09.2026 без записи в реестре.",
   "apply": "python3 - <<'PY'\nimport json, pathlib\nreg = pathlib.Path('reports/seo/intelligence/seo-experiments.json')\nsrc = json.loads(pathlib.Path('reports/seo/yandex-money-experiments.json').read_text('utf-8'))\ncur = json.loads(reg.read_text('utf-8'))\nhave = {e['id'] for e in cur['experiments']}\ncur['experiments'] += [e for e in src['experiments'] if e['id'] not in have]\nreg.write_text(json.dumps(cur, ensure_ascii=False, indent=2) + '\\n', 'utf-8')\nPY",
   "experiments": [
     {
@@ -8,7 +8,11 @@
       "status": "planned",
       "start": null,
       "evaluation_kind": "ctr",
-      "pages": ["/vendors/capture-one", "/vendors/freepik", "/vendors/zoom"],
+      "pages": [
+        "/vendors/capture-one",
+        "/vendors/freepik",
+        "/vendors/zoom"
+      ],
       "changes": [
         "title под собственную формулировку кластера каждой страницы, ядро ≤65 символов: Capture One — «Оплата Capture One юридическим лицом — продление без карты» (кластер спрашивает про непроходящий платёж и продление), Magnific — «Оплата Magnific AI юридическим лицом — счёт, договор, ЭДО» (страница ранжируется по Magnific, а описание говорило про стоковую библиотеку Freepik), Zoom — «Оформление Zoom Business для организации из РФ — счёт и договор» (формулировка запроса, дающего три четверти показов кластера)",
         "description ≤160 символов с формулировкой кластера в начале: прежние описания vendor-шаблона длиной 171–216 символов обрывались в выдаче ровно на обещании про договор и ЭДО",
@@ -23,11 +27,30 @@
         "source": "Яндекс.Вебмастер, окно 2026-08-25–2026-09-05 (12 дней), выгрузка yandex-2026-09-08.json",
         "days": 12,
         "pages": {
-          "/vendors/capture-one": {"impressions": 211, "clicks": 0, "avg_position": 6.97, "per_day": 17.6},
-          "/vendors/freepik": {"impressions": 64, "clicks": 2, "avg_position": 5.14, "per_day": 5.3},
-          "/vendors/zoom": {"impressions": 48, "clicks": 0, "avg_position": 7.62, "per_day": 4.0}
+          "/vendors/capture-one": {
+            "impressions": 211,
+            "clicks": 0,
+            "avg_position": 6.97,
+            "per_day": 17.6
+          },
+          "/vendors/freepik": {
+            "impressions": 64,
+            "clicks": 2,
+            "avg_position": 5.14,
+            "per_day": 5.3
+          },
+          "/vendors/zoom": {
+            "impressions": 48,
+            "clicks": 0,
+            "avg_position": 7.62,
+            "per_day": 4.0
+          }
         },
-        "total": {"impressions": 323, "clicks": 2, "ctr": 0.0062},
+        "total": {
+          "impressions": 323,
+          "clicks": 2,
+          "ctr": 0.0062
+        },
         "exposure_gate": "26.9 показа в день на партию при минимуме 3.6 — порог пройден и по каждой странице отдельно"
       },
       "success_metric": "CTR партии за фиксированное окно «после» против окна «до» при средней позиции не хуже базовой ±1. Экспозиция партии (~750 показов за 28 дней) различает только трёхкратную разницу: рост с 0,6 % до 2 % и выше — вывод, рост до 1 % — «недостаточно данных», и он будет записан именно так.",
@@ -35,12 +58,51 @@
       "source": "src/data/seo-experiments.ts (capture-one, freepik) и src/pages/vendors/zoom.astro; отбор — scripts/seo/money_queries.py, разбор — reports/seo/yandex-money-growth-plan.md",
       "title_marker": "(оплата|оформление) (capture one|magnific|zoom)",
       "page_markers": {
-        "/vendors/capture-one": ["capture one", "capture-one", "кэпчур", "капчур"],
-        "/vendors/freepik": ["magnific", "магнифик", "freepik", "фрипик"],
-        "/vendors/zoom": ["zoom", "зум"]
+        "/vendors/capture-one": [
+          "capture one",
+          "capture-one",
+          "кэпчур",
+          "капчур"
+        ],
+        "/vendors/freepik": [
+          "magnific",
+          "магнифик",
+          "freepik",
+          "фрипик"
+        ],
+        "/vendors/zoom": [
+          "zoom",
+          "зум"
+        ]
       },
-      "query_intent_any": ["оплат", "оформл", "купить", "продлен", "продлить", "юридическ", "юрлиц", "для организаци", "для бизнеса", "лицензи", "тариф", "стоимост", "цена"],
-      "query_exclude": ["скачать", "торрент", "torrent", "кряк", "crack", "взлом", "бесплатн", "урок", "zoom фон", "zoom обои", "конференция zoom как"],
+      "query_intent_any": [
+        "оплат",
+        "оформл",
+        "купить",
+        "продлен",
+        "продлить",
+        "юридическ",
+        "юрлиц",
+        "для организаци",
+        "для бизнеса",
+        "лицензи",
+        "тариф",
+        "стоимост",
+        "цена"
+      ],
+      "query_exclude": [
+        "скачать",
+        "торрент",
+        "torrent",
+        "кряк",
+        "crack",
+        "взлом",
+        "бесплатн",
+        "урок",
+        "zoom фон",
+        "zoom обои",
+        "конференция zoom как"
+      ],
       "next_review": "2026-10-06",
       "next_review_note": "28 дней от выката. Раньше смотреть нельзя: выгрузка Вебмастера отдаёт скользящее 12-дневное окно с лагом, и до этой даты окно захватывает период до правки.",
       "power_note": "Партия мала по абсолютным числам (571 показ, 3 перехода за 12 дней). При нуле или единичных переходах в контрольную дату публикуется «недостаточно данных», а не отрицательный вывод."
@@ -51,7 +113,9 @@
       "status": "planned",
       "start": null,
       "evaluation_kind": "ctr",
-      "pages": ["/blog/kak-kupit-zarubezhnoe-po-dlya-yurlica"],
+      "pages": [
+        "/blog/kak-kupit-zarubezhnoe-po-dlya-yurlica"
+      ],
       "changes": [
         "description статьи: «Оплата зарубежного ПО и иностранных подписок для юрлица: какие документы получает бухгалтерия — договор, счёт и акт через ЭДО. Порядок оформления и сроки.» (154 символа)"
       ],
@@ -69,22 +133,117 @@
         "avg_position": 7.59,
         "per_day": 20.7,
         "top_queries": {
-          "оплата зарубежного по для юр лица документы": {"impressions": 44, "position": 5.52, "serp_position": 3},
-          "оплата иностранной подписки для бизнеса документы": {"impressions": 36, "position": 7.86, "serp_position": 4},
-          "оплата зарубежных сервисов для юридических лиц документы": {"impressions": 35, "position": 9.03, "serp_position": 7},
-          "как получить закрывающие документы от иностранных сервисов": {"impressions": 31, "position": 5.74},
-          "оплата зарубежного по для юрлица": {"impressions": 20, "position": 8.8, "serp_position": 8}
+          "оплата зарубежного по для юр лица документы": {
+            "impressions": 44,
+            "position": 5.52,
+            "serp_position": 3
+          },
+          "оплата иностранной подписки для бизнеса документы": {
+            "impressions": 36,
+            "position": 7.86,
+            "serp_position": 4
+          },
+          "оплата зарубежных сервисов для юридических лиц документы": {
+            "impressions": 35,
+            "position": 9.03,
+            "serp_position": 7
+          },
+          "как получить закрывающие документы от иностранных сервисов": {
+            "impressions": 31,
+            "position": 5.74
+          },
+          "оплата зарубежного по для юрлица": {
+            "impressions": 20,
+            "position": 8.8,
+            "serp_position": 8
+          }
         }
       },
       "success_metric": "CTR кластера за фиксированное окно «после» против окна «до» при средней позиции не хуже 8,6 (базовая 7,59 плюс 1). Различимая разница — трёхкратная; меньшая при 250 показах за 12 дней не отделяется от шума.",
       "control_group": "Та же группа свободных кластеров без правки, что и у MONEY-A1. Кластеры MONEY-A1 контролем для этой записи не являются: они изменены одновременно.",
       "source": "src/content/blog/kak-kupit-zarubezhnoe-po-dlya-yurlica.md",
       "title_marker": "зарубежн",
-      "query_markers": ["зарубежн", "иностранн", "закрывающ", "корпоративн"],
-      "query_exclude": ["скачать", "бесплатн", "вакансия", "работа за рубежом"],
+      "query_markers": [
+        "зарубежн",
+        "иностранн",
+        "закрывающ",
+        "корпоративн"
+      ],
+      "query_exclude": [
+        "скачать",
+        "бесплатн",
+        "вакансия",
+        "работа за рубежом"
+      ],
       "next_review": "2026-10-06",
       "next_review_note": "28 дней от выката, по той же причине лага выгрузки.",
       "power_note": "Описание — не гарантированный источник сниппета: Яндекс собирает его и из текста страницы. Отсутствие эффекта здесь означает «description не сработал», а не «формулировка не сработала»; различить это можно только срезом выдачи, поэтому запросы кластера обязаны быть в ядре seo-serp-watch."
+    },
+    {
+      "id": "snippets-10-expand",
+      "ticket": "SEO-EXP-005",
+      "status": "running",
+      "start": "2026-09-02",
+      "evaluation_kind": "ctr",
+      "backfilled_by": "разбор 08.09.2026 (Money Query Opportunity Model). Партия выкачена в src/data/seo-experiments.ts 02.09.2026 по решению руководителя (EXPAND), но записи в реестре у неё не было: эксперимент нельзя было ни оценить, ни закрыть, а его десять страниц для любой следующей модели выглядели свободными. Запись восстановлена по коду и комментариям файла; окна не проставлены руками — их заводит experiment_windows.py backfill.",
+      "pages": [
+        "/vendors/google",
+        "/vendors/microsoft",
+        "/vendors/github",
+        "/vendors/unity",
+        "/vendors/docker",
+        "/vendors/runway",
+        "/vendors/solidworks",
+        "/vendors/acronis",
+        "/vendors/unreal-engine",
+        "/vendors/perplexity"
+      ],
+      "changes": [
+        "тираж формулы snippets-5-vendors без изменений: title «Оплата {Vendor} для юрлиц из России — счёт, договор, ЭДО», description «Оплатим подписку {Vendor} на вашу компанию в рублях по счёту. Договор, закрывающие документы через ЭДО, доступ за 1–3 дня.», FAQ-блок «Как купить {Vendor} на юрлицо» из 4 вопросов",
+        "формула при тираже намеренно не менялась — иначе тиражируется не то, что оценивалось"
+      ],
+      "hypothesis": "Коммерческая формула сниппета, оценённая на snippets-5-vendors, воспроизводится на десяти карточках с наибольшим замеренным спросом Вордстата вне действующих экспериментов.",
+      "success_metric": "CTR партии за фиксированное окно «после» против окна «до» при средней позиции не хуже базовой ±1.",
+      "control_group": "vendor-страницы без переопределения сниппета. Внимание: с 08.09.2026 в контрольной группе стало на три страницы меньше — Capture One, Magnific и Zoom ушли в партию money-a1-query-phrase.",
+      "source": "src/data/seo-experiments.ts (google, microsoft, github, unity, docker, runway, solidworks, acronis, unreal-engine, perplexity); отбор — expand_candidates(), src/data/vendor-demand.json",
+      "title_marker": "(оплата|лицензии|подписка) ",
+      "query_markers": [
+        "google workspace",
+        "гугл воркспейс",
+        "gemini",
+        "microsoft 365",
+        "office 365",
+        "майкрософт",
+        "github",
+        "гитхаб",
+        "copilot",
+        "unity",
+        "юнити",
+        "docker",
+        "докер",
+        "runway",
+        "solidworks",
+        "солидворкс",
+        "acronis",
+        "unreal",
+        "анрил",
+        "perplexity",
+        "перплексити"
+      ],
+      "query_exclude": [
+        "google play",
+        "гугл плей",
+        "microsoft copilot",
+        "ms copilot",
+        "video copilot",
+        "скачать",
+        "бесплатн",
+        "кряк",
+        "торрент"
+      ],
+      "power_note": "Экспозиция части страниц партии мала: по данным выгрузки 08.09.2026 кластеры Unity (50 показов за 12 дней), Google (15) и Docker ниже порога 3,6 показа в день. По ним при подведении итога публикуется «недостаточно данных», а не отрицательный вывод. Порог введён 04.09.2026, то есть после старта этой партии, и задним числом её не пересматривает.",
+      "next_review": "2026-09-30",
+      "next_review_note": "28 дней от старта 02.09.2026."
     }
   ]
 }

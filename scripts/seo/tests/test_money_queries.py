@@ -50,6 +50,15 @@ class TestClustering(unittest.TestCase):
         self.assertIsNone(mq.cluster_of("купить xbox game pass", self.slugs))
         self.assertEqual(mq.cluster_of("оплата dropbox для юрлица", self.slugs), "dropbox")
 
+    def test_бокс_без_уточнителя_не_наш_кластер(self):
+        # 65 из 71 показа кластера Box давали «оплатить бокс»: в выдаче по ним
+        # компании, сдающие складские боксы. Кластер был завышен в 12 раз.
+        slugs = {"box"}
+        self.assertIsNone(mq.cluster_of("оплатить бокс", slugs))
+        self.assertIsNone(mq.cluster_of("оплата бокс из россии", slugs))
+        self.assertEqual(mq.cluster_of("бокс бизнес оплата", slugs), "box")
+        self.assertEqual(mq.cluster_of("как оплатить box business из россии", slugs), "box")
+
     def test_magnific_ведёт_на_freepik(self):
         self.assertEqual(
             mq.cluster_of("оплата magnific ai юридическим лицом", self.slugs), "freepik")

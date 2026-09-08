@@ -164,7 +164,7 @@ ALIASES: dict[str, list[str]] = {
     "atlassian": ["atlassian", "атлассиан", "jira", "джира", "confluence", "конфлюенс"],
     "autodesk": ["autodesk", "автодеск", "autocad", "автокад", "3ds max", "fusion 360", "maya"],
     "blackmagic": ["blackmagic", "davinci", "давинчи", "резолв", "resolve"],
-    "box": ["box", "бокс"],
+    "box": ["box", "бокс"],   # «бокс» — только с уточнителем, см. QUALIFIED_ALIASES
     "browserstack": ["browserstack", "браузерстек"],
     "canva": ["canva", "канва"],
     "capcut": ["capcut", "капкат", "кап кат"],
@@ -226,11 +226,22 @@ ALIASES: dict[str, list[str]] = {
     "zoho": ["zoho", "зохо"],
 }
 
+# Алиасы, которые сами по себе кластер не образуют: слово означает наш продукт
+# только рядом с уточнителем. Разбор 08.09.2026: 65 из 71 показа кластера Box
+# давали запросы «оплатить бокс» и «бокс оплатить», а в топ-3 выдачи по ним
+# стоят antresol24.ru, citi-box.ru и boxmetr.ru — компании, сдающие складские
+# боксы. Люди платят за хранение, а не за Box.com; переходами эти показы не
+# станут ни при каком сниппете, а в модели они завышали кластер в двенадцать раз.
+QUALIFIED_ALIASES: dict[str, dict[str, list[str]]] = {
+    "box": {"бокс": ["business", "бизнес", "облач", "хранилищ", "enterprise",
+                     "drive", "корпоратив"]},
+}
+
 # Омонимы: слово встречается и вне нашего кластера. Запрос с этими словами в
 # кластер не попадает, даже если совпал алиас.
 CLUSTER_EXCLUDE: dict[str, list[str]] = {
-    "box": ["xbox", "x box", "бизнес бокс", "коробк", "boxing", "бокс тайск",
-            "бокс удар", "dropbox", "дропбокс"],
+    "box": ["xbox", "x box", "коробк", "boxing", "бокс тайск", "бокс удар",
+            "dropbox", "дропбокс", "дроббокс", "дроп бокс"],
     "leonardo-ai": ["da vinci", "да винчи"],
     "github": ["microsoft copilot", "ms copilot", "video copilot"],
     "google": ["google play", "гугл плей"],
@@ -284,7 +295,10 @@ def cluster_of(query: str, slugs: set[str]) -> str | None:
     for slug, words in ALIASES.items():
         if any(x in low for x in CLUSTER_EXCLUDE.get(slug, ())):
             continue
+        qualifiers = QUALIFIED_ALIASES.get(slug, {})
         for w in words:
+            if w in qualifiers and not any(q in low for q in qualifiers[w]):
+                continue    # слово без уточнителя означает не наш продукт
             if w in low:
                 hits.append((len(w) + 1, slug))
             elif " " in w and all(re.search(rf"\b{re.escape(t)}", low) for t in w.split()):
