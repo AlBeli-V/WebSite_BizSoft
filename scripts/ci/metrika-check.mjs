@@ -95,6 +95,7 @@ try {
     const ctx = await browser.newContext();
     const page = await ctx.newPage();
     const tagRequests = [];
+    const tagResponses = [];
     const hits = [];
     const errors = [];
     page.on('pageerror', (e) => errors.push(`pageerror: ${e.message}`));
@@ -104,6 +105,15 @@ try {
       if (u.includes(TAG_PATH)) tagRequests.push(u);
       // Хит счётчика: именно он означает, что визит записан.
       if (/mc\.yandex\.ru\/(watch|webvisor)/.test(u)) hits.push(u);
+    });
+    // Ответ на запрос тега разводит два разных случая: сайт отдал ссылку,
+    // но источник недоступен из этой сети (тогда виноват не сайт), и
+    // источник ответил, а счётчик всё равно не запустился.
+    page.on('response', (r) => {
+      if (r.url().includes(TAG_PATH)) tagResponses.push(r.status());
+    });
+    page.on('requestfailed', (r) => {
+      if (r.url().includes(TAG_PATH)) tagResponses.push(`сбой: ${r.failure()?.errorText || 'неизвестно'}`);
     });
 
     if (!LIVE) {
@@ -115,7 +125,7 @@ try {
     await page.goto(BASE + path, { waitUntil: 'networkidle' }).catch((e) => {
       errors.push(`goto: ${e.message}`);
     });
-    await page.waitForTimeout(LIVE ? 2500 : 1200);
+    await page.waitForTimeout(LIVE ? 6000 : 1200);
 
     const state = await page.evaluate(() => ({
       executed: !!window.__tagExecuted,
@@ -131,12 +141,23 @@ try {
       tagRequests.map((u) => u.replace(/\?.*/, '')).join(', ') || 'запросов нет');
 
     if (LIVE) {
-      // На живом сайте настоящий тег сам отправляет хит: его наличие и
-      // означает «визит записан». Именно этого не было при инциденте.
-      report(`${path}: счётчик отправил хит`, hits.length > 0,
-        hits.length ? `${hits.length} запрос(ов)` : 'ни одного обращения к watch');
-      report(`${path}: ym заменён загруженным тегом`, state.ymType === 'function' && state.pending === 0,
-        `typeof ym=${state.ymType}, в очереди ${state.pending}`);
+      const delivered = tagResponses.some((r) => r === 200);
+      if (!delivered) {
+        // Источник не ответил: из этой сети файл счётчика не приходит.
+        // Обвинять сайт нельзя — с той же вероятностью это ограничение
+        // сети, откуда идёт проверка. Пункт помечается как невыполненный,
+        // но с прямой причиной.
+        report(`${path}: тег отдан источником`, false,
+          `ответы: ${tagResponses.join(', ') || 'ни одного'} — проверка счётчика невозможна`);
+      } else {
+        report(`${path}: тег отдан источником`, true, `HTTP ${tagResponses.join(', ')}`);
+        // На живом сайте настоящий тег сам отправляет хит: его наличие и
+        // означает «визит записан». Именно этого не было при инциденте.
+        report(`${path}: счётчик отправил хит`, hits.length > 0,
+          hits.length ? `${hits.length} запрос(ов)` : 'ни одного обращения к watch');
+        report(`${path}: ym заменён загруженным тегом`, state.ymType === 'function' && state.pending === 0,
+          `typeof ym=${state.ymType}, в очереди ${state.pending}`);
+      }
     } else {
       report(`${path}: файл тега исполнился`, state.executed);
       report(`${path}: вызван init счётчика`, state.calls.includes('init'),
