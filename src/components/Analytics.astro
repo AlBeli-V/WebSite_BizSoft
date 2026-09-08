@@ -28,36 +28,30 @@ const gaId = GA_ID;
         // Очередь ym() создаётся сразу, файл тега — позже (см. комментарий выше).
         window.ym = window.ym || function () { (window.ym.a = window.ym.a || []).push(arguments); };
         window.ym.l = 1 * new Date();
-        // Тег берётся со своего домена: /m/tag.js — кэширующий прокси nginx
-        // на файл счётчика с mc.yandex.ru (PERF-METRIKA-001, конфиг в
-        // deploy/nginx-metrika-locations.conf). Так файл едет по уже открытому
-        // соединению, без отдельных DNS и TLS к чужому домену, и с нашим
-        // длинным кэшем. Сам счётчик после загрузки ходит на mc.yandex.ru
-        // напрямую — поведение Метрики не меняется.
-        // Адрес-источник ниже — единственное вхождение пути тега в этом файле:
-        // его считает tests/analytics-contract.test.ts, защищая от повторного
-        // подключения счётчика.
+        // Тег грузится напрямую с mc.yandex.ru. Кэширующий прокси
+        // /m/tag.js (PERF-METRIKA-001) снят 08.09.2026: с ним сайт перестал
+        // собирать визиты вовсе — 04.09 их было 45, 03.09 — 69, 02.09 — 80,
+        // а с 05.09 счётчик показывал 0–1 в день при живой рекламе и живой
+        // органике. Прокси при этом отвечал 200 и отдавал файл нужного
+        // размера, поэтому onerror не срабатывал и фолбэк не включался:
+        // браузер считал скрипт загруженным, а счётчик не работал.
         //
-        // Если прокси недоступен (конфиг ещё не применён, ошибка на сервере),
-        // onerror подставляет оригинальный адрес: счётчик работает всегда,
-        // и порядок выкладки «код раньше конфига» безопасен.
+        // Отсюда правило: подменять адрес тега можно только с проверкой,
+        // что счётчик реально инициализировался в браузере, — код ответа и
+        // размер файла об этом не говорят ничего.
+        //
+        // Адрес ниже — единственное вхождение пути тега в этом файле: его
+        // считает tests/analytics-contract.test.ts, защищая от повторного
+        // подключения счётчика.
         var origin = 'https://mc.yandex.ru/metrika/tag.js?id=' + metrikaId;
-        var proxied = '/m/tag.js';
         loaders.push(function () {
           for (var j = 0; j < document.scripts.length; j++) {
-            var src = document.scripts[j].src;
-            if (src === origin || (src && src.indexOf(proxied) !== -1)) return;
+            if (document.scripts[j].src === origin) return;
           }
           var first = document.getElementsByTagName('script')[0];
           var el = document.createElement('script');
           el.async = 1;
-          el.src = proxied;
-          el.onerror = function () {
-            var fb = document.createElement('script');
-            fb.async = 1;
-            fb.src = origin;
-            first.parentNode.insertBefore(fb, first);
-          };
+          el.src = origin;
           first.parentNode.insertBefore(el, first);
         });
         ym(Number(metrikaId), 'init', { ssr: true, webvisor: true, clickmap: true, ecommerce: 'dataLayer', accurateTrackBounce: true, trackLinks: true, referrer: document.referrer, url: location.href });
