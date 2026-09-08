@@ -50,6 +50,10 @@ TypeScript strict · Vitest · Python 3 (контуры SEO/разведки/р�
   выкаченным сниппетам в `src/data/seo-experiments.ts`. Результат — бэклог
   `reports/seo/yandex-money-backlog.json`, разбор —
   `reports/seo/yandex-money-growth-plan.md`.
+- **«Первое место, а переходов нет»** — замер первого экрана выдачи:
+  протокол `data/seo/serp-fold-probe.json` (заполняется руками — Search API
+  отдаёт только органику и о рекламе над ней не знает, а сессия в выдачу не
+  ходит), вывод по заранее записанному правилу — `scripts/seo/serp_fold.py`.
 - **Правка меты карточки** — только через `data/seo/product-descriptions.json`
   + workflow `ops-apply-descriptions` (правило CLAUDE.md «уникальные title и
   description»), руками в Directus не редактировать.
