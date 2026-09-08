@@ -98,7 +98,9 @@
   `ops-yandex-recrawl` (квота 150 URL/сутки), отчёт — в issue #22.
 - **Микроразметка** (`docs/rules/structured-data.md`). Только штатный слой
   (`src/lib/seo.ts`, Breadcrumbs/FAQ/JsonLd, microdata карточки); один тип —
-  один раз на страницу; «цена по запросу» — без Product/Offer; фиктивные
+  один раз на страницу; один идентификатор (`@id` JSON-LD, `itemid`
+  microdata) — один узел на странице (слои не связываются общим id, иначе
+  поля дублируются); «цена по запросу» — без Product/Offer; фиктивные
   цены и рейтинги запрещены; цена — из `effectivePrice()`. Приёмка —
   `pnpm verify`.
 - **WebMCP** (`docs/rules/webmcp.md`, `docs/webmcp/`). Новые товары и вендоры
