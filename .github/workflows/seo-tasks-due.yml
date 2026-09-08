@@ -1,0 +1,94 @@
+# Созревшие тикеты: напоминание в журнал операций (issue #22).
+#
+# Тикеты reports/seo/tasks/*.md в проекте были и раньше, но их никто не читал:
+# письмо и веб-отчёт давали на папку ссылку, и всё. Тикет с пометкой «после
+# 06.10» лежал там ровно столько, сколько о нём помнили. Этот прогон превращает
+# срок в событие.
+#
+# Тишина сохраняется: скрипт возвращает 1, когда ничего не созрело, и запись в
+# журнал в этом случае не делается вовсе. Созревание объявляется один раз —
+# окно в три дня нужно только затем, чтобы один упавший прогон не проглотил
+# срок; дальше тикет замолкает сам.
+#
+# Запуск: расписание или вручную. Сети и секретов не требует — читает файлы
+# репозитория, поэтому ограничения production-workflow к нему не относятся.
+
+name: seo-tasks-due
+
+on:
+  # Ежедневно 04:11 UTC = 07:11 МСК — после seo-site-check (05:37 МСК) и до
+  # утреннего письма, чтобы созревшее попадало в тот же рабочий день.
+  # Минута некруглая сознательно: планировщик GitHub задерживает круглые слоты.
+  schedule:
+    - cron: "11 4 * * *"
+    # Понедельник, 04:23 UTC = 07:23 МСК — аудит тикетов без даты созревания.
+    # Слой видит только тикеты со сроком, и это его слабое место: тикет с
+    # моментом запуска, записанным прозой, для него не существует. Раз в
+    # неделю такие тикеты называются поимённо, чтобы владелец проставил дату.
+    - cron: "23 4 * * 1"
+  workflow_dispatch:
+    inputs:
+      window:
+        description: "Сколько дней назад считать созревание событием"
+        required: false
+        default: "3"
+      mode:
+        description: "due — созревшие; unmanaged — открытые без даты"
+        required: false
+        default: "due"
+        type: choice
+        options: [due, unmanaged]
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  due:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Collect tickets
+        id: run
+        run: |
+          # Понедельничный слот и ручной запуск с mode=unmanaged дают аудит
+          # тикетов без даты; все остальные прогоны — созревшие за окно.
+          mode="${{ github.event.inputs.mode || '' }}"
+          if [ -z "$mode" ]; then
+            if [ "${{ github.event.schedule }}" = "23 4 * * 1" ]; then
+              mode=unmanaged
+            else
+              mode=due
+            fi
+          fi
+          echo "режим: $mode"
+          echo "mode=$mode" >> "$GITHUB_OUTPUT"
+          set +e
+          if [ "$mode" = "unmanaged" ]; then
+            python3 scripts/seo/tasks_due.py --unmanaged > /tmp/tasks-due.txt
+          else
+            python3 scripts/seo/tasks_due.py \
+              --window "${{ github.event.inputs.window || '3' }}" > /tmp/tasks-due.txt
+          fi
+          code=$?
+          set -e
+          cat /tmp/tasks-due.txt
+          # 1 — показывать нечего; это штатный исход, а не сбой прогона.
+          if [ "$code" = "1" ]; then
+            echo "ripe=no" >> "$GITHUB_OUTPUT"
+            echo "показывать нечего — записи в журнал не будет"
+            exit 0
+          fi
+          if [ "$code" != "0" ]; then exit "$code"; fi
+          echo "ripe=yes" >> "$GITHUB_OUTPUT"
+
+      # Запись только когда есть что сказать: при пустом списке шаг пропускается,
+      # и журнал остаётся чистым.
+      - name: Post tickets to journal (issue #22)
+        if: always() && steps.run.outputs.ripe == 'yes'
+        uses: ./.github/actions/journal-post
+        with:
+          title: "seo-tasks-due — ${{ steps.run.outputs.mode == 'unmanaged' && 'тикеты без даты созревания' || 'созревшие тикеты' }}"
+          outcome: ${{ steps.run.outcome }}
+          body-file: /tmp/tasks-due.txt
