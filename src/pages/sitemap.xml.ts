@@ -12,7 +12,7 @@ import { alternativesPages } from '../data/alternatives';
 import { aiSubcategories } from '../data/ai-hub';
 import { VENDORS } from '../data/vendors';
 import { vendorSlug } from '../lib/vendor-links';
-import { collectTags } from '../lib/blog-tags';
+import { collectTags, tagSlug } from '../lib/blog-tags';
 
 // Только опубликованные индексируемые страницы. Без cart/consent/admin/api/draft/noindex.
 const STATIC_ROUTES: { path: string; priority: number; changefreq: string }[] = [
@@ -64,16 +64,24 @@ function urlEntry(path: string, priority: number, changefreq: string, lastmod?: 
 export const GET: APIRoute = async () => {
   const entries: string[] = [];
 
-  for (const r of STATIC_ROUTES) entries.push(urlEntry(r.path, r.priority, r.changefreq));
+  // Лендинги вендоров из STATIC_ROUTES отдаются ниже, вместе с остальными:
+  // их lastmod считается по карточкам, а каталог читается дальше по коду.
+  // dedupeByLoc оставляет первое вхождение <loc>, поэтому если выпустить их
+  // здесь без даты, датированная запись ниже будет отброшена — и без даты
+  // остались бы ровно пять самых значимых страниц раздела.
+  for (const r of STATIC_ROUTES) {
+    if (r.path.startsWith('/vendors/')) continue;
+    entries.push(urlEntry(r.path, r.priority, r.changefreq));
+  }
 
   // Существующие наполненные посадочные solutions (реальный контент).
-  for (const s of solutions) entries.push(urlEntry(`/solutions/${s.slug}`, 0.6, 'monthly'));
+  for (const s of solutions) entries.push(urlEntry(`/solutions/${s.slug}`, 0.6, 'monthly', s.updated));
 
   // Страницы сравнения AI-сервисов (/compare/*).
-  for (const c of comparisons) entries.push(urlEntry(`/compare/${c.slug}`, 0.7, 'monthly'));
+  for (const c of comparisons) entries.push(urlEntry(`/compare/${c.slug}`, 0.7, 'monthly', c.updated));
 
   // Страницы «Аналоги X» (/alternatives/*) — слой Alternatives, PAGES-EXP-001.
-  for (const a of alternativesPages) entries.push(urlEntry(`/alternatives/${a.slug}`, 0.7, 'monthly'));
+  for (const a of alternativesPages) entries.push(urlEntry(`/alternatives/${a.slug}`, 0.7, 'monthly', a.updated));
 
   // Шаблонные посадочные производителей (креативные индустрии).
   //
@@ -81,13 +89,50 @@ export const GET: APIRoute = async () => {
   // добавлены выше. Прежде оно начиналось пустым, и вендор из базы с тем же
   // именем давал второй <loc> — figma, jetbrains и openai попадали в карту
   // дважды. Дубль в sitemap поисковик считает ошибкой разметки карты.
-  const vendorSeen = new Set<string>(
-    STATIC_ROUTES.map((r) => r.path).filter((p) => p.startsWith('/vendors/'))
-      .map((p) => p.slice('/vendors/'.length)),
-  );
+  // Каталог читаем ДО лендингов: из карточек собираются даты содержательного
+  // изменения для страниц вендоров и разделов. Прежде lastmod был только у
+  // блога и части карточек — 411 из 729 URL карты (все 112 вендоров, все
+  // разделы, solutions, compare, alternatives) уходили в Google вообще без
+  // даты. Для Google lastmod — основной вход в планирование обхода, и при
+  // 2–8 скачиваниях в сутки (замер 08.09.2026) его отсутствие означает, что
+  // приоритет обхода поисковик определяет без нашего участия.
+  //
+  // Дата страницы вендора/раздела — максимум content_updated_at по её
+  // карточкам: страница целиком собирается из них, и другого честного
+  // источника даты у неё нет. Правило то же, что для карточки: date_updated
+  // не годится (его двигает ежедневная переоценка по курсу ЦБ), а когда
+  // штампа нет ни у одной карточки, дата не отдаётся вовсе.
+  let products: Awaited<ReturnType<typeof getProducts>> = [];
+  const vendorLastmod = new Map<string, string>();
+  const categoryLastmod = new Map<string, string>();
+  let catalogFailed = false;
+  try {
+    products = await getProducts();
+  } catch (e) {
+    console.error('sitemap catalog', e);
+    catalogFailed = true;
+    if (isSourceUnavailable(e)) return serviceUnavailable();
+  }
+  for (const p of products) {
+    if (p.noindex || productNoindex(p.sku)) continue;
+    const stamp = p.content_updated_at ? String(p.content_updated_at).slice(0, 10) : null;
+    if (!stamp) continue;
+    const vs = p.vendor ? vendorSlug(p.vendor) : null;
+    if (vs && (vendorLastmod.get(vs) ?? '') < stamp) vendorLastmod.set(vs, stamp);
+    const cs = typeof p.category === 'object' && p.category ? p.category.slug : null;
+    if (cs && (categoryLastmod.get(cs) ?? '') < stamp) categoryLastmod.set(cs, stamp);
+  }
+
+  const vendorSeen = new Set<string>();
+  for (const r of STATIC_ROUTES) {
+    if (!r.path.startsWith('/vendors/')) continue;
+    const slug = r.path.slice('/vendors/'.length);
+    vendorSeen.add(slug);
+    entries.push(urlEntry(r.path, r.priority, r.changefreq, vendorLastmod.get(slug)));
+  }
   for (const v of VENDORS) {
     vendorSeen.add(v.slug);
-    entries.push(urlEntry(`/vendors/${v.slug}`, 0.8, 'weekly'));
+    entries.push(urlEntry(`/vendors/${v.slug}`, 0.8, 'weekly', vendorLastmod.get(v.slug)));
   }
   // Типовые лендинги для остальных вендоров каталога (живой список из БД).
   // Сбой любого обращения к БД делает карту неполной. Отдавать её с кодом 200
@@ -98,7 +143,7 @@ export const GET: APIRoute = async () => {
       const s = vendorSlug(r.vendor);
       if (vendorSeen.has(s)) continue;
       vendorSeen.add(s);
-      entries.push(urlEntry(`/vendors/${s}`, 0.8, 'weekly'));
+      entries.push(urlEntry(`/vendors/${s}`, 0.8, 'weekly', vendorLastmod.get(s)));
     }
   } catch (e) {
     console.error('sitemap vendors', e);
@@ -114,9 +159,19 @@ export const GET: APIRoute = async () => {
     }
     // Подборки статей по тегам (/blog/tag/*): в карту идут только те, где
     // статей не меньше порога — остальные отдают noindex (src/lib/blog-tags.ts).
+    // Дата подборки — дата самой свежей статьи в ней: подборка целиком
+    // собирается из статей, другого содержания у неё нет.
+    const tagStamp = new Map<string, string>();
+    for (const p of posts) {
+      const stamp = (p.data.updated || p.data.date).toISOString().slice(0, 10);
+      for (const tag of p.data.tags || []) {
+        const slug = tagSlug(tag);
+        if ((tagStamp.get(slug) ?? '') < stamp) tagStamp.set(slug, stamp);
+      }
+    }
     for (const t of collectTags(posts.map((p) => ({ tags: p.data.tags })))) {
       if (!t.indexed) continue;
-      entries.push(urlEntry(`/blog/tag/${t.slug}`, 0.5, 'weekly'));
+      entries.push(urlEntry(`/blog/tag/${t.slug}`, 0.5, 'weekly', tagStamp.get(t.slug)));
     }
   } catch (e) {
     // Блог собирается из локальных файлов: сбой здесь означает поломку сборки,
@@ -126,28 +181,32 @@ export const GET: APIRoute = async () => {
   }
 
   // Каталог из БД — только опубликованные; товары с noindex исключаем.
-  try {
-    const categories = await getCategories();
-    for (const c of categories) {
-      // AI-подкатегории каноничны по вложенному URL (/catalog/ai/text),
-      // плоский slug (/catalog/ai-text) отдаёт 301 — в sitemap не попадает.
-      const aiSub = aiSubcategories.find((s) => s.categorySlug === c.slug);
-      entries.push(urlEntry(aiSub ? `/catalog/ai/${aiSub.sub}` : `/catalog/${c.slug}`, 0.8, 'weekly'));
+  // Карточки уже прочитаны выше (products); здесь остаются разделы.
+  if (!catalogFailed) {
+    try {
+      const categories = await getCategories();
+      for (const c of categories) {
+        // AI-подкатегории каноничны по вложенному URL (/catalog/ai/text),
+        // плоский slug (/catalog/ai-text) отдаёт 301 — в sitemap не попадает.
+        const aiSub = aiSubcategories.find((s) => s.categorySlug === c.slug);
+        entries.push(urlEntry(
+          aiSub ? `/catalog/ai/${aiSub.sub}` : `/catalog/${c.slug}`,
+          0.8, 'weekly', categoryLastmod.get(c.slug)));
+      }
+    } catch (e) {
+      console.error('sitemap categories', e);
+      if (isSourceUnavailable(e)) return serviceUnavailable();
     }
-    const products = await getProducts();
-    for (const p of products) {
-      if (p.noindex || productNoindex(p.sku)) continue;
-      // lastmod — дата содержательного изменения (content_updated_at), а не
-      // date_updated: тот сдвигается ежедневной переоценкой по курсу ЦБ у
-      // всего каталога разом (02.09.2026 — у 537 карточек из 593 одна дата),
-      // и Google перестаёт учитывать lastmod при выборе, что обходить. Пока
-      // штампа нет, честнее не отдавать дату вовсе, чем отдавать ложную.
-      const lastmod = p.content_updated_at ? String(p.content_updated_at).slice(0, 10) : undefined;
-      entries.push(urlEntry(`/product/${p.slug}`, 0.7, 'weekly', lastmod));
-    }
-  } catch (e) {
-    console.error('sitemap catalog', e);
-    if (isSourceUnavailable(e)) return serviceUnavailable();
+  }
+  for (const p of products) {
+    if (p.noindex || productNoindex(p.sku)) continue;
+    // lastmod — дата содержательного изменения (content_updated_at), а не
+    // date_updated: тот сдвигается ежедневной переоценкой по курсу ЦБ у
+    // всего каталога разом (02.09.2026 — у 537 карточек из 593 одна дата),
+    // и Google перестаёт учитывать lastmod при выборе, что обходить. Пока
+    // штампа нет, честнее не отдавать дату вовсе, чем отдавать ложную.
+    const lastmod = p.content_updated_at ? String(p.content_updated_at).slice(0, 10) : undefined;
+    entries.push(urlEntry(`/product/${p.slug}`, 0.7, 'weekly', lastmod));
   }
 
   const xml = `<?xml version="1.0" encoding="UTF-8"?>

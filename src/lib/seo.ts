@@ -110,24 +110,23 @@ export function expertSchema() {
 }
 
 /**
- * Локальный «профиль» той же организации: тот же @id, что у Organization
- * из BaseLayout, — узлы сливаются в одну сущность, а не плодят вторую
- * копию BIZSoft. Добавляет только поля, которых нет у базового узла
- * (график работы, ценовой диапазон, картинку).
+ * Та же организация с локальным профилем (график работы, ценовой диапазон,
+ * картинка) — расширение базового узла, а не второй узел рядом с ним.
+ *
+ * Раньше страницы «Главная» и «Контакты» выводили этот узел дополнительно к
+ * Organization из BaseLayout под тем же @id. Потребитель, который сливает
+ * узлы по идентификатору (так делает Google), получал name/url/telephone/
+ * email/address по два раза — ровно тот же дефект, что «Поле "brand"
+ * дублируется» на карточке товара. Поэтому узел один: BaseLayout выводит
+ * либо Organization, либо это расширение (проп localBusiness).
  */
 export function localBusinessSchema() {
   return {
-    '@context': 'https://schema.org',
+    ...organizationSchema(),
     '@type': ['Organization', 'LocalBusiness'],
-    '@id': ORG_ID,
-    name: seller.brand,
     image: `${site.url}/og-default.png`,
-    url: site.url,
-    telephone: seller.phone,
-    email: seller.email,
     priceRange: '₽₽',
     openingHoursSpecification: workingHours.schema,
-    address: postalAddress(),
   };
 }
 
