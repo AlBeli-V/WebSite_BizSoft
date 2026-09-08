@@ -70,6 +70,35 @@ class TestParse(unittest.TestCase):
         self.assertEqual(ids, ["A-7", "A-6"])
 
 
+class TestUnmanaged(unittest.TestCase):
+    def setUp(self):
+        self.dir = pathlib.Path(tempfile.mkdtemp())
+
+    def write(self, name, body):
+        (self.dir / name).write_text(body, encoding="utf-8")
+
+    def test_открытый_тикет_без_даты_попадает_в_аудит(self):
+        # Тикет, у которого момент запуска записан прозой, слой созревания не
+        # видит никогда — аудит для того и нужен.
+        self.write("B-1.md", ticket("B-1", status="proposed"))
+        self.write("B-2.md", ticket("B-2", due="2026-10-06"))
+        ids = [r["id"] for r in td.unmanaged(td.collect(self.dir))]
+        self.assertEqual(ids, ["B-1"])
+
+    def test_закрытый_тикет_в_аудит_не_попадает(self):
+        self.write("B-3.md", ticket("B-3", status="done"))
+        self.write("B-4.md", ticket("B-4", status="deferred"))
+        self.assertEqual(td.unmanaged(td.collect(self.dir)), [])
+
+    def test_approved_и_implemented_считаются_незакрытыми(self):
+        # У approved решение принято, но не применено; у implemented код
+        # выкачен, но результат не снят. Обоим ещё нужен следующий шаг.
+        self.write("B-5.md", ticket("B-5", status="approved"))
+        self.write("B-6.md", ticket("B-6", status="implemented"))
+        ids = sorted(r["id"] for r in td.unmanaged(td.collect(self.dir)))
+        self.assertEqual(ids, ["B-5", "B-6"])
+
+
 class TestRealTickets(unittest.TestCase):
     def test_все_тикеты_money_имеют_срок_и_разбираются(self):
         rows = {r["id"]: r for r in td.collect(TASKS)}
@@ -82,6 +111,14 @@ class TestRealTickets(unittest.TestCase):
     def test_старые_тикеты_проекта_не_сломали_разбор(self):
         rows = td.collect(TASKS)
         self.assertTrue(all(r["id"] and r["title"] for r in rows))
+
+    def test_аудит_видит_тикеты_соседних_контуров(self):
+        # 08.09.2026 соседняя ветка завела семь тикетов GIDX-*, у которых
+        # момент запуска записан прозой («через 7 дней после деплоя»). Слой
+        # созревания их не покажет; аудит обязан.
+        ids = {r["id"] for r in td.unmanaged(td.collect(TASKS))}
+        self.assertTrue(any(i.startswith("GIDX-") for i in ids),
+                        "аудит не видит тикеты без даты из соседних контуров")
 
 
 if __name__ == "__main__":
