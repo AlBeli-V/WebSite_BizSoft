@@ -98,7 +98,7 @@ const { source = 'question' } = Astro.props as { source?: string };
 </style>
 
 <script>
-  import { trackGoal } from '@/lib/analytics';
+  import { trackGoal, trackGoalOnce } from '@/lib/analytics';
   import { attributionPayload } from '@/lib/attribution';
   import { maskAllPhones } from '../lib/phone-mask';
   maskAllPhones();
@@ -110,6 +110,11 @@ const { source = 'question' } = Astro.props as { source?: string };
     const productName = dialog.querySelector('[data-product-name]') as HTMLElement;
     const productRef = dialog.querySelector('[data-product-ref]') as HTMLInputElement;
     const status = dialog.querySelector('[data-status]') as HTMLElement;
+
+    // Шаги воронки считаются один раз на страницу: повторное открытие той
+    // же формы одним посетителем — не новый шаг.
+    let opened = false;
+    let started = false;
 
     document.querySelectorAll('[data-open-question]').forEach((btn) => {
       btn.addEventListener('click', () => {
@@ -126,13 +131,20 @@ const { source = 'question' } = Astro.props as { source?: string };
         status.textContent = '';
         status.className = 'qf-status';
         dialog.showModal();
+        // Открытие формы — отдельный шаг воронки: без него «ноль
+        // form_start» не отличить от «до формы не дошли». Раз на страницу:
+        // повторные открытия той же формы одним посетителем шаг воронки не
+        // повторяют, а цель с параметрами задвоили бы.
+        if (!opened) {
+          opened = true;
+          trackGoalOnce('form_open', { form_source: 'question', form_kind: 'modal' });
+        }
       });
     });
 
     dialog.querySelector('[data-close]')?.addEventListener('click', () => dialog.close());
     dialog.addEventListener('click', (e) => { if (e.target === dialog) dialog.close(); });
 
-    let started = false;
     form.addEventListener('input', () => {
       if (started) return;
       started = true;
