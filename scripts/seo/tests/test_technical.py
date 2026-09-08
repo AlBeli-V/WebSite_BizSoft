@@ -82,6 +82,34 @@ class CompareTest(unittest.TestCase):
         r = technical.compare(now, was, self.cfg)
         self.assertEqual(r[0]["issues"][0]["kind"], "cls")
 
+    def test_bystryy_lcp_ne_daet_zheltogo_signala(self):
+        # Случай 07.09.2026: карточка 939 → 1201 мс, это +28%, но обе цифры
+        # отличные. Письмо ушло жёлтым — так быть не должно.
+        now = measurement(pages=[page(lcp=1201)])
+        was = measurement(date="2026-09-06", pages=[page(lcp=939)])
+        self.assertEqual(technical.compare(now, was, self.cfg), [])
+
+    def test_medlennyy_lcp_daet_zheltyy_signal(self):
+        # Тот же относительный сдвиг, но за границей зоны «хорошо».
+        now = measurement(pages=[page(lcp=3200)])
+        was = measurement(date="2026-09-06", pages=[page(lcp=2400)])
+        r = technical.compare(now, was, self.cfg)
+        self.assertEqual(r[0]["issues"][0]["kind"], "lcp")
+
+    def test_krohotnyy_cls_ne_daet_signala(self):
+        # Прыжок 0,001 → 0,055 формально больше порога 0,05, но итог остаётся
+        # в зоне «хорошо» по Core Web Vitals (граница 0,1) — это не новость.
+        now = measurement(pages=[page(cls=0.055)])
+        was = measurement(date="2026-09-06", pages=[page(cls=0.001)])
+        self.assertEqual(technical.compare(now, was, self.cfg), [])
+
+    def test_zametnyy_cls_daet_signal(self):
+        # За границей зоны «хорошо» тот же по величине сдвиг — уже новость.
+        now = measurement(pages=[page(cls=0.13)])
+        was = measurement(date="2026-09-06", pages=[page(cls=0.06)])
+        r = technical.compare(now, was, self.cfg)
+        self.assertEqual(r[0]["issues"][0]["kind"], "cls")
+
     def test_desktop_v_sravnenie_ne_vhodit(self):
         # Решения принимаются по мобильной выдаче; desktop справочный.
         now = measurement(pages=[page(perf=70, strategy="desktop")])
