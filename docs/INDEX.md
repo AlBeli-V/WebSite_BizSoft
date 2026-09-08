@@ -50,6 +50,11 @@ TypeScript strict · Vitest · Python 3 (контуры SEO/разведки/р�
   выкаченным сниппетам в `src/data/seo-experiments.ts`. Результат — бэклог
   `reports/seo/yandex-money-backlog.json`, разбор —
   `reports/seo/yandex-money-growth-plan.md`.
+- **Новый SEO-эксперимент** — запись кладётся в
+  `data/seo/experiments-pending/*.json` (ветка main, обычный код-ревью), в
+  реестр `seo-data` её переносит `scripts/seo/experiments_sync.py` шагом
+  `seo-site-check` до активации. Руками реестр не редактировать: запись с
+  существующим id перенос не трогает, потому что её ведут другие прогоны.
 - **Очередь работ и сроки** — тикеты `reports/seo/tasks/*.md`. У тикета,
   который нельзя делать сразу, в заголовке стоит `**Созревает:** ГГГГ-ММ-ДД`;
   `scripts/seo/tasks_due.py` находит созревшие, workflow `seo-tasks-due`
