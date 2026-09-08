@@ -10,6 +10,7 @@ import { productIcons } from '../../data/product-icons';
 import ProductIcon from '../../components/ProductIcon.astro';
 import AddToCartButton from '../../components/AddToCartButton.astro';
 import QuestionForm from '../../components/QuestionForm.astro';
+import VendorInterlinks from '../../components/VendorInterlinks.astro';
 import JsonLd from '../../components/JsonLd.astro';
 import { getProducts } from '../../lib/directus';
 import { effectivePrice, formatRub } from '../../lib/pricing';
@@ -42,8 +43,16 @@ const priced = zoom.filter((p) => effectivePrice(p).price > 0);
 const minPrice = priced.length ? Math.min(...priced.map((p) => effectivePrice(p).price)) : 0;
 const ai = bySku.get('ZOOM-AI-COMPANION');
 
-const title = 'Купить Zoom для юридических лиц — тарифы Zoom Workplace и аддоны';
-const description = 'Подберите Zoom для бизнеса: Pro, Business, Business Plus, Enterprise, Webinars, Large Meeting, Rooms, Phone и Events. КП, счёт, договор и закрывающие документы для юридических лиц.';
+// Сниппет-эксперимент money-a1-query-phrase (08.09.2026). Кластер Zoom — 48
+// показов за окно Вебмастера (4,0/день), средняя позиция 7,62, переходов 0;
+// три четверти показов даёт один запрос «оформление zoom business для
+// организации из рф» (35 показов, позиция 7,03). В заголовок вынесена его
+// формулировка — «оформление» и «для организации из РФ», которых в прежнем
+// заголовке не было; прежнее описание было длиной 179 символов и обрывалось
+// в выдаче ровно на обещании про документы. Меняется только текст в выдаче:
+// H1, контент и перелинковка страницы не тронуты.
+const title = 'Оформление Zoom Business для организации из РФ — счёт и договор';
+const description = 'Оформление Zoom Workplace для организации из РФ: тарифы Pro, Business, Business Plus и аддоны. Договор, счёт в рублях, закрывающие документы через ЭДО.';
 
 const ldItems = zoom.map((p) => ({ name: p.name, slug: p.slug }));
 const collectionLd = collectionPageSchema({ name: 'Zoom для бизнеса', description, url: '/vendors/zoom', items: ldItems });
@@ -304,6 +313,9 @@ const cards = zoom.map((p) => {
       </div>
     </section>
   </div>
+
+  {/* Ещё по теме: статьи, аналоги, сравнения этого вендора (IDX-001) */}
+  <VendorInterlinks vendorSlug="zoom" productSlugs={zoom.map((p) => p.slug)} />
 
   <QuestionForm source="zoom" />
 </BaseLayout>
