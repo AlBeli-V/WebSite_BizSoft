@@ -1,0 +1,176 @@
+{
+  "$comment": "Реестр внешних аккаунтов проекта: вендор → группа владельцев → что упадёт при потере доступа. Заведён 08.09.2026 после постоянной блокировки аккаунта в группе TurnCommerce (NameBright, DropCatch): выяснилось, что связку «аккаунт — что от него зависит» никто не хранил, и объём потери пришлось выяснять постфактум. Значений паролей, токенов и ключей здесь нет — только имена секретов GitHub, как в ops/secrets/registry.json. Проверяется scripts/seo/tests/test_accounts_registry.py: у каждого аккаунта заполнены назначение, статус и импакт; каждый секрет из реестра секретов принадлежит аккаунту или записан в secrets_without_account с причиной; незаполненное поле несёт _todo, а не молчаливый null.",
+  "updated": "2026-09-08",
+  "accounts": [
+    {
+      "id": "dataforseo",
+      "vendor": "DataForSEO",
+      "group": null,
+      "purpose": "Google SERP через API, Domain Analytics WHOIS и Backlinks (выбран источником ворот G1 08.09.2026)",
+      "status": "active",
+      "secrets": ["DATAFORSEO_LOGIN", "DATAFORSEO_PASSWORD"],
+      "impact": "Google-часть конкурентной разведки и весь ссылочный слой оценки доменов",
+      "owner_contact": null,
+      "_owner_contact": "не заполнено: нужен адрес в собственном домене, а не у поставщика",
+      "payment": null,
+      "_payment": "не заполнено: указать платёжное средство и владельца счёта"
+    },
+    {
+      "id": "xmlriver",
+      "vendor": "xmlriver.com",
+      "group": null,
+      "purpose": "российский Google SERP, единственный сборщик по правилу «один сбор — все потребители»",
+      "status": "active",
+      "secrets": ["XMLRIVER_USER", "XMLRIVER_KEY"],
+      "impact": "срезы reports/seo/serp: веб-отчёт Growth Intelligence и конкурентная разведка остаются без Google",
+      "owner_contact": null,
+      "_owner_contact": "не заполнено",
+      "payment": null,
+      "_payment": "не заполнено: баланс кабинета пополняется вручную"
+    },
+    {
+      "id": "yandex",
+      "vendor": "Яндекс",
+      "group": "yandex",
+      "purpose": "Вебмастер, Метрика, Директ, Вордстат и Search API, Яндекс.Диск — всё под одним владельцем аккаунта",
+      "status": "active",
+      "secrets": ["WORDSTAT_API_KEY", "YANDEX_WEBMASTER_TOKEN", "YANDEX_METRIKA_TOKEN", "YANDEX_METRIKA_COUNTER_ID", "YANDEX_DIRECT_TOKEN", "YANDEX_DISK_OAUTH"],
+      "impact": "самый широкий: индексация и переобход, аналитика, реклама, спрос, выгрузка отчётов — одна точка отказа на шесть контуров",
+      "owner_contact": null,
+      "_owner_contact": "не заполнено: критично именно здесь — проверить, что владелец не личный аккаунт сотрудника",
+      "payment": null,
+      "_payment": "не заполнено"
+    },
+    {
+      "id": "yandex_cloud",
+      "vendor": "Yandex Cloud",
+      "group": "yandex",
+      "purpose": "биллинг и расход облака",
+      "status": "active",
+      "secrets": ["YC_BILLING_SA_KEY"],
+      "impact": "контроль расхода облака",
+      "owner_contact": null,
+      "_owner_contact": "не заполнено",
+      "payment": null,
+      "_payment": "не заполнено"
+    },
+    {
+      "id": "google_cloud",
+      "vendor": "Google",
+      "group": "google",
+      "purpose": "Search Console API, PageSpeed Insights, GA4",
+      "status": "active",
+      "secrets": ["GSC_SERVICE_ACCOUNT_JSON", "PSI_API_KEY", "GA4_PROPERTY_ID"],
+      "impact": "замеры индексации Google, скорости и поведения — вся Google-половина отчётности",
+      "owner_contact": null,
+      "_owner_contact": "не заполнено",
+      "payment": null,
+      "_payment": "не заполнено: PSI-ключ живёт в проекте Google Cloud с биллингом"
+    },
+    {
+      "id": "google_drive",
+      "vendor": "Google Drive",
+      "group": "google",
+      "purpose": "хранение бэкапов через rclone",
+      "status": "active",
+      "secrets": ["GDRIVE_RCLONE_CONF"],
+      "impact": "копии бэкапов вне сервера",
+      "owner_contact": null,
+      "_owner_contact": "не заполнено",
+      "payment": null,
+      "_payment": "не заполнено"
+    },
+    {
+      "id": "mail_smtp",
+      "vendor": "почтовый провайдер hello@biz-soft.pro",
+      "group": null,
+      "purpose": "исходящая почта воркфлоу и писем руководителю",
+      "status": "active",
+      "secrets": ["SMTP_PASS"],
+      "impact": "письма контуров и заявки с форм",
+      "owner_contact": null,
+      "_owner_contact": "не заполнено: указать, на чьём аккаунте заведён домен почты",
+      "payment": null,
+      "_payment": "не заполнено"
+    },
+    {
+      "id": "dadata",
+      "vendor": "DaData",
+      "group": null,
+      "purpose": "подсказки по ИНН в формах",
+      "status": "active",
+      "secrets": ["DADATA_TOKEN"],
+      "impact": "автозаполнение реквизитов в заявках",
+      "owner_contact": null,
+      "_owner_contact": "не заполнено",
+      "payment": null,
+      "_payment": "не заполнено"
+    },
+    {
+      "id": "hosting",
+      "vendor": "хостинг прод-сервера",
+      "group": null,
+      "purpose": "VPS с сайтом, Directus и БД",
+      "status": "active",
+      "secrets": ["SSH_HOST", "SSH_USER", "SSH_KEY"],
+      "impact": "сайт целиком",
+      "owner_contact": null,
+      "_owner_contact": "не заполнено: указать вендора и владельца панели",
+      "payment": null,
+      "_payment": "не заполнено"
+    },
+    {
+      "id": "registrar_biz_soft_pro",
+      "vendor": "регистратор biz-soft.pro",
+      "group": null,
+      "purpose": "регистрация домена сайта",
+      "status": "active",
+      "secrets": [],
+      "impact": "домен сайта — единственный актив, потеря которого необратима",
+      "owner_contact": null,
+      "_owner_contact": "не заполнено: вендор неизвестен по репозиторию, определяется прогоном ops-domain-watch (поле registrar в отчёте RDAP)",
+      "payment": null,
+      "_payment": "не заполнено: проверить автопродление и резервное платёжное средство"
+    },
+    {
+      "id": "namebright",
+      "vendor": "NameBright",
+      "group": "turncommerce",
+      "purpose": "регистратор доменов доменного направления",
+      "status": "blocked",
+      "secrets": [],
+      "impact": "нужно выяснить: если в аккаунте остались домены, доступ к панели и трансферу может быть закрыт",
+      "owner_contact": null,
+      "_owner_contact": "аккаунт заблокирован постоянно 08.09.2026",
+      "payment": null,
+      "_payment": "аккаунт заблокирован постоянно 08.09.2026"
+    },
+    {
+      "id": "dropcatch",
+      "vendor": "DropCatch",
+      "group": "turncommerce",
+      "purpose": "перехват и аукцион освобождающихся доменов",
+      "status": "blocked",
+      "secrets": [],
+      "impact": "канал приобретения дропов; данными контуры не питались",
+      "owner_contact": null,
+      "_owner_contact": "аккаунт заблокирован постоянно 08.09.2026",
+      "payment": null,
+      "_payment": "аккаунт заблокирован постоянно 08.09.2026"
+    }
+  ],
+  "secrets_without_account": [
+    {"name": "GITHUB_TOKEN", "reason": "штатный токен Actions, внешнего аккаунта за ним нет"},
+    {"name": "BACKUP_PASSPHRASE", "reason": "пароль архива бэкапа, не доступ к внешнему сервису"}
+  ],
+  "domains": [
+    {
+      "name": "biz-soft.pro",
+      "role": "прод-сайт",
+      "expected_registrar": null,
+      "_expected_registrar": "не заполнено: подставить значение из первого прогона ops-domain-watch, после чего сторож начнёт ловить смену регистратора",
+      "warn_days": 60
+    }
+  ],
+  "_domains": "Список для сторожа ops-domain-watch: сроки и статусы проверяются по RDAP. warn_days — за сколько дней до истечения прогон становится красным. Домены доменного направления добавляются сюда в момент покупки, а не после."
+}
