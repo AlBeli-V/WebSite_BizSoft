@@ -1,5 +1,6 @@
-# Сторож утренних контуров: запускает ежедневный конвейер и разведку тогда,
-# когда наступило нужное время, а не когда до слота добрался планировщик.
+# Сторож утренних контуров: запускает ежедневный конвейер, разведку и
+# понедельничный комитет тогда, когда наступило нужное время, а не когда
+# до слота добрался планировщик.
 #
 # Зачем. Замер 04–05.09.2026 показал: cron-слоты этого репозитория стартуют в
 # среднем на 4–5 часов позже назначенного (слот 06:35 UTC → прогон 11:39 UTC;
@@ -54,7 +55,7 @@ jobs:
             *)     echo "run=no"  >> "$GITHUB_OUTPUT" ;;
           esac
 
-      # Оба контура запускаются без ожидания: сторож своё дело сделал, а
+      # Контуры запускаются без ожидания: сторож своё дело сделал, а
       # следить за прогонами — задача самих контуров и журнала issue #22.
       - name: Start daily report
         if: steps.decide.outputs.run == 'yes'
@@ -63,3 +64,29 @@ jobs:
       - name: Start competitive intelligence
         if: steps.decide.outputs.run == 'yes'
         run: bash scripts/ops/gh_dispatch_wait.sh competitive-intelligence-daily.yml --ref main --no-wait
+
+      # Комитет — только по понедельникам, и у него свой маркер отправки.
+      # 07.09.2026 оба его cron-слота (09:10 и 09:50 МСК) планировщик
+      # пропустил, а сторож тогда покрывал лишь два ежедневных контура —
+      # письма решений за неделю не было вовсе. Окно и защита от повтора те
+      # же, что у ежедневных: morning_gate.sh сверяет час по МСК и маркер.
+      - name: Decide committee
+        id: committee
+        run: |
+          if [ "$(TZ=Europe/Moscow date +%u)" != "1" ]; then
+            echo "skip: не понедельник — комитет не собирается"
+            echo "run=no" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          mailed=$(git show origin/seo-data:reports/seo/intelligence/last-committee-mailed.txt 2>/dev/null || echo "")
+          verdict=$(bash scripts/ops/morning_gate.sh \
+            "$(TZ=Europe/Moscow date +%H)" "$(TZ=Europe/Moscow date +%F)" "$mailed")
+          echo "$verdict"
+          case "$verdict" in
+            run:*) echo "run=yes" >> "$GITHUB_OUTPUT" ;;
+            *)     echo "run=no"  >> "$GITHUB_OUTPUT" ;;
+          esac
+
+      - name: Start growth committee
+        if: steps.committee.outputs.run == 'yes'
+        run: bash scripts/ops/gh_dispatch_wait.sh seo-committee-build.yml --ref main --no-wait

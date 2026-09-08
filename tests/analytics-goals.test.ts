@@ -38,6 +38,13 @@ function calledGoals(): Set<string> {
   for (const f of walk(resolve(ROOT, 'src'))) {
     if (f.endsWith('/lib/analytics.ts')) continue;
     const src = readFileSync(f, 'utf8');
+    // Цели механизма data-ev пишутся в двойных кавычках и мимо trackGoal(:
+    // сканер по одним лишь одинарным кавычкам их не видел, и цель могла
+    // годами уходить в счётчик, не значась в реестре (так было с
+    // click_get_quote — главным призывом всех лендингов производителей).
+    for (const m of src.matchAll(/data-ev(?:-view)?="([a-z0-9_]+)"/g)) {
+      if (names.includes(m[1])) found.add(m[1]);
+    }
     for (const m of src.matchAll(/'([a-z_]+)'/g)) {
       if (names.includes(m[1])) found.add(m[1]);
     }
@@ -45,8 +52,37 @@ function calledGoals(): Set<string> {
   return found;
 }
 
+/**
+ * Цели механизма data-ev заведены в реестре наравне с trackGoal.
+ *
+ * До 07.09.2026 их было пятнадцать, и ни одна не значилась в реестре:
+ * события уходили в счётчик незаведёнными, то есть в отчёте их не
+ * существовало. Решение руководителя — завести весь набор; проверка ниже
+ * не даёт появиться новой цели мимо реестра.
+ */
+function dataEvGoals(): Set<string> {
+  const found = new Set<string>();
+  for (const f of walk(resolve(ROOT, 'src'))) {
+    for (const m of readFileSync(f, 'utf8').matchAll(/data-ev(?:-view)?="([a-z0-9_]+)"/g)) {
+      found.add(m[1]);
+    }
+  }
+  return found;
+}
+
 describe('реестр целей', () => {
   const called = calledGoals();
+
+  it('каждая data-ev цель заведена в реестре', () => {
+    const unregistered = [...dataEvGoals()].filter((g) => !GOALS[g]).sort();
+    expect(unregistered).toEqual([]);
+  });
+
+  it('шаги воронки заявки заведены в реестре', () => {
+    for (const g of ['click_get_quote', 'form_open', 'form_start', 'lead_sent']) {
+      expect(GOALS[g], g).toBeTruthy();
+    }
+  });
 
   it('каждая цель из кода описана в реестре', () => {
     const unknown = [...called].filter((g) => !GOALS[g]);

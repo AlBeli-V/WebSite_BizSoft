@@ -5,6 +5,13 @@ const blog = defineCollection({
   loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/blog' }),
   schema: z.object({
     title: z.string(),
+    // Заголовок для выдачи, если он должен отличаться от заголовка статьи.
+    // Без этого поля `title` рендерится сразу в трёх местах — <title>, <h1> и
+    // хлебные крошки, — и правка заголовка под запрос неизбежно меняет саму
+    // страницу. Тогда сниппет-эксперимент на статье поставить нельзя: вывод о
+    // тексте в выдаче не отделить от вывода об изменении страницы (разбор
+    // MONEY-A2, 08.09.2026). Не задан — <title> берёт `title`, как раньше.
+    metaTitle: z.string().optional(),
     description: z.string(),
     date: z.coerce.date(),
     updated: z.coerce.date().optional(),
