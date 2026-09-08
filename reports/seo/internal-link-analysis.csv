@@ -1,0 +1,15 @@
+page_type,urls,click_depth_min,contextual_inbound,google_crawled,google_indexed,google_impression_urls,yandex_in_search,method
+product,489,2,≈2 (лендинг вендора + страница категории),156,156,9,448,"выведено из шаблонов: VendorGenericLanding перечисляет все товары вендора, catalog/[segment] — товары категории"
+vendor,112,1,729 (сквозное меню) + 52 с главной,54,54,17,112,измерено: 109 ссылок в мега-меню шапки на каждой из 729 страниц
+blog_post,34,2,4,3,3,0,34,измерено по собранному HTML dist/client
+category,27,1,729 (сквозное меню),12,11,2,27,измерено: меню «Тип» в шапке на каждой странице
+solution,18,2,2,2,2,0,7,измерено по собранному HTML dist/client
+compare,18,2,2,0,0,0,2,измерено по собранному HTML dist/client
+blog_tag,11,2,44,0,0,0,1,измерено по собранному HTML dist/client
+utility,8,2,134,8,8,7,8,измерено по собранному HTML dist/client
+alternative,7,2,0,0,0,0,7,измерено по собранному HTML dist/client
+homepage,1,1,729,1,1,1,1,измерено по собранному HTML dist/client
+catalog_hub,1,1,729 (сквозное меню),1,1,1,1,измерено: меню «Тип» в шапке на каждой странице
+solution_hub,1,1,134,0,0,0,1,измерено по собранному HTML dist/client
+vendor_hub,1,1,729,1,0,0,1,измерено по собранному HTML dist/client
+blog_hub,1,1,134,1,1,1,1,измерено по собранному HTML dist/client

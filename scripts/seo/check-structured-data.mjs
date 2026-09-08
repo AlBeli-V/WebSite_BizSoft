@@ -6,7 +6,9 @@
  *   2) на странице не больше одного BreadcrumbList, FAQPage и Product;
  *   3) у Product: offers.price > 0, priceCurrency RUB, offers.url = canonical,
  *      name/sku/image присутствуют, абсолютные URL;
- *   4) все узлы Organization несут один и тот же @id;
+ *   4) все узлы Organization несут один и тот же @id, но ни один
+ *      идентификатор (@id JSON-LD либо itemid microdata) не встречается на
+ *      странице дважды — иначе потребитель сливает узлы и видит дубли полей;
  *   5) microdata-цена карточки (itemprop="price") равна цене JSON-LD;
  *   6) видимая цена (data-price) равна цене разметки;
  *   7) canonical присутствует и абсолютен.
@@ -107,6 +109,18 @@ for (const path of urls) {
 
       const orgIds = [...new Set(ofType(nodes, 'Organization').map((o) => o['@id']))];
       if (orgIds.length > 1) problems.push(`Organization с разными @id: ${orgIds.join(' | ')}`);
+
+      // Один узел — один идентификатор. Потребитель (Google — точно) сливает
+      // узлы с общим идентификатором, включая разные синтаксисы: @id JSON-LD
+      // и itemid microdata — одно и то же имя узла. Повтор идентификатора
+      // означает, что у объединённой сущности каждое общее поле приходит
+      // дважды: так возникла ошибка «Поле "brand" дублируется» (01.09.2026).
+      const ids = [
+        ...nodes.filter((n) => n && n['@id']).map((n) => String(n['@id'])),
+        ...[...html.matchAll(/itemid="([^"]+)"/g)].map((m) => m[1]),
+      ];
+      const dupIds = [...new Set(ids.filter((id, i) => ids.indexOf(id) !== i))];
+      if (dupIds.length) problems.push(`повтор идентификатора узла (@id/itemid): ${dupIds.join(' | ')}`);
 
       const product = ofType(nodes, 'Product')[0];
       if (product) {

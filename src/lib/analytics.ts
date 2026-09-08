@@ -62,8 +62,20 @@ export const GOALS: Record<string, GoalSpec> = {
     meaning: 'Открыта подборка' },
   begin_checkout: { ga4: 'begin_checkout', key: false,
     meaning: 'Начато заполнение формы КП' },
+  // Открытие формы и начало ввода — разные шаги, и путать их нельзя.
+  // Замер кампании 04.09.2026: 226 визитов рекламы, ноль form_start. По
+  // одному этому числу нельзя было сказать, не дошли до формы вовсе или
+  // открыли и не стали заполнять — лечение у этих случаев разное.
+  form_open: { ga4: 'form_open', key: false,
+    meaning: 'Форма заявки открыта: модальная — по кнопке, инлайн — показана на экране' },
   form_start: { ga4: 'form_start', key: false,
-    meaning: 'Начато заполнение формы заявки' },
+    meaning: 'Начато заполнение формы заявки — первый ввод в поле' },
+
+  // Клик по главному призыву лендингов вендоров. Отправляется механизмом
+  // data-ev с 21.08.2026, но в реестре не значился: цель уходила в счётчик
+  // незаведённой, то есть в отчёте её не существовало.
+  click_get_quote: { ga4: 'click_get_quote', key: false,
+    meaning: 'Клик по кнопке «Получить расчёт и КП» на лендинге' },
 
   // Реквизиты подставлены из справочника, а не введены руками. Показывает,
   // пользуются ли подсказками: если нет — поле или подсказка не работают.
@@ -77,6 +89,39 @@ export const GOALS: Record<string, GoalSpec> = {
     meaning: 'Открыт лендинг производителя' },
   view_solution: { ga4: 'view_item_list', key: false,
     meaning: 'Открыта страница назначения ПО' },
+
+  // ── Клики по лендингам производителей (механизм data-ev) ────────────
+  // Все они отправлялись с 21.08.2026, но в реестре не значились: цель,
+  // не заведённая в кабинете, принимается счётчиком и нигде не видна.
+  // Решение руководителя 07.09.2026 — завести весь набор.
+  click_related_link: { ga4: 'click_related_link', key: false,
+    meaning: 'Переход по связанной ссылке лендинга' },
+  click_product_card: { ga4: 'click_product_card', key: false,
+    meaning: 'Переход в карточку товара с лендинга' },
+  click_choose_plan: { ga4: 'click_choose_plan', key: false,
+    meaning: 'Переход к тарифам на самой странице' },
+  click_clarify_price: { ga4: 'click_clarify_price', key: false,
+    meaning: 'Нажата кнопка «уточнить цену» — открывает форму вопроса' },
+  click_request_invoice: { ga4: 'click_request_invoice', key: false,
+    meaning: 'Нажата кнопка запроса счёта — открывает форму вопроса' },
+  click_renew: { ga4: 'click_renew', key: false,
+    meaning: 'Нажата кнопка продления подписки — открывает форму вопроса' },
+  click_buy_org: { ga4: 'click_buy_org', key: false,
+    meaning: 'Нажата покупка тарифа на организацию — открывает форму вопроса' },
+  click_pick_licenses: { ga4: 'click_pick_licenses', key: false,
+    meaning: 'Переход к подборщику лицензий на странице' },
+  click_plugins_catalog: { ga4: 'click_plugins_catalog', key: false,
+    meaning: 'Переход в каталог из блока плагинов' },
+  expand_plugins_category: { ga4: 'expand_plugins_category', key: false,
+    meaning: 'Раскрыта категория плагинов' },
+  quiz_step: { ga4: 'quiz_step', key: false,
+    meaning: 'Шаг подборщика тарифа пройден' },
+  quiz_complete: { ga4: 'quiz_complete', key: false,
+    meaning: 'Подборщик тарифа доведён до конца — открывает форму вопроса' },
+  click_compare_app: { ga4: 'click_compare_app', key: false,
+    meaning: 'Таблица сравнения приложений показана на экране' },
+  open_comparison_table: { ga4: 'open_comparison_table', key: false,
+    meaning: 'Таблица сравнения тарифов показана на экране' },
 
   // ── Спрос, которого у нас нет ───────────────────────────────────────
   // Поиск по каталогу — единственный канал, где посетитель прямо называет,
@@ -94,6 +139,23 @@ export const GOALS: Record<string, GoalSpec> = {
   quote_error: { ga4: 'form_error', key: false,
     meaning: 'КП не сформировалось из-за ошибки' },
 };
+
+/**
+ * Отправить цель не более одного раза за загрузку страницы.
+ *
+ * Нужна там, где один и тот же шаг воронки могут заметить несколько
+ * независимых блоков: на лендинге производителя форма стоит и в первом
+ * экране, и внизу страницы, плюс есть модальная. Каждая из них считает
+ * своё «форму открыли», и без общего замка один визит давал бы три
+ * события вместо одного шага.
+ */
+const onceSent = new Set<string>();
+
+export function trackGoalOnce(name: string, params: Record<string, unknown> = {}): void {
+  if (onceSent.has(name)) return;
+  onceSent.add(name);
+  trackGoal(name, params);
+}
 
 /** Цели, которые размечаются конверсиями в обеих системах. */
 export const KEY_GOALS = Object.keys(GOALS).filter((g) => GOALS[g].key);
