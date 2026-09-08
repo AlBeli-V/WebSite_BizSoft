@@ -1,0 +1,71 @@
+---
+/**
+ * Блок «Ещё по теме» на лендинге вендора: ссылки на статьи, аналоги и
+ * сравнения, относящиеся к этому вендору.
+ *
+ * Задача IDX-001. Экспертный слой сайта не получал внутреннего веса:
+ * `/alternatives/*` не имел ни одной входящей ссылки во всём сайте, у
+ * `/compare/*` ссылки шли только с главной и каталога. В индексе Google
+ * обоих разделов нет вовсе, при том что Яндекс ранжирует их страницы.
+ * Лендинги вендоров — лучший по покрытию раздел, отсюда и ставим ссылки.
+ *
+ * Связь выводится из уже существующих данных (см. lib/vendor-interlinks.ts),
+ * ручной разметки не заводится.
+ */
+import { getCollection } from 'astro:content';
+import {
+  vendorInterlinks, articleDocs, alternativesDocs, comparisonDocs,
+} from '../lib/vendor-interlinks';
+
+interface Props {
+  vendorSlug: string;
+  /** Слаги карточек этого вендора из каталога. */
+  productSlugs: string[];
+}
+const { vendorSlug, productSlugs } = Astro.props;
+
+let articles: ReturnType<typeof articleDocs> = [];
+try {
+  articles = articleDocs(await getCollection('blog'));
+} catch (e) {
+  // Сбой коллекции не должен ронять лендинг: блок просто не выводится.
+  console.error('vendor interlinks: blog collection', e);
+}
+
+const groups = vendorInterlinks({
+  vendorSlug,
+  productSlugs,
+  articles,
+  alternatives: alternativesDocs(),
+  comparisons: comparisonDocs(),
+});
+---
+
+{groups.length > 0 && (
+  <section class="block interlinks">
+    <h2>Ещё по теме</h2>
+    <div class="groups">
+      {groups.map((g) => (
+        <div class="group">
+          <h3>{g.title}</h3>
+          {g.note && <p class="muted">{g.note}</p>}
+          <ul>
+            {g.links.map((l) => <li><a href={l.href}>{l.label}</a></li>)}
+          </ul>
+        </div>
+      ))}
+    </div>
+  </section>
+)}
+
+<style>
+  .interlinks .groups {
+    display: grid;
+    gap: 1.25rem;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  }
+  .interlinks h3 { margin: 0 0 0.35rem; font-size: 1rem; }
+  .interlinks p.muted { margin: 0 0 0.5rem; font-size: 0.9rem; }
+  .interlinks ul { margin: 0; padding-left: 1.1rem; display: flex; flex-direction: column; gap: 0.4rem; }
+  .interlinks a { color: var(--color-accent); font-weight: 600; }
+</style>

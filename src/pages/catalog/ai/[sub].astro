@@ -12,6 +12,7 @@ import { getProducts, getCategoryBySlug, getProductsBySlugs } from '../../../lib
 import { itemListSchema } from '../../../lib/seo';
 import { getAiSubcategory, aiEnterpriseSlugs } from '../../../data/ai-hub';
 import { comparisons } from '../../../data/comparisons';
+import { alternativesForCategory } from '../../../data/alternatives';
 import { effectivePrice } from '../../../lib/pricing';
 import type { Product } from '../../../lib/types';
 
@@ -55,6 +56,9 @@ const ready = Boolean(pageCategory) && products.length > 0;
 
 // Сравнения, релевантные подкатегории (по category.slug вида "ai/<sub>").
 const relatedCompare = comparisons.filter((c) => c.category.slug === `ai/${meta.sub}`).slice(0, 4);
+// Страницы «Аналоги X» этой подкатегории — см. комментарий в
+// src/data/alternatives.ts: до 08.09.2026 слой был без входящих ссылок.
+const altPages = alternativesForCategory(`ai/${meta.sub}`);
 
 const guide = meta.guide ?? [];
 const faq = meta.faq?.length ? meta.faq : [
@@ -99,6 +103,17 @@ const faq = meta.faq?.length ? meta.faq : [
         <div class="rel-grid">
           {relatedCompare.map((c) => (
             <a href={`/compare/${c.slug}`} class="card card-hover rel">{c.h1} →</a>
+          ))}
+        </div>
+      </section>
+    )}
+
+    {altPages.length > 0 && (
+      <section class="related">
+        <h2>Чем заменить: аналоги</h2>
+        <div class="rel-grid">
+          {altPages.map((a) => (
+            <a href={`/alternatives/${a.slug}`} class="card card-hover rel">{a.h1} →</a>
           ))}
         </div>
       </section>
