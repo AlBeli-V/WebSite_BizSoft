@@ -1,0 +1,74 @@
+# Сторож счётчика на живом сайте.
+#
+# Проверка в CI (pnpm check:metrika) смотрит на собранный код с подменённым
+# тегом: она ловит наши поломки, но не серверные. Инцидент 04–08.09.2026 был
+# именно серверным — тег отдавал кэширующий прокси nginx, файл приходил
+# с кодом 200 и нужного размера, а в браузере не исполнялся. Поэтому здесь
+# проверяется живой сайт с настоящим тегом: дошло ли до хита счётчика.
+#
+# Тишина при успехе: запись в журнал идёт только при сбое (правило
+# docs/rules/report-integrity.md).
+name: ops-metrika-check
+on:
+  workflow_dispatch:
+    inputs:
+      url:
+        description: "Адрес сайта"
+        required: false
+        default: "https://biz-soft.pro"
+  schedule:
+    # 07:30 и 15:30 UTC = 10:30 и 18:30 МСК. Два слота: планировщик
+    # GitHub задерживает запуск на часы, одного слота мало.
+    - cron: "30 7 * * *"
+    - cron: "30 15 * * *"
+permissions:
+  contents: read
+  issues: write
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install
+        run: pnpm install --frozen-lockfile
+
+      - name: Install Chromium
+        run: pnpm exec playwright install --with-deps chromium
+
+      - name: Check live counter
+        id: run
+        env:
+          SITE: ${{ inputs.url || 'https://biz-soft.pro' }}
+        run: |
+          set -o pipefail
+          node scripts/ci/metrika-check.mjs --live "$SITE" 2>&1 | tee /tmp/metrika-check.log
+
+      - name: Save log for issue
+        if: always()
+        run: |
+          [ -f /tmp/metrika-check.log ] || echo "(лог не создан)" > /tmp/metrika-check.log
+
+      # При успехе журнал молчит: ежедневная запись «всё хорошо» тонет
+      # среди прочих и перестаёт читаться.
+      - name: Post to issue on failure
+        if: failure()
+        uses: ./.github/actions/journal-post
+        with:
+          title: "ops-metrika-check — счётчик не запускается на живом сайте"
+          outcome: ${{ steps.run.outcome }}
+          body-file: /tmp/metrika-check.log
+          format: code
+          issue: "22"
+          fail-on-error: "false"
