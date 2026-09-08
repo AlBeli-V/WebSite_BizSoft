@@ -408,7 +408,7 @@
    "dependencies": [
     "деплой в main"
    ],
-   "validation": "index-google через 2–4 недели: доля обойденных в разделах blog/compare/alternatives",
+   "validation": "index-google через 2–4 недели: доля обойденных в разделах blog/compare/alternatives. Внедрение подтверждено на проде 08.09.2026: ops-probe по /vendors/framer нашёл в блоке ссылки /blog/kak-oplatit-framer-dlya-yurlica и /alternatives/figma — до этого лендинг не ссылался на экспертный слой вовсе",
    "rollback_plan": "откат коммита; блоки исчезают, URL не меняются",
    "status": "done",
    "ticket": "reports/seo/tasks/IDX-001-google-crawl-demand.md"
@@ -589,14 +589,14 @@
    "id": "G-24",
    "priority": "P2",
    "category": "data quality",
-   "problem": "Сенсор покрытия отдаёт по /vendors статус «Excluded by ‘noindex’ tag», хотя страница индексируема: прогон ops-probe 08.09.2026 показал HTTP 200, ни noindex, ни nofollow в HTML, ни X-Robots-Tag в заголовках, canonical на себя. Значит статус в Google исторический — он держится с давнего обхода, а раздел с тех пор не переобходился.",
+   "problem": "Сенсор покрытия отдаёт по /vendors статус «Excluded by ‘noindex’ tag». Проверено 08.09.2026 двумя способами: ops-probe по проду — HTTP 200, ни noindex, ни nofollow в HTML, X-Robots-Tag в заголовках нет, canonical на себя; URL Inspection через ops-index-validate — последний обход страницы 29.06.2026. Статус исторический: Google держит его с июньского обхода, а раздел с тех пор не переобходился.",
    "evidence": "issue #22, ops-probe от 08.09.2026; index-google-2026-09-08.json",
    "affected_urls": 1,
    "affected_page_types": [
     "vendor_hub"
    ],
    "root_cause": "RC-3",
-   "recommended_action": "Правок в коде не требуется — проверено. Нужен переобход: /vendors входит в переотправку sitemap через ops-index-validate. Проверить смену статуса в следующем срезе index_coverage.py.",
+   "recommended_action": "Правок в коде не требуется — проверено на проде. Нужен переобход: sitemap переотправлен в GSC 08.09.2026 (sitemaps.submit → HTTP 204), /vendors в карте есть. Проверить смену статуса в следующих срезах index_coverage.py.",
    "expected_effect": "точка входа во все 107 лендингов возвращается в индекс",
    "confidence": 70,
    "effort": "S",
@@ -605,8 +605,31 @@
    "dependencies": [
     "деплой перелинковки"
    ],
-   "validation": "index-google следующего среза: статус /vendors перестаёт быть Excluded",
+   "validation": "index-google следующих срезов: дата обхода /vendors уходит вперёд от 29.06.2026, статус перестаёт быть Excluded",
    "rollback_plan": "не требуется",
+   "status": "approved",
+   "ticket": "reports/seo/tasks/IDX-001-google-crawl-demand.md"
+  },
+  {
+   "id": "G-25",
+   "priority": "P2",
+   "category": "crawl priority",
+   "problem": "Переотправка sitemap — единственный программный сигнал Google на переобход (Indexing API принимает только вакансии и трансляции), и делается она сейчас только вручную через ops-index-validate. При темпе обхода в единицы URL в сутки разовый сигнал после деплоя ничего не гарантирует.",
+   "evidence": "issue #22, ops-index-validate 08.09.2026: sitemaps.submit → HTTP 204",
+   "affected_urls": 729,
+   "affected_page_types": [
+    "all"
+   ],
+   "root_cause": "RC-3",
+   "recommended_action": "Поставить переотправку sitemap на расписание — например, шагом в seo-serp-watch рядом с разбором авторитета, либо отдельным слотом. Инспекцию URL оставить ручной: у неё своя квота.",
+   "expected_effect": "обход получает регулярный сигнал, а не разовый после деплоя",
+   "confidence": 50,
+   "effort": "S",
+   "risk_google": "LOW",
+   "risk_yandex": "NONE",
+   "dependencies": [],
+   "validation": "дата обхода приоритетных URL в index-google перестаёт стареть",
+   "rollback_plan": "снять шаг из workflow",
    "status": "proposed",
    "ticket": "reports/seo/tasks/IDX-001-google-crawl-demand.md"
   }
