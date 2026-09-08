@@ -245,6 +245,33 @@ def metrika_sections(campaign_name: str) -> None:
         print("  визиты кампании не найдены ни по UTM, ни по атрибуции — разделы Метрики пропущены")
         return
 
+    # Визиты по дням и метки кампаний целиком. Замер 08.09.2026: Директ
+    # показывал 24 клика за 07.09, а число визитов кампании не сдвинулось с
+    # 226 — ровно как четырьмя днями раньше. Одного итогового числа мало,
+    # чтобы отличить «переходы не долетают до счётчика» от «метка сменилась
+    # и фильтр смотрит в старое значение», поэтому обе разбивки печатаются
+    # всегда: без них расхождение видно, а причина — нет.
+    try:
+        data = metrika_stat(counter, token, dimensions="ym:s:date",
+                            metrics="ym:s:visits", filters=flt,
+                            sort="-ym:s:date", limit=10)
+        rows = [(r["dimensions"][0].get("name") or "?", int(r["metrics"][0]))
+                for r in (data.get("data") or [])]
+        print("  визиты по дням: " +
+              (", ".join(f"{d} — {v}" for d, v in rows) if rows else "нет строк"))
+    except RuntimeError as e:
+        print(f"  (визиты по дням не прочитаны: {e})")
+
+    try:
+        data = metrika_stat(counter, token, dimensions="ym:s:UTMCampaign",
+                            metrics="ym:s:visits", sort="-ym:s:visits", limit=12)
+        rows = [(r["dimensions"][0].get("name") or "(без метки)", int(r["metrics"][0]))
+                for r in (data.get("data") or [])]
+        print("  метки utm_campaign на сайте: " +
+              (", ".join(f"{n} — {v}" for n, v in rows) if rows else "нет строк"))
+    except RuntimeError as e:
+        print(f"  (метки кампаний не прочитаны: {e})")
+
     try:
         goals = metrika_get(f"management/v1/counter/{counter}/goals",
                             {}, token).get("goals", [])
