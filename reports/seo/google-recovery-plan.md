@@ -295,12 +295,23 @@ TIER 1 на 22 из 27 состоит из лендингов вендоров, 
 | G-07 | `public/favicon.ico` — 137 обращений в 404 за 7 дней | `public/favicon.ico` | снимается постоянный 404; по `/product/null` (66 обращений) источника в коде нет — обращения внешние | нет |
 | G-12 | `updated` у записей compare/alternatives/solutions (даты сняты из истории git по строкам каждой записи) + `lastmod` подборкам блога по дате свежей статьи + тест на дату | `src/data/*.ts`, `src/pages/sitemap.xml.ts`, `tests/sitemap-lastmod.test.ts` | покрытие `lastmod` 44% → ~70% инвентаря | LOW |
 
-Отдельно подготовлено, **но не применено** (изменение прод-конфига — решение
-руководителя, применение через `ops-server-config` с `apply=true` с main):
+Отдельно — канонический хост (G-06, тикет GIDX-001). Решение руководителя
+получено 08.09.2026: применять сразу после мержа волны 1.
 
-| ID | Изменение | Файл |
+| ID | Изменение | Файлы |
 |---|---|---|
-| G-06 | Канонический хост: отдельный `server{}` с 301 `www.biz-soft.pro` → `biz-soft.pro` | `deploy/nginx-biz-soft.conf.template` |
+| G-06 | 301 `www.biz-soft.pro` → `biz-soft.pro`: сниппет `SEO-WWW-001`, воркфлоу применения с `nginx -t` и откатом, та же правка в шаблоне | `deploy/nginx-canonical-host.conf`, `.github/workflows/ops-nginx-canonical-host.yml`, `deploy/nginx-biz-soft.conf.template` |
+
+**Поправка к первой редакции этого отчёта.** В ней было сказано, что правка
+применяется воркфлоу `ops-server-config`. Это неверно: диагностический прогон
+08.09.2026 показал, что `ops-server-config` конфиг nginx только **показывает**
+(раздел 5 его вывода), а применяет лишь `docker-compose.override.yml`,
+`deploy.sh` и переменные `astro.env`. Механизма правки живого конфига сайта в
+проекте два — `ops-nginx-ratelimit` и `ops-nginx-metrika-cache`; по их образцу
+и сделан `ops-nginx-canonical-host`. Форма правки тоже изменилась: не отдельный
+`server{}` со своим `server_name` (ему понадобились бы свои `listen 443 ssl` и
+пути к сертификату, то есть копия строк certbot), а один `if` с одним `return`
+в существующем блоке, вставляемый по маркеру перед `location /`.
 
 ### Очередь программы — ни одна найденная задача не потеряна
 
