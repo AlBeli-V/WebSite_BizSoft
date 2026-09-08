@@ -1,0 +1,163 @@
+{
+  "protocol": "Замер первого экрана выдачи Яндекса (решение руководителя 08.09.2026)",
+  "why": "Весь наш взгляд на позиции строится на Yandex Search API (XML): он отдаёт только органический список и по устройству не знает ни о рекламе, ни о колдунщиках над ней. Поэтому вопрос «почему первое место даёт ноль переходов» этими данными не решается в принципе — нужен вид страницы, а сессия в выдачу не ходит (доступ закрыт правилом prod-access).",
+  "how": "Открыть каждый запрос в Яндексе вручную с телефона и с десктопа, регион Москва, режим инкогнито (личная история меняет выдачу). Заполнить поля observation по каждой строке. Снимок первого экрана приложить, если несложно, — по нему видно то, чего не видно по числам.",
+  "measured_at": null,
+  "measured_by": null,
+  "window_of_baseline": {
+    "from": "2026-08-25",
+    "to": "2026-09-05",
+    "days": 12
+  },
+  "fields": {
+    "blocks_above_organic": "число блоков над первым органическим результатом: рекламные объявления, Бизнес и Карты, Маркет, быстрый ответ, видео, картинки. Считать блоки, а не строки",
+    "block_kinds": "список типов этих блоков словами",
+    "our_result_screen_mobile": "на каком экране появляется наш результат при обычной прокрутке телефона: 1 — виден без прокрутки, 2 — после одного экрана, и так далее",
+    "our_result_screen_desktop": "то же на десктопе",
+    "snippet_visible_fully": "виден ли наш сниппет целиком; если обрезан — на каком слове",
+    "answer_block_above": "есть ли над органикой блок, который отвечает на запрос без перехода на сайт (быстрый ответ, таблица, карточка Маркета): да или нет",
+    "screenshot": "имя файла снимка, если приложен"
+  },
+  "decision_rule": {
+    "note": "Правило зафиксировано ДО замера — иначе любой результат можно будет истолковать в пользу уже сделанной работы.",
+    "fold": "Если у целевых запросов на телефоне наш результат оказывается на втором экране и ниже (our_result_screen_mobile ≥ 2) — подтверждается версия «органика ниже первого экрана». Следствие: потолок программы сниппетов мал, работать надо за выход в топ-3 и за блоки над органикой, а не за текст.",
+    "non_human": "Если наш результат на первом экране на обоих устройствах и блоков над органикой не больше одного, а переходов всё равно ноль — версия про вёрстку отпадает, и остаётся версия про нечеловеческие показы. Следствие: эти кластеры уходят из планирования, а модель получает третий гейт — по доле показов без переходов при позиции в топ-3.",
+    "intercepted": "Если над органикой стоит блок, отвечающий на запрос без перехода (быстрый ответ, таблица, карточка Маркета) — клик перехватывается до органики. Следствие: работать надо за попадание в этот блок, а не за позицию в органике.",
+    "control": "Контрольные строки решают спор, если целевые дали неоднозначный ответ. Если у брендового запроса (CTR 16,7 %) выдача устроена так же, как у целевых, — вёрстка ничего не объясняет, разница в том, кто ищет. Если у него блоков над органикой заметно меньше — объясняет."
+  },
+  "queries": [
+    {
+      "query": "оплата motion array юридическим лицом",
+      "role": "target",
+      "impressions": 68,
+      "clicks": 0,
+      "avg_position": 2.91,
+      "serp_position": 1,
+      "our_url": "/vendors/motion-array",
+      "note": "сниппет уже переписан под точную формулировку запроса экспериментом snippets-3-gap-d 01.09",
+      "observation": {
+        "blocks_above_organic": null,
+        "block_kinds": null,
+        "our_result_screen_mobile": null,
+        "our_result_screen_desktop": null,
+        "snippet_visible_fully": null,
+        "answer_block_above": null,
+        "screenshot": null
+      }
+    },
+    {
+      "query": "купить notion ai юридическим лицом",
+      "role": "target",
+      "impressions": 43,
+      "clicks": 0,
+      "avg_position": 2.63,
+      "serp_position": 1,
+      "our_url": "/product/notion-business",
+      "note": "карточка товара на первом месте",
+      "observation": {
+        "blocks_above_organic": null,
+        "block_kinds": null,
+        "our_result_screen_mobile": null,
+        "our_result_screen_desktop": null,
+        "snippet_visible_fully": null,
+        "answer_block_above": null,
+        "screenshot": null
+      }
+    },
+    {
+      "query": "оплата envato юридическим лицом",
+      "role": "target",
+      "impressions": 52,
+      "clicks": 0,
+      "avg_position": 3.13,
+      "serp_position": 1,
+      "our_url": "/blog/kak-oplatit-envato-elements-dlya-yurlica",
+      "note": "нам принадлежат и первое, и второе место органики",
+      "observation": {
+        "blocks_above_organic": null,
+        "block_kinds": null,
+        "our_result_screen_mobile": null,
+        "our_result_screen_desktop": null,
+        "snippet_visible_fully": null,
+        "answer_block_above": null,
+        "screenshot": null
+      }
+    },
+    {
+      "query": "купить heygen юридическим лицом",
+      "role": "target",
+      "impressions": 45,
+      "clicks": 0,
+      "avg_position": 3.51,
+      "serp_position": 1,
+      "our_url": "/product/heygen-business",
+      "note": "карточка товара на первом месте",
+      "observation": {
+        "blocks_above_organic": null,
+        "block_kinds": null,
+        "our_result_screen_mobile": null,
+        "our_result_screen_desktop": null,
+        "snippet_visible_fully": null,
+        "answer_block_above": null,
+        "screenshot": null
+      }
+    },
+    {
+      "query": "оплата postman юридическим лицом",
+      "role": "target",
+      "impressions": 49,
+      "clicks": 0,
+      "avg_position": 4.82,
+      "serp_position": 1,
+      "our_url": "/blog/kak-oplatit-postman-dlya-yurlica",
+      "note": "статья на первом месте",
+      "observation": {
+        "blocks_above_organic": null,
+        "block_kinds": null,
+        "our_result_screen_mobile": null,
+        "our_result_screen_desktop": null,
+        "snippet_visible_fully": null,
+        "answer_block_above": null,
+        "screenshot": null
+      }
+    },
+    {
+      "query": "claude team купить",
+      "role": "control_clicks",
+      "impressions": 89,
+      "clicks": 1,
+      "avg_position": 6.06,
+      "serp_position": 6,
+      "our_url": "/product/anthropic-team",
+      "note": "контроль: небрендовый запрос, по которому переход есть; позиция ХУЖЕ, чем у целевых",
+      "observation": {
+        "blocks_above_organic": null,
+        "block_kinds": null,
+        "our_result_screen_mobile": null,
+        "our_result_screen_desktop": null,
+        "snippet_visible_fully": null,
+        "answer_block_above": null,
+        "screenshot": null
+      }
+    },
+    {
+      "query": "cloude купить для юл biz-soft.pro",
+      "role": "control_brand",
+      "impressions": 66,
+      "clicks": 11,
+      "avg_position": 3.17,
+      "serp_position": null,
+      "our_url": null,
+      "note": "контроль: тот же сайт, CTR 16,7 %. Если выдача выглядит так же, как у целевых, дело не в вёрстке выдачи, а в том, кто ищет",
+      "observation": {
+        "blocks_above_organic": null,
+        "block_kinds": null,
+        "our_result_screen_mobile": null,
+        "our_result_screen_desktop": null,
+        "snippet_visible_fully": null,
+        "answer_block_above": null,
+        "screenshot": null
+      }
+    }
+  ]
+}
