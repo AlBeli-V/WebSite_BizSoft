@@ -159,6 +159,16 @@
       "A-point-individual",
       "C-perp-pairs",
       "D-zoom-addons"
-    ]
+    ],
+    "applied": {
+      "date": "2026-09-08",
+      "groups": [
+        "A-point-individual",
+        "C-perp-pairs",
+        "D-zoom-addons"
+      ],
+      "checked_by": "ops-set-noindex, apply=false",
+      "result": "все 22 карточки найдены в Directus со статусом published и noindex=true — значение уже целевое. Прогон с apply=true изменил бы ноль строк, поэтому не запускался."
+    }
   }
 }

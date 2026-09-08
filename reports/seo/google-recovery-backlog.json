@@ -323,7 +323,7 @@
     "compare"
    ],
    "root_cause": "RC-3",
-   "recommended_action": "Разбор группами: поднять порог индексации тегов блога, у compare — либо усилить, либо снять с карты. Массовый noindex сейчас не применять: решение требует отдельной визы, и Яндекс по части этих страниц уже высказался.",
+   "recommended_action": "Разбор группами: поднять порог индексации тегов блога, у compare — либо усилить, либо снять с карты. Массовый noindex сейчас не применять: решение требует отдельной визы, и Яндекс по части этих страниц уже высказался. Товарная часть разбора закрыта: прогон ops-set-noindex 08.09.2026 (apply=false) показал, что все 22 карточки групп A-point, C и D уже несут noindex=true — применять нечего. Остаются подборки блога и сравнения, по ним решение по замеру.",
    "expected_effect": "высвобождение обхода в пользу TIER 1–2",
    "confidence": 45,
    "effort": "M",
@@ -584,6 +584,31 @@
    "rollback_plan": "снять шаг из workflow",
    "status": "approved",
    "ticket": "reports/seo/google-authority-strategy.md"
+  },
+  {
+   "id": "G-24",
+   "priority": "P2",
+   "category": "data quality",
+   "problem": "Сенсор покрытия отдаёт по /vendors статус «Excluded by ‘noindex’ tag», хотя страница индексируема: прогон ops-probe 08.09.2026 показал HTTP 200, ни noindex, ни nofollow в HTML, ни X-Robots-Tag в заголовках, canonical на себя. Значит статус в Google исторический — он держится с давнего обхода, а раздел с тех пор не переобходился.",
+   "evidence": "issue #22, ops-probe от 08.09.2026; index-google-2026-09-08.json",
+   "affected_urls": 1,
+   "affected_page_types": [
+    "vendor_hub"
+   ],
+   "root_cause": "RC-3",
+   "recommended_action": "Правок в коде не требуется — проверено. Нужен переобход: /vendors входит в переотправку sitemap через ops-index-validate. Проверить смену статуса в следующем срезе index_coverage.py.",
+   "expected_effect": "точка входа во все 107 лендингов возвращается в индекс",
+   "confidence": 70,
+   "effort": "S",
+   "risk_google": "LOW",
+   "risk_yandex": "LOW",
+   "dependencies": [
+    "деплой перелинковки"
+   ],
+   "validation": "index-google следующего среза: статус /vendors перестаёт быть Excluded",
+   "rollback_plan": "не требуется",
+   "status": "proposed",
+   "ticket": "reports/seo/tasks/IDX-001-google-crawl-demand.md"
   }
  ]
 }
