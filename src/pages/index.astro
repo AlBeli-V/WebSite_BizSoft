@@ -15,7 +15,6 @@ import QuestionForm from '../components/QuestionForm.astro';
 import VendorLogo from '../components/VendorLogo.astro';
 import ProductCard from '../components/ProductCard.astro';
 import JsonLd from '../components/JsonLd.astro';
-import { localBusinessSchema } from '../lib/seo';
 import { productIcons } from '../data/product-icons';
 import ProductIcon from '../components/ProductIcon.astro';
 import { vendorIcon } from '../data/vendor-icons';
@@ -166,8 +165,9 @@ const servicesItemList = {
 <BaseLayout
   title="BIZSoft — ПО и AI-сервисы для бизнеса: ChatGPT, Claude, Adobe, Figma, JetBrains"
   description="Единая точка доступа к зарубежному ПО и AI-сервисам для российских юрлиц: ChatGPT, Claude, Midjourney, Adobe, Figma, JetBrains. Договор, оплата в рублях по счёту, закрывающие через ЭДО, доступ за 1–3 дня."
+  localBusiness
 >
-  <JsonLd schema={[localBusinessSchema(), servicesItemList]} />
+  <JsonLd schema={servicesItemList} />
 
   <!-- HERO: заголовок + бестселлеры с ценами -->
   <section class="hero">

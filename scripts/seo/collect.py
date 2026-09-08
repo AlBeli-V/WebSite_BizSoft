@@ -149,7 +149,42 @@ def collect_gsc() -> dict:
     # разрезов письма, а пары письмом не читаются — только детекторами).
     result['pairs'] = collect_gsc_pairs(site_url, headers,
                                         start.isoformat(), end.isoformat())
+    # Состояние поданной карты сайта. Отдельный сенсор, потому что Search
+    # Analytics отвечает на вопрос «что показывалось», а не «дошла ли до
+    # Google карта». Разбор 08.09.2026: 130 путей инвентаря значились у
+    # Google как «URL is unknown to Google» при поданной карте, и отличить
+    # «карта не скачивается» от «карта скачана, обхода не хватает» было
+    # нечем. Sitemaps API отдаёт lastSubmitted, lastDownloaded, warnings,
+    # errors и isPending — ровно эти четыре различения.
+    #
+    # Сбой этого вызова не закрывает источник: как и пары, карта письмом не
+    # читается, её смотрят детекторы.
+    result['sitemaps'] = collect_gsc_sitemaps(site_url, headers)
     return result
+
+
+def collect_gsc_sitemaps(site_url: str, headers: dict) -> dict:
+    """Список поданных карт сайта и статус последней загрузки каждой."""
+    data, err = api_json(
+        f'https://www.googleapis.com/webmasters/v3/sites/{site_url}/sitemaps',
+        headers=headers)
+    if err:
+        return {'error': err, 'entries': [], 'fetched': 0}
+    entries = []
+    for s in data.get('sitemap', []):
+        contents = s.get('contents') or []
+        entries.append({
+            'path': s.get('path'),
+            'last_submitted': s.get('lastSubmitted'),
+            'last_downloaded': s.get('lastDownloaded'),
+            'is_pending': s.get('isPending'),
+            'is_sitemaps_index': s.get('isSitemapsIndex'),
+            'warnings': int(s.get('warnings') or 0),
+            'errors': int(s.get('errors') or 0),
+            'submitted': sum(int(c.get('submitted') or 0) for c in contents),
+            'indexed': sum(int(c.get('indexed') or 0) for c in contents),
+        })
+    return {'entries': entries, 'fetched': len(entries)}
 
 
 def collect_gsc_pairs(site_url: str, headers: dict,
