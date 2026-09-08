@@ -103,6 +103,8 @@ try {
     const tagResponses = [];
     const tagBodies = [];
     const badResources = [];
+    const tagHeaders = [];
+    const ymRequests = [];
     const hits = [];
     const errors = [];
     page.on('pageerror', (e) => errors.push(`pageerror: ${e.message}`));
@@ -110,6 +112,7 @@ try {
     page.on('request', (r) => {
       const u = r.url();
       if (u.includes(TAG_PATH)) tagRequests.push(u);
+      if (u.includes(TAG_HOST)) ymRequests.push(u.replace(/^https:\/\/mc\.yandex\.ru/, '').replace(/\?.*/, ''));
       // Хит счётчика: именно он означает, что визит записан.
       if (/mc\.yandex\.ru\/(watch|webvisor)/.test(u)) hits.push(u);
     });
@@ -122,6 +125,8 @@ try {
         // Размер тела читается отложенно: обработчик синхронный, а тело
         // приходит позже. Промис складывается и разбирается перед выводом.
         tagBodies.push(r.body().then((b) => b.length).catch(() => -1));
+        const h = r.headers();
+        tagHeaders.push(`${h['content-type'] || 'без типа'}${h['content-encoding'] ? `, ${h['content-encoding']}` : ''}`);
       }
       // Сбойные ответы прочих ресурсов: без адреса «502» в консоли ничего
       // не объясняет, а объяснять придётся именно его.
@@ -176,6 +181,16 @@ try {
           hits.length ? `${hits.length} запрос(ов)` : 'ни одного обращения к watch');
         report(`${path}: ym заменён загруженным тегом`, state.ymType === 'function' && state.pending === 0,
           `typeof ym=${state.ymType}, в очереди ${state.pending}`);
+        // Когда тег пришёл целым, а счётчик не запустился, объяснение почти
+        // всегда в сообщении браузера про сам домен Метрики — а обычный
+        // фильтр ошибок такие сообщения отбрасывает как «чужие». Поэтому
+        // здесь они печатаются отдельно: это не вердикт, а диагностика.
+        if (hits.length === 0) {
+          const ym = errors.filter((e) => /yandex/i.test(e));
+          console.log(`     тип ответа тега: ${tagHeaders.join(' | ') || 'нет данных'}`);
+          console.log(`     обращения к домену Метрики: ${[...new Set(ymRequests)].join(', ') || 'нет'}`);
+          console.log(`     сообщения про Яндекс: ${ym.slice(0, 3).join(' | ') || 'нет'}`);
+        }
       }
     } else {
       report(`${path}: файл тега исполнился`, state.executed);
