@@ -16,8 +16,10 @@ import { itemListSchema } from '../../lib/seo';
 import { aiSubcategories, aiFlagships } from '../../data/ai-hub';
 import { comparisons } from '../../data/comparisons';
 import { solutions } from '../../data/solutions';
+import { alternativesForCategory } from '../../data/alternatives';
 import { effectivePrice } from '../../lib/pricing';
 import { textBlocks } from '../../lib/text-blocks';
+import { vendorSlug, landingSlugs } from '../../lib/vendor-links';
 import type { Product } from '../../lib/types';
 
 const { segment } = Astro.params;
@@ -98,6 +100,19 @@ for (const p of base) {
 }
 const vendors = [...vendorFacet.entries()].sort((a, b) => a[0].localeCompare(b[0], 'ru'));
 
+// Ссылки на лендинги производителей раздела (IDX-001).
+//
+// Вход в 107 лендингов вендоров шёл только со страницы /vendors, которую
+// Google исключил, плюс с главной и каталога — но там перечислены 15
+// популярных и десяток экспериментальных. Остальные лендинги входящих
+// ссылок с индексируемых страниц не получали и остались в статусе
+// «обнаружена, не сканирована». Раздел каталога — естественный вход:
+// у него уже есть список вендоров, из которых собран фильтр.
+const vendorLinks = vendors
+  .map(([name, count]) => ({ name, count, slug: vendorSlug(name) }))
+  .filter((v) => landingSlugs.has(v.slug))
+  .sort((a, b) => b.count - a.count);
+
 // ── применяем выбранные фильтры (в JS) ──
 const ql = q.toLowerCase();
 const filtered = base.filter((p) => {
@@ -128,6 +143,12 @@ const hasFilters = Boolean(selVendor || selLicense || selKind || q);
 const isAi = segment === 'ai';
 const aiScenarios = isAi ? solutions.filter((s) => s.slug.startsWith('ai-dlya-')) : [];
 const aiCompare = isAi ? comparisons.slice(0, 6) : [];
+
+// Страницы «Аналоги X» этого раздела. До 08.09.2026 слой /alternatives/*
+// не имел ни одной входящей внутренней ссылки: он существовал только в
+// sitemap, и Googlebot не обошёл ни одну из 7 страниц, хотя все 7 — в поиске
+// Яндекса. Раздел каталога — ближайший тематический донор и сам на глубине 1.
+const altPages = alternativesForCategory(segment!);
 
 // Витрина флагманов: ссылка на карточку, только если товар уже импортирован
 // (проверка в рантайме); иначе — на подкатегорию. Нет 404 до импорта.
@@ -251,6 +272,21 @@ if (isAi) {
       </div>
     </div>
 
+    {vendorLinks.length > 0 && (
+      <section class="vendor-links">
+        <h2>Производители раздела</h2>
+        <p class="muted">На странице производителя — тарифы, сравнение и порядок оформления на юрлицо.</p>
+        <div class="vl-grid">
+          {vendorLinks.map((v) => (
+            <a href={`/vendors/${v.slug}`} class="card card-hover vl">
+              <b>{v.name}</b>
+              <span class="muted">{v.count} {v.count % 10 === 1 && v.count % 100 !== 11 ? 'позиция' : 'позиций'} в разделе</span>
+            </a>
+          ))}
+        </div>
+      </section>
+    )}
+
     {isAi && (
       <section class="ai-links">
         <div class="ai-col">
@@ -266,6 +302,19 @@ if (isAi) {
           <div class="ai-grid">
             {aiScenarios.map((s) => (
               <a href={`/solutions/${s.slug}`} class="card card-hover ai-link">{s.title} →</a>
+            ))}
+          </div>
+        </div>
+      </section>
+    )}
+
+    {altPages.length > 0 && (
+      <section class="ai-links">
+        <div class="ai-col">
+          <h2>Чем заменить: аналоги</h2>
+          <div class="ai-grid">
+            {altPages.map((a) => (
+              <a href={`/alternatives/${a.slug}`} class="card card-hover ai-link">{a.h1} →</a>
             ))}
           </div>
         </div>
@@ -289,6 +338,14 @@ if (isAi) {
 </BaseLayout>
 
 <style>
+  .vendor-links { margin: 2.5rem 0; }
+  .vendor-links h2 { font-size: 1.3rem; margin-bottom: 0.35rem; }
+  .vendor-links p.muted { margin: 0 0 1rem; font-size: 0.92rem; }
+  .vl-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 0.8rem; }
+  .vl { padding: 0.9rem 1rem; display: flex; flex-direction: column; gap: 0.2rem; }
+  .vl b { color: var(--color-accent); }
+  .vl .muted { font-size: 0.85rem; }
+
   .section { padding-top: 2rem; }
   .head { max-width: 820px; margin-bottom: 2rem; }
   h1 { font-size: clamp(1.8rem, 4vw, 2.6rem); margin-bottom: 0.8rem; }
