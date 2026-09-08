@@ -7,8 +7,8 @@ import BlogCover from '../../components/BlogCover.astro';
 import FAQ from '../../components/FAQ.astro';
 import CTASection from '../../components/CTASection.astro';
 import JsonLd from '../../components/JsonLd.astro';
-import { site } from '../../config/site';
-import { canonicalUrl, ORG_ID } from '../../lib/seo';
+import { site, expert } from '../../config/site';
+import { canonicalUrl, ORG_ID, EXPERT_ID } from '../../lib/seo';
 import { getProductsBySlugs } from '../../lib/directus';
 import { solutions } from '../../data/solutions';
 
@@ -39,6 +39,11 @@ const relatedSolutions = d.relatedSolutions
   .map((slug) => solutions.find((s) => s.slug === slug))
   .filter((s): s is NonNullable<typeof s> => Boolean(s));
 
+// Значение по умолчанию в схеме коллекции — «Редакция BIZSoft»: такие статьи
+// подписывает публичный эксперт. Явно указанный другой автор не подменяется.
+const isExpertAuthor = !d.author || d.author === 'Редакция BIZSoft' || d.author === expert.name;
+const bylineName = isExpertAuthor ? expert.name : d.author;
+
 const articleSchema = {
   '@context': 'https://schema.org',
   '@type': 'BlogPosting',
@@ -46,7 +51,13 @@ const articleSchema = {
   description: d.description,
   datePublished: d.date.toISOString(),
   dateModified: (d.updated || d.date).toISOString(),
-  author: { '@type': 'Organization', name: d.author, url: site.url },
+  // Автор — человек, а не «редакция»: узел Person с общим @id, на который
+  // ссылается и founder организации (ENT-001). Статьи с явно указанным во
+  // frontmatter другим автором сохраняют его имя, но без узла Person: имя
+  // без страницы автора сущностью не является.
+  author: isExpertAuthor
+    ? { '@id': EXPERT_ID }
+    : { '@type': 'Organization', name: d.author, url: site.url },
   // Издатель — единый узел организации из BaseLayout, связь по @id.
   publisher: { '@id': ORG_ID },
   mainEntityOfPage: pageUrl,
@@ -55,7 +66,10 @@ const articleSchema = {
   ...(d.reviewedBy ? { reviewedBy: { '@type': 'Person', name: d.reviewedBy } } : {}),
 };
 ---
-<BaseLayout title={d.title} description={d.description} type="article" noindex={d.noindex}
+<!-- metaTitle меняет только <title>: <h1> и хлебные крошки ниже продолжают
+     брать d.title. Так заголовок в выдаче правится отдельно от страницы, и
+     сниппет-эксперимент на статье становится возможен. -->
+<BaseLayout title={d.metaTitle || d.title} description={d.description} type="article" noindex={d.noindex}
   ogImage={d.cover}>
   <JsonLd schema={articleSchema} />
   <div class="container-page section">
@@ -71,7 +85,9 @@ const articleSchema = {
         <div class="tags">{d.tags.map((t) => <a href={`/blog/tag/${tagSlug(t)}`}>{t}</a>)}</div>
         <h1>{d.title}</h1>
         <p class="byline">
-          <span>{d.author}</span>
+          {isExpertAuthor
+            ? <a href={`/authors/${expert.slug}`} rel="author">{bylineName}</a>
+            : <span>{bylineName}</span>}
           <span class="dot">·</span>
           <span>Опубликовано: {fmtDate(d.date)}</span>
           <span class="dot">·</span>

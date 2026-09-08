@@ -400,6 +400,72 @@ check('разметка: microdata карточки согласована с JS
   const ok = hasScope && offer && mdPrice === String(offer.price) && mdCur === offer.priceCurrency;
   return { ok: Boolean(ok), got: `scope=${hasScope} md=${mdPrice} ${mdCur} ld=${offer?.price} ${offer?.priceCurrency}` };
 });
+/**
+ * Идентификаторы узлов разметки страницы: @id из JSON-LD + itemid microdata.
+ * Повтор идентификатора — не «две записи об одном товаре», а один узел,
+ * которому потребитель приписывает каждое поле дважды.
+ */
+function nodeIds(html) {
+  const ids = [];
+  for (const n of ldNodes(html) || []) if (n && n['@id']) ids.push(String(n['@id']));
+  for (const m of html.matchAll(/itemid="([^"]+)"/g)) ids.push(m[1]);
+  return ids;
+}
+check('разметка: возврат и доставка есть в обоих слоях и совпадают', async () => {
+  // Рекомендованные поля Offer: у JSON-LD они были всегда, microdata без них
+  // получала предупреждение Search Console на каждой карточке. Значения у
+  // слоёв общие (offerLogistics) — смоук ловит расхождение, а не наличие.
+  const r = await req('/product/chatgpt-business');
+  const offer = ofType(ldNodes(r.body) || [], 'Product')[0]?.offers || {};
+  const ld = {
+    category: offer.hasMerchantReturnPolicy?.returnPolicyCategory,
+    country: offer.hasMerchantReturnPolicy?.applicableCountry,
+    rate: String(offer.shippingDetails?.shippingRate?.value),
+    currency: offer.shippingDetails?.shippingRate?.currency,
+  };
+  const md = {
+    category: r.body.match(/itemprop="returnPolicyCategory" href="([^"]+)"/)?.[1],
+    country: r.body.match(/itemprop="applicableCountry" content="([^"]+)"/)?.[1],
+    rate: r.body.match(/itemprop="value" content="([0-9.]+)"/)?.[1],
+    currency: r.body.match(/itemprop="currency" content="([A-Z]+)"/)?.[1],
+  };
+  const ok = ld.category && Object.keys(ld).every((k) => ld[k] === md[k]);
+  return { ok: Boolean(ok), got: `ld=${JSON.stringify(ld)} md=${JSON.stringify(md)}` };
+});
+check('разметка: подарочная карта — возврат и доставка есть и в microdata', async () => {
+  const r = await req('/product/app-store-itunes-gift-card');
+  const has = r.body.includes('itemprop="hasMerchantReturnPolicy"') && r.body.includes('itemprop="shippingDetails"');
+  return { ok: has, got: has ? 'оба поля есть' : 'НЕТ' };
+});
+check('разметка: «цена по запросу» — без возврата и доставки в microdata', async () => {
+  const r = await req('/product/tovar-po-zaprosu');
+  const has = r.body.includes('itemprop="hasMerchantReturnPolicy"') || r.body.includes('itemprop="shippingDetails"');
+  return { ok: !has, got: has ? 'ЕСТЬ (не должно — Offer нет вовсе)' : 'нет' };
+});
+check('разметка: карточка товара — ни один идентификатор узла не повторяется', async () => {
+  const r = await req('/product/chatgpt-business');
+  const ids = nodeIds(r.body);
+  const dup = ids.filter((id, i) => ids.indexOf(id) !== i);
+  return { ok: dup.length === 0, got: dup.length ? `дубли: ${[...new Set(dup)].join(', ')}` : `узлов с @id/itemid: ${ids.length}, дублей нет` };
+});
+check('разметка: главная и контакты — один узел организации, без повтора @id', async () => {
+  const got = [];
+  for (const path of ['/', '/contacts']) {
+    const r = await req(path);
+    const ids = nodeIds(r.body);
+    const orgs = (ldNodes(r.body) || []).filter((n) => n['@id'] === 'https://biz-soft.pro/#organization');
+    const dup = ids.filter((id, i) => ids.indexOf(id) !== i);
+    if (orgs.length !== 1 || dup.length) return { ok: false, got: `${path}: узлов организации ${orgs.length}, дубли ${[...new Set(dup)].join(', ') || '—'}` };
+    got.push(`${path}: 1 узел`);
+  }
+  return { ok: true, got: got.join(', ') };
+});
+check('разметка: локальный профиль организации — полный узел (name, address, график)', async () => {
+  const r = await req('/contacts');
+  const org = (ldNodes(r.body) || []).find((n) => n['@id'] === 'https://biz-soft.pro/#organization');
+  const ok = Boolean(org && org.name && org.address && org.openingHoursSpecification && String(org['@type']).includes('LocalBusiness'));
+  return { ok, got: org ? `type=${JSON.stringify(org['@type'])} name=${Boolean(org.name)} address=${Boolean(org.address)} hours=${Boolean(org.openingHoursSpecification)}` : 'узла нет' };
+});
 check('разметка: «цена по запросу» — без Product и в JSON-LD, и в microdata', async () => {
   const r = await req('/product/tovar-po-zaprosu');
   const nodes = ldNodes(r.body) || [];

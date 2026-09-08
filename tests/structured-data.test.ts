@@ -114,6 +114,23 @@ describe('сущности организации и сайта', () => {
     expect(JSON.stringify(org.address)).not.toContain('378');
   });
 
+  it('локальный профиль — расширение того же узла, а не второй узел рядом', () => {
+    // Два узла с одним @id потребитель склеивает, и каждое общее поле
+    // приходит дважды (ошибка Google «Поле … дублируется»). Поэтому
+    // localBusinessSchema — надмножество Organization: страница выводит
+    // ровно один узел организации, полный по составу.
+    const org = organizationSchema();
+    const lb = localBusinessSchema();
+    for (const key of Object.keys(org)) {
+      if (key === '@type') continue;
+      expect(lb[key as keyof typeof lb]).toEqual(org[key as keyof typeof org]);
+    }
+    expect(lb['@type']).toEqual(['Organization', 'LocalBusiness']);
+    expect(lb.openingHoursSpecification).toBeTruthy();
+    expect(lb.priceRange).toBeTruthy();
+    expect(lb.image).toBeTruthy();
+  });
+
   it('WebSite ссылается на Organization по @id', () => {
     const w = websiteSchema();
     expect(w.publisher).toEqual({ '@id': ORG_ID });
