@@ -12,7 +12,7 @@ import { alternativesPages } from '../data/alternatives';
 import { aiSubcategories } from '../data/ai-hub';
 import { VENDORS } from '../data/vendors';
 import { vendorSlug } from '../lib/vendor-links';
-import { collectTags } from '../lib/blog-tags';
+import { collectTags, tagSlug } from '../lib/blog-tags';
 
 // Только опубликованные индексируемые страницы. Без cart/consent/admin/api/draft/noindex.
 const STATIC_ROUTES: { path: string; priority: number; changefreq: string }[] = [
@@ -68,13 +68,13 @@ export const GET: APIRoute = async () => {
   }
 
   // Существующие наполненные посадочные solutions (реальный контент).
-  for (const s of solutions) entries.push(urlEntry(`/solutions/${s.slug}`, 0.6, 'monthly'));
+  for (const s of solutions) entries.push(urlEntry(`/solutions/${s.slug}`, 0.6, 'monthly', s.updated));
 
   // Страницы сравнения AI-сервисов (/compare/*).
-  for (const c of comparisons) entries.push(urlEntry(`/compare/${c.slug}`, 0.7, 'monthly'));
+  for (const c of comparisons) entries.push(urlEntry(`/compare/${c.slug}`, 0.7, 'monthly', c.updated));
 
   // Страницы «Аналоги X» (/alternatives/*) — слой Alternatives, PAGES-EXP-001.
-  for (const a of alternativesPages) entries.push(urlEntry(`/alternatives/${a.slug}`, 0.7, 'monthly'));
+  for (const a of alternativesPages) entries.push(urlEntry(`/alternatives/${a.slug}`, 0.7, 'monthly', a.updated));
 
   // Шаблонные посадочные производителей (креативные индустрии).
   //
@@ -152,9 +152,19 @@ export const GET: APIRoute = async () => {
     }
     // Подборки статей по тегам (/blog/tag/*): в карту идут только те, где
     // статей не меньше порога — остальные отдают noindex (src/lib/blog-tags.ts).
+    // Дата подборки — дата самой свежей статьи в ней: подборка целиком
+    // собирается из статей, другого содержания у неё нет.
+    const tagStamp = new Map<string, string>();
+    for (const p of posts) {
+      const stamp = (p.data.updated || p.data.date).toISOString().slice(0, 10);
+      for (const tag of p.data.tags || []) {
+        const slug = tagSlug(tag);
+        if ((tagStamp.get(slug) ?? '') < stamp) tagStamp.set(slug, stamp);
+      }
+    }
     for (const t of collectTags(posts.map((p) => ({ tags: p.data.tags })))) {
       if (!t.indexed) continue;
-      entries.push(urlEntry(`/blog/tag/${t.slug}`, 0.5, 'weekly'));
+      entries.push(urlEntry(`/blog/tag/${t.slug}`, 0.5, 'weekly', tagStamp.get(t.slug)));
     }
   } catch (e) {
     // Блог собирается из локальных файлов: сбой здесь означает поломку сборки,
