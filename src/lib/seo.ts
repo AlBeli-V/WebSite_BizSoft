@@ -150,11 +150,13 @@ export function breadcrumbSchema(crumbs: Crumb[]) {
 
 /**
  * Политика возврата и доставки для цифровых лицензий/подписок.
+ * Экспортируется: те же значения выводит microdata-слой карточки
+ * (компонент OfferLogisticsMicrodata) — источник у слоёв один.
  * Товар — электронный доступ: физической доставки нет (бесплатно, моментально),
  * возврат активированной лицензии не предусмотрен. Значения фактические —
  * закрывают рекомендованные поля Merchant listings в Search Console.
  */
-function offerLogistics(currency: string) {
+export function offerLogistics(currency: string) {
   return {
     hasMerchantReturnPolicy: {
       '@type': 'MerchantReturnPolicy',
