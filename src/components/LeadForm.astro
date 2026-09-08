@@ -1,6 +1,14 @@
 ---
 // Инлайн-форма подбора (vendor-лендинги, /pricing и др.). Постит на /api/lead.
 // Все поля обязательные; телефон — с маской +7; чипы топ-вендоров с иконками.
+//
+// Режим compact — двухшаговый вариант той же формы для первого экрана
+// рекламных посадочных. Состав реквизитов не меняется (решение
+// руководителя 28.08.2026: заявка и КП собирают одно и то же), меняется
+// только порядок предъявления: сперва три поля, остальные — вторым шагом.
+// Замер кампании 04.09.2026 показал ноль form_start на 226 визитов: семь
+// обязательных полей с ИНН в первом контакте — барьер, который посетитель
+// рекламы не проходит.
 import VendorChips from './VendorChips.astro';
 import FormGuardFields from './FormGuardFields.astro';
 import ContactDirect from './ContactDirect.astro';
@@ -9,27 +17,94 @@ interface Props {
   source?: string;
   title?: string;
   submitLabel?: string;
+  /** Двухшаговый вид для первого экрана: 3 поля, остальные — вторым шагом. */
+  compact?: boolean;
 }
-const { source = 'pricing', title = 'Запросить расчёт', submitLabel = 'Отправить заявку' } = Astro.props;
+const {
+  source = 'pricing',
+  title = 'Запросить расчёт',
+  submitLabel = 'Отправить заявку',
+  compact = false,
+} = Astro.props;
+
+// Поля описаны один раз и раскладываются по шагам: две ветки разметки
+// разъехались бы при первой же правке валидации.
+type Field = {
+  key: string; label: string; pii?: boolean;
+  type?: astroHTML.JSX.HTMLInputTypeAttribute;
+  autocomplete?: string; placeholder?: string;
+  inputmode?: 'numeric' | 'tel' | 'email' | 'text';
+  pattern?: string; min?: string; max?: string;
+};
+const FIELDS: Record<string, Field> = {
+  name: { key: 'name', label: 'ФИО', pii: true, autocomplete: 'name' },
+  email: { key: 'email', label: 'E-mail', type: 'email', pii: true, autocomplete: 'email' },
+  phone: { key: 'phone', label: 'Телефон', type: 'tel', pii: true, autocomplete: 'tel', placeholder: '+7 (___) ___-__-__' },
+  company: { key: 'company', label: 'Компания', pii: true, autocomplete: 'organization' },
+  inn: { key: 'inn', label: 'ИНН', pii: true, inputmode: 'numeric', pattern: '[0-9]{10,12}', placeholder: '10 или 12 цифр' },
+  seats: { key: 'seats', label: 'Количество мест', type: 'number', inputmode: 'numeric', min: '1', max: '10000', placeholder: 'например, 10' },
+};
+const STEP1 = compact ? ['company', 'email'] : ['name', 'email', 'phone', 'company', 'inn', 'seats'];
+const STEP2 = compact ? ['name', 'phone', 'inn', 'seats'] : [];
+const messageLabel = compact ? 'Что требуется?' : 'Что нужно подобрать?';
+const messagePlaceholder = compact
+  ? 'Например: Claude Team на 5 человек, нужен счёт'
+  : 'Сервисы, количество пользователей, сроки…';
 ---
-<form class="lead-form card" data-lead-form data-source={source}>
-  <h3>{title}</h3>
+<form
+  class:list={['lead-form', 'card', compact && 'lf-compact']}
+  data-lead-form
+  data-source={source}
+  data-compact={compact ? 'yes' : undefined}
+>
+  {/* В первом экране форма — часть блока, а не самостоятельный раздел:
+      заголовок h3 сразу после h1 страницы рвал иерархию (смоук ловит это
+      проверкой «h1→h3»). Вне компактного вида выше по странице всегда есть
+      h2, и h3 остаётся корректным. */}
+  {compact ? <p class="lf-title">{title}</p> : <h3>{title}</h3>}
   <div class="lf-grid">
-    <label>ФИО:<input class="ym-disable-keys" name="name" required autocomplete="name" /></label>
-    <label>E-mail:<input class="ym-disable-keys" name="email" type="email" required autocomplete="email" /></label>
-    <label>Телефон:<input class="ym-disable-keys" name="phone" type="tel" required autocomplete="tel" placeholder="+7 (___) ___-__-__" /></label>
-    <label>Компания:<input class="ym-disable-keys" name="company" required autocomplete="organization" /></label>
-    <label>ИНН:<input class="ym-disable-keys" name="inn" required inputmode="numeric" pattern="[0-9]{10,12}" placeholder="10 или 12 цифр" /></label>
-    <label>Количество мест:<input name="seats" type="number" min="1" max="10000" required inputmode="numeric" placeholder="например, 10" /></label>
+    {STEP1.map((k) => {
+      const f = FIELDS[k];
+      return (
+        <label>{f.label}:<input
+          class={f.pii ? 'ym-disable-keys' : undefined}
+          name={f.key} type={f.type} required
+          autocomplete={f.autocomplete} placeholder={f.placeholder}
+          inputmode={f.inputmode} pattern={f.pattern} min={f.min} max={f.max}
+        /></label>
+      );
+    })}
   </div>
-  <label>Что нужно подобрать?<textarea class="ym-disable-keys" name="message" rows="3" required placeholder="Сервисы, количество пользователей, сроки…"></textarea></label>
-  <VendorChips />
+  <label>{messageLabel}<textarea class="ym-disable-keys" name="message" rows={compact ? 2 : 3} required placeholder={messagePlaceholder}></textarea></label>
+
+  {compact && (
+    <div class="lf-step2" data-step2 hidden>
+      <p class="lf-step2-note">Реквизиты для счёта и договора:</p>
+      <div class="lf-grid">
+        {STEP2.map((k) => {
+          const f = FIELDS[k];
+          return (
+            <label>{f.label}:<input
+              class={f.pii ? 'ym-disable-keys' : undefined}
+              name={f.key} type={f.type} data-step2-required
+              autocomplete={f.autocomplete} placeholder={f.placeholder}
+              inputmode={f.inputmode} pattern={f.pattern} min={f.min} max={f.max}
+            /></label>
+          );
+        })}
+      </div>
+    </div>
+  )}
+
+  {!compact && <VendorChips />}
   <FormGuardFields />
   <label class="lf-consent">
     <input type="checkbox" name="consent" required />
     <span>Согласен на обработку персональных данных согласно <a href="/privacy" target="_blank" rel="noopener noreferrer">политике</a>.</span>
   </label>
-  <button type="submit" class="btn btn-primary lf-submit">{submitLabel}</button>
+  <button type="submit" class="btn btn-primary lf-submit" data-submit-label={submitLabel}>
+    {compact ? 'Продолжить' : submitLabel}
+  </button>
   <div class="lf-alt"><ContactDirect /></div>
   <p class="lf-status" data-status role="status" aria-live="polite"></p>
 </form>
@@ -53,10 +128,19 @@ const { source = 'pricing', title = 'Запросить расчёт', submitLab
   .lf-status.ok { color: var(--color-success); }
   .lf-status.err { color: var(--color-danger); }
   @media (max-width: 520px) { .lf-grid { grid-template-columns: 1fr; } }
+
+  /* Компактный вид первого экрана: меньше воздуха, одна колонка на узком
+     экране, второй шаг появляется в потоке и не двигает страницу рывком. */
+  .lead-form.lf-compact { padding: 1.15rem; gap: 0.7rem; }
+  .lf-title { margin: 0; font-size: 1.12rem; font-weight: 700; color: var(--color-text); }
+  .lf-compact .lf-grid { grid-template-columns: 1fr 1fr; gap: 0.7rem; }
+  .lf-step2 { display: flex; flex-direction: column; gap: 0.6rem; }
+  .lf-step2-note { margin: 0; font-size: 0.82rem; color: var(--color-text-muted); }
+  @media (max-width: 900px) { .lf-compact .lf-grid { grid-template-columns: 1fr; } }
 </style>
 
 <script>
-  import { trackGoal } from '@/lib/analytics';
+  import { trackGoal, trackGoalOnce } from '@/lib/analytics';
   import { attributionPayload } from '@/lib/attribution';
   import { maskAllPhones } from '../lib/phone-mask';
   maskAllPhones();
@@ -64,6 +148,45 @@ const { source = 'pricing', title = 'Запросить расчёт', submitLab
   document.querySelectorAll('[data-lead-form]').forEach((el) => {
     const form = el as HTMLFormElement;
     const status = form.querySelector('[data-status]') as HTMLElement;
+    const source = () => form.dataset.source || 'site';
+
+    // Второй шаг компактной формы. Пока он скрыт, его поля не обязательны:
+    // иначе браузер отказал бы в отправке, ругаясь на поле, которого
+    // посетитель не видит.
+    const step2 = form.querySelector('[data-step2]') as HTMLElement | null;
+    const step2Fields = Array.from(
+      form.querySelectorAll('[data-step2-required]')) as HTMLInputElement[];
+    const submitBtn = form.querySelector('.lf-submit') as HTMLButtonElement;
+    let step2Shown = false;
+
+    function revealStep2() {
+      if (!step2 || step2Shown) return;
+      step2Shown = true;
+      step2.hidden = false;
+      step2Fields.forEach((f) => { f.required = true; });
+      submitBtn.textContent = submitBtn.dataset.submitLabel || 'Отправить заявку';
+      (step2Fields[0] as HTMLInputElement | undefined)?.focus();
+    }
+
+    // Форма показана — шаг воронки между визитом и первым вводом. Для
+    // инлайн-формы «открыть» нечего, поэтому считаем показ на экране:
+    // половина формы в поле зрения. Один раз на страницу.
+    let opened = false;
+    function markOpen(kind: string) {
+      if (opened) return;
+      opened = true;
+      trackGoalOnce('form_open', { form_source: source(), form_kind: kind });
+    }
+    if (typeof IntersectionObserver === 'function') {
+      const io = new IntersectionObserver((entries) => {
+        for (const e of entries) {
+          if (e.isIntersecting) { markOpen(step2 ? 'inline-compact' : 'inline'); io.disconnect(); }
+        }
+      }, { threshold: 0.5 });
+      io.observe(form);
+    } else {
+      markOpen(step2 ? 'inline-compact' : 'inline');
+    }
 
     // Начало заполнения — один раз на форму. Разрыв между form_start и
     // lead_sent показывает, сколько людей упирается в саму форму: без него
@@ -72,11 +195,20 @@ const { source = 'pricing', title = 'Запросить расчёт', submitLab
     form.addEventListener('input', () => {
       if (started) return;
       started = true;
-      trackGoal('form_start', { form_source: form.dataset.source || 'site' });
+      trackGoal('form_start', { form_source: source() });
     }, { passive: true });
 
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
+      // Первый шаг заполнен — показываем реквизиты и ждём второй отправки.
+      // Состав полей заявки при этом прежний: меняется момент, когда о них
+      // спрашивают, а не сам их набор.
+      if (step2 && !step2Shown) {
+        revealStep2();
+        status.textContent = 'Остались реквизиты для счёта — и отправляем.';
+        status.className = 'lf-status';
+        return;
+      }
       const submit = form.querySelector('.lf-submit') as HTMLButtonElement;
       submit.disabled = true;
       status.textContent = 'Отправляем…'; status.className = 'lf-status';
@@ -99,7 +231,7 @@ const { source = 'pricing', title = 'Запросить расчёт', submitLab
         status.className = 'lf-status ok';
         status.innerHTML = '<b>Заявка получена.</b> Ответим в рабочее время. Пока ждёте — посмотрите <a href="/documents">образцы документов</a> или <a href="/how-we-work">как проходит поставка</a>.';
         form.reset();
-        trackGoal('lead_sent', { form_source: form.dataset.source || 'site' });
+        trackGoal('lead_sent', { form_source: source() });
       } catch (err) {
         status.textContent = err instanceof Error && err.message ? err.message : 'Не удалось отправить. Позвоните нам или попробуйте позже.'; status.className = 'lf-status err';
         // Сбой отправки — не то же самое, что передумал: без отдельной цели
@@ -109,7 +241,7 @@ const { source = 'pricing', title = 'Запросить расчёт', submitLab
         // рядом стояла вторая цель в ветке !res.ok, throw из неё попадал в
         // этот же catch и один отказ 422 считался дважды.
         trackGoal('lead_error', {
-          form_source: form.dataset.source || 'site',
+          form_source: source(),
           http_status: httpStatus,
           reason: err instanceof Error ? err.message.slice(0, 100) : 'unknown',
         });
