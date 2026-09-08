@@ -179,6 +179,31 @@ jobs:
                 if (lua ~ /googlebot|google-inspectiontool|storebot-google/) bot = "Googlebot"
                 else if (lua ~ /yandexbot|yandexrenderresourcesbot|yandeximages/) bot = "YandexBot"
                 else if (lua ~ /bingbot/) bot = "Bingbot"
+                # Подпись User-Agent ничего не доказывает. Первый же прогон
+                # этого разреза (08.09.2026) показал 3312 запросов с UA
+                # Googlebot, из которых 3002 — ответы 404 на /wp-config.php,
+                # /.git/index, /.env и /yarn.lock с адресов 94.154.46.243–247.
+                # Это сканер уязвимостей, представляющийся Googlebot; на
+                # реальный обход приходилось 70 запросов, то есть 2%.
+                # Без разделения по адресу разрез мерил бы шум сканеров и
+                # контрольные точки программы сравнивали бы не то.
+                #
+                # Диапазоны: Googlebot ходит из 66.249.64.0/19 (сюда же
+                # Google-InspectionTool), Яндекс — из своих публичных сетей.
+                # Проверка по префиксу адреса грубее обратного DNS, но не
+                # требует резолвинга ста тысяч строк лога и достаточна,
+                # чтобы отделить настоящего робота от самозванца.
+                if (bot != "") {
+                  official = 0
+                  if (bot == "Googlebot" && $1 ~ /^66\.249\./) official = 1
+                  if (bot == "YandexBot" && $1 ~ /^(5\.45\.|5\.255\.|37\.9\.|77\.88\.|87\.250\.|93\.158\.|95\.108\.|141\.8\.|178\.154\.|213\.180\.)/) official = 1
+                  if (bot == "Bingbot" && $1 ~ /^(40\.77\.|13\.66\.|13\.67\.|52\.167\.|157\.55\.|207\.46\.)/) official = 1
+                  if (official) { botreal[bot]++; if (st ~ /^[45]/) boterrreal[bot]++
+                                  if (path ~ /^\/(_astro|img|og|brand|favicon|m\/)/ || path ~ /\.(js|css|png|jpg|jpeg|webp|svg|ico|woff2?)$/) botassetreal[bot]++
+                                  else { botpagereal[bot]++; botpathreal[bot" "path]++ }
+                                  botdayreal[bot" "date]++ }
+                  else botfake[bot]++
+                }
                 if (bot != "") {
                   botreq[bot]++
                   botday[bot" "date]++
@@ -214,8 +239,24 @@ jobs:
                 if (nb == 0) print "  за окно не зафиксировано ни одного запроса поисковых ботов"
                 for (bi=1; bi<=nb; bi++) {
                   b = bs[bi]
-                  printf "\n── %s: %d запросов за 7 дней (~%.1f/день) ──\n", b, botreq[b], botreq[b]/7.0
-                  printf "   страницы: %d, ассеты/служебное: %d, ответы 4xx/5xx: %d\n", botpage[b]+0, botasset[b]+0, boterr[b]+0
+                  printf "\n── %s ──\n", b
+                  printf "   ПОДТВЕРЖДЁННЫЙ ОБХОД (адрес из сетей поисковика): %d запросов за 7 дней (~%.1f/день)\n", botreal[b]+0, (botreal[b]+0)/7.0
+                  printf "     страницы: %d, ассеты/служебное: %d, ответы 4xx/5xx: %d\n", botpagereal[b]+0, botassetreal[b]+0, boterrreal[b]+0
+                  line = ""
+                  delete dl; dn = 0
+                  for (k in botdayreal) { split(k, kk, " "); if (kk[1] == b) dl[++dn] = kk[2]" "botdayreal[k] }
+                  if (dn) { asort(dl); for (i=1;i<=dn;i++) line = line dl[i] "; " }
+                  printf "     по дням: %s\n", line ? line : "(нет)"
+                  delete arr; m2 = 0
+                  for (k in botpathreal) { split(k, kk, " "); if (kk[1] == b) arr[++m2] = sprintf("%08d %s", botpathreal[k], kk[2]) }
+                  if (m2) {
+                    n = asort(arr); c = 0
+                    print "     топ-8 страниц подтверждённого обхода:"
+                    for (i=n; i>=1 && c<8; i--) { c++; ix = index(arr[i], " "); printf "       %d  %s\n", substr(arr[i],1,ix-1)+0, substr(arr[i],ix+1) }
+                  }
+                  printf "   Самозванцы (тот же UA с чужих адресов): %d запросов — в счёт обхода не идут\n", botfake[b]+0
+                  printf "   ВСЕГО по подписи UA: %d (~%.1f/день) — справочно\n", botreq[b], botreq[b]/7.0
+                  printf "     страницы: %d, ассеты/служебное: %d, ответы 4xx/5xx: %d\n", botpage[b]+0, botasset[b]+0, boterr[b]+0
                   # коды ответов этому боту
                   line = ""
                   for (k in botst) { split(k, kk, " "); if (kk[1] == b) line = line sprintf("%s:%d ", kk[2], botst[k]) }
