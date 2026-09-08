@@ -1,0 +1,341 @@
+{
+  "generated_on": "2026-09-08",
+  "source": "reports/seo/google-recovery-plan.md",
+  "note": "Статусы done относятся к ветке claude/bizsoft-google-indexing-ranking-ucf27e. Каждая незакрытая задача имеет тикет в reports/seo/tasks/ и запись в реестре действий intelligence/actions.json (ветка seo-data) — там же её стадия и срок. Порядок программы — reports/seo/tasks/GIDX-000-crawl-recovery.md.",
+  "items": [
+    {
+      "id": "G-01",
+      "priority": "P1",
+      "category": "crawl priority",
+      "problem": "411 из 729 URL карты сайта отдавались без lastmod, включая все 112 лендингов вендоров и все 27 разделов каталога. priority и changefreq Google не использует, поэтому сигнала приоритета обхода поисковик не получал вовсе.",
+      "evidence": "reports/seo/data/sitemap-2026-09-08.json: lastmod у 318 из 729; разбивка по типам — google-recovery-plan.md, раздел 5 (RC-3)",
+      "affected_urls": 411,
+      "affected_page_types": [
+        "vendor",
+        "category",
+        "solution",
+        "compare",
+        "alternative",
+        "blog_tag",
+        "product"
+      ],
+      "root_cause": "RC-3",
+      "recommended_action": "lastmod для лендинга вендора и раздела каталога = максимум content_updated_at по карточкам страницы; когда штампа нет ни у одной карточки, дата не отдаётся.",
+      "expected_effect": "Google получает вход в планирование обхода по ~139 приоритетным страницам; ожидаемый рост покрытия lastmod с 44% до ~62%.",
+      "confidence": 70,
+      "effort": "S",
+      "risk_google": "LOW",
+      "risk_yandex": "LOW",
+      "dependencies": [],
+      "validation": "pnpm smoke (52/52), проверка sitemap против стаба Directus: lastmod появляется у вендоров и разделов, дублей loc нет, при упавшей БД карта по-прежнему отдаёт 503",
+      "rollback_plan": "revert коммита; формат карты не меняется, только наличие тега lastmod",
+      "status": "done",
+      "ticket": "reports/seo/tasks/GIDX-000-crawl-recovery.md"
+    },
+    {
+      "id": "G-02",
+      "priority": "P1",
+      "category": "internal PageRank",
+      "problem": "На слой /alternatives/* (7 страниц) не вело ни одной внутренней ссылки: он упоминался только в sitemap.xml.ts и в собственном шаблоне. Googlebot не обошёл ни одну из 7 страниц, при том что все 7 в поиске Яндекса.",
+      "evidence": "grep по src: /alternatives/ вне sitemap.xml.ts и pages/alternatives не встречается; index-google-2026-09-08.json: 0 из 7 с last_crawl; index-yandex: 7 из 7 in_search",
+      "affected_urls": 7,
+      "affected_page_types": [
+        "alternative"
+      ],
+      "root_cause": "RC-4",
+      "recommended_action": "Блок «Чем заменить: аналоги» на странице раздела каталога, соответствующего category.slug записи. Раздел сам на глубине 1 (меню «Тип» в шапке).",
+      "expected_effect": "7 страниц переходят из «только в карте» в «связаны с сайтом на глубине 2»; ожидается первое скачивание Googlebot.",
+      "confidence": 65,
+      "effort": "S",
+      "risk_google": "LOW",
+      "risk_yandex": "LOW",
+      "dependencies": [],
+      "validation": "рендер против стаба: /catalog/design → 2 ссылки, /catalog/ai/text → 1 ссылка; pnpm test 595/595",
+      "rollback_plan": "revert; удаляются только добавленные ссылки",
+      "status": "done",
+      "ticket": "reports/seo/tasks/GIDX-000-crawl-recovery.md"
+    },
+    {
+      "id": "G-03",
+      "priority": "P1",
+      "category": "guardrail",
+      "problem": "Слой URL мог попасть в sitemap, не получив ни одной внутренней ссылки, и это не ловилось ни одной проверкой.",
+      "evidence": "инцидент G-02",
+      "affected_urls": 0,
+      "affected_page_types": [],
+      "root_cause": "RC-4",
+      "recommended_action": "Тест tests/internal-links.test.ts: у каждого слоя (alternatives, compare, solutions, catalog, vendors, blog) обязан быть донор ссылок помимо sitemap.xml.ts и собственного шаблона. Порогов, зависящих от размера каталога, нет — естественный рост тест не ломает.",
+      "expected_effect": "инцидент не повторяется",
+      "confidence": 95,
+      "effort": "S",
+      "risk_google": "LOW",
+      "risk_yandex": "LOW",
+      "dependencies": [],
+      "validation": "6 проверок проходят; до G-02 упала бы на /alternatives/",
+      "rollback_plan": "удалить файл теста",
+      "status": "done",
+      "ticket": "reports/seo/tasks/GIDX-000-crawl-recovery.md"
+    },
+    {
+      "id": "G-04",
+      "priority": "P1",
+      "category": "data gap",
+      "problem": "130 путей инвентаря значатся у Google как «URL is unknown to Google» при поданной карте сайта. Отличить «карта не скачивается» от «карта скачана, обхода не хватает» было нечем: контур собирал только Search Analytics.",
+      "evidence": "index-google-2026-09-08.json: 130 unknown; collect.py обращался только к /sites и /searchAnalytics/query",
+      "affected_urls": 130,
+      "affected_page_types": [
+        "product",
+        "vendor",
+        "blog_post",
+        "solution",
+        "compare",
+        "blog_tag",
+        "category",
+        "alternative"
+      ],
+      "root_cause": "RC-7",
+      "recommended_action": "Сенсор GSC Sitemaps API в collect.py: lastSubmitted, lastDownloaded, isPending, warnings, errors, submitted/indexed. Сбой вызова не закрывает источник — карта письмом не читается.",
+      "expected_effect": "вопрос закрывается первым же прогоном seo-data-collect",
+      "confidence": 90,
+      "effort": "S",
+      "risk_google": "LOW",
+      "risk_yandex": "LOW",
+      "dependencies": [],
+      "validation": "801 python-тест контура проходит; ключ result.sitemaps не читается письмом",
+      "rollback_plan": "revert; ключ просто исчезает из снимка",
+      "status": "done",
+      "ticket": "reports/seo/tasks/GIDX-000-crawl-recovery.md"
+    },
+    {
+      "id": "G-05",
+      "priority": "P1",
+      "category": "data gap",
+      "problem": "Ни один скрипт репозитория не разбирал логи по Googlebot. Из общей сводки не отличить «бот не приходит» от «приходит и упирается в ошибки», а это ключевая развилка диагноза.",
+      "evidence": "grep Googlebot по всем .py/.ts/.yml до правки — 0 вхождений; ops-server-stats считал только общую долю бото-трафика (19,7%)",
+      "affected_urls": 729,
+      "affected_page_types": [
+        "*"
+      ],
+      "root_cause": "RC-7",
+      "recommended_action": "Разрез по Googlebot/YandexBot/Bingbot в ops-server-stats: запросов в сутки, коды ответов, доля обхода на ассеты против страниц, топ путей и адресов. Только чтение логов.",
+      "expected_effect": "появляется базовая линия обхода, по которой проверяются гипотезы разделов 15 плана",
+      "confidence": 90,
+      "effort": "M",
+      "risk_google": "LOW",
+      "risk_yandex": "LOW",
+      "dependencies": [],
+      "validation": "awk-блок проверен на синтетическом логе (gawk): корректные суммы по дням, кодам, путям и адресам; workflows-lint и check-workflow-journal проходят",
+      "rollback_plan": "revert; workflow возвращается к прежнему выводу",
+      "status": "done",
+      "ticket": "reports/seo/tasks/GIDX-000-crawl-recovery.md"
+    },
+    {
+      "id": "G-06",
+      "priority": "P1",
+      "category": "crawl budget",
+      "problem": "Сайт полностью доступен на двух хостах: единственный HTTPS-server прода слушает biz-soft.pro и www.biz-soft.pro и отдаёт 200 по обоим; редирект certbot сохраняет хост. Каждый URL существует в двух вариантах, обход тратится вдвое.",
+      "evidence": "deploy/nginx-biz-soft.conf.prod-2026-08-20 строки 5 и 32–34; nginx error.log 05.09.2026 — запрос с host www.biz-soft.pro и referrer https://www.biz-soft.pro/vendors/monotype",
+      "affected_urls": 729,
+      "affected_page_types": [
+        "*"
+      ],
+      "root_cause": "RC-2",
+      "recommended_action": "Отдельный server{} с server_name www.biz-soft.pro и 301 на https://biz-soft.pro$request_uri. Подготовлено в deploy/nginx-biz-soft.conf.template; решение руководителя получено 08.09.2026: применять сразу после мержа волны 1 через ops-server-config (сначала apply=false — диагностика расхождений, затем apply=true), только с ветки main.",
+      "expected_effect": "устраняется удвоение инвентаря для обхода; при дефиците в 2 URL/сутки это самая дешёвая экономия",
+      "confidence": 75,
+      "effort": "S",
+      "risk_google": "LOW",
+      "risk_yandex": "LOW",
+      "dependencies": [
+        "мерж волны 1",
+        "ops-server-config apply=true с main"
+      ],
+      "validation": "после применения: curl -I https://www.biz-soft.pro/vendors/openai → 301 на https://biz-soft.pro/vendors/openai; хост Яндекс.Вебмастера (https:biz-soft.pro:443) не меняется; canonical на страницах уже указывает на biz-soft.pro",
+      "rollback_plan": "вернуть прежний конфиг тем же workflow; изменение обратимо одной правкой",
+      "status": "approved",
+      "ticket": "reports/seo/tasks/GIDX-001-canonical-host.md"
+    },
+    {
+      "id": "G-07",
+      "priority": "P2",
+      "category": "crawl waste",
+      "problem": "137 обращений к /favicon.ico за 7 дней уходили в 404: в public/ был только favicon.svg и PNG. Отдельно проверен /product/null (66 обращений) — источника в коде сайта нет.",
+      "evidence": "ops-server-stats 05.09.2026, «Топ-10 путей 404»",
+      "affected_urls": 2,
+      "affected_page_types": [
+        "product"
+      ],
+      "root_cause": "RC-2",
+      "recommended_action": "public/favicon.ico — контейнер ICO с PNG 180×180 внутри (поддерживается всеми актуальными браузерами). По /product/null: все внутренние ссылки строятся из product.slug, клиентские бандлы адрес не собирают — обращения внешние, отдельной задачи не заводится, наблюдение через G-05.",
+      "expected_effect": "снятие внутреннего 404-шума; сам по себе эффект на обход небольшой",
+      "confidence": 90,
+      "effort": "S",
+      "risk_google": "LOW",
+      "risk_yandex": "LOW",
+      "dependencies": [
+        "G-05 — разрез логов покажет, генерирует ли эти 404 Googlebot"
+      ],
+      "validation": "файл в артефакте сборки dist/client/favicon.ico; заголовок ICO разобран и проверен (type=1, одно изображение, PNG-сигнатура на месте)",
+      "rollback_plan": "не требуется",
+      "status": "done",
+      "ticket": "reports/seo/tasks/GIDX-000-crawl-recovery.md"
+    },
+    {
+      "id": "G-08",
+      "priority": "P1",
+      "category": "discovery",
+      "problem": "Из 112 URL уровней TIER 1–2 Google не скачал 82. Это лендинги вендоров, стоящие в Яндексе на 1–3 местах.",
+      "evidence": "reports/seo/google-url-priority.csv, раздел 8 плана",
+      "affected_urls": 82,
+      "affected_page_types": [
+        "vendor",
+        "product",
+        "blog_post"
+      ],
+      "root_cause": "RC-1, RC-3",
+      "recommended_action": "После выката G-01/G-02 подать список TIER 1–2 на переобход. У Google это ручная инспекция в Search Console (квота ~10 URL/сутки) — механизма ops-yandex-recrawl для Google в проекте нет; предложить отдельный workflow либо ручной порядок 10 URL в сутки по убыванию GIPS.",
+      "expected_effect": "первые TIER-1-лендинги переходят из Discovered в Submitted and indexed",
+      "confidence": 55,
+      "effort": "M",
+      "risk_google": "LOW",
+      "risk_yandex": "LOW",
+      "dependencies": [
+        "G-01",
+        "G-02",
+        "деплой в main"
+      ],
+      "validation": "index-google следующего дня: рост числа скачанных URL",
+      "rollback_plan": "не требуется",
+      "status": "proposed",
+      "ticket": "reports/seo/tasks/GIDX-002-recrawl-tier12.md"
+    },
+    {
+      "id": "G-09",
+      "priority": "P2",
+      "category": "entity/trust",
+      "problem": "В Organization нет sameAs: внешних подтверждений сущности Google не видит. Проверено по всему src — ни одного вхождения sameAs.",
+      "evidence": "разбор JSON-LD собранных страниц; grep sameAs по src — пусто",
+      "affected_urls": 729,
+      "affected_page_types": [
+        "*"
+      ],
+      "root_cause": "RC-1",
+      "recommended_action": "Решение руководителя 08.09.2026: действующих профилей на внешних площадках пока нет, заполнять sameAs нечем — ссылка на несуществующую страницу в разметке хуже её отсутствия. Вес задачи переходит в G-11: внешний авторитет набирается материалами на площадках, а первая же публикация даёт и упоминание, и адрес профиля, то есть разблокирует эту задачу как побочный результат.",
+      "expected_effect": "усиление сигнала сущности; действует медленно и вместе с внешними упоминаниями",
+      "confidence": 40,
+      "effort": "S",
+      "risk_google": "LOW",
+      "risk_yandex": "LOW",
+      "dependencies": [
+        "первый профиль BIZSoft на внешней площадке — побочный результат G-11"
+      ],
+      "validation": "pnpm smoke — Organization остаётся с одним @id; валидатор разметки без ошибок",
+      "rollback_plan": "revert",
+      "status": "deferred",
+      "ticket": "reports/seo/tasks/GIDX-003-entity-sameas.md"
+    },
+    {
+      "id": "G-10",
+      "priority": "P2",
+      "category": "content depth",
+      "problem": "Карточка товара: 463 слова рендера, 44% совпадает со сквозным каркасом — около 260 слов собственного текста. Развёрнутое описание есть у 81 карточки из 489.",
+      "evidence": "SSR-рендер против стаба + data/seo/product-descriptions.json (short_description медиана 19 слов, description медиана 146 у 81 записи)",
+      "affected_urls": 408,
+      "affected_page_types": [
+        "product"
+      ],
+      "root_cause": "RC-6",
+      "recommended_action": "Развёрнутое описание для карточек TIER 1–2 партиями через data/seo/product-descriptions.json + ops-apply-descriptions (apply=false, затем apply=true), как требует правило уникальности меты. Массовую переработку 408 карточек не запускать до восстановления обхода.",
+      "expected_effect": "снимает RC-6 как ограничитель после того, как обход перестанет быть узким местом",
+      "confidence": 50,
+      "effort": "L",
+      "risk_google": "LOW",
+      "risk_yandex": "MEDIUM",
+      "dependencies": [
+        "подтверждённый рост обхода"
+      ],
+      "validation": "pnpm test (catalog-uniqueness), ops-content-audit",
+      "rollback_plan": "ops-apply-descriptions обратим по журналу",
+      "status": "proposed",
+      "ticket": "reports/seo/tasks/GIDX-004-product-depth.md"
+    },
+    {
+      "id": "G-11",
+      "priority": "P2",
+      "category": "search intent",
+      "problem": "33,8% Google TOP-10 по контрольному ядру занято UGC-площадками (vc.ru 408 позиций, dtf.ru 407, reddit 118) против 17,1% у Яндекса. Часть из 220 запросов разрыва карточкой товара не берётся в принципе.",
+      "evidence": "серп-срезы 07–08.09.2026, раздел 3 плана",
+      "affected_urls": 220,
+      "affected_page_types": [
+        "product",
+        "vendor"
+      ],
+      "root_cause": "RC-5",
+      "recommended_action": "По кластерам, где Google-выдача занята статьями, работает материал, а не карточка. Отбирать кластеры по срезу серпа, а не по интуиции; редполитика — skill bizsoft-content.",
+      "expected_effect": "открывает те кластеры, где формат карточки не проходит",
+      "confidence": 55,
+      "effort": "L",
+      "risk_google": "LOW",
+      "risk_yandex": "LOW",
+      "dependencies": [
+        "восстановленный обход — иначе новые страницы встают в ту же очередь"
+      ],
+      "validation": "появление страниц кластера в Google TOP-20",
+      "rollback_plan": "не требуется",
+      "status": "proposed",
+      "ticket": "reports/seo/tasks/GIDX-005-serp-format-match.md"
+    },
+    {
+      "id": "G-12",
+      "priority": "P2",
+      "category": "crawl priority",
+      "problem": "У compare, alternatives, solutions и blog_tag нет честного источника даты изменения в рантайме: данные лежат в файлах репозитория, дата коммита сборке недоступна.",
+      "evidence": "sitemap-2026-09-08.json: 0% покрытия lastmod у этих типов",
+      "affected_urls": 54,
+      "affected_page_types": [
+        "compare",
+        "alternative",
+        "solution",
+        "blog_tag"
+      ],
+      "root_cause": "RC-3",
+      "recommended_action": "Поле updated в записях alternatives/comparisons/solutions — первичное заполнение снято из истории git (git log -L по строкам каждой записи), поэтому даты отражают реальные правки. Подборкам блога lastmod считается в рантайме как дата самой свежей статьи подборки — отдельное поле им не нужно. Тест tests/sitemap-lastmod.test.ts требует дату у новых записей и запрещает дату из будущего.",
+      "expected_effect": "покрытие lastmod в карте выросло с 44% до ~70% инвентаря: 18 solutions, 18 compare, 7 alternatives, 11 подборок блога плюс вендоры и разделы из G-01",
+      "confidence": 75,
+      "effort": "M",
+      "risk_google": "LOW",
+      "risk_yandex": "LOW",
+      "dependencies": [],
+      "validation": "карта против стаба: solutions 18/18, compare 18/18, alternatives 7/7, blog/tag 11/11 с датой, дублей loc нет; pnpm verify — 603 теста, 52/52 смоук",
+      "rollback_plan": "revert",
+      "status": "done",
+      "ticket": "reports/seo/tasks/GIDX-000-crawl-recovery.md"
+    },
+    {
+      "id": "G-13",
+      "priority": "P3",
+      "category": "inventory",
+      "problem": "11 страниц /blog/tag/* имеют попарное сходство до 0,97; 18 /compare/* не обойдены Google ни разу, 10 из 18 исключены Яндексом как малоценные. Обе группы дают TIER 5 и конкурируют за тот же обход.",
+      "evidence": "шингловый анализ dist/client; index-yandex excluded LOW_QUALITY",
+      "affected_urls": 29,
+      "affected_page_types": [
+        "blog_tag",
+        "compare"
+      ],
+      "root_cause": "RC-3",
+      "recommended_action": "Разбор группами: поднять порог индексации тегов блога, у compare — либо усилить, либо снять с карты. Массовый noindex сейчас не применять: решение требует отдельной визы, и Яндекс по части этих страниц уже высказался.",
+      "expected_effect": "высвобождение обхода в пользу TIER 1–2",
+      "confidence": 45,
+      "effort": "M",
+      "risk_google": "LOW",
+      "risk_yandex": "HIGH",
+      "dependencies": [
+        "решение руководителя"
+      ],
+      "validation": "sitemap не содержит noindex-URL (существующая проверка pnpm smoke)",
+      "rollback_plan": "вернуть страницы в карту",
+      "status": "proposed",
+      "ticket": "reports/seo/tasks/GIDX-006-low-value-inventory.md"
+    }
+  ]
+}
