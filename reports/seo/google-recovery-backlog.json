@@ -140,7 +140,7 @@
         "*"
       ],
       "root_cause": "RC-2",
-      "recommended_action": "Отдельный server{} с server_name www.biz-soft.pro и 301 на https://biz-soft.pro$request_uri. Подготовлено в deploy/nginx-biz-soft.conf.template; решение руководителя получено 08.09.2026: применять сразу после мержа волны 1 через ops-server-config (сначала apply=false — диагностика расхождений, затем apply=true), только с ветки main.",
+      "recommended_action": "Один `if` с одним `return` в существующем server{} прод-конфига, вставляемый по маркеру SEO-WWW-001 перед location / (сниппет deploy/nginx-canonical-host.conf). Отдельный server{} со своим server_name отвергнут: ему понадобились бы собственные listen 443 ssl и пути к сертификату, то есть копия строк certbot, которая разъехалась бы с оригиналом при следующем продлении. Применение — новый воркфлоу ops-nginx-canonical-host (apply=false, затем apply=true), только с ветки main: диагностика 08.09.2026 показала, что ops-server-config конфиг nginx только показывает, а применяет лишь docker-compose.override.yml, deploy.sh и переменные astro.env. Решение руководителя получено 08.09.2026.",
       "expected_effect": "устраняется удвоение инвентаря для обхода; при дефиците в 2 URL/сутки это самая дешёвая экономия",
       "confidence": 75,
       "effort": "S",
@@ -148,10 +148,10 @@
       "risk_yandex": "LOW",
       "dependencies": [
         "мерж волны 1",
-        "ops-server-config apply=true с main"
+        "ops-nginx-canonical-host apply=true с main"
       ],
-      "validation": "после применения: curl -I https://www.biz-soft.pro/vendors/openai → 301 на https://biz-soft.pro/vendors/openai; хост Яндекс.Вебмастера (https:biz-soft.pro:443) не меняется; canonical на страницах уже указывает на biz-soft.pro",
-      "rollback_plan": "вернуть прежний конфиг тем же workflow; изменение обратимо одной правкой",
+      "validation": "встроено в воркфлоу: www.biz-soft.pro/vendors/openai → 301 на https://biz-soft.pro/vendors/openai, канонический хост по-прежнему 200, sitemap 200. На сервере — nginx -t с откатом из копии при неудаче. Логика вставки проверена на макете прод-конфига: блок уходит в HTTPS-server (перед location /), а не в блок :80 с тем же server_name; повторный прогон не дублирует.",
+      "rollback_plan": "копия конфига рядом с оригиналом (conf.bak-canonical-<штамп>); откат — вернуть её и nginx -s reload",
       "status": "approved",
       "ticket": "reports/seo/tasks/GIDX-001-canonical-host.md"
     },
