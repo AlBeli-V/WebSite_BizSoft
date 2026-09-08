@@ -19,7 +19,7 @@ import CookieNotice from '../components/CookieNotice.astro';
 import JsonLd from '../components/JsonLd.astro';
 import WebMCP from '../components/WebMCP.astro';
 import { WEBMCP_ENABLED } from '../webmcp/flag';
-import { organizationSchema, websiteSchema } from '../lib/seo';
+import { organizationSchema, localBusinessSchema, websiteSchema } from '../lib/seo';
 
 interface Props {
   title?: string;
@@ -29,9 +29,17 @@ interface Props {
   noindex?: boolean;
   type?: 'website' | 'article' | 'product';
   keywords?: string;
+  /**
+   * Страница с локальным профилем компании (главная, контакты): узел
+   * организации выводится расширенным — с графиком работы, ценовым
+   * диапазоном и картинкой. Именно расширенным, а не вторым узлом рядом:
+   * два узла с одним @id потребитель склеивает, и каждое общее поле
+   * приходит дважды (см. localBusinessSchema в lib/seo.ts).
+   */
+  localBusiness?: boolean;
 }
 
-const { title, description, canonical, ogImage, noindex, type, keywords } = Astro.props;
+const { title, description, canonical, ogImage, noindex, type, keywords, localBusiness } = Astro.props;
 ---
 <!doctype html>
 <html lang="ru">
@@ -45,7 +53,7 @@ const { title, description, canonical, ogImage, noindex, type, keywords } = Astr
     <link rel="icon" type="image/png" href="/brand/bizsoft-favicon-180.png" />
     <link rel="apple-touch-icon" href="/brand/bizsoft-favicon-180.png" />
     <SeoHead title={title} description={description} canonical={canonical} ogImage={ogImage} noindex={noindex} type={type} keywords={keywords} />
-    <JsonLd schema={[organizationSchema(), websiteSchema()]} />
+    <JsonLd schema={[localBusiness ? localBusinessSchema() : organizationSchema(), websiteSchema()]} />
   </head>
   <body>
     <a href="#main" class="skip-link">К содержимому</a>
