@@ -57,4 +57,7 @@
 ## Связанное
 
 - Ворота пилота по дропам: `reports/seo/drop-domain-pilot-plan.md`, G1.
+- Чем закрывать источник после блокировки NameBright/DropCatch:
+  `reports/seo/drop-domain-data-sources.md` (кандидат — уже подключённый
+  DataForSEO: Domain Analytics WHOIS + Backlinks, плюс бесплатный Wayback CDX).
 - Критерии платных размещений: `docs/seo/external-links-program.md`, раздел 7.
