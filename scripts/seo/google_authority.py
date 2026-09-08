@@ -750,71 +750,63 @@ def content_map(analysis: dict, serp_dir: pathlib.Path, date_s: str,
     }
 
 
-def crawl_queue(analysis: dict, serp_dir: pathlib.Path, date_s: str,
-                index_state: dict[str, str], limit: int = 30) -> dict:
-    """Очередь на запрос обхода: страницы, которые держат топ-10 Яндекса и
-    отсутствуют в индексе Google.
+def page_demand(analysis: dict, serp_dir: pathlib.Path,
+                date_s: str) -> dict[str, dict]:
+    """Спрос, который держит каждая наша страница, по данным выдачи.
 
-    Приоритет — число удерживаемых запросов, взвешенное слабостью выдачи:
-    страница, которая тянет тридцать запросов по слабым выдачам, стоит
-    обхода раньше, чем страница с одним запросом по сильной.
+    По каждому пути biz-soft.pro: сколько запросов коммерческого ядра он
+    держит в топ-10 Яндекса и насколько слаба по ним выдача Google. Первое
+    отвечает «сколько мы теряем, пока страницы нет в Google», второе —
+    «велик ли шанс войти».
+
+    Потребитель — приоритет подачи на обход (`scripts/seo/google_gap.py`,
+    GIPS). Своей очереди на обход здесь нет намеренно: два списка «что
+    подавать первым» с разными ответами хуже одного (решение руководителя
+    08.09.2026).
     """
     y = load_slice(serp_dir, date_s, "-serp.jsonl", 7)
     ymap = {" ".join(r["query"].lower().split()): r
             for r in (y or {}).get("rows", [])
             if (r.get("region") or "213") == "213"}
 
-    agg: dict[str, dict] = {}
+    out: dict[str, dict] = {}
     for i in analysis["items"]:
-        if not i["gap"]:
+        pos = i.get("yandex_position")
+        if not pos or pos > 10:
             continue
         row = ymap.get(" ".join(i["query"].lower().split()))
         path = _our_url_path((row or {}).get("top") or [])
         if not path:
             continue
-        state = index_state.get(path, "не измерялась")
-        if state == "Submitted and indexed":
-            continue
-        e = agg.setdefault(path, {"queries": [], "weakness": [], "clusters": set(),
-                                  "best_yandex": 99, "state": state})
+        e = out.setdefault(path, {"queries": [], "weakness": [],
+                                  "best_yandex_position": pos})
         e["queries"].append(i["query"])
         e["weakness"].append(i["weakness"])
-        if i["vendor"]:
-            e["clusters"].add(i["vendor"])
-        e["best_yandex"] = min(e["best_yandex"], i["yandex_position"] or 99)
+        e["best_yandex_position"] = min(e["best_yandex_position"], pos)
 
-    items = []
-    for path, e in agg.items():
-        weak = sum(e["weakness"]) / len(e["weakness"])
-        items.append({
-            "url": f"https://{OUR_DOMAIN}{path}",
-            "path": path,
-            "google_index_state": e["state"],
-            "yandex_top10_queries": len(e["queries"]),
-            "best_yandex_position": e["best_yandex"],
-            "weakness_avg": round(weak, 1),
-            "clusters": sorted(e["clusters"]),
-            "priority_score": round(len(e["queries"]) * (1 + weak / 100), 2),
-            "sample_queries": sorted(e["queries"])[:3],
-        })
-    items.sort(key=lambda r: -r["priority_score"])
-    return {
-        "schema_version": "1.0.0",
-        "generated_for": analysis["generated_for"],
-        "as_of_google": analysis["as_of_google"],
-        "as_of_yandex": analysis["as_of_yandex"],
-        "purpose": ("Очередь на запрос обхода в Search Console: страницы, которые "
-                    "держат топ-10 Яндекса по коммерческим запросам ядра и "
-                    "отсутствуют в индексе Google."),
-        "method": ("разрыв между системами по одному ядру × покрытие индекса "
-                   "(scripts/seo/index_coverage.py)"),
-        "note": ("Запрос обхода делается вручную и имеет собственные ограничения "
-                 "площадки. Он не заменяет внутренние ссылки: страница без "
-                 "входящих ссылок с индексируемых страниц возвращается в "
-                 "«Discovered» после обхода."),
-        "total_candidates": len(items),
-        "items": items[:limit],
-    }
+    for e in out.values():
+        e["queries_held"] = len(e["queries"])
+        e["weakness_avg"] = round(sum(e["weakness"]) / len(e["weakness"]), 1)
+        e["sample_queries"] = sorted(e["queries"])[:3]
+        del e["weakness"]
+        del e["queries"]
+    return out
+
+
+def demand_by_path(serp_dir: pathlib.Path, index_dir: pathlib.Path,
+                   date_s: str) -> dict[str, dict]:
+    """То же, но самостоятельно: собирает разбор и отдаёт спрос по путям.
+
+    Нужна потребителям, которые не строят разбор сами. Отсутствие свежего
+    Google-среза — не сбой потребителя: возвращается пустой словарь, и
+    приоритет считается без этих факторов.
+    """
+    try:
+        analysis = build(serp_dir, date_s)
+    except SystemExit:
+        return {}
+    return page_demand(analysis, serp_dir, date_s)
+
 
 # ─────────────────────────────── артефакты ─────────────────────────────────
 
@@ -844,7 +836,6 @@ def main() -> None:
     analysis = build(serp_dir, a.date)
     idx = load_index_state(pathlib.Path(a.index_dir), a.date)
     cmap = content_map(analysis, serp_dir, a.date, idx)
-    queue = crawl_queue(analysis, serp_dir, a.date, idx)
     out = pathlib.Path(a.out_dir)
     out.mkdir(parents=True, exist_ok=True)
     prefix = f"{a.date}-" if a.stamp else ""
@@ -852,8 +843,6 @@ def main() -> None:
         json.dumps(analysis, ensure_ascii=False, indent=1), encoding="utf-8")
     (out / f"{prefix}google-content-map.json").write_text(
         json.dumps(cmap, ensure_ascii=False, indent=1), encoding="utf-8")
-    (out / f"{prefix}google-crawl-queue.json").write_text(
-        json.dumps(queue, ensure_ascii=False, indent=1), encoding="utf-8")
     write_link_gap_csv(analysis, out / f"{prefix}google-link-gap.csv")
     print(json.dumps({k: v for k, v in analysis.items()
                       if k not in ("items", "link_gap", "hubs")},

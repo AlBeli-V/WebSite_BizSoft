@@ -18,6 +18,14 @@
 страниц, какие подать первыми». Веса и их обоснование — в docstring score().
 Модель намеренно грубая: она ранжирует, а не предсказывает.
 
+С 08.09.2026 в GIPS входят два фактора со стороны выдачи, которых по
+инвентарю не видно (`google_authority.demand_by_path`): сколько запросов
+коммерческого ядра страница держит в топ-10 Яндекса и насколько слаба по
+ним выдача Google. Первый отвечает «сколько мы теряем, пока страницы нет
+в Google», второй — «велик ли шанс войти». Прежний счёт сохраняется в
+колонке gips_base: решение руководителя менять порядок подачи, а не
+переписывать модель молча.
+
 Пишет:
   reports/seo/google-indexation-gap.csv   — по каждому URL инвентаря
   reports/seo/google-url-priority.csv     — то же, отсортировано по GIPS
@@ -31,8 +39,13 @@ from __future__ import annotations
 import csv
 import datetime as dt
 import json
+import math
 import pathlib
 import sys
+
+sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
+
+import google_authority  # noqa: E402
 
 DATA_DIR = pathlib.Path("reports/seo/data")
 SERP_DIR = pathlib.Path("reports/seo/serp")
@@ -133,7 +146,7 @@ def serp_positions(rows: list[dict]) -> dict[str, tuple[int, str]]:
     return best
 
 
-def score(row: dict) -> tuple[int, str]:
+def score(row: dict) -> tuple[int, int, str]:
     """Google Index Priority Score, 0–100. Ранжирует, а не предсказывает.
 
     Веса выбраны так, чтобы на первое место выходили страницы, по которым
@@ -152,6 +165,21 @@ def score(row: dict) -> tuple[int, str]:
       10  индексируемость в Яндексе как отрицательный сигнал качества:
           страница, исключённая Яндексом как малоценная, теряет эти баллы —
           подавать её в Google раньше остальных смысла нет.
+
+    Сверх базовых 100 — надбавка до 20 за спрос со стороны выдачи. Она
+    разводит страницы, у которых базовый счёт совпал:
+
+      12  объём удерживаемого спроса: сколько запросов ядра страница держит
+          в топ-10 Яндекса. Базовый счёт видит только лучшую позицию по
+          одному запросу, поэтому страница на 32 запроса и страница на один
+          получали поровну.
+       8  слабость выдачи Google по этим запросам: там, где топ занят UGC и
+          маркетплейсами вместо специализированных продавцов, шанс войти
+          выше, и обход окупается быстрее.
+
+    Возвращает (итоговый счёт, базовый счёт, тир). Базовый сохраняется в
+    отчёте: без него нельзя проверить, что надбавка меняет порядок, а не
+    подменяет модель.
     """
     s = 0.0
     yp = row["yandex_position"]
@@ -178,10 +206,22 @@ def score(row: dict) -> tuple[int, str]:
         s += 10
     else:
         s += 5
-    s = max(0, min(100, round(s)))
-    tier = ("TIER 1" if s >= 75 else "TIER 2" if s >= 62 else
-            "TIER 3" if s >= 50 else "TIER 4" if s >= 38 else "TIER 5")
-    return s, tier
+    base = max(0, min(100, round(s)))
+
+    # Надбавка за спрос: логарифмическая по числу запросов — разница между
+    # одним и десятью запросами важнее, чем между тридцатью и сорока.
+    held = row.get("serp_queries_held") or 0
+    weak = row.get("serp_weakness_avg") or 0
+    bonus = 0.0
+    if held:
+        bonus += min(12.0, 4.0 * math.log2(1 + held))
+    if weak:
+        bonus += 8.0 * min(1.0, weak / 50.0)
+    total = max(0, min(100, round(base + bonus)))
+
+    tier = ("TIER 1" if total >= 75 else "TIER 2" if total >= 62 else
+            "TIER 3" if total >= 50 else "TIER 4" if total >= 38 else "TIER 5")
+    return total, base, tier
 
 
 def cause(row: dict) -> str:
@@ -222,6 +262,9 @@ def build(date_s: str) -> list[dict]:
     yserp = _latest_lines(SERP_DIR, "{date}-serp.jsonl", date_s)
     gpos = serp_positions(gserp[1]) if gserp else {}
     ypos = serp_positions(yserp[1]) if yserp else {}
+    # Спрос со стороны выдачи. Пустой словарь — не сбой: без свежего
+    # Google-среза приоритет считается по базовым факторам.
+    demand = google_authority.demand_by_path(SERP_DIR, DATA_DIR, date_s)
 
     rows = []
     for u in sm[1]["urls"]:
@@ -245,15 +288,18 @@ def build(date_s: str) -> list[dict]:
             "yandex_excluded_reason": (ya_ex.get(path) or {}).get("status", ""),
             "yandex_position": ypos.get(path, (None, ""))[0],
             "yandex_query": ypos.get(path, (None, ""))[1],
+            "serp_queries_held": (demand.get(path) or {}).get("queries_held", 0),
+            "serp_weakness_avg": (demand.get(path) or {}).get("weakness_avg", 0),
         }
         row["likely_cause"] = cause(row)
-        row["gips"], row["tier"] = score(row)
+        row["gips"], row["gips_base"], row["tier"] = score(row)
         rows.append(row)
     rows.sort(key=lambda r: (-r["gips"], r["path"]))
     return rows
 
 
-FIELDS = ["path", "page_type", "tier", "gips", "likely_cause", "google_state",
+FIELDS = ["path", "page_type", "tier", "gips", "gips_base",
+          "serp_queries_held", "serp_weakness_avg", "likely_cause", "google_state",
           "google_crawled", "google_indexed", "google_last_crawl",
           "google_impressions", "google_clicks", "google_position",
           "google_serp_position", "yandex_state", "yandex_excluded_reason",

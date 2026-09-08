@@ -79,8 +79,9 @@ TypeScript strict · Vitest · Python 3 (контуры SEO/разведки/р�
   дропы — `drop-domain-strategy.md` и приложения. Разбор строит
   `scripts/seo/google_authority.py` из срезов SERP и сенсора покрытия
   индекса (шаг `Google authority analysis` в `seo-serp-watch`), руками цифры
-  не правятся. Очередь работ по контуру — `google-authority-backlog.json`,
-  очередь на запрос обхода — `google-crawl-queue.json`.
+  не правятся. Очередь работ и очередь на обход — общие с контуром
+  восстановления обхода: `google-recovery-backlog.json` и
+  `google-url-priority.csv` (GIPS); вторых списков в проекте нет.
 - **Новый workflow** — `.github/workflows/*.yml`; production-workflow
   запускается только с `main` (правило CLAUDE.md); для запуска одного
   workflow из другого — `scripts/ops/gh_dispatch_wait.sh`.

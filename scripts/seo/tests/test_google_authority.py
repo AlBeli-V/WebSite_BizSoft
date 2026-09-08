@@ -168,29 +168,41 @@ class TestBuild(Base):
             self.assertEqual(c["google_index_state"], "не измерялась")
 
 
-    def test_crawl_queue_skips_indexed_and_ranks_by_load(self):
-        """В очередь на обход попадает только то, чего нет в индексе Google,
-        и вперёд идёт страница, которая тянет больше запросов."""
+    def test_page_demand_counts_only_held_queries(self):
+        """Спрос считается по запросам, которые страница реально держит в
+        топ-10 Яндекса: остальные к потерям от отсутствия в Google не
+        относятся."""
         a = self.m.build(self.dir, DATE)
-        index = {"/blog/kak-oplatit-framer-dlya-yurlica": "Discovered - currently not indexed",
-                 "/vendors/artlist": "Submitted and indexed"}
-        q = self.m.crawl_queue(a, self.dir, DATE, index)
-        paths = [i["path"] for i in q["items"]]
-        self.assertIn("/blog/kak-oplatit-framer-dlya-yurlica", paths)
-        self.assertNotIn("/vendors/artlist", paths)
-        self.assertEqual(q["total_candidates"], 1)
-        top = q["items"][0]
-        self.assertEqual(top["url"], "https://biz-soft.pro/blog/kak-oplatit-framer-dlya-yurlica")
-        self.assertEqual(top["best_yandex_position"], 2)
+        d = self.m.page_demand(a, self.dir, DATE)
+        self.assertEqual(sorted(d), ["/blog/kak-oplatit-framer-dlya-yurlica",
+                                     "/vendors/artlist"])
+        framer = d["/blog/kak-oplatit-framer-dlya-yurlica"]
+        self.assertEqual(framer["queries_held"], 1)
+        self.assertEqual(framer["best_yandex_position"], 2)
+        self.assertGreater(framer["weakness_avg"], 0)
 
-    def test_crawl_queue_without_index_data_keeps_everything(self):
-        """Нет данных о покрытии — ни одна страница не объявляется
-        проиндексированной: очередь содержит всех кандидатов разрыва."""
+    def test_page_demand_ignores_pages_outside_yandex_top10(self):
+        """Страница на 11-й позиции Яндекса спроса не удерживает."""
+        self.write(f"{DATE}-serp.jsonl", [
+            {"query": "оплата framer юридическим лицом", "region": "213",
+             "top": docs(*[f"d{i}.ru" for i in range(10)]) + [
+                 {"domain": "biz-soft.pro",
+                  "url": "https://biz-soft.pro/blog/kak-oplatit-framer-dlya-yurlica",
+                  "title": "Framer"}]},
+        ])
         a = self.m.build(self.dir, DATE)
-        q = self.m.crawl_queue(a, self.dir, DATE, {})
-        self.assertEqual(q["total_candidates"], 2)
-        for i in q["items"]:
-            self.assertEqual(i["google_index_state"], "не измерялась")
+        self.assertEqual(self.m.page_demand(a, self.dir, DATE), {})
+
+    def test_demand_by_path_is_silent_without_google_slice(self):
+        """Потребитель приоритета не должен падать из-за отсутствия среза:
+        без него надбавка просто не начисляется."""
+        (self.dir / f"{DATE}-serp-google.jsonl").unlink()
+        self.assertEqual(self.m.demand_by_path(self.dir, self.dir, DATE), {})
+
+    def test_no_second_crawl_queue(self):
+        """Очередь на обход одна — GIPS в google_gap.py (решение 08.09.2026).
+        Второй список «что подавать первым» здесь не заводится."""
+        self.assertFalse(hasattr(self.m, "crawl_queue"))
 
 
 if __name__ == "__main__":
