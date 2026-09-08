@@ -1,0 +1,339 @@
+{
+  "schema_version": "1.0.0",
+  "generated_for": "2026-09-08",
+  "note": "Бэклог внешней дистрибуции под Google. Дополняет существующую программу docs/seo/external-links-program.md, не заменяет её: там слои 1-3 и критерии платных размещений, здесь — приоритет площадок по фактической выдаче Google и перечень linkable assets. Приоритет площадок отличается от яндексового: доли присутствия в топ-10 Google измерены по 394 запросам ядра (reports/seo/google-serp-authority.json).",
+  "measurement": {
+    "serp_source": "reports/seo/serp/2026-09-07-serp-google.jsonl (xmlriver, местоположение Россия, глубина 20)",
+    "queries": 394,
+    "registry": "data/marketing/publications.json — расширить полями google_indexed, gsc_link_seen, target_index_state"
+  },
+  "platforms": [
+    {
+      "id": "vc-ru",
+      "platform": "VC.ru",
+      "google_top10_share": 0.86,
+      "google_top3_positions": 210,
+      "yandex_top10_hits": 242,
+      "why": "Единственный домен, присутствующий в топ-10 Google по 86% ядра и в топ-3 по 210 позициям. Пока свой экспертный слой не индексируется, это способ занять площадь чужим доменом.",
+      "audience": "предприниматели, руководители, маркетинг, продуктовые команды",
+      "content": "аналитические разборы с цифрами и собственной практикой сделок; открытое раскрытие аффилиации",
+      "search_cluster": [
+        "cross-cutting",
+        "ai-subscriptions",
+        "dev-tools"
+      ],
+      "target_pages": [
+        "/solutions/po-dlya-yurlic-po-schetu",
+        "/solutions/ai-servisy-dlya-biznesa",
+        "/blog/kak-kupit-zarubezhnoe-po-dlya-yurlica"
+      ],
+      "mention_type": "branded + 1 коммерческая ссылка",
+      "link_allowed": true,
+      "link_type": "в теле материала, без UTM для SEO-ссылки",
+      "expected_seo_effect": "средний — площадь в выдаче принадлежит площадке, нам достаётся ссылка и переход",
+      "referral_effect": "высокий",
+      "brand_effect": "высокий",
+      "effort": "средний",
+      "risk": "средний — ценность канала зависит от политики Google к площадке (site reputation abuse применяется к хосту, не к нам), а также от модерации VC",
+      "priority": 1
+    },
+    {
+      "id": "dtf",
+      "platform": "DTF",
+      "google_top10_share": 0.82,
+      "google_top3_positions": 142,
+      "yandex_top10_hits": 90,
+      "why": "Второй по площади домен Google-выдачи ядра. Текущая программа ограничивает DTF узкими темами (Autodesk, VFX, game-dev); по данным среза DTF входит в топ-10 по 82% всего ядра, включая AI и инструменты разработки — ограничение под Google не обосновано.",
+      "audience": "разработчики игр, 3D и VFX, креативные команды, IT-аудитория",
+      "content": "практика: как команда покупает инструмент, что нужно от юрлица, чем отличаются тарифы",
+      "search_cluster": [
+        "video-creative",
+        "design-software",
+        "dev-tools",
+        "ai-subscriptions"
+      ],
+      "target_pages": [
+        "/catalog/media",
+        "/solutions/design-studios",
+        "/solutions/ai-dlya-razrabotchikov"
+      ],
+      "mention_type": "branded + 1 ссылка",
+      "link_allowed": true,
+      "link_type": "в теле материала",
+      "expected_seo_effect": "средний",
+      "referral_effect": "средний",
+      "brand_effect": "средний",
+      "effort": "средний",
+      "risk": "средний — тон площадки требует материала без рекламной интонации",
+      "priority": 2,
+      "decision_needed": "снять или сохранить ограничение по темам, действующее в docs/seo/external-links-program.md"
+    },
+    {
+      "id": "habr",
+      "platform": "Habr",
+      "google_top10_share": 0.19,
+      "google_top3_positions": 20,
+      "yandex_top10_hits": 47,
+      "why": "Единственная UGC-площадка ядра, работающая в обеих системах одновременно. Исключена из программы решением от 01.09.2026 как платная; под Google цена отказа выше, чем под Яндекс.",
+      "audience": "инженеры, техлиды, ИТ-руководители",
+      "content": "технические разборы: лицензирование, SSO, корпоративные тарифы, интеграции",
+      "search_cluster": [
+        "dev-tools",
+        "infrastructure-security"
+      ],
+      "target_pages": [
+        "/solutions/ai-dlya-razrabotchikov",
+        "/vendors/gitlab",
+        "/vendors/atlassian"
+      ],
+      "mention_type": "branded + 1 ссылка",
+      "link_allowed": true,
+      "link_type": "в теле материала",
+      "expected_seo_effect": "средний",
+      "referral_effect": "средний",
+      "brand_effect": "высокий в целевой аудитории",
+      "effort": "высокий",
+      "risk": "низкий по алгоритмам, высокий по приёмке аудиторией слабого материала",
+      "priority": 3,
+      "decision_needed": "пересмотр исключения Habr именно под Google-контур"
+    },
+    {
+      "id": "dzen",
+      "platform": "Дзен",
+      "google_top10_share": 0.04,
+      "google_top3_positions": 2,
+      "yandex_top10_hits": 208,
+      "why": "Сильный канал Яндекса и почти нулевой в Google. В Google-приоритете идёт после VC, DTF и Habr; из яндексовой программы не убирается.",
+      "audience": "широкая деловая",
+      "content": "практические пошаговые материалы",
+      "search_cluster": [
+        "cross-cutting"
+      ],
+      "target_pages": [
+        "/solutions/inostrannoe-po-po-dogovoru"
+      ],
+      "mention_type": "branded",
+      "link_allowed": true,
+      "link_type": "в теле материала",
+      "expected_seo_effect": "низкий для Google",
+      "referral_effect": "средний",
+      "brand_effect": "средний",
+      "effort": "низкий",
+      "risk": "низкий",
+      "priority": 5
+    },
+    {
+      "id": "spark-tenchat",
+      "platform": "Spark.ru, TenChat",
+      "google_top10_share": 0.01,
+      "google_top3_positions": 0,
+      "yandex_top10_hits": 0,
+      "why": "В Google-выдаче ядра Spark.ru не встречается ни разу, TenChat — 3 позиции из 3 940. Ценность — брендовая и корроборационная (профиль компании), не поисковая.",
+      "audience": "предприниматели, B2B-нетворкинг",
+      "content": "короткие экспертные заметки, кейсы",
+      "search_cluster": [],
+      "target_pages": [
+        "/",
+        "/about"
+      ],
+      "mention_type": "branded, профиль",
+      "link_allowed": true,
+      "link_type": "профильная",
+      "expected_seo_effect": "нулевой для Google, вклад в сущность",
+      "referral_effect": "низкий",
+      "brand_effect": "средний",
+      "effort": "низкий",
+      "risk": "низкий",
+      "priority": 6
+    },
+    {
+      "id": "software-catalogs",
+      "platform": "Каталоги ПО и SaaS (startpack.ru, soware.ru, TAdviser)",
+      "google_top10_share": 0.03,
+      "google_top3_positions": 0,
+      "yandex_top10_hits": null,
+      "why": "Каталоги встречаются в топ-10 Google по нашим запросам поштучно (startpack.ru — 4 позиции, soware.ru — 4, TAdviser — 3 из 3 940). Ссылочный вклад мал, но карточка компании в таком каталоге подтверждает сущность и специализацию — это уровень 2 плана reports/seo/google-entity-gap.md.",
+      "audience": "закупщики ПО, ИТ-руководители",
+      "content": "карточка компании и услуг, без статьи",
+      "search_cluster": [
+        "cross-cutting",
+        "productivity-collab"
+      ],
+      "target_pages": [
+        "/",
+        "/catalog"
+      ],
+      "mention_type": "branded + URL",
+      "link_allowed": true,
+      "link_type": "каталожная, часть площадок отдаёт dofollow",
+      "expected_seo_effect": "низкий поштучно, значимый в сумме",
+      "referral_effect": "низкий",
+      "brand_effect": "средний",
+      "effort": "низкий",
+      "risk": "низкий",
+      "priority": 4,
+      "entity_value": "высокая — это уровень 2 плана reports/seo/google-entity-gap.md"
+    },
+    {
+      "id": "legal-registries",
+      "platform": "Реестры юрлиц (rusprofile, list-org, checko)",
+      "google_top10_share": 0.0,
+      "google_top3_positions": 0,
+      "yandex_top10_hits": null,
+      "why": "В выдаче ядра реестры не встречаются (rusprofile, list-org — ноль позиций): ценность не поисковая, а корроборационная — они подтверждают существование лица, ИНН и адрес, чего сегодня не подтверждает ничто снаружи сайта.",
+      "audience": "контрагенты, службы безопасности покупателей",
+      "content": "актуализация карточки, без публикации",
+      "search_cluster": [],
+      "target_pages": [
+        "/"
+      ],
+      "mention_type": "branded",
+      "link_allowed": true,
+      "link_type": "как правило nofollow",
+      "expected_seo_effect": "нулевой ссылочный, высокий для сущности",
+      "referral_effect": "низкий",
+      "brand_effect": "высокий (доверие покупателя-юрлица)",
+      "effort": "низкий",
+      "risk": "нет",
+      "priority": 4
+    },
+    {
+      "id": "pressfeed",
+      "platform": "Pressfeed → отраслевые и деловые СМИ",
+      "google_top10_share": null,
+      "google_top3_positions": null,
+      "yandex_top10_hits": null,
+      "why": "Единственный канал, дающий редакционные упоминания — самый ценный класс и для ссылок, и для сущности. В Google-выдаче ядра деловые СМИ занимают 281 позицию топ-10 (sostav, klerk, RBC Компании, sravni).",
+      "audience": "журналисты деловых и отраслевых изданий",
+      "content": "комментарии эксперта, данные собственных исследований",
+      "search_cluster": [
+        "cross-cutting"
+      ],
+      "target_pages": [
+        "/",
+        "/about",
+        "/solutions/po-dlya-yurlic-po-schetu"
+      ],
+      "mention_type": "editorial, часто без ссылки",
+      "link_allowed": true,
+      "link_type": "редакционная, по усмотрению издания",
+      "expected_seo_effect": "высокий при попадании",
+      "referral_effect": "средний",
+      "brand_effect": "высокий",
+      "effort": "средний, постоянный",
+      "risk": "низкий",
+      "priority": 2,
+      "prerequisite": "именованный эксперт (пункт E5 плана сущности)"
+    }
+  ],
+  "linkable_assets": [
+    {
+      "id": "saas-availability-index",
+      "idea": "Индекс доступности зарубежного SaaS для российских юрлиц: по каждому вендору каталога — можно ли оплатить с российского юрлица, какие документы выдаются, какие ограничения в политике вендора",
+      "audience": "закупщики, финансовые директора, деловые СМИ",
+      "data_source": "каталог Directus + публичные политики вендоров + собственная практика поставки",
+      "format": "публичная таблица на сайте + описанная методика + выгружаемый датасет",
+      "cadence": "обновление ежеквартально",
+      "potential_publishers": [
+        "деловые СМИ",
+        "бухгалтерские медиа (klerk)",
+        "Habr",
+        "VC"
+      ],
+      "target_hub": "cross-cutting",
+      "expected_linkability": "высокая — цитируемая величина, которой ни у кого нет",
+      "effort": "высокий",
+      "risk": "требует дисциплины обновления: устаревший индекс хуже отсутствующего"
+    },
+    {
+      "id": "ai-payment-map",
+      "idea": "Карта способов оплаты AI-сервисов из России: классификация посредников, маркетплейсов ключей и легальных поставок, с честным разбором рисков каждой модели",
+      "audience": "ИТ-руководители, предприниматели",
+      "data_source": "reports/seo/google-link-gap.csv (классификация 80 доменов выдачи) + собственная практика",
+      "format": "схема + разбор моделей",
+      "cadence": "полугодовое обновление",
+      "potential_publishers": [
+        "VC",
+        "Habr",
+        "klerk"
+      ],
+      "target_hub": "ai-subscriptions",
+      "expected_linkability": "средняя",
+      "effort": "средний",
+      "risk": "низкий — данные уже собраны существующим контуром"
+    },
+    {
+      "id": "ruble-price-dynamics",
+      "idea": "Динамика рублёвой стоимости зарубежных подписок: как курс и политика вендоров меняли цену года к году",
+      "audience": "финансовые директора, деловые СМИ",
+      "data_source": "курс ЦБ + история цен каталога",
+      "format": "график + датасет",
+      "cadence": "ежеквартально",
+      "potential_publishers": [
+        "деловые и финансовые СМИ",
+        "VC"
+      ],
+      "target_hub": "cross-cutting",
+      "expected_linkability": "высокая — цифровой факт легко цитировать",
+      "effort": "средний",
+      "risk": "низкий"
+    },
+    {
+      "id": "vendor-policy-review",
+      "idea": "Что вендоры пишут про Россию в своих условиях: сводная таблица формулировок из публичных ToS со ссылками на первоисточники",
+      "audience": "юристы, комплаенс, ИТ-закупки",
+      "data_source": "публичные условия вендоров каталога",
+      "format": "таблица с цитатами и ссылками",
+      "cadence": "полугодовое обновление",
+      "potential_publishers": [
+        "Habr",
+        "юридические и бухгалтерские медиа"
+      ],
+      "target_hub": "cross-cutting",
+      "expected_linkability": "средняя",
+      "effort": "высокий",
+      "risk": "нужна аккуратность цитирования"
+    },
+    {
+      "id": "tco-calculator",
+      "idea": "Калькулятор стоимости владения подпиской: лицензии, курс, комиссии, сопровождение, срок",
+      "audience": "закупщики, финансовые директора",
+      "data_source": "модель TCO из /blog/stoimost-vladeniya-podpiskoy + цены каталога",
+      "format": "интерактив на сайте",
+      "cadence": "по мере изменения модели",
+      "potential_publishers": [
+        "VC",
+        "деловые медиа",
+        "профильные сообщества"
+      ],
+      "target_hub": "cross-cutting",
+      "expected_linkability": "высокая — инструменты цитируют охотнее статей",
+      "effort": "высокий",
+      "risk": "низкий"
+    },
+    {
+      "id": "annual-procurement-report",
+      "idea": "Годовой отчёт: как российские компании покупали зарубежное ПО — обезличенная статистика сделок",
+      "audience": "деловые СМИ, отраслевые аналитики",
+      "data_source": "обезличенная статистика собственных сделок",
+      "format": "PDF + лендинг с ключевыми цифрами",
+      "cadence": "ежегодно",
+      "potential_publishers": [
+        "деловые СМИ",
+        "TAdviser",
+        "VC"
+      ],
+      "target_hub": "cross-cutting",
+      "expected_linkability": "высокая",
+      "effort": "высокий",
+      "risk": "обязательна проверка на раскрытие данных клиентов"
+    }
+  ],
+  "rules": [
+    "Одна и та же статья не публикуется на нескольких площадках: исходный контентный объект — на сайте, площадки получают адаптации под свою аудиторию (правило 3.7 docs/seo/external-links-program.md).",
+    "Ссылка ставится только на URL из /sitemap.xml (правило 3.1 той же программы).",
+    "Не больше 2-3 ссылок на публикацию, не больше одного точного коммерческого анкора.",
+    "Аффилиация раскрывается открыто: мы поставщик, и в материале это сказано прямо.",
+    "Приоритет площадок под Google (VC → Pressfeed → DTF → Habr → каталоги → Дзен → Spark/TenChat) отличается от яндексового; в реестре публикаций фиксируется, под какую систему шло размещение."
+  ]
+}

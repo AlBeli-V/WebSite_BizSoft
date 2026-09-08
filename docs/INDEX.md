@@ -57,6 +57,12 @@ TypeScript strict · Vitest · Python 3 (контуры SEO/разведки/р�
   только `src/data/policies.ts`: из него рендерятся `/faq`, `/how-we-work`,
   `/pricing` и отвечает WebMCP-инструмент `search_policies`. Массив
   `{ q, a }` прямо в `.astro` запрещён тестом `tests/policies.test.ts`.
+- **Авторитет в Google** (почему Яндекс держит топ, а Google нет) —
+  `reports/seo/google-authority-strategy.md`; карта контента и разрыв —
+  `google-content-map.json`, `google-link-gap.csv`, `google-entity-gap.md`;
+  дропы — `drop-domain-strategy.md` и приложения. Разбор строит
+  `scripts/seo/google_authority.py` из срезов SERP и сенсора покрытия
+  индекса, руками цифры не правятся.
 - **Новый workflow** — `.github/workflows/*.yml`; production-workflow
   запускается только с `main` (правило CLAUDE.md); для запуска одного
   workflow из другого — `scripts/ops/gh_dispatch_wait.sh`.
