@@ -23,6 +23,10 @@ const STATIC_ROUTES: { path: string; priority: number; changefreq: string }[] = 
   { path: '/documents', priority: 0.6, changefreq: 'monthly' },
   { path: '/blog', priority: 0.7, changefreq: 'weekly' },
   { path: '/solutions', priority: 0.6, changefreq: 'monthly' },
+  // Хабы сравнений и аналогов (IDX-001): сами страницы разделов в карте были,
+  // а точек входа в них не было ни в карте, ни в навигации.
+  { path: '/compare', priority: 0.7, changefreq: 'monthly' },
+  { path: '/alternatives', priority: 0.7, changefreq: 'monthly' },
   // Раздел «Производители» — точка входа во все лендинги вендоров. Её не было
   // в карте вовсе, хотя она собирает внутренние ссылки на весь раздел.
   { path: '/vendors', priority: 0.8, changefreq: 'weekly' },
@@ -32,6 +36,9 @@ const STATIC_ROUTES: { path: string; priority: number; changefreq: string }[] = 
   { path: '/vendors/figma', priority: 0.9, changefreq: 'weekly' },
   { path: '/vendors/maxon', priority: 0.9, changefreq: 'weekly' },
   { path: '/about', priority: 0.5, changefreq: 'yearly' },
+  // Страница публичного эксперта (ENT-001): узел Person, на который ссылаются
+  // founder организации и author каждой статьи.
+  { path: '/authors/alexey-belyaev', priority: 0.5, changefreq: 'monthly' },
   { path: '/cases', priority: 0.5, changefreq: 'monthly' },
   { path: '/contacts', priority: 0.6, changefreq: 'yearly' },
   { path: '/faq', priority: 0.6, changefreq: 'monthly' },

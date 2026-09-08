@@ -10,6 +10,7 @@ import { productIcons } from '../../data/product-icons';
 import ProductIcon from '../../components/ProductIcon.astro';
 import AddToCartButton from '../../components/AddToCartButton.astro';
 import QuestionForm from '../../components/QuestionForm.astro';
+import VendorInterlinks from '../../components/VendorInterlinks.astro';
 import JsonLd from '../../components/JsonLd.astro';
 import { getProducts } from '../../lib/directus';
 import { effectivePrice, formatRub } from '../../lib/pricing';
@@ -301,6 +302,9 @@ const collectionLd = collectionPageSchema({ name: 'Maxon для бизнеса',
       </div>
     </section>
   </div>
+
+  <!-- Ещё по теме: статьи, аналоги, сравнения этого вендора (IDX-001) -->
+  <VendorInterlinks vendorSlug="maxon" productSlugs={maxon.map((p) => p.slug)} />
 
   <QuestionForm source="maxon" />
 </BaseLayout>

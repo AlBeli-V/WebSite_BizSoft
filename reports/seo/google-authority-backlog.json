@@ -10,212 +10,446 @@
     "status": "queued | in_progress | done | blocked | gated"
   },
   "stages": [
-    {"stage": 1, "name": "Аналитический контур Google", "branch": "claude/bizsoft-google-authority-system-4txh7e", "status": "выполняется в текущей сессии"},
-    {"stage": 2, "name": "Сущность и внутренняя перелинковка (контур сайта)", "branch": "новая ветка", "status": "готов к запуску", "why_separate": "правки src/ — другой контур, чем аналитика; по правилу объёма идут своей веткой"},
-    {"stage": 3, "name": "Контент: документы под слабые выдачи", "branch": "новая ветка", "status": "ждёт этап 2", "why": "документ на странице, которую Google не обходит, не окупается"},
-    {"stage": 4, "name": "Внешняя дистрибуция и Digital PR", "branch": "новая ветка + действия руководителя", "status": "частично готов", "why": "тексты недели 1 написаны, аккаунты не заведены"},
-    {"stage": 5, "name": "Дроп-домены: пилот", "branch": "не заведена", "status": "gated", "why": "ворота G1 и G2 из drop-domain-pilot-plan.md"}
+    {
+      "stage": 1,
+      "name": "Аналитический контур Google",
+      "branch": "claude/bizsoft-google-authority-system-4txh7e",
+      "status": "выполняется в текущей сессии"
+    },
+    {
+      "stage": 2,
+      "name": "Сущность и внутренняя перелинковка (контур сайта)",
+      "branch": "новая ветка",
+      "status": "выполнен в ветке claude/bizsoft-google-index-entity-4txh7e; операции — после мержа",
+      "why_separate": "правки src/ — другой контур, чем аналитика; по правилу объёма идут своей веткой"
+    },
+    {
+      "stage": 3,
+      "name": "Контент: документы под слабые выдачи",
+      "branch": "новая ветка",
+      "status": "готов к запуску после замера покрытия индекса",
+      "why": "документ на странице, которую Google не обходит, не окупается"
+    },
+    {
+      "stage": 4,
+      "name": "Внешняя дистрибуция и Digital PR",
+      "branch": "новая ветка + действия руководителя",
+      "status": "частично готов",
+      "why": "тексты недели 1 написаны, аккаунты не заведены"
+    },
+    {
+      "stage": 5,
+      "name": "Дроп-домены: пилот",
+      "branch": "не заведена",
+      "status": "gated",
+      "why": "ворота G1 и G2 из drop-domain-pilot-plan.md"
+    }
   ],
   "items": [
     {
-      "id": "ANL-G1", "title": "Разбор Google-авторитета встроен в еженедельный контур",
-      "stage": 1, "workstream": "H", "owner": "session", "status": "done",
+      "id": "ANL-G1",
+      "title": "Разбор Google-авторитета встроен в еженедельный контур",
+      "stage": 1,
+      "workstream": "H",
+      "owner": "session",
+      "status": "done",
       "trigger": "ready",
       "detail": "Шаг «Google authority analysis» в seo-serp-watch пересобирает разбор, карту контента, ссылочный разрыв и очередь на обход по каждому свежему срезу; артефакты с датой уходят в ветку seo-data.",
-      "artifacts": [".github/workflows/seo-serp-watch.yml", "scripts/seo/google_authority.py"],
+      "artifacts": [
+        ".github/workflows/seo-serp-watch.yml",
+        "scripts/seo/google_authority.py"
+      ],
       "activation": "вступает в силу после мержа в main (правило production-workflow-main-only)"
     },
     {
-      "id": "ANL-G2", "title": "Дозаполнить ссылочные колонки google-link-gap.csv",
-      "stage": 1, "workstream": "H", "owner": "session", "status": "blocked",
+      "id": "ANL-G2",
+      "title": "Дозаполнить ссылочные колонки google-link-gap.csv",
+      "stage": 1,
+      "workstream": "H",
+      "owner": "session",
+      "status": "blocked",
       "trigger": "после DATA-003 (подключён источник ссылочных данных)",
       "detail": "Сегодня CSV содержит только разрыв по видимости в выдаче. После подключения источника добавляются referring domains, распределение анкоров, dofollow/nofollow по десяти фактическим конкурентам Google, и из раздела «Пробелы данных» стратегии снимается первая строка.",
-      "depends_on": ["DATA-003"]
+      "depends_on": [
+        "DATA-003"
+      ]
     },
     {
-      "id": "ANL-G3", "title": "Покрытие индекса Google — показатель в недельном письме",
-      "stage": 1, "workstream": "H", "owner": "session", "status": "queued",
+      "id": "ANL-G3",
+      "title": "Покрытие индекса Google — показатель в недельном письме",
+      "stage": 1,
+      "workstream": "H",
+      "owner": "session",
+      "status": "queued",
       "trigger": "ready",
       "detail": "Доля страниц в индексе Google и её динамика — главный KPI волны 1. Сейчас число есть только в срезе index_coverage.py и в этом отчёте; в письме Growth Intelligence его нет, поэтому падение никто не заметит.",
       "acceptance": "в письме есть плитка «покрытие индекса Google» с динамикой к прошлой неделе и разбивкой по разделам"
     },
     {
-      "id": "ENT-1", "title": "Organization: sameAs, founder, foundingDate, knowsAbout, areaServed",
-      "stage": 2, "workstream": "D", "owner": "session", "status": "queued",
+      "id": "ENT-1",
+      "title": "Organization: sameAs, founder, foundingDate, knowsAbout, areaServed",
+      "stage": 2,
+      "workstream": "D",
+      "owner": "session",
+      "status": "done",
       "trigger": "ready",
-      "detail": "Пункты E1-E4 плана сущности. Данные для founder и foundingDate уже есть в src/config/site.ts (legalName, registrationDate). sameAs заводится читаемым из конфига массивом, пустым до подтверждения профилей — заполняется по мере ENT-4.",
-      "artifacts": ["src/lib/seo.ts", "src/config/site.ts"],
+      "detail": "Пункты E1-E4 плана сущности. Данные для founder и foundingDate уже есть в src/config/site.ts (legalName, registrationDate). sameAs заводится читаемым из конфига массивом, пустым до подтверждения профилей — заполняется по мере ENT-4. Выполнено: sameAs (пустой массив, в разметку не выводится, пока нет подтверждённых профилей), founder как узел Person, foundingDate из даты постановки на учёт, knowsAbout, areaServed и currenciesAccepted. Тесты — tests/entity-schema.test.ts.",
+      "artifacts": [
+        "src/lib/seo.ts",
+        "src/config/site.ts"
+      ],
       "acceptance": "pnpm verify зелёный; в разметке главной видны founder, foundingDate, knowsAbout, areaServed",
-      "source": "reports/seo/google-entity-gap.md, уровень 1"
+      "source": "reports/seo/google-entity-gap.md, уровень 1",
+      "done_in": "claude/bizsoft-google-index-entity-4txh7e"
     },
     {
-      "id": "ENT-2", "title": "Расширить /about до профиля компании",
-      "stage": 2, "workstream": "D", "owner": "session", "status": "queued",
+      "id": "ENT-2",
+      "title": "Расширить /about до профиля компании",
+      "stage": 2,
+      "workstream": "D",
+      "owner": "session",
+      "status": "done",
       "trigger": "ready",
-      "detail": "Пункт E7. Сегодня страница 52 строки — визитка. Нужны история, предмет деятельности, устройство поставки, кто отвечает. Это единственная страница о компании, которую Google уже индексирует.",
-      "artifacts": ["src/pages/about.astro"]
+      "detail": "Пункт E7. Сегодня страница 52 строки — визитка. Нужны история, предмет деятельности, устройство поставки, кто отвечает. Это единственная страница о компании, которую Google уже индексирует. Выполнено: разделы «Как устроена поставка», «С чем мы работаем», «Кто отвечает» со ссылками на страницу эксперта, каталог, базу знаний, сравнения и аналоги.",
+      "artifacts": [
+        "src/pages/about.astro"
+      ],
+      "done_in": "claude/bizsoft-google-index-entity-4txh7e"
     },
     {
-      "id": "ENT-3", "title": "Именованный автор и раздел /authors",
-      "stage": 2, "workstream": "D", "owner": "both", "status": "blocked",
-      "trigger": "решение руководителя: кто выступает публичным экспертом",
-      "detail": "Пункты E5-E6. Автор обязан быть настоящим человеком с настоящей ролью в сделках; вымышленный автор запрещён и обесценивает разметку. Схема BlogPosting уже поддерживает поле author (сейчас «Редакция BIZSoft»), нужен Person с @id, страницы авторов и включение их в STATIC_ROUTES.",
-      "blocking_question": "кто именно выступает публичным экспертом BIZSoft"
+      "id": "ENT-3",
+      "title": "Именованный автор и раздел /authors",
+      "stage": 2,
+      "workstream": "D",
+      "owner": "session",
+      "status": "done",
+      "trigger": "выполнено",
+      "detail": "Решение руководителя 08.09.2026: публичный эксперт — Беляев Алексей Васильевич, основатель BIZSoft и ответственный за заявки. Выполнено: узел Person с общим @id (на него ссылаются founder организации и author статей), страница /authors/alexey-belyaev в карте сайта, подпись статьи ведёт на неё через rel=\"author\". Статьи с явно указанным другим автором имя сохраняют."
     },
     {
-      "id": "ENT-4", "title": "Внешние подтверждения сущности: реестры, каталоги, профили",
-      "stage": 2, "workstream": "D", "owner": "manager", "status": "queued",
+      "id": "ENT-4",
+      "title": "Внешние подтверждения сущности: реестры, каталоги, профили",
+      "stage": 2,
+      "workstream": "D",
+      "owner": "manager",
+      "status": "queued",
       "trigger": "ready, параллельно ENT-1",
       "detail": "Пункты E9-E13: реестры юрлиц (rusprofile, list-org, checko), Яндекс.Бизнес и Google Business Profile, каталоги ПО (startpack, soware, TAdviser), профили на площадках публикаций, справочники B2B-поставщиков. Все данные обязаны совпадать посимвольно: название, юр-название, ИНН, адрес, телефон, сайт. Википедия самостоятельно не заводится.",
-      "feeds": ["ENT-1 (заполняет sameAs)", "ENT-5"]
+      "feeds": [
+        "ENT-1 (заполняет sameAs)",
+        "ENT-5"
+      ]
     },
     {
-      "id": "ENT-5", "title": "Ссылки на внешние профили в подвале",
-      "stage": 2, "workstream": "D", "owner": "session", "status": "blocked",
+      "id": "ENT-5",
+      "title": "Ссылки на внешние профили в подвале",
+      "stage": 2,
+      "workstream": "D",
+      "owner": "session",
+      "status": "blocked",
       "trigger": "после ENT-4 — есть хотя бы три подтверждённых профиля",
       "detail": "Пункт E8. Ссылка на несуществующий профиль вредит сильнее её отсутствия, поэтому только подтверждённые.",
-      "depends_on": ["ENT-4"]
+      "depends_on": [
+        "ENT-4"
+      ]
     },
     {
-      "id": "IDX-1", "title": "Внутренняя перелинковка экспертного слоя",
-      "stage": 2, "workstream": "A", "owner": "session", "status": "queued",
+      "id": "IDX-1",
+      "title": "Внутренняя перелинковка экспертного слоя",
+      "stage": 2,
+      "workstream": "A",
+      "owner": "session",
+      "status": "done",
       "trigger": "ready",
       "priority": "первое действие всего плана",
-      "detail": "Адресует 75% измеренного разрыва. Найдено разбором: вендорские лендинги (48% в индексе — лучший раздел) не ссылаются на статьи блога вовсе; связь «статья → карточка» описана через relatedProducts, обратной связи «лендинг → статья» нет; /compare и /alternatives не имеют ни индексных страниц, ни входа из навигации — 0 из 25 их страниц в индексе Google.",
+      "detail": "Адресует 75% измеренного разрыва. Найдено разбором: вендорские лендинги (48% в индексе — лучший раздел) не ссылаются на статьи блога вовсе; связь «статья → карточка» описана через relatedProducts, обратной связи «лендинг → статья» нет; /compare и /alternatives не имеют ни индексных страниц, ни входа из навигации — 0 из 25 их страниц в индексе Google. Выполнено: блок «Ещё по теме» на всех семи шаблонах и bespoke-лендингах вендоров (связь выводится из уже существующих данных, второго реестра нет), хабы /compare и /alternatives с записью в карте сайта и пунктами в подвале, блок «Производители раздела» на страницах каталога — вход в 107 лендингов вместо 27. Тесты — tests/vendor-interlinks.test.ts.",
       "acceptance": "у каждой страницы из google-crawl-queue.json есть входящая ссылка с индексируемой страницы; /compare и /alternatives имеют точку входа",
-      "artifacts": ["src/components/VendorLanding.astro", "src/components/VendorGenericLanding.astro", "src/config/site.ts", "src/data/alternatives.ts", "src/data/comparisons.ts"]
+      "artifacts": [
+        "src/components/VendorLanding.astro",
+        "src/components/VendorGenericLanding.astro",
+        "src/config/site.ts",
+        "src/data/alternatives.ts",
+        "src/data/comparisons.ts"
+      ],
+      "done_in": "claude/bizsoft-google-index-entity-4txh7e"
     },
     {
-      "id": "IDX-2", "title": "Запрос обхода 30 приоритетных URL",
-      "stage": 2, "workstream": "A", "owner": "manager", "status": "queued",
-      "trigger": "после IDX-1 — иначе обойдённая страница вернётся в «Discovered»",
+      "id": "IDX-2",
+      "title": "Запрос обхода 30 приоритетных URL",
+      "stage": 2,
+      "workstream": "A",
+      "owner": "manager",
+      "status": "queued",
+      "trigger": "ready — перелинковка выполнена, ждёт деплоя этапа 2",
       "detail": "Список готов и пересобирается автоматически: reports/seo/google-crawl-queue.json (39 кандидатов, в очереди 30). Запрос делается вручную в Search Console и имеет собственные ограничения площадки.",
-      "artifacts": ["reports/seo/google-crawl-queue.json"],
-      "depends_on": ["IDX-1"]
+      "artifacts": [
+        "reports/seo/google-crawl-queue.json"
+      ],
+      "depends_on": [
+        "IDX-1"
+      ]
     },
     {
-      "id": "IDX-3", "title": "Разбор малоценных страниц (52 URL + линейки ManageEngine)",
-      "stage": 2, "workstream": "A", "owner": "both", "status": "blocked",
-      "trigger": "виза руководителя на план от 03.09.2026",
-      "detail": "План готов: docs/seo/thin-pages-plan-2026-09-03.md, машинный список data/seo/thin-pages-2026-09-03.json. Смысл под Google: обход перестаёт растекаться на карточки-дубли и идёт на страницы со спросом.",
-      "blocking_question": "виза на план разбора малоценных страниц"
+      "id": "IDX-3",
+      "title": "Разбор малоценных страниц (52 URL + линейки ManageEngine)",
+      "stage": 2,
+      "workstream": "A",
+      "owner": "manager",
+      "status": "queued",
+      "trigger": "после мержа этапа 2 в main",
+      "detail": "Виза дана 08.09.2026 и зафиксирована в data/seo/thin-pages-2026-09-03.json (поле approved) и в тексте плана. Правила групп A (*-IND) и B (ME-*-PERP) в коде уже действуют. Осталась операционная часть: ops-set-noindex с main по группам A-point, C и D (apply=false, затем apply=true), тексты E и I через ops-apply-descriptions, контент F и H отдельными PR."
     },
     {
-      "id": "CNT-1", "title": "Документ PROCUREMENT_GUIDE по сквозному хабу «оплата ПО юрлицом»",
-      "stage": 3, "workstream": "A", "owner": "session", "status": "queued",
+      "id": "CNT-1",
+      "title": "Документ PROCUREMENT_GUIDE по сквозному хабу «оплата ПО юрлицом»",
+      "stage": 3,
+      "workstream": "A",
+      "owner": "session",
+      "status": "queued",
       "trigger": "после этапа 2 и подтверждённого роста покрытия индекса",
       "detail": "Самая крупная незанятая позиция ядра: 22 запроса разрыва, слабость выдачи 30,0, страница /solutions/po-dlya-yurlic-po-schetu уже в индексе Google — то есть это работа над документом, а не над обходом. В топ-10 Google по этим запросам нет ни одного документа, объясняющего, что именно нужно от российской компании.",
       "page_type": "PROCUREMENT_GUIDE",
       "skill": "bizsoft-content"
     },
     {
-      "id": "CNT-2", "title": "Документы по кластерам «в индексе, проигрывает»",
-      "stage": 3, "workstream": "A", "owner": "session", "status": "queued",
+      "id": "CNT-2",
+      "title": "Документы по кластерам «в индексе, проигрывает»",
+      "stage": 3,
+      "workstream": "A",
+      "owner": "session",
+      "status": "queued",
       "trigger": "после CNT-1",
       "detail": "Одиннадцать кластеров карты контента с диагнозом «страница в индексе, проигрывает выдаче» — единственная группа, где документ решает исход. Первые по оценке возможности: CorelDRAW (9 запросов, слабость 21,9), Artlist (6 / 30,6), Recraft (8 / 19,8), Magnific-Freepik (2 / 43,5).",
-      "artifacts": ["reports/seo/google-content-map.json"],
-      "depends_on": ["CNT-1"]
+      "artifacts": [
+        "reports/seo/google-content-map.json"
+      ],
+      "depends_on": [
+        "CNT-1"
+      ]
     },
     {
-      "id": "CNT-3", "title": "Два недостающих пилара: товарный по дизайну и корпоративные подписки",
-      "stage": 3, "workstream": "A", "owner": "session", "status": "queued",
+      "id": "CNT-3",
+      "title": "Два недостающих пилара: товарный по дизайну и корпоративные подписки",
+      "stage": 3,
+      "workstream": "A",
+      "owner": "session",
+      "status": "queued",
       "trigger": "после CNT-1",
       "detail": "Из восьми хабов шесть имеют пилар. У хаба дизайна пилар отраслевой (/solutions/design-studios), товарного нет — при том что это крупнейший хаб ядра: 111 запросов и 71 разрыв. У хаба совместной работы пилара под корпоративные подписки нет вовсе."
     },
     {
-      "id": "EXT-1", "title": "Регистрация профилей площадок от лица BIZSoft",
-      "stage": 4, "workstream": "C", "owner": "manager", "status": "queued",
+      "id": "EXT-1",
+      "title": "Регистрация профилей площадок от лица BIZSoft",
+      "stage": 4,
+      "workstream": "C",
+      "owner": "manager",
+      "status": "queued",
       "trigger": "ready — не зависит ни от чего",
       "detail": "Неделя 1 существующей программы: VC, Дзен, Spark, TenChat. Ни один аккаунт не заведён, реестр data/marketing/publications.json пуст. Профили одновременно закрывают пункт E12 плана сущности.",
-      "blocking_questions": ["какое юр-название, контакты и описание ставим в профили", "кто нажимает «опубликовать»"]
+      "blocking_questions": [
+        "какое юр-название, контакты и описание ставим в профили",
+        "кто нажимает «опубликовать»"
+      ]
     },
     {
-      "id": "EXT-2", "title": "Публикация материалов недели 1",
-      "stage": 4, "workstream": "C", "owner": "manager", "status": "blocked",
+      "id": "EXT-2",
+      "title": "Публикация материалов недели 1",
+      "stage": 4,
+      "workstream": "C",
+      "owner": "manager",
+      "status": "blocked",
       "trigger": "после EXT-1",
       "detail": "Восемь текстов написаны и лежат в docs/marketing/external/week1/. Под Google приоритетна VC-версия объекта A (сквозной хаб): vc.ru в топ-10 у 86% ядра.",
-      "depends_on": ["EXT-1"]
+      "depends_on": [
+        "EXT-1"
+      ]
     },
     {
-      "id": "EXT-3", "title": "Адаптации под DTF по всем хабам",
-      "stage": 4, "workstream": "C", "owner": "session", "status": "queued",
+      "id": "EXT-3",
+      "title": "Адаптации под DTF по всем хабам",
+      "stage": 4,
+      "workstream": "C",
+      "owner": "session",
+      "status": "queued",
       "trigger": "после EXT-1",
       "detail": "Ограничение DTF узкими темами снято решением 08.09.2026. DTF — второй домен Google-выдачи ядра (82% запросов, 142 позиции топ-3), тексты под AI-подписки и инструменты разработки ещё не написаны.",
       "skill": "bizsoft-content",
-      "depends_on": ["EXT-1"]
+      "depends_on": [
+        "EXT-1"
+      ]
     },
     {
-      "id": "EXT-4", "title": "Pressfeed: регистрация и ответы на запросы СМИ",
-      "stage": 4, "workstream": "B", "owner": "manager", "status": "blocked",
-      "trigger": "после ENT-3 — комментарий даёт названный эксперт, а не «редакция»",
+      "id": "EXT-4",
+      "title": "Pressfeed: регистрация и ответы на запросы СМИ",
+      "stage": 4,
+      "workstream": "B",
+      "owner": "manager",
+      "status": "queued",
+      "trigger": "ready — эксперт назван, ENT-3 выполнена",
       "detail": "Единственный канал редакционных упоминаний — самого ценного класса и для ссылок, и для сущности. Деловые СМИ занимают 281 позицию топ-10 Google по нашему ядру.",
-      "blocking_questions": ["бесплатный тариф Pressfeed или платный доступ к запросам"],
-      "depends_on": ["ENT-3"]
+      "blocking_questions": [
+        "бесплатный тариф Pressfeed или платный доступ к запросам"
+      ]
     },
     {
-      "id": "EXT-5", "title": "Вернуть ли Habr в программу",
-      "stage": 4, "workstream": "C", "owner": "manager", "status": "gated",
+      "id": "EXT-5",
+      "title": "Вернуть ли Habr в программу",
+      "stage": 4,
+      "workstream": "C",
+      "owner": "manager",
+      "status": "gated",
       "trigger": "вместе с решением по слою 3 (платные размещения)",
       "detail": "Отложено решением 08.09.2026, работу не блокирует. Цена отказа: 87 позиций в топ-10 Google по 75 запросам ядра; единственная UGC-площадка, ранжирующаяся в обеих системах."
     },
     {
-      "id": "PR-1", "title": "Linkable asset: карта способов оплаты AI-сервисов",
-      "stage": 4, "workstream": "B", "owner": "session", "status": "queued",
+      "id": "PR-1",
+      "title": "Linkable asset: карта способов оплаты AI-сервисов",
+      "stage": 4,
+      "workstream": "B",
+      "owner": "session",
+      "status": "queued",
       "trigger": "ready — данные уже собраны",
       "detail": "Самый дешёвый из шести активов: классификация 80 доменов выдачи уже лежит в google-link-gap.csv, остаётся собственная практика и оформление.",
-      "artifacts": ["reports/seo/google-link-gap.csv"]
+      "artifacts": [
+        "reports/seo/google-link-gap.csv"
+      ]
     },
     {
-      "id": "PR-2", "title": "Linkable asset: индекс доступности зарубежного SaaS для юрлиц",
-      "stage": 4, "workstream": "B", "owner": "session", "status": "queued",
+      "id": "PR-2",
+      "title": "Linkable asset: индекс доступности зарубежного SaaS для юрлиц",
+      "stage": 4,
+      "workstream": "B",
+      "owner": "session",
+      "status": "queued",
       "trigger": "после PR-1",
       "detail": "Самый ценный по цитируемости и самый дорогой по сопровождению: требует ежеквартального обновления, устаревший индекс хуже отсутствующего."
     },
     {
-      "id": "PR-3", "title": "Остальные четыре linkable assets",
-      "stage": 4, "workstream": "B", "owner": "session", "status": "queued",
+      "id": "PR-3",
+      "title": "Остальные четыре linkable assets",
+      "stage": 4,
+      "workstream": "B",
+      "owner": "session",
+      "status": "queued",
       "trigger": "после PR-2, по одному за волну",
       "detail": "Динамика рублёвых цен, обзор политик вендоров, калькулятор TCO, годовой отчёт о закупках. Полные карточки — reports/seo/google-outreach-backlog.json, раздел linkable_assets."
     },
     {
-      "id": "DATA-003", "title": "Источник ссылочных и архивных данных",
-      "stage": 2, "workstream": "I", "owner": "manager", "status": "queued",
+      "id": "DATA-003",
+      "title": "Источник ссылочных и архивных данных",
+      "stage": 2,
+      "workstream": "I",
+      "owner": "manager",
+      "status": "queued",
       "trigger": "ready — решение принято 08.09.2026",
       "detail": "Постановка: reports/seo/tasks/DATA-003-backlink-source.md. Разблокирует ANL-G2, критерии слоя 3 и ворота G1 пилота по дропам.",
-      "feeds": ["ANL-G2", "DROP-1"]
+      "feeds": [
+        "ANL-G2",
+        "DROP-1"
+      ]
     },
     {
-      "id": "DATA-004", "title": "Коммерческое ядро Вордстата под сквозной хаб",
-      "stage": 3, "workstream": "I", "owner": "session", "status": "queued",
+      "id": "DATA-004",
+      "title": "Коммерческое ядро Вордстата под сквозной хаб",
+      "stage": 3,
+      "workstream": "I",
+      "owner": "session",
+      "status": "queued",
       "trigger": "перед CNT-1",
       "detail": "WP-2 существующей программы. Точная частота есть только по кластеру «оплата зарубежных сервисов»; под остальные темы объектов A/B/C ядро не собрано, а без него приоритет внутри хаба назначается на глаз."
     },
     {
-      "id": "DROP-1", "title": "Пилот по дроп-доменам",
-      "stage": 5, "workstream": "F", "owner": "manager", "status": "gated",
+      "id": "DROP-1",
+      "title": "Пилот по дроп-доменам",
+      "stage": 5,
+      "workstream": "F",
+      "owner": "manager",
+      "status": "gated",
       "trigger": "оба ворота: G1 подключён источник данных, G2 выросла доля страниц в индексе Google (база 237 из 729 на 08.09.2026)",
       "detail": "Устройство пилота, пороги отбора и критерии остановки готовы: reports/seo/drop-domain-pilot-plan.md. Четыре домена, из них один контрольный. Денежная рамка задаётся руководителем до первой заявки на аукцион.",
-      "depends_on": ["DATA-003"]
+      "depends_on": [
+        "DATA-003"
+      ]
     },
     {
-      "id": "DROP-2", "title": "301-консолидация приобретённых доменов",
-      "stage": 5, "workstream": "G", "owner": "manager", "status": "gated",
+      "id": "DROP-2",
+      "title": "301-консолидация приобретённых доменов",
+      "stage": 5,
+      "workstream": "G",
+      "owner": "manager",
+      "status": "gated",
       "trigger": "положительный вердикт DROP-1",
       "detail": "Не начинается до итогов пилота. Правила редиректов зафиксированы: drop-domain-strategy.md, раздел 7.",
-      "depends_on": ["DROP-1"]
+      "depends_on": [
+        "DROP-1"
+      ]
     },
     {
-      "id": "OPS-1", "title": "Бюджетная рамка слоя 3 (платные размещения)",
-      "stage": 4, "workstream": "C", "owner": "manager", "status": "queued",
+      "id": "OPS-1",
+      "title": "Бюджетная рамка слоя 3 (платные размещения)",
+      "stage": 4,
+      "workstream": "C",
+      "owner": "manager",
+      "status": "queued",
       "trigger": "перед первой закупкой размещения",
       "detail": "Открытый вопрос существующей программы (раздел 10). Без суммы пять критериев слоя 3 считаются абстрактно."
+    },
+    {
+      "id": "IDX-4",
+      "title": "Проверить, почему /vendors исключена Google по noindex",
+      "stage": 2,
+      "workstream": "A",
+      "owner": "manager",
+      "status": "queued",
+      "trigger": "после мержа этапа 2 — ops-probe запускается только с main",
+      "detail": "Сенсор покрытия 08.09.2026 отдаёт по /vendors статус «Excluded by ‘noindex’ tag». В коде страница noindex не помечена, robots.txt её не закрывает, X-Robots-Tag стоит только на /api/agent. Значит либо статус исторический и держится с давнего обхода, либо прод отдаёт не то, что собирает код. Это точка входа во все 107 лендингов вендоров, поэтому вопрос не косметический.",
+      "how_to_check": "ops-probe по адресу /vendors: заголовки ответа и наличие meta robots в HTML прода",
+      "mitigated_by": "IDX-1: вход в лендинги больше не зависит только от /vendors — ссылки идут со страниц разделов каталога"
     }
   ],
   "open_questions_for_manager": [
-    {"id": "Q1", "question": "Кто выступает публичным экспертом BIZSoft — от чьего имени идут статьи, страница автора и комментарии в СМИ", "blocks": ["ENT-3", "EXT-4"]},
-    {"id": "Q2", "question": "Виза на план разбора малоценных страниц от 03.09.2026", "blocks": ["IDX-3"]},
-    {"id": "Q3", "question": "Данные для профилей площадок и кто нажимает «опубликовать»", "blocks": ["EXT-1", "EXT-2"]},
-    {"id": "Q4", "question": "Тариф Pressfeed: бесплатный или платный доступ к запросам СМИ", "blocks": ["EXT-4"]},
-    {"id": "Q5", "question": "Бюджетная рамка слоя 3", "blocks": ["OPS-1"]}
+    {
+      "id": "Q3",
+      "question": "Данные для профилей площадок и кто нажимает «опубликовать»",
+      "blocks": [
+        "EXT-1",
+        "EXT-2"
+      ]
+    },
+    {
+      "id": "Q4",
+      "question": "Тариф Pressfeed: бесплатный или платный доступ к запросам СМИ",
+      "blocks": [
+        "EXT-4"
+      ]
+    },
+    {
+      "id": "Q5",
+      "question": "Бюджетная рамка слоя 3",
+      "blocks": [
+        "OPS-1"
+      ]
+    }
+  ],
+  "answered_questions": [
+    {
+      "id": "Q1",
+      "question": "Кто выступает публичным экспертом BIZSoft",
+      "answer": "Беляев Алексей Васильевич",
+      "date": "2026-09-08",
+      "unblocked": [
+        "ENT-3",
+        "EXT-4"
+      ]
+    },
+    {
+      "id": "Q2",
+      "question": "Виза на разбор малоценных страниц (план от 03.09.2026)",
+      "answer": "виза дана, включено в этап 2",
+      "date": "2026-09-08",
+      "unblocked": [
+        "IDX-3"
+      ]
+    }
   ]
 }
