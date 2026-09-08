@@ -89,15 +89,21 @@ def compare(current: dict, previous: dict | None, cfg: dict) -> list[dict]:
             elif drop >= reg["performance_warning"]:
                 issues.append({"kind": "performance", "level": "warning",
                                "was": p_was, "now": p_now, "delta": -drop})
+        # Относительный порог сам по себе шумит: 07.09.2026 карточка товара
+        # дала «LCP +28%» на переходе 0,9 → 1,2 секунды, и письмо ушло с
+        # жёлтым статусом при отличных по всем меркам цифрах. Поэтому
+        # предупреждение требует двух условий сразу: ухудшилось относительно
+        # прошлого замера И новое значение вышло из зоны «хорошо».
         l_now, l_was = page.get("lcp_ms"), was.get("lcp_ms")
         if l_now and l_was:
             worse = (l_now - l_was) / l_was * 100
-            if worse > reg["lcp_warning_pct"]:
+            if worse > reg["lcp_warning_pct"] and l_now >= reg["lcp_floor_ms"]:
                 issues.append({"kind": "lcp", "level": "warning",
                                "was": l_was, "now": l_now, "delta_pct": round(worse)})
         c_now, c_was = page.get("cls"), was.get("cls")
         if c_now is not None and c_was is not None:
-            if c_now - c_was > reg["cls_warning_abs"]:
+            if (c_now - c_was > reg["cls_warning_abs"]
+                    and c_now >= reg["cls_floor"]):
                 issues.append({"kind": "cls", "level": "warning",
                                "was": c_was, "now": c_now,
                                "delta": round(c_now - c_was, 3)})
