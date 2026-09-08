@@ -1,0 +1,218 @@
+# Канонический хост на прод-nginx: 301 с www.biz-soft.pro на biz-soft.pro
+# (SEO-WWW-001).
+#
+# Зачем. Снимок прода 08.09.2026 (ops-server-config, apply=false): единственный
+# HTTPS-server слушает оба имени и отдаёт 200 по каждому, а редирект certbot в
+# http-блоке сохраняет хост. Редиректа www → без www нет вовсе, то есть каждый
+# URL сайта существует в двух вариантах. Индексацию это не ломает (canonical
+# абсолютный и указывает на biz-soft.pro), но обход удваивает — а обход и есть
+# узкое место: 490 из 729 путей инвентаря Googlebot не скачивал ни разу, темп
+# 2 URL в сутки (разбор reports/seo/google-recovery-plan.md).
+#
+# Почему отдельный воркфлоу, а не ops-server-config: тот конфиг nginx только
+# ПОКАЗЫВАЕТ (раздел 5 его вывода), а применяет лишь docker-compose.override.yml,
+# deploy.sh и переменные astro.env. Механизма правки живого конфига сайта в
+# проекте два — ops-nginx-ratelimit и ops-nginx-metrika-cache; этот сделан по
+# их образцу и той же формы.
+#
+# Идемпотентность: блок ищется по маркеру «SEO-WWW-001», повторный запуск
+# ничего не дублирует.
+#
+# Права: у деплой-пользователя нет беспарольного sudo. Правка и reload
+# выполняются разово под root через одноразовый docker-контейнер (--rm,
+# chroot /host) — тем же способом, что в ops-nginx-ratelimit: пользователь уже
+# состоит в группе docker, sudoers не меняется, после выхода контейнера
+# повышенных прав не остаётся.
+#
+# Безопасность применения: перед правкой снимается копия конфига рядом с
+# оригиналом. Если nginx -t не проходит, копия возвращается на место и шаг
+# падает с ненулевым кодом — живой сайт остаётся на прежнем конфиге.
+#
+# Результат — комментарий в журнал-issue #22.
+name: ops-nginx-canonical-host
+on:
+  workflow_dispatch:
+    inputs:
+      apply:
+        description: "false — только показать текущее состояние; true — применить"
+        required: true
+        default: "false"
+        type: choice
+        options: ["false", "true"]
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  nginx:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Guard - only default branch
+        run: |
+          if [ "${{ github.ref_name }}" != "main" ]; then
+            echo "Запуск разрешён только с ветки main. Текущий ref: ${{ github.ref_name }}"
+            exit 1
+          fi
+
+      - name: Checkout
+        # always() — шаг журнала ниже тоже always(): без этого при падении
+        # раннего шага checkout пропустится и запись не пройдёт.
+        if: always()
+        uses: actions/checkout@v4
+
+      - name: Проверить, что исходный файл на месте
+        run: |
+          if [ ! -s deploy/nginx-canonical-host.conf ]; then
+            echo "::error::В main нет deploy/nginx-canonical-host.conf"
+            exit 1
+          fi
+          cat deploy/nginx-canonical-host.conf
+
+      - name: Copy config to server
+        uses: appleboy/scp-action@v1
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          source: 'deploy/nginx-canonical-host.conf'
+          target: /tmp/bizsoft-canonical
+          strip_components: 1
+
+      - name: Apply on server
+        id: run
+        uses: appleboy/ssh-action@v1
+        env:
+          P_APPLY: ${{ inputs.apply }}
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          envs: P_APPLY
+          command_timeout: 10m
+          capture_stdout: true
+          script: |
+            set -e
+            echo "== окружение =="
+            SUDO=""
+            sudo -n true 2>/dev/null && SUDO="sudo -n"
+            DOCKER=НЕТ
+            docker info >/dev/null 2>&1 && DOCKER=да
+            echo "пользователь: $(id -un), sudo без пароля: $([ -n "$SUDO" ] && echo да || echo НЕТ), docker: $DOCKER"
+
+            echo
+            echo "== текущее состояние =="
+            CONF=$(grep -rl "server_name biz-soft.pro" /etc/nginx 2>/dev/null | grep -v '\.bak' | head -1)
+            if [ -z "$CONF" ] && [ -n "$SUDO" ]; then
+              CONF=$($SUDO grep -rl "server_name biz-soft.pro" /etc/nginx 2>/dev/null | grep -v '\.bak' | head -1)
+            fi
+            echo "конфиг сайта: ${CONF:-НЕ НАЙДЕН}"
+            [ -n "$CONF" ]
+            if grep -q "SEO-WWW-001" "$CONF" 2>/dev/null; then
+              echo "редирект канонического хоста: уже в конфиге"
+            else
+              echo "редирект канонического хоста: в конфиге нет"
+            fi
+            echo "--- server_name в конфиге:"
+            grep -n "server_name" "$CONF" 2>/dev/null || echo "  (нет)"
+
+            if [ "$P_APPLY" != "true" ]; then
+              echo
+              echo "apply=false: изменений не делалось"
+              rm -rf /tmp/bizsoft-canonical
+              exit 0
+            fi
+
+            # Скрипт, исполняемый под root. Идемпотентен и самооткатываем:
+            # при неудачном nginx -t возвращает конфиг из копии и падает.
+            cat > /tmp/bz-canonical-apply.sh <<'ROOTEOF'
+            #!/bin/bash
+            set -e
+            conf=$(grep -rl "server_name biz-soft.pro" /etc/nginx | grep -v '\.bak' | head -1)
+            stamp=$(date +%Y%m%d-%H%M%S)
+            backup="$conf.bak-canonical-$stamp"
+
+            cp -p "$conf" "$backup"
+            echo "копия конфига: $backup"
+
+            python3 - "$conf" <<'PYEOF'
+            import sys
+            conf = sys.argv[1]
+            block = open('/tmp/bizsoft-canonical/nginx-canonical-host.conf',
+                         encoding='utf-8').read().rstrip('\n')
+            lines = open(conf, encoding='utf-8').read().split('\n')
+            if any('SEO-WWW-001' in l for l in lines):
+                print('редирект уже есть — файл не меняю')
+                raise SystemExit(0)
+            # Якорь — server_name того самого блока, который обслуживает сайт.
+            # В конфиге два server{} с одинаковым server_name (443 и 80), и
+            # различает их только наличие "location / {". Поэтому ищем этот
+            # location, а затем ближайший server_name выше него: вставка идёт
+            # сразу после него, до правила о завершающем слеше, чтобы
+            # https://www…/foo/ отдавал один редирект, а не два подряд.
+            loc = next(i for i, l in enumerate(lines) if l.strip() == 'location / {')
+            sn = max(i for i in range(loc) if lines[i].strip().startswith('server_name '))
+            print(f'якорь: строка {sn + 1} — {lines[sn].strip()}')
+            lines[sn + 1:sn + 1] = ['', block]
+            open(conf, 'w', encoding='utf-8').write('\n'.join(lines))
+            print('редирект канонического хоста вставлен')
+            PYEOF
+
+            # Точка проверки. Всё, что ниже, выполняется только на исправном
+            # конфиге; иначе откат и ненулевой код возврата.
+            if ! nginx -t; then
+              echo "nginx -t НЕ ПРОШЁЛ — откатываю"
+              cp -p "$backup" "$conf"
+              nginx -t && echo "конфиг возвращён в исходное состояние"
+              exit 1
+            fi
+
+            systemctl reload nginx 2>/dev/null && echo 'nginx перечитан (systemctl)' \
+              || { nginx -s reload && echo 'nginx перечитан (nginx -s reload)'; }
+            grep -n "SEO-WWW-001\|www.biz-soft.pro" "$conf" | head -8
+            ROOTEOF
+            chmod +x /tmp/bz-canonical-apply.sh
+
+            if [ -n "$SUDO" ]; then
+              $SUDO /tmp/bz-canonical-apply.sh
+            elif [ "$DOCKER" = "да" ]; then
+              echo "sudo нет — разовое выполнение под root в одноразовом контейнере (--rm)"
+              docker run --rm --pid=host -v /:/host alpine:3 chroot /host /bin/bash /tmp/bz-canonical-apply.sh
+            else
+              echo "ни sudo, ни docker — применить нечем"
+              exit 1
+            fi
+
+            rm -f /tmp/bz-canonical-apply.sh
+            rm -rf /tmp/bizsoft-canonical
+            echo "временные файлы удалены; sudoers не менялся, контейнер удалён — повышенных прав не осталось"
+
+      # Проверка снаружи: редирект действительно отдаётся, и канонический
+      # хост при этом продолжает работать. Второе важнее первого — ошибка в
+      # этом месте кладёт сайт целиком, поэтому проверяются оба.
+      - name: Probe canonical host
+        if: inputs.apply == 'true'
+        run: |
+          FAIL=0
+          CODE=$(curl -s -o /dev/null -w '%{http_code}' --max-time 15 https://www.biz-soft.pro/vendors/openai)
+          LOC=$(curl -s -o /dev/null -w '%{redirect_url}' --max-time 15 https://www.biz-soft.pro/vendors/openai)
+          echo "www:  $CODE → ${LOC:-—}"
+          [ "$CODE" = "301" ] && [ "$LOC" = "https://biz-soft.pro/vendors/openai" ] \
+            || { echo "::error::www не отдаёт 301 на канонический адрес"; FAIL=1; }
+
+          MAIN=$(curl -s -o /dev/null -w '%{http_code}' --max-time 15 https://biz-soft.pro/vendors/openai)
+          echo "основной хост: $MAIN"
+          [ "$MAIN" = "200" ] || { echo "::error::канонический хост перестал отдавать 200"; FAIL=1; }
+
+          SM=$(curl -s -o /dev/null -w '%{http_code}' --max-time 20 https://biz-soft.pro/sitemap.xml)
+          echo "sitemap: $SM"
+          [ "$SM" = "200" ] || { echo "::error::sitemap недоступен"; FAIL=1; }
+
+          exit $FAIL
+
+      - name: Post to issue
+        if: always()
+        uses: ./.github/actions/journal-post
+        with:
+          title: "ops-nginx-canonical-host (apply=${{ inputs.apply }})"
+          outcome: ${{ steps.run.outcome }}
+          body: ${{ steps.run.outputs.stdout }}

@@ -25,6 +25,14 @@ export interface AlternativeItem {
 export interface AlternativesPage {
   /** URL-сегмент: /alternatives/<slug>. */
   slug: string;
+  /**
+   * Дата последнего содержательного изменения записи — источник lastmod в
+   * sitemap. Проставляется при правке записи; даты задним числом не
+   * выдумываются. Первичное заполнение 08.09.2026 снято из истории git
+   * (git log -L по строкам записи), поэтому каждая дата отражает реальную
+   * правку, а не дату файла.
+   */
+  updated: string;
   /** Название продукта, которому ищут замену (для H1 и текстов). */
   subject: string;
   metaTitle: string;
@@ -44,6 +52,7 @@ export const alternativesPages: AlternativesPage[] = [
   // Кластер «аналоги anydesk» — ≈2931 показов/мес (Вордстат, замер 30.08.2026)
   {
     slug: "anydesk",
+    updated: "2026-08-30",
     subject: "AnyDesk",
     metaTitle: "Аналоги AnyDesk для бизнеса: чем заменить в 2026 году",
     metaDescription: "Чем заменить AnyDesk в компании: корпоративные альтернативы с оплатой на юрлицо из России, честный разбор бесплатных вариантов. Счёт, договор, ЭДО.",
@@ -70,6 +79,7 @@ export const alternativesPages: AlternativesPage[] = [
   // Кластер «аналоги notion» — ≈1249 показов/мес (Вордстат, замер 30.08.2026)
   {
     slug: "notion",
+    updated: "2026-08-30",
     subject: "Notion",
     metaTitle: "Аналоги Notion для компании: что выбрать в 2026 году",
     metaDescription: "Чем заменить Notion в компании: Confluence, Miro, Zoho — сравнение поставляемых альтернатив с оплатой на юрлицо из России. Счёт, договор, ЭДО.",
@@ -102,6 +112,7 @@ export const alternativesPages: AlternativesPage[] = [
   // Кластер «аналоги canva» — ≈1175 показов/мес (Вордстат, замер 30.08.2026)
   {
     slug: "canva",
+    updated: "2026-08-30",
     subject: "Canva",
     metaTitle: "Аналоги Canva для бизнеса: что выбрать в 2026 году",
     metaDescription: "Чем заменить Canva в компании: Figma, Adobe, Recraft, Gamma — поставляемые альтернативы с оплатой на юрлицо из России. Счёт, договор, ЭДО.",
@@ -137,6 +148,7 @@ export const alternativesPages: AlternativesPage[] = [
   // Кластер «аналоги miro» — ≈620 показов/мес (Вордстат, замер 30.08.2026)
   {
     slug: "miro",
+    updated: "2026-08-30",
     subject: "Miro",
     metaTitle: "Аналоги Miro для команды: что выбрать в 2026 году",
     metaDescription: "Чем заменить Miro в компании: FigJam (Figma), Notion — поставляемые альтернативы с оплатой на юрлицо из России. Счёт, договор, ЭДО.",
@@ -166,6 +178,7 @@ export const alternativesPages: AlternativesPage[] = [
   // Кластер «аналоги cursor» — ≈474 показов/мес (Вордстат, замер 30.08.2026)
   {
     slug: "cursor",
+    updated: "2026-08-30",
     subject: "Cursor",
     metaTitle: "Аналоги Cursor: AI-редакторы для команды в 2026 году",
     metaDescription: "Чем заменить Cursor: Windsurf, GitHub Copilot, Claude — сравнение AI-инструментов разработки с оплатой на юрлицо из России. Счёт, договор, ЭДО.",
@@ -198,6 +211,7 @@ export const alternativesPages: AlternativesPage[] = [
   // Кластер «аналоги figma» — ≈363 показов/мес (Вордстат, замер 30.08.2026)
   {
     slug: "figma",
+    updated: "2026-08-30",
     subject: "Figma",
     metaTitle: "Аналоги Figma: чем заменить в 2026 году",
     metaDescription: "Чем заменить Figma в компании: Sketch, Framer, Miro — поставляемые альтернативы с оплатой на юрлицо из России. Счёт, договор, ЭДО.",
@@ -230,6 +244,7 @@ export const alternativesPages: AlternativesPage[] = [
   // Кластер «аналоги openrouter» — ≈329 показов/мес (Вордстат, замер 30.08.2026)
   {
     slug: "openrouter",
+    updated: "2026-08-30",
     subject: "OpenRouter",
     metaTitle: "Аналоги OpenRouter: доступ к LLM для компании в 2026 году",
     metaDescription: "Чем заменить OpenRouter: прямые подписки OpenAI, Anthropic, Google с оплатой на юрлицо из России. Счёт, договор, закрывающие через ЭДО.",
@@ -263,4 +278,20 @@ export const alternativesPages: AlternativesPage[] = [
 
 export function getAlternatives(slug: string): AlternativesPage | undefined {
   return alternativesPages.find((p) => p.slug === slug);
+}
+
+/**
+ * Страницы «Аналоги X», относящиеся к разделу каталога.
+ *
+ * Нужна для перелинковки: до 08.09.2026 на /alternatives/* не вело ни одной
+ * внутренней ссылки — слой существовал только в sitemap. Разбор покрытия
+ * Google за 08.09.2026 показал последствие: 0 из 7 страниц слоя обойдены
+ * Googlebot, при том что все 7 в поиске Яндекса. Раздел каталога — ближайший
+ * тематический донор: он сам на глубине 1 (меню «Тип» в шапке).
+ *
+ * `slug` раздела совпадает с category.slug записи: для вложенных AI-разделов
+ * это составной путь вида «ai/text».
+ */
+export function alternativesForCategory(categorySlug: string): AlternativesPage[] {
+  return alternativesPages.filter((p) => p.category.slug === categorySlug);
 }
