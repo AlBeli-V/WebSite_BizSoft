@@ -1,0 +1,52 @@
+---
+/**
+ * Возврат и доставка предложения в microdata-слое карточки товара.
+ *
+ * Google считает hasMerchantReturnPolicy и shippingDetails рекомендованными
+ * полями Offer: без них элемент валиден, но помечен предупреждением. У
+ * JSON-LD-слоя они есть всегда (offerLogistics), у microdata-слоя не было —
+ * и после того, как слои перестали быть одним узлом (см. правило «один
+ * идентификатор — один узел»), предупреждение стало видно на каждой карточке.
+ *
+ * Значения берутся из той же функции offerLogistics(), что и JSON-LD:
+ * разойтись слоям не с чего, расхождение поймает типизация и смоук.
+ * Разметка невидима — только meta/link и обёртки с hidden.
+ */
+import { offerLogistics } from '../lib/seo';
+
+interface Props {
+  currency: string;
+}
+
+const { currency } = Astro.props;
+const { hasMerchantReturnPolicy: ret, shippingDetails: ship } = offerLogistics(currency);
+const rate = ship.shippingRate;
+const dest = ship.shippingDestination;
+const handling = ship.deliveryTime.handlingTime;
+const transit = ship.deliveryTime.transitTime;
+---
+<span hidden itemprop="hasMerchantReturnPolicy" itemscope itemtype="https://schema.org/MerchantReturnPolicy">
+  <meta itemprop="applicableCountry" content={ret.applicableCountry} />
+  <link itemprop="returnPolicyCategory" href={ret.returnPolicyCategory} />
+</span>
+<span hidden itemprop="shippingDetails" itemscope itemtype="https://schema.org/OfferShippingDetails">
+  <span itemprop="shippingRate" itemscope itemtype="https://schema.org/MonetaryAmount">
+    <meta itemprop="value" content={String(rate.value)} />
+    <meta itemprop="currency" content={rate.currency} />
+  </span>
+  <span itemprop="shippingDestination" itemscope itemtype="https://schema.org/DefinedRegion">
+    <meta itemprop="addressCountry" content={dest.addressCountry} />
+  </span>
+  <span itemprop="deliveryTime" itemscope itemtype="https://schema.org/ShippingDeliveryTime">
+    <span itemprop="handlingTime" itemscope itemtype="https://schema.org/QuantitativeValue">
+      <meta itemprop="minValue" content={String(handling.minValue)} />
+      <meta itemprop="maxValue" content={String(handling.maxValue)} />
+      <meta itemprop="unitCode" content={handling.unitCode} />
+    </span>
+    <span itemprop="transitTime" itemscope itemtype="https://schema.org/QuantitativeValue">
+      <meta itemprop="minValue" content={String(transit.minValue)} />
+      <meta itemprop="maxValue" content={String(transit.maxValue)} />
+      <meta itemprop="unitCode" content={transit.unitCode} />
+    </span>
+  </span>
+</span>
