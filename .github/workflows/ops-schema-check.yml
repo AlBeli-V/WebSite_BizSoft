@@ -40,7 +40,7 @@ jobs:
               node scripts/seo/check-structured-data.mjs --base https://biz-soft.pro --urls "$URLS" || rc=$?
             else
               # Контрольная выборка: заменяем стабовые слаги на реальные прод-URL.
-              node scripts/seo/check-structured-data.mjs --base https://biz-soft.pro --urls "/,/catalog,/catalog/design,/catalog/ai,/catalog/ai/text,/product/chatgpt-business,/product/anthropic-team,/vendors,/vendors/jetbrains,/vendors/zoom,/vendors/openai,/vendors/figma,/vendors/maxon,/vendors/adobe,/vendors/canva,/vendors/miro,/vendors/zoho,/compare/chatgpt-vs-claude,/compare/cursor-vs-copilot,/blog,/solutions,/faq,/pricing,/how-we-work,/contacts,/about,/cases,/documents" || rc=$?
+              node scripts/seo/check-structured-data.mjs --base https://biz-soft.pro --urls "/,/catalog,/catalog/design,/catalog/ai,/catalog/ai/text,/product/chatgpt-business,/product/anthropic-team,/product/app-store-itunes-gift-card,/vendors,/vendors/jetbrains,/vendors/zoom,/vendors/openai,/vendors/figma,/vendors/maxon,/vendors/adobe,/vendors/canva,/vendors/miro,/vendors/zoho,/compare/chatgpt-vs-claude,/compare/cursor-vs-copilot,/blog,/solutions,/faq,/pricing,/how-we-work,/contacts,/about,/cases,/documents" || rc=$?
             fi
             echo 'SCHEMA_EOF'
           } >> "$GITHUB_OUTPUT"

@@ -1,0 +1,84 @@
+---
+/**
+ * Страница публичного эксперта (задача ENT-001).
+ *
+ * Автор статей до этого был организацией: `{'@type':'Organization', name:
+ * 'Редакция BIZSoft'}`. Безликая редакция не даёт Google ни одного сигнала
+ * опыта, а брендовая выдача при этом уходила к омонимам — по запросу
+ * «bizsoft» сайт стоял на позиции 15,7. Страница нужна, чтобы у узла Person
+ * был собственный адрес: сущность без адреса подтверждать нечем.
+ */
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import JsonLd from '../../components/JsonLd.astro';
+import CTASection from '../../components/CTASection.astro';
+import { getCollection } from 'astro:content';
+import { expert, seller, knowsAbout } from '../../config/site';
+import { expertSchema } from '../../lib/seo';
+
+export function getStaticPaths() {
+  return [{ params: { slug: expert.slug } }];
+}
+
+const posts = (await getCollection('blog', ({ data }) => !data.draft && !data.noindex))
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+
+const fmtDate = (d: Date) =>
+  d.toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' });
+---
+<BaseLayout
+  title={`${expert.fullName} — автор материалов BIZSoft`}
+  description={`${expert.jobTitle}. ${expert.tagline} Материалы о закупке и оплате зарубежного ПО для российских юрлиц.`}
+>
+  <JsonLd schema={expertSchema()} />
+  <div class="container-page section">
+    <Breadcrumbs items={[{ name: 'База знаний', url: '/blog' }, { name: expert.name, url: `/authors/${expert.slug}` }]} />
+
+    <header class="head">
+      <h1>{expert.fullName}</h1>
+      <p class="role">{expert.jobTitle}</p>
+      <p class="bio">{expert.bio}</p>
+      <dl class="facts">
+        <div><dt>Организация</dt><dd>{seller.shortName}</dd></div>
+        <div><dt>На рынке с</dt><dd>{seller.registrationDate}</dd></div>
+        <div><dt>Связь</dt><dd><a href={`mailto:${expert.email}`}>{expert.email}</a></dd></div>
+      </dl>
+    </header>
+
+    <section class="block">
+      <h2>Предметные области</h2>
+      <ul class="areas">{knowsAbout.map((k) => <li>{k}</li>)}</ul>
+    </section>
+
+    <section class="block">
+      <h2>Материалы</h2>
+      <ul class="posts">
+        {posts.map((p) => (
+          <li>
+            <a href={`/blog/${p.id}`}>{p.data.title}</a>
+            <span class="muted">{fmtDate(p.data.updated || p.data.date)}</span>
+          </li>
+        ))}
+      </ul>
+    </section>
+  </div>
+  <CTASection />
+</BaseLayout>
+
+<style>
+  .section { padding-top: 2rem; }
+  .head { max-width: 70ch; }
+  h1 { font-size: clamp(1.7rem, 3.6vw, 2.3rem); margin-bottom: 0.35rem; }
+  .role { color: var(--color-accent); font-weight: 600; margin-bottom: 1rem; }
+  .bio { color: var(--color-text-muted); line-height: 1.65; }
+  .facts { display: flex; gap: 2rem; flex-wrap: wrap; margin: 1.5rem 0 0; }
+  .facts dt { color: var(--color-text-dim); font-size: 0.85rem; }
+  .facts dd { margin: 0.15rem 0 0; font-weight: 600; }
+  .block { margin-top: 2.5rem; }
+  .block h2 { font-size: 1.3rem; margin-bottom: 0.9rem; }
+  .areas { margin: 0; padding-left: 1.1rem; color: var(--color-text-muted); display: flex; flex-direction: column; gap: 0.35rem; }
+  .posts { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.6rem; }
+  .posts li { display: flex; gap: 0.8rem; justify-content: space-between; flex-wrap: wrap; border-bottom: 1px solid var(--color-border); padding-bottom: 0.6rem; }
+  .posts a { color: var(--color-accent); font-weight: 600; }
+  .muted { color: var(--color-text-dim); font-size: 0.88rem; white-space: nowrap; }
+</style>
