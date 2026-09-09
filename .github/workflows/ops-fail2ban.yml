@@ -173,6 +173,22 @@ jobs:
             fail2ban-regex "$log" "$filt" 2>&1 \
               | grep -A4 -E 'Failregex|Date template hits|^Lines:|Missed line' \
               | head -40 | sed 's/^/  /'
+            # Счётчик jail сравнивается с темпом мусора по часам: fail2ban
+            # считает только строки, дописанные после его запуска, а
+            # fail2ban-regex — весь файл. Без разреза по времени эти два
+            # числа несравнимы и «мало поймано» не отличить от «мусора нет».
+            echo "-- мусорные ответы по часам (последние 6 часов лога) --"
+            grep -E '" (404|444|403|400) ' "$log" 2>/dev/null \
+              | awk '{ print substr($4, 2, 14) }' | uniq -c | tail -6 | sed 's/^/  /' \
+              || echo "  (нет данных)"
+            echo "-- кто даёт мусор в последний час лога --"
+            lh=$(grep -E '" (404|444|403|400) ' "$log" 2>/dev/null | tail -1 | awk '{ print substr($4, 2, 14) }')
+            if [ -n "$lh" ]; then
+              echo "  час: $lh"
+              grep -E '" (404|444|403|400) ' "$log" \
+                | awk -v h="$lh" 'substr($4, 2, 14) == h { print $1 }' \
+                | sort | uniq -c | sort -rn | head -5 | sed 's/^/  /'
+            fi
             REGEOF
             chmod +x /tmp/bz-f2b-regex.sh
 
