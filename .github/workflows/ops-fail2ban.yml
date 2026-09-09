@@ -258,6 +258,23 @@ jobs:
             fi
             echo "$st" | grep -i 'file list' | sed 's/^/  /'
 
+            # Фильтр, не совпадающий ни с одной строкой, — тихий отказ:
+            # jail активен, читает нужный файл и не ловит ничего. Так было
+            # 09.09.2026: fail2ban-regex дал «17394 lines, 0 matched» из-за
+            # того, что failregex ожидал дату, которую fail2ban удаляет из
+            # строки перед проверкой. Прогон обязан падать на этом.
+            echo "-- совпадает ли фильтр со строками живого лога --"
+            rx=$(fail2ban-regex /var/log/nginx/access.log \
+                   /etc/fail2ban/filter.d/nginx-noscript.conf 2>&1 || true)
+            echo "$rx" | grep -E '^Lines:' | sed 's/^/  /'
+            matched=$(echo "$rx" | sed -n 's/^Lines:.*[, ]\([0-9][0-9]*\) matched.*/\1/p')
+            if [ "${matched:-0}" -eq 0 ]; then
+              echo "::error::фильтр не совпал ни с одной строкой лога — jail будет активен и бесполезен"
+              echo "$rx" | head -25 | sed 's/^/  /'
+              exit 1
+            fi
+            echo "  совпало строк: $matched"
+
             echo "-- ignoreip, как его видит служба --"
             fail2ban-client get nginx-noscript ignoreip | sed 's/^/  /'
 
