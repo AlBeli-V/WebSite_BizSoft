@@ -209,7 +209,7 @@
   {
    "id": "GIDX-000",
    "title": "Восстановление обхода Google: волна 1",
-   "plain": "Волна 1 в проде: покрытие lastmod 44% → 63%, базовая линия обхода снята — подтверждённый Googlebot 10 запросов в сутки",
+   "plain": "Волна 1 в проде: покрытие lastmod 44% → 63%, базовая линия обхода снята — подтверждённый Googlebot 10 запросов в сутки. Защита сайта проверена на живом логе: сканеров ловит, поисковиков не трогает",
    "zone": "GREEN",
    "owner_role": "seo_lead",
    "status": "observing",
@@ -218,12 +218,12 @@
    "ticket": "reports/seo/tasks/GIDX-000-crawl-recovery.md",
    "outcome": "Итог: к 06.10 узнаем, снимается ли дефицит обхода сигналами или упирается в авторитет домена.",
    "stage": "observing",
-   "status_changed_at": "2026-09-08",
-   "artifact": "волна 1",
+   "status_changed_at": "2026-09-09",
+   "artifact": "волна 1 + jail nginx-noscript с ignoreip",
    "ci": "passed",
    "qa": "passed",
    "deploy": "на сайте",
-   "rollback": "доступен: revert ветки волны 1"
+   "rollback": "доступен: revert ветки волны 1; jail снимается отдельно — rm /etc/fail2ban/jail.d/nginx-noscript.local и reload"
   },
   {
    "id": "GIDX-001",
