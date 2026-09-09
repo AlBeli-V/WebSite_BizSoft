@@ -90,7 +90,8 @@ TypeScript strict · Vitest · Python 3 (контуры SEO/разведки/р�
   `google-content-map.json`, `google-link-gap.csv`, `google-entity-gap.md`;
   дропы — `drop-domain-strategy.md` и приложения; замена источников после
   блокировки регистратора — `drop-domain-data-sources.md`, схема сервиса на
-  ключах пользователей — `docs/drop-service/byo-account-architecture.md`. Разбор строит
+  ключах пользователей — `docs/drop-service/byo-account-architecture.md`,
+  спецификация расширения браузера — `docs/drop-service/extension-spec.md`. Разбор строит
   `scripts/seo/google_authority.py` из срезов SERP и сенсора покрытия
   индекса (шаг `Google authority analysis` в `seo-serp-watch`), руками цифры
   не правятся. Очередь работ и очередь на обход — общие с контуром
