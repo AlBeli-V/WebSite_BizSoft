@@ -80,6 +80,8 @@ TypeScript strict · Vitest · Python 3 (контуры SEO/разведки/р�
   только `src/data/policies.ts`: из него рендерятся `/faq`, `/how-we-work`,
   `/pricing` и отвечает WebMCP-инструмент `search_policies`. Массив
   `{ q, a }` прямо в `.astro` запрещён тестом `tests/policies.test.ts`.
+- **Что публиковать: темы, запросы ядра, целевые страницы** —
+  `docs/marketing/external/publication-plan.md`.
 - **Где регистрироваться и что публиковать** — `docs/marketing/external/platform-registry.md`
   (очерёдность площадок, единые данные профилей, инструкция по регистрации,
   разбор Дзена, механика Pressfeed); состояние регистраций —
