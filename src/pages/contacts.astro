@@ -3,12 +3,9 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import HeroSteps from '../components/HeroSteps.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
 import LeadForm from '../components/LeadForm.astro';
-import JsonLd from '../components/JsonLd.astro';
-import { localBusinessSchema } from '../lib/seo';
 import { seller, workingHours } from '../config/site';
 ---
-<BaseLayout title="Контакты" description="Контакты BIZSoft (ИП Беляев А.В.): телефон, e-mail, адрес и форма обратной связи. Работаем с юрлицами по договору и счёту.">
-  <JsonLd schema={localBusinessSchema()} />
+<BaseLayout title="Контакты" description="Контакты BIZSoft (ИП Беляев А.В.): телефон, e-mail, адрес и форма обратной связи. Работаем с юрлицами по договору и счёту." localBusiness>
   <div class="container-page section">
     <Breadcrumbs items={[{ name: 'Контакты', url: '/contacts' }]} />
     <header class="head hero-cols">

@@ -1,0 +1,58 @@
+---
+/**
+ * Точка входа в раздел «Аналоги» (IDX-001).
+ *
+ * До этой страницы у `/alternatives/*` не было ни одной входящей внутренней
+ * ссылки на всём сайте — только запись в sitemap. Google не проиндексировал
+ * ни одну из семи страниц раздела. Раздел без точки входа поисковик
+ * читает как набор сирот, а не как часть сайта.
+ */
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import SectionHeading from '../../components/SectionHeading.astro';
+import CTASection from '../../components/CTASection.astro';
+import JsonLd from '../../components/JsonLd.astro';
+import { alternativesPages } from '../../data/alternatives';
+import { sectionListSchema } from '../../lib/seo';
+
+const items = [...alternativesPages].sort((a, b) => a.subject.localeCompare(b.subject, 'ru'));
+const ld = sectionListSchema({
+  name: 'Аналоги зарубежного ПО для российских компаний',
+  description: 'Чем заменить зарубежные сервисы в компании: разборы альтернатив, которые BIZSoft поставляет на юрлицо.',
+  url: '/alternatives',
+  items: items.map((a) => ({ name: a.h1, url: `/alternatives/${a.slug}` })),
+});
+---
+<BaseLayout
+  title="Аналоги зарубежного ПО для бизнеса: чем заменить"
+  description="Разборы аналогов зарубежных сервисов для российских компаний: чем заменить и что мы поставляем на юрлицо по договору, счёту и с закрывающими через ЭДО."
+>
+  <JsonLd schema={ld} />
+  <div class="container-page section">
+    <Breadcrumbs items={[{ name: 'Аналоги', url: '/alternatives' }]} />
+    <SectionHeading level={1} eyebrow="Аналоги" title="Чем заменить зарубежный сервис">
+      <p>Разбираем, чем в компании заменяется конкретный сервис и что из
+      альтернатив мы поставляем на юрлицо. В каждом разборе — сильные стороны
+      замен, сводная таблица и порядок оформления.</p>
+    </SectionHeading>
+    <div class="grid">
+      {items.map((a) => (
+        <a href={`/alternatives/${a.slug}`} class="card card-hover alt reveal">
+          <h2>{a.h1}</h2>
+          <p>{a.metaDescription}</p>
+          <span class="link">Смотреть разбор →</span>
+        </a>
+      ))}
+    </div>
+  </div>
+  <CTASection />
+</BaseLayout>
+
+<style>
+  .section { padding-top: 2rem; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.2rem; }
+  .alt { padding: 1.6rem; display: flex; flex-direction: column; gap: 0.6rem; }
+  .alt h2 { font-size: 1.25rem; }
+  .alt p { color: var(--color-text-muted); font-size: 0.92rem; flex-grow: 1; }
+  .link { color: var(--color-accent); font-weight: 600; }
+</style>

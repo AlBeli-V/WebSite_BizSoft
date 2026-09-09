@@ -9,6 +9,7 @@ import FAQ from '../../components/FAQ.astro';
 import QuestionForm from '../../components/QuestionForm.astro';
 import CTASection from '../../components/CTASection.astro';
 import JsonLd from '../../components/JsonLd.astro';
+import OfferLogisticsMicrodata from '../../components/OfferLogisticsMicrodata.astro';
 import { getProductBySlug, findCanonicalProductSlug, getProductsBySlugs, getProductsBySkus, getProductVariants, galleryImages , getCurrencyRate } from '../../lib/directus';
 import { isSourceUnavailable, serviceUnavailable } from '../../lib/http';
 import { productSchema, giftCardProductSchema, canonicalUrl } from '../../lib/seo';
@@ -127,8 +128,15 @@ const microImage = gallery.length > 0 ? gallery[0].url : canonicalUrl('/og-defau
 // выводятся вовсе, страница остаётся без товарной microdata.
 // У подарочной карты microdata есть только при наличии диапазона (как и JSON-LD).
 const hasMd = isGift ? productLd !== null : !byRequest;
+// itemid у microdata-слоя не ставится намеренно. Google связывает узлы
+// разных синтаксисов по общему идентификатору (@id ≡ itemid) и склеивает их
+// в одну сущность: при itemid = @id JSON-LD у объединённого товара каждое
+// поле приходило дважды, и Search Console закрывала карточку ошибкой
+// «Поле "brand" дублируется» (01.09.2026, /product/mj-standard). Слои обязаны
+// оставаться двумя независимыми сериализациями одного товара — JSON-LD для
+// Google, microdata для Яндекса, — поэтому общего идентификатора у них нет.
 const mdProduct = hasMd
-  ? { itemscope: true, itemtype: 'https://schema.org/Product', itemid: `${canonicalProductUrl}#product` }
+  ? { itemscope: true, itemtype: 'https://schema.org/Product' }
   : {};
 const mdName = hasMd ? { itemprop: 'name' } : {};
 const mdDesc = hasMd && product.short_description ? { itemprop: 'description' } : {};
@@ -408,6 +416,7 @@ try {
                 <meta itemprop="offerCount" content={String(giftRange.count)} />
                 <meta itemprop="priceCurrency" content={product.currency || 'RUB'} />
                 <link itemprop="availability" href="https://schema.org/InStock" />
+                <OfferLogisticsMicrodata currency={product.currency || 'RUB'} />
               </>
             )}
             <GiftCardSelector
@@ -432,6 +441,7 @@ try {
               <meta itemprop="price" content={String(eff.price)} />
               <meta itemprop="priceCurrency" content={product.currency || 'RUB'} />
               <link itemprop="availability" href="https://schema.org/InStock" />
+              <OfferLogisticsMicrodata currency={product.currency || 'RUB'} />
             </>
           )}
           {byRequest ? (
