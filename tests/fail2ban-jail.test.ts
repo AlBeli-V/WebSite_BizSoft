@@ -60,6 +60,17 @@ describe('fail2ban: jail против сканеров читается и не 
     }
   });
 
+  it('backend задан явно — иначе jail читал бы systemd-журнал', () => {
+    // В сборке для Debian/Ubuntu backend по умолчанию systemd: jail без своего
+    // backend игнорирует logpath и смотрит в журнал, где логов доступа nginx
+    // нет. Проверка 09.09.2026 поймала это через четыре часа после установки —
+    // jail был активен, «Total failed: 0» при живом сканере, а в статусе стояло
+    // «Journal matches» вместо «File list».
+    const jail = parseIni(readFileSync(JAIL, 'utf8'))['nginx-noscript'];
+    expect(jail.backend, 'backend не задан — logpath не будет работать').toBeTruthy();
+    expect(['polling', 'auto', 'pyinotify', 'gamin']).toContain(jail.backend);
+  });
+
   it('имя фильтра из jail совпадает с файлом фильтра', () => {
     const jail = parseIni(readFileSync(JAIL, 'utf8'))['nginx-noscript'];
     expect(FILTER).toContain(`${jail.filter}.conf`);

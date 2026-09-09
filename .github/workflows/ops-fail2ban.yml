@@ -76,6 +76,9 @@ jobs:
           p.read('deploy/fail2ban/jail.d/nginx-noscript.local', encoding='utf-8')
           if 'nginx-noscript' not in p.sections():
               print('::error::в jail нет секции [nginx-noscript]'); sys.exit(1)
+          if not p['nginx-noscript'].get('backend'):
+              print('::error::в jail не задан backend — на Debian он унаследует systemd '
+                    'и logpath работать не будет'); sys.exit(1)
           nets = p['nginx-noscript'].get('ignoreip', '').split()
           need = ['66.249.64.0/19', '87.250.224.0/19', '95.108.128.0/17']
           miss = [n for n in need if n not in nets]
@@ -210,6 +213,26 @@ jobs:
 
             echo "-- состояние jail после применения --"
             fail2ban-client status nginx-noscript | sed 's/^/  /'
+
+            # Jail может быть активен и при этом не читать ничего: в сборке
+            # для Debian/Ubuntu backend по умолчанию systemd, и тогда logpath
+            # игнорируется, а фильтр смотрит в журнал, где логов nginx нет.
+            # Проверка 09.09.2026 поймала ровно это: «Total failed: 0» через
+            # четыре часа при живом сканере. Прогон обязан падать на такой
+            # установке, а не рапортовать успех.
+            echo "-- источник, из которого jail читает --"
+            st=$(fail2ban-client status nginx-noscript)
+            if echo "$st" | grep -q 'Journal matches'; then
+              echo "::error::jail читает systemd-журнал вместо файла — logpath не действует"
+              echo "$st" | sed 's/^/  /'
+              exit 1
+            fi
+            if ! echo "$st" | grep -q '/var/log/nginx/access.log'; then
+              echo "::error::в статусе нет пути к логу nginx — источник не тот"
+              echo "$st" | sed 's/^/  /'
+              exit 1
+            fi
+            echo "$st" | grep -i 'file list' | sed 's/^/  /'
 
             echo "-- ignoreip, как его видит служба --"
             fail2ban-client get nginx-noscript ignoreip | sed 's/^/  /'
