@@ -52,6 +52,12 @@
   `seo-committee-build`, `competitive-intelligence-daily`, `seo-serp-watch`,
   `seo-wordstat`. Статусы `intelligence/actions.json` обновляет PR,
   внедряющий действие. Тишина: при успехе ничего, при сбое — запись в issue #22.
+- **Источники и аккаунты — в реестрах с переключателем** (`docs/rules/data-sources-registry.md`).
+  Поставщик данных — запись в `data/seo/domain-data-sources.json` (функция →
+  действующий источник → запасные), аккаунт сервиса — в `ops/accounts/registry.json`
+  (без значений секретов, с группой владельцев и импактом). Смена поставщика —
+  правка поля `active` через PR; источник из заблокированной группы действующим
+  не назначается. Домены проекта сторожит `ops-domain-watch` по RDAP.
 - **Достоверность отчётов** (`docs/rules/report-integrity.md`). В тексте
   отчётов, промптов и журнала нет литералов без срока годности (даты,
   обещания, суммы, квоты) — `test_report_literals`, исключения с

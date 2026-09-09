@@ -10,8 +10,12 @@
  * инициализировался. Событие onerror при этом не наступало, поэтому и
  * запасной адрес не подключался.
  *
- * Отсюда предмет проверки: не «отдаётся ли файл», а «дошло ли до вызова
- * ym(id, 'init', …) и ушёл ли хит счётчику».
+ * Отсюда предмет проверки: не «отдаётся ли файл», а «запустился ли
+ * счётчик». В локальном режиме признак — вызов ym(id, 'init', …) на
+ * подменённом теге; в живом — обращения самого счётчика к своему домену
+ * (хит, вебвизор, синхронизация кук): их делает только исполнившийся файл.
+ * Проверять разбор очереди ym.a оказалось нельзя — настоящий тег этот
+ * массив не чистит, и пункт краснел на исправном сайте.
  *
  * Два режима:
  *   без аргументов — против локальной сборки (стаб Directus + dist).
@@ -36,6 +40,11 @@ const BASE = LIVE || `http://127.0.0.1:${APP_PORT}`;
 const PAGES = ['/', '/vendors/anthropic', '/catalog'];
 const TAG_HOST = 'mc.yandex.ru';
 const TAG_PATH = '/metrika/tag.js';
+// Настоящий tag.js — минифицированный файл в десятки килобайт. Ответ 200
+// телом в сотни байт означает не счётчик, а заглушку: так вёл себя прокси
+// в инциденте 04–08.09.2026, и ровно поэтому проверка «HTTP 200» одна
+// ничего не значит.
+const TAG_MIN_BYTES = 20000;
 
 const procs = [];
 function start(cmd, args, env, label) {
@@ -95,6 +104,11 @@ try {
     const ctx = await browser.newContext();
     const page = await ctx.newPage();
     const tagRequests = [];
+    const tagResponses = [];
+    const tagBodies = [];
+    const badResources = [];
+    const tagHeaders = [];
+    const counterCalls = [];
     const hits = [];
     const errors = [];
     page.on('pageerror', (e) => errors.push(`pageerror: ${e.message}`));
@@ -104,6 +118,31 @@ try {
       if (u.includes(TAG_PATH)) tagRequests.push(u);
       // Хит счётчика: именно он означает, что визит записан.
       if (/mc\.yandex\.ru\/(watch|webvisor)/.test(u)) hits.push(u);
+      // Любое обращение счётчика помимо самого файла тега: хит, вебвизор,
+      // синхронизация кук. Их делает только исполнившийся тег, поэтому это
+      // и есть признак «счётчик запустился» — при инциденте не было ни
+      // одного из них, потому что до исполнения дело не доходило.
+      if (u.includes(TAG_HOST) && !u.includes(TAG_PATH)) counterCalls.push(
+        u.replace(/^https:\/\/mc\.yandex\.ru/, '').replace(/\?.*/, ''));
+    });
+    // Ответ на запрос тега разводит два разных случая: сайт отдал ссылку,
+    // но источник недоступен из этой сети (тогда виноват не сайт), и
+    // источник ответил, а счётчик всё равно не запустился.
+    page.on('response', (r) => {
+      if (r.url().includes(TAG_PATH)) {
+        tagResponses.push(r.status());
+        // Размер тела читается отложенно: обработчик синхронный, а тело
+        // приходит позже. Промис складывается и разбирается перед выводом.
+        tagBodies.push(r.body().then((b) => b.length).catch(() => -1));
+        const h = r.headers();
+        tagHeaders.push(`${h['content-type'] || 'без типа'}${h['content-encoding'] ? `, ${h['content-encoding']}` : ''}`);
+      }
+      // Сбойные ответы прочих ресурсов: без адреса «502» в консоли ничего
+      // не объясняет, а объяснять придётся именно его.
+      if (r.status() >= 400) badResources.push(`${r.status()} ${r.url().replace(/\?.*/, '')}`);
+    });
+    page.on('requestfailed', (r) => {
+      if (r.url().includes(TAG_PATH)) tagResponses.push(`сбой: ${r.failure()?.errorText || 'неизвестно'}`);
     });
 
     if (!LIVE) {
@@ -115,14 +154,12 @@ try {
     await page.goto(BASE + path, { waitUntil: 'networkidle' }).catch((e) => {
       errors.push(`goto: ${e.message}`);
     });
-    await page.waitForTimeout(LIVE ? 2500 : 1200);
+    await page.waitForTimeout(LIVE ? 6000 : 1200);
 
     const state = await page.evaluate(() => ({
       executed: !!window.__tagExecuted,
       calls: (window.__ymCalls || []).map((a) => String(a[1])),
       ymType: typeof window.ym,
-      // У настоящего тега очередь ym.a разобрана и функция заменена своей.
-      pending: window.ym && window.ym.a ? window.ym.a.length : 0,
     }));
 
     const askedTag = tagRequests.filter((u) => u.includes(TAG_HOST));
@@ -131,12 +168,40 @@ try {
       tagRequests.map((u) => u.replace(/\?.*/, '')).join(', ') || 'запросов нет');
 
     if (LIVE) {
-      // На живом сайте настоящий тег сам отправляет хит: его наличие и
-      // означает «визит записан». Именно этого не было при инциденте.
-      report(`${path}: счётчик отправил хит`, hits.length > 0,
-        hits.length ? `${hits.length} запрос(ов)` : 'ни одного обращения к watch');
-      report(`${path}: ym заменён загруженным тегом`, state.ymType === 'function' && state.pending === 0,
-        `typeof ym=${state.ymType}, в очереди ${state.pending}`);
+      const sizes = (await Promise.all(tagBodies)).filter((n) => n > 0);
+      const biggest = sizes.length ? Math.max(...sizes) : 0;
+      const delivered = tagResponses.some((r) => r === 200) && biggest >= TAG_MIN_BYTES;
+      if (!delivered) {
+        // Источник не ответил: из этой сети файл счётчика не приходит.
+        // Обвинять сайт нельзя — с той же вероятностью это ограничение
+        // сети, откуда идёт проверка. Пункт помечается как невыполненный,
+        // но с прямой причиной.
+        const why = tagResponses.some((r) => r === 200)
+          ? `HTTP 200, но тело ${biggest} Б вместо ≥ ${TAG_MIN_BYTES} Б — это не рабочий тег`
+          : `ответы: ${tagResponses.join(', ') || 'ни одного'}`;
+        report(`${path}: тег отдан источником`, false, `${why} — проверка счётчика невозможна`);
+      } else {
+        report(`${path}: тег отдан источником`, true, `HTTP ${tagResponses.join(', ')}, ${biggest} Б`);
+        // Предмет проверки — запустился ли счётчик. Исполнившийся тег сам
+        // идёт на свой домен: хит, вебвизор, синхронизация кук. При
+        // инциденте не было ни одного такого обращения, потому что файл не
+        // исполнялся вовсе.
+        const uniq = [...new Set(counterCalls)];
+        report(`${path}: счётчик запустился (сам пошёл на свой домен)`, uniq.length > 0,
+          uniq.join(', ') || 'ни одного обращения помимо файла тега');
+        report(`${path}: ym определён на странице`, state.ymType === 'function',
+          `typeof ym=${state.ymType}`);
+        // Хит визита — отдельной строкой и без влияния на вердикт: из
+        // headless-браузера в зарубежной сети Метрика его не всегда шлёт,
+        // а поломку счётчика ловит признак выше. Настоящий контроль записи
+        // визитов — пульс сайта в отчёте ops-direct stats.
+        console.log(`     хит визита: ${hits.length ? `${hits.length} запрос(ов) к watch` : 'не зафиксирован'}`);
+        if (!uniq.length) {
+          const ym = errors.filter((e) => /yandex/i.test(e));
+          console.log(`     тип ответа тега: ${tagHeaders.join(' | ') || 'нет данных'}`);
+          console.log(`     сообщения про Яндекс: ${ym.slice(0, 3).join(' | ') || 'нет'}`);
+        }
+      }
     } else {
       report(`${path}: файл тега исполнился`, state.executed);
       report(`${path}: вызван init счётчика`, state.calls.includes('init'),
@@ -144,7 +209,8 @@ try {
     }
 
     const own = errors.filter((e) => !/mc\.yandex|googletagmanager|google-analytics|net::ERR_/.test(e));
-    report(`${path}: без ошибок JS`, own.length === 0, own.slice(0, 2).join(' | ') || 'чисто');
+    report(`${path}: без ошибок JS`, own.length === 0,
+      own.length ? `${own.slice(0, 2).join(' | ')}${badResources.length ? ` [${badResources.slice(0, 3).join(', ')}]` : ''}` : 'чисто');
 
     await ctx.close();
   }
