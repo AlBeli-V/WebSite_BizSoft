@@ -1,0 +1,22 @@
+{
+ "experiment_id": "snippets-10-expand",
+ "ticket": "SEO-EXP-005",
+ "date": "2026-09-09",
+ "source": "yandex",
+ "evaluation_kind": "ctr",
+ "windows": null,
+ "metrics": null,
+ "matched_metrics": null,
+ "position_delta": null,
+ "sample_quality": [],
+ "statistical_result": null,
+ "summary_line": null,
+ "confidence": "LOW",
+ "verdict": "INSUFFICIENT_DATA",
+ "verdict_reason": "окно источника захватывает период до внедрения; чистое окно — с 2026-09-17",
+ "recommendation": "EXTEND",
+ "recommendation_detail": "продлить наблюдение до 2026-09-17",
+ "recommended_targets": [],
+ "requires_owner_decision": false,
+ "clean_window_eta": "2026-09-17"
+}
