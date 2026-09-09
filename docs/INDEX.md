@@ -80,6 +80,8 @@ TypeScript strict · Vitest · Python 3 (контуры SEO/разведки/р�
   только `src/data/policies.ts`: из него рендерятся `/faq`, `/how-we-work`,
   `/pricing` и отвечает WebMCP-инструмент `search_policies`. Массив
   `{ q, a }` прямо в `.astro` запрещён тестом `tests/policies.test.ts`.
+- **Что публиковать: темы, запросы ядра, целевые страницы** —
+  `docs/marketing/external/publication-plan.md`.
 - **Где регистрироваться и что публиковать** — `docs/marketing/external/platform-registry.md`
   (очерёдность площадок, единые данные профилей, инструкция по регистрации,
   разбор Дзена, механика Pressfeed); состояние регистраций —
@@ -88,7 +90,10 @@ TypeScript strict · Vitest · Python 3 (контуры SEO/разведки/р�
 - **Авторитет в Google** (почему Яндекс держит топ, а Google нет) —
   `reports/seo/google-authority-strategy.md`; карта контента и разрыв —
   `google-content-map.json`, `google-link-gap.csv`, `google-entity-gap.md`;
-  дропы — `drop-domain-strategy.md` и приложения. Разбор строит
+  дропы — `drop-domain-strategy.md` и приложения; замена источников после
+  блокировки регистратора — `drop-domain-data-sources.md`, схема сервиса на
+  ключах пользователей — `docs/drop-service/byo-account-architecture.md`,
+  спецификация расширения браузера — `docs/drop-service/extension-spec.md`. Разбор строит
   `scripts/seo/google_authority.py` из срезов SERP и сенсора покрытия
   индекса (шаг `Google authority analysis` в `seo-serp-watch`), руками цифры
   не правятся. Очередь работ и очередь на обход — общие с контуром

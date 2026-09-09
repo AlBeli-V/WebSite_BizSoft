@@ -344,6 +344,9 @@ Google и так был низким (площадка в топ-10 Google по 
 площадью в Google-выдаче. Дзен-версии можно делать следом, но они работают
 на Яндекс, а не на Google.
 
+Что публиковать дальше — недели 2–4 с темами, запросами ядра и целевыми
+страницами: `docs/marketing/external/publication-plan.md`.
+
 Правила ссылок и анкоров — `docs/seo/external-links-program.md`, раздел 3.
 Регламент Дзена — `docs/marketing/external/dzen-requirements.md`.
 
