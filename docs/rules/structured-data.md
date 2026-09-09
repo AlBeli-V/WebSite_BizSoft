@@ -37,3 +37,8 @@
 Проверки: `pnpm smoke` (три проверки: карточка товара, главная и контакты,
 полнота узла организации), `scripts/seo/check-structured-data.mjs` — правило
 про повтор идентификатора работает и на проде через `ops-schema-check`.
+
+Дополнение 08.09.2026 (после проверки исправления): рекомендованные поля
+Offer — `hasMerchantReturnPolicy` и `shippingDetails` — обязаны быть в обоих
+слоях. Значения берутся из одной функции `offerLogistics()` (`src/lib/seo.ts`):
+JSON-LD — напрямую, microdata — через `OfferLogisticsMicrodata.astro`.

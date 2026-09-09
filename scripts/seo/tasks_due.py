@@ -16,8 +16,15 @@
 `Созревает` — дата, с которой задача выполнима. `Ждёт` — эксперимент или тикет,
 без которого её делать нельзя; поле информационное, срок задаёт дату.
 
-Запуск: python3 scripts/seo/tasks_due.py [--date YYYY-MM-DD] [--all]
-Возврат: 0 — есть созревшие; 1 — нет (это не ошибка).
+Второй режим — `--unmanaged`. Слой видит только тикеты со сроком, и это его
+слабое место: тикет, у которого момент запуска записан прозой («через 7 дней
+после деплоя», «после мержа волны 1»), для него не существует. Ровно это и
+случилось 08.09.2026 — семь тикетов GIDX-*, заведённых в тот же день соседней
+веткой, держат срок в тексте. Аудит показывает такие тикеты, чтобы владелец
+проставил дату; сам он даты не выдумывает.
+
+Запуск: python3 scripts/seo/tasks_due.py [--date YYYY-MM-DD] [--all|--unmanaged]
+Возврат: 0 — есть что показать; 1 — нет (это не ошибка).
 """
 
 from __future__ import annotations
@@ -33,9 +40,14 @@ TASKS = pathlib.Path("reports/seo/tasks")
 RE_TITLE = re.compile(r"^#\s+(\S+)\s+—\s+(.+)$", re.M)
 RE_FIELD = re.compile(r"\*\*(Приоритет|Статус|Созревает|Ждёт|Заведено):\*\*\s*"
                       r"([^·\n*]+)")
-# Статусы, при которых тикет ещё ждёт работы. Всё остальное (done, confirmed,
-# decided, closed) созревшим не считается, даже если срок наступил.
-OPEN_STATES = ("queued", "open", "waiting", "proposed", "in_progress", "running")
+# Статусы, при которых тикет ещё ждёт работы. Список закрытый и полный по
+# фактическим статусам папки: «approved» и «implemented» тоже означают
+# незакрытую работу — у первого решение принято, но не применено, у второго код
+# выкачен, но результат не снят. Считать их закрытыми значило бы прятать ровно
+# те тикеты, у которых всё готово к следующему шагу.
+# Не ждут работы: done, confirmed, decided, deferred, closed, on hold.
+OPEN_STATES = ("queued", "open", "waiting", "proposed", "in_progress", "running",
+               "approved", "implemented")
 
 
 def parse(path: pathlib.Path) -> dict | None:
@@ -83,6 +95,30 @@ def ripe(rows: list[dict], today: dt.date, window: int = 3) -> list[dict]:
     return out
 
 
+def unmanaged(rows: list[dict]) -> list[dict]:
+    """Открытые тикеты без даты созревания.
+
+    Такой тикет слой не покажет никогда, поэтому его судьба зависит от памяти
+    людей — то есть от того, ради чего слой и заводился. Аудит не решает за
+    владельца, когда задача созреет: он только называет тикеты, у которых
+    момент запуска не переведён в дату.
+    """
+    out = [r for r in rows if r["status_open"] and not r["due"]]
+    order = {"P0": 0, "P1": 1, "P2": 2, "P3": 3}
+    out.sort(key=lambda r: order.get(r["priority"].split()[0], 9))
+    return out
+
+
+def render_unmanaged(rows: list[dict]) -> str:
+    lines = [f"Открытых тикетов без даты созревания: {len(rows)}",
+             "Пока даты нет, слой созревания их не покажет — срок держится "
+             "только памятью.", ""]
+    for r in rows:
+        lines.append(f"[{r['priority']}] {r['id']} — {r['title']}")
+        lines.append(f"    статус {r['status']}; {r['file']}")
+    return "\n".join(lines)
+
+
 def render(rows: list[dict], today: dt.date) -> str:
     lines = [f"Созрело тикетов к {today.isoformat()}: {len(rows)}", ""]
     for r in rows:
@@ -99,6 +135,8 @@ def main() -> int:
     ap.add_argument("--tasks", type=pathlib.Path, default=TASKS)
     ap.add_argument("--all", action="store_true",
                     help="показать все тикеты со сроком, включая будущие")
+    ap.add_argument("--unmanaged", action="store_true",
+                    help="открытые тикеты без даты созревания — их слой не видит")
     ap.add_argument("--window", type=int, default=3,
                     help="сколько дней назад считать созревание событием")
     args = ap.parse_args()
@@ -109,6 +147,12 @@ def main() -> int:
         for r in dated:
             mark = "созрел" if r["due"] <= today else f"через {(r['due'] - today).days} дн."
             print(f"[{r['priority']}] {r['due_raw']} {mark:14} {r['id']} — {r['title']}")
+        return 0
+    if args.unmanaged:
+        rows_u = unmanaged(rows)
+        if not rows_u:
+            return 1
+        print(render_unmanaged(rows_u))
         return 0
     due = ripe(rows, today, args.window)
     if not due:

@@ -97,6 +97,23 @@ jobs:
             python3 scripts/seo/serp_google.py
           fi
 
+      # Разбор Google-авторитета по свежему срезу: типология топа, слабые
+      # выдачи, разрыв с Яндексом, карта контента и очередь на обход.
+      # Своих запросов к xmlriver здесь нет — читается готовый срез (правило
+      # «один сбор — все потребители»). Считается локально, денег не стоит,
+      # поэтому идёт при любом исходе шага сбора: если свежего Google-среза в
+      # окне нет, скрипт сам это скажет и шаг завершится без артефактов.
+      - name: Google authority analysis
+        if: always()
+        continue-on-error: true
+        run: |
+          date=$(TZ=Europe/Moscow date +%F)
+          python3 scripts/seo/google_authority.py \
+            --serp-dir reports/seo/serp \
+            --index-dir reports/seo/data \
+            --out-dir reports/seo/intelligence \
+            --date "$date" --stamp > /dev/null
+
       # Фактический биллинг (поручение 30.08.2026): остаток, тарифы SKU и
       # история остатка через Billing API. Без секрета YC_BILLING_SA_KEY шаг
       # тихо пропускается, и бюджет живёт на расчётной оценке.
