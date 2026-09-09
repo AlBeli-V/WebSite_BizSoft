@@ -50,11 +50,18 @@ TypeScript strict · Vitest · Python 3 (контуры SEO/разведки/р�
   выкаченным сниппетам в `src/data/seo-experiments.ts`. Результат — бэклог
   `reports/seo/yandex-money-backlog.json`, разбор —
   `reports/seo/yandex-money-growth-plan.md`.
+- **Новый SEO-эксперимент** — запись кладётся в
+  `data/seo/experiments-pending/*.json` (ветка main, обычный код-ревью), в
+  реестр `seo-data` её переносит `scripts/seo/experiments_sync.py` шагом
+  `seo-site-check` до активации. Руками реестр не редактировать: запись с
+  существующим id перенос не трогает, потому что её ведут другие прогоны.
 - **Очередь работ и сроки** — тикеты `reports/seo/tasks/*.md`. У тикета,
   который нельзя делать сразу, в заголовке стоит `**Созревает:** ГГГГ-ММ-ДД`;
   `scripts/seo/tasks_due.py` находит созревшие, workflow `seo-tasks-due`
   ежедневно пишет их в issue #22 и молчит, когда не созрело ничего. Тикет без
-  срока слой не показывает никогда — срок обязателен, иначе задача пролежит.
+  срока слой не показывает никогда — поэтому `tasks_due.py --unmanaged`
+  называет открытые тикеты без даты, и понедельничный слот того же workflow
+  пишет их в журнал раз в неделю.
 - **«Первое место, а переходов нет»** — замер первого экрана выдачи:
   протокол `data/seo/serp-fold-probe.json` (заполняется руками — Search API
   отдаёт только органику и о рекламе над ней не знает, а сессия в выдачу не
@@ -73,6 +80,22 @@ TypeScript strict · Vitest · Python 3 (контуры SEO/разведки/р�
   только `src/data/policies.ts`: из него рендерятся `/faq`, `/how-we-work`,
   `/pricing` и отвечает WebMCP-инструмент `search_policies`. Массив
   `{ q, a }` прямо в `.astro` запрещён тестом `tests/policies.test.ts`.
+- **Что публиковать: темы, запросы ядра, целевые страницы** —
+  `docs/marketing/external/publication-plan.md`.
+- **Где регистрироваться и что публиковать** — `docs/marketing/external/platform-registry.md`
+  (очерёдность площадок, единые данные профилей, инструкция по регистрации,
+  разбор Дзена, механика Pressfeed); состояние регистраций —
+  `data/marketing/platform-accounts.json`, оттуда подтверждённые профили
+  идут в `sameAs`.
+- **Авторитет в Google** (почему Яндекс держит топ, а Google нет) —
+  `reports/seo/google-authority-strategy.md`; карта контента и разрыв —
+  `google-content-map.json`, `google-link-gap.csv`, `google-entity-gap.md`;
+  дропы — `drop-domain-strategy.md` и приложения. Разбор строит
+  `scripts/seo/google_authority.py` из срезов SERP и сенсора покрытия
+  индекса (шаг `Google authority analysis` в `seo-serp-watch`), руками цифры
+  не правятся. Очередь работ и очередь на обход — общие с контуром
+  восстановления обхода: `google-recovery-backlog.json` и
+  `google-url-priority.csv` (GIPS); вторых списков в проекте нет.
 - **Новый workflow** — `.github/workflows/*.yml`; production-workflow
   запускается только с `main` (правило CLAUDE.md); для запуска одного
   workflow из другого — `scripts/ops/gh_dispatch_wait.sh`.
