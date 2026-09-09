@@ -8,7 +8,10 @@
       "group": null,
       "purpose": "Google SERP через API, Domain Analytics WHOIS и Backlinks (выбран источником ворот G1 08.09.2026)",
       "status": "active",
-      "secrets": ["DATAFORSEO_LOGIN", "DATAFORSEO_PASSWORD"],
+      "secrets": [
+        "DATAFORSEO_LOGIN",
+        "DATAFORSEO_PASSWORD"
+      ],
       "impact": "Google-часть конкурентной разведки и весь ссылочный слой оценки доменов",
       "owner_contact": null,
       "_owner_contact": "не заполнено: нужен адрес в собственном домене, а не у поставщика",
@@ -21,7 +24,10 @@
       "group": null,
       "purpose": "российский Google SERP, единственный сборщик по правилу «один сбор — все потребители»",
       "status": "active",
-      "secrets": ["XMLRIVER_USER", "XMLRIVER_KEY"],
+      "secrets": [
+        "XMLRIVER_USER",
+        "XMLRIVER_KEY"
+      ],
       "impact": "срезы reports/seo/serp: веб-отчёт Growth Intelligence и конкурентная разведка остаются без Google",
       "owner_contact": null,
       "_owner_contact": "не заполнено",
@@ -34,7 +40,14 @@
       "group": "yandex",
       "purpose": "Вебмастер, Метрика, Директ, Вордстат и Search API, Яндекс.Диск — всё под одним владельцем аккаунта",
       "status": "active",
-      "secrets": ["WORDSTAT_API_KEY", "YANDEX_WEBMASTER_TOKEN", "YANDEX_METRIKA_TOKEN", "YANDEX_METRIKA_COUNTER_ID", "YANDEX_DIRECT_TOKEN", "YANDEX_DISK_OAUTH"],
+      "secrets": [
+        "WORDSTAT_API_KEY",
+        "YANDEX_WEBMASTER_TOKEN",
+        "YANDEX_METRIKA_TOKEN",
+        "YANDEX_METRIKA_COUNTER_ID",
+        "YANDEX_DIRECT_TOKEN",
+        "YANDEX_DISK_OAUTH"
+      ],
       "impact": "самый широкий: индексация и переобход, аналитика, реклама, спрос, выгрузка отчётов — одна точка отказа на шесть контуров",
       "owner_contact": null,
       "_owner_contact": "не заполнено: критично именно здесь — проверить, что владелец не личный аккаунт сотрудника",
@@ -47,7 +60,9 @@
       "group": "yandex",
       "purpose": "биллинг и расход облака",
       "status": "active",
-      "secrets": ["YC_BILLING_SA_KEY"],
+      "secrets": [
+        "YC_BILLING_SA_KEY"
+      ],
       "impact": "контроль расхода облака",
       "owner_contact": null,
       "_owner_contact": "не заполнено",
@@ -60,7 +75,11 @@
       "group": "google",
       "purpose": "Search Console API, PageSpeed Insights, GA4",
       "status": "active",
-      "secrets": ["GSC_SERVICE_ACCOUNT_JSON", "PSI_API_KEY", "GA4_PROPERTY_ID"],
+      "secrets": [
+        "GSC_SERVICE_ACCOUNT_JSON",
+        "PSI_API_KEY",
+        "GA4_PROPERTY_ID"
+      ],
       "impact": "замеры индексации Google, скорости и поведения — вся Google-половина отчётности",
       "owner_contact": null,
       "_owner_contact": "не заполнено",
@@ -73,7 +92,9 @@
       "group": "google",
       "purpose": "хранение бэкапов через rclone",
       "status": "active",
-      "secrets": ["GDRIVE_RCLONE_CONF"],
+      "secrets": [
+        "GDRIVE_RCLONE_CONF"
+      ],
       "impact": "копии бэкапов вне сервера",
       "owner_contact": null,
       "_owner_contact": "не заполнено",
@@ -86,7 +107,9 @@
       "group": null,
       "purpose": "исходящая почта воркфлоу и писем руководителю",
       "status": "active",
-      "secrets": ["SMTP_PASS"],
+      "secrets": [
+        "SMTP_PASS"
+      ],
       "impact": "письма контуров и заявки с форм",
       "owner_contact": null,
       "_owner_contact": "не заполнено: указать, на чьём аккаунте заведён домен почты",
@@ -99,7 +122,9 @@
       "group": null,
       "purpose": "подсказки по ИНН в формах",
       "status": "active",
-      "secrets": ["DADATA_TOKEN"],
+      "secrets": [
+        "DADATA_TOKEN"
+      ],
       "impact": "автозаполнение реквизитов в заявках",
       "owner_contact": null,
       "_owner_contact": "не заполнено",
@@ -112,7 +137,11 @@
       "group": null,
       "purpose": "VPS с сайтом, Directus и БД",
       "status": "active",
-      "secrets": ["SSH_HOST", "SSH_USER", "SSH_KEY"],
+      "secrets": [
+        "SSH_HOST",
+        "SSH_USER",
+        "SSH_KEY"
+      ],
       "impact": "сайт целиком",
       "owner_contact": null,
       "_owner_contact": "не заполнено: указать вендора и владельца панели",
@@ -139,7 +168,7 @@
       "purpose": "регистратор доменов доменного направления",
       "status": "blocked",
       "secrets": [],
-      "impact": "нужно выяснить: если в аккаунте остались домены, доступ к панели и трансферу может быть закрыт",
+      "impact": "активов нет: доменов в аккаунте не осталось (подтверждено руководителем 09.09.2026), потеря ограничена самим каналом регистрации",
       "owner_contact": null,
       "_owner_contact": "аккаунт заблокирован постоянно 08.09.2026",
       "payment": null,
@@ -160,8 +189,14 @@
     }
   ],
   "secrets_without_account": [
-    {"name": "GITHUB_TOKEN", "reason": "штатный токен Actions, внешнего аккаунта за ним нет"},
-    {"name": "BACKUP_PASSPHRASE", "reason": "пароль архива бэкапа, не доступ к внешнему сервису"}
+    {
+      "name": "GITHUB_TOKEN",
+      "reason": "штатный токен Actions, внешнего аккаунта за ним нет"
+    },
+    {
+      "name": "BACKUP_PASSPHRASE",
+      "reason": "пароль архива бэкапа, не доступ к внешнему сервису"
+    }
   ],
   "domains": [
     {
