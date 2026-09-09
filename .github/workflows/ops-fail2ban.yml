@@ -1,0 +1,264 @@
+# Установка и проверка jail fail2ban против сканеров (SEO-GBOT-002).
+#
+# Зачем воркфлоу, а не руками по SSH. Файлы jail и фильтра лежат в репозитории
+# (deploy/fail2ban/), но на сервер их до сих пор клали вручную под root — то
+# есть никто не знал наверняка, стоят ли они. Разрез логов 08.09.2026 показал
+# сканер 94.154.46.243–247 с 3002 ответами 404 за неделю и без бана: похоже,
+# jail не установлен вовсе. Ручная установка эту неопределённость повторяет,
+# воркфлоу — снимает: состояние видно в журнале, повтор воспроизводим.
+#
+# Права: у деплой-пользователя нет беспарольного sudo (диагностика 08.09.2026:
+# «sudo без пароля: НЕТ, docker: да»). Правка выполняется разово под root через
+# одноразовый контейнер (--rm, chroot /host) — тем же способом, что в
+# ops-nginx-ratelimit и ops-nginx-canonical-host: sudoers не меняется, после
+# выхода контейнера повышенных прав не остаётся.
+#
+# Безопасность применения: перед перезагрузкой службы конфиг проверяется
+# `fail2ban-client -t`. Не прошёл — наш jail удаляется, служба остаётся на
+# прежнем конфиге, шаг падает с ненулевым кодом.
+#
+# Отдельная проверка после применения: в списке забаненных не должно быть
+# адресов поисковиков. Обход — единственный дефицитный ресурс сайта (490 из
+# 729 путей инвентаря не скачаны Googlebot ни разу), и потерять его на
+# собственной защите нельзя. Найденный адрес поисковика разбанивается сразу,
+# и шаг падает — чтобы это не осталось незамеченным.
+#
+# Результат — комментарий в журнал-issue #22.
+name: ops-fail2ban
+on:
+  workflow_dispatch:
+    inputs:
+      apply:
+        description: "false — только показать состояние; true — установить и включить"
+        required: true
+        default: "false"
+        type: choice
+        options: ["false", "true"]
+      install_package:
+        description: "true — поставить сам пакет fail2ban, если его на сервере нет"
+        required: false
+        default: "false"
+        type: choice
+        options: ["false", "true"]
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  fail2ban:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Guard - only default branch
+        run: |
+          if [ "${{ github.ref_name }}" != "main" ]; then
+            echo "Запуск разрешён только с ветки main. Текущий ref: ${{ github.ref_name }}"
+            exit 1
+          fi
+
+      - name: Checkout
+        # always() — шаг журнала ниже тоже always(): без этого при падении
+        # раннего шага checkout пропустится и запись не пройдёт.
+        if: always()
+        uses: actions/checkout@v4
+
+      # Файл, который не разбирается как INI, кладут на сервер один раз —
+      # и fail2ban перестаёт читать jail целиком (инцидент 09.09.2026:
+      # ignoreip оказался над заголовком секции). Проверяем до отправки.
+      - name: Проверить исходные файлы
+        run: |
+          for f in deploy/fail2ban/jail.d/nginx-noscript.local \
+                   deploy/fail2ban/filter.d/nginx-noscript.conf; do
+            [ -s "$f" ] || { echo "::error::нет файла $f"; exit 1; }
+          done
+          python3 - <<'PY'
+          import configparser, sys
+          p = configparser.ConfigParser()
+          p.read('deploy/fail2ban/jail.d/nginx-noscript.local', encoding='utf-8')
+          if 'nginx-noscript' not in p.sections():
+              print('::error::в jail нет секции [nginx-noscript]'); sys.exit(1)
+          nets = p['nginx-noscript'].get('ignoreip', '').split()
+          need = ['66.249.64.0/19', '87.250.224.0/19', '95.108.128.0/17']
+          miss = [n for n in need if n not in nets]
+          if miss:
+              print(f'::error::в ignoreip нет сетей поисковиков: {miss}'); sys.exit(1)
+          print(f'jail разбирается, сетей в ignoreip: {len(nets)}')
+          PY
+
+      - name: Copy files to server
+        uses: appleboy/scp-action@v1
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          source: 'deploy/fail2ban/jail.d/nginx-noscript.local,deploy/fail2ban/filter.d/nginx-noscript.conf'
+          target: /tmp/bizsoft-fail2ban
+          # 3, а не 2: снимаются deploy/fail2ban/jail.d и deploy/fail2ban/filter.d,
+          # файлы ложатся плоско — именно так их берёт root-скрипт ниже.
+          strip_components: 3
+
+      - name: Apply on server
+        id: run
+        uses: appleboy/ssh-action@v1
+        env:
+          P_APPLY: ${{ inputs.apply }}
+          P_INSTALL: ${{ inputs.install_package }}
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          envs: P_APPLY,P_INSTALL
+          command_timeout: 15m
+          capture_stdout: true
+          script: |
+            set -e
+            echo "== окружение =="
+            SUDO=""
+            sudo -n true 2>/dev/null && SUDO="sudo -n"
+            DOCKER=НЕТ
+            docker info >/dev/null 2>&1 && DOCKER=да
+            echo "пользователь: $(id -un), sudo без пароля: $([ -n "$SUDO" ] && echo да || echo НЕТ), docker: $DOCKER"
+            ls -la /tmp/bizsoft-fail2ban/ 2>/dev/null || echo "(файлы не доехали)"
+
+            # Диагностика читается под root: каталоги fail2ban закрыты от
+            # обычного пользователя, и без повышения прав мы увидели бы
+            # «файла нет» там, где он есть.
+            cat > /tmp/bz-f2b-status.sh <<'STATEOF'
+            #!/bin/bash
+            echo "-- пакет и служба --"
+            if command -v fail2ban-client >/dev/null 2>&1; then
+              echo "fail2ban-client: $(fail2ban-client --version 2>&1 | head -1)"
+            else
+              echo "fail2ban-client: НЕ УСТАНОВЛЕН"
+            fi
+            systemctl is-enabled fail2ban 2>&1 | sed 's/^/is-enabled: /' || true
+            systemctl is-active  fail2ban 2>&1 | sed 's/^/is-active:  /' || true
+            echo "-- наши файлы на сервере --"
+            for f in /etc/fail2ban/jail.d/nginx-noscript.local /etc/fail2ban/filter.d/nginx-noscript.conf; do
+              if [ -f "$f" ]; then echo "  есть: $f ($(stat -c%s "$f") Б, изменён $(stat -c%y "$f" | cut -d. -f1))"
+              else echo "  НЕТ:  $f"; fi
+            done
+            echo "-- активные jail --"
+            fail2ban-client status 2>&1 | sed 's/^/  /' || echo "  (служба не отвечает)"
+            echo "-- наш jail --"
+            fail2ban-client status nginx-noscript 2>&1 | sed 's/^/  /' || echo "  (jail не активен)"
+            STATEOF
+            chmod +x /tmp/bz-f2b-status.sh
+
+            runroot() {
+              if [ -n "$SUDO" ]; then $SUDO "$1"
+              elif [ "$DOCKER" = "да" ]; then
+                docker run --rm --pid=host -v /:/host alpine:3 chroot /host /bin/bash "$1"
+              else
+                echo "ни sudo, ни docker — выполнить нечем"; return 1
+              fi
+            }
+
+            echo
+            echo "== текущее состояние =="
+            runroot /tmp/bz-f2b-status.sh
+
+            if [ "$P_APPLY" != "true" ]; then
+              echo
+              echo "apply=false: изменений не делалось"
+              rm -f /tmp/bz-f2b-status.sh; rm -rf /tmp/bizsoft-fail2ban
+              exit 0
+            fi
+
+            # Скрипт под root. Идемпотентен и самооткатываем: при неудачной
+            # проверке конфига наш jail удаляется, служба остаётся на прежнем.
+            cat > /tmp/bz-f2b-apply.sh <<'ROOTEOF'
+            #!/bin/bash
+            set -e
+            stamp=$(date +%Y%m%d-%H%M%S)
+            jail=/etc/fail2ban/jail.d/nginx-noscript.local
+            filt=/etc/fail2ban/filter.d/nginx-noscript.conf
+
+            if ! command -v fail2ban-client >/dev/null 2>&1; then
+              if [ "$P_INSTALL" != "true" ]; then
+                echo "fail2ban не установлен, а install_package=false — останавливаюсь."
+                echo "Повторить с install_package=true, если ставить пакет разрешено."
+                exit 1
+              fi
+              echo "fail2ban не установлен — ставлю пакет"
+              export DEBIAN_FRONTEND=noninteractive
+              apt-get update -qq && apt-get install -y -qq fail2ban
+              echo "поставлен: $(fail2ban-client --version 2>&1 | head -1)"
+            fi
+
+            # Копии прежних версий — чтобы откат не зависел от git.
+            [ -f "$jail" ] && cp -p "$jail" "$jail.bak-$stamp" && echo "копия jail: $jail.bak-$stamp"
+            [ -f "$filt" ] && cp -p "$filt" "$filt.bak-$stamp" && echo "копия фильтра: $filt.bak-$stamp"
+            had_jail=$([ -f "$jail.bak-$stamp" ] && echo да || echo нет)
+
+            install -m 644 /tmp/bizsoft-fail2ban/nginx-noscript.conf  "$filt"
+            install -m 644 /tmp/bizsoft-fail2ban/nginx-noscript.local "$jail"
+            echo "файлы установлены"
+
+            # Точка проверки. Всё, что ниже, выполняется только на исправном
+            # конфиге; иначе откат и ненулевой код возврата.
+            if ! fail2ban-client -t; then
+              echo "fail2ban-client -t НЕ ПРОШЁЛ — откатываю"
+              if [ "$had_jail" = "да" ]; then cp -p "$jail.bak-$stamp" "$jail"; else rm -f "$jail"; fi
+              fail2ban-client -t && echo "конфиг возвращён в исходное состояние"
+              exit 1
+            fi
+
+            systemctl enable fail2ban >/dev/null 2>&1 || true
+            systemctl reload fail2ban 2>/dev/null && echo 'fail2ban перечитан (reload)' \
+              || { systemctl restart fail2ban && echo 'fail2ban перезапущен (restart)'; }
+            sleep 5
+
+            echo "-- состояние jail после применения --"
+            fail2ban-client status nginx-noscript | sed 's/^/  /'
+
+            echo "-- ignoreip, как его видит служба --"
+            fail2ban-client get nginx-noscript ignoreip | sed 's/^/  /'
+
+            # Главная проверка: поисковик в бане означает потерю обхода.
+            echo "-- забаненные адреса поисковиков --"
+            # `get ... banip` появился в 0.10; на старых версиях список берётся
+            # из вывода status. Пустой ответ единственного источника выглядел бы
+            # как «поисковиков в бане нет» — поэтому читаем оба.
+            banned="$(fail2ban-client get nginx-noscript banip 2>/dev/null || true) $(fail2ban-client status nginx-noscript 2>/dev/null | sed -n 's/.*Banned IP list:[[:space:]]*//p' || true)"
+            hits=$(echo "$banned" | tr ' ' '\n' | grep -E '^(66\.249\.|64\.233\.|66\.102\.|72\.14\.|74\.125\.|209\.85\.|216\.239\.|5\.45\.|5\.255\.|37\.9\.|77\.88\.|87\.250\.|93\.158\.|95\.108\.|141\.8\.|178\.154\.|213\.180\.|40\.77\.|157\.55\.|207\.46\.)' || true)
+            if [ -n "$hits" ]; then
+              echo "  НАЙДЕНЫ, разбаниваю: $hits"
+              for ip in $hits; do fail2ban-client set nginx-noscript unbanip "$ip" || true; done
+              echo "::error::в бане были адреса поисковиков — ignoreip не сработал"
+              exit 1
+            fi
+            echo "  нет — поисковики не забанены"
+            ROOTEOF
+            chmod +x /tmp/bz-f2b-apply.sh
+            # P_INSTALL нужен внутри root-скрипта: chroot не наследует окружение.
+            sed -i "1a export P_INSTALL=$P_INSTALL" /tmp/bz-f2b-apply.sh
+
+            echo
+            echo "== применение =="
+            runroot /tmp/bz-f2b-apply.sh
+
+            rm -f /tmp/bz-f2b-apply.sh /tmp/bz-f2b-status.sh
+            rm -rf /tmp/bizsoft-fail2ban
+            echo "временные файлы удалены; sudoers не менялся, контейнер удалён — повышенных прав не осталось"
+
+      # Сайт обязан остаться доступным: jail работает по логам nginx и сам
+      # сайт не трогает, но проверка стоит секунды, а ошибка здесь стоила бы
+      # доступности.
+      - name: Probe site
+        if: inputs.apply == 'true'
+        run: |
+          FAIL=0
+          for u in https://biz-soft.pro/ https://biz-soft.pro/sitemap.xml; do
+            C=$(curl -s -o /dev/null -w '%{http_code}' --max-time 20 "$u")
+            echo "$u → $C"
+            [ "$C" = "200" ] || { echo "::error::$u отдаёт $C"; FAIL=1; }
+          done
+          exit $FAIL
+
+      - name: Post to issue
+        if: always()
+        uses: ./.github/actions/journal-post
+        with:
+          title: "ops-fail2ban (apply=${{ inputs.apply }}, install_package=${{ inputs.install_package }})"
+          outcome: ${{ steps.run.outcome }}
+          body: ${{ steps.run.outputs.stdout }}

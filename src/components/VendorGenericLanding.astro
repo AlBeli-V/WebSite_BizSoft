@@ -10,6 +10,7 @@ import ProductCard from './ProductCard.astro';
 import FAQ from './FAQ.astro';
 import CTASection from './CTASection.astro';
 import QuestionForm from './QuestionForm.astro';
+import VendorInterlinks from './VendorInterlinks.astro';
 import JsonLd from './JsonLd.astro';
 import { getProducts } from '../lib/directus';
 import { effectivePrice, formatRub } from '../lib/pricing';
@@ -131,6 +132,9 @@ const ld = [
   )}
 
   <FAQ items={faq} title={`Частые вопросы про ${name}`} />
+
+  {/* Ещё по теме: статьи, аналоги, сравнения этого вендора (IDX-001) */}
+  <VendorInterlinks vendorSlug={slug} productSlugs={products.map((p) => p.slug)} />
 </div>
 <CTASection
   title={`Нужен ${name} на компанию?`}

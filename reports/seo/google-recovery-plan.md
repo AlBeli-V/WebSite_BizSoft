@@ -11,7 +11,16 @@
 
 Машинные приложения: `google-url-priority.csv` (729 URL со шкалой приоритета),
 `google-indexation-gap.csv` (614 URL разрыва), `internal-link-analysis.csv`,
-`google-recovery-backlog.json`. Генератор — `scripts/seo/google_gap.py`.
+`google-recovery-backlog.json` — единая очередь всей программы Google
+(объединена 08.09.2026: G-01…G-14 — обход и инвентарь, G-15…G-23 — выдача,
+ссылки, сущность, внешние публикации и дропы). Генератор приоритета —
+`scripts/seo/google_gap.py`; разбор выдачи, из которого он берёт два
+фактора GIPS, — `scripts/seo/google_authority.py`.
+
+Этот план отвечает за обход и инвентарь. Парный документ
+`reports/seo/google-authority-strategy.md` — за выдачу и внешний вес:
+кто занимает Google-топ, где выдача слаба, чего не хватает домену как
+сущности, что делать со ссылками, публикациями и дроп-доменами.
 
 ---
 
