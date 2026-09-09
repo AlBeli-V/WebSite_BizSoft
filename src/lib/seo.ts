@@ -2,12 +2,23 @@
  * Построители JSON-LD разметки. Чистые функции, возвращают объекты,
  * которые сериализуются в <script type="application/ld+json">.
  */
-import { site, seller, sellerAddress, workingHours } from '../config/site';
+import { site, seller, sellerAddress, workingHours, sameAs, knowsAbout, expert } from '../config/site';
 import { effectivePrice } from './pricing';
 import type { Product, Category } from './types';
 
 export const ORG_ID = `${site.url}/#organization`;
 const WEBSITE_ID = `${site.url}/#website`;
+/** Публичный эксперт: один узел Person на весь сайт, как ORG_ID у организации. */
+export const EXPERT_ID = `${site.url}/authors/${expert.slug}#person`;
+
+/**
+ * Дата регистрации в формате schema.org (ISO). В реквизитах она хранится
+ * по-русски (`07.11.2022`) — так её видит человек на /documents.
+ */
+function foundingDateIso(): string | undefined {
+  const m = seller.registrationDate.match(/^(\d{2})\.(\d{2})\.(\d{4})$/);
+  return m ? `${m[3]}-${m[2]}-${m[1]}` : undefined;
+}
 
 /** Единый почтовый адрес организации (тот же, что видим на /contacts). */
 function postalAddress() {
@@ -57,6 +68,14 @@ export function organizationSchema() {
     taxID: seller.inn,
     description: site.description,
     address: postalAddress(),
+    // Внешние подтверждения существования организации. Пустой массив в
+    // разметку не выводится: `sameAs: []` — не сигнал, а шум (ENT-001).
+    ...(sameAs.length > 0 ? { sameAs: [...sameAs] } : {}),
+    ...(foundingDateIso() ? { foundingDate: foundingDateIso() } : {}),
+    founder: { '@id': EXPERT_ID },
+    knowsAbout: [...knowsAbout],
+    areaServed: { '@type': 'Country', name: 'RU' },
+    currenciesAccepted: 'RUB',
     contactPoint: {
       '@type': 'ContactPoint',
       telephone: seller.phone,
@@ -65,6 +84,28 @@ export function organizationSchema() {
       areaServed: 'RU',
       availableLanguage: ['Russian'],
     },
+  };
+}
+
+/**
+ * Публичный эксперт как сущность. Отдельный узел Person со своим `@id`:
+ * на него ссылаются `founder` организации и `author` статей, поэтому
+ * описывается он один раз, а не копируется в каждую разметку.
+ */
+export function expertSchema() {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Person',
+    '@id': EXPERT_ID,
+    name: expert.fullName,
+    alternateName: expert.name,
+    jobTitle: expert.jobTitle,
+    description: expert.bio,
+    email: expert.email,
+    url: `${site.url}/authors/${expert.slug}`,
+    worksFor: { '@id': ORG_ID },
+    knowsAbout: [...knowsAbout],
+    ...(sameAs.length > 0 ? { sameAs: [...sameAs] } : {}),
   };
 }
 
@@ -109,11 +150,13 @@ export function breadcrumbSchema(crumbs: Crumb[]) {
 
 /**
  * Политика возврата и доставки для цифровых лицензий/подписок.
+ * Экспортируется: те же значения выводит microdata-слой карточки
+ * (компонент OfferLogisticsMicrodata) — источник у слоёв один.
  * Товар — электронный доступ: физической доставки нет (бесплатно, моментально),
  * возврат активированной лицензии не предусмотрен. Значения фактические —
  * закрывают рекомендованные поля Merchant listings в Search Console.
  */
-function offerLogistics(currency: string) {
+export function offerLogistics(currency: string) {
   return {
     hasMerchantReturnPolicy: {
       '@type': 'MerchantReturnPolicy',
@@ -261,6 +304,39 @@ export function collectionPageSchema(opts: { name: string; description: string; 
         '@type': 'ListItem',
         position: i + 1,
         url: `${site.url}/product/${it.slug}`,
+        name: it.name,
+      })),
+    },
+  };
+}
+
+/**
+ * CollectionPage + ItemList для страницы-раздела, элементы которой — не
+ * карточки товара, а произвольные страницы сайта (`/alternatives`, `/compare`).
+ * Отличается от collectionPageSchema только этим: там URL элемента всегда
+ * строится как `/product/<slug>`.
+ */
+export function sectionListSchema(opts: {
+  name: string;
+  description: string;
+  url: string;
+  items: { name: string; url: string }[];
+}) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name: opts.name,
+    description: opts.description,
+    url: canonicalUrl(opts.url),
+    inLanguage: 'ru-RU',
+    isPartOf: { '@id': WEBSITE_ID },
+    about: { '@id': ORG_ID },
+    mainEntity: {
+      '@type': 'ItemList',
+      itemListElement: opts.items.map((it, i) => ({
+        '@type': 'ListItem',
+        position: i + 1,
+        url: canonicalUrl(it.url),
         name: it.name,
       })),
     },
