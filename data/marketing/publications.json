@@ -3,11 +3,12 @@
   "note": "Реестр внешних публикаций BIZSoft. Заполняется после каждой публикации; замеры — на 3-й, 7-й и 14-й день. Источник данных для решений по платным размещениям (слой 3 программы docs/seo/external-links-program.md).",
   "fields": {
     "object": "slug контентного объекта из docs/marketing/content-library/objects/",
-    "platform": "dzen | vc | spark | tenchat | pressfeed",
+    "platform": "dzen | vc | dtf | spark | tenchat | pressfeed | habr",
     "url": "адрес публикации",
     "published_at": "дата публикации, YYYY-MM-DD",
     "link_targets": "целевые URL biz-soft.pro в материале",
-    "checks": "замеры: day3 (индексация), day7 (показы, дочитывания, переходы), day14 (ссылка в Вебмастере, позиции целевых страниц)"
+    "checks": "замеры: day3 (индексация в Яндексе и Google), day7 (показы, дочитывания, переходы), day14 (ссылка в Вебмастере и в Search Console, позиции целевых страниц), target_index_state (статус целевого URL в сенсоре покрытия индекса Google, scripts/seo/index_coverage.py)",
+    "engine": "под какую систему шло размещение: yandex | google | both (приоритет площадок разделён по системам, docs/seo/external-links-program.md, раздел 1)"
   },
   "publications": []
 }
