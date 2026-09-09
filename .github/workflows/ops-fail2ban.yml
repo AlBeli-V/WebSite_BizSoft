@@ -156,14 +156,38 @@ jobs:
               fi
             }
 
+            # Разбор фильтра по живому логу. Статус jail отвечает только на
+            # вопрос «сколько поймано», а при нуле не отличает «сканеров нет»
+            # от «фильтр не совпадает со строками» и от «дата не разбирается».
+            # fail2ban-regex печатает всё три: сколько строк совпало, сколько
+            # пропущено и какой шаблон даты сработал. Только чтение.
+            cat > /tmp/bz-f2b-regex.sh <<'REGEOF'
+            #!/bin/bash
+            log=/var/log/nginx/access.log
+            filt=/etc/fail2ban/filter.d/nginx-noscript.conf
+            [ -f "$filt" ] || { echo "(фильтра на сервере нет — разбор пропущен)"; exit 0; }
+            echo "-- примеры строк с ответом 404 из живого лога --"
+            grep -E '" (404|444|403|400) ' "$log" 2>/dev/null | tail -3 | cut -c1-160 | sed 's/^/  /' \
+              || echo "  (строк с мусорными ответами не нашлось)"
+            echo "-- fail2ban-regex по этому логу и фильтру --"
+            fail2ban-regex "$log" "$filt" 2>&1 \
+              | grep -A4 -E 'Failregex|Date template hits|^Lines:|Missed line' \
+              | head -40 | sed 's/^/  /'
+            REGEOF
+            chmod +x /tmp/bz-f2b-regex.sh
+
             echo
             echo "== текущее состояние =="
             runroot /tmp/bz-f2b-status.sh
 
+            echo
+            echo "== совпадает ли фильтр со строками лога =="
+            runroot /tmp/bz-f2b-regex.sh
+
             if [ "$P_APPLY" != "true" ]; then
               echo
               echo "apply=false: изменений не делалось"
-              rm -f /tmp/bz-f2b-status.sh; rm -rf /tmp/bizsoft-fail2ban
+              rm -f /tmp/bz-f2b-status.sh /tmp/bz-f2b-regex.sh; rm -rf /tmp/bizsoft-fail2ban
               exit 0
             fi
 
@@ -260,7 +284,7 @@ jobs:
             echo "== применение =="
             runroot /tmp/bz-f2b-apply.sh
 
-            rm -f /tmp/bz-f2b-apply.sh /tmp/bz-f2b-status.sh
+            rm -f /tmp/bz-f2b-apply.sh /tmp/bz-f2b-status.sh /tmp/bz-f2b-regex.sh
             rm -rf /tmp/bizsoft-fail2ban
             echo "временные файлы удалены; sudoers не менялся, контейнер удалён — повышенных прав не осталось"
 
