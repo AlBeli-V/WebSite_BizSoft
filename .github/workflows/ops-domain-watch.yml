@@ -25,7 +25,12 @@ jobs:
             echo "Запуск разрешён только с ветки main. Текущий ref: ${{ github.ref_name }}"
             exit 1
           fi
-      - uses: actions/checkout@v4
+      # if: always() — шаг журнала объявлен always() и обязан отработать
+      # даже при падении Guard; без этого условия checkout в упавшем job
+      # пропускается, и локальный action journal-post не находится.
+      - name: Checkout for journal action
+        if: always()
+        uses: actions/checkout@v4
 
       - name: Check domains over RDAP
         id: check
