@@ -550,14 +550,29 @@ def collect_campaign(token: str, target_id: int) -> None:
         })
     print_tsv("Отчёт по дням (Cost с НДС, ₽)", tsv)
 
-    tsv = report(token, "criteria", {
+    # Объём трафика — трафарет, в котором показывалось объявление. Он
+    # разводит два разных «ноля» эксперимента с быстрыми ссылками: Директ
+    # выводит расширения только в премиальных трафаретах, поэтому без этой
+    # колонки «ссылки показали, но по ним не кликали» и «ссылки не
+    # показывали вовсе» выглядят одинаково. Поле в наборе новое, и на
+    # случай отказа API набор откатывается к прежнему.
+    crit_base = ["AdGroupName", "CriterionType", "Criterion",
+                 "Impressions", "Clicks", "Ctr", "AvgCpc", "Cost"]
+    tsv = report(token, "criteria-ext", {
         "SelectionCriteria": sel,
-        "FieldNames": ["AdGroupName", "CriterionType", "Criterion",
-                       "Impressions", "Clicks", "Ctr", "AvgCpc", "Cost"],
-        "ReportName": f"bs-criteria-{int(time.time())}",
+        "FieldNames": crit_base + ["AvgTrafficVolume"],
+        "ReportName": f"bs-criteria-ext-{int(time.time())}",
         "ReportType": "CRITERIA_PERFORMANCE_REPORT", "DateRangeType": "ALL_TIME",
         "Format": "TSV", "IncludeVAT": "YES",
     })
+    if tsv is None:
+        tsv = report(token, "criteria", {
+            "SelectionCriteria": sel,
+            "FieldNames": crit_base,
+            "ReportName": f"bs-criteria-{int(time.time())}",
+            "ReportType": "CRITERIA_PERFORMANCE_REPORT", "DateRangeType": "ALL_TIME",
+            "Format": "TSV", "IncludeVAT": "YES",
+        })
     print_tsv("Отчёт по условиям показа (фразы и автотаргетинг)", tsv)
 
     tsv = report(token, "queries", {

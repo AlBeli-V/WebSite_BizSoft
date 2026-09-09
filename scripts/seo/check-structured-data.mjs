@@ -4,8 +4,10 @@
  * Правила (единый слой Schema.org, см. docs/seo/structured-data-audit.md):
  *   1) каждый блок <script type="application/ld+json"> — валидный JSON;
  *   2) на странице не больше одного BreadcrumbList, FAQPage и Product;
- *   3) у Product: offers.price > 0, priceCurrency RUB, offers.url = canonical,
- *      name/sku/image присутствуют, абсолютные URL;
+ *   3) у Product: offers.price > 0 (у подарочной карты — AggregateOffer с
+ *      lowPrice/highPrice/offerCount и видимыми ценами внутри диапазона),
+ *      priceCurrency RUB, offers.url = canonical, name/sku/image
+ *      присутствуют, абсолютные URL, возврат и доставка в обоих слоях;
  *   4) все узлы Organization несут один и тот же @id, но ни один
  *      идентификатор (@id JSON-LD либо itemid microdata) не встречается на
  *      странице дважды — иначе потребитель сливает узлы и видит дубли полей;
@@ -40,6 +42,7 @@ const DEFAULT_URLS = [
   '/product/figma-organization',
   '/product/tovar-s-akciej',
   '/product/tovar-po-zaprosu',
+  '/product/app-store-itunes-gift-card',
   '/vendors',
   '/vendors/jetbrains',
   '/vendors/zoom',
@@ -128,16 +131,44 @@ for (const path of urls) {
         if (!product.name) problems.push('Product без name');
         if (!product.sku) problems.push('Product без sku');
         if (!product.image) problems.push('Product без image');
-        if (!(Number(offer.price) > 0)) problems.push(`Offer.price: ${offer.price}`);
+        // Подарочная карта — один Product с AggregateOffer по номиналам:
+        // цены у неё нет вовсе, есть диапазон. Проверять её правилами
+        // обычного Offer нельзя — иначе законная разметка читается как
+        // «Offer.price: undefined» (прогон ops-schema-check 08.09.2026).
+        const isAggregate = offer['@type'] === 'AggregateOffer';
+        if (isAggregate) {
+          const low = Number(offer.lowPrice);
+          const high = Number(offer.highPrice);
+          if (!(low > 0)) problems.push(`AggregateOffer.lowPrice: ${offer.lowPrice}`);
+          if (!(high >= low)) problems.push(`AggregateOffer.highPrice ${offer.highPrice} < lowPrice ${offer.lowPrice}`);
+          if (!(Number(offer.offerCount) >= 1)) problems.push(`AggregateOffer.offerCount: ${offer.offerCount}`);
+          const mdLow = html.match(/itemprop="lowPrice" content="([0-9.]+)"/)?.[1];
+          const mdHigh = html.match(/itemprop="highPrice" content="([0-9.]+)"/)?.[1];
+          if (mdLow !== String(offer.lowPrice)) problems.push(`microdata lowPrice ${mdLow} ≠ JSON-LD ${offer.lowPrice}`);
+          if (mdHigh !== String(offer.highPrice)) problems.push(`microdata highPrice ${mdHigh} ≠ JSON-LD ${offer.highPrice}`);
+          // Витрина показывает цены номиналов: каждая обязана лежать в
+          // объявленном диапазоне, иначе разметка расходится с видимым.
+          const domPrices = [...html.matchAll(/data-price="([0-9.]+)"/g)].map((m) => Number(m[1]));
+          const outside = domPrices.filter((v) => v < low || v > high);
+          if (outside.length) problems.push(`видимые цены вне диапазона ${low}–${high}: ${outside.join(', ')}`);
+        } else {
+          if (!(Number(offer.price) > 0)) problems.push(`Offer.price: ${offer.price}`);
+          const domPrice = html.match(/data-price="([0-9.]+)"/)?.[1];
+          if (domPrice && domPrice !== String(offer.price)) problems.push(`видимая цена ${domPrice} ≠ разметке ${offer.price}`);
+          const mdPrice = html.match(/itemprop="price" content="([0-9.]+)"/)?.[1];
+          if (mdPrice !== String(offer.price)) problems.push(`microdata price ${mdPrice} ≠ JSON-LD ${offer.price}`);
+        }
         if (offer.priceCurrency !== 'RUB') problems.push(`priceCurrency: ${offer.priceCurrency}`);
         if (offer.url !== canonical) problems.push(`Offer.url ≠ canonical (${offer.url})`);
         for (const u of [product.url, offer.url].filter(Boolean)) {
           if (!String(u).startsWith('https://')) problems.push(`относительный URL: ${u}`);
         }
-        const domPrice = html.match(/data-price="([0-9.]+)"/)?.[1];
-        if (domPrice && domPrice !== String(offer.price)) problems.push(`видимая цена ${domPrice} ≠ разметке ${offer.price}`);
-        const mdPrice = html.match(/itemprop="price" content="([0-9.]+)"/)?.[1];
-        if (mdPrice !== String(offer.price)) problems.push(`microdata price ${mdPrice} ≠ JSON-LD ${offer.price}`);
+        // Рекомендованные Google поля Offer: без них элемент валиден, но
+        // помечен предупреждением. Должны быть в обоих слоях (08.09.2026).
+        for (const field of ['hasMerchantReturnPolicy', 'shippingDetails']) {
+          if (!offer[field]) problems.push(`Offer без ${field} в JSON-LD`);
+          if (!html.includes(`itemprop="${field}"`)) problems.push(`Offer без ${field} в microdata`);
+        }
       }
 
       // Страница «цены по запросу» не должна нести Product ни в одном слое.

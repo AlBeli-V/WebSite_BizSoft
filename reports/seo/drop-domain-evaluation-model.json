@@ -1,0 +1,174 @@
+{
+  "schema_version": "1.0.0",
+  "generated_for": "2026-09-08",
+  "purpose": "Машиночитаемая модель оценки кандидата в drop/expired домены для BIZSoft. Три независимые оценки: качество, токсичность, потенциал восстановления. Ни одна не заменяет другую: домен с высоким качеством и одним дисквалифицирующим признаком токсичности отклоняется.",
+  "scope_note": "Профиль специфичен для BIZSoft и не является общим профилем дроп-домена. Главный фактор — тематическая близость к хабам проекта, а не сила домена.",
+  "data_requirements": {
+    "status": "не выполнены",
+    "detail": "Ни один фактор ссылочных групп сегодня посчитать нечем: у проекта нет доступа ни к ссылочному индексу (Ahrefs / Majestic / Semrush или аналог), ни к архиву Wayback. До подключения источника модель применяется вручную и только к кандидатам, по которым данные предоставлены извне.",
+    "required_sources": [
+      "ссылочный индекс: ссылающиеся домены, анкоры, dofollow/nofollow, динамика",
+      "архив веб-страниц: историческая структура URL, темы, глубина истории",
+      "история индексации домена в Google",
+      "проверка товарных знаков по классу ПО и ИТ-услуг"
+    ]
+  },
+  "scores": {
+    "drop_quality": {
+      "range": [0, 100],
+      "direction": "выше — лучше",
+      "groups": [
+        {
+          "group": "topical_relevance",
+          "weight": 30,
+          "factors": [
+            {"factor": "historical_topic_match", "max": 12, "definition": "историческая тема домена совпадает с одним из хабов BIZSoft (закупка и лицензирование ПО, SaaS, инструменты разработки, дизайн-ПО, корпоративные ИТ-закупки, международные платежи для бизнеса)"},
+            {"factor": "backlink_topical_relevance", "max": 12, "definition": "доля ссылающихся доменов, чья тематика близка тем же хабам"},
+            {"factor": "topical_authority_depth", "max": 6, "definition": "тема раскрывалась системно, а не одной-двумя страницами"}
+          ]
+        },
+        {
+          "group": "backlink_quality",
+          "weight": 25,
+          "factors": [
+            {"factor": "referring_domains", "max": 6, "definition": "число уникальных ссылающихся доменов"},
+            {"factor": "referring_domain_diversity", "max": 5, "definition": "разнообразие: не один тип источника и не одна сеть"},
+            {"factor": "strongest_backlinks", "max": 6, "definition": "наличие редакционных ссылок с известных изданий и отраслевых ресурсов"},
+            {"factor": "surviving_links_share", "max": 5, "definition": "доля ссылок, живых на момент проверки"},
+            {"factor": "backlink_decay", "max": 3, "definition": "профиль не осыпается: скорость потери ссылок умеренная"}
+          ]
+        },
+        {
+          "group": "anchor_profile",
+          "weight": 10,
+          "factors": [
+            {"factor": "branded_and_url_share", "max": 5, "definition": "преобладание брендовых и безанкорных ссылок"},
+            {"factor": "dofollow_nofollow_balance", "max": 3, "definition": "естественное соотношение, без перекоса в один тип"},
+            {"factor": "no_foreign_commercial_anchors", "max": 2, "definition": "нет коммерческих точных анкоров чужой тематики"}
+          ]
+        },
+        {
+          "group": "index_and_traffic_history",
+          "weight": 15,
+          "factors": [
+            {"factor": "google_index_history", "max": 6, "definition": "домен присутствовал в индексе Google до освобождения"},
+            {"factor": "historical_traffic_signals", "max": 5, "definition": "признаки органического трафика в истории"},
+            {"factor": "wayback_depth", "max": 4, "definition": "глубина и непрерывность архивной истории"}
+          ]
+        },
+        {
+          "group": "language_and_geo",
+          "weight": 10,
+          "factors": [
+            {"factor": "language", "max": 5, "definition": "русскоязычный контент или релевантность российской аудитории"},
+            {"factor": "geography", "max": 3, "definition": "география доноров релевантна рынку"},
+            {"factor": "tld", "max": 2, "definition": "зона, уместная для российского B2B-ресурса"}
+          ]
+        },
+        {
+          "group": "ownership_stability",
+          "weight": 10,
+          "factors": [
+            {"factor": "ownership_changes", "max": 5, "definition": "число смен владельца минимально"},
+            {"factor": "no_resale_traces", "max": 5, "definition": "нет следов перепродаж и парковок"}
+          ]
+        }
+      ],
+      "thresholds": {
+        "reject": "< 55",
+        "pilot_candidate": ">= 70",
+        "strong": ">= 85"
+      }
+    },
+    "toxicity": {
+      "range": [0, 100],
+      "direction": "выше — хуже",
+      "disqualifying": [
+        {"factor": "adult_history", "definition": "взрослый контент в истории"},
+        {"factor": "gambling_history", "definition": "азартные игры"},
+        {"factor": "pharma_history", "definition": "фармацевтика"},
+        {"factor": "hacked_history", "definition": "признаки взлома, дорвеи, инъекции"},
+        {"factor": "redirect_history", "definition": "домен уже использовался под редирект"},
+        {"factor": "link_farm_participation", "definition": "участие в ссылочных фермах"},
+        {"factor": "previous_pbn_usage", "definition": "следы прежнего использования под сетку"},
+        {"factor": "cjk_spam_links", "definition": "массовые ссылки с китайских и японских спам-сайтов"},
+        {"factor": "trademark_risk", "definition": "конфликт с чужим товарным знаком"},
+        {"factor": "brand_contamination", "definition": "домен известен как чужой бренд"}
+      ],
+      "cumulative": [
+        {"factor": "spam_anchors_share", "max": 25, "definition": "доля спамных и коммерческих чужих анкоров"},
+        {"factor": "sudden_link_spikes", "max": 20, "definition": "всплески ссылочной активности без содержательной причины"},
+        {"factor": "language_mismatch", "max": 15, "definition": "основной язык доноров не соответствует теме"},
+        {"factor": "low_quality_donor_share", "max": 25, "definition": "доля доноров без собственного трафика и содержания"},
+        {"factor": "topic_switches", "max": 15, "definition": "число смен темы в истории домена"}
+      ],
+      "thresholds": {
+        "reject": ">= 30 или любой дисквалифицирующий признак",
+        "acceptable": "< 15"
+      }
+    },
+    "recovery_potential": {
+      "range": [0, 100],
+      "direction": "выше — лучше",
+      "factors": [
+        {"factor": "linked_urls_alive", "max": 30, "definition": "сколько исторических URL всё ещё несут внешние ссылки"},
+        {"factor": "linked_urls_relevant", "max": 25, "definition": "сколько из них тематически близки хабам BIZSoft"},
+        {"factor": "architecture_recoverable", "max": 20, "definition": "информационную архитектуру можно воссоздать собственным текстом, без копирования чужого контента"},
+        {"factor": "editorial_capacity", "max": 15, "definition": "есть редакционный ресурс на постоянное ведение ресурса"},
+        {"factor": "brandable_name", "max": 10, "definition": "имя можно носить публично как самостоятельный ресурс"}
+      ],
+      "thresholds": {
+        "reject": "< 50",
+        "pilot_candidate": ">= 65"
+      }
+    }
+  },
+  "url_decisions": {
+    "note": "Решение принимается по каждому историческому URL с внешними ссылками отдельно. Копирование старого контента запрещено во всех вариантах.",
+    "options": [
+      {"decision": "RESTORE", "when": "тема близка BIZSoft, ссылки живые, функцию страницы можно воссоздать собственным текстом"},
+      {"decision": "RECREATE", "when": "тема близка, старый контент непригоден — создаётся новый материал той же функции"},
+      {"decision": "CONSOLIDATE", "when": "несколько исторических URL об одном — сводятся в один новый"},
+      {"decision": "301", "when": "есть точный смысловой эквивалент на biz-soft.pro"},
+      {"decision": "410", "when": "ссылок нет, темы нет, восстанавливать нечего"},
+      {"decision": "IGNORE", "when": "ссылки токсичные или нерелевантные"}
+    ]
+  },
+  "models": [
+    {"model": "A", "name": "RESTORED INDEPENDENT SITE", "risk": "YELLOW", "seo_benefit": "средний", "operational_cost": "высокий", "maintenance": "высокое", "scalability": "низкая"},
+    {"model": "B", "name": "RESTORED SITE + REPOSITIONING", "risk": "YELLOW", "seo_benefit": "ниже среднего", "operational_cost": "высокий", "maintenance": "высокое", "scalability": "низкая"},
+    {"model": "C", "name": "301 CONSOLIDATION (строго URL-в-URL, близкая тема)", "risk": "YELLOW", "seo_benefit": "высокий при выполнении условий, нулевой без них", "operational_cost": "низкий", "maintenance": "низкое", "scalability": "низкая"},
+    {"model": "C-mass", "name": "301 массово / на главную / со сменой темы", "risk": "RED", "seo_benefit": "отрицательный", "operational_cost": "низкий", "maintenance": "низкое", "scalability": "неприменимо"},
+    {"model": "D", "name": "HYBRID", "risk": "YELLOW", "seo_benefit": "средний, устойчивый", "operational_cost": "средний", "maintenance": "среднее", "scalability": "низкая"}
+  ],
+  "ideal_donor_profile": {
+    "name": "BIZSOFT IDEAL DROP DONOR",
+    "required": [
+      "историческая тема из списка хабов BIZSoft",
+      "русскоязычная аудитория или русскоязычный контент в истории",
+      "ноль дисквалифицирующих признаков токсичности",
+      "тематически близкие доноры, часть из них — редакционные упоминания",
+      "непрерывная история без следов использования под сетки",
+      "имя, пригодное для публичного самостоятельного ресурса"
+    ],
+    "rejecting": [
+      "домен известен как чужой бренд или содержит чужой товарный знак",
+      "ссылочная масса сформирована преимущественно каталогами и профилями",
+      "более одной смены темы в истории",
+      "основной язык доноров не русский и не английский",
+      "домен уже использовался под редирект"
+    ],
+    "not_an_advantage": [
+      "высокий DR/DA сам по себе",
+      "большое число ссылок при низкой тематической близости",
+      "возраст домена без истории контента"
+    ]
+  },
+  "gate": {
+    "note": "Модель не применяется к покупкам, пока не выполнены оба условия.",
+    "conditions": [
+      "подключён источник ссылочных и архивных данных — иначе ни один фактор не считается",
+      "снят индексный блок: доля страниц biz-soft.pro в индексе Google выросла относительно базовой линии 237 из 729 (08.09.2026)"
+    ]
+  }
+}
