@@ -9,6 +9,7 @@ import FAQ from '../../components/FAQ.astro';
 import QuestionForm from '../../components/QuestionForm.astro';
 import CTASection from '../../components/CTASection.astro';
 import JsonLd from '../../components/JsonLd.astro';
+import OfferLogisticsMicrodata from '../../components/OfferLogisticsMicrodata.astro';
 import { getProductBySlug, findCanonicalProductSlug, getProductsBySlugs, getProductsBySkus, getProductVariants, galleryImages , getCurrencyRate } from '../../lib/directus';
 import { isSourceUnavailable, serviceUnavailable } from '../../lib/http';
 import { productSchema, giftCardProductSchema, canonicalUrl } from '../../lib/seo';
@@ -415,6 +416,7 @@ try {
                 <meta itemprop="offerCount" content={String(giftRange.count)} />
                 <meta itemprop="priceCurrency" content={product.currency || 'RUB'} />
                 <link itemprop="availability" href="https://schema.org/InStock" />
+                <OfferLogisticsMicrodata currency={product.currency || 'RUB'} />
               </>
             )}
             <GiftCardSelector
@@ -439,6 +441,7 @@ try {
               <meta itemprop="price" content={String(eff.price)} />
               <meta itemprop="priceCurrency" content={product.currency || 'RUB'} />
               <link itemprop="availability" href="https://schema.org/InStock" />
+              <OfferLogisticsMicrodata currency={product.currency || 'RUB'} />
             </>
           )}
           {byRequest ? (

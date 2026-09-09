@@ -1,6 +1,5 @@
 {
-  "note": "Записи для реестра экспериментов reports/seo/intelligence/seo-experiments.json ветки seo-data. Сессия в seo-data не пишет (правило prod-access), поэтому записи лежат здесь готовыми к переносу. Статус planned и start: null оставить как есть: в running переводит seo-site-check по факту выката (scripts/seo/experiment_windows.py activate), он же записывает фиксированные окна. Запись snippets-10-expand — восстановление пропущенного: партия выкачена в код 02.09.2026 без записи в реестре.",
-  "apply": "python3 - <<'PY'\nimport json, pathlib\nreg = pathlib.Path('reports/seo/intelligence/seo-experiments.json')\nsrc = json.loads(pathlib.Path('reports/seo/yandex-money-experiments.json').read_text('utf-8'))\ncur = json.loads(reg.read_text('utf-8'))\nhave = {e['id'] for e in cur['experiments']}\ncur['experiments'] += [e for e in src['experiments'] if e['id'] not in have]\nreg.write_text(json.dumps(cur, ensure_ascii=False, indent=2) + '\\n', 'utf-8')\nPY",
+  "note": "Записи для реестра экспериментов reports/seo/intelligence/seo-experiments.json ветки seo-data. Сессия в seo-data не пишет (правило prod-access), поэтому записи кладутся сюда: их переносит scripts/seo/experiments_sync.py шагом workflow seo-site-check — ежедневно, до активации. Запись snippets-10-expand — восстановление пропущенного: партия выкачена в код 02.09.2026 без записи в реестре. Статус planned и start: null оставить как есть: в running переводит seo-site-check по факту выката, он же записывает фиксированные окна.",
   "experiments": [
     {
       "id": "money-a1-query-phrase",
