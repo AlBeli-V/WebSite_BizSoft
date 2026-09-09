@@ -411,6 +411,37 @@ function nodeIds(html) {
   for (const m of html.matchAll(/itemid="([^"]+)"/g)) ids.push(m[1]);
   return ids;
 }
+check('разметка: возврат и доставка есть в обоих слоях и совпадают', async () => {
+  // Рекомендованные поля Offer: у JSON-LD они были всегда, microdata без них
+  // получала предупреждение Search Console на каждой карточке. Значения у
+  // слоёв общие (offerLogistics) — смоук ловит расхождение, а не наличие.
+  const r = await req('/product/chatgpt-business');
+  const offer = ofType(ldNodes(r.body) || [], 'Product')[0]?.offers || {};
+  const ld = {
+    category: offer.hasMerchantReturnPolicy?.returnPolicyCategory,
+    country: offer.hasMerchantReturnPolicy?.applicableCountry,
+    rate: String(offer.shippingDetails?.shippingRate?.value),
+    currency: offer.shippingDetails?.shippingRate?.currency,
+  };
+  const md = {
+    category: r.body.match(/itemprop="returnPolicyCategory" href="([^"]+)"/)?.[1],
+    country: r.body.match(/itemprop="applicableCountry" content="([^"]+)"/)?.[1],
+    rate: r.body.match(/itemprop="value" content="([0-9.]+)"/)?.[1],
+    currency: r.body.match(/itemprop="currency" content="([A-Z]+)"/)?.[1],
+  };
+  const ok = ld.category && Object.keys(ld).every((k) => ld[k] === md[k]);
+  return { ok: Boolean(ok), got: `ld=${JSON.stringify(ld)} md=${JSON.stringify(md)}` };
+});
+check('разметка: подарочная карта — возврат и доставка есть и в microdata', async () => {
+  const r = await req('/product/app-store-itunes-gift-card');
+  const has = r.body.includes('itemprop="hasMerchantReturnPolicy"') && r.body.includes('itemprop="shippingDetails"');
+  return { ok: has, got: has ? 'оба поля есть' : 'НЕТ' };
+});
+check('разметка: «цена по запросу» — без возврата и доставки в microdata', async () => {
+  const r = await req('/product/tovar-po-zaprosu');
+  const has = r.body.includes('itemprop="hasMerchantReturnPolicy"') || r.body.includes('itemprop="shippingDetails"');
+  return { ok: !has, got: has ? 'ЕСТЬ (не должно — Offer нет вовсе)' : 'нет' };
+});
 check('разметка: карточка товара — ни один идентификатор узла не повторяется', async () => {
   const r = await req('/product/chatgpt-business');
   const ids = nodeIds(r.body);

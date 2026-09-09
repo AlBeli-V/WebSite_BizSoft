@@ -21,12 +21,23 @@ on:
   # Минута некруглая сознательно: планировщик GitHub задерживает круглые слоты.
   schedule:
     - cron: "11 4 * * *"
+    # Понедельник, 04:23 UTC = 07:23 МСК — аудит тикетов без даты созревания.
+    # Слой видит только тикеты со сроком, и это его слабое место: тикет с
+    # моментом запуска, записанным прозой, для него не существует. Раз в
+    # неделю такие тикеты называются поимённо, чтобы владелец проставил дату.
+    - cron: "23 4 * * 1"
   workflow_dispatch:
     inputs:
       window:
         description: "Сколько дней назад считать созревание событием"
         required: false
         default: "3"
+      mode:
+        description: "due — созревшие; unmanaged — открытые без даты"
+        required: false
+        default: "due"
+        type: choice
+        options: [due, unmanaged]
 
 permissions:
   contents: read
@@ -38,19 +49,35 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Collect ripe tickets
+      - name: Collect tickets
         id: run
         run: |
+          # Понедельничный слот и ручной запуск с mode=unmanaged дают аудит
+          # тикетов без даты; все остальные прогоны — созревшие за окно.
+          mode="${{ github.event.inputs.mode || '' }}"
+          if [ -z "$mode" ]; then
+            if [ "${{ github.event.schedule }}" = "23 4 * * 1" ]; then
+              mode=unmanaged
+            else
+              mode=due
+            fi
+          fi
+          echo "режим: $mode"
+          echo "mode=$mode" >> "$GITHUB_OUTPUT"
           set +e
-          python3 scripts/seo/tasks_due.py \
-            --window "${{ github.event.inputs.window || '3' }}" > /tmp/tasks-due.txt
+          if [ "$mode" = "unmanaged" ]; then
+            python3 scripts/seo/tasks_due.py --unmanaged > /tmp/tasks-due.txt
+          else
+            python3 scripts/seo/tasks_due.py \
+              --window "${{ github.event.inputs.window || '3' }}" > /tmp/tasks-due.txt
+          fi
           code=$?
           set -e
           cat /tmp/tasks-due.txt
-          # 1 — созревших нет; это штатный исход, а не сбой прогона.
+          # 1 — показывать нечего; это штатный исход, а не сбой прогона.
           if [ "$code" = "1" ]; then
             echo "ripe=no" >> "$GITHUB_OUTPUT"
-            echo "созревших тикетов нет — записи в журнал не будет"
+            echo "показывать нечего — записи в журнал не будет"
             exit 0
           fi
           if [ "$code" != "0" ]; then exit "$code"; fi
@@ -58,10 +85,10 @@ jobs:
 
       # Запись только когда есть что сказать: при пустом списке шаг пропускается,
       # и журнал остаётся чистым.
-      - name: Post ripe tickets to journal (issue #22)
+      - name: Post tickets to journal (issue #22)
         if: always() && steps.run.outputs.ripe == 'yes'
         uses: ./.github/actions/journal-post
         with:
-          title: "seo-tasks-due — созревшие тикеты"
+          title: "seo-tasks-due — ${{ steps.run.outputs.mode == 'unmanaged' && 'тикеты без даты созревания' || 'созревшие тикеты' }}"
           outcome: ${{ steps.run.outcome }}
           body-file: /tmp/tasks-due.txt

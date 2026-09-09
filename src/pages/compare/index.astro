@@ -1,0 +1,74 @@
+---
+/**
+ * Точка входа в раздел «Сравнения» (IDX-001).
+ *
+ * Ссылки на `/compare/*` шли только с главной (три штуки) и со страниц
+ * каталога, которые сами индексируются наполовину. В индексе Google нет ни
+ * одной из восемнадцати страниц раздела. Раздел получает собственный хаб —
+ * и вместе с ним ссылку из подвала, то есть с каждой страницы сайта.
+ */
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import SectionHeading from '../../components/SectionHeading.astro';
+import CTASection from '../../components/CTASection.astro';
+import JsonLd from '../../components/JsonLd.astro';
+import { comparisons } from '../../data/comparisons';
+import { sectionListSchema } from '../../lib/seo';
+
+// Группировка по категории: восемнадцать плиток подряд читаются как свалка,
+// а по разделам видно, что сравнивается текст, код, картинка и офис.
+const byCategory = new Map<string, { name: string; items: typeof comparisons }>();
+for (const c of comparisons) {
+  const key = c.category.slug;
+  if (!byCategory.has(key)) byCategory.set(key, { name: c.category.name, items: [] });
+  byCategory.get(key)!.items.push(c);
+}
+const groups = [...byCategory.values()].sort((a, b) => b.items.length - a.items.length);
+
+const ld = sectionListSchema({
+  name: 'Сравнения сервисов для бизнеса',
+  description: 'Сравнения зарубежных AI-сервисов и рабочих инструментов: что выбрать компании и как это оформляется на юрлицо.',
+  url: '/compare',
+  items: comparisons.map((c) => ({ name: c.h1, url: `/compare/${c.slug}` })),
+});
+---
+<BaseLayout
+  title="Сравнения сервисов для бизнеса: что выбрать компании"
+  description="Сравнения зарубежных AI-сервисов и рабочих инструментов для компаний: сильные стороны, кому что подходит, порядок оформления на юрлицо по счёту и договору."
+>
+  <JsonLd schema={ld} />
+  <div class="container-page section">
+    <Breadcrumbs items={[{ name: 'Сравнения', url: '/compare' }]} />
+    <SectionHeading level={1} eyebrow="Сравнения" title="Что выбрать компании">
+      <p>Разбираем пары сервисов по существу: чем отличаются, кому что
+      подходит и во что обходятся команде. Всё сравниваемое мы поставляем на
+      юрлицо — договор, счёт в рублях, закрывающие через ЭДО.</p>
+    </SectionHeading>
+    {groups.map((g) => (
+      <section class="group">
+        <h2>{g.name}</h2>
+        <div class="grid">
+          {g.items.map((c) => (
+            <a href={`/compare/${c.slug}`} class="card card-hover cmp reveal">
+              <h3>{c.h1}</h3>
+              <p>{c.metaDescription}</p>
+              <span class="link">Смотреть сравнение →</span>
+            </a>
+          ))}
+        </div>
+      </section>
+    ))}
+  </div>
+  <CTASection />
+</BaseLayout>
+
+<style>
+  .section { padding-top: 2rem; }
+  .group { margin-top: 2rem; }
+  .group h2 { font-size: 1.35rem; margin-bottom: 1rem; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.2rem; }
+  .cmp { padding: 1.5rem; display: flex; flex-direction: column; gap: 0.55rem; }
+  .cmp h3 { font-size: 1.15rem; }
+  .cmp p { color: var(--color-text-muted); font-size: 0.9rem; flex-grow: 1; }
+  .link { color: var(--color-accent); font-weight: 600; }
+</style>
