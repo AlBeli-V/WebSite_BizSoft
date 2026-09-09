@@ -10,6 +10,7 @@ import LeadForm from './LeadForm.astro';
 import { VENDOR_SOLUTIONS } from '../data/vendor-solutions';
 import { solutions } from '../data/solutions';
 import QuestionForm from './QuestionForm.astro';
+import VendorInterlinks from './VendorInterlinks.astro';
 import VendorLogo from './VendorLogo.astro';
 import JsonLd from './JsonLd.astro';
 import { getProducts } from '../lib/directus';
@@ -315,6 +316,9 @@ const solutionLinks = (VENDOR_SOLUTIONS[entry.slug] || [])
       <LeadForm source={`vendor-${entry.slug}`} title={`Подбор ${title}`} submitLabel="Получить расчёт и КП" />
     </div>
   </section>
+
+  {/* Ещё по теме: статьи, аналоги, сравнения этого вендора (IDX-001) */}
+  <VendorInterlinks vendorSlug={entry.slug} productSlugs={cards.map((c) => c.slug)} />
 
   <!-- Внутренние ссылки -->
   <section class="block links">
