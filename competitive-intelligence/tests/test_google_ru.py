@@ -290,33 +290,116 @@ class TestAbsenceProfile(unittest.TestCase):
 
 
 class TestGoogleHypothesisBlock(unittest.TestCase):
-    """Вывод отчёта соответствует измерению, а не выбран заранее."""
+    """Вывод выбирается статусом индексации, а не догадкой.
 
-    def профиль(self, всего, нет):
-        return {"страниц_в_разрыве": всего, "страниц_нет_в_срезе": нет,
-                "страниц_есть_в_срезе": всего - нет,
-                "наших_url_в_срезе_всего": всего - нет,
+    Первая версия блока (1.9.3) меряла только присутствие страницы в
+    Google-срезе и делала один вывод на всех — «проверять надо видимость».
+    На срезе 09.09 он был верен для 41 страницы из 64 и неверен для 23:
+    те в индексе и просто проигрывают в ранжировании. Статус, разводящий эти
+    случаи, базовый контур снимает ежедневно, и разведка теперь его читает.
+    """
+
+    def профиль(self, **по_индексу):
+        всего = sum(по_индексу.values())
+        return {"страниц_в_разрыве": всего,
+                "страниц_нет_в_срезе": всего,
+                "страниц_есть_в_срезе": 0,
+                "наших_url_в_срезе_всего": 0,
+                "индекс_доступен": True,
+                "индекс_дата": "2026-09-09",
+                "по_индексу": по_индексу,
                 "первые": [{"url": "https://biz-soft.pro/x", "запросов": 3,
                             "лучшая_позиция_яндекс": 1,
-                            "есть_в_google_срезе": False}]}
+                            "есть_в_google_срезе": False,
+                            "индекс": "не знает адреса",
+                            "индекс_дословно": "URL is unknown to Google"}]}
 
-    def test_почти_ничего_не_видно_проверять_видимость(self):
-        from reports import deep_report
-        html = deep_report._google_hypothesis(self.профиль(64, 63))
-        self.assertIn("Проверять первой надо видимость", html)
-        self.assertIn("Search Console", html)
+    def test_три_группы_названы_порознь(self):
+        html = deep_report._google_hypothesis(self.профиль(**{
+            "не знает адреса": 11,
+            "знает, но не индексирует": 30,
+            "в индексе, проигрывает в выдаче": 23}))
+        self.assertIn("три, и работа у них разная", html)
+        self.assertIn("Google не знает адреса", html)
+        self.assertIn("Google знает адрес и в индекс не берёт", html)
+        self.assertIn("Страница в индексе и проигрывает", html)
 
-    def test_страницы_видны_вопрос_в_ранжировании(self):
-        from reports import deep_report
-        html = deep_report._google_hypothesis(self.профиль(10, 1))
-        self.assertIn("как он их ранжирует", html)
+    def test_только_видимость_говорит_про_видимость(self):
+        html = deep_report._google_hypothesis(self.профиль(**{
+            "не знает адреса": 5, "знает, но не индексирует": 7}))
+        self.assertIn("Дело в видимости, а не в текстах", html)
 
-    def test_смешанная_картина_одной_гипотезы_не_даёт(self):
-        from reports import deep_report
-        html = deep_report._google_hypothesis(self.профиль(10, 5))
-        self.assertIn("смешанная", html)
+    def test_только_индекс_говорит_про_ранжирование(self):
+        html = deep_report._google_hypothesis(self.профиль(**{
+            "в индексе, проигрывает в выдаче": 9}))
+        self.assertIn("вопрос в ранжировании", html)
+
+    def test_без_статусов_вывод_не_делается(self):
+        """Молчаливый переход к догадке — то, ради чего блок и переписан."""
+        профиль = self.профиль(**{"статуса нет": 9})
+        профиль["индекс_доступен"] = False
+        html = deep_report._google_hypothesis(профиль)
+        self.assertIn("гипотезы не разведены", html)
+        self.assertNotIn("Дело в видимости", html)
+
+    def test_источник_статусов_назван(self):
+        html = deep_report._google_hypothesis(self.профиль(**{
+            "не знает адреса": 3, "в индексе, проигрывает в выдаче": 3}))
+        self.assertIn("URL Inspection API", html)
+        self.assertIn("2026-09-09", html)
 
     def test_без_разрыва_блока_нет(self):
-        from reports import deep_report
         self.assertEqual("", deep_report._google_hypothesis(
             {"страниц_в_разрыве": 0}))
+
+
+class TestIndexStatus(unittest.TestCase):
+    """Статус индексации читается из выгрузки, а не запрашивается заново."""
+
+    def setUp(self):
+        from discovery import index_status
+        self.ix = index_status
+        self.ix.load.cache_clear()
+        self._load = self.ix.load
+        self.ix.load = lambda *a, **k: {
+            "date": "2026-09-09",
+            "pages": {
+                "/blog/framer": {"coverage_state": "URL is unknown to Google"},
+                "/blog/postman": {"coverage_state":
+                                  "Discovered - currently not indexed"},
+                "/vendors/recraft": {"coverage_state": "Submitted and indexed"},
+                "/vendors/пусто": {},
+            }}
+
+    def tearDown(self):
+        self.ix.load = self._load
+        self.ix.load.cache_clear()
+
+    def test_три_класса_разводятся(self):
+        S = "https://biz-soft.pro"
+        self.assertEqual(self.ix.UNKNOWN, self.ix.state(f"{S}/blog/framer")[0])
+        self.assertEqual(self.ix.NOT_INDEXED,
+                         self.ix.state(f"{S}/blog/postman")[0])
+        self.assertEqual(self.ix.INDEXED,
+                         self.ix.state(f"{S}/vendors/recraft")[0])
+
+    def test_страницы_нет_в_выгрузке(self):
+        класс, дословно = self.ix.state("https://biz-soft.pro/нет-такой")
+        self.assertEqual(self.ix.NO_DATA, класс)
+        self.assertEqual("", дословно)
+
+    def test_пустой_статус_не_подменяется(self):
+        self.assertEqual(self.ix.NO_DATA,
+                         self.ix.state("https://biz-soft.pro/vendors/пусто")[0])
+
+    def test_завершающий_слеш_не_мешает(self):
+        self.assertEqual(self.ix.INDEXED,
+                         self.ix.state("https://biz-soft.pro/vendors/recraft/")[0])
+
+    def test_неизвестный_статус_считается_непроиндексированным(self):
+        """Незнакомая формулировка Search Console не становится «в индексе»."""
+        self.ix.load = lambda *a, **k: {
+            "date": "2026-09-09",
+            "pages": {"/x": {"coverage_state": "Что-то новое от Google"}}}
+        self.assertEqual(self.ix.NOT_INDEXED,
+                         self.ix.state("https://biz-soft.pro/x")[0])
