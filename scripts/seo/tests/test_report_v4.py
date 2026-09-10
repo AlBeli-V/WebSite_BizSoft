@@ -468,5 +468,87 @@ class TestIndexDropStatus(unittest.TestCase):
         self.assertEqual(self.r.search_status(a, b), "positive")
 
 
+class TestSignalMovers(unittest.TestCase):
+    """Падение дня не вытесняется из письма постоянными показателями.
+
+    09.09.2026 три постоянных сигнала (показы Google, страницы в поиске,
+    запросы на первой странице) оказались неотрицательными, и оба падения
+    суток — переходы из Google 1 → 0 и целевые события органики 45 → 26 —
+    в письмо не попали. Набор был фиксирован, места для них не было.
+    """
+
+    ROWS = (
+        ("Показы в Яндексе", "impressions", 5698, 2212),
+        ("Переходы из Яндекса", "clicks", 42, 9),
+        ("Переходы из Google", "clicks", 0, 1),
+        ("Органические визиты", "visits_organic", 17, 15),
+        ("Целевые события органики", "goal_reaches_organic", 26, 45),
+    )
+
+    @classmethod
+    def setUpClass(cls):
+        cls.r = load("report_v4")
+
+    def dq(self, rows=None, available=True):
+        return {"funnel": {"available": available, "rows": [
+            {"label": l, "metric": m, "current": c, "previous": p,
+             "delta": c - p, "complete": True}
+            for l, m, c, p in (rows if rows is not None else self.ROWS)]}}
+
+    def test_движения_ранжируются_по_величине_а_не_по_проценту(self):
+        movers = self.r.funnel_movers(self.dq())
+        self.assertEqual(movers[0]["metric"], "Показы в Яндексе")
+        # 1 → 0 это −100%, но база в одну единицу выводов не даёт: падение
+        # целевых событий с сорока пяти важнее и стоит выше.
+        names = [m["metric"] for m in movers]
+        self.assertLess(names.index("Целевые события органики"),
+                        names.index("Переходы из Google"))
+
+    def test_незавершённое_окно_в_движения_не_идёт(self):
+        dq = self.dq()
+        dq["funnel"]["rows"][0]["complete"] = False
+        self.assertNotIn("Показы в Яндексе",
+                         [m["metric"] for m in self.r.funnel_movers(dq)])
+
+    def test_без_воронки_движений_нет(self):
+        self.assertEqual(self.r.funnel_movers(self.dq(available=False)), [])
+        self.assertEqual(self.r.funnel_movers({}), [])
+
+    def test_малая_база_помечена(self):
+        movers = {m["metric"]: m for m in self.r.funnel_movers(self.dq())}
+        self.assertIn("низкая", movers["Переходы из Google"]["confidence"])
+        self.assertEqual(movers["Показы в Яндексе"]["confidence"], "достаточная")
+
+    def snap(self, indexed=650, top10=1402, impressions=5698):
+        return {"thresholds": {"index_drop_share": 0.05, "index_drop_pages": 20},
+                "yandex": {"available": True,
+                           "totals": {"impressions": impressions,
+                                      "queries_position_le_10": top10},
+                           "indexation": {"indexed_urls": indexed}},
+                "google": {"available": False}}
+
+    def test_худшее_падение_добавляется_когда_постоянные_не_отрицательны(self):
+        # Постоянные сигналы: индексация без изменений и рост запросов на
+        # первой странице — ни одного падения.
+        sig = self.r.signals(self.snap(), self.snap(top10=1263, impressions=2212),
+                             self.dq())
+        tones = {s["metric"]: s["tone"] for s in sig}
+        self.assertNotIn("negative", [s["tone"] for s in sig[:3]])
+        self.assertIn("Целевые события органики", tones)
+        self.assertEqual(tones["Целевые события органики"], "negative")
+
+    def test_самое_крупное_изменение_суток_попадает_в_письмо(self):
+        sig = self.r.signals(self.snap(), self.snap(top10=1263, impressions=2212),
+                             self.dq())
+        self.assertIn("Показы в Яндексе", [s["metric"] for s in sig])
+
+    def test_повторов_и_переполнения_нет(self):
+        sig = self.r.signals(self.snap(), self.snap(top10=1263, impressions=2212),
+                             self.dq())
+        self.assertLessEqual(len(sig), 5)
+        self.assertEqual(len(sig), len({s["metric"] for s in sig}))
+        self.assertFalse([s for s in sig if "score" in s])
+
+
 if __name__ == "__main__":
     unittest.main()

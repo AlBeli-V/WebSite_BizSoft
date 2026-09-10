@@ -338,8 +338,19 @@ def kpi_cards(snap: dict, prev: dict | None, dq: dict) -> list[dict]:
         imp = int(w["value_num"])
         delta = int(w["delta_num"]) if w["delta_num"] is not None else None
         clicks_cur = int(g_daily["windows"]["clicks"]["current"]["sum"])
-        interpretation = (f"Переходы из Google за окно: {num(clicks_cur)}."
-                          if clicks_cur else "Переходов из Google пока нет.")
+        clicks_prev = g_daily["windows"]["clicks"].get("previous") or {}
+        clicks_was = clicks_prev.get("sum")
+        # «Пока нет» — утверждение обо всём прошлом, и оно неверно, если в
+        # прошлом окне переход был. 09.09.2026 плитка писала «Переходов из
+        # Google пока нет» при росте показов на 110,9%, тогда как переходы за
+        # то же окно ушли с одного до нуля: это не отсутствие, а падение.
+        if clicks_cur:
+            interpretation = f"Переходы из Google за окно: {num(clicks_cur)}."
+        elif clicks_was:
+            interpretation = (f"За окно переходов из Google нет; "
+                              f"в прошлом окне {num(int(clicks_was))}.")
+        else:
+            interpretation = "Переходов из Google пока нет."
         cards.append(
             {"key": "google", "label": "Видимость в Google",
              "value": num(imp), "unit": "показов за неделю",
@@ -600,6 +611,54 @@ def delta_text(d: int | None) -> str:
     return "без изменений" if d == 0 else signed(d)
 
 
+# Что означает движение строки сводной воронки. Текст короткий и не толкует
+# причину: сигнал говорит, что именно изменилось, а не почему.
+FUNNEL_MEANING = {
+    "impressions": ("Страницы показывались чаще.", "Страницы показывались реже."),
+    "clicks": ("Из выдачи переходили чаще.", "Из выдачи переходили реже."),
+    "visits_organic": ("Визитов из поиска стало больше.", "Визитов из поиска стало меньше."),
+    "sessions_organic": ("Сессий из поиска стало больше.", "Сессий из поиска стало меньше."),
+    "goal_reaches_organic": ("Целевых действий на сайте стало больше.",
+                             "Целевых действий на сайте стало меньше."),
+    "key_events_organic": ("Ключевых действий на сайте стало больше.",
+                           "Ключевых действий на сайте стало меньше."),
+}
+
+
+def funnel_movers(dq: dict) -> list[dict]:
+    """Строки сводной воронки, отсортированные по величине изменения.
+
+    Постоянных сигналов три, и 09.09.2026 все три оказались неотрицательными,
+    а два падения того же дня — переходы из Google 1 → 0 и целевые события
+    органики 45 → 26 — в письмо не попали: набор сигналов фиксирован, и место
+    для них не предусмотрено. Воронка для этого подходит лучше всего: её
+    строки уже посчитаны за одно окно с общим концом.
+
+    Величина считается от базы не ниже LOW_BASE — иначе изменение с единицы до
+    нуля обгоняло бы падение с сорока пяти до двадцати шести.
+    """
+    fn = dq.get("funnel") or {}
+    if not fn.get("available"):
+        return []
+    out = []
+    for row in fn.get("rows") or []:
+        if not row.get("complete"):
+            continue
+        cur, prev, d = row.get("current"), row.get("previous"), row.get("delta")
+        if cur is None or prev is None or not d:
+            continue
+        up, down = FUNNEL_MEANING.get(row["metric"], ("Значение выросло.", "Значение упало."))
+        out.append({
+            "tone": "positive" if d > 0 else "negative",
+            "metric": row["label"],
+            "current": num(cur), "previous": num(prev), "delta": delta_text(d),
+            "confidence": ("низкая, база в десятки" if prev < LOW_BASE else "достаточная"),
+            "meaning": up if d > 0 else down,
+            "score": abs(d) / max(prev, LOW_BASE),
+        })
+    return sorted(out, key=lambda r: -r["score"])
+
+
 def signals(snap: dict, prev: dict | None, dq: dict) -> list[dict]:
     """Три сигнала дня: положительный, нейтральный, отрицательный.
 
@@ -682,7 +741,26 @@ def signals(snap: dict, prev: dict | None, dq: dict) -> list[dict]:
                         "Внутри выборки прибавилось запросов на первой странице."
                         if td > 0 else
                         "Число запросов выборки на первой странице не изменилось.")})
-    return out[:3]
+    out = out[:3]
+
+    # Постоянные показатели выше отвечают на вопрос «что с индексацией и
+    # видимостью». Ниже добавляется то, что сильнее всего изменилось за сутки,
+    # и обязательно — худшее изменение, если среди показанного падения нет.
+    # Без этой добавки 09.09.2026 три неотрицательных постоянных показателя
+    # вытеснили из письма оба падения дня.
+    shown = {s["metric"] for s in out}
+    movers = [m for m in funnel_movers(dq) if m["metric"] not in shown]
+    extra = []
+    if movers:
+        extra.append(movers[0])
+    if not any(s["tone"] == "negative" for s in out + extra):
+        worst = next((m for m in movers if m["tone"] == "negative"
+                      and m["metric"] not in {e["metric"] for e in extra}), None)
+        if worst:
+            extra.append(worst)
+    for m in extra:
+        out.append({k: v for k, v in m.items() if k != "score"})
+    return out[:5]
 
 
 def execution_board(actions_cfg: dict, date: str) -> list[dict]:
