@@ -219,6 +219,67 @@ function adSystem(a: AttributionFields): string {
   return src ? `реклама, метка ${a.utm_source}` : 'рекламная система не названа меткой';
 }
 
+/**
+ * Разбор старой метки канала вида «хост / referral» или «yandex / cpc».
+ *
+ * Метка — это всё, что сохранялось до 10.09.2026, и по ней нельзя сказать,
+ * из выдачи пришёл клиент или из карточки организации на том же хосте.
+ * Поэтому вердикт сопровождается оговоркой, а не выдаётся за точный.
+ */
+function parseChannelMark(mark: string): Partial<SourceVerdict> | null {
+  const [rawSource, rawMedium] = mark.split('/').map((s) => s.trim().toLowerCase());
+  if (!rawSource) return null;
+  const note = `метка канала «${mark}»; полного адреса перехода в заявке нет`;
+
+  if (rawMedium && PAID_MEDIUM.test(rawMedium)) {
+    return {
+      kind: 'ads',
+      kindLabel: KIND_LABEL.ads,
+      system: rawSource.includes('yandex') ? 'Яндекс Директ'
+        : rawSource.includes('google') ? 'Google Ads' : rawSource,
+      evidence: note,
+      pending: ['кампания, объявление и цена клика — уточнением из Директа'],
+    };
+  }
+
+  const host = rawSource.replace(/^www\./, '');
+  const hit = platformByReferrer(host);
+  if (hit) {
+    return {
+      kind: 'external',
+      kindLabel: KIND_LABEL.external,
+      system: hit.account.platform,
+      evidence: note,
+      pending: ['путь визитов в Метрике — уточнением'],
+    };
+  }
+
+  const engine = searchEngineByHost(host);
+  if (engine) {
+    return {
+      kind: 'organic',
+      kindLabel: KIND_LABEL.organic,
+      system: engine,
+      evidence: note,
+      queryNote: `${engine} не передаёт поисковую фразу в реферере`,
+      // На одном хосте с выдачей живут карта, карточка организации и Дзен:
+      // без адреса они этой меткой не исключаются, и обещать обратное нельзя.
+      pending: [`переход мог быть и не из выдачи ${engine}: на том же хосте `
+        + 'живут карта и карточка организации — разделит их только Метрика',
+      'поисковая фраза и путь визитов — уточнением по Метрике'],
+    };
+  }
+
+  if (!host.includes('.')) return null;
+  return {
+    kind: 'external',
+    kindLabel: KIND_LABEL.external,
+    system: host,
+    evidence: note,
+    pending: ['разбор площадки по Метрике — уточнением'],
+  };
+}
+
 /** Разбор по одним меткам браузера — то, что известно в секунду заявки. */
 function fromBrowser(a: AttributionFields): SourceVerdict {
   const steps = parseVisitPath(a.visit_path || '');
@@ -320,6 +381,13 @@ function fromBrowser(a: AttributionFields): SourceVerdict {
       pending: ['разбор площадки по Метрике — утренним уточнением'],
     };
   }
+
+  // ── Полного адреса нет, но метка канала сохранена. Так выглядят все
+  // заявки до 10.09.2026: сайт записывал только хост перехода. Хост беднее
+  // адреса — по нему не отличить выдачу Яндекса от карточки организации, —
+  // но молчать о нём хуже: он и есть то немногое, что о заявке известно.
+  const legacy = parseChannelMark(a.last_touch_source || '');
+  if (legacy) return { ...base, ...legacy };
 
   // ── Реферера нет вовсе. Прямым заходом это назвать нельзя: так же выглядят
   // переход из почтового клиента, из мессенджера и из документа.

@@ -69,6 +69,25 @@ describe('тип трафика по меткам браузера', () => {
     expect(explainSource(with_({ gclid: 'abc' })).system).toBe('Google Ads');
   });
 
+  it('старая заявка без адреса перехода: метка канала читается с оговоркой', () => {
+    const v = explainSource(with_({ last_touch_source: 'www.google.com / referral' }));
+    expect(v.kind).toBe('organic');
+    expect(v.system).toBe('Google');
+    expect(v.evidence).toContain('полного адреса перехода в заявке нет');
+    expect(v.pending.join(' ')).toContain('карточка организации');
+  });
+
+  it('старая метка «yandex / cpc» — реклама', () => {
+    const v = explainSource(with_({ last_touch_source: 'yandex / cpc' }));
+    expect(v.kind).toBe('ads');
+    expect(v.system).toBe('Яндекс Директ');
+  });
+
+  it('старая метка площадки опознаётся реестром', () => {
+    const v = explainSource(with_({ last_touch_source: 'dzen.ru / referral' }));
+    expect(v.system).toBe('Дзен');
+  });
+
   it('ни метки, ни реферера — источник не определён, без домыслов', () => {
     const v = explainSource(empty);
     expect(v.kind).toBe('unknown');

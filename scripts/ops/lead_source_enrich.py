@@ -45,16 +45,19 @@ DIRECT_URL = 'https://api.direct.yandex.com/json/v5/'
 # жизни первого касания в браузере: три источника говорят об одном окне.
 JOURNEY_DAYS = 90
 
-# Наборы измерений от богатого к бедному. Справочник Метрики со временем
-# меняется, и неизвестное измерение роняет запрос целиком: вместо разбора
-# ошибки берём следующий набор, а в слепок кладём, какой именно сработал.
-DIM_SETS = [
-    ('ym:s:date,ym:s:lastTrafficSource,ym:s:lastSearchEngine,'
-     'ym:s:lastSearchPhrase,ym:s:lastReferalSource,ym:s:startURLPath'),
-    ('ym:s:date,ym:s:lastTrafficSource,ym:s:lastSearchEngineRoot,'
-     'ym:s:lastSearchPhrase,ym:s:startURLPath'),
-    'ym:s:date,ym:s:lastTrafficSource,ym:s:lastSearchEngineRoot,ym:s:startURLPath',
-]
+# Измерения визитов. Разбиты на три запроса, а не сведены в один богатый
+# набор, по итогу прогона 10.09.2026: запрос с ym:s:lastSearchPhrase вернул
+# ноль строк по посетителям, у которых визиты заведомо есть (аналитический
+# контур ops-leads-collect видит их тем же ClientID). Метрика, получив
+# измерение, определённое не у каждого визита, отдаёт только те визиты, где
+# оно заполнено, — и путь клиента исчезает целиком. Поэтому основа запрашивается
+# проверенным набором, а фраза, площадка и разделы Директа — отдельными
+# запросами: не ответил уточняющий запрос — теряется одна строка письма, а не
+# весь разбор.
+BASE_DIMS = ('ym:s:date,ym:s:lastTrafficSource,ym:s:lastSearchEngineRoot,'
+             'ym:s:startURLPath')
+PHRASE_DIMS = 'ym:s:lastSearchPhrase,ym:s:lastSearchEngine'
+REFERRAL_DIMS = 'ym:s:lastReferalSource'
 
 # Измерения Директа: кампания, группа, объявление, условие показа.
 DIRECT_DIMS = ('ym:s:date,ym:s:lastDirectClickOrder,ym:s:lastDirectBannerGroup,'
@@ -110,27 +113,67 @@ def _name(dim: dict) -> str:
     return value
 
 
-def fetch_visits(client_id: str, created_at: str, headers: dict, counter: str) -> dict:
-    """Визиты посетителя из Метрики. Возвращает слепок для письма."""
+def query(client_id: str, created_at: str, dims: str, headers: dict, counter: str,
+          *, limit: int = 100, sort: str = 'ym:s:date') -> tuple[dict, str]:
+    """Визиты посетителя в разрезе заданных измерений."""
     date1, date2 = window(created_at)
-    last_error = ''
-    for dims in DIM_SETS:
-        data, err = api_json(STAT_URL, headers, {
-            'ids': counter, 'date1': date1, 'date2': date2, 'accuracy': 'full',
-            'limit': 100, 'sort': 'ym:s:date',
-            'dimensions': dims,
-            'metrics': 'ym:s:visits',
-            'filters': f"ym:s:clientID=='{client_id}'",
-        })
-        if err:
-            last_error = err
-            continue
-        return parse_visits(data, dims)
-    return {'available': False, 'error': f'Метрика не ответила — {last_error}'}
+    return api_json(STAT_URL, headers, {
+        'ids': counter, 'date1': date1, 'date2': date2, 'accuracy': 'full',
+        'limit': limit, 'sort': sort,
+        'dimensions': dims,
+        'metrics': 'ym:s:visits',
+        'filters': f"ym:s:clientID=='{client_id}'",
+    })
+
+
+def top_value(payload: dict, index: int = 0) -> str:
+    """Первое непустое значение измерения в ответе.
+
+    Строки отсортированы по числу визитов, поэтому первая непустая — это то,
+    что посетитель делал чаще всего. Пустых значений в ответе Метрики больше,
+    чем заполненных: фраза известна не у каждого визита.
+    """
+    for row in payload.get('data', []):
+        dims = row.get('dimensions') or []
+        if len(dims) > index:
+            value = _name(dims[index])
+            if value:
+                return value
+    return ''
+
+
+def fetch_visits(client_id: str, created_at: str, headers: dict, counter: str) -> dict:
+    """Слепок источника: путь визитов, поисковая фраза и площадка перехода."""
+    data, err = query(client_id, created_at, BASE_DIMS, headers, counter)
+    if err:
+        return {'available': False, 'error': f'Метрика не ответила — {err}'}
+    facts = parse_visits(data, BASE_DIMS)
+    if not facts.get('available'):
+        return facts
+
+    # Уточняющие запросы. Каждый необязателен: строка письма без фразы честнее
+    # разбора, потерянного целиком из-за одного измерения.
+    phrases, err = query(client_id, created_at, PHRASE_DIMS, headers, counter,
+                         limit=10, sort='-ym:s:visits')
+    if not err:
+        phrase = top_value(phrases, 0)
+        engine = top_value(phrases, 1)
+        if phrase:
+            facts['searchPhrase'] = phrase
+        if engine and not facts.get('searchEngine'):
+            facts['searchEngine'] = engine
+
+    referral, err = query(client_id, created_at, REFERRAL_DIMS, headers, counter,
+                          limit=10, sort='-ym:s:visits')
+    if not err:
+        source = top_value(referral, 0)
+        if source:
+            facts['referralSource'] = source
+    return facts
 
 
 def parse_visits(payload: dict, dims: str) -> dict:
-    """Ответ Stat API → слепок источника. Порядок измерений задаём мы сами."""
+    """Ответ Stat API → путь визитов. Порядок измерений задаём мы сами."""
     names = dims.split(',')
     idx = {n: i for i, n in enumerate(names)}
     steps = []
@@ -150,7 +193,7 @@ def parse_visits(payload: dict, dims: str) -> dict:
             'engine': val('ym:s:lastSearchEngine') or val('ym:s:lastSearchEngineRoot'),
             'phrase': val('ym:s:lastSearchPhrase'),
             'page': val('ym:s:startURLPath'),
-            'visits': int((row.get('metrics') or [0])[0] or 0),
+            'visits': int(float((row.get('metrics') or [0])[0] or 0)),
             '_source_id': source,
             '_referral': val('ym:s:lastReferalSource'),
         })
