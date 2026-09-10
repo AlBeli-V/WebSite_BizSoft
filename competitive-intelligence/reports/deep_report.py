@@ -141,7 +141,8 @@ details{background:#fff;border:1px solid var(--line);border-radius:10px;
         padding:12px 16px;margin:10px 0}
 summary{cursor:pointer;font-weight:600;font-size:14px}
 summary::marker{color:var(--muted)}
-.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:12px}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(320px,100%),1fr));gap:12px}
+.grid2>*{min-width:0}
 .q{font-size:12px;color:var(--muted);word-break:break-word}
 footer{margin-top:48px;padding-top:16px;border-top:1px solid var(--line);
        font-size:12px;color:var(--muted)}
@@ -700,7 +701,7 @@ def _attack_summary(attacks: list[dict], packages: list[dict] | None,
             считает["вне плана"] += 1
     return f"""
 <div class="card"><h3>Что происходит с этими точками</h3>
-<table><thead><tr><th>Состояние</th><th class="num">Запросов</th>
+<div class="scroll"><table><thead><tr><th>Состояние</th><th class="num">Запросов</th>
 <th>Что это значит</th></tr></thead><tbody>
 <tr><td>Правка внесена, идёт замер</td><td class="num">{считает['правка внесена']}</td>
 <td>страница доработана, до конца моратория новых поручений по ней нет</td></tr>
@@ -725,7 +726,7 @@ def _attack_summary(attacks: list[dict], packages: list[dict] | None,
 Directus — раздел «Проверить, а не делать»</td></tr>
 <tr><td>Вне плана работ</td><td class="num">{считает['вне плана']}</td>
 <td>запрос не сведён в пакет: спрос не измерен либо страница не в нашей зоне</td></tr>
-</tbody></table>
+</tbody></table></div>
 <p class="q"><b>Чего ждать от закрытия точки.</b> Цель по каждой — выход в
 ТОП-3 по её запросу. Величина выигрыша считается не здесь, а по пакету работ
 (раздел 4): там она выражена индексом потенциала, а в переходах — только там,
@@ -967,9 +968,9 @@ def _experiments_block(experiments: list | None, config: dict | None,
 <td>{esc(str(len(e.queries)))}</td></tr>"""
         for e in experiments if e.state == jr.STATE_WATCH)
     watch_table = (f"""
-<table><thead><tr><th>Опыт</th><th>Страница</th><th>Внедрено</th>
+<div class="scroll"><table><thead><tr><th>Опыт</th><th>Страница</th><th>Внедрено</th>
 <th>Замер до</th><th>Позиция до</th><th>Запросов</th></tr></thead>
-<tbody>{watch_rows}</tbody></table>""" if watch_rows else
+<tbody>{watch_rows}</tbody></table></div>""" if watch_rows else
         '<p class="q">Под мораторием сейчас никого: внедрённых правок, '
         'ожидающих замера, нет.</p>')
 
@@ -985,11 +986,11 @@ def _experiments_block(experiments: list | None, config: dict | None,
 <td>{esc(str(e.outcome.get('сравнимость_условий', '—')))}</td></tr>"""
         for e in experiments if e.state == jr.STATE_DONE)
     done_table = (f"""
-<table><thead><tr><th>Опыт</th><th>Страница</th><th>Что делали</th>
+<div class="scroll"><table><thead><tr><th>Опыт</th><th>Страница</th><th>Что делали</th>
 <th>Позиция до</th><th>После</th><th>Сдвиг выдачи</th>
 <th>Чистый эффект</th><th>Вердикт</th><th>Достоверность</th>
 <th>Сравнимость условий</th></tr></thead>
-<tbody>{done_rows}</tbody></table>""" if done_rows else
+<tbody>{done_rows}</tbody></table></div>""" if done_rows else
         '<p class="q">Завершённых экспериментов нет: ни одно окно '
         'наблюдения не истекло.</p>')
 
@@ -999,9 +1000,9 @@ def _experiments_block(experiments: list | None, config: dict | None,
 <td>{esc(row['вывод'])}</td></tr>"""
         for row in lr.by_action_kind(experiments, config))
     lessons = (f"""
-<table><thead><tr><th>Тип действия</th><th>Наблюдений</th>
+<div class="scroll"><table><thead><tr><th>Тип действия</th><th>Наблюдений</th>
 <th>Медианный эффект, позиций</th><th>Улучшений</th><th>Вывод</th></tr></thead>
-<tbody>{lesson_rows}</tbody></table>""" if lesson_rows else
+<tbody>{lesson_rows}</tbody></table></div>""" if lesson_rows else
         '<p class="q">Выводов по типам действий пока нет: ни один эксперимент '
         'не доведён до оценки.</p>')
 
