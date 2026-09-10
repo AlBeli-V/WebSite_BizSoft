@@ -53,16 +53,27 @@ jobs:
         id: check
         run: |
           set +e
+          : > /tmp/registrations.txt
+          rm -f /tmp/registrations.json
           python3 scripts/ops/registrations_watch.py \
-            --report /tmp/registrations.txt --json /tmp/registrations.json
+            --report /tmp/registrations.txt --json /tmp/registrations.json \
+            > /tmp/registrations-stdout.txt 2>&1
           echo "fail=$?" >> "$GITHUB_OUTPUT"
+          # Отчёта может не быть, если скрипт упал раньше, чем его написал.
+          # Тогда в журнал уходит вывод прогона: пустая запись прочиталась бы
+          # как «всё в порядке», а это ровно тот случай, ради которого в
+          # проекте заведён journal-post со статусом.
+          [ -s /tmp/registrations.txt ] || cp /tmp/registrations-stdout.txt /tmp/registrations.txt
           python3 - <<'PY' >> "$GITHUB_OUTPUT"
-          import json
-          d = json.load(open('/tmp/registrations.json'))
+          import json, pathlib
+          p = pathlib.Path('/tmp/registrations.json')
+          d = json.loads(p.read_text()) if p.exists() else {}
           # Письмо нужно, пока есть о чём просить человека: незаведённые
           # площадки, ненайденные адреса профилей или молчащий профиль.
-          need = d['pending'] + d['no_address'] + d['failed']
-          print(f"mail={'yes' if need else 'no'}")
+          # Сводки нет — значит прогон сломался: письмо не шлём, о сбое
+          # докладывает журнал и красный прогон.
+          need = d.get('pending', 0) + d.get('no_address', 0) + d.get('failed', 0)
+          print(f"mail={'yes' if d and need else 'no'}")
           PY
           cat /tmp/registrations.txt
 
