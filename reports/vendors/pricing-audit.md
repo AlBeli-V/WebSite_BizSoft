@@ -346,3 +346,81 @@ Standard seat — 305 евро за год, место Premium seat — 1515 е�
 |---|---|---|---|---|---|---|---|---|
 | INT-AI-CHATGPT | OpenAI | ChatGPT Business, Standard seat (годовая оплата) | publish | 305.0 | за 1 место в год, от 2 мест | owner-manual-check | https://openai.com/chatgpt/pricing/ | 2026-09-10 |
 | CHATGPT-BUSINESS-PREMIUM | OpenAI | ChatGPT Business, Premium seat (годовая оплата) | publish | 1515.0 | за 1 место в год, от 2 мест | owner-manual-check | https://openai.com/chatgpt/pricing/ | 2026-09-10 |
+
+## Перевод месячных тарифов на годовые — решение руководителя 10.09.2026
+
+Находка: карточка Midjourney на витрине показывала цену за месяц, хотя мы
+продаём только годовые подписки. Сплошная проверка каталога `ops-price-audit`
+(1551 опубликованная карточка, 107 вендоров) нашла ту же ошибку ещё у
+14 вендоров — всего 32 карточки с месячной приписки к цене. Остальные
+1519 карточек прошли без замечаний: расхождений с формулой цены нет.
+
+Решение руководителя (кнопками в чате 10.09.2026):
+
+1. **Множитель 12 сейчас, уточнение прайсов потом.** Себестоимость закупки
+   умножена на 12, рублёвая цена пересчитана штатной формулой
+   `закупка × курс ЦБ × коэффициент` (`ops-annual-reprice`, курс ЦБ на
+   10.09.2026: USD 85,4594, EUR 99,2525). У вендоров с годовой скидкой закупка
+   получилась завышенной — правим вниз по мере подтверждения годовых прайсов.
+   Прогон `ops-price-scan` по страницам тарифов Midjourney 10.09.2026 вернул
+   пусто: тарифы за логином, автоматика их не читает.
+2. **Две карточки сняты с витрины, а не пересчитаны** — месячный тариф при
+   живой годовой карточке того же продукта: `DEPOSIT-UNL-MONTH` (годовая
+   `DEPOSIT-UNL-YEAR`, 261 $) и `MVLS-PERSONAL-M` (годовая `MVLS-PERSONAL-Y`,
+   280 $). Склейка `ops-merge-product`: снятая уходит в `draft`, её слаг
+   добавлен в `old_slugs` остающейся — страница отдаёт 301.
+
+Пересчитанные позиции (30 карточек, закупка «было → стало»):
+
+| SKU | Вендор | Закупка была | Закупка стала | Новая приписка |
+|---|---|---|---|---|
+| MJ-STANDARD | Midjourney | 30 USD | 360 USD | за пользователя в год |
+| MJ-PRO | Midjourney | 60 USD | 720 USD | за пользователя в год |
+| MJ-MEGA | Midjourney | 120 USD | 1440 USD | за пользователя в год |
+| DSCRPT-CREATOR | Descript | 35 USD | 420 USD | за пользователя в год |
+| DSCRPT-BUSINESS | Descript | 65 USD | 780 USD | за пользователя в год |
+| RECRAFT-ADVANCED | Recraft | 33 USD | 396 USD | за пользователя в год |
+| RECRAFT-PRO | Recraft | 60 USD | 720 USD | за пользователя в год |
+| RECRAFT-TEAM | Recraft | 55 USD | 660 USD | за пользователя в год |
+| RUNWAY-STANDARD | Runway | 15 USD | 180 USD | за пользователя в год |
+| RUNWAY-PRO | Runway | 35 USD | 420 USD | за пользователя в год |
+| RUNWAY-MAX | Runway | 95 USD | 1140 USD | за пользователя в год |
+| RU-PM-YATRACKER | Яндекс | — (1100 ₽) | — (13 200 ₽) | за пользователя в год |
+| ELEVEN-CREATOR | ElevenLabs | 22 USD | 264 USD | в год |
+| ELEVEN-PRO | ElevenLabs | 99 USD | 1188 USD | в год |
+| ELEVEN-SCALE | ElevenLabs | 330 USD | 3960 USD | в год |
+| PHOTON-FUSION-500 | Photon Engine | 125 USD | 1500 USD | в год |
+| PHOTON-FUSION-1000 | Photon Engine | 250 USD | 3000 USD | в год |
+| PHOTON-FUSION-2000 | Photon Engine | 500 USD | 6000 USD | в год |
+| FRAMER-BASIC | Framer | 10 USD | 120 USD | за сайт в год при годовой схеме оплаты |
+| FRAMER-PRO | Framer | 30 USD | 360 USD | за сайт в год при годовой схеме оплаты |
+| FRAMER-SCALE | Framer | 100 USD | 1200 USD | за сайт в год при годовой схеме оплаты |
+| HEYGEN-PRO | HeyGen | 49 USD | 588 USD | за место в год |
+| HEYGEN-BUSINESS | HeyGen | 149 USD | 1788 USD | в год + доплата за место |
+| RIVE-CADET | Rive | 9 USD | 108 USD | за место в год |
+| RIVE-VOYAGER | Rive | 32 USD | 384 USD | за место в год |
+| MRMST-TB-SUB-IND | Marmoset | 18.99 USD | 227.88 USD | за место в год |
+| MRMST-TB-SUB-STUDIO | Marmoset | 49.99 USD | 599.88 USD | за место в год |
+| RIZOM-RS-SUB | RizomUV | 71.88 EUR | 862.56 EUR | за 1 пользователя в год |
+| RIZOM-VS-SUB | RizomUV | 41.88 EUR | 502.56 EUR | за 1 пользователя в год |
+| PRFRC-P4-CLOUD | Perforce | 39 USD | 468 USD | за пользователя в год, до 100 |
+
+Что поправлено, кроме цены:
+
+- Реестры заведения карточек `scripts/block1-cards.json`, `block2-cards.json`,
+  `block3-cards.json` — иначе повторный импорт вернул бы месячную закупку.
+  Заодно пересчитаны снятые с публикации соседи по линейке (MJ-BASIC,
+  RECRAFT-BASIC, DSCRPT-HOBBYIST, ELEVEN-STARTER, HEYGEN-CREATOR), а
+  `DEPOSIT-UNL-MONTH` и `MVLS-PERSONAL-M` помечены `status: draft`.
+- Черта «Годовая оплата −20%» убрана из карточек Midjourney и Recraft: цена
+  посчитана умножением на 12 без скидки, и обещание скидки ей противоречит.
+  У Marmoset и RizomUV «Помесячно или годом» / «Подписка помесячно» заменено
+  на «Годовая подписка».
+- Тексты лендингов вендоров (`scripts/content/*.json`) — период тарификации
+  в подводке, таблице сравнения и FAQ.
+- Описания карточек в Directus — через `data/seo/product-descriptions.json`
+  и `ops-apply-descriptions` (28 записей).
+
+Открытый хвост: `scripts/flagship-cards.json` держит месячные потребительские
+тарифы ChatGPT Plus и ChatGPT Pro. На витрине их нет — их сняла миграция
+AI-каталога, — но повторный импорт этого файла завёл бы их заново.
