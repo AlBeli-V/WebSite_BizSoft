@@ -80,11 +80,19 @@ TypeScript strict · Vitest · Python 3 (контуры SEO/разведки/р�
   только `src/data/policies.ts`: из него рендерятся `/faq`, `/how-we-work`,
   `/pricing` и отвечает WebMCP-инструмент `search_policies`. Массив
   `{ q, a }` прямо в `.astro` запрещён тестом `tests/policies.test.ts`.
+- **Что публиковать: темы, запросы ядра, целевые страницы** —
+  `docs/marketing/external/publication-plan.md`.
 - **Где регистрироваться и что публиковать** — `docs/marketing/external/platform-registry.md`
   (очерёдность площадок, единые данные профилей, инструкция по регистрации,
   разбор Дзена, механика Pressfeed); состояние регистраций —
   `data/marketing/platform-accounts.json`, оттуда подтверждённые профили
-  идут в `sameAs`.
+  идут в `sameAs`. Реестр еженедельно сверяет сторож `ops-registrations-watch`
+  (`scripts/ops/registrations_watch.py`): записанные профили дёргает живым
+  запросом, о незаведённых напоминает письмом.
+- **Можно ли публиковать машиной** (Яндекс Бизнес, Дзен) —
+  `docs/marketing/external/auto-publishing.md`: товарные карточки уже идут
+  фидом, посты и статьи публичным API не пишутся, RSS-экспорт Дзена разобран
+  с доводами против подключения сейчас.
 - **Авторитет в Google** (почему Яндекс держит топ, а Google нет) —
   `reports/seo/google-authority-strategy.md`; карта контента и разрыв —
   `google-content-map.json`, `google-link-gap.csv`, `google-entity-gap.md`;
