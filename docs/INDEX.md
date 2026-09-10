@@ -77,6 +77,12 @@ TypeScript strict · Vitest · Python 3 (контуры SEO/разведки/р�
 - **Новая страница** (лендинг/продукт) — `src/pages/vendors/*`,
   `src/pages/product/[slug].astro`; добавить в `STATIC_ROUTES`
   (`src/pages/sitemap.xml.ts`), если страница bespoke.
+- **Разбор источника заявки** (органика или реклама, запрос, цепочка шагов,
+  цена клика) — классификатор `src/lib/traffic-source.ts`, блок письма
+  `src/lib/email/layout.ts`, утреннее уточнение и повтор писем —
+  `ops-lead-source-mail` + `scripts/ops/lead_source_enrich.py`; правило и
+  границы — `docs/rules/lead-source.md`. Признаки перехода внешних площадок
+  ведутся в `data/marketing/platform-accounts.json` (`referrer_match`).
 - **Правка письма отчёта** — блоки письма в `scripts/seo/report_v4.py`
   (Growth Intelligence) или `scripts/seo/committee.py` (Growth Committee);
   методика — `docs/seo/reporting-methodology.md`, открывать нужный раздел,

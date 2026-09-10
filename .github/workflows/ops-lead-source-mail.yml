@@ -1,0 +1,291 @@
+# Разбор источника заявок письмами: утреннее уточнение и повторная отправка.
+#
+# Зачем. Письмо о заявке уходит в ту же секунду, что и сама заявка, и знает
+# только то, что записал браузер: метки, реферер, путь по сайту. Поисковой
+# фразы органики в реферере нет вовсе, визит появляется в Метрике с задержкой,
+# а расход и цену клика Директ закрывает лишь за прошедшие сутки. Решение
+# руководителя 10.09.2026: живое письмо уходит сразу с тем, что известно, а
+# утром по каждой вчерашней заявке приходит короткое второе письмо с разбором
+# по Метрике и Директу.
+#
+# Как устроено (правило prod-access.md). Токены Метрики и Директа лежат в
+# секретах GitHub, а персональные данные заявки — на прод-сервере, и в журнал
+# прогона попасть не должны. Поэтому работа разнесена: сервер отдаёт безличный
+# список заявок, раннер обогащает его Метрикой и Директом, сервер собирает и
+# отправляет письмо теми же шаблонами, что и живое (эндпоинт
+# /api/admin/leads/source-mail). Имя, телефон, почта и текст обращения сервер
+# не покидают.
+#
+# Режимы:
+#   followup (по умолчанию) — уточнение по заявкам за последние сутки;
+#   resend — повтор писем по последним N записям воронки, тема с припиской.
+#
+# Тишина: при успехе ничего, при сбое — запись в журнал issue #22.
+# Время в cron задаётся в UTC, московское указано рядом (правило проекта).
+#
+# Секреты: SSH_HOST/SSH_USER/SSH_KEY (доступ к проду), YANDEX_METRIKA_TOKEN,
+# YANDEX_METRIKA_COUNTER_ID, YANDEX_DIRECT_TOKEN (цена клика).
+
+name: ops-lead-source-mail
+
+on:
+  schedule:
+    # 05:40 UTC = 08:40 МСК. Слот — страховка: утренние контуры запускает
+    # сторож seo-morning-gate, потому что планировщик GitHub задерживает
+    # слоты на 4–5 часов.
+    - cron: "40 5 * * *"
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "followup — уточнение по вчерашним заявкам; resend — повтор последних писем"
+        required: true
+        default: "followup"
+        type: choice
+        options: ["followup", "resend"]
+      limit:
+        description: "resend: сколько последних записей воронки переотправить"
+        required: false
+        default: "10"
+      days:
+        description: "followup: за сколько последних суток брать заявки"
+        required: false
+        default: "1"
+      subject_prefix:
+        description: "Приписка к теме письма, например (ТЕСТ ПОВТОР)"
+        required: false
+        default: ""
+      dry_run:
+        description: "true — собрать письма и показать разбор, ничего не отправляя"
+        required: false
+        default: "false"
+
+permissions:
+  # write — маркер отправки за дату (reports/seo/intelligence) уезжает в
+  # ветку-хранилище seo-data: без него сторож утренних контуров прислал бы
+  # уточнение по одной заявке несколько раз за утро.
+  contents: write
+  issues: write
+
+concurrency:
+  group: ops-lead-source-mail
+  cancel-in-progress: false
+
+jobs:
+  mail:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Guard - only default branch
+        run: |
+          if [ "${{ github.ref_name }}" != "main" ]; then
+            echo "Запуск разрешён только с ветки main. Текущий ref: ${{ github.ref_name }}"
+            exit 1
+          fi
+
+      - uses: actions/checkout@v4
+
+      # Маркер дня: сторож утренних контуров будит прогон ежечасно в окне
+      # 06–13 МСК, и без маркера каждое пробуждение слало бы уточнения заново.
+      - name: Check daily marker
+        id: marker
+        env:
+          IN_MODE: ${{ inputs.mode }}
+          IN_DRY: ${{ inputs.dry_run }}
+        run: |
+          bash scripts/seo/data_sync.sh pull
+          today=$(TZ=Europe/Moscow date +%F)
+          mailed=$(cat reports/seo/intelligence/last-lead-source.txt 2>/dev/null || echo "")
+          echo "today=$today" >> "$GITHUB_OUTPUT"
+          if [ "${IN_MODE:-followup}" = "followup" ] && [ "${IN_DRY:-false}" != "true" ] \
+             && [ "$mailed" = "$today" ]; then
+            echo "уточнения за $today уже отправлены — прогон пропускается"
+            echo "run=no" >> "$GITHUB_OUTPUT"
+          else
+            echo "run=yes" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Resolve run parameters
+        if: steps.marker.outputs.run == 'yes'
+        id: cfg
+        env:
+          IN_MODE: ${{ inputs.mode }}
+          IN_LIMIT: ${{ inputs.limit }}
+          IN_DAYS: ${{ inputs.days }}
+          IN_PREFIX: ${{ inputs.subject_prefix }}
+          IN_DRY: ${{ inputs.dry_run }}
+        run: |
+          mode=${IN_MODE:-followup}
+          echo "mode=$mode" >> "$GITHUB_OUTPUT"
+          if [ "$mode" = "resend" ]; then
+            echo "limit=${IN_LIMIT:-10}" >> "$GITHUB_OUTPUT"
+            echo "days=0" >> "$GITHUB_OUTPUT"
+          else
+            # Уточнение идёт по датам, а не по числу записей: за сутки заявок
+            # может не быть вовсе, и брать «последние десять» тогда значит
+            # прислать разбор недельной давности второй раз.
+            echo "limit=50" >> "$GITHUB_OUTPUT"
+            echo "days=${IN_DAYS:-1}" >> "$GITHUB_OUTPUT"
+          fi
+          echo "prefix=${IN_PREFIX:-}" >> "$GITHUB_OUTPUT"
+          echo "dry=${IN_DRY:-false}" >> "$GITHUB_OUTPUT"
+          echo "режим $mode, приписка «${IN_PREFIX:-нет}», сухой прогон ${IN_DRY:-false}"
+
+      # ── 1. Безличный список заявок с прода: без имени, телефона и почты.
+      - name: Fetch leads from site
+        if: steps.marker.outputs.run == 'yes'
+        id: list
+        uses: appleboy/ssh-action@v1
+        env:
+          P_LIMIT: ${{ steps.cfg.outputs.limit }}
+          P_DAYS: ${{ steps.cfg.outputs.days }}
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          envs: P_LIMIT,P_DAYS
+          capture_stdout: true
+          command_timeout: 5m
+          script: |
+            set -e
+            TOKEN=$(sed -n 's/^ADMIN_TOOLS_TOKEN=//p' /opt/bizsoft/astro.env | tr -d '"\r')
+            if [ -z "$TOKEN" ]; then
+              echo "ADMIN_TOOLS_TOKEN не задан в /opt/bizsoft/astro.env" >&2
+              exit 1
+            fi
+            # Код ответа проверяется отдельно: молчаливый 401 или 502 иначе
+            # уехал бы в разбор JSON и выглядел бы как «заявок нет».
+            CODE=$(curl -sS --max-time 60 -o /tmp/lead-source-list.json -w '%{http_code}' \
+              -H "x-admin-token: $TOKEN" \
+              "http://127.0.0.1:3000/api/admin/leads/source-mail?limit=${P_LIMIT}&days=${P_DAYS}")
+            if [ "$CODE" != "200" ]; then
+              echo "сайт ответил $CODE на запрос списка заявок" >&2
+              head -c 300 /tmp/lead-source-list.json >&2
+              exit 1
+            fi
+            # Маркеры вокруг выгрузки: ssh-action подмешивает в capture_stdout
+            # свои служебные строки, и разбор JSON без них спотыкается.
+            echo "#LEADS-JSON-BEGIN#"
+            cat /tmp/lead-source-list.json
+            echo
+            echo "#LEADS-JSON-END#"
+
+      - name: Save list to file
+        if: steps.marker.outputs.run == 'yes'
+        run: |
+          cat > /tmp/lead-source-stdout.txt <<'LEAD_SOURCE_EOF'
+          ${{ steps.list.outputs.stdout }}
+          LEAD_SOURCE_EOF
+          sed -n '/#LEADS-JSON-BEGIN#/,/#LEADS-JSON-END#/p' /tmp/lead-source-stdout.txt \
+            | sed '1d;$d' > /tmp/lead-source-leads.json
+          if [ ! -s /tmp/lead-source-leads.json ]; then
+            echo "::error::в выводе нет участка между маркерами — список заявок не получен"
+            sed -n '1,20p' /tmp/lead-source-stdout.txt
+            exit 1
+          fi
+          python3 -c "import json;d=json.load(open('/tmp/lead-source-leads.json'));print('заявок получено:', len(d['leads']))"
+
+      # ── 2. Обогащение Метрикой и Директом. Токены есть только здесь.
+      - name: Enrich with Metrika and Direct
+        if: steps.marker.outputs.run == 'yes'
+        id: enrich
+        env:
+          YANDEX_METRIKA_TOKEN: ${{ secrets.YANDEX_METRIKA_TOKEN }}
+          YANDEX_METRIKA_COUNTER_ID: ${{ secrets.YANDEX_METRIKA_COUNTER_ID }}
+          YANDEX_DIRECT_TOKEN: ${{ secrets.YANDEX_DIRECT_TOKEN }}
+        run: |
+          python3 scripts/ops/lead_source_enrich.py \
+            --leads /tmp/lead-source-leads.json --out /tmp/lead-source-enrich.json
+          echo "b64=$(base64 -w0 /tmp/lead-source-enrich.json)" >> "$GITHUB_OUTPUT"
+
+      # ── 3. Сборка и отправка писем на сервере: там же, где лежат ПДн.
+      - name: Send letters
+        if: steps.marker.outputs.run == 'yes'
+        id: send
+        uses: appleboy/ssh-action@v1
+        env:
+          P_MODE: ${{ steps.cfg.outputs.mode }}
+          P_LIMIT: ${{ steps.cfg.outputs.limit }}
+          P_DAYS: ${{ steps.cfg.outputs.days }}
+          P_PREFIX: ${{ steps.cfg.outputs.prefix }}
+          P_DRY: ${{ steps.cfg.outputs.dry }}
+          P_ENRICH: ${{ steps.enrich.outputs.b64 }}
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          envs: P_MODE,P_LIMIT,P_DAYS,P_PREFIX,P_DRY,P_ENRICH
+          capture_stdout: true
+          command_timeout: 15m
+          script: |
+            set -e
+            TOKEN=$(sed -n 's/^ADMIN_TOOLS_TOKEN=//p' /opt/bizsoft/astro.env | tr -d '"\r')
+            if [ -z "$TOKEN" ]; then
+              echo "ADMIN_TOOLS_TOKEN не задан в /opt/bizsoft/astro.env" >&2
+              exit 1
+            fi
+            export TOKEN
+            python3 - <<'PYEOF'
+            import base64, json, os, urllib.error, urllib.request
+
+            body = {
+                'mode': os.environ['P_MODE'],
+                'limit': int(os.environ.get('P_LIMIT') or 10),
+                'days': int(os.environ.get('P_DAYS') or 0),
+                'subject_prefix': os.environ.get('P_PREFIX') or '',
+                'dry_run': (os.environ.get('P_DRY') or 'false').lower() == 'true',
+                'enrichment': json.loads(base64.b64decode(os.environ['P_ENRICH'] or 'e30=')),
+            }
+            req = urllib.request.Request(
+                'http://127.0.0.1:3000/api/admin/leads/source-mail',
+                data=json.dumps(body).encode('utf-8'),
+                headers={'Content-Type': 'application/json',
+                         'x-admin-token': os.environ['TOKEN']},
+                method='POST')
+            try:
+                with urllib.request.urlopen(req, timeout=600) as resp:
+                    out = json.loads(resp.read().decode('utf-8'))
+            except urllib.error.HTTPError as e:
+                print('сайт ответил ошибкой:', e.code, e.read().decode('utf-8', 'replace')[:400])
+                raise SystemExit(1)
+
+            print(f"режим: {out['mode']}, заявок отобрано: {out['picked']}, "
+                  f"писем отправлено: {out['sent']}")
+            for row in out['leads']:
+                mark = 'отправлено' if row['sent'] else (row.get('error') or 'не отправлено')
+                print(f"  заявка {row['id']}: {row['kind']}"
+                      + (f" · {row['system']}" if row.get('system') else '')
+                      + f" — {mark}")
+            # Отобрали заявки, а письма не ушли — это сбой, а не тишина.
+            if out['picked'] and not out['sent'] and not out['dry_run']:
+                raise SystemExit('ни одно письмо не отправлено')
+            PYEOF
+
+      # Маркер ставится только после действительной отправки уточнений.
+      - name: Record marker
+        if: steps.marker.outputs.run == 'yes' && steps.send.outcome == 'success'
+          && steps.cfg.outputs.mode == 'followup' && steps.cfg.outputs.dry != 'true'
+        run: |
+          mkdir -p reports/seo/intelligence
+          echo "${{ steps.marker.outputs.today }}" > reports/seo/intelligence/last-lead-source.txt
+          bash scripts/seo/data_sync.sh push \
+            "Уточнения источника заявок за ${{ steps.marker.outputs.today }}" \
+            "reports/seo/intelligence"
+
+      - name: Save report to file
+        if: always() && steps.marker.outputs.run == 'yes'
+        run: |
+          cat > /tmp/lead-source-report.txt <<'LEAD_SOURCE_REPORT_EOF'
+          ${{ steps.send.outputs.stdout }}
+          LEAD_SOURCE_REPORT_EOF
+          cat /tmp/lead-source-report.txt
+
+      # Журнал только по делу: успешный прогон молчит, письма и так приходят.
+      - name: Post to issue
+        if: always() && steps.marker.outputs.run == 'yes'
+          && (steps.list.outcome != 'success' || steps.enrich.outcome != 'success'
+              || steps.send.outcome != 'success')
+        uses: ./.github/actions/journal-post
+        with:
+          title: "ops-lead-source-mail (${{ steps.cfg.outputs.mode }})"
+          outcome: ${{ steps.send.outcome }}
+          body-file: /tmp/lead-source-report.txt
