@@ -23,6 +23,7 @@ from dataclasses import asdict
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import paths  # noqa: E402
 from attack_engine import strike_list  # noqa: E402
+from competitors import classifier  # noqa: E402
 from decision_engine import kpi as kpi_mod  # noqa: E402
 from discovery import google_ru, registry, run_discovery, serp_source  # noqa: E402
 from mailer import build_email  # noqa: E402
@@ -224,7 +225,24 @@ def main(argv: list[str]) -> int:
     from experiments import journal as _journal
     from experiments import learning as _learning
     effect_ranking = _learning.ranking(_journal.load(), config)
-    systemic = recommendations.enrich(packages, geo_by_query, effect_ranking)
+    # Домены поля выдачи — для фильтра чужих брендов в поручениях. Свой
+    # домен и домены вендоров исключены: страница Adobe обязана содержать
+    # слово «adobe» (разбор 10.09.2026).
+    # Сравнение по «хвосту», а не дословно: в реестре вендоров стоит
+    # about.gitlab.com, а в выдаче встречаются gitlab.com,
+    # help.artlist.io и help.elements.envato.com. При дословной сверке
+    # они считались чужими доменами, и контур переставал предлагать
+    # дописать «гитлаб», «артлист», «энвато» — то есть имена вендоров,
+    # ради которых страница и существует (разбор 10.09.2026).
+    vendor_hosts = classifier.vendor_domains()
+    vendor_labels = recommendations.domain_labels(vendor_hosts)
+    field_domains = {
+        c.domain for c in cards
+        if c.domain != OURS
+        and not (recommendations.domain_labels({c.domain}) & vendor_labels)}
+    systemic = recommendations.enrich(packages, geo_by_query, effect_ranking,
+                                      field_domains=field_domains,
+                                      vendor_labels=vendor_labels)
     if systemic:
         print(f"6б. Системные правки: {len(systemic)} — одна правка шаблона "
               f"вместо десятков одинаковых правок в данных")
