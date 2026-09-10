@@ -1,0 +1,23 @@
+{
+ "experiment_id": "snippets-2-product-gap-d",
+ "ticket": "SEO-EXP-006",
+ "date": "2026-09-10",
+ "source": "yandex",
+ "evaluation_kind": "ctr",
+ "windows": null,
+ "metrics": null,
+ "matched_metrics": null,
+ "position_delta": null,
+ "sample_quality": [],
+ "statistical_result": null,
+ "summary_line": null,
+ "confidence": "LOW",
+ "verdict": "INSUFFICIENT_DATA",
+ "verdict_reason": "окно источника захватывает период до внедрения; чистое окно — с 2026-10-04",
+ "recommendation": "EXTEND",
+ "recommendation_detail": "продлить наблюдение до 2026-10-04",
+ "recommended_targets": [],
+ "requires_owner_decision": false,
+ "clean_window_eta": "2026-10-04",
+ "formula_group_result": null
+}
