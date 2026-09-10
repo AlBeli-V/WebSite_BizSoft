@@ -189,6 +189,13 @@ jobs:
           node scripts/seo/emailcheck.mjs \
             "reports/seo/intelligence/$DATE-v4.html" \
             "reports/seo/intelligence/$DATE-v4-render.json"
+          # Веб-отчёт проверяется в браузере на шести ширинах: страница не
+          # едет вбок и ни один блок не выходит за свою рамку. Дефект от
+          # 09.09.2026 (спарклайн за краем плитки, теплокарта шире экрана)
+          # был виден на всех ширинах и не ловился ни одной проверкой.
+          node scripts/seo/layoutcheck.mjs \
+            "reports/seo/public/daily/$DATE/index.html" \
+            "reports/seo/intelligence/$DATE-web-layout.json"
           python3 scripts/seo/uxlint_v4.py "$DATE"
           python3 scripts/seo/contentcheck.py "$DATE"
           python3 scripts/seo/previews_v4.py "$DATE"
