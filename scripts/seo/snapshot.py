@@ -1009,6 +1009,14 @@ def build_experiments() -> list[dict]:
             "owner": None,
             "result": None,
             "source": e.get("source"),
+            # Тикет и маркеры нужны радару возможностей: пока эксперимент
+            # меряется, правка его страниц обнуляет замер, и предлагать её
+            # нельзя. 09.09.2026 радар рекомендовал «переписать заголовок и
+            # описание» по двум кластерам из трёх, оба под действующим опытом.
+            "ticket": e.get("ticket"),
+            "query_markers": e.get("query_markers") or [],
+            "page_markers": e.get("page_markers") or [],
+            "next_review": e.get("next_review"),
         })
     return out
 

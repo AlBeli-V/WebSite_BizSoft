@@ -1153,6 +1153,14 @@ def build_html(b: dict, snap: dict, dq: dict, date: str) -> str:
           o["recommended_action"],
           ru_date_full(o["decision_date"]) if o.get("decision_date") else "срок не назначен"]
          for o in b["opportunities"]["items"]])
+    held = (b["opportunities"].get("held_by_experiment") or [])
+    if held:
+        # Кластер под замером в радар не попадает: рекомендованная правка
+        # обнулила бы чужой эксперимент. Молча его выкидывать нельзя —
+        # отсутствие кластера читалось бы как отсутствие спроса.
+        opp += ("<p class='muted'>Придержаны до вердикта эксперимента: "
+                + ", ".join(f"{h['cluster']} ({h['experiment']})" for h in held)
+                + ". Правка их страниц сейчас обнулит замер.</p>")
 
     # Графики письма — в живом виде (KPI-kit, наведение показывает значения);
     # таймлайн эксперимента остаётся картинкой письма.
@@ -1680,8 +1688,13 @@ def build_markdown(b: dict, snap: dict, dq: dict, date: str) -> str:
                  f"{r['status']} | {r['due']} | {r.get('artifact') or '—'} |")
     L.append("")
 
-    L += ["## Радар возможностей", "",
-          "| Кластер | Доказательство | Потенциал | Действие | Решение к |",
+    L += ["## Радар возможностей", ""]
+    held_md = b["opportunities"].get("held_by_experiment") or []
+    if held_md:
+        L += ["Придержаны до вердикта эксперимента: "
+              + ", ".join(f"{h['cluster']} ({h['experiment']})" for h in held_md)
+              + ". Правка их страниц сейчас обнулит замер.", ""]
+    L += ["| Кластер | Доказательство | Потенциал | Действие | Решение к |",
           "|---|---|---|---|---|"]
     for o in b["opportunities"]["items"]:
         L.append(f"| {o['cluster']} | {o['evidence']} | {o['potential']} | "
