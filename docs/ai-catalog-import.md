@@ -62,3 +62,48 @@ ChatGPT Plus, ChatGPT Pro, OpenAI API, Midjourney Basic, Descript Hobbyist.
 - `/catalog/ai/text` … `/catalog/ai/marketing` — списки товаров (после шагов 1–3).
 - Rich Results Test: Product / FAQPage / BreadcrumbList на карточках и сравнениях.
 - `sitemap.xml` — присутствуют `/compare/*`, `/solutions/ai-*`, новые категории и товары.
+
+## Заведение отдельной карточки AI-каталога (после миграции)
+
+Миграция выше — одноразовая. Дальше карточки раздела заводятся и правятся
+партиями по одной-двум позициям, без категорий и переносов:
+
+1. **Запись в реестре** `scripts/ai-catalog-cards.json`. Обязательное:
+   `name`, `license_type`, `short_desc_ru`, `features_ru`, `billing_note_ru`,
+   `base_price` + `currency` (USD или EUR) либо `price_on_request: true`.
+   Необязательное: `sku` — готовый SKU вместо `prefix-key` (для карточки,
+   которая уже живёт в Directus под «интеграционным» sku: upsert идёт по нему,
+   слаг карточки не меняется), `markup_coeff` — свой коэффициент вместо
+   общего 1.9, `sort` — своё место в списке раздела (без него позиция получает
+   сквозной номер и сдвигает соседей).
+2. **Сборка и проверка**: `node scripts/build-vendor-cards.mjs
+   scripts/ai-catalog-cards.json out/ai-cards.xlsx --only SKU1,SKU2` — в xlsx
+   уедут только перечисленные SKU.
+3. **Импорт** — воркфлоу `ops-import-ai-cards` (только с `main`): вход
+   `skus` — те же SKU через запятую, `apply=false` для dry-run, затем
+   `apply=true`. Вход `relink=true` дозаполняет `related_products` новым
+   карточкам по матрице `scripts/ai-catalog-data.py` (у карточек с уже
+   заполненным полем ничего не меняется). Отчёт — в issue #22.
+4. **SEO-тексты** — `data/seo/product-descriptions.json` + `ops-apply-descriptions`
+   (`apply=false`, потом `apply=true`). Запускать ПОСЛЕ импорта: импорт
+   кладёт в описание шаблонный текст генератора, партия описаний его
+   перекрывает.
+5. **Индексация** — проверить карточку в `/sitemap.xml` и заказать переобход
+   (`ops-yandex-recrawl`), см. `docs/rules/sitemap-indexing.md`.
+
+### Пара «базовое место + место Premium»
+
+У ChatGPT Business, Claude Team и Cursor Business продаются два типа мест с
+одинаковыми возможностями рабочего пространства и разными лимитами. Такая пара
+— главный источник каннибализации: описания совпадают по построению. Правила:
+
+- **две карточки, не одна**: тип места — различитель в `name`
+  (`ChatGPT Business` и `ChatGPT Business Premium`), а не строка в описании;
+- **разные тексты** в `data/seo/product-descriptions.json`: у базовой карточки
+  раздел «когда брать это место», у премиум-места — «кому нужно» и чем оно
+  отличается; `meta_title`, `meta_description` и `short_description` уникальны
+  (барьер — `tests/catalog-uniqueness.test.ts`);
+- **связка вместо конкуренции**: карточки ссылаются друг на друга через
+  `related_products`, на лендинге вендора стоят соседними столбцами сравнения,
+  а в FAQ есть вопрос «чем место Premium отличается от базового»;
+- **слаг базовой карточки не трогаем**: он уже в индексе и в перелинковке.

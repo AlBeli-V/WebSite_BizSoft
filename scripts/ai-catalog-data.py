@@ -223,7 +223,8 @@ def phase_post():
     canva_b = slug_of('Canva', 'Canva Business')
 
     REL = {
-        'chatgpt-business': ['anthropic-team', 'gemini-workspace-standard', 'perplexity-enterprise-pro', 'mscopilot-m365'],
+        'chatgpt-business': ['chatgpt-business-premium', 'anthropic-team', 'gemini-workspace-standard', 'perplexity-enterprise-pro'],
+        'chatgpt-business-premium': ['chatgpt-business', 'anthropic-team-premium', 'cursor-business-premium', cgpt_e],
         cgpt_e: ['anthropic-enterprise', 'mscopilot-m365', 'gemini-workspace-enterprise', 'ghcopilot-enterprise'],
         'anthropic-team': ['chatgpt-business', 'perplexity-enterprise-pro', 'gemini-workspace-standard', 'cursor-business'],
         'anthropic-team-premium': ['anthropic-team', 'anthropic-enterprise', 'cursor-business-premium', 'chatgpt-business'],
