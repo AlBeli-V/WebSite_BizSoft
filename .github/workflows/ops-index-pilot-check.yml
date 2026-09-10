@@ -129,6 +129,13 @@ jobs:
             -f "subject=Пилот возврата карточек в поиск: контрольная точка" \
             -f "body=$body"
 
+      # Локальному action нужен репозиторий в рабочей копии, а шаг журнала
+      # объявлен always(): без такого же always() здесь checkout пропустится
+      # ровно в упавшем прогоне, ради которого журнал и нужен.
+      - name: Checkout for journal action
+        if: always()
+        uses: actions/checkout@v4
+
       - name: Post to issue
         if: always()
         uses: ./.github/actions/journal-post
