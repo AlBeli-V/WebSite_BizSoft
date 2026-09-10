@@ -49,6 +49,15 @@ git fetch origin "$BRANCH" --quiet
 
 case "$cmd" in
   pull)
+    # Учёт пересборов источника (snapshot.data_revisions) читает историю
+    # выгрузок по ветке данных. actions/checkout клонирует на глубину 1, и
+    # тогда в истории виден только последний коммит: два сбора одного дня
+    # выглядят как один. Углубляется только мелкий клон — у полного
+    # --shallow-since, наоборот, историю обрезал бы.
+    if [ "$(git rev-parse --is-shallow-repository)" = "true" ]; then
+      git fetch origin "$BRANCH" --shallow-since="4 days ago" --quiet 2>/dev/null \
+        || echo "внимание: углубить историю $BRANCH не удалось, учёт пересборов будет неполным" >&2
+    fi
     for d in "${DIRS[@]}"; do
       if git cat-file -e "origin/$BRANCH:$d" 2>/dev/null; then
         git restore --source "origin/$BRANCH" --worktree -- "$d"
