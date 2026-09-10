@@ -111,6 +111,28 @@ def words(*parts: str) -> int:
 
 # ── Аналитические блоки ─────────────────────────────────────────────────────
 
+def index_drop(snap: dict, prev: dict | None) -> dict | None:
+    """Падение числа страниц в поиске Яндекса против предыдущего снимка.
+
+    Возвращает размер падения и признак материальности: дневное дрожание
+    индекса — обычное дело (663 → 650), обвал — нет (650 → 455).
+    """
+    if not prev:
+        return None
+    now = ((snap.get("yandex") or {}).get("indexation") or {}).get("indexed_urls")
+    was = ((prev.get("yandex") or {}).get("indexation") or {}).get("indexed_urls")
+    if now is None or was is None or not was or now >= was:
+        return None
+    lost = was - now
+    share = lost / was
+    th = snap.get("thresholds") or {}
+    return {
+        "was": was, "now": now, "lost": lost, "share": share,
+        "material": (share >= (th.get("index_drop_share") or 0.05)
+                     and lost >= (th.get("index_drop_pages") or 20)),
+    }
+
+
 def search_status(snap: dict, prev: dict | None) -> str:
     """positive | mixed | negative | stable | unknown — по знакам изменений доступных систем."""
     # Без единого доступного источника поиска статус неизвестен независимо от
@@ -130,6 +152,15 @@ def search_status(snap: dict, prev: dict | None) -> str:
         for key in ("impressions", "queries_position_le_10"):
             d = (yt.get(key) or 0) - (yp.get(key) or 0)
             signs.append(1 if d > 0 else (-1 if d < 0 else 0))
+        # Индекс — отдельный знак, и обвал перебивает остальные. Показы
+        # считаются по окну прошлых дней и об индексе сегодняшнего дня не
+        # знают: 09.09.2026 индекс упал 650 → 455, показы за прошлую неделю
+        # выросли, и статус письма вышел «рост».
+        drop = index_drop(snap, prev)
+        if drop:
+            signs.append(-1)
+            if drop["material"]:
+                return "negative"
     if not signs:
         # Ни одна система не отдала данных в оба дня. «Без изменений» здесь
         # утверждало бы измерение, которого не было, — статус честно неизвестен.

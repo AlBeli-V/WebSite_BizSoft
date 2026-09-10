@@ -39,6 +39,13 @@ THRESHOLDS = {
     "low_conversions": 5,      # ниже — только предварительный сигнал
     "top_position": 10.0,      # строгая граница «в топ-10»
     "reconciliation_ratio": 2.0,  # расхождение источников больше чем в 2 раза — critical
+    # Обвал индекса: падение числа страниц в поиске Яндекса, которое нельзя
+    # списать на дневное дрожание. 09.09.2026 индекс упал 650 → 455 (−30%), и
+    # ни одна проверка этого не увидела: статус письма считался по показам, а
+    # показы — окно за прошлые дни, которое об индексе сегодняшнего дня не
+    # знает. Обычное дрожание тех же дней — 663 → 650, то есть −2%.
+    "index_drop_share": 0.05,   # доля, ниже которой падение — дрожание
+    "index_drop_pages": 20,     # и одновременно столько страниц минимум
 }
 
 BRAND_MARKERS = ("bizsoft", "биз софт", "бизсофт", "biz-soft")
@@ -143,11 +150,43 @@ def load(prefix: str, date: str) -> dict | None:
     return json.loads(p.read_text(encoding="utf-8"))
 
 
+# Ветка-хранилище машинных данных. История сырых выгрузок живёт только в ней:
+# в рабочей копии (main) каталог reports/seo/data лежит в .gitignore, поэтому
+# «git log -- <файл>» без ссылки на ветку не находит ни одного коммита.
+DATA_BRANCH_REFS = ("origin/seo-data", "seo-data")
+
+
+def data_branch_ref() -> str | None:
+    """Первая существующая ссылка на ветку данных, иначе None."""
+    for ref in DATA_BRANCH_REFS:
+        try:
+            ok = subprocess.run(["git", "rev-parse", "--verify", "--quiet", ref],
+                                capture_output=True, text=True, timeout=10,
+                                check=False).returncode == 0
+        except Exception:  # noqa: BLE001
+            return None
+        if ok:
+            return ref
+    return None
+
+
 def git_revisions(path: pathlib.Path, date: str) -> list[str]:
-    """SHA коммитов, затронувших файл в указанный день (для учёта пересборов)."""
+    """SHA коммитов, затронувших файл в указанный день (для учёта пересборов).
+
+    Смотреть надо в ветку данных, а не в текущую. Прежняя редакция вызывала
+    «git log -- reports/seo/data/<файл>» на рабочей копии main, где этот путь
+    в .gitignore и истории не имеет: список всегда выходил пустым, и весь учёт
+    пересборов (data_revisions, находки INTRA_DAY_REVISION и BASELINE_REVISED)
+    не срабатывал ни разу. Цена промаха видна на 09.09.2026: выгрузка Яндекса
+    собиралась дважды — в 04:47 UTC с 650 страницами в поиске и в 08:19 с 455,
+    отчёт ушёл в 04:54 по первой, и о пересмотре никто не узнал.
+    """
+    ref = data_branch_ref()
+    if not ref:
+        return []
     try:
         out = subprocess.run(
-            ["git", "log", "--format=%H %ad", "--date=short", "--", str(path)],
+            ["git", "log", "--format=%H %ad", "--date=short", ref, "--", str(path)],
             capture_output=True, text=True, timeout=20, check=False).stdout
     except Exception:
         return []

@@ -18,7 +18,7 @@ import sys
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
 import measurement  # noqa: E402
 import snapshot as snapshot_mod  # noqa: E402
-from textfmt import ru_date  # noqa: E402
+from textfmt import num, ru_date  # noqa: E402
 
 SNAP_DIR = pathlib.Path("reports/seo/intelligence/snapshots")
 OUT_DIR = pathlib.Path("reports/seo/intelligence/data-quality")
@@ -68,6 +68,7 @@ CODE_KIND = {
     "NO_CRM_REVENUE": KIND_LIMIT,
     "INDEXATION_UNCLASSIFIED": KIND_LIMIT,
     "INDEXATION_COMMERCIAL_EXCLUDED": KIND_INCIDENT,
+    "INDEXATION_DROP": KIND_INCIDENT,
     "INDEXATION_CLASSIFIED": KIND_RULE,
     "MARKET_DEMAND_ABSENT": KIND_LIMIT,
     "MARKET_DEMAND_PARTIAL": KIND_LIMIT,
@@ -558,6 +559,34 @@ def run_checks(snap: dict, prev: dict | None = None) -> dict:
 
     # 11. Индексация: классификация исключённых (INDEX-001)
     idx = yx.get("indexation") if yx.get("available") else None
+
+    # 11a. Обвал индекса. 09.09.2026 число страниц в поиске Яндекса упало
+    # 650 → 455 (−30%, 254 адреса, почти все со статусом «малоценная или
+    # маловостребованная»), а отчёт того дня напечатал «без изменений» и
+    # «ПОИСК: рост»: статус считался по показам, показы — окно прошлых дней,
+    # об индексе сегодняшнего дня они не знают. Отдельная находка нужна
+    # потому, что сигнал дня об этом сказать не может: набор сигналов
+    # фиксирован, а падение индекса перекрывает любые показы.
+    prev_idx = ((prev or {}).get("yandex") or {}).get("indexation") or {}
+    if idx and idx.get("indexed_urls") is not None and prev_idx.get("indexed_urls"):
+        now_pages, was_pages = idx["indexed_urls"], prev_idx["indexed_urls"]
+        lost = was_pages - now_pages
+        share = lost / was_pages if was_pages else 0.0
+        th = snap.get("thresholds") or {}
+        if (lost > 0 and share >= (th.get("index_drop_share") or 0.05)
+                and lost >= (th.get("index_drop_pages") or 20)):
+            reasons = ", ".join(
+                f"{k}: {v}" for k, v in (idx.get("excluded_by_reason") or {}).items()) or "не разобраны"
+            add("warning", "INDEXATION_DROP",
+                "Страницы массово вышли из поиска Яндекса",
+                f"В поиске {num(now_pages)} против {num(was_pages)} в прошлом "
+                f"снимке: {num(lost)} адресов, {share:.0%}. Исключено всего "
+                f"{num(idx.get('excluded_urls'))} адресов хоста. Статусы "
+                f"исключения за окно выборки: {reasons}.",
+                "Показатели видимости считаются по окну прошлых дней и об этом "
+                "падении ещё не знают: выводы о росте по ним недействительны, "
+                "пока индекс не восстановлен.", source="yandex",
+                lifted_when="число страниц в поиске возвращается к прежнему уровню")
     if idx and idx.get("excluded_by_reason") is not None:
         reasons = ", ".join(f"{k}: {v}" for k, v in idx["excluded_by_reason"].items())
         smp = idx.get("excluded_samples") or {}

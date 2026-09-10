@@ -426,5 +426,47 @@ class TestEmailV4(unittest.TestCase):
         self.assertTrue((FIXROOT / f"reports/seo/public/daily/{DATE}/index.html").exists())
 
 
+class TestIndexDropStatus(unittest.TestCase):
+    """Плашка ПОИСК не говорит «рост», когда индекс обвалился.
+
+    09.09.2026: показы Яндекса за неделю 2 212 → 5 698, запросов на первой
+    странице 1 263 → 1 402 — все знаки положительные. При этом число страниц
+    в поиске упало 650 → 455. Показы считаются по окну прошлых дней и об этом
+    падении ещё не знают, поэтому индекс перебивает их знаки, а не усредняется
+    с ними.
+    """
+
+    @classmethod
+    def setUpClass(cls):
+        cls.r = load("report_v4")
+
+    def snap(self, pages, impressions=5698, top10=1402):
+        return {
+            "thresholds": {"index_drop_share": 0.05, "index_drop_pages": 20},
+            "yandex": {"available": True,
+                       "totals": {"impressions": impressions,
+                                  "queries_position_le_10": top10},
+                       "indexation": {"indexed_urls": pages}},
+            "google": {"available": False},
+        }
+
+    def test_обвал_индекса_перебивает_рост_показов(self):
+        st = self.r.search_status(self.snap(455), self.snap(650, 2212, 1263))
+        self.assertEqual(st, "negative")
+
+    def test_дрожание_индекса_рост_не_отменяет(self):
+        st = self.r.search_status(self.snap(650), self.snap(663, 2212, 1263))
+        self.assertEqual(st, "mixed")
+
+    def test_рост_без_падения_индекса_остаётся_ростом(self):
+        st = self.r.search_status(self.snap(700), self.snap(650, 2212, 1263))
+        self.assertEqual(st, "positive")
+
+    def test_индекс_не_измерен_статус_считается_по_остальному(self):
+        a, b = self.snap(455), self.snap(650, 2212, 1263)
+        a["yandex"]["indexation"] = {"indexed_urls": None}
+        self.assertEqual(self.r.search_status(a, b), "positive")
+
+
 if __name__ == "__main__":
     unittest.main()
