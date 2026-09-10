@@ -18,6 +18,7 @@ import sys
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
 import measurement  # noqa: E402
 import snapshot as snapshot_mod  # noqa: E402
+from textfmt import ru_date  # noqa: E402
 
 SNAP_DIR = pathlib.Path("reports/seo/intelligence/snapshots")
 OUT_DIR = pathlib.Path("reports/seo/intelligence/data-quality")
@@ -563,14 +564,27 @@ def run_checks(snap: dict, prev: dict | None = None) -> dict:
         commercial = idx.get("commercial_excluded_urls") or 0
         if commercial:
             paths = [u["path"] for u in (smp.get("unexpected") or []) if u.get("commercial")]
+            # Число адресов и статусы — это события за окно выборки, а не
+            # состояние на сегодня: 09.09.2026 запись «267 адресов, LOW_QUALITY:
+            # 327» стояла в «Сбоях дня» рядом со сводкой хоста, где исключённых
+            # числилось 53. Окно и текущее число теперь названы прямо.
+            win = smp.get("window") or {}
+            span = (f" {ru_date(win['from'])}–{ru_date(win['to'])}"
+                    if win.get("from") and win.get("to") else "")
+            now = idx.get("excluded_urls")
             add("warning", "INDEXATION_COMMERCIAL_EXCLUDED",
                 "Коммерческие страницы сняты из поиска без ожидаемой причины",
                 f"{commercial} адресов из sitemap: {', '.join(paths[:5])}"
                 f"{' и ещё ' + str(len(paths) - 5) if len(paths) > 5 else ''}. "
-                f"Статусы исключения за окно: {reasons}.",
+                f"Статусы исключения — события за окно выборки{span}, а не "
+                f"состояние на сегодня: {reasons}."
+                + (f" Сейчас Вебмастер числит исключёнными {now} адресов хоста."
+                   if now is not None else ""),
                 "Исключение этих страниц считается проблемой до разбора причины; "
                 "остальные исключения — ожидаемые (переадресация, canonical, "
-                "noindex, вне sitemap).", source="yandex")
+                "noindex, вне sitemap).", source="yandex",
+                lifted_when="в окне выборки не остаётся коммерческих страниц "
+                            "sitemap с неожиданным статусом")
         else:
             add("info", "INDEXATION_CLASSIFIED",
                 "Исключённые страницы классифицированы",

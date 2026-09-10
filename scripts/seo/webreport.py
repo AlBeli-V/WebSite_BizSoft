@@ -694,9 +694,11 @@ def _zero_section(zi: dict, snap: dict) -> str:
         g_txt = (f"Google — <b>{zi['with_impressions']}</b> страниц с показами "
                  f"({zi['coverage_google']:.1%}); индекс по страницам не измерен")
     if iy.get("available"):
+        note = zero_mod.yandex_slice_note(iy, y_indexed)
         y_txt = (f"Яндекс — в поиске <b>{num(iy['in_search'])}</b> страниц "
                  f"инвентаря ({iy['coverage']:.1%})"
-                 + (f", по сводке хоста {num(y_indexed)}" if y_indexed else ""))
+                 + (f", по сводке хоста {num(y_indexed)}" if y_indexed else "")
+                 + (f" ({note})" if note else ""))
     elif y_indexed and total:
         y_txt = (f"Яндекс — <b>{num(y_indexed)}</b> страниц в поиске по сводке "
                  f"хоста ({y_indexed / total:.1%}); по страницам не измерено")
@@ -1115,7 +1117,9 @@ def build_html(b: dict, snap: dict, dq: dict, date: str) -> str:
                 ["целевой показатель", e["primary_metric"]],
                 ["достоверность", e["confidence"]],
                 ["следующая проверка", ru_date_full(e["next_review"]) if e.get("next_review") else "вехи пройдены"],
-                ["вывод", f"{VERDICT_LABEL[e['verdict']]} — {e['verdict_reason']}"]])
+                ["вывод", f"{VERDICT_LABEL[e['verdict']]} — {e['verdict_reason']}"]]
+               + ([["решение по эксперименту", e["owner_decision"]]]
+                  if e.get("owner_decision") else []))
             + _evaluation_html(e))
 
     drivers = ""
@@ -1635,7 +1639,10 @@ def build_markdown(b: dict, snap: dict, dq: dict, date: str) -> str:
               f"| накоплено | {e['current_result']} |",
               f"| целевой показатель | {e['primary_metric']} |",
               f"| следующая проверка | {ru_date_full(e['next_review'])} |",
-              f"| вывод | **{VERDICT_LABEL[e['verdict']]}** — {e['verdict_reason']} |", ""]
+              f"| вывод | **{VERDICT_LABEL[e['verdict']]}** — {e['verdict_reason']} |"]
+        if e.get("owner_decision"):
+            L.append(f"| решение по эксперименту | {e['owner_decision']} |")
+        L.append("")
 
     L += ["## Журнал исполнения", "",
           "| Задача | Владелец | Стадия | Статус | Срок | Артефакт |",
@@ -1758,8 +1765,12 @@ def build_markdown(b: dict, snap: dict, dq: dict, date: str) -> str:
             ex = ", ".join(f"{k} — {v}" for k, v in sorted(
                 (iy.get("excluded_by_reason") or {}).items(),
                 key=lambda kv: -kv[1])) or "нет"
+            host_indexed = ((snap.get("yandex") or {})
+                            .get("indexation") or {}).get("indexed_urls")
+            note = zero_mod.yandex_slice_note(iy, host_indexed)
             L += [f"Яндекс: в поиске {num(iy['in_search'])} страниц инвентаря "
-                  f"({iy['coverage']:.1%}); исключено — {ex}.", ""]
+                  f"({iy['coverage']:.1%}); исключено — {ex}."
+                  + (f" {note[:1].upper()}{note[1:]}." if note else ""), ""]
 
     lh = b.get("loop_health") or {}
     if lh.get("available"):

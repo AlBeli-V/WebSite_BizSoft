@@ -806,6 +806,10 @@ def assemble(snap, prev, dq, actions_cfg, site_check):
         desk.append(f"продвижение: {growth_ideas['fresh'][0]['title']} — "
                     f"«Перспективные идеи»")
 
+    # Тикет по идентификатору эксперимента: журнал решений ведётся по id,
+    # а текст реестра ссылается на тикет (CONTENT-001).
+    tickets = {x["id"]: x.get("ticket") for x in exp_mod.load_registry()}
+
     return {
         "date": date,
         "date_h": ru_date_full(date),
@@ -840,6 +844,14 @@ def assemble(snap, prev, dq, actions_cfg, site_check):
                            else "Причина изменения пока не определена."),
         "driver_blocks": _driver_blocks(dec),
         "experiments": exps,
+        # Журнал решений в блоках — чтобы инвариант S5 сверял с ним даты
+        # вердиктов, названные в свободном тексте реестра.
+        "owner_decisions": {
+            eid: {"dates": [rec.get("date")], "verdict": rec.get("verdict"),
+                  "owner_decision": rec.get("owner_decision"),
+                  "ticket": tickets.get(eid)}
+            for eid, rec in exp_mod.owner_decisions().items()
+            if rec.get("date")},
         "board": board,
         "opportunities": opps,
         "vendor_radar": vendor_radar_mod.build(snap),
