@@ -1,0 +1,138 @@
+# expires: 2026-10-15
+# Контрольные точки пилота INDEX-003: вернулись ли четыре карточки в поиск
+# Яндекса после правки текстов 10.09.2026.
+#
+# Зачем отдельный workflow, а не напоминание в сессии. Шаги замера
+# детерминированы: взять свежий срез страниц из ветки seo-data, проверить
+# наличие четырёх адресов в in_search, сверить с контролем и применить
+# записанный в тикете критерий. Правило операционных прогонов требует для
+# такого workflow, а не Routine на сессии Claude.
+#
+# Два слота — это две контрольные точки тикета, а не страховка одного дня:
+# 24.09 (14 дней после переобхода) и 08.10 (28 дней). Планировщик GitHub
+# задерживает запуск на несколько часов; для замера по суточному срезу это
+# безразлично.
+#
+# Письмо уходит в обоих исходах: вердикт нужен и когда карточки вернулись, и
+# когда нет — от него зависит стратегия по остальным 238 карточкам.
+name: ops-index-pilot-check
+on:
+  schedule:
+    - cron: '0 3 24 9 *'   # 06:00 МСК 24.09.2026 — 14 дней после переобхода
+    - cron: '0 3 8 10 *'   # 06:00 МСК 08.10.2026 — 28 дней
+  workflow_dispatch: {}
+permissions:
+  contents: read
+  issues: write
+  actions: write
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Guard - only default branch
+        run: |
+          if [ "${{ github.ref_name }}" != "main" ]; then
+            echo "Запуск разрешён только с ветки main. Текущий ref: ${{ github.ref_name }}"
+            exit 1
+          fi
+      - uses: actions/checkout@v4
+
+      - name: Measure
+        id: check
+        run: |
+          set -e
+          git fetch origin seo-data --quiet
+          python3 - <<'PY' > /tmp/pilot-check.txt
+          import json, subprocess, datetime
+
+          PILOT = ['/product/adobe-cc-pro', '/product/adobe-cc-std',
+                   '/product/figma-prof-dev', '/product/figma-org-dev']
+          CONTROL = '/product/figma-ent-dev'
+
+          def read(path):
+              r = subprocess.run(['git', 'show', f'origin/seo-data:{path}'],
+                                 capture_output=True, text=True)
+              return json.loads(r.stdout) if r.returncode == 0 else None
+
+          listing = subprocess.run(
+              ['git', 'ls-tree', '-r', '--name-only', 'origin/seo-data',
+               'reports/seo/data/'], capture_output=True, text=True).stdout
+          slices = sorted(l for l in listing.split()
+                          if '/index-yandex-' in l and l.endswith('.json'))
+          if not slices:
+              print('Срезов index-yandex в ветке данных нет — замер невозможен.')
+              raise SystemExit(1)
+          latest = slices[-1]
+          slice_date = latest.rsplit('-', 3)[-3:]
+          slice_date = '-'.join(slice_date).removesuffix('.json')
+          data = read(latest)
+          now = set(data.get('in_search') or [])
+
+          # Возраст среза называется явно: замер по вчерашнему срезу — это
+          # замер по вчерашнему срезу, а не по сегодняшнему дню.
+          today = datetime.date.today().isoformat()
+          age = 'сегодняшний' if slice_date == today else f'от {slice_date}'
+
+          back = [p for p in PILOT if p in now]
+          out = [p for p in PILOT if p not in now]
+          control_back = CONTROL in now
+
+          print(f'Пилот INDEX-003, контрольная точка {today}.')
+          print(f'Срез страниц Вебмастера — {age} ({slice_date}), '
+                f'страниц в поиске всего: {len(now)}.')
+          print()
+          print(f'Вернулись в поиск: {len(back)} из 4.')
+          for p in PILOT:
+              print(f'  {"есть" if p in now else "нет "} — {p}')
+          print()
+          print(f'Контроль внутри семейства {CONTROL} (выпал вместе с ними, '
+                f'не правился): {"вернулся" if control_back else "не вернулся"}.')
+          print()
+
+          if len(back) >= 3:
+              verdict = ('ВОЗВРАТ ВОЗМОЖЕН. Решение Яндекса отыгрывается правкой '
+                         'страницы. Работу по остальным 238 карточкам ставим '
+                         'партиями не больше 30 с паузой на замер.')
+          elif len(back) <= 1:
+              verdict = ('РЕШЕНИЕ НЕ ОТЫГРЫВАЕТСЯ материальной правкой страницы. '
+                         'Запасной путь INDEX-003: сворачивание вариантов через '
+                         'productNoindex, интент — на страницы вендоров.')
+          else:
+              verdict = ('ДАННЫХ НЕДОСТАТОЧНО (2 из 4). По тикету партия '
+                         'расширяется до восьми карточек, вывод не делается.')
+          print('Вердикт по критерию INDEX-003: ' + verdict)
+
+          if control_back:
+              print()
+              print('ВНИМАНИЕ: вернулся и контроль, которого не правили. '
+                    'Значит вернуть мог не текст, а пересчёт кабинета — '
+                    'вердикт выше читать с этой поправкой.')
+          print()
+          print(f'Не вернулись: {", ".join(out) if out else "нет таких"}.')
+          PY
+          cat /tmp/pilot-check.txt
+
+      - name: Send verdict by mail
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          body=$(python3 - <<'PY'
+          text = open('/tmp/pilot-check.txt', encoding='utf-8').read().rstrip()
+          text += ('\n\nПодробности пилота — reports/seo/tasks/INDEX-003-return-pilot.md, '
+                   'разбор обвала — INDEX-002.')
+          print(text.replace('\\', '\\\\').replace('\n', '\\n'))
+          PY
+          )
+          bash scripts/ops/gh_dispatch_wait.sh ops-send-mail.yml --timeout 600 \
+            -f to=avbelyaev@biz-soft.pro \
+            -f "subject=Пилот возврата карточек в поиск: контрольная точка" \
+            -f "body=$body"
+
+      - name: Post to issue
+        if: always()
+        uses: ./.github/actions/journal-post
+        with:
+          title: "ops-index-pilot-check (контрольные точки INDEX-003)"
+          outcome: ${{ steps.check.outcome }}
+          body-file: /tmp/pilot-check.txt
