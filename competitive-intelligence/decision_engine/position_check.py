@@ -52,6 +52,16 @@ MIN_SAMPLE = 20
 BANDS = ((1, 1), (2, 3), (4, 5), (6, 10), (11, 20))
 
 
+def _дней(window_from: str, window_to: str) -> int:
+    """Длина окна Вебмастера в днях, включительно."""
+    import datetime as dt
+    try:
+        return (dt.date.fromisoformat(window_to)
+                - dt.date.fromisoformat(window_from)).days + 1
+    except ValueError:
+        return 0
+
+
 def _normalize(phrase: str) -> str:
     return " ".join((phrase or "").lower().replace("ё", "е").split())
 
@@ -63,29 +73,61 @@ def our_position(row: serp_source.SerpRow) -> int | None:
     return None
 
 
-def baseline_queries(window_to: str, branch: str = serp_source.SEO_BRANCH
-                     ) -> set[str]:
-    """Запросы, по которым мы уже ранжировались к концу окна Вебмастера.
+def window_positions(window: tuple[str, str],
+                     branch: str = serp_source.SEO_BRANCH) -> dict:
+    """Наша органическая позиция по каждому запросу внутри окна Вебмастера.
 
-    Без этого отбора сверка врёт в обе стороны сразу. Половина ядра — статьи,
-    написанные после окна: Вебмастер меряет период, когда страницы ещё не
-    было, и её «позиция» там либо отсутствует, либо относится к другой
-    странице. 04.09.2026 таких запросов было 69 из 140 — почти половина
-    выборки.
+    Почему не сегодняшний срез (правка 1.9.2). До неё сверка брала срез дня
+    прогона и сравнивала его со средней Вебмастера за окно, которое к этому
+    дню уже закончилось: 10.09.2026 срез был за 10.09, а окно — 08.08–04.09,
+    и окна не пересекались вовсе. Шесть дней движения позиций попадали в
+    «расхождение» и объяснялись рекламой и ранжированием.
+
+    Вторая причина важнее первой. Вебмастер даёт среднюю позицию показа за
+    окно, а срез — одно измерение. Сравнение точки со средней даёт
+    систематический перекос, зависящий от позиции: позиция 1 в срезе может
+    отклоняться от своей средней только вниз, позиция 8 — в обе стороны. Это
+    регрессия к среднему, и она рисует ровно тот профиль, который отчёт
+    приписывал рекламе: большое расхождение наверху, нулевое в середине.
+    Медиана по всем срезам внутри окна сравнивает среднее со средним и этот
+    перекос снимает.
+
+    Возвращает даты использованных срезов, медиану позиции по запросу и
+    число замеров, из которых она получена.
     """
-    dates = [d for d in serp_source.available_dates(branch) if d <= window_to]
-    if not dates:
-        return set()
-    return {_normalize(row.query)
-            for row in serp_source.read_snapshot(dates[-1], branch)
-            if row.has_data and row.region == REGION and our_position(row)}
+    window_from, window_to = window
+    dates = [d for d in serp_source.available_dates(branch)
+             if window_from <= d <= window_to]
+    собрано: dict[str, list[int]] = {}
+    for date in dates:
+        for row in serp_source.read_snapshot(date, branch):
+            if not row.has_data or row.region != REGION:
+                continue
+            position = our_position(row)
+            if position is None:
+                # День, когда нас не было в выдаче, в медиану не идёт:
+                # условная позиция 21 сместила бы её к дну по любому запросу,
+                # где мы появлялись через раз. Вебмастер по той же причине
+                # считает среднюю только по дням с показами.
+                continue
+            собрано.setdefault(_normalize(row.query), []).append(position)
+    return {"даты": dates,
+            "позиции": {q: statistics.median(v) for q, v in собрано.items()},
+            "замеров": {q: len(v) for q, v in собрано.items()}}
 
 
-def compare(rows: list[serp_source.SerpRow],
-            positions: dict[str, dict] | None = None,
+def compare(positions: dict[str, dict] | None = None,
             window: tuple[str, str] | None = None,
-            branch: str = serp_source.SEO_BRANCH) -> dict:
-    """Расхождение позиции среза с позицией показа по Вебмастеру."""
+            branch: str = serp_source.SEO_BRANCH,
+            serp: dict | None = None) -> dict:
+    """Расхождение позиции среза с позицией показа по Вебмастеру.
+
+    Обе стороны считаются по одному периоду — окну выгрузки Вебмастера, см.
+    `window_positions`. Сегодняшний срез сюда не входит намеренно: расхождение
+    — свойство инструмента (API отдаёт органику, Вебмастер — место показа со
+    всеми блоками), а не сегодняшнего дня, и меряться должно там, где обе
+    величины покрывают одно время.
+    """
     positions = demand_source.load_positions(branch) if positions is None else positions
     window = demand_source.webmaster_window(branch) if window is None else window
     window_from, window_to = window
@@ -93,20 +135,23 @@ def compare(rows: list[serp_source.SerpRow],
         return {"доступна": False,
                 "причина": "выгрузка Вебмастера недоступна — сверять не с чем"}
 
-    eligible = baseline_queries(window_to, branch)
-    pairs: list[tuple[int, float]] = []
+    serp = window_positions(window, branch) if serp is None else serp
+    наши = serp.get("позиции") or {}
+    if not наши:
+        return {"доступна": False,
+                "причина": ("внутри окна Вебмастера нет ни одного среза "
+                            "выдачи — сравнивать не с чем"),
+                "окно_вебмастера": f"{window_from} — {window_to}"}
+
+    pairs: list[tuple[float, float]] = []
     skipped_new = 0
-    for row in rows:
-        if not row.has_data or row.region != REGION:
+    for key, measured in positions.items():
+        if measured["показов"] < MIN_SHOWS:
             continue
-        position = our_position(row)
+        position = наши.get(key)
         if position is None:
-            continue
-        key = _normalize(row.query)
-        measured = positions.get(key)
-        if not measured or measured["показов"] < MIN_SHOWS:
-            continue
-        if key not in eligible:
+            # Запрос, по которому внутри окна мы ни разу не ранжировались:
+            # чаще всего страница написана позже. Сравнивать не с чем.
             skipped_new += 1
             continue
         pairs.append((position, measured["позиция"]))
@@ -126,9 +171,19 @@ def compare(rows: list[serp_source.SerpRow],
             bands.append({"диапазон": f"{low}–{high}" if low != high else str(low),
                           "запросов": len(inside),
                           "медиана": round(statistics.median(inside), 2)})
+    даты = serp.get("даты") or []
+    замеров = serp.get("замеров") or {}
+    дней_окна = _дней(window_from, window_to)
     return {
         "доступна": True,
         "окно_вебмастера": f"{window_from} — {window_to}",
+        # Период среза и его покрытие внутри окна: читатель обязан видеть,
+        # что обе стороны считаются по одному времени и насколько плотно.
+        "окно_среза": f"{даты[0]} — {даты[-1]}" if даты else "",
+        "срезов_в_окне": len(даты),
+        "дней_в_окне": дней_окна,
+        "медиана_замеров_на_запрос": (round(statistics.median(
+            list(замеров.values())), 1) if замеров else 0),
         "сопоставлено": len(pairs),
         "исключено_новых_страниц": skipped_new,
         "медиана_расхождения": round(statistics.median(diffs), 2),
