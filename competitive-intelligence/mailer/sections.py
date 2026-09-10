@@ -224,7 +224,7 @@ def attacks_section(attacks: list[dict], limit: int = 5) -> str:
             f'{_td(esc(a["confidence"]), color=MUTED, small=True)}</tr>')
     head = (f'<tr>{_th("ID")}{_th("Запрос")}{_th("Мы", "right")}{_th("Выше нас")}'
             f'{_th("Выгода", "right")}{_th("Увер.")}</tr>')
-    return (_heading("Где ближе всего рост", "мы на 4–20, выше — конкурент за ту же сделку")
+    return (_heading("Где ближе всего рост", "выше нас — конкурент за ту же сделку")
             + _table("".join(rows), head))
 
 

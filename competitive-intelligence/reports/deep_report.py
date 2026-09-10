@@ -246,6 +246,20 @@ def _opportunity_caveat() -> str:
         note="почему верхние строки списка нельзя читать как «здесь легче всего»")
 
 
+def _полоса(attacks) -> str:
+    """Полоса позиций кандидата — по фактическим данным, а не по константе.
+
+    Отчёт печатал «мы на 4–20» при глубине среза Яндекса 10: позиций
+    11–20 в данных нет ни одной. Подпись обещала охват, которого не было
+    (разбор 10.09.2026).
+    """
+    позиции = [a.get("our_position") for a in (attacks or [])
+               if isinstance(a, dict) and a.get("our_position")]
+    if not позиции:
+        return "4–10"
+    return f"{min(позиции)}–{max(позиции)}"
+
+
 def _google_hypothesis(profile: dict) -> str:
     """Разрыв с Google, разложенный по статусу индексации, а не по догадке.
 
@@ -438,7 +452,8 @@ def _kpi_cards(snapshot: dict, previous: dict | None, attacks: list[dict],
         kit.stat_tile("В ТОП-10 органики", str(ours.get("топ10", "—")),
                       f"из {queries} запросов поля",
                       note="без рекламы и колдунщиков"),
-        kit.stat_tile("Точек атаки", str(len(attacks)), note="мы на 4–20, выше конкурент"),
+        kit.stat_tile("Точек атаки", str(len(attacks)),
+                      note=f"мы на {_полоса(attacks)}, выше конкурент"),
     ]
     chart = _share_history_chart(snapshot, histories or {}, history_dates or [])
     return kit.dash(kit.kpi_row(tiles), chart, title="Итоги дня",
@@ -558,7 +573,7 @@ def _google_block(snapshot: dict) -> str:
     first = attacks.get("первые") or []
     attacks_html = (f'<h4 id="google-attacks">Точки атаки в Google — '
                     f'{esc(attacks.get("всего"))} кандидатов</h4>'
-                    '<p class="lead">Тот же Strike List по Google-срезу: мы на 4–20, '
+                    f'<p class="lead">Тот же Strike List по Google-срезу: мы на {_полоса(first)}, '
                     'выше стоит другой участник. В пакеты работ пока не входят — '
                     'список справочный, до накопления базовой линии.</p>')
     if first:
@@ -1636,7 +1651,7 @@ def build(date: str, snapshot: dict, previous: dict | None,
 {verify_block}
 
 <h2 id="l4">5 · Точки атаки — {len(attacks)} кандидатов</h2>
-<p class="lead">Кандидат — запрос, где мы на 4–20 позиции, а выше стоит другой
+<p class="lead">Кандидат — запрос, где мы на {_полоса(attacks)} позиции, а выше стоит другой
 участник выдачи. Где мы уже в ТОП-3, отбирать нечего; где нас нет в ТОП-20
 вовсе — это работа по созданию страницы, а не атака. Если выше стоит компания
 с признаками B2B-продажи, на кону сделка; если официальный сайт вендора,

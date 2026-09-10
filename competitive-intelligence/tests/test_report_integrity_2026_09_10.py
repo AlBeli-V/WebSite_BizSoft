@@ -566,3 +566,42 @@ class TestРядДинамикиДостижим(unittest.TestCase):
         _, почему = k.verdict(показатели, [0.05] * 4)
         self.assertIn("есть 4", почему)
         self.assertIn("не хватает 2", почему)
+
+
+class TestПолосаКандидатаПоДанным(unittest.TestCase):
+    """Дефект 11. Отчёт обещал охват, которого не было.
+
+    Полоса кандидата объявлена «мы на 4–20», а срез Яндекса собирается
+    глубиной 10: позиций 11–20 в данных нет ни одной. Запрос, где мы
+    одиннадцатые, попадал не в «есть куда расти», а в «нас нет в выдаче
+    вовсе» — контур был слеп к полосе, которую считал своей.
+    """
+
+    def строка(self, query, *domains):
+        from discovery import serp_source
+        return serp_source.SerpRow(
+            date=DATE, query=query, region="213",
+            top=[{"domain": d, "url": f"https://{d}/p", "title": d}
+                 for d in domains])
+
+    def test_полоса_ограничена_глубиной_среза(self):
+        from attack_engine import strike_list as sl
+        десять = [self.строка("q", *[f"r{i}.ru" for i in range(10)])]
+        self.assertEqual((4, 10), sl.band(десять))
+
+    def test_при_глубокой_выдаче_полоса_шире(self):
+        from attack_engine import strike_list as sl
+        двадцать = [self.строка("q", *[f"r{i}.ru" for i in range(20)])]
+        self.assertEqual((4, 20), sl.band(двадцать))
+
+    def test_потолок_не_превышается(self):
+        from attack_engine import strike_list as sl
+        глубокая = [self.строка("q", *[f"r{i}.ru" for i in range(40)])]
+        self.assertEqual(sl.OUR_POSITION_MAX, sl.band(глубокая)[1])
+
+    def test_отчёт_печатает_фактическую_полосу(self):
+        точки = [attack("q1"), dict(attack("q2"), our_position=9)]
+        self.assertEqual("4–9", deep_report._полоса(точки))
+
+    def test_без_точек_полоса_не_выдумывается(self):
+        self.assertEqual("4–10", deep_report._полоса([]))
