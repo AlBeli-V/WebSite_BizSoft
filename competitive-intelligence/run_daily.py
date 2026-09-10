@@ -369,7 +369,10 @@ def main(argv: list[str]) -> int:
     # тем, что видит человек в выдаче: величины разные, и молчать об этом
     # значит выдавать одну за другую (разбор 04.09.2026).
     from decision_engine import position_check as poscheck_mod
-    poscheck = poscheck_mod.compare(rows)
+    # Срез дня сюда не передаётся: сверка считает обе стороны по окну
+    # выгрузки Вебмастера, иначе сравнивались бы непересекающиеся
+    # периоды (разбор 10.09.2026).
+    poscheck = poscheck_mod.compare()
     poscheck_verdict = poscheck_mod.verdict(poscheck, config)
     if poscheck.get("доступна"):
         print(f"6з. Сверка позиций с Вебмастером: сопоставлено "
