@@ -82,7 +82,12 @@ jobs:
             exit 1
           fi
 
-      - uses: actions/checkout@v4
+      # always() — локальный action journal-post это файлы репозитория: без
+      # checkout в упавшем прогоне запись в журнал не найдёт его на раннере
+      # (сторож scripts/ci/check-workflow-journal.py).
+      - name: Checkout
+        if: always()
+        uses: actions/checkout@v4
 
       # Маркер дня: сторож утренних контуров будит прогон ежечасно в окне
       # 06–13 МСК, и без маркера каждое пробуждение слало бы уточнения заново.
