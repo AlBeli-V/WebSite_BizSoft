@@ -32,7 +32,8 @@ import sys
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import paths  # noqa: E402,F401
-from discovery import query_set, registry, serp_source  # noqa: E402
+from discovery import index_status, query_set, registry  # noqa: E402
+from discovery import serp_source  # noqa: E402
 from scoring import visibility  # noqa: E402
 
 OURS = "biz-soft.pro"
@@ -107,19 +108,31 @@ def absence_profile(google_rows, yandex_rows, region: str) -> dict:
         url = next((item.get("url") or "" for item in y[key].top
                     if serp_source.normalize_domain(item.get("domain", ""))
                     == OURS), "")
+        класс, дословно = index_status.state(url)
         запись = страницы.setdefault(url, {"url": url, "запросов": 0,
                                            "лучшая_позиция_яндекс": ypos,
-                                           "есть_в_google_срезе": url in в_google})
+                                           "есть_в_google_срезе": url in в_google,
+                                           "индекс": класс,
+                                           "индекс_дословно": дословно})
         запись["запросов"] += 1
         запись["лучшая_позиция_яндекс"] = min(запись["лучшая_позиция_яндекс"], ypos)
     ранжир = sorted(страницы.values(),
                     key=lambda p: (-p["запросов"], p["лучшая_позиция_яндекс"]))
     отсутствуют = [p for p in ранжир if not p["есть_в_google_срезе"]]
+    по_индексу: dict[str, int] = {}
+    for страница in ранжир:
+        ключ = страница["индекс"]
+        по_индексу[ключ] = по_индексу.get(ключ, 0) + 1
     return {
         "страниц_в_разрыве": len(ранжир),
         "страниц_есть_в_срезе": len(ранжир) - len(отсутствуют),
         "страниц_нет_в_срезе": len(отсутствуют),
         "наших_url_в_срезе_всего": len(в_google),
+        # Разбивка по статусу индексации: она и разводит гипотезы,
+        # причём по данным, которые базовый контур уже собрал.
+        "по_индексу": по_индексу,
+        "индекс_доступен": index_status.available(),
+        "индекс_дата": index_status.snapshot_date(),
         "первые": ранжир[:MAX_GAP_ITEMS],
         "_пояснение": (
             "страница считается присутствующей, если встречена в Google-срезе "
