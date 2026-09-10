@@ -103,6 +103,29 @@ jobs:
             "Прогон конкурентной разведки за $DATE" \
             "data/competitive reports/competitive"
 
+      # Вёрстка отчёта проверяется до публикации, но после пуша данных:
+      # сломанная страница наружу не уходит, а снимок дня не теряется.
+      # Проверка появилась после 09.09.2026: таблицы опытов печатались без
+      # обёртки прокрутки и тянули страницу вбок на телефоне.
+      - name: Setup Node for layout check
+        if: steps.guard.outputs.build == 'yes'
+        uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        if: steps.guard.outputs.build == 'yes'
+        with:
+          node-version: 22
+          cache: pnpm
+      - name: Check report layout
+        if: steps.guard.outputs.build == 'yes'
+        env:
+          DATE: ${{ steps.guard.outputs.date }}
+        run: |
+          pnpm install --frozen-lockfile
+          pnpm exec playwright install --with-deps chromium
+          node scripts/seo/layoutcheck.mjs \
+            "reports/competitive/archive/$DATE.html" \
+            "/tmp/ci-layout.json" 320,390,430,768,1440
+
       - name: Publish deep report
         if: steps.guard.outputs.build == 'yes'
         run: bash scripts/ops/gh_dispatch_wait.sh ci-publish-report.yml --timeout 600

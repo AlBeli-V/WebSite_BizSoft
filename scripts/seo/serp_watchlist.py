@@ -21,8 +21,10 @@ import pathlib
 import sys
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
+sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent / "wordstat"))
 
 import inventory  # noqa: E402
+import normalize as N  # noqa: E402
 import opportunity as opp_mod  # noqa: E402
 
 SNAP_DIR = pathlib.Path("reports/seo/intelligence/snapshots")
@@ -90,10 +92,21 @@ def build(date_s: str, cap: int = CAP) -> list[str]:
                 if slug:
                     ordered.append(f"{slug} аналоги")
 
+    # Ключ схлопывания — смысловой, а не буквальный. Вебмастер отдаёт часть
+    # запросов в переставленном виде («оплата capture one юридическим лицом» и
+    # «capture оплата one лицом юридическим»), и по буквальному совпадению это
+    # два разных запроса: срез 09.09.2026 нёс 431 запрос, из них 33 — вторые
+    # формы того же смысла. Выдачу по ним собирали дважды, а счёт «мы в топ-10
+    # по N запросам» и разрыв Яндекс ↔ Google выходили завышенными.
+    # Остаётся первая форма: список идёт по убыванию приоритета, и первой
+    # встречается та, по которой показов больше.
     seen, out = set(), []
     for q in ordered:
-        key = " ".join((q or "").lower().split())
-        if not key or key in seen:
+        plain = " ".join((q or "").lower().split())
+        if not plain:
+            continue
+        key = N.morph_key(q) or plain
+        if key in seen:
             continue
         seen.add(key)
         out.append(q.strip())

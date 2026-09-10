@@ -18,6 +18,7 @@
 - `operational-runs.md` — операционные прогоны только в GitHub Actions
 - `operational-routines-history.md` — история прежнего механизма Routine (заменён)
 - `product-feeds.md` — товарные фиды открываются только по команде руководителя
+- `data-sources-registry.md` — источники и аккаунты в реестрах с переключателем
 
 ## Каталог, страницы, SEO
 - `catalog.md` — каталог и привязки

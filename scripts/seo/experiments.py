@@ -21,6 +21,7 @@ sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
 from textfmt import counted, num, ru_date  # noqa: E402
 
 REGISTRY = pathlib.Path("reports/seo/intelligence/seo-experiments.json")
+DECISIONS = pathlib.Path("reports/seo/intelligence/experiment-decisions.jsonl")
 MIN_EXPOSURE_IMPRESSIONS = 500   # ниже — выборка не позволяет судить о кликабельности
 MIN_EXPOSURE_DAYS = 7
 
@@ -46,6 +47,36 @@ def next_review_for(start: dt.date, today: dt.date,
     future = [start + dt.timedelta(days=n) for n in REVIEW_MILESTONES_DAYS
               if start + dt.timedelta(days=n) >= today]
     return min(future).isoformat() if future else None
+
+
+def owner_decisions() -> dict[str, dict]:
+    """Последнее записанное решение по каждому эксперименту.
+
+    Журнал решений вёлся только на запись: карточка эксперимента строилась
+    из реестра и о решении руководителя не знала. 09.09.2026 отчёт печатал
+    CONTENT-001 как «наблюдаем, накоплено 31 показов из 100 минимальных»,
+    хотя вердикт CONFIRMED и решение EXPAND были записаны 03.09.2026 —
+    неделей раньше. Реестру при этом никто не менял status.
+    """
+    if not DECISIONS.exists():
+        return {}
+    out: dict[str, dict] = {}
+    for line in DECISIONS.read_text(encoding="utf-8").splitlines():
+        line = line.strip()
+        if not line:
+            continue
+        try:
+            rec = json.loads(line)
+        except ValueError:
+            continue
+        eid = rec.get("experiment_id")
+        if not eid:
+            continue
+        prev = out.get(eid)
+        # Журнал дописывается: побеждает последняя по времени запись.
+        if not prev or (rec.get("decided_at") or "") >= (prev.get("decided_at") or ""):
+            out[eid] = rec
+    return out
 
 
 def load_registry() -> list[dict]:
@@ -248,6 +279,28 @@ def _sync_exposure_with_verdict(rec: dict) -> None:
     rec["exposure_ok"] = imp >= gate
 
 
+VERDICT_RU = {"CONFIRMED": "подтверждён", "REJECTED": "отклонён",
+              "INCONCLUSIVE": "без вывода", "INSUFFICIENT_DATA": "мало данных"}
+DECISION_RU = {"EXPAND": "тиражировать", "REVERT": "откатить", "KEEP": "оставить",
+               "EXTEND": "продлить", "NEW_TEST": "перезапустить", "CLOSE": "закрыть"}
+
+
+def _decision_line(rec: dict | None) -> str | None:
+    """Строка «решение принято» из журнала решений, без домысливания.
+
+    Печатается ровно то, что записано: дата, вердикт и выбор руководителя.
+    Оценка уверенности живёт в примечании записи и в письмо не переносится —
+    её пересказ был бы утверждением, которого журнал не делает.
+    """
+    if not rec or not rec.get("date"):
+        return None
+    verdict = VERDICT_RU.get(rec.get("verdict") or "", rec.get("verdict") or "—")
+    choice = DECISION_RU.get(rec.get("owner_decision") or "",
+                             rec.get("owner_decision") or "")
+    tail = f", решение — {choice}" if choice else ""
+    return f"{ru_date(rec['date'])}: вердикт {verdict}{tail}"
+
+
 def build(snap: dict, date: str, site_check: dict | None = None) -> list[dict]:
     # Вердикт-движок (задание руководителя 30.08.2026): оценка считается
     # ежедневно и показывается в веб-отчёте; в письмо расширенный блок и
@@ -267,6 +320,7 @@ def build(snap: dict, date: str, site_check: dict | None = None) -> list[dict]:
         checked_all, checked_date = sc, None
 
     today = dt.date.fromisoformat(date)
+    decided = owner_decisions()
     out = []
     for e in load_registry():
         if e.get("status") not in ("running", "observing"):
@@ -339,7 +393,15 @@ def build(snap: dict, date: str, site_check: dict | None = None) -> list[dict]:
                              "страницах, поэтому их вклады не разделяются.",
             "start": e["start"],
             "days_elapsed": days,
-            "minimum_exposure": f"{MIN_EXPOSURE_DAYS} дн. и {MIN_EXPOSURE_IMPRESSIONS} показов",
+            # Порог печатается тот, по которому эксперимент действительно
+            # судят. Настроенные 500 показов и адаптированный гейт стояли в
+            # одной карточке рядом: строка обещала 500, а вывод считал от 100,
+            # и читатель видел два разных определения одной величины.
+            "minimum_exposure": (
+                f"{MIN_EXPOSURE_DAYS} дн. и {gate} показов"
+                + (f" (гейт снижен с {MIN_EXPOSURE_IMPRESSIONS}: ёмкость окна "
+                   f"кластера меньше)" if gate_adapted else "")),
+            "minimum_exposure_configured": MIN_EXPOSURE_IMPRESSIONS,
             "pages_total": len(pages),
             "pages_live_with_treatment": live,
             "site_check_date": checked_date,
@@ -364,6 +426,10 @@ def build(snap: dict, date: str, site_check: dict | None = None) -> list[dict]:
             "next_review": next_review_for(start, today, e.get("next_review")),
             "verdict": v,
             "verdict_reason": why,
+            # Записанное решение руководителя печатается рядом с текущим
+            # наблюдением. Без него карточка утверждала «наблюдаем», когда
+            # вердикт по эксперименту был вынесен и решение принято.
+            "owner_decision": _decision_line(decided.get(e["id"])),
             # Человеческие формулировки для письма: руководитель читает их, а не
             # исходные строки реестра.
             "hypothesis_plain": "понятнее ли описание страницы в выдаче для того, кто "

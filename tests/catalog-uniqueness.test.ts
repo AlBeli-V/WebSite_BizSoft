@@ -174,3 +174,52 @@ describe('тексты SEO-партий: развод дублей, а не их
     expect(empty).toEqual([]);
   });
 });
+
+/**
+ * Тот же барьер для реестра AI-каталога. Пакеты scripts/catalog/*.json — не
+ * единственный вход карточек в Directus: партия раздела /catalog/ai заведена
+ * из scripts/ai-catalog-cards.json, и там же живут пары «базовое место +
+ * место Premium» (Claude Team, Cursor Business, ChatGPT Business). У пары
+ * тарифов описания похожи по построению — это ровно тот случай, когда две
+ * карточки склеиваются в дубль и одна из них выпадает из индекса.
+ */
+describe('реестр AI-каталога: два типа мест — две различимые карточки', () => {
+  const registry = JSON.parse(
+    readFileSync(resolve(__dirname, '../scripts/ai-catalog-cards.json'), 'utf8'),
+  ) as { vendors: { prefix: string; products: { key?: string; sku?: string; name: string; short_desc_ru?: string }[] }[] };
+
+  const cards = registry.vendors.flatMap((v) => v.products.map((p) => ({
+    sku: (p.sku || `${v.prefix}-${p.key}`).toUpperCase(),
+    name: (p.name ?? '').trim(),
+    short: (p.short_desc_ru ?? '').trim(),
+  })));
+
+  function dups(field: 'sku' | 'name' | 'short') {
+    const seen = new Map<string, string[]>();
+    for (const c of cards) {
+      if (!c[field]) continue;
+      seen.set(c[field], [...(seen.get(c[field]) ?? []), c.sku]);
+    }
+    return [...seen.entries()].filter(([, skus]) => skus.length > 1)
+      .map(([value, skus]) => `«${value.slice(0, 60)}» — ${skus.join(', ')}`);
+  }
+
+  it('sku уникальны — иначе одна карточка затирает другую при upsert', () => {
+    expect(dups('sku')).toEqual([]);
+  });
+
+  it('названия уникальны — заголовок страницы берётся из названия', () => {
+    expect(dups('name')).toEqual([]);
+  });
+
+  it('краткие описания уникальны — они уходят в лид карточки и в сниппет', () => {
+    expect(dups('short')).toEqual([]);
+  });
+
+  it('у каждой карточки есть название и краткое описание', () => {
+    const broken = cards
+      .filter((c) => !c.name || c.short.length < 40)
+      .map((c) => c.sku);
+    expect(broken).toEqual([]);
+  });
+});

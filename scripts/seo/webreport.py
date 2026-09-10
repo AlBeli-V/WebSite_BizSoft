@@ -40,7 +40,7 @@ from report_v4 import (BLOB, BRANCH, PILL_LABEL, REPO, VERDICT_LABEL,  # noqa: E
                        _exp_exposure_line, _exp_implementation_line,
                        _exp_interim_line, _exp_serp_line,
                        assemble, load_site_check)
-from textfmt import num, pct, ru_date, ru_date_full, signed  # noqa: E402
+from textfmt import counted, num, pct, ru_date, ru_date_full, signed  # noqa: E402
 
 BASE = pathlib.Path("reports/seo/intelligence")
 OUT = pathlib.Path("reports/seo/public/daily")
@@ -694,9 +694,11 @@ def _zero_section(zi: dict, snap: dict) -> str:
         g_txt = (f"Google — <b>{zi['with_impressions']}</b> страниц с показами "
                  f"({zi['coverage_google']:.1%}); индекс по страницам не измерен")
     if iy.get("available"):
+        note = zero_mod.yandex_slice_note(iy, y_indexed)
         y_txt = (f"Яндекс — в поиске <b>{num(iy['in_search'])}</b> страниц "
                  f"инвентаря ({iy['coverage']:.1%})"
-                 + (f", по сводке хоста {num(y_indexed)}" if y_indexed else ""))
+                 + (f", по сводке хоста {num(y_indexed)}" if y_indexed else "")
+                 + (f" ({note})" if note else ""))
     elif y_indexed and total:
         y_txt = (f"Яндекс — <b>{num(y_indexed)}</b> страниц в поиске по сводке "
                  f"хоста ({y_indexed / total:.1%}); по страницам не измерено")
@@ -937,6 +939,23 @@ def _kpi_panel(k: dict, snap: dict) -> str:
     return left + right
 
 
+def _owner_desk_html(b: dict) -> str:
+    """Предложения на столе руководителя под строкой «От вас».
+
+    Плашка шапки их считает («ОТ ВАС: 2 предложения»), а строка ниже говорила
+    «Срочных решений нет» и на этом заканчивалась: 09.09.2026 страница
+    противоречила сама себе в двух соседних строках. В письме этот блок есть
+    с 31.08.2026, на странице его не было.
+    """
+    desk = b.get("owner_desk") or []
+    if b.get("user_action_required") or not desk:
+        return ""
+    items = "".join(f"<li>{d}</li>" for d in desk)
+    return (f"<div class='desk'><b>На вашем столе "
+            f"{kit.esc(counted(len(desk), 'предложение', 'предложения', 'предложений'))}"
+            f"</b><ul>{items}</ul></div>")
+
+
 def _kpi_dashboard(b: dict, snap: dict) -> str:
     """Пульт: четыре плитки со спарклайнами, клик раскрывает углубление."""
     tiles, panels = [], []
@@ -1115,7 +1134,9 @@ def build_html(b: dict, snap: dict, dq: dict, date: str) -> str:
                 ["целевой показатель", e["primary_metric"]],
                 ["достоверность", e["confidence"]],
                 ["следующая проверка", ru_date_full(e["next_review"]) if e.get("next_review") else "вехи пройдены"],
-                ["вывод", f"{VERDICT_LABEL[e['verdict']]} — {e['verdict_reason']}"]])
+                ["вывод", f"{VERDICT_LABEL[e['verdict']]} — {e['verdict_reason']}"]]
+               + ([["решение по эксперименту", e["owner_decision"]]]
+                  if e.get("owner_decision") else []))
             + _evaluation_html(e))
 
     drivers = ""
@@ -1132,6 +1153,14 @@ def build_html(b: dict, snap: dict, dq: dict, date: str) -> str:
           o["recommended_action"],
           ru_date_full(o["decision_date"]) if o.get("decision_date") else "срок не назначен"]
          for o in b["opportunities"]["items"]])
+    held = (b["opportunities"].get("held_by_experiment") or [])
+    if held:
+        # Кластер под замером в радар не попадает: рекомендованная правка
+        # обнулила бы чужой эксперимент. Молча его выкидывать нельзя —
+        # отсутствие кластера читалось бы как отсутствие спроса.
+        opp += ("<p class='muted'>Придержаны до вердикта эксперимента: "
+                + ", ".join(f"{h['cluster']} ({h['experiment']})" for h in held)
+                + ". Правка их страниц сейчас обнулит замер.</p>")
 
     # Графики письма — в живом виде (KPI-kit, наведение показывает значения);
     # таймлайн эксперимента остаётся картинкой письма.
@@ -1167,6 +1196,8 @@ def build_html(b: dict, snap: dict, dq: dict, date: str) -> str:
       letter-spacing:-.02em; text-wrap:balance;
     }
     .sub{color:var(--muted);font-size:14.5px;margin-top:6px}
+    .desk{margin:10px 0 0;font-size:15px;line-height:1.55}
+    .desk ul{margin:4px 0 0;padding-left:20px}
     .statusbar{
       position:sticky; top:0; z-index:5; background:var(--ground);
       border-bottom:1px solid var(--line); padding:12px 0; margin-bottom:8px;
@@ -1561,6 +1592,7 @@ def build_html(b: dict, snap: dict, dq: dict, date: str) -> str:
 <section id="dash">
   <h2>Пульт</h2>
   <p class="lede"><b>От вас:</b> {b['user_action']}</p>
+  {_owner_desk_html(b)}
   {_kpi_dashboard(b, snap)}
   {_status_dashboard(b)}
   {_daily_multiples(snap)}
@@ -1594,7 +1626,15 @@ def build_markdown(b: dict, snap: dict, dq: dict, date: str) -> str:
          " · ".join(f"**{p['label']}:** {p['text']}" for p in b["pills"]), "",
          b["sources_line"], "",
          "---", "", "## Итог дня", "",
-         f"**От вас:** {b['user_action']}", "",
+         f"**От вас:** {b['user_action']}", ""]
+    if not b.get("user_action_required") and b.get("owner_desk"):
+        # Плашка шапки считает предложения на столе, а строка «От вас» их не
+        # называла: 09.09.2026 отчёт одновременно писал «ОТ ВАС: 2 предложения»
+        # и «Срочных решений нет». Письмо перечисляет их с 31.08, страница — нет.
+        L += [f"На вашем столе {counted(len(b['owner_desk']), 'предложение', 'предложения', 'предложений')}:", ""]
+        L += [f"- {d}" for d in b["owner_desk"]]
+        L.append("")
+    L += [
          "| Показатель | Значение | Изменение | Период | Источник | Достоверность |",
          "|---|---|---|---|---|---|"]
     for k in b["kpis"]:
@@ -1635,7 +1675,10 @@ def build_markdown(b: dict, snap: dict, dq: dict, date: str) -> str:
               f"| накоплено | {e['current_result']} |",
               f"| целевой показатель | {e['primary_metric']} |",
               f"| следующая проверка | {ru_date_full(e['next_review'])} |",
-              f"| вывод | **{VERDICT_LABEL[e['verdict']]}** — {e['verdict_reason']} |", ""]
+              f"| вывод | **{VERDICT_LABEL[e['verdict']]}** — {e['verdict_reason']} |"]
+        if e.get("owner_decision"):
+            L.append(f"| решение по эксперименту | {e['owner_decision']} |")
+        L.append("")
 
     L += ["## Журнал исполнения", "",
           "| Задача | Владелец | Стадия | Статус | Срок | Артефакт |",
@@ -1645,8 +1688,13 @@ def build_markdown(b: dict, snap: dict, dq: dict, date: str) -> str:
                  f"{r['status']} | {r['due']} | {r.get('artifact') or '—'} |")
     L.append("")
 
-    L += ["## Радар возможностей", "",
-          "| Кластер | Доказательство | Потенциал | Действие | Решение к |",
+    L += ["## Радар возможностей", ""]
+    held_md = b["opportunities"].get("held_by_experiment") or []
+    if held_md:
+        L += ["Придержаны до вердикта эксперимента: "
+              + ", ".join(f"{h['cluster']} ({h['experiment']})" for h in held_md)
+              + ". Правка их страниц сейчас обнулит замер.", ""]
+    L += ["| Кластер | Доказательство | Потенциал | Действие | Решение к |",
           "|---|---|---|---|---|"]
     for o in b["opportunities"]["items"]:
         L.append(f"| {o['cluster']} | {o['evidence']} | {o['potential']} | "
@@ -1758,8 +1806,12 @@ def build_markdown(b: dict, snap: dict, dq: dict, date: str) -> str:
             ex = ", ".join(f"{k} — {v}" for k, v in sorted(
                 (iy.get("excluded_by_reason") or {}).items(),
                 key=lambda kv: -kv[1])) or "нет"
+            host_indexed = ((snap.get("yandex") or {})
+                            .get("indexation") or {}).get("indexed_urls")
+            note = zero_mod.yandex_slice_note(iy, host_indexed)
             L += [f"Яндекс: в поиске {num(iy['in_search'])} страниц инвентаря "
-                  f"({iy['coverage']:.1%}); исключено — {ex}.", ""]
+                  f"({iy['coverage']:.1%}); исключено — {ex}."
+                  + (f" {note[:1].upper()}{note[1:]}." if note else ""), ""]
 
     lh = b.get("loop_health") or {}
     if lh.get("available"):
