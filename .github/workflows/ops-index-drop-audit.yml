@@ -82,8 +82,10 @@ jobs:
             print(os.environ.get('P_SUMMARY', ''))
             flt = {'status': {'_eq': 'published'}}
             url = ('http://localhost:8055/items/products?limit=-1&sort[]=slug'
+                   # Поля берутся только те, что точно есть: ops-export-products
+                   # уже ловил 400 от Directus на колонке, которой в базе нет.
                    '&fields=slug,name,vendor,price,short_description,description,'
-                   'meta_description,content_updated_at'
+                   'meta_description'
                    f'&filter={urllib.parse.quote(json.dumps(flt))}')
             req = urllib.request.Request(url, headers={'Authorization': f'Bearer {token}'})
             rows = json.load(urllib.request.urlopen(req))['data']
