@@ -23,6 +23,8 @@
   S3. Недоказуемое «по-прежнему» в тексте письма не появляется.
   S4. Экспозиция «порог пройден» при вердикте «мало данных» — два
       определения экспозиции в одном блоке (методика, этап 4 аудита).
+  S5. Вердикт чужого эксперимента, названный в тексте реестра, не совпадает
+      с журналом решений по дате.
 
 Запуск: python3 scripts/seo/invariants.py [YYYY-MM-DD]
 Код выхода 1 при любом нарушении (для ручного прогона).
@@ -33,6 +35,7 @@ from __future__ import annotations
 import datetime as dt
 import json
 import pathlib
+import re
 import sys
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
@@ -102,7 +105,62 @@ def soft(blocks: dict, html: str) -> list[str]:
         if (e.get("exposure_ok") and verdict == "INSUFFICIENT_DATA"
                 and e.get("exposure_basis") == "matched"):
             v.append(f"{e.get('ticket')}: «порог пройден» при вердикте «мало данных»")
+
+    v += cited_verdicts(blocks)
     return v
+
+
+# «Вердикт CONFIRMED 02.09.2026» и подобное в свободном тексте реестра.
+VERDICT_CITE_RE = re.compile(
+    r"вердикт\s+(CONFIRMED|REJECTED|INCONCLUSIVE|INSUFFICIENT_DATA)"
+    r"[^.;]{0,40}?(\d{2}\.\d{2}\.\d{4})", re.IGNORECASE)
+# Тикет эксперимента: SEO-EXP-001, CONTENT-004, MONEY-A1, PAGES-EXP-001.
+TICKET_RE = re.compile(r"\b[A-Z]{3,}(?:-[A-Z0-9]+)+\b")
+
+
+def cited_verdicts(blocks: dict) -> list[str]:
+    """S5. Вердикт чужого эксперимента, названный в тексте, сверяется с журналом.
+
+    Гипотезы CONTENT-002…005 ссылались на подтверждение CONTENT-001. В журнале
+    решений запись одна: 03.09.2026, CONFIRMED, EXPAND. В тексте стояли две
+    разные даты и два разных эффекта: «CONFIRMED 02.09.2026: +70% показов,
+    статья на 5-й позиции» и «CONFIRMED 03.09.2026: +62%, 6-я позиция». Текст
+    пишется руками один раз и потом не сверяется ни с чем; журнал решений —
+    сверяется. Дата в тексте, которой нет в журнале, — это утверждение,
+    которого никто не проверял.
+    """
+    log = blocks.get("owner_decisions") or {}
+    if not log:
+        return []
+    # Даты решений по тикету: ссылка в тексте называет тикет (CONTENT-001),
+    # а журнал ведётся по идентификатору эксперимента. Сверять надо с датами
+    # именно того эксперимента, на который ссылаются, иначе чужая запись того
+    # же дня выдаёт ложное совпадение.
+    by_ticket: dict[str, set[str]] = {}
+    for rec in log.values():
+        ticket = rec.get("ticket")
+        if ticket:
+            by_ticket.setdefault(ticket, set()).update(
+                d for d in (rec.get("dates") or []) if d)
+    out = []
+    for e in blocks.get("experiments") or []:
+        for field in ("hypothesis", "treatment", "primary_metric"):
+            text = e.get(field) or ""
+            for m in VERDICT_CITE_RE.finditer(text):
+                cited = m.group(2)
+                iso = "-".join(reversed(cited.split(".")))
+                ref = TICKET_RE.findall(text[:m.start()])
+                ticket = ref[-1] if ref else e.get("ticket")
+                dates = by_ticket.get(ticket)
+                if dates is None:
+                    continue    # тикет журналу неизвестен — молчим, а не гадаем
+                if iso not in dates:
+                    out.append(
+                        f"{e.get('ticket')}: в тексте назван вердикт "
+                        f"{m.group(1).upper()} по {ticket} от {cited}, "
+                        f"а в журнале решений записи на эту дату нет "
+                        f"(есть: {', '.join(sorted(dates)) or 'ни одной'})")
+    return out
 
 
 def check_tiers(snap: dict, dq: dict, blocks: dict, html: str) -> dict:
