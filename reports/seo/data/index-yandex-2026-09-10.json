@@ -83,6 +83,7 @@
   "/catalog/pm",
   "/catalog/vcs",
   "/compare",
+  "/compare/fl-studio-vs-ableton",
   "/compare/gamma-vs-canva",
   "/compare/midjourney-vs-recraft",
   "/contacts",
@@ -98,12 +99,10 @@
   "/product/acronis-cp-adv-server",
   "/product/acronis-cp-adv-vhost",
   "/product/acronis-cp-adv-ws",
-  "/product/acronis-cp-backup-adv-3vm",
   "/product/acronis-cp-backup-adv-email-5",
   "/product/acronis-cp-backup-adv-gws-5",
-  "/product/acronis-cp-backup-adv-server",
-  "/product/acronis-cp-backup-adv-vhost",
-  "/product/acronis-cp-backup-adv-ws",
+  "/product/acronis-cp-standard-3vm",
+  "/product/acronis-cp-standard-vhost",
   "/product/adobe-acro-pro",
   "/product/adobe-acro-pro-team",
   "/product/adobe-ae",
@@ -118,9 +117,9 @@
   "/product/anthropic-enterprise",
   "/product/anthropic-team",
   "/product/anthropic-team-premium",
-  "/product/anydesk-advanced",
   "/product/anydesk-namespace",
   "/product/anydesk-solo",
+  "/product/anydesk-standard",
   "/product/app-store-itunes-gift-card",
   "/product/artlst-pro",
   "/product/artlst-social",
@@ -232,7 +231,6 @@
   "/product/maxon-zbrush-teams",
   "/product/me-adaudit-plus-professional-2-domain-controllers",
   "/product/me-admanager-plus-msp-500-domain-users",
-  "/product/me-admanager-plus-msp-helpdesk-technicians-1-helpdesk-technicians",
   "/product/me-admanager-plus-professional-1-domain",
   "/product/me-analytics-plus-professional-5-concurrent-guests-pack",
   "/product/me-appcreator-manageengine-essentials-base-pack",
@@ -245,7 +243,6 @@
   "/product/me-datasecurity-plus-professional-data-risk-assessment-2-tb",
   "/product/me-datasecurity-plus-professional-file-server-auditing-2-file-servers",
   "/product/me-datasecurity-plus-professional-fileanalysis-2-tb",
-  "/product/me-datasecurity-plus-professional-nas-server-1-netapp-nutanix-file-server",
   "/product/me-ddi-central-professional-2-dns-clusters-2-dhcp-clusters-3-ntp-servers",
   "/product/me-endpoint-central-professional-10-servers-and-single-user-license",
   "/product/me-endpoint-central-security-10-servers-and-single-user-license",
@@ -277,7 +274,6 @@
   "/product/me-patch-manager-plus-professional-10-servers-and-single-user-license",
   "/product/me-remote-access-plus-professional-25-computers-and-5-users",
   "/product/me-servicedesk-plus-professional-2-technicians",
-  "/product/me-sharepoint-manager-plus-professional-1-farm-m365-tenant",
   "/product/me-supportcenter-plus-professional-2-support-representatives",
   "/product/me-vulnerability-manager-plus-professional-10-servers-and-single-user-license",
   "/product/moarr-everything",
@@ -304,6 +300,7 @@
   "/product/openai-pro",
   "/product/openrouter-balance",
   "/product/parallels-desktop-pro",
+  "/product/parallels-desktop-standard-sub",
   "/product/perplexity-enterprise-max",
   "/product/perplexity-enterprise-pro",
   "/product/photon-fusion-100",
@@ -339,7 +336,6 @@
   "/product/teamviewer-remote-access",
   "/product/think-cell-suite",
   "/product/tlstr-wirecast-studio",
-  "/product/toonboom-harmony-advanced",
   "/product/topaz-photo",
   "/product/topaz-studio",
   "/product/ue-realityscan",
@@ -354,8 +350,6 @@
   "/product/zoom-wp-pro",
   "/solutions",
   "/solutions/ai-dlya-prodazh",
-  "/solutions/po-dlya-razrabotki-igr",
-  "/solutions/uchet-po-i-it-aktivov",
   "/vendors",
   "/vendors/ableton",
   "/vendors/acronis",
@@ -476,9 +470,75 @@
   "/vendors/zoho",
   "/vendors/zoom"
  ],
- "in_search_count": 470,
- "in_search_fetched": 470,
+ "in_search_count": 463,
+ "in_search_fetched": 463,
  "excluded": {
+  "/product/acronis-cp-backup-adv-3vm": {
+   "status": "LOW_QUALITY",
+   "date": "2026-09-10",
+   "bad_http_status": null,
+   "target_url": null
+  },
+  "/product/acronis-cp-backup-adv-server": {
+   "status": "LOW_QUALITY",
+   "date": "2026-09-10",
+   "bad_http_status": null,
+   "target_url": null
+  },
+  "/product/acronis-cp-backup-adv-vhost": {
+   "status": "LOW_QUALITY",
+   "date": "2026-09-10",
+   "bad_http_status": null,
+   "target_url": null
+  },
+  "/product/acronis-cp-backup-adv-ws": {
+   "status": "LOW_QUALITY",
+   "date": "2026-09-10",
+   "bad_http_status": null,
+   "target_url": null
+  },
+  "/product/anydesk-advanced": {
+   "status": "LOW_QUALITY",
+   "date": "2026-09-10",
+   "bad_http_status": null,
+   "target_url": null
+  },
+  "/product/me-admanager-plus-msp-helpdesk-technicians-1-helpdesk-technicians": {
+   "status": "LOW_QUALITY",
+   "date": "2026-09-10",
+   "bad_http_status": null,
+   "target_url": null
+  },
+  "/product/me-datasecurity-plus-professional-nas-server-1-netapp-nutanix-file-server": {
+   "status": "LOW_QUALITY",
+   "date": "2026-09-10",
+   "bad_http_status": null,
+   "target_url": null
+  },
+  "/product/me-sharepoint-manager-plus-professional-1-farm-m365-tenant": {
+   "status": "LOW_QUALITY",
+   "date": "2026-09-10",
+   "bad_http_status": null,
+   "target_url": null
+  },
+  "/product/toonboom-harmony-advanced": {
+   "status": "LOW_QUALITY",
+   "date": "2026-09-10",
+   "bad_http_status": null,
+   "target_url": null
+  },
+  "/solutions/po-dlya-razrabotki-igr": {
+   "status": "LOW_QUALITY",
+   "date": "2026-09-10",
+   "bad_http_status": null,
+   "target_url": null
+  },
+  "/solutions/uchet-po-i-it-aktivov": {
+   "status": "LOW_QUALITY",
+   "date": "2026-09-10",
+   "bad_http_status": null,
+   "target_url": null
+  },
   "/blog/enterprise-vs-team-korporativnye-tarify-ai": {
    "status": "LOW_QUALITY",
    "date": "2026-09-09",
@@ -539,19 +599,7 @@
    "bad_http_status": null,
    "target_url": null
   },
-  "/product/acronis-cp-standard-3vm": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
   "/product/acronis-cp-standard-server": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/acronis-cp-standard-vhost": {
    "status": "LOW_QUALITY",
    "date": "2026-09-09",
    "bad_http_status": null,
@@ -708,12 +756,6 @@
    "target_url": null
   },
   "/product/ai-image-business": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/anydesk-standard": {
    "status": "LOW_QUALITY",
    "date": "2026-09-09",
    "bad_http_status": null,
@@ -1577,12 +1619,6 @@
    "bad_http_status": null,
    "target_url": null
   },
-  "/product/parallels-desktop-standard-sub": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
   "/product/photon-ent": {
    "status": "LOW_QUALITY",
    "date": "2026-09-09",
@@ -1997,12 +2033,6 @@
    "bad_http_status": null,
    "target_url": null
   },
-  "/compare/fl-studio-vs-ableton": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-07",
-   "bad_http_status": null,
-   "target_url": null
-  },
   "/compare/perplexity-vs-chatgpt": {
    "status": "LOW_QUALITY",
    "date": "2026-09-07",
@@ -2244,6 +2274,6 @@
    "target_url": null
   }
  },
- "events_count": 1798,
- "events_fetched": 1796
+ "events_count": 1813,
+ "events_fetched": 1812
 }
