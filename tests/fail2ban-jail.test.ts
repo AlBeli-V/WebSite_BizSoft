@@ -60,6 +60,49 @@ describe('fail2ban: jail против сканеров читается и не 
     }
   });
 
+  it('backend задан явно — иначе jail читал бы systemd-журнал', () => {
+    // В сборке для Debian/Ubuntu backend по умолчанию systemd: jail без своего
+    // backend игнорирует logpath и смотрит в журнал, где логов доступа nginx
+    // нет. Проверка 09.09.2026 поймала это через четыре часа после установки —
+    // jail был активен, «Total failed: 0» при живом сканере, а в статусе стояло
+    // «Journal matches» вместо «File list».
+    const jail = parseIni(readFileSync(JAIL, 'utf8'))['nginx-noscript'];
+    expect(jail.backend, 'backend не задан — logpath не будет работать').toBeTruthy();
+    expect(['polling', 'auto', 'pyinotify', 'gamin']).toContain(jail.backend);
+  });
+
+  it('фильтр написан под строку без даты — fail2ban удаляет её до проверки', () => {
+    // fail2ban находит дату и вырезает её из строки, а уже остаток проверяет
+    // по failregex. Строка combined-лога
+    //   1.2.3.4 - - [09/Sep/2026:16:24:07 +0300] "GET /x HTTP/1.1" 404 …
+    // доходит до фильтра как «1.2.3.4 - - [] "GET /x HTTP/1.1" 404 …».
+    // Выражение, ожидающее дату внутри скобок, не совпадёт ни с чем: 09.09.2026
+    // fail2ban-regex по живому логу дал «17394 lines, 0 matched» при исправном
+    // разборе даты. Здесь проверяется именно та форма строки, которую фильтр
+    // получает на вход.
+    const def = readFileSync(FILTER, 'utf8');
+    const raw = def.split('\n').find((l) => l.startsWith('failregex'))!.split('=').slice(1).join('=').trim();
+    // <HOST> в fail2ban разворачивается в группу адреса.
+    const rx = new RegExp(raw.replace('<HOST>', String.raw`(?<host>[\w\-.^_]*[^\s\[\]])`));
+    const cases: [string, string, boolean][] = [
+      ['404 сканера, скобки остались', '94.154.46.247 - - [] "GET /wp-config.php HTTP/1.1" 404 178 "-" "-"', true],
+      ['404 сканера, скобки убраны', '94.154.46.247 - -  "GET /wp-config.php HTTP/1.1" 404 178 "-" "-"', true],
+      ['обрыв 444', '185.177.72.23 - - [] "GET /.env HTTP/1.1" 444 0 "-" "-"', true],
+      ['404 поисковика — ловится, его спасает ignoreip', '66.249.70.38 - - [] "GET /snyataya HTTP/1.1" 404 178 "-" "-"', true],
+      ['обычный 200 не трогаем', '66.249.70.38 - - [] "GET /vendors/openai HTTP/1.1" 200 51234 "-" "-"', false],
+      ['редирект 301 не трогаем', '1.2.3.4 - - [] "GET /x/ HTTP/1.1" 301 178 "-" "-"', false],
+    ];
+    for (const [name, line, want] of cases) {
+      expect(rx.test(line), name).toBe(want);
+    }
+  });
+
+  it('своего datepattern нет — встроенные шаблоны разбирают nginx сами', () => {
+    // Прежний «^[^\[]*\[({DATE})» захватывал начало строки и удалял вместе с
+    // датой сам адрес. Встроенные шаблоны на том же логе дали 17394 попадания.
+    expect(readFileSync(FILTER, 'utf8')).not.toMatch(/^datepattern\s*=/m);
+  });
+
   it('имя фильтра из jail совпадает с файлом фильтра', () => {
     const jail = parseIni(readFileSync(JAIL, 'utf8'))['nginx-noscript'];
     expect(FILTER).toContain(`${jail.filter}.conf`);

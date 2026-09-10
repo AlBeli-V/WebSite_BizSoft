@@ -58,13 +58,26 @@ STOP_EVALUATIVE = {
     "недорого", "дешево", "дешевле", "выгодно", "выгодные", "лучший",
     "лучшие", "надежный", "быстро", "срочно", "бесплатно",
 }
-# Города: гео-запрос закрывается не словом в описании товара. Страница
-# вендора не про Москву, и вписывать туда город — порча текста ради
+# Города и регионы: гео-запрос закрывается не словом в описании товара.
+# Страница вендора не про Москву, и вписывать туда город — порча текста ради
 # формального совпадения.
-STOP_GEO = {
-    "москва", "москве", "спб", "петербург", "екатеринбург", "новосибирск",
-    "казань", "краснодар",
-}
+#
+# Хранятся ОСНОВЫ, а не словоформы (правка 1.10.3). Прежний список из точных
+# форм пропускал склонения и производные: по запросу «московская область
+# оплатить подписку capture one» контур предлагал дописать в страницу
+# Capture One слова «московская» и «область», потому что в списке стояли
+# только «москва» и «москве».
+STOP_GEO_STEMS = (
+    "москв", "московск", "мск", "спб", "петербург", "питер", "област",
+    "екатеринбург", "новосибирск", "казан", "краснодар", "нижн", "самар",
+    "ростов", "уфа", "пермь", "воронеж", "волгоград", "регион",
+)
+
+
+def is_geo(word: str) -> bool:
+    """Гео-слово или его форма. Сверка по основе, а не по точному написанию."""
+    low = (word or "").lower()
+    return any(low.startswith(stem) for stem in STOP_GEO_STEMS)
 
 # Транслитерация для сверки слова запроса с доменом конкурента. Русские
 # написания брендов («плати по миру») в домене стоят латиницей
@@ -76,16 +89,46 @@ TRANSLIT = {
     "х": "h", "ц": "c", "ч": "ch", "ш": "sh", "щ": "sch", "ъ": "", "ы": "y",
     "ь": "", "э": "e", "ю": "yu", "я": "ya",
 }
-# Короче этого слово к домену не примеряем: «pay» и «мир» встречаются внутри
-# слишком многих доменов, и запрет вышел бы шире брендов.
+# Короче этого слово к домену не примеряем ПОДСТРОКОЙ: «pay» и «мир»
+# встречаются внутри слишком многих доменов, и запрет вышел бы шире брендов.
+# Точное совпадение с именем домена проверяется отдельно и без ограничения по
+# длине — см. domain_labels ниже.
 MIN_BRAND_WORD = 4
+
+# Русские написания площадок, которые пользователи дописывают к запросу:
+# «как оплатить capture one рбк», «как оплатить jira ... dtf». Латинское имя
+# домена такое слово не ловит ни подстрокой, ни транслитерацией: «рбк» даёт
+# «rbk», а домен — rbc.ru. Список короткий и покрывает площадки, реально
+# встречающиеся в поле выдачи этой ниши (категория G классификатора).
+STOP_PLATFORM = {
+    "рбк", "дтф", "вц", "хабр", "пикабу", "дзен", "яндекс", "авито",
+    "юла", "отзовик", "ютуб", "клерк", "тенчат", "спарк",
+}
+
+
+def domain_labels(domains) -> set[str]:
+    """Имена доменов без зоны: dtf.ru → dtf, companies.rbc.ru → companies, rbc.
+
+    Нужны для точного сравнения со словом запроса. Подстрочная проверка для
+    коротких слов запрещена (см. MIN_BRAND_WORD), а точное совпадение
+    безопасно при любой длине: «dtf» — это ровно домен, а не случайный
+    фрагмент.
+    """
+    labels: set[str] = set()
+    for domain in domains or []:
+        parts = [p for p in (domain or "").lower().split(".") if p]
+        # Зона отбрасывается: ru, com, io и прочие словами запроса не бывают.
+        labels.update(parts[:-1] if len(parts) > 1 else parts)
+    return {p for p in labels if p and p != "www"}
 
 
 def translit(word: str) -> str:
     return "".join(TRANSLIT.get(ch, ch) for ch in (word or "").lower())
 
 
-def rival_brand_words(words: list[str], rivals: list[str] | None) -> list[str]:
+def rival_brand_words(words: list[str], rivals: list[str] | None,
+                      field_domains: set[str] | None = None,
+                      allow_labels: set[str] | None = None) -> list[str]:
     """Слова запроса, которые являются частью названия конкурента.
 
     Разбор отчёта 04.09.2026: по запросу «windsurf pro купить плати по миру»
@@ -94,13 +137,40 @@ def rival_brand_words(words: list[str], rivals: list[str] | None) -> list[str]:
     бренд в свой заголовок бессмысленно как SEO (по брендовому запросу выигрывает
     владелец бренда) и недопустимо как текст: страница начинает выдавать себя за
     чужую. Стоп-листы на оценочные слова и города уже были — брендов не было.
+
+    Правка 1.10.3 расширила проверку с конкурентов ПАКЕТА на все домены
+    поля выдачи. Прежняя версия ловила только тех, кто стоит выше нас по
+    запросам этого пакета, и пропускала площадки, попавшие в сам запрос:
+    по «как оплатить jira из россии в 2026 году dtf» контур предлагал
+    дописать в нашу статью «dtf», по «как оплатить capture one рбк» —
+    «рбк». Это домены медиаплощадок из той же выдачи, и в своём тексте им
+    делать нечего ровно по той же причине, что и бренду конкурента.
+
+    Домены вендоров и наш собственный в проверку не передаются: страница
+    Adobe обязана содержать слово «adobe», и запрет был бы хуже болезни.
     """
-    domains = " ".join((rivals or [])).lower()
-    if not domains:
+    known = list(rivals or []) + sorted(field_domains or set())
+    labels = domain_labels(known)
+    domains = " ".join(known).lower()
+    if not domains and not labels:
         return []
-    return [w for w in words
-            if len(w) >= MIN_BRAND_WORD
-            and (w in domains or translit(w) in domains)]
+    allow = allow_labels or set()
+
+    def запрещено(word: str) -> bool:
+        # Имя вендора разрешено всегда и сильнее любого запрета: страница
+        # Envato обязана содержать слово «энвато». Без этого правила её
+        # глушил сквоттерский домен envato-access.ru, попавший в поле
+        # выдачи: подстрочная проверка находила в нём «envato».
+        if word in allow or translit(word) in allow:
+            return False
+        if word in STOP_PLATFORM:
+            return True
+        if word in labels or translit(word) in labels:
+            return True
+        return (len(word) >= MIN_BRAND_WORD
+                and (word in domains or translit(word) in domains))
+
+    return [w for w in words if запрещено(w)]
 
 # Где лежит шаблон, из которого собирается видимая часть страницы. Нужен,
 # чтобы предлагать одну правку на весь тип страниц вместо десятков одинаковых
@@ -173,7 +243,9 @@ def _rivals_phrase(package: dict) -> str:
 
 def build(package: dict, page: page_audit.PageContent,
           geo: dict | None = None,
-          template_words: set[str] | None = None
+          template_words: set[str] | None = None,
+          field_domains: set[str] | None = None,
+          vendor_labels: set[str] | None = None
           ) -> tuple[list[Action], list[str], list[str]]:
     """Действия по пакету, список уже сделанного и список необоснованного."""
     queries = package.get("queries") or []
@@ -230,8 +302,9 @@ def build(package: dict, page: page_audit.PageContent,
                         f"отдельная правка этой страницы не нужна")
             continue
         words = [w for w in words if w not in template_words]
-        stop = [w for w in words if w in STOP_EVALUATIVE or w in STOP_GEO]
-        brand = rival_brand_words(words, package.get("rivals"))
+        stop = [w for w in words if w in STOP_EVALUATIVE or is_geo(w)]
+        brand = rival_brand_words(words, package.get("rivals"), field_domains,
+                                  vendor_labels)
         blind = ([w for w in words
                   if page.kind == "product" and re.fullmatch(r"[a-z0-9]+", w)]
                  if page.kind == "product" else [])
@@ -378,7 +451,8 @@ def build(package: dict, page: page_audit.PageContent,
                 if not any(page_audit.same_word(w, t) for t in title_words)]
         # Бренд конкурента в свой заголовок не вписывается — по той же причине,
         # по которой он не дописывается в текст.
-        brand_in_title = rival_brand_words(lost, package.get("rivals"))
+        brand_in_title = rival_brand_words(lost, package.get("rivals"),
+                                           field_domains, vendor_labels)
         if brand_in_title:
             skip_extra.append(
                 f"«{top_query}» — заголовок под этот запрос не пересобираем: "
@@ -510,7 +584,7 @@ def systemic_actions(packages: list[dict],
         audit = page_audit.audit(page, package.get("queries") or [])
         for words in audit["нет_слов"].values():
             for word in words:
-                if word in STOP_EVALUATIVE or word in STOP_GEO:
+                if word in STOP_EVALUATIVE or is_geo(word):
                     continue
                 counts.setdefault((page.kind, word), []).append(package["url"])
 
@@ -545,7 +619,9 @@ def systemic_actions(packages: list[dict],
 
 
 def enrich(packages: list[dict], geo_by_query: dict | None = None,
-           effect_ranking: dict[str, float] | None = None) -> list[Action]:
+           effect_ranking: dict[str, float] | None = None,
+           field_domains: set[str] | None = None,
+           vendor_labels: set[str] | None = None) -> list[Action]:
     """Дописывает в каждый пакет конкретные действия и то, что уже сделано.
 
     Работает поверх готовых пакетов: скоринг и порядок пакетов не трогает,
@@ -564,7 +640,8 @@ def enrich(packages: list[dict], geo_by_query: dict | None = None,
         page = pages[package.get("url", "")]
         geo = geo_gap(package.get("queries") or [], geo_by_query)
         actions, done, skip = build(package, page, geo,
-                                    template_words.get(page.kind, set()))
+                                    template_words.get(page.kind, set()),
+                                    field_domains, vendor_labels)
         actions = order_by_effect(actions, effect_ranking)
         package["действия"] = to_dicts(actions)
         package["порядок_по_опыту"] = bool(effect_ranking)
