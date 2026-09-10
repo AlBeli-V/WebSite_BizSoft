@@ -4,7 +4,7 @@
   "sortBase": 1400,
   "vendors": [
     {
-      "_comment": "OpenAI: два типа мест командного тарифа. Базовое место — действующая карточка Directus под интеграционным sku INT-AI-CHATGPT (слаг chatgpt-business): sku задан явно, чтобы импорт обновил её, а не завёл дубль со вторым описанием того же тарифа. Премиум-место — отдельная карточка chatgpt-business-premium. base_price — себестоимость закупки за место в год, рублёвая цена считается переоценкой по курсу ЦБ × markup_coeff.",
+      "_comment": "OpenAI: два типа мест командного тарифа. Место Standard seat — действующая карточка Directus под интеграционным sku INT-AI-CHATGPT (слаг chatgpt-business): sku задан явно, чтобы импорт обновил её, а не завёл дубль со вторым описанием того же тарифа. Место Premium seat — отдельная карточка chatgpt-business-premium. base_price — себестоимость закупки за место в год, рублёвая цена считается переоценкой по курсу ЦБ × markup_coeff.",
       "vendor": "OpenAI",
       "prefix": "CHATGPT",
       "category": "ai-text",
@@ -12,7 +12,7 @@
         {
           "sku": "INT-AI-CHATGPT",
           "key": "BUSINESS",
-          "name": "ChatGPT Business",
+          "name": "ChatGPT Business, Standard seat",
           "license_type": "org",
           "base_price": 305,
           "currency": "EUR",
@@ -21,7 +21,7 @@
           "sort": 1310,
           "billing_note_ru": "за место в год",
           "price_on_request": false,
-          "short_desc_ru": "Командный тариф ChatGPT на местах базового типа: рабочее пространство компании, общие проекты и GPT, админ-панель с раздачей и отзывом мест. Переписка и файлы рабочего пространства не используются для обучения моделей.",
+          "short_desc_ru": "Командный тариф ChatGPT на местах Standard seat: рабочее пространство компании, общие проекты и GPT, админ-панель с раздачей и отзывом мест. Переписка и файлы рабочего пространства не используются для обучения моделей.",
           "features_ru": [
             "Рабочее пространство компании (от 2 мест)",
             "Общие проекты, GPT и Company Knowledge",
@@ -33,7 +33,7 @@
         },
         {
           "key": "BUSINESS-PREMIUM",
-          "name": "ChatGPT Business Premium",
+          "name": "ChatGPT Business, Premium seat",
           "license_type": "org",
           "base_price": 1515,
           "currency": "EUR",
@@ -42,13 +42,13 @@
           "sort": 1320,
           "billing_note_ru": "за место в год",
           "price_on_request": false,
-          "short_desc_ru": "Старший тип места в том же тарифе ChatGPT Business: рабочее пространство и администрирование те же, лимиты на старшие модели и агентские инструменты — кратно выше.",
+          "short_desc_ru": "Место Premium seat в том же тарифе ChatGPT Business: рабочее пространство и администрирование те же, лимиты на старшие модели и агентские инструменты — кратно выше.",
           "features_ru": [
-            "Всё из базового места ChatGPT Business",
+            "Всё из места Standard seat",
             "Кратно более высокие лимиты использования",
             "Приоритет в агентских инструментах и работе с кодом",
             "Запас на пиковую нагрузку целого рабочего дня",
-            "Смешивается с базовыми местами в одной команде"
+            "Смешивается с местами Standard seat в одной команде"
           ]
         }
       ]

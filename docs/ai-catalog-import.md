@@ -91,19 +91,22 @@ ChatGPT Plus, ChatGPT Pro, OpenAI API, Midjourney Basic, Descript Hobbyist.
 5. **Индексация** — проверить карточку в `/sitemap.xml` и заказать переобход
    (`ops-yandex-recrawl`), см. `docs/rules/sitemap-indexing.md`.
 
-### Пара «базовое место + место Premium»
+### Пара «Standard seat + Premium seat»
 
 У ChatGPT Business, Claude Team и Cursor Business продаются два типа мест с
 одинаковыми возможностями рабочего пространства и разными лимитами. Такая пара
 — главный источник каннибализации: описания совпадают по построению. Правила:
 
-- **две карточки, не одна**: тип места — различитель в `name`
-  (`ChatGPT Business` и `ChatGPT Business Premium`), а не строка в описании;
-- **разные тексты** в `data/seo/product-descriptions.json`: у базовой карточки
-  раздел «когда брать это место», у премиум-места — «кому нужно» и чем оно
-  отличается; `meta_title`, `meta_description` и `short_description` уникальны
+- **две карточки, не одна**: тип места — различитель в `name` через запятую,
+  одинаково у всех вендоров (`Claude Team, Standard seat` и `Claude Team,
+  Premium seat`; `ChatGPT Business, Standard seat` и `ChatGPT Business,
+  Premium seat`), а не строка в описании;
+- **разные тексты** в `data/seo/product-descriptions.json`: у карточки
+  Standard seat раздел «когда брать это место», у Premium seat — «кому нужно»
+  и чем оно отличается; `meta_title`, `meta_description` и `short_description` уникальны
   (барьер — `tests/catalog-uniqueness.test.ts`);
 - **связка вместо конкуренции**: карточки ссылаются друг на друга через
   `related_products`, на лендинге вендора стоят соседними столбцами сравнения,
   а в FAQ есть вопрос «чем место Premium отличается от базового»;
-- **слаг базовой карточки не трогаем**: он уже в индексе и в перелинковке.
+- **слаг действующей карточки не трогаем**: он уже в индексе и в перелинковке,
+  переименование названия его не меняет.
