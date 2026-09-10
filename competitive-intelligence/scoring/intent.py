@@ -34,9 +34,12 @@ B2B_STRONG = (
     "безнал", "ндс", "закрывающ", "эдо", "договор", "тендер", "44-фз",
     "223-фз", "для организаций", "корпоратив",
 )
+# «корпоративн» из этого списка убран: он всегда перекрыт сильным
+# «корпоратив» и не мог сработать ни разу — сильные проверяются первыми и
+# закорачивают возврат.
 B2B_WEAK = (
     "для компании", "для бизнеса", "для команды", "team", "business",
-    "enterprise", "корпоративн", "оптом", "для сотрудников", "рабочих мест",
+    "enterprise", "оптом", "для сотрудников", "рабочих мест",
 )
 
 BRAND_MARKERS = ("bizsoft", "biz-soft", "биз софт", "бизсофт")
@@ -44,6 +47,25 @@ BRAND_MARKERS = ("bizsoft", "biz-soft", "биз софт", "бизсофт")
 # Сколько маркеров нужно для насыщения множителя. Два — сознательный выбор:
 # один маркер уже задаёт интент, третий добавляет мало.
 SATURATION = 2
+
+
+def _hits(low: str, markers) -> list[str]:
+    """Сработавшие маркеры без перекрытий: одно слово — один голос.
+
+    Маркеры — подстроки, и часть из них вложена друг в друга: «цен» целиком
+    лежит внутри «лицензи». Прямой подсчёт давал слову «лицензия» два голоса
+    из двух нужных, и запрос «лицензия adobe» получал полный коммерческий
+    интент 1.0 — столько же, сколько «купить figma юрлицу», и больше, чем
+    «тариф recraft» с его 0.7. Насыщение «два маркера» задумано как «два
+    разных признака», а не как «одно слово, посчитанное дважды».
+
+    На ядре 10.09.2026 перекрытие меняло оценку у 5 запросов из 489. Правка
+    сделана общей, а не вырезанием одного маркера: список маркеров живой, и
+    следующее вложение появится незаметно.
+    """
+    сработали = [m for m in markers if m in low]
+    return [m for m in сработали
+            if not any(m != другой and m in другой for другой in сработали)]
 
 
 def _saturating(hits: int) -> float:
@@ -62,8 +84,7 @@ def commercial_intent(query: str) -> float:
     «как купить figma для компании» — всё ещё покупательский запрос.
     """
     low = (query or "").lower()
-    hits = sum(1 for m in COMMERCIAL_MARKERS if m in low)
-    value = _saturating(hits)
+    value = _saturating(len(_hits(low, COMMERCIAL_MARKERS)))
     if any(low.startswith(m) or f" {m}" in low for m in INFO_MARKERS):
         value *= 0.6
     return round(value, 3)
@@ -72,8 +93,8 @@ def commercial_intent(query: str) -> float:
 def b2b_intent(query: str) -> float:
     """Насколько запрос про покупку юридическим лицом."""
     low = (query or "").lower()
-    strong = sum(1 for m in B2B_STRONG if m in low)
-    weak = sum(1 for m in B2B_WEAK if m in low)
+    strong = len(_hits(low, B2B_STRONG))
+    weak = len(_hits(low, B2B_WEAK))
     if strong:
         return round(_saturating(strong), 3)
     # Слабые маркеры сами по себе не дают полного B2B-интента: «business» в

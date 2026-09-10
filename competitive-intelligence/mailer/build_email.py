@@ -25,6 +25,7 @@ from datetime import datetime, timedelta, timezone
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import paths  # noqa: E402
+from attack_engine import occupancy as occupancy_mod  # noqa: E402
 from decision_engine import kpi as kpi_mod  # noqa: E402
 from decision_engine import signal as signal_mod  # noqa: E402
 from mailer import sections  # noqa: E402
@@ -73,7 +74,7 @@ def do_next_text(attack: dict | None, package: dict | None = None,
             return (f"Что делать: {package['package_id']} ({url_short}) — "
                     f"{first['what'].lower()}: {examples}. "
                     f"Трудоёмкость {first['effort']}, исполнитель — "
-                    f"{first['owner']}.{tail}")
+                    f"{first['owner']}.{_условие(package)}{tail}")
         upside = (f"при выходе в ТОП-3 даст примерно "
                   f"+{package['traffic_upside']:.0f} переходов"
                   if package.get("traffic_upside") is not None
@@ -82,7 +83,8 @@ def do_next_text(attack: dict | None, package: dict | None = None,
                 f"({url_short}). Закроет {package['queries_count']} запросов, "
                 f"{sections.format_demand(package)}, сейчас позиции "
                 f"{package['position_best']}–{package['position_worst']}; "
-                f"{upside}. Трудоёмкость {package['effort']}.")
+                f"{upside}. Трудоёмкость {package['effort']}."
+                f"{_условие(package)}")
     if not attack:
         return ("Что делать: подтверждённых точек атаки нет — "
                 "накапливаем наблюдения.")
@@ -116,6 +118,22 @@ def watch_text(threat_leader: tuple[dict, object] | None) -> str:
     return (f"Следим: {card['домен']} — Threat {threat.score} из {threat.scale_max}, "
             f"топ-3 по {card['топ3']} запросам, доля "
             f"{kpi_mod.ru_number(100 * card['доля'])}%.")
+
+
+def _условие(package: dict) -> str:
+    """Короткая пометка условия рядом с самим поручением.
+
+    Условие обязано ехать вместе с поручением на том уровне, где поручение
+    даётся. Верхняя часть письма — единственное, что читают полностью; если
+    ограничение живёт только в карточке ниже или в отчёте, поручение уйдёт в
+    работу без него. Полная формулировка — в карточке пакета и в отчёте,
+    здесь ровно столько, чтобы работа не началась молча.
+    """
+    занятость = package.get("занятость") or {}
+    if занятость.get("степень") != "контрольная группа":
+        return ""
+    return (f" Условие: страница — контроль чужого замера до "
+            f"{занятость.get('до', 'контрольной точки')}, решение за вами.")
 
 
 def visible_text(kpi, verdict_mark, verdict_why, signal, *,
@@ -198,6 +216,7 @@ def build(date: str, snapshot: dict, previous: dict | None,
           attacks: list[dict] | None = None,
           threat_leader=None, stale_notice: str | None = None,
           ranked_rivals=None, packages: list[dict] | None = None,
+          blocked: list[dict] | None = None,
           history: list[float] | None = None,
           core_note: str = "", experiments_line: str = "") -> dict:
     kpi = kpi_mod.build_kpi(snapshot, previous)
@@ -212,6 +231,9 @@ def build(date: str, snapshot: dict, previous: dict | None,
         verdict_why = f"Данные неполные: {stale_notice}"
     signal = signal_mod.pick(snapshot, previous)
     attack = pick_attack(attacks)
+    # Поручением дня 10.09.2026 стала страница, занятая чужим замером до
+    # 30.09: пакет вышел из очереди с одной лишь пометкой. Отсев на входе.
+    packages, _занятые = occupancy_mod.split_takeable(packages)
     package = pick_package(packages)
     text = visible_text(kpi, verdict_mark, verdict_why, signal,
                         attack=attack, threat_leader=threat_leader,
@@ -281,12 +303,15 @@ def build(date: str, snapshot: dict, previous: dict | None,
 
 def render_txt(meta: dict, *, snapshot: dict | None = None,
                attacks: list[dict] | None = None, ranked_rivals=None,
-               packages: list[dict] | None = None) -> str:
+               packages: list[dict] | None = None,
+               blocked: list[dict] | None = None) -> str:
     """Текстовая версия — полноценная, а не огрызок для спам-фильтра.
 
     Повторяет оба уровня письма: executive-часть и детализацию. Клиент,
     отключивший HTML, обязан получить те же сведения, а не обрубок.
     """
+    packages, занятые = occupancy_mod.split_takeable(packages)
+    blocked = (blocked or []) + [p for p in занятые if p not in (blocked or [])]
     parts = [meta["тема"], "", meta["текст"]]
     if meta.get("эксперименты_строка"):
         parts += ["", meta["эксперименты_строка"]]
@@ -341,6 +366,9 @@ def render_txt(meta: dict, *, snapshot: dict | None = None,
             else:
                 for check in (pkg.get("checklist") or [])[:3]:
                     parts.append(f"   - {check}")
+            control = sections.control_note(pkg)
+            if control:
+                parts.append(f"   {control}")
 
         quick = [p for p in packages if p["effort"] == "S"][:3]
 
@@ -359,6 +387,9 @@ def render_txt(meta: dict, *, snapshot: dict | None = None,
                      "страницы с наибольшим потенциалом")
         parts.append(f"- Полный охват: все {len(packages)} пакетов — "
                      f"{effect(packages)}, имеет смысл растянуть на недели")
+        blocked_line = sections.blocked_note(blocked)
+        if blocked_line:
+            parts.append(blocked_line)
 
     if snapshot:
         shares = snapshot.get("доли_по_категориям") or {}
@@ -440,6 +471,7 @@ def _block(title: str, body: str, *, accent: bool = False) -> str:
 def render_html(meta: dict, *, kpi=None, snapshot: dict | None = None,
                 attacks: list[dict] | None = None, ranked_rivals=None,
                 packages: list[dict] | None = None,
+                blocked: list[dict] | None = None,
                 signal_delta: float | None = None,
                 on_watch: list[dict] | None = None) -> str:
     """HTML-версия письма: верхний уровень плюс секции детализации.
@@ -450,6 +482,8 @@ def render_html(meta: dict, *, kpi=None, snapshot: dict | None = None,
     быть детализировано не хуже ежедневного SEO-отчёта, а короткая
     executive-часть остаётся первым экраном.
     """
+    packages, занятые = occupancy_mod.split_takeable(packages)
+    blocked = (blocked or []) + [p for p in занятые if p not in (blocked or [])]
     k = meta["kpi"]
     esc = html.escape
     delta = kpi_mod.format_delta(k["share_delta_pp"], unit=" п.п.")
@@ -474,7 +508,7 @@ def render_html(meta: dict, *, kpi=None, snapshot: dict | None = None,
             '<tr><td style="padding:16px 24px 0;">'
             f'<div style="border-top:1px solid {sections.LINE};"></div></td></tr>'
             + sections.packages_section(packages or [])
-            + sections.options_section(packages or [])
+            + sections.options_section(packages or [], blocked)
             + sections.kpi_section(kpi, snapshot, signal_delta)
             + sections.field_section(snapshot)
             + sections.rivals_section(snapshot.get("лидеры") or [],

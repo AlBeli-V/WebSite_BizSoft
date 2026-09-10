@@ -1,0 +1,55 @@
+# Еженедельный сторож доменов: сроки, статусы реестра и регистратор по RDAP.
+# Заведён 08.09.2026 после постоянной блокировки аккаунта регистратора в
+# группе TurnCommerce. Смысл — видеть состояние домена снаружи, когда доступ
+# к кабинету потерян: приближающийся срок, статусы освобождения, снятый замок
+# на трансфер, смена регистратора. Список доменов и пороги —
+# ops/accounts/registry.json, ключ domains.
+# Результат — запись в журнал-issue #22 со статусом прогона (как у
+# ops-bimi-dmarc-check: короткий отчёт полезен и при зелёном прогоне —
+# по нему видно, сколько дней осталось). При находках прогон красный.
+name: ops-domain-watch
+on:
+  schedule:
+    - cron: '0 5 * * 1'  # 08:00 МСК (UTC+3), понедельник
+  workflow_dispatch: {}
+permissions:
+  contents: read
+  issues: write
+jobs:
+  watch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Guard - only default branch
+        run: |
+          if [ "${{ github.ref_name }}" != "main" ]; then
+            echo "Запуск разрешён только с ветки main. Текущий ref: ${{ github.ref_name }}"
+            exit 1
+          fi
+      # if: always() — шаг журнала объявлен always() и обязан отработать
+      # даже при падении Guard; без этого условия checkout в упавшем job
+      # пропускается, и локальный action journal-post не находится.
+      - name: Checkout for journal action
+        if: always()
+        uses: actions/checkout@v4
+
+      - name: Check domains over RDAP
+        id: check
+        run: |
+          set +e
+          python3 scripts/ops/domain_watch.py > /tmp/domain-watch.txt 2>&1
+          echo "fail=$?" >> "$GITHUB_OUTPUT"
+          cat /tmp/domain-watch.txt
+
+      - name: Post to issue
+        if: always()
+        uses: ./.github/actions/journal-post
+        with:
+          title: "ops-domain-watch (еженедельно, пн 08:00 МСК)"
+          outcome: ${{ steps.check.outcome }}
+          body-file: /tmp/domain-watch.txt
+
+      - name: Fail on problems
+        if: steps.check.outputs.fail != '0'
+        run: |
+          echo "Сторож доменов нашёл проблемы — см. отчёт в issue #22"
+          exit 1

@@ -1,0 +1,111 @@
+# Еженедельный сторож регистраций на внешних площадках.
+# Поручение руководителя 10.09.2026: «раз в неделю проверяешь список
+# регистраций фактических и напоминаешь про те, где ещё не регистрировались».
+#
+# Реестр data/marketing/platform-accounts.json заполняется руками и молча
+# расходится с жизнью: Яндекс Бизнес и Дзен работали месяцами, пока реестр
+# числил их незаведёнными. Поэтому сторож не верит полю status на слово, а
+# дёргает записанные адреса живым запросом (scripts/ops/registrations_watch.py).
+#
+# Два разных исхода — намеренно с разными последствиями:
+#   * записанный профиль молчит — это потеря, прогон краснеет;
+#   * регистрации ещё нет — это ожидание человека, прогон зелёный, а письмо
+#     перечисляет площадки по волнам со ссылками, где заводить профиль.
+# Когда напоминать станет не о чем, письмо перестанет уходить само собой —
+# отдельного выключателя не нужно.
+#
+# Один слот расписания, без страхующего двойника: правило двух слотов
+# закрывает пропуск отчёта за день, а здесь пропуск недели стоит недельной
+# задержки напоминания, тогда как второй слот без маркера отправки дал бы
+# второе письмо тем же утром. Пропущенную неделю добирает workflow_dispatch.
+#
+# Результат — запись в журнал-issue #22 (короткий отчёт полезен и при зелёном
+# прогоне: по нему видно, что профили на месте).
+name: ops-registrations-watch
+on:
+  schedule:
+    - cron: '10 6 * * 1'  # 09:10 МСК (UTC+3), понедельник
+  workflow_dispatch: {}
+permissions:
+  contents: read
+  issues: write
+  actions: write
+jobs:
+  watch:
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - name: Guard - only default branch
+        run: |
+          if [ "${{ github.ref_name }}" != "main" ]; then
+            echo "Запуск разрешён только с ветки main. Текущий ref: ${{ github.ref_name }}"
+            exit 1
+          fi
+      # if: always() — шаг журнала объявлен always() и обязан отработать
+      # даже при падении Guard; без этого условия checkout в упавшем job
+      # пропускается, и локальный action journal-post не находится.
+      - name: Checkout for journal action
+        if: always()
+        uses: actions/checkout@v4
+
+      - name: Check registrations
+        id: check
+        run: |
+          set +e
+          : > /tmp/registrations.txt
+          rm -f /tmp/registrations.json
+          python3 scripts/ops/registrations_watch.py \
+            --report /tmp/registrations.txt --json /tmp/registrations.json \
+            > /tmp/registrations-stdout.txt 2>&1
+          echo "fail=$?" >> "$GITHUB_OUTPUT"
+          # Отчёта может не быть, если скрипт упал раньше, чем его написал.
+          # Тогда в журнал уходит вывод прогона: пустая запись прочиталась бы
+          # как «всё в порядке», а это ровно тот случай, ради которого в
+          # проекте заведён journal-post со статусом.
+          [ -s /tmp/registrations.txt ] || cp /tmp/registrations-stdout.txt /tmp/registrations.txt
+          python3 - <<'PY' >> "$GITHUB_OUTPUT"
+          import json, pathlib
+          p = pathlib.Path('/tmp/registrations.json')
+          d = json.loads(p.read_text()) if p.exists() else {}
+          # Письмо нужно, пока есть о чём просить человека: незаведённые
+          # площадки, ненайденные адреса профилей или молчащий профиль.
+          # Сводки нет — значит прогон сломался: письмо не шлём, о сбое
+          # докладывает журнал и красный прогон.
+          need = d.get('pending', 0) + d.get('no_address', 0) + d.get('failed', 0)
+          print(f"mail={'yes' if d and need else 'no'}")
+          PY
+          cat /tmp/registrations.txt
+
+      # Почта — штатным workflow ops-send-mail (правило mail-recipient.md):
+      # своего SMTP этот контур не заводит. Push и dispatch из Actions под
+      # GITHUB_TOKEN не порождают событий, поэтому вызов явный и с ожиданием.
+      - name: Send reminder
+        if: steps.check.outputs.mail == 'yes'
+        run: |
+          body=$(python3 - <<'PY'
+          # Вход body у ops-send-mail — одна строка, переносы литералом \n.
+          text = open('/tmp/registrations.txt', encoding='utf-8').read().rstrip()
+          text += ("\n\nЧто прислать в ответ: адреса заведённых профилей — "
+                   "они идут в реестр и в разметку sameAs.")
+          print(text.replace('\\', '\\\\').replace('\n', '\\n'))
+          PY
+          )
+          bash scripts/ops/gh_dispatch_wait.sh ops-send-mail.yml --timeout 600 \
+            -f to=avbelyaev@biz-soft.pro \
+            -f "subject=Внешние площадки: где ещё не зарегистрированы" \
+            -f "body=$body"
+
+      - name: Post to issue
+        if: always()
+        uses: ./.github/actions/journal-post
+        with:
+          title: "ops-registrations-watch (еженедельно, пн 09:10 МСК)"
+          outcome: ${{ steps.check.outcome }}
+          body-file: /tmp/registrations.txt
+
+      - name: Fail on problems
+        if: steps.check.outputs.fail != '0'
+        run: |
+          echo "Записанный профиль не отвечает — см. отчёт в issue #22"
+          exit 1

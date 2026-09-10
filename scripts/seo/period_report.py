@@ -510,12 +510,25 @@ def render_html(b: dict) -> str:
             f"• {a}</div>" for a in b["attention"])))
 
     body = "".join(rows)
+    # Один и тот же HTML уходит письмом и публикуется страницей отчёта.
+    # Ширина 640 px задана атрибутом и стилем ради почтовых клиентов, но на
+    # странице она делала таблицу нижним порогом ширины: телефон получал
+    # отчёт с горизонтальной прокруткой всей страницы. Медиазапрос снимает
+    # фиксированную ширину только на узком экране; почтовые клиенты, которые
+    # вырезают <style> (Gmail), видят прежнюю вёрстку без изменений.
+    mobile_css = ("<style>@media (max-width:680px){"
+                  ".shell{padding:12px 8px!important}"
+                  ".wrap{width:auto!important;max-width:100%!important;padding:16px!important;"
+                  "overflow-wrap:anywhere}"
+                  ".wrap table{width:100%!important}"
+                  "}</style>")
     return (f"<!doctype html><html lang=\"ru\"><head><meta charset=\"utf-8\">"
             f"<meta name=\"viewport\" content=\"width=device-width,initial-scale=1\">"
-            f"<title>{b['subject']}</title></head>"
+            f"<title>{b['subject']}</title>{mobile_css}</head>"
             f"<body style=\"margin:0;background:{T['background']};\">"
             f"<table role=\"presentation\" width=\"100%\" cellpadding=\"0\" "
-            f"cellspacing=\"0\"><tr><td align=\"center\" style=\"padding:24px 12px;\">"
+            f"cellspacing=\"0\"><tr><td align=\"center\" class=\"shell\" "
+            f"style=\"padding:24px 12px;\">"
             f"<table role=\"presentation\" width=\"640\" cellpadding=\"0\" "
             f"cellspacing=\"0\" class=\"wrap\" style=\"width:640px;max-width:100%;"
             f"background:{T['surface']};border-radius:14px;padding:28px;"
