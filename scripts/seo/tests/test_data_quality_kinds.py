@@ -327,5 +327,48 @@ class TestWebreportSection(Base):
         self.assertIn("Снимается, когда", html)
 
 
+class TestIndexDrop(Base):
+    """Обвал индекса Яндекса виден отчёту, дневное дрожание — нет.
+
+    09.09.2026 число страниц в поиске упало 650 → 455 (254 адреса вышли,
+    почти все со статусом «малоценная или маловостребованная»), а отчёт
+    напечатал «Страницы в поиске Яндекса 650 → 650, без изменений» и
+    «ПОИСК: рост». Статус письма считался по показам, а показы — это окно
+    прошлых дней, которое об индексе сегодняшнего дня ничего не знает.
+    """
+
+    def snap_with_index(self, pages, excluded=53):
+        snap = self.make_snap()
+        snap["yandex"]["indexation"] = dict(snap["yandex"].get("indexation") or {},
+                                            indexed_urls=pages, excluded_urls=excluded)
+        return snap
+
+    def codes(self, now, was):
+        dq = self.q.run_checks(self.snap_with_index(now), self.snap_with_index(was))
+        return {f["code"] for f in dq["findings"]}
+
+    def test_обвал_индекса_становится_находкой(self):
+        self.assertIn("INDEXATION_DROP", self.codes(455, 650))
+
+    def test_дневное_дрожание_находкой_не_становится(self):
+        self.assertNotIn("INDEXATION_DROP", self.codes(650, 663))
+
+    def test_рост_индекса_находкой_не_становится(self):
+        self.assertNotIn("INDEXATION_DROP", self.codes(663, 650))
+
+    def test_обвал_считается_сбоем_и_роняет_статус(self):
+        dq = self.q.run_checks(self.snap_with_index(455), self.snap_with_index(650))
+        drop = next(f for f in dq["findings"] if f["code"] == "INDEXATION_DROP")
+        self.assertEqual(drop["kind"], self.q.KIND_INCIDENT)
+        self.assertEqual(drop["level"], "warning")
+        self.assertTrue(drop.get("lifted_when"))
+        self.assertIn("455", drop["detail"])
+        self.assertIn("650", drop["detail"])
+
+    def test_без_предыдущего_снимка_проверка_молчит(self):
+        dq = self.q.run_checks(self.snap_with_index(455), None)
+        self.assertNotIn("INDEXATION_DROP", {f["code"] for f in dq["findings"]})
+
+
 if __name__ == "__main__":
     unittest.main()

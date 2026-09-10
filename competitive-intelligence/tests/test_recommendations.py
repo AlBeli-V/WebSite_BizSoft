@@ -246,3 +246,58 @@ class TestGuardsAndSystemic(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class TestСтопСловаПоручений(unittest.TestCase):
+    """Дефекты 13 и 14: слова, которые нельзя дописывать в свой текст.
+
+    Найдены сплошным разбором ТЗ за 10.09.2026 — проверялось не по коду, а по
+    тому, что контур реально предлагал написать на страницах.
+    """
+
+    def test_гео_ловится_по_основе_а_не_по_написанию(self):
+        """«московская область» проходила мимо списка из точных форм."""
+        from attack_engine import recommendations as r
+        self.assertTrue(r.is_geo("московская"))
+        self.assertTrue(r.is_geo("область"))
+        self.assertTrue(r.is_geo("москва"))
+        self.assertTrue(r.is_geo("мск"))
+        self.assertFalse(r.is_geo("инструкция"))
+        self.assertFalse(r.is_geo("vpn"))
+
+    def test_площадка_из_запроса_не_дописывается(self):
+        """«как оплатить jira ... dtf» — dtf.ru медиаплощадка, не наш текст."""
+        from attack_engine import recommendations as r
+        поле = {"dtf.ru", "vc.ru", "companies.rbc.ru"}
+        self.assertEqual(["dtf"], r.rival_brand_words(["dtf"], None, поле))
+        self.assertEqual(["vc"], r.rival_brand_words(["vc"], None, поле))
+
+    def test_русское_написание_площадки_ловится(self):
+        """«рбк» транслитерируется в «rbk», а домен — rbc.ru."""
+        from attack_engine import recommendations as r
+        self.assertEqual(["рбк"], r.rival_brand_words(["рбк"], None, {"companies.rbc.ru"}))
+
+    def test_короткое_слово_ловится_точным_совпадением(self):
+        """Подстрочная проверка коротких слов запрещена, точная — безопасна."""
+        from attack_engine import recommendations as r
+        self.assertEqual([], r.rival_brand_words(["pay"], None, {"raketapay.ru"}))
+        self.assertEqual(["dtf"], r.rival_brand_words(["dtf"], None, {"dtf.ru"}))
+
+    def test_имя_вендора_разрешено_сильнее_запрета(self):
+        """Регрессия, внесённая расширением фильтра и пойманная проверкой.
+
+        Сквоттерский домен envato-access.ru попал в поле выдачи, и
+        подстрочная проверка стала глушить слово «энвато» — имя вендора, ради
+        которого страница и существует.
+        """
+        from attack_engine import recommendations as r
+        поле = {"envato-access.ru", "envato.com.ru"}
+        self.assertEqual(["энвато"], r.rival_brand_words(["энвато"], None, поле))
+        self.assertEqual([], r.rival_brand_words(["энвато"], None, поле,
+                                                 {"envato"}))
+
+    def test_метки_домена_без_зоны(self):
+        from attack_engine import recommendations as r
+        self.assertEqual({"dtf"}, r.domain_labels({"dtf.ru"}))
+        self.assertEqual({"companies", "rbc"}, r.domain_labels({"companies.rbc.ru"}))
+        self.assertEqual({"gitlab"}, r.domain_labels({"www.gitlab.com"}))

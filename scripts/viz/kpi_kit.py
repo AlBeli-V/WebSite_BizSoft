@@ -136,8 +136,12 @@ def sparkline(values, color: str | None = None, w: int = 96, h: int = 28,
     ring = tok("surface", hex_mode)
     lo, hi = min(vals), max(vals)
     span = (hi - lo) or 1.0
-    step = w / (len(vals) - 1)
-    pts = [(i * step, h - 3 - (v - lo) / span * (h - 6)) for i, v in enumerate(vals)]
+    # Поле по краям: кольцо последней точки (r 3,5 + обводка 2) целиком внутри
+    # viewBox. Без него svg срезал половину точки и линия обрывалась о рамку.
+    pad = 5.0
+    step = (w - 2 * pad) / (len(vals) - 1)
+    pts = [(pad + i * step, h - pad - (v - lo) / span * (h - 2 * pad))
+           for i, v in enumerate(vals)]
     poly = " ".join(f"{x:.1f},{y:.1f}" for x, y in pts)
     lx, ly = pts[-1]
     return (f'<svg class="kit-spark" width="{w}" height="{h}" viewBox="0 0 {w} {h}" '
@@ -222,10 +226,19 @@ def line_chart(series: list[dict], labels: list[str], w: int = 640, h: int = 200
         if not s.get("context"):
             last_i = max(i for i, v in enumerate(vals) if v is not None)
             lx, ly = X(last_i), Y(float(vals[last_i]))
+            label = fmt(vals[last_i])
+            # Подпись конца ряда живёт в правом поле (pad_r). Широкое число
+            # там не помещается, а svg обрезает всё, что вышло за viewBox, —
+            # подпись молча исчезала бы. Не влезает справа — печатается слева
+            # от точки. Ширина оценивается по числу знаков: 12 px моноширинных
+            # цифр — около 7 px на знак.
+            side_right = lx + 8 + len(label) * 7.0 <= w - 2
             paths.append(f'<circle cx="{lx:.1f}" cy="{ly:.1f}" r="4" fill="{color}" '
                          f'stroke="{surf}" stroke-width="2"/>'
-                         f'<text x="{lx + 8:.1f}" y="{ly + 4:.1f}" font-size="12" '
-                         f'font-weight="600" fill="{ink}">{esc(fmt(vals[last_i]))}</text>')
+                         f'<text x="{lx + 8 if side_right else lx - 8:.1f}" '
+                         f'y="{ly + 4:.1f}" font-size="12" '
+                         f'text-anchor="{"start" if side_right else "end"}" '
+                         f'font-weight="600" fill="{ink}">{esc(label)}</text>')
     data = {"labels": list(labels), "pad": [pad_l, pad_r, pad_t, pad_b], "w": w, "h": h,
             "ymin": y_min, "top": top,
             "series": [{"name": s["name"], "values": s["values"],
@@ -249,9 +262,15 @@ def line_chart(series: list[dict], labels: list[str], w: int = 640, h: int = 200
 # ── Плитки KPI (страница) ────────────────────────────────────────────────────
 
 def delta_html(text: str | None, direction: str | None) -> str:
+    """Дельта плитки: стрелка неразрывно приклеена к первому числу.
+
+    Внутри плитки дельта состоит из двух чисел («+3486 +157,6%»). Пробел
+    между ними — единственное место, где строку можно перенести; стрелка от
+    своего числа не отрывается, поэтому после неё стоит U+00A0.
+    """
     if not text:
         return ""
-    arrow = {"up": "▲ ", "down": "▼ ", "flat": "→ "}.get(direction or "", "")
+    arrow = {"up": "▲\u00a0", "down": "▼\u00a0", "flat": "→\u00a0"}.get(direction or "", "")
     return f'<span class="kit-delta {direction or "flat"}">{arrow}{esc(text)}</span>'
 
 
@@ -435,7 +454,10 @@ def heatmap(dates: list[str], values: list, unit: str = "показов",
     def step(v):
         return min(6, int(v / (hi + 1e-9) * 7)) if hi else 0
 
-    out = ['<div class="kit-heat"><div></div>'
+    # Сетка не ужимается ниже читаемого размера (min-width в CSS), поэтому
+    # на узком экране прокручивается внутри своего контейнера. Без него
+    # теплокарта тянула вбок всю страницу отчёта.
+    out = ['<div class="kit-scroll"><div class="kit-heat"><div></div>'
            + "".join(f'<div class="kit-heat-col">{d}</div>' for d in DOW)
            + '<div class="kit-heat-col kit-heat-wk">нед.</div>']
     for w in range(len(cells) // 7):
@@ -456,7 +478,7 @@ def heatmap(dates: list[str], values: list, unit: str = "показов",
                        f'style="background:{ramp[s]}" data-tip="{_dm(d)}: {esc(num(v))} {esc(unit)}">'
                        f'{esc(num(v))}</div>')
         out.append(f'<div class="kit-heat-wk kit-num">{esc(num(total)) if real else ""}</div>')
-    out.append('</div><div class="kit-ramp">меньше '
+    out.append('</div></div><div class="kit-ramp">меньше '
                + "".join(f'<i style="background:{c}"></i>' for c in ramp)
                + f' больше · всего <b>{esc(num(sum(vals)))}</b> {esc(unit)}</div>')
     return "".join(out)
@@ -659,8 +681,8 @@ def component_css() -> str:
 .kit-dash-title{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:14px}
 .kit-dash-title h3{margin:0;font-size:16px;font-weight:700;letter-spacing:0;text-transform:none}
 .kit-period{font-size:12.5px;color:var(--kit-muted)}
-.kit-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px}
-.kit-tile{position:relative;font:inherit;color:inherit;text-align:left;background:var(--kit-surface);border:1px solid var(--kit-hair);border-radius:10px;padding:14px 14px 12px;display:flex;flex-direction:column;gap:5px;min-height:112px;cursor:default}
+.kit-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(170px,100%),1fr));gap:12px}
+.kit-tile{position:relative;font:inherit;color:inherit;text-align:left;background:var(--kit-surface);border:1px solid var(--kit-hair);border-radius:10px;padding:14px 14px 12px;display:flex;flex-direction:column;gap:5px;min-height:112px;cursor:default;overflow:hidden}
 button.kit-tile{cursor:pointer;transition:border-color .15s}
 button.kit-tile:hover{border-color:var(--kit-hair2)}
 button.kit-tile:focus-visible{outline:2px solid var(--kit-accent);outline-offset:2px}
@@ -670,12 +692,15 @@ button.kit-tile:focus-visible{outline:2px solid var(--kit-accent);outline-offset
 .kit-val{font-size:26px;font-weight:600;line-height:1.05;letter-spacing:-.01em;color:var(--kit-ink)}
 .kit-val small{font-size:13px;font-weight:500;color:var(--kit-muted);margin-left:4px;letter-spacing:0}
 .kit-note{font-size:13px;line-height:1.4;color:var(--kit-ink2);display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden}
-.kit-sub{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:auto}
+.kit-sub{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:4px 8px;margin-top:auto;min-width:0}
+.kit-sub .kit-delta{white-space:normal}
+.kit-sub .kit-spark{max-width:100%;height:auto}
 .kit-meta{font-size:12px;color:var(--kit-muted);line-height:1.4}
 .kit-delta{font-size:12.5px;font-weight:600;white-space:nowrap}
 .kit-delta.up{color:var(--kit-good)} .kit-delta.down{color:var(--kit-crit)} .kit-delta.flat{color:var(--kit-muted)}
 .kit-spark{display:block;flex-shrink:0}
 .kit-panel{margin-top:14px;border-top:1px solid var(--kit-hair);padding-top:14px;display:grid;grid-template-columns:1.4fr 1fr;gap:18px}
+.kit-panel>*,.kit-two>*,.kit-multi>*,.kit-hero-grid>*,.kit-row>*{min-width:0}
 .kit-panel h4{margin:0 0 6px;font-size:13.5px;font-weight:700}
 .kit-panel .kit-hint{font-size:12px;color:var(--kit-muted);margin:0 0 8px}
 @media (max-width:820px){.kit-panel{grid-template-columns:1fr}}
@@ -724,17 +749,17 @@ button.kit-tile:focus-visible{outline:2px solid var(--kit-accent);outline-offset
 .kit-db-track b{position:absolute;top:0;height:12px}
 .kit-db-v{font-weight:600;white-space:nowrap;color:var(--kit-ink)}
 .kit-db-share{color:var(--kit-muted);font-weight:400}
-.kit-heat{display:grid;grid-template-columns:110px repeat(7,1fr) 60px;gap:3px;align-items:center}
+.kit-heat{display:grid;grid-template-columns:110px repeat(7,minmax(0,1fr)) 60px;gap:3px;align-items:center;min-width:432px}
 .kit-heat-row{font-size:12px;color:var(--kit-ink2);padding-right:6px;white-space:nowrap}
 .kit-heat-col{font-size:11px;color:var(--kit-muted);text-align:center;padding-bottom:2px}
-.kit-heat-cell{height:30px;border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:11.5px;font-weight:600;color:var(--kit-ink2)}
+.kit-heat-cell{height:30px;border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:11.5px;font-weight:600;color:var(--kit-ink2);min-width:0;overflow:hidden}
 .kit-heat-cell.kit-heat-ink{color:#fff}
 .kit-heat-empty{background:transparent;border:1px dashed var(--kit-hair2);color:var(--kit-muted)}
 .kit-heat-wk{font-size:12px;font-weight:600;text-align:right;padding-right:4px}
 .kit-ramp{display:flex;align-items:center;gap:5px;font-size:11.5px;color:var(--kit-muted);margin-top:10px;flex-wrap:wrap}
 .kit-ramp i{display:inline-block;width:22px;height:10px;border-radius:2px}
 .kit-ramp b{color:var(--kit-ink)}
-.kit-multi{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
+.kit-multi{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(280px,100%),1fr));gap:14px}
 .kit-mcard{border:1px solid var(--kit-hair);border-radius:10px;padding:12px 12px 8px;background:var(--kit-surface)}
 .kit-mcard-h{display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin-bottom:4px}
 .kit-mcard-h b{font-size:13px;font-weight:600}
