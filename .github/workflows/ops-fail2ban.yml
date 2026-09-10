@@ -76,6 +76,9 @@ jobs:
           p.read('deploy/fail2ban/jail.d/nginx-noscript.local', encoding='utf-8')
           if 'nginx-noscript' not in p.sections():
               print('::error::в jail нет секции [nginx-noscript]'); sys.exit(1)
+          if not p['nginx-noscript'].get('backend'):
+              print('::error::в jail не задан backend — на Debian он унаследует systemd '
+                    'и logpath работать не будет'); sys.exit(1)
           nets = p['nginx-noscript'].get('ignoreip', '').split()
           need = ['66.249.64.0/19', '87.250.224.0/19', '95.108.128.0/17']
           miss = [n for n in need if n not in nets]
@@ -153,14 +156,58 @@ jobs:
               fi
             }
 
+            # Разбор фильтра по живому логу. Статус jail отвечает только на
+            # вопрос «сколько поймано», а при нуле не отличает «сканеров нет»
+            # от «фильтр не совпадает со строками» и от «дата не разбирается».
+            # fail2ban-regex печатает всё три: сколько строк совпало, сколько
+            # пропущено и какой шаблон даты сработал. Только чтение.
+            cat > /tmp/bz-f2b-regex.sh <<'REGEOF'
+            #!/bin/bash
+            log=/var/log/nginx/access.log
+            filt=/etc/fail2ban/filter.d/nginx-noscript.conf
+            [ -f "$filt" ] || { echo "(фильтра на сервере нет — разбор пропущен)"; exit 0; }
+            echo "-- примеры строк с ответом 404 из живого лога --"
+            grep -E '" (404|444|403|400) ' "$log" 2>/dev/null | tail -3 | cut -c1-160 | sed 's/^/  /' \
+              || echo "  (строк с мусорными ответами не нашлось)"
+            echo "-- fail2ban-regex по этому логу и фильтру --"
+            fail2ban-regex "$log" "$filt" 2>&1 \
+              | grep -A4 -E 'Failregex|Date template hits|^Lines:|Missed line' \
+              | head -40 | sed 's/^/  /'
+            # Счётчик jail сравнивается с темпом мусора по часам: fail2ban
+            # считает только строки, дописанные после его запуска, а
+            # fail2ban-regex — весь файл. Без разреза по времени эти два
+            # числа несравнимы и «мало поймано» не отличить от «мусора нет».
+            echo "-- мусорные ответы по часам за весь файл --"
+            grep -E '" (404|444|403|400) ' "$log" 2>/dev/null \
+              | awk '{ print substr($4, 2, 14) }' | uniq -c | tail -30 | sed 's/^/  /' \
+              || echo "  (нет данных)"
+            echo "-- главные источники мусора за весь файл --"
+            grep -E '" (404|444|403|400) ' "$log" 2>/dev/null \
+              | awk '{ print $1 }' | sort | uniq -c | sort -rn | head -8 | sed 's/^/  /' \
+              || echo "  (нет данных)"
+            echo "-- кто даёт мусор в последний час лога --"
+            lh=$(grep -E '" (404|444|403|400) ' "$log" 2>/dev/null | tail -1 | awk '{ print substr($4, 2, 14) }')
+            if [ -n "$lh" ]; then
+              echo "  час: $lh"
+              grep -E '" (404|444|403|400) ' "$log" \
+                | awk -v h="$lh" 'substr($4, 2, 14) == h { print $1 }' \
+                | sort | uniq -c | sort -rn | head -5 | sed 's/^/  /'
+            fi
+            REGEOF
+            chmod +x /tmp/bz-f2b-regex.sh
+
             echo
             echo "== текущее состояние =="
             runroot /tmp/bz-f2b-status.sh
 
+            echo
+            echo "== совпадает ли фильтр со строками лога =="
+            runroot /tmp/bz-f2b-regex.sh
+
             if [ "$P_APPLY" != "true" ]; then
               echo
               echo "apply=false: изменений не делалось"
-              rm -f /tmp/bz-f2b-status.sh; rm -rf /tmp/bizsoft-fail2ban
+              rm -f /tmp/bz-f2b-status.sh /tmp/bz-f2b-regex.sh; rm -rf /tmp/bizsoft-fail2ban
               exit 0
             fi
 
@@ -211,6 +258,43 @@ jobs:
             echo "-- состояние jail после применения --"
             fail2ban-client status nginx-noscript | sed 's/^/  /'
 
+            # Jail может быть активен и при этом не читать ничего: в сборке
+            # для Debian/Ubuntu backend по умолчанию systemd, и тогда logpath
+            # игнорируется, а фильтр смотрит в журнал, где логов nginx нет.
+            # Проверка 09.09.2026 поймала ровно это: «Total failed: 0» через
+            # четыре часа при живом сканере. Прогон обязан падать на такой
+            # установке, а не рапортовать успех.
+            echo "-- источник, из которого jail читает --"
+            st=$(fail2ban-client status nginx-noscript)
+            if echo "$st" | grep -q 'Journal matches'; then
+              echo "::error::jail читает systemd-журнал вместо файла — logpath не действует"
+              echo "$st" | sed 's/^/  /'
+              exit 1
+            fi
+            if ! echo "$st" | grep -q '/var/log/nginx/access.log'; then
+              echo "::error::в статусе нет пути к логу nginx — источник не тот"
+              echo "$st" | sed 's/^/  /'
+              exit 1
+            fi
+            echo "$st" | grep -i 'file list' | sed 's/^/  /'
+
+            # Фильтр, не совпадающий ни с одной строкой, — тихий отказ:
+            # jail активен, читает нужный файл и не ловит ничего. Так было
+            # 09.09.2026: fail2ban-regex дал «17394 lines, 0 matched» из-за
+            # того, что failregex ожидал дату, которую fail2ban удаляет из
+            # строки перед проверкой. Прогон обязан падать на этом.
+            echo "-- совпадает ли фильтр со строками живого лога --"
+            rx=$(fail2ban-regex /var/log/nginx/access.log \
+                   /etc/fail2ban/filter.d/nginx-noscript.conf 2>&1 || true)
+            echo "$rx" | grep -E '^Lines:' | sed 's/^/  /'
+            matched=$(echo "$rx" | sed -n 's/^Lines:.*[, ]\([0-9][0-9]*\) matched.*/\1/p')
+            if [ "${matched:-0}" -eq 0 ]; then
+              echo "::error::фильтр не совпал ни с одной строкой лога — jail будет активен и бесполезен"
+              echo "$rx" | head -25 | sed 's/^/  /'
+              exit 1
+            fi
+            echo "  совпало строк: $matched"
+
             echo "-- ignoreip, как его видит служба --"
             fail2ban-client get nginx-noscript ignoreip | sed 's/^/  /'
 
@@ -237,7 +321,7 @@ jobs:
             echo "== применение =="
             runroot /tmp/bz-f2b-apply.sh
 
-            rm -f /tmp/bz-f2b-apply.sh /tmp/bz-f2b-status.sh
+            rm -f /tmp/bz-f2b-apply.sh /tmp/bz-f2b-status.sh /tmp/bz-f2b-regex.sh
             rm -rf /tmp/bizsoft-fail2ban
             echo "временные файлы удалены; sudoers не менялся, контейнер удалён — повышенных прав не осталось"
 

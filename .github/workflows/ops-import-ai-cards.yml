@@ -1,0 +1,160 @@
+# Импорт отобранных карточек AI-каталога в Directus прода.
+# Источник — реестр scripts/ai-catalog-cards.json (тот же, из которого заведена
+# партия /catalog/ai). Раннер собирает xlsx только по перечисленным sku
+# (build-vendor-cards.mjs --only), копирует его на сервер по scp и отправляет в
+# штатный /api/admin/import (upsert по sku): существующая карточка обновляется
+# и сохраняет свой слаг, новая заводится со слагом sku в нижнем регистре.
+# Перед импортом обновляется курс ЦБ, чтобы рублёвая цена привязанных к валюте
+# карточек посчиталась сразу. Результат — в журнал issue #22.
+#
+# Отличие от ai-catalog-migrate: там одноразовая миграция раздела целиком
+# (категории, переносы, снятия, перелинковка). Здесь — только партия карточек.
+# Отличие от ops-import-vendors: тот заливает пакеты scripts/catalog/*.json,
+# где sku обязан совпадать со слагом; карточки AI-каталога живут в реестре и
+# частью сидят в Directus под «интеграционными» sku.
+#
+# SEO-тексты карточек (meta_title, meta_description, описание) этим воркфлоу
+# не правятся: они лежат в data/seo/product-descriptions.json и применяются
+# ops-apply-descriptions — запускать его следует ПОСЛЕ импорта.
+
+name: ops-import-ai-cards
+
+on:
+  workflow_dispatch:
+    inputs:
+      skus:
+        description: 'SKU через запятую (из scripts/ai-catalog-cards.json)'
+        required: true
+      apply:
+        description: 'true — применить; false — dry-run'
+        required: true
+        default: 'false'
+      relink:
+        description: 'true — проставить related_products новым карточкам по матрице'
+        required: false
+        default: 'true'
+
+permissions:
+  # checkout читает репозиторий токеном GITHUB_TOKEN: при явном permissions
+  # без contents раннер получает «Repository not found».
+  contents: read
+  issues: write
+
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Guard - only default branch
+        run: |
+          if [ "${{ github.ref_name }}" != "main" ]; then
+            echo "Запуск разрешён только с ветки main. Текущий ref: ${{ github.ref_name }}"
+            exit 1
+          fi
+
+      - name: Checkout
+        # always() — шаг журнала ниже тоже always(): без этого при падении
+        # раннего шага checkout пропускается и запись в журнал не проходит.
+        if: always()
+        uses: actions/checkout@v4
+
+      - name: Build xlsx from registry
+        env:
+          SKUS: ${{ inputs.skus }}
+        run: |
+          npm install --no-save xlsx@0.18.5
+          node scripts/build-vendor-cards.mjs scripts/ai-catalog-cards.json /tmp/ai-cards.xlsx --only "$SKUS"
+          ls -la /tmp/ai-cards.xlsx
+
+      - name: Copy xlsx to server
+        uses: appleboy/scp-action@v1
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          source: "/tmp/ai-cards.xlsx,scripts/ai-catalog-data.py"
+          target: /tmp/
+          strip_components: 1
+
+      - name: Import on server
+        id: run
+        uses: appleboy/ssh-action@v1
+        env:
+          APPLY: ${{ inputs.apply }}
+          RELINK: ${{ inputs.relink }}
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          envs: APPLY,RELINK
+          capture_stdout: true
+          script: |
+            set -e
+            TOKEN=$(sed -n 's/^ADMIN_TOOLS_TOKEN=//p' /opt/bizsoft/astro.env | tr -d '"\r')
+            if [ -z "$TOKEN" ]; then echo "ADMIN_TOOLS_TOKEN отсутствует в astro.env — импорт не выполнен"; exit 1; fi
+            export TOKEN
+            python3 - <<'PY'
+            import base64, json, os, urllib.request
+            tok = os.environ['TOKEN']
+            apply = os.environ.get('APPLY', 'false') == 'true'
+
+            def post(path, body):
+                r = urllib.request.Request('http://127.0.0.1:3000' + path,
+                    data=json.dumps(body).encode(), method='POST')
+                r.add_header('Content-Type', 'application/json')
+                r.add_header('x-admin-token', tok)
+                with urllib.request.urlopen(r, timeout=300) as resp:
+                    return json.loads(resp.read() or b'{}')
+
+            cur = post('/api/admin/currency', {'action': 'refresh'})
+            rate = (cur.get('rate') or {})
+            print(f"курс ЦБ: USD={rate.get('usd_rate')} EUR={rate.get('eur_rate')} дата={rate.get('rate_date')}")
+
+            xlsx = base64.b64encode(open('/tmp/ai-cards.xlsx', 'rb').read()).decode()
+            data = post('/api/admin/import', {'format': 'xlsx', 'xlsxBase64': xlsx, 'apply': apply})
+
+            if data.get('dryRun'):
+                s = data['summary']
+                print(f"DRY-RUN: rows={s['rows']} create={s['create']} update={s['update']} errors={s['errors']}")
+                for i in data['items']:
+                    if i.get('errors'):
+                        print(f"  ОШИБКА {i['sku']}: {'; '.join(i['errors'])}")
+                        continue
+                    p = i['payload']
+                    price = p.get('price')
+                    mode = {'create': 'СОЗДАНИЕ', 'update': 'ОБНОВЛЕНИЕ'}.get(i['mode'], i['mode'])
+                    print(f"  {mode} {i['sku']} «{i.get('name') or p.get('name') or ''}» → "
+                          + (f"{price} RUB" if price else p.get('price_note', 'без рублёвой цены')))
+                    for ch in (i.get('changes') or [])[:25]:
+                        before = str(ch.get('before', ''))[:60]
+                        after = str(ch.get('after', ''))[:60]
+                        print(f"    {ch.get('field')}: {before} → {after}")
+            elif data.get('applied'):
+                print(f"APPLIED: created={data['created']} updated={data['updated']} failed={len(data['failed'])}")
+                for f in data['failed']:
+                    print(f"  FAIL {f['sku']}: {f['error']}")
+            else:
+                print('ответ:', json.dumps(data, ensure_ascii=False)[:1500])
+            os.remove('/tmp/ai-cards.xlsx')
+            PY
+
+            # Перелинковка: related_products заполняются только у карточек, где
+            # поле пустое (фаза post это проверяет) — уже связанные не трогаются.
+            # Админ-логин Directus берётся из окружения контейнера; значения не печатаются.
+            if [ "$RELINK" = "true" ]; then
+              echo "== Перелинковка related_products =="
+              export APPLY
+              cd /opt/bizsoft
+              DIRECTUS_ADMIN_EMAIL=$(docker compose exec -T directus printenv ADMIN_EMAIL 2>/dev/null | tr -d '\r') || DIRECTUS_ADMIN_EMAIL=""
+              DIRECTUS_ADMIN_PASSWORD=$(docker compose exec -T directus printenv ADMIN_PASSWORD 2>/dev/null | tr -d '\r') || DIRECTUS_ADMIN_PASSWORD=""
+              export DIRECTUS_ADMIN_EMAIL DIRECTUS_ADMIN_PASSWORD
+              python3 /tmp/ai-catalog-data.py post
+            fi
+            rm -f /tmp/ai-catalog-data.py
+
+      - name: Post results to journal (issue #22)
+        if: always()
+        uses: ./.github/actions/journal-post
+        with:
+          title: "ops-import-ai-cards (apply=${{ inputs.apply }})"
+          outcome: ${{ steps.run.outcome }}
+          body: ${{ steps.run.outputs.stdout }}
