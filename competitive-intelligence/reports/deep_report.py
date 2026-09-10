@@ -784,6 +784,41 @@ def _systemic_block(systemic: list | None) -> str:
 </div>"""
 
 
+ОБЩИЙ_ПРЕФИКС = "«"
+
+
+def _адресные(package: dict) -> list[str]:
+    """Пункты «не рекомендуем», относящиеся именно к этой странице.
+
+    Адресные начинаются с самой формулировки запроса в кавычках; общие — с
+    названия класса работ и одинаковы у всех пакетов.
+    """
+    return [line for line in (package.get("не_рекомендуем") or [])
+            if line.startswith(ОБЩИЙ_ПРЕФИКС)]
+
+
+def _общие(packages: list[dict]) -> list[str]:
+    """Ограничения, повторяющиеся во всех пакетах, — сказать один раз."""
+    общие: list[str] = []
+    for package in packages or []:
+        for line in package.get("не_рекомендуем") or []:
+            if not line.startswith(ОБЩИЙ_ПРЕФИКС) and line not in общие:
+                общие.append(line)
+    return общие
+
+
+def _общие_ограничения_блок(packages: list[dict]) -> str:
+    """Один блок вместо трёх строк в каждом из двадцати с лишним пакетов."""
+    общие = _общие(packages)
+    if not общие:
+        return ""
+    return cut("Чего не предлагаем ни по одной странице и почему",
+               '<ul class="q">'
+               + "".join(f"<li>{esc(line)}</li>" for line in общие)
+               + '</ul>',
+               note="одинаково для всех пакетов, поэтому сказано один раз")
+
+
 def _packages_block(packages: list[dict]) -> str:
     """План работ: что поручить, где править, почему и как принять.
 
@@ -819,9 +854,16 @@ def _packages_block(packages: list[dict]) -> str:
         done = (f'<ul class="q">{done_items}</ul>' if done_items else
                 '<p class="q">по этой странице ничего из проверяемого '
                 'не сделано</p>')
+        # В карточку идут только адресные пункты — те, что начинаются с
+        # самого запроса. Общие три («ссылки», «поведенческие», «улучшить
+        # SEO») одинаковы у всех пакетов и до 1.9.5 повторялись в каждом: на
+        # 22 пакетах это 66 строк, которые читатель пролистывает, ничего из
+        # них не узнавая. Они вынесены один раз в начало раздела.
         skip_items = "".join(f"<li>{esc(d)}</li>"
-                             for d in (pkg.get("не_рекомендуем") or []))
-        skip = f'<ul class="q">{skip_items}</ul>' if skip_items else '<p class="q">—</p>'
+                             for d in _адресные(pkg))
+        skip = (f'<ul class="q">{skip_items}</ul>' if skip_items
+                else '<p class="q">адресных ограничений по этой странице нет; '
+                     'общие — в начале раздела</p>')
         demand = esc("; ".join(
             f"{v} {k} по {pkg.get('demand_queries_by_source', {}).get(k, 0)} запр."
             for k, v in (pkg.get('demand_by_source') or {}).items()) or "не измерен")
@@ -1514,6 +1556,7 @@ def build(date: str, snapshot: dict, previous: dict | None,
 <p class="lead">Точки атаки, сведённые в поручения. Единица работы — страница:
 одна доработка закрывает сразу несколько запросов, и именно её можно поручить
 и принять. Порядок — по ожидаемому приросту переходов; {_upside_total(packages)}</p>
+{_общие_ограничения_блок(packages or [])}
 {_packages_block(packages or [])}
 {blocked_block}
 {stale_block}

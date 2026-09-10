@@ -354,3 +354,71 @@ class TestПревосходствоИзмеряетсяАНеПриближае
                                             core_stable=False).score
         self.assertEqual(оценка(без[0]), оценка(без[1]))
         self.assertGreater(оценка(тихий), оценка(шумный))
+
+
+class TestЧитабельность(unittest.TestCase):
+    """Повтор, который читатель пролистывает, ничего из него не узнавая.
+
+    Блок «не рекомендуем» состоит из общих ограничений (ссылки, поведенческие
+    факторы, общие формулировки) и адресных — тех, что начинаются с самой
+    формулировки запроса. Общие одинаковы у всех пакетов: на 22 пакетах это
+    66 одинаковых строк внутри карточек. Сказать их надо один раз.
+    """
+
+    def пакет(self, package_id, *адресные):
+        общие = ["внешние ссылки и их закупка: ссылочный профиль этим "
+                 "контуром не измеряется",
+                 "поведенческие факторы: данные Метрики не заведены"]
+        return package(package_id, f"запрос {package_id}",
+                       не_рекомендуем=[*общие, *адресные])
+
+    def test_общее_ограничение_названо_один_раз(self):
+        packages = [self.пакет(f"WP-{i:02d}") for i in range(1, 6)]
+        html = deep_report.build(DATE, SNAPSHOT, None, [], [], [],
+                                 packages=packages, core_stable=True)
+        self.assertEqual(1, html.count("ссылочный профиль этим контуром"))
+
+    def test_адресное_ограничение_остаётся_в_карточке(self):
+        адресное = "«framer оплата»: бренд конкурента в свой текст не вписываем"
+        packages = [self.пакет("WP-01", адресное), self.пакет("WP-02")]
+        html = deep_report.build(DATE, SNAPSHOT, None, [], [], [],
+                                 packages=packages, core_stable=True)
+        карточка = html.split('id="pkg-wp-01"')[1].split("</details>")[0]
+        self.assertIn("бренд конкурента", карточка)
+        вторая = html.split('id="pkg-wp-02"')[1].split("</details>")[0]
+        self.assertNotIn("бренд конкурента", вторая)
+
+    def test_без_общих_ограничений_блока_нет(self):
+        self.assertEqual("", deep_report._общие_ограничения_блок(
+            [package("WP-01", "x", не_рекомендуем=[])]))
+
+
+class TestСтрокаЭкспериментов(unittest.TestCase):
+    """Запас по состояниям — не поток через воронку.
+
+    «предложено 22, на наблюдении 23, оценено 0» читается как «22, из которых
+    23», то есть как невозможное. Опыт стоит ровно в одном состоянии, и
+    строка обязана называть общее число, а доли — текущими состояниями.
+    """
+
+    def опыты(self, предложено, наблюдение):
+        from experiments import journal as jr
+        def опыт(идентификатор, url, состояние):
+            return jr.Experiment(id=идентификатор, created=DATE, url=url,
+                                 page_kind="blog", package_id="WP-01",
+                                 state=состояние)
+        return ([опыт(f"EXP-{i:04d}", f"/p{i}", jr.STATE_PROPOSED)
+                 for i in range(предложено)]
+                + [опыт(f"EXP-9{i:03d}", f"/w{i}", jr.STATE_WATCH)
+                   for i in range(наблюдение)])
+
+    def test_названо_общее_число_и_состояния(self):
+        from experiments import learning as lr
+        строка = lr.summary_line(self.опыты(22, 23))
+        self.assertIn("всего 45", строка)
+        self.assertIn("ждут внедрения 22", строка)
+        self.assertIn("на замере 23", строка)
+
+    def test_пустой_журнал_говорит_прямо(self):
+        from experiments import learning as lr
+        self.assertIn("журнал пуст", lr.summary_line([]))
