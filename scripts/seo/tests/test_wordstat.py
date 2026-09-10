@@ -771,11 +771,25 @@ class TestVendorExpansion(unittest.TestCase):
         self.assertIn("рекомендуем", action)
 
     def test_failed_payment_check_is_retried_sooner(self):
-        """«Сайт не открылся» — не ответ: держать такой вердикт месяц нельзя."""
-        stale = {"verdict": "unreachable", "checked_at": "2026-08-10"}
-        good = {"verdict": "card", "checked_at": "2026-08-10"}
-        self.assertFalse(self.P.fresh(stale, 30))
-        self.assertTrue(self.P.fresh(good, 30))
+        """«Сайт не открылся» — не ответ: держать такой вердикт месяц нельзя.
+
+        Даты берутся от сегодня, а не литералом. Прежняя версия хардкодила
+        checked_at = 2026-08-10 при пороге 30 дней, а fresh() считает возраст
+        от текущего дня: 10.09.2026 возраст стал 31 днём, и тест начал падать
+        на main, блокируя любой PR. Проверять надо правило «неответ живёт
+        меньше ответа», а оно от календаря не зависит.
+        """
+        import datetime as dt
+        свежая = (dt.date.today() - dt.timedelta(days=1)).isoformat()
+        в_пределах_месяца = (dt.date.today() - dt.timedelta(days=29)).isoformat()
+        self.assertFalse(
+            self.P.fresh({"verdict": "unreachable",
+                          "checked_at": в_пределах_месяца}, 30))
+        self.assertTrue(
+            self.P.fresh({"verdict": "card",
+                          "checked_at": в_пределах_месяца}, 30))
+        self.assertTrue(
+            self.P.fresh({"verdict": "unreachable", "checked_at": свежая}, 30))
 
     def test_explicit_url_does_not_cancel_fallbacks(self):
         """Явный адрес может устареть — проверка продолжается по запасным."""
