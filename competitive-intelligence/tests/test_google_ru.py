@@ -223,3 +223,100 @@ class TestEmailAndReport(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class TestAbsenceProfile(unittest.TestCase):
+    """Разрыв с Google, разложенный до проверяемой гипотезы.
+
+    Разбор 10.09.2026: отчёт называл разрыв главным вопросом, перечислял три
+    гипотезы и не проверял ни одной. Разводит их величина, которая уже
+    собрана: встречается ли наша страница в Google-срезе хоть где-нибудь.
+    Страница, проигрывающая по релевантности, стоит на 11–20 и в срез
+    попадает; страница, которой нет ни разу, проигрывает не конкурентам.
+    """
+
+    def строка(self, query, *domains, engine="yandex", region=None):
+        region = region or ("213" if engine == "yandex" else "2643")
+        top = [{"domain": d, "url": f"https://{d}/page", "title": d}
+               for d in domains]
+        return serp_source.SerpRow(date="2026-09-07", query=query,
+                                   region=region, engine=engine, top=top)
+
+    def test_страница_не_встречается_нигде(self):
+        y = [self.строка("q1", "biz-soft.pro"), self.строка("q2", "biz-soft.pro")]
+        g = [self.строка("q1", "rival.ru", engine="google"),
+             self.строка("q2", "rival.ru", engine="google")]
+        p = google_ru.absence_profile(g, y, "2643")
+        self.assertEqual(1, p["страниц_в_разрыве"])
+        self.assertEqual(1, p["страниц_нет_в_срезе"])
+        self.assertEqual(0, p["страниц_есть_в_срезе"])
+        self.assertEqual(2, p["первые"][0]["запросов"])
+
+    def test_страница_видна_по_другому_запросу(self):
+        """Присутствие ищется по всему срезу, а не по запросам разрыва."""
+        y = [self.строка("q1", "biz-soft.pro"), self.строка("q2", "biz-soft.pro")]
+        g = [self.строка("q1", "rival.ru", engine="google"),
+             self.строка("q2", "rival.ru", "biz-soft.pro", engine="google")]
+        p = google_ru.absence_profile(g, y, "2643")
+        # q2 не в разрыве: там мы в Google есть. q1 в разрыве, но страница
+        # та же и в срезе встречается — значит видимость не под вопросом.
+        self.assertEqual(1, p["страниц_в_разрыве"])
+        self.assertEqual(1, p["страниц_есть_в_срезе"])
+        self.assertEqual(0, p["страниц_нет_в_срезе"])
+
+    def test_запросы_не_измеренные_в_обеих_системах_не_в_счёт(self):
+        y = [self.строка("q1", "biz-soft.pro"), self.строка("только-яндекс",
+                                                            "biz-soft.pro")]
+        g = [self.строка("q1", "rival.ru", engine="google")]
+        p = google_ru.absence_profile(g, y, "2643")
+        self.assertEqual(1, p["страниц_в_разрыве"])
+        self.assertEqual(1, p["первые"][0]["запросов"])
+
+    def test_страницы_ранжированы_по_весу(self):
+        y = ([self.строка(f"лёгкий {i}", "rival.ru", "biz-soft.pro")
+              for i in range(1)]
+             + [self.строка(f"тяжёлый {i}", "biz-soft.pro") for i in range(3)])
+        g = [self.строка(r.query, "rival.ru", engine="google") for r in y]
+        # Разные страницы: url берётся из выдачи, поэтому подменяем домен.
+        for i, r in enumerate(y):
+            for item in r.top:
+                if item["domain"] == "biz-soft.pro":
+                    item["url"] = ("https://biz-soft.pro/тяжёлая" if "тяжёлый"
+                                   in r.query else "https://biz-soft.pro/лёгкая")
+        p = google_ru.absence_profile(g, y, "2643")
+        self.assertEqual(2, p["страниц_в_разрыве"])
+        self.assertEqual("https://biz-soft.pro/тяжёлая", p["первые"][0]["url"])
+        self.assertEqual(3, p["первые"][0]["запросов"])
+
+
+class TestGoogleHypothesisBlock(unittest.TestCase):
+    """Вывод отчёта соответствует измерению, а не выбран заранее."""
+
+    def профиль(self, всего, нет):
+        return {"страниц_в_разрыве": всего, "страниц_нет_в_срезе": нет,
+                "страниц_есть_в_срезе": всего - нет,
+                "наших_url_в_срезе_всего": всего - нет,
+                "первые": [{"url": "https://biz-soft.pro/x", "запросов": 3,
+                            "лучшая_позиция_яндекс": 1,
+                            "есть_в_google_срезе": False}]}
+
+    def test_почти_ничего_не_видно_проверять_видимость(self):
+        from reports import deep_report
+        html = deep_report._google_hypothesis(self.профиль(64, 63))
+        self.assertIn("Проверять первой надо видимость", html)
+        self.assertIn("Search Console", html)
+
+    def test_страницы_видны_вопрос_в_ранжировании(self):
+        from reports import deep_report
+        html = deep_report._google_hypothesis(self.профиль(10, 1))
+        self.assertIn("как он их ранжирует", html)
+
+    def test_смешанная_картина_одной_гипотезы_не_даёт(self):
+        from reports import deep_report
+        html = deep_report._google_hypothesis(self.профиль(10, 5))
+        self.assertIn("смешанная", html)
+
+    def test_без_разрыва_блока_нет(self):
+        from reports import deep_report
+        self.assertEqual("", deep_report._google_hypothesis(
+            {"страниц_в_разрыве": 0}))
