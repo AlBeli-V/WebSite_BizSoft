@@ -51,12 +51,22 @@ jobs:
           import json, os
           before = json.load(open(f"/tmp/iy-{os.environ['BEFORE']}.json"))
           after = json.load(open(f"/tmp/iy-{os.environ['AFTER']}.json"))
-          gone = sorted(set(before.get("in_search") or []) - set(after.get("in_search") or []))
+          was, now = set(before.get("in_search") or []), set(after.get("in_search") or [])
+          gone = sorted(was - now)
           prod = [p.rsplit("/", 1)[-1] for p in gone if p.startswith("/product/")]
           other = [p for p in gone if not p.startswith("/product/")]
+          # Контроль — карточки, которые БЫЛИ в поиске и остались, а не «весь
+          # каталог минус выпавшие». В Directus 1550 опубликованных товаров, а
+          # страниц карточек в карте сайта 489: остальное — варианты без своей
+          # страницы. Сравнение с ними мешает в контроль тысячу карточек,
+          # которые в поиске не были никогда, и обе цифры перестают значить то,
+          # что написано.
+          stayed = [p.rsplit("/", 1)[-1] for p in sorted(was & now) if p.startswith("/product/")]
           print(f"dropped={','.join(prod)}")
+          print(f"stayed={','.join(stayed)}")
           print(f"summary=выпало адресов {len(gone)}, из них карточек {len(prod)}; "
-                f"прочие: {', '.join(other[:12])}{' …' if len(other) > 12 else ''}")
+                f"осталось в поиске карточек {len(stayed)}; "
+                f"прочие выпавшие: {', '.join(other[:12])}{' …' if len(other) > 12 else ''}")
           PY
 
       - name: Compare texts in Directus
@@ -64,12 +74,13 @@ jobs:
         uses: appleboy/ssh-action@v1
         env:
           P_DROPPED: ${{ steps.slugs.outputs.dropped }}
+          P_STAYED: ${{ steps.slugs.outputs.stayed }}
           P_SUMMARY: ${{ steps.slugs.outputs.summary }}
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
-          envs: P_DROPPED,P_SUMMARY
+          envs: P_DROPPED,P_STAYED,P_SUMMARY
           capture_stdout: true
           script: |
             set -e
@@ -79,6 +90,7 @@ jobs:
             import json, os, statistics, urllib.parse, urllib.request
             token = os.environ['TOKEN']
             dropped = {s for s in os.environ.get('P_DROPPED', '').split(',') if s}
+            stayed = {s for s in os.environ.get('P_STAYED', '').split(',') if s}
             print(os.environ.get('P_SUMMARY', ''))
             flt = {'status': {'_eq': 'published'}}
             url = ('http://localhost:8055/items/products?limit=-1&sort[]=slug'
@@ -95,11 +107,15 @@ jobs:
                 return (r.get(f) or '').strip()
 
             out = [r for r in rows if r['slug'] in dropped]
-            keep = [r for r in rows if r['slug'] not in dropped]
+            keep = [r for r in rows if r['slug'] in stayed]
             missing = dropped - {r['slug'] for r in rows}
             if missing:
                 print(f'выпавших слагов нет в каталоге: {len(missing)} '
                       f'({", ".join(sorted(missing)[:8])}…)')
+            print(f'сравниваются две группы, обе были в поиске до падения: '
+                  f'выпавшие {len(out)} и уцелевшие {len(keep)}; '
+                  f'остальные {len(rows) - len(out) - len(keep)} карточек каталога '
+                  f'в поиске не были и в сравнение не идут')
 
             def block(label, group):
                 if not group:
@@ -123,7 +139,7 @@ jobs:
                 print('  вендоры: ' + ', '.join(f'{v} {n}' for v, n in top))
 
             block('ВЫПАЛИ ИЗ ПОИСКА', out)
-            block('ОСТАЛИСЬ В ПОИСКЕ', keep)
+            block('БЫЛИ И ОСТАЛИСЬ В ПОИСКЕ', keep)
 
             # Главный вопрос тикета: отличаются ли группы вообще. Если медианы
             # и доли совпадают, дело не в длине текста, и искать надо другое.
