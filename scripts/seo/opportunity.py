@@ -100,6 +100,27 @@ def from_queries(snap: dict, engine: str) -> list[dict]:
     return out
 
 
+def under_experiment(cluster: str, snap: dict) -> str | None:
+    """Тикет действующего эксперимента, который меряет этот кластер.
+
+    Пока опыт идёт, его страницы под мораторием: правка заголовка и описания
+    обнуляет замер. 09.09.2026 радар предлагал «переписать заголовок и
+    описание страницы под запрос» по кластерам «оплата coreldraw для россиян»
+    (CONTENT-003) и «оплата artlist юридическим лицом» (SEO-EXP-004), а в
+    таблице money-запросов таких строк было шесть из девяти верхних.
+    """
+    low = (cluster or "").lower()
+    if not low:
+        return None
+    for e in snap.get("experiments") or []:
+        if e.get("status") not in ("running", "observing"):
+            continue
+        markers = [m.lower() for m in (e.get("query_markers") or []) if m]
+        if any(m in low for m in markers):
+            return e.get("ticket") or e.get("id")
+    return None
+
+
 def money_radar(snap: dict, limit: int = 15) -> dict:
     """Money-запросы: коммерческий интент на позициях 3–20.
 
@@ -123,6 +144,7 @@ def money_radar(snap: dict, limit: int = 15) -> dict:
             band = band_for(e.get("average_position"))
             if not band or band["zone"] not in SWEET_SPOT_ZONES:
                 continue
+            ticket = under_experiment(e["entity_id"], snap)
             items.append({
                 "query": e["entity_id"],
                 "engine": engine,
@@ -130,7 +152,10 @@ def money_radar(snap: dict, limit: int = 15) -> dict:
                 "clicks": e.get("clicks") or 0,
                 "position": e.get("average_position"),
                 "zone_label": band["label"],
-                "recommended_action": band["action"],
+                "recommended_action": (
+                    f"под замером {ticket} — правку не вносить до вердикта"
+                    if ticket else band["action"]),
+                "experiment": ticket,
                 "confidence": e.get("confidence", "unknown"),
             })
     if not items:
@@ -185,16 +210,25 @@ def build(snap: dict, decision_date: str | None = None, limit: int = 3) -> dict:
         return passport.unavailable("no_signal", detail="сигналов для приоритизации",
                                     items=[])
     items.sort(key=lambda i: -i["score"])
-    seen, top = set(), []
+    seen, top, held = set(), [], []
     for i in items:
         key = i["cluster"].lower()
         if key in seen:
             continue
         seen.add(key)
+        # Кластер под действующим экспериментом возможностью не является:
+        # рекомендованная правка обнулила бы чужой замер. Такие кластеры
+        # не занимают места в тройке, но и не пропадают — их перечисляет
+        # отдельная строка, чтобы отсутствие кластера в радаре не читалось
+        # как отсутствие спроса.
+        ticket = under_experiment(i["cluster"], snap)
+        if ticket:
+            held.append({"cluster": i["cluster"], "experiment": ticket})
+            continue
         i["decision_date"] = decision_date
         top.append(i)
         if len(top) >= limit:
             break
     return {"available": True, "reason": None, "items": top,
-            "considered": len(items),
+            "considered": len(items), "held_by_experiment": held,
             "market_demand_used": any(i["evidence_kind"] == "market_demand" for i in top)}

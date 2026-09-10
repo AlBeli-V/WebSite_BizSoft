@@ -170,5 +170,73 @@ class TestInvariants(unittest.TestCase):
         self.assertEqual(self.inv.check(OK_SNAP, OK_DQ, blocks, "текст"), [])
 
 
+class CitedVerdictTest(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.inv = mocks.load("invariants")
+
+    """S5: вердикт чужого эксперимента сверяется с журналом решений.
+
+    Случай из отчёта за 09.09.2026. В журнале одна запись по
+    cluster-depositphotos: 03.09.2026, CONFIRMED, EXPAND. В гипотезе
+    CONTENT-002 стояло «вердикт CONFIRMED 02.09.2026: +70% показов»,
+    в CONTENT-004 — «CONFIRMED 03.09.2026: +62%». Первая дата журналу
+    не известна, и утверждение о ней не проверял никто.
+    """
+
+    LOG = {"cluster-depositphotos": {"dates": ["2026-09-03"],
+                                     "verdict": "CONFIRMED",
+                                     "owner_decision": "EXPAND",
+                                     "ticket": "CONTENT-001"},
+           # Решение того же дня по другому эксперименту: чужая дата не
+           # должна оправдывать ссылку на CONTENT-001.
+           "snippets-5-vendors": {"dates": ["2026-09-02"],
+                                  "verdict": "INSUFFICIENT_DATA",
+                                  "owner_decision": "EXPAND",
+                                  "ticket": "SEO-EXP-001"}}
+
+    def blocks(self, hypothesis):
+        return {"owner_decisions": self.LOG,
+                "experiments": [{"ticket": "CONTENT-002",
+                                 "hypothesis": hypothesis,
+                                 "treatment": "", "primary_metric": ""}]}
+
+    def test_дата_из_журнала_нарушением_не_является(self):
+        b = self.blocks("Приём, подтверждённый на кластере Depositphotos "
+                        "(CONTENT-001, вердикт CONFIRMED 03.09.2026: +62% показов).")
+        self.assertEqual(self.inv.cited_verdicts(b), [])
+
+    def test_дата_которой_нет_в_журнале_нарушение(self):
+        b = self.blocks("Приём, подтверждённый на кластере Depositphotos "
+                        "(CONTENT-001, вердикт CONFIRMED 02.09.2026: +70% показов).")
+        found = self.inv.cited_verdicts(b)
+        self.assertEqual(len(found), 1)
+        self.assertIn("CONTENT-002", found[0])
+        self.assertIn("02.09.2026", found[0])
+
+    def test_нарушение_остаётся_мягким(self):
+        b = self.blocks("(CONTENT-001, вердикт CONFIRMED 02.09.2026)")
+        self.assertIn("02.09.2026", " ".join(self.inv.soft(b, "")))
+        # Письмо от этого не блокируется: текст правится в реестре на ветке
+        # данных, а не в коде, и выпуск дня из-за него не останавливается.
+        blocking = self.inv.blocking(OK_SNAP, OK_DQ, dict(b, **OK_BLOCKS))
+        self.assertNotIn("02.09.2026", " ".join(blocking))
+
+    def test_ссылка_на_чужую_дату_того_же_журнала_не_оправдание(self):
+        # 02.09.2026 в журнале есть, но по SEO-EXP-001, а ссылаются на
+        # CONTENT-001: совпадение дня не делает утверждение проверенным.
+        b = self.blocks("(CONTENT-001, вердикт CONFIRMED 02.09.2026)")
+        self.assertEqual(len(self.inv.cited_verdicts(b)), 1)
+
+    def test_тикет_неизвестный_журналу_не_нарушение(self):
+        b = self.blocks("(PAGES-EXP-001, вердикт CONFIRMED 02.09.2026)")
+        self.assertEqual(self.inv.cited_verdicts(b), [])
+
+    def test_без_журнала_проверка_молчит(self):
+        b = self.blocks("(CONTENT-001, вердикт CONFIRMED 02.09.2026)")
+        b["owner_decisions"] = {}
+        self.assertEqual(self.inv.cited_verdicts(b), [])
+
+
 if __name__ == "__main__":
     unittest.main()

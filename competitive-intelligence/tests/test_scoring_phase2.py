@@ -379,3 +379,40 @@ class TestSignificantParticipant(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class TestМаркерыБезПерекрытий(unittest.TestCase):
+    """Одно слово — один голос.
+
+    Маркеры интента — подстроки, и часть вложена друг в друга: «цен» целиком
+    лежит внутри «лицензи». Прямой подсчёт давал слову «лицензия» два голоса
+    из двух нужных для насыщения, и «лицензия adobe» получала полный
+    коммерческий интент 1.0 — больше, чем «тариф recraft» с его 0.7.
+    """
+
+    def test_вложенный_маркер_не_добавляет_голос(self):
+        from scoring import intent
+        self.assertEqual(0.7, intent.commercial_intent("лицензия adobe"))
+
+    def test_два_разных_маркера_насыщают(self):
+        from scoring import intent
+        self.assertEqual(1.0, intent.commercial_intent("купить лицензию"))
+
+    def test_один_маркер_даёт_семь_десятых(self):
+        from scoring import intent
+        self.assertEqual(0.7, intent.commercial_intent("тариф recraft"))
+
+    def test_отбор_маркеров_общий_а_не_точечный(self):
+        from scoring import intent
+        self.assertEqual(["длинный"],
+                         intent._hits("длинный", ("длин", "длинный", "нет")))
+
+    def test_мёртвый_b2b_маркер_убран(self):
+        """«корпоративн» всегда перекрыт сильным «корпоратив»."""
+        from scoring import intent
+        self.assertNotIn("корпоративн", intent.B2B_WEAK)
+        self.assertIn("корпоратив", intent.B2B_STRONG)
+
+    def test_сильный_b2b_маркер_работает(self):
+        from scoring import intent
+        self.assertEqual(0.7, intent.b2b_intent("корпоративные лицензии"))
