@@ -37,7 +37,7 @@ TypeScript strict · Vitest · Python 3 (контуры SEO/разведки/р�
   чеклист и обязательные шаги (sitemap, микроразметка, WebMCP, уникальность
   meta) — `docs/vendors-expansion-prompt.md`, раздел 11/11а, и правила в
   `CLAUDE.md`.
-- **Карточка AI-каталога и пара «базовое место + Premium»** —
+- **Карточка AI-каталога и пара «Standard seat + Premium seat»** —
   реестр `scripts/ai-catalog-cards.json`, заливка воркфлоу `ops-import-ai-cards`,
   правила против каннибализации пары тарифов: `docs/ai-catalog-import.md`,
   раздел «Заведение отдельной карточки AI-каталога».

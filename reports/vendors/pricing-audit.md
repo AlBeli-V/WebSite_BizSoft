@@ -329,8 +329,8 @@ GitHub — из сессии egress к сайту вендора закрыт; �
 
 ## ChatGPT Business — себестоимость от руководителя, привязка к евро (10.09.2026)
 
-Себестоимость закупки на сайте вендора передана руководителем: место базового
-типа — 305 евро за год, место типа Premium — 1515 евро за год. Это первые
+Себестоимость закупки на сайте вендора передана руководителем: место
+Standard seat — 305 евро за год, место Premium seat — 1515 евро за год. Это первые
 позиции каталога с привязкой к евро, а не к доллару: `peg_currency = EUR`,
 рублёвая цена считается той же формулой `база × курс ЦБ × коэффициент`
 (`computePegRub`) и обновляется ежедневной переоценкой `ops-currency-refresh`.
@@ -344,5 +344,5 @@ GitHub — из сессии egress к сайту вендора закрыт; �
 
 | SKU | Вендор | Официальное имя | Реш. | База EUR | Метрика | Подтверждение | Источник | Проверено |
 |---|---|---|---|---|---|---|---|---|
-| INT-AI-CHATGPT | OpenAI | ChatGPT Business (место базового типа, годовая оплата) | publish | 305.0 | за 1 место в год, от 2 мест | owner-manual-check | https://openai.com/chatgpt/pricing/ | 2026-09-10 |
-| CHATGPT-BUSINESS-PREMIUM | OpenAI | ChatGPT Business (место типа Premium, годовая оплата) | publish | 1515.0 | за 1 место в год, от 2 мест | owner-manual-check | https://openai.com/chatgpt/pricing/ | 2026-09-10 |
+| INT-AI-CHATGPT | OpenAI | ChatGPT Business, Standard seat (годовая оплата) | publish | 305.0 | за 1 место в год, от 2 мест | owner-manual-check | https://openai.com/chatgpt/pricing/ | 2026-09-10 |
+| CHATGPT-BUSINESS-PREMIUM | OpenAI | ChatGPT Business, Premium seat (годовая оплата) | publish | 1515.0 | за 1 место в год, от 2 мест | owner-manual-check | https://openai.com/chatgpt/pricing/ | 2026-09-10 |
