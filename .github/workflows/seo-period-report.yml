@@ -96,6 +96,26 @@ jobs:
           print(f"period={m['from']}_{m['to']}")
           PY
 
+      # Периодный отчёт публикуется страницей и уходит письмом одним и тем
+      # же HTML. Ширина 640 px, заданная ради почтовых клиентов, делала
+      # страницу непригодной на телефоне; проверка держит обе роли сразу.
+      - name: Setup Node for layout check
+        if: steps.build.outputs.built == 'yes'
+        uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        if: steps.build.outputs.built == 'yes'
+        with:
+          node-version: 22
+          cache: pnpm
+      - name: Check report layout
+        if: steps.build.outputs.built == 'yes'
+        run: |
+          pnpm install --frozen-lockfile
+          pnpm exec playwright install --with-deps chromium
+          node scripts/seo/layoutcheck.mjs \
+            "${{ steps.build.outputs.html }}" \
+            "/tmp/period-layout.json" 320,390,430,768,1024
+
       # Одно письмо на период: schedule не переотправляет уже отправленный
       # период; ручной dispatch — осознанная переотправка, маркер игнорирует.
       - name: Guard - already mailed

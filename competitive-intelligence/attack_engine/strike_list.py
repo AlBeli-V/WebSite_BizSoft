@@ -41,7 +41,20 @@ OURS = "biz-soft.pro"
 # требование вписать в наш текст чужой адрес.
 DOMAIN_IN_QUERY = re.compile(r"\b[a-z0-9][a-z0-9-]*\.(?:ru|com|io|net|org|pro|ai|me)\b")
 OUR_POSITION_MIN = 4
+# Потолок полосы кандидата. Это ПОТОЛОК, а не обещание: фактическая полоса
+# ограничена глубиной собранного среза и считается функцией band() ниже.
+#
+# До 1.10.2 число 20 печаталось в отчёте как есть — «мы на 4–20». Срез Яндекса
+# собирается глубиной 10, позиций 11–20 в данных нет ни одной, и контур был
+# слеп к полосе, которую считал своей: запрос, где мы одиннадцатые, попадал не
+# в «далеко до топа», а в «нас нет в выдаче вовсе».
 OUR_POSITION_MAX = 20
+
+
+def band(rows) -> tuple[int, int]:
+    """Фактическая полоса кандидата при глубине этого среза."""
+    depth = max((len(r.top) for r in rows if r.has_data), default=0)
+    return OUR_POSITION_MIN, min(OUR_POSITION_MAX, depth or OUR_POSITION_MAX)
 RIVAL_POSITION_MAX = 10
 
 # Технические домены поисковых систем: это не участники выдачи, а её части.
@@ -107,6 +120,7 @@ def build(rows, *, region: str = "213", engine: str = "yandex",
     """Кандидаты в атаку по срезу, отсортированные по Opportunity."""
     vendor_hosts = classifier.vendor_domains() if vendor_hosts is None else vendor_hosts
     freq_table = demand_source.load_frequencies()
+    низ, верх = band(rows)
     candidates: list[AttackCandidate] = []
 
     for row in rows:
@@ -118,7 +132,7 @@ def build(rows, *, region: str = "213", engine: str = "yandex",
             continue  # навигационный запрос к конкретному сайту
 
         our_pos, our_url = _find(row.top, OURS)
-        if our_pos is None or not (OUR_POSITION_MIN <= our_pos <= OUR_POSITION_MAX):
+        if our_pos is None or not (низ <= our_pos <= верх):
             continue
 
         # Кто стоит выше нас: отдельно тот, у кого подтверждены признаки

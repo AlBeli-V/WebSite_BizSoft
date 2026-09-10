@@ -12,8 +12,10 @@
 играет origin, две рабочие копии — два параллельных прогона.
 """
 
+import json
 import os
 import pathlib
+import sys
 import shutil
 import subprocess
 import tempfile
@@ -25,7 +27,8 @@ SCRIPT = ROOT / "scripts" / "seo" / "data_sync.sh"
 
 def run(cmd, cwd, **kw):
     env = {**os.environ, "GIT_AUTHOR_NAME": "t", "GIT_AUTHOR_EMAIL": "t@t",
-           "GIT_COMMITTER_NAME": "t", "GIT_COMMITTER_EMAIL": "t@t"}
+           "GIT_COMMITTER_NAME": "t", "GIT_COMMITTER_EMAIL": "t@t",
+           **kw.pop("env_extra", {})}
     return subprocess.run(cmd, cwd=cwd, env=env, text=True, shell=isinstance(cmd, str),
                           capture_output=True, check=kw.pop("check", True), **kw)
 
@@ -188,6 +191,80 @@ class DataSyncTest(unittest.TestCase):
                   a, check=False)
         self.assertEqual(out.returncode, 2)
         self.assertIn("вне списка хранилища", out.stderr)
+
+
+if __name__ == "__main__":
+    unittest.main()
+
+
+class RevisionHistoryTest(unittest.TestCase):
+    """Учёт пересборов читает историю ветки данных, а не текущей.
+
+    09.09.2026 выгрузка Яндекса собиралась дважды: в 04:47 UTC она дала 650
+    страниц в поиске, в 08:19 — 455. Отчёт ушёл в 04:54 по первой цифре, и о
+    пересмотре не узнал никто: git_revisions вызывал «git log» на рабочей
+    копии main, где reports/seo/data лежит в .gitignore и истории не имеет.
+    Список всегда был пуст, а вместе с ним молчали и находки о пересборе.
+    """
+
+    def setUp(self):
+        self.tmp = pathlib.Path(tempfile.mkdtemp())
+        self.addCleanup(shutil.rmtree, self.tmp, True)
+        self.origin = self.tmp / "origin.git"
+        run(["git", "init", "--bare", "-b", "seo-data", str(self.origin)], self.tmp)
+
+        seed = self.tmp / "seed"
+        run(["git", "clone", "-q", str(self.origin), str(seed)], self.tmp)
+        self.commit_value(seed, 650, "2026-09-09T04:47:02")
+        self.commit_value(seed, 455, "2026-09-09T08:19:00")
+        run(["git", "push", "-q", "origin", "seo-data"], seed)
+
+        self.repo = self.tmp / "run"
+        run(["git", "clone", "-q", str(self.origin), str(self.repo)], self.tmp)
+        run(["git", "checkout", "-qb", "main"], self.repo)
+        # Как в проекте: код на main, данные — только в ветке хранилища.
+        (self.repo / ".gitignore").write_text("reports/seo/data/\n", encoding="utf-8")
+
+    def commit_value(self, repo, pages, when):
+        p = repo / "reports" / "seo" / "data" / "yandex-2026-09-09.json"
+        p.parent.mkdir(parents=True, exist_ok=True)
+        p.write_text(json.dumps({"summary": {"searchable_pages_count": pages}}),
+                     encoding="utf-8")
+        run(["git", "add", "-A"], repo)
+        run(["git", "commit", "-qm", f"сбор {pages}"], repo,
+            env_extra={"GIT_AUTHOR_DATE": when, "GIT_COMMITTER_DATE": when})
+
+    def revisions(self):
+        code = (
+            "import sys, json\n"
+            f"sys.path.insert(0, {str(ROOT / 'scripts' / 'seo')!r})\n"
+            "import snapshot\n"
+            "print(json.dumps(snapshot.revisions_for('yandex', '2026-09-09',"
+            " lambda d: d.get('summary', {}).get('searchable_pages_count'), 'm')))\n")
+        out = run([sys.executable, "-c", code], self.repo)
+        return json.loads(out.stdout)
+
+    def test_оба_сбора_дня_видны(self):
+        self.repo.joinpath("reports/seo/data").mkdir(parents=True, exist_ok=True)
+        run(["git", "restore", "--source", "origin/seo-data", "--worktree",
+             "--", "reports/seo/data"], self.repo)
+        rev = self.revisions()
+        self.assertIsNotNone(rev)
+        self.assertEqual(rev["values_seen"], [455.0, 650.0])
+        self.assertEqual(rev["canonical"], 455.0)
+
+    def test_локальная_ветка_данных_подходит_когда_нет_origin(self):
+        run(["git", "restore", "--source", "origin/seo-data", "--worktree",
+             "--", "reports/seo/data"], self.repo)
+        run(["git", "update-ref", "-d", "refs/remotes/origin/seo-data"], self.repo)
+        self.assertEqual(self.revisions()["values_seen"], [455.0, 650.0])
+
+    def test_без_ветки_данных_проверка_молчит(self):
+        run(["git", "restore", "--source", "origin/seo-data", "--worktree",
+             "--", "reports/seo/data"], self.repo)
+        for ref in ("refs/remotes/origin/seo-data", "refs/heads/seo-data"):
+            run(["git", "update-ref", "-d", ref], self.repo, check=False)
+        self.assertIsNone(self.revisions())
 
 
 if __name__ == "__main__":
