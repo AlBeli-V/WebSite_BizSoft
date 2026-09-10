@@ -223,3 +223,249 @@ class TestEmailAndReport(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class TestAbsenceProfile(unittest.TestCase):
+    """Разрыв с Google, разложенный до проверяемой гипотезы.
+
+    Разбор 10.09.2026: отчёт называл разрыв главным вопросом, перечислял три
+    гипотезы и не проверял ни одной. Разводит их величина, которая уже
+    собрана: встречается ли наша страница в Google-срезе хоть где-нибудь.
+    Страница, проигрывающая по релевантности, стоит на 11–20 и в срез
+    попадает; страница, которой нет ни разу, проигрывает не конкурентам.
+    """
+
+    def строка(self, query, *domains, engine="yandex", region=None):
+        region = region or ("213" if engine == "yandex" else "2643")
+        top = [{"domain": d, "url": f"https://{d}/page", "title": d}
+               for d in domains]
+        return serp_source.SerpRow(date="2026-09-07", query=query,
+                                   region=region, engine=engine, top=top)
+
+    def test_страница_не_встречается_нигде(self):
+        y = [self.строка("q1", "biz-soft.pro"), self.строка("q2", "biz-soft.pro")]
+        g = [self.строка("q1", "rival.ru", engine="google"),
+             self.строка("q2", "rival.ru", engine="google")]
+        p = google_ru.absence_profile(g, y, "2643")
+        self.assertEqual(1, p["страниц_в_разрыве"])
+        self.assertEqual(1, p["страниц_нет_в_срезе"])
+        self.assertEqual(0, p["страниц_есть_в_срезе"])
+        self.assertEqual(2, p["первые"][0]["запросов"])
+
+    def test_страница_видна_по_другому_запросу(self):
+        """Присутствие ищется по всему срезу, а не по запросам разрыва."""
+        y = [self.строка("q1", "biz-soft.pro"), self.строка("q2", "biz-soft.pro")]
+        g = [self.строка("q1", "rival.ru", engine="google"),
+             self.строка("q2", "rival.ru", "biz-soft.pro", engine="google")]
+        p = google_ru.absence_profile(g, y, "2643")
+        # q2 не в разрыве: там мы в Google есть. q1 в разрыве, но страница
+        # та же и в срезе встречается — значит видимость не под вопросом.
+        self.assertEqual(1, p["страниц_в_разрыве"])
+        self.assertEqual(1, p["страниц_есть_в_срезе"])
+        self.assertEqual(0, p["страниц_нет_в_срезе"])
+
+    def test_запросы_не_измеренные_в_обеих_системах_не_в_счёт(self):
+        y = [self.строка("q1", "biz-soft.pro"), self.строка("только-яндекс",
+                                                            "biz-soft.pro")]
+        g = [self.строка("q1", "rival.ru", engine="google")]
+        p = google_ru.absence_profile(g, y, "2643")
+        self.assertEqual(1, p["страниц_в_разрыве"])
+        self.assertEqual(1, p["первые"][0]["запросов"])
+
+    def test_страницы_ранжированы_по_весу(self):
+        y = ([self.строка(f"лёгкий {i}", "rival.ru", "biz-soft.pro")
+              for i in range(1)]
+             + [self.строка(f"тяжёлый {i}", "biz-soft.pro") for i in range(3)])
+        g = [self.строка(r.query, "rival.ru", engine="google") for r in y]
+        # Разные страницы: url берётся из выдачи, поэтому подменяем домен.
+        for i, r in enumerate(y):
+            for item in r.top:
+                if item["domain"] == "biz-soft.pro":
+                    item["url"] = ("https://biz-soft.pro/тяжёлая" if "тяжёлый"
+                                   in r.query else "https://biz-soft.pro/лёгкая")
+        p = google_ru.absence_profile(g, y, "2643")
+        self.assertEqual(2, p["страниц_в_разрыве"])
+        self.assertEqual("https://biz-soft.pro/тяжёлая", p["первые"][0]["url"])
+        self.assertEqual(3, p["первые"][0]["запросов"])
+
+
+class TestGoogleHypothesisBlock(unittest.TestCase):
+    """Вывод выбирается статусом индексации, а не догадкой.
+
+    Первая версия блока (1.9.3) меряла только присутствие страницы в
+    Google-срезе и делала один вывод на всех — «проверять надо видимость».
+    На срезе 09.09 он был верен для 41 страницы из 64 и неверен для 23:
+    те в индексе и просто проигрывают в ранжировании. Статус, разводящий эти
+    случаи, базовый контур снимает ежедневно, и разведка теперь его читает.
+    """
+
+    def профиль(self, **по_индексу):
+        всего = sum(по_индексу.values())
+        return {"страниц_в_разрыве": всего,
+                "страниц_нет_в_срезе": всего,
+                "страниц_есть_в_срезе": 0,
+                "наших_url_в_срезе_всего": 0,
+                "индекс_доступен": True,
+                "индекс_дата": "2026-09-09",
+                "по_индексу": по_индексу,
+                "первые": [{"url": "https://biz-soft.pro/x", "запросов": 3,
+                            "лучшая_позиция_яндекс": 1,
+                            "есть_в_google_срезе": False,
+                            "индекс": "не знает адреса",
+                            "индекс_дословно": "URL is unknown to Google"}]}
+
+    def test_три_группы_названы_порознь(self):
+        html = deep_report._google_hypothesis(self.профиль(**{
+            "не знает адреса": 11,
+            "знает, но не индексирует": 30,
+            "в индексе, проигрывает в выдаче": 23}))
+        self.assertIn("три, и работа у них разная", html)
+        self.assertIn("Google не знает адреса", html)
+        self.assertIn("Google знает адрес и в индекс не берёт", html)
+        self.assertIn("Страница в индексе и проигрывает", html)
+
+    def test_только_видимость_говорит_про_видимость(self):
+        html = deep_report._google_hypothesis(self.профиль(**{
+            "не знает адреса": 5, "знает, но не индексирует": 7}))
+        self.assertIn("Дело в видимости, а не в текстах", html)
+
+    def test_только_индекс_говорит_про_ранжирование(self):
+        html = deep_report._google_hypothesis(self.профиль(**{
+            "в индексе, проигрывает в выдаче": 9}))
+        self.assertIn("вопрос в ранжировании", html)
+
+    def test_без_статусов_вывод_не_делается(self):
+        """Молчаливый переход к догадке — то, ради чего блок и переписан."""
+        профиль = self.профиль(**{"статуса нет": 9})
+        профиль["индекс_доступен"] = False
+        html = deep_report._google_hypothesis(профиль)
+        self.assertIn("гипотезы не разведены", html)
+        self.assertNotIn("Дело в видимости", html)
+
+    def test_источник_статусов_назван(self):
+        html = deep_report._google_hypothesis(self.профиль(**{
+            "не знает адреса": 3, "в индексе, проигрывает в выдаче": 3}))
+        self.assertIn("URL Inspection API", html)
+        self.assertIn("2026-09-09", html)
+
+    def test_без_разрыва_блока_нет(self):
+        self.assertEqual("", deep_report._google_hypothesis(
+            {"страниц_в_разрыве": 0}))
+
+
+class TestIndexStatus(unittest.TestCase):
+    """Статус индексации читается из выгрузки, а не запрашивается заново."""
+
+    def setUp(self):
+        from discovery import index_status
+        self.ix = index_status
+        self.ix.load.cache_clear()
+        self._load = self.ix.load
+        self.ix.load = lambda *a, **k: {
+            "date": "2026-09-09",
+            "pages": {
+                "/blog/framer": {"coverage_state": "URL is unknown to Google"},
+                "/blog/postman": {"coverage_state":
+                                  "Discovered - currently not indexed"},
+                "/vendors/recraft": {"coverage_state": "Submitted and indexed"},
+                "/vendors/пусто": {},
+            }}
+
+    def tearDown(self):
+        self.ix.load = self._load
+        self.ix.load.cache_clear()
+
+    def test_три_класса_разводятся(self):
+        S = "https://biz-soft.pro"
+        self.assertEqual(self.ix.UNKNOWN, self.ix.state(f"{S}/blog/framer")[0])
+        self.assertEqual(self.ix.NOT_INDEXED,
+                         self.ix.state(f"{S}/blog/postman")[0])
+        self.assertEqual(self.ix.INDEXED,
+                         self.ix.state(f"{S}/vendors/recraft")[0])
+
+    def test_страницы_нет_в_выгрузке(self):
+        класс, дословно = self.ix.state("https://biz-soft.pro/нет-такой")
+        self.assertEqual(self.ix.NO_DATA, класс)
+        self.assertEqual("", дословно)
+
+    def test_пустой_статус_не_подменяется(self):
+        self.assertEqual(self.ix.NO_DATA,
+                         self.ix.state("https://biz-soft.pro/vendors/пусто")[0])
+
+    def test_завершающий_слеш_не_мешает(self):
+        self.assertEqual(self.ix.INDEXED,
+                         self.ix.state("https://biz-soft.pro/vendors/recraft/")[0])
+
+    def test_неизвестный_статус_считается_непроиндексированным(self):
+        """Незнакомая формулировка Search Console не становится «в индексе»."""
+        self.ix.load = lambda *a, **k: {
+            "date": "2026-09-09",
+            "pages": {"/x": {"coverage_state": "Что-то новое от Google"}}}
+        self.assertEqual(self.ix.NOT_INDEXED,
+                         self.ix.state("https://biz-soft.pro/x")[0])
+
+
+class TestОчередьОбходаОтличаетсяОтПриговора(unittest.TestCase):
+    """Страницу, которую Google не скачивал, переписывать бесполезно.
+
+    Разбор индексации 10.09.2026: из 363 страниц в статусе «Discovered —
+    currently not indexed» Google скачал ровно одну, а по сайту не скачано
+    493 из 732. Статус в общем случае может означать «посмотрел и не взял»,
+    здесь означает «знаю адрес, руки не дошли». Разница определяет работу.
+    """
+
+    def setUp(self):
+        from discovery import index_status
+        self.ix = index_status
+        self.ix.load.cache_clear()
+        self._load = self.ix.load
+        self.ix.load = lambda *a, **k: {
+            "date": "2026-09-09",
+            "pages": {
+                "/скачан": {"coverage_state": "Submitted and indexed",
+                            "last_crawl": "2026-09-08T00:00:00Z"},
+                "/в-очереди": {"coverage_state":
+                               "Discovered - currently not indexed"},
+                "/неизвестен": {"coverage_state": "URL is unknown to Google"},
+            }}
+
+    def tearDown(self):
+        self.ix.load = self._load
+        self.ix.load.cache_clear()
+
+    def test_скачанность_видна_отдельно_от_статуса(self):
+        S = "https://biz-soft.pro"
+        self.assertTrue(self.ix.crawled(f"{S}/скачан"))
+        self.assertFalse(self.ix.crawled(f"{S}/в-очереди"))
+        self.assertFalse(self.ix.crawled(f"{S}/неизвестен"))
+
+    def test_сводка_по_обходу_считает_сайт_целиком(self):
+        сводка = self.ix.crawl_summary()
+        self.assertEqual(3, сводка["страниц"])
+        self.assertEqual(1, сводка["скачано"])
+        self.assertEqual(2, сводка["не скачано"])
+        self.assertEqual("2026-09-08", сводка["последний_обход"])
+
+    def test_отчёт_называет_очередь_обхода(self):
+        профиль = {"страниц_в_разрыве": 64, "страниц_нет_в_срезе": 41,
+                   "страниц_есть_в_срезе": 23, "наших_url_в_срезе_всего": 23,
+                   "индекс_доступен": True, "индекс_дата": "2026-09-09",
+                   "не_скачано": 41,
+                   "обход_по_сайту": {"страниц": 732, "скачано": 239,
+                                      "не скачано": 493,
+                                      "последний_обход": "2026-09-08"},
+                   "по_индексу": {"не знает адреса": 11,
+                                  "знает, но не индексирует": 30,
+                                  "в индексе, проигрывает в выдаче": 23},
+                   "первые": []}
+        html = deep_report._google_hypothesis(профиль)
+        self.assertIn("ни разу не скачивал 41 из 64", html)
+        self.assertIn("493 из 732", html)
+        self.assertIn("переписывать бесполезно", html)
+
+    def test_без_данных_об_обходе_строки_нет(self):
+        профиль = {"страниц_в_разрыве": 5, "страниц_нет_в_срезе": 5,
+                   "страниц_есть_в_срезе": 0, "индекс_доступен": True,
+                   "по_индексу": {"не знает адреса": 5}, "первые": []}
+        html = deep_report._google_hypothesis(профиль)
+        self.assertNotIn("очередь обхода", html)

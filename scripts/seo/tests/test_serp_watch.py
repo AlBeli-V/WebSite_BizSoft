@@ -71,6 +71,33 @@ class TestWatchlist(unittest.TestCase):
             yandex_entities=[q(f"купить продукт {i}") for i in range(200)]))
         self.assertEqual(len(self.wl.build(DATE, cap=150)), 150)
 
+    def test_переставленные_формы_вебмастера_схлопываются(self):
+        """Вебмастер отдаёт часть запросов в переставленном виде.
+
+        Срез 09.09.2026 нёс 431 запрос, из них 33 — вторая форма того же
+        смысла («оплата capture one юридическим лицом» и «capture оплата one
+        лицом юридическим»). Выдачу по ним собирали дважды, а счёт «мы в
+        топ-10 по N запросам» выходил завышенным.
+        """
+        self.write_snap(snap(yandex_entities=[
+            q("оплата capture one юридическим лицом", imp=90),
+            q("capture оплата one лицом юридическим", imp=40),
+            q("купить claude team", imp=30),
+            q("claude team купить", imp=20),
+            q("купить claude enterprise", imp=10),
+        ]))
+        out = self.wl.build(DATE)
+        self.assertEqual(out, ["оплата capture one юридическим лицом",
+                               "купить claude team",
+                               "купить claude enterprise"])
+
+    def test_разные_запросы_схлопыванием_не_склеиваются(self):
+        self.write_snap(snap(yandex_entities=[
+            q("оплата box для юридических лиц из россии", imp=90),
+            q("оплата box юридическим лицом", imp=40),
+        ]))
+        self.assertEqual(len(self.wl.build(DATE)), 2)
+
     def test_empty_without_data(self):
         self.assertEqual(self.wl.build(DATE), [])
 
