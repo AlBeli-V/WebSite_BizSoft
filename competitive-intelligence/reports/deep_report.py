@@ -405,9 +405,21 @@ def _category_table(snapshot: dict) -> str:
 
 
 def _leaderboard(cards: list[dict], usable: int,
-                 histories: dict[str, list[float]] | None = None) -> str:
+                 histories: dict[str, list[float]] | None,
+                 core_stable: bool) -> str:
+    """Таблица угрозы. `core_stable` обязателен и позиционен намеренно.
+
+    До 1.9.1 он здесь просто не передавался, а у `threat_mod.rank` значение
+    по умолчанию `True`. 10.09.2026 ядро выросло с 431 до 489 запросов,
+    run_daily передал в свой вызов `False` — и из одного прогона вышли два
+    разных ответа: письмо напечатало «Threat 36 из 70», отчёт — «полный
+    режим (шкала 0–100)» с динамикой по разным ядрам, которую подвал того же
+    отчёта запрещает. Аргумент без значения по умолчанию превращает такой
+    пропуск из тихой ошибки в TypeError.
+    """
     ranked = threat_mod.rank([c for c in cards if c["домен"] != OURS],
-                             histories=histories or {}, queries_total=usable)
+                             histories=histories or {}, queries_total=usable,
+                             core_stable=core_stable)
     rows = []
     for position, (card, t) in enumerate(ranked, start=1):
         cat = card.get("категория", "?")
@@ -495,25 +507,39 @@ def _strike_table(attacks: list[dict], packages: list[dict] | None = None,
     planned = sum(1 for a in attacks if a["query"] in status_by_query)
     return cut(f"Полная таблица точек атаки — "
                f"{plural(len(attacks), 'строка', 'строки', 'строк')}", table,
-               note=f"из них в плане работ {planned}")
+               note=f"из них сведено в пакеты {planned}")
 
 
 def _attack_summary(attacks: list[dict], packages: list[dict] | None,
                     experiments: list | None) -> str:
     """Сводка по контролю: что сделано, что на замере, что ждёт очереди."""
     status_by_query = _attack_status(attacks, packages, experiments)
-    считает = {"правка внесена": 0, "в очереди": 0, "проверено": 0,
-               "занята": 0, "вне плана": 0}
+    # Порядок проверки значим: «в очереди, но кластер — контроль» начинается
+    # со слов «в очереди», и общий префикс поймал бы его первым. До 1.9.1 так
+    # и было — 6 запросов контрольных групп 10.09.2026 стояли в строке
+    # «в очереди на работу», хотя правка контрольной группы губит чужой
+    # эксперимент так же надёжно, как правка его страницы.
+    #
+    # Два статуса раньше не имели своей строки вовсе и падали в else, под
+    # подписью «вне плана работ: запрос не сведён в пакет». Оба сведены в
+    # пакеты, так что подпись была ложной для всех десяти запросов дня.
+    порядок = [
+        ("правка внесена", "правка внесена"),
+        ("проверено", "проверено"),
+        ("страница занята", "занята"),
+        ("в очереди, но кластер", "контроль"),
+        ("в очереди", "в очереди"),
+        ("снято с поручений", "снято"),
+        ("не поручение — проверка", "проверка"),
+    ]
+    считает = {ключ: 0 for _, ключ in порядок}
+    считает["вне плана"] = 0
     for a in attacks:
-        _, status = status_by_query.get(a["query"], ("", "вне плана"))
-        if status.startswith("правка внесена"):
-            считает["правка внесена"] += 1
-        elif status.startswith("проверено"):
-            считает["проверено"] += 1
-        elif status.startswith("страница занята"):
-            считает["занята"] += 1
-        elif status.startswith("в очереди"):
-            считает["в очереди"] += 1
+        _, status = status_by_query.get(a["query"], ("", ""))
+        for префикс, ключ in порядок:
+            if status.startswith(префикс):
+                считает[ключ] += 1
+                break
         else:
             считает["вне плана"] += 1
     return f"""
@@ -525,10 +551,22 @@ def _attack_summary(attacks: list[dict], packages: list[dict] | None,
 <tr><td>Проверено, эффект измерен</td><td class="num">{считает['проверено']}</td>
 <td>окно наблюдения истекло, результат в разделе 6</td></tr>
 <tr><td>В очереди на работу</td><td class="num">{считает['в очереди']}</td>
-<td>поручение сформировано, правка не внесена</td></tr>
+<td>поручение сформировано, правка не внесена — это и есть работа, доступная
+сегодня</td></tr>
 <tr><td>Страница занята чужим замером</td><td class="num">{считает['занята']}</td>
 <td>по странице идёт эксперимент базового SEO-контура: вторая правка в том же
-окне лишит оценки оба замера, работа берётся после контрольной точки</td></tr>
+окне лишит оценки оба замера, пакет выведен из очереди до контрольной
+точки — раздел «Заблокировано чужим замером»</td></tr>
+<tr><td>Кластер — контрольная группа чужого замера</td>
+<td class="num">{считает['контроль']}</td>
+<td>пакет в очереди, но с условием: правка контрольной группы лишает оценки
+чужой эксперимент, ограничение процитировано в пакете и решает человек</td></tr>
+<tr><td>Снято с поручений: страницу правили вне контура</td>
+<td class="num">{считает['снято']}</td>
+<td>отпечаток текста изменился между прогонами, идёт срок наблюдения</td></tr>
+<tr><td>Проверка, а не поручение</td><td class="num">{считает['проверка']}</td>
+<td>правок по репозиторию не требуется, остаётся посмотреть тело страницы из
+Directus — раздел «Проверить, а не делать»</td></tr>
 <tr><td>Вне плана работ</td><td class="num">{считает['вне плана']}</td>
 <td>запрос не сведён в пакет: спрос не измерен либо страница не в нашей зоне</td></tr>
 </tbody></table>
@@ -949,6 +987,67 @@ def _stale_occupancy_block(stale: list[dict] | None) -> str:
               '<th>Метрика успеха</th></tr>' + rows + '</table></div>'))
 
 
+def _upside_total(packages: list[dict] | None) -> str:
+    """Суммарные переходы — или прямой отказ их считать.
+
+    До 1.9.1 строка складывала `traffic_upside or 0` и печатала «+0
+    переходов», когда переходы не посчитаны ни по одному пакету. Ноль на
+    месте отсутствия данных запрещён методикой этого же отчёта («Отсутствие
+    данных нигде не показывается как ноль») и правилом report-integrity, а
+    читается он как «работа ничего не даст». 10.09.2026 так и вышло: у всех
+    22 пакетов раздела upside был None.
+    """
+    countable = [p for p in (packages or [])
+                 if p.get("traffic_upside") is not None]
+    if not countable:
+        return ("перевод в переходы не считается: ни по одному пакету дня спрос "
+                "не измерен шкалой, сопоставимой с переходами.")
+    total = sum(p["traffic_upside"] for p in countable)
+    return (f"суммарная оценка по {plural(len(countable), 'пакету', 'пакетам', 'пакетам')} "
+            f"с сопоставимым спросом: +{total:.0f} переходов при выходе в ТОП-3 "
+            f"(остальные {len(packages or []) - len(countable)} в сумму не входят: "
+            f"их спрос измерен другой шкалой).")
+
+
+def _blocked_block(blocked: list[dict] | None) -> str:
+    """Пакеты по страницам, занятым замером базового SEO-контура.
+
+    Это не очередь и не отложенная очередь: вторая правка в чужом окне
+    наблюдения лишает оценки оба эксперимента сразу. До 1.9.1 такие пакеты
+    стояли в разделе «План работ» наравне с настоящими — с чек-листом,
+    приёмкой и шагом «отправить на переобход», — а пометка занятости жила
+    только строкой в таблице точек атаки на 186 строк. 10.09.2026 из 22
+    пакетов плана 16 были такими, и письмо поставило один из них поручением
+    дня.
+    """
+    if not blocked:
+        return ""
+    rows = "".join(
+        f'<tr><td>{esc(p["package_id"])}</td>'
+        f'<td>{esc(p["url"].replace("https://biz-soft.pro", ""))}</td>'
+        f'<td class="num">{p["queries_count"]}</td>'
+        f'<td>{esc((p.get("занятость") or {}).get("эксперимент", "—"))}</td>'
+        f'<td>{esc((p.get("занятость") or {}).get("до", "контрольной точки"))}</td>'
+        f'<td class="q">{esc(p.get("action", "—"))}</td></tr>'
+        for p in sorted(blocked,
+                        key=lambda p: (p.get("занятость") or {}).get("до") or ""))
+    table = ('<div class="scroll"><table><tr><th>Пакет</th><th>Страница</th>'
+             '<th class="num">Запросов</th><th>Чей замер</th><th>Свободна с</th>'
+             '<th>Что нужно будет сделать</th></tr>' + rows + "</table></div>")
+    сроки = sorted({(p.get("занятость") or {}).get("до") or ""
+                    for p in blocked} - {""})
+    когда = (f" Самая ранняя страница освободится {сроки[0]}, последняя — "
+             f"{сроки[-1]}." if сроки else "")
+    return (f'<h3 id="blocked">Заблокировано чужим замером — '
+            f'{plural(len(blocked), "пакет", "пакета", "пакетов")}</h3>'
+            f'<p class="lead">По этим страницам базовый SEO-контур ведёт '
+            f'собственный эксперимент. Правка сейчас лишит оценки оба замера '
+            f'сразу — и чужой, и наш: разделить вклад двух правок в одном окне '
+            f'наблюдения нечем. Поэтому работа здесь есть, а поручения нет; '
+            f'пакет ждёт контрольной точки и вернётся в план сам.{когда}</p>'
+            + cut("Что ждёт освобождения страницы", table))
+
+
 def _verify_block(to_verify: list[dict] | None) -> str:
     """Страницы, по которым правок не требуется, — список проверок, не работ.
 
@@ -991,6 +1090,7 @@ def _toc(snapshot: dict, leaders: list[dict], packages: list[dict] | None,
          attacks: list[dict], experiments: list | None,
          on_watch: list[dict] | None = None, detail_limit: int = 10,
          to_verify: list[dict] | None = None,
+         blocked: list[dict] | None = None,
          stale_occupancy: list[dict] | None = None,
          position_check: dict | None = None) -> str:
     """Плавающее меню: вся структура отчёта, включая блоки под катом.
@@ -1027,6 +1127,8 @@ def _toc(snapshot: dict, leaders: list[dict], packages: list[dict] | None,
         items.append(link(anchor("pkg", pkg["package_id"]),
                           f"{pkg['package_id']} · {url_short}"))
 
+    if blocked:
+        items.append(link("blocked", "Заблокировано чужим замером"))
     if stale_occupancy:
         items.append(link("stale", "Занятость снята по истечении окна"))
     if to_verify:
@@ -1132,6 +1234,8 @@ def build(date: str, snapshot: dict, previous: dict | None,
           on_watch: list[dict] | None = None,
           systemic: list | None = None,
           to_verify: list[dict] | None = None,
+          blocked: list[dict] | None = None,
+          core_stable: bool = True,
           stale_occupancy: list[dict] | None = None,
           position_check: dict | None = None,
           position_verdict: dict | None = None,
@@ -1159,14 +1263,22 @@ def build(date: str, snapshot: dict, previous: dict | None,
         'выданных поручений отслеживается с 01.09.2026 — раздел 6.</div>')
 
     toc = _toc(snapshot, leaders, packages, attacks, experiments, on_watch,
-               to_verify=to_verify, stale_occupancy=stale_occupancy,
+               to_verify=to_verify, blocked=blocked,
+               stale_occupancy=stale_occupancy,
                position_check=position_check)
     verify_block = _verify_block(to_verify)
+    # Занятый пакет не попадает в поручения, даже если его сюда передали:
+    # проверка на выходе не зависит от правильности вызова (разбор 10.09.2026).
+    from attack_engine import occupancy as occupancy_mod
+    packages, отсеяно = occupancy_mod.split_takeable(packages)
+    blocked = (blocked or []) + [p for p in отсеяно if p not in (blocked or [])]
+    blocked_block = _blocked_block(blocked)
     stale_block = _stale_occupancy_block(stale_occupancy)
     poscheck_block = _position_check_block(position_check, position_verdict)
     # Статус точки атаки ищется по всем пакетам дня, включая снятые с очереди:
     # иначе запрос, по которому пакет есть, значился бы «вне плана работ».
-    planned = (packages or []) + (on_watch or []) + (to_verify or [])
+    planned = ((packages or []) + (on_watch or []) + (to_verify or [])
+               + (blocked or []))
 
     return f"""<!doctype html>
 <html lang="ru"><head><meta charset="utf-8">
@@ -1221,7 +1333,7 @@ def build(date: str, snapshot: dict, previous: dict | None,
 0–{threat_mod.MAX_FULL}), когда накоплено {threat_mod.WINDOW * 2} сравнимых
 измерений при неизменном ядре. Режим и основание каждой оценки — в
 последней колонке таблицы; числа разных режимов между собой несравнимы.</p>
-{_leaderboard(leaders, usable, histories)}
+{_leaderboard(leaders, usable, histories, core_stable)}
 
 <h2 id="l3">3 · Карточки конкурентов</h2>
 <p class="lead">По каждому — на каких запросах он виден и какими страницами
@@ -1233,10 +1345,9 @@ def build(date: str, snapshot: dict, previous: dict | None,
 {_systemic_block(systemic)}
 <p class="lead">Точки атаки, сведённые в поручения. Единица работы — страница:
 одна доработка закрывает сразу несколько запросов, и именно её можно поручить
-и принять. Порядок — по ожидаемому приросту переходов; суммарная оценка по
-пакетам с сопоставимым спросом: +{sum(p['traffic_upside'] or 0 for p in (packages or [])):.0f}
-переходов при выходе в ТОП-3 — там, где спрос измерен сопоставимой шкалой.</p>
+и принять. Порядок — по ожидаемому приросту переходов; {_upside_total(packages)}</p>
 {_packages_block(packages or [])}
+{blocked_block}
 {stale_block}
 {verify_block}
 
