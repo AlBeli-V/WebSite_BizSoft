@@ -460,3 +460,39 @@ class TestПеререраспределениеВесаНазваноТочно
         html = deep_report._opportunity_caveat()
         self.assertIn("Смещение направленное", html)
         self.assertIn("уверенность", html.lower())
+
+
+class TestШтрафЗаОтсутствиеПоГлубинеСреза(unittest.TestCase):
+    """Дефект 8. Штраф за отсутствие не соответствовал глубине выдачи.
+
+    Константа была 21 при реальной глубине среза Яндекса 10: страница на
+    11-м месте получала штраф как за 21-е. Эффект правки считается по
+    изменению медианной позиции, поэтому пересечение границы топ-10
+    перевешивало всё остальное — уход с 9-го на 11-е выглядел падением на 12
+    позиций вместо двух.
+    """
+
+    def test_штраф_берётся_из_глубины_снимка(self):
+        from experiments import journal as jr
+        снимок = {"покрытие": {"глубина_яндекс": 10}}
+        self.assertEqual(11, jr.out_of_top(снимок))
+        self.assertEqual(21, jr.out_of_top({"покрытие": {"глубина_яндекс": 20}}))
+
+    def test_без_глубины_остаётся_запасное_значение(self):
+        from experiments import journal as jr
+        self.assertEqual(jr.OUT_OF_TOP, jr.out_of_top({}))
+        self.assertEqual(jr.OUT_OF_TOP, jr.out_of_top(None))
+
+    def test_позиции_дня_используют_глубину(self):
+        from experiments import lifecycle as lc
+        снимок = {"покрытие": {"глубина_яндекс": 10},
+                  "по_запросам": {"framer оплата": {"позиция": None},
+                                  "recraft оплата": {"позиция": 4}}}
+        позиции = lc.positions_on(снимок, ["framer оплата", "recraft оплата"])
+        self.assertEqual(11, позиции["framer оплата"])
+        self.assertEqual(4, позиции["recraft оплата"])
+
+    def test_отчёт_называет_настоящую_глубину(self):
+        html = deep_report.build(DATE, SNAPSHOT, None, [], [], [],
+                                 core_stable=True)
+        self.assertNotIn("Отсутствие в ТОП-20 считается позицией 21", html)
