@@ -163,12 +163,22 @@ def main(argv: list[str]) -> int:
         for leader in (past.get("лидеры") or []):
             histories.setdefault(leader["домен"], []).append(leader.get("доля") or 0.0)
     # Свежий снимок за сегодня уже записан на диск, поэтому он в ряду есть.
-    our_history, core_meta = kpi_mod.comparable_series(past_snapshots)
+    # Основание ряда выбирается здесь и доезжает до отчёта и письма:
+    # строгий ряд (одна корзина на все дни) или сцепленный (каждая пара
+    # по своему пересечению). Строгий недостижим, пока ядро растёт
+    # ежедневно — разбор 10.09.2026.
+    our_history, trend_kind, core_meta = kpi_mod.trend_basis(past_snapshots)
     core_hashes = {kpi_mod.core_hash(s) for s in past_snapshots if kpi_mod.core_hash(s)}
     core_stable = len(core_hashes) <= 1
     core_note = core_meta.get("причина") or (
         "" if core_stable else "состав ядра между днями менялся")
-    print(f"3а. Сравнимый ряд: {len(our_history)} измерений"
+    if trend_kind == "сцепленный":
+        core_note = (
+            f"ряд сцепленный: строгого нет, "
+            f"{core_meta.get('причина_строгого', 'состав ядра менялся')}; "
+            f"звеньев в цепи {core_meta.get('звеньев', 0)}, отрезок с "
+            f"{core_meta.get('отрезок_с', '?')}")
+    print(f"3а. Ряд ({trend_kind}): {len(our_history)} измерений"
           + (f" по пересечению из {core_meta.get('пересечение')} запросов"
              if core_meta.get("пересечение") else "")
           + (f"; {core_note}" if core_note else ""))
@@ -430,6 +440,7 @@ def main(argv: list[str]) -> int:
                              position_check=poscheck,
                              position_verdict=poscheck_verdict,
                              our_history=our_history,
+                             trend_basis=trend_kind,
                              history_dates=[p.get("дата") or "" for p in past_snapshots])
     os.makedirs(paths.ARCHIVE_DIR, exist_ok=True)
     for target in (os.path.join(paths.ARCHIVE_DIR, f"{date}.html"),
