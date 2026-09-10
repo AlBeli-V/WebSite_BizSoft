@@ -291,3 +291,66 @@ class TestСчётчикСостоянийНеВрёт(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class TestПревосходствоИзмеряетсяАНеПриближается(unittest.TestCase):
+    """Дефект 6. Компонент весом 20 из 100 ни разу не был измерен.
+
+    `above_us` — «по скольким запросам домен стоит выше нас» — не передавал
+    ни один вызов, и Threat всегда подменял его числом ТОП-3. Приближение не
+    просто занижало оценку: оно меняло порядок. Конкурент, который редко
+    берёт ТОП-3, но стабильно стоит выше нас, уходил вниз рейтинга —
+    10.09.2026 aifory.pro при ТОП-3 по 4 запросам стоял выше нас по 67.
+    """
+
+    def test_registry_считает_выше_нас(self):
+        from discovery import registry, serp_source
+
+        def строка(query, *domains):
+            return serp_source.SerpRow(
+                date=DATE, query=query, region="213",
+                top=[{"domain": d, "url": f"https://{d}/p", "title": d}
+                     for d in domains])
+
+        rows = [строка("q1", "rival.ru", "biz-soft.pro"),
+                строка("q2", "biz-soft.pro", "rival.ru"),
+                строка("q3", "rival.ru")]
+        from scoring import visibility
+        cards = {c.domain: c
+                 for c in registry.build(rows, visibility.load_config())}
+        # q1 — выше, q2 — ниже, q3 — нас нет вовсе, значит выше.
+        self.assertEqual(2, cards["rival.ru"].above_us)
+        self.assertEqual(0, cards["biz-soft.pro"].above_us)
+
+    def test_threat_берёт_величину_из_карточки(self):
+        карточка = {"домен": "r.ru", "доля": 0.09, "топ3": 4, "топ10": 100,
+                    "выше_нас": 67}
+        оценка = threat_mod.score(карточка, queries_total=639,
+                                  core_stable=False)
+        self.assertIn("по запросам выше BIZSoft", оценка.explanation)
+        self.assertNotIn("приближение", оценка.explanation)
+
+    def test_без_величины_приближение_помечено(self):
+        карточка = {"домен": "r.ru", "доля": 0.09, "топ3": 4, "топ10": 100}
+        оценка = threat_mod.score(карточка, queries_total=639,
+                                  core_stable=False)
+        self.assertIn("приближение по ТОП-3", оценка.explanation)
+
+    def test_приближение_делало_тихого_конкурента_неразличимым(self):
+        """Ради чего правка: цифры с реального прогона 10.09.2026.
+
+        aifory.pro берёт ТОП-3 всего по 4 запросам, но стоит выше нас по 67.
+        migsoft.ru берёт ТОП-3 по 13, а выше нас стоит по 32. Приближение по
+        ТОП-3 даёт обоим одинаковую оценку — тихий конкурент неотличим от
+        шумного. Измерение их разводит.
+        """
+        тихий = {"домен": "aifory.pro", "доля": 0.011, "топ3": 4,
+                 "топ10": 100, "выше_нас": 67}
+        шумный = {"домен": "migsoft.ru", "доля": 0.010, "топ3": 13,
+                  "топ10": 60, "выше_нас": 32}
+        без = [{k: v for k, v in c.items() if k != "выше_нас"}
+               for c in (тихий, шумный)]
+        оценка = lambda c: threat_mod.score(c, queries_total=639,
+                                            core_stable=False).score
+        self.assertEqual(оценка(без[0]), оценка(без[1]))
+        self.assertGreater(оценка(тихий), оценка(шумный))

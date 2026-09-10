@@ -227,7 +227,7 @@ def build_snapshot(date: str, cards: list, rows: list, config: dict,
         "не_классифицировано": sum(1 for c in cards if c.category == "?"),
         "лидеры": [
             {"домен": c.domain, "категория": c.category, "доля": c.share,
-             "топ3": c.top3, "топ10": c.top10}
+             "топ3": c.top3, "топ10": c.top10, "выше_нас": c.above_us}
             for c in main[:10]
         ],
     }
