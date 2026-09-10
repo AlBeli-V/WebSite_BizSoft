@@ -23,6 +23,7 @@ from dataclasses import asdict
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import paths  # noqa: E402
 from attack_engine import strike_list  # noqa: E402
+from competitors import classifier  # noqa: E402
 from decision_engine import kpi as kpi_mod  # noqa: E402
 from discovery import google_ru, registry, run_discovery, serp_source  # noqa: E402
 from mailer import build_email  # noqa: E402
@@ -163,12 +164,22 @@ def main(argv: list[str]) -> int:
         for leader in (past.get("лидеры") or []):
             histories.setdefault(leader["домен"], []).append(leader.get("доля") or 0.0)
     # Свежий снимок за сегодня уже записан на диск, поэтому он в ряду есть.
-    our_history, core_meta = kpi_mod.comparable_series(past_snapshots)
+    # Основание ряда выбирается здесь и доезжает до отчёта и письма:
+    # строгий ряд (одна корзина на все дни) или сцепленный (каждая пара
+    # по своему пересечению). Строгий недостижим, пока ядро растёт
+    # ежедневно — разбор 10.09.2026.
+    our_history, trend_kind, core_meta = kpi_mod.trend_basis(past_snapshots)
     core_hashes = {kpi_mod.core_hash(s) for s in past_snapshots if kpi_mod.core_hash(s)}
     core_stable = len(core_hashes) <= 1
     core_note = core_meta.get("причина") or (
         "" if core_stable else "состав ядра между днями менялся")
-    print(f"3а. Сравнимый ряд: {len(our_history)} измерений"
+    if trend_kind == "сцепленный":
+        core_note = (
+            f"ряд сцепленный: строгого нет, "
+            f"{core_meta.get('причина_строгого', 'состав ядра менялся')}; "
+            f"звеньев в цепи {core_meta.get('звеньев', 0)}, отрезок с "
+            f"{core_meta.get('отрезок_с', '?')}")
+    print(f"3а. Ряд ({trend_kind}): {len(our_history)} измерений"
           + (f" по пересечению из {core_meta.get('пересечение')} запросов"
              if core_meta.get("пересечение") else "")
           + (f"; {core_note}" if core_note else ""))
@@ -214,7 +225,24 @@ def main(argv: list[str]) -> int:
     from experiments import journal as _journal
     from experiments import learning as _learning
     effect_ranking = _learning.ranking(_journal.load(), config)
-    systemic = recommendations.enrich(packages, geo_by_query, effect_ranking)
+    # Домены поля выдачи — для фильтра чужих брендов в поручениях. Свой
+    # домен и домены вендоров исключены: страница Adobe обязана содержать
+    # слово «adobe» (разбор 10.09.2026).
+    # Сравнение по «хвосту», а не дословно: в реестре вендоров стоит
+    # about.gitlab.com, а в выдаче встречаются gitlab.com,
+    # help.artlist.io и help.elements.envato.com. При дословной сверке
+    # они считались чужими доменами, и контур переставал предлагать
+    # дописать «гитлаб», «артлист», «энвато» — то есть имена вендоров,
+    # ради которых страница и существует (разбор 10.09.2026).
+    vendor_hosts = classifier.vendor_domains()
+    vendor_labels = recommendations.domain_labels(vendor_hosts)
+    field_domains = {
+        c.domain for c in cards
+        if c.domain != OURS
+        and not (recommendations.domain_labels({c.domain}) & vendor_labels)}
+    systemic = recommendations.enrich(packages, geo_by_query, effect_ranking,
+                                      field_domains=field_domains,
+                                      vendor_labels=vendor_labels)
     if systemic:
         print(f"6б. Системные правки: {len(systemic)} — одна правка шаблона "
               f"вместо десятков одинаковых правок в данных")
@@ -300,8 +328,16 @@ def main(argv: list[str]) -> int:
     from attack_engine import occupancy as occupancy_mod
     registry_read = occupancy_mod.available()
     stale_experiments: list[dict] = []
+    blocked: list[dict] = []
     if registry_read:
-        _, occupied = occupancy_mod.mark(packages, today=date)
+        # mark() возвращает готовое разделение, и брать из него надо оба
+        # списка. До 1.9.1 вызов забирал только занятых, а packages оставлял
+        # нетронутым: занятая страница получала пометку и оставалась
+        # поручением. 10.09.2026 из 22 пакетов раздела «План работ» 16 были
+        # заняты чужим замером, а письмо поставило поручением дня WP-01 —
+        # страницу, занятую до 30.09. Пометка не заменяет вывода из очереди.
+        packages, blocked = occupancy_mod.mark(packages, today=date)
+        occupied = blocked
         control = [p for p in packages
                    if (p.get("занятость") or {}).get("степень")
                    == occupancy_mod.BUSY_CONTROL]
@@ -311,7 +347,8 @@ def main(argv: list[str]) -> int:
         # это назвать (разбор 04.09.2026).
         stale_experiments = occupancy_mod.expired(occupancy_mod.load(), date)
         print(f"6в. Занятость: {len(occupied)} страниц под чужими "
-              f"экспериментами, {len(control)} в их контрольных группах")
+              f"экспериментами выведено из очереди, {len(control)} "
+              f"в их контрольных группах — остаются в очереди с условием")
         if stale_experiments:
             print(f"6ж. Окно замера истекло, статус в реестре не закрыт: "
                   + ", ".join(f"{e.get('id')} (до "
@@ -341,12 +378,12 @@ def main(argv: list[str]) -> int:
     # В артефакт дня идут все пакеты, включая вынесенные из очереди: снимок
     # обязан быть полным, иначе разбор задним числом невозможен. Отличает их
     # поле «очередь».
-    for package in on_watch:
+    for package in on_watch + blocked:
         package["очередь"] = False
     with open(os.path.join(paths.PROCESSED_DIR, f"{date}-work-packages.json"),
               "w", encoding="utf-8") as fh:
-        json.dump(packages + to_verify + on_watch, fh, ensure_ascii=False,
-                  indent=2)
+        json.dump(packages + to_verify + on_watch + blocked,
+                  ensure_ascii=False, indent=2, fp=fh)
     countable = [p for p in packages if p["traffic_upside"] is not None]
     high = sum(1 for p in packages if p["potential_label"] == "высокий")
     unscored = sum(1 for p in packages if p["potential_index"] is None)
@@ -360,7 +397,10 @@ def main(argv: list[str]) -> int:
     # тем, что видит человек в выдаче: величины разные, и молчать об этом
     # значит выдавать одну за другую (разбор 04.09.2026).
     from decision_engine import position_check as poscheck_mod
-    poscheck = poscheck_mod.compare(rows)
+    # Срез дня сюда не передаётся: сверка считает обе стороны по окну
+    # выгрузки Вебмастера, иначе сравнивались бы непересекающиеся
+    # периоды (разбор 10.09.2026).
+    poscheck = poscheck_mod.compare()
     poscheck_verdict = poscheck_mod.verdict(poscheck, config)
     if poscheck.get("доступна"):
         print(f"6з. Сверка позиций с Вебмастером: сопоставлено "
@@ -376,7 +416,8 @@ def main(argv: list[str]) -> int:
     meta = build_email.build(date, snapshot, previous, attacks=attacks,
                              threat_leader=threat_leader,
                              stale_notice=stale_notice, ranked_rivals=ranked,
-                             packages=packages, history=our_history,
+                             packages=packages, blocked=blocked,
+                             history=our_history,
                              core_note=core_note,
                              experiments_line=exp_learning.summary_line(
                                  experiments, config))
@@ -385,11 +426,12 @@ def main(argv: list[str]) -> int:
     base = os.path.join(paths.REPORTS_DIR, f"{date}-email")
     with open(f"{base}.txt", "w", encoding="utf-8") as fh:
         fh.write(build_email.render_txt(meta, snapshot=snapshot, attacks=attacks,
-                                        ranked_rivals=ranked, packages=packages))
+                                        ranked_rivals=ranked, packages=packages,
+                                        blocked=blocked))
     with open(f"{base}.html", "w", encoding="utf-8") as fh:
         fh.write(build_email.render_html(
             meta, kpi=kpi_obj, snapshot=snapshot, attacks=attacks,
-            ranked_rivals=ranked, packages=packages,
+            ranked_rivals=ranked, packages=packages, blocked=blocked,
             signal_delta=meta.get("дельта_сигнальная_пп"),
             on_watch=on_watch))
     with open(f"{base}.json", "w", encoding="utf-8") as fh:
@@ -410,11 +452,13 @@ def main(argv: list[str]) -> int:
                              packages=packages, histories=histories,
                              experiments=experiments, config=config,
                              on_watch=on_watch, systemic=systemic,
-                             to_verify=to_verify,
+                             to_verify=to_verify, blocked=blocked,
+                             core_stable=core_stable,
                              stale_occupancy=stale_experiments,
                              position_check=poscheck,
                              position_verdict=poscheck_verdict,
                              our_history=our_history,
+                             trend_basis=trend_kind,
                              history_dates=[p.get("дата") or "" for p in past_snapshots])
     os.makedirs(paths.ARCHIVE_DIR, exist_ok=True)
     for target in (os.path.join(paths.ARCHIVE_DIR, f"{date}.html"),
