@@ -109,11 +109,13 @@ def absence_profile(google_rows, yandex_rows, region: str) -> dict:
                     if serp_source.normalize_domain(item.get("domain", ""))
                     == OURS), "")
         класс, дословно = index_status.state(url)
+        скачан = index_status.crawled(url)
         запись = страницы.setdefault(url, {"url": url, "запросов": 0,
                                            "лучшая_позиция_яндекс": ypos,
                                            "есть_в_google_срезе": url in в_google,
                                            "индекс": класс,
-                                           "индекс_дословно": дословно})
+                                           "индекс_дословно": дословно,
+                                           "скачан_гуглом": скачан})
         запись["запросов"] += 1
         запись["лучшая_позиция_яндекс"] = min(запись["лучшая_позиция_яндекс"], ypos)
     ранжир = sorted(страницы.values(),
@@ -133,6 +135,11 @@ def absence_profile(google_rows, yandex_rows, region: str) -> dict:
         "по_индексу": по_индексу,
         "индекс_доступен": index_status.available(),
         "индекс_дата": index_status.snapshot_date(),
+        # Сколько страниц разрыва Google вообще скачивал. Отличает
+        # очередь обхода от приговора качеству: страницу, которую не
+        # скачивали, бесполезно переписывать (разбор 10.09.2026).
+        "не_скачано": sum(1 for p in ранжир if not p["скачан_гуглом"]),
+        "обход_по_сайту": index_status.crawl_summary(),
         "первые": ранжир[:MAX_GAP_ITEMS],
         "_пояснение": (
             "страница считается присутствующей, если встречена в Google-срезе "

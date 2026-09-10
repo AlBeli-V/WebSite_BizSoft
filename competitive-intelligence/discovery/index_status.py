@@ -101,3 +101,25 @@ def state(url: str, branch: str = SEO_BRANCH) -> tuple[str, str]:
     if not raw:
         return NO_DATA, ""
     return _CLASSES.get(raw, NOT_INDEXED), raw
+
+
+def crawled(url: str, branch: str = SEO_BRANCH) -> bool:
+    """Скачивал ли Google эту страницу хоть раз.
+
+    Отличает очередь от приговора. «Discovered - currently not indexed» в
+    общем случае может значить и «посмотрел и не взял», и «знаю адрес, руки
+    не дошли». Для biz-soft.pro это второе: на срезе 09.09 из 363 страниц
+    такого статуса Google скачал ровно одну. Разница определяет работу —
+    страницу, которую не скачивали, бесполезно переписывать.
+    """
+    page = (load(branch).get("pages") or {}).get(_path(url)) or {}
+    return bool(page.get("last_crawl"))
+
+
+def crawl_summary(branch: str = SEO_BRANCH) -> dict:
+    """Сколько страниц сайта Google скачивал и когда в последний раз."""
+    pages = load(branch).get("pages") or {}
+    даты = [v.get("last_crawl") for v in pages.values() if (v or {}).get("last_crawl")]
+    return {"страниц": len(pages), "скачано": len(даты),
+            "не скачано": len(pages) - len(даты),
+            "последний_обход": max(даты)[:10] if даты else ""}

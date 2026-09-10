@@ -403,3 +403,69 @@ class TestIndexStatus(unittest.TestCase):
             "pages": {"/x": {"coverage_state": "Что-то новое от Google"}}}
         self.assertEqual(self.ix.NOT_INDEXED,
                          self.ix.state("https://biz-soft.pro/x")[0])
+
+
+class TestОчередьОбходаОтличаетсяОтПриговора(unittest.TestCase):
+    """Страницу, которую Google не скачивал, переписывать бесполезно.
+
+    Разбор индексации 10.09.2026: из 363 страниц в статусе «Discovered —
+    currently not indexed» Google скачал ровно одну, а по сайту не скачано
+    493 из 732. Статус в общем случае может означать «посмотрел и не взял»,
+    здесь означает «знаю адрес, руки не дошли». Разница определяет работу.
+    """
+
+    def setUp(self):
+        from discovery import index_status
+        self.ix = index_status
+        self.ix.load.cache_clear()
+        self._load = self.ix.load
+        self.ix.load = lambda *a, **k: {
+            "date": "2026-09-09",
+            "pages": {
+                "/скачан": {"coverage_state": "Submitted and indexed",
+                            "last_crawl": "2026-09-08T00:00:00Z"},
+                "/в-очереди": {"coverage_state":
+                               "Discovered - currently not indexed"},
+                "/неизвестен": {"coverage_state": "URL is unknown to Google"},
+            }}
+
+    def tearDown(self):
+        self.ix.load = self._load
+        self.ix.load.cache_clear()
+
+    def test_скачанность_видна_отдельно_от_статуса(self):
+        S = "https://biz-soft.pro"
+        self.assertTrue(self.ix.crawled(f"{S}/скачан"))
+        self.assertFalse(self.ix.crawled(f"{S}/в-очереди"))
+        self.assertFalse(self.ix.crawled(f"{S}/неизвестен"))
+
+    def test_сводка_по_обходу_считает_сайт_целиком(self):
+        сводка = self.ix.crawl_summary()
+        self.assertEqual(3, сводка["страниц"])
+        self.assertEqual(1, сводка["скачано"])
+        self.assertEqual(2, сводка["не скачано"])
+        self.assertEqual("2026-09-08", сводка["последний_обход"])
+
+    def test_отчёт_называет_очередь_обхода(self):
+        профиль = {"страниц_в_разрыве": 64, "страниц_нет_в_срезе": 41,
+                   "страниц_есть_в_срезе": 23, "наших_url_в_срезе_всего": 23,
+                   "индекс_доступен": True, "индекс_дата": "2026-09-09",
+                   "не_скачано": 41,
+                   "обход_по_сайту": {"страниц": 732, "скачано": 239,
+                                      "не скачано": 493,
+                                      "последний_обход": "2026-09-08"},
+                   "по_индексу": {"не знает адреса": 11,
+                                  "знает, но не индексирует": 30,
+                                  "в индексе, проигрывает в выдаче": 23},
+                   "первые": []}
+        html = deep_report._google_hypothesis(профиль)
+        self.assertIn("ни разу не скачивал 41 из 64", html)
+        self.assertIn("493 из 732", html)
+        self.assertIn("переписывать бесполезно", html)
+
+    def test_без_данных_об_обходе_строки_нет(self):
+        профиль = {"страниц_в_разрыве": 5, "страниц_нет_в_срезе": 5,
+                   "страниц_есть_в_срезе": 0, "индекс_доступен": True,
+                   "по_индексу": {"не знает адреса": 5}, "первые": []}
+        html = deep_report._google_hypothesis(профиль)
+        self.assertNotIn("очередь обхода", html)
