@@ -1,0 +1,172 @@
+# expires: 2026-10-10
+# Разбор массового исключения карточек из поиска Яндекса (тикет INDEX-002).
+# Сводит два среза страниц Вебмастера из ветки seo-data с текстами карточек
+# из прод-Directus и отвечает на один вопрос: чем выпавшие карточки
+# отличаются от уцелевших. Только чтение; результат — в журнал-issue #22.
+#
+# Одноразовый: 09.09.2026 из поиска вышли 206 карточек из 448 со статусом
+# LOW_QUALITY. Пока причина не названа, править 206 карточек вслепую нельзя.
+name: ops-index-drop-audit
+on:
+  workflow_dispatch:
+    inputs:
+      before:
+        description: 'Дата среза ДО падения, ГГГГ-ММ-ДД (напр. 2026-09-08)'
+        required: true
+      after:
+        description: 'Дата среза ПОСЛЕ падения, ГГГГ-ММ-ДД (напр. 2026-09-10)'
+        required: true
+permissions:
+  # checkout читает репозиторий токеном GITHUB_TOKEN: при явном permissions
+  # без contents раннер получает «Repository not found» (прогон #204 ops-probe).
+  contents: read
+  issues: write
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Guard - only default branch
+        run: |
+          if [ "${{ github.ref_name }}" != "main" ]; then
+            echo "Запуск разрешён только с ветки main. Текущий ref: ${{ github.ref_name }}"
+            exit 1
+          fi
+      - uses: actions/checkout@v4
+
+      # Срезы страниц живут в ветке данных; берём два файла точечно, не
+      # накатывая всё хранилище в рабочую копию.
+      - name: Collect dropped slugs
+        id: slugs
+        env:
+          BEFORE: ${{ inputs.before }}
+          AFTER: ${{ inputs.after }}
+        run: |
+          set -e
+          git fetch origin seo-data --quiet
+          for d in "$BEFORE" "$AFTER"; do
+            git show "origin/seo-data:reports/seo/data/index-yandex-$d.json" > "/tmp/iy-$d.json" \
+              || { echo "Среза за $d в ветке данных нет"; exit 1; }
+          done
+          python3 - <<'PY' >> "$GITHUB_OUTPUT"
+          import json, os
+          before = json.load(open(f"/tmp/iy-{os.environ['BEFORE']}.json"))
+          after = json.load(open(f"/tmp/iy-{os.environ['AFTER']}.json"))
+          was, now = set(before.get("in_search") or []), set(after.get("in_search") or [])
+          gone = sorted(was - now)
+          prod = [p.rsplit("/", 1)[-1] for p in gone if p.startswith("/product/")]
+          other = [p for p in gone if not p.startswith("/product/")]
+          # Контроль — карточки, которые БЫЛИ в поиске и остались, а не «весь
+          # каталог минус выпавшие». В Directus 1550 опубликованных товаров, а
+          # страниц карточек в карте сайта 489: остальное — варианты без своей
+          # страницы. Сравнение с ними мешает в контроль тысячу карточек,
+          # которые в поиске не были никогда, и обе цифры перестают значить то,
+          # что написано.
+          stayed = [p.rsplit("/", 1)[-1] for p in sorted(was & now) if p.startswith("/product/")]
+          print(f"dropped={','.join(prod)}")
+          print(f"stayed={','.join(stayed)}")
+          print(f"summary=выпало адресов {len(gone)}, из них карточек {len(prod)}; "
+                f"осталось в поиске карточек {len(stayed)}; "
+                f"прочие выпавшие: {', '.join(other[:12])}{' …' if len(other) > 12 else ''}")
+          PY
+
+      - name: Compare texts in Directus
+        id: run
+        uses: appleboy/ssh-action@v1
+        env:
+          P_DROPPED: ${{ steps.slugs.outputs.dropped }}
+          P_STAYED: ${{ steps.slugs.outputs.stayed }}
+          P_SUMMARY: ${{ steps.slugs.outputs.summary }}
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          envs: P_DROPPED,P_STAYED,P_SUMMARY
+          capture_stdout: true
+          script: |
+            set -e
+            TOKEN=$(sed -n 's/^DIRECTUS_TOKEN=//p' /opt/bizsoft/astro.env | tr -d '"\r')
+            export TOKEN
+            python3 - <<'PYEOF'
+            import json, os, statistics, urllib.parse, urllib.request
+            token = os.environ['TOKEN']
+            dropped = {s for s in os.environ.get('P_DROPPED', '').split(',') if s}
+            stayed = {s for s in os.environ.get('P_STAYED', '').split(',') if s}
+            print(os.environ.get('P_SUMMARY', ''))
+            flt = {'status': {'_eq': 'published'}}
+            url = ('http://localhost:8055/items/products?limit=-1&sort[]=slug'
+                   # Поля берутся только те, что точно есть: ops-export-products
+                   # уже ловил 400 от Directus на колонке, которой в базе нет.
+                   '&fields=slug,name,vendor,price,short_description,description,'
+                   'meta_description'
+                   f'&filter={urllib.parse.quote(json.dumps(flt))}')
+            req = urllib.request.Request(url, headers={'Authorization': f'Bearer {token}'})
+            rows = json.load(urllib.request.urlopen(req))['data']
+            print(f'карточек в каталоге: {len(rows)}')
+
+            def text(r, f):
+                return (r.get(f) or '').strip()
+
+            out = [r for r in rows if r['slug'] in dropped]
+            keep = [r for r in rows if r['slug'] in stayed]
+            missing = dropped - {r['slug'] for r in rows}
+            if missing:
+                print(f'выпавших слагов нет в каталоге: {len(missing)} '
+                      f'({", ".join(sorted(missing)[:8])}…)')
+            print(f'сравниваются две группы, обе были в поиске до падения: '
+                  f'выпавшие {len(out)} и уцелевшие {len(keep)}; '
+                  f'остальные {len(rows) - len(out) - len(keep)} карточек каталога '
+                  f'в поиске не были и в сравнение не идут')
+
+            def block(label, group):
+                if not group:
+                    print(f'\n{label}: нет строк')
+                    return
+                desc = [len(text(r, 'description')) for r in group]
+                short = [len(text(r, 'short_description')) for r in group]
+                meta = [len(text(r, 'meta_description')) for r in group]
+                no_price = sum(1 for r in group if not r.get('price'))
+                empty_desc = sum(1 for d in desc if d == 0)
+                print(f'\n{label}: {len(group)} карточек')
+                print(f'  description: медиана {statistics.median(desc):.0f} симв., '
+                      f'пусто у {empty_desc} ({empty_desc / len(group):.0%})')
+                print(f'  short_description: медиана {statistics.median(short):.0f} симв.')
+                print(f'  meta_description: медиана {statistics.median(meta):.0f} симв.')
+                print(f'  без цены («по запросу»): {no_price} ({no_price / len(group):.0%})')
+                by_vendor = {}
+                for r in group:
+                    by_vendor[r.get('vendor') or '—'] = by_vendor.get(r.get('vendor') or '—', 0) + 1
+                top = sorted(by_vendor.items(), key=lambda kv: -kv[1])[:8]
+                print('  вендоры: ' + ', '.join(f'{v} {n}' for v, n in top))
+
+            block('ВЫПАЛИ ИЗ ПОИСКА', out)
+            block('БЫЛИ И ОСТАЛИСЬ В ПОИСКЕ', keep)
+
+            # Главный вопрос тикета: отличаются ли группы вообще. Если медианы
+            # и доли совпадают, дело не в длине текста, и искать надо другое.
+            if out and keep:
+                d_out = statistics.median(len(text(r, 'description')) for r in out)
+                d_keep = statistics.median(len(text(r, 'description')) for r in keep)
+                e_out = sum(1 for r in out if not text(r, 'description')) / len(out)
+                e_keep = sum(1 for r in keep if not text(r, 'description')) / len(keep)
+                print(f'\nРАЗНИЦА: медиана description {d_out:.0f} против {d_keep:.0f} симв.; '
+                      f'пустых описаний {e_out:.0%} против {e_keep:.0%}.')
+                print('Если обе пары близки, длина текста выпадение не объясняет '
+                      'и причину надо искать в другом признаке.')
+            PYEOF
+
+      - name: Save to file
+        if: always()
+        run: |
+          cat > /tmp/ops-index-drop.txt <<'OPS_EOF'
+          ${{ steps.run.outputs.stdout }}
+          OPS_EOF
+      - name: Checkout for journal action
+        if: always()
+        uses: actions/checkout@v4
+      - name: Post to issue
+        if: always()
+        uses: ./.github/actions/journal-post
+        with:
+          title: "ops-index-drop-audit"
+          outcome: ${{ steps.run.outcome }}
+          body-file: /tmp/ops-index-drop.txt
