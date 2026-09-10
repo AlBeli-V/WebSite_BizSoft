@@ -133,6 +133,62 @@ class TestComponents(unittest.TestCase):
         self.assertIn("kit-delta down", kit.pos_cell(9.0, 2.0)["html"])
 
 
+class TestFitsItsBox(unittest.TestCase):
+    """Ничто из кита не выходит за свою рамку.
+
+    09.09.2026 руководитель прислал снимок отчёта с телефона: спарклайн
+    вылезал за карточку KPI. Причина у всех находок разбора одна — жёсткий
+    размер внутри гибкого контейнера: спарклайн 96 px в плитке 140 px,
+    сетка теплокарты 432 px, минимум колонки грида шире экрана. Проверки
+    ниже держат договор компонентов; целиком собранную страницу меряет в
+    браузере scripts/seo/layoutcheck.mjs.
+    """
+
+    def test_sparkline_ring_stays_inside_viewbox(self):
+        w, h, r = 96, 28, 3.5 + 1  # радиус кольца плюс половина обводки
+        svg = kit.sparkline([1, 5, 3, 9, 2], w=w, h=h)
+        pts = re.search(r'points="([^"]+)"', svg).group(1).split()
+        xs = [float(p.split(",")[0]) for p in pts]
+        ys = [float(p.split(",")[1]) for p in pts]
+        self.assertGreaterEqual(min(xs), r)
+        self.assertLessEqual(max(xs), w - r)
+        self.assertGreaterEqual(min(ys), r)
+        self.assertLessEqual(max(ys), h - r)
+
+    def test_line_chart_end_label_does_not_leave_viewbox(self):
+        # Широкое число не помещается в правое поле — подпись уходит влево
+        # от точки, иначе svg молча срезал бы её по краю viewBox.
+        wide = kit.line_chart([{"name": "р", "values": [1, 1234567]}], ["a", "b"], w=320)
+        self.assertIn('text-anchor="end"', wide)
+        narrow = kit.line_chart([{"name": "р", "values": [1, 7]}], ["a", "b"], w=320)
+        self.assertIn('text-anchor="start"', narrow)
+
+    def test_heatmap_scrolls_inside_its_own_box(self):
+        html = kit.heatmap(["2026-09-01", "2026-09-02"], [10, 20])
+        self.assertTrue(html.startswith('<div class="kit-scroll">'))
+        self.assertIn('<div class="kit-heat">', html)
+        self.assertEqual(html.count('<div class="kit-scroll">'), 1)
+
+    def test_tile_footer_wraps_and_tile_clips(self):
+        css = kit.component_css().replace(" ", "")
+        self.assertIn("flex-wrap:wrap", css.split(".kit-sub{")[1].split("}")[0])
+        self.assertIn("overflow:hidden", css.split(".kit-tile{")[1].split("}")[0])
+        self.assertIn(".kit-sub.kit-spark{max-width:100%", css)
+
+    def test_grid_minimums_never_exceed_container(self):
+        # repeat(auto-fit, minmax(170px, 1fr)) на экране уже 170 px распирает
+        # ряд наружу; min(170px,100%) честно складывает его в одну колонку.
+        css = kit.component_css()
+        for rule in (".kit-row{", ".kit-multi{"):
+            block = css.split(rule)[1].split("}")[0]
+            self.assertIn("minmax(min(", block, rule)
+
+    def test_delta_arrow_never_breaks_from_its_number(self):
+        html = kit.delta_html("+3486 +157,6%", "up")
+        self.assertIn("\u25b2\u00a0+3486", html)   # стрелка и число неразрывны
+        self.assertIn(" +157,6%", html)              # между числами перенос можно
+
+
 class TestEmail(unittest.TestCase):
     def test_email_tile_fonts_within_uxlint_limits(self):
         t = kit.email_tile("Видимость", "926", "показов", "+9", "up", note="норма", meta="источник")

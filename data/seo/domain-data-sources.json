@@ -1,0 +1,289 @@
+{
+  "_описание": "Реестр источников доменных и ссылочных данных: одна функция — один действующий источник и запасные к нему. Заведён 08.09.2026 после постоянной блокировки аккаунта в группе TurnCommerce (NameBright, DropCatch): выяснилось, что поставщик выбирался в переписке и нигде не был записан, поэтому замену приходилось искать заново, а не переключать.",
+  "_как переключать": "Переключатель — поле active у функции: имя источника из sources. Правка только через PR (как data/seo/xmlriver.json). Проверка — scripts/seo/tests/test_domain_sources.py: действующий источник существует, не принадлежит заблокированной группе, у каждой функции есть хотя бы один живой запасной, а секреты источника зарегистрированы в ops/secrets/registry.json.",
+  "_чего здесь нет": "Съём выдачи: он живёт в data/seo/xmlriver.json и Яндекс-контуре по правилу «один сбор — все потребители». Учётных данных здесь нет ни в каком виде — только имена секретов.",
+  "updated": "2026-09-08",
+  "blocked_groups": [
+    {
+      "id": "turncommerce",
+      "brands": [
+        "NameBright",
+        "DropCatch",
+        "HugeDomains",
+        "Expire.com"
+      ],
+      "since": "2026-09-08",
+      "reason": "Постоянная блокировка аккаунта решением Fraud/Risk/Compliance; письмо запрещает создание новых аккаунтов, прямо или косвенно связанных с тем же лицом.",
+      "policy": "Новые аккаунты в группе не заводятся. Данные их площадок берутся из сводных агрегаторов без аккаунта, покупка домена — на вторичном рынке у продавца. Возврат возможен только официальным запросом с раскрытием связи и письменным разрешением; до такого разрешения любая запись в active с group=turncommerce роняет тест."
+    }
+  ],
+  "functions": [
+    {
+      "id": "backlinks",
+      "title": "Ссылочный профиль произвольного домена: доноры, анкоры, динамика",
+      "gate": "G1",
+      "active": "dataforseo_backlinks",
+      "alternates": [
+        "majestic",
+        "ahrefs"
+      ],
+      "потребители": [
+        "reports/seo/tasks/DATA-003-backlink-source.md",
+        "reports/seo/drop-domain-evaluation-model.json"
+      ]
+    },
+    {
+      "id": "domain_history",
+      "title": "История домена: сроки регистрации, статусы, смены владельца",
+      "gate": "G1",
+      "active": "dataforseo_whois",
+      "alternates": [
+        "whoisfreaks",
+        "rdap"
+      ],
+      "потребители": [
+        "reports/seo/drop-domain-evaluation-model.json"
+      ]
+    },
+    {
+      "id": "archive",
+      "title": "Историческая структура URL и глубина архива",
+      "gate": "G1",
+      "active": "wayback_cdx",
+      "alternates": [
+        "common_crawl"
+      ],
+      "потребители": [
+        "reports/seo/drop-domain-evaluation-model.json"
+      ]
+    },
+    {
+      "id": "drop_lists_gtld",
+      "title": "Списки освобождающихся и pending delete доменов gTLD",
+      "active": "expireddomains_net",
+      "alternates": [
+        "whoisfreaks",
+        "dataforseo_whois",
+        "czds"
+      ],
+      "потребители": [
+        "reports/seo/drop-domain-pilot-plan.md"
+      ]
+    },
+    {
+      "id": "drop_lists_ru",
+      "title": "Освобождающиеся домены .ru и .рф",
+      "active": "cctld_dellist",
+      "alternates": [
+        "expired_ru",
+        "nic_ru"
+      ],
+      "потребители": [
+        "reports/seo/drop-domain-pilot-plan.md"
+      ]
+    },
+    {
+      "id": "acquisition_gtld",
+      "title": "Перехват и покупка освобождающегося домена gTLD",
+      "active": null,
+      "_active": "Отложено решением руководителя 08.09.2026 до срабатывания обоих ворот пилота: критериев отбора кандидата сегодня посчитать нечем, заявка на перехват без оценки истории — то, что политика expired domain abuse называет своим именем.",
+      "alternates": [
+        "dynadot",
+        "godaddy_auctions",
+        "snapnames",
+        "sedo"
+      ]
+    },
+    {
+      "id": "acquisition_ru",
+      "title": "Перехват освобождающегося домена .ru и .рф",
+      "active": null,
+      "_active": "Отложено тем же решением 08.09.2026.",
+      "alternates": [
+        "expired_ru",
+        "reg_ru",
+        "nic_ru"
+      ]
+    },
+    {
+      "id": "registrar",
+      "title": "Регистратор и хранение доменов направления",
+      "active": null,
+      "_active": "Отложено тем же решением 08.09.2026; заводится раньше срока только если в заблокированном аккаунте остались домены и нужен приёмник для трансфера.",
+      "alternates": [
+        "cloudflare_registrar",
+        "porkbun",
+        "reg_ru"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "id": "dropcatch",
+      "vendor": "DropCatch",
+      "group": "turncommerce",
+      "secrets": [],
+      "billing": "по заявке на перехват",
+      "readiness": "аккаунт заблокирован постоянно 08.09.2026; в active не назначается — см. blocked_groups"
+    },
+    {
+      "id": "namebright",
+      "vendor": "NameBright",
+      "group": "turncommerce",
+      "secrets": [],
+      "billing": "по регистрации и продлению",
+      "readiness": "аккаунт заблокирован постоянно 08.09.2026; в active не назначается — см. blocked_groups"
+    },
+    {
+      "id": "dataforseo_backlinks",
+      "vendor": "DataForSEO",
+      "endpoint": "Backlinks API",
+      "secrets": [
+        "DATAFORSEO_LOGIN",
+        "DATAFORSEO_PASSWORD"
+      ],
+      "billing": "pay-as-you-go, общий баланс с Google-частью разведки",
+      "readiness": "аккаунт заведён и проверен пробой ci-serp-probe; потолок $20/мес под эти запросы не расширен"
+    },
+    {
+      "id": "dataforseo_whois",
+      "vendor": "DataForSEO",
+      "endpoint": "Domain Analytics WHOIS API",
+      "secrets": [
+        "DATAFORSEO_LOGIN",
+        "DATAFORSEO_PASSWORD"
+      ],
+      "billing": "pay-as-you-go, тот же баланс",
+      "readiness": "тот же аккаунт; фильтр по сроку регистрации и обогащение ссылочными метриками — на стороне поставщика"
+    },
+    {
+      "id": "wayback_cdx",
+      "vendor": "Internet Archive",
+      "endpoint": "CDX API",
+      "secrets": [],
+      "billing": "бесплатно",
+      "readiness": "договор не нужен"
+    },
+    {
+      "id": "expireddomains_net",
+      "vendor": "ExpiredDomains.net",
+      "secrets": [],
+      "billing": "бесплатно",
+      "readiness": "свод по многим площадкам, включая аукционы группы TurnCommerce — чтение публичных страниц аккаунта в группе не требует"
+    },
+    {
+      "id": "cctld_dellist",
+      "vendor": "Координационный центр доменов .RU/.РФ",
+      "secrets": [],
+      "billing": "бесплатно",
+      "readiness": "официальные списки освобождающихся имён"
+    },
+    {
+      "id": "majestic",
+      "vendor": "Majestic",
+      "secrets": [],
+      "billing": "pay-as-you-go с депозитом",
+      "readiness": "договора нет; исторический индекс глубже прочих, но обновлялся последний раз в 2024 — архив, а не живой поток"
+    },
+    {
+      "id": "ahrefs",
+      "vendor": "Ahrefs",
+      "secrets": [],
+      "billing": "подписка",
+      "readiness": "договора нет; дороже прочих при том же составе данных"
+    },
+    {
+      "id": "whoisfreaks",
+      "vendor": "WhoisFreaks",
+      "secrets": [],
+      "billing": "бесплатный ежедневный список, платный API",
+      "readiness": "договора нет"
+    },
+    {
+      "id": "rdap",
+      "vendor": "Реестры доменов",
+      "endpoint": "RDAP",
+      "secrets": [],
+      "billing": "бесплатно",
+      "readiness": "статусы и сроки по одному имени; списками не отдаёт"
+    },
+    {
+      "id": "czds",
+      "vendor": "ICANN",
+      "endpoint": "CZDS (зон-файлы)",
+      "secrets": [],
+      "billing": "бесплатно, по заявке на каждую зону",
+      "readiness": "заявок не подано; даёт полный контроль над обнаружением дропов gTLD"
+    },
+    {
+      "id": "common_crawl",
+      "vendor": "Common Crawl",
+      "secrets": [],
+      "billing": "бесплатно",
+      "readiness": "слабее Wayback по глубине истории одного домена"
+    },
+    {
+      "id": "expired_ru",
+      "vendor": "Expired.ru",
+      "secrets": [],
+      "billing": "по заявке на домен",
+      "readiness": "аккаунта нет; принимает заявки для нескольких аккредитованных регистраторов"
+    },
+    {
+      "id": "nic_ru",
+      "vendor": "RU-CENTER",
+      "secrets": [],
+      "billing": "по заявке и продлению",
+      "readiness": "аккаунта нет"
+    },
+    {
+      "id": "reg_ru",
+      "vendor": "Reg.ru",
+      "secrets": [],
+      "billing": "по заявке и продлению",
+      "readiness": "аккаунта нет"
+    },
+    {
+      "id": "dynadot",
+      "vendor": "Dynadot",
+      "secrets": [],
+      "billing": "по заявке на перехват",
+      "readiness": "аккаунта нет"
+    },
+    {
+      "id": "godaddy_auctions",
+      "vendor": "GoDaddy Auctions",
+      "secrets": [],
+      "billing": "по заявке и комиссии аукциона",
+      "readiness": "аккаунта нет"
+    },
+    {
+      "id": "snapnames",
+      "vendor": "SnapNames",
+      "secrets": [],
+      "billing": "по заявке и комиссии аукциона",
+      "readiness": "аккаунта нет"
+    },
+    {
+      "id": "sedo",
+      "vendor": "Sedo",
+      "secrets": [],
+      "billing": "комиссия сделки",
+      "readiness": "аккаунта нет; вторичный рынок — покупка у продавца, а не перехват"
+    },
+    {
+      "id": "cloudflare_registrar",
+      "vendor": "Cloudflare Registrar",
+      "secrets": [],
+      "billing": "по себестоимости продления",
+      "readiness": "аккаунта нет; переносит только уже зарегистрированные домены"
+    },
+    {
+      "id": "porkbun",
+      "vendor": "Porkbun",
+      "secrets": [],
+      "billing": "по продлению",
+      "readiness": "аккаунта нет"
+    }
+  ]
+}
