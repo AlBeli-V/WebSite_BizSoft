@@ -422,3 +422,41 @@ class TestСтрокаЭкспериментов(unittest.TestCase):
     def test_пустой_журнал_говорит_прямо(self):
         from experiments import learning as lr
         self.assertIn("журнал пуст", lr.summary_line([]))
+
+
+class TestПеререраспределениеВесаНазваноТочно(unittest.TestCase):
+    """Дефект 7. Утверждение о методе, которое метод опровергает.
+
+    Отчёт писал «недоступные факторы не заменяются средним». Арифметически
+    перераспределение веса ТОЖДЕСТВЕННО подстановке недоступному фактору
+    взвешенного среднего измеренных. Формулировка была верна против прежнего
+    поведения (общая константа 0,5) и неверна как утверждение о нынешнем
+    методе — причём вводила в заблуждение ровно там, где нужна осторожность:
+    у цели, сильной по всем измеренным факторам, недоступная уязвимость
+    считается такой же сильной.
+    """
+
+    def test_перераспределение_равно_подстановке_среднего(self):
+        from scoring import opportunity as op
+        знач = {"commercial": 0.9, "b2b": 0.8, "proximity": 0.4,
+                "demand": 0.2, "page_improvement": 0.6, "vendor": 0.5}
+        измеренные = {k: op.WEIGHTS[k] for k in знач}
+        норм = op.normalize_weights(set(знач))
+        с_перераспределением = sum(норм[k] * знач[k] for k in знач)
+        среднее = (sum(измеренные[k] * знач[k] for k in знач)
+                   / sum(измеренные.values()))
+        с_подстановкой = (sum(op.WEIGHTS[k] * знач[k] for k in знач)
+                          + op.WEIGHTS["vulnerability"] * среднее)
+        self.assertAlmostEqual(с_перераспределением, с_подстановкой, places=9)
+
+    def test_отчёт_больше_не_утверждает_обратное(self):
+        html = deep_report.build(DATE, SNAPSHOT, None,
+                                 [attack("framer оплата")], [], [],
+                                 core_stable=True)
+        self.assertNotIn("не заменяются средним", html)
+        self.assertIn("тоже подстановка", html)
+
+    def test_смещение_названо_направленным(self):
+        html = deep_report._opportunity_caveat()
+        self.assertIn("Смещение направленное", html)
+        self.assertIn("уверенность", html.lower())
