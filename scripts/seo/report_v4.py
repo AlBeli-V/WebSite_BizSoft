@@ -111,6 +111,28 @@ def words(*parts: str) -> int:
 
 # ── Аналитические блоки ─────────────────────────────────────────────────────
 
+def index_drop(snap: dict, prev: dict | None) -> dict | None:
+    """Падение числа страниц в поиске Яндекса против предыдущего снимка.
+
+    Возвращает размер падения и признак материальности: дневное дрожание
+    индекса — обычное дело (663 → 650), обвал — нет (650 → 455).
+    """
+    if not prev:
+        return None
+    now = ((snap.get("yandex") or {}).get("indexation") or {}).get("indexed_urls")
+    was = ((prev.get("yandex") or {}).get("indexation") or {}).get("indexed_urls")
+    if now is None or was is None or not was or now >= was:
+        return None
+    lost = was - now
+    share = lost / was
+    th = snap.get("thresholds") or {}
+    return {
+        "was": was, "now": now, "lost": lost, "share": share,
+        "material": (share >= (th.get("index_drop_share") or 0.05)
+                     and lost >= (th.get("index_drop_pages") or 20)),
+    }
+
+
 def search_status(snap: dict, prev: dict | None) -> str:
     """positive | mixed | negative | stable | unknown — по знакам изменений доступных систем."""
     # Без единого доступного источника поиска статус неизвестен независимо от
@@ -130,6 +152,15 @@ def search_status(snap: dict, prev: dict | None) -> str:
         for key in ("impressions", "queries_position_le_10"):
             d = (yt.get(key) or 0) - (yp.get(key) or 0)
             signs.append(1 if d > 0 else (-1 if d < 0 else 0))
+        # Индекс — отдельный знак, и обвал перебивает остальные. Показы
+        # считаются по окну прошлых дней и об индексе сегодняшнего дня не
+        # знают: 09.09.2026 индекс упал 650 → 455, показы за прошлую неделю
+        # выросли, и статус письма вышел «рост».
+        drop = index_drop(snap, prev)
+        if drop:
+            signs.append(-1)
+            if drop["material"]:
+                return "negative"
     if not signs:
         # Ни одна система не отдала данных в оба дня. «Без изменений» здесь
         # утверждало бы измерение, которого не было, — статус честно неизвестен.
@@ -307,8 +338,19 @@ def kpi_cards(snap: dict, prev: dict | None, dq: dict) -> list[dict]:
         imp = int(w["value_num"])
         delta = int(w["delta_num"]) if w["delta_num"] is not None else None
         clicks_cur = int(g_daily["windows"]["clicks"]["current"]["sum"])
-        interpretation = (f"Переходы из Google за окно: {num(clicks_cur)}."
-                          if clicks_cur else "Переходов из Google пока нет.")
+        clicks_prev = g_daily["windows"]["clicks"].get("previous") or {}
+        clicks_was = clicks_prev.get("sum")
+        # «Пока нет» — утверждение обо всём прошлом, и оно неверно, если в
+        # прошлом окне переход был. 09.09.2026 плитка писала «Переходов из
+        # Google пока нет» при росте показов на 110,9%, тогда как переходы за
+        # то же окно ушли с одного до нуля: это не отсутствие, а падение.
+        if clicks_cur:
+            interpretation = f"Переходы из Google за окно: {num(clicks_cur)}."
+        elif clicks_was:
+            interpretation = (f"За окно переходов из Google нет; "
+                              f"в прошлом окне {num(int(clicks_was))}.")
+        else:
+            interpretation = "Переходов из Google пока нет."
         cards.append(
             {"key": "google", "label": "Видимость в Google",
              "value": num(imp), "unit": "показов за неделю",
@@ -569,6 +611,54 @@ def delta_text(d: int | None) -> str:
     return "без изменений" if d == 0 else signed(d)
 
 
+# Что означает движение строки сводной воронки. Текст короткий и не толкует
+# причину: сигнал говорит, что именно изменилось, а не почему.
+FUNNEL_MEANING = {
+    "impressions": ("Страницы показывались чаще.", "Страницы показывались реже."),
+    "clicks": ("Из выдачи переходили чаще.", "Из выдачи переходили реже."),
+    "visits_organic": ("Визитов из поиска стало больше.", "Визитов из поиска стало меньше."),
+    "sessions_organic": ("Сессий из поиска стало больше.", "Сессий из поиска стало меньше."),
+    "goal_reaches_organic": ("Целевых действий на сайте стало больше.",
+                             "Целевых действий на сайте стало меньше."),
+    "key_events_organic": ("Ключевых действий на сайте стало больше.",
+                           "Ключевых действий на сайте стало меньше."),
+}
+
+
+def funnel_movers(dq: dict) -> list[dict]:
+    """Строки сводной воронки, отсортированные по величине изменения.
+
+    Постоянных сигналов три, и 09.09.2026 все три оказались неотрицательными,
+    а два падения того же дня — переходы из Google 1 → 0 и целевые события
+    органики 45 → 26 — в письмо не попали: набор сигналов фиксирован, и место
+    для них не предусмотрено. Воронка для этого подходит лучше всего: её
+    строки уже посчитаны за одно окно с общим концом.
+
+    Величина считается от базы не ниже LOW_BASE — иначе изменение с единицы до
+    нуля обгоняло бы падение с сорока пяти до двадцати шести.
+    """
+    fn = dq.get("funnel") or {}
+    if not fn.get("available"):
+        return []
+    out = []
+    for row in fn.get("rows") or []:
+        if not row.get("complete"):
+            continue
+        cur, prev, d = row.get("current"), row.get("previous"), row.get("delta")
+        if cur is None or prev is None or not d:
+            continue
+        up, down = FUNNEL_MEANING.get(row["metric"], ("Значение выросло.", "Значение упало."))
+        out.append({
+            "tone": "positive" if d > 0 else "negative",
+            "metric": row["label"],
+            "current": num(cur), "previous": num(prev), "delta": delta_text(d),
+            "confidence": ("низкая, база в десятки" if prev < LOW_BASE else "достаточная"),
+            "meaning": up if d > 0 else down,
+            "score": abs(d) / max(prev, LOW_BASE),
+        })
+    return sorted(out, key=lambda r: -r["score"])
+
+
 def signals(snap: dict, prev: dict | None, dq: dict) -> list[dict]:
     """Три сигнала дня: положительный, нейтральный, отрицательный.
 
@@ -651,7 +741,26 @@ def signals(snap: dict, prev: dict | None, dq: dict) -> list[dict]:
                         "Внутри выборки прибавилось запросов на первой странице."
                         if td > 0 else
                         "Число запросов выборки на первой странице не изменилось.")})
-    return out[:3]
+    out = out[:3]
+
+    # Постоянные показатели выше отвечают на вопрос «что с индексацией и
+    # видимостью». Ниже добавляется то, что сильнее всего изменилось за сутки,
+    # и обязательно — худшее изменение, если среди показанного падения нет.
+    # Без этой добавки 09.09.2026 три неотрицательных постоянных показателя
+    # вытеснили из письма оба падения дня.
+    shown = {s["metric"] for s in out}
+    movers = [m for m in funnel_movers(dq) if m["metric"] not in shown]
+    extra = []
+    if movers:
+        extra.append(movers[0])
+    if not any(s["tone"] == "negative" for s in out + extra):
+        worst = next((m for m in movers if m["tone"] == "negative"
+                      and m["metric"] not in {e["metric"] for e in extra}), None)
+        if worst:
+            extra.append(worst)
+    for m in extra:
+        out.append({k: v for k, v in m.items() if k != "score"})
+    return out[:5]
 
 
 def execution_board(actions_cfg: dict, date: str) -> list[dict]:
@@ -806,6 +915,10 @@ def assemble(snap, prev, dq, actions_cfg, site_check):
         desk.append(f"продвижение: {growth_ideas['fresh'][0]['title']} — "
                     f"«Перспективные идеи»")
 
+    # Тикет по идентификатору эксперимента: журнал решений ведётся по id,
+    # а текст реестра ссылается на тикет (CONTENT-001).
+    tickets = {x["id"]: x.get("ticket") for x in exp_mod.load_registry()}
+
     return {
         "date": date,
         "date_h": ru_date_full(date),
@@ -840,6 +953,14 @@ def assemble(snap, prev, dq, actions_cfg, site_check):
                            else "Причина изменения пока не определена."),
         "driver_blocks": _driver_blocks(dec),
         "experiments": exps,
+        # Журнал решений в блоках — чтобы инвариант S5 сверял с ним даты
+        # вердиктов, названные в свободном тексте реестра.
+        "owner_decisions": {
+            eid: {"dates": [rec.get("date")], "verdict": rec.get("verdict"),
+                  "owner_decision": rec.get("owner_decision"),
+                  "ticket": tickets.get(eid)}
+            for eid, rec in exp_mod.owner_decisions().items()
+            if rec.get("date")},
         "board": board,
         "opportunities": opps,
         "vendor_radar": vendor_radar_mod.build(snap),
