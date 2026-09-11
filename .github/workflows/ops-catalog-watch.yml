@@ -1,0 +1,157 @@
+# Ежедневный сторож каталога: что появилось, исчезло и изменилось.
+#
+# Поручение руководителя 10.09.2026: «следи, чтобы продукты не добавлялись и
+# не убирались с сайта автоматически; если продукты исчезают, добавляются или
+# с ними аномалия, кроме пересчёта курса доллара и евро, — письмо мне».
+#
+# Повод. Карточки правят не только руками: импорты (ops-import-vendors,
+# ops-import-ai-cards), склейка дублей (ops-merge-product), миграции
+# (ai-catalog-migrate) и массовые переоценки (ops-annual-reprice) меняют и
+# снимают позиции пачками. Миграция AI-каталога сняла с витрины восемь
+# карточек, среди них OPENAI-BUSINESS, — со стороны это выглядит как «товар
+# исчез сам». Сторож не запрещает такие правки, он делает их видимыми в тот
+# же день.
+#
+# Что считается событием: появление и исчезновение карточки, снятие с витрины
+# и возврат на неё, правка закупки, коэффициента, валютной привязки, цены,
+# названия, слага, приписки к цене, промо и типа товара. Что событием НЕ
+# считается: ежедневная переоценка по курсу ЦБ (ops-currency-refresh) — если
+# закупка и коэффициент не менялись, а новая рублёвая цена сходится с
+# формулой при новом курсе, строка молчит. Разбор — scripts/ops/catalog_watch.py.
+#
+# Тишина по умолчанию: при отсутствии расхождений ни письма, ни записи в
+# журнал. Письмо на avbelyaev@biz-soft.pro уходит штатным ops-send-mail
+# (правило docs/rules/mail-recipient.md), запись в журнал-issue #22 — когда
+# есть находки или когда прогон упал.
+#
+# Два слота расписания: планировщик GitHub задерживает утренние слоты на
+# 4–5 часов, второй слот — страховка. Повторной работы он не делает: маркер
+# дня last-run.json в /opt/bizsoft/ops/catalog останавливает второй прогон.
+name: ops-catalog-watch
+on:
+  schedule:
+    - cron: '0 6 * * *'  # 09:00 МСК (UTC+3)
+    - cron: '0 9 * * *'  # 12:00 МСК — страхующий слот, пропускается по маркеру дня
+  workflow_dispatch:
+    inputs:
+      baseline:
+        description: 'true — только записать снимок, не сравнивать (сброс базы)'
+        required: false
+        default: 'false'
+permissions:
+  # checkout читает репозиторий токеном GITHUB_TOKEN: при явном permissions
+  # без contents раннер получает «Repository not found» (прогон #204 ops-probe).
+  contents: read
+  issues: write
+  # actions: write — для явного вызова ops-send-mail через gh workflow run.
+  actions: write
+jobs:
+  watch:
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - name: Guard - only default branch
+        run: |
+          if [ "${{ github.ref_name }}" != "main" ]; then
+            echo "Запуск разрешён только с ветки main. Текущий ref: ${{ github.ref_name }}"
+            exit 1
+          fi
+      # if: always() — шаг журнала объявлен always() и обязан отработать
+      # даже при падении Guard; без этого условия checkout в упавшем job
+      # пропускается, и локальный action journal-post не находится.
+      - name: Checkout for journal action
+        if: always()
+        uses: actions/checkout@v4
+
+      - name: Snapshot catalog and compare
+        id: check
+        uses: appleboy/ssh-action@v1
+        env:
+          P_BASELINE: ${{ inputs.baseline }}
+          P_SCHEDULED: ${{ github.event_name == 'schedule' }}
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          envs: P_BASELINE,P_SCHEDULED
+          capture_stdout: true
+          script: |
+            set -e
+            cd /opt/bizsoft
+            # Учётка администратора, а не статический токен: токен витрины
+            # видит только опубликованные карточки, и снятая с витрины
+            # позиция выглядела бы для сторожа как удалённая.
+            ADMIN_EMAIL=$(docker compose exec -T directus printenv ADMIN_EMAIL | tr -d '\r')
+            ADMIN_PASSWORD=$(docker compose exec -T directus printenv ADMIN_PASSWORD | tr -d '\r')
+            export ADMIN_EMAIL ADMIN_PASSWORD
+            SCRIPT=/opt/bizsoft/astro-src/scripts/ops/catalog_watch.py
+            if [ ! -f "$SCRIPT" ]; then
+              echo "скрипта $SCRIPT нет: деплой main ещё не донёс его на сервер"
+              exit 1
+            fi
+            ARGS=""
+            [ "$P_BASELINE" = "true" ] && ARGS="$ARGS --baseline"
+            [ "$P_SCHEDULED" = "true" ] && ARGS="$ARGS --scheduled"
+            python3 "$SCRIPT" --state-dir /opt/bizsoft/ops/catalog $ARGS
+
+      # Вывод больше лимита env-переменной процесса (Argument list too long) —
+      # передаём через файл: интерполяция ${{ }} в run-шаге пишется в файл скрипта.
+      - name: Save report to file
+        if: always()
+        run: |
+          cat > /tmp/catalog-watch.txt <<'CATALOG_WATCH_EOF'
+          ${{ steps.check.outputs.stdout }}
+          CATALOG_WATCH_EOF
+          cat /tmp/catalog-watch.txt
+
+      # Решение о письме принимается по строке ANOMALIES=N, а не по коду
+      # возврата: прогон без находок и прогон с находками одинаково успешны,
+      # красный статус остаётся признаком поломки.
+      - name: Decide on mail
+        id: decide
+        if: steps.check.outcome == 'success'
+        run: |
+          n=$(sed -n 's/^ANOMALIES=\([0-9][0-9]*\)$/\1/p' /tmp/catalog-watch.txt | tail -1)
+          if [ -z "$n" ]; then
+            echo "::error::в отчёте нет строки ANOMALIES=N — сторож отработал не до конца"
+            exit 1
+          fi
+          echo "count=$n" >> "$GITHUB_OUTPUT"
+          echo "mail=$([ "$n" != "0" ] && echo yes || echo no)" >> "$GITHUB_OUTPUT"
+          echo "событий: $n"
+
+      # Почта — штатным workflow ops-send-mail (правило mail-recipient.md):
+      # своего SMTP этот контур не заводит. Dispatch из Actions под
+      # GITHUB_TOKEN не порождает событий, поэтому вызов явный и с ожиданием.
+      - name: Mail the owner
+        if: steps.decide.outputs.mail == 'yes'
+        env:
+          P_COUNT: ${{ steps.decide.outputs.count }}
+        run: |
+          body=$(python3 - <<'PYEOF'
+          # Вход body у ops-send-mail — одна строка, переносы литералом \n.
+          # Письмо режется по объёму: полный отчёт всегда лежит в issue #22.
+          LIMIT = 30000
+          text = open('/tmp/catalog-watch.txt', encoding='utf-8').read().rstrip()
+          if len(text) > LIMIT:
+              text = text[:LIMIT] + '\n\n(отчёт обрезан, полностью — в журнале issue #22)'
+          text += ('\n\nПереоценка по курсу ЦБ в этот перечень не попадает: '
+                   'её сторож считает штатной. Разбор правил — docs/rules/catalog-watch.md.')
+          print(text.replace('\\', '\\\\').replace('\n', '\\n'))
+          PYEOF
+          )
+          bash scripts/ops/gh_dispatch_wait.sh ops-send-mail.yml --timeout 600 \
+            -f to=avbelyaev@biz-soft.pro \
+            -f "subject=Каталог: изменений за сутки — $P_COUNT" \
+            -f "body=$body"
+
+      # Журнал только по делу: ежедневная запись «расхождений нет» за год
+      # превратила бы issue #22 в ленту, которую перестают читать.
+      - name: Post to issue
+        if: always() && (steps.check.outcome != 'success' || steps.decide.outputs.mail == 'yes')
+        uses: ./.github/actions/journal-post
+        with:
+          title: "ops-catalog-watch (ежедневно, 09:00 МСК)"
+          outcome: ${{ steps.check.outcome }}
+          body-file: /tmp/catalog-watch.txt

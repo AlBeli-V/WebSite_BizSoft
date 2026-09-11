@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Тесты Wordstat Intelligence: бюджет, лимиты, кэш, семантика, покрытие."""
 
+import datetime as dt
 import importlib.util
 import json
 import pathlib
@@ -771,9 +772,15 @@ class TestVendorExpansion(unittest.TestCase):
         self.assertIn("рекомендуем", action)
 
     def test_failed_payment_check_is_retried_sooner(self):
-        """«Сайт не открылся» — не ответ: держать такой вердикт месяц нельзя."""
-        stale = {"verdict": "unreachable", "checked_at": "2026-08-10"}
-        good = {"verdict": "card", "checked_at": "2026-08-10"}
+        """«Сайт не открылся» — не ответ: держать такой вердикт месяц нельзя.
+
+        Дата проверки берётся от сегодняшнего дня, а не литералом: при
+        зашитой дате тест сам протухал ровно через тридцать дней после
+        написания и ронял сборку всему репозиторию.
+        """
+        month_ago = (dt.date.today() - dt.timedelta(days=20)).isoformat()
+        stale = {"verdict": "unreachable", "checked_at": month_ago}
+        good = {"verdict": "card", "checked_at": month_ago}
         self.assertFalse(self.P.fresh(stale, 30))
         self.assertTrue(self.P.fresh(good, 30))
 
