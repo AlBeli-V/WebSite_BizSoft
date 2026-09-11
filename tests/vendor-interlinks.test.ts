@@ -142,11 +142,11 @@ describe('точки входа в разделы', () => {
   });
 
   it('блок перелинковки стоит на всех лендингах вендоров', () => {
+    // openai и figma переехали на общий шаблон 11.09.2026 — их страницы
+    // больше не отдельные файлы, блок приходит из VendorLanding.
     const files = [
       'src/components/VendorLanding.astro',
       'src/components/VendorGenericLanding.astro',
-      'src/pages/vendors/openai.astro',
-      'src/pages/vendors/figma.astro',
       'src/pages/vendors/jetbrains.astro',
       'src/pages/vendors/zoom.astro',
       'src/pages/vendors/maxon.astro',

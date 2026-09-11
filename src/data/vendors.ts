@@ -22,6 +22,15 @@ export interface VendorEntry {
   domain: VendorDomain;
   tagline: string;
   about: string;
+  /**
+   * Свои title/description/H1 вместо шаблонной формулы. Заводятся там, где
+   * страница жила отдельной вёрсткой со своими метаданными и переехала на
+   * общий шаблон: формула шаблона переписала бы уже проиндексированный
+   * заголовок. Для новых вендоров не нужны — шаблон справляется сам.
+   */
+  metaTitle?: string;
+  metaDescription?: string;
+  h1?: string;
 }
 
 export const VENDORS: VendorEntry[] = [
@@ -212,6 +221,18 @@ export const VENDORS: VendorEntry[] = [
     about: 'Microsoft — разработчик Windows, Office и облачной платформы Microsoft 365. Мы помогаем юрлицам легально оформить подписки Microsoft 365 (только на tenant компании в поддерживаемой стране, после предварительной проверки) и поставляем бессрочные коробочные версии Office, Visio, Project и Windows 11 Pro электронным ключом активации.' },
 
   // ─── Блок 5: AI-ассистенты и инженерное ПО (добавлены 20.08.2026 по замеру спроса) ───
+  // Figma переехала с собственной страницы на общий шаблон (решение
+  // руководителя 11.09.2026). Метаданные и H1 сохранены прежними: формула
+  // шаблона переписала бы уже проиндексированные заголовки.
+  // OpenAI остаётся отдельной страницей: 11.09.2026 её переработали под
+  // сегменты и номиналы пополнения баланса API (PR #495), и шаблон такой
+  // полосы номиналов пока не умеет.
+  { slug: 'figma', vendor: 'Figma', title: 'Figma', legalName: 'Figma, Inc.', brandColor: '#F24E1E', site: 'https://www.figma.com', catSeg: 'design', catLabel: 'Дизайн и графика', domain: 'design',
+    metaTitle: 'Купить Figma для юрлица — Professional, Organization, Enterprise (места Full/Dev/Collab)',
+    metaDescription: 'Figma для бизнеса по модели посадочных мест: Full, Dev и Collab на планах Professional, Organization и Enterprise. Оформление на юрлицо по договору и счёту, оплата в рублях.',
+    h1: 'Figma для юридических лиц: места, планы и оформление через BIZSoft',
+    tagline: 'Дизайн-платформа по модели посадочных мест: Full, Dev и Collab на планах Professional, Organization и Enterprise.',
+    about: 'Figma — редактор интерфейсов и совместной работы над дизайном: макеты, прототипы, дизайн-системы, передача в разработку через Dev Mode и воркшопы в FigJam. С 2024 года места раздельные: Full для дизайнеров, Dev для разработчиков, Collab для менеджеров и заказчиков, — платить за полное место всей команде не нужно.' },
   { slug: 'anthropic', vendor: 'Anthropic', title: 'Anthropic Claude', legalName: 'Anthropic PBC', brandColor: '#D97757', site: 'https://www.anthropic.com', catSeg: 'ai', catLabel: 'AI-сервисы', domain: 'ai',
     tagline: 'Claude для команд и организаций: тарифы Team и Enterprise с общими проектами, SSO и контролем данных.',
     about: 'Anthropic Claude — текстовый AI-ассистент для работы с документами, кодом и знаниями компании. Тариф Team даёт общие проекты и совместные чаты для отдела, Enterprise добавляет SSO, расширенный контекст, аудит и корпоративные политики хранения данных. Востребован в аналитике, юридической и продуктовой работе, где важны длинные документы и точность формулировок.' },
