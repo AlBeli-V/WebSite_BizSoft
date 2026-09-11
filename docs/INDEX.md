@@ -42,6 +42,10 @@ TypeScript strict · Vitest · Python 3 (контуры SEO/разведки/р�
   реестр `scripts/ai-catalog-cards.json`, заливка воркфлоу `ops-import-ai-cards`,
   правила против каннибализации пары тарифов: `docs/ai-catalog-import.md`,
   раздел «Заведение отдельной карточки AI-каталога».
+- **Пополнение баланса API (номиналы)** — реестр `scripts/api-balance.json`,
+  сборщик `scripts/build-api-balance-cards.mjs`, заливка тем же
+  `ops-import-ai-cards` с входом `registry`; модель, формула цены и защита
+  артикулов от каннибализации — `docs/api-balance-cards.md`.
 - **Подарочная карта (тип gift_card)** — модель, цена ×3, порядок на проде:
   `docs/gift-cards.md`; пакет Apple собирает `scripts/build-gift-card-package.mjs`,
   контент страницы — `src/data/gift-cards.ts`, логика — `src/lib/gift-cards.ts`.

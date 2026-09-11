@@ -9,15 +9,16 @@ import VendorIcon from '../../components/VendorIcon.astro';
 import { productIcons } from '../../data/product-icons';
 import ProductIcon from '../../components/ProductIcon.astro';
 import AddToCartButton from '../../components/AddToCartButton.astro';
-import QuestionForm from '../../components/QuestionForm.astro';
 import VendorInterlinks from '../../components/VendorInterlinks.astro';
 import JsonLd from '../../components/JsonLd.astro';
 import { getProducts } from '../../lib/directus';
 import { effectivePrice, formatRub } from '../../lib/pricing';
+import { listingProducts, productKind } from '../../lib/catalog';
 import { collectionPageSchema } from '../../lib/seo';
 import {
   OPENAI_VENDOR, OPENAI_SUMMARY, OPENAI_ORDER, OPENAI_CARD_META,
-  OPENAI_COMPARISON, OPENAI_DECISION, OPENAI_SCENARIOS, OPENAI_FAQ,
+  OPENAI_COMPARISON, OPENAI_DECISION, OPENAI_SCENARIOS, OPENAI_SEGMENTS,
+  OPENAI_FAQ, OPENAI_FAQ_GROUPS,
 } from '../../data/openai';
 import type { Product } from '../../lib/types';
 
@@ -26,23 +27,79 @@ try { all = await getProducts({ vendor: 'OpenAI' }); } catch (e) { console.error
 // Без фильтра по префиксу sku: у части товаров «интеграционные» sku
 // (ChatGPT Business = INT-AI-CHATGPT). Порядок — по OPENAI_ORDER (slug или sku),
 // не перечисленные в нём товары — в конец списка.
+// listingProducts убирает варианты (номиналы пополнения баланса API): в сетке
+// стоит родительская карточка, номинал выбирается на её странице.
 const orderKey = (p: Product) => {
   const i = OPENAI_ORDER.findIndex((k) => k === p.slug || k === p.sku);
   return i === -1 ? OPENAI_ORDER.length : i;
 };
-const items = all.slice().sort((a, b) => orderKey(a) - orderKey(b));
+const items = listingProducts(all).slice().sort((a, b) => orderKey(a) - orderKey(b));
+
+// Сегмент карточки — по slug или sku; карточка вне сегментов видна всегда.
+const segmentOf = (p: Product) => OPENAI_SEGMENTS.find((s) => s.keys.includes(p.slug) || s.keys.includes(p.sku))?.id || '';
 
 const cards = items.map((p) => {
   const eff = effectivePrice(p);
   const meta = OPENAI_CARD_META[p.slug] ?? OPENAI_CARD_META[p.sku];
-  return { name: p.name, slug: p.slug, sku: p.sku, price: eff.price, priceText: formatRub(eff.price), note: p.price_note || '', byRequest: !(eff.price > 0), meta, features: meta?.features?.slice(0, 5) || [] };
+  return {
+    name: p.name, slug: p.slug, sku: p.sku,
+    price: eff.price, priceText: formatRub(eff.price),
+    note: p.price_note || '', byRequest: !(eff.price > 0),
+    priceFrom: Boolean(p.price_from),
+    meta, features: meta?.features?.slice(0, 5) || [],
+    seg: segmentOf(p),
+  };
 });
-const priced = items.filter((p) => effectivePrice(p).price > 0);
-const minPrice = priced.length ? Math.min(...priced.map((p) => effectivePrice(p).price)) : 0;
-const hasMin = minPrice > 0;
+// Номиналы пополнения баланса (<PREFIX>-CREDITS-<сумма>) — дополнение, а не
+// тариф: в сетке они дали бы одиннадцать почти одинаковых плиток. Их место —
+// компактная полоса в блоке API, где выбор номинала и есть весь выбор.
+const mainCards = cards.filter((c) => productKind({ sku: c.sku }) !== 'addon');
+// Подпись номинала берётся из артикула (<PREFIX>-CREDITS-<сумма>), а не из
+// названия: артикул — контракт механизма пополнений, название редактируется.
+const topups = cards
+  .filter((c) => productKind({ sku: c.sku }) === 'addon' && !c.byRequest)
+  .map((c) => ({ ...c, nominal: Number(c.sku.split('-').pop()) }))
+  .filter((c) => Number.isFinite(c.nominal))
+  .sort((a, b) => a.nominal - b.nominal);
 
-const title = 'Купить ChatGPT (OpenAI) для юрлица — Plus, Pro, Business, Enterprise и API';
-const description = 'ChatGPT для бизнеса: тарифы Plus, Pro, Business, Enterprise и OpenAI API. Оформление на юрлицо по договору и счёту, оплата в рублях, закрывающие через ЭДО.';
+/** Склонение при числе: 1 номинал, 2 номинала, 11 номиналов. */
+const plural = (n: number, forms: [string, string, string]) => {
+  const mod100 = n % 100;
+  const mod10 = n % 10;
+  if (mod100 >= 11 && mod100 <= 14) return forms[2];
+  if (mod10 === 1) return forms[0];
+  if (mod10 >= 2 && mod10 <= 4) return forms[1];
+  return forms[2];
+};
+
+// «Цены от» — по тарифам: минимум по пополнениям выдал бы цену разового
+// пополнения «в год».
+const priced = mainCards.filter((c) => !c.byRequest);
+const minPrice = priced.length ? Math.min(...priced.map((c) => c.price)) : 0;
+const hasMin = minPrice > 0;
+// Сегменты, под которые на витрине действительно есть карточки: пустой
+// сегмент на странице — обещание товара, которого нет.
+const segCount = (id: string) => mainCards.filter((c) => c.seg === id).length;
+const segments = OPENAI_SEGMENTS
+  .filter((s) => segCount(s.id) > 0)
+  .map((s) => ({
+    ...s,
+    // Подпись сегмента: сколько вариантов за ним стоит. У API вариант один
+    // (пополнение), но номиналов у него много — об этом и говорим.
+    hint: s.id === 'api' && topups.length > 0
+      ? `${topups.length} ${plural(topups.length, ['номинал', 'номинала', 'номиналов'])} и сумма по запросу →`
+      : `${segCount(s.id)} ${plural(segCount(s.id), ['вариант', 'варианта', 'вариантов'])} →`,
+  }));
+// Список для выбора тарифа прямо в форме: то же, что показано в сетке.
+const plans = [
+  ...mainCards.map((c) => ({ value: `OpenAI — ${c.name}`, label: c.name })),
+  // Обращение не про тариф, а про требования ИБ: у него своя строка, иначе
+  // кнопка блока безопасности сбрасывала бы выбор в «подберите под задачу».
+  { value: 'OpenAI — требования ИБ', label: 'Требования к безопасности и ИБ' },
+];
+
+const title = 'Купить ChatGPT (OpenAI) для юрлица — Business, Enterprise и баланс API';
+const description = 'ChatGPT для бизнеса: тарифы Business и Enterprise, пополнение баланса OpenAI API. Оформление на юрлицо по договору и счёту, оплата в рублях, закрывающие через ЭДО.';
 const pageUrl = '/vendors/openai';
 const crumbs = [{ name: 'Каталог', url: '/catalog' }, { name: 'AI-сервисы', url: '/catalog/ai' }, { name: 'OpenAI (ChatGPT)', url: pageUrl }];
 // FAQPage и BreadcrumbList не дублируем: их выводят компоненты FAQ и Breadcrumbs.
@@ -58,42 +115,60 @@ const ld = [
     <header class="hero">
       <div class="vendor-row"><VendorIcon slug="openai" name="OpenAI" size={44} /><span class="vendor-name">OpenAI</span><span class="vendor-legal">{OPENAI_VENDOR.legalName}</span></div>
       <h1>OpenAI (ChatGPT) для юридических лиц: тарифы и оформление через BIZSoft</h1>
-      <p class="hero-sub">Подберите доступ к ChatGPT для сотрудников и команд: Plus, Pro, Business, Enterprise и OpenAI API. Оформление на организацию с оплатой по счёту и закрывающими документами.</p>
+      <p class="hero-sub">ChatGPT Business для команды, Enterprise для организации, пополнение баланса OpenAI API для разработки. Оформление на организацию с оплатой по счёту и закрывающими документами.</p>
       <ul class="chips"><li>Для юрлиц</li><li>КП и счёт</li><li>Договор и закрывающие</li><li>Оплата в рублях</li></ul>
+      {/* Один призыв на первый экран: раньше «Получить расчёт и КП» стоял
+          четырежды и вёл в модальное окно, где тариф приходилось называть
+          словами. Теперь кнопка ведёт в единственную форму страницы и
+          подставляет выбранный тариф. */}
       <div class="hero-actions">
-        <button class="btn btn-primary" data-open-question data-product="OpenAI — подбор тарифа" data-ev="click_get_quote">Получить расчёт и КП</button>
-        <a href="#products" class="btn btn-ghost" data-ev="click_choose_plan">Смотреть тарифы</a>
+        <button class="btn btn-primary" data-plan="" data-ev="click_get_quote">Получить расчёт и КП</button>
+        <a href="#choose" class="btn btn-ghost" data-ev="click_choose_plan">Подобрать под задачу</a>
       </div>
       {hasMin && <p class="from">Цены от <b>{formatRub(minPrice)}</b> в год</p>}
     </header>
 
     <div class="summary"><strong>Коротко:</strong> {OPENAI_SUMMARY}</div>
 
-    <section class="block prose-bizsoft">
-      <p>Продукты OpenAI закрывают разные задачи: <b>ChatGPT Plus и Pro</b> — для отдельных сотрудников,
-        <b>ChatGPT Business</b> — для команд с админ-управлением и защитой данных, <b>ChatGPT Enterprise</b> —
-        для крупных организаций с требованиями информационной безопасности, а <b>OpenAI API</b> — для встраивания
-        моделей в собственные продукты с оплатой по использованию. BIZSoft подберёт нужный вариант и оформит
-        поставку на юрлицо.</p>
-    </section>
+    {segments.length > 0 && (
+      <section class="block" id="choose">
+        <h2>С чего начать: выберите свой случай</h2>
+        <p class="muted lead-note">Варианты OpenAI делятся на разные ситуации, и выбирают не между тарифами, а между ними. Отметьте свою — в списке ниже останется только подходящее.</p>
+        <div class="segs" role="group" aria-label="Выбор ситуации">
+          {segments.map((s) => (
+            <button type="button" class="card card-hover seg" data-seg-btn={s.id} aria-pressed="false">
+              <b>{s.title}</b>
+              <span class="muted">{s.text}</span>
+              <em>{s.hint}</em>
+            </button>
+          ))}
+        </div>
+        {segments.map((s) => (
+          <p class="seg-why" data-seg-why={s.id} hidden>{s.why}</p>
+        ))}
+        <button type="button" class="btn btn-ghost btn-sm seg-reset" data-seg-reset hidden>Показать все варианты</button>
+      </section>
+    )}
 
     <section class="block" id="products">
       <h2>Тарифы и продукты OpenAI</h2>
       <div class="vgrid">
-        {cards.map((c) => (
-          <article class="card vcard">
+        {mainCards.map((c) => (
+          <article class:list={['card', 'vcard', c.seg === 'api' && 'vcard-api']} data-seg-card={c.seg}>
             {c.meta && <div class="vhead"><span class="vbadge">{c.meta.badge}</span></div>}
             <div class="pih">
               {productIcons(c.slug).length > 0 && <ProductIcon slug={c.slug} name={c.name} size={36} />}
               <h3>{c.name}</h3>
             </div>
             {c.meta?.forWhom && <p class="forwhom">{c.meta.forWhom}</p>}
-            <div class="vprice">{c.byRequest ? <span class="req">Цена по запросу</span> : <span class="pv"><b>{c.priceText}</b> <span class="note">{c.note}</span></span>}</div>
+            <div class="vprice">{c.byRequest ? <span class="req">Цена по запросу</span> : <span class="pv"><b>{c.priceFrom ? `от ${c.priceText}` : c.priceText}</b> <span class="note">{c.note}</span></span>}</div>
             {c.features.length > 0 && <ul class="vfeat">{c.features.map((f) => <li>{f}</li>)}</ul>}
             {c.meta?.check && <p class="vcheck">⚠ {c.meta.check}</p>}
             <div class="vactions">
               {c.byRequest ? (
-                <button class="btn btn-primary btn-sm" data-open-question data-product={`OpenAI — ${c.name}`} data-sku={c.sku} data-ev="click_get_quote">Запросить цену</button>
+                <button class="btn btn-primary btn-sm" data-plan={`OpenAI — ${c.name}`} data-ev="click_get_quote">Запросить цену</button>
+              ) : c.seg === 'api' ? (
+                <a href={`/product/${c.slug}`} class="btn btn-primary btn-sm" data-ev="click_product_card">Выбрать номинал</a>
               ) : (
                 <AddToCartButton sku={c.sku} slug={c.slug} name={c.name} vendor="OpenAI" price={c.price} compact />
               )}
@@ -103,6 +178,22 @@ const ld = [
         ))}
       </div>
       <p class="muted small">Цена в рублях пересчитывается по курсу ЦБ РФ.</p>
+
+      {topups.length > 0 && (
+        <div class="topups" data-seg-card="api">
+          <h3>Номиналы пополнения баланса API</h3>
+          <p class="muted small topups-note">Оплата по использованию: сумма зачисляется на баланс вашего аккаунта и расходуется по фактическим запросам. Нужна сумма вне ряда — <a href="#lead" data-plan="OpenAI — Пополнение баланса OpenAI API">посчитаем по запросу</a>.</p>
+          <ul class="topup-list">
+            {topups.map((c) => (
+              <li class="topup">
+                <a class="topup-name" href={`/product/${c.slug}`} data-ev="click_product_card">{c.nominal.toLocaleString('ru-RU')} $</a>
+                <b class="topup-price">{c.priceText}</b>
+                <AddToCartButton sku={c.sku} slug={c.slug} name={c.name} vendor="OpenAI" price={c.price} compact />
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
     </section>
 
     <section class="block" id="compare">
@@ -113,7 +204,7 @@ const ld = [
           <tbody>{OPENAI_COMPARISON.rows.map((r) => (<tr><th class="sticky">{r.label}</th>{r.values.map((v) => <td>{v}</td>)}</tr>))}</tbody>
         </table>
       </div>
-      <p class="muted small">«уточн.» — доступность функции проверяется перед КП (зависит от региона и тарифа).</p>
+      <p class="muted small">«уточн.» — доступность функции проверяется перед КП (зависит от региона и тарифа). Пополнение баланса API в таблицу не входит: там оплата идёт по использованию, а не за место.</p>
     </section>
 
     <section class="block">
@@ -136,8 +227,7 @@ const ld = [
       <div class="prose-bizsoft"><p>В тарифах ChatGPT Business и Enterprise данные организации по умолчанию не используются
         для обучения моделей; доступны админ-управление, SSO, верификация домена, а в Enterprise — SCIM, EKM, RBAC и
         аналитика. Конкретные настройки приватности, хранения данных и соответствие внутренним политикам ИБ уточняются
-        перед оформлением.</p></div>
-      <button class="btn btn-ghost" data-open-question data-product="OpenAI — требования ИБ" data-ev="click_get_quote">Обсудить требования ИБ</button>
+        перед оформлением: опишите требования <a href="#lead" data-plan="OpenAI — требования ИБ">в форме внизу страницы</a>.</p></div>
     </section>
 
     <section class="block">
@@ -150,35 +240,35 @@ const ld = [
         <li>После оплаты передаём доступы и инструкции по активации.</li>
         <li>Закрывающие документы — в согласованном формате, в том числе через ЭДО.</li>
       </ol>
-      <button class="btn btn-primary" data-open-question data-product="OpenAI — расчёт и КП" data-ev="click_get_quote">Получить расчёт и КП</button>
     </section>
 
-    <FAQ items={OPENAI_FAQ} title="Частые вопросы про ChatGPT и OpenAI для бизнеса" />
+    <FAQ items={OPENAI_FAQ} groups={OPENAI_FAQ_GROUPS} title="Частые вопросы про ChatGPT и OpenAI для бизнеса" />
 
-    <section class="block final">
+    <section class="block final" id="lead">
       <div class="final-grid">
         <div>
           <h2>Подобрать OpenAI для компании</h2>
-          <p class="muted">Опишите задачу: сколько сотрудников, нужен ли API, какие требования к безопасности. Подготовим расчёт, КП или счёт.</p>
+          <p class="muted">Опишите задачу: сколько сотрудников, нужен ли программный доступ, какие требования к безопасности. Подготовим расчёт, КП или счёт.</p>
           <ul class="vfeat"><li>Оформление для юрлиц: договор, счёт, закрывающие</li><li>Оплата в рублях по курсу ЦБ РФ</li><li>Подбор тарифа и количества пользователей</li></ul>
+          <p class="muted small">Это единственная форма страницы: тариф подставляется кнопками выше, называть его словами не нужно.</p>
         </div>
-        <LeadForm source="vendor-openai" title="Подбор OpenAI" submitLabel="Получить расчёт и КП" />
+        <LeadForm source="vendor-openai" title="Подбор OpenAI" submitLabel="Получить расчёт и КП" plans={plans} />
       </div>
     </section>
 
     <section class="block links">
       <h2>Связанные товары и разделы</h2>
       <div class="link-grid">
-        {cards.map((c) => <a href={`/product/${c.slug}`}>{c.name}</a>)}
+        {mainCards.map((c) => <a href={`/product/${c.slug}`}>{c.name}</a>)}
         <a href="/catalog/ai">Все AI-сервисы</a><a href="/vendors">Все производители</a>
         <a href="/how-we-work">Как мы работаем</a><a href="/documents">Документы</a><a href="/contacts">Контакты</a>
       </div>
     </section>
   </div>
-  {/* Ещё по теме: статьи, аналоги, сравнения этого вендора (IDX-001) */}
+  {/* Ещё по теме: статьи, аналоги, сравнения этого вендора (IDX-001).
+      Блок стоит после формы: это сильные ссылки, но уводить по ним человека
+      в шаге от заявки нельзя. */}
   <VendorInterlinks vendorSlug="openai" productSlugs={items.map((p) => p.slug)} />
-
-  <QuestionForm source="openai" />
 </BaseLayout>
 
 <style>
@@ -195,8 +285,22 @@ const ld = [
   .from { color: var(--color-text-muted); font-size: 0.92rem; } .from b { color: var(--color-text); }
   .summary { background: var(--color-bg-card); border: 1px solid var(--color-border); border-left: 3px solid var(--vc, var(--color-accent)); border-radius: var(--radius); padding: 1rem 1.2rem; margin: 1.5rem 0; color: var(--color-text); } .summary strong { color: var(--color-text); }
   .block { margin-top: 3rem; } .block > h2 { font-size: clamp(1.4rem, 2.6vw, 1.9rem); margin-bottom: 1.2rem; }
+  .lead-note { max-width: 70ch; margin-top: -0.6rem; margin-bottom: 1.2rem; font-size: 0.95rem; }
+
+  /* Сегменты первого шага: выбирают ситуацию, а не тариф */
+  .segs { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; }
+  .seg { display: grid; gap: 0.35rem; text-align: left; font: inherit; cursor: pointer; padding: 1.3rem; color: var(--color-text); }
+  .seg b { font-size: 1.05rem; }
+  .seg span { font-size: 0.88rem; line-height: 1.5; }
+  .seg em { font-style: normal; font-size: 0.82rem; font-weight: 600; color: var(--vc, var(--color-accent)); }
+  .seg[aria-pressed='true'] { border-color: var(--vc, var(--color-accent)); box-shadow: 0 0 0 3px color-mix(in srgb, var(--vc) 14%, transparent); }
+  .seg-why { margin: 1.2rem 0 0; max-width: 70ch; color: var(--color-text-muted); font-size: 0.92rem; }
+  .seg-reset { margin-top: 1rem; }
+
   .vgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.2rem; }
   .vcard { padding: 1.4rem; display: flex; flex-direction: column; }
+  /* Пополнение баланса — другая модель продажи, и карточка это показывает */
+  .vcard-api { border-style: dashed; border-color: var(--color-border-strong); }
   .vhead { display: flex; margin-bottom: 0.5rem; }
   .vbadge { font-size: 0.7rem; font-weight: 700; padding: 0.15rem 0.55rem; border-radius: 6px; background: color-mix(in srgb, var(--vc) 16%, transparent); color: var(--vc); }
   .vcard h3 { font-size: 1.1rem; margin-bottom: 0.3rem; }
@@ -206,6 +310,15 @@ const ld = [
   .vfeat li { padding-left: 1.3rem; position: relative; color: var(--color-text); font-size: 0.88rem; } .vfeat li::before { content: '✓'; position: absolute; left: 0; color: var(--vc, var(--color-accent)); font-weight: 700; }
   .vcheck { color: var(--color-text-dim); font-size: 0.78rem; margin: 0 0 0.7rem; }
   .vactions { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: auto; }
+  .topups { margin-top: 2rem; border: 1px dashed var(--color-border-strong); border-radius: var(--radius-lg); padding: 1.4rem; background: var(--color-bg-card); }
+  .topups h3 { font-size: 1.05rem; margin-bottom: 0.3rem; }
+  .topups-note { max-width: 72ch; margin-top: 0; }
+  .topups-note a { color: var(--color-accent); }
+  .topup-list { list-style: none; padding: 0; margin: 1rem 0 0; display: grid; gap: 0.5rem; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
+  .topup { display: flex; align-items: center; gap: 0.7rem; flex-wrap: wrap; border: 1px solid var(--color-border); border-radius: var(--radius); padding: 0.6rem 0.8rem; }
+  .topup-name { font-weight: 600; font-size: 0.92rem; }
+  .topup-name:hover { color: var(--color-accent); }
+  .topup-price { margin-left: auto; font-size: 0.95rem; white-space: nowrap; }
   .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
   table.cmp { width: 100%; border-collapse: collapse; min-width: 560px; font-size: 0.92rem; }
   table.cmp th, table.cmp td { border: 1px solid var(--color-border); padding: 0.55rem 0.8rem; text-align: left; }
@@ -225,7 +338,79 @@ const ld = [
 </style>
 
 <script>
-  import { trackGoal } from '@/lib/analytics';
+  import { trackGoal, trackGoalOnce } from '@/lib/analytics';
+
   trackGoal('view_vendor_landing', { vendor: 'openai', page_url: location.pathname });
   document.querySelectorAll('[data-ev]').forEach((el) => el.addEventListener('click', () => trackGoal((el as HTMLElement).dataset.ev!, { block_name: 'openai' })));
+
+  // ── Сегменты: выбор ситуации сужает сетку карточек ──────────────────
+  // Без скрипта видны все карточки: фильтр — усиление, а не условие показа.
+  const segBtns = Array.from(document.querySelectorAll<HTMLButtonElement>('[data-seg-btn]'));
+  const segCards = Array.from(document.querySelectorAll<HTMLElement>('[data-seg-card]'));
+  const segWhy = Array.from(document.querySelectorAll<HTMLElement>('[data-seg-why]'));
+  const segReset = document.querySelector<HTMLButtonElement>('[data-seg-reset]');
+
+  function applySegment(id: string) {
+    segBtns.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.segBtn === id)));
+    segCards.forEach((c) => { c.hidden = Boolean(id) && c.dataset.segCard !== id; });
+    segWhy.forEach((p) => { p.hidden = p.dataset.segWhy !== id; });
+    if (segReset) segReset.hidden = !id;
+  }
+
+  segBtns.forEach((b) => b.addEventListener('click', () => {
+    const id = b.getAttribute('aria-pressed') === 'true' ? '' : (b.dataset.segBtn || '');
+    applySegment(id);
+    trackGoal('vendor_selector_step', { vendor: 'openai', segment: id || 'сброшен' });
+    if (id) document.getElementById('products')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }));
+  segReset?.addEventListener('click', () => {
+    applySegment('');
+    trackGoal('vendor_selector_step', { vendor: 'openai', segment: 'сброшен' });
+  });
+
+  // ── Один призыв — одна форма ────────────────────────────────────────
+  // Кнопка с data-plan подставляет тариф в единственную форму страницы и
+  // ведёт к ней. Модальное окно «Задать вопрос» со страницы убрано: три
+  // формы на одну страницу заставляли посетителя описывать тариф словами.
+  const planSelect = document.querySelector<HTMLSelectElement>('[data-lead-plan]');
+  document.querySelectorAll<HTMLElement>('[data-plan]').forEach((el) => {
+    el.addEventListener('click', (e) => {
+      const plan = el.dataset.plan || '';
+      if (planSelect) {
+        const has = Array.from(planSelect.options).some((o) => o.value === plan);
+        planSelect.value = has ? plan : '';
+      }
+      trackGoal('vendor_quote_request', { vendor: 'openai', tariff: plan || 'подбор' });
+      if (el.tagName === 'BUTTON') {
+        e.preventDefault();
+        document.getElementById('lead')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
+
+  // ── Замеры шагов воронки ────────────────────────────────────────────
+  // Просмотр тарифов — один раз на страницу: сетку видно и сверху, и после
+  // выбора сегмента, а шаг воронки при этом один.
+  const products = document.getElementById('products');
+  if (products && typeof IntersectionObserver === 'function') {
+    const io = new IntersectionObserver((entries) => {
+      for (const en of entries) {
+        if (en.isIntersecting) {
+          trackGoalOnce('vendor_tariff_view', { vendor: 'openai', tariffs: segCards.length });
+          io.disconnect();
+        }
+      }
+    }, { threshold: 0.25 });
+    io.observe(products);
+  }
+
+  document.querySelectorAll<HTMLElement>('[data-add-to-cart]').forEach((el) => {
+    el.addEventListener('click', () => trackGoal('vendor_cart_add', { vendor: 'openai', sku: el.dataset.sku || '' }));
+  });
+
+  document.querySelectorAll<HTMLDetailsElement>('.faq-item').forEach((d) => {
+    d.addEventListener('toggle', () => {
+      if (d.open) trackGoal('vendor_faq_expand', { vendor: 'openai', question: d.querySelector('summary span')?.textContent?.slice(0, 120) || '' });
+    });
+  });
 </script>

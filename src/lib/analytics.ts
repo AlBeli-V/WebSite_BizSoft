@@ -118,6 +118,23 @@ export const GOALS: Record<string, GoalSpec> = {
     meaning: 'Шаг подборщика тарифа пройден' },
   quiz_complete: { ga4: 'quiz_complete', key: false,
     meaning: 'Подборщик тарифа доведён до конца — открывает форму вопроса' },
+  // ── Лендинг вендора: шаги выбора тарифа (макет «сегменты по ролям») ──
+  // Решение руководителя 11.09.2026. Прежние click_* показывали клики, но не
+  // путь: где посетитель отсеялся — на выборе ситуации, на карточке тарифа
+  // или на форме — по ним было не увидеть.
+  vendor_tariff_view: { ga4: 'view_item_list', key: false,
+    meaning: 'Сетка тарифов вендора показана на экране' },
+  vendor_selector_step: { ga4: 'vendor_selector_step', key: false,
+    meaning: 'Выбрана ситуация в подборщике лендинга вендора' },
+  vendor_cart_add: { ga4: 'vendor_cart_add', key: false,
+    meaning: 'Тариф добавлен в подборку с лендинга вендора' },
+  vendor_quote_request: { ga4: 'vendor_quote_request', key: false,
+    meaning: 'Запрошен расчёт по конкретному тарифу — тариф подставлен в форму' },
+  vendor_kp_download: { ga4: 'vendor_kp_download', key: false,
+    meaning: 'КП по подборке сформировано — в составе есть позиции вендора' },
+  vendor_faq_expand: { ga4: 'vendor_faq_expand', key: false,
+    meaning: 'Раскрыт вопрос FAQ на лендинге вендора' },
+
   click_compare_app: { ga4: 'click_compare_app', key: false,
     meaning: 'Таблица сравнения приложений показана на экране' },
   open_comparison_table: { ga4: 'open_comparison_table', key: false,
