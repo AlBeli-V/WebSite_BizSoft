@@ -1,0 +1,887 @@
+<title>Макеты /vendors/openai</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700&family=Prosto+One&display=swap">
+<style>
+  :root {
+    --bg: #ffffff;
+    --bg-elev: #f5f5f7;
+    --bg-card: #ffffff;
+    --border: #e8e8ed;
+    --border-strong: #d2d2d7;
+    --text: #1d1d1f;
+    --text-muted: #3f3f46;
+    --text-dim: #52525b;
+    --accent: #f2591d;
+    --accent-hover: #d64a12;
+    --accent-soft: #fff2ec;
+    --success: #1a8f4c;
+    --danger: #d92d20;
+    --vc: #10A37F;
+    --vc-soft: #e7f6f1;
+    --radius-sm: 10px;
+    --radius: 14px;
+    --radius-lg: 20px;
+    --shadow-sm: 0 1px 2px rgba(0,0,0,.04), 0 1px 3px rgba(0,0,0,.05);
+    --shadow: 0 4px 18px rgba(0,0,0,.06), 0 1px 4px rgba(0,0,0,.04);
+    --shadow-lg: 0 18px 48px rgba(0,0,0,.10), 0 4px 12px rgba(0,0,0,.05);
+    --font-display: 'Prosto One', 'Raleway', Arial, sans-serif;
+    --font: 'Raleway', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    --shell: #0f1115;
+    color-scheme: light;
+  }
+  :root[data-theme="dark"], :root:not([data-theme="light"]) {
+    /* Макет намеренно одноцветный: сайт biz-soft.pro светлый, тёмной темы у него нет.
+       Оболочка вокруг макета темнеет, сама страница остаётся белой. */
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: #15171c; color: var(--text); font-family: var(--font); }
+  a { color: inherit; }
+
+  /* ── Оболочка витрины макетов ─────────────────────────────── */
+  .shell { padding: 20px 16px 40px; max-width: 1280px; margin: 0 auto; }
+  .shell-head { color: #e9e9ee; margin-bottom: 18px; }
+  .shell-head h1 { font-size: clamp(1.1rem, 2.4vw, 1.5rem); margin: 0 0 6px; letter-spacing: -.01em; }
+  .shell-head p { margin: 0; color: #9a9aa6; font-size: .86rem; max-width: 76ch; line-height: 1.5; }
+  .switch { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0 10px; }
+  .switch button {
+    font: inherit; font-size: .84rem; font-weight: 600; cursor: pointer;
+    padding: 9px 16px; border-radius: 980px; border: 1px solid #32353d;
+    background: #1c1f26; color: #c9c9d2; transition: .2s;
+  }
+  .switch button:hover { border-color: #4a4e59; color: #fff; }
+  .switch button[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .shell-tools { display: flex; flex-wrap: wrap; gap: 8px 18px; align-items: center; color: #8d8d99; font-size: .78rem; margin-bottom: 14px; }
+  .shell-tools label { display: inline-flex; align-items: center; gap: 6px; cursor: pointer; }
+  .vnote {
+    background: #1c1f26; border: 1px solid #32353d; border-left: 3px solid var(--accent);
+    border-radius: var(--radius); padding: 12px 16px; color: #c9c9d2;
+    font-size: .84rem; line-height: 1.55; margin-bottom: 16px;
+  }
+  .vnote b { color: #fff; }
+  .frame {
+    background: var(--bg); border-radius: var(--radius-lg); overflow: hidden;
+    box-shadow: 0 24px 70px rgba(0,0,0,.45);
+  }
+  .frame-bar {
+    display: flex; align-items: center; gap: 8px; padding: 10px 14px;
+    background: #f5f5f7; border-bottom: 1px solid var(--border);
+  }
+  .dot { width: 10px; height: 10px; border-radius: 50%; background: #d2d2d7; }
+  .frame-url {
+    flex: 1 1 auto; min-width: 0; background: #fff; border: 1px solid var(--border);
+    border-radius: 980px; padding: 5px 12px; font-size: .76rem; color: var(--text-dim);
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  }
+  .page { padding: 0 0 48px; }
+  .wrap { max-width: 1180px; margin: 0 auto; padding: 0 20px; }
+
+  /* ── Типографика страницы ─────────────────────────────────── */
+  /* Заголовки страницы — дисплейный Prosto One 400, как на сайте (global.css). */
+  .page h1, .page h2, .page h3, .page h4 { font-family: var(--font-display); font-weight: 400; line-height: 1.15; letter-spacing: 0; text-wrap: balance; }
+  .page h1 { font-size: clamp(1.6rem, 3.4vw, 2.3rem); margin: 0 0 12px; }
+  .page h2 { font-size: clamp(1.2rem, 2.4vw, 1.6rem); margin: 0 0 14px; }
+  .page h3 { font-size: 1.02rem; margin: 0 0 6px; }
+  .page .vbadge, .page .wz-result h3, .page .faq-group > h3, .page .ig h3 { font-family: var(--font); font-weight: 700; }
+  .page p { line-height: 1.6; }
+  .muted { color: var(--text-muted); }
+  .dim { color: var(--text-dim); }
+  .small { font-size: .82rem; }
+  .block { margin-top: 44px; }
+  .crumbs { font-size: .78rem; color: var(--text-dim); padding: 16px 0 8px; }
+  .crumbs a { text-decoration: none; }
+  .crumbs a:hover { color: var(--accent); }
+
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: .5rem;
+    padding: .72rem 1.4rem; border-radius: 980px; font-weight: 500; font-size: .92rem;
+    cursor: pointer; border: 1px solid transparent; font-family: inherit;
+    transition: background-color .22s, border-color .22s, color .22s, box-shadow .22s;
+    text-decoration: none;
+  }
+  .btn-primary { background: var(--accent); color: #fff; }
+  .btn-primary:hover { background: var(--accent-hover); }
+  .btn-ghost { background: transparent; border-color: var(--border-strong); color: var(--text); }
+  .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
+  .btn-sm { padding: .5rem 1rem; font-size: .84rem; }
+  .btn-block { width: 100%; }
+  .btn[disabled] { opacity: .5; pointer-events: none; }
+  .card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-lg); box-shadow: var(--shadow-sm); }
+
+  /* ── Hero ─────────────────────────────────────────────────── */
+  .hero { padding: 8px 0 4px; }
+  .vrow { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; flex-wrap: wrap; }
+  .vlogo {
+    width: 42px; height: 42px; border-radius: 12px; background: var(--vc-soft);
+    display: grid; place-items: center; color: var(--vc); flex: 0 0 auto;
+  }
+  .vname { font-weight: 700; }
+  .vlegal { color: var(--text-dim); font-size: .82rem; }
+  .hero-sub { color: var(--text-muted); font-size: 1.02rem; max-width: 62ch; margin: 0 0 14px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; list-style: none; padding: 0; margin: 0 0 18px; }
+  .chips li {
+    background: var(--bg-elev); border: 1px solid var(--border); color: var(--text-muted);
+    font-size: .78rem; padding: 5px 12px; border-radius: 999px;
+  }
+  .hero-actions { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+  .from { color: var(--text-muted); font-size: .9rem; margin: 12px 0 0; }
+  .from b { color: var(--text); }
+  .summary {
+    background: var(--bg-card); border: 1px solid var(--border); border-left: 3px solid var(--vc);
+    border-radius: var(--radius); padding: 14px 18px; margin: 26px 0 0; line-height: 1.6; font-size: .95rem;
+  }
+
+  /* ── Мастер подбора (вариант A) ───────────────────────────── */
+  .wizard { border: 1px solid var(--border); border-radius: var(--radius-lg); box-shadow: var(--shadow); overflow: hidden; margin-top: 26px; }
+  .wz-head { background: linear-gradient(180deg, var(--vc-soft), #fff); padding: 18px 22px 14px; border-bottom: 1px solid var(--border); }
+  .wz-head h2 { margin: 0 0 4px; font-size: 1.2rem; }
+  .wz-head p { margin: 0; font-size: .86rem; color: var(--text-muted); }
+  .wz-steps { display: flex; gap: 6px; margin-top: 14px; }
+  .wz-steps i { height: 4px; flex: 1 1 0; border-radius: 4px; background: var(--border-strong); }
+  .wz-steps i.on { background: var(--vc); }
+  .wz-body { padding: 22px; display: grid; gap: 18px; grid-template-columns: 1.05fr .95fr; align-items: start; }
+  .wz-q { font-weight: 600; margin: 0 0 10px; font-size: .98rem; }
+  .wz-opts { display: grid; gap: 8px; }
+  .wz-opt {
+    text-align: left; font: inherit; font-size: .9rem; cursor: pointer; background: #fff;
+    border: 1px solid var(--border-strong); border-radius: var(--radius); padding: 11px 14px;
+    display: flex; justify-content: space-between; gap: 10px; align-items: center; transition: .18s;
+  }
+  .wz-opt:hover { border-color: var(--vc); background: var(--vc-soft); }
+  .wz-opt[aria-pressed="true"] { border-color: var(--vc); background: var(--vc-soft); font-weight: 600; }
+  .wz-opt small { color: var(--text-dim); font-weight: 400; }
+  .wz-result { background: var(--bg-elev); border-radius: var(--radius); padding: 18px; min-height: 220px; }
+  .wz-result h3 { font-size: .82rem; text-transform: uppercase; letter-spacing: .08em; color: var(--text-dim); margin-bottom: 10px; }
+  .wz-empty { color: var(--text-dim); font-size: .88rem; line-height: 1.6; }
+  .wz-back { background: none; border: none; font: inherit; font-size: .82rem; color: var(--text-dim); cursor: pointer; padding: 0; margin-top: 12px; text-decoration: underline; }
+  .wz-why { font-size: .84rem; color: var(--text-muted); margin: 10px 0 0; line-height: 1.55; }
+
+  /* ── Карточки тарифов ─────────────────────────────────────── */
+  .vgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(268px, 1fr)); gap: 16px; }
+  .vcard { padding: 20px; display: flex; flex-direction: column; position: relative; }
+  .vcard.api { border-style: dashed; border-color: var(--border-strong); background: #fcfcfd; }
+  .vcard.pick { border-color: var(--vc); box-shadow: 0 0 0 3px var(--vc-soft), var(--shadow); }
+  .vbadge {
+    align-self: flex-start; font-size: .68rem; font-weight: 700; letter-spacing: .03em;
+    padding: 3px 9px; border-radius: 6px; background: var(--vc-soft); color: var(--vc); margin-bottom: 8px;
+    text-transform: uppercase;
+  }
+  .vbadge.grey { background: var(--bg-elev); color: var(--text-dim); }
+  .vcard h3 { font-size: 1.05rem; margin-bottom: 4px; }
+  .forwhom { color: var(--text-dim); font-size: .82rem; margin: 0 0 10px; }
+  .vprice { margin: 4px 0 12px; }
+  .vprice b { font-size: 1.28rem; letter-spacing: -.01em; }
+  .vprice .note { color: var(--text-dim); font-size: .78rem; display: block; margin-top: 2px; }
+  .vprice .req { font-weight: 700; font-size: 1.02rem; }
+  .vfeat { list-style: none; padding: 0; margin: 0 0 14px; display: grid; gap: 6px; }
+  .vfeat li { padding-left: 20px; position: relative; font-size: .86rem; line-height: 1.45; color: var(--text-muted); }
+  .vfeat li::before { content: '✓'; position: absolute; left: 0; color: var(--vc); font-weight: 700; }
+  .vcheck { color: var(--text-dim); font-size: .76rem; margin: 0 0 12px; line-height: 1.5; }
+  .vactions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: auto; }
+
+  /* ── Таблица сравнения ────────────────────────────────────── */
+  .table-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: var(--radius); background: #fff; }
+  table.cmp { width: 100%; border-collapse: collapse; min-width: 640px; font-size: .88rem; }
+  table.cmp th, table.cmp td { border-bottom: 1px solid var(--border); padding: 10px 14px; text-align: left; vertical-align: top; }
+  table.cmp thead th { background: var(--bg-elev); font-size: .82rem; position: sticky; top: 0; }
+  table.cmp tbody th { font-weight: 600; color: var(--text); background: #fff; position: sticky; left: 0; }
+  table.cmp thead th:first-child { left: 0; z-index: 2; }
+  table.cmp td { color: var(--text-muted); }
+  table.cmp tr:last-child th, table.cmp tr:last-child td { border-bottom: none; }
+  .cmp .col-price { font-weight: 700; color: var(--text); font-size: .95rem; }
+  .cmp .col-cta { padding-top: 10px; }
+  .cmp-tools { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 12px; font-size: .82rem; color: var(--text-dim); }
+  .toggle {
+    font: inherit; font-size: .8rem; cursor: pointer; padding: 5px 12px; border-radius: 999px;
+    border: 1px solid var(--border-strong); background: #fff; color: var(--text-muted);
+  }
+  .toggle[aria-pressed="true"] { border-color: var(--vc); background: var(--vc-soft); color: var(--vc); font-weight: 600; }
+
+  /* ── Сегменты (вариант C) ─────────────────────────────────── */
+  .segs { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 14px; margin-top: 24px; }
+  .seg {
+    text-align: left; font: inherit; cursor: pointer; background: #fff; border: 1px solid var(--border);
+    border-radius: var(--radius-lg); padding: 20px; box-shadow: var(--shadow-sm); transition: .2s; display: grid; gap: 6px;
+  }
+  .seg:hover { border-color: var(--vc); transform: translateY(-2px); box-shadow: var(--shadow); }
+  .seg[aria-pressed="true"] { border-color: var(--vc); box-shadow: 0 0 0 3px var(--vc-soft), var(--shadow); }
+  .seg .ic { font-size: 1.4rem; line-height: 1; }
+  .seg b { font-size: 1rem; }
+  .seg span { font-size: .84rem; color: var(--text-muted); line-height: 1.5; }
+  .seg em { font-style: normal; font-size: .8rem; color: var(--vc); font-weight: 600; }
+
+  /* ── API-блок ─────────────────────────────────────────────── */
+  .apibox {
+    margin-top: 26px; border: 1px dashed var(--border-strong); border-radius: var(--radius-lg);
+    background: linear-gradient(180deg, #fcfcfd, #fff); padding: 22px;
+    display: grid; grid-template-columns: 1.3fr .7fr; gap: 22px; align-items: center;
+  }
+  .apibox .tag { font-size: .7rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--text-dim); }
+  .apibox h3 { font-size: 1.15rem; margin: 6px 0 8px; }
+  .apibox p { margin: 0 0 10px; font-size: .9rem; color: var(--text-muted); }
+  .apibox ul { margin: 0; padding-left: 18px; font-size: .86rem; color: var(--text-muted); line-height: 1.6; }
+
+  /* ── Табы (вариант B) ─────────────────────────────────────── */
+  .tabs { display: flex; gap: 4px; flex-wrap: wrap; border-bottom: 1px solid var(--border); margin-bottom: 20px; }
+  .tabs button {
+    font: inherit; font-size: .88rem; font-weight: 600; cursor: pointer; background: none; border: none;
+    padding: 10px 14px; color: var(--text-dim); border-bottom: 2px solid transparent; margin-bottom: -1px;
+  }
+  .tabs button[aria-selected="true"] { color: var(--text); border-bottom-color: var(--accent); }
+
+  /* ── Сценарии / шаги / безопасность ───────────────────────── */
+  .cells { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; }
+  .cell { padding: 18px; }
+  .cell p { margin: 0; font-size: .88rem; color: var(--text-muted); }
+  .steps { padding-left: 20px; display: grid; gap: 8px; margin: 0 0 18px; max-width: 760px; font-size: .92rem; color: var(--text-muted); }
+  .secbox { display: grid; grid-template-columns: 1.4fr .6fr; gap: 22px; align-items: center; padding: 22px; }
+  .secbox p { margin: 0; font-size: .92rem; color: var(--text-muted); }
+
+  /* ── FAQ ──────────────────────────────────────────────────── */
+  .faq-group { margin-bottom: 22px; }
+  .faq-group > h3 { font-size: .82rem; text-transform: uppercase; letter-spacing: .08em; color: var(--text-dim); margin-bottom: 10px; }
+  .faq-list { display: grid; gap: 8px; max-width: 840px; }
+  details.faq-item { background: #fff; border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+  details.faq-item summary {
+    display: flex; align-items: center; justify-content: space-between; gap: 14px;
+    padding: 14px 18px; cursor: pointer; font-weight: 600; font-size: .93rem; list-style: none;
+  }
+  details.faq-item summary::-webkit-details-marker { display: none; }
+  details.faq-item summary::after { content: '⌄'; color: var(--text-dim); font-size: 1.1rem; line-height: 1; flex: 0 0 auto; }
+  details.faq-item[open] summary::after { content: '⌃'; }
+  .faq-answer { padding: 0 18px 16px; color: var(--text-muted); font-size: .9rem; line-height: 1.6; }
+  .faq-answer p { margin: 0; }
+  .faq-filter { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
+
+  /* ── Финальная форма и перелинковка ───────────────────────── */
+  .final { display: grid; grid-template-columns: 1fr minmax(280px, 400px); gap: 32px; align-items: start; }
+  .form-card { padding: 22px; }
+  .form-card h3 { font-size: 1.05rem; margin-bottom: 4px; }
+  .form-card .fc-sub { font-size: .84rem; color: var(--text-dim); margin: 0 0 14px; }
+  .fgrid { display: grid; gap: 10px; grid-template-columns: 1fr 1fr; }
+  .fgrid label { display: grid; gap: 4px; font-size: .8rem; color: var(--text-dim); }
+  .fgrid label.full { grid-column: 1 / -1; }
+  .fgrid input, .fgrid textarea, .fgrid select {
+    font: inherit; font-size: .88rem; padding: 9px 12px; border: 1px solid var(--border-strong);
+    border-radius: var(--radius-sm); background: #fff; color: var(--text); width: 100%;
+  }
+  .fgrid input:focus, .fgrid textarea:focus, .fgrid select:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+  .picked {
+    background: var(--vc-soft); border: 1px solid var(--vc); border-radius: var(--radius-sm);
+    padding: 8px 12px; font-size: .82rem; margin-bottom: 12px; display: flex; justify-content: space-between; gap: 10px; align-items: center;
+  }
+  .interlinks { background: var(--bg-elev); border-radius: var(--radius-lg); padding: 24px; margin-top: 44px; }
+  .interlinks h2 { font-size: 1.05rem; }
+  .ig { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 18px; }
+  .ig h3 { font-size: .82rem; text-transform: uppercase; letter-spacing: .07em; color: var(--text-dim); }
+  .ig ul { margin: 0; padding-left: 18px; display: grid; gap: 6px; }
+  .ig a { color: var(--text-muted); font-size: .88rem; text-decoration: none; }
+  .ig a:hover { color: var(--accent); text-decoration: underline; }
+
+  /* ── Подборка (мини-корзина) ──────────────────────────────── */
+  .cartbar {
+    position: sticky; bottom: 0; z-index: 5; background: rgba(255,255,255,.96);
+    border-top: 1px solid var(--border); box-shadow: 0 -8px 24px rgba(0,0,0,.06);
+    padding: 10px 20px; display: none; align-items: center; gap: 14px; flex-wrap: wrap;
+    backdrop-filter: blur(8px);
+  }
+  .cartbar.on { display: flex; }
+  .cartbar .cb-sum { font-size: .88rem; color: var(--text-muted); }
+  .cartbar .cb-sum b { color: var(--text); font-size: 1rem; }
+  .cartbar .cb-items { flex: 1 1 240px; font-size: .8rem; color: var(--text-dim); min-width: 0; }
+
+  /* ── Журнал событий ───────────────────────────────────────── */
+  .evlog {
+    position: fixed; right: 14px; bottom: 14px; width: min(340px, calc(100vw - 28px)); max-height: 46vh;
+    overflow: auto; background: #0f1115; color: #d6d6de; border: 1px solid #32353d;
+    border-radius: var(--radius); padding: 12px 14px; font-size: .74rem; line-height: 1.5; z-index: 40;
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace; display: none;
+  }
+  .evlog.on { display: block; }
+  .evlog h4 { margin: 0 0 8px; font-size: .72rem; letter-spacing: .06em; text-transform: uppercase; color: #8d8d99; font-family: var(--font); }
+  .evlog div { border-bottom: 1px solid #24262c; padding: 3px 0; }
+  .evlog b { color: #7fd1b0; font-weight: 600; }
+
+  .badge-inline { display: inline-block; font-size: .7rem; font-weight: 700; padding: 2px 8px; border-radius: 6px; background: var(--accent-soft); color: var(--accent-hover); vertical-align: middle; }
+  .hidden { display: none !important; }
+
+  @media (max-width: 900px) {
+    .wz-body { grid-template-columns: 1fr; }
+    .apibox { grid-template-columns: 1fr; }
+    .final { grid-template-columns: 1fr; }
+    .secbox { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 560px) {
+    .fgrid { grid-template-columns: 1fr; }
+    .wrap { padding: 0 16px; }
+    .shell { padding: 16px 12px 32px; }
+  }
+</style>
+
+<div class="shell">
+  <div class="shell-head">
+    <h1>/vendors/openai — три макета-концепции</h1>
+    <p>Рабочие прототипы для решения. Продакшн-код не менялся. Цены, тарифные условия, таблицы сравнения,
+       все девять вопросов FAQ и все шесть ссылок на сравнения взяты из репозитория без изменения фактов;
+       меняется только композиция и иерархия подачи.</p>
+    <div class="switch" role="group" aria-label="Выбор макета">
+      <button data-v="a" aria-pressed="true">A · Мастер подбора</button>
+      <button data-v="b" aria-pressed="false">B · Тарифная матрица</button>
+      <button data-v="c" aria-pressed="false">C · Сегменты по ролям</button>
+    </div>
+    <div class="shell-tools">
+      <label><input type="checkbox" id="evtoggle"> журнал событий аналитики</label>
+      <span id="shell-hint">Кнопки «В избранное» и «Получить расчёт и КП» рабочие: подборка внизу страницы, форма одна на всю страницу.</span>
+    </div>
+  </div>
+  <div class="vnote" id="vnote"></div>
+  <div class="frame">
+    <div class="frame-bar">
+      <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+      <span class="frame-url">biz-soft.pro/vendors/openai</span>
+    </div>
+    <div class="page" id="page"></div>
+    <div class="cartbar" id="cartbar">
+      <span class="cb-items" id="cb-items"></span>
+      <span class="cb-sum">Итого: <b id="cb-total">0 ₽</b></span>
+      <button class="btn btn-primary btn-sm" id="cb-kp">Получить КП</button>
+      <button class="btn btn-ghost btn-sm" id="cb-clear">Очистить</button>
+    </div>
+  </div>
+</div>
+<div class="evlog" id="evlog"><h4>События аналитики</h4><div id="evlist"></div></div>
+
+<script>
+/* ────────────────────────────────────────────────────────────────
+   ДАННЫЕ. Факты — из репозитория biz-soft.pro:
+   src/data/openai.ts (обвязка лендинга), scripts/ai-catalog-cards.json
+   (закупка и черты мест Business), scripts/flagship-cards.json
+   (статусы карточек Plus/Pro/API), src/data/comparisons.ts (сравнения).
+   Рублёвые цены — снимок витрины: считаются переоценкой по курсу ЦБ.
+   ──────────────────────────────────────────────────────────────── */
+
+const RUB = (n) => n.toLocaleString('ru-RU') + ' ₽';
+
+const TARIFFS = [
+  { id: 'plus', name: 'ChatGPT Plus', kind: 'seat', seats: '1 человек', badge: 'для сотрудника',
+    forWhom: 'Отдельные специалисты и фрилансеры', price: null, mode: 'request',
+    priceText: 'Цена по запросу',
+    features: ['Новейшие модели GPT', 'Расширенные лимиты и Deep Research', 'Голос, изображения, анализ файлов', 'GPTs, Projects, Codex'],
+    check: 'Личный тариф: карточки с ценой в каталоге нет, оформляем по запросу.' },
+  { id: 'pro', name: 'ChatGPT Pro', kind: 'seat', seats: '1 человек', badge: 'максимум',
+    forWhom: 'Интенсивная работа, аналитика, R&D', price: null, mode: 'request',
+    priceText: 'Цена по запросу',
+    features: ['Лимиты до 20× от Plus', 'Режим Pro для сложных задач', 'Agent Mode и Deep Research', 'Генерация видео Sora'],
+    check: 'Личный тариф: карточки с ценой в каталоге нет, оформляем по запросу.' },
+  { id: 'std', name: 'ChatGPT Business, Standard seat', short: 'Business · Standard seat', kind: 'seat', seats: 'команда 2+',
+    badge: 'для команд', forWhom: 'Компании и отделы от 2 пользователей',
+    price: 57517, mode: 'cart', sku: 'INT-AI-CHATGPT', slug: 'chatgpt-business', priceNote: 'за место в год',
+    features: ['Командное пространство', 'Админ-управление, SSO, домен', 'SOC 2, данные не в обучении', 'Company Knowledge, Projects'],
+    check: 'Тариф доступен от 2 пользователей; цена — за одно место Standard seat в год при годовой схеме оплаты.' },
+  { id: 'prem', name: 'ChatGPT Business, Premium seat', short: 'Business · Premium seat', kind: 'seat', seats: 'команда 2+',
+    badge: 'для нагрузки', forWhom: 'Те, кто работает в ассистенте весь день',
+    price: 285698, mode: 'cart', sku: 'CHATGPT-BUSINESS-PREMIUM', slug: 'chatgpt-business-premium', priceNote: 'за место в год',
+    features: ['То же пространство и админ-панель', 'Кратно большие лимиты', 'Приоритет в агентских инструментах', 'Смешивается с местами Standard seat'],
+    check: 'Старший тип места в тарифе Business; цена — за одно место Premium seat в год при годовой схеме оплаты.' },
+  { id: 'ent', name: 'ChatGPT Enterprise', short: 'Enterprise', kind: 'seat', seats: 'организация', badge: 'по запросу',
+    forWhom: 'Крупные организации с требованиями ИБ', price: null, mode: 'request', priceText: 'Цена по запросу',
+    features: ['SCIM, EKM, RBAC, аналитика', 'Расширенная приватность', 'Максимальные лимиты', 'Централизованное управление'],
+    check: 'Цена договорная, рассчитывается индивидуально.' },
+  { id: 'api', name: 'OpenAI API', kind: 'api', seats: 'разработка', badge: 'API',
+    forWhom: 'Разработка и интеграции в продукты', price: null, mode: 'request', priceText: 'Оплата по использованию',
+    features: ['Оплата по токенам (вход/выход)', 'Модели GPT, Realtime, эмбеддинги', 'Batch и flex-режимы', 'Масштабирование под нагрузку'],
+    check: 'Стоимость зависит от моделей и объёма — рассчитывается по использованию.' },
+];
+const T = Object.fromEntries(TARIFFS.map((t) => [t.id, t]));
+
+const COMPARISON = {
+  cols: [
+    { id: 'plus', label: 'Plus', group: 'личные' },
+    { id: 'pro', label: 'Pro', group: 'личные' },
+    { id: 'std', label: 'Business · Standard seat', group: 'командные' },
+    { id: 'prem', label: 'Business · Premium seat', group: 'командные' },
+    { id: 'ent', label: 'Enterprise', group: 'организация' },
+  ],
+  rows: [
+    { label: 'Для кого', values: ['1 человек', '1 человек', 'команда 2+', 'команда 2+', 'организация'] },
+    { label: 'Лимиты использования', values: ['расширенные', 'максимальные', 'расширенные', 'кратно выше', 'гибкие'] },
+    { label: 'Админ-управление', values: ['—', '—', 'да', 'да', 'расширенное'] },
+    { label: 'SSO / верификация домена', values: ['—', '—', 'да', 'да', 'да'] },
+    { label: 'Данные не для обучения', values: ['настройка', 'настройка', 'да', 'да', 'да'] },
+    { label: 'SCIM / EKM / RBAC', values: ['—', '—', '—', '—', 'да'] },
+    { label: 'Sora (видео)', values: ['—', 'да', 'уточн.', 'уточн.', 'уточн.'] },
+  ],
+};
+
+const DECISION = [
+  { scenario: 'Один сотрудник, базовая работа', product: 'ChatGPT Plus', note: 'Расширенные лимиты и все ключевые функции для одного человека.' },
+  { scenario: 'Интенсивная нагрузка, R&D', product: 'ChatGPT Pro', note: 'Самые высокие лимиты, Agent Mode, Deep Research и Sora.' },
+  { scenario: 'Команда от 2 человек', product: 'ChatGPT Business, Standard seat', note: 'Общее пространство, админ-управление, SSO и защита данных.' },
+  { scenario: 'Ассистент открыт весь рабочий день, упираетесь в лимиты', product: 'ChatGPT Business, Premium seat', note: 'Тот же тариф и то же пространство, но место с кратно большими лимитами.' },
+  { scenario: 'Крупная организация, ИБ-требования', product: 'ChatGPT Enterprise', note: 'SCIM, EKM, RBAC, аналитика и договорные условия.' },
+  { scenario: 'Интеграция в собственный продукт', product: 'OpenAI API', note: 'Программный доступ к моделям с оплатой по использованию.' },
+];
+
+const SCENARIOS = [
+  { title: 'Маркетинг и контент', text: 'Тексты, идеи, рерайт, локализация и работа с брендовыми материалами.' },
+  { title: 'Разработка', text: 'Помощь с кодом, ревью, документация и автоматизация через Codex и API.' },
+  { title: 'Аналитика', text: 'Работа с данными, отчёты, Deep Research и сложные исследования.' },
+  { title: 'Поддержка и продукты', text: 'Ассистенты, чат-боты и интеграции моделей OpenAI через API.' },
+];
+
+const FAQ = [
+  { id: 'q1', g: 'order', q: 'Как купить ChatGPT для юридического лица в России?', a: 'Через BIZSoft: заключаем договор, выставляем счёт, оплата в рублях по безналичному расчёту. Закрывающие документы — в том числе через ЭДО. Подберём тариф и подготовим КП.' },
+  { id: 'q2', g: 'choice', q: 'Чем ChatGPT Business отличается от Plus?', a: 'Plus — индивидуальный тариф для одного человека. Business — командное пространство для организации (от 2 пользователей) с админ-управлением, SSO, верификацией домена и защитой данных (не используются для обучения моделей).' },
+  { id: 'q3', g: 'choice', q: 'Чем место Premium seat отличается от места Standard seat?', a: 'Возможности рабочего пространства одинаковые: общие проекты и GPT, админ-панель, единый вход, запрет на использование данных для обучения моделей. Отличаются лимиты — у места Premium seat они кратно выше, и приоритетнее доступ к агентским инструментам. Места двух типов совмещаются в одной команде: тем, кто упирается в лимиты, берут Premium seat, остальным — Standard seat.' },
+  { id: 'q4', g: 'order', q: 'Сколько стоит ChatGPT Business?', a: 'Актуальная цена в рублях указана в карточке товара — за одно место в год при годовой схеме оплаты (минимум 2 места). Место Standard seat и место Premium seat — отдельные карточки с разной ценой. Финальная сумма — в КП.' },
+  { id: 'q5', g: 'security', q: 'Что такое ChatGPT Enterprise?', a: 'Корпоративный тариф с расширенной безопасностью (SCIM, EKM, RBAC), приватностью, максимальными лимитами и централизованным управлением. Цена договорная — рассчитывается индивидуально.' },
+  { id: 'q6', g: 'choice', q: 'Чем OpenAI API отличается от ChatGPT?', a: 'ChatGPT — готовое приложение с тарифами за пользователя. OpenAI API — программный доступ к моделям для встраивания в свои продукты; оплата по факту использования (за токены), без фиксированной цены за место.' },
+  { id: 'q7', g: 'security', q: 'Используются ли данные для обучения моделей?', a: 'В тарифах Business и Enterprise данные организации по умолчанию не используются для обучения моделей. Детали и настройки приватности уточняются перед оформлением.' },
+  { id: 'q8', g: 'order', q: 'Можно ли оплатить с расчётного счёта?', a: 'Да. Работаем с юрлицами и ИП по договору и счёту, предоставляем закрывающие документы для бухгалтерии.' },
+  { id: 'q9', g: 'order', q: 'Что нужно для КП?', a: 'Реквизиты компании, контактное лицо, email, выбранный продукт (Plus/Pro/Business/Enterprise/API) и количество пользователей.' },
+];
+const FAQ_GROUPS = [
+  { id: 'order', title: 'Оформление, цена и документы' },
+  { id: 'choice', title: 'Какой тариф выбрать' },
+  { id: 'security', title: 'Данные и безопасность' },
+];
+
+const INTERLINKS = [
+  { title: 'Сравнения', note: 'Чем ChatGPT отличается от соседей по рынку', links: [
+    { label: 'ChatGPT vs Claude', href: '/compare/chatgpt-vs-claude' },
+    { label: 'ChatGPT vs Gemini', href: '/compare/chatgpt-vs-gemini' },
+    { label: 'ChatGPT vs Grok', href: '/compare/chatgpt-vs-grok' },
+    { label: 'Perplexity vs ChatGPT', href: '/compare/perplexity-vs-chatgpt' },
+    { label: 'Notion AI vs ChatGPT', href: '/compare/notion-vs-chatgpt' },
+    { label: 'Kimi vs ChatGPT', href: '/compare/kimi-vs-chatgpt' },
+  ] },
+  { title: 'Аналоги', note: 'Если нужен доступ к нескольким моделям сразу', links: [
+    { label: 'Аналоги OpenRouter', href: '/alternatives/openrouter' },
+  ] },
+  { title: 'Карточки и разделы', links: [
+    { label: 'ChatGPT Business, Standard seat', href: '/product/chatgpt-business' },
+    { label: 'ChatGPT Business, Premium seat', href: '/product/chatgpt-business-premium' },
+    { label: 'Все AI-сервисы', href: '/catalog/ai' },
+  ] },
+];
+</script>
+<script>
+/* ────────────────────────────────────────────────────────────────
+   СОСТОЯНИЕ И СОБЫТИЯ
+   ──────────────────────────────────────────────────────────────── */
+let variant = 'a';
+const cart = new Map();          // id -> qty
+let picked = null;               // выбранный тариф для формы
+const wiz = { step: 0, size: null, api: null, need: null };
+let seg = null;                  // выбранный сегмент (вариант C)
+
+const evlist = document.getElementById('evlist');
+function track(name, params) {
+  const p = params ? ' ' + JSON.stringify(params, null, 0) : '';
+  const row = document.createElement('div');
+  row.innerHTML = '<b>' + name + '</b>' + p;
+  evlist.prepend(row);
+}
+
+/* ────────────────────────────────────────────────────────────────
+   БЛОКИ СТРАНИЦЫ
+   ──────────────────────────────────────────────────────────────── */
+function priceBlock(t) {
+  if (t.price) return '<div class="vprice"><b>' + RUB(t.price) + '</b><span class="note">' + t.priceNote + ' · по курсу ЦБ РФ</span></div>';
+  return '<div class="vprice"><span class="req">' + t.priceText + '</span><span class="note">' + (t.kind === 'api' ? 'считаем по вашему объёму запросов' : 'рассчитываем под задачу') + '</span></div>';
+}
+function ctaBlock(t, compact) {
+  const sm = compact ? ' btn-sm' : '';
+  if (t.mode === 'cart') {
+    return '<button class="btn btn-primary' + sm + '" data-cart="' + t.id + '">В избранное</button>'
+      + '<button class="btn btn-ghost' + sm + '" data-quote="' + t.id + '">Расчёт и КП</button>';
+  }
+  return '<button class="btn btn-primary' + sm + '" data-quote="' + t.id + '">' + (t.kind === 'api' ? 'Рассчитать API' : 'Запросить цену') + '</button>';
+}
+function cardHTML(t, opts) {
+  opts = opts || {};
+  const cls = ['card', 'vcard', t.kind === 'api' ? 'api' : '', opts.pick ? 'pick' : ''].filter(Boolean).join(' ');
+  return '<article class="' + cls + '">'
+    + '<span class="vbadge' + (t.mode === 'request' ? ' grey' : '') + '">' + t.badge + '</span>'
+    + '<h3>' + t.name + '</h3>'
+    + '<p class="forwhom">' + t.forWhom + '</p>'
+    + priceBlock(t)
+    + '<ul class="vfeat">' + t.features.map((f) => '<li>' + f + '</li>').join('') + '</ul>'
+    + (t.check ? '<p class="vcheck">' + t.check + '</p>' : '')
+    + '<div class="vactions">' + ctaBlock(t, true) + '</div>'
+    + '</article>';
+}
+function cardsHTML(ids, opts) {
+  return '<div class="vgrid">' + ids.map((id) => cardHTML(T[id], opts)).join('') + '</div>';
+}
+
+function heroHTML(sub) {
+  return '<div class="wrap hero">'
+    + '<div class="crumbs"><a href="/catalog">Каталог</a> / <a href="/catalog/ai">AI-сервисы</a> / OpenAI (ChatGPT)</div>'
+    + '<div class="vrow"><span class="vlogo"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.2a5 5 0 0 1 4.6 3 5 5 0 0 1 3.1 7.6 5 5 0 0 1-4.6 7.5 5 5 0 0 1-6.2.9A5 5 0 0 1 4.3 13 5 5 0 0 1 7 5.5 5 5 0 0 1 12 2.2Zm0 3.4L8.6 7.6v3.2L12 8.8l3.4 2v3.6L12 16.4l-3.4-2v-1.2l-1.7 1v2.2L12 19.2l5.1-2.9v-5.8L12 7.6Z"/></svg></span>'
+    + '<span class="vname">OpenAI</span><span class="vlegal">OpenAI, L.L.C.</span></div>'
+    + '<h1>OpenAI (ChatGPT) для юридических лиц: тарифы и оформление через BIZSoft</h1>'
+    + '<p class="hero-sub">' + sub + '</p>'
+    + '<ul class="chips"><li>Для юрлиц</li><li>КП и счёт</li><li>Договор и закрывающие</li><li>Оплата в рублях</li></ul>'
+    + '</div>';
+}
+
+function summaryHTML() {
+  return '<div class="wrap"><div class="summary"><strong>Коротко:</strong> BIZSoft подбирает и оформляет доступ к продуктам OpenAI для юридических лиц: '
+    + 'ChatGPT Plus и Pro для сотрудников, ChatGPT Business для команд, ChatGPT Enterprise для крупных организаций и OpenAI API с оплатой по использованию. '
+    + 'Договор, счёт и закрывающие документы; оплата в рублях по курсу ЦБ.</div></div>';
+}
+
+/* ── Вариант A: мастер подбора ─────────────────────────────── */
+const WZ = {
+  q1: { q: 'Сколько человек будет работать в ChatGPT?', key: 'size', opts: [
+    { v: 'one', label: 'Один сотрудник', hint: 'личный доступ' },
+    { v: 'team', label: 'Команда от 2 человек', hint: 'общее пространство' },
+    { v: 'org', label: 'Организация, десятки мест', hint: 'ИБ и централизация' },
+  ] },
+  q2: { q: 'Нужен ли программный доступ — API?', key: 'api', opts: [
+    { v: 'no', label: 'Нет, работаем в интерфейсе ChatGPT', hint: 'подписка за место' },
+    { v: 'yes', label: 'Да, встраиваем модель в свой продукт', hint: 'оплата по использованию' },
+  ] },
+  q3one: { q: 'Насколько интенсивно работаете в ассистенте?', key: 'need', opts: [
+    { v: 'light', label: 'Обычная ежедневная работа', hint: 'хватает расширенных лимитов' },
+    { v: 'heavy', label: 'Весь день, упираюсь в лимиты', hint: 'нужны максимальные лимиты' },
+  ] },
+  q3team: { q: 'Какие требования к управлению и безопасности?', key: 'need', opts: [
+    { v: 'base', label: 'Админ-панель, SSO и верификация домена', hint: 'стандарт для отдела' },
+    { v: 'heavy', label: 'Часть сотрудников упирается в лимиты', hint: 'смешанные типы мест' },
+    { v: 'ib', label: 'Нужны SCIM, EKM, RBAC и аудит', hint: 'требования ИБ' },
+  ] },
+};
+function wizQ3() { return wiz.size === 'one' ? WZ.q3one : WZ.q3team; }
+function wizPick() {
+  if (wiz.api === 'yes') return { ids: ['api'], why: 'Встраивание модели в свой продукт — это OpenAI API: оплата по факту использования, за токены, без цены за место. Если параллельно нужен ассистент для сотрудников, добавим к расчёту и места ChatGPT.' };
+  if (wiz.size === 'one') return wiz.need === 'heavy'
+    ? { ids: ['pro'], why: 'Один человек с постоянной нагрузкой: Pro даёт лимиты до 20× от Plus, режим Pro, Agent Mode и Sora.' }
+    : { ids: ['plus'], why: 'Одному сотруднику для ежедневной работы хватает Plus: новейшие модели, расширенные лимиты, Deep Research, GPTs и Codex.' };
+  if (wiz.need === 'ib') return { ids: ['ent'], why: 'SCIM, EKM, RBAC и аудит есть только в Enterprise. Цена договорная — считаем под число мест и требования ИБ.' };
+  if (wiz.need === 'heavy') return { ids: ['std', 'prem'], why: 'Места двух типов живут в одном рабочем пространстве: тем, кто упирается в лимиты, берём Premium seat, остальным — Standard seat. Это один тариф Business, а не два разных.' };
+  return { ids: ['std'], why: 'Командное пространство с админ-панелью, SSO и верификацией домена — это ChatGPT Business на местах Standard seat, от 2 мест.' };
+}
+function wizardHTML() {
+  const steps = [WZ.q1, WZ.q2, wizQ3()];
+  const cur = steps[Math.min(wiz.step, 2)];
+  const done = wiz.step >= 3;
+  let right;
+  if (done) {
+    const r = wizPick();
+    right = '<h3>Подходит вам</h3>' + r.ids.map((id) => cardHTML(T[id], { pick: true })).join('')
+      + '<p class="wz-why">' + r.why + '</p>'
+      + '<button class="wz-back" data-wzreset>Подобрать заново</button>';
+  } else {
+    right = '<h3>Результат подбора</h3><p class="wz-empty">Ответьте на ' + (3 - wiz.step) + ' вопрос' + (3 - wiz.step === 1 ? '' : 'а')
+      + ' — покажем один-два подходящих тарифа с ценой и кнопкой. Полная таблица всех пяти тарифов и API остаётся ниже: если хотите разобраться сами, она никуда не делась.</p>';
+  }
+  const opts = cur.opts.map((o) => '<button class="wz-opt" data-wz="' + cur.key + ':' + o.v + '" aria-pressed="' + (wiz[cur.key] === o.v) + '">'
+    + '<span>' + o.label + '</span><small>' + o.hint + '</small></button>').join('');
+  return '<div class="wrap"><div class="wizard">'
+    + '<div class="wz-head"><h2>Подбор тарифа за три вопроса</h2><p>Шесть вариантов OpenAI — это много. Ответьте на три вопроса, и останется один-два.</p>'
+    + '<div class="wz-steps">' + [0, 1, 2].map((i) => '<i class="' + (wiz.step > i ? 'on' : '') + '"></i>').join('') + '</div></div>'
+    + '<div class="wz-body"><div>' + (done ? '<p class="wz-q">Готово: подбор завершён</p><p class="wz-empty">Ответы можно изменить — подбор пересчитается.</p>'
+        : '<p class="wz-q">' + cur.q + '</p><div class="wz-opts">' + opts + '</div>')
+    + (wiz.step > 0 ? '<button class="wz-back" data-wzback>← назад</button>' : '')
+    + '</div><div class="wz-result">' + right + '</div></div></div></div>';
+}
+
+/* ── Вариант C: сегменты по ролям ──────────────────────────── */
+const SEGMENTS = [
+  { id: 'one', ic: '👤', title: 'Один сотрудник', text: 'Личный доступ к ассистенту без общего пространства.', ids: ['plus', 'pro'], why: 'Личные тарифы: рабочее пространство компании и админ-панель в них не входят. Если нужен общий доступ и управление местами — смотрите блок «Команда».' },
+  { id: 'team', ic: '👥', title: 'Команда', text: 'Отдел от 2 человек: общие проекты, админ-панель, SSO.', ids: ['std', 'prem'], why: 'Оба варианта — один тариф ChatGPT Business, различаются только типом места. Места смешиваются в одном пространстве: кто упирается в лимиты — Premium seat, остальные — Standard seat.' },
+  { id: 'org', ic: '🏢', title: 'Крупная организация', text: 'Десятки мест, требования информационной безопасности.', ids: ['ent'], why: 'SCIM, EKM, RBAC, аналитика и расширенная приватность есть только в Enterprise. Цена договорная: считаем под число мест и требования ИБ.' },
+  { id: 'dev', ic: '⌨️', title: 'Разработчик, нужен API', text: 'Встраивание моделей в собственный продукт.', ids: ['api'], why: 'Другая модель продажи: платите не за места, а за фактическое использование — за токены на входе и выходе. Счёт и закрывающие оформляем так же, на юрлицо.' },
+];
+function segmentsHTML() {
+  const cards = SEGMENTS.map((s) => '<button class="seg" data-seg="' + s.id + '" aria-pressed="' + (seg === s.id) + '">'
+    + '<span class="ic">' + s.ic + '</span><b>' + s.title + '</b><span>' + s.text + '</span>'
+    + '<em>' + (s.ids.length === 1 ? '1 вариант' : s.ids.length + ' варианта') + ' →</em></button>').join('');
+  let res = '';
+  if (seg) {
+    const s = SEGMENTS.find((x) => x.id === seg);
+    res = '<div class="block" id="seg-res"><h2>' + s.title + ': что подходит</h2>'
+      + '<p class="muted small" style="max-width:70ch;margin-top:-6px">' + s.why + '</p>'
+      + cardsHTML(s.ids, { pick: true })
+      + '<p class="small dim" style="margin-top:14px">Не ваш случай? <button class="toggle" data-segall>Показать все шесть вариантов и таблицу сравнения</button></p></div>';
+  }
+  return '<div class="wrap"><div class="block"><h2>С чего начать: выберите свой случай</h2>'
+    + '<p class="muted small" style="max-width:70ch;margin-top:-6px">Шесть вариантов OpenAI делятся на четыре разных ситуации. Выберите свою — покажем только подходящее.</p>'
+    + '<div class="segs">' + cards + '</div>' + res + '</div></div>';
+}
+
+/* ── Таблица сравнения ─────────────────────────────────────── */
+let cmpFilter = { 'личные': true, 'командные': true, 'организация': true };
+function matrixHTML(interactive) {
+  const cols = COMPARISON.cols.filter((c) => !interactive || cmpFilter[c.group]);
+  const head = '<tr><th>Параметр</th>' + cols.map((c) => '<th>' + c.label + '</th>').join('') + '</tr>';
+  const priceRow = interactive ? '<tr><th>Цена</th>' + cols.map((c) => {
+    const t = T[c.id];
+    return '<td class="col-price">' + (t.price ? RUB(t.price) + '<br><span class="small dim" style="font-weight:400">' + t.priceNote + '</span>' : t.priceText) + '</td>';
+  }).join('') + '</tr>' : '';
+  const rows = COMPARISON.rows.map((r) => '<tr><th>' + r.label + '</th>'
+    + COMPARISON.cols.map((c, i) => cols.includes(c) ? '<td>' + r.values[i] + '</td>' : '').join('') + '</tr>').join('');
+  const ctaRow = interactive ? '<tr><th></th>' + cols.map((c) => '<td class="col-cta"><div class="vactions">' + ctaBlock(T[c.id], true) + '</div></td>').join('') + '</tr>' : '';
+  const tools = interactive ? '<div class="cmp-tools"><span>Показать:</span>'
+    + Object.keys(cmpFilter).map((g) => '<button class="toggle" data-cmp="' + g + '" aria-pressed="' + cmpFilter[g] + '">' + g + '</button>').join('')
+    + '<span class="dim">· API сравнивается отдельно: это оплата по использованию, а не за место</span></div>' : '';
+  return tools + '<div class="table-wrap"><table class="cmp"><thead>' + head + '</thead><tbody>'
+    + priceRow + rows + ctaRow + '</tbody></table></div>'
+    + '<p class="small dim" style="margin-top:10px">«уточн.» — доступность функции проверяется перед КП (зависит от региона и тарифа). Цена в рублях пересчитывается по курсу ЦБ РФ.</p>';
+}
+function decisionHTML() {
+  return '<div class="table-wrap"><table class="cmp"><thead><tr><th>Сценарий</th><th>Рекомендуем</th><th>Почему</th></tr></thead><tbody>'
+    + DECISION.map((d) => '<tr><th>' + d.scenario + '</th><td><b>' + d.product + '</b></td><td>' + d.note + '</td></tr>').join('')
+    + '</tbody></table></div>';
+}
+
+/* ── API, сценарии, безопасность, как купить ───────────────── */
+function apiBoxHTML() {
+  return '<div class="apibox"><div>'
+    + '<span class="tag">Другая модель продажи</span>'
+    + '<h3>OpenAI API — платите за использование, а не за места</h3>'
+    + '<p>Тарифы выше продаются местами: цена за одного сотрудника в год. API устроен иначе — оплата по факту, за токены на входе и выходе; фиксированной цены за место нет. Это вариант для разработчиков, которые встраивают модель в свой продукт.</p>'
+    + '<ul><li>Модели GPT, Realtime, эмбеддинги</li><li>Batch и flex-режимы для больших объёмов</li><li>Масштабирование под нагрузку</li><li>Оформление на юрлицо: договор, счёт, закрывающие</li></ul>'
+    + '</div><div><div class="vprice"><span class="req">Оплата по использованию</span><span class="note">считаем по вашему объёму запросов</span></div>'
+    + '<button class="btn btn-primary btn-block" data-quote="api">Рассчитать API под задачу</button></div></div>';
+}
+function scenariosHTML() {
+  return '<div class="cells">' + SCENARIOS.map((s) => '<div class="card cell"><h3>' + s.title + '</h3><p>' + s.text + '</p></div>').join('') + '</div>';
+}
+function securityHTML() {
+  return '<div class="card secbox"><div><p>В тарифах ChatGPT Business и Enterprise данные организации по умолчанию не используются для обучения моделей; доступны админ-управление, SSO, верификация домена, а в Enterprise — SCIM, EKM, RBAC и аналитика. Конкретные настройки приватности, хранения данных и соответствие внутренним политикам ИБ уточняются перед оформлением.</p></div>'
+    + '<div><button class="btn btn-ghost btn-block" data-quote="ent">Обсудить требования ИБ</button></div></div>';
+}
+function howToBuyHTML() {
+  const steps = ['Вы оставляете заявку или выбираете тариф.', 'Менеджер уточняет продукт, количество пользователей, срок и документы.',
+    'BIZSoft готовит КП или счёт с ценой в рублях.', 'Оформляются договор и оплата по счёту.',
+    'После оплаты передаём доступы и инструкции по активации.', 'Закрывающие документы — в согласованном формате, в том числе через ЭДО.'];
+  return '<ol class="steps">' + steps.map((s) => '<li>' + s + '</li>').join('') + '</ol>';
+}
+
+/* ── FAQ ───────────────────────────────────────────────────── */
+function faqItems(items) {
+  return '<div class="faq-list">' + items.map((f) => '<details class="faq-item" data-faq="' + f.id + '"><summary><span>' + f.q + '</span></summary>'
+    + '<div class="faq-answer"><p>' + f.a + '</p></div></details>').join('') + '</div>';
+}
+function faqHTML(mode) {
+  if (mode === 'grouped') {
+    return FAQ_GROUPS.map((g) => '<div class="faq-group"><h3>' + g.title + '</h3>'
+      + faqItems(FAQ.filter((f) => f.g === g.id)) + '</div>').join('');
+  }
+  return faqItems(FAQ);
+}
+</script>
+<script>
+/* ────────────────────────────────────────────────────────────────
+   ФОРМА (одна на страницу) И ПЕРЕЛИНКОВКА
+   ──────────────────────────────────────────────────────────────── */
+function formHTML() {
+  const chip = picked
+    ? '<div class="picked"><span>Тариф в заявке: <b>' + T[picked].name + '</b></span><button class="toggle" data-unpick>сменить</button></div>'
+    : '<div class="picked" style="background:var(--bg-elev);border-color:var(--border)"><span class="dim">Тариф не выбран — подберём по описанию задачи</span></div>';
+  const sel = '<label class="full">Тариф<select id="f-tariff">'
+    + '<option value="">— подберите за меня —</option>'
+    + TARIFFS.map((t) => '<option value="' + t.id + '"' + (picked === t.id ? ' selected' : '') + '>' + t.name + '</option>').join('')
+    + '</select></label>';
+  return '<div class="wrap"><div class="block final" id="lead">'
+    + '<div><h2>Подобрать OpenAI для компании</h2>'
+    + '<p class="muted">Опишите задачу: сколько сотрудников, нужен ли API, какие требования к безопасности. Подготовим расчёт, КП или счёт.</p>'
+    + '<ul class="vfeat" style="max-width:46ch"><li>Оформление для юрлиц: договор, счёт, закрывающие</li><li>Оплата в рублях по курсу ЦБ РФ</li><li>Подбор тарифа и количества пользователей</li></ul>'
+    + '<p class="small dim" style="max-width:56ch">Это единственная форма страницы. Всё, что раньше собирали три разные формы — первый экран, низ страницы и модальное окно «Задать вопрос», — приходит сюда, с уже подставленным тарифом.</p></div>'
+    + '<form class="card form-card" id="leadform"><h3>Расчёт и КП</h3><p class="fc-sub">Ответим в рабочий день.</p>'
+    + chip
+    + '<div class="fgrid">' + sel
+    + '<label>Компания<input name="company" required></label>'
+    + '<label>ИНН<input name="inn" inputmode="numeric" required></label>'
+    + '<label>Контактное лицо<input name="name" required></label>'
+    + '<label>E-mail<input type="email" name="email" required></label>'
+    + '<label>Телефон<input type="tel" name="phone" required></label>'
+    + '<label>Количество мест<input type="number" name="seats" min="1" placeholder="например, 10"></label>'
+    + '<label class="full">Задача<textarea name="message" rows="2" placeholder="Например: 12 мест Business, двое работают в ассистенте весь день"></textarea></label>'
+    + '</div>'
+    + '<button class="btn btn-primary btn-block" style="margin-top:14px" type="submit">Получить расчёт и КП</button>'
+    + '<p class="small dim" id="leadok" style="margin:10px 0 0"></p></form></div></div>';
+}
+function interlinksHTML() {
+  return '<div class="wrap"><div class="interlinks"><h2>Ещё по теме</h2><div class="ig">'
+    + INTERLINKS.map((g) => '<div><h3>' + g.title + '</h3>' + (g.note ? '<p class="small dim" style="margin:0 0 6px">' + g.note + '</p>' : '')
+      + '<ul>' + g.links.map((l) => '<li><a href="' + l.href + '" data-il>' + l.label + '</a></li>').join('') + '</ul></div>').join('')
+    + '</div></div></div>';
+}
+function sec(title, body, id) {
+  return '<div class="wrap"><div class="block"' + (id ? ' id="' + id + '"' : '') + '><h2>' + title + '</h2>' + body + '</div></div>';
+}
+
+/* ────────────────────────────────────────────────────────────────
+   КОМПОЗИЦИЯ ВАРИАНТОВ
+   ──────────────────────────────────────────────────────────────── */
+let tabB = 'scen';
+function tabsB() {
+  const tabs = [['scen', 'Сценарии'], ['sec', 'Безопасность и данные'], ['buy', 'Как купить'], ['faq', 'Вопросы (9)']];
+  const body = tabB === 'scen' ? scenariosHTML()
+    : tabB === 'sec' ? securityHTML()
+    : tabB === 'buy' ? howToBuyHTML() + '<button class="btn btn-ghost" data-quote="">Задать вопрос по оформлению</button>'
+    : faqHTML('flat');
+  return '<div class="wrap"><div class="block"><div class="tabs" role="tablist">'
+    + tabs.map(([id, label]) => '<button role="tab" data-tab="' + id + '" aria-selected="' + (tabB === id) + '">' + label + '</button>').join('')
+    + '</div><div>' + body + '</div>'
+    + '<p class="small dim" style="margin-top:14px">В макете вкладки переключаются скриптом. В продакшне все четыре блока лежат в HTML страницы: поисковик видит и девять вопросов, и таблицы — скрыта только визуальная подача.</p>'
+    + '</div></div>';
+}
+
+function pageHTML() {
+  if (variant === 'a') {
+    return heroHTML('Шесть вариантов доступа: Plus и Pro для сотрудника, два типа мест Business для команды, Enterprise для организации и API для разработки. Ответьте на три вопроса — оставим подходящее.')
+      + wizardHTML()
+      + summaryHTML()
+      + sec('Все тарифы и продукты OpenAI', '<p class="muted small" style="margin-top:-6px;max-width:70ch">Если подбор не нужен — полный список. Пять тарифов продаются местами, API вынесен отдельно: у него другая модель оплаты.</p>'
+          + cardsHTML(['plus', 'pro', 'std', 'prem', 'ent']) + apiBoxHTML(), 'products')
+      + sec('Сравнение тарифов ChatGPT', matrixHTML(false), 'compare')
+      + sec('Какой продукт OpenAI выбрать', decisionHTML())
+      + sec('Сценарии использования', scenariosHTML())
+      + sec('Безопасность и данные', securityHTML())
+      + sec('Как купить OpenAI через BIZSoft', howToBuyHTML())
+      + sec('Частые вопросы про ChatGPT и OpenAI для бизнеса', faqHTML('flat'))
+      + formHTML() + interlinksHTML();
+  }
+  if (variant === 'b') {
+    return heroHTML('Пять тарифов ChatGPT и OpenAI API — в одной таблице сразу под заголовком: цена, отличия и кнопка в каждой колонке. Колонки можно скрывать.')
+      + '<div class="wrap"><div class="block" id="products" style="margin-top:20px"><h2>Тарифы OpenAI: сравнение и цены</h2>' + matrixHTML(true) + apiBoxHTML() + '</div></div>'
+      + summaryHTML()
+      + sec('Какой продукт OpenAI выбрать', decisionHTML())
+      + tabsB()
+      + formHTML() + interlinksHTML();
+  }
+  return heroHTML('Plus и Pro для сотрудника, два типа мест Business для команды, Enterprise для организации, API для разработки. Начните со своего случая — покажем только то, что подходит.')
+    + segmentsHTML()
+    + summaryHTML()
+    + (seg ? '' : sec('Все тарифы и продукты OpenAI', cardsHTML(['plus', 'pro', 'std', 'prem', 'ent']) + apiBoxHTML(), 'products'))
+    + sec('Сравнение тарифов ChatGPT', matrixHTML(false), 'compare')
+    + sec('Какой продукт OpenAI выбрать', decisionHTML())
+    + sec('Сценарии использования', scenariosHTML())
+    + sec('Безопасность и данные', securityHTML())
+    + sec('Как купить OpenAI через BIZSoft', howToBuyHTML())
+    + sec('Частые вопросы про ChatGPT и OpenAI для бизнеса', faqHTML('grouped'))
+    + formHTML() + interlinksHTML();
+}
+
+const NOTES = {
+  a: '<b>Вариант A — мастер подбора.</b> Первый экран не показывает шесть карточек: три вопроса (сколько человек · нужен ли API · интенсивность или требования ИБ) сужают выбор до одного-двух тарифов с ценой и кнопкой. Полный список, таблица сравнения и таблица «что выбрать» остаются ниже для тех, кто разбирается сам. API вынесен в отдельный блок с другой моделью оплаты. Дублирующих призывов нет: «Получить расчёт и КП» ведёт в единственную форму, тариф подставляется сам.',
+  b: '<b>Вариант B — тарифная матрица.</b> Сравнение поднято в первый экран как основной объект: цена в строке, кнопка в каждой колонке, лишние колонки скрываются переключателями. Ниже — таблица «что выбрать» и вкладки со сценариями, безопасностью, порядком покупки и девятью вопросами. Для того, кто уже решил и хочет сверить цифры.',
+  c: '<b>Вариант C — сегменты по ролям.</b> Первый экран делит не на тарифы, а на четыре ситуации: один сотрудник · команда · крупная организация · разработчик с API. Клик по сегменту оставляет только его варианты с объяснением, почему именно они. FAQ сгруппирован по тем же темам: оформление и цена · выбор тарифа · данные и безопасность.',
+};
+
+/* ────────────────────────────────────────────────────────────────
+   ОТРИСОВКА И ПОВЕДЕНИЕ
+   ──────────────────────────────────────────────────────────────── */
+const pageEl = document.getElementById('page');
+function render(keepScroll) {
+  const y = keepScroll ? window.scrollY : null;
+  pageEl.innerHTML = pageHTML();
+  document.getElementById('vnote').innerHTML = NOTES[variant];
+  paintCart();
+  if (y !== null) window.scrollTo({ top: y });
+}
+
+function paintCart() {
+  const bar = document.getElementById('cartbar');
+  const n = [...cart.values()].reduce((a, b) => a + b, 0);
+  if (!n) { bar.classList.remove('on'); return; }
+  bar.classList.add('on');
+  const total = [...cart.entries()].reduce((a, [id, q]) => a + T[id].price * q, 0);
+  document.getElementById('cb-items').textContent = 'В избранном: '
+    + [...cart.entries()].map(([id, q]) => T[id].name + ' × ' + q).join(' · ');
+  document.getElementById('cb-total').textContent = RUB(total);
+  document.querySelectorAll('[data-cart]').forEach((b) => {
+    const id = b.dataset.cart;
+    b.textContent = cart.has(id) ? 'В избранном ✓ (' + cart.get(id) + ')' : 'В избранное';
+  });
+}
+
+document.addEventListener('click', (e) => {
+  const t = e.target.closest('[data-v],[data-wz],[data-wzback],[data-wzreset],[data-seg],[data-segall],[data-cmp],[data-tab],[data-cart],[data-quote],[data-unpick],[data-il]');
+  if (!t) return;
+
+  if (t.dataset.v) {
+    variant = t.dataset.v;
+    document.querySelectorAll('.switch button').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.v === variant)));
+    wiz.step = 0; wiz.size = wiz.api = wiz.need = null; seg = null; picked = null; tabB = 'scen';
+    render(); window.scrollTo({ top: 0, behavior: 'smooth' });
+    track('vendor_tariff_view', { vendor: 'openai', layout: variant, tariffs: 6 });
+    return;
+  }
+  if (t.dataset.wz) {
+    const [key, val] = t.dataset.wz.split(':');
+    wiz[key] = val;
+    wiz.step = Math.min(wiz.step + 1, 3);
+    track('vendor_selector_step', { step: wiz.step, question: key, answer: val });
+    if (wiz.step === 3) track('vendor_selector_complete', { result: wizPick().ids.join(',') });
+    render(true); return;
+  }
+  if (t.hasAttribute('data-wzback')) { wiz.step = Math.max(0, wiz.step - 1); render(true); return; }
+  if (t.hasAttribute('data-wzreset')) { wiz.step = 0; wiz.size = wiz.api = wiz.need = null; render(true); return; }
+  if (t.dataset.seg) {
+    seg = seg === t.dataset.seg ? null : t.dataset.seg;
+    track('vendor_selector_step', { step: 1, question: 'segment', answer: seg || 'сброшен' });
+    render(true);
+    const r = document.getElementById('seg-res');
+    if (r) r.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    return;
+  }
+  if (t.hasAttribute('data-segall')) { seg = null; render(true); return; }
+  if (t.dataset.cmp) { cmpFilter[t.dataset.cmp] = !cmpFilter[t.dataset.cmp]; render(true); return; }
+  if (t.dataset.tab) { tabB = t.dataset.tab; render(true); return; }
+  if (t.dataset.cart) {
+    const id = t.dataset.cart;
+    cart.set(id, (cart.get(id) || 0) + 1);
+    track('vendor_cart_add', { sku: T[id].sku, tariff: T[id].name, qty: cart.get(id), price: T[id].price });
+    paintCart(); return;
+  }
+  if (t.hasAttribute('data-quote') || t.dataset.quote === '') {
+    picked = t.dataset.quote || null;
+    track('vendor_quote_request', { tariff: picked ? T[picked].name : 'подбор', place: variant });
+    render(true);
+    document.getElementById('lead').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    return;
+  }
+  if (t.hasAttribute('data-unpick')) { picked = null; render(true); return; }
+  if (t.hasAttribute('data-il')) {
+    e.preventDefault();
+    track('click_related_link', { href: t.getAttribute('href') });
+    return;
+  }
+});
+
+document.addEventListener('change', (e) => {
+  if (e.target.id === 'f-tariff') { picked = e.target.value || null; render(true); }
+});
+document.addEventListener('toggle', (e) => {
+  const d = e.target.closest('details[data-faq]');
+  if (d && d.open) track('vendor_faq_expand', { question_id: d.dataset.faq });
+}, true);
+document.addEventListener('submit', (e) => {
+  e.preventDefault();
+  track('vendor_quote_request', { stage: 'форма отправлена', tariff: picked ? T[picked].name : 'подбор' });
+  track('lead_sent', { source: 'vendor-openai' });
+  const ok = document.getElementById('leadok');
+  if (ok) ok.innerHTML = '<span style="color:var(--success);font-weight:600">Заявка отправлена (макет).</span> В продакшне — POST /api/lead, затем письмо с источником заявки.';
+});
+
+document.getElementById('cb-kp').addEventListener('click', () => {
+  const total = [...cart.entries()].reduce((a, [id, q]) => a + T[id].price * q, 0);
+  track('vendor_kp_download', { positions: cart.size, total: total });
+  track('begin_checkout', { value: total });
+  document.getElementById('cb-items').textContent = 'Подборка перенесена в /cart — там КП со спецификацией и реквизитами (макет).';
+});
+document.getElementById('cb-clear').addEventListener('click', () => { cart.clear(); paintCart(); render(true); });
+
+document.getElementById('evtoggle').addEventListener('change', (e) => {
+  document.getElementById('evlog').classList.toggle('on', e.target.checked);
+});
+
+render();
+track('vendor_tariff_view', { vendor: 'openai', layout: 'a', tariffs: 6 });
+</script>
