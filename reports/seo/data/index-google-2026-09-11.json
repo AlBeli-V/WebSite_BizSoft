@@ -3,16 +3,6 @@
  "source": "google_url_inspection",
  "quota_per_run": 1000,
  "pages": {
-  "/product/chatgpt-business-premium": {
-   "coverage_state": "URL is unknown to Google",
-   "verdict": "NEUTRAL",
-   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
-   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
-   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
-   "last_crawl": null,
-   "google_canonical": null,
-   "inspected_at": "2026-09-11"
-  },
   "/": {
    "coverage_state": "Submitted and indexed",
    "verdict": "PASS",
@@ -34,7 +24,7 @@
    "inspected_at": "2026-09-11"
   },
   "/alternatives": {
-   "coverage_state": "URL is unknown to Google",
+   "coverage_state": "Discovered - currently not indexed",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -64,7 +54,7 @@
    "inspected_at": "2026-09-11"
   },
   "/alternatives/cursor": {
-   "coverage_state": "URL is unknown to Google",
+   "coverage_state": "Discovered - currently not indexed",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -74,7 +64,7 @@
    "inspected_at": "2026-09-11"
   },
   "/alternatives/figma": {
-   "coverage_state": "Discovered - currently not indexed",
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -154,7 +144,7 @@
    "inspected_at": "2026-09-11"
   },
   "/blog/apple-prekratila-priem-platezhey-v-rossii-kak-prodlit-podpiski": {
-   "coverage_state": "Discovered - currently not indexed",
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -164,7 +154,7 @@
    "inspected_at": "2026-09-11"
   },
   "/blog/bezopasnost-dannyh-v-korporativnyh-ai": {
-   "coverage_state": "Discovered - currently not indexed",
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -184,7 +174,7 @@
    "inspected_at": "2026-09-11"
   },
   "/blog/enterprise-vs-team-korporativnye-tarify-ai": {
-   "coverage_state": "Discovered - currently not indexed",
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -204,7 +194,7 @@
    "inspected_at": "2026-09-11"
   },
   "/blog/glpi-manageengine-ili-korobka": {
-   "coverage_state": "Discovered - currently not indexed",
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -214,7 +204,7 @@
    "inspected_at": "2026-09-11"
   },
   "/blog/inventarizaciya-it-aktivov-s-chego-nachat": {
-   "coverage_state": "Discovered - currently not indexed",
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -244,7 +234,7 @@
    "inspected_at": "2026-09-11"
   },
   "/blog/kak-kupit-recraft-dlya-yurlica": {
-   "coverage_state": "Discovered - currently not indexed",
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -294,7 +284,7 @@
    "inspected_at": "2026-09-11"
   },
   "/blog/kak-oplatit-coreldraw-dlya-yurlica": {
-   "coverage_state": "Discovered - currently not indexed",
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -314,7 +304,7 @@
    "inspected_at": "2026-09-11"
   },
   "/blog/kak-oplatit-envato-elements-dlya-yurlica": {
-   "coverage_state": "Discovered - currently not indexed",
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -344,7 +334,7 @@
    "inspected_at": "2026-09-11"
   },
   "/blog/kak-oplatit-postman-dlya-yurlica": {
-   "coverage_state": "Discovered - currently not indexed",
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -354,7 +344,7 @@
    "inspected_at": "2026-09-11"
   },
   "/blog/kak-poluchit-schet-i-zakryvayushchie-ot-atlassian": {
-   "coverage_state": "Discovered - currently not indexed",
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -404,7 +394,7 @@
    "inspected_at": "2026-09-11"
   },
   "/blog/oplata-descript-yuridicheskim-licom": {
-   "coverage_state": "Discovered - currently not indexed",
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -444,7 +434,7 @@
    "inspected_at": "2026-09-11"
   },
   "/blog/stoimost-vladeniya-podpiskoy": {
-   "coverage_state": "Discovered - currently not indexed",
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -454,7 +444,7 @@
    "inspected_at": "2026-09-11"
   },
   "/blog/tag/ai": {
-   "coverage_state": "Discovered - currently not indexed",
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -464,7 +454,7 @@
    "inspected_at": "2026-09-11"
   },
   "/blog/tag/apple": {
-   "coverage_state": "URL is unknown to Google",
+   "coverage_state": "Discovered - currently not indexed",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -484,7 +474,7 @@
    "inspected_at": "2026-09-11"
   },
   "/blog/tag/buhgalteriya": {
-   "coverage_state": "Discovered - currently not indexed",
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -514,7 +504,7 @@
    "inspected_at": "2026-09-11"
   },
   "/blog/tag/licenzii": {
-   "coverage_state": "URL is unknown to Google",
+   "coverage_state": "Discovered - currently not indexed",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -524,7 +514,7 @@
    "inspected_at": "2026-09-11"
   },
   "/blog/tag/oformlenie": {
-   "coverage_state": "URL is unknown to Google",
+   "coverage_state": "Discovered - currently not indexed",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -544,7 +534,7 @@
    "inspected_at": "2026-09-11"
   },
   "/blog/tag/razrabotka": {
-   "coverage_state": "URL is unknown to Google",
+   "coverage_state": "Discovered - currently not indexed",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -564,7 +554,7 @@
    "inspected_at": "2026-09-11"
   },
   "/blog/tarify-runway-oplata-dlya-yurlica": {
-   "coverage_state": "URL is unknown to Google",
+   "coverage_state": "Discovered - currently not indexed",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -614,7 +604,7 @@
    "inspected_at": "2026-09-11"
   },
   "/catalog/ai/audio": {
-   "coverage_state": "Discovered - currently not indexed",
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -774,7 +764,7 @@
    "inspected_at": "2026-09-11"
   },
   "/catalog/helpdesk": {
-   "coverage_state": "URL is unknown to Google",
+   "coverage_state": "Discovered - currently not indexed",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -784,7 +774,7 @@
    "inspected_at": "2026-09-11"
   },
   "/catalog/iam": {
-   "coverage_state": "Discovered - currently not indexed",
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -794,7 +784,7 @@
    "inspected_at": "2026-09-11"
   },
   "/catalog/media": {
-   "coverage_state": "Discovered - currently not indexed",
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -914,7 +904,7 @@
    "inspected_at": "2026-09-11"
   },
   "/compare/claude-vs-gemini": {
-   "coverage_state": "URL is unknown to Google",
+   "coverage_state": "Discovered - currently not indexed",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -954,7 +944,7 @@
    "inspected_at": "2026-09-11"
   },
   "/compare/elevenlabs-vs-descript": {
-   "coverage_state": "Discovered - currently not indexed",
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -964,7 +954,7 @@
    "inspected_at": "2026-09-11"
   },
   "/compare/firefly-vs-canva": {
-   "coverage_state": "URL is unknown to Google",
+   "coverage_state": "Discovered - currently not indexed",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -974,7 +964,7 @@
    "inspected_at": "2026-09-11"
   },
   "/compare/fl-studio-vs-ableton": {
-   "coverage_state": "Discovered - currently not indexed",
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -984,7 +974,7 @@
    "inspected_at": "2026-09-11"
   },
   "/compare/gamma-vs-canva": {
-   "coverage_state": "Discovered - currently not indexed",
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -994,7 +984,7 @@
    "inspected_at": "2026-09-11"
   },
   "/compare/grammarly-vs-jasper": {
-   "coverage_state": "Discovered - currently not indexed",
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -1004,7 +994,7 @@
    "inspected_at": "2026-09-11"
   },
   "/compare/kimi-vs-chatgpt": {
-   "coverage_state": "Discovered - currently not indexed",
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -1014,7 +1004,7 @@
    "inspected_at": "2026-09-11"
   },
   "/compare/midjourney-vs-firefly": {
-   "coverage_state": "URL is unknown to Google",
+   "coverage_state": "Discovered - currently not indexed",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -1024,7 +1014,7 @@
    "inspected_at": "2026-09-11"
   },
   "/compare/midjourney-vs-recraft": {
-   "coverage_state": "URL is unknown to Google",
+   "coverage_state": "Discovered - currently not indexed",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -1044,7 +1034,7 @@
    "inspected_at": "2026-09-11"
   },
   "/compare/perplexity-vs-chatgpt": {
-   "coverage_state": "URL is unknown to Google",
+   "coverage_state": "Discovered - currently not indexed",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -1124,7 +1114,7 @@
    "inspected_at": "2026-09-11"
   },
   "/product/ableton-live-intro": {
-   "coverage_state": "Discovered - currently not indexed",
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -1134,7 +1124,7 @@
    "inspected_at": "2026-09-11"
   },
   "/product/ableton-live-standard": {
-   "coverage_state": "Discovered - currently not indexed",
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -1144,7 +1134,7 @@
    "inspected_at": "2026-09-11"
   },
   "/product/ableton-live-suite": {
-   "coverage_state": "Discovered - currently not indexed",
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -1184,7 +1174,7 @@
    "inspected_at": "2026-09-11"
   },
   "/product/acronis-cp-adv-ws": {
-   "coverage_state": "Discovered - currently not indexed",
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -1194,7 +1184,7 @@
    "inspected_at": "2026-09-11"
   },
   "/product/acronis-cp-backup-adv-3vm": {
-   "coverage_state": "Discovered - currently not indexed",
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -1264,16 +1254,6 @@
    "inspected_at": "2026-09-11"
   },
   "/product/acronis-cp-standard-3vm": {
-   "coverage_state": "URL is unknown to Google",
-   "verdict": "NEUTRAL",
-   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
-   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
-   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
-   "last_crawl": null,
-   "google_canonical": null,
-   "inspected_at": "2026-09-11"
-  },
-  "/product/acronis-cp-standard-server": {
    "coverage_state": "Discovered - currently not indexed",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
@@ -1283,8 +1263,18 @@
    "google_canonical": null,
    "inspected_at": "2026-09-11"
   },
-  "/product/acronis-cp-standard-vhost": {
+  "/product/acronis-cp-standard-server": {
    "coverage_state": "URL is unknown to Google",
+   "verdict": "NEUTRAL",
+   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
+   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
+   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
+   "last_crawl": null,
+   "google_canonical": null,
+   "inspected_at": "2026-09-11"
+  },
+  "/product/acronis-cp-standard-vhost": {
+   "coverage_state": "Discovered - currently not indexed",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -1304,7 +1294,7 @@
    "inspected_at": "2026-09-11"
   },
   "/product/acronis-cp-standard-ws": {
-   "coverage_state": "Discovered - currently not indexed",
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -1354,7 +1344,7 @@
    "inspected_at": "2026-09-11"
   },
   "/product/adobe-ae": {
-   "coverage_state": "Discovered - currently not indexed",
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -1384,7 +1374,7 @@
    "inspected_at": "2026-09-11"
   },
   "/product/adobe-audition": {
-   "coverage_state": "URL is unknown to Google",
+   "coverage_state": "Discovered - currently not indexed",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -1404,7 +1394,7 @@
    "inspected_at": "2026-09-11"
   },
   "/product/adobe-cc-pro-team": {
-   "coverage_state": "Discovered - currently not indexed",
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -1424,7 +1414,7 @@
    "inspected_at": "2026-09-11"
   },
   "/product/adobe-dw": {
-   "coverage_state": "Discovered - currently not indexed",
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -1544,7 +1534,7 @@
    "inspected_at": "2026-09-11"
   },
   "/product/adobe-stock-10": {
-   "coverage_state": "Discovered - currently not indexed",
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -1624,7 +1614,7 @@
    "inspected_at": "2026-09-11"
   },
   "/product/airalo-gift-card": {
-   "coverage_state": "URL is unknown to Google",
+   "coverage_state": "Discovered - currently not indexed",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -1644,7 +1634,7 @@
    "inspected_at": "2026-09-11"
   },
   "/product/anthropic-team": {
-   "coverage_state": "URL is unknown to Google",
+   "coverage_state": "Discovered - currently not indexed",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -1674,7 +1664,7 @@
    "inspected_at": "2026-09-11"
   },
   "/product/anydesk-namespace": {
-   "coverage_state": "URL is unknown to Google",
+   "coverage_state": "Discovered - currently not indexed",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -1704,7 +1694,7 @@
    "inspected_at": "2026-09-11"
   },
   "/product/app-store-itunes-gift-card": {
-   "coverage_state": "URL is unknown to Google",
+   "coverage_state": "Discovered - currently not indexed",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -1814,7 +1804,7 @@
    "inspected_at": "2026-09-11"
   },
   "/product/binance-usdc-gift-card": {
-   "coverage_state": "URL is unknown to Google",
+   "coverage_state": "Discovered - currently not indexed",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -1844,7 +1834,7 @@
    "inspected_at": "2026-09-11"
   },
   "/product/bitdefender-gravityzone-premium": {
-   "coverage_state": "Discovered - currently not indexed",
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -1934,7 +1924,7 @@
    "inspected_at": "2026-09-11"
   },
   "/product/box-business": {
-   "coverage_state": "Discovered - currently not indexed",
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -2004,7 +1994,7 @@
    "inspected_at": "2026-09-11"
   },
   "/product/capcut-pro": {
-   "coverage_state": "Discovered - currently not indexed",
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -2073,6 +2063,16 @@
    "google_canonical": null,
    "inspected_at": "2026-09-11"
   },
+  "/product/chatgpt-business-premium": {
+   "coverage_state": "URL is unknown to Google",
+   "verdict": "NEUTRAL",
+   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
+   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
+   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
+   "last_crawl": null,
+   "google_canonical": null,
+   "inspected_at": "2026-09-11"
+  },
   "/product/cloudflare-business": {
    "coverage_state": "Discovered - currently not indexed",
    "verdict": "NEUTRAL",
@@ -2104,7 +2104,7 @@
    "inspected_at": "2026-09-11"
   },
   "/product/confluence-standard": {
-   "coverage_state": "Discovered - currently not indexed",
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -2134,7 +2134,7 @@
    "inspected_at": "2026-09-11"
   },
   "/product/cubase-artist": {
-   "coverage_state": "Discovered - currently not indexed",
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -2184,16 +2184,6 @@
    "inspected_at": "2026-09-11"
   },
   "/product/cursor-enterprise": {
-   "coverage_state": "URL is unknown to Google",
-   "verdict": "NEUTRAL",
-   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
-   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
-   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
-   "last_crawl": null,
-   "google_canonical": null,
-   "inspected_at": "2026-09-11"
-  },
-  "/product/deepl-advanced": {
    "coverage_state": "Discovered - currently not indexed",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
@@ -2214,7 +2204,7 @@
    "inspected_at": "2026-09-11"
   },
   "/product/deepl-starter": {
-   "coverage_state": "URL is unknown to Google",
+   "coverage_state": "Discovered - currently not indexed",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -2254,7 +2244,7 @@
    "inspected_at": "2026-09-11"
   },
   "/product/docker-business": {
-   "coverage_state": "Discovered - currently not indexed",
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -2284,7 +2274,7 @@
    "inspected_at": "2026-09-11"
   },
   "/product/dropbox-advanced": {
-   "coverage_state": "URL is unknown to Google",
+   "coverage_state": "Discovered - currently not indexed",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -2304,7 +2294,7 @@
    "inspected_at": "2026-09-11"
   },
   "/product/dropbox-standard": {
-   "coverage_state": "Discovered - currently not indexed",
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -2534,7 +2524,7 @@
    "inspected_at": "2026-09-11"
   },
   "/product/fl-studio-fruity": {
-   "coverage_state": "Discovered - currently not indexed",
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -2764,7 +2754,7 @@
    "inspected_at": "2026-09-11"
   },
   "/product/gemini-workspace-enterprise": {
-   "coverage_state": "Discovered - currently not indexed",
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -2784,7 +2774,7 @@
    "inspected_at": "2026-09-11"
   },
   "/product/ghcopilot-business": {
-   "coverage_state": "Discovered - currently not indexed",
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -2794,7 +2784,7 @@
    "inspected_at": "2026-09-11"
   },
   "/product/ghcopilot-enterprise": {
-   "coverage_state": "Discovered - currently not indexed",
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -2804,7 +2794,7 @@
    "inspected_at": "2026-09-11"
   },
   "/product/gitlab-premium-saas": {
-   "coverage_state": "Discovered - currently not indexed",
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -2814,7 +2804,7 @@
    "inspected_at": "2026-09-11"
   },
   "/product/gitlab-premium-self-managed": {
-   "coverage_state": "Discovered - currently not indexed",
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -2974,16 +2964,6 @@
    "inspected_at": "2026-09-11"
   },
   "/product/int-dev-jetbrains": {
-   "coverage_state": "Discovered - currently not indexed",
-   "verdict": "NEUTRAL",
-   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
-   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
-   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
-   "last_crawl": null,
-   "google_canonical": null,
-   "inspected_at": "2026-09-11"
-  },
-  "/product/int-eng-autocad": {
    "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
@@ -2993,8 +2973,18 @@
    "google_canonical": null,
    "inspected_at": "2026-09-11"
   },
-  "/product/int-office-m365": {
+  "/product/int-eng-autocad": {
    "coverage_state": "Discovered - currently not indexed",
+   "verdict": "NEUTRAL",
+   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
+   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
+   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
+   "last_crawl": null,
+   "google_canonical": null,
+   "inspected_at": "2026-09-11"
+  },
+  "/product/int-office-m365": {
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -3014,7 +3004,7 @@
    "inspected_at": "2026-09-11"
   },
   "/product/izotope-ozone-advanced": {
-   "coverage_state": "URL is unknown to Google",
+   "coverage_state": "Discovered - currently not indexed",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -3034,7 +3024,7 @@
    "inspected_at": "2026-09-11"
   },
   "/product/izotope-rx-standard": {
-   "coverage_state": "URL is unknown to Google",
+   "coverage_state": "Discovered - currently not indexed",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -3084,7 +3074,7 @@
    "inspected_at": "2026-09-11"
   },
   "/product/jb-ai-ultimate": {
-   "coverage_state": "Discovered - currently not indexed",
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -3134,7 +3124,7 @@
    "inspected_at": "2026-09-11"
   },
   "/product/jb-dotultimate-org": {
-   "coverage_state": "URL is unknown to Google",
+   "coverage_state": "Discovered - currently not indexed",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -3284,7 +3274,7 @@
    "inspected_at": "2026-09-11"
   },
   "/product/kimi-subscription": {
-   "coverage_state": "Discovered - currently not indexed",
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -3354,7 +3344,7 @@
    "inspected_at": "2026-09-11"
   },
   "/product/lansweeper-starter-2000-devices": {
-   "coverage_state": "URL is unknown to Google",
+   "coverage_state": "Discovered - currently not indexed",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -3484,7 +3474,7 @@
    "inspected_at": "2026-09-11"
   },
   "/product/maxon-one-teams": {
-   "coverage_state": "URL is unknown to Google",
+   "coverage_state": "Discovered - currently not indexed",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -3524,7 +3514,7 @@
    "inspected_at": "2026-09-11"
   },
   "/product/maxon-zbrush-teams": {
-   "coverage_state": "Discovered - currently not indexed",
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -3544,7 +3534,7 @@
    "inspected_at": "2026-09-11"
   },
   "/product/me-adaudit-plus-professional-2-domain-controllers": {
-   "coverage_state": "URL is unknown to Google",
+   "coverage_state": "Discovered - currently not indexed",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -3584,7 +3574,7 @@
    "inspected_at": "2026-09-11"
   },
   "/product/me-admanager-plus-msp-helpdesk-technicians-1-helpdesk-technicians": {
-   "coverage_state": "Discovered - currently not indexed",
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -3594,7 +3584,7 @@
    "inspected_at": "2026-09-11"
   },
   "/product/me-admanager-plus-professional-1-domain": {
-   "coverage_state": "Discovered - currently not indexed",
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -3604,7 +3594,7 @@
    "inspected_at": "2026-09-11"
   },
   "/product/me-admanager-plus-standard-1-domain-with-2-help-desk-technicians": {
-   "coverage_state": "Discovered - currently not indexed",
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -3614,7 +3604,7 @@
    "inspected_at": "2026-09-11"
   },
   "/product/me-analytics-plus-professional-5-concurrent-guests-pack": {
-   "coverage_state": "Discovered - currently not indexed",
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -3684,7 +3674,7 @@
    "inspected_at": "2026-09-11"
   },
   "/product/me-browser-security-plus-professional-50-computers-and-single-user-license": {
-   "coverage_state": "Discovered - currently not indexed",
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -3724,7 +3714,7 @@
    "inspected_at": "2026-09-11"
   },
   "/product/me-datasecurity-plus-professional-file-server-auditing-2-file-servers": {
-   "coverage_state": "Discovered - currently not indexed",
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -3754,7 +3744,7 @@
    "inspected_at": "2026-09-11"
   },
   "/product/me-ddi-central-enterprise-5-dns-clusters-5-dhcp-clusters-5-ntp-servers": {
-   "coverage_state": "Discovered - currently not indexed",
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -3814,7 +3804,7 @@
    "inspected_at": "2026-09-11"
   },
   "/product/me-endpoint-central-security-10-servers-and-single-user-license": {
-   "coverage_state": "Discovered - currently not indexed",
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -3824,7 +3814,7 @@
    "inspected_at": "2026-09-11"
   },
   "/product/me-endpoint-central-uem-10-servers-and-single-user-license": {
-   "coverage_state": "Discovered - currently not indexed",
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -3854,16 +3844,6 @@
    "inspected_at": "2026-09-11"
   },
   "/product/me-exchange-reporter-plus-standard-100-mailboxes": {
-   "coverage_state": "Discovered - currently not indexed",
-   "verdict": "NEUTRAL",
-   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
-   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
-   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
-   "last_crawl": null,
-   "google_canonical": null,
-   "inspected_at": "2026-09-11"
-  },
-  "/product/me-fileanalysis-professional-2-tb": {
    "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
@@ -3873,8 +3853,18 @@
    "google_canonical": null,
    "inspected_at": "2026-09-11"
   },
-  "/product/me-firewall-analyzer-enterprise-20-devices-pack-with-2-users": {
+  "/product/me-fileanalysis-professional-2-tb": {
    "coverage_state": "Discovered - currently not indexed",
+   "verdict": "NEUTRAL",
+   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
+   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
+   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
+   "last_crawl": null,
+   "google_canonical": null,
+   "inspected_at": "2026-09-11"
+  },
+  "/product/me-firewall-analyzer-enterprise-20-devices-pack-with-2-users": {
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -3964,7 +3954,7 @@
    "inspected_at": "2026-09-11"
   },
   "/product/me-mobile-device-manager-plus-msp-standard-single-user-license-with-50-mobile-devices": {
-   "coverage_state": "URL is unknown to Google",
+   "coverage_state": "Discovered - currently not indexed",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -3994,7 +3984,7 @@
    "inspected_at": "2026-09-11"
   },
   "/product/me-netflow-analyzer-enterprise-10-interfaces-pack-with-2-users": {
-   "coverage_state": "Discovered - currently not indexed",
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -4054,7 +4044,7 @@
    "inspected_at": "2026-09-11"
   },
   "/product/me-opmanager-msp-50-devices-pack-with-2-users": {
-   "coverage_state": "Discovered - currently not indexed",
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -4144,7 +4134,7 @@
    "inspected_at": "2026-09-11"
   },
   "/product/me-pam360-enterprise-10-administrators-and-25-keys": {
-   "coverage_state": "Discovered - currently not indexed",
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -4164,7 +4154,7 @@
    "inspected_at": "2026-09-11"
   },
   "/product/me-pam360-msp-enterprise-10-administrators-and-25-keys": {
-   "coverage_state": "Discovered - currently not indexed",
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -4184,7 +4174,7 @@
    "inspected_at": "2026-09-11"
   },
   "/product/me-password-manager-pro-enterprise-10-administrators-and-10-keys": {
-   "coverage_state": "Discovered - currently not indexed",
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -4194,7 +4184,7 @@
    "inspected_at": "2026-09-11"
   },
   "/product/me-password-manager-pro-msp-enterprise-10-administrators-and-10-keys": {
-   "coverage_state": "URL is unknown to Google",
+   "coverage_state": "Discovered - currently not indexed",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -4234,7 +4224,7 @@
    "inspected_at": "2026-09-11"
   },
   "/product/me-password-manager-pro-standard-2-administrators": {
-   "coverage_state": "Discovered - currently not indexed",
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -4274,7 +4264,7 @@
    "inspected_at": "2026-09-11"
   },
   "/product/me-patch-manager-plus-enterprise-10-servers-and-single-user-license": {
-   "coverage_state": "URL is unknown to Google",
+   "coverage_state": "Discovered - currently not indexed",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -4284,7 +4274,7 @@
    "inspected_at": "2026-09-11"
   },
   "/product/me-patch-manager-plus-professional-10-servers-and-single-user-license": {
-   "coverage_state": "Discovered - currently not indexed",
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -4294,7 +4284,7 @@
    "inspected_at": "2026-09-11"
   },
   "/product/me-ransomware-protection-plus-enterprise-10-servers": {
-   "coverage_state": "Discovered - currently not indexed",
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -4344,7 +4334,7 @@
    "inspected_at": "2026-09-11"
   },
   "/product/me-servicedesk-plus-msp-enterprise-2-technicians-and-250-it-assets": {
-   "coverage_state": "Discovered - currently not indexed",
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -4374,7 +4364,7 @@
    "inspected_at": "2026-09-11"
   },
   "/product/me-servicedesk-plus-msp-professional-multi-language-2-technicians-and-250-it-assets": {
-   "coverage_state": "URL is unknown to Google",
+   "coverage_state": "Discovered - currently not indexed",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -4394,7 +4384,7 @@
    "inspected_at": "2026-09-11"
   },
   "/product/me-servicedesk-plus-msp-standard-multi-language-10-technicians": {
-   "coverage_state": "Discovered - currently not indexed",
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -4424,7 +4414,7 @@
    "inspected_at": "2026-09-11"
   },
   "/product/me-servicedesk-plus-multi-language-standard-servicedesk-plus-multi-lan-10-technicians": {
-   "coverage_state": "URL is unknown to Google",
+   "coverage_state": "Discovered - currently not indexed",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -4514,7 +4504,7 @@
    "inspected_at": "2026-09-11"
   },
   "/product/me-supportcenter-plus-standard-multi-language-10-support-representatives": {
-   "coverage_state": "Discovered - currently not indexed",
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -4664,7 +4654,7 @@
    "inspected_at": "2026-09-11"
   },
   "/product/ms-office-hb-2021-win": {
-   "coverage_state": "Discovered - currently not indexed",
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -4684,7 +4674,7 @@
    "inspected_at": "2026-09-11"
   },
   "/product/ms-office-hb-2024-win": {
-   "coverage_state": "URL is unknown to Google",
+   "coverage_state": "Discovered - currently not indexed",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -4694,7 +4684,7 @@
    "inspected_at": "2026-09-11"
   },
   "/product/ms-office-proplus-2021": {
-   "coverage_state": "Discovered - currently not indexed",
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -4714,7 +4704,7 @@
    "inspected_at": "2026-09-11"
   },
   "/product/ms-project-pro-2024": {
-   "coverage_state": "Discovered - currently not indexed",
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -4764,16 +4754,6 @@
    "inspected_at": "2026-09-11"
   },
   "/product/ms-visual-studio-pro-2022": {
-   "coverage_state": "URL is unknown to Google",
-   "verdict": "NEUTRAL",
-   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
-   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
-   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
-   "last_crawl": null,
-   "google_canonical": null,
-   "inspected_at": "2026-09-11"
-  },
-  "/product/ms-windows-11-pro": {
    "coverage_state": "Discovered - currently not indexed",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
@@ -4783,8 +4763,18 @@
    "google_canonical": null,
    "inspected_at": "2026-09-11"
   },
-  "/product/mscopilot-m365": {
+  "/product/ms-windows-11-pro": {
    "coverage_state": "URL is unknown to Google",
+   "verdict": "NEUTRAL",
+   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
+   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
+   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
+   "last_crawl": null,
+   "google_canonical": null,
+   "inspected_at": "2026-09-11"
+  },
+  "/product/mscopilot-m365": {
+   "coverage_state": "Discovered - currently not indexed",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -4914,7 +4904,7 @@
    "inspected_at": "2026-09-11"
   },
   "/product/openrouter-balance": {
-   "coverage_state": "Discovered - currently not indexed",
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -4954,7 +4944,7 @@
    "inspected_at": "2026-09-11"
   },
   "/product/parallels-desktop-standard-sub": {
-   "coverage_state": "Discovered - currently not indexed",
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -4974,7 +4964,7 @@
    "inspected_at": "2026-09-11"
   },
   "/product/perplexity-enterprise-pro": {
-   "coverage_state": "URL is unknown to Google",
+   "coverage_state": "Discovered - currently not indexed",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -4994,7 +4984,7 @@
    "inspected_at": "2026-09-11"
   },
   "/product/photon-fusion-100": {
-   "coverage_state": "URL is unknown to Google",
+   "coverage_state": "Discovered - currently not indexed",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -5004,7 +4994,7 @@
    "inspected_at": "2026-09-11"
   },
   "/product/photon-fusion-1000": {
-   "coverage_state": "Discovered - currently not indexed",
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -5034,7 +5024,7 @@
    "inspected_at": "2026-09-11"
   },
   "/product/postman-professional": {
-   "coverage_state": "Discovered - currently not indexed",
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -5064,7 +5054,7 @@
    "inspected_at": "2026-09-11"
   },
   "/product/prfrc-p4-platform": {
-   "coverage_state": "Discovered - currently not indexed",
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -5184,7 +5174,7 @@
    "inspected_at": "2026-09-11"
   },
   "/product/rive-voyager": {
-   "coverage_state": "URL is unknown to Google",
+   "coverage_state": "Discovered - currently not indexed",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -5254,7 +5244,7 @@
    "inspected_at": "2026-09-11"
   },
   "/product/runway-max": {
-   "coverage_state": "Discovered - currently not indexed",
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -5394,7 +5384,7 @@
    "inspected_at": "2026-09-11"
   },
   "/product/sketchup-pro-scan": {
-   "coverage_state": "URL is unknown to Google",
+   "coverage_state": "Discovered - currently not indexed",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -5434,7 +5424,7 @@
    "inspected_at": "2026-09-11"
   },
   "/product/solidworks-design-premium-device": {
-   "coverage_state": "Discovered - currently not indexed",
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -5464,7 +5454,7 @@
    "inspected_at": "2026-09-11"
   },
   "/product/solidworks-design-standard": {
-   "coverage_state": "Discovered - currently not indexed",
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -5474,7 +5464,7 @@
    "inspected_at": "2026-09-11"
   },
   "/product/solidworks-design-standard-device": {
-   "coverage_state": "Discovered - currently not indexed",
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -5564,7 +5554,7 @@
    "inspected_at": "2026-09-11"
   },
   "/product/suno-premier": {
-   "coverage_state": "URL is unknown to Google",
+   "coverage_state": "Discovered - currently not indexed",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -5584,7 +5574,7 @@
    "inspected_at": "2026-09-11"
   },
   "/product/teamviewer-business": {
-   "coverage_state": "URL is unknown to Google",
+   "coverage_state": "Discovered - currently not indexed",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -5604,7 +5594,7 @@
    "inspected_at": "2026-09-11"
   },
   "/product/teamviewer-premium": {
-   "coverage_state": "Discovered - currently not indexed",
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -5624,7 +5614,7 @@
    "inspected_at": "2026-09-11"
   },
   "/product/think-cell-suite": {
-   "coverage_state": "Discovered - currently not indexed",
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -5674,7 +5664,7 @@
    "inspected_at": "2026-09-11"
   },
   "/product/toonboom-harmony-advanced": {
-   "coverage_state": "URL is unknown to Google",
+   "coverage_state": "Discovered - currently not indexed",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -5684,7 +5674,7 @@
    "inspected_at": "2026-09-11"
   },
   "/product/toonboom-harmony-premium": {
-   "coverage_state": "URL is unknown to Google",
+   "coverage_state": "Discovered - currently not indexed",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -5824,7 +5814,7 @@
    "inspected_at": "2026-09-11"
   },
   "/product/winrar-license": {
-   "coverage_state": "URL is unknown to Google",
+   "coverage_state": "Discovered - currently not indexed",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -5864,7 +5854,7 @@
    "inspected_at": "2026-09-11"
   },
   "/product/wordpress-business": {
-   "coverage_state": "URL is unknown to Google",
+   "coverage_state": "Discovered - currently not indexed",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -5984,16 +5974,6 @@
    "inspected_at": "2026-09-11"
   },
   "/product/zoom-wp-pro": {
-   "coverage_state": "URL is unknown to Google",
-   "verdict": "NEUTRAL",
-   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
-   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
-   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
-   "last_crawl": null,
-   "google_canonical": null,
-   "inspected_at": "2026-09-11"
-  },
-  "/solutions": {
    "coverage_state": "Discovered - currently not indexed",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
@@ -6003,8 +5983,18 @@
    "google_canonical": null,
    "inspected_at": "2026-09-11"
   },
-  "/solutions/ai-dlya-analitikov": {
+  "/solutions": {
    "coverage_state": "URL is unknown to Google",
+   "verdict": "NEUTRAL",
+   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
+   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
+   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
+   "last_crawl": null,
+   "google_canonical": null,
+   "inspected_at": "2026-09-11"
+  },
+  "/solutions/ai-dlya-analitikov": {
+   "coverage_state": "Discovered - currently not indexed",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -6024,7 +6014,7 @@
    "inspected_at": "2026-09-11"
   },
   "/solutions/ai-dlya-buhgalterii": {
-   "coverage_state": "URL is unknown to Google",
+   "coverage_state": "Discovered - currently not indexed",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -6044,7 +6034,7 @@
    "inspected_at": "2026-09-11"
   },
   "/solutions/ai-dlya-marketinga": {
-   "coverage_state": "Discovered - currently not indexed",
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -6094,7 +6084,7 @@
    "inspected_at": "2026-09-11"
   },
   "/solutions/ai-servisy-dlya-biznesa": {
-   "coverage_state": "Discovered - currently not indexed",
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -6134,7 +6124,7 @@
    "inspected_at": "2026-09-11"
   },
   "/solutions/marketing-agencies": {
-   "coverage_state": "URL is unknown to Google",
+   "coverage_state": "Discovered - currently not indexed",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -6144,7 +6134,7 @@
    "inspected_at": "2026-09-11"
   },
   "/solutions/po-dlya-razrabotki-igr": {
-   "coverage_state": "Discovered - currently not indexed",
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -6194,7 +6184,7 @@
    "inspected_at": "2026-09-11"
   },
   "/vendors/ableton": {
-   "coverage_state": "URL is unknown to Google",
+   "coverage_state": "Discovered - currently not indexed",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -6204,7 +6194,7 @@
    "inspected_at": "2026-09-11"
   },
   "/vendors/acronis": {
-   "coverage_state": "Discovered - currently not indexed",
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -6384,7 +6374,7 @@
    "inspected_at": "2026-09-11"
   },
   "/vendors/capcut": {
-   "coverage_state": "Discovered - currently not indexed",
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -6414,7 +6404,7 @@
    "inspected_at": "2026-09-11"
   },
   "/vendors/cloudflare": {
-   "coverage_state": "Discovered - currently not indexed",
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -6504,7 +6494,7 @@
    "inspected_at": "2026-09-11"
   },
   "/vendors/dropbox": {
-   "coverage_state": "Discovered - currently not indexed",
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -6634,7 +6624,7 @@
    "inspected_at": "2026-09-11"
   },
   "/vendors/gitlab": {
-   "coverage_state": "URL is unknown to Google",
+   "coverage_state": "Discovered - currently not indexed",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -6644,7 +6634,7 @@
    "inspected_at": "2026-09-11"
   },
   "/vendors/google": {
-   "coverage_state": "Discovered - currently not indexed",
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -6664,7 +6654,7 @@
    "inspected_at": "2026-09-11"
   },
   "/vendors/grok": {
-   "coverage_state": "URL is unknown to Google",
+   "coverage_state": "Discovered - currently not indexed",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -6744,7 +6734,7 @@
    "inspected_at": "2026-09-11"
   },
   "/vendors/kimi": {
-   "coverage_state": "Discovered - currently not indexed",
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -6774,7 +6764,7 @@
    "inspected_at": "2026-09-11"
   },
   "/vendors/lansweeper": {
-   "coverage_state": "Discovered - currently not indexed",
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -6794,7 +6784,7 @@
    "inspected_at": "2026-09-11"
   },
   "/vendors/lovable": {
-   "coverage_state": "Discovered - currently not indexed",
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -6984,7 +6974,7 @@
    "inspected_at": "2026-09-11"
   },
   "/vendors/postman": {
-   "coverage_state": "URL is unknown to Google",
+   "coverage_state": "Discovered - currently not indexed",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -7104,7 +7094,7 @@
    "inspected_at": "2026-09-11"
   },
   "/vendors/slack": {
-   "coverage_state": "URL is unknown to Google",
+   "coverage_state": "Discovered - currently not indexed",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -7184,7 +7174,7 @@
    "inspected_at": "2026-09-11"
   },
   "/vendors/toon-boom": {
-   "coverage_state": "URL is unknown to Google",
+   "coverage_state": "Discovered - currently not indexed",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -7312,11 +7302,24 @@
    "last_crawl": "2026-08-29T05:17:54Z",
    "google_canonical": "https://biz-soft.pro/vendors/zoom",
    "inspected_at": "2026-09-11"
+  },
+  "/product/deepl-advanced": {
+   "coverage_state": "Discovered - currently not indexed",
+   "verdict": "NEUTRAL",
+   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
+   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
+   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
+   "last_crawl": null,
+   "google_canonical": null,
+   "inspected_at": "2026-09-11"
   }
  },
  "site_url": "sc-domain:biz-soft.pro",
- "inspected": 731,
+ "inspected": 730,
  "inherited": 0,
  "without_status": 0,
+ "errors": [
+  "/product/deepl-advanced: ReadTimeout: HTTPSConnectionPool(host='searchconsole.googleapis.com', port=443): Read timed out. (read timeout=30)"
+ ],
  "inventory_date": "2026-09-11"
 }
