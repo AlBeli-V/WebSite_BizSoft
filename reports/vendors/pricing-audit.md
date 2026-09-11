@@ -421,6 +421,12 @@ Standard seat — 305 евро за год, место Premium seat — 1515 е�
 - Описания карточек в Directus — через `data/seo/product-descriptions.json`
   и `ops-apply-descriptions` (28 записей).
 
-Открытый хвост: `scripts/flagship-cards.json` держит месячные потребительские
-тарифы ChatGPT Plus и ChatGPT Pro. На витрине их нет — их сняла миграция
-AI-каталога, — но повторный импорт этого файла завёл бы их заново.
+Открытый хвост закрыт в тот же день. `scripts/flagship-cards.json` держал
+месячные `OPENAI-PLUS`, `OPENAI-PRO` и дубль `OPENAI-BUSINESS` со статусом по
+умолчанию «published»: на витрине их нет, их сняла миграция AI-каталога
+17.08.2026, но повторный импорт реестра вернул бы их — с месячной ценой и
+вторым ChatGPT Business рядом с каноническим `INT-AI-CHATGPT`. Теперь у
+четырёх снятых позиций (вместе с `OPENAI-API`) в реестре стоит
+`status: draft`. Выгрузка прода 10.09.2026 подтвердила состояние: карточка
+`openai-business` жива в базе черновиком с ценой 4 059 ₽ за пользователя в
+месяц, `chatgpt-plus` и `chatgpt-pro` в базе не найдены.

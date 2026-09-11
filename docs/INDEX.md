@@ -28,6 +28,7 @@ TypeScript strict · Vitest · Python 3 (контуры SEO/разведки/р�
 | Фиды | `src/lib/feeds/*` (yml, registry, select) | — (SSR из Directus на лету) | `ops-yandex-feeds-toggle`, `ops-yandex-feeds` | `docs/yandex-feeds.md` | `pnpm smoke` (закрыты по умолчанию) |
 | Визуальный слой отчётов (KPI-kit) | `scripts/viz/kpi_kit.py` (плитки, светофор, линии, теплокарта, малые кратные, таблицы-дашборды; email-варианты) | — | входит в `seo-daily-report`, `competitive-intelligence-daily` | `docs/rules/kpi-kit.md`, витрина `docs/design/kpi-dashboards/` | `scripts/seo/tests/test_kpi_kit.py` |
 | Письма | `scripts/seo/report_v4.py`, `committee.py`; `competitive-intelligence/mailer/*` | ветки `seo-data` / `competitive-data` | `seo-report-email`, `seo-committee-build`+`seo-committee-email`, `competitive-intelligence-mail`, `ops-send-mail`, `ops-mail` | `reports/seo/README.md` | `uxlint_v4.py`, `contentcheck.py` (в конвейере отчёта) |
+| Сторож каталога | `scripts/ops/catalog_watch.py` | снимки на сервере `/opt/bizsoft/ops/catalog` | `ops-catalog-watch` (ежедневно, письмо через `ops-send-mail`) | `docs/rules/catalog-watch.md` | `python3 -m unittest discover -s scripts/ops/tests -t scripts/ops/tests` |
 | Бэкапы/DR | `scripts/ops/backup.sh` | снапшоты на сервере `/opt/bizsoft` | `ops-backup` | `docs/DR-RUNBOOK.md`, `docs/OPERATIONS.md` | — |
 | Операционные прогоны | — (детерминированные workflow, без сессий Claude/Routine) | — | `seo-daily-report`, `competitive-intelligence-daily`, `seo-committee-build`, `seo-tasks-due`; кросс-запуск между workflow — `scripts/ops/gh_dispatch_wait.sh` | заголовки этих workflow объясняют, какую Routine они заменили | — |
 
@@ -41,6 +42,10 @@ TypeScript strict · Vitest · Python 3 (контуры SEO/разведки/р�
   реестр `scripts/ai-catalog-cards.json`, заливка воркфлоу `ops-import-ai-cards`,
   правила против каннибализации пары тарифов: `docs/ai-catalog-import.md`,
   раздел «Заведение отдельной карточки AI-каталога».
+- **Пополнение баланса API (номиналы)** — реестр `scripts/api-balance.json`,
+  сборщик `scripts/build-api-balance-cards.mjs`, заливка тем же
+  `ops-import-ai-cards` с входом `registry`; модель, формула цены и защита
+  артикулов от каннибализации — `docs/api-balance-cards.md`.
 - **Подарочная карта (тип gift_card)** — модель, цена ×3, порядок на проде:
   `docs/gift-cards.md`; пакет Apple собирает `scripts/build-gift-card-package.mjs`,
   контент страницы — `src/data/gift-cards.ts`, логика — `src/lib/gift-cards.ts`.
@@ -76,6 +81,12 @@ TypeScript strict · Vitest · Python 3 (контуры SEO/разведки/р�
 - **Новая страница** (лендинг/продукт) — `src/pages/vendors/*`,
   `src/pages/product/[slug].astro`; добавить в `STATIC_ROUTES`
   (`src/pages/sitemap.xml.ts`), если страница bespoke.
+- **Разбор источника заявки** (органика или реклама, запрос, цепочка шагов,
+  цена клика) — классификатор `src/lib/traffic-source.ts`, блок письма
+  `src/lib/email/layout.ts`, утреннее уточнение и повтор писем —
+  `ops-lead-source-mail` + `scripts/ops/lead_source_enrich.py`; правило и
+  границы — `docs/rules/lead-source.md`. Признаки перехода внешних площадок
+  ведутся в `data/marketing/platform-accounts.json` (`referrer_match`).
 - **Правка письма отчёта** — блоки письма в `scripts/seo/report_v4.py`
   (Growth Intelligence) или `scripts/seo/committee.py` (Growth Committee);
   методика — `docs/seo/reporting-methodology.md`, открывать нужный раздел,

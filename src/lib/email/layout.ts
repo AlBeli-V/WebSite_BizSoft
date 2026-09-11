@@ -12,6 +12,7 @@
  */
 import { seller, site } from '../../config/site';
 import type { AttributionFields } from '../quote-lead';
+import { explainSource, ruDay, type SourceEnrichment, type SourceStep } from '../traffic-source';
 
 /** Экранирование пользовательских данных в HTML-письме. */
 export function escapeHtml(v: string): string {
@@ -115,31 +116,100 @@ export function emailShell(bodyHtml: string, preheader = ''): string {
     + `</table></td></tr></table></body></html>`;
 }
 
-/** Строки источника перехода — общий вид для писем о заявке и о КП. */
-export function attributionRows(a: AttributionFields): string {
+/** Один шаг пути посетителя строкой. */
+function stepLine(s: SourceStep): string {
+  const head = [ruDay(s.when), s.source, s.engine, s.phrase ? `«${s.phrase}»` : '']
+    .filter(Boolean).join(' · ');
+  const tail = s.visits && s.visits > 1 ? ` (визитов: ${s.visits})` : '';
+  return s.page ? `${head} → ${s.page}${tail}` : `${head}${tail}`;
+}
+
+const rubShort = (n: number) => `${n.toLocaleString('ru-RU', { maximumFractionDigits: 2 })} ₽`;
+
+/**
+ * Строки источника перехода — общий вид для писем о заявке и о КП.
+ *
+ * Первой строкой стоит вердикт «органика / реклама / внешняя площадка», а не
+ * сырая метка канала: письмо должно отвечать на вопрос руководителя сразу, не
+ * заставляя его расшифровывать «yandex.ru / referral». Второй строкой —
+ * чем вердикт подтверждается, чтобы разбор можно было проверить.
+ */
+export function attributionRows(a: AttributionFields, enrichment?: SourceEnrichment | null): string {
+  const v = explainSource(a, enrichment);
   const rows: string[] = [
-    kvRow('Канал', escapeHtml(a.last_touch_source || 'не определён'), true),
+    kvRow('Тип трафика', `${escapeHtml(v.kindLabel)}${
+      v.system ? ` · ${escapeHtml(v.system)}` : ''}`, true),
   ];
-  if (a.utm_campaign) {
-    rows.push(kvRow('Кампания', escapeHtml(a.utm_campaign)
-      + (a.utm_content ? ` <span style="color:${EMAIL_COLOR.muted};">· группа ${escapeHtml(a.utm_content)}</span>` : '')));
+  if (v.evidence) {
+    rows.push(kvRow('Как определено',
+      `<span style="color:${EMAIL_COLOR.muted};">${escapeHtml(v.evidence)}</span>`));
   }
-  if (a.utm_term) rows.push(kvRow('Фраза', escapeHtml(a.utm_term)));
+  // Сырая метка канала остаётся в письме мелким шрифтом: по ней заявка
+  // сходится с витриной аналитики, где канал хранится именно в этом виде.
+  if (a.last_touch_source) {
+    rows.push(kvRow('Метка канала',
+      `<span style="color:${EMAIL_COLOR.muted};">${escapeHtml(a.last_touch_source)}</span>`));
+  }
+  if (v.query) {
+    rows.push(kvRow('Запрос', `<b>${escapeHtml(v.query)}</b>${
+      v.queryNote ? ` <span style="color:${EMAIL_COLOR.muted};">· ${escapeHtml(v.queryNote)}</span>` : ''}`));
+  } else if (v.queryNote) {
+    rows.push(kvRow('Запрос',
+      `<span style="color:${EMAIL_COLOR.muted};">${escapeHtml(v.queryNote)}</span>`));
+  }
+  if (v.campaign || v.group || v.ad) {
+    rows.push(kvRow('Кампания', [
+      v.campaign ? `<b>${escapeHtml(v.campaign)}</b>` : '',
+      v.group ? `группа ${escapeHtml(v.group)}` : '',
+      v.ad ? `объявление ${escapeHtml(v.ad)}` : '',
+    ].filter(Boolean).join(' <span style="color:' + EMAIL_COLOR.muted + ';">·</span> ')));
+  }
+  if (typeof v.cpcRub === 'number') {
+    rows.push(kvRow('Цена клика', `<b>${escapeHtml(rubShort(v.cpcRub))}</b>${
+      v.cpcNote ? ` <span style="color:${EMAIL_COLOR.muted};">· ${escapeHtml(v.cpcNote)}</span>` : ''}`));
+  } else if (v.cpcNote) {
+    rows.push(kvRow('Цена клика',
+      `<span style="color:${EMAIL_COLOR.muted};">${escapeHtml(v.cpcNote)}</span>`));
+  }
   if (a.first_touch_source && a.first_touch_source !== a.last_touch_source) {
-    rows.push(kvRow('Первое касание', escapeHtml(a.first_touch_source)));
+    rows.push(kvRow('Первое касание', escapeHtml(a.first_touch_source)
+      + (a.first_touch_ts ? ` <span style="color:${EMAIL_COLOR.muted};">· ${escapeHtml(a.first_touch_ts.slice(0, 10))}</span>` : '')));
   }
   if (a.landing_path) rows.push(kvRow('Вход на сайт', escapeHtml(a.landing_path)));
+  if (v.steps.length) {
+    rows.push(kvRow('Путь клиента',
+      v.steps.map((s) => escapeHtml(stepLine(s))).join('<br>')
+      + (v.stepsOrigin ? `<br><span style="color:${EMAIL_COLOR.muted};">${escapeHtml(v.stepsOrigin)}</span>` : '')));
+  }
+  for (const note of v.pending) {
+    rows.push(kvRow('Ожидается',
+      `<span style="color:${EMAIL_COLOR.muted};">${escapeHtml(note)}</span>`));
+  }
   return rows.join('');
 }
 
 /** Те же строки источника для text-версии. */
-export function attributionLines(a: AttributionFields): string[] {
+export function attributionLines(a: AttributionFields, enrichment?: SourceEnrichment | null): string[] {
+  const v = explainSource(a, enrichment);
   return [
-    `Канал: ${a.last_touch_source || 'не определён'}`,
-    ...(a.utm_campaign ? [`Кампания: ${a.utm_campaign}${a.utm_content ? ` (группа ${a.utm_content})` : ''}`] : []),
-    ...(a.utm_term ? [`Фраза: ${a.utm_term}`] : []),
+    `Тип трафика: ${v.kindLabel}${v.system ? ` · ${v.system}` : ''}`,
+    ...(v.evidence ? [`Как определено: ${v.evidence}`] : []),
+    ...(a.last_touch_source ? [`Метка канала: ${a.last_touch_source}`] : []),
+    ...(v.query ? [`Запрос: ${v.query}${v.queryNote ? ` (${v.queryNote})` : ''}`]
+      : v.queryNote ? [`Запрос: ${v.queryNote}`] : []),
+    ...(v.campaign || v.group || v.ad ? [`Кампания: ${[
+      v.campaign, v.group ? `группа ${v.group}` : '', v.ad ? `объявление ${v.ad}` : '',
+    ].filter(Boolean).join(' · ')}`] : []),
+    ...(typeof v.cpcRub === 'number'
+      ? [`Цена клика: ${rubShort(v.cpcRub)}${v.cpcNote ? ` (${v.cpcNote})` : ''}`]
+      : v.cpcNote ? [`Цена клика: ${v.cpcNote}`] : []),
     ...(a.first_touch_source && a.first_touch_source !== a.last_touch_source
       ? [`Первое касание: ${a.first_touch_source}`] : []),
     ...(a.landing_path ? [`Вход на сайт: ${a.landing_path}`] : []),
+    ...(v.steps.length
+      ? ['Путь клиента:', ...v.steps.map((s) => `  ${stepLine(s)}`),
+        ...(v.stepsOrigin ? [`  (${v.stepsOrigin})`] : [])]
+      : []),
+    ...v.pending.map((n) => `Ожидается: ${n}`),
   ];
 }
