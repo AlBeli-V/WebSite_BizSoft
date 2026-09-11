@@ -273,6 +273,9 @@ async function buildSchema() {
   // Идентификаторы посетителя в счётчиках — ключ к обратной сверке
   // «заявка в CRM ↔ визит в аналитике». Без них сквозная аналитика невозможна
   // в принципе: связать две системы больше нечем.
+  await ensureField('leads', 'first_touch_referrer', { type: 'string', meta: { interface: 'input', note: 'Полный адрес первого перехода. Хоста мало: yandex.ru — это и выдача, и карточка организации, и Дзен.' } });
+  await ensureField('leads', 'last_touch_referrer', { type: 'string', meta: { interface: 'input', note: 'Полный адрес последнего перехода — по нему письмо отличает органику от карточки в Яндекс Бизнесе.' } });
+  await ensureField('leads', 'visit_path', { type: 'text', meta: { interface: 'input-multiline', note: 'Шаги посетителя по сайту из браузера: «дд.мм чч:мм~/страница» через «|». Метрика тот же путь отдаёт с задержкой.' } });
   await ensureField('leads', 'ym_client_id', { type: 'string', meta: { interface: 'input', width: 'half', note: 'ClientID Яндекс.Метрики.' } });
   await ensureField('leads', 'ga_client_id', { type: 'string', meta: { interface: 'input', width: 'half', note: 'client_id GA4.' } });
 
