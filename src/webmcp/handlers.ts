@@ -14,6 +14,7 @@ import { getCategories, getProducts, getProductBySlug, getVendors } from '../lib
 import type { ProductFilter } from '../lib/directus';
 import type { Product } from '../lib/types';
 import { countByCategory } from '../lib/catalog';
+import { categoryMembers } from '../lib/cross-listing';
 import { effectivePrice } from '../lib/pricing';
 import { searchProducts } from '../lib/product-search';
 import { searchPolicies } from '../lib/policy-search';
@@ -71,15 +72,21 @@ const handlers: Record<string, Handler> = {
       if (!match) return errResult(404, `производитель «${input.vendor}» не найден в каталоге. Список — list_vendors.`);
       filter.vendor = match.vendor;
     }
+    // Раздел фильтруем в памяти, а не запросом: вторую привязку
+    // (lib/cross-listing) база не знает — товар лежит в своём разделе, а
+    // показывается ещё и в смежном. Фильтр в Directus вернул бы меньше, чем
+    // обещает счётчик из list_categories, и агент решил бы, что каталог врёт.
+    let categorySlug = '';
     if (input.category) {
       const needle = String(input.category).toLowerCase();
       const cats = await getCategories();
       const cat = cats.find((c) => c.slug === needle) ?? cats.find((c) => c.name.toLowerCase() === needle);
       if (!cat) return errResult(404, `раздел «${input.category}» не найден. Список — list_categories.`);
-      filter.categorySlug = cat.slug;
+      categorySlug = cat.slug;
     }
 
     let products = await getProducts(filter);
+    if (categorySlug) products = categoryMembers(products, categorySlug);
     if (input.license) products = products.filter((p) => p.license_type === input.license);
     if (min != null || max != null) {
       // «Цена по запросу» из ценового диапазона уходит: сравнивать нечего,

@@ -20,8 +20,11 @@ import json
 import pathlib
 import sys
 
-sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
+# Сначала каталог wordstat (оттуда берётся normalize), затем свой: insert(0)
+# кладёт последний вызов первым, а у wordstat/ и seo/ есть одноимённый
+# opportunity.py — money_radar живёт только в своём, и брать нужно его.
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent / "wordstat"))
+sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
 
 import inventory  # noqa: E402
 import normalize as N  # noqa: E402
