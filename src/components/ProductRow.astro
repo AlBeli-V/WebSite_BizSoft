@@ -1,0 +1,120 @@
+---
+/**
+ * Строка товара: то же содержание, что у ProductCard, но в реестре.
+ *
+ * Аудит главной 11.09.2026: страница восемь раз подряд предъявляла одну и
+ * ту же сетку карточек — направления, товары, треки, риски, выгоды, шаги,
+ * документы, кейсы. Однородная сетка для разнородных сущностей и есть то,
+ * что читается как сгенерированная страница. Карточка остаётся там, где
+ * товар нужно разглядывать (каталог, витрина вендора); на главной восемь
+ * бестселлеров идут строками — плотнее, сравнимее по цене и визуально
+ * отличимо от соседних блоков.
+ *
+ * Кнопки те же, что в карточке, и по той же причине: у позиции с ценой —
+ * добавление в подборку, у «цены по запросу» — вопрос менеджеру, у
+ * подарочной карты — выбор номинала на её странице.
+ */
+import PriceTag from './PriceTag.astro';
+import AddToCartButton from './AddToCartButton.astro';
+import ProductIcon from './ProductIcon.astro';
+import VendorIcon from './VendorIcon.astro';
+import { effectivePrice } from '../lib/pricing';
+import { productIcons } from '../data/product-icons';
+import { vendorIcon } from '../data/vendor-icons';
+import { vendorSlug } from '../lib/vendor-links';
+import { planType, PLAN_LABEL } from '../lib/plan-type';
+import { isGiftCard } from '../lib/catalog';
+import type { Product } from '../lib/types';
+
+interface Props {
+  product: Product;
+  /** Метка кнопки добавления — на главной она называется спецификацией. */
+  addLabel?: string;
+}
+const { product, addLabel } = Astro.props;
+
+const eff = effectivePrice(product);
+const byRequest = !(product.price > 0) && !eff.isPromo;
+const gift = isGiftCard(product);
+const renamed = (product.vendor || '').match(/^(.+?)\s*\((.+)\)$/);
+const vendorMain = renamed ? renamed[1] : product.vendor;
+const plan = planType(product.name, product.short_description || '');
+const hasProductIcon = productIcons(product.slug).length > 0;
+const packSlug = !hasProductIcon && product.vendor ? vendorSlug(product.vendor) : '';
+const packIcon = packSlug ? vendorIcon(packSlug) : null;
+---
+<li class="prow">
+  <a href={`/product/${product.slug}`} class="prow-main" data-goal="home_product">
+    <span class="prow-ico">
+      {hasProductIcon ? (
+        <ProductIcon slug={product.slug} name={product.name} size={28} />
+      ) : packIcon ? (
+        <VendorIcon slug={packSlug} name={product.vendor || ''} size={28} />
+      ) : (
+        <span class="prow-ph" aria-hidden="true">{(product.vendor || product.name).slice(0, 1)}</span>
+      )}
+    </span>
+    <span class="prow-text">
+      <h3>{product.name}</h3>
+      <span class="prow-meta">
+        {vendorMain && <span class="prow-vendor">{vendorMain}</span>}
+        {plan && <span class="prow-plan" data-plan={plan}>{PLAN_LABEL[plan]}</span>}
+        {product.price_note && !byRequest && <span>{product.price_note}</span>}
+      </span>
+    </span>
+  </a>
+  <span class="prow-price">
+    {byRequest ? <b>Цена по запросу</b> : product.price_from ? (
+      <span class="prow-from"><i>от</i> <PriceTag product={product} /></span>
+    ) : <PriceTag product={product} />}
+  </span>
+  <span class="prow-act">
+    {byRequest ? (
+      <button class="btn btn-primary btn-sm" data-open-question data-product={product.name} data-sku={product.sku}>Запросить цену</button>
+    ) : gift ? (
+      <a href={`/product/${product.slug}`} class="btn btn-primary btn-sm">Выбрать номинал</a>
+    ) : (
+      <AddToCartButton sku={product.sku} slug={product.slug} name={product.name}
+                       vendor={vendorMain || ''} price={eff.price} compact label={addLabel} />
+    )}
+  </span>
+</li>
+
+<style>
+  .prow {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto auto;
+    gap: 0.6rem 1.2rem;
+    align-items: center;
+    padding: 0.85rem 1.1rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+  .prow:last-child { border-bottom: 0; }
+  .prow:hover { background: var(--color-bg-elevated); }
+  .prow-main { display: flex; align-items: center; gap: 0.85rem; min-width: 0; }
+  .prow-ico {
+    width: 38px; height: 38px; border-radius: 9px; flex-shrink: 0;
+    display: inline-flex; align-items: center; justify-content: center;
+    background: var(--color-bg-card); border: 1px solid var(--color-border);
+  }
+  .prow-ph { color: var(--color-accent); font-weight: 800; font-size: 1.05rem; }
+  .prow-text { min-width: 0; }
+  .prow h3 { font-size: 1rem; line-height: 1.3; margin: 0; color: var(--color-text); }
+  .prow-meta {
+    display: flex; flex-wrap: wrap; gap: 0.25rem 0.6rem;
+    color: var(--color-text-dim); font-size: 0.8rem; margin-top: 0.15rem;
+  }
+  .prow-vendor { font-weight: 600; color: var(--color-text-muted); }
+  .prow-plan[data-plan='team'] { color: var(--color-accent); font-weight: 700; }
+  .prow-price { white-space: nowrap; font-weight: 700; font-variant-numeric: tabular-nums; }
+  .prow-from { display: inline-flex; align-items: baseline; gap: 0.3rem; }
+  .prow-from i { font-style: normal; color: var(--color-text-muted); font-weight: 400; font-size: 0.88rem; }
+  .prow-act { display: flex; justify-content: flex-end; }
+
+  /* Телефон: цена и кнопка уходят под название, а не жмут его в две буквы. */
+  @media (max-width: 640px) {
+    .prow { grid-template-columns: 1fr auto; padding: 0.9rem 0.9rem; }
+    .prow-main { grid-column: 1 / -1; }
+    .prow-act { justify-content: flex-start; }
+  }
+</style>

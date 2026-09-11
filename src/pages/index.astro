@@ -2,64 +2,59 @@
 export const prerender = false;
 
 import BaseLayout from '../layouts/BaseLayout.astro';
-import SectionHeading from '../components/SectionHeading.astro';
-import CTASection from '../components/CTASection.astro';
 import Carousel from '../components/Carousel.astro';
-import StatsDigits from '../components/StatsDigits.astro';
 import CategoryIcon from '../components/CategoryIcon.astro';
-import { SEO_EXPERIMENT_LINKS } from '../data/seo-experiments';
-import { STATS } from '../data/stats';
-import Banner from '../components/Banner.astro';
+import VendorLogo from '../components/VendorLogo.astro';
+import ProductRow from '../components/ProductRow.astro';
+import PresetCards from '../components/PresetCards.astro';
+import QuoteDialog from '../components/QuoteDialog.astro';
+import SpecShelf from '../components/SpecShelf.astro';
 import LeadForm from '../components/LeadForm.astro';
 import QuestionForm from '../components/QuestionForm.astro';
-import VendorLogo from '../components/VendorLogo.astro';
-import ProductCard from '../components/ProductCard.astro';
+import FAQ from '../components/FAQ.astro';
 import JsonLd from '../components/JsonLd.astro';
-import { productIcons } from '../data/product-icons';
-import ProductIcon from '../components/ProductIcon.astro';
-import { vendorIcon } from '../data/vendor-icons';
-import VendorIcon from '../components/VendorIcon.astro';
-import { vendorSlug } from '../lib/vendor-links';
-import { site, seller } from '../config/site';
+import { SEO_EXPERIMENT_LINKS } from '../data/seo-experiments';
 import { POPULAR_VENDORS } from '../data/popular';
+import { site, seller } from '../config/site';
 import { getCatalogFacets, getProductsBySlugs } from '../lib/directus';
-import { effectivePrice, formatRub } from '../lib/pricing';
+import { getPresets, type ResolvedPreset } from '../lib/presets';
+import { formatRub } from '../lib/pricing';
 import type { Product } from '../lib/types';
 
-// Узнаваемые бренды для логопанели. Ссылки — на готовые лендинги.
-type Brand = { name: string; slug: string; color: string; blurb: string };
-const brands: Brand[] = [
-  { name: 'Adobe', slug: 'adobe', color: '#FA0F00', blurb: 'Photoshop, Illustrator, Premiere Pro, Acrobat и весь Creative Cloud.' },
-  { name: 'Figma', slug: 'figma', color: '#F24E1E', blurb: 'Дизайн интерфейсов и совместная работа над макетами.' },
-  { name: 'JetBrains', slug: 'jetbrains', color: '#000000', blurb: 'IDE для разработчиков: IntelliJ IDEA, PyCharm, GoLand, Rider.' },
-  { name: 'Miro', slug: 'miro', color: '#F2C500', blurb: 'Онлайн-доски для брейнштормов и работы распределённых команд.' },
-  { name: 'Zoom', slug: 'zoom', color: '#0B5CFF', blurb: 'Видеосвязь, вебинары и телефония для бизнеса.' },
-  { name: 'OpenAI', slug: 'openai', color: '#10A37F', blurb: 'ChatGPT Business и OpenAI API для команд.' },
-  { name: 'Canva', slug: 'canva', color: '#00C4CC', blurb: 'Дизайн, презентации и брендинг без штатного дизайнера.' },
-  { name: 'Autodesk', slug: 'autodesk', color: '#111111', blurb: '3D и VFX: Maya, 3ds Max, Media & Entertainment Collection.' },
-];
-
-// Чёрный/белый текст на цветной плитке по яркости фона.
-function textOn(hex: string): string {
-  const h = hex.replace('#', '');
-  const r = parseInt(h.slice(0, 2), 16), g = parseInt(h.slice(2, 4), 16), b = parseInt(h.slice(4, 6), 16);
-  const lum = (0.2126 * r + 0.7152 * g + 0.0722 * b) / 255;
-  return lum > 0.62 ? '#1d1d1f' : '#ffffff';
-}
-
-// Кураторский список бестселлеров (slug'и подтверждены в БД).
-const POPULAR_SLUGS = ['chatgpt-business', 'anthropic-team', 'ghcopilot-business', 'cursor-business', 'mscopilot-m365', 'gemini-workspace-standard', 'mj-standard', 'recraft-advanced'];
-
-// ── Живые данные каталога: цифры доверия, плитки категорий, товары с ценами ──
+// ─────────────────────────────────────────────────────────────────────────
+// Главная перестроена 11.09.2026 по аудиту `docs/design/homepage-redesign/`.
 //
+// Что было: двенадцать секций одинакового веса, восемь карточных сеток
+// подряд, сквозная нумерация /01…/06 с дробным /03•1, семь повторов
+// «договор — счёт в рублях — ЭДО» и одно измеримое действие на всю
+// страницу (добавление в подборку с восьми карточек). Кнопка «Получить КП»
+// в шапке вела на пустую страницу подборки.
+//
+// Что стало (выбор руководителя — гибрид концепций B+C+A):
+//   • короткое редакционное открытие вместо рекламного первого экрана;
+//   • развилка из четырёх маршрутов — посетители с разной готовностью
+//     идут разными путями, но все четыре дорожки рендерит сервер, и текст
+//     неактивных остаётся в HTML (иначе основной SEO-текст стал бы
+//     client-only и выпал из индекса);
+//   • ритм задают сами блоки: реестр, карусель, строки, текст со схемой,
+//     список с образцом КП, раскрывающиеся ответы — а не одна сетка;
+//   • воронка стала измеримой по шагам: маршрут → позиция или набор →
+//     подборка → КП → контакт, каждый шаг со своей целью.
+//
+// H1, title, description, ItemList вендоров и вся внутренняя перелинковка
+// сохранены дословно: это точка отсчёта SEO-замера (см. раздел E аудита).
+// ─────────────────────────────────────────────────────────────────────────
+
 // Две узкие выборки вместо одной полной. Прежде главная брала весь каталог
 // через getProducts() — с описаниями, SEO-текстами, характеристиками и
 // вопросами по каждой позиции, — хотя ей нужны только счётчики и восемь
-// карточек. После истечения кэша первый запрос оплачивал всю выгрузку, и
+// строк. После истечения кэша первый запрос оплачивал всю выгрузку, и
 // главная проваливалась по времени ответа: три подряд замера Lighthouse на
 // одном и том же коде дали 52, 73 и 95 баллов. Теперь счётчики берутся из
-// среза в два поля, а карточки — по списку слагов.
-const [facets, popularRows] = await Promise.all([
+// среза в два поля, карточки — по списку слагов, наборы — своим запросом.
+const POPULAR_SLUGS = ['chatgpt-business', 'anthropic-team', 'ghcopilot-business', 'cursor-business', 'mscopilot-m365', 'gemini-workspace-standard', 'mj-standard', 'recraft-advanced'];
+
+const [facets, popularRows, presets] = await Promise.all([
   getCatalogFacets().catch((e) => {
     console.error('home facets error', e);
     return [] as Awaited<ReturnType<typeof getCatalogFacets>>;
@@ -68,15 +63,25 @@ const [facets, popularRows] = await Promise.all([
     console.error('home popular error', e);
     return [] as Product[];
   }),
+  getPresets().catch((e) => {
+    console.error('home presets error', e);
+    return [] as ResolvedPreset[];
+  }),
 ]);
+
 const facetSlug = (f: (typeof facets)[number]) => f.category?.slug ?? '';
 const productCount = facets.length;
 const vendorCount = new Set(facets.map((f) => f.vendor).filter(Boolean)).size;
-// округляем вниз до десятка — «380+»
-const tenDown = (n: number) => `${Math.max(10, Math.floor(n / 10) * 10)}+`;
-
 const catCount = (pred: (s: string) => boolean) => facets.filter((f) => pred(facetSlug(f))).length;
 const firstPresent = (slugs: string[]) => slugs.find((s) => facets.some((f) => facetSlug(f) === s));
+
+const plural = (n: number, one: string, few: string, many: string) => {
+  const d = n % 10, h = n % 100;
+  if (d === 1 && h !== 11) return one;
+  if ([2, 3, 4].includes(d) && ![12, 13, 14].includes(h)) return few;
+  return many;
+};
+
 const tiles = [
   { icon: 'ai', name: 'AI-сервисы', href: '/catalog/ai', note: 'ChatGPT, Claude, Copilot, Midjourney', count: catCount((s) => s.startsWith('ai')) },
   { icon: 'design', name: 'Дизайн и графика', href: `/catalog/${firstPresent(['design', 'graphics-design']) || 'design'}`, note: 'Figma, Adobe, Canva, CorelDRAW', count: catCount((s) => ['design', 'graphics-design'].includes(s)) },
@@ -84,57 +89,57 @@ const tiles = [
   { icon: 'video', name: 'Видео и медиа', href: `/catalog/${firstPresent(['media']) || 'media'}`, note: 'DaVinci, Avid, Runway', count: catCount((s) => s === 'media') },
 ].filter((t) => t.count > 0);
 
-// Порядок карточек задаёт список выше: выборка по слагам возвращает строки в
+// Порядок строк задаёт список выше: выборка по слагам возвращает записи в
 // порядке базы, а витрина показывает бестселлеры в кураторском порядке.
 const bySlug = new Map(popularRows.map((p) => [p.slug, p]));
 const popular = POPULAR_SLUGS.map((s) => bySlug.get(s)).filter((p): p is Product => Boolean(p));
-// Hero-карточки: первые 4 бестселлера с известной ценой.
-const heroCards = popular.filter((p) => effectivePrice(p).price > 0).slice(0, 4);
-const VENDOR_COLOR: Record<string, string> = {
-  OpenAI: '#10A37F', Anthropic: '#D97757', GitHub: '#24292F', Cursor: '#111111',
-  Microsoft: '#0078D4', Google: '#4285F4', Midjourney: '#1a1a2e', Recraft: '#111111',
+// Первый маршрут показывает короткий срез того же списка: он отвечает на
+// «я знаю, что мне нужно», а не заменяет витрину ниже.
+const routePicks = popular.slice(0, 5);
+
+// Узнаваемые бренды для ItemList: список подключаемых сервисов со ссылками
+// на лендинги — для поиска и ИИ-ответов (GEO/AEO).
+const brands = [
+  { name: 'Adobe', slug: 'adobe' },
+  { name: 'Figma', slug: 'figma' },
+  { name: 'JetBrains', slug: 'jetbrains' },
+  { name: 'Miro', slug: 'miro' },
+  { name: 'Zoom', slug: 'zoom' },
+  { name: 'OpenAI', slug: 'openai' },
+  { name: 'Canva', slug: 'canva' },
+  { name: 'Autodesk', slug: 'autodesk' },
+];
+
+const servicesItemList = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  name: 'Зарубежные сервисы и ПО, которые подключает BIZSoft для юрлиц',
+  description: 'Популярные зарубежные SaaS-сервисы и ПО, которые BIZSoft закупает и активирует для российских компаний по договору и счёту.',
+  itemListElement: brands.map((b, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    name: b.name,
+    url: `${site.url}/vendors/${b.slug}`,
+  })),
 };
 
-const tracks = [
-  {
-    tag: 'Простой случай',
-    title: 'Вендор принимает карту',
-    text: 'Многие сервисы из ЕС и США оплачиваются банковской картой. Оформляем подписку, оплачиваем и передаём вам активированные доступы — быстро, без лишних шагов.',
-    points: ['Быстрый старт', 'Оплата и активация на нашей стороне', 'Доступы — вашей команде'],
-  },
-  {
-    tag: 'Сложный случай',
-    title: 'Картой не оплатить',
-    text: 'Часть вендоров работает только с зарубежными юрлицами и их счетами. Закупаем через счёт нашей компании за рубежом — вы получаете тот же сервис и полный пакет документов в России.',
-    points: ['Закупка через зарубежный счёт компании', 'Тот же сервис без ограничений', 'Договор и закрывающие в РФ'],
-  },
+const documents = [
+  { t: 'Договор поставки', d: 'на ООО или ИП, с вашими реквизитами и предметом «право использования ПО»' },
+  { t: 'Счёт в рублях', d: 'по курсу ЦБ на дату выставления, ставка НДС отдельной строкой' },
+  { t: 'Акт и УПД через ЭДО', d: 'Диадок, СБИС, Контур; бумажный комплект — по запросу' },
+  { t: 'Коммерческое предложение', d: 'состав, цены, срок действия и реквизиты поставщика одним документом' },
 ];
 
-const outcomes = [
-  { num: '01', title: 'Непрерывность работы', text: 'Специалисты остаются в привычных инструментах — проекты и процессы не встают из-за перехода на аналоги.' },
-  { num: '02', title: 'Официальные расходы', text: 'Оплата по договору и счёту, закрывающие документы через ЭДО. Затраты учитываются в бухгалтерии.' },
-  { num: '03', title: 'Мировой уровень инструментов', text: 'Доступ к сервисам, которые задают стандарт в дизайне, разработке и коммуникациях.' },
-  { num: '04', title: 'Одна точка ответственности', text: 'Подбор, закупка, оплата, активация и поддержка на всём сроке подписки.' },
-];
-
-const steps = [
-  { n: '1', t: 'Заявка', d: 'Рассказываете, какие сервисы и на сколько пользователей нужны.' },
-  { n: '2', t: 'Расчёт и КП', d: 'Подбираем варианты, считаем стоимость и готовим коммерческое предложение.' },
-  { n: '3', t: 'Договор и оплата', d: 'Заключаем договор, выставляем счёт и оплачиваем вендору.' },
-  { n: '4', t: 'Активация и документы', d: 'Передаём доступы и закрывающие документы через ЭДО.' },
-];
-
-const docBadges = [
-  { icon: 'office', t: 'Договор поставки', d: 'на ООО или ИП' },
-  { icon: 'документ', t: 'Счёт в рублях', d: 'по курсу ЦБ на дату счёта' },
-  { icon: 'security', t: 'Закрывающие через ЭДО', d: 'акты и УПД' },
-  { icon: 'защит', t: seller.shortName, d: `ИНН ${seller.inn} · с 2022 года` },
-];
-
-const cases = [
-  { tag: 'Дизайн-студия · 12 мест', title: 'Figma + Adobe CC на всю команду', text: 'Единый счёт, доступы за 2 дня, продление без участия бухгалтерии.' },
-  { tag: 'IT-компания · 30 мест', title: 'JetBrains + GitHub Copilot', text: 'Годовые лицензии с фиксацией в счёте, закрывающие через ЭДО.' },
-  { tag: 'Агентство · 8 мест', title: 'ChatGPT Business + Midjourney', text: 'Корпоративные тарифы вместо личных карт сотрудников.' },
+// Возражения закупщика. Тот же текст, что раньше лежал карточками «Снимаем
+// риски», плюс два вопроса, которых на главной не было. Компонент FAQ даёт
+// им разметку FAQPage — на главной её прежде не было вовсе.
+const objections = [
+  { q: 'Это законно?', a: 'Да: вы заключаете договор поставки с российским поставщиком и платите в рублях по безналичному расчёту. Валютных операций и зарубежных платежей у вашей компании не возникает — они остаются на стороне поставщика.' },
+  { q: 'Не заблокируют ли аккаунт?', a: 'Оформляем официальные корпоративные тарифы на вашу команду и сопровождаем доступ весь срок подписки. Если у вендора возникают вопросы — решаем их мы.' },
+  { q: 'Что будет при продлении?', a: 'Заранее напоминаем об окончании срока, выставляем счёт на новый период и продлеваем так, чтобы доступ команды не прерывался.' },
+  { q: 'Как с НДС и закрывающими документами?', a: 'Выставляем счёт в рублях, передаём договор, акт и УПД через ЭДО — полный комплект для бухгалтерии. Ставка НДС указывается и в счёте, и в коммерческом предложении.' },
+  { q: 'Сколько занимает поставка?', a: 'Расчёт и коммерческое предложение готовим в рабочий день обращения. После оплаты счёта доступы передаём за 1–3 рабочих дня; по вендорам, которые требуют закупки через зарубежный счёт, срок обсуждаем отдельно и называем до выставления счёта.' },
+  { q: 'А если нужного сервиса нет в каталоге?', a: 'Подключаем почти любого зарубежного вендора, включая тех, кто не принимает карту. Назовите сервис в блоке «Не нашли нужный сервис» — ответим, как его закупить и сколько это выйдет.' },
 ];
 
 const compareLinks = [
@@ -148,19 +153,12 @@ const kbLinks = [
   { label: 'Безопасность данных в корпоративных AI', href: '/blog/bezopasnost-dannyh-v-korporativnyh-ai' },
 ];
 
-// GEO/AEO: список подключаемых сервисов со ссылками на лендинги — для поиска и ИИ-ответов.
-const servicesItemList = {
-  '@context': 'https://schema.org',
-  '@type': 'ItemList',
-  name: 'Зарубежные сервисы и ПО, которые подключает BIZSoft для юрлиц',
-  description: 'Популярные зарубежные SaaS-сервисы и ПО, которые BIZSoft закупает и активирует для российских компаний по договору и счёту.',
-  itemListElement: brands.map((b, i) => ({
-    '@type': 'ListItem',
-    position: i + 1,
-    name: b.name,
-    url: `${site.url}/vendors/${b.slug}`,
-  })),
-};
+const routes = [
+  { id: 'known', tab: 'Знаю, что купить', hint: 'Найти сервис и добавить в подборку' },
+  { id: 'task', tab: 'Нужно решение под задачу', hint: 'Готовые наборы под роль команды' },
+  { id: 'legal', tab: 'Закупка на юрлицо', hint: 'Документы, НДС, ЭДО, сроки' },
+  { id: 'choosing', tab: 'Ещё выбираю', hint: 'Сравнения и разборы перед покупкой' },
+];
 ---
 <BaseLayout
   title="BIZSoft — ПО и AI-сервисы для бизнеса: ChatGPT, Claude, Adobe, Figma, JetBrains"
@@ -169,81 +167,175 @@ const servicesItemList = {
 >
   <JsonLd schema={servicesItemList} />
 
-  <!-- HERO: заголовок + бестселлеры с ценами -->
-  <section class="hero">
-    <div class="container-page hero-grid">
-      <div class="hero-content reveal is-visible">
-        <span class="eyebrow">SaaS и ПО для бизнеса без границ</span>
-        <h1>Закупку зарубежного ПО <span class="accent">берём на себя</span></h1>
-        <p class="hero-sub">
-          Команда остаётся в привычных инструментах: Adobe, Figma, JetBrains, ChatGPT, Claude
-          и сотни зарубежных сервисов. Договор, счёт в рублях, закрывающие — через ЭДО.
-        </p>
-        <div class="hero-actions">
-          <button class="btn btn-primary" data-open-question data-goal="hero_discuss">Обсудить задачу</button>
-          <a href="/catalog" class="btn btn-ghost" data-goal="hero_catalog">Смотреть каталог</a>
-        </div>
-        <ul class="hero-badges">
-          <li>Договор и счёт в ₽</li>
-          <li>Закрывающие через ЭДО</li>
-          <li>Поставка 1–3 дня</li>
-        </ul>
-      </div>
-
-      {heroCards.length >= 2 ? (
-        <div class="hero-media reveal is-visible">
-          <!-- Заголовок секции для скринридеров: карточки несут h3, а после h1
-               уровень нельзя перепрыгивать через два (Lighthouse
-               heading-order). Визуально блок подписи не имеет — заголовок
-               скрыт классом .sr-only, но остаётся в структуре страницы. -->
-          <h2 class="sr-only">Популярные тарифы</h2>
-          <div class="hero-cards">
-            {heroCards.map((p, i) => {
-              const eff = effectivePrice(p);
-              const color = VENDOR_COLOR[p.vendor || ''] || 'var(--color-accent)';
-              return (
-                <a href={`/product/${p.slug}`} class="card mini-card" data-goal="hero_product">
-                  {i === 0 && <span class="hit-badge">Хит</span>}
-                  {productIcons(p.slug).length > 0 ? (
-                    <span class="mini-logo has-ico"><ProductIcon slug={p.slug} name={p.name} size={30} /></span>
-                  ) : vendorIcon(vendorSlug(p.vendor || '')) ? (
-                    <span class="mini-logo has-ico"><VendorIcon slug={vendorSlug(p.vendor || '')} name={p.vendor || ''} size={30} /></span>
-                  ) : (
-                    <span class="mini-logo" style={`--bc:${color}; --tc:${textOn(color.startsWith('#') ? color : '#f2591d')}`}>{(p.vendor || p.name).slice(0, 1)}</span>
-                  )}
-                  <h3>{p.name}</h3>
-                  <div class="mini-price">от {formatRub(eff.price)} <small>{p.price_note || 'в год'}</small></div>
-                </a>
-              );
-            })}
-          </div>
-        </div>
-      ) : (
-        <div class="hero-media reveal is-visible" aria-hidden="true">
-          <div class="tile-cloud">
-            {brands.slice(0, 6).map((b, i) => (
-              <span class={`app-tile t${i}`} style={`--bc:${b.color}; --tc:${textOn(b.color)}`}>
-                {vendorIcon(b.slug) ? <VendorIcon slug={b.slug} name={b.name} size={64} variant="color" /> : b.name.slice(0, 1)}
-              </span>
-            ))}
-          </div>
-        </div>
-      )}
+  <!-- ОТКРЫТИЕ: короткое, без рекламного разворота и без декоративного свечения -->
+  <section class="open">
+    <div class="container-page">
+      <p class="dateline">Закупка зарубежного ПО для российских компаний</p>
+      <h1>Закупку зарубежного ПО <span class="accent">берём на себя</span></h1>
+      <p class="standfirst">
+        Команда остаётся в привычных инструментах: Adobe, Figma, JetBrains, ChatGPT, Claude
+        и сотни зарубежных сервисов. Договор, счёт в рублях, закрывающие — через ЭДО.
+      </p>
+      <p class="byline">
+        <!-- Якорь ведёт на витрину, только если она отрисована: блок
+             бестселлеров требует минимум четырёх позиций с ценой, и при
+             недоступной базе ссылка вела бы в пустоту. -->
+        <a href={popular.length >= 4 ? '#popular' : '/catalog'} data-goal="home_catalog">Сразу к ценам и подборке →</a>
+        {productCount > 0 && <span><b>{productCount}</b> {plural(productCount, 'позиция', 'позиции', 'позиций')} в каталоге</span>}
+        {vendorCount > 0 && <span><b>{vendorCount}</b> {plural(vendorCount, 'вендор', 'вендора', 'вендоров')}</span>}
+        <span>Поставщик — <b>{seller.shortName}</b>, ИНН {seller.inn}</span>
+      </p>
     </div>
-    <div class="hero-glow" aria-hidden="true"></div>
   </section>
 
-  <!-- ЦИФРЫ ДОВЕРИЯ -->
-  <StatsDigits stats={[
-    { num: productCount > 0 ? Math.max(10, Math.floor(productCount / 10) * 10) : STATS.productsFallback, suf: '+', label: 'позиций в каталоге' },
-    { num: vendorCount > 0 ? Math.max(10, Math.floor(vendorCount / 10) * 10) : STATS.vendorsFallback, suf: '+', label: 'мировых вендоров' },
-    { num: STATS.sinceYear, pre: 'с ', suf: ' г.', label: 'работаем на рынке' },
-    { num: STATS.aiDirections, label: 'AI-направлений в каталоге' },
-    { num: 1, suf: ' день', label: 'на КП и счёт' },
-    { num: 100, suf: '%', label: 'сделок с закрывающими по ЭДО' },
-  ]} />
+  <!-- РАЗВИЛКА МАРШРУТОВ.
+       Все четыре дорожки рендерит сервер; неактивные скрыты атрибутом
+       hidden, а не отсутствуют в разметке: иначе основной текст про
+       договор, ЭДО и НДС стал бы client-only и выпал бы из индекса. -->
+  <section class="container-page routes">
+    <h2 class="sr-only">С чего начать</h2>
+    <div class="doors" role="tablist" aria-label="С чего начать">
+      {routes.map((r, i) => (
+        <button
+          class:list={['door', { on: i === 0 }]}
+          role="tab"
+          id={`door-${r.id}`}
+          aria-controls={`lane-${r.id}`}
+          aria-selected={i === 0 ? 'true' : 'false'}
+          tabindex={i === 0 ? 0 : -1}
+          data-door={r.id}
+        >
+          <b>{r.tab}</b><span>{r.hint}</span>
+        </button>
+      ))}
+    </div>
 
-  <!-- ЛОГОПАНЕЛЬ -->
+    <!-- Дорожка 1: знаю, что купить -->
+    <div class="lane" id="lane-known" role="tabpanel" aria-labelledby="door-known" data-lane="known">
+      <div class="lane-head">
+        <div>
+          <h2>Найдите сервис и добавьте в подборку</h2>
+          <p>Цена за место в год, в рублях, по курсу ЦБ. Количество мест уточним в коммерческом предложении — сейчас это не нужно.</p>
+        </div>
+        <a href="/catalog" class="btn btn-ghost btn-sm" data-goal="home_catalog">Весь каталог →</a>
+      </div>
+      <form class="lane-search" action="/catalog" method="get" role="search">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="search" name="q" placeholder="ChatGPT, Figma, JetBrains, Autodesk…" aria-label="Поиск по каталогу" />
+        <button type="submit" class="btn btn-primary btn-sm">Найти</button>
+      </form>
+      {routePicks.length > 0 && (
+        <ul class="rows">
+          {routePicks.map((p) => <ProductRow product={p} addLabel="В подборку" />)}
+        </ul>
+      )}
+    </div>
+
+    <!-- Дорожка 2: решение под задачу -->
+    <div class="lane" id="lane-task" role="tabpanel" aria-labelledby="door-task" data-lane="task" hidden>
+      <div class="lane-head">
+        <div>
+          <h2>Готовые наборы под роль команды</h2>
+          <p>Набор кладётся в подборку целиком одной кнопкой. Состав можно поменять — это черновик спецификации, а не заказ.</p>
+        </div>
+      </div>
+      {presets.length > 0 ? (
+        <PresetCards presets={presets} showAudience withQuote />
+      ) : (
+        <p class="lane-empty">Наборы сейчас недоступны — <a href="/catalog">соберите подборку из каталога</a>, и мы посчитаем её целиком.</p>
+      )}
+    </div>
+
+    <!-- Дорожка 3: закупка на юрлицо -->
+    <div class="lane" id="lane-legal" role="tabpanel" aria-labelledby="door-legal" data-lane="legal" hidden>
+      <div class="lane-head">
+        <div>
+          <h2>Закупка выглядит как обычная поставка ПО</h2>
+          <p>Договор с российским поставщиком, оплата в рублях по безналичному расчёту. Валютной операции у вашей компании не возникает.</p>
+        </div>
+      </div>
+      <div class="legal-grid">
+        <ul class="check-list">
+          {documents.map((d) => <li><b>{d.t}</b> — {d.d}</li>)}
+          <li><b>Корпоративные аккаунты</b> — доступы оформлены на команду, а не на личные карты сотрудников</li>
+        </ul>
+        <div class="card legal-side">
+          <b>Посмотреть до разговора</b>
+          <p>Условия поставки, реквизиты и порядок работы — открыто, без заявки.</p>
+          <a href="/documents" class="btn btn-ghost btn-sm" data-goal="home_knowledge">Документы и реквизиты</a>
+          <a href="/how-we-work" class="btn btn-ghost btn-sm" data-goal="home_knowledge">Как мы работаем</a>
+          <p class="legal-note">Коммерческое предложение с вашими реквизитами формируется по подборке — соберите позиции и нажмите «Получить КП».</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Дорожка 4: ещё выбираю -->
+    <div class="lane" id="lane-choosing" role="tabpanel" aria-labelledby="door-choosing" data-lane="choosing" hidden>
+      <div class="lane-head">
+        <div>
+          <h2>Разборы, которые помогают решить до покупки</h2>
+          <p>Сравнения тарифов и ответы на вопросы, которые задают перед первой закупкой. Без звонка и без реквизитов.</p>
+        </div>
+      </div>
+      <div class="know-grid">
+        <div>
+          <p class="kcap">Сравнения сервисов</p>
+          <div class="klist">
+            {compareLinks.map((l) => <a href={l.href} data-goal="home_knowledge">{l.label} <span aria-hidden="true">→</span></a>)}
+          </div>
+        </div>
+        <div>
+          <p class="kcap">База знаний</p>
+          <div class="klist">
+            {kbLinks.map((l) => <a href={l.href} data-goal="home_knowledge">{l.label} <span aria-hidden="true">→</span></a>)}
+          </div>
+        </div>
+        <div>
+          <p class="kcap">Готовые решения</p>
+          <div class="klist">
+            <a href="/solutions" data-goal="home_knowledge">Подбор по задаче отдела <span aria-hidden="true">→</span></a>
+            <a href="/cases" data-goal="home_knowledge">Как это работает у клиентов <span aria-hidden="true">→</span></a>
+            <a href="/faq" data-goal="home_knowledge">Частые вопросы о закупке <span aria-hidden="true">→</span></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ПОЛОСА-ПОДПИСЬ: единственное место, где условия сказаны списком.
+       Раньше этот же довод повторялся на странице семь раз. -->
+  <div class="strip">
+    <div class="container-page strip-inner">
+      <span><b>Договор и счёт в ₽</b> — без валютных операций</span>
+      <span><b>Закрывающие через ЭДО</b> — акт и УПД</span>
+      <span><b>Поставка 1–3 дня</b> после оплаты</span>
+      <span><b>С 2022 года</b> — {seller.shortName}</span>
+    </div>
+  </div>
+
+  <!-- НАПРАВЛЕНИЯ: реестр в одной рамке, а не четыре отдельные карточки -->
+  {tiles.length > 0 && (
+    <section class="container-page section">
+      <h2 class="h2">Каталог по направлениям</h2>
+      <p class="sub">Счётчик живой: столько позиций с ценой в разделе прямо сейчас.</p>
+      <div class="dirs">
+        {tiles.map((t) => (
+          <a href={t.href} class="dir" data-goal="home_category">
+            <span class="dir-ico" aria-hidden="true"><CategoryIcon slug={t.icon} name={t.name} size={26} /></span>
+            <em>{t.count}</em>
+            <b>{t.name}</b>
+            <span class="dir-note">{t.note}</span>
+          </a>
+        ))}
+      </div>
+      <p class="ps-links">
+        <span class="ps-cap">Популярные сервисы для бизнеса:</span>
+        {SEO_EXPERIMENT_LINKS.map((l) => <a href={`/vendors/${l.slug}`} data-goal="home_vendor">{l.anchor}</a>)}
+      </p>
+    </section>
+  )}
+
+  <!-- ЛОГОПАНЕЛЬ: настоящие знаки вендоров вместо декоративной графики -->
   <section class="container-page logos-sec">
     <p class="logos-cap">Помогаем подключать сервисы, которыми пользуется весь мир</p>
     <Carousel label="Производители, которых мы подключаем" autoplay={2600} slideWidth="clamp(200px, 60vw, 240px)">
@@ -252,8 +344,8 @@ const servicesItemList = {
              listitem у ссылки, роль затирала бы нативную link — скринридер и
              AI-агент переставали видеть чип как переход (аудит 30.08.2026). -->
         <div role="listitem">
-          <a href={`/vendors/${b.slug}`} class="logo-chip" aria-label={`${b.name} — купить для юрлица`}>
-            <span class="logo-badge" style={`--bc:${b.color}; --tc:${textOn(b.color)}`}><VendorLogo slug={b.slug} name={b.name} size={24} /></span>
+          <a href={`/vendors/${b.slug}`} class="logo-chip" aria-label={`${b.name} — купить для юрлица`} data-goal="home_vendor">
+            <span class="logo-badge" style={`--bc:${b.color}`}><VendorLogo slug={b.slug} name={b.name} size={24} /></span>
             <span class="logo-name">{b.name}</span>
           </a>
         </div>
@@ -261,340 +353,535 @@ const servicesItemList = {
     </Carousel>
   </section>
 
-  <!-- Популярные сервисы для бизнеса (перелинковка SEO-эксперимента P0-1) -->
-  <section class="container-page pop-services">
-    <p class="ps-cap">Популярные сервисы для бизнеса:</p>
-    <p class="ps-links">
-      {SEO_EXPERIMENT_LINKS.map((l) => <a href={`/vendors/${l.slug}`}>{l.anchor}</a>)}
-    </p>
-  </section>
-
-  <!-- КАТЕГОРИИ КАТАЛОГА -->
-  {tiles.length > 0 && (
-    <section class="container-page section">
-      <SectionHeading num="01" eyebrow="Каталог" title="Направления">
-        <p>Разделы каталога с фильтрами, ценами в рублях и оформлением на юрлицо.</p>
-      </SectionHeading>
-      <div class="cat-tiles">
-        {tiles.map((t) => (
-          <a href={t.href} class="card card-hover cat-tile" data-goal="home_category">
-            <span class="cat-ico" aria-hidden="true"><CategoryIcon slug={t.icon} name={t.name} size={34} /></span>
-            <b>{t.name}</b>
-            <span class="cat-note">{t.count} {t.count % 10 === 1 && t.count % 100 !== 11 ? 'товар' : [2, 3, 4].includes(t.count % 10) && ![12, 13, 14].includes(t.count % 100) ? 'товара' : 'товаров'} · {t.note}</span>
-          </a>
-        ))}
-      </div>
-    </section>
-  )}
-
-  <!-- ПОПУЛЯРНЫЕ ТОВАРЫ С ЦЕНАМИ -->
+  <!-- БЕСТСЕЛЛЕРЫ СТРОКАМИ: плотнее карточек и сравнимее по цене -->
   {popular.length >= 4 && (
-    <section class="container-page section band">
-      <SectionHeading num="02" eyebrow="Популярное" title="Чаще всего оформляют">
-        <p>Реальные карточки каталога: цена за год, оформление на юрлицо в два клика.</p>
-      </SectionHeading>
-      <div class="product-grid">
-        {popular.slice(0, 8).map((p) => <ProductCard product={p} />)}
-      </div>
-      <p class="all-vendors"><a href="/catalog">Весь каталог →</a></p>
+    <section class="container-page section" id="popular">
+      <h2 class="h2">Чаще всего оформляют</h2>
+      <p class="sub">Реальные позиции каталога: цена за место в год, в рублях, с НДС. Добавьте нужное — количество мест уточним в КП.</p>
+      <ul class="rows framed">
+        {popular.slice(0, 8).map((p) => <ProductRow product={p} addLabel="В подборку" />)}
+      </ul>
+      <p class="all-link"><a href="/catalog" data-goal="home_catalog">Весь каталог{productCount > 0 ? `: ${productCount} ${plural(productCount, 'позиция', 'позиции', 'позиций')}` : ''} →</a></p>
     </section>
   )}
 
-  <!-- ДВА ПУТИ ЗАКУПКИ -->
+  <!-- МЕХАНИКА ЗАКУПКИ: узкая колонка и функциональная схема вместо
+       двух карточек-треков, четырёх «выгод» и четырёх «шагов» -->
+  <section class="container-page section flow-sec">
+    <div class="flow-text">
+      <h2 class="h2">Почему у вас не возникает валютной операции</h2>
+      <p>Вы заключаете договор поставки с российским поставщиком и платите в рублях по безналичному расчёту. С точки зрения вашей компании это обычная закупка ПО. Дальше вопрос только в том, как конкретный вендор принимает деньги, — и это уже наша часть работы.</p>
+      <p><b>Вендор принимает карту.</b> Оформляем подписку, оплачиваем и передаём вашей команде активированные доступы.</p>
+      <p><b>Картой не оплатить.</b> Часть вендоров работает только с зарубежными юрлицами и их счетами. Закупаем через счёт нашей компании за рубежом — сервис тот же, документы российские.</p>
+      <p class="flow-more"><a href="/how-we-work" data-goal="home_knowledge">Как мы работаем, подробно →</a></p>
+    </div>
+    <figure class="flow-fig">
+      <svg class="flow-svg-wide" viewBox="0 0 700 236" role="img" aria-label="Схема закупки: ваша компания платит в рублях российскому поставщику, поставщик рассчитывается с вендором — картой или через зарубежный счёт — и передаёт доступы и документы">
+        <defs>
+          <marker id="fa" markerWidth="9" markerHeight="9" refX="8" refY="3.2" orient="auto"><path class="m-acc" d="M0,0 L8,3.2 L0,6.4 z"/></marker>
+          <marker id="fg" markerWidth="9" markerHeight="9" refX="8" refY="3.2" orient="auto"><path class="m-bd" d="M0,0 L8,3.2 L0,6.4 z"/></marker>
+          <marker id="fs" markerWidth="9" markerHeight="9" refX="8" refY="3.2" orient="auto"><path class="m-ok" d="M0,0 L8,3.2 L0,6.4 z"/></marker>
+        </defs>
+        <rect x="4" y="74" width="146" height="70" rx="14" class="fg-box"/>
+        <text x="77" y="101" text-anchor="middle" class="fg-t">Ваша компания</text>
+        <text x="77" y="121" text-anchor="middle" class="fg-s">резидент РФ, платит ₽</text>
+        <rect x="254" y="66" width="156" height="86" rx="14" class="fg-box-acc"/>
+        <text x="332" y="95" text-anchor="middle" class="fg-t">BIZSoft</text>
+        <text x="332" y="114" text-anchor="middle" class="fg-s">поставщик, резидент РФ</text>
+        <text x="332" y="131" text-anchor="middle" class="fg-s">берёт расчёт на себя</text>
+        <rect x="514" y="16" width="182" height="62" rx="14" class="fg-box"/>
+        <text x="605" y="40" text-anchor="middle" class="fg-t">Вендор принимает карту</text>
+        <text x="605" y="59" text-anchor="middle" class="fg-s">подписка, оплата, активация</text>
+        <rect x="514" y="140" width="182" height="62" rx="14" class="fg-box"/>
+        <text x="605" y="164" text-anchor="middle" class="fg-t">Вендор берёт только счёт</text>
+        <text x="605" y="183" text-anchor="middle" class="fg-s">через наш зарубежный счёт</text>
+        <line x1="152" y1="100" x2="248" y2="100" class="fg-line-acc" marker-end="url(#fa)"/>
+        <text x="200" y="91" text-anchor="middle" class="fg-a">оплата в ₽ по счёту</text>
+        <path d="M412 92 Q470 66 508 52" class="fg-line-bd" marker-end="url(#fg)"/>
+        <path d="M412 126 Q470 152 508 168" class="fg-line-bd" marker-end="url(#fg)"/>
+        <line x1="248" y1="196" x2="152" y2="196" class="fg-line-ok" marker-end="url(#fs)"/>
+        <text x="400" y="200" text-anchor="middle" class="fg-ok">доступы команде, договор, счёт, акт и УПД по ЭДО</text>
+      </svg>
+      <svg class="flow-svg-narrow" viewBox="0 0 340 500" role="img" aria-label="Схема закупки: ваша компания платит в рублях российскому поставщику, поставщик рассчитывается с вендором — картой или через зарубежный счёт — и передаёт доступы и документы">
+        <defs>
+          <marker id="na" markerWidth="9" markerHeight="9" refX="8" refY="3.2" orient="auto"><path class="m-acc" d="M0,0 L8,3.2 L0,6.4 z"/></marker>
+          <marker id="ng" markerWidth="9" markerHeight="9" refX="8" refY="3.2" orient="auto"><path class="m-bd" d="M0,0 L8,3.2 L0,6.4 z"/></marker>
+          <marker id="ns" markerWidth="9" markerHeight="9" refX="8" refY="3.2" orient="auto"><path class="m-ok" d="M0,0 L8,3.2 L0,6.4 z"/></marker>
+        </defs>
+        <rect x="70" y="4" width="230" height="64" rx="14" class="fg-box"/>
+        <text x="185" y="30" text-anchor="middle" class="fg-t">Ваша компания</text>
+        <text x="185" y="50" text-anchor="middle" class="fg-s">резидент РФ, платит ₽</text>
+        <line x1="185" y1="70" x2="185" y2="112" class="fg-line-acc" marker-end="url(#na)"/>
+        <text x="195" y="96" class="fg-a">оплата в ₽ по счёту</text>
+        <rect x="70" y="120" width="230" height="78" rx="14" class="fg-box-acc"/>
+        <text x="185" y="146" text-anchor="middle" class="fg-t">BIZSoft</text>
+        <text x="185" y="166" text-anchor="middle" class="fg-s">поставщик, резидент РФ</text>
+        <text x="185" y="184" text-anchor="middle" class="fg-s">берёт расчёт на себя</text>
+        <path d="M140 200 L140 244" class="fg-line-bd" marker-end="url(#ng)"/>
+        <path d="M240 200 L240 244" class="fg-line-bd" marker-end="url(#ng)"/>
+        <rect x="70" y="252" width="110" height="84" rx="14" class="fg-box"/>
+        <text x="125" y="276" text-anchor="middle" class="fg-t2">Вендор</text>
+        <text x="125" y="294" text-anchor="middle" class="fg-t2">берёт карту</text>
+        <text x="125" y="316" text-anchor="middle" class="fg-s">оплата и</text>
+        <text x="125" y="330" text-anchor="middle" class="fg-s">активация</text>
+        <rect x="190" y="252" width="110" height="84" rx="14" class="fg-box"/>
+        <text x="245" y="276" text-anchor="middle" class="fg-t2">Вендор берёт</text>
+        <text x="245" y="294" text-anchor="middle" class="fg-t2">только счёт</text>
+        <text x="245" y="316" text-anchor="middle" class="fg-s">наш зарубежный</text>
+        <text x="245" y="330" text-anchor="middle" class="fg-s">счёт</text>
+        <rect x="70" y="384" width="230" height="98" rx="14" class="fg-box-ok"/>
+        <text x="185" y="410" text-anchor="middle" class="fg-ok-t">Вы получаете</text>
+        <text x="185" y="432" text-anchor="middle" class="fg-s">доступы команде,</text>
+        <text x="185" y="450" text-anchor="middle" class="fg-s">договор и счёт в рублях,</text>
+        <text x="185" y="468" text-anchor="middle" class="fg-s">акт и УПД через ЭДО</text>
+        <path d="M40 433 L20 433 L20 36 L64 36" class="fg-line-ok" fill="none" marker-end="url(#ns)"/>
+        <line x1="70" y1="433" x2="40" y2="433" class="fg-line-ok"/>
+      </svg>
+      <figcaption>Всё, что справа от оранжевой рамки, вашей компании не касается: документы приходят от российского поставщика.</figcaption>
+    </figure>
+  </section>
+
+  <!-- ДОКАЗАТЕЛЬСТВО: перечень документов и образец КП вместо
+       четырёх плиток-обещаний и трёх обобщённых псевдокейсов -->
+  <section class="container-page section docs-sec">
+    <div>
+      <h2 class="h2">Что именно получит бухгалтерия</h2>
+      <p class="sub">Это не обещание, а перечень: ровно эти документы приходят по каждой сделке. Справа — как выглядит коммерческое предложение, которое формирует кнопка «Получить КП».</p>
+      <ul class="check-list">
+        {documents.map((d) => <li><b>{d.t}</b> — {d.d}</li>)}
+      </ul>
+      <p class="flow-more"><a href="/cases" data-goal="home_knowledge">Как это работает у клиентов →</a></p>
+    </div>
+    <div class="paper" aria-hidden="true">
+      <b class="paper-h">Коммерческое предложение № КП-ГГГГ-NNNN</b>
+      <span class="paper-d">дата выставления · срок действия</span>
+      <table class="paper-t">
+        <thead><tr><th>Наименование</th><th>Кол-во</th><th>Сумма</th></tr></thead>
+        <tbody>
+          <tr><td>Сервис из вашей подборки, 12 мес</td><td>—</td><td>—</td></tr>
+          <tr><td>Сервис из вашей подборки, 12 мес</td><td>—</td><td>—</td></tr>
+        </tbody>
+      </table>
+      <span class="paper-tot">Итого с НДС · сумма прописью</span>
+      <span class="paper-f">Поставщик: {seller.shortName} · ИНН {seller.inn}</span>
+    </div>
+  </section>
+
+  <!-- ВОЗРАЖЕНИЯ: раскрывающиеся ответы и разметка FAQPage,
+       которой на главной прежде не было -->
   <section class="container-page section">
-    <SectionHeading num="03" eyebrow="Как это устроено" title="Два пути закупки — подбираем под вендора">
-      <p>Способ оплаты зависит от того, как вендор принимает деньги. Оба пути ведут к легальной поставке с документами.</p>
-    </SectionHeading>
-    <div class="track-grid">
-      {tracks.map((t, i) => (
-        <div class="card track-card reveal">
-          <span class="track-tag">{t.tag}</span>
-          <div class="track-num" aria-hidden="true">{i + 1}</div>
-          <h3>{t.title}</h3>
-          <p>{t.text}</p>
-          <ul class="track-points">
-            {t.points.map((p) => <li>{p}</li>)}
-          </ul>
+    <FAQ items={objections} title="Что спрашивают перед первой закупкой" />
+  </section>
+
+  <!-- СПРОС, КОТОРОГО НЕТ В КАТАЛОГЕ: раньше он не фиксировался вовсе -->
+  <section class="container-page section">
+    <div class="card miss">
+      <div>
+        <h2 class="h2">Не нашли нужный сервис?</h2>
+        <p class="sub">Подключаем почти любого зарубежного вендора, включая тех, кто не принимает карту. Назовите сервис — ответим, как его закупить и сколько это выйдет.</p>
+        <div class="miss-form">
+          <label class="sr-only" for="miss-input">Название сервиса</label>
+          <input id="miss-input" type="text" data-miss-input placeholder="Например: Notion Enterprise" autocomplete="off" />
+          <button type="button" class="btn btn-primary" data-miss-submit data-open-question>Опишите задачу</button>
         </div>
-      ))}
-    </div>
-  </section>
-
-  <!-- ПРОМО-БАННЕР -->
-  <section class="container-page section band">
-    <Banner
-      variant="accent"
-      eyebrow="Не нашли нужный сервис?"
-      title="Подключим почти любой зарубежный SaaS или ПО"
-      text="Работаем со всеми популярными вендорами и разбираем нестандартные запросы. Опишите задачу — подберём способ закупки и посчитаем стоимость."
-      ctaLabel="Обсудить задачу"
-      ctaHref="/contacts"
-      ctaGoal="banner_discuss"
-    />
-  </section>
-
-  <!-- ВЫГОДЫ -->
-  <!-- СНЯТИЕ РИСКОВ (Б6 аудита): отвечаем на возражения до формы -->
-  <section class="container-page section">
-    <SectionHeading num="03•1" eyebrow="Частые сомнения" title="Снимаем риски закупки">
-      <p>Четыре вопроса, которые задаёт каждый закупщик, — отвечаем сразу.</p>
-    </SectionHeading>
-    <div class="risk-grid">
-      <div class="card risk-card"><h3>Это легально?</h3><p>Да: вы заключаете договор поставки с российским поставщиком и платите в рублях по безналу. Валютных операций и зарубежных платежей у вашей компании не возникает.</p></div>
-      <div class="card risk-card"><h3>Не заблокируют ли аккаунт?</h3><p>Оформляем официальные корпоративные тарифы на вашу команду и сопровождаем доступ весь срок подписки. Если у вендора возникают вопросы — решаем их мы.</p></div>
-      <div class="card risk-card"><h3>Что будет при продлении?</h3><p>Заранее напоминаем об окончании срока, выставляем счёт на новый период и продлеваем так, чтобы доступ команды не прерывался.</p></div>
-      <div class="card risk-card"><h3>Как с НДС и закрывающими?</h3><p>Выставляем счёт в рублях, передаём договор, акт и УПД через ЭДО — полный комплект для бухгалтерии. Ставка НДС указывается в счёте и КП.</p></div>
-    </div>
-  </section>
-  <section class="container-page section">
-    <SectionHeading num="04" eyebrow="Зачем это бизнесу" title="Устойчивость работы и прозрачные расходы">
-      <p>Мы закрываем не разовую покупку, а непрерывный доступ к инструментам с корректным оформлением.</p>
-    </SectionHeading>
-    <div class="outcome-grid">
-      {outcomes.map((o) => (
-        <div class="card outcome-card reveal">
-          <span class="section-num">/{o.num}</span>
-          <h3>{o.title}</h3>
-          <p>{o.text}</p>
-        </div>
-      ))}
-    </div>
-  </section>
-
-  <!-- ПРОЦЕСС -->
-  <section class="container-page section band">
-    <SectionHeading num="05" eyebrow="Процесс" title="От заявки до активации">
-      <p>Прозрачный порядок работы: вы видите стоимость и получаете полный пакет документов.</p>
-    </SectionHeading>
-    <ol class="steps-grid">
-      {steps.map((s) => (
-        <li class="card step-card reveal">
-          <span class="step-num">{s.n}</span>
-          <h3>{s.t}</h3>
-          <p>{s.d}</p>
-        </li>
-      ))}
-    </ol>
-  </section>
-
-  <!-- ОФОРМЛЕНИЕ ДЛЯ ЮРЛИЦ -->
-  <section class="container-page section">
-    <SectionHeading num="06" eyebrow="Оформление" title="Всё, что нужно бухгалтерии">
-      <p>Покупка выглядит как обычная поставка ПО от российского поставщика.</p>
-    </SectionHeading>
-    <div class="doc-grid">
-      {docBadges.map((d) => (
-        <div class="card doc-card">
-          <span class="doc-ico" aria-hidden="true"><CategoryIcon slug={d.icon} name={d.t} size={24} /></span>
-          <div><b>{d.t}</b><span>{d.d}</span></div>
-        </div>
-      ))}
-    </div>
-  </section>
-
-  <!-- КЕЙСЫ -->
-  <section class="container-page section">
-    <SectionHeading eyebrow="Кейсы" title="Как это работает у клиентов">
-      <p>Типовые комплекты, которые оформляют команды. Подробнее — в разделе кейсов.</p>
-    </SectionHeading>
-    <div class="case-grid">
-      {cases.map((c) => (
-        <a href="/cases" class="card card-hover case-card">
-          <span class="case-tag">{c.tag}</span>
-          <h3>{c.title}</h3>
-          <p>{c.text}</p>
-        </a>
-      ))}
-    </div>
-  </section>
-
-  <!-- SEO-ВРЕЗКИ: СРАВНЕНИЯ И БАЗА ЗНАНИЙ -->
-  <section class="container-page section">
-    <div class="duo-grid">
-      <div class="card list-card">
-        <h3>Сравнения сервисов</h3>
-        {compareLinks.map((l) => <a href={l.href}>{l.label} <span>→</span></a>)}
+        <p class="miss-note" data-miss-note>Проверка бесплатна и ни к чему не обязывает.</p>
       </div>
-      <div class="card list-card">
-        <h3>База знаний</h3>
-        {kbLinks.map((l) => <a href={l.href}>{l.label} <span>→</span></a>)}
+      <div class="miss-side">
+        <p>Чаще всего спрашивают о сервисах, которых нет в открытом каталоге, — по ним отвечает менеджер.</p>
+        <p class="miss-direct">
+          <a href={`tel:${seller.phoneHref}`}>{seller.phone}</a> · <a href={`mailto:${seller.email}`}>{seller.email}</a>
+        </p>
       </div>
     </div>
   </section>
 
-  <!-- ФОРМА ОБРАТНОЙ СВЯЗИ -->
-  <section class="container-page section contact-sec band">
-    <div class="contact-grid">
-      <div class="reveal">
-        <SectionHeading eyebrow="Связаться" title="Расскажите, чем пользуется команда">
-          <p>Подберём способ закупки, посчитаем стоимость и подготовим коммерческое предложение. Отвечаем в рабочее время.</p>
-        </SectionHeading>
-        <ul class="contact-points">
-          <li>Оформление на юрлицо: договор, счёт, закрывающие</li>
-          <li>Оплата в рублях по безналичному расчёту</li>
-          <li>Поддержка и продление на всём сроке подписки</li>
-        </ul>
-      </div>
-      <LeadForm source="home" title="Оставить заявку" submitLabel="Отправить заявку" />
+  <!-- ФИНАЛ: две двери. Слева — предложение по собранной подборке,
+       справа — заявка для тех, кому проще спросить. -->
+  <section class="container-page section fin-sec">
+    <div class="card fin-kp">
+      <h2>Получить коммерческое предложение</h2>
+      <p>Состав, цены в рублях, срок действия и реквизиты поставщика одним документом — на вашу почту. Можно переслать руководителю или отдать в бухгалтерию как есть.</p>
+      <p class="fin-ctx" data-fin-ctx hidden></p>
+      <button class="btn btn-primary" data-open-kp data-kp-source="home_final">Получить КП по подборке</button>
+      <p class="fin-empty" data-kp-empty hidden>В подборке пока пусто. Добавьте позиции кнопкой «В подборку» — или опишите задачу в форме справа.</p>
+      <p class="fin-note">Понадобятся организация, ИНН и контакты: их требует сам документ.</p>
+    </div>
+    <div>
+      <h2 class="h2">Или опишите задачу</h2>
+      <p class="sub">Подберём способ закупки, посчитаем стоимость и подготовим предложение. Отвечаем в рабочее время.</p>
+      <LeadForm source="home" title="Оставить заявку" submitLabel="Отправить заявку" compact />
     </div>
   </section>
 
-  <CTASection
-    title="Готовы подобрать сервисы под вашу команду?"
-    text="Оставьте заявку — рассчитаем стоимость, подготовим договор и счёт. Закрывающие документы через ЭДО."
-    primaryLabel="Обсудить задачу"
-    primaryHref="/contacts"
-    secondaryLabel="Смотреть сервисы"
-    secondaryHref="/catalog"
-  />
+  <SpecShelf />
+  <QuoteDialog />
   <QuestionForm source="home" />
 </BaseLayout>
 
 <style>
-  .section { padding-top: clamp(3rem, 6vw, 5rem); }
-
-  /* HERO */
-  .hero { position: relative; overflow: hidden; padding: clamp(2.5rem, 7vw, 5rem) 0 clamp(2rem, 4vw, 3rem); background: linear-gradient(180deg, color-mix(in srgb, var(--color-accent) 5%, var(--color-bg)) 0%, var(--color-bg) 90%); }
-  .hero-grid { position: relative; z-index: 1; display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 2.5rem; align-items: center; }
-  .hero-content { max-width: 640px; }
-  h1 { font-size: clamp(2.6rem, 5.8vw, 4.1rem); margin: 1rem 0 1.2rem; line-height: 1.06; }
-  .accent { color: var(--color-accent); }
-  .hero-sub { font-size: clamp(1.03rem, 1.6vw, 1.18rem); color: var(--color-text-muted); max-width: 60ch; }
-  .hero-actions { display: flex; gap: 0.8rem; margin: 2rem 0 1.5rem; flex-wrap: wrap; }
-  .hero-badges { display: flex; gap: 0.6rem 1.4rem; list-style: none; padding: 0; margin: 0; flex-wrap: wrap; color: var(--color-text-muted); font-size: 0.9rem; }
-  .hero-badges li { position: relative; padding-left: 1.1rem; }
-  .hero-badges li::before { content: '●'; position: absolute; left: 0; color: var(--color-accent); font-size: 0.6rem; top: 0.35em; }
-  .hero-glow {
-    /* Абсолютные размеры (не % от секции): высота hero меняется при загрузке
-       шрифта, и %-геометрия свечения давала layout shift (CLS). */
-    position: absolute; top: -160px; right: -120px; width: min(640px, 70vw); height: 640px;
-    background: radial-gradient(circle, color-mix(in srgb, var(--color-accent) 10%, transparent), transparent 62%);
-    filter: blur(60px); z-index: 0; pointer-events: none;
+  .section { padding-top: clamp(2.6rem, 5vw, 4rem); }
+  .h2 { font-size: clamp(1.5rem, 2.4vw, 2rem); margin-bottom: 0.5rem; }
+  .sub { color: var(--color-text-muted); max-width: 64ch; margin-bottom: 1.6rem; }
+  .sr-only {
+    position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+    overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
   }
-  /* Hero: карточки-бестселлеры с ценами */
-  .hero-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; }
-  .mini-card { padding: 1rem 1.1rem; border-radius: var(--radius); display: flex; flex-direction: column; gap: 0.35rem; position: relative; transition: border-color 0.15s ease, transform 0.15s ease; }
-  .mini-card:hover { border-color: var(--color-accent); transform: translateY(-2px); }
-  .hit-badge { position: absolute; top: 0.7rem; right: 0.7rem; background: var(--color-accent); color: #fff; font-size: 0.62rem; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; border-radius: 5px; padding: 0.15rem 0.4rem; }
-  .mini-logo { width: 34px; height: 34px; border-radius: 9px; display: flex; align-items: center; justify-content: center; background: var(--bc); color: var(--tc, #fff); font-weight: 800; font-size: 0.95rem; }
-  /* Плитка с настоящей иконкой продукта/вендора — нейтральный фон */
-  .mini-logo.has-ico { background: #fff; border: 1px solid var(--color-border); }
-  .app-tile:has(.vi-static) { background: #fff; border: 1px solid var(--color-border); }
-  .mini-card h3 { font-size: 0.88rem; line-height: 1.3; color: var(--color-text); }
-  .mini-price { font-weight: 800; font-size: 0.95rem; color: var(--color-text); }
-  .mini-price small { display: block; color: var(--color-text-muted); font-weight: 400; font-size: 0.7rem; }
-  /* Фолбэк: облако плиток (если БД недоступна) */
-  .hero-media { display: flex; justify-content: center; }
-  .tile-cloud { position: relative; width: min(360px, 90%); aspect-ratio: 1 / 0.9; display: grid; grid-template-columns: repeat(3, 1fr); grid-auto-rows: 1fr; gap: 1rem; place-items: center; }
-  .app-tile { width: 100%; aspect-ratio: 1; border-radius: 22px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: clamp(1.4rem, 3vw, 2rem); background: var(--bc); color: var(--tc); box-shadow: var(--shadow); }
-  @media (prefers-reduced-motion: reduce) { .app-tile { transform: none !important; } }
 
-  /* Цифры доверия */
-  .pop-services { display: flex; flex-wrap: wrap; gap: 0.4rem 1rem; align-items: baseline; margin-top: 1.4rem; }
-  .ps-cap { color: var(--color-text-dim); font-size: 0.9rem; margin: 0; }
-  .ps-links { display: flex; flex-wrap: wrap; gap: 0.4rem 1.5rem; margin: 0; }
-  .ps-links a { color: var(--color-text-muted); font-size: 0.92rem; font-weight: 600; }
+  /* ── Открытие ─────────────────────────────────────────────────────── */
+  .open { padding: clamp(2.2rem, 5vw, 3.4rem) 0 clamp(1.4rem, 3vw, 2rem); }
+  .dateline {
+    font-size: 0.76rem; letter-spacing: 0.13em; text-transform: uppercase;
+    color: var(--color-text-dim); font-weight: 700; margin-bottom: 1rem;
+  }
+  h1 { font-size: clamp(2.3rem, 5.2vw, 3.7rem); margin: 0 0 1.1rem; line-height: 1.06; max-width: 20ch; }
+  .accent { color: var(--color-accent); }
+  .standfirst { font-size: clamp(1.02rem, 1.5vw, 1.15rem); color: var(--color-text-muted); max-width: 60ch; }
+  .byline {
+    display: flex; gap: 0.5rem 1.8rem; flex-wrap: wrap;
+    margin-top: 1.5rem; font-size: 0.86rem; color: var(--color-text-dim);
+  }
+  .byline b { color: var(--color-text); font-variant-numeric: tabular-nums; }
+  .byline a { color: var(--color-accent); font-weight: 700; }
+
+  /* ── Развилка маршрутов ───────────────────────────────────────────── */
+  .routes { margin-top: 0.6rem; }
+  .doors {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    border: 1px solid var(--color-border-strong); border-bottom: 0;
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0; overflow: hidden;
+    background: var(--color-bg-card);
+  }
+  .door {
+    padding: 1.05rem 1.15rem; text-align: left; cursor: pointer;
+    background: var(--color-bg-elevated); border: 0;
+    border-right: 1px solid var(--color-border);
+    border-top: 3px solid transparent;
+    font: inherit; color: var(--color-text); transition: background-color 0.16s ease;
+  }
+  .door:last-child { border-right: 0; }
+  .door:hover { background: var(--color-bg-card); }
+  .door.on { background: var(--color-bg-card); border-top-color: var(--color-accent); }
+  .door b { display: block; font-size: 0.98rem; font-weight: 700; margin-bottom: 0.15rem; }
+  .door.on b { color: var(--color-accent); }
+  .door span { display: block; font-size: 0.8rem; color: var(--color-text-dim); line-height: 1.4; }
+  .lane {
+    border: 1px solid var(--color-border-strong);
+    border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+    background: var(--color-bg-card);
+    padding: 1.6rem 1.7rem; box-shadow: var(--shadow-sm);
+  }
+  .lane[hidden] { display: none; }
+  .lane-head {
+    display: flex; justify-content: space-between; align-items: flex-start;
+    gap: 1.5rem; flex-wrap: wrap; margin-bottom: 1.1rem;
+  }
+  .lane-head h2 { font-size: 1.3rem; margin: 0 0 0.25rem; }
+  .lane-head p { color: var(--color-text-muted); font-size: 0.92rem; max-width: 60ch; margin: 0; }
+  .lane-empty { color: var(--color-text-muted); }
+  .lane-empty a { color: var(--color-accent); font-weight: 600; }
+  .lane-search {
+    display: flex; align-items: center; gap: 0.7rem;
+    border: 2px solid var(--color-text); border-radius: var(--radius);
+    padding: 0.55rem 0.8rem; color: var(--color-text-dim); max-width: 560px;
+  }
+  .lane-search input {
+    flex: 1; min-width: 0; border: 0; outline: 0; background: transparent;
+    font: inherit; font-size: 1rem; color: var(--color-text);
+  }
+  .legal-grid { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 2rem; align-items: start; }
+  .legal-side { padding: 1.1rem 1.2rem; display: flex; flex-direction: column; gap: 0.55rem; align-items: flex-start; }
+  .legal-side p { color: var(--color-text-muted); font-size: 0.88rem; margin: 0; }
+  .legal-note { font-size: 0.8rem !important; color: var(--color-text-dim) !important; margin-top: 0.3rem !important; }
+  .know-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.6rem; }
+  .kcap {
+    font-size: 0.74rem; text-transform: uppercase; letter-spacing: 0.1em;
+    color: var(--color-text-dim); font-weight: 700; margin: 0 0 0.2rem;
+  }
+  .klist a {
+    display: flex; justify-content: space-between; gap: 1rem;
+    padding: 0.62rem 0; border-top: 1px solid var(--color-border);
+    font-weight: 600; font-size: 0.9rem;
+  }
+  .klist a:hover { color: var(--color-accent); }
+  .klist a span { color: var(--color-text-dim); font-weight: 400; }
+
+  /* ── Строки товаров ───────────────────────────────────────────────── */
+  .rows { list-style: none; padding: 0; margin: 1.2rem 0 0; }
+  .rows.framed {
+    border: 1px solid var(--color-border); border-radius: var(--radius-lg);
+    overflow: hidden; margin-top: 0;
+  }
+  .all-link { margin-top: 1rem; }
+  .all-link a { color: var(--color-accent); font-weight: 600; }
+
+  /* ── Полоса-подпись ───────────────────────────────────────────────── */
+  .strip {
+    margin-top: clamp(2rem, 4vw, 3rem);
+    border-block: 1px solid var(--color-border);
+    background: var(--color-bg-elevated);
+  }
+  .strip-inner {
+    display: flex; gap: 0.5rem 2.2rem; flex-wrap: wrap;
+    padding-block: 0.95rem; font-size: 0.88rem; color: var(--color-text-muted);
+  }
+  .strip-inner b { color: var(--color-text); }
+
+  /* ── Направления ──────────────────────────────────────────────────── */
+  .dirs {
+    /* auto-fit, а не жёсткие четыре колонки: разделов может оказаться два
+       (часть каталога без цен), и фиксированная сетка оставляла бы в рамке
+       две пустые клетки с границами. */
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    border: 1px solid var(--color-border); border-radius: var(--radius-lg);
+    overflow: hidden; background: var(--color-bg-card);
+  }
+  .dir { padding: 1.2rem 1.3rem; border-right: 1px solid var(--color-border); display: block; }
+  .dir:last-child { border-right: 0; }
+  .dir:hover { background: var(--color-accent-soft); }
+  .dir-ico {
+    width: 40px; height: 40px; border-radius: 11px; margin-bottom: 0.6rem;
+    display: inline-flex; align-items: center; justify-content: center;
+    background: var(--color-accent-soft); color: var(--color-accent);
+  }
+  .dir em {
+    font-style: normal; display: block; color: var(--color-accent);
+    font-weight: 800; font-size: 1.4rem; line-height: 1.1;
+    font-variant-numeric: tabular-nums;
+  }
+  .dir b { display: block; font-size: 1rem; margin: 0.1rem 0 0.15rem; }
+  .dir-note { color: var(--color-text-dim); font-size: 0.82rem; }
+  .ps-links { display: flex; flex-wrap: wrap; gap: 0.4rem 1.4rem; margin: 1.2rem 0 0; align-items: baseline; }
+  .ps-cap { color: var(--color-text-dim); font-size: 0.88rem; }
+  .ps-links a { color: var(--color-text-muted); font-size: 0.9rem; font-weight: 600; }
   .ps-links a:hover { color: var(--color-accent); }
-  .trust-strip { border-block: 1px solid var(--color-border); background: var(--color-bg-elevated); padding: 1.3rem 0; }
-  .trust-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 0.8rem; text-align: center; }
-  .trust-grid b { display: block; font-size: 1.45rem; letter-spacing: -0.02em; }
-  .trust-grid span { color: var(--color-text-muted); font-size: 0.82rem; }
 
-  /* Логопанель */
-  .logos-sec { margin-top: clamp(1.5rem, 3vw, 2.5rem); }
+  /* ── Логопанель ───────────────────────────────────────────────────── */
+  .logos-sec { margin-top: clamp(2rem, 4vw, 3rem); }
   .logos-cap { text-align: center; color: var(--color-text-dim); font-size: 0.9rem; margin-bottom: 1rem; }
-  .logo-chip { display: flex; align-items: center; gap: 0.75rem; padding: 1rem 1.1rem; border: 1px solid var(--color-border); border-radius: var(--radius); background: var(--color-bg-card); box-shadow: var(--shadow-sm); transition: border-color 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease; }
+  .logo-chip {
+    display: flex; align-items: center; gap: 0.75rem; padding: 1rem 1.1rem;
+    border: 1px solid var(--color-border); border-radius: var(--radius);
+    background: var(--color-bg-card); box-shadow: var(--shadow-sm);
+    transition: border-color 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease;
+  }
   .logo-chip:hover { border-color: var(--color-accent); transform: translateY(-3px); box-shadow: var(--shadow); }
-  /* Нейтральная плашка под унифицированные иконки (монохром → цвет при наведении);
-     --bc остаётся фолбэком для буквенного знака */
-  .logo-badge { width: 40px; height: 40px; border-radius: 10px; display: inline-flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1.1rem; background: #fff; border: 1px solid var(--color-border); color: var(--bc); flex-shrink: 0; }
+  .logo-badge {
+    width: 40px; height: 40px; border-radius: 10px; flex-shrink: 0;
+    display: inline-flex; align-items: center; justify-content: center;
+    background: var(--color-bg-card); border: 1px solid var(--color-border);
+    /* --bc — фирменный цвет вендора: им красится глиф simple-icons и
+       буквенный знак-фолбэк (оба наследуют currentColor). */
+    color: var(--bc, var(--color-text));
+    font-weight: 800; font-size: 1.1rem;
+  }
   .logo-name { font-weight: 600; font-size: 0.92rem; white-space: nowrap; }
 
-  /* Категории */
-  .cat-tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 1rem; }
-  .cat-tile { padding: 1.3rem 1.4rem; display: flex; flex-direction: column; gap: 0.3rem; }
-  .cat-ico {
-    width: 64px; height: 64px; border-radius: 16px;
-    display: inline-flex; align-items: center; justify-content: center;
-    background: var(--color-accent-soft); color: var(--color-accent);
+  /* ── Механика закупки ─────────────────────────────────────────────── */
+  .flow-sec { display: grid; grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr); gap: 2.6rem; align-items: center; }
+  .flow-text p { color: var(--color-text-muted); margin-bottom: 0.9rem; max-width: 56ch; }
+  .flow-text p b { color: var(--color-text); }
+  .flow-more { margin-top: 1.2rem; }
+  .flow-more a { color: var(--color-accent); font-weight: 600; }
+  .flow-fig { margin: 0; }
+  /* Две схемы, а не одна масштабируемая: в широкой на телефоне подписи
+     сжимались до пяти пикселей. Узкая — та же механика тремя ярусами.
+     display:none у скрытой убирает её и из чтения скринридером, поэтому
+     одинаковый aria-label у обеих не задваивается. */
+  .flow-fig svg { width: 100%; height: auto; display: block; }
+  .flow-fig .flow-svg-narrow { display: none; }
+  .flow-fig figcaption {
+    font-size: 0.82rem; color: var(--color-text-dim);
+    margin-top: 0.8rem; padding-top: 0.8rem; border-top: 1px solid var(--color-border);
   }
-  .cat-tile b { font-size: 1.05rem; color: var(--color-text); }
-  .cat-note { color: var(--color-text-muted); font-size: 0.85rem; }
+  .fg-box { fill: var(--color-bg-card); stroke: var(--color-border-strong); stroke-width: 1.5; }
+  .fg-box-acc { fill: var(--color-accent-soft); stroke: var(--color-accent); stroke-width: 1.8; }
+  .fg-line-acc { stroke: var(--color-accent); stroke-width: 2.4; }
+  .fg-line-bd { stroke: var(--color-border-strong); stroke-width: 2.2; fill: none; }
+  .fg-line-ok { stroke: var(--color-success); stroke-width: 2.4; }
+  .m-acc { fill: var(--color-accent); }
+  .m-bd { fill: var(--color-border-strong); }
+  .m-ok { fill: var(--color-success); }
+  .fg-t { font-family: var(--font-sans); font-size: 14px; font-weight: 700; fill: var(--color-text); }
+  .fg-t2 { font-family: var(--font-sans); font-size: 13px; font-weight: 700; fill: var(--color-text); }
+  .fg-box-ok { fill: color-mix(in srgb, var(--color-success) 8%, var(--color-bg-card)); stroke: var(--color-success); stroke-width: 1.5; }
+  .fg-ok-t { font-family: var(--font-sans); font-size: 13.5px; font-weight: 700; fill: var(--color-success); }
+  .fg-s { font-family: var(--font-sans); font-size: 11.5px; fill: var(--color-text-dim); }
+  .fg-a { font-family: var(--font-sans); font-size: 12px; font-weight: 700; fill: var(--color-accent); }
+  .fg-ok { font-family: var(--font-sans); font-size: 12px; font-weight: 600; fill: var(--color-success); }
 
-  /* Популярные товары */
-  .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1.2rem; }
-  .all-vendors { margin-top: 1rem; }
-  .all-vendors a { color: var(--color-accent); font-weight: 600; }
-
-  /* Два пути закупки */
-  .track-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.4rem; }
-  .track-card { padding: 1.9rem; position: relative; display: flex; flex-direction: column; gap: 0.6rem; }
-  .track-tag { align-self: flex-start; font-size: 0.74rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--color-accent); background: var(--color-accent-soft); padding: 0.25rem 0.6rem; border-radius: 999px; }
-  .track-num { position: absolute; top: 1.6rem; right: 1.8rem; font-size: 2.4rem; font-weight: 800; color: var(--color-border-strong); line-height: 1; }
-  .track-card h3 { font-size: 1.35rem; margin-top: 0.3rem; }
-  .track-card > p { color: var(--color-text-muted); }
-  .track-points { list-style: none; padding: 0; margin: 0.4rem 0 0; display: grid; gap: 0.4rem; }
-  .track-points li { padding-left: 1.5rem; position: relative; font-size: 0.92rem; }
-  .track-points li::before { content: '✓'; position: absolute; left: 0; color: var(--color-accent); font-weight: 700; }
-
-  /* Снятие рисков */
-  .risk-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.2rem; }
-  .risk-card { padding: 1.6rem; }
-  .risk-card h3 { font-size: 1.1rem; margin-bottom: 0.5rem; }
-  .risk-card p { color: var(--color-text-muted); font-size: 0.92rem; margin: 0; }
-
-  /* Выгоды */
-  .outcome-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 1.2rem; }
-  .outcome-card { padding: 1.7rem; }
-  .outcome-card h3 { font-size: 1.15rem; margin: 0.7rem 0 0.5rem; }
-  .outcome-card p { color: var(--color-text-muted); font-size: 0.92rem; }
-
-  /* Процесс */
-  .steps-grid { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.2rem; counter-reset: step; }
-  .step-card { padding: 1.6rem; }
-  .step-num { display: inline-flex; align-items: center; justify-content: center; width: 34px; height: 34px; border-radius: 999px; background: var(--color-accent); color: #fff; font-weight: 700; margin-bottom: 0.7rem; }
-  .step-card h3 { font-size: 1.1rem; margin-bottom: 0.4rem; }
-  .step-card p { color: var(--color-text-muted); font-size: 0.92rem; }
-
-  /* Оформление для юрлиц */
-  .doc-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 1rem; }
-  .doc-card { padding: 1.1rem 1.3rem; display: flex; gap: 0.85rem; align-items: center; }
-  .doc-ico {
-    width: 44px; height: 44px; border-radius: 12px; flex-shrink: 0;
-    display: inline-flex; align-items: center; justify-content: center;
-    background: var(--color-accent-soft); color: var(--color-accent);
+  /* ── Документы и образец ──────────────────────────────────────────── */
+  .docs-sec { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr); gap: 2.6rem; align-items: center; }
+  .check-list { list-style: none; padding: 0; margin: 0; }
+  .check-list li {
+    padding: 0.72rem 0 0.72rem 1.9rem; border-top: 1px solid var(--color-border);
+    position: relative; color: var(--color-text-muted);
   }
-  .doc-card b { display: block; font-size: 0.95rem; }
-  .doc-card span { color: var(--color-text-muted); font-size: 0.82rem; }
+  .check-list li b { color: var(--color-text); }
+  .check-list li::before {
+    content: ''; position: absolute; left: 0; top: 1.15rem;
+    width: 13px; height: 8px; border-left: 2px solid var(--color-success);
+    border-bottom: 2px solid var(--color-success); transform: rotate(-45deg);
+  }
+  .paper {
+    background: var(--color-bg-card); border: 1px solid var(--color-border-strong);
+    border-radius: var(--radius-sm); box-shadow: var(--shadow-lg);
+    padding: 1.2rem 1.3rem; font-size: 0.75rem; color: var(--color-text-muted);
+    transform: rotate(-1deg); display: flex; flex-direction: column; gap: 0.2rem;
+  }
+  .paper-h { font-size: 0.88rem; color: var(--color-text); }
+  .paper-d { font-size: 0.72rem; }
+  .paper-t { width: 100%; border-collapse: collapse; margin: 0.7rem 0 0.5rem; }
+  .paper-t th, .paper-t td { border: 1px solid var(--color-border); padding: 0.26rem 0.4rem; text-align: left; font-size: 0.7rem; }
+  .paper-t th { background: var(--color-bg-elevated); font-weight: 700; color: var(--color-text-muted); }
+  .paper-tot { text-align: right; font-weight: 800; color: var(--color-text); font-size: 0.78rem; }
+  .paper-f { font-size: 0.7rem; color: var(--color-text-dim); margin-top: 0.4rem; }
 
-  /* Кейсы */
-  .case-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem; }
-  .case-card { padding: 1.4rem 1.5rem; display: flex; flex-direction: column; gap: 0.4rem; }
-  .case-tag { font-size: 0.74rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--color-accent); }
-  .case-card h3 { font-size: 1.05rem; color: var(--color-text); }
-  .case-card p { color: var(--color-text-muted); font-size: 0.9rem; }
+  /* ── Спрос, которого нет в каталоге ───────────────────────────────── */
+  .miss { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr); gap: 2.4rem; padding: 1.8rem 2rem; align-items: center; }
+  .miss .h2 { font-size: clamp(1.35rem, 2.2vw, 1.7rem); }
+  .miss .sub { margin-bottom: 1rem; }
+  .miss-form { display: flex; gap: 0.55rem; flex-wrap: wrap; }
+  .miss-form input {
+    flex: 1; min-width: 200px; font: inherit; font-size: 0.95rem;
+    padding: 0.62rem 0.85rem; background: var(--color-bg-elevated);
+    border: 1px solid var(--color-border-strong); border-radius: var(--radius-sm);
+    color: var(--color-text);
+  }
+  .miss-form input:focus { border-color: var(--color-accent); outline: none; }
+  .miss-note { font-size: 0.82rem; color: var(--color-text-dim); margin: 0.6rem 0 0; }
+  .miss-side { border-left: 1px solid var(--color-border); padding-left: 2.4rem; }
+  .miss-side p { color: var(--color-text-muted); font-size: 0.9rem; margin: 0; }
+  .miss-direct { margin-top: 0.7rem !important; font-weight: 700; }
+  .miss-direct a { color: var(--color-accent); }
 
-  /* SEO-врезки */
-  .duo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
-  .list-card { padding: 1.4rem 1.5rem; }
-  .list-card h3 { font-size: 1.1rem; margin-bottom: 0.7rem; }
-  .list-card a { display: flex; justify-content: space-between; gap: 1rem; padding: 0.6rem 0; border-top: 1px solid var(--color-border); font-size: 0.92rem; font-weight: 600; color: var(--color-text); }
-  .list-card a:hover { color: var(--color-accent); }
-  .list-card a span { color: var(--color-text-dim); font-weight: 400; }
+  /* ── Финал ────────────────────────────────────────────────────────── */
+  .fin-sec { display: grid; grid-template-columns: 400px minmax(0, 1fr); gap: 2.5rem; align-items: start; }
+  .fin-kp { padding: 1.7rem 1.8rem; display: flex; flex-direction: column; align-items: flex-start; gap: 0.8rem; }
+  .fin-kp h2 { font-size: 1.35rem; }
+  .fin-kp p { color: var(--color-text-muted); font-size: 0.92rem; margin: 0; }
+  .fin-ctx {
+    background: var(--color-accent-soft); border-left: 3px solid var(--color-accent);
+    border-radius: 0 8px 8px 0; padding: 0.5rem 0.7rem; font-size: 0.88rem !important;
+    color: var(--color-text) !important; align-self: stretch;
+  }
+  .fin-ctx b { font-variant-numeric: tabular-nums; }
+  .fin-empty { color: var(--color-accent) !important; font-size: 0.86rem !important; }
+  .fin-note { font-size: 0.8rem !important; color: var(--color-text-dim) !important; }
 
-  /* Контактная секция */
-  .contact-grid { display: grid; grid-template-columns: 1fr 420px; gap: 2.5rem; align-items: start; }
-  .contact-points { list-style: none; padding: 0; margin: 1rem 0 0; display: grid; gap: 0.5rem; }
-  .contact-points li { padding-left: 1.5rem; position: relative; color: var(--color-text-muted); }
-  .contact-points li::before { content: '✓'; position: absolute; left: 0; color: var(--color-accent); font-weight: 700; }
-
-  @media (max-width: 900px) {
-    .hero-grid { grid-template-columns: 1fr; }
-    .hero-media { order: 1; }
-    .tile-cloud { width: min(300px, 80%); }
-    .trust-grid { grid-template-columns: repeat(2, 1fr); }
-    .trust-grid div:last-child { grid-column: span 2; }
-    .track-grid, .duo-grid { grid-template-columns: 1fr; }
-    .contact-grid { grid-template-columns: 1fr; }
+  /* ── Телефон: каждый блок укладывается своим порядком ─────────────── */
+  @media (max-width: 980px) {
+    .legal-grid, .flow-sec, .docs-sec, .miss, .fin-sec { grid-template-columns: 1fr; }
+    .dirs { grid-template-columns: 1fr 1fr; }
+    .dir { border-bottom: 1px solid var(--color-border); }
+    .miss-side { border-left: 0; border-top: 1px solid var(--color-border); padding: 1.2rem 0 0; }
+    /* Схема идёт после текста: сначала объяснение, потом картинка к нему. */
+    .flow-fig { order: 2; }
+    .flow-fig .flow-svg-wide { display: none; }
+    .flow-fig .flow-svg-narrow { display: block; }
+    /* Образец КП без наклона — на узком экране он заезжал за край. */
+    .paper { transform: none; }
+    .fin-kp { order: 2; }
+  }
+  @media (max-width: 720px) {
+    /* Двери превращаются в ленту с прокруткой: четыре колонки на телефоне
+       дают по два слова в строку и нечитаемы. Обрезка четвёртой двери —
+       подсказка, что лента продолжается. */
+    .doors { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; border-radius: var(--radius-lg) var(--radius-lg) 0 0; }
+    .door { flex: 0 0 68%; scroll-snap-align: start; }
+    .lane { padding: 1.2rem 1.1rem; }
+    .dirs { grid-template-columns: 1fr; }
+    .dir { border-right: 0; }
   }
 </style>
+
+<script>
+  import { trackGoal } from '@/lib/analytics';
+  import { readCart, cartCount, cartTotal } from '@/lib/cart-client';
+  import { formatRub } from '@/lib/pricing';
+
+  // ── Маршруты первого экрана ────────────────────────────────────────
+  // Дорожки уже в разметке: скрипт только переключает видимость. Без
+  // JavaScript посетитель видит первую дорожку, а краулер — все четыре.
+  const doors = Array.from(document.querySelectorAll<HTMLButtonElement>('[data-door]'));
+  const lanes = Array.from(document.querySelectorAll<HTMLElement>('[data-lane]'));
+
+  const openRoute = (id: string, focus = false) => {
+    doors.forEach((d) => {
+      const on = d.dataset.door === id;
+      d.classList.toggle('on', on);
+      d.setAttribute('aria-selected', on ? 'true' : 'false');
+      d.tabIndex = on ? 0 : -1;
+      if (on && focus) d.focus();
+    });
+    lanes.forEach((l) => { l.hidden = l.dataset.lane !== id; });
+  };
+
+  doors.forEach((d) => {
+    d.addEventListener('click', () => {
+      const id = d.dataset.door || '';
+      openRoute(id);
+      // Какой маршрут выбирают — первый шаг воронки главной. Без него
+      // видно только, что человек ушёл, но не с какой развилки.
+      trackGoal('home_route_pick', { route: id });
+    });
+    // Стрелки внутри группы вкладок — требование клавиатурной навигации.
+    d.addEventListener('keydown', (e) => {
+      if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+      e.preventDefault();
+      const i = doors.indexOf(d);
+      const next = doors[(i + (e.key === 'ArrowRight' ? 1 : doors.length - 1)) % doors.length];
+      openRoute(next.dataset.door || '', true);
+    });
+  });
+
+  // ── Спрос, которого нет в каталоге ─────────────────────────────────
+  // Название сервиса уходит в цель сразу, а форму открывает штатный
+  // диалог вопроса: /api/lead требует полный набор реквизитов, и своя
+  // усечённая форма здесь означала бы вторую точку приёма заявок.
+  // Цель отправляется до открытия формы: спрос ценен и тогда, когда
+  // человек форму не дозаполнил.
+  const missInput = document.querySelector<HTMLInputElement>('[data-miss-input]');
+  const missBtn = document.querySelector<HTMLButtonElement>('[data-miss-submit]');
+  const missNote = document.querySelector<HTMLElement>('[data-miss-note]');
+
+  // Название подставляется по мере ввода, а не в обработчике нажатия:
+  // диалог вопроса читает data-product в своём слушателе, и порядок двух
+  // слушателей на одной кнопке не гарантирован.
+  missInput?.addEventListener('input', () => {
+    const value = missInput.value.trim().slice(0, 120);
+    if (missBtn) missBtn.dataset.product = value;
+    if (missNote && value) missNote.textContent = `Спросим по запросу «${value}» — ответим, как его закупить и сколько это выйдет.`;
+  });
+
+  missBtn?.addEventListener('click', () => {
+    const value = (missInput?.value || '').trim().slice(0, 120);
+    // Цель уходит до формы: спрос ценен и тогда, когда человек её не
+    // дозаполнил. Пустое поле — тоже сигнал, но другой, и в отчёте их
+    // путать нельзя.
+    trackGoal('home_missing_service', { service: value || '(не назван)' });
+  });
+
+  missInput?.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') { e.preventDefault(); missBtn?.click(); }
+  });
+
+  // ── Контекст подборки в финальном блоке ────────────────────────────
+  // Человек, собравший подборку, не должен гадать, попадёт ли она в КП.
+  const finCtx = document.querySelector<HTMLElement>('[data-fin-ctx]');
+  const renderFinCtx = () => {
+    if (!finCtx) return;
+    const items = readCart();
+    const n = cartCount(items);
+    finCtx.hidden = n === 0;
+    if (n === 0) return;
+    const word = (() => {
+      const d = n % 10, h = n % 100;
+      if (d === 1 && h !== 11) return 'позиция';
+      if ([2, 3, 4].includes(d) && ![12, 13, 14].includes(h)) return 'позиции';
+      return 'позиций';
+    })();
+    finCtx.innerHTML = `В предложение войдут <b>${n}</b> ${word} на <b>${formatRub(cartTotal(items))}</b> — состав подставится сам.`;
+  };
+  renderFinCtx();
+  window.addEventListener('cart:change', renderFinCtx);
+</script>

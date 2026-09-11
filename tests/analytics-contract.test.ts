@@ -85,8 +85,10 @@ describe('события', () => {
       expect(okAt, `${f}: нет проверки res.ok`).toBeGreaterThan(-1);
       expect(goalAt, `${f}: нет цели lead_sent`).toBeGreaterThan(okAt);
     }
-    const cart = read('src/pages/cart/index.astro');
-    expect(cart.indexOf("trackGoal('quote_pdf'")).toBeGreaterThan(cart.indexOf('if (!res.ok)'));
+    // Диалог КП переехал из страницы подборки в компонент 11.09.2026:
+    // вход в него теперь не один (подборка, полка главной, наборы).
+    const quote = read('src/components/QuoteDialog.astro');
+    expect(quote.indexOf("trackGoal('quote_pdf'")).toBeGreaterThan(quote.indexOf('if (!res.ok)'));
   });
 
   it('data-goal подключён ровно одним обработчиком', () => {
@@ -129,7 +131,7 @@ describe('события', () => {
     // catch и один отказ 422 считался дважды.
     for (const [f, goal] of [['src/components/LeadForm.astro', 'lead_error'],
                              ['src/components/QuestionForm.astro', 'lead_error'],
-                             ['src/pages/cart/index.astro', 'quote_error']] as const) {
+                             ['src/components/QuoteDialog.astro', 'quote_error']] as const) {
       const calls = read(f).match(new RegExp(`trackGoal\\('${goal}'`, 'g')) ?? [];
       expect(calls.length, `${f}: ожидается ровно один вызов ${goal}`).toBe(1);
     }
@@ -154,7 +156,7 @@ describe('атрибуция', () => {
 
   it('каждая форма передаёт атрибуцию на сервер', () => {
     for (const f of ['src/components/LeadForm.astro', 'src/components/QuestionForm.astro',
-                     'src/pages/cart/index.astro']) {
+                     'src/components/QuoteDialog.astro']) {
       expect(read(f), f).toContain('attributionPayload()');
       expect(read(f), f).toMatch(/body: JSON\.stringify\(\{[^}]*attribution/);
     }
