@@ -87,6 +87,14 @@ export const GOALS: Record<string, GoalSpec> = {
     meaning: 'Открыта карточка товара' },
   view_vendor_landing: { ga4: 'view_item_list', key: false,
     meaning: 'Открыт лендинг производителя' },
+  // Между «открыл страницу» и «выбрал тариф» был провал: по view_vendor_landing
+  // нельзя сказать, дошёл ли посетитель до цен вообще. Раз на страницу.
+  view_tariffs: { ga4: 'view_item_list', key: false,
+    meaning: 'Сетка тарифов показана на экране лендинга' },
+  // Раскрытый вопрос — это названное сомнение. Какое именно, видно в
+  // параметре: список самых раскрываемых вопросов и есть список возражений.
+  faq_expand: { ga4: 'faq_expand', key: false,
+    meaning: 'Раскрыт вопрос в блоке частых вопросов' },
   view_solution: { ga4: 'view_item_list', key: false,
     meaning: 'Открыта страница назначения ПО' },
 

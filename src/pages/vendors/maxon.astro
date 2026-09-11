@@ -9,6 +9,8 @@ import VendorIcon from '../../components/VendorIcon.astro';
 import { productIcons } from '../../data/product-icons';
 import ProductIcon from '../../components/ProductIcon.astro';
 import AddToCartButton from '../../components/AddToCartButton.astro';
+import TariffQty from '../../components/TariffQty.astro';
+import VendorQuotePath from '../../components/VendorQuotePath.astro';
 import QuestionForm from '../../components/QuestionForm.astro';
 import VendorInterlinks from '../../components/VendorInterlinks.astro';
 import JsonLd from '../../components/JsonLd.astro';
@@ -84,7 +86,7 @@ const collectionLd = collectionPageSchema({ name: 'Maxon для бизнеса',
           <li>Для юрлиц</li><li>КП и счёт</li><li>Договор и закрывающие</li><li>Планы Individuals и Teams</li>
         </ul>
         <div class="hero-actions">
-          <button class="btn btn-primary" data-open-question data-product="Maxon — подбор плана" data-ev="click_get_quote">Получить расчёт и КП</button>
+          <a href="#lead" class="btn btn-primary" data-quote-cta data-context="Maxon — подбор плана" data-ev="click_get_quote">Получить расчёт и КП</a>
           <a href="#chooser" class="btn btn-ghost" data-ev="click_choose_plan">Подобрать план Maxon</a>
         </div>
         {minPrice > 0 && <p class="from">Цены от <b>{formatRub(minPrice)}</b> в год</p>}
@@ -114,7 +116,7 @@ const collectionLd = collectionPageSchema({ name: 'Maxon для бизнеса',
         другому сотруднику.</p>
       <div class="mgrid">
         {indCards.map((c) => (
-          <article class="card mcard">
+          <article class="card mcard" data-qty-scope>
             <div class="mhead">
               <span class="mbadge ind">Индивидуальный план</span>
               {c.meta && <span class="mbadge kind">{c.meta.badge}</span>}
@@ -131,6 +133,9 @@ const collectionLd = collectionPageSchema({ name: 'Maxon для бизнеса',
             </div>
             {c.meta && c.meta.features.length > 0 && (
               <ul class="mfeat">{c.meta.features.map((f) => <li>{f}</li>)}</ul>
+            )}
+            {!c.byRequest && (
+              <TariffQty price={c.price} qtyLabel="Лицензий" name={c.name} />
             )}
             <div class="mactions">
               {c.byRequest ? (
@@ -154,7 +159,7 @@ const collectionLd = collectionPageSchema({ name: 'Maxon для бизнеса',
         он входит в Red Giant.</p>
       <div class="mgrid">
         {teamCards.map((c) => (
-          <article class="card mcard">
+          <article class="card mcard" data-qty-scope>
             <div class="mhead">
               <span class="mbadge team">Командный план</span>
               {c.meta && <span class="mbadge kind">{c.meta.badge}</span>}
@@ -171,6 +176,9 @@ const collectionLd = collectionPageSchema({ name: 'Maxon для бизнеса',
             </div>
             {c.meta && c.meta.features.length > 0 && (
               <ul class="mfeat">{c.meta.features.map((f) => <li>{f}</li>)}</ul>
+            )}
+            {!c.byRequest && (
+              <TariffQty price={c.price} qtyLabel="Лицензий" name={c.name} />
             )}
             <div class="mactions">
               {c.byRequest ? (
@@ -254,7 +262,7 @@ const collectionLd = collectionPageSchema({ name: 'Maxon для бизнеса',
         <li>После оплаты передаются доступы и инструкции по активации (обычно 1–3 рабочих дня).</li>
         <li>Закрывающие документы передаются в согласованном формате, в том числе через ЭДО.</li>
       </ol>
-      <button class="btn btn-primary" data-open-question data-product="Maxon — расчёт и КП" data-ev="click_get_quote">Получить расчёт и КП</button>
+      <a href="#lead" class="btn btn-primary" data-quote-cta data-context="Maxon — расчёт и КП" data-ev="click_get_quote">Получить расчёт и КП</a>
     </section>
 
     <!-- Документы -->
@@ -273,12 +281,13 @@ const collectionLd = collectionPageSchema({ name: 'Maxon для бизнеса',
     <FAQ items={MAXON_FAQ} title="Частые вопросы про Maxon для бизнеса" />
 
     <!-- Финальный CTA -->
-    <section class="block final">
+    <section class="block final" id="lead">
       <div class="final-grid">
         <div>
           <h2>Подобрать Maxon для компании</h2>
           <p class="muted">Опишите задачу: какие продукты нужны, сколько специалистов будет работать
             и требуется ли централизованное управление местами. Подготовим расчёт, КП или счёт.</p>
+          <VendorQuotePath />
           <ul class="mfeat">
             <li>Оформление для юрлиц: договор, счёт, закрывающие</li>
             <li>Individuals и Teams в одном заказе</li>

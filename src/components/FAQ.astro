@@ -108,3 +108,21 @@ const blocks = grouped.length > 0
     margin: 0;
   }
 </style>
+
+<script>
+  // Какие вопросы раскрывают — это перечень возражений перед сделкой.
+  // Цель шлётся один раз на вопрос: повторное сворачивание и раскрытие
+  // одного и того же блока — не новое сомнение.
+  import { trackGoal } from '@/lib/analytics';
+  document.querySelectorAll('.faq-item').forEach((el) => {
+    const item = el as HTMLDetailsElement;
+    item.addEventListener('toggle', () => {
+      if (!item.open || item.dataset.counted) return;
+      item.dataset.counted = '1';
+      trackGoal('faq_expand', {
+        page_url: location.pathname,
+        question: (item.querySelector('summary span')?.textContent || '').slice(0, 100),
+      });
+    });
+  });
+</script>

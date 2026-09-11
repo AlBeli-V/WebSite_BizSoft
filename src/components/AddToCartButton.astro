@@ -1,4 +1,13 @@
 ---
+/**
+ * Кнопка добавления позиции в подборку (корзину) для КП.
+ *
+ * Количество берётся из счётчика рядом: если кнопка стоит внутри узла с
+ * атрибутом data-qty-scope и в нём есть поле [data-qty], в подборку уходит
+ * введённое число, иначе одна штука. Без этого выбор «сколько мест» с
+ * лендинга не доезжал до спецификации: покупатель называл число словами в
+ * форме, а менеджер переспрашивал.
+ */
 interface Props {
   sku: string;
   slug: string;
@@ -8,7 +17,7 @@ interface Props {
   compact?: boolean;
   label?: string;
 }
-const { sku, slug, name, vendor = '', price, compact = false, label = 'В избранное' } = Astro.props;
+const { sku, slug, name, vendor = '', price, compact = false, label = 'В расчёт' } = Astro.props;
 ---
 <button
   class:list={['btn', 'btn-primary', 'add-to-cart', { 'btn-sm': compact }]}
@@ -32,14 +41,21 @@ const { sku, slug, name, vendor = '', price, compact = false, label = 'В изб
     if (btn.dataset.bound) return;
     btn.dataset.bound = '1';
     btn.addEventListener('click', () => {
+      // Счётчик живёт рядом с кнопкой, а не внутри неё: на карточке он
+      // нужен и до добавления — чтобы увидеть сумму.
+      const scope = btn.closest('[data-qty-scope]');
+      const field = scope?.querySelector('[data-qty]') as HTMLInputElement | null;
+      const typed = field ? parseInt(field.value, 10) : NaN;
+      const min = field ? Number(field.min || 1) : 1;
+      const qty = Number.isFinite(typed) && typed >= min ? typed : Math.max(1, min);
       addToCart({
         sku: btn.dataset.sku!,
         slug: btn.dataset.slug!,
         name: btn.dataset.name!,
         vendor: btn.dataset.vendor || '',
         price: Number(btn.dataset.price || 0),
-      });
-      trackGoal('add_to_cart', { sku: btn.dataset.sku || '' });
+      }, qty);
+      trackGoal('add_to_cart', { sku: btn.dataset.sku || '', qty });
       const def = btn.querySelector('.label-default') as HTMLElement;
       const added = btn.querySelector('.label-added') as HTMLElement;
       def.hidden = true;

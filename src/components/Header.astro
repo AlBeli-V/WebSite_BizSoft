@@ -94,12 +94,15 @@ const navRest = mainNav.filter((i) => i.href !== '/catalog');
     </div>
 
     <div class="header-actions">
-      <a href="/cart" class="cart-link" aria-label="Избранное — сформировать КП">
+      <a href="/cart" class="cart-link" aria-label="Расчёт — сформировать КП">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+          <path d="M8 2h6l4 4v14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2Z"></path>
+          <path d="M14 2v4h4"></path>
+          <path d="M9 13h6"></path>
+          <path d="M9 17h4"></path>
         </svg>
         <span class="cart-count" data-cart-count hidden>0</span>
-        <span class="cart-label">Избранное</span>
+        <span class="cart-label">Расчёт</span>
       </a>
       <a href="/cart" class="btn btn-primary btn-kp" data-goal="header_kp">Получить КП</a>
       <button class="burger" aria-label="Меню" aria-expanded="false" data-burger>
@@ -201,7 +204,7 @@ const navRest = mainNav.filter((i) => i.href !== '/catalog');
     {navRest.map((item) => (
       <a href={item.href} class:list={['mobile-link', { active: isActive(item.href) }]}>{item.label}</a>
     ))}
-    <a href="/cart" class="mobile-link">Избранное · КП</a>
+    <a href="/cart" class="mobile-link">Расчёт · КП</a>
     <a href={`tel:${seller.phoneHref}`} class="mobile-link m-phone">{seller.phone}</a>
   </nav>
 </header>
@@ -318,9 +321,11 @@ const navRest = mainNav.filter((i) => i.href !== '/catalog');
   .cart-link:hover {
     color: var(--color-accent);
   }
-  /* Сердечко избранного: пустой контур, при добавленных позициях — красная заливка */
-  .cart-link.has-items svg { fill: #e5322d; stroke: #e5322d; }
-  .cart-link .cart-count { background: #e5322d; }
+  /* Значок расчёта — лист спецификации: пустой контур, при добавленных
+     позициях выделяется акцентом. Прежде здесь было сердечко: оно читалось
+     как закладка «на потом», а не как шаг сделки. */
+  .cart-link.has-items svg { stroke: var(--color-accent); }
+  .cart-link .cart-count { background: var(--color-accent); }
   .cart-count {
     position: absolute;
     top: -8px;
@@ -400,7 +405,7 @@ const navRest = mainNav.filter((i) => i.href !== '/catalog');
     .cat-btn { display: none; }
     .btn-kp { display: none; }
     .burger { display: flex; }
-    /* Поиск/телефон скрыты — прижимаем избранное и бургер к правому краю */
+    /* Поиск/телефон скрыты — прижимаем расчёт и бургер к правому краю */
     .header-inner { justify-content: flex-end; }
     .header-actions { margin-left: auto; }
     .mobile-nav[data-open] { display: flex; }
@@ -482,7 +487,7 @@ const navRest = mainNav.filter((i) => i.href !== '/catalog');
       const raw = localStorage.getItem('bizsoft_cart');
       const items = raw ? JSON.parse(raw) : [];
       const count = Array.isArray(items) ? items.reduce((s, i) => s + (i.qty || 0), 0) : 0;
-      // Сердечко избранного: закрашено, когда есть добавленные позиции
+      // Значок расчёта: выделен, когда в спецификации есть позиции
       document.querySelectorAll('.cart-link').forEach((el) => el.classList.toggle('has-items', count > 0));
       document.querySelectorAll('[data-cart-count]').forEach((el) => {
         const node = el as HTMLElement;

@@ -11,6 +11,7 @@ import { VENDOR_SOLUTIONS } from '../data/vendor-solutions';
 import { solutions } from '../data/solutions';
 import QuestionForm from './QuestionForm.astro';
 import VendorInterlinks from './VendorInterlinks.astro';
+import VendorQuotePath from './VendorQuotePath.astro';
 import VendorLogo from './VendorLogo.astro';
 import JsonLd from './JsonLd.astro';
 import { getProducts } from '../lib/directus';
@@ -22,6 +23,7 @@ import { productKind, listingProducts, isGiftCard } from '../lib/catalog';
 import { productIcons } from '../data/product-icons';
 import ProductIcon from './ProductIcon.astro';
 import AddToCartButton from './AddToCartButton.astro';
+import TariffQty from './TariffQty.astro';
 import { DOMAIN_AUDIENCE, type VendorEntry } from '../data/vendors';
 import { vendorContent } from '../data/vendor-content';
 import type { Product } from '../lib/types';
@@ -42,10 +44,31 @@ try {
 // Вью-модели карточек (операторы сравнения — здесь, не в шаблоне).
 // Варианты (номиналы подарочных карт) в сетке не показываются: их
 // представляет родительская карточка с выбором региона и номинала.
-const cards = listingProducts(products).map((p) => {
+// Минимальный объём заказа и подпись единиц — из vendor-content по slug или
+// sku (правило catalog.md: ключи — slug или sku, не префикс артикула).
+const cardMeta = (p: Product) => content.cards?.[p.slug] ?? content.cards?.[p.sku];
+// Порядок линейки задаётся контентом: планы читаются от младшего к старшему,
+// а база отдаёт их в своём порядке. Не перечисленные уходят в конец.
+const orderKey = (p: Product) => {
+  const list = content.order;
+  if (!list?.length) return 0;
+  const i = list.findIndex((k) => k === p.slug || k === p.sku);
+  return i === -1 ? list.length : i;
+};
+const cards = listingProducts(products)
+  .slice()
+  .sort((a, b) => orderKey(a) - orderKey(b))
+  .map((p) => {
   const eff = effectivePrice(p);
-  const feats = Array.isArray(p.features) ? p.features.slice(0, 5) : [];
+  const meta = cardMeta(p);
+  const feats = meta?.features?.length
+    ? meta.features.slice(0, 5)
+    : (Array.isArray(p.features) ? p.features.slice(0, 5) : []);
   return {
+    minQty: Math.max(1, meta?.minQty ?? 1),
+    qtyLabel: meta?.qtyLabel || 'Лицензий',
+    check: meta?.check || '',
+    badge: meta?.badge || '',
     name: p.name,
     slug: p.slug,
     sku: p.sku,
@@ -53,18 +76,21 @@ const cards = listingProducts(products).map((p) => {
     priceText: formatRub(eff.price),
     note: p.price_note || '',
     byRequest: !(eff.price > 0), // NaN и null — тоже «по запросу»
-    short: p.short_description || '',
+    short: meta?.forWhom || p.short_description || '',
     features: feats,
     plan: planType(p.name, p.short_description || ''),
     icon: productIcons(p.slug).length > 0,
-    // Подарочная карта: цена «от» минимального номинала, в избранное — со
+    // Подарочная карта: цена «от» минимального номинала, в расчёт — со
     // страницы карты после выбора региона и номинала.
     gift: isGiftCard(p),
     priceFrom: Boolean(p.price_from),
   };
 });
-// Карточки «Цена по запросу» — всегда в конце списка
-cards.sort((a, b) => Number(a.byRequest) - Number(b.byRequest));
+// Карточки «Цена по запросу» — в конце списка, но только там, где свой
+// порядок не задан: заданный порядок и есть решение редактора.
+if (!content.order?.length) {
+  cards.sort((a, b) => Number(a.byRequest) - Number(b.byRequest));
+}
 const priced = cards.filter((c) => !c.byRequest);
 // «Цены от … в год» — по основным продуктам (тарифам): дополнения — пакеты
 // кредитов и плагины — разовые и дешевле любого тарифа, минимум по ним выдал бы
@@ -102,7 +128,8 @@ const hasCompare = !!content.comparison && content.comparison.rows.length > 0;
 const hasDecision = !!content.decision && content.decision.length > 0;
 const hasScenarios = !!content.scenarios && content.scenarios.length > 0;
 
-const description = `${title} для юридических лиц: ${entry.tagline} Покупка по договору и счёту, оплата в рублях, закрывающие документы через ЭДО.`;
+const description = entry.metaDescription
+  || `${title} для юридических лиц: ${entry.tagline} Покупка по договору и счёту, оплата в рублях, закрывающие документы через ЭДО.`;
 // FAQPage выводит компонент FAQ, BreadcrumbList — компонент Breadcrumbs.
 const ld = [
   collectionPageSchema({ name: `${title} для бизнеса`, description, url: pageUrl, items: cards.map((c) => ({ name: c.name, slug: c.slug })) }),
@@ -110,12 +137,17 @@ const ld = [
 
 // Раздел назначения ПО: какие решения под задачу отвечают на вопрос
 // «как оформить это на компанию». Вендоров без записи блок не рендерит.
-// Форма в первом экране — эксперимент 07.09.2026 на двух главных рекламных
+// Форма в первом экране — эксперимент 07.09.2026 на главных рекламных
 // посадочных. Замер кампании: 226 визитов, ноль form_start при том, что цена
 // «от» и оба призыва в первом экране уже стоят. Значит проверять надо не
 // «видно ли цену», а «нужно ли ради заявки открывать модальное окно».
 // Список узкий сознательно: это замер, а не редизайн всех лендингов.
-const HERO_FORM_SLUGS = new Set(['anthropic', 'adobe']);
+//
+// anthropic выведен из замера решением руководителя 11.09.2026: страница
+// переведена на единый путь заявки, и держать на ней четвёртую точку сбора
+// контакта незачем. Пары для сравнения у замера больше нет — это принятая
+// цена решения; adobe остаётся с формой до отдельного решения.
+const HERO_FORM_SLUGS = new Set(['adobe']);
 const heroForm = HERO_FORM_SLUGS.has(entry.slug);
 
 const solutionLinks = (VENDOR_SOLUTIONS[entry.slug] || [])
@@ -134,7 +166,7 @@ const solutionLinks = (VENDOR_SOLUTIONS[entry.slug] || [])
         <span class="vendor-name">{title}</span>
         <span class="vendor-legal">{entry.legalName}</span>
       </div>
-      <h1>{title} для юридических лиц: тарифы и оформление через BIZSoft</h1>
+      <h1>{entry.h1 || `${title} для юридических лиц: тарифы и оформление через BIZSoft`}</h1>
       {heroForm ? (
         <>
           {/* На посадочной с формой цена и действие идут сразу за
@@ -142,7 +174,11 @@ const solutionLinks = (VENDOR_SOLUTIONS[entry.slug] || [])
               полутора экранов описания. */}
           {hasMin && <p class="from">Цены от <b>{formatRub(minPrice)}</b>{entry.domain === 'gift' ? ' за код' : ' в год'}</p>}
           <div class="hero-actions">
-            <button class="btn btn-primary" data-open-question data-product={`${title} — подбор тарифа`} data-ev="click_get_quote">Получить расчёт и КП</button>
+            {/* Ветка идущего замера первого экрана (сейчас это adobe): её
+                призыв намеренно оставлен прежним — страница под замером не
+                правится, иначе вывод о форме будет неотделим от вывода о
+                кнопке. Закроется замер — ветка вернётся на общий путь. */}
+            <button class="btn btn-primary" data-hero-form-cta data-open-question data-product={`${title} — подбор тарифа`} data-ev="click_get_quote">Получить расчёт и КП</button>
             {hasCards && <a href="#products" class="btn btn-ghost" data-ev="click_choose_plan">Смотреть тарифы</a>}
           </div>
         </>
@@ -151,8 +187,13 @@ const solutionLinks = (VENDOR_SOLUTIONS[entry.slug] || [])
           <p class="hero-sub">{entry.tagline} Подбор тарифа под задачи {audience}.</p>
           <ul class="chips"><li>Для юрлиц</li><li>КП и счёт</li><li>Договор и закрывающие</li><li>Оплата в рублях</li></ul>
           <div class="hero-actions">
-            <button class="btn btn-primary" data-open-question data-product={`${title} — подбор тарифа`} data-ev="click_get_quote">Получить расчёт и КП</button>
+            {/* Призыв ведёт к форме расчёта на этой же странице, а не в
+                модальное окно «Задать вопрос»: прежняя кнопка обещала
+                расчёт, а открывала форму вопроса с полем «Что хотите
+                уточнить?». Модальное окно осталось лёгким каналом. */}
+            <a href="#lead" class="btn btn-primary" data-quote-cta data-context={`${title} — подбор тарифа`} data-ev="click_get_quote">Получить расчёт и КП</a>
             {hasCards && <a href="#products" class="btn btn-ghost" data-ev="click_choose_plan">Смотреть тарифы</a>}
+            <button class="btn-link" data-open-question data-product={`${title} — вопрос эксперту`} data-ev="click_clarify_price">Задать вопрос эксперту</button>
           </div>
           {hasMin && <p class="from">Цены от <b>{formatRub(minPrice)}</b>{entry.domain === 'gift' ? ' за код' : ' в год'}</p>}
         </>
@@ -179,18 +220,38 @@ const solutionLinks = (VENDOR_SOLUTIONS[entry.slug] || [])
   <!-- Прямой ответ (GEO/AEO) -->
   <div class="summary"><strong>Коротко:</strong> {summaryText}</div>
 
+  {/* Разбор, без которого цены не читаются: типы мест, виды лицензий,
+      редакции. Ставится до сетки карточек. */}
+  {content.explainer && (
+    <section class="block">
+      <h2>{content.explainer.title}</h2>
+      <div class="cells">{content.explainer.items.map((s) => (<div class="card cell"><h3>{s.title}</h3><p>{s.text}</p></div>))}</div>
+    </section>
+  )}
+
+  {/* Чем тарифы отличаются друг от друга — до сетки карточек: иначе
+      покупатель сравнивает цены, не понимая, за что платит. */}
+  {content.intro && (
+    <section class="block intro">
+      <div class="prose-bizsoft"><p>{content.intro}</p></div>
+    </section>
+  )}
+
   <!-- Карточки продуктов -->
   {hasCards ? (
     <section class="block" id="products">
       <h2>Тарифы и продукты {title}</h2>
       <div class="vgrid">
         {cards.map((c) => (
-          <article class="card vcard">
+          <article class="card vcard" data-qty-scope>
+            {c.badge && <span class="vbadge">{c.badge}</span>}
             <div class="vc-head">
               {c.icon && <ProductIcon slug={c.slug} name={c.name} size={38} />}
               <h3>{c.name}</h3>
             </div>
-            {c.plan && <span class="plan-tag" data-plan={c.plan}>{PLAN_LABEL[c.plan]}</span>}
+            {/* Своя плашка отменяет автоматическую: две подряд («для команд»
+                и «Для организации») говорят об одном и том же. */}
+            {!c.badge && c.plan && <span class="plan-tag" data-plan={c.plan}>{PLAN_LABEL[c.plan]}</span>}
             {c.short && <p class="forwhom">{c.short}</p>}
             <div class="vprice">
               {c.byRequest
@@ -198,6 +259,10 @@ const solutionLinks = (VENDOR_SOLUTIONS[entry.slug] || [])
                 : <span class="pv"><b>{c.priceFrom ? `от ${c.priceText}` : c.priceText}</b> <span class="note">{c.note}</span></span>}
             </div>
             {c.features.length > 0 && <ul class="vfeat">{c.features.map((f) => <li>{f}</li>)}</ul>}
+            {c.check && <p class="vcheck">⚠ {c.check}</p>}
+            {!c.byRequest && !c.gift && (
+              <TariffQty price={c.price} minQty={c.minQty} qtyLabel={c.qtyLabel} name={c.name} />
+            )}
             <div class="vactions">
               {c.byRequest ? (
                 <button class="btn btn-primary btn-sm" data-open-question data-product={`${title} — ${c.name}`} data-sku={c.sku} data-ev="click_get_quote">Запросить цену</button>
@@ -275,6 +340,16 @@ const solutionLinks = (VENDOR_SOLUTIONS[entry.slug] || [])
     <div class="prose-bizsoft"><p>{entry.about} Решение востребовано у {audience}. BIZSoft оформит поставку на организацию с полным пакетом документов.</p></div>
   </section>
 
+  {/* Безопасность и данные: у корпоративных тарифов покупку согласует не
+      только закупка, но и ИБ, и вопросы у неё свои. */}
+  {content.security && (
+    <section class="block" id="security">
+      <h2>Безопасность и данные</h2>
+      <div class="prose-bizsoft"><p>{content.security.text}</p></div>
+      <button class="btn btn-ghost" data-open-question data-product={`${title} — требования ИБ`} data-ev="click_clarify_price">{content.security.cta || 'Обсудить требования ИБ'}</button>
+    </section>
+  )}
+
   <!-- Как купить -->
   <section class="block">
     <h2>Как купить {title} через BIZSoft</h2>
@@ -289,7 +364,7 @@ const solutionLinks = (VENDOR_SOLUTIONS[entry.slug] || [])
     <p class="prose-bizsoft">Продление подписки оформляется тем же порядком:
     счёт выставляем до окончания оплаченного периода. Оплата зарубежных
     сервисов идёт из России в рублях с расчётного счёта организации.</p>
-    <button class="btn btn-primary" data-open-question data-product={`${title} — расчёт и КП`} data-ev="click_get_quote">Получить расчёт и КП</button>
+    <a href="#lead" class="btn btn-primary" data-quote-cta data-context={`${title} — расчёт и КП`} data-ev="click_get_quote">Получить расчёт и КП</a>
   </section>
 
   <!-- Документы -->
@@ -301,12 +376,15 @@ const solutionLinks = (VENDOR_SOLUTIONS[entry.slug] || [])
   <!-- FAQ -->
   <FAQ items={faq} title={faqTitle} />
 
-  <!-- Финальный CTA -->
-  <section class="block final">
+  {/* Единственная форма страницы: сюда ведут все призывы, и состав
+      расчёта попадает в заявку сам. Модальное окно «Задать вопрос»
+      остаётся вторым, заведомо лёгким каналом. */}
+  <section class="block final" id="lead">
     <div class="final-grid">
       <div>
         <h2>Подобрать {title} для компании</h2>
         <p class="muted">Опишите задачу: какой продукт и сколько лицензий нужно, на какой срок. Подготовим расчёт, КП или счёт с оформлением на юрлицо.</p>
+        <VendorQuotePath />
         <ul class="vfeat">
           <li>Оформление для юрлиц: договор, счёт, закрывающие</li>
           <li>Оплата в рублях по курсу ЦБ РФ</li>
@@ -380,6 +458,10 @@ const solutionLinks = (VENDOR_SOLUTIONS[entry.slug] || [])
   .summary { background: var(--color-bg-card); border: 1px solid var(--color-border); border-left: 3px solid var(--vc, var(--color-accent)); border-radius: var(--radius); padding: 1rem 1.2rem; margin: 1.5rem 0; color: var(--color-text); }
   .summary strong { color: var(--color-text); }
   .block { margin-top: 3rem; }
+  /* Якорные переходы внутри страницы: шапка липкая, и без запаса заголовок
+     секции оказывается под ней — человек видит середину блока и не понимает,
+     куда попал. */
+  #products, #lead, #security { scroll-margin-top: 96px; }
   .block > h2 { font-size: clamp(1.4rem, 2.6vw, 1.9rem); margin-bottom: 1.2rem; }
   .vgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.2rem; }
   .vcard { padding: 1.4rem; display: flex; flex-direction: column; }
@@ -398,7 +480,13 @@ const solutionLinks = (VENDOR_SOLUTIONS[entry.slug] || [])
   .vfeat { list-style: none; padding: 0; margin: 0 0 0.7rem; display: grid; gap: 0.3rem; }
   .vfeat li { padding-left: 1.3rem; position: relative; color: var(--color-text); font-size: 0.88rem; }
   .vfeat li::before { content: '✓'; position: absolute; left: 0; color: var(--vc, var(--color-accent)); font-weight: 700; }
-  .vactions { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: auto; }
+  .vbadge { align-self: flex-start; font-size: 0.7rem; font-weight: 700; padding: 0.15rem 0.55rem; border-radius: 6px; background: color-mix(in srgb, var(--vc, var(--color-accent)) 16%, transparent); color: var(--vc, var(--color-accent)); margin-bottom: 0.5rem; }
+  .vcheck { color: var(--color-text-dim); font-size: 0.78rem; margin: 0 0 0.6rem; }
+  /* Третий призыв первого экрана — текстовая ссылка, а не кнопка: это
+     запасной лёгкий канал, и спорить с главным призывом он не должен. */
+  .btn-link { background: none; border: none; padding: 0.55rem 0; color: var(--color-accent); font: inherit; font-weight: 600; cursor: pointer; text-decoration: underline; text-underline-offset: 3px; }
+  .btn-link:hover { color: var(--color-accent-hover); }
+  .vactions { display: flex; gap: 0.5rem; flex-wrap: wrap; }
   .muted { color: var(--color-text-muted); }
   .small { font-size: 0.82rem; margin-top: 0.6rem; }
   .steps { padding-left: 1.2rem; color: var(--color-text); display: grid; gap: 0.5rem; margin-bottom: 1.2rem; max-width: 800px; }
@@ -421,6 +509,8 @@ const solutionLinks = (VENDOR_SOLUTIONS[entry.slug] || [])
 
 <script>
   import { trackGoal } from '@/lib/analytics';
+  // Единый путь заявки (счётчик, состав расчёта, перенос выбора в форму)
+  // живёт в VendorQuotePath: тем же кодом пользуются bespoke-страницы.
   trackGoal('view_vendor_landing', { page_url: location.pathname });
   document.querySelectorAll('[data-ev]').forEach((el) => {
     el.addEventListener('click', () => trackGoal((el as HTMLElement).dataset.ev!, { page_url: location.pathname }));

@@ -274,8 +274,7 @@ export const vendorLandings: { slug: string; name: string; description: string }
   // Bespoke-лендинги (отдельные страницы vendors/<slug>.astro)
   { slug: 'jetbrains', name: 'JetBrains', description: 'IDE для разработчиков: IntelliJ IDEA, PyCharm, GoLand, Rider, All Products Pack и 480+ плагинов.' },
   { slug: 'zoom', name: 'Zoom', description: 'Видеоконференцсвязь для бизнеса: тарифы Workplace, вебинары, телефония, КП и документы.' },
-  { slug: 'openai', name: 'OpenAI', description: 'ChatGPT для бизнеса: Plus, Pro, Business, Enterprise и OpenAI API — по договору и счёту.' },
-  { slug: 'figma', name: 'Figma', description: 'Дизайн-платформа Figma: посадочные места Full, Dev и Collab, Organization и Enterprise.' },
+  { slug: 'openai', name: 'OpenAI', description: 'ChatGPT для бизнеса: Business, Enterprise и пополнение баланса OpenAI API — по договору и счёту.' },
   // Шаблонные лендинги производителей (креативные индустрии) — из src/data/vendors.ts
   ...VENDORS.map((v) => ({ slug: v.slug, name: v.title || v.vendor, description: v.tagline })),
 ].sort((a, b) => a.name.localeCompare(b.name, 'ru'));
