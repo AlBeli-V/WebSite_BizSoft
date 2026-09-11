@@ -21,6 +21,9 @@ const CATEGORIES = [
   { id: 1, name: 'AI-сервисы', slug: 'ai', status: 'published', sort: 1 },
   { id: 2, name: 'Дизайн', slug: 'design', status: 'published', sort: 2 },
   { id: 3, name: 'Подарочные карты и пополнение баланса', slug: 'gift-cards', status: 'published', sort: 19 },
+  // Раздел для проверки второй привязки: своих товаров у него в стенде нет,
+  // и он наполняется только гостем из реестра data/catalog/cross-listing.json.
+  { id: 4, name: 'Сайты и хостинг', slug: 'web', status: 'published', sort: 18 },
   { id: 9, name: 'Черновик', slug: 'draft-cat', status: 'draft', sort: 9 },
 ];
 
@@ -52,11 +55,22 @@ function product(over) {
 
 const PRODUCTS = [
   product({ id: 101, name: 'ChatGPT Business', sku: 'INT-AI-CHATGPT', vendor: 'OpenAI', slug: 'chatgpt-business', old_slugs: [{ value: 'chatgpt-team' }] }),
+  // Пополнение баланса API: родитель «по запросу» и два номинала. Без них смоук
+  // не видел ни блока номиналов на лендинге вендора, ни того, что карточки
+  // -CREDITS-<сумма> не попадают в сетку тарифов и в «Цены от».
+  product({ id: 901, name: 'Пополнение баланса OpenAI API', sku: 'OPENAI-API-BALANCE', vendor: 'OpenAI', slug: 'openai-api-balance', price: 0 }),
+  product({ id: 902, name: 'OpenAI API — пополнение баланса на 50 $', sku: 'OPENAI-CREDITS-50', vendor: 'OpenAI', slug: 'openai-credits-50', price: 11504 }),
+  product({ id: 903, name: 'OpenAI API — пополнение баланса на 100 $', sku: 'OPENAI-CREDITS-100', vendor: 'OpenAI', slug: 'openai-credits-100', price: 23008 }),
   product({ id: 102, name: 'Figma Organization', sku: 'INT-DESIGN-FIGMA', vendor: 'Figma', slug: 'figma-organization', category: CATEGORIES[1] }),
   // Второй товар из кураторского списка бестселлеров главной: блок hero-карточек
   // рендерится только от двух позиций с ценой, и без него смоук не видел ни
   // структуру заголовков героя, ни сами карточки.
   product({ id: 109, name: 'Claude Team', sku: 'INT-AI-CLAUDE', vendor: 'Anthropic', slug: 'anthropic-team' }),
+  // Вторая привязка: товар лежит в «Дизайне», а показывается ещё и в «Сайтах
+  // и хостинге» (реестр cross-listing.json). Без него раздел web пуст — так
+  // смоук видит и сам механизм, и то, что он не задваивает товар в своём
+  // разделе.
+  product({ id: 110, name: 'Cloudflare Pro', sku: 'CLOUDFLARE-PRO', vendor: 'Cloudflare', slug: 'cloudflare-pro', category: CATEGORIES[1] }),
   product({ id: 103, name: 'Плагин скрытый', sku: 'JB-PLG-HIDDEN', vendor: 'JetBrains', slug: 'plagin-skrytyj' }),
   product({ id: 104, name: 'Товар noindex', sku: 'NOIDX-1', vendor: 'OpenAI', slug: 'tovar-noindex', noindex: true }),
   product({ id: 105, name: 'Черновик', sku: 'DRAFT-1', vendor: 'OpenAI', slug: 'chernovik', status: 'draft' }),

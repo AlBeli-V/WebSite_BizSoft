@@ -3,6 +3,7 @@
  * Тип товара выводится из sku (плагины JetBrains: JB-PLG-*; дополнения Zoom:
  * Phone/Webinars/Rooms/Large Meeting/Events/AI Companion). Остальное — основной продукт.
  */
+import { productCategories } from './cross-listing';
 import type { Product } from './types';
 
 export type ProductKind = 'main' | 'addon';
@@ -45,12 +46,20 @@ export function productKind(p: Pick<Product, 'sku'>): ProductKind {
  * который человек видит в каталоге, и раздел, который агент предлагает как
  * фильтр, обязаны совпадать. Пустые разделы отбрасывает уже потребитель —
  * фильтр по разделу без товаров выглядит как поломка.
+ *
+ * Считает и вторые привязки (lib/cross-listing): товар, показанный в разделе,
+ * обязан в нём же считаться. Счётчик по одному полю `category` подписывал живой
+ * раздел как пустой — так «Корпоративные AI» с десятком тарифов годами стояли
+ * на витрине как «в подготовке».
  */
-export function countByCategory(products: Pick<Product, 'category'>[]): Record<string, number> {
+export function countByCategory(
+  products: Pick<Product, 'sku' | 'slug' | 'category'>[],
+): Record<string, number> {
   const counts: Record<string, number> = {};
   for (const p of products) {
-    const slug = typeof p.category === 'object' && p.category ? p.category.slug : '';
-    if (slug) counts[slug] = (counts[slug] || 0) + 1;
+    for (const slug of productCategories(p)) {
+      counts[slug] = (counts[slug] || 0) + 1;
+    }
   }
   return counts;
 }
