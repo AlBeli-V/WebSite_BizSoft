@@ -7,6 +7,7 @@ import { aiSubcategories } from '../data/ai-hub';
 import { logoFile } from '../data/logos';
 import { vendorIcon } from '../data/vendor-icons';
 import { VENDORS } from '../data/vendors';
+import { TOP_VENDORS } from '../data/vendor-top';
 
 const path = Astro.url.pathname;
 const isActive = (href: string) => (href === '/' ? path === '/' : path.startsWith(href));
@@ -60,8 +61,9 @@ try {
 } catch { /* меню «Тип» покажет только ссылку на каталог */ }
 
 // Б1 аудита: мега-меню группируется — «Топ-запросы» с логотипами, остальное текстом.
-const TOP_ORDER = ['openai', 'anthropic', 'adobe', 'figma', 'jetbrains', 'microsoft', 'github', 'cursor'];
-const ddTop = TOP_ORDER
+// Список общий со страницей /vendors (src/data/vendor-top.ts): раньше их было
+// два, и они разошлись — из восьми и двенадцати слагов общими были семь.
+const ddTop = TOP_VENDORS
   .map((t) => ddVendors.find((v) => v.href === `/vendors/${t}`))
   .filter(Boolean) as typeof ddVendors;
 const ddRest = ddVendors.filter((v) => !ddTop.includes(v));

@@ -19,12 +19,21 @@ interface Props {
   submitLabel?: string;
   /** Двухшаговый вид для первого экрана: 3 поля, остальные — вторым шагом. */
   compact?: boolean;
+  /**
+   * Список тарифов для выбора прямо в форме (лендинги производителей).
+   * Значение уходит в `product_ref` — то же поле, которое заполняла модальная
+   * форма вопроса, поэтому менеджер видит тариф в письме без изменений в API.
+   * Кнопки страницы с `data-plan="<value>"` подставляют выбор сами: посетителю
+   * не нужно вспоминать, какой из тарифов он смотрел.
+   */
+  plans?: { value: string; label: string }[];
 }
 const {
   source = 'pricing',
   title = 'Запросить расчёт',
   submitLabel = 'Отправить заявку',
   compact = false,
+  plans,
 } = Astro.props;
 
 // Поля описаны один раз и раскладываются по шагам: две ветки разметки
@@ -62,6 +71,12 @@ const messagePlaceholder = compact
       проверкой «h1→h3»). Вне компактного вида выше по странице всегда есть
       h2, и h3 остаётся корректным. */}
   {compact ? <p class="lf-title">{title}</p> : <h3>{title}</h3>}
+  {plans && plans.length > 0 && (
+    <label class="lf-plan">Что рассчитать:<select name="product_ref" data-lead-plan>
+      <option value="">Подберите под задачу</option>
+      {plans.map((p) => <option value={p.value}>{p.label}</option>)}
+    </select></label>
+  )}
   <div class="lf-grid">
     {STEP1.map((k) => {
       const f = FIELDS[k];
@@ -122,6 +137,9 @@ const messagePlaceholder = compact
   .lf-grid > label { min-width: 0; }
   .lead-form label { display: flex; flex-direction: column; gap: 0.35rem; font-size: 0.88rem; font-weight: 600; color: var(--color-text); white-space: nowrap; }
   .lead-form label:has(textarea) { white-space: normal; }
+  .lead-form select { background: var(--color-bg-elevated); border: 1px solid var(--color-border-strong); border-radius: var(--radius-sm); padding: 0.6rem 0.7rem; color: var(--color-text); font: inherit; font-weight: 400; width: 100%; min-width: 0; box-sizing: border-box; }
+  .lead-form select:focus { border-color: var(--color-accent); outline: none; }
+  .lead-form .lf-plan { white-space: normal; }
   .lead-form input, .lead-form textarea { background: var(--color-bg-elevated); border: 1px solid var(--color-border-strong); border-radius: var(--radius-sm); padding: 0.6rem 0.7rem; color: var(--color-text); font: inherit; font-weight: 400; width: 100%; min-width: 0; box-sizing: border-box; }
   .lead-form input:focus, .lead-form textarea:focus { border-color: var(--color-accent); outline: none; }
   /* Специфичнее, чем .lead-form label — иначе nowrap/column из общего правила ломают строку согласия */
