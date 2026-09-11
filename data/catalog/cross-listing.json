@@ -1,0 +1,60 @@
+{
+  "_note": "Вторая привязка товара к разделу каталога: артикул → дополнительные разделы. Домашний раздел (поле category в Directus) не меняется — он задаёт хлебные крошки, канонический адрес и раздел в карточке. Товар из реестра дополнительно показывается в перечисленных разделах и считается в их счётчиках. Правится через PR: решение о том, что продукт закрывает две задачи, — редакторское. Реестр читает src/lib/cross-listing.ts, сторожит tests/cross-listing.test.ts.",
+
+  "_why": "У товара в Directus одна категория, и вокруг неё собран весь сайт. Перенос товара из раздела в раздел не наполняет каталог: он забирает позицию у соседа. Тонкие разделы (Сайты и хостинг, Маркетинг AI, Доски и совместная работа, Офисная продуктивность AI) пусты не потому, что товары лежат не там, а потому что один и тот же продукт закрывает две задачи, а показан в одной. Механизм тот же, которым с 2026 года живут «Корпоративные AI»: раздел собирается явным списком, схема базы не меняется.",
+
+  "_rules": [
+    "Ключ — артикул (sku), как в recategorize.json. Регистр не важен.",
+    "Значение — разделы, в которых товар показывается дополнительно к своему.",
+    "Домашний раздел в списке указывать нельзя: это ошибка, её ловит тест.",
+    "Раздел должен существовать в data/catalog/categories.json или в базе.",
+    "Вторая привязка — про назначение продукта, а не про похожие слова в описании."
+  ],
+
+  "_reasons": {
+    "collaboration": "рабочее пространство команды: каналы, файлы, общие документы — а не только звонки",
+    "ai-office": "AI внутри рабочих документов, почты и встреч",
+    "web": "публикация сайта, домен и защита периметра — задача одного заказчика",
+    "ai-marketing": "инструменты маркетинговой команды: креатив, ролики, фирменный стиль",
+    "architecture": "рабочий инструмент архитектурной визуализации",
+    "engineering": "инженерные редакции: гражданское строительство и обмер по облаку точек",
+    "ai-audio": "работа со звуком на моделях: реставрация записи и расшифровка речи"
+  },
+
+  "also": {
+    "SLACK-PRO": ["collaboration"],
+    "SLACK-BUSINESS-PLUS": ["collaboration"],
+    "ZOOM-WP-PRO": ["collaboration"],
+    "ZOOM-WP-BUSINESS": ["collaboration"],
+    "ZOOM-WP-BUSINESS-PLUS": ["collaboration"],
+    "ZOOM-WP-ENTERPRISE": ["collaboration"],
+    "NOTION-ENTERPRISE": ["collaboration"],
+
+    "M365-COPILOT-BUSINESS-ADDON": ["ai-office"],
+    "DEEPL-STARTER": ["ai-office"],
+    "DEEPL-ADVANCED": ["ai-office"],
+    "DEEPL-BUSINESS": ["ai-office"],
+    "ZOOM-AI-COMPANION": ["ai-office"],
+
+    "FRAMER-ENT": ["web"],
+    "CLOUDFLARE-PRO": ["web"],
+    "CLOUDFLARE-BUSINESS": ["web"],
+    "LOVABLE-PRO": ["web"],
+    "LOVABLE-BUSINESS": ["web"],
+
+    "CANVA-ENT": ["ai-marketing"],
+    "CAPCUT-PRO": ["ai-marketing"],
+    "CAPCUT-TEAM": ["ai-marketing"],
+    "RECRAFT-ENT": ["ai-marketing"],
+    "HEYGEN-ENT": ["ai-marketing"],
+
+    "MAXON-REDSHIFT": ["architecture"],
+    "MAXON-REDSHIFT-TEAMS": ["architecture"],
+
+    "SKETCHUP-PRO-CIVIL": ["engineering"],
+    "SKETCHUP-PRO-SCAN": ["engineering"],
+
+    "IZOTOPE-RX-STANDARD": ["ai-audio"],
+    "DSCRPT-ENT": ["ai-audio"]
+  }
+}
