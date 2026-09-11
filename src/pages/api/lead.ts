@@ -2,7 +2,7 @@ export const prerender = false;
 
 import type { APIRoute } from 'astro';
 import { defaultLeadOwner } from '../../config/site';
-import { createLead } from '../../lib/directus';
+import { createLeadTolerant } from '../../lib/lead-write';
 import { sendMail, managerEmail } from '../../lib/mailer';
 import { attributionFields } from '../../lib/quote-lead';
 import { verifyCompany } from '../../lib/inn';
@@ -78,7 +78,7 @@ export const POST: APIRoute = async ({ request }) => {
   };
 
   try {
-    await createLead(payload);
+    await createLeadTolerant(payload);
   } catch (e) {
     console.error('createLead failed', e);
     return new Response(JSON.stringify({ error: 'не удалось сохранить заявку' }), { status: 502 });

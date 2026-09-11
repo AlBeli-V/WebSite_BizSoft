@@ -309,6 +309,34 @@ check('WebMCP: list_categories отдаёт разделы со ссылками
   const ok = items.length > 0 && items.every((i) => i.url?.startsWith('https://biz-soft.pro/catalog/') && i.products_count > 0);
   return { ok, got: `HTTP ${r.status}, ${items.map((i) => i.slug).join(', ') || '—'}` };
 });
+// ── Вторая привязка товара к разделу (data/catalog/cross-listing.json) ──
+// Товар лежит в одном разделе, а показывается ещё и в смежном. Расхождение
+// между тем, что обещает счётчик, и тем, что отдаёт выдача, в рантайме молчит:
+// раздел просто выглядит пустым или наоборот. Поэтому три проверки навстречу.
+check('вторая привязка: гость виден в чужом разделе', async () => {
+  const r = await req('/catalog/web');
+  const ok = r.status === 200 && r.body.includes('Cloudflare Pro')
+    && r.body.includes('из них 1 — из смежных разделов');
+  return { ok, got: `HTTP ${r.status}, гость ${r.body.includes('Cloudflare Pro') ? 'есть' : 'НЕТ'}` };
+});
+check('вторая привязка: в своём разделе товар не задваивается', async () => {
+  // Карточка штатно даёт несколько ссылок на товар (обложка, заголовок,
+  // кнопка), поэтому считаем не вхождения, а совпадение между разделами:
+  // гость обязан выглядеть в чужом разделе ровно так же, как дома.
+  const count = (body) => (body.match(/\/product\/cloudflare-pro/g) || []).length;
+  const home = await req('/catalog/design');
+  const guest = await req('/catalog/web');
+  const a = count(home.body); const b = count(guest.body);
+  return { ok: a > 0 && a === b, got: `дома ${a}, в смежном ${b}` };
+});
+check('вторая привязка: счётчик раздела и выдача агента сходятся', async () => {
+  const cats = await req('/api/agent/list_categories');
+  const web = (JSON.parse(cats.body)?.data?.items || []).find((i) => i.slug === 'web');
+  const found = await req('/api/agent/search_products?category=web&limit=30');
+  const total = JSON.parse(found.body)?.data?.total ?? -1;
+  const ok = Boolean(web) && web.products_count === total && total > 0;
+  return { ok, got: `счётчик ${web?.products_count ?? '—'}, поиск ${total}` };
+});
 check('WebMCP: search_policies отвечает условиями с сайта, не выдумкой', async () => {
   const r = await req('/api/agent/search_policies?query=' + encodeURIComponent('дадите закрывающие документы'));
   const body = r.status === 200 ? JSON.parse(r.body) : null;
